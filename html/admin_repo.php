@@ -110,7 +110,7 @@ if ( isset ($_GET["action"]) ) {
       $cn=DbConnect();
       $dos=trim($_POST["DATABASE"]);
       if (strlen($dos)==0) {
-	echo ("Dataname is empty");
+	echo ("Dataname name is empty");
 	exit -1;
       }
       $desc=FormatString($_POST["DESCRIPTION"]);
@@ -217,17 +217,24 @@ if ( $count == 0 ) {
       $Res=ExecSql($cn_mod,"truncate table jrnx");
       $Res=ExecSql($cn_mod,"truncate table centralized");
       $Res=ExecSql($cn_mod,"truncate table stock_goods");
-
+//	Reset the closed periode
+      $Res=ExecSql($cn_mod,"update parm_periode set p_closed='t'");
       // Reset Sequence
-      $Res=ExecSql($cn_mod,"drop sequence s_jrn");
-      $Res=ExecSql($cn_mod,"drop sequence s_jrn_op");
-      $Res=ExecSql($cn_mod,"drop sequence s_centralized");
-      $Res=ExecSql($cn_mod,"drop sequence s_stock_goods");
-
-      $Res=ExecSql($cn_mod,"create sequence s_jrn");
-      $Res=ExecSql($cn_mod,"create sequence s_jrn_op");
-      $Res=ExecSql($cn_mod,"create sequence s_centralized");
-      $Res=ExecSql($cn_mod,"create sequence s_stock_goods");
+      $a_seq=array('s_jrn','s_jrn_op','s_centralized','s_stock_goods');
+      foreach ($seq as $a_seq ) {
+      	$sql=sprintf("select nextval('%s',1,false)",$seq);
+      	$Res=ExecSql($cn_mod,$sql);
+	}
+   	$sql="select jrn_def_id from jrn_def ";
+   	$Res=ExecSql($cn_mod,$sql);
+    	$Max=pg_NumRows($Res);
+    	for ($seq=0;$seq<$Max;$seq++) {
+	    $row=pg_fetch_array($Res,$seq);
+	    $sql=sprintf ("select setval('s_jrn_%d,1,false)",$row['jrn_def_id']);
+	    ExecSql($cn_mod,$sql);
+    	}
+      
+      
     }
     // Show all available templates
 

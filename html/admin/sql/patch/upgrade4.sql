@@ -33,4 +33,5 @@ update version set val=4;
 -- decentralize
 delete from centralized;
 create sequence s_internal;
+select setval('s_centralized',1,false);
 update jrnx set j_centralized='f';
