@@ -37,20 +37,16 @@ include_once ("user_menu.php");
 ShowMenuCompta($_SESSION['g_dossier']);
 
 
-if ( $User->admin == 0 ) {
-  $r=CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],SECU);
-  if ($r == 0 ){
-    /* Cannot Access */
-    NoAccess();
+$cn=DbConnect($_SESSION['g_dossier']);
+if ($User->CheckAction($cn,GJRN)){
+  /* Cannot Access */
+  NoAccess();
   exit -1;			
-
-  }
-
-}
+  
+ }
 
 //echo '<SCRIPT LANGUAGE="javascript" SRC="win_search_poste.js"></SCRIPT>';
 echo JS_SEARCH_POSTE;
-$cn=DbConnect($_SESSION['g_dossier']);
 
 If ( isset ($_POST["JRN_ADD"]) ) {
   if (  !isset($_POST["p_jrn_name"]) || ! isset($_POST["p_jrn_type"] )) {

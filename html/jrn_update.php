@@ -36,16 +36,12 @@ include_once ("check_priv.php");
 
 include_once ("user_menu.php");
 ShowMenuCompta($_SESSION['g_dossier']);
-
-if ( $User->admin == 0 ) {
-  $r=CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],GJRN);
-  if ($r == 0 ){
-    /* Cannot Access */
-    NoAccess();
+$cn=DbConnect($_SESSION['g_dossier']);
+if ( $User->CheckAction($cn,GJRN) == 0 ) {
+  /* Cannot Access */
+  NoAccess();
   exit -1;			
-
-  }
-}
+ }
 
 echo '<div class="u_subtmenu">';
 echo ShowMenuAdvanced();

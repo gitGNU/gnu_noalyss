@@ -29,9 +29,13 @@ $cn=DbConnect($_SESSION['g_dossier']);
 
 
 include ('class_user.php');
-$User=new cl_user($cn);
+$User=new cl_user(DbConnect());
 $User->Check();
-
+if ( $User->CheckAction($cn,BALANCE) == 0)
+  {
+    NoAccess();
+    exit;
+  }
 $bal=new Balance($cn);
   
 $t_cent="";

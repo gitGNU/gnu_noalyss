@@ -37,14 +37,12 @@ if ( ! isset ( $_SESSION['g_dossier'] ) ) {
 }
 
 include_once ("check_priv.php");
+$cn=DbConnect($_SESSION['g_dossier']);
 // Get The priv on the selected folder
-if ( $User->admin == 0 ) {
-  $r=CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],FICHE_READ);
-  if ($r == 0 ){
+if ( $User->CheckAction(FICHE_READ)){
     /* Cannot Access */
     echo '<h2 class="error"> Vous n\' avez pas accès</h2>';
     return;
-  }
 }
 
 function get_list_fiche($p_cn,$get,$p_jrn)

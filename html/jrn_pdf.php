@@ -48,16 +48,15 @@ if ($_POST['central'] == 'on' ) {
 $Jrn=new jrn($cn,$_POST['jrn_id']);
 
 $Jrn->GetName();
-$User=new cl_user($cn);
+$User=new cl_user(DbConnect());
 $User->Check();
-if ( $User->admin == 0 ) {
-  if (CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],IMP) == 0 ||
-        $User->AccessJrn($_POST['jrn_id']) == false){
+
+// Security
+if ($User->CheckAction($cn,IMP) == 0 ||
+    $User->AccessJrn($cn,$_POST['jrn_id']) == false){
     /* Cannot Access */
     NoAccess();
-  }
-
-}
+ }
 
 $ret="";
 $pdf=& new Cezpdf("A4");

@@ -40,18 +40,17 @@ ShowMenuCompta($_SESSION['g_dossier']);
 
 include_once ("check_priv.php");
 
-if ( $User->admin == 0 ) {
-  $r=CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],PARM);
-  if ($r == 0 ){
+$cn=DbConnect($_SESSION['g_dossier']);
+
+if ( $User->CheckAction($cn,PARM) == 0 ) {
     /* Cannot Access */
     NoAccess();
   exit -1;			
 
-  }
 }
+
 echo ShowMenuParam();
 $p_action="";
-$cn=DbConnect($_SESSION['g_dossier']);
 if ( isset($_GET["p_action"]) ) {
   $p_action=$_GET["p_action"];
 }

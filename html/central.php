@@ -40,20 +40,18 @@ include_once("preference.php");
 include_once ("user_menu.php");
 ShowMenuCompta($_SESSION['g_dossier']);
 
-if ( $_SESSION['use_admin']==0 ) {
-  $r=CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],CENTRALIZE);
-  if ($r == 0 ){
+$cn=DbConnect($_SESSION['g_dossier']);
+if ( $User->CheckAction($cn,CENTRALIZE)==0 ) {
     /* Cannot Access */
     NoAccess();
-  }
 }
+
 include_once("central_inc.php");
 
 echo '<div class="u_subtmenu">';
 echo ShowMenuAdvanced();
 echo '</div>';
 
-$cn=DbConnect($_SESSION['g_dossier']);
 
 echo '<DIV CLASS="u_subtmenu">';
 echo '<H2 CLASS="info"> Centralise </H2><BR>';

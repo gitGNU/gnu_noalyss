@@ -35,18 +35,16 @@ if ( ! isset ( $_SESSION['g_dossier'] ) ) {
   exit -2;
 }
 
+$cn=DbConnect($_SESSION['g_dossier']);
 // TODO add security here
 // Get The priv on the selected folder
-if ( $User->admin == 0 ) {
-  $r=CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],FICHE_WRITE);
-  if ($r == 0 ){
+if ( $User->CheckAction($cn,FICHE_WRITE)== 0) {
     /* Cannot Access */
     echo '<h2 class="error"> Vous  ne pouvez pas ajouter de fiche</h2>';
     return;
-  }
 }
+
 include_once("fiche_inc.php");
-$cn=DbConnect($_SESSION['g_dossier']);
 foreach ($HTTP_GET_VARS as $key=>$element) {
   // The value are e_name e_type e_PHPSESSID
   ${"e_$key"}=$element;

@@ -34,16 +34,11 @@ include_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
 
-if ( $User->admin == 0 ) {
-  $r=CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],SECU);
-  if ($r == 0 ){
-    /* Cannot Access */
-    NoAccess();
+if ( $User->CheckAction(DbConnect($_SESSION['g_dossier']),MPCMN) == 0 ) {
+  /* Cannot Access */
+  NoAccess();
   exit -1;			
-
-  }
-
-}
+ }
 
 include ("user_menu.php");
 ShowMenuComptaRight($_SESSION['g_dossier'],$User->admin);

@@ -27,17 +27,17 @@ include_once("check_priv.php");
 
 $cn=DbConnect($_SESSION['g_dossier']);
 
-
+$rep=DbConnect();
 include ('class_user.php');
-$User=new cl_user($cn);
+$User=new cl_user($rep);
 $User->Check();
-if ( $_SESSION['use_admin'] == 0 ) {
-  if (CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],FICHE_READ) == 0 )
-        {
-	  /* Cannot Access */
-	  NoAccess();
-	}
-}
+
+if ($User->CheckAction($cn,FICHE_READ) == 0 )
+  {
+    /* Cannot Access */
+    NoAccess();
+  }
+
 if  ( isset ($_POST['fd_id'])) {
   $fiche_def=new fiche_def($cn,$_POST['fd_id']);
   $fiche=new fiche($cn);

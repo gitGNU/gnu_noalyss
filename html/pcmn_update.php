@@ -38,16 +38,12 @@ include_once ("check_priv.php");
 
 ShowMenuCompta($_SESSION['g_dossier']);
 
-if ( $User->admin == 0 ) {
-  $r=CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],MPCMN);
-  if ($r == 0 ){
-    /* Cannot Access */
-    NoAccess();
-    exit -1;			
-
-  }
-
-}
+$cn=DbConnect($_SESSION['g_dossier']);
+if ( $User->CheckAction($cn,MPCMN) == 0 ) {
+  /* Cannot Access */
+  NoAccess();
+  exit -1;			
+ }
 
 /* Store the p_start parameter */
 if ( ! isset ( $_SESSION['g_start']) ) {
@@ -64,7 +60,6 @@ echo '<div class="u_subtmenu">';
 echo ShowMenuAdvanced();
 ShowMenuPcmn($_SESSION['g_start']);
 echo '</div>';
-$cn=DbConnect($_SESSION['g_dossier']);
 echo '<DIV CLASS="u_redcontent">';
 /* Analyse ce qui est demandé */
 /* Effacement d'une ligne */

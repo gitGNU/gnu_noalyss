@@ -51,21 +51,14 @@ include_once("fiche_inc.php");
 
 $cn=DbConnect($_SESSION['g_dossier']);
 
-
-
-
-
-// ShowMenuComptaRight($g_dossier,$g_UserProperty);
-if ( $User->admin == 0 ) {
-  $read=CheckAction($_SESSION['g_dossier'],$User->id,FICHE_READ);
-  $write=CheckAction($_SESSION['g_dossier'],$User->id,FICHE_WRITE);
-  if ($read+$write == 0 ){
-    /* Cannot Access */
-    NoAccess();
-  }
-}else {
-  $write=1;
+// Security check
+$read=$User->CheckAction($cn,FICHE_READ);
+$write=$User->CheckAction($cn,FICHE_WRITE);
+if ($read+$write == 0 ){
+  /* Cannot Access */
+  NoAccess();
 }
+
 // Creation of a new model of card
 // in the database
 if ( isset($_POST['add_modele'])  and $write != 0) {

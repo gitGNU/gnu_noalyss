@@ -26,25 +26,22 @@ include_once ("postgres.php");
 include_once("check_priv.php");
 include("class_jrn.php");
 $cn=DbConnect($_SESSION['g_dossier']);
-
+$rep=DbConnect();
 
 include ('class_user.php');
-$User=new cl_user($cn);
+$User=new cl_user($rep);
 $User->Check();
-if ( $User->admin == 0 ) {
-  if (CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],IMP) == 0 ||
-        $User->AccessJrn($_POST['jrn_id']) == false){
+if ( $User->CheckAction($cn,IMP) == 0 ||
+     $User->AccessJrn($cn,$_POST['jrn_id']) == false){
     /* Cannot Access */
     NoAccess();
   }
-
-}
 
 
  $p_cent=( isset ( $_POST['central']) )?'on':'off';
 
 $Jrn=new jrn($cn,$_POST['jrn_id']);
-// $Jrn->Access();
+
 $Jrn->GetName();
 $Jrn->GetRow( $_POST['from_periode'],
 	      $_POST['to_periode'],

@@ -45,12 +45,18 @@ define ("GJRN",7);
 define ("PARM",8);
 // Gestion de la sécurité
 define ("SECU",9);
+// gestion devise
+define ("DEVISE",18);
+// gestion Période
+define ("PERIODE",19);
+// Voir la balance des compte
+define ("BALANCE",20);
 // Access à la centralisation
 define ("CENTRALIZE",10);
 define ("VEN",11);
 define ("BQE",12);
 define ("ODS",13);
-define ("ACH",14);
+
 define ("FICHE_WRITE",15);
 define ("STOCK_WRITE",16);
 define ("STOCK_READ",17);

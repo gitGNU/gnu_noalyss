@@ -40,13 +40,14 @@ $User->Check();
 
 ShowMenuCompta($_SESSION['g_dossier']);
 
-if ( $User->admin == 0 ) {
-  // check if user can access
-  if (CheckAction($_SESSION['g_dossier'],$User->id,ENCJRN) == 0 ){
-    /* Cannot Access */
-    NoAccess();
-  }
-}
+// if ( $User->admin == 0 ) {
+//   // check if user can access
+//   if (CheckAction($_SESSION['g_dossier'],$User->id,ENCJRN) == 0 ){
+//     /* Cannot Access */
+//     NoAccess();
+//   }
+// }
+// Security in ListJrn
 
    // PhpSessid
    $sessid=$_REQUEST['PHPSESSID'];

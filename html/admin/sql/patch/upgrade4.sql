@@ -49,5 +49,12 @@ alter table jrn add jr_pj oid ;
 alter table jrn add  jr_pj_name text;
 alter table jrn add  jr_pj_type text;
 
+-- task 3858
+delete from user_sec_act WHERE ua_act_id =14;
+delete from action where ac_id=14;
+insert into action values (18,'Devise');
+insert into action values (19,'Période');
+insert into action values (20,'Voir la balance des comptes');
+
 -- always last line
 update version set val=5;

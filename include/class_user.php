@@ -23,6 +23,7 @@
  * Purpose : 
  *   Data & function about connected users
  */
+include_once("constant.php");
 
 class cl_user {
   var $id;
@@ -40,8 +41,9 @@ class cl_user {
       $this->type=$_SESSION['use_usertype'];
     if ( isset($_SESSION['use_theme']) )
       $this->theme=$_SESSION['use_theme'];
-    if ( isset($_SESSION['use_admin']) )
-      $this->admin=$_SESSION['use_admin'];
+    
+    $this->admin=( isset($_SESSION['use_admin']) )?$_SESSION['use_admin']:0;
+    
     if ( isset($_SESSION['use_name']) )
       $this->name=$_SESSION['use_name'];
     if ( isset($_SESSION['use_first_name']) )
@@ -137,15 +139,15 @@ class cl_user {
     
     return $this->admin;
   }
-  function AccessJrn($p_jrn_id) {
+  function AccessJrn($p_cn,$p_jrn_id) {
     $this->Admin();
     if ( $this->admin==1) return true;
-    $sql=CountSql($this->db,"select uj_id 
+    $sql=CountSql($p_cn,"select uj_id 
                              from user_sec_jrn 
                              where
                              uj_priv in ('R','W')
                              and uj_jrn_id=".$p_jrn_id.
-		  "and uj_login = '".$this->id."'");
+		  "  and uj_login = '".$this->id."'");
     if ( $sql != 0 ) return true;
     return false;
         
@@ -213,5 +215,31 @@ function GetPreferences ()
   }
   return $l_array;
 }
+/* function CheckAction
+ * Purpose : Check if an user is allowed to do an action
+ * 
+ * parm : 
+ *	- p_dossier dossier id
+ *      - p_login   user's login
+ *      - p_action_id 
+ * gen :
+ *	-
+ * return:
+ *	- 0 no priv
+ *      - 1 priv granted
+ *
+ */ 
+ function CheckAction ( $p_cn,$p_action_id)
+{
+  if ( $this->admin==1 ) return 1;
+
+  $Res=ExecSql($p_cn,"select * from user_sec_act where ua_login='".$this->id."' and ua_act_id=$p_action_id");
+  $Count=pg_NumRows($Res);
+  if ( $Count == 0 ) return 0;
+  if ( $Count == 1 ) return 1;
+  echo "<H2 class=\"error\"> Invalid action !!! $Count select * from user_sec_act where ua_login='$p_login' and ua_act_id=$p_action_id </H2>";
+}
+
+
 }
 ?>

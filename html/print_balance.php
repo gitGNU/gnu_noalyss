@@ -38,9 +38,17 @@ include_once("class_balance.php");
 include_once("preference.php");
 
 $cn=DbConnect($_SESSION['g_dossier']);
+$rep=DbConnect();
+include ('class_user.php');
+$User=new cl_user($rep);
+$User->Check();
 
 $bal=new Balance($cn);
-
+if ( $User->CheckAction($cn,BALANCE) == 0)
+  {
+    NoAccess();
+    exit;
+  }
 echo_debug(__FILE__,__LINE__,"imp pdf journaux");
 foreach ($HTTP_POST_VARS as $key=>$element) {
   ${"$key"}=$element;

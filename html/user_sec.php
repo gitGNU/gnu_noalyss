@@ -35,17 +35,13 @@ $User->Check();
 
 include_once ("user_menu.php");
 ShowMenuCompta($_SESSION['g_dossier']);
+$cn_dossier=DbConnect($_SESSION['g_dossier']);
 
-if ( $User->admin== 0 ) {
-  $r=CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],SECU);
-  if ($r == 0 ){
-    /* Cannot Access */
-    NoAccess();
+if ( $User->CheckAction($cn_dossier,SECU) == 0 ) {
+  /* Cannot Access */
+  NoAccess();
   exit -1;
-
-  }
-
-}
+ }
 echo ShowMenuParam();
 
 
@@ -78,6 +74,11 @@ if ( isset ($_GET["action"] )) {
   $action=$_GET["action"];
 
 }
+
+// session_register set to off, so variable are undefined
+foreach ($HTTP_GET_VARS as $name=>$value) 
+  ${"$name"}=$value;
+
 if ( $action == "change_jrn" ) {
   // Check if the user can access that folder
   if ( CheckDossier($_GET['login'],$_SESSION['g_dossier']) == 0 ) {
@@ -104,17 +105,17 @@ if ( $action == "change_jrn" ) {
 }
 if ( $action == "change_act" ) {
   // Check if the user can access that folder
-  if ( CheckDossier($User->id,$_SESSION['g_dossier']) == 0 ) {
+  if ( CheckDossier($_GET['login'],$_SESSION['g_dossier']) == 0 ) {
     echo "<H2 class=\"error\">he cannot access this folder</H2>";
     $action="";
     return;
   }
   $l_Db=sprintf("dossier%d",$_SESSION['g_dossier']);
   $cn_dossier=DbConnect($_SESSION['g_dossier']);
-  if ( $access==0) {
+  if ( $_GET['access']==0) {
     echo_debug(__FILE__,__LINE__,"delete right");
     $Res=ExecSql($cn_dossier,
-		 "delete from user_sec_act where ua_login='$login' and ua_act_id=$act");
+		 "delete from user_sec_act where ua_login='".$_GET['login']."' and ua_act_id=$act");
   } else {
     echo_debug(__FILE__,__LINE__,"insert right");
     $Res=ExecSql($cn_dossier,

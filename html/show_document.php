@@ -27,7 +27,7 @@ if ( !isset ($_GET['jrn'] ) ||
 
 include_once ("postgres.php");
 
-$jrn=$_GET['jrn'] ;
+
 $jr_grpt_id=$_GET['jr_grpt_id'];
 
 $cn=DbConnect($_SESSION['g_dossier']);
@@ -36,14 +36,20 @@ $cn=DbConnect($_SESSION['g_dossier']);
 include ('class_user.php');
 $User=new cl_user($cn);
 $User->Check();
+// retrieve the jrn
+$r=ExecSql($cn,"select jr_def_id from jrn where jr_grpt_id=$jr_grpt_id");
+if ( pg_num_rows($r) == 0 ) {
+  echo_error("Invalid operation id jr_grpt_id=$jr_grpt_id");
+  exit;
+ }
+$a=pg_fetch_array($r,0);
+$jrn=$a['jr_def_id'];
 
-if ( $User->admin == 0 ) {
-  if (CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$jrn) == 0 ){
-            /* Cannot Access */
-            NoAccess();
-            exit -1;
-          }
-}
+if ($User->AccessJrn($jrn) == false ){
+  /* Cannot Access */
+  NoAccess();
+  exit -1;
+ }
 
 StartSql($cn);
 $ret=ExecSql($cn,"select jr_pj,jr_pj_name,jr_pj_type from jrn where jr_grpt_id=$jr_grpt_id");

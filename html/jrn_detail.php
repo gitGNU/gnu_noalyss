@@ -37,16 +37,11 @@ ShowMenuCompta($_SESSION['g_dossier']);
 
 include_once("check_priv.php");
 
-if ( $_SESSION['use_admin'] == 0 ) {
-  include_once("check_priv.php");
-
-  $r=CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],SECU);
-  if ($r == 0 ){
-    /* Cannot Access */
-    NoAccess();
+$cn=DbConnect($_SESSION['g_dossier']);
+if ( $User->CheckAction($cn,GJRN) == 0 ){
+  /* Cannot Access */
+  NoAccess();
   exit -1;			
-
-  }
 }
 // Javascript
 echo JS_SEARCH_POSTE;
@@ -57,7 +52,6 @@ if ( isset( $_GET['p_jrn'] )) {
 }
 
 
-$cn=DbConnect($_SESSION['g_dossier']);
 
 If ( isset ($_POST["JRN_UPD"] )) {
   if (  !isset($_POST["p_jrn_name"])  ) {

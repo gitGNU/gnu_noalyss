@@ -21,9 +21,9 @@
 /* $Revision$ */
 
 include_once ("ac_common.php");
-html_page_start($g_UserProperty['use_theme']);
+html_page_start($_SESSION['use_theme']);
 
-if ( ! isset ( $g_dossier ) ) {
+if ( ! isset ( $_SESSION['g_dossier'] ) ) {
   echo "You must choose a Dossier ";
   exit -2;
 }
@@ -37,22 +37,20 @@ $User->Check();
 include_once("form_inc.php");
 
 include_once ("user_menu.php");
-ShowMenuCompta($g_dossier,$g_UserProperty);
+ShowMenuCompta($_SESSION['$g_dossier']);
 include ("check_priv.php");
 
-ShowMenuComptaRight($g_dossier,$g_UserProperty);
+ShowMenuComptaRight($_SESSION['g_dossier'],$User->admin);
 
-if ( $g_UserProperty['use_admin'] == 0 ) {
-  $r=CheckAction($g_dossier,$g_user,FORM);
-  if ($r == 0 ){
-    /* Cannot Access */
-    NoAccess();
-  }
-}
 
-ShowMenuComptaForm($g_dossier);
+$cn=DbConnect($_SESSION['g_dossier']);
+if ( $User->CheckAction($cn,FORM)){
+  /* Cannot Access */
+  NoAccess();
+ }
 
-$cn=DbConnect($g_dossier);
+ShowMenuComptaForm($_SESSION['g_dossier']);
+
 if ( isset($_GET["PHPSESSID"] )) {
   $sessid=$_GET["PHPSESSID"];
 } 

@@ -222,7 +222,6 @@ comment = $p_comment");
 function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
 {
 
-  //TODO add a print button but only if type of jrn is VEN !!
   include_once("central_inc.php");
   if ( $p_array == null ) {
    $sql="select jr_id	,
@@ -309,6 +308,16 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
     if ( $l_poste != null ) {
       $sql.=$l_and."  jr_grpt_id in (select j_grpt 
              from jrnx where j_poste = $l_poste)  ";
+      $l_and=" and ";
+    }
+    // if not admin check filter 
+    $User=new cl_user(DbConnect());
+    $User->Check();
+    if ( $User->admin == 0 ) {
+      $sql.=$l_and." jr_def_id in ( select uj_jrn_id ".
+	" from user_sec_jrn where ".
+	" uj_login='".$_SESSION['g_user']."'".
+	" and uj_priv in ('R','W'))";
     }
     $sql.=" order by jr_date_order asc";
   }// p_array != null
