@@ -27,7 +27,7 @@ Soit avec des binaires préparés, soit à partir du code source
 <p>
 Si vous décidez de le compiler vous-même, les
 options suivantes fonctionnent
-/configure -with-tk --with-python --with-perl --prefix=/opt/psql732
+./configure -with-tk --with-python --with-perl --prefix=/opt/psql732
 </p>
 </sect1>
 <sect1>Configuration et démarrage de PostgreSql
@@ -35,13 +35,13 @@ options suivantes fonctionnent
 Comme d'habitude pour postgres, il faut tout d'abord définir, créer
 l'utilisateur postgres puis initialiser l'endroit où seront stocké vos données (variable env. PGDATA),
 exemple
-<quote>
+<tscreen><verb>
 root#mkdir /data/psql
 root#chown postgres /data/psql
 root#su - postgres
 postgres#initdb -D /data/psql
 postgres#pg_ctl -D /data/psql -o '-i' start
-</quote>
+</verb></tscreen>
 </p><p>
 ne pas oublier d'ajouter dans le PATH, l'endroit où se trouve les
 binaires de postgres
@@ -124,7 +124,7 @@ Apache se démarre avec apachectl start
 Il doit être compilé le dernier !!!
 Si vous décidez de le compiler vous-même, les
 options suivantes fonctionnent
-<quote>
+<tscreen><verb>
 ./configure --prefix=/opt/php431 \
     --with-apxs2=/opt/http2/bin/apxs \
     --with-fastcgi \
@@ -132,7 +132,7 @@ options suivantes fonctionnent
     --with-pgsql=/opt/psql732 \
     --with-mysql \
     --with-apache2=/software/httpd-2.0.44
-</quote>
+</verb></tscreen>
 
 le répertoire /software/httpd-2.0.44 est le répertoire ou vous installer
 les sources d'apache
