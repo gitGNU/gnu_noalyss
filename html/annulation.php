@@ -23,6 +23,7 @@ include_once ("poste.php");
 include_once("preference.php");
 include_once("central_inc.php");
 include_once("user_common.php");
+include_Once("form_input.php");
 
 html_page_start($g_UserProperty['use_theme']);
 if ( ! isset ( $g_dossier ) ) {
@@ -54,12 +55,52 @@ foreach ($l_array as $key=>$element) {
 if ( isset ($annul) ) {
   if ( isset ($_POST['p_id'])) {
     // Get the current periode
- $period=GetUserPeriode($cn,$g_user);
- $p_id=$_POST['p_id'];
+    $period=GetUserPeriode($cn,$g_user);
+    $p_id=$_POST['p_id'];
+   // Get the date
+   $e_op_date=$_POST['op_date'];
+
+
+   // Test if date is valid
+   if ( isDate ($e_op_date) == null ) {
+     $msg='Invalid Date';
+     echo "<script> alert('$msg');</script>";
+     // set an incorrect pid to get out from here
+     $p_id=-1;
+   }
+   // userPref contient la periode par default
+    $userPref=GetUserPeriode($cn,$g_user);
+    list ($l_date_start,$l_date_end)=GetPeriode($cn,$userPref);
+
+    // Date dans la periode active
+    echo_debug ("date start periode $l_date_start date fin periode $l_date_end date demandée $e_op_date");
+    if ( cmpDate($e_op_date,$l_date_start)<0 || 
+	 cmpDate($e_op_date,$l_date_end)>0 )
+      {
+		  $msg="Not in the active periode please change your preference";
+			echo_error($msg); echo_error($msg);	
+			echo "<SCRIPT>alert('$msg');</SCRIPT>";
+
+			// set an incorrect pid to get out from here
+			$p_id=-1;
+
+      }
+    // Periode fermée 
+    if ( PeriodeClosed ($cn,$userPref)=='t' )
+      {
+		$msg="This periode is closed please change your preference";
+		echo_error($msg); echo_error($msg);	
+		echo "<SCRIPT>alert('$msg');</SCRIPT>";
+		// set an incorrect pid to get out from here
+		$p_id=-1;
+      }
+
+   // Test is date is not in a closed periode
+
  // Check if it a centralize operation
- if ( isCentralize($cn,$p_id) == 0 and 
-      isValid($cn,$p_id) ==  1 ) {
- 
+ if ( isValid($cn,$p_id) ==  1 ) {
+
+
  // get the next op id
   $seq=GetNextId($cn,'j_grpt')+1;
 
@@ -94,21 +135,27 @@ if ( isset ($annul) ) {
   // Update jr_valid 
   $Res=ExecSql($cn,"update jrn set jr_valid=false where jr_grpt_id=$p_id");
   echo '<h2 class="info"> Opération annulée</h2>';
- }
-
 ?>
 <script>
-  window.close();
+ // window.close();
  self.opener.RefreshMe();
 </script>
 <?
-    } // 
-}
-echo '<div align="center"> Opération '.$l_array['jr_internal']."</div>";
 
-echo 'Date : '.$e_op_date;
+    }// if isValid
+
+    } // if Post['p_id']
+}// if annul
+echo '<div align="center"> Opération '.$l_array['jr_internal'].'</div> 
+<div>
+<form action="'.$_SERVER['REQUEST_URI'].'" method="post" >';
+
+$a=InputType("Date","text", "op_date",$e_op_date,false);
+//echo 'Date : '.$e_op_date;
+echo $a;
 echo '<div style="border-style:solid;border-width:1pt;">';
-echo $e_comment;
+$a=InputType("Description:","text","comment",$e_comment,false);
+echo $a;
 echo '</DIV>';
 
 if ( isset ($e_ech) ) {
@@ -139,10 +186,10 @@ if ( $a != null ) {
 }// if ( $a != null ) {
 
 echo '
-<form action="'.$_SERVER['REQUEST_URI'].'" method="post" >
+
 <input type="hidden" name="p_id" value="'.$_GET['jrn_op'].'">
 <input type="submit" name="annul"  value="Effacer">
-<input type="button" name="cancel" value="Escape">
+<input type="button" name="cancel" value="Escape" onClick="window.close();">
 </form>';
 
 html_page_stop();

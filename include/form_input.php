@@ -25,8 +25,8 @@ include_once("user_common.php");
  * Purpose : Create the tag <INPUT TYPE=... Name=...>
  *        
  * parm : 
- *	- Label
- *      - The type
+ *	- Label question
+ *      - The type (text, select, text_big
  *      - Name of the variable
  *      - Default Value
  *      - View_only

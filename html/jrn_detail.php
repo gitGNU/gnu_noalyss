@@ -44,7 +44,7 @@ if ( $g_UserProperty['use_admin'] == 0 ) {
 
   }
 }
-//echo '<SCRIPT LANGUAGE="javascript" SRC="win_search_poste.js"></SCRIPT>';
+// Javascript
 echo JS_SEARCH_POSTE;
 if ( isset( $_GET['p_jrn'] )) {
   session_register("g_jrn");
