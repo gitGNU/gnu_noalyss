@@ -34,7 +34,7 @@ $cn=DbConnect($_SESSION['g_dossier']);
 
 
 include ('class_user.php');
-$User=new cl_user($cn);
+$User=new cl_user(DbConnect());
 $User->Check();
 // retrieve the jrn
 $r=ExecSql($cn,"select jr_def_id from jrn where jr_grpt_id=$jr_grpt_id");
@@ -45,7 +45,7 @@ if ( pg_num_rows($r) == 0 ) {
 $a=pg_fetch_array($r,0);
 $jrn=$a['jr_def_id'];
 
-if ($User->AccessJrn($jrn) == false ){
+if ($User->AccessJrn($cn,$jrn) == false ){
   /* Cannot Access */
   NoAccess();
   exit -1;
