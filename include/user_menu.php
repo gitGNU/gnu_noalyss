@@ -1,24 +1,24 @@
 <?
 
 /*
- *   This file is part of WCOMPTA.
+ *   This file is part of PhpCompta.
  *
- *   WCOMPTA is free software; you can redistribute it and/or modify
+ *   PhpCompta is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
  *   the Free Software Foundation; either version 2 of the License, or
  *   (at your option) any later version.
  *
- *   WCOMPTA is distributed in the hope that it will be useful,
+ *   PhpCompta is distributed in the hope that it will be useful,
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with WCOMPTA; if not, write to the Free Software
+ *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-// Auteur Dany De Bontridder ddebontridder@yahoo.fr
+// Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
 
 /* function u_ShowDossier
@@ -141,10 +141,10 @@ function u_ShowMenuCompta($p_dossier)
   $l_name=GetDossierName($p_dossier);
   echo "<P> <H2 class=\"info2\"> $l_name </H2></P>";
 
-  $p_array=array(array("user_facture.php" ,"Vente"),
-		 array("user_achat.php","Achat"),
-		 array("user_banque.php","Banque"),
-		 array("user_od.php","Op. Diverses"),
+  $p_array=array(array("user_jrn.php?JRN_TYPE=VEN" ,"Vente"),
+		 array("user_jrn.php?JRN_TYPE=ACH","Achat"),
+		 array("user_jrn.php?JRN_TYPE=FIN","Banque"),
+		 array("user_jrn.php?JRN_TYPE=OD","Op. Diverses"),
 		 array("fiche.php?p_dossier=$p_dossier","Fiche"),
 		 array("not_implemented.php","Avancé"),
 		 array("dossier_prefs.php","Paramètre")
@@ -216,27 +216,6 @@ function u_ShowMenuJrnUser($p_dossier,$p_user,$p_type,$p_jrn)
     $l_jrn=sprintf("dossier%d",$p_dossier);
     $Cn=DbConnect($l_jrn);
 
-    switch ($p_type) {
-    case ACH : 
-      $type='ACH';
-      $ref="user_achat.php";
-      break;
-    case VEN:
-      $type='VEN';
-      $ref="user_facture.php";
-      break;
-    case BQE:
-      $type='FIN';
-      $ref="user_banque.php";
-      break;
-    case ODS:
-      $type="OD";
-      $ref="user_od.php";
-      break;
-    default:
-      echo '<H2 class="error"> Invalid Type</H2>';
-      exit(-1);
-    }
     $l_jrn=sprintf("dossier%d",$p_dossier);
     $Cn=DbConnect($l_jrn);
 
@@ -248,13 +227,13 @@ function u_ShowMenuJrnUser($p_dossier,$p_user,$p_type,$p_jrn)
                              where
                              uj_login='$p_user'
                              and uj_priv !='X'
-                             and jrn_def_type='$type'
+                             and jrn_def_type='$p_type'
                              ");
     } else {
       $Ret=ExecSql($Cn,"select jrn_def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_deb_max_line,jrn_cred_max_line,
                             jrn_type_id,jrn_desc,'W' as uj_priv
                              from jrn_def join jrn_type on jrn_def_type=jrn_type_id where
-                              jrn_def_type='$type'");
+                              jrn_def_type='$p_type'");
 
     } 
     $Max=pg_NumRows($Ret);
@@ -275,18 +254,50 @@ function u_ShowMenuJrnUser($p_dossier,$p_user,$p_type,$p_jrn)
 	echo_debug("p_jrn = $p_jrn ");
 	if ( $l_line['jrn_def_id'] != $p_jrn ) {
 	  echo '<TD class="cell">';
-	  printf ('<A class="mtitle" HREF="%s?p_jrn=%s">%s</A></TD>',$ref,
-		  $l_line['jrn_def_id'],$l_line['jrn_def_name']);
-	}
-	else {
-	  echo '<TD class="selectedcell">';
-	  printf ('%s</TD>',
-		  $l_line['jrn_def_name']);
-	}
-      }
-    }
+	  printf ('<A class="mtitle" HREF="user_jrn.php?p_jrn=%s">%s</A></TD>',
+		  $l_line['jrn_def_id'],
+		  $l_line['jrn_def_name']
+		  );
+	} else
+	  {
+	    echo '<TD class="selectedcell">'. $l_line['jrn_def_name'].'</TD>';
+	  }
+      }// if right
+    }// for
     echo "</TABLE>";
     echo '</div>';
+
+}
+/* function u_ShowMenuJrn
+ * Purpose : Show the menu of the jrn depending of its type
+ *        
+ * parm : 
+ *      - p_cn database connection
+ *	- p_dossier
+ *      - p_UserProperty
+ *      - p_jrn_type
+ *      - p_jrn
+ * gen :
+ *	- none
+ * return:
+ *     - string containing the menu
+ */
+function u_ShowMenuJrn($p_cn,$p_jrn_type) 
+{
+
+  $Res=ExecSql($p_cn,"select ja_name,ja_url,ja_action from jrn_action  where ja_jrn_type='$p_jrn_type'
+                      order by ja_id");
+  $num=pg_NumRows($Res);
+  if ($num==0)    return "";
+  // Retrieve in the database the menu
+  $ret="<TABLE>";
+  for ($i=0;$i<$num;$i++) {
+    $action=pg_fetch_array($Res,$i);
+    $ret.=sprintf('<TR><TD class="cell"><A class="mtitle" HREF="%s?%s">%s</A></td></tR>',
+		  $action['ja_url'],$action['ja_action'],$action['ja_name']);
+  }
+  $ret.='</TABLE>';
+  return $ret;
 
 }
 
