@@ -1,3 +1,29 @@
+2003-10-19  sparkyx  <sparkyx@july.summer>
+
+	* html/admin_repo.php, html/central.php, html/compta.php, html/dossier_prefs.php, html/enc_jrn.php, html/facturation.php, html/fiche.php, html/form.php, html/image/body-aqua.jpg, html/image/bouton.jpg, html/image/bouton2.jpg, html/image/bouton3.jpg, html/image/bouton4.png, html/image/clouds2.jpg, html/image/clouds3.jpg, html/image/freebtn1-b.jpg, html/image/freebtn1-l.gif, html/image/freebtn1-l.jpg, html/image/freebtn1-ll.gif, html/image/freebtn1.gif, html/image/freebtn21.gif, html/image/freebtn31.gif, html/image/freebtn91.gif, html/image/glaslake1.jpg, html/image/glaslake2.jpg, html/image/logo-wcompta, html/image/logo-wcompta.jpg, html/image/logo7.jpg, html/impress.php, html/index.html, html/jrn_add.php, html/jrn_detail.php, html/jrn_op_detail.php, html/jrn_search.php, html/jrn_update.php, html/line_update.php, html/login.php, html/logout.php, html/pcmn_update.php, html/poste_search.php, html/priv_user.php, html/rate_chg.php, html/send_jrn_pdf.php, html/send_poste_pdf.php, html/user_pref.php, html/user_sec.php, include/ac_common.php, include/central_inc.php, include/debug.php, include/fiche_inc.php, include/impress_inc.php, include/jrn.php, include/poste.php, include/postgres.php, include/top_menu_compta.php, sql/centralized.sql, sql/theme.sql, Changelog, install.sh, style-aqua.css, style.css:
+	Add feature : theme
+	Add theme aqua
+	Fix bug in centralized printing: need to drop and recreate table and REcentralize
+	Improve printing
+	Add documentation and code cleaning
+
+2003-10-10  sparkyx  <sparkyx@july.summer>
+
+	* include/jrn.php: improve layout for encoding -> compta profile
+
+	* include/impress_inc.php: Improve layout
+
+	* html/send_jrn_pdf.php, html/send_poste_pdf.php, include/impress_inc.php, include/jrn.php, include/preference.php, html/enc_jrn.php, install.sh:
+	improve impression of pdf
+	change layout of encoding and viewing journal
+	Change the way to ask the period to print
+
+2003-10-04  sparkyx  <sparkyx@july.summer>
+
+	* html/enc_jrn.php, html/verif.php, include/error.php, include/jrn.php, doc/mod_function:
+	Code cleaning in enc_jrn.php & fix bug in the amount
+	Fix bug in jrn.php about sessid
+
 2003-09-26  sparkyx  <sparkyx@july.summer>
 
 	* include/postgres.php, include/top_menu_compta.php, doc/makedoc, html/admin_repo.php, html/central.php, html/compta.php, html/dossier_prefs.php, html/enc_jrn.php, html/facturation.php, html/fiche.php, html/form.php, html/impress.php, html/jrn_add.php, html/jrn_detail.php, html/jrn_update.php, html/line_update.php, html/login.php, html/pcmn_update.php, html/priv_user.php, html/rate_chg.php, html/user_pref.php, html/user_sec.php, include/ac_common.php:
