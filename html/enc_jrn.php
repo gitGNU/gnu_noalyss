@@ -426,13 +426,15 @@ if ( isset($_POST['update_record']) ) {
 	$comment=FormatString($_POST["comment"]);
 	
 	$Sql=sprintf("update  jrn set jr_comment='%s',jr_date=%s,jr_rapt='%s',".
-		     "jr_montant=%f where
+		     "jr_montant=%f j_tech_per=%d where
                       jr_id=%d",
 		     $comment,
 		     $l_date,
 		     $p_rapt,
 		     $p_sum_deb,
-		     $p_jr_id);
+		     $userPref,
+		     $p_jr_id
+		     );
 	
 	$Res=ExecSql($cn,$Sql);
 	$current_internal=GetInternal($cn,$p_jr_id);
@@ -445,9 +447,9 @@ if ( isset($_POST['update_record']) ) {
       } else {
 	$comment=FormatString($_POST["comment"]);
 	$Sql=sprintf("update  jrn set jr_comment='%s',
-                       jr_date=%s,jr_rapt=null,jr_montant=%f where jr_id=%d",
+                       jr_date=%s,jr_rapt=null,jr_montant=%f,jr_tech_per=%d where jr_id=%d",
 		     $comment,
-		     $l_date,$p_sum_deb,
+		     $l_date,$p_sum_deb,$userPref,
 		     $p_jr_id);
 	$Res=ExecSql($cn,$Sql);
 	
