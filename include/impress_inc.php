@@ -272,7 +272,7 @@ function GetDataJrn($p_cn,$p_array,$filter=YES)
 	       "j_text as description,j_grpt as grp,jr_comment as comment,
                 j_rapt as oc,jr_internal from jrnx left join jrn on ".
 	       "jr_grpt_id=j_grpt where j_jrn_def=".$p_array['p_id'].
-	       " and ".$cond." order by j_date,j_grpt,j_debit desc");
+	       " and ".$cond." order by j_date::date,j_grpt,j_debit desc");
   }
   if ( $filter == NO) {
     if ( $p_array['central']=='no') {
@@ -281,7 +281,7 @@ function GetDataJrn($p_cn,$p_array,$filter=YES)
 		   "j_text as description,j_grpt as grp,jr_comment as comment,
                 j_rapt as oc,jr_internal from jrnx left join jrn on ".
 		   "jr_grpt_id=j_grpt where ".
-		   $cond." order by j_date,j_grpt,j_debit desc");
+		   $cond." order by j_date::date,j_grpt,j_debit desc");
     } else {
       $cond=CreatePeriodeCond($p_array['periode'],"c_periode");
 
@@ -348,7 +348,7 @@ function GetDataJrnPdf($p_cn,$p_array,$p_limit,$p_offset)
 	       "j_text as description,j_grpt as grp,jr_comment as comment,
                 j_rapt as oc, j_tech_per as periode from jrnx left join jrn on ".
 		 "jr_grpt_id=j_grpt where j_jrn_def=".$p_array['p_id'].
-	       " and ".$cond." order by j_id,j_date,j_grpt,j_debit desc".
+	       " and ".$cond." order by j_id,j_date::date,j_grpt,j_debit desc".
 	       " limit ".$p_limit." offset ".$p_offset);
   } else {
     if ( $p_array['central']=='no' ) {
@@ -361,7 +361,7 @@ function GetDataJrnPdf($p_cn,$p_array,$p_limit,$p_offset)
 	       "j_text as description,j_grpt as grp,jr_comment as comment,
                 j_rapt as oc, j_tech_per as periode from jrnx left join jrn on ".
 		 "jr_grpt_id=j_grpt where ".
-	       "  ".$cond." order by j_date,j_grpt,j_debit desc".
+	       "  ".$cond." order by j_date::date,j_grpt,j_debit desc".
 	       " limit ".$p_limit." offset ".$p_offset);
 
     } else {
