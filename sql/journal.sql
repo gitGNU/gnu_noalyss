@@ -47,14 +47,14 @@ create table jrn_def
 	jrn_def_code	text not null
 
 );
-
+create index fk_jrn_def_jrn_def_type on jrn_def (jrn_def_type);
 insert into jrn_type values ('FIN','Financier');
 insert into jrn_type values ('VEN','Vente');
 insert into jrn_type values ('ACH','Achat');
 insert into jrn_type values ('OD','Opérations Diverses');
 
 insert into jrn_def values (1,'Financier','5* ','5*',null,null,5,5,false,null,'FIN','FIN-01');
-insert into jrn_def values (2,'Vente','7*','4*',null,null,1,3,true,'échéance','VEN','VEN-01');
+insert into jrn_def values (2,'Vente','4*','7*',null,null,1,3,true,'échéance','VEN','VEN-01');
 insert into jrn_def values (3,'Achat','6*','4*',null,null,1,3,true,'échéance','ACH','ACH-01');
 insert into jrn_def values (4,'Opération Diverses',null,null,null,null,5,5,false,null,'OD','OD-01');
 
@@ -75,7 +75,8 @@ create table jrn (
 
 );
 alter table jrn add primary key (jr_id,jr_def_id);
-
+create unique index idx_jr_id  on jrn(jr_id);
+create index fk_jrn_jr_def_id on jrn(jr_def_id);
 create table jrnx (
        j_id  int4 default nextval('s_jrn_op') primary key,
        j_date	  date default now(),
@@ -92,3 +93,5 @@ create table jrnx (
        j_tech_date timestamp not null default now(),
        j_tech_per integer
 );
+create index fk_jrnx_j_poste on jrnx (j_poste);
+create index fk_jrn_def on jrnx (j_jrn_def);
