@@ -23,7 +23,8 @@ include_once ("poste.php");
 include_once("preference.php");
 include_once("central_inc.php");
 include_once("user_common.php");
-include_Once("form_input.php");
+include_once("form_input.php");
+include_once("check_priv.php");
 
 html_page_start($g_UserProperty['use_theme']);
 if ( ! isset ( $g_dossier ) ) {
