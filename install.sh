@@ -19,7 +19,7 @@
 
 export PATH=/opt/psql732/bin:$PATH
 export PGDATA=/opt/database
-
+version=3
 VerifOutil() {
 	RESULT="Verif. $1"
 	A=`type $1 2> /dev/null` 
@@ -83,7 +83,29 @@ if [ $REPO -eq 0 ]; then
 #  	fi
 
 fi
+# Test si la version de la db doit être mise à jour
+A=`psql -U phpcompta  -t -c 'select val from version;' dossier1`
 
+OWNER=phpcompta
+
+DB=`psql -l -t|awk '/mod/ {print $1} /dossier/ {print $1;}'`
+for i in `echo $DB`
+do
+	echo $i
+	while [ 1 ]; do
+	vers_db=`psql -U phpcompta  -t -c 'select val from version;' $i `
+	if [ $version -ne $vers_db ] ; then
+		ver_file="sql/update/"`echo $i |sed 's/[0-9]*//g'`$vers_db".sql"
+		ver_file=`echo $ver_file|tr ' ' '_'`
+		echo "Applying patch for $i $ver_file"
+		psql -U $OWNER  $i -f $ver_file
+	else 
+		echo "ok"
+		break
+	fi
+	done
+
+done
 # Installation des sources
 export COMPTA_HOME=/home/httpd/compta
 [ ! -d $COMPTA_HOME ] && mkdir $COMPTA_HOME
