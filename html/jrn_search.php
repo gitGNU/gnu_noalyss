@@ -76,7 +76,7 @@ $condition=$condition." ".$part;
 if ( $g_UserProperty['use_admin'] != 1 ) {
   $condition.="  uj_priv in ('W','R') and uj_login='".$g_user."'" ;
 } else {
-  $condition.=" 1=1 ";
+  $condition.=" uj_login='$g_user' ";
 }
 
 
