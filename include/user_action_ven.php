@@ -24,8 +24,8 @@ $dossier=sprintf("dossier%d",$g_dossier);
 $cn=DbConnect($dossier);
 // default action is insert_vente
 if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {
-  $action='insert_vente';
-  $blank=1;
+  //  echo u_ShowMenuJrn($cn,$jrn_type);
+  exit;
    } else {
   $action=(isset($_GET['action']))?$_GET['action']:$_POST['action'];
   $blank=(isset($_GET["blank"]))?1:0;

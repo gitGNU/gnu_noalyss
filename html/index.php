@@ -7,6 +7,7 @@ echo '<!DOCTYPE HTML PUBLIC "-//W3C/DTD HTML 3.2 FINAL//EN">
 <center>
 	<IMG SRC="image/logo7.jpg" alt="Logo">
 <BR>
+
 <form action=login.php method=post>
 <TABLE BGCOLOR="#4851FF"><TR><TD>
 <TABLE  Bgcolor="white" BORDER=0 CELLSPACING=0>

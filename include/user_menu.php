@@ -276,6 +276,7 @@ function u_ShowMenuJrnUser($p_dossier,$p_user,$p_type,$p_jrn)
 	  }
       }// if right
     }// for
+    echo '</TR>';
     echo "</TABLE>";
     echo '</div>';
 
@@ -305,7 +306,7 @@ function u_ShowMenuJrn($p_cn,$p_jrn_type)
   $ret="<TABLE>";
   for ($i=0;$i<$num;$i++) {
     $action=pg_fetch_array($Res,$i);
-    $ret.=sprintf('<TR><TD class="cell"><A class="mtitle" HREF="%s?%s">%s</A></td></tR>',
+    $ret.=sprintf('<TR><TD class="cell"><A class="mtitle" HREF="%s?%s">%s</A></td></TR>',
 		  $action['ja_url'],$action['ja_action'],$action['ja_name']);
   }
   $ret.='</TABLE>';

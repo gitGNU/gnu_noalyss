@@ -54,9 +54,9 @@ CheckUser();
 include_once ("top_menu_compta.php");
 if ( isset ($g_dossier) ) {
   if ( $g_dossier != 0 )  ShowMenuCompta($g_dossier,$g_UserProperty);
-  ShowMenuComptaRight($g_dossier,$g_UserProperty);
+  //  ShowMenuComptaRight($g_dossier,$g_UserProperty);
   } else {
-  ShowMenuComptaRight(0,$g_UserProperty);
+  // ShowMenuComptaRight(0,$g_UserProperty);
   }
 
 

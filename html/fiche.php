@@ -52,7 +52,7 @@ $cn=DbConnect($l_Db);
 
 
 
-ShowMenuComptaRight($g_dossier,$g_UserProperty);
+// ShowMenuComptaRight($g_dossier,$g_UserProperty);
 if ( $g_UserProperty['use_admin'] == 0 ) {
   $read=CheckAction($g_dossier,$g_user,FICHE_READ);
   $write=CheckAction($g_dossier,$g_user,FICHE_WRITE);

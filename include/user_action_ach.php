@@ -28,7 +28,7 @@ $cn=DbConnect($dossier);
 
 // phpinfo();
 if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {
-  echo u_ShowMenuJrn($cn,$jrn_type);
+  //  echo u_ShowMenuJrn($cn,$jrn_type);
   exit;
 
 }

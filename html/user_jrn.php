@@ -62,80 +62,88 @@ if ( $g_UserProperty['use_admin'] == 0 ) {
     } // if isset g_jrn
 
 }
-// a journal is selected
-// then  we show the available journals of this type
-if ( isset ($_GET['JRN_TYPE'] ) ) {
-  $p_array=array(array("user_jrn.php?JRN_TYPE=VEN" ,"Entrée"),
- 		 array("user_jrn.php?JRN_TYPE=ACH","Dépense"),
- 		 array("user_jrn.php?JRN_TYPE=FIN","Financier"),
-		 array("user_jrn.php?JRN_TYPE=OD","Op. Diverses"),
- 		 array("","Impression"),
-		 array("","Recherche")
-		 );
+// if show
+if ( isset ($_GET['show'])) {
+
+ $p_array=array(array("user_jrn.php?JRN_TYPE=VEN" ,"Entrée"),
+                array("user_jrn.php?JRN_TYPE=ACH","Dépense"),
+                array("user_jrn.php?JRN_TYPE=FIN","Financier"),
+                array("user_jrn.php?JRN_TYPE=OD","Op. Diverses"),
+                array("","Impression"),
+                array("","Recherche")
+                 );
    $result=ShowItem($p_array,'H',"cell");
-  echo "<DIV  class=\"u_subtmenu\">";
-  echo $result;
-  echo "</DIV>";
-
-  $jrn_type=$_GET['JRN_TYPE'];
-  echo_debug(__FILE__,__LINE__,"jrn_type = $jrn_type");
-  session_register("jrn_type");
-  if ( $jrn_type=='VEN' )     include('user_action_ven.php');
-  if ( $jrn_type=='ACH' )     include('user_action_ach.php');
-  if ( $jrn_type=='FIN' )     include('user_action_fin.php');
-  if ( $jrn_type=='OD' )     include('user_action_ods.php');
-
-} 
-
-// the  parameters show is given
-// in that case we should a submenu
-if ( isset ($_GET['show']) ) {
-  $g_jrn=-1;
-  $p_array=array(array("user_jrn.php?JRN_TYPE=VEN" ,"Entrée"),
-		 array("user_jrn.php?JRN_TYPE=ACH","Dépense"),
-		 array("user_jrn.php?JRN_TYPE=FIN","Financier"),
-		 array("user_jrn.php?JRN_TYPE=OD","Op. Diverses"),
-		 array("","Impression"),
- 		 array("","Recherche")
-		  );
-   $result=ShowItem($p_array,'H',"cell");
-  echo "<DIV class=\"u_subtmenu\">";
-  echo $result;
-  echo "</DIV>";
-
-
+   echo "<DIV class=\"u_subtmenu\">";
+   echo $result;
+   echo "</DIV>";
+   exit();
 }
 
-
-  // if a journal is selected show the journal's menu
-if ( isset ($_GET['action']) ) {
-  $p_array=array(array("user_jrn.php?JRN_TYPE=VEN" ,"Entrée"),
- 		 array("user_jrn.php?JRN_TYPE=ACH","Dépense"),
- 		 array("user_jrn.php?JRN_TYPE=FIN","Financier"),
- 		 array("user_jrn.php?JRN_TYPE=OD","Op. Diverses"),
- 		 array("","Impression"),
- 		 array("","Recherche")
-		  );
-  $result=ShowItem($p_array,'H',"cell");
-  echo "<DIV class=\"u_subtmenu\">";
-  echo $result;
-  echo "</DIV>";
-
+if ( isset ($_GET['JRN_TYPE'] ) ) {
+  $jrn_type=$_GET['JRN_TYPE'];
+  switch ($jrn_type) {
+  case 'VEN':
+    echo 'Vente';
+    break;
+  case 'ACH':
+    echo 'Achat';
+    break;
+  case 'FIN':
+    echo 'Financier';
+    break;
+  case 'OD':
+    echo 'Opérations diverses';
+    break;
+  }
+  ShowMenuJrnUser($g_dossier,$g_UserProperty,$_GET['JRN_TYPE'],$g_jrn);
+} else {
+  echo_debug("Selected is $g_jrn");
   // Get the jrn_type_id
   include_once('jrn.php');
+  $JrnProp=GetJrnProp($g_dossier,$g_jrn);
+  $jrn_type=$JrnProp['jrn_def_type'];
+  echo_debug("Type is $jrn_type");
+  echo_debug("Jrn_def_type = $jrn_type");
+  switch ( $jrn_type ) {
+  case 'VEN':
+    echo 'Vente';
+    break;
+  case 'ACH':
+    echo 'Achat';
+    break;
+  case 'FIN':
+    echo 'Financier';
+    break;
+  case 'OD':
+    echo 'Opérations diverses';
+    break;
 
+  }
+
+ ShowMenuJrnUser($g_dossier,$g_UserProperty,$jrn_type,$g_jrn);
+}
+
+  // if a journal is selected show the journal's menu
+if ( $g_jrn != -1 ) {
+ 
+  // Get the jrn_type_id
+  include_once('jrn.php');
+  $JrnProp=GetJrnProp($g_dossier,$g_jrn);
+  $jrn_type=$JrnProp['jrn_def_type'];
   // display jrn's menu
- include_once('user_menu.php');
- $menu_jrn=u_ShowMenuJrn($cn,$jrn_type);
- echo '<div class="searchmenu">';
- echo $menu_jrn;
- echo '</DIV>';
- echo_debug(__FILE__,__LINE__,"jrn_type = $jrn_type");
+  include_once('user_menu.php');
+   $menu_jrn=u_ShowMenuJrn($cn,$jrn_type);
+   echo '<div class="searchmenu">';
+
+   echo $menu_jrn;
+   echo '</DIV>';
+
   // Execute Action for g_jrn
   if ( $jrn_type=='VEN' )     include('user_action_ven.php');
   if ( $jrn_type=='ACH' )     include('user_action_ach.php');
   if ( $jrn_type=='FIN' )     include('user_action_fin.php');
   if ( $jrn_type=='OD ' )     include('user_action_ods.php');
   } // if isset g_jrn
+
 html_page_stop();
 ?>

@@ -44,7 +44,7 @@ include_once ("top_menu_compta.php");
 ShowMenuCompta($g_dossier,$g_UserProperty);
 
 // Show the right menus
-ShowMenuComptaRight($g_dossier,$g_UserProperty); 
+// ShowMenuComptaRight($g_dossier,$g_UserProperty); 
 
 $left_menu=ShowMenuAdvanced();
 echo '<div class="lmenu">';
