@@ -1,4 +1,15 @@
+2005-02-04  sparkyx  <sparkyx@july>
+
+	* INSTALL-fr.txt, doc/INSTALL-fr.sgml, doc/function.txt, include/form_input.php, include/user_common.php, include/user_menu.php:
+	Improve the search : it is now possible to find all the operation related to a poste
+
 2005-02-03  sparkyx  <sparkyx@july>
+
+	* html/fiche_csv.php: Fix bug
+
+	* doc/INSTALL-fr.sgml: Update documentation
+
+	* Changelog: changelog
 
 	* html/jrn_csv.php: Fix bug : invalid function
 
