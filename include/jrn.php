@@ -382,191 +382,6 @@ if ( $p_update == 0 )  echo "<TR><TD> <INPUT TYPE=\"SUBMIT\" VALUE=\"+ de line\"
   //  echo $r;
   return $r;
 }
-// function UpdateJrn($p_dossier,$p_jrn,$p_MaxDeb,$p_MaxCred,$p_array)
-// {
-//   include_once("postgres.php");
-//   echo_debug("function UpdateJrn($p_dossier,$p_jrn,$p_MaxDeb,$p_MaxCred,$p_array)");
-//   foreach ( $p_array as $n=>$e) {
-//       ${"e_$n"}= $e;
-//       echo_debug("e_$n= $e");
-//     }
-//   /* Get Jrn's properties */
-//   $l_line=GetJrnProp($p_dossier,$p_jrn);
-//   if ( $l_line == null ) return;
-
-//   $l_dossier=sprintf("dossier%d",$p_dossier);
-//   $cn=DbConnect($l_dossier);
-
-//   echo '<DIV CLASS="redcontent">';
-//   printf ('<H2 class="info"> %s (%s)</H2>',$l_line['jrn_def_name'],$l_line['jrn_def_code']);
-//   echo '<FORM NAME="encoding" ACTION="enc_jrn.php" METHOD="POST">';
-//   echo "<INPUT TYPE=HIDDEN NAME=\"MaxDeb\" VALUE=\"$p_MaxDeb\">";
-//   echo "<INPUT TYPE=HIDDEN NAME=\"jr_id\" VALUE=\"$e_jr_id\">";
-//   echo "<INPUT TYPE=HIDDEN NAME=\"MaxCred\" VALUE=\"$p_MaxCred\">";
-//   echo 'Date : <INPUT TYPE="TEXT" NAME="op_date" VALUE="'.$e_op_date.'">';
-
-
-//   // Chargement comptes disponibles
-//   if ( strlen(trim ($l_line['jrn_def_class_deb']) ) > 0 ) {
-//     $valid_deb=split(" ",$l_line['jrn_def_class_deb']);
-
-//     // Creation query
-//     $SqlDeb="select pcm_val,pcm_lib from tmp_pcmn where ";
-//     foreach ( $valid_deb as $item_deb) {
-//       if ( strlen (trim($item_deb))) {
-// 	echo_debug("l_line[jrn_def_class_deb] $l_line[jrn_def_class_deb] item_deb $item_deb");
-// 	if ( strstr($item_deb,"*") == true ) {
-// 	  $item_deb=strtr($item_deb,"*","%");
-// 	  $Sql=" pcm_val like '$item_deb' or";
-// 	} else {
-// 	  $Sql=" pcm_val = '$item_deb' or";
-// 	}
-// 	$SqlDeb=$SqlDeb.$Sql;
-//       }
-//     }
-//     $SqlDeb = substr($SqlDeb,0,strlen($SqlDeb)-2)." order by pcm_val::text";
-//   } else
-//     {
-//       $SqlDeb="select pcm_val,pcm_lib from tmp_pcmn  order by pcm_val::text";
-//     }
-//   echo_debug("SqlDeb $SqlDeb");
-//   $Res=ExecSql($cn,$SqlDeb);
-//   $Count=pg_NumRows($Res);
-
-//   for ( $i=0;$i<$Count;$i++) {
-//     $l2_line=pg_fetch_array($Res,$i);
-//     $lib=substr($l2_line['pcm_lib'],0,35);
-//     $poste [$l2_line['pcm_val']]= $lib;
-//   }
-
-//   echo "<TABLE>";
-//   //echo '<TR><TD> Date : <INPUT TYPE="TEXT" NAME="op_date" VALUE="'.$e_op_date.'">';
-//   echo '<TR><TD><H2 class="info"> débit </H2></TD></TR>';
-//   for ( $i=0;$i < $p_MaxDeb;$i++) {
-//     echo "<tr>";
-
-//     echo "<TD>";
-//     printf('<INPUT TYPE="HIDDEN" name="op_deb%d" VALUE="%s">',
-// 	   $i,
-// 	   ${"e_op_deb$i"});
-
-//     printf ('<SELECT NAME="class_deb%d">',$i);
-//     foreach ( $poste as $key => $value){ 
-//       $selected="";
-//       if ( ${"e_class_deb$i"} == $key ) $selected="SELECTED";
-//       $a=sprintf('<OPTION VALUE="%s" %s >%s - % .40s',
-// 	     $key,
-// 	     $selected,
-// 	     $key,
-// 	     $value);
-//       //      echo_debug(" option = $a");
-//       echo $a;
-//     }
-	
-//     //    echo $poste_deb;
-//     echo "</SELECT>";
-//     echo "</TD>";
-//     /*    printf('<TD><INPUT TYPE="TEXT" NAME="text_deb%d" VALUE="%s"></TD>',
-// 	   $i,
-// 	   ${"e_text_deb$i"});
-//     */
-//     printf ('<TD> Montant :<INPUT TYPE="TEXT" id="mont_deb%d" NAME="mont_deb%d" VALUE="%s" onChange="CheckTotal()"></TD>',
-// 	    $i,$i,${"e_mont_deb$i"},$i);
-//     echo "</tr>";
-
-//   }
-
-//   echo '<TR><TD><H2 class="info"> crédit </H2></TD></TR>';
-//   // Chargement comptes disponibles
-//   if ( strlen(trim ($l_line['jrn_def_class_cred']) ) > 0 ) {
-//     $valid_cred=split(" ",$l_line['jrn_def_class_cred']);
-
-//     // Creation query
-//     $SqlCred="select pcm_val,pcm_lib from tmp_pcmn where ";
-//     foreach ( $valid_cred as $item_cred) {
-//       if ( strlen (trim($item_cred))) {
-// 	echo_debug("l_line[jrn_def_class_cred] $l_line[jrn_def_class_cred] item_cred $item_cred");
-// 	if ( strstr($item_cred,"*") == true ) {
-// 	  $item_cred=strtr($item_cred,"*","%");
-// 	  $Sql=" pcm_val like '$item_cred' or";
-// 	} else {
-// 	  $Sql=" pcm_val = '$item_cred' or";
-// 	}
-// 	$SqlCred=$SqlCred.$Sql;
-//       }
-//     }
-//     $SqlCred = substr($SqlCred,0,strlen($SqlCred)-2)." order by pcm_val::text" ;
-//   } else
-//     {
-//       $SqlCred="select pcm_val,pcm_lib from tmp_pcmn  order by pcm_val::text";
-//     }
-//   echo_debug("SqlCred $SqlCred");
-//   $Res=ExecSql($cn,$SqlCred);
-//   $Count=pg_NumRows($Res);
-
-
-//   for ( $i=0;$i<$Count;$i++) {
-//     $l2_line=pg_fetch_array($Res,$i);
-//     $lib=substr($l2_line['pcm_lib'],0,35);
-//     $poste_c[$l2_line['pcm_val']]=$lib;
-//   }
-//   for ( $i=0;$i < $p_MaxCred;$i++) {
-//     echo "<tr>";
-//     echo "<TD>";
-//     printf('<INPUT TYPE="HIDDEN" name="op_cred%d" VALUE="%s">',
-// 	   $i,
-// 	   ${"e_op_cred$i"});
-
-//     printf ('<SELECT NAME="class_cred%d">',$i);
-//     foreach ( $poste_c as $key => $value){ 
-//       $selected="";
-//       if ( ${"e_class_cred$i"} == $key ) $selected="SELECTED";
-//       $a=sprintf('<OPTION VALUE="%s" %s >%s - % .40s',
-// 	     $key,
-// 	     $selected,
-// 	     $key,
-// 	     $value);
-//       //      echo_debug(" option = $a");
-//       echo $a;
-//     }
-	
-//     echo "</SELECT>";
-//     echo "</TD>";
-
-//     printf ('<TD> Montant :<INPUT TYPE="TEXT" id="mont_cred%d" NAME="mont_cred%d" VALUE="%s" onChange="CheckTotal()"></TD>',
-// 	    $i,$i,${"e_mont_cred$i"});
-//     echo "</tr>";
-
-//   }
-//   if ( isset ($_GET["PHPSESSID"]) ) {
-//     $sessid=$_GET["PHPSESSID"];
-//   }
-//   else {
-//     $sessid=$_POST["PHPSESSID"];
-//   }
-
-//   $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchJrn(\''.$sessid."','rapt')\">";
-
-//   echo '<TR><TD colspan="2"><H2 class="info">rapprochement </H2> 
-//        <INPUT TYPE="TEXT" name="rapt" value="'.$e_rapt.'">'.$search.'</TD></TR>';
-//   echo "</TABLE>";
-//   echo "<H2 class=\"info\">Commentaire </H2> <BR>";
-//   echo '<TEXTAREA" rows="5" cols="50" NAME="comment">';
-//   echo $e_comment;
-//   echo "</TEXTAREA>";
-
-//   $e_sum_deb=0;
-//   $e_sum_cred=0;
-
-//   echo '<input type="submit" Name="update_record" Value="Enregistre">';
-//   echo '<input type="reset" Value="Efface">';
-//   echo '<input type="TEXT" NAME="sum_deb" VALUE="'.$e_sum_deb.'" onChange="CheckTotal()">';
-//   echo '<input type="TEXT" NAME="sum_cred" VALUE="'.$e_sum_cred.'" onChange="CheckTotal()">';
-//   echo '<SPAN ID="diff"></SPAN>';
-//   echo "</FORM>";
-//   echo '</DIV>';
-  
-// }
 
 /* function ViewRec
  * Purpose : debug function to be dropped
@@ -857,8 +672,6 @@ function ViewJrn($p_dossier,$p_user,$p_jrn,$p_url,$p_array=null) {
       echo "</TD>";
       
       
-//       if ( $l_line['j_centralized'] == 'f' && isClosed($cn,$l_line['j_tech_per']) == false )
-// 	{
 	  echo "<TD>";
 	  if ( isset ($_GET["PHPSESSID"])  ) {
 	    $sessid=$_GET["PHPSESSID"];
@@ -873,28 +686,11 @@ function ViewJrn($p_dossier,$p_user,$p_jrn,$p_url,$p_array=null) {
 	  echo "</TD>";
 
 
-	  //TODO no modification only cancel of wrong op.
+	  // no modification only cancel of wrong op.
 	  echo '<TD class="mlltitle">';
 	  echo "<A class=\"mtitle\" HREF=$p_url?action=update&line=".$l_line['jr_id'].">";
 	  echo "M";
 	  echo "</A></TD>";
-// 	}else {
-
-// 	  if ( isset ($_GET["PHPSESSID"])  ) {
-// 	    $sessid=$_GET["PHPSESSID"];
-// 	  } else {
-// 	    $sessid=$_POST["PHPSESSID"];
-// 	  }
-	  
-// 	  echo '<TD>';
-// 	  list($z_type,$z_num,$num_op)=split("-",$l_line['jr_internal']);
-// 	  printf ('<INPUT TYPE="BUTTON" VALUE="%s" onClick="viewDetail(\'%s\',\'%s\')">', 
-// 		  $num_op,$l_line['j_grpt'],$sessid);
-
-// 	  echo "</TD>";
-// 	  echo $col_vide;
-
-// 	}
       $l_id=$l_line['j_grpt'];
     }
     if ($l_line['j_debit']=='f')
@@ -921,20 +717,6 @@ function ViewJrn($p_dossier,$p_user,$p_jrn,$p_url,$p_array=null) {
 
   }
   echo '</TABLE>';
-}
-/* function
- * Purpose :
- * 
- * parm : 
- *	- 
- * gen :
- *	-
- * return:
- *	-
- *
- */ 
-function isClosed($p_cn,$p_period) {
-  return false;
 }
 /* function GetData
  * Purpose : Get data from jrnx where p_grpt=jrnx(j_grpt)
@@ -1037,26 +819,6 @@ function GetInternal($p_cn,$p_id) {
   return $l_line['jr_internal'];
 }
 
-/* function NOT USED
- * Purpose :
- * 
- * parm : 
- *	- 
- * gen :
- *	-
- * return:
- *	-  -1 si aucune valeur de trouvée
- *
- */ 
-// function GetRaptDest($p_cn,$p_rappt) {
-
-//   $Res=ExecSql($p_cn,"select jr_rapt from jrn where jr_internal='$p_rappt'");
-//   echo_debug("select jr_rapt from jrn where jr_id=$p_rappt");
-//   if ( pg_NumRows($Res) == 0 ) return -1;
-//   $l_line=pg_fetch_array($Res);
-//   if ( strlen (trim ($l_line['jr_rapt'])) == 0 ) return -1;
-//   return $l_line['jr_rapt'];
-// }
 /* function GetAmount
  * Purpose : return the sum of jrn where
  *            the internal_code is the p_id

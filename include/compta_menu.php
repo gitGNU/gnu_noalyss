@@ -73,7 +73,6 @@ function c_ShowMenuCompta($p_dossier)
   echo "<P> <H2 class=\"info2\"> $l_name </H2></P>";
   echo '<div class="tmenu">';
   echo '<TABLE><TR>';
-  // TODO echo '<TD class="mtitle"><A class="mtitle" HREF="facturation.php">Facturation</A></TD>';
   echo '<TD class="mtitle"><A class="mtitle" HREF="enc_jrn.php">Encodage </A></TD>';
   echo '<TD class="mtitle"<A class="mtitle" HREF="form.php">Formulaire </A> </TD>'; 
   echo '<TD class="mtitle"><A class="mtitle" HREF="impress.php">Impression</A></TD>';

@@ -218,8 +218,6 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article
   $r.='<TR>'.InputType("Echeance","Text","e_ech",$e_ech,$view_only).'</TR>';
   include_once("fiche_inc.php");
   // Display the customer
-  // TODO ADD BUTTON NEW CUSTOMER
-  //  $fiche=GetFicheJrn($p_cn,$p_jrn,'deb');
   $fiche='deb';
   echo_debug("Client Nombre d'enregistrement ".sizeof($fiche));
   // Save old value and set a new one
@@ -324,7 +322,7 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article
  *	- none
  * return:
  *     - string
- * TODO Add test for the date
+ * 
  */
 
 function FormVenteView ($p_cn,$p_jrn,$p_user,$p_array,$p_number,$p_doc='html',$p_comment='') 
@@ -718,8 +716,6 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
   $r.='<TR>'.InputType("Description","Text_big","e_comment",$e_comment,$view_only).'</TR>';
   include_once("fiche_inc.php");
   // Display the supplier
-  // TODO ADD BUTTON NEW SUPPLIER
-  //  $fiche=GetFicheJrn($p_cn,$p_jrn,'cred');
   
   // Save old value and set a new one
   $e_client=( isset ($e_client) )?$e_client:"";

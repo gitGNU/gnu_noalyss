@@ -52,7 +52,7 @@ function GetSqlFiche($p_type) {
  *	- none
  * return:
  *	- none
- * TODO ADD TEST FOR THE VAT RATE
+ *
  */ 
 function AddFiche($p_cn,$p_type,$p_array) {
   echo_debug(" AddFiche($p_cn,$p_type,$p_array) ");
@@ -72,8 +72,6 @@ function AddFiche($p_cn,$p_type,$p_array) {
 
   // Get is f_id (sequence)
   $l_f_id=GetSequence($p_cn,'s_fiche');
-  // TODO If a class base if given, we should not create automatically
-  // The class 
 
   // Should we Create accounts for each cards
   $create=GetCreateAccount($p_cn,$p_fd_id);
@@ -245,12 +243,10 @@ function EncodeFiche($p_cn,$p_type,$p_array=null) {
     for ($i=0;$i < $Max;$i++) {
       // fetch the data
       $l_line=pg_fetch_array($Res,$i);
-      // TODO if ad_id = ATTR_DEF_ACCOUNT SHOW BUTTON FOR SHOWING PCMN
-      // TODO if ad_id = ATTR_DEF_TVA  SHOW BUTTON FOR SHOWING PCMN
 
       // Put also the class in a special variable
       // useful when we want to update the PCMN
-      // TODO permit the update of TMP_PCMN
+
       $but_search_poste="";
       if ( $l_line['ad_id'] == ATTR_DEF_ACCOUNT ) {
 	printf('<INPUT TYPE="HIDDEN" name="class" value="%s">',
@@ -448,7 +444,7 @@ function ViewFicheDetail($p_cn,$p_id) {
  *	- nothing
  *
  */ 
-//TODO ADD TEST FOR THE VAT RATE
+
 function UpdateFiche($p_cn,$p_array) {
   echo_debug ("UpdateFiche");
   $tva_error=false;
@@ -705,7 +701,7 @@ function AddModele($p_cn,$p_array) {
 
   // Class is valid ?
   if ( FormatString($p_class_base) != null) {
-    // TODO verify that the class base exists
+
     // p_class is a valid number
     $sql=sprintf("insert into fiche_def(fd_label,fd_class_base,frd_id,fd_create_account) 
                 values ('%s',%s,%d,'%s')",
@@ -717,7 +713,7 @@ function AddModele($p_cn,$p_array) {
     $fd_id=GetSequence($p_cn,'s_fdef');
 
     // Add the class_base if needed
-    // TODO replace 5 by the definition of class_base
+
     if ( $p_create=='true' ) {
       $sql=sprintf("insert into jnt_fic_attr(fd_id,ad_id) 
                      values (%d,%d)",$fd_id,ATTR_DEF_ACCOUNT);
@@ -750,7 +746,7 @@ function AddModele($p_cn,$p_array) {
     }
   }
   
-  // TODO show the details of the created catg of card
+  
 }
 /* function UpdateModele
  ***************************************************
@@ -887,7 +883,7 @@ function Remove ($p_cn, $p_fid) {
 function getFicheName($p_cn,$p_id) {
   // Retrieve the attribute with the ad_id 1
   // 1 is always the name
-  // TODO replace absolute value by defined value
+
   $Res=ExecSql($p_cn,"select av_text from 
                     attr_value
                     natural join jnt_fic_att_value 
@@ -1350,7 +1346,7 @@ function GetParent($p_cn,$p_val)
 function getFicheAttribut($p_cn,$p_id,$p_attr="") {
   // Retrieve the attribute with the ad_id 1
   // 1 is always the name
-  // TODO replace absolute value by defined value
+
   if ( $p_attr != "") {
     $Res=ExecSql($p_cn,"select av_text from 
                     attr_value

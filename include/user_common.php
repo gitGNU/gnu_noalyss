@@ -202,7 +202,7 @@ function InsertJrn($p_cn,$p_date,$p_echeance,$p_jrn,$p_comment,$p_amount,$p_grpt
  */
 function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
 {
-  // TODO Show modify button but only for  no centralized operations
+
   //TODO add a print button but only if type of jrn is VEN !!
   include_once("central_inc.php");
   if ( $p_array == null ) {
@@ -304,9 +304,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
 	$r.=sprintf('<input TYPE="button" onClick="modifyOperation(\'%s\',\'%s\')" value="Détail">',
 	      $row['jr_id'],$l_sessid);
 
-//  	$r.=sprintf('<input TYPE="BUTTON" VALUE="%s" onClick="viewDetail(\'%s\',\'%s\')"> %s',
-// 		    "Détail",$row['jr_grpt_id'],$l_sessid,$row['jr_comment']);
-//	$r.="</span>";
+
 	$r.="</TD>";
 
 	
@@ -334,9 +332,6 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
   $r.=sprintf('<input TYPE="BUTTON" VALUE="%s" onClick="cancelOperation(\'%s\',\'%s\')">',
 		    "Annulation",$row['jr_grpt_id'],$l_sessid);
   $r.="</TD>";
-// TODO
-// Modify comment or rapt
-// user_jrn.php?action=update&line=9
 
 // end row
 	$r.="</tr>";
