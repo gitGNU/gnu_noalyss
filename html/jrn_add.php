@@ -100,6 +100,7 @@ echo_debug(__FILE__,__LINE__,"nom journal $p_jrn_name");
     $Res=ExecSql($cn,$Sql);
   }
 }
+echo ShowMenuAdvanced();
 MenuJrn($_SESSION['g_dossier']);
 if ( isset ($_GET["PHPSESSID"]) ) {
   $sessid=$_GET["PHPSESSID"];

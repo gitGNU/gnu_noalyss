@@ -102,7 +102,9 @@ If ( isset ($_POST["JRN_UPD"] )) {
     $Res=ExecSql($cn,$Sql);
   }
 }
+echo ShowMenuAdvanced();
 MenuJrn($_SESSION['g_dossier']);
+
 
 $Res=ExecSql($cn,"select jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,".
 	     "jrn_deb_max_line,jrn_cred_max_line,jrn_def_code".
