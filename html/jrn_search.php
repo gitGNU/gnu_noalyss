@@ -28,7 +28,7 @@ if ( ! isset ( $g_dossier ) ) {
 include_once ("postgres.php");
 /* Admin. Dossier */
 CheckUser();
-//echo '<SCRIPT LANGUAGE="javascript" SRC="win_search_jrn.js"></SCRIPT>';
+// Javascript
 echo JS_CONCERNED_OP;
 if ( isset( $p_jrn )) {
   session_register("g_jrn");

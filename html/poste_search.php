@@ -72,7 +72,7 @@ if ( isset($_POST['p_ctl'])) {
 echo_debug("condition = $condition");
 echo '<FORM ACTION="poste_search.php" METHOD="POST">';
 if ( isset($p_ctl) ) {
-  echo '<INPUT TYPE="hidden" name="p_ctl" value="'.$p_ctl.'">';
+  if ($p_ctl != 'not')   echo '<INPUT TYPE="hidden" name="p_ctl" value="'.$p_ctl.'">';
 }
 echo '<TABLE>';
 echo '<TR>';
@@ -107,7 +107,7 @@ if ( isset($_POST['search']) ) {
     $l_line=pg_fetch_array($Res,$i);
     echo "<TR>";
     // if p_ctl is set we need to be able to return the value
-    if (isset($p_ctl)){
+    if (isset($p_ctl) and $p_ctl != 'not' ){
       echo '<TD>';
       echo '<input type="checkbox" onClick="SetItChild(\''.$p_ctl.'\',\''.$l_line['pcm_val'].'\')">';
       echo '</td>';

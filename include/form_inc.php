@@ -36,8 +36,10 @@
  *
  */ 
 function EncodeForm($p_line,$p_sessid,$p_array=null) {
-  echo '<SCRIPT LANGUAGE="javascript" SRC="win_search_poste.js"></SCRIPT>';
-  $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$p_sessid."')\">";
+  //  echo '<SCRIPT LANGUAGE="javascript" SRC="win_search_poste.js"></SCRIPT>';
+  include_once("constant.php");
+  echo JS_SEARCH_POSTE;
+   $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$p_sessid."','not')\">";
   for ( $i =0 ; $i <= $p_line; $i++) {
     ${"text$i"}="";
     ${"form$i"}="";

@@ -43,9 +43,9 @@ if ( isset( $p_jrn )) {
     $cn=DbConnect($l_Db);
 
 echo '<SCRIPT LANGUAGE="javascript" SRC="compute.js"></SCRIPT>';
-//echo '<SCRIPT LANGUAGE="javascript" SRC="win_search_jrn.js"></SCRIPT>';
 echo JS_CONCERNED_OP;
-echo '<SCRIPT LANGUAGE="javascript" SRC="win_detail_jrn.js"></SCRIPT>';
+echo JS_VIEW_JRN_DETAIL;
+
 /* Get MaxLine */
 include_once("poste.php");
 include_once ("top_menu_compta.php");

@@ -44,7 +44,8 @@ if ( $g_UserProperty['use_admin'] == 0 ) {
 
   }
 }
-echo '<SCRIPT LANGUAGE="javascript" SRC="win_search_poste.js"></SCRIPT>';
+//echo '<SCRIPT LANGUAGE="javascript" SRC="win_search_poste.js"></SCRIPT>';
+echo JS_SEARCH_POSTE;
 if ( isset( $_GET['p_jrn'] )) {
   session_register("g_jrn");
   $g_jrn=$p_jrn;
@@ -118,7 +119,7 @@ if ( isset ($_POST["PHPSESSID"] ) ) {
   $sessid=$_POST["PHPSESSID"];
 }
 
-$search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$sessid."')\">";
+$search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$sessid."','not')\">";
 echo '<DIV CLASS="ccontent">';
 echo '<H2 class="info"> Fiches (profile comptable)</H2>';
 echo '<FORM ACTION="jrn_detail.php" METHOD="POST">';

@@ -45,7 +45,8 @@ if ( $g_UserProperty['use_admin'] == 0 ) {
 
 }
 
-echo '<SCRIPT LANGUAGE="javascript" SRC="win_search_poste.js"></SCRIPT>';
+//echo '<SCRIPT LANGUAGE="javascript" SRC="win_search_poste.js"></SCRIPT>';
+echo JS_SEARCH_POSTE;
 $l_Db=sprintf("dossier%d",$g_dossier);
 $cn=DbConnect($l_Db);
 
@@ -108,7 +109,7 @@ if ( isset ($_GET["PHPSESSID"]) ) {
 }else {
   $sessid=$_POST["PHPSESSID"];
 }
-$search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$sessid."')\">";
+$search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$sessid."','not')\">";
 
 echo '<DIV CLASS="ccontent">';
 echo '<FORM ACTION="jrn_add.php" METHOD="POST">';
