@@ -1010,35 +1010,52 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
   }
   // Get the default period
   $periode=GetUserPeriode($p_cn,$p_user);
-  $amount=0.0;
-	
+
+  // Test if the data are correct
+  // Test the date
+
   // Compute the j_grpt
   $seq=GetNextId($p_cn,'j_grpt')+1;
   
   
   // Debit = banque
-  $poste=GetFicheAttribut($p_cn,$e_bank_account,ATTR_DEF_ACCOUNT);
-  echo_debug ("InsertJrnx($p_cn,'c',$p_user,$p_jrn,$poste,$e_date,$amount+$sum_vat,$seq,$periode)");
-  
+  $poste_bq=GetFicheAttribut($p_cn,$e_bank_account,ATTR_DEF_ACCOUNT);
+
+  $amount=0.0;  
   // Credit = goods 
   for ( $i = 0; $i < $nb_item;$i++) {
     // if tiers is set and amount != 0 insert it into the database 
     // and quit the loop ?
     if ( ${"e_other$i"."_amount"} == 0 ) continue;
     $poste=GetFicheAttribut($p_cn,${"e_other$i"},ATTR_DEF_ACCOUNT);
-    
+
+    $amount+=${"e_other$i"."_amount"};
+    // Record a line for the bank
+    $type=( ${"e_other$i"."_amount"} < 0 )?'d':'c';
+
+    // no negative amount
+    if ( ${"e_other$i"."_amount"} < 0 ) {
+      ${"e_other$i"."_amount"}*=-1;
+    }
+    InsertJrnx($p_cn,$type,$p_user,$p_jrn,$poste_bq,$e_date,${"e_other$i"."_amount"},$seq,$periode);    
+
+
+    // Record a line for the other account
+    $type=( ${"e_other$i"."_amount"} < 0 )?'c':'d';
+    $j_id=InsertJrnx($p_cn,$type,$p_user,$p_jrn,$poste,$e_date,${"e_other$i"."_amount"},$seq,$periode);
     echo_debug("   $j_id=InsertJrnx($p_cn,'d',$p_user,$p_jrn,$poste,$e_date,".${"e_other$i"}."_amount".",$seq,$periode);");
-  }
+
+    InsertJrn($p_cn,$e_date,'',$p_jrn,$e_comment,${"e_other$i"."_amount"},$seq,$periode);
+  
 
 
-  echo_debug("echeance = $e_ech");
 
-  //  InsertJrn($p_cn,$e_date,$e_ech,$p_jrn,"",$amount+$sum_vat,$seq,$periode);
   // Set Internal code and Comment
   $comment=SetInternalCode($p_cn,$seq,$p_jrn)."  client : ".GetFicheName($p_cn,$e_bank_account);
   if ( $e_comment=="" ) {
     // Update comment if comment is blank
     $Res=ExecSql($p_cn,"update jrn set jr_comment='".$comment."' where jr_grpt_id=".$seq);
+  }
   }
   return $comment;
 }

@@ -94,7 +94,7 @@ if ( $action == 'new' ) {
 	}
 	// Save the charge into database
 	if ( isset($_POST['save'] )) {
-	  $r=RecordAchat($cn,$HTTP_POST_VARS,$g_user,$g_jrn);
+	  $r=RecordFin($cn,$HTTP_POST_VARS,$g_user,$g_jrn);
 	  // Get number of  lines
 	  $nb_number=$_POST["nb_item"];
 
