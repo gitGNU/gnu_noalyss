@@ -152,3 +152,38 @@ CREATE SEQUENCE s_jrn_rapt
     MAXVALUE 9223372036854775807
     MINVALUE 1
     CACHE 1;
+-- Name: s_internal; Type: SEQUENCE; Schema: public; Owner: phpcompta
+CREATE SEQUENCE s_internal
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+-- Name: s_jrn_4; Type: SEQUENCE; Schema: public; Owner: phpcompta
+CREATE SEQUENCE s_jrn_4
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+-- Name: s_jrn_1; Type: SEQUENCE; Schema: public; Owner: phpcompta
+CREATE SEQUENCE s_jrn_1
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+-- Name: s_jrn_3; Type: SEQUENCE; Schema: public; Owner: phpcompta
+CREATE SEQUENCE s_jrn_3
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+-- Name: s_jrn_2; Type: SEQUENCE; Schema: public; Owner: phpcompta
+CREATE SEQUENCE s_jrn_2
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;

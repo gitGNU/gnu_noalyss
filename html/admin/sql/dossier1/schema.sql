@@ -95,8 +95,7 @@ CREATE TABLE jrnx (
     j_internal text,
     j_tech_user text NOT NULL,
     j_tech_date timestamp without time zone DEFAULT now() NOT NULL,
-    j_tech_per integer,
-    j_montant_n numeric(200,100)
+    j_tech_per integer
 );
 CREATE TABLE user_pref (
     pref_user text NOT NULL,
@@ -296,7 +295,9 @@ CREATE TABLE jrn (
     jrn_ech date,
     jr_ech date,
     jr_rapt text,
-    jr_valid boolean DEFAULT true
+    jr_valid boolean DEFAULT true,
+    j_pj integer,
+    jr_opid integer
 );
 CREATE TABLE stock_goods (
     sg_id integer DEFAULT nextval('s_stock_goods'::text) NOT NULL,
@@ -314,33 +315,36 @@ CREATE TABLE attr_min (
     frd_id integer,
     ad_id integer
 );
-\connect - dany
-SET search_path = public, pg_catalog;
-CREATE TABLE jrnx_back (
-    j_id integer,
-    j_date date,
-    j_montant double precision,
-    j_poste integer,
-    j_grpt integer,
-    j_rapt text,
-    j_jrn_def integer,
-    j_debit boolean,
-    j_text text,
-    j_centralized boolean,
-    j_internal text,
-    j_tech_user text,
-    j_tech_date timestamp without time zone,
-    j_tech_per integer
-);
-\connect - phpcompta
-SET search_path = public, pg_catalog;
-CREATE TABLE log (
-    lg_timestamp timestamp without time zone DEFAULT now(),
-    lg_file text,
-    lg_type text DEFAULT 'debug',
-    lg_line text,
-    lg_msg text
-);
+CREATE SEQUENCE s_internal
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+CREATE SEQUENCE s_jrn_4
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+CREATE SEQUENCE s_jrn_3
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+CREATE SEQUENCE s_jrn_2
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+CREATE SEQUENCE s_jrn_1
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
 CREATE UNIQUE INDEX x_act ON "action" USING btree (ac_description);
 CREATE UNIQUE INDEX x_usr_jrn ON user_sec_jrn USING btree (uj_login, uj_jrn_id);
 CREATE INDEX fk_centralized_c_jrn_def ON centralized USING btree (c_jrn_def);
@@ -357,6 +361,7 @@ CREATE INDEX fk_user_sec_act ON user_sec_act USING btree (ua_act_id);
 CREATE UNIQUE INDEX x_jrn_jr_id ON jrn USING btree (jr_id);
 CREATE INDEX fk_stock_goods_j_id ON stock_goods USING btree (j_id);
 CREATE INDEX fk_stock_goods_f_id ON stock_goods USING btree (f_id);
+CREATE INDEX x_poste ON jrnx USING btree (j_poste);
 ALTER TABLE ONLY tmp_pcmn
     ADD CONSTRAINT tmp_pcmn_pkey PRIMARY KEY (pcm_val);
 ALTER TABLE ONLY parm_money

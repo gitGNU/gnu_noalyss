@@ -71,13 +71,6 @@ CREATE SEQUENCE dossier_id
     MAXVALUE 9223372036854775807
     MINVALUE 3
     CACHE 1;
-CREATE TABLE log (
-    lg_timestamp timestamp without time zone DEFAULT now(),
-    lg_file text,
-    lg_type text DEFAULT 'debug',
-    lg_line text,
-    lg_msg text
-);
 CREATE INDEX fk_jnt_use_dos ON jnt_use_dos USING btree (use_id);
 CREATE INDEX fk_jnt_dos_id ON jnt_use_dos USING btree (dos_id);
 ALTER TABLE ONLY ac_users

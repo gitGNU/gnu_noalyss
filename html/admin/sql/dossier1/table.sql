@@ -51,8 +51,7 @@ CREATE TABLE jrnx (
     j_internal text,
     j_tech_user text NOT NULL,
     j_tech_date timestamp without time zone DEFAULT now() NOT NULL,
-    j_tech_per integer,
-    j_montant_n numeric(200,100)
+    j_tech_per integer
 );
 CREATE TABLE user_pref (
     pref_user text NOT NULL,
@@ -166,7 +165,9 @@ CREATE TABLE jrn (
     jrn_ech date,
     jr_ech date,
     jr_rapt text,
-    jr_valid boolean DEFAULT true
+    jr_valid boolean DEFAULT true,
+    j_pj integer,
+    jr_opid integer
 );
 CREATE TABLE stock_goods (
     sg_id integer DEFAULT nextval('s_stock_goods'::text) NOT NULL,
@@ -183,27 +184,4 @@ CREATE TABLE stock_goods (
 CREATE TABLE attr_min (
     frd_id integer,
     ad_id integer
-);
-CREATE TABLE jrnx_back (
-    j_id integer,
-    j_date date,
-    j_montant double precision,
-    j_poste integer,
-    j_grpt integer,
-    j_rapt text,
-    j_jrn_def integer,
-    j_debit boolean,
-    j_text text,
-    j_centralized boolean,
-    j_internal text,
-    j_tech_user text,
-    j_tech_date timestamp without time zone,
-    j_tech_per integer
-);
-CREATE TABLE log (
-    lg_timestamp timestamp without time zone DEFAULT now(),
-    lg_file text,
-    lg_type text DEFAULT 'debug',
-    lg_line text,
-    lg_msg text
 );
