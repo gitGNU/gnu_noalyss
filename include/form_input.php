@@ -189,7 +189,8 @@ function InputType($p_label,$p_type,$p_name,$p_value,$p_viewonly=false,$p_list=n
 
   // input type == js_search_poste => button search for the account
   if ( strtolower($p_type)=="js_search_poste") {
-    $l_sessid=(isset ($_POST['PHPSESSID']))?$_POST['PHPSESSID']:$_GET['PHPSESSID'];
+    //$l_sessid=(isset ($_POST['PHPSESSID']))?$_POST['PHPSESSID']:$_GET['PHPSESSID'];
+    $l_sessid=$_REQUEST['PHPSESSID'];
 
     if ( $p_list == null ) { // no filter
     $r=sprintf('<TD>

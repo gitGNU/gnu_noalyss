@@ -138,7 +138,7 @@ function html_page_start($p_theme,$p_script="")
 {	
   include_once ("postgres.php");
   $cn=DbConnect();
-$bg="";
+$bg='bgcolor="#EDF3FF"';
   $Res=ExecSql($cn,"select the_filestyle from theme
                    where the_name='".$p_theme."'");
   if (pg_NumRows($Res)==0) $style="style.css";
@@ -153,7 +153,7 @@ $bg="";
 	      <META http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">
                <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$style\">
 	      </HEAD>";
-	echo "<BODY $bg class=\"defaut\" $p_script>";
+	echo "<BODY $bg $p_script>";
 }
 /* function html_page_stop()
  * Purpose : 

@@ -54,7 +54,8 @@ if ( $g_UserProperty['use_admin'] == 0 ) {
 
 
    // PhpSessid
-   $sessid=(isset ($_POST['PHPSESSID']))?$_POST['PHPSESSID']:$_GET['PHPSESSID'];
+   //$sessid=(isset ($_POST['PHPSESSID']))?$_POST['PHPSESSID']:$_GET['PHPSESSID'];
+   $sessid=$_REQUEST['PHPSESSID'];
 
 
 // display a search box

@@ -24,6 +24,7 @@ include_once ("ac_common.php");
 include_once ("postgres.php");
 include_once("debug.php");
 
+
 if (  isset ($_POST["p_user"] ) ) {
   echo_debug(__FILE__,__LINE__,"user is set");
   $g_user=$_POST["p_user"];
@@ -46,7 +47,8 @@ $User->Check();
        $p_sessid= $_POST["PHPSESSID"];
       
       
-    Redirect($g_UserProperty['use_usertype'],$p_sessid);
+// TODO bug ????
+    Redirect($g_UserProperty['use_usertype'],$_REQUEST["PHPSESSID"]);
 
 } else
 {
@@ -55,10 +57,9 @@ $User->Check();
       $p_sessid= $_GET["PHPSESSID"]; 
     else
        $p_sessid= $_POST["PHPSESSID"];
-
-    Redirect($g_UserProperty['use_usertype'],$p_sessid);
+// TODO bug ????
+    Redirect($g_UserProperty['use_usertype'],$_REQUEST["PHPSESSID"]);
     }
 }
-
 html_page_stop();
 ?>

@@ -14,4 +14,3 @@ CREATE INDEX fk_user_sec_act ON user_sec_act USING btree (ua_act_id);
 CREATE UNIQUE INDEX x_jrn_jr_id ON jrn USING btree (jr_id);
 CREATE INDEX fk_stock_goods_j_id ON stock_goods USING btree (j_id);
 CREATE INDEX fk_stock_goods_f_id ON stock_goods USING btree (f_id);
-CREATE INDEX x_poste ON jrnx USING btree (j_poste);

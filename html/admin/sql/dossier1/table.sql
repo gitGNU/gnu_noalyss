@@ -165,9 +165,7 @@ CREATE TABLE jrn (
     jrn_ech date,
     jr_ech date,
     jr_rapt text,
-    jr_valid boolean DEFAULT true,
-    j_pj integer,
-    jr_opid integer
+    jr_valid boolean DEFAULT true
 );
 CREATE TABLE stock_goods (
     sg_id integer DEFAULT nextval('s_stock_goods'::text) NOT NULL,
