@@ -216,7 +216,7 @@ function EncodeFiche($p_cn,$p_type,$p_array=null) {
     $sql="select av_text,ad_id,ad_text,jft_id from attr_value
         natural join attr_def 
         natural join jnt_fic_att_value 
-        natural join fiche where f_id=$p_type";
+        natural join fiche where f_id=$p_type order by ad_id";
 
     $Res=ExecSql($p_cn,$sql);
     $Max=pg_NumRows($Res);
@@ -1292,32 +1292,103 @@ function GetParent($p_cn,$p_val)
 }
 /* function getFicheAttribut
  ***************************************************
- * Purpose : retourne le tva
+ * Purpose : retrun array of attribut or string
  *        
  * parm : 
  *	- p_cn connexion
  *      - p_id fiche id
- *      - attribut
+ *      - attribut if attribut == "" then return a array
+ *        taken from vw_fiche_attr
  * gen :
  *	- none
  * return:
- *     - string avec nom fiche
+ *     - string avec nom fiche or array 
  */
-function getFicheAttribut($p_cn,$p_id,$p_attr) {
+function getFicheAttribut($p_cn,$p_id,$p_attr="") {
   // Retrieve the attribute with the ad_id 1
   // 1 is always the name
   // TODO replace absolute value by defined value
-  $Res=ExecSql($p_cn,"select av_text from 
+  if ( $p_attr != "") {
+    $Res=ExecSql($p_cn,"select av_text from 
                     attr_value
                     natural join jnt_fic_att_value 
                     natural join fiche 
                     where
                     f_id=$p_id and
                     ad_id=$p_attr");
-  if ( pg_NumRows($Res) == 0 ) return "Unknown";
-  $st=pg_fetch_array($Res,0);
-  return $st['av_text'];
+    if ( pg_NumRows($Res) == 0 ) return "Unknown";
+    $st=pg_fetch_array($Res,0);
+    return $st['av_text'];
+  } else {
+    // Get attribut from the view
+    $Res=ExecSql($p_cn,"select * from vw_fiche_attr where f_id=$p_id");
+    if ( pg_NumRows($Res) == 0 ) return null;
+    $st=pg_fetch_array($Res,0);
+    return $st;
+  }
 }
 
+/* function IsFicheOfJrn
+ ***************************************************
+ * Purpose :  Check if a fiche is used by a jrn
+ *  return 1 if the  fiche is in the range otherwise 0
+ *        
+ * parm : 
+ *	- p_cn connextion
+ *      - j_jrn journal_id
+ *      - $p_type : deb or cred
+ *      - $p_fiche : p_f_id
+ * gen :
+ *	- none
+ *
+ * return 1 if the fiche is in the range otherwise 0
+ * 
+ */
+function IsFicheOfJrn($p_cn,$p_jrn,$p_fiche,$p_type="")
+{
+  $get="";
+  if ( $p_type == 'deb' ) {
+    $get='jrn_def_fiche_deb';
+  }
+  if ( $p_type == 'cred' ) {
+    $get='jrn_def_fiche_cred';
+  }
+  if ( $get != "" ) {
+    $Res=ExecSql($p_cn,"select $get as fiche from jrn_def where jrn_def_id=$p_jrn");
+  } else {
+    // Get all the fiche type (deb and cred)
+    $Res=ExecSql($p_cn," select jrn_def_fiche_cred as fiche  
+                         from jrn_def where jrn_def_id=$p_jrn
+                        union
+                         select jrn_def_fiche_deb 
+                         from jrn_def where jrn_def_id=$p_jrn"
+		 );
+  }
+  $Max=pg_NumRows($Res);
+  if ( $Max==0) {
+    echo_warning("No rows");
+    return null;
+  }
+  // Normally Max must be == 1
+  $list=pg_fetch_array($Res,0);
+  if ( $list['fiche']=="") {
+    echo_warning("No fiche");
+    return null;
+  }
+  
+ $sql="select f_id,av_text as f_label 
+        from fiche natural join jnt_fic_att_value
+        natural join attr_def
+        natural join attr_value
+        natural join fiche_def
+        where ad_id=1 and
+           fd_id in (".$list['fiche'].") and f_id=$p_fiche  order by f_label";
 
+  $Res=ExecSql($p_cn,$sql);
+  $Max=pg_NumRows($Res);
+  if ($Max==0 ) 
+    return 0;
+  else
+    return 1;
+}
 ?>
