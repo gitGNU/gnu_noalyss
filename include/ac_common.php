@@ -254,25 +254,15 @@ function GetUserType($p_user)
  * Purpose : redirect following the user's profile
  *        
  * parm : 
- *	- p_profile (ac_users.use_usertype)
  *      - php_session PHPSESSID
  * gen :
  *	- none
  * return: none
  */
-function Redirect($p_profile,$php_session) {
+function Redirect($php_session) {
   include_once("debug.php");
   echo_debug(__FILE__,__LINE__,"Session is $php_session");
-
-  if ( $p_profile =="compta" ) {
-    $URL="compta_login.php";
-  } else if ( $p_profile == "user") {
-    $URL="user_login.php";
-  }
-  else {
-    echo_error ("Undefined profile");
-    exit (-1);
-  }
+  $URL="user_login.php";
   echo "<META HTTP-EQUIV=\"REFRESH\" content=\"0;url=$URL?PHPSESSID=$php_session\">";
   
 }
