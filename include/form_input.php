@@ -777,9 +777,9 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
   $r="";
   if ( $view_only == false) {
     $r.=JS_SEARCH_CARD;
-
-
-    
+    $r.=JS_TVA;
+    $r.=JS_SHOW_TVA;
+ 
   }
   $r.="<FORM NAME=\"form_detail\" ACTION=\"user_jrn.php?action=new\" METHOD=\"POST\">";
   $r.='<TABLE>';
@@ -801,12 +801,20 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
 	echo_error($msg); echo_error($msg);	
 	echo "<SCRIPT>alert('$msg');</SCRIPT>";
 	$e_client="";
+	if ( $view_only) return null;
       } else {
 	$a_client=GetFicheAttribut($p_cn,$e_client);
 	if ( $a_client != null)   
 	  $e_client_label=$a_client['vw_name']."  adresse ".$a_client['vw_addr']."  ".$a_client['vw_cp'];
       }
-  }
+  } else {
+    if ( $view_only == true ) {
+      $msg="Invalid Customer";
+      echo_error($msg); echo_error($msg);	
+      echo "<SCRIPT>alert('$msg');</SCRIPT>";
+      if ( $view_only) return null;
+    }
+  }      
   $r.="</TABLE>";
   $r.="<TABLE>";
   $r.='<TR>'.InputType("Fournisseur","js_search","e_client",$e_client,$view_only,'cred');
@@ -838,7 +846,8 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
 
     $march=(isset(${"e_march$i"}))?${"e_march$i"}:"";
     $march_buy=(isset(${"e_march".$i."_buy"}))?${"e_march".$i."_buy"}:"0";
-    if ( isNumber($march_buy) == 0) {
+    if ( $view_only== true && $march == "" ) continue;
+    if ( isNumber($march_buy) == 0 and $march != "" ) {
       $msg="Montant invalide !!! ";
       echo_error($msg); echo_error($msg);	
       echo "<SCRIPT>alert('$msg');</SCRIPT>";
@@ -847,7 +856,7 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
     }
     $march_tva_label="";
     $march_label="";
-
+    $march_tva_id=(isset(${"e_march$i"."_tva_id"}))?${"e_march$i"."_tva_id"}:"";
     // If $march has a value
     if ( isNumber($march) == 1 ) {
       if ( isFicheOfJrn($p_cn,$p_jrn,$march,'deb') == 0 ) {
@@ -857,19 +866,27 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
       $march="";
       if ( $view_only ) return null;
       } else {
+	if ( isNumber($march_tva_id)== 1) {
+	  $a_tva=GetTvaRate($p_cn,$march_tva_id);
+	  $march_tva_label=$a_tva['tva_label'];
+	}
            // retrieve the tva label and name
-      $a_fiche=GetFicheAttribut($p_cn, $march);
-      if ( $a_fiche != null ) {
-	$march_tva_label=$a_fiche['tva_label'];
-	$march_label=$a_fiche['vw_name'];
+	$a_fiche=GetFicheAttribut($p_cn, $march);
+	if ( $a_fiche != null  and
+	     $march_tva_id == "" ) {
+	  $march_tva_id=$a_fiche['tva_id'];
+	  $march_tva_label=$a_fiche['tva_label'];
+      }
+	
+      
       }
     }
-    } else {
+    else {
       if ( $view_only ) {
-      $msg="Fiche inexistante !!! ";
-      echo_error($msg); echo_error($msg);	
-      echo "<SCRIPT>alert('$msg');</SCRIPT>";
-      return null;
+	$msg="Fiche inexistante !!! ";
+	echo_error($msg); echo_error($msg);	
+	echo "<SCRIPT>alert('$msg');</SCRIPT>";
+	return null;
       }
     }
     $r.='<TR>'.InputType("","js_search","e_march".$i,$march,$view_only,'deb');
@@ -878,6 +895,8 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
     $r.=InputType("","text","e_march".$i."_buy",$march_buy,$view_only);
     //vat
     $r.=InputType("","span","e_march".$i."_tva_label",$march_tva_label,$view_only);
+    // Tva id 
+    $r.=InputType("","js_tva","e_march$i"."_tva_id",$march_tva_id,$view_only,"e_march".$i."_tva_label");
 
     $quant=(isset(${"e_quant$i"}))?${"e_quant$i"}:"1";
     if ( isNumber($quant) == 0) {
@@ -903,26 +922,35 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
     $r.="<th>Nom</th>";
     $r.="<th>total</th>";
     for ( $i = 0; $i < $p_article;$i++) {
+      if ( $view_only == true and ! isset (${"e_march$i"}) ) continue;
       $march=${"e_march$i"};
       if ( isNumber($march) ==1 and
 	   isFicheOfJrn($p_cn,$p_jrn,$march,'deb')){
 	   $a_fiche=GetFicheAttribut($p_cn, $march);
 	   // compute some data
-	   $tva=(isNumber($a_fiche['tva_rate']) == 0 )?0:$a_fiche['tva_rate'];
-	   $total_row=${"e_march$i"."_buy"}*${"e_quant$i"}+${"e_march$i"."_buy"}*${"e_quant$i"}*$tva;
+	   //	   $tva=(isNumber($a_fiche['tva_rate']) == 0 )?0:$a_fiche['tva_rate'];
+	   if ( isNumber(${"e_march$i"."_tva_id"})  ==1 ) {
 
-	   $r.="<TR>";
-	   $r.="<TD>".$a_fiche['vw_name']."</td>";
-	   //	   $r.="<TD>".$a_fiche['tva_label']."</td>";
-	   $r.="<TD  ".$total_row."</TD>";
-	   $r.="</TR>";
-	   $total+=$total_row;
- 
+		  $a_tva=GetTvaRate($p_cn,${"e_march$i"."_tva_id"});
+		  $tva=$a_tva['tva_rate'];
+		} else {
+		  $tva=(isNumber($a_fiche['tva_rate'])==1)?$a_fiche['tva_rate']:0;
+		}
+
+      $total_row=${"e_march$i"."_buy"}*${"e_quant$i"}+${"e_march$i"."_buy"}*${"e_quant$i"}*$tva;
+      
+      $r.="<TR>";
+      $r.="<TD>".$a_fiche['vw_name']."</td>";
+      //	   $r.="<TD>".$a_fiche['tva_label']."</td>";
+      $r.="<TD  ".$total_row."</TD>";
+      $r.="</TR>";
+      $total+=$total_row;
       }
     }
+  
     $r.="<TR> <TD colspan=\"3\" align=\"center\"> Total =".$total."</TD></TR>";
     $r.="</TABLE>";
-  }
+  }// if ( $view_only == true )
   return $r;
 
 
@@ -970,10 +998,15 @@ function RecordAchat($p_cn,$p_array,$p_user,$p_jrn)
   $amount=0.0;
   // Computing total customer
   for ($i=0;$i<$nb_item;$i++) {
+     if ( ! isset(${"e_march$i"}) or ${"e_march$i"} == "" or ${"e_quant$i"} == 0) {
+
+       continue;
+     }
     // store quantity & goods in array
     if ( isNumber(${"e_march$i"}) == 0 ) continue;
     $a_good[$i]=${"e_march$i"};
     $a_quant[$i]=${"e_quant$i"};
+    $a_vat[$i]=${"e_march$i"."_tva_id"};
 
     // check wether the price is set or no
     if ( isNumber(${"e_march$i"."_buy"}) == 0 ) {
@@ -986,7 +1019,7 @@ function RecordAchat($p_cn,$p_array,$p_user,$p_jrn)
     $amount+=$a_price[$i]*$a_quant[$i];
   }
 
-  $a_vat=ComputeVat($p_cn,	$a_good,$a_quant,$a_price);
+  $a_vat=ComputeVat($p_cn,	$a_good,$a_quant,$a_price,$a_vat);
 
   $sum_vat=0.0;
   if ( $a_vat != null ) {
@@ -998,7 +1031,7 @@ function RecordAchat($p_cn,$p_array,$p_user,$p_jrn)
   }
     // First we add in jrnx
 	
-	// Compute the j_grpt
+  // Compute the j_grpt
   $seq=GetNextId($p_cn,'j_grpt')+1;
   
   
@@ -1009,7 +1042,7 @@ function RecordAchat($p_cn,$p_array,$p_user,$p_jrn)
   
   // Credit = goods 
   for ( $i = 0; $i < $nb_item;$i++) {
-
+    if ( ! isset ( $a_good[$i]) ) continue;
     $poste=GetFicheAttribut($p_cn,$a_good[$i],ATTR_DEF_ACCOUNT);
     if ( $a_price[$i] * $a_quant[$i] == 0 ) continue;    
     $j_id=InsertJrnx($p_cn,'d',$p_user,$p_jrn,$poste,$e_date,$a_price[$i]*$a_quant[$i],$seq,$periode);

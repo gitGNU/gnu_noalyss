@@ -61,33 +61,36 @@ return $r;
  * return: array
  *       a[tva_id] =  amount vat
  */
-function ComputeVat($p_cn,	$a_fiche,$a_quant,$a_price,$a_vat = null) {
+function ComputeVat($p_cn,	$a_fiche,$a_quant,$a_price,$ap_vat ) {
 echo_debug("ComputeVat $a_fiche $a_quant $a_price");
+ foreach ( $a_fiche as $t=>$el) {
+   echo_debug("t $t e $el");
+ }
 // foreach goods 
-for ( $i=0 ; $i < sizeof($a_fiche);$i++) {
+ foreach ( $a_fiche as $idx=>$element) {
+   echo_debug ("idx $idx element $element");
   // if the card id is null or empty 
-  if ( isNumber($a_fiche[$i])==0 
-       or strlen(trim($a_fiche[$i]))==0) continue;
-  // Get the tva_id
-  if ( $a_vat != null and
-       isNumber($a_vat[$i])== 1)
-    $tva_id=$a_vat[$i];
-  else
-    $tva_id=GetFicheAttribut($p_cn,$a_fiche[$i],ATTR_DEF_TVA);
+    if ( isNumber($element)==0 
+	 or strlen(trim($element))==0) continue;
 
-  if ( $tva_id == 'Unknown' ) continue;
-  // for each fiche find the tva_rate and tva_id
-  $a_vat=GetTvaRate($p_cn,$tva_id);
-  
-  // Get the attribut price of the card(fiche)
-  if ( $a_vat != null ) {
-    $a=$a_vat['tva_id'];
-    $vat_amount=$a_price[$i]*$a_vat['tva_rate']*$a_quant[$i];
-    $r[$a]=isset ( $r[$a] )?$r[$a]+$vat_amount:$vat_amount;
-  } else {
-    echo_error("Not vat here in ComputeVat !");
-    return 0;
-  }
+    // Get the tva_id
+    if ( $ap_vat != null and
+	 isNumber($ap_vat[$idx])== 1)
+      $tva_id=$ap_vat[$idx];
+    else
+      $tva_id=GetFicheAttribut($p_cn,$a_fiche[$idx],ATTR_DEF_TVA);
+    
+    if ( $tva_id == 'Unknown' ) continue;
+    // for each fiche find the tva_rate and tva_id
+    $a_vat=GetTvaRate($p_cn,$tva_id);
+    
+    // Get the attribut price of the card(fiche)
+    if ( $a_vat != null  and  $a_vat['tva_id'] != "" ) 
+   {  $a=$a_vat['tva_id'];
+      $vat_amount=$a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx];
+      $r[$a]=isset ( $r[$a] )?$r[$a]+$vat_amount:$vat_amount;
+    } 
+    
  }
  echo_debug(" return $r");
  return $r;
