@@ -68,6 +68,8 @@ include("class_jrn.php");
   echo "</TR>";
 
   echo "</table>";
+  if ( count($Jrn->row ) == 0 ) 
+  	exit;
 
   echo "<TABLE>";
   foreach ( $Jrn->row as $op ) { 
