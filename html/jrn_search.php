@@ -50,6 +50,7 @@ $l_Db=sprintf("dossier%d",$g_dossier);
 $condition="";
 $part=" where ";
 $cn=DbConnect($l_Db);
+// if search then build the condition
 if ( isset ($_POST["search"]) ) {
   $c1=0;
   foreach( $HTTP_POST_VARS as $key=>$element){
@@ -58,7 +59,7 @@ if ( isset ($_POST["search"]) ) {
   }
 
   if ( strlen(trim($p_comment)) != 0 ) {
-    $c_comment=" $part pcm_lib like '%$p_comment%'";
+    $c_comment=" $part upper(jr_comment) like upper('%$p_comment%')";
     $part=" and ";
   }
   if ( strlen($p_montant) != 0 && (ereg ("^[0-9]*\.[0-9]*$",$p_montant) ||
@@ -100,7 +101,7 @@ echo '<TD> <INPUT TYPE="text" name="p_date" VALUE="'.$p_date.'"></TD>';
 echo '<TD> Montant </TD>';
 echo '<TD> <SELECT NAME="p_montant_sel">'.$opt_montant.' </TD>';
 echo '<TD> <INPUT TYPE="text" name="p_montant" VALUE="'.$p_montant.'"></TD>';
-
+echo '</TR><TR>';
 echo '<TD> Commentaire </TD>';
 echo '<TD> contient </TD>';
 echo '<TD> <INPUT TYPE="text" name="p_comment" VALUE="'.$p_comment.'"></TD>';
@@ -110,27 +111,29 @@ echo '</TABLE>';
 echo '<INPUT TYPE="submit" name="search" value="cherche">';
 echo '</FORM>';
 
-$Res=ExecSql($cn,"select j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
+// if a search is asked otherwise don't show all the rows
+if ( isset ($_POST["search"]) ) {
+  $Res=ExecSql($cn,"select j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
                  j_montant,j_poste,j_debit,j_tech_per,jr_id,jr_comment,j_grpt,pcm_lib,jr_internal from jrnx inner join 
                  jrn on jr_grpt_id=j_grpt inner join tmp_pcmn on j_poste=pcm_val ".
-	     " inner join user_sec_jrn on uj_jrn_id=j_jrn_def".
-	     $condition." order by j_id");
+	       " inner join user_sec_jrn on uj_jrn_id=j_jrn_def".
+	       $condition." order by j_id");
 
-$MaxLine=pg_NumRows($Res);
-if ( $MaxLine==0) { 
-  html_page_stop();
-  return;
-}
-$col_vide="<TD></TD>";
-echo '<TABLE ALIGN="center" BORDER="0" CELLSPACING="O">';
-$l_id="";
-if ( $MaxLine > 250 ) {
-  echo "Trop de lignes redéfinir la recherche";
-  html_page_stop();
-  return;
-}
-for ( $i=0; $i < $MaxLine; $i++) {
-  $l_line=pg_fetch_array($Res,$i);
+  $MaxLine=pg_NumRows($Res);
+  if ( $MaxLine==0) { 
+    html_page_stop();
+    return;
+  }
+  $col_vide="<TD></TD>";
+  echo '<TABLE ALIGN="center" BORDER="0" CELLSPACING="O">';
+  $l_id="";
+  if ( $MaxLine > 250 ) {
+    echo "Trop de lignes redéfinir la recherche";
+    html_page_stop();
+    return;
+  }
+  for ( $i=0; $i < $MaxLine; $i++) {
+    $l_line=pg_fetch_array($Res,$i);
     if ( $l_id == $l_line['j_grpt'] ) {
       echo $col_vide.$col_vide;
     } else {
@@ -148,13 +151,13 @@ for ( $i=0; $i < $MaxLine; $i++) {
       $l_id=$l_line['j_grpt'];
       echo '<TD COLSPAN="4">'.$l_line['jr_comment'].'</TD></TR>';
     }
-  if ( $l_line['j_debit'] == 't' ) {
-    echo '<TR style="background-color:lightblue;">';
-  }
-  else {
-    echo '<TR style="background-color:lightgreen;">';
-  }
-  echo $col_vide;
+    if ( $l_line['j_debit'] == 't' ) {
+      echo '<TR style="background-color:lightblue;">';
+    }
+    else {
+      echo '<TR style="background-color:lightgreen;">';
+    }
+    echo $col_vide;
     if ( $l_line['j_debit']=='f')
       echo $col_vide;
 
@@ -178,9 +181,9 @@ for ( $i=0; $i < $MaxLine; $i++) {
 
     echo "</TR>";
 
-}
+  }
   
   echo '</TABLE>';
-
+}// if $_POST [search]
 html_page_stop();
 ?>
