@@ -675,49 +675,6 @@ CREATE TABLE stock_goods (
 );
 
 
-\connect - dany
-
-SET search_path = public, pg_catalog;
-
---
--- TOC entry 82 (OID 678773)
--- Name: plpgsql_call_handler (); Type: FUNCTION; Schema: public; Owner: dany
---
-
-CREATE FUNCTION plpgsql_call_handler () RETURNS language_handler
-    AS '$libdir/plpgsql', 'plpgsql_call_handler'
-    LANGUAGE c;
-
-
---
--- TOC entry 81 (OID 678774)
--- Name: plpgsql; Type: PROCEDURAL LANGUAGE; Schema: public; Owner: 
---
-
-CREATE TRUSTED PROCEDURAL LANGUAGE plpgsql HANDLER plpgsql_call_handler;
-
-
---
--- TOC entry 83 (OID 678775)
--- Name: today_hour (); Type: FUNCTION; Schema: public; Owner: dany
---
-
-CREATE FUNCTION today_hour () RETURNS text
-    AS '
-declare
-hour text ;
-begin
-select to_char(now(),''HHMI'') into hour;
-return hour;
-end;
-'
-    LANGUAGE plpgsql;
-
-
-\connect - phpcompta
-
-SET search_path = public, pg_catalog;
-
 --
 -- TOC entry 67 (OID 46203)
 -- Name: x_act; Type: INDEX; Schema: public; Owner: phpcompta
@@ -822,7 +779,7 @@ ALTER TABLE ONLY jrn_def
 
 
 --
--- TOC entry 84 (OID 46222)
+-- TOC entry 81 (OID 46222)
 -- Name: $1; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -840,7 +797,7 @@ ALTER TABLE ONLY jrnx
 
 
 --
--- TOC entry 85 (OID 46228)
+-- TOC entry 82 (OID 46228)
 -- Name: $1; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -849,7 +806,7 @@ ALTER TABLE ONLY jrnx
 
 
 --
--- TOC entry 86 (OID 46232)
+-- TOC entry 83 (OID 46232)
 -- Name: $2; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -885,7 +842,7 @@ ALTER TABLE ONLY form
 
 
 --
--- TOC entry 87 (OID 46242)
+-- TOC entry 84 (OID 46242)
 -- Name: $1; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -903,7 +860,7 @@ ALTER TABLE ONLY centralized
 
 
 --
--- TOC entry 88 (OID 46248)
+-- TOC entry 85 (OID 46248)
 -- Name: $1; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -912,7 +869,7 @@ ALTER TABLE ONLY centralized
 
 
 --
--- TOC entry 89 (OID 46252)
+-- TOC entry 86 (OID 46252)
 -- Name: $2; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -930,7 +887,7 @@ ALTER TABLE ONLY user_sec_jrn
 
 
 --
--- TOC entry 90 (OID 46258)
+-- TOC entry 87 (OID 46258)
 -- Name: $1; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -957,7 +914,7 @@ ALTER TABLE ONLY user_sec_act
 
 
 --
--- TOC entry 91 (OID 46266)
+-- TOC entry 88 (OID 46266)
 -- Name: $1; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -975,7 +932,7 @@ ALTER TABLE ONLY jrn_action
 
 
 --
--- TOC entry 92 (OID 46272)
+-- TOC entry 89 (OID 46272)
 -- Name: $1; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -1002,7 +959,7 @@ ALTER TABLE ONLY fiche_def
 
 
 --
--- TOC entry 93 (OID 46280)
+-- TOC entry 90 (OID 46280)
 -- Name: $1; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -1020,7 +977,7 @@ ALTER TABLE ONLY attr_def
 
 
 --
--- TOC entry 94 (OID 46286)
+-- TOC entry 91 (OID 46286)
 -- Name: $1; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -1029,7 +986,7 @@ ALTER TABLE ONLY attr_min
 
 
 --
--- TOC entry 95 (OID 46290)
+-- TOC entry 92 (OID 46290)
 -- Name: $2; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -1047,7 +1004,7 @@ ALTER TABLE ONLY fiche
 
 
 --
--- TOC entry 96 (OID 46296)
+-- TOC entry 93 (OID 46296)
 -- Name: $1; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -1065,7 +1022,7 @@ ALTER TABLE ONLY jnt_fic_att_value
 
 
 --
--- TOC entry 97 (OID 46302)
+-- TOC entry 94 (OID 46302)
 -- Name: $1; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -1074,7 +1031,7 @@ ALTER TABLE ONLY jnt_fic_att_value
 
 
 --
--- TOC entry 98 (OID 46306)
+-- TOC entry 95 (OID 46306)
 -- Name: $2; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -1083,7 +1040,7 @@ ALTER TABLE ONLY jnt_fic_att_value
 
 
 --
--- TOC entry 99 (OID 46310)
+-- TOC entry 96 (OID 46310)
 -- Name: $1; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -1092,7 +1049,7 @@ ALTER TABLE ONLY attr_value
 
 
 --
--- TOC entry 100 (OID 46314)
+-- TOC entry 97 (OID 46314)
 -- Name: $1; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -1101,7 +1058,7 @@ ALTER TABLE ONLY jnt_fic_attr
 
 
 --
--- TOC entry 101 (OID 46318)
+-- TOC entry 98 (OID 46318)
 -- Name: $2; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -1119,7 +1076,7 @@ ALTER TABLE ONLY jrn_rapt
 
 
 --
--- TOC entry 102 (OID 46324)
+-- TOC entry 99 (OID 46324)
 -- Name: $1; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
