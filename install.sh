@@ -58,33 +58,20 @@ if [ $REPO -eq 0 ]; then
 	createdb -U $OWNER $OWNER
 	createdb -E latin1 -U $OWNER account_repository
 
+	# Create the repository
 	PSQL="psql  -U $OWNER account_repository" 
-#	$PSQL < sql/create_repository.sql
-#	$PSQL < sql/ac_pcmn.sql
-	$PSQL -e -f sql/ac_users.sql
-	$PSQL -e -f sql/ac_dossier.sql
-	$PSQL -e -f sql/jnt_use_dos.sql
-	$PSQL -e -f sql/version.sql
-	$PSQL -e -f sql/priv_user.sql
-	$PSQL -e -f sql/theme.sql
-	$PSQL -e -f sql/modele.sql
+	$PSQL -e -f sql/account_repository.sql
+	
+	#create the template for Belgian accountancy
         createdb -E latin1 -U $OWNER mod1
 	PSQL="psql -U $OWNER mod1 "
-	$PSQL -e -f sql/tmp_pcmn.sql
-	$PSQL -e -f sql/insert_pcmn.sql
-	$PSQL -e -f sql/version.sql
-	$PSQL -e -f sql/dos_pref.sql
-	$PSQL -e -f sql/journal.sql
-	$PSQL -e -f sql/user_pref.sql
-	$PSQL -e -f sql/form.sql
-	$PSQL -e -f sql/fiche.sql
-	$PSQL -e -f sql/centralized.sql
-	$PSQL -e -f sql/user_sec.sql
-	$PSQL -e -f sql/jrn_action.sql
-	$PSQL -e -f sql/tva_rate.sql
-	# Creation of useful view
-	$PSQL -e -f sql/view-fiche-attribut.sql
+	$PSQL -e -f sql/mod-be.sql
 
+	# Create the demo database
+	createdb -E latin1 -U $OWNER dossier1
+	PSQL="psql -U $OWNER dossier1 "
+	$PSQL -e -f sql/demo.sql
+#
  
 #  	if [ -w $PG_DATA/pg_hba.conf ]; then
 #  		echo "host    account_repository         all         127.0.0.1         255.255.255.255   password" >> $PG_DATA/pg_hba.conf
