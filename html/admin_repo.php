@@ -24,15 +24,15 @@ include_once("postgres.php");
 include_once("debug.php");
 html_page_start();
 echo_debug("entering admin_repo");
-echo_debug("user $user");
+//echo_debug("user $g_user");
 
 CheckUser();
-if (CheckAdmin() != 1) {
+if ($g_UserProperty['use_admin'] != 1) {
   html_page_stop();
   return;
 }
 include ("top_menu_compta.php");
-//ShowMenu(0,"<A class=\"mtitle\" HREF=\"login.php\"> Dossier </A>");
+
 echo '<H2 style="color:blue;text-align:center"> Administration Globale</H2>';
 if ( ! isset ($g_dossier) ) $g_dossier=0;
 ShowMenuAdminGlobalRight($g_dossier);

@@ -28,12 +28,15 @@ include_once("debug.php");
 
 if (  isset ($_POST["p_user"] ) ) {
   echo_debug("user is set");
-  $user=$_POST["p_user"];
-  $pass=$_POST["p_pass"];
+  $g_user=$_POST["p_user"];
+  $g_pass=$_POST["p_pass"];
+  session_register("g_user");
+  session_register("g_pass");
   html_page_start();
+
 } else
 {
-  if ( strlen($user) != 0 ) {
+  if ( strlen($g_user) != 0 ) {
     echo_debug("user is not null");
     html_page_start();
   } else
@@ -52,8 +55,8 @@ if ( isset ($db_page) ) {
 }
 
 
-echo_debug("USER=$user - ");
-echo_debug($HTTP_SESSION_VARS["user"]);
+echo_debug("USER=$g_user - ");
+//echo_debug($HTTP_SESSION_VARS["user"]);
 echo_debug("PAGE = $db_page");
 
 $cn=pg_connect("dbname=account_repository user='webcompta' ");
@@ -61,18 +64,14 @@ $IsValid=0;
 // Verif if User and Pass match DB
 // if no, then redirect to the login page
 CheckUser();
+$g_UserProperty=GetUserProperty($cn,$g_user);
+session_register("g_UserProperty");
+echo_debug("theme =".$g_UserProperty['use_theme']);
 
-
-if ( $user != 'webcompta') {
-	$sql="select use_id from ac_users where use_login='$user'
-		and use_active=1 and use_admin=1";
-
-	$rs=pg_exec($cn,$sql);
-	$isAdmin=pg_NumRows($rs);
-	} else $isAdmin=1;
 include("top_menu_compta.php");
-ShowMenu();
-if ( $isAdmin != 0 ) {
+// Show the first menu
+ShowMenu($g_UserProperty['use_admin']);
+if ( $g_UserProperty['use_admin'] != 0 || $g_user=='webcompta' ) {
   /* Administrator */
                 $l_MaxLine=0;
 		$r_database=ShowDossier('all',$db_page,$db_page+15,&$l_MaxLine);

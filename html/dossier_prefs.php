@@ -37,8 +37,8 @@ ShowMenuCompta($g_dossier);
 ShowMenuComptaRight($g_dossier);
 include_once ("check_priv.php");
 
-if ( CheckAdmin() == 0 ) {
-  $r=CheckAction($g_dossier,$user,PARM);
+if ( $g_UserProperty['use_admin'] == 0 ) {
+  $r=CheckAction($g_dossier,$g_user,PARM);
   if ($r == 0 ){
     /* Cannot Access */
     NoAccess();

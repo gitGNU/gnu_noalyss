@@ -31,8 +31,8 @@ include_once("check_priv.php");
 /* Admin. Dossier */
 CheckUser();
 
-if ( CheckAdmin() == 0 ) {
-  $r=CheckAction($g_dossier,$user,SECU);
+if ( $g_UserProperty['use_admin'] == 0 ) {
+  $r=CheckAction($g_dossier,$g_user,SECU);
   if ($r == 0 ){
     /* Cannot Access */
     NoAccess();

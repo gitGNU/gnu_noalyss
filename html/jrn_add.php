@@ -34,8 +34,8 @@ include_once ("top_menu_compta.php");
 ShowMenuCompta($g_dossier);
 ShowMenuComptaRight($g_dossier);
 
-if ( CheckAdmin() == 0 ) {
-  $r=CheckAction($g_dossier,$user,SECU);
+if ( $g_UserProperty['use_admin'] == 0 ) {
+  $r=CheckAction($g_dossier,$g_user,SECU);
   if ($r == 0 ){
     /* Cannot Access */
     NoAccess();

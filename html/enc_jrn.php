@@ -16,6 +16,7 @@
  *   along with WCOMPTA; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+/* $Revision$ */
 // Auteur Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
 include_once ("ac_common.php");
@@ -46,33 +47,35 @@ include_once("poste.php");
 include_once ("top_menu_compta.php");
 ShowMenuCompta($g_dossier);
 ShowMenuComptaRight($g_dossier);
-if ( CheckAdmin() == 0 ) {
-  $r=CheckAction($g_dossier,$user,ENCJRN);
+if ( $g_UserProperty['use_admin'] == 0 ) {
+  $r=CheckAction($g_dossier,$g_user,ENCJRN);
   if ($r == 0 ){
     /* Cannot Access */
     NoAccess();
   }
-  $right=CheckJrn($g_dossier,$user,$g_jrn);
-  if ($right == 0 ){
-    /* Cannot Access */
-    NoAccess();
-    exit -1;
-  }
+  if ( isset ($g_jrn)) {
+  	$right=CheckJrn($g_dossier,$g_user,$g_jrn);
+	  if ($right == 0 ){
+	    /* Cannot Access */
+	    NoAccess();
+	    exit -1;
+	  }
+    } // if isset g_jrn
 
 }
 
-ShowMenuJrnUser($g_dossier,$user);
+ShowMenuJrnUser($g_dossier,$g_user);
 
 if ( isset ( $_GET["action"] )) {
   if ( $_GET["action"] == "view" ) {
     ShowMenuRecherche($g_dossier,$g_jrn);
 
     echo '<DIV class="redcontent">';
-    ViewJrn($g_dossier,$user,$g_jrn);
+    ViewJrn($g_dossier,$g_user,$g_jrn);
     echo '</DIV>';
   }
   if ( $_GET["action"] == "record" ) {
-    if ( CheckJrn($g_dossier,$user,$g_jrn) < 2 ) {
+    if ( CheckJrn($g_dossier,$g_user,$g_jrn) < 2 ) {
       NoAccess();
       exit -1;
 
@@ -80,10 +83,10 @@ if ( isset ( $_GET["action"] )) {
     echo_debug("record");
     $max_deb=$_GET["max_deb"];
     $max_cred=$_GET["max_cred"];
-    RecordJrn($g_dossier,$user,$g_jrn,$max_deb,$max_cred);
+    RecordJrn($g_dossier,$g_user,$g_jrn,$max_deb,$max_cred);
   }
   if ($_GET["action"]=="update" ) {
-    if ( CheckJrn($g_dossier,$user,$g_jrn) < 2 ) {
+    if ( CheckJrn($g_dossier,$g_user,$g_jrn) < 2 ) {
       NoAccess();
       exit -1;
     
@@ -109,8 +112,8 @@ if ( isset ( $_GET["action"] )) {
     }
     $p_MaxDeb+=2;
     echo "</DIV>";
-    CorrectRecord($g_dossier,$user,$g_jrn,$p_MaxDeb,$p_MaxCred,$HTTP_POST_VARS);
-    echo_debug("CorrectRecord($g_dossier,$user,$g_jrn,$p_MaxDeb,$p_MaxCred,$HTTP_POST_VARS);");
+    CorrectRecord($g_dossier,$g_user,$g_jrn,$p_MaxDeb,$p_MaxCred,$HTTP_POST_VARS);
+    echo_debug("CorrectRecord($g_dossier,$g_user,$g_jrn,$p_MaxDeb,$p_MaxCred,$HTTP_POST_VARS);");
   }
 
   if ( isset ($_POST['add_line_cred'])	) {
@@ -120,15 +123,15 @@ if ( isset ( $_GET["action"] )) {
     }
     $p_MaxCred+=2;
     echo "</DIV>";
-    CorrectRecord($g_dossier,$user,$g_jrn,$p_MaxDeb,$p_MaxCred,$HTTP_POST_VARS);
-    echo_debug("CorrectRecord($g_dossier,$user,$g_jrn,$p_MaxDeb,$p_MaxCred+10,$HTTP_POST_VARS);");
+    CorrectRecord($g_dossier,$g_user,$g_jrn,$p_MaxDeb,$p_MaxCred,$HTTP_POST_VARS);
+    echo_debug("CorrectRecord($g_dossier,$g_user,$g_jrn,$p_MaxDeb,$p_MaxCred+10,$HTTP_POST_VARS);");
   }
  if ( isset ($_POST['viewsearch']) ) {
    reset($HTTP_POST_VARS);
    ShowMenuRecherche($g_dossier,$g_jrn,$HTTP_POST_VARS);
  
    echo '<DIV class="redcontent">';
-   ViewJrn($g_dossier,$user,$g_jrn,$HTTP_POST_VARS);
+   ViewJrn($g_dossier,$g_user,$g_jrn,$HTTP_POST_VARS);
    echo '</DIV>';
  
  }
@@ -142,7 +145,7 @@ if ( isset($_POST['add_record']) ) {
     }
 
 
-    $result=VerifData($cn,$HTTP_POST_VARS,$user);
+    $result=VerifData($cn,$HTTP_POST_VARS,$g_user);
     
     switch( $result) {
       case NOERROR:
@@ -176,12 +179,12 @@ if ( isset($_POST['add_record']) ) {
     }
     if ($result != NOERROR) {
       echo "</DIV>";
-      CorrectRecord($g_dossier,$user,$g_jrn,$p_MaxDeb,$p_MaxCred,$HTTP_POST_VARS);
+      CorrectRecord($g_dossier,$g_user,$g_jrn,$p_MaxDeb,$p_MaxCred,$HTTP_POST_VARS);
       return;
     }
 
     $Res=StartSql($cn);
-    $userPref=GetUserPeriode($cn,$user);
+    $userPref=GetUserPeriode($cn,$g_user);
     $seq=GetNextId($cn,'j_grpt')+1;
     $s_op=GetNextId($cn,'j_id')+1;
     $tot_cred=0;
@@ -196,7 +199,7 @@ if ( isset($_POST['add_record']) ) {
                 j_jrn_def,j_debit,j_tech_user,j_tech_per) 
                 values ( $s_op,to_date('$p_op_date','DD.MM.YYYY'), ".$montant.",'$p_text',
                 $l_class,$seq,
-                $g_jrn,true,'$user',$userPref)";
+                $g_jrn,true,'$g_user',$userPref)";
 	echo_debug("sql $Sql");
 	$s_op++;
 	$tot_deb+=$montant;
@@ -214,7 +217,7 @@ if ( isset($_POST['add_record']) ) {
                 j_jrn_def,j_debit,j_tech_user,j_tech_per) 
                 values ( $s_op,to_date('$p_op_date','DD.MM.YYYY'), $montant,'$p_text',
                 $l_class,$seq,
-                $g_jrn,false,'$user',$userPref)";
+                $g_jrn,false,'$g_user',$userPref)";
 	echo_debug("sql $Sql");
 	$s_op++;
 	$tot_cred+=$montant;
@@ -313,7 +316,7 @@ if ( isset($_POST['update_record']) ) {
     ${"p_$name"}=$element;
   }
   reset($HTTP_POST_VARS);
-  $result=VerifData($cn,$HTTP_POST_VARS,$user);
+  $result=VerifData($cn,$HTTP_POST_VARS,$g_user);
     
   switch( $result) {
   case NOERROR:
@@ -365,7 +368,7 @@ if ( isset($_POST['update_record']) ) {
       ${"p_$name"}=$element;
       echo_debug("p_name p_$name = $element");
     }
-  $userPref=GetUserPeriode($cn,$user);
+  $userPref=GetUserPeriode($cn,$g_user);
   
   for ( $i = 0; $i < $p_MaxDeb; $i++) {
     $j_id=${"p_op_deb$i"};
@@ -374,9 +377,8 @@ if ( isset($_POST['update_record']) ) {
     if ( strlen(trim($montant)) == 0) $montant=0;
     $p_text=(FormatString(${"p_text_deb$i"})==null)?GetPosteLibelle($g_dossier,$l_class):FormatString(${"p_text_deb$i"});
     
-    $Sql=sprintf("update jrnx set j_montant=%f, j_poste=%d,j_tech_user='%s',j_date=to_date('%s','DD.MM.YYYY'),j_text='%s',j_tech_per=%s
-    			where j_id=%d",
-		 $montant,$l_class,$user,$p_op_date,$p_text,$userPref,$j_id);
+    $Sql=sprintf("update jrnx set j_montant=%f, j_poste=%d,j_tech_user='%s',j_date=to_date('%s','DD.MM.YYYY'),j_text='%s' where j_id=%d",
+		 $montant,$l_class,$g_user,$p_op_date,$p_text,$j_id);
     echo_debug("sql $Sql");
     $Res=ExecSql($cn,$Sql);
     if ( $Res == false ) { Rollback($cn); EndSql($cn); return;}
@@ -391,9 +393,8 @@ if ( isset($_POST['update_record']) ) {
     if ( strlen(trim($montant)) == 0 ) $montant=0;
     $p_text=(FormatString(${"p_text_cred$i"})==null)?GetPosteLibelle($g_dossier,$l_class):FormatString(${"p_text_cred$i"});
 
-    $Sql=sprintf("update jrnx set j_montant=%f,j_poste=%d,j_tech_user='%s', j_date=to_date('%s','DD.MM.YYYY'),j_text='%s',".
-    		"	j_tech_per=%s where j_id=%d",
-		 $montant,$l_class,$user,$p_op_date,$p_text,$userPref,$j_id);
+    $Sql=sprintf("update jrnx set j_montant=%f,j_poste=%d,j_tech_user='%s', j_date=to_date('%s','DD.MM.YYYY'),j_text='%s' where j_id=%d",
+		 $montant,$l_class,$g_user,$p_op_date,$p_text,$j_id);
     echo_debug("sql $Sql");
       //	  $s_op++;
     $Res=ExecSql($cn,$Sql);
@@ -425,14 +426,15 @@ if ( isset($_POST['update_record']) ) {
 	$comment=FormatString($_POST["comment"]);
 	
 	$Sql=sprintf("update  jrn set jr_comment='%s',jr_date=%s,jr_rapt='%s',".
-		     "jr_montant=%f,jr_tech_per where
+		     "jr_montant=%f j_tech_per=%d where
                       jr_id=%d",
 		     $comment,
 		     $l_date,
 		     $p_rapt,
 		     $p_sum_deb,
 		     $userPref,
-		     $p_jr_id);
+		     $p_jr_id
+		     );
 	
 	$Res=ExecSql($cn,$Sql);
 	$current_internal=GetInternal($cn,$p_jr_id);
@@ -445,10 +447,9 @@ if ( isset($_POST['update_record']) ) {
       } else {
 	$comment=FormatString($_POST["comment"]);
 	$Sql=sprintf("update  jrn set jr_comment='%s',
-                       jr_date=%s,jr_rapt=null,jr_montant=%f,jr_tech_per=%s where jr_id=%d",
+                       jr_date=%s,jr_rapt=null,jr_montant=%f,jr_tech_per=%d where jr_id=%d",
 		     $comment,
-		     $l_date,$p_sum_deb,
-		     $userPref,
+		     $l_date,$p_sum_deb,$userPref,
 		     $p_jr_id);
 	$Res=ExecSql($cn,$Sql);
 	
@@ -463,7 +464,7 @@ if ( isset($_POST['update_record']) ) {
       Rollback($cn); 
       EndSql($cn);
     }
-    ViewJrn($g_dossier,$user,$g_jrn);
+    ViewJrn($g_dossier,$g_user,$g_jrn);
 
 } // if update_record
 

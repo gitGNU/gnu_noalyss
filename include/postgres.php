@@ -33,16 +33,16 @@
 ++*/
 function CheckUser()
 {
-	global $user,$pass,$IsValid;
+	global $g_user,$g_pass,$IsValid;
 	echo_debug("CheckUser");
 	$res=0;
-	$pass5=md5($pass);
+	$pass5=md5($g_pass);
 	if ( $IsValid == 1 ) { return; }
 	$cn=pg_connect("dbname=account_repository host=127.0.0.1 user='webcompta'");
 	if ( $cn != false ) {
 	  $sql="select ac_users.use_login,ac_users.use_active, ac_users.use_pass
 				from ac_users  
-				 where ac_users.use_login='$user' 
+				 where ac_users.use_login='$g_user' 
 					and ac_users.use_active=1
 					and ac_users.use_pass='$pass5'";
 	    echo_debug("Sql = $sql");
@@ -75,7 +75,7 @@ function CheckUser()
  * Show the folder where user have access
 ++*/ 
 function ShowDossier($p_type,$p_first=0,$p_max=10,$p_Num=0) {
-  global $user;
+  global $g_user;
   if ( $p_max == 0 ) {
     $l_step="";
   } else {
@@ -90,7 +90,7 @@ function ShowDossier($p_type,$p_first=0,$p_max=10,$p_Num=0) {
                                natural join ac_dossier 
                                natural join ac_users 
                                inner join priv_user on priv_jnt=jnt_id where 
-                               use_login='".$user."' and priv_priv !='NO'
+                               use_login='".$g_user."' and priv_priv !='NO'
                                order by dos_name ";
     $p_Num=CountSql($cn,$l_sql);
   }
@@ -108,43 +108,15 @@ function ShowDossier($p_type,$p_first=0,$p_max=10,$p_Num=0) {
   }
   return $row;
 }
-/*++
- * function : CheckAccess
- * Parameter : $p_right (user or admin)
- *             $p_database (name of the database)
- * Return    : 1 if ok
- * Description :
- * Check user's access right to the given database
-++*/
-function CheckAccess($p_right,$p_database)
-{
-//  	global $user,$pass;
-//  	echo "User is $user";
-//  	$cn=pg_connect("host=127.0.0.1 dbname=$p_database  user='webcompta' ");
-//  	$ret=pg_exec($cn,"select name from ac_dossier where name='$user' and dossier='$p_database' and priv='$p_right'");
-//  	if ( pg_NumRows($ret) == 0 ) {
-//  	/*	echo '<META HTTP-EQUIV="REFRESH" content="4;url=index.html">';*/
-//  		echo "<BR><BR><BR><BR><BR><BR>";
-//  		echo "<P ALIGN=center><BLINK>
-//  			<FONT size=+12 COLOR=RED>
-//  			You haven't the right to connect 
-//  			</FONT></BLINK></P>";
-//  		session_unset();
-//  		return 0;			
-//  	}
-
-//  	return $ret;
-	
-}
 // Check if the user has admin right
 // to be complete
 function CheckAdmin() {
-  global $user,$pass;
+  global $g_user,$g_pass;
   $res=0;
 
-  if ( $user != 'webcompta') {
-	$pass5=md5($pass);
-	$sql="select use_id from ac_users where use_login='$user'
+  if ( $g_user != 'webcompta') {
+	$pass5=md5($g_pass);
+	$sql="select use_id from ac_users where use_login='$g_user'
 		and use_active=1 and use_admin=1 and use_pass='$pass5'";
 
 	$cn=DbConnect();
@@ -154,11 +126,24 @@ function CheckAdmin() {
 
   return $isAdmin;
 }
+/* function DbConnect
+ * purpose : connect to the database
+ * parameter : p_db : db_name
+ * return the connection
+ * todo : replace hardcoded by variable placed in
+ *        constant.php
+ */
 function DbConnect($p_db="account_repository") {
   $a=pg_connect("dbname=$p_db host=127.0.0.1 user='webcompta'");
   echo_debug ("connect to $p_db");
   return $a;
 }
+/* function ExecSql
+ * purpose : send a sql string to the database
+ * parameter p_connection db connection 
+ *           p_string     sql string
+ * return false if error otherwise true
+ */
 function ExecSql($p_connection, $p_string) {
   echo_debug("SQL = $p_string");
   $ret=pg_exec($p_connection,$p_string);
@@ -351,4 +336,31 @@ function SyncRight($p_dossier,$p_user) {
    "(select uj_jrn_id from user_sec_jrn where uj_login='".$p_user."')";
  $Res=ExecSql($cn,$sql);
 }
+/* function GetUserProperty
+ * Purpose : Get the properties of an user
+ *           it means theme, profile, admin...
+ *        
+ * parm : 
+ *	- $p_user    user login
+ *      - $p_cn      connection resource
+ *      -
+ * gen :
+ *	-
+ * return: an array
+ */
+function GetUserProperty($p_cn,$p_user)
+{
+ $sql="select use_admin,use_usertype,use_theme
+     from ac_users where use_login='$p_user'";
+ $Ret=ExecSql($p_cn,$sql);
+ if ( pg_NumRows($Ret) == 0) 
+   return array('use_admin'=>0,
+		'use_usertype'=>'user',
+		'use_theme'=>'classic');
+
+ $a=pg_fetch_array($Ret,0);
+
+ return $a;
+}
+
 ?>

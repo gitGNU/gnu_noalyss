@@ -21,29 +21,29 @@
 // Auteur Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
 
-/* function
- * Purpose :
+/* function ShowMenu
+ * Purpose : Show The login menu
  * 
  * parm : 
- *	- 
+ *	- $p_admin 1 if admin
+ *      - $p_item item to add 
  * gen :
- *	-
+ *	- none
  * return:
- *	-
+ *	- nothing
  *
  */ 
-  function ShowMenu($p_check = 1,$p_item="")
+  function ShowMenu($p_admin,$p_check = 1,$p_item="")
 {
   /* $p_check == 1 si test sur Admin */
   include_once("postgres.php");
   echo '<div class="mtitle">';
   echo "<TABLE align=center><TR>";
-  if ( $p_check == 1 ) {
-    if ( CheckAdmin() != 0 ) {
+  if ( $p_admin !=0 ) {
       /* Administrator Menu */
       echo '<TD class="mtitle"><A class="mtitle" HREF=admin_repo.php>Administrator Menu</A></TD>';
     } 
-  } 
+
   if (strlen ( $p_item ) != 0 ) {
     echo '<TD class="mtitle">'.$p_item.'</A></TD>';
   }
@@ -178,15 +178,16 @@ function ShowMenuComptaLeft($p_dossier,$p_item)
 
   }
 }
-/* function
- * Purpose :
- * 
+/* function ShowMenuComptaRight
+ * Purpose : Display menu on the Right
+ *           (preference, logout and admin)
  * parm : 
- *	- 
+ *	- $p_dossier the current dossier
+ *      - $p_more code
  * gen :
- *	-
+ *	- none
  * return:
- *	-
+ *	- none
  *
  */ 
 function ShowMenuComptaRight($p_dossier=0,$p_more="")
@@ -208,15 +209,15 @@ function ShowMenuComptaRight($p_dossier=0,$p_more="")
   echo "</TABLE>";
   echo '</div>';
 }
-/* function
+/* function ShowMenuAdminGlobalRight($p_dossier=0)
  * Purpose :
- * 
+ *        Same as previous : show the right menu
  * parm : 
- *	- 
+ *	- p_dossier
  * gen :
- *	-
+ *	- none
  * return:
- *	-
+ *	- none
  *
  */ 
 function ShowMenuAdminGlobalRight($p_dossier=0)
@@ -237,15 +238,15 @@ printf( '<TR><TD class="mtitle"> <A class="mtitle" HREF="compta.php?dos=%d">Reto
   echo "</TABLE>";
   echo '</div>';
 }
-/* function
- * Purpose :
+/* function ShowMenuPcmn($p_start=1)
+ * Purpose : Show the menu from the pcmn page
  * 
  * parm : 
- *	- 
+ *	- $p_start class start
  * gen :
- *	-
+ *	- none
  * return:
- *	-
+ *	- none
  *
  */ 
 
@@ -264,15 +265,15 @@ function ShowMenuPcmn($p_start=1)
     echo '</div>';
 
 }
-/* function
- * Purpose :
+/* function  ShowMenuJrn($p_dossier)
+ * Purpose : Show the menu in the jrn page
  * 
  * parm : 
- *	- 
+ *	- $p_dossier 
  * gen :
- *	-
+ *	- none
  * return:
- *	-
+ *	- none
  *
  */ 
 
@@ -284,7 +285,8 @@ function ShowMenuJrn($p_dossier)
     include_once("postgres.php");
     $l_jrn=sprintf("dossier%d",$p_dossier);
     $Cn=DbConnect($l_jrn);
-    $Ret=ExecSql($Cn,"select jrn_def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc 
+    $Ret=ExecSql($Cn,"select jrn_def_id,jrn_def_name,
+                             jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc 
                              from jrn_def join jrn_type on jrn_def_type=jrn_type_id");
     $Max=pg_NumRows($Ret);
     for ($i=0;$i<$Max;$i++) {
@@ -297,15 +299,17 @@ function ShowMenuJrn($p_dossier)
     echo '</div>';
 
 }
-/* function
- * Purpose :
+/* function ShowMenuJrnUser($p_dossier,$p_user)
+ * Purpose : Show the Menu from the jrn encode
+ *           page
  * 
  * parm : 
- *	- 
+ *	- $p_dossier
+ *      - $p_user
  * gen :
- *	-
+ *	- none
  * return:
- *	-
+ *	- none
  *
  */ 
 
@@ -362,15 +366,17 @@ function ShowMenuJrnUser($p_dossier,$p_user)
     echo '</div>';
 
 }
-/* function
+/* function ShowMenuRecherche
  * Purpose :
  * 
  * parm : 
- *	- 
+ *	- $p_dossier,
+ *      - $p_jrn jrn id
+ *      - $p_array=null previous search
  * gen :
- *	-
+ *	- none
  * return:
- *	-
+ *	- none
  *
  */ 
 
@@ -456,15 +462,19 @@ function ShowMenuComptaForm($p_dossier) {
     echo "</TABLE>";
     echo '</div>';
 }
-/* function
- * Purpose :
+/* function  ShowMenuJrnUserImp(
+ *
+ * 
+ * Purpose : Show the menu of jrn to print
  * 
  * parm : 
- *	- 
+ *	- $p_cn, connection
+ *        $p_user, user
+ *         $p_dossier dossier
  * gen :
- *	-
+ *	- none
  * return:
- *	-
+ *	- none
  *
  */ 
 
@@ -590,7 +600,7 @@ function ShowMenuAdminGlobal()
   echo $menu;
   echo '</DIV>';
 }
-/* Function ShowItem($p_array) */
+/* function ShowItem($p_array) */
 /* purpose : store the string which print */
 /*           the content of p_array in a table */
 /*           used to display the menu */

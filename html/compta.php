@@ -19,6 +19,7 @@
 // Auteur Dany De Bontridder ddebontridder@yahoo.fr
 include ("ac_common.php");
 /* $Revision$ */
+session_start();
 html_page_start();
 if ( isset ( $dos ) ) {
   $g_dossier=$dos;
@@ -26,24 +27,28 @@ if ( isset ( $dos ) ) {
   echo_debug("admin_dossier = $g_dossier ");
 } else {
   echo "You must choose a Dossier ";
-  phpinfo();
+  //  phpinfo();
   exit -2;
 }
 include ("postgres.php");
+echo_debug ("user is $g_user");
 /* CheckUser */
 CheckUser();
 
-if ( CheckAdmin() == 0 ) {
+
+echo_debug("theme ".$g_UserProperty['use_theme']);
+
+if ( $g_UserProperty['use_admin'] == 0 ) {
   
-  $r=GetPriv($g_dossier,$user);
+  $r=GetPriv($g_dossier,$g_user);
   if ($r == 0 ){
     /* Cannot Access */
     NoAccess();
   }
 }
-SyncRight($g_dossier,$user);
+SyncRight($g_dossier,$g_user);
 
-$g_UserType=GetUserType($user);
+$g_UserType=GetUserType($g_user);
 session_register($g_UserType);
 
 switch ($g_UserType) {

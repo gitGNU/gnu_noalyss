@@ -95,16 +95,17 @@ function formatDate($p_date) {
 }
 function html_page_start($p_first=0,$p_script="")
 {	
-	global $user,$pass;
+  /*global $user,$pass;
 	if ($p_first == 1 ) {
 	  echo_debug("Start session explicit");
 	  session_start();
 	}
 	session_register("user");
 	session_register("pass");
-
+  
 
 	echo_debug("user = ".$user." pass=".$pass);
+  */
 	echo '<!DOCTYPE HTML PUBLIC "-//W3C/DTD HTML 3.2 FINAL//EN">';
 	echo "<HTML>";
 	echo "<HEAD> 

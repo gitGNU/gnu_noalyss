@@ -36,7 +36,7 @@ function SaveRate(p_code,p_rate)
 </script>
 <?
 CheckUser();
-if ( CheckAdmin()==0 ) return;
+if ( $g_UserProperty['use_admin'] ) return;
 $dossier=sprint("dossier%d",$g_dossier);
 $cn=DbConnect($dossier);
 $Res=ExecSql($cn,"select pm_code, pm_rate from parm_money where pm_code='$p_code'");

@@ -53,8 +53,8 @@ if ( isset($_POST['add_modele']) ) {
 
 
 ShowMenuComptaRight($g_dossier);
-if ( CheckAdmin() == 0 ) {
-  $r=CheckAction($g_dossier,$user,FICHE);
+if ( $g_UserProperty['use_admin'] == 0 ) {
+  $r=CheckAction($g_dossier,$g_user,FICHE);
   if ($r == 0 ){
     /* Cannot Access */
     NoAccess();

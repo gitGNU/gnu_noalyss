@@ -46,7 +46,7 @@ if ( isset ($spass) ) {
     else {
       $Cn=DbConnect();
       $l_pass=md5($pass_1);
-      $Res=ExecSql($Cn,"update ac_users set use_pass='$l_pass' where use_login='$user'");
+      $Res=ExecSql($Cn,"update ac_users set use_pass='$l_pass' where use_login='$g_user'");
       $pass=$pass_1;
       echo '<H2 class="info"> Mot de passe changé </H1>';
     }
@@ -70,10 +70,10 @@ if ( isset ($g_dossier) ) {
 
   if ( isset ($_POST["sub_periode"] ) ) {
     $periode=$_POST["periode"];
-    SetUserPeriode($cn,$periode,$user); 
+    SetUserPeriode($cn,$periode,$g_user); 
   }
 
-  $l_user_per=GetUserPeriode($cn,$user);
+  $l_user_per=GetUserPeriode($cn,$g_user);
   $l_form_per=FormPeriode($cn,$l_user_per);
 
 ?>

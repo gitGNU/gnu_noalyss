@@ -35,8 +35,9 @@ include_once("preference.php");
 include_once ("top_menu_compta.php");
 ShowMenuCompta($g_dossier);
 ShowMenuComptaRight($g_dossier);
-if ( CheckAdmin() == 0 ) {
-  $r=CheckAction($g_dossier,$user,CENTRALIZE);
+
+if ( $g_UserProperty['use_admin']==0 ) {
+  $r=CheckAction($g_dossier,$g_user,CENTRALIZE);
   if ($r == 0 ){
     /* Cannot Access */
     NoAccess();

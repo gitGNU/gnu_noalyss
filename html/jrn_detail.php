@@ -33,10 +33,10 @@ ShowMenuCompta($g_dossier);
 ShowMenuComptaRight($g_dossier);
 include_once("check_priv.php");
 
-if ( CheckAdmin() == 0 ) {
+if ( $g_UserProperty['use_admin'] == 0 ) {
   include_once("check_priv.php");
 
-  $r=CheckAction($g_dossier,$user,SECU);
+  $r=CheckAction($g_dossier,$g_user,SECU);
   if ($r == 0 ){
     /* Cannot Access */
     NoAccess();

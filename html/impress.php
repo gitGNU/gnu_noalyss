@@ -34,15 +34,15 @@ ShowMenuCompta($g_dossier);
 
 include_once("impress_inc.php");
 ShowMenuComptaRight($g_dossier);
-if ( CheckAdmin() == 0 ) {
-  $r=CheckAction($g_dossier,$user,IMP);
+if ( $g_UserProperty['use_admin'] == 0 ) {
+  $r=CheckAction($g_dossier,$g_user,IMP);
   if ($r == 0 ){
     /* Cannot Access */
     NoAccess();
   }
   if (isset ($_GET["p_id"]) && isset ($_GET["type"])) {
     if ( $type="jrn") {
-      $right=CheckJrn($g_dossier,$user,$_GET['p_id']);
+      $right=CheckJrn($g_dossier,$g_user,$_GET['p_id']);
       if ($right == 0 ){
 	/* Cannot Access */
 	NoAccess();
@@ -54,7 +54,7 @@ if ( CheckAdmin() == 0 ) {
 
 $l_Db=sprintf("dossier%d",$g_dossier);
 $cn=DbConnect($l_Db);
-ShowMenuJrnUserImp($cn,$user,$g_dossier);
+ShowMenuJrnUserImp($cn,$g_user,$g_dossier);
 
 
 

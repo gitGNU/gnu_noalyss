@@ -26,7 +26,7 @@ echo_debug("entering priv_users");
 
 
 CheckUser();
-if (CheckAdmin() != 1) {
+if ($g_UserProperty['use_admin'] != 1) {
   html_page_stop();
   return;
 }
