@@ -336,7 +336,7 @@ function u_ShowMenuJrn($p_cn,$p_jrn_type)
  *  return a not yet used access key. The returned key is added to $access_key_list       
  * parm : 
  *      - $title
- *	- $access_key_list
+ *	- &$access_key_list
  * gen :
  *	- none
  * return:
