@@ -99,13 +99,20 @@ define ("FICHE_TYPE_FOURNISSEUR",8);
 define ("FICHE_TYPE_FIN",4);
 define ("FICHE_TYPE_ADM_TAX",14);
 
-define ("JS_SEARCH_POSTE","<SCRIPT>function SearchPoste(p_sessid)
+define ("JS_SEARCH_POSTE","<SCRIPT>function SearchPoste(p_sessid,p_ctl)
      {
-       var win=window.open('poste_search.php?PHPSESSID='+p_sessid,'Cherche','toolbar=no,width=600,height=600,scrollbars=yes,resizable=yes');
+       var win=window.open('poste_search.php?p_ctl='+p_ctl+'&PHPSESSID='+p_sessid,'Cherche','toolbar=no,width=600,height=600,scrollbars=yes,resizable=yes');
     } 
 	 function GetIt() {
 	   window.close();	
 	} 
+function SetItChild(p_ctl,p_value) {
+	self.opener.SetItParent(p_ctl,p_value);
+	window.close();
+}
+function SetItParent(p_ctl,p_value) {
+	document.forms[0].eval(p_ctl).value=p_value;
+}
 	</SCRIPT>"
 );
 define ("JS_SHOW_TVA","<SCRIPT>function ShowTva(p_sessid,ctl)
@@ -127,6 +134,7 @@ define ("JS_VIEW_JRN_DETAIL","<script>function viewDetail(p_value,p_sessid)
 		{
 			var win=window.open('jrn_op_detail.php?jrn_op='+p_value+'&PHPSESSID='+p_sessid,'Cherche','toolbar=no,width=400,height=400,scrollbars=yes,resizable=yes');
 		}
+
 	</script>");
 define ("JS_VIEW_JRN_CANCEL","<script>function cancelOperation(p_value,p_sessid)
 		{
@@ -135,6 +143,19 @@ define ("JS_VIEW_JRN_CANCEL","<script>function cancelOperation(p_value,p_sessid)
 function RefreshMe() {
 window.location.reload();
 }
+	</script>");
+define ("JS_VIEW_JRN_MODIFY","<script>function modifyOperation(p_value,p_sessid)
+		{
+			var win=window.open('modify_op.php?action=update&line='+p_value+'&PHPSESSID='+p_sessid,'Modify it','toolbar=no,width=500,height=400,scrollbars=yes,resizable=yes');
+		}
+function RefreshMe() {
+window.location.reload();
+}
+	function dropLink(p_value,p_value2,p_sessid) {
+	var win=window.open('modify_op.php?action=delete&line='+p_value+'&line2='+p_value2+'&PHPSESSID='+p_sessid,'delete link it','toolbar=no,width=500,height=400,scrollbars=yes,resizable=yes');
+		}
+
+	
 	</script>");
 define ("JS_SEARCH_CARD","
 <script>
@@ -208,7 +229,26 @@ function NewCard(p_sessid,type,name)
 
 
 ");
+// concerned operation
+define ("JS_CONCERNED_OP","
+<script>
 
+function SearchJrn(p_sessid,p_ctl)
+{
+	var win=window.open('jrn_search.php?p_ctl='+p_ctl+'&PHPSESSID='+p_sessid,'Cherche','toolbar=no,width=600,height=600,scrollbars=yes');
+}
+function GetIt(p_ctl,p_value) {
+  self.opener.SetIt(p_value,p_ctl);
+	window.close();	
+}
+function SetIt(p_value,p_ctl) {
+  document.forms[0].eval(p_ctl).value=p_value;
+	
+}
+
+
+</script>
+");
 // One line calculator
 define ("JS_CALC_LINE","
 
