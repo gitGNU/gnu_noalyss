@@ -25,7 +25,7 @@ comment on table tva_rate is 'Rate of vat';
 -- create index x_jr_grpt_id on jrn (jr_grpt_id);
 -- create index x_j_grpt on jrnx(j_grpt);
 create index x_poste on jrnx(j_poste );
-delete from jrn_action where ja_name='Impression';
+delete from jrn_action where ja_name='Impression' or ja_name = 'Recherche';
 delete from fiche where  f_id not in (select f_id from jnt_fic_att_value);
 alter table jrn add j_pj int4;
 alter table jrn add jr_opid int4;
