@@ -1,0 +1,29 @@
+
+Début de FAQ
+-------------------
+Q: Quel le nom du soft ??
+ - phpcompta,
+ - wcompta,
+ - webcompta
+R: En fait c'est phpcompta, au départ c'était wcompta, contraction de
+ WebCompta mais malheureusement, c'est le nom d'un soft qui existait
+ déjà, j'ai été obligé de changer vers phpcompta.
+
+Q: Par où commence-t-on et comment ?
+R:
+ Etape 1, créer un dossier, qui contiendra la comptabilité d'une
+ entreprise (sur 1 an ou plus).
+ Menu Administration -> Dossier, choisir un nom pour le dossier, create
+ folder
+
+ Etape 2, on peut créer des utilisateurs mais ce n'est obligatoire.
+
+ Etape 3, on revient à l'accueil :)
+
+ Si vous avez pris Comptabilité basique, vous devrez créer les journaux,
+ les fiches, mettre à jour votre plan comptable... Allez voir dans le
+ répertoire doc du tarball
+
+Q: Ou trouvez les patch
+R : sur  http://savannah.nongnu.org/patch/?group=phpcompta
+ On peut y arriver à partir de la page de savannah
