@@ -41,6 +41,33 @@ if ( $a==false) {
 }
 if ( ($Res=ExecSql($a,"select  * from ac_users") ) == false ) {
 	exit ("<h2 class=\"error\">__LINE__ test has failed !!!</h2>");
+} else 
+	print "Connect to database success <br>";
+
+// Verify some PHP parameters
+// magic_quotes_gpc = Off
+// magic_quotes_runtime = Off
+// magic_quotes_sybase = Off
+// include_path
+// register_global
+foreach (array('magic_quotes_gpc','magic_quotes_runtime') as $a) {
+
+  if ( ini_get($a) == false ) print $a.': Ok  <br>';
+  else {
+	print ("<h2 class=\"error\">$a has a bad value  !!!</h2>");
+  }
+
 }
+if ( ini_get('register_globals') != true )
+	print ("<h2 class=\"error\">register_globals has a bad value  !!!</h2>");
+ else
+   print 'register_globals : Ok <br>';
+
+if ( ereg("\.\.\/include",ini_get('include_path')) == false )
+  print ("<h2 class=\"error\">include_path incorrect  !!!".ini_get('include_path')."</h2>");
+ else
+   print 'include_path : ok ('.ini_get('include_path').')<br>';
+
 echo "<h2 class=\"info\"> Congratulation : Test successfull</h2>";
+
 ?>

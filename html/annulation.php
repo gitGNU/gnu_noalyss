@@ -113,13 +113,13 @@ if ( isset ($annul) ) {
    $Res=ExecSql($cn,$sql);
 
    // delete from jrnx & jrn
-   $sql="delete from jrnx where j_grpt=".$_POST['p_id'];
+   $sql="update jrnx set j_montant = 0 where j_grpt=".$_POST['p_id'];
    
    $Res=ExecSql($cn,$sql);
  
 
   // build the sql stmt for jrn
-  $sql= "delete from  jrn where   jr_grpt_id=".$_POST['p_id'];
+  $sql= "update  jrn  set jr_montant = 0, jr_valid='f',jr_comment='Erreur:'||jr_comment  where   jr_grpt_id=".$_POST['p_id'];
   $Res=ExecSql($cn,$sql);
 
   echo '<h2 class="info"> Opération Effacée</h2>';
@@ -142,7 +142,7 @@ $a=InputType("Date","text", "op_date",$e_op_date,false);
 //echo 'Date : '.$e_op_date;
 echo $a;
 echo '<div style="border-style:solid;border-width:1pt;">';
-$a=InputType("Description:","text","comment",$e_comment,false);
+$a=InputType("Description:","text_big","comment",$e_comment,false);
 echo $a;
 echo '</DIV>';
 

@@ -64,15 +64,7 @@ if ( $g_UserProperty['use_admin'] == 0 ) {
 }
 // if show
 if ( isset ($_GET['show'])) {
-
- $p_array=array(array("user_jrn.php?JRN_TYPE=VEN" ,"Entrée"),
-                array("user_jrn.php?JRN_TYPE=ACH","Dépense"),
-                array("user_jrn.php?JRN_TYPE=FIN","Financier"),
-                array("user_jrn.php?JRN_TYPE=OD","Op. Diverses"),
-                array("impress.php","Impression"),
-                array("","Recherche")
-                 );
- $result=ShowItem($p_array,'H',"cell","mtitle");
+  $result=ShowJrn();
    echo "<DIV class=\"u_subtmenu\">";
    echo $result;
    echo "</DIV>";
@@ -82,14 +74,7 @@ if ( isset ($_GET['show'])) {
 if ( isset ($_GET['JRN_TYPE'] ) ) {
   $jrn_type=$_GET['JRN_TYPE'];
 
- $p_array=array(array("user_jrn.php?JRN_TYPE=VEN" ,"Entrée"),
-                array("user_jrn.php?JRN_TYPE=ACH","Dépense"),
-                array("user_jrn.php?JRN_TYPE=FIN","Financier"),
-                array("user_jrn.php?JRN_TYPE=OD","Op. Diverses"),
-                array("impress.php","Impression"),
-                array("","Recherche")
-                 );
- $result=ShowItem($p_array,'H',"cell","mtitle","user_jrn.php?JRN_TYPE=".$jrn_type);
+  $result=ShowJrn("user_jrn.php?JRN_TYPE=".$jrn_type);
    echo "<DIV class=\"u_subtmenu\">";
    echo $result;
   ShowMenuJrnUser($g_dossier,$g_UserProperty,$_GET['JRN_TYPE'],$g_jrn);
@@ -105,14 +90,8 @@ if ( isset ($_GET['JRN_TYPE'] ) ) {
   $jrn_type=$JrnProp['jrn_def_type'];
   echo_debug("Type is $jrn_type");
   echo_debug("Jrn_def_type = $jrn_type");
- $p_array=array(array("user_jrn.php?JRN_TYPE=VEN" ,"Entrée"),
-                array("user_jrn.php?JRN_TYPE=ACH","Dépense"),
-                array("user_jrn.php?JRN_TYPE=FIN","Financier"),
-                array("user_jrn.php?JRN_TYPE=OD","Op. Diverses"),
-                array("impress.php","Impression"),
-                array("","Recherche")
-                 );
- $result=ShowItem($p_array,'H',"cell","mtitle","user_jrn.php?JRN_TYPE=".$jrn_type);
+
+ $result=ShowJrn("user_jrn.php?JRN_TYPE=".$jrn_type);
  echo '<div class="u_subtmenu">';
  echo $result;
  ShowMenuJrnUser($g_dossier,$g_UserProperty,$jrn_type,$g_jrn);

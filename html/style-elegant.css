@@ -147,6 +147,7 @@ td.odd{
 	border:Opt
 }
 td.cell{
+
 	border-style:solid;
 	border-width:1pt;
 	font-size:11pt;
@@ -167,7 +168,6 @@ a.mtitle:link {
 a.mtitle:visited {
 	text-decoration:none;
 	color:black;
-
 	width:100px;
 	}
 a.mtitle2:active {
