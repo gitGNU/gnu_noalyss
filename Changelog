@@ -1,4 +1,13 @@
+2005-01-31  sparkyx  <sparkyx@july>
+
+	* include/class_fiche.php: Fix bug in the printing of card :-)
+
+	* html/fiche_csv.php, include/class_fiche.php, include/impress_fiche.php:
+	Add Fiche print and export : a bug is still to be fixed
+
 2005-01-24  sparkyx  <sparkyx@july>
+
+	* Changelog: Change log
 
 	* sql/account_repository/comment.sql, sql/account_repository/function.sql, sql/account_repository/index.sql, sql/account_repository/view.sql, sql/dossier1/comment.sql, sql/dossier1/function.sql, sql/dossier1/index.sql, sql/dossier1/view.sql, sql/mod1/comment.sql, sql/account_repository/schema.sql:
 	*** empty log message ***
