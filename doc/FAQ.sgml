@@ -1,0 +1,193 @@
+<!doctype linuxdoc system>
+<article>
+<title> PhpCompta FAQ</title>
+<author>
+ <name>originally written by Dany De Bontridder
+ </name>
+</author>
+<date>$Revision$</date>
+<abstract>
+Ce document contient les réponses aux questions les plus fréquemment posées sur
+PhpCompta <url url="http://www.alchimerys.be/FR/phpcompta" name="PhpCompta">
+site savannah <url url="http://savannah.nongnu.org/projects/phpcompta/" name="PhpCompta Savannah">
+</abstract>
+
+<!-- Table of contents -->
+<toc>
+
+<sect> Quel le nom du soft ??
+<p>
+<verb>
+ - phpcompta,
+ - wcompta,
+ - webcompta
+ </verb>
+
+ </p>
+ <p>
+En fait c'est phpcompta, au départ c'était wcompta, contraction de
+ WebCompta mais malheureusement, c'est le nom d'un soft qui existait
+ déjà, j'ai été obligé de changer vers phpcompta.
+</p>
+</sect>
+<sect>Par où commence t'on et comment ?
+<p>
+
+ Étape 1, créer un dossier, qui contiendra la comptabilité d'une
+ entreprise (sur 1 an ou plus).
+  <itemize>
+ <item> Menu Administration -> Dossier, choisir un nom pour le dossier, create
+ folder
+
+ <item> Étape 2, on peut créer des utilisateurs mais ce n'est obligatoire.
+
+ <item> Étape 3, on revient à l'accueil :)
+
+</itemize>
+</p>
+<p>
+ Si vous avez pris Comptabilité basique, vous devrez créer les journaux,
+ les fiches, mettre à jour votre plan comptable... Allez voir dans le
+ répertoire doc du tarball
+</p>
+</sect>
+<sect>Ou trouvez les patches
+<p>
+sur  http://savannah.nongnu.org/patch/?group=phpcompta
+ On peut y arriver à partir de la page de savannah
+</p>
+</sect>
+<sect>Comment adapter le fichier php.ini
+<p>
+Avec PHP 4.3.1 :
+	Les variables sont passés de page en page dans un tableau _POST[nom_var] alors
+	qu'avec les versions précédentes, on y accédait directement avec $nom_var
+	voir la variable register_globale = off dans le php.ini
+</p>
+<p>
+php.ini doit contenir pour wcompta
+ <verb>
+[PHP]
+include_patch=../include:.
+[Session]
+session.name              = PHPSESSID
+                                    ; name of the session
+                                    ; is used as cookie name
+session.auto_start        = 1       ; initialize session on request startup
+session.cookie_lifetime   = 0       ; lifetime in seconds of cookie
+                                    ; or if 0, until browser is restarted
+session.cookie_path       = /tmp       ; the path the cookie is valid for
+</verb>
+
+</sect>
+<sect>Quand on réinitialise le mot de passe, que vaut-il ?
+<p>phpcompta</p>
+<sect>Quel est l'utilisateur et le mot de passe par défaut?
+<p>
+l'utilisateur et le mot de passe par défaut sont phpcompta/phpcompta
+</p>
+</sect>
+<sect>J'ai trouvé un tit bug, comment faire un patchs ??
+<p>
+Retirez la version du CVS que vous avez corrigée.
+Le numéro de version c'est normalement r pour release p pour prelease
+suivit par le numéros (ex r092 qui veut dire release 0.9.2) (regardez les
+branches existantes dans le CVS de savannah
+http://savannah.nongnu.org/cgi-bin/viewcvs/phpcompta/phpcompta/)
+Remplacez (version) par la version
+<verb>
+Exemple :
+export CVS_RSH="ssh"
+
+cvs -z3 -r (version) -d:ext:anoncvs@savannah.nongnu.org:/cvsroot/phpcompta
+co phpcompta
+
+</verb>
+</p>
+<p>
+Normalement un répertoire phpcompta va apparaitre, puis vous le copiez
+cp -Rvp phpcompta phpcompta.orig
+</p>
+<p>
+Appliquez éventuellement les patch puis corrigé les bugs, effacer les
+fichiers inutiles, les ~, les corefiles...
+</p>
+<p>
+Puis enfin, pour prendre tout le répertoire (avec prudence)
+<verb>
+diff -Nru phpcompta phpcompta.orig > patch-(numéro de version)-votre-email
+</verb>
+</P>
+<p>
+IMPORTANT : relire le patch-(numéro de version)-votre-email pour voir si
+tout ok et le tester
+</p>
+<p>
+Pour le tester creer un répertoire appelé phpcompta n'importe où
+ailleurs, reprenez la version d'origine, puis essayer
+patch -p0 &lt; patch-(numéro de version)-votre-email si vous êtes dans le
+répertoire au-dessus de celui de phpcompta
+
+patch -p1 &lt; patch-(numéro de version)-votre-email si vous êtes dans le
+répertoire courant de phpcompta
+
+</p>
+<p>
+Si cela ne marche pas c'est pas bon
+</p>
+<p>
+Pour un seul fichier, plus simple
+copiez le fichier de phpcompta.orig dans le même répertoire que celui du
+fichier changé puis placez vous dans le répertoire de au-dessus de celui
+de phpcompta ( cd .. ) .
+remplacez (sous-directory) par le nom du répertoire ou se trouve le fichier
+modifié.
+<verb>
+diff -u phpcompta/(sous-directory)/fichier
+/phpcompta/(sous-directory)fichier.orig &gt; patch-(numero de
+version)-votre-email.
+
+</verb>
+</p>
+<p>
+Testez le:
+sauvez votre fichier modifié sous un autre nom, faites cp -f fichier.orig
+fichier,  puis testez avec la commande patch (voir plus haut)
+ot de passe par défaut est  phpcompta
+</p>
+</sect>
+<sect> Comment faire de la doc
+<p>
+Sous mandrake, ajouter les linuxdocs-tools avec la commande 
+urpmi linuxdoc-tools, pour les autres, je ne sais pas :(
+</p>
+<p>
+Une fois, les linuxdoc tools installés il peut être nécessaire
+d'installer d'autres outils comme jade, sgml,... </p>
+<p>
+De toute façon, vous
+pouvez imprimer le guide, pour le trouver faites :
+<verb> en mode commande : rpm -qil linuxdoc-tools|grep guide</verb>
+</p>
+<p>Jetez aussi un oeil sur les exemples, vous verrez c'est assez simple
+<verb>en mode commande:  rpm -qil linuxdoc-tools|grep example</verb>
+</p>
+<p>
+Ensuite, editez le fichier sgml, 
+et surtout pensez à utilisez aspell -H --lang=fr_FR check FAQ.sgml pour
+vérifier l'orthographe. Pour le visionner, faites linuxdoc -B html FAQ.sgml
+soit linuxdoc -B rtf pour avoir un fichier rtf...
+</p>
+<sect>Comment contribuer ?
+<p>Sur le site de Savannah, j'ai décidé d'utilisé le Task Manager, chacun ce qu'il
+veut, m'envoie son travail par email ou se joint au projet.
+</p>
+<p>
+L'intérêt de ce système est de pouvoir voir le suivi mais aussi d'ajouter des commentaires
+sur un sujet <url url="http://savannah.nongnu.org/task/?group=phpcompta" name="PhpCompta Task Manager">.
+</p>
+<p>
+Cela m'évite de devoir chaque fois changer sur le site de phpcompta
+</p>
+
+</article>
