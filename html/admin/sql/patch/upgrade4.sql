@@ -31,7 +31,6 @@ delete from jrn_action where ja_name='Impression' or ja_name = 'Recherche';
 delete from fiche where  f_id not in (select f_id from jnt_fic_att_value);
 alter table jrn add j_pj int4;
 alter table jrn add jr_opid int4;
-update version set val=5;
 alter table jrn add  jr_c_opid int4;
 create SEQUENCE s_central_order;
 alter table centralized add c_order int4;
@@ -45,3 +44,5 @@ update jrnx set j_centralized='f';
 alter table parm_periode add p_central bool;
 alter table parm_periode alter p_central set default false;
 update parm_periode set p_central ='f';
+-- always last line
+update version set val=5;
