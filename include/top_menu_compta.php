@@ -145,6 +145,9 @@ function ShowMenuComptaLeft($p_dossier,$p_item)
     $cn=DbConnect($l_dossier);
     echo '<div class="lmenu">';
     echo '<TABLE>';
+// TODO 
+// Only for developper 
+// A test must be added
     echo '<TR><TD colspan="3" class="mtitle">
          <A class="mtitle" HREF="fiche.php?action=add_modele&fiche=modele">Creation Modele</A></TD></TR>';
     $Res=ExecSql($cn,"select fd_id,fd_label from fichedef order by fd_label");
@@ -574,5 +577,33 @@ function ShowMenuJrnUserImp($p_cn,$p_user,$p_dossier)
 
     echo "</DIV>";
 }
-
+/* function ShowMenuAdminGlobal */
+/* purpose : show the menu for user/database management */
+/* parameter : none */
+/* return : none */
+function ShowMenuAdminGlobal()
+{
+  $item[0]=array("admin_repo.php?action=user_mgt","Gestion utilisateurs");
+  $item[1]=array("admin_repo.php?action=dossier_mgt","Gestion Dossiers");
+  $menu=ShowItem($item);
+  echo '<DIV class="lmenu">';
+  echo $menu;
+  echo '</DIV>';
+}
+/* Function ShowItem($p_array) */
+/* purpose : store the string which print */
+/*           the content of p_array in a table */
+/*           used to display the menu */
+/* parameter : array */
+/* return : string */
+function ShowItem($p_array)
+{
+  $ret="<TABLE>";
+    foreach ($p_array as $all=>$href){
+      $ret.='<TR><TD CLASS="mtitle"><A class="mtitle" HREF="'.$href[0].'">'.$href[1].'</A></TD></TR>';
+      echo_debug($ret);
+  }
+    $ret.="</TABLE>";
+  return $ret;
+}
 ?>

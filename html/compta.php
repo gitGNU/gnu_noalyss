@@ -42,7 +42,24 @@ if ( CheckAdmin() == 0 ) {
   }
 }
 SyncRight($g_dossier,$user);
-include ("top_menu_compta.php");
+
+$g_UserType=GetUserType($user);
+session_register($g_UserType);
+
+switch ($g_UserType) {
+	case 'compta':
+		include ("top_menu_compta.php");
+		break;
+	case 'developper':
+		include ("top_menu_compta.php");
+		break;
+	case 'user':
+		include ("top_menu_compta.php");
+		break;
+	default:
+		echo_error("Error type doesn't exist");
+		break;
+}
 ShowMenuCompta($g_dossier);
 ShowMenuComptaRight($g_dossier); 
 

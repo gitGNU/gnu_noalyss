@@ -64,11 +64,12 @@ if [ $REPO -eq 0 ]; then
 	$PSQL < sql/version.sql
 	$PSQL < sql/dos_pref.sql
 	$PSQL < sql/journal.sql
-	$PSQL < sql/user_sec.sql
 	$PSQL < sql/user_pref.sql
 	$PSQL < sql/form.sql
 	$PSQL < sql/fiche.sql
 	$PSQL < sql/centralized.sql
+	$PSQL < sql/theme.sql
+	$PSQL < sql/user_sec.sql
  
 #  	if [ -w $PG_DATA/pg_hba.conf ]; then
 #  		echo "host    account_repository         all         127.0.0.1         255.255.255.255   password" >> $PG_DATA/pg_hba.conf

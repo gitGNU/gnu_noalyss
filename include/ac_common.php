@@ -95,16 +95,16 @@ function formatDate($p_date) {
 }
 function html_page_start($p_first=0,$p_script="")
 {	
-	global $user,$pass,$IsValid;
+	global $user,$pass;
 	if ($p_first == 1 ) {
 	  echo_debug("Start session explicit");
 	  session_start();
 	}
 	session_register("user");
 	session_register("pass");
-	session_register("IsValid");
 
-	echo_debug("user = ".$user." pass=".$pass." IsValid = $IsValid");
+
+	echo_debug("user = ".$user." pass=".$pass);
 	echo '<!DOCTYPE HTML PUBLIC "-//W3C/DTD HTML 3.2 FINAL//EN">';
 	echo "<HTML>";
 	echo "<HEAD> 
@@ -122,12 +122,11 @@ function html_button_logout() {
 	echo "<A class=\"mtitle\" HREF=logout.php> Logout </A>";
 }
 function NoAccess() {
-	  //		echo '<META HTTP-EQUIV="REFRESH" content="4;url=index.html">';
   echo "<BR><BR><BR><BR><BR><BR>";
   echo "<P ALIGN=center><BLINK>
-			<FONT size=+12 COLOR=RED>
-			You haven't access
-			</FONT></BLINK></P></BODY></HTML>";
+	<FONT size=+12 COLOR=RED>
+	You haven't access
+	</FONT></BLINK></P></BODY></HTML>";
 		
   exit -1;
 }
@@ -141,5 +140,20 @@ function FormatString($p_string)
   if (strlen($p_string) == 0 ) return null;
   $p_string=str_replace("'","\'",$p_string);
   return $p_string;
+}
+
+/* GetUserType
+ * purpose : get the type of an user (compta,developper or user)
+ * param $p_user user_login
+ * return : the type of the user
+ */
+function GetUserType($p_user)
+{
+  $cn=DbConnect();
+  $Res=ExecSql($cn,"select use_usertype from ac_users
+                    where use_login='".$p_user."'");
+  if ( pg_NumRows($Res) == 0 ) return null;
+  $Ret=pg_fetch_row($Res,0);
+  return $Ret[0];
 }
 ?>

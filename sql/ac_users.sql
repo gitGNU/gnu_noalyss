@@ -26,12 +26,14 @@ create table ac_users (
 	use_active 	integer default 0,
 	use_pass	text,
 	use_admin integer default 0,
+	use_theme text default 'classic',
+	use_usertype	text not null,
 	check ( use_active=0 or use_active=1 ),
 	primary key (use_id)
 );
 
-insert into ac_users (use_login, use_active,use_pass) values (user,1,
-'486348d8b9ac03742368d8736244e958');
+insert into ac_users (use_login, use_active,use_pass,use_usertype) values (user,1,
+'486348d8b9ac03742368d8736244e958','compta');
 
 
 

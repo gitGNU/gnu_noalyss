@@ -20,6 +20,7 @@
 include_once("ac_common.php");
 include_once("postgres.php");
 include_once("debug.php");
+include_once("top_menu_compta.php");
 html_page_start();
 echo_debug("entering priv_users");
 
@@ -45,10 +46,13 @@ if ( $r_UID == false ) {
   return;
 }
 echo_debug("UID IS VALID");
+echo '<H2 style="color:blue;text-align:center"> Administration Globale</H2>';
+ShowMenuAdminGlobal();
+ShowMenuAdminGlobalRight('<A class="mtitle" HREF="admin_repo.php">Retour</A>');
+echo '<DIV CLASS="redcontent">';
 echo '<H1 class="title"> User Management</H1>';
 // User is valid and you're an admin 
-include_once("top_menu_compta.php");
-ShowMenuAdminGlobalRight('<A class="mtitle" HREF="admin_repo.php">Retour</A>');
+
 
 ?>
 
@@ -209,7 +213,7 @@ foreach ( $Dossier as $rDossier) {
 </TR>
 </FORM>
 </TABLE>
-
+</DIV>
 
 
 

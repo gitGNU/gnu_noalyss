@@ -31,8 +31,6 @@ if (  isset ($_POST["p_user"] ) ) {
   $user=$_POST["p_user"];
   $pass=$_POST["p_pass"];
   html_page_start();
-  session_register("g_login");
-  $g_login=$user;
 } else
 {
   if ( strlen($user) != 0 ) {
