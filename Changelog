@@ -1,6 +1,8 @@
 2005-03-06  stanpinte  <sparkyx@eleven>
 
   * Fixed task 3838 (keep secundary menus when selecting secundary item
+  * Enhanced script ./scripts/add-db.sh, so that it takes 2 params: the #
+  dossier, and the backup script file name.
 
 2005-03-01  sparkyx  <sparkyx@eleven>
 
