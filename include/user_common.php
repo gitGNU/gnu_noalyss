@@ -136,15 +136,22 @@ function GetTvaPoste($p_cn,$p_tva_id,$p_cred) {
 
 function InsertJrnx($p_cn,$p_type,$p_user,$p_jrn,$p_poste,$p_date,$p_amount,$p_grpt,$p_periode)
 {
-	echo_debug ("InsertJrnx param 
+  echo_debug ("InsertJrnx param 
 	    type = $p_type p_user $p_user p_date $p_date p_poste $p_poste p_amount $p_amount p_grpt = $p_grpt p_periode = $p_periode");
-    $debit=($p_type=='c')?'false':'true';
-	$sql=sprintf("insert into jrnx (j_date,j_montant, j_poste,j_grpt, j_jrn_def,j_debit,j_tech_user,j_tech_per)
-			values (to_date('%s','DD.MM.YYYY'),%.2f,%d,%d,%d,%s,'%s',%d)",
-			$p_date,$p_amount,$p_poste,$p_grpt,$p_jrn,$debit,$p_user,$p_periode);
-	echo_debug("InsertJrnx $sql");
-	$Res=ExecSql($p_cn,$sql);
-	return GetSequence($p_cn,'s_jrn_op');
+  $debit=($p_type=='c')?'false':'true';
+
+  // if negative value the operation is inversed
+  if ( $p_amount < 0 ) {
+    $debit=($debit=='false')?'true':'false';
+  }
+
+
+  $sql=sprintf("insert into jrnx (j_date,j_montant, j_poste,j_grpt, j_jrn_def,j_debit,j_tech_user,j_tech_per)
+			values (to_date('%s','DD.MM.YYYY'),abs(%.2f),%d,%d,%d,%s,'%s',%d)",
+	       $p_date,$p_amount,$p_poste,$p_grpt,$p_jrn,$debit,$p_user,$p_periode);
+  echo_debug("InsertJrnx $sql");
+  $Res=ExecSql($p_cn,$sql);
+  return GetSequence($p_cn,'s_jrn_op');
 
 }
 /* function InsertJrn($p_cn,$p_date,$p_jrn,$p_comment,$p_amount,$p_grpt,$p_periode);
@@ -174,7 +181,7 @@ function InsertJrn($p_cn,$p_date,$p_echeance,$p_jrn,$p_comment,$p_amount,$p_grpt
 		$p_echeance=sprintf("to_date('%s','DD.MM.YYYY')",$p_echeance);
 	}
 	$sql=sprintf("insert into jrn (jr_def_id,jr_montant,jr_comment,jr_date,jr_ech,jr_grpt_id,jr_tech_per)
-	         values ( %d,%.2f,'%s',to_date('%s','DD.MM.YYYY'),%s,%d,%d)",
+	         values ( %d,abs(%.2f),'%s',to_date('%s','DD.MM.YYYY'),%s,%d,%d)",
 					 $p_jrn, $p_amount,$p_comment,$p_date,$p_echeance,$p_grpt,$p_periode);
 	echo_debug("InsertJrn $sql");
 	$Res=ExecSql($p_cn,$sql);				 
@@ -197,7 +204,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="")
 {
   // TODO Show modify button but only for  no centralized operations
   //TODO add a print button but only if type of jrn is VEN !!
-
+  include_once("central_inc.php");
 $Res=ExecSql($p_cn,"select jr_id	,
 			jr_montant,
 			jr_comment,
@@ -214,12 +221,13 @@ $Res=ExecSql($p_cn,"select jr_id	,
 			jrn join jrn_def on jrn_def_id=jr_def_id 
                        $p_where 
 			 order by jr_date");
-$r="";
-$r.=JS_VIEW_JRN_DETAIL;
-$Max=pg_NumRows($Res);
-if ($Max==0) return "No row selected";
-$r.="<TABLE>";
-$l_sessid=(isset($_POST['PHPSESSID']))?$_POST['PHPSESSID']:$_GET['PHPSESSID'];
+ $r="";
+ $r.=JS_VIEW_JRN_DETAIL;
+ $r.=JS_VIEW_JRN_CANCEL;
+ $Max=pg_NumRows($Res);
+ if ($Max==0) return "No row selected";
+ $r.="<TABLE>";
+ $l_sessid=(isset($_POST['PHPSESSID']))?$_POST['PHPSESSID']:$_GET['PHPSESSID'];
  $r.="<tr>";
  $r.="<th> Date </th>";
  $r.="<th> Echéance </th>";
@@ -263,6 +271,10 @@ for ($i=0; $i < $Max;$i++) {
 	$r.="</A>";
 	$r.="</TD>";
 // TODO Add print
+	if ( isCentralize($p_cn,$row['jr_id']) == 0 ) {
+	  $r.=sprintf('<TD><input TYPE="BUTTON" VALUE="%s" onClick="cancelOperation(\'%s\',\'%s\')"></TD>',
+		    "Annulation",$row['jr_grpt_id'],$l_sessid);
+	}
 
 // end row
 	$r.="</tr>";
@@ -290,18 +302,15 @@ return $r;
 
 function InsertStockGoods($p_cn,$p_j_id,$p_good,$p_quant,$p_type)
 {
-  if ( $p_type == 'd' ) 
-    $col='sg_quantity_deb';
-  else
-    $col='sg_quantity_cred';
 
   $Res=ExecSql($p_cn,"insert into stock_goods (
                             j_id,
                             f_id,
-                            $col) values (
+                            sg_quantity,
+                             sg_type ) values (
                             $p_j_id,
                             $p_good,
-                            $p_quant) 
+                            $p_quant, '$p_type') 
                      ");
 }
 /* function withStock($p_cn,$p_f_id)
@@ -323,4 +332,53 @@ function withStock($p_cn,$p_f_id)
   if ( $a == "1" ) return true;
   return false;
 
+}
+/* function  VerifyDate ($p_cn,$p_user,$p_date) 
+ **************************************************
+ * Purpose : Verify if 
+ *    the date is a valid date
+ *    the date is in the default period
+ *    the period is not closed
+ *        
+ * parm : 
+ *	- db connection
+ *      - user
+ *      - date
+ * gen :
+ *	- none
+ * return:
+ *     - null if error or date if ok
+ */
+function VerifyOperationDate($p_cn,$p_user,$p_date) {
+
+  // Verify the date
+  if ( isDate($p_date) == null ) { 
+	  echo_error("Invalid date $p_date");
+	  echo_debug("Invalid date $p_date");
+	  echo "<SCRIPT> alert('INVALID DATE $p_date !!!!');</SCRIPT>";
+	  return null;
+		}
+// userPref contient la periode par default
+    $userPref=GetUserPeriode($p_cn,$p_user);
+    list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$userPref);
+
+    // Date dans la periode active
+    echo_debug ("date start periode $l_date_start date fin periode $l_date_end date demandée $p_date");
+    if ( cmpDate($p_date,$l_date_start)<0 || 
+	 cmpDate($p_date,$l_date_end)>0 )
+      {
+		  $msg="Not in the active periode please change your preference";
+			echo_error($msg); echo_error($msg);	
+			echo "<SCRIPT>alert('$msg');</SCRIPT>";
+			return null;
+      }
+    // Periode fermée 
+    if ( PeriodeClosed ($p_cn,$userPref)=='t' )
+      {
+		$msg="This periode is closed please change your preference";
+		echo_error($msg); echo_error($msg);	
+		echo "<SCRIPT>alert('$msg');</SCRIPT>";
+		return null;
+      }
+    return $p_date;
 }
