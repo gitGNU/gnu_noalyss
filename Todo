@@ -1,0 +1,75 @@
+*DONE Ajout item Administrator
+*DONE dans rmenu -> dans la partie encodage
+Corriger les recherches
+
+
+Code Correction
+Changer [a] par ['a']
+
+Code correction
+Remplacer l'appel à la  CheckAdmin() par une variable session
+Optimiser pour rendre plus rapide
+
+PCMN
+Ajouter par défaut les postes courants 
+- Electricité, gaz, télécoms
+- Fiches clients - Fournisseurs...
+- Permettre de changer la classe parent et de l'encoder (val. par défaut)
+
+*DONE Mettre g_maxline dans les prefs utilisateurs
+
+
+
+* DONE Permettre de corriger les entrées journal de période non fermèes
+
+recherche poste par valeur ne fonctionne pas !!
+
+
+Calculatrice
+
+Calendrier
+
+*DONE Détail pour facture (date échéance, quantité,...)
+
+Si le type de la facture est 
+	ACH	 date de paiement
+	VEN	 date d'échéance
+	FIN	rien
+	OD	rien
+
+Travailler avec register_globals = off !!
+
+* DONE voir Fiche Ajouter champs spéciaux pour certains postes ! (quantités pour achat 
+et vente de marchandises,devises,...)
+	
+* Done Fiche devrait être possible de modifier le modèle de fiche
+
+* Done Vérification Date et montant > 0
+
+*** Ok Montant global pas correct quand appel a CorrectRecord
+
+* DONE Fiche Clients et Fournisseurs
+
+Enlever colonne jrn_def dans jrnx car repris dans jrn
+* DONE Corriger Format Date dans jrn_enc.php et jrn.php
+
+* DONE Ajouter recherche code rapprochement dans journaux
+
+* DONE Ajouter recherche poste dans journal admin.
+
+Améliorer look des fenêtres de recherche
+Sécurité dans les fenêtres de recherches
+* DONE Journaux : id par journaux pas total
+
+* DONE Code rapprochement devrait se trouver dans les deux journaux (?)
+
+Impression
+
+Formulaire déclaration TVA Bilan,....
+* DONE Encodage rapide
+
+Encodage dans jrn doivent respecter les periodes fermées !!
+
+* DONE Recherche dans les journaux vues
+* DONE Montant egaux pour op. rapprochées !!!
+
