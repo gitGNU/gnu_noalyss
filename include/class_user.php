@@ -124,6 +124,68 @@ class cl_user {
     return false;
         
   }
+/* function SetPeriode
+ * Purpose : Set the selected periode in the user's preferences
+ * 
+ * parm : 
+ 
+ *      - $p_periode 
+ *      - $p_user
+ * gen :
+ *	- none
+ * return:
+ *	- none
+ *
+ */ 
+function SetPeriode($p_periode) {
+  $sql="update user_pref set pref_periode=$p_periode where pref_user='$this->id'";
+  $Res=ExecSql($this->db,$sql);
+}
+/* function GetPeriode
+ * Purpose : Get the default periode from the user's preferences
+ * 
+ * parm : 
+ *	- $p_cn connexion 
+ *      - $p_user
+ * gen :
+ *	- none
+ * return:
+ *	- the default periode
+ *
+ */ 
 
+function GetPeriode() {
+  $array=$this->GetPreferences();
+  return $array['active_periode'];
+}
+/* function GetPreferences
+ * Purpose : Get the default user's preferences
+ * 
+ * parm : 
+ *	- $p_cn connexion 
+ *      - $p_user
+ * gen :
+ *	- none
+ * return:
+ *	- none
+ *
+ */ 
+function GetPreferences ()
+{
+  // si preference n'existe pas, les créer
+  $sql="select pref_periode as active_periode from user_pref where pref_user='".$this->id."'";
+  $Res=ExecSql($this->db,$sql);
+  if (pg_NumRows($Res) == 0 ) {
+    $sql=sprintf("insert into user_pref (pref_periode,pref_user) values 
+		 ( %d , '%s')" ,
+		 1, $this->id);
+    $Res=ExecSql($this->db,$sql);
+
+    $l_array=$this->GetPreferences();
+  } else {
+    $l_array= pg_fetch_array($Res,0);
+  }
+  return $l_array;
+}
 }
 ?>
