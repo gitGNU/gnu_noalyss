@@ -124,7 +124,7 @@ if ( isset ($_POST["PHPSESSID"] ) ) {
 
 $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$sessid."','not')\">";
 echo '<DIV CLASS="ccontent">';
-echo '<H2 class="info"> Fiches (profile comptable)</H2>';
+echo '<H2 class="info"> Fiches </H2>';
 echo '<FORM ACTION="jrn_detail.php" METHOD="POST">';
 echo '<INPUT TYPE="HIDDEN" NAME="JRN_UPD">';
 echo '<TABLE>';
@@ -196,7 +196,7 @@ echo "<TR><TD> Code </TD><TD>".$l_line['jrn_def_code']."</TD></TR>";
 
 echo '</TABLE>';
 // Get all the fiches
-echo '<H2 class="info"> Fiches (profile user)</H2>';
+echo '<H2 class="info"> Fiches </H2>';
 $Res=ExecSql($cn,"select fd_id,fd_label from fiche_def order by fd_label");
 $num=pg_NumRows($Res);
 

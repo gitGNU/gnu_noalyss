@@ -40,7 +40,7 @@ include_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
 
-    Redirect($_REQUEST["PHPSESSID"]);
+  echo "<META HTTP-EQUIV=\"REFRESH\" content=\"0;url=user_login.php?PHPSESSID=" . $_REQUEST["PHPSESSID"] . "\">";
 
 } else
 {
@@ -49,7 +49,7 @@ $User->Check();
   $User=new cl_user($rep);
   $User->Check();
   
-  Redirect($_REQUEST["PHPSESSID"]);
+  echo "<META HTTP-EQUIV=\"REFRESH\" content=\"0;url=user_login.php?PHPSESSID=" . $_REQUEST["PHPSESSID"] . "\">";  
     // }
 }
 html_page_stop();

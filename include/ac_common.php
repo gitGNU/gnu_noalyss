@@ -250,22 +250,7 @@ function GetUserType($p_user)
   $Ret=pg_fetch_row($Res,0);
   return $Ret[0];
 }
-/* function Redirect
- * Purpose : redirect following the user's profile
- *        
- * parm : 
- *      - php_session PHPSESSID
- * gen :
- *	- none
- * return: none
- */
-function Redirect($php_session) {
-  include_once("debug.php");
-  echo_debug(__FILE__,__LINE__,"Session is $php_session");
-  $URL="user_login.php";
-  echo "<META HTTP-EQUIV=\"REFRESH\" content=\"0;url=$URL?PHPSESSID=$php_session\">";
-  
-}
+
 /* function ShowItem($p_array) */
 /* purpose : store the string which print */
 /*           the content of p_array in a table */

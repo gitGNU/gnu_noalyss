@@ -37,10 +37,6 @@ if ( isset ( $_POST['style_user']) ) {
       $_SESSION['use_theme']=$_POST['style_user'];
 
 }
-// // Met à jour le profil
-if ( isset ( $_POST['profile_user']) ) {
-      $_SESSION['use_usertype']=$_POST['profile_user'];
-}
 
 html_page_start($_SESSION['use_theme']);
 
