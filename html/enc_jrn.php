@@ -173,8 +173,6 @@ if ( isset($_POST['add_record']) ) {
     $seq=GetNextId($cn,'j_grpt')+1;
     $s_op=GetNextId($cn,'j_id')+1;
 	
-    // For the user profile we need the correct sequence id
-    AlterSequence($cn,'s_jrn_op',$s_op);
 	
     $tot_cred=0;
     $tot_deb=0;
@@ -197,6 +195,8 @@ if ( isset($_POST['add_record']) ) {
 	$tot_deb+=$montant;
 	$Res=ExecSql($cn,$Sql);
   	if ( $Res == false ) { Rollback($cn); EndSql($cn); return;}
+        // For the user profile we need the correct sequence id
+	AlterSequence($cn,'s_jrn_op',$s_op);
       }
     }
     for ( $i = 0; $i < $p_MaxCred; $i++) {
@@ -215,6 +215,8 @@ if ( isset($_POST['add_record']) ) {
 	$tot_cred+=$montant;
 	$Res=ExecSql($cn,$Sql);
 	if ( $Res == false ) { Rollback($cn); EndSql($cn); break;}
+        // For the user profile we need the correct sequence id
+	AlterSequence($cn,'s_jrn_op',$s_op);
 
       }
     }
@@ -250,6 +252,8 @@ if ( isset($_POST['add_record']) ) {
       Commit($cn); 
       EndSql($cn);
       
+        // For the user profile we need the correct sequence id
+	AlterSequence($cn,'s_jrn',$jrn_id);
       //	AlterSequence($cn,"s_grpt",$seq+1);
       //AlterSequence($cn,"s_jrn_op",$s_op);
       // Add the p_text to the array
