@@ -31,40 +31,15 @@
  * return: string containing the table
  */
 function ViewStock($p_cn,$p_year) {
- // build sql
-$sql=" select e.sg_code,sum(deb_sum) as deb_sum,sum(cred_sum) as cred_sum
-from ( select C.sg_code,sum(deb) as deb_sum,sum(cred) as cred_sum
+ // build sql -- get the different merchandise sold or bought
+  // during the p_year
+$sql=" select distinct sg_code
       from stock_goods 
-     join  jrnx using (j_id)
-     join
-    ( select sg_code,j_id,
-                case when sg_type='d' then sg_quantity else 0 end as deb,
-                case when sg_type='c' then sg_quantity else 0 end as cred
-               from stock_goods
-       where sg_code is not null
-       and sg_code != 'null'
-     ) as C on (C.j_id=jrnx.j_id)
+      join jrnx on (stock_goods.j_id=jrnx.j_id)
+      join parm_periode on (parm_periode.p_id=jrnx.j_tech_per)
     where
-    ( to_char(j_date,'YYYY') = '$p_year'
-      or to_char(sg_date,'YYYY') = '$p_year'
-    )
-group by c.sg_code
-union
-select D.sg_code,sum(deb) as deb_sum,sum(cred) as cred_sum
-      from stock_goods
-    left outer join
-    ( select sg_code,j_id,
-                case when sg_type='d' then sg_quantity else 0 end as deb,
-                case when sg_type='c' then sg_quantity else 0 end as cred
-               from stock_goods
-       where f_id=0
-     ) as D using (sg_code)
-    where
-      to_char(sg_date,'YYYY') = '2003'
-
-group by d.sg_code ) as E
-group by e.sg_code 
-";
+      p_exercice= '$p_year'
+      and sg_code is not null and sg_code != '' and sg_code!='null'";
 
 
   // send the sql
@@ -103,14 +78,16 @@ group by e.sg_code
     $result.="<td> $name </td>";
 
     // Debit (in)
-    $result.="<td>".$r['deb_sum']."</td>";
+    $deb=GetQuantity($p_cn,$r['sg_code'],$p_year,'d');
+    $result.="<td>".$deb."</td>";
 
     // Credit (out)
-    $result.="<td>".$r['cred_sum']."</td>";
+    $cred=GetQuantity($p_cn,$r['sg_code'],$p_year,'c');
+    $result.="<td>".$cred."</td>";
 
 
     // diff
-    $diff=$r['deb_sum']-$r['cred_sum'];
+    $diff=$deb-$cred;
     $result.="<td>".$diff."</td>";
     $result.="</tr>";
 
@@ -133,7 +110,7 @@ group by e.sg_code
  */
 function getFicheNameCode ($p_cn,$p_sg_code) {
   // Sql stmt
-$sql="select f_id,av_text
+$sql="select distinct f_id,av_text
          from stock_goods
          join jnt_fic_att_value using (f_id )
          join attr_value using (jft_id)
@@ -293,4 +270,24 @@ $r='
  ';
  return $r;
 
+}
+/* function GetQuantity($p_cn,$p_sg_code,$year,$p_type 'd' or 'c'
+ * purpose return the quantity of a sg_code for the period 
+ *
+ * Return number or NULL
+ */ 
+function GetQuantity($p_cn,$p_sg_code,$p_year,$p_type) {
+  $sql="select sum(sg_quantity) as result
+        from stock_goods
+      join jrnx on (stock_goods.j_id=jrnx.j_id)
+      join parm_periode on (parm_periode.p_id=jrnx.j_tech_per)
+        where
+        sg_code='$p_sg_code' and 
+         p_exercice = '$p_year' and 
+         sg_type='$p_type'";
+  $Res=ExecSql($p_cn,$sql);
+  if ( pg_NumRows($Res)== 0) return null;
+  $value=pg_fetch_array($Res,0);
+  return $value['result'];
+    
 }

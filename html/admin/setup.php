@@ -136,6 +136,9 @@ foreach (array('magic_quotes_gpc','magic_quotes_runtime') as $a) {
   }
 
 }
+if ( init_get("session.use_trans_sid") == false ) 
+		print '<h2 class="error"> session.use_trans_sid should be set to true </h2>';
+}
 if ( ereg("\.\.\/include",ini_get('include_path')) == false )
   print ("<h2 class=\"error\">include_path incorrect  !!!".ini_get('include_path')."</h2>");
  else
