@@ -36,7 +36,6 @@
  *
  */ 
 function Centralise($p_cn,$p_periode) {
-
 $sql="insert into centralized( c_j_id,
             c_date ,
             c_internal,
@@ -69,6 +68,40 @@ $sql="insert into centralized( c_j_id,
  if ($Res==false) { rollback($p_cn); EndSql($p_cn); return ERROR;}
  $Res=ExecSql($p_cn,"update jrnx set j_centralized='t' where j_tech_per=".$p_periode);
  if ($Res==false) { rollback($p_cn); EndSql($p_cn); return ERROR;}
+// Set correctly the number of operation id (jr_opid) for each journal
+// get the existing jrn_def_id 
+ $Res = ExecSql($p_cn,"select jrn_def_id from jrn_def");
+ $MaxJrn=pg_NumRows($Res);
+ // for each jrn_def_id
+ for ( $i=0; $i < $MaxJrn;$i++) {
+   $row=pg_fetch_array($Res,$i);
+   // get the op related to that jrn_def_id
+   $sql=sprintf("select jr_id from jrn 
+         where
+         jr_tech_per=%d
+         and jr_def_id = %d
+         order by jr_date,jr_grpt_id desc",
+		$p_periode,
+		$row['jrn_def_id']
+		);
+
+   $Res2=ExecSql($p_cn,$sql);
+   $MaxLine=pg_NumRows($Res2);
+   for ($e=0;$e < $MaxLine;$e++) {
+     // each line is updated with a sequence
+     $line=pg_fetch_array($Res2,$e);
+     $jr_id=$line['jr_id'];
+     $sql=sprintf ("update jrn set 
+                 jr_opid = (select nextval('s_jrn_%d'))
+                 where jr_id =%d",
+		   $row['jrn_def_id'],
+		   $jr_id); 
+     $Ret=ExecSql($p_cn,$sql);
+     if ($Res==false) { rollback($p_cn); EndSql($p_cn); return ERROR;}
+   }
+                 
+ }
+ 
  Commit($p_cn);
  EndSql($p_cn);
  return NOERROR;

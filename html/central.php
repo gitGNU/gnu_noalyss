@@ -56,7 +56,7 @@ echo '<H2 CLASS="info"> Centralise </H2><BR>';
 if ( isset ($_POST["central"] )) {
 
   //demande centralise
-  if ( $_POST["periode"] != "" ) {
+if ( $_POST["periode"] != "" ) {
     $ret=Centralise($cn,$_POST["periode"]);
     if ($ret==NOERROR) {
       echo '<H2 class="info">La période '.$_POST["periode"].' est centralisée</H2>';
