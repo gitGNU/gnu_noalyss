@@ -24,6 +24,8 @@ include_once("jrn.php");
 include_once("preference.php");
 include_once("poste.php");
 include_once("error.php");
+include_once("user_common.php");
+
 html_page_start($g_UserProperty['use_theme'],"onLoad=\"CheckTotal();\"");
 if ( ! isset ( $g_dossier ) ) {
   echo "You must choose a Dossier ";
@@ -73,7 +75,7 @@ if ( isset ( $_GET["action"] )) {
     ShowMenuRecherche($g_dossier,$g_jrn);
     // view all the journal's operation
     echo '<DIV class="redcontent">';
-    ViewJrn($g_dossier,$g_user,$g_jrn);
+    ViewJrn($g_dossier,$g_user,$g_jrn,"enc_jrn.php");
     echo '</DIV>';
   }
   if ( $_GET["action"] == "record" ) {
@@ -87,22 +89,25 @@ if ( isset ( $_GET["action"] )) {
     $max_cred=$_GET["max_cred"];
     RecordJrn($g_dossier,$g_user,$g_jrn,$max_deb,$max_cred);
   }
+  
   if ($_GET["action"]=="update" ) {
     if ( CheckJrn($g_dossier,$g_user,$g_jrn) < 2 ) {
       NoAccess();
       exit -1;
     
     }
-
+    // p_id is jrn.jr_id
     $p_id=$_GET["line"];
-    list($l_array,$max_deb,$max_cred)=GetData($cn,$p_id);
-    foreach ($l_array as $key => $element) {
-      echo_debug("update $key $element");
-    }
-
-    UpdateJrn($g_dossier,$g_jrn,$max_deb,$max_cred,$l_array);
+    echo_debug(" action = update p_id = $p_id");
+    $r ='<FORM METHOD="POST" ACTION="enc_jrn.php">';
+    $r.=UpdateJrn($cn,$p_id);
+    $r.='<input type="SUBMIT" name="update_record" value="Enregistre">';
+    $r.='</FORM>';
+    echo '<div class="redcontent">';
+    echo $r;
+    echo '</div>';
   }    
-
+  
 }
 ?>
 
@@ -133,7 +138,7 @@ if ( isset ( $_GET["action"] )) {
    ShowMenuRecherche($g_dossier,$g_jrn,$HTTP_POST_VARS);
  
    echo '<DIV class="redcontent">';
-   ViewJrn($g_dossier,$g_user,$g_jrn,$HTTP_POST_VARS);
+   ViewJrn($g_dossier,$g_user,$g_jrn,"enc_jrn.php",$HTTP_POST_VARS);
    echo '</DIV>';
  
  }
@@ -168,8 +173,8 @@ if ( isset($_POST['add_record']) ) {
     $seq=GetNextId($cn,'j_grpt')+1;
     $s_op=GetNextId($cn,'j_id')+1;
 	
-	// For the user profile we need the correct sequence id
-	AlterSequence($cn,'s_jrn_op',$s_op);
+    // For the user profile we need the correct sequence id
+    AlterSequence($cn,'s_jrn_op',$s_op);
 	
     $tot_cred=0;
     $tot_deb=0;
@@ -215,46 +220,8 @@ if ( isset($_POST['add_record']) ) {
     }
 
     
-    // si rappt
-    if ( ! isset ($p_rapt) ) 
-    	$p_rapt="";
-    if ( trim($p_rapt) != '' ) {
-      $jrn_id=GetNextJrnId($cn,'jr_id')+1;
-	  
-    if ( ! isset ($p_ech) ) 
-    	$p_ech="";
-      $l_date=isDate($p_ech);
-      if ( $l_date == null) {
-	$p_ech='null';
-      } else {
-	$p_ech="to_date('".$p_ech."','DD.MM.YYYY')";
-      }
-      $comment=FormatString($p_comment);
-      $Sql=sprintf("insert into jrn(jr_id,jr_def_id,jr_comment,jr_date,jr_grpt_id,
-                          jr_rapt,jr_montant,jr_tech_per,jr_ech) values(%s,%s,'%s',to_date('%s','DD.MM.YYYY'),%d,'%s',%f,%d,'%s')",
-		   $jrn_id,
-		   $g_jrn,
-		   $comment,
-		   $p_op_date,
-		   $seq,
-		   $p_rapt, $tot_deb,
-		   $userPref,
-		   $p_ech);
-      echo_debug($Sql);
-      $Res=ExecSql($cn,$Sql);
-      //      $l_dest=GetRaptDest($cn,$p_rapt);
-      if ($Res) 
-	$internal=SetInternalCode($cn,$seq,$g_jrn);
-	
-	// For the user profile we need the correct sequence id
-	AlterSequence($cn,'s_jrn',$jrn_id);
 
-	// TODO multiple rapt should be added
-      $sql=sprintf("update jrn set jr_rapt='%s' where jr_internal='%s'",$internal,$p_rapt);
-      echo_debug("add $sql");
-      $Res=ExecSql($cn,$sql);
-      
-    } else {
+
       $jrn_id=GetNextJrnId($cn,'jr_id')+1;
       if ( ! isset ($p_ech) ) $p_ech="";
       $l_date=isDate($p_ech);
@@ -276,8 +243,8 @@ if ( isset($_POST['add_record']) ) {
       $Res=ExecSql($cn,$Sql);
       if ($Res) 
 	SetInternalCode($cn,$seq,$g_jrn);
-
-    }
+      if ( isset ($p_rapt)) 	  InsertRapt($cn,$jrn_id,$p_rapt);
+    
     
     if ( $Res) {
       Commit($cn); 
@@ -298,138 +265,12 @@ if ( isset($_POST['add_record']) ) {
 } // _POST['add_record']
 
 if ( isset($_POST['update_record']) ) {
-  ShowMenuRecherche($g_dossier,$g_jrn);
-
-  // Montre ce qu'on a encodé et demande vérif
-  echo_debug ("######## UPDATE ##############");
-  $l_Db=sprintf("dossier%d",$g_dossier);
-  $cn=DbConnect($l_Db);
-  echo '<DIV class="redcontent">';
-  foreach ( $HTTP_POST_VARS as $name=>$element ) {
-    echo_debug("element $name -> $element ");
-    // Sauve les données dans des variables
-    ${"p_$name"}=$element;
-  }
-  reset($HTTP_POST_VARS);
-  $result=VerifData($cn,$HTTP_POST_VARS,$g_user);
-
-        // Parse result
-  AnalyzeError($result);
-  foreach ( $HTTP_POST_VARS as $name=>$element ) {
-    echo_debug("element $name -> $element ");
-    // Sauve les données dans des variables
-    ${"p_$name"}=$element;
-  }
-  
-  if ($result != NOERROR) {
-    echo "</DIV>";
-    UpdateJrn($g_dossier,$g_jrn,$p_MaxDeb,$p_MaxCred,$HTTP_POST_VARS);
-    return;
-  }
-
-
-  $Res=StartSql($cn);
-
-  $userPref=GetUserPeriode($cn,$g_user);
-  $tot_montant=0;  
-  for ( $i = 0; $i < $p_MaxDeb; $i++) {
-    $j_id=${"p_op_deb$i"};
-    $montant=${"p_mont_deb$i"};
-    // Compute the sum (for jrn table)
-    $tot_montant+=$montant;
-    $l_class=${"p_class_deb$i"};
-    if ( strlen(trim($montant)) == 0) $montant=0;
-    
-    $Sql=sprintf("update jrnx set j_montant=%f, j_poste=%d,j_tech_user='%s',j_date=to_date('%s','DD.MM.YYYY'),j_tech_per=%d where j_id=%d",
-		 $montant,$l_class,$g_user,$p_op_date,
-		 $userPref,
-		 $j_id);
-    echo_debug("sql $Sql");
-    $Res=ExecSql($cn,$Sql);
-    if ( $Res == false ) { Rollback($cn); EndSql($cn); return;}
-
-  }
-  
-  
-  for ( $i = 0; $i < $p_MaxCred; $i++) {
-    $j_id=${"p_op_cred$i"};
-    $montant=${"p_mont_cred$i"};
-    $l_class=${"p_class_cred$i"};
-    if ( strlen(trim($montant)) == 0 ) $montant=0;
-
-    $Sql=sprintf("update jrnx set j_montant=%f,j_poste=%d,j_tech_user='%s', j_date=to_date('%s','DD.MM.YYYY'),j_tech_per=%d where j_id=%d",
-		 $montant,$l_class,$g_user,$p_op_date,
-		 $userPref,$j_id);
-    echo_debug("sql $Sql");
-
-    $Res=ExecSql($cn,$Sql);
-    if ( $Res == false ) { Rollback($cn); EndSql($cn); return;}
-
-  }
-  
-  
-  $l_src=-1;
-  $l_dest=-1;
-  if ( strlen(trim($p_rapt)) != 0 ) {
-    $l_src=GetRapt($cn,$p_rapt);
-    $l_dest=GetRaptDest($cn,$p_rapt);
-    echo_debug("l_src = $l_src l_dest = $l_dest");
-    // if the operation match already => set rappt to null
-    if ( $l_src != -1 ) {
-      $Sql=sprintf("update jrn set jr_rapt=null where jr_internal='%s'",$l_src);
-      $Res=ExecSql($cn,$Sql);
-    }
-    }// strlen (trim (p_rapt
-    if ( !isset ($p_ech) ) $p_ech="";
-    $l_date=isDate($p_ech);
-    if ( $l_date == null ) {
-      $l_date="null";
-    }else {
-      $l_date="to_date('".$_POST["ech"]."','DD.MM.YYYY')";
-      }
-      if ( FormatString( $p_rapt ) != null ) {
-	$comment=FormatString($_POST["comment"]);
-	
-	$Sql=sprintf("update  jrn set jr_comment='%s',jr_date=%s,jr_rapt='%s',".
-		     "jr_montant=%f j_tech_per=%d where
-                      jr_id=%d",
-		     $comment,
-		     $l_date,
-		     $p_rapt,
-		     $tot_montant,
-		     $userPref,
-		     $p_jr_id
-		     );
-	
-	$Res=ExecSql($cn,$Sql);
-	$current_internal=GetInternal($cn,$p_jr_id);
-	$Sql=sprintf("update jrn set jr_rapt='%s' where jr_internal='%s'",
-		     $current_internal,
-		     $p_rapt);
-	$Res=ExecSql($cn,$Sql);
-	
-	
-      } else {
-	$comment=FormatString($_POST["comment"]);
-	$Sql=sprintf("update  jrn set jr_comment='%s',
-                       jr_date=%s,jr_rapt=null,jr_montant=%f,jr_tech_per=%d where jr_id=%d",
-		     $comment,
-		     $l_date,$tot_montant,$userPref,
-		     $p_jr_id);
-	$Res=ExecSql($cn,$Sql);
-	
-	
-}
-  if ($Res) {
-    Commit($cn); 
-    EndSql($cn);
-    
-  } else
-    {
-      Rollback($cn); 
-      EndSql($cn);
-    }
-    ViewJrn($g_dossier,$g_user,$g_jrn);
+  // NO UPDATE except rapt & comment
+  UpdateComment($cn,$_POST['jr_id'],$_POST['comment']);
+  InsertRapt($cn,$_POST['jr_id'],$_POST['rapt']);
+  echo '<div class="redcontent">';
+    ViewJrn($g_dossier,$g_user,$g_jrn,"enc_jrn.php");
+  echo '</div>';
 
 } // if update_record
 
