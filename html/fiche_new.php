@@ -60,6 +60,7 @@ function new_fiche($p_cn,$p_type) {
   $l_sessid=(isset ($_POST["PHPSESSID"]))?$_POST["PHPSESSID"]:$_GET["PHPSESSID"];
 
   $r.=JS_SHOW_TVA;
+  $r.=JS_SEARCH_POSTE;
   $r.="<TABLE>";
   echo '<H2 class="info">New </H2>';
   $p_f_id="";
@@ -83,7 +84,7 @@ function new_fiche($p_cn,$p_type) {
       $but_search_poste="";
       // Javascript for searching the account
       if ( $l_line ['ad_id'] == ATTR_DEF_ACCOUNT ) {
-	$but_search_poste='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$l_sessid.'\')">';
+	$but_search_poste='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$l_sessid.'\',\'av_text'.$i.'\')">';
       } 
       // Javascript for showing the tva
       if ( $l_line ['ad_id'] == ATTR_DEF_TVA ) {
