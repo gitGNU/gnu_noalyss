@@ -278,24 +278,33 @@
 
   On suppose que postgresql est installé correctement Etape
 
-  ·  Se connecter en tant que postgres et taper la commande
+  ·  Se connecter en tant que postgres et taper les commandes
 
-      createuser -d phpcompta
+      createuser -d phpcompta<
+     createdb -O phpcompta phpcompta
 
 
 
-  ·  Là on vous comptez installer le soft, créer le répertoire, règler
-     les permissions
+  ·  Décompacter le package dans le répertoire de votre choix, et
+     configurer Apache pour qu'il puisse accèder au sous-répertoire
+     html. (voir plus haut la directive DocumentRoot)
 
-  ·  connecter vous en tant que l'utilisateur qu'il a le droit dans le
-     répertoire décrit plus haut, puis taper ./install.sh
+  ·  Vous devez vérifier que le chemin de psql et vous indiquez la bonne
+     valeur dans le fichier html/admin/variable.php
+
+  ·   Vous devez connecter sur http://votre_server/admin/setup.php
 
   [1m6.  Conclusion[0m
 
-  Voilà maintenant, il vous suffit de faire ./install.sh pour tout
-  installer; puis d'aller avec votre navigateur sur l'url.
-  http://adresse_ip_du_virtualhost/test.php. Vous verrez directement, si
-  l'application fonctionne.
+  Voilà maintenant, il vous suffit de faire  de vous connecter sur
+  http://votre_server/admin/setup.php; cette page installera tout ce
+  qu'il faut, testera votre installation et surtout met à jour les bases
+  de données dans le cas d'une mise à jour. En cas de problème,
+  signalez-le nous.
+
+
+  IMPORTANT Vous devez effacer le répertoire html/admin après
+  installation ou mise à jour !!!!
 
   [1m7.  Remarque[0m
 
