@@ -34,7 +34,10 @@ define ("GJRN",7);
 define ("PARM",8);
 define ("SECU",9);
 define ("CENTRALIZE",10);
-
+define ("VEN",11);
+define ("BQE",12);
+define ("ODS",13);
+define ("ACH",14);
 
 // Erreur
 define ("NOERROR",0);

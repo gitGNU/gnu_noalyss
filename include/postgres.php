@@ -347,19 +347,44 @@ function SyncRight($p_dossier,$p_user) {
  * gen :
  *	-
  * return: an array
+ *         containing use_admin
+ *                    use_usertype
+ *                    use_theme
+ *                    use_name
+ *                    use_login
  */
 function GetUserProperty($p_cn,$p_user)
 {
- $sql="select use_admin,use_usertype,use_theme
+ $sql="select use_login,use_first_name,use_name,use_admin,use_usertype,use_theme
      from ac_users where use_login='$p_user'";
  $Ret=ExecSql($p_cn,$sql);
  if ( pg_NumRows($Ret) == 0) 
-   return array('use_admin'=>0,
+   return array('use_first_name'=>'?',
+                'use_name'=>'Unknown',
+                'use_admin'=>0,
 		'use_usertype'=>'user',
-		'use_theme'=>'classic');
+		'use_theme'=>'classic',
+		'use_login'=>$p_user);
 
  $a=pg_fetch_array($Ret,0);
  return $a;
+}
+/* function GetModeleId
+ * Purpose :  Give the mod_id from modeledef
+ *        
+ * parm : 
+ *	- p_cn database connection (repository)
+ *      - p_modname template name
+ * gen :
+ *	- none
+ * return:
+ *        template id or 0 if not found
+ */
+function GetModeleId($p_cn,$p_modname) {
+  $Res=ExecSql($p_cn,"select mod_id from modeledef where mod_name='$p_modname'");
+  if (pg_NumRows($Res) == 0) return 0;
+  $name=pg_fetch_array($Res,0);
+  return $name['mod_id'];
 }
 
 ?>

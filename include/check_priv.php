@@ -124,7 +124,7 @@ function CheckAction ( $p_dossier,$p_login,$p_action_id)
   $Count=pg_NumRows($Res);
   if ( $Count == 0 ) return 0;
   if ( $Count == 1 ) return 1;
-  echo "<H2 class=\"error\"> Invalid action !!! </H2>";
+  echo "<H2 class=\"error\"> Invalid action !!! $Count select * from user_sec_act where ua_login='$p_login' and ua_act_id=$p_action_id </H2>";
 }
 /* function CheckIsAdmin
  * Purpose : Check if an user is an administrator

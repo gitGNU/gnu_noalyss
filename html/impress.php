@@ -29,11 +29,11 @@ include_once ("postgres.php");
 CheckUser();
 include ("check_priv.php");
 include_once ("top_menu_compta.php");
-ShowMenuCompta($g_dossier);
+ShowMenuCompta($g_dossier,$g_UserProperty);
 
 
 include_once("impress_inc.php");
-ShowMenuComptaRight($g_dossier);
+ShowMenuComptaRight($g_dossier,$g_UserProperty);
 if ( $g_UserProperty['use_admin'] == 0 ) {
   $r=CheckAction($g_dossier,$g_user,IMP);
   if ($r == 0 ){

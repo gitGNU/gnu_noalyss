@@ -46,8 +46,8 @@ echo '<SCRIPT LANGUAGE="javascript" SRC="win_detail_jrn.js"></SCRIPT>';
 /* Get MaxLine */
 include_once("poste.php");
 include_once ("top_menu_compta.php");
-ShowMenuCompta($g_dossier);
-ShowMenuComptaRight($g_dossier);
+ShowMenuCompta($g_dossier,$g_UserProperty);
+ShowMenuComptaRight($g_dossier,$g_UserProperty);
 if ( $g_UserProperty['use_admin'] == 0 ) {
   $r=CheckAction($g_dossier,$g_user,ENCJRN);
   if ($r == 0 ){
@@ -65,7 +65,7 @@ if ( $g_UserProperty['use_admin'] == 0 ) {
 
 }
 
-ShowMenuJrnUser($g_dossier,$g_user);
+ShowMenuJrnUser($g_dossier,$g_UserProperty);
 
 if ( isset ( $_GET["action"] )) {
   if ( $_GET["action"] == "view" ) {

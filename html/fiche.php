@@ -32,7 +32,7 @@ include_once ("top_menu_compta.php");
 echo '<SCRIPT LANGUAGE="javascript" SRC="win_search_poste.js"></SCRIPT>';
 CheckUser();
 include ("check_priv.php");
-ShowMenuCompta($g_dossier);
+ShowMenuCompta($g_dossier,$g_UserProperty);
 
 
 if ( isset($_POST["PHPSESSID"] )) {
@@ -54,7 +54,7 @@ if ( isset($_POST['add_modele']) ) {
 
 
 
-ShowMenuComptaRight($g_dossier);
+ShowMenuComptaRight($g_dossier,$g_UserProperty);
 if ( $g_UserProperty['use_admin'] == 0 ) {
   $r=CheckAction($g_dossier,$g_user,FICHE);
   if ($r == 0 ){

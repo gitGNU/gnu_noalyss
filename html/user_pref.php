@@ -32,20 +32,29 @@ if ( isset ( $_POST['style_user']) ) {
       $g_UserProperty['use_theme']=$_POST['style_user'];
 
 }
+// Met à jour le profil
+if ( isset ( $_POST['profile_user']) ) {
+      $g_UserProperty['use_usertype']=$_POST['profile_user'];
 
+}
 html_page_start($g_UserProperty['use_theme']);
 
 
 /* Admin. Dossier */
 CheckUser();
 
+// show the top menu depending of the use_style
+// comta style
+
 include_once ("top_menu_compta.php");
 if ( isset ($g_dossier) ) {
-  if ( $g_dossier != 0 )  ShowMenuCompta($g_dossier);
-  ShowMenuComptaRight($g_dossier);
-} else {
- ShowMenuComptaRight();
-}
+  if ( $g_dossier != 0 )  ShowMenuCompta($g_dossier,$g_UserProperty);
+  ShowMenuComptaRight($g_dossier,$g_UserProperty);
+  } else {
+  ShowMenuComptaRight(0,$g_UserProperty);
+  }
+
+
 echo '<DIV class="ccontent">';
 
 if ( isset ($spass) ) {
@@ -74,6 +83,16 @@ if ( isset ( $_POST['style_user']) ) {
       $g_UserProperty['use_theme']=$_POST['style_user'];
 
 }
+// Met à jour le profil
+if ( isset ( $_POST['profile_user']) ) {
+  $CnRepo=DbConnect();
+      $Res=ExecSql($CnRepo,
+		   "update ac_users set use_usertype='".$_POST['profile_user'].
+		   "'  where use_login='$g_user'");
+      $g_UserProperty['use_usertype']=$_POST['profile_user'];
+
+}
+
 ?>
 <H2 CLASS="info"> Password</H2>
 <FORM ACTION="user_pref.php" METHOD="POST">
@@ -115,6 +134,31 @@ $disp_style.="</SELECT>";
 </TR>
 </TABLE>
 </FORM>
+<?
+// charge tous les profiles
+   $aprofile=array("compta","user");
+$disp_pro="<SELECT NAME=\"profile_user\" >";
+foreach ($aprofile as $st){
+  if ( $st == $g_UserProperty['use_usertype'] ) {
+    $disp_pro.='<OPTION VALUE="'.$st.'" SELECTED>'.$st;
+  } else {
+    $disp_pro.='<OPTION VALUE="'.$st.'">'.$st;
+  }
+}
+$disp_pro.="</SELECT>";
+?>
+<H2 class="info">Profile</H2>
+<FORM ACTION="user_pref.php" METHOD="post">
+<TABLE ALIGN="center">
+<TR>
+   <TD> Style </TD>
+   <TD> <? print $disp_pro;?> </TD>
+</TR>
+<TR>
+   <td colspan=2> <INPUT TYPE="submit" Value="Sauve"></TD>
+</TR>
+</TABLE>
+</FORM>
 
 <?
 
@@ -143,6 +187,7 @@ if ( isset ($g_dossier) ) {
 <TR><TD><input type="submit" name="sub_periode" value="Sauve"></TD></TR>
 </TABLE>
 </FORM>
+
 
 <?
 }

@@ -232,4 +232,60 @@ function GetUserType($p_user)
   $Ret=pg_fetch_row($Res,0);
   return $Ret[0];
 }
+/* function Redirect
+ * Purpose : redirect following the user's profile
+ *        
+ * parm : 
+ *	- p_profile (ac_users.use_usertype)
+ *      - php_session PHPSESSID
+ * gen :
+ *	- none
+ * return: none
+ */
+
+
+function Redirect($p_profile,$php_session) {
+  include_once("debug.php");
+  echo_debug("Session is $php_session");
+
+  if ( $p_profile =="compta" ) {
+    $URL="compta_login.php";
+  } else if ( $p_profile == "user") {
+    $URL="user_login.php";
+  }
+  else {
+    echo_error ("Undefined profile");
+    exit (-1);
+  }
+  echo "<META HTTP-EQUIV=\"REFRESH\" content=\"0;url=$URL?PHPSESSID=$php_session\">";
+  
+}
+/* function ShowItem($p_array) */
+/* purpose : store the string which print */
+/*           the content of p_array in a table */
+/*           used to display the menu */
+/* parameter : array */
+/* return : string */
+function ShowItem($p_array,$p_dir='V')
+{
+  $ret="<TABLE>";
+  // direction Vertical
+  if ( $p_dir == 'V') {
+    foreach ($p_array as $all=>$href){
+      $ret.='<TR><TD CLASS="mtitle"><A class="mtitle" HREF="'.$href[0].'">'.$href[1].'</A></TD></TR>';
+    }
+  }
+      //direction Horizontal
+  else if ( $p_dir == 'H' ) {
+    $ret.="<TR>";
+    foreach ($p_array as $all=>$href){
+
+      $ret.='<TD CLASS="mtitle"><A class="mtitle" HREF="'.$href[0].'">'.$href[1].'</A></TD>';
+    }
+    $ret.="</TR>";
+  }
+    $ret.="</TABLE>";
+  return $ret;
+}
+
 ?>

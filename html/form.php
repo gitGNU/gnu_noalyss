@@ -34,10 +34,10 @@ CheckUser();
 include_once("form_inc.php");
 
 include_once ("top_menu_compta.php");
-ShowMenuCompta($g_dossier);
+ShowMenuCompta($g_dossier,$g_UserProperty);
 include ("check_priv.php");
 
-ShowMenuComptaRight($g_dossier);
+ShowMenuComptaRight($g_dossier,$g_UserProperty);
 
 if ( $g_UserProperty['use_admin'] == 0 ) {
   $r=CheckAction($g_dossier,$g_user,FORM);

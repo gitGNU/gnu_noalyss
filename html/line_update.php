@@ -43,7 +43,7 @@ if ( $g_UserProperty['use_admin'] == 0 ) {
 }
 
 include ("top_menu_compta.php");
-ShowMenuComptaRight($g_dossier);
+ShowMenuComptaRight($g_dossier,$g_UserProperty);
 $l_Db=sprintf("dossier%d",$g_dossier);
 echo '<DIV CLASS="ccontent">';
 

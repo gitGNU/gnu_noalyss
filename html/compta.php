@@ -49,25 +49,14 @@ if ( $g_UserProperty['use_admin'] == 0 ) {
 }
 SyncRight($g_dossier,$g_user);
 
-$g_UserType=GetUserType($g_user);
-session_register($g_UserType);
 
-switch ($g_UserType) {
-	case 'compta':
-		include ("top_menu_compta.php");
-		break;
-	case 'developper':
-		include ("top_menu_compta.php");
-		break;
-	case 'user':
-		include ("top_menu_compta.php");
-		break;
-	default:
-		echo_error("Error type doesn't exist");
-		break;
-}
-ShowMenuCompta($g_dossier);
-ShowMenuComptaRight($g_dossier); 
+include ("top_menu_compta.php");
+
+// Show Top Menu 
+ShowMenuCompta($g_dossier,$g_UserProperty);
+
+// Show Menu on the right side
+ShowMenuComptaRight($g_dossier,$g_UserProperty); 
 
 
 html_page_stop();

@@ -31,8 +31,8 @@ include_once ("postgres.php");
 CheckUser();
 
 include_once ("top_menu_compta.php");
-ShowMenuCompta($g_dossier);
-ShowMenuComptaRight($g_dossier);
+ShowMenuCompta($g_dossier,$g_UserProperty);
+ShowMenuComptaRight($g_dossier,$g_UserProperty);
 if ( $g_UserProperty['use_admin']== 0 ) {
   $r=CheckAction($g_dossier,$g_user,SECU);
   if ($r == 0 ){
@@ -50,7 +50,7 @@ $User=ExecSql($cn,"select  use_id,use_first_name,use_name,use_login from ac_user
 $MaxUser=pg_NumRows($User);
 
 
-  ShowMenuComptaRight($g_dossier);
+  ShowMenuComptaRight($g_dossier,$g_UserProperty['use_admin']);
 
 echo '<DIV CLASS="ccontent">';
 echo '<H2 class="info"> Sécurité </H2>';
@@ -129,7 +129,7 @@ and use_active=1");
   $Res=ExecSql($cn_dossier,"select jrn_def_id,jrn_def_name  from jrn_def ");
   $admin=CheckIsAdmin($l2_line['use_login']);
 
-  echo '<table align="CENTER">';
+  echo '<table align="CENTER" width="100%">';
   $MaxJrn=pg_NumRows($Res);
   for ( $i =0 ; $i < $MaxJrn; $i++ ) {
     $l_line=pg_fetch_array($Res,$i);
@@ -153,7 +153,7 @@ and use_active=1");
     if ( $right == 1 ) { 
       echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="user_sec.php?'.$l_change.'&access=X"> Pas d\'accès</A></TD>';
       echo "<TD BGCOLOR=\"#3BCD27\">";
-      echo "Lecture accordée";
+      echo "Lecture ";
       echo "</TD>";
       echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="user_sec.php?'.$l_change.'&access=W"> Ecriture</A></TD>';
     }
@@ -162,7 +162,7 @@ and use_active=1");
       echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="user_sec.php?'.$l_change.'&access=R"> Lecture</A></TD>';
 
       echo "<TD BGCOLOR=\"#3BCD27\">";
-      echo "Ecriture accordée";
+      echo "Ecriture ";
       echo "</TD>";
 
     }
@@ -171,7 +171,7 @@ and use_active=1");
       echo '<TD class="mtitle">  Lecture </TD>';
 
       echo "<TD BGCOLOR=\"#3BCD27\">";
-      echo "Ecriture accordée";
+      echo "Ecriture ";
       echo "</TD>";
 
     }
@@ -209,7 +209,7 @@ and use_active=1");
       $l_change=$l_change."&access=0";
       echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="user_sec.php?'.$l_change.'"> Pas d\'accès </A></TD>';
       echo "<TD BGCOLOR=\"#3BCD27\">";
-      echo "Accès accordé";
+      echo "Accès ";
       echo "</TD>";
       
     }
@@ -217,7 +217,7 @@ and use_active=1");
 
       echo '<TD class="mtitle">  Change </TD>';
       echo "<TD BGCOLOR=\"#3BCD27\">";
-      echo "Accès accordé";
+      echo "Accès ";
       echo "</TD>";
       
     }

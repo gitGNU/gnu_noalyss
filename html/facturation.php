@@ -29,7 +29,7 @@ include_once ("postgres.php");
 /* CheckUser */
 CheckUser();
 include ("top_menu_compta.php");
-ShowMenuCompta($g_dossier);
+ShowMenuCompta($g_dossier,$g_UserProperty);
 
 if ( $g_UserProperty['use_admin']==0 ) {
   $r=CheckAction($g_dossier,$g_user,FACT);
@@ -43,7 +43,7 @@ include_once("facture_inc.php");
 $l_dossier=sprintf("dossier%d",$g_dossier);
 $cn=DbConnect($l_dossier);
 ShowMenuComptaLeft($g_dossier,MENU_FACT);
-ShowMenuComptaRight($g_dossier); 
+ShowMenuComptaRight($g_dossier,$g_UserProperty); 
 if ( $_GET["action"] ) {
   if ($_GET["fact"] == "all" ) {
     ViewFactAll($cn);

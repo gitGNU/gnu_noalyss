@@ -61,6 +61,7 @@
  * 
  * parm : 
  *	- dossier
+ *	- $p_user	array ($g_UserProperty)
  * gen :
  *	- none
  * return:
@@ -68,27 +69,19 @@
  *
  */ 
 
-function ShowMenuCompta($p_dossier)
+function ShowMenuCompta($p_dossier,$pa_user)
 {
-  include_once("postgres.php");
-  $l_name=GetDossierName($p_dossier);
-  echo "<P> <H2 class=\"info2\"> $l_name </H2></P>";
-  echo '<div class="tmenu">';
-  echo '<TABLE><TR>';
-  // TODO echo '<TD class="mtitle"><A class="mtitle" HREF="facturation.php">Facturation</A></TD>';
-  echo '<TD class="mtitle"><A class="mtitle" HREF="enc_jrn.php">Encodage </A></TD>';
-  echo '<TD class="mtitle"<A class="mtitle" HREF="form.php">Formulaire </A> </TD>'; 
-  echo '<TD class="mtitle"><A class="mtitle" HREF="impress.php">Impression</A></TD>';
-  echo '<TD class="mtitle"><A class="mtitle" HREF="fiche.php">Fiche</A></TD>';
-  echo '<TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=1">Plan Comptable</A></TD>';
-  echo '<TD class="mtitle"><A class="mtitle" HREF="jrn_update.php">Journaux</A></TD>';
-  echo '<TD class="mtitle"><A class="mtitle" HREF="central.php">Centralise</A></TD>';
-  echo '<TD class="mtitle"><A class="mtitle" HREF="dossier_prefs.php">Paramètres</A></TD>';
-
-
-  echo "</TR>";
-  echo "</TABLE>";
-  echo '</div>';
+  if ( ! isset ( $pa_user ) ) {
+	exit (1);
+  }
+  if ( $pa_user['use_usertype'] == 'compta' ) {
+    include_once ("compta_menu.php");
+    c_ShowMenuCompta($p_dossier);
+  } else 
+    if ( $pa_user['use_usertype']=='user') {
+      include_once ("user_menu.php");
+      u_ShowMenuCompta($p_dossier);
+    }
 }
 /* function
  * Purpose :
@@ -157,6 +150,7 @@ function ShowMenuComptaLeft($p_dossier,$p_item)
  *           (preference, logout and admin)
  * parm : 
  *	- $p_dossier the current dossier
+ *      - $p_auser	array $g_UserProperty
  *      - $p_more code
  * gen :
  *	- none
@@ -164,24 +158,20 @@ function ShowMenuComptaLeft($p_dossier,$p_item)
  *	- none
  *
  */ 
-function ShowMenuComptaRight($p_dossier=0,$p_more="")
+function ShowMenuComptaRight($p_dossier=0,$p_auser,$p_more="")
 {
-  include_once("ac_common.php");
-  echo '<div class="rmenu">';
-  echo '<TABLE>';
-  if ( CheckAdmin() != 0 && $p_dossier != 0) {
-    echo '<TR><TD class="mtitle"> <A class="mtitle" HREF="admin_repo.php">Admin</A></TD></TR>';
+  if ( ! isset ( $p_auser['use_usertype']))  {
+    exit (1);
   }
-  echo '<TR><TD class="mtitle"> <A class="mtitle" HREF="login.php">Accueil</A></TD></TR>';
-  echo '<TR><TD class="mtitle"> <A class="mtitle" HREF="user_pref.php">Preference</A></TD></TR>';
-  if ( strlen ($p_more) != 0 ) {
-    printf ('<TR><TD class="mtitle"> %s </TD></TR>',$p_more);
+  if ( $p_auser['use_usertype']=='compta') {
+    include_once("compta_menu.php");
+    c_ShowMenuComptaRight($p_dossier,$p_auser['use_admin'],$p_more);
   }
-  echo '<TR><TD class="mtitle"> ';
-  html_button_logout();
-  echo ' </TD></TR>';
-  echo "</TABLE>";
-  echo '</div>';
+  else 
+    if ( $p_auser['use_usertype']=='user') {
+      include_once("user_menu.php");
+      u_ShowMenuComptaRight($p_dossier,$p_auser['use_admin'],$p_more);
+       }
 }
 /* function ShowMenuAdminGlobalRight($p_dossier=0)
  * Purpose :
@@ -274,12 +264,14 @@ function ShowMenuJrn($p_dossier)
 
 }
 /* function ShowMenuJrnUser($p_dossier,$p_user)
- * Purpose : Show the Menu from the jrn encode
- *           page
+ * Purpose : Display and Show the Menu from the jrn encode
+ *           page following the use_usertype (compta,user,...)
  * 
  * parm : 
  *	- $p_dossier
- *      - $p_user
+ *      - $p_auser
+ *      - $p_type (ACH, BQE, VEN)
+ *      - $p_jrn  what journal
  * gen :
  *	- none
  * return:
@@ -287,57 +279,17 @@ function ShowMenuJrn($p_dossier)
  *
  */ 
 
-function ShowMenuJrnUser($p_dossier,$p_user)
+function ShowMenuJrnUser($p_dossier,$p_auser,$p_type=-1,$p_jrn=-1)
 {
-    echo '<div class="searchmenu">';
-    echo '<TABLE>';
-
-    include_once("postgres.php");
-    $l_jrn=sprintf("dossier%d",$p_dossier);
-    $Cn=DbConnect($l_jrn);
-    if ( CheckAdmin() ==0) {
-      $Ret=ExecSql($Cn,"select jrn_def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
-                               jrn_deb_max_line,jrn_cred_max_line
-                             from jrn_def join jrn_type on jrn_def_type=jrn_type_id
-                             join user_sec_jrn on uj_jrn_id=jrn_def_id 
-                             where
-                             uj_login='$p_user'
-                             and uj_priv !='X'
-                             ");
-    } else {
-      $Ret=ExecSql($Cn,"select jrn_def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_deb_max_line,jrn_cred_max_line,
-                            jrn_type_id,jrn_desc,'W' as uj_priv
-                             from jrn_def join jrn_type on jrn_def_type=jrn_type_id");
-
-    } 
-    $Max=pg_NumRows($Ret);
-    include_once("check_priv.php");
-
-    for ($i=0;$i<$Max;$i++) {
-      $l_line=pg_fetch_array($Ret,$i);
-      // Admin have always rights
-      if ( CheckAdmin() == 0 ){
-	$right=CheckJrn($p_dossier,$p_user,$l_line['jrn_def_id']);
-      }else {
-	$right=3;
-      }
-
-      printf ('<TR><TD class="cell">%s</TD>',$l_line['jrn_def_name']);
-      if ( $right > 0 ) {
-	// Lecture 
-	printf ('<TD class="mltitle"><A class="mtitle" HREF="enc_jrn.php?p_jrn=%s&action=view">Voir</A></TD>',
-		$l_line['jrn_def_id']);
-      }
-      // ecriture
-      if ( $right >  1 ) {
-	printf ('<TD class="mltitle"><A class="mtitle" HREF="enc_jrn.php?p_jrn=%s&action=record&max_deb=%s&max_cred=%s">Encoder</A></TD></TR>',
-		$l_line['jrn_def_id'],
-		$l_line['jrn_deb_max_line'],
-		$l_line['jrn_cred_max_line']);
-      }
-    }
-    echo "</TABLE>";
-    echo '</div>';
+   if ( ! isset ($p_auser['use_usertype'] ) ) exit (-1);
+  if ($p_auser['use_usertype'] == 'compta' ) {
+    include_once("compta_menu.php");
+    c_ShowMenuJrnUser($p_dossier,$p_auser['use_login']);
+  } 
+  if ($p_auser['use_usertype'] == 'user' ) {
+    include_once("user_menu.php");
+    u_ShowMenuJrnUser($p_dossier,$p_auser['use_login'],$p_type,$p_jrn);
+  } 
 
 }
 /* function ShowMenuRecherche
@@ -563,27 +515,13 @@ function ShowMenuJrnUserImp($p_cn,$p_user,$p_dossier)
 /* return : none */
 function ShowMenuAdminGlobal()
 {
-  $item[0]=array("admin_repo.php?action=user_mgt","Gestion utilisateurs");
-  $item[1]=array("admin_repo.php?action=dossier_mgt","Gestion Dossiers");
+  include_once("ac_common.php");
+  $item[0]=array("admin_repo.php?action=user_mgt","Utilisateurs");
+  $item[1]=array("admin_repo.php?action=dossier_mgt","Dossiers");
+  $item[2]=array("admin_repo.php?action=modele_mgt","Modèles");
   $menu=ShowItem($item);
   echo '<DIV class="lmenu">';
   echo $menu;
   echo '</DIV>';
-}
-/* function ShowItem($p_array) */
-/* purpose : store the string which print */
-/*           the content of p_array in a table */
-/*           used to display the menu */
-/* parameter : array */
-/* return : string */
-function ShowItem($p_array)
-{
-  $ret="<TABLE>";
-    foreach ($p_array as $all=>$href){
-      $ret.='<TR><TD CLASS="mtitle"><A class="mtitle" HREF="'.$href[0].'">'.$href[1].'</A></TD></TR>';
-      echo_debug($ret);
-  }
-    $ret.="</TABLE>";
-  return $ret;
 }
 ?>
