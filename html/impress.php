@@ -61,13 +61,14 @@ $cn=DbConnect($l_Db);
 ShowMenuJrnUserImp($cn,$g_user,$g_dossier);
 
 
-
+// Ask the period
 if ( isset ( $_GET["action"]) ) {
   echo '<DIV class="redcontent">';
   ViewImp($HTTP_GET_VARS,$cn);
   echo '</DIV>';
 }//if ( isset ( $_GET["action"] )) 
 
+// The period is given, now show the result
 if ( isset ( $_POST["print"]) ) {
   echo '<DIV class="redcontent">';
   $result=Imp($HTTP_POST_VARS,$cn);
