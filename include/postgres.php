@@ -393,4 +393,18 @@ function GetModeleId($p_cn,$p_modname) {
   return $name['mod_id'];
 }
 
+/* function GetArray
+ * purpose return the result of a sql statment 
+ * in a array
+ * param : $p_cn database connection
+ *         $p_sql sql query
+ */
+function GetArray($p_cn,$p_sql) {
+  echo_debug(__FILE__,__LINE__,"GetArray");
+  $r=ExecSql($p_cn,$p_sql);
+  if ( ($Max=  pg_NumRows($r)) == 0 ) return null;
+  $array=pg_fetch_all($r);
+  echo_debug(__FILE__,__LINE__,var_export($array,true));
+  return $array;
+}
 ?>

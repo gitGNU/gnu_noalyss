@@ -279,13 +279,13 @@ function Redirect($p_profile,$php_session) {
 /*           used to display the menu */
 /* parameter : array */
 /* return : string */
-function ShowItem($p_array,$p_dir='V')
+function ShowItem($p_array,$p_dir='V',$class="mtitle")
 {
   $ret="<TABLE>";
   // direction Vertical
   if ( $p_dir == 'V') {
     foreach ($p_array as $all=>$href){
-      $ret.='<TR><TD CLASS="mtitle"><A class="mtitle" HREF="'.$href[0].'">'.$href[1].'</A></TD></TR>';
+      $ret.='<TR><TD CLASS="'.$class.'"><A class="'.$class.'" HREF="'.$href[0].'">'.$href[1].'</A></TD></TR>';
     }
   }
       //direction Horizontal
@@ -293,7 +293,7 @@ function ShowItem($p_array,$p_dir='V')
     $ret.="<TR>";
     foreach ($p_array as $all=>$href){
 
-      $ret.='<TD CLASS="mtitle"><A class="mtitle" HREF="'.$href[0].'">'.$href[1].'</A></TD>';
+      $ret.='<TD CLASS="'.$class.'"><A class="'.$class.'" HREF="'.$href[0].'">'.$href[1].'</A></TD>';
     }
     $ret.="</TR>";
   }

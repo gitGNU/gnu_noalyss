@@ -28,7 +28,6 @@ h1.title {
 }
 div.mtitle {
 	position: absolute;
-	top:15px;
 	right:300px;
 	width:100px;
 
@@ -43,15 +42,23 @@ div.tmenu {
 }
 div.u_tmenu {
 	position: absolute;
-	top:10px;
+	top:40px;
 	left:150px;
-	width:800px;
+	width:600px;
 
+}
+div.u_subtmenu {
+
+  position: absolute;
+  top:70px;
+  left:10px;
+  width:600px;
+  text-align:text;
 }
 
 div.lmenu {
 	position: absolute;
-	top:50px;
+	top:80px;
 	left:30px;
 	width:100px;
 	font-size:10px;
@@ -64,9 +71,11 @@ div.lextmenu {
 	width:200px;
 }
 div.searchmenu {
-	font-size:11pt;
-	left:30px;
-	width:210px;
+  border:solid 1px blue;
+  left:30px;
+  width:95px;
+  top:95px;
+  position:absolute;
 }
 div.credit{
 	border-style:solid;
@@ -131,8 +140,8 @@ td.mltitle {
 }
 td.mtitle {
 	text-align:center;
-	width:75px;
-	font-size:12px;
+/*	width:75px; */
+	font-size:10px;
         border: 1px solid;
     background-color:#DDE6FF;
 }
@@ -165,9 +174,7 @@ td.odd{
 	border:Opt
 }
 td.cell{
-	border-style:solid;
-	border-width:1pt;
-	font-size:11pt;
+	  border:1px solid blue;
 }
 td.selectedcell{
 	border-style:solid;
@@ -178,13 +185,29 @@ td.selectedcell{
 }
 
 a.mtitle {
+  font-size:11px;
   text-decoration:none;
   display:block;
-color:blue;
-	}
+  color:blue;
+}
 
 a.mtitle:hover {
+  font-size:11px;
+  color:white;
+  background-color:#5D90CD;
+  text-decoration:none;
+  display:block;
+}
+a.cell {
+  text-decoration:none;
+  display:block;
+  color:blue;
+  background-color:white;
+  font-size:9px;
+}
 
+a.cell:hover {
+  font-size:9px;
   color:white;
   background-color:#5D90CD;
   text-decoration:none;

@@ -71,6 +71,23 @@ function InputType($p_label,$p_type,$p_name,$p_value,$p_viewonly=false,$p_list=n
     $r.="</SELECT></TD>";
     return $r;
   }
+  // Input type == select2
+  if ( strtolower($p_type)=="select2" ) {
+    $r="<TD> $p_label</TD><TD>";
+    $r.=sprintf('<SELECT NAME="%s">',$p_name);
+    foreach ($p_list as $item) {
+      $selected="";
+      if ( $p_value == $item['value'] ) {
+		$selected="SELECTED";
+      }
+      $r.=sprintf('<OPTION VALUE="%s" %s>%s',
+		  $item['value'],
+		  $selected,
+		  $item['label']);
+    }
+    $r.="</SELECT></TD>";
+    return $r;
+  }
 
   // input type == TEXT
   if ( strtolower($p_type)=="text") {
@@ -245,6 +262,7 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article
   list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$userPref);
   $op_date=( ! isset($e_date) ) ?substr($l_date_start,2,8):$e_date;
   $e_ech=(isset($e_ech))?$e_ech:"";
+  $e_jrn=(isset($e_jrn))?$e_jrn:"";
   // Save old value and set a new one
   echo_debug(__FILE__,__LINE__,"form_input.php.FormVentep_op_date is $op_date");
   $r="";
@@ -256,8 +274,12 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article
 
     
   }
+  //  $list=GetJrn($p_cn,$p_jrn);
+  $sql="select jrn_def_id as value,jrn_def_name as label from jrn_def where jrn_def_type='VEN'";
+  $list=GetArray($p_cn,$sql);
   $r.='<TABLE>';
   $r.='<TR>'.InputType("Date ","Text","e_date",$op_date,$view_only).'</TR>';
+  $r.="<TR>".InputType("Journal","select2","e_jrn",$e_jrn,$view_only,$list).'<TR>';
   $r.='<TR>'.InputType("Echeance","Text","e_ech",$e_ech,$view_only).'</TR>';
   include_once("fiche_inc.php");
   // Display the customer

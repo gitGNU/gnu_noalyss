@@ -153,6 +153,7 @@ function u_ShowMenuCompta($p_dossier)
   echo "<P> <H2 class=\"info2\"> $l_name </H2></P>";
 
   $p_array=array(array("user_jrn.php?show","Journaux"),
+		 array("recherche.php?p_dossier=$p_dossier","Recherche"),
 		 array("fiche.php?p_dossier=$p_dossier","Fiche"),
 		 array("user_advanced.php","Avancé"),
 		 array("dossier_prefs.php","Paramètre"),

@@ -11,11 +11,11 @@ echo '<!DOCTYPE HTML PUBLIC "-//W3C/DTD HTML 3.2 FINAL//EN">
 <TABLE BGCOLOR="#4851FF"><TR><TD>
 <TABLE  Bgcolor="white" BORDER=0 CELLSPACING=0>
 <TR>
-<TD><FONT COLOR="blue" size="-1"> LOGIN</FONT> </TD>
+<TD><FONT COLOR="blue" size="-1"> Login</FONT> </TD>
 <TD><input type=text name=p_user></TD>
 </TR>
 <TR>
-<TD><FONT color="blue" size="-1"> PASSWORD</FONT></TD>
+<TD><FONT color="blue" size="-1"> Password</FONT></TD>
 <TD><INPUT TYPE=PASSWORD NAME=p_pass></TD>
 </TR>
 <TR>

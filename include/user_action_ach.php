@@ -20,15 +20,18 @@
 /* $Revision$ */
 echo_debug(__FILE__,__LINE__,"include user_action_ach.php");
 include_once("form_input.php");
-// phpinfo();
-if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {
-    return;
-}
 include_once ("preference.php");
 include_once ("user_common.php");
 
 $dossier=sprintf("dossier%d",$g_dossier);
 $cn=DbConnect($dossier);
+
+// phpinfo();
+if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {
+  echo u_ShowMenuJrn($cn,$jrn_type);
+  exit;
+
+}
 $action=(isset($_GET['action']))?$_GET['action']:$_POST['action'];
 
 // action = new

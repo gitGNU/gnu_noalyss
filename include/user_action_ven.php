@@ -22,20 +22,16 @@ echo_debug(__FILE__,__LINE__,"include user_action_ven.php");
 include_once("form_input.php");
 $dossier=sprintf("dossier%d",$g_dossier);
 $cn=DbConnect($dossier);
+// default action is insert_vente
 if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {
-  echo u_ShowMenuJrn($cn,$jrn_type);
-  exit;
+  $action='insert_vente';
+  $blank=1;
+   } else {
+  $action=(isset($_GET['action']))?$_GET['action']:$_POST['action'];
+  $blank=(isset($_GET["blank"]))?1:0;
 }
 
-
-
-$action=(isset($_GET['action']))?$_GET['action']:$_POST['action'];
 if ( $action == 'insert_vente' ) {
-  // Check privilege
-  if ( CheckJrn($g_dossier,$g_user,$g_jrn) != 2 )    {
-       NoAccess();
-       exit -1;
-  }
    
     // Add item
         if (isset($_POST["add_item"]) ) {
@@ -66,7 +62,7 @@ if ( $action == 'insert_vente' ) {
     } 
 
     // We want a blank form
-    if ( isset($_GET["blank"]))
+    if ( $blank==1)
       {
       echo_debug(__FILE__,__LINE__,"Blank form");
       // Show an empty form of invoice
