@@ -72,31 +72,32 @@ if ( isset ($_GET['show'])) {
                 array("","Impression"),
                 array("","Recherche")
                  );
-   $result=ShowItem($p_array,'H',"cell");
+ $result=ShowItem($p_array,'H',"cell","mtitle");
    echo "<DIV class=\"u_subtmenu\">";
    echo $result;
    echo "</DIV>";
    exit();
 }
-
+// if type of journal is asked
 if ( isset ($_GET['JRN_TYPE'] ) ) {
   $jrn_type=$_GET['JRN_TYPE'];
-  switch ($jrn_type) {
-  case 'VEN':
-    echo 'Vente';
-    break;
-  case 'ACH':
-    echo 'Achat';
-    break;
-  case 'FIN':
-    echo 'Financier';
-    break;
-  case 'OD':
-    echo 'Opérations diverses';
-    break;
-  }
+
+ $p_array=array(array("user_jrn.php?JRN_TYPE=VEN" ,"Entrée"),
+                array("user_jrn.php?JRN_TYPE=ACH","Dépense"),
+                array("user_jrn.php?JRN_TYPE=FIN","Financier"),
+                array("user_jrn.php?JRN_TYPE=OD","Op. Diverses"),
+                array("","Impression"),
+                array("","Recherche")
+                 );
+ $result=ShowItem($p_array,'H',"cell","mtitle","user_jrn.php?JRN_TYPE=".$jrn_type);
+   echo "<DIV class=\"u_subtmenu\">";
+   echo $result;
   ShowMenuJrnUser($g_dossier,$g_UserProperty,$_GET['JRN_TYPE'],$g_jrn);
+   echo "</DIV>";
+
+
 } else {
+
   echo_debug("Selected is $g_jrn");
   // Get the jrn_type_id
   include_once('jrn.php');
@@ -104,27 +105,30 @@ if ( isset ($_GET['JRN_TYPE'] ) ) {
   $jrn_type=$JrnProp['jrn_def_type'];
   echo_debug("Type is $jrn_type");
   echo_debug("Jrn_def_type = $jrn_type");
-  switch ( $jrn_type ) {
-  case 'VEN':
-    echo 'Vente';
-    break;
-  case 'ACH':
-    echo 'Achat';
-    break;
-  case 'FIN':
-    echo 'Financier';
-    break;
-  case 'OD':
-    echo 'Opérations diverses';
-    break;
-
-  }
-
+ $p_array=array(array("user_jrn.php?JRN_TYPE=VEN" ,"Entrée"),
+                array("user_jrn.php?JRN_TYPE=ACH","Dépense"),
+                array("user_jrn.php?JRN_TYPE=FIN","Financier"),
+                array("user_jrn.php?JRN_TYPE=OD","Op. Diverses"),
+                array("","Impression"),
+                array("","Recherche")
+                 );
+ $result=ShowItem($p_array,'H',"cell","mtitle","user_jrn.php?JRN_TYPE=".$jrn_type);
+ echo '<div class="u_subtmenu">';
+ echo $result;
  ShowMenuJrnUser($g_dossier,$g_UserProperty,$jrn_type,$g_jrn);
+ echo '</div>';
 }
 
   // if a journal is selected show the journal's menu
 if ( $g_jrn != -1 ) {
+ $p_array=array(array("user_jrn.php?JRN_TYPE=VEN" ,"Entrée"),
+                array("user_jrn.php?JRN_TYPE=ACH","Dépense"),
+                array("user_jrn.php?JRN_TYPE=FIN","Financier"),
+                array("user_jrn.php?JRN_TYPE=OD","Op. Diverses"),
+                array("","Impression"),
+                array("","Recherche")
+                 );
+ $result=ShowItem($p_array,'H',"cell","mtitle","user_jrn.php?JRN_TYPE=".$jrn_type);
  
   // Get the jrn_type_id
   include_once('jrn.php');
@@ -133,10 +137,10 @@ if ( $g_jrn != -1 ) {
   // display jrn's menu
   include_once('user_menu.php');
    $menu_jrn=u_ShowMenuJrn($cn,$jrn_type);
-   echo '<div class="searchmenu">';
-
+      echo '<div class="searchmenu">';
+   //   echo $result;
    echo $menu_jrn;
-   echo '</DIV>';
+      echo '</DIV>';
 
   // Execute Action for g_jrn
   if ( $jrn_type=='VEN' )     include('user_action_ven.php');

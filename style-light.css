@@ -1,9 +1,10 @@
-<style type="text/css">
+/* <style type="text/css"> */
+
 BODY {
-        bgcolor:#E3F0FF;
+        background-color:#E3F0FF;
 }
 BODY.defaut {
-        bgcolor:#E3F0FF;
+        background-color:#E3F0FF;
 }
 h2.info {
 	background:#879ed4;
@@ -34,26 +35,26 @@ div.mtitle {
 }
 
 div.tmenu {
-	position: absolute;
-	top:10px;
-	left:120px;
-	width:800px;
+  border:solid 1px black;
+  position: absolute;
+  top:10px;
+  left:120px;
+  width:800px;
 
 }
 div.u_tmenu {
-	position: absolute;
-	top:40px;
-	left:150px;
-	width:600px;
-
+  border:solid 2px black;
+  position: absolute;
+  top:40px;
+  left:150px;
+  width:600px;
+  
 }
 div.u_subtmenu {
-
   position: absolute;
-  top:70px;
+  top:50px;
   left:10px;
-  width:600px;
-  text-align:text;
+
 }
 
 div.lmenu {
@@ -94,7 +95,7 @@ div.redcontent{
 }
 div.u_redcontent{
 	position: absolute;
-	top:100px;
+	top:200px;
 	left:150px;
 	width:700px;
         font-size:9pt;
@@ -171,7 +172,7 @@ tr.odd {
 }
 td.odd{
 	background-color:#DDE6FF ;
-	border:Opt
+	border:0px;
 }
 td.cell{
 	  border:1px solid blue;
@@ -271,7 +272,7 @@ th.doc {
 
 table.doc {
 	  width: 60% ;
-	  ALIGN: "center"
+	  text-align: center;
 }
 
-</style>
+/* </style> */

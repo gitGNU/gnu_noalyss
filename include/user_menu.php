@@ -150,7 +150,7 @@ function u_ShowMenuCompta($p_dossier)
 {
   include_once("postgres.php");
   $l_name=GetDossierName($p_dossier);
-  echo "<P> <H2 class=\"info2\"> $l_name </H2></P>";
+
 
   $p_array=array(array("user_jrn.php?show","Journaux"),
 		 array("recherche.php?p_dossier=$p_dossier","Recherche"),
@@ -164,8 +164,8 @@ function u_ShowMenuCompta($p_dossier)
 		 );
 
   $result=ShowItem($p_array,'H');
-    echo "<DIV class=\"u_tmenu\">";
-
+    echo "<DIV class=\"tmenu\">";
+  echo "<P> <H2 class=\"info2\"> $l_name </H2></P>";
   echo $result;
   echo "</DIV>";
 
@@ -223,7 +223,7 @@ function u_ShowMenuJrnUser($p_dossier,$p_user,$p_type,$p_jrn)
   include_once ("debug.php");
   include_once("constant.php");
   echo_debug(__FILE__,__LINE__,"U_SHOWMENUJRNUSER PTYPE=$p_type");
-    echo '<div class="searchmenu">';
+  //    echo '<div class="searchmenu">';
     echo '<TABLE><TR>';
     include_once("postgres.php");
 
@@ -278,7 +278,7 @@ function u_ShowMenuJrnUser($p_dossier,$p_user,$p_type,$p_jrn)
     }// for
     echo '</TR>';
     echo "</TABLE>";
-    echo '</div>';
+    //echo '</div>';
 
 }
 /* function u_ShowMenuJrn
