@@ -1,0 +1,221 @@
+<style type="text/css">
+BODY {
+        bgcolor:#E3F0FF;
+}
+BODY.defaut {
+        bgcolor:#E3F0FF;
+}
+h2.info {
+	background:gray;
+	color:white;
+	font-size:20px;
+}
+h2.info2 {
+	color:blue;
+	font-size:20px;
+}
+
+
+h2.error {
+	background:red;
+	color:white;
+	color:white;
+	font-size:20px;
+}
+
+h1.title {
+	color: blue;
+	font-size:25px;
+}
+div.mtitle {
+	position: absolute;
+	top:15px;
+	right:300px;
+	width:100px;
+        background:#E3F0FF;
+
+}
+
+div.tmenu {
+	position: absolute;
+	top:10px;
+	left:120px;
+	width:800px;
+
+        background-color:#E3F0FF;
+}
+
+div.lmenu {
+	position: absolute;
+	top:50px;
+	left:30px;
+	width:100px;
+        background-color:#E3F0FF;
+}
+div.lextmenu {
+	position: absolute;
+	top:50px;
+	font-size:11pt;
+	left:30px;
+	width:200px;
+        background-color:#E3F0FF;
+}
+div.searchmenu {
+	font-size:11pt;
+	left:30px;
+	width:245px;
+        background-color:#E3F0FF;
+}
+div.credit{
+	border-style:solid;
+	border-width:1pt;
+        background-color:#E3F0FF;
+}
+div.debit{
+	border-style:solid;
+	border-width:1pt;
+        background-color:#E3F0FF;
+}
+div.redcontent{
+	position: absolute;
+	top:40px;
+	left:250px;
+	width:600px;
+        background-color:#E3F0FF;
+}
+div.ccontent{
+	position: absolute;
+	top:40px;
+	left:130px;
+	width:680px;
+        background-color:#E3F0FF;
+}
+div.rmenu {
+	position: absolute;
+	top:50px;
+	right:30px;
+	width:100px;
+        background-color:#E3F0FF;
+}
+
+table.mtitle {
+	border:0;
+	align:center
+}
+td.mshort { 
+  text-align:center;
+  border:  1px solid;
+  color:#5D90CD ;
+}
+td.mlltitle {
+	text-align:center;
+	height:30px;
+	width:30px;
+	font-size:12px;
+}
+td.mltitle {
+	text-align:center;
+	background:url('image/elegant-n.jpg') no-repeat;
+	height:30px;
+	width:100px;
+	font-size:12px;
+        border 1px solid;
+}
+td.mtitle {
+	text-align:center;
+	background:url('image/elegant-n.jpg') no-repeat center;
+	height:30px;
+	width:100px;
+	font-size:12px;
+}
+span.mtitle2 {
+	background-color:red;
+	font-size:12px;
+	border-style:groove
+}
+span.mtitle {
+	color:gray;
+	background-color:blue;
+	font-size:12px;
+	border-style:groove
+}
+tr.odd {
+	background-color:#DDE6FF;
+		
+}
+td.odd{
+	background-color:#DDE6FF ;
+	border:Opt
+}
+td.cell{
+	border-style:solid;
+	border-width:1pt;
+	font-size:11pt;
+}
+a.mtitle:link {
+	text-decoration:none;
+	color:black;
+}
+a.mtitle:visited {
+	text-decoration:none;
+	color:black;
+
+	}
+a.mtitle:active {
+	text-decoration:none;
+	background:#0F4CD0;
+	}
+
+a.mtitle:hover {
+	color:white;
+        background-color:#5D90CD;
+	text-decoration:underline;
+	}
+
+a.one:link {
+	text-decoration:underline;
+	color:#3010FF
+}
+a.one:visited {
+	text-decoration:underline;
+	color:#3010FF
+	}
+a.one:active {
+	background: #0000FF
+	}
+
+a.one:hover {
+	background:#3010FF;
+	color:#FFFFFF
+	}
+
+a.two:link {
+	text-decoration:none;
+	color:#3010FF
+}
+a.two:visited {
+	text-decoration:none;
+	color:#3010FF
+	}
+a.two:active {
+	background: #0000FF;
+	}
+
+a.two:hover {
+	background:#3010FF;
+	color:#FFFFFF;
+	font-size:19px
+	}
+
+th.doc {
+       background: #0000C5;
+       color: #FFFFFF
+}
+
+
+table.doc {
+	  width: 60% ;
+	  ALIGN: "center"
+}
+
+</style>

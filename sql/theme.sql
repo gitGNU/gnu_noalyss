@@ -28,3 +28,5 @@ create table theme (
 	values ('Aqua','style-aqua.css',null);
  insert into theme (the_name,the_filestyle,the_filebutton)
 	values ('Elegant','style-elegant.css',null);
+ insert into theme (the_name,the_filestyle,the_filebutton)
+	values ('Light','style-light.css',null);
