@@ -105,6 +105,11 @@ if ( isset ($_GET['JRN_TYPE'] ) ) {
  echo '</div>';
 }
 
+if ( $jrn_type=='FIN' )
+{
+  //show balance of all bank accounts. Let's say their ID start with 5500
+}
+
   // if a journal is selected show the journal's menu
 if ( $_SESSION['g_jrn'] != -1 ) {
  $result=ShowJrn( "user_jrn.php?JRN_TYPE=".$jrn_type);

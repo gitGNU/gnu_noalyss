@@ -75,12 +75,13 @@ if ( isset ( $reset_passwd) ){
   $Res=ExecSql($cn, "update ac_users set use_pass='$l_pass' where use_id=$uid");
   echo '<H2 class="info"> Password remis à phpcompta</H2>';
 }
-if ( isset ($SAVE) ){
+if ( isset ($_POST['SAVE']) ){
+  $uid = $_POST['UID'];
   echo_debug(__FILE__,__LINE__,"SAVE is set");
   // Update User 
   $cn=DbConnect();
-  $Sql="update ac_users set use_first_name='".$fname."', use_name='".$lname."'
-        ,use_login='".$login."',use_active=".$Actif.",use_admin=".$Admin." where
+  $Sql="update ac_users set use_first_name='".$_POST['fname']."', use_name='".$_POST['lname']."'
+        ,use_login='".$_POST['login']."',use_active=".$_POST['Actif'].",use_admin=".$_POST['Admin']." where
          use_id=".$uid;
   $Res=ExecSql($cn,$Sql);
   // Update Priv on Folder
@@ -218,7 +219,7 @@ foreach ( $Dossier as $rDossier) {
 
 <TR><TD><input type="Submit" NAME="SAVE" VALUE="Save changes"></TD>
 <TD><input type="RESET" NAME="Reset" VALUE="Cancel Change"></TD>
-<TD><input type="Submit" NAME="DELETE" VALUE="Delete Users"></TD>
+<TD><input type="Submit" NAME="DELETE" VALUE="Delete User"></TD>
 </TR>
 </FORM>
 </TABLE>

@@ -25,11 +25,8 @@ include_once("class_widget.php");
 // phpinfo();
 $cn=DbConnect($_SESSION['g_dossier']);
 
-if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {
-  //  echo u_ShowMenuJrn($cn,$jrn_type);
-  exit;
-
-    return;
+if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {  
+  return;
 }
 include_once ("preference.php");
 include_once ("user_common.php");

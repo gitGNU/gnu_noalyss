@@ -110,13 +110,7 @@ $Res=ExecSql($cn,"select jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,".
                  " from jrn_def where".
                  " jrn_def_id=".$_SESSION['g_jrn']);
 $l_line=pg_fetch_array($Res,0);
-if ( isset ($_GET["PHPSESSID"] ) ) {
-  $sessid=$_GET["PHPSESSID"];
-}
-if ( isset ($_POST["PHPSESSID"] ) ) {
-  $sessid=$_POST["PHPSESSID"];
-}
-
+$sessid = $_REQUEST['PHPSESSID'];
 $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$sessid."','not')\">";
 echo '<DIV CLASS="ccontent">';
 echo '<H2 class="info"> Fiches </H2>';
