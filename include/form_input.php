@@ -1582,6 +1582,7 @@ function RecordODS($p_cn,$p_array,$p_user,$p_jrn)
     // Update comment if comment is blank
     $Res=ExecSql($p_cn,"update jrn set jr_comment='".$comment."' where jr_grpt_id=".$seq);
   }
+  Commit($p_cn);
   return $comment;
 }
 
