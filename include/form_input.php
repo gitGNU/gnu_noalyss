@@ -924,6 +924,7 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
     $total=0;
     $r.="<TABLE>";
     $r.="<th>Nom</th>";
+    $r.="<th>Tva</th>";
     $r.="<th>total</th>";
     for ( $i = 0; $i < $p_article;$i++) {
       if ( $view_only == true and ! isset (${"e_march$i"}) ) continue;
@@ -940,17 +941,18 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
 		} else {
 		  $tva=(isNumber($a_fiche['tva_rate'])==1)?$a_fiche['tva_rate']:0;
 		}
-
-      $total_row=${"e_march$i"."_buy"}*${"e_quant$i"}+${"e_march$i"."_buy"}*${"e_quant$i"}*$tva;
+	   $vat_row=${"e_march$i"."_buy"}*${"e_quant$i"}*$tva;
+	   $total_row=${"e_march$i"."_buy"}*${"e_quant$i"}+$vat_row;
       
-      $r.="<TR>";
-      $r.="<TD>".$a_fiche['vw_name']."</td>";
-      //	   $r.="<TD>".$a_fiche['tva_label']."</td>";
-      $r.="<TD  ".$total_row."</TD>";
-      $r.="</TR>";
-      $total+=$total_row;
+	   $r.="<TR>";
+	   $r.="<TD>".$a_fiche['vw_name']."</td>";
+	   //	   $r.="<TD>".$a_fiche['tva_label']."</td>";
+	   $r.="<TD>  ".$vat_row."</TD>";
+	   $r.="<TD>  ".$total_row."</TD>";
+	   $r.="</TR>";
+	   $total+=$total_row;
       }
-    }
+    }// for ($i=0
   
     $r.="<TR> <TD colspan=\"3\" align=\"center\"> Total =".$total."</TD></TR>";
     $r.="</TABLE>";

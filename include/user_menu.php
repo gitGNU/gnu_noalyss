@@ -146,8 +146,8 @@ function u_ShowMenuCompta($p_dossier)
   echo "<P> <H2 class=\"info2\"> $l_name </H2></P>";
 
   $p_array=array(array("user_jrn.php?JRN_TYPE=VEN" ,"Vente"),
-		 array("user_jrn.php?JRN_TYPE=ACH","Achat"),
-		 array("user_jrn.php?JRN_TYPE=FIN","Banque"),
+		 array("user_jrn.php?JRN_TYPE=ACH","Dépense"),
+		 array("user_jrn.php?JRN_TYPE=FIN","Financier"),
 		 array("user_jrn.php?JRN_TYPE=OD","Op. Diverses"),
 		 array("fiche.php?p_dossier=$p_dossier","Fiche"),
 		 array("user_advanced.php","Avancé"),
