@@ -39,6 +39,11 @@ if ( isset ( $_POST['profile_user']) ) {
 }
 html_page_start($g_UserProperty['use_theme']);
 
+// clean session variable from user interface (make prob. with compta  interfac)
+//
+if ( isset ($g_jrn) ) {
+  session_unregister("g_jrn");
+}
 
 /* Admin. Dossier */
 CheckUser();
