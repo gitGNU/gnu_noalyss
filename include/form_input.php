@@ -156,6 +156,8 @@ function InputType($p_label,$p_type,$p_name,$p_value,$p_viewonly=false,$p_list=n
   // input type == js_search_poste => button search for the account
   if ( strtolower($p_type)=="js_search_poste") {
     $l_sessid=(isset ($_POST['PHPSESSID']))?$_POST['PHPSESSID']:$_GET['PHPSESSID'];
+
+    if ( $p_list == null ) { // no filter
     $r=sprintf('<TD>
          <INPUT TYPE="button" onClick=SearchPoste(\'%s\',\'%s\') value="Search">
             %s</TD><TD> 
@@ -169,9 +171,25 @@ function InputType($p_label,$p_type,$p_name,$p_value,$p_viewonly=false,$p_list=n
 	       $p_value 
 	       );
 
-  
+    } else { // $p_list is not null, so we have a filter
+      $r=sprintf('<TD>
+         <INPUT TYPE="button" onClick=SearchPosteFilter(\'%s\',\'%s\',\'%s\') value="Search">
+            %s</TD><TD> 
+
+             <INPUT TYPE="Text" NAME="%s" VALUE="%s" SIZE="8">
+                 </TD>',
+		 $l_sessid,
+		 $p_name,
+		 $p_list,
+		 $p_label,
+		 $p_name,
+		 $p_value 
+		 );
+
+    }
    
   }
+
   // input type == js_tva
   if ( strtolower($p_type)=="js_tva") {
     if ( strlen(trim($p_label)) != 0 ) 
@@ -1454,7 +1472,16 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
 	${"e_account$i"."_amount"}=0;
     }
     // code
-    $r.='<TR>'.InputType("","js_search_poste","e_account".$i,$account,$view_only);
+    // Do we need a filter ?
+    $l_line=GetJrnProperty($p_cn,$p_jrn);
+    if(  strlen(trim ($l_line['jrn_def_class_cred']) ) > 0 or
+	 strlen(trim ($l_line['jrn_def_class_deb']) ) > 0 ) {
+      $filter=1;
+    }
+    else
+      $filter=null;
+
+    $r.='<TR>'.InputType("","js_search_poste","e_account".$i,$account,$view_only,$filter);
     //libelle
     $r.="<td> $lib </td>";
     //amount
@@ -1484,8 +1511,10 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
   //  $r.="</DIV>";
   $r.="</FORM>";
   //TODO if view only show total
-  if ( $sum_deb != $sum_cred and $view_only==true) {
-    $msg=sprintf("Montant non correspondant credit = %.2f debit = %.2f diff = %.2f",
+  $tmp= abs($sum_deb-$sum_cred);
+  echo_debug("Diff = ".$tmp);
+  if ( abs($sum_deb-$sum_cred) > 0.0001  and $view_only==true) {
+    $msg=sprintf("Montant non correspondant credit = %.5f debit = %.5f diff = %.5f",
 		 $sum_cred,$sum_deb,$sum_cred-$sum_deb);
     echo "<script> alert('$msg'); </script>";
     return null;
