@@ -21,13 +21,6 @@ INSERT INTO ac_users (use_id, use_first_name, use_name, use_login, use_active, u
 --
 
 INSERT INTO ac_dossier (dos_id, dos_name, dos_description, dos_jnt_user) VALUES (1, 'Demo', 'Base de données pour développement & démo', 0);
-INSERT INTO ac_dossier (dos_id, dos_name, dos_description, dos_jnt_user) VALUES (3, 'Alchimerys', 'Comptabilité production', 0);
-INSERT INTO ac_dossier (dos_id, dos_name, dos_description, dos_jnt_user) VALUES (4, 'Alchimerys 2004', 'Alchimerys 2004', 0);
-INSERT INTO ac_dossier (dos_id, dos_name, dos_description, dos_jnt_user) VALUES (7, 'Test', '', 0);
-INSERT INTO ac_dossier (dos_id, dos_name, dos_description, dos_jnt_user) VALUES (9, 'Creation', 'Test', 0);
-INSERT INTO ac_dossier (dos_id, dos_name, dos_description, dos_jnt_user) VALUES (10, 'Nouveau test', '', 0);
-INSERT INTO ac_dossier (dos_id, dos_name, dos_description, dos_jnt_user) VALUES (12, 'test 3', '', 0);
-
 
 --
 -- Data for TOC entry 8 (OID 940867)
@@ -36,20 +29,7 @@ INSERT INTO ac_dossier (dos_id, dos_name, dos_description, dos_jnt_user) VALUES 
 
 INSERT INTO jnt_use_dos (jnt_id, use_id, dos_id) VALUES (1, 1, 1);
 INSERT INTO jnt_use_dos (jnt_id, use_id, dos_id) VALUES (13, 4, 1);
-INSERT INTO jnt_use_dos (jnt_id, use_id, dos_id) VALUES (19, 1, 3);
-INSERT INTO jnt_use_dos (jnt_id, use_id, dos_id) VALUES (20, 5, 3);
-INSERT INTO jnt_use_dos (jnt_id, use_id, dos_id) VALUES (21, 5, 1);
-INSERT INTO jnt_use_dos (jnt_id, use_id, dos_id) VALUES (22, 6, 3);
-INSERT INTO jnt_use_dos (jnt_id, use_id, dos_id) VALUES (23, 6, 1);
-INSERT INTO jnt_use_dos (jnt_id, use_id, dos_id) VALUES (24, 1, 4);
-INSERT INTO jnt_use_dos (jnt_id, use_id, dos_id) VALUES (26, 1, 6);
-INSERT INTO jnt_use_dos (jnt_id, use_id, dos_id) VALUES (27, 1, 8);
-INSERT INTO jnt_use_dos (jnt_id, use_id, dos_id) VALUES (28, 1, 9);
-INSERT INTO jnt_use_dos (jnt_id, use_id, dos_id) VALUES (29, 1, 10);
-INSERT INTO jnt_use_dos (jnt_id, use_id, dos_id) VALUES (30, 1, 12);
 
-
---
 -- Data for TOC entry 9 (OID 940870)
 -- Name: version; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
