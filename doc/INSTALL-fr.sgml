@@ -73,6 +73,7 @@ vous permettra de régler la sécurité<newline>
 Ce fichier doit au moins contenir la ligne:
 <verb>
 # TYPE  DATABASE    USER        IP-ADDRESS        IP-MASK           METHOD
+</quote>
 host    all         phpcompta   172.16.30.0         255.255.255.0   local
 </verb>
 Il vaut mieux remplacer 172.16.30.0 par l'adresse du server HTTP, dans
@@ -94,13 +95,21 @@ et .2. par son mot de passe
 changement mot de passe 
 alter user .1. password '.2.'
 </quote>
-Le fichier pg_hba.conf sera comme ceci
-<verb>
+
+<quote>
 Sécurité
 # TYPE  DATABASE    USER        IP-ADDRESS        IP-MASK           METHOD
 host    all         phpcompta   172.16.30.0         255.255.255.0   md5
 local    all         phpcompta   172.16.30.0         255.255.255.0   md5
-</verb>
+</quote>
+Ensuite soit vous utilisez la variable d'environnement PGPASSWORD qui contient
+votre mot de passe soit avec le fichier .pgpass dont la syntaxe est
+<quote>
+ host:port:database:username:password
+</quote>
+N'oubliez pas de mettre ce fichier en mode 600 !!!! Pour executer sans demande
+de mot de passe host = localhost
+</sect1>
 Ensuite soit vous utilisez la variable d'environnement PGPASSWORD qui contient
 votre mot de passe soit avec le fichier .pgpass dont la syntaxe est
 <quote>
