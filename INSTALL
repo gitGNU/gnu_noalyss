@@ -26,6 +26,11 @@ options suivantes fonctionnent
 3. Configuration et démarrage de PostgreSql
 Comme d'habitude pour postgres, il faut tout d'abord définir, créer
 l'utilisateur postgres puis initialiser
+ne pas oublier d'ajouter dans le PATH, l'endroit où se trouve les
+binaires de postgres
+ex:
+export PATH=$PATH:/opt/psql732/bin
+
 l'endroit où seront stocké vos données (variable env. PGDATA), 
 exemple 
 root#mkdir /data/psql
@@ -48,6 +53,9 @@ host    all         webcompta   172.16.30.0         255.255.255.0   trust
 Il vaut mieux remplacer 172.16.30.0 par l'adresse du server HTTP, dans
 le cas où vous utilisez un VirtualHost avec une adresse IP, c'est
 cette adresse qu'il vous faudra mettre
+il faut aussi que l'utilisateur qui installera ce programme existe pour postgres et 
+puisse créer des utilisateur et des bases de données la commande
+/opt/psql732/bin/createuser -a -d $USER
 
 4. Installation de PHP 4.3.1
 Il doit être compilé le dernier !!!
@@ -61,6 +69,8 @@ options suivantes fonctionnent
     --with-pgsql=/opt/psql732 \
     --with-mysql \
     --with-apache2=/software/httpd-2.0.44
+le répertoire /software/httpd-2.0.44 est le répertoire ou vous installer
+les sources d'apache
 
 
 5. Fichier php.ini, s'il n'existe pas, vous devez le créer, l'endroit
