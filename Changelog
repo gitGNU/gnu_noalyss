@@ -1,4 +1,15 @@
+2004-03-27  sparkyx  <sparkyx@july.summer>
+
+	* install.sh, sql/account_repository.sql, sql/demo.sql, sql/mod-be.sql:
+	Replace the sql script by database dump, a demo is now supplied
+
+	* doc/FAQ-fr.sgml, doc/INSTALL-fr.sgml: task 3106 - Php setting
+
 2004-03-26  sparkyx  <sparkyx@july.summer>
+
+	* FAQ-fr.txt: task 3106
+
+	* Changelog: update Changelog
 
 	* sql/user_sec.sql: add index fk_ + add security card read/write
 
