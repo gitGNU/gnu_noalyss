@@ -369,7 +369,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
 	  $r.="<TD> Opération annulée</TD>";
 	}
 	else {
-	  if ( $row ['p_closed'] == 'f' ) {
+	  if ( $row ['p_closed'] == 'f' && $p_jrn != 0 ) {
 	    // TODO Add print
 	    $r.="<TD>";
 	    // cancel operation
