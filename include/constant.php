@@ -126,7 +126,7 @@ define ("JS_SHOW_TVA","<SCRIPT>function ShowTva(p_sessid,ctl)
 	} 
 function SetIt(ctl,tva_id)
 {
-document.fiche.eval(ctl).value=tva_id;
+document.forms[0].eval(ctl).value=tva_id;
 }
 	</SCRIPT>"
 );
@@ -277,6 +277,17 @@ function cal()
 
 "
 );
+
+define ("JS_TVA","<script>
+
+function ChangeTVA(p_ctl,p_value) {
+        if (document.getElementById(p_ctl) ) {
+	  document.getElementById(p_ctl).innerHTML=document.forms[0].eval(p_value).value;
+	}
+
+}
+
+</script>");
 // Sql string
 define ("SQL_LIST_ALL_INVOICE","");
 define ("SQL_LIST_UNPAID_INVOICE"," where (jr_rapt is null or jr_rapt = '') and jr_valid = true "); 

@@ -61,7 +61,7 @@ return $r;
  * return: array
  *       a[tva_id] =  amount vat
  */
-function ComputeVat($p_cn,	$a_fiche,$a_quant,$a_price) {
+function ComputeVat($p_cn,	$a_fiche,$a_quant,$a_price,$a_vat = null) {
 echo_debug("ComputeVat $a_fiche $a_quant $a_price");
 // foreach goods 
 for ( $i=0 ; $i < sizeof($a_fiche);$i++) {
@@ -69,7 +69,12 @@ for ( $i=0 ; $i < sizeof($a_fiche);$i++) {
   if ( isNumber($a_fiche[$i])==0 
        or strlen(trim($a_fiche[$i]))==0) continue;
   // Get the tva_id
-  $tva_id=GetFicheAttribut($p_cn,$a_fiche[$i],ATTR_DEF_TVA);
+  if ( $a_vat != null and
+       isNumber($a_vat[$i])== 1)
+    $tva_id=$a_vat[$i];
+  else
+    $tva_id=GetFicheAttribut($p_cn,$a_fiche[$i],ATTR_DEF_TVA);
+
   if ( $tva_id == 'Unknown' ) continue;
   // for each fiche find the tva_rate and tva_id
   $a_vat=GetTvaRate($p_cn,$tva_id);

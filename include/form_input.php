@@ -172,6 +172,26 @@ function InputType($p_label,$p_type,$p_name,$p_value,$p_viewonly=false,$p_list=n
   
    
   }
+  // input type == js_tva
+  if ( strtolower($p_type)=="js_tva") {
+    if ( strlen(trim($p_label)) != 0 ) 
+      $label="<TD>$p_label</TD>";
+    else
+      $label="";
+    $r=sprintf('%s<TD> <INPUT TYPE="%s" NAME="%s" VALUE="%s" SIZE="3" onChange="ChangeTVA(\'%s\',\'%s\');">',
+	       $label,
+	       $p_type,
+	       $p_name,
+	       $p_value,
+	       $p_list,
+	       $p_name);
+    $l_sessid=(isset ($_POST['PHPSESSID']))?$_POST['PHPSESSID']:$_GET['PHPSESSID'];
+    //    $r.="<script> document.getElementById('$p_list').innerHTML=\"  \";</script>"; 
+    $r.=sprintf("<input type=\"button\" value=\"Tva\" onClick=\"ChangeTVA('%s','%s'); 
+                  ShowTva('%s','%s')\"></TD>",
+		$p_list,$p_name,$l_sessid,$p_name);
+    return $r;
+  }
 
   return $r;
 
@@ -212,7 +232,8 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article
   $r="";
   if ( $view_only == false) {
     $r.=JS_SEARCH_CARD;
-    
+    $r.=JS_SHOW_TVA;    
+    $r.=JS_TVA;
     $r.="<FORM NAME=\"form_detail\" ACTION=\"user_jrn.php?action=insert_vente\" METHOD=\"POST\">";
 
     
@@ -263,7 +284,7 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article
   $r.="<th>Code</th>";
   $r.="<th>Dénomination</th>";
   $r.="<th>prix</th>";
-  $r.="<th>tva</th>";
+  $r.="<th colspan=\"2\">tva</th>";
   $r.="<th>quantité</th>";
   $r.='</TR>';
   //  $fiche=GetFicheJrn($p_cn,$p_jrn,'cred');
@@ -272,7 +293,7 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article
     // Code id
     $march=(isset(${"e_march$i"}))?${"e_march$i"}:"";
     $march_sell=(isset(${"e_march".$i."_sell"}))?${"e_march".$i."_sell"}:"";
-
+    $march_tva_id=(isset(${"e_march$i"."_tva_id"}))?${"e_march$i"."_tva_id"}:"";
 
     $march_tva_label="";
     $march_label="";
@@ -288,7 +309,10 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article
 	// retrieve the tva label and name
 	$a_fiche=GetFicheAttribut($p_cn, $march);
 	if ( $a_fiche != null ) {
-	  $march_tva_label=$a_fiche['tva_label'];
+	  if ( $march_tva_id == "" ) {
+	    $march_tva_id=$a_fiche['tva_id'];
+	    $march_tva_label=$a_fiche['tva_label'];
+	  }
 	  $march_label=$a_fiche['vw_name'];
 	}
       }
@@ -297,10 +321,13 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article
     $r.='<TR>'.InputType("","js_search","e_march".$i,$march,$view_only,'cred');
     // card's name
     $r.=InputType("","span", "e_march".$i."_label", $march_label,$view_only);
+
     // price
     $r.=InputType("","text","e_march".$i."_sell",$march_sell,$view_only);
     // vat label
     $r.=InputType("","span","e_march".$i."_tva_label",$march_tva_label,$view_only);
+    // Tva id 
+    $r.=InputType("","js_tva","e_march$i"."_tva_id",$march_tva_id,$view_only,"e_march".$i."_tva_label");
 
     $quant=(isset(${"e_quant$i"}))?${"e_quant$i"}:"0";
     // quantity
@@ -364,15 +391,29 @@ for ($o = 0;$o < $p_number; $o++) {
 		echo_error("invalid quantity ".${"e_quant$o"});
 		echo "<SCRIPT> alert('INVALID QUANTITY !!!');</SCRIPT>";
 		return null;
-	}			
-}
+	}	
+    // check if vat is correct
+    if ( strlen(trim(${"e_march$o"."_tva_id"})) !=0 ) {
+      // vat is given we check it now check if valid
+      if (isNumber(${"e_march$o"."_tva_id"}) == 0
+	  or CountSql($p_cn,"select tva_id from tva_rate where tva_id=".${"e_march$o"."_tva_id"}) ==0){
+	$msg="Invalid TVA !!! ";
+	echo_error($msg); echo_error($msg);	
+	echo "<SCRIPT>alert('$msg');</SCRIPT>";
+	return null;
+	
+      }
+    }
+    
+ }
+
 // Verify the ech
-if (strlen($e_ech) != 0 and isNumber($e_ech)  == 0 and  isDate ($e_ech) == null ) {
+ if (strlen($e_ech) != 0 and isNumber($e_ech)  == 0 and  isDate ($e_ech) == null ) {
 	$msg="Echeance invalide";
 		echo_error($msg); echo_error($msg);	
 		echo "<SCRIPT>alert('$msg');</SCRIPT>";
 		return null;
-	} 
+ } 
 // Verify is a client is set
  if ( isNumber($e_client)    == 0) {
    $msg="Client inexistant";
@@ -389,7 +430,7 @@ if (strlen($e_ech) != 0 and isNumber($e_ech)  == 0 and  isDate ($e_ech) == null 
   echo_debug("p_ech = $e_ech $p_ech");
   $e_ech=$p_ech;
   $data.=InputType("","HIDDEN","e_ech",$e_ech);
-   }
+ }
 
  // Check if the fiche is in the jrn
  if (IsFicheOfJrn($p_cn , $p_jrn, $e_client,'deb') == 0 ) 
@@ -422,7 +463,6 @@ if (strlen($e_ech) != 0 and isNumber($e_ech)  == 0 and  isDate ($e_ech) == null 
       return null;
     }
   }
-
 // Verify the userperiode
 
 // userPref contient la periode par default
@@ -500,7 +540,7 @@ if (strlen($e_ech) != 0 and isNumber($e_ech)  == 0 and  isDate ($e_ech) == null 
     
     
     // VAT 
-    $vat=getFicheAttribut($p_cn,${"e_march$i"},ATTR_DEF_TVA);
+    $vat=(isNumber(${"e_march$i"."_tva_id"})==0)?getFicheAttribut($p_cn,${"e_march$i"},ATTR_DEF_TVA):${"e_march$i"."_tva_id"};
 	
     // vat label
     // vat rate
@@ -565,7 +605,7 @@ if ( $p_doc == 'pdf' ) {
 
 	  }
   return $r;
-
+  
 }
 
 /* function RecordInvoice
@@ -613,6 +653,7 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
     $a_good[$i]=${"e_march$i"};
     $a_quant[$i]=${"e_quant$i"};
     $a_price[$i]=0;
+    $a_vat[$i]=${"e_march$i"."_tva_id"};
     // check wether the price is set or no
     if ( isNumber(${"e_march$i"."_sell"}) == 0 ) {
       if ( isNumber($a_good[$i]) == 1 ) {
@@ -626,7 +667,7 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
     $amount+=$a_price[$i]*$a_quant[$i];
   }
 
-  $a_vat=ComputeVat($p_cn,	$a_good,$a_quant,$a_price);
+  $a_vat=ComputeVat($p_cn,$a_good,$a_quant,$a_price,$a_vat);
 
   $sum_vat=0.0;
   if ( $a_vat != null ){
