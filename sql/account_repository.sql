@@ -167,7 +167,7 @@ CREATE TABLE modeledef (
 --
 
 INSERT INTO ac_users VALUES (4, 'demo', 'demo', 'demo', 1, 'fe01ce2a7fbac8fafaed7c982a04e229', 0, 'Light', 'user');
-INSERT INTO ac_users VALUES (1, NULL, NULL, 'phpcompta', 1, 'b1cc88e1907cde80cb2595fa793b3da9', 1, 'Light', 'compta');
+INSERT INTO ac_users VALUES (1, NULL, NULL, 'phpcompta', 1, 'b1cc88e1907cde80cb2595fa793b3da9', 1, 'classic', 'user');
 
 
 --
