@@ -322,7 +322,7 @@ function u_ShowMenuJrn($p_cn,$p_jrn_type)
     $lib=str_replace($access_key,'<u>'.$access_key.'</u>',$action['ja_name'],1);
     $ret.=sprintf('<TR><TD class="cell"><A class="mtitle" accesskey="%s" title="%s" '.
 		  'HREF="%s?%s">%s</A></td></tR>',
-		  $action['ja_name'][0], $action['ja_desc'], $action['ja_url'],$action['ja_action'],
+		  $access_key, $action['ja_desc'], $action['ja_url'],$action['ja_action'],
 		 $lib);
 
   }
