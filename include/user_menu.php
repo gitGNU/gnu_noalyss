@@ -164,6 +164,7 @@ function u_ShowMenuCompta($p_dossier)
   $p_array=array(array("user_jrn.php?show","Journaux"),
 		 array("recherche.php?p_dossier=$p_dossier","Recherche"),
 		 array("fiche.php?p_dossier=$p_dossier","Fiche"),
+		 array("user_impress.php","Impression"),
 		 array("user_advanced.php","Avancé"),
 		 array("dossier_prefs.php","Paramètre"),
   		 array('user_pref.php','Preference'),

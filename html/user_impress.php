@@ -32,9 +32,9 @@ include_once ("top_menu_compta.php");
 ShowMenuCompta($g_dossier,$g_UserProperty);
 
 // show sub menu
-$result=ShowJrn("user_impress.php");
+
 echo "<DIV class=\"u_subtmenu\">";
-echo $result;
+
 
 $p_array=array(array ("user_impress.php?type=jrn","Journaux"),
 	       array("user_impress.php?type=poste","Poste"),
