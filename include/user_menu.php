@@ -309,7 +309,7 @@ function u_ShowMenuJrnUser($p_dossier,$p_user,$p_type,$p_jrn)
 function u_ShowMenuJrn($p_cn,$p_jrn_type) 
 {
 
-  $Res=ExecSql($p_cn,"select ja_name,ja_url,ja_action from jrn_action  where ja_jrn_type='$p_jrn_type'
+  $Res=ExecSql($p_cn,"select ja_name,ja_url,ja_action,ja_desc from jrn_action  where ja_jrn_type='$p_jrn_type'
                       order by ja_id");
   $num=pg_NumRows($Res);
   if ($num==0)    return "";
