@@ -71,10 +71,10 @@ Dans PGDATA,vous trouverez le fichier nommé pg_hba.conf qui
 vous permettra de régler la sécurité<newline>
 
 Ce fichier doit au moins contenir la ligne:
-<quote>
+<verb>
 # TYPE  DATABASE    USER        IP-ADDRESS        IP-MASK           METHOD
-host    all         phpcompta   172.16.30.0         255.255.255.0   trust
-</quote>
+host    all         phpcompta   172.16.30.0         255.255.255.0   local
+</verb>
 Il vaut mieux remplacer 172.16.30.0 par l'adresse du server HTTP, dans
 le cas où vous utilisez un VirtualHost avec une adresse IP, c'est
 cette adresse qu'il vous faudra mettre
@@ -84,6 +84,30 @@ puisse créer des utilisateur et des bases de données la commande
 /opt/psql732/bin/createuser -a -d $USER
 </quote>
 </p>
+</sect1>
+<sect1> Pour la sécurité
+<p>Vous pouvez ajouter la sécurité à votre server Postgresql en changeant
+dans pg_hba.conf. Mais avant de faire cela, ajoutez un mot de passe à
+vos utilisateurs avec la commande remplacer .1. par le nom de l'utilisateur
+et .2. par son mot de passe
+<quote>
+changement mot de passe 
+alter user .1. password '.2.'
+</quote>
+Le fichier pg_hba.conf sera comme ceci
+<verb>
+Sécurité
+# TYPE  DATABASE    USER        IP-ADDRESS        IP-MASK           METHOD
+host    all         phpcompta   172.16.30.0         255.255.255.0   md5
+local    all         phpcompta   172.16.30.0         255.255.255.0   md5
+</verb>
+Ensuite soit vous utilisez la variable d'environnement PGPASSWORD qui contient
+votre mot de passe soit avec le fichier .pgpass dont la syntaxe est
+<quote>
+ host:port:database:username:password
+</quote>
+N'oubliez pas de mettre ce fichier en mode 600 !!!! Pour executer sans demande
+de mot de passe host = localhost
 </sect1>
 </sect>
 
