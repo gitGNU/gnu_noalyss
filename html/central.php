@@ -49,8 +49,7 @@ if ( $g_UserProperty['use_admin']==0 ) {
 }
 include_once("central_inc.php");
 
-$l_Db=sprintf("dossier%d",$g_dossier);
-$cn=DbConnect($l_Db);
+$cn=DbConnect($g_dossier);
 
 echo '<DIV CLASS="ccontent">';
 echo '<H2 CLASS="info"> Centralise </H2><BR>';

@@ -51,9 +51,8 @@ if ( $g_UserProperty['use_admin'] == 0 ) {
   }
 }
 echo ShowMenuParam();
-$l_Db=sprintf("dossier%d",$g_dossier);
 $p_action="";
-$cn=DbConnect($l_Db);
+$cn=DbConnect($g_dossier);
 if ( isset($_GET["p_action"]) ) {
   $p_action=$_GET["p_action"];
 }

@@ -30,10 +30,6 @@ $rep=DbConnect();
 include_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
-$rep=DbConnect();
-include_once ("class_user.php");
-$User=new cl_user($rep);
-$User->Check();
 include ("top_menu_compta.php");
 ShowMenuCompta($g_dossier,$g_UserProperty);
 
@@ -46,8 +42,7 @@ if ( $g_UserProperty['use_admin']==0 ) {
 }
 include_once("facture_inc.php");
 
-$l_dossier=sprintf("dossier%d",$g_dossier);
-$cn=DbConnect($l_dossier);
+$cn=DbConnect($g_dossier);
 ShowMenuComptaLeft($g_dossier,MENU_FACT);
 ShowMenuComptaRight($g_dossier,$g_UserProperty); 
 if ( $_GET["action"] ) {

@@ -46,8 +46,7 @@ if ( $g_UserProperty['use_admin'] == 0 ) {
   }
 }
 include_once("fiche_inc.php");
-$l_Db=sprintf("dossier%d",$g_dossier);
-$cn=DbConnect($l_Db);
+$cn=DbConnect($g_dossier);
 foreach ($HTTP_GET_VARS as $key=>$element) {
   // The value are e_name e_type e_PHPSESSID
   ${"e_$key"}=$element;

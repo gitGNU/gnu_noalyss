@@ -42,8 +42,7 @@ if ( isset( $p_jrn )) {
   session_register("g_jrn");
   $g_jrn=$p_jrn;
 }
-    $l_Db=sprintf("dossier%d",$g_dossier);
-    $cn=DbConnect($l_Db);
+    $cn=DbConnect($g_dossier);
 
 echo '<SCRIPT LANGUAGE="javascript" SRC="compute.js"></SCRIPT>';
 echo JS_CONCERNED_OP;
@@ -283,8 +282,6 @@ if ( isset($_POST['update_record']) ) {
 
 } // if update_record
 
-$l_Db=sprintf("dossier%d",$g_dossier);
-$cn=DbConnect($l_Db);
 ?>
 </DIV>
 <?
