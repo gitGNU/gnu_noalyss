@@ -1,4 +1,11 @@
+2004-12-16  sparkyx  <sparkyx@july>
+
+	* html/enc_jrn.php, html/style-light.css, html/user_jrn.php, include/top_menu_compta.php:
+	Fix style for compta style
+
 2004-12-15  sparkyx  <sparkyx@july>
+
+	* Changelog: changelog
 
 	* html/admin_repo.php, html/annulation.php, html/central.php, html/compta.php, html/dossier_prefs.php, html/enc_jrn.php, html/facturation.php, html/fiche.php, html/fiche_new.php, html/fiche_search.php, html/form.php, html/impress.php, html/jrn_add.php, html/jrn_detail.php, html/jrn_op_detail.php, html/jrn_search.php, html/jrn_update.php, html/line_update.php, html/login.php, html/modify_op.php, html/pcmn_update.php, html/poste_search.php, html/priv_user.php, html/rate_chg.php, html/recherche.php, html/show_tva.php, html/stock.php, html/style-light.css, html/test.php, html/user_advanced.php, html/user_compta.php, html/user_login.php, html/user_pref.php, html/user_sec.php, include/compta_menu.php, include/postgres.php, include/top_menu_compta.php, include/user_menu.php:
 	Change   remove all the global variable, user $_SESSION instead
