@@ -1206,17 +1206,10 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
 	  echo "<SCRIPT> alert('INVALID DATE $e_date !!!!');</SCRIPT>";
 	  return null;
 		}
-
-
-  // Test the date
-
-  // Compute the j_grpt
-  $seq=GetNextId($p_cn,'j_grpt')+1;
-  
   
   // Debit = banque
   $poste_bq=GetFicheAttribut($p_cn,$e_bank_account,ATTR_DEF_ACCOUNT);
-
+  StartSql($p_cn);
   $amount=0.0;  
   // Credit = goods 
   for ( $i = 0; $i < $nb_item;$i++) {
@@ -1228,7 +1221,10 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
     $amount+=${"e_other$i"."_amount"};
     // Record a line for the bank
     //    $type=( ${"e_other$i"."_amount"} < 0 )?'d':'c';
-    StartSql($p_cn);
+
+    // Compute the j_grpt
+    $seq=GetNextId($p_cn,'j_grpt')+1;
+
     if ( InsertJrnx($p_cn,'d',$p_user,$p_jrn,$poste_bq,$e_date,${"e_other$i"."_amount"},$seq,$periode) == false ) {
       $Rollback($p_cn);exit("error __FILE__ __LINE__");
     }
