@@ -106,10 +106,12 @@ if ( isset ($annul) ) {
 
   // build the sql stmt for jrnx
   $sql="insert into jrnx  (
+ j_date, 
  j_montant, j_poste,j_grpt,j_jrn_def, j_debit,
  j_text,j_internal,j_tech_user,j_tech_per
  )
  select 
+ to_date('$e_op_date','DD.MM.YYYY'),
  j_montant, j_poste, $seq, j_jrn_def, case when j_debit=false then true else false end, 
  j_text,'ANNULE','$g_user',$period
  from jrnx where j_grpt=".$_POST['p_id'];
@@ -121,7 +123,7 @@ if ( isset ($annul) ) {
  jr_def_id,jr_montant,jr_comment,               jr_date,jr_grpt_id,jr_internal                 ,jr_tech_per,
  jr_valid
  ) select 
- jr_def_id,jr_montant,'Annulation '||jr_comment,jr_date,$seq       ,'ANNULE',               $period,
+ jr_def_id,jr_montant,'Annulation '||jr_comment,to_date('$e_op_date','DD.MM.YYYY'),$seq       ,'ANNULE',               $period,
   false 
  from 
  jrn
