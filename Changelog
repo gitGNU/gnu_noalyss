@@ -1,4 +1,15 @@
+2005-01-10  sparkyx  <sparkyx@july>
+
+	* doc/manuel-fr.sgml: Improve doc
+
+	* include/ac_common.php:
+	Quote problem when php.ini not configured correctly
+
+	* include/class_balance.php, include/class_fiche.php: Improve code
+
 2005-01-04  sparkyx  <sparkyx@july>
+
+	* Changelog: Changelog
 
 	* html/fiche.php, html/impress.php, html/jrn_update.php, html/user_compta.php, html/user_impress.php, html/user_jrn.php, html/user_pref.php, html/user_sec.php, include/check_priv.php, include/class_user.php, include/compta_menu.php, include/jrn.php, include/poste.php, include/postgres.php, include/top_menu_compta.php, include/user_action_ach.php, include/user_action_fin.php, include/user_action_gl.php, include/user_action_ods.php, include/user_action_ven.php, include/user_menu.php:
 	Code cleaning : DbConnect function
