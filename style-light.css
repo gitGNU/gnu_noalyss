@@ -6,7 +6,7 @@ BODY.defaut {
         bgcolor:#E3F0FF;
 }
 h2.info {
-	background:gray;
+	background:#879ed4;
 	color:white;
 	font-size:20px;
 }
@@ -32,7 +32,6 @@ div.mtitle {
 	top:15px;
 	right:300px;
 	width:100px;
-        background:#E3F0FF;
 
 }
 
@@ -42,7 +41,6 @@ div.tmenu {
 	left:120px;
 	width:800px;
 
-        background-color:#E3F0FF;
 }
 
 div.lmenu {
@@ -50,7 +48,6 @@ div.lmenu {
 	top:50px;
 	left:30px;
 	width:100px;
-        background-color:#E3F0FF;
 }
 div.lextmenu {
 	position: absolute;
@@ -58,44 +55,37 @@ div.lextmenu {
 	font-size:11pt;
 	left:30px;
 	width:200px;
-        background-color:#E3F0FF;
 }
 div.searchmenu {
 	font-size:11pt;
 	left:30px;
-	width:245px;
-        background-color:#E3F0FF;
+	width:210px;
 }
 div.credit{
 	border-style:solid;
 	border-width:1pt;
-        background-color:#E3F0FF;
 }
 div.debit{
 	border-style:solid;
 	border-width:1pt;
-        background-color:#E3F0FF;
 }
 div.redcontent{
 	position: absolute;
 	top:40px;
 	left:250px;
 	width:600px;
-        background-color:#E3F0FF;
 }
 div.ccontent{
 	position: absolute;
 	top:40px;
 	left:130px;
 	width:680px;
-        background-color:#E3F0FF;
 }
 div.rmenu {
 	position: absolute;
 	top:50px;
 	right:30px;
 	width:100px;
-        background-color:#E3F0FF;
 }
 
 table.mtitle {
@@ -106,6 +96,7 @@ td.mshort {
   text-align:center;
   border:  1px solid;
   color:#5D90CD ;
+  background-color:#DDE6FF;
 }
 td.mlltitle {
 	text-align:center;
@@ -115,18 +106,19 @@ td.mlltitle {
 }
 td.mltitle {
 	text-align:center;
-	background:url('image/elegant-n.jpg') no-repeat;
 	height:30px;
-	width:100px;
+	width:80px;
 	font-size:12px;
-        border 1px solid;
+        border: 1px solid;
+        background-color:#DDE6FF;
 }
 td.mtitle {
 	text-align:center;
-	background:url('image/elegant-n.jpg') no-repeat center;
 	height:30px;
-	width:100px;
+	width:80px;
 	font-size:12px;
+        border: 1px solid;
+    background-color:#DDE6FF;
 }
 span.mtitle2 {
 	background-color:red;
