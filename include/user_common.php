@@ -52,16 +52,16 @@ return $r;
  *        
  * parm : 
  *	- database connection
- *  - fiche
- *  - quantity
- *  - p_type ATTR_DEF_PRIX_VENTE ATTR_DEF_PRIX_ACHAT
+ *  - fiche id array
+ *  - quantity array 
+ *  - price array 
  * gen :
  *	-
  * return: array
  *       a[tva_id] =  amount vat
  */
-function ComputeVat($p_cn,	$a_fiche,$a_quant,$p_type) {
-echo_debug("ComputeVat $a_fiche $a_quant $p_type");
+function ComputeVat($p_cn,	$a_fiche,$a_quant,$a_price) {
+echo_debug("ComputeVat $a_fiche $a_quant $a_price");
 // foreach goods 
 for ( $i=0 ; $i < sizeof($a_fiche);$i++) {
 // Get the tva_id
@@ -71,11 +71,9 @@ $tva_id=GetFicheAttribut($p_cn,$a_fiche[$i],ATTR_DEF_TVA);
 	$a_vat=GetTvaRate($p_cn,$tva_id);
 	
 	// Get the attribut price of the card(fiche)
-	$amount=GetFicheAttribut($p_cn,$a_fiche[$i],$p_type);
-	
 	if ( $a_vat != null ) {
 		$a=$a_vat['tva_id'];
-		$vat_amount=$amount*$a_vat['tva_rate']*$a_quant[$i];
+		$vat_amount=$a_price[$i]*$a_vat['tva_rate']*$a_quant[$i];
 		$r[$a]=isset ( $r[$a] )?$r[$a]+$vat_amount:$vat_amount;
 		} else {
 			echo_error("Not vat here in ComputeVat !");
@@ -146,6 +144,7 @@ function InsertJrnx($p_cn,$p_type,$p_user,$p_jrn,$p_poste,$p_date,$p_amount,$p_g
 			$p_date,$p_amount,$p_poste,$p_grpt,$p_jrn,$debit,$p_user,$p_periode);
 	echo_debug("InsertJrnx $sql");
 	$Res=ExecSql($p_cn,$sql);
+	return GetSequence($p_cn,'s_jrn_op');
 
 }
 /* function InsertJrn($p_cn,$p_date,$p_jrn,$p_comment,$p_amount,$p_grpt,$p_periode);
@@ -271,4 +270,57 @@ for ($i=0; $i < $Max;$i++) {
 	}
 $r.="</table>";
 return $r;
+}
+/* function InsertStockGoods($p_cn,$j_id,$a_good[$i],$a_quant[$i],'c');
+ **************************************************
+ * Purpose : Insert data into stock_goods,
+ *        
+ * parm : 
+ *	- $p_cn database connection
+ *      - $p_j_id the j_id
+ *      - $p_goods the goods
+ *      - $p_quant  quantity
+ *      - $p_type c for credit or d for debit
+ * gen :
+ *	- none
+ * return:
+ *       none
+ */
+
+
+function InsertStockGoods($p_cn,$p_j_id,$p_good,$p_quant,$p_type)
+{
+  if ( $p_type == 'd' ) 
+    $col='sg_quantity_deb';
+  else
+    $col='sg_quantity_cred';
+
+  $Res=ExecSql($p_cn,"insert into stock_goods (
+                            j_id,
+                            f_id,
+                            $col) values (
+                            $p_j_id,
+                            $p_good,
+                            $p_quant) 
+                     ");
+}
+/* function withStock($p_cn,$p_f_id)
+ **************************************************
+ * Purpose : return true if we manage stock for it
+ *          value is stored in attr_value
+ *        
+ * parm : 
+ *	- $p_cn database connection
+ *      - $p_f_id fiche.f_id
+ * gen :
+ *	- none
+ * return:
+ *       none
+ */
+function withStock($p_cn,$p_f_id)
+{
+  $a=getFicheAttribut($p_cn,$p_f_id, ATTR_DEF_STOCK);
+  if ( $a == "1" ) return true;
+  return false;
+
 }
