@@ -1,4 +1,24 @@
+2005-02-06  sparkyx  <sparkyx@july>
+
+	* sql/account_repository/comment.sql, sql/account_repository/constraint.sql, sql/account_repository/data.sql, sql/account_repository/function.sql, sql/account_repository/index.sql, sql/account_repository/make-sql, sql/account_repository/sequence.sql, sql/account_repository/table.sql, sql/account_repository/view.sql, sql/dossier1/comment.sql, sql/dossier1/constraint.sql, sql/dossier1/data.sql, sql/dossier1/function.sql, sql/dossier1/index.sql, sql/dossier1/make-sql, sql/dossier1/schema.sql, sql/dossier1/sequence.sql, sql/dossier1/table.sql, sql/dossier1/view.sql, sql/mod1/comment.sql, sql/mod1/constraint.sql, sql/mod1/data.sql, sql/mod1/function.sql, sql/mod1/index.sql, sql/mod1/make-sql, sql/mod1/sequence.sql, sql/mod1/table.sql, sql/mod1/view.sql:
+	File are now in html/admin/sql in order to work with the new installer setup.php
+
+	* include/ac_common.php, include/constant.php, include/postgres.php:
+	Improve dbconnect to permit setup.php to work
+
+	* include/jrn.php: Change the way the internal code is computed
+
+	* INSTALL-fr.txt, doc/INSTALL-fr.sgml: Update doc
+
+	* html/admin/setup.php, html/admin/sql/account_repository/comment.sql, html/admin/sql/account_repository/constraint.sql, html/admin/sql/account_repository/data.sql, html/admin/sql/account_repository/function.sql, html/admin/sql/account_repository/index.sql, html/admin/sql/account_repository/make-sql, html/admin/sql/account_repository/schema.sql, html/admin/sql/account_repository/sequence.sql, html/admin/sql/account_repository/table.sql, html/admin/sql/account_repository/view.sql, html/admin/sql/dossier1/comment.sql, html/admin/sql/dossier1/constraint.sql, html/admin/sql/dossier1/data.sql, html/admin/sql/dossier1/function.sql, html/admin/sql/dossier1/index.sql, html/admin/sql/dossier1/make-sql, html/admin/sql/dossier1/schema.sql, html/admin/sql/dossier1/sequence.sql, html/admin/sql/dossier1/table.sql, html/admin/sql/dossier1/view.sql, html/admin/sql/mod1/comment.sql, html/admin/sql/mod1/constraint.sql, html/admin/sql/mod1/data.sql, html/admin/sql/mod1/function.sql, html/admin/sql/mod1/index.sql, html/admin/sql/mod1/make-sql, html/admin/sql/mod1/schema.sql, html/admin/sql/mod1/sequence.sql, html/admin/sql/mod1/table.sql, html/admin/sql/mod1/view.sql, html/admin/variable.php:
+	NEW :
+	In order to get easier the installation and the upgrade of the database
+	a new module webbased has been created, the old version of install.sh
+	is now obsolete
+
 2005-02-04  sparkyx  <sparkyx@july>
+
+	* Changelog: changelog
 
 	* INSTALL-fr.txt, doc/INSTALL-fr.sgml, doc/function.txt, include/form_input.php, include/user_common.php, include/user_menu.php:
 	Improve the search : it is now possible to find all the operation related to a poste
