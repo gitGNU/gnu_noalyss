@@ -175,6 +175,15 @@ passe pas par des comptes débiteurs mais directement en faisant banque
 à produits...
 
 </sect2>
+<sect2> Les pièces justificatives.
+<p>Toutes les pièces justificatives (extrait de compte en banque, factures,
+...) doivent être numérotées.
+
+<p> Le numéro de la pj doit être soit celui de l'opération dans le grand livre,
+ soit celui du livre centralisé où l'opération a été inscrite. Il est important 
+que ce numéro vienne du livre centralisé puisque lors de la centralisation, les
+opérations sont réordonnées par date.
+</sect2>
 </sect1>
 <sect1> Fiscalité, TVA
 <p> tous les requalifications des montants doivent
