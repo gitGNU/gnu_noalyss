@@ -72,5 +72,20 @@ $sql="insert into centralized( c_j_id,
  EndSql($p_cn);
  return NOERROR;
 }
+/* function isCentralize($p_cn,$p_user) 
+ **************************************************
+ * Purpose : test if e jrn_jr.id is centralize or not 
+ *        
+ * parm :  
+ *	- p_cn 
+ *      - p_jnr_id jrn.jr_id 
+ * gen : 
+ *	-  none 
+ * return: 0 if not centralized otherwise > 0
+ */
+function isCentralize($p_cn,$p_jrn_id) {
+  $Res=ExecSql($p_cn,"select c_id from centralized where c_j_id=$p_jrn_id");
+  return pg_NumRows($Res);
+}
 
 ?>
