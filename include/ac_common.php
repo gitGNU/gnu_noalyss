@@ -207,7 +207,7 @@ function NoAccess() {
   exit -1;
 }
 /* function FormatString($p_string) 
- * Purpose : 
+ * Purpose : Fix the problem with the ' char
  *        
  * parm : 
  *	-
