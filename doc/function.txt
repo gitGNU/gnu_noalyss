@@ -3,7 +3,7 @@
 ************************* File = advanced.php ****************
 ************************* File = annulation.php ****************
 ************************* File = a.php ****************
-************************* File = balance.php ****************
+************************* File = bal_csv.php ****************
 ************************* File = b.php ****************
 ************************* File = central.php ****************
 ************************* File = class.ezpdf.php ****************
@@ -12,18 +12,23 @@
 ************************* File = compta.php ****************
 ************************* File = c.php ****************
 ************************* File = dossier_prefs.php ****************
+************************* File = d.php ****************
 ************************* File = enc_jrn.php ****************
 ************************* File = e.php ****************
 ************************* File = facturation.php ****************
+************************* File = fiche_csv.php ****************
 ************************* File = fiche_new.php ****************
 ************************* File = fiche.php ****************
 ************************* File = fiche_search.php ****************
 ************************* File = form.php ****************
+************************* File = html_balance.php ****************
 ************************* File = impress.php ****************
 ************************* File = index.php ****************
 ************************* File = jrn_add.php ****************
+************************* File = jrn_csv.php ****************
 ************************* File = jrn_detail.php ****************
 ************************* File = jrn_op_detail.php ****************
+************************* File = jrn_pdf.php ****************
 ************************* File = jrn_search.php ****************
 ************************* File = jrn_update.php ****************
 ************************* File = line_update.php ****************
@@ -32,6 +37,8 @@
 ************************* File = modify_op.php ****************
 ************************* File = not_implemented.php ****************
 ************************* File = pcmn_update.php ****************
+************************* File = poste_csv.php ****************
+************************* File = poste_pdf.php ****************
 ************************* File = poste_search.php ****************
 ************************* File = print_balance.php ****************
 ************************* File = print_invoice.php ****************
@@ -39,6 +46,7 @@
 ************************* File = rapprochement.php ****************
 ************************* File = rate_chg.php ****************
 ************************* File = readme.php ****************
+************************* File = recherche.php ****************
 ************************* File = send_jrn_pdf.php ****************
 ************************* File = send.php ****************
 ************************* File = send_poste_pdf.php ****************
@@ -176,6 +184,18 @@ ac_common.php  *	- none
 ac_common.php  * return:
 ac_common.php  *      - none
 ac_common.php  */
+ac_common.php /* function make_array($cn,$sql)
+ac_common.php  **************************************************
+ac_common.php  * Purpose : make a array with the sql
+ac_common.php  *        
+ac_common.php  * parm : 
+ac_common.php  *	- $cn dbatabase connection
+ac_common.php  *      - $sql related sql 
+ac_common.php  * gen :
+ac_common.php  *	- none
+ac_common.php  * return: a double array [value,label]
+ac_common.php  */
+************************* File = balance.php ****************
 ************************* File = central_inc.php ****************
 central_inc.php /* function Centralise
 central_inc.php  * Purpose :
@@ -259,6 +279,131 @@ check_priv.php  * return:
 check_priv.php  *     1 if yes
 check_priv.php  *     0 if no
 check_priv.php  */
+************************* File = class_attribut.php ****************
+class_attribut.php /* function       SortAttributeById
+class_attribut.php  **************************************************
+class_attribut.php  * Purpose : Sort an array of object attribut thx the
+class_attribut.php  *        ad_id
+class_attribut.php  * parm : 
+class_attribut.php  *	- array of Attribut objects
+class_attribut.php  * gen :
+class_attribut.php  *	-
+class_attribut.php  * return: the ordered array
+class_attribut.php  */
+************************* File = class_balance.php ****************
+************************* File = class_fiche.php ****************
+class_fiche.php /* function GetAttribut
+class_fiche.php  **************************************************
+class_fiche.php  * Purpose : Get attribut of a fiche_def
+class_fiche.php  *        
+class_fiche.php  * parm : 
+class_fiche.php  *	- none
+class_fiche.php  * gen :
+class_fiche.php  *	- none
+class_fiche.php  * return:
+class_fiche.php  * none
+class_fiche.php  */
+class_fiche.php  /* function Get
+class_fiche.php  **************************************************
+class_fiche.php  * Purpose : Get attribut of the fiche_def
+class_fiche.php  *        
+class_fiche.php  * parm : 
+class_fiche.php  *	- none
+class_fiche.php  * gen :
+class_fiche.php  *	- none
+class_fiche.php  * return:
+class_fiche.php  *       none
+class_fiche.php  */
+class_fiche.php /* function GetAll
+class_fiche.php  **************************************************
+class_fiche.php  * Purpose : Get all the fiche_def
+class_fiche.php  *        
+class_fiche.php  * parm : 
+class_fiche.php  *	- none
+class_fiche.php  * gen :
+class_fiche.php  *	- none
+class_fiche.php  * return: an array of fiche_def object 
+class_fiche.php  */
+************************* File = class_jrn.php ****************
+class_jrn.php /* function GetRow
+class_jrn.php  * Purpose : Get The data for the pdf printing
+class_jrn.php  * 
+class_jrn.php  * parm : 
+class_jrn.php  *	- connection
+class_jrn.php  *      - array
+class_jrn.php  *      - p_limit starting line
+class_jrn.php  *      - p_offset number of lines
+class_jrn.php  *
+class_jrn.php  * gen :
+class_jrn.php  *	- none
+class_jrn.php  * return:
+class_jrn.php  *	- Array with the asked data
+class_jrn.php  *
+class_jrn.php  */ 
+************************* File = class_operation.php ****************
+************************* File = class_poste.php ****************
+class_poste.php   /* function GetRow
+class_poste.php    * Purpose : Get dat for poste 
+class_poste.php    * 
+class_poste.php    * parm : 
+class_poste.php    *      - connection
+class_poste.php    *	- condition
+class_poste.php    *      -. position
+class_poste.php    * gen :
+class_poste.php    *	- none
+class_poste.php    * return:
+class_poste.php    *	- none
+class_poste.php    *
+class_poste.php    */ 
+************************* File = class_user.php ****************
+class_user.php /* function CheckAdmin
+class_user.php  **************************************************
+class_user.php  * Purpose : Check if an user is an admin
+class_user.php  *        
+class_user.php  * parm : 
+class_user.php  *	- none
+class_user.php  * gen : 
+class_user.php  *	- none 
+class_user.php  * return: 1 for yes 0 for no
+class_user.php  */
+class_user.php /* function SetPeriode
+class_user.php  * Purpose : Set the selected periode in the user's preferences
+class_user.php  * 
+class_user.php  * parm : 
+class_user.php  
+class_user.php  *      - $p_periode 
+class_user.php  *      - $p_user
+class_user.php  * gen :
+class_user.php  *	- none
+class_user.php  * return:
+class_user.php  *	- none
+class_user.php  *
+class_user.php  */ 
+class_user.php /* function GetPeriode
+class_user.php  * Purpose : Get the default periode from the user's preferences
+class_user.php  * 
+class_user.php  * parm : 
+class_user.php  *	- $p_cn connexion 
+class_user.php  *      - $p_user
+class_user.php  * gen :
+class_user.php  *	- none
+class_user.php  * return:
+class_user.php  *	- the default periode
+class_user.php  *
+class_user.php  */ 
+class_user.php /* function GetPreferences
+class_user.php  * Purpose : Get the default user's preferences
+class_user.php  * 
+class_user.php  * parm : 
+class_user.php  *	- $p_cn connexion 
+class_user.php  *      - $p_user
+class_user.php  * gen :
+class_user.php  *	- none
+class_user.php  * return:
+class_user.php  *	- none
+class_user.php  *
+class_user.php  */ 
+************************* File = class_widget.php ****************
 ************************* File = compta_menu.php ****************
 compta_menu.php /* function c_ShowMenuComptaRight
 compta_menu.php  * Purpose : Display menu on the Right
@@ -1073,6 +1218,7 @@ form_input.php  *	- none
 form_input.php  * return:
 form_input.php  *	      true on success
 form_input.php  */
+************************* File = impress_fiche.php ****************
 ************************* File = impress_form.php ****************
 ************************* File = impress_inc.php ****************
 impress_inc.php /* function ViewImp
@@ -1900,10 +2046,10 @@ top_menu_compta.php  * return:
 top_menu_compta.php  *	- none
 top_menu_compta.php  *
 top_menu_compta.php  */ 
-top_menu_compta.php /* function ShowMenuAdminGlobal */
 ************************* File = top_menu.php ****************
 ************************* File = user_action_ach.php ****************
 ************************* File = user_action_fin.php ****************
+************************* File = user_action_gl.php ****************
 ************************* File = user_action_ods.php ****************
 ************************* File = user_action_ven.php ****************
 ************************* File = user_common.php ****************
@@ -2210,6 +2356,17 @@ user_menu.php  *	- none
 user_menu.php  * return:
 user_menu.php  *     - string containing the menu
 user_menu.php  */
+user_menu.php /* function get_quick_key
+user_menu.php  * Purpose : Show the menu of the jrn depending of its type
+user_menu.php  *  return a not yet used access key. The returned key is added to $access_key_list       
+user_menu.php  * parm : 
+user_menu.php  *      - $title
+user_menu.php  *	- &$access_key_list
+user_menu.php  * gen :
+user_menu.php  *	- none
+user_menu.php  * return:
+user_menu.php  *     - string containing the menu
+user_menu.php  */
 user_menu.php /* function u_ShowMenuRecherche ($p_cn,$p_jrn,$p_sessid,$p_array=null)
 user_menu.php  * Purpose :
 user_menu.php  * 
@@ -2243,6 +2400,28 @@ user_menu.php  * gen :
 user_menu.php  *	- none
 user_menu.php  * return: a string
 user_menu.php  */
+user_menu.php /* function ShowMenuFiche
+user_menu.php  **************************************************
+user_menu.php  * Purpose : 
+user_menu.php  *        
+user_menu.php  * parm : 
+user_menu.php  *	-
+user_menu.php  * gen :
+user_menu.php  *	-
+user_menu.php  * return:
+user_menu.php  */
+user_menu.php /* function ShowMenuAdminGlobalRight($p_dossier=0)
+user_menu.php  * Purpose :
+user_menu.php  *        Same as previous : show the right menu
+user_menu.php  * parm : 
+user_menu.php  *	- p_dossier
+user_menu.php  * gen :
+user_menu.php  *	- none
+user_menu.php  * return:
+user_menu.php  *	- none
+user_menu.php  *
+user_menu.php  */ 
+user_menu.php /* function MenuAdmin */
 ************************* File = user_update.php ****************
 ************************* File = viewjrn.php ****************
 viewjrn.php /* function ViewJrn

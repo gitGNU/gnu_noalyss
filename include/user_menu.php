@@ -375,6 +375,7 @@ function get_quick_key($title,&$access_key_list)
 function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
 {
   echo_debug(__FILE__,__LINE__,"u_ShowMenuRecherche($p_cn,$p_array)");
+  include ("form_input.php");
   if ( $p_array != null ) {
     foreach ( $p_array as $key=> $element) {
       ${"p_$key"}=$element;
@@ -396,12 +397,14 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
   if ( ! isset ($p_s_comment))$p_s_comment="";
   if ( ! isset ($p_s_montant)) $p_s_montant="";
   if ( ! isset ($p_s_internal)) $p_s_internal="";
+  if ( ! isset ($p_poste)) $p_poste="";
 
 
   if ( $p_mont_sel != "" )  $opt.='<OPTION value="'.$p_mont_sel.'" SELECTED> '.$p_mont_sel;
   $r="";
  
   $r.= '<div style="border-style:outset;border-width:1pt;">';
+  $r.=JS_SEARCH_POSTE;
   $r.= "<B>Recherche</B>";
   $r.= '<FORM ACTION="recherche.php?action=search&PHPSESSID='.$p_sessid.'&nofirst" METHOD="POST">';  
   $r.= '<TABLE>';
@@ -418,7 +421,13 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
   $r.= "</TR><TR>";
   $r.="<TD> Internal code</td>";
   $r.='<TD><input type="text" name="s_internal" value="'.$p_s_internal.'"></td>';
-  $r.= "</TR><TR>";
+  $r.= "</TR>";
+
+  $r.='<TR>'.InputType("numéro de poste","js_search_poste","poste",$p_poste);
+
+
+  $r.= "<TR>";
+
   $r.= '<TD colspan="3"> Le commentaire contient </TD>';
   $r.= "</TR><TR>";
   $r.= '<TD COLSPAN="3"> <INPUT TYPE="TEXT" NAME="s_comment" VALUE="'.$p_s_comment.'"></TD>';

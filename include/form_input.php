@@ -1495,7 +1495,7 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
   $e_ech=(isset($e_ech))?$e_ech:"";
   $e_comment=(isset($e_comment))?$e_comment:"";
   // Save old value and set a new one
-  //  echo_debug(__FILE__,__LINE__,"form_input.php.FormODS p_op_date is $e_date");
+
   $r="";
   if ( $view_only == false) {
     $r.=JS_SEARCH_POSTE;

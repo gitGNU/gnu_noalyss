@@ -276,10 +276,12 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
                 ";
     $jrn_sql=($p_jrn =0)?"1=1":"jrn_def_id=$p_jrn ";
     $l_and=" where ";
+    // amount
     if ( ereg("^[0-9]+$", $l_s_montant) || ereg ("^[0-9]+\.[0-9]+$", $l_s_montant) ) {
     $sql.=$l_and."  jr_montant $l_mont_sel $l_s_montant";
     $l_and=" and ";
     }
+    // date
     if ( isDate($l_date_start) != null ) {
       $sql.=$l_and." jr_date >= to_date('".$l_date_start."','DD.MM.YYYY')";
       $l_and=" and ";
@@ -288,15 +290,23 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
       $sql.=$l_and." jr_date <= to_date('".$l_date_end."','DD.MM.YYYY')";
       $l_and=" and ";
     }
+    // comment
     $l_s_comment=FormatString($l_s_comment);
     if ( $l_s_comment != null ) {
       $sql.=$l_and." upper(jr_comment) like upper('%".$l_s_comment."%') ";
       $l_and=" and ";
     }
+    // internal
     $l_s_internal=FormatString($l_s_internal);
     if ( $l_s_internal != null ) {
       $sql.=$l_and."  jr_internal like ('%$l_s_internal%')  ";
       $l_and=" and ";
+    }
+    // Poste
+    $l_poste=FormatString($l_poste);
+    if ( $l_poste != null ) {
+      $sql.=$l_and."  jr_grpt_id in (select j_grpt 
+             from jrnx where j_poste = $l_poste)  ";
     }
     $sql.=" order by jr_date_order asc";
   }// p_array != null

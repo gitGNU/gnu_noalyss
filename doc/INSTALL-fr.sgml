@@ -100,10 +100,10 @@ jointures,! attention ce paramètre donne la consommation mémoire par session ! <
 des liens brisés. Cela permettra à Apache d'utiliser des connections existantes au lieu
 dans créer des nouvelles, l'autre paramètre permet à Apache de détecter les connexions 
 inutilisées.
-<quote>
+<verb>
 pgsql.allow_persistent = On
 pgsql.auto_reset_persistent = On
-</quote>
+</verb>
 </item>
 <item> Dans postgres.conf, les shared_buffers: calculées en page de 8Kb, la valeur par défaut
 est de seulement 64, ce qui correspond à 512Kb, une meilleure valeur est 640 </item>
@@ -115,30 +115,30 @@ est de seulement 64, ce qui correspond à 512Kb, une meilleure valeur est 640 </i
 dans pg_hba.conf. Mais avant de faire cela, ajoutez un mot de passe à
 vos utilisateurs avec la commande remplacer .1. par le nom de l'utilisateur
 et .2. par son mot de passe
-<quote>
+<verb>
 changement mot de passe 
 alter user .1. password '.2.'
-</quote>
+</verb>
 
-<quote>
+<verb>
 Sécurité
 # TYPE  DATABASE    USER        IP-ADDRESS        IP-MASK           METHOD
 host    all         phpcompta   172.16.30.0         255.255.255.0   md5
 local    all         phpcompta   172.16.30.0         255.255.255.0   md5
-</quote>
+</verb>
 Ensuite soit vous utilisez la variable d'environnement PGPASSWORD qui contient
 votre mot de passe soit avec le fichier .pgpass dont la syntaxe est
-<quote>
+<verb>
  host:port:database:username:password
-</quote>
+</verb>
 N'oubliez pas de mettre ce fichier en mode 600 !!!! Pour executer sans demande
 de mot de passe host = localhost
 
 Ensuite soit vous utilisez la variable d'environnement PGPASSWORD qui contient
 votre mot de passe soit avec le fichier .pgpass dont la syntaxe est
-<quote>
+<verb>
  host:port:database:username:password
-</quote>
+</verb>
 N'oubliez pas de mettre ce fichier en mode 600 !!!! Pour executer sans demande
 de mot de passe host = localhost
 </sect1>
@@ -149,7 +149,7 @@ de mot de passe host = localhost
 <p>
 Si vous décidez de le compiler vous-même, les
 options suivantes fonctionnent
-<quote>
+<verb>
 ./configure --prefix=/opt/http2/ \
 	    --enable-ssl \
 	    --enable-http \
@@ -158,7 +158,7 @@ options suivantes fonctionnent
             --enable-usertrack \
             --enable-headers \
             --enable-info
-</quote>
+</verb>
 </p>
 </sect1>
 
@@ -166,20 +166,20 @@ options suivantes fonctionnent
 <P>
 Le fichier httpd.conf doit au moins contenir. Pour plus d'information, voir
 le manuel d'Apache.
-<quote>
+<verb>
 LoadModule	php4_module	modules/libphp4.so
 AddType application/x-httpd-php	.php4 .php3 .php .phtml
-</quote>
+</verb>
 Et si vous décidez d'avoir la même configuration que moi, mais ce
 n'est pas obligatoire
-<quote>
+<verb>
 &lt; VirtualHost 172.16.30.150 &gt;
 	ServerName site
 	ErrorLog phpcompta-error.log
 	TransferLog phpcompta-debug.log
 	DocumentRoot /home/httpd/compta/html
 &lt;/VirtualHost &gt;
-</quote>
+</verb>
 
 Apache se démarre avec apachectl start
 </p>
@@ -224,7 +224,6 @@ magic_quotes_gpc = Off
 magic_quotes_runtime = Off
 magic_quotes_sybase = Off
 
-register_globals	= on
 
 [Session]
 session.save_handler      = files   ; handler used to store/retrieve data

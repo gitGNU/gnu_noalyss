@@ -102,14 +102,35 @@
   [1m2.3.  Optimisation[0m
 
   Posgresql est une base de données très rapide, cependant, il vous
-  faudra configurer pour pouvoir en bénéficier
+  faudra configurer pour pouvoir en bénéficier. Les paramètres par
+  défaut sont prévus pour une machine qui n'a que 16 Mb de RAM... Donc,
+  aller voir la documentation sur Postgresql.org, chapitre Run-time
+  Configuration.
+
+
+  Les paramètres que vous pouvez utiliser si vous avez une machine d'au
+  moins 256 Mb:
 
   ·  Augmenter la zone mémoire pour les tri (dans postgres.conf)
-     sort_mem = 8192
+     sort_mem = 8192; cette zone mémoire est important car elle a trait
+     à la mémoire utilisé pour les tris et les jointures,! attention ce
+     paramètre donne la consommation mémoire par session !
 
   ·  Faites tourner régulièrement vacumdb -a -z grâce au crontab
 
-  ·  Dans php.ini, bien utiliser les permanent_connection
+  ·  Dans php.ini, bien utiliser les permanent_connection ainsi que la
+     détection des liens brisés. Cela permettra à Apache d'utiliser des
+     connections existantes au lieu dans créer des nouvelles, l'autre
+     paramètre permet à Apache de détecter les connexions inutilisées.
+
+     pgsql.allow_persistent = On
+     pgsql.auto_reset_persistent = On
+
+
+
+  ·  Dans postgres.conf, les shared_buffers: calculées en page de 8Kb,
+     la valeur par défaut est de seulement 64, ce qui correspond à
+     512Kb, une meilleure valeur est 640
 
   ·  à compléter
 
@@ -120,20 +141,22 @@
   vos utilisateurs avec la commande remplacer .1. par le nom de
   l'utilisateur et .2. par son mot de passe
 
-       changement mot de passe alter user .1. password '.2.'
+  changement mot de passe
+  alter user .1. password '.2.'
 
 
 
-       Sécurité # TYPE  DATABASE    USER        IP-ADDRESS
-       IP-MASK           METHOD host    all         phpcompta
-       172.16.30.0         255.255.255.0   md5 local    all
-       phpcompta   172.16.30.0         255.255.255.0   md5
+  Sécurité
+  # TYPE  DATABASE    USER        IP-ADDRESS        IP-MASK           METHOD
+  host    all         phpcompta   172.16.30.0         255.255.255.0   md5
+  local    all         phpcompta   172.16.30.0         255.255.255.0   md5
+
 
   Ensuite soit vous utilisez la variable d'environnement PGPASSWORD qui
   contient votre mot de passe soit avec le fichier .pgpass dont la syn-
   taxe est
 
-       host:port:database:username:password
+   host:port:database:username:password
 
 
   N'oubliez pas de mettre ce fichier en mode 600 !!!! Pour executer sans
@@ -143,7 +166,7 @@
   contient votre mot de passe soit avec le fichier .pgpass dont la
   syntaxe est
 
-       host:port:database:username:password
+   host:port:database:username:password
 
 
   N'oubliez pas de mettre ce fichier en mode 600 !!!! Pour executer sans
@@ -156,9 +179,15 @@
   Si vous décidez de le compiler vous-même, les options suivantes
   fonctionnent
 
-       ./configure --prefix=/opt/http2/ \ --enable-ssl \ --enable-
-       http \ --enable-cgi \ --enable-so \ --enable-usertrack \
-       --enable-headers \ --enable-info
+  ./configure --prefix=/opt/http2/ \
+              --enable-ssl \
+              --enable-http \
+              --enable-cgi \
+              --enable-so \
+              --enable-usertrack \
+              --enable-headers \
+              --enable-info
+
 
 
   [1m3.2.  Configuration d'Apache[0m
@@ -166,16 +195,20 @@
   Le fichier httpd.conf doit au moins contenir. Pour plus d'information,
   voir le manuel d'Apache.
 
-       LoadModule      php4_module     modules/libphp4.so AddType
-       application/x-httpd-php .php4 .php3 .php .phtml
+  LoadModule      php4_module     modules/libphp4.so
+  AddType application/x-httpd-php .php4 .php3 .php .phtml
 
 
   Et si vous décidez d'avoir la même configuration que moi, mais ce
   n'est pas obligatoire
 
-       < VirtualHost 172.16.30.150 > ServerName site ErrorLog php-
-       compta-error.log TransferLog phpcompta-debug.log Document-
-       Root /home/httpd/compta/html </VirtualHost >
+  < VirtualHost 172.16.30.150 >
+          ServerName site
+          ErrorLog phpcompta-error.log
+          TransferLog phpcompta-debug.log
+          DocumentRoot /home/httpd/compta/html
+  </VirtualHost >
+
 
 
   Apache se démarre avec apachectl start
@@ -188,14 +221,13 @@
   vous-même, les options suivantes fonctionnent
 
 
-
-  ./configure --prefix=/opt/php431 \
-      --with-apxs2=/opt/http2/bin/apxs \
-      --with-fastcgi \
-      --with-zlib \
-      --with-pgsql=/opt/psql732 \
-      --with-mysql \
-      --with-apache2=/software/httpd-2.0.44
+       ./configure --prefix=/opt/php431 \
+           --with-apxs2=/opt/http2/bin/apxs \
+           --with-fastcgi \
+           --with-zlib \
+           --with-pgsql=/opt/psql732 \
+           --with-mysql \
+           --with-apache2=/software/httpd-2.0.44
 
 
 
@@ -213,11 +245,11 @@
   suivantes
 
 
+
   magic_quotes_gpc = Off
   magic_quotes_runtime = Off
   magic_quotes_sybase = Off
 
-  register_globals        = on
 
   [Session]
   session.save_handler      = files   ; handler used to store/retrieve data
@@ -254,6 +286,7 @@
 
   ·  Là on vous comptez installer le soft, créer le répertoire, règler
      les permissions
+
   ·  connecter vous en tant que l'utilisateur qu'il a le droit dans le
      répertoire décrit plus haut, puis taper ./install.sh
 
