@@ -10,8 +10,8 @@ html:
 	linuxdoc -B html --charset=latin FAQ.sgml
 	linuxdoc -B html --charset=latin INSTALL-fr.sgml
 pdf:
-	linuxdoc -B latex --charset=latin FAQ.sgml
-	linuxdoc -B latex --charset=latin INSTALL-fr.sgml
+	linuxdoc -B latex --charset=latin --output=pdf FAQ.sgml
+	linuxdoc -B latex --charset=latin --output=pdf INSTALL-fr.sgml
 txt:
 	linuxdoc -B txt --charset=latin FAQ.sgml
 	linuxdoc -B txt --charset=latin INSTALL-fr.sgml
