@@ -84,6 +84,16 @@ puisse créer des utilisateur et des bases de données la commande
 </quote>
 </p>
 </sect1>
+<sect1>Optimisation
+<p> Posgresql est une base de données très rapide, cependant, il vous faudra configurer
+pour pouvoir en bénéficier
+<itemize>
+<item> Augmenter la zone mémoire pour les tri (dans postgres.conf) sort_mem = 8192</item>
+<item> Faites tourner régulièrement vacumdb -a -z grâce au crontab</item>
+<item> Dans php.ini, bien utiliser les permanent_connection </item>
+<item> à compléter </item>
+</itemize>
+</sect1>
 <sect1> Pour la sécurité
 <p>Vous pouvez ajouter la sécurité à votre server Postgresql en changeant
 dans pg_hba.conf. Mais avant de faire cela, ajoutez un mot de passe à

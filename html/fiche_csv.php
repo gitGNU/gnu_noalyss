@@ -42,25 +42,19 @@ if  ( isset ($_POST['fd_id'])) {
   $fiche_def=new fiche_def($cn,$_POST['fd_id']);
   $fiche=new fiche($cn);
   $e=$fiche->GetByType($fiche_def->id);
-  //  var_dump($e);
-  $old=-1;
-  foreach ($e as $detail) {
-    if ($old == -1 ) {
-      $old=$detail->id;
-
-      $fiche_def->GetAttribut();
-      foreach ($fiche_def->attribut as $attribut) 
-	printf("%s\t",$attribut);
-      printf("\n");
-    }
-    if ( $old != $detail->id) {
-      $old=$detail->id;
-      printf("\n");
-    }
-    printf ("%s\t",$detail->attribut_value);
-  }
-  
+  //  Heading
+  $fiche_def->GetAttribut();
+  foreach ($fiche_def->attribut as $attribut) 
+    printf("%s\t",$attribut->ad_text);
   printf("\n");
+  
+  foreach ($e as $detail) {
+    foreach ( $detail->attribut as $dattribut ) 
+      printf ("%s\t",$dattribut->av_text);
+    printf("\n");
+    }
+
+
  }
   exit;
 ?>

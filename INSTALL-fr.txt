@@ -15,7 +15,8 @@
   2. Postgresql (version 732 minimum)
      2.1 Installation
      2.2 Configuration et démarrage de PostgreSql
-     2.3 Pour la sécurité
+     2.3 Optimisation
+     2.4 Pour la sécurité
 
   3. Apache
      3.1 Installation d'Apache
@@ -63,12 +64,11 @@
   Comme d'habitude pour postgres, il faut tout d'abord définir, créer
   l'utilisateur postgres puis initialiser l'endroit où seront stocké vos
   données (variable env. PGDATA), exemple
-
-  root#mkdir /data/psql
-  root#chown postgres /data/psql
-  root#su - postgres
-  postgres#initdb -D /data/psql
-  postgres#pg_ctl -D /data/psql -o '-i' start
+       root#mkdir /data/psql
+       root#chown postgres /data/psql
+       root#su - postgres
+       postgres#initdb -D /data/psql
+       postgres#pg_ctl -D /data/psql -o '-i' start
 
 
 
@@ -99,7 +99,21 @@
        /opt/psql732/bin/createuser -a -d $USER
 
 
-  [1m2.3.  Pour la sécurité[0m
+  [1m2.3.  Optimisation[0m
+
+  Posgresql est une base de données très rapide, cependant, il vous
+  faudra configurer pour pouvoir en bénéficier
+
+  ·  Augmenter la zone mémoire pour les tri (dans postgres.conf)
+     sort_mem = 8192
+
+  ·  Faites tourner régulièrement vacumdb -a -z grâce au crontab
+
+  ·  Dans php.ini, bien utiliser les permanent_connection
+
+  ·  à compléter
+
+  [1m2.4.  Pour la sécurité[0m
 
   Vous pouvez ajouter la sécurité à votre server Postgresql en changeant
   dans pg_hba.conf. Mais avant de faire cela, ajoutez un mot de passe à
@@ -115,7 +129,6 @@
        172.16.30.0         255.255.255.0   md5 local    all
        phpcompta   172.16.30.0         255.255.255.0   md5
 
-
   Ensuite soit vous utilisez la variable d'environnement PGPASSWORD qui
   contient votre mot de passe soit avec le fichier .pgpass dont la syn-
   taxe est
@@ -129,6 +142,7 @@
   Ensuite soit vous utilisez la variable d'environnement PGPASSWORD qui
   contient votre mot de passe soit avec le fichier .pgpass dont la
   syntaxe est
+
        host:port:database:username:password
 
 
@@ -174,13 +188,14 @@
   vous-même, les options suivantes fonctionnent
 
 
-       ./configure --prefix=/opt/php431 \
-           --with-apxs2=/opt/http2/bin/apxs \
-           --with-fastcgi \
-           --with-zlib \
-           --with-pgsql=/opt/psql732 \
-           --with-mysql \
-           --with-apache2=/software/httpd-2.0.44
+
+  ./configure --prefix=/opt/php431 \
+      --with-apxs2=/opt/http2/bin/apxs \
+      --with-fastcgi \
+      --with-zlib \
+      --with-pgsql=/opt/psql732 \
+      --with-mysql \
+      --with-apache2=/software/httpd-2.0.44
 
 
 
@@ -196,6 +211,11 @@
 
   Sinon, adaptez votre fichier, il doit avoir au minimum les options
   suivantes
+
+
+  magic_quotes_gpc = Off
+  magic_quotes_runtime = Off
+  magic_quotes_sybase = Off
 
   register_globals        = on
 
@@ -234,7 +254,6 @@
 
   ·  Là on vous comptez installer le soft, créer le répertoire, règler
      les permissions
-
   ·  connecter vous en tant que l'utilisateur qu'il a le droit dans le
      répertoire décrit plus haut, puis taper ./install.sh
 

@@ -28,7 +28,7 @@ $fiche_def=new fiche_def($cn);
 
 
 $fiche_def->GetAll();
-// var_dump($fiche);
+
 $i=0;
 foreach ($fiche_def->all as $l_fiche) {
   $a[$i]=array("user_impress.php?type=fiche&fd_id=".$l_fiche->id,$l_fiche->label);
@@ -55,24 +55,21 @@ if  ( isset ($_GET['fd_id'])) {
   //  var_dump($e);
   $old=-1;
   echo "<TABLE>";
+  echo "<TR>";
+  $fiche_def->GetAttribut();
+  foreach ($fiche_def->attribut as $attribut) 
+    echo "<TH>".$attribut->ad_text."</TH>";
+  echo "<TR></TR>";
 
   foreach ($e as $detail) {
-    if ($old == -1 ) {
-      $old=$detail->id;
-      echo "<TR>";
-      $fiche_def->GetAttribut();
-      foreach ($fiche_def->attribut as $attribut) 
-	echo "<TH>".$attribut."</TH>";
-      echo "<TR></TR>";
+    echo "<TR>";
+    foreach ( $detail->attribut as $dattribut ) {
+      echo "<TD>".$dattribut->av_text."</TD>";
     }
-    if ( $old != $detail->id) {
-      $old=$detail->id;
-      echo "</TR><TR>";
-    }
-    echo "<TD>".$detail->attribut_value."</TD>";
-    }
+    echo "</TR>";
+  }
   
-  echo "</tr></TABLE>";
+  echo "</TABLE>";
   echo "</div>";
  }
 ?>
