@@ -1,4 +1,24 @@
+2005-01-24  sparkyx  <sparkyx@july>
+
+	* sql/account_repository/comment.sql, sql/account_repository/function.sql, sql/account_repository/index.sql, sql/account_repository/view.sql, sql/dossier1/comment.sql, sql/dossier1/function.sql, sql/dossier1/index.sql, sql/dossier1/view.sql, sql/mod1/comment.sql, sql/account_repository/schema.sql:
+	*** empty log message ***
+
+	* include/user_menu.php: Add MenuAdmin function
+
+	* include/top_menu_compta.php: Code cleaning Delete Obsolete functions
+
+	* include/postgres.php: Modify DbConnect function
+
+	* html/style-light.css, html/user_login.php, html/priv_user.php, html/admin_repo.php:
+	Improve appearance
+
+	* style.css: Obsolete
+
 2005-01-20  sparkyx  <sparkyx@july>
+
+	* include/user_menu.php: Fix Access Key
+
+	* Changelog: changelog
 
 	* include/user_menu.php: Fix Access Key
 
