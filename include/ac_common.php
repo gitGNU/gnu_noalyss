@@ -318,5 +318,38 @@ function echo_warning($p_string)
 {
   echo '<H2 class="info">'.$p_string."</H2>";
 }
+/* function make_array($cn,$sql)
+ **************************************************
+ * Purpose : make a array with the sql
+ *        
+ * parm : 
+ *	- $cn dbatabase connection
+ *      - $sql related sql 
+ * gen :
+ *	- none
+ * return: a double array [value,label]
+ */
+function make_array($p_cn,$p_sql,$p_null=0) {
+
+  $a=pg_exec($p_cn,$p_sql);
+  $max=pg_NumRows($a);
+  if ( $max==0) return null;
+  for ($i=0;$i<$max;$i++) {
+    $row=pg_fetch_row($a);
+    $r[$i]['value']=$row[0];
+    $r[$i]['label']=$row[1];
+  }
+  // add a blank item ?
+  if ( $p_null == 1 ) {
+  for ($i=$max;$i!=0;$i--) {
+    $r[$i]['value']=    $r[$i-1]['value'];
+    $r[$i]['label']=    $r[$i-1]['label'];
+  }
+  $r[0]['value']=-1;
+  $r[0]['label']=" ";
+  } //   if ( $p_null == 1 ) 
+
+  return $r;
+}
 
 ?>

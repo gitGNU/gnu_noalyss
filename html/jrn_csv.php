@@ -16,16 +16,15 @@
  *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-// Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
+// Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+header('Content-type: application/csv');
+
 include_once ("ac_common.php");
-html_page_start($g_UserProperty['use_theme']);
-if ( ! isset ( $g_dossier ) ) {
-  echo "You must choose a Dossier ";
-  exit -2;
-}
+
 include_once ("postgres.php");
-/* Admin. Dossier */
+
+include("class_jrn.php");
 $l_Db=sprintf("dossier%d",$g_dossier);
 $cn=DbConnect($l_Db);
 
@@ -33,30 +32,6 @@ $cn=DbConnect($l_Db);
 include ('class_user.php');
 $User=new cl_user($cn);
 $User->Check();
-
-include ("check_priv.php");
-include_once ("top_menu_compta.php");
-ShowMenuCompta($g_dossier,$g_UserProperty);
-
-// show sub menu
-
-echo "<DIV class=\"u_subtmenu\">";
-
-
-$p_array=array(array ("user_impress.php?type=jrn","Journaux"),
-	       array("user_impress.php?type=poste","Poste"),
-	       array("user_impress.php?type=fiche","Fiche"),
-	       array("user_impress.php?type=form","Formulaire")
-	       );
-$default=( isset ($_GET['type']))?"user_impress.php?type=".$_GET['type']:"";
-$result=ShowItem($p_array,'H',"cell","mtitle",$default);
-echo $result;
-
-echo "</DIV>";
-
-
-include_once("impress_inc.php");
-
 if ( $g_UserProperty['use_admin'] == 0 ) {
   if (CheckAction($g_dossier,$g_user,IMP) == 0 ){
     /* Cannot Access */
@@ -64,19 +39,43 @@ if ( $g_UserProperty['use_admin'] == 0 ) {
   }
 }
 
-// something is choosen
-$default=( isset ($_GET['type']))?$_GET['type']:"";
-  switch ($default) {
-  case "jrn":
-    include ("impress_jrn.php");
-    break;
-  case "poste":
-    include ("impress_poste.php");
-    break;
-  case "form":
-    include ("impress_form.php");
-    break;
-  }
 
-html_page_stop();
+ $p_cent=( isset ( $_POST['cent']) )?'on':'off';
+
+$Jrn=new jrn($cn,$_POST['jrn_id']);
+$Jrn->GetName();
+$Jrn->GetRow( $_POST['from_periode'],
+	      $_POST['to_periode'],
+	      $p_cent);
+
+
+  foreach ( $Jrn->row as $op ) { 
+  $rep="";
+
+    if ( $op['j_id'] != $rep) {
+      $rep= $op['j_id'];
+      // should clean description : remove <b><i> tag and '; char
+      // should clean poste       : remove <b><i> tag and '; char
+
+      echo 
+	"'".$op['internal']."';".
+	"'".$op['j_date']."';".
+	"'".$op['poste']."';".
+	"'".$op['description']."';".
+	"'".$op['cred_montant']."';".
+	"'".$op['deb_montant']."\n";
+	
+    } else {
+      echo 
+	"'".$op['internal']."';".
+	"'".$op['j_date']."';".
+	"'".$op['poste']."';".
+	"'".$op['description']."';".
+	"'".$op['cred_montant']."';".
+	"'".$op['deb_montant']."\n";
+
+    }
+    
+  }
+  exit;
 ?>

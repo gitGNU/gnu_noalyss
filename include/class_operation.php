@@ -18,93 +18,37 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-include_once("class_widget.php");
+
 ////////////////////////////////////////////////////////////////////////////////
 // If print is asked
 // First time in html
 // after in pdf or cvs
 ////////////////////////////////////////////////////////////////////////////////
 if ( isset( $_POST['bt_html'] ) ) {
-include("class_jrn.php");
+include("jrn.php");
  $p_cent=( isset ( $_POST['cent']) )?'on':'off';
   // $POST=from_periode, to_periode, jrn_id, cent
-
+  echo_debug(__FILE__,__LINE__," jrn sql = $sql");
   $Jrn=new jrn($cn,$_POST['jrn_id']);
   $Jrn->GetName();
   $Jrn->GetRow( $_POST['from_periode'],
 		$_POST['to_periode'],
 		$p_cent);
+  foreach ($Jrn->row as $op) {
+    $a=new operation ($cn,$op);
+    $a->cent=$p_cent;
 
-  $rep="";
-  $submit=new widget();
-  $hid=new widget("hidden");
-  echo '<div class="u_redcontent">';
-  echo '<h2 class="info">'.$Jrn->name.'</h2>';
-  echo "<table>";
-  echo '<TR>';
-  echo '<TD><form method="GET" ACTION="user_impress.php">'.
-    $submit->Submit('bt_other',"Autre journal").
-    $hid->IOValue("type","jrn")."</form></TD>";
 
-  echo '<TD><form method="POST" ACTION="jrn_pdf.php">'.
-    $submit->Submit('bt_pdf',"Export PDF").
-    $hid->IOValue("type","jrn").
-    $hid->IOValue("central",$p_cent).
-    $hid->IOValue("jrn_id",$Jrn->id).
-    $hid->IOValue("from_periode",$_POST['from_periode']).
-    $hid->IOValue("to_periode",$_POST['to_periode']);
-
-  echo "</form></TD>";
-  echo '<TD><form method="POST" ACTION="jrn_csv.php">'.
-    $submit->Submit('bt_csv',"Export CSV").
-    $hid->IOValue("type","jrn").
-    $hid->IOValue("central",$p_cent).
-    $hid->IOValue("jrn_id",$Jrn->id).
-    $hid->IOValue("from_periode",$_POST['from_periode']).
-    $hid->IOValue("to_periode",$_POST['to_periode']);
-
-  echo "</form></TD>";
-
-  echo "</TR>";
-
-  echo "</table>";
-
-  echo "<TABLE>";
-  foreach ( $Jrn->row as $op ) { 
-    if ( $op['j_id'] != $rep) {
-      $rep= $op['j_id'];
-
-      echo "<TR>".
-	"<TD>".$op['internal']."</TD>".
-	"<TD>".$op['j_date']."</TD>".
-	"<TD>".$op['poste']."</TD>".
-	"<TD>".$op['description']."</TD>".
-	"<TD>".$op['cred_montant']."</TD>".
-	"<TD>".$op['deb_montant']."</TD>".
-	"</TR>";
-    } else {
-      echo "<TR>".
-	"<TD>".$op['internal']."</TD>".
-	"<TD>".$op['j_date']."</TD>".
-	"<TD>".$op['poste']."</TD>".
-	"<TD>".$op['description']."</TD>".
-	"<TD>".$op['cred_montant']."</TD>".
-	"<TD>".$op['deb_montant']."</TD>".
-	"</TR>";
-    }
-    
   }
-  echo "</table>";
-  echo "</div>";
-  exit;
-}
+
+ }
 
 ////////////////////////////////////////////////////////////////////////////////
 // Show the jrn and date
 ////////////////////////////////////////////////////////////////////////////////
 include_once('form_input.php');
 include_once("postgres.php");
-
+include_once("class_widget.php");
 if ( $User->Admin() ==0) {
   $ret=make_array($cn,"select jrn_def_id,jrn_def_name
                              from jrn_def join jrn_type on jrn_def_type=jrn_type_id
@@ -114,7 +58,7 @@ if ( $User->Admin() ==0) {
                              and uj_priv !='X'
                              ");
     } else {
-  $ret=make_array($cn,"select jrn_def_id,jrn_def_name
+  $ret=make_array("select jrn_def_id,jrn_def_name
                              from jrn_def join jrn_type on jrn_def_type=jrn_type_id");
 
  } 

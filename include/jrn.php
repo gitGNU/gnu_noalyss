@@ -1031,6 +1031,4 @@ function GetDataJrnJrId ($p_cn,$p_jr_id) {
     }
   return $ret_array;
 }
-
-
 ?>

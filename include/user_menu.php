@@ -435,9 +435,7 @@ function ShowJrn($p_menu="")
  $p_array=array(array("user_jrn.php?JRN_TYPE=VEN" ,"Entrée"),
                 array("user_jrn.php?JRN_TYPE=ACH","Dépense"),
                 array("user_jrn.php?JRN_TYPE=FIN","Financier"),
-                array("user_jrn.php?JRN_TYPE=OD","Op. Diverses"),
-                array("user_impress.php","Impression"),
-                array("user_search.php","Recherche")
+                array("user_jrn.php?JRN_TYPE=OD","Op. Diverses")
                  );
  $result=ShowItem($p_array,'H',"cell","mtitle",$p_menu);
  return $result;

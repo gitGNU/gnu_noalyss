@@ -30,7 +30,8 @@ if ( ! isset ( $g_dossier ) ) {
 include_once ("postgres.php");
 include_once ("check_priv.php");
 /* Admin. Dossier */
-CheckUser();
+
+
 if ( isset( $_GET['p_jrn'] )) {
   session_register("g_jrn");
   $g_jrn=$_GET['p_jrn'];
@@ -43,6 +44,9 @@ if ( isset ($_GET['JRN_TYPE'] ) ) {
 
 $l_Db=sprintf("dossier%d",$g_dossier);
 $cn=DbConnect($l_Db);
+include ('class_user.php');
+$User=new cl_user($cn);
+$User->Check();
 
 ShowMenuCompta($g_dossier,$g_UserProperty);
 
@@ -99,13 +103,6 @@ if ( isset ($_GET['JRN_TYPE'] ) ) {
 
   // if a journal is selected show the journal's menu
 if ( $g_jrn != -1 ) {
-//  $p_array=array(array("user_jrn.php?JRN_TYPE=VEN" ,"Entrée"),
-//                 array("user_jrn.php?JRN_TYPE=ACH","Dépense"),
-//                 array("user_jrn.php?JRN_TYPE=FIN","Financier"),
-//                 array("user_jrn.php?JRN_TYPE=OD","Op. Diverses"),
-//                 array("impress.php","Impression"),
-//                 array("","Recherche")
-//                  );
  $result=ShowJrn( "user_jrn.php?JRN_TYPE=".$jrn_type);
   // Get the jrn_type_id
   include_once('jrn.php');
