@@ -59,6 +59,27 @@ function cmpDate ($p_date,$p_date_oth) {
   // si $p_date > $p_date_oth return > 0
   return $l_mkdate-$l2_mkdate;
 }
+/* function IsNumber
+ * purpose : check if the argument is a number
+ *
+ * parm : $p_int
+ *
+ * gen nothing
+ * 
+ * return :
+ *        1 it's a number
+ *        0 it is not
+ */
+function isNumber($p_int) {
+  if ( strlen (trim($p_int)) == 0 ) return 0;
+  if (! ereg ("^[0-9]+$",$p_int) ) {
+    return 0;
+  } else {
+    return 1;
+  }// !ereg
+  return $p_date;
+}
+
 /* function isDate
  * Purpose : Verifie qu'une date est bien formaté
  *           en d.m.y et est valable

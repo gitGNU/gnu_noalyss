@@ -77,4 +77,17 @@ define ("NOTCENTRALIZED",3);
 define ("MENU_FACT",1);
 define ("MENU_FICHE",2);
 define ("MENU_PARAM",3);
+
+// for the fiche_inc.GetSqlFiche function
+define ("ALL_FICHE_DEF_REF", 1000);
+
+// fixed value for attr_def data
+define ("ATTR_DEF_ACCOUNT",5);
+define ("ATTR_DEF_NAME",1);
+define ("ATTR_DEF_PRIX_ACHAT",6);
+define ("ATTR_DEF_PRIX_VENTE",7);
+define ("ATTR_DEF_TVA",2);
+define ("FICHE_TYPE_CLIENT",9);
+define ("FICHE_TYPE_VENTE",1);
+
 ?>

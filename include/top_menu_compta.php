@@ -116,7 +116,7 @@ function ShowMenuComptaLeft($p_dossier,$p_item)
 // A test must be added
     echo '<TR><TD colspan="3" class="mshort">
          <A class="mtitle" HREF="fiche.php?action=add_modele&fiche=modele">Creation</A></TD></TR>';
-    $Res=ExecSql($cn,"select fd_id,fd_label from fichedef order by fd_label");
+    $Res=ExecSql($cn,"select fd_id,fd_label from fiche_def order by fd_label");
     $Max=pg_NumRows($Res);
     for ( $i=0; $i < $Max;$i++) {
       $l_line=pg_fetch_array($Res,$i);
