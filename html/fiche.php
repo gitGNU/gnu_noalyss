@@ -29,7 +29,8 @@ if ( ! isset ( $g_dossier ) ) {
 }
 include_once ("postgres.php");
 include_once ("top_menu_compta.php");
-echo '<SCRIPT LANGUAGE="javascript" SRC="win_search_poste.js"></SCRIPT>';
+//echo '<SCRIPT LANGUAGE="javascript" SRC="win_search_poste.js"></SCRIPT>';
+echo JS_SEARCH_POSTE;
 CheckUser();
 include ("check_priv.php");
 ShowMenuCompta($g_dossier,$g_UserProperty);
