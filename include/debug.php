@@ -22,6 +22,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 function echo_debug      ($p_log) {
+return;
 
 $fdebug=fopen("/tmp/debug_log","a+");
 if ( $fdebug != false ) {
