@@ -588,10 +588,10 @@ for ($o = 0;$o < $p_number; $o++) {
     $r.='<TD ALIGN="CENTER">'.$fiche_quant.'</TD>';
     $r.='<TD ALIGN="right">'.$fiche_price.'</TD>';
     $r.="<TD  ALIGN=\"RIGHT\"> $vat_label </TD>";
-    $r.='<TD  ALIGN="RIGHT">'.$fiche_sum.'</TD>';
-    $r.='<TD ALIGN="RIGHT">'.$fiche_amount_vat.'</TD>';
+    $r.='<TD  ALIGN="RIGHT">'.round($fiche_sum,2).'</TD>';
+    $r.='<TD ALIGN="RIGHT">'.round($fiche_amount_vat,2).'</TD>';
 
-    $r.='<TD>'.$fiche_with_vat.'</TD>';
+    $r.='<TD>'.round($fiche_with_vat,2).'</TD>';
 
     $r.="</TR>";
   }
@@ -599,14 +599,17 @@ for ($o = 0;$o < $p_number; $o++) {
   // end table
   $r.='</TABLE> ';
   $r.='<DIV style="padding:30px;font-size:14px">';
-  $r.="Total HTVA = $sum_march <br>";
-  $r.="Total = $sum_with_vat";
+  $r.="Total HTVA =".round( $sum_march,2)." <br>";
+  $r.="Total = ".round($sum_with_vat,2);
   $r.="</DIV>";
   if ( $p_doc == 'html' ) {
 	  $r.='<FORM METHOD="POST" ACTION="user_jrn.php?action=record">';
 	  $r.=$data;
 	  //	  $r.='<INPUT TYPE="SUBMIT" name="record_invoice" value="Sauver">';
-	  $r.='<INPUT TYPE="SUBMIT" name="record_and_print_invoice" value="Sauver & imprimer">';
+	  // If the total == 0 prevent the insert
+	  if ( $sum_with_vat != 0 ) {
+	    $r.='<INPUT TYPE="SUBMIT" name="record_and_print_invoice" value="Sauver & imprimer">';
+	  }
 	  $r.='<INPUT TYPE="SUBMIT" name="correct_new_invoice" value="Corriger">';
 	  $r.='</FORM>';
 	  } 
@@ -967,13 +970,13 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
 	   $r.="<TD>".$a_fiche['vw_name']."</td>";
 	   //	   $r.="<TD>".$a_fiche['tva_label']."</td>";
 	   $r.="<TD>  ".$vat_row."</TD>";
-	   $r.="<TD>  ".$total_row."</TD>";
+	   $r.="<TD>  ".round($total_row,2)."</TD>";
 	   $r.="</TR>";
 	   $total+=$total_row;
       }
     }// for ($i=0
   
-    $r.="<TR> <TD colspan=\"3\" align=\"center\"> Total =".$total."</TD></TR>";
+    $r.="<TR> <TD colspan=\"3\" align=\"center\"> Total =".round($total,2)."</TD></TR>";
     $r.="</TABLE>";
   }// if ( $view_only == true )
   return $r;
