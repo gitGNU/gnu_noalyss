@@ -70,15 +70,18 @@ function RecordJrn($p_dossier,$p_user,$p_jrn,$p_MaxDeb,$p_MaxCred,$p_array = nul
   $l_line=GetJrnProp($p_dossier,$p_jrn);
   if ( $l_line == null ) return;
   echo '<DIV class="redcontent">';
-
+  echo '<FORM NAME="encoding" ACTION="enc_jrn.php" METHOD="POST">';
 
   printf ('<H2 class="info"> %s %s </H2>',$l_line['jrn_def_name'],$l_line['jrn_def_code']);
-  echo '<FORM NAME="encoding" ACTION="enc_jrn.php" METHOD="POST">';
+
   echo "<INPUT TYPE=HIDDEN NAME=\"MaxDeb\" VALUE=\"$p_MaxDeb\">";
   echo "<INPUT TYPE=HIDDEN NAME=\"MaxCred\" VALUE=\"$p_MaxCred\">";
   echo 'Date : <INPUT TYPE="TEXT" NAME="op_date" VALUE="'.
     $e_op_date.'" SIZE="4">'.
     $e_op_rem;
+
+  // Comment
+  echo '<br><SPAN>Comment  = <INPUT TYPE="TEXT" SIZE="70" NAME="comment" VALUE="'.$e_comment.'"></span>';
 
   // Chargement comptes disponibles
   if ( strlen(trim ($l_line['jrn_def_class_deb']) ) > 0 ) {
@@ -235,9 +238,6 @@ if ( $p_update == 0 )  echo "<TR><TD> <INPUT TYPE=\"SUBMIT\" VALUE=\"+ de line\"
   	$e_comment="";
   }
  
-  echo '<TEXTAREA" rows="5" cols="50" NAME="comment">';
-  echo $e_comment;
-  echo "</TEXTAREA>";
 
 
   if ( $p_update==0) {
