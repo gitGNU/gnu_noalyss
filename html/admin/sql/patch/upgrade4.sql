@@ -42,3 +42,6 @@ delete from centralized;
 create sequence s_internal;
 select setval('s_centralized',1,false);
 update jrnx set j_centralized='f';
+alter table parm_periode add p_central bool;
+alter table parm_periode alter p_central set default false;
+update parm_periode set p_central ='f';

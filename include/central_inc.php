@@ -1,6 +1,4 @@
 <?
-
-
 /*
  *   This file is part of PhpCompta.
  *
@@ -136,7 +134,9 @@ $sql="insert into centralized( c_j_id,
       if ($Res2==false) { rollback($p_cn); EndSql($p_cn); return ERROR;}
 
    }
- 
+   if ( ExecSql($p_cn,"update parm_periode set p_central=true where p_id=$p_periode") == false)
+     { rollback($p_cn); EndSql($p_cn); return ERROR;}
+
  
  
  

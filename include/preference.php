@@ -72,31 +72,24 @@ function FormPeriodeMult($p_cn)
  */ 
 function FormPeriode($p_cn,$l_default=0,$p_type=OPEN,$p_suff="")
 {
-
-  if ($p_type==CLOSED) {
-    $sql_closed="p_closed=true";
-    $sql="select p_id,to_char(p_start,'DD.MM.YYYY') as p_start,
-                    to_char(p_end,'DD.MM.YYYY') as p_end 
-        from parm_periode where 
-           $sql_closed order by p_exercice,p_start";
-
-  }
-  if ($p_type==OPEN) {
+  switch ($p_type) {
+  case CLOSED:
+    $sql_closed="p_closed=true and p_central = false ";
+    break;
+  case OPEN:
     $sql_closed="p_closed=false";
-    $sql="select p_id,to_char(p_start,'DD.MM.YYYY') as p_start,
-                    to_char(p_end,'DD.MM.YYYY') as p_end 
-        from parm_periode where 
-           $sql_closed order by p_exercice,p_start";
-
+    break;
+  case NOTCENTRALIZED:
+    $sql_closed="p_closed=true and p_central = false ";
+    break;
+  default:
+    error("invalide p_type in __FILE__#__LINE__");
   }
-  if ($p_type==NOTCENTRALIZED) {
   $sql="select p_id,to_char(p_start,'DD.MM.YYYY') as p_start,
                     to_char(p_end,'DD.MM.YYYY') as p_end 
         from parm_periode where 
-           p_closed=true and p_id not in (
-          select c_periode from centralized)
+         $sql_closed 
           order by p_exercice,p_start";
-  }
   $Res=ExecSql($p_cn,$sql);
   $Max=pg_NumRows($Res);
   if ( $Max == 0 ) return null;
