@@ -56,7 +56,7 @@ if ( isset( $p_jrn )) {
 
 $cn=DbConnect($_SESSION['g_dossier']);
 
-list ($l_array,$max_deb,$max_cred)=GetData($cn,$jrn_op);
+list ($l_array,$max_deb,$max_cred)=GetData($cn,$_GET['jrn_op']);
 foreach ($l_array as $key=>$element) {
   ${"e_$key"}=$element;
   echo_debug(__FILE__,__LINE__,"e_$key =$element");
