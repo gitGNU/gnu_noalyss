@@ -48,8 +48,8 @@ if [ $REPO -eq 0 ]; then
 	OWNER=phpcompta
 	echo "Creation de la base de donnee"
 	createuser -A -d $OWNER
-	createdb -O $OWNER $OWNER
-	createdb -E latin1 -O $OWNER account_repository
+	createdb -U $OWNER $OWNER
+	createdb -E latin1 -U $OWNER account_repository
 
 	PSQL="psql  -U $OWNER account_repository" 
 #	$PSQL < sql/create_repository.sql
@@ -61,7 +61,7 @@ if [ $REPO -eq 0 ]; then
 	$PSQL < sql/priv_user.sql
 	$PSQL < sql/theme.sql
 	$PSQL < sql/modele.sql
-	    createdb -E latin1 -O $OWNER mod1
+	    createdb -E latin1 -U $OWNER mod1
 	PSQL="psql -U $OWNER mod1 "
 	$PSQL < sql/tmp_pcmn.sql
 	$PSQL < sql/insert_pcmn.sql
@@ -84,7 +84,7 @@ if [ $REPO -eq 0 ]; then
 
 fi
 # Test si la version de la db doit être mise à jour
-A=`psql -U phpcompta  -t -c 'select val from version;' dossier1`
+A=`psql -U phpcompta  -t -c 'select val from version;' account_repository `
 
 OWNER=phpcompta
 
