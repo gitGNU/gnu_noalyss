@@ -201,8 +201,8 @@ $rdeb=split(',',$l_line['jrn_def_fiche_deb']);
 $rcred=split(',',$l_line['jrn_def_fiche_cred']);
 echo '<TABLE>';
 echo '<TR>';
+echo '<th> Fiches Débit</TH>';
 echo '<th> Fiches Crédit</TH>';
-echo '<th> Fiches Dédit</TH>';
 echo '</TR>';
 // Show the fiche in deb section
 for ($i=0;$i<$num;$i++) {
