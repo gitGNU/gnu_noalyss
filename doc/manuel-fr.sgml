@@ -313,6 +313,9 @@ La dette du client diminue
 
 
 </verb>
+<p> Il n'est pas possible de modifier un encodage mais vous pouvez l'annuler.
+Attention cependant de ne pas annuler l'annulation !!!
+
 </sect1>
 <sect1>Achat
 </sect1>

@@ -68,7 +68,7 @@ sur  la page d'origine, malheureusement, il n'est pas encore possible de télécha
 On peut y arriver à partir de la page de savannah (Homepage)
 </p>
 </sect>
-<sect>Comment adapter le fichier php.ini
+<sect>Comment adapter le fichier php.ini <label id="php-setting">
 <p>
 <quote>
 Avec PHP 4.3.1 :
@@ -80,7 +80,7 @@ Avec PHP 4.3.1 :
 php.ini doit contenir pour phpcompta
  <verb>
 [PHP]
-include_patch=../include:.
+include_path=".:../include:addon"
 [Session]
 session.name              = PHPSESSID
                                     ; name of the session
@@ -89,7 +89,6 @@ session.auto_start        = 1       ; initialize session on request startup
 session.cookie_lifetime   = 0       ; lifetime in seconds of cookie
                                     ; or if 0, until browser is restarted
 session.cookie_path       = /tmp       ; the path the cookie is valid for
-include_path=".:../include:addon"
 </verb>
 
 </sect>
@@ -296,5 +295,18 @@ pas
 Simplement parce que je n'ai pas eu le temps de le coder, pour l'instant, vous
 devrez uniquement utiliser des factures préimprimées
 
+</sect>
+<sect> Problèmes fréquents
+<sect1> Impossible de se logguer
+<p> Vous devez absolument avoir register_globale = on dans votre php.ini et redémarrez Apache
+voir php-setting <ref id="php-setting"  name="Php">
+
+</sect1>
+<sect1> J'ai le message d'erreur 'cannot find file ....'
+<p> Dans votre php.ini, n'oubliez pas de mettre correctement le include_patch voir php-setting
+<ref id="php-setting" name="Php">
+
+
+</sect1>
 </sect>
 </article>
