@@ -3,7 +3,7 @@
 
   $Revision$
 
-  Ce document contient les rÃ©ponses aux questions les plus fréquemment
+  Ce document contient les réponses aux questions les plus fréquemment
   posées sur PhpCompta PhpCompta <http://www.alchimerys.be/FR/phpcompta>
   site savannah PhpCompta Savannah <http://savan-
   nah.nongnu.org/projects/phpcompta/>
@@ -31,6 +31,9 @@
      15.2 Comment appliquer le patch
 
   16. Les entêtes de facture
+  17. Problèmes fréquents
+     17.1 Impossible de se logguer
+     17.2 J'ai le message d'erreur 'cannot find file ....'
 
 
   ______________________________________________________________________
@@ -95,10 +98,10 @@
        variable register_globale = off dans le php.ini
 
 
-  php.ini doit contenir pour wcompta
+  php.ini doit contenir pour phpcompta
 
   [PHP]
-  include_patch=../include:.
+  include_path=".:../include:addon"
   [Session]
   session.name              = PHPSESSID
                                       ; name of the session
@@ -125,7 +128,6 @@
   numéros (ex r092 qui veut dire release 0.9.2) (regardez les branches
   existantes dans le CVS de savannah http://savannah.nongnu.org/cgi-
   bin/viewcvs/phpcompta/phpcompta/) Remplacez (version) par la version
-
 
   Exemple :
   export CVS_RSH="ssh"
@@ -192,7 +194,6 @@
   De toute façon, vous pouvez imprimer le guide, pour le trouver faites
   :
 
-
    en mode commande : rpm -qil linuxdoc-tools|grep guide
 
 
@@ -254,7 +255,6 @@
        of type 'boolean'       You will need to rewrite or cast the expression
 
 
-
   Vous avez utilisé une version instable ! Cela a été corrigé reprenez
   les fichiers du CVS
 
@@ -307,7 +307,22 @@
   n'apparraissent pas
 
   Simplement parce que je n'ai pas eu le temps de le coder, pour
-  l'instant, vous utilisez uniquement des factures préimprimées
+  l'instant, vous devrez uniquement utiliser des factures préimprimées
+
+
+  [1m17.  Problèmes fréquents[0m
+
+  [1m17.1.  Impossible de se logguer[0m
+
+  Vous devez absolument avoir register_globale = on dans votre php.ini
+  et redémarrez Apache voir php-setting ``Php''
+
+
+
+  [1m17.2.  J'ai le message d'erreur 'cannot find file ....'[0m
+
+  Dans votre php.ini, n'oubliez pas de mettre correctement le
+  include_patch voir php-setting ``Php''
 
 
 

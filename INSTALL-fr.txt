@@ -109,9 +109,9 @@
   Et si vous décidez d'avoir la même configuration que moi, mais ce
   n'est pas obligatoire
 
-       < VirtualHost 172.16.30.150 > ServerName site ErrorLog
-       wcompta-error.log TransferLog wcompta-debug.log DocumentRoot
-       /home/httpd/compta/html </VirtualHost >
+       < VirtualHost 172.16.30.150 > ServerName site ErrorLog php-
+       compta-error.log TransferLog phpcompta-debug.log Document-
+       Root /home/httpd/compta/html </VirtualHost >
 
 
   Apache se démarre avec apachectl start
@@ -169,6 +169,7 @@
   session.bug_compat_42 = 1
   session.bug_compat_warn = 0
   session.use_trans_sid = 1
+  include_path=".:../include:addon"
 
 
 
@@ -187,7 +188,6 @@
 
   ·  connecter vous en tant que l'utilisateur qu'il a le droit dans le
      répertoire décrit plus haut, puis taper ./install.sh
-
 
 
   [1m5.  Conclusion[0m
