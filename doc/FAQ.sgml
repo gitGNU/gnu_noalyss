@@ -163,7 +163,7 @@ version)-votre-email.
 Testez le:
 sauvez votre fichier modifié sous un autre nom, faites cp -f fichier.orig
 fichier,  puis testez avec la commande patch (voir plus haut)
-ot de passe par défaut est  phpcompta
+mot de passe par défaut est  phpcompta
 </p>
 </sect>
 <sect> Comment faire de la doc
@@ -200,7 +200,7 @@ sur un sujet <url url="http://savannah.nongnu.org/task/?group=phpcompta" name="P
 Cela m'évite de devoir chaque fois changer sur le site de phpcompta
 </p>
 </sect>
-<sect>Install.sh ne fonctionne pas
+<sect>Install.sh ne fonctionne pas<label id="script">
 <p>
 	Il est important de suivre la procédure pour l'installation
 	voir INSTALL-fr (dans le répertoire doc) !!
@@ -221,7 +221,7 @@ Cela m'évite de devoir chaque fois changer sur le site de phpcompta
 	</verb></tscreen>
 </p>
 <p>
-voir question précédente
+voir question précédente <ref id="script" name="install.sh">
 </p>
 </sect>
 
