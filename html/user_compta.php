@@ -39,10 +39,6 @@ $rep=DbConnect();
 include_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
-$rep=DbConnect();
-include_once ("class_user.php");
-$User=new cl_user($rep);
-$User->Check();
 
 // Synchronize rights
 SyncRight($g_dossier,$g_user);

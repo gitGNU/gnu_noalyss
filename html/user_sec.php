@@ -87,7 +87,7 @@ if ( $action == "change_jrn" ) {
 
   $l_Db=sprintf("dossier%d",$g_dossier);
   echo_debug(__FILE__,__LINE__,"select * from user_sec_jrn where uj_login='$login' and uj_jrn_id=$jrn");
-  $cn_dossier=DbConnect($l_Db);
+  $cn_dossier=DbConnect($g_dossier);
   $l2_Res=ExecSql($cn_dossier,
 		  "select * from user_sec_jrn where uj_login='$login' and uj_jrn_id=$jrn");
   $l2_count=pg_NumRows($l2_Res);
@@ -107,7 +107,7 @@ if ( $action == "change_act" ) {
     return;
   }
   $l_Db=sprintf("dossier%d",$g_dossier);
-  $cn_dossier=DbConnect($l_Db);
+  $cn_dossier=DbConnect($g_dossier);
   if ( $access==0) {
     echo_debug(__FILE__,__LINE__,"delete right");
     $Res=ExecSql($cn_dossier,
@@ -122,7 +122,7 @@ if ( $action == "change_act" ) {
 
 if ( $action == "view" ) {
   $l_Db=sprintf("dossier%d",$g_dossier);
-  $cn_dossier=DbConnect($l_Db);
+  $cn_dossier=DbConnect($g_dossier);
   $cn=DbConnect();
   $User=ExecSql($cn,
 		"select  use_id,use_first_name,use_name,use_login

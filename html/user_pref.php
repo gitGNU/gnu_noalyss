@@ -176,8 +176,7 @@ $disp_style.="</SELECT>";
 if ( isset ($g_dossier) ) {
 
   include_once("preference.php");
-  $l_dossier=sprintf("dossier%d",$g_dossier);
-  $cn=DbConnect($l_dossier);
+  $cn=DbConnect($g_dossier);
 
   if ( isset ($_POST["sub_periode"] ) ) {
     $periode=$_POST["periode"];

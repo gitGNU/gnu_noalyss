@@ -48,8 +48,8 @@ $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$sessid."
 
 
 include_once("fiche_inc.php");
-$l_Db=sprintf("dossier%d",$g_dossier);
-$cn=DbConnect($l_Db);
+
+$cn=DbConnect($g_dossier);
 
 
 

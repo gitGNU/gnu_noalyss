@@ -26,8 +26,7 @@ if ( ! isset ( $g_dossier ) ) {
 }
 include_once ("postgres.php");
 /* Admin. Dossier */
-$l_Db=sprintf("dossier%d",$g_dossier);
-$cn=DbConnect($l_Db);
+$cn=DbConnect($g_dossier);
 
 
 include ('class_user.php');
@@ -79,6 +78,9 @@ $default=( isset ($_GET['type']))?$_GET['type']:"";
     break;
   case "bal":
     include ("balance.php");
+    break;
+  case "fiche":
+    include ("impress_fiche.php");
     break;
 
   }

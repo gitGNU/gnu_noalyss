@@ -49,8 +49,7 @@ if ( $g_UserProperty['use_admin'] == 0 ) {
 
 ShowMenuJrn($g_dossier);
 
-$l_Db=sprintf("dossier%d",$g_dossier);
-$cn=DbConnect($l_Db);
+$cn=DbConnect($g_dossier);
 echo '<DIV CLASS="ccontent">';
 
 echo "</DIV>";

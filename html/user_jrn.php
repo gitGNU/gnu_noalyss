@@ -42,8 +42,7 @@ if ( isset ($_GET['JRN_TYPE'] ) ) {
   $g_jrn=-1;
 }
 
-$l_Db=sprintf("dossier%d",$g_dossier);
-$cn=DbConnect($l_Db);
+$cn=DbConnect($g_dossier);
 include ('class_user.php');
 $User=new cl_user($cn);
 $User->Check();

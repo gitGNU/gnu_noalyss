@@ -67,8 +67,7 @@ if ( $g_UserProperty['use_admin'] == 0 ) {
   }
 }
 
-$l_Db=sprintf("dossier%d",$g_dossier);
-$cn=DbConnect($l_Db);
+$cn=DbConnect($g_dossier);
 
 // if the user has the profile compta show the left menu
 if ( $g_UserProperty['use_usertype'] == 'compta' or
