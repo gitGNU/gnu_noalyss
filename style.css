@@ -207,5 +207,28 @@ table.doc {
 	  ALIGN: "center"
 }
 
+div.u_tmenu {
+ 	position: absolute;
+ 	top:10px;
+ 	left:210px;
+ 	width:800px;
+ 
+}
+div.u_redcontent{
+ 	position: absolute;
+ 	top:100px;
+ 	left:150px;
+ 	width:700px;
+        font-size:9pt;
+}
+
+span.odd { 
+   background-color:#ECF3FF;
+   display:block;
+}
+span.even { 
+   background-color:#DDE6FF;
+   display:block;
+}
 -->
 </style>
