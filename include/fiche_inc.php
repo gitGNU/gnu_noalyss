@@ -177,6 +177,7 @@ function EncodeFiche($p_cn,$p_type,$p_array=null) {
   $l_sessid=(isset ($_POST["PHPSESSID"]))?$_POST["PHPSESSID"]:$_GET["PHPSESSID"];
 
   echo JS_SHOW_TVA;
+  echo JS_SEARCH_POSTE;
   echo "<TABLE>";
   if ($p_array == null) {
     // Array is null so we display a blank form
@@ -203,7 +204,8 @@ function EncodeFiche($p_cn,$p_type,$p_array=null) {
       $but_search_poste="";
       // Javascript for searching the account
       if ( $l_line ['ad_id'] == ATTR_DEF_ACCOUNT ) {
-	$but_search_poste='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$l_sessid.'\')">';
+	$ctl_name="av_text$i";
+	$but_search_poste='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$l_sessid.'\',\''.$ctl_name.'\')">';
       } 
       // Javascript for showing the tva
       if ( $l_line ['ad_id'] == ATTR_DEF_TVA ) {
@@ -254,8 +256,8 @@ function EncodeFiche($p_cn,$p_type,$p_array=null) {
 	printf('<INPUT TYPE="HIDDEN" name="class" value="%s">',
 	       $l_line['av_text']);
       // Javascript for searching the account
-
-	$but_search_poste='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$l_sessid.'\')">';
+	$ctl_name="av_text$i";
+	$but_search_poste='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$l_sessid.'\',\''.$ctl_name.'\')">';
       } 
 	
       // Javascript for showing the tva
