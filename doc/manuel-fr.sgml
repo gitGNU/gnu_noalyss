@@ -57,7 +57,6 @@ votre banque donc s'il augmente, il est débité !!!
 <p>
 La comptabilité consiste, de la manière prévue par les lois sur la comptabilité,
  à enregistrer toutes les opérations  d'une activité commerciale, industrielle ou artisanale.
-</p>
 
 La grande différence avec la gestion, est que la comptabilité est tenue
 en suivant des lois précises, qui malheureusement changent suivant le  pays.
@@ -68,35 +67,133 @@ fiscale, permettre des analyses bilantaires et surtout être conforme à  la légis
 Ce n'est pas le cas, de la gestion, la gestion consiste à gérer une entreprise ou une activité
 d'indépendant, ce qui inclut aussi la gestion du courrier, du personnel...
 
-
-</sect2>
-<sect2> Documentation sur la comptabilité
+En bref, la comptabilité est guidé par la législation tandis que la
+gestion par la gestion. Un programme de comptabilité peut rendre les
+services d'un programme de gestion et parfois les programmes de
+gestion peut rendre les services d'un programme de comptabilité. La
+limite est floue et discutable.
 </sect2>
 </sect1>
-<sect1> Les profils
+<sect> Mémento de comptabilité
+<sect1> Introduction
+<p> Ce mémento sera vraiment très bref, si vous voulez en savoir
+plus. Vous serez obligé d'aller chercher les livres adéquats.
+
+Cependant, sur le site de PhpCompta vous trouverez des liens qui
+devraient vous aider à commencer cette matière.
+</sect1>
+<sect1> Le Bilan
+<p> L'un des objectif de la comptabilité est de pouvoir établir un bilan qui
+donnera une idée de la santé de la société.
+
+Le bilan est en deux parties, la partie droite représente les comptes
+d'actifs tandis que la partie gauche représente le passif. Il faut que
+les deux colonnes aient le même total. Ce qui est normal puisque toute
+opération se passe entre par opération de débit - crédit.
+</sect1>
+
+<sect1> Les comptes actifs / passifs <label id="comptesap">
+<p>
+Il existe une première catégorie de compte (classe 1 à 5) qui est
+divisé en deux sortes de comptes : les comptes d'actif et les comptes
+de passif.
+
+<p>
+Si un compte est débité alors forcément au moins un autre compte sera
+crédité
+
+<p>
+Exemple
+Un client paie sa facture sur votre compte en banque on aura alors
+<verb>
+Banque     (débit)
+            à
+               Client (crédit)
+</verb>
+</p>
+<p>
+Pour bien comprendre les comptes on les schématise par le T
+<verb>
+                      compte
+---------------------------+--------------------------------
+                           |
+ débit                     | crédit
+                           |
+</verb>
+</p>
+<p>
+La dette du client diminue mais votre compte en banque augmente. Et
+toutes les opérations comptables sont ainsi. La convention veut que
+l'on commence toujours par le compte débité puis le compte crédité. Il
+faut toujours garder un mémoire
+<itemize>
+<item> L'actif augmente au débit et diminue au crédit
+<item> Le passif augmente au crédit et diminue au débit
+</itemize>
+
+Les comptes d'actifs sont les comptes comme les comptes en banque, les
+créances, le matériel que vous possédez. Ce sont les ressources.
+
+Les comptes de passif sont les dettes, les emprunts. Ce sont les
+Emplois.
+
+</sect1>
+
+<sect1> Les comptes de résultats
+<p> Il y a d'autres 2 sortes de compte de résultat, les classes 6 et
+7.
+
+<sect2> Les charges
+<p> Les charges (classe 6) représentent toutes les dépenses de votre
+entreprise: loyer, paiement au personnel, charge d'intérêt...
+
+Les charges augmentent au crédit mais certains comptes peuvent aussi
+être diminué
+
+Par exemple, vous encodez une facture d'électricités, vous auriez
+<verb>
+Charge   électricité
+            à 
+               Fournisseur
+</verb>
+Remarquez qu'ici on encode la facture, la reconnaissance de
+notre dette envers le fournisseur d'électricité et pas du tout le
+paiement! Ce paiement se fera en banque par l'écriture Fournisseur à
+banque: la dette du fournisseur diminue notre compte en banque
+aussi. voir les explications de la section  <ref id="comptesap"
+ name="comptes actifs passifs">
+
+</sect2>
+
+</sect1>
+
+
+
+</sect>
+<sect> Les profils
 <p>
 Dans le menu dans préférence, il existe deux sortes de profil que vous pouvez utiliser, 
 </p>
-<sect2>soit le profil comptable
+<sect1>Le profil comptable
 <p>
 Dans ce cas, vous verrez votre comptabilité comme un comptable s'attend à la voir
 avec des postes comptables, des écritures comptables impliquant des débits et des crédits
 </p>
-</sect2>
-<sect2>soit le profil utilisateur
+</sect1>
+<sect1>Le profil utilisateur
 <p>
 Dans ce cas, vous verrez votre comptabilité comme un utilisateur, facture à payer, facture à encoder... 
-</p>
 
-C'est le profil par défaut des utilisateurs que vous créerez, sans formation de comptable, l'autre
+C'est le profil par défaut des utilisateurs que vous créerez, sans
+formation comptable particulière  , l'autre
 profil ne pourrait que vous perturbez, il s'agit pourtant de la même chose mais vue différemment.
 
 Certaines opérations ne sont cependant possible que dans le profil comptable, il s'agit d'opération
 assez rare et qui demande une réelle connaissance de ce domaines pour être encodés correctement
 par exemple une augmentation de capital, une reprise d'amortissement...
-</sect2>
 </sect1>
-<sect1>Les journaux
+</sect>
+<sect>Les journaux
 <p> Il existe 4 sortes de journaux
 <itemize>
 <item> Celui regroupant les ventes
@@ -105,12 +202,20 @@ par exemple une augmentation de capital, une reprise d'amortissement...
 <item> Et celui regroupant toutes les autres opérations (augmentation de bilan, amortissement
 </itemize>
 
-La première chose à faire quand on crée un journal est de le paramètrer correctement
+La première chose à faire quand on crée un journal est de le paramétrer correctement
 L'écran est divisé en deux parties, celle du dessus, s'adresse au profil "comptable" celui
 du dessous au profil utilisateur.
-
-
+<sect1> Journal des Achats
 </sect1>
+<sect1> Journal des Ventes
+</sect1>
+<sect1> Journal des Financiers
+</sect1>
+<sect1> Journal des Opérations diverses
+</sect1>
+
+</sect>
+<sect> Les fiches
 <sect1>Création d'une catégorie de fiche 
 <p>
 Les catégories de fiches sont en fait le rassemblement de fiche ensembles, par exemple, les
@@ -121,7 +226,7 @@ nom de la catégorie et le type de fiche que vous voulez.
 
 La classe de base est le poste comptable parent de vos fiche, ce poste doit exister, il faut alors
 cliquer aussi sur "create account for each" qui permet de générer automatiquement le poste comptable voulu, ce poste sera automatiquement ajouté dans le Plan Comptable. Si cette option n'est pas
-cochée, vous devrez ajouter manuellement le poste comptable et le donner explicitement. Si vous ne souhaitez pas que chaque fiche aie son propre comptable, ne cochez l'option et n'ajoutez pas manuellement le poste comptable. Dans ce cas, ce sera le poste du modéle de fiche par défaut qui sera utilisé, si vous ne l'indiquez pas ce sera la classe par défaut de ce type de modèle.
+cochée, vous devrez ajouter manuellement le poste comptable et le donner explicitement. Si vous ne souhaitez pas que chaque fiche aie son propre comptable, ne cochez l'option et n'ajoutez pas manuellement le poste comptable. Dans ce cas, ce sera le poste du modèle de fiche par défaut qui sera utilisé, si vous ne l'indiquez pas ce sera la classe par défaut de ce type de modèle.
 
 Pour simplifier :
 <itemize>
@@ -130,7 +235,9 @@ Pour simplifier :
 
 <item>Vous souhaitez qu'il y aie un poste comptable attaché à chaque fiche 
 mais pas généré automatiquement: ne cochez pas. Par la suite,  ajoutez
- l'attribut 'Poste Comptable', vous devrez mettre manuellement le poste comptable
+ l'attribut 'Poste Comptable' si nécessaire, la plupart des fiches ont
+par défaut un attribut 'Poste Comptable,
+vous devrez mettre manuellement le poste comptable 
  que vous souhaitez pour chaque fiche. Dans ce cas,  <bf /toutes/ les
  fiches devront avoir un poste comptable. Sinon ce sera le poste comptable
  par défaut qui sera utilisé.
@@ -142,18 +249,57 @@ mais pas généré automatiquement: ne cochez pas. Par la suite,  ajoutez
 <p>
 </p>
 </sect1>
-<sect1>Encodage d'opération
-<sect2>Achat
-</sect2>
-<sect2>Vente
-</sect2>
-<sect2>Opération financière
-</sect2>
+<sect>Encodage d'opération
+<sect1>Achat
+</sect1>
+<sect1>Vente
+</sect1>
+<sect1>Opération financière
 </sect1>
 </sect>
+
 <sect>Sécurité
 <p>
+PhpCompta a sa propre sécurité, cependant si vous voulez vraiment
+sécuriser votre comptabilité, vous devez prendre en compte qu'il ne
+suffit de sécuriser votre server et phpcompta mais aussi les
+programmes sur lequel le programme s'appuie. C'est-à-dire Apache,
+utilisation de https à la place de http, de PostGresql, de l'utilisation
+des odbc, de l'encryption des backups, de la traque des mots de passe
+trop facile à deviner,... La liste est longue et c'est l'ensemble des
+mesures qui déterminera la sécurité de vos données, il suffit d'une
+seule faiblesse pour que la sécurité soit insuffisante. Le sujet
+est très vaste, il englobe trop de choses. C'est pourquoi nous ne
+traiterons que de PhpCompta uniquement.
 
-</p>
+Dans PhpCompta, le module de sécurité permet d'établir quel
+utilisateur peut accéder à quel dossier, ce qu'il peut y faire,
+les journaux qu'il peut accéder. Chaque fois qu'une page est chargée,
+le mot de passe et le login utilisateur sont vérifiés pour savoir si
+primo il a accès a ce qu'il demandé à faire et secundo  si son compte
+est actif et que le mot de passe fourni est valide. Ces valeurs sont
+stockés sur le server. Peu de système vérifie aussi souvent les
+permissions d'un utilisateur. Evidemment utiliser le cache de
+l'explorateur pour découvrir ces informations est une perte de
+temps,  utiliser son historique pour accéder à vos données ne
+fonctionnera pas non plus.
+
+Pour ajouter un utilisateur, vous devez tout d'abord avoir les droits
+admin et créez l'utilisateur. A ce moment-là, il n'a accès à rien du
+tout. Il faut ensuite se connecter à un dossier sur lequel vous avez
+des droits admin et l'ajouter, par défaut il ne peut rien faire. A
+vous de spécifier ce qu'il peut accéder et son droits par défaut
+(écriture ou lecture). De cette façon, un utilisateur (sauf avec des
+droits admin ) ne peut pas accéder à des nouveaux dossiers. Chaque
+accès doit être donné explicitement.
+
+Dans un dossier, un utilisateur a toujours un droit par défaut. Si par
+exemple, son droit par défaut est de lire il pourra lire tout 
+ce qu'il veut et écrire uniquement dans ce qui a été explicitement
+permis. Si son droit par défaut est d'écrire, c'est l'inverse, il
+pourra écrire partout sauf là ou est explicitement il ne peut
+qu'écrire. Le sens d'écrire dans ce contexte-ci doit se comprendre
+comme la capacité à  pouvoir ajouter ou modifier des informations
+
 </sect>
 </article>

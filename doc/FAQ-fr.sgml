@@ -288,4 +288,12 @@ Après l'avoir télécharger, allez dans le répertoire au-dessus du répertoire qui 
 </p>
 </sect1>
 </sect>
+<sect>Les entêtes de facture
+<p> Pourquoi les coordonnées de la société faisant la facture n'apparraissent
+pas
+
+Simplement parce que je n'ai pas eu le temps de le coder, pour l'instant, vous
+utilisez uniquement des factures préimprimées
+
+</sect>
 </article>
