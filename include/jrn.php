@@ -301,6 +301,8 @@ if ( $p_update == 0 )  echo "<TR><TD> <INPUT TYPE=\"SUBMIT\" VALUE=\"+ de line\"
 	$r.="<TD>";
 	$r.=$content['jr_date'];
 	$r.="</TD>";
+	// for upload document we need the grpt_id   
+	$r.='<Input type="hidden" name="jr_grpt_id" value="'.$content['jr_grpt_id'].'">';
 
 	// comment can be changed
 	$r.="<TD>";
@@ -339,6 +341,13 @@ if ( $p_update == 0 )  echo "<TR><TD> <INPUT TYPE=\"SUBMIT\" VALUE=\"+ de line\"
 
       //    }//     foreach ($l_array[$i]  as $value=>$content) 
   }// for ( $i =0 ; $i < sizeof($l_array); $i++) 
+    $file=new widget("file");
+    $file->table=1;
+    $r.="<hr>";
+    $r.= "<table>"; 
+    $r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
+    $r.="</table>";
+    $r.="<hr>";
 
   $r.="</table>";
   $r.="Total ".$content['jr_montant']."<br>";
@@ -999,6 +1008,7 @@ function GetDataJrnJrId ($p_cn,$p_jr_id) {
                         j_montant,
                         jr_montant,
                         j_id,
+                        jr_grpt_id,
                         jr_comment,
                         to_char(jr_ech,'DD.MM.YYYY') as jr_ech,
                         to_char(jr_date,'DD.MM.YYYY') as jr_date,
@@ -1027,6 +1037,7 @@ function GetDataJrnJrId ($p_cn,$p_jr_id) {
     $array['jr_montant']=$line['jr_montant'];
     $array['jr_rapt']=$line['jr_rapt'];
     $array['jrn_def_type']=$line['jrn_def_type'];
+    $array['jr_grpt_id']=$line['jr_grpt_id'];
     //    $array['']=$line[''];
 
     $ret_array[$i]=$array;

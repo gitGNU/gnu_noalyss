@@ -366,7 +366,7 @@ function GetArray($p_cn,$p_sql) {
   echo_debug(__FILE__,__LINE__,var_export($array,true));
   return $array;
 }
-/* function SavePicture
+/* function save_upload_document
  * Save a picture of a rest_id
  * parameters 
  * - $cn database connection
@@ -376,17 +376,25 @@ function GetArray($p_cn,$p_sql) {
 function save_upload_document ($cn,$seq) {
 
   $new_name=tempnam('/tmp','pj');
+  echo_debug(__FILE__,__LINE__,"new name=".$new_name);
   if ( strlen ($_FILES['pj']['tmp_name']) != 0 ) {
       if (move_uploaded_file($_FILES['pj']['tmp_name'],
 			     $new_name)) {
 	// echo "Image saved";
-	$oid=	pg_lo_import($cn,$new_name);
-	ExecSql($cn,"update jrn set jr_pj=$oid, jr_pj_name='".$_FILES['pj']['name']."', ".
+
+	$oid= pg_lo_import($cn,$new_name);
+	if ( $oid == false ) {
+	  echo_error(__FILE__,__LINE__,"cannot upload document");
+	  Rollback($cn);
+	  return;
+	}
+	echo_debug(__FILE__,__LINE__,"Loading document");
+	ExecSql($cn,"update jrn set jr_pj=".$oid.", jr_pj_name='".$_FILES['pj']['name']."', ".
 		"jr_pj_type='".$_FILES['pj']['type']."'  where jr_grpt_id=$seq");
 
       }      else {
 	echo "<H1>Error</H1>";
-	Rollback($p_cn);
+	Rollback($cn);
 	exit;
       }
     }
