@@ -46,7 +46,7 @@ echo ShowMenuParam();
 
 
 $cn=DbConnect();
-$User=ExecSql($cn,"select  use_id,use_first_name,use_name,use_login from ac_users where use_login != 'phpcompta'");
+$User=ExecSql($cn,"select  use_id,use_first_name,use_name,use_login from ac_users natural join jnt_use_dos where use_login != 'phpcompta' and dos_id=".$_SESSION['g_dossier']);
 $MaxUser=pg_NumRows($User);
 
 

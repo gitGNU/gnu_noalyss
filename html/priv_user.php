@@ -34,15 +34,17 @@ if ($User->admin != 1) {
   html_page_stop();
   return;
 }
-if (! isset ($_GET['UID']) ) {
+
+if (! isset ($_GET['UID']) && ! isset($_POST['UID']) ) {
   //Message d'erreur si UID non positionné
   echo_debug(__FILE__,__LINE__,"UID NOT DEFINED");
   html_page_stop();
   return;
 }
+$uid=( isset ($_GET['UID']))? $_GET['UID']: $_POST['UID'];
 echo_debug(__FILE__,__LINE__,"UID IS DEFINED");
 
-$r_UID=GetUid($_GET['UID']);
+$r_UID=GetUid($uid);
 if ( $r_UID == false ) {
   echo_debug(__FILE__,__LINE__,"UID NOT VALID");
   // Message d'erreur
@@ -70,7 +72,7 @@ echo '<h2>Gestion Utilisateurs</h2>';
 if ( isset ( $reset_passwd) ){
   $cn=DbConnect();
   $l_pass=md5('phpcompta');
-  $Res=ExecSql($cn, "update ac_users set use_pass='$l_pass' where use_id=$UID");
+  $Res=ExecSql($cn, "update ac_users set use_pass='$l_pass' where use_id=$uid");
   echo '<H2 class="info"> Password remis à phpcompta</H2>';
 }
 if ( isset ($SAVE) ){
@@ -79,7 +81,7 @@ if ( isset ($SAVE) ){
   $cn=DbConnect();
   $Sql="update ac_users set use_first_name='".$fname."', use_name='".$lname."'
         ,use_login='".$login."',use_active=".$Actif.",use_admin=".$Admin." where
-         use_id=".$UID;
+         use_id=".$uid;
   $Res=ExecSql($cn,$Sql);
   // Update Priv on Folder
   foreach ($HTTP_POST_VARS as $name=>$elem)
@@ -90,11 +92,11 @@ if ( isset ($SAVE) ){
 	echo_debug(__FILE__,__LINE__,"Found a priv");
 	$db_id=substr($name,4);
 	$cn=DbConnect();
-	if ( ExisteJnt($db_id,$UID) != 1 ) 
+	if ( ExisteJnt($db_id,$uid) != 1 ) 
 	  {
-	  $Res=ExecSql($cn,"insert into jnt_use_dos(dos_id,use_id) values(".$db_id.",".$UID.")"); 
+	  $Res=ExecSql($cn,"insert into jnt_use_dos(dos_id,use_id) values(".$db_id.",".$uid.")"); 
 	  }
-	$jnt=GetJnt($db_id,$UID);
+	$jnt=GetJnt($db_id,$uid);
 	if (ExistePriv($jnt) > 0) 
 	  {
 	  $Res=ExecSql($cn,"update priv_user set priv_priv='".$elem."' where priv_jnt=".$jnt);
@@ -108,20 +110,20 @@ if ( isset ($SAVE) ){
 } else {
   if ( isset ($DELETE) ) {
     $cn=DbConnect();
-    $Res=ExecSql($cn,"delete from priv_user where priv_jnt in ( select jnt_id from jnt_use_dos where use_id=".$UID.")");
-    $Res=ExecSql($cn,"delete from jnt_use_dos where use_id=".$UID);
-    $Res=ExecSql($cn,"delete from ac_users where use_id=".$UID);
+    $Res=ExecSql($cn,"delete from priv_user where priv_jnt in ( select jnt_id from jnt_use_dos where use_id=".$uid.")");
+    $Res=ExecSql($cn,"delete from jnt_use_dos where use_id=".$uid);
+    $Res=ExecSql($cn,"delete from ac_users where use_id=".$uid);
 
     echo "<center><H2 class=\"info\"> User $fname $lname ($login) is deleted </H2></CENTER>";
     html_page_stop();
     return;
   }
 }
-$r_UID=GetUid($_GET['UID']);
+$r_UID=GetUid($uid);
 ?>
 <FORM ACTION="priv_user.php" METHOD="POST">
 
-<? printf('<INPUT TYPE=HIDDEN NAME=UID VALUE="%s">',$_GET['UID']); ?>
+<? printf('<INPUT TYPE=HIDDEN NAME=UID VALUE="%s">',$uid); ?>
 <TABLE BORDER=0>
 <TR><TD>
 <?printf('First name <INPUT type="text" NAME="fname" value="%s"> ',$r_UID[0]['use_first_name']); ?>
@@ -133,7 +135,7 @@ $r_UID=GetUid($_GET['UID']);
 <?printf('login <INPUT type="text" NAME="login" value="%s">',$r_UID[0]['use_login']); ?>
 </TD>
 <TD class="mtitle"> 
-<?printf('<A class="mtitle" HREF="priv_user.php?reset_passwd&UID=%s">Reset Password</A>',$_GET['UID']); ?>
+<?printf('<A class="mtitle" HREF="priv_user.php?reset_passwd&UID=%s">Reset Password</A>',$uid); ?>
 </TD>
 </TR>
 <TR><TD>
@@ -179,7 +181,7 @@ $Dossier=ShowDossier('all',1,0);
 foreach ( $Dossier as $rDossier) {
   $NORIGHT="";$Write="";$Read="";
   echo_debug(__FILE__,__LINE__,"Dossier : ".$rDossier['dos_id']);
-  $login_name=GetLogin($_GET['UID']);
+  $login_name=GetLogin($uid);
   $priv=GetPriv($rDossier['dos_id'],$login_name);
   printf("<TR><TD> Dossier : %s </TD>",$rDossier['dos_name']);
   if ( $priv==0 ) 
