@@ -162,7 +162,21 @@ CREATE SEQUENCE dossier_id
 
 
 --
--- TOC entry 19 (OID 44942)
+-- TOC entry 14 (OID 679377)
+-- Name: log; Type: TABLE; Schema: public; Owner: phpcompta
+--
+
+CREATE TABLE log (
+    lg_timestamp timestamp without time zone DEFAULT now(),
+    lg_file text,
+    lg_type text DEFAULT 'debug',
+    lg_line text,
+    lg_msg text
+);
+
+
+--
+-- TOC entry 20 (OID 44942)
 -- Name: fk_jnt_use_dos; Type: INDEX; Schema: public; Owner: phpcompta
 --
 
@@ -170,7 +184,7 @@ CREATE INDEX fk_jnt_use_dos ON jnt_use_dos USING btree (use_id);
 
 
 --
--- TOC entry 18 (OID 44943)
+-- TOC entry 19 (OID 44943)
 -- Name: fk_jnt_dos_id; Type: INDEX; Schema: public; Owner: phpcompta
 --
 
@@ -178,7 +192,7 @@ CREATE INDEX fk_jnt_dos_id ON jnt_use_dos USING btree (dos_id);
 
 
 --
--- TOC entry 14 (OID 44944)
+-- TOC entry 15 (OID 44944)
 -- Name: ac_users_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -187,7 +201,7 @@ ALTER TABLE ONLY ac_users
 
 
 --
--- TOC entry 15 (OID 44946)
+-- TOC entry 16 (OID 44946)
 -- Name: ac_users_use_login_key; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -196,7 +210,7 @@ ALTER TABLE ONLY ac_users
 
 
 --
--- TOC entry 17 (OID 44948)
+-- TOC entry 18 (OID 44948)
 -- Name: ac_dossier_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -205,7 +219,7 @@ ALTER TABLE ONLY ac_dossier
 
 
 --
--- TOC entry 16 (OID 44950)
+-- TOC entry 17 (OID 44950)
 -- Name: ac_dossier_dos_name_key; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -214,7 +228,7 @@ ALTER TABLE ONLY ac_dossier
 
 
 --
--- TOC entry 20 (OID 44952)
+-- TOC entry 21 (OID 44952)
 -- Name: jnt_use_dos_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -223,7 +237,7 @@ ALTER TABLE ONLY jnt_use_dos
 
 
 --
--- TOC entry 22 (OID 44954)
+-- TOC entry 23 (OID 44954)
 -- Name: $1; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -232,7 +246,7 @@ ALTER TABLE ONLY jnt_use_dos
 
 
 --
--- TOC entry 21 (OID 44958)
+-- TOC entry 22 (OID 44958)
 -- Name: modeledef_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
