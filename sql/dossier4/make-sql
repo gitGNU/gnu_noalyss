@@ -1,0 +1,7 @@
+pg_dump -s dossier4 > schema.sql
+awk '/SEQUENCE/,/;/ { print $0;}' < schema.sql > sequence.sql
+awk '/CREATE TABLE/,/;/ { print $0;}' < schema.sql > table.sql
+awk '/ALTER TABLE/,/;/ { print $0;}' < schema.sql > constraint.sql
+grep setval schema.sql >> sequence.sql
+pg_dump -D -a -O dossier4 > data.sql
+
