@@ -1,4 +1,4 @@
-#!/bin/bash -xv
+#!/bin/bash 
 #
 #
 # $Revision$
@@ -25,7 +25,7 @@ echo "The file install.log will be created with
 
 # Output the log to install log
 exec 3>install.log 2>&3 1>&3
-
+set -xv
 
 version=3
 VerifOutil() {
