@@ -277,7 +277,7 @@ for ($e=0;$e < $MaxDossier;$e++) {
   $db_row=pg_fetch_array($Resdossier,$e);
   echo "Patching ".$db_row['dos_name']."<hr>";
   $db=DbConnect($db_row['dos_id'],'dossier');
-  if ( GetVersion($db) == 4 ) { 
+  if ( GetVersion($db) == 3 ) { 
     ExecuteScript($db,'sql/patch/upgrade4.sql');
       
     $sql="select jrn_def_id from jrn_def ";

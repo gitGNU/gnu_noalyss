@@ -49,7 +49,7 @@ INSERT INTO jnt_use_dos (jnt_id, use_id, dos_id) VALUES (23, 5, 1);
 -- Name: version; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
-INSERT INTO "version" (val) VALUES (4);
+INSERT INTO "version" (val) VALUES (3);
 
 
 --
