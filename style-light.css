@@ -168,6 +168,20 @@ a.mtitle:hover {
   display:block;
 	}
 
+a.mtitle2 {
+  height:30px;
+  text-decoration:none;
+color:white;
+	}
+
+a.mtitle2:hover {
+  height:30px;
+
+  color:green;
+  background-color:#5D90CD;
+  text-decoration:none;
+	}
+
 a.one:link {
 	text-decoration:underline;
 	color:#3010FF

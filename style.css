@@ -152,6 +152,14 @@ a.mtitle:hover {
 	background:#4BCCD0;
 	}
 
+a.mtitle2 {
+	text-decoration:none;
+	color:white;
+}
+a.mtitle2:hover {
+	background:#4BCCD0;
+	}
+
 a.one:link {
 	text-decoration:underline;
 	color:#3010FF

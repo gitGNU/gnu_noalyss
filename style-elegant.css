@@ -168,12 +168,12 @@ a.mtitle:visited {
 	color:black;
 
 	}
-a.mtitle:active {
+a.mtitle2:active {
 	text-decoration:none;
 	background:#0F4CD0;
 	}
 
-a.mtitle:hover {
+a.mtitle2:hover {
 	color:white;
         background-color:#5D90CD;
 	text-decoration:underline;

@@ -169,6 +169,16 @@ a.mtitle:hover {
 	text-decoration:none;
 	}
 
+a.mtitle2{
+	text-decoration:none;
+	color:blue;
+}
+a.mtitle2:hover {
+	color:white;
+        background-color:#5D90CD;
+	text-decoration:none;
+	}
+
 a.one:link {
 	text-decoration:underline;
 	color:#3010FF
