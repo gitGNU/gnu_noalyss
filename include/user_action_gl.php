@@ -23,8 +23,8 @@ echo_debug(__FILE__,__LINE__,"include user_action_gl.php");
 include_once ("preference.php");
 include_once ("user_common.php");
 include_once ("class_widget.php");
-include_once("class_jrn.php");
 include_once("class_user.php");
+include("jrn.php");
 
 $dossier=sprintf("dossier%d",$g_dossier);
 $cn=DbConnect($dossier);
@@ -38,26 +38,15 @@ $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from pa
 $User=new cl_user($cn);
 $current=(isset($_POST['p_periode']))?$_POST['p_periode']:$User->GetPeriode();
 $w->selected=$current;
-echo 'Période'.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit','Valider');
+echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit','Valider');
 ?>
 </form>
 <?
-$Jrn = new jrn($cn,0);
-$Jrn->GetRow($current,$current);
- if ( count($Jrn->row ) == 0 ) 
-  	exit;
 
-  echo "<TABLE>";
-foreach ( $Jrn->row as $op ) { 
-      echo "<TR>".
-	"<TD>".$op['internal']."</TD>".
-	"<TD>".$op['j_date']."</TD>".
-	"<TD>".$op['poste']."</TD>".
-	"<TD>".$op['description']."</TD>".
-	"<TD>".$op['deb_montant']."</TD>".
-	"<TD>".$op['cred_montant']."</TD>".
-	"</TR>";
-  }
-  echo "</table>";
+$sql=SQL_LIST_ALL_INVOICE." and jr_tech_per=".$current;
+$list=ListJrn($cn,0,$sql);
+
+echo $list;
+
 ?>
 </div>

@@ -265,7 +265,8 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
 		jrn_def_type,
                 jr_valid
 		      from 
-                jrn join jrn_def on jrn_def_id=jr_def_id where jrn_def_id=$p_jrn";
+                jrn join jrn_def on jrn_def_id=jr_def_id where ";
+    $jrn_sql=($p_jrn =0)?"1=1":"jrn_def_id=$p_jrn ";
     $l_and=" and ";
     if ( ereg("^[0-9]+$", $l_s_montant) || ereg ("^[0-9]+\.[0-9]+$", $l_s_montant) ) {
     $sql.=" and jr_montant $l_mont_sel $l_s_montant";
