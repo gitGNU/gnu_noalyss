@@ -455,21 +455,4 @@ function ShowMenuJrnUserImp($p_cn,$p_user,$p_dossier)
 
     echo "</DIV>";
 }
-/* function ShowMenuAdminGlobal */
-/* purpose : show the menu for user/database management */
-/* parameter : none */
-/* return : none */
-function ShowMenuAdminGlobal()
-{
-  include_once("ac_common.php");
-  $item[0]=array("admin_repo.php?action=user_mgt","Utilisateurs");
-  $item[1]=array("admin_repo.php?action=dossier_mgt","Dossiers");
-  $item[2]=array("admin_repo.php?action=modele_mgt","Modèles");
-  $item[3]=array("login.php","Accueil");
-  $item[4]=array("logout.php","Logout");
-  $menu=ShowItem($item,'H');
-  echo '<DIV >';
-  echo $menu;
-  echo '</DIV>';
-}
 ?>
