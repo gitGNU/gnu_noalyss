@@ -18,4 +18,45 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
+if ( ! isset ($_GET['action']) ) {
+    return;
+}
+$dossier=sprintf("dossier%d",$g_dossier);
+$cn=DbConnect($dossier);
+$action=$_GET['action'];
+if ( $action == 'insert_vente' ) {
+// Check privilege
+    if ( CheckJrn($g_dossier,$g_user,$g_jrn) != 2 )    {
+       NoAccess();
+       exit -1;
+    }
+// Show an empyt form of invoice
+    include_once("form_input.php");
+    $form=FormVente($cn,$g_jrn,'deb');
+    echo '<div class="redcontent">';
+    echo $form;
+    echo '</div>';
+}
+if ( $action == 'voir_vente' ) {
+// Show list of sell
+// Date - date of payment - Customer - amount
+     $list=ListSell();
+    echo '<div class="redcontent">';
+    echo $list;
+    echo '</div>';
+}
+if ( $action == 'voir_vente_non_paye' ) {
+// Show list of unpaid sell
+// Date - date of payment - Customer - amount
+     $list=ListSell('filtre');
+    echo '<div class="redcontent">';
+    echo $list;
+    echo '</div>';
+}
+if ( $action == 'impress' ) {
+// Print list of sell or print the current invoice
+}
+if ( $action == 'search' ) {
+// display a search box
+}
 ?>
