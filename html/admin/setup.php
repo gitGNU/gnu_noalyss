@@ -54,7 +54,7 @@ h2.error {
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 $inc_path=get_include_path();
-$inc_path.=':../../include';
+$inc_path.=';..\..\include';
 set_include_path($inc_path);
 
 include_once('constant.php');
@@ -144,7 +144,7 @@ foreach (array('magic_quotes_gpc','magic_quotes_runtime') as $a) {
 if ( ini_get("session.use_trans_sid") == false )  {
 	print '<h2 class="error"> avertissement session.use_trans_sid should be set to true </h2>';
 }
-if ( ereg("\.\.\/include",ini_get('include_path')) == false )
+if ( ereg("..\/include",ini_get('include_path')) == 0 and ereg("..\\include",ini_get('include_path')) == 0)
 {
   print ("<h2 class=\"error\">include_path incorrect  !!!".ini_get('include_path')."</h2>");
 	$flag_php++;
@@ -155,7 +155,7 @@ if ( ereg("\.\.\/include",ini_get('include_path')) == false )
 if ( $flag_php==0 ) {
 	echo '<p class="info">php.ini est bien configuré</p>';
 } else {
-	echo '<p class="error"> php mal configurée</p>';
+	echo '<p class="error"> php mal configuré</p>';
 	exit -1;
 }
 $cn=DbConnect(-2,'phpcompta');
