@@ -36,7 +36,7 @@ include("class_poste.php");
   $submit=new widget();
   $hid=new widget("hidden");
   echo '<div class="u_redcontent">';
-  echo '<h2 class="info">'.$Poste->name.'</h2>';
+  echo '<h2 class="info">'.$Poste->id." ".$Poste->name.'</h2>';
   echo "<table>";
   echo '<TR>';
   echo '<TD><form method="GET" ACTION="user_impress.php">'.
