@@ -1245,59 +1245,6 @@ INSERT INTO jrn_def VALUES (1, 'Financier', '5* ', '5*', '1,2,4,9', '1,2,4,9', 5
 -- Name: jrnx; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
-INSERT INTO jrnx VALUES (409, '2003-01-01', 12100, 101, 1, NULL, 4, true, NULL, false, NULL, 'phpcompta', '2004-04-01 19:24:05.153015', 1);
-INSERT INTO jrnx VALUES (410, '2003-01-01', 6100, 550, 1, NULL, 4, true, NULL, false, NULL, 'phpcompta', '2004-04-01 19:24:05.173273', 1);
-INSERT INTO jrnx VALUES (411, '2003-01-01', 18200, 100, 1, NULL, 4, false, NULL, false, NULL, 'phpcompta', '2004-04-01 19:24:05.178179', 1);
-INSERT INTO jrnx VALUES (412, '2003-01-05', 400, 4400004, 2, NULL, 3, false, NULL, false, NULL, 'phpcompta', '2004-04-01 19:31:47.352752', 1);
-INSERT INTO jrnx VALUES (413, '2003-01-05', 400, 610002, 2, NULL, 3, true, NULL, false, NULL, 'phpcompta', '2004-04-01 19:31:47.373566', 1);
-INSERT INTO jrnx VALUES (414, '2003-01-05', 0, 4114, 2, NULL, 3, true, NULL, false, NULL, 'phpcompta', '2004-04-01 19:31:47.391112', 1);
-INSERT INTO jrnx VALUES (415, '2003-01-01', 250, 4400005, 3, NULL, 3, false, NULL, false, NULL, 'phpcompta', '2004-04-01 20:21:38.650392', 1);
-INSERT INTO jrnx VALUES (416, '2003-01-01', 250, 610003, 3, NULL, 3, true, NULL, false, NULL, 'phpcompta', '2004-04-01 20:21:38.671208', 1);
-INSERT INTO jrnx VALUES (417, '2003-01-01', 302.5, 4400005, 4, NULL, 3, false, NULL, false, NULL, 'phpcompta', '2004-04-01 20:23:32.935184', 1);
-INSERT INTO jrnx VALUES (418, '2003-01-01', 250, 610003, 4, NULL, 3, true, NULL, false, NULL, 'phpcompta', '2004-04-01 20:23:32.953885', 1);
-INSERT INTO jrnx VALUES (419, '2003-01-01', 52.5, 4111, 4, NULL, 3, true, NULL, false, NULL, 'phpcompta', '2004-04-01 20:23:32.971118', 1);
-INSERT INTO jrnx VALUES (420, '2003-01-01', 302.5, 550, 5, NULL, 1, false, NULL, false, NULL, 'phpcompta', '2004-04-01 20:32:32.704464', 1);
-INSERT INTO jrnx VALUES (421, '2003-01-01', 302.5, 4400005, 5, NULL, 1, true, NULL, false, NULL, 'phpcompta', '2004-04-01 20:32:32.731236', 1);
-INSERT INTO jrnx VALUES (422, '2003-01-21', 605, 4000005, 6, NULL, 2, true, NULL, false, NULL, 'phpcompta', '2004-04-01 20:34:22.344788', 1);
-INSERT INTO jrnx VALUES (423, '2003-01-21', 500, 70001, 6, NULL, 2, false, NULL, false, NULL, 'phpcompta', '2004-04-01 20:34:22.36528', 1);
-INSERT INTO jrnx VALUES (424, '2003-01-21', 105, 4511, 6, NULL, 2, false, NULL, false, NULL, 'phpcompta', '2004-04-01 20:34:22.381173', 1);
-INSERT INTO jrnx VALUES (425, '2003-01-01', 605, 550, 7, NULL, 1, true, NULL, false, NULL, 'phpcompta', '2004-04-01 20:36:49.568072', 1);
-INSERT INTO jrnx VALUES (426, '2003-01-01', 605, 4000005, 7, NULL, 1, false, NULL, false, NULL, 'phpcompta', '2004-04-01 20:36:49.583721', 1);
-INSERT INTO jrnx VALUES (427, '2004-04-01', 250, 4400005, 8, NULL, 3, true, NULL, false, NULL, 'phpcompta', '2004-04-01 20:39:54.561169', 1);
-INSERT INTO jrnx VALUES (428, '2004-04-01', 250, 610003, 8, NULL, 3, false, NULL, false, NULL, 'phpcompta', '2004-04-01 20:39:54.561169', 1);
-INSERT INTO jrnx VALUES (429, '2003-01-01', 1500, 4000001, 9, NULL, 2, true, NULL, false, NULL, 'phpcompta', '2004-04-01 20:55:18.122103', 1);
-INSERT INTO jrnx VALUES (430, '2003-01-01', 1500, 70001, 9, NULL, 2, false, NULL, false, NULL, 'phpcompta', '2004-04-01 20:55:18.143117', 1);
-INSERT INTO jrnx VALUES (431, '2003-01-01', 1500, 4000001, 10, NULL, 2, true, NULL, false, NULL, 'phpcompta', '2004-04-01 20:57:28.871846', 1);
-INSERT INTO jrnx VALUES (432, '2003-01-01', 1500, 70001, 10, NULL, 2, false, NULL, false, NULL, 'phpcompta', '2004-04-01 20:57:29.670521', 1);
-INSERT INTO jrnx VALUES (433, '2003-01-01', 2350, 4000005, 11, NULL, 2, true, NULL, false, NULL, 'phpcompta', '2004-04-01 20:58:06.574822', 1);
-INSERT INTO jrnx VALUES (434, '2003-01-01', 2250, 70002, 11, NULL, 2, false, NULL, false, NULL, 'phpcompta', '2004-04-01 20:58:06.59382', 1);
-INSERT INTO jrnx VALUES (435, '2003-01-01', 100, 70001, 11, NULL, 2, false, NULL, false, NULL, 'phpcompta', '2004-04-01 20:58:06.609582', 1);
-INSERT INTO jrnx VALUES (436, '2003-01-01', 2843.5, 4000005, 12, NULL, 2, true, NULL, false, NULL, 'phpcompta', '2004-04-01 21:01:13.009938', 1);
-INSERT INTO jrnx VALUES (437, '2003-01-01', 2250, 70002, 12, NULL, 2, false, NULL, false, NULL, 'phpcompta', '2004-04-01 21:01:13.739575', 1);
-INSERT INTO jrnx VALUES (438, '2003-01-01', 100, 70001, 12, NULL, 2, false, NULL, false, NULL, 'phpcompta', '2004-04-01 21:01:13.757474', 1);
-INSERT INTO jrnx VALUES (439, '2003-01-01', 493.5, 4511, 12, NULL, 2, false, NULL, false, NULL, 'phpcompta', '2004-04-01 21:01:13.767038', 1);
-INSERT INTO jrnx VALUES (440, '2003-01-01', 2843.5, 4000005, 13, NULL, 2, true, NULL, false, NULL, 'phpcompta', '2004-04-01 21:05:36.892031', 1);
-INSERT INTO jrnx VALUES (441, '2003-01-01', 2250, 70002, 13, NULL, 2, false, NULL, false, NULL, 'phpcompta', '2004-04-01 21:05:37.45208', 1);
-INSERT INTO jrnx VALUES (442, '2003-01-01', 100, 70001, 13, NULL, 2, false, NULL, false, NULL, 'phpcompta', '2004-04-01 21:05:37.472918', 1);
-INSERT INTO jrnx VALUES (443, '2003-01-01', 493.5, 4511, 13, NULL, 2, false, NULL, false, NULL, 'phpcompta', '2004-04-01 21:05:37.495236', 1);
-INSERT INTO jrnx VALUES (444, '2003-01-01', 2843.5, 4000005, 14, NULL, 2, true, NULL, false, NULL, 'phpcompta', '2004-04-01 21:06:11.343749', 1);
-INSERT INTO jrnx VALUES (445, '2003-01-01', 2250, 70002, 14, NULL, 2, false, NULL, false, NULL, 'phpcompta', '2004-04-01 21:06:11.787897', 1);
-INSERT INTO jrnx VALUES (446, '2003-01-01', 100, 70001, 14, NULL, 2, false, NULL, false, NULL, 'phpcompta', '2004-04-01 21:06:11.803582', 1);
-INSERT INTO jrnx VALUES (447, '2003-01-01', 493.5, 4511, 14, NULL, 2, false, NULL, false, NULL, 'phpcompta', '2004-04-01 21:06:11.813172', 1);
-INSERT INTO jrnx VALUES (448, '2004-04-01', 2843.5, 4000005, 15, NULL, 2, false, NULL, false, NULL, 'phpcompta', '2004-04-01 21:06:33.863079', 1);
-INSERT INTO jrnx VALUES (449, '2004-04-01', 2250, 70002, 15, NULL, 2, true, NULL, false, NULL, 'phpcompta', '2004-04-01 21:06:33.863079', 1);
-INSERT INTO jrnx VALUES (450, '2004-04-01', 100, 70001, 15, NULL, 2, true, NULL, false, NULL, 'phpcompta', '2004-04-01 21:06:33.863079', 1);
-INSERT INTO jrnx VALUES (451, '2004-04-01', 493.5, 4511, 15, NULL, 2, true, NULL, false, NULL, 'phpcompta', '2004-04-01 21:06:33.863079', 1);
-INSERT INTO jrnx VALUES (452, '2004-04-01', 2843.5, 4000005, 16, NULL, 2, false, NULL, false, NULL, 'phpcompta', '2004-04-01 21:09:00.226129', 1);
-INSERT INTO jrnx VALUES (453, '2004-04-01', 2250, 70002, 16, NULL, 2, true, NULL, false, NULL, 'phpcompta', '2004-04-01 21:09:00.226129', 1);
-INSERT INTO jrnx VALUES (454, '2004-04-01', 100, 70001, 16, NULL, 2, true, NULL, false, NULL, 'phpcompta', '2004-04-01 21:09:00.226129', 1);
-INSERT INTO jrnx VALUES (455, '2004-04-01', 493.5, 4511, 16, NULL, 2, true, NULL, false, NULL, 'phpcompta', '2004-04-01 21:09:00.226129', 1);
-INSERT INTO jrnx VALUES (456, '2003-01-01', 18200, 100, 17, NULL, 4, true, NULL, false, NULL, 'phpcompta', '2004-04-01 23:24:15.9305', 1);
-INSERT INTO jrnx VALUES (457, '2003-01-01', 6100, 55000001, 17, NULL, 4, true, NULL, false, NULL, 'phpcompta', '2004-04-01 23:24:16.148167', 1);
-INSERT INTO jrnx VALUES (458, '2003-01-01', 12100, 101, 17, NULL, 4, true, NULL, false, NULL, 'phpcompta', '2004-04-01 23:24:16.15361', 1);
-INSERT INTO jrnx VALUES (459, '2003-01-01', 12100, 101, 18, NULL, 4, true, NULL, false, NULL, 'phpcompta', '2004-04-01 23:32:28.048724', 1);
-INSERT INTO jrnx VALUES (460, '2003-01-01', 6100, 55000001, 18, NULL, 4, true, NULL, false, NULL, 'phpcompta', '2004-04-01 23:32:28.101485', 1);
-INSERT INTO jrnx VALUES (461, '2003-01-01', 18200, 100, 18, NULL, 4, false, NULL, false, NULL, 'phpcompta', '2004-04-01 23:32:28.116001', 1);
 
 
 --
@@ -1950,9 +1897,6 @@ INSERT INTO jnt_fic_attr VALUES (9, 16);
 -- Name: jrn_rapt; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
-INSERT INTO jrn_rapt VALUES (11, 126, 125);
-INSERT INTO jrn_rapt VALUES (12, 128, 127);
-INSERT INTO jrn_rapt VALUES (13, 129, 124);
 
 
 --
