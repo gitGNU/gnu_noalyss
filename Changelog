@@ -1,4 +1,20 @@
+2004-12-13  sparkyx  <sparkyx@july>
+
+	* html/dossier_prefs.php, html/index.php, html/style-light.css, html/user_advanced.php, include/ac_common.php, include/top_menu_compta.php, include/user_menu.php:
+	Menu more logic
+
+	* html/bal_csv.php, include/balance.php, include/impress_jrn.php, html/print_balance.php:
+	NEW balance in HTML, PDF & CSV
+
 2004-12-12  sparkyx  <sparkyx@july>
+
+	* html/jrn_search.php, include/user_common.php:
+	change in search : order by date asc
+
+	* include/user_common.php:
+	fix bug in search : if no conditions everything is shown
+
+	* Changelog: Changelog
 
 	* html/recherche.php: Fix undefined variable g_jrn
 
