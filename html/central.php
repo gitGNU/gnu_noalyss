@@ -37,7 +37,7 @@ include ("check_priv.php");
 include_once("preference.php");
 
 
-include_once ("top_menu_compta.php");
+include_once ("user_menu.php");
 ShowMenuCompta($_SESSION['g_dossier']);
 
 if ( $_SESSION['use_admin']==0 ) {

@@ -30,7 +30,7 @@ $rep=DbConnect();
 include_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
-include ("top_menu_compta.php");
+include ("user_menu.php");
 ShowMenuCompta($g_dossier,$g_UserProperty);
 
 if ( $g_UserProperty['use_admin']==0 ) {

@@ -19,7 +19,7 @@
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 include_once("ac_common.php");
-include("top_menu_compta.php");
+include("user_menu.php");
 include_once ("constant.php");
 include_once("jrn.php");
 include_once("user_common.php");

@@ -31,7 +31,8 @@ include_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
 
-include_once ("top_menu_compta.php");
+//include_once ("top_menu_compta.php");
+include_once ("user_menu.php");
 ShowMenuCompta($_SESSION['g_dossier']);
 
 include_once("check_priv.php");
@@ -50,8 +51,8 @@ if ( $_SESSION['use_admin'] == 0 ) {
 // Javascript
 echo JS_SEARCH_POSTE;
 if ( isset( $_GET['p_jrn'] )) {
-  $g_jrn=$p_jrn;
-  $_SESSION["g_jrn"]=$p_jrn;
+  $g_jrn=$_GET['p_jrn'];
+  $_SESSION["g_jrn"]=$g_jrn;
 
 }
 
@@ -107,7 +108,7 @@ If ( isset ($_POST["JRN_UPD"] )) {
     $Res=ExecSql($cn,$Sql);
   }
 }
-ShowMenuJrn($_SESSION['g_dossier']);
+MenuJrn($_SESSION['g_dossier']);
 
 $Res=ExecSql($cn,"select jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,".
 	     "jrn_deb_max_line,jrn_cred_max_line,jrn_def_code".

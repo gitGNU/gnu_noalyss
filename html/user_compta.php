@@ -59,7 +59,7 @@ if ( $User->admin == 0 ) {
 
 
 include_once ("user_menu.php");
-include_once ("top_menu_compta.php");
+
 ShowMenuCompta($g_dossier);
 
 html_page_stop();

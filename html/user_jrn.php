@@ -19,7 +19,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
 include_once("ac_common.php");
-include("top_menu_compta.php");
+include_once("user_menu.php");
 include_once ("constant.php");
 include_once ("postgres.php");
 include_once ("check_priv.php");
@@ -86,6 +86,7 @@ if ( isset ($_GET['JRN_TYPE'] ) ) {
   ShowMenuJrnUser($_SESSION['g_dossier'],$_GET['JRN_TYPE'],$_SESSION['g_jrn']);
    echo "</DIV>";
  if ( $jrn_type=='NONE' )     include('user_action_gl.php');
+ if ( $jrn_type=='SALDO_FIN') include ('user_action_fin.php');
 
 } else {
 
@@ -112,8 +113,8 @@ if ( $_SESSION['g_jrn'] != -1 ) {
   $JrnProp=GetJrnProp($_SESSION['g_dossier'],$_SESSION['g_jrn']);
   $jrn_type=$JrnProp['jrn_def_type'];
   // display jrn's menu
-  include_once('user_menu.php');
-   $menu_jrn=u_ShowMenuJrn($cn,$jrn_type);
+
+   $menu_jrn=ShowMenuJrn($cn,$jrn_type);
    //      echo '<div class="searchmenu">';
    //   echo $result;
    echo $menu_jrn;

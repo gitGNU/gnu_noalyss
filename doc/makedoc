@@ -8,6 +8,7 @@ ext_dir ()
 		) >> $BASE_DIR/function.txt
 	done
 }
+rm -f $BASE_DIR/function.txt
 
 cd ../html
 

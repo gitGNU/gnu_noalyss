@@ -34,7 +34,7 @@ $User->Check();
 
 include_once ("check_priv.php");
 
-include_once ("top_menu_compta.php");
+include_once ("user_menu.php");
 ShowMenuCompta($_SESSION['g_dossier']);
 
 if ( $User->admin == 0 ) {
@@ -47,7 +47,7 @@ if ( $User->admin == 0 ) {
   }
 }
 
-ShowMenuJrn($_SESSION['g_dossier']);
+MenuJrn($_SESSION['g_dossier']);
 
 $cn=DbConnect($_SESSION['g_dossier']);
 echo '<DIV CLASS="ccontent">';

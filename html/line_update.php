@@ -45,7 +45,7 @@ if ( $User->admin == 0 ) {
 
 }
 
-include ("top_menu_compta.php");
+include ("user_menu.php");
 ShowMenuComptaRight($_SESSION['g_dossier'],$User->admin);
 $l_Db=sprintf("dossier%d",$_SESSION['g_dossier']);
 echo '<DIV CLASS="ccontent">';
@@ -55,6 +55,10 @@ echo '<DIV CLASS="ccontent">';
 <TABLE>
 <TR>
 <?
+$l=$_GET['l'];
+$p=$_GET['p'];
+$n=$_GET['n'];
+
 printf ('<TD>Numéro de classe </TD><TD><INPUT TYPE="TEXT" name="p_val" value="%s"></TD>',$l);
 echo "</TR><TR>";
 printf('<TD>Libellé </TD><TD><INPUT TYPE="TEXT" size="70" NAME="p_name" value="%s"></TD>',urldecode($n));

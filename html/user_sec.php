@@ -33,7 +33,7 @@ include_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
 
-include_once ("top_menu_compta.php");
+include_once ("user_menu.php");
 ShowMenuCompta($_SESSION['g_dossier']);
 
 if ( $User->admin== 0 ) {

@@ -33,7 +33,7 @@ include_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
 include_once("check_priv.php");
-include_once ("top_menu_compta.php");
+include_once ("user_menu.php");
 ShowMenuCompta($_SESSION['g_dossier']);
 
 
@@ -105,7 +105,7 @@ echo_debug(__FILE__,__LINE__,"nom journal $p_jrn_name");
     $Res=ExecSql($cn,$Sql);
   }
 }
-ShowMenuJrn($_SESSION['g_dossier']);
+MenuJrn($_SESSION['g_dossier']);
 if ( isset ($_GET["PHPSESSID"]) ) {
   $sessid=$_GET["PHPSESSID"];
 }else {

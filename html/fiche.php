@@ -28,7 +28,7 @@ if ( ! isset ( $_SESSION['g_dossier'] ) ) {
   exit -2;
 }
 include_once ("postgres.php");
-include_once ("top_menu_compta.php");
+include_once ("user_menu.php");
 
 echo JS_SEARCH_POSTE;
 $rep=DbConnect();

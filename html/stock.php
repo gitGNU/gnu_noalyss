@@ -56,7 +56,7 @@ $cn=DbConnect($_SESSION['g_dossier']);
 
 //Show the top menu
 include_once ("user_menu.php");
-include_once ("top_menu_compta.php");
+
 ShowMenuCompta($_SESSION['g_dossier']);
 
 // Show Menu Left

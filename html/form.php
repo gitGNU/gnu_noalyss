@@ -36,7 +36,7 @@ $User->Check();
 
 include_once("form_inc.php");
 
-include_once ("top_menu_compta.php");
+include_once ("user_menu.php");
 ShowMenuCompta($g_dossier,$g_UserProperty);
 include ("check_priv.php");
 

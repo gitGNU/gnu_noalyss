@@ -43,7 +43,7 @@ html_page_start($_SESSION['use_theme']);
 // show the top menu depending of the use_style
 // comta style
 
-include_once ("top_menu_compta.php");
+include_once ("user_menu.php");
 if ( isset ($_SESSION['g_dossier']) ) {
   if ( $_SESSION['g_dossier'] != 0 )  
     ShowMenuCompta($_SESSION['g_dossier']);

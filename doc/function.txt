@@ -1,6 +1,4 @@
-************************* File = admin_dossier.php ****************
 ************************* File = admin_repo.php ****************
-************************* File = advanced.php ****************
 ************************* File = annulation.php ****************
 ************************* File = a.php ****************
 ************************* File = bal_csv.php ****************
@@ -8,8 +6,6 @@
 ************************* File = central.php ****************
 ************************* File = class.ezpdf.php ****************
 ************************* File = class.pdf.php ****************
-************************* File = compta_login.php ****************
-************************* File = compta.php ****************
 ************************* File = c.php ****************
 ************************* File = dossier_prefs.php ****************
 ************************* File = d.php ****************
@@ -22,7 +18,6 @@
 ************************* File = fiche_search.php ****************
 ************************* File = form.php ****************
 ************************* File = html_balance.php ****************
-************************* File = impress.php ****************
 ************************* File = index.php ****************
 ************************* File = jrn_add.php ****************
 ************************* File = jrn_csv.php ****************
@@ -44,11 +39,9 @@
 ************************* File = print_invoice.php ****************
 ************************* File = priv_user.php ****************
 ************************* File = rapprochement.php ****************
-************************* File = rate_chg.php ****************
 ************************* File = readme.php ****************
 ************************* File = recherche.php ****************
 ************************* File = send_jrn_pdf.php ****************
-************************* File = send.php ****************
 ************************* File = send_poste_pdf.php ****************
 ************************* File = show_tva.php ****************
 ************************* File = stock.php ****************
@@ -1696,6 +1689,32 @@ postgres.php  * parameter p_connection db connection
 postgres.php  *           p_string     sql string
 postgres.php  * return false if error otherwise true
 postgres.php  */
+postgres.php /* function GetAllUser
+postgres.php  * Return all the users
+postgres.php  * as an array
+postgres.php  */
+postgres.php /* function GetUid
+postgres.php  * Check if the User is valid
+postgres.php  * and return an array with his property
+postgres.php  */
+postgres.php /* function GetPriv
+postgres.php  * Get the privilege of an user on a folder
+postgres.php  */
+postgres.php /* function ExisteJnt
+postgres.php  * Get the number of rows
+postgres.php  * from table jnt_use_dos where $p_dossier = dos_id and 
+postgres.php  * use_id=$p_user
+postgres.php  */
+postgres.php /* function GetDossierName
+postgres.php  * Param: id of a dossier
+postgres.php  * return : Name of the dossier
+postgres.php  */
+postgres.php /* function GetSequence
+postgres.php  * get the current sequence
+postgres.php  */
+postgres.php /* function NextSequence
+postgres.php  * get the current sequence
+postgres.php  */
 postgres.php /* function SyncRight
 postgres.php  * Purpose : Synchronize les droits par défaut
 postgres.php  *           avec  les journaux existants
@@ -1910,6 +1929,11 @@ stock_inc.php  * gen :
 stock_inc.php  *	-
 stock_inc.php  * return:
 stock_inc.php  */
+stock_inc.php /* function GetQuantity($p_cn,$p_sg_code,$year,$p_type 'd' or 'c'
+stock_inc.php  * purpose return the quantity of a sg_code for the period 
+stock_inc.php  *
+stock_inc.php  * Return number or NULL
+stock_inc.php  */ 
 ************************* File = top_menu_compta.php ****************
 top_menu_compta.php /* function ShowMenu
 top_menu_compta.php  * Purpose : Show The login menu

@@ -49,7 +49,7 @@ $User->Check();
 
 // Show the top menus
 include_once ("user_menu.php");
-include_once ("top_menu_compta.php");
+
 ShowMenuCompta($_SESSION['g_dossier']);
 
 // Show the right menus

@@ -156,7 +156,7 @@ function GetAvailableFolder($p_user,$p_admin)
  *
  * gen : none
  */
-function u_ShowMenuCompta($p_dossier)
+function ShowMenuCompta($p_dossier)
 {
   include_once("postgres.php");
   $l_name=GetDossierName($p_dossier);
@@ -196,7 +196,7 @@ function u_ShowMenuCompta($p_dossier)
  *	- string containing the html menu
  *
  */ 
-function u_ShowMenuComptaRight($p_dossier=0,$p_admin=0)
+function ShowMenuComptaRight($p_dossier=0,$p_admin=0)
 {
   include_once("ac_common.php");
   $i=0;
@@ -212,7 +212,7 @@ function u_ShowMenuComptaRight($p_dossier=0,$p_admin=0)
   echo '</DIV>';
 
 }
-/* function u_ShowMenuJrnUser($p_dossier,$p_user)
+/* function ShowMenuJrnUser($p_dossier,$p_user)
  * Purpose : Show the Menu from the jrn encode
  *           page
  * 
@@ -228,7 +228,7 @@ function u_ShowMenuComptaRight($p_dossier=0,$p_admin=0)
  *
  */ 
 
-function u_ShowMenuJrnUser($p_dossier,$p_type,$p_jrn)
+function ShowMenuJrnUser($p_dossier,$p_type,$p_jrn)
 {
   include_once ("debug.php");
   include_once("constant.php");
@@ -272,6 +272,10 @@ function u_ShowMenuJrnUser($p_dossier,$p_type,$p_jrn)
 	$right=3;
       }
 
+      // Show saldo
+//       echo '<TD class="cell">';
+//       echo ('<A class="mtitle" HREF="user_jrn.php?saldo&JRN_TYPE=FIN">Solde</A></TD>');
+//       echo '</TR>';
 
       if ( $right > 0 ) {
 	// Minimum Lecture 
@@ -307,7 +311,7 @@ function u_ShowMenuJrnUser($p_dossier,$p_type,$p_jrn)
  * return:
  *     - string containing the menu
  */
-function u_ShowMenuJrn($p_cn,$p_jrn_type) 
+function ShowMenuJrn($p_cn,$p_jrn_type) 
 {
 
   $Res=ExecSql($p_cn,"select ja_name,ja_url,ja_action,ja_desc from jrn_action  where ja_jrn_type='$p_jrn_type'
@@ -570,4 +574,88 @@ function MenuAdmin()
   $menu=ShowItem($item,'H');
   return $menu;
 }
+/* function
+ * Purpose :
+ * 
+ * parm : 
+ *	- 
+ * gen :
+ *	-
+ * return:
+ *	-
+ *
+ */ 
+function ShowMenuParam()
+{
+    $sub_menu=ShowItem(array(
+			  //('rapprt.php','Rapprochement'),
+			  array('dossier_prefs.php?p_action=devise','Devises'),
+			  array('dossier_prefs.php?p_action=periode','Période'),
+		          array('user_sec.php','Sécurité')
+			  ),
+		    'H',"cell","mtitle");
+    return $sub_menu;
+
+}
+/* function  MenuJrn($p_dossier)
+ * Purpose : Show the menu in the jrn page
+ * 
+ * parm : 
+ *	- $p_dossier 
+ * gen :
+ *	- none
+ * return:
+ *	- none
+ *
+ */ 
+
+function MenuJrn($p_dossier)
+{
+    echo '<div class="lmenu">';
+    echo '<TABLE>';
+    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="jrn_add.php">Création </A></TD></TR>';
+    include_once("postgres.php");
+    $Cn=DbConnect($p_dossier);
+    $Ret=ExecSql($Cn,"select jrn_def_id,jrn_def_name,
+                             jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc 
+                             from jrn_def join jrn_type on jrn_def_type=jrn_type_id");
+    $Max=pg_NumRows($Ret);
+    for ($i=0;$i<$Max;$i++) {
+      $l_line=pg_fetch_array($Ret,$i);
+      printf ('<TR><TD class="mtitle"><A class="mtitle" HREF="jrn_detail.php?p_jrn=%s">%s</A></TD></TR>',
+	      $l_line['jrn_def_id'],$l_line['jrn_def_name']);
+
+    }
+    echo "</TABLE>";
+    echo '</div>';
+
+}
+/* function ShowMenuPcmn($p_start=1)
+ * Purpose : Show the menu from the pcmn page
+ * 
+ * parm : 
+ *	- $p_start class start
+ * gen :
+ *	- none
+ * return:
+ *	- none
+ *
+ */ 
+
+function ShowMenuPcmn($p_start=1)
+{
+    echo '<div class="lmenu">';
+    echo '<TABLE>';
+    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=1">1 Immobilisé </A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=2">2 Actif a un an au plus</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=3">3 Stock et commande</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=4">4 Compte tiers</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=5">5 Actif</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=6">6 Charges</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=7">7 Produits</A></TD></TR>';
+    echo "</TABLE>";
+    echo '</div>';
+
+}
+
 ?>
