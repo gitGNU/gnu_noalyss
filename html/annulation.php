@@ -137,7 +137,7 @@ if ( isset ($annul) ) {
   echo '<h2 class="info"> Opération annulée</h2>';
 ?>
 <script>
- // window.close();
+ window.close();
  self.opener.RefreshMe();
 </script>
 <?
