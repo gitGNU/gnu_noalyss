@@ -25,13 +25,14 @@ if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {
 }
 $dossier=sprintf("dossier%d",$g_dossier);
 $cn=DbConnect($dossier);
-$action=(isset($_GET['action']))?$_GET['action']:$_POST['action'];
-if ( $action == 'insert_vente' ) {
 // Check privilege
-    if ( CheckJrn($g_dossier,$g_user,$g_jrn) != 2 )    {
+if ( CheckJrn($g_dossier,$g_user,$g_jrn) != 2 )    {
        NoAccess();
        exit -1;
     }
+
+$action=(isset($_GET['action']))?$_GET['action']:$_POST['action'];
+if ( $action == 'insert_vente' ) {
    
     // Add item
         if (isset($_POST["add_item"]) ) {
@@ -80,7 +81,13 @@ if ( isset($_POST["record_invoice"])) {
   // echo "RECORD INVOICE";
    RecordInvoice($cn,$HTTP_POST_VARS,$g_user,$g_jrn);
 }
-
+if (isset ($_POST['correct_new_invoice'])) {
+  $nb=$_POST['nb_item'];
+  $form=FormVente($cn,$g_jrn,$g_user,$HTTP_POST_VARS,false,$nb);
+  echo '<div class="u_redcontent">';
+  echo $form;
+  echo '</div>';
+}
 // Save and print the invoice
 if ( isset($_POST["record_and_print_invoice"])) {
   //  echo "RECORD AND PRINT INVOICE";
