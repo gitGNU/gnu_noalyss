@@ -1,3 +1,4 @@
+COMMENT ON SCHEMA public IS 'Standard public schema';
 COMMENT ON TABLE tmp_pcmn IS 'Plan comptable minimum normalisé';
 COMMENT ON TABLE parm_money IS 'Currency conversion';
 COMMENT ON TABLE parm_periode IS 'Periode definition';

@@ -1,3 +1,4 @@
+
 <style type="text/css">
 <!--
 body {
@@ -112,7 +113,7 @@ function ExecuteScript($p_cn,$script) {
     // cut the semi colon
     $buffer=str_replace (';','',$buffer);
     $sql.=$buffer;
-    # print "Execute $sql <hr>";
+    print "Execute $sql <hr>";
     ExecSql($p_cn,$sql);
     $sql="";
   } // while (feof)
@@ -128,29 +129,37 @@ function ExecuteScript($p_cn,$script) {
 ?>
 <h2>Php setting</h2>
 <?
+$flag_php=0;
 foreach (array('magic_quotes_gpc','magic_quotes_runtime') as $a) {
 
   if ( ini_get($a) == false ) print $a.': Ok  <br>';
   else {
 	print ("<h2 class=\"error\">$a has a bad value  !!!</h2>");
+	$flag_php++;
   }
 
 }
-if ( init_get("session.use_trans_sid") == false ) 
-		print '<h2 class="error"> session.use_trans_sid should be set to true </h2>';
+if ( ini_get("session.use_trans_sid") == false )  {
+	print '<h2 class="error"> avertissement session.use_trans_sid should be set to true </h2>';
 }
 if ( ereg("\.\.\/include",ini_get('include_path')) == false )
+{
   print ("<h2 class=\"error\">include_path incorrect  !!!".ini_get('include_path')."</h2>");
+	$flag_php++;
+}
  else
    print 'include_path : ok ('.ini_get('include_path').')<br>';
 
-
-echo '<p class="info">php.ini est bien configuré</p>';
-
+if ( $flag_php==0 ) {
+	echo '<p class="info">php.ini est bien configuré</p>';
+} else {
+	echo '<p class="error"> php mal configurée</p>';
+	exit -1;
+}
 $cn=DbConnect(-2,'phpcompta');
 
 if ($cn == false ) {
-  print "<p> Vous devez absolument taper dans une console la commande 'createuser -d phpcompta -P dany'
+  print "<p> Vous devez absolument taper dans une console la commande 'createuser -A -d -P  phpcompta et vous donnez dany comme mot de passe (voir la documentation)'
   puis  la commande 'createdb -O phpcompta phpcompta'. </p>
 <p>Ces commandes créeront l'utilisateur phpcompta
 puis la base de données par défaut de phpcompta.</p>";
@@ -171,21 +180,21 @@ for ($e=0;$e<pg_NumRows($Res);$e++) {
   case 'effective_cache_size':
     if ( $a['setting'] < 1000 ){
       print '<p class="warning">Attention le paramètre effective_cache_size est de '.
-	$a['setting']."</p>";
+	$a['setting']." au lieu de 1000 </p>";
       $flag++;
     }
     break;
   case 'shared_buffers':
     if ( $a['setting'] < 640 ){
       print '<p class="warning">Attention le paramètre shared_buffer est de '.
-	$a['setting']."</p>";
+	$a['setting']."au lieu de 640</p>";
       $flag++;
     }
     break;
   case 'sort_mem':
     if ( $a['setting'] < 8192 ){
       print '<p class="warning">Attention le paramètre sort_mem est de '.
-	$a['setting']."</p>";
+	$a['setting']." au lieu de 8192 </p>";
     $flag++;
     }
     break;
@@ -210,11 +219,13 @@ $account=CountSql($cn,
 
 // Create the account_repository
 if ($account == 0 ) {
-  ob_start();
+//  ob_start();
   echo "Creation of account_repository";
+  
   ExecSql($cn,"create database account_repository encoding='latin1'");
-  $r=system("$psql -U phpcompta account_repository -f sql/account_repository/schema.sql",$r);
-  $r=system("$psql -U phpcompta account_repository -f sql/account_repository/data.sql",$r);
+  $cn=DbConnect();
+  ExecuteScript($cn,"sql/account_repository/schema.sql");
+  ExecuteScript($cn,"sql/account_repository/data.sql");
   echo "Creation of Démo";
   ExecSql($cn,"create database dossier1 encoding='latin1'");
 //   $r=system("$psql -U phpcompta dossier1 -f sql/dossier1/schema.sql",$r);
@@ -231,7 +242,7 @@ if ($account == 0 ) {
 
 //   $r=system("$psql -U phpcompta mod1 -f sql/mod1/schema.sql",$r);
 //   $r=system("$psql -U phpcompta mod1 -f sql/mod1/data.sql",$r);
-  ob_end_clean();
+  //ob_end_clean();
 
 }
 // _SERVER["DOCUMENT_ROOT"]

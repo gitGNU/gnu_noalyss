@@ -8,5 +8,5 @@ awk '/FUNCTION/,/LANGUAGE/ { print $0;}' < schema.sql > function.sql
 awk '/COMMENT/,/;/ {print $0;}' < schema.sql > comment.sql
 
 grep setval schema.sql >> sequence.sql
-pg_dump -D -a -O account_repository > data.sql
+pg_dump -D -a -O dossier1 > data.sql
 

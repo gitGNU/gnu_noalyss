@@ -1,25 +1,25 @@
-\connect - phpcompta
+SET client_encoding = 'LATIN1';
 SET search_path = public, pg_catalog;
 CREATE TABLE tmp_pcmn (
     pcm_val integer NOT NULL,
     pcm_lib text,
     pcm_val_parent integer DEFAULT 0,
-    pcm_country character(2) DEFAULT 'BE' NOT NULL
+    pcm_country character(2) DEFAULT 'BE'::bpchar NOT NULL
 );
 CREATE TABLE "version" (
     val integer
 );
 CREATE SEQUENCE s_periode
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 CREATE SEQUENCE s_currency
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 CREATE TABLE parm_money (
     pm_id integer DEFAULT nextval('s_currency'::text),
@@ -34,28 +34,28 @@ CREATE TABLE parm_periode (
     p_closed boolean DEFAULT false
 );
 CREATE SEQUENCE s_jrn_def
-    START 5
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 5
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 CREATE SEQUENCE s_grpt
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 CREATE SEQUENCE s_jrn_op
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 CREATE SEQUENCE s_jrn
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 CREATE TABLE jrn_type (
     jrn_type_id character(3) NOT NULL,
@@ -76,10 +76,10 @@ CREATE TABLE jrn_def (
     jrn_def_code text NOT NULL
 );
 CREATE SEQUENCE s_jrnx
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 CREATE TABLE jrnx (
     j_id integer DEFAULT nextval('s_jrn_op'::text) NOT NULL,
@@ -102,16 +102,16 @@ CREATE TABLE user_pref (
     pref_periode integer NOT NULL
 );
 CREATE SEQUENCE s_formdef
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 CREATE SEQUENCE s_form
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 CREATE TABLE formdef (
     fr_id integer DEFAULT nextval('s_formdef'::text) NOT NULL,
@@ -125,16 +125,16 @@ CREATE TABLE form (
     fo_formula text
 );
 CREATE SEQUENCE s_idef
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 CREATE SEQUENCE s_centralized
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 CREATE TABLE centralized (
     c_id integer DEFAULT nextval('s_centralized'::text) NOT NULL,
@@ -142,7 +142,7 @@ CREATE TABLE centralized (
     c_date date NOT NULL,
     c_internal text NOT NULL,
     c_montant double precision NOT NULL,
-    c_debit boolean DEFAULT 't',
+    c_debit boolean DEFAULT true,
     c_jrn_def integer NOT NULL,
     c_poste integer,
     c_description text,
@@ -152,16 +152,16 @@ CREATE TABLE centralized (
     c_periode integer
 );
 CREATE SEQUENCE s_user_jrn
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 CREATE SEQUENCE s_user_act
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 CREATE TABLE user_sec_jrn (
     uj_id integer DEFAULT nextval('s_user_jrn'::text) NOT NULL,
@@ -179,10 +179,10 @@ CREATE TABLE user_sec_act (
     ua_act_id integer
 );
 CREATE SEQUENCE s_jrnaction
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 CREATE TABLE jrn_action (
     ja_id integer DEFAULT nextval('s_jrnaction'::text) NOT NULL,
@@ -190,7 +190,7 @@ CREATE TABLE jrn_action (
     ja_desc text,
     ja_url text NOT NULL,
     ja_action text NOT NULL,
-    ja_lang text DEFAULT 'FR',
+    ja_lang text DEFAULT 'FR'::text,
     ja_jrn_type character(3)
 );
 CREATE TABLE tva_rate (
@@ -201,34 +201,34 @@ CREATE TABLE tva_rate (
     tva_poste text
 );
 CREATE SEQUENCE s_fiche
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 CREATE SEQUENCE s_fiche_def_ref
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 CREATE SEQUENCE s_fdef
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 CREATE SEQUENCE s_attr_def
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 CREATE SEQUENCE s_jnt_fic_att_value
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 CREATE TABLE fiche_def_ref (
     frd_id integer DEFAULT nextval('s_fiche_def_ref'::text) NOT NULL,
@@ -264,10 +264,10 @@ CREATE TABLE jnt_fic_attr (
     ad_id integer
 );
 CREATE SEQUENCE s_jrn_rapt
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 CREATE TABLE jrn_rapt (
     jra_id integer DEFAULT nextval('s_jrn_rapt'::text) NOT NULL,
@@ -277,10 +277,10 @@ CREATE TABLE jrn_rapt (
 CREATE VIEW vw_fiche_attr AS
     SELECT a.f_id, fd_id, a.av_text AS vw_name, b.av_text AS vw_sell, c.av_text AS vw_buy, d.av_text AS tva_code, tva_id, tva_rate, tva_label, e.av_text AS vw_addr, f.av_text AS vw_cp, frd_id FROM ((((((((SELECT f_id, fd_id, av_text FROM (((fiche JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) JOIN attr_def USING (ad_id)) WHERE (ad_id = 1)) a LEFT JOIN (SELECT f_id, av_text FROM (((fiche JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) JOIN attr_def USING (ad_id)) WHERE (ad_id = 6)) b ON ((a.f_id = b.f_id))) LEFT JOIN (SELECT f_id, av_text FROM (((fiche JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) JOIN attr_def USING (ad_id)) WHERE (ad_id = 7)) c ON ((a.f_id = c.f_id))) LEFT JOIN (SELECT f_id, av_text FROM (((fiche JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) JOIN attr_def USING (ad_id)) WHERE (ad_id = 2)) d ON ((a.f_id = d.f_id))) LEFT JOIN (SELECT f_id, av_text FROM (((fiche JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) JOIN attr_def USING (ad_id)) WHERE (ad_id = 14)) e ON ((a.f_id = e.f_id))) LEFT JOIN (SELECT f_id, av_text FROM (((fiche JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) JOIN attr_def USING (ad_id)) WHERE (ad_id = 15)) f ON ((a.f_id = f.f_id))) LEFT JOIN tva_rate ON ((d.av_text = (tva_rate.tva_id)::text))) JOIN fiche_def USING (fd_id));
 CREATE SEQUENCE s_stock_goods
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 CREATE TABLE jrn (
     jr_id integer DEFAULT nextval('s_jrn'::text) NOT NULL,
@@ -305,7 +305,7 @@ CREATE TABLE stock_goods (
     f_id integer NOT NULL,
     sg_code text,
     sg_quantity integer DEFAULT 0,
-    sg_type character(1) DEFAULT 'c' NOT NULL,
+    sg_type character(1) DEFAULT 'c'::bpchar NOT NULL,
     sg_date date,
     sg_tech_date date DEFAULT now(),
     sg_tech_user text,
@@ -316,34 +316,34 @@ CREATE TABLE attr_min (
     ad_id integer
 );
 CREATE SEQUENCE s_internal
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 CREATE SEQUENCE s_jrn_4
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 CREATE SEQUENCE s_jrn_3
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 CREATE SEQUENCE s_jrn_2
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 CREATE SEQUENCE s_jrn_1
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
     CACHE 1;
 CREATE UNIQUE INDEX x_act ON "action" USING btree (ac_description);
 CREATE UNIQUE INDEX x_usr_jrn ON user_sec_jrn USING btree (uj_login, uj_jrn_id);
@@ -376,78 +376,78 @@ ALTER TABLE ONLY jrn_def
     ADD CONSTRAINT jrn_def_pkey PRIMARY KEY (jrn_def_id);
 ALTER TABLE ONLY jrn_def
     ADD CONSTRAINT jrn_def_jrn_def_name_key UNIQUE (jrn_def_name);
-ALTER TABLE ONLY jrn_def
-    ADD CONSTRAINT "$1" FOREIGN KEY (jrn_def_type) REFERENCES jrn_type(jrn_type_id) ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE ONLY jrnx
     ADD CONSTRAINT jrnx_pkey PRIMARY KEY (j_id);
-ALTER TABLE ONLY jrnx
-    ADD CONSTRAINT "$1" FOREIGN KEY (j_poste) REFERENCES tmp_pcmn(pcm_val) ON UPDATE NO ACTION ON DELETE NO ACTION;
-ALTER TABLE ONLY jrnx
-    ADD CONSTRAINT "$2" FOREIGN KEY (j_jrn_def) REFERENCES jrn_def(jrn_def_id) ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE ONLY user_pref
     ADD CONSTRAINT user_pref_pkey PRIMARY KEY (pref_user);
 ALTER TABLE ONLY formdef
     ADD CONSTRAINT formdef_pkey PRIMARY KEY (fr_id);
 ALTER TABLE ONLY form
     ADD CONSTRAINT form_pkey PRIMARY KEY (fo_id);
-ALTER TABLE ONLY form
-    ADD CONSTRAINT "$1" FOREIGN KEY (fo_fr_id) REFERENCES formdef(fr_id) ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE ONLY centralized
     ADD CONSTRAINT centralized_pkey PRIMARY KEY (c_id);
-ALTER TABLE ONLY centralized
-    ADD CONSTRAINT "$1" FOREIGN KEY (c_jrn_def) REFERENCES jrn_def(jrn_def_id) ON UPDATE NO ACTION ON DELETE NO ACTION;
-ALTER TABLE ONLY centralized
-    ADD CONSTRAINT "$2" FOREIGN KEY (c_poste) REFERENCES tmp_pcmn(pcm_val) ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE ONLY user_sec_jrn
     ADD CONSTRAINT user_sec_jrn_pkey PRIMARY KEY (uj_id);
-ALTER TABLE ONLY user_sec_jrn
-    ADD CONSTRAINT "$1" FOREIGN KEY (uj_jrn_id) REFERENCES jrn_def(jrn_def_id) ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE ONLY "action"
     ADD CONSTRAINT action_pkey PRIMARY KEY (ac_id);
 ALTER TABLE ONLY user_sec_act
     ADD CONSTRAINT user_sec_act_pkey PRIMARY KEY (ua_id);
-ALTER TABLE ONLY user_sec_act
-    ADD CONSTRAINT "$1" FOREIGN KEY (ua_act_id) REFERENCES "action"(ac_id) ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE ONLY jrn_action
     ADD CONSTRAINT jrn_action_pkey PRIMARY KEY (ja_id);
-ALTER TABLE ONLY jrn_action
-    ADD CONSTRAINT "$1" FOREIGN KEY (ja_jrn_type) REFERENCES jrn_type(jrn_type_id) ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE ONLY fiche_def_ref
     ADD CONSTRAINT fiche_def_ref_pkey PRIMARY KEY (frd_id);
 ALTER TABLE ONLY fiche_def
     ADD CONSTRAINT fiche_def_pkey PRIMARY KEY (fd_id);
-ALTER TABLE ONLY fiche_def
-    ADD CONSTRAINT "$1" FOREIGN KEY (frd_id) REFERENCES fiche_def_ref(frd_id) ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE ONLY attr_def
     ADD CONSTRAINT attr_def_pkey PRIMARY KEY (ad_id);
 ALTER TABLE ONLY fiche
     ADD CONSTRAINT fiche_pkey PRIMARY KEY (f_id);
-ALTER TABLE ONLY fiche
-    ADD CONSTRAINT "$1" FOREIGN KEY (fd_id) REFERENCES fiche_def(fd_id) ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE ONLY jnt_fic_att_value
     ADD CONSTRAINT jnt_fic_att_value_pkey PRIMARY KEY (jft_id);
-ALTER TABLE ONLY jnt_fic_att_value
-    ADD CONSTRAINT "$1" FOREIGN KEY (f_id) REFERENCES fiche(f_id) ON UPDATE NO ACTION ON DELETE NO ACTION;
-ALTER TABLE ONLY jnt_fic_att_value
-    ADD CONSTRAINT "$2" FOREIGN KEY (ad_id) REFERENCES attr_def(ad_id) ON UPDATE NO ACTION ON DELETE NO ACTION;
-ALTER TABLE ONLY attr_value
-    ADD CONSTRAINT "$1" FOREIGN KEY (jft_id) REFERENCES jnt_fic_att_value(jft_id) ON UPDATE NO ACTION ON DELETE NO ACTION;
-ALTER TABLE ONLY jnt_fic_attr
-    ADD CONSTRAINT "$1" FOREIGN KEY (fd_id) REFERENCES fiche_def(fd_id) ON UPDATE NO ACTION ON DELETE NO ACTION;
-ALTER TABLE ONLY jnt_fic_attr
-    ADD CONSTRAINT "$2" FOREIGN KEY (ad_id) REFERENCES attr_def(ad_id) ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE ONLY jrn_rapt
     ADD CONSTRAINT jrn_rapt_pkey PRIMARY KEY (jra_id);
-ALTER TABLE ONLY jrn
-    ADD CONSTRAINT "$1" FOREIGN KEY (jr_def_id) REFERENCES jrn_def(jrn_def_id) ON UPDATE NO ACTION ON DELETE NO ACTION;
 ALTER TABLE ONLY jrn
     ADD CONSTRAINT jrn_pkey PRIMARY KEY (jr_id, jr_def_id);
 ALTER TABLE ONLY stock_goods
     ADD CONSTRAINT stock_goods_pkey PRIMARY KEY (sg_id);
+ALTER TABLE ONLY jrn_def
+    ADD CONSTRAINT "$1" FOREIGN KEY (jrn_def_type) REFERENCES jrn_type(jrn_type_id);
+ALTER TABLE ONLY jrnx
+    ADD CONSTRAINT "$1" FOREIGN KEY (j_poste) REFERENCES tmp_pcmn(pcm_val);
+ALTER TABLE ONLY jrnx
+    ADD CONSTRAINT "$2" FOREIGN KEY (j_jrn_def) REFERENCES jrn_def(jrn_def_id);
+ALTER TABLE ONLY form
+    ADD CONSTRAINT "$1" FOREIGN KEY (fo_fr_id) REFERENCES formdef(fr_id);
+ALTER TABLE ONLY centralized
+    ADD CONSTRAINT "$1" FOREIGN KEY (c_jrn_def) REFERENCES jrn_def(jrn_def_id);
+ALTER TABLE ONLY centralized
+    ADD CONSTRAINT "$2" FOREIGN KEY (c_poste) REFERENCES tmp_pcmn(pcm_val);
+ALTER TABLE ONLY user_sec_jrn
+    ADD CONSTRAINT "$1" FOREIGN KEY (uj_jrn_id) REFERENCES jrn_def(jrn_def_id);
+ALTER TABLE ONLY user_sec_act
+    ADD CONSTRAINT "$1" FOREIGN KEY (ua_act_id) REFERENCES "action"(ac_id);
+ALTER TABLE ONLY jrn_action
+    ADD CONSTRAINT "$1" FOREIGN KEY (ja_jrn_type) REFERENCES jrn_type(jrn_type_id);
+ALTER TABLE ONLY fiche_def
+    ADD CONSTRAINT "$1" FOREIGN KEY (frd_id) REFERENCES fiche_def_ref(frd_id);
+ALTER TABLE ONLY fiche
+    ADD CONSTRAINT "$1" FOREIGN KEY (fd_id) REFERENCES fiche_def(fd_id);
+ALTER TABLE ONLY jnt_fic_att_value
+    ADD CONSTRAINT "$1" FOREIGN KEY (f_id) REFERENCES fiche(f_id);
+ALTER TABLE ONLY jnt_fic_att_value
+    ADD CONSTRAINT "$2" FOREIGN KEY (ad_id) REFERENCES attr_def(ad_id);
+ALTER TABLE ONLY attr_value
+    ADD CONSTRAINT "$1" FOREIGN KEY (jft_id) REFERENCES jnt_fic_att_value(jft_id);
+ALTER TABLE ONLY jnt_fic_attr
+    ADD CONSTRAINT "$1" FOREIGN KEY (fd_id) REFERENCES fiche_def(fd_id);
+ALTER TABLE ONLY jnt_fic_attr
+    ADD CONSTRAINT "$2" FOREIGN KEY (ad_id) REFERENCES attr_def(ad_id);
+ALTER TABLE ONLY jrn
+    ADD CONSTRAINT "$1" FOREIGN KEY (jr_def_id) REFERENCES jrn_def(jrn_def_id);
 ALTER TABLE ONLY attr_min
-    ADD CONSTRAINT "$1" FOREIGN KEY (frd_id) REFERENCES fiche_def_ref(frd_id) ON UPDATE NO ACTION ON DELETE NO ACTION;
+    ADD CONSTRAINT "$1" FOREIGN KEY (frd_id) REFERENCES fiche_def_ref(frd_id);
 ALTER TABLE ONLY attr_min
-    ADD CONSTRAINT "$2" FOREIGN KEY (ad_id) REFERENCES attr_def(ad_id) ON UPDATE NO ACTION ON DELETE NO ACTION;
+    ADD CONSTRAINT "$2" FOREIGN KEY (ad_id) REFERENCES attr_def(ad_id);
 COMMENT ON TABLE tmp_pcmn IS 'Plan comptable minimum normalisé';
 COMMENT ON TABLE parm_money IS 'Currency conversion';
 COMMENT ON TABLE parm_periode IS 'Periode definition';
