@@ -356,7 +356,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
 	  $r.="<TD>";
 	  // cancel operation
 	  $r.=sprintf('<input TYPE="BUTTON" VALUE="%s" onClick="cancelOperation(\'%s\',\'%s\')">',
-		      "Annulation",$row['jr_grpt_id'],$l_sessid);
+		      "Effacer",$row['jr_grpt_id'],$l_sessid);
 	  $r.="</TD>";
 	}
 // end row

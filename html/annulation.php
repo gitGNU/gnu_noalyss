@@ -107,44 +107,22 @@ if ( isset ($annul) ) {
 
  // Check if it a centralize operation
  if ( isValid($cn,$p_id) ==  1 ) {
+  // delete from the stock table
+   $sql="delete from stock_goods where sg_id = any ( select sg_id
+ from stock_goods natural join jrnx  where j_grpt=".$_POST['p_id'].")";
+   $Res=ExecSql($cn,$sql);
 
-
- // get the next op id
-  $seq=GetNextId($cn,'j_grpt')+1;
-
-  // build the sql stmt for jrnx
-  $sql="insert into jrnx  (
- j_date, 
- j_montant, j_poste,j_grpt,j_jrn_def, j_debit,
- j_text,j_internal,j_tech_user,j_tech_per
- )
- select 
- to_date('$e_op_date','DD.MM.YYYY'),
- j_montant, j_poste, $seq, j_jrn_def, case when j_debit=false then true else false end, 
- j_text,'ANNULE','$g_user',$period
- from jrnx where j_grpt=".$_POST['p_id'];
-  $Res=ExecSql($cn,$sql);
+   // delete from jrnx & jrn
+   $sql="delete from jrnx where j_grpt=".$_POST['p_id'];
+   
+   $Res=ExecSql($cn,$sql);
  
 
   // build the sql stmt for jrn
-  $sql= "insert into jrn (
- jr_def_id,jr_montant,jr_comment,               jr_date,jr_grpt_id,jr_internal                 ,jr_tech_per,
- jr_valid
- ) select 
- jr_def_id,jr_montant,'Annulation '||jr_comment,to_date('$e_op_date','DD.MM.YYYY'),$seq       ,'ANNULE',               $period,
-  false 
- from 
- jrn
- where   jr_grpt_id=".$_POST['p_id'];
+  $sql= "delete from  jrn where   jr_grpt_id=".$_POST['p_id'];
   $Res=ExecSql($cn,$sql);
 
-  // also in the stock table
-  $sql="delete from stock_goods where sg_id = any ( select sg_id
- from stock_goods natural join jrnx  where j_grpt=".$_POST['p_id'].")";
-  $Res=ExecSql($cn,$sql);
-  // Update jr_valid 
-  $Res=ExecSql($cn,"update jrn set jr_valid=false where jr_grpt_id=$p_id");
-  echo '<h2 class="info"> Opération annulée</h2>';
+  echo '<h2 class="info"> Opération Effacée</h2>';
 ?>
 <script>
  window.close();

@@ -408,12 +408,12 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
 function ShowMenuAdvanced() {
 // Show the left menu
 $left_menu=ShowItem(array(
+			  array('rapprt.php','Rapprochement'),
 			  array('jrn_update.php','Journaux'),
 			  array('central.php','Centralise'),
 		          array('pcmn_update.php?p_start=1','Plan Comptable'),
 			  array('stock.php','stock'),
-			  array('balance.php','Balance des comptes'),
-			  array('impress.php','Impressions')
+			  array('balance.php','Balance des comptes')
 			  ),
 		    'V');
 return $left_menu;
