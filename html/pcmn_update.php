@@ -120,7 +120,7 @@ if ( isset ($_POST["update"] ) ) {
     echo_debug("name $name $element");
   }
     $p_val=trim($_POST["p_val"]);
-    $p_lib=trim($_POST["p_name"]);
+    $p_lib=FormatString($_POST["p_name"]);
     $p_parent=trim($_POST["p_val_parent"]);
     $old_line=trim($_POST["p_old"]);
     echo_debug("Update old : $old_line News = $p_val $p_lib");
