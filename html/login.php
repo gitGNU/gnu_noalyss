@@ -18,6 +18,8 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 include_once ("ac_common.php");
+//phpinfo();
+//exit();
 
 /* $Revision$ */
 

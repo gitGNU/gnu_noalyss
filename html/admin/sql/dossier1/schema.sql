@@ -1,6 +1,6 @@
 SET client_encoding = 'LATIN1';
 SET check_function_bodies = false;
-SET search_path = public, pg_catalog;
+
 CREATE TABLE tmp_pcmn (
     pcm_val integer NOT NULL,
     pcm_lib text,
@@ -145,7 +145,8 @@ CREATE TABLE centralized (
     c_grp integer NOT NULL,
     c_comment text,
     c_rapt text,
-    c_periode integer
+    c_periode integer,
+    c_order integer
 );
 CREATE SEQUENCE s_user_jrn
     INCREMENT BY 1
@@ -281,7 +282,10 @@ CREATE TABLE jrn (
     jrn_ech date,
     jr_ech date,
     jr_rapt text,
-    jr_valid boolean DEFAULT true
+    jr_valid boolean DEFAULT true,
+    j_pj integer,
+    jr_opid integer,
+    jr_c_opid integer
 );
 CREATE TABLE stock_goods (
     sg_id integer DEFAULT nextval('s_stock_goods'::text) NOT NULL,
@@ -299,6 +303,24 @@ CREATE TABLE attr_min (
     frd_id integer,
     ad_id integer
 );
+CREATE SEQUENCE s_central
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+CREATE SEQUENCE s_central_order
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+CREATE SEQUENCE s_internal
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
 CREATE UNIQUE INDEX x_act ON "action" USING btree (ac_description);
 CREATE UNIQUE INDEX x_usr_jrn ON user_sec_jrn USING btree (uj_login, uj_jrn_id);
 CREATE INDEX fk_centralized_c_jrn_def ON centralized USING btree (c_jrn_def);
@@ -315,6 +337,7 @@ CREATE INDEX fk_user_sec_act ON user_sec_act USING btree (ua_act_id);
 CREATE UNIQUE INDEX x_jrn_jr_id ON jrn USING btree (jr_id);
 CREATE INDEX fk_stock_goods_j_id ON stock_goods USING btree (j_id);
 CREATE INDEX fk_stock_goods_f_id ON stock_goods USING btree (f_id);
+CREATE INDEX x_poste ON jrnx USING btree (j_poste);
 ALTER TABLE ONLY tmp_pcmn
     ADD CONSTRAINT tmp_pcmn_pkey PRIMARY KEY (pcm_val);
 ALTER TABLE ONLY parm_money
@@ -401,3 +424,24 @@ ALTER TABLE ONLY attr_min
     ADD CONSTRAINT "$1" FOREIGN KEY (frd_id) REFERENCES fiche_def_ref(frd_id);
 ALTER TABLE ONLY attr_min
     ADD CONSTRAINT "$2" FOREIGN KEY (ad_id) REFERENCES attr_def(ad_id);
+COMMENT ON TABLE tmp_pcmn IS 'Plan comptable minimum normalisé';
+COMMENT ON TABLE parm_money IS 'Currency conversion';
+COMMENT ON TABLE parm_periode IS 'Periode definition';
+COMMENT ON TABLE jrn_type IS 'Type of journal (Sell, Buy, Financial...)';
+COMMENT ON TABLE jrn_def IS 'Definition of a journal, his properties';
+COMMENT ON TABLE jrnx IS 'Journal: content one line for each accountancy writing';
+COMMENT ON TABLE form IS 'Forms content';
+COMMENT ON TABLE centralized IS 'The centralized journal';
+COMMENT ON TABLE "action" IS 'The different privileges';
+COMMENT ON TABLE jrn_action IS 'Possible action when we are in journal (menu)';
+COMMENT ON TABLE tva_rate IS 'Rate of vat';
+COMMENT ON TABLE fiche_def_ref IS 'Family Cards definition';
+COMMENT ON TABLE fiche_def IS 'Cards definition';
+COMMENT ON TABLE attr_def IS 'The available attributs for the cards';
+COMMENT ON TABLE fiche IS 'Cards';
+COMMENT ON TABLE jnt_fic_att_value IS 'join between the card and the attribut definition';
+COMMENT ON TABLE jnt_fic_attr IS 'join between the family card and the attribut definition';
+COMMENT ON TABLE jrn_rapt IS 'Rapprochement between operation';
+COMMENT ON TABLE jrn IS 'Journal: content one line for a group of accountancy writing';
+COMMENT ON TABLE stock_goods IS 'About the goods';
+COMMENT ON TABLE attr_min IS 'The value of  attributs for the cards';

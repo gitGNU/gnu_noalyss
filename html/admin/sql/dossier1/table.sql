@@ -81,7 +81,8 @@ CREATE TABLE centralized (
     c_grp integer NOT NULL,
     c_comment text,
     c_rapt text,
-    c_periode integer
+    c_periode integer,
+    c_order integer
 );
 CREATE TABLE user_sec_jrn (
     uj_id integer DEFAULT nextval('s_user_jrn'::text) NOT NULL,
@@ -165,7 +166,10 @@ CREATE TABLE jrn (
     jrn_ech date,
     jr_ech date,
     jr_rapt text,
-    jr_valid boolean DEFAULT true
+    jr_valid boolean DEFAULT true,
+    j_pj integer,
+    jr_opid integer,
+    jr_c_opid integer
 );
 CREATE TABLE stock_goods (
     sg_id integer DEFAULT nextval('s_stock_goods'::text) NOT NULL,

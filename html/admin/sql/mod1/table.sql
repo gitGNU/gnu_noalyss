@@ -2,7 +2,7 @@ CREATE TABLE tmp_pcmn (
     pcm_val integer NOT NULL,
     pcm_lib text,
     pcm_val_parent integer DEFAULT 0,
-    pcm_country character(2) DEFAULT 'BE' NOT NULL
+    pcm_country character(2) DEFAULT 'BE'::bpchar NOT NULL
 );
 CREATE TABLE "version" (
     val integer
@@ -74,14 +74,15 @@ CREATE TABLE centralized (
     c_date date NOT NULL,
     c_internal text NOT NULL,
     c_montant double precision NOT NULL,
-    c_debit boolean DEFAULT 't',
+    c_debit boolean DEFAULT true,
     c_jrn_def integer NOT NULL,
     c_poste integer,
     c_description text,
     c_grp integer NOT NULL,
     c_comment text,
     c_rapt text,
-    c_periode integer
+    c_periode integer,
+    c_order integer
 );
 CREATE TABLE user_sec_jrn (
     uj_id integer DEFAULT nextval('s_user_jrn'::text) NOT NULL,
@@ -104,7 +105,7 @@ CREATE TABLE jrn_action (
     ja_desc text,
     ja_url text NOT NULL,
     ja_action text NOT NULL,
-    ja_lang text DEFAULT 'FR',
+    ja_lang text DEFAULT 'FR'::text,
     ja_jrn_type character(3)
 );
 CREATE TABLE tva_rate (
@@ -171,7 +172,8 @@ CREATE TABLE jrn (
     jr_rapt text,
     jr_valid boolean DEFAULT true,
     j_pj integer,
-    jr_opid integer
+    jr_opid integer,
+    jr_c_opid integer
 );
 CREATE TABLE stock_goods (
     sg_id integer DEFAULT nextval('s_stock_goods'::text) NOT NULL,
@@ -179,7 +181,7 @@ CREATE TABLE stock_goods (
     f_id integer NOT NULL,
     sg_code text,
     sg_quantity integer DEFAULT 0,
-    sg_type character(1) DEFAULT 'c' NOT NULL,
+    sg_type character(1) DEFAULT 'c'::bpchar NOT NULL,
     sg_date date,
     sg_tech_date date DEFAULT now(),
     sg_tech_user text,
