@@ -1,6 +1,15 @@
 2004-12-12  sparkyx  <sparkyx@july>
 
-	* include/user_common.php: Improve appearance
+	* html/recherche.php: Fix undefined variable g_jrn
+
+	* html/jrn_op_detail.php, include/user_common.php:
+	Improve appearance : no double line for concerned operation
+
+	* include/user_common.php: Improve appearance : ListJrn enlarge table
+
+	* html/jrn_search.php: fix c_internal undefined
+
+	* Changelog, include/user_common.php: Improve appearance
 
 	* Changelog: Changelog
 
