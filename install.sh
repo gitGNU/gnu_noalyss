@@ -59,6 +59,7 @@ if [ $REPO -eq 0 ]; then
 	$PSQL < sql/version.sql
 	$PSQL < sql/priv_user.sql
 	$PSQL < sql/theme.sql
+	$PSQL < sql/modele.sql
 	    createdb -E latin1 -O $OWNER templ_account
 	PSQL="psql -U $OWNER templ_account "
 	$PSQL < sql/tmp_pcmn.sql
