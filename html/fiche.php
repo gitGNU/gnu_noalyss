@@ -39,11 +39,10 @@ include ("check_priv.php");
 ShowMenuCompta($_SESSION['g_dossier']);
 
 
-if ( isset($_POST["PHPSESSID"] )) {
-  $sessid=$_POST["PHPSESSID"];
-} else {
-  $sessid=$_GET["PHPSESSID"];
-}
+if ( !isset($sessid)) 
+{
+  $sessid=$_REQUEST["PHPSESSID"];
+} 
 $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$sessid."')\">";
 
 
