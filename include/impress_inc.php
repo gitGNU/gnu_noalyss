@@ -235,7 +235,7 @@ function GetDataPoste($p_cn,$p_poste,$p_condition)
 	       " from jrnx left join jrn_def on jrn_def_id=j_jrn_def ".
 	       " left join jrn on jr_grpt_id=j_grpt".
 	       " where j_poste=".$p_poste." and ".$p_condition.
-	       " order by j_date");
+	       " order by j_date::date");
   $array=array();
   $tot_cred=0;
   $tot_deb=0;
