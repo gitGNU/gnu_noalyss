@@ -277,7 +277,7 @@ for ($e=0;$e < $MaxDossier;$e++) {
   $db_row=pg_fetch_array($Resdossier,$e);
   echo "Patching ".$db_row['dos_name']."<hr>";
   $db=DbConnect($db_row['dos_id'],'dossier');
-  if ( GetVersion($db) == 3 ) { 
+  if ( GetVersion($db) == 4 ) { 
     ExecuteScript($db,'sql/patch/upgrade4.sql');
       
     $sql="select jrn_def_id from jrn_def ";
@@ -309,9 +309,9 @@ for ($e=0;$e < $MaxDossier;$e++) {
 	    $sql=sprintf ("create sequence s_jrn_%d",$row['jrn_def_id']);
 	    ExecSql($db,$sql);
     }
- } // version == 3
+ } // version == 4
  }
 $cn=DbConnect();
-if ( GetVersion($cn) == 3 ) {
+if ( GetVersion($cn) == 4 ) {
   ExecuteScript($cn,'sql/patch/ac-upgrade4.sql');
  }
