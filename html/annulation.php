@@ -40,8 +40,15 @@ if ( isset( $p_jrn )) {
   $g_jrn=$p_jrn;
 }
 
-/* TODO Security check if the user can access and write here */
-/*************************************************************/
+ // Check privilege
+ // CheckJrn verify that the user is not an admin
+ // an admin has all right
+  if ( CheckJrn($g_dossier,$g_user,$g_jrn) != 2 )    {
+       NoAccess();
+       exit -1;
+  }
+
+
 $l_Db=sprintf("dossier%d",$g_dossier);
 $cn=DbConnect($l_Db);
 

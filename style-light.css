@@ -95,7 +95,8 @@ div.ccontent{
 	position: absolute;
 	top:50px;
 	left:130px;
-	width:680px;
+	width:670px;
+        font-size:9pt;
 }
 div.rmenu {
 	position: absolute;

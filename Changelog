@@ -1,5 +1,12 @@
 2004-04-19  sparkyx  <sparkyx@july.summer>
 
+	* doc/manuel-fr.sgml: Task 3106
+
+	* sql/account_repository.sql, include/constant.php, sql/demo.sql, sql/mod-be.sql, html/stock.php, include/preference.php:
+	Add security to Stock
+
+	* Changelog: Update
+
 	* html/modify_op.php, html/user_sec.php, include/check_priv.php, include/user_action_ach.php, include/user_action_fin.php, include/user_action_ods.php, include/user_action_ven.php, include/user_menu.php:
 	Bug 8597 Security major prob
 

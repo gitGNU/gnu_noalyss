@@ -162,13 +162,13 @@ $MaxRow=pg_NumRows($Ret);
 
 <FORM ACTION="pcmn_update.php" METHOD="POST">
 <TD>
-<INPUT TYPE="TEXT" NAME="p_val" SIZE=10>
+<INPUT TYPE="TEXT" NAME="p_val" SIZE=7>
 </TD>
 <TD>
-<INPUT TYPE="TEXT" NAME="p_lib" size=60>
+<INPUT TYPE="TEXT" NAME="p_lib" size=50>
 </TD>
 <TD>
-<INPUT TYPE="TEXT" NAME="p_parent" size=10>
+<INPUT TYPE="TEXT" NAME="p_parent" size=5>
 </TD>
 <TD>
 <INPUT TYPE="SUBMIT" Value="Add" Name="Add">

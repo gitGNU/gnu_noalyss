@@ -125,4 +125,4 @@ cp -fR addon $COMPTA_HOME/html
 cp -fR html/image/* $COMPTA_HOME/html/image
 echo "Installation OK"
 exec 3<&-
-echo "Installation OK"
+
