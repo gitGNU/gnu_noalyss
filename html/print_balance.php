@@ -55,7 +55,7 @@ $sql="select j_poste,sum(deb) as sum_deb, sum(cred) as sum_cred from
           from jrnx join tmp_pcmn on j_poste=pcm_val
               where 
              $cent
-            j_tech_per in ( $per)) as m group by j_poste order by j_poste";
+            j_tech_per in ( $per)) as m group by j_poste order by j_poste::text";
 
 $Res=ExecSql($cn,$sql);
 if ( ( $M=pg_NumRows($Res)) == 0 ) {
