@@ -1,3 +1,24 @@
+2004-04-03  sparkyx  <sparkyx@july.summer>
+
+	* html/stock.php, include/jrn.php, include/postgres.php, include/stock_inc.php, include/user_common.php, style.css:
+	Stock included, can be improved
+
+	* include/form_input.php: test on a_vat
+
+	* sql/demo.sql: Database test
+
+	* include/central_inc.php, include/form_input.php, include/jrn.php, include/user_common.php, install.sh, sql/account_repository.sql:
+	Fix central - stock - improve doc
+
+	* INSTALL-fr.txt: Update doc
+
+	* sql/demo.sql: Update demo
+
+	* sql/account_repository.sql, sql/demo.sql, sql/mod-be.sql: update db
+
+	* doc/manuel-fr.sgml, html/annulation.php, include/constant.php, include/form_input.php, include/jrn.php, include/stock_inc.php, include/user_action_ach.php, include/user_action_fin.php, include/user_common.php, Changelog:
+	Fix bug in annulation, add check to validate number and card
+
 2004-04-02  sparkyx  <sparkyx@july.summer>
 
 	* html/annulation.php, include/central_inc.php:
