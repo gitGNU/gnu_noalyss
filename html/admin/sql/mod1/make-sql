@@ -1,0 +1,12 @@
+pg_dump -s mod1 > schema.sql
+awk '/SEQUENCE/,/;/ { print $0;}' < schema.sql > sequence.sql
+awk '/CREATE TABLE/,/;/ { print $0;}' < schema.sql > table.sql
+awk '/CREATE VIEW/,/;/ { print $0;}' < schema.sql > view.sql
+awk '/INDEX/,/;/ { print $0;}' < schema.sql > index.sql
+awk '/ALTER TABLE/,/;/ { print $0;}' < schema.sql > constraint.sql
+awk '/FUNCTION/,/LANGUAGE/ { print $0;}' < schema.sql > function.sql
+awk '/COMMENT/,/;/ {print $0;}' < schema.sql > comment.sql
+
+grep setval schema.sql >> sequence.sql
+pg_dump -D -a -O mod1 > data.sql
+
