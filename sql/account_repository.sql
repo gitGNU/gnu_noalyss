@@ -168,7 +168,6 @@ CREATE SEQUENCE dossier_id
 
 INSERT INTO ac_users VALUES (4, 'demo', 'demo', 'demo', 1, 'fe01ce2a7fbac8fafaed7c982a04e229', 0, 'Light', 'user');
 INSERT INTO ac_users VALUES (1, NULL, NULL, 'phpcompta', 1, 'b1cc88e1907cde80cb2595fa793b3da9', 1, 'Light', 'user');
-INSERT INTO ac_users VALUES (5, 'dany', 'dany', 'dany', 1, '1b9fc02e98389d29c1506fe944b07d16', 0, 'Light', 'user');
 
 
 --
@@ -177,7 +176,6 @@ INSERT INTO ac_users VALUES (5, 'dany', 'dany', 'dany', 1, '1b9fc02e98389d29c150
 --
 
 INSERT INTO ac_dossier VALUES (1, 'Demo', 'Base de données pour développement & démo', 0);
-INSERT INTO ac_dossier VALUES (4, 'Test Sécurité', 'Test pour la sécurité', 0);
 
 
 --
