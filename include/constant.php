@@ -108,13 +108,18 @@ define ("JS_SEARCH_POSTE","<SCRIPT>function SearchPoste(p_sessid)
 	} 
 	</SCRIPT>"
 );
-define ("JS_SHOW_TVA","<SCRIPT>function ShowTva(p_sessid)
+define ("JS_SHOW_TVA","<SCRIPT>function ShowTva(p_sessid,ctl)
      {
-       var win=window.open('show_tva.php?PHPSESSID='+p_sessid,'Montre','scrollbar,toolbar=no,width=300,height=300,resizable=yes');
+       var win=window.open('show_tva.php?ctl='+ctl+'&PHPSESSID='+p_sessid,'Montre','scrollbar,toolbar=no,width=300,height=300,resizable=yes');
     } 
-	 function GetIt() {
+	 function GetIt(ctl,tva_id) {
+           self.opener.SetIt(ctl,tva_id)
 	   window.close();	
 	} 
+function SetIt(ctl,tva_id)
+{
+document.fiche.eval(ctl).value=tva_id;
+}
 	</SCRIPT>"
 );
 
@@ -122,6 +127,14 @@ define ("JS_VIEW_JRN_DETAIL","<script>function viewDetail(p_value,p_sessid)
 		{
 			var win=window.open('jrn_op_detail.php?jrn_op='+p_value+'&PHPSESSID='+p_sessid,'Cherche','toolbar=no,width=400,height=400,scrollbars=yes,resizable=yes');
 		}
+	</script>");
+define ("JS_VIEW_JRN_CANCEL","<script>function cancelOperation(p_value,p_sessid)
+		{
+			var win=window.open('annulation.php?jrn_op='+p_value+'&PHPSESSID='+p_sessid,'Cancel it','toolbar=no,width=400,height=400,scrollbars=yes,resizable=yes');
+		}
+function RefreshMe() {
+window.location.reload();
+}
 	</script>");
 define ("JS_SEARCH_CARD","
 <script>

@@ -158,7 +158,7 @@ function EncodeFiche($p_cn,$p_type,$p_array=null) {
 
   $ch_col="</TD><TD>";
   $ch_li='</TR><TR>';
-  echo '<FORM action="fiche.php" method="post">';
+  echo '<FORM action="fiche.php" method="post" name="fiche">';
   echo '<INPUT TYPE="HIDDEN" name="fiche" value="'.$p_type.'">';
   $l_sessid=(isset ($_POST["PHPSESSID"]))?$_POST["PHPSESSID"]:$_GET["PHPSESSID"];
 
@@ -193,7 +193,7 @@ function EncodeFiche($p_cn,$p_type,$p_array=null) {
       } 
       // Javascript for showing the tva
       if ( $l_line ['ad_id'] == ATTR_DEF_TVA ) {
-	$but_search_poste='<INPUT TYPE="BUTTON" VALUE="Montre" OnClick="ShowTva(\''.$l_sessid.'\')">';
+	$but_search_poste='<INPUT TYPE="BUTTON" VALUE="Montre" OnClick="ShowTva(\''.$l_sessid.'\', \'av_text'.$i.'\')">';
       }
       // content of the attribute
       printf ('<TR><TD> %s </TD><TD><INPUT TYPE="TEXT" NAME="av_text%d">%s %s</TD></TR>',
@@ -246,7 +246,7 @@ function EncodeFiche($p_cn,$p_type,$p_array=null) {
 	
       // Javascript for showing the tva
       if ( $l_line ['ad_id'] == ATTR_DEF_TVA ) {
-	$but_search_poste='<INPUT TYPE="BUTTON" VALUE="Montre" OnClick="ShowTva(\''.$l_sessid.'\')">';
+	$but_search_poste='<INPUT TYPE="BUTTON" VALUE="Montre" OnClick="ShowTva(\''.$l_sessid.'\',\'av_text'.$i.'\')">';
       }
       
       

@@ -30,7 +30,14 @@ if ( ! isset ( $g_dossier ) ) {
   phpinfo();
   exit -2;
 }
-
+?>
+<script>
+function GetIt(ctl,tva_id) {
+           self.opener.SetIt(ctl,tva_id)
+	   window.close();	
+	} 
+</script>
+<?
 
 $l_Db=sprintf("dossier%d",$g_dossier);
 $condition="";
@@ -40,12 +47,17 @@ $Max=pg_NumRows($Res);
 echo "<TABLE BORDER=\"1\">";
 for ($i=0;$i<$Max;$i++) {
   $row=pg_fetch_array($Res,$i);
-  printf("<tr><TD BGCOLOR=\LIGHTGREEN\" >%d</TD><TD>%s</TD><TD>%s</TD></TR>",
+  $set=sprintf( '<INPUT TYPE="BUTTON" Value="select" onClick="GetIt(\'%s\',\'%s\');">',
+	     $_GET['ctl'],$row['tva_id']);
+  printf("<tr><TD BGCOLOR=\LIGHTGREEN\" >%s %d</TD><TD>%s</TD><TD>%s</TD></TR>",
+	 $set,
 	 $row['tva_id'],
 	 $row['tva_label'],
 	 $row['tva_comment']);
 }
 echo '</TABLE>';
-echo '<INPUT TYPE="BUTTON" Value="Close" onClick=\'window.close()\'>';
+?>
+<input type='button' Value="fermer" onClick='window.close();'>
+<?
 html_page_stop();
 ?>
