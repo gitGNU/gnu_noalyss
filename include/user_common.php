@@ -392,7 +392,10 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
 	  }
 	}
 	//document
-	$r.="<TD>".$row['jr_pj_name']."</TD>";
+	$r.="<TD>".sprintf('<A class="detail" HREF="show_document.php?jrn=%s&jr_grpt_id=%s">%s</A>',
+		$p_jrn,
+		$row['jr_grpt_id'],
+		$row['jr_pj_name'])."</TD>";
 
 // end row
 	$r.="</tr>";
