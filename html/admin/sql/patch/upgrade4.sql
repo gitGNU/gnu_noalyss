@@ -30,3 +30,7 @@ delete from fiche where  f_id not in (select f_id from jnt_fic_att_value);
 alter table jrn add j_pj int4;
 alter table jrn add jr_opid int4;
 update version set val=4;
+-- decentralize
+delete from centralized;
+create sequence s_internal;
+update jrnx set j_centralized='f';
