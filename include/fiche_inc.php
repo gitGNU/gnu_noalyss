@@ -127,6 +127,20 @@ function AddFiche($p_cn,$p_type,$p_array) {
     // Get the jft_id sequence (s_jnt_fic_att_value)
     $l_jft_id=GetSequence($p_cn,'s_jnt_fic_att_value');
 
+    // test the vat rate
+    if (  ${"p_ad_id$i"} == ATTR_DEF_TVA ) {
+      // is a valid rate ?
+      if ( CountSql($p_cn,"select * from tva_rate where tva_id='".${"p_av_text$i"}."'") == 0 ) {
+	// the rate doesn't exist
+	${"p_av_text$i"}=1;
+	// warning
+	echo_error('invalid rate') ;
+	echo '<script>
+                alert("Attention tva invalid, valeur par défaut =1 ");
+              </script>';
+ 
+      }
+    }
 
     // Add it the attr_value table
     $Sql=sprintf("insert into attr_value(jft_id,av_text) values (%d,'%s')",
@@ -249,13 +263,15 @@ function EncodeFiche($p_cn,$p_type,$p_array=null) {
 	$but_search_poste='<INPUT TYPE="BUTTON" VALUE="Montre" OnClick="ShowTva(\''.$l_sessid.'\',\'av_text'.$i.'\')">';
       }
       
+      // hide ad_id
+      $ad=sprintf('<input type="hidden" name="ad_id%d" value="%s">',
+		  $l_line['ad_id'],$l_line['av_text']);
       
-
-	// in hidden we put the jft_id
-	$Hid=sprintf('<INPUT TYPE="HIDDEN" name="jft_id%d" value="%s">',
-		     $i,$l_line['jft_id']);
-	printf ('<TR><TD> %s </TD><TD><INPUT TYPE="TEXT" NAME="av_text%d" VALUE="%s">%s %s</TD></TR>',
-		$l_line['ad_text'], $i, $l_line['av_text'],$Hid,$but_search_poste);
+      // in hidden we put the jft_id
+      $Hid=sprintf('<INPUT TYPE="HIDDEN" name="jft_id%d" value="%s">',
+		   $i,$l_line['jft_id']);
+      printf ('<TR><TD> %s </TD><TD><INPUT TYPE="TEXT" NAME="av_text%d" VALUE="%s">%s %s %s</TD></TR>',
+	      $l_line['ad_text'], $i, $l_line['av_text'],$Hid,$but_search_poste,$ad);
       
     }
     echo '</TR>';
@@ -432,6 +448,8 @@ function ViewFicheDetail($p_cn,$p_id) {
  */ 
 //TODO ADD TEST FOR THE VAT RATE
 function UpdateFiche($p_cn,$p_array) {
+  echo_debug ("UpdateFiche");
+  $tva_error=false;
   foreach ( $p_array as $key=> $element) {
     echo_debug("$key => $element");
     ${"$key"}=$element;
@@ -443,12 +461,26 @@ function UpdateFiche($p_cn,$p_array) {
     if ( $key=="ad_id".ATTR_DEF_ACCOUNT) {
       $class=$element;
     }
+    // Get the vat and
+    // test the vat rate
+    if ( $key == 'ad_id'.ATTR_DEF_TVA ) {
+      // is a valid rate ?
+      if ( CountSql($p_cn,"select * from tva_rate where tva_id='".$element."'") == 0 ) {
+	// warning
+	echo_error('invalid rate') ;
+	echo '<script>
+                alert("Attention tva invalid remis à sa valeur par défaut ");
+              </script>';
+	$tva_error=true;
+      }
+    }
   }
   // If each card has it own account must also update the tmp_pcm table
   //
   $fd_ref=GetFicheDefRef($p_cn,$fiche);
   // Update all the others data
   for ( $i =0 ; $i < $max ; $i++) {
+
     $sql=sprintf("update attr_value set av_text='%s' where jft_id=%d",
 		 ${"av_text$i"},
 		 ${"jft_id$i"});
@@ -456,6 +488,15 @@ function UpdateFiche($p_cn,$p_array) {
     $Res=ExecSql($p_cn,$sql);
 
   }
+
+  // Update tva to his default value
+  if ( $tva_error == true ) { 
+    $sql="update attr_value set av_text=1 where jft_id = ( select jft_id from jnt_fic_att_value 
+                    natural join fiche natural join attr_def 
+                 where ad_id=".ATTR_DEF_TVA." and f_id=$fiche)";
+    $Res=ExecSql($p_cn,$sql);
+  } 
+
   // Update the PCMN if needed
   $sql="select av_text from attr_value natural join jnt_fic_att_value
         where f_id=$fiche and ad_id=".ATTR_DEF_ACCOUNT;
