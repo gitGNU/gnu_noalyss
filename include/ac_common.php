@@ -128,6 +128,7 @@ $bg="";
     // Ugly but I cannot change the background color thanks CSS !!!!
     $bg="bgcolor=white";
     if ($style=="style-aqua.css") $bg="bgcolor=\"#E3F0FF\"";
+    if ($style=="style-elegant.css") $bg="bgcolor=\"#E3F0FF\"";
   }
  	echo '<!DOCTYPE HTML PUBLIC "-//W3C/DTD HTML 3.2 FINAL//EN">';
 	echo "<HTML>";
