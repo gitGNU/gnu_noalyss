@@ -61,7 +61,9 @@ $sql="insert into centralized( c_j_id,
                                  j_rapt, 
                                  j_tech_per 
             from jrnx left join jrn on jr_grpt_id=j_grpt 
-            where  j_tech_per =".$p_periode." and j_tech_user not in ( select c_j_id from centralized) 
+            where  
+            j_tech_per =".$p_periode." 
+            and jr_internal != 'ANNULE'
             order by j_date,j_grpt,j_debit desc ";
  $Res=StartSql($p_cn);
  $Res=ExecSql($p_cn,$sql);

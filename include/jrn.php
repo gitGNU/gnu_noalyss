@@ -968,7 +968,7 @@ function NextJrn($p_cn,$p_type)
  */ 
 function SetInternalCode($p_cn,$p_grpt,$p_jrn)
 {
-  $num=CountSql($p_cn,"select * from jrn where jr_def_id=$p_jrn");
+  $num=CountSql($p_cn,"select * from jrn where jr_def_id=$p_jrn where jr_internal != 'ANNULE'");
   $atype=GetJrnProperty($p_cn,$p_jrn);
   $type=$atype['jrn_def_code'];
   $internal_code=sprintf("%s-%05d",$type,$num);
