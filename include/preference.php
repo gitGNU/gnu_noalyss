@@ -303,7 +303,7 @@ function ShowPeriode($p_cn)
   $Res=ExecSql($p_cn,"select p_id,to_char(p_start,'DD.MM.YYYY') as date_start,to_char(p_end,'DD.MM.YYYY') as date_end,p_closed,p_exercice
   from parm_periode order by p_start");
   $Max=pg_NumRows($Res);
-  echo '<TABLE ALIGN="CENTER" WIDTH="90%">';
+  echo '<TABLE ALIGN="CENTER">';
   echo "</TR>";
   echo '<TH> Date début </TH>';
   echo '<TH> Date début </TH>';
@@ -343,10 +343,12 @@ function ShowPeriode($p_cn)
     
   }
   echo '<TR> <FORM ACTION="dossier_prefs.php" METHOD="POST">';
-  echo '<TD> <INPUT TYPE="text" NAME="p_date_start"></TD>';
-  echo '<TD> <INPUT TYPE="text" NAME="p_date_end"></TD>';
-  echo '<TD> <INPUT TYPE="text" NAME="p_exercice"></TD>';
+  echo '<TD> <INPUT TYPE="text" NAME="p_date_start" SIZE="10"></TD>';
+  echo '<TD> <INPUT TYPE="text" NAME="p_date_end" SIZE="10"></TD>';
+  echo '<TD> <INPUT TYPE="text" NAME="p_exercice" SIZE="10"></TD>';
   echo '<TD> <INPUT TYPE="SUBMIT" NAME="add_per" Value="Ajout"</TD>';
+  echo '<TD></TD>';
+  echo '<TD></TD>';
   echo '</FORM></TR>';
 
   echo '</TABLE>';
