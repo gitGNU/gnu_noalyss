@@ -86,11 +86,19 @@ puisse créer des utilisateur et des bases de données la commande
 </sect1>
 <sect1>Optimisation
 <p> Posgresql est une base de données très rapide, cependant, il vous faudra configurer
-pour pouvoir en bénéficier
+pour pouvoir en bénéficier. Les paramètres par défaut sont prévus pour une machine qui n'a
+que 16 Mb de RAM... Donc, aller voir la documentation sur Postgresql.org, chapitre 
+Run-time Configuration.
+
+<p> Les paramètres que vous pouvez utiliser si vous avez une machine d'au moins 256 Mb:
 <itemize>
-<item> Augmenter la zone mémoire pour les tri (dans postgres.conf) sort_mem = 8192</item>
+<item> Augmenter la zone mémoire pour les tri (dans postgres.conf) sort_mem = 8192; cette
+zone mémoire est important car elle a trait à la mémoire utilisé pour les tris et les
+jointures,! attention ce paramètre donne la consommation mémoire par session ! </item>
 <item> Faites tourner régulièrement vacumdb -a -z grâce au crontab</item>
 <item> Dans php.ini, bien utiliser les permanent_connection </item>
+<item> Dans postgres.conf, les shared_buffers: calculées en page de 8Kb, la valeur par défaut
+est de seulement 64, ce qui correspond à 512Kb, une meilleure valeur est 640 </item>
 <item> à compléter </item>
 </itemize>
 </sect1>
