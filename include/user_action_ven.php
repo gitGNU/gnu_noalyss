@@ -103,7 +103,7 @@ if ( isset($_POST["record_and_print_invoice"])) {
  if ( $action == 'voir_jrn' ) {
  // Show list of sell
  // Date - date of payment - Customer - amount
-   $sql=SQL_LIST_ALL_INVOICE." and jr_tech_per=".GetUserPeriode($cn,$g_user)." and jr_def_id=$g_jrn";
+   $sql=SQL_LIST_ALL_INVOICE." and jr_tech_per=".GetUserPeriode($cn,$g_user)." and jr_def_id=$g_jrn ";
    $list=ListJrn($cn,$g_jrn,$sql);
    echo '<div class="u_redcontent">';
    echo $list;
@@ -112,9 +112,9 @@ if ( isset($_POST["record_and_print_invoice"])) {
 if ( $action == 'voir_jrn_non_paye' ) {
 // Show list of unpaid sell
 // Date - date of payment - Customer - amount
-  $sql=SQL_LIST_UNPAID_INVOICE_DATE_LIMIT." and jr_def_id=$g_jrn";
+  $sql=SQL_LIST_UNPAID_INVOICE_DATE_LIMIT." and jr_def_id=$g_jrn ";
   $list=ListJrn($cn,$g_jrn,$sql);
-  $sql=SQL_LIST_UNPAID_INVOICE." and jr_def_id=$g_jrn";
+  $sql=SQL_LIST_UNPAID_INVOICE." and jr_def_id=$g_jrn ";
   $list2=ListJrn($cn,$g_jrn,$sql);
     echo '<div class="u_redcontent">';
     echo '<h2 class="info"> Echeance dépassée </h2>';

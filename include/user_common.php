@@ -230,6 +230,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
 			jr_comment,
 			jr_ech,
 			to_char(jr_date,'DD.MM.YYYY') as jr_date,
+                        jr_date as jr_date_order,
 			jr_grpt_id,
 			jr_rapt,
 			jr_internal,
@@ -241,7 +242,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
 		       from 
 			jrn join jrn_def on jrn_def_id=jr_def_id 
                        $p_where 
-			 order by jr_date desc";
+			 order by jr_date_order desc";
   }
   if ( $p_array != null ) {
     // Construction Query 
@@ -254,6 +255,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
 		jr_comment,
 		jr_ech,
 		to_char(jr_date,'DD.MM.YYYY') as jr_date,
+                jr_date as jr_date_order,
 		jr_grpt_id,
 		jr_rapt,
 		jr_internal,
@@ -282,8 +284,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
     if ( $l_s_internal != null ) {
       $sql.=$l_and."  jr_internal='$l_s_internal'  ";
     }
-    $sql.=" order by jr_date desc";
-
+    $sql.=" order by jr_date_order desc";
   }// p_array != null
   $Res=ExecSql($p_cn,$sql);
   $r="";
