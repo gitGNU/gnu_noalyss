@@ -46,10 +46,10 @@ if ( $r_UID == false ) {
   return;
 }
 echo_debug(__FILE__,__LINE__,"UID IS VALID");
-echo '<H2 style="color:blue;text-align:center"> Administration Globale</H2>';
+echo '<H2 class="info"> Administration Globale</H2>';
 ShowMenuAdminGlobal();
-ShowMenuAdminGlobalRight('<A class="mtitle" HREF="admin_repo.php">Retour</A>');
-echo '<DIV CLASS="redcontent">';
+
+echo '<DIV>';
 echo '<H1 class="title"> User Management</H1>';
 // User is valid and you're an admin 
 

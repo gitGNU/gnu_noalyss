@@ -52,12 +52,21 @@ function u_ShowDossier($p_user,$p_admin)
     $result.="</TD><TD class=\"$tr\">";
     $result.=$desc;
     $result.="</TD><TD class=\"mtitle\">";
-    $result.="<A class=\"mtitle\" HREF=\"user_compta.php?dos=$id\">Encoder</A>";
-    $result.="</TD></TR>";
+    $result.="<A class=\"mtitle\" HREF=\"user_compta.php?dos=$id\">Comptabilité</A>";
+    $result.="</TD>";
+    if ( $p_admin == 1 ) {
+      $result.="</TD><TD class=\"mtitle\">";
+      $result.="<A class=\"mtitle\" HREF=\"admin_repo.php\">Administration</A>";
+      $result.="</TD>";
+    }
+    $result.="</TR>";
   }
+  $result.="<TD></TD><TR><TD class=\"mtitle\">";
+  $result.='<A HREF="logout.php" CLASS="mtitle">Sortir</a>';
+  $result.="</TD></TR>";
   return $result;
 }
-/* function u_ShowDossier
+/* function GetAvailableFolder
  * Purpose :  Get all the available folders
  *            for the users
  * parm : 
@@ -157,9 +166,8 @@ function u_ShowMenuCompta($p_dossier)
 		 array("fiche.php?p_dossier=$p_dossier","Fiche"),
 		 array("user_advanced.php","Avancé"),
 		 array("dossier_prefs.php","Paramètre"),
-		 array("admin_repo.php","Admin"),
-  		 array('login.php','Accueil'),
-		 array('user_pref.php','Preference'),
+  		 array('user_pref.php','Preference'),
+		 array('login.php','Accueil'),
 		 array('logout.php','logout')
 		 );
 

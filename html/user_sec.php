@@ -32,7 +32,7 @@ CheckUser();
 
 include_once ("top_menu_compta.php");
 ShowMenuCompta($g_dossier,$g_UserProperty);
-ShowMenuComptaRight($g_dossier,$g_UserProperty);
+
 if ( $g_UserProperty['use_admin']== 0 ) {
   $r=CheckAction($g_dossier,$g_user,SECU);
   if ($r == 0 ){
@@ -49,8 +49,6 @@ $cn=DbConnect();
 $User=ExecSql($cn,"select  use_id,use_first_name,use_name,use_login from ac_users where use_login != 'phpcompta'");
 $MaxUser=pg_NumRows($User);
 
-
-  ShowMenuComptaRight($g_dossier,$g_UserProperty['use_admin']);
 
 echo '<DIV CLASS="ccontent">';
 echo '<H2 class="info"> Sécurité </H2>';

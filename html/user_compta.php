@@ -57,7 +57,7 @@ if ( $g_UserProperty['use_admin'] == 0 ) {
 include_once ("user_menu.php");
 include_once ("top_menu_compta.php");
 ShowMenuCompta($g_dossier,$g_UserProperty);
-//ShowMenuComptaRight($g_dossier,$g_UserProperty); 
+
 html_page_stop();
 
 ?>

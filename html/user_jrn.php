@@ -69,7 +69,7 @@ if ( isset ($_GET['show'])) {
                 array("user_jrn.php?JRN_TYPE=ACH","Dépense"),
                 array("user_jrn.php?JRN_TYPE=FIN","Financier"),
                 array("user_jrn.php?JRN_TYPE=OD","Op. Diverses"),
-                array("","Impression"),
+                array("impress.php","Impression"),
                 array("","Recherche")
                  );
  $result=ShowItem($p_array,'H',"cell","mtitle");
@@ -86,7 +86,7 @@ if ( isset ($_GET['JRN_TYPE'] ) ) {
                 array("user_jrn.php?JRN_TYPE=ACH","Dépense"),
                 array("user_jrn.php?JRN_TYPE=FIN","Financier"),
                 array("user_jrn.php?JRN_TYPE=OD","Op. Diverses"),
-                array("","Impression"),
+                array("impress.php","Impression"),
                 array("","Recherche")
                  );
  $result=ShowItem($p_array,'H',"cell","mtitle","user_jrn.php?JRN_TYPE=".$jrn_type);
@@ -109,7 +109,7 @@ if ( isset ($_GET['JRN_TYPE'] ) ) {
                 array("user_jrn.php?JRN_TYPE=ACH","Dépense"),
                 array("user_jrn.php?JRN_TYPE=FIN","Financier"),
                 array("user_jrn.php?JRN_TYPE=OD","Op. Diverses"),
-                array("","Impression"),
+                array("impress.php","Impression"),
                 array("","Recherche")
                  );
  $result=ShowItem($p_array,'H',"cell","mtitle","user_jrn.php?JRN_TYPE=".$jrn_type);
@@ -125,7 +125,7 @@ if ( $g_jrn != -1 ) {
                 array("user_jrn.php?JRN_TYPE=ACH","Dépense"),
                 array("user_jrn.php?JRN_TYPE=FIN","Financier"),
                 array("user_jrn.php?JRN_TYPE=OD","Op. Diverses"),
-                array("","Impression"),
+                array("impress.php","Impression"),
                 array("","Recherche")
                  );
  $result=ShowItem($p_array,'H',"cell","mtitle","user_jrn.php?JRN_TYPE=".$jrn_type);

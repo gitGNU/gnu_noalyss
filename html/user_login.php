@@ -23,18 +23,22 @@ include_once("postgres.php");
 CheckUser();
 html_page_start($g_UserProperty['use_theme']);
 include_once("user_menu.php");
-u_ShowMenu($g_UserProperty['use_admin']);
+//u_ShowMenu($g_UserProperty['use_admin']);
 
 
 $priv=($g_UserProperty['use_admin']==1)?"Administrator":"User";
 
-echo '<H2 class="info"> Welcome '.$g_UserProperty['use_first_name'].'  '.
-     $g_UserProperty['use_name'].'<br>, your are an  '. $priv.' Please Select your folder</H2>';
+echo '<div class="info"> Welcome '.$g_UserProperty['use_first_name'].'  '.
+     $g_UserProperty['use_name'].',<h3 class="info"> your are an  '. $priv.' <br>Please Select your folder</h3></div>';
 // Show default menu (preference,...)
 
 // If admin show everything otherwise only the available dossier
 $res=u_ShowDossier($g_user,$g_UserProperty['use_admin']);
 echo $res;
+?>
+<P>
 
+</P>
+<?
 html_page_stop();
 ?>

@@ -519,8 +519,10 @@ function ShowMenuAdminGlobal()
   $item[0]=array("admin_repo.php?action=user_mgt","Utilisateurs");
   $item[1]=array("admin_repo.php?action=dossier_mgt","Dossiers");
   $item[2]=array("admin_repo.php?action=modele_mgt","Modèles");
-  $menu=ShowItem($item);
-  echo '<DIV class="lmenu">';
+  $item[3]=array("login.php","Accueil");
+  $item[4]=array("logout.php","Logout");
+  $menu=ShowItem($item,'H');
+  echo '<DIV >';
   echo $menu;
   echo '</DIV>';
 }

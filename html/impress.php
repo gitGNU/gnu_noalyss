@@ -31,6 +31,18 @@ include ("check_priv.php");
 include_once ("top_menu_compta.php");
 ShowMenuCompta($g_dossier,$g_UserProperty);
 
+ $p_array=array(array("user_jrn.php?JRN_TYPE=VEN" ,"Entrée"),
+                array("user_jrn.php?JRN_TYPE=ACH","Dépense"),
+                array("user_jrn.php?JRN_TYPE=FIN","Financier"),
+                array("user_jrn.php?JRN_TYPE=OD","Op. Diverses"),
+                array("impress.php","Impression"),
+                array("","Recherche")
+                 );
+ $result=ShowItem($p_array,'H',"cell","mtitle","impress.php");
+   echo "<DIV class=\"u_subtmenu\">";
+   echo $result;
+   echo "</DIV>";
+
 // $_GET['direct'] if we want to print from
 // the advanced menu in the user interface
 if ( isset ($_GET['direct'])) {
@@ -45,7 +57,7 @@ if ( isset ($_GET['direct'])) {
 }
 
 include_once("impress_inc.php");
-ShowMenuComptaRight($g_dossier,$g_UserProperty);
+
 if ( $g_UserProperty['use_admin'] == 0 ) {
   $r=CheckAction($g_dossier,$g_user,IMP);
   if ($r == 0 ){

@@ -31,13 +31,15 @@ if ($g_UserProperty['use_admin'] != 1) {
   return;
 }
 include ("top_menu_compta.php");
-
 echo '<H2 class="info"> Administration Globale</H2>';
-if ( ! isset ($g_dossier) ) $g_dossier=0;
-ShowMenuAdminGlobalRight($g_dossier);
 ShowMenuAdminGlobal();
+
+
+
+
+
 ?>
-<DIV class="redcontent">
+<DIV >
 <?
 if ( isset ($_GET["action"]) ) {
   if ( $_GET["action"]=="user_mgt" ) {
@@ -153,11 +155,8 @@ if ( $count == 0 ) {
   } else {
     $template='<SELECT NAME=FMOD_ID>';
       for ($i=0;$i<$count;$i++) {
-	$mod=pg_fetch_array($Res,0);
+	$mod=pg_fetch_array($Res,$i);
 	$template.='<OPTION VALUE="'.$mod['mod_id'].'"> '.$mod['mod_name']." - ".$mod['mod_desc'];
-	/*	printf("<span> %s  %s </span>",
-	       $mod['mod_name'],$mod['mod_desc']);*/
-
       }// for
       $template.="</SELECT>";
     }// if count = 0
@@ -196,28 +195,30 @@ if ( $count == 0 ) {
 		     "'".$mod_desc."')");
 	
 	// get the mod_id
-	$l_id=GetModeleId($cn,$mod_name);
+	$l_id=GetSequence($cn,'s_modid');
 	if ( $l_id != 0 ) {
 	  $Sql=sprintf("CREATE DATABASE MOD%d encoding='ISO8859-1' TEMPLATE DOSSIER%s",$l_id,$_POST["FMOD_DBID"]);
 	  ExecSql($cn,$Sql);
 	}
       }// if $mod_name != null
+      $mod=sprintf("mod%d",$l_id);
+      $cn_mod=dbconnect($mod);
       // Clean some tables 
-      $Res=ExecSql($cn,"truncate table jrn");
-      $Res=ExecSql($cn,"truncate table jrnx");
-      $Res=ExecSql($cn,"truncate table centralized");
-      $Res=ExecSql($cn,"truncate table stock_goods");
+      $Res=ExecSql($cn_mod,"truncate table jrn");
+      $Res=ExecSql($cn_mod,"truncate table jrnx");
+      $Res=ExecSql($cn_mod,"truncate table centralized");
+      $Res=ExecSql($cn_mod,"truncate table stock_goods");
 
       // Reset Sequence
-      $Res=ExecSql($cn,"drop sequence s_jrn");
-      $Res=ExecSql($cn,"drop sequence s_jrn_op");
-      $Res=ExecSql($cn,"drop sequence s_centralized");
-      $Res=ExecSql($cn,"drop sequence s_stock_goods");
+      $Res=ExecSql($cn_mod,"drop sequence s_jrn");
+      $Res=ExecSql($cn_mod,"drop sequence s_jrn_op");
+      $Res=ExecSql($cn_mod,"drop sequence s_centralized");
+      $Res=ExecSql($cn_mod,"drop sequence s_stock_goods");
 
-      $Res=ExecSql($cn,"create sequence s_jrn");
-      $Res=ExecSql($cn,"create sequence s_jrn_op");
-      $Res=ExecSql($cn,"create sequence s_centralized");
-      $Res=ExecSql($cn,"create sequence s_stock_goods");
+      $Res=ExecSql($cn_mod,"create sequence s_jrn");
+      $Res=ExecSql($cn_mod,"create sequence s_jrn_op");
+      $Res=ExecSql($cn_mod,"create sequence s_centralized");
+      $Res=ExecSql($cn_mod,"create sequence s_stock_goods");
     }
     // Show all available templates
 
@@ -229,8 +230,8 @@ if ( $count == 0 ) {
     } else {
      
       for ($i=0;$i<$count;$i++) {
-	$mod=pg_fetch_array($Res,0);
-	printf("<span> %s  %s </span>",
+	$mod=pg_fetch_array($Res,$i);
+	printf('<span style="display:block;"> %s  %s </span>',
 	       $mod['mod_name'],$mod['mod_desc']);
 
       }// for
