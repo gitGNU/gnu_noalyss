@@ -54,7 +54,12 @@ h2.error {
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 $inc_path=get_include_path();
-$inc_path.=':../../include';
+if ( strpos($inc_path,";") != 0 ) {
+  $inc_path.=':..\..\include';
+ } else {
+  $inc_path.=':../../include';
+ }
+
 set_include_path($inc_path);
 
 include_once('constant.php');
