@@ -134,26 +134,30 @@ function formatDate($p_date) {
  * return:
  *        none
  */
-function html_page_start($p_theme,$p_script="")
+function html_page_start($p_theme="",$p_script="")
 {	
   include_once ("postgres.php");
-  $cn=DbConnect();
-$bg='bgcolor="#EDF3FF"';
-  $Res=ExecSql($cn,"select the_filestyle from theme
+ ini_set('magic_quotes_gpc','Off');
+ ini_set('session.use_trans_sid',1);
+ $cn=DbConnect();
+ if ( $p_theme != "") {
+   $Res=ExecSql($cn,"select the_filestyle from theme
                    where the_name='".$p_theme."'");
-  if (pg_NumRows($Res)==0) $style="style.css";
-  else {
-    $s=pg_fetch_array($Res,0);
-    $style=$s['the_filestyle'];
-  }
- 	echo '<!DOCTYPE HTML PUBLIC "-//W3C/DTD HTML 3.2 FINAL//EN">';
-	echo "<HTML>";
-	echo "<HEAD> 
-              <TITLE> Gnu Accountancy</TITLE>
-	      <META http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">
-               <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$style\">
-	      </HEAD>";
-	echo "<BODY $bg $p_script>";
+    if (pg_NumRows($Res)==0) $style="style.css";
+    else {
+      $s=pg_fetch_array($Res,0);
+      $style=$s['the_filestyle'];
+    } else {
+      $style="style.css";
+    } // end if
+    echo '<!DOCTYPE HTML PUBLIC "-//W3C/DTD HTML 3.2 FINAL//EN">';
+    echo "<HTML>";
+    echo "<HEAD> 
+          <TITLE> Gnu Accountancy</TITLE>
+	  <META http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">
+          <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$style\">
+	  </HEAD>";
+    echo "<BODY $p_script>";
 }
 /* function html_page_stop()
  * Purpose : 

@@ -319,7 +319,8 @@ function u_ShowMenuJrn($p_cn,$p_jrn_type)
   for ($i=0;$i<$num;$i++) {
     $action=pg_fetch_array($Res,$i);
     $access_key=get_quick_key($action['ja_name'],$access_key_list);
-    $lib=str_replace($access_key,'<u>'.$access_key.'</u>',$action['ja_name'],1);
+    $lib=str_replace($access_key,'<u>'.$access_key.'</u>',$action['ja_name']);
+
     $ret.=sprintf('<TR><TD class="cell"><A class="mtitle" accesskey="%s" title="%s" '.
 		  'HREF="%s?%s">%s</A></td></tR>',
 		  $access_key, $action['ja_desc'], $action['ja_url'],$action['ja_action'],

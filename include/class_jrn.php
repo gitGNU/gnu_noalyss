@@ -81,7 +81,7 @@ class jrn {
                 case j_debit when 't' then j_montant::text else '   ' end as deb_montant,
                 case j_debit when 'f' then j_montant::text else '   ' end as cred_montant,
                 j_debit as debit,j_poste as poste,jr_montant , ".
-	       "pcm_lib as description,j_grpt as grp,jr_comment||' ('||c_internal||')' as jr_comment ,
+	       "pcm_lib as description,j_grpt as grp,jr_comment||' ('||jr_internal||')' as jr_comment ,
                 jr_rapt as oc, j_tech_per as periode from jrnx left join jrn on ".
 		 "jr_grpt_id=j_grpt ".
 		 " left join tmp_pcmn on pcm_val=j_poste ".
@@ -124,7 +124,7 @@ class jrn {
                 case j_debit when 'f' then j_montant::text else '   ' end as cred_montant,
                 j_debit as debit,j_poste as poste,".
 	       "pcm_lib as description,j_grpt as grp,
-                jr_comment||' ('||c_internal||')' as jr_comment,
+                jr_comment||' ('||jr_internal||')' as jr_comment,
                 jr_montant,
                 jr_rapt as oc, j_tech_per as periode from jrnx left join jrn on ".
 		 "jr_grpt_id=j_grpt left join tmp_pcmn on pcm_val=j_poste where ".
