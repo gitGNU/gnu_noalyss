@@ -426,8 +426,8 @@ function GetDataJrnPdf($p_cn,$p_array,$p_limit,$p_offset)
 		      'j_date' => $line['j_date'],
 		      'internal'=>$line['jr_internal'],
 		      'deb_montant'=>'',
-		      'cred_montant'=>$jr_montant,
-		      'description'=>$line['jr_comment'],
+		      'cred_montant'=>'<b><i>'.$jr_montant.'</i></b>',
+		      'description'=>'<b><i>'.$line['jr_comment'].'</i></b>',
 		      'poste' => $line['oc'],
 		      'periode' =>$line['periode'] );
 
