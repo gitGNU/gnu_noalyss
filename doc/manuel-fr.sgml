@@ -213,14 +213,109 @@ sprl. C'est-à-dire qu'il
 faut diminuer les charges 6xxxx frais de voiture à 41xxx Compte de
 l'exploitant. Et de la même manière,  diminuer la tva de vos frais de
 voiture de 2/7.
+
+Les écritures comptables : chaque trimestre vous devez payer un acompte de tva qui est égal au tiers du montant dû à la dernière déclaration
+<verb>
+4117     Acompte TVA
+    5500 Banque
+</verb>
+A la fin du trimestre, il faut regrouper tous les comptes TVA.
+Si vous devez payer la TVA
+<verb>
+451x    TVA à payer
+à
+   411x TVA à récupérer
+   4117 Acompte sur TVA
+   4519 Compte TVA
+</verb>
+Si vous devez récupérer de la TVA
+<verb>
+451x    TVA à payer
+4119 Compte TVA
+à
+   411x TVA à récupérer
+   4117 Acompte sur TVA
+
+</verb>
+Quand vous recevrez la déclaration constatant votre créance
+<verb>
+4118   TVA à rembourser par l'administration
+à
+     4119  Compte TVA
+</verb>
+Ensuite, utilisez le compte 4519 ou 4118 avec un compte en banque quand vous
+recevrez ou paierez la TVA
+
 </sect3>
 
 <sect2> France
 <p> Pas reçu de doc ni d'aide sur ce sujet désolé
 </sect2>
 </sect1>
+<sect1>Ecriture de fin d'exercice comptable (Belgique)
+<p> Chaque année est composée de 13 périodes, les 12 premières font exactement
+un mois mais la 13ième est toujours sur un seul jour : le 31 décembre. C'est cette période qui sera la période de clôture de l'année comptable.
+
+Pour commencer, changer vos préférences pour avoir cette période par défaut. Normalement vous ne devrez utiliser que le journal des Opérations diverses et
+aucun autre.
+
+Ensuite, imprimez une balance des comptes de l'année écoulée. Cela fait, le reste est assez facile.
+
+<sect2> Les amortissements
+<p> Dans la comptabilité Belge, vous trouverez ce qu'il y a à amortir dans le poste 24xxx, imprimez ces fiches et calculez l'amortissement pour l'année, ensuite en opération diverse, vous l'imputerez ainsi
+<verb>
+63xxx Dotation aux amortissement
+à
+      2409xxxx Amortissement
+</verb>
+
+Evidemment les postes comptables peuvent un peu changer suivant la façon dont
+vous avez adapté votre plan comptable. Faites toutes même attention à ne pas mélanger ce que vous avez acheté il y a deux ans et l'année passée. Normalement, chaque élément faisant l'objet d'un amortissement doit avoir un plan d'amortissement, c'est-à-dire un document qui décrit ce qui est amorti, indique la valeur d'acquisition et quelle somme sera amortie sur quelle années. Le document est de format libre, le mieux est d'utiliser une feuille du tableur d'OpenOffice.org pour résumer tout ce qui doit être amorti. Ce document est appelé tableau d'amortissement. Attention les montants sont hors tva !!!!
+<verb>
+exemple :
+bureau valeur d'acquisition 500euros acheté en 2003
+ Amorti en 2003 100 euros
+ Amorti en 2004 100 euros
+ Amorti en 2005 100 euros
+ Amorti en 2006 100 euros
+ Amorti en 2007 100 euros
+PC valeur d'acquisition 1200euros acheté en 2002
+ Amorti en 2002 = 400 euros
+ Amorti en 2003 = 400 euros
+ Amorti en 2004 = 400 euros
+
+Total à amortir en 2003 = 100 (pour le bureau) + 400 (pour le PC)
+</verb>
+</sect2>
+<sect2> Les dépenses non admises
+<p> Dans la fiscalité belge, il s'agit entre autre de 50% des restaurants, 25% des frais de voiture (taxes de roulage, car wash...), des versements anticipés d'impôt et des paiements des impôts d'années antérieures.
+
+Vous devez donc utilisez le compte 67xxx pour diminuer les charges de leur partie non déductible
+</sect2>
+<sect2>Reclassement des Charges, Produits et Dettes
+<p> Il faut tout d'abord retrouver toutes les fournisseurs non payés au 31 décembre et vérifier qu'ils n'ont pas été payés dans  le courant de janvier ou de février. Si c'est le cas on aura un reclassement de dettes, sinon on devra penser que la dette a été payé par le gérant ou que la dette est toujours due. Cela doit se règler au cas par cas.
+
+Il faut aborder la régularisation des comptes de charges et des produits (comptes 490, 491, 492, ,493) , les dettes supérieures à un an échéant dans l'année... (doit être complèté).
+</sect2>
+
+<sect2>Les variations de stocks
+<p>En fin d'année, il faut faire l'inventaire du stocks. Soit on a plus de marchandise que ce qu'il est inscrit dans notre comptabilité, on aura alors une réduction de charge (340 à 6094) soit on aura moins de marchandise que prévu, dans ce cas il y aura une augmentation des charges (6094 à 340). (INCOMPLET)
+
+</sect2>
+<sect2>Compte de l'exploitant
+<p>Certaines dépenses ont été payées par le gérant ou l'administrateur en liquide. Donc ces paiements ne figureront pas dans les extraits de compte de la banque. La seule façon de faire est d'utiliser les comptes 4890 dans le cas d'une dette envers le gérant ou 4160 dans le cas d'une créance sur le gérant. Il faut donc solder ces comptes et constater la dette ou la créance.
 
 
+</sect2>
+<sect2> Affectation du résultat
+<p>La dernière étape avant le bilan: affecter le résultat de l'exercice, que ce soit un bénéfice ou une perte
+
+</sect2>
+</sect1>
+<sect1>Salaire et Compte de gérant
+<p>Le gérant utilisera les comptes 4890 et 4160 pour gérer l'argent qu'il prélève ou qu'il avance à sa société. Ces comptes peuvent aussi être utilisé lors du paiement des salaires. Il est important de rappeler qu'en Belgique, il est nécessaire de payer le précompte professionnel.
+
+</sect1>
 </sect>
 <sect> Les modes
 <p>
