@@ -96,13 +96,13 @@ function ExecuteScript($p_cn,$script) {
   while (!feof($hf)) {
     $buffer=fgets($hf);
     // comment are not execute
-    if ( strpos($buffer,"--") ===  0) {
-      echo "comment $buffer";
+    if ( substr($buffer,0,2) == "--" ) {
+      //echo "comment $buffer";
       continue;
     }
     // Blank Lines Are Skipped
     If ( Strlen($buffer)==0) {
-	    echo "Blank $buffer";
+	    //echo "Blank $buffer";
       Continue;
     }
 
