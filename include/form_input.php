@@ -855,7 +855,33 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
   $r.=$p_submit;
   $r.="</DIV>";
   $r.="</FORM>";
-  //TODO if view only show total
+  //if view only show total
+  if ( $view_only==true) {
+    $total=0;
+    $r.="<TABLE>";
+    $r.="<th>Nom</th>";
+    $r.="<th>total</th>";
+    for ( $i = 0; $i < $p_article;$i++) {
+      $march=${"e_march$i"};
+      if ( isNumber($march) ==1 and
+	   isFicheOfJrn($p_cn,$p_jrn,$march,'deb')){
+	   $a_fiche=GetFicheAttribut($p_cn, $march);
+	   // compute some data
+	   $tva=(isNumber($a_fiche['tva_rate']) == 0 )?0:$a_fiche['tva_rate'];
+	   $total_row=${"e_march$i"."_buy"}*${"e_quant$i"}+${"e_march$i"."_buy"}*${"e_quant$i"}*$tva;
+
+	   $r.="<TR>";
+	   $r.="<TD>".$a_fiche['vw_name']."</td>";
+	   //	   $r.="<TD>".$a_fiche['tva_label']."</td>";
+	   $r.="<TD  ".$total_row."</TD>";
+	   $r.="</TR>";
+	   $total+=$total_row;
+ 
+      }
+    }
+    $r.="<TR> <TD colspan=\"3\" align=\"center\"> Total =".$total."</TD></TR>";
+    $r.="</TABLE>";
+  }
   return $r;
 
 
@@ -894,6 +920,7 @@ function RecordAchat($p_cn,$p_array,$p_user,$p_jrn)
 {
   foreach ( $p_array as $v => $e)
   {
+    echo_debug ("Record Achat $v ==> $e");
     ${"$v"}=$e;
   }
 
@@ -959,8 +986,9 @@ function RecordAchat($p_cn,$p_array,$p_user,$p_jrn)
       }
     }
   echo_debug("echeance = $e_ech");
+  echo_debug("comment = $e_comment");
   if ( ($amount+$sum_vat) != 0 ){
-    if ( InsertJrn($p_cn,$e_date,$e_ech,$p_jrn,"",$amount+$sum_vat,$seq,$periode) == false ) {
+    if ( InsertJrn($p_cn,$e_date,$e_ech,$p_jrn,$e_comment,$amount+$sum_vat,$seq,$periode) == false ) {
       $Rollback($p_cn);exit("error __FILE__ __LINE__");
     }
     // Set Internal code and Comment

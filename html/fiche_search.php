@@ -135,12 +135,12 @@ if ( isset ( $_POST['search']) )  {
     $class="even";
   else
     $class="odd";
-
+  $text=FormatString($row['vw_name']);
   $r.="<span class=\"$class\">";
   $r.=sprintf ('<input type="button" onClick="'."SetData('%s','%s','%s','%s','%s','%s','%s')".'" value="select">',
 	      $e_name,
 	      $row['f_id'] ,
-	      $row['vw_name'], 
+	      $text, 
 	      $row['vw_sell'], 
 	      $row['vw_buy'], 
 	      $row['tva_id'], 

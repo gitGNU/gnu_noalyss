@@ -119,7 +119,7 @@ function GetTvaPoste($p_cn,$p_tva_id,$p_cred) {
 
 
 
-/* function InsertJrnx($p_cn,$p_type,$p_user,$p_jrn,$p_poste,$p_date,$p_amount,$p_grpt,$p_periode);
+/* function InsertJrnx($p_cn,$p_type,$p_user,$p_jrn,$p_poste,$p_date,$p_amount,$p_grpt,$p_periode
  **************************************************
  * Purpose : Insert into the table Jrn
  *        
@@ -149,7 +149,6 @@ function InsertJrnx($p_cn,$p_type,$p_user,$p_jrn,$p_poste,$p_date,$p_amount,$p_g
     $debit=($debit=='false')?'true':'false';
   }
 
-
   $sql=sprintf("insert into jrnx (j_date,j_montant, j_poste,j_grpt, j_jrn_def,j_debit,j_tech_user,j_tech_per)
 			values (to_date('%s','DD.MM.YYYY'),abs(%.2f),%d,%d,%d,%s,'%s',%d)",
 	       $p_date,round($p_amount,2),$p_poste,$p_grpt,$p_jrn,$debit,$p_user,$p_periode);
@@ -159,7 +158,7 @@ function InsertJrnx($p_cn,$p_type,$p_user,$p_jrn,$p_poste,$p_date,$p_amount,$p_g
   return GetSequence($p_cn,'s_jrn_op');
 
 }
-/* function InsertJrn($p_cn,$p_date,$p_jrn,$p_comment,$p_amount,$p_grpt,$p_periode);
+/* function InsertJrn($p_cn,$p_date,$p_jrn,$p_comment,$p_amount,$p_grpt,$p_periode
  **************************************************
  * Purpose : Insert into the table Jrnx
  *        
@@ -170,6 +169,7 @@ function InsertJrnx($p_cn,$p_type,$p_user,$p_jrn,$p_poste,$p_date,$p_amount,$p_g
  *  - $p_poste the account
  *  - $p_amount amount to insert
  *  - $p_periode the concerned periode
+ *  - $p_comment comment
  * gen :
  *	- none
  * return:
@@ -179,7 +179,10 @@ function InsertJrnx($p_cn,$p_type,$p_user,$p_jrn,$p_poste,$p_date,$p_amount,$p_g
 function InsertJrn($p_cn,$p_date,$p_echeance,$p_jrn,$p_comment,$p_amount,$p_grpt,$p_periode)
 {
 	echo_debug ("InsertJrn param 
-	    p_date $p_date p_poste $p_comment p_amount $p_amount p_grpt = $p_grpt p_periode = $p_periode p_echeance = $p_echeance");
+	    p_date $p_date p_poste $p_comment p_amount $p_amount p_grpt = $p_grpt p_periode = $p_periode p_echeance = $p_echeance
+comment = $p_comment");
+	$p_comment=FormatString($p_comment);
+
 	if ( $p_echeance == "" or $p_echeance==null) {
 		$p_echeance='null';
 	} else {
@@ -228,7 +231,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
 		       from 
 			jrn join jrn_def on jrn_def_id=jr_def_id 
                        $p_where 
-			 order by jr_date";
+			 order by jr_date desc";
   }
   if ( $p_array != null ) {
     // Construction Query 
@@ -269,7 +272,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
     if ( $l_s_internal != null ) {
       $sql.=$l_and."  jr_internal='$l_s_internal'  ";
     }
-    $sql.=" order by jr_date";
+    $sql.=" order by jr_date desc";
 
   }// p_array != null
   $Res=ExecSql($p_cn,$sql);

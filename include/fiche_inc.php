@@ -65,6 +65,7 @@ function AddFiche($p_cn,$p_type,$p_array) {
   // First Get the attr of the fiche
   $field=Get_attr_def($p_cn,$p_fd_id);
 
+  $flag=1;
 
   // Create the Fiche
   $Sql="insert into fiche (fd_id) values (".$p_fd_id.")";
@@ -76,8 +77,64 @@ function AddFiche($p_cn,$p_type,$p_array) {
   // Should we Create accounts for each cards
   $create=GetCreateAccount($p_cn,$p_fd_id);
 
+  // Is a account given ?
+  for ( $i = 0; $i < $p_inc;$i++) {
+    //Except for the class base
+    if ( ${"p_ad_id$i"} == ATTR_DEF_ACCOUNT ) {
+      if (strlen (trim(${"p_av_text$i"})) == 0 or
+	  isNumber(${"p_av_text$i"}) == 0 )
+	{
+	  break;
+	}
+      // if account already exist do nothing in tmp_pcmn otherwise add it
+      if (CountSql($p_cn,"select pcm_val from tmp_pcmn where pcm_val=".${"p_av_text$i"}) == 0 )
+	{
+	  $len=strlen(${"p_av_text$i"})-1;
+	  // Mother account
+	  $p_parent=substr(${"p_av_text$i"},0,$len);
+	  while (CountSql($p_cn,"select pcm_val from tmp_pcmn where pcm_val=$p_parent") == 0 and
+		 $len > 0 ) {
+	    $len--;
+	    $p_parent=substr(${"p_av_text$i"},0,$len);
+	  }
+	  // If no parent found
+	  if ( $len <= 0 ) {
+	    echo_error ("No parent found");
+	    exit("No parent found for ".${"p_av_text$i"});
+
+	  } // if $len == 0
+	  $lib=FormatString($p_av_text0);
+	  $sql=sprintf("insert into tmp_pcmn (pcm_val,pcm_lib,pcm_val_parent) 
+                values (%s,'%s',%d)",
+		       ${"p_av_text$i"},
+		       $lib,
+		       $p_parent);
+
+	  // Add if into tmp_pcmn
+	  $Res=ExecSql($p_cn,$Sql);
+	}
+      // Add it the jnt table
+      // 5 is always for the account post
+      $Sql=sprintf("insert into jnt_fic_att_value (f_id,ad_id) values (%d,%d)",
+		   $l_f_id,ATTR_DEF_ACCOUNT);
+      $Res=ExecSql($p_cn,$Sql);
+      
+      // Get the jft_id sequence (s_jnt_fic_att_value)
+      $l_jft_id=GetSequence($p_cn,'s_jnt_fic_att_value');
+      
+      
+      // Add it the attr_value table
+      $Sql=sprintf("insert into attr_value(jft_id,av_text) values (%d,'%s')",
+		   $l_jft_id,${"p_av_text$i"});
+      $Res=ExecSql($p_cn,$Sql);
+      // If create == 0 we don't create automatically an account
+      $create=0;      
+    }
+
+  } // for $i...
+
   echo_debug ( " create = $create ");
-  if ( $create == 1) {
+  if ( $create == 1 ) {
     // We create an account for each
     // Get The Class Base
     $base=GetBaseFiche($p_cn,$p_type);
@@ -87,10 +144,12 @@ function AddFiche($p_cn,$p_type,$p_array) {
     if ( $base !=null  ) {
       // if the class base is not null, create it in the tmp_pcmn
       $num=GetNextFiche($p_cn,$base);
+
+      $lib=FormatString($p_av_text0);
       $sql=sprintf("insert into tmp_pcmn (pcm_val,pcm_lib,pcm_val_parent) 
                 values (%s,'%s',%d)",
 		   $num,
-		   $p_av_text0,
+		   $lib,
 		   $base);
       echo_debug($sql);
       $Res=ExecSql($p_cn,$sql);
@@ -127,22 +186,26 @@ function AddFiche($p_cn,$p_type,$p_array) {
 
     // test the vat rate
     if (  ${"p_ad_id$i"} == ATTR_DEF_TVA ) {
-      // is a valid rate ?
-      if ( CountSql($p_cn,"select * from tva_rate where tva_id='".${"p_av_text$i"}."'") == 0 ) {
-	// the rate doesn't exist
-	${"p_av_text$i"}=1;
-	// warning
-	echo_error('invalid rate') ;
-	echo '<script>
+      // is a rate given 
+      if ( strlen(trim(${"p_av_text$i"})) != 0 and 
+	   isNumber(${"p_av_text$i"}) == 1) {
+	// is a valid rate ?
+	if ( CountSql($p_cn,"select * from tva_rate where tva_id='".${"p_av_text$i"}."'") == 0 ) {
+	  // the rate doesn't exist
+	  ${"p_av_text$i"}=1;
+	  // warning
+	  echo_error('invalid rate') ;
+	  echo '<script>
                 alert("Attention tva invalid, valeur par défaut =1 ");
               </script>';
- 
-      }
+	  
+	}
+      }// if a rate is given
     }
-
+    $text=FormatString(${"p_av_text$i"});
     // Add it the attr_value table
     $Sql=sprintf("insert into attr_value(jft_id,av_text) values (%d,'%s')",
-		 $l_jft_id,${"p_av_text$i"});
+		 $l_jft_id,$text);
     $Res=ExecSql($p_cn,$Sql);
 
   }
@@ -478,9 +541,9 @@ function UpdateFiche($p_cn,$p_array) {
   $fd_ref=GetFicheDefRef($p_cn,$fiche);
   // Update all the others data
   for ( $i =0 ; $i < $max ; $i++) {
-
+    $text=FormatString( ${"av_text$i"});
     $sql=sprintf("update attr_value set av_text='%s' where jft_id=%d",
-		 ${"av_text$i"},
+		 $text,
 		 ${"jft_id$i"});
     echo_debug($sql);
     $Res=ExecSql($p_cn,$sql);
@@ -514,9 +577,8 @@ function UpdateFiche($p_cn,$p_array) {
 	// No change if the account is already used 
 	echo_error("Not possible to change the account, already used");
       } else {
-	if ( CountSql($p_cn,"select * from tmp_pcmn where pcm_val=".$class) ==1) {
-	  $Res=ExecSql($p_cn,"update tmp_pcmn set pcm_val=$class_old where pcm_val=$class");
-	} else // we have to insert 
+	if ( CountSql($p_cn,"select * from tmp_pcmn where pcm_val=".$class) ==0)
+	  // we have to insert 
 	  {
 	    // First we must use a parent
 	    $parent=GetParent($p_cn,$class);
@@ -852,7 +914,8 @@ function Remove ($p_cn, $p_fid) {
       return;
     } else {
       // Remove in PCMN
-      ExecSql($p_cn,"delete from tmp_pcmn where pcm_val=".$class);
+      if ( trim(strlen($class)) != 0 and isNumber($class) == 1)
+	   ExecSql($p_cn,"delete from tmp_pcmn where pcm_val=".$class);
     }
 
   }
