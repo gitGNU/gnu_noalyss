@@ -87,7 +87,7 @@ function new_fiche($p_cn,$p_type) {
       } 
       // Javascript for showing the tva
       if ( $l_line ['ad_id'] == ATTR_DEF_TVA ) {
-	$but_search_poste='<INPUT TYPE="BUTTON" VALUE="Montre" OnClick="ShowTva(\''.$l_sessid.'\')">';
+	$but_search_poste='<INPUT TYPE="BUTTON" VALUE="Montre" OnClick="ShowTva(\''.$l_sessid.'\',\'av_text'.$i.'\')">';
       }
       // content of the attribute
       $r.= sprintf('<TR><TD> %s </TD><TD><INPUT TYPE="TEXT" NAME="av_text%d">%s %s</TD></TR>',
@@ -111,26 +111,51 @@ if ( isset($_POST['add_fiche'])) {
 }
 // Prob : ajout de fiche mais si plusieur cat possible ???
  // Get the field from database
-  if ( $e_type == 'deb' ) {
-    $get='jrn_def_fiche_deb';
-  }
-  if ( $e_type == 'cred' ) {
-    $get='jrn_def_fiche_cred';
-  }
-  $Res=ExecSql($cn,"select $get as fiche from jrn_def where jrn_def_id=$g_jrn");
-
-  // fetch it
-  $Max=pg_NumRows($Res);
-  if ( $Max==0) {
-    echo_warning("No rows");
+  // if e_type contains a list of value
+  if ( $e_type != 'cred' and $e_type != 'deb')     {
+    //    $list['fiche']=$e_type;
+    $sql="select fd_id from fiche_def where frd_id in ($e_type)";
+    $Res=ExecSql($cn,$sql);
+    // fetch it
+    $Max=pg_NumRows($Res);
+    if ( $Max==0) {
+      echo_warning("No rows");
     exit();
+    }
+    $n=pg_NumRows($Res);
+    for ($i=0;$i <$n;$i++) {
+      $f=pg_fetch_array($Res,$i);
+      $e[$i]=$f['fd_id'];
+    }
+    $list['fiche']=join(',',$e);
+  } else { // We have to find it from the database
+    if ( $e_type == 'deb' ) {
+      $get='jrn_def_fiche_deb';
+      $sql="select $get as fiche from jrn_def where jrn_def_id=$g_jrn";
+    }
+    if ( $e_type == 'cred' ) {
+      $get='jrn_def_fiche_cred';
+    $sql="select $get as fiche from jrn_def where jrn_def_id=$g_jrn";
+    }
+    
+    
+
+    $Res=ExecSql($cn,$sql);
+    
+  // fetch it
+    $Max=pg_NumRows($Res);
+    if ( $Max==0) {
+      echo_warning("No rows");
+    exit();
+    }
+    // Normally Max must be == 1
+    $list=pg_fetch_array($Res,0);
+    if ( $list['fiche']=="") {
+      echo_warning("Journal mal paramètré");
+      return;
+    }
   }
-  // Normally Max must be == 1
-  $list=pg_fetch_array($Res,0);
-  if ( $list['fiche']=="") {
-    echo_warning("Journal mal paramètré");
-    return;
-  }
+
 
 // Compter le nombre de cat. possible
 $a=explode(",",$list['fiche']);
@@ -156,7 +181,7 @@ if ( sizeof($a)>1 and !isset ($_POST['cat']))
     echo "Choix catégories fiche";
     echo '<FORM METHOD="POST" ACTION="'.$_SERVER['REQUEST_URI'].'">';
     foreach ($a as $element) {
-      printf('<INPUT TYPE="RADIO" NAME="cat" value="%s">%s',
+      printf('<INPUT TYPE="RADIO" NAME="cat" value="%s">%s<br>',
 	     $element,GetFicheDefName($cn,$element));
     
   }
