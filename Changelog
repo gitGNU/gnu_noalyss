@@ -1,4 +1,94 @@
+2004-03-18  sparkyx  <sparkyx@july.summer>
+
+	* FAQ-fr.txt, INSTALL-fr.txt, doc/manuel-fr.pdf, doc/FAQ-fr.txt: doc
+
+	* include/form_input.php, include/user_action_ven.php:
+	New user interface
+
+	* include/ac_common.php, include/constant.php, include/fiche_inc.php, include/top_menu_compta.php:
+	New fiche system
+
+	* html/fiche.php, html/jrn_add.php, html/jrn_detail.php:
+	Update the fiche system
+
+	* html/line_update.php: Prob with multiple include
+
+	* doc/manual.sxw, doc/manuel-fr.sgml, doc/FAQ, doc/FAQ-fr.sgml, doc/FAQ.sgml, doc/Makefile, doc/makedoc:
+	Update doc
+
+	* doc/mod_function: Change default function header
+
+	* install.sh, setenv.sh: Fix problem with setenv
+
+2004-02-15  sparkyx  <sparkyx@july.summer>
+
+	* doc/FAQ.sgml: Fix Cross Ref
+
+	* doc/Makefile: Add pdf creation
+
+2004-02-14  sparkyx  <sparkyx@july.summer>
+
+	* doc/INSTALL-fr.sgml: FIX
+
+	* doc/INSTALL-fr.sgml: fix
+
+	* doc/Makefile, doc/FAQ, doc/FAQ.sgml: task #3106
+
+	* doc/INSTALL-fr.sgml: Task #3106
+
+	* INSTALL: Replace by doc/INSTALL-fr.sgml
+
+	* doc/FAQ.sgml: FAQ
+	Frequently Asked Questions (in french)
+
+2004-02-08  sparkyx  <sparkyx@july.summer>
+
+	* doc/manual.sxw: webcompta -> phpcompta
+
+	* sql/journal.sql: integration Patch-092-3
+
+	* html/admin_repo.php, html/user_compta.php, install.sh, setenv.sh:
+	Patch 092-2
+	Fix problem with database creation in user mode
+
+	* doc/FAQ: Start a FAQ (french)
+
+	* include/user_menu.php: fix error when no folder are created
+
+	* install.sh: Fix syntax error Philippe Chauvat
+
+2004-01-01  sparkyx  <sparkyx@july.summer>
+
+	* include/impress_inc.php: Fix bug in the Forms printing
+
+	* html/impress.php: Add comment
+
+	* html/jrn_detail.php: fix Debit-Credit
+
+2003-11-30  sparkyx  <sparkyx@july.summer>
+
+	* sql/journal.sql: Continue work for user profile
+
+	* sql/version.sql: Database change
+
+	* sql/update/dossier_1.sql, sql/update/dossier_2.sql, sql/update/mod_1.sql, sql/update/mod_2.sql:
+	Patch for old database version
+
+	* include/form_input.php: Form for the user profile
+
+	* html/impress.php, html/jrn_add.php, html/jrn_detail.php, include/ac_common.php, include/constant.php, include/fiche_inc.php, include/jrn.php, include/user_action_ven.php:
+	Continue work for user profile
+
+	* style-elegant.css, style-light.css, style.css, style-aqua.css:
+	New style mtitle2
+
+	* install.sh:
+	New : install, check the version and patch the db if necessary
+
 2003-11-20  sparkyx  <sparkyx@july.summer>
+
+	* Changelog: Change the name webcompta to PhpCompta
+	Improve user profile
 
 	* html/user_achat.php, html/user_banque.php, html/user_facture.php:
 	Unused
