@@ -20,7 +20,7 @@
 /* $Revision$ */
 
 include_once ("ac_common.php");
-html_page_start();
+html_page_start($g_UserProperty['use_theme']);
 include_once ("postgres.php");
 /* Admin. Dossier */
 CheckUser();

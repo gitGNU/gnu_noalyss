@@ -1,6 +1,4 @@
 <?
-
-
 /*
  *   This file is part of WCOMPTA.
  *
@@ -22,15 +20,17 @@
 // Auteur Dany De Bontridder ddebontridder@yahoo.fr
 // $Revision$
 
-/* function
- * Purpose :
+/* function addFiche
+ * Purpose : ajoute une nouvelle fiche
  * 
  * parm : 
- *	- 
+ *	- connexion
+ *      - type de la fiche
+ *      - tableau
  * gen :
- *	-
+ *	- none
  * return:
- *	-
+ *	- none
  *
  */ 
 function AddFiche($p_cn,$p_type,$p_array) {
@@ -61,19 +61,25 @@ function AddFiche($p_cn,$p_type,$p_array) {
   }
 
 }
-/* function
- * Purpose :
+/* function EncodeFiche
+ * Purpose : Affiche les détails d'une fiche et propose
+ *           de mettre à jour
+ *           ou si array est a null, permet d'ajouter une
+ *           fiche
  * 
  * parm : 
- *	- 
+ *	-  p_cn connexion
+ *      -  p_type id du modele fichedef(fd_id) de la fiche SI array est null
+ *         sinon correspond au id d'une fiche fiche(f_id)
  * gen :
- *	-
+ *	- none
  * return:
- *	-
+ *	- none
  *
  */ 
 function EncodeFiche($p_cn,$p_type,$p_array=null) {
   echo_debug("function EncodeFiche($p_cn,$p_type) ");
+
   $ch_col="</TD><TD>";
   $ch_li='</TR><TR>';
   echo '<FORM action="fiche.php" method="post">';
@@ -81,6 +87,7 @@ function EncodeFiche($p_cn,$p_type,$p_array=null) {
 
   echo "<TABLE>";
   if ($p_array == null) {
+    echo '<H2 class="info">'.getFicheName($p_cn,$p_type).'</H2>';
     $p_f_id="";
     echo_debug("Array is null");
     $sql="select isd_id,isd_label from isupp_def  where isd_fd_id=".$p_type;
@@ -102,11 +109,13 @@ function EncodeFiche($p_cn,$p_type,$p_array=null) {
     echo '<INPUT TYPE="SUBMIT" name="add_fiche" value="ajoute">';
     echo '</FORM>';
   }else {
+
     $sql="select f_label,f_fd_id  from fiche where f_id=".$p_type;
     $Res=ExecSql($p_cn,$sql);
     $Max=pg_NumRows($Res);
     if ( $Max == 0 ) return;
     $l_line=pg_fetch_array($Res,0);
+    echo '<H2 class="info">'.getFicheName($p_cn,$l_line['f_fd_id']).'</H2>';
     printf('<input TYPE="TEXT" name="f_label" value="%s"><BR>',
 	   $l_line['f_label']);
     echo '<INPUT TYPE="HIDDEN" name="f_fd_id" value="'.$l_line['f_fd_id'].'">';    
@@ -135,15 +144,16 @@ function EncodeFiche($p_cn,$p_type,$p_array=null) {
   }
 }
 
-/* function
- * Purpose :
- * 
+/* function GetBaseFiche
+ * Purpose : donne la classe comptable de base d'une fiche
+ *  
  * parm : 
- *	- 
+ *	- p_cn connexion
+ *      - p_type fiche id
  * gen :
- *	-
+ *	- none
  * return:
- *	-
+ *	- return la classe id ou rien
  *
  */ 
 function GetBaseFiche($p_cn,$p_type) {
@@ -153,18 +163,20 @@ function GetBaseFiche($p_cn,$p_type) {
   $base=pg_fetch_array($Res,0);
   return $base['fd_class_base'];
 }
-/* function
- * Purpose :
+/* function ViewFiche
+ * Purpose : Montre les fiches d'une rubrique
  * 
  * parm : 
- *	- 
+ *	-  p_cn connexion
+ *      - $p_type f_id
  * gen :
- *	-
+ *	- none
  * return:
- *	-
+ *	- none
  *
  */ 
 function ViewFiche($p_cn,$p_type) {
+  echo '<H2 class="info">'.getFicheName($p_cn,$p_type).'</H2>';
     $Res=ExecSql($p_cn,"select f_id,f_label from fiche where f_fd_id='".$p_type."' order by f_id");
     $Max=pg_NumRows($Res);
 
@@ -187,11 +199,13 @@ function ViewFiche($p_cn,$p_type) {
     echo '</FORM>';
 
 }
-/* function
- * Purpose :
+/* function GetNextFiche
+ * Purpose : Crée le poste suivant pour une fiche en fonction
+ *           de la classe de base (fichedef(fd_class_base))
  * 
  * parm : 
- *	- 
+ *	- p_cn connexion
+ *      - p_base 
  * gen :
  *	-
  * return:
@@ -228,11 +242,14 @@ function GetDataFiche($p_cn,$p_fiche_id) {
 
 }
 
-/* function
- * Purpose :
+/* function ViewFicheDetail
+ * Purpose : Montre  le detail d'une fiche
+ *           et ajoute les lignes manquantes
+ *           dans le cas où le modèle à changer
  * 
  * parm : 
- *	- 
+ *	-  p_cn
+ *      - id de la fiche fiche(f_id)
  * gen :
  *	-
  * return:
@@ -249,11 +266,13 @@ $sql="insert into isupp (is_f_id,is_isd_id) select".
  $Res=ExecSql($p_cn,$sql);
   EncodeFiche ($p_cn,$p_id,1);
 }
-/* function
- * Purpose :
- * 
+/* function UpdateFiche
+ * Purpose : Met a jour une fiche
+ *          change dans le plan comptable, fiche,et isupp
+ *          
  * parm : 
- *	- 
+ *	- p_cn
+ *      - p_array
  * gen :
  *	-
  * return:
@@ -283,7 +302,7 @@ function UpdateFiche($p_cn,$p_array) {
     $Res=ExecSql($p_cn,$sql);
   }
 }
-/* function
+/* function EncodeModele
  * Purpose :
  * 
  * parm : 
@@ -414,23 +433,27 @@ function AddModele($p_cn,$p_array) {
     }
   }
 }
-/* function
+/* function UpdateModele
  * Purpose :
  * 
  * parm : 
- *	- 
+ *	- p_cn connexion
+ *      - p_fiche fichedef(f_id)
+ *      - p_js
  * gen :
- *	-
+ *	- none
  * return:
- *	-
+ *	- none
  *
  */ 
 function UpdateModele($p_cn,$p_fiche,$p_js) {
+
   $array=GetDataModele($p_cn,$p_fiche);
   if ($array==null) {
     echo_error ("fiche_inc:UpdateModele Fiche non trouvée");
     return;
   }
+  echo '<H2 class="info">'.getFicheName($p_cn,$p_fiche).'</H2>';
   foreach ( $array as $key=>$element) echo_debug("$key => $element");
   DefModele($p_js,$array,$array['ligne']);
 
@@ -475,15 +498,16 @@ function GetDataModele($p_cn,$p_fiche) {
   return $array;
 }
 
-/* function
- * Purpose :
+/* function SaveModele
+ * Purpose : Sauve un modele de fiche
  * 
  * parm : 
- *	- 
+ *	- connexion
+ *      - tableau de valeurs
  * gen :
- *	-
+ *	- none
  * return:
- *	-
+ *	- none
  *
  */ 
 function SaveModele($p_cn,$p_array) {
@@ -527,6 +551,18 @@ function SaveModele($p_cn,$p_array) {
     $Res=ExecSql($p_cn,$sql);
   }//for
 }
+/* function Remove
+ * Purpose : enleve une fiche dans isupp et fiche
+ *           a la condition que ce poste n'aie jamais
+ *           été utilisé
+ * parm : 
+ *	- p_cn
+ *      - p_fid fiche(f_id)
+ * gen :
+ *	- none
+ * return:
+ *      - none
+ */
 function Remove ($p_cn, $p_fid) {
   if ( ! isset ($p_cn) ||
        ! isset ($p_fid) ) {
@@ -540,4 +576,23 @@ function Remove ($p_cn, $p_fid) {
          echo "<SCRIPT> alert('Impossible ce poste est utilisé dans un journal'); </SCRIPT>";
   }
 }
+/* function getFicheName
+ * Purpose : retourne le nom de la fiche
+ *        
+ * parm : 
+ *	- p_cn connexion
+ *      - p_id fiche id
+ * gen :
+ *	- none
+ * return:
+ *     - string avec nom fiche
+ */
+function getFicheName($p_cn,$p_id) {
+
+  $Res=ExecSql($p_cn,"select fd_label from fichedef where fd_id='".$p_id."'");
+  if ( pg_NumRows($Res) == 0 ) return "Unknown";
+  $st=pg_fetch_array($Res,0);
+  return $st['fd_label'];
+}
+
 ?>

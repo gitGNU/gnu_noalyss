@@ -20,7 +20,7 @@
 include ("ac_common.php");
 include ("check_priv.php");
 /* $Revision$ */
-html_page_start();
+html_page_start($g_UserProperty['use_theme']);
 if ( ! isset ( $g_dossier ) ) {
   echo "You must choose a Dossier ";
   exit -2;

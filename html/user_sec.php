@@ -21,7 +21,7 @@
 
 include_once ("ac_common.php");
 include_once("check_priv.php");
-html_page_start();
+html_page_start($g_UserProperty['use_theme']);
 if ( ! isset ( $g_dossier ) ) {
   echo "You must choose a Dossier ";
   exit -2;
@@ -50,7 +50,10 @@ $User=ExecSql($cn,"select  use_id,use_first_name,use_name,use_login from ac_user
 $MaxUser=pg_NumRows($User);
 
 
+  ShowMenuComptaRight($g_dossier);
+
 echo '<DIV CLASS="ccontent">';
+echo '<H2 class="info"> Sécurité </H2>';
 echo '<TABLE CELLSPACING="20" ALIGN="CENTER">';
 for ($i = 0;$i < $MaxUser;$i++) {
   $l_line=pg_fetch_array($User,$i);

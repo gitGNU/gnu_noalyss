@@ -359,7 +359,6 @@ function GetUserProperty($p_cn,$p_user)
 		'use_theme'=>'classic');
 
  $a=pg_fetch_array($Ret,0);
-
  return $a;
 }
 

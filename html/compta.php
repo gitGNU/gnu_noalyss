@@ -17,10 +17,11 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 // Auteur Dany De Bontridder ddebontridder@yahoo.fr
-include ("ac_common.php");
+include_once ("ac_common.php");
 /* $Revision$ */
 session_start();
-html_page_start();
+html_page_start($g_UserProperty['use_theme']);
+
 if ( isset ( $dos ) ) {
   $g_dossier=$dos;
   session_register("g_dossier");
@@ -30,7 +31,7 @@ if ( isset ( $dos ) ) {
   //  phpinfo();
   exit -2;
 }
-include ("postgres.php");
+include_once ("postgres.php");
 echo_debug ("user is $g_user");
 /* CheckUser */
 CheckUser();

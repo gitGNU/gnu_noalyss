@@ -24,7 +24,7 @@ include_once("jrn.php");
 include_once("preference.php");
 include_once("poste.php");
 include_once("error.php");
-html_page_start(0,"onLoad=\"CheckTotal();\"");
+html_page_start($g_UserProperty['use_theme'],"onLoad=\"CheckTotal();\"");
 if ( ! isset ( $g_dossier ) ) {
   echo "You must choose a Dossier ";
   exit -2;

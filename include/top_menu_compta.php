@@ -56,42 +56,15 @@
   echo "</TR></TABLE>";
   echo "</div>";
 }
-/* function
- * Purpose :
+/* function ShowMenuCompta
+ * Purpose : Montre le menu du haut
  * 
  * parm : 
- *	- 
+ *	- dossier
  * gen :
- *	-
+ *	- none
  * return:
- *	-
- *
- */ 
-
-function ShowMenuAdmin($p_dossier)
-{
-  include_once("postgres.php");
-  $l_name=GetDossierName($p_dossier);
-  echo "<P> <H2 class=\"info\"> $l_name </H2></P>";
-  echo '<div class="tmenu">';
-  echo '<TABLE ALIGN="CENTER"><TR>';
-  echo '<TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=1">Mise à jour Plan Comptable</A></TD>';
-  echo '<TD class="mtitle"><A class="mtitle" HREF="jrn_update.php">Gestion Journaux</A></TD>';
-  echo '<TD class="mtitle"><A class="mtitle" HREF="dossier_prefs.php">Préférences</A></TD>';
-  echo '<TD class="mtitle"><A class="mtitle" HREF="user_sec.php">Sécurité Utilisateur</A></TD>';
-  echo '</TR></TABLE>';
-  echo "</DIV>";
-
-}
-/* function
- * Purpose :
- * 
- * parm : 
- *	- 
- * gen :
- *	-
- * return:
- *	-
+ *	- none
  *
  */ 
 
@@ -99,19 +72,19 @@ function ShowMenuCompta($p_dossier)
 {
   include_once("postgres.php");
   $l_name=GetDossierName($p_dossier);
-  echo "<P> <H2 class=\"info\"> $l_name </H2></P>";
+  echo "<P> <H2 class=\"info2\"> $l_name </H2></P>";
   echo '<div class="tmenu">';
   echo '<TABLE><TR>';
   // TODO echo '<TD class="mtitle"><A class="mtitle" HREF="facturation.php">Facturation</A></TD>';
-  echo '<TD class="mtitle"><A class="mtitle" HREF="enc_jrn.php">Encodage Journaux</A></TD>';
+  echo '<TD class="mtitle"><A class="mtitle" HREF="enc_jrn.php">Encodage </A></TD>';
   echo '<TD class="mtitle"<A class="mtitle" HREF="form.php">Formulaire </A> </TD>'; 
   echo '<TD class="mtitle"><A class="mtitle" HREF="impress.php">Impression</A></TD>';
   echo '<TD class="mtitle"><A class="mtitle" HREF="fiche.php">Fiche</A></TD>';
   echo '<TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=1">Plan Comptable</A></TD>';
-  echo '<TD class="mtitle"><A class="mtitle" HREF="jrn_update.php">Gestion Journaux</A></TD>';
+  echo '<TD class="mtitle"><A class="mtitle" HREF="jrn_update.php">Journaux</A></TD>';
   echo '<TD class="mtitle"><A class="mtitle" HREF="central.php">Centralise</A></TD>';
   echo '<TD class="mtitle"><A class="mtitle" HREF="dossier_prefs.php">Paramètres</A></TD>';
-  echo '<TD class="mtitle"><A class="mtitle" HREF="user_sec.php">Sécurité</A></TD>';
+
 
   echo "</TR>";
   echo "</TABLE>";
@@ -148,15 +121,15 @@ function ShowMenuComptaLeft($p_dossier,$p_item)
 // TODO 
 // Only for developper 
 // A test must be added
-    echo '<TR><TD colspan="3" class="mtitle">
+    echo '<TR><TD colspan="3" class="mshort">
          <A class="mtitle" HREF="fiche.php?action=add_modele&fiche=modele">Creation Modele</A></TD></TR>';
     $Res=ExecSql($cn,"select fd_id,fd_label from fichedef order by fd_label");
     $Max=pg_NumRows($Res);
     for ( $i=0; $i < $Max;$i++) {
       $l_line=pg_fetch_array($Res,$i);
-      printf('<TR><TD class="cell">%s</TD><TD class="mtitle"><A class="mtitle" HREF="fiche.php?action=vue&fiche=%d">Voir</A>
+      printf('<TR><TD class="cell">%s</TD><TD class="mshort"><A class="mtitle" HREF="fiche.php?action=vue&fiche=%d">Voir</A>
               </TD>
-              <TD class="mtitle"><A class="mtitle" HREF="fiche.php?action=modifier&fiche=%d">Modifier</A></TD>
+              <TD class="mshort"><A class="mtitle" HREF="fiche.php?action=modifier&fiche=%d">Modifier</A></TD>
               </TR>',
 	     $l_line['fd_label'],
 	     $l_line['fd_id'],
@@ -172,6 +145,7 @@ function ShowMenuComptaLeft($p_dossier,$p_item)
     echo '<TABLE>';
     echo '<TR><TD class="mtitle"><A class="mtitle" HREF="dossier_prefs.php?p_action=devise">Devises</A></TD></TR>';
     echo '<TR><TD class="mtitle"><A class="mtitle" HREF="dossier_prefs.php?p_action=periode">Périodes</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="user_sec.php">Sécurité</A></TD></TR>';
     echo "</TABLE>";
     echo '</div>';
     break;
@@ -351,12 +325,12 @@ function ShowMenuJrnUser($p_dossier,$p_user)
       printf ('<TR><TD class="cell">%s</TD>',$l_line['jrn_def_name']);
       if ( $right > 0 ) {
 	// Lecture 
-	printf ('<TD class="mtitle"><A class="mtitle" HREF="enc_jrn.php?p_jrn=%s&action=view">Voir</A></TD>',
+	printf ('<TD class="mltitle"><A class="mtitle" HREF="enc_jrn.php?p_jrn=%s&action=view">Voir</A></TD>',
 		$l_line['jrn_def_id']);
       }
       // ecriture
       if ( $right >  1 ) {
-	printf ('<TD class="mtitle"><A class="mtitle" HREF="enc_jrn.php?p_jrn=%s&action=record&max_deb=%s&max_cred=%s">Encoder</A></TD></TR>',
+	printf ('<TD class="mltitle"><A class="mtitle" HREF="enc_jrn.php?p_jrn=%s&action=record&max_deb=%s&max_cred=%s">Encoder</A></TD></TR>',
 		$l_line['jrn_def_id'],
 		$l_line['jrn_deb_max_line'],
 		$l_line['jrn_cred_max_line']);
@@ -447,7 +421,7 @@ function ShowMenuComptaForm($p_dossier) {
     $cn=DbConnect($l_dossier);
     echo '<div class="lmenu">';
     echo '<TABLE>';
-    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="form.php?action=add">Ajout de formulaire </A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="form.php?action=add">Ajout</A></TD></TR>';
     $l_jrn=sprintf("dossier%d",$p_dossier);
     $Cn=DbConnect($l_jrn);
     $Ret=ExecSql($Cn,"select fr_id, fr_label 
@@ -515,10 +489,10 @@ function ShowMenuJrnUserImp($p_cn,$p_user,$p_dossier)
       printf ('<TR><TD class="cell">%s</TD>',$l_line['jrn_def_name']);
 
 
-      printf ('<TD class="mtitle"><A class="mtitle" HREF="impress.php?p_id=%s&action=viewhtml&type=jrn&filter=%d">Html</A></TD>',
+      printf ('<TD class="mshort"><A class="mtitle" HREF="impress.php?p_id=%s&action=viewhtml&type=jrn&filter=%d">Html</A></TD>',
 	      $l_line['jrn_def_id'],YES);
       
-      printf ('<TD class="mtitle"><A class="mtitle" HREF="impress.php?p_id=%s&action=viewpdf&type=jrn&filter=%d">Pdf</A></TD></TR>',
+      printf ('<TD class="mshort"><A class="mtitle" HREF="impress.php?p_id=%s&action=viewpdf&type=jrn&filter=%d">Pdf</A></TD></TR>',
 	      $l_line['jrn_def_id'],YES
 	      );
 
@@ -533,13 +507,9 @@ function ShowMenuJrnUserImp($p_cn,$p_user,$p_dossier)
                    ");
     // Pour voir tout les journal ?
     if ( $NoPriv == 0 ) {
-      printf ('<TR><TD class="cell">Grand Livre Non Centralisé</TD>');
-      printf ('<TD class="mtitle"><A class="mtitle" HREF="impress.php?p_id=all&action=viewhtml&type=jrn&filter=%d&central=no">Html</A></TD>',NO);
-      printf ('<TD class="mtitle"><A class="mtitle" HREF="impress.php?p_id=all&action=viewpdf&type=jrn&filter=%d&central=no">Pdf</A></TD></TR>',NO);
-
-      printf ('<TR><TD class="cell">Grand Livre Centralisé</TD>');
-      printf ('<TD class="mtitle"><A class="mtitle" HREF="impress.php?p_id=all&action=viewhtml&type=jrn&filter=%d&central=yes">Html</A></TD>',NO);
-      printf ('<TD class="mtitle"><A class="mtitle" HREF="impress.php?p_id=all&action=viewpdf&type=jrn&filter=%d&central=yes">Pdf</A></TD></TR>',NO);
+      printf ('<TR><TD class="cell">Grand Livre </TD>');
+      printf ('<TD class="mshort"><A class="mtitle" HREF="impress.php?p_id=all&action=viewhtml&type=jrn&filter=%d">Html</A></TD>',NO);
+      printf ('<TD class="mshort"><A class="mtitle" HREF="impress.php?p_id=all&action=viewpdf&type=jrn&filter=%d">Pdf</A></TD></TR>',NO);
 
     }
     echo "</TABLE>";
@@ -555,11 +525,11 @@ function ShowMenuJrnUserImp($p_cn,$p_user,$p_dossier)
       printf ('<TR><TD class="cell">%s</TD>',$l_line['fr_label']);
 
 
-	printf ('<TD class="mtitle"><A class="mtitle" 
+	printf ('<TD class="mshort"><A class="mtitle" 
               HREF="impress.php?p_id=%s&action=viewhtml&type=form">Html</A></TD>',
 		$l_line['fr_id']);
 
-	printf ('<TD class="mtitle"><A class="mtitle" 
+	printf ('<TD class="mshort"><A class="mtitle" 
               HREF="impress.php?p_id=%s&action=viewpdf&type=form">Pdf</A></TD></TR>',
 		$l_line['fr_id']
 		);
@@ -574,11 +544,11 @@ function ShowMenuJrnUserImp($p_cn,$p_user,$p_dossier)
     printf ('<TR><TD class="cell">Poste</TD>');
 
 
-    printf ('<TD class="mtitle"><A class="mtitle" 
+    printf ('<TD class="mshort"><A class="mtitle" 
               HREF="impress.php?action=viewhtml&type=poste">Html</A></TD>'
 		);
     
-    printf ('<TD class="mtitle"><A class="mtitle" 
+    printf ('<TD class="mshort"><A class="mtitle" 
               HREF="impress.php?action=viewpdf&type=poste">Pdf</A></TD></TR>'
 	    );
 

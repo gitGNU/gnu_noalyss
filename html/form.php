@@ -21,7 +21,8 @@
 /* $Revision$ */
 
 include_once ("ac_common.php");
-html_page_start();
+html_page_start($g_UserProperty['use_theme']);
+
 if ( ! isset ( $g_dossier ) ) {
   echo "You must choose a Dossier ";
   exit -2;

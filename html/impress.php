@@ -19,7 +19,7 @@
 // Auteur Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
 include_once ("ac_common.php");
-html_page_start();
+html_page_start($g_UserProperty['use_theme']);
 if ( ! isset ( $g_dossier ) ) {
   echo "You must choose a Dossier ";
   exit -2;
@@ -71,13 +71,11 @@ if ( isset ( $_POST["print"]) ) {
     echo "<SCRIPT>alert(\"Aucune période choisie\"); </SCRIPT>";
     return;
   }
-  if ( $result== NO_POST_SELECTED) {
-    echo "<SCRIPT>alert(\"Aucun poste choisi\"); </SCRIPT>";
+  if ($result== NO_POST_SELECTED) {
+    echo "<SCRIPT>alert(\"Aucune post choisie\"); </SCRIPT>";
     return;
   }
-//    foreach($HTTP_POST_VARS as $e=>$element) {
-//      echo_debug("$e $element");
-//    }
+
   if ( $_POST["action"]=="viewhtml") {
     echo "<TABLE>";
     echo $result;

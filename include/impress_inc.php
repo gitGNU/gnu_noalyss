@@ -41,27 +41,38 @@ function ViewImp($p_array,$p_cn) {
     ${"$key"}=$element;
   }
   if ( ! isset($type) ) return;
-  
-  if ( $action=="viewhtml")  echo '<FORM ACTION=impress.php METHOD="POST">';
-  else {
+  $centr="";
+  if ( $action=="viewhtml")  {
+    echo '<FORM ACTION=impress.php METHOD="POST">';
     if ( $type=="jrn")
+          $centr='<BR>Centralisé : 
+             <INPUT TYPE="CHECKBOX" NAME="central" unchecked><BR>'; 
+  }
+  else {
+    if ( $type=="jrn") {
       echo '<FORM ACTION=send_jrn_pdf.php METHOD="POST">';
+          $centr='<BR>Centralisé : 
+             <INPUT TYPE="CHECKBOX" NAME="central" unchecked><BR>'; 
+    }
     if ( $type=="poste")
       echo '<FORM ACTION=send_poste_pdf.php METHOD="POST">';
   }
   echo $periode;
   echo '<INPUT TYPE="HIDDEN" NAME="type" value="'.$type.'">';
   echo '<INPUT TYPE="HIDDEN" NAME="action" value="'.$action.'">';
-  if (isset ($central)) {
-    echo '<INPUT TYPE="HIDDEN" NAME="central" value="'.$central.'">';
-  }
+
+  echo $centr;
+
   if ( isset($filter))
     echo '<INPUT TYPE="HIDDEN" NAME="filter" value="'.$filter.'">';
   if ( isset ($p_id)) {
     echo '<INPUT TYPE="HIDDEN" NAME="p_id" value="'.$p_id.'">';
   } else {
     include_once("poste.php");
+    echo "<BR>";
     echo PosteForm($p_cn);
+    echo ' <BR>Tous les postes ';
+    echo '<INPUT TYPE="checkbox" NAME="all_poste"><BR>';
   }
   echo '<INPUT TYPE="SUBMIT" name="print" Value="Executer">';
 
@@ -138,11 +149,19 @@ function ImpHtml($p_array,$p_cn)
 
   }//form
   if ($type=="poste") { 
-    if ( ! isset ( $poste )) return NO_POST_SELECTED;
+    if ( ! isset ( $all_poste) && ! isset ( $poste )) return NO_POST_SELECTED;
     if ( !isset ($periode)) return NO_PERIOD_SELECTED;
     include_once("poste.php");
     $cond=CreatePeriodeCond($periode);
     $ret="" ;
+    if ( isset ( $all_poste) ){ //choisit de voir tous les postes
+      $r_poste=ExecSql($p_cn,"select pcm_val from tmp_pcmn");
+      $nPoste=pg_numRows($r_poste);
+      for ( $i=0;$i<$nPoste;$i++) {
+	$t_poste=pg_fetch_array($r_poste,$i);
+	$poste[]=$t_poste['pcm_val'];
+      } 
+    }      
     for ( $i =0;$i<count($poste);$i++) {
       list ($array,$tot_deb,$tot_cred)=GetDataPoste($p_cn,$poste[$i],$cond);
       if ( count($array) == 0) continue;
@@ -159,10 +178,11 @@ function ImpHtml($p_array,$p_cn)
 	  $ret.=sprintf("<TD> debit</TD><TD ALIGN=\"right\">   % 8.2f</TD>",$element['montant']);
 	} else {
 	  $ret.=sprintf("<TD>credit</TD> $colvide <TD ALIGN=\"right\">  % 8.2f</TD>",$element['montant']);
-
+	  
 	}
 	$ret.="</TR>";
       }//foreach
+      
       $ret.=sprintf("$colvide $colvide $colvide $colvide ".
 		    "<TD ALIGN=\"right\">% 8.2f</TD>".
 		    "<TD ALIGN=\"right\">% 8.2f</TD>",
@@ -182,6 +202,7 @@ function ImpHtml($p_array,$p_cn)
     return $ret;
   }//poste
   if ($type=="jrn") {
+    if ( !isset ($periode)) return NO_PERIOD_SELECTED;
 
     echo_debug("imp html journaux");
     $ret="";
@@ -235,7 +256,7 @@ function GetDataPoste($p_cn,$p_poste,$p_condition)
 {
   $Res=ExecSql($p_cn,"select to_char(j_date,'DD.MM.YYYY') as j_date,".
 	       "to_char(j_montant,'999999999.99') as montant,".
-	       " j_text as description,jrn_def_name as jrn_name,".
+	       " jr_comment as description,jrn_def_name as jrn_name,".
 	       "j_debit, jr_internal, ".
 	       " case when j_debit='t' then 'debit' else 'credit' end as debit".
 	       " from jrnx left join jrn_def on jrn_def_id=j_jrn_def ".
@@ -274,17 +295,32 @@ function GetDataPoste($p_cn,$p_poste,$p_condition)
 function GetDataJrn($p_cn,$p_array,$filter=YES)
 {
   if ( !isset ($p_array['periode']) ) return NO_PERIOD_SELECTED;
-  $cond=CreatePeriodeCond($p_array['periode']);
+
   if ( $filter==YES) {
-    $Res=ExecSql($p_cn,"select to_char(j_date,'DD.MM.YYYY') as j_date,
+    if ( ! isset ( $p_array['central'])){
+      $cond=CreatePeriodeCond($p_array['periode']);
+      $Res=ExecSql($p_cn,"select to_char(j_date,'DD.MM.YYYY') as j_date,
                 j_montant as montant,j_debit as debit,j_poste as poste,".
 	       "j_text as description,j_grpt as grp,jr_comment as comment,
                 j_rapt as oc,jr_internal from jrnx left join jrn on ".
 	       "jr_grpt_id=j_grpt where j_jrn_def=".$p_array['p_id'].
 	       " and ".$cond." order by j_date::date,j_grpt,j_debit desc");
-  }
+    } else {
+      // create 
+      $cond=CreatePeriodeCond($p_array['periode'],"c_periode");
+
+      $Res=ExecSql($p_cn,"select to_char(c_date,'DD.MM.YYYY') as j_date,
+                c_montant as montant,c_debit as debit,c_poste as poste,".
+		   "c_description as description,c_grp as grp,c_comment as comment,
+                c_rapt as oc,c_internal as jr_internal from centralized left join jrn on ".
+		   "jr_grpt_id=c_grp where c_jrn_def=".$p_array['p_id']." and ".
+		   $cond." order by c_id,c_date,c_grp,c_debit desc");
+    }
+    
+  } // if filter == YES
   if ( $filter == NO) {
-    if ( $p_array['central']=='no') {
+    if ( ! isset ($p_array['central']) ) {
+      $cond=CreatePeriodeCond($p_array['periode']);
       $Res=ExecSql($p_cn,"select to_char(j_date,'DD.MM.YYYY') as j_date,
                 j_montant as montant,j_debit as debit,j_poste as poste,".
 		   "j_text as description,j_grpt as grp,jr_comment as comment,
@@ -297,7 +333,7 @@ function GetDataJrn($p_cn,$p_array,$filter=YES)
       $Res=ExecSql($p_cn,"select to_char(c_date,'DD.MM.YYYY') as j_date,
                 c_montant as montant,c_debit as debit,c_poste as poste,".
 		   "c_description as description,c_grp as grp,c_comment as comment,
-                c_rapt as oc,c_internal from centralized left join jrn on ".
+                c_rapt as oc,c_internal as jr_internal from centralized left join jrn on ".
 		   "jr_grpt_id=c_grp where ".
 		   $cond." order by c_id,c_date,c_grp,c_debit desc");
     
@@ -323,7 +359,30 @@ function GetDataJrn($p_cn,$p_array,$filter=YES)
  *
  */ 
 function CreatePeriodeCond($p_periode,$p_field=" j_tech_per") {
+  if ( count($p_periode) == 1) {
+    return $p_field."=".$p_periode[0];
+  }
+
   $cond_periode=" $p_field in (";
+  // condition periode
+  $old=0;
+  $follow=0;
+  foreach ( $p_periode as $per) {
+    if ( $old == 0) { 
+      $old=$per;
+      $follow=1;
+      continue;
+    }
+    if ( $per == $old+1 ) { 
+      $old=$per;
+      $follow++;
+    }
+    
+  }// foreach
+  if ( count($p_periode) == $follow) {
+    $cond=$p_field." >= ".$p_periode[0].' and '.$p_field.' <= '.$p_periode[count($p_periode)-1];
+    return $cond;
+  }
 
   // condition periode
   foreach ( $p_periode as $per) {
@@ -354,6 +413,8 @@ function GetDataJrnPdf($p_cn,$p_array,$p_limit,$p_offset)
 
   if ( $p_array['filter']==YES) {
     $cond=CreatePeriodeCond($p_array['periode']);
+    if ( ! isset ($p_array['central']) ) {
+      // Journaux non centralisés
     $Res=ExecSql($p_cn,"select j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
                       jr_internal,
                 case j_debit when 't' then j_montant::text else '   ' end as deb_montant,
@@ -366,8 +427,35 @@ function GetDataJrnPdf($p_cn,$p_array,$p_limit,$p_offset)
                 " where j_jrn_def=".$p_array['p_id'].
 	       " and ".$cond." order by j_id,j_date::date,j_grpt,j_debit desc".
 	       " limit ".$p_limit." offset ".$p_offset);
+    }else {
+      // Journaux centralisés
+      $cond=CreatePeriodeCond($p_array['periode'],"c_periode");
+      $Sql="select c_id as j_id,
+            c_j_id,
+            to_char (c_date,'DD.MM.YYYY') as j_date ,
+            c_internal as jr_internal,
+            case c_debit when 't' then c_montant::text else '   ' end as deb_montant,
+            case c_debit when 'f' then c_montant::text else '   ' end as cred_montant,
+            c_debit as j_debit,
+            c_poste as poste,
+            pcm_lib as description,
+            jr_comment,
+            jr_montant,
+            c_grp as grp,
+            c_comment as comment,
+            c_rapt as oc,
+            c_periode as periode 
+            from centralized left join jrn on ".
+		"jr_grpt_id=c_grp left join tmp_pcmn on pcm_val=c_poste where ".
+          	" c_jrn_def=".$p_array['p_id']." and ".
+                $cond." order by c_id ";
+    $Res=ExecSql($p_cn,$Sql." limit ".$p_limit." offset ".$p_offset);
+
+    }
   } else {
+    // Grand Livre
     if ( $p_array['central']=='no' ) {
+      // Non centralisé
       $cond=CreatePeriodeCond($p_array['periode']);
       $Res=ExecSql($p_cn,"select j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
                       jr_internal,
@@ -382,6 +470,7 @@ function GetDataJrnPdf($p_cn,$p_array,$p_limit,$p_offset)
 	       " limit ".$p_limit." offset ".$p_offset);
 
     } else {
+      // Centralisé
       $cond=CreatePeriodeCond($p_array['periode'],"c_periode");
       $Sql="select c_id as j_id,
             c_j_id,
@@ -419,6 +508,9 @@ function GetDataJrnPdf($p_cn,$p_array,$p_limit,$p_offset)
     $jr_montant=($line['jr_montant']!=0)?sprintf("% 8.2f",$line['jr_montant']):"";
     $tot_deb+=$line['deb_montant'];
     $tot_cred+=$line['cred_montant'];
+    echo_debug(" GetJrnDataPdf : mont_Deb ".$mont_deb);
+    echo_debug(" GetJrnDataPdf : mont_cred ".$mont_cred);
+
     if ( $case != $line['grp'] ) {
       $case=$line['grp'];
       $array[]=array (
@@ -506,7 +598,7 @@ function GetDataGrpt($p_cn,$p_array)
  *
  */ 
 
-function GetRappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type) 
+function GetRappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_central) 
 {
   include_once("preference.php");
 
@@ -515,73 +607,87 @@ function GetRappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type)
   else
     $cmp="<";
 
-  if ( $p_type == 'JRN' ) {
-    $c_line=CountSql($p_cn,"select * from jrnx left join parm_periode on j_tech_per=p_id ".
-		     "where j_jrn_def=$p_jrn_id and  p_exercice='".$p_exercice."'".
-		     " and j_id $cmp $p_jrnx_id ");
-    
-    if ($c_line == 0 ) { return array (0,0); }
-    $sql="select sum(j_montant) as tot_amount ".
-      " from jrnx ".
-      " left join parm_periode on j_tech_per=p_id ".
-      " where j_jrn_def=$p_jrn_id and ".
-      " p_exercice='".$p_exercice."'".
-      " and j_id $cmp $p_jrnx_id " ;
-    $Res=ExecSql($p_cn,$sql." and j_debit='t' ");
-    if ( pg_NumRows($Res) == 0 ) 
-      $deb=0;
-    else {
-      $line=pg_fetch_array($Res,0);
-      $deb=$line['tot_amount'];
-    }
-    
-    $Res=ExecSql($p_cn,$sql." and j_debit='f' ");
-    if ( pg_NumRows($Res) == 0 ) 
-      $cred=0;
-    else {
+  if ( $p_type == 1 ) {
+    // Vue filtree => Journaux
+    if ( $p_central == 0 ) { // Vue non centralisée
+	  return array(0,0);
+    } // p_central == 0
+
+    //     Vue filtree => Journaux & Jrn centralisé 
+    if ( $p_central == 1 ) {
+      $c_line=CountSql($p_cn,"select * from centralized left join parm_periode on c_periode=p_id ".
+		       " where c_jrn_def=$p_jrn_id and  p_exercice='".$p_exercice."'".
+		       " and c_id $cmp $p_jrnx_id ");
       
-      $line=pg_fetch_array($Res,0);
-      $cred=$line['tot_amount'];
-    }
-    echo_debug("MONTANT $deb,$cred");
-    $a=array($deb,$cred);
-    return $a;
-  } 
-  if ($p_type=='GL-CENTRAL') { // Si Grand Livre, prendre donnée centralisée{
-    $c_line=CountSql($p_cn,"select * from centralized left join parm_periode on c_periode=p_id ".
-		     "where p_exercice='".$p_exercice."'".
-		     " and c_id $cmp $p_jrnx_id ");
-    
-    if ($c_line == 0 ) { return array (0,0); }
-    $sql="select sum(c_montant) as tot_amount ".
-      " from centralized ".
-      " left join parm_periode on c_periode=p_id ".
-      " where ".
-      " p_exercice='".$p_exercice."'".
-      " and c_id $cmp $p_jrnx_id " ;
-    $Res=ExecSql($p_cn,$sql." and c_debit='t' ");
-    if ( pg_NumRows($Res) == 0 ) 
-      $deb=0;
-    else {
-      $line=pg_fetch_array($Res,0);
-      $deb=$line['tot_amount'];
-    }
-    
-    $Res=ExecSql($p_cn,$sql." and c_debit='f' ");
-    if ( pg_NumRows($Res) == 0 ) 
-      $cred=0;
-    else {
+      if ($c_line == 0 ) { return array (0,0); }
+      $sql="select sum(c_montant) as tot_amount ".
+	" from centralized ".
+	" left join parm_periode on c_periode=p_id ".
+	" where c_jrn_def=$p_jrn_id and ".
+	" p_exercice='".$p_exercice."'".
+	" and c_id $cmp $p_jrnx_id " ;
+      $Res=ExecSql($p_cn,$sql." and c_debit='t' ");
+      if ( pg_NumRows($Res) == 0 ) 
+	$deb=0;
+      else {
+	$line=pg_fetch_array($Res,0);
+	$deb=$line['tot_amount'];
+      }
       
-      $line=pg_fetch_array($Res,0);
-      $cred=$line['tot_amount'];
+      $Res=ExecSql($p_cn,$sql." and c_debit='f' ");
+      if ( pg_NumRows($Res) == 0 ) 
+	$cred=0;
+      else {
+	
+	$line=pg_fetch_array($Res,0);
+	$cred=$line['tot_amount'];
+      }
+      echo_debug("MONTANT $deb,$cred");
+      $a=array($deb,$cred);
+      return $a;
+
     }
-    echo_debug("MONTANT $deb,$cred");
-    $a=array($deb,$cred);
-    return $a;
-  }
-  if ($p_type=='GL-NOCENTRAL') { // Si Grand Livre, prendre donnée non centralisée{
-    return array(0,0);
-  }
+  } // Type = jrn
+  if ($p_type==0 ) { // Si Grand Livre, prendre donnée centralisée{
+    if ( $p_central == 1) {
+      $c_line=CountSql($p_cn,"select * from centralized left join parm_periode on c_periode=p_id ".
+		       "where p_exercice='".$p_exercice."'".
+		       " and c_id $cmp $p_jrnx_id ");
+      
+      if ($c_line == 0 ) { return array (0,0); }
+      $sql="select sum(c_montant) as tot_amount ".
+	" from centralized ".
+	" left join parm_periode on c_periode=p_id ".
+	" where ".
+	" p_exercice='".$p_exercice."'".
+	" and c_id $cmp $p_jrnx_id " ;
+      $Res=ExecSql($p_cn,$sql." and c_debit='t' ");
+      if ( pg_NumRows($Res) == 0 ) 
+	$deb=0;
+      else {
+	$line=pg_fetch_array($Res,0);
+	$deb=$line['tot_amount'];
+      }
+      
+      $Res=ExecSql($p_cn,$sql." and c_debit='f' ");
+      if ( pg_NumRows($Res) == 0 ) 
+	$cred=0;
+      else {
+	
+	$line=pg_fetch_array($Res,0);
+	$cred=$line['tot_amount'];
+      }
+      echo_debug("MONTANT $deb,$cred");
+      $a=array($deb,$cred);
+      return $a;
+    } // central == 1
+    else // Donnée non centralisée => pas de rappel
+      {
+	if ($p_central== 0) { // Si Grand Livre, prendre donnée non centralisée{
+	  return array(0,0);
+	}
+      }//else
+  } // if type==0
   
 }
 /* function ParseFormula

@@ -1,10 +1,13 @@
 <style type="text/css">
-<!--
-body {
-     Background-color:#FFFFFF;
+BODY {
+        bgcolor:#E3F0FF;
+}
+BODY.defaut {
+        bgcolor:#E3F0FF;
 }
 h2.info {
-	color:blue;
+	background:blue;
+	color:white;
 	font-size:20px;
 }
 h2.info2 {
@@ -12,8 +15,11 @@ h2.info2 {
 	font-size:20px;
 }
 
+
 h2.error {
-	color:red;
+	background:blue;
+	color:white;
+	color:white;
 	font-size:20px;
 }
 
@@ -26,13 +32,16 @@ div.mtitle {
 	top:15px;
 	right:300px;
 	width:100px;
+        background:#E3F0FF;
+
 }
 
 div.tmenu {
 	position: absolute;
 	top:10px;
-	left:190px;
-	width:750px;
+	left:120px;
+	width:800px;
+        background-color:#E3F0FF;
 }
 
 div.lmenu {
@@ -40,6 +49,7 @@ div.lmenu {
 	top:50px;
 	left:30px;
 	width:100px;
+        background-color:#E3F0FF;
 }
 div.lextmenu {
 	position: absolute;
@@ -47,37 +57,44 @@ div.lextmenu {
 	font-size:11pt;
 	left:30px;
 	width:200px;
+        background-color:#E3F0FF;
 }
 div.searchmenu {
 	font-size:11pt;
 	left:30px;
-	width:200px;
+	width:245px;
+        background-color:#E3F0FF;
 }
 div.credit{
 	border-style:solid;
 	border-width:1pt;
+        background-color:#E3F0FF;
 }
 div.debit{
 	border-style:solid;
 	border-width:1pt;
+        background-color:#E3F0FF;
 }
 div.redcontent{
 	position: absolute;
 	top:40px;
 	left:250px;
 	width:600px;
+        background-color:#E3F0FF;
 }
 div.ccontent{
 	position: absolute;
 	top:40px;
 	left:130px;
 	width:680px;
+        background-color:#E3F0FF;
 }
 div.rmenu {
 	position: absolute;
 	top:50px;
 	right:30px;
 	width:100px;
+        background-color:#E3F0FF;
 }
 
 table.mtitle {
@@ -85,30 +102,30 @@ table.mtitle {
 	align:center
 }
 td.mshort { 
-	color:gray;
-	background-color:#0F4CD0;
-	font-size:11pt;
-	border-style:groove
-}
-
-td.mltitle {
-	color:gray;
-	background-color:#0F4CD0;
-	font-size:11pt;
-	border-style:groove
+  text-align:center;
+  border:  1px solid;
+  color:#5D90CD ;
 }
 td.mlltitle {
-	color:gray;
-	background-color:#0F4CD0;
-	font-size:11pt;
-	border-style:groove
+	text-align:center;
+	background:url('image/freebtn1-ll.gif') no-repeat;
+	height:30px;
+	width:30px;
+	font-size:12px;
 }
-
+td.mltitle {
+	text-align:center;
+	background:url('image/freebtn1-l.gif') no-repeat;
+	height:30px;
+	width:100px;
+	font-size:12px;
+}
 td.mtitle {
-	color:gray;
-	background-color:#0F4CD0;
-	font-size:11pt;
-	border-style:groove
+	text-align:center;
+	background:url('image/freebtn1.gif') no-repeat;
+	height:30px;
+	width:110px;
+	font-size:12px;
 }
 span.mtitle2 {
 	background-color:red;
@@ -136,18 +153,22 @@ td.cell{
 }
 a.mtitle:link {
 	text-decoration:none;
-	color:white
+	color:black;
 }
 a.mtitle:visited {
 	text-decoration:none;
-	color:white
+	color:black;
+
 	}
 a.mtitle:active {
+	text-decoration:none;
 	background:#0F4CD0;
 	}
 
 a.mtitle:hover {
-	background:#4BCCD0;
+	color:white;
+        background-color:#5D90CD;
+	text-decoration:underline;
 	}
 
 a.one:link {
@@ -196,5 +217,4 @@ table.doc {
 	  ALIGN: "center"
 }
 
--->
 </style>

@@ -21,15 +21,17 @@
 // Auteur Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
 
-/* function
- * Purpose :
+/* function GetPosteLibelle
+ * Purpose : Return the label of a poste
  * 
  * parm : 
- *	- 
+ *	- p_dossier
+ *      - p_id tmp_pcmn (pcm_val)
+ *      - is_cn conneciton
  * gen :
- *	-
+ *	- none
  * return:
- *	-
+ *	- string 
  *
  */ 
 function GetPosteLibelle($p_dossier,$p_id,$is_cn=0)
@@ -47,15 +49,16 @@ function GetPosteLibelle($p_dossier,$p_id,$is_cn=0)
   $l_poste=pg_fetch_row($Res,0);
   return $l_poste[0];
 }
-/* function
- * Purpose :
+/* function GetNumberLine
+ * Purpose : Max of ligne definie dans le journal
  * 
  * parm : 
- *	- 
+ *	- p_dossier
+ *      - p_jrn
  * gen :
- *	-
+ *	- none
  * return:
- *	-
+ *	- 
  *
  */ 
 function GetNumberLine($p_dossier,$p_jrn) 
@@ -73,19 +76,21 @@ function GetNumberLine($p_dossier,$p_jrn)
   //  return ($l_deb,$l_cred);
 
 }
-/* function
- * Purpose :
+/* function PosteForm
+ * Purpose : Cree un form pour prendre les postes
  * 
  * parm : 
- *	- 
+ *	-  connection
  * gen :
- *	-
+ *	- noen
  * return:
- *	-
+ *	- morceau de code d'html qui contient un multiselect
+ *        pour les postes
  *
  */ 
 function PosteForm($p_cn) {
-  $Res=ExecSql($p_cn,"select pcm_val,pcm_lib from tmp_pcmn order by pcm_val::text");
+  $Res=ExecSql($p_cn,"select pcm_val,pcm_lib from tmp_pcmn 
+         where pcm_val = any (select j_poste from jrnx) order by pcm_val::text");
   $Max=pg_NumRows($Res);
   if ($Max==0) return null;
   $ret='<SELECT NAME="poste[]" SIZE="15" MULTIPLE>';

@@ -22,6 +22,7 @@
 // Auteur Dany De Bontridder ddebontridder@yahoo.fr
 
 function echo_debug      ($p_log) {
+
 $fdebug=fopen("/tmp/debug_log","a+");
 if ( $fdebug != false ) {
 	fwrite($fdebug,date("Ymd H:i:s").$p_log."\n");

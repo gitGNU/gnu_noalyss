@@ -89,39 +89,91 @@ function isDate ( $p_date) {
   }// !ereg
   return $p_date;
 }
+/* function 
+ * Purpose : 
+ *        
+ * parm : 
+ *	-
+ * gen :
+ *	-
+ * return:
+ */
 function formatDate($p_date) {
   if ( isDate($p_date)== null) return "null";
   return "'".$p_date."'";
 }
-function html_page_start($p_first=0,$p_script="")
+/* function html_page_start
+ * Purpose : Default page header for each page
+ *        
+ * parm : 
+ *      - default theme
+ *	- $p_script
+ * gen :
+ *	- none
+ * return:
+ *        none
+ */
+function html_page_start($p_theme,$p_script="")
 {	
-  /*global $user,$pass;
-	if ($p_first == 1 ) {
-	  echo_debug("Start session explicit");
-	  session_start();
-	}
-	session_register("user");
-	session_register("pass");
-  
-
-	echo_debug("user = ".$user." pass=".$pass);
-  */
-	echo '<!DOCTYPE HTML PUBLIC "-//W3C/DTD HTML 3.2 FINAL//EN">';
+  include_once ("postgres.php");
+  $cn=DbConnect();
+  $Res=ExecSql($cn,"select the_filestyle from theme
+                   where the_name='".$p_theme."'");
+  if (pg_NumRows($Res)==0) $style="style.css";
+  else {
+    $s=pg_fetch_array($Res,0);
+    $style=$s['the_filestyle'];
+    // TO FIX
+    // Ugly but I cannot change the background color thanks CSS !!!!
+    $bg="bgcolor=white";
+    if ($style=="style-aqua.css") $bg="bgcolor=\"#E3F0FF\"";
+  }
+ 	echo '<!DOCTYPE HTML PUBLIC "-//W3C/DTD HTML 3.2 FINAL//EN">';
 	echo "<HTML>";
 	echo "<HEAD> 
               <TITLE> Gnu Accountancy</TITLE>
-               <LINK REL=\"stylesheet\" type=\"text/css\" href=\"style.css\">
+               <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$style\">
 	      </HEAD>";
-	echo "<BODY $p_script>";
+	echo "<BODY $bg class=\"defaut\" $p_script>";
 }
+/* function 
+ * Purpose : 
+ *        
+ * parm : 
+ *	-
+ * gen :
+ *	-
+ * return:
+ */
 function html_page_stop()
 {
 	echo "</BODY>";
 	echo "</HTML>";
 }
+/* function 
+ * Purpose : 
+ *        
+ * parm : 
+ *	-
+ * gen :
+ *	-
+ * return:
+ */
+
 function html_button_logout() {
 	echo "<A class=\"mtitle\" HREF=logout.php> Logout </A>";
 }
+/* function 
+ * Purpose : 
+ *        
+ * parm : 
+ *	-
+ * gen :
+ *	-
+ * return:
+ */
+
+
 function NoAccess() {
   echo "<BR><BR><BR><BR><BR><BR>";
   echo "<P ALIGN=center><BLINK>
@@ -131,6 +183,17 @@ function NoAccess() {
 		
   exit -1;
 }
+/* function 
+ * Purpose : 
+ *        
+ * parm : 
+ *	-
+ * gen :
+ *	-
+ * return:
+ */
+
+
 function FormatString($p_string) 
 {
   if ( !isset ($p_string) ) {
@@ -142,6 +205,16 @@ function FormatString($p_string)
   $p_string=str_replace("'","\'",$p_string);
   return $p_string;
 }
+/* function 
+ * Purpose : 
+ *        
+ * parm : 
+ *	-
+ * gen :
+ *	-
+ * return:
+ */
+
 
 /* GetUserType
  * purpose : get the type of an user (compta,developper or user)

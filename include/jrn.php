@@ -659,7 +659,7 @@ function ViewJrn($p_dossier,$p_user,$p_jrn,$p_array=null) {
   echo_debug("function ViewJrn($p_dossier,$p_user,$p_jrn,$p_array=null) ");
   $db=sprintf("dossier%d",$p_dossier);
   $l_prop=GetJrnProp($p_dossier,$p_jrn);
-  echo $l_prop['jrn_def_name']."( ".$l_prop['jrn_def_code'].")";
+  echo "<H2 class=\"info\">".$l_prop['jrn_def_name']."( ".$l_prop['jrn_def_code'].")"."</H2>";
   $cn=DbConnect($db);
   if ( $p_array == null) {
     include_once("preference.php");
@@ -738,7 +738,7 @@ function ViewJrn($p_dossier,$p_user,$p_jrn,$p_array=null) {
 		  $num_op,$l_line['j_grpt'],$sessid);
 	  //	  echo $num_op;
 	  echo "</TD>";
-	  echo '<TD class="mtitle">';
+	  echo '<TD class="mlltitle">';
 	  echo "<A class=\"mtitle\" HREF=enc_jrn.php?action=update&line=".$l_line['j_grpt'].">";
 	  echo "M";
 	  echo "</A></TD>";

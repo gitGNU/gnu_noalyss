@@ -18,7 +18,7 @@
 */
 // Auteur Dany De Bontridder ddebontridder@yahoo.fr
 include_once("ac_common.php");
-html_page_start();
+html_page_start($g_UserProperty['use_theme']);
 echo_debug("code : $code");
 include_once("postgres.php");
 ?>

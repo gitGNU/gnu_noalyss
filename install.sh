@@ -58,6 +58,7 @@ if [ $REPO -eq 0 ]; then
 	$PSQL < sql/jnt_use_dos.sql
 	$PSQL < sql/version.sql
 	$PSQL < sql/priv_user.sql
+	$PSQL < sql/theme.sql
 	    createdb -E latin1 -O $OWNER templ_account
 	PSQL="psql -U $OWNER templ_account "
 	$PSQL < sql/tmp_pcmn.sql
@@ -69,7 +70,6 @@ if [ $REPO -eq 0 ]; then
 	$PSQL < sql/form.sql
 	$PSQL < sql/fiche.sql
 	$PSQL < sql/centralized.sql
-	$PSQL < sql/theme.sql
 	$PSQL < sql/user_sec.sql
  
 #  	if [ -w $PG_DATA/pg_hba.conf ]; then
@@ -83,7 +83,9 @@ fi
 
 # Installation des sources
 export COMPTA_HOME=/home/httpd/compta
+[ ! -d $COMPTA_HOME ] && mkdir $COMPTA_HOME
 [ ! -d $COMPTA_HOME/html ] && mkdir $COMPTA_HOME/html
+[ ! -d $COMPTA_HOME/html/image ] && mkdir $COMPTA_HOME/html/image
 [ ! -d $COMPTA_HOME/include ] && mkdir $COMPTA_HOME/include
 echo "Installing source"
 cp -fr include/*.php  $COMPTA_HOME/include
@@ -96,6 +98,7 @@ for i in html/*.php ;do
     A=`basename $i`
     sed "s/echo_debug.*(\"/echo_debug(\"html\/$A:\".__LINE__.'--'.\"/g" $i > $COMPTA_HOME/html/`basename $i`
 done
-cp -f style.css $COMPTA_HOME/html
+cp -f style*.css $COMPTA_HOME/html
 cp -f html/*.js $COMPTA_HOME/html
 cp -fR addon $COMPTA_HOME/html
+cp -fR html/image/* $COMPTA_HOME/html/image

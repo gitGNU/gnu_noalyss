@@ -24,3 +24,5 @@ create table theme (
 );
  insert into theme (the_name,the_filestyle,the_filebutton)
 	values ('classic','style.css',null);
+ insert into theme (the_name,the_filestyle,the_filebutton)
+	values ('aqua','style-aqua.css',null);

@@ -22,7 +22,7 @@
 include_once("ac_common.php");
 include_once("postgres.php");
 include_once("debug.php");
-html_page_start();
+html_page_start($g_UserProperty['use_theme']);
 echo_debug("entering admin_repo");
 //echo_debug("user $g_user");
 

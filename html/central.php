@@ -20,7 +20,9 @@
 // Auteur Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
 include_once ("ac_common.php");
-html_page_start();
+
+html_page_start($g_UserProperty['use_theme']);
+
 if ( ! isset ( $g_dossier ) ) {
   echo "You must choose a Dossier ";
   exit -2;
@@ -47,7 +49,9 @@ include_once("central_inc.php");
 
 $l_Db=sprintf("dossier%d",$g_dossier);
 $cn=DbConnect($l_Db);
+
 echo '<DIV CLASS="ccontent">';
+echo '<H2 CLASS="info"> Centralise </H2><BR>';
 if ( isset ($_POST["central"] )) {
 
   //demande centralise

@@ -20,7 +20,7 @@
 include ("ac_common.php");
 include ("postgres.php");
 
-html_page_start();
+html_page_start("classic");
 
 session_unset();
 echo '<META HTTP-EQUIV="REFRESH" content="0;url=index.html">';

@@ -21,7 +21,7 @@ include_once("ac_common.php");
 include_once("postgres.php");
 include_once("debug.php");
 include_once("top_menu_compta.php");
-html_page_start();
+html_page_start($g_UserProperty['use_theme']);
 echo_debug("entering priv_users");
 
 

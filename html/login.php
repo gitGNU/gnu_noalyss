@@ -32,16 +32,16 @@ if (  isset ($_POST["p_user"] ) ) {
   $g_pass=$_POST["p_pass"];
   session_register("g_user");
   session_register("g_pass");
-  html_page_start();
+html_page_start("classic");
 
 } else
 {
   if ( strlen($g_user) != 0 ) {
     echo_debug("user is not null");
-    html_page_start();
+  html_page_start("classic");    
   } else
     {
-      html_page_start(1);
+      html_page_start("classic");
     }
 }
 
@@ -56,7 +56,6 @@ if ( isset ($db_page) ) {
 
 
 echo_debug("USER=$g_user - ");
-//echo_debug($HTTP_SESSION_VARS["user"]);
 echo_debug("PAGE = $db_page");
 
 $cn=pg_connect("dbname=account_repository user='webcompta' ");

@@ -33,6 +33,15 @@ include("poste.php");
 foreach ($HTTP_POST_VARS as $key=>$element) {
   ${"$key"}=$element;
 }
+if ( isset ( $all_poste) ){ //choisit de voir tous les postes
+  $r_poste=ExecSql($cn,"select pcm_val from tmp_pcmn where pcm_val = any ".
+		   " (select j_poste from jrnx) order by pcm_val::text");
+  $nPoste=pg_numRows($r_poste);
+  for ( $i=0;$i<$nPoste;$i++) {
+    $t_poste=pg_fetch_array($r_poste,$i);
+    $poste[]=$t_poste['pcm_val'];
+  } 
+}      
 
 
     $ret="";
@@ -54,6 +63,7 @@ for ( $i =0;$i<count($poste);$i++) {
 		  array ('jr_internal'=>'Opération',
 		       'j_date' => 'Date',
 		       'jrn_name'=>'Journal',
+			 'description'=>'Description',
 		       'debit'=> 'Type',
 		       'montant'=> 'Montant',
 		       ),$Libelle,

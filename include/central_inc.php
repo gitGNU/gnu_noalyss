@@ -21,15 +21,18 @@
 
 // Auteur Dany De Bontridder ddebontridder@yahoo.fr
 
-/* function
+/* function Centralise
  * Purpose :
+ *        Met les donnees centralisees dans la table
+ *        centralize 
  * 
  * parm : 
- *	- 
+ *	- p_cn connection
+ *      - periode a centraliser
  * gen :
- *	-
+ *	- none
  * return:
- *	-
+ *	- code error
  *
  */ 
 function Centralise($p_cn,$p_periode) {
@@ -42,6 +45,7 @@ $sql="insert into centralized( c_j_id,
             c_poste,
             c_description,
             c_grp,
+            c_jrn_def,
             c_comment,
             c_rapt,
             c_periode) select j_id,
@@ -52,6 +56,7 @@ $sql="insert into centralized( c_j_id,
                                  j_poste ,
                                  j_text ,
                                  j_grpt ,
+                                 j_jrn_def,
                                  jr_comment,
                                  j_rapt, 
                                  j_tech_per 
