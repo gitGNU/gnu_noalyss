@@ -225,7 +225,7 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article
   // The date
   $userPref=GetUserPeriode($p_cn,$p_user);
   list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$userPref);
-  $op_date=( ! isset($e_date) ) ? "01".substr($l_date_start,2,8):$e_date;
+  $op_date=( ! isset($e_date) ) ?substr($l_date_start,2,8):$e_date;
   $e_ech=(isset($e_ech))?$e_ech:"";
   // Save old value and set a new one
   echo_debug("form_input.php.FormVentep_op_date is $op_date");
@@ -759,15 +759,16 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
   // The date
    $userPref=GetUserPeriode($p_cn,$p_user);
    list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$userPref);
-//  $e_date=( ! isset($e_date) ) ? "":$e_date;
-  $e_date=( ! isset($e_date) ) ? "01".substr($l_date_start,2,8):$e_date;
+   // default date
+   $flag=(isset($e_date))?1:0;
 
+  $e_date=( ! isset($e_date) ) ? substr($l_date_start,2,8):$e_date;
   // Verify if valid date
-  if (  VerifyOperationDate($p_cn,$p_user,$e_date)   == null) {
+  if ( $flag==1 and VerifyOperationDate($p_cn,$p_user,$e_date)   == null) {
     if ( $view_only == true) 
       return null;
     else 
-      $e_date="01".substr($l_date_start,2,8);
+      $e_date=substr($l_date_start,2,8);
   }
   
   $e_ech=(isset($e_ech))?$e_ech:"";
@@ -1107,14 +1108,15 @@ function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
   // The date
    $userPref=GetUserPeriode($p_cn,$p_user);
   list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$userPref);
-  $e_date=( ! isset($e_date) ) ? "01".substr($l_date_start,2,8):$e_date;
+  $flag=(isset($e_date))?1:0;
+  $e_date=( ! isset($e_date) ) ? substr($l_date_start,2,8):$e_date;
 
   // Verify if valid date
-  if (  VerifyOperationDate($p_cn,$p_user,$e_date)   == null) {
+  if ($flag ==1 and   VerifyOperationDate($p_cn,$p_user,$e_date)   == null) {
     if ( $view_only == true) 
       return null;
     else 
-      $e_date="01".substr($l_date_start,2,8);
+      $e_date=substr($l_date_start,2,8);
   }
 
 
@@ -1361,14 +1363,15 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
   // The date
    $userPref=GetUserPeriode($p_cn,$p_user);
    list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$userPref);
-  $e_date=( ! isset($e_date) ) ? "01".substr($l_date_start,2,8):$e_date;
+   $flag=(isset($e_date))?1:0;
+   $e_date=( ! isset($e_date) ) ? substr($l_date_start,2,8):$e_date;
 
   // Verify if valid date
-  if (  VerifyOperationDate($p_cn,$p_user,$e_date)   == null) {
+  if (  $flag==1 and VerifyOperationDate($p_cn,$p_user,$e_date)   == null) {
     if ( $view_only == true) 
       return null;
     else 
-      $e_date="01".substr($l_date_start,2,8);
+      $e_date=substr($l_date_start,2,8);
   }
   
   $e_ech=(isset($e_ech))?$e_ech:"";
