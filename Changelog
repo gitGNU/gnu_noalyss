@@ -1,7 +1,9 @@
 2005-03-06  sparkyx  <sparkyx@july>
 
+	* Changelog: changelog
+
 	* include/user_action_ach.php, include/user_action_ods.php, include/user_action_ven.php, include/user_common.php, html/admin/sql/patch/upgrade4.sql, include/class_widget.php, include/form_input.php, include/postgres.php, html/user_jrn.php:
-	Add uploaded document for operation
+	Tasl 3778 : Add uploaded document for operation
 
 2005-03-06  stanpinte  <stanpinte@july>
 
@@ -11,7 +13,7 @@
 
 	* Changelog: made script useful for other dbs, and file ids
 
-	* html/central.php:
+	* scripts/add-db.sh, html/central.php:
 	Fixed task 3838i (keep secundary menus when selecting secundary item
 
 2005-03-06  sparkyx  <sparkyx@july>
@@ -19,6 +21,8 @@
 	* html/admin/sql/patch/upgrade4.sql: Set version at the end
 
 2005-03-06  stanpinte  <stanpinte@july>
+
+	* scripts/add-db.sh: made script useful for other dbs, and file ids
 
 	* Changelog, include/user_menu.php, html/pcmn_update.php, html/user_advanced.php, html/user_jrn.php, html/jrn_update.php:
 	Fixed task 3838i (keep secundary menus when selecting secundary item
@@ -93,6 +97,11 @@
 
 2005-02-26  stanpinte  <stanpinte@july>
 
+	* scripts/add-db.sh:
+	inserted example script to insert automatically a database
+
+	* scripts/cleanup.sh: added drop of mod1 db
+
 	* html/admin/setup.php: fixed regexp handling in include_path check
 
 2005-02-26  sparkyx  <sparkyx@july>
@@ -118,7 +127,7 @@
 
 2005-02-26  stanpinte  <stanpinte@july>
 
-	* sql/dossier4/make-sql, sql/dossier4/constraint.sql, sql/dossier4/data.sql, sql/dossier4/schema.sql, sql/dossier4/sequence.sql, sql/dossier4/table.sql, sql/update/dossier_1.sql, sql/update/dossier_2.sql, sql/update/dossier_3.sql, sql/update/dossier_4.sql, sql/update/dossier_5.sql, sql/update/mod_1.sql, sql/update/mod_2.sql, sql/update/mod_3.sql, sql/update/mod_4.sql, sql/ac_dossier.sql, sql/ac_users.sql, sql/account_repository.sql, sql/centralized.sql, sql/demo.sql, sql/dos_pref.sql, sql/dump-db.sql, sql/fiche.sql, sql/form.sql, sql/insert_pcmn.sql, sql/jnt_use_dos.sql, sql/journal.sql, sql/jrn_action.sql, sql/mod-be.sql, sql/modele.sql, sql/priv_user.sql, sql/struct-repository.sql, sql/struct.sql, sql/theme.sql, sql/tmp_pcmn.sql, sql/tva_rate.sql, sql/user_pref.sql, sql/user_sec.sql, sql/version.sql:
+	* sql/update/dossier_1.sql, sql/update/dossier_2.sql, sql/update/dossier_3.sql, sql/update/dossier_4.sql, sql/update/dossier_5.sql, sql/update/mod_1.sql, sql/update/mod_2.sql, sql/update/mod_3.sql, sql/update/mod_4.sql, sql/ac_dossier.sql, sql/ac_users.sql, sql/account_repository.sql, sql/centralized.sql, sql/demo.sql, sql/dos_pref.sql, sql/dump-db.sql, sql/fiche.sql, sql/form.sql, sql/insert_pcmn.sql, sql/jnt_use_dos.sql, sql/journal.sql, sql/jrn_action.sql, sql/mod-be.sql, sql/modele.sql, sql/priv_user.sql, sql/struct-repository.sql, sql/struct.sql, sql/theme.sql, sql/tmp_pcmn.sql, sql/tva_rate.sql, sql/user_pref.sql, sql/user_sec.sql, sql/version.sql:
 	moved all sql but 'log' into html base directory
 
 2005-02-26  sparkyx  <sparkyx@july>
@@ -132,6 +141,12 @@
 2005-02-26  sparkyx  <sparkyx@july>
 
 	* html/admin/sql/dossier1/data.sql: Fix problem of install
+
+2005-02-26  stanpinte  <stanpinte@july>
+
+	* scripts/cleanup.sh: added
+
+2005-02-26  sparkyx  <sparkyx@july>
 
 	* html/admin/sql/dossier1/comment.sql, html/admin/sql/dossier1/data.sql, html/admin/sql/dossier1/index.sql, html/admin/sql/dossier1/schema.sql, html/admin/sql/dossier1/sequence.sql, html/admin/sql/dossier1/table.sql, html/login.php, html/recherche.php, html/user_login.php, include/ac_common.php, include/class_user.php, include/form_input.php:
 	FIX install
@@ -521,7 +536,7 @@
 	* doc/INSTALL-fr.sgml, doc/FAQ-fr.sgml, doc/FAQ-fr.txt, doc/function.txt:
 	Improve doc
 
-	* sql/ac_dossier.sql, sql/ac_users.sql, sql/account_repository/constraint.sql, sql/account_repository/data.sql, sql/account_repository/make-sql, sql/account_repository/schema.sql, sql/account_repository/sequence.sql, sql/account_repository/table.sql, sql/dossier4/constraint.sql, sql/dossier4/data.sql, sql/dossier4/make-sql, sql/dossier4/schema.sql, sql/dossier4/sequence.sql, sql/dossier4/table.sql, sql/mod1/ac_dossier.sql, sql/mod1/ac_users.sql, sql/mod1/constraint.sql, sql/mod1/data.sql, sql/mod1/jnt_use_dos.sql, sql/mod1/make-sql, sql/mod1/modeledef.sql, sql/mod1/schema.sql, sql/mod1/sequence.sql, sql/mod1/table.sql, sql/mod1/theme.sql, sql/priv_user.sql, sql/theme.sql, sql/version.sql:
+	* sql/ac_dossier.sql, sql/ac_users.sql, sql/account_repository/constraint.sql, sql/account_repository/data.sql, sql/account_repository/make-sql, sql/account_repository/schema.sql, sql/account_repository/sequence.sql, sql/account_repository/table.sql, sql/mod1/ac_dossier.sql, sql/mod1/ac_users.sql, sql/mod1/constraint.sql, sql/mod1/data.sql, sql/mod1/jnt_use_dos.sql, sql/mod1/make-sql, sql/mod1/modeledef.sql, sql/mod1/schema.sql, sql/mod1/sequence.sql, sql/mod1/table.sql, sql/mod1/theme.sql, sql/priv_user.sql, sql/theme.sql, sql/version.sql:
 	Separate sql instead of a big sql
 
 2004-07-06  sparkyx  <sparkyx@july>
