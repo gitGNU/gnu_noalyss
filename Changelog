@@ -1,5 +1,14 @@
 2004-04-07  sparkyx  <sparkyx@july.summer>
 
+	* Faq, INSTALL-fr.txt: Update doc
+
+	* include/form_input.php: Cosmetic bugs
+
+	* include/fiche_inc.php, include/form_input.php, include/user_common.php:
+	Fix bugs
+
+	* Changelog: Update
+
 	* include/form_input.php, include/user_common.php:
 	Possibility to change vat of sell and expense
 
