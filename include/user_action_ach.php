@@ -38,11 +38,16 @@ if ( $action == 'new' ) {
 	  // Submit button in the form
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Voir cette facture">';
+	  // add a one-line calculator
+
 
 	  $r=FormAch($cn,$g_jrn,$g_user,$submit,null,false);
 	  echo '<div class="u_redcontent">';
 	  echo $r;
+	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."<div>";
 	  echo "</div>";
+
+
 	}
 
 	// Add an item
@@ -53,26 +58,57 @@ if ( $action == 'new' ) {
 
 	  // submit button in the form
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
-                    <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Voir cette facture">';
+                    <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver">';
 
 	  $r=FormAch($cn,$g_jrn,$g_user,$submit,$HTTP_POST_VARS,false,  $nb_number);
 	  echo '<div class="u_redcontent">';
 	  echo $r;
+	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."<div>";
 	  echo "</div>";
 	}
+	// Correct it
+	if ( isset ($_POST['correct'])) {
+	  // Get number of  lines
+	  $nb_number=$_POST["nb_item"];
+
+	  // submit button in the form
+	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
+                    <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver">';
+
+	  $r=FormAch($cn,$g_jrn,$g_user,$submit,$HTTP_POST_VARS,false,  $nb_number);
+	  echo '<div class="u_redcontent">';
+	  echo $r;
+	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."<div>";
+	  echo "</div>";
+	}
+
 
 	// View the charge and show a submit button to save it 
 	if ( isset ($_POST['view_invoice']) ) {
 	$nb_number=$_POST["nb_item"];
-	$submit='<INPUT TYPE="SUBMIT" name="save" value="Sauvez">';
+	$submit='<INPUT TYPE="SUBMIT" name="save" value="Confirmer">';
+	$submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
+
 	$r=FormAch($cn,$g_jrn,$g_user,$submit,$HTTP_POST_VARS,true,$nb_number);
 	echo '<div class="u_redcontent">';
 	echo $r;
+	echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."<div>";
 	echo "</div>";
 	}
 	// Save the charge into database
 	if ( isset($_POST['save'] )) {
+	  $r=RecordAchat($cn,$HTTP_POST_VARS,$g_user,$g_jrn);
+	  // Get number of  lines
+	  $nb_number=$_POST["nb_item"];
 
+	  // submit button in the form
+	  $submit='<h2 class="info">Recorded</h2>';
+
+	  $r.=FormAch($cn,$g_jrn,$g_user,$submit,$HTTP_POST_VARS,true,  $nb_number);
+	  echo '<div class="u_redcontent">';
+	  echo $r;
+	  echo "</div>";
+	  
 	}
 	
 
