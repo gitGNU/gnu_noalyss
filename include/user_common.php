@@ -193,19 +193,20 @@ function InsertJrn($p_cn,$p_date,$p_echeance,$p_jrn,$p_comment,$p_amount,$p_grpt
  *        
  * parm : 
  *	- $p_cn database connection
- *  - $p_jrn jrn_id jrn.jrn_def_id
- *  - $p_sql the sql query (where clause)
+ *      - $p_jrn jrn_id jrn.jrn_def_id
+ *      - $p_sql the sql query (where clause)
  * gen :
  *	- none
  * return:
  * 
  */
-function ListJrn($p_cn,$p_jrn,$p_where="")
+function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
 {
   // TODO Show modify button but only for  no centralized operations
   //TODO add a print button but only if type of jrn is VEN !!
   include_once("central_inc.php");
-$Res=ExecSql($p_cn,"select jr_id	,
+  if ( $p_array == null ) {
+   $sql="select jr_id	,
 			jr_montant,
 			jr_comment,
 			jr_ech,
@@ -220,42 +221,92 @@ $Res=ExecSql($p_cn,"select jr_id	,
 		       from 
 			jrn join jrn_def on jrn_def_id=jr_def_id 
                        $p_where 
-			 order by jr_date");
- $r="";
- $r.=JS_VIEW_JRN_DETAIL;
- $r.=JS_VIEW_JRN_CANCEL;
- $Max=pg_NumRows($Res);
- if ($Max==0) return "No row selected";
- $r.="<TABLE>";
- $l_sessid=(isset($_POST['PHPSESSID']))?$_POST['PHPSESSID']:$_GET['PHPSESSID'];
- $r.="<tr>";
- $r.="<th> Date </th>";
- $r.="<th> Echéance </th>";
- $r.="<th> Description</th>";
- $r.="<th> Montant </th>";
- $r.="<th>Op. Concernée</th>";
- $r.="</tr>";
+			 order by jr_date";
+  }
+  if ( $p_array != null ) {
+    // Construction Query 
+    foreach ( $p_array as $key=>$element) {
+      ${"l_$key"}=$element;
+      echo_debug ("l_$key $element");
+    }
+    $sql="select jr_id	,
+		jr_montant,
+		jr_comment,
+		jr_ech,
+		jr_date,
+		jr_grpt_id,
+		jr_rapt,
+		jr_internal,
+		jrn_def_id,
+		jrn_def_name,
+		jrn_def_ech,
+		jrn_def_type 
+		      from 
+                jrn join jrn_def on jrn_def_id=jr_def_id where jrn_def_id=$p_jrn";
+    $l_and=" and ";
+    if ( ereg("^[0-9]+$", $l_s_montant) || ereg ("^[0-9]+\.[0-9]+$", $l_s_montant) ) {
+    $sql.=" and jr_montant $l_mont_sel $l_s_montant";
+    }
+    if ( isDate($l_date_start) != null ) {
+      $sql.=$l_and." j_date >= to_date('".$l_date_start."','DD.MM.YYYY')";
+    }
+    if ( isDate($l_date_end) != null ) {
+      $sql.=$l_and." j_date <= to_date('".$l_date_end."','DD.MM.YYYY')";
+    }
+    $l_s_comment=FormatString($l_s_comment);
+    if ( $l_s_comment != null ) {
+      $sql.=$l_and." upper(jr_comment) like upper('%".$l_s_comment."%') ";
+    }
 
-for ($i=0; $i < $Max;$i++) {
-	$row=pg_fetch_array($Res,$i);
-	
-	if ( $i % 2 == 0 ) $tr='<TR class="odd">'; 
+    $sql.=" order by jr_date";
+
+  }// p_array != null
+  $Res=ExecSql($p_cn,$sql);
+  $r="";
+  $r.=JS_VIEW_JRN_DETAIL;
+  $r.=JS_VIEW_JRN_CANCEL;
+  $r.=JS_VIEW_JRN_MODIFY;
+  $Max=pg_NumRows($Res);
+
+  if ($Max==0) return "No row selected";
+  $r.="<TABLE>";
+  $l_sessid=(isset($_POST['PHPSESSID']))?$_POST['PHPSESSID']:$_GET['PHPSESSID'];
+  $r.="<tr>";
+  $r.="<th> Date </th>";
+  $r.="<th> Echéance </th>";
+  $r.="<th> Description</th>";
+  $r.="<th></th>";
+  $r.="<th> Montant </th>";
+  $r.="<th>Op. Concernée</th>";
+  $r.="</tr>";
+  
+  for ($i=0; $i < $Max;$i++) {
+    $row=pg_fetch_array($Res,$i);
+    
+    if ( $i % 2 == 0 ) $tr='<TR class="odd">'; 
 		else $tr='<TR>';
-	$r.=$tr;
-// date
-	$r.="<TD>";
-	$r.=$row['jr_date'];
-	$r.="</TD>";
-	// echeance
-	$r.="<TD>";
+    $r.=$tr;
+    // date
+    $r.="<TD>";
+    $r.=$row['jr_date'];
+    $r.="</TD>";
+    // echeance
+    $r.="<TD>";
 	$r.=$row['jr_ech'];
 	$r.="</TD>";
 	
 // comment
 	$r.="<TD>";
- 	$r.=sprintf('<input TYPE="BUTTON" VALUE="%s" onClick="viewDetail(\'%s\',\'%s\')"> %s',
-		    "Détail",$row['jr_grpt_id'],$l_sessid,$row['jr_comment']);
-	$r.="</span>";
+	$r.=$row['jr_comment'];
+	$r.="</TD>";
+	// button  modify
+	$r.="<TD>";
+	$r.=sprintf('<input TYPE="button" onClick="modifyOperation(\'%s\',\'%s\')" value="Détail">',
+	      $row['jr_id'],$l_sessid);
+
+//  	$r.=sprintf('<input TYPE="BUTTON" VALUE="%s" onClick="viewDetail(\'%s\',\'%s\')"> %s',
+// 		    "Détail",$row['jr_grpt_id'],$l_sessid,$row['jr_comment']);
+//	$r.="</span>";
 	$r.="</TD>";
 
 	
@@ -265,22 +316,34 @@ for ($i=0; $i < $Max;$i++) {
 	$r.="</TD>";
 	
 // Rapt
+	$a=GetConcerned($p_cn,$row['jr_id']);
 	$r.="<TD>";
-	$r.='<A HREF="">';
-	$r.=$row['jr_rapt'];
-	$r.="</A>";
+	if ( $a != null ) {
+	    $r.="operation concernée ";
+
+	  foreach ($a as $key => $element) {
+	    
+	    $r.=GetInternal($p_cn,$element).", ";
+	  }//for
+	}// if ( $a != null ) {
 	$r.="</TD>";
+	//$l=user_jrn.php?action=update&line=91
 // TODO Add print
-	if ( isCentralize($p_cn,$row['jr_id']) == 0 ) {
-	  $r.=sprintf('<TD><input TYPE="BUTTON" VALUE="%s" onClick="cancelOperation(\'%s\',\'%s\')"></TD>',
+  $r.="<TD>";
+// cancel operation
+  $r.=sprintf('<input TYPE="BUTTON" VALUE="%s" onClick="cancelOperation(\'%s\',\'%s\')">',
 		    "Annulation",$row['jr_grpt_id'],$l_sessid);
-	}
+  $r.="</TD>";
+// TODO
+// Modify comment or rapt
+// user_jrn.php?action=update&line=9
 
 // end row
 	$r.="</tr>";
 	
 	}
 $r.="</table>";
+
 return $r;
 }
 /* function InsertStockGoods($p_cn,$j_id,$a_good[$i],$a_quant[$i],'c');
@@ -382,3 +445,138 @@ function VerifyOperationDate($p_cn,$p_user,$p_date) {
       }
     return $p_date;
 }
+
+/* function InsertRapt($p_cn,$jr_id,$jr_id2)
+ **************************************************
+ * Purpose :  Insert into jrn_rapt the concerned operations
+ *        
+ * parm : 
+ *	- p_cn database connection
+ *      - jr_id (jrn.jr_id) => jrn_rapt.jr_id
+ *      - jr_id2 (jrn.jr_id) => jrn_rapt.jra_concerned
+ * gen :
+ *	- none
+ * return:
+ *      - none
+ */
+function InsertRapt($p_cn,$jr_id,$jr_id2) {
+  if ( isNumber($jr_id)  == 0 or 
+       isNumber($jr_id2) == 0 )
+    {
+      echo_error(" InsertRapt : invalid jr_id $jr_id, jr_id2 $jr_id2");
+      echo_debug(" InsertRapt : invalid jr_id $jr_id, jr_id2 $jr_id2");
+      return;
+    }
+  // verify if exists
+  if ( CountSql($p_cn,"select jra_id from jrn_rapt where jra_concerned=$jr_id and jr_id=$jr_id2
+                   union
+                 select jra_id from jrn_rapt where jra_concerned=$jr_id2 and jr_id=$jr_id ") ==0) 
+    {
+      // Ok we can insert 
+      $Res=ExecSql($p_cn,"insert into jrn_rapt(jr_id,jra_concerned) values ($jr_id,$jr_id2)");
+    }
+}
+/* function DeleteRapt($p_cn,$jr_id,$jr_id2)
+ **************************************************
+ * Purpose :  Insert into jrn_rapt the concerned operations
+ *        
+ * parm : 
+ *	- p_cn database connection
+ *      - jr_id (jrn.jr_id) => jrn_rapt.jr_id
+ *      - jr_id2 (jrn.jr_id) => jrn_rapt.jra_concerned
+ * gen :
+ *	- none
+ * return:
+ *      - none
+ */
+function DeleteRapt($p_cn,$jr_id,$jr_id2) {
+  echo_debug("DeleteRapt($p_cn,$jr_id,$jr_id2) ");
+  if ( isNumber($jr_id)  == 0 or 
+       isNumber($jr_id2) == 0 )
+    {
+      echo_error(" InsertRapt : invalid jr_id jr_id = $jr_id jr_id2 = $jr_id2");
+      return;
+    }
+  // verify if exists
+  if ( CountSql($p_cn,"select jra_id from jrn_rapt where jra_concerned=$jr_id and jr_id=$jr_id2
+                   union
+                 select jra_id from jrn_rapt where jra_concerned=$jr_id2 and jr_id=$jr_id ") !=0) 
+    {
+      // Ok we can insert 
+      $Res=ExecSql($p_cn,"delete from jrn_rapt where (jra_concerned=$jr_id2 and jr_id=$jr_id) or 
+                               (jra_concerned=$jr_id and jr_id=$jr_id2) ");
+    }
+}
+
+/* function GetConcerned (p_cn ,jr_id)
+ **************************************************
+ * Purpose :  Return an array of the concerned operation
+ *        
+ * parm : 
+ *	- database connection
+ *      - jrn.jr_id
+ * gen : 
+ *	- none
+ * return:
+ *      - array if something is found
+ */
+function GetConcerned ($p_cn, $jr_id) {
+$sql=" select jr_id as cn from jrn_rapt where jra_concerned=$jr_id
+      union
+       select jra_concerned as cn from jrn_rapt where jr_id=$jr_id";
+ $Res=ExecSql($p_cn,$sql);
+
+ // If nothing is found return null
+ $n=pg_NumRows($Res);
+
+ if ($n ==0 ) return null;
+
+ // put everything in an array
+ for ($i=0;$i<$n;$i++) {
+   $l=pg_fetch_array($Res,$i);
+   $r[$i]=$l['cn'];
+ }
+ return $r;
+}
+/* function GetGrpt($p_cn,$p_jr_id)
+ **************************************************
+ * Purpose :  Return the jr_grpt_id from jrn where
+ *            jr_id = $p_jr_id
+ *        
+ * parm : 
+ *	- $p_jr_id jrn.jr_id
+ *      - $p_cn database connection
+ * gen :
+ *	- none
+ * return:
+ *      - return the jrn.jr_grpt_id or null 
+ */
+function  GetGrpt($p_cn,$p_jr_id)
+{
+  $Res=ExecSql($p_cn,"select jr_grpt_id from jrn where jr_id=".$p_jr_id);
+  if ( pg_NumRows($Res) == 0 ) {
+    return null;
+  }
+  $r=pg_fetch_array($Res,0);
+  return $r['jr_grpt_id'];
+}
+/* function UpdateComment ($p_cn,$p_jr_id,$p_comment)
+ **************************************************
+ * Purpose : Update comment in jrn 
+ *         
+ * parm : 
+ *	- database conn.
+ *              -  jrn.jr_id
+ *              - comment
+ * gen :
+ *	- none
+ * return:
+ *              - none
+ */
+function UpdateComment ($p_cn,$p_jr_id,$p_comment) {
+  $p_comment=FormatString($p_comment);
+  $Res=ExecSql($p_cn,"update jrn set jr_comment='".$p_comment."'
+                               where jr_id = $p_jr_id"); 
+
+}
+
