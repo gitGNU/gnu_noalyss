@@ -22,10 +22,9 @@ echo "The file install.log will be created with
       the log of the installation, just check if
       it finished with the message
       installation ok"
-
 # Output the log to install log
 exec 3>install.log 2>&3 1>&3
-set -xv
+#set -xv
 
 version=3
 VerifOutil() {

@@ -628,10 +628,12 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
   $a_vat=ComputeVat($p_cn,	$a_good,$a_quant,$a_price);
 
   $sum_vat=0.0;
-  foreach ( $a_vat as $element => $t) {
-    echo_debug(" a_vat element $element t $t");
-    $sum_vat+=$t;
-    echo_debug("sum_vat = $sum_vat");
+  if ( $a_vat != null ){
+    foreach ( $a_vat as $element => $t) {
+      echo_debug(" a_vat element $element t $t");
+      $sum_vat+=$t;
+      echo_debug("sum_vat = $sum_vat");
+    }
   }
   // First we add in jrnx
 	
@@ -659,7 +661,7 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
     InsertStockGoods($p_cn,$j_id,$a_good[$i],$a_quant[$i],'c');
   }
   // Insert Vat
-  if (sizeof($a_vat) != 0 ) // no vat
+  if ( $a_vat!= null ) // no vat
     {
       foreach ($a_vat as $tva_id => $tva_amount ) {
 	$poste=GetTvaPoste($p_cn,$tva_id,'c');
@@ -907,12 +909,14 @@ function RecordAchat($p_cn,$p_array,$p_user,$p_jrn)
   $a_vat=ComputeVat($p_cn,	$a_good,$a_quant,$a_price);
 
   $sum_vat=0.0;
-  foreach ( $a_vat as $element => $t) {
-    echo_debug(" a_vat element $element t $t");
-    $sum_vat+=$t;
-    echo_debug("sum_vat = $sum_vat");
+  if ( $a_vat != null ) {
+    foreach ( $a_vat as $element => $t) {
+      echo_debug(" a_vat element $element t $t");
+      $sum_vat+=$t;
+      echo_debug("sum_vat = $sum_vat");
+    }
   }
-  // First we add in jrnx
+    // First we add in jrnx
 	
 	// Compute the j_grpt
   $seq=GetNextId($p_cn,'j_grpt')+1;
@@ -934,7 +938,7 @@ function RecordAchat($p_cn,$p_array,$p_user,$p_jrn)
     InsertStockGoods($p_cn,$j_id,$a_good[$i],$a_quant[$i],'d');
   }
   // Insert Vat
-  if (sizeof($a_vat) != 0 ) // no vat
+  if ( $a_vat  != null ) // no vat
     {
       foreach ($a_vat as $tva_id => $tva_amount ) {
 	$poste=GetTvaPoste($p_cn,$tva_id,'d');

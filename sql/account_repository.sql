@@ -176,8 +176,6 @@ INSERT INTO ac_users VALUES (1, NULL, NULL, 'phpcompta', 1, 'b1cc88e1907cde80cb2
 --
 
 INSERT INTO ac_dossier VALUES (1, 'Demo', 'Base de données pour développement & démo', 0);
-INSERT INTO ac_dossier VALUES (8, 'Test', 'Test du modèle', 0);
-INSERT INTO ac_dossier VALUES (9, 'Test 2', 'Test 2', 0);
 
 
 --

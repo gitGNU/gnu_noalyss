@@ -36,6 +36,7 @@ include_once("postgres.php");
  */
 
 function GetTvaRate($p_cn,$p_tva_id) {
+  if (strlen(trim($p_tva_id))==0) return 0;
 $Res=pg_exec($p_cn,"select tva_id,tva_rate,tva_label from tva_rate where tva_id=".$p_tva_id);
 if (pg_NumRows($Res) == 0 ) return null;
 
@@ -65,10 +66,11 @@ echo_debug("ComputeVat $a_fiche $a_quant $a_price");
 // foreach goods 
 for ( $i=0 ; $i < sizeof($a_fiche);$i++) {
   // if the card id is null or empty 
-  if ( isNumber($a_fiche[$i])==0) continue;
+  if ( isNumber($a_fiche[$i])==0 
+       or strlen(trim($a_fiche[$i]))==0) continue;
   // Get the tva_id
   $tva_id=GetFicheAttribut($p_cn,$a_fiche[$i],ATTR_DEF_TVA);
-  
+  if ( $tva_id == 'Unknown' ) continue;
   // for each fiche find the tva_rate and tva_id
   $a_vat=GetTvaRate($p_cn,$tva_id);
   
@@ -150,7 +152,7 @@ function InsertJrnx($p_cn,$p_type,$p_user,$p_jrn,$p_poste,$p_date,$p_amount,$p_g
 
   $sql=sprintf("insert into jrnx (j_date,j_montant, j_poste,j_grpt, j_jrn_def,j_debit,j_tech_user,j_tech_per)
 			values (to_date('%s','DD.MM.YYYY'),abs(%.2f),%d,%d,%d,%s,'%s',%d)",
-	       $p_date,$p_amount,$p_poste,$p_grpt,$p_jrn,$debit,$p_user,$p_periode);
+	       $p_date,round($p_amount,2),$p_poste,$p_grpt,$p_jrn,$debit,$p_user,$p_periode);
   echo_debug("InsertJrnx $sql");
   $Res=ExecSql($p_cn,$sql);
   return GetSequence($p_cn,'s_jrn_op');
@@ -184,7 +186,7 @@ function InsertJrn($p_cn,$p_date,$p_echeance,$p_jrn,$p_comment,$p_amount,$p_grpt
 	}
 	$sql=sprintf("insert into jrn (jr_def_id,jr_montant,jr_comment,jr_date,jr_ech,jr_grpt_id,jr_tech_per)
 	         values ( %d,abs(%.2f),'%s',to_date('%s','DD.MM.YYYY'),%s,%d,%d)",
-					 $p_jrn, $p_amount,$p_comment,$p_date,$p_echeance,$p_grpt,$p_periode);
+		     $p_jrn, round($p_amount,2),$p_comment,$p_date,$p_echeance,$p_grpt,$p_periode);
 	echo_debug("InsertJrn $sql");
 	$Res=ExecSql($p_cn,$sql);				 
 	return GetSequence($p_cn,'s_jrn');
