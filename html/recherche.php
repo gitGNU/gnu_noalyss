@@ -33,10 +33,7 @@ include_once ("postgres.php");
 include_once ("check_priv.php");
 /* Admin. Dossier */
 
-
-
-$l_Db=sprintf("dossier%d",$_SESSION['g_dossier']);
-$cn=DbConnect($g_dossier);
+$cn=DbConnect($_SESSION['g_dossier']);
 include ('class_user.php');
 $User=new cl_user($cn);
 $User->Check();
@@ -49,14 +46,10 @@ if ( $User->admin == 0 ) {
     /* Cannot Access */
     NoAccess();
   }
-
 }
 
-
    // PhpSessid
-   //$sessid=(isset ($_POST['PHPSESSID']))?$_POST['PHPSESSID']:$_GET['PHPSESSID'];
    $sessid=$_REQUEST['PHPSESSID'];
-
 
 // display a search box
    $search_box=u_ShowMenuRecherche($cn,0,$sessid,$HTTP_POST_VARS);
