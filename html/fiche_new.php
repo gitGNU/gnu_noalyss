@@ -151,7 +151,7 @@ if ( isset($_POST['cat'])) {
 
 // si cat > 1 proposer choix cat
 //      recharger avec var. cat
-if ( $a>1 and !isset ($_POST['cat']))
+if ( sizeof($a)>1 and !isset ($_POST['cat']))
   {
     echo "Choix catégories fiche";
     echo '<FORM METHOD="POST" ACTION="'.$_SERVER['REQUEST_URI'].'">';

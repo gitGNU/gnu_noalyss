@@ -30,6 +30,8 @@ CheckUser();
 include ("check_priv.php");
 include_once ("top_menu_compta.php");
 ShowMenuCompta($g_dossier,$g_UserProperty);
+
+
 if ( isset ($g_jrn) ) {
   echo_debug("g_jrn is set --> come from user_profile");
   $p_id=$g_jrn;
@@ -88,7 +90,10 @@ if ( $g_UserProperty['use_usertype'] == 'user') {
 if ( isset ( $_GET["action"]) ) {
   echo_debug(" action is set ");
   $a_print=$HTTP_GET_VARS;
-  $a_print['p_id']=$p_id;
+  // p_id come from the user interface
+  if ( isset($p_id) ) {
+    $a_print['p_id']=$p_id;
+  }
   echo '<DIV class="redcontent">';
   echo '<h2 class="info"> Choississez la période</h2>';
   ViewImp($a_print,$cn);
@@ -104,7 +109,7 @@ if ( isset ( $_POST["print"]) ) {
     return;
   }
   if ($result== NO_POST_SELECTED) {
-    echo "<SCRIPT>alert(\"Aucune post choisie\"); </SCRIPT>";
+    echo "<SCRIPT>alert(\"Aucune poste choisi\"); </SCRIPT>";
     return;
   }
 
