@@ -155,6 +155,7 @@ $bg="";
 	echo "<HTML>";
 	echo "<HEAD> 
               <TITLE> Gnu Accountancy</TITLE>
+	      <META http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">
                <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$style\">
 	      </HEAD>";
 	echo "<BODY $bg class=\"defaut\" $p_script>";
