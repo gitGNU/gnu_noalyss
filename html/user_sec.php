@@ -46,6 +46,7 @@ if ( $User->admin== 0 ) {
   }
 
 }
+echo ShowMenuParam();
 
 
 $cn=DbConnect();
