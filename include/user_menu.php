@@ -315,15 +315,37 @@ function u_ShowMenuJrn($p_cn,$p_jrn_type)
   if ($num==0)    return "";
   // Retrieve in the database the menu
   $ret="<TABLE>";
+  $access_key_list = array();
   for ($i=0;$i<$num;$i++) {
     $action=pg_fetch_array($Res,$i);
-    $ret.=sprintf('<TR><TD class="cell"><A class="mtitle" HREF="%s?%s">%s</A></td></TR>',
-		  $action['ja_url'],$action['ja_action'],$action['ja_name']);
+    $ret.=sprintf('<TR><TD class="cell"><A class="mtitle" accesskey="%s" title="%s" HREF="%s?%s">%s</A></td></tR>',
+      $action['ja_name'][0], $action['ja_desc'], $action['ja_url'],$action['ja_action'],
+      '<u>' . get_quick_key($action['ja_name'],$access_key_list) . '</u>' . substr($action['ja_name'],1));
   }
   $ret.='</TABLE>';
   return $ret;
 
 }
+
+/*
+* return a not yet used access key. The returned key is added to $access_key_list
+*/
+function get_quick_key($title,$access_key_list)
+{
+	$quick = $title[0];
+	if(array_key_exists($quick, $access_key_list))
+	{
+		echo_debug(" key exists: " . $quick);
+		return get_quick_key(substr($title, 1), $access_key_list);
+	} else
+	{
+		echo_debug(" new key: " . $quick);
+	}
+	$access_key_list[$quick] = $quick;
+	//var_dump($access_key_list);
+	return $quick;
+}
+
 /* function u_ShowMenuRecherche ($p_cn,$p_jrn,$p_sessid,$p_array=null)
  * Purpose :
  * 
