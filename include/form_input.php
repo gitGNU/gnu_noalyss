@@ -833,7 +833,7 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
   $r.='<H2 class="info">Articles</H2>';
   $r.='<TABLE>';
   $r.="<TR>";
-  $r.="<th></th>";
+  if ($view_only==false)  $r.="<th></th>";
   $r.="<th>code</th>";
   $r.="<th>Dénomination</th>";
   $r.="<th>Prix</th>";
@@ -872,14 +872,17 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
 	}
            // retrieve the tva label and name
 	$a_fiche=GetFicheAttribut($p_cn, $march);
+	$march_label=$a_fiche['vw_name'];
 	if ( $a_fiche != null  and
 	     $march_tva_id == "" ) {
 	  $march_tva_id=$a_fiche['tva_id'];
 	  $march_tva_label=$a_fiche['tva_label'];
-      }
+
+
+	}
 	
       
-      }
+      }//else
     }
     else {
       if ( $view_only ) {

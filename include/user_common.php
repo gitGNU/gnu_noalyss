@@ -66,6 +66,7 @@ echo_debug("ComputeVat $a_fiche $a_quant $a_price");
  foreach ( $a_fiche as $t=>$el) {
    echo_debug("t $t e $el");
  }
+ $r=null;
 // foreach goods 
  foreach ( $a_fiche as $idx=>$element) {
    echo_debug ("idx $idx element $element");

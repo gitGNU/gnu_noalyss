@@ -606,6 +606,7 @@ function UpdateFiche($p_cn,$p_array) {
 
     // Change the name in TMP_PCMN
     // Get the new name
+    $f_label=FormatString($f_label);
     ExecSql($p_cn,"update tmp_pcmn set pcm_lib='".$f_label."' where pcm_val=".$class);
 
 
