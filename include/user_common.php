@@ -311,7 +311,6 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
   $r.="<th> Date </th>";
   $r.="<th> Echéance </th>";
   $r.="<th> Description</th>";
-  $r.="<th></th>";
   $r.="<th> Montant </th>";
   $r.="<th>Op. Concernée</th>";
   $r.="</tr>";
