@@ -1,4 +1,68 @@
+2004-03-26  sparkyx  <sparkyx@july.summer>
+
+	* sql/user_sec.sql: add index fk_ + add security card read/write
+
+	* include/form_input.php:
+	Add user interface for expense include/user_action_ach.php Improve inputType - add javascript and button - add FormAchat - add FormFin fix some bugs
+
+	* html/user_compta.php, html/user_advanced.php: Fix name
+
+	* html/print_invoice.php: Improve
+
+	* html/poste_search.php: Improve the accound search
+
+	* html/jrn_search.php: Fix bug ; double line
+
+	* html/fiche_search.php: Add search window for card (user interface)
+
+	* html/fiche.php: Improve security of card
+
+	* html/fiche_new.php: Add window for adding card (user interface)
+
+	* include/user_common.php:
+	Fix bug in ComputeVat function - insertJrnx return the j_id - add insertStock
+
+	* include/user_action_ven.php: Add correct button
+
+	* include/user_action_fin.php: Add user interface for financial
+
+	* include/user_action_ach.php: Add user interface for expense
+
+	* include/fiche_inc.php: Fix attribute order in card
+
+	* include/constant.php: security for card
+
+	* sql/jrn_action.sql: add index fk_
+
+	* sql/journal.sql: add index fk_  fix setting in jrn
+
+	* sql/jnt_use_dos.sql, sql/form.sql, sql/fiche.sql: add index fk_
+
+	* sql/dos_pref.sql: Fix problem in period
+
+	* sql/centralized.sql: add index fk_
+
+	* doc/manuel-fr.sgml: Task 3106
+
+	* doc/Makefile: add clean target
+
+	* doc/INSTALL-fr.sgml: fix name
+
+	* doc/FAQ-fr.sgml: Correct accent
+
+	* Todo: Update TODO list
+
+	* style-light.css: add span.odd span.even
+
+	* style.css: blank line
+
+	* README: fix name
+
+	* install.sh: improve installation => create a log
+
 2004-03-24  sparkyx  <sparkyx@july.summer>
+
+	* Changelog: Changelog
 
 	* install.sh: Creation of the interface USER
 
