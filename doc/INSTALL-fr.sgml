@@ -17,12 +17,13 @@ site savannah <url url="http://savannah.nongnu.org/projects/phpcompta/" name="Ph
 <!-- Table of contents -->
 <toc>
 <sect>Linux
-<p> Si vous installez sur Linux, l'installation d'apache / postgres et php peut se
-faire avec les "packages" fournis; ces "packages" sont largement suffisants. Les explications
+<p> Si vous installez sur Linux, l'installation d'apache, postgres et php peut se
+faire avec les "packages" standards 
+fournis; ces "packages" sont largement suffisants. Les explications
 données ici sur l'installation de ces produits est destinées à ceux devant le faire manuellement.
 
 <p> Cependant, les configurations des différents produits est important
-et devrait être lu avant d'appeler à l'aide.
+et devrait être lues avant d'appeler à l'aide.
 
 
 </sect>
