@@ -156,8 +156,14 @@ if ( $p_action=="closed") {
 
 if ( $p_action== "delete_per" ) {
   $p_per=$_GET["p_per"];
+// Check if the periode is not used
+  if ( CountSql($cn,"select * from jrnx where j_tech_per=$p_per") != 0 ) {
+  echo '<h2 class="error"> Désolé mais cette période est utilisée</h2>';
+  } else
+  {
   $Res=ExecSql($cn,"delete from parm_periode where p_id=$p_per");
   ShowPeriode($cn);
+  }
 }
 
 if ( $p_action == "periode" ) {

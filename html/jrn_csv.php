@@ -41,7 +41,7 @@ if ( $g_UserProperty['use_admin'] == 0 ) {
 }
 
 
- $p_cent=( isset ( $_POST['cent']) )?'on':'off';
+ $p_cent=( isset ( $_POST['central']) )?'on':'off';
 
 $Jrn=new jrn($cn,$_POST['jrn_id']);
 // $Jrn->Access();
@@ -59,7 +59,9 @@ $Jrn->GetRow( $_POST['from_periode'],
     $desc=str_replace("<i>","",$desc);
     $desc=str_replace("</i>","",$desc);
     $desc=str_replace('"',"'",$desc);
-      printf("\"%s\"\t\"%s\"\t\"%s\"\t\"%s\"\t%8.4f\t%8.4f\n",
+
+      printf("\"%s\"\t\"%s\"\t\"%s\"\t\"%s\"\t\"%s\"\t%8.4f\t%8.4f\n",
+	     $op['j_id'],
 	     $op['internal'],
 	     $op['j_date'],
 	     $op['poste'],

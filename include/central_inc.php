@@ -99,8 +99,46 @@ $sql="insert into centralized( c_j_id,
      $Ret=ExecSql($p_cn,$sql);
      if ($Res==false) { rollback($p_cn); EndSql($p_cn); return ERROR;}
    }
-                 
  }
+   // Put jr_c_opid in centralized                 
+   // for each jrn_def_id
+   // get the op related to that jrn_def_id
+   $sql=sprintf("select jr_id from jrn 
+         where
+         jr_tech_per=%d
+            order by jr_date,jr_grpt_id desc",
+		$p_periode
+		);
+
+   $Res2=ExecSql($p_cn,$sql);
+   $MaxLine=pg_NumRows($Res2);
+   for ($e=0;$e < $MaxLine;$e++) {
+     // each line is updated with a sequence
+     $line=pg_fetch_array($Res2,$e);
+     $jr_id=$line['jr_id'];
+     $sql=sprintf ("update jrn set 
+                 jr_c_opid = (select nextval('s_central'))
+                 where jr_id =%d",
+		   $jr_id); 
+     $Ret=ExecSql($p_cn,$sql);
+     if ($Ret==false) { rollback($p_cn); EndSql($p_cn); return ERROR;}
+   }
+   // Set the order of the jrn
+   $Res=ExecSql($p_cn,"select c_id from centralized 
+                 inner join jrn on c_grp = jr_grpt_id
+                 order by jr_c_opid, c_debit desc");
+   for ( $e=0;$e < pg_NumRows($Res);$e++) {
+     $row=pg_fetch_array($Res,$e);
+     $sql=sprintf ("update centralized set  
+                 c_order = (select nextval('s_central_order'))
+                 where c_id = %d",$row['c_id']);
+     $Res2=ExecSql($p_cn,$sql); 
+      if ($Res2==false) { rollback($p_cn); EndSql($p_cn); return ERROR;}
+
+   }
+ 
+ 
+ 
  
  Commit($p_cn);
  EndSql($p_cn);

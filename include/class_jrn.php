@@ -62,7 +62,7 @@ class jrn {
  */ 
   function GetRow($p_from,$p_to,$cent='off',$p_limit=-1,$p_offset=-1) {
 
-  echo_debug(__FILE__,__LINE__,"GetRow");
+  echo_debug(__FILE__,__LINE__,"GetRow ( $p_from,$p_to,$cent,$p_limit,$p_offset)");
 
     if ( $p_from == $p_to ) 
       $periode=" jr_tech_per = $p_from ";
@@ -73,14 +73,15 @@ class jrn {
     // Grand livre == 0
     if ( $this->id != 0 ) {
 
-    if ( $cent='off' ) {
+    if ( $cent=='off' ) {
+      echo_debug(__FILE__,__LINE__,"journaux non  centralisé");
       // Journaux non centralisés
-    $Res=ExecSql($this->db,"select j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
+    $Res=ExecSql($this->db,"select j_id,j_id as int_j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
                       jr_internal,
                 case j_debit when 't' then j_montant::text else '   ' end as deb_montant,
                 case j_debit when 'f' then j_montant::text else '   ' end as cred_montant,
                 j_debit as debit,j_poste as poste,jr_montant , ".
-	       "pcm_lib as description,j_grpt as grp,jr_comment ,
+	       "pcm_lib as description,j_grpt as grp,jr_comment||' ('||c_internal||')' as jr_comment ,
                 jr_rapt as oc, j_tech_per as periode from jrnx left join jrn on ".
 		 "jr_grpt_id=j_grpt ".
 		 " left join tmp_pcmn on pcm_val=j_poste ".
@@ -89,9 +90,9 @@ class jrn {
 		 $cond_limite);
     }else {
       // Journaux centralisés
-
-      $Sql="select c_id as j_id,
-            c_j_id,
+      echo_debug(__FILE__,__LINE__,"journaux centralisé");
+      $Sql="select jr_opid as j_id,
+                    c_order as int_j_id,
             to_char (c_date,'DD.MM.YYYY') as j_date ,
             c_internal as jr_internal,
             case c_debit when 't' then c_montant::text else '   ' end as deb_montant,
@@ -99,7 +100,7 @@ class jrn {
             c_debit as j_debit,
             c_poste as poste,
             pcm_lib as description,
-            jr_comment,
+            jr_comment||' ('||c_internal||')' as jr_comment,
             jr_montant,
             c_grp as grp,
             c_comment as comment,
@@ -108,20 +109,22 @@ class jrn {
             from centralized left join jrn on ".
 		"jr_grpt_id=c_grp left join tmp_pcmn on pcm_val=c_poste where ".
 	        " c_jrn_def=".$this->id." and ".
-                $periode." order by c_id ";
+                $periode." order by c_order ";
       $Res=ExecSql($this->db,$Sql.$cond_limite);
 
     }
   } else {
     // Grand Livre
     if ( $cent == 'off') {
+      echo_debug(__FILE__,__LINE__,"Grand livre non centralisé");
       // Non centralisé
-      $Res=ExecSql($this->db,"select j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
+      $Res=ExecSql($this->db,"select j_id,j_id as int_j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
                       jr_internal,
                 case j_debit when 't' then j_montant::text else '   ' end as deb_montant,
                 case j_debit when 'f' then j_montant::text else '   ' end as cred_montant,
                 j_debit as debit,j_poste as poste,".
-	       "pcm_lib as description,j_grpt as grp,jr_comment as jr_comment,
+	       "pcm_lib as description,j_grpt as grp,
+                jr_comment||' ('||c_internal||')' as jr_comment,
                 jr_montant,
                 jr_rapt as oc, j_tech_per as periode from jrnx left join jrn on ".
 		 "jr_grpt_id=j_grpt left join tmp_pcmn on pcm_val=j_poste where ".
@@ -129,8 +132,11 @@ class jrn {
 	       $cond_limite);
 
     } else {
+      echo_debug(__FILE__,__LINE__,"Grand livre  centralisé");
       // Centralisé
-      $Sql="select c_id as j_id,
+      $Sql="select jr_c_opid as j_id,
+                   c_order as int_j_id,
+
             c_j_id,
             to_char (c_date,'DD.MM.YYYY') as j_date ,
             c_internal as jr_internal,
@@ -139,15 +145,15 @@ class jrn {
             c_debit as j_debit,
             c_poste as poste,
             pcm_lib as description,
-            jr_comment,
+            jr_comment||' ('||c_internal||')' as jr_comment,
             jr_montant,
             c_grp as grp,
-            c_comment as comment,
+            c_comment||' ('||c_internal||')' as comment,
             c_rapt as oc,
             c_periode as periode 
             from centralized left join jrn on ".
 		"jr_grpt_id=c_grp left join tmp_pcmn on pcm_val=c_poste where ".
-                $periode." order by c_id ";
+                $periode." order by c_order ";
     $Res=ExecSql($this->db,$Sql.$cond_limite);
     } // Grand Livre
   }
@@ -172,6 +178,7 @@ class jrn {
     if ( $case != $line['grp'] ) {
       $case=$line['grp'];
       $array[]=array (
+		      'int_j_id' => $line['int_j_id'],
 		      'j_id'=>$line['j_id'],
 		      'j_date' => $line['j_date'],
 		      'internal'=>$line['jr_internal'],
@@ -182,7 +189,8 @@ class jrn {
 		      'periode' =>$line['periode'] );
 
       $array[]=array (
-		      'j_id'=>$line['j_id'], 
+		      'int_j_id' => $line['int_j_id'],
+		      'j_id'=>'', 
 		      'j_date' => '',
 		      'internal'=>'',
 		      'deb_montant'=>$mont_deb,
@@ -194,7 +202,8 @@ class jrn {
     
     }else {
       $array[]=array (
-		      'j_id'=>$line['j_id'],
+		      'int_j_id' => $line['int_j_id'],
+		      'j_id'=>'',
 		      'j_date' => '',
 		      'internal'=>'',
 		      'deb_montant'=>$mont_deb,

@@ -64,7 +64,7 @@ $pdf->selectFont('./addon/fonts/Helvetica.afm');
 // filter : 0 for Grand Livre otherwise 1
 $filter=( $Jrn->id == 0)?0:1;
 
-$offset=0;$limit=25;$step=25;
+$offset=0;$limit=22;$step=22;
 $rap_deb=0;$rap_cred=0;
 while (1) {
   $a=0;
@@ -76,12 +76,7 @@ while (1) {
 
   if ( $a_jrn==null) break;
   $offset+=$step; 
-//   foreach ($a_jrn as $key=>$element) {
-//     echo_debug(__FILE__,__LINE__,"$key => $element");
-//     foreach ($element as $c1=>$c2) 
-//       echo_debug(__FILE__,__LINE__,"Array is $c1 => $c2");
-//   }
-  $first_id=$a_jrn[0]['j_id'];
+  $first_id=$a_jrn[0]['int_j_id'];
   $Exercice=GetExercice($cn,$a_jrn[0]['periode']);
 
 
@@ -102,7 +97,7 @@ while (1) {
   }
 
   $pdf->ezTable($a_jrn,
-		array ('internal'=>'Opération',
+		array ('j_id'=>' Numéro',
 		       'j_date' => 'Date',
 		       'poste'=>'Poste',
 		       'description' => 'Description',
@@ -125,7 +120,7 @@ while (1) {
 		      'cred'=> array('justification'=>'right'))));
 
   $count=count($a_jrn)-1;
-  $last_id=$a_jrn[$count]['j_id'];
+  $last_id=$a_jrn[$count]['int_j_id'];
   $Exercice=GetExercice($cn,$a_jrn[$count]['periode']);
   if ( $l_centr == 1) {
     // Montant de rappel si centralisé
@@ -148,7 +143,7 @@ $pdf->ezTable($apage,
 		      'cols'=>array('deb'=> array('justification'=>'right'),
 		      'cred'=> array('justification'=>'right'))));
   $count=count($a_jrn)-1;
-  $last_id=$a_jrn[$count]['j_id'];
+  $last_id=$a_jrn[$count]['int_j_id'];
   $Exercice=GetExercice($cn,$a_jrn[$count]['periode']);
 
   list($rap_deb,$rap_cred)=GetRappel($cn,$last_id,$Jrn->id,$Exercice,LAST,$filter,$l_centr);

@@ -22,6 +22,8 @@ comment on table parm_periode is 'Periode definition';
 comment on table stock_goods is 'About the goods';
 comment on table tmp_pcmn is 'Plan comptable minimum normalisé';
 comment on table tva_rate is 'Rate of vat';
+create sequence s_central;
+
 -- create index x_jr_grpt_id on jrn (jr_grpt_id);
 -- create index x_j_grpt on jrnx(j_grpt);
 create index x_poste on jrnx(j_poste );
@@ -30,6 +32,11 @@ delete from fiche where  f_id not in (select f_id from jnt_fic_att_value);
 alter table jrn add j_pj int4;
 alter table jrn add jr_opid int4;
 update version set val=4;
+alter table jrn add  jr_c_opid int4;
+create SEQUENCE s_central_order;
+alter table centralized add c_order int4;
+
+
 -- decentralize
 delete from centralized;
 create sequence s_internal;

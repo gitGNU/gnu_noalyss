@@ -630,15 +630,16 @@ function GetRappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_cent
     if ( $p_central == 1 ) {
       $c_line=CountSql($p_cn,"select * from centralized left join parm_periode on c_periode=p_id ".
 		       " where c_jrn_def=$p_jrn_id and  p_exercice='".$p_exercice."'".
-		       " and c_id $cmp $p_jrnx_id ");
+		       " and c_order $cmp $p_jrnx_id ");
       
       if ($c_line == 0 ) { return array (0,0); }
       $sql="select sum(c_montant) as tot_amount ".
 	" from centralized ".
 	" left join parm_periode on c_periode=p_id ".
+	" inner join jrn on jr_grpt_id=c_grp ".
 	" where c_jrn_def=$p_jrn_id and ".
 	" p_exercice='".$p_exercice."'".
-	" and c_id $cmp $p_jrnx_id " ;
+	" and c_order $cmp $p_jrnx_id " ;
       $Res=ExecSql($p_cn,$sql." and c_debit='t' ");
       if ( pg_NumRows($Res) == 0 ) 
 	$deb=0;
@@ -673,7 +674,7 @@ function GetRappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_cent
 	" left join parm_periode on c_periode=p_id ".
 	" where ".
 	" p_exercice='".$p_exercice."'".
-	" and c_id $cmp $p_jrnx_id " ;
+	" and c_order $cmp $p_jrnx_id " ;
       $Res=ExecSql($p_cn,$sql." and c_debit='t' ");
       if ( pg_NumRows($Res) == 0 ) 
 	$deb=0;

@@ -28,7 +28,8 @@ if ( isset( $_POST['bt_html'] ) ) {
 include("class_jrn.php");
  $p_cent=( isset ( $_POST['cent']) )?'on':'off';
   // $POST=from_periode, to_periode, jrn_id, cent
-
+ $d=var_export($_POST,true);
+ echo_debug(__FILE__,__LINE__,$d);
   $Jrn=new jrn($cn,$_POST['jrn_id']);
   $Jrn->GetName();
   $Jrn->GetRow( $_POST['from_periode'],
@@ -73,8 +74,12 @@ include("class_jrn.php");
 
   echo "<TABLE>";
   foreach ( $Jrn->row as $op ) { 
-      echo "<TR>".
-	"<TD>".$op['internal']."</TD>".
+      echo "<TR>";
+      // centralized
+      if ( $p_cent == 'on') {
+	echo "<TD>".$op['j_id']."</TD>";
+      }
+     echo "<TD>".$op['internal']."</TD>".
 	"<TD>".$op['j_date']."</TD>".
 	"<TD>".$op['poste']."</TD>".
 	"<TD>".$op['description']."</TD>".
