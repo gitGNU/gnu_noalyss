@@ -53,12 +53,14 @@ if ( CheckAdmin() == 0 ) {
     /* Cannot Access */
     NoAccess();
   }
-  $right=CheckJrn($g_dossier,$user,$g_jrn);
-  if ($right == 0 ){
-    /* Cannot Access */
-    NoAccess();
-    exit -1;
-  }
+  if ( isset ($g_jrn)) {
+  	$right=CheckJrn($g_dossier,$user,$g_jrn);
+	  if ($right == 0 ){
+	    /* Cannot Access */
+	    NoAccess();
+	    exit -1;
+	  }
+    } // if isset g_jrn
 
 }
 
