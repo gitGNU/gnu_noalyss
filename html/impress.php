@@ -31,13 +31,16 @@ include ("check_priv.php");
 include_once ("top_menu_compta.php");
 ShowMenuCompta($g_dossier,$g_UserProperty);
 
-
-if ( isset ($g_jrn) ) {
-  echo_debug("g_jrn is set --> come from user_profile");
-  $p_id=$g_jrn;
-} else {
-  if (isset ($_GET["p_id"]) )   {
-    $p_id=$_GET["p_id"];
+// $_GET['direct'] if we want to print from
+// the advanced menu in the user interface
+if ( isset ($_GET['direct'])) {
+  if ( isset ($g_jrn) ) {
+    echo_debug("g_jrn is set --> come from user_profile");
+    $p_id=$g_jrn;
+  } else {
+    if (isset ($_GET["p_id"]) )   {
+      $p_id=$_GET["p_id"];
+    }
   }
 }
 
@@ -65,11 +68,13 @@ $l_Db=sprintf("dossier%d",$g_dossier);
 $cn=DbConnect($l_Db);
 
 // if the user has the profile compta show the left menu
-if ( $g_UserProperty['use_usertype'] == 'compta') 
+if ( $g_UserProperty['use_usertype'] == 'compta' or
+     ! isset ($_GET['direct'])) 
   ShowMenuJrnUserImp($cn,$g_user,$g_dossier);  
 
 // if the user has the profile compta show the left menu
 if ( $g_UserProperty['use_usertype'] == 'user') {
+  if ( isset ($_GET['direct'])){
   // Get the jrn_type_id
   include_once('jrn.php');
   $JrnProp=GetJrnProp($g_dossier,$g_jrn);
@@ -84,14 +89,15 @@ if ( $g_UserProperty['use_usertype'] == 'user') {
   echo '<div class="searchmenu">';
   echo $menu_jrn;
   echo '</DIV>';
-} // Menu for user's profile
+  }
+} // Menu for user's profile when printing from user_jrn
 
 // Ask the period
 if ( isset ( $_GET["action"]) ) {
   echo_debug(" action is set ");
   $a_print=$HTTP_GET_VARS;
   // p_id come from the user interface
-  if ( isset($p_id) ) {
+  if ( isset($p_id) and isset ( $_GET['direct'])) {
     $a_print['p_id']=$p_id;
   }
   echo '<DIV class="redcontent">';
