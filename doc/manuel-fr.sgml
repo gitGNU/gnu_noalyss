@@ -148,7 +148,7 @@ Emplois.
 entreprise: loyer, paiement au personnel, charge d'intérêt...
 
 Les charges augmentent au crédit mais certains comptes peuvent aussi
-être diminué
+être diminués.
 
 Par exemple, vous encodez une facture d'électricités, vous auriez
 <verb>
@@ -159,12 +159,22 @@ Charge   électricité
 Remarquez qu'ici on encode la facture, la reconnaissance de
 notre dette envers le fournisseur d'électricité et pas du tout le
 paiement! Ce paiement se fera en banque par l'écriture Fournisseur à
-banque: la dette du fournisseur diminue notre compte en banque
-aussi. voir les explications de la section  <ref id="comptesap"
+banque: la créance de votre fournisseur diminue notre compte en banque
+diminue. voir les explications de la section  <ref id="comptesap"
  name="comptes actifs passifs">
 
 </sect2>
+<sect2> Les produits
+<p> C'est très simple, les produits sont tout simplement ce que vous
+vendez, gagnez comme intérêts financiers, bref, les produits c'est les
+créances que vous avez. 
 
+Le paiement de vos créances, devrait se faire avec les comptes de
+banques et de débiteurs.  Cependant, il arrive souvent que l'on ne
+passe pas par des comptes débiteurs mais directement en faisant banque
+à produits...
+
+</sect2>
 </sect1>
 
 
@@ -172,13 +182,19 @@ aussi. voir les explications de la section  <ref id="comptesap"
 </sect>
 <sect> Les profils
 <p>
-Dans le menu dans préférence, il existe deux sortes de profil que vous pouvez utiliser, 
+Dans le menu préférence, il existe deux sortes d'interface que vous pouvez utiliser, 
 </p>
 <sect1>Le profil comptable
 <p>
 Dans ce cas, vous verrez votre comptabilité comme un comptable s'attend à la voir
-avec des postes comptables, des écritures comptables impliquant des débits et des crédits
-</p>
+avec des postes comptables, des écritures comptables impliquant des
+débits et des crédits.
+
+Vous aurez accès à votre comptabilité de façon "brute" avec beaucoup
+moins de contrôle donc plus de risques de "mal encodé"; l'une des
+règles comptables est l'irréversibilité des écritures, si vous avez
+mal encodé, vous devez introduire l'écriture comptable inverse pour
+corriger, pensez à mettre la mention "correction d'erreur"
 </sect1>
 <sect1>Le profil utilisateur
 <p>
@@ -188,23 +204,48 @@ C'est le profil par défaut des utilisateurs que vous créerez, sans
 formation comptable particulière  , l'autre
 profil ne pourrait que vous perturbez, il s'agit pourtant de la même chose mais vue différemment.
 
-Certaines opérations ne sont cependant possible que dans le profil comptable, il s'agit d'opération
-assez rare et qui demande une réelle connaissance de ce domaines pour être encodés correctement
-par exemple une augmentation de capital, une reprise d'amortissement...
+Certaines opérations ne sont cependant possible que dans le profil comptable, il s'agit d'opérations
+peu fréquentes et qui demande une réelle connaissance de ce domaines pour être encodés correctement
+par exemple une augmentation de capital, une reprise d'amortissement,
+écriture d'ouverture d'exercice...
+
+Les valeurs des articles (vente ou achat) sont dans les fiches mais
+peuvent être changé lors de la création d'une opération de vente ou
+d'achat. Les taux de tva aussi sont dans les fiches. Dans la version
+1.0.0, il ne sera pas possible de la changer lors de la création de
+l'opération.
+
+A chaque taux de tva correspond un poste comptable. Pour faire une
+déclaration, il suffit d'avoir la somme de ce poste pour la période.
+
+ 
 </sect1>
 </sect>
 <sect>Les journaux
 <p> Il existe 4 sortes de journaux
 <itemize>
-<item> Celui regroupant les ventes
-<item> Celui regroupant les achats
-<item> Celui regroupant tous les mouvements financiers (banque, caisse...)
-<item> Et celui regroupant toutes les autres opérations (augmentation de bilan, amortissement
+<item> Vente regroupant les ventes
+<item> Achat Celui regroupant les achats
+<item> Financier Celui regroupant tous les mouvements financiers (banque, caisse...)
+<item> Opérations divers Et celui regroupant toutes les autres opérations (augmentation de bilan, amortissement
 </itemize>
 
 La première chose à faire quand on crée un journal est de le paramétrer correctement
 L'écran est divisé en deux parties, celle du dessus, s'adresse au profil "comptable" celui
 du dessous au profil utilisateur.
+
+Pour le profil comptable, vous devez mettre un filter pour les comptes
+visibles au débit ou au crédit
+
+exemple : 
+<verb>
+ Postes utilisables journal (débit)        60* 
+ Postes utilisables journal (crébit)       411* 4000001
+</verb>
+
+Ceux qui terminent par une étoile reprennent les comptes qui commence
+par l'expression ainsi 411* reprendra 411, 4111, 4112,4113 et
+4114. Vous séparez les différents comptes par un espace.
 <sect1> Journal des Achats
 </sect1>
 <sect1> Journal des Ventes
@@ -252,11 +293,35 @@ Quelques attributs à expliquer : Gestion Poste, Prix Achat, Prix de vente, Poste
 </p>
 </sect1>
 <sect>Encodage d'opération
+<sect1> Remarques générales
+<p> La tva est automatiquement mise, on prend celle de la fiche, il n'est
+donc normale que vous ne deviez pas l'encoder. Les prix sont aussi pris dans
+les attributs de la fiche mais vous pouvez modifier manuellement.
+
+<p> En cas de montant négatif, les écritures sont inversées 
+Exemple 
+<verb>
+* Paiement d'une facture (montant négatif) on aura 
+fournisseur
+    à 
+           client
+* Reprise de marchandise (diminution de vente & tva)
+Tva à payer, vente 
+    à 
+     client
+La dette du client diminue
+
+
+</verb>
+</sect1>
 <sect1>Achat
 </sect1>
 <sect1>Vente
 </sect1>
 <sect1>Opération financière
+<p> En cas de paiement, il faut introduire le montant négatif.
+
+
 </sect1>
 <sect1> Opérations Diverses
 <p> Les cartes de crédit :
@@ -312,5 +377,11 @@ pourra écrire partout sauf là ou est explicitement il ne peut
 qu'écrire. Le sens d'écrire dans ce contexte-ci doit se comprendre
 comme la capacité à  pouvoir ajouter ou modifier des informations
 
+</sect>
+<sect> Gestion de stock
+</sect>
+<sect> Rapprochement
+</sect>
+<sect> Centralisation
 </sect>
 </article>
