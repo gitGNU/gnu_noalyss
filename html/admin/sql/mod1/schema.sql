@@ -2,11 +2,6 @@
 -- PostgreSQL database dump
 --
 
-\connect - phpcompta
-
-SET search_path = public, pg_catalog;
-
---
 -- TOC entry 29 (OID 954808)
 -- Name: tmp_pcmn; Type: TABLE; Schema: public; Owner: phpcompta
 --

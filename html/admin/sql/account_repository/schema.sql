@@ -1,5 +1,3 @@
-\connect - phpcompta
-SET search_path = public, pg_catalog;
 CREATE SEQUENCE users_id
     START 1
     INCREMENT 1

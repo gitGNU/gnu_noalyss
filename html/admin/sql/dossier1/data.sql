@@ -593,32 +593,8 @@ INSERT INTO user_pref (pref_user, pref_periode) VALUES ('dany', 30);
 INSERT INTO user_pref (pref_user, pref_periode) VALUES ('phpcompta', 1);
 
 
---
--- Data for TOC entry 31 (OID 39877)
--- Name: formdef; Type: TABLE DATA; Schema: public; Owner: phpcompta
---
 
 
-
---
--- Data for TOC entry 32 (OID 39883)
--- Name: form; Type: TABLE DATA; Schema: public; Owner: phpcompta
---
-
-
-
---
--- Data for TOC entry 33 (OID 39893)
--- Name: centralized; Type: TABLE DATA; Schema: public; Owner: phpcompta
---
-
-
-
-
---
--- Data for TOC entry 28 (OID 39846)
--- Name: jrn_def; Type: TABLE DATA; Schema: public; Owner: phpcompta
---
 
 INSERT INTO jrn_def (jrn_def_id, jrn_def_name, jrn_def_class_deb, jrn_def_class_cred, jrn_def_fiche_deb, jrn_def_fiche_cred, jrn_deb_max_line, jrn_cred_max_line, jrn_def_ech, jrn_def_ech_lib, jrn_def_type, jrn_def_code) VALUES (4, 'Opération Diverses', NULL, NULL, NULL, NULL, 5, 5, false, NULL, 'OD ', 'OD-01');
 INSERT INTO jrn_def (jrn_def_id, jrn_def_name, jrn_def_class_deb, jrn_def_class_cred, jrn_def_fiche_deb, jrn_def_fiche_cred, jrn_deb_max_line, jrn_cred_max_line, jrn_def_ech, jrn_def_ech_lib, jrn_def_type, jrn_def_code) VALUES (3, 'Achat', '6*', '4*', '5', '4', 1, 3, true, 'échéance', 'ACH', 'ACH-01');
