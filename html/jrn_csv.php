@@ -38,7 +38,7 @@ if ( $User->CheckAction($cn,IMP) == 0 ||
   }
 
 
- $p_cent=( isset ( $_POST['central']) )?'on':'off';
+ $p_cent=( isset ( $_POST['central']) )?$_POST['central']:'off';
 
 $Jrn=new jrn($cn,$_POST['jrn_id']);
 
@@ -47,7 +47,8 @@ $Jrn->GetRow( $_POST['from_periode'],
 	      $_POST['to_periode'],
 	      $p_cent);
 
-
+  if ( count($Jrn->row) == 0) 
+      	exit;
   foreach ( $Jrn->row as $op ) { 
       // should clean description : remove <b><i> tag and '; char
     $desc=$op['description'];
