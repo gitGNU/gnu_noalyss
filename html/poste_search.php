@@ -32,11 +32,10 @@ if ( ! isset ( $g_dossier ) ) {
   exit -2;
 }
 
-$opt='<OPTION VALUE="<="> <=';
-$opt.='<OPTION VALUE="<"> <';
-$opt.='<OPTION VALUE="="> =';
-$opt.='<OPTION VALUE=">"> >';
-$opt.='<OPTION VALUE=">="> >=';
+// $opt='<OPTION VALUE="<="> commence par';
+// $opt.='<OPTION VALUE=">"> >';
+// $opt.='<OPTION VALUE=">="> >=';
+
 $c_comment="";
 $c_class="";
 
@@ -54,13 +53,14 @@ if ( isset($_POST['search']) ) {
   }
   if ( strlen(trim($p_class)) != 0 &&
        (string) $p_class == (int)(string) $p_class) {
-    if ($c1==1) {
-    $c_class=sprintf(" and pcm_val %s %s",$p_class_sel,$p_class);
-    } else {
-    $c_class=sprintf("  where pcm_val %s %s",$p_class_sel,$p_class);
-    $c1=1;
+    if ($c1==1) 
+      $clause=" and ";
+    else
+      $clause = " where ";
+    $c_class=sprintf(" %s pcm_val::text like '%s%%'",$clause,$p_class);
+
     }
-  }
+  
 
   $condition=$c_comment.$c_class;
 }
@@ -69,9 +69,10 @@ echo '<FORM ACTION="poste_search.php" METHOD="POST">';
 echo '<TABLE>';
 echo '<TR>';
 
-echo '<TD> Class </TD>';
-echo '<TD> <SELECT NAME="p_class_sel">'.$opt.' </TD>';
+echo '<TD>Poste Comptable Commence par  </TD>';
+
 if ( ! isset ($p_class) ) $p_class="";
+$opt=" <INPUT TYPE=\"text\" value=\"$p_class\" name=\"st_with\">";
 echo '<TD> <INPUT TYPE="text" name="p_class" VALUE="'.$p_class.'"></TD>';
 
 echo '<TD> Libellé </TD>';
