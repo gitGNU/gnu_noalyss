@@ -69,7 +69,7 @@ if ( isset ($annul) ) {
  )
  select 
  j_montant, j_poste, $seq, j_jrn_def, case when j_debit=false then true else false end, 
- j_text,j_internal,'$g_user',$period
+ j_text,'ANNULE,'$g_user',$period
  from jrnx where j_grpt=".$_POST['p_id'];
   $Res=ExecSql($cn,$sql);
  
@@ -84,9 +84,6 @@ if ( isset ($annul) ) {
  where   jr_grpt_id=".$_POST['p_id'];
   $Res=ExecSql($cn,$sql);
 
-  // Set internal code to ANNULE
-  $Res=ExecSql($cn,"update jrn set jr_internal='ANNULE' where jr_grpt_id=".$_POST['p_id']);
-
   // also in the stock table
   $sql="insert into stock_goods (
  j_id,f_id,sg_quantity,sg_type
@@ -98,7 +95,7 @@ if ( isset ($annul) ) {
  echo '<h2 class="info"> Opération annulée</h2>';
 ?>
 <script>
-   //window.close();
+   window.close();
  self.opener.RefreshMe();
 </script>
 <?

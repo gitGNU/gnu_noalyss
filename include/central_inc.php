@@ -64,6 +64,7 @@ $sql="insert into centralized( c_j_id,
             where  
             j_tech_per =".$p_periode." 
             and jr_internal != 'ANNULE'
+            and j_internal != 'ANNULE'
             order by j_date,j_grpt,j_debit desc ";
  $Res=StartSql($p_cn);
  $Res=ExecSql($p_cn,$sql);
