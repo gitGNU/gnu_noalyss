@@ -176,15 +176,51 @@ passe pas par des comptes débiteurs mais directement en faisant banque
 
 </sect2>
 </sect1>
+<sect1> Fiscalité, TVA
+<p> tous les requalifications des montants doivent
+se faire par le journal des opérations diverses
 
+<sect2> Belgique
+<sect3> TVA & impôt
+<p> Pour faire votre déclaration tva, vous pouvez utilisez les
+balances des comptes ou les formulaires.
+
+<p>
+Attention  NE PAS REPRENDRE LES
+MONTANTS AINSI !!!. Avant de faire votre déclaration, vous devez d'abord
+rectifier les montants. Par exemple, 50% de la tva sur la voiture ne
+sont pas récupérable par la tva mais par l'impôt des société. 
+Il faut "déplacer" 50% de cette tva  dans un poste comptable tva non
+admises, 
+cela devrait être un compte de la classe 6 (donc 6xxxx à 411xxx), les charges
+augmentent mais la tva à récupérer diminue, ce qui est logique puisque
+cette tva est à récupérer par l'impôt des sociétés.
+
+<p> Idem pour les frais de restaurant, ne pas oublier pendant les
+travaux de fin d'exercice,d'imputer 50% du total de vos frais de
+restaurant à un compte de dépense non admise. Il n'est pas dans le
+PCMN donc créer le poste vous-même (classe 67).
+
+<p>De plus si vous utilisez la voiture pour votre usage personnel, 2/7
+doivent être mis sur le compte exploitant dans le cas d'une
+sprl. C'est-à-dire qu'il
+faut diminuer les charges 6xxxx frais de voiture à 41xxx Compte de
+l'exploitant. Et de la même manière,  diminuer la tva de vos frais de
+voiture de 2/7. 
+</sect3>
+
+<sect2> France
+<p> Pas reçu de doc ni d'aide sur ce sujet désolé
+</sect2>
+</sect1>
 
 
 </sect>
-<sect> Les profils
+<sect> Les modes
 <p>
 Dans le menu préférence, il existe deux sortes d'interface que vous pouvez utiliser, 
 </p>
-<sect1>Le profil comptable
+<sect1>Le mode comptable
 <p>
 Dans ce cas, vous verrez votre comptabilité comme un comptable s'attend à la voir
 avec des postes comptables, des écritures comptables impliquant des
@@ -196,7 +232,7 @@ règles comptables est l'irréversibilité des écritures, si vous avez
 mal encodé, vous devez introduire l'écriture comptable inverse pour
 corriger, pensez à mettre la mention "correction d'erreur"
 </sect1>
-<sect1>Le profil utilisateur
+<sect1>Le mode utilisateur
 <p>
 Dans ce cas, vous verrez votre comptabilité comme un utilisateur, facture à payer, facture à encoder... 
 
@@ -246,6 +282,12 @@ exemple :
 Ceux qui terminent par une étoile reprennent les comptes qui commence
 par l'expression ainsi 411* reprendra 411, 4111, 4112,4113 et
 4114. Vous séparez les différents comptes par un espace.
+
+Il vaut mieux ne pas créer plus de 4 journaux par types, c'est-à-dire
+16 au total, il y a à cela deux raisons : la première est que cela
+devient ingérable, la seconde est que l'affichage en mode utilisateur
+serait euh... atroce. Quatre journaux en tout est largement suffisant
+pour les besoins d'une entreprise.
 <sect1> Journal des Achats
 </sect1>
 <sect1> Journal des Ventes
@@ -288,7 +330,10 @@ vous devrez mettre manuellement le poste comptable
 </sect1>
 <sect1>Création d'une fiche 
 <p>
-Quelques attributs à expliquer : Gestion Poste, Prix Achat, Prix de vente, Poste Comptable
+Quelques attributs à expliquer : Gestion Poste, Prix Achat, Prix de
+vente, Poste Comptable. Vous n'êtes pas obligé de créer une fiche pour
+tout, par exemple pour les restaurants, vous pouvez encodez une seule
+et unique fiche appelée restaurant.
 
 </p>
 </sect1>
@@ -507,6 +552,5 @@ encoder dans le journal financier, ne pas oublier le rapprochement
 Banque : le client nous a payé pour la facture du 21
 encoder dans le journal financier, ne pas oublier le rapprochement
 </sect1>
-
 </sect>
 </article>

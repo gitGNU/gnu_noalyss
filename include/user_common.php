@@ -219,7 +219,8 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
 			jrn_def_id,
 			jrn_def_name,
 			jrn_def_ech,
-			jrn_def_type 
+			jrn_def_type,
+                        jr_valid
 		       from 
 			jrn join jrn_def on jrn_def_id=jr_def_id 
                        $p_where 
@@ -242,7 +243,8 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
 		jrn_def_id,
 		jrn_def_name,
 		jrn_def_ech,
-		jrn_def_type 
+		jrn_def_type,
+                jr_valid
 		      from 
                 jrn join jrn_def on jrn_def_id=jr_def_id where jrn_def_id=$p_jrn";
     $l_and=" and ";
@@ -331,13 +333,14 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
 	}// if ( $a != null ) {
 	$r.="</TD>";
 	//$l=user_jrn.php?action=update&line=91
-// TODO Add print
-  $r.="<TD>";
-// cancel operation
-  $r.=sprintf('<input TYPE="BUTTON" VALUE="%s" onClick="cancelOperation(\'%s\',\'%s\')">',
-		    "Annulation",$row['jr_grpt_id'],$l_sessid);
-  $r.="</TD>";
-
+	if ( $row['jr_valid'] == 't' ) {
+	  // TODO Add print
+	  $r.="<TD>";
+	  // cancel operation
+	  $r.=sprintf('<input TYPE="BUTTON" VALUE="%s" onClick="cancelOperation(\'%s\',\'%s\')">',
+		      "Annulation",$row['jr_grpt_id'],$l_sessid);
+	  $r.="</TD>";
+	}
 // end row
 	$r.="</tr>";
 	
@@ -592,6 +595,34 @@ function UpdateComment ($p_cn,$p_jr_id,$p_comment) {
   $p_comment=FormatString($p_comment);
   $Res=ExecSql($p_cn,"update jrn set jr_comment='".$p_comment."'
                                where jr_id = $p_jr_id"); 
+
+}
+
+/* function isValid ($p_cn, $p_grpt_id
+ **************************************************
+ * Purpose :  test if a jrn op is valid
+ *        
+ * parm : 
+ *	- db connection 
+ *      - p_grpt_id
+ * gen :
+ *	- none
+ * return:
+ *        1 is valid
+ *        0 is not valid
+ */
+function isValid ($p_cn,$p_grpt_id) {
+  $Res=ExecSql($p_cn,"select jr_valid from jrn where jr_grpt_id=$p_grpt_id");
+
+  if ( ( $M = pg_NumRows($Res)) == 0 ) return 0;
+
+  $a=pg_fetch_array($Res,0);
+
+  if ( $a['jr_valid'] == 't') return 1;
+  if ( $a['jr_valid'] == 'f') return 0;
+
+  echo_error ("Invalid result = ".$a['result']);
+
 
 }
 

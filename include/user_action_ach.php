@@ -93,6 +93,8 @@ if ( $action == 'new' ) {
 
 	// if something goes wrong, correct it
 	if ( $r == null ) {
+	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
+                    <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver">';
 	  $r=FormAch($cn,$g_jrn,$g_user,$submit,$HTTP_POST_VARS,false,  $nb_number);
 	}
 	echo '<div class="u_redcontent">';

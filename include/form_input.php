@@ -737,7 +737,6 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
   
   // Save old value and set a new one
   $e_client=( isset ($e_client) )?$e_client:"";
-  //  $r.='<TR>'.InputType("Fournisseur","SELECT","e_client",$customer,$view_only,$fiche).'</TR>';
 
   $e_client_label="";  
 
@@ -790,6 +789,7 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
       echo_error($msg); echo_error($msg);	
       echo "<SCRIPT>alert('$msg');</SCRIPT>";
       $march_buy=0;
+      if ( $view_only ) return null;
     }
     $march_tva_label="";
     $march_label="";
@@ -801,6 +801,7 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
       echo_error($msg); echo_error($msg);	
       echo "<SCRIPT>alert('$msg');</SCRIPT>";
       $march="";
+      if ( $view_only ) return null;
       } else {
            // retrieve the tva label and name
       $a_fiche=GetFicheAttribut($p_cn, $march);
@@ -809,6 +810,13 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
 	$march_label=$a_fiche['vw_name'];
       }
     }
+    } else {
+      if ( $view_only ) {
+      $msg="Fiche inexistante !!! ";
+      echo_error($msg); echo_error($msg);	
+      echo "<SCRIPT>alert('$msg');</SCRIPT>";
+      return null;
+      }
     }
     $r.='<TR>'.InputType("","js_search","e_march".$i,$march,$view_only,'deb');
     $r.=InputType("","span", "e_march".$i."_label", $march_label,$view_only);
@@ -923,7 +931,7 @@ function RecordAchat($p_cn,$p_array,$p_user,$p_jrn)
     $j_id=InsertJrnx($p_cn,'d',$p_user,$p_jrn,$poste,$e_date,$a_price[$i]*$a_quant[$i],$seq,$periode);
     //    if ( withStock($p_cn,$a_good[$i]) == true )  
     // always save quantity but in withStock we can find what card need a stock management
-    InsertStockGoods($p_cn,$j_id,$a_good[$i],$a_quant[$i],'c');
+    InsertStockGoods($p_cn,$j_id,$a_good[$i],$a_quant[$i],'d');
   }
   // Insert Vat
   if (sizeof($a_vat) != 0 ) // no vat
@@ -934,14 +942,16 @@ function RecordAchat($p_cn,$p_array,$p_user,$p_jrn)
       }
     }
   echo_debug("echeance = $e_ech");
-  InsertJrn($p_cn,$e_date,$e_ech,$p_jrn,"",$amount+$sum_vat,$seq,$periode);
-  // Set Internal code and Comment
-  $comment=SetInternalCode($p_cn,$seq,$p_jrn)."  client : ".GetFicheName($p_cn,$e_client);
-  if ( $e_comment=="" ) {
-    // Update comment if comment is blank
-    $Res=ExecSql($p_cn,"update jrn set jr_comment='".$comment."' where jr_grpt_id=".$seq);
+  if ( ($amount+$sum_vat) != 0 ){
+    InsertJrn($p_cn,$e_date,$e_ech,$p_jrn,"",$amount+$sum_vat,$seq,$periode);
+    // Set Internal code and Comment
+    $comment=SetInternalCode($p_cn,$seq,$p_jrn)."  client : ".GetFicheName($p_cn,$e_client);
+    if ( $e_comment=="" ) {
+      // Update comment if comment is blank
+      $Res=ExecSql($p_cn,"update jrn set jr_comment='".$comment."' where jr_grpt_id=".$seq);
+    }
+    return $comment;
   }
-  return $comment;
 }
 
 /* function FormFin($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_item=1) 
@@ -1007,16 +1017,25 @@ function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
 
     // retrieve e_bank_account_label
   if ( isNumber($e_bank_account) == 1 ) {
-    if ( isFicheOfJrn($p_cn,$p_jrn,$e_bank_account,'cred') == 0 ) {
+    if ( isFicheOfJrn($p_cn,$p_jrn,$e_bank_account,'deb') == 0 ) {
       $msg="Fiche inexistante !!! ";
       echo_error($msg); echo_error($msg);	
       echo "<SCRIPT>alert('$msg');</SCRIPT>";
       $e_bank_account="";
+      echo_debug("FormFin returns NULL the bank account is not valid");
+      return null;
     } else {
       $a_client=GetFicheAttribut($p_cn,$e_bank_account);
       if ( $a_client != null)   
 	$e_bank_account_label=$a_client['vw_name']."  adresse ".$a_client['vw_addr']."  ".$a_client['vw_cp'];
       }
+  }else {
+    
+    if ( $view_only ==true) {
+      return null;
+      echo_debug("FormFin returns NULL the bank account is not valid");
+    }
+    
   }
   
   $r.='<TR>'.InputType("Banque","js_search","e_bank_account",$e_bank_account,$view_only,FICHE_TYPE_FIN).'</TR>';
@@ -1062,7 +1081,7 @@ function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
       $tiers_comment=(isset (${"e_other$i"."_comment"}))?${"e_other$i"."_comment"}:"";
     // If $tiers has a value
     if ( isNumber($tiers) == 1 ) {
-      if ( isFicheOfJrn($p_cn,$p_jrn,$tiers,'deb') == 0 ) {
+      if ( isFicheOfJrn($p_cn,$p_jrn,$tiers,'cred') == 0 ) {
 	$msg="Fiche inexistante !!! ";
 	echo_error($msg); echo_error($msg);	
 	echo "<SCRIPT>alert('$msg');</SCRIPT>";
@@ -1078,7 +1097,7 @@ function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
     ${"e_other$i"."_amount"}=(isset (${"e_other$i"."_amount"}))?${"e_other$i"."_amount"}:0;
     // Compute the string to pass to InputType
     $f=FICHE_TYPE_CLIENT.",".FICHE_TYPE_FOURNISSEUR.",".FICHE_TYPE_ADM_TAX.",".FICHE_TYPE_FIN;
-    $r.='<TR>'.InputType("","js_search","e_other".$i,$tiers,$view_only,$f);
+    $r.='<TR>'.InputType("","js_search","e_other".$i,$tiers,$view_only,'cred');
     $r.=InputType("","span", "e_other$i"."_label", $tiers_label,$view_only);
     // Comment
     $r.=InputType("","Text","e_other$i"."_comment",$tiers_comment,$view_only);
@@ -1123,7 +1142,7 @@ return $r;
  *	      true on success
  */
 function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
-
+  echo_debug("RecordFin");
   foreach ( $p_array as $v => $e)
   {
     ${"$v"}=$e;
@@ -1186,7 +1205,7 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
     $Res=ExecSql($p_cn,"update jrn set jr_comment='".$comment."' where jr_grpt_id=".$seq);
   }
   }
-  return $comment;
+
 }
 /* function FormODS($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article=1)
  * Purpose : Display the miscellaneous operation

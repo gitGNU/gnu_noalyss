@@ -1,4 +1,30 @@
+2004-04-02  sparkyx  <sparkyx@july.summer>
+
+	* html/annulation.php, include/central_inc.php:
+	Change cancel an op : j_internal=='ANNULE' and jr_internal of the cancel operation = 'ANNULE'
+
+	* html/annulation.php, include/central_inc.php, include/jrn.php:
+	Change centralize and jr_internal rule
+
+	* html/modify_op.php, include/jrn.php: Payment
+
+	* include/stock_inc.php: Stock include file
+
+	* html/annulation.php, html/fiche_new.php, html/fiche_search.php, html/jrn_search.php, html/login.php, html/print_balance.php, html/stock.php, html/user_login.php, include/constant.php, include/form_input.php, include/jrn.php, include/postgres.php, include/user_common.php, include/user_menu.php, sql/account_repository.sql, sql/demo.sql, sql/mod-be.sql, FAQ-fr.txt, doc/FAQ-fr.txt, doc/manuel-fr.sgml, html/admin_repo.php, style-light.css:
+	Many little Bugs fixed
+
 2004-04-01  sparkyx  <sparkyx@july.summer>
+
+	* include/form_input.php, include/user_action_fin.php, include/user_action_ods.php:
+	Improve appearance in user interface for ach, ven, fin and ods
+
+	* include/compta_menu.php, include/fiche_inc.php, include/form_input.php, include/jrn.php, include/user_common.php:
+	code cleaning
+
+	* include/form_inc.php, html/enc_jrn.php, html/jrn_add.php, html/jrn_detail.php, html/jrn_search.php, html/poste_search.php, html/win_detail_jrn.js, html/win_search_jrn.js, html/win_search_poste.js:
+	remove javascript file, the javascript are now in include/constant.php (define JS_)
+
+	* Changelog: Update
 
 	* sql/dump-db.sql: script for creating db files
 

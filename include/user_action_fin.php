@@ -90,6 +90,10 @@ if ( $action == 'new' ) {
 
 	// if something goes wrong correct it
 	if ( $r == null ) {
+	  // submit button in the form
+	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
+                    <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver">';
+
 	  $r=FormFin($cn,$g_jrn,$g_user,$submit,$HTTP_POST_VARS,false,  $nb_number);
 	}
 
