@@ -35,6 +35,7 @@ class widget {
   var $selected;
   var $table;
   var $label;
+  var $disabled;
   function widget($p_type="") {
     $this->type=$p_type;
     $this->readonly=false;
@@ -45,6 +46,7 @@ class widget {
     $this->selected="";
     $this->table=0;
     $this->label="";
+    $this->disabled=false;
   }
   function SetReadOnly($p_read) {
     $this->readonly=$p_read;
@@ -64,9 +66,10 @@ class widget {
     $this->label=($p_label == "")?$this->label:$p_label;
     //echo "this->value =".$this->value;
     // Input text type
+    $disabled = $this->disabled ? "DISABLED" : "";
     if (strtoupper($this->type)=="TEXT") {
       if ( $this->readonly==false) {
-	$r="<INPUT TYPE=\"TEXT\" NAME=\"$p_name\" VALUE=\"$p_value\" SIZE=\"$this->size\">";} else {
+	$r="<INPUT TYPE=\"TEXT\" NAME=\"$p_name\" VALUE=\"$p_value\" SIZE=\"$this->size\" ".$disabled.">";} else {
 	$r=$this->value;
       }
       if ($this->table==1) {
@@ -131,7 +134,7 @@ class widget {
 	$check=( $this->selected==true )?"checked":"unchecked";
 	$r='<input type="CHECKBOX" name="'.$this->name.'"';
 	$r.="  $check";
-	$r.='>';
+	$r.=' '.$disabled.'>';
       }
       if ($this->table==1) {
 	$r="<TD> $this->label </TD><TD> $r </TD>";
@@ -151,7 +154,7 @@ class widget {
 	$r='<input type="RADIO" name="'.$this->name.'"';
 	$r.=" VALUE=\"$this->value\"";
 	$r.="  $check";
-	$r.='>';
+	$r.=' '.$disabled.'>';
       }
       if ($this->table==1) {
 	$r="<TD> $this->label </TD><TD> $r </TD>";
@@ -167,7 +170,7 @@ class widget {
 	$r='<TEXTAREA name="'.$this->name.'"';
 	$r.=" rows=\"$this->heigh\" ";
 	$r.=" cols=\"$this->width\" ";
-	$r.='>';
+	$r.=' '.$disabled.'>';
 	$r.=$this->value;
 
 	$r.="</TEXTAREA>";
@@ -185,7 +188,7 @@ class widget {
     //file
     if (strtoupper($this->type)=="FILE") {
       if ( $this->readonly == false ) {
-	$r='<INPUT TYPE="file" name="'.$this->name.'" >';
+	$r='<INPUT TYPE="file" name="'.$this->name.'"  '.$disabled.'>';
 
       }
       if ( $this->table==1) $r="<TD>$this->label</TD><TD>$r</TD>"; 
