@@ -18,4 +18,146 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
+echo_debug("include user_action_ach.php");
+include_once("form_input.php");
+// phpinfo();
+if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {
+    return;
+}
+include_once ("preference.php");
+include_once ("user_common.php");
+
+$dossier=sprintf("dossier%d",$g_dossier);
+$cn=DbConnect($dossier);
+$action=(isset($_GET['action']))?$_GET['action']:$_POST['action'];
+
+// action = new
+if ( $action == 'new' ) {
+// We request a new form
+	if ( isset($_GET['blank'] )) {
+	  // Submit button in the form
+	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout poste">
+                    <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Confirmer">';
+	  // add a one-line calculator
+
+
+	  $r=FormODS($cn,$g_jrn,$g_user,$submit,null,false);
+	  echo '<div class="u_redcontent">';
+	  echo $r;
+	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."<div>";
+	  echo "</div>";
+
+
+	}
+
+	// Add an item
+	if ( isset ($_POST['add_item'])) {
+	  // Add a line
+	  $nb_number=$_POST["nb_item"];
+	  $nb_number++;
+
+	  // submit button in the form
+	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
+                    <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver">';
+
+	  $r=FormODS($cn,$g_jrn,$g_user,$submit,$HTTP_POST_VARS,false,  $nb_number);
+	  echo '<div class="u_redcontent">';
+	  echo $r;
+	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."<div>";
+	  echo "</div>";
+	}
+	// Correct it
+	if ( isset ($_POST['correct'])) {
+	  // Get number of  lines
+	  $nb_number=$_POST["nb_item"];
+
+	  // submit button in the form
+	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
+                    <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver">';
+
+	  $r=FormODS($cn,$g_jrn,$g_user,$submit,$HTTP_POST_VARS,false,  $nb_number);
+	  echo '<div class="u_redcontent">';
+	  echo $r;
+	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."<div>";
+	  echo "</div>";
+	}
+
+
+	// View the charge and show a submit button to save it 
+	if ( isset ($_POST['view_invoice']) ) {
+	  $nb_number=$_POST["nb_item"];
+	  $submit='<INPUT TYPE="SUBMIT" name="save" value="Confirmer">';
+	  $submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
+
+	  $r=FormODS($cn,$g_jrn,$g_user,$submit,$HTTP_POST_VARS,true,$nb_number);
+
+	// if something goes wrong, correct it
+	  if ( $r == null ) {
+	    $r=FormODS($cn,$g_jrn,$g_user,$submit,$HTTP_POST_VARS,false,  $nb_number);
+	  }
+	  echo '<div class="u_redcontent">';
+	  echo $r;
+	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."<div>";
+	  echo "</div>";
+	}
+	// Save the charge into database
+	if ( isset($_POST['save'] )) {
+	  $r=RecordODS($cn,$HTTP_POST_VARS,$g_user,$g_jrn);
+	  // Get number of  lines
+	  $nb_number=$_POST["nb_item"];
+
+	  // submit button in the form
+	  $submit='<h2 class="info">Recorded</h2>';
+
+	  $r.=FormODS($cn,$g_jrn,$g_user,$submit,$HTTP_POST_VARS,true,  $nb_number);
+	  echo '<div class="u_redcontent">';
+	  echo $r;
+	  echo "</div>";
+	  
+	}
+	
+
+}
+if ( $action == 'voir_jrn' ) {
+ // Show list of sell
+  echo_debug ("user_action_ods.php");
+ // Date - date of payment - Customer - amount
+   $sql=SQL_LIST_ALL_INVOICE." and jr_tech_per=".GetUserPeriode($cn,$g_user)." and jr_def_id=$g_jrn";
+   $list=ListJrn($cn,$g_jrn,$sql);
+   echo '<div class="u_redcontent">';
+   echo $list;
+   echo '</div>';
+}
+// if ( $action == 'voir_jrn_non_paye' ) {
+// // Show list of unpaid sell
+// // Date - date of payment - Customer - amount
+//   $sql=SQL_LIST_UNPAID_INVOICE_DATE_LIMIT." and jr_def_id=$g_jrn" ;
+//   $list=ListJrn($cn,$g_jrn,$sql);
+//   $sql=SQL_LIST_UNPAID_INVOICE." and jr_def_id=$g_jrn" ;
+//   $list2=ListJrn($cn,$g_jrn,$sql);
+//     echo '<div class="u_redcontent">';
+//     echo '<h2 class="info"> Echeance dépassée </h2>';
+//     echo $list;
+//     echo  '<h2 class="info"> Non Payée </h2>';
+//     echo $list2;
+//     echo '</div>';
+// }
+
+//Search
+if ( $action == 'search' ) {
+  // PhpSessid
+  $sessid=(isset ($_POST['PHPSESSID']))?$_POST['PHPSESSID']:$_GET['PHPSESSID'];
+
+// display a search box
+  $search_box=u_ShowMenuRecherche($cn,$g_jrn,$sessid,$HTTP_POST_VARS);
+  echo '<DIV class="u_redcontent">';
+  echo $search_box; 
+  // if nofirst is set then show result
+  if ( isset ($_GET['nofirst'] ) )     {
+    $a=ListJrn($cn,$g_jrn,"",$HTTP_POST_VARS);
+    echo $a;
+  }
+  echo '</DIV>'; 
+}
+include("user_update.php");
 ?>

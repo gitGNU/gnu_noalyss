@@ -104,4 +104,32 @@ function PosteForm($p_cn) {
   $ret.="</SELECT>";
   return $ret;
 }
+/* function GetSolde
+ * Purpose : Cree un form pour prendre les postes
+ * 
+ * parm : 
+ *	-  connection
+ * gen :
+ *	- noen
+ * return:
+ *	- morceau de code d'html qui contient un multiselect
+ *        pour les postes
+ *
+ */ 
+function GetSolde($p_cn,$p_account) {
+  $Res=ExecSql($p_cn,"select j_poste,sum(deb) as sum_deb, sum(cred) as sum_cred from 
+          ( select j_poste, 
+             case when j_debit='t' then j_montant else 0 end as deb, 
+             case when j_debit='f' then j_montant else 0 end as cred 
+          from jrnx join tmp_pcmn on j_poste=pcm_val 
+              where  
+            j_poste=$p_account
+          ) as m group by j_poste ");
+  $Max=pg_NumRows($Res);
+  if ($Max==0) return 0;
+  $r=pg_fetch_array($Res,0);
+
+  return $r['sum_deb']-$r['sum_cred'];
+}
+
 ?>

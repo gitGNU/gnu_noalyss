@@ -37,7 +37,7 @@ if ( $action == 'new' ) {
 	if ( isset($_GET['blank'] )) {
 	  // Submit button in the form
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
-                    <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Voir cette facture">';
+                    <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver">';
 	  // add a one-line calculator
 
 
@@ -153,9 +153,11 @@ if ( $action == 'search' ) {
   echo '<DIV class="u_redcontent">';
   echo $search_box; 
   // if nofirst is set then show result
-  if ( isset ($_GET['nofirst'] ) )
-    ViewJrn($g_dossier,$g_user,$g_jrn,$HTTP_POST_VARS);
+  if ( isset ($_GET['nofirst'] ) )     {
+    $a=ListJrn($cn,$g_jrn,"",$HTTP_POST_VARS);
+    echo $a;
+  }
   echo '</DIV>'; 
 }
-
+include("user_update.php");
 ?>
