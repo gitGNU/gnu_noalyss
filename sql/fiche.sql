@@ -47,6 +47,7 @@ CREATE TABLE fiche_def (
     fd_create_account bool default false,
     frd_id integer NOT NULL references fiche_def_ref(frd_id)
 );
+create index fk_fiche_def_frd_id on fiche_def (frd_id);
 
 \echo drop TABLE attr_value
 drop TABLE attr_value cascade;
@@ -55,6 +56,7 @@ CREATE TABLE attr_value (
     jft_id integer references jnt_fic_att_value(jft_id),
     av_text text
 );
+create index fk_attr_value_jft_id on attr_value (jft_id);
 
 \echo drop TABLE attr_def 
 drop TABLE attr_def cascade;
@@ -71,6 +73,8 @@ CREATE TABLE attr_min (
     frd_id integer references fiche_def_ref(frd_id),
     ad_id integer references attr_def(ad_id)
 );
+create index fk_attr_min_frd_id on attr_min(frd_id);
+create index fk_attr_min_ad_id on attr_min (ad_id);
 
 \echo drop TABLE fiche 
 drop TABLE fiche cascade;
@@ -79,7 +83,7 @@ CREATE TABLE fiche (
     f_id integer DEFAULT nextval('s_fiche'::text) primary key,
     fd_id integer references fiche_def(fd_id)
 );
-
+create index fk_fiche_fd_id on fiche(fd_id);
 
 
 \echo drop TABLE jnt_fic_att_value 

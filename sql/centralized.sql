@@ -36,4 +36,6 @@ CREATE TABLE centralized (
     c_periode integer
 );
 
+create index fk_centralized_c_jrn_def on centralized(c_jrn_def);
+create index fk_centralized_c_poste on centralized(c_poste);
 

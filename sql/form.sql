@@ -34,4 +34,5 @@ create table form (
 	fo_label	text,
 	fo_formula	text
 );
+create index fk_form_fo_fr_id on form (fo_fr_id);
 

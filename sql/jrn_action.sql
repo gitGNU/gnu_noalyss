@@ -27,7 +27,7 @@ create table jrn_action (
        ja_lang text default 'FR',
        ja_jrn_type char(3) references jrn_type(jrn_type_id)
 );
-
+create index fk_jrn_action_ja_jrn_type on jrn_action(ja_jrn_type);
 --
 -- PostgreSQL database dump
 --

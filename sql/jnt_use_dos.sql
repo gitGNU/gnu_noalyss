@@ -30,3 +30,5 @@ create table jnt_use_dos
 	dos_id int4 not null references ac_dossier(dos_id),
 	primary key (use_id,dos_id)
 );
+create index fk_jnt_use_dos on jnt_use_dos(use_id);
+create index fk_jnt_dos_id on jnt_use_dos(dos_id);
