@@ -7,7 +7,7 @@
 SET search_path = public, pg_catalog;
 
 --
--- TOC entry 2 (OID 41429)
+-- TOC entry 2 (OID 30851)
 -- Name: users_id; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
@@ -20,7 +20,7 @@ CREATE SEQUENCE users_id
 
 
 --
--- TOC entry 12 (OID 41431)
+-- TOC entry 12 (OID 30853)
 -- Name: ac_users; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
@@ -39,20 +39,7 @@ CREATE TABLE ac_users (
 
 
 --
--- TOC entry 4 (OID 41441)
--- Name: dossier_id; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
-
-CREATE SEQUENCE dossier_id
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
-    CACHE 1;
-
-
---
--- TOC entry 13 (OID 41443)
+-- TOC entry 13 (OID 30865)
 -- Name: ac_dossier; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
@@ -65,7 +52,7 @@ CREATE TABLE ac_dossier (
 
 
 --
--- TOC entry 6 (OID 41450)
+-- TOC entry 4 (OID 30872)
 -- Name: seq_jnt_use_dos; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
@@ -78,7 +65,7 @@ CREATE SEQUENCE seq_jnt_use_dos
 
 
 --
--- TOC entry 14 (OID 41452)
+-- TOC entry 14 (OID 30874)
 -- Name: jnt_use_dos; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
@@ -90,7 +77,7 @@ CREATE TABLE jnt_use_dos (
 
 
 --
--- TOC entry 15 (OID 41455)
+-- TOC entry 15 (OID 30877)
 -- Name: version; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
@@ -100,7 +87,7 @@ CREATE TABLE "version" (
 
 
 --
--- TOC entry 8 (OID 41457)
+-- TOC entry 6 (OID 30879)
 -- Name: seq_priv_user; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
@@ -113,7 +100,7 @@ CREATE SEQUENCE seq_priv_user
 
 
 --
--- TOC entry 16 (OID 41459)
+-- TOC entry 16 (OID 30881)
 -- Name: priv_user; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
@@ -125,7 +112,7 @@ CREATE TABLE priv_user (
 
 
 --
--- TOC entry 17 (OID 41465)
+-- TOC entry 17 (OID 30887)
 -- Name: theme; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
@@ -137,7 +124,7 @@ CREATE TABLE theme (
 
 
 --
--- TOC entry 10 (OID 41470)
+-- TOC entry 8 (OID 30892)
 -- Name: s_modid; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
@@ -150,7 +137,7 @@ CREATE SEQUENCE s_modid
 
 
 --
--- TOC entry 18 (OID 41472)
+-- TOC entry 18 (OID 30894)
 -- Name: modeledef; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
@@ -162,7 +149,20 @@ CREATE TABLE modeledef (
 
 
 --
--- Data for TOC entry 27 (OID 41431)
+-- TOC entry 10 (OID 33814)
+-- Name: dossier_id; Type: SEQUENCE; Schema: public; Owner: phpcompta
+--
+
+CREATE SEQUENCE dossier_id
+    START 3
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 3
+    CACHE 1;
+
+
+--
+-- Data for TOC entry 27 (OID 30853)
 -- Name: ac_users; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -171,7 +171,7 @@ INSERT INTO ac_users VALUES (1, NULL, NULL, 'phpcompta', 1, 'b1cc88e1907cde80cb2
 
 
 --
--- Data for TOC entry 28 (OID 41443)
+-- Data for TOC entry 28 (OID 30865)
 -- Name: ac_dossier; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -179,7 +179,7 @@ INSERT INTO ac_dossier VALUES (1, 'Demo', 'Base de données pour développement & 
 
 
 --
--- Data for TOC entry 29 (OID 41452)
+-- Data for TOC entry 29 (OID 30874)
 -- Name: jnt_use_dos; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -191,10 +191,12 @@ INSERT INTO jnt_use_dos VALUES (13, 4, 1);
 INSERT INTO jnt_use_dos VALUES (14, 1, 7);
 INSERT INTO jnt_use_dos VALUES (15, 1, 8);
 INSERT INTO jnt_use_dos VALUES (16, 1, 9);
+INSERT INTO jnt_use_dos VALUES (17, 1, 10);
+INSERT INTO jnt_use_dos VALUES (18, 1, 11);
 
 
 --
--- Data for TOC entry 30 (OID 41455)
+-- Data for TOC entry 30 (OID 30877)
 -- Name: version; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -202,7 +204,7 @@ INSERT INTO "version" VALUES (3);
 
 
 --
--- Data for TOC entry 31 (OID 41459)
+-- Data for TOC entry 31 (OID 30881)
 -- Name: priv_user; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -218,7 +220,7 @@ INSERT INTO priv_user VALUES (9, 13, 'W');
 
 
 --
--- Data for TOC entry 32 (OID 41465)
+-- Data for TOC entry 32 (OID 30887)
 -- Name: theme; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -229,7 +231,7 @@ INSERT INTO theme VALUES ('Light', 'style-light.css', NULL);
 
 
 --
--- Data for TOC entry 33 (OID 41472)
+-- Data for TOC entry 33 (OID 30894)
 -- Name: modeledef; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -237,7 +239,7 @@ INSERT INTO modeledef VALUES (1, '(BE) Basique', 'Comptabilité Belge, tout doit 
 
 
 --
--- TOC entry 24 (OID 41501)
+-- TOC entry 24 (OID 30926)
 -- Name: fk_jnt_use_dos; Type: INDEX; Schema: public; Owner: phpcompta
 --
 
@@ -245,7 +247,7 @@ CREATE INDEX fk_jnt_use_dos ON jnt_use_dos USING btree (use_id);
 
 
 --
--- TOC entry 23 (OID 41502)
+-- TOC entry 23 (OID 30927)
 -- Name: fk_jnt_dos_id; Type: INDEX; Schema: public; Owner: phpcompta
 --
 
@@ -253,7 +255,7 @@ CREATE INDEX fk_jnt_dos_id ON jnt_use_dos USING btree (dos_id);
 
 
 --
--- TOC entry 19 (OID 41503)
+-- TOC entry 19 (OID 30928)
 -- Name: ac_users_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -262,7 +264,7 @@ ALTER TABLE ONLY ac_users
 
 
 --
--- TOC entry 20 (OID 41505)
+-- TOC entry 20 (OID 30930)
 -- Name: ac_users_use_login_key; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -271,7 +273,7 @@ ALTER TABLE ONLY ac_users
 
 
 --
--- TOC entry 22 (OID 41507)
+-- TOC entry 22 (OID 30932)
 -- Name: ac_dossier_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -280,7 +282,7 @@ ALTER TABLE ONLY ac_dossier
 
 
 --
--- TOC entry 21 (OID 41509)
+-- TOC entry 21 (OID 30934)
 -- Name: ac_dossier_dos_name_key; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -289,7 +291,7 @@ ALTER TABLE ONLY ac_dossier
 
 
 --
--- TOC entry 25 (OID 41511)
+-- TOC entry 25 (OID 30936)
 -- Name: jnt_use_dos_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -298,7 +300,7 @@ ALTER TABLE ONLY jnt_use_dos
 
 
 --
--- TOC entry 34 (OID 41513)
+-- TOC entry 34 (OID 30938)
 -- Name: $1; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -307,7 +309,7 @@ ALTER TABLE ONLY jnt_use_dos
 
 
 --
--- TOC entry 26 (OID 41517)
+-- TOC entry 26 (OID 30942)
 -- Name: modeledef_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -316,7 +318,7 @@ ALTER TABLE ONLY modeledef
 
 
 --
--- TOC entry 3 (OID 41429)
+-- TOC entry 3 (OID 30851)
 -- Name: users_id; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -324,23 +326,15 @@ SELECT pg_catalog.setval ('users_id', 4, true);
 
 
 --
--- TOC entry 5 (OID 41441)
--- Name: dossier_id; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
---
-
-SELECT pg_catalog.setval ('dossier_id', 9, true);
-
-
---
--- TOC entry 7 (OID 41450)
+-- TOC entry 5 (OID 30872)
 -- Name: seq_jnt_use_dos; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval ('seq_jnt_use_dos', 16, true);
+SELECT pg_catalog.setval ('seq_jnt_use_dos', 18, true);
 
 
 --
--- TOC entry 9 (OID 41457)
+-- TOC entry 7 (OID 30879)
 -- Name: seq_priv_user; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -348,10 +342,18 @@ SELECT pg_catalog.setval ('seq_priv_user', 9, true);
 
 
 --
--- TOC entry 11 (OID 41470)
+-- TOC entry 9 (OID 30892)
 -- Name: s_modid; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
 SELECT pg_catalog.setval ('s_modid', 1, false);
+
+
+--
+-- TOC entry 11 (OID 33814)
+-- Name: dossier_id; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval ('dossier_id', 3, false);
 
 
