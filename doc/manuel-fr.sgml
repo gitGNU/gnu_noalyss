@@ -649,7 +649,7 @@ root     24555 23968  0 22:56 pts/0    00:00:00 grep httpd
 <p>
 Dans PhpCompta, le module de sécurité permet d'établir quel
 utilisateur peut accéder à quel dossier, ce qu'il peut y faire,
-les journaux qu'il peut accéder. Chaque fois qu'une page est chargée,
+les journaux qu'il peut accéder... Chaque fois qu'une page est chargée,
 le mot de passe et le login utilisateur sont vérifiés pour savoir si
 primo il a accès a ce qu'il demandé à faire et secundo  si son compte
 est actif et que le mot de passe fourni est valide. Ces valeurs sont

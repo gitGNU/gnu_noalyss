@@ -1,16 +1,36 @@
 <style type="text/css">
 <!--
+body {
+   	font-family:sans-serif;
+	font-size:12px;
+	color:blue;
+ }
 h2.info {
 	color:green;
 	font-size:20px;
+	font-family:sans-serif;
 }
 h2.error {
 	color:red;
 	font-size:20px;
+	font-family:sans-serif;
 }
+.warning  {
+   	font-family:sans-serif;
+	font-size:12px;
+	color:red;
+ }
+.info {
+	color:green;
+	font-size:12px;
+	font-family:sans-serif;
+}
+
 -->
 </style>
-
+<p align="center">
+  <IMG SRC="../image/logo7.jpg" alt="Logo">
+</p>
 <?
 /*
  *   This file is part of PhpCompta.
@@ -104,7 +124,10 @@ function ExecuteScript($p_cn,$script) {
 // magic_quotes_runtime = Off
 // magic_quotes_sybase = Off
 // include_path
-// register_global
+
+?>
+<h2>Php setting</h2>
+<?
 foreach (array('magic_quotes_gpc','magic_quotes_runtime') as $a) {
 
   if ( ini_get($a) == false ) print $a.': Ok  <br>';
@@ -119,6 +142,7 @@ if ( ereg("\.\.\/include",ini_get('include_path')) == false )
    print 'include_path : ok ('.ini_get('include_path').')<br>';
 
 
+echo '<p class="info">php.ini est bien configuré</p>';
 
 $cn=DbConnect(-2,'phpcompta');
 
@@ -130,8 +154,49 @@ puis la base de données par défaut de phpcompta.</p>";
   exit();
  }
 ?>
+<h2>Database Setting</h2>
+<?
+$sql="select name,setting 
+      from pg_settings 
+      where 
+      name in ('effective_cache_size','shared_buffers','sort_mem')";
+$Res=ExecSql($cn,$sql);
+$flag=0;
+for ($e=0;$e<pg_NumRows($Res);$e++) {
+  $a=pg_fetch_array($Res,$e);
+  switch ($a['name']){
+  case 'effective_cache_size':
+    if ( $a['setting'] < 1000 ){
+      print '<p class="warning">Attention le paramètre effective_cache_size est de '.
+	$a['setting']."</p>";
+      $flag++;
+    }
+    break;
+  case 'shared_buffers':
+    if ( $a['setting'] < 640 ){
+      print '<p class="warning">Attention le paramètre shared_buffer est de '.
+	$a['setting']."</p>";
+      $flag++;
+    }
+    break;
+  case 'sort_mem':
+    if ( $a['setting'] < 8192 ){
+      print '<p class="warning">Attention le paramètre sort_mem est de '.
+	$a['setting']."</p>";
+    $flag++;
+    }
+    break;
+
+  }
+ }
+if ( $flag == 0 ) {
+  echo '<p class="info">La base de données est bien configurée</p>';
+ } else {
+  echo '<p class="warning">Il y a '.$flag.' paramètre qui sont trop bas</p>';
+ }
+?>
 <FORM action="setup.php" METHOD="post">
-<input type="submit" name="go" value="Prêt à commencer la mise à jour ?">
+<input type="submit" name="go" value="Prêt à commencer la mise à jour ou l'installation?">
 </form>
 <?
 if ( ! isset($_POST['go']) )

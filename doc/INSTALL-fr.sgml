@@ -56,10 +56,10 @@ postgres#pg_ctl -D /data/psql -o '-i' start
 </p><p>
 ne pas oublier d'ajouter dans le PATH, l'endroit où se trouve les
 binaires de postgres
-<quote>
+<verb>
 ex:
 export PATH=$PATH:/opt/psql732/bin
-</quote>
+</verb>
 </p>
 <p>
 Il est impératif d'avoir l'option -i, sinon le server HTTP ne pourra
@@ -77,11 +77,6 @@ host    all         phpcompta   172.16.30.0         255.255.255.0   local
 Il vaut mieux remplacer 172.16.30.0 par l'adresse du server HTTP, dans
 le cas où vous utilisez un VirtualHost avec une adresse IP, c'est
 cette adresse qu'il vous faudra mettre
-il faut aussi que l'utilisateur qui installera ce programme existe pour postgres et
-puisse créer des utilisateur et des bases de données la commande
-<quote>
-/opt/psql732/bin/createuser -a -d $USER
-</quote>
 </p>
 </sect1>
 <sect1>Optimisation
@@ -96,16 +91,8 @@ Run-time Configuration.
 zone mémoire est important car elle a trait à la mémoire utilisé pour les tris et les
 jointures,! attention ce paramètre donne la consommation mémoire par session ! </item>
 <item> Faites tourner régulièrement vacumdb -a -z grâce au crontab</item>
-<item> Dans php.ini, bien utiliser les permanent_connection ainsi que la détection
-des liens brisés. Cela permettra à Apache d'utiliser des connections existantes au lieu
-dans créer des nouvelles, l'autre paramètre permet à Apache de détecter les connexions 
-inutilisées.
-<verb>
-pgsql.allow_persistent = On
-pgsql.auto_reset_persistent = On
-</verb>
-</item>
-<item> Dans postgres.conf, les shared_buffers: calculées en page de 8Kb, la valeur par défaut
+<item> Dans postgres.conf, les shared_buffers: calculées en page de 8Kb, 
+la valeur par défaut
 est de seulement 64, ce qui correspond à 512Kb, une meilleure valeur est 640 </item>
 <item> à compléter </item>
 </itemize>
@@ -134,14 +121,6 @@ votre mot de passe soit avec le fichier .pgpass dont la syntaxe est
 N'oubliez pas de mettre ce fichier en mode 600 !!!! Pour executer sans demande
 de mot de passe host = localhost
 
-Ensuite soit vous utilisez la variable d'environnement PGPASSWORD qui contient
-votre mot de passe soit avec le fichier .pgpass dont la syntaxe est
-<verb>
- host:port:database:username:password
-</verb>
-N'oubliez pas de mettre ce fichier en mode 600 !!!! Pour executer sans demande
-de mot de passe host = localhost
-</sect1>
 </sect>
 
 <sect> Apache
@@ -249,28 +228,40 @@ include_path=".:../include:addon"
 </p>
 </sect1>
 </sect>
-<sect>Installation de PhpCompta
+<sect>Installation de PhpCompta 
+<sect1>Première installation
 <p>
 On suppose que postgresql est installé correctement
-Etape
+
+<p>Etape
 <itemize>
 <item> Se connecter en tant que postgres et taper les commandes
-<verb> createuser -d phpcompta<
+<verb> 
+createuser -d  -P dany phpcompta
 createdb -O phpcompta phpcompta
 </verb>
 <item>Décompacter le package dans le répertoire de votre choix, et configurer Apache pour qu'il
 puisse accèder au sous-répertoire html. (voir plus haut la directive DocumentRoot)
-<item> Vous devez vérifier que le chemin de psql et vous indiquez la bonne valeur dans
-le fichier html/admin/variable.php
 <item> 
 Vous devez connecter sur http://votre_server/admin/setup.php
 </itemize>
+</sect1>
+<sect1>Mise à jour
+<p>Etape
+<itemize>
+<item>Décompacter le package dans le répertoire de votre choix, 
+et configurer Apache pour qu'il
+puisse accèder au sous-répertoire html. (voir plus haut la directive DocumentRoot)
+<item> 
+Vous devez connecter sur http://votre_server/admin/setup.php
+</itemize>
+</sect1>
 </sect>
 <sect>Conclusion
 <p>
-Voilà maintenant, il vous suffit de faire  de vous connecter
-sur http://votre_server/admin/setup.php; cette page installera
-tout ce qu'il faut, testera votre installation et surtout met à jour
+En vous connectant à l'adresse
+ http://votre_server/admin/setup.php; vous installerez
+tout ce qu'il faut, testerez votre installation et surtout met à jour
 les bases de données dans le cas d'une mise à jour. En cas de problème,
 signalez-le nous.
 
@@ -281,17 +272,4 @@ IMPORTANT Vous devez effacer le répertoire html/admin après installation ou mise
 </sect>
 
 
-<sect>Remarque
-<p>
-<itemize>
-<item>Il faut créer le répertoire où seront mis l'application elle-même,
-   ici, les fichiers seront dans /home/httpd/compta, l'endroit est défini dans setenv.sh. Créer ce
-   répertoire, le propriétaire de répertoire doit être le même que
-   celui qui installera l'application. Cet utiliserateur devra
-   aussi avoir le privilège de créer un utilisateur pour postgres
-   (fonction createuser).
-<item>Adapter  le fichiers setenv.sh selon vos besoins
-
-</itemize>
-</sect>
 </article>

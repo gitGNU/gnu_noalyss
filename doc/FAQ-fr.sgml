@@ -99,7 +99,7 @@ session.cookie_path       = /tmp       ; the path the cookie is valid for
 l'utilisateur et le mot de passe par défaut sont phpcompta/phpcompta
 </p>
 </sect>
-<sect>J'ai trouvé un tit bug, comment faire un patchs ??
+<sect>J'ai trouvé un tit bug, comment faire un patchs ??<label id="bug">
 <p>
 Le plus simplement du monde : d'abord récupérez le projet avec cvs,
 corrigez le problème que vous avez détectez; vous vous placez à la
@@ -107,60 +107,24 @@ racine du projet et vous tapez :
 <quote>
 cvs diff -u > patch-date-email
 </quote>
-vous pouvez envoyer le fichier résultat. Pensez à me dire si c'est un
-patch relatif aux cvs ou non.
+Pensez à d'abord effacer les fichiers inutiles, les ~, les corefiles...
+Vous pouvez envoyer le fichier résultat. Pensez à me dire si c'est un
+patch relatif aux cv ou non. Mais testez-le avant.
 </p>
+<p> Pour tester les patch,
 <p>
-Normalement un répertoire phpcompta va apparaitre, puis vous le copiez
-cp -Rvp phpcompta phpcompta.orig
-</p>
-<p>
-Appliquez éventuellement les patch puis corrigé les bugs, effacer les
-fichiers inutiles, les ~, les corefiles...
-</p>
-<p>
-Puis enfin, pour prendre tout le répertoire (avec prudence)
+Pour le tester, faite un cvs co dans un autre répertoire que celui où vous
+avez développé votre patch, puis essayer votre patch
 <verb>
-diff -Nru phpcompta phpcompta.orig > patch-(numéro de version)-votre-email
-</verb>
-</P>
-<p>
-IMPORTANT : relire le patch-(numéro de version)-votre-email pour voir si
-tout ok et le tester
-</p>
-<p>
-Pour le tester creer un répertoire appelé phpcompta n'importe où
-ailleurs, reprenez la version d'origine, puis essayer
-patch -p0 &lt; patch-(numéro de version)-votre-email si vous êtes dans le
+patch -p0 &lt; patch-(numéro de version)-votre-email </verb>si vous êtes dans le
 répertoire au-dessus de celui de phpcompta
-
-patch -p1 &lt; patch-(numéro de version)-votre-email si vous êtes dans le
+<verb>patch -p1 &lt; patch-(numéro de version)-votre-email</verb> si vous êtes dans le
 répertoire courant de phpcompta
-
 </p>
 <p>
 Si cela ne marche pas ce n'est pas bon
 </p>
-<p>
-Pour un seul fichier, plus simple
-copiez le fichier de phpcompta.orig dans le même répertoire que celui du
-fichier changé puis placez vous dans le répertoire de au-dessus de celui
-de phpcompta ( cd .. ) .
-remplacez (sous-directory) par le nom du répertoire ou se trouve le fichier
-modifié.
-<verb>
-diff -u phpcompta/(sous-directory)/fichier
-/phpcompta/(sous-directory)fichier.orig &gt; patch-(numero de
-version)-votre-email.
 
-</verb>
-</p>
-<p>
-Testez le:
-sauvez votre fichier modifié sous un autre nom, faites cp -f fichier.orig
-fichier,  puis testez avec la commande patch (voir plus haut)
-mot de passe par défaut est  phpcompta
-</p>
 </sect>
 <sect> Comment faire de la doc
 <p>
@@ -170,9 +134,7 @@ urpmi linuxdoc-tools, pour les autres, je ne sais pas :(
 <p>
 Une fois, les linuxdoc tools installés il peut être nécessaire
 d'installer d'autres outils comme jade, sgml,... 
-
 Il faudra en tout cas ajouter les tetex-dvips, textex-xdvi, latex2html
-
 
 <p>
 De toute façon, vous
@@ -186,7 +148,8 @@ pouvez imprimer le guide, pour le trouver faites :
 Ensuite, editez le fichier sgml,
 et surtout pensez à utilisez aspell -H --lang=fr_FR check FA-fr.sgml pour
 véifier l'orthographe. Pour le visionner, faites linuxdoc -B html FAQ.sgml
-soit linuxdoc -B rtf pour avoir un fichier rtf...
+soit linuxdoc -B rtf pour avoir un fichier rtf... Puis faites un patch :-) <ref id="bug" 
+name="Comment faire un patch">
 </p>
 <sect>Comment contribuer ?
 <p>Sur le site de Savannah, j'ai décidé d'utilisé le Task Manager, chacun ce qu'il
@@ -198,30 +161,6 @@ sur un sujet <url url="http://savannah.nongnu.org/task/?group=phpcompta" name="P
 </p>
 <p>
 Cela m'évite de devoir chaque fois changer sur le site de phpcompta
-</p>
-</sect>
-<sect>Install.sh ne fonctionne pas<label id="script">
-<p>
-	Il est important de suivre la procédure pour l'installation
-	voir INSTALL-fr (dans le répertoire doc) !!
-	</p>
-	<p>
-	A. se connecter en tant que l'utilisateur Unix postgres
-	et éxécuter la commande
-	 createuser -d -a phpcompta
-	puis exécuterinstall.sh en tant que root.
-	Il serait prudent de changer le propriétaire des fichiers installer
-	</p>
-</sect>
-<sect>l'erreur ERROR:  CREATE USER: permission denied
-<p>
-<tscreen><verb>
-	l'erreur ERROR:  CREATE USER: permission denied
-	createuser: creation of user "phpcompta" failed
-	</verb></tscreen>
-</p>
-<p>
-voir question précédente <ref id="script" name="install.sh">
 </p>
 </sect>
 
@@ -259,7 +198,8 @@ Du à une commande drop sur un objet inexistant, n'y pretez pas attention
 <p>
 <sect1>Quel patch utiliser ?
 <p>
-Dans certains cas, le dernier patch reprend les autres, il faudra lire la release note du patch
+Dans certains cas, le dernier patch reprend les autres, 
+il faudra lire la release note du patch
 pour savoir ce qu'il faut appliquer avant.
 
 Sinon, les patchs sont toujours nommés ainsi
