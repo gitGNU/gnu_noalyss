@@ -26,7 +26,8 @@ echo "The file install.log will be created with
 exec 3>install.log 2>&3 1>&3
 #set -xv
 
-version=4
+version=5
+
 VerifOutil() {
 	RESULT="Verif. $1"
 	A=`type $1 2> /dev/null` 
@@ -94,8 +95,10 @@ do
 	if [ "$version" -ne $vers_db ] ; then
 		ver_file="sql/update/"`echo $i |sed 's/[0-9]*//g'`$vers_db".sql"
 		ver_file=`echo $ver_file|tr ' ' '_'`
+		if [ -f $ver_file ]; then
 		echo "Applying patch for $i $ver_file"
 		psql -U $OWNER  $i -f $ver_file
+		fi	
 	else 
 		echo "ok"
 		break
@@ -123,6 +126,8 @@ cp -f style*.css $COMPTA_HOME/html
 cp -f html/*.js $COMPTA_HOME/html
 cp -fR addon $COMPTA_HOME/html
 cp -fR html/image/* $COMPTA_HOME/html/image
+echo "***************"
 echo "Installation OK"
+echo "***************"
 exec 3<&-
 
