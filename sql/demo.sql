@@ -7,7 +7,7 @@
 SET search_path = public, pg_catalog;
 
 --
--- TOC entry 44 (OID 34884)
+-- TOC entry 44 (OID 42874)
 -- Name: tmp_pcmn; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
@@ -20,7 +20,7 @@ CREATE TABLE tmp_pcmn (
 
 
 --
--- TOC entry 45 (OID 34891)
+-- TOC entry 45 (OID 42881)
 -- Name: version; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
@@ -30,7 +30,7 @@ CREATE TABLE "version" (
 
 
 --
--- TOC entry 2 (OID 34893)
+-- TOC entry 2 (OID 42883)
 -- Name: s_periode; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
@@ -43,7 +43,7 @@ CREATE SEQUENCE s_periode
 
 
 --
--- TOC entry 4 (OID 34895)
+-- TOC entry 4 (OID 42885)
 -- Name: s_currency; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
@@ -56,7 +56,7 @@ CREATE SEQUENCE s_currency
 
 
 --
--- TOC entry 46 (OID 34897)
+-- TOC entry 46 (OID 42887)
 -- Name: parm_money; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
@@ -68,7 +68,7 @@ CREATE TABLE parm_money (
 
 
 --
--- TOC entry 47 (OID 34900)
+-- TOC entry 47 (OID 42890)
 -- Name: parm_periode; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
@@ -82,7 +82,7 @@ CREATE TABLE parm_periode (
 
 
 --
--- TOC entry 6 (OID 34908)
+-- TOC entry 6 (OID 42898)
 -- Name: s_jrn_def; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
@@ -95,7 +95,7 @@ CREATE SEQUENCE s_jrn_def
 
 
 --
--- TOC entry 8 (OID 34910)
+-- TOC entry 8 (OID 42900)
 -- Name: s_grpt; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
@@ -108,7 +108,7 @@ CREATE SEQUENCE s_grpt
 
 
 --
--- TOC entry 10 (OID 34912)
+-- TOC entry 10 (OID 42902)
 -- Name: s_jrn_op; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
@@ -121,7 +121,7 @@ CREATE SEQUENCE s_jrn_op
 
 
 --
--- TOC entry 12 (OID 34914)
+-- TOC entry 12 (OID 42904)
 -- Name: s_jrn; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
@@ -134,7 +134,7 @@ CREATE SEQUENCE s_jrn
 
 
 --
--- TOC entry 48 (OID 34916)
+-- TOC entry 48 (OID 42906)
 -- Name: jrn_type; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
@@ -145,7 +145,7 @@ CREATE TABLE jrn_type (
 
 
 --
--- TOC entry 49 (OID 34921)
+-- TOC entry 49 (OID 42911)
 -- Name: jrn_def; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
@@ -166,7 +166,7 @@ CREATE TABLE jrn_def (
 
 
 --
--- TOC entry 14 (OID 34930)
+-- TOC entry 14 (OID 42920)
 -- Name: s_jrnx; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
@@ -179,27 +179,7 @@ CREATE SEQUENCE s_jrnx
 
 
 --
--- TOC entry 50 (OID 34932)
--- Name: jrn; Type: TABLE; Schema: public; Owner: phpcompta
---
-
-CREATE TABLE jrn (
-    jr_id integer DEFAULT nextval('s_jrn'::text) NOT NULL,
-    jr_def_id integer NOT NULL,
-    jr_montant double precision NOT NULL,
-    jr_comment text,
-    jr_date date,
-    jr_grpt_id integer NOT NULL,
-    jr_internal text,
-    jr_tech_date timestamp without time zone DEFAULT now() NOT NULL,
-    jr_tech_per integer NOT NULL,
-    jr_ech date,
-    jr_rapt text
-);
-
-
---
--- TOC entry 51 (OID 34939)
+-- TOC entry 50 (OID 42929)
 -- Name: jrnx; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
@@ -222,7 +202,7 @@ CREATE TABLE jrnx (
 
 
 --
--- TOC entry 52 (OID 34950)
+-- TOC entry 51 (OID 42940)
 -- Name: user_pref; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
@@ -233,7 +213,7 @@ CREATE TABLE user_pref (
 
 
 --
--- TOC entry 16 (OID 34955)
+-- TOC entry 16 (OID 42945)
 -- Name: s_formdef; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
@@ -246,7 +226,7 @@ CREATE SEQUENCE s_formdef
 
 
 --
--- TOC entry 18 (OID 34957)
+-- TOC entry 18 (OID 42947)
 -- Name: s_form; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
@@ -259,7 +239,7 @@ CREATE SEQUENCE s_form
 
 
 --
--- TOC entry 53 (OID 34959)
+-- TOC entry 52 (OID 42949)
 -- Name: formdef; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
@@ -270,7 +250,7 @@ CREATE TABLE formdef (
 
 
 --
--- TOC entry 54 (OID 34965)
+-- TOC entry 53 (OID 42955)
 -- Name: form; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
@@ -284,7 +264,7 @@ CREATE TABLE form (
 
 
 --
--- TOC entry 20 (OID 34973)
+-- TOC entry 20 (OID 42961)
 -- Name: s_idef; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
@@ -297,7 +277,7 @@ CREATE SEQUENCE s_idef
 
 
 --
--- TOC entry 22 (OID 34993)
+-- TOC entry 22 (OID 42963)
 -- Name: s_centralized; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
@@ -310,7 +290,7 @@ CREATE SEQUENCE s_centralized
 
 
 --
--- TOC entry 55 (OID 34995)
+-- TOC entry 54 (OID 42965)
 -- Name: centralized; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
@@ -332,7 +312,7 @@ CREATE TABLE centralized (
 
 
 --
--- TOC entry 24 (OID 35002)
+-- TOC entry 24 (OID 42972)
 -- Name: s_user_jrn; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
@@ -345,7 +325,7 @@ CREATE SEQUENCE s_user_jrn
 
 
 --
--- TOC entry 26 (OID 35004)
+-- TOC entry 26 (OID 42974)
 -- Name: s_user_act; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
@@ -358,7 +338,7 @@ CREATE SEQUENCE s_user_act
 
 
 --
--- TOC entry 56 (OID 35006)
+-- TOC entry 55 (OID 42976)
 -- Name: user_sec_jrn; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
@@ -371,7 +351,7 @@ CREATE TABLE user_sec_jrn (
 
 
 --
--- TOC entry 57 (OID 35012)
+-- TOC entry 56 (OID 42982)
 -- Name: action; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
@@ -382,7 +362,7 @@ CREATE TABLE "action" (
 
 
 --
--- TOC entry 58 (OID 35017)
+-- TOC entry 57 (OID 42987)
 -- Name: user_sec_act; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
@@ -394,7 +374,7 @@ CREATE TABLE user_sec_act (
 
 
 --
--- TOC entry 28 (OID 35023)
+-- TOC entry 28 (OID 42993)
 -- Name: s_jrnaction; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
@@ -407,7 +387,7 @@ CREATE SEQUENCE s_jrnaction
 
 
 --
--- TOC entry 59 (OID 35025)
+-- TOC entry 58 (OID 42995)
 -- Name: jrn_action; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
@@ -423,7 +403,7 @@ CREATE TABLE jrn_action (
 
 
 --
--- TOC entry 60 (OID 35032)
+-- TOC entry 59 (OID 43002)
 -- Name: tva_rate; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
@@ -437,7 +417,7 @@ CREATE TABLE tva_rate (
 
 
 --
--- TOC entry 30 (OID 35038)
+-- TOC entry 30 (OID 43008)
 -- Name: s_fiche; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
@@ -450,7 +430,7 @@ CREATE SEQUENCE s_fiche
 
 
 --
--- TOC entry 32 (OID 35040)
+-- TOC entry 32 (OID 43010)
 -- Name: s_fiche_def_ref; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
@@ -463,7 +443,7 @@ CREATE SEQUENCE s_fiche_def_ref
 
 
 --
--- TOC entry 34 (OID 35042)
+-- TOC entry 34 (OID 43012)
 -- Name: s_fdef; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
@@ -476,7 +456,7 @@ CREATE SEQUENCE s_fdef
 
 
 --
--- TOC entry 36 (OID 35044)
+-- TOC entry 36 (OID 43014)
 -- Name: s_attr_def; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
@@ -489,7 +469,7 @@ CREATE SEQUENCE s_attr_def
 
 
 --
--- TOC entry 38 (OID 35046)
+-- TOC entry 38 (OID 43016)
 -- Name: s_jnt_fic_att_value; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
@@ -502,7 +482,7 @@ CREATE SEQUENCE s_jnt_fic_att_value
 
 
 --
--- TOC entry 61 (OID 35048)
+-- TOC entry 60 (OID 43018)
 -- Name: fiche_def_ref; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
@@ -514,7 +494,7 @@ CREATE TABLE fiche_def_ref (
 
 
 --
--- TOC entry 62 (OID 35054)
+-- TOC entry 61 (OID 43024)
 -- Name: fiche_def; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
@@ -528,7 +508,7 @@ CREATE TABLE fiche_def (
 
 
 --
--- TOC entry 63 (OID 35061)
+-- TOC entry 62 (OID 43031)
 -- Name: attr_def; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
@@ -539,7 +519,7 @@ CREATE TABLE attr_def (
 
 
 --
--- TOC entry 64 (OID 35067)
+-- TOC entry 63 (OID 43037)
 -- Name: attr_min; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
@@ -550,7 +530,7 @@ CREATE TABLE attr_min (
 
 
 --
--- TOC entry 65 (OID 35069)
+-- TOC entry 64 (OID 43039)
 -- Name: fiche; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
@@ -561,7 +541,7 @@ CREATE TABLE fiche (
 
 
 --
--- TOC entry 66 (OID 35072)
+-- TOC entry 65 (OID 43042)
 -- Name: jnt_fic_att_value; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
@@ -573,7 +553,7 @@ CREATE TABLE jnt_fic_att_value (
 
 
 --
--- TOC entry 67 (OID 35075)
+-- TOC entry 66 (OID 43045)
 -- Name: attr_value; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
@@ -584,7 +564,7 @@ CREATE TABLE attr_value (
 
 
 --
--- TOC entry 68 (OID 35080)
+-- TOC entry 67 (OID 43050)
 -- Name: jnt_fic_attr; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
@@ -595,7 +575,7 @@ CREATE TABLE jnt_fic_attr (
 
 
 --
--- TOC entry 40 (OID 35094)
+-- TOC entry 40 (OID 43052)
 -- Name: s_jrn_rapt; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
@@ -608,7 +588,7 @@ CREATE SEQUENCE s_jrn_rapt
 
 
 --
--- TOC entry 69 (OID 35096)
+-- TOC entry 68 (OID 43054)
 -- Name: jrn_rapt; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
@@ -620,7 +600,7 @@ CREATE TABLE jrn_rapt (
 
 
 --
--- TOC entry 70 (OID 35101)
+-- TOC entry 69 (OID 43059)
 -- Name: vw_fiche_attr; Type: VIEW; Schema: public; Owner: phpcompta
 --
 
@@ -629,7 +609,7 @@ CREATE VIEW vw_fiche_attr AS
 
 
 --
--- TOC entry 42 (OID 37964)
+-- TOC entry 42 (OID 43061)
 -- Name: s_stock_goods; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
@@ -642,7 +622,7 @@ CREATE SEQUENCE s_stock_goods
 
 
 --
--- TOC entry 71 (OID 38465)
+-- TOC entry 70 (OID 43063)
 -- Name: stock_goods; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
@@ -658,7 +638,29 @@ CREATE TABLE stock_goods (
 
 
 --
--- Data for TOC entry 116 (OID 34884)
+-- TOC entry 71 (OID 44728)
+-- Name: jrn; Type: TABLE; Schema: public; Owner: phpcompta
+--
+
+CREATE TABLE jrn (
+    jr_id integer DEFAULT nextval('s_jrn'::text) NOT NULL,
+    jr_def_id integer NOT NULL,
+    jr_montant double precision NOT NULL,
+    jr_comment text,
+    jr_date date,
+    jr_grpt_id integer NOT NULL,
+    jr_internal text,
+    jr_tech_date timestamp without time zone DEFAULT now() NOT NULL,
+    jr_tech_per integer NOT NULL,
+    jrn_ech date,
+    jr_ech date,
+    jr_rapt text,
+    jr_valid boolean DEFAULT true
+);
+
+
+--
+-- Data for TOC entry 114 (OID 42874)
 -- Name: tmp_pcmn; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -1168,7 +1170,7 @@ INSERT INTO tmp_pcmn VALUES (6040001, 'Marchandise A', 604, 'BE');
 
 
 --
--- Data for TOC entry 117 (OID 34891)
+-- Data for TOC entry 115 (OID 42881)
 -- Name: version; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -1176,7 +1178,7 @@ INSERT INTO "version" VALUES (3);
 
 
 --
--- Data for TOC entry 118 (OID 34897)
+-- Data for TOC entry 116 (OID 42887)
 -- Name: parm_money; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -1184,7 +1186,7 @@ INSERT INTO parm_money VALUES (1, 'EUR', 1);
 
 
 --
--- Data for TOC entry 119 (OID 34900)
+-- Data for TOC entry 117 (OID 42890)
 -- Name: parm_periode; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -1217,7 +1219,7 @@ INSERT INTO parm_periode VALUES (39, '2004-12-31', NULL, '2004', false);
 
 
 --
--- Data for TOC entry 120 (OID 34916)
+-- Data for TOC entry 118 (OID 42906)
 -- Name: jrn_type; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -1228,7 +1230,7 @@ INSERT INTO jrn_type VALUES ('OD ', 'Opérations Diverses');
 
 
 --
--- Data for TOC entry 121 (OID 34921)
+-- Data for TOC entry 119 (OID 42911)
 -- Name: jrn_def; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -1239,30 +1241,7 @@ INSERT INTO jrn_def VALUES (1, 'Financier', '5* ', '5*', '1,2,4,9', '1,2,4,9', 5
 
 
 --
--- Data for TOC entry 122 (OID 34932)
--- Name: jrn; Type: TABLE DATA; Schema: public; Owner: phpcompta
---
-
-INSERT INTO jrn VALUES (122, 4, 18200, 'Ouverture', '2003-01-01', 1, 'OD-01-00001', '2004-04-01 19:24:05.182853', 1, NULL, NULL);
-INSERT INTO jrn VALUES (123, 3, 400, 'Paiement Loyer', '2003-01-05', 2, 'ACH-01-00001', '2004-04-01 19:31:47.396412', 1, NULL, NULL);
-INSERT INTO jrn VALUES (124, 3, 250, 'ACH-01-00002  client : Fournisseur Eau Gaz', '2003-01-01', 3, 'ACH-01-00002', '2004-04-01 20:21:38.686975', 1, NULL, NULL);
-INSERT INTO jrn VALUES (125, 3, 302.5, 'ACH-01-00003  client : Fournisseur Eau Gaz', '2003-01-01', 4, 'ACH-01-00003', '2004-04-01 20:23:32.976316', 1, NULL, NULL);
-INSERT INTO jrn VALUES (126, 1, 302.5, 'FIN-01-00001  client : Banque 1', '2003-01-01', 5, 'FIN-01-00001', '2004-04-01 20:32:32.736425', 1, NULL, NULL);
-INSERT INTO jrn VALUES (127, 2, 605, 'VEN-01-00001  client : NOUVEAU CLIENT', '2003-01-21', 6, 'VEN-01-00001', '2004-04-01 20:34:22.386245', 1, NULL, NULL);
-INSERT INTO jrn VALUES (128, 1, 605, 'FIN-01-00002  client : Banque 1', '2003-01-01', 7, 'FIN-01-00002', '2004-04-01 20:36:49.590673', 1, NULL, NULL);
-INSERT INTO jrn VALUES (129, 3, 250, 'Mauvais encodage sorry :c Annulation ACH-01-00002  client : Fournisseur Eau Gaz', '2003-01-01', 8, 'ACH-01-00003', '2004-04-01 20:39:54.607677', 1, NULL, NULL);
-INSERT INTO jrn VALUES (130, 2, 1500, 'VEN-01-00002  client : Client 1', '2003-01-01', 9, 'VEN-01-00002', '2004-04-01 20:55:18.159528', 1, NULL, NULL);
-INSERT INTO jrn VALUES (131, 2, 1500, 'VEN-01-00003  client : Client 1', '2003-01-01', 10, 'VEN-01-00003', '2004-04-01 20:57:29.700277', 1, NULL, NULL);
-INSERT INTO jrn VALUES (132, 2, 2350, 'VEN-01-00004  client : NOUVEAU CLIENT', '2003-01-01', 11, 'VEN-01-00004', '2004-04-01 20:58:06.619629', 1, NULL, NULL);
-INSERT INTO jrn VALUES (133, 2, 2843.5, 'VEN-01-00005  client : NOUVEAU CLIENT', '2003-01-01', 12, 'VEN-01-00005', '2004-04-01 21:01:13.773212', 1, NULL, NULL);
-INSERT INTO jrn VALUES (134, 2, 2843.5, 'VEN-01-00006  client : NOUVEAU CLIENT', '2003-01-01', 13, 'VEN-01-00006', '2004-04-01 21:05:37.500849', 1, NULL, NULL);
-INSERT INTO jrn VALUES (135, 2, 2843.5, 'VEN-01-00007  client : NOUVEAU CLIENT', '2003-01-01', 14, 'VEN-01-00007', '2004-04-01 21:06:11.818771', 1, NULL, NULL);
-INSERT INTO jrn VALUES (136, 2, 2843.5, 'Annulation VEN-01-00007  client : NOUVEAU CLIENT', '2003-01-01', 15, 'VEN-01-00007', '2004-04-01 21:06:33.886083', 1, NULL, NULL);
-INSERT INTO jrn VALUES (137, 2, 2843.5, 'Annulation VEN-01-00006  client : NOUVEAU CLIENT', '2003-01-01', 16, 'VEN-01-00009', '2004-04-01 21:09:00.242086', 1, NULL, NULL);
-
-
---
--- Data for TOC entry 123 (OID 34939)
+-- Data for TOC entry 120 (OID 42929)
 -- Name: jrnx; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -1313,10 +1292,16 @@ INSERT INTO jrnx VALUES (452, '2004-04-01', 2843.5, 4000005, 16, NULL, 2, false,
 INSERT INTO jrnx VALUES (453, '2004-04-01', 2250, 70002, 16, NULL, 2, true, NULL, false, NULL, 'phpcompta', '2004-04-01 21:09:00.226129', 1);
 INSERT INTO jrnx VALUES (454, '2004-04-01', 100, 70001, 16, NULL, 2, true, NULL, false, NULL, 'phpcompta', '2004-04-01 21:09:00.226129', 1);
 INSERT INTO jrnx VALUES (455, '2004-04-01', 493.5, 4511, 16, NULL, 2, true, NULL, false, NULL, 'phpcompta', '2004-04-01 21:09:00.226129', 1);
+INSERT INTO jrnx VALUES (456, '2003-01-01', 18200, 100, 17, NULL, 4, true, NULL, false, NULL, 'phpcompta', '2004-04-01 23:24:15.9305', 1);
+INSERT INTO jrnx VALUES (457, '2003-01-01', 6100, 55000001, 17, NULL, 4, true, NULL, false, NULL, 'phpcompta', '2004-04-01 23:24:16.148167', 1);
+INSERT INTO jrnx VALUES (458, '2003-01-01', 12100, 101, 17, NULL, 4, true, NULL, false, NULL, 'phpcompta', '2004-04-01 23:24:16.15361', 1);
+INSERT INTO jrnx VALUES (459, '2003-01-01', 12100, 101, 18, NULL, 4, true, NULL, false, NULL, 'phpcompta', '2004-04-01 23:32:28.048724', 1);
+INSERT INTO jrnx VALUES (460, '2003-01-01', 6100, 55000001, 18, NULL, 4, true, NULL, false, NULL, 'phpcompta', '2004-04-01 23:32:28.101485', 1);
+INSERT INTO jrnx VALUES (461, '2003-01-01', 18200, 100, 18, NULL, 4, false, NULL, false, NULL, 'phpcompta', '2004-04-01 23:32:28.116001', 1);
 
 
 --
--- Data for TOC entry 124 (OID 34950)
+-- Data for TOC entry 121 (OID 42940)
 -- Name: user_pref; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -1326,28 +1311,28 @@ INSERT INTO user_pref VALUES ('phpcompta', 1);
 
 
 --
--- Data for TOC entry 125 (OID 34959)
+-- Data for TOC entry 122 (OID 42949)
 -- Name: formdef; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
 
 
 --
--- Data for TOC entry 126 (OID 34965)
+-- Data for TOC entry 123 (OID 42955)
 -- Name: form; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
 
 
 --
--- Data for TOC entry 127 (OID 34995)
+-- Data for TOC entry 124 (OID 42965)
 -- Name: centralized; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
 
 
 --
--- Data for TOC entry 128 (OID 35006)
+-- Data for TOC entry 125 (OID 42976)
 -- Name: user_sec_jrn; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -1366,7 +1351,7 @@ INSERT INTO user_sec_jrn VALUES (12, 'france', 3, 'R');
 
 
 --
--- Data for TOC entry 129 (OID 35012)
+-- Data for TOC entry 126 (OID 42982)
 -- Name: action; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -1384,7 +1369,7 @@ INSERT INTO "action" VALUES (14, 'Fiche écriture');
 
 
 --
--- Data for TOC entry 130 (OID 35017)
+-- Data for TOC entry 127 (OID 42987)
 -- Name: user_sec_act; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -1404,7 +1389,7 @@ INSERT INTO user_sec_act VALUES (13, 'demo', 8);
 
 
 --
--- Data for TOC entry 131 (OID 35025)
+-- Data for TOC entry 128 (OID 42995)
 -- Name: jrn_action; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -1429,7 +1414,7 @@ INSERT INTO jrn_action VALUES (34, 'Impression', 'Impression du journal', 'impre
 
 
 --
--- Data for TOC entry 132 (OID 35032)
+-- Data for TOC entry 129 (OID 43002)
 -- Name: tva_rate; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -1440,7 +1425,7 @@ INSERT INTO tva_rate VALUES (4, '0%', 0, 'Tva applicable lors de vente/achat int
 
 
 --
--- Data for TOC entry 133 (OID 35048)
+-- Data for TOC entry 130 (OID 43018)
 -- Name: fiche_def_ref; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -1461,7 +1446,7 @@ INSERT INTO fiche_def_ref VALUES (14, 'Administration des Finances', NULL);
 
 
 --
--- Data for TOC entry 134 (OID 35054)
+-- Data for TOC entry 131 (OID 43024)
 -- Name: fiche_def; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -1477,7 +1462,7 @@ INSERT INTO fiche_def VALUES (8, 700, 'March Cat b', false, 1);
 
 
 --
--- Data for TOC entry 135 (OID 35061)
+-- Data for TOC entry 132 (OID 43031)
 -- Name: attr_def; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -1503,7 +1488,7 @@ INSERT INTO attr_def VALUES (19, 'Gestion stock');
 
 
 --
--- Data for TOC entry 136 (OID 35067)
+-- Data for TOC entry 133 (OID 43037)
 -- Name: attr_min; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -1550,7 +1535,7 @@ INSERT INTO attr_min VALUES (14, 1);
 
 
 --
--- Data for TOC entry 137 (OID 35069)
+-- Data for TOC entry 134 (OID 43039)
 -- Name: fiche; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -1578,7 +1563,7 @@ INSERT INTO fiche VALUES (21, 6);
 
 
 --
--- Data for TOC entry 138 (OID 35072)
+-- Data for TOC entry 135 (OID 43042)
 -- Name: jnt_fic_att_value; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -1733,7 +1718,7 @@ INSERT INTO jnt_fic_att_value VALUES (148, 21, 19);
 
 
 --
--- Data for TOC entry 139 (OID 35075)
+-- Data for TOC entry 136 (OID 43045)
 -- Name: attr_value; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -1888,7 +1873,7 @@ INSERT INTO attr_value VALUES (148, '1');
 
 
 --
--- Data for TOC entry 140 (OID 35080)
+-- Data for TOC entry 137 (OID 43050)
 -- Name: jnt_fic_attr; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -1961,7 +1946,7 @@ INSERT INTO jnt_fic_attr VALUES (9, 16);
 
 
 --
--- Data for TOC entry 141 (OID 35096)
+-- Data for TOC entry 138 (OID 43054)
 -- Name: jrn_rapt; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -1971,14 +1956,21 @@ INSERT INTO jrn_rapt VALUES (13, 129, 124);
 
 
 --
--- Data for TOC entry 142 (OID 38465)
+-- Data for TOC entry 139 (OID 43063)
 -- Name: stock_goods; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
 
 
 --
--- TOC entry 97 (OID 36430)
+-- Data for TOC entry 140 (OID 44728)
+-- Name: jrn; Type: TABLE DATA; Schema: public; Owner: phpcompta
+--
+
+
+
+--
+-- TOC entry 93 (OID 44203)
 -- Name: x_act; Type: INDEX; Schema: public; Owner: phpcompta
 --
 
@@ -1986,7 +1978,7 @@ CREATE UNIQUE INDEX x_act ON "action" USING btree (ac_description);
 
 
 --
--- TOC entry 95 (OID 36431)
+-- TOC entry 91 (OID 44204)
 -- Name: x_usr_jrn; Type: INDEX; Schema: public; Owner: phpcompta
 --
 
@@ -1994,7 +1986,7 @@ CREATE UNIQUE INDEX x_usr_jrn ON user_sec_jrn USING btree (uj_login, uj_jrn_id);
 
 
 --
--- TOC entry 91 (OID 36432)
+-- TOC entry 87 (OID 44205)
 -- Name: fk_centralized_c_jrn_def; Type: INDEX; Schema: public; Owner: phpcompta
 --
 
@@ -2002,7 +1994,7 @@ CREATE INDEX fk_centralized_c_jrn_def ON centralized USING btree (c_jrn_def);
 
 
 --
--- TOC entry 92 (OID 36433)
+-- TOC entry 88 (OID 44206)
 -- Name: fk_centralized_c_poste; Type: INDEX; Schema: public; Owner: phpcompta
 --
 
@@ -2010,7 +2002,7 @@ CREATE INDEX fk_centralized_c_poste ON centralized USING btree (c_poste);
 
 
 --
--- TOC entry 104 (OID 36434)
+-- TOC entry 100 (OID 44207)
 -- Name: fk_fiche_def_frd_id; Type: INDEX; Schema: public; Owner: phpcompta
 --
 
@@ -2018,7 +2010,7 @@ CREATE INDEX fk_fiche_def_frd_id ON fiche_def USING btree (frd_id);
 
 
 --
--- TOC entry 111 (OID 36435)
+-- TOC entry 107 (OID 44208)
 -- Name: fk_attr_value_jft_id; Type: INDEX; Schema: public; Owner: phpcompta
 --
 
@@ -2026,7 +2018,7 @@ CREATE INDEX fk_attr_value_jft_id ON attr_value USING btree (jft_id);
 
 
 --
--- TOC entry 107 (OID 36436)
+-- TOC entry 103 (OID 44209)
 -- Name: fk_attr_min_frd_id; Type: INDEX; Schema: public; Owner: phpcompta
 --
 
@@ -2034,7 +2026,7 @@ CREATE INDEX fk_attr_min_frd_id ON attr_min USING btree (frd_id);
 
 
 --
--- TOC entry 106 (OID 36437)
+-- TOC entry 102 (OID 44210)
 -- Name: fk_attr_min_ad_id; Type: INDEX; Schema: public; Owner: phpcompta
 --
 
@@ -2042,7 +2034,7 @@ CREATE INDEX fk_attr_min_ad_id ON attr_min USING btree (ad_id);
 
 
 --
--- TOC entry 109 (OID 36438)
+-- TOC entry 105 (OID 44211)
 -- Name: fk_fiche_fd_id; Type: INDEX; Schema: public; Owner: phpcompta
 --
 
@@ -2050,7 +2042,7 @@ CREATE INDEX fk_fiche_fd_id ON fiche USING btree (fd_id);
 
 
 --
--- TOC entry 88 (OID 36439)
+-- TOC entry 84 (OID 44212)
 -- Name: fk_form_fo_fr_id; Type: INDEX; Schema: public; Owner: phpcompta
 --
 
@@ -2058,7 +2050,7 @@ CREATE INDEX fk_form_fo_fr_id ON form USING btree (fo_fr_id);
 
 
 --
--- TOC entry 84 (OID 36440)
+-- TOC entry 80 (OID 44213)
 -- Name: fk_jrnx_j_poste; Type: INDEX; Schema: public; Owner: phpcompta
 --
 
@@ -2066,7 +2058,7 @@ CREATE INDEX fk_jrnx_j_poste ON jrnx USING btree (j_poste);
 
 
 --
--- TOC entry 83 (OID 36441)
+-- TOC entry 79 (OID 44214)
 -- Name: fk_jrn_def; Type: INDEX; Schema: public; Owner: phpcompta
 --
 
@@ -2074,7 +2066,7 @@ CREATE INDEX fk_jrn_def ON jrnx USING btree (j_jrn_def);
 
 
 --
--- TOC entry 100 (OID 36442)
+-- TOC entry 96 (OID 44215)
 -- Name: fk_jrn_action_ja_jrn_type; Type: INDEX; Schema: public; Owner: phpcompta
 --
 
@@ -2082,7 +2074,7 @@ CREATE INDEX fk_jrn_action_ja_jrn_type ON jrn_action USING btree (ja_jrn_type);
 
 
 --
--- TOC entry 93 (OID 36443)
+-- TOC entry 89 (OID 44216)
 -- Name: fk_user_sec_jrn; Type: INDEX; Schema: public; Owner: phpcompta
 --
 
@@ -2090,7 +2082,7 @@ CREATE INDEX fk_user_sec_jrn ON user_sec_jrn USING btree (uj_jrn_id);
 
 
 --
--- TOC entry 98 (OID 36444)
+-- TOC entry 94 (OID 44217)
 -- Name: fk_user_sec_act; Type: INDEX; Schema: public; Owner: phpcompta
 --
 
@@ -2098,23 +2090,7 @@ CREATE INDEX fk_user_sec_act ON user_sec_act USING btree (ua_act_id);
 
 
 --
--- TOC entry 79 (OID 36445)
--- Name: fk_jrn_jr_def_id; Type: INDEX; Schema: public; Owner: phpcompta
---
-
-CREATE INDEX fk_jrn_jr_def_id ON jrn USING btree (jr_def_id);
-
-
---
--- TOC entry 80 (OID 36448)
--- Name: idx_jr_id; Type: INDEX; Schema: public; Owner: phpcompta
---
-
-CREATE UNIQUE INDEX idx_jr_id ON jrn USING btree (jr_id);
-
-
---
--- TOC entry 114 (OID 38474)
+-- TOC entry 110 (OID 44220)
 -- Name: fk_stock_goods_j_id; Type: INDEX; Schema: public; Owner: phpcompta
 --
 
@@ -2122,7 +2098,7 @@ CREATE INDEX fk_stock_goods_j_id ON stock_goods USING btree (j_id);
 
 
 --
--- TOC entry 113 (OID 38475)
+-- TOC entry 109 (OID 44221)
 -- Name: fk_stock_goods_f_id; Type: INDEX; Schema: public; Owner: phpcompta
 --
 
@@ -2130,7 +2106,15 @@ CREATE INDEX fk_stock_goods_f_id ON stock_goods USING btree (f_id);
 
 
 --
--- TOC entry 72 (OID 36449)
+-- TOC entry 113 (OID 44736)
+-- Name: x_jrn_jr_id; Type: INDEX; Schema: public; Owner: phpcompta
+--
+
+CREATE UNIQUE INDEX x_jrn_jr_id ON jrn USING btree (jr_id);
+
+
+--
+-- TOC entry 72 (OID 44222)
 -- Name: tmp_pcmn_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2139,7 +2123,7 @@ ALTER TABLE ONLY tmp_pcmn
 
 
 --
--- TOC entry 73 (OID 36451)
+-- TOC entry 73 (OID 44224)
 -- Name: parm_money_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2148,7 +2132,7 @@ ALTER TABLE ONLY parm_money
 
 
 --
--- TOC entry 75 (OID 36453)
+-- TOC entry 75 (OID 44226)
 -- Name: parm_periode_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2157,7 +2141,7 @@ ALTER TABLE ONLY parm_periode
 
 
 --
--- TOC entry 74 (OID 36455)
+-- TOC entry 74 (OID 44228)
 -- Name: parm_periode_p_start_key; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2166,7 +2150,7 @@ ALTER TABLE ONLY parm_periode
 
 
 --
--- TOC entry 76 (OID 36457)
+-- TOC entry 76 (OID 44230)
 -- Name: jrn_type_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2175,7 +2159,7 @@ ALTER TABLE ONLY jrn_type
 
 
 --
--- TOC entry 78 (OID 36459)
+-- TOC entry 78 (OID 44232)
 -- Name: jrn_def_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2184,7 +2168,7 @@ ALTER TABLE ONLY jrn_def
 
 
 --
--- TOC entry 77 (OID 36461)
+-- TOC entry 77 (OID 44234)
 -- Name: jrn_def_jrn_def_name_key; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2193,7 +2177,7 @@ ALTER TABLE ONLY jrn_def
 
 
 --
--- TOC entry 143 (OID 36463)
+-- TOC entry 141 (OID 44236)
 -- Name: $1; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2202,16 +2186,7 @@ ALTER TABLE ONLY jrn_def
 
 
 --
--- TOC entry 82 (OID 36467)
--- Name: jrn_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
---
-
-ALTER TABLE ONLY jrn
-    ADD CONSTRAINT jrn_pkey PRIMARY KEY (jr_id, jr_def_id);
-
-
---
--- TOC entry 85 (OID 36469)
+-- TOC entry 81 (OID 44242)
 -- Name: jrnx_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2220,7 +2195,7 @@ ALTER TABLE ONLY jrnx
 
 
 --
--- TOC entry 144 (OID 36471)
+-- TOC entry 142 (OID 44244)
 -- Name: $1; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2229,7 +2204,7 @@ ALTER TABLE ONLY jrnx
 
 
 --
--- TOC entry 145 (OID 36475)
+-- TOC entry 143 (OID 44248)
 -- Name: $2; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2238,7 +2213,7 @@ ALTER TABLE ONLY jrnx
 
 
 --
--- TOC entry 86 (OID 36479)
+-- TOC entry 82 (OID 44252)
 -- Name: user_pref_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2247,7 +2222,7 @@ ALTER TABLE ONLY user_pref
 
 
 --
--- TOC entry 87 (OID 36481)
+-- TOC entry 83 (OID 44254)
 -- Name: formdef_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2256,7 +2231,7 @@ ALTER TABLE ONLY formdef
 
 
 --
--- TOC entry 89 (OID 36483)
+-- TOC entry 85 (OID 44256)
 -- Name: form_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2265,7 +2240,7 @@ ALTER TABLE ONLY form
 
 
 --
--- TOC entry 146 (OID 36485)
+-- TOC entry 144 (OID 44258)
 -- Name: $1; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2274,7 +2249,7 @@ ALTER TABLE ONLY form
 
 
 --
--- TOC entry 90 (OID 36507)
+-- TOC entry 86 (OID 44262)
 -- Name: centralized_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2283,7 +2258,7 @@ ALTER TABLE ONLY centralized
 
 
 --
--- TOC entry 147 (OID 36509)
+-- TOC entry 145 (OID 44264)
 -- Name: $1; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2292,7 +2267,7 @@ ALTER TABLE ONLY centralized
 
 
 --
--- TOC entry 148 (OID 36513)
+-- TOC entry 146 (OID 44268)
 -- Name: $2; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2301,7 +2276,7 @@ ALTER TABLE ONLY centralized
 
 
 --
--- TOC entry 94 (OID 36517)
+-- TOC entry 90 (OID 44272)
 -- Name: user_sec_jrn_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2310,7 +2285,7 @@ ALTER TABLE ONLY user_sec_jrn
 
 
 --
--- TOC entry 149 (OID 36519)
+-- TOC entry 147 (OID 44274)
 -- Name: $1; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2319,7 +2294,7 @@ ALTER TABLE ONLY user_sec_jrn
 
 
 --
--- TOC entry 96 (OID 36523)
+-- TOC entry 92 (OID 44278)
 -- Name: action_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2328,7 +2303,7 @@ ALTER TABLE ONLY "action"
 
 
 --
--- TOC entry 99 (OID 36525)
+-- TOC entry 95 (OID 44280)
 -- Name: user_sec_act_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2337,7 +2312,7 @@ ALTER TABLE ONLY user_sec_act
 
 
 --
--- TOC entry 150 (OID 36527)
+-- TOC entry 148 (OID 44282)
 -- Name: $1; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2346,7 +2321,7 @@ ALTER TABLE ONLY user_sec_act
 
 
 --
--- TOC entry 101 (OID 36531)
+-- TOC entry 97 (OID 44286)
 -- Name: jrn_action_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2355,7 +2330,7 @@ ALTER TABLE ONLY jrn_action
 
 
 --
--- TOC entry 151 (OID 36533)
+-- TOC entry 149 (OID 44288)
 -- Name: $1; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2364,7 +2339,7 @@ ALTER TABLE ONLY jrn_action
 
 
 --
--- TOC entry 102 (OID 36537)
+-- TOC entry 98 (OID 44292)
 -- Name: fiche_def_ref_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2373,7 +2348,7 @@ ALTER TABLE ONLY fiche_def_ref
 
 
 --
--- TOC entry 103 (OID 36539)
+-- TOC entry 99 (OID 44294)
 -- Name: fiche_def_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2382,7 +2357,7 @@ ALTER TABLE ONLY fiche_def
 
 
 --
--- TOC entry 152 (OID 36541)
+-- TOC entry 150 (OID 44296)
 -- Name: $1; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2391,7 +2366,7 @@ ALTER TABLE ONLY fiche_def
 
 
 --
--- TOC entry 105 (OID 36545)
+-- TOC entry 101 (OID 44300)
 -- Name: attr_def_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2400,7 +2375,7 @@ ALTER TABLE ONLY attr_def
 
 
 --
--- TOC entry 153 (OID 36547)
+-- TOC entry 151 (OID 44302)
 -- Name: $1; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2409,7 +2384,7 @@ ALTER TABLE ONLY attr_min
 
 
 --
--- TOC entry 154 (OID 36551)
+-- TOC entry 152 (OID 44306)
 -- Name: $2; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2418,7 +2393,7 @@ ALTER TABLE ONLY attr_min
 
 
 --
--- TOC entry 108 (OID 36555)
+-- TOC entry 104 (OID 44310)
 -- Name: fiche_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2427,7 +2402,7 @@ ALTER TABLE ONLY fiche
 
 
 --
--- TOC entry 155 (OID 36557)
+-- TOC entry 153 (OID 44312)
 -- Name: $1; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2436,7 +2411,7 @@ ALTER TABLE ONLY fiche
 
 
 --
--- TOC entry 110 (OID 36561)
+-- TOC entry 106 (OID 44316)
 -- Name: jnt_fic_att_value_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2445,7 +2420,7 @@ ALTER TABLE ONLY jnt_fic_att_value
 
 
 --
--- TOC entry 156 (OID 36563)
+-- TOC entry 154 (OID 44318)
 -- Name: $1; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2454,7 +2429,7 @@ ALTER TABLE ONLY jnt_fic_att_value
 
 
 --
--- TOC entry 157 (OID 36567)
+-- TOC entry 155 (OID 44322)
 -- Name: $2; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2463,7 +2438,7 @@ ALTER TABLE ONLY jnt_fic_att_value
 
 
 --
--- TOC entry 158 (OID 36571)
+-- TOC entry 156 (OID 44326)
 -- Name: $1; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2472,7 +2447,7 @@ ALTER TABLE ONLY attr_value
 
 
 --
--- TOC entry 159 (OID 36575)
+-- TOC entry 157 (OID 44330)
 -- Name: $1; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2481,7 +2456,7 @@ ALTER TABLE ONLY jnt_fic_attr
 
 
 --
--- TOC entry 160 (OID 36579)
+-- TOC entry 158 (OID 44334)
 -- Name: $2; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2490,7 +2465,7 @@ ALTER TABLE ONLY jnt_fic_attr
 
 
 --
--- TOC entry 112 (OID 36593)
+-- TOC entry 108 (OID 44338)
 -- Name: jrn_rapt_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2499,34 +2474,7 @@ ALTER TABLE ONLY jrn_rapt
 
 
 --
--- TOC entry 81 (OID 36595)
--- Name: jrn_jr_id_key; Type: CONSTRAINT; Schema: public; Owner: phpcompta
---
-
-ALTER TABLE ONLY jrn
-    ADD CONSTRAINT jrn_jr_id_key UNIQUE (jr_id);
-
-
---
--- TOC entry 161 (OID 36597)
--- Name: $1; Type: CONSTRAINT; Schema: public; Owner: phpcompta
---
-
-ALTER TABLE ONLY jrn_rapt
-    ADD CONSTRAINT "$1" FOREIGN KEY (jr_id) REFERENCES jrn(jr_id) ON UPDATE NO ACTION ON DELETE NO ACTION;
-
-
---
--- TOC entry 162 (OID 36601)
--- Name: $2; Type: CONSTRAINT; Schema: public; Owner: phpcompta
---
-
-ALTER TABLE ONLY jrn_rapt
-    ADD CONSTRAINT "$2" FOREIGN KEY (jra_concerned) REFERENCES jrn(jr_id) ON UPDATE NO ACTION ON DELETE NO ACTION;
-
-
---
--- TOC entry 115 (OID 38476)
+-- TOC entry 111 (OID 44350)
 -- Name: stock_goods_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2535,7 +2483,7 @@ ALTER TABLE ONLY stock_goods
 
 
 --
--- TOC entry 163 (OID 38478)
+-- TOC entry 159 (OID 44352)
 -- Name: $2; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2544,7 +2492,25 @@ ALTER TABLE ONLY stock_goods
 
 
 --
--- TOC entry 3 (OID 34893)
+-- TOC entry 160 (OID 44737)
+-- Name: $1; Type: CONSTRAINT; Schema: public; Owner: phpcompta
+--
+
+ALTER TABLE ONLY jrn
+    ADD CONSTRAINT "$1" FOREIGN KEY (jr_def_id) REFERENCES jrn_def(jrn_def_id) ON UPDATE NO ACTION ON DELETE NO ACTION;
+
+
+--
+-- TOC entry 112 (OID 44741)
+-- Name: jrn_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
+--
+
+ALTER TABLE ONLY jrn
+    ADD CONSTRAINT jrn_pkey PRIMARY KEY (jr_id, jr_def_id);
+
+
+--
+-- TOC entry 3 (OID 42883)
 -- Name: s_periode; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -2552,7 +2518,7 @@ SELECT pg_catalog.setval ('s_periode', 39, true);
 
 
 --
--- TOC entry 5 (OID 34895)
+-- TOC entry 5 (OID 42885)
 -- Name: s_currency; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -2560,7 +2526,7 @@ SELECT pg_catalog.setval ('s_currency', 1, true);
 
 
 --
--- TOC entry 7 (OID 34908)
+-- TOC entry 7 (OID 42898)
 -- Name: s_jrn_def; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -2568,7 +2534,7 @@ SELECT pg_catalog.setval ('s_jrn_def', 5, false);
 
 
 --
--- TOC entry 9 (OID 34910)
+-- TOC entry 9 (OID 42900)
 -- Name: s_grpt; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -2576,23 +2542,23 @@ SELECT pg_catalog.setval ('s_grpt', 1, false);
 
 
 --
--- TOC entry 11 (OID 34912)
+-- TOC entry 11 (OID 42902)
 -- Name: s_jrn_op; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval ('s_jrn_op', 455, true);
+SELECT pg_catalog.setval ('s_jrn_op', 461, true);
 
 
 --
--- TOC entry 13 (OID 34914)
+-- TOC entry 13 (OID 42904)
 -- Name: s_jrn; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval ('s_jrn', 137, true);
+SELECT pg_catalog.setval ('s_jrn', 139, true);
 
 
 --
--- TOC entry 15 (OID 34930)
+-- TOC entry 15 (OID 42920)
 -- Name: s_jrnx; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -2600,7 +2566,7 @@ SELECT pg_catalog.setval ('s_jrnx', 1, false);
 
 
 --
--- TOC entry 17 (OID 34955)
+-- TOC entry 17 (OID 42945)
 -- Name: s_formdef; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -2608,7 +2574,7 @@ SELECT pg_catalog.setval ('s_formdef', 1, false);
 
 
 --
--- TOC entry 19 (OID 34957)
+-- TOC entry 19 (OID 42947)
 -- Name: s_form; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -2616,7 +2582,7 @@ SELECT pg_catalog.setval ('s_form', 1, false);
 
 
 --
--- TOC entry 21 (OID 34973)
+-- TOC entry 21 (OID 42961)
 -- Name: s_idef; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -2624,7 +2590,7 @@ SELECT pg_catalog.setval ('s_idef', 2, true);
 
 
 --
--- TOC entry 23 (OID 34993)
+-- TOC entry 23 (OID 42963)
 -- Name: s_centralized; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -2632,7 +2598,7 @@ SELECT pg_catalog.setval ('s_centralized', 1, false);
 
 
 --
--- TOC entry 25 (OID 35002)
+-- TOC entry 25 (OID 42972)
 -- Name: s_user_jrn; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -2640,7 +2606,7 @@ SELECT pg_catalog.setval ('s_user_jrn', 12, true);
 
 
 --
--- TOC entry 27 (OID 35004)
+-- TOC entry 27 (OID 42974)
 -- Name: s_user_act; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -2648,7 +2614,7 @@ SELECT pg_catalog.setval ('s_user_act', 13, true);
 
 
 --
--- TOC entry 29 (OID 35023)
+-- TOC entry 29 (OID 42993)
 -- Name: s_jrnaction; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -2656,7 +2622,7 @@ SELECT pg_catalog.setval ('s_jrnaction', 7, true);
 
 
 --
--- TOC entry 31 (OID 35038)
+-- TOC entry 31 (OID 43008)
 -- Name: s_fiche; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -2664,7 +2630,7 @@ SELECT pg_catalog.setval ('s_fiche', 21, true);
 
 
 --
--- TOC entry 33 (OID 35040)
+-- TOC entry 33 (OID 43010)
 -- Name: s_fiche_def_ref; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -2672,7 +2638,7 @@ SELECT pg_catalog.setval ('s_fiche_def_ref', 14, true);
 
 
 --
--- TOC entry 35 (OID 35042)
+-- TOC entry 35 (OID 43012)
 -- Name: s_fdef; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -2680,7 +2646,7 @@ SELECT pg_catalog.setval ('s_fdef', 9, true);
 
 
 --
--- TOC entry 37 (OID 35044)
+-- TOC entry 37 (OID 43014)
 -- Name: s_attr_def; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -2688,7 +2654,7 @@ SELECT pg_catalog.setval ('s_attr_def', 19, true);
 
 
 --
--- TOC entry 39 (OID 35046)
+-- TOC entry 39 (OID 43016)
 -- Name: s_jnt_fic_att_value; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -2696,7 +2662,7 @@ SELECT pg_catalog.setval ('s_jnt_fic_att_value', 148, true);
 
 
 --
--- TOC entry 41 (OID 35094)
+-- TOC entry 41 (OID 43052)
 -- Name: s_jrn_rapt; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -2704,7 +2670,7 @@ SELECT pg_catalog.setval ('s_jrn_rapt', 13, true);
 
 
 --
--- TOC entry 43 (OID 37964)
+-- TOC entry 43 (OID 43061)
 -- Name: s_stock_goods; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
