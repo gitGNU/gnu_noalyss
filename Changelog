@@ -1,3 +1,27 @@
+2004-06-06  sparkyx  <sparkyx@july.summer>
+
+	* include/debug.php: no debug info in prod
+
+2004-05-19  sparkyx  <sparkyx@july.summer>
+
+	* doc/manuel-fr.sgml: task 3106
+
+	* include/preference.php: fix cosmetic bug in ShowPeriode
+
+2004-05-02  sparkyx  <sparkyx@july.summer>
+
+	* html/test.php: bug 8757 missing file
+
+	* include/form_input.php:
+	Show the sum rounded to 2 decimal and prevent the record of invoice of 0
+
+	* html/annulation.php: Bug : forgot to include a file
+
+2004-04-28  sparkyx  <sparkyx@july.summer>
+
+	* Changelog, html/annulation.php, html/pcmn_update.php, install.sh, style-light.css:
+	Cosmetic bugs
+
 2004-04-19  sparkyx  <sparkyx@july.summer>
 
 	* doc/manuel-fr.sgml: Task 3106

@@ -1177,7 +1177,7 @@ INSERT INTO tmp_pcmn VALUES (6040001, 'Marchandise A', 604, 'BE');
 -- Name: version; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
-INSERT INTO "version" VALUES (3);
+INSERT INTO "version" VALUES (4);
 
 
 --

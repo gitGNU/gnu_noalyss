@@ -1190,7 +1190,7 @@ INSERT INTO tmp_pcmn VALUES (101, 'Capital non appelé', 10, 'BE');
 -- Name: version; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
-INSERT INTO "version" VALUES (3);
+INSERT INTO "version" VALUES (4);
 
 
 --
