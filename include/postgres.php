@@ -19,54 +19,6 @@
 
  //$Revision$
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-
-
-/*++ 
- * function : CheckUser
- * Parameter : none
- * return    : not use
- * Description :
- * Check if user is active and exists in the
- * repository
- * Automatically redirect
- * 
-++*/
-/* obsolete  function CheckUser()
-{
-	global $g_user,$g_pass,$IsValid;
-	echo_debug(__FILE__,__LINE__,"CheckUser");
-	$res=0;
-	$pass5=md5($g_pass);
-	if ( $IsValid == 1 ) { return; }
-	$cn=DbConnect("account_repository");
-	if ( $cn != false ) {
-	  $sql="select ac_users.use_login,ac_users.use_active, ac_users.use_pass
-				from ac_users  
-				 where ac_users.use_login='$g_user' 
-					and ac_users.use_active=1
-					and ac_users.use_pass='$pass5'";
-	    echo_debug(__FILE__,__LINE__,"Sql = $sql");
-	    $ret=pg_exec($cn,$sql);
-	    $res=pg_NumRows($ret);
-	    echo_debug(__FILE__,__LINE__,"Number of found rows : $res");
-	  }
-	  
-	if ( $res == 0  ) {
-	  	echo '<META HTTP-EQUIV="REFRESH" content="4;url=index.html">';
-		echo "<BR><BR><BR><BR><BR><BR>";
-		echo "<P ALIGN=center><BLINK>
-			<FONT size=+12 COLOR=RED>
-			Invalid user <BR> or<BR> Invalid password 
-			</FONT></BLINK></P></BODY></HTML>";
-		session_unset();
-		
-		exit -1;			
-	} else $IsValid=1;
-	
-	return $ret;
-	
-}
-*/
 /*++
  * function : ShowDossier
  * Parameter : p_type string : all for all dossiers lim for only the 
@@ -109,27 +61,6 @@ function ShowDossier($p_type,$p_first=0,$p_max=10,$p_Num=0) {
   }
   return $row;
 }
-// Check if the user has admin right
-// to be complete
-/* obsolete function CheckAdmin() {
-  $l_user=$_SESSION($g_user);
-  $l_pass=$_SESSION($g_pass);
-
-  $res=0;
-
-  if ( $l_user != 'phpcompta') {
-	$pass5=md5($l_pass);
-	$sql="select use_id from ac_users where use_login='$l_user'
-		and use_active=1 and use_admin=1 and use_pass='$pass5'";
-
-	$cn=DbConnect();
-
-	$isAdmin=CountSql($cn,$sql);
-	} else $isAdmin=1;
-
-  return $isAdmin;
-}
-*/
 
 /* function DbConnect
  * purpose : connect to the database
@@ -138,11 +69,15 @@ function ShowDossier($p_type,$p_first=0,$p_max=10,$p_Num=0) {
  * todo : replace hardcoded by variable placed in
  *        constant.php
  */
-function DbConnect($p_db=-1) {
+function DbConnect($p_db=-1,$p_type='dossier') {
   if ( $p_db==-1) 
     $l_dossier="account_repository";
-  else
-    $l_dossier=sprintf("dossier%d",$p_db);
+  else 
+    if ( $p_type == 'dossier') 
+      $l_dossier=sprintf("dossier%d",$p_db);
+    else 
+      $l_dossier=sprintf("mod%d",$p_db);
+
 
   $password=phpcompta_password;
   $a=pg_connect("dbname=$l_dossier host=127.0.0.1 user='phpcompta' password='$password'");
