@@ -680,11 +680,11 @@ function ViewJrn($p_dossier,$p_user,$p_jrn,$p_array=null) {
     }
     $sql="select j_id,j_text,to_char(j_date,'DD.MM.YYYY') as j_date,j_montant,j_poste,pcm_lib,j_grpt,j_rapt,j_debit,j_centralized,j_tech_per,jr_internal
                    from jrnx inner join tmp_pcmn on j_poste=pcm_val
-                        inner join jrn on jr_grpt_id=j_id
+                        inner join jrn on jr_grpt_id=j_grpt
                    where 
                    j_jrn_def=$p_jrn";
     $l_and="and ";
-    if ( (string) $l_s_montant == (string) (int) $l_s_montant ) {
+    if ( ereg("^[0-9]+$", $l_s_montant) || ereg ("^[0-9]+\.[0-9]+$", $l_s_montant) ) {
     $sql.=" and j_montant $l_mont_sel $l_s_montant";
     }
     if ( isDate($l_date_start) != null ) {
