@@ -104,6 +104,10 @@ define ("JS_SEARCH_POSTE","<SCRIPT>function SearchPoste(p_sessid,p_ctl)
      {
        var win=window.open('poste_search.php?p_ctl='+p_ctl+'&PHPSESSID='+p_sessid,'Cherche','toolbar=no,width=600,height=600,scrollbars=yes,resizable=yes');
     } 
+function SearchPosteFilter(p_sessid,p_ctl,p_filter)
+     {
+       var win=window.open('poste_search.php?p_ctl='+p_ctl+'&PHPSESSID='+p_sessid+'&filter='+p_filter,'Cherche','toolbar=no,width=600,height=600,scrollbars=yes,resizable=yes');
+    } 
 	 function GetIt() {
 	   window.close();	
 	} 

@@ -22,6 +22,7 @@
 include_once ("ac_common.php");
 html_page_start($g_UserProperty['use_theme']);
 include_once ("postgres.php");
+include_once("jrn.php");
 /* Admin. Dossier */
 CheckUser();
 //echo '<SCRIPT LANGUAGE="javascript" SRC="win_search_poste.js"></SCRIPT>';
@@ -29,7 +30,6 @@ echo JS_SEARCH_POSTE;
 
 if ( ! isset ( $g_dossier ) ) {
   echo "You must choose a Dossier ";
-  phpinfo();
   exit -2;
 }
 
@@ -61,7 +61,57 @@ if ( isset($_POST['search']) ) {
 
   $condition=$c_comment.$c_class;
 }
+$url="";
+// Filter ???
+if ( isset($_GET['filter'])) {
+  $url="?filter=1";
+  // There is a filter, the value of the filter is the journal id, we
+  // have to find what account are available
+  $SqlCred="";
+  // Load the property
+  $l_line=GetJrnProperty($cn,$g_jrn);
+  if ( strlen(trim ($l_line['jrn_def_class_cred']) ) > 0 ) {
+    $valid_cred=split(" ",$l_line['jrn_def_class_cred']);
 
+    // Creation query
+    foreach ( $valid_cred as $item_cred) {
+      if ( strlen (trim($item_cred))) {
+	echo_debug("l_line[jrn_def_class_cred] $l_line[jrn_def_class_cred] item_cred $item_cred");
+	if ( strstr($item_cred,"*") == true ) {
+	  $item_cred=strtr($item_cred,"*","%");
+	  $Sql=" pcm_val like '$item_cred' or";
+	} else {
+	  $Sql=" pcm_val = '$item_cred' or";
+	}
+	$SqlCred=$SqlCred.$Sql;
+      }
+    }//foreach
+   
+  }
+  if ( strlen(trim ($l_line['jrn_def_class_deb']) ) > 0 ) {
+    $valid_deb=split(" ",$l_line['jrn_def_class_deb']);
+
+    // Creation query
+    foreach ( $valid_deb as $item_deb) {
+      if ( strlen (trim($item_deb))) {
+	echo_debug("l_line[jrn_def_class_deb] $l_line[jrn_def_class_deb] item_deb $item_deb");
+	if ( strstr($item_deb,"*") == true ) {
+	  $item_cred=strtr($item_deb,"*","%");
+	  $Sql=" pcm_val like '$item_deb' or";
+	} else {
+	  $Sql=" pcm_val = '$item_deb' or";
+	}
+	$SqlCred=$SqlCred.$Sql;
+      }
+    }//foreach
+       
+  }
+  if ( $condition=="") {
+    $condition .= ($SqlCred=="")?"":" where  ".substr($SqlCred,0,strlen($SqlCred)-2);
+  } else {
+    $condition .= ($SqlCred=="")?"":" and (  ".substr($SqlCred,0,strlen($SqlCred)-2)." ) ";
+  }
+}// if (isset($_GET['filter']))
 if ( isset($_GET['p_ctl'])) {
   $p_ctl=$_GET['p_ctl'];
 }
@@ -70,7 +120,8 @@ if ( isset($_POST['p_ctl'])) {
 }
 
 echo_debug("condition = $condition");
-echo '<FORM ACTION="poste_search.php" METHOD="POST">';
+
+echo '<FORM ACTION="poste_search.php'.$url.'" METHOD="POST">';
 if ( isset($p_ctl) ) {
   if ($p_ctl != 'not')   echo '<INPUT TYPE="hidden" name="p_ctl" value="'.$p_ctl.'">';
 }
@@ -92,7 +143,7 @@ echo '<INPUT TYPE="submit" name="search" value="cherche">';
 echo '</FORM>';
 
 // if request search
-if ( isset($_POST['search']) ) {
+if ( isset($_POST['search']) or isset($_GET['filter']) ) {
   $Res=ExecSql($cn,"select * from tmp_pcmn $condition order by pcm_val::text");
   
   $MaxLine=pg_NumRows($Res);
