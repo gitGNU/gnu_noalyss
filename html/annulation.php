@@ -113,16 +113,16 @@ if ( isset ($annul) ) {
    $Res=ExecSql($cn,$sql);
 
    // delete from jrnx & jrn
-   $sql="update jrnx set j_montant = 0 where j_grpt=".$_POST['p_id'];
+    $sql="update jrnx set j_montant = 0 where j_grpt=".$_POST['p_id'];
    
-   $Res=ExecSql($cn,$sql);
+//    $Res=ExecSql($cn,$sql);
  
 
   // build the sql stmt for jrn
-  $sql= "update  jrn  set jr_montant = 0, jr_valid='f',jr_comment='Erreur:'||jr_comment  where   jr_grpt_id=".$_POST['p_id'];
+  $sql= "update  jrn  set jr_montant=0,jr_valid='f',jr_comment='Erreur:'||jr_comment  where   jr_grpt_id=".$_POST['p_id'];
   $Res=ExecSql($cn,$sql);
 
-  echo '<h2 class="info"> Opération Effacée</h2>';
+  echo '<h2 class="info"> Opération Annulée</h2>';
 ?>
 <script>
  window.close();
