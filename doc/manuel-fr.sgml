@@ -140,7 +140,7 @@ Emplois.
 </sect1>
 
 <sect1> Les comptes de résultats
-<p> Il y a d'autres 2 sortes de compte de résultat, les classes 6 et
+<p> Il y a deux sortes de compte de résultat, les classes 6 et
 7.
 
 <sect2> Les charges
@@ -150,7 +150,7 @@ entreprise: loyer, paiement au personnel, charge d'intérêt...
 Les charges augmentent au crédit mais certains comptes peuvent aussi
 être diminués.
 
-Par exemple, vous encodez une facture d'électricités, vous auriez
+Par exemple, vous encodez une facture d'électricité, vous auriez
 <verb>
 Charge   électricité
             à
@@ -214,7 +214,8 @@ faut diminuer les charges 6xxxx frais de voiture à 41xxx Compte de
 l'exploitant. Et de la même manière,  diminuer la tva de vos frais de
 voiture de 2/7.
 
-Les écritures comptables : chaque trimestre vous devez payer un acompte de tva qui est égal au tiers du montant dû à la dernière déclaration
+Les écritures comptables : chaque trimestre vous devez payer un acompte de 
+tva qui est égal au tiers du montant dû à la dernière déclaration
 <verb>
 4117     Acompte TVA
     5500 Banque
@@ -270,7 +271,15 @@ Ensuite, imprimez une balance des comptes de l'année écoulée. Cela fait, le rest
 </verb>
 
 Evidemment les postes comptables peuvent un peu changer suivant la façon dont
-vous avez adapté votre plan comptable. Faites toutes même attention à ne pas mélanger ce que vous avez acheté il y a deux ans et l'année passée. Normalement, chaque élément faisant l'objet d'un amortissement doit avoir un plan d'amortissement, c'est-à-dire un document qui décrit ce qui est amorti, indique la valeur d'acquisition et quelle somme sera amortie sur quelle années. Le document est de format libre, le mieux est d'utiliser une feuille du tableur d'OpenOffice.org pour résumer tout ce qui doit être amorti. Ce document est appelé tableau d'amortissement. Attention les montants sont hors tva !!!!
+vous avez adapté votre plan comptable. Faites toutes même attention à ne pas 
+mélanger ce que vous avez acheté il y a deux ans et l'année passée. 
+Normalement, chaque élément faisant l'objet d'un amortissement 
+doit avoir un plan d'amortissement, c'est-à-dire un document qui décrit 
+ce qui est amorti, indique la valeur d'acquisition et quelle somme 
+sera amortie sur quelle années. 
+Le document est de format libre, le mieux est d'utiliser 
+une feuille du tableur d'OpenOffice.org pour résumer tout ce qui doit être amorti. 
+Ce document est appelé tableau d'amortissement. Attention les montants sont hors tva !!!!
 <verb>
 exemple :
 bureau valeur d'acquisition 500euros acheté en 2003
@@ -398,21 +407,50 @@ pour les besoins d'une entreprise.
 de marchandises, de services ou de matériel.
 
 </sect1>
+
 <sect1> Journal des Ventes
+<p>Le journal des ventes regroupe les opérations de vente, donc ce que
+vous vendez. En mode utilisateur, c'est très simple: vous devez juste
+ajouter le client, la date et évidemment les articles.
+
+<p>Les rabais et remises ne sont pas prévues dans la version 1.0.0
+
+<p>La ligne du bas vous permet de faire des petits calculs rapide
+(exemple: 1+2*3.2)...  Il suffit d'utiliser la touche de tabulation ou
+de cliquer ailleur pour voir le résultat.
+
 </sect1>
-<sect1> Journal des Financiers
+<sect1> Journal Financiers
+<p> Uniquement pour gérer les comptes en banque, visa, bref tout ce
+qui est financier (pas les prêts qui devraient être en opération
+diverses mais bien le paiement de ces prêts).
+
+<p> La date est important, il est important de vous rappelez: on vous
+donne l'ancien solde et le nouveau, vérifiez sur vos extraits que
+cela correspond bien.
+
+<p> Le commentaire est optionnelle, c'est ce que vous verrez
+apparaître lorsque vous regarderez votre journal.
+
+<p>Introduisez un montants négatif si vous payez (le compte diminue)
+et un montant positif si vous recevez de l'argent.
+
 </sect1>
 <sect1> Journal des Opérations diverses <label id="journal_od">
 <p> Reprend toutes les opérations qui ne sont pas comprises dans les autres
 journaux. Ce qui implique les amortissements, les salaires, les produits financiers,
 les dépenses non admises, le paiement de l'impôt, de la tva...
 
-C'est l'unique journal qui n'utilise pas les fiches. Pourquoi ? Tout simplement parce
-que s'il utilisait lui-aussi les fiches, il faudrait faire une fiche par poste comptable,
-ce qui serait rapidement ingérable. De plus, es fiches sont là pour les opérations
-courantes (vente/Achat/banque). Puisque ce journal n'utilise pas les fiches, le filtre est
-le même que celui défini pour le mode comptable voir <ref id="journal_comptable"
- name="définition journal">
+C'est l'unique journal qui n'utilise pas les fiches. Pourquoi ? Tout
+simplement parce 
+que s'il utilisait lui-aussi les fiches, il faudrait faire une fiche
+par poste comptable, 
+ce qui serait rapidement ingérable. De plus, es fiches sont là pour
+les opérations 
+courantes (vente/Achat/banque). Puisque ce journal n'utilise pas les
+fiches, le filtre est 
+le même que celui défini pour le mode comptable voir <ref
+id="journal_comptable"  name="définition journal">
 
 
 </sect1>
@@ -421,15 +459,24 @@ le même que celui défini pour le mode comptable voir <ref id="journal_comptable"
 <sect> Les fiches
 <sect1>Création d'une catégorie de fiche
 <p>
-Les catégories de fiches sont en fait le rassemblement de fiche ensembles, par exemple, les
-marchandises, les clients, les fournisseurs...
+Les catégories de fiches sont en fait le rassemblement de fiche
+ensembles, par exemple, les marchandises, les clients, les
+fournisseurs... 
 
-Pour créer une catégorie, cliquer sur Fiche et à droite sur création. Vous devez donner le
-nom de la catégorie et le type de fiche que vous voulez.
+Pour créer une catégorie, cliquer sur Fiche et à droite sur
+création. Vous devez donner le nom de la catégorie et le type de fiche
+que vous voulez.  
 
 La classe de base est le poste comptable parent de vos fiche, ce poste doit exister, il faut alors
-cliquer aussi sur "create account for each" qui permet de générer automatiquement le poste comptable voulu, ce poste sera automatiquement ajouté dans le Plan Comptable. Si cette option n'est pas
-cochée, vous devrez ajouter manuellement le poste comptable et le donner explicitement. Si vous ne souhaitez pas que chaque fiche aie son propre comptable, ne cochez l'option et n'ajoutez pas manuellement le poste comptable. Dans ce cas, ce sera le poste du modèle de fiche par défaut qui sera utilisé, si vous ne l'indiquez pas ce sera la classe par défaut de ce type de modèle.
+cliquer aussi sur "create account for each" qui permet de générer
+automatiquement le poste comptable voulu, ce poste sera
+automatiquement ajouté dans le Plan Comptable. Si cette option n'est
+pas cochée, vous devrez ajouter manuellement le poste comptable et le
+donner explicitement. Si vous ne souhaitez pas que chaque fiche aie
+son propre comptable, ne cochez l'option et n'ajoutez pas manuellement
+le poste comptable. Dans ce cas, ce sera le poste du modèle de fiche
+par défaut qui sera utilisé, si vous ne l'indiquez pas ce sera la
+classe par défaut de ce type de modèle. 
 
 Pour simplifier :
 <itemize>
@@ -481,12 +528,29 @@ La dette du client diminue
 
 </verb>
 <p> Il n'est pas possible de modifier un encodage mais vous pouvez l'annuler.
-Attention cependant de ne pas annuler l'annulation !!!
+Attention cependant de ne pas annuler l'annulation !!! Quand vous
+cliquez sur Confirmer soyez sûr de ce que vous faites.
 
 </sect1>
 <sect1>Achat
+<p> En mode utilisateur, c'est supposé être intuitif.
+
+<p> Si vous ramenez du matériel, vous pouvez soit annuler l'opération
+d'achat, soit utiliser les quantités négatives.
+
 </sect1>
 <sect1>Vente
+<p> Pour ajouter une vente, cliquez sur nouvelle, puis utilisez les
+boutons pour ajouter les clients, services et marchandises que l'on
+vend. 
+
+<p> En cas de reprise de matériel, vous pouvez mettre des quantités
+négatives - attention : des quantités, pas des prix unitaires-. Le
+stock sera automatiquement réadapté pour tenir compte de ce retour de
+matériel. 
+
+<p> Pensez à utilisez le dossier "demo" pour faire tout vos tests et
+découvrir PhpCompta.
 </sect1>
 <sect1>Opération financière
 <p> En cas de paiement, il faut introduire le montant négatif.
@@ -528,8 +592,8 @@ activée !!! Ou alors mettez le mot de passe dans ~/.pgpass de
 l'utilisateur phpcompta
 
 Dans include/constant.php changer le mot de passe (ligne
-phpcompta_password), il contient dany par défaut par votre mot de
-passe
+phpcompta_password), il contient dany par défaut.
+
 
 En tant
 qu'utilisateur postgres, ajoutez un mot de passe à votre utilisateur
@@ -545,7 +609,7 @@ host   all         all        172.16.31.0  255.255.255.0           md5
 local   all         all                                             md5
 host    all         all         127.0.0.1         255.255.255.255   md5
 </verb>
-La première ligne corresponde à mon réseau privé.
+La première ligne correspond à mon réseau privé.
 
 Relancez postgres, voilà maintenant un mot de passe sera toujours
 requis, n'oubliez pas de mettre un mot de passe à vos
@@ -629,8 +693,42 @@ son mode par défaut à User.
 </sect1>
 </sect>
 <sect> Rapprochement
+<p>En mode utilisateur, vous pouvez lier des opérations entre elles,
+en général ce seront des paiements qui correspondent à des
+factures. Ce n'est pas obligatoire, c'est là uniquement pour vous
+permettre de mieux voir ce qui concerne quoi.
+
+<p>Les rapprochement ne se font pas forcément dans le même journal,
+par exemple un paiement sera dans le journal financier mais sera lié à
+une opération de vente (journal de vente) ou d'achat (journal
+d'achat).
+
+<p> Le point important est que dans la petite fenêtre montrant les
+détails, vous pouvez spécifier si la facture est ou non payée, cela
+vous permettra de savoir en temps réelle, ce qui est déjà payé et ce
+qui ne l'est pas, cette possibilité n'existe que pour les journaux de
+type vente et achat.
+
 </sect>
 <sect> Centralisation
+<sect1>Définition
+<p> La centralisation est l'opération comptable qui consiste à
+regrouper les différents journaux comptables dans le grand livre.
+</sect1>
+<sect1>Méthode
+<p> Cette opération n'est pas réversible. 
+
+<p> Tout d'abord, vous devez clôturer les périodes, une période
+clôturée est une période où il ne sera pas possible d'ajouter ou de
+modifier quoi que ce soit, d'ailleurs, il vaut mieux toujours mieux
+clôturer une période avant de faire la déclaration TVA. Cela empêche
+les erreurs.
+
+<p> Ensuite, vous pourrez centraliser. Pour l'instant, la clôture des
+périodes se fait par (mode utilisateur): "Paramètre -> période" et la
+centralisation se fait par le menu "Avancé -> Centralise".
+
+</sect1>
 </sect>
 <sect> Exemple
 <sect1>Ouverture de compte
@@ -678,10 +776,12 @@ encoder dans le journal financier, ne pas oublier le rapprochement
 </sect>
 <sect>Trucs et astuces
 <sect1>Ouvrir plusieur fenêtres
+<p>
 Vous pouvez toujours ouvrir plusieurs fenêtres. C'est très utile, par
 exemple dans le cas ou vous encodez une OD mais un poste comptable manque
 vous pouvez l'ajouter dans une autre fenêtre puis reprendre la fenêtre
 où vous travailliez, le poste comptable est maintenant disponible.
+
 </sect1>
 </sect>
 </article>
