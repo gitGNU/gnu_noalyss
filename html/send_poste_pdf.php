@@ -77,7 +77,7 @@ $str_solde=sprintf(" Solde %s %12.2f",$solde,$diff_solde);
  $pdf->ezText($str_solde,14,array('justification'=>'right'));
 
   //New page
-  $pdf->ezNewPage();
+  //$pdf->ezNewPage();
 }    
 
 $pdf->ezStream();
