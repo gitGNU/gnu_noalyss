@@ -22,6 +22,9 @@
 include_once("ac_common.php");
 include_once("postgres.php");
 include_once("debug.php");
+include_once("user_menu.php");
+
+
 html_page_start($g_UserProperty['use_theme']);
 echo_debug(__FILE__,__LINE__,"entering admin_repo");
 
@@ -33,10 +36,9 @@ if ($g_UserProperty['use_admin'] != 1) {
   html_page_stop();
   return;
 }
-include ("top_menu_compta.php");
-echo '<H2 class="info"> Administration Globale</H2>';
-ShowMenuAdminGlobal();
 
+echo '<H2 class="info"> Administration Globale</H2>';
+echo "<div>".MenuAdmin()."</div>";
 
 
 
@@ -61,6 +63,7 @@ if ( isset ($_GET["action"]) ) {
     echo_debug(__FILE__,__LINE__,"Array = $cn");
     $compteur=0;
 ?>
+<h2>Gestion Utilisateurs</h2>
 <TABLE><TR>
 <?
     if ( $cn != null ) {
@@ -85,7 +88,7 @@ if ( isset ($_GET["action"]) ) {
 </TABLE>
 <TABLE> <TR> 
 <form action="admin_repo.php?action=user_mgt" method="POST">
-<TD><H3>Add User<H3></TD></TR>
+<TD><H3>Ajout d'utilisateur<H3></TD></TR>
 <?
     echo '<TR><TD> First Name </TD><TD><INPUT TYPE="TEXT" NAME="FNAME"></TD>';
     echo '<TD> Last Name </TD><TD><INPUT TYPE="TEXT" NAME="LNAME"></TD></TR>';
@@ -124,7 +127,7 @@ if ( isset ($_GET["action"]) ) {
       } // if $l_id != 0
     } // $_POST[DATABASE]
 ?>
-    Dossier Management
+   <h2> Dossier Management</h2>
 
 <TABLE BORDER=1>
 <?
@@ -162,7 +165,7 @@ if ( $count == 0 ) {
     $template='<SELECT NAME=FMOD_ID>';
       for ($i=0;$i<$count;$i++) {
 	$mod=pg_fetch_array($Res,$i);
-	$template.='<OPTION VALUE="'.$mod['mod_id'].'"> '.$mod['mod_name']." - ".$mod['mod_desc'];
+	$template.='<OPTION VALUE="'.$mod['mod_id'].'"> '.$mod['mod_name']." - ".substr($mod['mod_desc'],0,30);
       }// for
       $template.="</SELECT>";
     }// if count = 0
@@ -173,11 +176,11 @@ if ( $count == 0 ) {
  <FORM ACTION="admin_repo.php?action=dossier_mgt" METHOD="POST">
     <TABLE>
     <TR>
-    <TD> Name  <INPUT TYPE="TEXT" NAME="DATABASE"> </TD>
+    <TD> Name</td><td>  <INPUT TYPE="TEXT" NAME="DATABASE"> </TD>
     </TR><TR>
-    <TD> Description <INPUT TYPE="TEXT" NAME="DESCRIPTION" SIZE="30"> </TD>
+    <TD> Description</td><td>  <TEXTAREA COLS="60" ROWS="2" NAME="DESCRIPTION" ></TEXTAREA> </TD>
     </TR>
-    <TR> <TD><? echo $template; ?> </TD></TR>
+    <TR> <TD> Modèle</td><td>  <? echo $template; ?> </TD></TR>
 
     <TR>
     <TD> <INPUT TYPE=SUBMIT VALUE="Create Folder"></TD>
@@ -203,12 +206,12 @@ if ( $count == 0 ) {
 	// get the mod_id
 	$l_id=GetSequence($cn,'s_modid');
 	if ( $l_id != 0 ) {
-	  $Sql=sprintf("CREATE DATABASE MOD%d encoding='ISO8859-1' TEMPLATE DOSSIER%s",$l_id,$_POST["FMOD_DBID"]);
-	  ExecSql($cn,$Sql);
-	}
+	   $Sql=sprintf("CREATE DATABASE MOD%d encoding='ISO8859-1' TEMPLATE DOSSIER%s",$l_id,$_POST["FMOD_DBID"]);
+	   ExecSql($cn,$Sql);
+ 	}
       }// if $mod_name != null
-      $mod=sprintf("mod%d",$l_id);
-      $cn_mod=dbconnect($mod);
+
+      $cn_mod=dbconnect($l_id,'mod');
       // Clean some tables 
       $Res=ExecSql($cn_mod,"truncate table jrn");
       $Res=ExecSql($cn_mod,"truncate table jrnx");
@@ -234,14 +237,30 @@ if ( $count == 0 ) {
     if ( $count == 0 ) {
       echo "No template available";
     } else {
-     
+      echo "<H2>Modèles</H2>";
+
+      echo '<table width="100%" border="1">';
+      echo "<TR><TH>Nom</TH>".
+	"<TH>Description</TH>".
+	"</TR>";
+
       for ($i=0;$i<$count;$i++) {
 	$mod=pg_fetch_array($Res,$i);
-	printf('<span style="display:block;"> %s  %s </span>',
-	       $mod['mod_name'],$mod['mod_desc']);
+	printf('<TR>'.
+               '<TD><b> %s</b> </TD>'.
+	       '<TD><I> %s </I></TD>'.
+	       '</TR>',
+	       $mod['mod_name'],
+	       $mod['mod_desc']);
 
       }// for
+      echo "</table>";
     }// if count = 0
+      echo "Si vous voulez récupérer toutes les adaptations d'un dossier ".
+	" dans un autre dossier, vous pouvez en faire un modèle.".
+	" Seules les fiches, la structure des journaux, les périodes,... seront reprises ".
+	"et aucune données du dossier sur lequel le dossier est basé.";
+
     // Show All available folder
     $Res=ExecSql($cn,"select dos_id, dos_name,dos_description from ac_dossier
                       order by dos_name");
@@ -264,7 +283,7 @@ if ( $count == 0 ) {
 </TR>
 <TR>
     <TD>Description</TD>
-    <TD><INPUT TYPE="TEXTAREA" ROWS="4" COLS="30" NAME="FMOD_DESC"></TD>
+    <TD><TEXTAREA" ROWS="2" COLS="60" NAME="FMOD_DESC"></Textarea></TD>
 </TR>
 <TR>
     <TD> Basé sur </TD>

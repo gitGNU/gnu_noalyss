@@ -20,7 +20,7 @@
 include_once("ac_common.php");
 include_once("postgres.php");
 include_once("debug.php");
-include_once("top_menu_compta.php");
+include_once("user_menu.php");
 html_page_start($g_UserProperty['use_theme']);
 echo_debug(__FILE__,__LINE__,"entering priv_users");
 
@@ -50,7 +50,8 @@ if ( $r_UID == false ) {
 }
 echo_debug(__FILE__,__LINE__,"UID IS VALID");
 echo '<H2 class="info"> Administration Globale</H2>';
-ShowMenuAdminGlobal();
+
+echo "<div>".MenuAdmin()."</div>";
 
 echo '<DIV>';
 echo '<H1 class="title"> User Management</H1>';

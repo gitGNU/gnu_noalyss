@@ -1,3 +1,5 @@
+
+
 <?
 /*
  *   This file is part of PhpCompta.
@@ -26,8 +28,6 @@ $User=new cl_user($rep);
 $User->Check();
 html_page_start($g_UserProperty['use_theme']);
 include_once("user_menu.php");
-//u_ShowMenu($g_UserProperty['use_admin']);
-
 
 $priv=($g_UserProperty['use_admin']==1)?"Administrator":"User";
 
