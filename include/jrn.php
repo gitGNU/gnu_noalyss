@@ -42,22 +42,20 @@ function RecordJrn($p_dossier,$p_user,$p_jrn,$p_MaxDeb,$p_MaxCred,$p_array = nul
   for ( $i = 0; $i < $p_MaxDeb; $i++) {
       ${"e_class_deb$i"}=0;
       ${"e_mont_deb$i"}=0;
-      ${"e_text_deb$i"}="";
   }
   for ( $i = 0; $i < $p_MaxCred; $i++) {
       ${"e_class_cred$i"}=0;
       ${"e_mont_cred$i"}=0;
-      ${"e_text_cred$i"}="";
-      
   }
   $l_dossier=sprintf("dossier%d",$p_dossier);
   $cn=DbConnect($l_dossier);
-
-  if ( $p_array == null ) {
     // userPref contient la periode par default
     $userPref=GetUserPeriode($cn,$p_user);
     list ($l_date_start,$l_date_end)=GetPeriode($cn,$userPref);
-    $e_op_date=$l_date_start;
+    $e_op_rem=substr($l_date_start,2,8);
+
+  if ( $p_array == null ) {
+    $e_op_date="01";
     $e_comment="";
     $e_rapt="";
     $e_ech="";
@@ -71,20 +69,17 @@ function RecordJrn($p_dossier,$p_user,$p_jrn,$p_MaxDeb,$p_MaxCred,$p_array = nul
   /* Get Jrn's properties */
   $l_line=GetJrnProp($p_dossier,$p_jrn);
   if ( $l_line == null ) return;
+  echo '<DIV class="redcontent">';
 
 
-  echo '<DIV CLASS="redcontent">';
   printf ('<H2 class="info"> %s %s </H2>',$l_line['jrn_def_name'],$l_line['jrn_def_code']);
   echo '<FORM NAME="encoding" ACTION="enc_jrn.php" METHOD="POST">';
   echo "<INPUT TYPE=HIDDEN NAME=\"MaxDeb\" VALUE=\"$p_MaxDeb\">";
   echo "<INPUT TYPE=HIDDEN NAME=\"MaxCred\" VALUE=\"$p_MaxCred\">";
-  // Date echeance - paiement
-  if ( $l_line['jrn_def_ech'] == 't' ) {
-        echo $l_line['jrn_def_ech_lib'].'<INPUT TYPE="TEXT" NAME="ech" value="'.$e_ech.'">';
-  }
-  echo '<DIV CLASS="debit">';
-  echo 'Date : <INPUT TYPE="TEXT" NAME="op_date" VALUE="'.$e_op_date.'">';
-  echo '<H2 class="info"> débit </H2>';
+  echo 'Date : <INPUT TYPE="TEXT" NAME="op_date" VALUE="'.
+    $e_op_date.'" SIZE="4">'.
+    $e_op_rem;
+
   // Chargement comptes disponibles
   if ( strlen(trim ($l_line['jrn_def_class_deb']) ) > 0 ) {
     $valid_deb=split(" ",$l_line['jrn_def_class_deb']);
@@ -119,6 +114,7 @@ function RecordJrn($p_dossier,$p_user,$p_jrn,$p_MaxDeb,$p_MaxCred,$p_array = nul
   }
 
   echo "<TABLE>";
+  echo '<TR><TD><H2 class="info"> débit </H2></TD></TR>';
   for ( $i=0;$i < $p_MaxDeb;$i++) {
     echo "<tr>";
     echo "<TD>";
@@ -131,28 +127,28 @@ function RecordJrn($p_dossier,$p_user,$p_jrn,$p_MaxDeb,$p_MaxCred,$p_array = nul
 	     $selected,
 	     $key,
 	     $value);
-      //echo_debug(" option = $a");
       echo $a;
     }
-	
-    //    echo $poste_deb;
     echo "</SELECT>";
     printf ('</TD>');
-    printf('<TD><INPUT TYPE="TEXT" NAME="text_deb%d" VALUE="%s"></TD>',
-	   $i,
-	   ${"e_text_deb$i"});
 
     printf('<TD> Montant :<INPUT TYPE="TEXT" id="mont_deb%d" NAME="mont_deb%d" VALUE="%s" onChange="CheckTotal()"></TD>',
 	    $i,$i,${"e_mont_deb$i"},$i);
     echo "</tr>";
 
   }
+  // Total debit
+   echo '<TR><TD>';
+   echo 'Total ';
+   echo '</TD><TD>';
+   echo '<input type="TEXT" NAME="sum_deb" VALUE="'.$e_sum_deb.'" onChange="CheckTotal()">';
+   echo '</TD></TR>';
 if ( $p_update == 0 )  echo "<TR><TD> <INPUT TYPE=\"SUBMIT\" VALUE=\"+ de line\" NAME=\"add_line_deb\"></TD></TR>";
-  echo "</TABLE>";
-  echo '</DIV>';
 
-  echo '<DIV CLASS="credit">';
-  echo '<H2 class="info"> crédit </H2>';
+
+
+
+  echo '<TR><TD><H2 class="info"> crédit </H2> </TD></TR>';
   // Chargement comptes disponibles
   if ( strlen(trim ($l_line['jrn_def_class_cred']) ) > 0 ) {
     $valid_cred=split(" ",$l_line['jrn_def_class_cred']);
@@ -180,7 +176,7 @@ if ( $p_update == 0 )  echo "<TR><TD> <INPUT TYPE=\"SUBMIT\" VALUE=\"+ de line\"
   $Res=ExecSql($cn,$SqlCred);
   $Count=pg_NumRows($Res);
 
-  echo "<TABLE>";
+
   for ( $i=0;$i<$Count;$i++) {
     $l2_line=pg_fetch_array($Res,$i);
     $lib=substr($l2_line['pcm_lib'],0,35);
@@ -198,22 +194,23 @@ if ( $p_update == 0 )  echo "<TR><TD> <INPUT TYPE=\"SUBMIT\" VALUE=\"+ de line\"
 	     $selected,
 	     $key,
 	     $value);
-      //      echo_debug(" option = $a");
       echo $a;
     }
 	
     echo "</SELECT>";
     echo "</TD>";
-    printf('<td><INPUT TYPE="TEXT" NAME="text_cred%d" VALUE="%s"></TD>',
-	   $i,
-	   ${"e_text_cred$i"});
 
     printf ('<TD> Montant :<INPUT TYPE="TEXT" id="mont_cred%d" NAME="mont_cred%d" VALUE="%s" onChange="CheckTotal()"></TD>',
 	    $i,$i,${"e_mont_cred$i"});
     echo "</tr>";
 
   }
-
+  // Total Credit
+  echo '<TR><TD>';
+  echo 'Total';
+  echo '</TD><TD>';
+  echo '<input type="TEXT" NAME="sum_cred" VALUE="'.$e_sum_cred.'" onChange="CheckTotal()">';
+  echo '</TD></TR>';
   echo "<TR><TD> <INPUT TYPE=\"SUBMIT\" VALUE=\"+ de line\" NAME=\"add_line_cred\"></TD></TR>";
   if ( isset ($_GET["PHPSESSID"]) ) {
     $sessid=$_GET["PHPSESSID"];
@@ -229,13 +226,15 @@ if ( $p_update == 0 )  echo "<TR><TD> <INPUT TYPE=\"SUBMIT\" VALUE=\"+ de line\"
   	$e_rapt="";
   }
 
-  echo '<TR><TD>rapprochement : <INPUT TYPE="TEXT" name="rapt" value="'.$e_rapt.'">'.$search.'</TD></TR>';
+  echo '<TR><TD colspan="2">
+         rapprochement : <INPUT TYPE="TEXT" name="rapt" value="'.$e_rapt.'">'.$search.'</TD></TR>';
   echo "</TABLE>";
-  echo '</DIV>';
+
   // To avoid problem with unknown variable
   if ( ! isset ($e_comment) ) {
   	$e_comment="";
   }
+ 
   echo '<TEXTAREA" rows="5" cols="50" NAME="comment">';
   echo $e_comment;
   echo "</TEXTAREA>";
@@ -247,7 +246,6 @@ if ( $p_update == 0 )  echo "<TR><TD> <INPUT TYPE=\"SUBMIT\" VALUE=\"+ de line\"
     echo '<input type="submit" Name="update_record" Value="Enregistre">';
   }
    echo '<input type="reset" Value="Efface">';
-   //   echo '<SCRIPT> CheckTotal()</SCRIPT>';   
 
    // To avoid problem with unknown variable
     if ( ! isset ($e_sum_deb) ) {
@@ -258,22 +256,26 @@ if ( $p_update == 0 )  echo "<TR><TD> <INPUT TYPE=\"SUBMIT\" VALUE=\"+ de line\"
      if ( ! isset ($e_sum_cred) ) {
                  $e_sum_cred=0;
       }
-   echo '<input type="TEXT" NAME="sum_deb" VALUE="'.$e_sum_deb.'" onChange="CheckTotal()">';
-   echo '<input type="TEXT" NAME="sum_cred" VALUE="'.$e_sum_cred.'" onChange="CheckTotal()">';
+
+
    echo '<SPAN ID="diff"></SPAN>';
   echo "</FORM>";
   echo '</DIV>';
   
 }
-/* function
- * Purpose :
- * 
+/* function UpdateJrn
+ * Purpose : Display the form to UPDATE account operation
+ *          
  * parm : 
- *	- 
+ *	- p_dossier
+ *      - p_jrn
+ *      - p_MaxDeb number of debit line
+ *      - p_MaxCred "     "  credit "
+ *"     - p_array array containing the others datas
  * gen :
- *	-
+ *	- none
  * return:
- *	-
+ *	- none
  *
  */ 
 
@@ -298,13 +300,9 @@ function UpdateJrn($p_dossier,$p_jrn,$p_MaxDeb,$p_MaxCred,$p_array)
   echo "<INPUT TYPE=HIDDEN NAME=\"MaxDeb\" VALUE=\"$p_MaxDeb\">";
   echo "<INPUT TYPE=HIDDEN NAME=\"jr_id\" VALUE=\"$e_jr_id\">";
   echo "<INPUT TYPE=HIDDEN NAME=\"MaxCred\" VALUE=\"$p_MaxCred\">";
-  // Date echeance - paiement
-  if ( $l_line['jrn_def_ech'] == 't' ) {
-        echo $l_line['jrn_def_ech_lib'].'<INPUT TYPE="TEXT" NAME="ech" value="'.$e_ech.'">';
-  }
-  echo '<DIV CLASS="debit">';
+  echo 'Date : <INPUT TYPE="TEXT" NAME="op_date" VALUE="'.$e_op_date.'">';
 
-  echo '<H2 class="info"> débit </H2>';
+
   // Chargement comptes disponibles
   if ( strlen(trim ($l_line['jrn_def_class_deb']) ) > 0 ) {
     $valid_deb=split(" ",$l_line['jrn_def_class_deb']);
@@ -339,7 +337,8 @@ function UpdateJrn($p_dossier,$p_jrn,$p_MaxDeb,$p_MaxCred,$p_array)
   }
 
   echo "<TABLE>";
-echo '<TR><TD> Date : <INPUT TYPE="TEXT" NAME="op_date" VALUE="'.$e_op_date.'">';
+  //echo '<TR><TD> Date : <INPUT TYPE="TEXT" NAME="op_date" VALUE="'.$e_op_date.'">';
+  echo '<TR><TD><H2 class="info"> débit </H2></TD></TR>';
   for ( $i=0;$i < $p_MaxDeb;$i++) {
     echo "<tr>";
 
@@ -364,20 +363,17 @@ echo '<TR><TD> Date : <INPUT TYPE="TEXT" NAME="op_date" VALUE="'.$e_op_date.'">'
     //    echo $poste_deb;
     echo "</SELECT>";
     echo "</TD>";
-    printf('<TD><INPUT TYPE="TEXT" NAME="text_deb%d" VALUE="%s"></TD>',
+    /*    printf('<TD><INPUT TYPE="TEXT" NAME="text_deb%d" VALUE="%s"></TD>',
 	   $i,
 	   ${"e_text_deb$i"});
-
+    */
     printf ('<TD> Montant :<INPUT TYPE="TEXT" id="mont_deb%d" NAME="mont_deb%d" VALUE="%s" onChange="CheckTotal()"></TD>',
 	    $i,$i,${"e_mont_deb$i"},$i);
     echo "</tr>";
 
   }
-  echo "</TABLE>";
-  echo '</DIV>';
 
-  echo '<DIV CLASS="credit">';
-  echo '<H2 class="info"> crédit </H2>';
+  echo '<TR><TD><H2 class="info"> crédit </H2></TD></TR>';
   // Chargement comptes disponibles
   if ( strlen(trim ($l_line['jrn_def_class_cred']) ) > 0 ) {
     $valid_cred=split(" ",$l_line['jrn_def_class_cred']);
@@ -405,7 +401,7 @@ echo '<TR><TD> Date : <INPUT TYPE="TEXT" NAME="op_date" VALUE="'.$e_op_date.'">'
   $Res=ExecSql($cn,$SqlCred);
   $Count=pg_NumRows($Res);
 
-  echo "<TABLE>";
+
   for ( $i=0;$i<$Count;$i++) {
     $l2_line=pg_fetch_array($Res,$i);
     $lib=substr($l2_line['pcm_lib'],0,35);
@@ -433,12 +429,6 @@ echo '<TR><TD> Date : <INPUT TYPE="TEXT" NAME="op_date" VALUE="'.$e_op_date.'">'
 	
     echo "</SELECT>";
     echo "</TD>";
-    if ( ! isset (  ${"e_text_cred$i"} ) ) {
-     ${"e_text_cred$i"}="";
-     }
-    printf('<TD><INPUT TYPE="TEXT" NAME="text_cred%d" VALUE="%s"></TD>',
-	   $i,
-	   ${"e_text_cred$i"});
 
     printf ('<TD> Montant :<INPUT TYPE="TEXT" id="mont_cred%d" NAME="mont_cred%d" VALUE="%s" onChange="CheckTotal()"></TD>',
 	    $i,$i,${"e_mont_cred$i"});
@@ -454,9 +444,10 @@ echo '<TR><TD> Date : <INPUT TYPE="TEXT" NAME="op_date" VALUE="'.$e_op_date.'">'
 
   $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchJrn(\''.$sessid."')\">";
 
-  echo '<TR><TD>rapprochement : <INPUT TYPE="TEXT" name="rapt" value="'.$e_rapt.'">'.$search.'</TD></TR>';
+  echo '<TR><TD colspan="2"><H2 class="info">rapprochement </H2> 
+       <INPUT TYPE="TEXT" name="rapt" value="'.$e_rapt.'">'.$search.'</TD></TR>';
   echo "</TABLE>";
-  echo '</DIV>';
+  echo "<H2 class=\"info\">Commentaire </H2> <BR>";
   echo '<TEXTAREA" rows="5" cols="50" NAME="comment">';
   echo $e_comment;
   echo "</TEXTAREA>";
@@ -473,8 +464,8 @@ echo '<TR><TD> Date : <INPUT TYPE="TEXT" NAME="op_date" VALUE="'.$e_op_date.'">'
   echo '</DIV>';
   
 }
-/* function
- * Purpose :
+/* function ViewRec
+ * Purpose : debug function to be dropped
  * 
  * parm : 
  *	- 
@@ -495,15 +486,15 @@ function ViewRec($p_array = null) {
  
   }
 }
-/* function
- * Purpose :
+/* function CorrectRecord
+ * Purpose : Call the RecordJrn. In fact does nothing
  * 
  * parm : 
- *	- 
+ *	- the same as RecordJrn
  * gen :
- *	-
+ *	- none
  * return:
- *	-
+ *	- none
  *
  */ 
 function CorrectRecord($p_dossier,$p_user,$p_jrn,$p_MaxDeb,$p_MaxCred,$p_array)
@@ -511,15 +502,20 @@ function CorrectRecord($p_dossier,$p_user,$p_jrn,$p_MaxDeb,$p_MaxCred,$p_array)
 
    RecordJrn($p_dossier,$p_user,$p_jrn,$p_MaxDeb,$p_MaxCred,$p_array);
 }
-/* function
- * Purpose :
+/* function ViewRecord
+ * Purpose : View the added operation
  * 
  * parm : 
- *	- 
+ *	- p_dossier
+ *      - p_jrn
+ *      - p_id
+ *      - p_MaxDeb
+ *      - p_MaxCred
+ *      - p_array
  * gen :
- *	-
+ *	- none
  * return:
- *	-
+ *	- none
  *
  */ 
 function ViewRecord ($p_dossier,$p_jrn,$p_id,$p_MaxDeb,$p_MaxCred,$p_array)
@@ -550,8 +546,8 @@ function ViewRecord ($p_dossier,$p_jrn,$p_id,$p_MaxDeb,$p_MaxCred,$p_array)
   for ($i = 0; $i < $p_MaxDeb;$i++) {
     //Deb
     if ( strlen(trim(${"e_mont_deb$i"})) > 0 && ${"e_mont_deb$i"} > 0 ) {
-      //      $class=GetPosteLibelle($p_dossier,${"e_class_deb$i"});
-      $class=${"e_text_deb$i"};
+      $class=GetPosteLibelle($p_dossier,${"e_class_deb$i"});
+
       echo '<TR style="background-color:lightblue"><TD>'.${"e_class_deb$i"}."</TD>$col_vide<TD> $class </TD> <TD>".${"e_mont_deb$i"}."</TD>$col_vide</TR>";
     }
   }
@@ -559,8 +555,8 @@ function ViewRecord ($p_dossier,$p_jrn,$p_id,$p_MaxDeb,$p_MaxCred,$p_array)
   // Cred
   for ($i = 0; $i < $p_MaxCred;$i++) {
     if ( strlen(trim(${"e_mont_cred$i"})) > 0 && ${"e_mont_cred$i"} > 0 ) {
-      //$class=GetPosteLibelle($p_dossier,${"e_class_cred$i"});
-      $class=${"e_text_cred$i"};
+      $class=GetPosteLibelle($p_dossier,${"e_class_cred$i"});
+      
       echo '<TR style="background-color:lightgreen;">'.$col_vide.'<TD>'.${"e_class_cred$i"}."</TD><TD> $class </TD>$col_vide <TD>".${"e_mont_cred$i"}."</TD></TR>";
     }
   }
@@ -645,11 +641,14 @@ function GetNextJrnId($p_cn,$p_name) {
   $l_res=pg_fetch_array($Res,0);
   return $l_res['result'];
 }
-/* function
- * Purpose :
+/* function ViewJrn
+ * Purpose : Vue des écritures comptables
  * 
  * parm : 
- *	- 
+ *	- p_dossier,
+ *      - p_user,
+ *      - p_jrn
+ *      - array
  * gen :
  *	-
  * return:
@@ -665,8 +664,9 @@ function ViewJrn($p_dossier,$p_user,$p_jrn,$p_array=null) {
   if ( $p_array == null) {
     include_once("preference.php");
     $l_periode=GetUserPeriode($cn,$p_user);
-    $Res=ExecSql($cn,"select j_id,jr_internal,j_text,to_char(j_date,'DD.MM.YYYY') as j_date,
-                       j_montant,j_poste,pcm_lib,j_grpt,j_rapt,j_debit,j_centralized,j_tech_per
+    $Res=ExecSql($cn,"select j_id,jr_internal,to_char(j_date,'DD.MM.YYYY') as j_date,
+                       j_montant,j_poste,pcm_lib,j_grpt,j_rapt,j_debit,j_centralized,j_tech_per,
+                       pcm_lib
                    from jrnx inner join tmp_pcmn on j_poste=pcm_val
                              inner join jrn on jr_grpt_id=j_grpt
                    where 
@@ -678,7 +678,8 @@ function ViewJrn($p_dossier,$p_user,$p_jrn,$p_array=null) {
       ${"l_$key"}=$element;
       echo_debug ("l_$key $element");
     }
-    $sql="select j_id,j_text,to_char(j_date,'DD.MM.YYYY') as j_date,j_montant,j_poste,pcm_lib,j_grpt,j_rapt,j_debit,j_centralized,j_tech_per,jr_internal
+    $sql="select j_id,to_char(j_date,'DD.MM.YYYY') as j_date,j_montant,j_poste,
+                 pcm_lib,j_grpt,j_rapt,j_debit,j_centralized,j_tech_per,jr_internal
                    from jrnx inner join tmp_pcmn on j_poste=pcm_val
                         inner join jrn on jr_grpt_id=j_grpt
                    where 
@@ -695,8 +696,7 @@ function ViewJrn($p_dossier,$p_user,$p_jrn,$p_array=null) {
     }
     $l_s_comment=FormatString($l_s_comment);
     if ( $l_s_comment != null ) {
-      $sql.=$l_and." ( upper(jr_comment) like upper('%".$l_s_comment."%') or
-                       upper(j_text) like upper('%".$l_s_comment."%'))";
+      $sql.=$l_and." upper(jr_comment) like upper('%".$l_s_comment."%') ";
     }
 
     $sql.=" order by j_id,j_grpt,j_debit desc";
@@ -714,10 +714,10 @@ function ViewJrn($p_dossier,$p_user,$p_jrn,$p_array=null) {
       echo '<TR style="background-color:lightblue;">';
     }
     else {
-      echo '<TR style="background-color:lightgreen;">';
+      echo '<TR>';
     }
     if ( $l_id == $l_line['j_grpt'] ) {
-      echo $col_vide.$col_vide.$col_vide.$col_vide;
+      echo $col_vide.$col_vide.$col_vide;
     } else {
       echo "<TD>";
       echo $l_line['j_date'];
@@ -727,21 +727,21 @@ function ViewJrn($p_dossier,$p_user,$p_jrn,$p_array=null) {
       if ( $l_line['j_centralized'] == 'f' && isClosed($cn,$l_line['j_tech_per']) == false )
 	{
 	  echo "<TD>";
-	  list($z_type,$z_num,$num_op)=split("-",$l_line['jr_internal']);
-	  echo $num_op;
-	  echo "</TD>";
-	  echo '<TD class="mtitle">';
-	  echo "<A class=\"mtitle\" HREF=enc_jrn.php?action=update&line=".$l_line['j_grpt'].">";
-	  echo "Modifier";
-	  echo "</A>";
 	  if ( isset ($_GET["PHPSESSID"])  ) {
 	    $sessid=$_GET["PHPSESSID"];
 	  } else {
 	    $sessid=$_POST["PHPSESSID"];
 	  }
-	  echo "<TD>";
-	  echo '<INPUT TYPE="BUTTON" VALUE="détail" onClick="viewDetail(\''.$l_line['j_grpt']."','".$sessid."')\">";
+
+	  list($z_type,$z_num,$num_op)=split("-",$l_line['jr_internal']);
+	  printf ('<INPUT TYPE="BUTTON" VALUE="%s" onClick="viewDetail(\'%s\',\'%s\')">', 
+		  $num_op,$l_line['j_grpt'],$sessid);
+	  //	  echo $num_op;
 	  echo "</TD>";
+	  echo '<TD class="mtitle">';
+	  echo "<A class=\"mtitle\" HREF=enc_jrn.php?action=update&line=".$l_line['j_grpt'].">";
+	  echo "M";
+	  echo "</A></TD>";
 	}else {
 
 	  if ( isset ($_GET["PHPSESSID"])  ) {
@@ -750,36 +750,28 @@ function ViewJrn($p_dossier,$p_user,$p_jrn,$p_array=null) {
 	    $sessid=$_POST["PHPSESSID"];
 	  }
 	  
-	  echo "<TD>";
-	  echo "</TD>";
 	  echo '<TD>';
-	  echo $l_line['jr_internal'];
+	  list($z_type,$z_num,$num_op)=split("-",$l_line['jr_internal']);
+	  printf ('<INPUT TYPE="BUTTON" VALUE="%s" onClick="viewDetail(\'%s\',\'%s\')">', 
+		  $num_op,$l_line['j_grpt'],$sessid);
+
 	  echo "</TD>";
-	  echo "<TD>";
-	  echo '<INPUT TYPE="BUTTON" VALUE="détail" onClick="viewDetail(\''.$l_line['j_grpt']."','".$sessid."')\">";
-	  echo "</TD>";
+	  echo $col_vide;
 
 	}
-	 
-      //      echo "</TD>";
       $l_id=$l_line['j_grpt'];
     }
-    if ( $l_line['j_debit']=='f')
+    if ($l_line['j_debit']=='f')
       echo $col_vide;
-
+    
     echo '<TD>';
     echo $l_line['j_poste'];
     echo '</TD>';
 
-    if ( $l_line['j_debit']=='t')
-      echo $col_vide;
-
     echo '<TD>';
-    echo $l_line['j_text'];
+    echo $l_line['pcm_lib'];
     echo '</TD>';
-
-    if ( $l_line['j_debit']=='f')
-      echo $col_vide;
+    echo $col_vide;
 
     echo '<TD>';
     echo $l_line['j_montant'];
@@ -943,15 +935,18 @@ function GetAmount($p_cn,$p_id) {
   $l_line=pg_fetch_array($Res,0);
   return $l_line['jr_montant'];
 }
-/* function
- * Purpose :
+/* function VerifData
+ * Purpose : Verify the data before inserting or
+ *           updating
  * 
  * parm : 
- *	- 
+ *	- p_cn connection
+ *      - p_array array with all the values
+ *      - p_user
  * gen :
- *	-
+ *	- none
  * return:
- *	-
+ *	- errorcode or ok
  *
  */ 
 function VerifData($p_cn,$p_array,$p_user)

@@ -144,34 +144,42 @@ if ( isset($_POST['add_record']) ) {
       // Sauve les données dans des variables
       ${"p_$name"}=$element;
     }
+    $userPref=GetUserPeriode($cn,$g_user);
+    list ($l_date_start,$l_date_end)=GetPeriode($cn,$userPref);
 
-
-    $result=VerifData($cn,$HTTP_POST_VARS,$g_user);
-
-    // Parse result
-    AnalyzeError($result);
-
+    $p_op_date=$p_op_date.substr($l_date_start,2,8);
+    echo_debug("p_op_date is $p_op_date");
+    $aHttp=$HTTP_POST_VARS;
+    $aHttp['op_date']=$p_op_date;
+    // Verifie data
+    //    $result=VerifData($cn,$HTTP_POST_VARS,$g_user);
+    $result=VerifData($cn,$aHttp,$g_user);
     if ($result != NOERROR) {
+      // Parse result
+      AnalyzeError($result);
+
       echo "</DIV>";
       CorrectRecord($g_dossier,$g_user,$g_jrn,$p_MaxDeb,$p_MaxCred,$HTTP_POST_VARS);
       return;
     }
 
     $Res=StartSql($cn);
-    $userPref=GetUserPeriode($cn,$g_user);
     $seq=GetNextId($cn,'j_grpt')+1;
     $s_op=GetNextId($cn,'j_id')+1;
     $tot_cred=0;
     $tot_deb=0;
+
     //debit
     for ( $i = 0; $i < $p_MaxDeb; $i++) {
       $montant=${"p_mont_deb$i"};
       $l_class=${"p_class_deb$i"};
       if ( strlen(trim($montant)) != 0 && $montant != 0) {
-	$p_text=(FormatString(${"p_text_deb$i"})==null)?FormatString(GetPosteLibelle($g_dossier,$l_class)):FormatString(${"p_text_deb$i"});
-	$Sql="insert into jrnx(j_id,j_date,j_montant,j_text,j_poste,j_grpt,
+	${"p_text_deb$i"}=FormatString(GetPosteLibelle($g_dossier,$l_class));
+	//	$p_text=(FormatString(${"p_text_deb$i"})==null)?:FormatString(${"p_text_deb$i"});
+	$Sql="insert into jrnx(j_id,j_date,j_montant,j_poste,j_grpt,
                 j_jrn_def,j_debit,j_tech_user,j_tech_per) 
-                values ( $s_op,to_date('$p_op_date','DD.MM.YYYY'), ".$montant.",'$p_text',
+                values ( $s_op,to_date('$p_op_date','DD.MM.YYYY'), "
+                .$montant.",
                 $l_class,$seq,
                 $g_jrn,true,'$g_user',$userPref)";
 	echo_debug("sql $Sql");
@@ -185,11 +193,11 @@ if ( isset($_POST['add_record']) ) {
       $montant=${"p_mont_cred$i"};
       $l_class=${"p_class_cred$i"};
       if ( strlen(trim($montant)) != 0 && $montant != 0) {
-	$p_text=(FormatString(${"p_text_cred$i"})==null)?FormatString(GetPosteLibelle($g_dossier,$l_class)):FormatString(${"p_text_cred$i"});
-
-	$Sql="insert into jrnx(j_id,j_date,j_montant,j_text,j_poste,j_grpt,
+	//$p_text=(FormatString(${"p_text_cred$i"})==null)?FormatString(GetPosteLibelle($g_dossier,$l_class)):FormatString(${"p_text_cred$i"});
+	${"p_text_cred$i"}=FormatString(GetPosteLibelle($g_dossier,$l_class));
+	$Sql="insert into jrnx(j_id,j_date,j_montant,j_poste,j_grpt,
                 j_jrn_def,j_debit,j_tech_user,j_tech_per) 
-                values ( $s_op,to_date('$p_op_date','DD.MM.YYYY'), $montant,'$p_text',
+                values ( $s_op,to_date('$p_op_date','DD.MM.YYYY'), $montant,
                 $l_class,$seq,
                 $g_jrn,false,'$g_user',$userPref)";
 	echo_debug("sql $Sql");
@@ -266,9 +274,11 @@ if ( isset($_POST['add_record']) ) {
       
       //	AlterSequence($cn,"s_grpt",$seq+1);
       //AlterSequence($cn,"s_jrn_op",$s_op);
-      ViewRecord($g_dossier,$g_jrn,$seq,$p_MaxDeb,$p_MaxCred,$HTTP_POST_VARS);
-      echo_debug("ViewRecord($g_dossier,$g_jrn,$seq,$p_MaxDeb,$p_MaxCred,$HTTP_POST_VARS);");
-      
+      // Add the p_text to the array
+
+      ViewRecord($g_dossier,$g_jrn,$seq,$p_MaxDeb,$p_MaxCred,$aHttp);
+      //      echo_debug("ViewRecord($g_dossier,$g_jrn,$seq,$p_MaxDeb,$p_MaxCred,$HTTP_POST_VARS);");
+            echo_debug("ViewRecord($g_dossier,$g_jrn,$seq,$p_MaxDeb,$p_MaxCred,$aHttp);");
     } else
       {
 	Rollback($cn); 
@@ -318,10 +328,11 @@ if ( isset($_POST['update_record']) ) {
     $tot_montant+=$montant;
     $l_class=${"p_class_deb$i"};
     if ( strlen(trim($montant)) == 0) $montant=0;
-    $p_text=(FormatString(${"p_text_deb$i"})==null)?GetPosteLibelle($g_dossier,$l_class):FormatString(${"p_text_deb$i"});
     
-    $Sql=sprintf("update jrnx set j_montant=%f, j_poste=%d,j_tech_user='%s',j_date=to_date('%s','DD.MM.YYYY'),j_text='%s' where j_id=%d",
-		 $montant,$l_class,$g_user,$p_op_date,$p_text,$j_id);
+    $Sql=sprintf("update jrnx set j_montant=%f, j_poste=%d,j_tech_user='%s',j_date=to_date('%s','DD.MM.YYYY'),j_tech_per=%d where j_id=%d",
+		 $montant,$l_class,$g_user,$p_op_date,
+		 $userPref,
+		 $j_id);
     echo_debug("sql $Sql");
     $Res=ExecSql($cn,$Sql);
     if ( $Res == false ) { Rollback($cn); EndSql($cn); return;}
@@ -334,12 +345,12 @@ if ( isset($_POST['update_record']) ) {
     $montant=${"p_mont_cred$i"};
     $l_class=${"p_class_cred$i"};
     if ( strlen(trim($montant)) == 0 ) $montant=0;
-    $p_text=(FormatString(${"p_text_cred$i"})==null)?GetPosteLibelle($g_dossier,$l_class):FormatString(${"p_text_cred$i"});
 
-    $Sql=sprintf("update jrnx set j_montant=%f,j_poste=%d,j_tech_user='%s', j_date=to_date('%s','DD.MM.YYYY'),j_text='%s' where j_id=%d",
-		 $montant,$l_class,$g_user,$p_op_date,$p_text,$j_id);
+    $Sql=sprintf("update jrnx set j_montant=%f,j_poste=%d,j_tech_user='%s', j_date=to_date('%s','DD.MM.YYYY'),j_tech_per=%d where j_id=%d",
+		 $montant,$l_class,$g_user,$p_op_date,
+		 $userPref,$j_id);
     echo_debug("sql $Sql");
-      //	  $s_op++;
+
     $Res=ExecSql($cn,$Sql);
     if ( $Res == false ) { Rollback($cn); EndSql($cn); return;}
 

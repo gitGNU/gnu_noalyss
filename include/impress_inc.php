@@ -21,14 +21,16 @@
 // $Revision$
 
 /* function ViewImp
- * Purpose :
+ * Purpose : Create the form where the period
+ *           is asked
  * 
  * parm : 
- *	- 
+ *	- array (type,action,central,filter...)
+ *      - connection
  * gen :
- *	-
+ *	- none
  * return:
- *	-
+ *	- none
  *
  */ 
 function ViewImp($p_array,$p_cn) {
@@ -66,7 +68,7 @@ function ViewImp($p_array,$p_cn) {
   echo '</FORM>';
   echo "</DIV>";
 }
-/* function
+/* function Imp
  * Purpose :
  * 
  * parm : 
@@ -86,15 +88,17 @@ function Imp($p_array,$p_cn) {
   }
   echo_error ("IMP no action specified"); return;
 }
-/* function
- * Purpose :
+/* function ImpHtml
+ * Purpose : Show the html result
  * 
  * parm : 
- *	- 
+ *	- array (type,periode,
+ *      - connection
  * gen :
- *	-
- * return:
- *	-
+ *	- none
+ * return: 
+ *	- error if something goes wrong or
+ *        the page result
  *
  */ 
 function ImpHtml($p_array,$p_cn) 
@@ -214,15 +218,17 @@ function ImpHtml($p_array,$p_cn)
   }//jrn
 
 }
-/* function
- * Purpose :
+/* function GetDataPoste
+ * Purpose : Get dat for poste 
  * 
  * parm : 
- *	- 
+ *      - connection
+ *	- condition
+ *      -. position
  * gen :
- *	-
+ *	- none
  * return:
- *	-
+ *	- none
  *
  */ 
 function GetDataPoste($p_cn,$p_poste,$p_condition)
@@ -251,15 +257,18 @@ function GetDataPoste($p_cn,$p_poste,$p_condition)
   }
   return array($array,$tot_deb,$tot_cred);
 }
-/* function
- * Purpose :
+/* function GetDataJrn
+ * Purpose : Get data from the jrn table
  * 
  * parm : 
- *	- 
+ *	- connection
+ *      - array periode
+ *      - filter (default = YES)
  * gen :
- *	-
+ *	- none
  * return:
- *	-
+ *	- error code if something code wrong
+ *       otherwise the result
  *
  */ 
 function GetDataJrn($p_cn,$p_array,$filter=YES)
@@ -301,15 +310,16 @@ function GetDataJrn($p_cn,$p_array,$filter=YES)
   }
   return $array;
 }
-/* function
- * Purpose :
+/* function CreatePeriodeCond
+ * Purpose : Create the sql query for the periode
  * 
  * parm : 
- *	- 
+ *	- p_periode
+ *      - p_field (default = j_tech_per)
  * gen :
- *	-
+ *	- none
  * return:
- *	-
+ *	- a string containing the query
  *
  */ 
 function CreatePeriodeCond($p_periode,$p_field=" j_tech_per") {
@@ -321,17 +331,21 @@ function CreatePeriodeCond($p_periode,$p_field=" j_tech_per") {
   }
   $cond_periode=substr($cond_periode,0,strlen($cond_periode)-1);
   $cond_periode.=")";
-return $cond_periode;
+  return $cond_periode;
 }
-/* function
- * Purpose :
+/* function GetDataJrnPdf
+ * Purpose : Get The data for the pdf printing
  * 
  * parm : 
- *	- 
+ *	- connection
+ *      - array
+ *      - p_limit starting line
+ *      - p_offset number of lines
+ *
  * gen :
- *	-
+ *	- none
  * return:
- *	-
+ *	- Array with the asked data
  *
  */ 
 function GetDataJrnPdf($p_cn,$p_array,$p_limit,$p_offset)
@@ -344,10 +358,12 @@ function GetDataJrnPdf($p_cn,$p_array,$p_limit,$p_offset)
                       jr_internal,
                 case j_debit when 't' then j_montant::text else '   ' end as deb_montant,
                 case j_debit when 'f' then j_montant::text else '   ' end as cred_montant,
-                j_debit as debit,j_poste as poste,".
-	       "j_text as description,j_grpt as grp,jr_comment as comment,
-                j_rapt as oc, j_tech_per as periode from jrnx left join jrn on ".
-		 "jr_grpt_id=j_grpt where j_jrn_def=".$p_array['p_id'].
+                j_debit as debit,j_poste as poste,jr_montant , ".
+	       "pcm_lib as description,j_grpt as grp,jr_comment ,
+                jr_rapt as oc, j_tech_per as periode from jrnx left join jrn on ".
+		 "jr_grpt_id=j_grpt ".
+		 " left join tmp_pcmn on pcm_val=j_poste ".
+                " where j_jrn_def=".$p_array['p_id'].
 	       " and ".$cond." order by j_id,j_date::date,j_grpt,j_debit desc".
 	       " limit ".$p_limit." offset ".$p_offset);
   } else {
@@ -358,9 +374,10 @@ function GetDataJrnPdf($p_cn,$p_array,$p_limit,$p_offset)
                 case j_debit when 't' then j_montant::text else '   ' end as deb_montant,
                 case j_debit when 'f' then j_montant::text else '   ' end as cred_montant,
                 j_debit as debit,j_poste as poste,".
-	       "j_text as description,j_grpt as grp,jr_comment as comment,
-                j_rapt as oc, j_tech_per as periode from jrnx left join jrn on ".
-		 "jr_grpt_id=j_grpt where ".
+	       "pcm_lib as description,j_grpt as grp,jr_comment as jr_comment,
+                jr_montant,
+                jr_rapt as oc, j_tech_per as periode from jrnx left join jrn on ".
+		 "jr_grpt_id=j_grpt left join tmp_pcmn on pcm_val=j_poste where ".
 	       "  ".$cond." order by j_date::date,j_grpt,j_debit desc".
 	       " limit ".$p_limit." offset ".$p_offset);
 
@@ -373,14 +390,16 @@ function GetDataJrnPdf($p_cn,$p_array,$p_limit,$p_offset)
             case c_debit when 't' then c_montant::text else '   ' end as deb_montant,
             case c_debit when 'f' then c_montant::text else '   ' end as cred_montant,
             c_debit as j_debit,
-            c_poste as j_poste,
-            c_description as description,
+            c_poste as poste,
+            pcm_lib as description,
+            jr_comment,
+            jr_montant,
             c_grp as grp,
             c_comment as comment,
             c_rapt as oc,
             c_periode as periode 
             from centralized left join jrn on ".
-		"jr_grpt_id=c_grp where ".
+		"jr_grpt_id=c_grp left join tmp_pcmn on pcm_val=c_poste where ".
                 $cond." order by c_id ";
     $Res=ExecSql($p_cn,$Sql." limit ".$p_limit." offset ".$p_offset);
     } // Grand Livre
@@ -397,14 +416,25 @@ function GetDataJrnPdf($p_cn,$p_array,$p_limit,$p_offset)
     $line=pg_fetch_array($Res,$i);
     $mont_deb=($line['deb_montant']!=0)?sprintf("% 8.2f",$line['deb_montant']):"";
     $mont_cred=($line['cred_montant']!=0)?sprintf("% 8.2f",$line['cred_montant']):"";
+    $jr_montant=($line['jr_montant']!=0)?sprintf("% 8.2f",$line['jr_montant']):"";
     $tot_deb+=$line['deb_montant'];
     $tot_cred+=$line['cred_montant'];
     if ( $case != $line['grp'] ) {
       $case=$line['grp'];
       $array[]=array (
-		      'j_id'=>$line['j_id'], 
+		      'j_id'=>$line['j_id'],
 		      'j_date' => $line['j_date'],
 		      'internal'=>$line['jr_internal'],
+		      'deb_montant'=>'',
+		      'cred_montant'=>$jr_montant,
+		      'description'=>$line['jr_comment'],
+		      'poste' => $line['oc'],
+		      'periode' =>$line['periode'] );
+
+      $array[]=array (
+		      'j_id'=>$line['j_id'], 
+		      'j_date' => '',
+		      'internal'=>'',
 		      'deb_montant'=>$mont_deb,
 		      'cred_montant'=>$mont_cred,
 		      'description'=>$line['description'],
@@ -431,6 +461,17 @@ function GetDataJrnPdf($p_cn,$p_array,$p_limit,$p_offset)
   $a=array($array,$tot_deb,$tot_cred);
  return $a;
 }
+/* function 
+ * Purpose : 
+ *        
+ * parm : 
+ *	-
+ * gen :
+ *	-
+ * return:
+ */
+
+
 function GetDataGrpt($p_cn,$p_array)
 {
   if ( !isset ($p_array['periode']) ) return NO_PERIOD_SELECTED;

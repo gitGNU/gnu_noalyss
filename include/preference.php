@@ -61,6 +61,8 @@ function FormPeriodeMult($p_cn)
  * parm : 
  *	- $p_cn connexion
  *      - $p_default default periode
+ *      - $p_type the type of the periode
+ *      - $p_suff the suffix of the name 
  * gen :
  *	- none
  * return:
@@ -68,7 +70,7 @@ function FormPeriodeMult($p_cn)
  *        form
  *
  */ 
-function FormPeriode($p_cn,$l_default=0,$p_type=OPEN)
+function FormPeriode($p_cn,$l_default=0,$p_type=OPEN,$p_suff="")
 {
 
   if ($p_type==CLOSED) {
@@ -98,7 +100,7 @@ function FormPeriode($p_cn,$l_default=0,$p_type=OPEN)
   $Res=ExecSql($p_cn,$sql);
   $Max=pg_NumRows($Res);
   if ( $Max == 0 ) return null;
-  $ret='<SELECT NAME="periode">';
+  $ret='<SELECT NAME="periode'.$p_suff.'">';
   for ( $i = 0; $i < $Max;$i++) {
     $l_line=pg_fetch_array($Res,$i);
     if ( $l_default == $l_line['p_id'] )
@@ -178,13 +180,14 @@ function GetUserPreferences ($p_cn,$p_user)
   }
   return $l_array;
 }
-/* function
- * Purpose :
+/* function GetPeriode
+ * Purpose :Give the start & end date of a periode
  * 
  * parm : 
- *	- 
+ *	- connection
+ *      - p_periode
  * gen :
- *	-
+ *	- none
  * return:
  *	- array containing the start date & the end date
  *
@@ -241,7 +244,7 @@ function GetExercice($p_cn,$p_periode)
   $line=pg_fetch_array($Res,0);
   return $line['p_exercice'];
 }
-/* function
+/* function ShowDevise
  * Purpose :
  * 
  * parm : 
@@ -282,7 +285,7 @@ echo '<TD> <INPUT TYPE="text" NAME="p_devise"></TD>';
  echo '</FORM></TR>';
  echo '</TABLE>';
 }
-/* function
+/* function ShowPeriode
  * Purpose :
  * 
  * parm : 
@@ -347,4 +350,5 @@ function ShowPeriode($p_cn)
 
   echo '</TABLE>';
 }
+
 ?>
