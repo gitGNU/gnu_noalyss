@@ -29,7 +29,7 @@ define ("phpcompta_password","dany");
 define ("ENCJRN",1);
 // création facture
 define("FACT",2);
-// création aux fiche
+// lecture aux fiche
 define ("FICHE_READ",3);
 // Impression
 define ("IMP",4);
