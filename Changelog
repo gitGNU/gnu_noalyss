@@ -1,4 +1,16 @@
+2005-02-13  sparkyx  <sparkyx@july>
+
+	* html/admin/sql/patch/upgrade4.sql, html/dossier_prefs.php, html/jrn_csv.php, html/jrn_pdf.php, include/central_inc.php, include/class_jrn.php, include/impress_inc.php, include/impress_jrn.php:
+	Change for centralise to have the correct order, number for pj
+	Change printing for the operation id
+	update the patch sql for that
+
 2005-02-12  sparkyx  <sparkyx@july>
+
+	* html/admin/sql/patch/upgrade4.sql, html/admin_repo.php:
+	Fix bug in modele and database creation
+
+	* Changelog: changelog
 
 	* html/admin/sql/patch/ac-upgrade4.sql:
 	Add the patch for the account_repository database
