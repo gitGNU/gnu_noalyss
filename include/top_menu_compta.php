@@ -38,7 +38,7 @@
   /* $p_check == 1 si test sur Admin */
   include_once("postgres.php");
   echo '<div class="mtitle">';
-  echo "<TABLE align=center><TR>";
+  echo "<TABLE align=center cellspadding=0><TR>";
   if ( $p_admin !=0 ) {
       /* Administrator Menu */
       echo '<TD class="mtitle"><A class="mtitle" HREF=admin_repo.php>Administrator Menu</A></TD>';

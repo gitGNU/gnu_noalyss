@@ -117,6 +117,7 @@ function html_page_start($p_theme,$p_script="")
 {	
   include_once ("postgres.php");
   $cn=DbConnect();
+$bg="";
   $Res=ExecSql($cn,"select the_filestyle from theme
                    where the_name='".$p_theme."'");
   if (pg_NumRows($Res)==0) $style="style.css";

@@ -32,13 +32,21 @@ if (  isset ($_POST["p_user"] ) ) {
   $g_pass=$_POST["p_pass"];
   session_register("g_user");
   session_register("g_pass");
-html_page_start("classic");
+  $cn=pg_connect("dbname=account_repository user='webcompta' ");
+
+  // Verif if User and Pass match DB
+  // if no, then redirect to the login page
+   CheckUser();
+    $g_UserProperty=GetUserProperty($cn,$g_user);
+    session_register("g_UserProperty");
+
+    html_page_start($g_UserProperty['use_theme']);
 
 } else
 {
   if ( strlen($g_user) != 0 ) {
     echo_debug("user is not null");
-  html_page_start("classic");    
+  html_page_start($g_UserProperty['use_theme']);    
   } else
     {
       html_page_start("classic");
@@ -58,13 +66,6 @@ if ( isset ($db_page) ) {
 echo_debug("USER=$g_user - ");
 echo_debug("PAGE = $db_page");
 
-$cn=pg_connect("dbname=account_repository user='webcompta' ");
-$IsValid=0;
-// Verif if User and Pass match DB
-// if no, then redirect to the login page
-CheckUser();
-$g_UserProperty=GetUserProperty($cn,$g_user);
-session_register("g_UserProperty");
 echo_debug("theme =".$g_UserProperty['use_theme']);
 
 include("top_menu_compta.php");
