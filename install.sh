@@ -3,17 +3,17 @@
 #
 # $Revision$
 ######################################################################
-#  This file is part of WCOMPTA.
-#  WCOMPTA is free software; you can redistribute it and/or modify
+#  This file is part of PhpCompta.
+#  PhpCompta is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation; either version 2 of the License, or
 #  (at your option) any later version.
-#  WCOMPTA is distributed in the hope that it will be useful,
+#  PhpCompta is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details.
 #  You should have received a copy of the GNU General Public License
-#  along with WCOMPTA; if not, write to the Free Software
+#  along with PhpCompta; if not, write to the Free Software
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
 
@@ -45,9 +45,10 @@ fi
 # Repository exist ?
 REPO=`echo $DB|grep account_repository|wc -l`
 if [ $REPO -eq 0 ]; then
-	OWNER=webcompta
+	OWNER=phpcompta
 	echo "Creation de la base de donnee"
 	createuser -A -d $OWNER
+	createdb -O $OWNER $OWNER
 	createdb -E latin1 -O $OWNER account_repository
 
 	PSQL="psql  -U $OWNER account_repository" 
@@ -60,8 +61,8 @@ if [ $REPO -eq 0 ]; then
 	$PSQL < sql/priv_user.sql
 	$PSQL < sql/theme.sql
 	$PSQL < sql/modele.sql
-	    createdb -E latin1 -O $OWNER templ_account
-	PSQL="psql -U $OWNER templ_account "
+	    createdb -E latin1 -O $OWNER mod1
+	PSQL="psql -U $OWNER mod1 "
 	$PSQL < sql/tmp_pcmn.sql
 	$PSQL < sql/insert_pcmn.sql
 	$PSQL < sql/version.sql
@@ -72,6 +73,7 @@ if [ $REPO -eq 0 ]; then
 	$PSQL < sql/fiche.sql
 	$PSQL < sql/centralized.sql
 	$PSQL < sql/user_sec.sql
+	$PSQL < sql/jrn_action.sql
  
 #  	if [ -w $PG_DATA/pg_hba.conf ]; then
 #  		echo "host    account_repository         all         127.0.0.1         255.255.255.255   password" >> $PG_DATA/pg_hba.conf

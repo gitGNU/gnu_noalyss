@@ -1,23 +1,23 @@
 <?
 
 /*
- *   This file is part of WCOMPTA.
+ *   This file is part of PhpCompta.
  *
- *   WCOMPTA is free software; you can redistribute it and/or modify
+ *   PhpCompta is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
  *   the Free Software Foundation; either version 2 of the License, or
  *   (at your option) any later version.
  *
- *   WCOMPTA is distributed in the hope that it will be useful,
+ *   PhpCompta is distributed in the hope that it will be useful,
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with WCOMPTA; if not, write to the Free Software
+ *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-// Auteur Dany De Bontridder ddebontridder@yahoo.fr
+// Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 include_once("ac_common.php");
 include_once("postgres.php");
@@ -101,6 +101,10 @@ if ( isset ($_GET["action"]) ) {
     if ( isset ($_POST["DATABASE"]) ) {
       $cn=DbConnect();
       $dos=trim($_POST["DATABASE"]);
+      if (strlen($dos)==0) {
+	echo ("Dataname is empty");
+	exit -1;
+      }
       $desc=FormatString($_POST["DESCRIPTION"]);
       $Res=ExecSql($cn,"insert into ac_dossier(dos_name,dos_description)
                     values ('".$dos."','$desc')");
@@ -121,6 +125,9 @@ if ( isset ($_GET["action"]) ) {
 $cn=DbConnect();
 $Res=ShowDossier('all');
 $compteur=1;
+$template="";
+
+ // show all dossiers
 if ( $Res != null ) {
   echo "<TR>";
   foreach ( $Res as $Dossier) {
@@ -132,27 +139,28 @@ if ( $Res != null ) {
   }
 
   echo "</TR>";
-  // Load the available Templates
 
-  $Res=ExecSql($cn,"select mod_id,mod_name,mod_desc from 
+}
+
+  // Load the available Templates
+$Res=ExecSql($cn,"select mod_id,mod_name,mod_desc from 
                       modeledef order by mod_name");
-  $count=pg_NumRows($Res);
-  $template="";
-  if ( $count == 0 ) {
+$count=pg_NumRows($Res);
+
+if ( $count == 0 ) {
     echo "No template available";
   } else {
-    $template.='<SELECT NAME=FMOD_ID>';
+    $template='<SELECT NAME=FMOD_ID>';
       for ($i=0;$i<$count;$i++) {
 	$mod=pg_fetch_array($Res,0);
 	$template.='<OPTION VALUE="'.$mod['mod_id'].'"> '.$mod['mod_name']." - ".$mod['mod_desc'];
-	printf("<span> %s  %s </span>",
-	       $mod['mod_name'],$mod['mod_desc']);
+	/*	printf("<span> %s  %s </span>",
+	       $mod['mod_name'],$mod['mod_desc']);*/
 
       }// for
       $template.="</SELECT>";
     }// if count = 0
 
-}
 // Add a new folder
 ?>
 </TABLE>
@@ -161,8 +169,9 @@ if ( $Res != null ) {
     <TR>
     <TD> Name  <INPUT TYPE="TEXT" NAME="DATABASE"> </TD>
     <TD> Description <INPUT TYPE="TEXT" NAME="DESCRIPTION" SIZE="30"> </TD>
-    <TD> <? echo $template; ?> </TD>
     </TR>
+    <TR> <TD><? echo $template; ?> </TD></TR>
+
     <TR>
     <TD> <INPUT TYPE=SUBMIT VALUE="Create Folder"></TD>
     </TR>

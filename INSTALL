@@ -48,7 +48,7 @@ vous permettra de régler la sécurité
 Ce fichier doit au moins contenir la ligne:
 # TYPE  DATABASE    USER        IP-ADDRESS        IP-MASK           METHOD
 
-host    all         webcompta   172.16.30.0         255.255.255.0   trust
+host    all         phpcompta   172.16.30.0         255.255.255.0   trust
 
 Il vaut mieux remplacer 172.16.30.0 par l'adresse du server HTTP, dans
 le cas où vous utilisez un VirtualHost avec une adresse IP, c'est

@@ -16,5 +16,5 @@ session.cookie_lifetime   = 0       ; lifetime in seconds of cookie
 session.cookie_path       = /tmp       ; the path the cookie is valid for
 
 2. Quand on réinitialise le mot de passe, que vaut-il ?
-Le mot de passe par défaut est webcompta
+Le mot de passe par défaut est  phpcompta
 
