@@ -1,19 +1,19 @@
 
 /*
- *   This file is part of WCOMPTA.
+ *   This file is part of PhpCompta.
  *
- *   WCOMPTA is free software; you can redistribute it and/or modify
+ *   PhpCompta is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
  *   the Free Software Foundation; either version 2 of the License, or
  *   (at your option) any later version.
  *
- *   WCOMPTA is distributed in the hope that it will be useful,
+ *   PhpCompta is distributed in the hope that it will be useful,
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with WCOMPTA; if not, write to the Free Software
+ *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -33,7 +33,7 @@ create table ac_users (
 );
 
 insert into ac_users (use_login, use_active,use_pass,use_usertype,use_admin) values (user,1,
-'486348d8b9ac03742368d8736244e958','compta',1);
+'b1cc88e1907cde80cb2595fa793b3da9','compta',1);
 
 
 

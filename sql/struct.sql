@@ -6,7 +6,7 @@ SET search_path = public, pg_catalog;
 
 --
 -- TOC entry 2 (OID 21938)
--- Name: users_id; Type: SEQUENCE; Schema: public; Owner: webcompta
+-- Name: users_id; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
 CREATE SEQUENCE users_id
@@ -19,7 +19,7 @@ CREATE SEQUENCE users_id
 
 --
 -- TOC entry 10 (OID 21940)
--- Name: ac_users; Type: TABLE; Schema: public; Owner: webcompta
+-- Name: ac_users; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
 CREATE TABLE ac_users (
@@ -36,7 +36,7 @@ CREATE TABLE ac_users (
 
 --
 -- TOC entry 4 (OID 21955)
--- Name: dossier_id; Type: SEQUENCE; Schema: public; Owner: webcompta
+-- Name: dossier_id; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
 CREATE SEQUENCE dossier_id
@@ -49,7 +49,7 @@ CREATE SEQUENCE dossier_id
 
 --
 -- TOC entry 11 (OID 21957)
--- Name: ac_dossier; Type: TABLE; Schema: public; Owner: webcompta
+-- Name: ac_dossier; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
 CREATE TABLE ac_dossier (
@@ -62,7 +62,7 @@ CREATE TABLE ac_dossier (
 
 --
 -- TOC entry 12 (OID 21964)
--- Name: jnt_use_dos; Type: TABLE; Schema: public; Owner: webcompta
+-- Name: jnt_use_dos; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
 CREATE TABLE jnt_use_dos (
@@ -74,7 +74,7 @@ CREATE TABLE jnt_use_dos (
 
 --
 -- TOC entry 13 (OID 21967)
--- Name: priv_user; Type: TABLE; Schema: public; Owner: webcompta
+-- Name: priv_user; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
 CREATE TABLE priv_user (
@@ -86,7 +86,7 @@ CREATE TABLE priv_user (
 
 --
 -- TOC entry 6 (OID 21973)
--- Name: seq_jnt_use_dos; Type: SEQUENCE; Schema: public; Owner: webcompta
+-- Name: seq_jnt_use_dos; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
 CREATE SEQUENCE seq_jnt_use_dos
@@ -99,7 +99,7 @@ CREATE SEQUENCE seq_jnt_use_dos
 
 --
 -- TOC entry 8 (OID 21975)
--- Name: seq_priv_user; Type: SEQUENCE; Schema: public; Owner: webcompta
+-- Name: seq_priv_user; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
 CREATE SEQUENCE seq_priv_user
@@ -112,17 +112,17 @@ CREATE SEQUENCE seq_priv_user
 
 --
 -- Data for TOC entry 21 (OID 21940)
--- Name: ac_users; Type: TABLE DATA; Schema: public; Owner: webcompta
+-- Name: ac_users; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
 COPY ac_users (use_id, use_first_name, use_name, use_login, use_active, use_pass, use_admin) FROM stdin;
-1	\N	\N	webcompta	1	486348d8b9ac03742368d8736244e958	1
+1	\N	\N	phpcompta	1	486348d8b9ac03742368d8736244e958	1
 \.
 
 
 --
 -- Data for TOC entry 22 (OID 21957)
--- Name: ac_dossier; Type: TABLE DATA; Schema: public; Owner: webcompta
+-- Name: ac_dossier; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
 COPY ac_dossier (dos_id, dos_name, dos_description, dos_jnt_user) FROM stdin;
@@ -131,7 +131,7 @@ COPY ac_dossier (dos_id, dos_name, dos_description, dos_jnt_user) FROM stdin;
 
 --
 -- Data for TOC entry 23 (OID 21964)
--- Name: jnt_use_dos; Type: TABLE DATA; Schema: public; Owner: webcompta
+-- Name: jnt_use_dos; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
 COPY jnt_use_dos (jnt_id, use_id, dos_id) FROM stdin;
@@ -140,7 +140,7 @@ COPY jnt_use_dos (jnt_id, use_id, dos_id) FROM stdin;
 
 --
 -- Data for TOC entry 24 (OID 21967)
--- Name: priv_user; Type: TABLE DATA; Schema: public; Owner: webcompta
+-- Name: priv_user; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
 COPY priv_user (priv_id, priv_jnt, priv_priv) FROM stdin;
@@ -149,7 +149,7 @@ COPY priv_user (priv_id, priv_jnt, priv_priv) FROM stdin;
 
 --
 -- TOC entry 18 (OID 22497)
--- Name: jnt_idx; Type: INDEX; Schema: public; Owner: webcompta
+-- Name: jnt_idx; Type: INDEX; Schema: public; Owner: phpcompta
 --
 
 CREATE INDEX jnt_idx ON jnt_use_dos USING btree (use_id, dos_id);
@@ -157,7 +157,7 @@ CREATE INDEX jnt_idx ON jnt_use_dos USING btree (use_id, dos_id);
 
 --
 -- TOC entry 14 (OID 22498)
--- Name: ac_users_pkey; Type: CONSTRAINT; Schema: public; Owner: webcompta
+-- Name: ac_users_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
 ALTER TABLE ONLY ac_users
@@ -166,7 +166,7 @@ ALTER TABLE ONLY ac_users
 
 --
 -- TOC entry 15 (OID 22500)
--- Name: ac_users_use_login_key; Type: CONSTRAINT; Schema: public; Owner: webcompta
+-- Name: ac_users_use_login_key; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
 ALTER TABLE ONLY ac_users
@@ -175,7 +175,7 @@ ALTER TABLE ONLY ac_users
 
 --
 -- TOC entry 17 (OID 22504)
--- Name: ac_dossier_pkey; Type: CONSTRAINT; Schema: public; Owner: webcompta
+-- Name: ac_dossier_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
 ALTER TABLE ONLY ac_dossier
@@ -184,7 +184,7 @@ ALTER TABLE ONLY ac_dossier
 
 --
 -- TOC entry 16 (OID 22506)
--- Name: ac_dossier_dos_name_key; Type: CONSTRAINT; Schema: public; Owner: webcompta
+-- Name: ac_dossier_dos_name_key; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
 ALTER TABLE ONLY ac_dossier
@@ -193,7 +193,7 @@ ALTER TABLE ONLY ac_dossier
 
 --
 -- TOC entry 19 (OID 22508)
--- Name: jnt_use_dos_pkey; Type: CONSTRAINT; Schema: public; Owner: webcompta
+-- Name: jnt_use_dos_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
 ALTER TABLE ONLY jnt_use_dos
@@ -202,7 +202,7 @@ ALTER TABLE ONLY jnt_use_dos
 
 --
 -- TOC entry 25 (OID 22510)
--- Name: $2; Type: CONSTRAINT; Schema: public; Owner: webcompta
+-- Name: $2; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
 ALTER TABLE ONLY jnt_use_dos
@@ -211,7 +211,7 @@ ALTER TABLE ONLY jnt_use_dos
 
 --
 -- TOC entry 26 (OID 22514)
--- Name: $3; Type: CONSTRAINT; Schema: public; Owner: webcompta
+-- Name: $3; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
 ALTER TABLE ONLY jnt_use_dos
@@ -220,7 +220,7 @@ ALTER TABLE ONLY jnt_use_dos
 
 --
 -- TOC entry 20 (OID 22518)
--- Name: priv_user_pkey; Type: CONSTRAINT; Schema: public; Owner: webcompta
+-- Name: priv_user_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
 ALTER TABLE ONLY priv_user
@@ -229,7 +229,7 @@ ALTER TABLE ONLY priv_user
 
 --
 -- TOC entry 27 (OID 22520)
--- Name: fk_jnt; Type: CONSTRAINT; Schema: public; Owner: webcompta
+-- Name: fk_jnt; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
 ALTER TABLE ONLY priv_user
@@ -238,7 +238,7 @@ ALTER TABLE ONLY priv_user
 
 --
 -- TOC entry 3 (OID 21938)
--- Name: users_id; Type: SEQUENCE SET; Schema: public; Owner: webcompta
+-- Name: users_id; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
 SELECT pg_catalog.setval ('users_id', 29, true);
@@ -246,7 +246,7 @@ SELECT pg_catalog.setval ('users_id', 29, true);
 
 --
 -- TOC entry 5 (OID 21955)
--- Name: dossier_id; Type: SEQUENCE SET; Schema: public; Owner: webcompta
+-- Name: dossier_id; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
 SELECT pg_catalog.setval ('dossier_id', 22, true);
@@ -254,7 +254,7 @@ SELECT pg_catalog.setval ('dossier_id', 22, true);
 
 --
 -- TOC entry 7 (OID 21973)
--- Name: seq_jnt_use_dos; Type: SEQUENCE SET; Schema: public; Owner: webcompta
+-- Name: seq_jnt_use_dos; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
 SELECT pg_catalog.setval ('seq_jnt_use_dos', 72, true);
@@ -262,7 +262,7 @@ SELECT pg_catalog.setval ('seq_jnt_use_dos', 72, true);
 
 --
 -- TOC entry 9 (OID 21975)
--- Name: seq_priv_user; Type: SEQUENCE SET; Schema: public; Owner: webcompta
+-- Name: seq_priv_user; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
 SELECT pg_catalog.setval ('seq_priv_user', 72, true);
