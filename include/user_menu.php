@@ -318,19 +318,31 @@ function u_ShowMenuJrn($p_cn,$p_jrn_type)
   $access_key_list = array();
   for ($i=0;$i<$num;$i++) {
     $action=pg_fetch_array($Res,$i);
-    $ret.=sprintf('<TR><TD class="cell"><A class="mtitle" accesskey="%s" title="%s" HREF="%s?%s">%s</A></td></tR>',
-      $action['ja_name'][0], $action['ja_desc'], $action['ja_url'],$action['ja_action'],
-      '<u>' . get_quick_key($action['ja_name'],$access_key_list) . '</u>' . substr($action['ja_name'],1));
+    $access_key=get_quick_key($action['ja_name'],$access_key_list);
+    $lib=str_replace($access_key,'<u>'.$access_key.'</u>',$action['ja_name'],1);
+    $ret.=sprintf('<TR><TD class="cell"><A class="mtitle" accesskey="%s" title="%s" '.
+		  'HREF="%s?%s">%s</A></td></tR>',
+		  $action['ja_name'][0], $action['ja_desc'], $action['ja_url'],$action['ja_action'],
+		 $lib);
+
   }
   $ret.='</TABLE>';
   return $ret;
 
 }
 
-/*
-* return a not yet used access key. The returned key is added to $access_key_list
-*/
-function get_quick_key($title,$access_key_list)
+/* function get_quick_key
+ * Purpose : Show the menu of the jrn depending of its type
+ *  return a not yet used access key. The returned key is added to $access_key_list       
+ * parm : 
+ *      - $title
+ *	- $access_key_list
+ * gen :
+ *	- none
+ * return:
+ *     - string containing the menu
+ */
+function get_quick_key($title,&$access_key_list)
 {
 	$quick = $title[0];
 	if(array_key_exists($quick, $access_key_list))
