@@ -85,8 +85,9 @@ if ( $g_UserProperty['use_admin'] != 1 ) {
 } else {
   $condition.=" uj_login='$g_user' ";
 }
-
-
+?>
+<div style="font-size:11px;">
+<?
 echo '<FORM ACTION="jrn_search.php" METHOD="POST">';
 echo '<TABLE>';
 echo '<TR>';
@@ -117,7 +118,7 @@ if ( isset ($_POST["search"]) ) {
                  j_montant,j_poste,j_debit,j_tech_per,jr_id,jr_comment,j_grpt,pcm_lib,jr_internal from jrnx inner join 
                  jrn on jr_grpt_id=j_grpt inner join tmp_pcmn on j_poste=pcm_val ".
 	       " inner join user_sec_jrn on uj_jrn_id=j_jrn_def".
-	       $condition." order by j_id");
+	       $condition." order by jr_id,j_debit desc");
 
   $MaxLine=pg_NumRows($Res);
   if ( $MaxLine==0) { 
@@ -152,10 +153,10 @@ if ( isset ($_POST["search"]) ) {
       echo '<TD COLSPAN="4">'.$l_line['jr_comment'].'</TD></TR>';
     }
     if ( $l_line['j_debit'] == 't' ) {
-      echo '<TR style="background-color:lightblue;">';
+      echo '<TR style="background-color:#E7FBFF;">';
     }
     else {
-      echo '<TR style="background-color:lightgreen;">';
+      echo '<TR style="background-color:#E7FFEB;">';
     }
     echo $col_vide;
     if ( $l_line['j_debit']=='f')
@@ -185,5 +186,8 @@ if ( isset ($_POST["search"]) ) {
   
   echo '</TABLE>';
 }// if $_POST [search]
+?>
+</div>
+<?
 html_page_stop();
 ?>

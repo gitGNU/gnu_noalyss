@@ -169,6 +169,7 @@ if ( $count == 0 ) {
     <TABLE>
     <TR>
     <TD> Name  <INPUT TYPE="TEXT" NAME="DATABASE"> </TD>
+    </TR><TR>
     <TD> Description <INPUT TYPE="TEXT" NAME="DESCRIPTION" SIZE="30"> </TD>
     </TR>
     <TR> <TD><? echo $template; ?> </TD></TR>
@@ -205,14 +206,18 @@ if ( $count == 0 ) {
       $Res=ExecSql($cn,"truncate table jrn");
       $Res=ExecSql($cn,"truncate table jrnx");
       $Res=ExecSql($cn,"truncate table centralized");
+      $Res=ExecSql($cn,"truncate table stock_goods");
+
       // Reset Sequence
       $Res=ExecSql($cn,"drop sequence s_jrn");
       $Res=ExecSql($cn,"drop sequence s_jrn_op");
       $Res=ExecSql($cn,"drop sequence s_centralized");
+      $Res=ExecSql($cn,"drop sequence s_stock_goods");
 
       $Res=ExecSql($cn,"create sequence s_jrn");
       $Res=ExecSql($cn,"create sequence s_jrn_op");
       $Res=ExecSql($cn,"create sequence s_centralized");
+      $Res=ExecSql($cn,"create sequence s_stock_goods");
     }
     // Show all available templates
 

@@ -67,6 +67,11 @@ if ( ( $M=pg_NumRows($Res)) == 0 ) {
  exit();
 
 }
+$tot_cred=  0.0;
+$tot_deb=  0.0;
+$tot_deb_saldo=0.0;
+$tot_cred_saldo=0.0;
+
 // Load the array
 for ($i=0; $i <$M;$i++) {
   $r=pg_fetch_array($Res,$i);
@@ -77,9 +82,23 @@ for ($i=0; $i <$M;$i++) {
   $a['solde_deb']=( $a['sum_deb']  >=  $a['sum_cred'] )? $a['sum_deb']- $a['sum_cred']:0;
   $a['solde_cred']=( $a['sum_deb'] <=  $a['sum_cred'] )?$a['sum_cred']-$a['sum_deb']:0;
   $array[$i]=$a;
-  
+  $tot_cred+=  $r['sum_cred'];
+  $tot_deb+= $r['sum_deb']; 
+  $tot_deb_saldo+= $a['solde_deb'];
+  $tot_cred_saldo+= $a['solde_cred'];
+
 
 }//for i
+// Add the saldo
+$i+=1;
+$a['poste']="";
+$a['label']="<b> Totaux </b>";
+$a['sum_deb']=$tot_deb;
+$a['sum_cred']=$tot_cred;
+$a['solde_deb']=$tot_deb_saldo;
+$a['solde_cred']=$tot_cred_saldo;
+$array[$i]=$a;
+
 $pdf=& new Cezpdf('a4');
 $pdf->selectFont('./addon/fonts/Helvetica.afm');
 $pdf->ezSetCmMargins(2,2,2,2);

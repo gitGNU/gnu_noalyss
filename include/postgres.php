@@ -38,7 +38,7 @@ function CheckUser()
 	$res=0;
 	$pass5=md5($g_pass);
 	if ( $IsValid == 1 ) { return; }
-	$cn=pg_connect("dbname=account_repository host=127.0.0.1 user='phpcompta'");
+	$cn=DbConnect("account_repository");
 	if ( $cn != false ) {
 	  $sql="select ac_users.use_login,ac_users.use_active, ac_users.use_pass
 				from ac_users  
@@ -134,7 +134,8 @@ function CheckAdmin() {
  *        constant.php
  */
 function DbConnect($p_db="account_repository") {
-  $a=pg_connect("dbname=$p_db host=127.0.0.1 user='phpcompta'");
+  $password=phpcompta_password;
+  $a=pg_connect("dbname=$p_db host=127.0.0.1 user='phpcompta' password='$password'");
   echo_debug ("connect to $p_db");
   return $a;
 }

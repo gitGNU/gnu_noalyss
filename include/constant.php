@@ -21,6 +21,7 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 // $Revision$
+define ("phpcompta_password","dany");
 
 // securite correspond a la table 
 // action

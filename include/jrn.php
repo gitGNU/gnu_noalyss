@@ -287,11 +287,7 @@ if ( $p_update == 0 )  echo "<TR><TD> <INPUT TYPE=\"SUBMIT\" VALUE=\"+ de line\"
     echo_error ("Not data found for UpdateJrn p_jr_id = $p_jr_id");
     return ;
   }
-  for ( $i =0 ; $i < sizeof($l_array); $i++) {
-    foreach ($l_array[$i]  as $value) {
-      echo_debug("update key $i value $value content ".$value['j_id']);
-    }
-  }
+  // Javascript
   $r=JS_VIEW_JRN_MODIFY;
 
   // Build the form

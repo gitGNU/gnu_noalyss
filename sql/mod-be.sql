@@ -643,21 +643,6 @@ CREATE SEQUENCE s_stock_goods
 
 
 --
--- TOC entry 73 (OID 38015)
--- Name: stock_goods; Type: TABLE; Schema: public; Owner: phpcompta
---
-
-CREATE TABLE stock_goods (
-    sg_id integer DEFAULT nextval('s_stock_goods'::text) NOT NULL,
-    j_id integer NOT NULL,
-    f_id integer NOT NULL,
-    sg_quantity integer DEFAULT 0,
-    sg_type character(1) DEFAULT 'c' NOT NULL,
-    CONSTRAINT stock_goods_sg_type CHECK (((sg_type = 'c'::bpchar) OR (sg_type = 'd'::bpchar)))
-);
-
-
---
 -- TOC entry 44 (OID 38046)
 -- Name: s_jrn_rapt; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
@@ -671,7 +656,7 @@ CREATE SEQUENCE s_jrn_rapt
 
 
 --
--- TOC entry 74 (OID 38048)
+-- TOC entry 73 (OID 38048)
 -- Name: jrn_rapt; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
@@ -679,6 +664,22 @@ CREATE TABLE jrn_rapt (
     jra_id integer DEFAULT nextval('s_jrn_rapt'::text) NOT NULL,
     jr_id integer NOT NULL,
     jra_concerned integer NOT NULL
+);
+
+
+--
+-- TOC entry 74 (OID 38482)
+-- Name: stock_goods; Type: TABLE; Schema: public; Owner: phpcompta
+--
+
+CREATE TABLE stock_goods (
+    sg_id integer DEFAULT nextval('s_stock_goods'::text) NOT NULL,
+    j_id integer,
+    f_id integer NOT NULL,
+    sg_code text,
+    sg_quantity integer DEFAULT 0,
+    sg_type character(1) DEFAULT 'c' NOT NULL,
+    CONSTRAINT stock_goods_sg_type CHECK (((sg_type = 'c'::bpchar) OR (sg_type = 'd'::bpchar)))
 );
 
 
@@ -1189,6 +1190,7 @@ INSERT INTO tmp_pcmn VALUES (610004, 'Matériel bureau', 61, 'BE');
 INSERT INTO tmp_pcmn VALUES (7000002, 'Marchandise A', 700, 'BE');
 INSERT INTO tmp_pcmn VALUES (7000001, 'Prestation', 700, 'BE');
 INSERT INTO tmp_pcmn VALUES (7000003, 'Déplacement', 700, 'BE');
+INSERT INTO tmp_pcmn VALUES (101, 'Capital non appelé', 10, 'BE');
 
 
 --
@@ -1385,7 +1387,7 @@ INSERT INTO tva_rate VALUES (4, '0%', 0, 'Tva applicable lors de vente/achat int
 -- Name: fiche_def_ref; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
-INSERT INTO fiche_def_ref VALUES (1, 'Vente Service', 700);
+INSERT INTO fiche_def_ref VALUES (1, 'Vente Marchandise Service', 700);
 INSERT INTO fiche_def_ref VALUES (2, 'Achat Marchandises', 604);
 INSERT INTO fiche_def_ref VALUES (3, 'Achat Service et biens divers', 61);
 INSERT INTO fiche_def_ref VALUES (4, 'Banque', 5500);
@@ -1871,15 +1873,15 @@ INSERT INTO jnt_fic_attr VALUES (6, 19);
 
 
 --
--- Data for TOC entry 130 (OID 38015)
--- Name: stock_goods; Type: TABLE DATA; Schema: public; Owner: phpcompta
---
-
-
-
---
--- Data for TOC entry 131 (OID 38048)
+-- Data for TOC entry 130 (OID 38048)
 -- Name: jrn_rapt; Type: TABLE DATA; Schema: public; Owner: phpcompta
+--
+
+
+
+--
+-- Data for TOC entry 131 (OID 38482)
+-- Name: stock_goods; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
 
@@ -1901,7 +1903,15 @@ CREATE UNIQUE INDEX x_usr_jrn ON user_sec_jrn USING btree (uj_login, uj_jrn_id);
 
 
 --
--- TOC entry 101 (OID 38031)
+-- TOC entry 83 (OID 38053)
+-- Name: x_jrn_jr_id; Type: INDEX; Schema: public; Owner: phpcompta
+--
+
+CREATE UNIQUE INDEX x_jrn_jr_id ON jrn USING btree (jr_id);
+
+
+--
+-- TOC entry 102 (OID 38491)
 -- Name: fk_stock_goods_j_id; Type: INDEX; Schema: public; Owner: phpcompta
 --
 
@@ -1909,19 +1919,11 @@ CREATE INDEX fk_stock_goods_j_id ON stock_goods USING btree (j_id);
 
 
 --
--- TOC entry 100 (OID 38032)
+-- TOC entry 101 (OID 38492)
 -- Name: fk_stock_goods_f_id; Type: INDEX; Schema: public; Owner: phpcompta
 --
 
 CREATE INDEX fk_stock_goods_f_id ON stock_goods USING btree (f_id);
-
-
---
--- TOC entry 83 (OID 38053)
--- Name: x_jrn_jr_id; Type: INDEX; Schema: public; Owner: phpcompta
---
-
-CREATE UNIQUE INDEX x_jrn_jr_id ON jrn USING btree (jr_id);
 
 
 --
@@ -2294,34 +2296,7 @@ ALTER TABLE ONLY jnt_fic_attr
 
 
 --
--- TOC entry 102 (OID 38021)
--- Name: stock_goods_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
---
-
-ALTER TABLE ONLY stock_goods
-    ADD CONSTRAINT stock_goods_pkey PRIMARY KEY (sg_id);
-
-
---
--- TOC entry 151 (OID 38023)
--- Name: $1; Type: CONSTRAINT; Schema: public; Owner: phpcompta
---
-
-ALTER TABLE ONLY stock_goods
-    ADD CONSTRAINT "$1" FOREIGN KEY (j_id) REFERENCES jrnx(j_id) ON UPDATE NO ACTION ON DELETE NO ACTION;
-
-
---
--- TOC entry 152 (OID 38027)
--- Name: $2; Type: CONSTRAINT; Schema: public; Owner: phpcompta
---
-
-ALTER TABLE ONLY stock_goods
-    ADD CONSTRAINT "$2" FOREIGN KEY (f_id) REFERENCES fiche(f_id) ON UPDATE NO ACTION ON DELETE NO ACTION;
-
-
---
--- TOC entry 103 (OID 38051)
+-- TOC entry 100 (OID 38051)
 -- Name: jrn_rapt_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2330,7 +2305,7 @@ ALTER TABLE ONLY jrn_rapt
 
 
 --
--- TOC entry 153 (OID 38054)
+-- TOC entry 151 (OID 38054)
 -- Name: $1; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2339,12 +2314,30 @@ ALTER TABLE ONLY jrn_rapt
 
 
 --
--- TOC entry 154 (OID 38058)
+-- TOC entry 152 (OID 38058)
 -- Name: $2; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
 ALTER TABLE ONLY jrn_rapt
     ADD CONSTRAINT "$2" FOREIGN KEY (jra_concerned) REFERENCES jrn(jr_id) ON UPDATE NO ACTION ON DELETE NO ACTION;
+
+
+--
+-- TOC entry 103 (OID 38493)
+-- Name: stock_goods_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
+--
+
+ALTER TABLE ONLY stock_goods
+    ADD CONSTRAINT stock_goods_pkey PRIMARY KEY (sg_id);
+
+
+--
+-- TOC entry 153 (OID 38495)
+-- Name: $2; Type: CONSTRAINT; Schema: public; Owner: phpcompta
+--
+
+ALTER TABLE ONLY stock_goods
+    ADD CONSTRAINT "$2" FOREIGN KEY (f_id) REFERENCES fiche(f_id) ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 
 --

@@ -54,6 +54,7 @@ div.lmenu {
 	top:50px;
 	left:30px;
 	width:100px;
+	font-size:10px;
 }
 div.lextmenu {
 	position: absolute;
@@ -80,6 +81,7 @@ div.redcontent{
 	top:50px;
 	left:250px;
 	width:600px;
+	font-size:12px;
 }
 div.u_redcontent{
 	position: absolute;

@@ -29,7 +29,7 @@ u_ShowMenu($g_UserProperty['use_admin']);
 $priv=($g_UserProperty['use_admin']==1)?"Administrator":"User";
 
 echo '<H2 class="info"> Welcome '.$g_UserProperty['use_first_name'].'  '.
-     $g_UserProperty['use_name'].', your are an  '. $priv.' Please Select your folder</H2>';
+     $g_UserProperty['use_name'].'<br>, your are an  '. $priv.' Please Select your folder</H2>';
 // Show default menu (preference,...)
 
 // If admin show everything otherwise only the available dossier

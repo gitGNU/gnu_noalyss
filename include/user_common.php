@@ -64,26 +64,28 @@ function ComputeVat($p_cn,	$a_fiche,$a_quant,$a_price) {
 echo_debug("ComputeVat $a_fiche $a_quant $a_price");
 // foreach goods 
 for ( $i=0 ; $i < sizeof($a_fiche);$i++) {
-// Get the tva_id
-$tva_id=GetFicheAttribut($p_cn,$a_fiche[$i],ATTR_DEF_TVA);
-
-	// for each fiche find the tva_rate and tva_id
-	$a_vat=GetTvaRate($p_cn,$tva_id);
-	
-	// Get the attribut price of the card(fiche)
-	if ( $a_vat != null ) {
-		$a=$a_vat['tva_id'];
-		$vat_amount=$a_price[$i]*$a_vat['tva_rate']*$a_quant[$i];
-		$r[$a]=isset ( $r[$a] )?$r[$a]+$vat_amount:$vat_amount;
-		} else {
-			echo_error("Not vat here in ComputeVat !");
-			return 0;
-		}
-	}
-	echo_debug(" return $r");
-	return $r;
-
-
+  // if the card id is null or empty 
+  if ( isNumber($a_fiche[$i])==0) continue;
+  // Get the tva_id
+  $tva_id=GetFicheAttribut($p_cn,$a_fiche[$i],ATTR_DEF_TVA);
+  
+  // for each fiche find the tva_rate and tva_id
+  $a_vat=GetTvaRate($p_cn,$tva_id);
+  
+  // Get the attribut price of the card(fiche)
+  if ( $a_vat != null ) {
+    $a=$a_vat['tva_id'];
+    $vat_amount=$a_price[$i]*$a_vat['tva_rate']*$a_quant[$i];
+    $r[$a]=isset ( $r[$a] )?$r[$a]+$vat_amount:$vat_amount;
+  } else {
+    echo_error("Not vat here in ComputeVat !");
+    return 0;
+  }
+ }
+ echo_debug(" return $r");
+ return $r;
+ 
+ 
 }
 
 
@@ -257,7 +259,10 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
     if ( $l_s_comment != null ) {
       $sql.=$l_and." upper(jr_comment) like upper('%".$l_s_comment."%') ";
     }
-
+    $l_s_internal=FormatString($l_s_internal);
+    if ( $l_s_internal != null ) {
+      $sql.=$l_and."  jr_internal='$l_s_internal'  ";
+    }
     $sql.=" order by jr_date";
 
   }// p_array != null
@@ -301,8 +306,8 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
 	$r.="</TD>";
 	// button  modify
 	$r.="<TD>";
-	$r.=sprintf('<input TYPE="button" onClick="modifyOperation(\'%s\',\'%s\')" value="Détail">',
-	      $row['jr_id'],$l_sessid);
+	$r.=sprintf('<input TYPE="button" onClick="modifyOperation(\'%s\',\'%s\')" value="%s">',
+		    $row['jr_id'],$l_sessid,$row['jr_internal']);
 
 
 	$r.="</TD>";
@@ -360,14 +365,29 @@ return $r;
 
 function InsertStockGoods($p_cn,$p_j_id,$p_good,$p_quant,$p_type)
 {
-
-  $Res=ExecSql($p_cn,"insert into stock_goods (
+  // Retrieve the good account for stock
+  $code_marchandise="select av_text from 
+                  jnt_fic_att_value 
+                  natural join attr_value
+                    where
+                  ad_id=".ATTR_DEF_STOCK." 
+                   and f_id=$p_good";
+ $Res=ExecSql($p_cn,$code_marchandise);
+ if ( pg_NumRows($Res) == 0 ) {
+   $l_code='null';
+ }else {
+   $r=pg_fetch_array($Res,0);
+   $l_code=$r['av_text'];
+ }
+ $Res=ExecSql($p_cn,"insert into stock_goods (
                             j_id,
                             f_id,
+                            sg_code, 
                             sg_quantity,
                              sg_type ) values (
                             $p_j_id,
                             $p_good,
+                            '$l_code',
                             $p_quant, '$p_type') 
                      ");
 }

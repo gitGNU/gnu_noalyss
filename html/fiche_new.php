@@ -48,7 +48,7 @@ $cn=DbConnect($l_Db);
 foreach ($HTTP_GET_VARS as $key=>$element) {
   // The value are e_name e_type e_PHPSESSID
   ${"e_$key"}=$element;
-  echo("e_$key =$element<br>");
+  echo_debug("e_$key =$element<br>");
 
 }
 

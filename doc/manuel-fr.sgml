@@ -338,6 +338,7 @@ Opération de rapprochement ???
 </sect>
 
 <sect>Sécurité
+<sect1> Remarques
 <p>
 PhpCompta a sa propre sécurité, cependant si vous voulez vraiment
 sécuriser votre comptabilité, vous devez prendre en compte qu'il ne
@@ -349,8 +350,63 @@ trop facile à deviner,... La liste est longue et c'est l'ensemble des
 mesures qui déterminera la sécurité de vos données, il suffit d'une
 seule faiblesse pour que la sécurité soit insuffisante. Le sujet
 est très vaste, il englobe trop de choses. C'est pourquoi nous ne
-traiterons que de PhpCompta uniquement.
+traiterons que de PhpCompta uniquement et un tout petit peu de PostgreSql.
+</sect1>
+<sect1> Base de données
+<p> 
+En tout premier lieu, si vous avez réussi à tout installer, vous
+devez ajouter une sécurité à l'accès de vos database. Donc n'essayez
+pas d'utiliser install.sh quand la sécurité par mot de passe est
+activée !!! Ou alors mettez le mot de passe dans ~/.pgpass de
+l'utilisateur phpcompta
 
+Dans include/constant.php changer le mot de passe (ligne
+phpcompta_password), il contient dany par défaut par votre mot de
+passe
+
+En tant
+qu'utilisateur postgres, ajoutez un mot de passe à votre utilisateur
+phpcompta avec la commande //
+psql -c "alter user phpcompta password 'votre_mot_de_passe'" 
+Ce mot de passe est évidemment celui dont on a parlé au paragraphe
+précédent.
+
+
+Ensuite changez le pg_hba.conf, et mettez les lignes suivantes
+<verb>
+host   all         all        172.16.31.0  255.255.255.0           md5
+local   all         all                                             md5
+host    all         all         127.0.0.1         255.255.255.255   md5
+</verb>
+La première ligne corresponde à mon réseau privé.
+
+Relancez postgres, voilà maintenant un mot de passe sera toujours
+requis, n'oubliez pas de mettre un mot de passe à vos
+superutilisateurs PostgreSql avant de changer, sinon vous ne pourrez
+plus vous connecter.
+
+Ensuite, changer les droits sur le répertoire où sont vos fichiers
+avec chmod 700, attention : le propriétaire des fichiers doit être le
+même que du propriétaire du process httpd, pour vérifier faite ps -ef|grep
+httpd, le propriétaire du processus ttpd se trouve dans la première
+colonne.
+Exemple chez moi, le propriétaire est apache
+<verb>
+root@july data]# ps -ef|grep httpd
+root     24540     1  0 22:47 ?        00:00:00 /opt/http2//bin/httpd -k start
+apache   24541 24540  0 22:47 ?        00:00:00 [httpd]
+apache   24542 24540  0 22:47 ?        00:00:00 [httpd]
+apache   24543 24540  0 22:47 ?        00:00:00 [httpd]
+apache   24544 24540  0 22:47 ?        00:00:00 [httpd]
+apache   24545 24540  0 22:47 ?        00:00:00 [httpd]
+root     24555 23968  0 22:56 pts/0    00:00:00 grep httpd
+
+</verb>
+</sect1>
+
+
+<sect1> PhpCompta
+<p>
 Dans PhpCompta, le module de sécurité permet d'établir quel
 utilisateur peut accéder à quel dossier, ce qu'il peut y faire,
 les journaux qu'il peut accéder. Chaque fois qu'une page est chargée,
@@ -379,12 +435,78 @@ permis. Si son droit par défaut est d'écrire, c'est l'inverse, il
 pourra écrire partout sauf là ou est explicitement il ne peut
 qu'écrire. Le sens d'écrire dans ce contexte-ci doit se comprendre
 comme la capacité à  pouvoir ajouter ou modifier des informations
-
+</sect1>
 </sect>
 <sect> Gestion de stock
+<p> Pour toutes les marchandises dont vous voulez gérer le stock, il
+faut ajouter l'attribut gestion de stock, vous devez y mettre un code,
+et exactement le même code dans sa contrepartie. Les mêmes
+marchandises ont toujours deux fiches : l'une pour la vente et l'autre
+pour l'achat, la seule façon de lier ces fiches est de leur donner le
+même code de stock. 
+
+Bien faire attention à ce code, il doit être le même pour les fiches
+achats et ventes de la même marchandise, si vous utilisez ce code
+stock pour deux différentes marchandise, vous ne serez plus en mesure
+de faire la différence entre ces 2 marchandises dans le stock.
+
+Dans le mode utilisateur, les achats et les ventes vont
+automatiquement mettre le  stock à jour. Dans le mode comptable ce
+n'est pas le cas ! 
+
+<sect1> Gestion de stock
+<p> Dans le menu avancé vous verrez l'item stock, dans le mode
+comptable, il n'est pas possible de gérer le stock. Il faut rechanger
+son mode par défaut à User.
+
+</sect1>
 </sect>
 <sect> Rapprochement
 </sect>
 <sect> Centralisation
+</sect>
+<sect> Exemple
+<sect1>Ouverture de compte
+<p>
+En débit d'année, il faut réouvrir les comptes ou les ouvrir en
+commençant une activité.
+
+1 janvier 
+Pierre lance une société dont le capital est de 18200 euros, dont
+seulement 6100 euro sont libérés et mis sur un compte en banque
+
+Opération diverse -> 
+débit banque 6100 euros
+débit capital non appelé 12100
+à crédit capital souscrit     18200
+</sect1>
+<sect1> Quelques factures 
+<p>5 janvier 
+Pierre paie le loyer (400 euro) à son propriétaire par banque, prendre
+le journal achat
+
+7 janvier 
+Pierre paie l'eau et le gaz (250 euros + 21%tva), cliquez  sur le
+bouton new pour créer les fiches manquantes 
+
+15 janvier
+Extrait de compte banquaire: on voit le paiement du loyer du 5 janvier
+
+17 janvier 
+Banque : on voit les paiements du 7 janvier
+encoder dans le journal financier, ne pas oublier le rapprochement
+
+21 janvier 
+Vente : vend 15 pièces de l'article A, paiement par banque
+
+26 janvier 
+Banque : on voit les paiements du 15 janvier
+encoder dans le journal financier, ne pas oublier le rapprochement
+
+31 janvier 
+Banque : le client nous a payé pour la facture du 21
+encoder dans le journal financier, ne pas oublier le rapprochement
+</sect1>
+
 </sect>
 </article>

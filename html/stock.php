@@ -18,9 +18,11 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 // Auteur Dany De Bontridder ddebontridder@yahoo.fr
-include_once ("ac_common.php");
 /* $Revision$ */
 include_once("preference.php");
+include_once ("ac_common.php");
+include_once("postgres.php");
+include_once("stock_inc.php");
 
 html_page_start($g_UserProperty['use_theme']);
 
@@ -62,13 +64,42 @@ $left_menu=ShowMenuAdvanced();
 echo '<div class="lmenu">';
 echo $left_menu;
 echo '</DIV>';
+include_once("stock_inc.php");
+
+
+// if year is not set then use the year of the user's periode
+if ( ! isset ($_GET['p_year']) ) {
+  // get defaut periode
+  $a=GetUserPeriode($cn,$g_user);
+  // get exercice of periode
+  $p_year=GetExercice($cn,$a);
+  } else
+  { 
+    $p_year=$_GET['p_year'];
+  }
+
+// Show the possible years
+$sql="select distinct (p_exercice) as exercice from parm_periode ";
+$Res=ExecSql($cn,$sql);
+$r="";
+for ( $i = 0; $i < pg_NumRows($Res);$i++) {
+  $l=pg_fetch_array($Res,$i);
+  $r.=sprintf('<A class="one" HREF="stock.php?year=%d">%d</a> - ',
+	      $l['exercice'],
+	      $l['exercice']);
+ 
+}
+
 
 // Show the current stock
 echo '<div class="u_redcontent">';
+echo $r;
 echo '<FORM action="stock.php" method="post">';
-
-
-echo '<input type="submit" name="view" value="ok">';
+$a=ViewStock($cn,$p_year);
+if ( $a != null ) {
+  echo '<input type="submit" name="view" value="ok">';
+  echo $a;
+}
 echo '</div>';
 
 ?>

@@ -340,6 +340,8 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
   if ( ! isset ($p_mont_sel))$p_mont_sel="";
   if ( ! isset ($p_s_comment))$p_s_comment="";
   if ( ! isset ($p_s_montant)) $p_s_montant="";
+  if ( ! isset ($p_s_internal)) $p_s_internal="";
+
 
   if ( $p_mont_sel != "" )  $opt.='<OPTION value="'.$p_mont_sel.'" SELECTED> '.$p_mont_sel;
   $r="";
@@ -358,6 +360,9 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
   $r.= "<TD> Montant ";
   $r.= ' <SELECT NAME="mont_sel">'.$opt.' </SELECT></TD><TD>';
   $r.= ' <INPUT TYPE="TEXT" NAME="s_montant" SIZE="10" VALUE="'.$p_s_montant.'"></TD>';
+  $r.= "</TR><TR>";
+  $r.="<TD> Internal code</td>";
+  $r.='<TD><input type="text" name="s_internal" value="'.$p_s_internal.'"></td>';
   $r.= "</TR><TR>";
   $r.= '<TD colspan="3"> Le commentaire contient </TD>';
   $r.= "</TR><TR>";

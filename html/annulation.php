@@ -72,19 +72,20 @@ if ( isset ($annul) ) {
  j_text,j_internal,'$g_user',$period
  from jrnx where j_grpt=".$_POST['p_id'];
   $Res=ExecSql($cn,$sql);
-  // Get the internal code
-  $internalcode=SetInternalCode($cn,$seq,$g_jrn);
+ 
 
   // build the sql stmt for jrn
   $sql= "insert into jrn (
  jr_def_id,jr_montant,jr_comment,               jr_date,jr_grpt_id,jr_internal                 ,jr_tech_per
  ) select 
- jr_def_id,jr_montant,'Annulation '||jr_comment,jr_date,$seq       ,'$internalcode',               $period
+ jr_def_id,jr_montant,'Annulation '||jr_comment,jr_date,$seq       ,'ANNUL',               $period
  from 
  jrn
  where   jr_grpt_id=".$_POST['p_id'];
   $Res=ExecSql($cn,$sql);
 
+ // Get the internal code
+  $internalcode=SetInternalCode($cn,$seq,$g_jrn);
   // also in the stock table
   $sql="insert into stock_goods (
  j_id,f_id,sg_quantity,sg_type

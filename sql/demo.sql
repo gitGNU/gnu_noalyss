@@ -642,14 +642,15 @@ CREATE SEQUENCE s_stock_goods
 
 
 --
--- TOC entry 71 (OID 37966)
+-- TOC entry 71 (OID 38465)
 -- Name: stock_goods; Type: TABLE; Schema: public; Owner: phpcompta
 --
 
 CREATE TABLE stock_goods (
     sg_id integer DEFAULT nextval('s_stock_goods'::text) NOT NULL,
-    j_id integer NOT NULL,
+    j_id integer,
     f_id integer NOT NULL,
+    sg_code text,
     sg_quantity integer DEFAULT 0,
     sg_type character(1) DEFAULT 'c' NOT NULL,
     CONSTRAINT stock_goods_sg_type CHECK (((sg_type = 'c'::bpchar) OR (sg_type = 'd'::bpchar)))
@@ -909,7 +910,6 @@ INSERT INTO tmp_pcmn VALUES (532, 'd''un mois au plus', 53, 'BE');
 INSERT INTO tmp_pcmn VALUES (539, 'Réductions de valeur actées', 53, 'BE');
 INSERT INTO tmp_pcmn VALUES (54, 'Valeurs échues à l''encaissement', 5, 'BE');
 INSERT INTO tmp_pcmn VALUES (55, 'Etablissement de crédit', 5, 'BE');
-INSERT INTO tmp_pcmn VALUES (550, 'Banque 1', 55, 'BE');
 INSERT INTO tmp_pcmn VALUES (5500, 'Comptes courants', 550, 'BE');
 INSERT INTO tmp_pcmn VALUES (5501, 'Chèques émis (-)', 550, 'BE');
 INSERT INTO tmp_pcmn VALUES (5509, 'Réduction de valeur actée', 550, 'BE');
@@ -1146,7 +1146,6 @@ INSERT INTO tmp_pcmn VALUES (55000001, 'Banque 1', 5500, 'BE');
 INSERT INTO tmp_pcmn VALUES (4000003, 'Client fiche', 400, 'BE');
 INSERT INTO tmp_pcmn VALUES (4000004, 'Toto', 400, 'BE');
 INSERT INTO tmp_pcmn VALUES (4000005, 'NOUVEAU CLIENT', 400, 'BE');
-INSERT INTO tmp_pcmn VALUES (610002, 'Loyer', 61, 'BE');
 INSERT INTO tmp_pcmn VALUES (4511, 'TVA à payer 21%', 451, 'BE');
 INSERT INTO tmp_pcmn VALUES (4512, 'TVA à payer 12%', 451, 'BE');
 INSERT INTO tmp_pcmn VALUES (4513, 'TVA à payer 6%', 451, 'BE');
@@ -1159,6 +1158,13 @@ INSERT INTO tmp_pcmn VALUES (70004, 'Marchandise D', 700, 'BE');
 INSERT INTO tmp_pcmn VALUES (70003, 'Marchandise C', 700, 'BE');
 INSERT INTO tmp_pcmn VALUES (70001, 'Marchandise A', 700, 'BE');
 INSERT INTO tmp_pcmn VALUES (4400003, 'Fournisseur E', 440, 'BE');
+INSERT INTO tmp_pcmn VALUES (4400004, 'Propriétaire bureau', 440, 'BE');
+INSERT INTO tmp_pcmn VALUES (101, 'Capital non appelé', 10, 'BE');
+INSERT INTO tmp_pcmn VALUES (610002, 'Loyer', 61, 'BE');
+INSERT INTO tmp_pcmn VALUES (4400005, 'Fournisseur Eau Gaz', 440, 'BE');
+INSERT INTO tmp_pcmn VALUES (610003, 'eau, gaz electricité', 61, 'BE');
+INSERT INTO tmp_pcmn VALUES (550, 'Banque 1', 55, 'BE');
+INSERT INTO tmp_pcmn VALUES (6040001, 'Marchandise A', 604, 'BE');
 
 
 --
@@ -1237,13 +1243,22 @@ INSERT INTO jrn_def VALUES (1, 'Financier', '5* ', '5*', '1,2,4,9', '1,2,4,9', 5
 -- Name: jrn; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
-INSERT INTO jrn VALUES (114, 4, 100, 'Annulation OD-01-00001', '2003-01-01', 2, 'Annulation :OD-01-00001', '2004-03-31 23:53:53.587346', 1, NULL, NULL);
-INSERT INTO jrn VALUES (113, 4, 100, 'OD-01-00001', '2003-01-01', 1, 'OD-01-00001', '2004-03-31 23:50:06.502246', 1, NULL, NULL);
-INSERT INTO jrn VALUES (115, 4, 20004, 'OD-01-00003', '2003-01-01', 3, 'OD-01-00003', '2004-04-01 00:18:53.002503', 1, NULL, NULL);
-INSERT INTO jrn VALUES (116, 4, 20004, 'Annulation OD-01-00003', '2003-01-01', 10, 'OD-01-00003', '2004-04-01 00:31:24.541969', 1, NULL, NULL);
-INSERT INTO jrn VALUES (117, 1, 100, 'FIN-01-00001  client : Banque 1', '2003-01-01', 11, 'FIN-01-00001', '2004-04-01 02:48:19.63074', 1, NULL, NULL);
-INSERT INTO jrn VALUES (118, 1, 200, 'FIN-01-00002  client : Banque 1', '2003-01-01', 12, 'FIN-01-00002', '2004-04-01 02:50:34.708511', 1, NULL, NULL);
-INSERT INTO jrn VALUES (119, 1, 300, 'FIN-01-00003  client : Banque 1', '2003-01-01', 13, 'FIN-01-00003', '2004-04-01 03:00:02.520401', 1, NULL, NULL);
+INSERT INTO jrn VALUES (122, 4, 18200, 'Ouverture', '2003-01-01', 1, 'OD-01-00001', '2004-04-01 19:24:05.182853', 1, NULL, NULL);
+INSERT INTO jrn VALUES (123, 3, 400, 'Paiement Loyer', '2003-01-05', 2, 'ACH-01-00001', '2004-04-01 19:31:47.396412', 1, NULL, NULL);
+INSERT INTO jrn VALUES (124, 3, 250, 'ACH-01-00002  client : Fournisseur Eau Gaz', '2003-01-01', 3, 'ACH-01-00002', '2004-04-01 20:21:38.686975', 1, NULL, NULL);
+INSERT INTO jrn VALUES (125, 3, 302.5, 'ACH-01-00003  client : Fournisseur Eau Gaz', '2003-01-01', 4, 'ACH-01-00003', '2004-04-01 20:23:32.976316', 1, NULL, NULL);
+INSERT INTO jrn VALUES (126, 1, 302.5, 'FIN-01-00001  client : Banque 1', '2003-01-01', 5, 'FIN-01-00001', '2004-04-01 20:32:32.736425', 1, NULL, NULL);
+INSERT INTO jrn VALUES (127, 2, 605, 'VEN-01-00001  client : NOUVEAU CLIENT', '2003-01-21', 6, 'VEN-01-00001', '2004-04-01 20:34:22.386245', 1, NULL, NULL);
+INSERT INTO jrn VALUES (128, 1, 605, 'FIN-01-00002  client : Banque 1', '2003-01-01', 7, 'FIN-01-00002', '2004-04-01 20:36:49.590673', 1, NULL, NULL);
+INSERT INTO jrn VALUES (129, 3, 250, 'Mauvais encodage sorry :c Annulation ACH-01-00002  client : Fournisseur Eau Gaz', '2003-01-01', 8, 'ACH-01-00003', '2004-04-01 20:39:54.607677', 1, NULL, NULL);
+INSERT INTO jrn VALUES (130, 2, 1500, 'VEN-01-00002  client : Client 1', '2003-01-01', 9, 'VEN-01-00002', '2004-04-01 20:55:18.159528', 1, NULL, NULL);
+INSERT INTO jrn VALUES (131, 2, 1500, 'VEN-01-00003  client : Client 1', '2003-01-01', 10, 'VEN-01-00003', '2004-04-01 20:57:29.700277', 1, NULL, NULL);
+INSERT INTO jrn VALUES (132, 2, 2350, 'VEN-01-00004  client : NOUVEAU CLIENT', '2003-01-01', 11, 'VEN-01-00004', '2004-04-01 20:58:06.619629', 1, NULL, NULL);
+INSERT INTO jrn VALUES (133, 2, 2843.5, 'VEN-01-00005  client : NOUVEAU CLIENT', '2003-01-01', 12, 'VEN-01-00005', '2004-04-01 21:01:13.773212', 1, NULL, NULL);
+INSERT INTO jrn VALUES (134, 2, 2843.5, 'VEN-01-00006  client : NOUVEAU CLIENT', '2003-01-01', 13, 'VEN-01-00006', '2004-04-01 21:05:37.500849', 1, NULL, NULL);
+INSERT INTO jrn VALUES (135, 2, 2843.5, 'VEN-01-00007  client : NOUVEAU CLIENT', '2003-01-01', 14, 'VEN-01-00007', '2004-04-01 21:06:11.818771', 1, NULL, NULL);
+INSERT INTO jrn VALUES (136, 2, 2843.5, 'Annulation VEN-01-00007  client : NOUVEAU CLIENT', '2003-01-01', 15, 'VEN-01-00007', '2004-04-01 21:06:33.886083', 1, NULL, NULL);
+INSERT INTO jrn VALUES (137, 2, 2843.5, 'Annulation VEN-01-00006  client : NOUVEAU CLIENT', '2003-01-01', 16, 'VEN-01-00009', '2004-04-01 21:09:00.242086', 1, NULL, NULL);
 
 
 --
@@ -1251,32 +1266,53 @@ INSERT INTO jrn VALUES (119, 1, 300, 'FIN-01-00003  client : Banque 1', '2003-01
 -- Name: jrnx; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
-INSERT INTO jrnx VALUES (377, '2003-01-01', 100, 4111, 1, NULL, 4, true, NULL, false, NULL, 'phpcompta', '2004-03-31 23:50:06.439088', 1);
-INSERT INTO jrnx VALUES (378, '2003-01-01', 100, 4512, 1, NULL, 4, false, NULL, false, NULL, 'phpcompta', '2004-03-31 23:50:06.470302', 1);
-INSERT INTO jrnx VALUES (379, '2004-03-31', 100, 4111, 2, NULL, 4, false, NULL, false, NULL, 'phpcompta', '2004-03-31 23:53:52.666875', 1);
-INSERT INTO jrnx VALUES (380, '2004-03-31', 100, 4512, 2, NULL, 4, true, NULL, false, NULL, 'phpcompta', '2004-03-31 23:53:52.666875', 1);
-INSERT INTO jrnx VALUES (381, '2003-01-01', 20004, 10, 3, NULL, 4, false, NULL, false, NULL, 'phpcompta', '2004-04-01 00:18:52.913242', 1);
-INSERT INTO jrnx VALUES (382, '2003-01-01', 20004, 55000001, 3, NULL, 4, true, NULL, false, NULL, 'phpcompta', '2004-04-01 00:18:52.955688', 1);
-INSERT INTO jrnx VALUES (383, '2004-04-01', 20004, 10, 4, NULL, 4, true, NULL, false, NULL, 'phpcompta', '2004-04-01 00:24:08.281527', 1);
-INSERT INTO jrnx VALUES (384, '2004-04-01', 20004, 55000001, 4, NULL, 4, false, NULL, false, NULL, 'phpcompta', '2004-04-01 00:24:08.281527', 1);
-INSERT INTO jrnx VALUES (385, '2004-04-01', 20004, 10, 5, NULL, 4, true, NULL, false, NULL, 'phpcompta', '2004-04-01 00:25:23.554034', 1);
-INSERT INTO jrnx VALUES (386, '2004-04-01', 20004, 55000001, 5, NULL, 4, false, NULL, false, NULL, 'phpcompta', '2004-04-01 00:25:23.554034', 1);
-INSERT INTO jrnx VALUES (387, '2004-04-01', 20004, 10, 6, NULL, 4, true, NULL, false, NULL, 'phpcompta', '2004-04-01 00:26:45.800251', 1);
-INSERT INTO jrnx VALUES (388, '2004-04-01', 20004, 55000001, 6, NULL, 4, false, NULL, false, NULL, 'phpcompta', '2004-04-01 00:26:45.800251', 1);
-INSERT INTO jrnx VALUES (389, '2004-04-01', 20004, 10, 7, NULL, 4, true, NULL, false, NULL, 'phpcompta', '2004-04-01 00:29:48.737261', 1);
-INSERT INTO jrnx VALUES (390, '2004-04-01', 20004, 55000001, 7, NULL, 4, false, NULL, false, NULL, 'phpcompta', '2004-04-01 00:29:48.737261', 1);
-INSERT INTO jrnx VALUES (391, '2004-04-01', 20004, 10, 8, NULL, 4, true, NULL, false, NULL, 'phpcompta', '2004-04-01 00:30:22.855355', 1);
-INSERT INTO jrnx VALUES (392, '2004-04-01', 20004, 55000001, 8, NULL, 4, false, NULL, false, NULL, 'phpcompta', '2004-04-01 00:30:22.855355', 1);
-INSERT INTO jrnx VALUES (393, '2004-04-01', 20004, 10, 9, NULL, 4, true, NULL, false, NULL, 'phpcompta', '2004-04-01 00:30:49.403648', 1);
-INSERT INTO jrnx VALUES (394, '2004-04-01', 20004, 55000001, 9, NULL, 4, false, NULL, false, NULL, 'phpcompta', '2004-04-01 00:30:49.403648', 1);
-INSERT INTO jrnx VALUES (395, '2004-04-01', 20004, 10, 10, NULL, 4, true, NULL, false, NULL, 'phpcompta', '2004-04-01 00:31:24.116844', 1);
-INSERT INTO jrnx VALUES (396, '2004-04-01', 20004, 55000001, 10, NULL, 4, false, NULL, false, NULL, 'phpcompta', '2004-04-01 00:31:24.116844', 1);
-INSERT INTO jrnx VALUES (397, '2003-01-01', 100, 55000001, 11, NULL, 1, true, NULL, false, NULL, 'phpcompta', '2004-04-01 02:48:19.589364', 1);
-INSERT INTO jrnx VALUES (398, '2003-01-01', 100, 4400003, 11, NULL, 1, false, NULL, false, NULL, 'phpcompta', '2004-04-01 02:48:19.616592', 1);
-INSERT INTO jrnx VALUES (399, '2003-01-01', 200, 55000001, 12, NULL, 1, false, NULL, false, NULL, 'phpcompta', '2004-04-01 02:50:34.660866', 1);
-INSERT INTO jrnx VALUES (400, '2003-01-01', 200, 4400003, 12, NULL, 1, true, NULL, false, NULL, 'phpcompta', '2004-04-01 02:50:34.6831', 1);
-INSERT INTO jrnx VALUES (401, '2003-01-01', 300, 55000001, 13, NULL, 1, true, NULL, false, NULL, 'phpcompta', '2004-04-01 03:00:02.490325', 1);
-INSERT INTO jrnx VALUES (402, '2003-01-01', 300, 55000002, 13, NULL, 1, false, NULL, false, NULL, 'phpcompta', '2004-04-01 03:00:02.510827', 1);
+INSERT INTO jrnx VALUES (409, '2003-01-01', 12100, 101, 1, NULL, 4, true, NULL, false, NULL, 'phpcompta', '2004-04-01 19:24:05.153015', 1);
+INSERT INTO jrnx VALUES (410, '2003-01-01', 6100, 550, 1, NULL, 4, true, NULL, false, NULL, 'phpcompta', '2004-04-01 19:24:05.173273', 1);
+INSERT INTO jrnx VALUES (411, '2003-01-01', 18200, 100, 1, NULL, 4, false, NULL, false, NULL, 'phpcompta', '2004-04-01 19:24:05.178179', 1);
+INSERT INTO jrnx VALUES (412, '2003-01-05', 400, 4400004, 2, NULL, 3, false, NULL, false, NULL, 'phpcompta', '2004-04-01 19:31:47.352752', 1);
+INSERT INTO jrnx VALUES (413, '2003-01-05', 400, 610002, 2, NULL, 3, true, NULL, false, NULL, 'phpcompta', '2004-04-01 19:31:47.373566', 1);
+INSERT INTO jrnx VALUES (414, '2003-01-05', 0, 4114, 2, NULL, 3, true, NULL, false, NULL, 'phpcompta', '2004-04-01 19:31:47.391112', 1);
+INSERT INTO jrnx VALUES (415, '2003-01-01', 250, 4400005, 3, NULL, 3, false, NULL, false, NULL, 'phpcompta', '2004-04-01 20:21:38.650392', 1);
+INSERT INTO jrnx VALUES (416, '2003-01-01', 250, 610003, 3, NULL, 3, true, NULL, false, NULL, 'phpcompta', '2004-04-01 20:21:38.671208', 1);
+INSERT INTO jrnx VALUES (417, '2003-01-01', 302.5, 4400005, 4, NULL, 3, false, NULL, false, NULL, 'phpcompta', '2004-04-01 20:23:32.935184', 1);
+INSERT INTO jrnx VALUES (418, '2003-01-01', 250, 610003, 4, NULL, 3, true, NULL, false, NULL, 'phpcompta', '2004-04-01 20:23:32.953885', 1);
+INSERT INTO jrnx VALUES (419, '2003-01-01', 52.5, 4111, 4, NULL, 3, true, NULL, false, NULL, 'phpcompta', '2004-04-01 20:23:32.971118', 1);
+INSERT INTO jrnx VALUES (420, '2003-01-01', 302.5, 550, 5, NULL, 1, false, NULL, false, NULL, 'phpcompta', '2004-04-01 20:32:32.704464', 1);
+INSERT INTO jrnx VALUES (421, '2003-01-01', 302.5, 4400005, 5, NULL, 1, true, NULL, false, NULL, 'phpcompta', '2004-04-01 20:32:32.731236', 1);
+INSERT INTO jrnx VALUES (422, '2003-01-21', 605, 4000005, 6, NULL, 2, true, NULL, false, NULL, 'phpcompta', '2004-04-01 20:34:22.344788', 1);
+INSERT INTO jrnx VALUES (423, '2003-01-21', 500, 70001, 6, NULL, 2, false, NULL, false, NULL, 'phpcompta', '2004-04-01 20:34:22.36528', 1);
+INSERT INTO jrnx VALUES (424, '2003-01-21', 105, 4511, 6, NULL, 2, false, NULL, false, NULL, 'phpcompta', '2004-04-01 20:34:22.381173', 1);
+INSERT INTO jrnx VALUES (425, '2003-01-01', 605, 550, 7, NULL, 1, true, NULL, false, NULL, 'phpcompta', '2004-04-01 20:36:49.568072', 1);
+INSERT INTO jrnx VALUES (426, '2003-01-01', 605, 4000005, 7, NULL, 1, false, NULL, false, NULL, 'phpcompta', '2004-04-01 20:36:49.583721', 1);
+INSERT INTO jrnx VALUES (427, '2004-04-01', 250, 4400005, 8, NULL, 3, true, NULL, false, NULL, 'phpcompta', '2004-04-01 20:39:54.561169', 1);
+INSERT INTO jrnx VALUES (428, '2004-04-01', 250, 610003, 8, NULL, 3, false, NULL, false, NULL, 'phpcompta', '2004-04-01 20:39:54.561169', 1);
+INSERT INTO jrnx VALUES (429, '2003-01-01', 1500, 4000001, 9, NULL, 2, true, NULL, false, NULL, 'phpcompta', '2004-04-01 20:55:18.122103', 1);
+INSERT INTO jrnx VALUES (430, '2003-01-01', 1500, 70001, 9, NULL, 2, false, NULL, false, NULL, 'phpcompta', '2004-04-01 20:55:18.143117', 1);
+INSERT INTO jrnx VALUES (431, '2003-01-01', 1500, 4000001, 10, NULL, 2, true, NULL, false, NULL, 'phpcompta', '2004-04-01 20:57:28.871846', 1);
+INSERT INTO jrnx VALUES (432, '2003-01-01', 1500, 70001, 10, NULL, 2, false, NULL, false, NULL, 'phpcompta', '2004-04-01 20:57:29.670521', 1);
+INSERT INTO jrnx VALUES (433, '2003-01-01', 2350, 4000005, 11, NULL, 2, true, NULL, false, NULL, 'phpcompta', '2004-04-01 20:58:06.574822', 1);
+INSERT INTO jrnx VALUES (434, '2003-01-01', 2250, 70002, 11, NULL, 2, false, NULL, false, NULL, 'phpcompta', '2004-04-01 20:58:06.59382', 1);
+INSERT INTO jrnx VALUES (435, '2003-01-01', 100, 70001, 11, NULL, 2, false, NULL, false, NULL, 'phpcompta', '2004-04-01 20:58:06.609582', 1);
+INSERT INTO jrnx VALUES (436, '2003-01-01', 2843.5, 4000005, 12, NULL, 2, true, NULL, false, NULL, 'phpcompta', '2004-04-01 21:01:13.009938', 1);
+INSERT INTO jrnx VALUES (437, '2003-01-01', 2250, 70002, 12, NULL, 2, false, NULL, false, NULL, 'phpcompta', '2004-04-01 21:01:13.739575', 1);
+INSERT INTO jrnx VALUES (438, '2003-01-01', 100, 70001, 12, NULL, 2, false, NULL, false, NULL, 'phpcompta', '2004-04-01 21:01:13.757474', 1);
+INSERT INTO jrnx VALUES (439, '2003-01-01', 493.5, 4511, 12, NULL, 2, false, NULL, false, NULL, 'phpcompta', '2004-04-01 21:01:13.767038', 1);
+INSERT INTO jrnx VALUES (440, '2003-01-01', 2843.5, 4000005, 13, NULL, 2, true, NULL, false, NULL, 'phpcompta', '2004-04-01 21:05:36.892031', 1);
+INSERT INTO jrnx VALUES (441, '2003-01-01', 2250, 70002, 13, NULL, 2, false, NULL, false, NULL, 'phpcompta', '2004-04-01 21:05:37.45208', 1);
+INSERT INTO jrnx VALUES (442, '2003-01-01', 100, 70001, 13, NULL, 2, false, NULL, false, NULL, 'phpcompta', '2004-04-01 21:05:37.472918', 1);
+INSERT INTO jrnx VALUES (443, '2003-01-01', 493.5, 4511, 13, NULL, 2, false, NULL, false, NULL, 'phpcompta', '2004-04-01 21:05:37.495236', 1);
+INSERT INTO jrnx VALUES (444, '2003-01-01', 2843.5, 4000005, 14, NULL, 2, true, NULL, false, NULL, 'phpcompta', '2004-04-01 21:06:11.343749', 1);
+INSERT INTO jrnx VALUES (445, '2003-01-01', 2250, 70002, 14, NULL, 2, false, NULL, false, NULL, 'phpcompta', '2004-04-01 21:06:11.787897', 1);
+INSERT INTO jrnx VALUES (446, '2003-01-01', 100, 70001, 14, NULL, 2, false, NULL, false, NULL, 'phpcompta', '2004-04-01 21:06:11.803582', 1);
+INSERT INTO jrnx VALUES (447, '2003-01-01', 493.5, 4511, 14, NULL, 2, false, NULL, false, NULL, 'phpcompta', '2004-04-01 21:06:11.813172', 1);
+INSERT INTO jrnx VALUES (448, '2004-04-01', 2843.5, 4000005, 15, NULL, 2, false, NULL, false, NULL, 'phpcompta', '2004-04-01 21:06:33.863079', 1);
+INSERT INTO jrnx VALUES (449, '2004-04-01', 2250, 70002, 15, NULL, 2, true, NULL, false, NULL, 'phpcompta', '2004-04-01 21:06:33.863079', 1);
+INSERT INTO jrnx VALUES (450, '2004-04-01', 100, 70001, 15, NULL, 2, true, NULL, false, NULL, 'phpcompta', '2004-04-01 21:06:33.863079', 1);
+INSERT INTO jrnx VALUES (451, '2004-04-01', 493.5, 4511, 15, NULL, 2, true, NULL, false, NULL, 'phpcompta', '2004-04-01 21:06:33.863079', 1);
+INSERT INTO jrnx VALUES (452, '2004-04-01', 2843.5, 4000005, 16, NULL, 2, false, NULL, false, NULL, 'phpcompta', '2004-04-01 21:09:00.226129', 1);
+INSERT INTO jrnx VALUES (453, '2004-04-01', 2250, 70002, 16, NULL, 2, true, NULL, false, NULL, 'phpcompta', '2004-04-01 21:09:00.226129', 1);
+INSERT INTO jrnx VALUES (454, '2004-04-01', 100, 70001, 16, NULL, 2, true, NULL, false, NULL, 'phpcompta', '2004-04-01 21:09:00.226129', 1);
+INSERT INTO jrnx VALUES (455, '2004-04-01', 493.5, 4511, 16, NULL, 2, true, NULL, false, NULL, 'phpcompta', '2004-04-01 21:09:00.226129', 1);
 
 
 --
@@ -1535,6 +1571,10 @@ INSERT INTO fiche VALUES (14, 2);
 INSERT INTO fiche VALUES (15, 2);
 INSERT INTO fiche VALUES (16, 3);
 INSERT INTO fiche VALUES (17, 4);
+INSERT INTO fiche VALUES (18, 4);
+INSERT INTO fiche VALUES (19, 4);
+INSERT INTO fiche VALUES (20, 5);
+INSERT INTO fiche VALUES (21, 6);
 
 
 --
@@ -1662,6 +1702,34 @@ INSERT INTO jnt_fic_att_value VALUES (117, 17, 15);
 INSERT INTO jnt_fic_att_value VALUES (118, 17, 16);
 INSERT INTO jnt_fic_att_value VALUES (119, 17, 17);
 INSERT INTO jnt_fic_att_value VALUES (120, 17, 18);
+INSERT INTO jnt_fic_att_value VALUES (121, 18, 5);
+INSERT INTO jnt_fic_att_value VALUES (122, 18, 1);
+INSERT INTO jnt_fic_att_value VALUES (123, 18, 12);
+INSERT INTO jnt_fic_att_value VALUES (124, 18, 13);
+INSERT INTO jnt_fic_att_value VALUES (125, 18, 14);
+INSERT INTO jnt_fic_att_value VALUES (126, 18, 15);
+INSERT INTO jnt_fic_att_value VALUES (127, 18, 16);
+INSERT INTO jnt_fic_att_value VALUES (128, 18, 17);
+INSERT INTO jnt_fic_att_value VALUES (129, 18, 18);
+INSERT INTO jnt_fic_att_value VALUES (130, 19, 5);
+INSERT INTO jnt_fic_att_value VALUES (131, 19, 1);
+INSERT INTO jnt_fic_att_value VALUES (132, 19, 12);
+INSERT INTO jnt_fic_att_value VALUES (133, 19, 13);
+INSERT INTO jnt_fic_att_value VALUES (134, 19, 14);
+INSERT INTO jnt_fic_att_value VALUES (135, 19, 15);
+INSERT INTO jnt_fic_att_value VALUES (136, 19, 16);
+INSERT INTO jnt_fic_att_value VALUES (137, 19, 17);
+INSERT INTO jnt_fic_att_value VALUES (138, 19, 18);
+INSERT INTO jnt_fic_att_value VALUES (139, 20, 5);
+INSERT INTO jnt_fic_att_value VALUES (140, 20, 1);
+INSERT INTO jnt_fic_att_value VALUES (141, 20, 2);
+INSERT INTO jnt_fic_att_value VALUES (142, 20, 7);
+INSERT INTO jnt_fic_att_value VALUES (143, 21, 5);
+INSERT INTO jnt_fic_att_value VALUES (144, 21, 1);
+INSERT INTO jnt_fic_att_value VALUES (145, 21, 2);
+INSERT INTO jnt_fic_att_value VALUES (146, 21, 6);
+INSERT INTO jnt_fic_att_value VALUES (147, 21, 7);
+INSERT INTO jnt_fic_att_value VALUES (148, 21, 19);
 
 
 --
@@ -1725,17 +1793,6 @@ INSERT INTO attr_value VALUES (83, '');
 INSERT INTO attr_value VALUES (84, '');
 INSERT INTO attr_value VALUES (85, '');
 INSERT INTO attr_value VALUES (86, '');
-INSERT INTO attr_value VALUES (11, '');
-INSERT INTO attr_value VALUES (10, 'a');
-INSERT INTO attr_value VALUES (9, '');
-INSERT INTO attr_value VALUES (8, '');
-INSERT INTO attr_value VALUES (7, '');
-INSERT INTO attr_value VALUES (6, '');
-INSERT INTO attr_value VALUES (5, '');
-INSERT INTO attr_value VALUES (4, '');
-INSERT INTO attr_value VALUES (3, '');
-INSERT INTO attr_value VALUES (2, 'Banque 1');
-INSERT INTO attr_value VALUES (1, '55000001');
 INSERT INTO attr_value VALUES (87, '4000003');
 INSERT INTO attr_value VALUES (88, '4000004');
 INSERT INTO attr_value VALUES (89, 'Toto');
@@ -1755,11 +1812,6 @@ INSERT INTO attr_value VALUES (102, '');
 INSERT INTO attr_value VALUES (103, '');
 INSERT INTO attr_value VALUES (104, '');
 INSERT INTO attr_value VALUES (105, '');
-INSERT INTO attr_value VALUES (73, 'Loyer');
-INSERT INTO attr_value VALUES (74, '3');
-INSERT INTO attr_value VALUES (72, '610002');
-INSERT INTO attr_value VALUES (75, '380');
-INSERT INTO attr_value VALUES (106, '');
 INSERT INTO attr_value VALUES (42, 'Marchandise D');
 INSERT INTO attr_value VALUES (43, '15');
 INSERT INTO attr_value VALUES (49, '70004');
@@ -1789,6 +1841,50 @@ INSERT INTO attr_value VALUES (117, '');
 INSERT INTO attr_value VALUES (118, '');
 INSERT INTO attr_value VALUES (119, '');
 INSERT INTO attr_value VALUES (120, '');
+INSERT INTO attr_value VALUES (121, '4400004');
+INSERT INTO attr_value VALUES (122, 'Propriétaire bureau');
+INSERT INTO attr_value VALUES (123, '');
+INSERT INTO attr_value VALUES (124, '');
+INSERT INTO attr_value VALUES (125, '');
+INSERT INTO attr_value VALUES (126, '');
+INSERT INTO attr_value VALUES (127, '');
+INSERT INTO attr_value VALUES (128, '');
+INSERT INTO attr_value VALUES (129, '');
+INSERT INTO attr_value VALUES (73, 'Loyer');
+INSERT INTO attr_value VALUES (74, '4');
+INSERT INTO attr_value VALUES (72, '610002');
+INSERT INTO attr_value VALUES (75, '400');
+INSERT INTO attr_value VALUES (130, '4400005');
+INSERT INTO attr_value VALUES (131, 'Fournisseur Eau Gaz');
+INSERT INTO attr_value VALUES (132, '');
+INSERT INTO attr_value VALUES (133, '');
+INSERT INTO attr_value VALUES (134, '');
+INSERT INTO attr_value VALUES (135, '');
+INSERT INTO attr_value VALUES (136, '');
+INSERT INTO attr_value VALUES (137, '');
+INSERT INTO attr_value VALUES (138, '');
+INSERT INTO attr_value VALUES (140, 'eau, gaz electricité');
+INSERT INTO attr_value VALUES (141, '1');
+INSERT INTO attr_value VALUES (139, '610003');
+INSERT INTO attr_value VALUES (142, '');
+INSERT INTO attr_value VALUES (2, 'Banque 1');
+INSERT INTO attr_value VALUES (3, '');
+INSERT INTO attr_value VALUES (4, '');
+INSERT INTO attr_value VALUES (1, '550');
+INSERT INTO attr_value VALUES (5, '');
+INSERT INTO attr_value VALUES (6, '');
+INSERT INTO attr_value VALUES (7, '');
+INSERT INTO attr_value VALUES (8, '');
+INSERT INTO attr_value VALUES (9, '');
+INSERT INTO attr_value VALUES (10, 'a');
+INSERT INTO attr_value VALUES (11, '');
+INSERT INTO attr_value VALUES (106, '');
+INSERT INTO attr_value VALUES (144, 'Achat Marchandise A');
+INSERT INTO attr_value VALUES (145, '3');
+INSERT INTO attr_value VALUES (143, '6040001');
+INSERT INTO attr_value VALUES (146, '350');
+INSERT INTO attr_value VALUES (147, '');
+INSERT INTO attr_value VALUES (148, '1');
 
 
 --
@@ -1869,11 +1965,13 @@ INSERT INTO jnt_fic_attr VALUES (9, 16);
 -- Name: jrn_rapt; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
-INSERT INTO jrn_rapt VALUES (10, 114, 113);
+INSERT INTO jrn_rapt VALUES (11, 126, 125);
+INSERT INTO jrn_rapt VALUES (12, 128, 127);
+INSERT INTO jrn_rapt VALUES (13, 129, 124);
 
 
 --
--- Data for TOC entry 142 (OID 37966)
+-- Data for TOC entry 142 (OID 38465)
 -- Name: stock_goods; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -2016,7 +2114,7 @@ CREATE UNIQUE INDEX idx_jr_id ON jrn USING btree (jr_id);
 
 
 --
--- TOC entry 114 (OID 37982)
+-- TOC entry 114 (OID 38474)
 -- Name: fk_stock_goods_j_id; Type: INDEX; Schema: public; Owner: phpcompta
 --
 
@@ -2024,7 +2122,7 @@ CREATE INDEX fk_stock_goods_j_id ON stock_goods USING btree (j_id);
 
 
 --
--- TOC entry 113 (OID 37983)
+-- TOC entry 113 (OID 38475)
 -- Name: fk_stock_goods_f_id; Type: INDEX; Schema: public; Owner: phpcompta
 --
 
@@ -2428,7 +2526,7 @@ ALTER TABLE ONLY jrn_rapt
 
 
 --
--- TOC entry 115 (OID 37972)
+-- TOC entry 115 (OID 38476)
 -- Name: stock_goods_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2437,16 +2535,7 @@ ALTER TABLE ONLY stock_goods
 
 
 --
--- TOC entry 163 (OID 37974)
--- Name: $1; Type: CONSTRAINT; Schema: public; Owner: phpcompta
---
-
-ALTER TABLE ONLY stock_goods
-    ADD CONSTRAINT "$1" FOREIGN KEY (j_id) REFERENCES jrnx(j_id) ON UPDATE NO ACTION ON DELETE NO ACTION;
-
-
---
--- TOC entry 164 (OID 37978)
+-- TOC entry 163 (OID 38478)
 -- Name: $2; Type: CONSTRAINT; Schema: public; Owner: phpcompta
 --
 
@@ -2491,7 +2580,7 @@ SELECT pg_catalog.setval ('s_grpt', 1, false);
 -- Name: s_jrn_op; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval ('s_jrn_op', 402, true);
+SELECT pg_catalog.setval ('s_jrn_op', 455, true);
 
 
 --
@@ -2499,7 +2588,7 @@ SELECT pg_catalog.setval ('s_jrn_op', 402, true);
 -- Name: s_jrn; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval ('s_jrn', 119, true);
+SELECT pg_catalog.setval ('s_jrn', 137, true);
 
 
 --
@@ -2571,7 +2660,7 @@ SELECT pg_catalog.setval ('s_jrnaction', 7, true);
 -- Name: s_fiche; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval ('s_fiche', 17, true);
+SELECT pg_catalog.setval ('s_fiche', 21, true);
 
 
 --
@@ -2603,7 +2692,7 @@ SELECT pg_catalog.setval ('s_attr_def', 19, true);
 -- Name: s_jnt_fic_att_value; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval ('s_jnt_fic_att_value', 120, true);
+SELECT pg_catalog.setval ('s_jnt_fic_att_value', 148, true);
 
 
 --
@@ -2611,7 +2700,7 @@ SELECT pg_catalog.setval ('s_jnt_fic_att_value', 120, true);
 -- Name: s_jrn_rapt; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval ('s_jrn_rapt', 10, true);
+SELECT pg_catalog.setval ('s_jrn_rapt', 13, true);
 
 
 --
@@ -2619,6 +2708,6 @@ SELECT pg_catalog.setval ('s_jrn_rapt', 10, true);
 -- Name: s_stock_goods; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval ('s_stock_goods', 3, true);
+SELECT pg_catalog.setval ('s_stock_goods', 24, true);
 
 

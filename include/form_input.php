@@ -539,7 +539,7 @@ if (strlen($e_ech) != 0 and isNumber($e_ech)  == 0 and  isDate ($e_ech) == null 
   
   // end table
   $r.='</TABLE> ';
-  $r.='<DIV style="padding:30px;font-size:14pt">';
+  $r.='<DIV style="padding:30px;font-size:14px">';
   $r.="Total HTVA = $sum_march <br>";
   $r.="Total = $sum_with_vat";
   $r.="</DIV>";
@@ -611,11 +611,13 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
     // store quantity & goods in array
     $a_good[$i]=${"e_march$i"};
     $a_quant[$i]=${"e_quant$i"};
-
+    $a_price[$i]=0;
     // check wether the price is set or no
     if ( isNumber(${"e_march$i"."_sell"}) == 0 ) {
-      // If the price is not set we have to find it from the database
-      $a_price[$i]=GetFicheAttribut($p_cn,$a_good[$i],ATTR_DEF_PRIX_VENTE);
+      if ( isNumber($a_good[$i]) == 1 ) {
+	     // If the price is not set we have to find it from the database
+	     $a_price[$i]=GetFicheAttribut($p_cn,$a_good[$i],ATTR_DEF_PRIX_VENTE);
+	   } 
     } else {
       // The price is valid
       $a_price[$i]=${"e_march$i"."_sell"};
@@ -633,45 +635,46 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
   }
   // First we add in jrnx
 	
-	// Compute the j_grpt
-    $seq=GetNextId($p_cn,'j_grpt')+1;
+  // Compute the j_grpt
+  $seq=GetNextId($p_cn,'j_grpt')+1;
 
+
+  // Debit = client
+  $poste=GetFicheAttribut($p_cn,$e_client,ATTR_DEF_ACCOUNT);
 	
-	// Debit = client
-	$poste=GetFicheAttribut($p_cn,$e_client,ATTR_DEF_ACCOUNT);
+  InsertJrnx($p_cn,'d',$p_user,$p_jrn,$poste,$e_date,$amount+$sum_vat,$seq,$periode);
 	
-	InsertJrnx($p_cn,'d',$p_user,$p_jrn,$poste,$e_date,$amount+$sum_vat,$seq,$periode);
-	
-	// Credit = goods 
-	for ( $i = 0; $i < $nb_item;$i++) {
-		$poste=GetFicheAttribut($p_cn,$a_good[$i],ATTR_DEF_ACCOUNT);
+  // Credit = goods 
+  for ( $i = 0; $i < $nb_item;$i++) {
+    if ( isNumber($a_good[$i]) == 0 ) continue;
+    $poste=GetFicheAttribut($p_cn,$a_good[$i],ATTR_DEF_ACCOUNT);
+	  
+    // don't record operation of 0
+    if ( $a_price[$i]*$a_quant[$i] == 0 ) continue;
+	  
+    // record into jrnx
+    $j_id=InsertJrnx($p_cn,'c',$p_user,$p_jrn,$poste,$e_date,$a_price[$i]*$a_quant[$i],$seq,$periode);
+	  
+    // always save quantity but in withStock we can find what card need a stock management
+    InsertStockGoods($p_cn,$j_id,$a_good[$i],$a_quant[$i],'c');
+  }
+  // Insert Vat
+  if (sizeof($a_vat) != 0 ) // no vat
+    {
+      foreach ($a_vat as $tva_id => $tva_amount ) {
+	$poste=GetTvaPoste($p_cn,$tva_id,'c');
+	if ($tva_amount == 0 ) continue;
+	InsertJrnx($p_cn,'c',$p_user,$p_jrn,$poste,$e_date,$tva_amount,$seq,$periode);
+      }
+    }
+  echo_debug("echeance = $e_ech");
+  InsertJrn($p_cn,$e_date,$e_ech,$p_jrn,"Invoice",$amount+$sum_vat,$seq,$periode);
+  // Set Internal code and Comment
+  $comment=SetInternalCode($p_cn,$seq,$p_jrn)."  client : ".GetFicheName($p_cn,$e_client);
 
-		// don't record operation of 0
-		if ( $a_price[$i]*$a_quant[$i] == 0 ) continue;
-
-		// record into jrnx
-		$j_id=InsertJrnx($p_cn,'c',$p_user,$p_jrn,$poste,$e_date,$a_price[$i]*$a_quant[$i],$seq,$periode);
-
-		// always save quantity but in withStock we can find what card need a stock management
-		InsertStockGoods($p_cn,$j_id,$a_good[$i],$a_quant[$i],'c');
-	}
-	// Insert Vat
-	if (sizeof($a_vat) != 0 ) // no vat
-	{
-		foreach ($a_vat as $tva_id => $tva_amount ) {
-		$poste=GetTvaPoste($p_cn,$tva_id,'c');
-		if ($tva_amount == 0 ) continue;
-		InsertJrnx($p_cn,'c',$p_user,$p_jrn,$poste,$e_date,$tva_amount,$seq,$periode);
-		}
-	}
-echo_debug("echeance = $e_ech");
-	InsertJrn($p_cn,$e_date,$e_ech,$p_jrn,"Invoice",$amount+$sum_vat,$seq,$periode);
-	// Set Internal code and Comment
-	$comment=SetInternalCode($p_cn,$seq,$p_jrn)."  client : ".GetFicheName($p_cn,$e_client);
-
-	// Update and set the invoice's comment 
-	$Res=ExecSql($p_cn,"update jrn set jr_comment='".$comment."' where jr_grpt_id=".$seq);
-	return $comment;
+  // Update and set the invoice's comment 
+  $Res=ExecSql($p_cn,"update jrn set jr_comment='".$comment."' where jr_grpt_id=".$seq);
+  return $comment;
 }
 /* function FormAch($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article=1)
  * Purpose : Display the form for buying
@@ -878,6 +881,7 @@ function RecordAchat($p_cn,$p_array,$p_user,$p_jrn)
   // Computing total customer
   for ($i=0;$i<$nb_item;$i++) {
     // store quantity & goods in array
+    if ( isNumber(${"e_march$i"}) == 0 ) continue;
     $a_good[$i]=${"e_march$i"};
     $a_quant[$i]=${"e_quant$i"};
 
@@ -913,6 +917,7 @@ function RecordAchat($p_cn,$p_array,$p_user,$p_jrn)
   
   // Credit = goods 
   for ( $i = 0; $i < $nb_item;$i++) {
+
     $poste=GetFicheAttribut($p_cn,$a_good[$i],ATTR_DEF_ACCOUNT);
     if ( $a_price[$i] * $a_quant[$i] == 0 ) continue;    
     $j_id=InsertJrnx($p_cn,'d',$p_user,$p_jrn,$poste,$e_date,$a_price[$i]*$a_quant[$i],$seq,$periode);
@@ -1263,12 +1268,12 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
     // If $account has a value
     if ( isNumber($account) == 1 ) {
       if ( CountSql($p_cn,"select * from tmp_pcmn where pcm_val=$account") == 0 ) {
-      $msg="Poste comptable inexistant !!! ";
-      echo_error($msg); echo_error($msg);	
-      echo "<SCRIPT>alert('$msg');</SCRIPT>";
-      $account="";
+	$msg="Poste comptable inexistant !!! ";
+	echo_error($msg); echo_error($msg);	
+	echo "<SCRIPT>alert('$msg');</SCRIPT>";
+	$account="";
       } else {
-           // retrieve the tva label and name
+	// retrieve the tva label and name
 	$lib=GetPosteLibelle($p_cn, $account,1);
       }
     }
@@ -1295,8 +1300,13 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
     $c_check=( ${"e_account$i"."_type"} == 'c')?"CHECKED":"";
     $d_check=( ${"e_account$i"."_type"} == 'd' )?"CHECKED":"";
     $r.='<td>';
-    $r.='  <input type="radio" name="'."e_account"."$i"."_type".'" value="d" '.$d_check.'> Débit ou ';
-    $r.='  <input type="radio" name="'."e_account"."$i"."_type".'" value="c" '.$c_check.'> Crédit ';
+    if ( $view_only == false ) {
+      $r.='  <input type="radio" name="'."e_account"."$i"."_type".'" value="d" '.$d_check.'> Débit ou ';
+      $r.='  <input type="radio" name="'."e_account"."$i"."_type".'" value="c" '.$c_check.'> Crédit ';
+    }else {
+      $r.=(${"e_account$i"."_type"} == 'c' )?"Crédit":"Débit";
+      $r.='<input type="hidden" name="e_account'.$i.'_type" value="'.${"e_account$i"."_type"}.'">';
+    }
     $r.='</td>';
     $r.='</TR>';
     $sum_deb+=(${"e_account$i"."_type"}=='d')?${"e_account$i"."_amount"}:0;
@@ -1319,7 +1329,7 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
 
 }
 
-/* function RecordAchat
+/* function RecordODS
  **************************************************
  * Purpose : Record an buy in the table jrn &
  *           jrnx
@@ -1358,6 +1368,7 @@ function RecordODS($p_cn,$p_array,$p_user,$p_jrn)
   
   // store into the database
   for ( $i = 0; $i < $nb_item;$i++) {
+    if ( isNumber(${"e_account$i"}) == 0 ) continue;
     $sum_deb+=(${"e_account$i"."_type"}=='d')?${"e_account$i"."_amount"}:0;
     $sum_cred+=(${"e_account$i"."_type"}=='c')?${"e_account$i"."_amount"}:0;
 
