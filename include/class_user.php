@@ -53,7 +53,7 @@ class cl_user {
 	$res=0;
 	$pass5=md5($this->pass);
       	if ( $this->valid == 1 ) { return; }
-	$cn=DbConnect("account_repository");
+	$cn=DbConnect();
 	if ( $cn != false ) {
 	  $sql="select ac_users.use_login,ac_users.use_active, ac_users.use_pass
 				from ac_users  

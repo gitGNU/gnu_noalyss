@@ -28,8 +28,7 @@ include_once("class.ezpdf.php");
 include_once("impress_inc.php");
 include("poste.php");
 
-    $l_Db=sprintf("dossier%d",$g_dossier);
-    $cn=DbConnect($l_Db);
+    $cn=DbConnect($g_dossier);
 foreach ($HTTP_POST_VARS as $key=>$element) {
   ${"$key"}=$element;
 }

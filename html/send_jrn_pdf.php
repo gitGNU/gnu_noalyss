@@ -35,7 +35,7 @@ include_once("impress_inc.php");
 include_once("preference.php");
 echo_debug(__FILE__,__LINE__,"imp pdf journaux");
 $l_Db=sprintf("dossier%d",$g_dossier);
-$cn=DbConnect($l_Db);
+$cn=DbConnect($g_dossier);
 $l_type="JRN";
 $centr=" Non centralisé";
 $l_centr=0;

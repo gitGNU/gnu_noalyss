@@ -21,8 +21,7 @@
 echo_debug(__FILE__,__LINE__,"include user_action_ven.php");
 include_once("form_input.php");
 include_once("class_widget.php");
-$dossier=sprintf("dossier%d",$g_dossier);
-$cn=DbConnect($dossier);
+$cn=DbConnect($g_dossier);
 // default action is insert_vente
 if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {
   //  echo u_ShowMenuJrn($cn,$jrn_type);
@@ -42,7 +41,7 @@ if ( $action == 'insert_vente' ) {
 
       $form=FormVente($cn,$g_jrn,$g_user,$HTTP_POST_VARS,false,$nb_number);
       echo '<div class="u_redcontent">';
-      echo         $form;
+      echo     "here".    $form;
       echo '</div>';
       
     } 
@@ -111,10 +110,11 @@ if ( isset($_POST["record_and_print_invoice"])) {
   //  echo "RECORD AND PRINT INVOICE";
   $comment=RecordInvoice($cn,$HTTP_POST_VARS,$g_user,$g_jrn);
       $nb_number=$_POST["nb_item"];
-//       //      $form=FormVenteView($cn,$g_jrn,$g_user,$HTTP_POST_VARS,$nb_number,'pdf',$comment);
-// 	echo '<div class="u_redcontent">';
-// 	echo $form;
-// 	echo "</div>  ";
+      $form=FormVenteView($cn,$g_jrn,$g_user,$HTTP_POST_VARS,$nb_number,'noform',$comment);
+
+ 	echo '<div class="u_redcontent">';
+ 	echo $form;
+ 	echo "</div>  ";
 }
 
 

@@ -39,8 +39,7 @@ if ( isset( $p_jrn )) {
   session_register("g_jrn");
   $g_jrn=$p_jrn;
 }
-$l_Db=sprintf("dossier%d",$g_dossier);
-$cn=DbConnect($l_Db);
+$cn=DbConnect($g_dossier);
 $jrn_op=$_GET['jrn_op'];
 list ($l_array,$max_deb,$max_cred)=GetData($cn,$jrn_op);
 foreach ($l_array as $key=>$element) {

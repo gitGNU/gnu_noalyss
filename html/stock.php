@@ -52,8 +52,7 @@ if ( $g_UserProperty['use_admin'] == 0 ) {
   }
 
 }
-$l_dossier=sprintf("dossier%d",$g_dossier);
-$cn=DbConnect($l_dossier);
+$cn=DbConnect($g_dossier);
 
 //Show the top menu
 include_once ("user_menu.php");
@@ -62,9 +61,9 @@ ShowMenuCompta($g_dossier,$g_UserProperty);
 
 // Show Menu Left
 $left_menu=ShowMenuAdvanced();
-echo '<div class="lmenu">';
+//echo '<div class="lmenu">';
 echo $left_menu;
-echo '</DIV>';
+//echo '</DIV>';
 $action= ( isset ($_GET['action']))? $_GET['action']:"";
 include_once("stock_inc.php");
 

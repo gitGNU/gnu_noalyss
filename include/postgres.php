@@ -138,9 +138,14 @@ function ShowDossier($p_type,$p_first=0,$p_max=10,$p_Num=0) {
  * todo : replace hardcoded by variable placed in
  *        constant.php
  */
-function DbConnect($p_db="account_repository") {
+function DbConnect($p_db=-1) {
+  if ( $p_db==-1) 
+    $l_dossier="account_repository";
+  else
+    $l_dossier=sprintf("dossier%d",$p_db);
+
   $password=phpcompta_password;
-  $a=pg_connect("dbname=$p_db host=127.0.0.1 user='phpcompta' password='$password'");
+  $a=pg_connect("dbname=$l_dossier host=127.0.0.1 user='phpcompta' password='$password'");
   echo_debug ("connect to $p_db");
   return $a;
 }
@@ -338,8 +343,8 @@ function GetLogin($p_uid)
 function SyncRight($p_dossier,$p_user) {
   $priv=GetPriv($p_dossier,$p_user);
   $right=$priv[0];
-  $ldb=sprintf("dossier%d",$p_dossier);
-  $cn=DbConnect($ldb);
+
+  $cn=DbConnect($p_dossier);
 
  $sql="insert into user_sec_jrn(uj_login,uj_jrn_id,uj_priv) ".
    "select '".$p_user."',jrn_def_id,'".$right."' from jrn_def ".

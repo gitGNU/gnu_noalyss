@@ -39,9 +39,8 @@ if ( ! isset ( $g_dossier ) ) {
 $c_comment="";
 $c_class="";
 
-$l_Db=sprintf("dossier%d",$g_dossier);
 $condition="";
-$cn=DbConnect($l_Db);
+$cn=DbConnect($g_dossier);
 if ( isset($_POST['search']) ) {
   $c1=0;
   foreach( $HTTP_POST_VARS as $key=>$element){

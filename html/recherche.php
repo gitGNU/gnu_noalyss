@@ -36,7 +36,7 @@ include_once ("check_priv.php");
 
 
 $l_Db=sprintf("dossier%d",$g_dossier);
-$cn=DbConnect($l_Db);
+$cn=DbConnect($g_dossier);
 include ('class_user.php');
 $User=new cl_user($cn);
 $User->Check();

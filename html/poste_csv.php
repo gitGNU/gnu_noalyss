@@ -26,8 +26,7 @@ header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="poste.csv"',FALSE);
 
 /* Admin. Dossier */
-$l_Db=sprintf("dossier%d",$g_dossier);
-$cn=DbConnect($l_Db);
+$cn=DbConnect($g_dossier);
 
 
 $User=new cl_user($cn);

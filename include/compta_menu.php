@@ -110,8 +110,7 @@ function c_ShowMenuJrnUser($p_dossier,$p_user)
     include_once("postgres.php");
     include_once("class_user.php");
 
-    $l_jrn=sprintf("dossier%d",$p_dossier);
-    $Cn=DbConnect($l_jrn);
+    $Cn=DbConnect($p_dossier);
     $User=new cl_user($Cn);
     if ( $User->Admin() ==0) {
       $Ret=ExecSql($Cn,"select jrn_def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,

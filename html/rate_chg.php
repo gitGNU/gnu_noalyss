@@ -26,8 +26,7 @@ include_once("postgres.php");
 function SaveRate(p_code,p_rate) 
 {
 <?
-  $dossier=sprintf("dossier%d",$g_dossier);
-  $cn=DbConnect($dossier);
+  $cn=DbConnect($g_dossier);
   $Res=ExecSql($cn,"update  parm_money set pm_rate=$f_rate where pm_code='$f_code'");
 ?>
     //  this.location.reload();
@@ -41,7 +40,7 @@ $User=new cl_user($rep);
 $User->Check();
 if ( $g_UserProperty['use_admin'] ) return;
 $dossier=sprint("dossier%d",$g_dossier);
-$cn=DbConnect($dossier);
+$cn=DbConnect($g_dossier);
 $Res=ExecSql($cn,"select pm_code, pm_rate from parm_money where pm_code='$p_code'");
 $l_line=pg_fetch_array($Res,0);
 

@@ -25,8 +25,7 @@ include_once ("ac_common.php");
 include_once ("postgres.php");
 
 include("class_jrn.php");
-$l_Db=sprintf("dossier%d",$g_dossier);
-$cn=DbConnect($l_Db);
+$cn=DbConnect($g_dossier);
 
 
 include ('class_user.php');

@@ -31,7 +31,7 @@ if (  isset ($_POST["p_user"] ) ) {
   session_register("g_user");
   session_register("g_pass");
   //$cn=pg_connect("dbname=account_repository user='phpcompta' ");
-  $cn=DbConnect("account_repository");
+  $cn=DbConnect();
   // Verif if User and Pass match DB
   // if no, then redirect to the login page
 $rep=DbConnect();

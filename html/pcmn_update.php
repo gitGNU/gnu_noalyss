@@ -64,8 +64,7 @@ if ( isset ($p_start)) {
 }
 
 ShowMenuPcmn($g_start);
-$l_Db=sprintf("dossier%d",$g_dossier);
-$cn=DbConnect($l_Db);
+$cn=DbConnect($g_dossier);
 echo '<DIV CLASS="ccontent">';
 /* Analyse ce qui est demandé */
 /* Effacement d'une ligne */

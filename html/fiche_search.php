@@ -34,12 +34,6 @@ $rep=DbConnect();
 include_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
-include_once ("postgres.php");
-/* Admin. Dossier */
-$rep=DbConnect();
-include_once ("class_user.php");
-$User=new cl_user($rep);
-$User->Check();
 
 include_once ("check_priv.php");
 // Get The priv on the selected folder
@@ -80,8 +74,7 @@ function SetData (name_ctl,value,value_2,value_3,value_4,value_5,value_6) {
 }
 </script>
 <?
-$l_Db=sprintf("dossier%d",$g_dossier);
-$cn=DbConnect($l_Db);
+$cn=DbConnect($g_dossier);
 $r="";
 
 foreach ($HTTP_GET_VARS as $key=>$element) {

@@ -22,8 +22,7 @@ echo_debug(__FILE__,__LINE__,"include user_action_ods.php");
 include_once("form_input.php");
 include_once("class_widget.php");
 
-$dossier=sprintf("dossier%d",$g_dossier);
-$cn=DbConnect($dossier);
+$cn=DbConnect($g_dossier);
 
 if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {
   //  echo u_ShowMenuJrn($cn,$jrn_type);

@@ -38,8 +38,7 @@ include_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
 
-$dossier=sprintf("dossier%d",$g_dossier);
-$cn=DbConnect($dossier);
+$cn=DbConnect($g_dossier);
 
 if ( isset( $p_jrn )) {
   session_register("g_jrn");

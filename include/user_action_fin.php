@@ -23,8 +23,7 @@ include_once("form_input.php");
 include_once("class_widget.php");
 
 // phpinfo();
-$dossier=sprintf("dossier%d",$g_dossier);
-$cn=DbConnect($dossier);
+$cn=DbConnect($g_dossier);
 
 if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {
   //  echo u_ShowMenuJrn($cn,$jrn_type);

@@ -42,9 +42,8 @@ function GetIt(ctl,tva_id) {
 </script>
 <?
 
-$l_Db=sprintf("dossier%d",$g_dossier);
 $condition="";
-$cn=DbConnect($l_Db);
+$cn=DbConnect($g_dossier);
 $Res=ExecSql($cn,"select * from tva_rate order by tva_rate desc");
 $Max=pg_NumRows($Res);
 echo "<TABLE BORDER=\"1\">";

@@ -39,8 +39,7 @@ function GetPosteLibelle($p_dossier,$p_id,$is_cn=0)
   include_once("postgres.php");
   if ( ! isset($is_cn) ) $is_cn=0;
   if ( $is_cn == 0) {
-    $l_dossier=sprintf("dossier%d",$p_dossier);
-    $cn=DbConnect($l_dossier);
+    $cn=DbConnect($p_dossier);
   } else {
     $cn=$p_dossier;
   }
@@ -63,8 +62,7 @@ function GetPosteLibelle($p_dossier,$p_id,$is_cn=0)
  */ 
 function GetNumberLine($p_dossier,$p_jrn) 
 {
-  $l_dossier=sprintf("dossier%d",$p_jrn);
-  $cn=DbConnect($l_dossier);
+  $cn=DbConnect($p_dossier);
   $Res=ExecSql($cn,"select jrn_deb_max_line,jrn_cred_max_line from jrn_def where jrn_def_id=$p_jrn");
   if ( pg_NumRows($Res) == 0 ) {
     echo "<H2 class=\"warning\"> Journal non trouvé </H2>";

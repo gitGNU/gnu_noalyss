@@ -46,8 +46,7 @@ function RecordJrn($p_dossier,$p_user,$p_jrn,$p_MaxDeb,$p_MaxCred,$p_array = nul
       ${"e_class_cred$i"}=0;
       ${"e_mont_cred$i"}=0;
   }
-  $l_dossier=sprintf("dossier%d",$p_dossier);
-  $cn=DbConnect($l_dossier);
+  $cn=DbConnect($p_dossier);
     // userPref contient la periode par default
     $userPref=GetUserPeriode($cn,$p_user);
     list ($l_date_start,$l_date_end)=GetPeriode($cn,$userPref);
@@ -531,8 +530,7 @@ function GetJrnProperty($p_cn,$p_jrn)
  */ 
 function GetJrnProp($p_dossier,$p_jrn) 
 {
-  $l_dossier=sprintf("dossier%d",$p_dossier);
-  $cn=DbConnect($l_dossier);
+  $cn=DbConnect($p_dossier);
   $Res=ExecSql($cn,"select jrn_Def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_def_type, 
                    jrn_deb_max_line,jrn_cred_max_line,jrn_def_ech,jrn_def_ech_lib,jrn_def_code,
                    jrn_def_fiche_deb,jrn_def_fiche_deb
@@ -608,7 +606,7 @@ function ViewJrn($p_dossier,$p_user,$p_jrn,$p_url,$p_array=null) {
   $db=sprintf("dossier%d",$p_dossier);
   $l_prop=GetJrnProp($p_dossier,$p_jrn);
   echo "<H2 class=\"info\">".$l_prop['jrn_def_name']."( ".$l_prop['jrn_def_code'].")"."</H2>";
-  $cn=DbConnect($db);
+  $cn=DbConnect($p_dossier);
   if ( $p_array == null) {
     include_once("preference.php");
     $l_periode=GetUserPeriode($cn,$p_user);

@@ -37,8 +37,7 @@ include_once("poste.php");
 include_once("class_balance.php");
 include_once("preference.php");
 
-$l_Db=sprintf("dossier%d",$g_dossier);
-$cn=DbConnect($l_Db);
+$cn=DbConnect($g_dossier);
 
 $bal=new Balance($cn);
 

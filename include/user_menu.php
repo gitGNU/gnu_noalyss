@@ -239,8 +239,7 @@ function u_ShowMenuJrnUser($p_dossier,$p_user,$p_type,$p_jrn)
     include_once("postgres.php");
 
 
-    $l_jrn=sprintf("dossier%d",$p_dossier);
-    $Cn=DbConnect($l_jrn);
+    $Cn=DbConnect($p_dossier);
 
 	$User=new cl_user($Cn);
 	if ( $User->Admin() ==0) {
@@ -457,8 +456,7 @@ function ShowJrn($p_menu="")
  */
 function ShowMenuFiche($p_dossier)
 {
-     $l_dossier=sprintf("dossier%d",$p_dossier);
-     $cn=DbConnect($l_dossier);
+     $cn=DbConnect($p_dossier);
      echo '<div class="lmenu">';
      echo '<TABLE>';
  // TODO

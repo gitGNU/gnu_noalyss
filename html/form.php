@@ -52,8 +52,7 @@ if ( $g_UserProperty['use_admin'] == 0 ) {
 
 ShowMenuComptaForm($g_dossier);
 
-$l_Db=sprintf("dossier%d",$g_dossier);
-$cn=DbConnect($l_Db);
+$cn=DbConnect($g_dossier);
 if ( isset($_GET["PHPSESSID"] )) {
   $sessid=$_GET["PHPSESSID"];
 } 

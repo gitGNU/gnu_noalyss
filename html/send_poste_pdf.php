@@ -28,8 +28,7 @@
     include_once("impress_inc.php");
 include("poste.php");
     echo_debug(__FILE__,__LINE__,"imp pdf journaux");
-    $l_Db=sprintf("dossier%d",$g_dossier);
-    $cn=DbConnect($l_Db);
+    $cn=DbConnect($g_dossier);
 foreach ($HTTP_POST_VARS as $key=>$element) {
   ${"$key"}=$element;
 }

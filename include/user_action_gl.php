@@ -26,8 +26,7 @@ include_once ("class_widget.php");
 include_once("class_user.php");
 include("jrn.php");
 
-$dossier=sprintf("dossier%d",$g_dossier);
-$cn=DbConnect($dossier);
+$cn=DbConnect($g_dossier);
 if (CheckJrn($g_dossier,$g_user,0)  < 1 )
   {NoAccess();exit -1;}
 

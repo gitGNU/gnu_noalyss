@@ -209,8 +209,7 @@ function ShowMenuJrn($p_dossier)
     echo '<TABLE>';
     echo '<TR><TD class="mtitle"><A class="mtitle" HREF="jrn_add.php">Création </A></TD></TR>';
     include_once("postgres.php");
-    $l_jrn=sprintf("dossier%d",$p_dossier);
-    $Cn=DbConnect($l_jrn);
+    $Cn=DbConnect($p_dossier);
     $Ret=ExecSql($Cn,"select jrn_def_id,jrn_def_name,
                              jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc 
                              from jrn_def join jrn_type on jrn_def_type=jrn_type_id");
@@ -329,8 +328,7 @@ function ShowMenuRecherche($p_dossier,$p_jrn,$p_array=null)
  */ 
 function ShowMenuComptaForm($p_dossier) {
     include_once("postgres.php");
-    $l_dossier=sprintf("dossier%d",$p_dossier);
-    $cn=DbConnect($l_dossier);
+    $cn=DbConnect($p_dossier);
     echo '<div class="lmenu">';
     echo '<TABLE>';
     echo '<TR><TD class="mtitle"><A class="mtitle" HREF="form.php?action=add">Ajout</A></TD></TR>';

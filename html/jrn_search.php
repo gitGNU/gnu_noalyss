@@ -50,10 +50,9 @@ $c_comment="";
 $c_montant="";
 $c_internal="";
 $c_date="";
-$l_Db=sprintf("dossier%d",$g_dossier);
 $condition="";
 $part=" where ";
-$cn=DbConnect($l_Db);
+$cn=DbConnect($g_dossier);
 // if search then build the condition
 if ( isset ($_POST["search"]) ) {
   $c1=0;

@@ -50,8 +50,7 @@ if ( $g_UserProperty['use_admin'] == 0 ) {
 
 //echo '<SCRIPT LANGUAGE="javascript" SRC="win_search_poste.js"></SCRIPT>';
 echo JS_SEARCH_POSTE;
-$l_Db=sprintf("dossier%d",$g_dossier);
-$cn=DbConnect($l_Db);
+$cn=DbConnect($g_dossier);
 
 If ( isset ($_POST["JRN_ADD"]) ) {
   if (  !isset($_POST["p_jrn_name"]) || ! isset($_POST["p_jrn_type"] )) {

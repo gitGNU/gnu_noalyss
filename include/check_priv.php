@@ -43,8 +43,7 @@ include_once("postgres.php");
 function CheckJrn($p_dossier,$p_user,$p_jrn) 
 {
   if ( CheckIsAdmin( $p_user) == 1 ) return 2;
-  $l_Db=sprintf("dossier%d",$p_dossier);
-  $cn=DbConnect($l_Db);
+  $cn=DbConnect($p_dossier);
   // Special
   // p_jrn = 0 ==> grand livre access if there is no uj_prix=X
   if ( $p_jrn == 0 ) {
@@ -134,8 +133,7 @@ function CheckJrn($p_dossier,$p_user,$p_jrn)
 function CheckAction ( $p_dossier,$p_login,$p_action_id)
 {
   if ( CheckIsAdmin ($p_login) ) return 1;
-  $l_Db=sprintf("dossier%d",$p_dossier);
-  $cn=DbConnect($l_Db);
+  $cn=DbConnect($p_dossier);
   $Res=ExecSql($cn,"select * from user_sec_act where ua_login='$p_login' and ua_act_id=$p_action_id");
   $Count=pg_NumRows($Res);
   if ( $Count == 0 ) return 0;

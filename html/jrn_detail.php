@@ -55,8 +55,7 @@ if ( isset( $_GET['p_jrn'] )) {
 }
 
 
-$l_Db=sprintf("dossier%d",$g_dossier);
-$cn=DbConnect($l_Db);
+$cn=DbConnect($g_dossier);
 
 If ( isset ($_POST["JRN_UPD"] )) {
   if (  !isset($_POST["p_jrn_name"])  ) {
