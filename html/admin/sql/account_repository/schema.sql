@@ -1,11 +1,7 @@
 SET client_encoding = 'LATIN1';
-SET check_function_bodies = false;
-SET search_path = public, pg_catalog;
-CREATE SEQUENCE users_id
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
+
+CREATE SEQUENCE users_id;
+
 CREATE TABLE ac_users (
     use_id integer DEFAULT nextval('users_id'::text) NOT NULL,
     use_first_name text,
@@ -24,11 +20,7 @@ CREATE TABLE ac_dossier (
     dos_description text,
     dos_jnt_user integer DEFAULT 0
 );
-CREATE SEQUENCE seq_jnt_use_dos
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
+CREATE SEQUENCE seq_jnt_use_dos;
 CREATE TABLE jnt_use_dos (
     jnt_id integer DEFAULT nextval('seq_jnt_use_dos'::text) NOT NULL,
     use_id integer NOT NULL,
@@ -37,11 +29,7 @@ CREATE TABLE jnt_use_dos (
 CREATE TABLE "version" (
     val integer
 );
-CREATE SEQUENCE seq_priv_user
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
+CREATE SEQUENCE seq_priv_user;
 CREATE TABLE priv_user (
     priv_id integer DEFAULT nextval('seq_priv_user'::text) NOT NULL,
     priv_jnt integer NOT NULL,
@@ -52,22 +40,14 @@ CREATE TABLE theme (
     the_filestyle text,
     the_filebutton text
 );
-CREATE SEQUENCE s_modid
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
+CREATE SEQUENCE s_modid ;
 CREATE TABLE modeledef (
     mod_id integer DEFAULT nextval('s_modid'::text) NOT NULL,
     mod_name text NOT NULL,
     mod_desc text
 );
-CREATE SEQUENCE dossier_id
-    INCREMENT BY 1
-    NO MAXVALUE
-    MINVALUE 3
-    CACHE 1;
+CREATE SEQUENCE dossier_id;
+
 CREATE INDEX fk_jnt_use_dos ON jnt_use_dos USING btree (use_id);
 CREATE INDEX fk_jnt_dos_id ON jnt_use_dos USING btree (dos_id);
 ALTER TABLE ONLY ac_users

@@ -3,7 +3,6 @@
 --
 
 SET client_encoding = 'LATIN1';
-SET check_function_bodies = false;
 
 SET search_path = public, pg_catalog;
 

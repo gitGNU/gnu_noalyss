@@ -1,5 +1,4 @@
 SET client_encoding = 'LATIN1';
-SET check_function_bodies = false;
 SET search_path = public, pg_catalog;
 CREATE TABLE tmp_pcmn (
     pcm_val integer NOT NULL,
@@ -10,16 +9,10 @@ CREATE TABLE tmp_pcmn (
 CREATE TABLE "version" (
     val integer
 );
-CREATE SEQUENCE s_periode
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-CREATE SEQUENCE s_currency
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
+CREATE SEQUENCE s_periode;
+
+CREATE SEQUENCE s_currency;
+
 CREATE TABLE parm_money (
     pm_id integer DEFAULT nextval('s_currency'::text),
     pm_code character(3) NOT NULL,
@@ -32,28 +25,14 @@ CREATE TABLE parm_periode (
     p_exercice text DEFAULT to_char(now(), 'YYYY'::text) NOT NULL,
     p_closed boolean DEFAULT false
 );
-CREATE SEQUENCE s_jrn_def
-    START WITH 5
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-CREATE SEQUENCE s_grpt
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-CREATE SEQUENCE s_jrn_op
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-CREATE SEQUENCE s_jrn
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
+CREATE SEQUENCE s_jrn_def;
+select setval('s_jrn_def',5);
+CREATE SEQUENCE s_grpt;
+
+CREATE SEQUENCE s_jrn_op;
+
+CREATE SEQUENCE s_jrn;
+
 CREATE TABLE jrn_type (
     jrn_type_id character(3) NOT NULL,
     jrn_desc text
@@ -72,12 +51,8 @@ CREATE TABLE jrn_def (
     jrn_def_type character(3) NOT NULL,
     jrn_def_code text NOT NULL
 );
-CREATE SEQUENCE s_jrnx
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
+CREATE SEQUENCE s_jrnx;
+
 CREATE TABLE jrnx (
     j_id integer DEFAULT nextval('s_jrn_op'::text) NOT NULL,
     j_date date DEFAULT now(),
@@ -98,18 +73,8 @@ CREATE TABLE user_pref (
     pref_user text NOT NULL,
     pref_periode integer NOT NULL
 );
-CREATE SEQUENCE s_formdef
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-CREATE SEQUENCE s_form
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
+CREATE SEQUENCE s_formdef;
+CREATE SEQUENCE s_form;
 CREATE TABLE formdef (
     fr_id integer DEFAULT nextval('s_formdef'::text) NOT NULL,
     fr_label text
@@ -121,17 +86,9 @@ CREATE TABLE form (
     fo_label text,
     fo_formula text
 );
-CREATE SEQUENCE s_idef
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-CREATE SEQUENCE s_centralized
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
+CREATE SEQUENCE s_idef;
+
+CREATE SEQUENCE s_centralized;
 CREATE TABLE centralized (
     c_id integer DEFAULT nextval('s_centralized'::text) NOT NULL,
     c_j_id integer,
@@ -145,19 +102,11 @@ CREATE TABLE centralized (
     c_grp integer NOT NULL,
     c_comment text,
     c_rapt text,
-    c_periode integer,
-    c_order integer
+    c_periode integer
+   
 );
-CREATE SEQUENCE s_user_jrn
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-CREATE SEQUENCE s_user_act
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
+CREATE SEQUENCE s_user_jrn;
+CREATE SEQUENCE s_user_act;
 CREATE TABLE user_sec_jrn (
     uj_id integer DEFAULT nextval('s_user_jrn'::text) NOT NULL,
     uj_login text,
@@ -173,11 +122,7 @@ CREATE TABLE user_sec_act (
     ua_login text,
     ua_act_id integer
 );
-CREATE SEQUENCE s_jrnaction
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
+CREATE SEQUENCE s_jrnaction;
 CREATE TABLE jrn_action (
     ja_id integer DEFAULT nextval('s_jrnaction'::text) NOT NULL,
     ja_name text NOT NULL,
@@ -194,31 +139,11 @@ CREATE TABLE tva_rate (
     tva_comment text,
     tva_poste text
 );
-CREATE SEQUENCE s_fiche
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-CREATE SEQUENCE s_fiche_def_ref
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-CREATE SEQUENCE s_fdef
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-CREATE SEQUENCE s_attr_def
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-CREATE SEQUENCE s_jnt_fic_att_value
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
+CREATE SEQUENCE s_fiche;
+CREATE SEQUENCE s_fiche_def_ref;
+CREATE SEQUENCE s_fdef;
+CREATE SEQUENCE s_attr_def;
+CREATE SEQUENCE s_jnt_fic_att_value;
 CREATE TABLE fiche_def_ref (
     frd_id integer DEFAULT nextval('s_fiche_def_ref'::text) NOT NULL,
     frd_text text,
@@ -252,11 +177,7 @@ CREATE TABLE jnt_fic_attr (
     fd_id integer,
     ad_id integer
 );
-CREATE SEQUENCE s_jrn_rapt
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
+CREATE SEQUENCE s_jrn_rapt;
 CREATE TABLE jrn_rapt (
     jra_id integer DEFAULT nextval('s_jrn_rapt'::text) NOT NULL,
     jr_id integer NOT NULL,
@@ -264,11 +185,7 @@ CREATE TABLE jrn_rapt (
 );
 CREATE VIEW vw_fiche_attr AS
     SELECT a.f_id, fd_id, a.av_text AS vw_name, b.av_text AS vw_sell, c.av_text AS vw_buy, d.av_text AS tva_code, tva_id, tva_rate, tva_label, e.av_text AS vw_addr, f.av_text AS vw_cp, frd_id FROM ((((((((SELECT f_id, fd_id, av_text FROM (((fiche JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) JOIN attr_def USING (ad_id)) WHERE (ad_id = 1)) a LEFT JOIN (SELECT f_id, av_text FROM (((fiche JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) JOIN attr_def USING (ad_id)) WHERE (ad_id = 6)) b ON ((a.f_id = b.f_id))) LEFT JOIN (SELECT f_id, av_text FROM (((fiche JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) JOIN attr_def USING (ad_id)) WHERE (ad_id = 7)) c ON ((a.f_id = c.f_id))) LEFT JOIN (SELECT f_id, av_text FROM (((fiche JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) JOIN attr_def USING (ad_id)) WHERE (ad_id = 2)) d ON ((a.f_id = d.f_id))) LEFT JOIN (SELECT f_id, av_text FROM (((fiche JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) JOIN attr_def USING (ad_id)) WHERE (ad_id = 14)) e ON ((a.f_id = e.f_id))) LEFT JOIN (SELECT f_id, av_text FROM (((fiche JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) JOIN attr_def USING (ad_id)) WHERE (ad_id = 15)) f ON ((a.f_id = f.f_id))) LEFT JOIN tva_rate ON ((d.av_text = (tva_rate.tva_id)::text))) JOIN fiche_def USING (fd_id));
-CREATE SEQUENCE s_stock_goods
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
+CREATE SEQUENCE s_stock_goods;
 CREATE TABLE jrn (
     jr_id integer DEFAULT nextval('s_jrn'::text) NOT NULL,
     jr_def_id integer NOT NULL,
@@ -282,11 +199,8 @@ CREATE TABLE jrn (
     jrn_ech date,
     jr_ech date,
     jr_rapt text,
-    jr_valid boolean DEFAULT true,
-    j_pj integer,
-    jr_opid integer,
-    jr_c_opid integer
-);
+    jr_valid boolean DEFAULT true
+    );
 CREATE TABLE stock_goods (
     sg_id integer DEFAULT nextval('s_stock_goods'::text) NOT NULL,
     j_id integer,
@@ -303,48 +217,6 @@ CREATE TABLE attr_min (
     frd_id integer,
     ad_id integer
 );
-CREATE SEQUENCE s_central
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-CREATE SEQUENCE s_central_order
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-CREATE SEQUENCE s_internal
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-CREATE SEQUENCE s_jrn_4
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-CREATE SEQUENCE s_jrn_3
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-CREATE SEQUENCE s_jrn_2
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-CREATE SEQUENCE s_jrn_1
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
 CREATE UNIQUE INDEX x_act ON "action" USING btree (ac_description);
 CREATE UNIQUE INDEX x_usr_jrn ON user_sec_jrn USING btree (uj_login, uj_jrn_id);
 CREATE INDEX fk_centralized_c_jrn_def ON centralized USING btree (c_jrn_def);
@@ -361,7 +233,7 @@ CREATE INDEX fk_user_sec_act ON user_sec_act USING btree (ua_act_id);
 CREATE UNIQUE INDEX x_jrn_jr_id ON jrn USING btree (jr_id);
 CREATE INDEX fk_stock_goods_j_id ON stock_goods USING btree (j_id);
 CREATE INDEX fk_stock_goods_f_id ON stock_goods USING btree (f_id);
-CREATE INDEX x_poste ON jrnx USING btree (j_poste);
+
 ALTER TABLE ONLY tmp_pcmn
     ADD CONSTRAINT tmp_pcmn_pkey PRIMARY KEY (pcm_val);
 ALTER TABLE ONLY parm_money

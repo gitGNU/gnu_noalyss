@@ -3,7 +3,6 @@
 --
 
 SET client_encoding = 'LATIN1';
-SET check_function_bodies = false;
 
 SET search_path = public, pg_catalog;
 
@@ -522,7 +521,7 @@ INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent, pcm_country) VALUES (604
 -- Name: version; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
-INSERT INTO "version" (val) VALUES (5);
+INSERT INTO "version" (val) VALUES (4);
 
 
 --
@@ -1369,13 +1368,6 @@ SELECT pg_catalog.setval('s_form', 1, false);
 SELECT pg_catalog.setval('s_idef', 2, true);
 
 
---
--- TOC entry 12 (OID 109730)
--- Name: s_centralized; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
---
-
-SELECT pg_catalog.setval('s_centralized', 1, false);
-
 
 --
 -- TOC entry 13 (OID 109739)
@@ -1455,61 +1447,5 @@ SELECT pg_catalog.setval('s_jrn_rapt', 13, true);
 --
 
 SELECT pg_catalog.setval('s_stock_goods', 24, true);
-
-
---
--- TOC entry 23 (OID 111122)
--- Name: s_central; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
---
-
-SELECT pg_catalog.setval('s_central', 1, false);
-
-
---
--- TOC entry 24 (OID 111133)
--- Name: s_central_order; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
---
-
-SELECT pg_catalog.setval('s_central_order', 1, false);
-
-
---
--- TOC entry 25 (OID 111138)
--- Name: s_internal; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
---
-
-SELECT pg_catalog.setval('s_internal', 1, false);
-
-
---
--- TOC entry 26 (OID 111144)
--- Name: s_jrn_4; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
---
-
-SELECT pg_catalog.setval('s_jrn_4', 1, false);
-
-
---
--- TOC entry 27 (OID 111147)
--- Name: s_jrn_3; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
---
-
-SELECT pg_catalog.setval('s_jrn_3', 1, false);
-
-
---
--- TOC entry 28 (OID 111150)
--- Name: s_jrn_2; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
---
-
-SELECT pg_catalog.setval('s_jrn_2', 1, false);
-
-
---
--- TOC entry 29 (OID 111153)
--- Name: s_jrn_1; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
---
-
-SELECT pg_catalog.setval('s_jrn_1', 1, false);
 
 

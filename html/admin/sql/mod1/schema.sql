@@ -3,7 +3,6 @@
 --
 
 SET client_encoding = 'LATIN1';
-SET check_function_bodies = false;
 
 
 --
@@ -41,14 +40,10 @@ CREATE TABLE "version" (
 
 --
 -- TOC entry 5 (OID 108282)
--- Name: s_periode; Type: SEQUENCE; Schema: public; Owner: phpcompta
+-- Name: s_periode; Type: SEQUENCE; Schema: public; Owner: phpcompta;
 --
 
-CREATE SEQUENCE s_periode
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
+CREATE SEQUENCE s_periode;
 
 
 --
@@ -56,11 +51,7 @@ CREATE SEQUENCE s_periode
 -- Name: s_currency; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
-CREATE SEQUENCE s_currency
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
+CREATE SEQUENCE s_currency;
 
 
 --
@@ -94,12 +85,7 @@ CREATE TABLE parm_periode (
 -- Name: s_jrn_def; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
-CREATE SEQUENCE s_jrn_def
-    START WITH 5
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
+CREATE SEQUENCE s_jrn_def;
 
 
 --
@@ -107,25 +93,14 @@ CREATE SEQUENCE s_jrn_def
 -- Name: s_grpt; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
-CREATE SEQUENCE s_grpt
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
+CREATE SEQUENCE s_grpt;
 
 --
 -- TOC entry 9 (OID 108301)
 -- Name: s_jrn_op; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
-CREATE SEQUENCE s_jrn_op
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
+CREATE SEQUENCE s_jrn_op;
 
 
 --
@@ -133,12 +108,7 @@ CREATE SEQUENCE s_jrn_op
 -- Name: s_jrn; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
-CREATE SEQUENCE s_jrn
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
+CREATE SEQUENCE s_jrn;
 
 
 --
@@ -178,12 +148,7 @@ CREATE TABLE jrn_def (
 -- Name: s_jrnx; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
-CREATE SEQUENCE s_jrnx
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
+CREATE SEQUENCE s_jrnx;
 
 
 --
@@ -225,25 +190,14 @@ CREATE TABLE user_pref (
 -- Name: s_formdef; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
-CREATE SEQUENCE s_formdef
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
+CREATE SEQUENCE s_formdef;
 
 --
 -- TOC entry 13 (OID 108339)
 -- Name: s_form; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
-CREATE SEQUENCE s_form
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
+CREATE SEQUENCE s_form;
 
 
 --
@@ -276,12 +230,7 @@ CREATE TABLE form (
 -- Name: s_isup; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
-CREATE SEQUENCE s_isup
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
+CREATE SEQUENCE s_isup;
 
 
 --
@@ -289,26 +238,14 @@ CREATE SEQUENCE s_isup
 -- Name: s_idef; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
-CREATE SEQUENCE s_idef
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
+CREATE SEQUENCE s_idef;
 
 --
 -- TOC entry 16 (OID 108357)
 -- Name: s_centralized; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
-CREATE SEQUENCE s_centralized
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
+CREATE SEQUENCE s_centralized;
 
 --
 -- TOC entry 51 (OID 108359)
@@ -328,8 +265,7 @@ CREATE TABLE centralized (
     c_grp integer NOT NULL,
     c_comment text,
     c_rapt text,
-    c_periode integer,
-    c_order integer
+    c_periode integer
 );
 
 
@@ -338,25 +274,14 @@ CREATE TABLE centralized (
 -- Name: s_user_jrn; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
-CREATE SEQUENCE s_user_jrn
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
+CREATE SEQUENCE s_user_jrn;
 
 --
 -- TOC entry 18 (OID 108368)
 -- Name: s_user_act; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
-CREATE SEQUENCE s_user_act
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
+CREATE SEQUENCE s_user_act;
 
 
 --
@@ -400,12 +325,7 @@ CREATE TABLE user_sec_act (
 -- Name: s_jrnaction; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
-CREATE SEQUENCE s_jrnaction
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
+CREATE SEQUENCE s_jrnaction;
 
 --
 -- TOC entry 57 (OID 108389)
@@ -442,11 +362,7 @@ CREATE TABLE tva_rate (
 -- Name: s_fiche; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
-CREATE SEQUENCE s_fiche
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
+CREATE SEQUENCE s_fiche;
 
 
 --
@@ -454,12 +370,7 @@ CREATE SEQUENCE s_fiche
 -- Name: s_fiche_def_ref; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
-CREATE SEQUENCE s_fiche_def_ref
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
+CREATE SEQUENCE s_fiche_def_ref;
 
 
 --
@@ -467,24 +378,14 @@ CREATE SEQUENCE s_fiche_def_ref
 -- Name: s_fdef; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
-CREATE SEQUENCE s_fdef
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
+CREATE SEQUENCE s_fdef;
 
 --
 -- TOC entry 23 (OID 108408)
 -- Name: s_attr_def; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
-CREATE SEQUENCE s_attr_def
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
+CREATE SEQUENCE s_attr_def;
 
 
 --
@@ -492,12 +393,7 @@ CREATE SEQUENCE s_attr_def
 -- Name: s_jnt_fic_att_value; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
-CREATE SEQUENCE s_jnt_fic_att_value
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
+CREATE SEQUENCE s_jnt_fic_att_value;
 
 --
 -- TOC entry 61 (OID 108412)
@@ -606,25 +502,14 @@ CREATE VIEW vw_fiche_attr AS
 -- Name: s_stock_goods; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
-CREATE SEQUENCE s_stock_goods
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
+CREATE SEQUENCE s_stock_goods;
 
 --
 -- TOC entry 26 (OID 108452)
 -- Name: s_jrn_rapt; Type: SEQUENCE; Schema: public; Owner: phpcompta
 --
 
-CREATE SEQUENCE s_jrn_rapt
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
+CREATE SEQUENCE s_jrn_rapt;
 
 
 --
@@ -657,10 +542,8 @@ CREATE TABLE jrn (
     jrn_ech date,
     jr_ech date,
     jr_rapt text,
-    jr_valid boolean DEFAULT true,
-    j_pj integer,
-    jr_opid integer,
-    jr_c_opid integer
+    jr_valid boolean DEFAULT true
+    
 );
 
 
@@ -683,114 +566,7 @@ CREATE TABLE stock_goods (
 );
 
 
---
--- TOC entry 27 (OID 111182)
--- Name: s_central; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
-CREATE SEQUENCE s_central
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
-
---
--- TOC entry 28 (OID 111193)
--- Name: s_central_order; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
-
-CREATE SEQUENCE s_central_order
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
-
---
--- TOC entry 29 (OID 111198)
--- Name: s_internal; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
-
-CREATE SEQUENCE s_internal
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
-
---
--- TOC entry 30 (OID 111204)
--- Name: s_jrn_4; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
-
-CREATE SEQUENCE s_jrn_4
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
-
---
--- TOC entry 31 (OID 111207)
--- Name: s_jrn_1; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
-
-CREATE SEQUENCE s_jrn_1
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
-
---
--- TOC entry 32 (OID 111210)
--- Name: s_jrn_3; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
-
-CREATE SEQUENCE s_jrn_3
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
-
---
--- TOC entry 33 (OID 111213)
--- Name: s_jrn_2; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
-
-CREATE SEQUENCE s_jrn_2
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
-
-
---
--- TOC entry 99 (OID 109518)
--- Name: x_act; Type: INDEX; Schema: public; Owner: phpcompta
---
-
-CREATE UNIQUE INDEX x_act ON "action" USING btree (ac_description);
-
-
---
--- TOC entry 97 (OID 109519)
--- Name: x_usr_jrn; Type: INDEX; Schema: public; Owner: phpcompta
---
-
-CREATE UNIQUE INDEX x_usr_jrn ON user_sec_jrn USING btree (uj_login, uj_jrn_id);
-
-
---
 -- TOC entry 109 (OID 109520)
 -- Name: x_jrn_jr_id; Type: INDEX; Schema: public; Owner: phpcompta
 --
@@ -813,13 +589,6 @@ CREATE INDEX fk_stock_goods_j_id ON stock_goods USING btree (j_id);
 
 CREATE INDEX fk_stock_goods_f_id ON stock_goods USING btree (f_id);
 
-
---
--- TOC entry 91 (OID 111185)
--- Name: x_poste; Type: INDEX; Schema: public; Owner: phpcompta
---
-
-CREATE INDEX x_poste ON jrnx USING btree (j_poste);
 
 
 --
