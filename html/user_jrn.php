@@ -45,16 +45,15 @@ $l_Db=sprintf("dossier%d",$g_dossier);
 $cn=DbConnect($l_Db);
 
 ShowMenuCompta($g_dossier,$g_UserProperty);
-// ShowMenuComptaRight($g_dossier,$g_UserProperty);
+
 if ( $g_UserProperty['use_admin'] == 0 ) {
-  $r=CheckAction($g_dossier,$g_user,ENCJRN);
-  if ($r == 0 ){
+  // check if user can access
+  if (CheckAction($g_dossier,$g_user,ENCJRN) == 0 ){
     /* Cannot Access */
     NoAccess();
   }
   if ( isset ($g_jrn)) {
-  	$right=CheckJrn($g_dossier,$g_user,$g_jrn);
-	  if ($right == 0 ){
+	  if ($CheckJrn($g_dossier,$g_user,$g_jrn) == 0 ){
 	    /* Cannot Access */
 	    NoAccess();
 	    exit -1;
@@ -100,15 +99,14 @@ if ( isset ($_GET['JRN_TYPE'] ) ) {
 
   // if a journal is selected show the journal's menu
 if ( $g_jrn != -1 ) {
- $p_array=array(array("user_jrn.php?JRN_TYPE=VEN" ,"Entrée"),
-                array("user_jrn.php?JRN_TYPE=ACH","Dépense"),
-                array("user_jrn.php?JRN_TYPE=FIN","Financier"),
-                array("user_jrn.php?JRN_TYPE=OD","Op. Diverses"),
-                array("impress.php","Impression"),
-                array("","Recherche")
-                 );
- $result=ShowItem($p_array,'H',"cell","mtitle","user_jrn.php?JRN_TYPE=".$jrn_type);
- 
+//  $p_array=array(array("user_jrn.php?JRN_TYPE=VEN" ,"Entrée"),
+//                 array("user_jrn.php?JRN_TYPE=ACH","Dépense"),
+//                 array("user_jrn.php?JRN_TYPE=FIN","Financier"),
+//                 array("user_jrn.php?JRN_TYPE=OD","Op. Diverses"),
+//                 array("impress.php","Impression"),
+//                 array("","Recherche")
+//                  );
+ $result=ShowJrn( "user_jrn.php?JRN_TYPE=".$jrn_type);
   // Get the jrn_type_id
   include_once('jrn.php');
   $JrnProp=GetJrnProp($g_dossier,$g_jrn);

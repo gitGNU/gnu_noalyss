@@ -193,6 +193,11 @@ Recopier simplement le fichier fourni à cet endroit.
 Sinon, adaptez votre fichier, il doit avoir au minimum les options
 suivantes
 <verb>
+
+magic_quotes_gpc = Off
+magic_quotes_runtime = Off
+magic_quotes_sybase = Off
+
 register_globals	= on
 
 [Session]

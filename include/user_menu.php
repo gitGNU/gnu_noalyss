@@ -418,4 +418,27 @@ $left_menu=ShowItem(array(
 		    'V');
 return $left_menu;
 }
+/* function ShowJrn
+ **************************************************
+ * Purpose : Return a string containing the menu
+ *           main menu when you click on Journaux
+ * parm : 
+ *	- $p_menu the current menu (selected)
+ * gen :
+ *	- none
+ * return: a string
+ */
+function ShowJrn($p_menu="")
+{
+
+ $p_array=array(array("user_jrn.php?JRN_TYPE=VEN" ,"Entrée"),
+                array("user_jrn.php?JRN_TYPE=ACH","Dépense"),
+                array("user_jrn.php?JRN_TYPE=FIN","Financier"),
+                array("user_jrn.php?JRN_TYPE=OD","Op. Diverses"),
+                array("user_impress.php","Impression"),
+                array("user_search.php","Recherche")
+                 );
+ $result=ShowItem($p_array,'H',"cell","mtitle",$p_menu);
+ return $result;
+}
 ?>

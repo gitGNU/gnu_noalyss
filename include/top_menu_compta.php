@@ -438,15 +438,8 @@ function ShowMenuJrnUserImp($p_cn,$p_user,$p_dossier)
 	$right=3;
       }
 
-      printf ('<TR><TD class="cell">%s</TD>',$l_line['jrn_def_name']);
-
-
-      printf ('<TD class="mshort"><A class="mtitle" HREF="impress.php?p_id=%s&action=viewhtml&type=jrn&filter=%d">Html</A></TD>',
-	      $l_line['jrn_def_id'],YES);
-      
-      printf ('<TD class="mshort"><A class="mtitle" HREF="impress.php?p_id=%s&action=viewpdf&type=jrn&filter=%d">Pdf</A></TD></TR>',
-	      $l_line['jrn_def_id'],YES
-	      );
+      printf ('<TR><TD class="cell"><a class="mtitle"
+       href="user_impress.php?type=jrn&action=print&p_id=%d">%s</a></TD></TR>',$l_line['jrn_def_id'],$l_line['jrn_def_name']);
 
     }
     $NoPriv=CountSql($p_cn,"select jrn_def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
@@ -459,10 +452,8 @@ function ShowMenuJrnUserImp($p_cn,$p_user,$p_dossier)
                    ");
     // Pour voir tout les journal ?
     if ( $NoPriv == 0 ) {
-      printf ('<TR><TD class="cell">Grand Livre </TD>');
-      printf ('<TD class="mshort"><A class="mtitle" HREF="impress.php?p_id=all&action=viewhtml&type=jrn&filter=%d">Html</A></TD>',NO);
-      printf ('<TD class="mshort"><A class="mtitle" HREF="impress.php?p_id=all&action=viewpdf&type=jrn&filter=%d">Pdf</A></TD></TR>',NO);
-
+      printf ('<TR><TD class="cell"><a class="mtitle" href="user_impress.php?type=jrn&action=print&p_id=0">Grand Livre </TD></TR>');
+      
     }
     echo "</TABLE>";
     // Formulaire
@@ -493,16 +484,11 @@ function ShowMenuJrnUserImp($p_cn,$p_user,$p_dossier)
     echo '<TR><TD style="background-color:#4F8DFF;color:white" COLSPAN="3" > Poste </TD></TR>'; 
 
 
-    printf ('<TR><TD class="cell">Poste</TD>');
-
-
-    printf ('<TD class="mshort"><A class="mtitle" 
-              HREF="impress.php?action=viewhtml&type=poste">Html</A></TD>'
-		);
-    
-    printf ('<TD class="mshort"><A class="mtitle" 
-              HREF="impress.php?action=viewpdf&type=poste">Pdf</A></TD></TR>'
-	    );
+    printf ('<TR><TD class="cell"><A class="mtitle" 
+              HREF="impress.php?action=viewhtml&type=poste">Poste
+	      </A>
+	      </TD>
+	      </TR>');
 
 
     echo "</TABLE>";
