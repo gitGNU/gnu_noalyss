@@ -321,7 +321,7 @@ if ( $p_update == 0 )  echo "<TR><TD> <INPUT TYPE=\"SUBMIT\" VALUE=\"+ de line\"
 	    // Is Paid
 	    $r.="<TD>";
 	    $check=( $content['jr_rapt'] != null )?"CHECKED":"UNCHECKED";
-	    $r.='<TD>Payé <INPUT TYPE="CHECKBOX" name="is_paid" value="'.$check.'"></TD>';
+	    $r.='<TD>Payé <INPUT TYPE="CHECKBOX" name="is_paid" '.$check.'></TD>';
 	  }
 	$r.="</TR>";
 	$r.="</TABLE>";
