@@ -1,6 +1,0 @@
-create table log( 
-lg_timestamp timestamp default now(),
-lg_file text,
-lg_type text default 'debug',
-lg_line text,
-lg_msg text);
