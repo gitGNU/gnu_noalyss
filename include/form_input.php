@@ -298,6 +298,8 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article
   $r.='<TR>'.InputType("Date ","Text","e_date",$op_date,$view_only).'</TR>';
 
   $r.='<TR>'.InputType("Echeance","Text","e_ech",$e_ech,$view_only).'</TR>';
+  $r.='<TR>'.InputType("Commentaire","Text_big","e_comm",$e_ech,$view_only).'</TR>';
+
   include_once("fiche_inc.php");
   // Display the customer
   $fiche='deb';
@@ -560,6 +562,10 @@ for ($o = 0;$o < $p_number; $o++) {
   $r.="<tr>";
   $r.=InputType("Date limite","text","",$e_ech,true);
   $r.="</tr>";
+  // Show desc
+  $r.="<tr>";
+  $r.=InputType("Description","text_big","",$e_comm,true);
+  $r.="</tr>";
   
   $sum_with_vat=0.0;
     $sum_march=0.0;
@@ -782,7 +788,8 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
   $r=InsertJrn($p_cn,$e_date,$e_ech,$p_jrn,"Invoice",$amount+$sum_vat,$seq,$periode);
   if ( $r == false ) { Rollback($p_cn); exit(" Error __FILE__ __LINE__");}
   // Set Internal code and Comment
-  $comment=SetInternalCode($p_cn,$seq,$p_jrn)."  client : ".GetFicheName($p_cn,$e_client);
+  $internal=SetInternalCode($p_cn,$seq,$p_jrn);
+  $comment=(trim($e_comm) == "")?$internal."  client : ".GetFicheName($p_cn,$e_client):$e_comm;
 
   // Update and set the invoice's comment 
   $Res=ExecSql($p_cn,"update jrn set jr_comment='".$comment."' where jr_grpt_id=".$seq);
