@@ -397,12 +397,58 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article
 
 
   $r.="</TABLE>";
-  $r.='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">';
-  $r.='<INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
-  $r.="</DIV>";
-  $r.="</FORM>";
+  if ($view_only == false ) {
+    $r.='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">';
+    $r.='<INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
+    $r.="</DIV>";
+    $r.="</FORM>";
+    $r.=JS_CALC_LINE;
+  } else {
+//     // show summary
+//     $total=0;
+//     $r.='<h2 class="info">Total</h2>';
+//     $r.="<table>";
+//     $r.="<th> Description</th>";
+//     $r.="<th> Base TVA </th>";
+//     $r.="<th> Tva </th>";
+//     $r.="<th> Total </th>";
+//     for ( $i = 0; $i < $p_article;$i++) {
+//       if ( $view_only == true and ! isset (${"e_march$i"}) ) continue;
+//       $march=${"e_march$i"};
+//       if ( isNumber($march) ==1 and
+// 	   isFicheOfJrn($p_cn,$p_jrn,$march,'cred')){
+// 	   $a_fiche=GetFicheAttribut($p_cn, $march);
+// 	   // compute some data
+// 	   //	   $tva=(isNumber($a_fiche['tva_rate']) == 0 )?0:$a_fiche['tva_rate'];
+// 	   if ( isNumber(${"e_march$i"."_tva_id"})  ==1 ) {
 
-  $r.=JS_CALC_LINE;
+// 		  $a_tva=GetTvaRate($p_cn,${"e_march$i"."_tva_id"});
+// 		  $tva=$a_tva['tva_rate'];
+// 		} else {
+// 		  $tva=(isNumber($a_fiche['tva_rate'])==1)?$a_fiche['tva_rate']:0;
+// 		}
+// 	   $vat_row=${"e_march$i"."_sell"}*${"e_quant$i"}*$tva;
+// 	   $total_row_no_vat=${"e_march$i"."_sell"}*${"e_quant$i"};
+// 	   $total_row=${"e_march$i"."_sell"}*${"e_quant$i"}+$vat_row;
+      
+// 	   $r.="<TR>";
+// 	   $r.="<TD>".$a_fiche['vw_name']."</td>";
+// 	   //	   $r.="<TD>".$a_fiche['tva_label']."</td>";
+// 	   $r.="<TD>  ".round($total_row_no_vat,2)."</TD>";
+// 	   $r.="<TD>  ".$vat_row."</TD>";
+// 	   $r.="<TD>  ".round($total_row,2)."</TD>";
+// 	   $r.="</TR>";
+// 	   $total+=$total_row;
+//       }
+//     }// for ($i=0
+//     $r.="</table>";
+//     $r.=sprintf(" Total = %8.2f",$total);
+     $r.="</div>";
+
+  }
+
+
+
   return $r;
 
 
@@ -427,7 +473,7 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article
  * 
  */
 
-function FormVenteView ($p_cn,$p_jrn,$p_user,$p_array,$p_number,$p_doc='html',$p_comment='') 
+function FormVenteView ($p_cn,$p_jrn,$p_user,$p_array,$p_number,$p_doc='form',$p_comment='') 
 {
   $r="";
   $data="";
@@ -647,7 +693,7 @@ for ($o = 0;$o < $p_number; $o++) {
   $r.="Total HTVA =".round( $sum_march,2)." <br>";
   $r.="Total = ".round($sum_with_vat,2);
   $r.="</DIV>";
-  if ( $p_doc == 'html' ) {
+  if ( $p_doc == 'form' ) {
 	  $r.='<FORM METHOD="POST" ACTION="user_jrn.php?action=record">';
 	  $r.=$data;
 	  //	  $r.='<INPUT TYPE="SUBMIT" name="record_invoice" value="Sauver">';
@@ -658,19 +704,6 @@ for ($o = 0;$o < $p_number; $o++) {
 	  $r.='<INPUT TYPE="SUBMIT" name="correct_new_invoice" value="Corriger">';
 	  $r.='</FORM>';
 	  } 
-if ( $p_doc == 'pdf' ) {
-  // prob with pdf and the pdf pluggin 
-  // Cannot find a nice workaround for that
- 	  $r.='<FORM METHOD="POST" TARGET="new" ACTION="print_invoice.php">';
-// 	  $r.='<FORM METHOD="POST">';
-	  $r.=$data;
-	  $r.=InputType("","HIDDEN","e_comment",$p_comment);
-	  $sessid=( isset ($_POST['PHPSESSID']))?$_POST['PHPSESSID']:$_GET['PHPSESSID'];
-	  //	  $r.='<INPUT TYPE="SUBMIT" name="record_invoice" onClick="var a=window.open(\'print_invoice.php?PHPSESSID='.$sessid.' \',\'Invoice\');" value="Imprimer">';
-	  $r.='<INPUT TYPE="SUBMIT" name="record_invoice" value="Imprimer">';
-	  $r.='</FORM>';
-
-	  }
   return $r;
   
 }
