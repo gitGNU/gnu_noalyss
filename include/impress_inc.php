@@ -80,14 +80,16 @@ function ViewImp($p_array,$p_cn) {
   echo "</DIV>";
 }
 /* function Imp
- * Purpose :
+ * Purpose : Show the html printing result 
+ *           
  * 
  * parm : 
- *	- 
+ *	-  array
+ *      -  db connection
  * gen :
- *	-
+ *	- none
  * return:
- *	-
+ *	- ImpHtml
  *
  */ 
 function Imp($p_array,$p_cn) {
@@ -132,6 +134,7 @@ function ImpHtml($p_array,$p_cn)
                      fo_formula,
                      fr_label from form 
                       inner join formdef on fr_id=fo_fr_id
+                     where fo_fr_id=$p_id
                      order by fo_pos");
     $Max=pg_NumRows($Res);
     if ($Max==0) return $ret="";
