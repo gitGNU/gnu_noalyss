@@ -267,3 +267,28 @@ for ($e=0;$e < $MaxDossier;$e++) {
     }
  } // version == 3
  }
+
+$Resdossier=ExecSql($cn,"select mod_id, mod_name from modeledef");
+$MaxDossier=pg_NumRows($Resdossier);
+
+for ($e=0;$e < $MaxDossier;$e++) {
+  $db_row=pg_fetch_array($Resdossier,$e);
+  echo "Patching ".$db_row['mod_name']."<hr>";
+  $db=DbConnect($db_row['mod_id'],'mod');
+  if ( GetVersion($db) == 3 ) { 
+    ExecuteScript($db,'sql/patch/upgrade4.sql');
+      
+    $sql="select jrn_def_id from jrn_def ";
+    $Res=ExecSql($db,$sql);
+    $Max=pg_NumRows($Res);
+    for ($seq=0;$seq<$Max;$seq++) {
+	    $row=pg_fetch_array($Res,$seq);
+	    $sql=sprintf ("create sequence s_jrn_%d",$row['jrn_def_id']);
+	    ExecSql($db,$sql);
+    }
+ } // version == 3
+ }
+$cn=DbConnect();
+if ( GetVersion($cn) == 3 ) {
+  ExecScript($cn,'ac-sql/patch/upgrade4.sq');
+ }
