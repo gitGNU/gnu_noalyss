@@ -104,7 +104,6 @@ do
 
 done
 # Installation des sources
-export COMPTA_HOME=/home/httpd/compta
 [ ! -d $COMPTA_HOME ] && mkdir $COMPTA_HOME
 [ ! -d $COMPTA_HOME/html ] && mkdir $COMPTA_HOME/html
 [ ! -d $COMPTA_HOME/html/image ] && mkdir $COMPTA_HOME/html/image
