@@ -42,8 +42,12 @@ $cond=CreatePeriodeCond($periode);
 //$rap_deb=0;$rap_cred=0;
 for ( $i =0;$i<count($poste);$i++) {
   
-    $Libelle=sprintf("(%s) %s ",$poste[$i],GetPosteLibelle($cn,$poste[$i],1));
     list($array,$tot_deb,$tot_cred)=GetDataPoste($cn,$poste[$i],$cond);
+    // don't impress empty account
+    if ( count($array) == 0 ) {
+    continue;
+    }
+    $Libelle=sprintf("(%s) %s ",$poste[$i],GetPosteLibelle($cn,$poste[$i],1));
     
     //  $pdf->ezText($Libelle,30);
     $pdf->ezTable($array,
@@ -58,8 +62,19 @@ for ( $i =0;$i<count($poste);$i++) {
 				    )));
 $str_debit=sprintf("Débit  % 12.2f",$tot_deb);
 $str_cred=sprintf("Crédit % 12.2f",$tot_cred);
- $pdf->ezText($str_debit,14,array('justification'=>'right'));
- $pdf->ezText($str_cred,14,array('justification'=>'right'));
+$diff_solde=$tot_deb-$tot_cred;
+if ( $diff_solde < 0 ) {
+	$solde=" C ";
+	$diff_solde*=-1;
+	} else 
+	{
+	$solde=" D ";
+	}
+$str_solde=sprintf(" Solde %s %12.2f",$solde,$diff_solde);
+
+ $pdf->ezText($str_debit,10,array('justification'=>'right'));
+ $pdf->ezText($str_cred,10,array('justification'=>'right'));
+ $pdf->ezText($str_solde,14,array('justification'=>'right'));
 
   //New page
   $pdf->ezNewPage();

@@ -140,11 +140,11 @@ function ImpHtml($p_array,$p_cn)
     $cond=CreatePeriodeCond($periode);
     $ret="" ;
     for ( $i =0;$i<count($poste);$i++) {
+      list ($array,$tot_deb,$tot_cred)=GetDataPoste($p_cn,$poste[$i],$cond);
+      if ( count($array) == 0) continue;
       $ret.=sprintf("<H2 class=\"info\">%d %s</H2>",
 		    $poste[$i],GetPosteLibelle($p_cn,$poste[$i],1));
       $ret.="<TABLE border=0 >";
-      list ($array,$tot_deb,$tot_cred)=GetDataPoste($p_cn,$poste[$i],$cond);
-      if ( $array == null) continue;
       foreach ($array as $col=>$element) {
 	$ret.="<TR>";
 	$ret.=sprintf("<TD>%s</TD>",$element['jr_internal']);
@@ -166,6 +166,14 @@ function ImpHtml($p_array,$p_cn)
 		    $tot_cred);
       $ret.="</TABLE>";
       $ret.="Total débit :".$tot_deb."   Total Crédit:".$tot_cred;     
+      if ( $tot_deb > $tot_cred ) {
+      	$solde_t="D"; 
+	$solde=$tot_deb-$tot_cred;
+	}else {
+      	$solde_t="C";
+	$solde=$tot_cred-$tot_deb;
+	}
+      $ret.=" <B> Solde  $solde_t = ".$solde."</B>";
     }// for i
     return $ret;
   }//poste
