@@ -1,4 +1,63 @@
+2004-04-07  sparkyx  <sparkyx@july.summer>
+
+	* include/form_input.php, include/user_common.php:
+	Possibility to change vat of sell and expense
+
+	* include/constant.php, include/form_input.php, include/user_common.php:
+	New vat can be changed in sell
+
+2004-04-06  sparkyx  <sparkyx@july.summer>
+
+	* include/user_common.php: Fix Bug in search by date
+
+	* include/fiche_inc.php: Fix bug
+
+	* include/user_menu.php: Default sign = for search by amount
+
+	* html/jrn_search.php: Default sign =
+
+	* html/send_jrn_pdf.php, include/impress_inc.php: Fix bug in printing
+
+	* html/user_pref.php: Fix password
+
+	* include/form_input.php:
+	Fix problem of multiple for with the financial
+
+	* sql/demo.sql, sql/mod-be.sql, include/user_common.php, sql/account_repository.sql, include/form_input.php, include/fiche_inc.php, html/fiche_search.php:
+	Fix problem with card update (account)
+
+	* include/ac_common.php: Update comment
+
+	* html/annulation.php: Fix prob with date
+
+	* doc/manuel-fr.sgml: Update doc
+
+	* html/annulation.php: Close the windows
+
+	* include/user_action_ods.php: Fix correct in ODS
+
+2004-04-05  sparkyx  <sparkyx@july.summer>
+
+	* install.sh, setenv.sh: Fixed path for COMPTA_HOME
+
+2004-04-04  stanpinte  <stanpinte@july.summer>
+
+	* html/send_jrn_pdf.php:
+	reverted: corrected missing path entry. fixes PDF output
+
+	* html/send_jrn_pdf.php: corrected missing path entry. fixes PDF output
+
+2004-04-04  sparkyx  <sparkyx@july.summer>
+
+	* html/annulation.php, html/jrn_detail.php, include/form_input.php:
+	New : set date when cancel an operation
+
 2004-04-03  sparkyx  <sparkyx@july.summer>
+
+	* sql/account_repository.sql, sql/demo.sql, sql/mod-be.sql:
+	db correction (fiche)
+
+	* Changelog: Update
 
 	* sql/demo.sql, sql/mod-be.sql:
 	Structure change  I hope for the last time
