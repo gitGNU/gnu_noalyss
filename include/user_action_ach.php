@@ -90,6 +90,11 @@ if ( $action == 'new' ) {
 	$submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
 
 	$r=FormAch($cn,$g_jrn,$g_user,$submit,$HTTP_POST_VARS,true,$nb_number);
+
+	// if something goes wrong, correct it
+	if ( $r == null ) {
+	  $r=FormAch($cn,$g_jrn,$g_user,$submit,$HTTP_POST_VARS,false,  $nb_number);
+	}
 	echo '<div class="u_redcontent">';
 	echo $r;
 	echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."<div>";

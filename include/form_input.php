@@ -290,7 +290,6 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article
 
 function FormVenteView ($p_cn,$p_jrn,$p_user,$p_array,$p_number,$p_doc='html',$p_comment='') 
 {
-// TODO Verify the invoice data if verif failed return null and resubmit
   $r="";
   $data="";
   // Keep all the data if hidden
@@ -588,6 +587,7 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
 	
 	// Debit = client
 	$poste=GetFicheAttribut($p_cn,$e_client,ATTR_DEF_ACCOUNT);
+	
 	InsertJrnx($p_cn,'d',$p_user,$p_jrn,$poste,$e_date,$amount+$sum_vat,$seq,$periode);
 	
 	// Credit = goods 
@@ -648,9 +648,18 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
     }
   }
   // The date
-  $userPref=GetUserPeriode($p_cn,$p_user);
-  list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$userPref);
+   $userPref=GetUserPeriode($p_cn,$p_user);
+   list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$userPref);
+//  $e_date=( ! isset($e_date) ) ? "":$e_date;
   $e_date=( ! isset($e_date) ) ? "01".substr($l_date_start,2,8):$e_date;
+
+  // Verify if valid date
+  if (  VerifyOperationDate($p_cn,$p_user,$e_date)   == null) {
+    if ( $view_only == true) 
+      return null;
+    else 
+      $e_date="01".substr($l_date_start,2,8);
+  }
   
   $e_ech=(isset($e_ech))?$e_ech:"";
   $e_comment=(isset($e_comment))?$e_comment:"";
@@ -888,10 +897,19 @@ function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
     }
   }
   // The date
-  $userPref=GetUserPeriode($p_cn,$p_user);
+   $userPref=GetUserPeriode($p_cn,$p_user);
   list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$userPref);
   $e_date=( ! isset($e_date) ) ? "01".substr($l_date_start,2,8):$e_date;
-  
+
+  // Verify if valid date
+  if (  VerifyOperationDate($p_cn,$p_user,$e_date)   == null) {
+    if ( $view_only == true) 
+      return null;
+    else 
+      $e_date="01".substr($l_date_start,2,8);
+  }
+
+
   $e_ech=(isset($e_ech))?$e_ech:"";
   $e_comment=(isset($e_comment))?$e_comment:"";
 
@@ -1012,6 +1030,15 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
   $periode=GetUserPeriode($p_cn,$p_user);
 
   // Test if the data are correct
+  // Verify the date
+  if ( isDate($e_date) == null ) { 
+	  echo_error("Invalid date $e_date");
+	  echo_debug("Invalid date $e_date");
+	  echo "<SCRIPT> alert('INVALID DATE $e_date !!!!');</SCRIPT>";
+	  return null;
+		}
+
+
   // Test the date
 
   // Compute the j_grpt
@@ -1031,21 +1058,17 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
 
     $amount+=${"e_other$i"."_amount"};
     // Record a line for the bank
-    $type=( ${"e_other$i"."_amount"} < 0 )?'d':'c';
+    //    $type=( ${"e_other$i"."_amount"} < 0 )?'d':'c';
 
-    // no negative amount
-    if ( ${"e_other$i"."_amount"} < 0 ) {
-      ${"e_other$i"."_amount"}*=-1;
-    }
-    InsertJrnx($p_cn,$type,$p_user,$p_jrn,$poste_bq,$e_date,${"e_other$i"."_amount"},$seq,$periode);    
+    InsertJrnx($p_cn,'d',$p_user,$p_jrn,$poste_bq,$e_date,${"e_other$i"."_amount"},$seq,$periode);    
 
 
     // Record a line for the other account
-    $type=( ${"e_other$i"."_amount"} < 0 )?'c':'d';
-    $j_id=InsertJrnx($p_cn,$type,$p_user,$p_jrn,$poste,$e_date,${"e_other$i"."_amount"},$seq,$periode);
+    //    $type=( ${"e_other$i"."_amount"} < 0 )?'c':'d';
+    $j_id=InsertJrnx($p_cn,'c',$p_user,$p_jrn,$poste,$e_date,${"e_other$i"."_amount"},$seq,$periode);
     echo_debug("   $j_id=InsertJrnx($p_cn,'d',$p_user,$p_jrn,$poste,$e_date,".${"e_other$i"}."_amount".",$seq,$periode);");
 
-    InsertJrn($p_cn,$e_date,'',$p_jrn,$e_comment,${"e_other$i"."_amount"},$seq,$periode);
+    InsertJrn($p_cn,$e_date,'c',$p_jrn,$e_comment,${"e_other$i"."_amount"},$seq,$periode);
   
 
 
