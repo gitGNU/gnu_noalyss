@@ -143,21 +143,23 @@ function html_page_start($p_theme="",$p_script="")
  if ( $p_theme != "") {
    $Res=ExecSql($cn,"select the_filestyle from theme
                    where the_name='".$p_theme."'");
-    if (pg_NumRows($Res)==0) $style="style.css";
+    if (pg_NumRows($Res)==0) 
+      $style="style.css";
     else {
       $s=pg_fetch_array($Res,0);
       $style=$s['the_filestyle'];
-    } else {
-      $style="style.css";
-    } // end if
-    echo '<!DOCTYPE HTML PUBLIC "-//W3C/DTD HTML 3.2 FINAL//EN">';
-    echo "<HTML>";
-    echo "<HEAD> 
-          <TITLE> Gnu Accountancy</TITLE>
-	  <META http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">
-          <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$style\">
-	  </HEAD>";
-    echo "<BODY $p_script>";
+    }
+ }else {
+   $style="style.css";
+ } // end if
+ echo '<!DOCTYPE HTML PUBLIC "-//W3C/DTD HTML 3.2 FINAL//EN">';
+ echo "<HTML>";
+ echo "<HEAD> 
+      <TITLE> Gnu Accountancy</TITLE>
+      <META http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">
+      <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$style\">
+	</HEAD>";
+ echo "<BODY $p_script>";
 }
 /* function html_page_stop()
  * Purpose : 
