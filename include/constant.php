@@ -172,6 +172,17 @@ window.location.reload();
 
 	
 	</script>");
+define ("JS_UPDATE_PCMN","<script>function PcmnUpdate(p_value,p_lib,p_parent,p_sessid)
+		{
+			var win=window.open('line_update.php?l='+p_value+'&n='+p_lib+'&p='+p_parent+'&PHPSESSID='+p_sessid,'Modify it','toolbar=no,width=500,height=400,scrollbars=yes,resizable=yes');
+		}
+function RefreshMe() {
+	window.location.reload();
+	}
+	
+	
+	</script>");
+
 define ("JS_SEARCH_CARD","
 <script>
 /* type must be cred or deb and name is
