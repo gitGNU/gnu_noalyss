@@ -335,7 +335,9 @@ vente, Poste Comptable. Vous n'êtes pas obligé de créer une fiche pour
 tout, par exemple pour les restaurants, vous pouvez encodez une seule
 et unique fiche appelée restaurant.
 
-</p>
+Autre : comme plusieur fiches peuvent utiliser le même poste comptable, si on
+modifie le nom d'une fiche cela ne modifiera pas son nom dans le Plan Comptable
+
 </sect1>
 <sect>Encodage d'opération
 <sect1> Remarques générales
@@ -551,6 +553,14 @@ encoder dans le journal financier, ne pas oublier le rapprochement
 31 janvier 
 Banque : le client nous a payé pour la facture du 21
 encoder dans le journal financier, ne pas oublier le rapprochement
+</sect1>
+</sect>
+<sect>Trucs et astuces
+<sect1>Ouvrir plusieur fenêtres
+Vous pouvez toujours ouvrir plusieurs fenêtres. C'est très utile, par
+exemple dans le cas ou vous encodez une OD mais un poste comptable manque
+vous pouvez l'ajouter dans une autre fenêtre puis reprendre la fenêtre 
+où vous travailliez, le poste comptable est maintenant disponible.
 </sect1>
 </sect>
 </article>
