@@ -44,6 +44,8 @@ if ( $action == 'new' ) {
 	  $r=FormFin($cn,$g_jrn,$g_user,$submit,null,false);
 	  echo '<div class="u_redcontent">';
 	  echo $r;
+	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."</div>";
+	
 	  echo "</div>";
 
 
@@ -62,6 +64,8 @@ if ( $action == 'new' ) {
 	  $r=FormFin($cn,$g_jrn,$g_user,$submit,$HTTP_POST_VARS,false,  $nb_number);
 	  echo '<div class="u_redcontent">';
 	  echo $r;
+	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."</div>";
+
 	  echo "</div>";
 	}
 	// Correct it
@@ -76,6 +80,8 @@ if ( $action == 'new' ) {
 	  $r=FormFin($cn,$g_jrn,$g_user,$submit,$HTTP_POST_VARS,false,  $nb_number);
 	  echo '<div class="u_redcontent">';
 	  echo $r;
+	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."</div>";
+
 	  echo "</div>";
 	}
 
@@ -99,7 +105,7 @@ if ( $action == 'new' ) {
 
 	echo '<div class="u_redcontent">';
 	echo $r;
-	echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."<div>";
+	echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."</div>";
 	echo "</div>";
 	}
 	// Save the charge into database
