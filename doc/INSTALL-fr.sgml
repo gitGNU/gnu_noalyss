@@ -1,0 +1,204 @@
+<!doctype linuxdoc system>
+<article>
+<title> PhpCompta Installation</title>
+<author>
+ <name>originally written by Dany De Bontridder
+ </name>
+</author>
+<date>$Revision$   $date$</date>
+<abstract>
+Ce document décrit l'installation complète de PhpCompta et explique comment on
+été installé les programmes dont PhpCompta dépend.
+
+PhpCompta <url url="http://www.alchimerys.be/FR/phpcompta" name="PhpCompta">
+site savannah <url url="http://savannah.nongnu.org/projects/phpcompta/" name="PhpCompta Savannah">
+</abstract>
+
+<!-- Table of contents -->
+<toc>
+
+
+<sect>Postgresql (version 732 minimum)
+
+<sect1>Installation
+<p>
+Soit avec des binaires préparés, soit à partir du code source
+</p>
+<p>
+Si vous décidez de le compiler vous-même, les
+options suivantes fonctionnent
+/configure -with-tk --with-python --with-perl --prefix=/opt/psql732
+</p>
+</sect1>
+<sect1>Configuration et démarrage de PostgreSql
+<p>
+Comme d'habitude pour postgres, il faut tout d'abord définir, créer
+l'utilisateur postgres puis initialiser l'endroit où seront stocké vos données (variable env. PGDATA),
+exemple
+<quote>
+root#mkdir /data/psql
+root#chown postgres /data/psql
+root#su - postgres
+postgres#initdb -D /data/psql
+postgres#pg_ctl -D /data/psql -o '-i' start
+</quote>
+</p><p>
+ne pas oublier d'ajouter dans le PATH, l'endroit où se trouve les
+binaires de postgres
+<quote>
+ex:
+export PATH=$PATH:/opt/psql732/bin
+</quote>
+</p>
+<p>
+Il est impératif d'avoir l'option -i, sinon le server HTTP ne pourra
+pas contacter PostgreSql
+</p>
+<P>
+Dans PGDATA,vous trouverez le fichier nommé pg_hba.conf qui
+vous permettra de régler la sécurité<newline>
+
+Ce fichier doit au moins contenir la ligne:
+<quote>
+# TYPE  DATABASE    USER        IP-ADDRESS        IP-MASK           METHOD
+host    all         phpcompta   172.16.30.0         255.255.255.0   trust
+</quote>
+Il vaut mieux remplacer 172.16.30.0 par l'adresse du server HTTP, dans
+le cas où vous utilisez un VirtualHost avec une adresse IP, c'est
+cette adresse qu'il vous faudra mettre
+il faut aussi que l'utilisateur qui installera ce programme existe pour postgres et
+puisse créer des utilisateur et des bases de données la commande
+<quote>
+/opt/psql732/bin/createuser -a -d $USER
+</quote>
+</p>
+</sect1>
+</sect>
+
+<sect> Apache
+<sect1>Installation d'Apache
+<p>
+Si vous décidez de le compiler vous-même, les
+options suivantes fonctionnent
+<quote>
+./configure --prefix=/opt/http2/ \
+	    --enable-ssl \
+	    --enable-http \
+	    --enable-cgi \
+            --enable-so \
+            --enable-usertrack \
+            --enable-headers \
+            --enable-info
+</quote>
+</p>
+</sect1>
+
+<sect1> Configuration d'Apache
+<P>
+Le fichier httpd.conf doit au moins contenir. Pour plus d'information, voir
+le manuel d'Apache.
+<quote>
+LoadModule	php4_module	modules/libphp4.so
+AddType application/x-httpd-php	.php4 .php3 .php .phtml
+</quote>
+Et si vous décidez d'avoir la même configuration que moi, mais ce
+n'est pas obligatoire
+<quote>
+&lt; VirtualHost 172.16.30.150 &gt;
+	ServerName site
+	ErrorLog wcompta-error.log
+	TransferLog wcompta-debug.log
+	DocumentRoot /home/httpd/compta/html
+&lt;/VirtualHost &gt;
+</quote>
+
+Apache se démarre avec apachectl start
+</p>
+</sect1>
+</sect>
+
+
+<sect>PHP
+<sect1>Installation de PHP 4.3.1
+<p>
+Il doit être compilé le dernier !!!
+Si vous décidez de le compiler vous-même, les
+options suivantes fonctionnent
+<quote>
+./configure --prefix=/opt/php431 \
+    --with-apxs2=/opt/http2/bin/apxs \
+    --with-fastcgi \
+    --with-zlib \
+    --with-pgsql=/opt/psql732 \
+    --with-mysql \
+    --with-apache2=/software/httpd-2.0.44
+</quote>
+
+le répertoire /software/httpd-2.0.44 est le répertoire ou vous installer
+les sources d'apache
+</p>
+</sect1>
+
+<sect1>Configuration de PHP :  Fichier php.ini
+<P>
+s'il n'existe pas, vous devez le créer, l'endroit
+où vous le trouverez dépend des options de compilation. Dans le cas,
+où vous avez compilé php de la même manière que moi, il se trouve
+dans /opt/php431/lib.
+Recopier simplement le fichier fourni à cet endroit.
+
+Sinon, adaptez votre fichier, il doit avoir au minimum les options
+suivantes
+<verb>
+register_globals	= on
+
+[Session]
+session.save_handler      = files   ; handler used to store/retrieve data
+session.save_path         = /tmp    ; argument passed to save_handler
+                                    ; in the case of files, this is the
+                                    ; path where data files are stored
+session.use_cookies       = 1       ; whether to use cookies
+session.name              = PHPSESSID
+                                    ; name of the session
+                                    ; is used as cookie name
+session.auto_start        = 1       ; initialize session on request startup
+session.cookie_lifetime   = 0       ; lifetime in seconds of cookie
+                                    ; or if 0, until browser is restarted
+session.cookie_path       = /tmp       ; the path the cookie is valid for
+
+allow_call_time_pass_reference = on
+register_argc_argv = on
+session.bug_compat_42 = 1
+session.bug_compat_warn = 0
+session.use_trans_sid = 1
+</verb>
+</p>
+</sect1>
+</sect>
+<sect>Installation de PhpCompta
+
+
+<sect>Conclusion
+<p>
+Voilà maintenant, il vous suffit de faire ./install.sh pour tout
+   installer; puis d'aller avec votre navigateur sur l'url.
+   http://adresse_ip_du_virtualhost/test.php. Vous verrez directement,
+   si l'application fonctionne.
+</p>
+</sect>
+
+
+<sect>Remarque
+<p>
+<itemize>
+<item>Il faut créer le répertoire où seront mis l'application elle-même,
+   ici, les fichiers seront dans /home/httpd/compta, l'endroit est défini dans setenv.sh. Créer ce
+   répertoire, le propriétaire de répertoire doit être le même que
+   celui qui fera installera l'application. Cet utiliserateur devra
+   aussi avoir le privilège de créer un utilisateur pour postgres
+   (fonction createuser).
+<item>Adapter  le fichiers setenv.sh selon vos besoins
+
+</itemize>
+</sect>
+</article>
