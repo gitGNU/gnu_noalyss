@@ -18,6 +18,8 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
+include_once("preference.php");
+
 /* function InputType
  * Purpose : Create the tag <INPUT TYPE=... Name=...>
  *        
@@ -76,29 +78,52 @@ function InputType($p_label,$p_type,$p_name,$p_value,$p_viewonly=false,$p_list=n
  * parm : 
  *	- p_array which can be empty
  *      - the "journal"
+ *      - $p_user = $g_user
  *      - view_only if we cannot change it (no right or centralized op)
  * gen :
  *	-
  * return: string with the form
  */
-function FormVente($p_cn,$p_jrn,$p_array=null,$view_only=true)
-{
+function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true)
+{ 
+  $userPref=GetUserPeriode($p_cn,$p_user);
+
+  // The date
+  list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$userPref);
+  
+  $op_date="01".substr($l_date_start,2,8);
+  echo_debug("form_input.php.FormVentep_op_date is $op_date");
   $r="";
   if ( $view_only == false) {
     $r="<FORM ACTION=user_jrn.php?action=add_invoice>";
     
   }
   $r.='<TABLE>';
-  $r.='<TR>'.InputType("Date ","Text","e_date","",$view_only).'</TR>';
+  $r.='<TR>'.InputType("Date ","Text","e_date",$op_date,$view_only).'</TR>';
   include_once("fiche_inc.php");
-  $fiche=GetFicheJrn($p_cn,$p_jrn,'cred');
+  // Display the customer
+  $fiche=GetFicheJrn($p_cn,$p_jrn,'cred',FICHE_TYPE_CLIENT);
 
   $r.='<TR>'.InputType("Client ","SELECT","e_client","",$view_only,$fiche).'</TR>';
-  $fiche=GetFicheJrn($p_cn,$p_jrn,'deb');
+  $r.="</TABLE>";
+
+  // Start the div for item to sell
+  $r.="<DIV>";
+  $r.='<TABLE>';
+  $fiche=GetFicheJrn($p_cn,$p_jrn,'deb',FICHE_TYPE_VENTE);
   $r.='<TR>'.InputType("Article","SELECT","e_march","",$view_only,$fiche);
-  $r.=InputType("Qt","TEXT","e_quant","",$view_only);
+  $r.=InputType("Quantité","TEXT","e_quant","1",$view_only);
+
+  // TODO Show the price
+
+  // TODO PERMIT multi lines
+
   $r.='</TR>';
-  $r.="</TABLE></FORM>";
+  $r.="</TABLE>";
+
+  $r.='<INPUT TYPE="SUBMIT" NAME="add_invoice" VALUE="Voir cette facture">';
+  $r.="</DIV>";
+  $r.="</FORM>";
 
   return $r;
 

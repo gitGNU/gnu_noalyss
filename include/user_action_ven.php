@@ -32,7 +32,7 @@ if ( $action == 'insert_vente' ) {
     }
 // Show an empyt form of invoice
     include_once("form_input.php");
-    $form=FormVente($cn,$g_jrn,'deb');
+    $form=FormVente($cn,$g_jrn,$g_user,'deb');
     echo '<div class="redcontent">';
     echo $form;
     echo '</div>';
