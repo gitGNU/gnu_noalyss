@@ -111,7 +111,7 @@ if ( $action == 'new' ) {
 	  // submit button in the form
 	  $submit='<h2 class="info">Recorded</h2>';
 
-	  $r.=FormFin($cn,$g_jrn,$g_user,$submit,$HTTP_POST_VARS,true,  $nb_number);
+	  $r.=FormFin($cn,$g_jrn,$g_user,$submit,$HTTP_POST_VARS,true,  $nb_number,true);
 	  echo '<div class="u_redcontent">';
 	  echo $r;
 	  echo "</div>";

@@ -1099,7 +1099,7 @@ function RecordAchat($p_cn,$p_array,$p_user,$p_jrn)
  *	-
  * return: string with the form
  */
-function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p_item=4)
+function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p_item=4,$p_save=false)
 { 
   include_once("poste.php");
   if ( $p_array != null ) {
@@ -1237,7 +1237,10 @@ function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
     ${"e_concerned".$i}=(isset(${"e_concerned".$i}))?${"e_concerned".$i}:"";
     $r.=InputType("","js_concerned","e_concerned".$i,${"e_concerned".$i},$view_only);
     $r.='</TR>';
-    if ( $view_only == true )      $new_solde+=$tiers_amount;
+   // if not recorded the new amount must be recalculate
+   // if recorded the old amount is recalculated
+    if ( $view_only == true)      
+      $new_solde=($p_save==false)?$new_solde+$tiers_amount:$new_solde-$tiers_amount;
  }
 
 $r.="</TABLE>";
@@ -1248,8 +1251,16 @@ $r.="</FORM>";
 // if view_only is true
 //Put the new saldo here (old saldo - operation)
  if ( $view_only==true)  {
-   $r.=" <b> Ancien Solde = ".$solde." </b><br>";
-   $r.=" <b> Nouveau Solde = ".$new_solde." </b><br>";
+   // if not recorded the new amount must be recalculate
+   if ( $p_save == false) {
+     $r.=" <b> Ancien Solde = ".$solde." </b><br>";
+     $r.=" <b> Nouveau Solde = ".$new_solde." </b><br>";
+   }
+   // if recorded the old amount is recalculated
+   if ($p_save == true ) {
+     $r.=" <b> Ancien Solde = ".$new_solde." </b><br>";
+     $r.=" <b> Nouveau Solde = ".$solde." </b><br>";
+   }
  }
  
 return $r;
