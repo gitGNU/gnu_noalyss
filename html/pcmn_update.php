@@ -63,21 +63,21 @@ echo '</div>';
 echo '<DIV CLASS="u_redcontent">';
 /* Analyse ce qui est demandé */
 /* Effacement d'une ligne */
-if (isset ($action)) {
-  if ( $action=="del" ) {
-    if ( isset ($l) ) {
+if (isset ($_GET['action'])) {
+  if ( $_GET['action']=="del" ) {
+    if ( isset ($_GET['l']) ) {
       /* Ligne a enfant*/
-      $R=ExecSql($cn,"select pcm_val from tmp_pcmn where pcm_val_parent=$l");
+      $R=ExecSql($cn,"select pcm_val from tmp_pcmn where pcm_val_parent=".$_GET['l']);
       if ( pg_NumRows($R) != 0 ) {
 	echo "<SCRIPT> alert(\"Ne peut pas effacer le poste: d'autres postes en dépendent\");</SCRIPT>";
       } else {
 	/* Vérifier que le poste n'est pas utilisé qq part dans les journaux */
-	$Res=ExecSql($cn,"select * from jrnx where j_poste=$l");
+	$Res=ExecSql($cn,"select * from jrnx where j_poste=".$_GET['l']);
 	if ( pg_NumRows($R) != 0 ) {
 	  echo "<SCRIPT> alert(\"Ne peut pas effacer le poste: il est utilisé dans les journaux\");</SCRIPT>";
 	}
 	else {
-	  $Del=ExecSql($cn,"delete from tmp_pcmn where pcm_val=$l");
+	  $Del=ExecSql($cn,"delete from tmp_pcmn where pcm_val=".$_GET['l']);
 	} // if pg_NumRows
       } // if pg_NumRows
     } // isset ($l)
