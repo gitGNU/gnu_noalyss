@@ -45,6 +45,7 @@ $opt_date=$opt;
 $opt_montant=$opt;
 $c_comment="";
 $c_montant="";
+$c_internal="";
 $c_date="";
 $l_Db=sprintf("dossier%d",$g_dossier);
 $condition="";
