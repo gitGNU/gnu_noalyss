@@ -46,6 +46,7 @@ echo "<DIV class=\"u_subtmenu\">";
 $p_array=array(array ("user_impress.php?type=jrn","Journaux"),
 	       array("user_impress.php?type=poste","Poste"),
 	       array("user_impress.php?type=fiche","Fiche"),
+               array('user_impress.php?type=bal','Balance des comptes'),
 	       array("user_impress.php?type=form","Formulaire")
 	       );
 $default=( isset ($_GET['type']))?"user_impress.php?type=".$_GET['type']:"";
@@ -76,6 +77,10 @@ $default=( isset ($_GET['type']))?$_GET['type']:"";
   case "form":
     include ("impress_form.php");
     break;
+  case "bal":
+    include ("balance.php");
+    break;
+
   }
 
 html_page_stop();

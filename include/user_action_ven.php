@@ -110,10 +110,10 @@ if ( isset($_POST["record_and_print_invoice"])) {
   //  echo "RECORD AND PRINT INVOICE";
   $comment=RecordInvoice($cn,$HTTP_POST_VARS,$g_user,$g_jrn);
       $nb_number=$_POST["nb_item"];
-      $form=FormVenteView($cn,$g_jrn,$g_user,$HTTP_POST_VARS,$nb_number,'pdf',$comment);
-	echo '<div class="u_redcontent">';
-	echo $form;
-	echo "</div>  ";
+//       //      $form=FormVenteView($cn,$g_jrn,$g_user,$HTTP_POST_VARS,$nb_number,'pdf',$comment);
+// 	echo '<div class="u_redcontent">';
+// 	echo $form;
+// 	echo "</div>  ";
 }
 
 

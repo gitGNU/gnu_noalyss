@@ -647,7 +647,7 @@ for ($o = 0;$o < $p_number; $o++) {
 	  //	  $r.='<INPUT TYPE="SUBMIT" name="record_invoice" value="Sauver">';
 	  // If the total == 0 prevent the insert
 	  if ( $sum_with_vat != 0 ) {
-	    $r.='<INPUT TYPE="SUBMIT" name="record_and_print_invoice" value="Sauver & imprimer">';
+	    $r.='<INPUT TYPE="SUBMIT" name="record_and_print_invoice" value="Sauver" >';
 	  }
 	  $r.='<INPUT TYPE="SUBMIT" name="correct_new_invoice" value="Corriger">';
 	  $r.='</FORM>';

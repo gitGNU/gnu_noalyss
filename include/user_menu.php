@@ -413,8 +413,7 @@ $left_menu=ShowItem(array(
 			  array('jrn_update.php','Journaux'),
 			  array('central.php','Centralise'),
 		          array('pcmn_update.php?p_start=1','Plan Comptable'),
-			  array('stock.php','stock'),
-			  array('balance.php','Balance des comptes')
+			  array('stock.php','stock')
 			  ),
 		    'V');
 return $left_menu;

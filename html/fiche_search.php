@@ -146,7 +146,9 @@ if ( isset ( $_POST['search']) )  {
 	      $row['tva_id'], 
 	      $row['tva_label']  
 	       );
-  $r.=  $row['vw_name'].$row['vw_addr'].$row['vw_cp'];
+  $r.="&nbsp;".$row['vw_name'];
+  if ( $row['vw_addr'] !="")
+    $r.="<br><font size=-1>Adresse:&nbsp;".$row['vw_addr']."&nbsp;".$row['vw_cp']."</font>";
   $r.="</span>";
  }
 }

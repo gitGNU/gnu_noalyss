@@ -19,47 +19,8 @@
 */
 // Auteur Dany De Bontridder ddebontridder@yahoo.fr
 include_once ("ac_common.php");
-/* $Revision$ */
+// /* $Revision$ */
 include_once("preference.php");
-
-html_page_start($g_UserProperty['use_theme']);
-
-if ( ! isset ( $g_dossier ) ) {
-  echo "You must choose a Dossier ";
-  phpinfo();
-  exit -2;
-}
-include_once ("postgres.php");
-/* Admin. Dossier */
-CheckUser();
-
-// Synchronize rights
-SyncRight($g_dossier,$g_user);
-
-// Get The priv on the selected folder
-if ( $g_UserProperty['use_admin'] == 0 ) {
-  
-  $r=GetPriv($g_dossier,$g_user);
-  if ($r == 0 ){
-    /* Cannot Access */
-    NoAccess();
-  }
-
-}
-$l_jrn=sprintf("dossier%d",$g_dossier);
-$cn=DbConnect($l_jrn);
-
-//Show the top menu
-include_once ("user_menu.php");
-include_once ("top_menu_compta.php");
-ShowMenuCompta($g_dossier,$g_UserProperty);
-
-// Show Menu Left
-$left_menu=ShowMenuAdvanced();
-echo '<div class="lmenu">';
-echo $left_menu;
-echo '</DIV>';
-
 // Show the form for period
 echo '<div class="u_redcontent">';
 echo '<FORM action="print_balance.php" method="post">';

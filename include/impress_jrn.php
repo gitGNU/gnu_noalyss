@@ -78,8 +78,8 @@ include("class_jrn.php");
 	"<TD>".$op['j_date']."</TD>".
 	"<TD>".$op['poste']."</TD>".
 	"<TD>".$op['description']."</TD>".
-	"<TD>".$op['cred_montant']."</TD>".
 	"<TD>".$op['deb_montant']."</TD>".
+	"<TD>".$op['cred_montant']."</TD>".
 	"</TR>";
   }
   echo "</table>";
@@ -123,7 +123,7 @@ if ( $User->Admin() ==0) {
     // Pour voir tout les journal ?
     if ( $NoPriv == 0 ) {
       $a=count($ret);
-      $all=array('value'=>0,'label'=>'All');
+      $all=array('value'=>0,'label'=>'Grand Livre');
       $ret[$a]=$all;
    }
 if ( count($ret) < 1 ) 
