@@ -16,12 +16,16 @@ CREATE TABLE ac_users (
     use_usertype text NOT NULL,
     CHECK (((use_active = 0) OR (use_active = 1)))
 );
+
 CREATE TABLE ac_dossier (
     dos_id integer DEFAULT nextval('dossier_id'::text) NOT NULL,
     dos_name text NOT NULL,
     dos_description text,
     dos_jnt_user integer DEFAULT 0
 );
+
+COMMENT ON COLUMN ac_dossier.dos_jnt_user IS 'The user owning the file.';
+
 CREATE SEQUENCE seq_jnt_use_dos
     START 1
     INCREMENT 1
