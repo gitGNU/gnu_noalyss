@@ -33,7 +33,7 @@ create table jrn_type
 
 create table jrn_def
 (
-	jrn_def_id	integer  default nextval('s_jrn_def') primary key, 
+	jrn_def_id	integer  default nextval('s_jrn_def') primary key,
 	jrn_def_name	text not null unique,
 	jrn_def_class_deb	text,
 	jrn_def_class_cred	text,
@@ -41,8 +41,8 @@ create table jrn_def
 	jrn_def_fiche_cred text ,
 	jrn_deb_max_line	integer default 1,
 	jrn_cred_max_line	integer default 1,
-	jrn_def_ech		bool default false,	
-	jrn_def_ech_lib		text default null,	
+	jrn_def_ech		bool default false,
+	jrn_def_ech_lib		text default null,
 	jrn_def_type	char(3) not null references jrn_type(jrn_type_id),
 	jrn_def_code	text not null
 
@@ -53,10 +53,10 @@ insert into jrn_type values ('VEN','Vente');
 insert into jrn_type values ('ACH','Achat');
 insert into jrn_type values ('OD','Opérations Diverses');
 
-insert into jrn_def values (1,'Financier','5* ','5*',5,5,false,null,'FIN','FIN-01');
-insert into jrn_def values (2,'Vente','7*','4*',1,3,true,'échéance','VEN','VEN-01');
+insert into jrn_def values (1,'Financier','5* ','5*',null,null,5,5,false,null,'FIN','FIN-01');
+insert into jrn_def values (2,'Vente','7*','4*',null,null,1,3,true,'échéance','VEN','VEN-01');
 insert into jrn_def values (3,'Achat','6*','4*',1,3,true,'échéance','ACH','ACH-01');
-insert into jrn_def values (4,'Opération Diverses',null,null,5,5,false,null,'OD','OD-01');
+insert into jrn_def values (4,'Opération Diverses',null,null,null,null,5,5,false,null,'OD','OD-01');
 
 create sequence s_jrnx;
 
