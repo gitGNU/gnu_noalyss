@@ -16,7 +16,6 @@
  *   along with WCOMPTA; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-/* $Revision$ */
 // Auteur Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
 include_once ("ac_common.php");
@@ -53,14 +52,12 @@ if ( CheckAdmin() == 0 ) {
     /* Cannot Access */
     NoAccess();
   }
-  if ( isset ($g_jrn)) {
-  	$right=CheckJrn($g_dossier,$user,$g_jrn);
-	  if ($right == 0 ){
-	    /* Cannot Access */
-	    NoAccess();
-	    exit -1;
-	  }
-    } // if isset g_jrn
+  $right=CheckJrn($g_dossier,$user,$g_jrn);
+  if ($right == 0 ){
+    /* Cannot Access */
+    NoAccess();
+    exit -1;
+  }
 
 }
 
@@ -377,8 +374,9 @@ if ( isset($_POST['update_record']) ) {
     if ( strlen(trim($montant)) == 0) $montant=0;
     $p_text=(FormatString(${"p_text_deb$i"})==null)?GetPosteLibelle($g_dossier,$l_class):FormatString(${"p_text_deb$i"});
     
-    $Sql=sprintf("update jrnx set j_montant=%f, j_poste=%d,j_tech_user='%s',j_date=to_date('%s','DD.MM.YYYY'),j_text='%s' where j_id=%d",
-		 $montant,$l_class,$user,$p_op_date,$p_text,$j_id);
+    $Sql=sprintf("update jrnx set j_montant=%f, j_poste=%d,j_tech_user='%s',j_date=to_date('%s','DD.MM.YYYY'),j_text='%s',j_tech_per=%s
+    			where j_id=%d",
+		 $montant,$l_class,$user,$p_op_date,$p_text,$userPref,$j_id);
     echo_debug("sql $Sql");
     $Res=ExecSql($cn,$Sql);
     if ( $Res == false ) { Rollback($cn); EndSql($cn); return;}
@@ -393,8 +391,9 @@ if ( isset($_POST['update_record']) ) {
     if ( strlen(trim($montant)) == 0 ) $montant=0;
     $p_text=(FormatString(${"p_text_cred$i"})==null)?GetPosteLibelle($g_dossier,$l_class):FormatString(${"p_text_cred$i"});
 
-    $Sql=sprintf("update jrnx set j_montant=%f,j_poste=%d,j_tech_user='%s', j_date=to_date('%s','DD.MM.YYYY'),j_text='%s' where j_id=%d",
-		 $montant,$l_class,$user,$p_op_date,$p_text,$j_id);
+    $Sql=sprintf("update jrnx set j_montant=%f,j_poste=%d,j_tech_user='%s', j_date=to_date('%s','DD.MM.YYYY'),j_text='%s',".
+    		"	j_tech_per=%s where j_id=%d",
+		 $montant,$l_class,$user,$p_op_date,$p_text,$userPref,$j_id);
     echo_debug("sql $Sql");
       //	  $s_op++;
     $Res=ExecSql($cn,$Sql);
@@ -426,15 +425,14 @@ if ( isset($_POST['update_record']) ) {
 	$comment=FormatString($_POST["comment"]);
 	
 	$Sql=sprintf("update  jrn set jr_comment='%s',jr_date=%s,jr_rapt='%s',".
-		     "jr_montant=%f j_tech_per=%d where
+		     "jr_montant=%f,jr_tech_per where
                       jr_id=%d",
 		     $comment,
 		     $l_date,
 		     $p_rapt,
 		     $p_sum_deb,
 		     $userPref,
-		     $p_jr_id
-		     );
+		     $p_jr_id);
 	
 	$Res=ExecSql($cn,$Sql);
 	$current_internal=GetInternal($cn,$p_jr_id);
@@ -447,9 +445,10 @@ if ( isset($_POST['update_record']) ) {
       } else {
 	$comment=FormatString($_POST["comment"]);
 	$Sql=sprintf("update  jrn set jr_comment='%s',
-                       jr_date=%s,jr_rapt=null,jr_montant=%f,jr_tech_per=%d where jr_id=%d",
+                       jr_date=%s,jr_rapt=null,jr_montant=%f,jr_tech_per=%s where jr_id=%d",
 		     $comment,
-		     $l_date,$p_sum_deb,$userPref,
+		     $l_date,$p_sum_deb,
+		     $userPref,
 		     $p_jr_id);
 	$Res=ExecSql($cn,$Sql);
 	
