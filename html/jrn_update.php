@@ -47,11 +47,9 @@ if ( $User->admin == 0 ) {
   }
 }
 
+echo '<div class="u_subtmenu">';
+echo ShowMenuAdvanced();
 MenuJrn($_SESSION['g_dossier']);
-
-$cn=DbConnect($_SESSION['g_dossier']);
-echo '<DIV CLASS="ccontent">';
-
-echo "</DIV>";
+echo '</div>';
 html_page_stop();
 ?>

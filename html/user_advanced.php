@@ -52,11 +52,7 @@ include_once ("user_menu.php");
 
 ShowMenuCompta($_SESSION['g_dossier']);
 
-// Show the right menus
-
-$left_menu=ShowMenuAdvanced();
-
-echo $left_menu;
+echo ShowMenuAdvanced();
 
 
 

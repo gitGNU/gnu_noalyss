@@ -98,9 +98,8 @@ if ( isset ($_GET['JRN_TYPE'] ) ) {
   echo_debug("Type is $jrn_type");
   echo_debug("Jrn_def_type = $jrn_type");
 
- $result=ShowJrn("user_jrn.php?JRN_TYPE=".$jrn_type);
  echo '<div class="u_subtmenu">';
- echo $result;
+ echo ShowJrn("user_jrn.php?JRN_TYPE=".$jrn_type);
  ShowMenuJrnUser($_SESSION['g_dossier'],$jrn_type,$_SESSION['g_jrn']);
  echo '</div>';
 }

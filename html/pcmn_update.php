@@ -60,9 +60,12 @@ if ( isset ($_GET['p_start'])) {
 
 }
 
+echo '<div class="u_subtmenu">';
+echo ShowMenuAdvanced();
 ShowMenuPcmn($_SESSION['g_start']);
+echo '</div>';
 $cn=DbConnect($_SESSION['g_dossier']);
-echo '<DIV CLASS="ccontent">';
+echo '<DIV CLASS="u_redcontent">';
 /* Analyse ce qui est demandé */
 /* Effacement d'une ligne */
 if (isset ($action)) {
@@ -151,6 +154,7 @@ $MaxRow=pg_NumRows($Ret);
 
 ?>
 
+<FORM ACTION="pcmn_update.php" METHOD="POST">
 <TABLE ALIGN="center" BORDER=0 CELLPADDING=0 CELLSPACING=0> 
 <TR>
 <TH> Classe </TH>
@@ -158,8 +162,6 @@ $MaxRow=pg_NumRows($Ret);
 <TH> Parent </TH>
 </TR>
 <TR>
-
-<FORM ACTION="pcmn_update.php" METHOD="POST">
 <TD>
 <INPUT TYPE="TEXT" NAME="p_val" SIZE=7>
 </TD>
@@ -172,7 +174,6 @@ $MaxRow=pg_NumRows($Ret);
 <TD>
 <INPUT TYPE="SUBMIT" Value="Add" Name="Add">
 </TD>
-</FORM>
 </TR>
 <?
 for ($i=0; $i <$MaxRow; $i++) {
@@ -201,8 +202,9 @@ for ($i=0; $i <$MaxRow; $i++) {
   echo "</TD>";
   
   echo "</TR>";
-
 }
+echo "</TABLE>";
+echo "</FORM>";
 echo "</DIV>";
 html_page_stop();
 ?>

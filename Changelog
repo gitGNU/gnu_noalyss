@@ -1,3 +1,7 @@
+2005-03-06  stanpinte  <sparkyx@eleven>
+
+  * Fixed task 3838 (keep secundary menus when selecting secundary item
+
 2005-03-01  sparkyx  <sparkyx@eleven>
 
 	* include/preference.php, include/central_inc.php, html/admin/sql/patch/upgrade4.sql:

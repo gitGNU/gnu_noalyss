@@ -611,7 +611,6 @@ function ShowMenuParam()
 
 function MenuJrn($p_dossier)
 {
-    echo '<div class="lmenu">';
     echo '<TABLE>';
     echo '<TR><TD class="mtitle"><A class="mtitle" HREF="jrn_add.php">Création </A></TD></TR>';
     include_once("postgres.php");
@@ -627,8 +626,6 @@ function MenuJrn($p_dossier)
 
     }
     echo "</TABLE>";
-    echo '</div>';
-
 }
 /* function ShowMenuPcmn($p_start=1)
  * Purpose : Show the menu from the pcmn page
@@ -644,7 +641,6 @@ function MenuJrn($p_dossier)
 
 function ShowMenuPcmn($p_start=1)
 {
-    echo '<div class="lmenu">';
     echo '<TABLE>';
     echo '<TR><TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=1">1 Immobilisé </A></TD></TR>';
     echo '<TR><TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=2">2 Actif a un an au plus</A></TD></TR>';
@@ -654,8 +650,6 @@ function ShowMenuPcmn($p_start=1)
     echo '<TR><TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=6">6 Charges</A></TD></TR>';
     echo '<TR><TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=7">7 Produits</A></TD></TR>';
     echo "</TABLE>";
-    echo '</div>';
-
 }
 
 ?>
