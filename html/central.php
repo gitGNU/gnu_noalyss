@@ -35,8 +35,8 @@ include_once("preference.php");
 
 
 include_once ("top_menu_compta.php");
-ShowMenuCompta($g_dossier);
-ShowMenuComptaRight($g_dossier);
+ShowMenuCompta($g_dossier,$g_UserProperty);
+ShowMenuComptaRight($g_dossier,$g_UserProperty);
 
 if ( $g_UserProperty['use_admin']==0 ) {
   $r=CheckAction($g_dossier,$g_user,CENTRALIZE);
