@@ -273,27 +273,32 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
 		      from 
                 jrn join jrn_def on jrn_def_id=jr_def_id 
                     join parm_periode on p_id=jr_tech_per
-                where ";
+                ";
     $jrn_sql=($p_jrn =0)?"1=1":"jrn_def_id=$p_jrn ";
-    $l_and=" and ";
+    $l_and=" where ";
     if ( ereg("^[0-9]+$", $l_s_montant) || ereg ("^[0-9]+\.[0-9]+$", $l_s_montant) ) {
-    $sql.="  jr_montant $l_mont_sel $l_s_montant";
+    $sql.=$l_and."  jr_montant $l_mont_sel $l_s_montant";
+    $l_and=" and ";
     }
     if ( isDate($l_date_start) != null ) {
       $sql.=$l_and." jr_date >= to_date('".$l_date_start."','DD.MM.YYYY')";
+      $l_and=" and ";
     }
     if ( isDate($l_date_end) != null ) {
       $sql.=$l_and." jr_date <= to_date('".$l_date_end."','DD.MM.YYYY')";
+      $l_and=" and ";
     }
     $l_s_comment=FormatString($l_s_comment);
     if ( $l_s_comment != null ) {
       $sql.=$l_and." upper(jr_comment) like upper('%".$l_s_comment."%') ";
+      $l_and=" and ";
     }
     $l_s_internal=FormatString($l_s_internal);
     if ( $l_s_internal != null ) {
       $sql.=$l_and."  jr_internal like ('%$l_s_internal%')  ";
+      $l_and=" and ";
     }
-    $sql.=" order by jr_date_order desc";
+    $sql.=" order by jr_date_order asc";
   }// p_array != null
   $Res=ExecSql($p_cn,$sql);
   $r="";
