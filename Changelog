@@ -1,4 +1,11 @@
+2005-02-01  sparkyx  <sparkyx@july>
+
+	* INSTALL-fr.txt, doc/INSTALL-fr.sgml, html/fiche_csv.php, include/class_fiche.php, include/impress_fiche.php, include/postgres.php:
+	Printing of card is now completely correct
+
 2005-01-31  sparkyx  <sparkyx@july>
+
+	* Changelog: Changelog
 
 	* include/class_fiche.php: Fix bug in the printing of card :-)
 
