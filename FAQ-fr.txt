@@ -3,7 +3,7 @@
 
   $Revision$
 
-  Ce document contient les réponses aux questions les plus fréquemment
+  Ce document contient les rÃ©ponses aux questions les plus fréquemment
   posées sur PhpCompta PhpCompta <http://www.alchimerys.be/FR/phpcompta>
   site savannah PhpCompta Savannah <http://savan-
   nah.nongnu.org/projects/phpcompta/>
@@ -29,6 +29,8 @@
   15. Comment appliquer un patch ?
      15.1 Quel patch utiliser ?
      15.2 Comment appliquer le patch
+
+  16. Les entêtes de facture
 
 
   ______________________________________________________________________
@@ -59,8 +61,6 @@
   En fait c'est phpcompta, au départ c'était wcompta, contraction de
   WebCompta mais malheureusement, c'est le nom d'un soft qui existait
   déjà, j'ai été obligé de changer vers phpcompta.
-
-
 
   [1m3.  Par où commence t'on et comment ?[0m
 
@@ -183,11 +183,15 @@
   linuxdoc-tools, pour les autres, je ne sais pas :(
 
   Une fois, les linuxdoc tools installés il peut être nécessaire
-  d'installer d'autres outils comme jade, sgml,... Il faudra en tout cas
-  ajouter les tetex-dvips, textex-xdvi, latex2html
+  d'installer d'autres outils comme jade, sgml,...
+
+  Il faudra en tout cas ajouter les tetex-dvips, textex-xdvi, latex2html
+
+
 
   De toute façon, vous pouvez imprimer le guide, pour le trouver faites
   :
+
 
    en mode commande : rpm -qil linuxdoc-tools|grep guide
 
@@ -254,8 +258,6 @@
   Vous avez utilisé une version instable ! Cela a été corrigé reprenez
   les fichiers du CVS
 
-
-
   [1m14.  Erreur objet n'existe pas[0m
 
 
@@ -296,6 +298,16 @@
   1. Décompresser le patch (gzunip patch-...)
 
   2. puis appliquez le patch -p9 < patch...
+
+
+
+  [1m16.  Les entêtes de facture[0m
+
+  Pourquoi les coordonnées de la société faisant la facture
+  n'apparraissent pas
+
+  Simplement parce que je n'ai pas eu le temps de le coder, pour
+  l'instant, vous utilisez uniquement des factures préimprimées
 
 
 
