@@ -43,9 +43,23 @@ include_once("postgres.php");
 function CheckJrn($p_dossier,$p_user,$p_jrn) 
 {
   if ( CheckIsAdmin( $p_user) == 1 ) return 2;
-
   $l_Db=sprintf("dossier%d",$p_dossier);
   $cn=DbConnect($l_Db);
+  // Special
+  // p_jrn = 0 ==> grand livre access if there is no uj_prix=X
+  if ( $p_jrn == 0 ) {
+    //    $n_jrn=CountSql($cn,"select jrn_def_id from jrn_def");
+    $n_for=CountSql($cn,"select jrn_def_id,uj_priv 
+                 from jrn_def left join user_sec_jrn on uj_jrn_id=jrn_def_id
+                    where uj_login='$p_user' and uj_priv='X'");
+    if ( $n_for == 0 ) 
+      return 2;
+    else 
+      return 0;
+    
+
+  }
+
   // droit spécifique
   $Res2=ExecSql($cn,"select jrn_def_id,uj_priv 
                  from jrn_def left join user_sec_jrn on uj_jrn_id=jrn_def_id
@@ -55,7 +69,8 @@ function CheckJrn($p_dossier,$p_user,$p_jrn)
   $cn=DbConnect();
   // droit par défaut
   $Res=ExecSql($cn,"  select * 
-                       from ac_users left join jnt_use_dos using (use_id) left join priv_user on (priv_jnt=jnt_id) 
+                       from ac_users left join jnt_use_dos using (use_id) 
+                       left join priv_user on (priv_jnt=jnt_id) 
                       where use_login='$p_user' and
                        dos_id=$p_dossier");
 

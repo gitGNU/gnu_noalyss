@@ -28,6 +28,9 @@ include("jrn.php");
 
 $dossier=sprintf("dossier%d",$g_dossier);
 $cn=DbConnect($dossier);
+if (CheckJrn($g_dossier,$g_user,0)  < 1 )
+  {NoAccess();exit -1;}
+
 ?>
 <div class="u_redcontent">
 <form method="post" action="user_jrn.php?JRN_TYPE=NONE">
