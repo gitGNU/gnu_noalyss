@@ -4,7 +4,7 @@ BODY {
         background-color:#E3F0FF;
 }
 BODY.defaut {
-        background-color:#E3F0FF;
+        background-color:white;
 }
 h2.info {
 	background:#879ed4;
@@ -35,7 +35,6 @@ div.mtitle {
 }
 
 div.tmenu {
-  border:solid 1px black;
   position: absolute;
   top:10px;
   left:120px;
@@ -43,7 +42,7 @@ div.tmenu {
 
 }
 div.u_tmenu {
-  border:solid 2px black;
+
   position: absolute;
   top:40px;
   left:150px;
@@ -52,7 +51,7 @@ div.u_tmenu {
 }
 div.u_subtmenu {
   position: absolute;
-  top:50px;
+  top:100px;
   left:10px;
 
 }
@@ -72,10 +71,9 @@ div.lextmenu {
 	width:200px;
 }
 div.searchmenu {
-  border:solid 1px blue;
   left:30px;
   width:95px;
-  top:95px;
+  top:150px;
   position:absolute;
 }
 div.credit{
@@ -95,7 +93,7 @@ div.redcontent{
 }
 div.u_redcontent{
 	position: absolute;
-	top:200px;
+	top:130px;
 	left:150px;
 	width:700px;
         font-size:9pt;

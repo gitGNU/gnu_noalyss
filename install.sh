@@ -115,7 +115,6 @@ echo "Installing source"
 cp -fr html/*.php  $COMPTA_HOME/html
 cp -fr include/*.php  $COMPTA_HOME/include
 cp -fr html/*.html  $COMPTA_HOME/html
-cp -f style*.css $COMPTA_HOME/html
 cp -f html/*.js $COMPTA_HOME/html
 cp -fR addon $COMPTA_HOME/html
 cp -fR html/image/* $COMPTA_HOME/html/image
