@@ -20,16 +20,20 @@
 
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+//include_once ("postgres.php");
+include_once("constant.php");
 
-function echo_debug      ($p_log) {
-return;
+function echo_debug      ($file,$line="",$msg="") {
+  $password=phpcompta_password;
+   $l_Db="dbname=log user='phpcompta' password='$password' host=127.0.0.1";
+   $cn=pg_connect($l_Db);
+   $file=FormatString($file);
+   $line=FormatString($line);
+   $msg=FormatString($msg);
 
-$fdebug=fopen("/tmp/debug_log","a+");
-if ( $fdebug != false ) {
-	fwrite($fdebug,date("Ymd H:i:s").$p_log."\n");
-	fclose($fdebug);
-}	
- 
+   $sql= "insert into log (lg_file,lg_line,lg_msg) ".
+ 	  "values ('$file','$line','$msg');";
+   pg_exec($cn,$sql);
 }
 
 ?>

@@ -61,13 +61,6 @@ CREATE SEQUENCE s_form
     MAXVALUE 9223372036854775807
     MINVALUE 1
     CACHE 1;
--- Name: s_isup; Type: SEQUENCE; Schema: public; Owner: phpcompta
-CREATE SEQUENCE s_isup
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
-    CACHE 1;
 -- Name: s_idef; Type: SEQUENCE; Schema: public; Owner: phpcompta
 CREATE SEQUENCE s_idef
     START 1
@@ -138,15 +131,15 @@ CREATE SEQUENCE s_jnt_fic_att_value
     MAXVALUE 9223372036854775807
     MINVALUE 1
     CACHE 1;
--- Name: s_stock_goods; Type: SEQUENCE; Schema: public; Owner: phpcompta
-CREATE SEQUENCE s_stock_goods
+-- Name: s_jrn_rapt; Type: SEQUENCE; Schema: public; Owner: phpcompta
+CREATE SEQUENCE s_jrn_rapt
     START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
     MINVALUE 1
     CACHE 1;
--- Name: s_jrn_rapt; Type: SEQUENCE; Schema: public; Owner: phpcompta
-CREATE SEQUENCE s_jrn_rapt
+-- Name: s_stock_goods; Type: SEQUENCE; Schema: public; Owner: phpcompta
+CREATE SEQUENCE s_stock_goods
     START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807

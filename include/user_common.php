@@ -63,9 +63,9 @@ return $r;
  *       a[tva_id] =  amount vat
  */
 function ComputeVat($p_cn,	$a_fiche,$a_quant,$a_price,$ap_vat ) {
-echo_debug("ComputeVat $a_fiche $a_quant $a_price");
+echo_debug(__FILE__,__LINE__,"ComputeVat $a_fiche $a_quant $a_price");
  foreach ( $a_fiche as $t=>$el) {
-   echo_debug("t $t e $el");
+   echo_debug(__FILE__,__LINE__,"t $t e $el");
  }
  $r=null;
 // foreach goods 
@@ -94,7 +94,7 @@ echo_debug("ComputeVat $a_fiche $a_quant $a_price");
     } 
     
  }
- echo_debug(" return $r");
+ echo_debug(__FILE__,__LINE__," return $r");
  return $r;
  
  
@@ -162,7 +162,7 @@ function InsertJrnx($p_cn,$p_type,$p_user,$p_jrn,$p_poste,$p_date,$p_amount,$p_g
   $sql=sprintf("insert into jrnx (j_date,j_montant, j_poste,j_grpt, j_jrn_def,j_debit,j_tech_user,j_tech_per)
 			values (to_date('%s','DD.MM.YYYY'),abs(%.2f),%d,%d,%d,%s,'%s',%d)",
 	       $p_date,round($p_amount,2),$p_poste,$p_grpt,$p_jrn,$debit,$p_user,$p_periode);
-  echo_debug("InsertJrnx $sql");
+  echo_debug(__FILE__,__LINE__,"InsertJrnx $sql");
   $Res=ExecSql($p_cn,$sql);
   if ( $Res==false) return $Res;
   return GetSequence($p_cn,'s_jrn_op');
@@ -201,7 +201,7 @@ comment = $p_comment");
 	$sql=sprintf("insert into jrn (jr_def_id,jr_montant,jr_comment,jr_date,jr_ech,jr_grpt_id,jr_tech_per)
 	         values ( %d,abs(%.2f),'%s',to_date('%s','DD.MM.YYYY'),%s,%d,%d)",
 		     $p_jrn, round($p_amount,2),$p_comment,$p_date,$p_echeance,$p_grpt,$p_periode);
-	echo_debug("InsertJrn $sql");
+	echo_debug(__FILE__,__LINE__,"InsertJrn $sql");
 	$Res=ExecSql($p_cn,$sql);				 
 	if ( $Res == false)  return false;
 	return GetSequence($p_cn,'s_jrn');
@@ -454,7 +454,7 @@ function VerifyOperationDate($p_cn,$p_user,$p_date) {
   // Verify the date
   if ( isDate($p_date) == null ) { 
 	  echo_error("Invalid date $p_date");
-	  echo_debug("Invalid date $p_date");
+	  echo_debug(__FILE__,__LINE__,"Invalid date $p_date");
 	  echo "<SCRIPT> alert('INVALID DATE $p_date !!!!');</SCRIPT>";
 	  return null;
 		}
@@ -501,7 +501,7 @@ function InsertRapt($p_cn,$jr_id,$jr_id2) {
        isNumber($jr_id2) == 0 )
     {
       echo_error(" InsertRapt : invalid jr_id $jr_id, jr_id2 $jr_id2");
-      echo_debug(" InsertRapt : invalid jr_id $jr_id, jr_id2 $jr_id2");
+      echo_debug(__FILE__,__LINE__," InsertRapt : invalid jr_id $jr_id, jr_id2 $jr_id2");
       return;
     }
   // verify if exists
@@ -527,7 +527,7 @@ function InsertRapt($p_cn,$jr_id,$jr_id2) {
  *      - none
  */
 function DeleteRapt($p_cn,$jr_id,$jr_id2) {
-  echo_debug("DeleteRapt($p_cn,$jr_id,$jr_id2) ");
+  echo_debug(__FILE__,__LINE__,"DeleteRapt($p_cn,$jr_id,$jr_id2) ");
   if ( isNumber($jr_id)  == 0 or 
        isNumber($jr_id2) == 0 )
     {

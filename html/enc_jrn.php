@@ -84,7 +84,7 @@ if ( isset ( $_GET["action"] )) {
       exit -1;
 
     }
-    echo_debug("record");
+    echo_debug(__FILE__,__LINE__,"record");
     $max_deb=$_GET["max_deb"];
     $max_cred=$_GET["max_cred"];
     RecordJrn($g_dossier,$g_user,$g_jrn,$max_deb,$max_cred);
@@ -98,7 +98,7 @@ if ( isset ( $_GET["action"] )) {
     }
     // p_id is jrn.jr_id
     $p_id=$_GET["line"];
-    echo_debug(" action = update p_id = $p_id");
+    echo_debug(__FILE__,__LINE__," action = update p_id = $p_id");
     $r ='<FORM METHOD="POST" ACTION="enc_jrn.php">';
     $r.=UpdateJrn($cn,$p_id);
     $r.='<input type="SUBMIT" name="update_record" value="Enregistre">';
@@ -120,7 +120,7 @@ if ( isset ( $_GET["action"] )) {
     $p_MaxDeb+=2;
     echo "</DIV>";
     CorrectRecord($g_dossier,$g_user,$g_jrn,$p_MaxDeb,$p_MaxCred,$HTTP_POST_VARS);
-    echo_debug("CorrectRecord($g_dossier,$g_user,$g_jrn,$p_MaxDeb,$p_MaxCred,$HTTP_POST_VARS);");
+    echo_debug(__FILE__,__LINE__,"CorrectRecord($g_dossier,$g_user,$g_jrn,$p_MaxDeb,$p_MaxCred,$HTTP_POST_VARS);");
   }
 
   if ( isset ($_POST['add_line_cred'])	) {
@@ -131,7 +131,7 @@ if ( isset ( $_GET["action"] )) {
     $p_MaxCred+=2;
     echo "</DIV>";
     CorrectRecord($g_dossier,$g_user,$g_jrn,$p_MaxDeb,$p_MaxCred,$HTTP_POST_VARS);
-    echo_debug("CorrectRecord($g_dossier,$g_user,$g_jrn,$p_MaxDeb,$p_MaxCred+10,$HTTP_POST_VARS);");
+    echo_debug(__FILE__,__LINE__,"CorrectRecord($g_dossier,$g_user,$g_jrn,$p_MaxDeb,$p_MaxCred+10,$HTTP_POST_VARS);");
   }
  if ( isset ($_POST['viewsearch']) ) {
    reset($HTTP_POST_VARS);
@@ -146,7 +146,7 @@ if ( isset ( $_GET["action"] )) {
 if ( isset($_POST['add_record']) ) {
     echo '<DIV class="redcontent">';
     foreach ( $HTTP_POST_VARS as $name=>$element ) {
-      echo_debug("element $name -> $element ");
+      echo_debug(__FILE__,__LINE__,"element $name -> $element ");
       // Sauve les données dans des variables
       ${"p_$name"}=$element;
     }
@@ -154,7 +154,7 @@ if ( isset($_POST['add_record']) ) {
     list ($l_date_start,$l_date_end)=GetPeriode($cn,$userPref);
 
     $p_op_date=$p_op_date.substr($l_date_start,2,8);
-    echo_debug("p_op_date is $p_op_date");
+    echo_debug(__FILE__,__LINE__,"p_op_date is $p_op_date");
     $aHttp=$HTTP_POST_VARS;
     $aHttp['op_date']=$p_op_date;
     // Verifie data
@@ -190,7 +190,7 @@ if ( isset($_POST['add_record']) ) {
                 .$montant.",
                 $l_class,$seq,
                 $g_jrn,true,'$g_user',$userPref)";
-	echo_debug("sql $Sql");
+	echo_debug(__FILE__,__LINE__,"sql $Sql");
 	$s_op++;
 	$tot_deb+=$montant;
 	$Res=ExecSql($cn,$Sql);
@@ -210,7 +210,7 @@ if ( isset($_POST['add_record']) ) {
                 values ( $s_op,to_date('$p_op_date','DD.MM.YYYY'), $montant,
                 $l_class,$seq,
                 $g_jrn,false,'$g_user',$userPref)";
-	echo_debug("sql $Sql");
+	echo_debug(__FILE__,__LINE__,"sql $Sql");
 	$s_op++;
 	$tot_cred+=$montant;
 	$Res=ExecSql($cn,$Sql);
@@ -241,7 +241,7 @@ if ( isset($_POST['add_record']) ) {
 		   $comment,
 		   $p_ech,
 		   $seq,$tot_deb,$userPref);
-      echo_debug("Sql $Sql");
+      echo_debug(__FILE__,__LINE__,"Sql $Sql");
       $Res=ExecSql($cn,$Sql);
       if ($Res) 
 	SetInternalCode($cn,$seq,$g_jrn);
@@ -259,8 +259,8 @@ if ( isset($_POST['add_record']) ) {
       // Add the p_text to the array
 
       ViewRecord($g_dossier,$g_jrn,$seq,$p_MaxDeb,$p_MaxCred,$aHttp);
-      //      echo_debug("ViewRecord($g_dossier,$g_jrn,$seq,$p_MaxDeb,$p_MaxCred,$HTTP_POST_VARS);");
-            echo_debug("ViewRecord($g_dossier,$g_jrn,$seq,$p_MaxDeb,$p_MaxCred,$aHttp);");
+      //      echo_debug(__FILE__,__LINE__,"ViewRecord($g_dossier,$g_jrn,$seq,$p_MaxDeb,$p_MaxCred,$HTTP_POST_VARS);");
+            echo_debug(__FILE__,__LINE__,"ViewRecord($g_dossier,$g_jrn,$seq,$p_MaxDeb,$p_MaxCred,$aHttp);");
     } else
       {
 	Rollback($cn); 

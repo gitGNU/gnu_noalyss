@@ -85,7 +85,7 @@ if ( $action == "change_jrn" ) {
   }
 
   $l_Db=sprintf("dossier%d",$g_dossier);
-  echo_debug ("select * from user_sec_jrn where uj_login='$login' and uj_jrn_id=$jrn");
+  echo_debug(__FILE__,__LINE__,"select * from user_sec_jrn where uj_login='$login' and uj_jrn_id=$jrn");
   $cn_dossier=DbConnect($l_Db);
   $l2_Res=ExecSql($cn_dossier,
 		  "select * from user_sec_jrn where uj_login='$login' and uj_jrn_id=$jrn");
@@ -108,11 +108,11 @@ if ( $action == "change_act" ) {
   $l_Db=sprintf("dossier%d",$g_dossier);
   $cn_dossier=DbConnect($l_Db);
   if ( $access==0) {
-    echo_debug("delete right");
+    echo_debug(__FILE__,__LINE__,"delete right");
     $Res=ExecSql($cn_dossier,
 		 "delete from user_sec_act where ua_login='$login' and ua_act_id=$act");
   } else {
-    echo_debug("insert right");
+    echo_debug(__FILE__,__LINE__,"insert right");
     $Res=ExecSql($cn_dossier,
 		 "insert into  user_sec_act(ua_login,ua_act_id) values( '$login' ,$act)");
   }
@@ -162,7 +162,7 @@ if ( $action == "view" ) {
 
     if ( $admin == 0) {
       $right=    CheckJrn($g_dossier,$l2_line['use_login'],$l_line['jrn_def_id'] );
-      echo_debug("Privilege is $right");
+      echo_debug(__FILE__,__LINE__,"Privilege is $right");
     } else $right = 3;
     if ( $right == 0 ) {
       echo "<TD BGCOLOR=RED>";

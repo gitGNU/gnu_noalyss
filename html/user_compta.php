@@ -25,7 +25,7 @@ html_page_start($g_UserProperty['use_theme']);
 if ( isset ( $dos ) ) {
   $g_dossier=$dos;
   session_register("g_dossier");
-  echo_debug("admin_dossier = $g_dossier ");
+  echo_debug(__FILE__,__LINE__,"admin_dossier = $g_dossier ");
   $g_name=GetDossierName($g_dossier);
   session_register("g_name");
 
@@ -34,7 +34,7 @@ if ( isset ( $dos ) ) {
   exit -2;
 }
 include_once ("postgres.php");
-echo_debug ("user is $g_user");
+echo_debug(__FILE__,__LINE__,"user is $g_user");
 /* CheckUser */
 CheckUser();
 
@@ -57,7 +57,7 @@ if ( $g_UserProperty['use_admin'] == 0 ) {
 include_once ("user_menu.php");
 include_once ("top_menu_compta.php");
 ShowMenuCompta($g_dossier,$g_UserProperty);
-ShowMenuComptaRight($g_dossier,$g_UserProperty); 
+//ShowMenuComptaRight($g_dossier,$g_UserProperty); 
 html_page_stop();
 
 ?>

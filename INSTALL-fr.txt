@@ -12,36 +12,55 @@
   Table of Contents
 
 
-  1. Postgresql (version 732 minimum)
-     1.1 Installation
-     1.2 Configuration et démarrage de PostgreSql
+  1. Linux
+  2. Postgresql (version 732 minimum)
+     2.1 Installation
+     2.2 Configuration et démarrage de PostgreSql
+     2.3 Pour la sécurité
+     2.4 Pour la sécurité
 
-  2. Apache
-     2.1 Installation d'Apache
-     2.2 Configuration d'Apache
+  3. Apache
+     3.1 Installation d'Apache
+     3.2 Configuration d'Apache
 
-  3. PHP
-     3.1 Installation de PHP 4.3.1
-     3.2 Configuration de PHP :  Fichier php.ini
+  4. PHP
+     4.1 Installation de PHP 4.3.1
+     4.2 Configuration de PHP :  Fichier php.ini
 
-  4. Installation de PhpCompta
-  5. Conclusion
-  6. Remarque
+  5. Installation de PhpCompta
+  6. Conclusion
+  7. Remarque
 
 
   ______________________________________________________________________
 
-  [1m1.  Postgresql (version 732 minimum)[0m
+  [1m1.  Linux[0m
 
-  [1m1.1.  Installation[0m
+  Si vous installez sur Linux, l'installation d'apache, postgres et php
+  peut se faire avec les "packages" standards fournis; ces "packages"
+  sont largement suffisants. Les explications données ici sur
+  l'installation de ces produits est destinées à ceux devant le faire
+  manuellement.
+
+
+  Cependant, les configurations des différents produits est important et
+  devrait être lues avant d'appeler à l'aide.
+
+
+
+  [1m2.  Postgresql (version 732 minimum)[0m
+
+  [1m2.1.  Installation[0m
 
   Soit avec des binaires préparés, soit à partir du code source
+
+
 
   Si vous décidez de le compiler vous-même, les options suivantes
   fonctionnent ./configure -with-tk --with-python --with-perl
   --prefix=/opt/psql732
 
-  [1m1.2.  Configuration et démarrage de PostgreSql[0m
+  [1m2.2.  Configuration et démarrage de PostgreSql[0m
 
   Comme d'habitude pour postgres, il faut tout d'abord définir, créer
   l'utilisateur postgres puis initialiser l'endroit où seront stocké vos
@@ -62,7 +81,6 @@
        ex: export PATH=$PATH:/opt/psql732/bin
 
 
-
   Il est impératif d'avoir l'option -i, sinon le server HTTP ne pourra
   pas contacter PostgreSql
 
@@ -71,23 +89,83 @@
 
   Ce fichier doit au moins contenir la ligne:
 
-       # TYPE  DATABASE    USER        IP-ADDRESS        IP-MASK
-       METHOD host    all         phpcompta   172.16.30.0
-       255.255.255.0   trust
+  # TYPE  DATABASE    USER        IP-ADDRESS        IP-MASK           METHOD
+  <<<<<<< INSTALL-fr.sgml
+  host    all         phpcompta   172.16.30.0         255.255.255.0   local
+
+  =======
+  host    all         phpcompta   172.16.30.0         255.255.255.0   local
 
 
-  Il vaut mieux remplacer 172.16.30.0 par l'adresse du server HTTP, dans
-  le cas où vous utilisez un VirtualHost avec une adresse IP, c'est
-  cette adresse qu'il vous faudra mettre il faut aussi que l'utilisateur
-  qui installera ce programme existe pour postgres et puisse créer des
-  utilisateur et des bases de données la commande
+  >>>>>>> 1.8 Il vaut mieux remplacer 172.16.30.0 par l'adresse du
+  server HTTP, dans le cas où vous utilisez un VirtualHost avec une
+  adresse IP, c'est cette adresse qu'il vous faudra mettre il faut aussi
+  que l'utilisateur qui installera ce programme existe pour postgres et
+  puisse créer des utilisateur et des bases de données la commande
 
        /opt/psql732/bin/createuser -a -d $USER
 
+  <<<<<<< INSTALL-fr.sgml
 
-  [1m2.  Apache[0m
+  [1m2.3.  Pour la sécurité[0m
 
-  [1m2.1.  Installation d'Apache[0m
+  Vous pouvez ajouter la sécurité à votre server Postgresql en changeant
+  dans pg_hba.conf. Mais avant de faire cela, ajoutez un mot de passe à
+  vos utilisateurs avec la commande remplacer .1. par le nom de
+  l'utilisateur et .2. par son mot de passe
+
+       changement mot de passe alter user .1. password '.2.'
+
+
+
+       Sécurité # TYPE  DATABASE    USER        IP-ADDRESS
+       IP-MASK           METHOD host    all         phpcompta
+       172.16.30.0         255.255.255.0   md5 local    all
+       phpcompta   172.16.30.0         255.255.255.0   md5
+
+
+  Ensuite soit vous utilisez la variable d'environnement PGPASSWORD qui
+  contient votre mot de passe soit avec le fichier .pgpass dont la syn-
+  taxe est
+
+
+  host:port:database:username:password
+
+
+  N'oubliez pas de mettre ce fichier en mode 600 !!!! Pour executer sans
+  demande de mot de passe host = localhost=======
+
+  [1m2.4.  Pour la sécurité[0m
+
+  Vous pouvez ajouter la sécurité à votre server Postgresql en changeant
+  dans pg_hba.conf. Mais avant de faire cela, ajoutez un mot de passe à
+  vos utilisateurs avec la commande remplacer .1. par le nom de
+  l'utilisateur et .2. par son mot de passe
+
+       changement mot de passe alter user .1. password '.2.'
+
+
+  Le fichier pg_hba.conf sera comme ceci
+
+  Sécurité
+  # TYPE  DATABASE    USER        IP-ADDRESS        IP-MASK           METHOD
+  host    all         phpcompta   172.16.30.0         255.255.255.0   md5
+  local    all         phpcompta   172.16.30.0         255.255.255.0   md5
+
+
+  Ensuite soit vous utilisez la variable d'environnement PGPASSWORD qui
+  contient votre mot de passe soit avec le fichier .pgpass dont la syn-
+  taxe est
+
+       host:port:database:username:password
+
+
+  N'oubliez pas de mettre ce fichier en mode 600 !!!! Pour executer sans
+  demande de mot de passe host = localhost>>>>>>> 1.8
+
+  [1m3.  Apache[0m
+
+  [1m3.1.  Installation d'Apache[0m
 
   Si vous décidez de le compiler vous-même, les options suivantes
   fonctionnent
@@ -97,7 +175,7 @@
        --enable-headers \ --enable-info
 
 
-  [1m2.2.  Configuration d'Apache[0m
+  [1m3.2.  Configuration d'Apache[0m
 
   Le fichier httpd.conf doit au moins contenir. Pour plus d'information,
   voir le manuel d'Apache.
@@ -116,29 +194,29 @@
 
   Apache se démarre avec apachectl start
 
-  [1m3.  PHP[0m
 
-  [1m3.1.  Installation de PHP 4.3.1[0m
+  [1m4.  PHP[0m
+
+  [1m4.1.  Installation de PHP 4.3.1[0m
 
   Il doit être compilé le dernier !!!  Si vous décidez de le compiler
   vous-même, les options suivantes fonctionnent
 
 
-
-  ./configure --prefix=/opt/php431 \
-      --with-apxs2=/opt/http2/bin/apxs \
-      --with-fastcgi \
-      --with-zlib \
-      --with-pgsql=/opt/psql732 \
-      --with-mysql \
-      --with-apache2=/software/httpd-2.0.44
+       ./configure --prefix=/opt/php431 \
+           --with-apxs2=/opt/http2/bin/apxs \
+           --with-fastcgi \
+           --with-zlib \
+           --with-pgsql=/opt/psql732 \
+           --with-mysql \
+           --with-apache2=/software/httpd-2.0.44
 
 
 
   le répertoire /software/httpd-2.0.44 est le répertoire ou vous
   installer les sources d'apache
 
-  [1m3.2.  Configuration de PHP :  Fichier php.ini[0m
+  [1m4.2.  Configuration de PHP :  Fichier php.ini[0m
 
   s'il n'existe pas, vous devez le créer, l'endroit où vous le trouverez
   dépend des options de compilation. Dans le cas, où vous avez compilé
@@ -173,7 +251,7 @@
 
 
 
-  [1m4.  Installation de PhpCompta[0m
+  [1m5.  Installation de PhpCompta[0m
 
   On suppose que postgresql est installé correctement Etape
 
@@ -182,28 +260,26 @@
       createuser -d phpcompta
 
 
-
   ·  Là on vous comptez installer le soft, créer le répertoire, règler
      les permissions
 
   ·  connecter vous en tant que l'utilisateur qu'il a le droit dans le
      répertoire décrit plus haut, puis taper ./install.sh
 
-
-  [1m5.  Conclusion[0m
+  [1m6.  Conclusion[0m
 
   Voilà maintenant, il vous suffit de faire ./install.sh pour tout
   installer; puis d'aller avec votre navigateur sur l'url.
   http://adresse_ip_du_virtualhost/test.php. Vous verrez directement, si
   l'application fonctionne.
 
-  [1m6.  Remarque[0m
+  [1m7.  Remarque[0m
 
 
   ·  Il faut créer le répertoire où seront mis l'application elle-même,
      ici, les fichiers seront dans /home/httpd/compta, l'endroit est
      défini dans setenv.sh. Créer ce répertoire, le propriétaire de
-     répertoire doit être le même que celui qui fera installera
+     répertoire doit être le même que celui qui installera
      l'application. Cet utiliserateur devra aussi avoir le privilège de
      créer un utilisateur pour postgres (fonction createuser).
 

@@ -47,7 +47,8 @@ function CheckJrn($p_dossier,$p_user,$p_jrn)
   $l_Db=sprintf("dossier%d",$p_dossier);
   $cn=DbConnect($l_Db);
   // droit spécifique
-  $Res2=ExecSql($cn,"select jrn_def_id,uj_priv from jrn_def left join user_sec_jrn on uj_jrn_id=jrn_def_id
+  $Res2=ExecSql($cn,"select jrn_def_id,uj_priv 
+                 from jrn_def left join user_sec_jrn on uj_jrn_id=jrn_def_id
                     where uj_login='$p_user' and jrn_def_id=$p_jrn");
 
   $PrivJrn=pg_NumRows($Res2);

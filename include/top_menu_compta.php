@@ -308,11 +308,11 @@ function ShowMenuJrnUser($p_dossier,$p_auser,$p_type=-1,$p_jrn=-1)
 
 function ShowMenuRecherche($p_dossier,$p_jrn,$p_array=null)
 {
-  echo_debug("ShowMenuRecherche($p_dossier,$p_jrn,$p_array)");
+  echo_debug(__FILE__,__LINE__,"ShowMenuRecherche($p_dossier,$p_jrn,$p_array)");
   if ( $p_array != null ) {
     foreach ( $p_array as $key=> $element) {
       ${"p_$key"}=$element;
-      echo_debug("p_$key =$element;");
+      echo_debug(__FILE__,__LINE__,"p_$key =$element;");
     }
   }
   $opt='<OPTION VALUE="<="> <=';

@@ -246,7 +246,7 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article
   $op_date=( ! isset($e_date) ) ?substr($l_date_start,2,8):$e_date;
   $e_ech=(isset($e_ech))?$e_ech:"";
   // Save old value and set a new one
-  echo_debug("form_input.php.FormVentep_op_date is $op_date");
+  echo_debug(__FILE__,__LINE__,"form_input.php.FormVentep_op_date is $op_date");
   $r="";
   if ( $view_only == false) {
     $r.=JS_SEARCH_CARD;
@@ -262,7 +262,7 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article
   include_once("fiche_inc.php");
   // Display the customer
   $fiche='deb';
-  echo_debug("Client Nombre d'enregistrement ".sizeof($fiche));
+  echo_debug(__FILE__,__LINE__,"Client Nombre d'enregistrement ".sizeof($fiche));
   // Save old value and set a new one
   $e_client=( isset ($e_client) )?$e_client:"";
 
@@ -306,7 +306,7 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article
   $r.="<th>quantité</th>";
   $r.='</TR>';
   //  $fiche=GetFicheJrn($p_cn,$p_jrn,'cred');
-  //  echo_debug("Cred Nombre d'enregistrement ".sizeof($fiche));
+  //  echo_debug(__FILE__,__LINE__,"Cred Nombre d'enregistrement ".sizeof($fiche));
   for ($i=0;$i< $p_article;$i++) {
     // Code id
     $march=(isset(${"e_march$i"}))?${"e_march$i"}:"";
@@ -399,14 +399,14 @@ function FormVenteView ($p_cn,$p_jrn,$p_user,$p_array,$p_number,$p_doc='html',$p
   // Verify the date
   if ( isDate($e_date) == null ) { 
 	  echo_error("Invalid date $e_date");
-	  echo_debug("Invalid date $e_date");
+	  echo_debug(__FILE__,__LINE__,"Invalid date $e_date");
 	  echo "<SCRIPT> alert('INVALID DATE $e_date !!!!');</SCRIPT>";
 	  return null;
 		}
 // Verify the quantity
 for ($o = 0;$o < $p_number; $o++) {
 	if ( isNumber(${"e_quant$o"}) == 0 ) {
-		echo_debug("invalid quantity ".${"e_quant$o"});
+		echo_debug(__FILE__,__LINE__,"invalid quantity ".${"e_quant$o"});
 		echo_error("invalid quantity ".${"e_quant$o"});
 		echo "<SCRIPT> alert('INVALID QUANTITY !!!');</SCRIPT>";
 		return null;
@@ -444,9 +444,9 @@ for ($o = 0;$o < $p_number; $o++) {
  // if ech is a number of days then compute date limit
  if ( strlen($e_ech) != 0 and isNumber($e_ech) == 1) {
  list($day,$month,$year)=explode(".",$e_date);
-  echo_debug(" date $e_date = $day.$month.$year");
+  echo_debug(__FILE__,__LINE__," date $e_date = $day.$month.$year");
   $p_ech=date('d.m.Y',mktime(0,0,0,$month,$day+$e_ech,$year));
-  echo_debug("p_ech = $e_ech $p_ech");
+  echo_debug(__FILE__,__LINE__,"p_ech = $e_ech $p_ech");
   $e_ech=$p_ech;
   $data.=InputType("","HIDDEN","e_ech",$e_ech);
  }
@@ -694,9 +694,9 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
   $sum_vat=0.0;
   if ( $a_vat != null ){
     foreach ( $a_vat as $element => $t) {
-      echo_debug(" a_vat element $element t $t");
+      echo_debug(__FILE__,__LINE__," a_vat element $element t $t");
       $sum_vat+=$t;
-      echo_debug("sum_vat = $sum_vat");
+      echo_debug(__FILE__,__LINE__,"sum_vat = $sum_vat");
     }
   }
   // First we add in jrnx
@@ -739,7 +739,7 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
       
       }
     }
-  echo_debug("echeance = $e_ech");
+  echo_debug(__FILE__,__LINE__,"echeance = $e_ech");
   $r=InsertJrn($p_cn,$e_date,$e_ech,$p_jrn,"Invoice",$amount+$sum_vat,$seq,$periode);
   if ( $r == false ) { Rollback($p_cn); exit(" Error __FILE__ __LINE__");}
   // Set Internal code and Comment
@@ -796,7 +796,7 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
   $e_ech=(isset($e_ech))?$e_ech:"";
   $e_comment=(isset($e_comment))?$e_comment:"";
   // Save old value and set a new one
-  //  echo_debug("form_input.php.FormAch p_op_date is $e_date");
+  //  echo_debug(__FILE__,__LINE__,"form_input.php.FormAch p_op_date is $e_date");
   $r="";
   if ( $view_only == false) {
     $r.=JS_SEARCH_CARD;
@@ -1052,9 +1052,9 @@ function RecordAchat($p_cn,$p_array,$p_user,$p_jrn)
   $sum_vat=0.0;
   if ( $a_vat != null ) {
     foreach ( $a_vat as $element => $t) {
-      echo_debug(" a_vat element $element t $t");
+      echo_debug(__FILE__,__LINE__," a_vat element $element t $t");
       $sum_vat+=$t;
-      echo_debug("sum_vat = $sum_vat");
+      echo_debug(__FILE__,__LINE__,"sum_vat = $sum_vat");
     }
   }
     // First we add in jrnx
@@ -1087,8 +1087,8 @@ function RecordAchat($p_cn,$p_array,$p_user,$p_jrn)
 	if ( InsertJrnx($p_cn,'d',$p_user,$p_jrn,$poste,$e_date,$tva_amount,$seq,$periode) == false ) { $Rollback($p_cn);exit("error __FILE__ __LINE__");}
       }
     }
-  echo_debug("echeance = $e_ech");
-  echo_debug("comment = $e_comment");
+  echo_debug(__FILE__,__LINE__,"echeance = $e_ech");
+  echo_debug(__FILE__,__LINE__,"comment = $e_comment");
   if ( ($amount+$sum_vat) != 0 ){
     if ( InsertJrn($p_cn,$e_date,$e_ech,$p_jrn,$e_comment,$amount+$sum_vat,$seq,$periode) == false ) {
       $Rollback($p_cn);exit("error __FILE__ __LINE__");
@@ -1173,7 +1173,7 @@ function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
       echo_error($msg); echo_error($msg);	
       echo "<SCRIPT>alert('$msg');</SCRIPT>";
       $e_bank_account="";
-      echo_debug("FormFin returns NULL the bank account is not valid");
+      echo_debug(__FILE__,__LINE__,"FormFin returns NULL the bank account is not valid");
       return null;
     } else {
       $a_client=GetFicheAttribut($p_cn,$e_bank_account);
@@ -1184,7 +1184,7 @@ function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
     
     if ( $view_only ==true) {
       return null;
-      echo_debug("FormFin returns NULL the bank account is not valid");
+      echo_debug(__FILE__,__LINE__,"FormFin returns NULL the bank account is not valid");
     }
     
   }
@@ -1308,7 +1308,7 @@ return $r;
  *	      true on success
  */
 function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
-  echo_debug("RecordFin");
+  echo_debug(__FILE__,__LINE__,"RecordFin");
   foreach ( $p_array as $v => $e)
   {
     ${"$v"}=$e;
@@ -1320,7 +1320,7 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
   // Verify the date
   if ( isDate($e_date) == null ) { 
 	  echo_error("Invalid date $e_date");
-	  echo_debug("Invalid date $e_date");
+	  echo_debug(__FILE__,__LINE__,"Invalid date $e_date");
 	  echo "<SCRIPT> alert('INVALID DATE $e_date !!!!');</SCRIPT>";
 	  return null;
 		}
@@ -1353,7 +1353,7 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
     if ( ($j_id=InsertJrnx($p_cn,'c',$p_user,$p_jrn,$poste,$e_date,${"e_other$i"."_amount"},$seq,$periode)) == false )
       { $Rollback($p_cn);exit("error __FILE__ __LINE__");}
 
-    echo_debug("   $j_id=InsertJrnx($p_cn,'d',$p_user,$p_jrn,$poste,$e_date,".${"e_other$i"}."_amount".",$seq,$periode);");
+    echo_debug(__FILE__,__LINE__,"   $j_id=InsertJrnx($p_cn,'d',$p_user,$p_jrn,$poste,$e_date,".${"e_other$i"}."_amount".",$seq,$periode);");
 
     if ( ($jr_id=InsertJrn($p_cn,$e_date,'',$p_jrn,FormatString(${"e_other$i"."_comment"}),
 			   ${"e_other$i"."_amount"},$seq,$periode))==false) {
@@ -1416,7 +1416,7 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
   $e_ech=(isset($e_ech))?$e_ech:"";
   $e_comment=(isset($e_comment))?$e_comment:"";
   // Save old value and set a new one
-  //  echo_debug("form_input.php.FormODS p_op_date is $e_date");
+  //  echo_debug(__FILE__,__LINE__,"form_input.php.FormODS p_op_date is $e_date");
   $r="";
   if ( $view_only == false) {
     $r.=JS_SEARCH_POSTE;
@@ -1516,7 +1516,7 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
   $r.="</FORM>";
   //TODO if view only show total
   $tmp= abs($sum_deb-$sum_cred);
-  echo_debug("Diff = ".$tmp);
+  echo_debug(__FILE__,__LINE__,"Diff = ".$tmp);
   if ( abs($sum_deb-$sum_cred) > 0.0001  and $view_only==true) {
     $msg=sprintf("Montant non correspondant credit = %.5f debit = %.5f diff = %.5f",
 		 $sum_cred,$sum_deb,$sum_cred-$sum_deb);

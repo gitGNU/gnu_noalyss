@@ -76,7 +76,7 @@ if ( isset($_GET['filter'])) {
     // Creation query
     foreach ( $valid_cred as $item_cred) {
       if ( strlen (trim($item_cred))) {
-	echo_debug("l_line[jrn_def_class_cred] $l_line[jrn_def_class_cred] item_cred $item_cred");
+	echo_debug(__FILE__,__LINE__,"l_line[jrn_def_class_cred] $l_line[jrn_def_class_cred] item_cred $item_cred");
 	if ( strstr($item_cred,"*") == true ) {
 	  $item_cred=strtr($item_cred,"*","%");
 	  $Sql=" pcm_val like '$item_cred' or";
@@ -94,7 +94,7 @@ if ( isset($_GET['filter'])) {
     // Creation query
     foreach ( $valid_deb as $item_deb) {
       if ( strlen (trim($item_deb))) {
-	echo_debug("l_line[jrn_def_class_deb] $l_line[jrn_def_class_deb] item_deb $item_deb");
+	echo_debug(__FILE__,__LINE__,"l_line[jrn_def_class_deb] $l_line[jrn_def_class_deb] item_deb $item_deb");
 	if ( strstr($item_deb,"*") == true ) {
 	  $item_cred=strtr($item_deb,"*","%");
 	  $Sql=" pcm_val like '$item_deb' or";
@@ -119,7 +119,7 @@ if ( isset($_POST['p_ctl'])) {
   $p_ctl=$_POST['p_ctl'];
 }
 
-echo_debug("condition = $condition");
+echo_debug(__FILE__,__LINE__,"condition = $condition");
 
 echo '<FORM ACTION="poste_search.php'.$url.'" METHOD="POST">';
 if ( isset($p_ctl) ) {

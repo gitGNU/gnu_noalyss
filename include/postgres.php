@@ -34,7 +34,7 @@
 function CheckUser()
 {
 	global $g_user,$g_pass,$IsValid;
-	echo_debug("CheckUser");
+	echo_debug(__FILE__,__LINE__,"CheckUser");
 	$res=0;
 	$pass5=md5($g_pass);
 	if ( $IsValid == 1 ) { return; }
@@ -45,10 +45,10 @@ function CheckUser()
 				 where ac_users.use_login='$g_user' 
 					and ac_users.use_active=1
 					and ac_users.use_pass='$pass5'";
-	    echo_debug("Sql = $sql");
+	    echo_debug(__FILE__,__LINE__,"Sql = $sql");
 	    $ret=pg_exec($cn,$sql);
 	    $res=pg_NumRows($ret);
-	    echo_debug("Number of found rows : $res");
+	    echo_debug(__FILE__,__LINE__,"Number of found rows : $res");
 	  }
 	  
 	if ( $res == 0  ) {
@@ -97,7 +97,7 @@ function ShowDossier($p_type,$p_first=0,$p_max=10,$p_Num=0) {
   $l_sql=$l_sql.$l_step;
   $p_res=ExecSql($cn,$l_sql);
 
-  echo_debug("ShowDossier:".$p_res." Line = $p_Num");
+  echo_debug(__FILE__,__LINE__,"ShowDossier:".$p_res." Line = $p_Num");
 
   $Max=pg_NumRows($p_res);
   if ( $Max == 0 ) return null;
@@ -146,7 +146,7 @@ function DbConnect($p_db="account_repository") {
  * return false if error otherwise true
  */
 function ExecSql($p_connection, $p_string) {
-  echo_debug("SQL = $p_string");
+  echo_debug(__FILE__,__LINE__,"SQL = $p_string");
 
   $ret=pg_exec($p_connection,$p_string);
   if ( $ret == false ) { 
@@ -162,10 +162,10 @@ function ExecSql($p_connection, $p_string) {
  * as an array
  */
 function GetAllUser() {
-  echo_debug("GetUser");
+  echo_debug(__FILE__,__LINE__,"GetUser");
   $cn=DbConnect();
   $sql="select * from ac_users where use_login!='phpcompta'";
-  echo_debug("ExecSql");
+  echo_debug(__FILE__,__LINE__,"ExecSql");
   $Res=ExecSql($cn,$sql);
   $Num=pg_NumRows($Res);
   if ( $Num == 0 ) return null;
@@ -200,7 +200,7 @@ function GetPriv($p_dossier,$p_login)
 			inner join ac_users on ac_users.use_id=jnt_use_dos.use_id
                     where use_login='$p_login' and dos_id=$p_dossier");
   $Num=pg_NumRows($Res);
-  echo_debug("Found ".$Num." rows in GetPriv");
+  echo_debug(__FILE__,__LINE__,"Found ".$Num." rows in GetPriv");
   if ( $Num==0) { return 0;}
   for($i=0;$i < $Num;$i++) {
     $Right=pg_fetch_array($Res,$i); 

@@ -23,7 +23,7 @@ include_once("ac_common.php");
 include_once("postgres.php");
 include_once("debug.php");
 html_page_start($g_UserProperty['use_theme']);
-echo_debug("entering admin_repo");
+echo_debug(__FILE__,__LINE__,"entering admin_repo");
 
 CheckUser();
 if ($g_UserProperty['use_admin'] != 1) {
@@ -53,7 +53,7 @@ if ( isset ($_GET["action"]) ) {
 
     // Show all the existing user on 7 columns
     $cn=GetAllUser();
-    echo_debug("Array = $cn");
+    echo_debug(__FILE__,__LINE__,"Array = $cn");
     $compteur=0;
 ?>
 <TABLE><TR>

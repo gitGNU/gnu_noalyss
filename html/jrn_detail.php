@@ -179,7 +179,7 @@ $Max=pg_NumRows($Res);
 for ($i=0;$i<$Max;$i++) {
   $Line=pg_fetch_array($Res,$i);
 
-  echo_debug("jrn type !".$Line['jrn_type_id']."!,!".$l_line['jrn_def_type']."!");
+  echo_debug(__FILE__,__LINE__,"jrn type !".$Line['jrn_type_id']."!,!".$l_line['jrn_def_type']."!");
   printf (' %s',$Line['jrn_desc']);
 }
 echo '</TD>';

@@ -112,16 +112,9 @@ done
 [ ! -d $COMPTA_HOME/html/image ] && mkdir $COMPTA_HOME/html/image
 [ ! -d $COMPTA_HOME/include ] && mkdir $COMPTA_HOME/include
 echo "Installing source"
+cp -fr html/*.php  $COMPTA_HOME/html
 cp -fr include/*.php  $COMPTA_HOME/include
 cp -fr html/*.html  $COMPTA_HOME/html
-for i in include/*.php ;do
-    A=`basename $i`
-   sed "s/echo_debug\S*(\"/echo_debug(\"include\/$A:\".__LINE__.'--'.\"/g" $i > $COMPTA_HOME/include/`basename $i`
-done
-for i in html/*.php ;do
-    A=`basename $i`
-    sed "s/echo_debug.*(\"/echo_debug(\"html\/$A:\".__LINE__.'--'.\"/g" $i > $COMPTA_HOME/html/`basename $i`
-done
 cp -f style*.css $COMPTA_HOME/html
 cp -f html/*.js $COMPTA_HOME/html
 cp -fR addon $COMPTA_HOME/html

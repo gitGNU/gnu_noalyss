@@ -30,10 +30,10 @@ include_once("debug.php");
 html_page_start($g_UserProperty['use_theme']);
 
 if ( isset ($db_page) ) {
-  echo_debug("db_page is set ".$db_page);
+  echo_debug(__FILE__,__LINE__,"db_page is set ".$db_page);
 } else 
 { 
-  echo_debug("db_page is NOT set");
+  echo_debug(__FILE__,__LINE__,"db_page is NOT set");
   $db_page=0;
 
 }

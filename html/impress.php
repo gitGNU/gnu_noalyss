@@ -35,7 +35,7 @@ ShowMenuCompta($g_dossier,$g_UserProperty);
 // the advanced menu in the user interface
 if ( isset ($_GET['direct'])) {
   if ( isset ($g_jrn) ) {
-    echo_debug("g_jrn is set --> come from user_profile");
+    echo_debug(__FILE__,__LINE__,"g_jrn is set --> come from user_profile");
     $p_id=$g_jrn;
   } else {
     if (isset ($_GET["p_id"]) )   {
@@ -94,7 +94,7 @@ if ( $g_UserProperty['use_usertype'] == 'user') {
 
 // Ask the period
 if ( isset ( $_GET["action"]) ) {
-  echo_debug(" action is set ");
+  echo_debug(__FILE__,__LINE__," action is set ");
   $a_print=$HTTP_GET_VARS;
   // p_id come from the user interface
   if ( isset($p_id) and isset ( $_GET['direct'])) {

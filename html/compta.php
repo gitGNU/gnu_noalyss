@@ -25,18 +25,18 @@ html_page_start($g_UserProperty['use_theme']);
 if ( isset ( $dos ) ) {
   $g_dossier=$dos;
   session_register("g_dossier");
-  echo_debug("admin_dossier = $g_dossier ");
+  echo_debug(__FILE__,__LINE__,"admin_dossier = $g_dossier ");
 } else {
   echo "You must choose a Dossier ";
   exit -2;
 }
 include_once ("postgres.php");
-echo_debug ("user is $g_user");
+echo_debug(__FILE__,__LINE__,"user is $g_user");
 /* CheckUser */
 CheckUser();
 
 
-echo_debug("theme ".$g_UserProperty['use_theme']);
+echo_debug(__FILE__,__LINE__,"theme ".$g_UserProperty['use_theme']);
 
 if ( $g_UserProperty['use_admin'] == 0 ) {
   

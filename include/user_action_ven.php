@@ -18,13 +18,16 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
-echo_debug("include user_action_ven.php");
+echo_debug(__FILE__,__LINE__,"include user_action_ven.php");
 include_once("form_input.php");
-if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {
-    return;
-}
 $dossier=sprintf("dossier%d",$g_dossier);
 $cn=DbConnect($dossier);
+if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {
+  echo u_ShowMenuJrn($cn,$jrn_type);
+  exit;
+}
+
+
 
 $action=(isset($_GET['action']))?$_GET['action']:$_POST['action'];
 if ( $action == 'insert_vente' ) {
@@ -36,7 +39,7 @@ if ( $action == 'insert_vente' ) {
    
     // Add item
         if (isset($_POST["add_item"]) ) {
-      echo_debug("Add an item");
+      echo_debug(__FILE__,__LINE__,"Add an item");
       $nb_number=$_POST["nb_item"];
       $nb_number++;
 
@@ -65,7 +68,7 @@ if ( $action == 'insert_vente' ) {
     // We want a blank form
     if ( isset($_GET["blank"]))
       {
-      echo_debug("Blank form");
+      echo_debug(__FILE__,__LINE__,"Blank form");
       // Show an empty form of invoice
       $form=FormVente($cn,$g_jrn,$g_user,null,false);
       echo '<div class="u_redcontent">';

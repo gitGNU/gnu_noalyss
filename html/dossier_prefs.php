@@ -130,7 +130,7 @@ if ( isset ($_POST["add_per"] )) {
 
 }
 
-echo_debug ("Action $action");
+echo_debug(__FILE__,__LINE__,"Action $action");
 if ( $action == "Change") {
   $Res=ExecSql($cn,"update parm_money set pm_code='$p_devise',pm_rate=$p_rate where pm_id=$p_id");
   ShowDevise($cn);

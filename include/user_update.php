@@ -27,7 +27,7 @@ if ( $action == 'update' ) {
     }
     // p_id is jrn.jr_id
     $p_id=$_GET["line"];
-    echo_debug(" action = update p_id = $p_id");
+    echo_debug(__FILE__,__LINE__," action = update p_id = $p_id");
     echo JS_VIEW_JRN_DETAIL;
     echo JS_CONCERNED_OP;
     $r ='<FORM METHOD="POST" ACTION="user_jrn.php">';

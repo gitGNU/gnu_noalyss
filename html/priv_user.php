@@ -22,7 +22,7 @@ include_once("postgres.php");
 include_once("debug.php");
 include_once("top_menu_compta.php");
 html_page_start($g_UserProperty['use_theme']);
-echo_debug("entering priv_users");
+echo_debug(__FILE__,__LINE__,"entering priv_users");
 
 
 CheckUser();
@@ -32,20 +32,20 @@ if ($g_UserProperty['use_admin'] != 1) {
 }
 if (! isset ($UID) ) {
   //Message d'erreur si UID non positionné
-  echo_debug("UID NOT DEFINED");
+  echo_debug(__FILE__,__LINE__,"UID NOT DEFINED");
   html_page_stop();
   return;
 }
-echo_debug("UID IS DEFINED");
+echo_debug(__FILE__,__LINE__,"UID IS DEFINED");
 
 $r_UID=GetUid($UID);
 if ( $r_UID == false ) {
-  echo_debug("UID NOT VALID");
+  echo_debug(__FILE__,__LINE__,"UID NOT VALID");
   // Message d'erreur
   html_page_stop();
   return;
 }
-echo_debug("UID IS VALID");
+echo_debug(__FILE__,__LINE__,"UID IS VALID");
 echo '<H2 style="color:blue;text-align:center"> Administration Globale</H2>';
 ShowMenuAdminGlobal();
 ShowMenuAdminGlobalRight('<A class="mtitle" HREF="admin_repo.php">Retour</A>');
@@ -67,7 +67,7 @@ if ( isset ( $reset_passwd) ){
   echo '<H2 class="info"> Password remis à phpcompta</H2>';
 }
 if ( isset ($SAVE) ){
-  echo_debug("SAVE is set");
+  echo_debug(__FILE__,__LINE__,"SAVE is set");
   // Update User 
   $cn=DbConnect();
   $Sql="update ac_users set use_first_name='".$fname."', use_name='".$lname."'
@@ -77,10 +77,10 @@ if ( isset ($SAVE) ){
   // Update Priv on Folder
   foreach ($HTTP_POST_VARS as $name=>$elem)
     { 
-      echo_debug("HTTP_POST_VARS $name $elem");
+      echo_debug(__FILE__,__LINE__,"HTTP_POST_VARS $name $elem");
       if ( substr_count($name,'PRIV')!=0 )
       {
-	echo_debug("Found a priv");
+	echo_debug(__FILE__,__LINE__,"Found a priv");
 	$db_id=substr($name,4);
 	$cn=DbConnect();
 	if ( ExisteJnt($db_id,$UID) != 1 ) 
@@ -171,7 +171,7 @@ echo "</TD></TR>";
 $Dossier=ShowDossier('all',1,0);
 foreach ( $Dossier as $rDossier) {
   $NORIGHT="";$Write="";$Read="";
-  echo_debug("Dossier : ".$rDossier['dos_id']);
+  echo_debug(__FILE__,__LINE__,"Dossier : ".$rDossier['dos_id']);
   $login_name=GetLogin($UID);
   $priv=GetPriv($rDossier['dos_id'],$login_name);
   printf("<TR><TD> Dossier : %s </TD>",$rDossier['dos_name']);
@@ -179,7 +179,7 @@ foreach ( $Dossier as $rDossier) {
     { $NORIGHT="CHECKED";} 
   else { 
     $A=$priv[0]['priv_priv'];
-    echo_debug("Priv = $A");
+    echo_debug(__FILE__,__LINE__,"Priv = $A");
     if ( $priv[0]['priv_priv']=='W' ) 
       {$Write="CHECKED";}
     else {

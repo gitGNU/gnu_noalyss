@@ -56,7 +56,7 @@ $cn=DbConnect($l_Db);
 list ($l_array,$max_deb,$max_cred)=GetData($cn,$jrn_op);
 foreach ($l_array as $key=>$element) {
   ${"e_$key"}=$element;
-  echo_debug("e_$key =$element");
+  echo_debug(__FILE__,__LINE__,"e_$key =$element");
 }
 
 // annulate a operation
@@ -81,7 +81,7 @@ if ( isset ($annul) ) {
     list ($l_date_start,$l_date_end)=GetPeriode($cn,$userPref);
 
     // Date dans la periode active
-    echo_debug ("date start periode $l_date_start date fin periode $l_date_end date demandée $e_op_date");
+    echo_debug(__FILE__,__LINE__,"date start periode $l_date_start date fin periode $l_date_end date demandée $e_op_date");
     if ( cmpDate($e_op_date,$l_date_start)<0 || 
 	 cmpDate($e_op_date,$l_date_end)>0 )
       {

@@ -31,7 +31,7 @@ include_once ("postgres.php");
 CheckUser();
 
 include_once ("postgres.php");
-echo_debug ("user is $g_user");
+echo_debug(__FILE__,__LINE__,"user is $g_user");
 /* CheckUser */
 CheckUser();
 

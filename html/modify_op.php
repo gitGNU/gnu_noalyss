@@ -65,7 +65,7 @@ if ( $action == 'update' ) {
     }
     // p_id is jrn.jr_id
     $p_id=$_GET["line"];
-    echo_debug(" action = update p_id = $p_id");
+    echo_debug(__FILE__,__LINE__," action = update p_id = $p_id");
     echo JS_VIEW_JRN_DETAIL;
     echo JS_CONCERNED_OP;
     $r ='<FORM METHOD="POST" ACTION="modify_op.php">';
@@ -97,7 +97,7 @@ if ( isset($_POST['update_record']) ) {
  </script>';
 } // if update_record
 if (  $action  == 'delete' ) {
-  echo_debug(" Call   DeleteRapt($cn,".$_GET['line'].",".$_GET['line2'].")");
+  echo_debug(__FILE__,__LINE__," Call   DeleteRapt($cn,".$_GET['line'].",".$_GET['line2'].")");
   DeleteRapt($cn,$_GET['line'],$_GET['line2']);
  echo ' <script> 
   window.close();

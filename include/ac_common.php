@@ -225,6 +225,7 @@ function FormatString($p_string)
   }
   $p_string=trim($p_string);
   if (strlen($p_string) == 0 ) return null;
+  $p_string=str_replace("\"","",$p_string);
   $p_string=str_replace("'","\'",$p_string);
   return $p_string;
 }
@@ -258,7 +259,7 @@ function GetUserType($p_user)
  */
 function Redirect($p_profile,$php_session) {
   include_once("debug.php");
-  echo_debug("Session is $php_session");
+  echo_debug(__FILE__,__LINE__,"Session is $php_session");
 
   if ( $p_profile =="compta" ) {
     $URL="compta_login.php";

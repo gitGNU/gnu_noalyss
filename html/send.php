@@ -23,7 +23,7 @@
     include_once("postgres.php");
     include_once("class.ezpdf.php");
     include_once("impress_inc.php");
-    echo_debug("imp pdf journaux");
+    echo_debug(__FILE__,__LINE__,"imp pdf journaux");
     $l_Db=sprintf("dossier%d",$g_dossier);
     $cn=DbConnect($l_Db);
 

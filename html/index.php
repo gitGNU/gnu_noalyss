@@ -9,13 +9,13 @@ echo '<!DOCTYPE HTML PUBLIC "-//W3C/DTD HTML 3.2 FINAL//EN">
 <BR>
 <form action=login.php method=post>
 <TABLE BGCOLOR="#4851FF"><TR><TD>
-<TABLE  Bgcolor="#4851FF" BORDER=0 CELLSPACING=0>
+<TABLE  Bgcolor="white" BORDER=0 CELLSPACING=0>
 <TR>
-<TD><FONT COLOR="white"> LOGIN</FONT> </TD>
+<TD><FONT COLOR="blue" size="-1"> LOGIN</FONT> </TD>
 <TD><input type=text name=p_user></TD>
 </TR>
 <TR>
-<TD><FONT color="white"> PASSWORD</FONT></TD>
+<TD><FONT color="blue" size="-1"> PASSWORD</FONT></TD>
 <TD><INPUT TYPE=PASSWORD NAME=p_pass></TD>
 </TR>
 <TR>

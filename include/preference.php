@@ -316,7 +316,7 @@ function ShowPeriode($p_cn)
     echo '<TD ALIGN="CENTER"> '.$l_line['date_start'].'</TD>';
     echo '<TD  ALIGN="CENTER"> '.$l_line['date_end'].'</TD>';
     echo '<TD  ALIGN="CENTER"> '.$l_line['p_exercice'].'</TD>';
-    echo_debug(" closed : $l_line[p_closed]");
+    echo_debug(__FILE__,__LINE__," closed : $l_line[p_closed]");
     if ( $l_line['p_closed'] == 't' )     { 
       $closed='<TD></TD>';
       $change='<TD></TD>';

@@ -152,14 +152,15 @@ function u_ShowMenuCompta($p_dossier)
   $l_name=GetDossierName($p_dossier);
   echo "<P> <H2 class=\"info2\"> $l_name </H2></P>";
 
-  $p_array=array(array("user_jrn.php?JRN_TYPE=VEN" ,"Entrée"),
-		 array("user_jrn.php?JRN_TYPE=ACH","Dépense"),
-		 array("user_jrn.php?JRN_TYPE=FIN","Financier"),
-		 array("user_jrn.php?JRN_TYPE=OD","Op. Diverses"),
+  $p_array=array(array("user_jrn.php?show","Journaux"),
 		 array("fiche.php?p_dossier=$p_dossier","Fiche"),
 		 array("user_advanced.php","Avancé"),
-		 array("dossier_prefs.php","Paramètre")
-		   );
+		 array("dossier_prefs.php","Paramètre"),
+		 array("admin_repo.php","Admin"),
+  		 array('login.php','Accueil'),
+		 array('user_pref.php','Preference'),
+		 array('logout.php','logout')
+		 );
 
   $result=ShowItem($p_array,'H');
     echo "<DIV class=\"u_tmenu\">";
@@ -220,7 +221,7 @@ function u_ShowMenuJrnUser($p_dossier,$p_user,$p_type,$p_jrn)
 {
   include_once ("debug.php");
   include_once("constant.php");
-  echo_debug("U_SHOWMENUJRNUSER PTYPE=$p_type");
+  echo_debug(__FILE__,__LINE__,"U_SHOWMENUJRNUSER PTYPE=$p_type");
     echo '<div class="searchmenu">';
     echo '<TABLE><TR>';
     include_once("postgres.php");
@@ -261,7 +262,7 @@ function u_ShowMenuJrnUser($p_dossier,$p_user,$p_type,$p_jrn)
 
       if ( $right > 0 ) {
 	// Minimum Lecture 
-	echo_debug("p_jrn = $p_jrn ");
+	echo_debug(__FILE__,__LINE__,"p_jrn = $p_jrn ");
 	if ( $l_line['jrn_def_id'] != $p_jrn ) {
 	  echo '<TD class="cell">';
 	  printf ('<A class="mtitle" HREF="user_jrn.php?p_jrn=%s">%s</A></TD>',
@@ -326,11 +327,11 @@ function u_ShowMenuJrn($p_cn,$p_jrn_type)
 
 function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
 {
-  echo_debug("u_ShowMenuRecherche($p_cn,$p_jrn,$p_array)");
+  echo_debug(__FILE__,__LINE__,"u_ShowMenuRecherche($p_cn,$p_jrn,$p_array)");
   if ( $p_array != null ) {
     foreach ( $p_array as $key=> $element) {
       ${"p_$key"}=$element;
-      echo_debug("p_$key =$element;");
+      echo_debug(__FILE__,__LINE__,"p_$key =$element;");
     }
   }
 

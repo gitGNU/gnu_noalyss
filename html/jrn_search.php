@@ -54,7 +54,7 @@ $cn=DbConnect($l_Db);
 if ( isset ($_POST["search"]) ) {
   $c1=0;
   foreach( $HTTP_POST_VARS as $key=>$element){
-    echo_debug("$key = $element");
+    echo_debug(__FILE__,__LINE__,"$key = $element");
     ${"$key"}=$element;
   }
 
@@ -75,7 +75,7 @@ if ( isset ($_POST["search"]) ) {
       $opt_date.='<OPTION VALUE="'.$p_date_sel.'" SELECTED>'.$p_date_sel;
   }
 $condition=$c_comment.$c_montant.$c_date;
-echo_debug("condition = $condition");
+echo_debug(__FILE__,__LINE__,"condition = $condition");
 }
 $condition=$condition." ".$part;
 

@@ -55,12 +55,12 @@ function GetSqlFiche($p_type) {
  *
  */ 
 function AddFiche($p_cn,$p_type,$p_array) {
-  echo_debug(" AddFiche($p_cn,$p_type,$p_array) ");
+  echo_debug(__FILE__,__LINE__," AddFiche($p_cn,$p_type,$p_array) ");
   // Push the array in element starting with p
   //
   foreach ($p_array as $key=>$element){
     ${"p_$key"}=$element;
-    echo_debug("p_$key=$element;");
+    echo_debug(__FILE__,__LINE__,"p_$key=$element;");
   }
   // First Get the attr of the fiche
   $field=Get_attr_def($p_cn,$p_fd_id);
@@ -229,7 +229,7 @@ function AddFiche($p_cn,$p_type,$p_array) {
  *
  */ 
 function EncodeFiche($p_cn,$p_type,$p_array=null) {
-  echo_debug("function EncodeFiche($p_cn,$p_type) ");
+  echo_debug(__FILE__,__LINE__,"function EncodeFiche($p_cn,$p_type) ");
 
   $ch_col="</TD><TD>";
   $ch_li='</TR><TR>';
@@ -245,7 +245,7 @@ function EncodeFiche($p_cn,$p_type,$p_array=null) {
     //    echo '<H2 class="info">'.getFicheName($p_cn,$p_type).'</H2>';
     echo '<H2 class="info">New </H2>';
     $p_f_id="";
-    echo_debug("Array is null");
+    echo_debug(__FILE__,__LINE__,"Array is null");
     // Find all the attribute of the existing cards
     // --> Get_attr_def 
     $sql="select frd_id,ad_id,ad_text from  fiche_def join jnt_fic_attr using (fd_id)
@@ -297,7 +297,7 @@ function EncodeFiche($p_cn,$p_type,$p_array=null) {
 
     $Res=ExecSql($p_cn,$sql);
     $Max=pg_NumRows($Res);
-    echo_debug("Max ==== $Max");    
+    echo_debug(__FILE__,__LINE__,"Max ==== $Max");    
 
     echo '<INPUT TYPE="HIDDEN" name="f_id" value="'.$p_type.'">';
     echo '<INPUT TYPE="HIDDEN" name="f_label" value="'.$label.'">';
@@ -443,7 +443,7 @@ function ViewFiche($p_cn,$p_type) {
 function GetNextFiche($p_cn,$p_base) {
   $Res=ExecSql($p_cn,"select max(pcm_val) as maxcode from tmp_pcmn where pcm_val_parent = $p_base");
  $Max=pg_NumRows($Res);
- echo_debug("$Max=pg_NumRows");
+ echo_debug(__FILE__,__LINE__,"$Max=pg_NumRows");
   $l_line=pg_fetch_array($Res,0);
   $ret=$l_line['maxcode'];
  if ( $ret == "" ) {
@@ -452,7 +452,7 @@ function GetNextFiche($p_cn,$p_base) {
 
  }
 
-  echo_debug("ret $ret");
+  echo_debug(__FILE__,__LINE__,"ret $ret");
   return $ret+1;
 }
 /* function ViewFicheDetail
@@ -512,7 +512,7 @@ function UpdateFiche($p_cn,$p_array) {
   echo_debug ("UpdateFiche");
   $tva_error=false;
   foreach ( $p_array as $key=> $element) {
-    echo_debug("$key => $element");
+    echo_debug(__FILE__,__LINE__,"$key => $element");
     ${"$key"}=$element;
     // Get the name
     if ( $key == "ad_id".ATTR_DEF_NAME ) {
@@ -592,7 +592,7 @@ function UpdateFiche($p_cn,$p_array) {
     } else // $class=""
       {
 
-	echo_debug("new account ");
+	echo_debug(__FILE__,__LINE__,"new account ");
 	$class=$class_old;
 	if ( CountSql($p_cn,"select * from tmp_pcmn where pcm_val=".$class) == 0 ) {
 	  // First we must use a parent
@@ -656,7 +656,7 @@ function EncodeModele($p_js)
  */ 
 function DefModele ($p_cn,$p_js,$p_array=null,$p_ligne=1) 
 {
-  echo_debug("DefModele ($p_array,$p_ligne=1) ");
+  echo_debug(__FILE__,__LINE__,"DefModele ($p_array,$p_ligne=1) ");
 
   // Creating form
   $display='<FORM ACTION="fiche.php" METHOD="POST">';
@@ -727,16 +727,16 @@ function DefModele ($p_cn,$p_js,$p_array=null,$p_ligne=1)
  *
  */ 
 function AddModele($p_cn,$p_array) {
-  echo_debug("AddModele");
+  echo_debug(__FILE__,__LINE__,"AddModele");
   // Show what we receive for debug purpose only
   //
   foreach ( $p_array as $key=>$element ) {
-    echo_debug("p_$key $element");
+    echo_debug(__FILE__,__LINE__,"p_$key $element");
     ${"p_$key"}=$element;
   }
   // Format correctly the name of the cat. of card
   $p_nom_mod=FormatString($p_nom_mod);
-  echo_debug("Adding $p_nom_mod");
+  echo_debug(__FILE__,__LINE__,"Adding $p_nom_mod");
    // Format the p_class_base 
   // must be an integer
   if ( isNumber($p_class_base) == 0 && FormatString($p_class_base) != null ) {
@@ -835,7 +835,7 @@ function UpdateModele($p_cn,$p_fiche) {
     return;
   }
   echo '<H2 class="info">'.getFicheDefName($p_cn,$p_fiche).'</H2>';
-  foreach ( $array as $key=>$element) echo_debug("$key => $element");
+  foreach ( $array as $key=>$element) echo_debug(__FILE__,__LINE__,"$key => $element");
   DisplayDetailModele($p_cn,$array,$array['ligne']);
 
 }
@@ -1165,11 +1165,11 @@ function GetCreateAccount($p_cn,$p_fiche_def) {
     $f=pg_fetch_array($Res,$i);
     echo_debug ("fd_create_account == ".$f['fd_create_account']);
     if ( $f['fd_create_account']=='t') {
-      echo_debug("fd_create_account return 1");
+      echo_debug(__FILE__,__LINE__,"fd_create_account return 1");
       return 1;
     }
   }
-  echo_debug("fd_create_account return 0");
+  echo_debug(__FILE__,__LINE__,"fd_create_account return 0");
   return 0;
 }
 /* function GetFicheDefRef
@@ -1248,7 +1248,7 @@ function GetFicheDef($p_cn,$p_f_id)
  *      string if a class if found or null otherwise
  */
 function GetClass($p_cn,$p_fid) {
-  echo_debug("GetClass($p_fid)");
+  echo_debug(__FILE__,__LINE__,"GetClass($p_fid)");
   
   // the account class is in the av_text with the ad_id=5 in 
   // attr_Def
@@ -1326,10 +1326,10 @@ function SaveModeleName($p_cn,$p_fid,$p_label)
  */
 function DisplayDetailModele($p_cn,$p_array,$MaxLine)
 {
-  echo_debug("DisplayDetailModele");
+  echo_debug(__FILE__,__LINE__,"DisplayDetailModele");
 
   foreach ($p_array as $v=>$i) { 
-    echo_debug("v == $v i==$i");
+    echo_debug(__FILE__,__LINE__,"v == $v i==$i");
     ${"$v"}=$i;
   }
   echo '<FORM action="fiche.php" method="get">';

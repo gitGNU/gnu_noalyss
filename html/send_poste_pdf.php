@@ -27,7 +27,7 @@
     include_once("class.ezpdf.php");
     include_once("impress_inc.php");
 include("poste.php");
-    echo_debug("imp pdf journaux");
+    echo_debug(__FILE__,__LINE__,"imp pdf journaux");
     $l_Db=sprintf("dossier%d",$g_dossier);
     $cn=DbConnect($l_Db);
 foreach ($HTTP_POST_VARS as $key=>$element) {

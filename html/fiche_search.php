@@ -81,7 +81,7 @@ $r="";
 foreach ($HTTP_GET_VARS as $key=>$element) {
   // The value are e_name e_type e_PHPSESSID
   ${"e_$key"}=$element;
-  echo_debug("e_$key =$element<br>");
+  echo_debug(__FILE__,__LINE__,"e_$key =$element<br>");
 
 }
 $e_fic_search=(isset ($_POST['fic_search']))?$_POST['fic_search']:"";

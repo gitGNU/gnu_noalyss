@@ -18,7 +18,7 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
-echo_debug("include user_action_fin.php");
+echo_debug(__FILE__,__LINE__,"include user_action_fin.php");
 include_once("form_input.php");
 // phpinfo();
 if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {

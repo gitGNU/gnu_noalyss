@@ -48,14 +48,14 @@ if ( $g_UserProperty['use_admin'] == 0 ) {
 
 /* Store the p_start parameter */
 if ( isset ($g_start) ) {
-  echo_debug("g_start is defined [ $g_start ]");
+  echo_debug(__FILE__,__LINE__,"g_start is defined [ $g_start ]");
 }
 if ( ! isset ( $g_start) ) {
   $g_start="";
 }
 if ( isset ($p_start)) { 
-  echo_debug("PCMN p_start : $p_start");
-  echo_debug("p_start[$p_start] and g_start  don't exist");
+  echo_debug(__FILE__,__LINE__,"PCMN p_start : $p_start");
+  echo_debug(__FILE__,__LINE__,"p_start[$p_start] and g_start  don't exist");
   session_register("g_start"); 
   $g_start=$p_start;
 }
@@ -100,7 +100,7 @@ if ( isset ( $_POST["Add"] ) ) {
 	     (string) $p_parent != (string)(int) $p_parent) {
 	  $p_parent=substr($p_val,0,strlen($p_val)-1);
 	}
-	echo_debug("Ajout valeur = $p_val parent = $p_parent");
+	echo_debug(__FILE__,__LINE__,"Ajout valeur = $p_val parent = $p_parent");
       }
       /* Parent existe */
       $Ret=ExecSql($cn,"select pcm_val from tmp_pcmn where pcm_val=$p_parent");
@@ -117,20 +117,20 @@ if ( isset ( $_POST["Add"] ) ) {
 /* Modif d'une ligne */
 if ( isset ($_POST["update"] ) ) {
   foreach ($HTTP_POST_VARS as $name => $element) {
-    echo_debug("name $name $element");
+    echo_debug(__FILE__,__LINE__,"name $name $element");
   }
     $p_val=trim($_POST["p_val"]);
     $p_lib=FormatString($_POST["p_name"]);
     $p_parent=trim($_POST["p_val_parent"]);
     $old_line=trim($_POST["p_old"]);
-    echo_debug("Update old : $old_line News = $p_val $p_lib");
+    echo_debug(__FILE__,__LINE__,"Update old : $old_line News = $p_val $p_lib");
     if ( strlen ($p_val) != 0 && strlen ($p_lib) != 0 && strlen($old_line)!=0 ) {
       if (strlen ($p_val) == 1 ) {
 	$p_parent=0;
       } else {
 	if ( strlen($p_parent)==0 ) {
 	  $p_parent=substr($p_val,0,strlen($p_val)-1);
-	  echo_debug("Modif valeur = $p_val parent = $p_parent");
+	  echo_debug(__FILE__,__LINE__,"Modif valeur = $p_val parent = $p_parent");
 	}
       }
       /* Parent existe */
