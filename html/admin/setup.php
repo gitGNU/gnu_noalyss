@@ -100,7 +100,7 @@ function ExecuteScript($p_cn,$script) {
     }
     // Blank Lines Are Skipped
     If ( Strlen($buffer)==0) {
-      Echo "Blank";
+	    ##echo "Blank";
       Continue;
     }
 
@@ -112,7 +112,7 @@ function ExecuteScript($p_cn,$script) {
     // cut the semi colon
     $buffer=str_replace (';','',$buffer);
     $sql.=$buffer;
-    print "Execute $sql <hr>";
+    # print "Execute $sql <hr>";
     ExecSql($p_cn,$sql);
     $sql="";
   } // while (feof)
@@ -247,12 +247,12 @@ echo "<h2 class=\"info\"> Congratulation : Test successfull</h2>";
 echo "<h2 class=\"info\"> Patching databases</h2>";
 
 $cn=DbConnect();
-$Res=ExecSql($cn,"select dos_id, dos_name from ac_dossier");
-$MaxDossier=pg_NumRows($Res);
+$Resdossier=ExecSql($cn,"select dos_id, dos_name from ac_dossier");
+$MaxDossier=pg_NumRows($Resdossier);
 
 for ($e=0;$e < $MaxDossier;$e++) {
-  $db_row=pg_fetch_array($Res,$e);
-  echo "Patching ".$db_row['dos_name'];
+  $db_row=pg_fetch_array($Resdossier,$e);
+  echo "Patching ".$db_row['dos_name']."<hr>";
   $db=DbConnect($db_row['dos_id'],'dossier');
   if ( GetVersion($db) == 3 ) { 
     ExecuteScript($db,'sql/patch/upgrade4.sql');
