@@ -240,6 +240,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
 			jrn_def_type,
                         jr_valid,
                         jr_tech_per,
+                        jr_pj_name,
                         p_closed
 		       from 
 			jrn 
@@ -269,6 +270,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
 		jrn_def_type,
                 jr_valid,
                 jr_tech_per,
+                jr_pj_name,
                 p_closed
 		      from 
                 jrn join jrn_def on jrn_def_id=jr_def_id 
@@ -328,6 +330,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
   $r.="<th> Description</th>";
   $r.="<th> Montant </th>";
   $r.="<th>Op. Concernée</th>";
+  $r.="<th>Document</th>";
   $r.="</tr>";
   
   for ($i=0; $i < $Max;$i++) {
@@ -388,7 +391,8 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
 	    $r.="</TD>";
 	  }
 	}
-
+	//document
+	$r.="<TD>".$row['jr_pj_name']."</TD>";
 
 // end row
 	$r.="</tr>";

@@ -366,4 +366,32 @@ function GetArray($p_cn,$p_sql) {
   echo_debug(__FILE__,__LINE__,var_export($array,true));
   return $array;
 }
+/* function SavePicture
+ * Save a picture of a rest_id
+ * parameters 
+ * - $cn database connection
+ * - $file array (from $_FILES)
+ * - $name ( name of the input)
+ */
+function save_upload_document ($cn,$seq) {
+
+  $new_name=tempnam('/tmp','pj');
+  if ( strlen ($_FILES['pj']['tmp_name']) != 0 ) {
+      if (move_uploaded_file($_FILES['pj']['tmp_name'],
+			     $new_name)) {
+	// echo "Image saved";
+	$oid=	pg_lo_import($cn,$new_name);
+	ExecSql($cn,"update jrn set jr_pj=$oid, jr_pj_name='".$_FILES['pj']['name']."', ".
+		"jr_pj_type='".$_FILES['pj']['type']."'  where jr_grpt_id=$seq");
+
+      }      else {
+	echo "<H1>Error</H1>";
+	Rollback($p_cn);
+	exit;
+      }
+    }
+ }
+
+
+
 ?>

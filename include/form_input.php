@@ -398,12 +398,7 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article
 
   $r.="</TABLE>";
   $r.="<hr>";
-  $r.="<table>";
-  $file=new widget("file");
-  $file->table=1;
-  $r.="<TR>".$file->IOValue("pj",null,"Pièce justificative")."</TR>";
-  $r.="</table>";
-  $r.="<hr>";
+
   if ($view_only == false ) {
     $r.='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">';
     $r.='<INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
@@ -660,16 +655,26 @@ for ($o = 0;$o < $p_number; $o++) {
   $r.='<DIV style="padding:30px;font-size:14px">';
   $r.="Total HTVA =".round( $sum_march,2)." <br>";
   $r.="Total = ".round($sum_with_vat,2);
+
+ 
   $r.="</DIV>";
   if ( $p_doc == 'form' ) {
-	  $r.='<FORM METHOD="POST" ACTION="user_jrn.php?action=record">';
+	  $r.='<FORM METHOD="POST" enctype="multipart/form-data" ACTION="user_jrn.php?action=record">';
+	  // check for upload piece
+	  $file=new widget("file");
+	  $file->table=1;
+	  $r.="<hr>";
+	  $r.= "<table>"; 
+	  $r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
+	  $r.="</table>";
+	  $r.="<hr>";
+
 	  $r.=$data;
-	  //	  $r.='<INPUT TYPE="SUBMIT" name="record_invoice" value="Sauver">';
-	  // If the total == 0 prevent the insert
 	  if ( $sum_with_vat != 0 ) {
 	    $r.='<INPUT TYPE="SUBMIT" name="record_and_print_invoice" value="Sauver" >';
 	  }
 	  $r.='<INPUT TYPE="SUBMIT" name="correct_new_invoice" value="Corriger">';
+
 	  $r.='</FORM>';
 	  } 
   return $r;
@@ -794,7 +799,11 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
 
   // Update and set the invoice's comment 
   $Res=ExecSql($p_cn,"update jrn set jr_comment='".$comment."' where jr_grpt_id=".$seq);
-if ( $Res == false ) { Rollback($p_cn); exit(" Error __FILE__ __LINE__"); };
+  if ( $Res == false ) { Rollback($p_cn); exit(" Error __FILE__ __LINE__"); };
+
+  if ( isset ($_FILES))
+    save_upload_document($p_cn,$seq);
+
   Commit($p_cn);
 
   return $comment;
@@ -816,7 +825,7 @@ if ( $Res == false ) { Rollback($p_cn); exit(" Error __FILE__ __LINE__"); };
  * return: string with the form
  * TODO Add in parameters the infos about the company for making the invoice
  */
-function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p_article=1)
+function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p_article=3,$saved=false)
 { 
 
   if ( $p_array != null ) {
@@ -851,7 +860,8 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
     $r.=JS_SHOW_TVA;
  
   }
-  $r.="<FORM NAME=\"form_detail\" ACTION=\"user_jrn.php?action=new\" METHOD=\"POST\">";
+
+  $r.="<FORM NAME=\"form_detail\"  enctype=\"multipart/form-data\" ACTION=\"user_jrn.php?action=new\" METHOD=\"POST\">";
   $r.='<TABLE>';
   $r.='<TR>'.InputType("Date ","Text","e_date",$e_date,$view_only).'</TR>';
   $r.='<TR>'.InputType("Echeance","Text","e_ech",$e_ech,$view_only).'</TR>';
@@ -985,6 +995,18 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
   }
 
   $r.="</TABLE>";
+
+  if ( $view_only == true && $saved == false){
+    // check for upload piece
+    $file=new widget("file");
+    $file->table=1;
+    $r.="<hr>";
+    $r.= "<table>"; 
+    $r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
+    $r.="</table>";
+    $r.="<hr>";
+  }
+
   $r.=$p_submit;
   $r.="</DIV>";
   $r.="</FORM>";
@@ -1026,6 +1048,7 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
     $r.="<TR> <TD colspan=\"3\" align=\"center\"> Total =".round($total,2)."</TD></TR>";
     $r.="</TABLE>";
   }// if ( $view_only == true )
+
   return $r;
 
 
@@ -1146,6 +1169,9 @@ function RecordAchat($p_cn,$p_array,$p_user,$p_jrn)
       // Update comment if comment is blank
       $Res=ExecSql($p_cn,"update jrn set jr_comment='".$comment."' where jr_grpt_id=".$seq);
     }
+    if ( isset ($_FILES))
+      save_upload_document($p_cn,$seq);
+
     Commit($p_cn);
     return $comment;
   }
@@ -1199,8 +1225,8 @@ function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
     $r.=JS_SEARCH_CARD;
     $r.=JS_CONCERNED_OP;
   }
-
-  $r.="<FORM NAME=\"form_detail\" ACTION=\"user_jrn.php?action=new\" METHOD=\"POST\">";
+  //	  $r.='<FORM METHOD="POST" enctype="multipart/form-data" ACTION="user_jrn.php?action=record">';
+  $r.="<FORM NAME=\"form_detail\" enctype=\"multipart/form-data\" ACTION=\"user_jrn.php?action=new\" METHOD=\"POST\">";
   $r.='<TABLE>';
   $r.='<TR>'.InputType("Date ","Text","e_date",$e_date,$view_only).'</TR>';
 
@@ -1312,6 +1338,17 @@ function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
  }
 
 $r.="</TABLE>";
+
+ if ( $view_only==true && $p_saved==false) {
+// check for upload piece
+   $file=new widget("file");
+   $file->table=1;
+   $r.="<hr>";
+   $r.= "<table>"; 
+   $r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
+   $r.="</table>";
+   $r.="<hr>";
+ }
 $r.=$p_submit;
 $r.="</DIV>";
 $r.="</FORM>";
@@ -1418,6 +1455,9 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
     // Update comment if comment is blank
     $Res=ExecSql($p_cn,"update jrn set jr_comment='".$comment."' where jr_grpt_id=".$seq);
   }
+  if ( isset ($_FILES))
+    save_upload_document($p_cn,$seq);
+
   }
   Commit($p_cn);
 }
@@ -1437,7 +1477,7 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
  *	-
  * return: string with the form
  */
-function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p_article=6)
+function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p_article=6,$p_saved=false)
 { 
   include_once("poste.php");
   if ( $p_array != null ) {
@@ -1468,7 +1508,7 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
   if ( $view_only == false) {
     $r.=JS_SEARCH_POSTE;
   }
-  $r.="<FORM NAME=\"form_detail\" ACTION=\"user_jrn.php?action=new\" METHOD=\"POST\">";
+  $r.="<FORM NAME=\"form_detail\" enctype=\"multipart/form-data\" ACTION=\"user_jrn.php?action=new\" METHOD=\"POST\">";
   $r.='<TABLE>';
   $r.='<TR>'.InputType("Date ","Text","e_date",$e_date,$view_only).'</TR>';
   $r.='<TR>'.InputType("Description","Text_big","e_comment",$e_comment,$view_only).'</TR>';
@@ -1558,6 +1598,18 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
   }
 
   $r.="</TABLE>";
+
+ if ( $view_only==true && $p_saved==false) {
+// check for upload piece
+   $file=new widget("file");
+   $file->table=1;
+   $r.="<hr>";
+   $r.= "<table>"; 
+   $r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
+   $r.="</table>";
+   $r.="<hr>";
+ }
+
   $r.=$p_submit;
   //  $r.="</DIV>";
   $r.="</FORM>";
@@ -1632,6 +1684,9 @@ function RecordODS($p_cn,$p_array,$p_user,$p_jrn)
     // Update comment if comment is blank
     $Res=ExecSql($p_cn,"update jrn set jr_comment='".$comment."' where jr_grpt_id=".$seq);
   }
+  if ( isset ($_FILES))
+    save_upload_document($p_cn,$seq);
+
   Commit($p_cn);
   return $comment;
 }

@@ -188,7 +188,7 @@ class widget {
     //file
     if (strtoupper($this->type)=="FILE") {
       if ( $this->readonly == false ) {
-	$r='<INPUT TYPE="file" name="'.$this->name.'"  '.$disabled.'>';
+	$r='<INPUT TYPE="file" name="'.$this->name.'" VALUE="'.$this->value.'">';
 
       }
       if ( $this->table==1) $r="<TD>$this->label</TD><TD>$r</TD>"; 

@@ -23,6 +23,7 @@ include_once("user_menu.php");
 include_once ("constant.php");
 include_once ("postgres.php");
 include_once ("check_priv.php");
+include_once ("class_widget.php");
 
 $cn=DbConnect($_SESSION['g_dossier']);
 include ('class_user.php');
@@ -118,7 +119,8 @@ if ( $_SESSION['g_jrn'] != -1 ) {
    //   echo $result;
    echo $menu_jrn;
    //   echo '</DIV>';
-
+   $g_dossier=$_SESSION['g_dossier'];
+   $g_user=$_SESSION['g_user'];
   // Execute Action for g_jrn
  
   if ( $jrn_type=='VEN' )     include('user_action_ven.php');

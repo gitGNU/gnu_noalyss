@@ -44,5 +44,10 @@ update jrnx set j_centralized='f';
 alter table parm_periode add p_central bool;
 alter table parm_periode alter p_central set default false;
 update parm_periode set p_central ='f';
+--for uploading doc
+alter table jrn add jr_pj oid ;
+alter table jrn add  jr_pj_name text;
+alter table jrn add  jr_pj_type text;
+
 -- always last line
 update version set val=5;
