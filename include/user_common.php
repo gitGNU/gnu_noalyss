@@ -219,7 +219,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
 			jr_montant,
 			jr_comment,
 			jr_ech,
-			jr_date,
+			to_date(jr_date,'DD.MM.YYYY'),
 			jr_grpt_id,
 			jr_rapt,
 			jr_internal,
@@ -243,7 +243,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
 		jr_montant,
 		jr_comment,
 		jr_ech,
-		jr_date,
+		to_date(jr_date,'DD.MM.YYYY'),
 		jr_grpt_id,
 		jr_rapt,
 		jr_internal,
@@ -259,10 +259,10 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
     $sql.=" and jr_montant $l_mont_sel $l_s_montant";
     }
     if ( isDate($l_date_start) != null ) {
-      $sql.=$l_and." j_date >= to_date('".$l_date_start."','DD.MM.YYYY')";
+      $sql.=$l_and." jr_date >= to_date('".$l_date_start."','DD.MM.YYYY')";
     }
     if ( isDate($l_date_end) != null ) {
-      $sql.=$l_and." j_date <= to_date('".$l_date_end."','DD.MM.YYYY')";
+      $sql.=$l_and." jr_date <= to_date('".$l_date_end."','DD.MM.YYYY')";
     }
     $l_s_comment=FormatString($l_s_comment);
     if ( $l_s_comment != null ) {
