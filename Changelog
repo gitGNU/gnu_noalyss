@@ -1,4 +1,69 @@
+2004-04-01  sparkyx  <sparkyx@july.summer>
+
+	* sql/dump-db.sql: script for creating db files
+
+	* include/jrn.php: Adapt for new features (ODS, UpdateJrn...)
+
+	* sql/account_repository.sql, sql/demo.sql, sql/mod-be.sql: Update db
+
+	* html/balance.php: balance
+
+	* include/form_input.php, include/poste.php, include/user_action_ach.php, include/user_action_fin.php, include/user_action_ods.php, include/user_action_ven.php:
+	New Achat Bank saldo, misc op (ODS) some improv.
+
+	* include/user_menu.php: New Menu advanced Improve style
+
+	* include/user_common.php: Improve the list of op
+
+	* include/fiche_inc.php: New Search Poste improved
+
+	* include/constant.php: New Javascript
+
+	* include/ac_common.php: Improve isNumber
+
+	* html/user_advanced.php: New : Impress - account balance
+
+	* html/poste_search.php:
+	New : return to the parent window the selected account
+
+	* html/jrn_search.php: Improve & fix bug
+
+	* html/jrn_op_detail.php: Linked operation - Add - Remove
+
+	* html/impress.php: Use impress from user interface
+
+	* html/fiche.php: Used javascript from constant.php
+
+	* html/enc_jrn.php:
+	Improve appearance of ViewJrn - change update - linked operation
+
+	* html/annulation.php, html/modify_op.php, html/print_balance.php, html/stock.php, include/user_update.php:
+	New balance - update operation
+
+	* style-aqua.css, style-elegant.css, style-light.css, style.css:
+	Update style
+
 2004-03-30  sparkyx  <sparkyx@july.summer>
+
+	* html/enc_jrn.php:
+	"Rapprochement " (linked between concerned operation)
+
+	* html/fiche_new.php: Fix bug in fiche_new
+
+	* html/jrn_search.php: Improve search
+
+	* sql/demo.sql: update db
+
+	* include/fiche_inc.php: Vat check
+
+	* doc/FAQ-fr.html, doc/FAQ-fr.pdf, doc/installation.sxw, doc/manuel-fr.pdf:
+	clean
+
+	* doc/FAQ-fr.sgml, doc/manuel-fr.sgml: update doc
+
+	* FAQ-fr.txt, INSTALL-fr.txt: update doc.
+
+	* Changelog: Changelog
 
 	* sql/account_repository.sql, sql/mod-be.sql:
 	Update db for stock and rapt
