@@ -42,9 +42,9 @@ if  ( isset ($_POST['fd_id'])) {
   $fiche_def=new fiche_def($cn,$_POST['fd_id']);
   $fiche=new fiche($cn);
   $e=$fiche->GetByType($fiche_def->id);
+  $o=0;
   //  Heading
   $fiche_def->GetAttribut();
-  $o=0
   foreach ($fiche_def->attribut as $attribut) {
 	  if ( $o == 0 ) {
     		printf("%s",$attribut->ad_text);
@@ -53,8 +53,8 @@ if  ( isset ($_POST['fd_id'])) {
 		 printf(";%s",$attribut->ad_text);
     }
   printf("\n");
-  
-  $o=0
+  $o=0;
+  // Details
   foreach ($e as $detail) {
     foreach ( $detail->attribut as $dattribut ) {
 	  if ( $o == 0 ) {
@@ -64,6 +64,7 @@ if  ( isset ($_POST['fd_id'])) {
 	      printf (";%s",$dattribut->av_text);
       }
     printf("\n");
+    $o=0;
     }
 
 
