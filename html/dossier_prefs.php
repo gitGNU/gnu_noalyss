@@ -65,7 +65,12 @@ if ( isset ($_POST['action']) ) {
   $action=$_POST['action'];
 }
 
+
 if ( $p_action == "change" ) {
+  $p_mid=$_GET['p_mid'];
+  $p_rate=$_GET['p_rate'];
+  $p_code=$_GET['p_code'];
+
   echo '<TR> <FORM ACTION="dossier_prefs.php" METHOD="POST">';
   echo '<INPUT TYPE="HIDDEN" VALUE="'.$p_mid.'" NAME="p_id">';
   echo '<TD> <INPUT TYPE="text" NAME="p_devise" VALUE="'.$p_code.'"></TD>';
@@ -133,11 +138,16 @@ if ( isset ($_POST["add_per"] )) {
 
 echo_debug(__FILE__,__LINE__,"Action $action");
 if ( $action == "Change") {
+  $p_devise=$_POST['p_devise'];
+  $p_id=$_POST['p_id'];
+  $p_rate=$_POST['p_rate'];
   $Res=ExecSql($cn,"update parm_money set pm_code='$p_devise',pm_rate=$p_rate where pm_id=$p_id");
   ShowDevise($cn);
 
 }
 if ( $action == "Ajout") {
+  $p_devise=$_POST['p_devise'];
+  $p_rate=$_POST['p_rate'];
   $Res=ExecSql($cn,"insert into parm_money ( pm_code,pm_rate) values ('$p_devise',$p_rate) ");
   ShowDevise($cn);
 
@@ -149,6 +159,7 @@ if ( $p_action=="devise") {
   ShowDevise($cn);
 }
 if ( $p_action=="closed") {
+  $p_per=$_GET['p_per'];
   $Res=ExecSql($cn,"update parm_periode set p_closed=true where p_id=$p_per");
   ShowPeriode($cn);
 }
