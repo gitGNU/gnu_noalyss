@@ -41,6 +41,22 @@ include_once('postgres.php');
 include_once('debug.php');
 include_once('ac_common.php');
 include_once('variable.php');
+/* function GetVersion
+ **************************************************
+ * Purpose : Get version of a database
+ *        
+ * parm : 
+ *	- $p_cn database connection
+ * gen :
+ *	- none
+ * return:
+ *        none
+ */
+function GetVersion($p_cn) {
+	$Res=ExecSql($p_cn,"select val from version");
+	$a=pg_fetch_array($Res,0);
+	return $a['val'];
+}
 /* function ExecuteScript
  **************************************************
  * Purpose : Execute a sql script
@@ -113,7 +129,13 @@ if ($cn == false ) {
 puis la base de données par défaut de phpcompta.</p>";
   exit();
  }
-
+?>
+<FORM action="setup.php" METHOD="post">
+<input type="submit" name="go" value="Prêt à commencer la mise à jour ?">
+</form>
+<?
+if ( ! isset($_POST['go']) )
+	exit();
 // Check if account_repository exists
 $account=CountSql($cn,
 		  "select * from pg_database where datname='account_repository'");
@@ -166,8 +188,8 @@ $MaxDossier=pg_NumRows($Res);
 for ($e=0;$e < $MaxDossier;$e++) {
   $db_row=pg_fetch_array($Res,$e);
   echo "Patching ".$db_row['dos_name'];
-  if ( GetVersion($db_row['dos_id']) == 3 ) { 
-    $db=DbConnect($db_row['dos_id'],'dossier');
+  $db=DbConnect($db_row['dos_id'],'dossier');
+  if ( GetVersion($db) == 3 ) { 
     ExecuteScript($db,'sql/patch/upgrade4.sql');
       
     $sql="select jrn_def_id from jrn_def ";
