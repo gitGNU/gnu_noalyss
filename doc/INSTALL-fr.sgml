@@ -106,8 +106,8 @@ n'est pas obligatoire
 <quote>
 &lt; VirtualHost 172.16.30.150 &gt;
 	ServerName site
-	ErrorLog wcompta-error.log
-	TransferLog wcompta-debug.log
+	ErrorLog phpcompta-error.log
+	TransferLog phpcompta-debug.log
 	DocumentRoot /home/httpd/compta/html
 &lt;/VirtualHost &gt;
 </quote>
