@@ -247,6 +247,8 @@ vous devrez mettre manuellement le poste comptable
 </sect1>
 <sect1>Création d'une fiche 
 <p>
+Quelques attributs à expliquer : Gestion Poste, Prix Achat, Prix de vente, Poste Comptable
+
 </p>
 </sect1>
 <sect>Encodage d'opération
@@ -255,6 +257,15 @@ vous devrez mettre manuellement le poste comptable
 <sect1>Vente
 </sect1>
 <sect1>Opération financière
+</sect1>
+<sect1> Opérations Diverses
+<p> Les cartes de crédit :
+La visa = changement de créancier : visa paie le fournisseur vous
+payez la société
+
+<p> Facture payée par mensualité
+Opération de rapprochement ???
+
 </sect1>
 </sect>
 
