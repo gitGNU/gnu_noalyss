@@ -44,7 +44,7 @@ if ( $g_UserProperty['use_admin'] == 0 ) {
  $p_cent=( isset ( $_POST['cent']) )?'on':'off';
 
 $Jrn=new jrn($cn,$_POST['jrn_id']);
-$Jrn->Access();
+// $Jrn->Access();
 $Jrn->GetName();
 $Jrn->GetRow( $_POST['from_periode'],
 	      $_POST['to_periode'],
