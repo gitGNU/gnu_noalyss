@@ -20,10 +20,11 @@
 /* $Revision$ */
 include_once ("ac_common.php");
 include_once ("poste.php");
+include_once ("user_common.php");
 html_page_start($g_UserProperty['use_theme']);
 if ( ! isset ( $g_dossier ) ) {
   echo "You must choose a Dossier ";
-  phpinfo();
+  //  phpinfo();
   exit -2;
 }
 include_once ("postgres.php");
@@ -37,14 +38,14 @@ if ( isset( $p_jrn )) {
 }
 $l_Db=sprintf("dossier%d",$g_dossier);
 $cn=DbConnect($l_Db);
-
+$jrn_op=$_GET['jrn_op'];
 list ($l_array,$max_deb,$max_cred)=GetData($cn,$jrn_op);
 foreach ($l_array as $key=>$element) {
   ${"e_$key"}=$element;
-  echo_debug("e_$key =$element");
+  echo_debug("jrn_op_detail.php e_$key =$element");
 }
 
-echo '<div align="center"> Opération '.$l_array['jr_internal']."</div>";
+echo '<div align="center"> Opération </div>';
 
 echo 'Date : '.$e_op_date;
 echo '<div style="border-style:solid;border-width:1pt;">';
@@ -66,8 +67,15 @@ for ( $i = 0; $i < $max_cred;$i++) {
   echo ${"e_class_cred$i"}."  $lib   "."<B>".${"e_mont_cred$i"}."</B>";
   echo '</div>';
 }
-echo "operation concernée $e_rapt<br><br>
-";
+$a=GetConcerned($cn,$e_jr_id);
+
+if ( $a != null ) {
+  foreach ($a as $key => $element) {
+    echo "operation concernée <br>";
+
+    echo "<A HREF=\"jrn_op_detail.php?jrn_op=".GetGrpt($cn,$element)."\"> ".GetInternal($cn,$element)."</A><br>";
+  }//for
+}// if ( $a != null ) {
 ?>
 <input type="button" onClick="window.close()" value="Fermer">
 <?
