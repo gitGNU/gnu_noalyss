@@ -50,6 +50,8 @@ define ("BQE",12);
 define ("ODS",13);
 define ("ACH",14);
 define ("FICHE_WRITE",15);
+define ("STOCK_WRITE",16);
+define ("STOCK_READ",17);
 
 // Erreur
 define ("NOERROR",0);

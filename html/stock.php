@@ -23,6 +23,7 @@ include_once("preference.php");
 include_once ("ac_common.php");
 include_once("postgres.php");
 include_once("stock_inc.php");
+include_once("check_priv.php");
 
 html_page_start($g_UserProperty['use_theme']);
 
@@ -78,6 +79,12 @@ if ( isset ($_POST['sub_change'])) {
     echo "<script> alert('$msg');</script>";
     echo_error($msg);
   } else {
+    // Check if User Can change the stock 
+    if ( CheckAction($g_dossier,$g_user,STOCK_WRITE) == 0 ) {
+      NoAccess();
+      exit (-1);
+    }
+
     // if neg the stock decrease => credit
     $type=( $change < 0 )?'c':'d';
     if ( $change != 0)
@@ -118,7 +125,11 @@ if ( ! isset ($_GET['year']) ) {
 
 // View details
 if ( $action == 'detail' ) {
-
+  // Check if User Can see the stock 
+  if ( CheckAction($g_dossier,$g_user,STOCK_READ) == 0 ) {
+    NoAccess();
+    exit (-1);
+  }
   $sg_code=(isset ($_GET['sg_code'] ))?$_GET['sg_code']:$_POST['sg_code'];
   $year=(isset($_GET['year']))?$_GET['year']:$_POST['year'];
   $a=ViewDetailStock($cn,$sg_code,$year);
@@ -145,7 +156,11 @@ for ( $i = 0; $i < pg_NumRows($Res);$i++) {
 	      $l['exercice']);
  
 }
-
+// Check if User Can see the stock 
+if ( CheckAction($g_dossier,$g_user,STOCK_READ) == 0 ) {
+  NoAccess();
+  exit (-1);
+}
 
 // Show the current stock
 echo '<div class="u_redcontent">';

@@ -241,6 +241,7 @@ function GetExercice($p_cn,$p_periode)
 {
   $Res=ExecSql($p_cn,"select p_exercice from parm_periode".
 	       " where p_id=$p_periode");
+  if ( pg_NumRows($Res) == 0 ) return "";
   $line=pg_fetch_array($Res,0);
   return $line['p_exercice'];
 }
