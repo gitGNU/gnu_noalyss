@@ -1,5 +1,10 @@
 2005-02-12  sparkyx  <sparkyx@july>
 
+	* html/admin/sql/patch/ac-upgrade4.sql:
+	Add the patch for the account_repository database
+
+	* Changelog, html/priv_user.php: changelog
+
 	* html/admin/setup.php: IMPROVE setup
 
 	* html/admin/setup.php: IMPROVE : setup.php
