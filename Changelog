@@ -1,4 +1,42 @@
+2004-03-30  sparkyx  <sparkyx@july.summer>
+
+	* sql/account_repository.sql, sql/mod-be.sql:
+	Update db for stock and rapt
+
+	* include/user_common.php: Cancel operation & function  VerifyDate (,,)
+
+	* include/form_input.php, include/user_action_ach.php, include/user_action_fin.php:
+	check date and correct
+
+	* html/show_tva.php, include/constant.php, include/fiche_inc.php:
+	Add the possibility to select tva rate in the js windows
+
+	* include/central_inc.php: function isCentralize
+
+	* html/user_pref.php: clean session variable
+
+	* html/impress.php, html/fiche_new.php: fix cosmetic bug
+
+	* doc/FAQ-fr.txt: task 3106
+
+2004-03-29  sparkyx  <sparkyx@july.summer>
+
+	* doc/manuel-fr.sgml: task 3106
+
+	* sql/account_repository.sql, sql/demo.sql, sql/mod-be.sql:
+	Change tva - use insert instead of copy
+
+2004-03-28  sparkyx  <sparkyx@july.summer>
+
+	* include/form_input.php, include/user_action_fin.php: Add financial
+
+	* install.sh: Improve
+
+	* sql/mod-be.sql: Update modele
+
 2004-03-27  sparkyx  <sparkyx@july.summer>
+
+	* Changelog: Changelog
 
 	* install.sh, sql/account_repository.sql, sql/demo.sql, sql/mod-be.sql:
 	Replace the sql script by database dump, a demo is now supplied
