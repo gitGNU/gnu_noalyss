@@ -96,18 +96,20 @@ function ExecuteScript($p_cn,$script) {
   while (!feof($hf)) {
     $buffer=fgets($hf);
     // comment are not execute
-    if ( strrpos($buffer,"--") == true) {
+    if ( strpos($buffer,"--") ===  0) {
+      echo "comment $buffer";
       continue;
     }
     // Blank Lines Are Skipped
     If ( Strlen($buffer)==0) {
-	    ##echo "Blank";
+	    echo "Blank $buffer";
       Continue;
     }
 
     // No semi colon -> multiline command
     if ( strpos($buffer,';') == false ) {
       $sql.=$buffer;
+      echo "<color=red> $buffer</color>";
       continue;
     } 
     // cut the semi colon
@@ -228,8 +230,6 @@ if ($account == 0 ) {
   ExecuteScript($cn,"sql/account_repository/data.sql");
   echo "Creation of Démo";
   ExecSql($cn,"create database dossier1 encoding='latin1'");
-//   $r=system("$psql -U phpcompta dossier1 -f sql/dossier1/schema.sql",$r);
-//   $r=system("$psql -U phpcompta dossier1 -f sql/dossier1/data.sql",$r);
   $cn=DbConnect(1,'dossier');
   ExecuteScript($cn,'sql/dossier1/schema.sql');
   ExecuteScript($cn,'sql/dossier1/data.sql');
