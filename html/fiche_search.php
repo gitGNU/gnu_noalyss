@@ -39,7 +39,7 @@ if ( ! isset ( $_SESSION['g_dossier'] ) ) {
 include_once ("check_priv.php");
 $cn=DbConnect($_SESSION['g_dossier']);
 // Get The priv on the selected folder
-if ( $User->CheckAction(FICHE_READ) == 0 ){
+if ( $User->CheckAction($cn,FICHE_READ) == 0 ){
     /* Cannot Access */
     echo '<h2 class="error"> Vous n\' avez pas accès</h2>';
     return;
