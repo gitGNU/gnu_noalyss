@@ -131,7 +131,7 @@ if ( isset ($_POST["search"]) ) {
                  j_montant,j_poste,j_debit,j_tech_per,jr_id,jr_comment,j_grpt,pcm_lib,jr_internal from jrnx inner join 
                  jrn on jr_grpt_id=j_grpt inner join tmp_pcmn on j_poste=pcm_val ".
 	       " inner join user_sec_jrn on uj_jrn_id=j_jrn_def".
-	       $condition." order by jr_id,j_debit desc");
+	       $condition." order by jr_date,jr_id,j_debit desc");
 
   $MaxLine=pg_NumRows($Res);
   if ( $MaxLine==0) { 

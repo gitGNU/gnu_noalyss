@@ -246,7 +246,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
                             join jrn_def on jrn_def_id=jr_def_id 
                             join parm_periode on p_id=jr_tech_per
                        $p_where 
-			 order by jr_date_order desc";
+			 order by jr_date_order asc";
   }
   if ( $p_array != null ) {
     // Construction Query 
