@@ -7,7 +7,7 @@
 </author>
 <date>$Revision$</date>
 <abstract>
-Ce document contient les rÃ©ponses aux questions les plus fréquemment posées sur
+Ce document contient les réponses aux questions les plus fréquemment posées sur
 PhpCompta <url url="http://www.alchimerys.be/FR/phpcompta" name="PhpCompta">
 site savannah <url url="http://savannah.nongnu.org/projects/phpcompta/" name="PhpCompta Savannah">
 </abstract>
@@ -293,7 +293,7 @@ Après l'avoir télécharger, allez dans le répertoire au-dessus du répertoire qui 
 pas
 
 Simplement parce que je n'ai pas eu le temps de le coder, pour l'instant, vous
-utilisez uniquement des factures préimprimées
+devrez uniquement utiliser des factures préimprimées
 
 </sect>
 </article>
