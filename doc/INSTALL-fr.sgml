@@ -171,6 +171,7 @@ register_argc_argv = on
 session.bug_compat_42 = 1
 session.bug_compat_warn = 0
 session.use_trans_sid = 1
+include_path=".:../include:addon"
 </verb>
 </p>
 </sect1>

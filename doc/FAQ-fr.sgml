@@ -77,7 +77,7 @@ Avec PHP 4.3.1 :
 	voir la variable register_globale = off dans le php.ini
 </quote>
 
-php.ini doit contenir pour wcompta
+php.ini doit contenir pour phpcompta
  <verb>
 [PHP]
 include_patch=../include:.
@@ -89,6 +89,7 @@ session.auto_start        = 1       ; initialize session on request startup
 session.cookie_lifetime   = 0       ; lifetime in seconds of cookie
                                     ; or if 0, until browser is restarted
 session.cookie_path       = /tmp       ; the path the cookie is valid for
+include_path=".:../include:addon"
 </verb>
 
 </sect>
