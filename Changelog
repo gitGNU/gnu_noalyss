@@ -1,3 +1,61 @@
+2004-04-14  sparkyx  <sparkyx@july.summer>
+
+	* html/send_poste_pdf.php, include/form_inc.php, include/impress_inc.php:
+	improve printing of card
+
+	* include/jrn.php: Fix bug is paid
+
+2004-04-13  sparkyx  <sparkyx@july.summer>
+
+	* html/fiche_new.php: Fix javascript bug for new card
+
+	* include/user_action_ven.php, include/user_common.php: Fix order
+
+	* include/user_action_ods.php: No change
+
+	* include/user_action_fin.php: Add inline calculator
+
+	* include/impress_inc.php, include/user_action_ach.php:
+	Fix order in printing
+
+	* include/form_input.php:
+	Set filter for ODS and problem of rounded amount
+
+	* include/constant.php, html/poste_search.php: Set filter for ODS
+
+	* html/enc_jrn.php:
+	Fix problem of sequence when encoding in accountant mode
+
+	* doc/manuel-fr.sgml: Update doc
+
+2004-04-12  sparkyx  <sparkyx@july.summer>
+
+	* include/form_input.php: Increase nb of default rows for ODS
+
+2004-04-11  sparkyx  <sparkyx@july.summer>
+
+	* html/print_balance.php: Fix order in balance
+
+2004-04-10  sparkyx  <sparkyx@july.summer>
+
+	* html/pcmn_update.php: Bug : invalid string make the pcmn_update fail
+
+	* include/form_input.php, include/user_action_fin.php:
+	bug 8531 - improve saldo present
+
+	* include/constant.php, include/form_input.php, include/user_common.php:
+	bug 8531
+
+	* html/print_invoice.php: bug 8532
+
+	* include/user_menu.php: Bugs cosmetic
+
+	* include/form_input.php, include/user_menu.php: Bug cosmetic
+
+2004-04-08  sparkyx  <sparkyx@july.summer>
+
+	* Changelog: Update
+
 2004-04-07  sparkyx  <sparkyx@july.summer>
 
 	* Faq, INSTALL-fr.txt: Update doc
