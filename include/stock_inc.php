@@ -197,8 +197,7 @@ $sql="select sg_code,
   $r.="<th>Prix/Cout Unitaire</th>";
   $r.="</TR>";
   // compute sessid
-  $l_sessid=(isset($_POST['PHPSESSID']))?$_POST['PHPSESSID']:$_GET['PHPSESSID'];
-
+  $l_sessid=$_REQUEST['PHPSESSID'];
 
   for ( $i=0; $i < $M;$i++) {
     $l=pg_fetch_array($Res,$i);

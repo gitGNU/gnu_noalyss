@@ -235,7 +235,7 @@ function EncodeFiche($p_cn,$p_type,$p_array=null) {
   $ch_li='</TR><TR>';
   echo '<FORM action="fiche.php" method="post" name="fiche">';
   echo '<INPUT TYPE="HIDDEN" name="fiche" value="'.$p_type.'">';
-  $l_sessid=(isset ($_POST["PHPSESSID"]))?$_POST["PHPSESSID"]:$_GET["PHPSESSID"];
+  $l_sessid=$_REQUEST['PHPSESSID'];
 
   echo JS_SHOW_TVA;
   echo JS_SEARCH_POSTE;

@@ -148,7 +148,7 @@ function InputType($p_label,$p_type,$p_name,$p_value,$p_viewonly=false,$p_list=n
 
   // input type == js_search => button search
   if ( strtolower($p_type)=="js_search") {
-    $l_sessid=(isset ($_POST['PHPSESSID']))?$_POST['PHPSESSID']:$_GET['PHPSESSID'];
+    $l_sessid=$_REQUEST['PHPSESSID'];
     $r=sprintf('<TD>
          <INPUT TYPE="button" onClick=NewCard(\'%s\',\'%s\',\'%s\') value="New">
          <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\') value="Search">
@@ -169,7 +169,7 @@ function InputType($p_label,$p_type,$p_name,$p_value,$p_viewonly=false,$p_list=n
   }
   // input type == js_concerned => button search for the concerned operations
   if ( strtolower($p_type)=="js_concerned") {
-    $l_sessid=(isset ($_POST['PHPSESSID']))?$_POST['PHPSESSID']:$_GET['PHPSESSID'];
+    $l_sessid=$_REQUEST['PHPSESSID'];
     $r=sprintf('<TD>
          <INPUT TYPE="button" onClick=SearchJrn(\'%s\',\'%s\') value="Search">
             %s</TD><TD> 
@@ -189,7 +189,6 @@ function InputType($p_label,$p_type,$p_name,$p_value,$p_viewonly=false,$p_list=n
 
   // input type == js_search_poste => button search for the account
   if ( strtolower($p_type)=="js_search_poste") {
-    //$l_sessid=(isset ($_POST['PHPSESSID']))?$_POST['PHPSESSID']:$_GET['PHPSESSID'];
     $l_sessid=$_REQUEST['PHPSESSID'];
 
     if ( $p_list == null ) { // no filter
@@ -238,7 +237,7 @@ function InputType($p_label,$p_type,$p_name,$p_value,$p_viewonly=false,$p_list=n
 	       $p_value,
 	       $p_list,
 	       $p_name);
-    $l_sessid=(isset ($_POST['PHPSESSID']))?$_POST['PHPSESSID']:$_GET['PHPSESSID'];
+    $l_sessid=$_REQUEST['PHPSESSID'];
     //    $r.="<script> document.getElementById('$p_list').innerHTML=\"  \";</script>"; 
     $r.=sprintf("<input type=\"button\" value=\"Tva\" onClick=\"ChangeTVA('%s','%s'); 
                   ShowTva('%s','%s')\"></TD>",
