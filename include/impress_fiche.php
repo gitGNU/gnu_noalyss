@@ -23,7 +23,7 @@ include_once('postgres.php');
 include_once('class_fiche.php');
 include_once("class_widget.php");
 
-$cn=DbConnect($g_dossier);
+$cn=DbConnect($_SESSION['g_dossier']);
 $fiche_def=new fiche_def($cn);
 
 
@@ -61,15 +61,15 @@ if  ( isset ($_GET['fd_id'])) {
   foreach ($fiche_def->attribut as $attribut) 
     echo "<TH>".$attribut->ad_text."</TH>";
   echo "<TR></TR>";
-
-   foreach ($e as $detail) {
-    echo "<TR>";
-    foreach ( $detail->attribut as $dattribut ) {
-      echo "<TD>".$dattribut->av_text."</TD>";
+  if ( count($e) != 0 ) {
+    foreach ($e as $detail) {
+      echo "<TR>";
+      foreach ( $detail->attribut as $dattribut ) {
+	echo "<TD>".$dattribut->av_text."</TD>";
+      }
+      echo "</TR>";
     }
-    echo "</TR>";
   }
- 
   echo "</TABLE>";
   echo "</div>";
  }

@@ -20,8 +20,8 @@
 include_once ("ac_common.php");
 /* $Revision$ */
 
-html_page_start($g_UserProperty['use_theme']);
-if ( ! isset ( $g_dossier ) ) {
+html_page_start($_SESSION['use_theme']);
+if ( ! isset ( $_SESSION['g_dossier'] ) ) {
   echo "You must choose a Dossier ";
   phpinfo();
   exit -2;
@@ -34,7 +34,7 @@ $User=new cl_user($rep);
 $User->Check();
 
 include_once ("postgres.php");
-echo_debug(__FILE__,__LINE__,"user is $g_user");
+echo_debug(__FILE__,__LINE__,"user is ".$_SESSION['g_user']);
 $rep=DbConnect();
 include_once ("class_user.php");
 $User=new cl_user($rep);
@@ -50,10 +50,9 @@ $User->Check();
 // Show the top menus
 include_once ("user_menu.php");
 include_once ("top_menu_compta.php");
-ShowMenuCompta($g_dossier,$g_UserProperty);
+ShowMenuCompta($_SESSION['g_dossier']);
 
 // Show the right menus
-// ShowMenuComptaRight($g_dossier,$g_UserProperty); 
 
 $left_menu=ShowMenuAdvanced();
 

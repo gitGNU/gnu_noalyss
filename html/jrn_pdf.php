@@ -22,7 +22,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 // $Revision$
 
-if ( ! isset($g_dossier) ) {
+if ( ! isset($_SESSION['g_dossier']) ) {
   echo "INVALID G_DOSSIER UNKNOWN !!! ";
   exit();
 }
@@ -34,8 +34,10 @@ include_once("class.ezpdf.php");
 include_once("impress_inc.php");
 include_once("preference.php");
 include_once("class_jrn.php");
+include_once("check_priv.php");
+
 echo_debug(__FILE__,__LINE__,"imp pdf journaux");
-$cn=DbConnect($g_dossier);
+$cn=DbConnect($_SESSION['g_dossier']);
 $l_type="JRN";
 $centr=" Non centralisé";
 $l_centr=0;
@@ -48,8 +50,8 @@ $Jrn=new jrn($cn,$_POST['jrn_id']);
 $Jrn->GetName();
 $User=new cl_user($cn);
 $User->Check();
-if ( $g_UserProperty['use_admin'] == 0 ) {
-  if (CheckAction($g_dossier,$g_user,IMP) == 0 ||
+if ( $User->admin == 0 ) {
+  if (CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],IMP) == 0 ||
         $User->AccessJrn($_POST['jrn_id']) == false){
     /* Cannot Access */
     NoAccess();

@@ -19,23 +19,25 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
 include_once ("ac_common.php");
-html_page_start($g_UserProperty['use_theme']);
-if ( ! isset ( $g_dossier ) ) {
-  echo "You must choose a Dossier ";
-  phpinfo();
-  exit -2;
-}
 include_once ("postgres.php");
 /* Admin. Dossier */
 $rep=DbConnect();
 include_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
+
+html_page_start($User->theme);
+if ( ! isset ( $_SESSION['g_dossier'] ) ) {
+  echo "You must choose a Dossier ";
+  phpinfo();
+  exit -2;
+}
 // Javascript
 echo JS_CONCERNED_OP;
 if ( isset( $p_jrn )) {
-  session_register("g_jrn");
   $g_jrn=$p_jrn;
+  $_SESSION[ "g_jrn"]=$g_jrn;
+
 }
 if (isset ($_GET['p_ctl'])) $p_ctl=$_GET['p_ctl'];
 if (isset($_POST['p_ctl'])) $p_ctl=$_POST['p_ctl'];
@@ -52,7 +54,7 @@ $c_internal="";
 $c_date="";
 $condition="";
 $part=" where ";
-$cn=DbConnect($g_dossier);
+$cn=DbConnect($_SESSION['g_dossier']);
 // if search then build the condition
 if ( isset ($_POST["search"]) ) {
   $c1=0;
@@ -89,10 +91,10 @@ echo_debug(__FILE__,__LINE__,"condition = $condition");
 $condition=$condition." ".$part;
 
 // If the usr is admin he has all right
-if ( $g_UserProperty['use_admin'] != 1 ) {
-  $condition.="  uj_priv in ('W','R') and uj_login='".$g_user."'" ;
+if ( $User->admin != 1 ) {
+  $condition.="  uj_priv in ('W','R') and uj_login='".$User->id."'" ;
 } else {
-  $condition.=" uj_login='$g_user' ";
+  $condition.=" uj_login='".$User->id."' ";
 }
 ?>
 <div style="font-size:11px;">

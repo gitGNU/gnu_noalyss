@@ -97,8 +97,8 @@ if ( isset($_POST['view'] ) ) {
 
   $row=$bal->GetRow($_POST['from_periode'],
 		  $_POST['to_periode']);
-    $a=GetPeriode($cn,$from_periode);
-    $b=GetPeriode($cn,$to_periode);
+    $a=GetPeriode($cn,$_POST['from_periode']);
+    $b=GetPeriode($cn,$_POST['to_periode']);
     echo "<h2 class=\"info\"> période du ".$a['p_start']." au ".$b['p_end']."</h2>";
 
   echo '<table>';  

@@ -21,42 +21,46 @@
 include_once("ac_common.php");
 include("top_menu_compta.php");
 include_once ("constant.php");
-
-html_page_start($g_UserProperty['use_theme']);
-if ( ! isset ( $g_dossier ) ) {
-  echo "You must choose a Dossier ";
-  exit -2;
-}
 include_once ("postgres.php");
 include_once ("check_priv.php");
-/* Admin. Dossier */
 
-
-if ( isset( $_GET['p_jrn'] )) {
-  session_register("g_jrn");
-  $g_jrn=$_GET['p_jrn'];
-} else {
-  if ( ! isset ($g_jrn) ) $g_jrn=-1;
-}
-if ( isset ($_GET['JRN_TYPE'] ) ) {
-  $g_jrn=-1;
-}
-
-$cn=DbConnect($g_dossier);
+$cn=DbConnect($_SESSION['g_dossier']);
 include ('class_user.php');
 $User=new cl_user($cn);
 $User->Check();
 
-ShowMenuCompta($g_dossier,$g_UserProperty);
+html_page_start($User->theme);
+if ( ! isset ( $_SESSION['g_dossier'] ) ) {
+  echo "You must choose a Dossier ";
+  exit -2;
+}
+/* Admin. Dossier */
 
-if ( $g_UserProperty['use_admin'] == 0 ) {
+
+if ( isset( $_GET['p_jrn'] )) {
+  $g_jrn=$_GET['p_jrn'];
+} else {
+  if ( ! isset ($_SESSION['g_jrn']) ) 
+    $g_jrn=-1;
+  else 
+    $g_jrn=$_SESSION['g_jrn'];
+}
+if ( isset ($_GET['JRN_TYPE'] ) ) {
+  $g_jrn=-1;
+}
+$_SESSION["g_jrn"]=$g_jrn;
+
+
+ShowMenuCompta($_SESSION['g_dossier']);
+
+if ( $User->admin == 0 ) {
   // check if user can access
-  if (CheckAction($g_dossier,$g_user,ENCJRN) == 0 ){
+  if (CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],ENCJRN) == 0 ){
     /* Cannot Access */
     NoAccess();
   }
   if ( isset ($g_jrn)) {
-	  if (CheckJrn($g_dossier,$g_user,$g_jrn) == 0 ){
+	  if (CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_SESSION['g_jrn']) == 0 ){
 	    /* Cannot Access */
 	    NoAccess();
 	    exit -1;
@@ -79,16 +83,16 @@ if ( isset ($_GET['JRN_TYPE'] ) ) {
   $result=ShowJrn("user_jrn.php?JRN_TYPE=".$jrn_type);
    echo "<DIV class=\"u_subtmenu\">";
    echo $result;
-  ShowMenuJrnUser($g_dossier,$g_UserProperty,$_GET['JRN_TYPE'],$g_jrn);
+  ShowMenuJrnUser($_SESSION['g_dossier'],$_GET['JRN_TYPE'],$_SESSION['g_jrn']);
    echo "</DIV>";
  if ( $jrn_type=='NONE' )     include('user_action_gl.php');
 
 } else {
 
-  echo_debug("Selected is $g_jrn");
+  echo_debug("Selected is ".$_SESSION['g_jrn']);
   // Get the jrn_type_id
   include_once('jrn.php');
-  $JrnProp=GetJrnProp($g_dossier,$g_jrn);
+  $JrnProp=GetJrnProp($_SESSION['g_dossier'],$_SESSION['g_jrn']);
   $jrn_type=$JrnProp['jrn_def_type'];
   echo_debug("Type is $jrn_type");
   echo_debug("Jrn_def_type = $jrn_type");
@@ -96,16 +100,16 @@ if ( isset ($_GET['JRN_TYPE'] ) ) {
  $result=ShowJrn("user_jrn.php?JRN_TYPE=".$jrn_type);
  echo '<div class="u_subtmenu">';
  echo $result;
- ShowMenuJrnUser($g_dossier,$g_UserProperty,$jrn_type,$g_jrn);
+ ShowMenuJrnUser($_SESSION['g_dossier'],$jrn_type,$_SESSION['g_jrn']);
  echo '</div>';
 }
 
   // if a journal is selected show the journal's menu
-if ( $g_jrn != -1 ) {
+if ( $_SESSION['g_jrn'] != -1 ) {
  $result=ShowJrn( "user_jrn.php?JRN_TYPE=".$jrn_type);
   // Get the jrn_type_id
   include_once('jrn.php');
-  $JrnProp=GetJrnProp($g_dossier,$g_jrn);
+  $JrnProp=GetJrnProp($_SESSION['g_dossier'],$_SESSION['g_jrn']);
   $jrn_type=$JrnProp['jrn_def_type'];
   // display jrn's menu
   include_once('user_menu.php');

@@ -19,34 +19,36 @@
 // Auteur Dany De Bontridder ddebontridder@yahoo.fr
 include_once ("ac_common.php");
 /* $Revision$ */
+include_once ("class_user.php");
+include_once ("postgres.php");
 
-html_page_start($g_UserProperty['use_theme']);
+$rep=DbConnect();
 
-if ( isset ( $dos ) ) {
-  $g_dossier=$dos;
-  session_register("g_dossier");
+$User=new cl_user($rep);
+$User->Check();
+
+html_page_start($User->theme);
+
+if ( isset ( $_GET['dos'] ) ) {
+  $g_dossier=$_GET['dos'];
+  $_SESSION[ "g_dossier"]=$g_dossier;
   echo_debug(__FILE__,__LINE__,"admin_dossier = $g_dossier ");
   $g_name=GetDossierName($g_dossier);
-  session_register("g_name");
+  $_SESSION["g_name"]=$g_name;
 
 } else {
   echo "You must choose a Dossier ";
   exit -2;
 }
-include_once ("postgres.php");
-echo_debug(__FILE__,__LINE__,"user is $g_user");
-$rep=DbConnect();
-include_once ("class_user.php");
-$User=new cl_user($rep);
-$User->Check();
+echo_debug(__FILE__,__LINE__,"user is ".$_SESSION['g_user']);
 
 // Synchronize rights
-SyncRight($g_dossier,$g_user);
+SyncRight($_SESSION['g_dossier'],$_SESSION['g_user']);
 
 // Get The priv on the selected folder
-if ( $g_UserProperty['use_admin'] == 0 ) {
+if ( $User->admin == 0 ) {
   
-  $r=GetPriv($g_dossier,$g_user);
+  $r=GetPriv($_SESSION['g_dossier'],$_SESSION['g_user']);
   if ($r == 0 ){
     /* Cannot Access */
     NoAccess();
@@ -58,7 +60,7 @@ if ( $g_UserProperty['use_admin'] == 0 ) {
 
 include_once ("user_menu.php");
 include_once ("top_menu_compta.php");
-ShowMenuCompta($g_dossier,$g_UserProperty);
+ShowMenuCompta($g_dossier);
 
 html_page_stop();
 

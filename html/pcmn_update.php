@@ -19,8 +19,8 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
 include_once ("ac_common.php");
-html_page_start($g_UserProperty['use_theme']);
-if ( ! isset ( $g_dossier ) ) {
+html_page_start($_SESSION['use_theme']);
+if ( ! isset ( $_SESSION['g_dossier'] ) ) {
   echo "You must choose a Dossier ";
   phpinfo();
   exit -2;
@@ -36,10 +36,10 @@ $User->Check();
 include_once ("top_menu_compta.php");
 include_once ("check_priv.php");
 
-ShowMenuCompta($g_dossier,$g_UserProperty);
+ShowMenuCompta($_SESSION['g_dossier']);
 
-if ( $g_UserProperty['use_admin'] == 0 ) {
-  $r=CheckAction($g_dossier,$g_user,MPCMN);
+if ( $User->admin == 0 ) {
+  $r=CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],MPCMN);
   if ($r == 0 ){
     /* Cannot Access */
     NoAccess();
@@ -50,21 +50,18 @@ if ( $g_UserProperty['use_admin'] == 0 ) {
 }
 
 /* Store the p_start parameter */
-if ( isset ($g_start) ) {
-  echo_debug(__FILE__,__LINE__,"g_start is defined [ $g_start ]");
+if ( ! isset ( $_SESSION['g_start']) ) {
+  $_SESSION['g_start']="";
+
 }
-if ( ! isset ( $g_start) ) {
-  $g_start="";
-}
-if ( isset ($p_start)) { 
-  echo_debug(__FILE__,__LINE__,"PCMN p_start : $p_start");
-  echo_debug(__FILE__,__LINE__,"p_start[$p_start] and g_start  don't exist");
-  session_register("g_start"); 
-  $g_start=$p_start;
+if ( isset ($_GET['p_start'])) { 
+  $g_start=$_GET['p_start'];
+  $_SESSION["g_start"]=$g_start; 
+
 }
 
-ShowMenuPcmn($g_start);
-$cn=DbConnect($g_dossier);
+ShowMenuPcmn($_SESSION['g_start']);
+$cn=DbConnect($_SESSION['g_dossier']);
 echo '<DIV CLASS="ccontent">';
 /* Analyse ce qui est demandé */
 /* Effacement d'une ligne */
@@ -149,7 +146,7 @@ if ( isset ($_POST["update"] ) ) {
 
 }
 
-$Ret=ExecSql($cn,"select pcm_val,pcm_lib,pcm_val_parent from tmp_pcmn where substr(pcm_val::text,1,1)='$g_start' order by pcm_val::text");
+$Ret=ExecSql($cn,"select pcm_val,pcm_lib,pcm_val_parent from tmp_pcmn where substr(pcm_val::text,1,1)='".$_SESSION['g_start']."' order by pcm_val::text");
 $MaxRow=pg_NumRows($Ret);
 
 ?>

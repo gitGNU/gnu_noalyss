@@ -25,9 +25,9 @@ include_once("postgres.php");
 include_once("stock_inc.php");
 include_once("check_priv.php");
 
-html_page_start($g_UserProperty['use_theme']);
+html_page_start($_SESSION['use_theme']);
 
-if ( ! isset ( $g_dossier ) ) {
+if ( ! isset ( $_SESSION['g_dossier'] ) ) {
   echo "You must choose a Dossier ";
   phpinfo();
   exit -2;
@@ -40,24 +40,24 @@ $User=new cl_user($rep);
 $User->Check();
 
 // Synchronize rights
-SyncRight($g_dossier,$g_user);
+SyncRight($_SESSION['g_dossier'],$_SESSION['g_user']);
 
 // Get The priv on the selected folder
-if ( $g_UserProperty['use_admin'] == 0 ) {
+if ( $User->admin == 0 ) {
   
-  $r=GetPriv($g_dossier,$g_user);
+  $r=GetPriv($_SESSION['g_dossier'],$_SESSION['g_user']);
   if ($r == 0 ){
     /* Cannot Access */
     NoAccess();
   }
 
 }
-$cn=DbConnect($g_dossier);
+$cn=DbConnect($_SESSION['g_dossier']);
 
 //Show the top menu
 include_once ("user_menu.php");
 include_once ("top_menu_compta.php");
-ShowMenuCompta($g_dossier,$g_UserProperty);
+ShowMenuCompta($_SESSION['g_dossier']);
 
 // Show Menu Left
 $left_menu=ShowMenuAdvanced();
@@ -114,7 +114,7 @@ if ( isset ($_POST['sub_change'])) {
 // if year is not set then use the year of the user's periode
 if ( ! isset ($_GET['year']) ) {
   // get defaut periode
-  $a=GetUserPeriode($cn,$g_user);
+  $a=GetUserPeriode($cn,$_SESSION['g_user']);
   // get exercice of periode
   $year=GetExercice($cn,$a);
   } else
@@ -125,7 +125,7 @@ if ( ! isset ($_GET['year']) ) {
 // View details
 if ( $action == 'detail' ) {
   // Check if User Can see the stock 
-  if ( CheckAction($g_dossier,$g_user,STOCK_READ) == 0 ) {
+  if ( CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],STOCK_READ) == 0 ) {
     NoAccess();
     exit (-1);
   }
@@ -156,7 +156,7 @@ for ( $i = 0; $i < pg_NumRows($Res);$i++) {
  
 }
 // Check if User Can see the stock 
-if ( CheckAction($g_dossier,$g_user,STOCK_READ) == 0 ) {
+if ( CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],STOCK_READ) == 0 ) {
   NoAccess();
   exit (-1);
 }

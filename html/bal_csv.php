@@ -25,7 +25,7 @@ include_once("class_balance.php");
 include_once ("postgres.php");
 
 include("class_jrn.php");
-$cn=DbConnect($g_dossier);
+$cn=DbConnect($_SESSION['g_dossier']);
 
 
 include ('class_user.php');

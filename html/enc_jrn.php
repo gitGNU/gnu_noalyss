@@ -39,7 +39,7 @@ include_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
 if ( isset( $p_jrn )) {
-  session_register("g_jrn");
+  $_SESSION["g_jrn"];
   $g_jrn=$p_jrn;
 }
     $cn=DbConnect($g_dossier);

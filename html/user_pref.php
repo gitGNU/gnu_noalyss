@@ -21,47 +21,37 @@
 /* $Revision$ */
 include_once ("ac_common.php");
 include_once ("postgres.php");
-
-// Met a jour le theme utilisateur (style)
-if ( isset ( $_POST['style_user']) ) {
-  $CnRepo=DbConnect();
-      $Res=ExecSql($CnRepo,
-		   "update ac_users set use_theme='".$_POST['style_user'].
-		   "'  where use_login='$g_user'");
- //     echo '<H2 class="info"> Theme utilisateur changé </H1>';
-      $g_UserProperty['use_theme']=$_POST['style_user'];
-
-}
-// // Met à jour le profil
-if ( isset ( $_POST['profile_user']) ) {
-      $g_UserProperty['use_usertype']=$_POST['profile_user'];
-}
-
-html_page_start($g_UserProperty['use_theme']);
-
-// // clean session variable from user interface (make prob. with compta  interfac)
-// //
-// if ( isset ($g_jrn) ) {
-//   session_unregister("g_jrn");
-// }
-
 /* Admin. Dossier */
 $rep=DbConnect();
 include_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
 
+// Met a jour le theme utilisateur (style)
+if ( isset ( $_POST['style_user']) ) {
+  $CnRepo=DbConnect();
+      $Res=ExecSql($CnRepo,
+		   "update ac_users set use_theme='".$_POST['style_user'].
+		   "'  where use_login='".$_SESSION['g_user']."'");
+ //     echo '<H2 class="info"> Theme utilisateur changé </H1>';
+      $_SESSION['use_theme']=$_POST['style_user'];
+
+}
+// // Met à jour le profil
+if ( isset ( $_POST['profile_user']) ) {
+      $_SESSION['use_usertype']=$_POST['profile_user'];
+}
+
+html_page_start($_SESSION['use_theme']);
+
 // show the top menu depending of the use_style
 // comta style
 
 include_once ("top_menu_compta.php");
-if ( isset ($g_dossier) ) {
-  if ( $g_dossier != 0 )  ShowMenuCompta($g_dossier,$g_UserProperty);
-  //  ShowMenuComptaRight($g_dossier,$g_UserProperty);
-  } else {
-  // ShowMenuComptaRight(0,$g_UserProperty);
+if ( isset ($_SESSION['g_dossier']) ) {
+  if ( $_SESSION['g_dossier'] != 0 )  
+    ShowMenuCompta($_SESSION['g_dossier']);
   }
-
 
 echo '<DIV class="ccontent">';
 
@@ -76,9 +66,9 @@ if ( isset ($spass) ) {
     else {
       $Cn=DbConnect();
       $l_pass=md5($pass_1);
-      $Res=ExecSql($Cn,"update ac_users set use_pass='$l_pass' where use_login='$g_user'");
+      $Res=ExecSql($Cn,"update ac_users set use_pass='$l_pass' where use_login='".$_SESSION['g_user']."'");
       $pass=$pass_1;
-      $g_UserProperty['g_pass']=$pass_1;
+      $_SESSION['g_pass']=$pass_1;
       $g_pass=$pass_1;
     }
   }
@@ -87,9 +77,9 @@ if ( isset ( $_POST['style_user']) ) {
   $CnRepo=DbConnect();
       $Res=ExecSql($CnRepo,
 		   "update ac_users set use_theme='".$_POST['style_user'].
-		   "'  where use_login='$g_user'");
+		   "'  where use_login='".$_SESSION['g_user']."'");
  //     echo '<H2 class="info"> Theme utilisateur changé </H1>';
-      $g_UserProperty['use_theme']=$_POST['style_user'];
+      $_SESSION['use_theme']=$_POST['style_user'];
 
 }
 
@@ -114,7 +104,7 @@ for ($i=0;$i < pg_NumRows($res);$i++){
 // Formatte le display
 $disp_style="<SELECT NAME=\"style_user\" >";
 foreach ($style as $st){
-  if ( $st == $g_UserProperty['use_theme'] ) {
+  if ( $st == $_SESSION['use_theme'] ) {
     $disp_style.='<OPTION VALUE="'.$st.'" SELECTED>'.$st;
   } else {
     $disp_style.='<OPTION VALUE="'.$st.'">'.$st;
@@ -139,17 +129,17 @@ $disp_style.="</SELECT>";
 
 // Si utilise un dossier alors propose de changer
 // la periode par defaut
-if ( isset ($g_dossier) ) {
+if ( isset ($_SESSION['g_dossier']) ) {
 
   include_once("preference.php");
-  $cn=DbConnect($g_dossier);
+  $cn=DbConnect($_SESSION['g_dossier']);
 
   if ( isset ($_POST["sub_periode"] ) ) {
     $periode=$_POST["periode"];
-    SetUserPeriode($cn,$periode,$g_user); 
+    SetUserPeriode($cn,$periode,$_SESSION['g_user']); 
   }
 
-  $l_user_per=GetUserPeriode($cn,$g_user);
+  $l_user_per=GetUserPeriode($cn,$_SESSION['g_user']);
   $l_form_per=FormPeriode($cn,$l_user_per);
 
 ?>

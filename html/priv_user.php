@@ -21,7 +21,7 @@ include_once("ac_common.php");
 include_once("postgres.php");
 include_once("debug.php");
 include_once("user_menu.php");
-html_page_start($g_UserProperty['use_theme']);
+html_page_start($_SESSION['use_theme']);
 echo_debug(__FILE__,__LINE__,"entering priv_users");
 
 
@@ -29,11 +29,12 @@ $rep=DbConnect();
 include_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
-if ($g_UserProperty['use_admin'] != 1) {
+
+if ($User->admin != 1) {
   html_page_stop();
   return;
 }
-if (! isset ($UID) ) {
+if (! isset ($_GET['UID']) ) {
   //Message d'erreur si UID non positionné
   echo_debug(__FILE__,__LINE__,"UID NOT DEFINED");
   html_page_stop();
@@ -41,7 +42,7 @@ if (! isset ($UID) ) {
 }
 echo_debug(__FILE__,__LINE__,"UID IS DEFINED");
 
-$r_UID=GetUid($UID);
+$r_UID=GetUid($_GET['UID']);
 if ( $r_UID == false ) {
   echo_debug(__FILE__,__LINE__,"UID NOT VALID");
   // Message d'erreur
@@ -116,11 +117,11 @@ if ( isset ($SAVE) ){
     return;
   }
 }
-$r_UID=GetUid($UID);
+$r_UID=GetUid($_GET['UID']);
 ?>
 <FORM ACTION="priv_user.php" METHOD="POST">
 
-<? printf('<INPUT TYPE=HIDDEN NAME=UID VALUE="%s">',$UID); ?>
+<? printf('<INPUT TYPE=HIDDEN NAME=UID VALUE="%s">',$_GET['UID']); ?>
 <TABLE BORDER=0>
 <TR><TD>
 <?printf('First name <INPUT type="text" NAME="fname" value="%s"> ',$r_UID[0]['use_first_name']); ?>
@@ -132,7 +133,7 @@ $r_UID=GetUid($UID);
 <?printf('login <INPUT type="text" NAME="login" value="%s">',$r_UID[0]['use_login']); ?>
 </TD>
 <TD class="mtitle"> 
-<?printf('<A class="mtitle" HREF="priv_user.php?reset_passwd&UID=%s">Reset Password</A>',$UID); ?>
+<?printf('<A class="mtitle" HREF="priv_user.php?reset_passwd&UID=%s">Reset Password</A>',$_GET['UID']); ?>
 </TD>
 </TR>
 <TR><TD>
@@ -178,7 +179,7 @@ $Dossier=ShowDossier('all',1,0);
 foreach ( $Dossier as $rDossier) {
   $NORIGHT="";$Write="";$Read="";
   echo_debug(__FILE__,__LINE__,"Dossier : ".$rDossier['dos_id']);
-  $login_name=GetLogin($UID);
+  $login_name=GetLogin($_GET['UID']);
   $priv=GetPriv($rDossier['dos_id'],$login_name);
   printf("<TR><TD> Dossier : %s </TD>",$rDossier['dos_name']);
   if ( $priv==0 ) 

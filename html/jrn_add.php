@@ -21,8 +21,8 @@
 /* $Revision$ */
 include_once ("ac_common.php");
 include_once("jrn.php");
-html_page_start($g_UserProperty['use_theme']);
-if ( ! isset ( $g_dossier ) ) {
+html_page_start($_SESSION['use_theme']);
+if ( ! isset ( $_SESSION['g_dossier'] ) ) {
   echo "You must choose a Dossier ";
   exit -2;
 }
@@ -34,11 +34,11 @@ $User=new cl_user($rep);
 $User->Check();
 include_once("check_priv.php");
 include_once ("top_menu_compta.php");
-ShowMenuCompta($g_dossier,$g_UserProperty);
+ShowMenuCompta($_SESSION['g_dossier']);
 
 
-if ( $g_UserProperty['use_admin'] == 0 ) {
-  $r=CheckAction($g_dossier,$g_user,SECU);
+if ( $User->admin == 0 ) {
+  $r=CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],SECU);
   if ($r == 0 ){
     /* Cannot Access */
     NoAccess();
@@ -50,7 +50,7 @@ if ( $g_UserProperty['use_admin'] == 0 ) {
 
 //echo '<SCRIPT LANGUAGE="javascript" SRC="win_search_poste.js"></SCRIPT>';
 echo JS_SEARCH_POSTE;
-$cn=DbConnect($g_dossier);
+$cn=DbConnect($_SESSION['g_dossier']);
 
 If ( isset ($_POST["JRN_ADD"]) ) {
   if (  !isset($_POST["p_jrn_name"]) || ! isset($_POST["p_jrn_type"] )) {
@@ -105,7 +105,7 @@ echo_debug(__FILE__,__LINE__,"nom journal $p_jrn_name");
     $Res=ExecSql($cn,$Sql);
   }
 }
-ShowMenuJrn($g_dossier);
+ShowMenuJrn($_SESSION['g_dossier']);
 if ( isset ($_GET["PHPSESSID"]) ) {
   $sessid=$_GET["PHPSESSID"];
 }else {

@@ -20,13 +20,6 @@
 /* $Revision$ */
 include_once ("ac_common.php");
 include_once ("poste.php");
-html_page_start($g_UserProperty['use_theme']);
-
-if ( ! isset ( $g_dossier ) ) {
-  echo "You must choose a Dossier ";
-  phpinfo();
-  exit -2;
-}
 include_once ("postgres.php");
 include_once("jrn.php");
 /* Admin. Dossier */
@@ -35,10 +28,18 @@ include_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
 
+html_page_start($User->theme);
+
+if ( ! isset ( $_SESSION['g_dossier'] ) ) {
+  echo "You must choose a Dossier ";
+  phpinfo();
+  exit -2;
+}
+
 include_once ("check_priv.php");
 // Get The priv on the selected folder
-if ( $g_UserProperty['use_admin'] == 0 ) {
-  $r=CheckAction($g_dossier,$g_user,FICHE_READ);
+if ( $User->admin == 0 ) {
+  $r=CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],FICHE_READ);
   if ($r == 0 ){
     /* Cannot Access */
     echo '<h2 class="error"> Vous n\' avez pas accès</h2>';
@@ -74,7 +75,7 @@ function SetData (name_ctl,value,value_2,value_3,value_4,value_5,value_6) {
 }
 </script>
 <?
-$cn=DbConnect($g_dossier);
+$cn=DbConnect($_SESSION['g_dossier']);
 $r="";
 
 foreach ($HTTP_GET_VARS as $key=>$element) {
@@ -99,12 +100,12 @@ if ( isset ( $_POST['search']) )  {
   // Get the field from database
   if ( $e_type == 'deb' ) {
     $get='jrn_def_fiche_deb';
-    $list_fiche=get_list_fiche($cn,$get,$g_jrn);
+    $list_fiche=get_list_fiche($cn,$get,$_SESSION['g_jrn']);
     $sql="select * from vw_fiche_attr where fd_id in ( $list_fiche )";
   }
   if ( $e_type == 'cred' ) {
     $get='jrn_def_fiche_cred';
-    $list_fiche=get_list_fiche($cn,$get,$g_jrn);
+    $list_fiche=get_list_fiche($cn,$get,$_SESSION['g_jrn']);
     $sql="select * from vw_fiche_attr where fd_id in ( $list_fiche )";
   }
 

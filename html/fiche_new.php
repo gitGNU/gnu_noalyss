@@ -18,27 +18,27 @@
 */
 // Auteur Dany De Bontridder ddebontridder@yahoo.fr
 include_once ("ac_common.php");
-/* $Revision$ */
-
-html_page_start($g_UserProperty['use_theme']);
-
-if ( ! isset ( $g_dossier ) ) {
-  echo "You must choose a Dossier ";
-  phpinfo();
-  exit -2;
-}
 include_once ("postgres.php");
 include_once ("check_priv.php");
 
+/* $Revision$ */
 /* Admin. Dossier */
 $rep=DbConnect();
 include_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
+
+html_page_start($User->theme);
+
+if ( ! isset ( $_SESSION['g_dossier'] ) ) {
+  echo "You must choose a Dossier ";
+  exit -2;
+}
+
 // TODO add security here
 // Get The priv on the selected folder
-if ( $g_UserProperty['use_admin'] == 0 ) {
-  $r=CheckAction($g_dossier,$g_user,FICHE_WRITE);
+if ( $User->admin == 0 ) {
+  $r=CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],FICHE_WRITE);
   if ($r == 0 ){
     /* Cannot Access */
     echo '<h2 class="error"> Vous  ne pouvez pas ajouter de fiche</h2>';
@@ -46,7 +46,7 @@ if ( $g_UserProperty['use_admin'] == 0 ) {
   }
 }
 include_once("fiche_inc.php");
-$cn=DbConnect($g_dossier);
+$cn=DbConnect($_SESSION['g_dossier']);
 foreach ($HTTP_GET_VARS as $key=>$element) {
   // The value are e_name e_type e_PHPSESSID
   ${"e_$key"}=$element;
@@ -134,11 +134,11 @@ if ( isset($_POST['add_fiche'])) {
   } else { // We have to find it from the database
     if ( $e_type == 'deb' ) {
       $get='jrn_def_fiche_deb';
-      $sql="select $get as fiche from jrn_def where jrn_def_id=$g_jrn";
+      $sql="select $get as fiche from jrn_def where jrn_def_id=".$_SESSION['g_jrn'];
     }
     if ( $e_type == 'cred' ) {
       $get='jrn_def_fiche_cred';
-    $sql="select $get as fiche from jrn_def where jrn_def_id=$g_jrn";
+    $sql="select $get as fiche from jrn_def where jrn_def_id=".$_SESSION['g_jrn'];
     }
     
     

@@ -20,7 +20,7 @@
 /* $Revision$ */
 
 include_once ("ac_common.php");
-html_page_start($g_UserProperty['use_theme']);
+html_page_start($_SESSION['use_theme']);
 include_once ("postgres.php");
 include_once("jrn.php");
 /* Admin. Dossier */
@@ -28,10 +28,10 @@ $rep=DbConnect();
 include_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
-//echo '<SCRIPT LANGUAGE="javascript" SRC="win_search_poste.js"></SCRIPT>';
+
 echo JS_SEARCH_POSTE;
 
-if ( ! isset ( $g_dossier ) ) {
+if ( ! isset ( $_SESSION['g_dossier'] ) ) {
   echo "You must choose a Dossier ";
   exit -2;
 }
@@ -40,7 +40,7 @@ $c_comment="";
 $c_class="";
 
 $condition="";
-$cn=DbConnect($g_dossier);
+$cn=DbConnect($_SESSION['g_dossier']);
 if ( isset($_POST['search']) ) {
   $c1=0;
   foreach( $HTTP_POST_VARS as $key=>$element){
@@ -71,7 +71,7 @@ if ( isset($_GET['filter'])) {
   // have to find what account are available
   $SqlCred="";
   // Load the property
-  $l_line=GetJrnProperty($cn,$g_jrn);
+  $l_line=GetJrnProperty($cn,$_SESSION['g_jrn']);
   if ( strlen(trim ($l_line['jrn_def_class_cred']) ) > 0 ) {
     $valid_cred=split(" ",$l_line['jrn_def_class_cred']);
 

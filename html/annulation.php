@@ -25,12 +25,6 @@ include_once("central_inc.php");
 include_once("user_common.php");
 include_once("form_input.php");
 include_once("check_priv.php");
-
-html_page_start($g_UserProperty['use_theme']);
-if ( ! isset ( $g_dossier ) ) {
-  echo "You must choose a Dossier ";
-  exit -2;
-}
 include_once ("postgres.php");
 include_once("jrn.php");
 /* Admin. Dossier */
@@ -39,15 +33,22 @@ include_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
 
+html_page_start($User->theme);
+if ( ! isset ( $_SESSION['g_dossier'] ) ) {
+  echo "You must choose a Dossier ";
+  exit -2;
+}
+
 if ( isset( $p_jrn )) {
-  session_register("g_jrn");
   $g_jrn=$p_jrn;
+  $_SESSION["g_jrn"]=$g_jrn;
+
 }
 
  // Check privilege
  // CheckJrn verify that the user is not an admin
  // an admin has all right
-  if ( CheckJrn($g_dossier,$g_user,$g_jrn) != 2 )    {
+  if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_SESSION['g_jrn']) != 2 )    {
        NoAccess();
        exit -1;
   }
@@ -65,7 +66,7 @@ foreach ($l_array as $key=>$element) {
 if ( isset ($annul) ) {
   if ( isset ($_POST['p_id'])) {
     // Get the current periode
-    $period=GetUserPeriode($cn,$g_user);
+    $period=GetUserPeriode($cn,$User->id);
     $p_id=$_POST['p_id'];
    // Get the date
    $e_op_date=$_POST['op_date'];
@@ -79,7 +80,7 @@ if ( isset ($annul) ) {
      $p_id=-1;
    }
    // userPref contient la periode par default
-    $userPref=GetUserPeriode($cn,$g_user);
+    $userPref=GetUserPeriode($cn,$User->id);
     list ($l_date_start,$l_date_end)=GetPeriode($cn,$userPref);
 
     // Date dans la periode active
@@ -152,13 +153,13 @@ if ( isset ($e_ech) ) {
   echo "<DIV> Echeance $e_ech </DIV>";
 }
 for ( $i = 0; $i < $max_deb;$i++) {
-  $lib=GetPosteLibelle($g_dossier,${"e_class_deb$i"}); 
+  $lib=GetPosteLibelle($_SESSION['g_dossier'],${"e_class_deb$i"}); 
   echo '<div style="background-color:#BFC2D5;">';
   echo ${"e_class_deb$i"}." $lib    "."<B>".${"e_mont_deb$i"}."</B>";
   echo "</div>";
 }
 for ( $i = 0; $i < $max_cred;$i++) {
-  $lib=GetPosteLibelle($g_dossier,${"e_class_cred$i"});
+  $lib=GetPosteLibelle($_SESSION['g_dossier'],${"e_class_cred$i"});
   echo '<div style="background-color:#E8F4FF;">';
   echo ${"e_class_cred$i"}."  $lib   "."<B>".${"e_mont_cred$i"}."</B>";
   echo '</div>';

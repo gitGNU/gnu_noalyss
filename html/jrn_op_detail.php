@@ -21,8 +21,8 @@
 include_once ("ac_common.php");
 include_once ("poste.php");
 include_once ("user_common.php");
-html_page_start($g_UserProperty['use_theme']);
-if ( ! isset ( $g_dossier ) ) {
+html_page_start($_SESSION['use_theme']);
+if ( ! isset ( $_SESSION['g_dossier'] ) ) {
   echo "You must choose a Dossier ";
   //  phpinfo();
   exit -2;
@@ -35,11 +35,12 @@ include_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
 
-if ( isset( $p_jrn )) {
-  session_register("g_jrn");
-  $g_jrn=$p_jrn;
+if ( isset( $_GET['$p_jrn'] )) {
+  $g_jrn=$_GE['p_jrn'];
+  $_SESSION[ "g_jrn"]=$g_jrn;
+
 }
-$cn=DbConnect($g_dossier);
+$cn=DbConnect($_SESSION['g_dossier']);
 $jrn_op=$_GET['jrn_op'];
 list ($l_array,$max_deb,$max_cred)=GetData($cn,$jrn_op);
 foreach ($l_array as $key=>$element) {
@@ -60,14 +61,14 @@ if ( isset ($e_ech) ) {
 echo '<div style="background-color:#BFC2D5;">';
 
 for ( $i = 0; $i < $max_deb;$i++) {
-  $lib=GetPosteLibelle($g_dossier,${"e_class_deb$i"}); 
+  $lib=GetPosteLibelle($_SESSION['g_dossier'],${"e_class_deb$i"}); 
   echo ${"e_class_deb$i"}." $lib    "."<B>".${"e_mont_deb$i"}."</B>.<br>";
 
 }
   echo "</div>";
   echo '<div style="background-color:#E8F4FF;margin-left:50px;">';
 for ( $i = 0; $i < $max_cred;$i++) {
-  $lib=GetPosteLibelle($g_dossier,${"e_class_cred$i"});
+  $lib=GetPosteLibelle($_SESSION['g_dossier'],${"e_class_cred$i"});
 
   echo ${"e_class_cred$i"}."  $lib   "."<B>".${"e_mont_cred$i"}."</B><br>";
 }

@@ -21,7 +21,7 @@
 echo_debug(__FILE__,__LINE__,"include user_action_ven.php");
 include_once("form_input.php");
 include_once("class_widget.php");
-$cn=DbConnect($g_dossier);
+$cn=DbConnect($_SESSION['g_dossier']);
 // default action is insert_vente
 if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {
   //  echo u_ShowMenuJrn($cn,$jrn_type);
@@ -39,7 +39,7 @@ if ( $action == 'insert_vente' ) {
       $nb_number=$_POST["nb_item"];
       $nb_number++;
 
-      $form=FormVente($cn,$g_jrn,$g_user,$HTTP_POST_VARS,false,$nb_number);
+      $form=FormVente($cn,$_SESSION['g_jrn'],$_SESSION['g_user'],$HTTP_POST_VARS,false,$nb_number);
       echo '<div class="u_redcontent">';
       echo     "here".    $form;
       echo '</div>';
@@ -49,11 +49,11 @@ if ( $action == 'insert_vente' ) {
     // We want to see the encoded invoice 
     if ( isset ($_POST["view_invoice"])) {
       $nb_number=$_POST["nb_item"];
-      $form=FormVenteView($cn,$g_jrn,$g_user,$HTTP_POST_VARS,$nb_number);
+      $form=FormVenteView($cn,$_SESSION['g_jrn'],$_SESSION['g_user'],$HTTP_POST_VARS,$nb_number);
 	  // Check failed : invalid date or quantity
 	  if ( $form== null) {
 		  echo_error("Cannot validate ");
-		  $form=FormVente($cn,$g_jrn,$g_user,$HTTP_POST_VARS,false,$nb_number);
+		  $form=FormVente($cn,$_SESSION['g_jrn'],$_SESSION['g_user'],$HTTP_POST_VARS,false,$nb_number);
 	 }
       echo '<div class="u_redcontent">';
       echo         $form;
@@ -66,7 +66,7 @@ if ( $action == 'insert_vente' ) {
       {
       echo_debug(__FILE__,__LINE__,"Blank form");
       // Show an empty form of invoice
-      $form=FormVente($cn,$g_jrn,$g_user,null,false);
+      $form=FormVente($cn,$_SESSION['g_jrn'],$_SESSION['g_user'],null,false);
       echo '<div class="u_redcontent">';
       echo $form;
       echo '</div>';
@@ -78,23 +78,23 @@ if ( $action == 'insert_vente' ) {
     // Save the invoice 
 if ( isset($_POST["record_invoice"])) {
   // Check privilege
-  if ( CheckJrn($g_dossier,$g_user,$g_jrn) != 2 )    {
+  if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_SESSION['g_jrn']) != 2 )    {
     NoAccess();
     exit -1;
   }
 
   // echo "RECORD INVOICE";
-   RecordInvoice($cn,$HTTP_POST_VARS,$g_user,$g_jrn);
+   RecordInvoice($cn,$HTTP_POST_VARS,$_SESSION['g_user'],$_SESSION['g_jrn']);
 }
 if (isset ($_POST['correct_new_invoice'])) {
   // Check privilege
-  if ( CheckJrn($g_dossier,$g_user,$g_jrn) != 2 )    {
+  if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_SESSION['g_jrn']) != 2 )    {
     NoAccess();
     exit -1;
   }
   
   $nb=$_POST['nb_item'];
-  $form=FormVente($cn,$g_jrn,$g_user,$HTTP_POST_VARS,false,$nb);
+  $form=FormVente($cn,$_SESSION['g_jrn'],$_SESSION['g_user'],$HTTP_POST_VARS,false,$nb);
   echo '<div class="u_redcontent">';
   echo $form;
   echo '</div>';
@@ -102,13 +102,13 @@ if (isset ($_POST['correct_new_invoice'])) {
 // Save and print the invoice
 if ( isset($_POST["record_and_print_invoice"])) {
   // Check privilege
-  if ( CheckJrn($g_dossier,$g_user,$g_jrn) != 2 )    {
+  if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_SESSION['g_jrn']) != 2 )    {
     NoAccess();
     exit -1;
   }
   
   //  echo "RECORD AND PRINT INVOICE";
-  $comment=RecordInvoice($cn,$HTTP_POST_VARS,$g_user,$g_jrn);
+  $comment=RecordInvoice($cn,$HTTP_POST_VARS,$_SESSION['g_user'],$_SESSION['g_jrn']);
       $nb_number=$_POST["nb_item"];
       $form=FormVenteView($cn,$g_jrn,$g_user,$HTTP_POST_VARS,$nb_number,'noform',$comment);
 
@@ -120,7 +120,7 @@ if ( isset($_POST["record_and_print_invoice"])) {
 
  if ( $action == 'voir_jrn' ) {
    // Check privilege
-   if ( CheckJrn($g_dossier,$g_user,$g_jrn) < 1 )    {
+   if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_SESSION['g_jrn']) < 1 )    {
      NoAccess();
      exit -1;
    }
@@ -141,24 +141,24 @@ echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit',
 <?
  // Show list of sell
  // Date - date of payment - Customer - amount
-   $sql=SQL_LIST_ALL_INVOICE." and jr_tech_per=".$current." and jr_def_id=$g_jrn ";
-   $list=ListJrn($cn,$g_jrn,$sql);
+   $sql=SQL_LIST_ALL_INVOICE." and jr_tech_per=".$current." and jr_def_id=".$_SESSION['g_jrn'] ;
+   $list=ListJrn($cn,$_SESSION['g_jrn'],$sql);
    echo $list;
    echo '</div>';
 }
 if ( $action == 'voir_jrn_non_paye' ) {
    // Check privilege
-   if ( CheckJrn($g_dossier,$g_user,$g_jrn) < 1 )    {
+   if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_SESSION['g_jrn']) < 1 )    {
      NoAccess();
      exit -1;
    }
 
 // Show list of unpaid sell
 // Date - date of payment - Customer - amount
-  $sql=SQL_LIST_UNPAID_INVOICE_DATE_LIMIT." and jr_def_id=$g_jrn ";
-  $list=ListJrn($cn,$g_jrn,$sql);
-  $sql=SQL_LIST_UNPAID_INVOICE." and jr_def_id=$g_jrn ";
-  $list2=ListJrn($cn,$g_jrn,$sql);
+  $sql=SQL_LIST_UNPAID_INVOICE_DATE_LIMIT." and jr_def_id=".$_SESSION['g_jrn'] ;
+  $list=ListJrn($cn,$_SESSION['g_jrn'],$sql);
+  $sql=SQL_LIST_UNPAID_INVOICE." and jr_def_id=".$_SESSION['g_jrn'] ;
+  $list2=ListJrn($cn,$_SESSION['g_jrn'],$sql);
     echo '<div class="u_redcontent">';
     echo '<h2 class="info"> Echeance dépassée </h2>';
     echo $list;

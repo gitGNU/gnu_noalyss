@@ -21,9 +21,9 @@
 
 include_once ("ac_common.php");
 //phpinfo();
-html_page_start($g_UserProperty['use_theme']);
+html_page_start($_SESSION['use_theme']);
 
-if ( ! isset ( $g_dossier ) ) {
+if ( ! isset ( $_SESSION['g_dossier'] ) ) {
   echo "You must choose a Dossier ";
   exit -2;
 }
@@ -36,7 +36,7 @@ include_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
 include ("check_priv.php");
-ShowMenuCompta($g_dossier,$g_UserProperty);
+ShowMenuCompta($_SESSION['g_dossier']);
 
 
 if ( isset($_POST["PHPSESSID"] )) {
@@ -49,16 +49,16 @@ $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$sessid."
 
 include_once("fiche_inc.php");
 
-$cn=DbConnect($g_dossier);
+$cn=DbConnect($_SESSION['g_dossier']);
 
 
 
 
 
 // ShowMenuComptaRight($g_dossier,$g_UserProperty);
-if ( $g_UserProperty['use_admin'] == 0 ) {
-  $read=CheckAction($g_dossier,$g_user,FICHE_READ);
-  $write=CheckAction($g_dossier,$g_user,FICHE_WRITE);
+if ( $User->admin == 0 ) {
+  $read=CheckAction($_SESSION['g_dossier'],$User->id,FICHE_READ);
+  $write=CheckAction($_SESSION['g_dossier'],$User->id,FICHE_WRITE);
   if ($read+$write == 0 ){
     /* Cannot Access */
     NoAccess();
@@ -73,7 +73,7 @@ if ( isset($_POST['add_modele'])  and $write != 0) {
   AddModele($cn,$HTTP_POST_VARS);
 }
 
-ShowMenuFiche($g_dossier);
+ShowMenuFiche($_SESSION['g_dossier']);
 
 if ( isset ( $_GET["action"]) ) {
   $action=$_GET["action"];

@@ -19,8 +19,8 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 // $Revision$
 include_once ("ac_common.php");
-html_page_start($g_UserProperty['use_theme']);
-if ( !isset ($g_dossier)) {
+html_page_start($_SESSION['use_theme']);
+if ( !isset ($_SESSION['g_dossier'])) {
     echo "You must choose a Dossier ";
   phpinfo();
   exit -2;
@@ -34,8 +34,8 @@ include_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
 
-if ( $g_UserProperty['use_admin'] == 0 ) {
-  $r=CheckAction($g_dossier,$g_user,SECU);
+if ( $User->admin == 0 ) {
+  $r=CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],SECU);
   if ($r == 0 ){
     /* Cannot Access */
     NoAccess();
@@ -46,8 +46,8 @@ if ( $g_UserProperty['use_admin'] == 0 ) {
 }
 
 include ("top_menu_compta.php");
-ShowMenuComptaRight($g_dossier,$g_UserProperty);
-$l_Db=sprintf("dossier%d",$g_dossier);
+ShowMenuComptaRight($_SESSION['g_dossier'],$User->admin);
+$l_Db=sprintf("dossier%d",$_SESSION['g_dossier']);
 echo '<DIV CLASS="ccontent">';
 
 ?>

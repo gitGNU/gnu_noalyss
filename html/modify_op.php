@@ -24,32 +24,36 @@ include_once("preference.php");
 include_once("central_inc.php");
 include_once("check_priv.php");
 include_once("user_common.php");
-
-html_page_start($g_UserProperty['use_theme']);
-if ( ! isset ( $g_dossier ) ) {
-  echo "You must choose a Dossier ";
-  exit -2;
-}
 include_once ("postgres.php");
 include_once("jrn.php");
+
 /* Admin. Dossier */
 $rep=DbConnect();
 include_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
 
-$cn=DbConnect($g_dossier);
+html_page_start($User->theme);
+if ( ! isset ( $_SESSION['g_dossier'] ) ) {
+  echo "You must choose a Dossier ";
+  exit -2;
+}
 
-if ( isset( $p_jrn )) {
-  session_register("g_jrn");
-  $g_jrn=$p_jrn;
+$cn=DbConnect($_SESSION['g_dossier']);
+
+if ( isset( $_GET['p_jrn'] )) {
+  $g_jrn=$_GET['p_jrn'];
  } else {
-  if ( ! isset ( $g_jrn)) 
+  if ( ! isset ( $_SESSION['g_jrn'])  ) 
     $g_jrn=0;
+  else 
+    $g_jrn=$_SESSION['g_jrn'];
  }
 if ( isset ( $_GET['action'] ) ) {
   $action=$_GET['action'];
 }
+$_SESSION["g_jrn"]=$g_jrn;
+
 
 if ( isset ( $_POST['action'] ) ) {
   $action=$_POST['action'];
@@ -63,7 +67,7 @@ if ( ! isset ( $action )) {
 echo JS_VIEW_JRN_MODIFY;
 
 if ( $action == 'update' ) {
-  if ( ($priv=CheckJrn($g_dossier,$g_user,$g_jrn)) < 1 ) {
+  if ( ($priv=CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_SESSION['g_jrn'])) < 1 ) {
       NoAccess();
       exit -1;
     
@@ -90,7 +94,7 @@ if ( $action == 'update' ) {
 //    echo '</div>';
   }    
 if ( isset($_POST['update_record']) ) {
-  if ( ($priv=CheckJrn($g_dossier,$g_user,$g_jrn)) !=2 ) {
+  if ( ($priv=CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$g_jrn)) !=2 ) {
       NoAccess();
       exit -1;
     

@@ -19,8 +19,8 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
 include_once ("ac_common.php");
-html_page_start($g_UserProperty['use_theme']);
-if ( ! isset ( $g_dossier ) ) {
+html_page_start($_SESSION['use_theme']);
+if ( ! isset ( $_SESSION['g_dossier'] ) ) {
   echo "You must choose a Dossier ";
   exit -2;
 }
@@ -32,14 +32,14 @@ $User=new cl_user($rep);
 $User->Check();
 
 include_once ("top_menu_compta.php");
-ShowMenuCompta($g_dossier,$g_UserProperty);
+ShowMenuCompta($_SESSION['g_dossier']);
 
 include_once("check_priv.php");
 
-if ( $g_UserProperty['use_admin'] == 0 ) {
+if ( $_SESSION['use_admin'] == 0 ) {
   include_once("check_priv.php");
 
-  $r=CheckAction($g_dossier,$g_user,SECU);
+  $r=CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],SECU);
   if ($r == 0 ){
     /* Cannot Access */
     NoAccess();
@@ -50,12 +50,13 @@ if ( $g_UserProperty['use_admin'] == 0 ) {
 // Javascript
 echo JS_SEARCH_POSTE;
 if ( isset( $_GET['p_jrn'] )) {
-  session_register("g_jrn");
   $g_jrn=$p_jrn;
+  $_SESSION["g_jrn"]=$p_jrn;
+
 }
 
 
-$cn=DbConnect($g_dossier);
+$cn=DbConnect($_SESSION['g_dossier']);
 
 If ( isset ($_POST["JRN_UPD"] )) {
   if (  !isset($_POST["p_jrn_name"])  ) {
@@ -100,19 +101,19 @@ If ( isset ($_POST["JRN_UPD"] )) {
 		 $l_deb_max_line,$l_cred_max_line,
 		 $p_ech,$p_ech_lib,
 		 $p_jrn_fiche_deb,$p_jrn_fiche_cred,
-                 $g_jrn
+                 $_SESSION['g_jrn']
 		 );
     echo_debug($Sql);
     $Res=ExecSql($cn,$Sql);
   }
 }
-ShowMenuJrn($g_dossier);
+ShowMenuJrn($_SESSION['g_dossier']);
 
 $Res=ExecSql($cn,"select jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,".
 	     "jrn_deb_max_line,jrn_cred_max_line,jrn_def_code".
                  ",jrn_def_type,jrn_def_ech, jrn_def_ech_lib,jrn_def_fiche_deb,jrn_def_fiche_cred".
                  " from jrn_def where".
-                 " jrn_def_id=".$g_jrn);
+                 " jrn_def_id=".$_SESSION['g_jrn']);
 $l_line=pg_fetch_array($Res,0);
 if ( isset ($_GET["PHPSESSID"] ) ) {
   $sessid=$_GET["PHPSESSID"];

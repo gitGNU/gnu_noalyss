@@ -21,9 +21,9 @@
 /* $Revision$ */
 include_once ("ac_common.php");
 
-html_page_start($g_UserProperty['use_theme']);
+html_page_start($_SESSION['use_theme']);
 
-if ( ! isset ( $g_dossier ) ) {
+if ( ! isset ( $_SESSION['g_dossier'] ) ) {
   echo "You must choose a Dossier ";
   exit -2;
 }
@@ -38,10 +38,10 @@ include_once("preference.php");
 
 
 include_once ("top_menu_compta.php");
-ShowMenuCompta($g_dossier,$g_UserProperty);
+ShowMenuCompta($_SESSION['g_dossier']);
 
-if ( $g_UserProperty['use_admin']==0 ) {
-  $r=CheckAction($g_dossier,$g_user,CENTRALIZE);
+if ( $_SESSION['use_admin']==0 ) {
+  $r=CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],CENTRALIZE);
   if ($r == 0 ){
     /* Cannot Access */
     NoAccess();
@@ -49,7 +49,7 @@ if ( $g_UserProperty['use_admin']==0 ) {
 }
 include_once("central_inc.php");
 
-$cn=DbConnect($g_dossier);
+$cn=DbConnect($_SESSION['g_dossier']);
 
 echo '<DIV CLASS="ccontent">';
 echo '<H2 CLASS="info"> Centralise </H2><BR>';

@@ -23,16 +23,16 @@ header('Content-Disposition: attachment;filename="fiche.csv"',FALSE);
 include_once ("ac_common.php");
 include_once('class_fiche.php');
 include_once ("postgres.php");
+include_once("check_priv.php");
 
-
-$cn=DbConnect($g_dossier);
+$cn=DbConnect($_SESSION['g_dossier']);
 
 
 include ('class_user.php');
 $User=new cl_user($cn);
 $User->Check();
-if ( $g_UserProperty['use_admin'] == 0 ) {
-  if (CheckAction($g_dossier,$g_user,FICHE_READ) == 0 )
+if ( $_SESSION['use_admin'] == 0 ) {
+  if (CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],FICHE_READ) == 0 )
         {
 	  /* Cannot Access */
 	  NoAccess();

@@ -196,7 +196,7 @@ function u_ShowMenuCompta($p_dossier)
  *	- string containing the html menu
  *
  */ 
-function u_ShowMenuComptaRight($p_dossier=0,$p_admin,$p_more="")
+function u_ShowMenuComptaRight($p_dossier=0,$p_admin=0)
 {
   include_once("ac_common.php");
   $i=0;
@@ -228,7 +228,7 @@ function u_ShowMenuComptaRight($p_dossier=0,$p_admin,$p_more="")
  *
  */ 
 
-function u_ShowMenuJrnUser($p_dossier,$p_user,$p_type,$p_jrn)
+function u_ShowMenuJrnUser($p_dossier,$p_type,$p_jrn)
 {
   include_once ("debug.php");
   include_once("constant.php");
@@ -242,13 +242,14 @@ function u_ShowMenuJrnUser($p_dossier,$p_user,$p_type,$p_jrn)
     $Cn=DbConnect($p_dossier);
 
 	$User=new cl_user($Cn);
+	$User->Check();
 	if ( $User->Admin() ==0) {
       $Ret=ExecSql($Cn,"select jrn_def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
                                jrn_deb_max_line,jrn_cred_max_line
                              from jrn_def join jrn_type on jrn_def_type=jrn_type_id
                              join user_sec_jrn on uj_jrn_id=jrn_def_id 
                              where
-                             uj_login='$p_user'
+                             uj_login='".$User->id."'
                              and uj_priv !='X'
                              and jrn_def_type='$p_type'
                              ");
@@ -266,7 +267,7 @@ function u_ShowMenuJrnUser($p_dossier,$p_user,$p_type,$p_jrn)
       $l_line=pg_fetch_array($Ret,$i);
       // Admin have always rights
       if ( $User->Admin() == 0 ){
-	$right=CheckJrn($p_dossier,$p_user,$l_line['jrn_def_id']);
+	$right=CheckJrn($p_dossier,$_SESSION['g_user'],$l_line['jrn_def_id']);
       }else {
 	$right=3;
       }

@@ -21,8 +21,8 @@
 
 include_once ("ac_common.php");
 include_once("check_priv.php");
-html_page_start($g_UserProperty['use_theme']);
-if ( ! isset ( $g_dossier ) ) {
+html_page_start($_SESSION['use_theme']);
+if ( ! isset ( $_SESSION['g_dossier'] ) ) {
   echo "You must choose a Dossier ";
   exit -2;
 }
@@ -34,10 +34,10 @@ $User=new cl_user($rep);
 $User->Check();
 
 include_once ("top_menu_compta.php");
-ShowMenuCompta($g_dossier,$g_UserProperty);
+ShowMenuCompta($_SESSION['g_dossier']);
 
-if ( $g_UserProperty['use_admin']== 0 ) {
-  $r=CheckAction($g_dossier,$g_user,SECU);
+if ( $User->admin== 0 ) {
+  $r=CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],SECU);
   if ($r == 0 ){
     /* Cannot Access */
     NoAccess();
@@ -79,15 +79,17 @@ if ( isset ($_GET["action"] )) {
 }
 if ( $action == "change_jrn" ) {
   // Check if the user can access that folder
-  if ( CheckDossier($login,$g_dossier) == 0 ) {
+  if ( CheckDossier($_GET['login'],$_SESSION['g_dossier']) == 0 ) {
     echo "<H2 class=\"error\">he cannot access this folder</H2>";
     $action="";
     return;
   }
-
-  $l_Db=sprintf("dossier%d",$g_dossier);
+  $login=$_GET['login'];
+  $jrn=$_GET['jrn'];
+  $access=$_GET['access'];
+  $l_Db=sprintf("dossier%d",$_SESSION['g_dossier']);
   echo_debug(__FILE__,__LINE__,"select * from user_sec_jrn where uj_login='$login' and uj_jrn_id=$jrn");
-  $cn_dossier=DbConnect($g_dossier);
+  $cn_dossier=DbConnect($_SESSION['g_dossier']);
   $l2_Res=ExecSql($cn_dossier,
 		  "select * from user_sec_jrn where uj_login='$login' and uj_jrn_id=$jrn");
   $l2_count=pg_NumRows($l2_Res);
@@ -101,13 +103,13 @@ if ( $action == "change_jrn" ) {
 }
 if ( $action == "change_act" ) {
   // Check if the user can access that folder
-  if ( CheckDossier($login,$g_dossier) == 0 ) {
+  if ( CheckDossier($User->id,$_SESSION['g_dossier']) == 0 ) {
     echo "<H2 class=\"error\">he cannot access this folder</H2>";
     $action="";
     return;
   }
-  $l_Db=sprintf("dossier%d",$g_dossier);
-  $cn_dossier=DbConnect($g_dossier);
+  $l_Db=sprintf("dossier%d",$_SESSION['g_dossier']);
+  $cn_dossier=DbConnect($_SESSION['g_dossier']);
   if ( $access==0) {
     echo_debug(__FILE__,__LINE__,"delete right");
     $Res=ExecSql($cn_dossier,
@@ -121,12 +123,12 @@ if ( $action == "change_act" ) {
 }
 
 if ( $action == "view" ) {
-  $l_Db=sprintf("dossier%d",$g_dossier);
-  $cn_dossier=DbConnect($g_dossier);
+  $l_Db=sprintf("dossier%d",$_SESSION['g_dossier']);
+  $cn_dossier=DbConnect($_SESSION['g_dossier']);
   $cn=DbConnect();
   $User=ExecSql($cn,
 		"select  use_id,use_first_name,use_name,use_login
-                from ac_users where use_id=$user_id");
+                from ac_users where use_id=".$_GET['user_id']);
   $MaxUser=pg_NumRows($User);
   if ( $MaxUser == 0 ) return;
   $l2_line=pg_fetch_array($User,0);
@@ -136,7 +138,7 @@ if ( $action == "view" ) {
 	  $l2_line['use_name'],
 	  $l2_line['use_login']);
   // Check if the user can access that folder
-  if ( CheckDossier($l2_line['use_login'],$g_dossier) == 0 ) {
+  if ( CheckDossier($l2_line['use_login'],$_SESSION['g_dossier']) == 0 ) {
     echo "<H2 class=\"error\">he cannot access this folder</H2>";
     $action="";
     return;
@@ -162,7 +164,7 @@ if ( $action == "view" ) {
     $l_change="action=change_jrn&jrn=$l_line[jrn_def_id]&login=$l2_line[use_login]&user_id=$l2_line[use_id]";
 
     if ( $admin == 0) {
-      $right=    CheckJrn($g_dossier,$l2_line['use_login'],$l_line['jrn_def_id'] );
+      $right=    CheckJrn($_SESSION['g_dossier'],$l2_line['use_login'],$l_line['jrn_def_id'] );
       echo_debug(__FILE__,__LINE__,"Privilege is $right");
     } else $right = 3;
     if ( $right == 0 ) {
@@ -217,7 +219,7 @@ if ( $action == "view" ) {
 
       $l_change="action=change_act&act=".$l_line['ac_id']."&login=".$l2_line['use_login']."&user_id=".$l2_line['use_id'];
       if ( $admin ==0 ) {
-	$right=CheckAction($g_dossier,$l2_line['use_login'],$l_line['ac_id']);
+	$right=CheckAction($_SESSION['g_dossier'],$l2_line['use_login'],$l_line['ac_id']);
       } else {
 	$right = 2;
       }

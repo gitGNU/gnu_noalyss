@@ -26,8 +26,8 @@ include_once ("class_widget.php");
 include_once("class_user.php");
 include("jrn.php");
 
-$cn=DbConnect($g_dossier);
-if (CheckJrn($g_dossier,$g_user,0)  < 1 )
+$cn=DbConnect($_SESSION['g_dossier']);
+if (CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],0)  < 1 )
   {NoAccess();exit -1;}
 
 ?>

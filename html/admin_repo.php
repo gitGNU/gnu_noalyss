@@ -23,16 +23,16 @@ include_once("ac_common.php");
 include_once("postgres.php");
 include_once("debug.php");
 include_once("user_menu.php");
-
-
-html_page_start($g_UserProperty['use_theme']);
-echo_debug(__FILE__,__LINE__,"entering admin_repo");
-
 $rep=DbConnect();
 include_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
-if ($g_UserProperty['use_admin'] != 1) {
+
+
+html_page_start($User->theme);
+echo_debug(__FILE__,__LINE__,"entering admin_repo");
+
+if ($User->admin != 1) {
   html_page_stop();
   return;
 }
@@ -221,8 +221,8 @@ if ( $count == 0 ) {
       $Res=ExecSql($cn_mod,"update parm_periode set p_closed='t'");
       // Reset Sequence
       $a_seq=array('s_jrn','s_jrn_op','s_centralized','s_stock_goods');
-      foreach ($seq as $a_seq ) {
-      	$sql=sprintf("select nextval('%s',1,false)",$seq);
+      foreach ($a_seq as $seq ) {
+      	$sql=sprintf("select setval('%s',1,false)",$seq);
       	$Res=ExecSql($cn_mod,$sql);
 	}
    	$sql="select jrn_def_id from jrn_def ";
@@ -230,7 +230,7 @@ if ( $count == 0 ) {
     	$Max=pg_NumRows($Res);
     	for ($seq=0;$seq<$Max;$seq++) {
 	    $row=pg_fetch_array($Res,$seq);
-	    $sql=sprintf ("select setval('s_jrn_%d,1,false)",$row['jrn_def_id']);
+	    $sql=sprintf ("select setval('s_jrn_%d',1,false)",$row['jrn_def_id']);
 	    ExecSql($cn_mod,$sql);
     	}
       

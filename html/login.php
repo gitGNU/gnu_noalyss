@@ -18,8 +18,6 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 include_once ("ac_common.php");
-//phpinfo();
-//exit();
 
 /* $Revision$ */
 
@@ -31,37 +29,28 @@ if (  isset ($_POST["p_user"] ) ) {
   echo_debug(__FILE__,__LINE__,"user is set");
   $g_user=$_POST["p_user"];
   $g_pass=$_POST["p_pass"];
-  session_register("g_user");
-  session_register("g_pass");
+  $_SESSION['g_user']=$g_user; 
+  $_SESSION['g_pass']=$g_pass;
   //$cn=pg_connect("dbname=account_repository user='phpcompta' ");
-  $cn=DbConnect();
+
   // Verif if User and Pass match DB
   // if no, then redirect to the login page
 $rep=DbConnect();
 include_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
-    $g_UserProperty=GetUserProperty($cn,$g_user);
-    session_register("g_UserProperty");
-    if ( isset ( $_GET["PHPSESSID"]) ) 
-      $p_sessid= $_GET["PHPSESSID"]; 
-    else
-       $p_sessid= $_POST["PHPSESSID"];
-      
-      
-// TODO bug ????
-    Redirect($g_UserProperty['use_usertype'],$_REQUEST["PHPSESSID"]);
+
+    Redirect($User->type,$_REQUEST["PHPSESSID"]);
 
 } else
 {
-  if (isset ($g_UserProperty['use_usertype'])) {
-    if ( isset ( $_GET["PHPSESSID"]) ) 
-      $p_sessid= $_GET["PHPSESSID"]; 
-    else
-       $p_sessid= $_POST["PHPSESSID"];
-// TODO bug ????
-    Redirect($g_UserProperty['use_usertype'],$_REQUEST["PHPSESSID"]);
-    }
+  $rep=DbConnect();
+  include_once ("class_user.php");
+  $User=new cl_user($rep);
+  $User->Check();
+  
+  Redirect($User->type,$_REQUEST["PHPSESSID"]);
+    // }
 }
 html_page_stop();
 ?>

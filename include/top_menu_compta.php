@@ -69,19 +69,10 @@
  *
  */ 
 
-function ShowMenuCompta($p_dossier,$pa_user)
+function ShowMenuCompta($p_dossier)
 {
-  if ( ! isset ( $pa_user ) ) {
-	exit (1);
-  }
-  if ( $pa_user['use_usertype'] == 'compta' ) {
-    include_once ("compta_menu.php");
-    c_ShowMenuCompta($p_dossier);
-  } else 
-    if ( $pa_user['use_usertype']=='user') {
       include_once ("user_menu.php");
       u_ShowMenuCompta($p_dossier);
-    }
 }
 /* function
  * Purpose :
@@ -240,18 +231,10 @@ function ShowMenuJrn($p_dossier)
  *
  */ 
 
-function ShowMenuJrnUser($p_dossier,$p_auser,$p_type=-1,$p_jrn=-1)
+function ShowMenuJrnUser($p_dossier,$p_type,$p_jrn=-1)
 {
-   if ( ! isset ($p_auser['use_usertype'] ) ) exit (-1);
-  if ($p_auser['use_usertype'] == 'compta' ) {
-    include_once("compta_menu.php");
-    c_ShowMenuJrnUser($p_dossier,$p_auser['use_login']);
-  } 
-  if ($p_auser['use_usertype'] == 'user' ) {
     include_once("user_menu.php");
-    u_ShowMenuJrnUser($p_dossier,$p_auser['use_login'],$p_type,$p_jrn);
-  } 
-
+    u_ShowMenuJrnUser($p_dossier,$p_type,$p_jrn);
 }
 /* function ShowMenuRecherche
  * Purpose :

@@ -20,10 +20,9 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
 include_once ("ac_common.php");
-html_page_start($g_UserProperty['use_theme']);
-if ( ! isset ( $g_dossier ) ) {
+html_page_start($_SESSION['use_theme']);
+if ( ! isset ( $_SESSION['g_dossier'] ) ) {
   echo "You must choose a Dossier ";
-  phpinfo();
   exit -2;
 }
 include_once ("postgres.php");
@@ -37,12 +36,12 @@ include("preference.php");
 include_once ("top_menu_compta.php");
 
 
-ShowMenuCompta($g_dossier,$g_UserProperty);
-// ShowMenuComptaRight($g_dossier,$g_UserProperty);
+ShowMenuCompta($_SESSION['g_dossier']);
+
 include_once ("check_priv.php");
 
-if ( $g_UserProperty['use_admin'] == 0 ) {
-  $r=CheckAction($g_dossier,$g_user,PARM);
+if ( $User->admin == 0 ) {
+  $r=CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],PARM);
   if ($r == 0 ){
     /* Cannot Access */
     NoAccess();
@@ -52,7 +51,7 @@ if ( $g_UserProperty['use_admin'] == 0 ) {
 }
 echo ShowMenuParam();
 $p_action="";
-$cn=DbConnect($g_dossier);
+$cn=DbConnect($_SESSION['g_dossier']);
 if ( isset($_GET["p_action"]) ) {
   $p_action=$_GET["p_action"];
 }

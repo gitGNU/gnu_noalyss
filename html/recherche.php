@@ -24,8 +24,8 @@ include_once ("constant.php");
 include_once("jrn.php");
 include_once("user_common.php");
 
-html_page_start($g_UserProperty['use_theme']);
-if ( ! isset ( $g_dossier ) ) {
+html_page_start($_SESSION['use_theme']);
+if ( ! isset ( $_SESSION['g_dossier'] ) ) {
   echo "You must choose a Dossier ";
   exit -2;
 }
@@ -35,17 +35,17 @@ include_once ("check_priv.php");
 
 
 
-$l_Db=sprintf("dossier%d",$g_dossier);
+$l_Db=sprintf("dossier%d",$_SESSION['g_dossier']);
 $cn=DbConnect($g_dossier);
 include ('class_user.php');
 $User=new cl_user($cn);
 $User->Check();
 
-ShowMenuCompta($g_dossier,$g_UserProperty);
+ShowMenuCompta($_SESSION['g_dossier']);
 
-if ( $g_UserProperty['use_admin'] == 0 ) {
+if ( $User->admin == 0 ) {
   // check if user can access
-  if (CheckAction($g_dossier,$g_user,ENCJRN) == 0 ){
+  if (CheckAction($_SESSION['g_dossier'],$User->id,ENCJRN) == 0 ){
     /* Cannot Access */
     NoAccess();
   }

@@ -20,7 +20,6 @@
 /* $Revision$ */
 
 include_once ("ac_common.php");
-html_page_start($g_UserProperty['use_theme']);
 include_once ("postgres.php");
 /* Admin. Dossier */
 $rep=DbConnect();
@@ -28,7 +27,9 @@ include_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
 
-if ( ! isset ( $g_dossier ) ) {
+html_page_start($User->theme);
+
+if ( ! isset ( $_SESSION['g_dossier'] ) ) {
   echo "You must choose a Dossier ";
   phpinfo();
   exit -2;
@@ -43,7 +44,7 @@ function GetIt(ctl,tva_id) {
 <?
 
 $condition="";
-$cn=DbConnect($g_dossier);
+$cn=DbConnect($_SESSION['g_dossier']);
 $Res=ExecSql($cn,"select * from tva_rate order by tva_rate desc");
 $Max=pg_NumRows($Res);
 echo "<TABLE BORDER=\"1\">";

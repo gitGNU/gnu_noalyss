@@ -23,16 +23,16 @@ header('Content-Disposition: attachment;filename="jrn.csv"',FALSE);
 include_once ("ac_common.php");
 
 include_once ("postgres.php");
-
+include_once("check_priv.php");
 include("class_jrn.php");
-$cn=DbConnect($g_dossier);
+$cn=DbConnect($_SESSION['g_dossier']);
 
 
 include ('class_user.php');
 $User=new cl_user($cn);
 $User->Check();
-if ( $g_UserProperty['use_admin'] == 0 ) {
-  if (CheckAction($g_dossier,$g_user,IMP) == 0 ||
+if ( $User->admin == 0 ) {
+  if (CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],IMP) == 0 ||
         $User->AccessJrn($_POST['jrn_id']) == false){
     /* Cannot Access */
     NoAccess();

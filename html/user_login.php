@@ -25,19 +25,19 @@ include_once("postgres.php");
 $rep=DbConnect();
 include_once ("class_user.php");
 $User=new cl_user($rep);
-//phpinfo();
+
 $User->Check();
-html_page_start($g_UserProperty['use_theme']);
+html_page_start($_SESSION['use_theme']);
 include_once("user_menu.php");
 
-$priv=($g_UserProperty['use_admin']==1)?"Administrator":"User";
+$priv=($User->admin==1)?"Administrator":"User";
 
-echo '<div class="info"> Welcome '.$g_UserProperty['use_first_name'].'  '.
-     $g_UserProperty['use_name'].',<h3 class="info"> your are an  '. $priv.' <br>Please Select your folder</h3></div>';
+echo '<div class="info"> Welcome '.$User->first_name.'  '.
+     $User->name.',<h3 class="info"> your are an  '. $priv.' <br>Please Select your folder</h3></div>';
 // Show default menu (preference,...)
 
 // If admin show everything otherwise only the available dossier
-$res=u_ShowDossier($g_user,$g_UserProperty['use_admin']);
+$res=u_ShowDossier($_SESSION['g_user'],$User->admin);
 echo $res;
 ?>
 <P>

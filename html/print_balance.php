@@ -37,7 +37,7 @@ include_once("poste.php");
 include_once("class_balance.php");
 include_once("preference.php");
 
-$cn=DbConnect($g_dossier);
+$cn=DbConnect($_SESSION['g_dossier']);
 
 $bal=new Balance($cn);
 
