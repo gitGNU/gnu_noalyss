@@ -74,8 +74,12 @@ function InputType($p_label,$p_type,$p_name,$p_value,$p_viewonly=false,$p_list=n
 
   // input type == TEXT
   if ( strtolower($p_type)=="text") {
-    $r=sprintf('<TD>%s</TD><TD> <INPUT TYPE="%s" NAME="%s" VALUE="%s" SIZE="10"></TD>',
-	       $p_label,
+    if ( strlen(trim($p_label)) != 0 ) 
+      $label="<TD>$p_label</TD>";
+    else
+      $label="";
+    $r=sprintf('%s<TD> <INPUT TYPE="%s" NAME="%s" VALUE="%s" SIZE="10"></TD>',
+	       $label,
 	       $p_type,
 	       $p_name,
 	       $p_value);
@@ -254,6 +258,14 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article
   $r.="<DIV>";
   $r.='<H2 class="info">Articles</H2>';
   $r.='<TABLE>';
+  $r.='<TR>';
+  $r.="<th></th>";
+  $r.="<th>Code</th>";
+  $r.="<th>Dénomination</th>";
+  $r.="<th>prix</th>";
+  $r.="<th>tva</th>";
+  $r.="<th>quantité</th>";
+  $r.='</TR>';
   //  $fiche=GetFicheJrn($p_cn,$p_jrn,'cred');
   //  echo_debug("Cred Nombre d'enregistrement ".sizeof($fiche));
   for ($i=0;$i< $p_article;$i++) {
@@ -283,13 +295,16 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article
     }
     // Show input
     $r.='<TR>'.InputType("","js_search","e_march".$i,$march,$view_only,'cred');
+    // card's name
     $r.=InputType("","span", "e_march".$i."_label", $march_label,$view_only);
-    $r.=InputType("prix","text","e_march".$i."_sell",$march_sell,$view_only);
-
-    $r.=InputType("tva","span","e_march".$i."_tva_label",$march_tva_label,$view_only);
+    // price
+    $r.=InputType("","text","e_march".$i."_sell",$march_sell,$view_only);
+    // vat label
+    $r.=InputType("","span","e_march".$i."_tva_label",$march_tva_label,$view_only);
 
     $quant=(isset(${"e_quant$i"}))?${"e_quant$i"}:"0";
-    $r.=InputType("Quantité","TEXT","e_quant".$i,$quant,$view_only);
+    // quantity
+    $r.=InputType("","TEXT","e_quant".$i,$quant,$view_only);
     $r.='</TR>';
   }
 
@@ -753,7 +768,15 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
   $r.="<DIV>";
   $r.='<H2 class="info">Articles</H2>';
   $r.='<TABLE>';
+  $r.="<TR>";
+  $r.="<th></th>";
+  $r.="<th>code</th>";
+  $r.="<th>Dénomination</th>";
+  $r.="<th>Prix</th>";
+  $r.="<th>Tva</th>";
+  $r.="<th>Quantité</th>";
 
+  $r.="</TR>";
 
   for ($i=0;$i< $p_article;$i++) {
 
@@ -786,8 +809,10 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
     }
     $r.='<TR>'.InputType("","js_search","e_march".$i,$march,$view_only,'deb');
     $r.=InputType("","span", "e_march".$i."_label", $march_label,$view_only);
-    $r.=InputType("prix","text","e_march".$i."_buy",$march_buy,$view_only);
-    $r.=InputType("tva","span","e_march".$i."_tva_label",$march_tva_label,$view_only);
+    // price
+    $r.=InputType("","text","e_march".$i."_buy",$march_buy,$view_only);
+    //vat
+    $r.=InputType("","span","e_march".$i."_tva_label",$march_tva_label,$view_only);
 
     $quant=(isset(${"e_quant$i"}))?${"e_quant$i"}:"1";
     if ( isNumber($quant) == 0) {
@@ -796,8 +821,8 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
       echo "<SCRIPT>alert('$msg');</SCRIPT>";
       $quant=0;
     }
-
-    $r.=InputType("Quantité","TEXT","e_quant".$i,$quant,$view_only);
+    //quantity
+    $r.=InputType("","TEXT","e_quant".$i,$quant,$view_only);
 
     $r.='</TR>';
   }
@@ -900,7 +925,7 @@ function RecordAchat($p_cn,$p_array,$p_user,$p_jrn)
     {
       foreach ($a_vat as $tva_id => $tva_amount ) {
 	$poste=GetTvaPoste($p_cn,$tva_id,'d');
-	InsertJrnx($p_cn,'c',$p_user,$p_jrn,$poste,$e_date,$tva_amount,$seq,$periode);
+	InsertJrnx($p_cn,'d',$p_user,$p_jrn,$poste,$e_date,$tva_amount,$seq,$periode);
       }
     }
   echo_debug("echeance = $e_ech");
@@ -1007,7 +1032,14 @@ function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
   $r.="<DIV>";
   $r.='<H2 class="info">Actions</H2>';
   $r.='<TABLE>';
-    
+  $r.="<TR>";
+  $r.="<th></TH>";
+  $r.="<th>code</TH>";
+  $r.="<th>Dénomination</TH>";
+  $r.="<th>Description</TH>";
+  $r.="<th>Montant</TH>";
+  $r.='<th colspan="2"> Op. Concernée</th>';
+  $r.="</TR>";
   // Parse each " tiers" 
     for ($i=0; $i < $p_item; $i++) {
       $tiers=(isset(${"e_other".$i}))?${"e_other".$i}:"";
@@ -1043,10 +1075,12 @@ function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
     $f=FICHE_TYPE_CLIENT.",".FICHE_TYPE_FOURNISSEUR.",".FICHE_TYPE_ADM_TAX.",".FICHE_TYPE_FIN;
     $r.='<TR>'.InputType("","js_search","e_other".$i,$tiers,$view_only,$f);
     $r.=InputType("","span", "e_other$i"."_label", $tiers_label,$view_only);
-    $r.=InputType("Description","Text","e_other$i"."_comment",$tiers_comment,$view_only);
-    $r.=InputType("amount","TEXT","e_other$i"."_amount",$tiers_amount,$view_only);
+    // Comment
+    $r.=InputType("","Text","e_other$i"."_comment",$tiers_comment,$view_only);
+    // amount
+    $r.=InputType("","TEXT","e_other$i"."_amount",$tiers_amount,$view_only);
     ${"e_concerned".$i}=(isset(${"e_concerned".$i}))?${"e_concerned".$i}:"";
-    $r.=InputType("Concerne","js_concerned","e_concerned".$i,${"e_concerned".$i},$view_only);
+    $r.=InputType("","js_concerned","e_concerned".$i,${"e_concerned".$i},$view_only);
     $r.='</TR>';
     if ( $view_only == true )      $solde+=$tiers_amount;
  }
@@ -1209,7 +1243,14 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
   // Start the div for item to encode
   $r.="<DIV>";
   $r.='<H2 class="info">Opérations Diverses</H2>';
-  $r.='<TABLE>';
+  $r.='<TABLE border="0">';
+  $r.="<tr>";
+  $r.="<th></th>";
+  $r.="<th>Code</th>";
+  $r.="<th>Poste</th>";
+  $r.="<th>Montant</th>";
+  $r.="<th>Crédit ou débit</th>";
+  $r.="</tr>";
   $sum_deb=0.0;
   $sum_cred=0.0;
 
@@ -1218,7 +1259,7 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
 
     $account=(isset(${"e_account$i"}))?${"e_account$i"}:"";
 
-
+    $lib="";
     // If $account has a value
     if ( isNumber($account) == 1 ) {
       if ( CountSql($p_cn,"select * from tmp_pcmn where pcm_val=$account") == 0 ) {
@@ -1228,7 +1269,7 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
       $account="";
       } else {
            // retrieve the tva label and name
-	$a_fiche=GetPosteLibelle($p_cn, $account,1);
+	$lib=GetPosteLibelle($p_cn, $account,1);
       }
     }
     ${"e_account$i"."_amount"}=(isset(${"e_account$i"."_amount"}))?${"e_account$i"."_amount"}:0;
@@ -1241,8 +1282,12 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
       }
 	${"e_account$i"."_amount"}=0;
     }
+    // code
     $r.='<TR>'.InputType("","js_search_poste","e_account".$i,$account,$view_only);
-    $r.=InputType("Montant","text","e_account".$i."_amount",${"e_account$i"."_amount"},$view_only);
+    //libelle
+    $r.="<td> $lib </td>";
+    //amount
+    $r.=InputType("","text","e_account".$i."_amount",${"e_account$i"."_amount"},$view_only);
 
 
     // Type is debit or credit, retrieve the old values
