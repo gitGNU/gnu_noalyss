@@ -55,9 +55,9 @@ h2.error {
 
 $inc_path=get_include_path();
 if ( strpos($inc_path,";") != 0 ) {
-  $inc_path.=';..\..\include';
+  $inc_path.=';..\..\include;addon';
  } else {
-  $inc_path.=':../../include';
+  $inc_path.=':../../include:addon';
  }
 
 set_include_path($inc_path);
@@ -155,6 +155,10 @@ if ( ereg("..\/include",ini_get('include_path')) == 0 and ereg("..\\include",ini
 	$flag_php++;
 }
  else
+ if ( ereg("addon",ini_get('include_path')) == 0) {
+  print ("<h2 class=\"error\">include_path incorrect  !!!".ini_get('include_path')."</h2>");
+	$flag_php++;
+ }else
    print 'include_path : ok ('.ini_get('include_path').')<br>';
 
 if ( $flag_php==0 ) {
