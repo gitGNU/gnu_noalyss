@@ -1,24 +1,24 @@
 <?
 
 /*
- *   This file is part of WCOMPTA.
+ *   This file is part of PhpCompta.
  *
- *   WCOMPTA is free software; you can redistribute it and/or modify
+ *   PhpCompta is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
  *   the Free Software Foundation; either version 2 of the License, or
  *   (at your option) any later version.
  *
- *   WCOMPTA is distributed in the hope that it will be useful,
+ *   PhpCompta is distributed in the hope that it will be useful,
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with WCOMPTA; if not, write to the Free Software
+ *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-// Auteur Dany De Bontridder ddebontridder@yahoo.fr
+// Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
 
 /* function ShowMenu
@@ -115,7 +115,7 @@ function ShowMenuComptaLeft($p_dossier,$p_item)
 // Only for developper 
 // A test must be added
     echo '<TR><TD colspan="3" class="mshort">
-         <A class="mtitle" HREF="fiche.php?action=add_modele&fiche=modele">Creation Modele</A></TD></TR>';
+         <A class="mtitle" HREF="fiche.php?action=add_modele&fiche=modele">Creation</A></TD></TR>';
     $Res=ExecSql($cn,"select fd_id,fd_label from fichedef order by fd_label");
     $Max=pg_NumRows($Res);
     for ( $i=0; $i < $Max;$i++) {
@@ -245,7 +245,7 @@ function ShowMenuJrn($p_dossier)
 {
     echo '<div class="lmenu">';
     echo '<TABLE>';
-    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="jrn_add.php">Création Journal </A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="jrn_add.php">Création </A></TD></TR>';
     include_once("postgres.php");
     $l_jrn=sprintf("dossier%d",$p_dossier);
     $Cn=DbConnect($l_jrn);

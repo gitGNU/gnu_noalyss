@@ -1,24 +1,24 @@
 <?
 
 /*
- *   This file is part of WCOMPTA.
+ *   This file is part of PhpCompta.
  *
- *   WCOMPTA is free software; you can redistribute it and/or modify
+ *   PhpCompta is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
  *   the Free Software Foundation; either version 2 of the License, or
  *   (at your option) any later version.
  *
- *   WCOMPTA is distributed in the hope that it will be useful,
+ *   PhpCompta is distributed in the hope that it will be useful,
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with WCOMPTA; if not, write to the Free Software
+ *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-// Auteur Dany De Bontridder ddebontridder@yahoo.fr
+// Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
 
 include_once("postgres.php");
@@ -140,7 +140,7 @@ function CheckAction ( $p_dossier,$p_login,$p_action_id)
  */ 
 function CheckIsAdmin($p_user) 
 {
-  if ( $p_user == 'webcompta') return 1;
+  if ( $p_user == 'phpcompta') return 1;
   $sql="select use_id from ac_users where use_login='$p_user'
 		and use_active=1 and use_admin=1 ";
   $cn=DbConnect();

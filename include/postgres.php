@@ -1,24 +1,24 @@
 <? //$Revision$
 /*
- *   This file is part of WCOMPTA.
+ *   This file is part of PhpCompta.
  *
- *   WCOMPTA is free software; you can redistribute it and/or modify
+ *   PhpCompta is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
  *   the Free Software Foundation; either version 2 of the License, or
  *   (at your option) any later version.
  *
- *   WCOMPTA is distributed in the hope that it will be useful,
+ *   PhpCompta is distributed in the hope that it will be useful,
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with WCOMPTA; if not, write to the Free Software
+ *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
  //$Revision$
-// Auteur Dany De Bontridder ddebontridder@yahoo.fr
+// Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 
 /*++ 
@@ -38,7 +38,7 @@ function CheckUser()
 	$res=0;
 	$pass5=md5($g_pass);
 	if ( $IsValid == 1 ) { return; }
-	$cn=pg_connect("dbname=account_repository host=127.0.0.1 user='webcompta'");
+	$cn=pg_connect("dbname=account_repository host=127.0.0.1 user='phpcompta'");
 	if ( $cn != false ) {
 	  $sql="select ac_users.use_login,ac_users.use_active, ac_users.use_pass
 				from ac_users  
@@ -114,7 +114,7 @@ function CheckAdmin() {
   global $g_user,$g_pass;
   $res=0;
 
-  if ( $g_user != 'webcompta') {
+  if ( $g_user != 'phpcompta') {
 	$pass5=md5($g_pass);
 	$sql="select use_id from ac_users where use_login='$g_user'
 		and use_active=1 and use_admin=1 and use_pass='$pass5'";
@@ -134,7 +134,7 @@ function CheckAdmin() {
  *        constant.php
  */
 function DbConnect($p_db="account_repository") {
-  $a=pg_connect("dbname=$p_db host=127.0.0.1 user='webcompta'");
+  $a=pg_connect("dbname=$p_db host=127.0.0.1 user='phpcompta'");
   echo_debug ("connect to $p_db");
   return $a;
 }
@@ -158,7 +158,7 @@ function ExecSql($p_connection, $p_string) {
 function GetAllUser() {
   echo_debug("GetUser");
   $cn=DbConnect();
-  $sql="select * from ac_users where use_login!='webcompta'";
+  $sql="select * from ac_users where use_login!='phpcompta'";
   echo_debug("ExecSql");
   $Res=ExecSql($cn,$sql);
   $Num=pg_NumRows($Res);
