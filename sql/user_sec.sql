@@ -26,6 +26,8 @@ create table user_sec_jrn (
 	uj_priv	text
 
 );
+create index fk_user_sec_jrn on user_sec_jrn(uj_jrn_id);
+
 create table action (
 	ac_id integer not null primary key,
 	ac_description text not null
@@ -36,10 +38,11 @@ create table user_sec_act (
 	ua_login text,
 	ua_act_id	integer references action(ac_id)	
 );
+create index fk_user_sec_act on user_sec_act (ua_act_id);
 create unique index x_usr_jrn on user_sec_jrn (uj_login,uj_jrn_id);
 insert into action (ac_id,ac_description) values (1,'Journaux');
 insert into action (ac_id,ac_description) values (2,'Facturation');
-insert into action (ac_id,ac_description) values (3,'Fiche');
+insert into action (ac_id,ac_description) values (3,'Fiche Lecture');
 insert into action (ac_id,ac_description) values (4,'Impression');
 insert into action (ac_id,ac_description) values (5,'Formulaire');
 insert into action (ac_id,ac_description) values (6,'Mise à jour Plan Comptable');
@@ -47,3 +50,4 @@ insert into action (ac_id,ac_description) values (7,'Gestion Journaux');
 insert into action (ac_id,ac_description) values (8,'Paramètres');
 insert into action (ac_id,ac_description) values (9,'Sécurité');
 insert into action (ac_id,ac_description) values (10,'Centralise');
+insert into action (ac_id,ac_description) values (14,'Fiche Ecriture');
