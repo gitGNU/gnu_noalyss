@@ -63,7 +63,7 @@ foreach ($l_array as $key=>$element) {
 }
 
 // annulate a operation
-if ( isset ($annul) ) {
+if ( isset ($_POST['annul']) ) {
   if ( isset ($_POST['p_id'])) {
     // Get the current periode
     $period=GetUserPeriode($cn,$User->id);
@@ -108,7 +108,7 @@ if ( isset ($annul) ) {
 
    // Test is date is not in a closed periode
 
- // Check if it a centralize operation
+ // Check if it a centralized operation
  if ( isValid($cn,$p_id) ==  1 ) {
   // delete from the stock table
    $sql="delete from stock_goods where sg_id = any ( select sg_id
@@ -179,8 +179,8 @@ if ( $a != null ) {
 echo '
 
 <input type="hidden" name="p_id" value="'.$_GET['jrn_op'].'">
-<input type="submit" name="annul"  value="Effacer">
-<input type="button" name="cancel" value="Escape" onClick="window.close();">
+<input type="submit" name="annul"  value="Annuler">
+<input type="button" name="cancel" value="Retour" onClick="window.close();">
 </form>';
 
 html_page_stop();
