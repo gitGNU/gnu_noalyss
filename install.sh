@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -xv
 #
 #
 # $Revision$
@@ -16,6 +16,8 @@
 #  along with PhpCompta; if not, write to the Free Software
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
+. ./setenv.sh
+
 
 version=3
 VerifOutil() {
@@ -28,13 +30,14 @@ VerifOutil() {
 		echo "$RESULT...Success"
 	fi
 }
+
 #Verification des outil
 echo "Verification des outil"
 echo "----------------------"
 VerifOutil "psql"
 VerifOutil "createdb"
 # Base de données
-DB=`psql -l`
+DB=`psql -l -U $OWNER `
 if [ $? -ne 0 ]; then
 	echo "problem avec Postgres" 
 	exit
@@ -43,9 +46,7 @@ fi
 # Repository exist ?
 REPO=`echo $DB|grep account_repository|wc -l`
 if [ $REPO -eq 0 ]; then
-	OWNER=phpcompta
 	echo "Creation de la base de donnee"
-	createuser -A -d $OWNER
 	createdb -U $OWNER $OWNER
 	createdb -E latin1 -U $OWNER account_repository
 
@@ -59,7 +60,7 @@ if [ $REPO -eq 0 ]; then
 	$PSQL < sql/priv_user.sql
 	$PSQL < sql/theme.sql
 	$PSQL < sql/modele.sql
-	    createdb -E latin1 -U $OWNER mod1
+        createdb -E latin1 -U $OWNER mod1
 	PSQL="psql -U $OWNER mod1 "
 	$PSQL < sql/tmp_pcmn.sql
 	$PSQL < sql/insert_pcmn.sql
@@ -86,13 +87,13 @@ A=`psql -U phpcompta  -t -c 'select val from version;' account_repository `
 
 OWNER=phpcompta
 
-DB=`psql -l -t|awk '/mod/ {print $1} /dossier/ {print $1;}'`
+DB=`psql -l -U phpcompta -t|awk '/mod/ {print $1} /dossier/ {print $1;}'`
 for i in `echo $DB`
 do
 	echo $i
 	while [ 1 ]; do
 	vers_db=`psql -U phpcompta  -t -c 'select val from version;' $i `
-	if [ $version -ne $vers_db ] ; then
+	if [ "$version" -ne $vers_db ] ; then
 		ver_file="sql/update/"`echo $i |sed 's/[0-9]*//g'`$vers_db".sql"
 		ver_file=`echo $ver_file|tr ' ' '_'`
 		echo "Applying patch for $i $ver_file"
