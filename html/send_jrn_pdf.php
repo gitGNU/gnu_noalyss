@@ -25,7 +25,7 @@
     include_once("jrn.php");
     include_once("ac_common.php");
     include_once("postgres.php");
-    include_once("class.ezpdf.php");
+    include_once("addon/class.ezpdf.php");
     include_once("impress_inc.php");
     include_once("preference.php");
     echo_debug("imp pdf journaux");
