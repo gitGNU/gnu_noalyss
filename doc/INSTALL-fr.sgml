@@ -96,7 +96,15 @@ Run-time Configuration.
 zone mémoire est important car elle a trait à la mémoire utilisé pour les tris et les
 jointures,! attention ce paramètre donne la consommation mémoire par session ! </item>
 <item> Faites tourner régulièrement vacumdb -a -z grâce au crontab</item>
-<item> Dans php.ini, bien utiliser les permanent_connection </item>
+<item> Dans php.ini, bien utiliser les permanent_connection ainsi que la détection
+des liens brisés. Cela permettra à Apache d'utiliser des connections existantes au lieu
+dans créer des nouvelles, l'autre paramètre permet à Apache de détecter les connexions 
+inutilisées.
+<quote>
+pgsql.allow_persistent = On
+pgsql.auto_reset_persistent = On
+</quote>
+</item>
 <item> Dans postgres.conf, les shared_buffers: calculées en page de 8Kb, la valeur par défaut
 est de seulement 64, ce qui correspond à 512Kb, une meilleure valeur est 640 </item>
 <item> à compléter </item>
