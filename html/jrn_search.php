@@ -36,9 +36,9 @@ if ( isset( $p_jrn )) {
 }
 if (isset ($_GET['p_ctl'])) $p_ctl=$_GET['p_ctl'];
 if (isset($_POST['p_ctl'])) $p_ctl=$_POST['p_ctl'];
-$opt='<OPTION VALUE="<="> <=';
+$opt='<OPTION VALUE="="> =';
+$opt.='<OPTION VALUE="<="> <=';
 $opt.='<OPTION VALUE="<"> <';
-$opt.='<OPTION VALUE="="> =';
 $opt.='<OPTION VALUE=">"> >';
 $opt.='<OPTION VALUE=">="> >=';
 $opt_date=$opt;
