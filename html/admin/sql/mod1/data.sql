@@ -8,7 +8,7 @@ SET check_function_bodies = false;
 SET search_path = public, pg_catalog;
 
 --
--- Data for TOC entry 31 (OID 70105)
+-- Data for TOC entry 31 (OID 108273)
 -- Name: tmp_pcmn; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -518,15 +518,15 @@ INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent, pcm_country) VALUES (101
 
 
 --
--- Data for TOC entry 32 (OID 70113)
+-- Data for TOC entry 32 (OID 108280)
 -- Name: version; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
-INSERT INTO "version" (val) VALUES (4);
+INSERT INTO "version" (val) VALUES (5);
 
 
 --
--- Data for TOC entry 33 (OID 70122)
+-- Data for TOC entry 33 (OID 108286)
 -- Name: parm_money; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -534,7 +534,7 @@ INSERT INTO parm_money (pm_id, pm_code, pm_rate) VALUES (1, 'EUR', 1);
 
 
 --
--- Data for TOC entry 34 (OID 70126)
+-- Data for TOC entry 34 (OID 108289)
 -- Name: parm_periode; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -567,7 +567,7 @@ INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed) VALUES (52
 
 
 --
--- Data for TOC entry 35 (OID 70147)
+-- Data for TOC entry 35 (OID 108305)
 -- Name: jrn_type; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -578,7 +578,7 @@ INSERT INTO jrn_type (jrn_type_id, jrn_desc) VALUES ('OD ', 'Opérations Diverses
 
 
 --
--- Data for TOC entry 36 (OID 70153)
+-- Data for TOC entry 36 (OID 108310)
 -- Name: jrn_def; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -589,14 +589,14 @@ INSERT INTO jrn_def (jrn_def_id, jrn_def_name, jrn_def_class_deb, jrn_def_class_
 
 
 --
--- Data for TOC entry 37 (OID 70166)
+-- Data for TOC entry 37 (OID 108321)
 -- Name: jrnx; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
 
 
 --
--- Data for TOC entry 38 (OID 70178)
+-- Data for TOC entry 38 (OID 108332)
 -- Name: user_pref; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -604,35 +604,35 @@ INSERT INTO user_pref (pref_user, pref_periode) VALUES ('dany', 30);
 
 
 --
--- Data for TOC entry 39 (OID 70190)
+-- Data for TOC entry 39 (OID 108341)
 -- Name: formdef; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
 
 
 --
--- Data for TOC entry 40 (OID 70197)
+-- Data for TOC entry 40 (OID 108347)
 -- Name: form; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
 
 
 --
--- Data for TOC entry 41 (OID 70213)
+-- Data for TOC entry 41 (OID 108359)
 -- Name: centralized; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
 
 
 --
--- Data for TOC entry 42 (OID 70227)
+-- Data for TOC entry 42 (OID 108370)
 -- Name: user_sec_jrn; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
 
 
 --
--- Data for TOC entry 43 (OID 70234)
+-- Data for TOC entry 43 (OID 108376)
 -- Name: action; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -653,14 +653,14 @@ INSERT INTO "action" (ac_id, ac_description) VALUES (15, 'Fiche écriture');
 
 
 --
--- Data for TOC entry 44 (OID 70240)
+-- Data for TOC entry 44 (OID 108381)
 -- Name: user_sec_act; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
 
 
 --
--- Data for TOC entry 45 (OID 70250)
+-- Data for TOC entry 45 (OID 108389)
 -- Name: jrn_action; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -677,7 +677,7 @@ INSERT INTO jrn_action (ja_id, ja_name, ja_desc, ja_url, ja_action, ja_lang, ja_
 
 
 --
--- Data for TOC entry 46 (OID 70258)
+-- Data for TOC entry 46 (OID 108396)
 -- Name: tva_rate; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -688,7 +688,7 @@ INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUE
 
 
 --
--- Data for TOC entry 47 (OID 70280)
+-- Data for TOC entry 47 (OID 108412)
 -- Name: fiche_def_ref; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -710,7 +710,7 @@ INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (15, 'Autres
 
 
 --
--- Data for TOC entry 48 (OID 70287)
+-- Data for TOC entry 48 (OID 108418)
 -- Name: fiche_def; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -723,7 +723,7 @@ INSERT INTO fiche_def (fd_id, fd_class_base, fd_label, fd_create_account, frd_id
 
 
 --
--- Data for TOC entry 49 (OID 70295)
+-- Data for TOC entry 49 (OID 108425)
 -- Name: attr_def; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -749,7 +749,7 @@ INSERT INTO attr_def (ad_id, ad_text) VALUES (19, 'Gestion stock');
 
 
 --
--- Data for TOC entry 50 (OID 70302)
+-- Data for TOC entry 50 (OID 108431)
 -- Name: attr_min; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -828,7 +828,7 @@ INSERT INTO attr_min (frd_id, ad_id) VALUES (15, 9);
 
 
 --
--- Data for TOC entry 51 (OID 70305)
+-- Data for TOC entry 51 (OID 108433)
 -- Name: fiche; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -855,7 +855,7 @@ INSERT INTO fiche (f_id, fd_id) VALUES (20, 6);
 
 
 --
--- Data for TOC entry 52 (OID 70309)
+-- Data for TOC entry 52 (OID 108436)
 -- Name: jnt_fic_att_value; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -1007,7 +1007,7 @@ INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (145, 20, 19);
 
 
 --
--- Data for TOC entry 53 (OID 70313)
+-- Data for TOC entry 53 (OID 108439)
 -- Name: attr_value; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -1159,7 +1159,7 @@ INSERT INTO attr_value (jft_id, av_text) VALUES (145, '');
 
 
 --
--- Data for TOC entry 54 (OID 70319)
+-- Data for TOC entry 54 (OID 108444)
 -- Name: jnt_fic_attr; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -1211,28 +1211,28 @@ INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (6, 19);
 
 
 --
--- Data for TOC entry 55 (OID 70333)
+-- Data for TOC entry 55 (OID 108454)
 -- Name: jrn_rapt; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
 
 
 --
--- Data for TOC entry 56 (OID 70337)
+-- Data for TOC entry 56 (OID 108457)
 -- Name: jrn; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
 
 
 --
--- Data for TOC entry 57 (OID 70346)
+-- Data for TOC entry 57 (OID 108465)
 -- Name: stock_goods; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
 
 
 --
--- TOC entry 2 (OID 70116)
+-- TOC entry 2 (OID 108282)
 -- Name: s_periode; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -1240,7 +1240,7 @@ SELECT pg_catalog.setval('s_periode', 52, true);
 
 
 --
--- TOC entry 3 (OID 70119)
+-- TOC entry 3 (OID 108284)
 -- Name: s_currency; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -1248,7 +1248,7 @@ SELECT pg_catalog.setval('s_currency', 1, true);
 
 
 --
--- TOC entry 4 (OID 70135)
+-- TOC entry 4 (OID 108297)
 -- Name: s_jrn_def; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -1256,7 +1256,7 @@ SELECT pg_catalog.setval('s_jrn_def', 5, false);
 
 
 --
--- TOC entry 5 (OID 70138)
+-- TOC entry 5 (OID 108299)
 -- Name: s_grpt; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -1264,7 +1264,7 @@ SELECT pg_catalog.setval('s_grpt', 1, false);
 
 
 --
--- TOC entry 6 (OID 70141)
+-- TOC entry 6 (OID 108301)
 -- Name: s_jrn_op; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -1272,7 +1272,7 @@ SELECT pg_catalog.setval('s_jrn_op', 1, false);
 
 
 --
--- TOC entry 7 (OID 70144)
+-- TOC entry 7 (OID 108303)
 -- Name: s_jrn; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -1280,7 +1280,7 @@ SELECT pg_catalog.setval('s_jrn', 1, false);
 
 
 --
--- TOC entry 8 (OID 70163)
+-- TOC entry 8 (OID 108319)
 -- Name: s_jrnx; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -1288,7 +1288,7 @@ SELECT pg_catalog.setval('s_jrnx', 1, false);
 
 
 --
--- TOC entry 9 (OID 70184)
+-- TOC entry 9 (OID 108337)
 -- Name: s_formdef; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -1296,7 +1296,7 @@ SELECT pg_catalog.setval('s_formdef', 1, false);
 
 
 --
--- TOC entry 10 (OID 70187)
+-- TOC entry 10 (OID 108339)
 -- Name: s_form; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -1304,7 +1304,7 @@ SELECT pg_catalog.setval('s_form', 1, false);
 
 
 --
--- TOC entry 11 (OID 70204)
+-- TOC entry 11 (OID 108353)
 -- Name: s_isup; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -1312,7 +1312,7 @@ SELECT pg_catalog.setval('s_isup', 1, false);
 
 
 --
--- TOC entry 12 (OID 70207)
+-- TOC entry 12 (OID 108355)
 -- Name: s_idef; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -1320,7 +1320,7 @@ SELECT pg_catalog.setval('s_idef', 1, false);
 
 
 --
--- TOC entry 13 (OID 70210)
+-- TOC entry 13 (OID 108357)
 -- Name: s_centralized; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -1328,7 +1328,7 @@ SELECT pg_catalog.setval('s_centralized', 1, false);
 
 
 --
--- TOC entry 14 (OID 70221)
+-- TOC entry 14 (OID 108366)
 -- Name: s_user_jrn; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -1336,7 +1336,7 @@ SELECT pg_catalog.setval('s_user_jrn', 1, false);
 
 
 --
--- TOC entry 15 (OID 70224)
+-- TOC entry 15 (OID 108368)
 -- Name: s_user_act; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -1344,7 +1344,7 @@ SELECT pg_catalog.setval('s_user_act', 1, false);
 
 
 --
--- TOC entry 16 (OID 70247)
+-- TOC entry 16 (OID 108387)
 -- Name: s_jrnaction; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -1352,7 +1352,7 @@ SELECT pg_catalog.setval('s_jrnaction', 5, true);
 
 
 --
--- TOC entry 17 (OID 70265)
+-- TOC entry 17 (OID 108402)
 -- Name: s_fiche; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -1360,7 +1360,7 @@ SELECT pg_catalog.setval('s_fiche', 20, true);
 
 
 --
--- TOC entry 18 (OID 70268)
+-- TOC entry 18 (OID 108404)
 -- Name: s_fiche_def_ref; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -1368,7 +1368,7 @@ SELECT pg_catalog.setval('s_fiche_def_ref', 1, false);
 
 
 --
--- TOC entry 19 (OID 70271)
+-- TOC entry 19 (OID 108406)
 -- Name: s_fdef; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -1376,7 +1376,7 @@ SELECT pg_catalog.setval('s_fdef', 6, true);
 
 
 --
--- TOC entry 20 (OID 70274)
+-- TOC entry 20 (OID 108408)
 -- Name: s_attr_def; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -1384,7 +1384,7 @@ SELECT pg_catalog.setval('s_attr_def', 1, false);
 
 
 --
--- TOC entry 21 (OID 70277)
+-- TOC entry 21 (OID 108410)
 -- Name: s_jnt_fic_att_value; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -1392,7 +1392,7 @@ SELECT pg_catalog.setval('s_jnt_fic_att_value', 145, true);
 
 
 --
--- TOC entry 22 (OID 70327)
+-- TOC entry 22 (OID 108450)
 -- Name: s_stock_goods; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -1400,7 +1400,7 @@ SELECT pg_catalog.setval('s_stock_goods', 1, false);
 
 
 --
--- TOC entry 23 (OID 70330)
+-- TOC entry 23 (OID 108452)
 -- Name: s_jrn_rapt; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -1408,47 +1408,7 @@ SELECT pg_catalog.setval('s_jrn_rapt', 1, false);
 
 
 --
--- TOC entry 24 (OID 70357)
--- Name: s_internal; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
---
-
-SELECT pg_catalog.setval('s_internal', 1, false);
-
-
---
--- TOC entry 25 (OID 70360)
--- Name: s_jrn_4; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
---
-
-SELECT pg_catalog.setval('s_jrn_4', 1, false);
-
-
---
--- TOC entry 26 (OID 70363)
--- Name: s_jrn_1; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
---
-
-SELECT pg_catalog.setval('s_jrn_1', 1, false);
-
-
---
--- TOC entry 27 (OID 70366)
--- Name: s_jrn_3; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
---
-
-SELECT pg_catalog.setval('s_jrn_3', 1, false);
-
-
---
--- TOC entry 28 (OID 70369)
--- Name: s_jrn_2; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
---
-
-SELECT pg_catalog.setval('s_jrn_2', 1, false);
-
-
---
--- TOC entry 29 (OID 73394)
+-- TOC entry 24 (OID 111182)
 -- Name: s_central; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -1456,10 +1416,50 @@ SELECT pg_catalog.setval('s_central', 1, false);
 
 
 --
--- TOC entry 30 (OID 73396)
+-- TOC entry 25 (OID 111193)
 -- Name: s_central_order; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
 SELECT pg_catalog.setval('s_central_order', 1, false);
+
+
+--
+-- TOC entry 26 (OID 111198)
+-- Name: s_internal; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval('s_internal', 1, false);
+
+
+--
+-- TOC entry 27 (OID 111204)
+-- Name: s_jrn_4; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval('s_jrn_4', 1, false);
+
+
+--
+-- TOC entry 28 (OID 111207)
+-- Name: s_jrn_1; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval('s_jrn_1', 1, false);
+
+
+--
+-- TOC entry 29 (OID 111210)
+-- Name: s_jrn_3; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval('s_jrn_3', 1, false);
+
+
+--
+-- TOC entry 30 (OID 111213)
+-- Name: s_jrn_2; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval('s_jrn_2', 1, false);
 
 

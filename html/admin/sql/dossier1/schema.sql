@@ -1,6 +1,6 @@
 SET client_encoding = 'LATIN1';
 SET check_function_bodies = false;
-
+SET search_path = public, pg_catalog;
 CREATE TABLE tmp_pcmn (
     pcm_val integer NOT NULL,
     pcm_lib text,
@@ -316,6 +316,30 @@ CREATE SEQUENCE s_central_order
     NO MINVALUE
     CACHE 1;
 CREATE SEQUENCE s_internal
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+CREATE SEQUENCE s_jrn_4
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+CREATE SEQUENCE s_jrn_3
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+CREATE SEQUENCE s_jrn_2
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+CREATE SEQUENCE s_jrn_1
     START WITH 1
     INCREMENT BY 1
     NO MAXVALUE

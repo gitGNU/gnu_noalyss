@@ -54,7 +54,7 @@ h2.error {
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 $inc_path=get_include_path();
-$inc_path.=';..\..\include';
+$inc_path.=':../../include';
 set_include_path($inc_path);
 
 include_once('constant.php');
@@ -268,7 +268,7 @@ for ($e=0;$e < $MaxDossier;$e++) {
   $db_row=pg_fetch_array($Resdossier,$e);
   echo "Patching ".$db_row['dos_name']."<hr>";
   $db=DbConnect($db_row['dos_id'],'dossier');
-  if ( GetVersion($db) == 3 ) { 
+  if ( GetVersion($db) == 4 ) { 
     ExecuteScript($db,'sql/patch/upgrade4.sql');
       
     $sql="select jrn_def_id from jrn_def ";
@@ -279,7 +279,7 @@ for ($e=0;$e < $MaxDossier;$e++) {
 	    $sql=sprintf ("create sequence s_jrn_%d",$row['jrn_def_id']);
 	    ExecSql($db,$sql);
     }
- } // version == 3
+ } // version == 4
  }
 
 $Resdossier=ExecSql($cn,"select mod_id, mod_name from modeledef");
@@ -289,7 +289,7 @@ for ($e=0;$e < $MaxDossier;$e++) {
   $db_row=pg_fetch_array($Resdossier,$e);
   echo "Patching ".$db_row['mod_name']."<hr>";
   $db=DbConnect($db_row['mod_id'],'mod');
-  if ( GetVersion($db) == 3 ) { 
+  if ( GetVersion($db) == 4 ) { 
     ExecuteScript($db,'sql/patch/upgrade4.sql');
       
     $sql="select jrn_def_id from jrn_def ";

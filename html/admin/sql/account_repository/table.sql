@@ -6,9 +6,9 @@ CREATE TABLE ac_users (
     use_active integer DEFAULT 0,
     use_pass text,
     use_admin integer DEFAULT 0,
-    use_theme text DEFAULT 'Light',
+    use_theme text DEFAULT 'Light'::text,
     use_usertype text NOT NULL,
-    CHECK (((use_active = 0) OR (use_active = 1)))
+    CONSTRAINT "$1" CHECK (((use_active = 0) OR (use_active = 1)))
 );
 CREATE TABLE ac_dossier (
     dos_id integer DEFAULT nextval('dossier_id'::text) NOT NULL,

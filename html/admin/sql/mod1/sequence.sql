@@ -146,6 +146,20 @@ CREATE SEQUENCE s_jrn_rapt
     NO MAXVALUE
     NO MINVALUE
     CACHE 1;
+-- Name: s_central; Type: SEQUENCE; Schema: public; Owner: phpcompta
+CREATE SEQUENCE s_central
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+-- Name: s_central_order; Type: SEQUENCE; Schema: public; Owner: phpcompta
+CREATE SEQUENCE s_central_order
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
 -- Name: s_internal; Type: SEQUENCE; Schema: public; Owner: phpcompta
 CREATE SEQUENCE s_internal
     START WITH 1
@@ -176,20 +190,6 @@ CREATE SEQUENCE s_jrn_3
     CACHE 1;
 -- Name: s_jrn_2; Type: SEQUENCE; Schema: public; Owner: phpcompta
 CREATE SEQUENCE s_jrn_2
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
--- Name: s_central; Type: SEQUENCE; Schema: public; Owner: phpcompta
-CREATE SEQUENCE s_central
-    START WITH 1
-    INCREMENT BY 1
-    NO MAXVALUE
-    NO MINVALUE
-    CACHE 1;
--- Name: s_central_order; Type: SEQUENCE; Schema: public; Owner: phpcompta
-CREATE SEQUENCE s_central_order
     START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
