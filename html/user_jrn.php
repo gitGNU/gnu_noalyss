@@ -82,7 +82,7 @@ if ( isset ($_GET['JRN_TYPE'] ) ) {
    echo $result;
   ShowMenuJrnUser($g_dossier,$g_UserProperty,$_GET['JRN_TYPE'],$g_jrn);
    echo "</DIV>";
-
+ if ( $jrn_type=='NONE' )     include('user_action_gl.php');
 
 } else {
 
@@ -117,6 +117,7 @@ if ( $g_jrn != -1 ) {
       echo '</DIV>';
 
   // Execute Action for g_jrn
+ 
   if ( $jrn_type=='VEN' )     include('user_action_ven.php');
   if ( $jrn_type=='ACH' )     include('user_action_ach.php');
   if ( $jrn_type=='FIN' )     include('user_action_fin.php');

@@ -431,7 +431,9 @@ return $left_menu;
 function ShowJrn($p_menu="")
 {
 
- $p_array=array(array("user_jrn.php?JRN_TYPE=VEN" ,"Entrée"),
+ $p_array=array(
+ 		array("user_jrn.php?JRN_TYPE=NONE" ,"Grand Livre"),
+ 		array("user_jrn.php?JRN_TYPE=VEN" ,"Entrée"),
                 array("user_jrn.php?JRN_TYPE=ACH","Dépense"),
                 array("user_jrn.php?JRN_TYPE=FIN","Financier"),
                 array("user_jrn.php?JRN_TYPE=OD","Op. Diverses")
