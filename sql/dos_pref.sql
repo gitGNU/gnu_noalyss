@@ -52,16 +52,16 @@ insert into parm_periode  (p_start,p_end,p_exercice) values ('01-12-2003','31-12
 insert into parm_periode  (p_start,p_exercice) values ('31-12-2003','2003');
 
 -- for the year 2004
-insert into parm_periode  (p_start,p_end,p_exercice) values ('01-01-2004','31-01-2004','2004');
-insert into parm_periode  (p_start,p_end,p_exercice) values ('01-02-2004','28-02-2004','2004');
-insert into parm_periode  (p_start,p_end,p_exercice) values ('01-03-2004','31-03-2004','2004');
-insert into parm_periode  (p_start,p_end,p_exercice) values ('01-04-2004','30-04-2004','2004');
-insert into parm_periode  (p_start,p_end,p_exercice) values ('01-05-2004','31-05-2004','2004');
-insert into parm_periode  (p_start,p_end,p_exercice) values ('01-06-2004','30-06-2004','2004');
-insert into parm_periode  (p_start,p_end,p_exercice) values ('01-07-2004','31-07-2004','2004');
-insert into parm_periode  (p_start,p_end,p_exercice) values ('01-08-2004','31-08-2004','2004');
-insert into parm_periode  (p_start,p_end,p_exercice) values ('01-09-2004','30-09-2004','2004');
-insert into parm_periode  (p_start,p_end,p_exercice) values ('01-10-2004','30-10-2004','2004');
-insert into parm_periode  (p_start,p_end,p_exercice) values ('01-11-2004','30-11-2004','2004');
-insert into parm_periode  (p_start,p_end,p_exercice) values ('01-12-2004','31-12-2004','2004');
-insert into parm_periode  (p_start,p_exercice) values ('31-12-2004','2004');
+insert into parm_periode  (p_start,p_end,p_exercice) values (to_date('01-01-2004','DD.MM.YYYY'),to_date('31-01-2004','DD.MM.YYYY'),'2004');
+insert into parm_periode  (p_start,p_end,p_exercice) values (to_date('01-02-2004','DD.MM.YYYY'),to_date('28-02-2004','DD.MM.YYYY'),'2004');
+insert into parm_periode  (p_start,p_end,p_exercice) values (to_date('01-03-2004','DD.MM.YYYY'),to_date('31-03-2004','DD.MM.YYYY'),'2004');
+insert into parm_periode  (p_start,p_end,p_exercice) values (to_date('01-04-2004','DD.MM.YYYY'),to_date('30-04-2004','DD.MM.YYYY'),'2004');
+insert into parm_periode  (p_start,p_end,p_exercice) values (to_date('01-05-2004','DD.MM.YYYY'),to_date('31-05-2004','DD.MM.YYYY'),'2004');
+insert into parm_periode  (p_start,p_end,p_exercice) values (to_date('01-06-2004','DD.MM.YYYY'),to_date('30-06-2004','DD.MM.YYYY'),'2004');
+insert into parm_periode  (p_start,p_end,p_exercice) values (to_date('01-07-2004','DD.MM.YYYY'),to_date('31-07-2004','DD.MM.YYYY'),'2004');
+insert into parm_periode  (p_start,p_end,p_exercice) values (to_date('01-08-2004','DD.MM.YYYY'),to_date('31-08-2004','DD.MM.YYYY'),'2004');
+insert into parm_periode  (p_start,p_end,p_exercice) values (to_date('01-09-2004','DD.MM.YYYY'),to_date('30-09-2004','DD.MM.YYYY'),'2004');
+insert into parm_periode  (p_start,p_end,p_exercice) values (to_date('01-10-2004','DD.MM.YYYY'),to_date('30-10-2004','DD.MM.YYYY'),'2004');
+insert into parm_periode  (p_start,p_end,p_exercice) values (to_date('01-11-2004','DD.MM.YYYY'),to_date('30-11-2004','DD.MM.YYYY'),'2004');
+insert into parm_periode  (p_start,p_end,p_exercice) values (to_date('01-12-2004','DD.MM.YYYY'),to_date('31-12-2004','DD.MM.YYYY'),'2004');
+insert into parm_periode  (p_start,p_exercice) values (to_date('31-12-2004','DD.MM.YYYY'),'2004');
