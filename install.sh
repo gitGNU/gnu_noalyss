@@ -18,12 +18,6 @@
 #
 . ./setenv.sh
 
-echo "The file install.log will be created with 
-      the log of the installation, just check if
-      it finished with the message
-      installation ok"
-# Output the log to install log
-exec 3>install.log 2>&3 1>&3
 #set -xv
 
 version=5
@@ -45,7 +39,7 @@ echo "----------------------"
 VerifOutil "psql"
 VerifOutil "createdb"
 # Base de données
-DB=`psql -l -U $OWNER `
+DB=`psql -h localhost -l -U $OWNER `
 if [ $? -ne 0 ]; then
 	echo "problem avec Postgres" 
 	exit
@@ -53,73 +47,31 @@ fi
 
 # Repository exist ?
 REPO=`echo $DB|grep account_repository|wc -l`
+ON_ERROR_STOP="True"
 if [ $REPO -eq 0 ]; then
 	echo "Creation de la base de donnee"
-	createdb -U $OWNER $OWNER
-	createdb -E latin1 -U $OWNER account_repository
+	createdb -h localhost -U $OWNER $OWNER
+	createdb -h localhost -E latin1 -U $OWNER account_repository
 
 	# Create the repository
-	PSQL="psql  -U $OWNER account_repository" 
-	$PSQL -e -f sql/account_repository.sql
+	PSQL="psql -h localhost -U $OWNER account_repository" 
+	$PSQL  -f html/admin/sql/account_repository/schema.sql || exit 1
+  $PSQL  -f html/admin/sql/account_repository/data.sql || exit 1
 	
 	#create the template for Belgian accountancy
-        createdb -E latin1 -U $OWNER mod1
-	PSQL="psql -U $OWNER mod1 "
-	$PSQL -e -f sql/mod-be.sql
+  createdb -h localhost -E latin1 -U $OWNER mod1
+	PSQL="psql -h localhost -U $OWNER mod1 "
+	$PSQL  -f html/admin/sql/mod1/schema.sql || exit 1
+  $PSQL  -f html/admin/sql/mod1/data.sql || exit 1
 
 	# Create the demo database
-	createdb -E latin1 -U $OWNER dossier1
-	PSQL="psql -U $OWNER dossier1 "
-	$PSQL -e -f sql/demo.sql
-#
- 
-#  	if [ -w $PG_DATA/pg_hba.conf ]; then
-#  		echo "host    account_repository         all         127.0.0.1         255.255.255.255   password" >> $PG_DATA/pg_hba.conf
-#  		else
-#  		echo "Error PG_DATA is not correct"
-#  		exit 2
-#  	fi
-
+	createdb -h localhost -E latin1 -U $OWNER dossier1
+	PSQL="psql -h localhost -U $OWNER dossier1 "
+  $PSQL  -f html/admin/sql/dossier1/schema.sql || exit 1
+  $PSQL  -f html/admin/sql/dossier1/data.sql || exit 1
 fi
-# Test si la version de la db doit être mise à jour
-A=`psql -U phpcompta  -t -c 'select val from version;' account_repository `
 
-OWNER=phpcompta
-
-DB=`psql -l -U phpcompta -t|awk '/mod/ {print $1} /dossier/ {print $1;}'`
-for i in `echo $DB`
-do
-	echo $i
-	while [ 1 ]; do
-	vers_db=`psql -U phpcompta  -t -c 'select val from version;' $i `
-	if [ "$version" -ne $vers_db ] ; then
-		ver_file="sql/update/"`echo $i |sed 's/[0-9]*//g'`$vers_db".sql"
-		ver_file=`echo $ver_file|tr ' ' '_'`
-		if [ -f $ver_file ]; then
-		echo "Applying patch for $i $ver_file"
-		psql -U $OWNER  $i -f $ver_file
-		fi	
-	else 
-		echo "ok"
-		break
-	fi
-	done
-
-done
-# Installation des sources
-[ ! -d $COMPTA_HOME ] && mkdir $COMPTA_HOME
-[ ! -d $COMPTA_HOME/html ] && mkdir $COMPTA_HOME/html
-[ ! -d $COMPTA_HOME/html/image ] && mkdir $COMPTA_HOME/html/image
-[ ! -d $COMPTA_HOME/include ] && mkdir $COMPTA_HOME/include
-echo "Installing source"
-cp -fr html/*.php  $COMPTA_HOME/html
-cp -fr include/*.php  $COMPTA_HOME/include
-cp -fr html/*.html  $COMPTA_HOME/html
-cp -f html/*.js $COMPTA_HOME/html
-cp -fR addon $COMPTA_HOME/html
-cp -fR html/image/* $COMPTA_HOME/html/image
 echo "***************"
 echo "Installation OK"
 echo "***************"
-exec 3<&-
 
