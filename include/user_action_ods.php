@@ -20,6 +20,7 @@
 /* $Revision$ */
 echo_debug(__FILE__,__LINE__,"include user_action_ods.php");
 include_once("form_input.php");
+include_once("class_widget.php");
 
 $dossier=sprintf("dossier%d",$g_dossier);
 $cn=DbConnect($dossier);
@@ -141,26 +142,28 @@ if ( $action == 'voir_jrn' ) {
  // Show list of sell
   echo_debug ("user_action_ods.php");
  // Date - date of payment - Customer - amount
-  $sql=SQL_LIST_ALL_INVOICE." and jr_tech_per=".GetUserPeriode($cn,$g_user)." and jr_def_id=$g_jrn ";
+?>
+<div class="u_redcontent">
+<form method="post" action="user_jrn.php?action=voir_jrn">
+<?
+$w=new widget("select");
+
+$periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode order by p_id");
+$User=new cl_user($cn);
+$current=(isset($_POST['p_periode']))?$_POST['p_periode']:$User->GetPeriode();
+$w->selected=$current;
+
+echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit','Valider');
+?>
+</form>
+<?
+  $sql=SQL_LIST_ALL_INVOICE." and jr_tech_per=".$current." and jr_def_id=$g_jrn ";
    $list=ListJrn($cn,$g_jrn,$sql);
-   echo '<div class="u_redcontent">';
+
+
    echo $list;
    echo '</div>';
 }
-// if ( $action == 'voir_jrn_non_paye' ) {
-// // Show list of unpaid sell
-// // Date - date of payment - Customer - amount
-//   $sql=SQL_LIST_UNPAID_INVOICE_DATE_LIMIT." and jr_def_id=$g_jrn" ;
-//   $list=ListJrn($cn,$g_jrn,$sql);
-//   $sql=SQL_LIST_UNPAID_INVOICE." and jr_def_id=$g_jrn" ;
-//   $list2=ListJrn($cn,$g_jrn,$sql);
-//     echo '<div class="u_redcontent">';
-//     echo '<h2 class="info"> Echeance dépassée </h2>';
-//     echo $list;
-//     echo  '<h2 class="info"> Non Payée </h2>';
-//     echo $list2;
-//     echo '</div>';
-// }
 
 //Search
 if ( $action == 'search' ) {
