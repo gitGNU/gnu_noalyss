@@ -28,17 +28,21 @@ if ( ! isset ( $g_dossier ) ) {
 include_once ("postgres.php");
 /* Admin. Dossier */
 CheckUser();
-echo '<SCRIPT LANGUAGE="javascript" SRC="win_search_jrn.js"></SCRIPT>';
-
+//echo '<SCRIPT LANGUAGE="javascript" SRC="win_search_jrn.js"></SCRIPT>';
+echo JS_CONCERNED_OP;
 if ( isset( $p_jrn )) {
   session_register("g_jrn");
   $g_jrn=$p_jrn;
 }
+if (isset ($_GET['p_ctl'])) $p_ctl=$_GET['p_ctl'];
+if (isset($_POST['p_ctl'])) $p_ctl=$_POST['p_ctl'];
 $opt='<OPTION VALUE="<="> <=';
 $opt.='<OPTION VALUE="<"> <';
 $opt.='<OPTION VALUE="="> =';
 $opt.='<OPTION VALUE=">"> >';
 $opt.='<OPTION VALUE=">="> >=';
+$opt_date=$opt;
+$opt_montant=$opt;
 $c_comment="";
 $c_montant="";
 $c_date="";
@@ -60,12 +64,14 @@ if ( isset ($_POST["search"]) ) {
   if ( strlen($p_montant) != 0 && (ereg ("^[0-9]*\.[0-9]*$",$p_montant) ||
 				   ereg ("^[0-9]*$",$p_montant)) )
       { 
-    $c_montant=sprintf(" $part j_montant %s %s",$p_montant_sel,$p_montant);
+    $c_montant=sprintf(" $part jr_montant %s %s",$p_montant_sel,$p_montant);
+    $opt_montant.='<OPTION VALUE="'.$p_montant_sel.'" SELECTED>'.$p_montant_sel;
     $part="  and ";
     }
   if ( strlen(trim($p_date)) != 0 ) {
-      $c_montant=sprintf(" $part j_date %s '%s'",$p_date_sel,$p_date);
+      $c_date=sprintf(" $part j_date %s to_date('%s','DD.MM.YYYY')",$p_date_sel,$p_date);
       $part=" and ";
+      $opt_date.='<OPTION VALUE="'.$p_date_sel.'" SELECTED>'.$p_date_sel;
   }
 $condition=$c_comment.$c_montant.$c_date;
 echo_debug("condition = $condition");
@@ -86,13 +92,13 @@ echo '<TR>';
 if ( ! isset ($p_date)) $p_date="";
 if ( ! isset ($p_montant)) $p_montant="";
 if ( ! isset ($p_comment)) $p_comment="";
-
+echo '<input type="hidden" name="p_ctl" value="'.$p_ctl.'">';
 echo '<TD> Date </TD>';
-echo '<TD> <SELECT NAME="p_date_sel">'.$opt.' </TD>';
+echo '<TD> <SELECT NAME="p_date_sel">'.$opt_date.' </TD>';
 echo '<TD> <INPUT TYPE="text" name="p_date" VALUE="'.$p_date.'"></TD>';
 
 echo '<TD> Montant </TD>';
-echo '<TD> <SELECT NAME="p_montant_sel">'.$opt.' </TD>';
+echo '<TD> <SELECT NAME="p_montant_sel">'.$opt_montant.' </TD>';
 echo '<TD> <INPUT TYPE="text" name="p_montant" VALUE="'.$p_montant.'"></TD>';
 
 echo '<TD> Commentaire </TD>';
@@ -104,7 +110,8 @@ echo '</TABLE>';
 echo '<INPUT TYPE="submit" name="search" value="cherche">';
 echo '</FORM>';
 
-$Res=ExecSql($cn,"select j_id,j_date,j_montant,j_poste,j_debit,j_tech_per,jr_id,jr_comment,j_grpt,pcm_lib,jr_internal from jrnx inner join 
+$Res=ExecSql($cn,"select j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
+                 j_montant,j_poste,j_debit,j_tech_per,jr_id,jr_comment,j_grpt,pcm_lib,jr_internal from jrnx inner join 
                  jrn on jr_grpt_id=j_grpt inner join tmp_pcmn on j_poste=pcm_val ".
 	     " inner join user_sec_jrn on uj_jrn_id=j_jrn_def".
 	     $condition." order by j_id");
@@ -128,7 +135,7 @@ for ( $i=0; $i < $MaxLine; $i++) {
       echo $col_vide.$col_vide;
     } else {
       echo "<TR><TD>";
-      echo '<INPUT TYPE="CHECKBOX" onClick="GetIt(\''.$l_line['jr_internal']."')\" >";
+      echo '<INPUT TYPE="CHECKBOX" onClick="GetIt(\''.$p_ctl.'\',\''.$l_line['jr_id']."')\" >";
       echo "</TD>";
 
       echo "<TD>";
