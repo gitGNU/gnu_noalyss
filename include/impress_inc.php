@@ -170,17 +170,24 @@ function ImpHtml($p_array,$p_cn)
       if ( count($array) == 0) continue;
       $ret.=sprintf("<H2 class=\"info\">%d %s</H2>",
 		    $poste[$i],GetPosteLibelle($p_cn,$poste[$i],1));
-      $ret.="<TABLE border=0 >";
+      $ret.="<TABLE style=\"border-bottom-style:solid; border-width:2px\" >";
+      $i=0;
       foreach ($array as $col=>$element) {
-	$ret.="<TR>";
-	$ret.=sprintf("<TD>%s</TD>",$element['jr_internal']);
+	$i++;
+	if ( $i %2 == 0) 
+	  $ret.="<tr class=\"even\">";
+	else
+	  $ret.="<TR class=\"odd\">";
 	$ret.=sprintf("<TD>%s</TD>",$element['j_date']);
-	$ret.=sprintf("<TD>jrn:%s</TD>",$element['jrn_name']);
+	$ret.=sprintf("<TD>%s</TD>",$element['jr_internal']);
+	//	$ret.=sprintf("<TD>jrn:%s</TD>",$element['jrn_name']);
 	$ret.=sprintf("<TD>%s</TD>",$element['description']);
 	if ( $element['j_debit']=='t') {
-	  $ret.=sprintf("<TD> debit</TD><TD ALIGN=\"right\">   % 8.2f</TD>",$element['montant']);
+	  $ret.=sprintf("<TD> debit</TD><TD ALIGN=\"right\">   % 8.2f</TD> $colvide",
+			$element['deb_montant']);
 	} else {
-	  $ret.=sprintf("<TD>credit</TD> $colvide <TD ALIGN=\"right\">  % 8.2f</TD>",$element['montant']);
+	  $ret.=sprintf("<TD>credit</TD> $colvide <TD ALIGN=\"right\">  % 8.2f</TD>",
+			$element['cred_montant']);
 	  
 	}
 	$ret.="</TR>";
@@ -192,7 +199,7 @@ function ImpHtml($p_array,$p_cn)
 		    $tot_deb,
 		    $tot_cred);
       $ret.="</TABLE>";
-      $ret.="Total débit :".$tot_deb."   Total Crédit:".$tot_cred;     
+      $ret.="<p>Total débit :".$tot_deb."   Total Crédit:".$tot_cred."</p>";     
       if ( $tot_deb > $tot_cred ) {
       	$solde_t="D"; 
 	$solde=$tot_deb-$tot_cred;
@@ -200,7 +207,7 @@ function ImpHtml($p_array,$p_cn)
       	$solde_t="C";
 	$solde=$tot_cred-$tot_deb;
 	}
-      $ret.=" <B> Solde  $solde_t = ".$solde."</B>";
+      $ret.=" <p><B> Solde  $solde_t = ".$solde."</B></p>";
     }// for i
     return $ret;
   }//poste
@@ -258,10 +265,11 @@ function ImpHtml($p_array,$p_cn)
 function GetDataPoste($p_cn,$p_poste,$p_condition)
 {
   $Res=ExecSql($p_cn,"select to_char(j_date,'DD.MM.YYYY') as j_date,".
-	       "to_char(j_montant,'999999999.99') as montant,".
+	       "case when j_debit='t' then to_char(j_montant,'999999999.99') else ' ' end as deb_montant,".
+	       "case when j_debit='f' then to_char(j_montant,'999999999.99') else ' ' end as cred_montant,".
 	       " jr_comment as description,jrn_def_name as jrn_name,".
-	       "j_debit, jr_internal, ".
-	       " case when j_debit='t' then 'debit' else 'credit' end as debit".
+	       "j_debit, jr_internal ".
+// 	       " case when j_debit='t' then 'debit' else 'credit' end as debit".
 	       " from jrnx left join jrn_def on jrn_def_id=j_jrn_def ".
 	       " left join jrn on jr_grpt_id=j_grpt".
 	       " where j_poste=".$p_poste." and ".$p_condition.
@@ -274,9 +282,9 @@ function GetDataPoste($p_cn,$p_poste,$p_condition)
   for ($i=0;$i<$Max;$i++) {
     $array[]=pg_fetch_array($Res,$i);
     if ($array[$i]['j_debit']=='t') {
-      $tot_deb+=$array[$i]['montant'] ;
+      $tot_deb+=$array[$i]['deb_montant'] ;
     } else {
-      $tot_cred+=$array[$i]['montant'] ;
+      $tot_cred+=$array[$i]['cred_montant'] ;
     }
   }
   return array($array,$tot_deb,$tot_cred);

@@ -243,7 +243,7 @@ function UpdateForm($p_cn,$p_array) {
       ${"text$i"}=FormatString(${"text$i"});
       ${"form$i"}=FormatString(${"form$i"});
       if ( ${"text$i"} != null ) {
-	${"form$i"}=(${"form$i"}==null)?${"form$i"}:"'".${"form$i"}."'";
+	${"form$i"}=(${"form$i"}==null)?"null":"'".${"form$i"}."'";
 	$sql=sprintf("insert into form (fo_fr_id,
                                   fo_pos,
                                   fo_label,

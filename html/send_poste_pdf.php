@@ -64,8 +64,8 @@ for ( $i =0;$i<count($poste);$i++) {
 		       'j_date' => 'Date',
 		       'jrn_name'=>'Journal',
 			 'description'=>'Description',
-		       'debit'=> 'Type',
-		       'montant'=> 'Montant',
+		       'deb_montant'=> 'Montant',
+		       'cred_montant'=> 'Montant'
 		       ),$Libelle,
 		array('shaded'=>0,'showHeadings'=>1,'width'=>500,
 		      'cols'=>array('montant'=> array('justification'=>'right'),
