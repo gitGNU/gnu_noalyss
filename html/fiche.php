@@ -47,23 +47,26 @@ include_once("fiche_inc.php");
 $l_Db=sprintf("dossier%d",$g_dossier);
 $cn=DbConnect($l_Db);
 
-// Creation of a new model of card
-// in the database
-if ( isset($_POST['add_modele']) ) {
-  // insert the model of card in database
-  AddModele($cn,$HTTP_POST_VARS);
-}
 
 
 
 
 ShowMenuComptaRight($g_dossier,$g_UserProperty);
 if ( $g_UserProperty['use_admin'] == 0 ) {
-  $r=CheckAction($g_dossier,$g_user,FICHE);
-  if ($r == 0 ){
+  $read=CheckAction($g_dossier,$g_user,FICHE_READ);
+  $write=CheckAction($g_dossier,$g_user,FICHE_WRITE);
+  if ($read+$write == 0 ){
     /* Cannot Access */
     NoAccess();
   }
+}else {
+  $write=1;
+}
+// Creation of a new model of card
+// in the database
+if ( isset($_POST['add_modele'])  and $write != 0) {
+  // insert the model of card in database
+  AddModele($cn,$HTTP_POST_VARS);
 }
 
 ShowMenuComptaLeft($g_dossier,MENU_FICHE);
@@ -77,12 +80,13 @@ if ( isset ( $_GET["action"]) ) {
   }// Display the detail of a card
   if ($action== "detail" ) {
     echo '<DIV class="redcontent">';
+    if ( $write == 0) echo '<H2 class="info"> Vos changements ne seront pas sauvés</h2>';
     ViewFicheDetail($cn,$_GET["fiche_id"]);
     echo '</DIV>';
   }
   // Display the form where you can enter
   // the property of the card model
-  if ($action == "add_modele" ) {
+  if ($action == "add_modele" and $write !=0) {
     echo '<DIV class="redcontent">';
     DefModele($cn,$search);
     echo '</DIV>';
@@ -90,53 +94,86 @@ if ( isset ( $_GET["action"]) ) {
   // Modify a card Model
   if ($action == "modifier" ) {
     echo '<DIV class="redcontent">';
-    UpdateModele($cn,$_GET["fiche"],$search);
-    echo '</DI>';
+    if ( $write ==0)  
+      echo "<h2 class=\"error\"> Pas d'accès </h2>";
+    else
+      UpdateModele($cn,$_GET["fiche"],$search);
+    echo '</DIV>';
   }
   // delete a card
-  if ($action== "delete" ) {
+  if ($action== "delete"  ) {
     echo '<DIV class="redcontent">';
-    Remove($cn,$_GET["fiche_id"]);
-
-    ViewFiche($cn,$_GET["f_fd_id"]);
+    if ( $write ==0)  
+      echo "<h2 class=\"error\"> Pas d'accès </h2>";
+    else
+      {
+	Remove($cn,$_GET["fiche_id"]);
+	
+	ViewFiche($cn,$_GET["f_fd_id"]);
+      }
     echo "</DIV>";
   }  
 }
 // Add a line in the card model
-if ( isset ($_GET["add_ligne"] )) {
+if ( isset ($_GET["add_ligne"])  ) {
   echo '<DIV class="redcontent">';
-  SaveModeleName($cn,$_GET["fd_id"],$_GET["label"]);
-  InsertModeleLine($cn,$_GET["fd_id"],$_GET["ad_id"]);
-  UpdateModele($cn,$_GET["fd_id"],$search);
+    if ( $write ==0)  
+      echo "<h2 class=\"error\"> Pas d'accès </h2>";
+    else
+      {
+	SaveModeleName($cn,$_GET["fd_id"],$_GET["label"]);
+	InsertModeleLine($cn,$_GET["fd_id"],$_GET["ad_id"]);
+	UpdateModele($cn,$_GET["fd_id"],$search);
+      }
   echo '</DIV>';
 }
 // Change the name of the card  model
-if ( isset ($_GET["change_name"] )) {
+if ( isset ($_GET["change_name"] )  ) {
   echo '<DIV class="redcontent">';
-  SaveModeleName($cn,$_GET["fd_id"],$_GET["label"]);
-  UpdateModele($cn,$_GET["fd_id"],$search);
+    if ( $write ==0)  
+      echo "<h2 class=\"error\"> Pas d'accès </h2>";
+    else
+      {
+	SaveModeleName($cn,$_GET["fd_id"],$_GET["label"]);
+	UpdateModele($cn,$_GET["fd_id"],$search);
+      }
   echo '</DIV>';
 }
 
 // Display a blank  card from the selected category
-if ( isset ($_POST["fiche"]) && isset ($_POST["add"]) ) {
+if ( isset ($_POST["fiche"]) && isset ($_POST["add"] ) ) {
   echo '<DIV class="redcontent">';
-  EncodeFiche($cn,$_POST["fiche"]);
+    if ( $write ==0)  
+      echo "<h2 class=\"error\"> Pas d'accès </h2>";
+    else
+      EncodeFiche($cn,$_POST["fiche"]);
   echo '</DIV>';
 }
 // Add the data (attribute) of the card
 if ( isset ($_POST["add_fiche"]) ) {
   echo '<DIV class="redcontent">';
-  AddFiche($cn,$_POST["fiche"],$HTTP_POST_VARS);
-  ViewFiche($cn,$_POST["fiche"]);
+  
+  if ( $write ==0)  
+    echo "<h2 class=\"error\"> Pas d'accès </h2>";
+  else
+    {
+      AddFiche($cn,$_POST["fiche"],$HTTP_POST_VARS);
+      ViewFiche($cn,$_POST["fiche"]);
+    }
   echo '</DIV>';
 }
 // Update a card
-if ( isset ($_POST["update_fiche"])) {
+if ( isset ($_POST["update_fiche"])  ) {
   echo '<DIV class="redcontent">';
-  $a=UpdateFiche($cn,$HTTP_POST_VARS);
-  $fd_id=GetFicheDef($cn,$_POST["f_id"]);
-  ViewFiche($cn,$fd_id);
+      if ( $write ==0)  
+      echo "<h2 class=\"error\"> Pas d'accès </h2>";
+    else
+      {
+	$a=UpdateFiche($cn,$HTTP_POST_VARS);
+      }
+      $fd_id=GetFicheDef($cn,$_POST["f_id"]);
+      ViewFiche($cn,$fd_id);
+
 
   echo '</DIV>';
 }
