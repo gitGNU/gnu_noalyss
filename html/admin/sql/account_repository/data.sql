@@ -9,10 +9,8 @@ SET search_path = public, pg_catalog;
 -- Name: ac_users; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
-INSERT INTO ac_users (use_id, use_first_name, use_name, use_login, use_active, use_pass, use_admin, use_theme, use_usertype) VALUES (4, 'demo', 'demo', 'demo', 1, 'fe01ce2a7fbac8fafaed7c982a04e229', 0, 'Light', 'user');
-INSERT INTO ac_users (use_id, use_first_name, use_name, use_login, use_active, use_pass, use_admin, use_theme, use_usertype) VALUES (5, 'Dany', 'De Bontridder', 'dany', 1, '3adc2ecf3ffced14bcde9be1c078df5f', 0, 'Light', 'user');
-INSERT INTO ac_users (use_id, use_first_name, use_name, use_login, use_active, use_pass, use_admin, use_theme, use_usertype) VALUES (6, 'France ', 'Bertrand', 'france', 1, 'c7d71eed70ad733630046409d8adfb2f', 0, 'Light', 'user');
-INSERT INTO ac_users (use_id, use_first_name, use_name, use_login, use_active, use_pass, use_admin, use_theme, use_usertype) VALUES (1, NULL, NULL, 'phpcompta', 1, '3adc2ecf3ffced14bcde9be1c078df5f', 1, 'Light', 'user');
+INSERT INTO ac_users (use_id, use_first_name, use_name, use_login, use_active, use_pass, use_admin, use_theme, use_usertype) VALUES (4, 'demo', 'demo', 'demo', 1, 'b1cc88e1907cde80cb2595fa793b3da9', 0, 'Light', 'user');
+INSERT INTO ac_users (use_id, use_first_name, use_name, use_login, use_active, use_pass, use_admin, use_theme, use_usertype) VALUES (1, NULL, NULL, 'phpcompta', 1, 'b1cc88e1907cde80cb2595fa793b3da9', 1, 'Light', 'user');
 
 
 --
