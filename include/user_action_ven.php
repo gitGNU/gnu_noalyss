@@ -24,7 +24,6 @@ include_once("class_widget.php");
 $cn=DbConnect($_SESSION['g_dossier']);
 // default action is insert_vente
 if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {
-  //  echo u_ShowMenuJrn($cn,$jrn_type);
   exit;
    } else {
   $action=(isset($_GET['action']))?$_GET['action']:$_POST['action'];

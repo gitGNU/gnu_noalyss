@@ -397,6 +397,13 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article
 
 
   $r.="</TABLE>";
+  $r.="<hr>";
+  $r.="<table>";
+  $file=new widget("file");
+  $file->table=1;
+  $r.="<TR>".$file->IOValue("pj",null,"Pièce justificative")."</TR>";
+  $r.="</table>";
+  $r.="<hr>";
   if ($view_only == false ) {
     $r.='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">';
     $r.='<INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
@@ -404,45 +411,6 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article
     $r.="</FORM>";
     $r.=JS_CALC_LINE;
   } else {
-//     // show summary
-//     $total=0;
-//     $r.='<h2 class="info">Total</h2>';
-//     $r.="<table>";
-//     $r.="<th> Description</th>";
-//     $r.="<th> Base TVA </th>";
-//     $r.="<th> Tva </th>";
-//     $r.="<th> Total </th>";
-//     for ( $i = 0; $i < $p_article;$i++) {
-//       if ( $view_only == true and ! isset (${"e_march$i"}) ) continue;
-//       $march=${"e_march$i"};
-//       if ( isNumber($march) ==1 and
-// 	   isFicheOfJrn($p_cn,$p_jrn,$march,'cred')){
-// 	   $a_fiche=GetFicheAttribut($p_cn, $march);
-// 	   // compute some data
-// 	   //	   $tva=(isNumber($a_fiche['tva_rate']) == 0 )?0:$a_fiche['tva_rate'];
-// 	   if ( isNumber(${"e_march$i"."_tva_id"})  ==1 ) {
-
-// 		  $a_tva=GetTvaRate($p_cn,${"e_march$i"."_tva_id"});
-// 		  $tva=$a_tva['tva_rate'];
-// 		} else {
-// 		  $tva=(isNumber($a_fiche['tva_rate'])==1)?$a_fiche['tva_rate']:0;
-// 		}
-// 	   $vat_row=${"e_march$i"."_sell"}*${"e_quant$i"}*$tva;
-// 	   $total_row_no_vat=${"e_march$i"."_sell"}*${"e_quant$i"};
-// 	   $total_row=${"e_march$i"."_sell"}*${"e_quant$i"}+$vat_row;
-      
-// 	   $r.="<TR>";
-// 	   $r.="<TD>".$a_fiche['vw_name']."</td>";
-// 	   //	   $r.="<TD>".$a_fiche['tva_label']."</td>";
-// 	   $r.="<TD>  ".round($total_row_no_vat,2)."</TD>";
-// 	   $r.="<TD>  ".$vat_row."</TD>";
-// 	   $r.="<TD>  ".round($total_row,2)."</TD>";
-// 	   $r.="</TR>";
-// 	   $total+=$total_row;
-//       }
-//     }// for ($i=0
-//     $r.="</table>";
-//     $r.=sprintf(" Total = %8.2f",$total);
      $r.="</div>";
 
   }

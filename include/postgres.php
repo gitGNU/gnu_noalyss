@@ -99,7 +99,7 @@ function DbConnect($p_db=-1,$p_type='dossier') {
 function ExecSql($p_connection, $p_string) {
   echo_debug(__FILE__,__LINE__,"SQL = $p_string");
 
-  $ret=pg_exec($p_connection,$p_string);
+  $ret=pg_query($p_connection,$p_string);
   if ( $ret == false ) { 
     echo_error ("SQL ERROR ::: $p_string");
     exit(" Operation cancelled due to error : $p_string");

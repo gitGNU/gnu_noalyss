@@ -37,7 +37,7 @@ include_once("postgres.php");
 
 function GetTvaRate($p_cn,$p_tva_id) {
   if (strlen(trim($p_tva_id))==0) return 0;
-$Res=pg_exec($p_cn,"select tva_id,tva_rate,tva_label from tva_rate where tva_id=".$p_tva_id);
+$Res=ExecSql($p_cn,"select tva_id,tva_rate,tva_label from tva_rate where tva_id=".$p_tva_id);
 if (pg_NumRows($Res) == 0 ) return null;
 
 $r=pg_fetch_array($Res,0);
