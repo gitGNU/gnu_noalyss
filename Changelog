@@ -1,5 +1,10 @@
 2004-12-12  sparkyx  <sparkyx@july>
 
+	* html/jrn_op_detail.php, html/style-light.css, include/jrn.php, include/user_common.php:
+	Improve appearance
+
+	* Changelog: Changelog
+
 	* include/user_menu.php: Add a central search
 
 	* include/user_common.php: Improve appearance
