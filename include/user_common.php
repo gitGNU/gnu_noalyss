@@ -238,9 +238,13 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
 			jrn_def_name,
 			jrn_def_ech,
 			jrn_def_type,
-                        jr_valid
+                        jr_valid,
+                        jr_tech_per,
+                        p_closed
 		       from 
-			jrn join jrn_def on jrn_def_id=jr_def_id 
+			jrn 
+                            join jrn_def on jrn_def_id=jr_def_id 
+                            join parm_periode on p_id=jr_tech_per
                        $p_where 
 			 order by jr_date_order desc";
   }
@@ -263,13 +267,17 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
 		jrn_def_name,
 		jrn_def_ech,
 		jrn_def_type,
-                jr_valid
+                jr_valid,
+                jr_tech_per,
+                p_closed
 		      from 
-                jrn join jrn_def on jrn_def_id=jr_def_id where ";
+                jrn join jrn_def on jrn_def_id=jr_def_id 
+                    join parm_periode on p_id=jr_tech_per
+                where ";
     $jrn_sql=($p_jrn =0)?"1=1":"jrn_def_id=$p_jrn ";
     $l_and=" and ";
     if ( ereg("^[0-9]+$", $l_s_montant) || ereg ("^[0-9]+\.[0-9]+$", $l_s_montant) ) {
-    $sql.=" and jr_montant $l_mont_sel $l_s_montant";
+    $sql.="  jr_montant $l_mont_sel $l_s_montant";
     }
     if ( isDate($l_date_start) != null ) {
       $sql.=$l_and." jr_date >= to_date('".$l_date_start."','DD.MM.YYYY')";
@@ -283,7 +291,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
     }
     $l_s_internal=FormatString($l_s_internal);
     if ( $l_s_internal != null ) {
-      $sql.=$l_and."  jr_internal='$l_s_internal'  ";
+      $sql.=$l_and."  jr_internal like ('%$l_s_internal%')  ";
     }
     $sql.=" order by jr_date_order desc";
   }// p_array != null
@@ -312,6 +320,10 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
     if ( $i % 2 == 0 ) $tr='<TR class="odd">'; 
 		else $tr='<TR>';
     $r.=$tr;
+    //internal code
+    $r.="<TD>";
+    $r.=$row['jr_internal'];
+    $r.="</TD>";
     // date
     $r.="<TD>";
     $r.=$row['jr_date'];
@@ -325,14 +337,6 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
 	$r.="<TD>";
 	$r.=$row['jr_comment'];
 	$r.="</TD>";
-	// button  modify
-	$r.="<TD>";
-	$r.=sprintf('<input TYPE="button" onClick="modifyOperation(\'%s\',\'%s\')" value="%s">',
-		    $row['jr_id'],$l_sessid,$row['jr_internal']);
-
-
-	$r.="</TD>";
-
 	
 // Amount
 	$r.="<TD>";
@@ -352,17 +356,29 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
 	}// if ( $a != null ) {
 	$r.="</TD>";
 	//$l=user_jrn.php?action=update&line=91
-	if ( $row['jr_valid'] == 't' ) {
-	  // TODO Add print
-	  $r.="<TD>";
-	  // cancel operation
-	  $r.=sprintf('<input TYPE="BUTTON" VALUE="%s" onClick="cancelOperation(\'%s\',\'%s\')">',
-		      "Annuler",$row['jr_grpt_id'],$l_sessid);
-	  $r.="</TD>";
-	}
-	else {
+	
+	if ( $row['jr_valid'] == 'f'  ) {
 	  $r.="<TD> Opération annulée</TD>";
 	}
+	else {
+	  if ( $row ['p_closed'] == 'f' ) {
+	    // TODO Add print
+	    $r.="<TD>";
+	    // cancel operation
+	    $r.=sprintf('<input TYPE="BUTTON" VALUE="%s" onClick="cancelOperation(\'%s\',\'%s\')">',
+			"Annuler",$row['jr_grpt_id'],$l_sessid);
+	    $r.="</TD>";
+	  }
+	}
+	// button  modify
+	$r.="<TD>";
+	$r.=sprintf('<input TYPE="button" onClick="modifyOperation(\'%s\',\'%s\')" value="%s">',
+		    $row['jr_id'],$l_sessid,"détail"); //
+
+
+	$r.="</TD>";
+
+
 // end row
 	$r.="</tr>";
 	
