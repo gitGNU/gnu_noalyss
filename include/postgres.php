@@ -389,6 +389,15 @@ function save_upload_document ($cn,$seq) {
 	  return;
 	}
 	echo_debug(__FILE__,__LINE__,"Loading document");
+	// Remove old document
+	$ret=ExecSql($cn,"select jr_pj from jrn where jr_grpt_id=$seq");
+	if (pg_num_rows($ret) != 0) {
+	  $r=pg_fetch_array($ret,0);
+	  $old_oid=$r['jr_pj'];
+	  if (strlen($old_oid) != 0) 
+	    pg_lo_unlink($cn,$old_oid);
+	}
+	// Load new document
 	ExecSql($cn,"update jrn set jr_pj=".$oid.", jr_pj_name='".$_FILES['pj']['name']."', ".
 		"jr_pj_type='".$_FILES['pj']['type']."'  where jr_grpt_id=$seq");
 

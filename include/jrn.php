@@ -343,6 +343,12 @@ if ( $p_update == 0 )  echo "<TR><TD> <INPUT TYPE=\"SUBMIT\" VALUE=\"+ de line\"
   }// for ( $i =0 ; $i < sizeof($l_array); $i++) 
     $file=new widget("file");
     $file->table=1;
+	//document
+    $r.="<TD>".sprintf('<A class="detail" HREF="show_document.php?jrn=%s&jr_grpt_id=%s">%s</A>',
+		$content['jr_id'],
+		$content['jr_grpt_id'],
+		$content['jr_pj_name'])."</TD>";
+
     $r.="<hr>";
     $r.= "<table>"; 
     $r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
@@ -1008,6 +1014,7 @@ function GetDataJrnJrId ($p_cn,$p_jr_id) {
                         j_montant,
                         jr_montant,
                         j_id,
+                        jr_pj_name,
                         jr_grpt_id,
                         jr_comment,
                         to_char(jr_ech,'DD.MM.YYYY') as jr_ech,
@@ -1038,6 +1045,7 @@ function GetDataJrnJrId ($p_cn,$p_jr_id) {
     $array['jr_rapt']=$line['jr_rapt'];
     $array['jrn_def_type']=$line['jrn_def_type'];
     $array['jr_grpt_id']=$line['jr_grpt_id'];
+    $array['jr_pj_name']=$line['jr_pj_name'];
     //    $array['']=$line[''];
 
     $ret_array[$i]=$array;
