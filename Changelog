@@ -1,5 +1,11 @@
 2005-02-01  sparkyx  <sparkyx@july>
 
+	* include/user_common.php: Fix bug in Search Menu
+
+	* html/fiche_csv.php: Change tab by coma
+
+	* Changelog: changelog
+
 	* include/class_attribut.php:
 	Printing of card is now completely correct
 
