@@ -126,7 +126,7 @@ if ( $action == 'voir_jrn' ) {
  // Show list of sell
   echo_debug ("user_action_ods.php");
  // Date - date of payment - Customer - amount
-   $sql=SQL_LIST_ALL_INVOICE." and jr_tech_per=".GetUserPeriode($cn,$g_user)." and jr_def_id=$g_jrn";
+  $sql=SQL_LIST_ALL_INVOICE." and jr_tech_per=".GetUserPeriode($cn,$g_user)." and jr_def_id=$g_jrn ";
    $list=ListJrn($cn,$g_jrn,$sql);
    echo '<div class="u_redcontent">';
    echo $list;
