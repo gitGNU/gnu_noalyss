@@ -34,77 +34,49 @@ include_once("ac_common.php");
 include_once("postgres.php");
 include_once("class.ezpdf.php");
 include_once("poste.php");
-echo_debug(__FILE__,__LINE__,"imp pdf journaux");
+include_once("class_balance.php");
+include_once("preference.php");
+
 $l_Db=sprintf("dossier%d",$g_dossier);
 $cn=DbConnect($l_Db);
+
+$bal=new Balance($cn);
+
+echo_debug(__FILE__,__LINE__,"imp pdf journaux");
 foreach ($HTTP_POST_VARS as $key=>$element) {
   ${"$key"}=$element;
   echo_debug(__FILE__,__LINE__,"key => $key element $element");
 }
-$per=join(',',$periode);
 // if centralized
-$cent="";
 $t_cent="";
-if ( isset($central) ) { $cent="j_centralized = true and "; $t_cent=" centralisé";}
 
-// build query
-$sql="select j_poste,sum(deb) as sum_deb, sum(cred) as sum_cred from 
-          ( select j_poste,
-             case when j_debit='t' then j_montant else 0 end as deb,
-             case when j_debit='f' then j_montant else 0 end as cred
-          from jrnx join tmp_pcmn on j_poste=pcm_val
-              where 
-             $cent
-            j_tech_per in ( $per)) as m group by j_poste order by j_poste::text";
+if ( isset($central) ) {
+    $bal->central='Y';
+    $t_cent="centralisée";
+ }
+ else 
+  $bal->central='N';
 
-$Res=ExecSql($cn,$sql);
-if ( ( $M=pg_NumRows($Res)) == 0 ) {
- $pdf=& new Cezpdf('a4');
- $pdf->selectFont('./addon/fonts/Helvetica.afm');
- $pdf->ezSetCmMargins(2,2,2,2);
- $pdf->ezText("Balance compte -- vide");
- $pdf->ezStream();
- exit();
+$array=$bal->GetRow($from_periode,$to_periode);
 
-}
-$tot_cred=  0.0;
-$tot_deb=  0.0;
-$tot_deb_saldo=0.0;
-$tot_cred_saldo=0.0;
-
-// Load the array
-for ($i=0; $i <$M;$i++) {
-  $r=pg_fetch_array($Res,$i);
-  $a['poste']=$r['j_poste'];
-  $a['label']=GetPosteLibelle($cn,$r['j_poste'],1);
-  $a['sum_deb']=$r['sum_deb'];
-  $a['sum_cred']=$r['sum_cred'];
-  $a['solde_deb']=( $a['sum_deb']  >=  $a['sum_cred'] )? $a['sum_deb']- $a['sum_cred']:0;
-  $a['solde_cred']=( $a['sum_deb'] <=  $a['sum_cred'] )?$a['sum_cred']-$a['sum_deb']:0;
-  $array[$i]=$a;
-  $tot_cred+=  $r['sum_cred'];
-  $tot_deb+= $r['sum_deb']; 
-  $tot_deb_saldo+= $a['solde_deb'];
-  $tot_cred_saldo+= $a['solde_cred'];
-
-
-}//for i
-// Add the saldo
-$i+=1;
-$a['poste']="";
-$a['label']="<b> Totaux </b>";
-$a['sum_deb']=$tot_deb;
-$a['sum_cred']=$tot_cred;
-$a['solde_deb']=$tot_deb_saldo;
-$a['solde_cred']=$tot_cred_saldo;
-$array[$i]=$a;
-
+if ( sizeof($array)  == 0 ) {
+  $pdf=& new Cezpdf('a4');
+  $pdf->selectFont('./addon/fonts/Helvetica.afm');
+  $pdf->ezSetCmMargins(2,2,2,2);
+  $pdf->ezText("Balance compte -- vide");
+  $pdf->ezStream();
+  exit();
+  
+ }
+$a=GetPeriode($cn,$from_periode);
+$b=GetPeriode($cn,$to_periode);
+$per_text=" période du ".$a['p_start']." au ".$b['p_end'];
 $pdf=& new Cezpdf('a4');
 $pdf->selectFont('./addon/fonts/Helvetica.afm');
 $pdf->ezSetCmMargins(2,2,2,2);
 $pdf->ezTable($array,array('poste'=>'Poste','label'=>'Libellé','sum_deb'=>'Total Débit',
 			   'sum_cred'=>'Total crédit','solde_deb'=>'Solde débiteur',
-			   'solde_cred'=>'Solde créditeur'),'Balance des comptes '.$t_cent);
+			   'solde_cred'=>'Solde créditeur'),'Balance des comptes '.$t_cent.$per_text);
 $pdf->ezStream();
 
 

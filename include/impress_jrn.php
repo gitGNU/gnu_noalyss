@@ -107,10 +107,6 @@ if ( $User->Admin() ==0) {
 
  } 
 
-//    include_once("check_priv.php");
-// printf ('<TR><TD class="cell"><a class="mtitle"
-//        href="user_impress.php?type=jrn&action=print&p_id=%d">%s</a></TD></TR>',$l_line['jrn_def_id'],$l_line['jrn_def_name']);
-
 // Count the forbidden journaux
     $NoPriv=CountSql($cn,"select jrn_def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
                                 jrn_deb_max_line,jrn_cred_max_line
