@@ -155,6 +155,7 @@ function InsertJrnx($p_cn,$p_type,$p_user,$p_jrn,$p_poste,$p_date,$p_amount,$p_g
 	       $p_date,round($p_amount,2),$p_poste,$p_grpt,$p_jrn,$debit,$p_user,$p_periode);
   echo_debug("InsertJrnx $sql");
   $Res=ExecSql($p_cn,$sql);
+  if ( $Res==false) return $Res;
   return GetSequence($p_cn,'s_jrn_op');
 
 }
@@ -189,6 +190,7 @@ function InsertJrn($p_cn,$p_date,$p_echeance,$p_jrn,$p_comment,$p_amount,$p_grpt
 		     $p_jrn, round($p_amount,2),$p_comment,$p_date,$p_echeance,$p_grpt,$p_periode);
 	echo_debug("InsertJrn $sql");
 	$Res=ExecSql($p_cn,$sql);				 
+	if ( $Res == false)  return false;
 	return GetSequence($p_cn,'s_jrn');
 }
 /* function ListJrn($p_cn,$p_jrn,$p_wherel)
@@ -395,6 +397,7 @@ function InsertStockGoods($p_cn,$p_j_id,$p_good,$p_quant,$p_type)
                             '$l_code',
                             $p_quant, '$p_type') 
                      ");
+ return $Res;
 }
 /* function withStock($p_cn,$p_f_id)
  **************************************************

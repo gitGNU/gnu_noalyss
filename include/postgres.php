@@ -147,8 +147,13 @@ function DbConnect($p_db="account_repository") {
  */
 function ExecSql($p_connection, $p_string) {
   echo_debug("SQL = $p_string");
+
   $ret=pg_exec($p_connection,$p_string);
-  if ( $ret == false ) { echo_error ("SQL ERROR ::: $p_string");}
+  if ( $ret == false ) { 
+    echo_error ("SQL ERROR ::: $p_string");
+    exit(" Operation cancelled due to error : $p_string");
+  }
+
   return $ret;
 }
 /*

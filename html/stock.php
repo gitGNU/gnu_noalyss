@@ -64,19 +64,75 @@ $left_menu=ShowMenuAdvanced();
 echo '<div class="lmenu">';
 echo $left_menu;
 echo '</DIV>';
+$action= ( isset ($_GET['action']))? $_GET['action']:"";
 include_once("stock_inc.php");
 
+// Adjust the stock
+if ( isset ($_POST['sub_change'])) {
+  $change=$_POST['stock_change'];
+  $sg_code=$_POST['sg_code'];
+  $sg_date=$_POST['sg_date'];
+  if ( isDate($sg_date) == null 
+       or isNumber($change) == 0 ) {
+    $msg="Stock données non conformes";
+    echo "<script> alert('$msg');</script>";
+    echo_error($msg);
+  } else {
+    // if neg the stock decrease => credit
+    $type=( $change < 0 )?'c':'d';
+    if ( $change != 0)
+      $Res=ExecSql($cn,"insert into stock_goods
+                     (  j_id,
+                        f_id, 
+                        sg_code,
+                        sg_quantity,
+                        sg_type,
+                        sg_date,
+                         sg_tech_user)
+                    values (
+                        null,
+                        0,
+                        '$sg_code',
+                        abs($change),
+                        '$type',
+                        to_date('$sg_date','DD.MM.YYYY'),
+                        '$g_user');
+                     ");
+  // to update the view
+  $action="detail";
+  }
+}
+
+// View the summary
 
 // if year is not set then use the year of the user's periode
-if ( ! isset ($_GET['p_year']) ) {
+if ( ! isset ($_GET['year']) ) {
   // get defaut periode
   $a=GetUserPeriode($cn,$g_user);
   // get exercice of periode
-  $p_year=GetExercice($cn,$a);
+  $year=GetExercice($cn,$a);
   } else
   { 
-    $p_year=$_GET['p_year'];
+    $year=$_GET['year'];
   }
+
+// View details
+if ( $action == 'detail' ) {
+
+  $sg_code=(isset ($_GET['sg_code'] ))?$_GET['sg_code']:$_POST['sg_code'];
+  $year=(isset($_GET['year']))?$_GET['year']:$_POST['year'];
+  $a=ViewDetailStock($cn,$sg_code,$year);
+  $b=ChangeStock($sg_code,$year);
+    echo '<div class="u_redcontent">' ;
+    echo $a;
+    echo 'Entrer la valeur qui doit augmenter ou diminuer le stock';
+    echo '<form action="stock.php" method="POST">';
+    echo $b;
+    echo '<input type="submit" name="sub_change" value="Ok">';
+    echo '</form>';
+    echo '</div>';
+    exit();
+}
 
 // Show the possible years
 $sql="select distinct (p_exercice) as exercice from parm_periode ";
@@ -94,12 +150,10 @@ for ( $i = 0; $i < pg_NumRows($Res);$i++) {
 // Show the current stock
 echo '<div class="u_redcontent">';
 echo $r;
-echo '<FORM action="stock.php" method="post">';
-$a=ViewStock($cn,$p_year);
+$a=ViewStock($cn,$year);
 if ( $a != null ) {
-  echo '<input type="submit" name="view" value="ok">';
   echo $a;
 }
 echo '</div>';
-
+html_page_stop();
 ?>
