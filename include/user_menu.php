@@ -542,5 +542,21 @@ printf( '<TR><TD class="mtitle"> <A class="mtitle" HREF="compta.php?dos=%d">Reto
   echo "</TABLE>";
   echo '</div>';
 }
+/* function MenuAdmin */
+/* purpose : show the menu for user/database management */
+/* parameter : none */
+/* return : none */
 
+function MenuAdmin()
+{
+  $item=array (array("admin_repo.php?action=user_mgt","Utilisateurs"),
+	       array("admin_repo.php?action=dossier_mgt","Dossiers"),
+	       array("admin_repo.php?action=modele_mgt","Modèles"),
+	       array("login.php","Accueil"),
+	       array("logout.php","Logout")
+	       );
+
+  $menu=ShowItem($item,'H');
+  return $menu;
+}
 ?>
