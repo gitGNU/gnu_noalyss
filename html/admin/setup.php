@@ -221,9 +221,9 @@ $account=CountSql($cn,
 
 // Create the account_repository
 if ($account == 0 ) {
-//  ob_start();
+
   echo "Creation of account_repository";
-  
+  ob_start();  
   ExecSql($cn,"create database account_repository encoding='latin1'");
   $cn=DbConnect();
   ExecuteScript($cn,"sql/account_repository/schema.sql");
@@ -242,7 +242,7 @@ if ($account == 0 ) {
 
 //   $r=system("$psql -U phpcompta mod1 -f sql/mod1/schema.sql",$r);
 //   $r=system("$psql -U phpcompta mod1 -f sql/mod1/data.sql",$r);
-  //ob_end_clean();
+ ob_end_clean();
 
 }
 // _SERVER["DOCUMENT_ROOT"]
