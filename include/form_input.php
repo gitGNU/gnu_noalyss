@@ -343,6 +343,7 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article
   $r.="</DIV>";
   $r.="</FORM>";
 
+  $r.=JS_CALC_LINE;
   return $r;
 
 
@@ -594,7 +595,7 @@ for ($o = 0;$o < $p_number; $o++) {
 if ( $p_doc == 'pdf' ) {
   // prob with pdf and the pdf pluggin 
   // Cannot find a nice workaround for that
- 	  $r.='<FORM target="new" METHOD="POST" ACTION="print_invoice.php">';
+ 	  $r.='<FORM METHOD="POST" TARGET="new" ACTION="print_invoice.php">';
 // 	  $r.='<FORM METHOD="POST">';
 	  $r.=$data;
 	  $r.=InputType("","HIDDEN","e_comment",$p_comment);
@@ -1179,6 +1180,7 @@ function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
   if ( $view_only == true ) {
     $solde=GetSolde($p_cn,GetFicheAttribut($p_cn,$e_bank_account,ATTR_DEF_ACCOUNT));
     $r.=" <b> Solde = ".$solde." </b>";
+    $new_solde=$solde;
   }
 
   // Start the div for item to move money
@@ -1235,7 +1237,7 @@ function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
     ${"e_concerned".$i}=(isset(${"e_concerned".$i}))?${"e_concerned".$i}:"";
     $r.=InputType("","js_concerned","e_concerned".$i,${"e_concerned".$i},$view_only);
     $r.='</TR>';
-    if ( $view_only == true )      $solde+=$tiers_amount;
+    if ( $view_only == true )      $new_solde+=$tiers_amount;
  }
 
 $r.="</TABLE>";
@@ -1245,7 +1247,10 @@ $r.="</FORM>";
 
 // if view_only is true
 //Put the new saldo here (old saldo - operation)
-if ( $view_only==true)  $r.=" <b> Nouveau Solde = ".$solde." </b>";
+ if ( $view_only==true)  {
+   $r.=" <b> Ancien Solde = ".$solde." </b><br>";
+   $r.=" <b> Nouveau Solde = ".$new_solde." </b><br>";
+ }
  
 return $r;
 

@@ -253,12 +253,12 @@ function SetIt(p_value,p_ctl) {
 // One line calculator
 define ("JS_CALC_LINE","
 
-<form name=\"calc_line\">
+<form name=\"calc_line\" onSubmit=\"cal()\">
 <input type=\"text\" size=\"20\" name=\"calculator\" onBlur=\"cal()\">
 Answer:<span id=\"name\"></span>
 <br>
 
-<input type=\"button\" name=\"B1\" value=\"Calculate\" onClick=\"cal()\">
+<!-- <input type=\"button\" name=\"B1\" value=\"Calculate\" > -->
 
 <input type=\"reset\" name=\"B2\" value=\"Reset\"><br>
 

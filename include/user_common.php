@@ -44,7 +44,7 @@ $r=pg_fetch_array($Res,0);
 return $r;
 
 }
-/* function ComputeVat($p_cn,	$a_good,$a_quant,$p_type);
+/* function ComputeVat($p_cn,$a_fiche,$a_quant,$a_price,$ap_vat)
  **************************************************
  * Purpose : Compute the vat,
  *           the fiche.f_id are in a_fiche
@@ -56,6 +56,7 @@ return $r;
  *  - fiche id array
  *  - quantity array 
  *  - price array 
+ *  - $ap_vat Array of tva id
  * gen :
  *	-
  * return: array
