@@ -1,22 +1,22 @@
 <?
 /*
- *   This file is part of WCOMPTA.
+ *   This file is part of PhpCompta.
  *
- *   WCOMPTA is free software; you can redistribute it and/or modify
+ *   PhpCompta is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
  *   the Free Software Foundation; either version 2 of the License, or
  *   (at your option) any later version.
  *
- *   WCOMPTA is distributed in the hope that it will be useful,
+ *   PhpCompta is distributed in the hope that it will be useful,
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with WCOMPTA; if not, write to the Free Software
+ *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-// Auteur Dany De Bontridder ddebontridder@yahoo.fr
+// Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
 include_once ("ac_common.php");
 html_page_start($g_UserProperty['use_theme']);
@@ -30,7 +30,11 @@ CheckUser();
 include ("check_priv.php");
 include_once ("top_menu_compta.php");
 ShowMenuCompta($g_dossier,$g_UserProperty);
-
+if ( isset ($g_jrn) ) {
+  $p_id=$g_jrn;
+} else {
+  if (isset ($_GET["p_id"]) )   $p_id=$_GET["p_id"];
+}
 
 include_once("impress_inc.php");
 ShowMenuComptaRight($g_dossier,$g_UserProperty);
@@ -40,9 +44,9 @@ if ( $g_UserProperty['use_admin'] == 0 ) {
     /* Cannot Access */
     NoAccess();
   }
-  if (isset ($_GET["p_id"]) && isset ($_GET["type"])) {
+  if ( isset ($_GET["type"])) {
     if ( $type="jrn") {
-      $right=CheckJrn($g_dossier,$g_user,$_GET['p_id']);
+      $right=CheckJrn($g_dossier,$g_user,$p_id);
       if ($right == 0 ){
 	/* Cannot Access */
 	NoAccess();

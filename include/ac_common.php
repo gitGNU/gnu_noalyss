@@ -24,7 +24,7 @@ include_once("debug.php");
 include_once("constant.php");
 
 function echo_error      ($p_log) {
-$fdebug=fopen("/tmp/wcompta_error.log","a+");
+$fdebug=fopen("/tmp/phpcompta_error.log","a+");
 if ( $fdebug != false ) {
 	fwrite($fdebug,date("Ymd H:i:s").$p_log."\n");
 	fclose($fdebug);
@@ -138,7 +138,7 @@ $bg="";
 	      </HEAD>";
 	echo "<BODY $bg class=\"defaut\" $p_script>";
 }
-/* function 
+/* function html_page_stop()
  * Purpose : 
  *        
  * parm : 
@@ -152,7 +152,7 @@ function html_page_stop()
 	echo "</BODY>";
 	echo "</HTML>";
 }
-/* function 
+/* function html_button_logout 
  * Purpose : 
  *        
  * parm : 
@@ -165,7 +165,7 @@ function html_page_stop()
 function html_button_logout() {
 	echo "<A class=\"mtitle\" HREF=logout.php> Logout </A>";
 }
-/* function 
+/* function  NoAccess 
  * Purpose : 
  *        
  * parm : 
@@ -185,7 +185,7 @@ function NoAccess() {
 		
   exit -1;
 }
-/* function 
+/* function FormatString($p_string) 
  * Purpose : 
  *        
  * parm : 
@@ -207,21 +207,14 @@ function FormatString($p_string)
   $p_string=str_replace("'","\'",$p_string);
   return $p_string;
 }
-/* function 
- * Purpose : 
+/* function GetUserType
+ * Purpose : get the type of an user (compta,developper or user)
  *        
  * parm : 
- *	-
+ *	- param $p_user user_login
  * gen :
- *	-
- * return:
- */
-
-
-/* GetUserType
- * purpose : get the type of an user (compta,developper or user)
- * param $p_user user_login
- * return : the type of the user
+ *	- none
+ * return: the type of the user
  */
 function GetUserType($p_user)
 {
@@ -242,8 +235,6 @@ function GetUserType($p_user)
  *	- none
  * return: none
  */
-
-
 function Redirect($p_profile,$php_session) {
   include_once("debug.php");
   echo_debug("Session is $php_session");
@@ -286,6 +277,20 @@ function ShowItem($p_array,$p_dir='V')
   }
     $ret.="</TABLE>";
   return $ret;
+}
+/* function echo_warning
+ * Purpose : warns
+ *        
+ * parm : 
+ *	- string
+ * gen :
+ *	- none
+ * return:
+ *      - none
+ */
+function echo_warning($p_string) 
+{
+  echo '<H2 class="info">'.$p_string."</H2>";
 }
 
 ?>

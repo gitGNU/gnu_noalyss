@@ -589,7 +589,8 @@ function GetJrnProp($p_dossier,$p_jrn)
   $l_dossier=sprintf("dossier%d",$p_dossier);
   $cn=DbConnect($l_dossier);
   $Res=ExecSql($cn,"select jrn_Def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_def_type, 
-                   jrn_deb_max_line,jrn_cred_max_line,jrn_def_ech,jrn_def_ech_lib,jrn_def_code
+                   jrn_deb_max_line,jrn_cred_max_line,jrn_def_ech,jrn_def_ech_lib,jrn_def_code,
+                   jrn_def_fiche_deb,jrn_def_fiche_deb
                    from jrn_Def 
                       where jrn_def_id=$p_jrn");
   $Count=pg_NumRows($Res);
@@ -800,15 +801,16 @@ function ViewJrn($p_dossier,$p_user,$p_jrn,$p_array=null) {
 function isClosed($p_cn,$p_period) {
   return false;
 }
-/* function
- * Purpose :
+/* function GetData
+ * Purpose : Get data from jrnx where p_grpt=jrnx(j_grpt)
  * 
  * parm : 
- *	- 
+ *	- connection
+ *      - p_grpt
  * gen :
- *	-
+ *	- none
  * return:
- *	-
+ *	- return array
  *
  */ 
 function GetData ($p_cn,$p_grpt) {

@@ -80,12 +80,23 @@ If ( isset ($_POST["JRN_UPD"] )) {
     $p_jrn_name=$_POST['p_jrn_name'];
      if (strlen(trim($p_jrn_name))==0) return;
      $p_jrn_name=FormatString($p_jrn_name);
+       $p_jrn_fiche_deb="";
+       $p_jrn_fiche_cred="";
+
+     if ( isset    ($_POST["FICHEDEB"])) {
+       $p_jrn_fiche_deb=join(",",$_POST["FICHEDEB"]);
+     }
+      if ( isset    ($_POST["FICHECRED"])) {
+       $p_jrn_fiche_cred=join(",",$_POST["FICHECRED"]);
+      }
     $Sql=sprintf("update jrn_def set jrn_def_name='%s',jrn_def_class_deb='%s',jrn_def_class_cred='%s',
-                 jrn_deb_max_line=%s,jrn_cred_max_line=%s,jrn_def_ech=%s,jrn_def_ech_lib=%s
+                 jrn_deb_max_line=%s,jrn_cred_max_line=%s,jrn_def_ech=%s,jrn_def_ech_lib=%s,jrn_def_fiche_deb='%s',
+                  jrn_def_fiche_cred='%s'
                  where jrn_def_id=%s",
 		 $p_jrn_name,$_POST['p_jrn_class_deb'],$_POST['p_jrn_class_cred'],
 		 $l_deb_max_line,$l_cred_max_line,
 		 $p_ech,$p_ech_lib,
+		 $p_jrn_fiche_deb,$p_jrn_fiche_cred,
                  $g_jrn
 		 );
     echo_debug($Sql);
@@ -93,16 +104,10 @@ If ( isset ($_POST["JRN_UPD"] )) {
   }
 }
 ShowMenuJrn($g_dossier);
-// $right=CheckJrn($g_dossier,$user,$g_jrn);
-// if ($right == 0 ){
-//   /* Cannot Access */
-//   NoAccess();
-//   exit -1;
-// }
 
 $Res=ExecSql($cn,"select jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,".
 	     "jrn_deb_max_line,jrn_cred_max_line,jrn_def_code".
-                 ",jrn_def_type,jrn_def_ech, jrn_def_ech_lib".
+                 ",jrn_def_type,jrn_def_ech, jrn_def_ech_lib,jrn_def_fiche_deb,jrn_def_fiche_cred".
                  " from jrn_def where".
                  " jrn_def_id=".$g_jrn);
 $l_line=pg_fetch_array($Res,0);
@@ -115,6 +120,7 @@ if ( isset ($_POST["PHPSESSID"] ) ) {
 
 $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$sessid."')\">";
 echo '<DIV CLASS="ccontent">';
+echo '<H2 class="info"> Fiches (profile comptable)</H2>';
 echo '<FORM ACTION="jrn_detail.php" METHOD="POST">';
 echo '<INPUT TYPE="HIDDEN" NAME="JRN_UPD">';
 echo '<TABLE>';
@@ -168,19 +174,67 @@ echo '<TD> ';
 $Res=ExecSql($cn,"select jrn_type_id,jrn_desc from jrn_type where ".
 	"trim(jrn_type_id)=trim('".$l_line['jrn_def_type']."')");
 $Max=pg_NumRows($Res);
+
 for ($i=0;$i<$Max;$i++) {
   $Line=pg_fetch_array($Res,$i);
+
   echo_debug("jrn type !".$Line['jrn_type_id']."!,!".$l_line['jrn_def_type']."!");
   printf (' %s',$Line['jrn_desc']);
 }
 echo '</TD>';
 echo '</TR>';
 echo "<TR><TD> Code </TD><TD>".$l_line['jrn_def_code']."</TD></TR>";
+
+
 ?>
-<TR><TD><INPUT TYPE="SUBMIT" VALUE="Sauve"></TD><TD><INPUT TYPE="RESET" VALUE="Reset"></TD></TR>
+
 <?
 
 echo '</TABLE>';
+// Get all the fiches
+echo '<H2 class="info"> Fiches (profile user)</H2>';
+$Res=ExecSql($cn,"select fd_id,fd_label from fichedef order by fd_label");
+$num=pg_NumRows($Res);
+
+$rdeb=split(',',$l_line['jrn_def_fiche_deb']);
+
+$rcred=split(',',$l_line['jrn_def_fiche_cred']);
+echo '<TABLE>';
+echo '<TR>';
+echo '<th> Fiches Crédit</TH>';
+echo '<th> Fiches Dédit</TH>';
+echo '</TR>';
+// Show the fiche in deb section
+for ($i=0;$i<$num;$i++) {
+  $res=pg_fetch_array($Res,$i);
+  $CHECKED=" unchecked";
+  foreach ( $rdeb as $element) { 
+    if ( $element == $res['fd_id'] ) {
+    $CHECKED="CHECKED";
+    break;
+  }
+  }
+  echo '<TR>';
+  printf ('<TD> <INPUT TYPE="CHECKBOX" VALUE="%s" NAME="FICHEDEB[]" %s>%s</TD>',
+	  $res['fd_id'],$CHECKED,$res['fd_label']);
+  $CHECKED=" unchecked";
+  foreach ( $rcred as $element) { 
+    if ( $element == $res['fd_id'] ) {
+    $CHECKED="CHECKED";
+    break;
+  }
+  }
+
+  printf ('<TD> <INPUT TYPE="CHECKBOX" VALUE="%s" NAME="FICHECRED[]" %s>%s</TD>',
+	  $res['fd_id'],$CHECKED,$res['fd_label']);
+  echo '</TR>';
+}
+
+
+?>
+
+<TABLE><TR><TD><INPUT TYPE="SUBMIT" VALUE="Sauve"></TD><TD><INPUT TYPE="RESET" VALUE="Reset"></TD></TR></TABLE>
+<?
 echo '</FORM>';
 echo "</DIV>";
 html_page_stop();

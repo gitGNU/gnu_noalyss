@@ -183,9 +183,9 @@ function ViewFiche($p_cn,$p_type) {
     for ( $i = 0; $i < $Max; $i++) {
       $l_line=pg_fetch_array($Res,$i);
       $div="<DIV>";
-      $span_mod='<span class="mtitle"><A class="mtitle" href="fiche.php?action=detail&fiche_id='.$l_line['f_id'].'"> Modifie</A></SPAN>';
+      $span_mod='<span class="mtitle"><A class="mtitle2" href="fiche.php?action=detail&fiche_id='.$l_line['f_id'].'"> Modifie</A></SPAN>';
       $span_del='<span class="mtitle2" ALIGN="left">'.
-	'<A class="mtitle" href="fiche.php?f_fd_id='.$p_type.'&action=delete&fiche_id='.$l_line['f_id'].
+	'<A class="mtitle2" href="fiche.php?f_fd_id='.$p_type.'&action=delete&fiche_id='.$l_line['f_id'].
 	'"> delete</A></SPAN>';
       $span_id='<SPAN style="background-color:lightgrey;">'.$l_line['f_id']."</SPAN>";
       if ( $i %2 == 0 ) 
@@ -389,15 +389,16 @@ function DefModele ($p_js,$p_array=null,$p_ligne=1)
 
   echo '<FORM>';
 }
-/* function
- * Purpose :
+/* function AddModele
+ * Purpose : Add a modele into the database
  * 
  * parm : 
- *	- 
+ *	- connection
+ *      - array
  * gen :
- *	-
+ *	- none
  * return:
- *	-
+ *	- none
  *
  */ 
 function AddModele($p_cn,$p_array) {
@@ -458,15 +459,17 @@ function UpdateModele($p_cn,$p_fiche,$p_js) {
   DefModele($p_js,$array,$array['ligne']);
 
 }
-/* function
- * Purpose :
+/* function GetDataModele
+ * Purpose : Return the info of an fiche identified by
+ *           p_fiche
  * 
  * parm : 
- *	- 
+ *	- connection
+ *      - fiche id
  * gen :
- *	-
+ *	- none
  * return:
- *	-
+ *	- array with all the data
  *
  */ 
 function GetDataModele($p_cn,$p_fiche) {
@@ -593,6 +596,56 @@ function getFicheName($p_cn,$p_id) {
   if ( pg_NumRows($Res) == 0 ) return "Unknown";
   $st=pg_fetch_array($Res,0);
   return $st['fd_label'];
+}
+/* function GetFicheJrn
+ * Purpose : Get all the fiche related to a "journal"
+ *        
+ * parm : 
+ *	- p_cn connextion
+ *      - j_jrn journal_id
+ *      - $p_type : deb or cred
+ * gen :
+ *	- none
+ * return: array containing the fiche(f_id),fiche(f_label)
+ */
+function GetFicheJrn($p_cn,$p_jrn,$p_type)
+{
+  $get="";
+  if ( $p_type == 'deb' ) {
+    $get='jrn_def_fiche_deb';
+  }
+  if ( $p_type == 'cred' ) {
+    $get='jrn_def_fiche_cred';
+  }
+  if ( $get == "" ) {
+    echo_error("Invalid p_type function GetFicheJrn($p_cn,$p_jrn,$p_type)");
+    exit -1;
+  }
+  $Res=ExecSql($p_cn,"select $get as fiche from jrn_def where jrn_def_id=$p_jrn");
+  $Max=pg_NumRows($Res);
+  if ( $Max==0) {
+    echo_warning("No rows");
+    return null;
+  }
+  // Normally Max must be == 1
+  $list=pg_fetch_array($Res,0);
+  if ( $list['fiche']=="") {
+    echo_warning("No fiche");
+    return null;
+  }
+ 
+  $sql="select f_id, f_label from fiche where f_fd_id in (".$list['fiche'].") order by f_label";
+  $Res=ExecSql($p_cn,$sql);
+  $Max=pg_NumRows($Res);
+  if ($Max==0 ) return null;
+  // Get The result and put it into an array
+  for ($i=0;$i<$Max;$i++) {
+    $line=pg_fetch_array($Res,$i);
+    $f_id=$line['f_id'];
+    $f_label=$line['f_label'];
+    $a[$i]=array($f_id,$f_label);
+  }
+  return $a;
 }
 
 ?>

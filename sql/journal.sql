@@ -37,6 +37,8 @@ create table jrn_def
 	jrn_def_name	text not null unique,
 	jrn_def_class_deb	text,
 	jrn_def_class_cred	text,
+	 jrn_def_fiche_deb text ,
+	jrn_def_fiche_cred text ,
 	jrn_deb_max_line	integer default 1,
 	jrn_cred_max_line	integer default 1,
 	jrn_def_ech		bool default false,	

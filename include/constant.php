@@ -24,15 +24,25 @@
 
 // securite correspond a la table 
 // action
+// access aux journaux
 define ("ENCJRN",1);
+// création facture
 define("FACT",2);
+// création aux fiche
 define ("FICHE",3);
+// Impression
 define ("IMP",4);
+//formulaire
 define("FORM",5);
+// Modif du Plan Comptable
 define ("MPCMN",6);
+// Gestion des journaux
 define ("GJRN",7);
+// Gestion des paramètres globaux
 define ("PARM",8);
+// Gestion de la sécurité
 define ("SECU",9);
+// Access à la centralisation
 define ("CENTRALIZE",10);
 define ("VEN",11);
 define ("BQE",12);

@@ -80,10 +80,23 @@ echo_debug("nom journal $p_jrn_name");
      $p_jrn_class_cred=FormatString($_POST["p_jrn_class_cred"]);
      // compute the jrn_def.jrn_def_code
      $p_code=sprintf("%s-%02d",trim($_POST['p_jrn_type']),NextJrn($cn,$_POST['p_jrn_type']));
+       $p_jrn_fiche_deb="";
+       $p_jrn_fiche_cred="";
+
+     if ( isset    ($_POST["FICHEDEB"])) {
+       $p_jrn_fiche_deb=join(",",$_POST["FICHEDEB"]);
+     }
+      if ( isset    ($_POST["FICHECRED"])) {
+       $p_jrn_fiche_cred=join(",",$_POST["FICHECRED"]);
+      }
+
     $Sql=sprintf("insert into jrn_def(jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_deb_max_line,jrn_cred_max_line,
-                  jrn_def_type,jrn_def_code) values ('%s','%s','%s',%s,%s,'%s','%s')",
+                  jrn_def_type,jrn_def_fiche_deb,jrn_def_fiche_cred,jrn_def_code) 
+                  values ('%s','%s','%s',%s,%s,'%s','%s','%s','%s')",
 		 $p_jrn_name,$p_jrn_class_deb,$p_jrn_class_cred,
-                 $l_deb_max_line,$l_cred_max_line,$_POST['p_jrn_type'],$p_code
+                 $l_deb_max_line,$l_cred_max_line,$_POST['p_jrn_type'],
+		 $p_jrn_fiche_deb,$p_jrn_fiche_cred,
+		 $p_code
 		 );
     echo_debug($Sql);
     $Res=ExecSql($cn,$Sql);
@@ -154,6 +167,28 @@ for ($i=0;$i<$Max;$i++) {
 echo '</SELECT>';
 echo '</TD>';
 echo '</TR>';
+?>
+<?
+// Get all the fiches
+echo '<tr> <td colspan="2"><H2 class="info"> Fiches (profile user)</H2></TD></TR>';
+$Res=ExecSql($cn,"select fd_id,fd_label from fichedef order by fd_label");
+$num=pg_NumRows($Res);
+
+
+echo '<TR>';
+echo '<th> Fiches Crédit</TH>';
+echo '<th> Fiches Dédit</TH>';
+echo '</TR>';
+// Show the fiche in deb section
+for ($i=0;$i<$num;$i++) {
+  $res=pg_fetch_array($Res,$i);
+  echo '<TR>';
+  printf ('<TD> <INPUT TYPE="CHECKBOX" VALUE="%s" NAME="FICHEDEB[]">%s</TD>',
+	  $res['fd_id'],$res['fd_label']);
+  printf ('<TD> <INPUT TYPE="CHECKBOX" VALUE="%s" NAME="FICHECRED[]">%s</TD>',
+	  $res['fd_id'],$res['fd_label']);
+  echo '</TR>';
+}
 ?>
 <TR><TD><INPUT TYPE="SUBMIT" VALUE="Sauve"></TD><TD><INPUT TYPE="RESET" VALUE="Reset"></TD></TR>
 <?
