@@ -45,7 +45,7 @@ class jrn {
     return $ret['jrn_def_name'];
   }
 
-/* function GetDataJrnPdf
+/* function GetRow
  * Purpose : Get The data for the pdf printing
  * 
  * parm : 
@@ -212,6 +212,5 @@ class jrn {
   $a=array($array,$tot_deb,$tot_cred);
   return $a;
   }
-  
  
 }

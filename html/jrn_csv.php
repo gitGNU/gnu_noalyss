@@ -19,7 +19,7 @@
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 header('Content-type: application/csv');
-
+header('Content-Disposition: attachment;filename="jrn.csv"',FALSE);
 include_once ("ac_common.php");
 
 include_once ("postgres.php");
@@ -33,16 +33,19 @@ include ('class_user.php');
 $User=new cl_user($cn);
 $User->Check();
 if ( $g_UserProperty['use_admin'] == 0 ) {
-  if (CheckAction($g_dossier,$g_user,IMP) == 0 ){
+  if (CheckAction($g_dossier,$g_user,IMP) == 0 ||
+        $User->AccessJrn($_POST['jrn_id']) == false){
     /* Cannot Access */
     NoAccess();
   }
+
 }
 
 
  $p_cent=( isset ( $_POST['cent']) )?'on':'off';
 
 $Jrn=new jrn($cn,$_POST['jrn_id']);
+$Jrn->Access();
 $Jrn->GetName();
 $Jrn->GetRow( $_POST['from_periode'],
 	      $_POST['to_periode'],
@@ -50,32 +53,22 @@ $Jrn->GetRow( $_POST['from_periode'],
 
 
   foreach ( $Jrn->row as $op ) { 
-  $rep="";
-
-    if ( $op['j_id'] != $rep) {
-      $rep= $op['j_id'];
       // should clean description : remove <b><i> tag and '; char
-      // should clean poste       : remove <b><i> tag and '; char
-
-      echo 
-	"'".$op['internal']."';".
-	"'".$op['j_date']."';".
-	"'".$op['poste']."';".
-	"'".$op['description']."';".
-	"'".$op['cred_montant']."';".
-	"'".$op['deb_montant']."\n";
+    $desc=$op['description'];
+    $desc=str_replace("<b>","",$desc);
+    $desc=str_replace("</b>","",$desc);
+    $desc=str_replace("<i>","",$desc);
+    $desc=str_replace("</i>","",$desc);
+    $desc=str_replace('"',"'",$desc);
+      printf("\"%s\"\t\"%s\"\t\"%s\"\t\"%s\"\t%8.4f\t%8.4f\n",
+	     $op['internal'],
+	     $op['j_date'],
+	     $op['poste'],
+	     $desc,
+	     $op['cred_montant'],
+	     $op['deb_montant']
+	     );
 	
-    } else {
-      echo 
-	"'".$op['internal']."';".
-	"'".$op['j_date']."';".
-	"'".$op['poste']."';".
-	"'".$op['description']."';".
-	"'".$op['cred_montant']."';".
-	"'".$op['deb_montant']."\n";
-
-    }
-    
   }
   exit;
 ?>

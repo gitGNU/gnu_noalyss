@@ -110,6 +110,20 @@ class cl_user {
     } else $this->admin=1;
     
     return $this->admin;
-}
+  }
+  function AccessJrn($p_jrn_id) {
+    $this->Admin();
+    if ( $this->admin==1) return true;
+    $sql=CountSql($this->db,"select uj_id 
+                             from user_sec_jrn 
+                             where
+                             uj_priv in ('R','W')
+                             and uj_jrn_id=".$p_jrn_id.
+		  "and uj_login = ".$this->id);
+    if ( $sql != 0 ) return true;
+    return false;
+        
+  }
+
 }
 ?>

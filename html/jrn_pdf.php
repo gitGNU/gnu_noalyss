@@ -26,7 +26,7 @@ if ( ! isset($g_dossier) ) {
   echo "INVALID G_DOSSIER UNKNOWN !!! ";
   exit();
 }
-
+include_once('class_user.php');
 include_once("jrn.php");
 include_once("ac_common.php");
 include_once("postgres.php");
@@ -47,6 +47,17 @@ if ($_POST['central'] == 'on' ) {
 $Jrn=new jrn($cn,$_POST['jrn_id']);
 
 $Jrn->GetName();
+$User=new cl_user($cn);
+$User->Check();
+if ( $g_UserProperty['use_admin'] == 0 ) {
+  if (CheckAction($g_dossier,$g_user,IMP) == 0 ||
+        $User->AccessJrn($_POST['jrn_id']) == false){
+    /* Cannot Access */
+    NoAccess();
+  }
+
+}
+
 $ret="";
 $pdf=& new Cezpdf("A4");
 $pdf->selectFont('./addon/fonts/Helvetica.afm');

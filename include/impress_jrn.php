@@ -73,9 +73,6 @@ include("class_jrn.php");
 
   echo "<TABLE>";
   foreach ( $Jrn->row as $op ) { 
-    if ( $op['j_id'] != $rep) {
-      $rep= $op['j_id'];
-
       echo "<TR>".
 	"<TD>".$op['internal']."</TD>".
 	"<TD>".$op['j_date']."</TD>".
@@ -84,17 +81,6 @@ include("class_jrn.php");
 	"<TD>".$op['cred_montant']."</TD>".
 	"<TD>".$op['deb_montant']."</TD>".
 	"</TR>";
-    } else {
-      echo "<TR>".
-	"<TD>".$op['internal']."</TD>".
-	"<TD>".$op['j_date']."</TD>".
-	"<TD>".$op['poste']."</TD>".
-	"<TD>".$op['description']."</TD>".
-	"<TD>".$op['cred_montant']."</TD>".
-	"<TD>".$op['deb_montant']."</TD>".
-	"</TR>";
-    }
-    
   }
   echo "</table>";
   echo "</div>";
