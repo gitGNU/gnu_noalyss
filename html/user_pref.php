@@ -32,11 +32,11 @@ if ( isset ( $_POST['style_user']) ) {
       $g_UserProperty['use_theme']=$_POST['style_user'];
 
 }
-// Met à jour le profil
-if ( isset ( $_POST['profile_user']) ) {
-      $g_UserProperty['use_usertype']=$_POST['profile_user'];
+// // Met à jour le profil
+// if ( isset ( $_POST['profile_user']) ) {
+//       $g_UserProperty['use_usertype']=$_POST['profile_user'];
 
-}
+// }
 html_page_start($g_UserProperty['use_theme']);
 
 // clean session variable from user interface (make prob. with compta  interfac)
@@ -90,14 +90,14 @@ if ( isset ( $_POST['style_user']) ) {
 
 }
 // Met à jour le profil
-if ( isset ( $_POST['profile_user']) ) {
-  $CnRepo=DbConnect();
-      $Res=ExecSql($CnRepo,
-		   "update ac_users set use_usertype='".$_POST['profile_user'].
-		   "'  where use_login='$g_user'");
-      $g_UserProperty['use_usertype']=$_POST['profile_user'];
+// if ( isset ( $_POST['profile_user']) ) {
+//   $CnRepo=DbConnect();
+//       $Res=ExecSql($CnRepo,
+// 		   "update ac_users set use_usertype='".$_POST['profile_user'].
+// 		   "'  where use_login='$g_user'");
+//       $g_UserProperty['use_usertype']=$_POST['profile_user'];
 
-}
+// }
 
 ?>
 <H2 CLASS="info"> Password</H2>
@@ -141,19 +141,19 @@ $disp_style.="</SELECT>";
 </TABLE>
 </FORM>
 <?
-// charge tous les profiles
-   $aprofile=array("compta","user");
-$disp_pro="<SELECT NAME=\"profile_user\" >";
-foreach ($aprofile as $st){
-  if ( $st == $g_UserProperty['use_usertype'] ) {
-    $disp_pro.='<OPTION VALUE="'.$st.'" SELECTED>'.$st;
-  } else {
-    $disp_pro.='<OPTION VALUE="'.$st.'">'.$st;
-  }
-}
-$disp_pro.="</SELECT>";
+// // charge tous les profiles
+//    $aprofile=array("compta","user");
+// $disp_pro="<SELECT NAME=\"profile_user\" >";
+// foreach ($aprofile as $st){
+//   if ( $st == $g_UserProperty['use_usertype'] ) {
+//     $disp_pro.='<OPTION VALUE="'.$st.'" SELECTED>'.$st;
+//   } else {
+//     $disp_pro.='<OPTION VALUE="'.$st.'">'.$st;
+//   }
+// }
+// $disp_pro.="</SELECT>";
 ?>
-<H2 class="info">Profile</H2>
+<!-- <H2 class="info">Profile</H2>
 <FORM ACTION="user_pref.php" METHOD="post">
 <TABLE ALIGN="center">
 <TR>
@@ -165,7 +165,7 @@ $disp_pro.="</SELECT>";
 </TR>
 </TABLE>
 </FORM>
-
+-->
 <?
 
 // Si utilise un dossier alors propose de changer
