@@ -39,10 +39,11 @@ function u_ShowDossier($p_user,$p_admin)
   if ( $p_array == 0 ) return " * Aucun dossier *";
   $result="";
   $result.="<table>";
-  $result.='<TR><TD><A HREF="logout.php" CLASS="mtitle">Sortir</a></TD>';
+  $result.='<TR>';
     if ( $p_admin == 1 ) {
-      $result.="<TD><A class=\"mtitle\" HREF=\"admin_repo.php\">:: Administration</A></TD>";
+      $result.="<TD><A class=\"mtitle\" HREF=\"admin_repo.php\"> Administration : </A></TD>";
     }
+    $result.='<TD><A HREF="logout.php" CLASS="mtitle">: Sortir</a></TD>';
     $result.="</TR>";
   $result.="</table>";
   $result.="<TABLE>";
@@ -55,7 +56,7 @@ function u_ShowDossier($p_user,$p_admin)
     else $tr="even";
 
     $result.="<TR class=\"$tr\"><TD class=\"$tr\">";
-    $result.="<B>$name</B>";
+    $result.=$id."  <B>$name</B>";
     $result.="</TD><TD class=\"$tr\">";
     $result.=$desc;
     $result.="</TD><TD class=\"mtitle\">";
@@ -338,7 +339,7 @@ function u_ShowMenuJrn($p_cn,$p_jrn_type)
 
 function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
 {
-  echo_debug(__FILE__,__LINE__,"u_ShowMenuRecherche($p_cn,$p_jrn,$p_array)");
+  echo_debug(__FILE__,__LINE__,"u_ShowMenuRecherche($p_cn,$p_array)");
   if ( $p_array != null ) {
     foreach ( $p_array as $key=> $element) {
       ${"p_$key"}=$element;
@@ -347,7 +348,7 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
   }
 
   // Find the journal property
-  $JrnProperty=GetJrnProperty($p_cn,$p_jrn);
+  //  $JrnProperty=GetJrnProperty($p_cn,$p_jrn);
 
   $opt='<OPTION VALUE="="> =';
   $opt.='<OPTION VALUE="<="> <=';
@@ -367,7 +368,7 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
  
   $r.= '<div style="border-style:outset;border-width:1pt;">';
   $r.= "<B>Recherche</B>";
-  $r.= '<FORM ACTION="user_jrn.php?p_jrn='.$p_jrn.'&action=search&PHPSESSID='.$p_sessid.'&nofirst" METHOD="POST">';  
+  $r.= '<FORM ACTION="recherche.php?action=search&PHPSESSID='.$p_sessid.'&nofirst" METHOD="POST">';  
   $r.= '<TABLE>';
   $r.= "<TR>";
   $r.= '<TD COLSPAN="3">  Date compris entre</TD> ';
