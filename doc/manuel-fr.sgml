@@ -1,0 +1,159 @@
+<!doctype linuxdoc system>
+<article>
+<title> PhpCompta Manuel d'utilisation</title>
+<author>
+ <name>originally written by Dany De Bontridder
+ </name>
+</author>
+<date>$Revision$</date>
+<abstract>
+Ce document est le manuel d'utilisation de PhpCompta.<url url="http://savannah.nongnu.org/projects/phpcompta/" name="Ph pCompta Savannah">.
+ Il aborde des thèmes
+comme la sécurité, l'utilisation de PhpCompta, les trucs et astuces, et
+de la documentation pour ceux qui aimeraient contribuer.
+Il  ne reprend pas ce qui a déjà été dit dans l'INSTALL-fr et la FAQ-fr.
+<!-- Table of contents -->
+<toc>
+<sect>Vue Général
+<sect1>Définition des termes
+<p>
+<itemize>
+<item> Gestion : art de gérer une entreprise ou une activité d'indépendant
+<item> Comptabilité : tenue de journaux qui sont l'historique des opérations faites
+par une entreprise ou un indépendant
+<item> Catégorie de fiches : Ensemble de fiche qui ont un point en commun
+exemple : Fourniture bureau est un ensemble des fiches bic, papiers, téléphone, électricité...
+<item> Fiche : chaque fiche, correspond à un élément: un fournisseur, un client, un article
+<item> Journaux Comptables : Il existe 3 journaux minimum et  indispensables à la tenue de la
+comptabilité, il s'agit du journal des ventes qui contient toutes les ventes effectuées, journal
+d'achat qui contient tous les achats effectués, journal financier qui contient toutes les opérations
+financières (banques, caisses)
+<item> Postes Comptables : afin de simplifier, chaque type d'opération à un poste comptable, c'est
+un chiffre dans un tableaux, exemple en Belgique 5500 représente les comptes bancaires, 600 les
+achats de fournitures... Ces postes comptables ne sont pas les mêmes dans tous les pays. Ils sont
+regroupés dans un plan comptable. En général, le plan comptable se subdivise en 6 grandes familles 
+<itemize>
+<item>1.  Les comptes de capital  (immobilisé)
+<item>2.  Les immobilisations corporelle (Actif a plus d'un an)
+<item>3.  Les Stocks et commandes
+<item>4.  Les comptes de tiers (clients, fournisseurs,tva)
+<item>5.  Les comptes d'actifs (compte en banque,caisse...)
+<item>6.  Les charges d'exploitations
+<item>7.  Les produits d'exploitations.
+</itemize>
+<item> Débit et crédit
+Les postes comptables sont en parties doubles, l'une est le débit l'autre est le crédit.
+Les actifs diminuent quand le crédit augmentent, les comptes de passifs diminuent quand
+le débit augmentent. Par exemple, si un compte en banque est débité il augmente, mais dans
+la vie courante, votre compte en banque est une dette que votre banque a envers vous, donc
+quand sa dette augmente on dit que le compte est crédité mais dans votre comptabilité, cela
+correspond à l'inverse: de votre point de vue, votre compte en banque est une créance sur 
+votre banque donc s'il augmente, il est débité !!!
+</itemize>
+</p>
+</sect1>
+<sect1>Logiciel de comptabilité ou de gestion ?
+<sect2>Définition
+<p>
+La comptabilité consiste, de la manière prévue par les lois sur la comptabilité,
+ à enregistrer toutes les opérations  d'une activité commerciale, industrielle ou artisanale.
+</p>
+
+La grande différence avec la gestion, est que la comptabilité est tenue
+en suivant des lois précises, qui malheureusement changent suivant le  pays.
+
+De plus, elle doit entre autre permettre les déclarations
+fiscale, permettre des analyses bilantaires et surtout être conforme à  la législation.
+
+Ce n'est pas le cas, de la gestion, la gestion consiste à gérer une entreprise ou une activité
+d'indépendant, ce qui inclut aussi la gestion du courrier, du personnel...
+
+
+</sect2>
+<sect2> Documentation sur la comptabilité
+</sect2>
+</sect1>
+<sect1> Les profils
+<p>
+Dans le menu dans préférence, il existe deux sortes de profil que vous pouvez utiliser, 
+</p>
+<sect2>soit le profil comptable
+<p>
+Dans ce cas, vous verrez votre comptabilité comme un comptable s'attend à la voir
+avec des postes comptables, des écritures comptables impliquant des débits et des crédits
+</p>
+</sect2>
+<sect2>soit le profil utilisateur
+<p>
+Dans ce cas, vous verrez votre comptabilité comme un utilisateur, facture à payer, facture à encoder... 
+</p>
+
+C'est le profil par défaut des utilisateurs que vous créerez, sans formation de comptable, l'autre
+profil ne pourrait que vous perturbez, il s'agit pourtant de la même chose mais vue différemment.
+
+Certaines opérations ne sont cependant possible que dans le profil comptable, il s'agit d'opération
+assez rare et qui demande une réelle connaissance de ce domaines pour être encodés correctement
+par exemple une augmentation de capital, une reprise d'amortissement...
+</sect2>
+</sect1>
+<sect1>Les journaux
+<p> Il existe 4 sortes de journaux
+<itemize>
+<item> Celui regroupant les ventes
+<item> Celui regroupant les achats
+<item> Celui regroupant tous les mouvements financiers (banque, caisse...)
+<item> Et celui regroupant toutes les autres opérations (augmentation de bilan, amortissement
+</itemize>
+
+La première chose à faire quand on crée un journal est de le paramètrer correctement
+L'écran est divisé en deux parties, celle du dessus, s'adresse au profil "comptable" celui
+du dessous au profil utilisateur.
+
+
+</sect1>
+<sect1>Création d'une catégorie de fiche 
+<p>
+Les catégories de fiches sont en fait le rassemblement de fiche ensembles, par exemple, les
+marchandises, les clients, les fournisseurs...
+
+Pour créer une catégorie, cliquer sur Fiche et à droite sur création. Vous devez donner le
+nom de la catégorie et le type de fiche que vous voulez.
+
+La classe de base est le poste comptable parent de vos fiche, ce poste doit exister, il faut alors
+cliquer aussi sur "create account for each" qui permet de générer automatiquement le poste comptable voulu, ce poste sera automatiquement ajouté dans le Plan Comptable. Si cette option n'est pas
+cochée, vous devrez ajouter manuellement le poste comptable et le donner explicitement. Si vous ne souhaitez pas que chaque fiche aie son propre comptable, ne cochez l'option et n'ajoutez pas manuellement le poste comptable. Dans ce cas, ce sera le poste du modéle de fiche par défaut qui sera utilisé, si vous ne l'indiquez pas ce sera la classe par défaut de ce type de modèle.
+
+Pour simplifier :
+<itemize>
+<item>Vous voulez que chaque fiche aie son propre poste comptable et vous souhaitez que ce poste soit crée automatiquement : cochez la case 'Create account for each'
+<item>Vous souhaitez qu'il n'y a pas de poste comptable attaché à chaque fiche: ne la cochez pas
+
+<item>Vous souhaitez qu'il y aie un poste comptable attaché à chaque fiche 
+mais pas généré automatiquement: ne cochez pas. Par la suite,  ajoutez
+ l'attribut 'Poste Comptable', vous devrez mettre manuellement le poste comptable
+ que vous souhaitez pour chaque fiche. Dans ce cas,  <bf /toutes/ les
+ fiches devront avoir un poste comptable. Sinon ce sera le poste comptable
+ par défaut qui sera utilisé.
+</itemize>
+
+
+</sect1>
+<sect1>Création d'une fiche 
+<p>
+</p>
+</sect1>
+<sect1>Encodage d'opération
+<sect2>Achat
+</sect2>
+<sect2>Vente
+</sect2>
+<sect2>Opération financière
+</sect2>
+</sect1>
+</sect>
+<sect>Sécurité
+<p>
+
+</p>
+</sect>
+</article>

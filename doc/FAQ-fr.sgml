@@ -7,7 +7,7 @@
 </author>
 <date>$Revision$</date>
 <abstract>
-Ce document contient les réponses aux questions les plus fréquemment posées sur
+Ce document contient les rÃ©ponses aux questions les plus fréquemment posées sur
 PhpCompta <url url="http://www.alchimerys.be/FR/phpcompta" name="PhpCompta">
 site savannah <url url="http://savannah.nongnu.org/projects/phpcompta/" name="PhpCompta Savannah">
 </abstract>
@@ -22,7 +22,7 @@ adapté à la législation
  pays mais par manque de documentation, ce n'est pas encore implémenté, idem
  pour les traductions. </P>
  <P>Si vous voulez contribuez n'hésitez pas : <url url="http://mail.nongnu.org/mailman/listinfo/phpcompta-contrib" name="Mailing List Contribution">
- <newline> Si vous avez besoin d'aide <url url="http://mail.nongnu.org/mailman/listinfo/phpcompta-support" 
+ <newline> Si vous avez besoin d'aide <url url="http://mail.nongnu.org/mailman/listinfo/phpcompta-support"
  name="Mailing List support">.
  </p>
 <sect> Quel le nom du soft ??
@@ -63,18 +63,20 @@ En fait c'est phpcompta, au départ c'était wcompta, contraction de
 </sect>
 <sect>Ou trouvez les patches
 <p>
-sur  http://savannah.nongnu.org/patch/?group=phpcompta
- On peut y arriver à partir de la page de savannah
+sur  la page d'origine, malheureusement, il n'est pas encore possible de téléchargez des fichiers sur Savannah
+
+On peut y arriver à partir de la page de savannah (Homepage)
 </p>
 </sect>
 <sect>Comment adapter le fichier php.ini
 <p>
+<quote>
 Avec PHP 4.3.1 :
 	Les variables sont passés de page en page dans un tableau _POST[nom_var] alors
 	qu'avec les versions précédentes, on y accédait directement avec $nom_var
 	voir la variable register_globale = off dans le php.ini
-</p>
-<p>
+</quote>
+
 php.ini doit contenir pour wcompta
  <verb>
 [PHP]
@@ -143,7 +145,7 @@ répertoire courant de phpcompta
 
 </p>
 <p>
-Si cela ne marche pas c'est pas bon
+Si cela ne marche pas ce n'est pas bon
 </p>
 <p>
 Pour un seul fichier, plus simple
@@ -173,7 +175,11 @@ urpmi linuxdoc-tools, pour les autres, je ne sais pas :(
 </p>
 <p>
 Une fois, les linuxdoc tools installés il peut être nécessaire
-d'installer d'autres outils comme jade, sgml,... </p>
+d'installer d'autres outils comme jade, sgml,... 
+
+Il faudra en tout cas ajouter les tetex-dvips, textex-xdvi, latex2html
+
+
 <p>
 De toute façon, vous
 pouvez imprimer le guide, pour le trouver faites :
@@ -184,8 +190,8 @@ pouvez imprimer le guide, pour le trouver faites :
 </p>
 <p>
 Ensuite, editez le fichier sgml,
-et surtout pensez à utilisez aspell -H --lang=fr_FR check FAQ.sgml pour
-vérifier l'orthographe. Pour le visionner, faites linuxdoc -B html FAQ.sgml
+et surtout pensez à utilisez aspell -H --lang=fr_FR check FA-fr.sgml pour
+véifier l'orthographe. Pour le visionner, faites linuxdoc -B html FAQ.sgml
 soit linuxdoc -B rtf pour avoir un fichier rtf...
 </p>
 <sect>Comment contribuer ?
@@ -209,7 +215,7 @@ Cela m'évite de devoir chaque fois changer sur le site de phpcompta
 	A. se connecter en tant que l'utilisateur Unix postgres
 	et éxécuter la commande
 	 createuser -d -a phpcompta
-	puis faire exécuter l'install.sh en tant que root.
+	puis exécuterinstall.sh en tant que root.
 	Il serait prudent de changer le propriétaire des fichiers installer
 	</p>
 </sect>
@@ -254,5 +260,32 @@ ERROR:  table "fichedef" does not exist
 </verb></tscreen>
 Du à une commande drop sur un objet inexistant, n'y pretez pas attention
 </p>
+</sect>
+<sect> Comment appliquer un patch ?
+<p>
+<sect1>Quel patch utiliser ?
+<p>
+Dans certains cas, le dernier patch reprend les autres, il faudra lire la release note du patch
+pour savoir ce qu'il faut appliquer avant.
 
+Sinon, les patchs sont toujours nommés ainsi
+<bf>path-(numéro_version)-(numéro_de_path).tgz</bf>
+
+exemple
+path-r092-1.tgz, est le premier patch pour la release 0.9.2
+
+</p>
+</sect1>
+<sect1> Comment appliquer le patch
+<p>
+Après l'avoir télécharger, allez dans le répertoire au-dessus du répertoire qui installe PhpCompta, c'est-à-dire celui qui contient les sources (pas le répertoire où PhpCompta est installé!)
+<enum>
+<item>Décompresser le patch (gzunip patch-...)
+<item>puis appliquez le patch -p9 &lt; patch...
+</enum>
+
+
+</p>
+</sect1>
+</sect>
 </article>

@@ -3,8 +3,8 @@ BASE_DIR=`pwd`
 ext_dir ()
 {
 	for i in *.php; do
-		(  echo $i 
-	 	  awk '/\/\* function/,/\*\// {print $0;}' $i 
+		(  echo "************************* File = $i ****************" 
+	 	  awk '/\/\* function/,/\*\// {print "'$i' "$0;}' $i 
 		) >> $BASE_DIR/function.txt
 	done
 }
