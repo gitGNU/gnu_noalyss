@@ -430,7 +430,7 @@ function GetDataJrnPdf($p_cn,$p_array,$p_limit,$p_offset)
 		 "jr_grpt_id=j_grpt ".
 		 " left join tmp_pcmn on pcm_val=j_poste ".
                 " where j_jrn_def=".$p_array['p_id'].
-	       " and ".$cond." order by j_id,j_date::date,j_grpt,j_debit desc".
+	       " and ".$cond." order by j_date::date asc,jr_internal,j_debit desc".
 	       " limit ".$p_limit." offset ".$p_offset);
     }else {
       // Journaux centralisés

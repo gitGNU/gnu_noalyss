@@ -133,9 +133,9 @@ if ( $action == 'voir_jrn' ) {
 if ( $action == 'voir_jrn_non_paye' ) {
 // Show list of unpaid sell
 // Date - date of payment - Customer - amount
-  $sql=SQL_LIST_UNPAID_INVOICE_DATE_LIMIT." and jr_def_id=$g_jrn" ;
+  $sql=SQL_LIST_UNPAID_INVOICE_DATE_LIMIT." and jr_def_id=$g_jrn " ;
   $list=ListJrn($cn,$g_jrn,$sql);
-  $sql=SQL_LIST_UNPAID_INVOICE." and jr_def_id=$g_jrn" ;
+  $sql=SQL_LIST_UNPAID_INVOICE." and jr_def_id=$g_jrn " ;
   $list2=ListJrn($cn,$g_jrn,$sql);
     echo '<div class="u_redcontent">';
     echo '<h2 class="info"> Echeance dépassée </h2>';
