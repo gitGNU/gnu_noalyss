@@ -1,0 +1,40 @@
+<?
+/*
+ *   This file is part of WCOMPTA.
+ *
+ *   WCOMPTA is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 2 of the License, or
+ *   (at your option) any later version.
+ *
+ *   WCOMPTA is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with WCOMPTA; if not, write to the Free Software
+ *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
+// Auteur Dany De Bontridder ddebontridder@yahoo.fr
+// $Revision$
+include_once ("ac_common.php");
+include_once("postgres.php");
+CheckUser();
+html_page_start($g_UserProperty['use_theme']);
+include_once("user_menu.php");
+u_ShowMenu($g_UserProperty['use_admin']);
+
+
+$priv=($g_UserProperty['use_admin']==1)?"Administrator":"User";
+
+echo '<H2 class="info"> Welcome '.$g_UserProperty['use_first_name'].'  '.
+     $g_UserProperty['use_name'].', your are an  '. $priv.' Please Select your folder</H2>';
+// Show default menu (preference,...)
+
+// If admin show everything otherwise only the available dossier
+$res=u_ShowDossier($g_user,$g_UserProperty['use_admin']);
+echo $res;
+
+html_page_stop();
+?>
