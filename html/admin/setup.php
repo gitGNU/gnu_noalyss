@@ -55,7 +55,7 @@ h2.error {
 
 $inc_path=get_include_path();
 if ( strpos($inc_path,";") != 0 ) {
-  $inc_path.=':..\..\include';
+  $inc_path.=';..\..\include';
  } else {
   $inc_path.=':../../include';
  }
