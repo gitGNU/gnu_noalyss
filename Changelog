@@ -1,4 +1,18 @@
+2005-01-04  sparkyx  <sparkyx@july>
+
+	* html/fiche.php, html/impress.php, html/jrn_update.php, html/user_compta.php, html/user_impress.php, html/user_jrn.php, html/user_pref.php, html/user_sec.php, include/check_priv.php, include/class_user.php, include/compta_menu.php, include/jrn.php, include/poste.php, include/postgres.php, include/top_menu_compta.php, include/user_action_ach.php, include/user_action_fin.php, include/user_action_gl.php, include/user_action_ods.php, include/user_action_ven.php, include/user_menu.php:
+	Code cleaning : DbConnect function
+
+	* include/form_input.php: code cleaning : Function FormVenteView
+
+	* html/style-elegant.css, html/style-light.css: Improve style sheet
+
+	* html/stock.php, html/fiche_search.php, html/form.php, html/jrn_add.php, html/jrn_csv.php, html/jrn_detail.php, html/jrn_op_detail.php, html/jrn_pdf.php, html/jrn_search.php, html/login.php, html/modify_op.php, html/pcmn_update.php, html/poste_csv.php, html/poste_pdf.php, html/poste_search.php, html/print_balance.php, html/print_invoice.php, html/rate_chg.php, html/recherche.php, html/send.php, html/send_jrn_pdf.php, html/send_poste_pdf.php, html/show_tva.php, html/annulation.php, html/bal_csv.php, html/central.php, html/dossier_prefs.php, html/enc_jrn.php, html/facturation.php, html/fiche_new.php:
+	Code cleaning : DbConnect function
+
 2004-12-16  sparkyx  <sparkyx@july>
+
+	* Changelog: changelog
 
 	* html/enc_jrn.php, html/style-light.css, html/user_jrn.php, include/top_menu_compta.php:
 	Fix style for compta style
