@@ -72,15 +72,21 @@ function ShowDossier($p_type,$p_first=0,$p_max=10,$p_Num=0) {
 function DbConnect($p_db=-1,$p_type='dossier') {
   if ( $p_db==-1) 
     $l_dossier="account_repository";
-  else 
-    if ( $p_type == 'dossier') 
-      $l_dossier=sprintf("dossier%d",$p_db);
+  else {
+    if ( $p_db == -2 )
+      $l_dossier=$p_type;
     else 
-      $l_dossier=sprintf("mod%d",$p_db);
-
-
+      switch ($p_type) {
+      case 'dossier':
+	$l_dossier=sprintf("dossier%d",$p_db);
+	break;
+      case 'mod':
+	$l_dossier=sprintf("mod%d",$p_db);
+	break;
+      }
+  }
   $password=phpcompta_password;
-  $a=pg_pconnect("dbname=$l_dossier host=127.0.0.1 user='phpcompta' password='$password'");
+  $a=pg_connect("dbname=$l_dossier host=127.0.0.1 user='phpcompta' password='$password'");
   echo_debug ("connect to $p_db");
   return $a;
 }
@@ -101,8 +107,8 @@ function ExecSql($p_connection, $p_string) {
 
   return $ret;
 }
-/*
- * GetAllUser
+
+/* function GetAllUser
  * Return all the users
  * as an array
  */
@@ -119,7 +125,7 @@ function GetAllUser() {
   }
   return $User;
 }
-/* GetUid
+/* function GetUid
  * Check if the User is valid
  * and return an array with his property
  */
@@ -133,8 +139,7 @@ function GetUid($p_uid) {
   }
   return $Prop;
 }
-/*
- * GetPriv
+/* function GetPriv
  * Get the privilege of an user on a folder
  */
 function GetPriv($p_dossier,$p_login)
@@ -153,7 +158,7 @@ function GetPriv($p_dossier,$p_login)
   }
   return $Priv;
 }
-/* ExisteJnt
+/* function ExisteJnt
  * Get the number of rows
  * from table jnt_use_dos where $p_dossier = dos_id and 
  * use_id=$p_user
@@ -218,7 +223,7 @@ function CountSql($p_conn,$p_sql)
   return pg_NumRows($r_sql);
 
 }
-/* GetDossierName
+/* function GetDossierName
  * Param: id of a dossier
  * return : Name of the dossier
  */
@@ -229,12 +234,21 @@ function GetDossierName($p_dossier)
   $r= pg_fetch_array($Ret,0);
   return $r['dos_name'];
 }
-/* GetSequence
+/* function GetSequence
  * get the current sequence
  */
 function GetSequence($p_cn,$p_seq)
 {
   $Res=ExecSql($p_cn,"select currval('$p_seq') as seq");
+  $seq=pg_fetch_array($Res,0);
+  return $seq['seq'];
+}
+/* function NextSequence
+ * get the current sequence
+ */
+function NextSequence($p_cn,$p_seq)
+{
+  $Res=ExecSql($p_cn,"select nextval('$p_seq') as seq");
   $seq=pg_fetch_array($Res,0);
   return $seq['seq'];
 }
