@@ -34,6 +34,12 @@ $action=(isset($_GET['action']))?$_GET['action']:$_POST['action'];
 // action = new
 if ( $action == 'new' ) {
 // We request a new form
+  // Check privilege
+  if ( CheckJrn($g_dossier,$g_user,$g_jrn) != 2 )    {
+       NoAccess();
+       exit -1;
+  }
+
 	if ( isset($_GET['blank'] )) {
 	  // Submit button in the form
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
@@ -121,6 +127,12 @@ if ( $action == 'new' ) {
 
 }
 if ( $action == 'voir_jrn' ) {
+  // Check privilege
+  if ( CheckJrn($g_dossier,$g_user,$g_jrn) < 1  )    {
+       NoAccess();
+       exit -1;
+  }
+
  // Show list of sell
   echo_debug ("user_action_ach.php");
  // Date - date of payment - Customer - amount
@@ -131,6 +143,12 @@ if ( $action == 'voir_jrn' ) {
    echo '</div>';
 }
 if ( $action == 'voir_jrn_non_paye' ) {
+  // Check privilege
+  if ( CheckJrn($g_dossier,$g_user,$g_jrn) < 1 )    {
+       NoAccess();
+       exit -1;
+  }
+
 // Show list of unpaid sell
 // Date - date of payment - Customer - amount
   $sql=SQL_LIST_UNPAID_INVOICE_DATE_LIMIT." and jr_def_id=$g_jrn " ;
@@ -147,6 +165,12 @@ if ( $action == 'voir_jrn_non_paye' ) {
 
 //Search
 if ( $action == 'search' ) {
+  // Check privilege
+  if ( CheckJrn($g_dossier,$g_user,$g_jrn) < 1 )    {
+       NoAccess();
+       exit -1;
+  }
+
   // PhpSessid
   $sessid=(isset ($_POST['PHPSESSID']))?$_POST['PHPSESSID']:$_GET['PHPSESSID'];
 

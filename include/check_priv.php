@@ -151,4 +151,33 @@ function CheckIsAdmin($p_user)
   return $isAdmin;
 
 }
+/* function CheckDossier
+ **************************************************
+ * Purpose : Check if an user has acces to a folder
+ *        
+ * parm : 
+ *	- user
+ *      - p_dossier concerned folder
+ * gen :
+ *	- none
+ * return: 
+ *     1 if yes
+ *     0 if no
+ */
+function CheckDossier($p_user,$p_dossier) 
+{
+  if ( CheckIsAdmin ($p_user) ) return 1;
+  $cn=DbConnect();
+  $sql="select  dos_id from ac_users 
+                  natural join jnt_use_dos 
+                  natural join  ac_dossier 
+                  join  priv_user on ( priv_jnt=jnt_id)
+          where use_active=1 
+         and use_login='$p_user' 
+         and dos_id='$p_dossier' 
+         and priv_priv != 'NO'";
+  return CountSql($cn,$sql);
+
+}
+
 ?>

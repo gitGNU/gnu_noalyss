@@ -58,7 +58,7 @@ if ( ! isset ( $action )) {
 echo JS_VIEW_JRN_MODIFY;
 
 if ( $action == 'update' ) {
-    if ( CheckJrn($g_dossier,$g_user,$g_jrn) < 2 ) {
+  if ( ($priv=CheckJrn($g_dossier,$g_user,$g_jrn)) < 1 ) {
       NoAccess();
       exit -1;
     
@@ -80,6 +80,12 @@ if ( $action == 'update' ) {
 //    echo '</div>';
   }    
 if ( isset($_POST['update_record']) ) {
+  if ( ($priv=CheckJrn($g_dossier,$g_user,$g_jrn)) !=2 ) {
+      NoAccess();
+      exit -1;
+    
+    }
+
   // NO UPDATE except rapt & comment
   UpdateComment($cn,$_POST['jr_id'],$_POST['comment']);
   InsertRapt($cn,$_POST['jr_id'],$_POST['rapt']);

@@ -38,7 +38,7 @@ if ( $g_UserProperty['use_admin']== 0 ) {
   if ($r == 0 ){
     /* Cannot Access */
     NoAccess();
-  exit -1;			
+  exit -1;
 
   }
 
@@ -57,8 +57,8 @@ echo '<H2 class="info"> Sécurité </H2>';
 echo '<TABLE CELLSPACING="20" ALIGN="CENTER">';
 for ($i = 0;$i < $MaxUser;$i++) {
   $l_line=pg_fetch_array($User,$i);
-  //  echo '<TR>'; 
-  if ( $i % 3 == 0 && $i != 0) 
+  //  echo '<TR>';
+  if ( $i % 3 == 0 && $i != 0)
     echo "</TR><TR>";
 
   printf ('<TD><A href="user_sec.php?action=view&user_id=%s">%s %s ( %s )</A></TD>',
@@ -71,10 +71,19 @@ for ($i = 0;$i < $MaxUser;$i++) {
 echo "</TR>";
 echo '</TABLE>';
 $action="";
+
 if ( isset ($_GET["action"] )) {
   $action=$_GET["action"];
+
 }
 if ( $action == "change_jrn" ) {
+  // Check if the user can access that folder
+  if ( CheckDossier($login,$g_dossier) == 0 ) {
+    echo "<H2 class=\"error\">he cannot access this folder</H2>";
+    $action="";
+    return;
+  }
+
   $l_Db=sprintf("dossier%d",$g_dossier);
   echo_debug ("select * from user_sec_jrn where uj_login='$login' and uj_jrn_id=$jrn");
   $cn_dossier=DbConnect($l_Db);
@@ -86,10 +95,16 @@ if ( $action == "change_jrn" ) {
   } else {
     $Res=ExecSql($cn_dossier,"insert into  user_sec_jrn(uj_login,uj_jrn_id,uj_priv) values( '$login' ,$jrn,'$access')");
   }
-  
+
   $action="view";
 }
 if ( $action == "change_act" ) {
+  // Check if the user can access that folder
+  if ( CheckDossier($login,$g_dossier) == 0 ) {
+    echo "<H2 class=\"error\">he cannot access this folder</H2>";
+    $action="";
+    return;
+  }
   $l_Db=sprintf("dossier%d",$g_dossier);
   $cn_dossier=DbConnect($l_Db);
   if ( $access==0) {
@@ -109,7 +124,7 @@ if ( $action == "view" ) {
   $cn_dossier=DbConnect($l_Db);
   $cn=DbConnect();
   $User=ExecSql($cn,
-		"select  use_id,use_first_name,use_name,use_login 
+		"select  use_id,use_first_name,use_name,use_login
                 from ac_users where use_id=$user_id");
   $MaxUser=pg_NumRows($User);
   if ( $MaxUser == 0 ) return;
@@ -119,12 +134,18 @@ if ( $action == "view" ) {
 	  $l2_line['use_first_name'],
 	  $l2_line['use_name'],
 	  $l2_line['use_login']);
-  $l_dossier=CountSql($cn,"select  use_id,dos_id from ac_users natural join  jnt_use_dos where use_id=$user_id and dos_id=$g_dossier 
-and use_active=1");
-  if ( $l_dossier == 0 ) {
-    echo "<H2 class=\"info\"> L'utilisateur n'a pas accès à ce dossier ou est désactivé</H2>";
+  // Check if the user can access that folder
+  if ( CheckDossier($l2_line['use_login'],$g_dossier) == 0 ) {
+    echo "<H2 class=\"error\">he cannot access this folder</H2>";
+    $action="";
     return;
   }
+//   $l_dossier=CountSql($cn,"select  use_id,dos_id from ac_users natural join  jnt_use_dos where use_id=$user_id and dos_id=$g_dossier
+// and use_active=1");
+//   if ( $l_dossier == 0 ) {
+//     echo "<H2 class=\"info\"> L'utilisateur n'a pas accès à ce dossier ou est désactivé</H2>";
+//     return;
+//   }
 
   $Res=ExecSql($cn_dossier,"select jrn_def_id,jrn_def_name  from jrn_def ");
   $admin=CheckIsAdmin($l2_line['use_login']);
@@ -141,6 +162,7 @@ and use_active=1");
 
     if ( $admin == 0) {
       $right=    CheckJrn($g_dossier,$l2_line['use_login'],$l_line['jrn_def_id'] );
+      echo_debug("Privilege is $right");
     } else $right = 3;
     if ( $right == 0 ) {
       echo "<TD BGCOLOR=RED>";
@@ -148,16 +170,16 @@ and use_active=1");
       echo "</TD>";
       echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="user_sec.php?'.$l_change.'&access=R"> Lecture</A></TD>';
       echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="user_sec.php?'.$l_change.'&access=W"> Ecriture</A></TD>';
-      
+
       }
-    if ( $right == 1 ) { 
+    if ( $right == 1 ) {
       echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="user_sec.php?'.$l_change.'&access=X"> Pas d\'accès</A></TD>';
       echo "<TD BGCOLOR=\"#3BCD27\">";
       echo "Lecture ";
       echo "</TD>";
       echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="user_sec.php?'.$l_change.'&access=W"> Ecriture</A></TD>';
     }
-    if ( $right == 2 ) { 
+    if ( $right == 2 ) {
       echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="user_sec.php?'.$l_change.'&access=X"> Pas d\'accès</A></TD>';
       echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="user_sec.php?'.$l_change.'&access=R"> Lecture</A></TD>';
 

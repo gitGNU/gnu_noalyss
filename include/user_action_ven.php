@@ -25,14 +25,14 @@ if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {
 }
 $dossier=sprintf("dossier%d",$g_dossier);
 $cn=DbConnect($dossier);
-// Check privilege
-if ( CheckJrn($g_dossier,$g_user,$g_jrn) != 2 )    {
-       NoAccess();
-       exit -1;
-    }
 
 $action=(isset($_GET['action']))?$_GET['action']:$_POST['action'];
 if ( $action == 'insert_vente' ) {
+  // Check privilege
+  if ( CheckJrn($g_dossier,$g_user,$g_jrn) != 2 )    {
+       NoAccess();
+       exit -1;
+  }
    
     // Add item
         if (isset($_POST["add_item"]) ) {
@@ -78,10 +78,22 @@ if ( $action == 'insert_vente' ) {
 
     // Save the invoice 
 if ( isset($_POST["record_invoice"])) {
+  // Check privilege
+  if ( CheckJrn($g_dossier,$g_user,$g_jrn) != 2 )    {
+    NoAccess();
+    exit -1;
+  }
+
   // echo "RECORD INVOICE";
    RecordInvoice($cn,$HTTP_POST_VARS,$g_user,$g_jrn);
 }
 if (isset ($_POST['correct_new_invoice'])) {
+  // Check privilege
+  if ( CheckJrn($g_dossier,$g_user,$g_jrn) != 2 )    {
+    NoAccess();
+    exit -1;
+  }
+  
   $nb=$_POST['nb_item'];
   $form=FormVente($cn,$g_jrn,$g_user,$HTTP_POST_VARS,false,$nb);
   echo '<div class="u_redcontent">';
@@ -90,6 +102,12 @@ if (isset ($_POST['correct_new_invoice'])) {
 }
 // Save and print the invoice
 if ( isset($_POST["record_and_print_invoice"])) {
+  // Check privilege
+  if ( CheckJrn($g_dossier,$g_user,$g_jrn) != 2 )    {
+    NoAccess();
+    exit -1;
+  }
+  
   //  echo "RECORD AND PRINT INVOICE";
   $comment=RecordInvoice($cn,$HTTP_POST_VARS,$g_user,$g_jrn);
       $nb_number=$_POST["nb_item"];
@@ -101,6 +119,12 @@ if ( isset($_POST["record_and_print_invoice"])) {
 
 
  if ( $action == 'voir_jrn' ) {
+   // Check privilege
+   if ( CheckJrn($g_dossier,$g_user,$g_jrn) < 1 )    {
+     NoAccess();
+     exit -1;
+   }
+
  // Show list of sell
  // Date - date of payment - Customer - amount
    $sql=SQL_LIST_ALL_INVOICE." and jr_tech_per=".GetUserPeriode($cn,$g_user)." and jr_def_id=$g_jrn ";
@@ -110,6 +134,12 @@ if ( isset($_POST["record_and_print_invoice"])) {
    echo '</div>';
 }
 if ( $action == 'voir_jrn_non_paye' ) {
+   // Check privilege
+   if ( CheckJrn($g_dossier,$g_user,$g_jrn) < 1 )    {
+     NoAccess();
+     exit -1;
+   }
+
 // Show list of unpaid sell
 // Date - date of payment - Customer - amount
   $sql=SQL_LIST_UNPAID_INVOICE_DATE_LIMIT." and jr_def_id=$g_jrn ";
@@ -129,6 +159,12 @@ if ( $action == 'voir_jrn_non_paye' ) {
 
 //Search
 if ( $action == 'search' ) {
+   // Check privilege
+   if ( CheckJrn($g_dossier,$g_user,$g_jrn) < 1 )    {
+     NoAccess();
+     exit -1;
+   }
+
   // PhpSessid
   $sessid=(isset ($_POST['PHPSESSID']))?$_POST['PHPSESSID']:$_GET['PHPSESSID'];
 

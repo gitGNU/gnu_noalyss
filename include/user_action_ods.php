@@ -33,6 +33,12 @@ $action=(isset($_GET['action']))?$_GET['action']:$_POST['action'];
 
 // action = new
 if ( $action == 'new' ) {
+  // Check privilege
+  if ( CheckJrn($g_dossier,$g_user,$g_jrn) != 2 )    {
+       NoAccess();
+       exit -1;
+  }
+
 // We request a new form
 	if ( isset($_GET['blank'] )) {
 	  // Submit button in the form
@@ -123,6 +129,12 @@ if ( $action == 'new' ) {
 
 }
 if ( $action == 'voir_jrn' ) {
+  // Check privilege
+  if ( CheckJrn($g_dossier,$g_user,$g_jrn) < 1 )    {
+       NoAccess();
+       exit -1;
+  }
+
  // Show list of sell
   echo_debug ("user_action_ods.php");
  // Date - date of payment - Customer - amount
@@ -149,6 +161,12 @@ if ( $action == 'voir_jrn' ) {
 
 //Search
 if ( $action == 'search' ) {
+  // Check privilege
+  if ( CheckJrn($g_dossier,$g_user,$g_jrn) <1 )    {
+       NoAccess();
+       exit -1;
+  }
+
   // PhpSessid
   $sessid=(isset ($_POST['PHPSESSID']))?$_POST['PHPSESSID']:$_GET['PHPSESSID'];
 

@@ -77,13 +77,20 @@ function GetAvailableFolder($p_user,$p_admin)
   if ($p_admin==0) {
     // show only available folders
     // if user is not an admin
-    $filter="and use_login='$p_user' ";
-
-  }
-  $sql="select distinct dos_id,dos_name,dos_description from ac_users 
+    $sql="select distinct dos_id,dos_name,dos_description from ac_users 
                   natural join jnt_use_dos 
                   natural join  ac_dossier 
-      where  use_active=1 ".$filter;
+                  join  priv_user on ( priv_jnt=jnt_id)
+          where use_active=1 
+         and use_login='$p_user' 
+         and priv_priv != 'NO' ";
+
+  } else {
+    $sql="select distinct dos_id,dos_name,dos_description from ac_users 
+                  natural join jnt_use_dos 
+                  natural join  ac_dossier 
+      where  use_active=1 ";
+  }
   include_once("postgres.php");
   $cn=DbConnect();
   $Res=ExecSql($cn,$sql);
