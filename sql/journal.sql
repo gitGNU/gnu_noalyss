@@ -79,7 +79,7 @@ create table jrnx (
        j_montant float default 0,
        j_poste int not null references tmp_pcmn(pcm_val),
        j_grpt integer not null,
-      j_rapt integer,
+      j_rapt text,
        j_jrn_def int4 not null references jrn_def(jrn_def_id),
        j_debit bool default true,
        j_text	text,

@@ -49,6 +49,7 @@ $cn=DbConnect($l_Db);
 if ( isset ($_POST["search"]) ) {
   $c1=0;
   foreach( $HTTP_POST_VARS as $key=>$element){
+    echo_debug("$key = $element");
     ${"$key"}=$element;
   }
 
@@ -56,8 +57,10 @@ if ( isset ($_POST["search"]) ) {
     $c_comment=" $part pcm_lib like '%$p_comment%'";
     $part=" and ";
   }
-  if ( strlen(trim($p_montant)) != 0 &&
-       (string) $p_montant == (int)(string) $p_montant) {
+  if ( ereg ("^[0-9]*\.[0-9]*$",$p_montant) )
+  /*if ( strlen(trim($p_montant)) != 0  &&
+       (string) $p_montant == (int)(string) $p_montant ) 
+       */{
     $c_montant=sprintf(" $part j_montant %s %s",$p_montant_sel,$p_montant);
     $part="  and ";
     }

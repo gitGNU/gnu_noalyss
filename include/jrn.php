@@ -224,9 +224,18 @@ if ( $p_update == 0 )  echo "<TR><TD> <INPUT TYPE=\"SUBMIT\" VALUE=\"+ de line\"
 
   $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchJrn(\''.$sessid."')\">";
   echo_debug("search $search");
+  // To avoid problem with unknown variable
+  if ( ! isset ($e_rapt) ) {
+  	$e_rapt="";
+  }
+
   echo '<TR><TD>rapprochement : <INPUT TYPE="TEXT" name="rapt" value="'.$e_rapt.'">'.$search.'</TD></TR>';
   echo "</TABLE>";
   echo '</DIV>';
+  // To avoid problem with unknown variable
+  if ( ! isset ($e_comment) ) {
+  	$e_comment="";
+  }
   echo '<TEXTAREA" rows="5" cols="50" NAME="comment">';
   echo $e_comment;
   echo "</TEXTAREA>";
@@ -239,6 +248,16 @@ if ( $p_update == 0 )  echo "<TR><TD> <INPUT TYPE=\"SUBMIT\" VALUE=\"+ de line\"
   }
    echo '<input type="reset" Value="Efface">';
    //   echo '<SCRIPT> CheckTotal()</SCRIPT>';   
+
+   // To avoid problem with unknown variable
+    if ( ! isset ($e_sum_deb) ) {
+                 $e_sum_deb=0;
+    }
+
+   // To avoid problem with unknown variable
+     if ( ! isset ($e_sum_cred) ) {
+                 $e_sum_cred=0;
+      }
    echo '<input type="TEXT" NAME="sum_deb" VALUE="'.$e_sum_deb.'" onChange="CheckTotal()">';
    echo '<input type="TEXT" NAME="sum_cred" VALUE="'.$e_sum_cred.'" onChange="CheckTotal()">';
    echo '<SPAN ID="diff"></SPAN>';
@@ -414,6 +433,9 @@ echo '<TR><TD> Date : <INPUT TYPE="TEXT" NAME="op_date" VALUE="'.$e_op_date.'">'
 	
     echo "</SELECT>";
     echo "</TD>";
+    if ( ! isset (  ${"e_text_cred$i"} ) ) {
+     ${"e_text_cred$i"}="";
+     }
     printf('<TD><INPUT TYPE="TEXT" NAME="text_cred%d" VALUE="%s"></TD>',
 	   $i,
 	   ${"e_text_cred$i"});
@@ -987,11 +1009,13 @@ function VerifData($p_cn,$p_array,$p_user)
     // Rapprochement demandé et vérif
     if ( strlen(trim($p_rapt)) != 0 ){ 
       $l_dest=GetRapt($p_cn,$p_rapt);
-      if ( $l_dest != -1 ) {
+      if ( $l_dest != -1 && $l_dest != $p_jr_id ) {
 	return RAPPT_ALREADY_USED;
       }
       // Get Amount 
+
       $l_mont=GetAmount($p_cn,$p_rapt);
+      echo_debug ("amount = $tot_deb $l_mont");
       if ( $l_mont == -1 ) {
 	return RAPPT_NOT_EXIST;
       }

@@ -227,8 +227,12 @@ if ( isset($_POST['add_record']) ) {
 
     
     // si rappt
+    if ( ! isset ($p_rapt) ) 
+    	$p_rapt="";
     if ( trim($p_rapt) != '' ) {
       $jrn_id=GetNextJrnId($cn,'jr_id')+1;
+    if ( ! isset ($p_ech) ) 
+    	$p_ech="";
       $l_date=isDate($p_ech);
       if ( $l_date == null) {
 	$p_ech='null';
@@ -408,6 +412,7 @@ if ( isset($_POST['update_record']) ) {
       $Sql=sprintf("update jrn set jr_rapt=null where jr_internal='%s'",$l_src);
       $Res=ExecSql($cn,$Sql);
     }
+    }// strlen (trim (p_rapt
     if ( !isset ($p_ech) ) $p_ech="";
     $l_date=isDate($p_ech);
     if ( $l_date == null ) {
@@ -440,13 +445,12 @@ if ( isset($_POST['update_record']) ) {
 	$Sql=sprintf("update  jrn set jr_comment='%s',
                        jr_date=%s,jr_rapt=null,jr_montant=%f where jr_id=%d",
 		     $comment,
-		     $l_date,$tot_deb,
+		     $l_date,$p_sum_deb,
 		     $p_jr_id);
 	$Res=ExecSql($cn,$Sql);
 	
 	
-      }
-  } // if strlen(p_rappt
+}
   if ($Res) {
     Commit($cn); 
     EndSql($cn);
