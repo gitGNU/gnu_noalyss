@@ -41,7 +41,10 @@ $cn=DbConnect($dossier);
 if ( isset( $p_jrn )) {
   session_register("g_jrn");
   $g_jrn=$p_jrn;
-}
+ } else {
+  if ( ! isset ( $g_jrn)) 
+    $g_jrn=0;
+ }
 if ( isset ( $_GET['action'] ) ) {
   $action=$_GET['action'];
 }

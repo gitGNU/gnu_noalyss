@@ -347,7 +347,7 @@ if ( $p_update == 0 )  echo "<TR><TD> <INPUT TYPE=\"SUBMIT\" VALUE=\"+ de line\"
   $a=GetConcerned($p_cn,$content['jr_id']);
   
   if ( $a != null ) {
-      $r.="Operation concernée ";
+      $r.="<b>Operation concernée</b> <br>";
       if ( isset ($_GET["PHPSESSID"]) ) {
 	$sessid=$_GET["PHPSESSID"];
       }

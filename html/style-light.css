@@ -1,11 +1,11 @@
 /* <style type="text/css"> */
 
 BODY {
-        background-color:#E3F0FF;
+  background-color:#EDF3FF;
+  font-size:12px;
+  font-family:sans-serif;
 }
-BODY.defaut {
-        background-color:white;
-}
+
 div.info {
 	background:#879ed4;
 	color:white;
@@ -184,11 +184,16 @@ span.even {
 
 tr.odd {
 	background-color:#DDE6FF;
-		
+  border-size:0px;		
 }
 td.odd{
 	background-color:#DDE6FF ;
+	border-size:0px;
+	font-size:10px;
+}
+td.even{
 	border:0px;
+	font-size:10px;
 }
 td.cell{
 //	  border:1px solid blue;

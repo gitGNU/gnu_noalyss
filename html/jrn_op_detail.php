@@ -55,18 +55,22 @@ echo '</DIV>';
 if ( isset ($e_ech) ) {
   echo "<DIV> Echeance $e_ech </DIV>";
 }
+echo '<div style="background-color:#BFC2D5;">';
+
 for ( $i = 0; $i < $max_deb;$i++) {
   $lib=GetPosteLibelle($g_dossier,${"e_class_deb$i"}); 
-  echo '<div style="background-color:#BFC2D5;">';
-  echo ${"e_class_deb$i"}." $lib    "."<B>".${"e_mont_deb$i"}."</B>";
-  echo "</div>";
+  echo ${"e_class_deb$i"}." $lib    "."<B>".${"e_mont_deb$i"}."</B>.<br>";
+
 }
+  echo "</div>";
+  echo '<div style="background-color:#E8F4FF;margin-left:50px;">';
 for ( $i = 0; $i < $max_cred;$i++) {
   $lib=GetPosteLibelle($g_dossier,${"e_class_cred$i"});
-  echo '<div style="background-color:#E8F4FF;">';
-  echo ${"e_class_cred$i"}."  $lib   "."<B>".${"e_mont_cred$i"}."</B>";
-  echo '</div>';
+
+  echo ${"e_class_cred$i"}."  $lib   "."<B>".${"e_mont_cred$i"}."</B><br>";
 }
+  echo '</div>';
+
 $a=GetConcerned($cn,$e_jr_id);
 
 if ( $a != null ) {
