@@ -146,6 +146,10 @@ foreach (array('magic_quotes_gpc','magic_quotes_runtime') as $a) {
   }
 
 }
+if ( ini_get("session.auto_start") == true )  {
+	print '<h2 class="error"> session.auto_start must be set to true </h2>';
+	$flag_php++;
+}
 if ( ini_get("session.use_trans_sid") == false )  {
 	print '<h2 class="error"> avertissement session.use_trans_sid should be set to true </h2>';
 }

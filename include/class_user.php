@@ -33,6 +33,7 @@ class cl_user {
   var $valid;
 
   function cl_user ($p_cn){
+	  echo_debug(__FILE__,__LINE__," g_user = ".$_SESSION['g_user']);
     $this->id=$_SESSION['g_user'];
     $this->pass=$_SESSION['g_pass'];
     $this->valid=(isset ($_SESSION['isValid']))?1:0;
