@@ -29,7 +29,7 @@ define ("ENCJRN",1);
 // création facture
 define("FACT",2);
 // création aux fiche
-define ("FICHE",3);
+define ("FICHE_READ",3);
 // Impression
 define ("IMP",4);
 //formulaire
@@ -48,6 +48,7 @@ define ("VEN",11);
 define ("BQE",12);
 define ("ODS",13);
 define ("ACH",14);
+define ("FICHE_WRITE",15);
 
 // Erreur
 define ("NOERROR",0);
@@ -87,12 +88,16 @@ define ("ATTR_DEF_NAME",1);
 define ("ATTR_DEF_PRIX_ACHAT",7);
 define ("ATTR_DEF_PRIX_VENTE",6);
 define ("ATTR_DEF_TVA",2);
-define ("FICHE_TYPE_CLIENT",9);
-define ("FICHE_TYPE_VENTE",1);
 define ("ATTR_DEF_ADRESS",14);
 define ("ATTR_DEF_CP",15);
 define ("ATTR_DEF_PAYS",16);
+define ("ATTR_DEF_STOCK",19);
 
+define ("FICHE_TYPE_CLIENT",9);
+define ("FICHE_TYPE_VENTE",1);
+define ("FICHE_TYPE_FOURNISSEUR",8);
+define ("FICHE_TYPE_FIN",4);
+define ("FICHE_TYPE_ADM_TAX",14);
 
 define ("JS_SEARCH_POSTE","<SCRIPT>function SearchPoste(p_sessid)
      {
@@ -118,7 +123,106 @@ define ("JS_VIEW_JRN_DETAIL","<script>function viewDetail(p_value,p_sessid)
 			var win=window.open('jrn_op_detail.php?jrn_op='+p_value+'&PHPSESSID='+p_sessid,'Cherche','toolbar=no,width=400,height=400,scrollbars=yes,resizable=yes');
 		}
 	</script>");
+define ("JS_SEARCH_CARD","
+<script>
+/* type must be cred or deb and name is
+ * the control's name
+*/
+function SearchCard(p_sessid,type,name)
+{
+   var a=window.open('fiche_search.php?PHPSESSID='+p_sessid+'&type='+type+'&name='+name,'item','toolbar=no,width=350,height=450,scrollbars=yes');
+}
+function NewCard(p_sessid,type,name)
+{
+   var a=window.open('fiche_new.php?PHPSESSID='+p_sessid+'&type='+type+'&name='+name,'item','toolbar=no,width=350,height=450,scrollbars=yes');
+}
 
+/* Parameters 
+ * i = ctl _name
+ * p_id = code id (fiche.f_id)
+ *¨p_label = label
+ * p_sell vw_fiche_attr.vw_sell
+ * p_buy vw_fiche_attr.vw_buy
+ * p_tva_id vw_fiche_attr.tva_id
+ * p_tva_label vw_fiche_attr.tva_label
+ */
+  function SetData(i,p_id,p_label,p_sell,p_buy,p_tva_id, p_tva_label)
+{
+	document.form_detail.eval(i).value=p_id;
+	
+	// for the form we use 1. and for span 2.    
+	//1. document.form_detail.eval(a).value=p_buy;
+	//2. document.getElementById(a).innerHTML=p_sell;
+
+	// Compute name of label ctl
+	var a=i+'_label';
+	document.getElementById(a).innerHTML=p_label;
+	
+	// Compute name of  sell  ctl 
+ 	var a=i+'_sell';
+	// if the object exist
+ 	var e=document.getElementsByName(a)  
+	  if ( e.length != 0 ) {
+	    document.form_detail.eval(a).value=p_sell;
+
+	}
+
+	// Compute name of  buy  ctl 
+	var a=i+'_buy';
+	// if the object exist
+ 	var e=document.getElementsByName(a)  
+        if ( e.length != 0 ) {
+	  document.form_detail.eval(a).value=p_buy;
+	}
+	// Compute name of  tva_id  ctl 
+	var a=i+'_tva_id';
+	// if the object exist
+ 	var e=document.getElementsByName(a)  
+        if ( e.length != 0 ) {
+	  document.form_detail.eval(a).value=p_tva_id;
+	}
+
+	// Compute name of  tva_label ctl 
+	var a=i+'_tva_label';
+	// if the object exist
+        if (document.getElementById(a) ) {
+	  document.getElementById(a).innerHTML=p_tva_label;
+	}
+}
+
+
+</script>
+
+
+");
+
+// One line calculator
+define ("JS_CALC_LINE","
+
+<form name=\"calc_line\">
+<input type=\"text\" size=\"20\" name=\"calculator\" onBlur=\"cal()\">
+Answer:<span id=\"name\"></span>
+<br>
+
+<input type=\"button\" name=\"B1\" value=\"Calculate\" onClick=\"cal()\">
+
+<input type=\"reset\" name=\"B2\" value=\"Reset\"><br>
+
+
+</form>
+<SCRIPT>
+
+function cal()
+{
+  document.getElementById(\"name\").innerHTML=
+  eval(document.calc_line.calculator.value)
+}
+</script>
+
+
+
+"
+);
 // Sql string
 define ("SQL_LIST_ALL_INVOICE","");
 define ("SQL_LIST_UNPAID_INVOICE"," where (jr_rapt is null or jr_rapt = '')"); 
