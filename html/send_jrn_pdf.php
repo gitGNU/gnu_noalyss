@@ -22,19 +22,24 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 // $Revision$
 
-    include_once("jrn.php");
-    include_once("ac_common.php");
-    include_once("postgres.php");
-    include_once("class.ezpdf.php");
-    include_once("impress_inc.php");
-    include_once("preference.php");
-    echo_debug("imp pdf journaux");
-    $l_Db=sprintf("dossier%d",$g_dossier);
-    $cn=DbConnect($l_Db);
+if ( ! isset($g_dossier) ) {
+  echo "INVALID G_DOSSIER UNKNOWN !!! ";
+  exit();
+}
+
+include_once("jrn.php");
+include_once("ac_common.php");
+include_once("postgres.php");
+include_once("class.ezpdf.php");
+include_once("impress_inc.php");
+include_once("preference.php");
+echo_debug("imp pdf journaux");
+$l_Db=sprintf("dossier%d",$g_dossier);
+$cn=DbConnect($l_Db);
 $l_type="JRN";
 $centr=" Non centralisé";
 $l_centr=0;
-if ( isset ($_POST["central"]) ) {
+if ( isset ($_POST['central']) ) {
   $centr=" centralisé ";
   $l_centr=1;
 }

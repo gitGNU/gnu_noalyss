@@ -412,6 +412,8 @@ function CreatePeriodeCond($p_periode,$p_field=" j_tech_per") {
  */ 
 function GetDataJrnPdf($p_cn,$p_array,$p_limit,$p_offset)
 {
+  echo_debug("GetDataJrnPdf");
+
   if ( !isset ($p_array['periode']) ) return NO_PERIOD_SELECTED;
 
   if ( $p_array['filter']==YES) {
@@ -457,7 +459,7 @@ function GetDataJrnPdf($p_cn,$p_array,$p_limit,$p_offset)
     }
   } else {
     // Grand Livre
-    if ( $p_array['central']=='no' ) {
+    if (! isset($p_array['central'])) {
       // Non centralisé
       $cond=CreatePeriodeCond($p_array['periode']);
       $Res=ExecSql($p_cn,"select j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
