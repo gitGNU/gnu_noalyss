@@ -5,7 +5,7 @@
  <name>originally written by Dany De Bontridder
  </name>
 </author>
-<date>$Revision$   $date$</date>
+<date>$Revision$   $Date$</date>
 <abstract>
 Ce document décrit l'installation complète de PhpCompta et explique comment on
 été installé les programmes dont PhpCompta dépend.
@@ -176,8 +176,17 @@ session.use_trans_sid = 1
 </sect1>
 </sect>
 <sect>Installation de PhpCompta
-
-
+<p>
+On suppose que postgresql est installé correctement
+Etape
+<itemize>
+<item> Se connecter en tant que postgres et taper la commande
+<verb> createuser -d phpcompta</verb>
+<item> Là on vous comptez installer le soft, créer le répertoire, règler les permissions
+<item> connecter vous en tant que l'utilisateur qu'il a le droit dans le répertoire décrit plus haut, puis
+taper ./install.sh
+</itemize>
+</sect>
 <sect>Conclusion
 <p>
 Voilà maintenant, il vous suffit de faire ./install.sh pour tout
