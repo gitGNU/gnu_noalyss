@@ -78,7 +78,7 @@ if ( $a != null ) {
     echo '<div style="margin-left:30px;">';
   foreach ($a as $key => $element) {
 
-    echo "<A class=\"detail\" HREF=\"jrn_op_detail.php?jrn_op=".GetGrpt($cn,$element)."\"> ".GetInternal($cn,$element)."</A><br>";
+    echo "<A class=\"detail\" HREF=\"jrn_op_detail.php?jrn_op=".GetGrpt($cn,$element)."\"> ".GetInternal($cn,$element)."</A>";
   }//for
   echo "</div>";
 }// if ( $a != null ) {

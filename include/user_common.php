@@ -353,7 +353,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
 	  // $r.="operation concernée ";
 
 	  foreach ($a as $key => $element) {
-	    $r.= "<A class=\"detail\" HREF=\"javascript:viewDetail('".GetGrpt($p_cn,$element)."','$l_sessid')\" > ".GetInternal($p_cn,$element)."</A><br>";
+	    $r.= "<A class=\"detail\" HREF=\"javascript:viewDetail('".GetGrpt($p_cn,$element)."','$l_sessid')\" > ".GetInternal($p_cn,$element)."</A>";
 
 	  }//for
 	}// if ( $a != null ) {
