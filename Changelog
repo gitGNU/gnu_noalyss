@@ -1,4 +1,10 @@
+2005-02-22  sparkyx  <sparkyx@july>
+
+	* html/admin/setup.php, include/stock_inc.php: IMPROVE stock
+
 2005-02-13  sparkyx  <sparkyx@july>
+
+	* Changelog: changelog
 
 	* html/admin/sql/patch/upgrade4.sql, html/dossier_prefs.php, html/jrn_csv.php, html/jrn_pdf.php, include/central_inc.php, include/class_jrn.php, include/impress_inc.php, include/impress_jrn.php:
 	Change for centralise to have the correct order, number for pj
