@@ -52,7 +52,8 @@ if  ( isset ($_GET['fd_id'])) {
   $fiche_def->id=$_GET['fd_id'];
   $fiche=new fiche($cn);
   $e=$fiche->GetByType($fiche_def->id);
-  //  var_dump($e);
+  $l=var_export($e,true);
+  echo_debug(__FILE__,__LINE__,$l);
   $old=-1;
   echo "<TABLE>";
   echo "<TR>";
@@ -61,14 +62,14 @@ if  ( isset ($_GET['fd_id'])) {
     echo "<TH>".$attribut->ad_text."</TH>";
   echo "<TR></TR>";
 
-  foreach ($e as $detail) {
+   foreach ($e as $detail) {
     echo "<TR>";
     foreach ( $detail->attribut as $dattribut ) {
       echo "<TD>".$dattribut->av_text."</TD>";
     }
     echo "</TR>";
   }
-  
+ 
   echo "</TABLE>";
   echo "</div>";
  }
