@@ -1,3 +1,19 @@
+2005-03-01  sparkyx  <sparkyx@eleven>
+
+	* include/preference.php, include/central_inc.php, html/admin/sql/patch/upgrade4.sql:
+	parm_periode has now a new column to
+	check if a periode is centralized or only closed
+
+	* html/user_sec.php: fix bug due to session_register=off
+
+	* html/dossier_prefs.php: Fix bug due to session_regsiter = off
+
+	* html/rate_chg.php, html/send.php: Remove obsolete files
+
+2005-02-28  sparkyx  <sparkyx@eleven>
+
+	* Changelog: Changelog
+
 2005-02-27  sparkyx  <sparkyx@eleven>
 
 	* html/admin_repo.php, html/annulation.php, html/bal_csv.php, html/central.php, html/compta.php, html/compta_login.php, html/dossier_prefs.php, html/enc_jrn.php, html/fiche.php, html/fiche_csv.php, html/fiche_new.php, html/fiche_search.php, html/impress.php, html/jrn_add.php, html/jrn_csv.php, html/jrn_detail.php, html/jrn_op_detail.php, html/jrn_pdf.php, html/jrn_search.php, html/jrn_update.php, html/line_update.php, html/login.php, html/modify_op.php, html/pcmn_update.php, html/poste_csv.php, html/poste_pdf.php, html/poste_search.php, html/print_balance.php, html/priv_user.php, html/recherche.php, html/show_tva.php, html/stock.php, html/user_advanced.php, html/user_compta.php, html/user_impress.php, html/user_jrn.php, html/user_login.php, html/user_pref.php, html/user_sec.php, include/balance.php, include/class_user.php, include/impress_fiche.php, include/top_menu_compta.php, include/user_action_ach.php, include/user_action_fin.php, include/user_action_gl.php, include/user_action_ods.php, include/user_action_ven.php, include/user_menu.php:
@@ -17,6 +33,11 @@
 	Fix prob with GetRow
 
 2005-02-26  stanpinte  <stanpinte@eleven>
+
+	* scripts/add-db.sh:
+	inserted example script to insert automatically a database
+
+	* scripts/cleanup.sh: added drop of mod1 db
 
 	* html/admin/setup.php: fixed regexp handling in include_path check
 
@@ -43,7 +64,7 @@
 
 2005-02-26  stanpinte  <stanpinte@eleven>
 
-	* sql/dossier4/make-sql, sql/dossier4/constraint.sql, sql/dossier4/data.sql, sql/dossier4/schema.sql, sql/dossier4/sequence.sql, sql/dossier4/table.sql, sql/update/dossier_1.sql, sql/update/dossier_2.sql, sql/update/dossier_3.sql, sql/update/dossier_4.sql, sql/update/dossier_5.sql, sql/update/mod_1.sql, sql/update/mod_2.sql, sql/update/mod_3.sql, sql/update/mod_4.sql, sql/ac_dossier.sql, sql/ac_users.sql, sql/account_repository.sql, sql/centralized.sql, sql/demo.sql, sql/dos_pref.sql, sql/dump-db.sql, sql/fiche.sql, sql/form.sql, sql/insert_pcmn.sql, sql/jnt_use_dos.sql, sql/journal.sql, sql/jrn_action.sql, sql/mod-be.sql, sql/modele.sql, sql/priv_user.sql, sql/struct-repository.sql, sql/struct.sql, sql/theme.sql, sql/tmp_pcmn.sql, sql/tva_rate.sql, sql/user_pref.sql, sql/user_sec.sql, sql/version.sql:
+	* sql/update/dossier_1.sql, sql/update/dossier_2.sql, sql/update/dossier_3.sql, sql/update/dossier_4.sql, sql/update/dossier_5.sql, sql/update/mod_1.sql, sql/update/mod_2.sql, sql/update/mod_3.sql, sql/update/mod_4.sql, sql/ac_dossier.sql, sql/ac_users.sql, sql/account_repository.sql, sql/centralized.sql, sql/demo.sql, sql/dos_pref.sql, sql/dump-db.sql, sql/fiche.sql, sql/form.sql, sql/insert_pcmn.sql, sql/jnt_use_dos.sql, sql/journal.sql, sql/jrn_action.sql, sql/mod-be.sql, sql/modele.sql, sql/priv_user.sql, sql/struct-repository.sql, sql/struct.sql, sql/theme.sql, sql/tmp_pcmn.sql, sql/tva_rate.sql, sql/user_pref.sql, sql/user_sec.sql, sql/version.sql:
 	moved all sql but 'log' into html base directory
 
 2005-02-26  sparkyx  <sparkyx@eleven>
@@ -57,6 +78,12 @@
 2005-02-26  sparkyx  <sparkyx@eleven>
 
 	* html/admin/sql/dossier1/data.sql: Fix problem of install
+
+2005-02-26  stanpinte  <stanpinte@eleven>
+
+	* scripts/cleanup.sh: added
+
+2005-02-26  sparkyx  <sparkyx@eleven>
 
 	* html/admin/sql/dossier1/comment.sql, html/admin/sql/dossier1/data.sql, html/admin/sql/dossier1/index.sql, html/admin/sql/dossier1/schema.sql, html/admin/sql/dossier1/sequence.sql, html/admin/sql/dossier1/table.sql, html/login.php, html/recherche.php, html/user_login.php, include/ac_common.php, include/class_user.php, include/form_input.php:
 	FIX install
@@ -128,7 +155,7 @@
 
 	* Changelog: changelog
 
-	* sql/account_repository/comment.sql, sql/account_repository/constraint.sql, sql/account_repository/data.sql, sql/account_repository/function.sql, sql/account_repository/index.sql, sql/account_repository/make-sql, sql/account_repository/sequence.sql, sql/account_repository/table.sql, sql/account_repository/view.sql, sql/dossier1/comment.sql, sql/dossier1/constraint.sql, sql/dossier1/data.sql, sql/dossier1/function.sql, sql/dossier1/index.sql, sql/dossier1/make-sql, sql/dossier1/schema.sql, sql/dossier1/sequence.sql, sql/dossier1/table.sql, sql/dossier1/view.sql, sql/mod1/comment.sql, sql/mod1/constraint.sql, sql/mod1/data.sql, sql/mod1/function.sql, sql/mod1/index.sql, sql/mod1/make-sql, sql/mod1/sequence.sql, sql/mod1/table.sql, sql/mod1/view.sql:
+	* sql/account_repository/comment.sql, sql/account_repository/constraint.sql, sql/account_repository/data.sql, sql/account_repository/function.sql, sql/account_repository/index.sql, sql/account_repository/make-sql, sql/account_repository/sequence.sql, sql/account_repository/table.sql, sql/account_repository/view.sql, sql/mod1/comment.sql, sql/mod1/constraint.sql, sql/mod1/data.sql, sql/mod1/function.sql, sql/mod1/index.sql, sql/mod1/make-sql, sql/mod1/sequence.sql, sql/mod1/table.sql, sql/mod1/view.sql:
 	File are now in html/admin/sql in order to work with the new installer setup.php
 
 	* include/ac_common.php, include/constant.php, include/postgres.php:
@@ -196,7 +223,7 @@
 
 	* Changelog: Change log
 
-	* sql/account_repository/comment.sql, sql/account_repository/function.sql, sql/account_repository/index.sql, sql/account_repository/view.sql, sql/dossier1/comment.sql, sql/dossier1/function.sql, sql/dossier1/index.sql, sql/dossier1/view.sql, sql/mod1/comment.sql, sql/account_repository/schema.sql:
+	* sql/account_repository/comment.sql, sql/account_repository/function.sql, sql/account_repository/index.sql, sql/account_repository/view.sql, sql/mod1/comment.sql, sql/account_repository/schema.sql:
 	*** empty log message ***
 
 	* include/user_menu.php: Add MenuAdmin function
@@ -371,7 +398,7 @@
 	* include/impress_jrn.php, doc/function.txt, html/jrn_csv.php, html/jrn_pdf.php, html/user_impress.php, html/user_jrn.php, include/ac_common.php, include/class_jrn.php, include/class_operation.php, include/class_user.php, include/class_widget.php, include/form_input.php, include/jrn.php, include/user_menu.php:
 	Add new print system and CSV for journaux
 
-	* sql/account_repository/data.sql, sql/account_repository/make-sql, sql/account_repository/schema.sql, sql/account_repository/table.sql, sql/dossier1/data.sql, sql/dossier1/make-sql, sql/dossier1/schema.sql, sql/mod1/make-sql:
+	* sql/account_repository/data.sql, sql/account_repository/make-sql, sql/account_repository/schema.sql, sql/account_repository/table.sql, sql/mod1/make-sql:
 	Add Sql comment
 
 2004-11-23  sparkyx  <sparkyx@eleven>
@@ -435,10 +462,10 @@
 	* doc/function.txt, html/index.php, html/user_jrn.php, include/ac_common.php, include/form_input.php, include/postgres.php, include/user_action_ach.php, include/user_action_fin.php, include/user_action_ods.php, include/user_action_ven.php, include/user_menu.php, style-light.css:
 	Change appearance --> do not work, do not use it !!
 
-	* Changelog, html/login.php, html/modify_op.php, html/pcmn_update.php, html/poste_search.php, html/print_balance.php, html/print_invoice.php, html/priv_user.php, html/rate_chg.php, html/send.php, html/send_jrn_pdf.php, html/send_poste_pdf.php, html/user_advanced.php, html/user_compta.php, html/user_jrn.php, html/user_sec.php, include/ac_common.php, include/check_priv.php, include/debug.php, include/fiche_inc.php, include/form_inc.php, include/form_input.php, include/impress_inc.php, include/jrn.php, include/postgres.php, include/preference.php, include/top_menu_compta.php, include/user_action_ach.php, include/user_action_fin.php, include/user_action_ods.php, include/user_action_ven.php, include/user_common.php, include/user_menu.php, include/user_update.php, sql/dossier1/constraint.sql, sql/dossier1/data.sql, sql/dossier1/make-sql, sql/dossier1/schema.sql, sql/dossier1/sequence.sql, sql/dossier1/table.sql, INSTALL-fr.txt, html/admin_repo.php, html/annulation.php, html/compta.php, html/compta_login.php, html/dossier_prefs.php, html/enc_jrn.php, html/fiche_new.php, html/fiche_search.php, html/impress.php, html/index.php, html/jrn_add.php, html/jrn_detail.php, html/jrn_op_detail.php, html/jrn_search.php, install.sh, style-light.css:
+	* Changelog, html/login.php, html/modify_op.php, html/pcmn_update.php, html/poste_search.php, html/print_balance.php, html/print_invoice.php, html/priv_user.php, html/rate_chg.php, html/send.php, html/send_jrn_pdf.php, html/send_poste_pdf.php, html/user_advanced.php, html/user_compta.php, html/user_jrn.php, html/user_sec.php, include/ac_common.php, include/check_priv.php, include/debug.php, include/fiche_inc.php, include/form_inc.php, include/form_input.php, include/impress_inc.php, include/jrn.php, include/postgres.php, include/preference.php, include/top_menu_compta.php, include/user_action_ach.php, include/user_action_fin.php, include/user_action_ods.php, include/user_action_ven.php, include/user_common.php, include/user_menu.php, include/user_update.php, INSTALL-fr.txt, html/admin_repo.php, html/annulation.php, html/compta.php, html/compta_login.php, html/dossier_prefs.php, html/enc_jrn.php, html/fiche_new.php, html/fiche_search.php, html/impress.php, html/index.php, html/jrn_add.php, html/jrn_detail.php, html/jrn_op_detail.php, html/jrn_search.php, install.sh, style-light.css:
 	UNSTABLE do not use it !!
 
-	* sql/account_repository/make-sql, sql/dossier1/constraint.sql, sql/dossier1/data.sql, sql/dossier1/make-sql, sql/dossier1/schema.sql, sql/dossier1/sequence.sql, sql/dossier1/table.sql, sql/mod1/e, sql/mod1/fct.sql, sql/mod1/fct.sql~, sql/mod1/function.sql, sql/mod1/index.sql, sql/mod1/log, sql/mod1/make-sql, sql/mod1/make-sql~, sql/mod1/schema.sql, sql/mod1/view.sql:
+	* sql/account_repository/make-sql, sql/mod1/e, sql/mod1/fct.sql, sql/mod1/fct.sql~, sql/mod1/function.sql, sql/mod1/index.sql, sql/mod1/log, sql/mod1/make-sql, sql/mod1/make-sql~, sql/mod1/schema.sql, sql/mod1/view.sql:
 	New database files
 
 2004-09-22  sparkyx  <sparkyx@eleven>
@@ -446,7 +473,7 @@
 	* doc/INSTALL-fr.sgml, doc/FAQ-fr.sgml, doc/FAQ-fr.txt, doc/function.txt:
 	Improve doc
 
-	* sql/ac_dossier.sql, sql/ac_users.sql, sql/account_repository/constraint.sql, sql/account_repository/data.sql, sql/account_repository/make-sql, sql/account_repository/schema.sql, sql/account_repository/sequence.sql, sql/account_repository/table.sql, sql/dossier4/constraint.sql, sql/dossier4/data.sql, sql/dossier4/make-sql, sql/dossier4/schema.sql, sql/dossier4/sequence.sql, sql/dossier4/table.sql, sql/mod1/ac_dossier.sql, sql/mod1/ac_users.sql, sql/mod1/constraint.sql, sql/mod1/data.sql, sql/mod1/jnt_use_dos.sql, sql/mod1/make-sql, sql/mod1/modeledef.sql, sql/mod1/schema.sql, sql/mod1/sequence.sql, sql/mod1/table.sql, sql/mod1/theme.sql, sql/priv_user.sql, sql/theme.sql, sql/version.sql:
+	* sql/ac_dossier.sql, sql/ac_users.sql, sql/account_repository/constraint.sql, sql/account_repository/data.sql, sql/account_repository/make-sql, sql/account_repository/schema.sql, sql/account_repository/sequence.sql, sql/account_repository/table.sql, sql/mod1/ac_dossier.sql, sql/mod1/ac_users.sql, sql/mod1/constraint.sql, sql/mod1/data.sql, sql/mod1/jnt_use_dos.sql, sql/mod1/make-sql, sql/mod1/modeledef.sql, sql/mod1/schema.sql, sql/mod1/sequence.sql, sql/mod1/table.sql, sql/mod1/theme.sql, sql/priv_user.sql, sql/theme.sql, sql/version.sql:
 	Separate sql instead of a big sql
 
 2004-07-06  sparkyx  <sparkyx@eleven>
