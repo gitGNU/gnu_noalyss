@@ -157,27 +157,27 @@ if ( $action == 'voir_jrn_non_paye' ) {
 // }
 
 //Search
-if ( $action == 'search' ) {
-   // Check privilege
-   if ( CheckJrn($g_dossier,$g_user,$g_jrn) < 1 )    {
-     NoAccess();
-     exit -1;
-   }
+// if ( $action == 'search' ) {
+//    // Check privilege
+//    if ( CheckJrn($g_dossier,$g_user,$g_jrn) < 1 )    {
+//      NoAccess();
+//      exit -1;
+//    }
 
-  // PhpSessid
-  $sessid=(isset ($_POST['PHPSESSID']))?$_POST['PHPSESSID']:$_GET['PHPSESSID'];
+//   // PhpSessid
+//   $sessid=(isset ($_POST['PHPSESSID']))?$_POST['PHPSESSID']:$_GET['PHPSESSID'];
 
 
-// display a search box
-  $search_box=u_ShowMenuRecherche($cn,$g_jrn,$sessid,$HTTP_POST_VARS);
-  echo '<DIV class="u_redcontent">';
-  echo $search_box; 
-  // if nofirst is set then show result
-  if ( isset ($_GET['nofirst'] ) ) {
-    $a=ListJrn($cn,$g_jrn,"",$HTTP_POST_VARS);
-    echo $a;
-  }
-  echo '</DIV>'; 
-}
+// // display a search box
+//   $search_box=u_ShowMenuRecherche($cn,$g_jrn,$sessid,$HTTP_POST_VARS);
+//   echo '<DIV class="u_redcontent">';
+//   echo $search_box; 
+//   // if nofirst is set then show result
+//   if ( isset ($_GET['nofirst'] ) ) {
+//     $a=ListJrn($cn,$g_jrn,"",$HTTP_POST_VARS);
+//     echo $a;
+//   }
+//   echo '</DIV>'; 
+// }
 include("user_update.php");
 ?>

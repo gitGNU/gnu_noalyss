@@ -24,16 +24,18 @@
 include_once("constant.php");
 
 function echo_debug      ($file,$line="",$msg="") {
-  $password=phpcompta_password;
-   $l_Db="dbname=log user='phpcompta' password='$password' host=127.0.0.1";
-   $cn=pg_connect($l_Db);
-   $file=FormatString($file);
-   $line=FormatString($line);
-   $msg=FormatString($msg);
-
-   $sql= "insert into log (lg_file,lg_line,lg_msg) ".
+  if ( DEBUG=='true' ) {
+    $password=phpcompta_password;
+    $l_Db="dbname=log user='phpcompta' password='$password' host=127.0.0.1";
+    $cn=pg_connect($l_Db);
+    $file=FormatString($file);
+    $line=FormatString($line);
+    $msg=FormatString($msg);
+    
+    $sql= "insert into log (lg_file,lg_line,lg_msg) ".
  	  "values ('$file','$line','$msg');";
-   pg_exec($cn,$sql);
+    pg_exec($cn,$sql);
+  }
 }
 
 ?>

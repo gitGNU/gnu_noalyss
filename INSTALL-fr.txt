@@ -1,6 +1,5 @@
   PhpCompta Installation
   originally written by Dany De Bontridder
-
   $Revision$   $Date$
 
   Ce document décrit l'installation complète de PhpCompta et explique
@@ -17,7 +16,6 @@
      2.1 Installation
      2.2 Configuration et démarrage de PostgreSql
      2.3 Pour la sécurité
-     2.4 Pour la sécurité
 
   3. Apache
      3.1 Installation d'Apache
@@ -66,12 +64,11 @@
   l'utilisateur postgres puis initialiser l'endroit où seront stocké vos
   données (variable env. PGDATA), exemple
 
-
-       root#mkdir /data/psql
-       root#chown postgres /data/psql
-       root#su - postgres
-       postgres#initdb -D /data/psql
-       postgres#pg_ctl -D /data/psql -o '-i' start
+  root#mkdir /data/psql
+  root#chown postgres /data/psql
+  root#su - postgres
+  postgres#initdb -D /data/psql
+  postgres#pg_ctl -D /data/psql -o '-i' start
 
 
 
@@ -90,22 +87,17 @@
   Ce fichier doit au moins contenir la ligne:
 
   # TYPE  DATABASE    USER        IP-ADDRESS        IP-MASK           METHOD
-  <<<<<<< INSTALL-fr.sgml
-  host    all         phpcompta   172.16.30.0         255.255.255.0   local
-
-  =======
   host    all         phpcompta   172.16.30.0         255.255.255.0   local
 
 
-  >>>>>>> 1.8 Il vaut mieux remplacer 172.16.30.0 par l'adresse du
-  server HTTP, dans le cas où vous utilisez un VirtualHost avec une
-  adresse IP, c'est cette adresse qu'il vous faudra mettre il faut aussi
-  que l'utilisateur qui installera ce programme existe pour postgres et
-  puisse créer des utilisateur et des bases de données la commande
+  Il vaut mieux remplacer 172.16.30.0 par l'adresse du server HTTP, dans
+  le cas où vous utilisez un VirtualHost avec une adresse IP, c'est
+  cette adresse qu'il vous faudra mettre il faut aussi que l'utilisateur
+  qui installera ce programme existe pour postgres et puisse créer des
+  utilisateur et des bases de données la commande
 
        /opt/psql732/bin/createuser -a -d $USER
 
-  <<<<<<< INSTALL-fr.sgml
 
   [1m2.3.  Pour la sécurité[0m
 
@@ -128,40 +120,20 @@
   contient votre mot de passe soit avec le fichier .pgpass dont la syn-
   taxe est
 
-
-  host:port:database:username:password
-
-
-  N'oubliez pas de mettre ce fichier en mode 600 !!!! Pour executer sans
-  demande de mot de passe host = localhost=======
-
-  [1m2.4.  Pour la sécurité[0m
-
-  Vous pouvez ajouter la sécurité à votre server Postgresql en changeant
-  dans pg_hba.conf. Mais avant de faire cela, ajoutez un mot de passe à
-  vos utilisateurs avec la commande remplacer .1. par le nom de
-  l'utilisateur et .2. par son mot de passe
-
-       changement mot de passe alter user .1. password '.2.'
-
-
-  Le fichier pg_hba.conf sera comme ceci
-
-  Sécurité
-  # TYPE  DATABASE    USER        IP-ADDRESS        IP-MASK           METHOD
-  host    all         phpcompta   172.16.30.0         255.255.255.0   md5
-  local    all         phpcompta   172.16.30.0         255.255.255.0   md5
-
-
-  Ensuite soit vous utilisez la variable d'environnement PGPASSWORD qui
-  contient votre mot de passe soit avec le fichier .pgpass dont la syn-
-  taxe est
-
        host:port:database:username:password
 
 
   N'oubliez pas de mettre ce fichier en mode 600 !!!! Pour executer sans
-  demande de mot de passe host = localhost>>>>>>> 1.8
+  demande de mot de passe host = localhost
+
+  Ensuite soit vous utilisez la variable d'environnement PGPASSWORD qui
+  contient votre mot de passe soit avec le fichier .pgpass dont la
+  syntaxe est
+       host:port:database:username:password
+
+
+  N'oubliez pas de mettre ce fichier en mode 600 !!!! Pour executer sans
+  demande de mot de passe host = localhost
 
   [1m3.  Apache[0m
 
@@ -193,7 +165,6 @@
 
 
   Apache se démarre avec apachectl start
-
 
   [1m4.  PHP[0m
 
@@ -258,6 +229,7 @@
   ·  Se connecter en tant que postgres et taper la commande
 
       createuser -d phpcompta
+
 
 
   ·  Là on vous comptez installer le soft, créer le répertoire, règler

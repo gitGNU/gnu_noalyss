@@ -2,8 +2,7 @@
 <article>
 <title> PhpCompta Installation</title>
 <author>
- <name>originally written by Dany De Bontridder
- </name>
+ <name>originally written by Dany De Bontridder </name>
 </author>
 <date>$Revision$   $Date$</date>
 <abstract>
@@ -73,7 +72,6 @@ vous permettra de régler la sécurité<newline>
 Ce fichier doit au moins contenir la ligne:
 <verb>
 # TYPE  DATABASE    USER        IP-ADDRESS        IP-MASK           METHOD
-</quote>
 host    all         phpcompta   172.16.30.0         255.255.255.0   local
 </verb>
 Il vaut mieux remplacer 172.16.30.0 par l'adresse du server HTTP, dans
@@ -109,7 +107,7 @@ votre mot de passe soit avec le fichier .pgpass dont la syntaxe est
 </quote>
 N'oubliez pas de mettre ce fichier en mode 600 !!!! Pour executer sans demande
 de mot de passe host = localhost
-</sect1>
+
 Ensuite soit vous utilisez la variable d'environnement PGPASSWORD qui contient
 votre mot de passe soit avec le fichier .pgpass dont la syntaxe est
 <quote>

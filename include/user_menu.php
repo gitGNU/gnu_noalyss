@@ -37,8 +37,15 @@ function u_ShowDossier($p_user,$p_admin)
 {
   $p_array=GetAvailableFolder($p_user,$p_admin);   
   if ( $p_array == 0 ) return " * Aucun dossier *";
-
-  $result="<TABLE>";
+  $result="";
+  $result.="<table>";
+  $result.='<TR><TD><A HREF="logout.php" CLASS="mtitle">Sortir</a></TD>';
+    if ( $p_admin == 1 ) {
+      $result.="<TD><A class=\"mtitle\" HREF=\"admin_repo.php\">:: Administration</A></TD>";
+    }
+    $result.="</TR>";
+  $result.="</table>";
+  $result.="<TABLE>";
   for ($i=0;$i<sizeof($p_array);$i++) {
     $id=$p_array[$i]['dos_id'];
     $name= $p_array[$i]['dos_name'];
@@ -54,16 +61,9 @@ function u_ShowDossier($p_user,$p_admin)
     $result.="</TD><TD class=\"mtitle\">";
     $result.="<A class=\"mtitle\" HREF=\"user_compta.php?dos=$id\">Comptabilité</A>";
     $result.="</TD>";
-    if ( $p_admin == 1 ) {
-      $result.="</TD><TD class=\"mtitle\">";
-      $result.="<A class=\"mtitle\" HREF=\"admin_repo.php\">Administration</A>";
-      $result.="</TD>";
-    }
     $result.="</TR>";
   }
-  $result.="<TD></TD><TR><TD class=\"mtitle\">";
-  $result.='<A HREF="logout.php" CLASS="mtitle">Sortir</a>';
-  $result.="</TD></TR>";
+  $result.="</TABLE>";
   return $result;
 }
 /* function GetAvailableFolder
