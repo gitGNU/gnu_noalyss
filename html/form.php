@@ -44,7 +44,7 @@ ShowMenuComptaRight($_SESSION['g_dossier'],$User->admin);
 
 
 $cn=DbConnect($_SESSION['g_dossier']);
-if ( $User->CheckAction($cn,FORM)){
+if ( $User->CheckAction($cn,FORM)==0){
   /* Cannot Access */
   NoAccess();
  }
