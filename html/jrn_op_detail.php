@@ -74,11 +74,13 @@ for ( $i = 0; $i < $max_cred;$i++) {
 $a=GetConcerned($cn,$e_jr_id);
 
 if ( $a != null ) {
-  foreach ($a as $key => $element) {
     echo "operation concernée <br>";
+    echo '<div style="margin-left:30px;">';
+  foreach ($a as $key => $element) {
 
-    echo "<A HREF=\"jrn_op_detail.php?jrn_op=".GetGrpt($cn,$element)."\"> ".GetInternal($cn,$element)."</A><br>";
+    echo "<A class=\"detail\" HREF=\"jrn_op_detail.php?jrn_op=".GetGrpt($cn,$element)."\"> ".GetInternal($cn,$element)."</A><br>";
   }//for
+  echo "</div>";
 }// if ( $a != null ) {
 ?>
 <input type="button" onClick="window.close()" value="Fermer">

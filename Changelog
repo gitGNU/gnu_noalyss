@@ -1,5 +1,9 @@
 2004-12-12  sparkyx  <sparkyx@july>
 
+	* include/user_common.php: Improve appearance
+
+	* Changelog: Changelog
+
 	* html/jrn_op_detail.php, html/style-light.css, include/jrn.php, include/user_common.php:
 	Improve appearance
 

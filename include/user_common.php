@@ -300,12 +300,14 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
   $r.=JS_VIEW_JRN_DETAIL;
   $r.=JS_VIEW_JRN_CANCEL;
   $r.=JS_VIEW_JRN_MODIFY;
+
   $Max=pg_NumRows($Res);
 
   if ($Max==0) return "No row selected";
   $r.="<TABLE>";
   $l_sessid=(isset($_POST['PHPSESSID']))?$_POST['PHPSESSID']:$_GET['PHPSESSID'];
   $r.="<tr>";
+ $r.="<th> Internal </th>";
   $r.="<th> Date </th>";
   $r.="<th> Echéance </th>";
   $r.="<th> Description</th>";
@@ -321,8 +323,10 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
 		else $tr='<TR>';
     $r.=$tr;
     //internal code
+	// button  modify
     $r.="<TD>";
-    $r.=$row['jr_internal'];
+    $r.=sprintf('<A class="detail" HREF="javascript:modifyOperation(\'%s\',\'%s\')" >%s</A>',
+		$row['jr_id'],$l_sessid,$row['jr_internal']);
     $r.="</TD>";
     // date
     $r.="<TD>";
@@ -347,11 +351,11 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
 	$a=GetConcerned($p_cn,$row['jr_id']);
 	$r.="<TD>";
 	if ( $a != null ) {
-	    $r.="operation concernée ";
+	  // $r.="operation concernée ";
 
 	  foreach ($a as $key => $element) {
-	    
-	    $r.=GetInternal($p_cn,$element).", ";
+	    $r.= "<A class=\"detail\" HREF=\"javascript:viewDetail('".GetGrpt($p_cn,$element)."','$l_sessid')\" > ".GetInternal($p_cn,$element)."</A><br>";
+
 	  }//for
 	}// if ( $a != null ) {
 	$r.="</TD>";
@@ -370,13 +374,6 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
 	    $r.="</TD>";
 	  }
 	}
-	// button  modify
-	$r.="<TD>";
-	$r.=sprintf('<input TYPE="button" onClick="modifyOperation(\'%s\',\'%s\')" value="%s">',
-		    $row['jr_id'],$l_sessid,"détail"); //
-
-
-	$r.="</TD>";
 
 
 // end row

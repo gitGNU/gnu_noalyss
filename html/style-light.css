@@ -296,5 +296,18 @@ table.doc {
 	  width: 60% ;
 	  text-align: center;
 }
+a.detail
+{
+    text-decoration: none;
+    display: block;
+    color: blue;
+}
 
+a.detail:hover   
+{
+    color: white;
+    background-color: rgb(93, 144, 205);
+    text-decoration: none;
+    display: block;
+}
 /* </style> */

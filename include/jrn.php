@@ -355,6 +355,7 @@ if ( $p_update == 0 )  echo "<TR><TD> <INPUT TYPE=\"SUBMIT\" VALUE=\"+ de line\"
 	$sessid=$_POST["PHPSESSID"];
       }
 
+    $r.= '<div style="margin-left:30px;">';
     foreach ($a as $key => $element) {
       $r.=sprintf ('%s <INPUT TYPE="BUTTON" VALUE="Détail" onClick="viewDetail(\'%s\',\'%s\')">', 
 		   GetInternal($p_cn,$element),GetGrpt($p_cn,$element),$sessid);
@@ -362,6 +363,7 @@ if ( $p_update == 0 )  echo "<TR><TD> <INPUT TYPE=\"SUBMIT\" VALUE=\"+ de line\"
 		  $content['jr_id'],$element,$sessid);
       //      $r.= "<A HREF=\"jrn_op_detail.php?jrn_op=".."\"> ".."</A>,";
     }//for
+    $r.= "</div>";
   }// if ( $a != null ) {
 
   if ( isset ($_GET["PHPSESSID"]) ) {
