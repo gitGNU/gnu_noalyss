@@ -57,10 +57,9 @@ if ( isset ($_POST["search"]) ) {
     $c_comment=" $part pcm_lib like '%$p_comment%'";
     $part=" and ";
   }
-  if ( ereg ("^[0-9]*\.[0-9]*$",$p_montant) )
-  /*if ( strlen(trim($p_montant)) != 0  &&
-       (string) $p_montant == (int)(string) $p_montant ) 
-       */{
+  if ( ereg ("^[0-9]*\.[0-9]*$",$p_montant) ||
+        ereg ("^[0-9]*$",$p_montant) )
+      { 
     $c_montant=sprintf(" $part j_montant %s %s",$p_montant_sel,$p_montant);
     $part="  and ";
     }
