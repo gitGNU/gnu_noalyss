@@ -19,7 +19,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 // $Revision$
 include_once ("ac_common.php");
-html_page_start($_SESSION['use_theme']);
+
 if ( !isset ($_SESSION['g_dossier'])) {
     echo "You must choose a Dossier ";
   phpinfo();
@@ -33,6 +33,7 @@ $rep=DbConnect();
 include_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
+html_page_start($User->theme,"onLoad='window.focus();'");
 
 if ( $User->CheckAction(DbConnect($_SESSION['g_dossier']),MPCMN) == 0 ) {
   /* Cannot Access */

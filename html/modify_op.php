@@ -34,7 +34,7 @@ include_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
 
-html_page_start($User->theme);
+html_page_start($User->theme,"onLoad='window.focus();'");
 if ( ! isset ( $_SESSION['g_dossier'] ) ) {
   echo "You must choose a Dossier ";
   exit -2;
@@ -66,7 +66,7 @@ if ( ! isset ( $action )) {
 
 // Javascript
 echo JS_VIEW_JRN_MODIFY;
-
+//////////////////////////////////////////////////////////////////////
 if ( $action == 'update' ) {
   if ( ($priv=CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_SESSION['g_jrn'])) < 1 ) {
       NoAccess();
@@ -116,6 +116,7 @@ if ( isset($_POST['update_record']) ) {
  self.opener.RefreshMe();
  </script>';
 } // if update_record
+//////////////////////////////////////////////////////////////////////
 if (  $action  == 'delete' ) {
   echo_debug(__FILE__,__LINE__," Call   DeleteRapt($cn,".$_GET['line'].",".$_GET['line2'].")");
   DeleteRapt($cn,$_GET['line'],$_GET['line2']);
