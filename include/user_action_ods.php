@@ -93,6 +93,10 @@ if ( $action == 'new' ) {
 
 	// if something goes wrong, correct it
 	  if ( $r == null ) {
+	    // submit button in the form
+	    $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout Poste">
+                    <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver">';
+	    
 	    $r=FormODS($cn,$g_jrn,$g_user,$submit,$HTTP_POST_VARS,false,  $nb_number);
 	  }
 	  echo '<div class="u_redcontent">';
