@@ -46,14 +46,11 @@ ShowMenuCompta($g_dossier,$g_UserProperty);
 // Show the right menus
 ShowMenuComptaRight($g_dossier,$g_UserProperty); 
 
-// Show the left menu
-$left_menu=ShowItem(array(
-			  array('jrn_update.php','Journaux'),
-			  array('central.php','Centralise'),
-		          array('pcmn_update.php?p_start=1','Plan Comptable')),
-		    'V');
+$left_menu=ShowMenuAdvanced();
 echo '<div class="lmenu">';
 echo $left_menu;
 echo '</DIV>';
 
+
+html_page_stop();
 ?>
