@@ -57,7 +57,7 @@ if ( $g_UserProperty['use_admin'] == 0 ) {
     NoAccess();
   }
   if ( isset ($g_jrn)) {
-	  if ($CheckJrn($g_dossier,$g_user,$g_jrn) == 0 ){
+	  if (CheckJrn($g_dossier,$g_user,$g_jrn) == 0 ){
 	    /* Cannot Access */
 	    NoAccess();
 	    exit -1;
