@@ -1,5 +1,10 @@
 2005-03-06  sparkyx  <sparkyx@july>
 
+	* html/show_document.php: Task 3778 : cleaning temp file
+
+	* include/user_common.php, html/show_document.php:
+	Task 3778 : show the upload document
+
 	* Changelog: changelog
 
 	* include/user_action_ach.php, include/user_action_ods.php, include/user_action_ven.php, include/user_common.php, html/admin/sql/patch/upgrade4.sql, include/class_widget.php, include/form_input.php, include/postgres.php, html/user_jrn.php:
