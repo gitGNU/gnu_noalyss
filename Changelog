@@ -1,4 +1,20 @@
+2005-02-08  sparkyx  <sparkyx@july>
+
+	* FAQ-fr.txt, INSTALL-fr.txt, html/central.php, include/central_inc.php, include/constant.php, install.sh:
+	Improve Doc
+
+	* html/admin/setup.php, doc/FAQ-fr.sgml, doc/FAQ-fr.txt, doc/INSTALL-fr.sgml, doc/manuel-fr.sgml:
+	IMPROVE installer
+
+	* html/admin/setup.php, html/admin/sql/patch/upgrade4.sql:
+	IMPROVE setup html based, ability to patch tested
+
+	* html/admin/setup.php, html/admin/sql/patch/upgrade4.sql:
+	IMPROVE setup html based, ability to patch
+
 2005-02-06  sparkyx  <sparkyx@july>
+
+	* Changelog: changelog
 
 	* sql/account_repository/comment.sql, sql/account_repository/constraint.sql, sql/account_repository/data.sql, sql/account_repository/function.sql, sql/account_repository/index.sql, sql/account_repository/make-sql, sql/account_repository/sequence.sql, sql/account_repository/table.sql, sql/account_repository/view.sql, sql/dossier1/comment.sql, sql/dossier1/constraint.sql, sql/dossier1/data.sql, sql/dossier1/function.sql, sql/dossier1/index.sql, sql/dossier1/make-sql, sql/dossier1/schema.sql, sql/dossier1/sequence.sql, sql/dossier1/table.sql, sql/dossier1/view.sql, sql/mod1/comment.sql, sql/mod1/constraint.sql, sql/mod1/data.sql, sql/mod1/function.sql, sql/mod1/index.sql, sql/mod1/make-sql, sql/mod1/sequence.sql, sql/mod1/table.sql, sql/mod1/view.sql:
 	File are now in html/admin/sql in order to work with the new installer setup.php
