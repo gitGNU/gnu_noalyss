@@ -3,3 +3,4 @@
 
 dropdb -U phpcompta -h localhost account_repository
 dropdb -U phpcompta -h localhost dossier1
+dropdb -U phpcompta -h localhost mod1
