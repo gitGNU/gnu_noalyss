@@ -26,7 +26,7 @@ echo "The file install.log will be created with
 exec 3>install.log 2>&3 1>&3
 #set -xv
 
-version=3
+version=4
 VerifOutil() {
 	RESULT="Verif. $1"
 	A=`type $1 2> /dev/null` 
