@@ -1,4 +1,19 @@
+2004-04-19  sparkyx  <sparkyx@july.summer>
+
+	* html/modify_op.php, html/user_sec.php, include/check_priv.php, include/user_action_ach.php, include/user_action_fin.php, include/user_action_ods.php, include/user_action_ven.php, include/user_menu.php:
+	Bug 8597 Security major prob
+
+2004-04-15  sparkyx  <sparkyx@july.summer>
+
+	* include/form_input.php: bug 8581
+
+2004-04-15  stanpinte  <stanpinte@july.summer>
+
+	* include/user_menu.php: corrected typo
+
 2004-04-14  sparkyx  <sparkyx@july.summer>
+
+	* Changelog: update
 
 	* html/send_poste_pdf.php, include/form_inc.php, include/impress_inc.php:
 	improve printing of card
