@@ -526,6 +526,7 @@ function UpdateFiche($p_cn,$p_array) {
     // test the vat rate
     if ( $key == 'ad_id'.ATTR_DEF_TVA ) {
       // is a valid rate ?
+      if ( strlen(trim($element)) == 0 ) continue;
       if ( CountSql($p_cn,"select * from tva_rate where tva_id='".$element."'") == 0 ) {
 	// warning
 	echo_error('invalid rate') ;
