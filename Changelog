@@ -1,5 +1,10 @@
 2004-04-03  sparkyx  <sparkyx@july.summer>
 
+	* sql/demo.sql, sql/mod-be.sql:
+	Structure change  I hope for the last time
+
+	* Changelog: Update
+
 	* html/stock.php, include/jrn.php, include/postgres.php, include/stock_inc.php, include/user_common.php, style.css:
 	Stock included, can be improved
 
