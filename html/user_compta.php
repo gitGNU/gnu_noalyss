@@ -1,6 +1,6 @@
 <?
 /*
- *   This file is part of WCOMPTA.
+ *   This file is part of PHPCOMPTA
  *
  *   PhpCompta is free software; you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -13,7 +13,7 @@
  *   GNU General Public License for more details.
  *
  *   You should have received a copy of the GNU General Public License
- *   along with WCOMPTA; if not, write to the Free Software
+ *   along with PHPCOMPTA; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 // Auteur Dany De Bontridder ddebontridder@yahoo.fr
