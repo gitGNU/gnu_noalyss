@@ -315,12 +315,15 @@ if ( $p_update == 0 )  echo "<TR><TD> <INPUT TYPE=\"SUBMIT\" VALUE=\"+ de line\"
 	$r.="<TD>";
 	$r.=$content['jr_internal'];
 	$r.="</TD>";
-	// Amount
-	// Internal
-// 	$r.="<TD>";
-// 	$r.="Montant  ".$content['jr_montant'];
-// 	$r.="</TD>";
 
+	if ( $content['jrn_def_type'] == 'ACH' or 
+	     $content['jrn_def_type'] == 'VEN' )
+	  {
+	    // Is Paid
+	    $r.="<TD>";
+	    $check=( $content['jr_rapt'] != null )?"CHECKED":"UNCHECKED";
+	    $r.='<TD>Payé <INPUT TYPE="CHECKBOX" name="is_paid" value="'.$check.'"></TD>';
+	  }
 	$r.="</TR>";
 	$r.="</TABLE>";
 	$r.="<TABLE>";
@@ -998,10 +1001,11 @@ function GetDataJrnJrId ($p_cn,$p_jr_id) {
                         jr_comment,
                         to_char(jr_ech,'DD.MM.YYYY') as jr_ech,
                         to_char(jr_date,'DD.MM.YYYY') as jr_date,
-                        jr_id,jr_internal
+                        jr_id,jr_internal, jr_rapt,jrn_def_type
                      from 
                           jrnx 
                         inner join jrn on j_grpt=jr_grpt_id 
+                        inner join jrn_def on jrn_def.jrn_def_id=jrn.jr_def_id
                         left outer join tmp_pcmn on  j_poste=pcm_val
                       where 
                          jr_id=$p_jr_id 
@@ -1020,6 +1024,8 @@ function GetDataJrnJrId ($p_cn,$p_jr_id) {
     $array['jr_internal']=$line['jr_internal'];
     $array['j_poste']=$line['j_poste'];
     $array['jr_montant']=$line['jr_montant'];
+    $array['jr_rapt']=$line['jr_rapt'];
+    $array['jrn_def_type']=$line['jrn_def_type'];
     //    $array['']=$line[''];
 
     $ret_array[$i]=$array;

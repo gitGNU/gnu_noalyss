@@ -70,6 +70,7 @@ if ( $action == 'update' ) {
     echo JS_CONCERNED_OP;
     $r ='<FORM METHOD="POST" ACTION="modify_op.php">';
     $r.=UpdateJrn($cn,$p_id);
+
     $r.='<INPUT TYPE="Hidden" name="action" value="update_record">';
     $r.='<input type="SUBMIT" name="update_record" value="Enregistre">';
     $r.='</FORM>';
@@ -82,6 +83,8 @@ if ( isset($_POST['update_record']) ) {
   // NO UPDATE except rapt & comment
   UpdateComment($cn,$_POST['jr_id'],$_POST['comment']);
   InsertRapt($cn,$_POST['jr_id'],$_POST['rapt']);
+  if ( isset ($_POST['is_paid'] ))
+       $Res=ExecSql($cn,"update jrn set jr_rapt='paid' where jr_id=".$_POST['jr_id']);
   echo ' <script> 
  window.close();
  self.opener.RefreshMe();
