@@ -75,7 +75,8 @@ if ( isset ($spass) ) {
       $l_pass=md5($pass_1);
       $Res=ExecSql($Cn,"update ac_users set use_pass='$l_pass' where use_login='$g_user'");
       $pass=$pass_1;
-//      echo '<H2 class="info"> Mot de passe changé </H1>';
+      $g_UserProperty['g_pass']=$pass_1;
+      $g_pass=$pass_1;
     }
   }
 // Met a jour le theme utilisateur (style)
