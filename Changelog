@@ -1,4 +1,14 @@
+2005-02-03  sparkyx  <sparkyx@july>
+
+	* html/jrn_csv.php: Fix bug : invalid function
+
+	* include/impress_fiche.php: Clean code
+
+	* doc/INSTALL-fr.sgml: Update Documentation
+
 2005-02-01  sparkyx  <sparkyx@july>
+
+	* Changelog: Changelog
 
 	* include/user_common.php: Fix bug in Search Menu
 
