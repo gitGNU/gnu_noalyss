@@ -60,7 +60,7 @@ include_once ("user_menu.php");
 ShowMenuCompta($_SESSION['g_dossier']);
 
 // Show Menu Left
-$left_menu=ShowMenuAdvanced();
+$left_menu=ShowMenuAdvanced("stock.php");
 //echo '<div class="lmenu">';
 echo $left_menu;
 //echo '</DIV>';

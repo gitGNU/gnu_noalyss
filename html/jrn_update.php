@@ -43,7 +43,7 @@ if ( $User->CheckAction($cn,GJRN) == 0 ) {
  }
 
 echo '<div class="u_subtmenu">';
-echo ShowMenuAdvanced();
+echo ShowMenuAdvanced("jrn_update.php");
 MenuJrn($_SESSION['g_dossier']);
 echo '</div>';
 html_page_stop();

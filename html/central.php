@@ -49,7 +49,7 @@ if ( $User->CheckAction($cn,CENTRALIZE)==0 ) {
 include_once("central_inc.php");
 
 echo '<div class="u_subtmenu">';
-echo ShowMenuAdvanced();
+echo ShowMenuAdvanced("central.php");
 echo '</div>';
 
 

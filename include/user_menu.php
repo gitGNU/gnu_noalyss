@@ -457,7 +457,7 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
  *	- none
  * return: the menu
  */
-function ShowMenuAdvanced() {
+function ShowMenuAdvanced($default="") {
 // Show the left menu
 $left_menu=ShowItem(array(
 			  //('rapprt.php','Rapprochement'),
@@ -466,7 +466,7 @@ $left_menu=ShowItem(array(
 		          array('pcmn_update.php?p_start=1','Plan Comptable'),
 			  array('stock.php','stock')
 			  ),
-		    'H',"cell","mtitle");
+		    'H',"cell","mtitle",$default);
 return $left_menu;
 }
 /* function ShowJrn

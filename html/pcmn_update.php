@@ -59,7 +59,7 @@ if ( isset ($_GET['p_start'])) {
 }
 
 echo '<div class="u_subtmenu">';
-echo ShowMenuAdvanced();
+echo ShowMenuAdvanced("pcmn_update.php?p_start=1");
 ShowMenuPcmn($_SESSION['g_start']);
 echo '</div>';
 echo '<DIV CLASS="u_redcontent">';
