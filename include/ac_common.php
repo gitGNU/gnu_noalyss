@@ -227,7 +227,8 @@ function FormatString($p_string)
   }
   $p_string=trim($p_string);
   if (strlen($p_string) == 0 ) return null;
-  $p_string=str_replace("\"","",$p_string);
+  $p_string=str_replace("\'","'",$p_string);
+  $p_string=str_replace("''","'",$p_string);
   $p_string=str_replace("'","\'",$p_string);
   return $p_string;
 }
