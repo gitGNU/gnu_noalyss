@@ -304,7 +304,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
   $Max=pg_NumRows($Res);
 
   if ($Max==0) return "No row selected";
-  $r.="<TABLE>";
+  $r.="<TABLE width=\"100%\">";
   $l_sessid=(isset($_POST['PHPSESSID']))?$_POST['PHPSESSID']:$_GET['PHPSESSID'];
   $r.="<tr>";
  $r.="<th> Internal </th>";
