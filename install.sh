@@ -18,6 +18,14 @@
 #
 . ./setenv.sh
 
+echo "The file install.log will be created with 
+      the log of the installation, just check if
+      it finished with the message
+      installation ok"
+
+# Output the log to install log
+exec 3>install.log 2>&3 1>&3
+
 
 version=3
 VerifOutil() {
@@ -53,27 +61,30 @@ if [ $REPO -eq 0 ]; then
 	PSQL="psql  -U $OWNER account_repository" 
 #	$PSQL < sql/create_repository.sql
 #	$PSQL < sql/ac_pcmn.sql
-	$PSQL < sql/ac_users.sql
-	$PSQL < sql/ac_dossier.sql
-	$PSQL < sql/jnt_use_dos.sql
-	$PSQL < sql/version.sql
-	$PSQL < sql/priv_user.sql
-	$PSQL < sql/theme.sql
-	$PSQL < sql/modele.sql
+	$PSQL -e -f sql/ac_users.sql
+	$PSQL -e -f sql/ac_dossier.sql
+	$PSQL -e -f sql/jnt_use_dos.sql
+	$PSQL -e -f sql/version.sql
+	$PSQL -e -f sql/priv_user.sql
+	$PSQL -e -f sql/theme.sql
+	$PSQL -e -f sql/modele.sql
         createdb -E latin1 -U $OWNER mod1
 	PSQL="psql -U $OWNER mod1 "
-	$PSQL < sql/tmp_pcmn.sql
-	$PSQL < sql/insert_pcmn.sql
-	$PSQL < sql/version.sql
-	$PSQL < sql/dos_pref.sql
-	$PSQL < sql/journal.sql
-	$PSQL < sql/user_pref.sql
-	$PSQL < sql/form.sql
-	$PSQL < sql/fiche.sql
-	$PSQL < sql/centralized.sql
-	$PSQL < sql/user_sec.sql
-	$PSQL < sql/jrn_action.sql
-	$PSQL < sql/tva_rate.sql
+	$PSQL -e -f sql/tmp_pcmn.sql
+	$PSQL -e -f sql/insert_pcmn.sql
+	$PSQL -e -f sql/version.sql
+	$PSQL -e -f sql/dos_pref.sql
+	$PSQL -e -f sql/journal.sql
+	$PSQL -e -f sql/user_pref.sql
+	$PSQL -e -f sql/form.sql
+	$PSQL -e -f sql/fiche.sql
+	$PSQL -e -f sql/centralized.sql
+	$PSQL -e -f sql/user_sec.sql
+	$PSQL -e -f sql/jrn_action.sql
+	$PSQL -e -f sql/tva_rate.sql
+	# Creation of useful view
+	$PSQL -e -f sql/view-fiche-attribut.sql
+
  
 #  	if [ -w $PG_DATA/pg_hba.conf ]; then
 #  		echo "host    account_repository         all         127.0.0.1         255.255.255.255   password" >> $PG_DATA/pg_hba.conf
@@ -127,3 +138,6 @@ cp -f style*.css $COMPTA_HOME/html
 cp -f html/*.js $COMPTA_HOME/html
 cp -fR addon $COMPTA_HOME/html
 cp -fR html/image/* $COMPTA_HOME/html/image
+echo "Installation OK"
+exec 3<&-
+echo "Installation OK"
