@@ -19,7 +19,6 @@ h2.info2 {
 h2.error {
 	background:red;
 	color:white;
-	color:white;
 	font-size:20px;
 }
 
@@ -138,6 +137,15 @@ span.mtitle {
 	font-size:12px;
 	border-style:groove
 }
+span.odd { 
+  background-color:#ECF3FF;
+  display:block;
+ }
+span.even { 
+  background-color:#DDE6FF;
+  display:block;
+ }
+
 tr.odd {
 	background-color:#DDE6FF;
 		
