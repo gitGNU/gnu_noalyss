@@ -44,13 +44,25 @@ if  ( isset ($_POST['fd_id'])) {
   $e=$fiche->GetByType($fiche_def->id);
   //  Heading
   $fiche_def->GetAttribut();
-  foreach ($fiche_def->attribut as $attribut) 
-    printf("%s\t",$attribut->ad_text);
+  $o=0
+  foreach ($fiche_def->attribut as $attribut) {
+	  if ( $o == 0 ) {
+    		printf("%s",$attribut->ad_text);
+		$o=1;
+	}else 
+		 printf(";%s",$attribut->ad_text);
+    }
   printf("\n");
   
+  $o=0
   foreach ($e as $detail) {
-    foreach ( $detail->attribut as $dattribut ) 
-      printf ("%s\t",$dattribut->av_text);
+    foreach ( $detail->attribut as $dattribut ) {
+	  if ( $o == 0 ) {
+    		printf("%s",$dattribut->av_text);
+		$o=1;
+	} else
+	      printf (";%s",$dattribut->av_text);
+      }
     printf("\n");
     }
 
