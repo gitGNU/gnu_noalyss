@@ -1409,7 +1409,7 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
     else 
       $e_date=substr($l_date_start,2,8);
   }
-  
+
   $e_ech=(isset($e_ech))?$e_ech:"";
   $e_comment=(isset($e_comment))?$e_comment:"";
   // Save old value and set a new one
@@ -1423,7 +1423,7 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
   $r.='<TR>'.InputType("Date ","Text","e_date",$e_date,$view_only).'</TR>';
   $r.='<TR>'.InputType("Description","Text_big","e_comment",$e_comment,$view_only).'</TR>';
   include_once("fiche_inc.php");
-  
+
   // Record the current number of article
   $r.='<INPUT TYPE="HIDDEN" name="nb_item" value="'.$p_article.'">';
   $e_comment=(isset($e_comment))?$e_comment:"";
@@ -1453,9 +1453,10 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
     if ( isNumber($account) == 1 ) {
       if ( CountSql($p_cn,"select * from tmp_pcmn where pcm_val=$account") == 0 ) {
 	$msg="Poste comptable inexistant !!! ";
-	echo_error($msg); echo_error($msg);	
+	echo_error($msg); echo_error($msg);
 	echo "<SCRIPT>alert('$msg');</SCRIPT>";
 	$account="";
+	if ( $view_only == true ) return null;
       } else {
 	// retrieve the tva label and name
 	$lib=GetPosteLibelle($p_cn, $account,1);
@@ -1465,7 +1466,7 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
     if ( isNumber(${"e_account$i"."_amount"}) == 0 ) {
       if ( $view_only==true) {
 	$msg="Montant invalide !!! ";
-	echo_error($msg); echo_error($msg);	
+	echo_error($msg); echo_error($msg);
 	echo "<SCRIPT>alert('$msg');</SCRIPT>";
 	return null;
       }
@@ -1528,8 +1529,8 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
  **************************************************
  * Purpose : Record an buy in the table jrn &
  *           jrnx
- *        
- * parm : 
+ *
+ * parm :
  *	- $p_cn Database connection
  *  - $p_array contains all the invoice data
  * e_date => e : 01.01.2003
@@ -1556,18 +1557,18 @@ function RecordODS($p_cn,$p_array,$p_user,$p_jrn)
 
   $sum_deb=0.0;
   $sum_cred=0.0;
-	
+
 	// Compute the j_grpt
   $seq=GetNextId($p_cn,'j_grpt')+1;
-  
-  
+
+  StartSql($p_cn);
   // store into the database
   for ( $i = 0; $i < $nb_item;$i++) {
     if ( isNumber(${"e_account$i"}) == 0 ) continue;
     $sum_deb+=(${"e_account$i"."_type"}=='d')?${"e_account$i"."_amount"}:0;
     $sum_cred+=(${"e_account$i"."_type"}=='c')?${"e_account$i"."_amount"}:0;
 
-    if ( ${"e_account$i"."_amount"} == 0 ) continue;    
+    if ( ${"e_account$i"."_amount"} == 0 ) continue;
     if ( ($j_id=InsertJrnx($p_cn,${"e_account$i"."_type"},$p_user,$p_jrn,${"e_account$i"},$e_date,${"e_account$i"."_amount"},$seq,$periode)) == false ) {
       $Rollback($p_cn);exit("error __FILE__ __LINE__");}
   }
