@@ -60,4 +60,6 @@ while ( !feof ($file) )
 
 fclose($file);
 
+unlink ($tmp);
+
 Commit($cn);
