@@ -1,5 +1,10 @@
 2005-02-01  sparkyx  <sparkyx@july>
 
+	* include/class_attribut.php:
+	Printing of card is now completely correct
+
+	* Changelog: changelog
+
 	* INSTALL-fr.txt, doc/INSTALL-fr.sgml, html/fiche_csv.php, include/class_fiche.php, include/impress_fiche.php, include/postgres.php:
 	Printing of card is now completely correct
 
