@@ -74,7 +74,13 @@ if ( isset ($_POST["search"]) ) {
       $part=" and ";
       $opt_date.='<OPTION VALUE="'.$p_date_sel.'" SELECTED>'.$p_date_sel;
   }
-$condition=$c_comment.$c_montant.$c_date;
+  if ( strlen(trim($p_internal)) != 0 ) {
+    $c_internal=$part." jr_internal like  ('%".$p_internal."%')";
+    $part=" and ";
+
+  }
+
+$condition=$c_comment.$c_montant.$c_date.$c_internal;
 echo_debug(__FILE__,__LINE__,"condition = $condition");
 }
 $condition=$condition." ".$part;
@@ -94,6 +100,7 @@ echo '<TR>';
 if ( ! isset ($p_date)) $p_date="";
 if ( ! isset ($p_montant)) $p_montant="";
 if ( ! isset ($p_comment)) $p_comment="";
+if ( ! isset ($p_internal)) $p_internal="";
 echo '<input type="hidden" name="p_ctl" value="'.$p_ctl.'">';
 echo '<TD> Date </TD>';
 echo '<TD> <SELECT NAME="p_date_sel">'.$opt_date.' </TD>';
@@ -106,6 +113,11 @@ echo '</TR><TR>';
 echo '<TD> Commentaire </TD>';
 echo '<TD> contient </TD>';
 echo '<TD> <INPUT TYPE="text" name="p_comment" VALUE="'.$p_comment.'"></TD>';
+?>
+</TR><TR>
+<TD> Code interne </TD><TD>comme </TD>
+<?
+echo '<TD> <INPUT TYPE="text" name="p_internal" VALUE="'.$p_internal.'"></TD>';
 echo "</TR>";
 
 echo '</TABLE>';
