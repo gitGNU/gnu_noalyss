@@ -145,7 +145,7 @@ function u_ShowMenuCompta($p_dossier)
   $l_name=GetDossierName($p_dossier);
   echo "<P> <H2 class=\"info2\"> $l_name </H2></P>";
 
-  $p_array=array(array("user_jrn.php?JRN_TYPE=VEN" ,"Vente"),
+  $p_array=array(array("user_jrn.php?JRN_TYPE=VEN" ,"Entrèe"),
 		 array("user_jrn.php?JRN_TYPE=ACH","Dépense"),
 		 array("user_jrn.php?JRN_TYPE=FIN","Financier"),
 		 array("user_jrn.php?JRN_TYPE=OD","Op. Diverses"),
