@@ -111,10 +111,10 @@ if ( $g_jrn != -1 ) {
   // display jrn's menu
   include_once('user_menu.php');
    $menu_jrn=u_ShowMenuJrn($cn,$jrn_type);
-      echo '<div class="searchmenu">';
+   //      echo '<div class="searchmenu">';
    //   echo $result;
    echo $menu_jrn;
-      echo '</DIV>';
+   //   echo '</DIV>';
 
   // Execute Action for g_jrn
  

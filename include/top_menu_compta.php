@@ -290,7 +290,6 @@ function ShowMenuRecherche($p_dossier,$p_jrn,$p_array=null)
 
   if ( $p_mont_sel != "" )  $opt.='<OPTION value="'.$p_mont_sel.'" SELECTED> '.$p_mont_sel;
 
-  echo '<div class="searchmenu">';
   echo '<div style="border-style:outset;border-width:1pt;">';
   echo "<B>Recherche</B>";
   echo '<FORM ACTION="enc_jrn.php" METHOD="POST">';
@@ -314,7 +313,6 @@ function ShowMenuRecherche($p_dossier,$p_jrn,$p_array=null)
   echo "</TR>";
   echo "</TABLE>";
   echo "</FORM>";
-  echo '</div>';
   echo '</div>';
 
 }
@@ -373,7 +371,9 @@ function ShowMenuJrnUserImp($p_cn,$p_user,$p_dossier)
     echo '<TABLE>';
     echo '<TR><TD style="background-color:#4F8DFF;color:white;font-style:bold;align:center" COLSPAN="3" > Journaux</TD></TR>'; 
     include_once("postgres.php");
-    if ( CheckAdmin() ==0) {
+    include_once("class_user.php");
+    $User=new cl_user($p_cn);
+    if ( $User->Admin() ==0) {
       $Ret=ExecSql($p_cn,"select jrn_def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
                                jrn_deb_max_line,jrn_cred_max_line
                              from jrn_def join jrn_type on jrn_def_type=jrn_type_id
@@ -394,7 +394,7 @@ function ShowMenuJrnUserImp($p_cn,$p_user,$p_dossier)
     for ($i=0;$i<$Max;$i++) {
       $l_line=pg_fetch_array($Ret,$i);
       // Admin have always rights
-      if ( CheckAdmin() == 0 ){
+      if ( $User->Admin() == 0 ){
 	$right=CheckJrn($p_dossier,$p_user,$l_line['jrn_def_id']);
       }else {
 	$right=3;

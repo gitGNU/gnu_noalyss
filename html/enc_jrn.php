@@ -75,9 +75,10 @@ ShowMenuJrnUser($g_dossier,$g_UserProperty);
 
 if ( isset ( $_GET["action"] )) {
   if ( $_GET["action"] == "view" ) {
-    ShowMenuRecherche($g_dossier,$g_jrn);
+
     // view all the journal's operation
     echo '<DIV class="redcontent">';
+    ShowMenuRecherche($g_dossier,$g_jrn);
     ViewJrn($g_dossier,$g_user,$g_jrn,"enc_jrn.php");
     echo '</DIV>';
   }
@@ -138,9 +139,10 @@ if ( isset ( $_GET["action"] )) {
   }
  if ( isset ($_POST['viewsearch']) ) {
    reset($HTTP_POST_VARS);
-   ShowMenuRecherche($g_dossier,$g_jrn,$HTTP_POST_VARS);
  
    echo '<DIV class="redcontent">';
+   ShowMenuRecherche($g_dossier,$g_jrn,$HTTP_POST_VARS);
+
    ViewJrn($g_dossier,$g_user,$g_jrn,"enc_jrn.php",$HTTP_POST_VARS);
    echo '</DIV>';
  
