@@ -193,7 +193,7 @@ echo "<TR><TD> Code </TD><TD>".$l_line['jrn_def_code']."</TD></TR>";
 echo '</TABLE>';
 // Get all the fiches
 echo '<H2 class="info"> Fiches (profile user)</H2>';
-$Res=ExecSql($cn,"select fd_id,fd_label from fichedef order by fd_label");
+$Res=ExecSql($cn,"select fd_id,fd_label from fiche_def order by fd_label");
 $num=pg_NumRows($Res);
 
 $rdeb=split(',',$l_line['jrn_def_fiche_deb']);

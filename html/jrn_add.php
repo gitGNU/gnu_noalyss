@@ -171,7 +171,7 @@ echo '</TR>';
 <?
 // Get all the fiches
 echo '<tr> <td colspan="2"><H2 class="info"> Fiches (profile user)</H2></TD></TR>';
-$Res=ExecSql($cn,"select fd_id,fd_label from fichedef order by fd_label");
+$Res=ExecSql($cn,"select fd_id,fd_label from fiche_def order by fd_label");
 $num=pg_NumRows($Res);
 
 

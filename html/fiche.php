@@ -18,9 +18,9 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-/* $Revision$ */
-include_once ("ac_common.php");
 
+include_once ("ac_common.php");
+//phpinfo();
 html_page_start($g_UserProperty['use_theme']);
 
 if ( ! isset ( $g_dossier ) ) {
@@ -47,7 +47,10 @@ include_once("fiche_inc.php");
 $l_Db=sprintf("dossier%d",$g_dossier);
 $cn=DbConnect($l_Db);
 
+// Creation of a new model of card
+// in the database
 if ( isset($_POST['add_modele']) ) {
+  // insert the model of card in database
   AddModele($cn,$HTTP_POST_VARS);
 }
 
@@ -66,25 +69,31 @@ if ( $g_UserProperty['use_admin'] == 0 ) {
 ShowMenuComptaLeft($g_dossier,MENU_FICHE);
 if ( isset ( $_GET["action"]) ) {
   $action=$_GET["action"];
+  // View the details of the selected cat. of cards
   if ( isset ($_GET["fiche"]) && $action=="vue" ) {
     echo '<DIV class="redcontent">';
     ViewFiche($cn,$_GET["fiche"]);
     echo '</DIV>';
-  }
+  }// Display the detail of a card
   if ($action== "detail" ) {
     echo '<DIV class="redcontent">';
     ViewFicheDetail($cn,$_GET["fiche_id"]);
     echo '</DIV>';
   }
+  // Display the form where you can enter
+  // the property of the card model
   if ($action == "add_modele" ) {
     echo '<DIV class="redcontent">';
-    DefModele($search);
+    DefModele($cn,$search);
     echo '</DIV>';
   }
+  // Modify a card Model
   if ($action == "modifier" ) {
     echo '<DIV class="redcontent">';
     UpdateModele($cn,$_GET["fiche"],$search);
+    echo '</DI>';
   }
+  // delete a card
   if ($action== "delete" ) {
     echo '<DIV class="redcontent">';
     Remove($cn,$_GET["fiche_id"]);
@@ -93,43 +102,41 @@ if ( isset ( $_GET["action"]) ) {
     echo "</DIV>";
   }  
 }
-if (isset( $_POST["update_modele"] )) {
+// Add a line in the card model
+if ( isset ($_GET["add_ligne"] )) {
   echo '<DIV class="redcontent">';
-  SaveModele($cn,$HTTP_POST_VARS);
+  SaveModeleName($cn,$_GET["fd_id"],$_GET["label"]);
+  InsertModeleLine($cn,$_GET["fd_id"],$_GET["ad_id"]);
+  UpdateModele($cn,$_GET["fd_id"],$search);
+  echo '</DIV>';
+}
+// Change the name of the card  model
+if ( isset ($_GET["change_name"] )) {
+  echo '<DIV class="redcontent">';
+  SaveModeleName($cn,$_GET["fd_id"],$_GET["label"]);
+  UpdateModele($cn,$_GET["fd_id"],$search);
   echo '</DIV>';
 }
 
-if ( isset ($_POST["record_model"]) ){
-  echo '<DIV class="redcontent">';
-  if ( strlen(trim($_POST["nom_mod"])) == 0 ) {
-    EncodeModele($search);
-  }else {
-    DefModele($search,$HTTP_POST_VARS);
-  }
-  echo '</DIV>';
-}
-if ( isset ($_POST["add_ligne"] )) {
-  echo '<DIV class="redcontent">';
-  DefModele($search,$HTTP_POST_VARS,$_POST["inc"]+1);
-  echo '</DIV>';
-}
-
+// Display a blank  card from the selected category
 if ( isset ($_POST["fiche"]) && isset ($_POST["add"]) ) {
   echo '<DIV class="redcontent">';
   EncodeFiche($cn,$_POST["fiche"]);
   echo '</DIV>';
 }
-
+// Add the data (attribute) of the card
 if ( isset ($_POST["add_fiche"]) ) {
   echo '<DIV class="redcontent">';
   AddFiche($cn,$_POST["fiche"],$HTTP_POST_VARS);
   ViewFiche($cn,$_POST["fiche"]);
   echo '</DIV>';
 }
+// Update a card
 if ( isset ($_POST["update_fiche"])) {
   echo '<DIV class="redcontent">';
   $a=UpdateFiche($cn,$HTTP_POST_VARS);
-  ViewFiche($cn,$_POST["f_fd_id"]);
+  $fd_id=GetFicheDef($cn,$_POST["f_id"]);
+  ViewFiche($cn,$fd_id);
 
   echo '</DIV>';
 }
