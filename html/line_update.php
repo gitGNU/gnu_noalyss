@@ -18,14 +18,14 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 // $Revision$
-include ("ac_common.php");
+include_once ("ac_common.php");
 html_page_start($g_UserProperty['use_theme']);
 if ( !isset ($g_dossier)) {
     echo "You must choose a Dossier ";
   phpinfo();
   exit -2;
 }
-include ("postgres.php");
+include_once ("postgres.php");
 include_once("check_priv.php");
 
 /* Admin. Dossier */
