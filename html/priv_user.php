@@ -54,7 +54,9 @@ echo '<H2 class="info"> Administration Globale</H2>';
 echo "<div>".MenuAdmin()."</div>";
 
 echo '<DIV>';
-echo '<H1 class="title"> User Management</H1>';
+
+echo '<h2>Gestion Utilisateurs</h2>';
+
 // User is valid and you're an admin 
 
 

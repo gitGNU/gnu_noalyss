@@ -1,4 +1,20 @@
+2005-02-12  sparkyx  <sparkyx@july>
+
+	* html/admin/setup.php: IMPROVE setup
+
+	* html/admin/setup.php: IMPROVE : setup.php
+
+	* html/admin/setup.php: IMPROVE setup
+
+	* html/admin/sql/patch/upgrade4.sql: remove menu recherche
+
+	* html/admin/setup.php: IMPROVE : setup.php
+
+	* html/admin/sql/patch/upgrade4.sql: IMPROVE setup
+
 2005-02-08  sparkyx  <sparkyx@july>
+
+	* Changelog: changelog
 
 	* FAQ-fr.txt, INSTALL-fr.txt, html/central.php, include/central_inc.php, include/constant.php, install.sh:
 	Improve Doc
