@@ -1,4 +1,23 @@
+2005-01-20  sparkyx  <sparkyx@july>
+
+	* include/user_menu.php: Fix Access Key
+
+	* include/user_menu.php: Fix warning about ja_desc
+
+	* html/user_pref.php, include/class_fiche.php: Drop compta interface
+
+2005-01-19  stanpinte  <stanpinte@july>
+
+	* include/user_menu.php:
+	added tooltips, and hotkey for Jrn menus. (must still debug get_quick_key function
+
+2005-01-18  sparkyx  <sparkyx@july>
+
+	* include/impress_poste.php: Add poste name in impress.php
+
 2005-01-10  sparkyx  <sparkyx@july>
+
+	* Changelog: Changelog
 
 	* doc/manuel-fr.sgml: Improve doc
 
