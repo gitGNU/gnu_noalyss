@@ -50,6 +50,7 @@ for ($i=0;$i<$nb_item;$i++) {
   // store quantity & goods in array
   $a_good[$i]=${"e_march$i"};
   $a_quant[$i]=${"e_quant$i"};
+  $a_vat[$i]=${"e_march$i"."_tva_id"};
  if ( isNumber(${"e_march$i"."_sell"}) == 0 ) {
       // If the price is not set we have to find it from the database
       $a_price[$i]=GetFicheAttribut($p_cn,$a_good[$i],ATTR_DEF_PRIX_VENTE);
@@ -71,7 +72,7 @@ for ($i=0;$i<$nb_item;$i++) {
 			 'Total' => $a_amount[$i]+$a_amount[$i]*$a_quant[$i]*$tva['tva_rate']);
 }
 
-$a_vat=ComputeVat($cn,	$a_good,$a_quant,$a_price);
+$a_vat=ComputeVat($cn,	$a_good,$a_quant,$a_price,$a_vat);
 $sum_vat=0.0;
 foreach ( $a_vat as $element => $t) {
   echo_debug(" a_vat element $element t $t");
@@ -133,11 +134,11 @@ $pdf->ezText(" Limit date : ".$e_ech);
 
 
 // Make a file of it
-$pdfcode=" I don't know whether the prob comes from the ezPdf or from Apache or from Mysql";
-$pdfcode=$pdf->ezOutput();
-$fp=fopen("invoice.pdf","wb+");
-fwrite($fp,$pdfcode);
-fclose ($fp);
+//$pdfcode=" I don't know whether the prob comes from the ezPdf or from Apache or from Mysql";
+//$pdfcode=$pdf->ezOutput();
+//$fp=fopen("invoice.pdf","wb+");
+//fwrite($fp,$pdfcode);
+//fclose ($fp);
 
 $pdf->ezStream();
 
