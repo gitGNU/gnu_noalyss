@@ -33,7 +33,7 @@ include_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
 
-html_page_start($User->theme);
+html_page_start($User->theme,"onLoad='window.focus();'");
 if ( ! isset ( $_SESSION['g_dossier'] ) ) {
   echo "You must choose a Dossier ";
   exit -2;

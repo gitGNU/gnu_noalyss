@@ -344,11 +344,12 @@ if ( $p_update == 0 )  echo "<TR><TD> <INPUT TYPE=\"SUBMIT\" VALUE=\"+ de line\"
     $file=new widget("file");
     $file->table=1;
 	//document
+    $r.='<TD>A effacer <INPUT TYPE="CHECKBOX" name="to_remove" ></TD>';
     $r.="<TD>".sprintf('<A class="detail" HREF="show_document.php?jrn=%s&jr_grpt_id=%s">%s</A>',
 		$content['jr_id'],
 		$content['jr_grpt_id'],
 		$content['jr_pj_name'])."</TD>";
-
+    $r.="</TR></TABLE>";
     $r.="<hr>";
     $r.= "<table>"; 
     $r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
@@ -375,7 +376,6 @@ if ( $p_update == 0 )  echo "<TR><TD> <INPUT TYPE=\"SUBMIT\" VALUE=\"+ de line\"
 		   GetInternal($p_cn,$element),GetGrpt($p_cn,$element),$sessid);
       $r.=sprintf('<INPUT TYPE="button" value="Efface" onClick="dropLink(\'%s\',\'%s\',\'%s\')"><BR>',
 		  $content['jr_id'],$element,$sessid);
-      //      $r.= "<A HREF=\"jrn_op_detail.php?jrn_op=".."\"> ".."</A>,";
     }//for
     $r.= "</div>";
   }// if ( $a != null ) {
