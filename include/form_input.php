@@ -1369,7 +1369,7 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
  *	-
  * return: string with the form
  */
-function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p_article=2)
+function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p_article=6)
 { 
   include_once("poste.php");
   if ( $p_array != null ) {
