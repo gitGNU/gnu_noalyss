@@ -17,7 +17,7 @@
 */
 function SearchJrn(p_sessid)
 {
-	var win=window.open('jrn_search.php?PHPSESSID='+p_sessid,'Cherche','toolbar=no,width=600,height=600,scrollbar');
+	var win=window.open('jrn_search.php?PHPSESSID='+p_sessid,'Cherche','toolbar=no,width=600,height=600,scrollbars=yes');
 }
 function GetIt(p_value) {
 	self.opener.SetIt(p_value);

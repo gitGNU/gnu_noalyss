@@ -39,7 +39,7 @@ function FormPeriodeMult($p_cn)
   $sql="select p_id,to_char(p_start,'DD.MM.YYYY') as p_start,
                     to_char(p_end,'DD.MM.YYYY') as p_end 
         from parm_periode  
-            order by p_start";
+            order by p_exercice,p_start";
   $Res=ExecSql($p_cn,$sql);
   $Max=pg_NumRows($Res);
   $ret='<SELECT NAME="periode[]" SIZE="12" multiple>';
@@ -78,7 +78,7 @@ function FormPeriode($p_cn,$l_default=0,$p_type=OPEN,$p_suff="")
     $sql="select p_id,to_char(p_start,'DD.MM.YYYY') as p_start,
                     to_char(p_end,'DD.MM.YYYY') as p_end 
         from parm_periode where 
-           $sql_closed order by p_start";
+           $sql_closed order by p_exercice,p_start";
 
   }
   if ($p_type==OPEN) {
@@ -86,7 +86,7 @@ function FormPeriode($p_cn,$l_default=0,$p_type=OPEN,$p_suff="")
     $sql="select p_id,to_char(p_start,'DD.MM.YYYY') as p_start,
                     to_char(p_end,'DD.MM.YYYY') as p_end 
         from parm_periode where 
-           $sql_closed order by p_start";
+           $sql_closed order by p_exercice,p_start";
 
   }
   if ($p_type==NOTCENTRALIZED) {
@@ -95,7 +95,7 @@ function FormPeriode($p_cn,$l_default=0,$p_type=OPEN,$p_suff="")
         from parm_periode where 
            p_closed=true and p_id not in (
           select c_periode from centralized)
-          order by p_start";
+          order by p_exercice,p_start";
   }
   $Res=ExecSql($p_cn,$sql);
   $Max=pg_NumRows($Res);
@@ -203,7 +203,7 @@ function GetPeriode($p_cn,$p_periode)
  return pg_fetch_array($Res,0);
 
 }
-/* function
+/* function  PeriodeClosed($p_cn,$p_periode) 
  * Purpose :
  * 
  * parm : 
@@ -211,7 +211,7 @@ function GetPeriode($p_cn,$p_periode)
  * gen :
  *	-
  * return:
- *	- array containing the start date & the end date
+ *	- true if closed
  *
  */ 
 function PeriodeClosed($p_cn,$p_periode) 

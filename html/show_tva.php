@@ -17,47 +17,35 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-include_once ("ac_common.php");
 /* $Revision$ */
-session_start();
-html_page_start($g_UserProperty['use_theme']);
 
-if ( isset ( $dos ) ) {
-  $g_dossier=$dos;
-  session_register("g_dossier");
-  echo_debug("admin_dossier = $g_dossier ");
-} else {
-  echo "You must choose a Dossier ";
-  exit -2;
-}
+include_once ("ac_common.php");
+html_page_start($g_UserProperty['use_theme']);
 include_once ("postgres.php");
-echo_debug ("user is $g_user");
-/* CheckUser */
+/* Admin. Dossier */
 CheckUser();
 
-
-echo_debug("theme ".$g_UserProperty['use_theme']);
-
-if ( $g_UserProperty['use_admin'] == 0 ) {
-  
-  $r=GetPriv($g_dossier,$g_user);
-  if ($r == 0 ){
-    /* Cannot Access */
-    NoAccess();
-  }
+if ( ! isset ( $g_dossier ) ) {
+  echo "You must choose a Dossier ";
+  phpinfo();
+  exit -2;
 }
-SyncRight($g_dossier,$g_user);
 
 
-include ("top_menu_compta.php");
-
-// Show Top Menu 
-ShowMenuCompta($g_dossier,$g_UserProperty);
-
-// Show Menu on the right side
-ShowMenuComptaRight($g_dossier,$g_UserProperty); 
-
-
+$l_Db=sprintf("dossier%d",$g_dossier);
+$condition="";
+$cn=DbConnect($l_Db);
+$Res=ExecSql($cn,"select * from tva_rate order by tva_rate desc");
+$Max=pg_NumRows($Res);
+echo "<TABLE BORDER=\"1\">";
+for ($i=0;$i<$Max;$i++) {
+  $row=pg_fetch_array($Res,$i);
+  printf("<tr><TD BGCOLOR=\LIGHTGREEN\" >%d</TD><TD>%s</TD><TD>%s</TD></TR>",
+	 $row['tva_id'],
+	 $row['tva_label'],
+	 $row['tva_comment']);
+}
+echo '</TABLE>';
+echo '<INPUT TYPE="BUTTON" Value="Close" onClick=\'window.close()\'>';
 html_page_stop();
-
 ?>

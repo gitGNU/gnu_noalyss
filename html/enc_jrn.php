@@ -166,6 +166,10 @@ if ( isset($_POST['add_record']) ) {
     $Res=StartSql($cn);
     $seq=GetNextId($cn,'j_grpt')+1;
     $s_op=GetNextId($cn,'j_id')+1;
+	
+	// For the user profile we need the correct sequence id
+	AlterSequence($cn,'s_jrn_op',$s_op);
+	
     $tot_cred=0;
     $tot_deb=0;
 
@@ -215,6 +219,7 @@ if ( isset($_POST['add_record']) ) {
     	$p_rapt="";
     if ( trim($p_rapt) != '' ) {
       $jrn_id=GetNextJrnId($cn,'jr_id')+1;
+	  
     if ( ! isset ($p_ech) ) 
     	$p_ech="";
       $l_date=isDate($p_ech);
@@ -225,20 +230,25 @@ if ( isset($_POST['add_record']) ) {
       }
       $comment=FormatString($p_comment);
       $Sql=sprintf("insert into jrn(jr_id,jr_def_id,jr_comment,jr_date,jr_grpt_id,
-                          jr_rapt,jr_montant,jr_tech_per) values(%s,%s,'%s',%s,%d,'%s',%f,%d)",
+                          jr_rapt,jr_montant,jr_tech_per,jr_ech) values(%s,%s,'%s',to_date('%s','DD.MM.YYYY'),%d,'%s',%f,%d,'%s')",
 		   $jrn_id,
 		   $g_jrn,
 		   $comment,
-		   $p_ech,
+		   $p_op_date,
 		   $seq,
 		   $p_rapt, $tot_deb,
-		   $userPref);
+		   $userPref,
+		   $p_ech);
       echo_debug($Sql);
       $Res=ExecSql($cn,$Sql);
       //      $l_dest=GetRaptDest($cn,$p_rapt);
       if ($Res) 
-	$internal=SetInternalCode($cn,$jrn_id,$g_jrn,$g_dossier);
+	$internal=SetInternalCode($cn,$seq,$g_jrn);
+	
+	// For the user profile we need the correct sequence id
+	AlterSequence($cn,'s_jrn',$jrn_id);
 
+	// TODO multiple rapt should be added
       $sql=sprintf("update jrn set jr_rapt='%s' where jr_internal='%s'",$internal,$p_rapt);
       echo_debug("add $sql");
       $Res=ExecSql($cn,$sql);
@@ -264,7 +274,7 @@ if ( isset($_POST['add_record']) ) {
       echo_debug("Sql $Sql");
       $Res=ExecSql($cn,$Sql);
       if ($Res) 
-	SetInternalCode($cn,$jrn_id,$g_jrn,$g_dossier);
+	SetInternalCode($cn,$seq,$g_jrn);
 
     }
     

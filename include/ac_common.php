@@ -110,7 +110,7 @@ function isDate ( $p_date) {
   }// !ereg
   return $p_date;
 }
-/* function 
+/* function  formatDate($p_date) 
  * Purpose : 
  *        
  * parm : 

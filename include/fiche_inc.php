@@ -19,7 +19,7 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 // $Revision$
-/* fucntion GetSqlFiche 
+/* function GetSqlFiche 
  ***************************************************
  * purpose : return the sql string which match the p_type 
  *           permit to have all the sql here
@@ -52,7 +52,7 @@ function GetSqlFiche($p_type) {
  *	- none
  * return:
  *	- none
- *
+ * TODO ADD TEST FOR THE VAT RATE
  */ 
 function AddFiche($p_cn,$p_type,$p_array) {
   echo_debug(" AddFiche($p_cn,$p_type,$p_array) ");
@@ -160,7 +160,9 @@ function EncodeFiche($p_cn,$p_type,$p_array=null) {
   $ch_li='</TR><TR>';
   echo '<FORM action="fiche.php" method="post">';
   echo '<INPUT TYPE="HIDDEN" name="fiche" value="'.$p_type.'">';
+  $l_sessid=(isset ($_POST["PHPSESSID"]))?$_POST["PHPSESSID"]:$_GET["PHPSESSID"];
 
+  echo JS_SHOW_TVA;
   echo "<TABLE>";
   if ($p_array == null) {
     // Array is null so we display a blank form
@@ -183,10 +185,20 @@ function EncodeFiche($p_cn,$p_type,$p_array=null) {
       // The number of the attribute
       $Hid=sprintf('<INPUT TYPE="HIDDEN" name="ad_id%d" value="%s">',
 		   $i,$l_line['ad_id']);
+
+      $but_search_poste="";
+      // Javascript for searching the account
+      if ( $l_line ['ad_id'] == ATTR_DEF_ACCOUNT ) {
+	$but_search_poste='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$l_sessid.'\')">';
+      } 
+      // Javascript for showing the tva
+      if ( $l_line ['ad_id'] == ATTR_DEF_TVA ) {
+	$but_search_poste='<INPUT TYPE="BUTTON" VALUE="Montre" OnClick="ShowTva(\''.$l_sessid.'\')">';
+      }
       // content of the attribute
-      printf ('<TR><TD> %s </TD><TD><INPUT TYPE="TEXT" NAME="av_text%d">%s</TD></TR>',
-	      $l_line['ad_text'], $i,$Hid);
-    }
+      printf ('<TR><TD> %s </TD><TD><INPUT TYPE="TEXT" NAME="av_text%d">%s %s</TD></TR>',
+	      $l_line['ad_text'], $i,$Hid,$but_search_poste);
+   }
     echo '</TR>';
     echo '</TABLE>';
     echo '<INPUT TYPE="HIDDEN" name="inc" value="'.$Max.'">';
@@ -217,20 +229,33 @@ function EncodeFiche($p_cn,$p_type,$p_array=null) {
     for ($i=0;$i < $Max;$i++) {
       // fetch the data
       $l_line=pg_fetch_array($Res,$i);
+      // TODO if ad_id = ATTR_DEF_ACCOUNT SHOW BUTTON FOR SHOWING PCMN
+      // TODO if ad_id = ATTR_DEF_TVA  SHOW BUTTON FOR SHOWING PCMN
 
       // Put also the class in a special variable
       // useful when we want to update the PCMN
       // TODO permit the update of TMP_PCMN
+      $but_search_poste="";
       if ( $l_line['ad_id'] == ATTR_DEF_ACCOUNT ) {
 	printf('<INPUT TYPE="HIDDEN" name="class" value="%s">',
 	       $l_line['av_text']);
-      
+      // Javascript for searching the account
+
+	$but_search_poste='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$l_sessid.'\')">';
       } 
+	
+      // Javascript for showing the tva
+      if ( $l_line ['ad_id'] == ATTR_DEF_TVA ) {
+	$but_search_poste='<INPUT TYPE="BUTTON" VALUE="Montre" OnClick="ShowTva(\''.$l_sessid.'\')">';
+      }
+      
+      
+
 	// in hidden we put the jft_id
 	$Hid=sprintf('<INPUT TYPE="HIDDEN" name="jft_id%d" value="%s">',
 		     $i,$l_line['jft_id']);
-	printf ('<TR><TD> %s </TD><TD><INPUT TYPE="TEXT" NAME="av_text%d" VALUE="%s">%s</TD></TR>',
-		$l_line['ad_text'], $i, $l_line['av_text'],$Hid);
+	printf ('<TR><TD> %s </TD><TD><INPUT TYPE="TEXT" NAME="av_text%d" VALUE="%s">%s %s</TD></TR>',
+		$l_line['ad_text'], $i, $l_line['av_text'],$Hid,$but_search_poste);
       
     }
     echo '</TR>';
@@ -405,6 +430,7 @@ function ViewFicheDetail($p_cn,$p_id) {
  *	- nothing
  *
  */ 
+//TODO ADD TEST FOR THE VAT RATE
 function UpdateFiche($p_cn,$p_array) {
   foreach ( $p_array as $key=> $element) {
     echo_debug("$key => $element");
@@ -432,7 +458,7 @@ function UpdateFiche($p_cn,$p_array) {
   }
   // Update the PCMN if needed
   $sql="select av_text from attr_value natural join jnt_fic_att_value
-        where f_id=$fiche and ad_id=5";
+        where f_id=$fiche and ad_id=".ATTR_DEF_ACCOUNT;
   $Res=ExecSql($p_cn,$sql);
 
   if ( pg_NumRows($Res) != 0 ) {
@@ -463,12 +489,16 @@ function UpdateFiche($p_cn,$p_array) {
 	$class=$class_old;
     } else // $class=""
       {
+
+	echo_debug("new account ");
 	$class=$class_old;
-	// First we must use a parent
-	$parent=GetParent($p_cn,$class);
-	$Res=ExecSql($p_cn,
-		     "insert into tmp_pcmn (pcm_val,pcm_lib,pcm_val_parent) 
+	if ( CountSql($p_cn,"select * from tmp_pcmn where pcm_val=".$class) == 0 ) {
+	  // First we must use a parent
+	  $parent=GetParent($p_cn,$class);
+	  $Res=ExecSql($p_cn,
+		       "insert into tmp_pcmn (pcm_val,pcm_lib,pcm_val_parent) 
                          values ($class,'$f_label',$parent)");
+	}
       }
     
 
@@ -853,13 +883,11 @@ function getFicheDefName($p_cn,$p_id) {
  *	- p_cn connextion
  *      - j_jrn journal_id
  *      - $p_type : deb or cred
- *      - $p_fiche_type : fiche_def_ref.frd_id to know what kind of card is asked
- *                        -> Sell, Customer...
  * gen :
  *	- none
  * return: array containing the fiche(f_id),fiche(f_label)
  */
-function GetFicheJrn($p_cn,$p_jrn,$p_type,$p_fiche_type)
+function GetFicheJrn($p_cn,$p_jrn,$p_type)
 {
   $get="";
   if ( $p_type == 'deb' ) {
@@ -884,13 +912,14 @@ function GetFicheJrn($p_cn,$p_jrn,$p_type,$p_fiche_type)
     echo_warning("No fiche");
     return null;
   }
+  
  $sql="select f_id,av_text as f_label 
         from fiche natural join jnt_fic_att_value
         natural join attr_def
         natural join attr_value
-        natural join fiche_def_ref
+        natural join fiche_def
         where ad_id=1 and
-           fd_id in (".$list['fiche'].") and frd_id=$p_fiche_type order by f_label";
+           fd_id in (".$list['fiche'].")  order by f_label";
 
   $Res=ExecSql($p_cn,$sql);
   $Max=pg_NumRows($Res);
@@ -1261,5 +1290,34 @@ function GetParent($p_cn,$p_val)
       return $a;
   }
 }
+/* function getFicheAttribut
+ ***************************************************
+ * Purpose : retourne le tva
+ *        
+ * parm : 
+ *	- p_cn connexion
+ *      - p_id fiche id
+ *      - attribut
+ * gen :
+ *	- none
+ * return:
+ *     - string avec nom fiche
+ */
+function getFicheAttribut($p_cn,$p_id,$p_attr) {
+  // Retrieve the attribute with the ad_id 1
+  // 1 is always the name
+  // TODO replace absolute value by defined value
+  $Res=ExecSql($p_cn,"select av_text from 
+                    attr_value
+                    natural join jnt_fic_att_value 
+                    natural join fiche 
+                    where
+                    f_id=$p_id and
+                    ad_id=$p_attr");
+  if ( pg_NumRows($Res) == 0 ) return "Unknown";
+  $st=pg_fetch_array($Res,0);
+  return $st['av_text'];
+}
+
 
 ?>

@@ -80,7 +80,7 @@ function GetAvailableFolder($p_user,$p_admin)
     $filter="and use_login='$p_user' ";
 
   }
-  $sql="select dos_id,dos_name,dos_description from ac_users 
+  $sql="select distinct dos_id,dos_name,dos_description from ac_users 
                   natural join jnt_use_dos 
                   natural join  ac_dossier 
       where  use_active=1 ".$filter;
@@ -150,7 +150,7 @@ function u_ShowMenuCompta($p_dossier)
 		 array("user_jrn.php?JRN_TYPE=FIN","Banque"),
 		 array("user_jrn.php?JRN_TYPE=OD","Op. Diverses"),
 		 array("fiche.php?p_dossier=$p_dossier","Fiche"),
-		 array("not_implemented.php","Avancé"),
+		 array("user_advanced.php","Avancé"),
 		 array("dossier_prefs.php","Paramètre")
 		   );
 
@@ -302,6 +302,75 @@ function u_ShowMenuJrn($p_cn,$p_jrn_type)
   }
   $ret.='</TABLE>';
   return $ret;
+
+}
+/* function u_ShowMenuRecherche ($p_cn,$p_jrn,$p_sessid,$p_array=null)
+ * Purpose :
+ * 
+ * parm : 
+ *	- $p_cn database connection
+ *      - $p_jrn jrn id
+ *      - $p_array=null previous search
+ * gen :
+ *	- none
+ * return:
+ *	- none
+ *
+ */ 
+
+function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
+{
+  echo_debug("u_ShowMenuRecherche($p_cn,$p_jrn,$p_array)");
+  if ( $p_array != null ) {
+    foreach ( $p_array as $key=> $element) {
+      ${"p_$key"}=$element;
+      echo_debug("p_$key =$element;");
+    }
+  }
+
+  // Find the journal property
+  $JrnProperty=GetJrnProperty($p_cn,$p_jrn);
+
+  $opt='<OPTION VALUE="<="> <=';
+  $opt.='<OPTION VALUE="<"> <';
+  $opt.='<OPTION VALUE="="> =';
+  $opt.='<OPTION VALUE=">"> >';
+  $opt.='<OPTION VALUE=">="> >=';
+  if ( ! isset ($p_date_start)) $p_date_start="";
+  if ( ! isset ($p_date_end))   $p_date_end="";
+  if ( ! isset ($p_mont_sel))$p_mont_sel="";
+  if ( ! isset ($p_s_comment))$p_s_comment="";
+  if ( ! isset ($p_s_montant)) $p_s_montant="";
+
+  if ( $p_mont_sel != "" )  $opt.='<OPTION value="'.$p_mont_sel.'" SELECTED> '.$p_mont_sel;
+  $r="";
+ 
+  $r.= '<div style="border-style:outset;border-width:1pt;">';
+  $r.= "<B>Recherche</B>";
+  $r.= '<FORM ACTION="user_jrn.php?p_jrn='.$p_jrn.'&action=search&PHPSESSID='.$p_sessid.'&nofirst" METHOD="POST">';  
+  $r.= '<TABLE>';
+  $r.= "<TR>";
+  $r.= '<TD COLSPAN="3">  Date compris entre</TD> ';
+  $r.= "</TR> <TR>";
+  $r.= '<TD> <INPUT TYPE="TEXT" NAME="date_start" SIZE="10" VALUE="'.$p_date_start.'"></TD>';
+  $r.= '<TD> <INPUT TYPE="TEXT" NAME="date_end" size="10" Value="'.$p_date_end.'"></TD>';
+  $r.= '</TD><TD>';
+  $r.= "</TR> <TR>";
+  $r.= "<TD> Montant ";
+  $r.= ' <SELECT NAME="mont_sel">'.$opt.' </SELECT></TD><TD>';
+  $r.= ' <INPUT TYPE="TEXT" NAME="s_montant" SIZE="10" VALUE="'.$p_s_montant.'"></TD>';
+  $r.= "</TR><TR>";
+  $r.= '<TD colspan="3"> Le commentaire contient </TD>';
+  $r.= "</TR><TR>";
+  $r.= '<TD COLSPAN="3"> <INPUT TYPE="TEXT" NAME="s_comment" VALUE="'.$p_s_comment.'"></TD>';
+  $r.= "</TR><TR>";
+  $r.= '<TD COLSPAN="3"><INPUT TYPE="SUBMIT" VALUE="Recherche" NAME="viewsearch"></TD>';
+  $r.= "</TR>";
+  $r.= "</TABLE>";
+  $r.= "</FORM>";
+  $r.= '</div>';
+
+  return $r;
 
 }
 

@@ -57,8 +57,8 @@ if ( isset ($_POST["search"]) ) {
     $c_comment=" $part pcm_lib like '%$p_comment%'";
     $part=" and ";
   }
-  if ( ereg ("^[0-9]*\.[0-9]*$",$p_montant) ||
-        ereg ("^[0-9]*$",$p_montant) )
+  if ( strlen($p_montant) != 0 && (ereg ("^[0-9]*\.[0-9]*$",$p_montant) ||
+				   ereg ("^[0-9]*$",$p_montant)) )
       { 
     $c_montant=sprintf(" $part j_montant %s %s",$p_montant_sel,$p_montant);
     $part="  and ";
@@ -70,7 +70,16 @@ if ( isset ($_POST["search"]) ) {
 $condition=$c_comment.$c_montant.$c_date;
 echo_debug("condition = $condition");
 }
-$condition=$condition." $part uj_priv in ('W','R') and uj_login='".$user."'" ;
+$condition=$condition." ".$part;
+
+// If the usr is admin he has all right
+if ( $g_UserProperty['use_admin'] != 1 ) {
+  $condition.="  uj_priv in ('W','R') and uj_login='".$g_user."'" ;
+} else {
+  $condition.=" 1=1 ";
+}
+
+
 echo '<FORM ACTION="jrn_search.php" METHOD="POST">';
 echo '<TABLE>';
 echo '<TR>';

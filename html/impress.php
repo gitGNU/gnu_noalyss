@@ -31,9 +31,12 @@ include ("check_priv.php");
 include_once ("top_menu_compta.php");
 ShowMenuCompta($g_dossier,$g_UserProperty);
 if ( isset ($g_jrn) ) {
+  echo_debug("g_jrn is set --> come from user_profile");
   $p_id=$g_jrn;
 } else {
-  if (isset ($_GET["p_id"]) )   $p_id=$_GET["p_id"];
+  if (isset ($_GET["p_id"]) )   {
+    $p_id=$_GET["p_id"];
+  }
 }
 
 include_once("impress_inc.php");
@@ -45,7 +48,7 @@ if ( $g_UserProperty['use_admin'] == 0 ) {
     NoAccess();
   }
   if ( isset ($_GET["type"])) {
-    if ( $type="jrn") {
+    if ( $type=="jrn") {
       $right=CheckJrn($g_dossier,$g_user,$p_id);
       if ($right == 0 ){
 	/* Cannot Access */
@@ -58,13 +61,37 @@ if ( $g_UserProperty['use_admin'] == 0 ) {
 
 $l_Db=sprintf("dossier%d",$g_dossier);
 $cn=DbConnect($l_Db);
-ShowMenuJrnUserImp($cn,$g_user,$g_dossier);
 
+// if the user has the profile compta show the left menu
+if ( $g_UserProperty['use_usertype'] == 'compta') 
+  ShowMenuJrnUserImp($cn,$g_user,$g_dossier);  
+
+// if the user has the profile compta show the left menu
+if ( $g_UserProperty['use_usertype'] == 'user') {
+  // Get the jrn_type_id
+  include_once('jrn.php');
+  $JrnProp=GetJrnProp($g_dossier,$g_jrn);
+  $jrn_type=$JrnProp['jrn_def_type'];
+
+  // Display available menus
+  ShowMenuJrnUser($g_dossier,$g_UserProperty,$jrn_type,$g_jrn);
+
+  // display jrn's menu
+  include_once('user_menu.php');
+  $menu_jrn=u_ShowMenuJrn($cn,$jrn_type);
+  echo '<div class="searchmenu">';
+  echo $menu_jrn;
+  echo '</DIV>';
+} // Menu for user's profile
 
 // Ask the period
 if ( isset ( $_GET["action"]) ) {
+  echo_debug(" action is set ");
+  $a_print=$HTTP_GET_VARS;
+  $a_print['p_id']=$p_id;
   echo '<DIV class="redcontent">';
-  ViewImp($HTTP_GET_VARS,$cn);
+  echo '<h2 class="info"> Choississez la période</h2>';
+  ViewImp($a_print,$cn);
   echo '</DIV>';
 }//if ( isset ( $_GET["action"] )) 
 

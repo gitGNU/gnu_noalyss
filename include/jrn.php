@@ -67,7 +67,7 @@ function RecordJrn($p_dossier,$p_user,$p_jrn,$p_MaxDeb,$p_MaxCred,$p_array = nul
   }
   }
   /* Get Jrn's properties */
-  $l_line=GetJrnProp($p_dossier,$p_jrn);
+  $l_line=GetJrnProperty($cn,$p_jrn);
   if ( $l_line == null ) return;
   echo '<DIV class="redcontent">';
   echo '<FORM NAME="encoding" ACTION="enc_jrn.php" METHOD="POST">';
@@ -572,6 +572,32 @@ function ViewRecord ($p_dossier,$p_jrn,$p_id,$p_MaxDeb,$p_MaxCred,$p_array)
   echo ' <A class="mtitle" HREF="enc_jrn.php?action=record&max_deb='.$l_prop['jrn_deb_max_line'].'&max_cred='.$l_prop['jrn_cred_max_line'].'&p_jrn='.$p_jrn.'"> Ajouter</A>';
   echo '</TD></TR></TABLE>';
 }
+/* function GetJrnProperty ($p_cn,$p_jrn) 
+ * Purpose : Get the properties of a journal
+ * 
+ * parm : 
+ *	- p_cn database connection
+ *      - p_jrn the jrn id
+ * gen :
+ *	- none
+ * return:
+ *	- an array containing properties
+ *
+ */ 
+function GetJrnProperty($p_cn,$p_jrn) 
+{
+  $Res=ExecSql($p_cn,"select jrn_Def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_def_type, 
+                   jrn_deb_max_line,jrn_cred_max_line,jrn_def_ech,jrn_def_ech_lib,jrn_def_code,
+                   jrn_def_fiche_deb,jrn_def_fiche_deb
+                   from jrn_Def 
+                      where jrn_def_id=$p_jrn");
+  $Count=pg_NumRows($Res);
+  if ( $Count == 0 ) {
+    echo '<DIV="redcontent"><H2 class="error"> Paramètres journaux non trouvés</H2> </DIV>';
+    return null;
+  }
+  return pg_fetch_array($Res,0);
+}
 /* function GetJrnProp
  * Purpose : Get the properties of a journal
  * 
@@ -600,7 +626,7 @@ function GetJrnProp($p_dossier,$p_jrn)
   }
   return pg_fetch_array($Res,0);
 }
-/* function
+/* function  GetNextId($p_cn,$p_name) 
  * Purpose :
  * 
  * parm : 
@@ -621,7 +647,7 @@ function GetNextId($p_cn,$p_name) {
   $l_res=pg_fetch_array($Res,0);
   return $l_res['result'];
 }
-/* function
+/* function GetNextJrnId($p_cn,$p_name) 
  * Purpose :
  * 
  * parm : 
@@ -658,6 +684,7 @@ function GetNextJrnId($p_cn,$p_name) {
  */ 
 function ViewJrn($p_dossier,$p_user,$p_jrn,$p_array=null) {
   echo_debug("function ViewJrn($p_dossier,$p_user,$p_jrn,$p_array=null) ");
+  echo JS_VIEW_JRN_DETAIL;
   $db=sprintf("dossier%d",$p_dossier);
   $l_prop=GetJrnProp($p_dossier,$p_jrn);
   echo "<H2 class=\"info\">".$l_prop['jrn_def_name']."( ".$l_prop['jrn_def_code'].")"."</H2>";
@@ -687,13 +714,13 @@ function ViewJrn($p_dossier,$p_user,$p_jrn,$p_array=null) {
                    j_jrn_def=$p_jrn";
     $l_and="and ";
     if ( ereg("^[0-9]+$", $l_s_montant) || ereg ("^[0-9]+\.[0-9]+$", $l_s_montant) ) {
-    $sql.=" and j_montant $l_mont_sel $l_s_montant";
+    $sql.=" and jr_montant $l_mont_sel $l_s_montant";
     }
     if ( isDate($l_date_start) != null ) {
-      $sql.=$l_and." j_date >='".$l_date_start."'";
+      $sql.=$l_and." j_date >= to_date('".$l_date_start."','DD.MM.YYYY')";
     }
     if ( isDate($l_date_end) != null ) {
-      $sql.=$l_and." j_date <='".$l_date_end."'";
+      $sql.=$l_and." j_date <= to_date('".$l_date_end."','DD.MM.YYYY')";
     }
     $l_s_comment=FormatString($l_s_comment);
     if ( $l_s_comment != null ) {
@@ -822,6 +849,7 @@ function GetData ($p_cn,$p_grpt) {
                         j_montant,
                         j_id,
                         jr_comment,
+			to_char(jr_ech,'DD.MM.YYYY') as jr_ech,
                         to_char(jr_date,'DD.MM.YYYY') as jr_date,
                         jr_rapt, jr_id,jr_internal
                      from jrnx inner join jrn on j_grpt=jr_grpt_id where j_grpt=$p_grpt");
@@ -857,7 +885,7 @@ function GetData ($p_cn,$p_grpt) {
     }
     $l_array['jr_internal']=$l_line['jr_internal'];
     $l_array['comment']=$l_line['jr_comment'];
-    $l_array['ech']=$l_line['jr_date'];
+    $l_array['ech']=$l_line['jr_ech'];
     $l_array['rapt']=$l_line['jr_rapt'];
     $l_array['jr_id']=$l_line['jr_id'];
    }
@@ -920,15 +948,17 @@ function GetRaptDest($p_cn,$p_rappt) {
   if ( strlen (trim ($l_line['jr_rapt'])) == 0 ) return -1;
   return $l_line['jr_rapt'];
 }
-/* function
- * Purpose :
+/* function GetAmount
+ * Purpose : return the sum of jrn where
+ *            the internal_code is the p_id
  * 
  * parm : 
- *	- 
+ *	- $p_cn database connection
+ *  - p_id = jrn.jr_internal
  * gen :
  *	-
  * return:
- *	-
+ *	- number
  *
  */ 
 function GetAmount($p_cn,$p_id) {
@@ -1076,7 +1106,7 @@ function NextJrn($p_cn,$p_type)
  * 
  * parm : 
  *	- $p_cn connection
- *      - $p_id id in jr_id
+ *      - $p_grpt id in jr_grpt_id
  *      - $p_jrn jrn id jrn_def_id
  *      - $p_dossier dossier id
  * gen :
@@ -1085,14 +1115,14 @@ function NextJrn($p_cn,$p_type)
  *	-
  *
  */ 
-function SetInternalCode($p_cn,$p_id,$p_jrn,$p_dossier)
+function SetInternalCode($p_cn,$p_grpt,$p_jrn)
 {
   $num=CountSql($p_cn,"select * from jrn where jr_def_id=$p_jrn");
-  $atype=GetJrnProp($p_dossier,$p_jrn);
+  $atype=GetJrnProperty($p_cn,$p_jrn);
   $type=$atype['jrn_def_code'];
-  $internal_code=sprintf("%s-%08d",$type,$num);
+  $internal_code=sprintf("%s-%05d",$type,$num);
   $Res=ExecSql($p_cn,"update jrn set jr_internal='".$internal_code."' where ".
-	       " jr_id = ".$p_id);
+	       " jr_grpt_id = ".$p_grpt);
   return $internal_code;
 }
 

@@ -84,10 +84,44 @@ define ("ALL_FICHE_DEF_REF", 1000);
 // fixed value for attr_def data
 define ("ATTR_DEF_ACCOUNT",5);
 define ("ATTR_DEF_NAME",1);
-define ("ATTR_DEF_PRIX_ACHAT",6);
-define ("ATTR_DEF_PRIX_VENTE",7);
+define ("ATTR_DEF_PRIX_ACHAT",7);
+define ("ATTR_DEF_PRIX_VENTE",6);
 define ("ATTR_DEF_TVA",2);
 define ("FICHE_TYPE_CLIENT",9);
 define ("FICHE_TYPE_VENTE",1);
+define ("ATTR_DEF_ADRESS",14);
+define ("ATTR_DEF_CP",15);
+define ("ATTR_DEF_PAYS",16);
 
+
+define ("JS_SEARCH_POSTE","<SCRIPT>function SearchPoste(p_sessid)
+     {
+       var win=window.open('poste_search.php?PHPSESSID='+p_sessid,'Cherche','toolbar=no,width=600,height=600,scrollbars=yes,resizable=yes');
+    } 
+	 function GetIt() {
+	   window.close();	
+	} 
+	</SCRIPT>"
+);
+define ("JS_SHOW_TVA","<SCRIPT>function ShowTva(p_sessid)
+     {
+       var win=window.open('show_tva.php?PHPSESSID='+p_sessid,'Montre','scrollbar,toolbar=no,width=300,height=300,resizable=yes');
+    } 
+	 function GetIt() {
+	   window.close();	
+	} 
+	</SCRIPT>"
+);
+
+define ("JS_VIEW_JRN_DETAIL","<script>function viewDetail(p_value,p_sessid)
+		{
+			var win=window.open('jrn_op_detail.php?jrn_op='+p_value+'&PHPSESSID='+p_sessid,'Cherche','toolbar=no,width=400,height=400,scrollbars=yes,resizable=yes');
+		}
+	</script>");
+
+// Sql string
+define ("SQL_LIST_ALL_INVOICE","");
+define ("SQL_LIST_UNPAID_INVOICE"," where (jr_rapt is null or jr_rapt = '')"); 
+define ("SQL_LIST_UNPAID_INVOICE_DATE_LIMIT" ," where (jr_rapt is null or jr_rapt = '') 
+                       and to_date(to_char(jr_ech,'DD.MM.YYYY'),'DD.MM.YYYY') < to_date(to_char(now(),'DD.MM.YYYY'),'DD.MM.YYYY')");
 ?>

@@ -32,7 +32,7 @@ create table ac_users (
 	primary key (use_id)
 );
 
-insert into ac_users (use_login, use_active,use_pass,use_usertype,use_admin) values (user,1,
+insert into ac_users (use_login, use_active,use_pass,use_usertype,use_admin) values ('phpcompta',1,
 'b1cc88e1907cde80cb2595fa793b3da9','compta',1);
 
 

@@ -55,7 +55,7 @@ insert into jrn_type values ('OD','Opérations Diverses');
 
 insert into jrn_def values (1,'Financier','5* ','5*',null,null,5,5,false,null,'FIN','FIN-01');
 insert into jrn_def values (2,'Vente','7*','4*',null,null,1,3,true,'échéance','VEN','VEN-01');
-insert into jrn_def values (3,'Achat','6*','4*',1,3,true,'échéance','ACH','ACH-01');
+insert into jrn_def values (3,'Achat','6*','4*',null,null,1,3,true,'échéance','ACH','ACH-01');
 insert into jrn_def values (4,'Opération Diverses',null,null,null,null,5,5,false,null,'OD','OD-01');
 
 create sequence s_jrnx;
@@ -66,8 +66,9 @@ create table jrn (
        jr_montant float not null,
        jr_comment text ,
        jr_date date ,
+       jr_ech date ,
        jr_grpt_id integer not null,
-       jr_rapt	  integer,
+       jr_rapt	  text,
        jr_internal text,
        jr_tech_date timestamp not null default now(),
        jr_tech_per integer not null

@@ -44,28 +44,30 @@ foreach ($l_array as $key=>$element) {
   echo_debug("e_$key =$element");
 }
 
-echo '<div> Opération '.$l_array['jr_internal']."</div>";
+echo '<div align="center"> Opération '.$l_array['jr_internal']."</div>";
 
-  echo 'Date : '.$e_op_date;
+echo 'Date : '.$e_op_date;
+echo '<div style="border-style:solid;border-width:1pt;">';
+echo $e_comment;
+echo '</DIV>';
+
 if ( isset ($e_ech) ) {
   echo "<DIV> Echeance $e_ech </DIV>";
 }
 for ( $i = 0; $i < $max_deb;$i++) {
   $lib=GetPosteLibelle($g_dossier,${"e_class_deb$i"}); 
-  echo '<div style="background-color:lightblue;">';
+  echo '<div style="background-color:#BFC2D5;">';
   echo ${"e_class_deb$i"}." $lib    "."<B>".${"e_mont_deb$i"}."</B>";
   echo "</div>";
 }
 for ( $i = 0; $i < $max_cred;$i++) {
   $lib=GetPosteLibelle($g_dossier,${"e_class_cred$i"});
-  echo '<div style="background-color:lightgreen;">';
+  echo '<div style="background-color:#E8F4FF;">';
   echo ${"e_class_cred$i"}."  $lib   "."<B>".${"e_mont_cred$i"}."</B>";
   echo '</div>';
 }
-echo "operation concernée $e_rapt";
-echo '<div style="border-style:solid;border-width:1pt;">';
-echo $e_comment;
-echo '</DIV>';
+echo "operation concernée $e_rapt<br><br>
+";
 ?>
 <input type="button" onClick="window.close()" value="Fermer">
 <?
