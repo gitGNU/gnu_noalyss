@@ -1,5 +1,6 @@
 NR_DOSSIER=$1
 BACKUP_FILE=$2
+dropdb -h localhost -U phpcompta dossier$NR_DOSSIER
 createdb -h localhost -U phpcompta dossier$NR_DOSSIER
 psql -h localhost -U phpcompta dossier$NR_DOSSIER -f $BACKUP_FILE
 psql -h localhost -U phpcompta --command "INSERT INTO ac_users (use_login, use_active, use_pass, use_admin, use_usertype) VALUES ('stan', 1, md5('plogastel'), 1, 'user')" account_repository

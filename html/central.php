@@ -49,9 +49,13 @@ if ( $_SESSION['use_admin']==0 ) {
 }
 include_once("central_inc.php");
 
+echo '<div class="u_subtmenu">';
+echo ShowMenuAdvanced();
+echo '</div>';
+
 $cn=DbConnect($_SESSION['g_dossier']);
 
-echo '<DIV CLASS="ccontent">';
+echo '<DIV CLASS="u_subtmenu">';
 echo '<H2 CLASS="info"> Centralise </H2><BR>';
 if ( isset ($_POST["central"] )) {
 
