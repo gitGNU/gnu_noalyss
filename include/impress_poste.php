@@ -130,6 +130,7 @@ print "</TR>";
 print "<TR><TD>";
 $all=new widget("checkbox");
 $all->label="Tous les postes";
+$all->disabled=true;
 echo $all->IOValue("poste_id","");
 echo '</TABLE>';
 print $w->Submit('bt_html','Impression');
