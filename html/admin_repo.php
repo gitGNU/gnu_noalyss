@@ -115,6 +115,7 @@ if ( isset ($_GET["action"]) ) {
 	$Sql=sprintf("CREATE DATABASE DOSSIER%d encoding='ISO8859-1' TEMPLATE MOD%d",$l_id,$_POST["FMOD_ID"]);
 	echo_debug($Sql);
 	ExecSql($cn,$Sql);
+	$Res=ExecSql($cn,"insert into jnt_use_dos (use_id,dos_id) values (1,$l_id)");
       } // if $l_id != 0
     } // $_POST[DATABASE]
 ?>
@@ -212,7 +213,6 @@ if ( $count == 0 ) {
       $Res=ExecSql($cn,"create sequence s_jrn");
       $Res=ExecSql($cn,"create sequence s_jrn_op");
       $Res=ExecSql($cn,"create sequence s_centralized");
-
     }
     // Show all available templates
 

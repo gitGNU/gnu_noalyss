@@ -17,8 +17,6 @@
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
 
-export PATH=/opt/psql732/bin:$PATH
-export PGDATA=/opt/database
 version=3
 VerifOutil() {
 	RESULT="Verif. $1"
