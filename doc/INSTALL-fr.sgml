@@ -16,13 +16,24 @@ site savannah <url url="http://savannah.nongnu.org/projects/phpcompta/" name="Ph
 
 <!-- Table of contents -->
 <toc>
+<sect>Linux
+<p> Si vous installez sur Linux, l'installation d'apache / postgres et php peut se
+faire avec les "packages" fournis; ces "packages" sont largement suffisants. Les explications
+données ici sur l'installation de ces produits est destinées à ceux devant le faire manuellement.
 
+<p> Cependant, les configurations des différents produits est important
+et devrait être lu avant d'appeler à l'aide.
+
+
+</sect>
 
 <sect>Postgresql (version 732 minimum)
 
 <sect1>Installation
 <p>
 Soit avec des binaires préparés, soit à partir du code source
+
+
 </p>
 <p>
 Si vous décidez de le compiler vous-même, les
@@ -204,7 +215,7 @@ Voilà maintenant, il vous suffit de faire ./install.sh pour tout
 <item>Il faut créer le répertoire où seront mis l'application elle-même,
    ici, les fichiers seront dans /home/httpd/compta, l'endroit est défini dans setenv.sh. Créer ce
    répertoire, le propriétaire de répertoire doit être le même que
-   celui qui fera installera l'application. Cet utiliserateur devra
+   celui qui installera l'application. Cet utiliserateur devra
    aussi avoir le privilège de créer un utilisateur pour postgres
    (fonction createuser).
 <item>Adapter  le fichiers setenv.sh selon vos besoins
