@@ -72,9 +72,14 @@ if ( $action == 'update' ) {
     $r.=UpdateJrn($cn,$p_id);
 
     $r.='<INPUT TYPE="Hidden" name="action" value="update_record">';
+    $r.="<br>";
+    $r.="<br>";
+    $r.="<br>";
     $r.='<input type="SUBMIT" name="update_record" value="Enregistre">';
+    $r.="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+    $r.='<input type="button" value="Annuler" onClick="window.close();">';
     $r.='</FORM>';
-    $r.='<br> <br> <input type="button" value="Fermer" onClick="window.close();">';
+
 //    echo '<div class="redcontent">';
     echo $r;
 //    echo '</div>';
