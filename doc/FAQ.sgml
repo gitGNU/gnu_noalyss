@@ -14,7 +14,17 @@ site savannah <url url="http://savannah.nongnu.org/projects/phpcompta/" name="Ph
 
 <!-- Table of contents -->
 <toc>
-
+<sect> Qu'est-ce que PhpCompta ?
+<P>PhpCompta est un logiciel <url url="http://www.gnu.org/licenses/gpl.html" name="GPL">
+adapté à la législation
+ belge en matière de comptabilité, il vous permet de tenir votre comptabilité de
+ manière centralisée.Il a crée pour supporter d'autres comptabilité d'autres
+ pays mais par manque de documentation, ce n'est pas encore implémenté, idem
+ pour les traductions. </P>
+ <P>Si vous voulez contribuez n'hésitez pas : <url url="http://mail.nongnu.org/mailman/listinfo/phpcompta-contrib" name="Mailing List Contribution">
+ <newline> Si vous avez besoin d'aide <url url="http://mail.nongnu.org/mailman/listinfo/phpcompta-support" 
+ name="Mailing List support">.
+ </p>
 <sect> Quel le nom du soft ??
 <p>
 <verb>
@@ -158,7 +168,7 @@ ot de passe par défaut est  phpcompta
 </sect>
 <sect> Comment faire de la doc
 <p>
-Sous mandrake, ajouter les linuxdocs-tools avec la commande 
+Sous mandrake, ajouter les linuxdocs-tools avec la commande
 urpmi linuxdoc-tools, pour les autres, je ne sais pas :(
 </p>
 <p>
@@ -173,7 +183,7 @@ pouvez imprimer le guide, pour le trouver faites :
 <verb>en mode commande:  rpm -qil linuxdoc-tools|grep example</verb>
 </p>
 <p>
-Ensuite, editez le fichier sgml, 
+Ensuite, editez le fichier sgml,
 et surtout pensez à utilisez aspell -H --lang=fr_FR check FAQ.sgml pour
 vérifier l'orthographe. Pour le visionner, faites linuxdoc -B html FAQ.sgml
 soit linuxdoc -B rtf pour avoir un fichier rtf...
@@ -188,6 +198,61 @@ sur un sujet <url url="http://savannah.nongnu.org/task/?group=phpcompta" name="P
 </p>
 <p>
 Cela m'évite de devoir chaque fois changer sur le site de phpcompta
+</p>
+</sect>
+<sect>Install.sh ne fonctionne pas
+<p>
+	Il est important de suivre la procédure pour l'installation
+	voir INSTALL-fr (dans le répertoire doc) !!
+	</p>
+	<p>
+	A. se connecter en tant que l'utilisateur Unix postgres
+	et éxécuter la commande
+	 createuser -d -a phpcompta
+	puis faire exécuter l'install.sh en tant que root.
+	Il serait prudent de changer le propriétaire des fichiers installer
+	</p>
+</sect>
+<sect>l'erreur ERROR:  CREATE USER: permission denied
+<p>
+<tscreen><verb>
+	l'erreur ERROR:  CREATE USER: permission denied
+	createuser: creation of user "phpcompta" failed
+	</verb></tscreen>
+</p>
+<p>
+voir question précédente
+</p>
+</sect>
+
+<sect> recevoir des erreurs de création
+<p>
+<tscreen><verb>
+ERROR:  column "jrn_deb_max_line" is of type 'integer' but expression is
+of type 'boolean'	You will need to rewrite or cast the expression
+ERROR:  column "jrn_deb_max_line" is of type 'integer' but expression is
+of type 'boolean'	You will need to rewrite or cast the expression
+ERROR:  column "jrn_deb_max_line" is of type 'integer' but expression is
+of type 'boolean'	You will need to rewrite or cast the expression
+ERROR:  column "jrn_deb_max_line" is of type 'integer' but expression is
+of type 'boolean'	You will need to rewrite or cast the expression
+</verb></tscreen>
+Vous avez utilisé une version instable ! Cela a été corrigé reprenez les fichiers du CVS
+</p>
+</sect>
+
+<sect> Erreur objet n'existe pas
+<p>
+<tscreen><verb>
+ERROR:  sequence "s_isup" does not exist
+ERROR:  sequence "s_fdef" does not exist
+ERROR:  sequence "s_idef" does not exist
+ERROR:  table "isupp" does not exist
+ERROR:  table "fiche" does not exist
+ERROR:  table "isupp_def" does not exist
+ERROR:  table "fichedef" does not exist
+</verb></tscreen>
+Du à une commande drop sur un objet inexistant, n'y pretez pas attention
 </p>
 
 </article>
