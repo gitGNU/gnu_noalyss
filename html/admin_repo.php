@@ -25,7 +25,10 @@ include_once("debug.php");
 html_page_start($g_UserProperty['use_theme']);
 echo_debug(__FILE__,__LINE__,"entering admin_repo");
 
-CheckUser();
+$rep=DbConnect();
+include_once ("class_user.php");
+$User=new cl_user($rep);
+$User->Check();
 if ($g_UserProperty['use_admin'] != 1) {
   html_page_stop();
   return;
@@ -132,11 +135,14 @@ $template="";
 
  // show all dossiers
 if ( $Res != null ) {
-  echo "<TR>";
   foreach ( $Res as $Dossier) {
     
-    if ( $compteur%5 == 0 ) echo "</TR><TR>";
-    echo "<TD VALIGN=\"TOP\"> <B>$Dossier[dos_name]</B> <BR><I>  $Dossier[dos_description]</I></TD>";
+    if ( $compteur%2 == 0 ) 
+    	$cl='class="odd"';
+	else
+	$cl='class="even"';
+
+    echo "<TR $cl><TD VALIGN=\"TOP\"> <B>$Dossier[dos_name]</B> </TD><TD><I>  $Dossier[dos_description]</I></TD></TR>";
     $compteur++;
     
   }

@@ -27,7 +27,10 @@ if ( ! isset ( $g_dossier ) ) {
 }
 include_once ("postgres.php");
 /* Admin. Dossier */
-CheckUser();
+$rep=DbConnect();
+include_once ("class_user.php");
+$User=new cl_user($rep);
+$User->Check();
 
 include_once ("check_priv.php");
 

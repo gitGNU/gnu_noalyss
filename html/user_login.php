@@ -20,7 +20,10 @@
 // $Revision$
 include_once ("ac_common.php");
 include_once("postgres.php");
-CheckUser();
+$rep=DbConnect();
+include_once ("class_user.php");
+$User=new cl_user($rep);
+$User->Check();
 html_page_start($g_UserProperty['use_theme']);
 include_once("user_menu.php");
 //u_ShowMenu($g_UserProperty['use_admin']);

@@ -25,7 +25,10 @@ html_page_start($g_UserProperty['use_theme']);
 echo_debug(__FILE__,__LINE__,"entering priv_users");
 
 
-CheckUser();
+$rep=DbConnect();
+include_once ("class_user.php");
+$User=new cl_user($rep);
+$User->Check();
 if ($g_UserProperty['use_admin'] != 1) {
   html_page_stop();
   return;

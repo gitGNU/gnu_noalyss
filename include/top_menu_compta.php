@@ -145,7 +145,7 @@ function ShowMenuComptaRight($p_dossier=0,$p_auser,$p_more="")
  *	- none
  *
  */ 
-function ShowMenuAdminGlobalRight($p_dossier=0)
+/* obsolete function ShowMenuAdminGlobalRight($p_dossier=0)
 {
   include_once("ac_common.php");
   echo '<div class="rmenu">';
@@ -163,6 +163,7 @@ printf( '<TR><TD class="mtitle"> <A class="mtitle" HREF="compta.php?dos=%d">Reto
   echo "</TABLE>";
   echo '</div>';
 }
+*/
 /* function ShowMenuPcmn($p_start=1)
  * Purpose : Show the menu from the pcmn page
  * 

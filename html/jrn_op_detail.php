@@ -30,7 +30,10 @@ if ( ! isset ( $g_dossier ) ) {
 include_once ("postgres.php");
 include_once("jrn.php");
 /* Admin. Dossier */
-CheckUser();
+$rep=DbConnect();
+include_once ("class_user.php");
+$User=new cl_user($rep);
+$User->Check();
 
 if ( isset( $p_jrn )) {
   session_register("g_jrn");

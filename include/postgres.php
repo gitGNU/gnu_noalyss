@@ -31,7 +31,7 @@
  * Automatically redirect
  * 
 ++*/
-function CheckUser()
+/* obsolete  function CheckUser()
 {
 	global $g_user,$g_pass,$IsValid;
 	echo_debug(__FILE__,__LINE__,"CheckUser");
@@ -66,6 +66,7 @@ function CheckUser()
 	return $ret;
 	
 }
+*/
 /*++
  * function : ShowDossier
  * Parameter : p_type string : all for all dossiers lim for only the 
@@ -75,7 +76,7 @@ function CheckUser()
  * Show the folder where user have access
 ++*/ 
 function ShowDossier($p_type,$p_first=0,$p_max=10,$p_Num=0) {
-  global $g_user;
+  $l_user=$_SESSION['g_user'];
   if ( $p_max == 0 ) {
     $l_step="";
   } else {
@@ -90,7 +91,7 @@ function ShowDossier($p_type,$p_first=0,$p_max=10,$p_Num=0) {
                                natural join ac_dossier 
                                natural join ac_users 
                                inner join priv_user on priv_jnt=jnt_id where 
-                               use_login='".$g_user."' and priv_priv !='NO'
+                               use_login='".$l_user."' and priv_priv !='NO'
                                order by dos_name ";
     $p_Num=CountSql($cn,$l_sql);
   }
@@ -110,13 +111,15 @@ function ShowDossier($p_type,$p_first=0,$p_max=10,$p_Num=0) {
 }
 // Check if the user has admin right
 // to be complete
-function CheckAdmin() {
-  global $g_user,$g_pass;
+/* obsolete function CheckAdmin() {
+  $l_user=$_SESSION($g_user);
+  $l_pass=$_SESSION($g_pass);
+
   $res=0;
 
-  if ( $g_user != 'phpcompta') {
-	$pass5=md5($g_pass);
-	$sql="select use_id from ac_users where use_login='$g_user'
+  if ( $l_user != 'phpcompta') {
+	$pass5=md5($l_pass);
+	$sql="select use_id from ac_users where use_login='$l_user'
 		and use_active=1 and use_admin=1 and use_pass='$pass5'";
 
 	$cn=DbConnect();
@@ -126,6 +129,8 @@ function CheckAdmin() {
 
   return $isAdmin;
 }
+*/
+
 /* function DbConnect
  * purpose : connect to the database
  * parameter : p_db : db_name

@@ -46,7 +46,10 @@ if ( isset ($g_jrn) ) {
 }
 
 /* Admin. Dossier */
-CheckUser();
+$rep=DbConnect();
+include_once ("class_user.php");
+$User=new cl_user($rep);
+$User->Check();
 
 // show the top menu depending of the use_style
 // comta style

@@ -35,8 +35,14 @@ if ( isset ( $dos ) ) {
 }
 include_once ("postgres.php");
 echo_debug(__FILE__,__LINE__,"user is $g_user");
-/* CheckUser */
-CheckUser();
+$rep=DbConnect();
+include_once ("class_user.php");
+$User=new cl_user($rep);
+$User->Check();
+$rep=DbConnect();
+include_once ("class_user.php");
+$User=new cl_user($rep);
+$User->Check();
 
 // Synchronize rights
 SyncRight($g_dossier,$g_user);

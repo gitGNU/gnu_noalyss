@@ -26,8 +26,14 @@ if ( ! isset ( $g_dossier ) ) {
   exit -2;
 }
 include_once ("postgres.php");
-/* CheckUser */
-CheckUser();
+$rep=DbConnect();
+include_once ("class_user.php");
+$User=new cl_user($rep);
+$User->Check();
+$rep=DbConnect();
+include_once ("class_user.php");
+$User=new cl_user($rep);
+$User->Check();
 include ("top_menu_compta.php");
 ShowMenuCompta($g_dossier,$g_UserProperty);
 

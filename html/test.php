@@ -58,11 +58,6 @@ foreach (array('magic_quotes_gpc','magic_quotes_runtime') as $a) {
   }
 
 }
-if ( ini_get('register_globals') != true )
-	print ("<h2 class=\"error\">register_globals has a bad value  !!!</h2>");
- else
-   print 'register_globals : Ok <br>';
-
 if ( ereg("\.\.\/include",ini_get('include_path')) == false )
   print ("<h2 class=\"error\">include_path incorrect  !!!".ini_get('include_path')."</h2>");
  else

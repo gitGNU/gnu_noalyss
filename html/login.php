@@ -34,7 +34,10 @@ if (  isset ($_POST["p_user"] ) ) {
   $cn=DbConnect("account_repository");
   // Verif if User and Pass match DB
   // if no, then redirect to the login page
-   CheckUser();
+$rep=DbConnect();
+include_once ("class_user.php");
+$User=new cl_user($rep);
+$User->Check();
     $g_UserProperty=GetUserProperty($cn,$g_user);
     session_register("g_UserProperty");
     if ( isset ( $_GET["PHPSESSID"]) ) 

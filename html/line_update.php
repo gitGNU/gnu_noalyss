@@ -29,7 +29,10 @@ include_once ("postgres.php");
 include_once("check_priv.php");
 
 /* Admin. Dossier */
-CheckUser();
+$rep=DbConnect();
+include_once ("class_user.php");
+$User=new cl_user($rep);
+$User->Check();
 
 if ( $g_UserProperty['use_admin'] == 0 ) {
   $r=CheckAction($g_dossier,$g_user,SECU);

@@ -29,9 +29,12 @@ if ( ! isset ( $g_dossier ) ) {
 }
 include_once ("postgres.php");
 include_once ("top_menu_compta.php");
-//echo '<SCRIPT LANGUAGE="javascript" SRC="win_search_poste.js"></SCRIPT>';
+
 echo JS_SEARCH_POSTE;
-CheckUser();
+$rep=DbConnect();
+include_once ("class_user.php");
+$User=new cl_user($rep);
+$User->Check();
 include ("check_priv.php");
 ShowMenuCompta($g_dossier,$g_UserProperty);
 
@@ -70,7 +73,8 @@ if ( isset($_POST['add_modele'])  and $write != 0) {
   AddModele($cn,$HTTP_POST_VARS);
 }
 
-ShowMenuComptaLeft($g_dossier,MENU_FICHE);
+ShowMenuFiche($g_dossier);
+
 if ( isset ( $_GET["action"]) ) {
   $action=$_GET["action"];
   // View the details of the selected cat. of cards

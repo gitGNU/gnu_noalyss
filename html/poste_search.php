@@ -24,7 +24,10 @@ html_page_start($g_UserProperty['use_theme']);
 include_once ("postgres.php");
 include_once("jrn.php");
 /* Admin. Dossier */
-CheckUser();
+$rep=DbConnect();
+include_once ("class_user.php");
+$User=new cl_user($rep);
+$User->Check();
 //echo '<SCRIPT LANGUAGE="javascript" SRC="win_search_poste.js"></SCRIPT>';
 echo JS_SEARCH_POSTE;
 

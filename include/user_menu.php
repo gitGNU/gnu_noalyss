@@ -232,6 +232,7 @@ function u_ShowMenuJrnUser($p_dossier,$p_user,$p_type,$p_jrn)
 {
   include_once ("debug.php");
   include_once("constant.php");
+  include_once("class_user.php");
   echo_debug(__FILE__,__LINE__,"U_SHOWMENUJRNUSER PTYPE=$p_type");
   //    echo '<div class="searchmenu">';
     echo '<TABLE><TR>';
@@ -241,7 +242,8 @@ function u_ShowMenuJrnUser($p_dossier,$p_user,$p_type,$p_jrn)
     $l_jrn=sprintf("dossier%d",$p_dossier);
     $Cn=DbConnect($l_jrn);
 
-    if ( CheckAdmin() ==0) {
+	$User=new cl_user($Cn);
+	if ( $User->Admin() ==0) {
       $Ret=ExecSql($Cn,"select jrn_def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
                                jrn_deb_max_line,jrn_cred_max_line
                              from jrn_def join jrn_type on jrn_def_type=jrn_type_id
@@ -264,7 +266,7 @@ function u_ShowMenuJrnUser($p_dossier,$p_user,$p_type,$p_jrn)
     for ($i=0;$i<$Max;$i++) {
       $l_line=pg_fetch_array($Ret,$i);
       // Admin have always rights
-      if ( CheckAdmin() == 0 ){
+      if ( $User->Admin() == 0 ){
 	$right=CheckJrn($p_dossier,$p_user,$l_line['jrn_def_id']);
       }else {
 	$right=3;
@@ -442,4 +444,71 @@ function ShowJrn($p_menu="")
  $result=ShowItem($p_array,'H',"cell","mtitle",$p_menu);
  return $result;
 }
+
+/* function ShowMenuFiche
+ **************************************************
+ * Purpose : 
+ *        
+ * parm : 
+ *	-
+ * gen :
+ *	-
+ * return:
+ */
+function ShowMenuFiche($p_dossier)
+{
+     $l_dossier=sprintf("dossier%d",$p_dossier);
+     $cn=DbConnect($l_dossier);
+     echo '<div class="lmenu">';
+     echo '<TABLE>';
+ // TODO
+ // Only for developper
+ // A test must be added
+     echo '<TR><TD colspan="3" class="mshort">
+          <A class="mtitle" HREF="fiche.php?action=add_modele&fiche=modele">Creation</A></TD></TR>';
+     $Res=ExecSql($cn,"select fd_id,fd_label from fiche_def order by fd_label");
+     $Max=pg_NumRows($Res);
+     for ( $i=0; $i < $Max;$i++) {
+       $l_line=pg_fetch_array($Res,$i);
+       printf('<TR><TD class="cell">%s</TD><TD class="mshort"><A class="mtitle" HREF="fiche.php?action=vue&fiche=%d">Voir</A>
+               </TD>
+               <TD class="mshort"><A class="mtitle" HREF="fiche.php?action=modifier&fiche=%d">Modifier</A></TD>
+               </TR>',
+            $l_line['fd_label'],
+            $l_line['fd_id'],
+            $l_line['fd_id']);
+     }
+     echo "</TABLE>";
+     echo '</div>';
+}
+/* function ShowMenuAdminGlobalRight($p_dossier=0)
+ * Purpose :
+ *        Same as previous : show the right menu
+ * parm : 
+ *	- p_dossier
+ * gen :
+ *	- none
+ * return:
+ *	- none
+ *
+ */ 
+function ShowMenuAdminGlobalRight($p_dossier=0)
+{
+  include_once("ac_common.php");
+  echo '<div class="rmenu">';
+  echo '<TABLE>';
+  echo '<TR><TD class="mtitle"> <A class="mtitle" HREF="login.php">Accueil</A></TD></TR>';
+  echo '<TR><TD class="mtitle"> <A class="mtitle" HREF="user_pref.php">Preference</A></TD></TR>';
+  if ( $p_dossier != 0) {
+printf( '<TR><TD class="mtitle"> <A class="mtitle" HREF="compta.php?dos=%d">Retour Dossier</A></TD></TR>',
+	$p_dossier);
+  }
+
+  echo '<TR><TD class="mtitle"> ';
+  html_button_logout();
+  echo ' </TD></TR>';
+  echo "</TABLE>";
+  echo '</div>';
+}
+
 ?>

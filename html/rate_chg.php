@@ -35,7 +35,10 @@ function SaveRate(p_code,p_rate)
 }
 </script>
 <?
-CheckUser();
+$rep=DbConnect();
+include_once ("class_user.php");
+$User=new cl_user($rep);
+$User->Check();
 if ( $g_UserProperty['use_admin'] ) return;
 $dossier=sprint("dossier%d",$g_dossier);
 $cn=DbConnect($dossier);

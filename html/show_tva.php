@@ -23,7 +23,10 @@ include_once ("ac_common.php");
 html_page_start($g_UserProperty['use_theme']);
 include_once ("postgres.php");
 /* Admin. Dossier */
-CheckUser();
+$rep=DbConnect();
+include_once ("class_user.php");
+$User=new cl_user($rep);
+$User->Check();
 
 if ( ! isset ( $g_dossier ) ) {
   echo "You must choose a Dossier ";

@@ -31,7 +31,10 @@ include_once ("postgres.php");
 include_once ("check_priv.php");
 
 /* Admin. Dossier */
-CheckUser();
+$rep=DbConnect();
+include_once ("class_user.php");
+$User=new cl_user($rep);
+$User->Check();
 // TODO add security here
 // Get The priv on the selected folder
 if ( $g_UserProperty['use_admin'] == 0 ) {
