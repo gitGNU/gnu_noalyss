@@ -155,7 +155,7 @@ function u_ShowMenuCompta($p_dossier)
 		   );
 
   $result=ShowItem($p_array,'H');
-    echo "<DIV class=\"tmenu\">";
+    echo "<DIV class=\"u_tmenu\">";
 
   echo $result;
   echo "</DIV>";
@@ -217,8 +217,7 @@ function u_ShowMenuJrnUser($p_dossier,$p_user,$p_type,$p_jrn)
     echo '<div class="searchmenu">';
     echo '<TABLE><TR>';
     include_once("postgres.php");
-    $l_jrn=sprintf("dossier%d",$p_dossier);
-    $Cn=DbConnect($l_jrn);
+
 
     $l_jrn=sprintf("dossier%d",$p_dossier);
     $Cn=DbConnect($l_jrn);
@@ -373,5 +372,27 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
   return $r;
 
 }
-
+/* function function ShowMenuAdvanced() {
+ **************************************************
+ * Purpose :  build the menu of user_advanced.php
+ *        
+ * parm : 
+ *	- none
+ * gen :
+ *	- none
+ * return: the menu
+ */
+function ShowMenuAdvanced() {
+// Show the left menu
+$left_menu=ShowItem(array(
+			  array('jrn_update.php','Journaux'),
+			  array('central.php','Centralise'),
+		          array('pcmn_update.php?p_start=1','Plan Comptable'),
+			  array('stock.php','stock'),
+			  array('balance.php','Balance des comptes'),
+			  array('impress.php','Impressions')
+			  ),
+		    'V');
+return $left_menu;
+}
 ?>
