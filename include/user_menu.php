@@ -35,7 +35,9 @@
  */ 
 function u_ShowDossier($p_user,$p_admin)
 {
-  $p_array=GetAvailableFolder($p_user,$p_admin);    
+  $p_array=GetAvailableFolder($p_user,$p_admin);   
+  if ( $p_array == 0 ) return " * Aucun dossier *";
+
   $result="<TABLE>";
   for ($i=0;$i<sizeof($p_array);$i++) {
     $id=$p_array[$i]['dos_id'];
@@ -86,6 +88,8 @@ function GetAvailableFolder($p_user,$p_admin)
   $cn=DbConnect();
   $Res=ExecSql($cn,$sql);
   $max=pg_numRows($Res);
+  if ( $max == 0 ) return 0;
+
   for ($i=0;$i<$max;$i++) {
     $array[]=pg_fetch_array($Res,$i);
   }
