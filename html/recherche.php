@@ -58,7 +58,7 @@ if ( $g_UserProperty['use_admin'] == 0 ) {
 
 
 // display a search box
-   $search_box=u_ShowMenuRecherche($cn,$g_jrn,$sessid,$HTTP_POST_VARS);
+   $search_box=u_ShowMenuRecherche($cn,0,$sessid,$HTTP_POST_VARS);
    echo '<DIV class="u_redcontent">';
   echo $search_box; 
    // if nofirst is set then show result
