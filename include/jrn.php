@@ -743,6 +743,13 @@ function ViewJrn($p_dossier,$p_user,$p_jrn,$p_array=null) {
 	  echo '<INPUT TYPE="BUTTON" VALUE="détail" onClick="viewDetail(\''.$l_line['j_grpt']."','".$sessid."')\">";
 	  echo "</TD>";
 	}else {
+
+	  if ( isset ($_GET["PHPSESSID"])  ) {
+	    $sessid=$_GET["PHPSESSID"];
+	  } else {
+	    $sessid=$_POST["PHPSESSID"];
+	  }
+	  
 	  echo "<TD>";
 	  echo "</TD>";
 	  echo '<TD>';

@@ -23,6 +23,7 @@ include_once ("ac_common.php");
 include_once("jrn.php");
 include_once("preference.php");
 include_once("poste.php");
+include_once("error.php");
 html_page_start(0,"onLoad=\"CheckTotal();\"");
 if ( ! isset ( $g_dossier ) ) {
   echo "You must choose a Dossier ";
@@ -146,37 +147,10 @@ if ( isset($_POST['add_record']) ) {
 
 
     $result=VerifData($cn,$HTTP_POST_VARS,$g_user);
-    
-    switch( $result) {
-      case NOERROR:
-	break;
-    case BADPARM:
-      break;
-    case BADDATE:
-      echo "<SCRIPT> alert('Invalid Date'); </SCRIPT>";
-      break;
-    case NOTPERIODE:
-	echo "<SCRIPT> alert('Date n\'est pas dans la période par défaut, changez vos préférences'); </SCRIPT>";
-	break;
-    case PERIODCLOSED:
-      echo "<SCRIPT> alert('La date est dans une période cloturé'); </SCRIPT>"; 
-      break;
-    case INVALID_ECH:
-	echo "<SCRIPT> alert('Invalid Echeance Date'); </SCRIPT>";
-	break;
-    case RAPPT_ALREADY_USED:
-      echo '<SCRIPT>alert("Ne peut enregister le rapprochement l\'opération '.$p_rapt. " est déjà utilisée\")</SCRIPT>";
-      break;
-    case RAPPT_NOT_EXIST:
-	echo '<SCRIPT>alert("Ne peut enregister le rapprochement l\'opération '.$p_rapt. " n\'existe pas \")</SCRIPT>";
-	break;
-    case DIFF_AMOUNT:
-      echo "<SCRIPT>alert(\"Le Montant au débit n'est pas égal au montant au crédit\"); </SCRIPT>";
-      break;
-    case RAPPT_NOMATCH_AMOUNT:
-	echo '<SCRIPT>alert("Ne peut enregister le rapprochement l\'opération '.$p_rapt. " les montants ne correspondent pas \")</SCRIPT>";
-	break;
-    }
+
+    // Parse result
+    AnalyzeError($result);
+
     if ($result != NOERROR) {
       echo "</DIV>";
       CorrectRecord($g_dossier,$g_user,$g_jrn,$p_MaxDeb,$p_MaxCred,$HTTP_POST_VARS);
@@ -317,37 +291,9 @@ if ( isset($_POST['update_record']) ) {
   }
   reset($HTTP_POST_VARS);
   $result=VerifData($cn,$HTTP_POST_VARS,$g_user);
-    
-  switch( $result) {
-  case NOERROR:
-    break;
-  case BADPARM:
-    break;
-    case BADDATE:
-      echo "<SCRIPT> alert('Invalid Date'); </SCRIPT>";
-      break;
-  case NOTPERIODE:
-    echo "<SCRIPT> alert('Date n\'est pas dans la période par défaut, changez vos préférences'); </SCRIPT>";
-    break;
-  case PERIODCLOSED:
-    echo "<SCRIPT> alert('La date est dans une période cloturé'); </SCRIPT>"; 
-    break;
-  case INVALID_ECH:
-    echo "<SCRIPT> alert('Invalid Echeance Date'); </SCRIPT>";
-    break;
-  case RAPPT_ALREADY_USED:
-    echo '<SCRIPT>alert("Ne peut enregister le rapprochement l\'opération '.$p_rapt. " est déjà utilisée\")</SCRIPT>";
-    break;
-  case RAPPT_NOT_EXIST:
-    echo '<SCRIPT>alert("Ne peut enregister le rapprochement l\'opération '.$p_rapt. " n\'existe pas \")</SCRIPT>";
-    break;
-  case DIFF_AMOUNT:
-    echo "<SCRIPT>alert(\"Le Montant au débit n'est pas égal au montant au crédit\"); </SCRIPT>";
-    break;
-  case RAPPT_NOMATCH_AMOUNT:
-    echo '<SCRIPT>alert("Ne peut enregister le rapprochement l\'opération '.$p_rapt. " les montants ne correspondent pas \")</SCRIPT>";
-    break;
-  }
+
+        // Parse result
+  AnalyzeError($result);
   foreach ( $HTTP_POST_VARS as $name=>$element ) {
     echo_debug("element $name -> $element ");
     // Sauve les données dans des variables
@@ -363,16 +309,13 @@ if ( isset($_POST['update_record']) ) {
 
   $Res=StartSql($cn);
 
-  foreach ( $HTTP_POST_VARS as $name=>$element ) {
-      // Sauve les données dans des variables
-      ${"p_$name"}=$element;
-      echo_debug("p_name p_$name = $element");
-    }
   $userPref=GetUserPeriode($cn,$g_user);
-  
+  $tot_montant=0;  
   for ( $i = 0; $i < $p_MaxDeb; $i++) {
     $j_id=${"p_op_deb$i"};
     $montant=${"p_mont_deb$i"};
+    // Compute the sum (for jrn table)
+    $tot_montant+=$montant;
     $l_class=${"p_class_deb$i"};
     if ( strlen(trim($montant)) == 0) $montant=0;
     $p_text=(FormatString(${"p_text_deb$i"})==null)?GetPosteLibelle($g_dossier,$l_class):FormatString(${"p_text_deb$i"});
@@ -431,7 +374,7 @@ if ( isset($_POST['update_record']) ) {
 		     $comment,
 		     $l_date,
 		     $p_rapt,
-		     $p_sum_deb,
+		     $tot_montant,
 		     $userPref,
 		     $p_jr_id
 		     );
@@ -449,7 +392,7 @@ if ( isset($_POST['update_record']) ) {
 	$Sql=sprintf("update  jrn set jr_comment='%s',
                        jr_date=%s,jr_rapt=null,jr_montant=%f,jr_tech_per=%d where jr_id=%d",
 		     $comment,
-		     $l_date,$p_sum_deb,$userPref,
+		     $l_date,$tot_montant,$userPref,
 		     $p_jr_id);
 	$Res=ExecSql($cn,$Sql);
 	
