@@ -94,56 +94,17 @@ function ShowMenuCompta($p_dossier,$pa_user)
  *	-
  *
  */ 
-function ShowMenuComptaLeft($p_dossier,$p_item)
+function ShowMenuParam()
 {
-  switch ($p_item) {
-  case MENU_FACT:
-    echo '<div class="lmenu">';
-    echo '<TABLE>';
-    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="not_implemented.php">Créer une facture</A></TD></TR>';
-    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="facturation.php?action=vue&fact=all">Voir les factures</A></TD></TR>';
-    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="facturation.php?action=vue&fact=impaye">Facture non payées</A></TD></TR>';
-    echo "</TABLE>";
-    echo '</div>';
-    break;
-  case MENU_FICHE:
-    $l_dossier=sprintf("dossier%d",$p_dossier);
-    $cn=DbConnect($l_dossier);
-    echo '<div class="lmenu">';
-    echo '<TABLE>';
-// TODO 
-// Only for developper 
-// A test must be added
-    echo '<TR><TD colspan="3" class="mshort">
-         <A class="mtitle" HREF="fiche.php?action=add_modele&fiche=modele">Creation</A></TD></TR>';
-    $Res=ExecSql($cn,"select fd_id,fd_label from fiche_def order by fd_label");
-    $Max=pg_NumRows($Res);
-    for ( $i=0; $i < $Max;$i++) {
-      $l_line=pg_fetch_array($Res,$i);
-      printf('<TR><TD class="cell">%s</TD><TD class="mshort"><A class="mtitle" HREF="fiche.php?action=vue&fiche=%d">Voir</A>
-              </TD>
-              <TD class="mshort"><A class="mtitle" HREF="fiche.php?action=modifier&fiche=%d">Modifier</A></TD>
-              </TR>',
-	     $l_line['fd_label'],
-	     $l_line['fd_id'],
-	     $l_line['fd_id']);
-    }
-    echo "</TABLE>";
-    echo '</div>';
-    break;
-  case MENU_PARAM:
-    $l_dossier=sprintf("dossier%d",$p_dossier);
-    $cn=DbConnect($l_dossier);
-    echo '<div class="lmenu">';
-    echo '<TABLE>';
-    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="dossier_prefs.php?p_action=devise">Devises</A></TD></TR>';
-    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="dossier_prefs.php?p_action=periode">Périodes</A></TD></TR>';
-    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="user_sec.php">Sécurité</A></TD></TR>';
-    echo "</TABLE>";
-    echo '</div>';
-    break;
+    $sub_menu=ShowItem(array(
+			  //('rapprt.php','Rapprochement'),
+			  array('dossier_prefs.php?p_action=devise','Devises'),
+			  array('dossier_prefs.php?p_action=periode','Période'),
+		          array('user_sec.php','Sécurité')
+			  ),
+		    'H',"cell","mtitle");
+    return $sub_menu;
 
-  }
 }
 /* function ShowMenuComptaRight
  * Purpose : Display menu on the Right

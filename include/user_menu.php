@@ -15,7 +15,7 @@
  *
  *   You should have received a copy of the GNU General Public License
  *   along with PhpCompta; if not, write to the Free Software
- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *   Foundation, Inshowc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
@@ -174,10 +174,10 @@ function u_ShowMenuCompta($p_dossier)
 		 );
 
   $result=ShowItem($p_array,'H');
-    echo "<DIV class=\"tmenu\">";
-  echo "<P> <H2 class=\"info2\"> $l_name </H2></P>";
+    //echo "<DIV class=\"tmenu\">";
+  echo "<H2 class=\"info\"> $l_name </H2>";
   echo $result;
-  echo "</DIV>";
+  //echo "</DIV>";
 
 
 
@@ -410,13 +410,13 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
 function ShowMenuAdvanced() {
 // Show the left menu
 $left_menu=ShowItem(array(
-			  array('rapprt.php','Rapprochement'),
+			  //('rapprt.php','Rapprochement'),
 			  array('jrn_update.php','Journaux'),
 			  array('central.php','Centralise'),
 		          array('pcmn_update.php?p_start=1','Plan Comptable'),
 			  array('stock.php','stock')
 			  ),
-		    'V');
+		    'H',"cell","mtitle");
 return $left_menu;
 }
 /* function ShowJrn

@@ -47,7 +47,7 @@ if ( $g_UserProperty['use_admin'] == 0 ) {
 
   }
 }
-ShowMenuComptaLeft($g_dossier,MENU_PARAM);
+echo ShowMenuParam();
 $l_Db=sprintf("dossier%d",$g_dossier);
 $p_action="";
 $cn=DbConnect($l_Db);

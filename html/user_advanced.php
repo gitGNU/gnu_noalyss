@@ -47,9 +47,9 @@ ShowMenuCompta($g_dossier,$g_UserProperty);
 // ShowMenuComptaRight($g_dossier,$g_UserProperty); 
 
 $left_menu=ShowMenuAdvanced();
-echo '<div class="lmenu">';
+
 echo $left_menu;
-echo '</DIV>';
+
 
 
 html_page_stop();
