@@ -290,5 +290,5 @@ for ($e=0;$e < $MaxDossier;$e++) {
  }
 $cn=DbConnect();
 if ( GetVersion($cn) == 3 ) {
-  ExecuteScript($cn,'ac-sql/patch/upgrade4.sq');
+  ExecuteScript($cn,'sql/patch/ac-upgrade4.sql');
  }
