@@ -1,3 +1,4 @@
+
 <?
 echo '<!DOCTYPE HTML PUBLIC "-//W3C/DTD HTML 3.2 FINAL//EN">
 <HTML>
@@ -10,10 +11,28 @@ BODY {
   font-family:sans-serif;
   color:blue;
 }
+.remark {
+	border: solid black 1px;
+	font-family:sans-serif;
+	font-size: 9px;
+	color:blue;
+	width:200px;
+	padding:3px;
+}
 </style> 
 </head>
 <BODY onLoad="document.loginform.p_user.focus()">
-<BR><BR><BR><BR><BR>
+<div class="remark">
+ <p>A cause de problème en javascript, Internet Explorer ne peut absolument 
+ pas être utilisé avec ce produit.</p>
+ <p>Vous devez utilisez un autre browser: firefox, mozilla, netscape, Konqueror, opera...
+ </p>
+ <p>
+ Si vous pensez pouvoir nous aidez à règler ce problème de compatibilité 
+ <a href="https://savannah.nongnu.org/projects/phpcompta">rejoignez-nous</a>	.
+ </p>
+</div>
+
 <center>
 	<IMG SRC="image/logo7.jpg" alt="Logo">
 <BR>
