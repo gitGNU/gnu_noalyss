@@ -158,7 +158,7 @@ function html_page_start($p_theme="",$p_script="")
       <TITLE> Gnu Accountancy</TITLE>
       <META http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">
       <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$style\">
-	</HEAD><script src=\"/scripts.js\" type=\"text/javascript\"></script>";
+	</HEAD><script src=\"scripts.js\" type=\"text/javascript\"></script>";
  echo "<BODY $p_script>";
 }
 /* function html_page_stop()

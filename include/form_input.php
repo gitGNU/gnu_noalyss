@@ -71,23 +71,6 @@ function InputType($p_label,$p_type,$p_name,$p_value,$p_viewonly=false,$p_list=n
     $r.="</SELECT></TD>";
     return $r;
   }
-  // Input type == select
-  if ( strtolower($p_type)=="select" ) {
-    $r="<TD> $p_label</TD><TD>";
-    $r.=sprintf('<SELECT NAME="%s">',$p_name);
-    foreach ($p_list as $item) {
-      $selected="";
-      if ( $p_value == $item[0] ) {
-		$selected="SELECTED";
-      }
-      $r.=sprintf('<OPTION VALUE="%s" %s>%s',
-		  $item[0],
-		  $selected,
-		  $item[1]);
-    }
-    $r.="</SELECT></TD>";
-    return $r;
-  }
   // Input type == select2
   if ( strtolower($p_type)=="select2" ) {
     $r="<TD> $p_label</TD><TD>";

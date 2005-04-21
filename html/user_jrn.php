@@ -30,7 +30,7 @@ include ('class_user.php');
 $User=new cl_user($cn);
 $User->Check();
 
-html_page_start($User->theme);
+html_page_start($User->theme, "OnLoad=\"SetFocus('e_date',0)\"");
 if ( ! isset ( $_SESSION['g_dossier'] ) ) {
   echo "You must choose a Dossier ";
   exit -2;
