@@ -32,19 +32,19 @@ include ('class_user.php');
 $User=new cl_user($rep);
 $User->Check();
 if ( $User->CheckAction($cn,IMP) == 0 ||
-     $User->AccessJrn($cn,$_POST['jrn_id']) == false){
+     $User->AccessJrn($cn,$_GET['jrn_id']) == false){
     /* Cannot Access */
     NoAccess();
   }
 
 
- $p_cent=( isset ( $_POST['central']) )?$_POST['central']:'off';
+ $p_cent=( isset ( $_GET['central']) )?$_GET['central']:'off';
 
-$Jrn=new jrn($cn,$_POST['jrn_id']);
+$Jrn=new jrn($cn,$_GET['jrn_id']);
 
 $Jrn->GetName();
-$Jrn->GetRow( $_POST['from_periode'],
-	      $_POST['to_periode'],
+$Jrn->GetRow( $_GET['from_periode'],
+	      $_GET['to_periode'],
 	      $p_cent);
 
   if ( count($Jrn->row) == 0) 

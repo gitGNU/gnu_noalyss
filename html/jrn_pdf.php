@@ -41,11 +41,11 @@ $cn=DbConnect($_SESSION['g_dossier']);
 $l_type="JRN";
 $centr=" Non centralisé";
 $l_centr=0;
-if ($_POST['central'] == 'on' ) {
+if ($_GET['central'] == 'on' ) {
   $centr=" centralisé ";
   $l_centr=1;
 }
-$Jrn=new jrn($cn,$_POST['jrn_id']);
+$Jrn=new jrn($cn,$_GET['jrn_id']);
 
 $Jrn->GetName();
 $User=new cl_user(DbConnect());
@@ -53,7 +53,7 @@ $User->Check();
 
 // Security
 if ($User->CheckAction($cn,IMP) == 0 ||
-    $User->AccessJrn($cn,$_POST['jrn_id']) == false){
+    $User->AccessJrn($cn,$_GET['jrn_id']) == false){
     /* Cannot Access */
     NoAccess();
  }
@@ -69,9 +69,9 @@ $offset=0;$limit=22;$step=22;
 $rap_deb=0;$rap_cred=0;
 while (1) {
   $a=0;
-  list ($a_jrn,$tot_deb,$tot_cred)=$Jrn->GetRow($_POST['from_periode'],
-					  $_POST['to_periode'],
-					  $_POST['central'],
+  list ($a_jrn,$tot_deb,$tot_cred)=$Jrn->GetRow($_GET['from_periode'],
+					  $_GET['to_periode'],
+					  $_GET['central'],
 					  $limit,$offset);
   echo_debug(__FILE__,__LINE__,"Total debit $tot_deb,credit $tot_cred");
 

@@ -1339,7 +1339,7 @@ function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
 
 $r.="</TABLE>";
 
- if ( $view_only==true && $p_saved==false) {
+ if ( $view_only==true && $p_save==false) {
 // check for upload piece
    $file=new widget("file");
    $file->table=1;

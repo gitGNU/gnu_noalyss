@@ -43,19 +43,19 @@ function ViewImp($p_array,$p_cn) {
   if ( ! isset($type) ) return;
   $centr="";
   if ( $action=="viewhtml")  {
-    echo '<FORM ACTION=impress.php METHOD="POST">';
+    echo '<FORM ACTION=impress.php METHOD="GET">';
     if ( $type=="jrn")
           $centr='<BR>Centralisé : 
              <INPUT TYPE="CHECKBOX" NAME="central" unchecked><BR>'; 
   }
   else {
     if ( $type=="jrn") {
-      echo '<FORM ACTION=send_jrn_pdf.php METHOD="POST">';
+      echo '<FORM ACTION=send_jrn_pdf.php METHOD="GET">';
           $centr='<BR>Centralisé : 
              <INPUT TYPE="CHECKBOX" NAME="central" unchecked><BR>'; 
     }
     if ( $type=="poste")
-      echo '<FORM ACTION=send_poste_pdf.php METHOD="POST">';
+      echo '<FORM ACTION=send_poste_pdf.php METHOD="GET">';
   }
   echo $periode;
   echo '<INPUT TYPE="HIDDEN" NAME="type" value="'.$type.'">';

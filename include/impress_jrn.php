@@ -47,7 +47,7 @@ include("class_jrn.php");
     $submit->Submit('bt_other',"Autre journal").
     $hid->IOValue("type","jrn")."</form></TD>";
 
-  echo '<TD><form method="POST" ACTION="jrn_pdf.php">'.
+  echo '<TD><form method="GET" ACTION="jrn_pdf.php">'.
     $submit->Submit('bt_pdf',"Export PDF").
     $hid->IOValue("type","jrn").
     $hid->IOValue("central",$p_cent).
@@ -56,7 +56,7 @@ include("class_jrn.php");
     $hid->IOValue("to_periode",$_POST['to_periode']);
 
   echo "</form></TD>";
-  echo '<TD><form method="POST" ACTION="jrn_csv.php">'.
+  echo '<TD><form method="GET" ACTION="jrn_csv.php">'.
     $submit->Submit('bt_csv',"Export CSV").
     $hid->IOValue("type","jrn").
     $hid->IOValue("central",$p_cent).
