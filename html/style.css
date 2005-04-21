@@ -227,13 +227,6 @@ div.u_tmenu {
  	width:800px;
  
 }
-div.u_redcontent{
- 	position: absolute;
- 	top:110px;
- 	left:150px;
- 	width:700px;
-        font-size:9px;
-}
 
 span.odd { 
    background-color:#ECF3FF;
