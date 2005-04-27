@@ -24,12 +24,9 @@ include_once("debug.php");
 include_once("constant.php");
 
 function echo_error      ($p_log) {
-if ( $fdebug != false ) {
 	$fdebug=fopen("/tmp/phpcompta_error.log","a+");
 	fwrite($fdebug,date("Ymd H:i:s").$p_log."\n");
 	fclose($fdebug);
-}	
- 
 }
 
 /* function cmpDate
