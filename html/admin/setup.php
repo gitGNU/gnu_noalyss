@@ -146,7 +146,7 @@ foreach (array('magic_quotes_gpc','magic_quotes_runtime') as $a) {
   }
 
 }
-if ( ini_get("session.auto_start") == true )  {
+if ( ini_get("session.auto_start") == false )  {
 	print '<h2 class="error"> session.auto_start must be set to true </h2>';
 	$flag_php++;
 }
