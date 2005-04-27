@@ -1,4 +1,45 @@
+2005-04-27  sparkyx  <sparkyx@eleven>
+
+	* html/annulation.php: Message + explicite
+
+	* html/admin/setup.php: Bug 12702 : session_auto_start == false
+
+2005-04-21  stanpinte  <stanpinte@eleven>
+
+	* include/ac_common.php, include/form_input.php, html/style-light.css, html/user_jrn.php:
+	Added focus on date field in new financial form
+
+	* html/scripts.js, include/ac_common.php: Added scripts file
+
+	* html/style.css:
+	Fixed problem with absolute position when using big fonts
+
+	* html/jrn_csv.php, html/jrn_pdf.php, html/send_jrn_pdf.php, include/form_input.php, include/impress_inc.php, include/impress_jrn.php:
+	Fixed some small bugs
+
+	* scripts/add-db.sh: Made sure upgrade4.sql is processed on new file
+
+2005-04-09  sparkyx  <sparkyx@eleven>
+
+	* html/index.php: Add a warning about IE
+
+2005-04-03  sparkyx  <sparkyx@eleven>
+
+	* html/style.css, html/style-aqua.css: Fix theme
+
+2005-04-01  sparkyx  <sparkyx@eleven>
+
+	* include/ac_common.php: if debug is off do not open the log file
+
+	* html/central.php, html/jrn_update.php, html/pcmn_update.php, html/stock.php, include/user_menu.php:
+	Improve : selected cell in advanced menu
+
+	* html/admin/setup.php, include/class_user.php:
+	Bug Session.auto_start must be set to true
+
 2005-03-31  sparkyx  <sparkyx@eleven>
+
+	* Changelog: Changelog
 
 	* html/poste_search.php: Task 3954 Focus Popup menu
 
