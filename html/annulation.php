@@ -118,7 +118,7 @@ if ( isset ($_POST['annul']) ) {
    // delete from jrnx & jrn
     $sql="update jrnx set j_montant = 0 where j_grpt=".$_POST['p_id'];
    
-//    $Res=ExecSql($cn,$sql);
+   $Res=ExecSql($cn,$sql);
  
 
   // build the sql stmt for jrn
@@ -179,7 +179,7 @@ if ( $a != null ) {
 echo '
 
 <input type="hidden" name="p_id" value="'.$_GET['jrn_op'].'">
-<input type="submit" name="annul"  value="Annuler">
+<input type="submit" name="annul"  value="Mise à zéro">
 <input type="button" name="cancel" value="Retour" onClick="window.close();">
 </form>';
 
