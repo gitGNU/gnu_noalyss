@@ -18,7 +18,9 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 // Copyright Stanislas Pinte stanpinte@sauvages.be
+
 // $Revision$
+
 
 if ( ! isset($_SESSION['g_dossier']) ) {
   echo "INVALID G_DOSSIER UNKNOWN !!! ";
@@ -27,14 +29,103 @@ if ( ! isset($_SESSION['g_dossier']) ) {
 include_once("ac_common.php");
 include_once("postgres.php");
 include_once("class.ezpdf.php");
-
-echo_debug(__FILE__,__LINE__,"imp pdf securitÃ©");
+require_once("check_priv.php");
+echo_debug(__FILE__,__LINE__,"imp pdf securité");
 $cn=DbConnect($_SESSION['g_dossier']);
+//////////////////////////////////////////////////////////////////////
+// Security 
+
+// Check User
+$rep=DbConnect();
+include_once ("class_user.php");
+$User=new cl_user($rep);
+$User->Check();
+// Check Priv
+if ( $User->CheckAction($cn,SECU) == 0 ) {
+  /* Cannot Access */
+  NoAccess();
+  exit -1;
+ }
+//////////////////////////////////////////////////////////////////////
+// Get User's info
+if ( ! isset($_GET['user_id']) ) 
+  return;
+
+$SecUser=new cl_user($rep,$_GET['user_id']);
+
+
+//////////////////////////////////////////////////////////////////////
+// Print result
 
 $pdf=& new Cezpdf("A4");
 $pdf->selectFont('./addon/fonts/Helvetica.afm');
+$str_user=sprintf("( %d ) %s %s [ %s ]",
+		  $SecUser->id,
+		  $SecUser->first_name,
+		  $SecUser->name,
+		  $SecUser->login);
 
-$pdf->ezText("hello",12,array('justification'=>'right'));
+$pdf->ezText($str_user,14,array('justification'=>'center'));
+
+if ( $SecUser->active==0)
+  $pdf->ezText('Bloqué',12,array('justification'=>'center'));
+
+if ( $SecUser->admin==1)
+  $pdf->ezText('Administrateur',12,array('justification'=>'center'));
+//////////////////////////////////////////////////////////////////////
+// Journal
+$Res=ExecSql($cn,"select jrn_def_id,jrn_def_name  from jrn_def ");
+for ($e=0;$e < pg_NumRows($Res);$e++) {
+  $row=pg_fetch_array($Res,$e);
+  $a_jrn[$e]['jrn_name']=$row['jrn_def_name'];
+  $priv=CheckJrn($_SESSION['g_dossier'],$SecUser->login,$row['jrn_def_id']);
+  switch($priv) {
+  case 0:
+    $a_jrn[$e]['priv']="pas d'accès";
+    break;
+  case 1:
+    $a_jrn[$e]['priv']="lecture";
+    break;
+  case 2:
+  case 3:
+    $a_jrn[$e]['priv']="Ecriture";
+    break;
+  }
+
+ }
+$pdf->ezTable($a_jrn,
+		array ('jrn_name'=>' Journal',
+		       'priv'=>'Privilège')," ",
+		array('shaded'=>0,'showHeadings'=>1,'width'=>500));
+
+////////////////////////////////////////////////////////////////////////
+// Action
+$Res=ExecSql($cn,
+	     "select ac_id, ac_description from action   order by ac_description ");
+
+$Max=pg_NumRows($Res);
+
+for ( $i =0 ; $i < $Max; $i++ ) {
+   $l_line=pg_fetch_array($Res,$i);
+   $action['lib']=$l_line['ac_description'];
+   $right=CheckAction($_SESSION['g_dossier'],$SecUser->login,$l_line['ac_id']);
+   switch ($right) {
+   case 0:
+     $action['priv']="Pas d'accès";
+     break;
+   case 1:
+   case 2:
+     $action['priv']="Accès";
+     break;
+   }
+   $a_action[$i]=$action;
+ }
+$pdf->ezTable($a_action ,
+		array ('lib'=>'Description',
+		       'priv'=>'Privilège')," ",
+		array('shaded'=>0,'showHeadings'=>1,'width'=>500));
+
+
 $pdf->ezStream();
 
 ?>

@@ -123,7 +123,7 @@ if ( $action == "change_act" ) {
   }
   $action="view";
 }
-
+// Action == View detail for users 
 if ( $action == "view" ) {
   $l_Db=sprintf("dossier%d",$_SESSION['g_dossier']);
   $cn_dossier=DbConnect($_SESSION['g_dossier']);
@@ -145,13 +145,12 @@ if ( $action == "view" ) {
     $action="";
     return;
   }
-//   $l_dossier=CountSql($cn,"select  use_id,dos_id from ac_users natural join  jnt_use_dos where use_id=$user_id and dos_id=$g_dossier
-// and use_active=1");
-//   if ( $l_dossier == 0 ) {
-//     echo "<H2 class=\"info\"> L'utilisateur n'a pas accès à ce dossier ou est désactivé</H2>";
-//     return;
-//   }
+  // Print button
+  printf ('<TD><A href="sec_pdf.php?user_id=%s">Imprime</A></TD>',
+	  $l_line['use_id']
+	  );
 
+  // Show access for journal
   $Res=ExecSql($cn_dossier,"select jrn_def_id,jrn_def_name  from jrn_def ");
   $admin=CheckIsAdmin($l2_line['use_login']);
 
@@ -208,6 +207,7 @@ if ( $action == "view" ) {
     echo '</TR>';
   }
 
+  // Priv. for actions
   $Res=ExecSql($cn_dossier,
 	       "select ac_id, ac_description from action   order by ac_description ");
 

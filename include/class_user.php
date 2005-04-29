@@ -32,7 +32,9 @@ class cl_user {
   var $admin;
   var $valid;
 
-  function cl_user ($p_cn){
+  function cl_user ($p_cn,$p_id=-1){
+    // if p_id is not set then check the connected user
+    if ( $p_id == -1 ) {
 	  echo_debug(__FILE__,__LINE__," g_user = ".$_SESSION['g_user']);
     $this->id=$_SESSION['g_user'];
     $this->pass=$_SESSION['g_pass'];
@@ -49,7 +51,26 @@ class cl_user {
       $this->name=$_SESSION['use_name'];
     if ( isset($_SESSION['use_first_name']) )
       $this->first_name=$_SESSION['use_first_name'];
-
+    } 
+    else // if p_id is set get data of another user
+      {
+      $this->id=$p_id;
+      $this->db=$p_cn;
+      $Sql="select use_first_name,
+             use_name,
+             use_login,
+             use_active,
+             use_admin from ac_users
+             where use_id=$p_id";
+    $Res=pg_exec($p_cn,$Sql);
+    if (($Max=pg_NumRows($Res)) == 0 ) return -1;
+    $row=pg_fetch_array($Res,0);
+    $this->first_name=$row['use_first_name'];
+    $this->name=$row['use_name'];
+    $this->active=$row['use_active'];
+    $this->login=$row['use_login'];
+    $this->admin=$row['use_admin'];
+    } 
   }
   /*++ 
    * function : CheckUser
