@@ -116,7 +116,14 @@ div.redcontent{
 	font-family:sans-serif;
 
 }
-
+div.u_redcontent{ 	 
+         position: absolute; 	 
+         top:130px; 	 
+         left:150px; 	 
+         width:700px; 	 
+         font-size:9px; 	 
+         font-family:sans-serif; 	 
+}
 div.ccontent{
 	position: absolute;
 	top:110px;

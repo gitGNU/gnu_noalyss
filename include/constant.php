@@ -153,7 +153,7 @@ define ("JS_VIEW_JRN_DETAIL","<script>function viewDetail(p_value,p_sessid)
 	</script>");
 define ("JS_VIEW_JRN_CANCEL","<script>function cancelOperation(p_value,p_sessid)
 		{
-			var win=window.open('annulation.php?jrn_op='+p_value+'&PHPSESSID='+p_sessid,'Cancel it','toolbar=no,width=400,height=400,scrollbars=yes,resizable=yes');
+			var win=window.open('annulation.php?jrn_op='+p_value+'&PHPSESSID='+p_sessid,'Annule','toolbar=no,width=400,height=400,scrollbars=yes,resizable=yes');
 		}
 function RefreshMe() {
 window.location.reload();
@@ -161,20 +161,20 @@ window.location.reload();
 	</script>");
 define ("JS_VIEW_JRN_MODIFY","<script>function modifyOperation(p_value,p_sessid)
 		{
-			var win=window.open('modify_op.php?action=update&line='+p_value+'&PHPSESSID='+p_sessid,'Modify it','toolbar=no,width=500,height=400,scrollbars=yes,resizable=yes');
+			var win=window.open('modify_op.php?action=update&line='+p_value+'&PHPSESSID='+p_sessid,'Modifie','toolbar=no,width=500,height=400,scrollbars=yes,resizable=yes');
 		}
 function RefreshMe() {
 window.location.reload();
 }
 	function dropLink(p_value,p_value2,p_sessid) {
-	var win=window.open('modify_op.php?action=delete&line='+p_value+'&line2='+p_value2+'&PHPSESSID='+p_sessid,'delete link it','toolbar=no,width=500,height=400,scrollbars=yes,resizable=yes');
+	var win=window.open('modify_op.php?action=delete&line='+p_value+'&line2='+p_value2+'&PHPSESSID='+p_sessid,'Liaison','toolbar=no,width=500,height=400,scrollbars=yes,resizable=yes');
 		}
 
 	
 	</script>");
 define ("JS_UPDATE_PCMN","<script>function PcmnUpdate(p_value,p_lib,p_parent,p_sessid)
 		{
-			var win=window.open('line_update.php?l='+p_value+'&n='+p_lib+'&p='+p_parent+'&PHPSESSID='+p_sessid,'Modify it','toolbar=no,width=500,height=400,scrollbars=yes,resizable=yes');
+			var win=window.open('line_update.php?l='+p_value+'&n='+p_lib+'&p='+p_parent+'&PHPSESSID='+p_sessid,'Modifie','toolbar=no,width=500,height=400,scrollbars=yes,resizable=yes');
 		}
 function RefreshMe() {
 	window.location.reload();
