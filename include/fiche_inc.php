@@ -64,7 +64,7 @@ function AddFiche($p_cn,$p_type,$p_array) {
   }
   // First verify that the name is not null
   // av_text.ATTR_DEF_NAME
-  if ( strlen(trim($p_av_text1 )) ==0 )
+  if ( strlen(trim($p_av_text0 )) ==0 )
     return;
 
   // First Get the attr of the fiche
@@ -280,7 +280,7 @@ function EncodeFiche($p_cn,$p_type,$p_array=null) {
       }
       // content of the attribute
       printf ('<TR><TD> %s </TD><TD><INPUT TYPE="TEXT" NAME="av_text%d">%s %s</TD></TR>',
-	      $l_line['ad_text'], $l_line['ad_id'],$Hid,$but_search_poste);
+	      $l_line['ad_text'], $i,$Hid,$but_search_poste);
    }
     echo '</TR>';
     echo '</TABLE>';
