@@ -62,6 +62,11 @@ function AddFiche($p_cn,$p_type,$p_array) {
     ${"p_$key"}=$element;
     echo_debug(__FILE__,__LINE__,"p_$key=$element;");
   }
+  // First verify that the name is not null
+  // av_text.ATTR_DEF_NAME
+  if ( strlen(trim($p_av_text1 )) ==0 )
+    return;
+
   // First Get the attr of the fiche
   $field=Get_attr_def($p_cn,$p_fd_id);
 
@@ -76,6 +81,7 @@ function AddFiche($p_cn,$p_type,$p_array) {
 
   // Should we Create accounts for each cards
   $create=GetCreateAccount($p_cn,$p_fd_id);
+
 
   // Is a account given ?
   for ( $i = 0; $i < $p_inc;$i++) {
@@ -274,7 +280,7 @@ function EncodeFiche($p_cn,$p_type,$p_array=null) {
       }
       // content of the attribute
       printf ('<TR><TD> %s </TD><TD><INPUT TYPE="TEXT" NAME="av_text%d">%s %s</TD></TR>',
-	      $l_line['ad_text'], $i,$Hid,$but_search_poste);
+	      $l_line['ad_text'], $l_line['ad_id'],$Hid,$but_search_poste);
    }
     echo '</TR>';
     echo '</TABLE>';
@@ -517,6 +523,8 @@ function UpdateFiche($p_cn,$p_array) {
     // Get the name
     if ( $key == "ad_id".ATTR_DEF_NAME ) {
       $label=$element;
+      if (strlen(trim($label)== 0 ) ) 
+	return;
     }
     // Get the class base
     if ( $key=="ad_id".ATTR_DEF_ACCOUNT) {
@@ -742,6 +750,8 @@ function AddModele($p_cn,$p_array) {
   if ( isNumber($p_class_base) == 0 && FormatString($p_class_base) != null ) {
     echo_error ('p_class_base is NOT a number');
   }
+  if ( strlen(trim($p_nom_mod)) == 0 ) 
+    return;
 
   // $p_FICHE_REF cannot be null !!! (== fiche_def_ref.frd_id
   if (! isset ($p_FICHE_REF) or strlen($p_FICHE_REF) == 0 ) {
