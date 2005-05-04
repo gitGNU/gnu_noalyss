@@ -173,9 +173,10 @@ echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit',
 if ( $action == 'solde' ) {
   require_once("poste.php");
   // find the bank account
-  $accountSql="select distinct pcm_val,pcm_lib from 
+  $accountSql="select distinct pcm_val::text,pcm_lib from 
             tmp_pcmn 
-            where pcm_val like '550%'";
+            where pcm_val like '550%' or pcm_val='58' 
+            order by pcm_val::text";
   $ResAccount=ExecSql($cn,$accountSql);
   echo '<div class="u_redcontent">';
   echo "<table>";
