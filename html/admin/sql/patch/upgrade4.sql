@@ -55,5 +55,10 @@ insert into action values (18,'Devise');
 insert into action values (19,'Période');
 insert into action values (20,'Voir la balance des comptes');
 
+-- task 3374
+insert into jrn_action (ja_id,ja_name,ja_desc,ja_url,ja_action,ja_jrn_type) 
+values (40,'Soldes','Voir les soldes des comptes en banques',
+'user_jrn.php','action=solde','FIN');
+
 -- always last line
 update version set val=5;

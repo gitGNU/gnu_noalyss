@@ -103,15 +103,15 @@ function PosteForm($p_cn) {
   return $ret;
 }
 /* function GetSolde
- * Purpose : Cree un form pour prendre les postes
+ * Purpose : give the balance of an account
  * 
  * parm : 
  *	-  connection
+ *      - account
  * gen :
- *	- noen
+ *	- none
  * return:
- *	- morceau de code d'html qui contient un multiselect
- *        pour les postes
+ *      - balance of the account
  *
  */ 
 function GetSolde($p_cn,$p_account) {

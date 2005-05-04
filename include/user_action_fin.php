@@ -22,7 +22,6 @@ echo_debug(__FILE__,__LINE__,"include user_action_fin.php");
 include_once("form_input.php");
 include_once("class_widget.php");
 
-// phpinfo();
 $cn=DbConnect($_SESSION['g_dossier']);
 
 if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {  
@@ -32,8 +31,9 @@ include_once ("preference.php");
 include_once ("user_common.php");
 
 $action=(isset($_GET['action']))?$_GET['action']:$_POST['action'];
-
+//////////////////////////////////////////////////////////////////////
 // action = new
+//////////////////////////////////////////////////////////////////////
 if ( $action == 'new' ) {
   // Check privilege
   if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_SESSION['g_jrn']) != 2 )    {
@@ -134,6 +134,9 @@ if ( $action == 'new' ) {
 	
 
 }
+//////////////////////////////////////////////////////////////////////
+// see jrn
+//////////////////////////////////////////////////////////////////////
 if ( $action == 'voir_jrn' ) {
   // Check privilege
   if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_SESSION['g_jrn']) < 1 )    {
@@ -164,30 +167,34 @@ echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit',
    echo $list;
    echo '</div>';
 }
-
-//Search
-if ( $action == 'search' ) {
-  // Check privilege
-  if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_SESSION['g_jrn']) < 1 )    {
-       NoAccess();
-       exit -1;
-  }
-
-  // PhpSessid
-  $sessid=(isset ($_POST['PHPSESSID']))?$_POST['PHPSESSID']:$_GET['PHPSESSID'];
-
-// display a search box
-  $search_box=u_ShowMenuRecherche($cn,$_SESSION['g_jrn'],$sessid,$HTTP_POST_VARS);
-  echo '<DIV class="u_redcontent">';
-  echo $search_box; 
-  // if nofirst is set then show result
-  if ( isset ($_GET['nofirst'] ) )  {
-    $a=ListJrn($cn,$_SESSION['g_jrn'],"",$HTTP_POST_VARS);
-    echo $a;
-  }
-   
-  echo '</DIV>'; 
-}
+//////////////////////////////////////////////////////////////////////
+// balance
+//////////////////////////////////////////////////////////////////////
+if ( $action == 'solde' ) {
+  require_once("poste.php");
+  // find the bank account
+  $accountSql="select distinct pcm_val,pcm_lib from 
+            tmp_pcmn 
+            where pcm_val like '550%'";
+  $ResAccount=ExecSql($cn,$accountSql);
+  echo '<div class="u_redcontent">';
+  echo "<table>";
+  for ( $i = 0; $i < pg_NumRows($ResAccount);$i++) {
+    $l=pg_fetch_array($ResAccount,$i);
+    echo "<tr>";
+    echo "<TD>".
+      $l['pcm_val'].
+      "</TD>".
+      "<TD>".
+      $l['pcm_lib'].
+      "</TD>"."<TD>".
+      GetSolde($cn,$l['pcm_val']).
+      "</TD>"."</TR>";
+  }// for
+  echo "</table>";
+  echo "</div>";
+ }
+//////////////////////////////////////////////////////////////////////
 include("user_update.php");
 
 
