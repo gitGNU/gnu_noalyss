@@ -273,9 +273,10 @@
   ·  Se connecter en tant que postgres et taper les commandes
 
 
-     createuser -d  -P dany phpcompta
-     createdb -O phpcompta phpcompta
-
+     createuser -h localhost -d  -P postgres phpcompta
+     createdb -h localhost -O phpcompta phpcompta
+     createdb -h localhost -O phpcompta log
+     psql -h localhost -U phpcompta -f sql/log/log.sql log
 
 
   ·  Décompacter le package dans le répertoire de votre choix, et
