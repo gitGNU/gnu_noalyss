@@ -1,4 +1,30 @@
+2005-05-04  sparkyx  <sparkyx@eleven>
+
+	* include/fiche_inc.php: bug 12971
+
+	* include/fiche_inc.php: BUG 12971
+	A null name is now impossible for cards and card modele
+
+	* include/user_action_fin.php, include/poste.php, html/admin/sql/patch/upgrade4.sql:
+	task 3374 Solde compte en banque
+
+	* html/admin/setup.php: Previous version is lower than 4
+
+	* html/style-light.css, include/constant.php:
+	Fix u_redcontent in html/style-light.css
+	Fix Javascript prob.
+
+2005-04-29  sparkyx  <sparkyx@eleven>
+
+	* html/sec_pdf.php, html/user_sec.php, include/class_user.php:
+	Task 3839
+	Export PDF de la sécurité
+
 2005-04-27  sparkyx  <sparkyx@eleven>
+
+	* include/ac_common.php: Fix unset variable
+
+	* Changelog: changelog
 
 	* html/annulation.php: Message + explicite
 
@@ -111,7 +137,7 @@
 
 2005-03-09  sparkyx  <sparkyx@eleven>
 
-	* html/admin/setup.php, addon/fonts/php_Helvetica-BoldOblique.afm, addon/fonts/php_Helvetica-Oblique.afm, addon/fonts/php_Helvetica.afm, addon/fonts/php_Symbol.afm, addon/fonts/php_Times-Bold.afm, addon/fonts/php_Times-BoldItalic.afm, addon/fonts/php_Times-Italic.afm, addon/fonts/php_Times-Roman.afm, addon/fonts/php_ZapfDingbats.afm, addon/fonts/php_a0100131.afm, addon/fonts/php_a010013l.afm, addon/fonts/Courier-Bold.afm, addon/fonts/Courier-BoldOblique.afm, addon/fonts/Courier-Oblique.afm, addon/fonts/Courier.afm, addon/fonts/Helvetica-Bold.afm, addon/fonts/Helvetica-BoldOblique.afm, addon/fonts/Helvetica-Oblique.afm, addon/fonts/Helvetica.afm, addon/fonts/Symbol.afm, addon/fonts/Times-Bold.afm, addon/fonts/Times-BoldItalic.afm, addon/fonts/Times-Italic.afm, addon/fonts/Times-Roman.afm, addon/fonts/ZapfDingbats.afm, addon/fonts/php_Courier-Bold.afm, addon/fonts/php_Courier-BoldOblique.afm, addon/fonts/php_Courier-Oblique.afm, addon/fonts/php_Courier.afm, addon/fonts/php_Helvetica-Bold.afm:
+	* html/admin/setup.php:
 	FIX the addon misplaced, the old install.sh copied it to the good place but now we do not use it anymore. So I had to move it
 
 2005-03-08  sparkyx  <sparkyx@eleven>
@@ -1369,6 +1395,6 @@
 	* include/ac_common.php, include/central_inc.php, include/check_priv.php, include/constant.php, include/debug.php, include/facture_inc.php, include/fiche_inc.php, include/form_inc.php, include/impress_inc.php, include/jrn.php, include/poste.php, include/postgres.php, include/preference.php, include/top_menu_compta.php:
 	First release
 
-	* addon/fonts/ZapfDingbats.afm, addon/fonts/php_Courier-Bold.afm, addon/fonts/php_Courier-BoldOblique.afm, addon/fonts/php_Courier-Oblique.afm, addon/fonts/php_Courier.afm, addon/fonts/php_Helvetica-Bold.afm, addon/fonts/php_Helvetica-BoldOblique.afm, addon/fonts/php_Helvetica-Oblique.afm, addon/fonts/php_Helvetica.afm, addon/fonts/php_Symbol.afm, addon/fonts/php_Times-Bold.afm, addon/fonts/php_Times-BoldItalic.afm, addon/fonts/php_Times-Italic.afm, addon/fonts/php_Times-Roman.afm, addon/fonts/php_ZapfDingbats.afm, addon/fonts/php_a0100131.afm, addon/fonts/php_a010013l.afm, doc/installation.sxw, doc/manual.sxw, doc/php.ini-minimum, html/admin_repo.php, html/calculator.js, html/calendar.js, html/central.php, html/compta.php, html/compute.js, html/dossier_prefs.php, html/enc_jrn.php, html/facturation.php, html/fiche.php, html/form.php, html/impress.php, html/index.html, html/jrn_add.php, html/jrn_detail.php, html/jrn_op_detail.php, html/jrn_search.php, html/jrn_update.php, html/line_update.php, html/login.php, html/logout.php, html/not_implemented.php, html/pcmn_update.php, html/poste_search.php, html/priv_user.php, html/rate_chg.php, html/send.php, html/send_jrn_pdf.php, html/send_poste_pdf.php, html/user_pref.php, html/user_sec.php, html/verif.php, html/win_detail_jrn.js, html/win_search_jrn.js, html/win_search_poste.js, sql/ac_dossier.sql, sql/ac_users.sql, sql/centralized.sql, sql/dos_pref.sql, sql/fiche.sql, sql/form.sql, sql/insert_pcmn.sql, sql/jnt_use_dos.sql, sql/journal.sql, sql/priv_user.sql, sql/struct-repository.sql, sql/struct.sql, sql/tmp_pcmn.sql, sql/user_pref.sql, sql/user_sec.sql, sql/version.sql, AUTHORS, COPYING, Faq, INSTALL, Todo, addon/class.ezpdf.php, addon/class.pdf.php, addon/data.txt, addon/fonts/Courier-Bold.afm, addon/fonts/Courier-BoldOblique.afm, addon/fonts/Courier-Oblique.afm, addon/fonts/Courier.afm, addon/fonts/Helvetica-Bold.afm, addon/fonts/Helvetica-BoldOblique.afm, addon/fonts/Helvetica-Oblique.afm, addon/fonts/Helvetica.afm, addon/fonts/Symbol.afm, addon/fonts/Times-Bold.afm, addon/fonts/Times-BoldItalic.afm, addon/fonts/Times-Italic.afm, addon/fonts/Times-Roman.afm, addon/readme.pdf, addon/readme.php, addon/ros.jpg, backup-db, cvs-set, install.sh, license.txt, log, setenv.sh, style.css:
+	* doc/installation.sxw, doc/manual.sxw, doc/php.ini-minimum, html/admin_repo.php, html/calculator.js, html/calendar.js, html/central.php, html/compta.php, html/compute.js, html/dossier_prefs.php, html/enc_jrn.php, html/facturation.php, html/fiche.php, html/form.php, html/impress.php, html/index.html, html/jrn_add.php, html/jrn_detail.php, html/jrn_op_detail.php, html/jrn_search.php, html/jrn_update.php, html/line_update.php, html/login.php, html/logout.php, html/not_implemented.php, html/pcmn_update.php, html/poste_search.php, html/priv_user.php, html/rate_chg.php, html/send.php, html/send_jrn_pdf.php, html/send_poste_pdf.php, html/user_pref.php, html/user_sec.php, html/verif.php, html/win_detail_jrn.js, html/win_search_jrn.js, html/win_search_poste.js, sql/ac_dossier.sql, sql/ac_users.sql, sql/centralized.sql, sql/dos_pref.sql, sql/fiche.sql, sql/form.sql, sql/insert_pcmn.sql, sql/jnt_use_dos.sql, sql/journal.sql, sql/priv_user.sql, sql/struct-repository.sql, sql/struct.sql, sql/tmp_pcmn.sql, sql/user_pref.sql, sql/user_sec.sql, sql/version.sql, AUTHORS, COPYING, Faq, INSTALL, Todo, addon/class.ezpdf.php, addon/class.pdf.php, addon/data.txt, addon/readme.pdf, addon/readme.php, addon/ros.jpg, backup-db, cvs-set, install.sh, license.txt, log, setenv.sh, style.css:
 	Import in repository
 
