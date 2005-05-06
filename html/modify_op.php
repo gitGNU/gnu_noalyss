@@ -102,16 +102,16 @@ if ( isset($_POST['update_record']) ) {
     }
 
   // NO UPDATE except rapt & comment && upload pj
+  StartSql($cn);
+
   UpdateComment($cn,$_POST['jr_id'],$_POST['comment']);
   InsertRapt($cn,$_POST['jr_id'],$_POST['rapt']);
   if ( isset ($_FILES)) {
-    StartSql($cn);
-    save_upload_document($cn,$_POST['jr_grpt_id']);
-    Commit($cn);
-  }
-  if ( isset ($_POST['is_paid'] ))
-    StartSql($cn);
+       save_upload_document($cn,$_POST['jr_grpt_id']);
+    }
+  if ( isset ($_POST['is_paid'] )) 
        $Res=ExecSql($cn,"update jrn set jr_rapt='paid' where jr_id=".$_POST['jr_id']);
+
   if ( isset ($_POST['to_remove'] )) {
 	// Remove old document
 	$ret=ExecSql($cn,"select jr_pj from jrn where jr_id=".$_POST['jr_id']);
@@ -122,10 +122,12 @@ if ( isset($_POST['update_record']) ) {
 	    pg_lo_unlink($cn,$old_oid);
 	  ExecSql($cn,"update jrn set jr_pj=null, jr_pj_name=null, ".
 		"jr_pj_type=null  where jr_id=".$_POST['jr_id']);
-	  Commit($cn);
 	}
-
   }
+  
+
+  Commit($cn);
+
   echo ' <script> 
  window.close();
  self.opener.RefreshMe();
