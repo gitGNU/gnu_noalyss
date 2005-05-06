@@ -23,13 +23,13 @@ BODY {
 </head>
 <BODY onLoad="document.loginform.p_user.focus()">
 <div class="remark">
- <p>A cause de problème en javascript, Internet Explorer ne peut absolument 
- pas être utilisé avec ce produit.</p>
- <p>Vous devez utilisez un autre browser: firefox, mozilla, netscape, Konqueror, opera...
+ <p>Il est conseillé de ne pas utiliser Internet Explorer.
+ Vous pouvez utiliser un autre browser: firefox, mozilla, netscape, Konqueror, opera...
  </p>
  <p>
- Si vous pensez pouvoir nous aidez à règler ce problème de compatibilité 
- <a href="https://savannah.nongnu.org/projects/phpcompta">rejoignez-nous</a>	.
+ <a href="https://savannah.nongnu.org/projects/phpcompta">
+ Si vous avez envie de nous rejoindre, vous êtes les bienvenus
+ </a>	.
  </p>
 </div>
 
