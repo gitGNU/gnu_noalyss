@@ -221,10 +221,10 @@ function InputType($p_label,$p_type,$p_name,$p_value,$p_viewonly=false,$p_list=n
 	       $p_list,
 	       $p_name);
     $l_sessid=$_REQUEST['PHPSESSID'];
-    //    $r.="<script> document.getElementById('$p_list').innerHTML=\"  \";</script>"; 
-    $r.=sprintf("<input type=\"button\" value=\"Tva\" onClick=\"ChangeTVA('%s','%s'); 
-                  ShowTva('%s','%s')\"></TD>",
-		$p_list,$p_name,$l_sessid,$p_name);
+    $r.=sprintf("<input type=\"button\" value=\"Tva\" 
+    	onClick=\"
+       	           ShowTva('%s','%s');\"></TD>",
+		$l_sessid,$p_name);
     return $r;
   }
 

@@ -110,7 +110,7 @@ define ("FICHE_TYPE_FOURNISSEUR",8);
 define ("FICHE_TYPE_FIN",4);
 define ("FICHE_TYPE_ADM_TAX",14);
 
-define ("JS_SEARCH_POSTE","<SCRIPT>function SearchPoste(p_sessid,p_ctl)
+define ("JS_SEARCH_POSTE","<SCRIPT language=\"javascript\">function SearchPoste(p_sessid,p_ctl)
      {
        var win=window.open('poste_search.php?p_ctl='+p_ctl+'&PHPSESSID='+p_sessid,'Cherche','toolbar=no,width=600,height=600,scrollbars=yes,resizable=yes');
     } 
@@ -126,32 +126,35 @@ function SetItChild(p_ctl,p_value) {
 	window.close();
 }
 function SetItParent(p_ctl,p_value) {
-	document.forms[0].eval(p_ctl).value=p_value;
+
+	var f=document.getElementsByName(p_ctl);
+	for (var h=0; h < f.length; h++) {
+		f[h].value=p_value;
+		}
+	
 }
 	</SCRIPT>"
 );
-define ("JS_SHOW_TVA","<SCRIPT>function ShowTva(p_sessid,ctl)
+define ("JS_SHOW_TVA","<SCRIPT language=\"javascript\">
+function ShowTva(p_sessid,ctl)
      {
        var win=window.open('show_tva.php?ctl='+ctl+'&PHPSESSID='+p_sessid,'Montre','scrollbar,toolbar=no,width=300,height=300,resizable=yes');
     } 
-	 function GetIt(ctl,tva_id) {
-           self.opener.SetIt(ctl,tva_id)
-	   window.close();	
-	} 
-function SetIt(ctl,tva_id)
-{
-document.forms[0].eval(ctl).value=tva_id;
-}
+ function GetIt(ctl,tva_id) {
+   self.opener.SetValue(ctl,tva_id)
+   window.close();	
+} 
+
 	</SCRIPT>"
 );
 
-define ("JS_VIEW_JRN_DETAIL","<script>function viewDetail(p_value,p_sessid)
+define ("JS_VIEW_JRN_DETAIL","<script language=\"javascript\">function viewDetail(p_value,p_sessid)
 		{
 			var win=window.open('jrn_op_detail.php?jrn_op='+p_value+'&PHPSESSID='+p_sessid,'Cherche','toolbar=no,width=400,height=400,scrollbars=yes,resizable=yes');
 		}
 
 	</script>");
-define ("JS_VIEW_JRN_CANCEL","<script>function cancelOperation(p_value,p_sessid)
+define ("JS_VIEW_JRN_CANCEL","<script  language=\"javascript\" >function cancelOperation(p_value,p_sessid)
 		{
 			var win=window.open('annulation.php?jrn_op='+p_value+'&PHPSESSID='+p_sessid,'Annule','toolbar=no,width=400,height=400,scrollbars=yes,resizable=yes');
 		}
@@ -159,7 +162,7 @@ function RefreshMe() {
 window.location.reload();
 }
 	</script>");
-define ("JS_VIEW_JRN_MODIFY","<script>function modifyOperation(p_value,p_sessid)
+define ("JS_VIEW_JRN_MODIFY","<script  language=\"javascript\">function modifyOperation(p_value,p_sessid)
 		{
 			var win=window.open('modify_op.php?action=update&line='+p_value+'&PHPSESSID='+p_sessid,'Modifie','toolbar=no,width=500,height=400,scrollbars=yes,resizable=yes');
 		}
@@ -172,7 +175,7 @@ window.location.reload();
 
 	
 	</script>");
-define ("JS_UPDATE_PCMN","<script>function PcmnUpdate(p_value,p_lib,p_parent,p_sessid)
+define ("JS_UPDATE_PCMN","<script  language=\"javascript\">function PcmnUpdate(p_value,p_lib,p_parent,p_sessid)
 		{
 			var win=window.open('line_update.php?l='+p_value+'&n='+p_lib+'&p='+p_parent+'&PHPSESSID='+p_sessid,'Modifie','toolbar=no,width=500,height=400,scrollbars=yes,resizable=yes');
 		}
@@ -184,7 +187,7 @@ function RefreshMe() {
 	</script>");
 
 define ("JS_SEARCH_CARD","
-<script>
+<script  language=\"javascript\">
 /* type must be cred or deb and name is
  * the control's name
 */
@@ -196,7 +199,20 @@ function NewCard(p_sessid,type,name)
 {
    var a=window.open('fiche_new.php?PHPSESSID='+p_sessid+'&type='+type+'&name='+name,'item','toolbar=no,width=350,height=450,scrollbars=yes');
 }
+/* SetValue( p_ctl,p_value )
+/* p_ctl is the name of the control
+/* p_value is the value to set in
+*/
+function SetValue(p_ctl,p_value) 
+{
 
+	var f=document.getElementsByName(p_ctl);
+	for (var h=0; h < f.length; h++) {
+		f[h].value=p_value;
+		}
+	
+
+}
 /* Parameters 
  * i = ctl _name
  * p_id = code id (fiche.f_id)
@@ -208,8 +224,7 @@ function NewCard(p_sessid,type,name)
  */
   function SetData(i,p_id,p_label,p_sell,p_buy,p_tva_id, p_tva_label)
 {
-	document.form_detail.eval(i).value=p_id;
-	
+	SetValue(i,p_id);
 	// for the form we use 1. and for span 2.    
 	//1. document.form_detail.eval(a).value=p_buy;
 	//2. document.getElementById(a).innerHTML=p_sell;
@@ -223,7 +238,7 @@ function NewCard(p_sessid,type,name)
 	// if the object exist
  	var e=document.getElementsByName(a)  
 	  if ( e.length != 0 ) {
-	    document.form_detail.eval(a).value=p_sell;
+	    SetValue(a,p_sell);
 
 	}
 
@@ -232,14 +247,14 @@ function NewCard(p_sessid,type,name)
 	// if the object exist
  	var e=document.getElementsByName(a)  
         if ( e.length != 0 ) {
-	  document.form_detail.eval(a).value=p_buy;
+	  SetValue(a,p_buy);
 	}
 	// Compute name of  tva_id  ctl 
 	var a=i+'_tva_id';
 	// if the object exist
  	var e=document.getElementsByName(a)  
         if ( e.length != 0 ) {
-	  document.form_detail.eval(a).value=p_tva_id;
+	  SetValue(a,p_tva_id);
 	}
 
 	// Compute name of  tva_label ctl 
@@ -257,7 +272,7 @@ function NewCard(p_sessid,type,name)
 ");
 // concerned operation
 define ("JS_CONCERNED_OP","
-<script>
+<script  language=\"javascript\">
 
 function SearchJrn(p_sessid,p_ctl)
 {
@@ -267,9 +282,18 @@ function GetIt(p_ctl,p_value) {
   self.opener.SetIt(p_value,p_ctl);
 	window.close();	
 }
+/* SetValue( p_ctl,p_value )
+/* p_ctl is the name of the control
+/* p_value is the value to set in
+*/
 function SetIt(p_value,p_ctl) {
-  document.forms[0].eval(p_ctl).value=p_value;
 	
+	var f=document.getElementsByName(p_ctl);
+	for (var h=0; h < f.length; h++) {
+		f[h].value=p_value;
+		}
+	
+
 }
 
 
@@ -289,7 +313,7 @@ Answer:<span id=\"name\"></span>
 
 
 </form>
-<SCRIPT>
+<SCRIPT  language=\"javascript\">
 
 function cal()
 {
@@ -303,13 +327,15 @@ function cal()
 "
 );
 
-define ("JS_TVA","<script>
+define ("JS_TVA","<script  language=\"javascript\">
 
 function ChangeTVA(p_ctl,p_value) {
         if (document.getElementById(p_ctl) ) {
-	  document.getElementById(p_ctl).innerHTML=document.forms[0].eval(p_value).value;
+          var f=document.getElementsByName(p_value);
+	  for ( var i=0; i < f.length ; i++) {
+		  document.getElementById(p_ctl).innerHTML=f[i].value;
 	}
-
+	}
 }
 
 </script>");
