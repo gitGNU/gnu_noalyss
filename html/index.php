@@ -19,11 +19,18 @@ BODY {
 	width:200px;
 	padding:3px;
 }
+.gras {
+  font-size:12px;
+  font-family:sans-serif;
+  color:red;
+
+}
 </style> 
 </head>
 <BODY onLoad="document.loginform.p_user.focus()">
 <div class="remark">
- <p>Il est conseillé de ne pas utiliser Internet Explorer.
+ <p class="gras">Il est conseillé de ne PAS utiliser Internet Explorer.
+ </p><p>
  Vous pouvez utiliser un autre browser: firefox, mozilla, netscape, Konqueror, opera...
  </p>
  <p>
