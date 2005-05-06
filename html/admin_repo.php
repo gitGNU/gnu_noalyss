@@ -218,7 +218,7 @@ if ( $count == 0 ) {
       $Res=ExecSql($cn_mod,"truncate table centralized");
       $Res=ExecSql($cn_mod,"truncate table stock_goods");
 //	Reset the closed periode
-      $Res=ExecSql($cn_mod,"update parm_periode set p_closed='t'");
+      $Res=ExecSql($cn_mod,"update parm_periode set p_closed='f'");
       // Reset Sequence
       $a_seq=array('s_jrn','s_jrn_op','s_centralized','s_stock_goods');
       foreach ($a_seq as $seq ) {
@@ -290,7 +290,7 @@ if ( $count == 0 ) {
 </TR>
 <TR>
     <TD>Description</TD>
-    <TD><TEXTAREA" ROWS="2" COLS="60" NAME="FMOD_DESC"></Textarea></TD>
+    <TD><TEXTAREA ROWS="2" COLS="60" NAME="FMOD_DESC"></Textarea></TD>
 </TR>
 <TR>
     <TD> Basé sur </TD>
