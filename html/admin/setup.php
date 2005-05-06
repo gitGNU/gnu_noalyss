@@ -55,12 +55,12 @@ h2.error {
 
 $inc_path=get_include_path();
 if ( strpos($inc_path,";") != 0 ) {
-  $inc_path.=';..\..\include;addon';
+  $new_path=$inc_path.';..\..\include;addon';
  } else {
-  $inc_path.=':../../include:addon';
+  $new_path=$inc_path.':../../include:addon';
  }
 
-set_include_path($inc_path);
+set_include_path($new_path);
 
 include_once('constant.php');
 include_once('postgres.php');
@@ -153,17 +153,17 @@ if ( ini_get("session.auto_start") == false )  {
 if ( ini_get("session.use_trans_sid") == false )  {
 	print '<h2 class="error"> avertissement session.use_trans_sid should be set to true </h2>';
 }
-if ( ereg("..\/include",ini_get('include_path')) == 0 and ereg("..\\include",ini_get('include_path')) == 0)
+if ( ereg("..\/include",$inc_path) == 0 and ereg("..\\include",$inc_path) == 0)
 {
-  print ("<h2 class=\"error\">include_path incorrect  !!!".ini_get('include_path')."</h2>");
+  print ("<h2 class=\"error\">include_path incorrect  !!!".$inc_path."</h2>");
 	$flag_php++;
 }
  else
- if ( ereg("addon",ini_get('include_path')) == 0) {
-  print ("<h2 class=\"error\">include_path incorrect  !!!".ini_get('include_path')."</h2>");
+ if ( ereg("addon",$inc_path) == 0) {
+  print ("<h2 class=\"error\">include_path incorrect  !!!".$inc_path."</h2>");
 	$flag_php++;
  }else
-   print 'include_path : ok ('.ini_get('include_path').')<br>';
+   print 'include_path : ok ('.$inc_path.')<br>';
 
 if ( $flag_php==0 ) {
 	echo '<p class="info">php.ini est bien configuré</p>';

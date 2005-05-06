@@ -23,7 +23,7 @@
 // $Revision$
 define ("phpcompta_password","dany");
 
-define ("DEBUG","true");
+define ("DEBUG","false");
 
 // securite correspond a la table 
 // action

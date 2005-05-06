@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 # clean all phpcompta related DB.
 
 dropdb -U phpcompta -h localhost account_repository
