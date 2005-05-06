@@ -62,7 +62,7 @@ La grande différence avec la gestion, est que la comptabilité est tenue
 en suivant des lois précises, qui malheureusement changent suivant le  pays.
 
 De plus, elle doit entre autre permettre les déclarations
-fiscale, permettre des analyses bilantaires et surtout être conforme à  la législation.
+fiscales, permettre des analyses bilantaires et surtout être conforme à  la législation.
 
 Ce n'est pas le cas, de la gestion, la gestion consiste à gérer une entreprise ou une activité
 d'indépendant, ce qui inclut aussi la gestion du courrier, du personnel...
@@ -76,11 +76,13 @@ limite est floue et discutable.
 </sect1>
 <sect> Mémento de comptabilité
 <sect1> Introduction
-<p> Ce mémento sera vraiment très bref, si vous voulez en savoir
-plus. Vous serez obligé d'aller chercher les livres adéquats. Je vous conseille vivement pour la Belgique "le Précis de comptabilisation de Joseph Antoie et Jean Paul Cornil. Ed. De Boeck Université"
+<p> Ce mémento sera vraiment très bref; si vous voulez en savoir
+plus, vous serez obligé d'aller chercher les livres adéquats. Je vous conseille vivement pour la Belgique "le Précis de comptabilisation de Joseph Antoie et Jean Paul Cornil. Ed. De Boeck Université".
 
+<p>
 Cependant, sur le site de PhpCompta vous trouverez des liens qui
 devraient vous aider à commencer cette matière.
+
 </sect1>
 <sect1> Le Bilan
 <p> L'un des objectif de la comptabilité est de pouvoir établir un bilan qui
@@ -131,9 +133,11 @@ faut toujours garder un mémoire
 <item> Le passif augmente au crédit et diminue au débit
 </itemize>
 
+<p>
 Les comptes d'actifs sont les comptes comme les comptes en banque, les
 créances, le matériel que vous possédez. Ce sont les ressources.
 
+<p>
 Les comptes de passif sont les dettes, les emprunts. Ce sont les
 Emplois.
 
@@ -186,7 +190,7 @@ opérations sont réordonnées par date.
 </sect2>
 </sect1>
 <sect1> Fiscalité, TVA
-<p> tous les requalifications des montants doivent
+<p> Toutes les requalifications des montants doivent
 se faire par le journal des opérations diverses
 
 <sect2> Belgique
@@ -216,14 +220,7 @@ travaux de fin d'exercice,d'imputer 50% du total de vos frais de
 restaurant à un compte de dépense non admise. Il n'est pas dans le
 PCMN donc créer le poste vous-même (classe 67).
 
-<p>De plus si vous utilisez la voiture pour votre usage personnel, 2/7
-doivent être mis sur le compte exploitant dans le cas d'une
-sprl. C'est-à-dire qu'il
-faut diminuer les charges 6xxxx frais de voiture à 41xxx Compte de
-l'exploitant. Et de la même manière,  diminuer la tva de vos frais de
-voiture de 2/7.
-
-Les écritures comptables : chaque trimestre vous devez payer un acompte de 
+<p>Les écritures comptables : chaque trimestre vous devez payer un acompte de 
 tva qui est égal au tiers du montant dû à la dernière déclaration
 <verb>
 4117     Acompte TVA
@@ -266,10 +263,11 @@ recevrez ou paierez la TVA
 <p> Chaque année est composée de 13 périodes, les 12 premières font exactement
 un mois mais la 13ième est toujours sur un seul jour : le 31 décembre. C'est cette période qui sera la période de clôture de l'année comptable.
 
-Pour commencer, changer vos préférences pour avoir cette période par défaut. Normalement vous ne devrez utiliser que le journal des Opérations diverses et
+<p>Pour commencer, changer vos préférences pour avoir cette période par défaut. Normalement vous ne devrez utiliser que le journal des Opérations diverses et
 aucun autre.
 
-Ensuite, imprimez une balance des comptes de l'année écoulée. Cela fait, le reste est assez facile.
+<p>Ensuite, imprimez une balance des comptes de l'année écoulée. 
+Cela fait, le reste est assez facile.
 
 <sect2> Les amortissements
 <p> Dans la comptabilité Belge, vous trouverez ce qu'il y a à amortir dans le poste 24xxx, imprimez ces fiches et calculez l'amortissement pour l'année, ensuite en opération diverse, vous l'imputerez ainsi
@@ -482,7 +480,7 @@ automatiquement le poste comptable voulu, ce poste sera
 automatiquement ajouté dans le Plan Comptable. Si cette option n'est
 pas cochée, vous devrez ajouter manuellement le poste comptable et le
 donner explicitement. Si vous ne souhaitez pas que chaque fiche aie
-son propre comptable, ne cochez l'option et n'ajoutez pas manuellement
+son propre poste comptable, ne cochez pas l'option et n'ajoutez pas manuellement
 le poste comptable. Dans ce cas, ce sera le poste du modèle de fiche
 par défaut qui sera utilisé, si vous ne l'indiquez pas ce sera la
 classe par défaut de ce type de modèle. 
@@ -497,7 +495,7 @@ mais pas généré automatiquement: ne cochez pas. Par la suite,  ajoutez
  l'attribut 'Poste Comptable' si nécessaire, la plupart des fiches ont
 par défaut un attribut 'Poste Comptable,
 vous devrez mettre manuellement le poste comptable
- que vous souhaitez pour chaque fiche. Dans ce cas,  <bf /toutes/ les
+ que vous souhaitez pour chaque fiche. Dans ce cas, toutes les
  fiches devront avoir un poste comptable. Sinon ce sera le poste comptable
  par défaut qui sera utilisé.
 </itemize>
@@ -511,7 +509,7 @@ vente, Poste Comptable. Vous n'êtes pas obligé de créer une fiche pour
 tout, par exemple pour les restaurants, vous pouvez encodez une seule
 et unique fiche appelée restaurant.
 
-Autre : comme plusieur fiches peuvent utiliser le même poste comptable, si on
+<p>Autre : comme plusieur fiches peuvent utiliser le même poste comptable, si on
 modifie le nom d'une fiche cela ne modifiera pas son nom dans le Plan Comptable
 
 </sect1>
@@ -569,7 +567,7 @@ découvrir PhpCompta.
 <sect1> Opérations Diverses
 <p> Les cartes de crédit :
 La visa = changement de créancier : visa paie le fournisseur vous
-payez la société
+payez Visa
 
 <p> Facture payée par mensualité
 Opération de rapprochement ???
@@ -659,7 +657,7 @@ l'explorateur pour découvrir ces informations est une perte de
 temps,  utiliser son historique pour accéder à vos données ne
 fonctionnera pas non plus.
 
-Pour ajouter un utilisateur, vous devez tout d'abord avoir les droits
+<p>Pour ajouter un utilisateur, vous devez tout d'abord avoir les droits
 admin et créez l'utilisateur. A ce moment-là, il n'a accès à rien du
 tout. Il faut ensuite se connecter à un dossier sur lequel vous avez
 des droits admin et l'ajouter, par défaut il ne peut rien faire. A
@@ -668,13 +666,14 @@ vous de spécifier ce qu'il peut accéder et son droits par défaut
 droits admin ) ne peut pas accéder à des nouveaux dossiers. Chaque
 accès doit être donné explicitement.
 
-Dans un dossier, un utilisateur a toujours un droit par défaut. Si par
+<p>Dans un dossier, un utilisateur a toujours un droit par défaut. Si par
 exemple, son droit par défaut est de lire il pourra lire tout 
 ce qu'il veut et écrire uniquement dans ce qui a été explicitement
 permis. Si son droit par défaut est d'écrire, c'est l'inverse, il
 pourra écrire partout sauf là ou est explicitement il ne peut
 qu'écrire. Le sens d'écrire dans ce contexte-ci doit se comprendre
-comme la capacité à  pouvoir ajouter ou modifier des informations
+comme la capacité à  pouvoir ajouter ou modifier des informations.
+
 </sect1>
 </sect>
 <sect> Gestion de stock
@@ -685,12 +684,12 @@ marchandises ont toujours deux fiches : l'une pour la vente et l'autre
 pour l'achat, la seule façon de lier ces fiches est de leur donner le
 même code de stock. 
 
-Bien faire attention à ce code, il doit être le même pour les fiches
+<p>Bien faire attention à ce code, il doit être le même pour les fiches
 achats et ventes de la même marchandise, si vous utilisez ce code
 stock pour deux différentes marchandise, vous ne serez plus en mesure
 de faire la différence entre ces 2 marchandises dans le stock.
 
-Dans le mode utilisateur, les achats et les ventes vont
+<p>Dans le mode utilisateur, les achats et les ventes vont
 automatiquement mettre le  stock à jour. Dans le mode comptable ce
 n'est pas le cas ! 
 
@@ -760,27 +759,28 @@ débit capital non appelé 12100
 Pierre paie le loyer (400 euro) à son propriétaire par banque, prendre
 le journal achat
 
-7 janvier
+<p>7 janvier
 Pierre paie l'eau et le gaz (250 euros + 21%tva), cliquez  sur le
 bouton new pour créer les fiches manquantes
 
-15 janvier
+<p>15 janvier
 Extrait de compte banquaire: on voit le paiement du loyer du 5 janvier
 
-17 janvier
+<p>17 janvier
 Banque : on voit les paiements du 7 janvier
 encoder dans le journal financier, ne pas oublier le rapprochement
 
-21 janvier
+<p>21 janvier
 Vente : vend 15 pièces de l'article A, paiement par banque
 
-26 janvier
+<p>26 janvier
 Banque : on voit les paiements du 15 janvier
 encoder dans le journal financier, ne pas oublier le rapprochement
 
-31 janvier
+<p>31 janvier
 Banque : le client nous a payé pour la facture du 21
 encoder dans le journal financier, ne pas oublier le rapprochement
+
 </sect1>
 </sect>
 <sect>Trucs et astuces

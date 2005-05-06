@@ -9,7 +9,8 @@
 <abstract>
 Ce document contient les réponses aux questions les plus fréquemment posées sur
 PhpCompta <url url="http://www.alchimerys.be/FR/phpcompta" name="PhpCompta">
-site savannah <url url="http://savannah.nongnu.org/projects/phpcompta/" name="PhpCompta Savannah">
+site savannah 
+<url url="http://savannah.nongnu.org/projects/phpcompta/" name="PhpCompta Savannah">
 </abstract>
 
 <!-- Table of contents -->
@@ -21,8 +22,10 @@ adapté à la législation
  manière centralisée.Il a crée pour supporter d'autres comptabilité d'autres
  pays mais par manque de documentation, ce n'est pas encore implémenté, idem
  pour les traductions. </P>
- <P>Si vous voulez contribuez n'hésitez pas : <url url="http://mail.nongnu.org/mailman/listinfo/phpcompta-contrib" name="Mailing List Contribution">
- <newline> Si vous avez besoin d'aide <url url="http://mail.nongnu.org/mailman/listinfo/phpcompta-support"
+ <P>Si vous voulez contribuez n'hésitez pas : 
+ <url url="http://mail.nongnu.org/mailman/listinfo/phpcompta-contrib" name="Mailing List Contribution">
+ <newline> Si vous avez besoin d'aide 
+ <url url="http://mail.nongnu.org/mailman/listinfo/phpcompta-support"
  name="Mailing List support">.
  </p>
 <sect> Quel le nom du soft ??
@@ -39,6 +42,12 @@ En fait c'est phpcompta, au départ c'était wcompta, contraction de
  WebCompta mais malheureusement, c'est le nom d'un soft qui existait
  déjà, j'ai été obligé de changer vers phpcompta.
 </p>
+<p>
+Cependant PhpCompta est un nom temporaire, il sera changé le jour où
+quelqu'un proposera mieux. Si ce nom doit être changé, c'est par respect envers
+l'équipe de Php qui ne souhaite pas que le mot Php soit réutilisé dans d'autres
+applications.
+</p>
 </sect>
 <sect>Par où commence t'on et comment ?
 <p>
@@ -49,7 +58,7 @@ En fait c'est phpcompta, au départ c'était wcompta, contraction de
  <item> Menu Administration -> Dossier, choisir un nom pour le dossier, create
  folder
 
- <item> Étape 2, on peut créer des utilisateurs mais ce n'est obligatoire.
+ <item> Étape 2, on peut créer des utilisateurs mais ce n'est pas obligatoire.
 
  <item> Étape 3, on revient à l'accueil :)
 
@@ -96,7 +105,8 @@ session.cookie_path       = /tmp       ; the path the cookie is valid for
 <p>phpcompta</p>
 <sect>Quel est l'utilisateur et le mot de passe par défaut?
 <p>
-l'utilisateur et le mot de passe par défaut sont phpcompta/phpcompta
+l'utilisateur et le mot de passe par défaut sont phpcompta/phpcompta,
+l'utilisateur demo a aussi phpcompta comme mot de passe.
 </p>
 </sect>
 <sect>J'ai trouvé un tit bug, comment faire un patchs ??<label id="bug">
@@ -104,12 +114,12 @@ l'utilisateur et le mot de passe par défaut sont phpcompta/phpcompta
 Le plus simplement du monde : d'abord récupérez le projet avec cvs,
 corrigez le problème que vous avez détectez; vous vous placez à la
 racine du projet et vous tapez :  
-<quote>
+<verb>
 cvs diff -u > patch-date-email
-</quote>
+</verb>
 Pensez à d'abord effacer les fichiers inutiles, les ~, les corefiles...
 Vous pouvez envoyer le fichier résultat. Pensez à me dire si c'est un
-patch relatif aux cv ou non. Mais testez-le avant.
+patch relatif aux cvs ou non. Mais testez-le avant.
 </p>
 <p> Pour tester les patch,
 <p>
@@ -128,7 +138,7 @@ Si cela ne marche pas ce n'est pas bon
 </sect>
 <sect> Comment faire de la doc
 <p>
-Sous mandrake, ajouter les linuxdocs-tools avec la commande
+Sous Mandriva (anciennement mandrake), ajouter les linuxdocs-tools avec la commande
 urpmi linuxdoc-tools, pour les autres, je ne sais pas :(
 </p>
 <p>
@@ -152,12 +162,14 @@ soit linuxdoc -B rtf pour avoir un fichier rtf... Puis faites un patch :-) <ref 
 name="Comment faire un patch">
 </p>
 <sect>Comment contribuer ?
-<p>Sur le site de Savannah, j'ai décidé d'utilisé le Task Manager, chacun ce qu'il
-veut, m'envoie son travail par email ou se joint au projet.
+<p>Sur le site de Savannah, j'ai décidé d'utilisé le Task Manager, 
+chacun s'organise comme il veut, soit il  m'envoie son travail par email soit il 
+se joint au projet. Je préfère qu'au début on travaille par email.
 </p>
 <p>
 L'intérêt de ce système est de pouvoir voir le suivi mais aussi d'ajouter des commentaires
-sur un sujet <url url="http://savannah.nongnu.org/task/?group=phpcompta" name="PhpCompta Task Manager">.
+sur un sujet 
+<url url="http://savannah.nongnu.org/task/?group=phpcompta" name="PhpCompta Task Manager">.
 </p>
 <p>
 Cela m'évite de devoir chaque fois changer sur le site de phpcompta
@@ -232,8 +244,7 @@ devrez uniquement utiliser des factures préimprimées
 </sect>
 <sect> Problèmes fréquents
 <sect1> Impossible de se logguer
-<p> Vous devez absolument avoir register_globale = on dans votre php.ini et redémarrez Apache
-voir php-setting <ref id="php-setting"  name="Php">
+<p> Il faut contrôler le fichier log d'Apache
 
 </sect1>
 <sect1> J'ai le message d'erreur 'cannot find file ....'
@@ -242,5 +253,23 @@ voir php-setting <ref id="php-setting"  name="Php">
 
 
 </sect1>
+</sect>
+<sect> Je reçois une erreur postgresql à propos d'une table log qui n'existe pas
+<p>
+C'est normal, les sortie de déboggages sont envoyées dans une base de données, ce
+qui facilite la recherche, le tri,...
+
+<p> Vous avez deux possibilités, 
+  <itemize>
+ <item>soit vous changez dans le fichier include/constant.php, define ("DEBUG","true"); par
+ define ("DEBUG","false");
+
+ <item> Se connecter en tant que postgres et taper les commandes
+ <verb>
+ createdb -h localhost -O phpcompta log 
+ psql -h localhost -U phpcompta -f sql/log/log.sql log
+ </verb>
+</itemize>
+</p>
 </sect>
 </article>

@@ -3,15 +3,16 @@
   $Revision$   $Date$
 
   Ce document décrit l'installation complète de PhpCompta et explique
-  comment on été installé les programmes dont PhpCompta dépend.  Php-
-  Compta PhpCompta <http://www.alchimerys.be/FR/phpcompta> site savannah
-  PhpCompta Savannah <http://savannah.nongnu.org/projects/phpcompta/>
+  comment ont été installés les programmes dont PhpCompta dépend. Php-
+  Compta PhpCompta <http://www.alchimerys.be/FR/phpcompta>, site savan-
+  nah PhpCompta Savannah <http://savannah.nongnu.org/projects/php-
+  compta/>
   ______________________________________________________________________
 
   Table of Contents
 
 
-  1. Linux
+  1. Avertissement
   2. Postgresql (version 732 minimum)
      2.1 Installation
      2.2 Configuration et démarrage de PostgreSql
@@ -35,19 +36,23 @@
 
   ______________________________________________________________________
 
-  [1m1.  Linux[0m
+  [1m1.  Avertissement[0m
 
   Si vous installez sur Linux, l'installation d'apache, postgres et php
   peut se faire avec les "packages" standards fournis; ces "packages"
   sont largement suffisants. Les explications données ici sur
-  l'installation de ces produits est destinées à ceux devant le faire
-  manuellement.
+  l'installation de ces produits sont destinées à ceux préfèrant le
+  faire manuellement.
 
 
-  Cependant, les configurations des différents produits est important et
-  devrait être lues avant d'appeler à l'aide.
+  Si vous installez sous Windows, il est assez compliqué de recompiler.
+  Il est préférable d'utiliser les programmes fournis sur Postgres
+  <http://www.postgresql.org> et EasyPhp <http://www.easyphp.org/>.
 
 
+
+  Cependant, les configurations des différents produits sont importantes
+  et devraient être lues avant d'appeler à l'aide.
 
   [1m2.  Postgresql (version 732 minimum)[0m
 
@@ -55,11 +60,11 @@
 
   Soit avec des binaires préparés, soit à partir du code source
 
-
-
   Si vous décidez de le compiler vous-même, les options suivantes
-  fonctionnent ./configure -with-tk --with-python --with-perl
-  --prefix=/opt/psql732
+  fonctionnent
+
+
+  ./configure -with-tk --with-python --with-perl --prefix=/opt/psql732
 
 
 
@@ -78,6 +83,15 @@
 
 
 
+  Il est impératif que dans le fichier postmaster.conf vous ayez les
+  options
+
+  tcpip_socket = true
+  port=5432
+
+
+  D'autres options sont conseillées pour l'optimisation de Postgresql
+
   ne pas oublier d'ajouter dans le PATH, l'endroit où se trouve les
   binaires de postgres
 
@@ -86,8 +100,9 @@
 
 
 
-  Il est impératif d'avoir l'option -i, sinon le server HTTP ne pourra
-  pas contacter PostgreSql
+  Il est impératif d'avoir soit l'option -i soit la directive
+  tcpip_socket=true , sinon le server HTTP ne pourra pas contacter
+  PostgreSql.
 
   Dans PGDATA,vous trouverez le fichier nommé pg_hba.conf qui vous
   permettra de régler la sécurité
@@ -116,17 +131,15 @@
 
   ·  Augmenter la zone mémoire pour les tri (dans postgres.conf)
      sort_mem = 8192; cette zone mémoire est important car elle a trait
-     à la mémoire utilisé pour les tris et les jointures,! attention ce
+     à la mémoire utilisée pour les tris et les jointures! attention ce
      paramètre donne la consommation mémoire par session !
 
-  ·  Faites tourner régulièrement vacumdb -a -z grâce au crontab
+  ·  Faites tourner régulièrement vacumdb -a -z grâce au crontab(une
+     fois par jour)
 
   ·  Dans postgres.conf, les shared_buffers: calculées en page de 8Kb,
      la valeur par défaut est de seulement 64, ce qui correspond à
      512Kb, une meilleure valeur est 640
-
-  ·  à compléter
-
 
   [1m2.4.  Pour la sécurité[0m
 
@@ -177,8 +190,9 @@
 
   [1m3.2.  Configuration d'Apache[0m
 
-  Le fichier httpd.conf doit au moins contenir. Pour plus d'information,
-  voir le manuel d'Apache.
+  Le fichier httpd.conf doit au moins contenir.
+
+
 
   LoadModule      php4_module     modules/libphp4.so
   AddType application/x-httpd-php .php4 .php3 .php .phtml
@@ -186,8 +200,6 @@
 
   Et si vous décidez d'avoir la même configuration que moi, mais ce
   n'est pas obligatoire
-
-
 
   < VirtualHost 172.16.30.150 >
           ServerName site
@@ -199,6 +211,9 @@
 
 
   Apache se démarre avec apachectl start
+
+  Remarque : Pour plus d'information, voir le manuel d'Apache.
+
 
   [1m4.  PHP[0m
 
@@ -280,10 +295,16 @@ include_path = ".;C:\Program Files\EasyPHP1-7\php\pear\;..\include;..\addon"
   ·  Se connecter en tant que postgres et taper les commandes
 
 
+<<<<<<< INSTALL-fr.txt
+     createuser -h localhost -d  -P postgres phpcompta
+     createdb -h localhost -O phpcompta phpcompta
+
+=======
      createuser -h localhost -d  -P postgres phpcompta
      createdb -h localhost -O phpcompta phpcompta
      createdb -h localhost -O phpcompta log
      psql -h localhost -U phpcompta -f sql/log/log.sql log
+>>>>>>> 1.13
 
 
   ·  Décompacter le package dans le répertoire de votre choix, et

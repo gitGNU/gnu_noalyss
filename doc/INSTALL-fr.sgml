@@ -2,49 +2,51 @@
 <article>
 <title> PhpCompta Installation</title>
 <author>
- <name>originally written by Dany De Bontridder </name>
+<name>originally written by Dany De Bontridder </name>
 </author>
 <date>$Revision$   $Date$</date>
 <abstract>
-Ce document décrit l'installation complète de PhpCompta et explique comment on
-été installé les programmes dont PhpCompta dépend.
-
-PhpCompta <url url="http://www.alchimerys.be/FR/phpcompta" name="PhpCompta">
-site savannah <url url="http://savannah.nongnu.org/projects/phpcompta/" name="PhpCompta Savannah">
-</abstract>
-
+Ce document décrit l'installation complète de PhpCompta et explique comment 
+ont été installés les programmes dont PhpCompta dépend. 
+PhpCompta <url url="http://www.alchimerys.be/FR/phpcompta"  name="PhpCompta">, 
+site savannah 
+<url url="http://savannah.nongnu.org/projects/phpcompta/" name="PhpCompta Savannah">
 <!-- Table of contents -->
 <toc>
-<sect>Linux
+<sect>Avertissement 
 <p> Si vous installez sur Linux, l'installation d'apache, postgres et php peut se
 faire avec les "packages" standards 
 fournis; ces "packages" sont largement suffisants. Les explications
-données ici sur l'installation de ces produits est destinées à ceux devant le faire manuellement.
+données ici sur l'installation de ces produits sont destinées à ceux 
+préfèrant le faire manuellement.
 
-<p> Cependant, les configurations des différents produits est important
-et devrait être lues avant d'appeler à l'aide.
+<p>Si vous installez sous Windows, il est assez compliqué de recompiler. 
+Il est préférable d'utiliser les programmes fournis sur <url url="http://www.postgresql.org" 
+name="Postgres"> et <url url="http://www.easyphp.org/" name="EasyPhp">.
 
 
+<p> Cependant, les configurations des différents produits sont importantes
+et devraient être lues avant d'appeler à l'aide.
 </sect>
 
 <sect>Postgresql (version 732 minimum)
-
 <sect1>Installation
 <p>
 Soit avec des binaires préparés, soit à partir du code source
-
-
 </p>
 <p>
 Si vous décidez de le compiler vous-même, les
 options suivantes fonctionnent
+<verb>
 ./configure -with-tk --with-python --with-perl --prefix=/opt/psql732
+</verb>
 </p>
 </sect1>
-<sect1>Configuration et démarrage de PostgreSql
+<sect1>Configuration et démarrage de PostgreSql <label id="configuration">
 <p>
 Comme d'habitude pour postgres, il faut tout d'abord définir, créer
-l'utilisateur postgres puis initialiser l'endroit où seront stocké vos données (variable env. PGDATA),
+l'utilisateur postgres puis initialiser l'endroit où seront stocké vos données 
+(variable env. PGDATA),
 exemple
 <tscreen><verb>
 root#mkdir /data/psql
@@ -53,7 +55,16 @@ root#su - postgres
 postgres#initdb -D /data/psql
 postgres#pg_ctl -D /data/psql -o '-i' start
 </verb></tscreen>
-</p><p>
+</p>
+<p>
+Il est impératif que dans le fichier postmaster.conf vous ayez les options 
+<verb>
+tcpip_socket = true
+port=5432
+</verb>
+D'autres options sont conseillées pour l'optimisation de Postgresql
+</p>
+<p>
 ne pas oublier d'ajouter dans le PATH, l'endroit où se trouve les
 binaires de postgres
 <verb>
@@ -62,8 +73,8 @@ export PATH=$PATH:/opt/psql732/bin
 </verb>
 </p>
 <p>
-Il est impératif d'avoir l'option -i, sinon le server HTTP ne pourra
-pas contacter PostgreSql
+Il est impératif d'avoir soit l'option -i soit la directive tcpip_socket=true 
+, sinon le server HTTP ne pourra pas contacter PostgreSql.
 </p>
 <P>
 Dans PGDATA,vous trouverez le fichier nommé pg_hba.conf qui
@@ -88,13 +99,14 @@ Run-time Configuration.
 <p> Les paramètres que vous pouvez utiliser si vous avez une machine d'au moins 256 Mb:
 <itemize>
 <item> Augmenter la zone mémoire pour les tri (dans postgres.conf) sort_mem = 8192; cette
-zone mémoire est important car elle a trait à la mémoire utilisé pour les tris et les
-jointures,! attention ce paramètre donne la consommation mémoire par session ! </item>
-<item> Faites tourner régulièrement vacumdb -a -z grâce au crontab</item>
+zone mémoire est important car elle a trait à la mémoire utilisée pour les tris et les
+jointures! attention ce paramètre donne la consommation mémoire par session !
+ </item>
+<item> Faites tourner régulièrement vacumdb -a -z grâce au crontab(une fois par jour)</item>
 <item> Dans postgres.conf, les shared_buffers: calculées en page de 8Kb, 
 la valeur par défaut
 est de seulement 64, ce qui correspond à 512Kb, une meilleure valeur est 640 </item>
-<item> à compléter </item>
+
 </itemize>
 </sect1>
 <sect1> Pour la sécurité
@@ -143,8 +155,7 @@ options suivantes fonctionnent
 
 <sect1> Configuration d'Apache
 <P>
-Le fichier httpd.conf doit au moins contenir. Pour plus d'information, voir
-le manuel d'Apache.
+Le fichier httpd.conf doit au moins contenir. 
 <verb>
 LoadModule	php4_module	modules/libphp4.so
 AddType application/x-httpd-php	.php4 .php3 .php .phtml
@@ -162,6 +173,9 @@ n'est pas obligatoire
 
 Apache se démarre avec apachectl start
 </p>
+<p>
+Remarque : Pour plus d'information, voir le manuel d'Apache.
+
 </sect1>
 </sect>
 
@@ -237,9 +251,10 @@ On suppose que postgresql est installé correctement
 <itemize>
 <item> Se connecter en tant que postgres et taper les commandes
 <verb> 
-createuser -d  -P dany phpcompta
-createdb -O phpcompta phpcompta
+createuser -h localhost -d  -P postgres phpcompta
+createdb -h localhost -O phpcompta phpcompta
 </verb>
+
 <item>Décompacter le package dans le répertoire de votre choix, et configurer Apache pour qu'il
 puisse accèder au sous-répertoire html. (voir plus haut la directive DocumentRoot)
 <item> 
