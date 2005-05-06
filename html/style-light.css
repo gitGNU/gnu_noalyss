@@ -2,7 +2,7 @@
 
 BODY {
   background-color:#EDF3FF;
-  font-size:12px;
+  font-size:9px;
   font-family:sans-serif;
 }
 
@@ -118,7 +118,7 @@ div.redcontent{
 }
 div.u_redcontent{ 	 
          position: absolute; 	 
-         top:130px; 	 
+         top:137px; 	 
          left:150px; 	 
          width:700px; 	 
          font-size:9px; 	 
@@ -216,14 +216,14 @@ td.selectedcell{
 }
 
 a.mtitle {
-  font-size:11px;
+  font-size:10px;
   text-decoration:none;
   display:block;
   color:blue;
 }
 
 a.mtitle:hover {
-  font-size:11px;
+  font-size:10px;
   color:white;
   background-color:#5D90CD;
   text-decoration:none;
@@ -306,6 +306,8 @@ table.doc {
 }
 a.detail
 {
+  font-size:9px;
+  font-family:sans-serif;
     text-decoration: none;
     display: block;
     color: blue;
@@ -313,6 +315,8 @@ a.detail
 
 a.detail:hover   
 {
+  font-size:9px;
+  font-family:sans-serif;
     color: white;
     background-color: rgb(93, 144, 205);
     text-decoration: none;
