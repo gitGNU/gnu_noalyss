@@ -120,7 +120,7 @@ function ExecuteScript($p_cn,$script) {
     // cut the semi colon
     $buffer=str_replace (';','',$buffer);
     $sql.=$buffer;
-    print "Execute $sql <hr>";
+    // print "Execute $sql <hr>";
     ExecSql($p_cn,$sql);
     $sql="";
   } // while (feof)
