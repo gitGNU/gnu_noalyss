@@ -37,7 +37,7 @@ if ( ! isset ( $_SESSION['g_dossier'] ) ) {
 ?>
 <script>
 function GetIt(ctl,tva_id) {
-           self.opener.SetIt(ctl,tva_id)
+           self.opener.SetValue(ctl,tva_id)
 	   window.close();	
 	} 
 </script>

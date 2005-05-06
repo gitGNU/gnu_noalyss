@@ -66,7 +66,7 @@ function get_list_fiche($p_cn,$get,$p_jrn)
   return $list_fiche;
 }
 ?>
-<script>
+<script language="javascript">
 function SetData (name_ctl,value,value_2,value_3,value_4,value_5,value_6) {
   self.opener.SetData(name_ctl,value,value_2,value_3,value_4,value_5,value_6);
   window.close();

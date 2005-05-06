@@ -29,7 +29,6 @@ html_page_start($_SESSION['use_theme']);
 
 if ( ! isset ( $_SESSION['g_dossier'] ) ) {
   echo "You must choose a Dossier ";
-  phpinfo();
   exit -2;
 }
 include_once ("postgres.php");
