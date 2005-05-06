@@ -272,15 +272,8 @@
   session.bug_compat_42 = 1
   session.bug_compat_warn = 0
   session.use_trans_sid = 1
+  include_path=".:../include:addon"
 
-sur unix:
-
-include_path=".:../include:addon" 
-
-sur windows:
-
-; Windows: "\path1;\path2"
-include_path = ".;C:\Program Files\EasyPHP1-7\php\pear\;..\include;..\addon"
 
 
   [1m5.  Installation de PhpCompta[0m
@@ -295,16 +288,9 @@ include_path = ".;C:\Program Files\EasyPHP1-7\php\pear\;..\include;..\addon"
   ·  Se connecter en tant que postgres et taper les commandes
 
 
-<<<<<<< INSTALL-fr.txt
      createuser -h localhost -d  -P postgres phpcompta
      createdb -h localhost -O phpcompta phpcompta
 
-=======
-     createuser -h localhost -d  -P postgres phpcompta
-     createdb -h localhost -O phpcompta phpcompta
-     createdb -h localhost -O phpcompta log
-     psql -h localhost -U phpcompta -f sql/log/log.sql log
->>>>>>> 1.13
 
 
   ·  Décompacter le package dans le répertoire de votre choix, et
