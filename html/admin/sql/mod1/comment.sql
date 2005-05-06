@@ -1,5 +1,3 @@
--- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: postgres
-COMMENT ON SCHEMA public IS 'Standard public schema';
 -- Name: TABLE tmp_pcmn; Type: COMMENT; Schema: public; Owner: phpcompta
 COMMENT ON TABLE tmp_pcmn IS 'Plan comptable minimum normalisé';
 -- Name: TABLE parm_money; Type: COMMENT; Schema: public; Owner: phpcompta

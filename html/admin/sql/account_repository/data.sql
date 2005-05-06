@@ -2,12 +2,10 @@
 -- PostgreSQL database dump
 --
 
-SET client_encoding = 'LATIN1';
-
 SET search_path = public, pg_catalog;
 
 --
--- Data for TOC entry 7 (OID 108176)
+-- Data for TOC entry 6 (OID 58856)
 -- Name: ac_users; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -16,7 +14,7 @@ INSERT INTO ac_users (use_id, use_first_name, use_name, use_login, use_active, u
 
 
 --
--- Data for TOC entry 8 (OID 108186)
+-- Data for TOC entry 7 (OID 58866)
 -- Name: ac_dossier; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -24,28 +22,16 @@ INSERT INTO ac_dossier (dos_id, dos_name, dos_description, dos_jnt_user) VALUES 
 
 
 --
--- Data for TOC entry 9 (OID 108195)
+-- Data for TOC entry 8 (OID 58875)
 -- Name: jnt_use_dos; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
 INSERT INTO jnt_use_dos (jnt_id, use_id, dos_id) VALUES (1, 1, 1);
-INSERT INTO jnt_use_dos (jnt_id, use_id, dos_id) VALUES (2, 1, 2);
-INSERT INTO jnt_use_dos (jnt_id, use_id, dos_id) VALUES (3, 1, 5);
-INSERT INTO jnt_use_dos (jnt_id, use_id, dos_id) VALUES (4, 1, 6);
 INSERT INTO jnt_use_dos (jnt_id, use_id, dos_id) VALUES (13, 4, 1);
-INSERT INTO jnt_use_dos (jnt_id, use_id, dos_id) VALUES (14, 1, 7);
-INSERT INTO jnt_use_dos (jnt_id, use_id, dos_id) VALUES (15, 1, 8);
-INSERT INTO jnt_use_dos (jnt_id, use_id, dos_id) VALUES (16, 1, 9);
-INSERT INTO jnt_use_dos (jnt_id, use_id, dos_id) VALUES (17, 1, 10);
-INSERT INTO jnt_use_dos (jnt_id, use_id, dos_id) VALUES (18, 1, 11);
-INSERT INTO jnt_use_dos (jnt_id, use_id, dos_id) VALUES (19, 1, 3);
-INSERT INTO jnt_use_dos (jnt_id, use_id, dos_id) VALUES (20, 1, 4);
-INSERT INTO jnt_use_dos (jnt_id, use_id, dos_id) VALUES (22, 5, 4);
-INSERT INTO jnt_use_dos (jnt_id, use_id, dos_id) VALUES (23, 5, 1);
 
 
 --
--- Data for TOC entry 10 (OID 108198)
+-- Data for TOC entry 9 (OID 58878)
 -- Name: version; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -53,7 +39,7 @@ INSERT INTO "version" (val) VALUES (4);
 
 
 --
--- Data for TOC entry 11 (OID 108202)
+-- Data for TOC entry 10 (OID 58882)
 -- Name: priv_user; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -72,7 +58,7 @@ INSERT INTO priv_user (priv_id, priv_jnt, priv_priv) VALUES (11, 22, 'R');
 
 
 --
--- Data for TOC entry 12 (OID 108208)
+-- Data for TOC entry 11 (OID 58888)
 -- Name: theme; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -83,7 +69,7 @@ INSERT INTO theme (the_name, the_filestyle, the_filebutton) VALUES ('Light', 'st
 
 
 --
--- Data for TOC entry 13 (OID 108215)
+-- Data for TOC entry 12 (OID 58895)
 -- Name: modeledef; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -91,42 +77,42 @@ INSERT INTO modeledef (mod_id, mod_name, mod_desc) VALUES (1, '(BE) Basique', 'C
 
 
 --
--- TOC entry 2 (OID 108174)
+-- TOC entry 1 (OID 58854)
 -- Name: users_id; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('users_id', 5, true);
+SELECT pg_catalog.setval ('users_id', 5, true);
 
 
 --
--- TOC entry 3 (OID 108193)
+-- TOC entry 2 (OID 58873)
 -- Name: seq_jnt_use_dos; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('seq_jnt_use_dos', 23, true);
+SELECT pg_catalog.setval ('seq_jnt_use_dos', 23, true);
 
 
 --
--- TOC entry 4 (OID 108200)
+-- TOC entry 3 (OID 58880)
 -- Name: seq_priv_user; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('seq_priv_user', 12, true);
+SELECT pg_catalog.setval ('seq_priv_user', 12, true);
 
 
 --
--- TOC entry 5 (OID 108213)
+-- TOC entry 4 (OID 58893)
 -- Name: s_modid; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('s_modid', 1, false);
+SELECT pg_catalog.setval ('s_modid', 6, false);
 
 
 --
--- TOC entry 6 (OID 108221)
+-- TOC entry 5 (OID 58901)
 -- Name: dossier_id; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('dossier_id', 4, true);
+SELECT pg_catalog.setval ('dossier_id', 12, true);
 
 

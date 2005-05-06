@@ -1,7 +1,9 @@
-SET client_encoding = 'LATIN1';
-
-CREATE SEQUENCE users_id;
-
+CREATE SEQUENCE users_id
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
 CREATE TABLE ac_users (
     use_id integer DEFAULT nextval('users_id'::text) NOT NULL,
     use_first_name text,
@@ -12,7 +14,7 @@ CREATE TABLE ac_users (
     use_admin integer DEFAULT 0,
     use_theme text DEFAULT 'Light'::text,
     use_usertype text NOT NULL,
-    CONSTRAINT "$1" CHECK (((use_active = 0) OR (use_active = 1)))
+    CHECK (((use_active = 0) OR (use_active = 1)))
 );
 CREATE TABLE ac_dossier (
     dos_id integer DEFAULT nextval('dossier_id'::text) NOT NULL,
@@ -20,7 +22,12 @@ CREATE TABLE ac_dossier (
     dos_description text,
     dos_jnt_user integer DEFAULT 0
 );
-CREATE SEQUENCE seq_jnt_use_dos;
+CREATE SEQUENCE seq_jnt_use_dos
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
 CREATE TABLE jnt_use_dos (
     jnt_id integer DEFAULT nextval('seq_jnt_use_dos'::text) NOT NULL,
     use_id integer NOT NULL,
@@ -29,7 +36,12 @@ CREATE TABLE jnt_use_dos (
 CREATE TABLE "version" (
     val integer
 );
-CREATE SEQUENCE seq_priv_user;
+CREATE SEQUENCE seq_priv_user
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
 CREATE TABLE priv_user (
     priv_id integer DEFAULT nextval('seq_priv_user'::text) NOT NULL,
     priv_jnt integer NOT NULL,
@@ -40,14 +52,23 @@ CREATE TABLE theme (
     the_filestyle text,
     the_filebutton text
 );
-CREATE SEQUENCE s_modid ;
+CREATE SEQUENCE s_modid
+    START 5
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
 CREATE TABLE modeledef (
     mod_id integer DEFAULT nextval('s_modid'::text) NOT NULL,
     mod_name text NOT NULL,
     mod_desc text
 );
-CREATE SEQUENCE dossier_id;
-
+CREATE SEQUENCE dossier_id
+    START 7
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
 CREATE INDEX fk_jnt_use_dos ON jnt_use_dos USING btree (use_id);
 CREATE INDEX fk_jnt_dos_id ON jnt_use_dos USING btree (dos_id);
 ALTER TABLE ONLY ac_users

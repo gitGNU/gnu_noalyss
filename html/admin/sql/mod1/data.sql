@@ -2,12 +2,10 @@
 -- PostgreSQL database dump
 --
 
-SET client_encoding = 'LATIN1';
-
 SET search_path = public, pg_catalog;
 
 --
--- Data for TOC entry 31 (OID 108273)
+-- Data for TOC entry 30 (OID 57397)
 -- Name: tmp_pcmn; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -517,15 +515,15 @@ INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent, pcm_country) VALUES (101
 
 
 --
--- Data for TOC entry 32 (OID 108280)
+-- Data for TOC entry 31 (OID 57404)
 -- Name: version; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
-INSERT INTO "version" (val) VALUES (4);
+INSERT INTO "version" (val) VALUES (5);
 
 
 --
--- Data for TOC entry 33 (OID 108286)
+-- Data for TOC entry 32 (OID 57410)
 -- Name: parm_money; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -533,40 +531,40 @@ INSERT INTO parm_money (pm_id, pm_code, pm_rate) VALUES (1, 'EUR', 1);
 
 
 --
--- Data for TOC entry 34 (OID 108289)
+-- Data for TOC entry 33 (OID 57413)
 -- Name: parm_periode; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
-INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed) VALUES (1, '2003-01-01', '2003-01-31', '2003', false);
-INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed) VALUES (2, '2003-02-01', '2003-02-28', '2003', false);
-INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed) VALUES (3, '2003-03-01', '2003-03-31', '2003', false);
-INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed) VALUES (4, '2003-04-01', '2003-04-30', '2003', false);
-INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed) VALUES (5, '2003-05-01', '2003-05-31', '2003', false);
-INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed) VALUES (6, '2003-06-01', '2003-06-30', '2003', false);
-INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed) VALUES (7, '2003-07-01', '2003-07-31', '2003', false);
-INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed) VALUES (8, '2003-08-01', '2003-08-31', '2003', false);
-INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed) VALUES (9, '2003-09-01', '2003-09-30', '2003', false);
-INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed) VALUES (10, '2003-10-01', '2003-10-30', '2003', false);
-INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed) VALUES (11, '2003-11-01', '2003-11-30', '2003', false);
-INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed) VALUES (12, '2003-12-01', '2003-12-31', '2003', false);
-INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed) VALUES (13, '2003-12-31', NULL, '2003', false);
-INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed) VALUES (40, '2004-01-01', '2004-01-31', '2004', false);
-INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed) VALUES (41, '2004-02-01', '2004-02-28', '2004', false);
-INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed) VALUES (42, '2004-03-01', '2004-03-31', '2004', false);
-INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed) VALUES (43, '2004-04-01', '2004-04-30', '2004', false);
-INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed) VALUES (44, '2004-05-01', '2004-05-31', '2004', false);
-INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed) VALUES (45, '2004-06-01', '2004-06-30', '2004', false);
-INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed) VALUES (46, '2004-07-01', '2004-07-31', '2004', false);
-INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed) VALUES (47, '2004-08-01', '2004-08-31', '2004', false);
-INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed) VALUES (48, '2004-09-01', '2004-09-30', '2004', false);
-INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed) VALUES (49, '2004-10-01', '2004-10-30', '2004', false);
-INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed) VALUES (50, '2004-11-01', '2004-11-30', '2004', false);
-INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed) VALUES (51, '2004-12-01', '2004-12-31', '2004', false);
-INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed) VALUES (52, '2004-12-31', NULL, '2004', false);
+INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed, p_central) VALUES (53, '2005-01-01', '2005-01-31', '2005', false, false);
+INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed, p_central) VALUES (54, '2005-02-01', '2005-02-28', '2005', false, false);
+INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed, p_central) VALUES (55, '2005-03-01', '2005-03-31', '2005', false, false);
+INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed, p_central) VALUES (56, '2005-04-01', '2005-04-30', '2005', false, false);
+INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed, p_central) VALUES (57, '2005-05-01', '2005-05-31', '2005', false, false);
+INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed, p_central) VALUES (58, '2005-06-01', '2005-06-30', '2005', false, false);
+INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed, p_central) VALUES (59, '2005-07-01', '2005-07-31', '2005', false, false);
+INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed, p_central) VALUES (60, '2005-08-01', '2005-08-31', '2005', false, false);
+INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed, p_central) VALUES (61, '2005-09-01', '2005-09-30', '2005', false, false);
+INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed, p_central) VALUES (62, '2005-10-01', '2005-10-31', '2005', false, false);
+INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed, p_central) VALUES (63, '2005-11-01', '2005-11-30', '2005', false, false);
+INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed, p_central) VALUES (64, '2005-12-01', '2005-12-31', '2005', false, false);
+INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed, p_central) VALUES (65, '2005-12-31', '2005-12-31', '2005', false, false);
+INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed, p_central) VALUES (66, '2006-01-01', '2006-01-31', '2006', false, false);
+INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed, p_central) VALUES (67, '2006-02-01', '2006-02-28', '2006', false, false);
+INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed, p_central) VALUES (68, '2006-03-01', '2006-03-31', '2006', false, false);
+INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed, p_central) VALUES (69, '2006-04-01', '2006-04-30', '2006', false, false);
+INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed, p_central) VALUES (70, '2006-05-01', '2006-05-31', '2006', false, false);
+INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed, p_central) VALUES (71, '2006-06-01', '2006-06-30', '2006', false, false);
+INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed, p_central) VALUES (72, '2006-07-01', '2006-07-31', '2006', false, false);
+INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed, p_central) VALUES (73, '2006-08-01', '2006-08-31', '2006', false, false);
+INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed, p_central) VALUES (74, '2006-09-01', '2006-09-30', '2006', false, false);
+INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed, p_central) VALUES (75, '2006-10-01', '2006-10-31', '2006', false, false);
+INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed, p_central) VALUES (76, '2006-11-01', '2006-11-30', '2006', false, false);
+INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed, p_central) VALUES (77, '2006-12-01', '2006-12-31', '2006', false, false);
+INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed, p_central) VALUES (78, '2006-12-31', '2006-12-31', '2006', false, false);
 
 
 --
--- Data for TOC entry 35 (OID 108305)
+-- Data for TOC entry 34 (OID 57429)
 -- Name: jrn_type; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -577,7 +575,7 @@ INSERT INTO jrn_type (jrn_type_id, jrn_desc) VALUES ('OD ', 'Opérations Diverses
 
 
 --
--- Data for TOC entry 36 (OID 108310)
+-- Data for TOC entry 35 (OID 57434)
 -- Name: jrn_def; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -588,14 +586,14 @@ INSERT INTO jrn_def (jrn_def_id, jrn_def_name, jrn_def_class_deb, jrn_def_class_
 
 
 --
--- Data for TOC entry 37 (OID 108321)
+-- Data for TOC entry 36 (OID 57445)
 -- Name: jrnx; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
 
 
 --
--- Data for TOC entry 38 (OID 108332)
+-- Data for TOC entry 37 (OID 57456)
 -- Name: user_pref; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -603,35 +601,35 @@ INSERT INTO user_pref (pref_user, pref_periode) VALUES ('dany', 30);
 
 
 --
--- Data for TOC entry 39 (OID 108341)
+-- Data for TOC entry 38 (OID 57465)
 -- Name: formdef; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
 
 
 --
--- Data for TOC entry 40 (OID 108347)
+-- Data for TOC entry 39 (OID 57471)
 -- Name: form; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
 
 
 --
--- Data for TOC entry 41 (OID 108359)
+-- Data for TOC entry 40 (OID 57483)
 -- Name: centralized; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
 
 
 --
--- Data for TOC entry 42 (OID 108370)
+-- Data for TOC entry 41 (OID 57494)
 -- Name: user_sec_jrn; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
 
 
 --
--- Data for TOC entry 43 (OID 108376)
+-- Data for TOC entry 42 (OID 57500)
 -- Name: action; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -647,19 +645,21 @@ INSERT INTO "action" (ac_id, ac_description) VALUES (10, 'Centralise');
 INSERT INTO "action" (ac_id, ac_description) VALUES (3, 'Fiche Read');
 INSERT INTO "action" (ac_id, ac_description) VALUES (16, 'Voir le stock');
 INSERT INTO "action" (ac_id, ac_description) VALUES (17, 'Modifie le stock');
-INSERT INTO "action" (ac_id, ac_description) VALUES (14, 'Achat');
 INSERT INTO "action" (ac_id, ac_description) VALUES (15, 'Fiche écriture');
+INSERT INTO "action" (ac_id, ac_description) VALUES (18, 'Devise');
+INSERT INTO "action" (ac_id, ac_description) VALUES (19, 'Période');
+INSERT INTO "action" (ac_id, ac_description) VALUES (20, 'Voir la balance des comptes');
 
 
 --
--- Data for TOC entry 44 (OID 108381)
+-- Data for TOC entry 43 (OID 57505)
 -- Name: user_sec_act; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
 
 
 --
--- Data for TOC entry 45 (OID 108389)
+-- Data for TOC entry 44 (OID 57513)
 -- Name: jrn_action; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -673,21 +673,22 @@ INSERT INTO jrn_action (ja_id, ja_name, ja_desc, ja_url, ja_action, ja_lang, ja_
 INSERT INTO jrn_action (ja_id, ja_name, ja_desc, ja_url, ja_action, ja_lang, ja_jrn_type) VALUES (22, 'Voir', 'Voir toutes les factures', 'user_jrn.php', 'action=voir_jrn', 'FR', 'FIN');
 INSERT INTO jrn_action (ja_id, ja_name, ja_desc, ja_url, ja_action, ja_lang, ja_jrn_type) VALUES (30, 'Nouveau', NULL, 'user_jrn.php', 'action=new&blank', 'FR', 'OD ');
 INSERT INTO jrn_action (ja_id, ja_name, ja_desc, ja_url, ja_action, ja_lang, ja_jrn_type) VALUES (32, 'Voir', 'Voir toutes les factures', 'user_jrn.php', 'action=voir_jrn', 'FR', 'OD ');
+INSERT INTO jrn_action (ja_id, ja_name, ja_desc, ja_url, ja_action, ja_lang, ja_jrn_type) VALUES (40, 'Soldes', 'Voir les soldes des comptes en banques', 'user_jrn.php', 'action=solde', 'FR', 'FIN');
 
 
 --
--- Data for TOC entry 46 (OID 108396)
+-- Data for TOC entry 45 (OID 57520)
 -- Name: tva_rate; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
-INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (1, '21%', 0.20999999999999999, 'Tva applicable à tout ce qui bien et service divers', '4111,4511');
+INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (1, '21%', 0.21, 'Tva applicable à tout ce qui bien et service divers', '4111,4511');
 INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (2, '12%', 0.12, 'Tva ', '4112,4512');
-INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (3, '6%', 0.059999999999999998, 'Tva applicable aux journaux et livres', '4113,4513');
+INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (3, '6%', 0.06, 'Tva applicable aux journaux et livres', '4113,4513');
 INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (4, '0%', 0, 'Tva applicable lors de vente/achat intracommunautaire', '4114,4514');
 
 
 --
--- Data for TOC entry 47 (OID 108412)
+-- Data for TOC entry 46 (OID 57536)
 -- Name: fiche_def_ref; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -709,7 +710,7 @@ INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (15, 'Autres
 
 
 --
--- Data for TOC entry 48 (OID 108418)
+-- Data for TOC entry 47 (OID 57542)
 -- Name: fiche_def; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -722,7 +723,7 @@ INSERT INTO fiche_def (fd_id, fd_class_base, fd_label, fd_create_account, frd_id
 
 
 --
--- Data for TOC entry 49 (OID 108425)
+-- Data for TOC entry 48 (OID 57549)
 -- Name: attr_def; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -748,7 +749,7 @@ INSERT INTO attr_def (ad_id, ad_text) VALUES (19, 'Gestion stock');
 
 
 --
--- Data for TOC entry 50 (OID 108431)
+-- Data for TOC entry 49 (OID 57555)
 -- Name: attr_min; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -827,7 +828,7 @@ INSERT INTO attr_min (frd_id, ad_id) VALUES (15, 9);
 
 
 --
--- Data for TOC entry 51 (OID 108433)
+-- Data for TOC entry 50 (OID 57557)
 -- Name: fiche; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -854,7 +855,7 @@ INSERT INTO fiche (f_id, fd_id) VALUES (20, 6);
 
 
 --
--- Data for TOC entry 52 (OID 108436)
+-- Data for TOC entry 51 (OID 57560)
 -- Name: jnt_fic_att_value; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -1006,7 +1007,7 @@ INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (145, 20, 19);
 
 
 --
--- Data for TOC entry 53 (OID 108439)
+-- Data for TOC entry 52 (OID 57563)
 -- Name: attr_value; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -1158,7 +1159,7 @@ INSERT INTO attr_value (jft_id, av_text) VALUES (145, '');
 
 
 --
--- Data for TOC entry 54 (OID 108444)
+-- Data for TOC entry 53 (OID 57568)
 -- Name: jnt_fic_attr; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
@@ -1210,192 +1211,255 @@ INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (6, 19);
 
 
 --
--- Data for TOC entry 55 (OID 108454)
+-- Data for TOC entry 54 (OID 57578)
 -- Name: jrn_rapt; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
 
 
 --
--- Data for TOC entry 56 (OID 108457)
+-- Data for TOC entry 55 (OID 57581)
 -- Name: jrn; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
 
 
 --
--- Data for TOC entry 57 (OID 108465)
+-- Data for TOC entry 56 (OID 57589)
 -- Name: stock_goods; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
 
 
 --
--- TOC entry 2 (OID 108282)
+-- TOC entry 1 (OID 57406)
 -- Name: s_periode; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('s_periode', 52, true);
+SELECT pg_catalog.setval ('s_periode', 78, true);
 
 
 --
--- TOC entry 3 (OID 108284)
+-- TOC entry 2 (OID 57408)
 -- Name: s_currency; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('s_currency', 1, true);
+SELECT pg_catalog.setval ('s_currency', 1, true);
 
 
 --
--- TOC entry 4 (OID 108297)
+-- TOC entry 3 (OID 57421)
 -- Name: s_jrn_def; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('s_jrn_def', 5, false);
+SELECT pg_catalog.setval ('s_jrn_def', 5, false);
 
 
 --
--- TOC entry 5 (OID 108299)
+-- TOC entry 4 (OID 57423)
 -- Name: s_grpt; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('s_grpt', 1, false);
+SELECT pg_catalog.setval ('s_grpt', 1, false);
 
 
 --
--- TOC entry 6 (OID 108301)
+-- TOC entry 5 (OID 57425)
 -- Name: s_jrn_op; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('s_jrn_op', 1, false);
-
-
+SELECT pg_catalog.setval ('s_jrn_op', 1, false);
 
 
 --
--- TOC entry 8 (OID 108319)
+-- TOC entry 6 (OID 57427)
+-- Name: s_jrn; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval ('s_jrn', 1, false);
+
+
+--
+-- TOC entry 7 (OID 57443)
 -- Name: s_jrnx; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('s_jrnx', 1, false);
+SELECT pg_catalog.setval ('s_jrnx', 1, false);
 
 
 --
--- TOC entry 9 (OID 108337)
+-- TOC entry 8 (OID 57461)
 -- Name: s_formdef; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('s_formdef', 1, false);
+SELECT pg_catalog.setval ('s_formdef', 1, false);
 
 
 --
--- TOC entry 10 (OID 108339)
+-- TOC entry 9 (OID 57463)
 -- Name: s_form; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('s_form', 1, false);
+SELECT pg_catalog.setval ('s_form', 1, false);
 
 
 --
--- TOC entry 11 (OID 108353)
+-- TOC entry 10 (OID 57477)
 -- Name: s_isup; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('s_isup', 1, false);
+SELECT pg_catalog.setval ('s_isup', 1, false);
 
 
 --
--- TOC entry 12 (OID 108355)
+-- TOC entry 11 (OID 57479)
 -- Name: s_idef; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('s_idef', 1, false);
+SELECT pg_catalog.setval ('s_idef', 1, false);
 
 
 --
--- TOC entry 13 (OID 108357)
+-- TOC entry 12 (OID 57481)
 -- Name: s_centralized; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('s_centralized', 1, false);
+SELECT pg_catalog.setval ('s_centralized', 1, false);
 
 
 --
--- TOC entry 14 (OID 108366)
+-- TOC entry 13 (OID 57490)
 -- Name: s_user_jrn; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('s_user_jrn', 1, false);
+SELECT pg_catalog.setval ('s_user_jrn', 1, false);
 
 
 --
--- TOC entry 15 (OID 108368)
+-- TOC entry 14 (OID 57492)
 -- Name: s_user_act; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('s_user_act', 1, false);
+SELECT pg_catalog.setval ('s_user_act', 1, false);
 
 
 --
--- TOC entry 16 (OID 108387)
+-- TOC entry 15 (OID 57511)
 -- Name: s_jrnaction; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('s_jrnaction', 5, true);
+SELECT pg_catalog.setval ('s_jrnaction', 5, true);
 
 
 --
--- TOC entry 17 (OID 108402)
+-- TOC entry 16 (OID 57526)
 -- Name: s_fiche; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('s_fiche', 20, true);
+SELECT pg_catalog.setval ('s_fiche', 20, true);
 
 
 --
--- TOC entry 18 (OID 108404)
+-- TOC entry 17 (OID 57528)
 -- Name: s_fiche_def_ref; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('s_fiche_def_ref', 1, false);
+SELECT pg_catalog.setval ('s_fiche_def_ref', 1, false);
 
 
 --
--- TOC entry 19 (OID 108406)
+-- TOC entry 18 (OID 57530)
 -- Name: s_fdef; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('s_fdef', 6, true);
+SELECT pg_catalog.setval ('s_fdef', 6, true);
 
 
 --
--- TOC entry 20 (OID 108408)
+-- TOC entry 19 (OID 57532)
 -- Name: s_attr_def; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('s_attr_def', 1, false);
+SELECT pg_catalog.setval ('s_attr_def', 1, false);
 
 
 --
--- TOC entry 21 (OID 108410)
+-- TOC entry 20 (OID 57534)
 -- Name: s_jnt_fic_att_value; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('s_jnt_fic_att_value', 145, true);
+SELECT pg_catalog.setval ('s_jnt_fic_att_value', 145, true);
 
 
 --
--- TOC entry 22 (OID 108450)
+-- TOC entry 21 (OID 57574)
 -- Name: s_stock_goods; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('s_stock_goods', 1, false);
+SELECT pg_catalog.setval ('s_stock_goods', 1, false);
 
 
 --
--- TOC entry 23 (OID 108452)
+-- TOC entry 22 (OID 57576)
 -- Name: s_jrn_rapt; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('s_jrn_rapt', 1, false);
+SELECT pg_catalog.setval ('s_jrn_rapt', 1, false);
+
+
+--
+-- TOC entry 23 (OID 58781)
+-- Name: s_central; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval ('s_central', 1, false);
+
+
+--
+-- TOC entry 24 (OID 58784)
+-- Name: s_central_order; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval ('s_central_order', 1, false);
+
+
+--
+-- TOC entry 25 (OID 58786)
+-- Name: s_internal; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval ('s_internal', 1, false);
+
+
+--
+-- TOC entry 26 (OID 58793)
+-- Name: s_jrn_4; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval ('s_jrn_4', 1, false);
+
+
+--
+-- TOC entry 27 (OID 58795)
+-- Name: s_jrn_1; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval ('s_jrn_1', 1, false);
+
+
+--
+-- TOC entry 28 (OID 58797)
+-- Name: s_jrn_3; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval ('s_jrn_3', 1, false);
+
+
+--
+-- TOC entry 29 (OID 58799)
+-- Name: s_jrn_2; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval ('s_jrn_2', 1, false);
+
 

@@ -17,7 +17,8 @@ CREATE TABLE parm_periode (
     p_start date NOT NULL,
     p_end date,
     p_exercice text DEFAULT to_char(now(), 'YYYY'::text) NOT NULL,
-    p_closed boolean DEFAULT false
+    p_closed boolean DEFAULT false,
+    p_central boolean DEFAULT false
 );
 CREATE TABLE jrn_type (
     jrn_type_id character(3) NOT NULL,
@@ -167,9 +168,11 @@ CREATE TABLE jrn (
     jr_ech date,
     jr_rapt text,
     jr_valid boolean DEFAULT true,
-    j_pj integer,
     jr_opid integer,
-    jr_c_opid integer
+    jr_c_opid integer,
+    jr_pj oid,
+    jr_pj_name text,
+    jr_pj_type text
 );
 CREATE TABLE stock_goods (
     sg_id integer DEFAULT nextval('s_stock_goods'::text) NOT NULL,
