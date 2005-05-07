@@ -297,17 +297,21 @@
      configurer Apache pour qu'il puisse accèder au sous-répertoire
      html. (voir plus haut la directive DocumentRoot)
 
-  ·   Vous devez connecter sur http://votre_server/admin/setup.php
+  ·   Vous devez vous connecter sur http://votre_server/admin/setup.php
 
   [1m5.2.  Mise à jour[0m
 
   Etape
+
+  ·  Faite un backup de toutes vos bases de données (cf pg_dumpall)
 
   ·  Décompacter le package dans le répertoire de votre choix, et
      configurer Apache pour qu'il puisse accèder au sous-répertoire
      html. (voir plus haut la directive DocumentRoot)
 
   ·   Vous devez connecter sur http://votre_server/admin/setup.php
+
+
 
   [1m6.  Conclusion[0m
 
