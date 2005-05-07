@@ -1,4 +1,6 @@
+************************* File = admin_dossier.php ****************
 ************************* File = admin_repo.php ****************
+************************* File = advanced.php ****************
 ************************* File = annulation.php ****************
 ************************* File = a.php ****************
 ************************* File = bal_csv.php ****************
@@ -9,7 +11,6 @@
 ************************* File = c.php ****************
 ************************* File = dossier_prefs.php ****************
 ************************* File = d.php ****************
-************************* File = enc_jrn.php ****************
 ************************* File = e.php ****************
 ************************* File = facturation.php ****************
 ************************* File = fiche_csv.php ****************
@@ -38,11 +39,12 @@
 ************************* File = print_balance.php ****************
 ************************* File = print_invoice.php ****************
 ************************* File = priv_user.php ****************
-************************* File = rapprochement.php ****************
 ************************* File = readme.php ****************
 ************************* File = recherche.php ****************
+************************* File = sec_pdf.php ****************
 ************************* File = send_jrn_pdf.php ****************
 ************************* File = send_poste_pdf.php ****************
+************************* File = show_document.php ****************
 ************************* File = show_tva.php ****************
 ************************* File = stock.php ****************
 ************************* File = test.php ****************
@@ -155,16 +157,6 @@ ac_common.php  *	- param $p_user user_login
 ac_common.php  * gen :
 ac_common.php  *	- none
 ac_common.php  * return: the type of the user
-ac_common.php  */
-ac_common.php /* function Redirect
-ac_common.php  * Purpose : redirect following the user's profile
-ac_common.php  *        
-ac_common.php  * parm : 
-ac_common.php  *	- p_profile (ac_users.use_usertype)
-ac_common.php  *      - php_session PHPSESSID
-ac_common.php  * gen :
-ac_common.php  *	- none
-ac_common.php  * return: none
 ac_common.php  */
 ac_common.php /* function ShowItem($p_array) */
 ac_common.php /* function echo_warning
@@ -396,46 +388,21 @@ class_user.php  * return:
 class_user.php  *	- none
 class_user.php  *
 class_user.php  */ 
+class_user.php /* function CheckAction
+class_user.php  * Purpose : Check if an user is allowed to do an action
+class_user.php  * 
+class_user.php  * parm : 
+class_user.php  *	- p_dossier dossier id
+class_user.php  *      - p_login   user's login
+class_user.php  *      - p_action_id 
+class_user.php  * gen :
+class_user.php  *	-
+class_user.php  * return:
+class_user.php  *	- 0 no priv
+class_user.php  *      - 1 priv granted
+class_user.php  *
+class_user.php  */ 
 ************************* File = class_widget.php ****************
-************************* File = compta_menu.php ****************
-compta_menu.php /* function c_ShowMenuComptaRight
-compta_menu.php  * Purpose : Display menu on the Right
-compta_menu.php  *           (preference, logout and admin)
-compta_menu.php  * parm : 
-compta_menu.php  *	- $p_dossier the current dossier
-compta_menu.php  *      - $p_admin   $g_UserProperty['use_admin'] 1 if admin
-compta_menu.php  *      - $p_more code
-compta_menu.php  * gen :
-compta_menu.php  *	- none
-compta_menu.php  * return:
-compta_menu.php  *	- none
-compta_menu.php  *
-compta_menu.php  */ 
-compta_menu.php /* function ShowMenuCompta
-compta_menu.php  * Purpose : Montre le menu du haut
-compta_menu.php  * 
-compta_menu.php  * parm : 
-compta_menu.php  *	- dossier
-compta_menu.php  *	- $p_user	array ($g_UserProperty)
-compta_menu.php  * gen :
-compta_menu.php  *	- none
-compta_menu.php  * return:
-compta_menu.php  *	- none
-compta_menu.php  *
-compta_menu.php  */ 
-compta_menu.php /* function c_ShowMenuJrnUser($p_dossier,$p_user)
-compta_menu.php  * Purpose : Show the Menu from the jrn encode
-compta_menu.php  *           page
-compta_menu.php  * 
-compta_menu.php  * parm : 
-compta_menu.php  *	- $p_dossier
-compta_menu.php  *      - $p_user
-compta_menu.php  * gen :
-compta_menu.php  *	- none
-compta_menu.php  * return:
-compta_menu.php  *	- none
-compta_menu.php  *
-compta_menu.php  */ 
 ************************* File = constant.php ****************
 ************************* File = debug.php ****************
 ************************* File = error.php ****************
@@ -1664,15 +1631,15 @@ poste.php  *        pour les postes
 poste.php  *
 poste.php  */ 
 poste.php /* function GetSolde
-poste.php  * Purpose : Cree un form pour prendre les postes
+poste.php  * Purpose : give the balance of an account
 poste.php  * 
 poste.php  * parm : 
 poste.php  *	-  connection
+poste.php  *      - account
 poste.php  * gen :
-poste.php  *	- noen
+poste.php  *	- none
 poste.php  * return:
-poste.php  *	- morceau de code d'html qui contient un multiselect
-poste.php  *        pour les postes
+poste.php  *      - balance of the account
 poste.php  *
 poste.php  */ 
 ************************* File = postgres.php ****************
@@ -1759,6 +1726,13 @@ postgres.php  * purpose return the result of a sql statment
 postgres.php  * in a array
 postgres.php  * param : $p_cn database connection
 postgres.php  *         $p_sql sql query
+postgres.php  */
+postgres.php /* function save_upload_document
+postgres.php  * Save a picture of a rest_id
+postgres.php  * parameters 
+postgres.php  * - $cn database connection
+postgres.php  * - $file array (from $_FILES)
+postgres.php  * - $name ( name of the input)
 postgres.php  */
 ************************* File = preference.php ****************
 preference.php /* function FormPeriodeMult
@@ -1934,142 +1908,6 @@ stock_inc.php  * purpose return the quantity of a sg_code for the period
 stock_inc.php  *
 stock_inc.php  * Return number or NULL
 stock_inc.php  */ 
-************************* File = top_menu_compta.php ****************
-top_menu_compta.php /* function ShowMenu
-top_menu_compta.php  * Purpose : Show The login menu
-top_menu_compta.php  * 
-top_menu_compta.php  * parm : 
-top_menu_compta.php  *	- $p_admin 1 if admin
-top_menu_compta.php  *      - $p_item item to add 
-top_menu_compta.php  * gen :
-top_menu_compta.php  *	- none
-top_menu_compta.php  * return:
-top_menu_compta.php  *	- nothing
-top_menu_compta.php  *
-top_menu_compta.php  */ 
-top_menu_compta.php /* function ShowMenuCompta
-top_menu_compta.php  * Purpose : Montre le menu du haut
-top_menu_compta.php  * 
-top_menu_compta.php  * parm : 
-top_menu_compta.php  *	- dossier
-top_menu_compta.php  *	- $p_user	array ($g_UserProperty)
-top_menu_compta.php  * gen :
-top_menu_compta.php  *	- none
-top_menu_compta.php  * return:
-top_menu_compta.php  *	- none
-top_menu_compta.php  *
-top_menu_compta.php  */ 
-top_menu_compta.php /* function
-top_menu_compta.php  * Purpose :
-top_menu_compta.php  * 
-top_menu_compta.php  * parm : 
-top_menu_compta.php  *	- 
-top_menu_compta.php  * gen :
-top_menu_compta.php  *	-
-top_menu_compta.php  * return:
-top_menu_compta.php  *	-
-top_menu_compta.php  *
-top_menu_compta.php  */ 
-top_menu_compta.php /* function ShowMenuComptaRight
-top_menu_compta.php  * Purpose : Display menu on the Right
-top_menu_compta.php  *           (preference, logout and admin)
-top_menu_compta.php  * parm : 
-top_menu_compta.php  *	- $p_dossier the current dossier
-top_menu_compta.php  *      - $p_auser	array $g_UserProperty
-top_menu_compta.php  *      - $p_more code
-top_menu_compta.php  * gen :
-top_menu_compta.php  *	- none
-top_menu_compta.php  * return:
-top_menu_compta.php  *	- none
-top_menu_compta.php  *
-top_menu_compta.php  */ 
-top_menu_compta.php /* function ShowMenuAdminGlobalRight($p_dossier=0)
-top_menu_compta.php  * Purpose :
-top_menu_compta.php  *        Same as previous : show the right menu
-top_menu_compta.php  * parm : 
-top_menu_compta.php  *	- p_dossier
-top_menu_compta.php  * gen :
-top_menu_compta.php  *	- none
-top_menu_compta.php  * return:
-top_menu_compta.php  *	- none
-top_menu_compta.php  *
-top_menu_compta.php  */ 
-top_menu_compta.php /* function ShowMenuPcmn($p_start=1)
-top_menu_compta.php  * Purpose : Show the menu from the pcmn page
-top_menu_compta.php  * 
-top_menu_compta.php  * parm : 
-top_menu_compta.php  *	- $p_start class start
-top_menu_compta.php  * gen :
-top_menu_compta.php  *	- none
-top_menu_compta.php  * return:
-top_menu_compta.php  *	- none
-top_menu_compta.php  *
-top_menu_compta.php  */ 
-top_menu_compta.php /* function  ShowMenuJrn($p_dossier)
-top_menu_compta.php  * Purpose : Show the menu in the jrn page
-top_menu_compta.php  * 
-top_menu_compta.php  * parm : 
-top_menu_compta.php  *	- $p_dossier 
-top_menu_compta.php  * gen :
-top_menu_compta.php  *	- none
-top_menu_compta.php  * return:
-top_menu_compta.php  *	- none
-top_menu_compta.php  *
-top_menu_compta.php  */ 
-top_menu_compta.php /* function ShowMenuJrnUser($p_dossier,$p_user)
-top_menu_compta.php  * Purpose : Display and Show the Menu from the jrn encode
-top_menu_compta.php  *           page following the use_usertype (compta,user,...)
-top_menu_compta.php  * 
-top_menu_compta.php  * parm : 
-top_menu_compta.php  *	- $p_dossier
-top_menu_compta.php  *      - $p_auser
-top_menu_compta.php  *      - $p_type (ACH, BQE, VEN)
-top_menu_compta.php  *      - $p_jrn  what journal
-top_menu_compta.php  * gen :
-top_menu_compta.php  *	- none
-top_menu_compta.php  * return:
-top_menu_compta.php  *	- none
-top_menu_compta.php  *
-top_menu_compta.php  */ 
-top_menu_compta.php /* function ShowMenuRecherche
-top_menu_compta.php  * Purpose :
-top_menu_compta.php  * 
-top_menu_compta.php  * parm : 
-top_menu_compta.php  *	- $p_dossier,
-top_menu_compta.php  *      - $p_jrn jrn id
-top_menu_compta.php  *      - $p_array=null previous search
-top_menu_compta.php  * gen :
-top_menu_compta.php  *	- none
-top_menu_compta.php  * return:
-top_menu_compta.php  *	- none
-top_menu_compta.php  *
-top_menu_compta.php  */ 
-top_menu_compta.php /* function
-top_menu_compta.php  * Purpose :
-top_menu_compta.php  * 
-top_menu_compta.php  * parm : 
-top_menu_compta.php  *	- 
-top_menu_compta.php  * gen :
-top_menu_compta.php  *	-
-top_menu_compta.php  * return:
-top_menu_compta.php  *	-
-top_menu_compta.php  *
-top_menu_compta.php  */ 
-top_menu_compta.php /* function  ShowMenuJrnUserImp(
-top_menu_compta.php  *
-top_menu_compta.php  * 
-top_menu_compta.php  * Purpose : Show the menu of jrn to print
-top_menu_compta.php  * 
-top_menu_compta.php  * parm : 
-top_menu_compta.php  *	- $p_cn, connection
-top_menu_compta.php  *        $p_user, user
-top_menu_compta.php  *         $p_dossier dossier
-top_menu_compta.php  * gen :
-top_menu_compta.php  *	- none
-top_menu_compta.php  * return:
-top_menu_compta.php  *	- none
-top_menu_compta.php  *
-top_menu_compta.php  */ 
 ************************* File = top_menu.php ****************
 ************************* File = user_action_ach.php ****************
 ************************* File = user_action_fin.php ****************
@@ -2351,7 +2189,7 @@ user_menu.php  * return:
 user_menu.php  *	- string containing the html menu
 user_menu.php  *
 user_menu.php  */ 
-user_menu.php /* function u_ShowMenuJrnUser($p_dossier,$p_user)
+user_menu.php /* function ShowMenuJrnUser($p_dossier,$p_user)
 user_menu.php  * Purpose : Show the Menu from the jrn encode
 user_menu.php  *           page
 user_menu.php  * 
@@ -2446,6 +2284,39 @@ user_menu.php  *	- none
 user_menu.php  *
 user_menu.php  */ 
 user_menu.php /* function MenuAdmin */
+user_menu.php /* function
+user_menu.php  * Purpose :
+user_menu.php  * 
+user_menu.php  * parm : 
+user_menu.php  *	- 
+user_menu.php  * gen :
+user_menu.php  *	-
+user_menu.php  * return:
+user_menu.php  *	-
+user_menu.php  *
+user_menu.php  */ 
+user_menu.php /* function  MenuJrn($p_dossier)
+user_menu.php  * Purpose : Show the menu in the jrn page
+user_menu.php  * 
+user_menu.php  * parm : 
+user_menu.php  *	- $p_dossier 
+user_menu.php  * gen :
+user_menu.php  *	- none
+user_menu.php  * return:
+user_menu.php  *	- none
+user_menu.php  *
+user_menu.php  */ 
+user_menu.php /* function ShowMenuPcmn($p_start=1)
+user_menu.php  * Purpose : Show the menu from the pcmn page
+user_menu.php  * 
+user_menu.php  * parm : 
+user_menu.php  *	- $p_start class start
+user_menu.php  * gen :
+user_menu.php  *	- none
+user_menu.php  * return:
+user_menu.php  *	- none
+user_menu.php  *
+user_menu.php  */ 
 ************************* File = user_update.php ****************
 ************************* File = viewjrn.php ****************
 viewjrn.php /* function ViewJrn
