@@ -114,13 +114,11 @@ function ExecuteScript($p_cn,$script) {
     // No semi colon -> multiline command
     if ( strpos($buffer,';') == false ) {
       $sql.=$buffer;
-      echo "<color=red> $buffer</color>";
       continue;
     } 
     // cut the semi colon
     $buffer=str_replace (';','',$buffer);
     $sql.=$buffer;
-    // print "Execute $sql <hr>";
     ExecSql($p_cn,$sql);
     $sql="";
   } // while (feof)
