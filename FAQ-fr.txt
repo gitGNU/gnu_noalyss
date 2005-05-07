@@ -34,7 +34,7 @@
      15.2 J'ai le message d'erreur 'cannot find file ....'
 
   16. Je reçois une erreur postgresql à propos d'une table log qui n'existe pas
-  17. Après avoir installé la version 1.1.0, les périodes centralisées ne le sont plus
+  17. Après avoir installé la version 1.1.0, les périodes centralisées sont ne le sont plus
 
 
   ______________________________________________________________________
@@ -309,14 +309,14 @@
 
 
   [1m17.  Après avoir installé la version 1.1.0, les périodes centralisées[0m
-  [1mne le sont plus[0m
+  [1msont ne le sont plus[0m
 
   Oui, c'est tout-à-fait normal, la période 1.1.0 introduit plusieurs
-  changements dont par exemple, les numéros d'opérations et de pièce
+  changement dont par exemple, les numéros d'opérations et de pièce
   justificatives.
 
 
-  C'est à cause de cela, qu'il faut re-centraliser.
+  C'est à cause de cela, qu'il faut re-centraliser
 
 
 
