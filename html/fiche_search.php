@@ -28,7 +28,16 @@ include_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
 
-html_page_start($User->theme,"onLoad='window.focus();'");
+//determine focus:
+if ( isset ( $_POST['search']) )
+{
+  html_page_start($User->theme,"onLoad=\"window.focus();SetFocus('select0',0)\"");
+} else
+{
+  html_page_start($User->theme,"onLoad=\"window.focus();SetFocus('fic_search',0)\"");
+}
+
+
 
 if ( ! isset ( $_SESSION['g_dossier'] ) ) {
   echo "You must choose a Dossier ";
@@ -87,7 +96,7 @@ $e_fic_search=(isset ($_POST['fic_search']))?$_POST['fic_search']:"";
 $r.="<FORM METHOD=\"POST\" ACTION=\"".$_SERVER['REQUEST_URI']."\">";
 $r.="Recherche : ".'<INPUT TYPE="TEXT" NAME="fic_search" VALUE="'.$e_fic_search.'">';
 $r.='<INPUT TYPE="submit" name="search" value="Go">';
-$r.="</FORM>";
+//$r.="</FORM>";
 $r.="<div>";
 echo $r;
 $r="";
@@ -128,6 +137,9 @@ if ( isset ( $_POST['search']) )  {
  } 
  // Show the cards
  for ( $i=0; $i < $Max; $i++)  {
+
+  //set focus on first "Select" button.
+   
   $row=pg_fetch_array($Res,$i);
   if ( $i %2  == 0 ) 
     $class="even";
@@ -135,7 +147,8 @@ if ( isset ( $_POST['search']) )  {
     $class="odd";
   $text=FormatString($row['vw_name']);
   $r.="<span class=\"$class\">";
-  $r.=sprintf ('<input type="button" onClick="'."SetData('%s','%s','%s','%s','%s','%s','%s')".'" value="select">',
+  $r.=sprintf ('<input name="%s" type="button" onClick="'."SetData('%s','%s','%s','%s','%s','%s','%s')".'" value="select">',
+        "select" . $i,
 	      $e_name,
 	      $row['f_id'] ,
 	      $text, 
@@ -151,6 +164,7 @@ if ( isset ( $_POST['search']) )  {
  }
 }
 $r.="</div>";
+$r.="</FORM>";
 echo $r;
 
 ?>
