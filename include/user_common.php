@@ -341,7 +341,9 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
   $r.="<th>Op. Concernée</th>";
   $r.="<th>Document</th>";
   $r.="</tr>";
-  
+  // Get the jrn type
+
+  $jrn_prop=($p_jrn == 0 )?0:$jrn_prop=GetJrnProp($p_cn,$p_jrn,1);  
   for ($i=0; $i < $Max;$i++) {
     $row=pg_fetch_array($Res,$i);
     
@@ -369,8 +371,16 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
 	$r.="</TD>";
 	
 // Amount
-	$r.="<TD>";
-	$r.=$row['jr_montant'];
+	// If the ledger is financial :
+	// the credit must be negative and written in red
+	$positive=0;
+	if ( $p_jrn !=0 && $jrn_prop['jrn_def_type'] == 'FIN' ) {
+	  $positive = CountSql($p_cn,"select * from jrn inner join jrnx on jr_grpt_id=j_grpt ".
+		   " where jr_id=".$row['jr_id']." and (j_poste like '55%' or j_poste like '57%' )".
+			       " and j_debit='f'");
+	}
+	$r.="<TD align=\"right\">";
+	$r.=( $positive != 0 )?"<font color=\"red\">  - ".sprintf("%8.2f",$row['jr_montant'])."</font>":sprintf("%8.2f",$row['jr_montant']);
 	$r.="</TD>";
 	
 // Rapt
@@ -691,4 +701,3 @@ function isValid ($p_cn,$p_grpt_id) {
 
 
 }
-

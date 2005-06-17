@@ -543,9 +543,13 @@ function GetJrnProperty($p_cn,$p_jrn)
  *	- an array containing properties
  *
  */ 
-function GetJrnProp($p_dossier,$p_jrn) 
+function GetJrnProp($p_dossier,$p_jrn,$is_connected=0) 
 {
-  $cn=DbConnect($p_dossier);
+  if ( $is_connected == 0 ) 
+    $cn=DbConnect($p_dossier);
+  else
+    $cn=$p_dossier;
+
   $Res=ExecSql($cn,"select jrn_Def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_def_type, 
                    jrn_deb_max_line,jrn_cred_max_line,jrn_def_ech,jrn_def_ech_lib,jrn_def_code,
                    jrn_def_fiche_deb,jrn_def_fiche_deb
