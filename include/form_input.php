@@ -262,6 +262,7 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article
   list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$userPref);
   $op_date=( ! isset($e_date) ) ?substr($l_date_start,2,8):$e_date;
   $e_ech=(isset($e_ech))?$e_ech:"";
+  $e_comm=(isset($e_comm))?$e_comm:"";
   //  $e_jrn=(isset($e_jrn))?$e_jrn:"";
   // Save old value and set a new one
   echo_debug(__FILE__,__LINE__,"form_input.php.FormVentep_op_date is $op_date");
@@ -281,7 +282,7 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article
   $r.='<TR>'.InputType("Date ","Text","e_date",$op_date,$view_only).'</TR>';
 
   $r.='<TR>'.InputType("Echeance","Text","e_ech",$e_ech,$view_only).'</TR>';
-  $r.='<TR>'.InputType("Commentaire","Text_big","e_comm",$e_ech,$view_only).'</TR>';
+  $r.='<TR>'.InputType("Commentaire","Text_big","e_comm",$e_comm,$view_only).'</TR>';
 
   include_once("fiche_inc.php");
   // Display the customer
@@ -722,7 +723,7 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
     }
     $amount+=$a_price[$i]*$a_quant[$i];
   }
-
+  $comm=FormatString($e_comm);
   $a_vat=ComputeVat($p_cn,$a_good,$a_quant,$a_price,$a_vat);
 
   $sum_vat=0.0;
@@ -778,7 +779,7 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
   if ( $r == false ) { Rollback($p_cn); exit(" Error __FILE__ __LINE__");}
   // Set Internal code and Comment
   $internal=SetInternalCode($p_cn,$seq,$p_jrn);
-  $comment=(trim($e_comm) == "")?$internal."  client : ".GetFicheName($p_cn,$e_client):$e_comm;
+  $comment=(FormatString($e_comm) == null )?$internal."  client : ".GetFicheName($p_cn,$e_client):FormatString($e_comm);
 
   // Update and set the invoice's comment 
   $Res=ExecSql($p_cn,"update jrn set jr_comment='".$comment."' where jr_grpt_id=".$seq);
@@ -1140,6 +1141,7 @@ function RecordAchat($p_cn,$p_array,$p_user,$p_jrn)
 	if ( InsertJrnx($p_cn,'d',$p_user,$p_jrn,$poste,$e_date,$tva_amount,$seq,$periode) == false ) { $Rollback($p_cn);exit("error __FILE__ __LINE__");}
       }
     }
+  $e_comment=FormatString($e_comment);
   echo_debug(__FILE__,__LINE__,"echeance = $e_ech");
   echo_debug(__FILE__,__LINE__,"comment = $e_comment");
   if ( ($amount+$sum_vat) != 0 ){
