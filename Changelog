@@ -1,4 +1,29 @@
+2005-06-17  sparkyx  <sparkyx@eleven>
+
+	* include/user_common.php: task 3273: show the sign of the financial op
+
+	* include/jrn.php, include/user_common.php: Task 3273 : Change the look
+
+	* include/user_action_fin.php: Task 4280: cosmetic
+
+	* include/form_input.php: Bug 13431
+	Quote problem in the comment
+
+	* doc/install_windows_fr.sxw:
+	Add documentation for Windows installation
+
+2005-06-11  stanpinte  <stanpinte@eleven>
+
+	* html/fiche_search.php:
+	focus dans le textfield de la frame de recherche et focus sur le premier rsultat dans la frame de recherche
+
+2005-05-29  sparkyx  <sparkyx@eleven>
+
+	* doc/Schemaabrege1.pdf, doc/bnb.sxw: Task #4123 Ajout Bilan
+
 2005-05-07  sparkyx  <sparkyx@eleven>
+
+	* Changelog: Task 4111: Changelog
 
 	* FAQ-fr.txt, doc/FAQ-fr.sgml, doc/FAQ-fr.txt: task 4111: update doc
 
