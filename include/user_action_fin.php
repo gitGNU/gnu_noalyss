@@ -175,22 +175,28 @@ if ( $action == 'solde' ) {
   // find the bank account
   $accountSql="select distinct pcm_val::text,pcm_lib from 
             tmp_pcmn 
-            where pcm_val like '550%' or pcm_val='58' 
+            where pcm_val like '550%' or pcm_val like '58%' or pcm_val like '57%'
             order by pcm_val::text";
   $ResAccount=ExecSql($cn,$accountSql);
   echo '<div class="u_redcontent">';
   echo "<table>";
+  // for each account
   for ( $i = 0; $i < pg_NumRows($ResAccount);$i++) {
+    // get the saldo
     $l=pg_fetch_array($ResAccount,$i);
-    echo "<tr>";
-    echo "<TD>".
-      $l['pcm_val'].
-      "</TD>".
-      "<TD>".
-      $l['pcm_lib'].
-      "</TD>"."<TD>".
-      GetSolde($cn,$l['pcm_val']).
-      "</TD>"."</TR>";
+    $m=GetSolde($cn,$l['pcm_val']);
+    // print the result if the saldo is not equal to 0
+    if ( $m != 0.0 ) {
+      echo "<tr>";
+      echo "<TD>".
+	$l['pcm_val'].
+	"</TD>".
+	"<TD>".
+	$l['pcm_lib'].
+	"</TD>"."<TD>".
+	$m.
+	"</TD>"."</TR>";
+    }
   }// for
   echo "</table>";
   echo "</div>";
