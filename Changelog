@@ -1,4 +1,11 @@
+2005-06-22  sparkyx  <sparkyx@eleven>
+
+	* doc/function.txt, html/form.php, html/user_impress.php, include/ac_common.php, include/constant.php, include/impress_form.php, include/impress_inc.php, include/user_menu.php:
+	Task 4301 Form (html, pdf, csv) needs more test
+
 2005-06-17  sparkyx  <sparkyx@eleven>
+
+	* Changelog: Changelog update
 
 	* include/user_common.php: task 3273: show the sign of the financial op
 
