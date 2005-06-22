@@ -744,17 +744,20 @@ function ParseFormula($p_cn,$p_label,$p_formula,$p_cond)
 
   if ( $l_credit==$l_debit) {
     $aret=array('desc' => $p_label,
-		'montant' => '0');
+		'montant' => '0',
+		'cmontant'=>0);
   }
   if ( $l_credit < $l_debit) {
     $l2=sprintf("% .2f",$l_debit-$l_credit);
     $aret=array('desc' => $p_label,
-		'montant' => $l2);
+		'montant' => $l2,
+		'cmontant'=>$l2);
   }
   if ( $l_credit>$l_debit) {
     $l2=sprintf("(% .2f)",$l_credit-$l_debit);
     $aret=array('desc' => $p_label,
-		'montant' => $l2);
+		'montant' => $l2,
+		'cmontant'=> $l_debit-$l_credit);
 
   }
   return $aret;

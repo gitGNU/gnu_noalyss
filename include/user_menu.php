@@ -464,7 +464,8 @@ $left_menu=ShowItem(array(
 			  array('jrn_update.php','Journaux'),
 			  array('central.php','Centralise'),
 		          array('pcmn_update.php?p_start=1','Plan Comptable'),
-			  array('stock.php','stock')
+			  array('stock.php','Stock'),
+			  array('form.php','Formulaire')
 			  ),
 		    'H',"cell","mtitle",$default);
 return $left_menu;
@@ -651,5 +652,32 @@ function ShowMenuPcmn($p_start=1)
     echo '<TR><TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=7">7 Produits</A></TD></TR>';
     echo "</TABLE>";
 }
+/* function
+ * Purpose :
+ * 
+ * parm : 
+ *	- 
+ * gen :
+ *	-
+ * return:
+ *	-
+ *
+ */ 
+function ShowMenuComptaForm($p_dossier) {
+     $cn=DbConnect($p_dossier);
+    echo '<div class="lmenu">';
+    echo '<TABLE>';
+    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="form.php?action=add">Ajout</A></TD></TR>';
+    $Ret=ExecSql($cn,"select fr_id, fr_label 
+                             from formdef order by fr_label");
+    $Max=pg_NumRows($Ret);
+    for ($i=0;$i<$Max;$i++) {
+      $l_line=pg_fetch_array($Ret,$i);
+      printf ('<TR><TD class="mtitle"><A class="mtitle" HREF="form.php?action=view&fr_id=%s">%s</A></TD></TR>',
+	      $l_line['fr_id'],$l_line['fr_label']);
 
+    }
+    echo "</TABLE>";
+    echo '</div>';
+}
 ?>

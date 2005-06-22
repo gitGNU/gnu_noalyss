@@ -21,6 +21,8 @@
 /* $Revision$ */
 
 include_once ("ac_common.php");
+include_once ("user_menu.php");
+
 html_page_start($_SESSION['use_theme']);
 
 if ( ! isset ( $_SESSION['g_dossier'] ) ) {
@@ -37,17 +39,20 @@ $User->Check();
 include_once("form_inc.php");
 
 include_once ("user_menu.php");
-ShowMenuCompta($_SESSION['$g_dossier']);
+ShowMenuCompta($_SESSION['g_dossier']);
 include ("check_priv.php");
-
-ShowMenuComptaRight($_SESSION['g_dossier'],$User->admin);
-
 
 $cn=DbConnect($_SESSION['g_dossier']);
 if ( $User->CheckAction($cn,FORM)==0){
   /* Cannot Access */
   NoAccess();
  }
+echo ShowMenuAdvanced("form.php");
+if ( isset ($_POST["record"] )) {
+  echo '<DIV class="ccontent">';
+  AddForm($cn,$HTTP_POST_VARS);
+  echo "</DIV>";
+}
 
 ShowMenuComptaForm($_SESSION['g_dossier']);
 
@@ -85,11 +90,6 @@ if ( isset ($_POST["add_line"]) ) {
 if ( isset ($_POST["update"]) ) {
   echo '<DIV class="ccontent">';
   UpdateForm($cn,$HTTP_POST_VARS);
-  echo "</DIV>";
-}
-if ( isset ($_POST["record"] )) {
-  echo '<DIV class="ccontent">';
-  AddForm($cn,$HTTP_POST_VARS);
   echo "</DIV>";
 }
 
