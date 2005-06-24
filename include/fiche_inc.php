@@ -233,6 +233,9 @@ function AddFiche($p_cn,$p_type,$p_array) {
  * return:
  *	- none
  *
+ * NOTE STAN: je ne trouve pas le nom "EncodeFiche" super claire pour une fonction qui affiche les détails d'une fiche...
+ * on ne changerait pas en "DisplayFiche" ?
+ *
  */ 
 function EncodeFiche($p_cn,$p_type,$p_array=null) {
   echo_debug(__FILE__,__LINE__,"function EncodeFiche($p_cn,$p_type) ");

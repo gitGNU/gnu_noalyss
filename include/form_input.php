@@ -1114,6 +1114,8 @@ function RecordAchat($p_cn,$p_array,$p_user,$p_jrn)
     // First we add in jrnx
 	
   // Compute the j_grpt
+  // NOTE STAN: pourquoi "+1" à la ligne suivante? Je pense que le GetNextId retourne déja un truc incrémenté, non?  
+  // en effet non, car je vois dans la table "jrnx" que le j_grpt n'est incrémenté que de un.
   $seq=GetNextId($p_cn,'j_grpt')+1;
   
   
@@ -1122,7 +1124,7 @@ function RecordAchat($p_cn,$p_array,$p_user,$p_jrn)
   StartSql($p_cn);
   InsertJrnx($p_cn,'c',$p_user,$p_jrn,$poste,$e_date,$amount+$sum_vat,$seq,$periode);
   
-  // Credit = goods 
+  // Credit = goods
   for ( $i = 0; $i < $nb_item;$i++) {
     if ( ! isset ( $a_good[$i]) ) continue;
     $poste=GetFicheAttribut($p_cn,$a_good[$i],ATTR_DEF_ACCOUNT);
