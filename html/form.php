@@ -62,6 +62,10 @@ if ( isset($_GET["PHPSESSID"] )) {
 if ( isset($_POST["PHPSESSID"] )) {
   $sessid=$_POST["PHPSESSID"];
 } 
+if ( isset( $_REQUEST['PHPSESSID'])) {
+	$sessid = $_REQUEST['PHPSESSID'];
+}
+
 
 if ( isset ($_GET["action"]) ) {
   $action=$_GET["action"];
