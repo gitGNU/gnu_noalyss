@@ -574,7 +574,35 @@ Opération de rapprochement ???
 
 </sect1>
 </sect>
+<sect>Les Formulaires
+<sect1>Introduction
+<p> Les formulaires permettent de rapidement encoder des rapports.
+Par exemple, le total des ventes, le total encore à payer, la différence
+entre les entrées et les charges... Il n'y a pas vraiment de limite. 
 
+<p> Les formulaires permettent d'utilisent des formules (round,*,-) 
+sur des soldes de comptes.
+
+</sect1>
+<sect1>Syntaxe
+<p>Quelques règles:
+<itemize>
+<item>les postes sont toujours écrits entre crochets;
+<item>pour avoir la somme du poste et des sous-poste, 
+il faut utiliser le %;
+<item>Les soldes sont toujours positifs et vous ne savez pas 
+s'ils sont au débit ou au crédit.
+</itemize>
+
+<p>
+Exemples de formule:
+<verb>
+Bénéfice brute [7%]-[6%]
+Impot estimé (sans compte les amortissements) ([7%]-[6%])/0.24
+Total des comptes en banque [550%]
+</verb>
+
+</sect1>
 <sect>Sécurité
 <sect1> Remarques
 <p>
