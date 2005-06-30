@@ -49,7 +49,7 @@ echo       "\"Description\"\t,".
 
   foreach ( $Form->row as $op ) { 
       echo '"'.$op['desc'].'"'."\t,".
-	sprintf("%8.2f",$op['cmontant'])."\t".
+	sprintf("%8.2f",$op['montant'])."\t".
 	"\n";
     
   }

@@ -108,13 +108,14 @@ function PosteForm($p_cn) {
  * parm : 
  *	-  connection
  *      - account
+ *      - cond
  * gen :
  *	- none
  * return:
  *      - balance of the account
  *
  */ 
-function GetSolde($p_cn,$p_account) {
+function GetSolde($p_cn,$p_account,$p_cond="") {
   $Res=ExecSql($p_cn,"select j_poste,sum(deb) as sum_deb, sum(cred) as sum_cred from 
           ( select j_poste, 
              case when j_debit='t' then j_montant else 0 end as deb, 

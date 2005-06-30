@@ -140,7 +140,7 @@ function ImpHtml($p_array,$p_cn)
     if ($Max==0) return $ret="";
     for ($i=0;$i<$Max;$i++) {
       $l_line=pg_fetch_array($Res,$i);
-      $col=ParseFormula($p_cn,
+      $col=GetFormulaValue($p_cn,
 		   $l_line['fo_label'],
 		   $l_line['fo_formula'],$cond);
       echo "<div>";
@@ -705,6 +705,39 @@ function GetRappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_cent
   
 }
 /* function ParseFormula
+ * Purpose Parse a formula
+ * 
+ * parm : 
+ *	- $p_cn connexion
+ *      - $p_label
+ *      - $p_formula
+ * gen :
+ *	- none
+ * return:
+ *	- array
+ *
+ */ 
+function ParseFormula($p_cn,$p_label,$p_formula,$p_cond) {
+  while (ereg("(\[[0-9]*%*\])",$p_formula,$e) == true) {
+    include_once("class_poste.php");
+    // remove the [ ] 
+    $x=$e;
+    $e[0]=str_replace ("[","",$e[0]);
+    $e[0]=str_replace ("]","",$e[0]);
+    // Get sum of account
+    $P=new poste($p_cn,$e[0]);
+    $i=$P->GetSolde($p_cond);
+    $p_formula=str_replace($x,$i,$p_formula);
+  }
+  $p_formula="\$result=".$p_formula.";";
+  echo_debug(__FILE__,__LINE__, $p_formula);
+
+  eval("$p_formula");
+  $aret=array('desc'=>$p_label,
+	      'montant'=>$result);
+  return $aret;
+}
+/* function GetFormulaValue
  * Purpose : Parse the formula contained in the fo_formula 
  *           field and return a array containing all the columns
  * 
@@ -718,7 +751,7 @@ function GetRappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_cent
  *	- array
  *
  */ 
-function ParseFormula($p_cn,$p_label,$p_formula,$p_cond) 
+function GetFormulaValue($p_cn,$p_label,$p_formula,$p_cond) 
 {
   $aret=array();
   $l_debit=0;

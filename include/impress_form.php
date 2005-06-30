@@ -95,6 +95,10 @@ include_once("postgres.php");
 $ret=make_array($cn,"select fr_id,fr_label
                  from formdef
                  order by fr_label");
+if ( sizeof($ret) == 0 ) {
+  echo "Aucun Formulaire";
+  return;
+ }
 ////////////////////////////////////////////////////////////////////////////////
 // Form
 ////////////////////////////////////////////////////////////////////////////////

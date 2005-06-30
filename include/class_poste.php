@@ -84,5 +84,32 @@ class poste {
       }
     return $this->name;
   }
+  /* function GetSolde
+   * Purpose : give the balance of an account
+   * 
+   * parm : 
+   *      - cond
+   * gen :
+   *	- none
+   * return:
+   *      - balance of the account
+   *
+   */ 
+function GetSolde($p_cond="") {
+  $Res=ExecSql($this->db,"select sum(deb) as sum_deb, sum(cred) as sum_cred from 
+          ( select j_poste, 
+             case when j_debit='t' then j_montant else 0 end as deb, 
+             case when j_debit='f' then j_montant else 0 end as cred 
+          from jrnx join tmp_pcmn on j_poste=pcm_val 
+              where  
+            j_poste like ('$this->id'::text) and
+            $p_cond
+          ) as m  ");
+  $Max=pg_NumRows($Res);
+  if ($Max==0) return 0;
+  $r=pg_fetch_array($Res,0);
+  
+  return abs($r['sum_deb']-$r['sum_cred']);
+}
 
 }
