@@ -108,6 +108,7 @@ if ( isset ($_GET['JRN_TYPE'] ) ) {
 if ( $jrn_type=='FIN' )
 {
   //show balance of all bank accounts. Let's say their ID start with 5500
+  //TODO 
 }
 
   // if a journal is selected show the journal's menu
