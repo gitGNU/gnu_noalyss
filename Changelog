@@ -1,5 +1,9 @@
 2005-07-04  sparkyx  <sparkyx@eleven>
 
+	* include/constant.php, include/form_input.php: Task #4359 : MultiEcran
+
+	* Changelog: ChangeLog
+
 	* html/recherche.php, include/constant.php, include/user_menu.php:
 	Task #4359 : Multiecran
 
