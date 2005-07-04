@@ -271,7 +271,7 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article
     $r.=JS_SEARCH_CARD;
     $r.=JS_SHOW_TVA;    
     $r.=JS_TVA;
-    $r.="<FORM NAME=\"form_detail\" ACTION=\"user_jrn.php?action=insert_vente\" METHOD=\"POST\">";
+    $r.="<FORM NAME=\"form_detail\" ACTION=\"user_jrn.php?action=insert_vente&p_jrn=$p_jrn\" METHOD=\"POST\">";
 
     
   }
@@ -307,8 +307,14 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article
     }
   }
 
-  $r.='<TR>'.InputType("Client ","js_search","e_client",$e_client,$view_only,$fiche).'</TD>';  
-  
+  //  $r.='<TR>'.InputType("Client ","js_search","e_client",$e_client,$view_only,$fiche).'</TD>';  
+  $W1=new widget("js_search");
+  $W1->label="Client";
+  $W1->name="e_client";
+  $W1->value=$e_client;
+  $W1->extra=$fiche;  // list of card
+  $W1->extra2=$p_jrn;
+  $r.="<TR>".$W1->IOValue()."</TD>";
   $r.=       InputType(""       ,"span"   ,"e_client_label",$e_client_label,false).'</TD>';
   $r.="</TABLE>";
 
@@ -361,7 +367,15 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article
       }
     }
     // Show input
-    $r.='<TR>'.InputType("","js_search","e_march".$i,$march,$view_only,'cred');
+    //    $r.='<TR>'.InputType("","js_search","e_march".$i,$march,$view_only,'cred');
+    $W1=new widget("js_search");
+    $W1->label="";
+    $W1->name="e_march".$i;
+    $W1->value=$march;
+    $W1->extra='cred';  // credits
+    $W1->extra2=$p_jrn;
+    $r.="<TR>".$W1->IOValue()."</TD>";
+
     // card's name
     $r.=InputType("","span", "e_march".$i."_label", $march_label,$view_only);
 
@@ -643,7 +657,7 @@ for ($o = 0;$o < $p_number; $o++) {
  
   $r.="</DIV>";
   if ( $p_doc == 'form' ) {
-	  $r.='<FORM METHOD="POST" enctype="multipart/form-data" ACTION="user_jrn.php?action=record">';
+	  $r.='<FORM METHOD="POST" enctype="multipart/form-data" ACTION="user_jrn.php?action=record&p_jrn='.$p_jrn.'">';
 	  // check for upload piece
 	  $file=new widget("file");
 	  $file->table=1;
@@ -845,7 +859,7 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
  
   }
 
-  $r.="<FORM NAME=\"form_detail\"  enctype=\"multipart/form-data\" ACTION=\"user_jrn.php?action=new\" METHOD=\"POST\">";
+  $r.="<FORM NAME=\"form_detail\"  enctype=\"multipart/form-data\" ACTION=\"user_jrn.php?action=new&p_jrn=$p_jrn\" METHOD=\"POST\">";
   $r.='<TABLE>';
   $r.='<TR>'.InputType("Date ","Text","e_date",$e_date,$view_only).'</TR>';
   $r.='<TR>'.InputType("Echeance","Text","e_ech",$e_ech,$view_only).'</TR>';
@@ -881,7 +895,13 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
   }      
   $r.="</TABLE>";
   $r.="<TABLE>";
-  $r.='<TR>'.InputType("Fournisseur","js_search","e_client",$e_client,$view_only,'cred');
+  //  $r.='<TR>'.InputType("Fournisseur","js_search","e_client",$e_client,$view_only,'cred');
+  $W1=new widget("js_search");
+  $W1->name="e_client";
+  $W1->value=$e_client;
+  $W1->extra='cred';
+  $W1->extra2=$p_jrn;
+  $r.="<TR>".$W1->IOValue();
   $r.=       InputType(""       ,"span"   ,"e_client_label",$e_client_label,false).'</TR>';
   $r.="</TABLE>";
 
@@ -956,7 +976,15 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
 	return null;
       }
     }
-    $r.='<TR>'.InputType("","js_search","e_march".$i,$march,$view_only,'deb');
+    //    $r.='<TR>'.InputType("","js_search","e_march".$i,$march,$view_only,'deb');
+    $W1=new widget("js_search");
+    $W1->label="";
+    $W1->name="e_march".$i;
+    $W1->value=$march;
+    $W1->extra='deb';  // credits
+    $W1->extra2=$p_jrn;
+    $r.="<TR>".$W1->IOValue()."</TD>";
+
     $r.=InputType("","span", "e_march".$i."_label", $march_label,$view_only);
     // price
     $r.=InputType("","text","e_march".$i."_buy",$march_buy,$view_only);
@@ -1213,7 +1241,7 @@ function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
     $r.=JS_CONCERNED_OP;
   }
   //	  $r.='<FORM METHOD="POST" enctype="multipart/form-data" ACTION="user_jrn.php?action=record">';
-  $r.="<FORM NAME=\"form_detail\" enctype=\"multipart/form-data\" ACTION=\"user_jrn.php?action=new\" METHOD=\"POST\">";
+  $r.="<FORM NAME=\"form_detail\" enctype=\"multipart/form-data\" ACTION=\"user_jrn.php?action=new&p_jrn=$p_jrn\" METHOD=\"POST\">";
   $r.='<TABLE>';
   $r.='<TR>'.InputType("Date ","Text","e_date",$e_date,$view_only).'</TR>';
 
@@ -1249,7 +1277,15 @@ function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
     
   }
   
-  $r.='<TR>'.InputType("Banque","js_search","e_bank_account",$e_bank_account,$view_only,FICHE_TYPE_FIN).'</TR>';
+  //  $r.='<TR>'.InputType("Banque","js_search","e_bank_account",$e_bank_account,$view_only,FICHE_TYPE_FIN).'</TR>';
+    $W1=new widget("js_search");
+    $W1->label="Banque";
+    $W1->name="e_bank_account";
+    $W1->value=$e_bank_account;
+    $W1->extra=FICHE_TYPE_FIN;  // credits
+    $W1->extra2=$p_jrn;
+    $r.="<TR>".$W1->IOValue()."</TD>";
+
   $r.="</TABLE>";
   
   $r.=       InputType(""       ,"span"   ,"e_bank_account_label",$e_bank_account_label,false).'</TD>';
@@ -1309,7 +1345,15 @@ function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
     ${"e_other$i"."_amount"}=(isset (${"e_other$i"."_amount"}))?${"e_other$i"."_amount"}:0;
     // Compute the string to pass to InputType
     $f=FICHE_TYPE_CLIENT.",".FICHE_TYPE_FOURNISSEUR.",".FICHE_TYPE_ADM_TAX.",".FICHE_TYPE_FIN;
-    $r.='<TR>'.InputType("","js_search","e_other".$i,$tiers,$view_only,'cred');
+    //    $r.='<TR>'.InputType("","js_search","e_other".$i,$tiers,$view_only,'cred');
+    $W1=new widget("js_search");
+    $W1->label="";
+    $W1->name="e_other".$i;
+    $W1->value=$tiers;
+    $W1->extra='cred';  // credits
+    $W1->extra2=$p_jrn;
+    $r.="<TR>".$W1->IOValue()."</TD>";
+
     $r.=InputType("","span", "e_other$i"."_label", $tiers_label,$view_only);
     // Comment
     $r.=InputType("","Text","e_other$i"."_comment",$tiers_comment,$view_only);
@@ -1495,7 +1539,7 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
   if ( $view_only == false) {
     $r.=JS_SEARCH_POSTE;
   }
-  $r.="<FORM NAME=\"form_detail\" enctype=\"multipart/form-data\" ACTION=\"user_jrn.php?action=new\" METHOD=\"POST\">";
+  $r.="<FORM NAME=\"form_detail\" enctype=\"multipart/form-data\" ACTION=\"user_jrn.php?action=new&p_jrn=$p_jrn\" METHOD=\"POST\">";
   $r.='<TABLE>';
   $r.='<TR>'.InputType("Date ","Text","e_date",$e_date,$view_only).'</TR>';
   $r.='<TR>'.InputType("Description","Text_big","e_comment",$e_comment,$view_only).'</TR>';
@@ -1558,8 +1602,12 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
     }
     else
       $filter=null;
-
-    $r.='<TR>'.InputType("","js_search_poste","e_account".$i,$account,$view_only,$filter);
+    $W = new widget('js_search_poste');
+    $W->label="";
+    $W->extra=$p_jrn;
+    $W->extra2=$filter;
+    //    $r.='<TR>'.InputType("","js_search_poste","e_account".$i,$account,$view_only,$filter);
+    $r.="<TR>".$W->IOValue("e_account".$i); 
     //libelle
     $r.="<td> $lib </td>";
     //amount

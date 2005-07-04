@@ -48,7 +48,6 @@ if ( isset( $_GET['p_jrn'] ))
 if ( isset ($_GET['JRN_TYPE'] ) ) {
   $p_jrn=-1;
 }
-//$_SESSION["p_jrn"]=$p_jrn;
 
 
 ShowMenuCompta($_SESSION['g_dossier']);

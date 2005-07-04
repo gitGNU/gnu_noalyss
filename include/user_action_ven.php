@@ -127,8 +127,9 @@ if ( isset($_POST["record_and_print_invoice"])) {
    }
 ?>
 <div class="u_redcontent">
-<form method="post" action="user_jrn.php?action=voir_jrn">
 <?
+echo "<form method= \"post\" action=\"user_jrn.php?action=voir_jrn&p_jrn=$p_jrn\">";
+
 $w=new widget("select");
 
 $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode order by p_id");
@@ -167,32 +168,6 @@ if ( $action == 'voir_jrn_non_paye' ) {
     echo $list2;
     echo '</div>';
 }
-// if ( $action == 'impress' ) {
-// // Print list of sell or print the current invoice
-// }
 
-//Search
-// if ( $action == 'search' ) {
-//    // Check privilege
-//    if ( CheckJrn($g_dossier,$g_user,$p_jrn) < 1 )    {
-//      NoAccess();
-//      exit -1;
-//    }
-
-//   // PhpSessid
-//   $sessid=(isset ($_POST['PHPSESSID']))?$_POST['PHPSESSID']:$_GET['PHPSESSID'];
-
-
-// // display a search box
-//   $search_box=u_ShowMenuRecherche($cn,$p_jrn,$sessid,$HTTP_POST_VARS);
-//   echo '<DIV class="u_redcontent">';
-//   echo $search_box; 
-//   // if nofirst is set then show result
-//   if ( isset ($_GET['nofirst'] ) ) {
-//     $a=ListJrn($cn,$p_jrn,"",$HTTP_POST_VARS);
-//     echo $a;
-//   }
-//   echo '</DIV>'; 
-// }
 include("user_update.php");
 ?>

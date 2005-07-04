@@ -47,9 +47,10 @@ if ( $User->CheckAction($cn,GJRN) == 0 ){
 echo JS_SEARCH_POSTE;
 if ( isset( $_GET['p_jrn'] )) {
   $p_jrn=$_GET['p_jrn'];
-  $_SESSION["p_jrn"]=$p_jrn;
-
-}
+ } else {
+  echo '<h2 class="error">Journal inexistant</h2>';
+  exit();
+ }
 
 
 
@@ -113,7 +114,7 @@ $Res=ExecSql($cn,"select jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,".
                  " jrn_def_id=".$_GET['p_jrn']);
 $l_line=pg_fetch_array($Res,0);
 $sessid = $_REQUEST['PHPSESSID'];
-$search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$sessid."','not')\">";
+$search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$sessid."','not','".$_GET['p_jrn']."')\">";
 echo '<DIV CLASS="ccontent">';
 echo '<H2 class="info"> Fiches </H2>';
 echo '<FORM ACTION="jrn_detail.php" METHOD="POST">';

@@ -142,8 +142,10 @@ if ( $action == 'voir_jrn' ) {
  // Date - date of payment - Customer - amount
 ?>
 <div class="u_redcontent">
-<form method="post" action="user_jrn.php?action=voir_jrn">
+
 <?
+echo "<form method= \"post\" action=\"user_jrn.php?action=voir_jrn&p_jrn=$p_jrn\">";
+
 $w=new widget("select");
 
 $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode order by p_id");

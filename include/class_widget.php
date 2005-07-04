@@ -36,6 +36,8 @@ class widget {
   var $table;
   var $label;
   var $disabled;
+  var $extra;
+  var $extra2;
   function widget($p_type="") {
     $this->type=$p_type;
     $this->readonly=false;
@@ -59,9 +61,10 @@ class widget {
               $p_label is the label of the INPUT
   return : string containing the tag
   +++*/
-  function IOValue($p_name,$p_value=null,$p_label="") {
+  function IOValue($p_name=null,$p_value=null,$p_label="") {
     //    echo __FILE__."p_value $p_value";
-    $this->name=$p_name;
+    if ( $p_name != null)
+      $this->name=$p_name;
     $this->value=($p_value===null)?"":$p_value;
     $this->label=($p_label == "")?$this->label:$p_label;
     //echo "this->value =".$this->value;
@@ -194,6 +197,70 @@ class widget {
       if ( $this->table==1) $r="<TD>$this->label</TD><TD>$r</TD>"; 
       return $r;
     }
+  // input type == js_search_poste => button search for the account
+    if ( strtolower($this->type)=="js_search_poste") {
+     
+      $l_sessid=$_REQUEST['PHPSESSID'];
+      // Do we need to filter ??
+      if ( $this->extra2 == null ) {
+      $r=sprintf('<TD>
+         <INPUT TYPE="button" onClick=SearchPoste(\'%s\',\'%s\',\'%s\') value="Search">
+            %s</TD><TD> 
+
+             <INPUT TYPE="Text" NAME="%s" VALUE="%s" SIZE="8">
+                 </TD>',
+		 $l_sessid,
+		 $this->name,
+		 $this->extra,
+		 $this->label,
+		 $this->name,
+		 $this->value 
+		 );
+
+    } else { // $p_list is not null, so we have a filter
+      $r=sprintf('<TD>
+         <INPUT TYPE="button" onClick=SearchPosteFilter(\'%s\',\'%s\',\'%s\',\'%s\') value="Search">
+            %s</TD><TD> 
+
+             <INPUT TYPE="Text" NAME="%s" VALUE="%s" SIZE="8">
+                 </TD>',
+		 $l_sessid,
+		 $this->name,
+		 $this->extra2,
+		 $this->extra,
+		 $this->label,
+		 $this->name,
+		 $this->value 
+		 );
+
+      } //else
+      return $r;
+    } // end js_search_poste
+
+  // input type == js_search => button search for card
+  if ( strtolower($this->type)=="js_search") {
+    $l_sessid=$_REQUEST['PHPSESSID'];
+    $r=sprintf('<TD>
+         <INPUT TYPE="button" onClick=NewCard(\'%s\',\'%s\',\'%s\',\'%s\') value="New">
+         <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') value="Search">
+            %s</TD><TD> 
+
+             <INPUT TYPE="Text" NAME="%s" VALUE="%s" SIZE="8">
+                 </TD>',
+	       $l_sessid,
+	       $this->extra, // deb or cred
+	       $this->name,
+	       $this->extra2, //jrn
+	       $l_sessid,
+	       $this->extra,
+	       $this->name,
+	       $this->extra2,
+	       $this->label,
+	       $this->name,
+	       $this->value 
+	       );
+    return $r;
+  }
 
   } //end function
   function debug() {

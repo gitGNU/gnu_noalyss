@@ -110,13 +110,13 @@ define ("FICHE_TYPE_FOURNISSEUR",8);
 define ("FICHE_TYPE_FIN",4);
 define ("FICHE_TYPE_ADM_TAX",14);
 
-define ("JS_SEARCH_POSTE","<SCRIPT language=\"javascript\">function SearchPoste(p_sessid,p_ctl)
+define ("JS_SEARCH_POSTE","<SCRIPT language=\"javascript\">function SearchPoste(p_sessid,p_ctl,p_jrn)
      {
-       var win=window.open('poste_search.php?p_ctl='+p_ctl+'&PHPSESSID='+p_sessid,'Cherche','toolbar=no,width=600,height=600,scrollbars=yes,resizable=yes');
+       var win=window.open('poste_search.php?p_jrn='+p_jrn+'p_ctl='+p_ctl+'&PHPSESSID='+p_sessid,'Cherche','toolbar=no,width=600,height=600,scrollbars=yes,resizable=yes');
     } 
-function SearchPosteFilter(p_sessid,p_ctl,p_filter)
+function SearchPosteFilter(p_sessid,p_ctl,p_filter,jrn)
      {
-       var win=window.open('poste_search.php?p_ctl='+p_ctl+'&PHPSESSID='+p_sessid+'&filter='+p_filter,'Cherche','toolbar=no,width=600,height=600,scrollbars=yes,resizable=yes');
+       var win=window.open('poste_search.php?p_jrn='+jrn+'&p_ctl='+p_ctl+'&PHPSESSID='+p_sessid+'&filter='+p_filter,'Cherche','toolbar=no,width=600,height=600,scrollbars=yes,resizable=yes');
     } 
 	 function GetIt() {
 	   window.close();	
@@ -191,13 +191,13 @@ define ("JS_SEARCH_CARD","
 /* type must be cred or deb and name is
  * the control's name
 */
-function SearchCard(p_sessid,type,name)
+function SearchCard(p_sessid,type,name,jrn)
 {
-   var a=window.open('fiche_search.php?PHPSESSID='+p_sessid+'&type='+type+'&name='+name,'item','toolbar=no,width=350,height=450,scrollbars=yes');
+   var a=window.open('fiche_search.php?p_jrn='+jrn+'&PHPSESSID='+p_sessid+'&type='+type+'&name='+name,'item','toolbar=no,width=350,height=450,scrollbars=yes');
 }
-function NewCard(p_sessid,type,name)
+	function NewCard(p_sessid,type,name,jrn)
 {
-   var a=window.open('fiche_new.php?PHPSESSID='+p_sessid+'&type='+type+'&name='+name,'item','toolbar=no,width=350,height=450,scrollbars=yes');
+   var a=window.open('fiche_new.php?p_jrn='+jrn+'&PHPSESSID='+p_sessid+'&type='+type+'&name='+name,'item','toolbar=no,width=350,height=450,scrollbars=yes');
 }
 /* SetValue( p_ctl,p_value )
 /* p_ctl is the name of the control
