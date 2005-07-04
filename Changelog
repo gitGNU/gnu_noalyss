@@ -1,5 +1,13 @@
 2005-07-04  sparkyx  <sparkyx@eleven>
 
+	* html/annulation.php, include/constant.php, include/user_common.php:
+	Task #4359 : Fix problem in annulation.php
+
+	* include/class_widget.php, include/form_input.php:
+	Fix problem in SearchPoste
+
+	* Changelog: ChangeLog
+
 	* include/constant.php, include/form_input.php: Task #4359 : MultiEcran
 
 	* Changelog: ChangeLog
