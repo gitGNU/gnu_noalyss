@@ -262,7 +262,6 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article
   $r.=       InputType(""       ,"span"   ,"e_client_label",$e_client_label,false).'</TD>';
   $r.="</TABLE>";
 
-
   // Record the current number of article
   $r.='<INPUT TYPE="HIDDEN" name="nb_item" value="'.$p_article.'">';
   $e_comment=(isset($e_comment))?$e_comment:"";

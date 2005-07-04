@@ -65,14 +65,14 @@ class widget {
     //    echo __FILE__."p_value $p_value";
     if ( $p_name != null)
       $this->name=$p_name;
-    $this->value=($p_value===null)?"":$p_value;
+    $this->value=($p_value===null)?$this->value:$p_value;
     $this->label=($p_label == "")?$this->label:$p_label;
     //echo "this->value =".$this->value;
     // Input text type
     $disabled = $this->disabled ? "DISABLED" : "";
     if (strtoupper($this->type)=="TEXT") {
       if ( $this->readonly==false) {
-	$r="<INPUT TYPE=\"TEXT\" NAME=\"$p_name\" VALUE=\"$p_value\" SIZE=\"$this->size\" ".$disabled.">";} else {
+	$r="<INPUT TYPE=\"TEXT\" NAME=\"$p_name\" VALUE=\"$this->value\" SIZE=\"$this->size\" ".$disabled.">";} else {
 	$r=$this->value;
       }
       if ($this->table==1) {
