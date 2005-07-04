@@ -1,5 +1,10 @@
 2005-07-04  sparkyx  <sparkyx@eleven>
 
+	* html/recherche.php, include/constant.php, include/user_menu.php:
+	Task #4359 : Multiecran
+
+	* Changelog: ChangeLog
+
 	* html/jrn_detail.php, html/user_jrn.php, include/class_widget.php, include/constant.php, include/fiche_inc.php, include/form_input.php, include/user_action_ach.php, include/user_action_fin.php, include/user_action_ods.php, include/user_action_ven.php:
 	Task #4359 : Multiecran
 
