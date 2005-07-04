@@ -1,5 +1,10 @@
 2005-07-04  sparkyx  <sparkyx@eleven>
 
+	* html/jrn_detail.php, html/user_jrn.php, include/class_widget.php, include/constant.php, include/fiche_inc.php, include/form_input.php, include/user_action_ach.php, include/user_action_fin.php, include/user_action_ods.php, include/user_action_ven.php:
+	Task #4359 : Multiecran
+
+	* Changelog: Changelog
+
 	* Changelog, doc/function.txt, doc/manuel-fr.sgml, include/ac_common.php, include/class_form.php, include/impress_inc.php:
 	Task #4124 : TVA declaration
 
