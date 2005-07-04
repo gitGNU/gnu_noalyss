@@ -1,3 +1,8 @@
+2005-07-04  sparkyx  <sparkyx@eleven>
+
+	* Changelog, doc/function.txt, doc/manuel-fr.sgml, include/ac_common.php, include/class_form.php, include/impress_inc.php:
+	Task #4124 : TVA declaration
+
 2005-07-04  stanpinte  <stanpinte@eleven>
 
 	* include/constant.php, include/impress_inc.php, include/user_action_ach.php, include/user_action_fin.php, include/user_action_ods.php, include/user_action_ven.php, include/user_common.php, include/user_menu.php, include/user_update.php, html/annulation.php, html/fiche_new.php, html/fiche_search.php, html/jrn_detail.php, html/jrn_op_detail.php, html/jrn_search.php, html/modify_op.php, html/poste_search.php, html/sec_pdf.php, html/user_jrn.php:
