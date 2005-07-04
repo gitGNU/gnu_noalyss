@@ -23,6 +23,8 @@ include("user_menu.php");
 include_once ("constant.php");
 include_once("jrn.php");
 include_once("user_common.php");
+include_once("class_widget.php");
+
 
 html_page_start($_SESSION['use_theme']);
 if ( ! isset ( $_SESSION['g_dossier'] ) ) {
@@ -63,3 +65,4 @@ ShowMenuCompta($_SESSION['g_dossier']);
    }
    echo '</DIV>'; 
  
+?>

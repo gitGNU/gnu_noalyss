@@ -428,8 +428,12 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
   $r.='<TD><input type="text" name="s_internal" value="'.$p_s_internal.'"></td>';
   $r.= "</TR>";
 
-  $r.='<TR>'.InputType("numéro de poste","js_search_poste","poste",$p_poste);
-
+  //  $r.='<TR>'.InputType("numéro de poste","js_search_poste","poste",$p_poste);
+  $W=new widget("js_search_poste");
+  $W->label="Numéro de poste";
+  $W->name="poste";
+  $W->value=$p_poste;
+  $r.="<TR>".$W->IOValue();
 
   $r.= "<TR>";
 
