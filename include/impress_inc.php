@@ -704,6 +704,7 @@ function GetRappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_cent
   } // if type==0
   
 }
+
 /* function ParseFormula
  * Purpose Parse a formula
  * 
@@ -720,16 +721,38 @@ function GetRappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_cent
  * NOTE: problem: the formulas don't take date range parameters into account....TODO.
  * --> I would like to get the sum of operations between two specified dates.
  */ 
-function ParseFormula($p_cn,$p_label,$p_formula,$p_cond) {
+function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end) {
+  if ( $p_start == $p_end ) 
+    $cond=" j_tech_per = $p_start ";
+  else
+    $cond = "(j_tech_per >= $p_start and j_tech_per <= $p_end) ";
+  
   while (ereg("(\[[0-9]*%*\])",$p_formula,$e) == true) {
     include_once("class_poste.php");
     // remove the [ ] 
     $x=$e;
     $e[0]=str_replace ("[","",$e[0]);
     $e[0]=str_replace ("]","",$e[0]);
+    // If there is a FROM clause we must recompute 
+    // the time cond
+    if ( ereg ("FROM=[0-9]+\.[0-9]+", $p_formula,$afrom) == true ){
+      // There is a FROM clause 
+      // then we must modify the cond for the periode
+      $from=str_replace("FROM=","",$afrom[0]);
+      // Get the periode 
+      $from=getPeriodeFromDate($p_cn,$from);
+
+      //  Compute the cond
+      if ( $from == $p_end ) 
+	$cond=" j_tech_per = $from ";
+      else
+	$cond = "(j_tech_per >= $from and j_tech_per <= $p_end) ";
+      // We remove FROM out of the p_formula
+      $p_formula=substr_replace($p_formula,"",strpos($p_formula,"FROM"));
+    }
     // Get sum of account
     $P=new poste($p_cn,$e[0]);
-    $i=$P->GetSolde($p_cond);
+    $i=$P->GetSolde($cond);
     $p_formula=str_replace($x,$i,$p_formula);
   }
   $p_formula="\$result=".$p_formula.";";

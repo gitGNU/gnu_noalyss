@@ -35,10 +35,6 @@ class formulaire {
     return $this->name;
   }
   function GetRow($p_start,$p_end) {
-    if ( $p_start == $p_end ) 
-      $cond=" j_tech_per = $p_start ";
-    else
-      $cond = "(j_tech_per >= $p_start and j_tech_per <= $p_end) ";
 
    $Res=ExecSql($this->db,"select fo_id ,
                      fo_fr_id,
@@ -56,7 +52,10 @@ class formulaire {
       $l_line=pg_fetch_array($Res,$i);
       $col[]=ParseFormula($this->db,
                    $l_line['fo_label'],
-                   $l_line['fo_formula'],$cond);
+                   $l_line['fo_formula'],
+			  $p_start,
+			  $p_end
+			  );
      
     } //for ($i
     $this->row=$col;

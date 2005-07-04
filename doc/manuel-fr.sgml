@@ -580,7 +580,7 @@ Opération de rapprochement ???
 Par exemple, le total des ventes, le total encore à payer, la différence
 entre les entrées et les charges... Il n'y a pas vraiment de limite. 
 
-<p> Les formulaires permettent d'utilisent des formules (round,*,-) 
+<p> Les formulaires permettent d'utilisent des formules (mod,round,*,-) 
 sur des soldes de comptes.
 
 </sect1>
@@ -592,6 +592,10 @@ sur des soldes de comptes.
 il faut utiliser le %;
 <item>Les soldes sont toujours positifs et vous ne savez pas 
 s'ils sont au débit ou au crédit.
+<item>Si vous souhaitez commencer à une autre période pour certains
+compte et donc avoir plusieurs intervalles pour un formulaire, vous
+devez utiliser l'option FROM=MM.YYYY (voir exemple). Ce genre d'option est 
+très utile pour par exemple les déclarations de TVA.
 </itemize>
 
 <p>
@@ -600,6 +604,7 @@ Exemples de formule:
 Bénéfice brute [7%]-[6%]
 Impot estimé (sans compte les amortissements) ([7%]-[6%])/0.24
 Total des comptes en banque [550%]
+Total TVA récolté depuis janvier 2005 : [4511]  FROM=01.2005
 </verb>
 
 </sect1>

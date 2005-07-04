@@ -1,4 +1,28 @@
+2005-07-04  stanpinte  <stanpinte@eleven>
+
+	* include/constant.php, include/impress_inc.php, include/user_action_ach.php, include/user_action_fin.php, include/user_action_ods.php, include/user_action_ven.php, include/user_common.php, include/user_menu.php, include/user_update.php, html/annulation.php, html/fiche_new.php, html/fiche_search.php, html/jrn_detail.php, html/jrn_op_detail.php, html/jrn_search.php, html/modify_op.php, html/poste_search.php, html/sec_pdf.php, html/user_jrn.php:
+	enleve la variable globale g_jrn, remplace par param HTTP p_jrn partout
+
+2005-07-01  stanpinte  <stanpinte@eleven>
+
+	* html/user_jrn.php: added comment
+
+2005-06-30  sparkyx  <sparkyx@eleven>
+
+	* doc/manuel-fr.sgml, html/form_csv.php, include/class_poste.php, include/impress_form.php, include/impress_inc.php, include/poste.php:
+	Task 4331 Improve Formula
+
+2005-06-29  sparkyx  <sparkyx@eleven>
+
+	* html/form.php: Fix unknown sessid (dependent of php's version)
+
+2005-06-24  stanpinte  <stanpinte@eleven>
+
+	* include/fiche_inc.php, include/form_input.php: Added comments
+
 2005-06-22  sparkyx  <sparkyx@eleven>
+
+	* Changelog: Changelog
 
 	* html/form_csv.php, html/form_pdf.php, include/class_form.php:
 	Task 4301 Form (html, pdf, csv) needs more test

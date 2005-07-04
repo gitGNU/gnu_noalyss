@@ -20,6 +20,8 @@
 ************************* File = form_csv.php ****************
 ************************* File = form_pdf.php ****************
 ************************* File = form.php ****************
+************************* File = f.php ****************
+************************* File = g.php ****************
 ************************* File = html_balance.php ****************
 ************************* File = index.php ****************
 ************************* File = jrn_add.php ****************
@@ -50,6 +52,7 @@
 ************************* File = show_tva.php ****************
 ************************* File = stock.php ****************
 ************************* File = test.php ****************
+************************* File = t.php ****************
 ************************* File = user_advanced.php ****************
 ************************* File = user_compta.php ****************
 ************************* File = user_impress.php ****************
@@ -194,6 +197,20 @@ ac_common.php  *      - Start or end
 ac_common.php  * gen :
 ac_common.php  *	-
 ac_common.php  * return: string
+ac_common.php  */
+ac_common.php /* function getPeriodeFromDate
+ac_common.php  **************************************************
+ac_common.php  * Purpose : Return the period corresponding to the 
+ac_common.php  *           date
+ac_common.php  *        
+ac_common.php  * parm : 
+ac_common.php  *	- p_cn database connection
+ac_common.php  *      - the date 'MM.YYYY'
+ac_common.php  * gen :
+ac_common.php  *	- none
+ac_common.php  *
+ac_common.php  * return:
+ac_common.php  *       parm_periode.p_id
 ac_common.php  */
 ************************* File = balance.php ****************
 ************************* File = central_inc.php ****************
@@ -356,6 +373,17 @@ class_poste.php    * return:
 class_poste.php    *	- none
 class_poste.php    *
 class_poste.php    */ 
+class_poste.php   /* function GetSolde
+class_poste.php    * Purpose : give the balance of an account
+class_poste.php    * 
+class_poste.php    * parm : 
+class_poste.php    *      - cond
+class_poste.php    * gen :
+class_poste.php    *	- none
+class_poste.php    * return:
+class_poste.php    *      - balance of the account
+class_poste.php    *
+class_poste.php    */ 
 ************************* File = class_user.php ****************
 class_user.php /* function CheckAdmin
 class_user.php  **************************************************
@@ -491,6 +519,9 @@ fiche_inc.php  * gen :
 fiche_inc.php  *	- none
 fiche_inc.php  * return:
 fiche_inc.php  *	- none
+fiche_inc.php  *
+fiche_inc.php  * NOTE STAN: je ne trouve pas le nom "EncodeFiche" super claire pour une fonction qui affiche les détails d'une fiche...
+fiche_inc.php  * on ne changerait pas en "DisplayFiche" ?
 fiche_inc.php  *
 fiche_inc.php  */ 
 fiche_inc.php /* function GetBaseFiche
@@ -1315,6 +1346,19 @@ impress_inc.php  *	- array sum (deb) sum(cred)
 impress_inc.php  *
 impress_inc.php  */ 
 impress_inc.php /* function ParseFormula
+impress_inc.php  * Purpose Parse a formula
+impress_inc.php  * 
+impress_inc.php  * parm : 
+impress_inc.php  *	- $p_cn connexion
+impress_inc.php  *      - $p_label
+impress_inc.php  *      - $p_formula
+impress_inc.php  * gen :
+impress_inc.php  *	- none
+impress_inc.php  * return:
+impress_inc.php  *	- array
+impress_inc.php  *
+impress_inc.php  */ 
+impress_inc.php /* function GetFormulaValue
 impress_inc.php  * Purpose : Parse the formula contained in the fo_formula 
 impress_inc.php  *           field and return a array containing all the columns
 impress_inc.php  * 
@@ -1652,6 +1696,7 @@ poste.php  *
 poste.php  * parm : 
 poste.php  *	-  connection
 poste.php  *      - account
+poste.php  *      - cond
 poste.php  * gen :
 poste.php  *	- none
 poste.php  * return:

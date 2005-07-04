@@ -348,5 +348,28 @@ function getPeriodeName($p_cn,$p_id,$pos='p_start') {
   $a=pg_fetch_array($ret,0);
   return $a['t'];
 }
+/* function getPeriodeFromDate
+ **************************************************
+ * Purpose : Return the period corresponding to the 
+ *           date
+ *        
+ * parm : 
+ *	- p_cn database connection
+ *      - the date 'MM.YYYY'
+ * gen :
+ *	- none
+ *
+ * return:
+ *       parm_periode.p_id
+ */
+function getPeriodeFromDate($p_cn,$p_date) {
+  $R=ExecSql($p_cn,"select p_id from parm_periode where
+              to_char(p_start,'DD.MM.YYYY') = '01.$p_date'");
+  if ( pg_NumRows($R) == 0 ) 
+    return -1;
+  $a=pg_fetch_array($R,0);
+
+  return $a['p_id'];
+}
 
 ?>
