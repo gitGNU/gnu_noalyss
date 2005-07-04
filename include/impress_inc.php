@@ -716,6 +716,9 @@ function GetRappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_cent
  * return:
  *	- array
  *
+ *
+ * NOTE: problem: the formulas don't take date range parameters into account....TODO.
+ * --> I would like to get the sum of operations between two specified dates.
  */ 
 function ParseFormula($p_cn,$p_label,$p_formula,$p_cond) {
   while (ereg("(\[[0-9]*%*\])",$p_formula,$e) == true) {
@@ -749,6 +752,7 @@ function ParseFormula($p_cn,$p_label,$p_formula,$p_cond) {
  *	- none
  * return:
  *	- array
+ * 
  *
  */ 
 function GetFormulaValue($p_cn,$p_label,$p_formula,$p_cond) 

@@ -40,15 +40,15 @@ if ( ! isset ( $_SESSION['g_dossier'] ) ) {
 }
 
 if ( isset( $p_jrn )) {
-  $g_jrn=$p_jrn;
-  $_SESSION["g_jrn"]=$g_jrn;
+  $p_jrn=$p_jrn;
+  $_SESSION["p_jrn"]=$p_jrn;
 
 }
 
  // Check privilege
  // CheckJrn verify that the user is not an admin
  // an admin has all right
-  if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_SESSION['g_jrn']) != 2 )    {
+  if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_GET['p_jrn']) != 2 )    {
        NoAccess();
        exit -1;
   }

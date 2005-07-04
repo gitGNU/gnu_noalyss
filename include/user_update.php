@@ -20,7 +20,7 @@
 /* $Revision$ */
 
 if ( $action == 'update' ) {
-    if ( CheckJrn($g_dossier,$g_user,$g_jrn) < 2 ) {
+    if ( CheckJrn($g_dossier,$g_user,$p_jrn) < 2 ) {
       NoAccess();
       exit -1;
     
@@ -44,7 +44,7 @@ if ( isset($_POST['update_record']) ) {
   UpdateComment($cn,$_POST['jr_id'],$_POST['comment']);
   InsertRapt($cn,$_POST['jr_id'],$_POST['rapt']);
   echo '<div class="redcontent">';
-    ViewJrn($g_dossier,$g_user,$g_jrn,"user_jrn.php");
+    ViewJrn($g_dossier,$g_user,$p_jrn,"user_jrn.php");
   echo '</div>';
 
 } // if update_record

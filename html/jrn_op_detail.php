@@ -36,8 +36,8 @@ $User=new cl_user($rep);
 $User->Check();
 
 if ( isset( $_GET['$p_jrn'] )) {
-  $g_jrn=$_GE['p_jrn'];
-  $_SESSION[ "g_jrn"]=$g_jrn;
+  $p_jrn=$_GE['p_jrn'];
+  $_SESSION[ "p_jrn"]=$p_jrn;
 
 }
 $cn=DbConnect($_SESSION['g_dossier']);

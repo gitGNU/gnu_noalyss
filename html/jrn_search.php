@@ -36,8 +36,8 @@ if ( ! isset ( $_SESSION['g_dossier'] ) ) {
 // Javascript
 echo JS_CONCERNED_OP;
 if ( isset( $p_jrn )) {
-  $g_jrn=$p_jrn;
-  $_SESSION[ "g_jrn"]=$g_jrn;
+  $p_jrn=$p_jrn;
+  $_SESSION[ "p_jrn"]=$p_jrn;
 
 }
 if (isset ($_GET['p_ctl'])) $p_ctl=$_GET['p_ctl'];

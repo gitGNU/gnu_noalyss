@@ -46,8 +46,8 @@ if ( $User->CheckAction($cn,GJRN) == 0 ){
 // Javascript
 echo JS_SEARCH_POSTE;
 if ( isset( $_GET['p_jrn'] )) {
-  $g_jrn=$_GET['p_jrn'];
-  $_SESSION["g_jrn"]=$g_jrn;
+  $p_jrn=$_GET['p_jrn'];
+  $_SESSION["p_jrn"]=$p_jrn;
 
 }
 
@@ -96,7 +96,7 @@ If ( isset ($_POST["JRN_UPD"] )) {
 		 $l_deb_max_line,$l_cred_max_line,
 		 $p_ech,$p_ech_lib,
 		 $p_jrn_fiche_deb,$p_jrn_fiche_cred,
-                 $_SESSION['g_jrn']
+                 $_GET['p_jrn']
 		 );
     echo_debug($Sql);
     $Res=ExecSql($cn,$Sql);
@@ -110,7 +110,7 @@ $Res=ExecSql($cn,"select jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,".
 	     "jrn_deb_max_line,jrn_cred_max_line,jrn_def_code".
                  ",jrn_def_type,jrn_def_ech, jrn_def_ech_lib,jrn_def_fiche_deb,jrn_def_fiche_cred".
                  " from jrn_def where".
-                 " jrn_def_id=".$_SESSION['g_jrn']);
+                 " jrn_def_id=".$_GET['p_jrn']);
 $l_line=pg_fetch_array($Res,0);
 $sessid = $_REQUEST['PHPSESSID'];
 $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$sessid."','not')\">";

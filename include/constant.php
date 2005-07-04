@@ -162,9 +162,9 @@ function RefreshMe() {
 window.location.reload();
 }
 	</script>");
-define ("JS_VIEW_JRN_MODIFY","<script  language=\"javascript\">function modifyOperation(p_value,p_sessid)
+define ("JS_VIEW_JRN_MODIFY","<script  language=\"javascript\">function modifyOperation(p_value,p_sessid,p_jrn)
 		{
-			var win=window.open('modify_op.php?action=update&line='+p_value+'&PHPSESSID='+p_sessid,'Modifie','toolbar=no,width=500,height=400,scrollbars=yes,resizable=yes');
+			var win=window.open('modify_op.php?action=update&p_jrn='+p_jrn+'&line='+p_value+'&PHPSESSID='+p_sessid,'Modifie','toolbar=no,width=500,height=400,scrollbars=yes,resizable=yes');
 		}
 function RefreshMe() {
 window.location.reload();

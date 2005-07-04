@@ -132,11 +132,11 @@ if ( isset($_POST['add_fiche'])) {
   } else { // We have to find it from the database
     if ( $e_type == 'deb' ) {
       $get='jrn_def_fiche_deb';
-      $sql="select $get as fiche from jrn_def where jrn_def_id=".$_SESSION['g_jrn'];
+      $sql="select $get as fiche from jrn_def where jrn_def_id=".$_GET['p_jrn'];
     }
     if ( $e_type == 'cred' ) {
       $get='jrn_def_fiche_cred';
-    $sql="select $get as fiche from jrn_def where jrn_def_id=".$_SESSION['g_jrn'];
+    $sql="select $get as fiche from jrn_def where jrn_def_id=".$_GET['p_jrn'];
     }
     
     

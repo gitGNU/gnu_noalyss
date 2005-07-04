@@ -38,7 +38,7 @@ if ( $action == 'insert_vente' ) {
       $nb_number=$_POST["nb_item"];
       $nb_number++;
 
-      $form=FormVente($cn,$_SESSION['g_jrn'],$_SESSION['g_user'],$HTTP_POST_VARS,false,$nb_number);
+      $form=FormVente($cn,$_GET['p_jrn'],$_SESSION['g_user'],$HTTP_POST_VARS,false,$nb_number);
       echo '<div class="u_redcontent">';
       echo     "here".    $form;
       echo '</div>';
@@ -48,11 +48,11 @@ if ( $action == 'insert_vente' ) {
     // We want to see the encoded invoice 
     if ( isset ($_POST["view_invoice"])) {
       $nb_number=$_POST["nb_item"];
-      $form=FormVenteView($cn,$_SESSION['g_jrn'],$_SESSION['g_user'],$HTTP_POST_VARS,$nb_number);
+      $form=FormVenteView($cn,$_GET['p_jrn'],$_SESSION['g_user'],$HTTP_POST_VARS,$nb_number);
 	  // Check failed : invalid date or quantity
 	  if ( $form== null) {
 		  echo_error("Cannot validate ");
-		  $form=FormVente($cn,$_SESSION['g_jrn'],$_SESSION['g_user'],$HTTP_POST_VARS,false,$nb_number);
+		  $form=FormVente($cn,$_GET['p_jrn'],$_SESSION['g_user'],$HTTP_POST_VARS,false,$nb_number);
 	 }
       echo '<div class="u_redcontent">';
       echo         $form;
@@ -65,7 +65,7 @@ if ( $action == 'insert_vente' ) {
       {
       echo_debug(__FILE__,__LINE__,"Blank form");
       // Show an empty form of invoice
-      $form=FormVente($cn,$_SESSION['g_jrn'],$_SESSION['g_user'],null,false);
+      $form=FormVente($cn,$_GET['p_jrn'],$_SESSION['g_user'],null,false);
       echo '<div class="u_redcontent">';
       echo $form;
       echo '</div>';
@@ -77,23 +77,23 @@ if ( $action == 'insert_vente' ) {
     // Save the invoice 
 if ( isset($_POST["record_invoice"])) {
   // Check privilege
-  if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_SESSION['g_jrn']) != 2 )    {
+  if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_GET['p_jrn']) != 2 )    {
     NoAccess();
     exit -1;
   }
 
   // echo "RECORD INVOICE";
-   RecordInvoice($cn,$HTTP_POST_VARS,$_SESSION['g_user'],$_SESSION['g_jrn']);
+   RecordInvoice($cn,$HTTP_POST_VARS,$_SESSION['g_user'],$_GET['p_jrn']);
 }
 if (isset ($_POST['correct_new_invoice'])) {
   // Check privilege
-  if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_SESSION['g_jrn']) != 2 )    {
+  if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_GET['p_jrn']) != 2 )    {
     NoAccess();
     exit -1;
   }
   
   $nb=$_POST['nb_item'];
-  $form=FormVente($cn,$_SESSION['g_jrn'],$_SESSION['g_user'],$HTTP_POST_VARS,false,$nb);
+  $form=FormVente($cn,$_GET['p_jrn'],$_SESSION['g_user'],$HTTP_POST_VARS,false,$nb);
   echo '<div class="u_redcontent">';
   echo $form;
   echo '</div>';
@@ -101,17 +101,17 @@ if (isset ($_POST['correct_new_invoice'])) {
 // Save and print the invoice
 if ( isset($_POST["record_and_print_invoice"])) {
   // Check privilege
-  if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_SESSION['g_jrn']) != 2 )    {
+  if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_GET['p_jrn']) != 2 )    {
     NoAccess();
     exit -1;
   }
   
   //  echo "RECORD AND PRINT INVOICE";
 
-  $comment=RecordInvoice($cn,$HTTP_POST_VARS,$_SESSION['g_user'],$_SESSION['g_jrn']);
+  $comment=RecordInvoice($cn,$HTTP_POST_VARS,$_SESSION['g_user'],$_GET['p_jrn']);
 
   $nb_number=$_POST["nb_item"];
-  $form=FormVenteView($cn,$g_jrn,$g_user,$HTTP_POST_VARS,$nb_number,'noform',$comment);
+  $form=FormVenteView($cn,$p_jrn,$g_user,$HTTP_POST_VARS,$nb_number,'noform',$comment);
   
   echo '<div class="u_redcontent">';
   echo $form;
@@ -121,7 +121,7 @@ if ( isset($_POST["record_and_print_invoice"])) {
 
  if ( $action == 'voir_jrn' ) {
    // Check privilege
-   if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_SESSION['g_jrn']) < 1 )    {
+   if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_GET['p_jrn']) < 1 )    {
      NoAccess();
      exit -1;
    }
@@ -142,24 +142,24 @@ echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit',
 <?
  // Show list of sell
  // Date - date of payment - Customer - amount
-   $sql=SQL_LIST_ALL_INVOICE." and jr_tech_per=".$current." and jr_def_id=".$_SESSION['g_jrn'] ;
-   $list=ListJrn($cn,$_SESSION['g_jrn'],$sql);
+   $sql=SQL_LIST_ALL_INVOICE." and jr_tech_per=".$current." and jr_def_id=".$_GET['p_jrn'] ;
+   $list=ListJrn($cn,$_GET['p_jrn'],$sql);
    echo $list;
    echo '</div>';
 }
 if ( $action == 'voir_jrn_non_paye' ) {
    // Check privilege
-   if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_SESSION['g_jrn']) < 1 )    {
+   if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_GET['p_jrn']) < 1 )    {
      NoAccess();
      exit -1;
    }
 
 // Show list of unpaid sell
 // Date - date of payment - Customer - amount
-  $sql=SQL_LIST_UNPAID_INVOICE_DATE_LIMIT." and jr_def_id=".$_SESSION['g_jrn'] ;
-  $list=ListJrn($cn,$_SESSION['g_jrn'],$sql);
-  $sql=SQL_LIST_UNPAID_INVOICE." and jr_def_id=".$_SESSION['g_jrn'] ;
-  $list2=ListJrn($cn,$_SESSION['g_jrn'],$sql);
+  $sql=SQL_LIST_UNPAID_INVOICE_DATE_LIMIT." and jr_def_id=".$_GET['p_jrn'] ;
+  $list=ListJrn($cn,$_GET['p_jrn'],$sql);
+  $sql=SQL_LIST_UNPAID_INVOICE." and jr_def_id=".$_GET['p_jrn'] ;
+  $list2=ListJrn($cn,$_GET['p_jrn'],$sql);
     echo '<div class="u_redcontent">';
     echo '<h2 class="info"> Echeance dépassée </h2>';
     echo $list;
@@ -174,7 +174,7 @@ if ( $action == 'voir_jrn_non_paye' ) {
 //Search
 // if ( $action == 'search' ) {
 //    // Check privilege
-//    if ( CheckJrn($g_dossier,$g_user,$g_jrn) < 1 )    {
+//    if ( CheckJrn($g_dossier,$g_user,$p_jrn) < 1 )    {
 //      NoAccess();
 //      exit -1;
 //    }
@@ -184,12 +184,12 @@ if ( $action == 'voir_jrn_non_paye' ) {
 
 
 // // display a search box
-//   $search_box=u_ShowMenuRecherche($cn,$g_jrn,$sessid,$HTTP_POST_VARS);
+//   $search_box=u_ShowMenuRecherche($cn,$p_jrn,$sessid,$HTTP_POST_VARS);
 //   echo '<DIV class="u_redcontent">';
 //   echo $search_box; 
 //   // if nofirst is set then show result
 //   if ( isset ($_GET['nofirst'] ) ) {
-//     $a=ListJrn($cn,$g_jrn,"",$HTTP_POST_VARS);
+//     $a=ListJrn($cn,$p_jrn,"",$HTTP_POST_VARS);
 //     echo $a;
 //   }
 //   echo '</DIV>'; 

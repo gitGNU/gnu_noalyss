@@ -297,7 +297,7 @@ function ShowMenuJrnUser($p_dossier,$p_type,$p_jrn)
     //echo '</div>';
 
 }
-/* function u_ShowMenuJrn
+/* function ShowMenuJrn
  * Purpose : Show the menu of the jrn depending of its type
  *        
  * parm : 
@@ -311,7 +311,7 @@ function ShowMenuJrnUser($p_dossier,$p_type,$p_jrn)
  * return:
  *     - string containing the menu
  */
-function ShowMenuJrn($p_cn,$p_jrn_type) 
+function ShowMenuJrn($p_cn,$p_jrn_type,$p_jrn) 
 {
 
   $Res=ExecSql($p_cn,"select ja_name,ja_url,ja_action,ja_desc from jrn_action  where ja_jrn_type='$p_jrn_type'
@@ -327,9 +327,8 @@ function ShowMenuJrn($p_cn,$p_jrn_type)
     $lib=str_replace($access_key,'<u>'.$access_key.'</u>',$action['ja_name']);
 
     $ret.=sprintf('<TR><TD class="cell"><A class="mtitle" accesskey="%s" title="%s" '.
-		  'HREF="%s?%s">%s</A></td></tR>',
-		  $access_key, $action['ja_desc'], $action['ja_url'],$action['ja_action'],
-		 $lib);
+		  'HREF="%s?%s&p_jrn=%s">%s</A></td></tR>',
+		  $access_key, $action['ja_desc'], $action['ja_url'],$action['ja_action'], $p_jrn, $lib);
 
   }
   $ret.='</TABLE>';

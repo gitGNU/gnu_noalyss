@@ -107,12 +107,12 @@ if ( isset ( $_POST['search']) )  {
   // Get the field from database
   if ( $e_type == 'deb' ) {
     $get='jrn_def_fiche_deb';
-    $list_fiche=get_list_fiche($cn,$get,$_SESSION['g_jrn']);
+    $list_fiche=get_list_fiche($cn,$get,$_GET['p_jrn']);
     $sql="select * from vw_fiche_attr where fd_id in ( $list_fiche )";
   }
   if ( $e_type == 'cred' ) {
     $get='jrn_def_fiche_cred';
-    $list_fiche=get_list_fiche($cn,$get,$_SESSION['g_jrn']);
+    $list_fiche=get_list_fiche($cn,$get,$_GET['p_jrn']);
     $sql="select * from vw_fiche_attr where fd_id in ( $list_fiche )";
   }
 

@@ -37,19 +37,18 @@ if ( ! isset ( $_SESSION['g_dossier'] ) ) {
 }
 /* Admin. Dossier */
 
+if ( isset( $_GET['p_jrn'] )) 
+{
+  $p_jrn=$_GET['p_jrn'];
+} else 
+{
+  $p_jrn=-1;
+}
 
-if ( isset( $_GET['p_jrn'] )) {
-  $g_jrn=$_GET['p_jrn'];
-} else {
-  if ( ! isset ($_SESSION['g_jrn']) ) 
-    $g_jrn=-1;
-  else 
-    $g_jrn=$_SESSION['g_jrn'];
-}
 if ( isset ($_GET['JRN_TYPE'] ) ) {
-  $g_jrn=-1;
+  $p_jrn=-1;
 }
-$_SESSION["g_jrn"]=$g_jrn;
+//$_SESSION["p_jrn"]=$p_jrn;
 
 
 ShowMenuCompta($_SESSION['g_dossier']);
@@ -60,13 +59,13 @@ if ( $User->admin == 0 ) {
     /* Cannot Access */
     NoAccess();
   }
-  if ( isset ($g_jrn)) {
-	  if (CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_SESSION['g_jrn']) == 0 ){
+  if ( isset ($p_jrn)) {
+	  if (CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn) == 0 ){
 	    /* Cannot Access */
 	    NoAccess();
 	    exit -1;
 	  }
-    } // if isset g_jrn
+    } // if isset p_jrn
 
 }
 // if show
@@ -84,24 +83,24 @@ if ( isset ($_GET['JRN_TYPE'] ) ) {
   $result=ShowJrn("user_jrn.php?JRN_TYPE=".$jrn_type);
    echo "<DIV class=\"u_subtmenu\">";
    echo $result;
-  ShowMenuJrnUser($_SESSION['g_dossier'],$_GET['JRN_TYPE'],$_SESSION['g_jrn']);
+  ShowMenuJrnUser($_SESSION['g_dossier'],$_GET['JRN_TYPE'],$p_jrn);
    echo "</DIV>";
  if ( $jrn_type=='NONE' )     include('user_action_gl.php');
  if ( $jrn_type=='SALDO_FIN') include ('user_action_fin.php');
 
 } else {
 
-  echo_debug("Selected is ".$_SESSION['g_jrn']);
+  echo_debug("Selected is ".$p_jrn);
   // Get the jrn_type_id
   include_once('jrn.php');
-  $JrnProp=GetJrnProp($_SESSION['g_dossier'],$_SESSION['g_jrn']);
+  $JrnProp=GetJrnProp($_SESSION['g_dossier'],$p_jrn);
   $jrn_type=$JrnProp['jrn_def_type'];
   echo_debug("Type is $jrn_type");
   echo_debug("Jrn_def_type = $jrn_type");
 
  echo '<div class="u_subtmenu">';
  echo ShowJrn("user_jrn.php?JRN_TYPE=".$jrn_type);
- ShowMenuJrnUser($_SESSION['g_dossier'],$jrn_type,$_SESSION['g_jrn']);
+ ShowMenuJrnUser($_SESSION['g_dossier'],$jrn_type,$p_jrn);
  echo '</div>';
 }
 
@@ -112,28 +111,28 @@ if ( $jrn_type=='FIN' )
 }
 
   // if a journal is selected show the journal's menu
-if ( $_SESSION['g_jrn'] != -1 ) {
+if ( $p_jrn != -1 ) {
  $result=ShowJrn( "user_jrn.php?JRN_TYPE=".$jrn_type);
   // Get the jrn_type_id
   include_once('jrn.php');
-  $JrnProp=GetJrnProp($_SESSION['g_dossier'],$_SESSION['g_jrn']);
+  $JrnProp=GetJrnProp($_SESSION['g_dossier'],$p_jrn);
   $jrn_type=$JrnProp['jrn_def_type'];
   // display jrn's menu
 
-   $menu_jrn=ShowMenuJrn($cn,$jrn_type);
+   $menu_jrn=ShowMenuJrn($cn,$jrn_type, $p_jrn);
    //      echo '<div class="searchmenu">';
    //   echo $result;
    echo $menu_jrn;
    //   echo '</DIV>';
    $g_dossier=$_SESSION['g_dossier'];
    $g_user=$_SESSION['g_user'];
-  // Execute Action for g_jrn
+  // Execute Action for p_jrn
  
   if ( $jrn_type=='VEN' )     include('user_action_ven.php');
   if ( $jrn_type=='ACH' )     include('user_action_ach.php');
   if ( $jrn_type=='FIN' )     include('user_action_fin.php');
   if ( $jrn_type=='OD ' )     include('user_action_ods.php');
-  } // if isset g_jrn
+  } // if isset p_jrn
 
 html_page_stop();
 ?>

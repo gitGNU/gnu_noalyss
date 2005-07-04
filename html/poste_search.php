@@ -71,7 +71,7 @@ if ( isset($_GET['filter'])) {
   // have to find what account are available
   $SqlCred="";
   // Load the property
-  $l_line=GetJrnProperty($cn,$_SESSION['g_jrn']);
+  $l_line=GetJrnProperty($cn,$_GET['p_jrn']);
   if ( strlen(trim ($l_line['jrn_def_class_cred']) ) > 0 ) {
     $valid_cred=split(" ",$l_line['jrn_def_class_cred']);
 

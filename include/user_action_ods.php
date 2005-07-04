@@ -36,7 +36,7 @@ $action=(isset($_GET['action']))?$_GET['action']:$_POST['action'];
 // action = new
 if ( $action == 'new' ) {
   // Check privilege
-  if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_SESSION['g_jrn']) != 2 )    {
+  if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_GET['p_jrn']) != 2 )    {
        NoAccess();
        exit -1;
   }
@@ -49,7 +49,7 @@ if ( $action == 'new' ) {
 	  // add a one-line calculator
 
 
-	  $r=FormODS($cn,$_SESSION['g_jrn'],$_SESSION['g_user'],$submit,null,false);
+	  $r=FormODS($cn,$_GET['p_jrn'],$_SESSION['g_user'],$submit,null,false);
 	  echo '<div class="u_redcontent">';
 	  echo $r;
 	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."<div>";
@@ -68,7 +68,7 @@ if ( $action == 'new' ) {
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout Poste">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver">';
 
-	  $r=FormODS($cn,$_SESSION['g_jrn'],$_SESSION['g_user'],$submit,$HTTP_POST_VARS,false,  $nb_number);
+	  $r=FormODS($cn,$_GET['p_jrn'],$_SESSION['g_user'],$submit,$HTTP_POST_VARS,false,  $nb_number);
 	  echo '<div class="u_redcontent">';
 	  echo $r;
 	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."<div>";
@@ -83,7 +83,7 @@ if ( $action == 'new' ) {
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout Poste">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver">';
 
-	  $r=FormODS($cn,$_SESSION['g_jrn'],$_SESSION['g_user'],$submit,$HTTP_POST_VARS,false,  $nb_number);
+	  $r=FormODS($cn,$_GET['p_jrn'],$_SESSION['g_user'],$submit,$HTTP_POST_VARS,false,  $nb_number);
 	  echo '<div class="u_redcontent">';
 	  echo $r;
 	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."<div>";
@@ -97,7 +97,7 @@ if ( $action == 'new' ) {
 	  $submit='<INPUT TYPE="SUBMIT" name="save" value="Confirmer">';
 	  $submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
 
-	  $r=FormODS($cn,$_SESSION['g_jrn'],$_SESSION['g_user'],$submit,$HTTP_POST_VARS,true,$nb_number);
+	  $r=FormODS($cn,$_GET['p_jrn'],$_SESSION['g_user'],$submit,$HTTP_POST_VARS,true,$nb_number);
 
 	// if something goes wrong, correct it
 	  if ( $r == null ) {
@@ -105,7 +105,7 @@ if ( $action == 'new' ) {
 	    $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout Poste">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver">';
 	    
-	    $r=FormODS($cn,$_SESSION['g_jrn'],$_SESSION['g_user'],$submit,$HTTP_POST_VARS,false,  $nb_number);
+	    $r=FormODS($cn,$_GET['p_jrn'],$_SESSION['g_user'],$submit,$HTTP_POST_VARS,false,  $nb_number);
 	  }
 	  echo '<div class="u_redcontent">';
 	  echo $r;
@@ -114,14 +114,14 @@ if ( $action == 'new' ) {
 	}
 	// Save the charge into database
 	if ( isset($_POST['save'] )) {
-	  $r=RecordODS($cn,$HTTP_POST_VARS,$_SESSION['g_user'],$_SESSION['g_jrn']);
+	  $r=RecordODS($cn,$HTTP_POST_VARS,$_SESSION['g_user'],$_GET['p_jrn']);
 	  // Get number of  lines
 	  $nb_number=$_POST["nb_item"];
 
 	  // submit button in the form
 	  $submit='<h2 class="info">Recorded</h2>';
 
-	  $r.=FormODS($cn,$_SESSION['g_jrn'],$_SESSION['g_user'],$submit,$HTTP_POST_VARS,true,  $nb_number,true);
+	  $r.=FormODS($cn,$_GET['p_jrn'],$_SESSION['g_user'],$submit,$HTTP_POST_VARS,true,  $nb_number,true);
 	  echo '<div class="u_redcontent">';
 	  echo $r;
 	  echo "</div>";
@@ -132,7 +132,7 @@ if ( $action == 'new' ) {
 }
 if ( $action == 'voir_jrn' ) {
   // Check privilege
-  if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_SESSION['g_jrn']) < 1 )    {
+  if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_GET['p_jrn']) < 1 )    {
        NoAccess();
        exit -1;
   }
@@ -155,8 +155,8 @@ echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit',
 ?>
 </form>
 <?
-  $sql=SQL_LIST_ALL_INVOICE." and jr_tech_per=".$current." and jr_def_id=".$_SESSION['g_jrn'] ;
-   $list=ListJrn($cn,$_SESSION['g_jrn'],$sql);
+  $sql=SQL_LIST_ALL_INVOICE." and jr_tech_per=".$current." and jr_def_id=".$_GET['p_jrn'] ;
+   $list=ListJrn($cn,$_GET['p_jrn'],$sql);
 
 
    echo $list;
@@ -166,7 +166,7 @@ echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit',
 //Search
 if ( $action == 'search' ) {
   // Check privilege
-  if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_SESSION['g_jrn']) <1 )    {
+  if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_GET['p_jrn']) <1 )    {
        NoAccess();
        exit -1;
   }
@@ -175,12 +175,12 @@ if ( $action == 'search' ) {
   $sessid=(isset ($_POST['PHPSESSID']))?$_POST['PHPSESSID']:$_GET['PHPSESSID'];
 
 // display a search box
-  $search_box=u_ShowMenuRecherche($cn,$_SESSION['g_jrn'],$sessid,$HTTP_POST_VARS);
+  $search_box=u_ShowMenuRecherche($cn,$_GET['p_jrn'],$sessid,$HTTP_POST_VARS);
   echo '<DIV class="u_redcontent">';
   echo $search_box; 
   // if nofirst is set then show result
   if ( isset ($_GET['nofirst'] ) )     {
-    $a=ListJrn($cn,$_SESSION['g_jrn'],"",$HTTP_POST_VARS);
+    $a=ListJrn($cn,$_GET['p_jrn'],"",$HTTP_POST_VARS);
     echo $a;
   }
   echo '</DIV>'; 

@@ -351,8 +351,8 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
     //internal code
 	// button  modify
     $r.="<TD>";
-    $r.=sprintf('<A class="detail" HREF="javascript:modifyOperation(\'%s\',\'%s\')" >%s</A>',
-		$row['jr_id'],$l_sessid,$row['jr_internal']);
+    $r.=sprintf('<A class="detail" HREF="javascript:modifyOperation(\'%s\',\'%s\',\'%s\')" >%s</A>',
+		$row['jr_id'], $l_sessid, $p_jrn, $row['jr_internal']);
     $r.="</TD>";
     // date
     $r.="<TD>";
