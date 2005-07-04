@@ -168,9 +168,9 @@ define ("JS_VIEW_JRN_DETAIL","<script language=\"javascript\">function viewDetai
 		}
 
 	</script>");
-define ("JS_VIEW_JRN_CANCEL","<script  language=\"javascript\" >function cancelOperation(p_value,p_sessid)
+define ("JS_VIEW_JRN_CANCEL","<script  language=\"javascript\" >function cancelOperation(p_value,p_sessid,p_jrn)
 		{
-			var win=window.open('annulation.php?jrn_op='+p_value+'&PHPSESSID='+p_sessid,'Annule','toolbar=no,width=400,height=400,scrollbars=yes,resizable=yes');
+			var win=window.open('annulation.php?p_jrn='+p_jrn+'&jrn_op='+p_value+'&PHPSESSID='+p_sessid,'Annule','toolbar=no,width=400,height=400,scrollbars=yes,resizable=yes');
 		}
 function RefreshMe() {
 window.location.reload();

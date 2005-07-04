@@ -39,11 +39,9 @@ if ( ! isset ( $_SESSION['g_dossier'] ) ) {
   exit -2;
 }
 
-if ( isset( $p_jrn )) {
-  $p_jrn=$p_jrn;
-  $_SESSION["p_jrn"]=$p_jrn;
-
-}
+if ( isset( $_GET['p_jrn'] )) {
+  $p_jrn=$_GET['p_jrn'];
+  }
 
  // Check privilege
  // CheckJrn verify that the user is not an admin
