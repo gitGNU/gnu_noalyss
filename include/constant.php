@@ -133,6 +133,20 @@ function SetItParent(p_ctl,p_value) {
 		}
 	
 }
+/* SetValue( p_ctl,p_value )
+/* p_ctl is the name of the control
+/* p_value is the value to set in
+*/
+function SetValue(p_ctl,p_value) 
+{
+
+	var f=document.getElementsByName(p_ctl);
+	for (var h=0; h < f.length; h++) {
+		f[h].value=p_value;
+		}
+	
+
+}
 	</SCRIPT>"
 );
 define ("JS_SHOW_TVA","<SCRIPT language=\"javascript\">

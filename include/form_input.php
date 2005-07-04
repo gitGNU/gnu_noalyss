@@ -129,27 +129,7 @@ function InputType($p_label,$p_type,$p_name,$p_value,$p_viewonly=false,$p_list=n
     return $r;
   }
 
-  // input type == js_search => button search
-  if ( strtolower($p_type)=="js_search") {
-    $l_sessid=$_REQUEST['PHPSESSID'];
-    $r=sprintf('<TD>
-         <INPUT TYPE="button" onClick=NewCard(\'%s\',\'%s\',\'%s\') value="New">
-         <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\') value="Search">
-            %s</TD><TD> 
 
-             <INPUT TYPE="Text" NAME="%s" VALUE="%s" SIZE="8">
-                 </TD>',
-	       $l_sessid,
-	       $p_list,
-	       $p_name,
-	       $l_sessid,
-	       $p_list,
-	       $p_name,
-	       $p_label,
-	       $p_name,
-	       $p_value 
-	       );
-  }
   // input type == js_concerned => button search for the concerned operations
   if ( strtolower($p_type)=="js_concerned") {
     $l_sessid=$_REQUEST['PHPSESSID'];
@@ -170,43 +150,7 @@ function InputType($p_label,$p_type,$p_name,$p_value,$p_viewonly=false,$p_list=n
    
   }
 
-  // input type == js_search_poste => button search for the account
-  if ( strtolower($p_type)=="js_search_poste") {
-    $l_sessid=$_REQUEST['PHPSESSID'];
-
-    if ( $p_list == null ) { // no filter
-    $r=sprintf('<TD>
-         <INPUT TYPE="button" onClick=SearchPoste(\'%s\',\'%s\') value="Search">
-            %s</TD><TD> 
-
-             <INPUT TYPE="Text" NAME="%s" VALUE="%s" SIZE="8">
-                 </TD>',
-	       $l_sessid,
-	       $p_name,
-	       $p_label,
-	       $p_name,
-	       $p_value 
-	       );
-
-    } else { // $p_list is not null, so we have a filter
-      $r=sprintf('<TD>
-         <INPUT TYPE="button" onClick=SearchPosteFilter(\'%s\',\'%s\',\'%s\') value="Search">
-            %s</TD><TD> 
-
-             <INPUT TYPE="Text" NAME="%s" VALUE="%s" SIZE="8">
-                 </TD>',
-		 $l_sessid,
-		 $p_name,
-		 $p_list,
-		 $p_label,
-		 $p_name,
-		 $p_value 
-		 );
-
-    }
-   
-  }
-
+ 
   // input type == js_tva
   if ( strtolower($p_type)=="js_tva") {
     if ( strlen(trim($p_label)) != 0 ) 
