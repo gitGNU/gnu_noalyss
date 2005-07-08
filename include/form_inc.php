@@ -20,7 +20,7 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 //$Revision$
-
+include_once("impress_inc.php");
 /* function EncodeForm
  * Purpose : 
  *          Encoding Form
@@ -104,6 +104,8 @@ if ( isset ($fr_id))   printf ('<INPUT TYPE="HIDDEN" NAME="fr_id" value="%s"',
     echo '<INPUT TYPE="submit" value="Enregistre" name="record">';
   }
   echo '<INPUT TYPE="submit" value="Ajoute une ligne" name="add_line">';
+  echo '<INPUT TYPE="submit" value="Efface ce formulaire" name="del_form">';
+
   echo "</FORM>";
 
 }
@@ -128,6 +130,23 @@ function ViewForm($p_cn,$p_sessid,$p_id) {
   $l_line=GetNumberLine($p_cn,$p_id);
   EncodeForm($l_line,$p_sessid,$array);
 
+}
+/* function ViewForm
+ * Purpose : Show the details of a form
+ * 
+ * parm : 
+ *	- $p_cn connection
+ *      - $p_id gives the formdef.fr_id
+ *      - sessid for the search window
+ * gen :
+ *	- none
+ * return: 
+ *	- none
+ *
+ */ 
+function DeleteForm($p_cn,$p_id) {
+  ExecSql($p_cn,"delete from form where fo_fr_id=$p_id");
+  ExecSql($p_cn,"delete from formdef where fr_id=$p_id");
 }
 /* function GetDataForm
  * Purpose :
@@ -218,7 +237,7 @@ function UpdateForm($p_cn,$p_array) {
     echo_debug ("UpdateForm $key = $element");
     ${"$key"}=$element;
   }
-  $Res=ExecSql($p_cn,"update formdef set fr_label='".$form_nom."' where fr_id=".$fr_id);
+  $Res=ExecSql($p_cn,"update formdef set fr_label='".FormatString($form_nom)."' where fr_id=".$fr_id);
   $Res=ExecSql($p_cn,"delete from form where fo_fr_id=".$fr_id);
   // Test les positions
   for ($i =0; $i <$line;$i++) {
@@ -243,6 +262,9 @@ function UpdateForm($p_cn,$p_array) {
       ${"text$i"}=FormatString(${"text$i"});
       ${"form$i"}=FormatString(${"form$i"});
       if ( ${"text$i"} != null ) {
+	if ( CheckFormula(${"form$i"}) == false ) 
+	  ${"form$i"}="!!!!!!! FORMULE INVALIDE ".${"form$i"};
+
 	${"form$i"}=(${"form$i"}==null)?"null":"'".${"form$i"}."'";
 	$sql=sprintf("insert into form (fo_fr_id,
                                   fo_pos,
@@ -252,7 +274,9 @@ function UpdateForm($p_cn,$p_array) {
                                     %d,
                                     '%s',
                                     %s)",
-		     $fr_id,${"pos$i"},${"text$i"},${"form$i"}
+		     $fr_id,${"pos$i"},
+		     ${"text$i"},
+		     ${"form$i"}
 		     );
 	$Res=ExecSql($p_cn,$sql);
       }
@@ -283,7 +307,7 @@ function AddForm($p_cn,$p_array) {
     echo_error("Nom ou ligne non défini");
     return;
   }
-  $sql="insert into formdef (fr_label) values ('".$form_nom."')";
+  $sql="insert into formdef (fr_label) values ('".FormatString($form_nom)."')";
   $Res=ExecSql($p_cn,$sql);
   $n=GetSequence($p_cn,"s_formdef");
 
@@ -291,7 +315,9 @@ function AddForm($p_cn,$p_array) {
       ${"text$i"}=FormatString(${"text$i"});
       ${"form$i"}=FormatString(${"form$i"});
       if ( ${"text$i"} != null ) {
-	${"form$i"}=(${"form$i"}==null)?${"form$i"}:"'".${"form$i"}."'";
+	//	${"form$i"}=(${"form$i"}==null)?${"form$i"}:"'".${"form$i"}."'";
+	${"form$i"}=(${"form$i"}==null)?"null":"'".${"form$i"}."'";
+	CheckFormula(${"form$i"});
 	$sql=sprintf("insert into form (fo_fr_id,
                                   fo_pos,
                                   fo_label,

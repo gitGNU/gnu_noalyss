@@ -50,12 +50,12 @@ class formulaire {
     $col=array();
     for ($i=0;$i<$Max;$i++) {
       $l_line=pg_fetch_array($Res,$i);
-      $col[]=ParseFormula($this->db,
-                   $l_line['fo_label'],
-                   $l_line['fo_formula'],
-			  $p_start,
-			  $p_end
-			  );
+	$col[]=ParseFormula($this->db,
+			    $l_line['fo_label'],
+			    $l_line['fo_formula'],
+			    $p_start,
+			    $p_end
+			    );
      
     } //for ($i
     $this->row=$col;

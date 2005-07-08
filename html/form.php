@@ -18,7 +18,6 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-/* $Revision$ */
 
 include_once ("ac_common.php");
 include_once ("user_menu.php");
@@ -52,6 +51,11 @@ if ( isset ($_POST["record"] )) {
   echo '<DIV class="ccontent">';
   AddForm($cn,$HTTP_POST_VARS);
   echo "</DIV>";
+}
+if ( isset ($_POST["del_form"]) ) {
+  echo '<DIV class="ccontent">';
+  DeleteForm($cn,$_POST['fr_id']);
+   echo "</DIV>";
 }
 
 ShowMenuComptaForm($_SESSION['g_dossier']);
@@ -94,6 +98,8 @@ if ( isset ($_POST["add_line"]) ) {
 if ( isset ($_POST["update"]) ) {
   echo '<DIV class="ccontent">';
   UpdateForm($cn,$HTTP_POST_VARS);
+    ViewForm($cn,$sessid,$_POST["fr_id"]);
+
   echo "</DIV>";
 }
 

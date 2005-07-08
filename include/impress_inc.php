@@ -718,10 +718,15 @@ function GetRappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_cent
  *	- array
  *
  *
- * NOTE: problem: the formulas don't take date range parameters into account....TODO.
- * --> I would like to get the sum of operations between two specified dates.
  */ 
 function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end) {
+  if ( CheckFormula($p_formula) == false) {
+    $aret=array('desc'=>$p_label.'  Erreur Formule!',
+		'montant'=>0);
+    return $aret;
+    
+  }
+
   if ( $p_start == $p_end ) 
     $cond=" j_tech_per = $p_start ";
   else
@@ -822,4 +827,24 @@ function GetFormulaValue($p_cn,$p_label,$p_formula,$p_cond)
   }
   return $aret;
 }
+/* function CheckFormula
+ **************************************************
+ * Purpose : Check if formula doesn't contain
+ *           php injection
+ *        
+ * parm : 
+ *	- string
+ * gen :
+ *	- 
+ * return: none : stop on error
+ */
+function CheckFormula($p_string) {
+  if ( ereg ("^((\[{0,1}[0-9]+\.*[0-9]*%{0,1}\]{0,1})+ *([+-\*/])* *(\[{0,1}[0-9]+\.*[0-9]*%{0,1}\]{0,1})*)*( *FROM=[0-9][0-0].20[0-9][0-9]){0,1}$",$p_string) == false)
+    {
+      return false;
+    } else {
+      return true;
+  }
+}
+
 ?>
