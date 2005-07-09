@@ -279,4 +279,9 @@ les numéros d'opérations et de pièce justificatives.
 <p>C'est à cause de cela, qu'il faut re-centraliser.
 
 </sect>
+<sect>J'ai toujours des timeouts
+<p>Soit vous augmentez le timeout de votre server http soit vous mettez l'option fsync=N dans
+le fichier de configuration de PostgreSql.
+
+</sect>
 </article>
