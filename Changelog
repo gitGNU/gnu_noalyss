@@ -3,6 +3,9 @@
   * html/index.php:
 	Now focus is on the Log In button
 
+	* include/form_input.php:
+	Solved OD jrn problem: variable e_accountX were empty after form save, and before form submit.
+
 2005-07-04  sparkyx  <sparkyx@eleven>
 
 	* html/annulation.php, include/constant.php, include/user_common.php:

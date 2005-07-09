@@ -1499,7 +1499,7 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
   $r.='<TABLE border="0">';
   $r.="<tr>";
   $r.="<th></th>";
-  $r.="<th>Code</th>";
+  $r.="<th>Compte</th>";
   $r.="<th>Poste</th>";
   $r.="<th>Montant</th>";
   $r.="<th>Crédit ou débit</th>";
@@ -1550,7 +1550,7 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
     $W->extra=$p_jrn;
     $W->extra2=$filter;
     //    $r.='<TR>'.InputType("","js_search_poste","e_account".$i,$account,$view_only,$filter);
-    $r.="<TR>".$W->IOValue("e_account".$i); 
+    $r.="<TR>".$W->IOValue("e_account".$i, $account); 
     //libelle
     $r.="<td> $lib </td>";
     //amount
