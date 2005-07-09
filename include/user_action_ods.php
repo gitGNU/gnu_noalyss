@@ -92,6 +92,8 @@ if ( $action == 'new' ) {
 
 
 	// View the charge and show a submit button to save it 
+  // TODO: the name 'view_invoice' should be changed to something more self-explaining, like
+  // 'submit_od', no? 
 	if ( isset ($_POST['view_invoice']) ) {
 	  $nb_number=$_POST["nb_item"];
 	  $submit='<INPUT TYPE="SUBMIT" name="save" value="Confirmer">';
@@ -137,7 +139,7 @@ if ( $action == 'voir_jrn' ) {
        exit -1;
   }
 
- // Show list of sell
+ // Show list of cells
   echo_debug ("user_action_ods.php");
  // Date - date of payment - Customer - amount
 ?>
