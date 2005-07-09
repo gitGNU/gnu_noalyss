@@ -25,9 +25,10 @@ BODY {
   color:red;
 
 }
-</style> 
+</style>
+<script src="scripts.js" type="text/javascript"></script>
 </head>
-<BODY onLoad="document.loginform.p_user.focus()">
+<BODY onLoad="SetFocus(\'login\',0)">
 <div class="remark">
  <p class="gras">Il est conseillé de ne PAS utiliser Internet Explorer.
  </p><p>
@@ -56,7 +57,7 @@ BODY {
 <TD><INPUT TYPE="PASSWORD" NAME="p_pass" tabindex="2"></TD>
 </TR>
 <TR>
-<TD COLSPAN=2 ALIGN=CENTER><INPUT TYPE=SUBMIT value="Log in"></TD>
+<TD COLSPAN=2 ALIGN=CENTER><INPUT TYPE=SUBMIT  NAME="login" value="Log in"></TD>
 </TR>
 </table>
 </TD></TR></TABLE>

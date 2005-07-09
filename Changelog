@@ -1,3 +1,8 @@
+2005-07-09 stan <stan@sauvages.be>
+
+  * html/index.php:
+	Now focus is on the Log In button
+
 2005-07-04  sparkyx  <sparkyx@eleven>
 
 	* html/annulation.php, include/constant.php, include/user_common.php:
