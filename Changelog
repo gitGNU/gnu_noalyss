@@ -5,6 +5,7 @@
 
 	* include/form_input.php:
 	Solved OD jrn problem: variable e_accountX were empty after form save, and before form submit.
+	Prevented operations with 0 debit/credit. 
 
 2005-07-04  sparkyx  <sparkyx@eleven>
 

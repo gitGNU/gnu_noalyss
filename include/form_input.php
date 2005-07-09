@@ -1472,8 +1472,8 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
       return null;
     else 
       $e_date=substr($l_date_start,2,8);
-  }
-
+  }    
+  
   $e_ech=(isset($e_ech))?$e_ech:"";
   $e_comment=(isset($e_comment))?$e_comment:"";
   // Save old value and set a new one
@@ -1600,6 +1600,15 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
     echo "<script> alert('$msg'); </script>";
     return null;
   }
+
+  // Verify that we have a non-null operation
+  if ($view_only==true and $sum_cred == 0)
+  {
+    $msg=sprintf("Montant null");
+    echo "<script> alert('$msg'); </script>";
+    return null;
+  }
+  
   return $r;
 
 
