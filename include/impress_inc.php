@@ -712,6 +712,8 @@ function GetRappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_cent
  *	- $p_cn connexion
  *      - $p_label
  *      - $p_formula
+ *      - $p_eval  true if we eval here otherwise the function returns
+ *                 a string which must be evaluated
  * gen :
  *	- none
  * return:
@@ -719,11 +721,13 @@ function GetRappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_cent
  *
  *
  */ 
-function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end) {
+function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true) {
   if ( CheckFormula($p_formula) == false) {
-    $aret=array('desc'=>$p_label.'  Erreur Formule!',
+    if ( $p_eval == true)
+      return array('desc'=>$p_label.'  Erreur Formule!',
 		'montant'=>0);
-    return $aret;
+    else
+      return $p_formula;
     
   }
 
@@ -760,13 +764,20 @@ function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end) {
     $i=$P->GetSolde($cond);
     $p_formula=str_replace($x,$i,$p_formula);
   }
-  $p_formula="\$result=".$p_formula.";";
-  echo_debug(__FILE__,__LINE__, $p_formula);
 
-  eval("$p_formula");
-  $aret=array('desc'=>$p_label,
-	      'montant'=>$result);
-  return $aret;
+  // $p_eval is true then we eval and returns result
+  if ( $p_eval == true) {
+    $p_formula="\$result=".$p_formula.";";
+    echo_debug(__FILE__,__LINE__, $p_formula);
+    
+    eval("$p_formula");
+    $aret=array('desc'=>$p_label,
+		'montant'=>$result);
+    return $aret;
+  } else {
+    // $p_eval is false we returns only the string
+    return $p_formula;
+  }
 }
 /* function GetFormulaValue
  * Purpose : Parse the formula contained in the fo_formula 
@@ -839,7 +850,24 @@ function GetFormulaValue($p_cn,$p_label,$p_formula,$p_cond)
  * return: none : stop on error
  */
 function CheckFormula($p_string) {
-  if ( ereg ("^((\[{0,1}[0-9]+\.*[0-9]*%{0,1}\]{0,1})+ *([+-\*/])* *(\[{0,1}[0-9]+\.*[0-9]*%{0,1}\]{0,1})*)*( *FROM=[0-9][0-0].20[0-9][0-9]){0,1}$",$p_string) == false)
+  // the ereg gets too complex if we want to add a test
+  // for parenthesis, math function...
+  // So I prefer remove them before testing
+  $p_string=str_replace("round","",$p_string);
+  $p_string=str_replace("abs","",$p_string);
+  $p_string=str_replace("(","",$p_string);
+  $p_string=str_replace(")","",$p_string);
+  // for  the inline test like $a=(cond)?value:other;
+  $p_string=str_replace("?","+",$p_string);
+  $p_string=str_replace(":","+",$p_string);
+  $p_string=str_replace(">=","+",$p_string);
+  $p_string=str_replace("<=","+",$p_string);
+  $p_string=str_replace(">","+",$p_string);
+  $p_string=str_replace("<","+",$p_string);
+  // eat Space 
+  $p_string=str_replace(" ","",$p_string);
+
+  if ( ereg ("^(\\$[a-zA-Z]*[0-9]*=){0,1}((\[{0,1}[0-9]+\.*[0-9]*%{0,1}\]{0,1})+ *([+-\*/])* *(\[{0,1}[0-9]+\.*[0-9]*%{0,1}\]{0,1})*)*(([+-\*/])*\\$([a-zA-Z])+[0-9]*([+-\*/])*)* *( *FROM=[0-9][0-0].20[0-9][0-9]){0,1}$",$p_string) == false)
     {
       return false;
     } else {
