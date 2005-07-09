@@ -1535,3 +1535,1568 @@
 	* addon/fonts/ZapfDingbats.afm, addon/fonts/php_Courier-Bold.afm, addon/fonts/php_Courier-BoldOblique.afm, addon/fonts/php_Courier-Oblique.afm, addon/fonts/php_Courier.afm, addon/fonts/php_Helvetica-Bold.afm, addon/fonts/php_Helvetica-BoldOblique.afm, addon/fonts/php_Helvetica-Oblique.afm, addon/fonts/php_Helvetica.afm, addon/fonts/php_Symbol.afm, addon/fonts/php_Times-Bold.afm, addon/fonts/php_Times-BoldItalic.afm, addon/fonts/php_Times-Italic.afm, addon/fonts/php_Times-Roman.afm, addon/fonts/php_ZapfDingbats.afm, addon/fonts/php_a0100131.afm, addon/fonts/php_a010013l.afm, doc/installation.sxw, doc/manual.sxw, doc/php.ini-minimum, html/admin_repo.php, html/calculator.js, html/calendar.js, html/central.php, html/compta.php, html/compute.js, html/dossier_prefs.php, html/enc_jrn.php, html/facturation.php, html/fiche.php, html/form.php, html/impress.php, html/index.html, html/jrn_add.php, html/jrn_detail.php, html/jrn_op_detail.php, html/jrn_search.php, html/jrn_update.php, html/line_update.php, html/login.php, html/logout.php, html/not_implemented.php, html/pcmn_update.php, html/poste_search.php, html/priv_user.php, html/rate_chg.php, html/send.php, html/send_jrn_pdf.php, html/send_poste_pdf.php, html/user_pref.php, html/user_sec.php, html/verif.php, html/win_detail_jrn.js, html/win_search_jrn.js, html/win_search_poste.js, sql/ac_dossier.sql, sql/ac_users.sql, sql/centralized.sql, sql/dos_pref.sql, sql/fiche.sql, sql/form.sql, sql/insert_pcmn.sql, sql/jnt_use_dos.sql, sql/journal.sql, sql/priv_user.sql, sql/struct-repository.sql, sql/struct.sql, sql/tmp_pcmn.sql, sql/user_pref.sql, sql/user_sec.sql, sql/version.sql, AUTHORS, COPYING, Faq, INSTALL, Todo, addon/class.ezpdf.php, addon/class.pdf.php, addon/data.txt, addon/fonts/Courier-Bold.afm, addon/fonts/Courier-BoldOblique.afm, addon/fonts/Courier-Oblique.afm, addon/fonts/Courier.afm, addon/fonts/Helvetica-Bold.afm, addon/fonts/Helvetica-BoldOblique.afm, addon/fonts/Helvetica-Oblique.afm, addon/fonts/Helvetica.afm, addon/fonts/Symbol.afm, addon/fonts/Times-Bold.afm, addon/fonts/Times-BoldItalic.afm, addon/fonts/Times-Italic.afm, addon/fonts/Times-Roman.afm, addon/readme.pdf, addon/readme.php, addon/ros.jpg, backup-db, cvs-set, install.sh, license.txt, log, setenv.sh, style.css:
 	Import in repository
 
+2005-07-09  sparkyx  <sparkyx@eleven>
+
+	* html/bilan.php, html/document/fr_be/bnb.form, html/document/fr_be/bnb.rtf:
+	TASK #4123 :
+	add a beta version of the bilan
+
+	* include/impress_inc.php:
+	TASK #4123 I need to improve ParseFormula and the checkFormula to be
+	able to use them in the bilan module
+
+	* doc/FAQ-fr.sgml: Update Documentation
+
+	* dev/reset.sql, dev/reset_seq_jrn.sql, dev/test_parse_formula.php, dev/README:
+	Add devlp script
+
+2005-07-08  sparkyx  <sparkyx@eleven>
+
+	* html/form.php, include/class_form.php, include/form_inc.php, include/impress_inc.php, doc/bnb.sxw:
+	Task #4402 : Security Problem
+	Problème est resolu grace à une procedure de check
+	Avantage : la validité des formules est directement vérifiée
+
+2005-07-05  sparkyx  <sparkyx@eleven>
+
+	* doc/bnb.sxw: Task #4123 Ajout Bilan
+
+2005-07-04  sparkyx  <sparkyx@eleven>
+
+	* Changelog: ChangeLog
+
+	* html/annulation.php, include/constant.php, include/user_common.php:
+	Task #4359 : Fix problem in annulation.php
+
+	* include/class_widget.php, include/form_input.php:
+	Fix problem in SearchPoste
+
+	* Changelog: ChangeLog
+
+	* include/constant.php, include/form_input.php: Task #4359 : MultiEcran
+
+	* Changelog: ChangeLog
+
+	* html/recherche.php, include/constant.php, include/user_menu.php:
+	Task #4359 : Multiecran
+
+	* Changelog: ChangeLog
+
+	* html/jrn_detail.php, html/user_jrn.php, include/class_widget.php, include/constant.php, include/fiche_inc.php, include/form_input.php, include/user_action_ach.php, include/user_action_fin.php, include/user_action_ods.php, include/user_action_ven.php:
+	Task #4359 : Multiecran
+
+	* Changelog: Changelog
+
+	* Changelog, doc/function.txt, doc/manuel-fr.sgml, include/ac_common.php, include/class_form.php, include/impress_inc.php:
+	Task #4124 : TVA declaration
+
+2005-07-04  stanpinte  <stanpinte@eleven>
+
+	* include/constant.php, include/impress_inc.php, include/user_action_ach.php, include/user_action_fin.php, include/user_action_ods.php, include/user_action_ven.php, include/user_common.php, include/user_menu.php, include/user_update.php, html/annulation.php, html/fiche_new.php, html/fiche_search.php, html/jrn_detail.php, html/jrn_op_detail.php, html/jrn_search.php, html/modify_op.php, html/poste_search.php, html/sec_pdf.php, html/user_jrn.php:
+	enleve la variable globale g_jrn, remplace par param HTTP p_jrn partout
+
+2005-07-01  stanpinte  <stanpinte@eleven>
+
+	* html/user_jrn.php: added comment
+
+2005-06-30  sparkyx  <sparkyx@eleven>
+
+	* doc/manuel-fr.sgml, html/form_csv.php, include/class_poste.php, include/impress_form.php, include/impress_inc.php, include/poste.php:
+	Task 4331 Improve Formula
+
+2005-06-29  sparkyx  <sparkyx@eleven>
+
+	* html/form.php: Fix unknown sessid (dependent of php's version)
+
+2005-06-24  stanpinte  <stanpinte@eleven>
+
+	* include/fiche_inc.php, include/form_input.php: Added comments
+
+2005-06-22  sparkyx  <sparkyx@eleven>
+
+	* Changelog: Changelog
+
+	* html/form_csv.php, html/form_pdf.php, include/class_form.php:
+	Task 4301 Form (html, pdf, csv) needs more test
+
+	* Changelog: Changelog
+
+	* doc/function.txt, html/form.php, html/user_impress.php, include/ac_common.php, include/constant.php, include/impress_form.php, include/impress_inc.php, include/user_menu.php:
+	Task 4301 Form (html, pdf, csv) needs more test
+
+2005-06-17  sparkyx  <sparkyx@eleven>
+
+	* Changelog: Changelog update
+
+	* include/user_common.php: task 3273: show the sign of the financial op
+
+	* include/jrn.php, include/user_common.php: Task 3273 : Change the look
+
+	* include/user_action_fin.php: Task 4280: cosmetic
+
+	* include/form_input.php: Bug 13431
+	Quote problem in the comment
+
+	* doc/install_windows_fr.sxw:
+	Add documentation for Windows installation
+
+2005-06-11  stanpinte  <stanpinte@eleven>
+
+	* html/fiche_search.php:
+	focus dans le textfield de la frame de recherche et focus sur le premier rsultat dans la frame de recherche
+
+2005-05-29  sparkyx  <sparkyx@eleven>
+
+	* doc/Schemaabrege1.pdf, doc/bnb.sxw: Task #4123 Ajout Bilan
+
+2005-05-07  sparkyx  <sparkyx@eleven>
+
+	* Changelog: Task 4111: Changelog
+
+	* FAQ-fr.txt, doc/FAQ-fr.sgml, doc/FAQ-fr.txt: task 4111: update doc
+
+	* FAQ-fr.txt, INSTALL-fr.txt, Changelog: Task 4111: Changelog
+
+	* doc/FAQ-fr.sgml, doc/FAQ-fr.txt, doc/function.txt:
+	task 4111: update doc
+
+	* html/admin/setup.php: Task 4111: remove debug info
+
+2005-05-06  sparkyx  <sparkyx@eleven>
+
+	* doc/INSTALL-fr.sgml: task 4111 Tipo
+
+	* html/index.php: Task 4111 : Warning about IE
+
+	* html/admin_repo.php: task 4111 Fix closed period in template
+
+	* html/style-light.css: task 4111 : Fix cosmetic for IE
+
+	* html/admin/sql/mod1/index.sql, html/admin/sql/mod1/schema.sql, html/admin/sql/mod1/sequence.sql, html/admin/sql/mod1/table.sql, html/admin/sql/account_repository/comment.sql, html/admin/sql/account_repository/data.sql, html/admin/sql/account_repository/schema.sql, html/admin/sql/account_repository/sequence.sql, html/admin/sql/account_repository/table.sql, html/admin/sql/dossier1/comment.sql, html/admin/sql/dossier1/constraint.sql, html/admin/sql/dossier1/data.sql, html/admin/sql/dossier1/schema.sql, html/admin/sql/dossier1/sequence.sql, html/admin/sql/dossier1/table.sql, html/admin/sql/mod1/comment.sql, html/admin/sql/mod1/constraint.sql, html/admin/sql/mod1/data.sql:
+	task 4111 : correct & improve sql script
+
+	* html/admin/setup.php: task 4111 : remove debug info
+
+	* include/constant.php, scripts/cleanup.sh, html/admin/setup.php:
+	Task 4111 Final test
+
+	* html/index.php: Task 4110 Javascript problem with IE
+
+	* html/modify_op.php: BUG 12985 Pas de mise à jour Payé / pas payé
+
+	* html/fiche_search.php, html/show_tva.php, html/stock.php, include/constant.php, include/form_input.php:
+	Task 4110 Javascript problem with IE
+
+	* FAQ-fr.txt, doc/FAQ-fr.sgml, doc/FAQ-fr.txt, doc/INSTALL-fr.sgml, doc/manuel-fr.sgml, INSTALL-fr.txt:
+	Update doc
+
+2005-05-05  stanpinte  <stanpinte@eleven>
+
+	* INSTALL-fr.txt: documented include path on windows
+
+	* INSTALL-fr.txt: Documented log db creation
+
+2005-05-05  sparkyx  <sparkyx@eleven>
+
+	* Changelog: Changelog
+
+2005-05-04  sparkyx  <sparkyx@eleven>
+
+	* include/fiche_inc.php: bug 12971
+
+	* include/fiche_inc.php: BUG 12971
+	A null name is now impossible for cards and card modele
+
+	* include/user_action_fin.php, include/poste.php, html/admin/sql/patch/upgrade4.sql:
+	task 3374 Solde compte en banque
+
+	* html/admin/setup.php: Previous version is lower than 4
+
+	* html/style-light.css, include/constant.php:
+	Fix u_redcontent in html/style-light.css
+	Fix Javascript prob.
+
+2005-04-29  sparkyx  <sparkyx@eleven>
+
+	* html/sec_pdf.php, html/user_sec.php, include/class_user.php:
+	Task 3839
+	Export PDF de la sécurité
+
+2005-04-27  sparkyx  <sparkyx@eleven>
+
+	* include/ac_common.php: Fix unset variable
+
+	* Changelog: changelog
+
+	* html/annulation.php: Message + explicite
+
+	* html/admin/setup.php: Bug 12702 : session_auto_start == false
+
+2005-04-21  stanpinte  <stanpinte@eleven>
+
+	* include/ac_common.php, include/form_input.php, html/style-light.css, html/user_jrn.php:
+	Added focus on date field in new financial form
+
+	* html/scripts.js, include/ac_common.php: Added scripts file
+
+	* html/style.css:
+	Fixed problem with absolute position when using big fonts
+
+	* html/jrn_csv.php, html/jrn_pdf.php, html/send_jrn_pdf.php, include/form_input.php, include/impress_inc.php, include/impress_jrn.php:
+	Fixed some small bugs
+
+	* scripts/add-db.sh: Made sure upgrade4.sql is processed on new file
+
+2005-04-09  sparkyx  <sparkyx@eleven>
+
+	* html/index.php: Add a warning about IE
+
+2005-04-03  sparkyx  <sparkyx@eleven>
+
+	* html/style.css, html/style-aqua.css: Fix theme
+
+2005-04-01  sparkyx  <sparkyx@eleven>
+
+	* include/ac_common.php: if debug is off do not open the log file
+
+	* html/central.php, html/jrn_update.php, html/pcmn_update.php, html/stock.php, include/user_menu.php:
+	Improve : selected cell in advanced menu
+
+	* html/admin/setup.php, include/class_user.php:
+	Bug Session.auto_start must be set to true
+
+2005-03-31  sparkyx  <sparkyx@eleven>
+
+	* Changelog: Changelog
+
+	* html/poste_search.php: Task 3954 Focus Popup menu
+
+	* html/annulation.php, html/modify_op.php, include/jrn.php:
+	Task 3778: upload document, remove uploaded document
+
+	* include/constant.php: Task 3953: Missing Menu
+
+	* html/fiche_new.php, html/fiche_search.php, html/jrn_search.php, html/line_update.php, html/modify_op.php, html/show_tva.php:
+	Task 3954
+	Popup Window has the focus
+
+	* html/line_update.php, html/pcmn_update.php: Task 3953 Missing Menus
+
+	* html/pcmn_update.php: Fix bug when deleting a "poste"
+
+	* html/jrn_add.php, html/jrn_detail.php, html/jrn_update.php: Task 3953
+	Add missing Menus
+
+	* html/admin/sql/patch/ac-upgrade4.sql: Fix problem version
+
+	* html/admin/setup.php, html/admin/sql/account_repository/data.sql, html/admin/sql/dossier1/data.sql, html/admin/sql/mod1/data.sql:
+	Fix problem of version the scherma version of the REL100A is 4 and no 3
+
+2005-03-29  stanpinte  <stanpinte@eleven>
+
+	* html/fiche.php: Fixed wrong variable
+
+	* html/annulation.php: Fixed operation annulation
+
+2005-03-28  stanpinte  <stanpinte@eleven>
+
+	* html/annulation.php: Fixed asecond bug
+
+	* html/annulation.php: Fixed a first bug
+
+2005-03-21  stanpinte  <stanpinte@eleven>
+
+	* html/jrn_detail.php, html/priv_user.php, html/sec_pdf.php, html/user_jrn.php, include/user_action_fin.php, scripts/add-db.sh, AUTHORS:
+	Debugged use of global vars.
+
+2005-03-15  sparkyx  <sparkyx@eleven>
+
+	* html/jrn_csv.php: Fix Bug for centralized jrn (export csv)
+
+	* html/admin/sql/account_repository/data.sql, html/admin/sql/dossier1/data.sql, html/admin/sql/mod1/data.sql, html/admin/sql/patch/ac-upgrade4.sql, html/admin/setup.php:
+	Fix bug in the update scripts
+
+2005-03-13  sparkyx  <sparkyx@eleven>
+
+	* Changelog: changelog
+
+	* doc/testing-scenario.txt: Testing scenario : init
+
+	* include/jrn.php, include/postgres.php:
+	Task 3778 remove old document when overwritting
+
+	* include/jrn.php, include/postgres.php, html/modify_op.php:
+	Task 3778 Add upload in operation detail
+
+	* html/fiche_search.php: task 3858 : missing arg to checkaction
+
+	* html/show_document.php: Task 3778 Fix security in show_document
+
+	* html/admin/sql/mod1/data.sql, html/admin/sql/mod1/schema.sql, html/admin/sql/patch/upgrade4.sql, html/admin/sql/account_repository/data.sql, html/admin/sql/account_repository/schema.sql, html/admin/sql/dossier1/data.sql, html/admin/sql/dossier1/schema.sql:
+	Fix : now compatible with psql 7.4
+
+	* html/priv_user.php, html/user_sec.php: task 3876 Filter the users
+
+2005-03-09  sparkyx  <sparkyx@eleven>
+
+	* html/admin/setup.php, addon/fonts/php_Helvetica-BoldOblique.afm, addon/fonts/php_Helvetica-Oblique.afm, addon/fonts/php_Helvetica.afm, addon/fonts/php_Symbol.afm, addon/fonts/php_Times-Bold.afm, addon/fonts/php_Times-BoldItalic.afm, addon/fonts/php_Times-Italic.afm, addon/fonts/php_Times-Roman.afm, addon/fonts/php_ZapfDingbats.afm, addon/fonts/php_a0100131.afm, addon/fonts/php_a010013l.afm, addon/fonts/Courier-Bold.afm, addon/fonts/Courier-BoldOblique.afm, addon/fonts/Courier-Oblique.afm, addon/fonts/Courier.afm, addon/fonts/Helvetica-Bold.afm, addon/fonts/Helvetica-BoldOblique.afm, addon/fonts/Helvetica-Oblique.afm, addon/fonts/Helvetica.afm, addon/fonts/Symbol.afm, addon/fonts/Times-Bold.afm, addon/fonts/Times-BoldItalic.afm, addon/fonts/Times-Italic.afm, addon/fonts/Times-Roman.afm, addon/fonts/ZapfDingbats.afm, addon/fonts/php_Courier-Bold.afm, addon/fonts/php_Courier-BoldOblique.afm, addon/fonts/php_Courier-Oblique.afm, addon/fonts/php_Courier.afm, addon/fonts/php_Helvetica-Bold.afm:
+	FIX the addon misplaced, the old install.sh copied it to the good place but now we do not use it anymore. So I had to move it
+
+2005-03-08  sparkyx  <sparkyx@eleven>
+
+	* Changelog: Update Changelog
+
+	* html/fiche_search.php, html/form.php, html/jrn_add.php:
+	task 3858: Fix little in cl_user::CheckAction
+
+2005-03-07  sparkyx  <sparkyx@eleven>
+
+	* html/admin/sql/patch/upgrade4.sql, html/bal_csv.php, html/central.php, html/dossier_prefs.php, html/fiche.php, html/fiche_csv.php, html/fiche_new.php, html/fiche_search.php, html/form.php, html/jrn_add.php, html/jrn_csv.php, html/jrn_detail.php, html/jrn_pdf.php, html/jrn_update.php, html/line_update.php, html/pcmn_update.php, html/print_balance.php, html/recherche.php, html/show_document.php, html/user_sec.php, include/balance.php, include/class_user.php, include/constant.php, include/user_common.php:
+	task 3858 : revision of the security correction & improvement
+
+2005-03-06  sparkyx  <sparkyx@eleven>
+
+	* Changelog: changelog
+
+	* html/show_document.php: Task 3778 : cleaning temp file
+
+	* include/user_common.php, html/show_document.php:
+	Task 3778 : show the upload document
+
+	* Changelog: changelog
+
+	* include/user_action_ach.php, include/user_action_ods.php, include/user_action_ven.php, include/user_common.php, html/admin/sql/patch/upgrade4.sql, include/class_widget.php, include/form_input.php, include/postgres.php, html/user_jrn.php:
+	Tasl 3778 : Add uploaded document for operation
+
+2005-03-06  stanpinte  <stanpinte@eleven>
+
+	* include/impress_poste.php: Disabled the all option.
+
+	* include/class_widget.php: Added disabled property to class widget
+
+	* Changelog: made script useful for other dbs, and file ids
+
+	* scripts/add-db.sh, html/central.php:
+	Fixed task 3838i (keep secundary menus when selecting secundary item
+
+2005-03-06  sparkyx  <sparkyx@eleven>
+
+	* html/admin/sql/patch/upgrade4.sql: Set version at the end
+
+2005-03-06  stanpinte  <stanpinte@eleven>
+
+	* scripts/add-db.sh: made script useful for other dbs, and file ids
+
+	* Changelog, include/user_menu.php, html/pcmn_update.php, html/user_advanced.php, html/user_jrn.php, html/jrn_update.php:
+	Fixed task 3838i (keep secundary menus when selecting secundary item
+
+2005-03-06  sparkyx  <sparkyx@eleven>
+
+	* include/form_input.php, include/postgres.php, include/user_action_ven.php, include/user_common.php:
+	change pg_exec by pg_query
+
+	* html/admin/setup.php: separator for win=;
+
+	* html/admin/setup.php: Fix problem when installing on windows
+
+	* doc/function.txt, doc/makedoc, html/central.php, html/dossier_prefs.php, html/enc_jrn.php, html/facturation.php, html/fiche.php, html/form.php, html/jrn_add.php, html/jrn_detail.php, html/jrn_update.php, html/line_update.php, html/pcmn_update.php, html/recherche.php, html/stock.php, html/user_advanced.php, html/user_compta.php, html/user_impress.php, html/user_jrn.php, html/user_pref.php, html/user_sec.php, include/user_menu.php:
+	removed obsolete files
+
+2005-03-06  stanpinte  <stanpinte@eleven>
+
+	* include/compta_menu.php, include/top_menu_compta.php:
+	Removed some files related to compta profile
+
+	* include/ac_common.php, html/jrn_add.php, html/jrn_detail.php, html/login.php, html/user_pref.php:
+	Removed references to p_profile variable
+
+	* html/index.php: Set focus directly on user field
+
+	* include/ac_common.php, html/login.php:
+	Removed references to p_profile variable
+
+	* html/recherche.php: Fixed bug in page 'Recherche'
+
+	* include/fiche_inc.php, include/form_input.php, include/stock_inc.php, include/user_common.php:
+	Corrected error: undefined PHPSESSID
+
+	* Changelog: added info
+
+2005-03-01  sparkyx  <sparkyx@eleven>
+
+	* Changelog: Changelog
+
+	* include/preference.php, include/central_inc.php, html/admin/sql/patch/upgrade4.sql:
+	parm_periode has now a new column to
+	check if a periode is centralized or only closed
+
+	* html/user_sec.php: fix bug due to session_register=off
+
+	* html/dossier_prefs.php: Fix bug due to session_regsiter = off
+
+	* html/rate_chg.php, html/send.php: Remove obsolete files
+
+2005-02-28  sparkyx  <sparkyx@eleven>
+
+	* Changelog: Changelog
+
+2005-02-27  sparkyx  <sparkyx@eleven>
+
+	* html/admin_repo.php, html/annulation.php, html/bal_csv.php, html/central.php, html/compta.php, html/compta_login.php, html/dossier_prefs.php, html/enc_jrn.php, html/fiche.php, html/fiche_csv.php, html/fiche_new.php, html/fiche_search.php, html/impress.php, html/jrn_add.php, html/jrn_csv.php, html/jrn_detail.php, html/jrn_op_detail.php, html/jrn_pdf.php, html/jrn_search.php, html/jrn_update.php, html/line_update.php, html/login.php, html/modify_op.php, html/pcmn_update.php, html/poste_csv.php, html/poste_pdf.php, html/poste_search.php, html/print_balance.php, html/priv_user.php, html/recherche.php, html/show_tva.php, html/stock.php, html/user_advanced.php, html/user_compta.php, html/user_impress.php, html/user_jrn.php, html/user_login.php, html/user_pref.php, html/user_sec.php, include/balance.php, include/class_user.php, include/impress_fiche.php, include/top_menu_compta.php, include/user_action_ach.php, include/user_action_fin.php, include/user_action_gl.php, include/user_action_ods.php, include/user_action_ven.php, include/user_menu.php:
+	Fix numerous bug and now PhpCompta can work with session_register sets to off
+
+	* html/admin/sql/account_repository/comment.sql, html/admin/sql/account_repository/constraint.sql, html/admin/sql/account_repository/data.sql, html/admin/sql/account_repository/schema.sql, html/admin/sql/account_repository/sequence.sql, html/admin/sql/account_repository/table.sql, html/admin/sql/dossier1/data.sql, html/admin/sql/dossier1/schema.sql, html/admin/sql/dossier1/sequence.sql, html/admin/sql/mod1/data.sql, html/admin/sql/mod1/schema.sql, html/admin/sql/mod1/sequence.sql, html/admin/sql/patch/upgrade4.sql, html/admin/setup.php:
+	Fix upgrade
+
+2005-02-26  sparkyx  <sparkyx@eleven>
+
+	* html/admin/setup.php: Remove debug
+
+	* include/ac_common.php: Fix html_page_start
+
+	* include/class_jrn.php, include/user_menu.php, include/ac_common.php:
+	Yannick Improve html_page_start
+	Fix prob with GetRow
+
+2005-02-26  stanpinte  <stanpinte@eleven>
+
+	* scripts/add-db.sh:
+	inserted example script to insert automatically a database
+
+	* scripts/cleanup.sh: added drop of mod1 db
+
+	* html/admin/setup.php: fixed regexp handling in include_path check
+
+2005-02-26  sparkyx  <sparkyx@eleven>
+
+	* html/admin/sql/dossier1/comment.sql, html/admin/sql/dossier1/data.sql, html/admin/sql/dossier1/index.sql, html/admin/sql/dossier1/schema.sql, html/admin/sql/dossier1/sequence.sql, html/admin/sql/dossier1/table.sql, html/admin/sql/mod1/comment.sql, html/admin/sql/mod1/constraint.sql, html/admin/sql/mod1/data.sql, html/admin/sql/mod1/schema.sql, html/admin/sql/mod1/sequence.sql, html/admin/sql/mod1/table.sql, html/login.php:
+	SQL
+
+2005-02-26  stanpinte  <stanpinte@eleven>
+
+	* html/admin/sql/account_repository/schema.sql: added comment
+
+	* install.sh, setenv.sh:
+	made mswindows compatible, and removed update checks.
+
+2005-02-26  sparkyx  <sparkyx@eleven>
+
+	* html/admin/setup.php: Sql Comment prob
+
+	* html/admin/sql/account_repository/data.sql: Upgrade password
+
+	* html/admin/sql/account_repository/data.sql, html/admin/sql/account_repository/schema.sql, html/admin/sql/dossier1/data.sql, html/admin/sql/mod1/schema.sql:
+	Fix SQL
+
+2005-02-26  stanpinte  <stanpinte@eleven>
+
+	* sql/dossier4/make-sql, sql/dossier4/constraint.sql, sql/dossier4/data.sql, sql/dossier4/schema.sql, sql/dossier4/sequence.sql, sql/dossier4/table.sql, sql/update/dossier_1.sql, sql/update/dossier_2.sql, sql/update/dossier_3.sql, sql/update/dossier_4.sql, sql/update/dossier_5.sql, sql/update/mod_1.sql, sql/update/mod_2.sql, sql/update/mod_3.sql, sql/update/mod_4.sql, sql/ac_dossier.sql, sql/ac_users.sql, sql/account_repository.sql, sql/centralized.sql, sql/demo.sql, sql/dos_pref.sql, sql/dump-db.sql, sql/fiche.sql, sql/form.sql, sql/insert_pcmn.sql, sql/jnt_use_dos.sql, sql/journal.sql, sql/jrn_action.sql, sql/mod-be.sql, sql/modele.sql, sql/priv_user.sql, sql/struct-repository.sql, sql/struct.sql, sql/theme.sql, sql/tmp_pcmn.sql, sql/tva_rate.sql, sql/user_pref.sql, sql/user_sec.sql, sql/version.sql:
+	moved all sql but 'log' into html base directory
+
+2005-02-26  sparkyx  <sparkyx@eleven>
+
+	* html/admin/sql/account_repository/data.sql: Fix
+
+2005-02-26  stanpinte  <stanpinte@eleven>
+
+	* install.sh: resurrected
+
+2005-02-26  sparkyx  <sparkyx@eleven>
+
+	* html/admin/sql/dossier1/data.sql: Fix problem of install
+
+2005-02-26  stanpinte  <stanpinte@eleven>
+
+	* scripts/cleanup.sh: added
+
+2005-02-26  sparkyx  <sparkyx@eleven>
+
+	* html/admin/sql/dossier1/comment.sql, html/admin/sql/dossier1/data.sql, html/admin/sql/dossier1/index.sql, html/admin/sql/dossier1/schema.sql, html/admin/sql/dossier1/sequence.sql, html/admin/sql/dossier1/table.sql, html/login.php, html/recherche.php, html/user_login.php, include/ac_common.php, include/class_user.php, include/form_input.php:
+	FIX install
+
+	* Changelog: Changelog
+
+	* html/admin/setup.php, html/admin/sql/dossier1/comment.sql, html/admin/sql/dossier1/constraint.sql, html/admin/sql/dossier1/data.sql, html/admin/sql/dossier1/make-sql, html/admin/sql/dossier1/schema.sql, html/admin/sql/dossier1/sequence.sql, html/admin/sql/dossier1/table.sql:
+	FIX install problem
+
+2005-02-22  sparkyx  <sparkyx@eleven>
+
+	* html/admin/sql/account_repository/data.sql, html/admin/sql/account_repository/schema.sql, html/admin/sql/account_repository/table.sql, html/admin/sql/dossier1/data.sql, html/admin/sql/dossier1/index.sql, html/admin/sql/dossier1/schema.sql, html/admin/sql/dossier1/sequence.sql, html/admin/sql/dossier1/table.sql, html/admin/sql/mod1/data.sql, html/admin/sql/mod1/function.sql, html/admin/sql/mod1/index.sql, html/admin/sql/mod1/schema.sql, html/admin/sql/mod1/sequence.sql, html/admin/sql/mod1/table.sql:
+	Update database schema
+
+	* Changelog: changelog
+
+	* html/admin/setup.php, include/stock_inc.php: IMPROVE stock
+
+2005-02-13  sparkyx  <sparkyx@eleven>
+
+	* Changelog: changelog
+
+	* html/admin/sql/patch/upgrade4.sql, html/dossier_prefs.php, html/jrn_csv.php, html/jrn_pdf.php, include/central_inc.php, include/class_jrn.php, include/impress_inc.php, include/impress_jrn.php:
+	Change for centralise to have the correct order, number for pj
+	Change printing for the operation id
+	update the patch sql for that
+
+2005-02-12  sparkyx  <sparkyx@eleven>
+
+	* html/admin/sql/patch/upgrade4.sql, html/admin_repo.php:
+	Fix bug in modele and database creation
+
+	* Changelog: changelog
+
+	* html/admin/sql/patch/ac-upgrade4.sql:
+	Add the patch for the account_repository database
+
+	* Changelog, html/priv_user.php: changelog
+
+	* html/admin/setup.php: IMPROVE setup
+
+	* html/admin/setup.php: IMPROVE : setup.php
+
+	* html/admin/setup.php: IMPROVE setup
+
+	* html/admin/sql/patch/upgrade4.sql: remove menu recherche
+
+	* html/admin/setup.php: IMPROVE : setup.php
+
+	* html/admin/sql/patch/upgrade4.sql: IMPROVE setup
+
+2005-02-08  sparkyx  <sparkyx@eleven>
+
+	* Changelog: changelog
+
+	* FAQ-fr.txt, INSTALL-fr.txt, html/central.php, include/central_inc.php, include/constant.php, install.sh:
+	Improve Doc
+
+	* html/admin/setup.php, doc/FAQ-fr.sgml, doc/FAQ-fr.txt, doc/INSTALL-fr.sgml, doc/manuel-fr.sgml:
+	IMPROVE installer
+
+	* html/admin/setup.php, html/admin/sql/patch/upgrade4.sql:
+	IMPROVE setup html based, ability to patch tested
+
+	* html/admin/setup.php, html/admin/sql/patch/upgrade4.sql:
+	IMPROVE setup html based, ability to patch
+
+2005-02-06  sparkyx  <sparkyx@eleven>
+
+	* Changelog: changelog
+
+	* sql/account_repository/comment.sql, sql/account_repository/constraint.sql, sql/account_repository/data.sql, sql/account_repository/function.sql, sql/account_repository/index.sql, sql/account_repository/make-sql, sql/account_repository/sequence.sql, sql/account_repository/table.sql, sql/account_repository/view.sql, sql/dossier1/comment.sql, sql/dossier1/constraint.sql, sql/dossier1/data.sql, sql/dossier1/function.sql, sql/dossier1/index.sql, sql/dossier1/make-sql, sql/dossier1/schema.sql, sql/dossier1/sequence.sql, sql/dossier1/table.sql, sql/dossier1/view.sql, sql/mod1/comment.sql, sql/mod1/constraint.sql, sql/mod1/data.sql, sql/mod1/function.sql, sql/mod1/index.sql, sql/mod1/make-sql, sql/mod1/sequence.sql, sql/mod1/table.sql, sql/mod1/view.sql:
+	File are now in html/admin/sql in order to work with the new installer setup.php
+
+	* include/ac_common.php, include/constant.php, include/postgres.php:
+	Improve dbconnect to permit setup.php to work
+
+	* include/jrn.php: Change the way the internal code is computed
+
+	* INSTALL-fr.txt, doc/INSTALL-fr.sgml: Update doc
+
+	* html/admin/setup.php, html/admin/sql/account_repository/comment.sql, html/admin/sql/account_repository/constraint.sql, html/admin/sql/account_repository/data.sql, html/admin/sql/account_repository/function.sql, html/admin/sql/account_repository/index.sql, html/admin/sql/account_repository/make-sql, html/admin/sql/account_repository/schema.sql, html/admin/sql/account_repository/sequence.sql, html/admin/sql/account_repository/table.sql, html/admin/sql/account_repository/view.sql, html/admin/sql/dossier1/comment.sql, html/admin/sql/dossier1/constraint.sql, html/admin/sql/dossier1/data.sql, html/admin/sql/dossier1/function.sql, html/admin/sql/dossier1/index.sql, html/admin/sql/dossier1/make-sql, html/admin/sql/dossier1/schema.sql, html/admin/sql/dossier1/sequence.sql, html/admin/sql/dossier1/table.sql, html/admin/sql/dossier1/view.sql, html/admin/sql/mod1/comment.sql, html/admin/sql/mod1/constraint.sql, html/admin/sql/mod1/data.sql, html/admin/sql/mod1/function.sql, html/admin/sql/mod1/index.sql, html/admin/sql/mod1/make-sql, html/admin/sql/mod1/schema.sql, html/admin/sql/mod1/sequence.sql, html/admin/sql/mod1/table.sql, html/admin/sql/mod1/view.sql, html/admin/variable.php:
+	NEW :
+	In order to get easier the installation and the upgrade of the database
+	a new module webbased has been created, the old version of install.sh
+	is now obsolete
+
+2005-02-04  sparkyx  <sparkyx@eleven>
+
+	* Changelog: changelog
+
+	* INSTALL-fr.txt, doc/INSTALL-fr.sgml, doc/function.txt, include/form_input.php, include/user_common.php, include/user_menu.php:
+	Improve the search : it is now possible to find all the operation related to a poste
+
+2005-02-03  sparkyx  <sparkyx@eleven>
+
+	* html/fiche_csv.php: Fix bug
+
+	* doc/INSTALL-fr.sgml: Update documentation
+
+	* Changelog: changelog
+
+	* html/jrn_csv.php: Fix bug : invalid function
+
+	* include/impress_fiche.php: Clean code
+
+	* doc/INSTALL-fr.sgml: Update Documentation
+
+2005-02-01  sparkyx  <sparkyx@eleven>
+
+	* Changelog: Changelog
+
+	* include/user_common.php: Fix bug in Search Menu
+
+	* html/fiche_csv.php: Change tab by coma
+
+	* Changelog: changelog
+
+	* include/class_attribut.php:
+	Printing of card is now completely correct
+
+	* Changelog: changelog
+
+	* INSTALL-fr.txt, doc/INSTALL-fr.sgml, html/fiche_csv.php, include/class_fiche.php, include/impress_fiche.php, include/postgres.php:
+	Printing of card is now completely correct
+
+2005-01-31  sparkyx  <sparkyx@eleven>
+
+	* Changelog: Changelog
+
+	* include/class_fiche.php: Fix bug in the printing of card :-)
+
+	* html/fiche_csv.php, include/class_fiche.php, include/impress_fiche.php:
+	Add Fiche print and export : a bug is still to be fixed
+
+2005-01-24  sparkyx  <sparkyx@eleven>
+
+	* Changelog: Change log
+
+	* sql/account_repository/comment.sql, sql/account_repository/function.sql, sql/account_repository/index.sql, sql/account_repository/view.sql, sql/dossier1/comment.sql, sql/dossier1/function.sql, sql/dossier1/index.sql, sql/dossier1/view.sql, sql/mod1/comment.sql, sql/account_repository/schema.sql:
+	*** empty log message ***
+
+	* include/user_menu.php: Add MenuAdmin function
+
+	* include/top_menu_compta.php: Code cleaning Delete Obsolete functions
+
+	* include/postgres.php: Modify DbConnect function
+
+	* html/style-light.css, html/user_login.php, html/priv_user.php, html/admin_repo.php:
+	Improve appearance
+
+	* style.css: Obsolete
+
+2005-01-20  sparkyx  <sparkyx@eleven>
+
+	* include/user_menu.php: Fix Access Key
+
+	* Changelog: changelog
+
+	* include/user_menu.php: Fix Access Key
+
+	* include/user_menu.php: Fix warning about ja_desc
+
+	* html/user_pref.php, include/class_fiche.php: Drop compta interface
+
+2005-01-19  stanpinte  <stanpinte@eleven>
+
+	* include/user_menu.php:
+	added tooltips, and hotkey for Jrn menus. (must still debug get_quick_key function
+
+2005-01-18  sparkyx  <sparkyx@eleven>
+
+	* include/impress_poste.php: Add poste name in impress.php
+
+2005-01-10  sparkyx  <sparkyx@eleven>
+
+	* Changelog: Changelog
+
+	* doc/manuel-fr.sgml: Improve doc
+
+	* include/ac_common.php:
+	Quote problem when php.ini not configured correctly
+
+	* include/class_balance.php, include/class_fiche.php: Improve code
+
+2005-01-04  sparkyx  <sparkyx@eleven>
+
+	* Changelog: Changelog
+
+	* html/fiche.php, html/impress.php, html/jrn_update.php, html/user_compta.php, html/user_impress.php, html/user_jrn.php, html/user_pref.php, html/user_sec.php, include/check_priv.php, include/class_user.php, include/compta_menu.php, include/jrn.php, include/poste.php, include/postgres.php, include/top_menu_compta.php, include/user_action_ach.php, include/user_action_fin.php, include/user_action_gl.php, include/user_action_ods.php, include/user_action_ven.php, include/user_menu.php:
+	Code cleaning : DbConnect function
+
+	* include/form_input.php: code cleaning : Function FormVenteView
+
+	* html/style-elegant.css, html/style-light.css: Improve style sheet
+
+	* html/stock.php, html/fiche_search.php, html/form.php, html/jrn_add.php, html/jrn_csv.php, html/jrn_detail.php, html/jrn_op_detail.php, html/jrn_pdf.php, html/jrn_search.php, html/login.php, html/modify_op.php, html/pcmn_update.php, html/poste_csv.php, html/poste_pdf.php, html/poste_search.php, html/print_balance.php, html/print_invoice.php, html/rate_chg.php, html/recherche.php, html/send.php, html/send_jrn_pdf.php, html/send_poste_pdf.php, html/show_tva.php, html/annulation.php, html/bal_csv.php, html/central.php, html/dossier_prefs.php, html/enc_jrn.php, html/facturation.php, html/fiche_new.php:
+	Code cleaning : DbConnect function
+
+2004-12-16  sparkyx  <sparkyx@eleven>
+
+	* Changelog: changelog
+
+	* html/enc_jrn.php, html/style-light.css, html/user_jrn.php, include/top_menu_compta.php:
+	Fix style for compta style
+
+2004-12-15  sparkyx  <sparkyx@eleven>
+
+	* Changelog: changelog
+
+	* html/admin_repo.php, html/annulation.php, html/central.php, html/compta.php, html/dossier_prefs.php, html/enc_jrn.php, html/facturation.php, html/fiche.php, html/fiche_new.php, html/fiche_search.php, html/form.php, html/impress.php, html/jrn_add.php, html/jrn_detail.php, html/jrn_op_detail.php, html/jrn_search.php, html/jrn_update.php, html/line_update.php, html/login.php, html/modify_op.php, html/pcmn_update.php, html/poste_search.php, html/priv_user.php, html/rate_chg.php, html/recherche.php, html/show_tva.php, html/stock.php, html/style-light.css, html/test.php, html/user_advanced.php, html/user_compta.php, html/user_login.php, html/user_pref.php, html/user_sec.php, include/compta_menu.php, include/postgres.php, include/top_menu_compta.php, include/user_menu.php:
+	Change   remove all the global variable, user $_SESSION instead
+	Improve  appearance for administrator
+
+2004-12-13  sparkyx  <sparkyx@eleven>
+
+	* Changelog: Changelog
+
+	* html/dossier_prefs.php, html/index.php, html/style-light.css, html/user_advanced.php, include/ac_common.php, include/top_menu_compta.php, include/user_menu.php:
+	Menu more logic
+
+	* html/bal_csv.php, include/balance.php, include/impress_jrn.php, html/print_balance.php:
+	NEW balance in HTML, PDF & CSV
+
+2004-12-12  sparkyx  <sparkyx@eleven>
+
+	* html/jrn_search.php, include/user_common.php:
+	change in search : order by date asc
+
+	* include/user_common.php:
+	fix bug in search : if no conditions everything is shown
+
+	* Changelog: Changelog
+
+	* html/recherche.php: Fix undefined variable g_jrn
+
+	* html/jrn_op_detail.php, include/user_common.php:
+	Improve appearance : no double line for concerned operation
+
+	* include/user_common.php: Improve appearance : ListJrn enlarge table
+
+	* html/jrn_search.php: fix c_internal undefined
+
+	* Changelog, include/user_common.php: Improve appearance
+
+	* Changelog: Changelog
+
+	* html/jrn_op_detail.php, html/style-light.css, include/jrn.php, include/user_common.php:
+	Improve appearance
+
+	* Changelog: Changelog
+
+	* include/user_menu.php: Add a central search
+
+	* include/user_common.php: Improve appearance
+	No button modify if the period is closed
+
+	* include/user_action_gl.php:
+	CheckJrn improved, for access to Grand Livre
+
+	* include/jrn.php: Improve appearance
+
+	* include/form_input.php: Add description for invoice
+
+	* include/check_priv.php: CheckJrn improved, for access to Grand Livre
+
+	* html/user_jrn.php: CheckJrn improved
+
+	* html/style-light.css: Improve appearance
+
+	* html/recherche.php: Add a central search
+
+	* html/modify_op.php: Improve appearance
+
+	* html/jrn_search.php:
+	Improve appearance and add search by internal code
+
+	* html/jrn_op_detail.php: Improve appearance
+
+2004-12-05  sparkyx  <sparkyx@eleven>
+
+	* include/user_action_ach.php, include/user_action_fin.php, include/user_action_ods.php, include/user_action_ven.php:
+	Change "voir" submenu for journaux"
+
+	* html/modify_op.php: Improve appearance
+
+2004-12-04  sparkyx  <sparkyx@eleven>
+
+	* include/user_action_gl.php, include/user_common.php:
+	Improve grand livre to have the same look at the others
+
+	* include/ac_common.php:
+	Improve html_start: correct encoding is now given
+
+	* include/class_user.php: Add new function to class user
+
+	* html/user_jrn.php, include/user_action_gl.php, include/user_menu.php:
+	Add Grand Livre
+
+2004-11-29  sparkyx  <sparkyx@eleven>
+
+	* html/balance.php, html/fiche_search.php, html/user_impress.php, include/balance.php, include/form_input.php, include/impress_jrn.php, include/user_action_ven.php, include/user_menu.php:
+	Fix cosmetics
+
+2004-11-26  sparkyx  <sparkyx@eleven>
+
+	* html/jrn_csv.php, html/jrn_pdf.php, html/poste_csv.php, html/poste_pdf.php, include/class_jrn.php, include/class_poste.php, include/class_user.php, include/impress_jrn.php, include/impress_poste.php:
+	Add csv and pdf for poste
+
+2004-11-25  sparkyx  <sparkyx@eleven>
+
+	* include/impress_jrn.php, doc/function.txt, html/jrn_csv.php, html/jrn_pdf.php, html/user_impress.php, html/user_jrn.php, include/ac_common.php, include/class_jrn.php, include/class_operation.php, include/class_user.php, include/class_widget.php, include/form_input.php, include/jrn.php, include/user_menu.php:
+	Add new print system and CSV for journaux
+
+	* sql/account_repository/data.sql, sql/account_repository/make-sql, sql/account_repository/schema.sql, sql/account_repository/table.sql, sql/dossier1/data.sql, sql/dossier1/make-sql, sql/dossier1/schema.sql, sql/mod1/make-sql:
+	Add Sql comment
+
+2004-11-23  sparkyx  <sparkyx@eleven>
+
+	* html/impress.php: restore impress.php
+
+	* html/user_impress.php, include/impress_form.php, include/impress_jrn.php, include/impress_poste.php, include/user_menu.php:
+	continue user menu
+
+	* doc/INSTALL-fr.sgml, html/user_impress.php, html/user_jrn.php, include/top_menu_compta.php, include/user_common.php, include/user_menu.php:
+	Start with user printing
+
+	* html/user_impress.php: initial file for user_impress.php
+
+	* html/annulation.php:
+	Annulation set the amount to 0 and mark the op. as invalid
+
+	* html/user_pref.php: Remove the compta profile
+
+	* html/annulation.php, html/style-elegant.css, html/style-light.css, html/test.php, html/user_jrn.php:
+	Improve test
+
+2004-11-06  sparkyx  <sparkyx@eleven>
+
+	* INSTALL-fr.txt, doc/INSTALL-fr.sgml, html/style-elegant.css, include/constant.php, include/debug.php, include/user_action_ven.php, include/user_menu.php:
+	change the adm. menu
+
+2004-11-04  sparkyx  <sparkyx@eleven>
+
+	* sql/log/log.sql: Log database for debugging purpose
+
+2004-10-26  sparkyx  <sparkyx@eleven>
+
+	* sql/mod1/fct.sql~, sql/mod1/make-sql~, sql/mod1/ac_dossier.sql, sql/mod1/ac_users.sql, sql/mod1/e, sql/mod1/fct.sql, sql/mod1/jnt_use_dos.sql, sql/mod1/log, sql/mod1/modeledef.sql, sql/mod1/schema.sql, sql/mod1/theme.sql:
+	Remove obsolete
+
+	* html/annulation.php, html/balance.php, html/central.php, html/pcmn_update.php, html/stock.php, include/user_common.php, include/user_menu.php:
+	Fix cosmetic and add delete from no centralized op
+
+2004-10-25  sparkyx  <sparkyx@eleven>
+
+	* html/admin_repo.php, html/impress.php, html/jrn_add.php, html/jrn_detail.php, html/jrn_update.php, html/priv_user.php, html/style-light.css, html/user_compta.php, html/user_jrn.php, html/user_login.php, html/user_sec.php, include/top_menu_compta.php, include/user_menu.php:
+	Improve interface fix some bugs & still unstable
+
+2004-10-10  sparkyx  <sparkyx@eleven>
+
+	* sql/update/dossier_5.sql:
+	Remove menu Impression & Recherche from jrn's menu
+
+	* html/style-aqua.css, html/style-elegant.css, html/style-light.css, html/style-test.css, install.sh, style-aqua.css, style-elegant.css, style-light.css:
+	Move styles files
+
+	* html/user_jrn.php, include/ac_common.php, include/form_input.php, include/user_menu.php, style-light.css:
+	Change appearance  !!
+
+	* html/dossier_prefs.php, html/fiche.php, html/index.php, html/user_advanced.php, html/user_jrn.php, html/user_pref.php, include/user_action_ach.php, include/user_action_fin.php, include/user_action_ods.php, include/user_action_ven.php, include/user_menu.php:
+	Interfaces changes
+
+2004-10-03  sparkyx  <sparkyx@eleven>
+
+	* doc/function.txt, html/index.php, html/user_jrn.php, include/ac_common.php, include/form_input.php, include/postgres.php, include/user_action_ach.php, include/user_action_fin.php, include/user_action_ods.php, include/user_action_ven.php, include/user_menu.php, style-light.css:
+	Change appearance --> do not work, do not use it !!
+
+	* Changelog, html/login.php, html/modify_op.php, html/pcmn_update.php, html/poste_search.php, html/print_balance.php, html/print_invoice.php, html/priv_user.php, html/rate_chg.php, html/send.php, html/send_jrn_pdf.php, html/send_poste_pdf.php, html/user_advanced.php, html/user_compta.php, html/user_jrn.php, html/user_sec.php, include/ac_common.php, include/check_priv.php, include/debug.php, include/fiche_inc.php, include/form_inc.php, include/form_input.php, include/impress_inc.php, include/jrn.php, include/postgres.php, include/preference.php, include/top_menu_compta.php, include/user_action_ach.php, include/user_action_fin.php, include/user_action_ods.php, include/user_action_ven.php, include/user_common.php, include/user_menu.php, include/user_update.php, sql/dossier1/constraint.sql, sql/dossier1/data.sql, sql/dossier1/make-sql, sql/dossier1/schema.sql, sql/dossier1/sequence.sql, sql/dossier1/table.sql, INSTALL-fr.txt, html/admin_repo.php, html/annulation.php, html/compta.php, html/compta_login.php, html/dossier_prefs.php, html/enc_jrn.php, html/fiche_new.php, html/fiche_search.php, html/impress.php, html/index.php, html/jrn_add.php, html/jrn_detail.php, html/jrn_op_detail.php, html/jrn_search.php, install.sh, style-light.css:
+	UNSTABLE do not use it !!
+
+	* sql/account_repository/make-sql, sql/dossier1/constraint.sql, sql/dossier1/data.sql, sql/dossier1/make-sql, sql/dossier1/schema.sql, sql/dossier1/sequence.sql, sql/dossier1/table.sql, sql/mod1/e, sql/mod1/fct.sql, sql/mod1/fct.sql~, sql/mod1/function.sql, sql/mod1/index.sql, sql/mod1/log, sql/mod1/make-sql, sql/mod1/make-sql~, sql/mod1/schema.sql, sql/mod1/view.sql:
+	New database files
+
+2004-09-22  sparkyx  <sparkyx@eleven>
+
+	* doc/INSTALL-fr.sgml, doc/FAQ-fr.sgml, doc/FAQ-fr.txt, doc/function.txt:
+	Improve doc
+
+	* sql/ac_dossier.sql, sql/ac_users.sql, sql/account_repository/constraint.sql, sql/account_repository/data.sql, sql/account_repository/make-sql, sql/account_repository/schema.sql, sql/account_repository/sequence.sql, sql/account_repository/table.sql, sql/dossier4/constraint.sql, sql/dossier4/data.sql, sql/dossier4/make-sql, sql/dossier4/schema.sql, sql/dossier4/sequence.sql, sql/dossier4/table.sql, sql/mod1/ac_dossier.sql, sql/mod1/ac_users.sql, sql/mod1/constraint.sql, sql/mod1/data.sql, sql/mod1/jnt_use_dos.sql, sql/mod1/make-sql, sql/mod1/modeledef.sql, sql/mod1/schema.sql, sql/mod1/sequence.sql, sql/mod1/table.sql, sql/mod1/theme.sql, sql/priv_user.sql, sql/theme.sql, sql/version.sql:
+	Separate sql instead of a big sql
+
+2004-07-06  sparkyx  <sparkyx@eleven>
+
+	* install.sh: bug 9574
+
+2004-06-12  sparkyx  <sparkyx@eleven>
+
+	* doc/INSTALL-fr.sgml: task 3106
+
+	* doc/INSTALL-fr.sgml: Update doc task 3106
+
+2004-06-06  sparkyx  <sparkyx@eleven>
+
+	* sql/update/dossier_3.sql, sql/update/dossier_4.sql, sql/update/mod_3.sql, sql/update/mod_4.sql:
+	set database version to 5
+
+	* INSTALL-fr.txt, install.sh: Set database version to 5
+
+	* setenv.sh: remove personal info
+
+	* Changelog, sql/account_repository.sql, sql/demo.sql, sql/mod-be.sql:
+	Change the Database Version
+
+	* include/debug.php: no debug info in prod
+
+2004-05-19  sparkyx  <sparkyx@eleven>
+
+	* doc/manuel-fr.sgml: task 3106
+
+	* include/preference.php: fix cosmetic bug in ShowPeriode
+
+2004-05-02  sparkyx  <sparkyx@eleven>
+
+	* html/test.php: bug 8757 missing file
+
+	* include/form_input.php:
+	Show the sum rounded to 2 decimal and prevent the record of invoice of 0
+
+	* html/annulation.php: Bug : forgot to include a file
+
+2004-04-28  sparkyx  <sparkyx@eleven>
+
+	* Changelog, html/annulation.php, html/pcmn_update.php, install.sh, style-light.css:
+	Cosmetic bugs
+
+2004-04-19  sparkyx  <sparkyx@eleven>
+
+	* doc/manuel-fr.sgml: Task 3106
+
+	* sql/account_repository.sql, include/constant.php, sql/demo.sql, sql/mod-be.sql, html/stock.php, include/preference.php:
+	Add security to Stock
+
+	* Changelog: Update
+
+	* html/modify_op.php, html/user_sec.php, include/check_priv.php, include/user_action_ach.php, include/user_action_fin.php, include/user_action_ods.php, include/user_action_ven.php, include/user_menu.php:
+	Bug 8597 Security major prob
+
+2004-04-15  sparkyx  <sparkyx@eleven>
+
+	* include/form_input.php: bug 8581
+
+2004-04-15  stanpinte  <stanpinte@eleven>
+
+	* include/user_menu.php: corrected typo
+
+2004-04-14  sparkyx  <sparkyx@eleven>
+
+	* Changelog: update
+
+	* html/send_poste_pdf.php, include/form_inc.php, include/impress_inc.php:
+	improve printing of card
+
+	* include/jrn.php: Fix bug is paid
+
+2004-04-13  sparkyx  <sparkyx@eleven>
+
+	* html/fiche_new.php: Fix javascript bug for new card
+
+	* include/user_action_ven.php, include/user_common.php: Fix order
+
+	* include/user_action_ods.php: No change
+
+	* include/user_action_fin.php: Add inline calculator
+
+	* include/impress_inc.php, include/user_action_ach.php:
+	Fix order in printing
+
+	* include/form_input.php:
+	Set filter for ODS and problem of rounded amount
+
+	* include/constant.php, html/poste_search.php: Set filter for ODS
+
+	* html/enc_jrn.php:
+	Fix problem of sequence when encoding in accountant mode
+
+	* doc/manuel-fr.sgml: Update doc
+
+2004-04-12  sparkyx  <sparkyx@eleven>
+
+	* include/form_input.php: Increase nb of default rows for ODS
+
+2004-04-11  sparkyx  <sparkyx@eleven>
+
+	* html/print_balance.php: Fix order in balance
+
+2004-04-10  sparkyx  <sparkyx@eleven>
+
+	* html/pcmn_update.php: Bug : invalid string make the pcmn_update fail
+
+	* include/form_input.php, include/user_action_fin.php:
+	bug 8531 - improve saldo present
+
+	* include/constant.php, include/form_input.php, include/user_common.php:
+	bug 8531
+
+	* html/print_invoice.php: bug 8532
+
+	* include/user_menu.php: Bugs cosmetic
+
+	* include/form_input.php, include/user_menu.php: Bug cosmetic
+
+2004-04-08  sparkyx  <sparkyx@eleven>
+
+	* Changelog: Update
+
+2004-04-07  sparkyx  <sparkyx@eleven>
+
+	* Faq, INSTALL-fr.txt: Update doc
+
+	* include/form_input.php: Cosmetic bugs
+
+	* include/fiche_inc.php, include/form_input.php, include/user_common.php:
+	Fix bugs
+
+	* Changelog: Update
+
+	* include/form_input.php, include/user_common.php:
+	Possibility to change vat of sell and expense
+
+	* include/constant.php, include/form_input.php, include/user_common.php:
+	New vat can be changed in sell
+
+2004-04-06  sparkyx  <sparkyx@eleven>
+
+	* include/user_common.php: Fix Bug in search by date
+
+	* include/fiche_inc.php: Fix bug
+
+	* include/user_menu.php: Default sign = for search by amount
+
+	* html/jrn_search.php: Default sign =
+
+	* html/send_jrn_pdf.php, include/impress_inc.php: Fix bug in printing
+
+	* html/user_pref.php: Fix password
+
+	* include/form_input.php:
+	Fix problem of multiple for with the financial
+
+	* sql/demo.sql, sql/mod-be.sql, include/user_common.php, sql/account_repository.sql, include/form_input.php, include/fiche_inc.php, html/fiche_search.php:
+	Fix problem with card update (account)
+
+	* include/ac_common.php: Update comment
+
+	* html/annulation.php: Fix prob with date
+
+	* doc/manuel-fr.sgml: Update doc
+
+	* html/annulation.php: Close the windows
+
+	* include/user_action_ods.php: Fix correct in ODS
+
+2004-04-05  sparkyx  <sparkyx@eleven>
+
+	* install.sh, setenv.sh: Fixed path for COMPTA_HOME
+
+2004-04-04  stanpinte  <stanpinte@eleven>
+
+	* html/send_jrn_pdf.php:
+	reverted: corrected missing path entry. fixes PDF output
+
+	* html/send_jrn_pdf.php: corrected missing path entry. fixes PDF output
+
+2004-04-04  sparkyx  <sparkyx@eleven>
+
+	* html/annulation.php, html/jrn_detail.php, include/form_input.php:
+	New : set date when cancel an operation
+
+2004-04-03  sparkyx  <sparkyx@eleven>
+
+	* sql/account_repository.sql, sql/demo.sql, sql/mod-be.sql:
+	db correction (fiche)
+
+	* Changelog: Update
+
+	* sql/demo.sql, sql/mod-be.sql:
+	Structure change  I hope for the last time
+
+	* Changelog: Update
+
+	* html/stock.php, include/jrn.php, include/postgres.php, include/stock_inc.php, include/user_common.php, style.css:
+	Stock included, can be improved
+
+	* include/form_input.php: test on a_vat
+
+	* sql/demo.sql: Database test
+
+	* include/central_inc.php, include/form_input.php, include/jrn.php, include/user_common.php, install.sh, sql/account_repository.sql:
+	Fix central - stock - improve doc
+
+	* INSTALL-fr.txt: Update doc
+
+	* sql/demo.sql: Update demo
+
+	* sql/account_repository.sql, sql/demo.sql, sql/mod-be.sql: update db
+
+	* doc/manuel-fr.sgml, html/annulation.php, include/constant.php, include/form_input.php, include/jrn.php, include/stock_inc.php, include/user_action_ach.php, include/user_action_fin.php, include/user_common.php, Changelog:
+	Fix bug in annulation, add check to validate number and card
+
+2004-04-02  sparkyx  <sparkyx@eleven>
+
+	* html/annulation.php, include/central_inc.php:
+	Change cancel an op : j_internal=='ANNULE' and jr_internal of the cancel operation = 'ANNULE'
+
+	* html/annulation.php, include/central_inc.php, include/jrn.php:
+	Change centralize and jr_internal rule
+
+	* html/modify_op.php, include/jrn.php: Payment
+
+	* include/stock_inc.php: Stock include file
+
+	* html/annulation.php, html/fiche_new.php, html/fiche_search.php, html/jrn_search.php, html/login.php, html/print_balance.php, html/stock.php, html/user_login.php, include/constant.php, include/form_input.php, include/jrn.php, include/postgres.php, include/user_common.php, include/user_menu.php, sql/account_repository.sql, sql/demo.sql, sql/mod-be.sql, FAQ-fr.txt, doc/FAQ-fr.txt, doc/manuel-fr.sgml, html/admin_repo.php, style-light.css:
+	Many little Bugs fixed
+
+2004-04-01  sparkyx  <sparkyx@eleven>
+
+	* include/form_input.php, include/user_action_fin.php, include/user_action_ods.php:
+	Improve appearance in user interface for ach, ven, fin and ods
+
+	* include/compta_menu.php, include/fiche_inc.php, include/form_input.php, include/jrn.php, include/user_common.php:
+	code cleaning
+
+	* include/form_inc.php, html/enc_jrn.php, html/jrn_add.php, html/jrn_detail.php, html/jrn_search.php, html/poste_search.php, html/win_detail_jrn.js, html/win_search_jrn.js, html/win_search_poste.js:
+	remove javascript file, the javascript are now in include/constant.php (define JS_)
+
+	* Changelog: Update
+
+	* sql/dump-db.sql: script for creating db files
+
+	* include/jrn.php: Adapt for new features (ODS, UpdateJrn...)
+
+	* sql/account_repository.sql, sql/demo.sql, sql/mod-be.sql: Update db
+
+	* html/balance.php: balance
+
+	* include/form_input.php, include/poste.php, include/user_action_ach.php, include/user_action_fin.php, include/user_action_ods.php, include/user_action_ven.php:
+	New Achat Bank saldo, misc op (ODS) some improv.
+
+	* include/user_menu.php: New Menu advanced Improve style
+
+	* include/user_common.php: Improve the list of op
+
+	* include/fiche_inc.php: New Search Poste improved
+
+	* include/constant.php: New Javascript
+
+	* include/ac_common.php: Improve isNumber
+
+	* html/user_advanced.php: New : Impress - account balance
+
+	* html/poste_search.php:
+	New : return to the parent window the selected account
+
+	* html/jrn_search.php: Improve & fix bug
+
+	* html/jrn_op_detail.php: Linked operation - Add - Remove
+
+	* html/impress.php: Use impress from user interface
+
+	* html/fiche.php: Used javascript from constant.php
+
+	* html/enc_jrn.php:
+	Improve appearance of ViewJrn - change update - linked operation
+
+	* html/annulation.php, html/modify_op.php, html/print_balance.php, html/stock.php, include/user_update.php:
+	New balance - update operation
+
+	* style-aqua.css, style-elegant.css, style-light.css, style.css:
+	Update style
+
+2004-03-30  sparkyx  <sparkyx@eleven>
+
+	* html/enc_jrn.php:
+	"Rapprochement " (linked between concerned operation)
+
+	* html/fiche_new.php: Fix bug in fiche_new
+
+	* html/jrn_search.php: Improve search
+
+	* sql/demo.sql: update db
+
+	* include/fiche_inc.php: Vat check
+
+	* doc/FAQ-fr.html, doc/FAQ-fr.pdf, doc/installation.sxw, doc/manuel-fr.pdf:
+	clean
+
+	* doc/FAQ-fr.sgml, doc/manuel-fr.sgml: update doc
+
+	* FAQ-fr.txt, INSTALL-fr.txt: update doc.
+
+	* Changelog: Changelog
+
+	* sql/account_repository.sql, sql/mod-be.sql:
+	Update db for stock and rapt
+
+	* include/user_common.php: Cancel operation & function  VerifyDate (,,)
+
+	* include/form_input.php, include/user_action_ach.php, include/user_action_fin.php:
+	check date and correct
+
+	* html/show_tva.php, include/constant.php, include/fiche_inc.php:
+	Add the possibility to select tva rate in the js windows
+
+	* include/central_inc.php: function isCentralize
+
+	* html/user_pref.php: clean session variable
+
+	* html/impress.php, html/fiche_new.php: fix cosmetic bug
+
+	* doc/FAQ-fr.txt: task 3106
+
+2004-03-29  sparkyx  <sparkyx@eleven>
+
+	* doc/manuel-fr.sgml: task 3106
+
+	* sql/account_repository.sql, sql/demo.sql, sql/mod-be.sql:
+	Change tva - use insert instead of copy
+
+2004-03-28  sparkyx  <sparkyx@eleven>
+
+	* include/form_input.php, include/user_action_fin.php: Add financial
+
+	* install.sh: Improve
+
+	* sql/mod-be.sql: Update modele
+
+2004-03-27  sparkyx  <sparkyx@eleven>
+
+	* Changelog: Changelog
+
+	* install.sh, sql/account_repository.sql, sql/demo.sql, sql/mod-be.sql:
+	Replace the sql script by database dump, a demo is now supplied
+
+	* doc/FAQ-fr.sgml, doc/INSTALL-fr.sgml: task 3106 - Php setting
+
+2004-03-26  sparkyx  <sparkyx@eleven>
+
+	* FAQ-fr.txt: task 3106
+
+	* Changelog: update Changelog
+
+	* sql/user_sec.sql: add index fk_ + add security card read/write
+
+	* include/form_input.php:
+	Add user interface for expense include/user_action_ach.php Improve inputType - add javascript and button - add FormAchat - add FormFin fix some bugs
+
+	* html/user_compta.php, html/user_advanced.php: Fix name
+
+	* html/print_invoice.php: Improve
+
+	* html/poste_search.php: Improve the accound search
+
+	* html/jrn_search.php: Fix bug ; double line
+
+	* html/fiche_search.php: Add search window for card (user interface)
+
+	* html/fiche.php: Improve security of card
+
+	* html/fiche_new.php: Add window for adding card (user interface)
+
+	* include/user_common.php:
+	Fix bug in ComputeVat function - insertJrnx return the j_id - add insertStock
+
+	* include/user_action_ven.php: Add correct button
+
+	* include/user_action_fin.php: Add user interface for financial
+
+	* include/user_action_ach.php: Add user interface for expense
+
+	* include/fiche_inc.php: Fix attribute order in card
+
+	* include/constant.php: security for card
+
+	* sql/jrn_action.sql: add index fk_
+
+	* sql/journal.sql: add index fk_  fix setting in jrn
+
+	* sql/jnt_use_dos.sql, sql/form.sql, sql/fiche.sql: add index fk_
+
+	* sql/dos_pref.sql: Fix problem in period
+
+	* sql/centralized.sql: add index fk_
+
+	* doc/manuel-fr.sgml: Task 3106
+
+	* doc/Makefile: add clean target
+
+	* doc/INSTALL-fr.sgml: fix name
+
+	* doc/FAQ-fr.sgml: Correct accent
+
+	* Todo: Update TODO list
+
+	* style-light.css: add span.odd span.even
+
+	* style.css: blank line
+
+	* README: fix name
+
+	* install.sh: improve installation => create a log
+
+2004-03-24  sparkyx  <sparkyx@eleven>
+
+	* Changelog: Changelog
+
+	* install.sh: Creation of the interface USER
+
+	* doc/FAQ-fr.sgml: New documentation
+	task 3106
+
+	* html/image/logo-wcompta, html/image/logo-wcompta.jpg:
+	name has changed
+
+	* doc/FAQ-fr.html, doc/FAQ-fr.pdf, doc/fiche.dia, doc/function.txt, doc/header-file.txt, doc/manuel-fr.pdf, doc/manuel-fr.sgml:
+	New documentation
+	task 3106
+
+	* sql/tva_rate.sql, sql/ac_users.sql, sql/dos_pref.sql, sql/fiche.sql, sql/journal.sql, sql/jrn_action.sql, include/user_common.php, include/preference.php, include/user_action_ach.php, include/user_action_ven.php, include/user_menu.php, include/ac_common.php, include/constant.php, include/fiche_inc.php, include/form_input.php, include/jrn.php, html/compta.php, html/enc_jrn.php, html/impress.php, html/jrn_op_detail.php, html/jrn_search.php, html/print_invoice.php, html/show_tva.php, html/user_advanced.php, html/win_search_jrn.js:
+	Creation of the interface USER
+
+	* style-light.css: new class div.u_redcontent
+
+2004-03-18  sparkyx  <sparkyx@eleven>
+
+	* Changelog: Update
+
+	* FAQ-fr.txt, INSTALL-fr.txt, doc/manuel-fr.pdf, doc/FAQ-fr.txt: doc
+
+	* include/form_input.php, include/user_action_ven.php:
+	New user interface
+
+	* include/ac_common.php, include/constant.php, include/fiche_inc.php, include/top_menu_compta.php:
+	New fiche system
+
+	* html/fiche.php, html/jrn_add.php, html/jrn_detail.php:
+	Update the fiche system
+
+	* html/line_update.php: Prob with multiple include
+
+	* doc/manual.sxw, doc/manuel-fr.sgml, doc/FAQ, doc/FAQ-fr.sgml, doc/FAQ.sgml, doc/Makefile, doc/makedoc:
+	Update doc
+
+	* doc/mod_function: Change default function header
+
+	* install.sh, setenv.sh: Fix problem with setenv
+
+2004-02-15  sparkyx  <sparkyx@eleven>
+
+	* doc/FAQ.sgml: Fix Cross Ref
+
+	* doc/Makefile: Add pdf creation
+
+2004-02-14  sparkyx  <sparkyx@eleven>
+
+	* doc/INSTALL-fr.sgml: FIX
+
+	* doc/INSTALL-fr.sgml: fix
+
+	* doc/Makefile, doc/FAQ, doc/FAQ.sgml: task #3106
+
+	* doc/INSTALL-fr.sgml: Task #3106
+
+	* INSTALL: Replace by doc/INSTALL-fr.sgml
+
+	* doc/FAQ.sgml: FAQ
+	Frequently Asked Questions (in french)
+
+2004-02-08  sparkyx  <sparkyx@eleven>
+
+	* doc/manual.sxw: webcompta -> phpcompta
+
+	* sql/journal.sql: integration Patch-092-3
+
+	* html/admin_repo.php, html/user_compta.php, install.sh, setenv.sh:
+	Patch 092-2
+	Fix problem with database creation in user mode
+
+	* doc/FAQ: Start a FAQ (french)
+
+	* include/user_menu.php: fix error when no folder are created
+
+	* install.sh: Fix syntax error Philippe Chauvat
+
+2004-01-01  sparkyx  <sparkyx@eleven>
+
+	* include/impress_inc.php: Fix bug in the Forms printing
+
+	* html/impress.php: Add comment
+
+	* html/jrn_detail.php: fix Debit-Credit
+
+2003-11-30  sparkyx  <sparkyx@eleven>
+
+	* sql/journal.sql: Continue work for user profile
+
+	* sql/version.sql: Database change
+
+	* sql/update/dossier_1.sql, sql/update/dossier_2.sql, sql/update/mod_1.sql, sql/update/mod_2.sql:
+	Patch for old database version
+
+	* include/form_input.php: Form for the user profile
+
+	* html/impress.php, html/jrn_add.php, html/jrn_detail.php, include/ac_common.php, include/constant.php, include/fiche_inc.php, include/jrn.php, include/user_action_ven.php:
+	Continue work for user profile
+
+	* style-elegant.css, style-light.css, style.css, style-aqua.css:
+	New style mtitle2
+
+	* install.sh:
+	New : install, check the version and patch the db if necessary
+
+2003-11-20  sparkyx  <sparkyx@eleven>
+
+	* Changelog: Change the name webcompta to PhpCompta
+	Improve user profile
+
+	* html/user_achat.php, html/user_banque.php, html/user_facture.php:
+	Unused
+
+	* html/image/logo7.jpg: Change the name webcompta to PhpCompta
+
+	* sql/jrn_action.sql:
+	Table which contains the actions for the journal's menu
+
+	* sql/ac_users.sql, sql/centralized.sql, sql/dos_pref.sql, sql/fiche.sql, sql/form.sql, sql/insert_pcmn.sql, sql/jnt_use_dos.sql, sql/journal.sql, sql/modele.sql, sql/priv_user.sql, sql/struct.sql, sql/theme.sql, sql/tmp_pcmn.sql, sql/user_pref.sql, sql/user_sec.sql, sql/version.sql, sql/ac_dossier.sql:
+	Change the name webcompta to PhpCompta
+
+	* include/user_action_ach.php, include/user_action_fin.php, include/user_action_ods.php, include/user_action_ven.php, include/user_menu.php:
+	All the actions for the user profiles will be in those files, it depends of the "journal" type
+
+	* include/poste.php, include/postgres.php, include/preference.php, include/top_menu_compta.php, include/ac_common.php, include/central_inc.php, include/check_priv.php, include/compta_menu.php, include/constant.php, include/debug.php, include/error.php, include/facture_inc.php, include/fiche_inc.php, include/form_inc.php, include/impress_inc.php, include/jrn.php, html/user_login.php, html/user_pref.php, html/user_sec.php, html/win_detail_jrn.js, html/win_search_jrn.js, html/win_search_poste.js:
+	change the name webcompta to phpcompta
+
+	* html/user_jrn.php:
+	 user_jrn.php is used to collect all the action related to the journal
+
+	* html/user_od.php:
+	Unused files : all user's action are done in user_jrn.php
+
+	* html/admin_repo.php, html/calculator.js, html/calendar.js, html/central.php, html/compta.php, html/compta_login.php, html/compute.js, html/dossier_prefs.php, html/enc_jrn.php, html/facturation.php, html/fiche.php, html/jrn_add.php, html/jrn_detail.php, html/jrn_op_detail.php, html/jrn_search.php, html/jrn_update.php, html/line_update.php, html/login.php, html/logout.php, html/not_implemented.php, html/pcmn_update.php, html/poste_search.php, html/priv_user.php, html/rate_chg.php, html/send.php, html/send_jrn_pdf.php, html/send_poste_pdf.php, html/form.php, Faq, INSTALL, install.sh:
+	Change the name webcompta to phpcompta
+
+2003-11-15  sparkyx  <sparkyx@eleven>
+
+	* Changelog: New Add database template
+	New Add 'user' type
+
+	* include/ac_common.php, include/check_priv.php, include/constant.php, include/postgres.php, include/top_menu_compta.php, include/compta_menu.php, include/user_menu.php, html/compta.php, html/dossier_prefs.php, html/enc_jrn.php, html/facturation.php, html/fiche.php, html/form.php, html/impress.php, html/index.html, html/jrn_add.php, html/jrn_detail.php, html/jrn_update.php, html/line_update.php, html/login.php, html/pcmn_update.php, html/user_pref.php, html/user_sec.php, html/central.php:
+	Adaptation for the user profile
+
+	* html/admin_repo.php: Adaptation for user profile
+	New feature : create database modele
+
+	* install.sh: New Feature : add database modele
+
+	* html/compta_login.php, html/index.php, html/user_achat.php, html/user_banque.php, html/user_compta.php, html/user_facture.php, html/user_login.php, html/user_od.php:
+	for different profile, it is added for the user profile
+
+	* style-aqua.css, style-elegant.css, style-light.css, style.css:
+	Improve appearance, add the user type
+
+	* sql/modele.sql: New Feature add database modele
+
+2003-10-31  sparkyx  <sparkyx@eleven>
+
+	* INSTALL, sql/ac_users.sql, style-light.css:
+	Improve a little bit the doc
+
+2003-10-24  sparkyx  <sparkyx@eleven>
+
+	* Changelog: Update ChangeLog
+
+	* README: For the help tx the mailing list
+
+	* html/index.html: Fix cosmetic
+
+	* html/image/elegant-l.jpg, html/image/elegant-n.jpg: Theme Elegant
+
+	* style-light.css: Fix Theme Light
+
+	* sql/theme.sql, style-light.css: Add light theme
+
+	* include/ac_common.php, style-elegant.css, style-aqua.css:
+	Fix cosmetic bug in theme-Should Verify with IE and Mozilla
+
+	* style-elegant.css, html/index.html, html/login.php, include/ac_common.php, include/top_menu_compta.php, sql/theme.sql, style-aqua.css:
+	Add Theme
+
+2003-10-19  sparkyx  <sparkyx@eleven>
+
+	* Changelog: update
+
+	* html/admin_repo.php, html/central.php, html/compta.php, html/dossier_prefs.php, html/enc_jrn.php, html/facturation.php, html/fiche.php, html/form.php, html/image/body-aqua.jpg, html/image/bouton.jpg, html/image/bouton2.jpg, html/image/bouton3.jpg, html/image/bouton4.png, html/image/clouds2.jpg, html/image/clouds3.jpg, html/image/freebtn1-b.jpg, html/image/freebtn1-l.gif, html/image/freebtn1-l.jpg, html/image/freebtn1-ll.gif, html/image/freebtn1.gif, html/image/freebtn21.gif, html/image/freebtn31.gif, html/image/freebtn91.gif, html/image/glaslake1.jpg, html/image/glaslake2.jpg, html/image/logo-wcompta, html/image/logo-wcompta.jpg, html/image/logo7.jpg, html/impress.php, html/index.html, html/jrn_add.php, html/jrn_detail.php, html/jrn_op_detail.php, html/jrn_search.php, html/jrn_update.php, html/line_update.php, html/login.php, html/logout.php, html/pcmn_update.php, html/poste_search.php, html/priv_user.php, html/rate_chg.php, html/send_jrn_pdf.php, html/send_poste_pdf.php, html/user_pref.php, html/user_sec.php, include/ac_common.php, include/central_inc.php, include/debug.php, include/fiche_inc.php, include/impress_inc.php, include/jrn.php, include/poste.php, include/postgres.php, include/top_menu_compta.php, sql/centralized.sql, sql/theme.sql, Changelog, install.sh, style-aqua.css, style.css:
+	Add feature : theme
+	Add theme aqua
+	Fix bug in centralized printing: need to drop and recreate table and REcentralize
+	Improve printing
+	Add documentation and code cleaning
+
+2003-10-10  sparkyx  <sparkyx@eleven>
+
+	* include/jrn.php: improve layout for encoding -> compta profile
+
+	* include/impress_inc.php: Improve layout
+
+	* html/send_jrn_pdf.php, html/send_poste_pdf.php, include/impress_inc.php, include/jrn.php, include/preference.php, html/enc_jrn.php, install.sh:
+	improve impression of pdf
+	change layout of encoding and viewing journal
+	Change the way to ask the period to print
+
+2003-10-04  sparkyx  <sparkyx@eleven>
+
+	* html/enc_jrn.php, html/verif.php, include/error.php, include/jrn.php, doc/mod_function:
+	Code cleaning in enc_jrn.php & fix bug in the amount
+	Fix bug in jrn.php about sessid
+
+2003-09-26  sparkyx  <sparkyx@eleven>
+
+	* include/postgres.php, include/top_menu_compta.php, doc/makedoc, html/admin_repo.php, html/central.php, html/compta.php, html/dossier_prefs.php, html/enc_jrn.php, html/facturation.php, html/fiche.php, html/form.php, html/impress.php, html/jrn_add.php, html/jrn_detail.php, html/jrn_update.php, html/line_update.php, html/login.php, html/pcmn_update.php, html/priv_user.php, html/rate_chg.php, html/user_pref.php, html/user_sec.php, include/ac_common.php:
+	remove html/verif.php
+	add ./makedoc for creating automatically doc
+	add doc/mod_function header for the functions
+	New GetUserProperties to get the user profile
+		-> replace the checkAdmin function
+
+2003-09-14  sparkyx  <sparkyx@eleven>
+
+	* html/enc_jrn.php: Fix problem with period
+
+2003-09-07  sparkyx  <sparkyx@eleven>
+
+	* html/enc_jrn.php: When date change the tech periode must also change
+
+	* html/enc_jrn.php: Fix bug when not g_jrn is defined
+
+2003-08-31  sparkyx  <sparkyx@eleven>
+
+	* sql/theme.sql: Starting with themes
+
+	* html/admin_repo.php, html/compta.php, html/index.html, html/login.php, html/priv_user.php, include/ac_common.php, include/top_menu_compta.php, install.sh, sql/ac_users.sql:
+	remove unused file
+	fix warning in the jrn file
+	fix bug in jrn table (jr_rapt text)
+	fix bug in jrn_search problem when checking if a number is valid
+	Improve the administration repository (user & folder)
+
+2003-08-17  sparkyx  <sparkyx@eleven>
+
+	* html/jrn_search.php: Fix filter for amount
+
+2003-08-16  sparkyx  <sparkyx@eleven>
+
+	* include/impress_inc.php: Fix the order by date
+
+	* html/send_poste_pdf.php: Remove the new page
+
+	* include/impress_inc.php: Fix problem in the order of GetDataPoste
+
+2003-08-15  sparkyx  <sparkyx@eleven>
+
+	* include/jrn.php: Fix problem in the search menu
+
+	* html/send_poste_pdf.php, include/impress_inc.php:
+	Perform printing : avoid empty account
+
+	* include/jrn.php, sql/journal.sql, cvs-set, html/enc_jrn.php, html/jrn_search.php, log:
+	remove unused file
+	fix warning in the jrn file
+	fix bug in jrn table (jr_rapt text)
+	fix bug in jrn_search problem when checking if a number is valid
+
+2003-07-31  sparkyx  <sparkyx@eleven>
+
+	* include/ac_common.php, include/central_inc.php, include/check_priv.php, include/constant.php, include/debug.php, include/facture_inc.php, include/fiche_inc.php, include/form_inc.php, include/impress_inc.php, include/jrn.php, include/poste.php, include/postgres.php, include/preference.php, include/top_menu_compta.php:
+	First release
+
+	* addon/fonts/ZapfDingbats.afm, addon/fonts/php_Courier-Bold.afm, addon/fonts/php_Courier-BoldOblique.afm, addon/fonts/php_Courier-Oblique.afm, addon/fonts/php_Courier.afm, addon/fonts/php_Helvetica-Bold.afm, addon/fonts/php_Helvetica-BoldOblique.afm, addon/fonts/php_Helvetica-Oblique.afm, addon/fonts/php_Helvetica.afm, addon/fonts/php_Symbol.afm, addon/fonts/php_Times-Bold.afm, addon/fonts/php_Times-BoldItalic.afm, addon/fonts/php_Times-Italic.afm, addon/fonts/php_Times-Roman.afm, addon/fonts/php_ZapfDingbats.afm, addon/fonts/php_a0100131.afm, addon/fonts/php_a010013l.afm, doc/installation.sxw, doc/manual.sxw, doc/php.ini-minimum, html/admin_repo.php, html/calculator.js, html/calendar.js, html/central.php, html/compta.php, html/compute.js, html/dossier_prefs.php, html/enc_jrn.php, html/facturation.php, html/fiche.php, html/form.php, html/impress.php, html/index.html, html/jrn_add.php, html/jrn_detail.php, html/jrn_op_detail.php, html/jrn_search.php, html/jrn_update.php, html/line_update.php, html/login.php, html/logout.php, html/not_implemented.php, html/pcmn_update.php, html/poste_search.php, html/priv_user.php, html/rate_chg.php, html/send.php, html/send_jrn_pdf.php, html/send_poste_pdf.php, html/user_pref.php, html/user_sec.php, html/verif.php, html/win_detail_jrn.js, html/win_search_jrn.js, html/win_search_poste.js, sql/ac_dossier.sql, sql/ac_users.sql, sql/centralized.sql, sql/dos_pref.sql, sql/fiche.sql, sql/form.sql, sql/insert_pcmn.sql, sql/jnt_use_dos.sql, sql/journal.sql, sql/priv_user.sql, sql/struct-repository.sql, sql/struct.sql, sql/tmp_pcmn.sql, sql/user_pref.sql, sql/user_sec.sql, sql/version.sql, AUTHORS, COPYING, Faq, INSTALL, Todo, addon/class.ezpdf.php, addon/class.pdf.php, addon/data.txt, addon/fonts/Courier-Bold.afm, addon/fonts/Courier-BoldOblique.afm, addon/fonts/Courier-Oblique.afm, addon/fonts/Courier.afm, addon/fonts/Helvetica-Bold.afm, addon/fonts/Helvetica-BoldOblique.afm, addon/fonts/Helvetica-Oblique.afm, addon/fonts/Helvetica.afm, addon/fonts/Symbol.afm, addon/fonts/Times-Bold.afm, addon/fonts/Times-BoldItalic.afm, addon/fonts/Times-Italic.afm, addon/fonts/Times-Roman.afm, addon/readme.pdf, addon/readme.php, addon/ros.jpg, backup-db, cvs-set, install.sh, license.txt, log, setenv.sh, style.css:
+	Import in repository
+
