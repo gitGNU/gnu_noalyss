@@ -1,24 +1,68 @@
 <?
+/*
+ *   This file is part of PhpCompta.
+ *
+ *   PhpCompta is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 2 of the License, or
+ *   (at your option) any later version.
+ *
+ *   PhpCompta is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with PhpCompta; if not, write to the Free Software
+ *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
+/* $Revision$ */
+// Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+
 include_once("ac_common.php");
 include_once("impress_inc.php");
+include_once("postgres.php");
 
+
+include ('class_user.php');
+/* Admin. Dossier */
+$cn=DbConnect($_SESSION['g_dossier']);
+
+$User=new cl_user($cn);
+$User->Check();
+
+// TODO a specific level of security for the "bilan" ???
+// Change must be done here
+if ( $User->admin == 0 ) {
+  if (CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],IMP) == 0 ){
+    /* Cannot Access */
+    NoAccess();
+  }
+}
+
+// A rtf file is generated
 header('Content-type: application/rtf');
  
  // It will be called downloaded.pdf
 header('Content-Disposition: attachment; filename="bilan.rtf"');
  
-include_once("postgres.php");
 
-// Open a connection
-$cn=DbConnect(4);
+// Variable
+// Start periode 
+$start=( isset ($_POST['from_periode']))?$_POST['from_periode']:-1;
+$end=( isset ($_POST['to_periode']))?$_POST['to_periode']:-1;
+
+// Variable if ok ?
+if ( $start*$end < 0 ) {
+  echo_error("Missing Variable start = $start end=$end");
+  exit (-1);
+ }
 // Open forms
 $bnb_form=fopen('document/fr_be/bnb.form','r');
 if ( $bnb_form == false) {
   echo 'Cannot Open';
   exit();
  }
-$start=40;
-$end=52;
 $col=array();
 
 // read forms line per line

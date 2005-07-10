@@ -136,7 +136,7 @@ class cl_user {
 
   function getJrn() {
   }
-/* function CheckAdmin
+/* function Admin
  **************************************************
  * Purpose : Check if an user is an admin
  *        
