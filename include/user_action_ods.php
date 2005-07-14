@@ -114,7 +114,7 @@ if ( $action == 'new' ) {
 	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."<div>";
 	  echo "</div>";
 	}
-	// Save the charge into database
+	// Save the change into database
 	if ( isset($_POST['save'] )) {
 	  $r=RecordODS($cn,$HTTP_POST_VARS,$_SESSION['g_user'],$_GET['p_jrn']);
 	  // Get number of  lines
