@@ -117,7 +117,7 @@ $sessid = $_REQUEST['PHPSESSID'];
 $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$sessid."','not','".$_GET['p_jrn']."')\">";
 echo '<DIV CLASS="ccontent">';
 echo '<H2 class="info"> Fiches </H2>';
-echo '<FORM ACTION="jrn_detail.php" METHOD="POST">';
+echo '<FORM ACTION="jrn_detail.php?p_jrn='.$_GET['p_jrn'].'" METHOD="POST">';
 echo '<INPUT TYPE="HIDDEN" NAME="JRN_UPD">';
 echo '<TABLE>';
 
