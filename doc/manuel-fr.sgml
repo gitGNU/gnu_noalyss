@@ -209,9 +209,10 @@ fiscale non déductible de votre bénéfice par exemple :versement anticipé d'impôt
 paiement de l'impôt, dépense non admise: partie non déductible de
 certains frais ( voiture, restaurant...).
 
-<sect3> TVA & impôt
+<sect3> TVA
+
 <p> Pour faire votre déclaration tva, vous pouvez utilisez les
-balances des comptes ou les rapports.
+balances des comptes ou  <ref id="rapport" name="les rapports"> .
 
 <p>
 Attention  NE PAS REPRENDRE LES
@@ -263,7 +264,7 @@ Ensuite, utilisez le compte 4519 ou 4118 avec un compte en banque quand vous
 recevrez ou paierez la TVA
 
 </sect3>
-
+</sect2>
 <sect2> France
 <p> Pas reçu de doc ni d'aide sur ce sujet désolé
 </sect2>
@@ -578,7 +579,7 @@ matériel.
 <p> Pensez à utilisez le dossier "demo" pour faire tout vos tests et
 découvrir PhpCompta.
 </sect1>
-<sect1>Opération financière
+<sect1>Opérations financières
 <p> En cas de paiement, il faut introduire le montant négatif.
 
 
@@ -593,7 +594,7 @@ Opération de rapprochement ???
 
 </sect1>
 </sect>
-<sect>Les Rapports
+<sect>Les Rapports<label id="rapport">
 <sect1>Introduction
 <p> Les rapports permettent de rapidement encoder des rapports.
 Par exemple, le total des ventes, le total encore à payer, la différence
@@ -603,9 +604,8 @@ entre les entrées et les charges... Il n'y a pas vraiment de limite.
 sur des soldes de comptes.
 
 <p>Très peu, voire aucun rapport, n'est fourni par défaut, vous devez
-les ajouter vous-même. Pour cela, vous allez sur le site de phpcompta;
-vous téléchargez les rapports qui vous intéressent et vous les
-installez.
+les ajouter vous-même. Pour cela, soit vous regardez dans le
+répertoire contrib/rapport soit vous allez sur le site de phpcompta.
 
 </sect1>
 <sect1>Syntaxe
