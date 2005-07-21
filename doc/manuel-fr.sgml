@@ -202,7 +202,7 @@ certains frais ( voiture, restaurant...).
 
 <sect3> TVA & impôt
 <p> Pour faire votre déclaration tva, vous pouvez utilisez les
-balances des comptes ou les formulaires.
+balances des comptes ou les rapports.
 
 <p>
 Attention  NE PAS REPRENDRE LES
@@ -574,13 +574,13 @@ Opération de rapprochement ???
 
 </sect1>
 </sect>
-<sect>Les Formulaires
+<sect>Les Rapports
 <sect1>Introduction
-<p> Les formulaires permettent de rapidement encoder des rapports.
+<p> Les rapports permettent de rapidement encoder des rapports.
 Par exemple, le total des ventes, le total encore à payer, la différence
 entre les entrées et les charges... Il n'y a pas vraiment de limite. 
 
-<p> Les formulaires permettent d'utilisent des formules (mod,round,*,-) 
+<p> Les rapports permettent d'utilisent des formules (mod,round,*,-) 
 sur des soldes de comptes.
 
 </sect1>
@@ -593,7 +593,7 @@ il faut utiliser le %;
 <item>Les soldes sont toujours positifs et vous ne savez pas 
 s'ils sont au débit ou au crédit.
 <item>Si vous souhaitez commencer à une autre période pour certains
-compte et donc avoir plusieurs intervalles pour un formulaire, vous
+compte et donc avoir plusieurs intervalles pour un rapport, vous
 devez utiliser l'option FROM=MM.YYYY (voir exemple). Ce genre d'option est 
 très utile pour par exemple les déclarations de TVA.
 </itemize>
@@ -601,10 +601,11 @@ très utile pour par exemple les déclarations de TVA.
 <p>
 Exemples de formule:
 <verb>
-Bénéfice brute [7%]-[6%]
-Impot estimé (sans compte les amortissements) ([7%]-[6%])/0.24
+Résultat d'exploitation brute round([7%]-[6%])
+Impot estimé (sans compter les amortissements) ([7%]-[6%])/0.24
 Total des comptes en banque [550%]
 Total TVA récolté depuis janvier 2005 : [4511]  FROM=01.2005
+Perte ou profit 	if ([7%]-[6%]>0)?"Benefice":"Perte"
 </verb>
 
 </sect1>

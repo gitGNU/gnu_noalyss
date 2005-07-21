@@ -1,5 +1,9 @@
 2005-07-10  sparkyx  <sparkyx@eleven>
 
+	* html/document/fr_be/bnb.rtf: Task #4123 correct formula
+
+	* Changelog: Changelog
+
 	* html/document/fr_be/bnb.form, html/document/fr_be/bnb.rtf, include/class_user.php, include/impress_bilan.php, html/bilan.php:
 	TASK #4123
 	Progress for bilan

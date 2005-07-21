@@ -24,8 +24,8 @@ include_once("class_widget.php");
 // after in pdf or cvs
 ////////////////////////////////////////////////////////////////////////////////
 if ( isset( $_POST['bt_html'] ) ) {
-include("class_form.php");
-  $Form=new formulaire($cn,$_POST['form_id']);
+include("class_rapport.php");
+  $Form=new rapport($cn,$_POST['form_id']);
   $Form->GetName();
   $array=$Form->GetRow( $_POST['from_periode'],
 			$_POST['to_periode']
@@ -43,7 +43,7 @@ include("class_form.php");
   echo "<table>";
   echo '<TR>';
   echo '<TD><form method="GET" ACTION="user_impress.php">'.
-    $submit->Submit('bt_other',"Autre Formulaire").
+    $submit->Submit('bt_other',"Autre Rapport").
     $hid->IOValue("type","form")."</form></TD>";
 
   echo '<TD><form method="POST" ACTION="form_pdf.php">'.
@@ -96,7 +96,7 @@ $ret=make_array($cn,"select fr_id,fr_label
                  from formdef
                  order by fr_label");
 if ( sizeof($ret) == 0 ) {
-  echo "Aucun Formulaire";
+  echo "Aucun Rapport";
   return;
  }
 ////////////////////////////////////////////////////////////////////////////////
@@ -107,7 +107,7 @@ echo '<FORM ACTION="?type=form" METHOD="POST">';
 echo '<TABLE><TR>';
 $w=new widget("select");
 $w->table=1;
-$w->label="Choississez le formulaire";
+$w->label="Choississez le rapport";
 print $w->IOValue("form_id",$ret);
 print '</TR>';
 print '<TR>';
