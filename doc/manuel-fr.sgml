@@ -602,6 +602,11 @@ entre les entrées et les charges... Il n'y a pas vraiment de limite.
 <p> Les rapports permettent d'utilisent des formules (mod,round,*,-) 
 sur des soldes de comptes.
 
+<p>Très peu, voire aucun rapport, n'est fourni par défaut, vous devez
+les ajouter vous-même. Pour cela, vous allez sur le site de phpcompta;
+vous téléchargez les rapports qui vous intéressent et vous les
+installez.
+
 </sect1>
 <sect1>Syntaxe
 <p>Quelques règles:
