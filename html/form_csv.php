@@ -21,10 +21,10 @@
 include_once("ac_common.php");
 include_once ("postgres.php");
 include ('class_user.php');
-include("class_form.php");
+include("class_rapport.php");
 include("impress_inc.php");
 header('Content-type: application/csv');
-header('Content-Disposition: attachment;filename="form.csv"',FALSE);
+header('Content-Disposition: attachment;filename="rapport.csv"',FALSE);
 
 /* Admin. Dossier */
 $cn=DbConnect($_SESSION['g_dossier']);
@@ -34,7 +34,7 @@ $User=new cl_user($cn);
 $User->Check();
 
 
-$Form=new formulaire($cn,$_POST['form_id']);
+$Form=new rapport($cn,$_POST['form_id']);
 $Form->GetName();
 $array=$Form->GetRow( $_POST['from_periode'],
 						$_POST['to_periode']

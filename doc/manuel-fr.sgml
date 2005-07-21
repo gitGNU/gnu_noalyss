@@ -42,13 +42,14 @@ regroupés dans un plan comptable. En général, le plan comptable se subdivise en 
 <item>7.  Les produits d'exploitations.
 </itemize>
 <item> Débit et crédit
-Les postes comptables sont en parties doubles, l'une est le débit l'autre est le crédit.
-Les actifs diminuent quand le crédit augmentent, les comptes de passifs diminuent quand
-le débit augmentent. Par exemple, si un compte en banque est débité il augmente, mais dans
+Les postes comptables sont en partie double, l'une est le débit l'autre est le crédit.
+Les actifs diminuent quand le crédit augmente, les comptes de passifs diminuent quand
+le débit augmente. Par exemple, si un compte en banque est débité il augmente, mais dans
 la vie courante, votre compte en banque est une dette que votre banque a envers vous, donc
 quand sa dette augmente on dit que le compte est crédité mais dans votre comptabilité, cela
 correspond à l'inverse: de votre point de vue, votre compte en banque est une créance sur 
-votre banque donc s'il augmente, il est débité !!!
+votre banque donc s'il augmente, il est débité !!! Si vous trouvez que c'est curieux, c'est
+tout-à-fait normal.
 </itemize>
 </p>
 </sect1>
@@ -68,7 +69,7 @@ Ce n'est pas le cas, de la gestion, la gestion consiste à gérer une entreprise o
 d'indépendant, ce qui inclut aussi la gestion du courrier, du personnel...
 
 En bref, la comptabilité est guidé par la législation tandis que la
-gestion par la gestion. Un programme de comptabilité peut rendre les
+gestion par la pratique. Un programme de comptabilité peut rendre les
 services d'un programme de gestion et parfois les programmes de
 gestion peut rendre les services d'un programme de comptabilité. La
 limite est floue et discutable.
@@ -77,7 +78,9 @@ limite est floue et discutable.
 <sect> Mémento de comptabilité
 <sect1> Introduction
 <p> Ce mémento sera vraiment très bref; si vous voulez en savoir
-plus, vous serez obligé d'aller chercher les livres adéquats. Je vous conseille vivement pour la Belgique "le Précis de comptabilisation de Joseph Antoie et Jean Paul Cornil. Ed. De Boeck Université".
+plus, vous serez obligé d'aller chercher les livres adéquats. 
+Je vous conseille vivement pour la Belgique 
+"le Précis de comptabilisation de Joseph Antoie et Jean Paul Cornil. Ed. De Boeck Université".
 
 <p>
 Cependant, sur le site de PhpCompta vous trouverez des liens qui
@@ -86,12 +89,15 @@ devraient vous aider à commencer cette matière.
 </sect1>
 <sect1> Le Bilan
 <p> L'un des objectif de la comptabilité est de pouvoir établir un bilan qui
-donnera une idée de la santé de la société.
+donnera une idée de la santé de la société. 
 
-Le bilan est en deux parties, la partie droite représente les comptes
+<p>Le bilan correspond aussi à une obligation légale
+
+<p>Le bilan est en deux parties, la partie droite représente les comptes
 d'actifs tandis que la partie gauche représente le passif. Il faut que
 les deux colonnes aient le même total. Ce qui est normal puisque toute
 opération se passe entre par opération de débit - crédit.
+
 </sect1>
 
 <sect1> Les comptes actifs / passifs <label id="comptesap">
@@ -138,7 +144,7 @@ Les comptes d'actifs sont les comptes comme les comptes en banque, les
 créances, le matériel que vous possédez. Ce sont les ressources.
 
 <p>
-Les comptes de passif sont les dettes, les emprunts. Ce sont les
+Les comptes de passif sont les dettes, les emprunts,.... Ce sont les
 Emplois.
 
 </sect1>
@@ -162,21 +168,23 @@ Charge   électricité
 </verb>
 Remarquez qu'ici on encode la facture, la reconnaissance de
 notre dette envers le fournisseur d'électricité et pas du tout le
-paiement! Ce paiement se fera en banque par l'écriture Fournisseur à
+paiement! Ce paiement se fera dans le journal financier
+ par l'écriture Fournisseur à 
 banque: la créance de votre fournisseur diminue notre compte en banque
 diminue. voir les explications de la section  <ref id="comptesap"
- name="comptes actifs passifs">
+ name="comptes actifs passifs">, tandis que la reconnaissance de dette
+se fera dans un journal d'achat.
 
 </sect2>
 <sect2> Les produits
 <p> C'est très simple, les produits sont tout simplement ce que vous
-vendez, gagnez comme intérêts financiers, bref, les produits c'est les
-créances que vous avez.
+vendez, gagnez comme intérêts financiers, bref, les produits; ce sont
+aussi les créances que vous avez.
 
-Le paiement de vos créances, devrait se faire avec les comptes de
+<p>Le paiement de vos créances, devrait se faire avec les comptes de
 banques et de débiteurs.  Cependant, il arrive souvent que l'on ne
 passe pas par des comptes débiteurs mais directement en faisant banque
-à produits...
+à produits... Ce qui devrait être évité.
 
 </sect2>
 <sect2> Les pièces justificatives.
@@ -187,6 +195,7 @@ passe pas par des comptes débiteurs mais directement en faisant banque
  soit celui du livre centralisé où l'opération a été inscrite. Il est important 
 que ce numéro vienne du livre centralisé puisque lors de la centralisation, les
 opérations sont réordonnées par date.
+
 </sect2>
 </sect1>
 <sect1> Fiscalité, TVA
@@ -261,32 +270,44 @@ recevrez ou paierez la TVA
 </sect1>
 <sect1>Ecriture de fin d'exercice comptable (Belgique)
 <p> Chaque année est composée de 13 périodes, les 12 premières font exactement
-un mois mais la 13ième est toujours sur un seul jour : le 31 décembre. C'est cette période qui sera la période de clôture de l'année comptable.
+un mois mais la 13ième est toujours sur un seul jour : le 31
+décembre. 
+C'est cette période qui sera la période de clôture de l'année comptable.
 
-<p>Pour commencer, changer vos préférences pour avoir cette période par défaut. Normalement vous ne devrez utiliser que le journal des Opérations diverses et
+<p>Pour commencer, changer vos préférences pour avoir cette période
+par défaut. 
+Normalement vous ne devrez utiliser que le journal des Opérations diverses et
 aucun autre.
 
 <p>Ensuite, imprimez une balance des comptes de l'année écoulée. 
 Cela fait, le reste est assez facile.
 
 <sect2> Les amortissements
-<p> Dans la comptabilité Belge, vous trouverez ce qu'il y a à amortir dans le poste 24xxx, imprimez ces fiches et calculez l'amortissement pour l'année, ensuite en opération diverse, vous l'imputerez ainsi
+<p> Dans la comptabilité Belge, vous trouverez ce qu'il y a à amortir
+dans le poste 24xxx, 
+imprimez ces fiches et calculez l'amortissement pour
+ l'année, ensuite en opération diverse, vous l'imputerez ainsi
 <verb>
 63xxx Dotation aux amortissement
 à
       2409xxxx Amortissement
 </verb>
 
-Evidemment les postes comptables peuvent un peu changer suivant la façon dont
-vous avez adapté votre plan comptable. Faites toutes même attention à ne pas 
-mélanger ce que vous avez acheté il y a deux ans et l'année passée. 
-Normalement, chaque élément faisant l'objet d'un amortissement 
-doit avoir un plan d'amortissement, c'est-à-dire un document qui décrit 
-ce qui est amorti, indique la valeur d'acquisition et quelle somme 
+Evidemment les postes comptables peuvent un peu changer suivant la
+façon dont 
+vous avez adapté votre plan comptable. Faites toutes même attention à
+ne pas  
+mélanger ce que vous avez acheté il y a deux ans et l'année passée.  
+Normalement, chaque élément faisant l'objet d'un amortissement  
+doit avoir un plan d'amortissement, c'est-à-dire un document qui
+décrit  
+ce qui est amorti, indique la valeur d'acquisition et quelle somme  
 sera amortie sur quelle années. 
 Le document est de format libre, le mieux est d'utiliser 
-une feuille du tableur d'OpenOffice.org pour résumer tout ce qui doit être amorti. 
-Ce document est appelé tableau d'amortissement. Attention les montants sont hors tva !!!!
+une feuille du tableur d'OpenOffice.org pour résumer tout ce qui doit
+être amorti.  
+Ce document est appelé tableau d'amortissement. Attention les montants
+sont hors tva !!!! 
 <verb>
 exemple :
 bureau valeur d'acquisition 500euros acheté en 2003
@@ -304,73 +325,66 @@ Total à amortir en 2003 = 100 (pour le bureau) + 400 (pour le PC)
 </verb>
 </sect2>
 <sect2> Les dépenses non admises
-<p> Dans la fiscalité belge, il s'agit entre autre de 50% des restaurants, 25% des frais de voiture (taxes de roulage, car wash...), des versements anticipés d'impôt et des paiements des impôts d'années antérieures.
+<p> Dans la fiscalité belge, 
+il s'agit entre autre de 50% des restaurants, 25% des frais de voiture
+(taxes de roulage, car wash...),  
+des versements anticipés d'impôt et des paiements des impôts d'années
+antérieures. 
 
-Vous devez donc utilisez le compte 67xxx pour diminuer les charges de leur partie non déductible
+Vous devez donc utilisez le compte 67xxx pour diminuer les charges de
+leur partie non déductible 
 </sect2>
 <sect2>Reclassement des Charges, Produits et Dettes
-<p> Il faut tout d'abord retrouver toutes les fournisseurs non payés au 31 décembre et vérifier qu'ils n'ont pas été payés dans  le courant de janvier ou de février. Si c'est le cas on aura un reclassement de dettes, sinon on devra penser que la dette a été payé par le gérant ou que la dette est toujours due. Cela doit se règler au cas par cas.
+<p> Il faut tout d'abord retrouver toutes les fournisseurs non payés
+au 31 décembre  
+et vérifier qu'ils n'ont pas été payés dans  le courant de janvier ou
+de février.  
+Si c'est le cas on aura un reclassement de dettes, sinon on devra
+penser  
+que la dette a été payé par le gérant ou que la dette est toujours
+due.  
+Cela doit se règler au cas par cas.
 
-Il faut aborder la régularisation des comptes de charges et des produits (comptes 490, 491, 492, ,493) , les dettes supérieures à un an échéant dans l'année... (doit être complèté).
-</sect2>
+Il faut aborder la régularisation des comptes de charges et des
+produits (comptes 490, 491, 492, ,493) , les dettes supérieures à un
+an échéant dans l'année... (doit être complèté).  </sect2>
 
 <sect2>Les variations de stocks
-<p>En fin d'année, il faut faire l'inventaire du stocks. Soit on a plus de marchandise que ce qu'il est inscrit dans notre comptabilité, on aura alors une réduction de charge (340 à 6094) soit on aura moins de marchandise que prévu, dans ce cas il y aura une augmentation des charges (6094 à 340). (INCOMPLET)
+<p>En fin d'année, il faut faire l'inventaire du stocks. Soit on a
+plus de marchandise que ce qu'il est  
+inscrit dans notre comptabilité, on aura alors une réduction de charge
+(340 à 6094) soit on aura moins de marchandise que 
+prévu, dans ce cas il y aura une augmentation des charges (6094 à
+340). (INCOMPLET) 
 
 </sect2>
 <sect2>Compte de l'exploitant
-<p>Certaines dépenses ont été payées par le gérant ou l'administrateur en liquide. Donc ces paiements ne figureront pas dans les extraits de compte de la banque. La seule façon de faire est d'utiliser les comptes 4890 dans le cas d'une dette envers le gérant ou 4160 dans le cas d'une créance sur le gérant. Il faut donc solder ces comptes et constater la dette ou la créance.
+<p>Certaines dépenses ont été payées par le gérant ou l'administrateur en liquide. 
+Donc ces paiements ne figureront pas dans les extraits de compte de la banque. 
+La seule façon de faire est d'utiliser les comptes 4890 dans le cas d'une dette envers 
+le gérant ou 4160 dans le cas d'une créance sur le gérant. 
+Il faut donc solder ces comptes et constater la dette ou la créance.
 
 
 </sect2>
 <sect2> Affectation du résultat
-<p>La dernière étape avant le bilan: affecter le résultat de l'exercice, que ce soit un bénéfice ou une perte
+<p>La dernière étape avant le
+ bilan: affecter le résultat de l'exercice, que ce soit un bénéfice ou
+une perte. Vous pouvez utiliser l'impression -> bilan pour vérifier,
+il ne peut pas y avoir de différences entre le total du passif et le
+total de l'actif. S'il y en a une, elle correspond souvent à une perte
+ou un bénéfice.
 
 </sect2>
 </sect1>
 <sect1>Salaire et Compte de gérant
-<p>Le gérant utilisera les comptes 4890 et 4160 pour gérer l'argent qu'il prélève ou qu'il avance à sa société. Ces comptes peuvent aussi être utilisé lors du paiement des salaires. Il est important de rappeler qu'en Belgique, il est nécessaire de payer le précompte professionnel.
-
-</sect1>
-</sect>
-<sect> Les modes
-<p>
-Dans le menu préférence, il existe deux sortes d'interface que vous pouvez utiliser,
-</p>
-<sect1>Le mode comptable
-<p>
-Dans ce cas, vous verrez votre comptabilité comme un comptable s'attend à la voir
-avec des postes comptables, des écritures comptables impliquant des
-débits et des crédits.
-
-Vous aurez accès à votre comptabilité de façon "brute" avec beaucoup
-moins de contrôle donc plus de risques de "mal encodé"; l'une des
-règles comptables est l'irréversibilité des écritures, si vous avez
-mal encodé, vous devez introduire l'écriture comptable inverse pour
-corriger, pensez à mettre la mention "correction d'erreur"
-</sect1>
-<sect1>Le mode utilisateur
-<p>
-Dans ce cas, vous verrez votre comptabilité comme un utilisateur, facture à payer, facture à encoder...
-
-C'est le profil par défaut des utilisateurs que vous créerez, sans
-formation comptable particulière  , l'autre
-profil ne pourrait que vous perturbez, il s'agit pourtant de la même chose mais vue différemment.
-
-Certaines opérations ne sont cependant possible que dans le profil comptable, il s'agit d'opérations
-peu fréquentes et qui demande une réelle connaissance de ce domaines pour être encodés correctement
-par exemple une augmentation de capital, une reprise d'amortissement,
-écriture d'ouverture d'exercice...
-
-Les valeurs des articles (vente ou achat) sont dans les fiches mais
-peuvent être changé lors de la création d'une opération de vente ou
-d'achat. Les taux de tva aussi sont dans les fiches. Dans la version
-1.0.0, il ne sera pas possible de la changer lors de la création de
-l'opération.
-
-A chaque taux de tva correspond un poste comptable. Pour faire une
-déclaration, il suffit d'avoir la somme de ce poste pour la période.
-
+<p>Le gérant utilisera les comptes 4890 et 4160 pour gérer l'argent
+qu'il prélève ou  
+qu'il avance à sa société. Ces comptes peuvent aussi être utilisé lors
+du 
+ paiement des salaires. Il est important de rappeler qu'en Belgique,
+il est nécessaire 
+ de payer le précompte professionnel.
 
 </sect1>
 </sect>
@@ -380,12 +394,15 @@ déclaration, il suffit d'avoir la somme de ce poste pour la période.
 <item> Vente regroupant les ventes
 <item> Achat Celui regroupant les achats
 <item> Financier Celui regroupant tous les mouvements financiers (banque, caisse...)
-<item> Opérations divers Et celui regroupant toutes les autres opérations (augmentation de bilan, amortissement
+<item> Opérations divers Et celui regroupant toutes les autres
+opérations (augmentation de bilan, amortissement 
 </itemize>
 
-La première chose à faire quand on crée un journal est de le paramétrer correctement
-L'écran est divisé en deux parties, celle du dessus, s'adresse au profil "comptable" celui
-du dessous au profil utilisateur.<label id="journal_comptable">
+La première chose à faire quand on crée un journal est de le
+paramétrer correctement 
+L'écran est divisé en deux parties, celle du dessus, est utilisée par
+les journaux "Opérations Diverses" uniquement  celui 
+du dessous pour les autres journaux.<label id="journal_comptable">
 
 Pour le profil comptable, vous devez mettre un filter pour les comptes
 visibles au débit ou au crédit
@@ -402,7 +419,8 @@ par l'expression ainsi 411* reprendra 411, 4111, 4112,4113 et
 
 En mode utilisateur, il faut cocher les fiches que l'on souhaite utiliser
 dans ce journal mais avec une exception : les journaux d'opérations diverses
-n'utilisent jamais les fiches voir <ref id="journal_od" name="Journaux des Opérations diverses">.
+n'utilisent jamais les fiches voir <ref id="journal_od" name="Journaux
+des Opérations diverses">. 
 
 Il vaut mieux ne pas créer plus de 4 journaux par types, c'est-à-dire
 16 au total, il y a à cela deux raisons : la première est que cela
@@ -423,11 +441,10 @@ ajouter le client, la date et évidemment les articles.
 <p>Les rabais et remises ne sont pas prévues dans la version 1.0.0
 
 <p>La ligne du bas vous permet de faire des petits calculs rapide
-(exemple: 1+2*3.2)...  Il suffit d'utiliser la touche de tabulation ou
-de cliquer ailleur pour voir le résultat.
+(exemple: 1+2*3.2)...  Ne surtout pas faire (ENTER) !
 
 </sect1>
-<sect1> Journal Financiers
+<sect1> Journal Financier
 <p> Uniquement pour gérer les comptes en banque, visa, bref tout ce
 qui est financier (pas les prêts qui devraient être en opération
 diverses mais bien le paiement de ces prêts).
@@ -534,13 +551,15 @@ La dette du client diminue
 
 
 </verb>
-<p> Il n'est pas possible de modifier un encodage mais vous pouvez l'annuler.
-Attention cependant de ne pas annuler l'annulation !!! Quand vous
+<p> Il n'est pas possible de modifier un encodage mais vous pouvez
+l'annuler. 
+ Quand vous 
 cliquez sur Confirmer soyez sûr de ce que vous faites.
 
 </sect1>
 <sect1>Achat
-<p> En mode utilisateur, c'est supposé être intuitif.
+<p> Dans les journaux d'achats, un filtre vous empêchent de faire des
+erreurs.
 
 <p> Si vous ramenez du matériel, vous pouvez soit annuler l'opération
 d'achat, soit utiliser les quantités négatives.
@@ -723,19 +742,17 @@ achats et ventes de la même marchandise, si vous utilisez ce code
 stock pour deux différentes marchandise, vous ne serez plus en mesure
 de faire la différence entre ces 2 marchandises dans le stock.
 
-<p>Dans le mode utilisateur, les achats et les ventes vont
-automatiquement mettre le  stock à jour. Dans le mode comptable ce
-n'est pas le cas ! 
+<p>Les achats et les ventes vont
+automatiquement mettre le  stock à jour si on fait ces opérations dans
+les journaux achats et ventes uniquement.
 
 <sect1> Gestion de stock
-<p> Dans le menu avancé vous verrez l'item stock, dans le mode
-comptable, il n'est pas possible de gérer le stock. Il faut rechanger
-son mode par défaut à User.
+<p> A terminer
 
 </sect1>
 </sect>
 <sect> Rapprochement
-<p>En mode utilisateur, vous pouvez lier des opérations entre elles,
+<p>Vous pouvez lier des opérations entre elles,
 en général ce seront des paiements qui correspondent à des
 factures. Ce n'est pas obligatoire, c'est là uniquement pour vous
 permettre de mieux voir ce qui concerne quoi.
@@ -767,7 +784,7 @@ clôturer une période avant de faire la déclaration TVA. Cela empêche
 les erreurs.
 
 <p> Ensuite, vous pourrez centraliser. Pour l'instant, la clôture des
-périodes se fait par (mode utilisateur): "Paramètre -> période" et la
+périodes se fait par : "Paramètre -> période" et la
 centralisation se fait par le menu "Avancé -> Centralise".
 
 </sect1>

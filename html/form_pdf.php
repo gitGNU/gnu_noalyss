@@ -21,7 +21,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 // $Revision$
 
-include_once("class_form.php");
+include_once("class_rapport.php");
 include_once("ac_common.php");
 include_once("postgres.php");
 include_once("class.ezpdf.php");
@@ -36,7 +36,7 @@ $ret="";
 $pdf=& new Cezpdf();
 $pdf->selectFont('./addon/fonts/Helvetica.afm');
 
-$Form=new formulaire($cn,$form_id);
+$Form=new rapport($cn,$form_id);
 $array=$Form->GetRow($from_periode,$to_periode);
 
 $Libelle=sprintf("(%s) %s ",$Form->id,$Form->GetName());
