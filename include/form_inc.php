@@ -58,7 +58,7 @@ function EncodeForm($p_line,$p_sessid,$p_array=null) {
     $form0="";
   }
   echo "<FORM ACTION=\"form.php\" METHOD=\"POST\">";
-  printf ("Nom du formulaire : <INPUT TYPE=\"TEXT\" NAME=\"form_nom\" VALUE=\"%s\">",
+  printf ("Nom du rapport : <INPUT TYPE=\"TEXT\" NAME=\"form_nom\" VALUE=\"%s\">",
 	  $form_nom);
   printf ('<INPUT TYPE="HIDDEN" NAME="line" value="%s"',
 	  $p_line);
@@ -104,7 +104,7 @@ if ( isset ($fr_id))   printf ('<INPUT TYPE="HIDDEN" NAME="fr_id" value="%s"',
     echo '<INPUT TYPE="submit" value="Enregistre" name="record">';
   }
   echo '<INPUT TYPE="submit" value="Ajoute une ligne" name="add_line">';
-  echo '<INPUT TYPE="submit" value="Efface ce formulaire" name="del_form">';
+  echo '<INPUT TYPE="submit" value="Efface ce rapport" name="del_form">';
 
   echo "</FORM>";
 

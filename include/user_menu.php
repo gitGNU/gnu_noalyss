@@ -468,7 +468,7 @@ $left_menu=ShowItem(array(
 			  array('central.php','Centralise'),
 		          array('pcmn_update.php?p_start=1','Plan Comptable'),
 			  array('stock.php','Stock'),
-			  array('form.php','Formulaire')
+			  array('form.php','Rapport')
 			  ),
 		    'H',"cell","mtitle",$default);
 return $left_menu;
