@@ -284,4 +284,12 @@ les numéros d'opérations et de pièce justificatives.
 le fichier de configuration de PostgreSql.
 
 </sect>
+<sect>Mais où sont les rapports prédéfini
+<p>Parce que les rapports peuvent toujours être facilement adaptés,
+ils sont inclus dans le produit mais pas installé. Pour les trouver,
+allez simplement dans le répertoire contrib/rapport et éxécutez les
+scripts sql soit grâce à pgAdmin soit en commande en ligne soit avec
+l'outil PhpPgAdmin.
+
+</sect>
 </article>
