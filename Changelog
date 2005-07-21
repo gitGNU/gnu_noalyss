@@ -1,3 +1,42 @@
+2005-07-21  sparkyx  <sparkyx@eleven>
+
+	* FAQ-fr.txt: Improve doc
+
+	* doc/fr_BE_liste-client-nonpapier.pdf, doc/fr_BE_listing-client.pdf:
+	Documentation about listing customer
+
+	* include/class_rapport.php, include/impress_rapport.php: Task 4439
+		Formulaire is reserved for another purpose
+		The new name is "rapport"
+
+	* doc/FAQ-fr.sgml, doc/FAQ-fr.txt: Improve doc
+
+	* doc/manuel-fr.sgml, contrib/rapport/README, contrib/rapport/tva_decla.sql, contrib/rapport/tva_decla_fr_BE.sql:
+	Ajout rapport
+
+	* include/form_inc.php, include/user_menu.php: Task 4439
+		Formulaire is reserved for another purpose
+		The new name is "rapport"
+
+	* doc/manuel-fr.sgml: Improve documentation
+
+	* doc/FAQ-fr.txt, doc/manuel-fr.sgml, html/form_csv.php, html/form_pdf.php, html/user_impress.php, include/class_form.php, include/impress_form.php, FAQ-fr.txt:
+	Task 4439
+		Formulaire is reserved for another purpose
+		The new name is "rapport"
+
+	* Changelog, doc/manuel-fr.sgml, include/impress_form.php: Task 4439
+	Formulaire is reserved for another purpose
+	The new name is "rapport"
+
+2005-07-14  stanpinte  <stanpinte@eleven>
+
+	* include/user_action_ods.php: Corrected typo
+
+2005-07-14  sparkyx  <sparkyx@eleven>
+
+	* html/jrn_detail.php: TASK #4359 : Fix problem with p_jrn
+
 2005-07-10  sparkyx  <sparkyx@eleven>
 
 	* html/document/fr_be/bnb.rtf: Task #4123 correct formula
