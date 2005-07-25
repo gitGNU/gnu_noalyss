@@ -519,15 +519,15 @@ function ViewFicheDetail($p_cn,$p_id) {
  */ 
 
 function UpdateFiche($p_cn,$p_array) {
-  echo_debug ("UpdateFiche");
+  echo_debug (__FILE__,__LINE__,"UpdateFiche");
   $tva_error=false;
   foreach ( $p_array as $key=> $element) {
-    echo_debug(__FILE__,__LINE__,"$key => $element");
+    echo_debug(__FILE__,__LINE__,"UF  $key => $element");
     ${"$key"}=$element;
     // Get the name
     if ( $key == "ad_id".ATTR_DEF_NAME ) {
       $label=$element;
-      if (strlen(trim($label)== 0 ) ) 
+      if (strlen(trim($label))== 0  ) 
 	return;
     }
     // Get the class base
