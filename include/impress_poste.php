@@ -37,7 +37,7 @@ include("class_poste.php");
   $hid=new widget("hidden");
   echo '<div class="u_redcontent">';
   echo '<h2 class="info">'.$Poste->id." ".$Poste->name.'</h2>';
-  echo "<table>";
+  echo "<table >";
   echo '<TR>';
   echo '<TD><form method="GET" ACTION="user_impress.php">'.
     $submit->Submit('bt_other',"Autre poste").
@@ -66,7 +66,7 @@ include("class_poste.php");
   if ( count($Poste->row ) == 0 ) 
   	exit;
 
-  echo "<TABLE width=\"100%\">";
+  echo "<TABLE class=\"result\" width=\"100%\">";
       echo "<TR>".
 	"<TH> Code interne </TH>".
 	"<TH> Date</TH>".

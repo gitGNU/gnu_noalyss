@@ -47,7 +47,8 @@ $p_array=array(array ("user_impress.php?type=jrn","Journaux"),
 	       array("user_impress.php?type=fiche","Fiche"),
 	       array("user_impress.php?type=rapport","Rapport"),
                array('user_impress.php?type=bal','Balance des comptes'),
-	       array("user_impress.php?type=bilan","Bilan")
+	       array("user_impress.php?type=bilan","Bilan"),
+	       array("user_impress.php?type=list_client","Liste Clients Assujettis")
 	       );
 $default=( isset ($_GET['type']))?"user_impress.php?type=".$_GET['type']:"";
 $result=ShowItem($p_array,'H',"cell","mtitle",$default);
@@ -86,6 +87,9 @@ $default=( isset ($_GET['type']))?$_GET['type']:"";
     break;
   case "fiche":
     include ("impress_fiche.php");
+    break;
+  case "list_client":
+    include ("impress_listing_client.php");
     break;
 
   }

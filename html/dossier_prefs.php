@@ -33,7 +33,6 @@ $User=new cl_user($rep);
 $User->Check();
 
 include("preference.php");
-// include_once ("top_menu_compta.php");
 include_once("user_menu.php");
 
 ShowMenuCompta($_SESSION['g_dossier']);
@@ -64,7 +63,9 @@ if ( isset ($_POST['action']) ) {
   $action=$_POST['action'];
 }
 
-
+////////////////////////////////////////////////////////////////////////////////
+// Currency
+////////////////////////////////////////////////////////////////////////////////
 if ( $p_action == "change" ) {
   $p_mid=$_GET['p_mid'];
   $p_rate=$_GET['p_rate'];
@@ -77,6 +78,36 @@ if ( $p_action == "change" ) {
   echo '<TD> <INPUT TYPE="SUBMIT" NAME="action" Value="Change"</TD>';
   echo '</FORM></TR>';
 }
+if ( $action == "Change") {
+  $p_devise=$_POST['p_devise'];
+  $p_id=$_POST['p_id'];
+  $p_rate=$_POST['p_rate'];
+  $Res=ExecSql($cn,"update parm_money set pm_code='$p_devise',pm_rate=$p_rate where pm_id=$p_id");
+  ShowDevise($cn);
+
+}
+if ( $action == "Ajout") {
+  $p_devise=$_POST['p_devise'];
+  $p_rate=$_POST['p_rate'];
+  $Res=ExecSql($cn,"insert into parm_money ( pm_code,pm_rate) values ('$p_devise',$p_rate) ");
+  ShowDevise($cn);
+
+}
+
+if ( $p_action == "delete") {
+  $p_id=$_GET['p_mid'];
+  $Res=ExecSql($cn,"delete from parm_money  where pm_id=$p_id");
+  ShowDevise($cn);
+}
+
+
+if ( $p_action=="devise") {
+  ShowDevise($cn);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Periode
+////////////////////////////////////////////////////////////////////////////////
 if ( $p_action=="change_per") {
   foreach($HTTP_GET_VARS as $key=>$element) 
     ${"$key"}=$element;
@@ -136,27 +167,6 @@ if ( isset ($_POST["add_per"] )) {
 }
 
 echo_debug(__FILE__,__LINE__,"Action $action");
-if ( $action == "Change") {
-  $p_devise=$_POST['p_devise'];
-  $p_id=$_POST['p_id'];
-  $p_rate=$_POST['p_rate'];
-  $Res=ExecSql($cn,"update parm_money set pm_code='$p_devise',pm_rate=$p_rate where pm_id=$p_id");
-  ShowDevise($cn);
-
-}
-if ( $action == "Ajout") {
-  $p_devise=$_POST['p_devise'];
-  $p_rate=$_POST['p_rate'];
-  $Res=ExecSql($cn,"insert into parm_money ( pm_code,pm_rate) values ('$p_devise',$p_rate) ");
-  ShowDevise($cn);
-
-}
-
-
-
-if ( $p_action=="devise") {
-  ShowDevise($cn);
-}
 if ( $p_action=="closed") {
   $p_per=$_GET['p_per'];
   $Res=ExecSql($cn,"update parm_periode set p_closed=true where p_id=$p_per");
@@ -178,7 +188,41 @@ if ( $p_action== "delete_per" ) {
 if ( $p_action == "periode" ) {
   ShowPeriode($cn);
 }
+////////////////////////////////////////////////////////////////////////////////
+// Coord societe
+////////////////////////////////////////////////////////////////////////////////
+if ( $p_action=='company') { 
+  require_once("class_own.php");
+  require_once("class_widget.php");
+  if ( isset ($_POST['record_company'] )) {
+    $m=new Own($cn);
+    extract($_POST);
+    $m->MY_NAME=$p_name;
+    $m->MY_TVA=$p_tva;
+    $m->MY_STREET=$p_street;
+    $m->MY_NUMBER=$p_no;
+    $m->MY_CP=$p_cp;
+    $m->MY_COMMUNE=$p_Commune;
+    $m->Save();
+  }
 
+  $my=new Own($cn);
+  $all=new widget("text");
+  $all->table=1;
+  echo '<form method="post" action="?p_action=company">';
+  echo "<table class=\"result\">";
+  echo "<tr>".$all->IOValue("p_name",$my->MY_NAME,"Nom société")."</tr>";
+
+  echo "<tr>".$all->IOValue("p_tva",$my->MY_TVA,"Numéro de Tva")."</tr>";
+  echo "<tr>".$all->IOValue("p_street",$my->MY_STREET,"Rue ")."</tr>";
+  echo "<tr>".$all->IOValue("p_no",$my->MY_NUMBER,"Numéro")."</tr>";
+  echo "<tr>".$all->IOValue("p_cp",$my->MY_CP,"Code Postal")."</tr>";
+  echo "<tr>".$all->IOValue("p_Commune",$my->MY_COMMUNE,"Commune")."</tr>";
+  echo "</table>";
+  $submit=new widget("submit");
+  echo $submit->Submit("record_company","Enregistre");
+  echo "</form>";
+ }
 
 
 echo "</DIV>";

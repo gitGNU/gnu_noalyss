@@ -593,6 +593,7 @@ function ShowMenuParam()
 {
     $sub_menu=ShowItem(array(
 			  //('rapprt.php','Rapprochement'),
+			  array('dossier_prefs.php?p_action=company','Paramètres sociétés'),
 			  array('dossier_prefs.php?p_action=devise','Devises'),
 			  array('dossier_prefs.php?p_action=periode','Période'),
 		          array('user_sec.php','Sécurité')

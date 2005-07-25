@@ -251,8 +251,7 @@ if ($account == 0 ) {
   ExecuteScript($cn,'sql/mod1/schema.sql');
   ExecuteScript($cn,'sql/mod1/data.sql');
 
-//   $r=system("$psql -U phpcompta mod1 -f sql/mod1/schema.sql",$r);
-//   $r=system("$psql -U phpcompta mod1 -f sql/mod1/data.sql",$r);
+
  ob_end_clean();
 
 }
@@ -290,7 +289,14 @@ for ($e=0;$e < $MaxDossier;$e++) {
 	    $sql=sprintf ("create sequence s_jrn_%d",$row['jrn_def_id']);
 	    ExecSql($db,$sql);
     }
- } // version == 4
+  } // version == 4
+  //--
+  // update to the version 5
+  //--
+  if ( GetVersion($db) == 5 ) { 
+    ExecuteScript($db,'sql/patch/upgrade5.sql');
+  } // version == 5
+
  }
 
 $Resdossier=ExecSql($cn,"select mod_id, mod_name from modeledef");
@@ -312,6 +318,10 @@ for ($e=0;$e < $MaxDossier;$e++) {
 	    ExecSql($db,$sql);
     }
  } // version == 4
+  if ( GetVersion($db) == 5 ) { 
+    ExecuteScript($db,'sql/patch/upgrade5.sql');
+  } // version == 5
+
  }
 $cn=DbConnect();
 if ( GetVersion($cn) <= 4 ) {
