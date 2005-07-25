@@ -2,8 +2,23 @@
 
 BODY {
   background-color:#EDF3FF;
-  font-size:9px;
+  font-size:10px;
   font-family:sans-serif;
+}
+table.result {
+  font-size:10px;
+  color:blue;
+  border:blue solid 1px;
+  }
+
+table.result th { 
+  font-size:11px;
+  font-weight:bold;
+  font-family:sans-serif;
+  border-bottom:1px solid blue;
+  padding-left:10px;
+  padding-right:10px;
+
 }
 
 h2 {
@@ -210,7 +225,7 @@ td.cell{
 td.selectedcell{
 	border-style:solid;
 	border-width:1pt;
-	font-size:11pt;
+	font-size:10px;
         background:blue ;
         color:white;
 }
