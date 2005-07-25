@@ -198,18 +198,17 @@ opérations sont réordonnées par date.
 
 </sect2>
 </sect1>
-<sect1> Fiscalité, TVA
+<sect1> Belgique Fiscalité, TVA
 <p> Toutes les requalifications des montants doivent
 se faire par le journal des opérations diverses
 
-<sect2> Belgique
 <p>
 Utilisez toujours les comptes 67xxx pour toutes  les opérations
 fiscale non déductible de votre bénéfice par exemple :versement anticipé d'impôt,
 paiement de l'impôt, dépense non admise: partie non déductible de
 certains frais ( voiture, restaurant...).
 
-<sect3> TVA
+<sect2> Déclaration TVA
 
 <p> Pour faire votre déclaration tva, vous pouvez utilisez les
 balances des comptes ou  <ref id="rapport" name="les rapports"> .
@@ -230,6 +229,11 @@ travaux de fin d'exercice,d'imputer 50% du total de vos frais de
 restaurant à un compte de dépense non admise. Il n'est pas dans le
 PCMN donc créer le poste vous-même (classe 67).
 
+<p> Ensuite, vous pouvez utiliser le rapport "déclaration de tva",
+pensez à l'adapter à vos besoins
+
+</sect2>
+<sect2>Opérations comptables pour la TVA
 <p>Les écritures comptables : chaque trimestre vous devez payer un acompte de 
 tva qui est égal au tiers du montant dû à la dernière déclaration
 <verb>
@@ -263,11 +267,26 @@ Quand vous recevrez la déclaration constatant votre créance
 Ensuite, utilisez le compte 4519 ou 4118 avec un compte en banque quand vous
 recevrez ou paierez la TVA
 
-</sect3>
 </sect2>
-<sect2> France
+<sect2>Déclaration Assujetti TVA
+<p>Vous pouvez directement faire votre déclaration assujetti. 
+
+<p> Vous devez pour cela aller dans le menu "impression", puis "Liste
+Client Assujetti". Vous donnez l'année, cliquer sur "Impression". A ce
+moment-là, vous n'avez que la totalité des clients, vous pouvez le
+recopier à la main sur le formulaire ad-hoc (doc/fr_BE_listing-client.pdf).
+
+<p>Si vous continuez en cliquant sur déclaration magnétique, un
+fichier sera généré conformément à
+doc/fr_BE_liste-client-nonpapier.pdf. Vous sauvez ce fichier sur une
+disquette ou un CDROM et vous l'envoyez à votre administration de
+tva. N'oubliez pas : vous devez tout d'abord lire  et imprimez en 3
+exemplaires l'annexe 6 (note d'accompagnement)
+</sect2>
+</sect1>
+<sect1> Fiscalité France
 <p> Pas reçu de doc ni d'aide sur ce sujet désolé
-</sect2>
+
 </sect1>
 <sect1>Ecriture de fin d'exercice comptable (Belgique)
 <p> Chaque année est composée de 13 périodes, les 12 premières font exactement
