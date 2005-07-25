@@ -1,4 +1,19 @@
+2005-07-25  sparkyx  <sparkyx@eleven>
+
+	* doc/manuel-fr.sgml: Improve doc
+
+	* html/admin/setup.php, html/admin/sql/patch/upgrade5.sql, html/dossier_prefs.php, html/listing_client.php, html/user_impress.php, include/class_customer.php, include/class_own.php, include/decla.BE.inc.php, include/impress_listing_client.php, include/impress_poste.php, include/user_menu.php:
+	Ajout listing assujetti tva (experimental)
+	ajout parametre de la companie
+	improve apparence de certaines table
+
+	* html/style-light.css: improve appearance
+
+	* include/fiche_inc.php: bug 13913 : need more testing
+
 2005-07-21  sparkyx  <sparkyx@eleven>
+
+	* Changelog: ChangeLog
 
 	* FAQ-fr.txt: Improve doc
 
