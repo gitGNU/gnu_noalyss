@@ -32,7 +32,7 @@ if ( isset($_POST['bt_html'] )) {
   $a_Res=$customer->VatListing($_POST['year']);
 
 echo "
-<div class=\"redcontent\"
+<div class=\"u_redcontent\"
 <form method=\"post\" action=\"listing_client.php\">
 <input type=\"submit\" name=\"bt_disk\" value=\"expérimental !! déclaration magnétique\" disable>
 <input type=\"hidden\" name=\"year\" value=\"".$_POST['year']."\">
@@ -64,7 +64,7 @@ echo "
 $w=new widget("select");
 $w->table=1;
 
-echo '<div class="redcontent">';
+echo '<div class="u_redcontent">';
 echo '<FORM ACTION="user_impress.php?type=list_client" METHOD="POST">';
 echo '<TABLE>';
 

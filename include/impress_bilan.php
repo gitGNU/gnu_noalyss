@@ -33,7 +33,7 @@ $ret=make_array($cn,"select fr_id,fr_label
 $w=new widget("select");
 $w->table=1;
 
-echo '<div class="redcontent">';
+echo '<div class="u_redcontent">';
 echo '<FORM ACTION="bilan.php" METHOD="POST">';
 echo '<TABLE>';
 

@@ -90,7 +90,7 @@ insert into parameter (pr_id) values ('MY_CP');
 insert into parameter (pr_id) values ('MY_COMMUNE');
 insert into parameter (pr_id) values ('MY_TVA');
 insert into parameter (pr_id) values ('MY_STREET');
-insert into parameter (pr_id) values ('MY_NUMMER');
+insert into parameter (pr_id) values ('MY_NUMBER');
 
 
 update  version set val=6;

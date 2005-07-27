@@ -34,10 +34,14 @@ $User->Check();
 // TODO a specific level of security for the "bilan" ???
 // Change must be done here
 if ( $User->admin == 0 ) {
-  if (CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],IMP) == 0 ){
+  if ($User->CheckAction($cn,IMP) 
+								  ==0
+     )
+  {
     /* Cannot Access */
     NoAccess();
   }
+
 }
 
 // A rtf file is generated
