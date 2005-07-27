@@ -253,6 +253,7 @@ function GetPreferences ()
  */ 
  function CheckAction ( $p_cn,$p_action_id)
 {
+
   if ( $this->admin==1 ) return 1;
 
   $Res=ExecSql($p_cn,"select * from user_sec_act where ua_login='".$this->id."' and ua_act_id=$p_action_id");
