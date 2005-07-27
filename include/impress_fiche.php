@@ -24,53 +24,118 @@ include_once('class_fiche.php');
 include_once("class_widget.php");
 
 $cn=DbConnect($_SESSION['g_dossier']);
-$fiche_def=new fiche_def($cn);
 
-
-$fiche_def->GetAll();
-
-$i=0;
-foreach ($fiche_def->all as $l_fiche) {
-  $a[$i]=array("user_impress.php?type=fiche&fd_id=".$l_fiche->id,$l_fiche->label);
-  $i++;
-}
-echo ShowItem($a,'V');
 ////////////////////////////////////////////////////////////////////////////////
-if  ( isset ($_GET['fd_id'])) {
-  echo '<div class="u_redcontent">';
+if  ( isset ($_REQUEST['fd_id'])) {
+  // if amount requested
+  $with_amount= (isset($_REQUEST['with_amount']))?true:false;
+  if ($with_amount) 
+    include_once("class_poste.php");
+  //echo '<div class="redcontent">';
+  echo "<div>";
   $submit=new widget();
   $hid=new widget("hidden");
   $fiche_id=new widget("hidden");
-  
+  $w=new widget("select");
+  $fiche_def=new fiche_def($cn);
+
   echo '<form method="POST" ACTION="fiche_csv.php">'.
     $submit->Submit('bt_csv',"Export CSV").
     $hid->IOValue("type","fiche").
-    $fiche_id->IOValue("fd_id",$_GET['fd_id']);
-
+    $fiche_id->IOValue("fd_id",$_REQUEST['fd_id']);
+  if ($with_amount) {
+    echo $hid->IOValue("with_amount");
+    echo $hid->IOValue("from_periode",$_REQUEST['from_periode']);
+    echo $hid->IOValue("to_periode",$_REQUEST['to_periode']);
+  }
   echo "</form>";
+  echo '<form method="Post" action="?type=fiche">'.$submit->Submit("bt_submit","Autres fiches")."</form>";
   
-  $fiche_def->id=$_GET['fd_id'];
+  $fiche_def->id=$_REQUEST['fd_id'];
+
+  // Si les fiches ont un poste comptable
+  // propose de calculer aussi le solde
+  //--
+  if ( $fiche_def->HasAttribute(ATTR_DEF_ACCOUNT) == true ) {
+    echo '<form method="POST" ACTION="user_impress.php">';
+    $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode order by p_id");
+    
+    $w->selected=(isset($_POST['from_periode']))?$_POST['from_periode']:"";
+    print "Depuis ".$w->IOValue('from_periode',$periode_start);
+    $periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode order by p_id");
+    $w->selected=(isset($_POST['to_periode']))?$_POST['to_periode']:"";
+    print " Jusque ".$w->IOValue('to_periode',$periode_end);
+    
+
+    print $submit->Submit('bt_solde',"Avec solde").
+    $hid->IOValue("type","fiche").
+    $fiche_id->IOValue("fd_id",$_REQUEST['fd_id']).
+      $hid->IOValue("with_amount");
+  
+  echo "</form>";
+  }
+  
   $fiche=new fiche($cn);
   $e=$fiche->GetByType($fiche_def->id);
   $l=var_export($e,true);
   echo_debug(__FILE__,__LINE__,$l);
   $old=-1;
-  echo "<TABLE>";
+  echo "<TABLE class=\"result\">";
   echo "<TR>";
   $fiche_def->GetAttribut();
-  foreach ($fiche_def->attribut as $attribut) 
+  foreach ($fiche_def->attribut as $attribut) {
     echo "<TH>".$attribut->ad_text."</TH>";
+    // si solde demandé affiche la col
+    //--
+    if ($attribut->ad_id==ATTR_DEF_ACCOUNT 
+	&& $with_amount==true) {
+      echo "<TH  >Débit</TH>";
+      echo "<TH  >Crédit</TH>";
+      echo "<TH  >Solde</TH>";
+    }
+  }
+
   echo "<TR></TR>";
   if ( count($e) != 0 ) {
     foreach ($e as $detail) {
       echo "<TR>";
       foreach ( $detail->attribut as $dattribut ) {
 	echo "<TD>".$dattribut->av_text."</TD>";
+	// if amount requested
+	//---
+	if ( $dattribut->ad_id == ATTR_DEF_ACCOUNT && 
+	     $with_amount) {
+
+	  $account=new poste ($cn,$dattribut->av_text);
+	  $solde=  $account->GetSoldeDetail("j_tech_per between ".$_REQUEST['from_periode'].
+					 " and ".
+				      $_REQUEST['to_periode']);
+	  printf ("<td align=\"right\">% 10.2f</td>",$solde['debit']);
+	  printf ("<td align=\"right\">% 10.2f</td>",$solde['credit']);
+	  printf ("<td align=\"right\">% 10.2f</td>",$solde['solde']);
+			      
+	}
       }
-      echo "</TR>";
     }
+    echo "</TR>";
   }
+ 
   echo "</TABLE>";
   echo "</div>";
  }
+ else {
+   // only the menu
+   $fiche_def=new fiche_def($cn);
+
+
+   $fiche_def->GetAll();
+
+   $i=0;
+   foreach ($fiche_def->all as $l_fiche) {
+     $a[$i]=array("user_impress.php?type=fiche&fd_id=".$l_fiche->id,$l_fiche->label);
+     $i++;
+   }
+   echo ShowItem($a,'V');
+ }
+
 ?>

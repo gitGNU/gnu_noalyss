@@ -489,7 +489,7 @@ C'est l'unique journal qui n'utilise pas les fiches. Pourquoi ? Tout
 simplement parce 
 que s'il utilisait lui-aussi les fiches, il faudrait faire une fiche
 par poste comptable, 
-ce qui serait rapidement ingérable. De plus, es fiches sont là pour
+ce qui serait rapidement ingérable. De plus, les fiches sont là pour
 les opérations 
 courantes (vente/Achat/banque). Puisque ce journal n'utilise pas les
 fiches, le filtre est 
@@ -511,7 +511,8 @@ Pour créer une catégorie, cliquer sur Fiche et à droite sur
 création. Vous devez donner le nom de la catégorie et le type de fiche
 que vous voulez.  
 
-La classe de base est le poste comptable parent de vos fiche, ce poste doit exister, il faut alors
+La classe de base est le poste comptable parent de vos fiche, ce poste
+doit exister, il faut alors 
 cliquer aussi sur "create account for each" qui permet de générer
 automatiquement le poste comptable voulu, ce poste sera
 automatiquement ajouté dans le Plan Comptable. Si cette option n'est
@@ -524,8 +525,11 @@ classe par défaut de ce type de modèle.
 
 Pour simplifier :
 <itemize>
-<item>Vous voulez que chaque fiche aie son propre poste comptable et vous souhaitez que ce poste soit crée automatiquement : cochez la case 'Create account for each'
-<item>Vous souhaitez qu'il n'y a pas de poste comptable attaché à chaque fiche: ne la cochez pas
+<item>Vous voulez que chaque fiche aie son propre poste comptable et
+vous souhaitez que ce poste soit crée automatiquement : cochez la case
+'Create account for each' 
+<item>Vous souhaitez qu'il n'y a pas de poste comptable attaché à
+chaque fiche: ne la cochez pas 
 
 <item>Vous souhaitez qu'il y aie un poste comptable attaché à chaque fiche 
 mais pas généré automatiquement: ne cochez pas. Par la suite,  ajoutez
@@ -537,6 +541,8 @@ vous devrez mettre manuellement le poste comptable
  par défaut qui sera utilisé.
 </itemize>
 
+<p>Cas spécial: la classe de base "Autre" permet de créer des fiches
+sur mesure, par exemple: liste des employés, 
 
 </sect1>
 <sect1>Création d'une fiche 
@@ -549,7 +555,9 @@ et unique fiche appelée restaurant.
 <p>Autre : comme plusieur fiches peuvent utiliser le même poste comptable, si on
 modifie le nom d'une fiche cela ne modifiera pas son nom dans le Plan Comptable
 
+
 </sect1>
+
 <sect>Encodage d'opération
 <sect1> Remarques générales
 <p> La tva est automatiquement mise, on prend celle de la fiche, il n'est

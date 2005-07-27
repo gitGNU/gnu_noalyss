@@ -24,7 +24,7 @@ include_once ("ac_common.php");
 include_once('class_fiche.php');
 include_once ("postgres.php");
 include_once("check_priv.php");
-
+if (  isset ($_REQUEST['with_amount']))  include_once("class_poste.php");
 $cn=DbConnect($_SESSION['g_dossier']);
 
 $rep=DbConnect();
@@ -49,19 +49,42 @@ if  ( isset ($_POST['fd_id'])) {
 	  if ( $o == 0 ) {
     		printf("%s",$attribut->ad_text);
 		$o=1;
-	}else 
-		 printf(";%s",$attribut->ad_text);
+	  }else {
+	    printf(";%s",$attribut->ad_text);
+	    if ( $attribut->ad_id == ATTR_DEF_ACCOUNT 
+		 && isset ($_REQUEST['with_amount'])) 
+	      echo ";debit;credit;solde";
+	  }
     }
   printf("\n");
   $o=0;
   // Details
+  // Save the accounting 
   foreach ($e as $detail) {
     foreach ( $detail->attribut as $dattribut ) {
 	  if ( $o == 0 ) {
     		printf("%s",$dattribut->av_text);
 		$o=1;
-	} else
-	      printf (";%s",$dattribut->av_text);
+	  } else {
+	    printf (";%s",$dattribut->av_text);
+	    // if solde resquested
+	    //--
+	    if ( $dattribut->ad_id == ATTR_DEF_ACCOUNT 
+		 && isset ($_REQUEST['with_amount']))  {
+	      $account=new poste ($cn,$dattribut->av_text);
+	      $solde=$account->GetSoldeDetail("j_tech_per between ".$_REQUEST['from_periode'].
+					" and ".
+					$_REQUEST['to_periode']);
+	      
+	      printf(";% 10.2f;% 10.2f;% 10.2f",
+		     $solde['debit'],
+		     $solde['credit'],
+		     $solde['solde']
+		     );
+	    
+
+	    }
+	  }
       }
     printf("\n");
     $o=0;

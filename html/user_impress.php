@@ -67,7 +67,7 @@ if ( $User->admin == 0 ) {
 }
 
 // something is choosen
-$default=( isset ($_GET['type']))?$_GET['type']:"";
+$default=( isset ($_REQUEST['type']))?$_REQUEST['type']:"";
   switch ($default) {
   case "jrn":
     include ("impress_jrn.php");

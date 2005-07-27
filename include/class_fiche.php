@@ -113,6 +113,21 @@ class fiche_def {
       $this->all[$i]->create_account=$row['fd_create_account'];
     }
   }
+/* function HasAttribute
+ **************************************************
+ * Purpose : Check in vw_fiche_def if a fiche has 
+ *           a attribut X
+ *        
+ * parm : 
+ *	- attribut to check
+ * gen :
+ *	- none
+ * return:  true or false
+ */
+ function HasAttribute($p_attr) {
+   return (CountSql($this->cn,"select * from vw_fiche_def where ad_id=$p_attr and fd_id=".$this->id)>0)?true:false;
+
+ }
 
 }
 
