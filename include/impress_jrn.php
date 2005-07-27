@@ -32,10 +32,19 @@ include("class_jrn.php");
  echo_debug(__FILE__,__LINE__,$d);
   $Jrn=new jrn($cn,$_POST['jrn_id']);
   $Jrn->GetName();
-  $Jrn->GetRow( $_POST['from_periode'],
-		$_POST['to_periode'],
-		$p_cent);
-
+  if ( $_POST['p_simple']==0 ) 
+    {
+      $Jrn->GetRow( $_POST['from_periode'],
+		    $_POST['to_periode'],
+		    $p_cent);
+    }
+  else 
+    {
+      $Row=$Jrn->GetRowSimple($_POST['from_periode'],
+			 $_POST['to_periode'],
+			 $p_cent);
+      //      var_dump($Row);
+    }
   $rep="";
   $submit=new widget();
   $hid=new widget("hidden");
@@ -54,6 +63,7 @@ include("class_jrn.php");
     $hid->IOValue("jrn_id",$Jrn->id).
     $hid->IOValue("from_periode",$_POST['from_periode']).
     $hid->IOValue("to_periode",$_POST['to_periode']);
+  echo $hid->IOValue("p_simple",$_POST['p_simple']);
 
   echo "</form></TD>";
   echo '<TD><form method="GET" ACTION="jrn_csv.php">'.
@@ -63,31 +73,82 @@ include("class_jrn.php");
     $hid->IOValue("jrn_id",$Jrn->id).
     $hid->IOValue("from_periode",$_POST['from_periode']).
     $hid->IOValue("to_periode",$_POST['to_periode']);
-
+  echo $hid->IOValue("p_simple",$_POST['p_simple']);
   echo "</form></TD>";
 
   echo "</TR>";
 
   echo "</table>";
-  if ( count($Jrn->row ) == 0 ) 
+  if ( count($Jrn->row ) == 0 
+       && $Row==null) 
   	exit;
 
-  echo "<TABLE>";
-  foreach ( $Jrn->row as $op ) { 
+  echo "<TABLE class=\"result\">";
+
+  if ( $_POST['p_simple'] == 0 ) {
+    // detailled printing
+    //---
+    foreach ( $Jrn->row as $op ) { 
       echo "<TR>";
       // centralized
       if ( $p_cent == 'on') {
 	echo "<TD>".$op['j_id']."</TD>";
       }
-     echo "<TD>".$op['internal']."</TD>".
+      echo "<TD>".$op['internal']."</TD>".
 	"<TD>".$op['j_date']."</TD>".
 	"<TD>".$op['poste']."</TD>".
 	"<TD>".$op['description']."</TD>".
 	"<TD>".$op['deb_montant']."</TD>".
 	"<TD>".$op['cred_montant']."</TD>".
 	"</TR>";
-  }
+    }// end loop
+  } // if
+  else 
+    {
+      include_once("jrn.php");
+      // Simple printing
+      //---
+
+      echo "<TR>".
+	"<th> operation </td>".
+	"<th>Date</th>".
+	"<th> commentaire </th>".
+	"<th>internal</th>".
+	/* "<th>Pièce justificative</th>". */
+	"<th> montant</th>".
+	"</TR>";
+
+      foreach ($Row as $line)
+	{
+	  echo "<tr>";
+	  echo "<TD>".$line['num']."</TD>";
+	  echo "<TD>".$line['date']."</TD>";
+	  echo "<TD>".$line['comment']."</TD>";
+	  echo "<TD>".$line['jr_internal']."</TD>";
+	  //	  echo "<TD>".$line['pj']."</TD>";
+	// If the ledger is financial :
+	// the credit must be negative and written in red
+  	// Get the jrn type
+	if ( $line['jrn_def_type'] == 'FIN' ) {
+	  $positive = CountSql($cn,"select * from jrn inner join jrnx on jr_grpt_id=j_grpt ".
+		   " where jr_id=".$line['jr_id']." and (j_poste like '55%' or j_poste like '57%' )".
+			       " and j_debit='f'");
+	
+        echo "<TD align=\"right\">";
+	echo ( $positive != 0 )?"<font color=\"red\">  - ".sprintf("%8.2f",$line['montant'])."</font>":sprintf("%8.2f",$line['montant']);
+	echo "</TD>";
+	}
+	else 
+	  {
+	    echo "<TD align=\"right\">".sprintf("% 8.2f",$line['montant'])."</TD>";
+	  }
+
+	  echo "</tr>";
+	}
+      
+    } //else
   echo "</table>";
+
   echo "</div>";
   exit;
 }
@@ -152,7 +213,12 @@ $centralise=new widget("checkbox");
 $centralise->label="Depuis les journaux centralisés";
 $centralise->table=1;
 print $centralise->IOValue('cent');
-
+$a=array(
+	 array('value'=>0,'label'=>'Detaillé'),
+	 array('value'=>1,'label'=>'Simple')
+	 );
+$w->selected=1;
+echo $w->IOValue('p_simple',$a,'Style d\'impression');
 print "</TR>";
 echo '</TABLE>';
 print $w->Submit('bt_html','Impression');

@@ -85,8 +85,6 @@ if ( isset ($_GET['JRN_TYPE'] ) ) {
   ShowMenuJrnUser($_SESSION['g_dossier'],$_GET['JRN_TYPE'],$p_jrn);
    echo "</DIV>";
  if ( $jrn_type=='NONE' )     include('user_action_gl.php');
- if ( $jrn_type=='SALDO_FIN') include ('user_action_fin.php');
-
 } else {
 
   echo_debug("Selected is ".$p_jrn);
@@ -103,11 +101,6 @@ if ( isset ($_GET['JRN_TYPE'] ) ) {
  echo '</div>';
 }
 
-if ( $jrn_type=='FIN' )
-{
-  //show balance of all bank accounts. Let's say their ID start with 5500
-  //TODO 
-}
 
   // if a journal is selected show the journal's menu
 if ( $p_jrn != -1 ) {

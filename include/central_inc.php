@@ -68,6 +68,7 @@ $sql="insert into centralized( c_j_id,
  if ($Res==false) { rollback($p_cn); EndSql($p_cn); return ERROR;}
 // Set correctly the number of operation id (jr_opid) for each journal
 // get the existing jrn_def_id 
+//--
  $Res = ExecSql($p_cn,"select jrn_def_id from jrn_def");
  $MaxJrn=pg_NumRows($Res);
  // for each jrn_def_id

@@ -46,7 +46,7 @@ class jrn {
   }
 
 /* function GetRow
- * Purpose : Get The data for the pdf printing
+ * Purpose : Get The data 
  * 
  * parm : 
  *	- connection
@@ -73,10 +73,10 @@ class jrn {
     // Grand livre == 0
     if ( $this->id != 0 ) {
 
-    if ( $cent=='off' ) {
-      echo_debug(__FILE__,__LINE__,"journaux non  centralisé");
-      // Journaux non centralisés
-    $Res=ExecSql($this->db,"select j_id,j_id as int_j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
+      if ( $cent=='off' ) {
+	echo_debug(__FILE__,__LINE__,"journaux non  centralisé");
+	// Journaux non centralisés
+	$Res=ExecSql($this->db,"select j_id,j_id as int_j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
                       jr_internal,
                 case j_debit when 't' then j_montant::text else '   ' end as deb_montant,
                 case j_debit when 'f' then j_montant::text else '   ' end as cred_montant,
@@ -221,5 +221,92 @@ class jrn {
   $a=array($array,$tot_deb,$tot_cred);
   return $a;
   }
- 
+ /* function GetRowSimple
+ **************************************************
+ * Purpose : Get simplified row
+ *        
+ * parm : 
+ *	- connection
+ *      - array
+ *      - p_limit starting line
+ *      - p_offset number of lines
+ *
+ * gen :
+ *	- none
+ * return:
+ *	- Array with the asked data
+ *
+ */ 
+
+  function GetRowSimple($p_from,$p_to,$cent='off',$p_limit=-1,$p_offset=-1) 
+  {
+    
+    echo_debug(__FILE__,__LINE__,"GetRowSimple ( $p_from,$p_to,$cent,$p_limit,$p_offset)");
+    // Periode check
+    //---
+    if ( $p_from == $p_to ) 
+      $periode=" jr_tech_per = $p_from ";
+    else
+      $periode = "(jr_tech_per >= $p_from and jr_tech_per <= $p_to) ";
+    $cond_limite=($p_limit!=-1)?" limit ".$p_limit." offset ".$p_offset:"";
+    // Grand-livre : id= 0
+    //---
+    $jrn=($this->id == 0 )?"":"and jrn_def_id = ".$this->id;
+    // Non Centralise si cent=off
+    //--
+    if ($cent=='off') 
+      {// Non centralisé
+	//---
+	$sql=" 
+    SELECT jrn.jr_id as jr_id ,
+           jrn.jr_id as num , 
+           jrn.jr_def_id as jr_def_id, 
+           jrn.jr_montant as montant, 
+           jrn.jr_comment as comment, 
+           to_char(jrn.jr_date,'DD-MM-YYYY') as date, 
+           jr_internal,
+           jrn.jr_grpt_id as grpt_id, 
+           jrn.jr_pj_name as pj,
+            jrn_def_type
+   FROM jrn join jrn_def on (jrn_def_id=jr_def_id)
+where $periode $jrn order by jr_date";
+
+
+	
+      } 
+    else 
+      {
+	//Centralisé
+	//---
+	$id=($this->id == 0 ) ?"jr_c_opid as num":"jr_opid as num";
+	$sql="
+    SELECT jrn.jr_id as jr_id ,
+           $id , 
+           jrn.jr_def_id as jr_def_id, 
+           jrn.jr_montant as montant, 
+           jrn.jr_comment as comment, 
+           to_char(jrn.jr_date,'DD-MM-YYYY') as date, 
+           jr_internal,
+           jrn.jr_grpt_id as grpt_id, 
+           jrn.jr_pj_name as pj,
+            jrn_def_type
+   FROM jrn join jrn_def on (jrn_def_id=jr_def_id)
+       where 
+         $periode $jrn and 
+         jr_opid is not null
+         order by jr_date";
+      }// end else $cent=='off'
+    //load all data into an array
+    //---
+    $Res=ExecSql($this->db,$sql);
+    if ( pg_NumRows($Res) == 0 ) 
+      {
+	return null;
+      } 
+
+
+    $array=pg_fetch_all($Res); 
+
+    return $array;  
+  }// end function GetRowSimple
 }

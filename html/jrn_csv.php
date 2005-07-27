@@ -43,20 +43,24 @@ if ( $User->CheckAction($cn,IMP) == 0 ||
 $Jrn=new jrn($cn,$_GET['jrn_id']);
 
 $Jrn->GetName();
-$Jrn->GetRow( $_GET['from_periode'],
-	      $_GET['to_periode'],
-	      $p_cent);
+// Detailled printing
+//---
+if  ( $_GET['p_simple'] == 0 ) 
+  {
+    $Jrn->GetRow( $_GET['from_periode'],
+		  $_GET['to_periode'],
+		  $p_cent);
 
-  if ( count($Jrn->row) == 0) 
-      	exit;
-  foreach ( $Jrn->row as $op ) { 
+    if ( count($Jrn->row) == 0) 
+      exit;
+    foreach ( $Jrn->row as $op ) { 
       // should clean description : remove <b><i> tag and '; char
-    $desc=$op['description'];
-    $desc=str_replace("<b>","",$desc);
-    $desc=str_replace("</b>","",$desc);
-    $desc=str_replace("<i>","",$desc);
-    $desc=str_replace("</i>","",$desc);
-    $desc=str_replace('"',"'",$desc);
+      $desc=$op['description'];
+      $desc=str_replace("<b>","",$desc);
+      $desc=str_replace("</b>","",$desc);
+      $desc=str_replace("<i>","",$desc);
+      $desc=str_replace("</i>","",$desc);
+      $desc=str_replace('"',"'",$desc);
 
       printf("\"%s\"\t\"%s\"\t\"%s\"\t\"%s\"\t\"%s\"\t%8.4f\t%8.4f\n",
 	     $op['j_id'],
@@ -68,6 +72,48 @@ $Jrn->GetRow( $_GET['from_periode'],
 	     $op['deb_montant']
 	     );
 	
+    }
+    exit;
   }
-  exit;
+ else 
+   {
+     $Row=$Jrn->GetRowSimple($_GET['from_periode'],
+			     $_GET['to_periode'],
+			     $p_cent);
+////////////////////////////////////////////////////////////////////////////////
+     printf ('" operation "'.
+	     '"Date"'.
+	     '"commentaire"'.
+	     '"internal"'.
+	     '"montant"');
+
+      foreach ($Row as $line)
+	{
+	  echo $line['num'].";";
+	  echo $line['date'].";";
+	  echo $line['comment'].";";
+	  echo $line['jr_internal'].";";
+	  //	  echo "<TD>".$line['pj'].";";
+	// If the ledger is financial :
+	// the credit must be negative and written in red
+  	// Get the jrn type
+	if ( $line['jrn_def_type'] == 'FIN' ) {
+	  $positive = CountSql($cn,"select * from jrn inner join jrnx on jr_grpt_id=j_grpt ".
+		   " where jr_id=".$line['jr_id']." and (j_poste like '55%' or j_poste like '57%' )".
+			       " and j_debit='f'");
+	
+
+	echo ( $positive != 0 )?sprintf("-%8.2f",$line['montant']):sprintf("%8.2f",$line['montant']);
+	echo ";";
+	}
+	else 
+	  {
+	    printf("% 8.2f",$line['montant']).";";
+	  }
+
+	printf("\r\n");
+	}
+      
+////////////////////////////////////////////////////////////////////////////////
+   }
 ?>
