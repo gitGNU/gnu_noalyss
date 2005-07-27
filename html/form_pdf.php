@@ -37,29 +37,67 @@ $pdf=& new Cezpdf();
 $pdf->selectFont('./addon/fonts/Helvetica.afm');
 
 $Form=new rapport($cn,$form_id);
-$array=$Form->GetRow($from_periode,$to_periode);
+// Step ??
+//--
+if ( $_POST['p_step'] == 0 ) 
+  {
+    // No step asked
+    //--
+    $array=$Form->GetRow($from_periode,$to_periode);
+  }
+ else 
+   {
+     // yes with step
+     //--
+     for ($e=$_POST['from_periode'];$e<=$_POST['to_periode'];$e+=$_POST['p_step'])
+       {
+	 $array[]=$Form->GetRow($e,$e);
+	 $periode_name[]=getPeriodeName($cn,$e);
+       }
+
+   }
 
 $Libelle=sprintf("(%s) %s ",$Form->id,$Form->GetName());
     
     $pdf->ezText($Libelle,30);
-$q=getPeriodeName($cn,$from_periode);
-if ( $from_periode != $to_periode){
-  $periode=sprintf("Période %s à %s",$q,getPeriodeName($cn,$to_periode));
- } else {
-  $periode=sprintf("Période %s",$q);
- }
-$pdf->ezText($periode,25);
+// without step 
+if ( $_POST['p_step'] == 0 ) 
+  {
+    $q=getPeriodeName($cn,$from_periode);
+    if ( $from_periode != $to_periode){
+      $periode=sprintf("Période %s à %s",$q,getPeriodeName($cn,$to_periode));
+    } else {
+      $periode=sprintf("Période %s",$q);
+    }
+    
+    $pdf->ezText($periode,25);
     $pdf->ezTable($array,
 		  array ('desc'=>'Description',
-		       'montant' => 'Montant'
+			 'montant' => 'Montant'
 		       ),$Libelle,
-		array('shaded'=>0,'showHeadings'=>1,'width'=>500,
-		      'cols'=>array('montant'=> array('justification'=>'right'),
-				    )));
-  //New page
-  //$pdf->ezNewPage();
-//}    
-
+		  array('shaded'=>0,'showHeadings'=>1,'width'=>500,
+			'cols'=>array('montant'=> array('justification'=>'right'),
+				      )));
+    //New page
+    //$pdf->ezNewPage();
+    //}    
+  } 
+ else 
+   { // With Step 
+     $a=0;
+     foreach ($array as $e) 
+       {
+	 $pdf->ezText($periode_name[$a],25);
+	 $a++;
+	 $pdf->ezTable($e,
+		       array ('desc'=>'Description',
+			      'montant' => 'Montant'
+			      ),$Libelle,
+		       array('shaded'=>0,'showHeadings'=>1,'width'=>500,
+			     'cols'=>array('montant'=> array('justification'=>'right'),
+					   )));
+       }
+   }
 $pdf->ezStream();
 
 ?>

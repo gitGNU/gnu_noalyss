@@ -27,9 +27,22 @@ if ( isset( $_POST['bt_html'] ) ) {
 include("class_rapport.php");
   $Form=new rapport($cn,$_POST['form_id']);
   $Form->GetName();
-  $array=$Form->GetRow( $_POST['from_periode'],
-			$_POST['to_periode']
-			);
+  // step asked ?
+  //--
+  if ($_POST['p_step'] == 0 ) {
+    $array=$Form->GetRow( $_POST['from_periode'],
+			  $_POST['to_periode']
+			  );
+  } else {
+    // step are asked
+    //--
+    for ($e=$_POST['from_periode'];$e<=$_POST['to_periode'];$e+=$_POST['p_step'])
+      {
+	$array[]=$Form->GetRow($e,$e);
+	$periode_name[]=getPeriodeName($cn,$e);
+      }
+  }
+
 
   $rep="";
   $submit=new widget();
@@ -51,7 +64,9 @@ include("class_rapport.php");
     $hid->IOValue("type","rapport").
     $hid->IOValue("form_id",$Form->id).
     $hid->IOValue("from_periode",$_POST['from_periode']).
-    $hid->IOValue("to_periode",$_POST['to_periode']);
+    $hid->IOValue("to_periode",$_POST['to_periode']).
+    $hid->IOValue("p_step",$_POST['p_step']);
+
 
   echo "</form></TD>";
   echo '<TD><form method="POST" ACTION="form_csv.php">'.
@@ -59,7 +74,8 @@ include("class_rapport.php");
     $hid->IOValue("type","form").
     $hid->IOValue("form_id",$Form->id).
     $hid->IOValue("from_periode",$_POST['from_periode']).
-    $hid->IOValue("to_periode",$_POST['to_periode']);
+    $hid->IOValue("to_periode",$_POST['to_periode']).
+    $hid->IOValue("p_step",$_POST['p_step']);
 
   echo "</form></TD>";
 
@@ -69,20 +85,21 @@ include("class_rapport.php");
   if ( count($Form->row ) == 0 ) 
   	exit;
 
-  echo "<TABLE width=\"100%\">";
-      echo "<TR>".
-	"<TH> Description </TH>".
-	"<TH> montant </TH>".
-	"</TR>";
+      if ( $_POST['p_step'] == 0) 
+	{ // check the step
+	  // show tables
+	  ShowReportResult($Form->row);
+	} 
+	else
+	  {
+	    $a=0;
+	    foreach ( $array as $e) {
+	      echo '<h2 class="info">Periode : '.$periode_name[$a]."</h2>";
+	      $a++;
+	      ShowReportResult($e);
+	    }
+	  }
 
-  foreach ( $Form->row as $op ) { 
-      echo "<TR>".
-	"<TD>".$op['desc']."</TD>".
-	"<TD align=\"right\">".sprintf("% 8.2f",$op['montant'])."</TD>".
-	"</TR>";
-    
-  }
-  echo "</table>";
   echo "</div>";
   exit;
 }
@@ -118,9 +135,37 @@ $w->label=" jusqu'à ";
 $periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode order by p_id");
 print $w->IOValue('to_periode',$periode_end);
 print "</TR>";
+$aStep=array(
+	     array('value'=>0,'label'=>'Pas d\'étape'),
+	     array('value'=>1,'label'=>'1 mois')
+	     );
+$w->label='Par étape de';
+echo '<TR> '.$w->IOValue('p_step',$aStep);
+echo '</TR>';
+
 echo '</TABLE>';
 print $w->Submit('bt_html','Impression');
 
 echo '</FORM>';
 echo '</div>';
+////////////////////////////////////////////////////////////////////////////////
+// Function
+////////////////////////////////////////////////////////////////////////////////
+ function ShowReportResult($p_array) {
+   
+   echo "<TABLE width=\"100%\">";
+   echo "<TR>".
+     "<TH> Description </TH>".
+     "<TH> montant </TH>".
+     "</TR>";
+   foreach ( $p_array as $op ) { 
+     echo "<TR>".
+       "<TD>".$op['desc']."</TD>".
+       "<TD align=\"right\">".sprintf("% 8.2f",$op['montant'])."</TD>".
+       "</TR>";
+   }
+   echo "</table>";
+
+ }
+
 ?>
