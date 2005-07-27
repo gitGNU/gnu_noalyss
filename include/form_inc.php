@@ -307,7 +307,8 @@ function AddForm($p_cn,$p_array) {
     echo_error("Nom ou ligne non défini");
     return;
   }
-  $sql="insert into formdef (fr_label) values ('".FormatString($form_nom)."')";
+  $form_nom=(FormatString($form_nom)==null)?"NoName":FormatString($form_nom);
+  $sql="insert into formdef (fr_label) values ('".$form_nom."')";
   $Res=ExecSql($p_cn,$sql);
   $n=GetSequence($p_cn,"s_formdef");
 

@@ -78,6 +78,6 @@ function MakeListingVat($p_cn,$p_array,$p_year) {
   $a.="BE";
   $a.=$my->MY_TVA;
   $a.=str_repeat(" ",28);
-  $a.="\n";
+  $a.="\r\n";
   return $a;
 }
