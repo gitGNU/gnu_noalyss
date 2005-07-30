@@ -75,10 +75,15 @@ if ( isset ($_GET['show'])) {
    echo "</DIV>";
    exit();
 }
+
+//TODO: add direct show of jrn if there is only one jrn of type JRN_TYPE (stan)
+
 // if type of journal is asked
 if ( isset ($_GET['JRN_TYPE'] ) ) {
   $jrn_type=$_GET['JRN_TYPE'];
 
+  //when we get there, count jrns of selected type. select count(*) from jrn_def where jrn_def_type='$jrn_type'; 
+  
   $result=ShowJrn("user_jrn.php?JRN_TYPE=".$jrn_type);
    echo "<DIV class=\"u_subtmenu\">";
    echo $result;
