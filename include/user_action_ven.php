@@ -128,7 +128,7 @@ if ( isset($_POST["record_and_print_invoice"])) {
 ?>
 <div class="u_redcontent">
 <?
-echo "<form method= \"post\" action=\"user_jrn.php?action=voir_jrn&p_jrn=$p_jrn\">";
+echo "<form method=\"get\" action=\"user_jrn.php?action=voir_jrn&p_jrn=$p_jrn\">";
 
 $w=new widget("select");
 
