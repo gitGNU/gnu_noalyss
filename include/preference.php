@@ -85,11 +85,12 @@ function FormPeriode($p_cn,$l_default=0,$p_type=OPEN,$p_suff="")
   default:
     error("invalide p_type in __FILE__#__LINE__");
   }
-  $sql="select p_id,to_char(p_start,'DD.MM.YYYY') as p_start,
-                    to_char(p_end,'DD.MM.YYYY') as p_end 
+  $sql="select p_id,to_char(p_start,'DD.MM.YYYY') as p_start_string,
+                    to_char(p_end,'DD.MM.YYYY') as p_end_string 
         from parm_periode where 
          $sql_closed 
-          order by p_exercice,p_start";
+          order by p_start";
+          
   $Res=ExecSql($p_cn,$sql);
   $Max=pg_NumRows($Res);
   if ( $Max == 0 ) return null;
@@ -103,8 +104,8 @@ function FormPeriode($p_cn,$l_default=0,$p_type=OPEN,$p_suff="")
 
     $ret.=sprintf('<OPTION VALUE="%s" %s>%s - %s',$l_line['p_id']
 		  ,$sel
-		  ,$l_line['p_start']
-		  ,$l_line['p_end']);
+		  ,$l_line['p_start_string']
+		  ,$l_line['p_end_string']);
 
   }
   $ret.="</SELECT>";
