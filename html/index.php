@@ -29,8 +29,9 @@ BODY {
 <script src="scripts.js" type="text/javascript"></script>
 </head>
 <BODY onLoad="SetFocus(\'login\',0)">
+TEST
 <div class="remark">
- <p class="gras">Il est conseillé de ne PAS utiliser Internet Explorer.
+ <p class="gras">Il est conseill&eacute; de ne PAS utiliser Internet Explorer.
  </p><p>
  Vous pouvez utiliser un autre browser: firefox, mozilla, netscape, Konqueror, opera...
  </p>

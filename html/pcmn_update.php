@@ -87,6 +87,7 @@ if (isset ($_GET['action'])) {
 } // isset action
 /* Ajout d'une ligne */
 if ( isset ( $_POST["Add"] ) ) {
+	extract ($_POST);
   if ( isset ( $p_val) && isset ( $p_lib ) ) {
     $p_val=trim($p_val);
     $p_lib=trim($p_lib);
