@@ -207,7 +207,11 @@ span.even {
 
 tr.odd {
 	background-color:#DDE6FF;
+	font-size:10px;
   border-size:0px;		
+}
+tr {
+	font-size:10px;
 }
 td.odd{
 	background-color:#DDE6FF ;
