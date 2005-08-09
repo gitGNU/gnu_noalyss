@@ -201,6 +201,7 @@ class widget {
     if ( strtolower($this->type)=="js_search_poste") {
      
       $l_sessid=$_REQUEST['PHPSESSID'];
+      if ( $this->readonly == false ) {
       // Do we need to filter ??
       if ( $this->extra2 == null ) {
       $r=sprintf('<TD>
@@ -234,7 +235,17 @@ class widget {
 		 );
 
       } //else
+      } else {
+      $r=sprintf('<TD>
+                  %s
+
+                 </TD>',
+		 $this->value 
+		 );
+
+      } //else if readonly == true
       return $r;
+
     } // end js_search_poste
 
   // input type == js_search => button search for card
