@@ -98,7 +98,9 @@ function DbConnect($p_db=-1,$p_type='dossier') {
  */
 function ExecSql($p_connection, $p_string) {
   echo_debug(__FILE__,__LINE__,"SQL = $p_string");
-
+  // probl. with Ubuntu & UTF8
+  //----
+  pg_set_client_encoding($p_connection,'latin1');
   $ret=pg_query($p_connection,$p_string);
   if ( $ret == false ) { 
     echo_error ("SQL ERROR ::: $p_string");
