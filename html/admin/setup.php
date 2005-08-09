@@ -297,6 +297,13 @@ for ($e=0;$e < $MaxDossier;$e++) {
     ExecuteScript($db,'sql/patch/upgrade5.sql');
   } // version == 5
 
+  //--
+  // update to the version 7
+  //--
+  if ( GetVersion($db) == 6 ) { 
+    ExecuteScript($db,'sql/patch/upgrade6.sql');
+  } // version == 6
+
  }
 
 $Resdossier=ExecSql($cn,"select mod_id, mod_name from modeledef");
@@ -326,4 +333,7 @@ for ($e=0;$e < $MaxDossier;$e++) {
 $cn=DbConnect();
 if ( GetVersion($cn) <= 4 ) {
   ExecuteScript($cn,'sql/patch/ac-upgrade4.sql');
+ }
+if ( GetVersion($cn) == 5 ) {
+  ExecuteScript($cn,'sql/patch/ac-upgrade5.sql');
  }
