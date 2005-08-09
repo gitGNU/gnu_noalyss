@@ -1546,6 +1546,7 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
     else
       $filter=null;
     $W = new widget('js_search_poste');
+    $W->readonly=$view_only;
     $W->label="";
     $W->extra=$p_jrn;
     $W->extra2=$filter;
