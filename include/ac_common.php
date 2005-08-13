@@ -149,7 +149,7 @@ function html_page_start($p_theme="",$p_script="")
  }else {
    $style="style.css";
  } // end if
- echo '<!DOCTYPE HTML PUBLIC "-//W3C/DTD HTML 3.2 FINAL//EN">';
+ echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 FINAL//EN">';
  echo "<HTML>";
  echo "<HEAD> 
       <TITLE> Gnu Accountancy</TITLE>

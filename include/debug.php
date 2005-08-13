@@ -35,7 +35,6 @@ function echo_debug      ($file,$line="",$msg="") {
     $sql= "insert into log (lg_file,lg_line,lg_msg) ".
  	  "values ('$file','$line','$msg');";
 //    pg_exec ($cn,"\set encoding 'latin1'");
-  //  echo pg_client_encoding($cn);
     pg_set_client_encoding($cn,'latin1');
     pg_exec($cn,$sql);
   }
