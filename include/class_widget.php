@@ -236,10 +236,12 @@ class widget {
 
       } //else
       } else {
-      $r=sprintf('<TD>
+      $r=sprintf('<TD><input type="hidden" name="%s" value="%s">
                   %s
 
                  </TD>',
+		 $this->name, 
+		 $this->value ,
 		 $this->value 
 		 );
 
