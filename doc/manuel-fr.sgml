@@ -284,6 +284,131 @@ tva. N'oubliez pas : vous devez tout d'abord lire  et imprimez en 3
 exemplaires l'annexe 6 (note d'accompagnement)
 </sect2>
 </sect1>
+<sect1>Fiscalité Belgique : Impôts 
+<sect2>Pendant l'exercice
+<p>Pendant toute l'année, vous payez probablement des versements 
+anticipés d'impôts. Dans votre comptabilité cela doit apparaître
+ainsi
+<verb>
+6700 	Impôt et précomptes dus ou versés
+      à
+     5500 Banque
+</verb>
+
+<p>Les versements anticipés d'impôt ne sont pas des charges déductibles
+
+</sect2>
+<sect2>Fin d'exercice
+<p>A la fin de l'exercice, vous devez estimer l'impôt. Soit vous pensez
+que vous aurez à rembourser soit à payer.
+
+<sect3>Remboursement d'impôt:
+<p>Dans ce cas, vous passerez les écritures suivantes
+<verb>
+4120  Impôt estimé à récupérer
+à
+6701  Excédent de versements d'impôt
+</verb>
+</sect3>
+<sect3> Dette envers l'impôt
+<p>Dans ce cas, vous passerez les écritures suivantes
+<verb>
+6702	Charges fiscales estimées
+à
+4500	Dettes fiscales estimées
+</verb>
+</sect3>
+</sect2>
+<sect2>L'année suivante
+<p>L'année suivante vous recevez votre extrait de rôle. 
+Suivant que vous ayez prévu d'avoir une dette et une créance d'impôt, il 
+y aura des écritures différentes.
+<sect3>Premier cas, vous pensez avoir une créance.
+<sect4>La créance estimée est inférieure à ce que vous allez vraiment recevoir. 
+<p>Autrement dit, vous avez sous-estimé votre créance
+Dans ce cas, les écritures seront 
+<verb>
+4121 Impôt à récupérer
+à
+     7710 Régularisation d'impôt dus ou versé
+     4120 Impôt estimé à récupérer
+</verb>
+
+</sect4>
+<sect4>la créance estimée est supérieure à ce que vous allez vraiment recevoir,
+<p>c'est-à-dire, surestimation de la créance. vous recevrez moins que prévu.
+<verb>
+4121 Impôt à récupérer
+à
+     6710 Supplément d'impôt dus ou versé
+     4120 Impôt estimé à récupérer
+</verb>
+
+</sect4>
+<sect4>Vous avez correctement estimé votre créance.
+<p>Dans ce cas, vous devez simplement faire
+<verb>
+4121 Impôt à récupérer
+à
+     4120 Impôt estimé à récupérer
+</verb>
+Et quand l'argent tombera sur votre compte
+<verb>
+5500 Banque
+à
+	4121 Impôt à récupérer
+</verb>
+Si vous décidez de le reporter en tant que versement anticipé d'impôt.
+<verb>
+6700	Impôt dus ou versé
+à 
+	4121 Impôt à récupérer
+</verb>
+</sect4>
+</sect3>
+<sect3>Second cas, vous pensez avoir une dette fiscale
+<sect4>L'estimation de votre dette fiscale est supérieure à 
+ce que vous allez vraiment payer.
+<p>Autrement dit, vous payez 
+moins d'impôt que prévu.
+<verb>
+4500 Dettes fiscales estimées
+à 
+     7710 Régularisation d'impôt dus ou versé
+     4520 Impôt et taxes à payer
+</verb>
+
+</sect4>
+<sect4>L'estimation de votre dette fiscale est inférieure à 
+ce que vous allez vraiment payer.
+<p>Autrement dit, vous payez plus  d'impôt que prévu.
+<verb>
+4500 Dettes fiscales estimées
+6710 Supplément d'impôt dus
+à 
+     4520 Impôt et taxes à payer
+
+</verb>
+
+</sect4>
+<sect4>Vous avez correctement évalué votre dette fiscale.
+<p>Les écritures à passer seront donc
+<verb>
+4500 Dettes fiscales estimées
+à 
+     4520 Impôt et taxes à payer
+</verb>
+Puis lors du paiement
+<verb>
+4520  Impôt et taxes à payer
+à
+	5500  Banque
+</verb>
+
+</sect4>
+</sect3>
+</sect2>
+</sect1>
 <sect1> Fiscalité France
 <p> Pas reçu de doc ni d'aide sur ce sujet désolé
 
