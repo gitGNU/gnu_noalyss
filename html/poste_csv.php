@@ -41,29 +41,31 @@ list($array,$tot_deb,$tot_cred)=$Poste->GetRow( $_POST['from_periode'],
 if ( count($Poste->row ) == 0 ) 
   exit;
 
-echo "\"Code interne\"\t ".
-     "\"Date\"\t".
-      "\"Description\"\t".
-      "\"Débit\"\t".
-      "\"Crédit\n";
+ echo "\"Code interne\";".
+     "\"Date\";".
+      "\"Description\";".
+      "\"Débit\";".
+      "\"Crédit\"";
+printf("\n");
 
 
   foreach ( $Poste->row as $op ) { 
-      echo '"'.$op['jr_internal'].'"'."\t".
-	'"'.$op['j_date'].'"'."\t".
-	'"'.$op['description'].'"'."\t".
-	sprintf("%8.4f",$op['deb_montant'])."\t".
-	sprintf("%8.4f",$op['cred_montant']).
-	"\n";
+      echo '"'.$op['jr_internal'].'"'.";".
+	'"'.$op['j_date'].'"'.";".
+	'"'.$op['description'].'"'.";".
+	sprintf("%8.4f",$op['deb_montant']).";".
+	sprintf("%8.4f",$op['cred_montant']);
+      printf("\n");
+
     
   }
   $solde_type=($tot_deb>$tot_cred)?"solde débiteur":"solde créditeur";
   $diff=abs($tot_deb-$tot_cred);
-  echo 
-    '"'."$solde_type".'"'."\t".
-    sprintf("%8.4f",$diff)."\t".
-    sprintf("%8.4f",$tot_deb)."\t".
-  sprintf("%8.4f",$tot_cred)."\n";
+printf(
+    '"'."$solde_type".'"'.";".
+    sprintf("%8.4f",$diff).";".
+    sprintf("%8.4f",$tot_deb).";".
+  sprintf("%8.4f",$tot_cred)."\n");
 
   exit;
 ?>
