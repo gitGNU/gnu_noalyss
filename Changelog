@@ -1,5 +1,9 @@
 2005-08-14  sparkyx  <sparkyx@eleven>
 
+	* html/index.php: version
+
+	* Changelog: Changelog
+
 	* include/class_balance.php: to avoid that label is too great
 
 	* include/user_common.php: debug info

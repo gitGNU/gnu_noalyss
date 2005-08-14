@@ -29,7 +29,7 @@ BODY {
 <script src="scripts.js" type="text/javascript"></script>
 </head>
 <BODY onLoad="SetFocus(\'login\',0)">
-TEST
+V1.2.1
 <div class="remark">
  <p class="gras">Il est conseill&eacute; de ne PAS utiliser Internet Explorer.
  </p><p>
