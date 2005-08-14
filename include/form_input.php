@@ -317,6 +317,7 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article
     $W1->value=$march;
     $W1->extra='cred';  // credits
     $W1->extra2=$p_jrn;
+    $W1->readonly=$view_only;
     $r.="<TR>".$W1->IOValue()."</TD>";
 
     // card's name
@@ -844,6 +845,7 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
   $W1->value=$e_client;
   $W1->extra='cred';
   $W1->extra2=$p_jrn;
+  $W1->readonly=$p_viewonly;
   $r.="<TR>".$W1->IOValue();
   $r.=       InputType(""       ,"span"   ,"e_client_label",$e_client_label,false).'</TR>';
   $r.="</TABLE>";
@@ -1295,6 +1297,7 @@ function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
     $W1->value=$tiers;
     $W1->extra='cred';  // credits
     $W1->extra2=$p_jrn;
+    $W1->readonly=$p_viewonly;
     $r.="<TR>".$W1->IOValue()."</TD>";
 
     $r.=InputType("","span", "e_other$i"."_label", $tiers_label,$view_only);
