@@ -192,7 +192,7 @@ function InputType($p_label,$p_type,$p_name,$p_value,$p_viewonly=false,$p_list=n
  * return: string with the form
  * TODO Add in parameters the infos about the company for making the invoice
  */
-function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article=1)
+function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$pview_only=true,$p_article=1)
 { 
 
   if ( $p_array != null ) {
@@ -211,7 +211,7 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article
   // Save old value and set a new one
   echo_debug(__FILE__,__LINE__,"form_input.php.FormVentep_op_date is $op_date");
   $r="";
-  if ( $view_only == false) {
+  if ( $pview_only == false) {
     $r.=JS_SEARCH_CARD;
     $r.=JS_SHOW_TVA;    
     $r.=JS_TVA;
@@ -223,10 +223,10 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article
   $sql="select jrn_def_id as value,jrn_def_name as label from jrn_def where jrn_def_type='VEN'";
   $list=GetArray($p_cn,$sql);
   $r.='<TABLE>';
-  $r.='<TR>'.InputType("Date ","Text","e_date",$op_date,$view_only).'</TR>';
+  $r.='<TR>'.InputType("Date ","Text","e_date",$op_date,$pview_only).'</TR>';
 
-  $r.='<TR>'.InputType("Echeance","Text","e_ech",$e_ech,$view_only).'</TR>';
-  $r.='<TR>'.InputType("Commentaire","Text_big","e_comm",$e_comm,$view_only).'</TR>';
+  $r.='<TR>'.InputType("Echeance","Text","e_ech",$e_ech,$pview_only).'</TR>';
+  $r.='<TR>'.InputType("Commentaire","Text_big","e_comm",$e_comm,$pview_only).'</TR>';
 
   include_once("fiche_inc.php");
   // Display the customer
@@ -251,7 +251,7 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article
     }
   }
 
-  //  $r.='<TR>'.InputType("Client ","js_search","e_client",$e_client,$view_only,$fiche).'</TD>';  
+  //  $r.='<TR>'.InputType("Client ","js_search","e_client",$e_client,$pview_only,$fiche).'</TD>';  
   $W1=new widget("js_search");
   $W1->label="Client";
   $W1->name="e_client";
@@ -310,29 +310,29 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article
       }
     }
     // Show input
-    //    $r.='<TR>'.InputType("","js_search","e_march".$i,$march,$view_only,'cred');
+    //    $r.='<TR>'.InputType("","js_search","e_march".$i,$march,$pview_only,'cred');
     $W1=new widget("js_search");
     $W1->label="";
     $W1->name="e_march".$i;
     $W1->value=$march;
     $W1->extra='cred';  // credits
     $W1->extra2=$p_jrn;
-    $W1->readonly=$view_only;
+    $W1->readonly=$pview_only;
     $r.="<TR>".$W1->IOValue()."</TD>";
 
     // card's name
-    $r.=InputType("","span", "e_march".$i."_label", $march_label,$view_only);
+    $r.=InputType("","span", "e_march".$i."_label", $march_label,$pview_only);
 
     // price
-    $r.=InputType("","text","e_march".$i."_sell",$march_sell,$view_only);
+    $r.=InputType("","text","e_march".$i."_sell",$march_sell,$pview_only);
     // vat label
-    $r.=InputType("","span","e_march".$i."_tva_label",$march_tva_label,$view_only);
+    $r.=InputType("","span","e_march".$i."_tva_label",$march_tva_label,$pview_only);
     // Tva id 
-    $r.=InputType("","js_tva","e_march$i"."_tva_id",$march_tva_id,$view_only,"e_march".$i."_tva_label");
+    $r.=InputType("","js_tva","e_march$i"."_tva_id",$march_tva_id,$pview_only,"e_march".$i."_tva_label");
 
     $quant=(isset(${"e_quant$i"}))?${"e_quant$i"}:"0";
     // quantity
-    $r.=InputType("","TEXT","e_quant".$i,$quant,$view_only);
+    $r.=InputType("","TEXT","e_quant".$i,$quant,$pview_only);
     $r.='</TR>';
   }
 
@@ -341,7 +341,7 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article
   $r.="</TABLE>";
   $r.="<hr>";
 
-  if ($view_only == false ) {
+  if ($pview_only == false ) {
     $r.='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">';
     $r.='<INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
     $r.="</DIV>";
@@ -750,7 +750,7 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
 
   return $comment;
 }
-/* function FormAch($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article=1)
+/* function FormAch($p_cn,$p_jrn,$p_user,$p_array=null,$pview_only=true,$p_article=1)
  * Purpose : Display the form for buying
  *           Used to show detail, encode a new invoice 
  *           or update one
@@ -767,7 +767,7 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
  * return: string with the form
  * TODO Add in parameters the infos about the company for making the invoice
  */
-function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p_article=3,$saved=false)
+function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$pview_only=true,$p_article=3,$saved=false)
 { 
 
   if ( $p_array != null ) {
@@ -785,7 +785,7 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
   $e_date=( ! isset($e_date) ) ? substr($l_date_start,2,8):$e_date;
   // Verify if valid date
   if ( $flag==1 and VerifyOperationDate($p_cn,$p_user,$e_date)   == null) {
-    if ( $view_only == true) 
+    if ( $pview_only == true) 
       return null;
     else 
       $e_date=substr($l_date_start,2,8);
@@ -796,7 +796,7 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
   // Save old value and set a new one
   //  echo_debug(__FILE__,__LINE__,"form_input.php.FormAch p_op_date is $e_date");
   $r="";
-  if ( $view_only == false) {
+  if ( $pview_only == false) {
     $r.=JS_SEARCH_CARD;
     $r.=JS_TVA;
     $r.=JS_SHOW_TVA;
@@ -805,9 +805,9 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
 
   $r.="<FORM NAME=\"form_detail\"  enctype=\"multipart/form-data\" ACTION=\"user_jrn.php?action=new&p_jrn=$p_jrn\" METHOD=\"POST\">";
   $r.='<TABLE>';
-  $r.='<TR>'.InputType("Date ","Text","e_date",$e_date,$view_only).'</TR>';
-  $r.='<TR>'.InputType("Echeance","Text","e_ech",$e_ech,$view_only).'</TR>';
-  $r.='<TR>'.InputType("Description","Text_big","e_comment",$e_comment,$view_only).'</TR>';
+  $r.='<TR>'.InputType("Date ","Text","e_date",$e_date,$pview_only).'</TR>';
+  $r.='<TR>'.InputType("Echeance","Text","e_ech",$e_ech,$pview_only).'</TR>';
+  $r.='<TR>'.InputType("Description","Text_big","e_comment",$e_comment,$pview_only).'</TR>';
   include_once("fiche_inc.php");
   // Display the supplier
   
@@ -823,29 +823,29 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
 	echo_error($msg); echo_error($msg);	
 	echo "<SCRIPT>alert('$msg');</SCRIPT>";
 	$e_client="";
-	if ( $view_only) return null;
+	if ( $pview_only) return null;
       } else {
 	$a_client=GetFicheAttribut($p_cn,$e_client);
 	if ( $a_client != null)   
 	  $e_client_label=$a_client['vw_name']."  adresse ".$a_client['vw_addr']."  ".$a_client['vw_cp'];
       }
   } else {
-    if ( $view_only == true ) {
+    if ( $pview_only == true ) {
       $msg="Invalid Customer";
       echo_error($msg); echo_error($msg);	
       echo "<SCRIPT>alert('$msg');</SCRIPT>";
-      if ( $view_only) return null;
+      if ( $pview_only) return null;
     }
   }      
   $r.="</TABLE>";
   $r.="<TABLE>";
-  //  $r.='<TR>'.InputType("Fournisseur","js_search","e_client",$e_client,$view_only,'cred');
+  //  $r.='<TR>'.InputType("Fournisseur","js_search","e_client",$e_client,$pview_only,'cred');
   $W1=new widget("js_search");
   $W1->name="e_client";
   $W1->value=$e_client;
   $W1->extra='cred';
   $W1->extra2=$p_jrn;
-  $W1->readonly=$p_viewonly;
+  $W1->readonly=$viewonly;
   $r.="<TR>".$W1->IOValue();
   $r.=       InputType(""       ,"span"   ,"e_client_label",$e_client_label,false).'</TR>';
   $r.="</TABLE>";
@@ -862,7 +862,7 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
   $r.='<H2 class="info">Articles</H2>';
   $r.='<TABLE>';
   $r.="<TR>";
-  if ($view_only==false)  $r.="<th></th>";
+  if ($pview_only==false)  $r.="<th></th>";
   $r.="<th>code</th>";
   $r.="<th>Dénomination</th>";
   $r.="<th>Prix</th>";
@@ -875,13 +875,13 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
 
     $march=(isset(${"e_march$i"}))?${"e_march$i"}:"";
     $march_buy=(isset(${"e_march".$i."_buy"}))?${"e_march".$i."_buy"}:"0";
-    if ( $view_only== true && $march == "" ) continue;
+    if ( $pview_only== true && $march == "" ) continue;
     if ( isNumber($march_buy) == 0 and $march != "" ) {
       $msg="Montant invalide !!! ";
       echo_error($msg); echo_error($msg);	
       echo "<SCRIPT>alert('$msg');</SCRIPT>";
       $march_buy=0;
-      if ( $view_only ) return null;
+      if ( $pview_only ) return null;
     }
     $march_tva_label="";
     $march_label="";
@@ -893,7 +893,7 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
       echo_error($msg); echo_error($msg);	
       echo "<SCRIPT>alert('$msg');</SCRIPT>";
       $march="";
-      if ( $view_only ) return null;
+      if ( $pview_only ) return null;
       } else {
 	if ( isNumber($march_tva_id)== 1) {
 	  $a_tva=GetTvaRate($p_cn,$march_tva_id);
@@ -914,14 +914,14 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
       }//else
     }
     else {
-      if ( $view_only ) {
+      if ( $pview_only ) {
 	$msg="Fiche inexistante !!! ";
 	echo_error($msg); echo_error($msg);	
 	echo "<SCRIPT>alert('$msg');</SCRIPT>";
 	return null;
       }
     }
-    //    $r.='<TR>'.InputType("","js_search","e_march".$i,$march,$view_only,'deb');
+    //    $r.='<TR>'.InputType("","js_search","e_march".$i,$march,$pview_only,'deb');
     $W1=new widget("js_search");
     $W1->label="";
     $W1->name="e_march".$i;
@@ -930,13 +930,13 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
     $W1->extra2=$p_jrn;
     $r.="<TR>".$W1->IOValue()."</TD>";
 
-    $r.=InputType("","span", "e_march".$i."_label", $march_label,$view_only);
+    $r.=InputType("","span", "e_march".$i."_label", $march_label,$pview_only);
     // price
-    $r.=InputType("","text","e_march".$i."_buy",$march_buy,$view_only);
+    $r.=InputType("","text","e_march".$i."_buy",$march_buy,$pview_only);
     //vat
-    $r.=InputType("","span","e_march".$i."_tva_label",$march_tva_label,$view_only);
+    $r.=InputType("","span","e_march".$i."_tva_label",$march_tva_label,$pview_only);
     // Tva id 
-    $r.=InputType("","js_tva","e_march$i"."_tva_id",$march_tva_id,$view_only,"e_march".$i."_tva_label");
+    $r.=InputType("","js_tva","e_march$i"."_tva_id",$march_tva_id,$pview_only,"e_march".$i."_tva_label");
 
     $quant=(isset(${"e_quant$i"}))?${"e_quant$i"}:"1";
     if ( isNumber($quant) == 0) {
@@ -946,14 +946,14 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
       $quant=0;
     }
     //quantity
-    $r.=InputType("","TEXT","e_quant".$i,$quant,$view_only);
+    $r.=InputType("","TEXT","e_quant".$i,$quant,$pview_only);
 
     $r.='</TR>';
   }
 
   $r.="</TABLE>";
 
-  if ( $view_only == true && $saved == false){
+  if ( $pview_only == true && $saved == false){
     // check for upload piece
     $file=new widget("file");
     $file->table=1;
@@ -968,14 +968,14 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
   $r.="</DIV>";
   $r.="</FORM>";
   //if view only show total
-  if ( $view_only==true) {
+  if ( $pview_only==true) {
     $total=0;
     $r.="<TABLE>";
     $r.="<th>Nom</th>";
     $r.="<th>Tva</th>";
     $r.="<th>total</th>";
     for ( $i = 0; $i < $p_article;$i++) {
-      if ( $view_only == true and ! isset (${"e_march$i"}) ) continue;
+      if ( $pview_only == true and ! isset (${"e_march$i"}) ) continue;
       $march=${"e_march$i"};
       if ( isNumber($march) ==1 and
 	   isFicheOfJrn($p_cn,$p_jrn,$march,'deb')){
@@ -1004,7 +1004,7 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
   
     $r.="<TR> <TD colspan=\"3\" align=\"center\"> Total =".round($total,2)."</TD></TR>";
     $r.="</TABLE>";
-  }// if ( $view_only == true )
+  }// if ( $pview_only == true )
 
   return $r;
 
@@ -1137,7 +1137,7 @@ function RecordAchat($p_cn,$p_array,$p_user,$p_jrn)
   }
 }
 
-/* function FormFin($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_item=1) 
+/* function FormFin($p_cn,$p_jrn,$p_user,$p_array=null,$pview_only=true,$p_item=1) 
  * Purpose : Display the form for financial 
  *           Used to show detail, encode a new fin op 
  *           or update one
@@ -1153,7 +1153,7 @@ function RecordAchat($p_cn,$p_array,$p_user,$p_jrn)
  *	-
  * return: string with the form
  */
-function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p_item=4,$p_save=false)
+function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$pview_only=true,$p_item=4,$p_save=false)
 { 
   include_once("poste.php");
   if ( $p_array != null ) {
@@ -1170,7 +1170,7 @@ function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
 
   // Verify if valid date
   if ($flag ==1 and   VerifyOperationDate($p_cn,$p_user,$e_date)   == null) {
-    if ( $view_only == true) 
+    if ( $pview_only == true) 
       return null;
     else 
       $e_date=substr($l_date_start,2,8);
@@ -1181,14 +1181,14 @@ function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
   $e_comment=(isset($e_comment))?$e_comment:"";
 
   $r="";
-  if ( $view_only == false) {
+  if ( $pview_only == false) {
     $r.=JS_SEARCH_CARD;
     $r.=JS_CONCERNED_OP;
   }
   //	  $r.='<FORM METHOD="POST" enctype="multipart/form-data" ACTION="user_jrn.php?action=record">';
   $r.="<FORM NAME=\"form_detail\" enctype=\"multipart/form-data\" ACTION=\"user_jrn.php?action=new&p_jrn=$p_jrn\" METHOD=\"POST\">";
   $r.='<TABLE>';
-  $r.='<TR>'.InputType("Date ","Text","e_date",$e_date,$view_only).'</TR>';
+  $r.='<TR>'.InputType("Date ","Text","e_date",$e_date,$pview_only).'</TR>';
 
 
   include_once("fiche_inc.php");
@@ -1215,14 +1215,14 @@ function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
       }
   }else {
     
-    if ( $view_only ==true) {
+    if ( $pview_only ==true) {
       return null;
       echo_debug(__FILE__,__LINE__,"FormFin returns NULL the bank account is not valid");
     }
     
   }
   
-  //  $r.='<TR>'.InputType("Banque","js_search","e_bank_account",$e_bank_account,$view_only,FICHE_TYPE_FIN).'</TR>';
+  //  $r.='<TR>'.InputType("Banque","js_search","e_bank_account",$e_bank_account,$pview_only,FICHE_TYPE_FIN).'</TR>';
     $W1=new widget("js_search");
     $W1->label="Banque";
     $W1->name="e_bank_account";
@@ -1239,7 +1239,7 @@ function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
   
   // ComputeBanqueSaldo
   // cred = nég !!!
-  if ( $view_only == true ) {
+  if ( $pview_only == true ) {
     $solde=GetSolde($p_cn,GetFicheAttribut($p_cn,$e_bank_account,ATTR_DEF_ACCOUNT));
     $r.=" <b> Solde = ".$solde." </b>";
     $new_solde=$solde;
@@ -1263,7 +1263,7 @@ function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
       $tiers_label="";
       $tiers_amount=(isset(${"e_other$i"."_amount"}))?${"e_other$i"."_amount"}:0;
       if ( isNumber($tiers_amount) == 0) {
-	if ( $view_only==true ){
+	if ( $pview_only==true ){
 	  $msg="Montant invalide !!! ";
 	  echo_error($msg); echo_error($msg);	
 	  echo "<SCRIPT>alert('$msg');</SCRIPT>";
@@ -1290,7 +1290,7 @@ function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
     ${"e_other$i"."_amount"}=(isset (${"e_other$i"."_amount"}))?${"e_other$i"."_amount"}:0;
     // Compute the string to pass to InputType
     $f=FICHE_TYPE_CLIENT.",".FICHE_TYPE_FOURNISSEUR.",".FICHE_TYPE_ADM_TAX.",".FICHE_TYPE_FIN;
-    //    $r.='<TR>'.InputType("","js_search","e_other".$i,$tiers,$view_only,'cred');
+    //    $r.='<TR>'.InputType("","js_search","e_other".$i,$tiers,$pview_only,'cred');
     $W1=new widget("js_search");
     $W1->label="";
     $W1->name="e_other".$i;
@@ -1300,23 +1300,23 @@ function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
     $W1->readonly=$p_viewonly;
     $r.="<TR>".$W1->IOValue()."</TD>";
 
-    $r.=InputType("","span", "e_other$i"."_label", $tiers_label,$view_only);
+    $r.=InputType("","span", "e_other$i"."_label", $tiers_label,$pview_only);
     // Comment
-    $r.=InputType("","Text","e_other$i"."_comment",$tiers_comment,$view_only);
+    $r.=InputType("","Text","e_other$i"."_comment",$tiers_comment,$pview_only);
     // amount
-    $r.=InputType("","TEXT","e_other$i"."_amount",$tiers_amount,$view_only);
+    $r.=InputType("","TEXT","e_other$i"."_amount",$tiers_amount,$pview_only);
     ${"e_concerned".$i}=(isset(${"e_concerned".$i}))?${"e_concerned".$i}:"";
-    $r.=InputType("","js_concerned","e_concerned".$i,${"e_concerned".$i},$view_only);
+    $r.=InputType("","js_concerned","e_concerned".$i,${"e_concerned".$i},$pview_only);
     $r.='</TR>';
    // if not recorded the new amount must be recalculate
    // if recorded the old amount is recalculated
-    if ( $view_only == true)      
+    if ( $pview_only == true)      
       $new_solde=($p_save==false)?$new_solde+$tiers_amount:$new_solde-$tiers_amount;
  }
 
 $r.="</TABLE>";
 
- if ( $view_only==true && $p_save==false) {
+ if ( $pview_only==true && $p_save==false) {
 // check for upload piece
    $file=new widget("file");
    $file->table=1;
@@ -1332,7 +1332,7 @@ $r.="</FORM>";
 
 // if view_only is true
 //Put the new saldo here (old saldo - operation)
- if ( $view_only==true)  {
+ if ( $pview_only==true)  {
    // if not recorded the new amount must be recalculate
    if ( $p_save == false) {
      $r.=" <b> Ancien Solde = ".$solde." </b><br>";
@@ -1438,7 +1438,7 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
   }
   Commit($p_cn);
 }
-/* function FormODS($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article=1)
+/* function FormODS($p_cn,$p_jrn,$p_user,$p_array=null,$pview_only=true,$p_article=1)
  * Purpose : Display the miscellaneous operation
  *           Used to show detail, encode a new oper
  *           or update one
@@ -1454,7 +1454,7 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
  *	-
  * return: string with the form
  */
-function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p_article=6,$p_saved=false)
+function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$pview_only=true,$p_article=6,$p_saved=false)
 { 
   include_once("poste.php");
   if ( $p_array != null ) {
@@ -1471,7 +1471,7 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
 
   // Verify if valid date
   if (  $flag==1 and VerifyOperationDate($p_cn,$p_user,$e_date)   == null) {
-    if ( $view_only == true) 
+    if ( $pview_only == true) 
       return null;
     else 
       $e_date=substr($l_date_start,2,8);
@@ -1482,13 +1482,13 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
   // Save old value and set a new one
 
   $r="";
-  if ( $view_only == false) {
+  if ( $pview_only == false) {
     $r.=JS_SEARCH_POSTE;
   }
   $r.="<FORM NAME=\"form_detail\" enctype=\"multipart/form-data\" ACTION=\"user_jrn.php?action=new&p_jrn=$p_jrn\" METHOD=\"POST\">";
   $r.='<TABLE>';
-  $r.='<TR>'.InputType("Date ","Text","e_date",$e_date,$view_only).'</TR>';
-  $r.='<TR>'.InputType("Description","Text_big","e_comment",$e_comment,$view_only).'</TR>';
+  $r.='<TR>'.InputType("Date ","Text","e_date",$e_date,$pview_only).'</TR>';
+  $r.='<TR>'.InputType("Description","Text_big","e_comment",$e_comment,$pview_only).'</TR>';
   include_once("fiche_inc.php");
 
   // Record the current number of article
@@ -1523,7 +1523,7 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
 	echo_error($msg); echo_error($msg);
 	echo "<SCRIPT>alert('$msg');</SCRIPT>";
 	$account="";
-	if ( $view_only == true ) return null;
+	if ( $pview_only == true ) return null;
       } else {
 	// retrieve the tva label and name
 	$lib=GetPosteLibelle($p_cn, $account,1);
@@ -1531,7 +1531,7 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
     }
     ${"e_account$i"."_amount"}=(isset(${"e_account$i"."_amount"}))?${"e_account$i"."_amount"}:0;
     if ( isNumber(${"e_account$i"."_amount"}) == 0 ) {
-      if ( $view_only==true) {
+      if ( $pview_only==true) {
 	$msg="Montant invalide !!! ";
 	echo_error($msg); echo_error($msg);
 	echo "<SCRIPT>alert('$msg');</SCRIPT>";
@@ -1549,16 +1549,16 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
     else
       $filter=null;
     $W = new widget('js_search_poste');
-    $W->readonly=$view_only;
+    $W->readonly=$pview_only;
     $W->label="";
     $W->extra=$p_jrn;
     $W->extra2=$filter;
-    //    $r.='<TR>'.InputType("","js_search_poste","e_account".$i,$account,$view_only,$filter);
+    //    $r.='<TR>'.InputType("","js_search_poste","e_account".$i,$account,$pview_only,$filter);
     $r.="<TR>".$W->IOValue("e_account".$i, $account); 
     //libelle
     $r.="<td> $lib </td>";
     //amount
-    $r.=InputType("","text","e_account".$i."_amount",${"e_account$i"."_amount"},$view_only);
+    $r.=InputType("","text","e_account".$i."_amount",${"e_account$i"."_amount"},$pview_only);
 
 
     // Type is debit or credit, retrieve the old values
@@ -1566,7 +1566,7 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
     $c_check=( ${"e_account$i"."_type"} == 'c')?"CHECKED":"";
     $d_check=( ${"e_account$i"."_type"} == 'd' )?"CHECKED":"";
     $r.='<td>';
-    if ( $view_only == false ) {
+    if ( $pview_only == false ) {
       $r.='  <input type="radio" name="'."e_account"."$i"."_type".'" value="d" '.$d_check.'> Débit ou ';
       $r.='  <input type="radio" name="'."e_account"."$i"."_type".'" value="c" '.$c_check.'> Crédit ';
     }else {
@@ -1581,7 +1581,7 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
 
   $r.="</TABLE>";
 
- if ( $view_only==true && $p_saved==false) {
+ if ( $pview_only==true && $p_saved==false) {
 // check for upload piece
    $file=new widget("file");
    $file->table=1;
@@ -1598,7 +1598,7 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
   //TODO if view only show total
   $tmp= abs($sum_deb-$sum_cred);
   echo_debug(__FILE__,__LINE__,"Diff = ".$tmp);
-  if ( abs($sum_deb-$sum_cred) > 0.0001  and $view_only==true) {
+  if ( abs($sum_deb-$sum_cred) > 0.0001  and $pview_only==true) {
     $msg=sprintf("Montant non correspondant credit = %.5f debit = %.5f diff = %.5f",
 		 $sum_cred,$sum_deb,$sum_cred-$sum_deb);
     echo "<script> alert('$msg'); </script>";
@@ -1606,7 +1606,7 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$view_only=true,$p
   }
 
   // Verify that we have a non-null operation
-  if ($view_only==true and $sum_cred == 0)
+  if ($pview_only==true and $sum_cred == 0)
   {
     $msg=sprintf("Montant null");
     echo "<script> alert('$msg'); </script>";
