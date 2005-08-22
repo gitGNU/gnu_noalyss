@@ -1297,7 +1297,7 @@ function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$pview_only=true,$
     $W1->value=$tiers;
     $W1->extra='cred';  // credits
     $W1->extra2=$p_jrn;
-    $W1->readonly=$p_viewonly;
+    $W1->readonly=$pview_only;
     $r.="<TR>".$W1->IOValue()."</TD>";
 
     $r.=InputType("","span", "e_other$i"."_label", $tiers_label,$pview_only);
