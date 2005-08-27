@@ -51,8 +51,10 @@ if ( $_POST['p_step'] == 0 )
      //--
      for ($e=$_POST['from_periode'];$e<=$_POST['to_periode'];$e+=$_POST['p_step'])
        {
-	 $array[]=$Form->GetRow($e,$e);
-	 $periode_name[]=getPeriodeName($cn,$e);
+	$periode=getPeriodeName($cn,$e);
+	if ( $periode == null ) continue;
+	$array[]=$Form->GetRow($e,$e);
+	$periode_name[]=$periode;
        }
 
    }

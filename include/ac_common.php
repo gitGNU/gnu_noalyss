@@ -344,7 +344,7 @@ function getPeriodeName($p_cn,$p_id,$pos='p_start') {
        $pos != 'p_end')
     echo_error(__FILE__."-".__LINE__.'  UNDEFINED PERIODE');
   $ret=execSql($p_cn,"select to_char($pos,'Mon YYYY') as t from parm_periode where p_id=$p_id");
-  if (pg_NumRows($ret) == 0) return __FILE__.":".__LINE__." ERROR UNKNOW PERIODE";
+  if (pg_NumRows($ret) == 0) return null;
   $a=pg_fetch_array($ret,0);
   return $a['t'];
 }
