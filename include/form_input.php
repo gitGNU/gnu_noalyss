@@ -846,6 +846,7 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$pview_only=true,$
   $W1->extra='cred';
   $W1->extra2=$p_jrn;
   $W1->readonly=$pview_only;
+
   $r.="<TR>".$W1->IOValue();
   $r.=       InputType(""       ,"span"   ,"e_client_label",$e_client_label,false).'</TR>';
   $r.="</TABLE>";
@@ -928,7 +929,8 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$pview_only=true,$
     $W1->value=$march;
     $W1->extra='deb';  // credits
     $W1->extra2=$p_jrn;
-    $r.="<TR>".$W1->IOValue()."</TD>";
+    $W1->readonly=$pview_only;
+    $r.="<TR> ".$W1->IOValue()."</TD>";
 
     $r.=InputType("","span", "e_march".$i."_label", $march_label,$pview_only);
     // price

@@ -253,7 +253,8 @@ class widget {
   // input type == js_search => button search for card
   if ( strtolower($this->type)=="js_search") {
     $l_sessid=$_REQUEST['PHPSESSID'];
-    $r=sprintf('<TD>
+    if  ( $this->readonly == false ) {
+      $r=sprintf('<TD>
          <INPUT TYPE="button" onClick=NewCard(\'%s\',\'%s\',\'%s\',\'%s\') value="New">
          <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') value="Search">
             %s</TD><TD> 
@@ -272,8 +273,20 @@ class widget {
 	       $this->name,
 	       $this->value 
 	       );
+    } else {
+      // readonly == true
+      $r=sprintf('<TD>            %s</TD>
+                 <TD> 
+                 <INPUT TYPE="hidden" NAME="%s" VALUE="%s" SIZE="8">
+                 </TD>',
+	       $this->label,
+	       $this->name,
+	       $this->value 
+		 );
+
+    }
     return $r;
-  }
+  }// poste==js_search
 
   } //end function
   function debug() {
