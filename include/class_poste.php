@@ -48,8 +48,8 @@ class poste {
       $periode = "(jr_tech_per >= $p_from and jr_tech_per <= $p_to) ";
 
   $Res=ExecSql($this->db,"select to_char(j_date,'DD.MM.YYYY') as j_date,".
-	       "case when j_debit='t' then to_char(j_montant,'999999999.99') else ' ' end as deb_montant,".
-	       "case when j_debit='f' then to_char(j_montant,'999999999.99') else ' ' end as cred_montant,".
+	       "case when j_debit='t' then j_montant else 0 end as deb_montant,".
+	       "case when j_debit='f' then j_montant else 0 end as cred_montant,".
 	       " jr_comment as description,jrn_def_name as jrn_name,".
 	       "j_debit, jr_internal ".
 	       " from jrnx left join jrn_def on jrn_def_id=j_jrn_def ".
@@ -57,8 +57,8 @@ class poste {
 	       " where j_poste=".$this->id." and ".$periode.
 	       " order by j_date::date");
   $array=array();
-  $tot_cred=0;
-  $tot_deb=0;
+  $tot_cred=0.0;
+  $tot_deb=0.0;
   $Max=pg_NumRows($Res);
   if ( $Max == 0 ) return null;
   for ($i=0;$i<$Max;$i++) {
