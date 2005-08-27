@@ -46,7 +46,7 @@ if ( $_POST['p_step'] == 0 )
     if ( count($Form->row ) == 0 ) 
       exit;
     
-    echo       "\"Description\"\t,".
+    echo       "\"Mois,\"\t\"Description\"\t,".
       "\"Montant\"\t";
 
 
