@@ -154,7 +154,8 @@ function html_page_start($p_theme="",$p_script="")
  echo "<HEAD> 
       <TITLE> Gnu Accountancy</TITLE>
       <META http-equiv=\"Content-Type\" content=\"text/html; charset=ISO-8859-1\">
-      <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$style\">
+      <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$style\" media=\"screen\">
+      <link rel=\"stylesheet\" type=\"text/css\" href=\"style-print.css\" media=\"print\">
 	</HEAD><script src=\"scripts.js\" type=\"text/javascript\"></script>";
  echo "<BODY $p_script>";
 }
@@ -260,18 +261,24 @@ function ShowItem($p_array,$p_dir='V',$class="mtitle",$class_ref="mtitle",$defau
   // direction Vertical
   if ( $p_dir == 'V') {
     foreach ($p_array as $all=>$href){
-      $ret.='<TR><TD CLASS="'.$class.'"><A class="'.$class_ref.'" HREF="'.$href[0].'">'.$href[1].'</A></TD></TR>';
+      $title="";
+      if ( isset ($href[2] )) 
+	$title=$href[2];
+      $ret.='<TR><TD CLASS="'.$class.'"><A class="'.$class_ref.'" HREF="'.$href[0].'" title="'.$title.'">'.$href[1].'</A></TD></TR>';
     }
   }
       //direction Horizontal
   else if ( $p_dir == 'H' ) {
     $ret.="<TR>";
     foreach ($p_array as $all=>$href){
+      $title="";
+      if ( isset ($href[2] )) 
+	$title=$href[2];
       if ( $default== $href[0]) {
       $ret.='<TD CLASS="selectedcell">'.$href[1].'</TD>';
 
       } else {
-      $ret.='<TD CLASS="'.$class.'"><A class="'.$class_ref.'" HREF="'.$href[0].'">'.$href[1].'</A></TD>';
+      $ret.='<TD CLASS="'.$class.'"><A class="'.$class_ref.'" HREF="'.$href[0].'" title="'.$title.'">'.$href[1].'</A></TD>';
       }
     }
     $ret.="</TR>";

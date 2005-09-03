@@ -332,7 +332,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
   if ($Max==0) return "No row selected";
   $r.="<TABLE width=\"100%\">";
   $l_sessid=$_REQUEST['PHPSESSID'];
-  $r.="<tr>";
+  $r.="<tr class=\"even\">";
  $r.="<th> Internal </th>";
   $r.="<th> Date </th>";
   $r.="<th> Echéance </th>";
@@ -346,7 +346,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
     $row=pg_fetch_array($Res,$i);
     
     if ( $i % 2 == 0 ) $tr='<TR class="odd">'; 
-		else $tr='<TR>';
+		else $tr='<TR class="even">';
     $r.=$tr;
     //internal code
 	// button  modify

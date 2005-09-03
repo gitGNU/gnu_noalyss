@@ -160,24 +160,36 @@ function ShowMenuCompta($p_dossier)
 {
   include_once("postgres.php");
   $l_name=GetDossierName($p_dossier);
+  // find our current menu
+  $default=basename($_SERVER['SCRIPT_NAME']);
+  switch ($default) {
+  case "user_jrn.php":
+    $default.="?show";
+    break;
+  case "recherche.php":
+    $default.="?p_dossier=$p_dossier";
+    break;
+  case "fiche.php":
+    $default.="?p_dossier=$p_dossier";
+    break;
+  }
 
-
-  $p_array=array(array("user_jrn.php?show","Journaux"),
-		 array("recherche.php?p_dossier=$p_dossier","Recherche"),
-		 array("fiche.php?p_dossier=$p_dossier","Fiche"),
-		 array("user_impress.php","Impression"),
-		 array("user_advanced.php","Avancé"),
+  $p_array=array(array("user_jrn.php?show","Journaux","Les journaux permettent d'encoder toutes les opérations"),
+		 array("recherche.php?p_dossier=$p_dossier","Recherche","Pour retrouver une opération"),
+		 array("fiche.php?p_dossier=$p_dossier","Fiche","Ajouter, modifier ou effacer des fiches"),
+		 array("user_impress.php","Impression","Impression"),
+		 array("user_advanced.php","Avancé","Opérations délicates"),
 		 array("dossier_prefs.php","Paramètre"),
-  		 array('user_pref.php','Preference'),
-		 array('login.php','Accueil'),
-		 array('logout.php','logout')
+  		 array('user_pref.php','Preference',"Préférence de l'utilisateur"),
+		 array('login.php','Accueil',"Accueil"),
+		 array('logout.php','logout',"Sortie")
 		 );
 
-  $result=ShowItem($p_array,'H');
-    //echo "<DIV class=\"tmenu\">";
+  $result=ShowItem($p_array,'H',"mtitle","mtitle",$default);
+
   echo "<H2 class=\"info\"> $l_name </H2>";
   echo $result;
-  //echo "</DIV>";
+
 
 
 
@@ -408,7 +420,8 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
   if ( $p_mont_sel != "" )  $opt.='<OPTION value="'.$p_mont_sel.'" SELECTED> '.$p_mont_sel;
   $r="";
  
-  $r.= '<div style="border-style:outset;border-width:1pt;">';
+  //  $r.= '<div style="border-style:outset;border-width:1pt;">';
+  $r.= '<div class="recherche_form">';
   $r.=JS_SEARCH_POSTE;
   $r.= "<B>Recherche</B>";
   $r.= '<FORM ACTION="recherche.php?action=search&PHPSESSID='.$p_sessid.'&nofirst" METHOD="POST">';  
