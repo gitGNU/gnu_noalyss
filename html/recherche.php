@@ -42,26 +42,19 @@ $User->Check();
 
 ShowMenuCompta($_SESSION['g_dossier']);
 
-// if ( $User->admin == 0 ) {
-//   // check if user can access
-//   if (CheckAction($_SESSION['g_dossier'],$User->id,ENCJRN) == 0 ){
-//     /* Cannot Access */
-//     NoAccess();
-//   }
-// }
-// Security in ListJrn
-
    // PhpSessid
    $sessid=$_REQUEST['PHPSESSID'];
 
 // display a search box
    $search_box=u_ShowMenuRecherche($cn,0,$sessid,$HTTP_POST_VARS);
-   echo '<DIV class="recherche">';
+   echo '<DIV>'; // class="recherche_form">';
   echo $search_box; 
    // if nofirst is set then show result
    if ( isset ($_GET['nofirst'] ) ) {
      $a=ListJrn($cn,0,"",$HTTP_POST_VARS);
+     echo '<div class="result">';
      echo $a;
+     echo '</div>';
    }
    echo '</DIV>'; 
  

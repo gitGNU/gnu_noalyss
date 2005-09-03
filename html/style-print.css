@@ -1,0 +1,224 @@
+/* <style type="text/css"> */
+
+@page { margin: 2cm; } ;
+form { 
+  display:none;
+ }
+div.recherche_form {
+	display:none;
+	}
+table.result {
+	font-size:9pt;
+	font-family:sans-serif;
+
+  }
+
+table.result th { 
+	font-size:9pt;
+	font-family:sans-serif;
+}
+
+h2 {
+	font-size:10px;
+	font-weight:bold;
+	font-family:sans-serif;
+}
+div.info {
+	display:none;
+}
+
+h2.info {
+	font-size:10px;
+	font-weight:bold;
+	font-family:sans-serif;
+}
+h3.info {
+	display:none;
+}
+
+h2.info2 {
+	display:none;
+}
+
+
+h2.error {
+	display:none;
+}
+
+h1.title {
+	display:none;
+}
+div.mtitle {
+	display:none;
+
+}
+
+div.tmenu {
+	display:none;
+}
+div.u_tmenu {
+
+	display:none;
+}
+div.lmenu {
+	display:none;
+}
+div.lextmenu {
+	display:none;
+}
+div.searchmenu {
+	display:none;
+}
+div.credit{
+	display:none;
+}
+div.debit{
+	display:none;
+}
+div.recherche{
+	font-size:9pt;
+	font-family:sans-serif;
+}
+div.redcontent{
+	font-size:9pt;
+	font-family:sans-serif;
+
+}
+div.u_redcontent{ 	 
+	font-size:9pt;
+	font-family:sans-serif;
+}
+div.ccontent{
+	font-size:9pt;
+	font-family:sans-serif;
+}
+div.rmenu {
+	display:none;
+}
+
+table.mtitle {
+	display;none;
+}
+td.mshort { 
+	display:none;
+}
+td.mlltitle {
+	display:none;
+}
+td.mltitle {
+	display:none;
+}
+td.mtitle {
+	display:none;
+}
+span.mtitle2 {
+	display:none;
+}
+span.mtitle {
+	display:none;
+}
+span.odd { 
+	display:none;
+ }
+span.even { 
+	display:none;
+ }
+
+tr.odd {
+	font-size:9pt;
+	font-family:sans-serif;
+}
+tr {
+	font-size:9pt;
+	font-family:sans-serif;
+	}
+tr.even {
+
+	font-size:9pt;
+	font-family:sans-serif;
+}
+td.odd{
+	font-size:9pt;
+	font-family:sans-serif;
+}
+td.even{
+	font-size:9pt;
+	font-family:sans-serif;
+}
+td.cell{
+	display:none;
+}
+td.selectedcell{
+	display:none;
+}
+
+a.mtitle {
+	display:none;
+}
+
+a.mtitle:hover {
+	display:none;
+}
+a.cell {
+	display:none;
+}
+
+a.cell:hover {
+	display:none;
+	}
+
+a.mtitle2 {
+	display:none;
+	}
+
+a.mtitle2:hover {
+	display:none;
+	}
+
+a.one:link {
+	display:none;
+}
+a.one:visited {
+	display:none;
+	}
+a.one:active {
+	display:none;
+	}
+
+a.one:hover {
+	display:none;
+	}
+
+a.two:link {
+	display:none;
+}
+a.two:visited {
+	display:none;
+	}
+a.two:active {
+	display:none;
+	}
+
+a.two:hover {
+	display:none;
+	}
+
+th.doc {
+	display:none;
+}
+
+
+table.doc {
+	display:none;
+}
+a.detail
+{
+font-size:8pt;
+font-family:sans-serif;
+}
+
+a.detail:hover   
+{
+	display:none;
+}
+/* </style> */
