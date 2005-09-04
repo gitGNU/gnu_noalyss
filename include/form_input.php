@@ -765,7 +765,6 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
  * gen :
  *	-
  * return: string with the form
- * TODO Add in parameters the infos about the company for making the invoice
  */
 function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$pview_only=true,$p_article=3,$saved=false)
 { 
@@ -1122,7 +1121,7 @@ function RecordAchat($p_cn,$p_array,$p_user,$p_jrn)
   echo_debug(__FILE__,__LINE__,"echeance = $e_ech");
   echo_debug(__FILE__,__LINE__,"comment = $e_comment");
   if ( ($amount+$sum_vat) != 0 ){
-    if ( InsertJrn($p_cn,$e_date,$e_ech,$p_jrn,$e_comment,$amount+$sum_vat,$seq,$periode) == false ) {
+    if ( InsertJrn($p_cn,$e_date,$e_ech,$p_jrn,$e_comment,round($amount+$sum_vat,2),$seq,$periode) == false ) {
       $Rollback($p_cn);exit("error __FILE__ __LINE__");
     }
     // Set Internal code and Comment
