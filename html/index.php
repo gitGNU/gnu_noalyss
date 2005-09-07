@@ -29,7 +29,7 @@ BODY {
 <script src="scripts.js" type="text/javascript"></script>
 </head>
 <BODY onLoad="SetFocus(\'login\',0)">
-V1.2.1
+Version CVS 
 <div class="remark">
  <p class="gras">Il est conseill&eacute; de ne PAS utiliser Internet Explorer.
  </p><p>
