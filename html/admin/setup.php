@@ -228,25 +228,25 @@ if ( ! isset($_POST['go']) )
 	exit();
 // Check if account_repository exists
 $account=CountSql($cn,
-		  "select * from pg_database where datname='account_repository'");
+		  "select * from pg_database where datname='".domaine."account_repository'");
 
 // Create the account_repository
 if ($account == 0 ) {
 
-  echo "Creation of account_repository";
+  echo "Creation of ".domaine."account_repository";
   ob_start();  
-  ExecSql($cn,"create database account_repository encoding='latin1'");
+  ExecSql($cn,"create database ".domaine."account_repository encoding='latin1'");
   $cn=DbConnect();
   ExecuteScript($cn,"sql/account_repository/schema.sql");
   ExecuteScript($cn,"sql/account_repository/data.sql");
   echo "Creation of Démo";
-  ExecSql($cn,"create database dossier1 encoding='latin1'");
+  ExecSql($cn,"create database ".domaine."dossier1 encoding='latin1'");
   $cn=DbConnect(1,'dossier');
   ExecuteScript($cn,'sql/dossier1/schema.sql');
   ExecuteScript($cn,'sql/dossier1/data.sql');
 
   echo "Creation of Modele1";
-  ExecSql($cn,"create database mod1 encoding='latin1'");
+  ExecSql($cn,"create database ".domaine."mod1 encoding='latin1'");
   $cn=DbConnect(1,'mod');
   ExecuteScript($cn,'sql/mod1/schema.sql');
   ExecuteScript($cn,'sql/mod1/data.sql');
@@ -297,11 +297,19 @@ for ($e=0;$e < $MaxDossier;$e++) {
     ExecuteScript($db,'sql/patch/upgrade5.sql');
   } // version == 5
 
+
   //--
   // update to the version 7
   //--
   if ( GetVersion($db) == 6 ) { 
     ExecuteScript($db,'sql/patch/upgrade6.sql');
+  } // version == 6
+
+  //--
+  // update to the version 8
+  //--
+  if ( GetVersion($db) == 7 ) { 
+    ExecuteScript($db,'sql/patch/upgrade7.sql');
   } // version == 6
 
  }
