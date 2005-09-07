@@ -71,17 +71,17 @@ function ShowDossier($p_type,$p_first=0,$p_max=10,$p_Num=0) {
  */
 function DbConnect($p_db=-1,$p_type='dossier') {
   if ( $p_db==-1) 
-    $l_dossier="account_repository";
+    $l_dossier=sprintf("%saccount_repository",domaine);
   else {
     if ( $p_db == -2 )
       $l_dossier=$p_type;
     else 
       switch ($p_type) {
       case 'dossier':
-	$l_dossier=sprintf("dossier%d",$p_db);
+	$l_dossier=sprintf("%sdossier%d",domaine,$p_db);
 	break;
       case 'mod':
-	$l_dossier=sprintf("mod%d",$p_db);
+	$l_dossier=sprintf("%smod%d",domaine,$p_db);
 	break;
       }
   }
