@@ -770,12 +770,14 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$pview_only=true,$
 { 
 
   if ( $p_array != null ) {
+// TODO utilisation de la fonction extract
     // array contains old value
     foreach ( $p_array as $a=>$v) {
       ${"$a"}=$v;
     }
   }
   // The date
+// TODO Utilisation de la classe User
    $userPref=GetUserPeriode($p_cn,$p_user);
    list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$userPref);
    // default date
@@ -783,6 +785,10 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$pview_only=true,$
 
   $e_date=( ! isset($e_date) ) ? substr($l_date_start,2,8):$e_date;
   // Verify if valid date
+// TODO
+// Verif seulement lorsque doit etre enregistrer 
+// donc apres confirmation
+// Procedure separee
   if ( $flag==1 and VerifyOperationDate($p_cn,$p_user,$e_date)   == null) {
     if ( $pview_only == true) 
       return null;
@@ -875,6 +881,9 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$pview_only=true,$
 
     $march=(isset(${"e_march$i"}))?${"e_march$i"}:"";
     $march_buy=(isset(${"e_march".$i."_buy"}))?${"e_march".$i."_buy"}:"0";
+// TODO
+// Separer les tests de validite : seulement qd confirmation
+// 
     if ( $pview_only== true && $march == "" ) continue;
     if ( isNumber($march_buy) == 0 and $march != "" ) {
       $msg="Montant invalide !!! ";
@@ -937,9 +946,13 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$pview_only=true,$
     //vat
     $r.=InputType("","span","e_march".$i."_tva_label",$march_tva_label,$pview_only);
     // Tva id 
+// TODO
+// Remplacer TVA par liste deroulante au lieu de boite de dialogue
     $r.=InputType("","js_tva","e_march$i"."_tva_id",$march_tva_id,$pview_only,"e_march".$i."_tva_label");
 
     $quant=(isset(${"e_quant$i"}))?${"e_quant$i"}:"1";
+// TODO
+// Verification separee voir plus haut
     if ( isNumber($quant) == 0) {
       $msg="Montant invalide !!! ";
       echo_error($msg); echo_error($msg);	
@@ -953,7 +966,8 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$pview_only=true,$
   }
 
   $r.="</TABLE>";
-
+// If confirmed then document can be uploaded
+//
   if ( $pview_only == true && $saved == false){
     // check for upload piece
     $file=new widget("file");
@@ -1043,6 +1057,8 @@ V : record_invoice => e : Sauver
  */
 function RecordAchat($p_cn,$p_array,$p_user,$p_jrn)
 {
+// TODO utilisation d'extract
+//
   foreach ( $p_array as $v => $e)
   {
     echo_debug ("Record Achat $v ==> $e");
