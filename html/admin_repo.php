@@ -120,7 +120,7 @@ if ( isset ($_GET["action"]) ) {
       // Database created
       $l_id=GetDbId($dos);
       if ( $l_id != 0) {
-	$Sql=sprintf("CREATE DATABASE DOSSIER%d encoding='ISO8859-1' TEMPLATE MOD%d",$l_id,$_POST["FMOD_ID"]);
+	$Sql=sprintf("CREATE DATABASE %sDOSSIER%d encoding='ISO8859-1' TEMPLATE MOD%d",domaine,$l_id,$_POST["FMOD_ID"]);
 	echo_debug($Sql);
 	ExecSql($cn,$Sql);
 	$Res=ExecSql($cn,"insert into jnt_use_dos (use_id,dos_id) values (1,$l_id)");
@@ -206,7 +206,7 @@ if ( $count == 0 ) {
 	// get the mod_id
 	$l_id=GetSequence($cn,'s_modid');
 	if ( $l_id != 0 ) {
-	   $Sql=sprintf("CREATE DATABASE MOD%d encoding='ISO8859-1' TEMPLATE DOSSIER%s",$l_id,$_POST["FMOD_DBID"]);
+	   $Sql=sprintf("CREATE %sDATABASE MOD%d encoding='ISO8859-1' TEMPLATE DOSSIER%s",domaine,$l_id,$_POST["FMOD_DBID"]);
 	   ExecSql($cn,$Sql);
  	}
       }// if $mod_name != null
