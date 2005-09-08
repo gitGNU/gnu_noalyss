@@ -946,6 +946,18 @@ centralisation se fait par le menu "Avancé -> Centralise".
 
 </sect1>
 </sect>
+<sect>Domaines
+<p> Ils est possible d'avoir phpcompta installé plusieurs  fois 
+sur votre machine dans des "virtual host" différents, mais si vous 
+le faites vous remarquerez que
+les différentes sites phpcompta (virtual host) accèdent les
+mêmes bases de données. 
+
+<p> Pour éviter cela on utilise les domaines. Le domaine sera matériellement
+concrétiser par un préfixe pour vos bases de données. Donc chaque 
+application PhpCompta aura ses propres bases de données.
+
+</sect>
 <sect> Exemple
 <sect1>Ouverture de compte
 <p>

@@ -257,6 +257,7 @@ createdb -h localhost -O phpcompta phpcompta
 
 <item>Décompacter le package dans le répertoire de votre choix, et configurer Apache pour qu'il
 puisse accèder au sous-répertoire html. (voir plus haut la directive DocumentRoot)
+<item>Eventuellement changer dans constant.php votre domaine (voir manuel : Domaine)
 <item> 
 Vous devez vous connecter sur http://votre_server/admin/setup.php
 </itemize>
