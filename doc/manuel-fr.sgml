@@ -947,6 +947,7 @@ centralisation se fait par le menu "Avancé -> Centralise".
 </sect1>
 </sect>
 <sect>Domaines
+<sect1>Définition
 <p> Ils est possible d'avoir phpcompta installé plusieurs  fois 
 sur votre machine dans des "virtual host" différents, mais si vous 
 le faites vous remarquerez que
@@ -957,6 +958,30 @@ mêmes bases de données.
 concrétiser par un préfixe pour vos bases de données. Donc chaque 
 application PhpCompta aura ses propres bases de données.
 
+</sect1>
+<sect1>Mise en place
+<p> Pour utiliser les domaines, il suffit de retrouver la ligne 
+<verb>
+define ("domaine","");
+</verb>
+dans le fichier include/constant.php et de la transformer en 
+<verb>
+define ("domaine","mon_domaine");
+</verb>
+Attention: comme cela sert à nommer les bases de données, les limitations
+sont les mêmes que celle des noms de bases de données : pas d'espace, de point
+virgule,...
+
+</sect1>
+<sect1>Utilisation
+<p>L'utilisation des domaines est tout-à-fait invisible pour l'utilisateur
+et pour l'application. Le seul véritable changement est que les noms
+de base de données sont différents.
+
+<p>Chaque "virtual host" d'apache accèdera donc à son propre système
+de base de données.
+
+</sect1>
 </sect>
 <sect> Exemple
 <sect1>Ouverture de compte
