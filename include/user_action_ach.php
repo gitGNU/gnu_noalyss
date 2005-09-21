@@ -25,9 +25,7 @@ include_once ("user_common.php");
 include_once("class_widget.php");
 $cn=DbConnect($_SESSION['g_dossier']);
 
-// phpinfo();
 if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {
-  //  echo u_ShowMenuJrn($cn,$jrn_type);
   exit;
 
 }
@@ -97,6 +95,8 @@ if ( $action == 'new' ) {
 	$submit='<INPUT TYPE="SUBMIT" name="save" value="Confirmer">';
 	$submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
 
+	// Should use a read only view instead of FormAch
+	// where we can check
 	$r=FormAch($cn,$_GET['p_jrn'],$_SESSION['g_user'],$submit,$HTTP_POST_VARS,true,$nb_number);
 
 	// if something goes wrong, correct it

@@ -750,6 +750,8 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
 
   return $comment;
 }
+
+
 /* function FormAch($p_cn,$p_jrn,$p_user,$p_array=null,$pview_only=true,$p_article=1)
  * Purpose : Display the form for buying
  *           Used to show detail, encode a new invoice 
@@ -771,10 +773,7 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$pview_only=true,$
 
   if ( $p_array != null ) {
 // TODO utilisation de la fonction extract
-    // array contains old value
-    foreach ( $p_array as $a=>$v) {
-      ${"$a"}=$v;
-    }
+    extract($p_array);
   }
   // The date
 // TODO Utilisation de la classe User
@@ -799,7 +798,6 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$pview_only=true,$
   $e_ech=(isset($e_ech))?$e_ech:"";
   $e_comment=(isset($e_comment))?$e_comment:"";
   // Save old value and set a new one
-  //  echo_debug(__FILE__,__LINE__,"form_input.php.FormAch p_op_date is $e_date");
   $r="";
   if ( $pview_only == false) {
     $r.=JS_SEARCH_CARD;
