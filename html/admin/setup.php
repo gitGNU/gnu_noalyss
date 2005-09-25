@@ -66,7 +66,6 @@ include_once('constant.php');
 include_once('postgres.php');
 include_once('debug.php');
 include_once('ac_common.php');
-include_once('variable.php');
 /* function GetVersion
  **************************************************
  * Purpose : Get version of a database
