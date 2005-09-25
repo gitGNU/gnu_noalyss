@@ -120,7 +120,7 @@ if ( isset ($_GET["action"]) ) {
       // Database created
       $l_id=GetDbId($dos);
       if ( $l_id != 0) {
-	$Sql=sprintf("CREATE DATABASE %sDOSSIER%d encoding='ISO8859-1' TEMPLATE MOD%d",domaine,$l_id,$_POST["FMOD_ID"]);
+	$Sql=sprintf("CREATE DATABASE %sDOSSIER%d encoding='ISO8859-1' TEMPLATE %sMOD%d",domaine,$l_id,domaine,$_POST["FMOD_ID"]);
 	echo_debug($Sql);
 	ExecSql($cn,$Sql);
 	$Res=ExecSql($cn,"insert into jnt_use_dos (use_id,dos_id) values (1,$l_id)");
