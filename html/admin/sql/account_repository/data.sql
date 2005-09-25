@@ -8,7 +8,7 @@ SET search_path = public, pg_catalog;
 -- Data for TOC entry 6 (OID 58856)
 -- Name: ac_users; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
-
+begin;
 INSERT INTO ac_users (use_id, use_first_name, use_name, use_login, use_active, use_pass, use_admin, use_theme, use_usertype) VALUES (4, 'demo', 'demo', 'demo', 1, 'fe01ce2a7fbac8fafaed7c982a04e229', 0, 'Light', 'user');
 INSERT INTO ac_users (use_id, use_first_name, use_name, use_login, use_active, use_pass, use_admin, use_theme, use_usertype) VALUES (1, NULL, NULL, 'phpcompta', 1, 'b1cc88e1907cde80cb2595fa793b3da9', 1, 'Light', 'user');
 
@@ -115,4 +115,4 @@ SELECT pg_catalog.setval ('s_modid', 6, false);
 
 SELECT pg_catalog.setval ('dossier_id', 12, true);
 
-
+commit;

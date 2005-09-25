@@ -8,7 +8,7 @@ SET search_path = public, pg_catalog;
 -- Data for TOC entry 29 (OID 55963)
 -- Name: tmp_pcmn; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
-
+begin;
 INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent, pcm_country) VALUES (10, 'Capital ', 1, 'BE');
 INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent, pcm_country) VALUES (100, ' Capital souscrit', 10, 'BE');
 INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent, pcm_country) VALUES (11, 'Prime d''émission ', 1, 'BE');
@@ -1512,3 +1512,4 @@ SELECT pg_catalog.setval ('s_jrn_2', 1, false);
 SELECT pg_catalog.setval ('s_jrn_1', 1, false);
 
 
+commit;
