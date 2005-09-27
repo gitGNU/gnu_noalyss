@@ -60,7 +60,7 @@ foreach ($l_array as $key=>$element) {
   echo_debug(__FILE__,__LINE__,"e_$key =$element");
 }
 
-// annulate a operation
+// cancel an operation
 if ( isset ($_POST['annul']) ) {
   if ( isset ($_POST['p_id'])) {
     // Get the current periode
@@ -77,63 +77,99 @@ if ( isset ($_POST['annul']) ) {
      // set an incorrect pid to get out from here
      $p_id=-1;
    }
+if  ($p_id != -1 ) { // A
    // userPref contient la periode par default
     $userPref=GetUserPeriode($cn,$User->id);
     list ($l_date_start,$l_date_end)=GetPeriode($cn,$userPref);
 
-    // Date dans la periode active
-    echo_debug(__FILE__,__LINE__,"date start periode $l_date_start date fin periode $l_date_end date demandée $e_op_date");
-    if ( cmpDate($e_op_date,$l_date_start)<0 || 
-	 cmpDate($e_op_date,$l_date_end)>0 )
-      {
-		  $msg="Not in the active periode please change your preference";
-			echo_error($msg); echo_error($msg);	
-			echo "<SCRIPT>alert('$msg');</SCRIPT>";
-
-			// set an incorrect pid to get out from here
-			$p_id=-1;
-
-      }
     // Periode fermée 
     if ( PeriodeClosed ($cn,$userPref)=='t' )
       {
 		$msg="This periode is closed please change your preference";
-		echo_error($msg); echo_error($msg);	
+		echo_error($msg); 
 		echo "<SCRIPT>alert('$msg');</SCRIPT>";
 		// set an incorrect pid to get out from here
 		$p_id=-1;
       }
-
-   // Test is date is not in a closed periode
-
- // Check if it a centralized operation
- if ( isValid($cn,$p_id) ==  1 ) {
-  // delete from the stock table
+ if ( $p_id != -1 ) { //B
+    // Test whether date of the operation is in a closed periode
+    // get the period_id
+    $period_id=getPeriodeFromDate($cn,$e_op_date);
+    // Check the period_id
+    if ( PeriodeClosed($cn,$period_id) == true ){
+      // if the operation is in a closed or centralized period
+      // the operation is voided thanks the opposite operation
+   StartSql($cn);
+   $sql= "insert into jrn (
+  		jr_def_id,jr_montant,jr_comment,               
+		jr_date,jr_grpt_id,jr_internal                 
+		,jr_tech_per, jr_valid
+  		) select jr_def_id,jr_montant,'Annulation '||jr_comment,
+		to_date('$e_op_date','DD.MM.YYYY'),$seq       ,'ANNULE',               
+		$period, true
+	  from
+	  jrn
+	  where   jr_grpt_id=".$_POST['p_id'];
+   $Res=ExecSql($cn,$sql);
+   // Check return code
+   if ( $Res == false ) { Rollback($cn);exit(-1);}
+   // the table stock must updated
+   // also in the stock table
    $sql="delete from stock_goods where sg_id = any ( select sg_id
- from stock_goods natural join jrnx  where j_grpt=".$_POST['p_id'].")";
+  from stock_goods natural join jrnx  where j_grpt=".$_POST['p_id'].")";
    $Res=ExecSql($cn,$sql);
+   // Check return code
+   if ( $Res == false ) { Rollback($cn);exit(-1);}
 
-   // delete from jrnx & jrn
-    $sql="update jrnx set j_montant = 0 where j_grpt=".$_POST['p_id'];
-   
-   $Res=ExecSql($cn,$sql);
- 
-
-  // build the sql stmt for jrn
-  $sql= "update  jrn  set jr_montant=0,jr_valid='f',jr_comment='Erreur:'||jr_comment  where   jr_grpt_id=".$_POST['p_id'];
-  $Res=ExecSql($cn,$sql);
-
-  echo '<h2 class="info"> Opération Annulée</h2>';
-?>
-<script>
- window.close();
- self.opener.RefreshMe();
+   Commit($cn);
+   // close the window
+   echo '<h2 class="info"> Opération Annulée</h2>';
+    ?>
+ <script>
+    window.close();
+self.opener.RefreshMe();
 </script>
-<?
+    <?
+	    
+    } else {
+	// operation is not in a closed period
+      // Check only if a line is valid or not
+      if ( isValid($cn,$p_id) ==  1 ) {
+	// Start Sql
+	StartSql($cn);
 
-    }// if isValid
-
-    } // if Post['p_id']
+	// delete from the stock table
+	$sql="delete from stock_goods where sg_id = any ( select sg_id
+ from stock_goods natural join jrnx  where j_grpt=".$_POST['p_id'].")";
+	$Res=ExecSql($cn,$sql);
+	
+   if ( $Res == false ) { Rollback($cn);exit(-1);}
+	// delete from jrnx & jrn
+	$sql="update jrnx set j_montant = 0 where j_grpt=".$_POST['p_id'];
+	
+	$Res=ExecSql($cn,$sql);
+	
+   if ( $Res == false ) { Rollback($cn);exit(-1);}
+	
+	// build the sql stmt for jrn
+	$sql= "update  jrn  set jr_montant=0,jr_valid='f',jr_comment='Erreur:'||jr_comment  where   jr_grpt_id=".$_POST['p_id'];
+	$Res=ExecSql($cn,$sql);
+	
+   if ( $Res == false ) { Rollback($cn);exit(-1);}
+	Commit($cn);
+	echo '<h2 class="info"> Opération Annulée</h2>';
+	  ?>
+	  <script>
+	     window.close();
+	self.opener.RefreshMe();
+	</script>
+	    <?
+	    
+	    }// if isValid
+    } // else if period is closed
+    }//B p_id == -1
+  }//A p_id == -1
+  } // if Post['p_id']
 }// if annul
 echo '<div align="center"> Opération '.$l_array['jr_internal'].'</div> 
 <div>
