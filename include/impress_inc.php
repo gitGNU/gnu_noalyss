@@ -749,7 +749,7 @@ function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true) {
       // then we must modify the cond for the periode
       $from=str_replace("FROM=","",$afrom[0]);
       // Get the periode 
-      $from=getPeriodeFromDate($p_cn,$from);
+      $from=getPeriodeFromMonth($p_cn,$from);
 
       //  Compute the cond
       if ( $from == $p_end ) 

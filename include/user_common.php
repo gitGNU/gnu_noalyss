@@ -401,14 +401,14 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
 	  $r.="<TD> Opération annulée</TD>";
 	}
 	else {
-	  if ( $row ['p_closed'] == 'f' && $p_jrn != 0 ) {
+	  // if ( $row ['p_closed'] == 'f' && $p_jrn != 0 ) {
 	    // TODO Add print
 	    $r.="<TD>";
 	    // cancel operation
 	    $r.=sprintf('<input TYPE="BUTTON" VALUE="%s" onClick="cancelOperation(\'%s\',\'%s\',\'%s\')">',
 			"Annuler",$row['jr_grpt_id'],$l_sessid,$p_jrn);
 	    $r.="</TD>";
-	  }
+	    // }
 	}
 	//document
 	$r.="<TD>".sprintf('<A class="detail" HREF="show_document.php?jrn=%s&jr_grpt_id=%s">%s</A>',

@@ -95,17 +95,19 @@ if  ($p_id != -1 ) { // A
     // Test whether date of the operation is in a closed periode
     // get the period_id
     $period_id=getPeriodeFromDate($cn,$e_op_date);
-    // Check the period_id
-    if ( PeriodeClosed($cn,$period_id) == true ){
+      // Check the period_id
+    if ( PeriodeClosed($cn,$period_id) == 't' ){
       // if the operation is in a closed or centralized period
       // the operation is voided thanks the opposite operation
    StartSql($cn);
+   $p_internal=SetInternalCode($cn,$p_id,$l_array['jr_id']);
+   $grp_new=NextSequence($cn,'s_jrn_'.$l_array['jr_id']);
    $sql= "insert into jrn (
   		jr_def_id,jr_montant,jr_comment,               
 		jr_date,jr_grpt_id,jr_internal                 
 		,jr_tech_per, jr_valid
   		) select jr_def_id,jr_montant,'Annulation '||jr_comment,
-		to_date('$e_op_date','DD.MM.YYYY'),$seq       ,'ANNULE',               
+		now(),$grp_new,'$p_internal',
 		$period, true
 	  from
 	  jrn
@@ -113,6 +115,19 @@ if  ($p_id != -1 ) { // A
    $Res=ExecSql($cn,$sql);
    // Check return code
    if ( $Res == false ) { Rollback($cn);exit(-1);}
+   // Make also the change into jrnx
+   $sql= "insert into jrnx (
+  	        j_date,j_montant,j_poste,j_grpt,               
+                j_jrn_def,j_debit,j_text,j_internal,j_tech_user
+  		) select now(),j_montant,j_poste,$grp_new,
+                  j_jrn_def,j_debit,j_text,'$p_internal','".$User->id."'
+	  from
+	  jrnx
+	  where   j_grpt=".$_POST['p_id'];
+   $Res=ExecSql($cn,$sql);
+   // Check return code
+   if ( $Res == false ) { Rollback($cn);exit(-1);}
+
    // the table stock must updated
    // also in the stock table
    $sql="delete from stock_goods where sg_id = any ( select sg_id
