@@ -562,48 +562,6 @@ function GetJrnProp($p_dossier,$p_jrn,$is_connected=0)
   }
   return pg_fetch_array($Res,0);
 }
-/* function  GetNextId($p_cn,$p_name) 
- * Purpose :
- * 
- * parm : 
- *	- 
- * gen :
- *	-
- * return:
- *	-
- *
- */ 
-function GetNextId($p_cn,$p_name) {
-  include_once("postgres.php");
-
-  $Res=ExecSql($p_cn,"select max($p_name) as result from jrnx");
-  echo_debug(__FILE__,__LINE__,"$Res=ExecSql($p_cn,"."select max($p_name) as result from jrnx");
-  if (pg_NumRows($Res) == 0 )
-    return 0;
-  $l_res=pg_fetch_array($Res,0);
-  return $l_res['result'];
-}
-/* function GetNextJrnId($p_cn,$p_name) 
- * Purpose :
- * 
- * parm : 
- *	- 
- * gen :
- *	-
- * return:
- *	-
- *
- */ 
-function GetNextJrnId($p_cn,$p_name) {
-  include_once("postgres.php");
-  $Res=ExecSql($p_cn,"select max($p_name) as result from jrn ");
-  echo_debug(__FILE__,__LINE__,"$Res=ExecSql($p_cn,"."select max($p_name) as result from jrn ");
-
-  if (pg_NumRows($Res) == 0 )
-    return 0;
-  $l_res=pg_fetch_array($Res,0);
-  return $l_res['result'];
-}
 /* function ViewJrn
  * Purpose : Vue des écritures comptables
  * 

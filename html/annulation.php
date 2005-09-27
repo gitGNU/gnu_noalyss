@@ -101,21 +101,28 @@ if  ($p_id != -1 ) { // A
       // the operation is voided thanks the opposite operation
    StartSql($cn);
    $p_internal=SetInternalCode($cn,$p_id,$l_array['jr_id']);
-   $grp_new=NextSequence($cn,'s_jrn_'.$l_array['jr_id']);
+   $grp_new=NextSequence($cn,'s_grpt');
    $sql= "insert into jrn (
   		jr_def_id,jr_montant,jr_comment,               
 		jr_date,jr_grpt_id,jr_internal                 
 		,jr_tech_per, jr_valid
   		) select jr_def_id,jr_montant,'Annulation '||jr_comment,
 		now(),$grp_new,'$p_internal',
-		$period, true
-	  from
+		$period, true 
+          from
 	  jrn
 	  where   jr_grpt_id=".$_POST['p_id'];
    $Res=ExecSql($cn,$sql);
    // Check return code
    if ( $Res == false ) { Rollback($cn);exit(-1);}
-   // Make also the change into jrnx
+   // Mark the operation invalid into the ledger
+   // to avoid to nullify twice the same op.
+   $sql="update jrn set jr_valid=false where jr_grpt_id=".$_POST['p_id'];
+   $Res=ExecSql($cn,$sql);
+   // Check return code
+   if ( $Res == false ) { Rollback($cn);exit(-1);}
+ 
+  // Make also the change into jrnx
    $sql= "insert into jrnx (
   	        j_date,j_montant,j_poste,j_grpt,               
                 j_jrn_def,j_debit,j_text,j_internal,j_tech_user
