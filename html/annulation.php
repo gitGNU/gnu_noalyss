@@ -100,13 +100,15 @@ if  ($p_id != -1 ) { // A
       // if the operation is in a closed or centralized period
       // the operation is voided thanks the opposite operation
    StartSql($cn);
-   $p_internal=SetInternalCode($cn,$p_id,$l_array['jr_def_id']);
    $grp_new=NextSequence($cn,'s_grpt');
+   $seq=NextSequence($cn,"s_jrn_".$l_array['jr_def_id']);
+   $p_internal=SetInternalCode($cn,$seq,$l_array['jr_def_id']);
+
    $sql= "insert into jrn (
-  		jr_def_id,jr_montant,jr_comment,               
+  		jr_id,jr_def_id,jr_montant,jr_comment,               
 		jr_date,jr_grpt_id,jr_internal                 
 		,jr_tech_per, jr_valid
-  		) select jr_def_id,jr_montant,'Annulation '||jr_comment,
+  		) select $seq,jr_def_id,jr_montant,'Annulation '||jr_comment,
 		now(),$grp_new,'$p_internal',
 		$period, true 
           from
@@ -128,12 +130,20 @@ if  ($p_id != -1 ) { // A
    $Res=ExecSql($cn,$sql);
    // Check return code
    if ( $Res == false ) { Rollback($cn);exit(-1);}
+   
     // Mark the operation invalid into the ledger
     // to avoid to nullify twice the same op.
     $sql="update jrn set jr_comment='Annule : '||jr_comment where jr_grpt_id=".$_POST['p_id'];
     $Res=ExecSql($cn,$sql);
     // Check return code
     if ( $Res == false ) { Rollback($cn);exit(-1);}
+
+    // Add a "concerned operation to bound these op.together
+    //
+    $Res=InsertRapt($cn,$seq,$l_array['jr_id']);
+   // Check return code
+   if ( $Res == false ) { Rollback($cn);exit(-1);}
+    
 
    // the table stock must updated
    // also in the stock table

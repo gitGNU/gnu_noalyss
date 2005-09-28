@@ -559,7 +559,7 @@ function InsertRapt($p_cn,$jr_id,$jr_id2) {
     {
       echo_error(" InsertRapt : invalid jr_id $jr_id, jr_id2 $jr_id2");
       echo_debug(__FILE__,__LINE__," InsertRapt : invalid jr_id $jr_id, jr_id2 $jr_id2");
-      return;
+      return false;
     }
   // verify if exists
   if ( CountSql($p_cn,"select jra_id from jrn_rapt where jra_concerned=$jr_id and jr_id=$jr_id2
@@ -569,6 +569,7 @@ function InsertRapt($p_cn,$jr_id,$jr_id2) {
       // Ok we can insert 
       $Res=ExecSql($p_cn,"insert into jrn_rapt(jr_id,jra_concerned) values ($jr_id,$jr_id2)");
     }
+  return true;
 }
 /* function DeleteRapt($p_cn,$jr_id,$jr_id2)
  **************************************************
