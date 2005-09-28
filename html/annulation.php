@@ -101,7 +101,7 @@ if  ($p_id != -1 ) { // A
       // the operation is voided thanks the opposite operation
    StartSql($cn);
    $grp_new=NextSequence($cn,'s_grpt');
-   $seq=NextSequence($cn,"s_jrn_".$l_array['jr_def_id']);
+   $seq=NextSequence($cn,"s_jrn");
    $p_internal=SetInternalCode($cn,$seq,$l_array['jr_def_id']);
 
    $sql= "insert into jrn (

@@ -311,13 +311,15 @@ for ($e=0;$e < $MaxDossier;$e++) {
     ExecuteScript($db,'sql/patch/upgrade7.sql');
     // now we use sequence instead of computing a max
     // 
-    $Res=ExecSql($db,'select max(jr_grpt_id) as L from jrn');
-    if ( pg_NumRows($Res) == 1) {
-      $Row=pg_fetch_array($Res,0);
-      $Max=$Row['L'];
-      $Res=ExecSql($db,"select setval('s_grpt',$Max,true)");
+    $Res2=ExecSql($db,'select coalesce(max(jr_grpt_id),1) as l from jrn');
+    $Max2= pg_NumRows($Res2) ;
+    if ( $Max2 == 1) {
+      $Row=pg_fetch_array($Res2,0);
+      var_dump($Row);
+      $M=$Row['l'];
+      ExecSql($db,"select setval('s_grpt',$M,true)");
     }
-  } // version == 6
+  } // version == 7
 
  }
 
@@ -343,6 +345,30 @@ for ($e=0;$e < $MaxDossier;$e++) {
   if ( GetVersion($db) == 5 ) { 
     ExecuteScript($db,'sql/patch/upgrade5.sql');
   } // version == 5
+
+
+  //--
+  // update to the version 7
+  //--
+  if ( GetVersion($db) == 6 ) { 
+    ExecuteScript($db,'sql/patch/upgrade6.sql');
+  } // version == 6
+
+  //--
+  // update to the version 8
+  //--
+  if ( GetVersion($db) == 7 ) { 
+    ExecuteScript($db,'sql/patch/upgrade7.sql');
+    // now we use sequence instead of computing a max
+    // 
+    $Res2=ExecSql($db,'select coalesce(max(jr_grpt_id),1) as l from jrn');
+    $Max2= pg_NumRows($Res2) ;
+    if ( $Max2 == 1) {
+      $Row=pg_fetch_array($Res2,0);
+      $M=$Row['l'];
+      ExecSql($db,"select setval('s_grpt',$M,true)");
+    }
+  } // version == 7
 
  }
 $cn=DbConnect();
