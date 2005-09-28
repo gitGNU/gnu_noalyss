@@ -11,6 +11,8 @@ delete from jnt_fic_attr where fd_id=1 and ad_id=19;
 delete from jnt_fic_attr where fd_id=2 and ad_id=19;
 -- default periode for phpcompta
  update user_pref set pref_periode=40 where pref_user='phpcompta';
+-- create index ix_j_grp jrnx(j_grpt);
+-- create index ix_jr_grp jrn(jr_grpt_id);
 -- version 8
 update version set val=8;
 commit;
