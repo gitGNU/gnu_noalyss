@@ -309,6 +309,14 @@ for ($e=0;$e < $MaxDossier;$e++) {
   //--
   if ( GetVersion($db) == 7 ) { 
     ExecuteScript($db,'sql/patch/upgrade7.sql');
+    // now we use sequence instead of computing a max
+    // 
+    $Res=ExecSql($db,'select max(jr_grpt_id) as L from jrn');
+    if ( pg_NumRows($Res) == 1) {
+      $Row=pg_fetch_array($Res,0);
+      $Max=$Row['L'];
+      $Res=ExecSql($db,"select setval('s_grpt',$Max,true)");
+    }
   } // version == 6
 
  }
