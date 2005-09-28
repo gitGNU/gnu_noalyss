@@ -717,7 +717,7 @@ function GetData ($p_cn,$p_grpt) {
                         jr_comment,
 			to_char(jr_ech,'DD.MM.YYYY') as jr_ech,
                         to_char(jr_date,'DD.MM.YYYY') as jr_date,
-                        jr_id,jr_internal
+                        jr_id,jr_internal,jr_def_id
                      from jrnx inner join jrn on j_grpt=jr_grpt_id where j_grpt=$p_grpt");
   $MaxLine=pg_NumRows($Res);
   if ( $MaxLine == 0 ) return null;
@@ -753,6 +753,7 @@ function GetData ($p_cn,$p_grpt) {
     $l_array['comment']=$l_line['jr_comment'];
     $l_array['ech']=$l_line['jr_ech'];
     $l_array['jr_id']=$l_line['jr_id'];
+    $l_array['jr_def_id']=$l_line['jr_def_id'];
    }
   return array($l_array,$deb,$cred);
 }
