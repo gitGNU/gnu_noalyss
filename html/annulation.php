@@ -85,7 +85,7 @@ if  ($p_id != -1 ) { // A
     // Periode fermée 
     if ( PeriodeClosed ($cn,$userPref)=='t' )
       {
-		$msg="This periode is closed please change your preference";
+	$msg="Votre periode par defaut est fermee, changez vos preferences";
 		echo_error($msg); 
 		echo "<SCRIPT>alert('$msg');</SCRIPT>";
 		// set an incorrect pid to get out from here
@@ -100,7 +100,7 @@ if  ($p_id != -1 ) { // A
       // if the operation is in a closed or centralized period
       // the operation is voided thanks the opposite operation
    StartSql($cn);
-   $p_internal=SetInternalCode($cn,$p_id,$l_array['jr_id']);
+   $p_internal=SetInternalCode($cn,$p_id,$l_array['jr_def_id']);
    $grp_new=NextSequence($cn,'s_grpt');
    $sql= "insert into jrn (
   		jr_def_id,jr_montant,jr_comment,               
@@ -112,12 +112,6 @@ if  ($p_id != -1 ) { // A
           from
 	  jrn
 	  where   jr_grpt_id=".$_POST['p_id'];
-   $Res=ExecSql($cn,$sql);
-   // Check return code
-   if ( $Res == false ) { Rollback($cn);exit(-1);}
-   // Mark the operation invalid into the ledger
-   // to avoid to nullify twice the same op.
-   $sql="update jrn set jr_valid=false where jr_grpt_id=".$_POST['p_id'];
    $Res=ExecSql($cn,$sql);
    // Check return code
    if ( $Res == false ) { Rollback($cn);exit(-1);}
@@ -134,6 +128,12 @@ if  ($p_id != -1 ) { // A
    $Res=ExecSql($cn,$sql);
    // Check return code
    if ( $Res == false ) { Rollback($cn);exit(-1);}
+    // Mark the operation invalid into the ledger
+    // to avoid to nullify twice the same op.
+    $sql="update jrn set jr_comment='Annule : '||jr_comment where jr_grpt_id=".$_POST['p_id'];
+    $Res=ExecSql($cn,$sql);
+    // Check return code
+    if ( $Res == false ) { Rollback($cn);exit(-1);}
 
    // the table stock must updated
    // also in the stock table
