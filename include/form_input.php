@@ -695,7 +695,7 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
   // First we add in jrnx
 	
   // Compute the j_grpt
-  $seq=GetNextId($p_cn,'j_grpt')+1;
+  $seq=NextSequence($p_cn,'s_grpt');
 
 
   // Debit = client
@@ -1102,7 +1102,7 @@ function RecordAchat($p_cn,$p_array,$p_user,$p_jrn)
     // First we add in jrnx
 	
   // Compute the j_grpt
-  $seq=NextSequence($p_cn,'j_grpt');
+  $seq=NextSequence($p_cn,'s_grpt');
   
   
   // Debit = client
@@ -1415,7 +1415,7 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
     //    $type=( ${"e_other$i"."_amount"} < 0 )?'d':'c';
 
     // Compute the j_grpt
-    $seq=NextSequence($p_cn,'j_grpt');
+    $seq=NextSequence($p_cn,'s_grpt');
 
     if ( InsertJrnx($p_cn,'d',$p_user,$p_jrn,$poste_bq,$e_date,${"e_other$i"."_amount"},$seq,$periode) == false ) {
       $Rollback($p_cn);exit("error __FILE__ __LINE__");
@@ -1665,7 +1665,7 @@ function RecordODS($p_cn,$p_array,$p_user,$p_jrn)
   $sum_cred=0.0;
 
 	// Compute the j_grpt
-  $seq=NextSequence($p_cn,'j_grpt');
+  $seq=NextSequence($p_cn,'s_grpt');
 
   StartSql($p_cn);
   // store into the database
