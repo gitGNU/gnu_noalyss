@@ -1,6 +1,4 @@
 <?
-
-
 /*
  *   This file is part of PhpCompta.
  *
@@ -22,7 +20,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 // $Revision$
 define ("phpcompta_password","dany");
-define ("domaine","");
+define ("domaine","dev_");
 
 define ("DEBUG","true");
 

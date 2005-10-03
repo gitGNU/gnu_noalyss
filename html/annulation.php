@@ -62,6 +62,13 @@ foreach ($l_array as $key=>$element) {
 
 // cancel an operation
 if ( isset ($_POST['annul']) ) {
+?>
+<script>
+    if ( window.confirm ('Etes-vous sûr d\'annuler cette opération')  == false) {
+      window.close();
+    }
+</script>
+<?
   if ( isset ($_POST['p_id'])) {
     // Get the current periode
     $period=GetUserPeriode($cn,$User->id);
@@ -123,7 +130,7 @@ if  ($p_id != -1 ) { // A
   	        j_date,j_montant,j_poste,j_grpt,               
                 j_jrn_def,j_debit,j_text,j_internal,j_tech_user
   		) select now(),j_montant,j_poste,$grp_new,
-                  j_jrn_def,j_debit,j_text,'$p_internal','".$User->id."'
+                  j_jrn_def,not (j_debit),j_text,'$p_internal','".$User->id."'
 	  from
 	  jrnx
 	  where   j_grpt=".$_POST['p_id'];
