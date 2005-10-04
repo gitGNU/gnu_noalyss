@@ -549,7 +549,7 @@ L'écran est divisé en deux parties, celle du dessus, est utilisée par
 les journaux "Opérations Diverses" uniquement  celui 
 du dessous pour les autres journaux.<label id="journal_comptable">
 
-Pour le profil comptable, vous devez mettre un filter pour les comptes
+Pour le profil comptable, vous devez mettre un filtre pour les comptes
 visibles au débit ou au crédit
 
 exemple :
@@ -778,7 +778,7 @@ très utile pour par exemple les déclarations de TVA.
 Exemples de formule:
 <verb>
 Résultat d'exploitation brute round([7%]-[6%])
-Impot estimé (sans compter les amortissements) ([7%]-[6%])/0.24
+Impot estimé (sans compter les amortissements) ([7%]-[6%])/0.35
 Total des comptes en banque [550%]
 Total TVA récolté depuis janvier 2005 : [4511]  FROM=01.2005
 Perte ou profit 	if ([7%]-[6%]>0)?"Benefice":"Perte"
