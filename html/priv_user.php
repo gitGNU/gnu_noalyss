@@ -69,7 +69,7 @@ echo '<h2>Gestion Utilisateurs</h2>';
 
 <?
 /* Parse the changes */
-if ( isset ( $reset_passwd) ){
+if ( isset ( $_GET['reset_passwd']) ){
   $cn=DbConnect();
   $l_pass=md5('phpcompta');
   $Res=ExecSql($cn, "update ac_users set use_pass='$l_pass' where use_id=$uid");

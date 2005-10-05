@@ -51,7 +51,7 @@ if ( isset ($_GET["action"]) ) {
     // Add user
     if ( isset ($_POST["LOGIN"]) ) {
       $cn=DbConnect();
-      $pass5=md5($PASS);
+      $pass5=md5($_POST['PASS']);
       $Res=ExecSql($cn,"insert into ac_users(use_first_name,use_name,use_login,use_active,use_pass
                         ,use_usertype)
                     values ('".$_POST["FNAME"]."','".$_POST["LNAME"]."','".$_POST["LOGIN"]."',1,'$pass5',
