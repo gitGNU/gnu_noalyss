@@ -206,7 +206,7 @@ if ( $count == 0 ) {
 	// get the mod_id
 	$l_id=GetSequence($cn,'s_modid');
 	if ( $l_id != 0 ) {
-	   $Sql=sprintf("CREATE %sDATABASE MOD%d encoding='ISO8859-1' TEMPLATE DOSSIER%s",domaine,$l_id,$_POST["FMOD_DBID"]);
+	   $Sql=sprintf("CREATE DATABASE %sMOD%d encoding='ISO8859-1' TEMPLATE %sDOSSIER%s",domaine,$l_id,domaine,$_POST["FMOD_DBID"]);
 	   ExecSql($cn,$Sql);
  	}
       }// if $mod_name != null
