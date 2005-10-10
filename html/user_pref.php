@@ -51,8 +51,8 @@ if ( isset ($_SESSION['g_dossier']) ) {
 
 echo '<DIV class="ccontent">';
 
-if ( isset ($spass) ) {
-  if ( $pass_1 != $pass_2 ) {
+if ( isset ($_POST['spass']) ) {
+  if ( $_POST['pass_1'] != $_POST['pass_2'] ) {
 ?>
 <script>
    alert("Les mots de passe ne correspondent pas. Mot de passe inchangé");
@@ -61,10 +61,10 @@ if ( isset ($spass) ) {
     }
     else {
       $Cn=DbConnect();
-      $l_pass=md5($pass_1);
+      $l_pass=md5($_POST['pass_1']);
       $Res=ExecSql($Cn,"update ac_users set use_pass='$l_pass' where use_login='".$_SESSION['g_user']."'");
       $pass=$pass_1;
-      $_SESSION['g_pass']=$pass_1;
+      $_SESSION['g_pass']=$_POST['pass_1'];
       $g_pass=$pass_1;
     }
   }
