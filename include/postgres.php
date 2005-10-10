@@ -87,7 +87,7 @@ function DbConnect($p_db=-1,$p_type='dossier') {
   }
   $password=phpcompta_password;
   $a=pg_connect("dbname=$l_dossier host=127.0.0.1 user='phpcompta' password='$password'");
-  echo_debug ("connect to $p_db");
+  echo_debug (__FILE__,__LINE__,"connect to $p_db dbname $l_dossier");
   return $a;
 }
 /* function ExecSql
