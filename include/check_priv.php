@@ -40,23 +40,35 @@ include_once("postgres.php");
  *
  */ 
 
-function CheckJrn($p_dossier,$p_user,$p_jrn) 
+function CheckJrn($p_dossier,$p_user,$p_jrn,$p_detail=False) 
 {
   if ( CheckIsAdmin( $p_user) == 1 ) return 2;
   $cn=DbConnect($p_dossier);
   // Special
   // p_jrn = 0 ==> grand livre access if there is no uj_prix=X
+  // or detail
   if ( $p_jrn == 0 ) {
-    //    $n_jrn=CountSql($cn,"select jrn_def_id from jrn_def");
-    $n_for=CountSql($cn,"select jrn_def_id,uj_priv 
+    if ( $p_detail == false) {
+      //    $n_jrn=CountSql($cn,"select jrn_def_id from jrn_def");
+      $n_for=CountSql($cn,"select jrn_def_id,uj_priv 
                  from jrn_def left join user_sec_jrn on uj_jrn_id=jrn_def_id
                     where uj_login='$p_user' and uj_priv='X'");
-    if ( $n_for == 0 ) 
-      return 2;
-    else 
-      return 0;
+      if ( $n_for == 0 ) 
+	return 2;
+      else 
+	return 0;
+    } else {
+      // For a detail, at least one jrn must be accessible
+      $n_for=CountSql($cn, " select jrn_def_id,uj_priv 
+                 from jrn_def left join user_sec_jrn on uj_jrn_id=jrn_def_id
+                    where uj_login='$p_user' and uj_priv !='X'");
+      if ( $n_for == 0 ) 
+	return 0;
+      else 
+	return 2;
+    }
     
-
+ 
   }
 
   // droit spécifique

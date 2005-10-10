@@ -992,6 +992,7 @@ function GetDataJrnJrId ($p_cn,$p_jr_id) {
                          jr_id=$p_jr_id 
                       order by j_debit desc");
   $MaxLine=pg_NumRows($Res);
+  echo_debug(__FILE__,__LINE__,"Found $MaxLine lines");
   if ( $MaxLine == 0 ) return null;
 
   for ( $i=0; $i < $MaxLine; $i++) {

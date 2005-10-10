@@ -68,7 +68,7 @@ if ( ! isset ( $action )) {
 echo JS_VIEW_JRN_MODIFY;
 //////////////////////////////////////////////////////////////////////
 if ( $action == 'update' ) {
-  if ( ($priv=CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_GET['p_jrn'])) < 1 ) {
+  if ( ($priv=CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_GET['p_jrn'],true)) < 1 ) {
       NoAccess();
       exit -1;
     
@@ -95,7 +95,7 @@ if ( $action == 'update' ) {
 //    echo '</div>';
   }    
 if ( isset($_POST['update_record']) ) {
-  if ( ($priv=CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn)) !=2 ) {
+  if ( ($priv=CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn,true)) !=2 ) {
       NoAccess();
       exit -1;
     
