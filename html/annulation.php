@@ -70,8 +70,6 @@ if ( isset ($_POST['annul']) ) {
 </script>
 <?
   if ( isset ($_POST['p_id'])) {
-    // Get the current periode
-    $period=GetUserPeriode($cn,$User->id);
     $p_id=$_POST['p_id'];
    // Get the date
    $e_op_date=$_POST['op_date'];
@@ -117,7 +115,7 @@ if  ($p_id != -1 ) { // A
 		,jr_tech_per, jr_valid
   		) select $seq,jr_def_id,jr_montant,'Annulation '||jr_comment,
 		now(),$grp_new,'$p_internal',
-		$period, true 
+		$userPref, true 
           from
 	  jrn
 	  where   jr_grpt_id=".$_POST['p_id'];
@@ -128,9 +126,10 @@ if  ($p_id != -1 ) { // A
   // Make also the change into jrnx
    $sql= "insert into jrnx (
   	        j_date,j_montant,j_poste,j_grpt,               
-                j_jrn_def,j_debit,j_text,j_internal,j_tech_user
+                j_jrn_def,j_debit,j_text,j_internal,j_tech_user,j_tech_per
   		) select now(),j_montant,j_poste,$grp_new,
-                  j_jrn_def,not (j_debit),j_text,'$p_internal','".$User->id."'
+                  j_jrn_def,not (j_debit),j_text,'$p_internal','".$User->id."',
+		  $userPref
 	  from
 	  jrnx
 	  where   j_grpt=".$_POST['p_id'];
