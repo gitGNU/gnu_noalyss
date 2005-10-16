@@ -274,10 +274,10 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$pview_only=true,$p_articl
   $r.='<TR>';
   $r.="<th></th>";
   $r.="<th>Code</th>";
-  $r.="<th>Dénomination</th>";
+  $r.="<th>Dï¿½omination</th>";
   $r.="<th>prix</th>";
   $r.="<th colspan=\"2\">tva</th>";
-  $r.="<th>quantité</th>";
+  $r.="<th>quantitï¿½/th>";
   $r.='</TR>';
   //  $fiche=GetFicheJrn($p_cn,$p_jrn,'cred');
   //  echo_debug(__FILE__,__LINE__,"Cred Nombre d'enregistrement ".sizeof($fiche));
@@ -481,7 +481,7 @@ for ($o = 0;$o < $p_number; $o++) {
     list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$userPref);
 
     // Date dans la periode active
-    echo_debug ("date start periode $l_date_start date fin periode $l_date_end date demandée $e_date");
+    echo_debug ("date start periode $l_date_start date fin periode $l_date_end date demandï¿½ $e_date");
     if ( cmpDate($e_date,$l_date_start)<0 || 
 	 cmpDate($e_date,$l_date_end)>0 )
       {
@@ -490,7 +490,7 @@ for ($o = 0;$o < $p_number; $o++) {
 			echo "<SCRIPT>alert('$msg');</SCRIPT>";
 			return null;
       }
-    // Periode fermée 
+    // Periode fermï¿½ 
     if ( PeriodeClosed ($p_cn,$userPref)=='t' )
       {
 		$msg="This periode is closed please change your preference";
@@ -523,7 +523,7 @@ for ($o = 0;$o < $p_number; $o++) {
   // show all article, price vat and sum
     $r.="<TR>";
     $r.="<TH>Article</TH>";
-    $r.="<TH>quantité</TH>";
+    $r.="<TH>quantitï¿½/TH>";
     $r.="<TH>prix unit.</TH>";
     $r.="<TH>taux tva</TH>";
     $r.="<TH>Montant HTVA</TH>";
@@ -607,7 +607,7 @@ for ($o = 0;$o < $p_number; $o++) {
 	  $file->table=1;
 	  $r.="<hr>";
 	  $r.= "<table>"; 
-	  $r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
+	  $r.="<TR>".$file->IOValue("pj","","Piï¿½e justificative")."</TR>";
 	  $r.="</table>";
 	  $r.="<hr>";
 
@@ -868,10 +868,10 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$pview_only=true,$
   $r.="<TR>";
   if ($pview_only==false)  $r.="<th></th>";
   $r.="<th>code</th>";
-  $r.="<th>Dénomination</th>";
+  $r.="<th>Dï¿½omination</th>";
   $r.="<th>Prix</th>";
   $r.="<th>Tva</th>";
-  $r.="<th>Quantité</th>";
+  $r.="<th>Quantitï¿½/th>";
 
   $r.="</TR>";
 
@@ -972,7 +972,7 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$pview_only=true,$
     $file->table=1;
     $r.="<hr>";
     $r.= "<table>"; 
-    $r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
+    $r.="<TR>".$file->IOValue("pj","","Piï¿½e justificative")."</TR>";
     $r.="</table>";
     $r.="<hr>";
   }
@@ -1237,6 +1237,7 @@ function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$pview_only=true,$
   
   //  $r.='<TR>'.InputType("Banque","js_search","e_bank_account",$e_bank_account,$pview_only,FICHE_TYPE_FIN).'</TR>';
     $W1=new widget("js_search");
+    $W1->readonly=$pview_only;
     $W1->label="Banque";
     $W1->name="e_bank_account";
     $W1->value=$e_bank_account;
@@ -1251,7 +1252,7 @@ function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$pview_only=true,$
   $e_comment=(isset($e_comment))?$e_comment:"";
   
   // ComputeBanqueSaldo
-  // cred = nég !!!
+  // cred = nï¿½ !!!
   if ( $pview_only == true ) {
     $solde=GetSolde($p_cn,GetFicheAttribut($p_cn,$e_bank_account,ATTR_DEF_ACCOUNT));
     $r.=" <b> Solde = ".$solde." </b>";
@@ -1265,10 +1266,10 @@ function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$pview_only=true,$
   $r.="<TR>";
   $r.="<th></TH>";
   $r.="<th>code</TH>";
-  $r.="<th>Dénomination</TH>";
+  $r.="<th>Dï¿½omination</TH>";
   $r.="<th>Description</TH>";
   $r.="<th>Montant</TH>";
-  $r.='<th colspan="2"> Op. Concernée</th>';
+  $r.='<th colspan="2"> Op. Concernï¿½</th>';
   $r.="</TR>";
   // Parse each " tiers" 
     for ($i=0; $i < $p_item; $i++) {
@@ -1335,7 +1336,7 @@ $r.="</TABLE>";
    $file->table=1;
    $r.="<hr>";
    $r.= "<table>"; 
-   $r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
+   $r.="<TR>".$file->IOValue("pj","","Piï¿½e justificative")."</TR>";
    $r.="</table>";
    $r.="<hr>";
  }
@@ -1511,14 +1512,14 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$pview_only=true,$
 
   // Start the div for item to encode
   $r.="<DIV>";
-  $r.='<H2 class="info">Opérations Diverses</H2>';
+  $r.='<H2 class="info">Opï¿½ations Diverses</H2>';
   $r.='<TABLE border="0">';
   $r.="<tr>";
   $r.="<th></th>";
   $r.="<th>Compte</th>";
   $r.="<th>Poste</th>";
   $r.="<th>Montant</th>";
-  $r.="<th>Crédit ou débit</th>";
+  $r.="<th>Crï¿½it ou dï¿½it</th>";
   $r.="</tr>";
   $sum_deb=0.0;
   $sum_cred=0.0;
@@ -1580,10 +1581,10 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$pview_only=true,$
     $d_check=( ${"e_account$i"."_type"} == 'd' )?"CHECKED":"";
     $r.='<td>';
     if ( $pview_only == false ) {
-      $r.='  <input type="radio" name="'."e_account"."$i"."_type".'" value="d" '.$d_check.'> Débit ou ';
-      $r.='  <input type="radio" name="'."e_account"."$i"."_type".'" value="c" '.$c_check.'> Crédit ';
+      $r.='  <input type="radio" name="'."e_account"."$i"."_type".'" value="d" '.$d_check.'> Dï¿½it ou ';
+      $r.='  <input type="radio" name="'."e_account"."$i"."_type".'" value="c" '.$c_check.'> Crï¿½it ';
     }else {
-      $r.=(${"e_account$i"."_type"} == 'c' )?"Crédit":"Débit";
+      $r.=(${"e_account$i"."_type"} == 'c' )?"Crï¿½it":"Dï¿½it";
       $r.='<input type="hidden" name="e_account'.$i.'_type" value="'.${"e_account$i"."_type"}.'">';
     }
     $r.='</td>';
@@ -1600,7 +1601,7 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$pview_only=true,$
    $file->table=1;
    $r.="<hr>";
    $r.= "<table>"; 
-   $r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
+   $r.="<TR>".$file->IOValue("pj","","Piï¿½e justificative")."</TR>";
    $r.="</table>";
    $r.="<hr>";
  }
