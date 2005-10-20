@@ -1,6 +1,25 @@
 #!/usr/bin/python
 #
 #
+#   This file is part of PhpCompta.
+#
+#   PhpCompta is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   PhpCompta is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with PhpCompta; if not, write to the Free Software
+#   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#/
+# $Revision$
+# Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+
 import random
 import getopt 
 import sys
@@ -10,12 +29,16 @@ import sys
 			 
 def usage():
 	print """
-	-h help
-	-s generate a sql file for a small database test
-	-l generate a sql file for a large database test
-	-x generate a extra large sql for a huge database test
+	For use with the demo database, this utility helps
+	you to create differente kind of databases for tuning
+	and improve the performance
+	parameters are :
+		-h help
+		-s generate a sql file for a small database test
+		-l generate a sql file for a large database test
+		-x generate a extra large sql for a huge database test
 	"""
-	 sys.exit(-1)
+	sys.exit(-1)
 
 def Add_Attribut_Fiche(p_jft,p_f,p_ad_id,p_value):
 	# Ajout du nom
@@ -43,7 +66,7 @@ def Creation_operation(p_base,p_type):
 	jrnx+="values (to_date('%d-%d-2005','DD-MM-YYYY'),%8.2f,%s,%d,%d,%s,'SIMULATION',%d);"
 	for loop_periode in range (53,64):
 		for loop_day in range (1,28):
-			for loop_op in range (0,50):
+			for loop_op in range (0,nb_per_day):
 				if p_type == 'V':
 					j_internal='1VEN-01-%d' % (p_base)
 					j_montant=round(random.randrange(100,5000)/100.0,2)
@@ -62,9 +85,9 @@ def Creation_operation(p_base,p_type):
 				if p_type== 'A':
 					j_internal='1ACH-01-%d' % (p_base)
 					j_montant=round(random.randrange(100,5000)/100.0,2)
-					j_client='440%04d' % (random.randrange(0,nb_fiche)+100)
-					j_charge='61%04d' % (random.randrange(0,350)+100)
-					jrnx1=jrnx % (loop_day,loop_periode-39,j_montant,j_client,p_base,3,'false',loop_periode)
+					j_fournisseur='440%04d' % (random.randrange(0,nb_fiche)+100)
+					j_charge='61%04d' % (random.randrange(0,nb_charge)+100)
+					jrnx1=jrnx % (loop_day,loop_periode-39,j_montant,j_fournisseur,p_base,3,'false',loop_periode)
 					print jrnx1
 					j_tva=round(j_montant*0.21,2)
 					jrnx1=jrnx % (loop_day,loop_periode-39,j_tva,'4111',p_base,3,'false',loop_periode)
@@ -79,7 +102,11 @@ def Creation_operation(p_base,p_type):
 ################################################################################
 #  MAIN
 ################################################################################
+if  len(sys.argv) == 1  :
+	usage()
+
 cmd_line=sys.argv[1:]
+
 try :
 	a1,a2=getopt.getopt(cmd_line,"slxh",['small','large','extra-large','help'])
 except getopt.GetoptError,msg:
@@ -134,7 +161,7 @@ f_id+=nb_fiche+100
 jft_id+=2*nb_fiche+100
 base_poste='61'
 
-Creation_fiche(f_id,jft_id,fd_id,type,base_poste,350)
+Creation_fiche(f_id,jft_id,fd_id,type,base_poste,nb_charge)
 
 #Creation_operation Vente
 Creation_operation(1000,'V')
