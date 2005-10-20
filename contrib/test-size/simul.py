@@ -42,62 +42,99 @@ def usage():
 
 def Add_Attribut_Fiche(p_jft,p_f,p_ad_id,p_value):
 	# Ajout du nom
-	print "insert into jnt_fic_att_value(jft_id,f_id,ad_id) values (%d,%d,%d);" % (p_jft,p_f,p_ad_id)
-	print "insert into attr_value(jft_id,av_text) values (%d,'%s');" % (p_jft,p_value)
+	#print "insert into jnt_fic_att_value(jft_id,f_id,ad_id) values (%d,%d,%d);" % (p_jft,p_f,p_ad_id)
+	jnt="%d\t%d\t%d" %  (p_jft,p_f,p_ad_id)
+	#print "insert into attr_value(jft_id,av_text) values (%d,'%s');" % (p_jft,p_value)
+	attr="%d\t%s" % (p_jft,p_value)
+	return (jnt,attr)
 
 def Creation_fiche (p_seq_f_id,p_seq_jft_id,p_fd_id,p_type,p_base_poste,p_nbfiche):
+	fiche=[]
+	poste_comptable=[]
+	Attribut=[]
+	jnt=[]
 	for i in range (0,p_nbfiche):
 		#def Creation fiche :
-		print "insert into fiche(f_id,fd_id)values (%d,%d);" % (p_seq_f_id,p_fd_id)
+		#print "insert into fiche(f_id,fd_id)values (%d,%d);" % (p_seq_f_id,p_fd_id)
+		fiche.append("%d\t%d" % (p_seq_f_id,p_fd_id))
 		# ajout nom
 		nom="%s numero %08d" % (p_type,i+100)
-		Add_Attribut_Fiche(p_seq_jft_id,p_seq_f_id,1,nom)
+		(t1,t2)=Add_Attribut_Fiche(p_seq_jft_id,p_seq_f_id,1,nom)
+		jnt.append(t1)
+		Attribut.append(t2)
 		#poste comptable
-		poste_comptable='%s%04d'% (p_base_poste,i+100)
-		print "insert into tmp_pcmn (pcm_val,pcm_lib,pcm_val_parent) values (%s,'%s',%s); " % (poste_comptable,nom,p_base_poste)
+		str_poste_comptable='%s%04d'% (p_base_poste,i+100)
+		# print "insert into tmp_pcmn (pcm_val,pcm_lib,pcm_val_parent) values (%s,'%s',%s); " % (poste_comptable,nom,p_base_poste)
+		poste_comptable.append("%s\t%s\t%s" %  (str_poste_comptable,nom,p_base_poste))
 		p_seq_jft_id+=1
-		Add_Attribut_Fiche(p_seq_jft_id,p_seq_f_id,5,poste_comptable)
+		(t1,t2)=Add_Attribut_Fiche(p_seq_jft_id,p_seq_f_id,5,str_poste_comptable)
+		jnt.append(t1)
+		Attribut.append(t2)
 		p_seq_f_id+=1
 		p_seq_jft_id+=1
+	print "copy fiche(f_id,fd_id) from stdin;"
+	for e in fiche: print e
+	print "\."
+	print "copy tmp_pcmn(pcm_val,pcm_lib,pcm_val_parent) from stdin;"
+	for e in poste_comptable: print e
+	print "\."
+	print "copy  jnt_fic_att_value(jft_id,f_id,ad_id) from stdin;"
+	for e in jnt: print e
+	print "\."
+	print "copy   attr_value(jft_id,av_text) from stdin;"
+	for e in Attribut: print e
+	print "\."
+	
+
+
+
 def Creation_operation(p_base,p_type):
-	jrn="insert into jrn (jr_def_id,jr_montant,jr_comment,jr_date,jr_grpt_id,jr_internal,jr_tech_per)"
-	jrn+=" values  (%d,%8.2f,'%s',to_date('%d-%d-2005','DD-MM-YYYY'),%d,'%s',%d);"
-	jrnx="insert into jrnx (j_date,j_montant,j_poste,j_grpt,j_jrn_def,j_debit,j_tech_user,j_tech_per)"
-	jrnx+="values (to_date('%d-%d-2005','DD-MM-YYYY'),%8.2f,%s,%d,%d,%s,'SIMULATION',%d);"
+	#jrn="insert into jrn (jr_def_id,jr_montant,jr_comment,jr_date,jr_grpt_id,jr_internal,jr_tech_per)"
+	jrn="%d\t%.2f\t%s\t%d.%d.2005\t%d\t%s\t%d"
+	#jrnx="insert into jrnx (j_date,j_montant,j_poste,j_grpt,j_jrn_def,j_debit,j_tech_user,j_tech_per)"
+	jrnx="%d.%d.2005\t%.2f\t%s\t%d\t%d\t%s\tSIMULATION\t%d"
+	array_jrnx=[]
+	array_jrn=[]
 	for loop_periode in range (53,64):
 		for loop_day in range (1,28):
 			for loop_op in range (0,nb_per_day):
+				j_montant=round(random.randrange(100,5000)/100.0,2)
+				j_tva=round(j_montant*0.21,2)
+				month=loop_periode-52
 				if p_type == 'V':
 					j_internal='1VEN-01-%d' % (p_base)
-					j_montant=round(random.randrange(100,5000)/100.0,2)
 					j_client='400%04d' % (random.randrange(1,nb_fiche)+100)
-					jrnx1=jrnx % (loop_day,loop_periode-39,j_montant,j_client,p_base,2,'true',loop_periode)
-					print jrnx1
-					j_tva=round(j_montant*0.21,2)
-					jrnx1=jrnx % (loop_day,loop_periode-39,j_tva,'4511',p_base,2,'true',loop_periode)
-					print jrnx1
-					jrnx1=jrnx % (loop_day,loop_periode-39,j_montant+j_tva,'700',p_base,2,'false',loop_periode)
-					print jrnx1
+					#jrnx1=jrnx % (loop_day,loop_periode-39,j_montant,j_client,p_base,2,'true',loop_periode)
+					array_jrnx.append(jrnx % (loop_day,month,j_montant,j_client,p_base,2,'true',loop_periode))
+					#print jrnx1
+					array_jrnx.append(jrnx % (loop_day,month,j_tva,'4511',p_base,2,'true',loop_periode))
+					#print jrnx1
 					total=j_montant+j_tva
-					jrn1=jrn%(2,total,j_internal,loop_day,loop_periode-39,p_base,j_internal,loop_periode)
-					print jrn1
+					array_jrnx.append( jrnx % (loop_day,month,total,'700',p_base,2,'false',loop_periode))
+					#print jrnx1
+					array_jrn.append(jrn%(2,total,j_internal,loop_day,month,p_base,j_internal,loop_periode))
+					#print jrn1
 					p_base+=1
 				if p_type== 'A':
 					j_internal='1ACH-01-%d' % (p_base)
-					j_montant=round(random.randrange(100,5000)/100.0,2)
 					j_fournisseur='440%04d' % (random.randrange(0,nb_fiche)+100)
 					j_charge='61%04d' % (random.randrange(0,nb_charge)+100)
-					jrnx1=jrnx % (loop_day,loop_periode-39,j_montant,j_fournisseur,p_base,3,'false',loop_periode)
-					print jrnx1
-					j_tva=round(j_montant*0.21,2)
-					jrnx1=jrnx % (loop_day,loop_periode-39,j_tva,'4111',p_base,3,'false',loop_periode)
-					print jrnx1
-					jrnx1=jrnx % (loop_day,loop_periode-39,j_montant+j_tva,j_charge,p_base,3,'true',loop_periode)
-					print jrnx1
-					jrn1=jrn%(3,j_montant+j_tva,j_internal,loop_day,loop_periode-39,p_base,j_internal,loop_periode)
-					print jrn1
+					array_jrnx.append(jrnx%(loop_day,month,j_montant,j_fournisseur,p_base,3,'false',loop_periode))
+					#print jrnx1
+					array_jrnx.append(jrnx % (loop_day,month,j_tva,'4111',p_base,3,'false',loop_periode))
+					#print jrnx1
+					total=j_montant+j_tva
+					array_jrnx.append(jrnx % (loop_day,month,total,j_charge,p_base,3,'true',loop_periode))
+					#print jrnx1
+					array_jrn.append(jrn%(3,total,j_internal,loop_day,month,p_base,j_internal,loop_periode))
+					##print jrn1
 					p_base+=1
-	
+	print "copy  jrn (jr_def_id,jr_montant,jr_comment,jr_date,jr_grpt_id,jr_internal,jr_tech_per) from stdin;"
+	for e in array_jrn: print e
+	print "\."
+	print "copy  jrnx (j_date,j_montant,j_poste,j_grpt,j_jrn_def,j_debit,j_tech_user,j_tech_per) from stdin;"
+	for e in array_jrnx: print e
+	print "\."
 
 ################################################################################
 #  MAIN
@@ -131,6 +168,7 @@ for option,value in a1:
 		nb_per_day=500
 
 print "begin;"
+print "set DateStyle=European;"
 # fd_id => client
 fd_id=2
 # type fiche
