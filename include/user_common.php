@@ -374,7 +374,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
   	// Get the jrn type
 	$jrn_prop=GetJrnProp($p_cn,$row['jrn_def_id'],1);  
 	$positive=0;
-	if ( $jrn_prop['jrn_def_type'] == 'FIN' ) {
+	if ( $positive=1  &&  $jrn_prop['jrn_def_type'] == 'FIN' ) {
 	  $positive = CountSql($p_cn,"select * from jrn inner join jrnx on jr_grpt_id=j_grpt ".
 		   " where jr_id=".$row['jr_id']." and (j_poste like '55%' or j_poste like '57%' )".
 			       " and j_debit='f'");

@@ -274,10 +274,10 @@ function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$pview_only=true,$p_articl
   $r.='<TR>';
   $r.="<th></th>";
   $r.="<th>Code</th>";
-  $r.="<th>Dï¿½omination</th>";
+  $r.="<th>Dénomination</th>";
   $r.="<th>prix</th>";
   $r.="<th colspan=\"2\">tva</th>";
-  $r.="<th>quantitï¿½/th>";
+  $r.="<th>quantité</th>";
   $r.='</TR>';
   //  $fiche=GetFicheJrn($p_cn,$p_jrn,'cred');
   //  echo_debug(__FILE__,__LINE__,"Cred Nombre d'enregistrement ".sizeof($fiche));
@@ -523,7 +523,7 @@ for ($o = 0;$o < $p_number; $o++) {
   // show all article, price vat and sum
     $r.="<TR>";
     $r.="<TH>Article</TH>";
-    $r.="<TH>quantitï¿½/TH>";
+    $r.="<TH>quantité</TH>";
     $r.="<TH>prix unit.</TH>";
     $r.="<TH>taux tva</TH>";
     $r.="<TH>Montant HTVA</TH>";
@@ -607,7 +607,7 @@ for ($o = 0;$o < $p_number; $o++) {
 	  $file->table=1;
 	  $r.="<hr>";
 	  $r.= "<table>"; 
-	  $r.="<TR>".$file->IOValue("pj","","Piï¿½e justificative")."</TR>";
+	  $r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
 	  $r.="</table>";
 	  $r.="<hr>";
 
@@ -701,7 +701,7 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
   // Debit = client
   $poste=GetFicheAttribut($p_cn,$e_client,ATTR_DEF_ACCOUNT);
   StartSql($p_cn);	
-  $r=InsertJrnx($p_cn,'d',$p_user,$p_jrn,$poste,$e_date,$amount+$sum_vat,$seq,$periode);
+  $r=InsertJrnx($p_cn,'d',$p_user,$p_jrn,$poste,$e_date,round($amount,2)+round($sum_vat,2),$seq,$periode);
   if ( $r == false) { $Rollback($p_cn);exit("error __FILE__ __LINE__");}
   // Credit = goods 
   for ( $i = 0; $i < $nb_item;$i++) {
@@ -712,7 +712,7 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
     if ( $a_price[$i]*$a_quant[$i] == 0 ) continue;
 	  
     // record into jrnx
-    $j_id=InsertJrnx($p_cn,'c',$p_user,$p_jrn,$poste,$e_date,$a_price[$i]*$a_quant[$i],$seq,$periode);
+    $j_id=InsertJrnx($p_cn,'c',$p_user,$p_jrn,$poste,$e_date,round($a_price[$i]*$a_quant[$i],2),$seq,$periode);
     if ( $j_id == false) { $Rollback($p_cn);exit("error __FILE__ __LINE__");}
     // always save quantity but in withStock we can find what card need a stock management
     if (  InsertStockGoods($p_cn,$j_id,$a_good[$i],$a_quant[$i],'c') == false ) {
@@ -727,13 +727,13 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
       foreach ($a_vat as $tva_id => $tva_amount ) {
 	$poste=GetTvaPoste($p_cn,$tva_id,'c');
 	if ($tva_amount == 0 ) continue;
-	$r=InsertJrnx($p_cn,'c',$p_user,$p_jrn,$poste,$e_date,$tva_amount,$seq,$periode);
+	$r=InsertJrnx($p_cn,'c',$p_user,$p_jrn,$poste,$e_date,round($tva_amount,2),$seq,$periode);
 	if ( $r == false ) { Rollback($p_cn); exit(" Error __FILE__ __LINE__");}
       
       }
     }
   echo_debug(__FILE__,__LINE__,"echeance = $e_ech");
-  $r=InsertJrn($p_cn,$e_date,$e_ech,$p_jrn,"Invoice",$amount+$sum_vat,$seq,$periode);
+  $r=InsertJrn($p_cn,$e_date,$e_ech,$p_jrn,"Invoice",round($amount,2)+round($sum_vat,2),$seq,$periode);
   if ( $r == false ) { Rollback($p_cn); exit(" Error __FILE__ __LINE__");}
   // Set Internal code and Comment
   $internal=SetInternalCode($p_cn,$seq,$p_jrn);
@@ -745,6 +745,7 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
 
   if ( isset ($_FILES))
     save_upload_document($p_cn,$seq);
+
 
   Commit($p_cn);
 
@@ -972,7 +973,7 @@ function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$pview_only=true,$
     $file->table=1;
     $r.="<hr>";
     $r.= "<table>"; 
-    $r.="<TR>".$file->IOValue("pj","","Piï¿½e justificative")."</TR>";
+    $r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
     $r.="</table>";
     $r.="<hr>";
   }
@@ -1108,14 +1109,14 @@ function RecordAchat($p_cn,$p_array,$p_user,$p_jrn)
   // Debit = client
   $poste=GetFicheAttribut($p_cn,$e_client,ATTR_DEF_ACCOUNT);
   StartSql($p_cn);
-  InsertJrnx($p_cn,'c',$p_user,$p_jrn,$poste,$e_date,$amount+$sum_vat,$seq,$periode);
+  InsertJrnx($p_cn,'c',$p_user,$p_jrn,$poste,$e_date,round($amount,2)+round($sum_vat,2),$seq,$periode);
   
   // Credit = goods
   for ( $i = 0; $i < $nb_item;$i++) {
     if ( ! isset ( $a_good[$i]) ) continue;
     $poste=GetFicheAttribut($p_cn,$a_good[$i],ATTR_DEF_ACCOUNT);
     if ( $a_price[$i] * $a_quant[$i] == 0 ) continue;    
-    $j_id=InsertJrnx($p_cn,'d',$p_user,$p_jrn,$poste,$e_date,$a_price[$i]*$a_quant[$i],$seq,$periode);
+    $j_id=InsertJrnx($p_cn,'d',$p_user,$p_jrn,$poste,$e_date,round($a_price[$i]*$a_quant[$i],2),$seq,$periode);
     if ( $j_id == false ) {$Rollback($p_cn);exit("error __FILE__ __LINE__");}
     //    if ( withStock($p_cn,$a_good[$i]) == true )  
     // always save quantity but in withStock we can find what card need a stock management
@@ -1126,25 +1127,25 @@ function RecordAchat($p_cn,$p_array,$p_user,$p_jrn)
     {
       foreach ($a_vat as $tva_id => $tva_amount ) {
 	$poste=GetTvaPoste($p_cn,$tva_id,'d');
-	if ( InsertJrnx($p_cn,'d',$p_user,$p_jrn,$poste,$e_date,$tva_amount,$seq,$periode) == false ) { $Rollback($p_cn);exit("error __FILE__ __LINE__");}
+	if ( InsertJrnx($p_cn,'d',$p_user,$p_jrn,$poste,$e_date,round($tva_amount,2),$seq,$periode) == false ) { $Rollback($p_cn);exit("error __FILE__ __LINE__");}
       }
     }
   $e_comment=FormatString($e_comment);
   echo_debug(__FILE__,__LINE__,"echeance = $e_ech");
   echo_debug(__FILE__,__LINE__,"comment = $e_comment");
   if ( ($amount+$sum_vat) != 0 ){
-    if ( InsertJrn($p_cn,$e_date,$e_ech,$p_jrn,$e_comment,round($amount+$sum_vat,2),$seq,$periode) == false ) {
+    if ( InsertJrn($p_cn,$e_date,$e_ech,$p_jrn,$e_comment,round($amount,2)+round($sum_vat,2),$seq,$periode) == false ) {
       $Rollback($p_cn);exit("error __FILE__ __LINE__");
     }
     // Set Internal code and Comment
-    $comment=SetInternalCode($p_cn,$seq,$p_jrn)."  client : ".GetFicheName($p_cn,$e_client);
+    $internal_code=SetInternalCode($p_cn,$seq,$p_jrn);
+    $comment=$internal_code."  client : ".GetFicheName($p_cn,$e_client);
     if ( $e_comment=="" ) {
       // Update comment if comment is blank
       $Res=ExecSql($p_cn,"update jrn set jr_comment='".$comment."' where jr_grpt_id=".$seq);
     }
     if ( isset ($_FILES))
       save_upload_document($p_cn,$seq);
-
     Commit($p_cn);
     return $comment;
   }
@@ -1266,10 +1267,10 @@ function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$pview_only=true,$
   $r.="<TR>";
   $r.="<th></TH>";
   $r.="<th>code</TH>";
-  $r.="<th>Dï¿½omination</TH>";
+  $r.="<th>D&eacute;omination</TH>";
   $r.="<th>Description</TH>";
   $r.="<th>Montant</TH>";
-  $r.='<th colspan="2"> Op. Concernï¿½</th>';
+  $r.='<th colspan="2"> Op. Concern&eacute;</th>';
   $r.="</TR>";
   // Parse each " tiers" 
     for ($i=0; $i < $p_item; $i++) {
@@ -1336,7 +1337,7 @@ $r.="</TABLE>";
    $file->table=1;
    $r.="<hr>";
    $r.= "<table>"; 
-   $r.="<TR>".$file->IOValue("pj","","Piï¿½e justificative")."</TR>";
+   $r.="<TR>".$file->IOValue("pj","","Pi&eagrave;ce justificative")."</TR>";
    $r.="</table>";
    $r.="<hr>";
  }
@@ -1418,20 +1419,20 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
     // Compute the j_grpt
     $seq=NextSequence($p_cn,'s_grpt');
 
-    if ( InsertJrnx($p_cn,'d',$p_user,$p_jrn,$poste_bq,$e_date,${"e_other$i"."_amount"},$seq,$periode) == false ) {
+    if ( InsertJrnx($p_cn,'d',$p_user,$p_jrn,$poste_bq,$e_date,round(${"e_other$i"."_amount"},2),$seq,$periode) == false ) {
       $Rollback($p_cn);exit("error __FILE__ __LINE__");
     }
 
 
     // Record a line for the other account
     //    $type=( ${"e_other$i"."_amount"} < 0 )?'c':'d';
-    if ( ($j_id=InsertJrnx($p_cn,'c',$p_user,$p_jrn,$poste,$e_date,${"e_other$i"."_amount"},$seq,$periode)) == false )
+    if ( ($j_id=InsertJrnx($p_cn,'c',$p_user,$p_jrn,$poste,$e_date,round(${"e_other$i"."_amount"},2),$seq,$periode)) == false )
       { $Rollback($p_cn);exit("error __FILE__ __LINE__");}
 
     echo_debug(__FILE__,__LINE__,"   $j_id=InsertJrnx($p_cn,'d',$p_user,$p_jrn,$poste,$e_date,".${"e_other$i"}."_amount".",$seq,$periode);");
 
     if ( ($jr_id=InsertJrn($p_cn,$e_date,'',$p_jrn,FormatString(${"e_other$i"."_comment"}),
-			   ${"e_other$i"."_amount"},$seq,$periode))==false) {
+			   round(${"e_other$i"."_amount"},2),$seq,$periode))==false) {
       $Rollback($p_cn);exit("error __FILE__ __LINE__");}
   
     if ( isNumber(${"e_concerned".$i}) == 1 ) {
@@ -1441,15 +1442,17 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
 
 
   // Set Internal code and Comment
-  $comment=SetInternalCode($p_cn,$seq,$p_jrn)."  client : ".GetFicheName($p_cn,$e_bank_account);
-  if ( FormatString(${"e_other$i"."_comment"}) == null ) {
-    // Update comment if comment is blank
-    $Res=ExecSql($p_cn,"update jrn set jr_comment='".$comment."' where jr_grpt_id=".$seq);
-  }
+    $internal_code=SetInternalCode($p_cn,$seq,$p_jrn);
+    $comment=$internal_code."  client : ".GetFicheName($p_cn,$e_bank_account);
+    if ( FormatString(${"e_other$i"."_comment"}) == null ) {
+      // Update comment if comment is blank
+      $Res=ExecSql($p_cn,"update jrn set jr_comment='".$comment."' where jr_grpt_id=".$seq);
+    }
+    
+  } // for nbitem
   if ( isset ($_FILES))
     save_upload_document($p_cn,$seq);
 
-  }
   Commit($p_cn);
 }
 /* function FormODS($p_cn,$p_jrn,$p_user,$p_array=null,$pview_only=true,$p_article=1)
@@ -1601,7 +1604,7 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$pview_only=true,$
    $file->table=1;
    $r.="<hr>";
    $r.= "<table>"; 
-   $r.="<TR>".$file->IOValue("pj","","Piï¿½e justificative")."</TR>";
+   $r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
    $r.="</table>";
    $r.="<hr>";
  }
@@ -1672,8 +1675,8 @@ function RecordODS($p_cn,$p_array,$p_user,$p_jrn)
   // store into the database
   for ( $i = 0; $i < $nb_item;$i++) {
     if ( isNumber(${"e_account$i"}) == 0 ) continue;
-    $sum_deb+=(${"e_account$i"."_type"}=='d')?${"e_account$i"."_amount"}:0;
-    $sum_cred+=(${"e_account$i"."_type"}=='c')?${"e_account$i"."_amount"}:0;
+    $sum_deb+=(${"e_account$i"."_type"}=='d')?round(${"e_account$i"."_amount"},2):0;
+    $sum_cred+=(${"e_account$i"."_type"}=='c')?round(${"e_account$i"."_amount"},2):0;
 
     if ( ${"e_account$i"."_amount"} == 0 ) continue;
     if ( ($j_id=InsertJrnx($p_cn,${"e_account$i"."_type"},$p_user,$p_jrn,${"e_account$i"},$e_date,${"e_account$i"."_amount"},$seq,$periode)) == false ) {
@@ -1684,15 +1687,14 @@ function RecordODS($p_cn,$p_array,$p_user,$p_jrn)
     $Rollback($p_cn);exit("error __FILE__ __LINE__");}
 
   // Set Internal code and Comment
-  $comment=SetInternalCode($p_cn,$seq,$p_jrn);
+  $internal_code=SetInternalCode($p_cn,$seq,$p_jrn);
   if ( $e_comment=="" ) {
     // Update comment if comment is blank
-    $Res=ExecSql($p_cn,"update jrn set jr_comment='".$comment."' where jr_grpt_id=".$seq);
+    $Res=ExecSql($p_cn,"update jrn set jr_comment='".$internal_code."' where jr_grpt_id=".$seq);
   }
   if ( isset ($_FILES))
     save_upload_document($p_cn,$seq);
 
   Commit($p_cn);
-  return $comment;
+  return $internal_code;
 }
-
