@@ -97,8 +97,11 @@ function GetVersion($p_cn) {
 function ExecuteScript($p_cn,$script) {
   $hf=fopen($script,'r');
   $sql="";
+  $flag_function=false;
   while (!feof($hf)) {
     $buffer=fgets($hf);
+    $buffer=str_replace ("$","\$",$buffer);
+    print $buffer."<br>";
     // comment are not execute
     if ( substr($buffer,0,2) == "--" ) {
       //echo "comment $buffer";
@@ -109,17 +112,35 @@ function ExecuteScript($p_cn,$script) {
 	    //echo "Blank $buffer";
       Continue;
     }
-
+    if ( strpos($buffer,"create function")===0 ) {
+	    echo "found a function";
+	    $flag_function=true;
+	    $sql=$buffer;
+	    continue;
+    }
     // No semi colon -> multiline command
-    if ( strpos($buffer,';') == false ) {
+    if ( $flag_function== false && strpos($buffer,';') == false ) {
       $sql.=$buffer;
       continue;
     } 
-    // cut the semi colon
-    $buffer=str_replace (';','',$buffer);
+    if ( $flag_function ) {
+	    if ( strpos($buffer, "language plpgsql") == false ) {
+		$sql.=$buffer;
+		continue;
+	    }
+    } else  {
+	    // cut the semi colon
+	    $buffer=str_replace (';','',$buffer);
+	    }
     $sql.=$buffer;
-    ExecSql($p_cn,$sql);
+    if ( ExecSql($p_cn,$sql) == false ) {
+	    Rollback($p_cn);
+	    print "ERROR : $sql";
+            break;
+	    }
     $sql="";
+    $flag_function=false;
+    print "<hr>";
   } // while (feof)
   fclose($hf);
 }
@@ -275,8 +296,9 @@ $MaxDossier=pg_NumRows($Resdossier);
 
 for ($e=0;$e < $MaxDossier;$e++) {
   $db_row=pg_fetch_array($Resdossier,$e);
-  echo "Patching ".$db_row['dos_name']."<hr>";
   $db=DbConnect($db_row['dos_id'],'dossier');
+  echo "Patching ".$db_row['dos_name']." from the version ".GetVersion($db)."<hr>";
+
   if ( GetVersion($db) <= 4 ) { 
     ExecuteScript($db,'sql/patch/upgrade4.sql');
       
