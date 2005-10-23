@@ -22,15 +22,15 @@
 include_once ("ac_common.php");
 include_once ("postgres.php");
 /* Admin. Dossier */
-$rep=DbConnect();
+$Rep=DbConnect();
 include_once ("class_user.php");
-$User=new cl_user($rep);
+$cn=DbConnect($_SESSION['g_dossier']);
+$User=new cl_user($cn);
 $User->Check();
 
 // Met a jour le theme utilisateur (style)
 if ( isset ( $_POST['style_user']) ) {
-  $CnRepo=DbConnect();
-      $Res=ExecSql($CnRepo,
+       $Res=ExecSql($Rep,
 		   "update ac_users set use_theme='".$_POST['style_user'].
 		   "'  where use_login='".$_SESSION['g_user']."'");
  //     echo '<H2 class="info"> Theme utilisateur changé </H1>';
@@ -60,9 +60,8 @@ if ( isset ($_POST['spass']) ) {
 <?
     }
     else {
-      $Cn=DbConnect();
       $l_pass=md5($_POST['pass_1']);
-      $Res=ExecSql($Cn,"update ac_users set use_pass='$l_pass' where use_login='".$_SESSION['g_user']."'");
+      $Res=ExecSql($Rep,"update ac_users set use_pass='$l_pass' where use_login='".$_SESSION['g_user']."'");
       $pass=$pass_1;
       $_SESSION['g_pass']=$_POST['pass_1'];
       $g_pass=$pass_1;
@@ -70,8 +69,7 @@ if ( isset ($_POST['spass']) ) {
   }
 // Met a jour le theme utilisateur (style)
 if ( isset ( $_POST['style_user']) ) {
-  $CnRepo=DbConnect();
-      $Res=ExecSql($CnRepo,
+      $Res=ExecSql($Rep,
 		   "update ac_users set use_theme='".$_POST['style_user'].
 		   "'  where use_login='".$_SESSION['g_user']."'");
  //     echo '<H2 class="info"> Theme utilisateur changé </H1>';
@@ -90,8 +88,7 @@ if ( isset ( $_POST['style_user']) ) {
 </FORM>
 <?
 // charge tous les styles
-$cnRepo=DbConnect();
-$res=ExecSql($cnRepo,"select the_name from theme
+$res=ExecSql($Rep,"select the_name from theme
                       order by the_name");
 for ($i=0;$i < pg_NumRows($res);$i++){
   $st=pg_fetch_array($res,$i);
@@ -128,14 +125,15 @@ $disp_style.="</SELECT>";
 if ( isset ($_SESSION['g_dossier']) ) {
 
   include_once("preference.php");
-  $cn=DbConnect($_SESSION['g_dossier']);
+ 
 
   if ( isset ($_POST["sub_periode"] ) ) {
     $periode=$_POST["periode"];
-    SetUserPeriode($cn,$periode,$_SESSION['g_user']); 
+    $User->SetPeriode($periode);
+    //    SetUserPeriode($cn,$periode,$_SESSION['g_user']); 
   }
 
-  $l_user_per=GetUserPeriode($cn,$_SESSION['g_user']);
+  $l_user_per=$User->GetPeriode();
   $l_form_per=FormPeriode($cn,$l_user_per);
 
 ?>
