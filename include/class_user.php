@@ -60,16 +60,18 @@ class cl_user {
              use_name,
              use_login,
              use_active,
-             use_admin from ac_users
+             use_admin
+                     from ac_users
              where use_id=$p_id";
-    $Res=pg_exec($p_cn,$Sql);
-    if (($Max=pg_NumRows($Res)) == 0 ) return -1;
-    $row=pg_fetch_array($Res,0);
-    $this->first_name=$row['use_first_name'];
-    $this->name=$row['use_name'];
-    $this->active=$row['use_active'];
-    $this->login=$row['use_login'];
-    $this->admin=$row['use_admin'];
+      $cn=DbConnect(); 
+      $Res=pg_exec($cn,$Sql);
+      if (($Max=pg_NumRows($Res)) == 0 ) return -1;
+      $row=pg_fetch_array($Res,0);
+      $this->first_name=$row['use_first_name'];
+      $this->name=$row['use_name'];
+      $this->active=$row['use_active'];
+      $this->login=$row['use_login'];
+      $this->admin=$row['use_admin'];
     } 
   }
   /*++ 
@@ -87,7 +89,7 @@ class cl_user {
 	
 	$res=0;
 	$pass5=md5($this->pass);
-      	//if ( $this->valid == 1 ) { return; }
+      	if  ( $this->valid == 1 ) { return; }
 	$cn=DbConnect();
 	if ( $cn != false ) {
 	  $sql="select ac_users.use_login,ac_users.use_active, ac_users.use_pass,
@@ -188,7 +190,7 @@ class cl_user {
  *
  */ 
 function SetPeriode($p_periode) {
-  $sql="update user_pref set pref_periode=$p_periode where pref_user='$this->id'";
+  $sql="update user_local_pref set parameter_value='$p_periode' where user_id='$this->id' and parameter_type='PERIODE'";
   $Res=ExecSql($this->db,$sql);
 }
 /* function GetPeriode
@@ -206,7 +208,7 @@ function SetPeriode($p_periode) {
 
 function GetPeriode() {
   $array=$this->GetPreferences();
-  return $array['active_periode'];
+  return $array['PERIODE'];
 }
 /* function GetPreferences
  * Purpose : Get the default user's preferences
@@ -223,17 +225,22 @@ function GetPeriode() {
 function GetPreferences ()
 {
   // si preference n'existe pas, les créer
-  $sql="select pref_periode as active_periode from user_pref where pref_user='".$this->id."'";
+  $sql="select parameter_type,parameter_value from user_local_pref where user_id='".$this->id."'";
   $Res=ExecSql($this->db,$sql);
   if (pg_NumRows($Res) == 0 ) {
-    $sql=sprintf("insert into user_pref (pref_periode,pref_user) values 
-		 ( %d , '%s')" ,
-		 1, $this->id);
+    // default periode
+    $sql=sprintf("insert into user_local_pref (pref_periode,pref_user) 
+                 select min(p_id),'%s' from parm_periode where p_closed=false"
+		 , $this->id);
     $Res=ExecSql($this->db,$sql);
 
     $l_array=$this->GetPreferences();
   } else {
-    $l_array= pg_fetch_array($Res,0);
+    for ( $i =0;$i < pg_NumRows($Res);$i++) {
+      $row= pg_fetch_array($Res,0);
+      $type=$row['parameter_type'];
+      $l_array[$type]=$row['parameter_value'];
+    }
   }
   return $l_array;
 }
