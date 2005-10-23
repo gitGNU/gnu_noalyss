@@ -111,69 +111,6 @@ function FormPeriode($p_cn,$l_default=0,$p_type=OPEN,$p_suff="")
   $ret.="</SELECT>";
   return $ret;
 }
-/* function SetUserPeriode
- * Purpose : Set the selected periode in the user's preferences
- * 
- * parm : 
- *	- $p_cn connexion 
- *      - $p_periode 
- *      - $p_user
- * gen :
- *	- none
- * return:
- *	- none
- *
- */ 
-function SetUserPeriode($p_cn,$p_periode,$p_user) {
-  $sql="update user_pref set pref_periode=$p_periode where pref_user='$p_user'";
-  $Res=ExecSql($p_cn,$sql);
-}
-/* function GetUserPeriode
- * Purpose : Get the default periode from the user's preferences
- * 
- * parm : 
- *	- $p_cn connexion 
- *      - $p_user
- * gen :
- *	- none
- * return:
- *	- the default periode
- *
- */ 
-
-function GetUserPeriode($p_cn,$p_user) {
-  $array=GetUserPreferences($p_cn,$p_user);
-  return $array['active_periode'];
-}
-/* function SetUserPreferences
- * Purpose : Get the default user's preferences
- * 
- * parm : 
- *	- $p_cn connexion 
- *      - $p_user
- * gen :
- *	- none
- * return:
- *	- none
- *
- */ 
-function GetUserPreferences ($p_cn,$p_user)
-{
-  // si preference n'existe pas, les créer
-  $sql="select pref_periode as active_periode from user_pref where pref_user='".$p_user."'";
-  $Res=ExecSql($p_cn,$sql);
-  if (pg_NumRows($Res) == 0 ) {
-    $sql=sprintf("insert into user_pref (pref_periode,pref_user) values 
-		 ( %d , '%s')" ,
-		 1, $p_user);
-    $Res=ExecSql($p_cn,$sql);
-
-    $l_array=GetUserPreferences($p_cn,$p_user);
-  } else {
-    $l_array= pg_fetch_array($Res,0);
-  }
-  return $l_array;
-}
 /* function GetPeriode
  * Purpose :Give the start & end date of a periode
  * 

@@ -19,10 +19,10 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
 echo_debug(__FILE__,__LINE__,"include user_action_ach.php");
-include_once("form_input.php");
-include_once ("preference.php");
-include_once ("user_common.php");
-include_once("class_widget.php");
+require_once("user_form_ach.php");
+require_once ("preference.php");
+require_once ("user_common.php");
+require_once("class_widget.php");
 $cn=DbConnect($_SESSION['g_dossier']);
 
 if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {
@@ -44,10 +44,7 @@ if ( $action == 'new' ) {
 	  // Submit button in the form
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver">';
-	  // add a one-line calculator
-
-
-	  $r=FormAch($cn,$_GET['p_jrn'],$_SESSION['g_user'],$submit,null,false);
+	  $r=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,$submit,false);
 	  echo '<div class="u_redcontent">';
 	  echo $r;
 	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."<div>";
@@ -66,7 +63,7 @@ if ( $action == 'new' ) {
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver">';
 
-	  $r=FormAch($cn,$_GET['p_jrn'],$_SESSION['g_user'],$submit,$HTTP_POST_VARS,false,  $nb_number);
+	  $r=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,$submit,false,  $nb_number);
 	  echo '<div class="u_redcontent">';
 	  echo $r;
 	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."<div>";
@@ -81,29 +78,30 @@ if ( $action == 'new' ) {
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver">';
 
-	  $r=FormAch($cn,$_GET['p_jrn'],$_SESSION['g_user'],$submit,$HTTP_POST_VARS,false,  $nb_number);
+	  $r=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,$submit,false,  $nb_number);
 	  echo '<div class="u_redcontent">';
 	  echo $r;
 	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."<div>";
 	  echo "</div>";
+	  return;
 	}
 
 
 	// View the charge and show a submit button to save it 
-	if ( isset ($_POST['view_invoice']) ) {
+	if ( isset ($_POST['view_invoice']) and 
+	     ! isset ($_POST['save'])) {
 	$nb_number=$_POST["nb_item"];
 	$submit='<INPUT TYPE="SUBMIT" name="save" value="Confirmer">';
 	$submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
-
-	// Should use a read only view instead of FormAch
-	// where we can check
-	$r=FormAch($cn,$_GET['p_jrn'],$_SESSION['g_user'],$submit,$HTTP_POST_VARS,true,$nb_number);
-
-	// if something goes wrong, correct it
-	if ( $r == null ) {
+	if ( form_verify_input ($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,$nb_number) == true ) {
+	  // Should use a read only view instead of FormAch
+	  // where we can check
+	  $r=FormAchView($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,$submit,$nb_number);
+	} else {
+	  // if something goes wrong, correct it
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver">';
-	  $r=FormAch($cn,$_GET['p_jrn'],$_SESSION['g_user'],$submit,$HTTP_POST_VARS,false,  $nb_number);
+	  $r=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$HTTP_POST_VARS,  $nb_number);
 	}
 	echo '<div class="u_redcontent">';
 	echo $r;
@@ -112,15 +110,15 @@ if ( $action == 'new' ) {
 	}
 	// Save the charge into database
 	if ( isset($_POST['save'] )) {
-	  $r=RecordAchat($cn,$HTTP_POST_VARS,$_SESSION['g_user'],$_GET['p_jrn']);
 	  // Get number of  lines
 	  $nb_number=$_POST["nb_item"];
 
 	  // submit button in the form
 	  $submit='<h2 class="info">Recorded</h2>';
-
-	  $r.=FormAch($cn,$_GET['p_jrn'],$_SESSION['g_user'],$submit,$HTTP_POST_VARS,true,  $nb_number,true);
+	  $r=RecordSell($cn,$HTTP_POST_VARS,$User,$_GET['p_jrn']);
+	  $r=FormAchView($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,"",$nb_number,false);
 	  echo '<div class="u_redcontent">';
+	  echo $submit;
 	  echo $r;
 	  echo "</div>";
 	  

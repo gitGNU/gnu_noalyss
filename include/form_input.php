@@ -175,982 +175,6 @@ function InputType($p_label,$p_type,$p_name,$p_value,$p_viewonly=false,$p_list=n
   return $r;
 
 }
-
-/* function FormVente
- * Purpose : Display the form for a sell
- *           Used to show detail, encode a new invoice 
- *           or update one
- *        
- * parm : 
- *	- p_array which can be empty
- *      - the "journal"
- *      - $p_user = $g_user
- *      - view_only if we cannot change it (no right or centralized op)
- *      - $p_article number of article
- * gen :
- *	-
- * return: string with the form
- * TODO Add in parameters the infos about the company for making the invoice
- */
-function FormVente($p_cn,$p_jrn,$p_user,$p_array=null,$pview_only=true,$p_article=1)
-{ 
-
-  if ( $p_array != null ) {
-    // array contains old value
-    foreach ( $p_array as $a=>$v) {
-      ${"$a"}=$v;
-    }
-  }
-  // The date
-  $userPref=GetUserPeriode($p_cn,$p_user);
-  list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$userPref);
-  $op_date=( ! isset($e_date) ) ?substr($l_date_start,2,8):$e_date;
-  $e_ech=(isset($e_ech))?$e_ech:"";
-  $e_comm=(isset($e_comm))?$e_comm:"";
-  //  $e_jrn=(isset($e_jrn))?$e_jrn:"";
-  // Save old value and set a new one
-  echo_debug(__FILE__,__LINE__,"form_input.php.FormVentep_op_date is $op_date");
-  $r="";
-  if ( $pview_only == false) {
-    $r.=JS_SEARCH_CARD;
-    $r.=JS_SHOW_TVA;    
-    $r.=JS_TVA;
-    $r.="<FORM NAME=\"form_detail\" ACTION=\"user_jrn.php?action=insert_vente&p_jrn=$p_jrn\" METHOD=\"POST\">";
-
-    
-  }
-  //  $list=GetJrn($p_cn,$p_jrn);
-  $sql="select jrn_def_id as value,jrn_def_name as label from jrn_def where jrn_def_type='VEN'";
-  $list=GetArray($p_cn,$sql);
-  $r.='<TABLE>';
-  $r.='<TR>'.InputType("Date ","Text","e_date",$op_date,$pview_only).'</TR>';
-
-  $r.='<TR>'.InputType("Echeance","Text","e_ech",$e_ech,$pview_only).'</TR>';
-  $r.='<TR>'.InputType("Commentaire","Text_big","e_comm",$e_comm,$pview_only).'</TR>';
-
-  include_once("fiche_inc.php");
-  // Display the customer
-  $fiche='deb';
-  echo_debug(__FILE__,__LINE__,"Client Nombre d'enregistrement ".sizeof($fiche));
-  // Save old value and set a new one
-  $e_client=( isset ($e_client) )?$e_client:"";
-
-  $e_client_label="";  
-
-  // retrieve e_client_label
-  if ( isNumber($e_client) == 1 ) {
-    if ( isFicheOfJrn($p_cn,$p_jrn,$e_client,'deb') == 0 ) {
-      $msg="Fiche inexistante !!! ";
-      echo_error($msg); echo_error($msg);	
-      echo "<SCRIPT>alert('$msg');</SCRIPT>";
-      $e_client="";
-    } else {
-      $a_client=GetFicheAttribut($p_cn,$e_client);
-      if ( $a_client != null)   
-	  $e_client_label=$a_client['vw_name']."  adresse ".$a_client['vw_addr']."  ".$a_client['vw_cp'];
-    }
-  }
-
-  //  $r.='<TR>'.InputType("Client ","js_search","e_client",$e_client,$pview_only,$fiche).'</TD>';  
-  $W1=new widget("js_search");
-  $W1->label="Client";
-  $W1->name="e_client";
-  $W1->value=$e_client;
-  $W1->extra=$fiche;  // list of card
-  $W1->extra2=$p_jrn;
-  $r.="<TR>".$W1->IOValue()."</TD>";
-  $r.=       InputType(""       ,"span"   ,"e_client_label",$e_client_label,false).'</TD>';
-  $r.="</TABLE>";
-
-  // Record the current number of article
-  $r.='<INPUT TYPE="HIDDEN" name="nb_item" value="'.$p_article.'">';
-  $e_comment=(isset($e_comment))?$e_comment:"";
-
-
-  // Start the div for item to sell
-  $r.="<DIV>";
-  $r.='<H2 class="info">Articles</H2>';
-  $r.='<TABLE>';
-  $r.='<TR>';
-  $r.="<th></th>";
-  $r.="<th>Code</th>";
-  $r.="<th>Dénomination</th>";
-  $r.="<th>prix</th>";
-  $r.="<th colspan=\"2\">tva</th>";
-  $r.="<th>quantité</th>";
-  $r.='</TR>';
-  //  $fiche=GetFicheJrn($p_cn,$p_jrn,'cred');
-  //  echo_debug(__FILE__,__LINE__,"Cred Nombre d'enregistrement ".sizeof($fiche));
-  for ($i=0;$i< $p_article;$i++) {
-    // Code id
-    $march=(isset(${"e_march$i"}))?${"e_march$i"}:"";
-    $march_sell=(isset(${"e_march".$i."_sell"}))?${"e_march".$i."_sell"}:"";
-    $march_tva_id=(isset(${"e_march$i"."_tva_id"}))?${"e_march$i"."_tva_id"}:"";
-
-    $march_tva_label="";
-    $march_label="";
-
-    // If $march has a value
-    if ( isNumber($march) == 1 ) {
-      if ( isFicheOfJrn($p_cn,$p_jrn,$march,'cred') == 0 ) {
-	$msg="Fiche inexistante !!! ";
-	echo_error($msg); echo_error($msg);	
-	echo "<SCRIPT>alert('$msg');</SCRIPT>";
-	$march="";
-      } else {
-	// retrieve the tva label and name
-	$a_fiche=GetFicheAttribut($p_cn, $march);
-	if ( $a_fiche != null ) {
-	  if ( $march_tva_id == "" ) {
-	    $march_tva_id=$a_fiche['tva_id'];
-	    $march_tva_label=$a_fiche['tva_label'];
-	  }
-	  $march_label=$a_fiche['vw_name'];
-	}
-      }
-    }
-    // Show input
-    //    $r.='<TR>'.InputType("","js_search","e_march".$i,$march,$pview_only,'cred');
-    $W1=new widget("js_search");
-    $W1->label="";
-    $W1->name="e_march".$i;
-    $W1->value=$march;
-    $W1->extra='cred';  // credits
-    $W1->extra2=$p_jrn;
-    $W1->readonly=$pview_only;
-    $r.="<TR>".$W1->IOValue()."</TD>";
-
-    // card's name
-    $r.=InputType("","span", "e_march".$i."_label", $march_label,$pview_only);
-
-    // price
-    $r.=InputType("","text","e_march".$i."_sell",$march_sell,$pview_only);
-    // vat label
-    $r.=InputType("","span","e_march".$i."_tva_label",$march_tva_label,$pview_only);
-    // Tva id 
-    $r.=InputType("","js_tva","e_march$i"."_tva_id",$march_tva_id,$pview_only,"e_march".$i."_tva_label");
-
-    $quant=(isset(${"e_quant$i"}))?${"e_quant$i"}:"0";
-    // quantity
-    $r.=InputType("","TEXT","e_quant".$i,$quant,$pview_only);
-    $r.='</TR>';
-  }
-
-
-
-  $r.="</TABLE>";
-  $r.="<hr>";
-
-  if ($pview_only == false ) {
-    $r.='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">';
-    $r.='<INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
-    $r.="</DIV>";
-    $r.="</FORM>";
-    $r.=JS_CALC_LINE;
-  } else {
-     $r.="</div>";
-
-  }
-
-
-
-  return $r;
-
-
-}
-
-/* function FormVenteView ($p_cn,$p_jrn,$p_user,$p_array,$p_number,$p_doc='html',$p_comment='') 
- **************************************************
- * Purpose : Show the invoice before inserting it 
- *           the database
- *        
- * parm : 
- *	- p_cn database connection
- *      - p_jrn journal
- *      - p_user
- *      - array of value
- *      - nb of item
- *      - p_doc type pdf or html
- * gen :
- *	- none
- * return:
- *     - string
- * 
- */
-
-function FormVenteView ($p_cn,$p_jrn,$p_user,$p_array,$p_number,$p_doc='form',$p_comment='') 
-{
-  $r="";
-  $data="";
-  // Keep all the data if hidden
-  // and store the array in variables
-  foreach ($p_array as $name=>$content) {
-    $data.=InputType("","HIDDEN",$name,$content);
-    ${"$name"}=$content;
-  }
-  // Verify the date
-  if ( isDate($e_date) == null ) { 
-	  echo_error("Invalid date $e_date");
-	  echo_debug(__FILE__,__LINE__,"Invalid date $e_date");
-	  echo "<SCRIPT> alert('INVALID DATE $e_date !!!!');</SCRIPT>";
-	  return null;
-		}
-// Verify the quantity
-for ($o = 0;$o < $p_number; $o++) {
-	if ( isNumber(${"e_quant$o"}) == 0 ) {
-		echo_debug(__FILE__,__LINE__,"invalid quantity ".${"e_quant$o"});
-		echo_error("invalid quantity ".${"e_quant$o"});
-		echo "<SCRIPT> alert('INVALID QUANTITY !!!');</SCRIPT>";
-		return null;
-	}	
-    // check if vat is correct
-    if ( strlen(trim(${"e_march$o"."_tva_id"})) !=0 ) {
-      // vat is given we check it now check if valid
-      if (isNumber(${"e_march$o"."_tva_id"}) == 0
-	  or CountSql($p_cn,"select tva_id from tva_rate where tva_id=".${"e_march$o"."_tva_id"}) ==0){
-	$msg="Invalid TVA !!! ";
-	echo_error($msg); echo_error($msg);	
-	echo "<SCRIPT>alert('$msg');</SCRIPT>";
-	return null;
-	
-      }
-    }
-    
- }
-
-// Verify the ech
- if (strlen($e_ech) != 0 and isNumber($e_ech)  == 0 and  isDate ($e_ech) == null ) {
-	$msg="Echeance invalide";
-		echo_error($msg); echo_error($msg);	
-		echo "<SCRIPT>alert('$msg');</SCRIPT>";
-		return null;
- } 
-// Verify is a client is set
- if ( isNumber($e_client)    == 0) {
-   $msg="Client inexistant";
-   echo_error($msg); echo_error($msg);	
-   echo "<SCRIPT>alert('$msg');</SCRIPT>";
-   return null;
- }
-
- // if ech is a number of days then compute date limit
- if ( strlen($e_ech) != 0 and isNumber($e_ech) == 1) {
- list($day,$month,$year)=explode(".",$e_date);
-  echo_debug(__FILE__,__LINE__," date $e_date = $day.$month.$year");
-  $p_ech=date('d.m.Y',mktime(0,0,0,$month,$day+$e_ech,$year));
-  echo_debug(__FILE__,__LINE__,"p_ech = $e_ech $p_ech");
-  $e_ech=$p_ech;
-  $data.=InputType("","HIDDEN","e_ech",$e_ech);
- }
-
- // Check if the fiche is in the jrn
- if (IsFicheOfJrn($p_cn , $p_jrn, $e_client,'deb') == 0 ) 
-   {
-     $msg="Client invalid please recheck";
-     echo_error($msg);
-     echo "<SCRIPT>alert('$msg');</SCRIPT>";
-     return null;
-   }
-
- // check if all e_march are in fiche
-  for ($i=0;$i<$p_number;$i++) {
-    if ( trim(${"e_march$i"})  == "" ) {
-      // no goods to sell 
-      continue;
-    }
-  
-    // Check wether the f_id is a number
-    if ( isNumber(${"e_march$i"}) == 0 ) {
-      $msg="Fiche inexistante !!! ";
-      echo_error($msg); echo_error($msg);	
-      echo "<SCRIPT>alert('$msg');</SCRIPT>";
-      return null;
-    }
-    // Check 
-    if ( isFicheOfJrn($p_cn,$p_jrn,${"e_march$i"},'cred') == 0 ) {
-      $msg="Fiche inexistante !!! ";
-      echo_error($msg); echo_error($msg);	
-      echo "<SCRIPT>alert('$msg');</SCRIPT>";
-      return null;
-    }
-  }
-// Verify the userperiode
-
-// userPref contient la periode par default
-    $userPref=GetUserPeriode($p_cn,$p_user);
-    list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$userPref);
-
-    // Date dans la periode active
-    echo_debug ("date start periode $l_date_start date fin periode $l_date_end date demandï¿½ $e_date");
-    if ( cmpDate($e_date,$l_date_start)<0 || 
-	 cmpDate($e_date,$l_date_end)>0 )
-      {
-		  $msg="Not in the active periode please change your preference";
-			echo_error($msg); echo_error($msg);	
-			echo "<SCRIPT>alert('$msg');</SCRIPT>";
-			return null;
-      }
-    // Periode fermï¿½ 
-    if ( PeriodeClosed ($p_cn,$userPref)=='t' )
-      {
-		$msg="This periode is closed please change your preference";
-		echo_error($msg); echo_error($msg);	
-		echo "<SCRIPT>alert('$msg');</SCRIPT>";
-		return null;
-      }
-  // start table
-  $r.='<TABLE>';
-  // Show the Date
-  $r.="<tr>";
-  $r.=InputType("Date","text","",$e_date,true);
-  $r.="</tr>";
-  // Show the customer Name
-  $r.="<tr>";
-  $r.=InputType("Client","text","",getFicheName($p_cn,$e_client),true);
-  $r.="</tr>";
-  
-  // show date limit
-  $r.="<tr>";
-  $r.=InputType("Date limite","text","",$e_ech,true);
-  $r.="</tr>";
-  // Show desc
-  $r.="<tr>";
-  $r.=InputType("Description","text_big","",$e_comm,true);
-  $r.="</tr>";
-  
-  $sum_with_vat=0.0;
-    $sum_march=0.0;
-  // show all article, price vat and sum
-    $r.="<TR>";
-    $r.="<TH>Article</TH>";
-    $r.="<TH>quantité</TH>";
-    $r.="<TH>prix unit.</TH>";
-    $r.="<TH>taux tva</TH>";
-    $r.="<TH>Montant HTVA</TH>";
-    $r.="<TH>Montant TVA</TH>";
-    $r.="<TH>Total</TH>";
-    $r.="</TR>";
-  for ($i=0;$i<$p_number;$i++) {
-    if ( trim(${"e_march$i"})  == "" ) {
-      // no goods to sell 
-      continue;
-    }
-  
-    // Get the name
-    $fiche_name=getFicheName($p_cn,${"e_march$i"});
-
-    // Quantity
-    $fiche_quant=${"e_quant$i"};
-
-    // No  row if there is quantity
-    if ( $fiche_quant == 0.0 ) continue;
-
-
-    // If the price is not a number, retrieve the price from the database
-    if ( isNumber(${"e_march$i"."_sell"}) == 0 ) {
-	   $fiche_price=getFicheAttribut($p_cn,${"e_march$i"},ATTR_DEF_PRIX_VENTE);
-	 } else {
-      $fiche_price=${"e_march$i"."_sell"};
-    }
-    
-    
-    // VAT 
-    $vat=(isNumber(${"e_march$i"."_tva_id"})==0)?getFicheAttribut($p_cn,${"e_march$i"},ATTR_DEF_TVA):${"e_march$i"."_tva_id"};
-	
-    // vat label
-    // vat rate
-    $a_vat=GetTvaRate($p_cn,$vat);
-    if ( $a_vat == null ) {
-      $vat_label="unknown";
-      $vat_rate=0.0;
-    } else { 
-      $vat_label=$a_vat['tva_label'];
-      $vat_rate=$a_vat['tva_rate'];
-    }		
-	
-    // Total card without vat
-    $fiche_sum=$fiche_price*$fiche_quant;
-    // Sum of invoice
-    $sum_march+=$fiche_sum;
-    // vat of the card
-    $fiche_amount_vat=$fiche_price*$fiche_quant*$vat_rate;
-    // value card + vat
-    $fiche_with_vat=$fiche_price*$fiche_quant*(1+$vat_rate);
-    // Sum of invoice vat 
-    $sum_with_vat+=$fiche_with_vat;
-    // Show the data
-    $r.='<TR>';
-    $r.='<TD>'.$fiche_name.'</TD>';
-    $r.='<TD ALIGN="CENTER">'.$fiche_quant.'</TD>';
-    $r.='<TD ALIGN="right">'.$fiche_price.'</TD>';
-    $r.="<TD  ALIGN=\"RIGHT\"> $vat_label </TD>";
-    $r.='<TD  ALIGN="RIGHT">'.round($fiche_sum,2).'</TD>';
-    $r.='<TD ALIGN="RIGHT">'.round($fiche_amount_vat,2).'</TD>';
-
-    $r.='<TD>'.round($fiche_with_vat,2).'</TD>';
-
-    $r.="</TR>";
-  }
-  
-  // end table
-  $r.='</TABLE> ';
-  $r.='<DIV style="padding:30px;font-size:14px">';
-  $r.="Total HTVA =".round( $sum_march,2)." <br>";
-  $r.="Total = ".round($sum_with_vat,2);
-
- 
-  $r.="</DIV>";
-  if ( $p_doc == 'form' ) {
-	  $r.='<FORM METHOD="POST" enctype="multipart/form-data" ACTION="user_jrn.php?action=record&p_jrn='.$p_jrn.'">';
-	  // check for upload piece
-	  $file=new widget("file");
-	  $file->table=1;
-	  $r.="<hr>";
-	  $r.= "<table>"; 
-	  $r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
-	  $r.="</table>";
-	  $r.="<hr>";
-
-	  $r.=$data;
-	  if ( $sum_with_vat != 0 ) {
-	    $r.='<INPUT TYPE="SUBMIT" name="record_and_print_invoice" value="Sauver" >';
-	  }
-	  $r.='<INPUT TYPE="SUBMIT" name="correct_new_invoice" value="Corriger">';
-
-	  $r.='</FORM>';
-	  } 
-  return $r;
-  
-}
-
-/* function RecordInvoice
- **************************************************
- * Purpose : Record an invoice in the table jrn &
- *           jrnx
- *        
- * parm : 
- *	- $p_cn Database connection
- *  - $p_array contains all the invoice data
- * e_date => e : 01.01.2003
- * e_client => e : 3
- * nb_item => e : 3
- * e_march0 => e : 6
- * e_quant0 => e : 0
- * e_march0_sell=>e:1
- * e_march1 => e : 6
- * e_quant1 => e : 2
- * e_march1_sell=>e:1
- * e_march2 => e : 7
- * e_quant2 => e : 3
- * e_march2_sell=>e:1
-V : view_invoice => e : Voir cette facture
-V : record_invoice => e : Sauver 
- *  - $p_user userid
- *  - $p_jrn current folder (journal)
- * gen :
- *	- none
- * return:
- *	      true on success
- */
-function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
-{
-  foreach ( $p_array as $v => $e)
-  {
-    ${"$v"}=$e;
-  }
-
-  // Get the default period
-  $periode=GetUserPeriode($p_cn,$p_user);
-  $amount=0.0;
-  // Computing total customer
-  for ($i=0;$i<$nb_item;$i++) {
-    // store quantity & goods in array
-    $a_good[$i]=${"e_march$i"};
-    $a_quant[$i]=${"e_quant$i"};
-    $a_price[$i]=0;
-    $a_vat[$i]=${"e_march$i"."_tva_id"};
-    // check wether the price is set or no
-    if ( isNumber(${"e_march$i"."_sell"}) == 0 ) {
-      if ( isNumber($a_good[$i]) == 1 ) {
-	     // If the price is not set we have to find it from the database
-	     $a_price[$i]=GetFicheAttribut($p_cn,$a_good[$i],ATTR_DEF_PRIX_VENTE);
-	   } 
-    } else {
-      // The price is valid
-      $a_price[$i]=${"e_march$i"."_sell"};
-    }
-    $amount+=$a_price[$i]*$a_quant[$i];
-  }
-  $comm=FormatString($e_comm);
-  $a_vat=ComputeVat($p_cn,$a_good,$a_quant,$a_price,$a_vat);
-
-  $sum_vat=0.0;
-  if ( $a_vat != null ){
-    foreach ( $a_vat as $element => $t) {
-      echo_debug(__FILE__,__LINE__," a_vat element $element t $t");
-      $sum_vat+=$t;
-      echo_debug(__FILE__,__LINE__,"sum_vat = $sum_vat");
-    }
-  }
-  // First we add in jrnx
-	
-  // Compute the j_grpt
-  $seq=NextSequence($p_cn,'s_grpt');
-
-
-  // Debit = client
-  $poste=GetFicheAttribut($p_cn,$e_client,ATTR_DEF_ACCOUNT);
-  StartSql($p_cn);	
-  $r=InsertJrnx($p_cn,'d',$p_user,$p_jrn,$poste,$e_date,round($amount,2)+round($sum_vat,2),$seq,$periode);
-  if ( $r == false) { $Rollback($p_cn);exit("error __FILE__ __LINE__");}
-  // Credit = goods 
-  for ( $i = 0; $i < $nb_item;$i++) {
-    if ( isNumber($a_good[$i]) == 0 ) continue;
-    $poste=GetFicheAttribut($p_cn,$a_good[$i],ATTR_DEF_ACCOUNT);
-	  
-    // don't record operation of 0
-    if ( $a_price[$i]*$a_quant[$i] == 0 ) continue;
-	  
-    // record into jrnx
-    $j_id=InsertJrnx($p_cn,'c',$p_user,$p_jrn,$poste,$e_date,round($a_price[$i]*$a_quant[$i],2),$seq,$periode);
-    if ( $j_id == false) { $Rollback($p_cn);exit("error __FILE__ __LINE__");}
-    // always save quantity but in withStock we can find what card need a stock management
-    if (  InsertStockGoods($p_cn,$j_id,$a_good[$i],$a_quant[$i],'c') == false ) {
-      $Rollback($p_cn);exit("error __FILE__ __LINE__");}
-  }
-  
-  // Insert Vat
-
-  if ( $a_vat  !=  null  ) // no vat
-
-    {
-      foreach ($a_vat as $tva_id => $tva_amount ) {
-	$poste=GetTvaPoste($p_cn,$tva_id,'c');
-	if ($tva_amount == 0 ) continue;
-	$r=InsertJrnx($p_cn,'c',$p_user,$p_jrn,$poste,$e_date,round($tva_amount,2),$seq,$periode);
-	if ( $r == false ) { Rollback($p_cn); exit(" Error __FILE__ __LINE__");}
-      
-      }
-    }
-  echo_debug(__FILE__,__LINE__,"echeance = $e_ech");
-  $r=InsertJrn($p_cn,$e_date,$e_ech,$p_jrn,"Invoice",round($amount,2)+round($sum_vat,2),$seq,$periode);
-  if ( $r == false ) { Rollback($p_cn); exit(" Error __FILE__ __LINE__");}
-  // Set Internal code and Comment
-  $internal=SetInternalCode($p_cn,$seq,$p_jrn);
-  $comment=(FormatString($e_comm) == null )?$internal."  client : ".GetFicheName($p_cn,$e_client):FormatString($e_comm);
-
-  // Update and set the invoice's comment 
-  $Res=ExecSql($p_cn,"update jrn set jr_comment='".$comment."' where jr_grpt_id=".$seq);
-  if ( $Res == false ) { Rollback($p_cn); exit(" Error __FILE__ __LINE__"); };
-
-  if ( isset ($_FILES))
-    save_upload_document($p_cn,$seq);
-
-
-  Commit($p_cn);
-
-  return $comment;
-}
-
-
-/* function FormAch($p_cn,$p_jrn,$p_user,$p_array=null,$pview_only=true,$p_article=1)
- * Purpose : Display the form for buying
- *           Used to show detail, encode a new invoice 
- *           or update one
- *        
- * parm : 
- *	- p_array which can be empty
- *      - the "journal"
- *      - $p_user = $g_user
- *      - $p_submit contains the submit string
- *      - view_only if we cannot change it (no right or centralized op)
- *      - $p_article number of article
- * gen :
- *	-
- * return: string with the form
- */
-function FormAch($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$pview_only=true,$p_article=3,$saved=false)
-{ 
-
-  if ( $p_array != null ) {
-// TODO utilisation de la fonction extract
-    extract($p_array);
-  }
-  // The date
-// TODO Utilisation de la classe User
-   $userPref=GetUserPeriode($p_cn,$p_user);
-   list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$userPref);
-   // default date
-   $flag=(isset($e_date))?1:0;
-
-  $e_date=( ! isset($e_date) ) ? substr($l_date_start,2,8):$e_date;
-  // Verify if valid date
-// TODO
-// Verif seulement lorsque doit etre enregistrer 
-// donc apres confirmation
-// Procedure separee
-  if ( $flag==1 and VerifyOperationDate($p_cn,$p_user,$e_date)   == null) {
-    if ( $pview_only == true) 
-      return null;
-    else 
-      $e_date=substr($l_date_start,2,8);
-  }
-  
-  $e_ech=(isset($e_ech))?$e_ech:"";
-  $e_comment=(isset($e_comment))?$e_comment:"";
-  // Save old value and set a new one
-  $r="";
-  if ( $pview_only == false) {
-    $r.=JS_SEARCH_CARD;
-    $r.=JS_TVA;
-    $r.=JS_SHOW_TVA;
- 
-  }
-
-  $r.="<FORM NAME=\"form_detail\"  enctype=\"multipart/form-data\" ACTION=\"user_jrn.php?action=new&p_jrn=$p_jrn\" METHOD=\"POST\">";
-  $r.='<TABLE>';
-  $r.='<TR>'.InputType("Date ","Text","e_date",$e_date,$pview_only).'</TR>';
-  $r.='<TR>'.InputType("Echeance","Text","e_ech",$e_ech,$pview_only).'</TR>';
-  $r.='<TR>'.InputType("Description","Text_big","e_comment",$e_comment,$pview_only).'</TR>';
-  include_once("fiche_inc.php");
-  // Display the supplier
-  
-  // Save old value and set a new one
-  $e_client=( isset ($e_client) )?$e_client:"";
-
-  $e_client_label="";  
-
-  // retrieve e_client_label
-  if ( isNumber($e_client) == 1 ) {
-      if ( isFicheOfJrn($p_cn,$p_jrn,$e_client,'cred') == 0 ) {
-	$msg="Fiche inexistante !!! ";
-	echo_error($msg); echo_error($msg);	
-	echo "<SCRIPT>alert('$msg');</SCRIPT>";
-	$e_client="";
-	if ( $pview_only) return null;
-      } else {
-	$a_client=GetFicheAttribut($p_cn,$e_client);
-	if ( $a_client != null)   
-	  $e_client_label=$a_client['vw_name']."  adresse ".$a_client['vw_addr']."  ".$a_client['vw_cp'];
-      }
-  } else {
-    if ( $pview_only == true ) {
-      $msg="Invalid Customer";
-      echo_error($msg); echo_error($msg);	
-      echo "<SCRIPT>alert('$msg');</SCRIPT>";
-      if ( $pview_only) return null;
-    }
-  }      
-  $r.="</TABLE>";
-  $r.="<TABLE>";
-  //  $r.='<TR>'.InputType("Fournisseur","js_search","e_client",$e_client,$pview_only,'cred');
-  $W1=new widget("js_search");
-  $W1->name="e_client";
-  $W1->value=$e_client;
-  $W1->extra='cred';
-  $W1->extra2=$p_jrn;
-  $W1->readonly=$pview_only;
-
-  $r.="<TR>".$W1->IOValue();
-  $r.=       InputType(""       ,"span"   ,"e_client_label",$e_client_label,false).'</TR>';
-  $r.="</TABLE>";
-
-
-
-  // Record the current number of article
-  $r.='<INPUT TYPE="HIDDEN" name="nb_item" value="'.$p_article.'">';
-  $e_comment=(isset($e_comment))?$e_comment:"";
-
-
-  // Start the div for item to sell
-  $r.="<DIV>";
-  $r.='<H2 class="info">Articles</H2>';
-  $r.='<TABLE>';
-  $r.="<TR>";
-  if ($pview_only==false)  $r.="<th></th>";
-  $r.="<th>code</th>";
-  $r.="<th>Dï¿½omination</th>";
-  $r.="<th>Prix</th>";
-  $r.="<th>Tva</th>";
-  $r.="<th>Quantitï¿½/th>";
-
-  $r.="</TR>";
-
-  for ($i=0;$i< $p_article;$i++) {
-
-    $march=(isset(${"e_march$i"}))?${"e_march$i"}:"";
-    $march_buy=(isset(${"e_march".$i."_buy"}))?${"e_march".$i."_buy"}:"0";
-// TODO
-// Separer les tests de validite : seulement qd confirmation
-// 
-    if ( $pview_only== true && $march == "" ) continue;
-    if ( isNumber($march_buy) == 0 and $march != "" ) {
-      $msg="Montant invalide !!! ";
-      echo_error($msg); echo_error($msg);	
-      echo "<SCRIPT>alert('$msg');</SCRIPT>";
-      $march_buy=0;
-      if ( $pview_only ) return null;
-    }
-    $march_tva_label="";
-    $march_label="";
-    $march_tva_id=(isset(${"e_march$i"."_tva_id"}))?${"e_march$i"."_tva_id"}:"";
-    // If $march has a value
-    if ( isNumber($march) == 1 ) {
-      if ( isFicheOfJrn($p_cn,$p_jrn,$march,'deb') == 0 ) {
-      $msg="Fiche inexistante !!! ";
-      echo_error($msg); echo_error($msg);	
-      echo "<SCRIPT>alert('$msg');</SCRIPT>";
-      $march="";
-      if ( $pview_only ) return null;
-      } else {
-	if ( isNumber($march_tva_id)== 1) {
-	  $a_tva=GetTvaRate($p_cn,$march_tva_id);
-	  $march_tva_label=$a_tva['tva_label'];
-	}
-           // retrieve the tva label and name
-	$a_fiche=GetFicheAttribut($p_cn, $march);
-	$march_label=$a_fiche['vw_name'];
-	if ( $a_fiche != null  and
-	     $march_tva_id == "" ) {
-	  $march_tva_id=$a_fiche['tva_id'];
-	  $march_tva_label=$a_fiche['tva_label'];
-
-
-	}
-	
-      
-      }//else
-    }
-    else {
-      if ( $pview_only ) {
-	$msg="Fiche inexistante !!! ";
-	echo_error($msg); echo_error($msg);	
-	echo "<SCRIPT>alert('$msg');</SCRIPT>";
-	return null;
-      }
-    }
-    //    $r.='<TR>'.InputType("","js_search","e_march".$i,$march,$pview_only,'deb');
-    $W1=new widget("js_search");
-    $W1->label="";
-    $W1->name="e_march".$i;
-    $W1->value=$march;
-    $W1->extra='deb';  // credits
-    $W1->extra2=$p_jrn;
-    $W1->readonly=$pview_only;
-    $r.="<TR> ".$W1->IOValue()."</TD>";
-
-    $r.=InputType("","span", "e_march".$i."_label", $march_label,$pview_only);
-    // price
-    $r.=InputType("","text","e_march".$i."_buy",$march_buy,$pview_only);
-    //vat
-    $r.=InputType("","span","e_march".$i."_tva_label",$march_tva_label,$pview_only);
-    // Tva id 
-// TODO
-// Remplacer TVA par liste deroulante au lieu de boite de dialogue
-    $r.=InputType("","js_tva","e_march$i"."_tva_id",$march_tva_id,$pview_only,"e_march".$i."_tva_label");
-
-    $quant=(isset(${"e_quant$i"}))?${"e_quant$i"}:"1";
-// TODO
-// Verification separee voir plus haut
-    if ( isNumber($quant) == 0) {
-      $msg="Montant invalide !!! ";
-      echo_error($msg); echo_error($msg);	
-      echo "<SCRIPT>alert('$msg');</SCRIPT>";
-      $quant=0;
-    }
-    //quantity
-    $r.=InputType("","TEXT","e_quant".$i,$quant,$pview_only);
-
-    $r.='</TR>';
-  }
-
-  $r.="</TABLE>";
-// If confirmed then document can be uploaded
-//
-  if ( $pview_only == true && $saved == false){
-    // check for upload piece
-    $file=new widget("file");
-    $file->table=1;
-    $r.="<hr>";
-    $r.= "<table>"; 
-    $r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
-    $r.="</table>";
-    $r.="<hr>";
-  }
-
-  $r.=$p_submit;
-  $r.="</DIV>";
-  $r.="</FORM>";
-  //if view only show total
-  if ( $pview_only==true) {
-    $total=0;
-    $r.="<TABLE>";
-    $r.="<th>Nom</th>";
-    $r.="<th>Tva</th>";
-    $r.="<th>total</th>";
-    for ( $i = 0; $i < $p_article;$i++) {
-      if ( $pview_only == true and ! isset (${"e_march$i"}) ) continue;
-      $march=${"e_march$i"};
-      if ( isNumber($march) ==1 and
-	   isFicheOfJrn($p_cn,$p_jrn,$march,'deb')){
-	   $a_fiche=GetFicheAttribut($p_cn, $march);
-	   // compute some data
-	   //	   $tva=(isNumber($a_fiche['tva_rate']) == 0 )?0:$a_fiche['tva_rate'];
-	   if ( isNumber(${"e_march$i"."_tva_id"})  ==1 ) {
-
-		  $a_tva=GetTvaRate($p_cn,${"e_march$i"."_tva_id"});
-		  $tva=$a_tva['tva_rate'];
-		} else {
-		  $tva=(isNumber($a_fiche['tva_rate'])==1)?$a_fiche['tva_rate']:0;
-		}
-	   $vat_row=${"e_march$i"."_buy"}*${"e_quant$i"}*$tva;
-	   $total_row=${"e_march$i"."_buy"}*${"e_quant$i"}+$vat_row;
-      
-	   $r.="<TR>";
-	   $r.="<TD>".$a_fiche['vw_name']."</td>";
-	   //	   $r.="<TD>".$a_fiche['tva_label']."</td>";
-	   $r.="<TD>  ".$vat_row."</TD>";
-	   $r.="<TD>  ".round($total_row,2)."</TD>";
-	   $r.="</TR>";
-	   $total+=$total_row;
-      }
-    }// for ($i=0
-  
-    $r.="<TR> <TD colspan=\"3\" align=\"center\"> Total =".round($total,2)."</TD></TR>";
-    $r.="</TABLE>";
-  }// if ( $pview_only == true )
-
-  return $r;
-
-
-}
-
-/* function RecordAchat
- **************************************************
- * Purpose : Record an buy in the table jrn &
- *           jrnx
- *        
- * parm : 
- *	- $p_cn Database connection
- *  - $p_array contains all the invoice data
- * e_date => e : 01.01.2003
- * e_client => e : 3
- * nb_item => e : 3
- * e_march0 => e : 6
- * e_quant0 => e : 0
- * e_march0_sell=>e:1
- * e_march1 => e : 6
- * e_quant1 => e : 2
- * e_march1_sell=>e:1
- * e_march2 => e : 7
- * e_quant2 => e : 3
- * e_march2_sell=>e:1
-V : view_invoice => e : Voir cette facture
-V : record_invoice => e : Sauver 
- *  - $p_user userid
- *  - $p_jrn current folder (journal)
- * gen :
- *	- none
- * return:
- *	      true on success
- */
-function RecordAchat($p_cn,$p_array,$p_user,$p_jrn)
-{
-// TODO utilisation d'extract
-//
-  foreach ( $p_array as $v => $e)
-  {
-    echo_debug ("Record Achat $v ==> $e");
-    ${"$v"}=$e;
-  }
-
-  // Get the default period
-  $periode=GetUserPeriode($p_cn,$p_user);
-  $amount=0.0;
-  // Computing total customer
-  for ($i=0;$i<$nb_item;$i++) {
-     if ( ! isset(${"e_march$i"}) or ${"e_march$i"} == "" or ${"e_quant$i"} == 0) {
-
-       continue;
-     }
-    // store quantity & goods in array
-    if ( isNumber(${"e_march$i"}) == 0 ) continue;
-    $a_good[$i]=${"e_march$i"};
-    $a_quant[$i]=${"e_quant$i"};
-    $a_vat[$i]=${"e_march$i"."_tva_id"};
-
-    // check wether the price is set or no
-    if ( isNumber(${"e_march$i"."_buy"}) == 0 ) {
-      // If the price is not set we have to find it from the database
-      $a_price[$i]=GetFicheAttribut($p_cn,$a_good[$i],ATTR_DEF_PRIX_ACHAT);
-    } else {
-      // The price is valid
-      $a_price[$i]=${"e_march$i"."_buy"};
-    }
-    $amount+=$a_price[$i]*$a_quant[$i];
-  }
-
-  $a_vat=ComputeVat($p_cn,	$a_good,$a_quant,$a_price,$a_vat);
-
-  $sum_vat=0.0;
-  if ( $a_vat != null ) {
-    foreach ( $a_vat as $element => $t) {
-      echo_debug(__FILE__,__LINE__," a_vat element $element t $t");
-      $sum_vat+=$t;
-      echo_debug(__FILE__,__LINE__,"sum_vat = $sum_vat");
-    }
-  }
-    // First we add in jrnx
-	
-  // Compute the j_grpt
-  $seq=NextSequence($p_cn,'s_grpt');
-  
-  
-  // Debit = client
-  $poste=GetFicheAttribut($p_cn,$e_client,ATTR_DEF_ACCOUNT);
-  StartSql($p_cn);
-  InsertJrnx($p_cn,'c',$p_user,$p_jrn,$poste,$e_date,round($amount,2)+round($sum_vat,2),$seq,$periode);
-  
-  // Credit = goods
-  for ( $i = 0; $i < $nb_item;$i++) {
-    if ( ! isset ( $a_good[$i]) ) continue;
-    $poste=GetFicheAttribut($p_cn,$a_good[$i],ATTR_DEF_ACCOUNT);
-    if ( $a_price[$i] * $a_quant[$i] == 0 ) continue;    
-    $j_id=InsertJrnx($p_cn,'d',$p_user,$p_jrn,$poste,$e_date,round($a_price[$i]*$a_quant[$i],2),$seq,$periode);
-    if ( $j_id == false ) {$Rollback($p_cn);exit("error __FILE__ __LINE__");}
-    //    if ( withStock($p_cn,$a_good[$i]) == true )  
-    // always save quantity but in withStock we can find what card need a stock management
-    if ( InsertStockGoods($p_cn,$j_id,$a_good[$i],$a_quant[$i],'d') == false ) {$Rollback($p_cn);exit("error __FILE__ __LINE__");}
-  }
-  // Insert Vat
-  if ( $a_vat  != null ) // no vat
-    {
-      foreach ($a_vat as $tva_id => $tva_amount ) {
-	$poste=GetTvaPoste($p_cn,$tva_id,'d');
-	if ( InsertJrnx($p_cn,'d',$p_user,$p_jrn,$poste,$e_date,round($tva_amount,2),$seq,$periode) == false ) { $Rollback($p_cn);exit("error __FILE__ __LINE__");}
-      }
-    }
-  $e_comment=FormatString($e_comment);
-  echo_debug(__FILE__,__LINE__,"echeance = $e_ech");
-  echo_debug(__FILE__,__LINE__,"comment = $e_comment");
-  if ( ($amount+$sum_vat) != 0 ){
-    if ( InsertJrn($p_cn,$e_date,$e_ech,$p_jrn,$e_comment,round($amount,2)+round($sum_vat,2),$seq,$periode) == false ) {
-      $Rollback($p_cn);exit("error __FILE__ __LINE__");
-    }
-    // Set Internal code and Comment
-    $internal_code=SetInternalCode($p_cn,$seq,$p_jrn);
-    $comment=$internal_code."  client : ".GetFicheName($p_cn,$e_client);
-    if ( $e_comment=="" ) {
-      // Update comment if comment is blank
-      $Res=ExecSql($p_cn,"update jrn set jr_comment='".$comment."' where jr_grpt_id=".$seq);
-    }
-    if ( isset ($_FILES))
-      save_upload_document($p_cn,$seq);
-    Commit($p_cn);
-    return $comment;
-  }
-}
-
 /* function FormFin($p_cn,$p_jrn,$p_user,$p_array=null,$pview_only=true,$p_item=1) 
  * Purpose : Display the form for financial 
  *           Used to show detail, encode a new fin op 
@@ -1167,7 +191,7 @@ function RecordAchat($p_cn,$p_array,$p_user,$p_jrn)
  *	-
  * return: string with the form
  */
-function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$pview_only=true,$p_item=4,$p_save=false)
+function FormFin($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=true,$p_item=4,$p_save=false)
 { 
   include_once("poste.php");
   if ( $p_array != null ) {
@@ -1177,13 +201,12 @@ function FormFin($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$pview_only=true,$
     }
   }
   // The date
-   $userPref=GetUserPeriode($p_cn,$p_user);
-  list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$userPref);
+  list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$p_periode);
   $flag=(isset($e_date))?1:0;
   $e_date=( ! isset($e_date) ) ? substr($l_date_start,2,8):$e_date;
 
   // Verify if valid date
-  if ($flag ==1 and   VerifyOperationDate($p_cn,$p_user,$e_date)   == null) {
+  if ($flag ==1 and   VerifyOperationDate($p_cn,$p_periode,$e_date)   == null) {
     if ( $pview_only == true) 
       return null;
     else 
@@ -1390,7 +413,7 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
     ${"$v"}=$e;
   }
   // Get the default period
-  $periode=GetUserPeriode($p_cn,$p_user);
+  $periode=$p_user->GetPeriode();
 
   // Test if the data are correct
   // Verify the date
@@ -1419,14 +442,14 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
     // Compute the j_grpt
     $seq=NextSequence($p_cn,'s_grpt');
 
-    if ( InsertJrnx($p_cn,'d',$p_user,$p_jrn,$poste_bq,$e_date,round(${"e_other$i"."_amount"},2),$seq,$periode) == false ) {
+    if ( InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste_bq,$e_date,round(${"e_other$i"."_amount"},2),$seq,$periode) == false ) {
       $Rollback($p_cn);exit("error __FILE__ __LINE__");
     }
 
 
     // Record a line for the other account
     //    $type=( ${"e_other$i"."_amount"} < 0 )?'c':'d';
-    if ( ($j_id=InsertJrnx($p_cn,'c',$p_user,$p_jrn,$poste,$e_date,round(${"e_other$i"."_amount"},2),$seq,$periode)) == false )
+    if ( ($j_id=InsertJrnx($p_cn,'c',$p_user->id,$p_jrn,$poste,$e_date,round(${"e_other$i"."_amount"},2),$seq,$periode)) == false )
       { $Rollback($p_cn);exit("error __FILE__ __LINE__");}
 
     echo_debug(__FILE__,__LINE__,"   $j_id=InsertJrnx($p_cn,'d',$p_user,$p_jrn,$poste,$e_date,".${"e_other$i"}."_amount".",$seq,$periode);");
@@ -1471,7 +494,7 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
  *	-
  * return: string with the form
  */
-function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$pview_only=true,$p_article=6,$p_saved=false)
+function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=true,$p_article=6,$p_saved=false)
 { 
   include_once("poste.php");
   if ( $p_array != null ) {
@@ -1481,13 +504,12 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$pview_only=true,$
     }
   }
   // The date
-   $userPref=GetUserPeriode($p_cn,$p_user);
-   list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$userPref);
+   list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$p_periode);
    $flag=(isset($e_date))?1:0;
    $e_date=( ! isset($e_date) ) ? substr($l_date_start,2,8):$e_date;
 
   // Verify if valid date
-  if (  $flag==1 and VerifyOperationDate($p_cn,$p_user,$e_date)   == null) {
+  if (  $flag==1 and VerifyOperationDate($p_cn,$p_periode,$e_date)   == null) {
     if ( $pview_only == true) 
       return null;
     else 
@@ -1515,14 +537,14 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$pview_only=true,$
 
   // Start the div for item to encode
   $r.="<DIV>";
-  $r.='<H2 class="info">Opï¿½ations Diverses</H2>';
+  $r.='<H2 class="info">Op&eacute;rations Diverses</H2>';
   $r.='<TABLE border="0">';
   $r.="<tr>";
   $r.="<th></th>";
   $r.="<th>Compte</th>";
   $r.="<th>Poste</th>";
   $r.="<th>Montant</th>";
-  $r.="<th>Crï¿½it ou dï¿½it</th>";
+  $r.="<th>Cr&eacute;dit ou d&eacute;dit</th>";
   $r.="</tr>";
   $sum_deb=0.0;
   $sum_cred=0.0;
@@ -1584,10 +606,10 @@ function FormODS($p_cn,$p_jrn,$p_user,$p_submit,$p_array=null,$pview_only=true,$
     $d_check=( ${"e_account$i"."_type"} == 'd' )?"CHECKED":"";
     $r.='<td>';
     if ( $pview_only == false ) {
-      $r.='  <input type="radio" name="'."e_account"."$i"."_type".'" value="d" '.$d_check.'> Dï¿½it ou ';
-      $r.='  <input type="radio" name="'."e_account"."$i"."_type".'" value="c" '.$c_check.'> Crï¿½it ';
+      $r.='  <input type="radio" name="'."e_account"."$i"."_type".'" value="d" '.$d_check.'> D&eacute;bit ou ';
+      $r.='  <input type="radio" name="'."e_account"."$i"."_type".'" value="c" '.$c_check.'> Cr&eacute;dit ';
     }else {
-      $r.=(${"e_account$i"."_type"} == 'c' )?"Crï¿½it":"Dï¿½it";
+      $r.=(${"e_account$i"."_type"} == 'c' )?"Cr&eacute;dit":"D&eacute;dit";
       $r.='<input type="hidden" name="e_account'.$i.'_type" value="'.${"e_account$i"."_type"}.'">';
     }
     $r.='</td>';
@@ -1661,7 +683,7 @@ function RecordODS($p_cn,$p_array,$p_user,$p_jrn)
     ${"$v"}=$e;
   }
   // Get the default period
-  $periode=GetUserPeriode($p_cn,$p_user);
+  $periode=$p_user->GetPeriode();
   $amount=0.0;
   // Computing total customer
 
@@ -1679,7 +701,7 @@ function RecordODS($p_cn,$p_array,$p_user,$p_jrn)
     $sum_cred+=(${"e_account$i"."_type"}=='c')?round(${"e_account$i"."_amount"},2):0;
 
     if ( ${"e_account$i"."_amount"} == 0 ) continue;
-    if ( ($j_id=InsertJrnx($p_cn,${"e_account$i"."_type"},$p_user,$p_jrn,${"e_account$i"},$e_date,${"e_account$i"."_amount"},$seq,$periode)) == false ) {
+    if ( ($j_id=InsertJrnx($p_cn,${"e_account$i"."_type"},$p_user->id,$p_jrn,${"e_account$i"},$e_date,${"e_account$i"."_amount"},$seq,$periode)) == false ) {
       $Rollback($p_cn);exit("error __FILE__ __LINE__");}
   }
 

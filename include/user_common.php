@@ -490,7 +490,7 @@ function withStock($p_cn,$p_f_id)
   return false;
 
 }
-/* function  VerifyDate ($p_cn,$p_user,$p_date) 
+/* function  VerifyOperationDate ($p_cn,$p_user,$p_date) 
  **************************************************
  * Purpose : Verify if 
  *    the date is a valid date
@@ -506,7 +506,7 @@ function withStock($p_cn,$p_f_id)
  * return:
  *     - null if error or date if ok
  */
-function VerifyOperationDate($p_cn,$p_user,$p_date) {
+function VerifyOperationDate($p_cn,$p_periode,$p_date) {
 
   // Verify the date
   if ( isDate($p_date) == null ) { 
@@ -516,8 +516,7 @@ function VerifyOperationDate($p_cn,$p_user,$p_date) {
 	  return null;
 		}
 // userPref contient la periode par default
-    $userPref=GetUserPeriode($p_cn,$p_user);
-    list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$userPref);
+    list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$p_periode);
 
     // Date dans la periode active
     echo_debug ("date start periode $l_date_start date fin periode $l_date_end date demandée $p_date");
@@ -530,7 +529,7 @@ function VerifyOperationDate($p_cn,$p_user,$p_date) {
 			return null;
       }
     // Periode fermée 
-    if ( PeriodeClosed ($p_cn,$userPref)=='t' )
+    if ( PeriodeClosed ($p_cn,$p_periode)=='t' )
       {
 		$msg="This periode is closed please change your preference";
 		echo_error($msg); echo_error($msg);	

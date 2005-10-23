@@ -19,7 +19,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
 echo_debug(__FILE__,__LINE__,"include user_action_ven.php");
-include_once("form_input.php");
+require_once("user_form_ven.php");
 include_once("class_widget.php");
 $cn=DbConnect($_SESSION['g_dossier']);
 // default action is insert_vente
@@ -34,26 +34,28 @@ if ( $action == 'insert_vente' ) {
    
     // Add item
         if (isset($_POST["add_item"]) ) {
-      echo_debug(__FILE__,__LINE__,"Add an item");
-      $nb_number=$_POST["nb_item"];
-      $nb_number++;
+	  echo_debug(__FILE__,__LINE__,"Add an item");
+	  $nb_number=$_POST["nb_item"];
+	  $nb_number++;
+	  
+	  $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,false,$nb_number);
+	  echo '<div class="u_redcontent">';
+	  echo   $form;
+	  echo '</div>';
 
-      $form=FormVente($cn,$_GET['p_jrn'],$_SESSION['g_user'],$HTTP_POST_VARS,false,$nb_number);
-      echo '<div class="u_redcontent">';
-      echo     "here".    $form;
-      echo '</div>';
-      
-    } 
+	} // add an item
 
     // We want to see the encoded invoice 
     if ( isset ($_POST["view_invoice"])) {
       $nb_number=$_POST["nb_item"];
-      $form=FormVenteView($cn,$_GET['p_jrn'],$_SESSION['g_user'],$HTTP_POST_VARS,$nb_number);
+      if ( form_verify_input($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,$nb_number) == true)
+	{
+	  $form=FormVenteView($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,$nb_number);
 	  // Check failed : invalid date or quantity
-	  if ( $form== null) {
-		  echo_error("Cannot validate ");
-		  $form=FormVente($cn,$_GET['p_jrn'],$_SESSION['g_user'],$HTTP_POST_VARS,false,$nb_number);
-	 }
+	} else {
+	    echo_error("Cannot validate ");
+	    $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,false,$nb_number);
+	  }
       echo '<div class="u_redcontent">';
       echo         $form;
       echo '</div>';
@@ -65,7 +67,7 @@ if ( $action == 'insert_vente' ) {
       {
       echo_debug(__FILE__,__LINE__,"Blank form");
       // Show an empty form of invoice
-      $form=FormVente($cn,$_GET['p_jrn'],$_SESSION['g_user'],null,false);
+      $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),null,false);
       echo '<div class="u_redcontent">';
       echo $form;
       echo '</div>';
@@ -77,13 +79,13 @@ if ( $action == 'insert_vente' ) {
     // Save the invoice 
 if ( isset($_POST["record_invoice"])) {
   // Check privilege
-  if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_GET['p_jrn']) != 2 )    {
+  if ( CheckJrn($_SESSION['g_dossier'],$User,$_GET['p_jrn']) != 2 )    {
     NoAccess();
     exit -1;
   }
 
   // echo "RECORD INVOICE";
-   RecordInvoice($cn,$HTTP_POST_VARS,$_SESSION['g_user'],$_GET['p_jrn']);
+   RecordInvoice($cn,$HTTP_POST_VARS,$User,$_GET['p_jrn']);
 }
 if (isset ($_POST['correct_new_invoice'])) {
   // Check privilege
@@ -93,7 +95,7 @@ if (isset ($_POST['correct_new_invoice'])) {
   }
   
   $nb=$_POST['nb_item'];
-  $form=FormVente($cn,$_GET['p_jrn'],$_SESSION['g_user'],$HTTP_POST_VARS,false,$nb);
+  $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,false,$nb);
   echo '<div class="u_redcontent">';
   echo $form;
   echo '</div>';
@@ -108,10 +110,15 @@ if ( isset($_POST["record_and_print_invoice"])) {
   
   //  echo "RECORD AND PRINT INVOICE";
 
-  $comment=RecordInvoice($cn,$HTTP_POST_VARS,$_SESSION['g_user'],$_GET['p_jrn']);
+  $comment=RecordInvoice($cn,$HTTP_POST_VARS,$User,$_GET['p_jrn']);
 
   $nb_number=$_POST["nb_item"];
-  $form=FormVenteView($cn,$p_jrn,$g_user,$HTTP_POST_VARS,$nb_number,'noform',$comment);
+  if ( form_verify_input($cn,$p_jrn,$User->GetPeriode(),$HTTP_POST_VARS,$nb_number)== true) {
+    $form=FormVenteView($cn,$p_jrn,$User->GetPeriode(),$HTTP_POST_VARS,$nb_number,'noform',$comment);
+  } else {
+	    echo_error("Cannot validate ");
+	    $form=FormVenInput($cn,$_GET['p_jrn'],$User,$HTTP_POST_VARS,false,$nb_number);
+  }
   
   echo '<div class="u_redcontent">';
   echo $form;
@@ -125,6 +132,10 @@ if ( isset($_POST["record_and_print_invoice"])) {
      NoAccess();
      exit -1;
    }
+   // Extract the page number we want
+   $debut=(isset($_REQUEST['p_page']))?$_REQUEST['p_page']:0;
+
+
 ?>
 <div class="u_redcontent">
 <?
@@ -133,7 +144,7 @@ echo "<form method=\"POST\" action=\"user_jrn.php?action=voir_jrn&p_jrn=$p_jrn\"
 $w=new widget("select");
 
 $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode order by p_id");
-$User=new cl_user($cn);
+// User is already set User=new cl_user($cn);
 $current=(isset($_POST['p_periode']))?$_POST['p_periode']:$User->GetPeriode();
 $w->selected=$current;
 
