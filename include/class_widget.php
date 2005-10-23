@@ -257,10 +257,8 @@ class widget {
       $r=sprintf('<TD>
          <INPUT TYPE="button" onClick=NewCard(\'%s\',\'%s\',\'%s\',\'%s\') value="New">
          <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') value="Search">
-            %s</TD><TD> 
-
-             <INPUT TYPE="Text" NAME="%s" VALUE="%s" SIZE="8">
-                 </TD>',
+            %s</TD><TD> <INPUT TYPE="Text" NAME="%s" VALUE="%s" SIZE="8">
+                 ',
 	       $l_sessid,
 	       $this->extra, // deb or cred
 	       $this->name,
@@ -287,6 +285,30 @@ class widget {
     }
     return $r;
   }// poste==js_search
+  // type=span
+  if ( strtolower($this->type)=="span") {
+    $r=sprintf('<span id="%s">%s</span>',
+	       $this->name,
+	       $this->value);
+    return $r;
+  }// end type = span
+
+//   // input type == js_tva
+//   if ( strtolower($this->type)=="js_tva") {
+//     $id=sprintf("<span id=%s></span>",$this->label);
+//        $r=sprintf('%s<TD> <INPUT TYPE="Text" NAME="%s" VALUE="%s" SIZE="3" onChange="ChangeTVA(\'%s\',\'%s\');">',
+// 		  $id,
+// 	       $this->name,
+// 	       $this->value,
+// 	       $this->label,
+// 	       $this->name);
+//     $l_sessid=$_REQUEST['PHPSESSID'];
+//     $r.=sprintf("<input type=\"button\" value=\"Tva\" 
+//     	onClick=\"
+//        	           ShowTva('%s','%s');\"></TD>",
+// 		$l_sessid,$this->name);
+//     return $r;
+//   }
 
   } //end function
   function debug() {
