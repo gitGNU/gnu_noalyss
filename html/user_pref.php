@@ -27,18 +27,17 @@ include_once ("class_user.php");
 $cn=DbConnect($_SESSION['g_dossier']);
 $User=new cl_user($cn);
 $User->Check();
-
 // Met a jour le theme utilisateur (style)
 if ( isset ( $_POST['style_user']) ) {
-       $Res=ExecSql($Rep,
-		   "update ac_users set use_theme='".$_POST['style_user'].
-		   "'  where use_login='".$_SESSION['g_user']."'");
+      $Res=ExecSql($Rep,
+		   "update user_global_pref set parameter_value='".$_POST['style_user'].
+		   "'  where user_id='".$_SESSION['g_user']."' and parameter_type='THEME'");
  //     echo '<H2 class="info"> Theme utilisateur changé </H1>';
-      $_SESSION['use_theme']=$_POST['style_user'];
+      $_SESSION['g_theme']=$_POST['style_user'];
 
 }
 
-html_page_start($_SESSION['use_theme']);
+html_page_start($_SESSION['g_theme']);
 
 // show the top menu depending of the use_style
 // comta style
@@ -67,15 +66,6 @@ if ( isset ($_POST['spass']) ) {
       $g_pass=$pass_1;
     }
   }
-// Met a jour le theme utilisateur (style)
-if ( isset ( $_POST['style_user']) ) {
-      $Res=ExecSql($Rep,
-		   "update ac_users set use_theme='".$_POST['style_user'].
-		   "'  where use_login='".$_SESSION['g_user']."'");
- //     echo '<H2 class="info"> Theme utilisateur changé </H1>';
-      $_SESSION['use_theme']=$_POST['style_user'];
-
-}
 
 ?>
 <H2 CLASS="info"> Password</H2>
@@ -97,7 +87,7 @@ for ($i=0;$i < pg_NumRows($res);$i++){
 // Formatte le display
 $disp_style="<SELECT NAME=\"style_user\" >";
 foreach ($style as $st){
-  if ( $st == $_SESSION['use_theme'] ) {
+  if ( $st == $_SESSION['g_theme'] ) {
     $disp_style.='<OPTION VALUE="'.$st.'" SELECTED>'.$st;
   } else {
     $disp_style.='<OPTION VALUE="'.$st.'">'.$st;

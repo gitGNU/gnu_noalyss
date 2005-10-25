@@ -21,7 +21,7 @@ include_once("ac_common.php");
 include_once("postgres.php");
 include_once("debug.php");
 include_once("user_menu.php");
-html_page_start($_SESSION['use_theme']);
+html_page_start($_SESSION['g_theme']);
 echo_debug(__FILE__,__LINE__,"entering priv_users");
 
 

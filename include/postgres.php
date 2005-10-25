@@ -316,13 +316,13 @@ function SyncRight($p_dossier,$p_user) {
  * return: an array
  *         containing use_admin
  *                    use_usertype
- *                    use_theme
+ *                    g_theme
  *                    use_name
  *                    use_login
  */
 function GetUserProperty($p_cn,$p_user)
 {
- $sql="select use_login,use_first_name,use_name,use_admin,use_usertype,use_theme
+ $sql="select use_login,use_first_name,use_name,use_admin,use_usertype,g_theme
      from ac_users where use_login='$p_user'";
  $Ret=ExecSql($p_cn,$sql);
  if ( pg_NumRows($Ret) == 0) 
@@ -330,7 +330,7 @@ function GetUserProperty($p_cn,$p_user)
                 'use_name'=>'Unknown',
                 'use_admin'=>0,
 		'use_usertype'=>'user',
-		'use_theme'=>'classic',
+		'g_theme'=>'classic',
 		'use_login'=>$p_user);
 
  $a=pg_fetch_array($Ret,0);

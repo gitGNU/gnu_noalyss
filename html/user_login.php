@@ -27,7 +27,7 @@ include_once ("class_user.php");
 $User=new cl_user($rep);
 
 $User->Check();
-html_page_start($_SESSION['use_theme']);
+html_page_start($_SESSION['g_theme']);
 include_once("user_menu.php");
 
 $priv=($User->admin==1)?"Administrator":"User";

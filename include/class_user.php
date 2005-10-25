@@ -40,8 +40,8 @@ class cl_user {
     $this->pass=$_SESSION['g_pass'];
     $this->valid=(isset ($_SESSION['isValid']))?1:0;
     $this->db=$p_cn;
-    if ( isset($_SESSION['use_theme']) )
-      $this->theme=$_SESSION['use_theme'];
+    if ( isset($_SESSION['g_theme']) )
+      $this->theme=$_SESSION['g_theme'];
     
     $this->admin=( isset($_SESSION['use_admin']) )?$_SESSION['use_admin']:0;
     
@@ -58,7 +58,7 @@ class cl_user {
              use_name,
              use_login,
              use_active,
-             use_admin
+             use_admin,
                      from ac_users
              where use_id=$p_id";
       $cn=DbConnect(); 
@@ -91,7 +91,7 @@ class cl_user {
 	$cn=DbConnect();
 	if ( $cn != false ) {
 	  $sql="select ac_users.use_login,ac_users.use_active, ac_users.use_pass,
-                       use_theme,use_admin,use_first_name,use_name
+                    use_admin,use_first_name,use_name
 				from ac_users  
 				 where ac_users.use_login='$this->id' 
 					and ac_users.use_active=1
@@ -102,15 +102,16 @@ class cl_user {
 	    echo_debug(__FILE__,__LINE__,"Number of found rows : $res");
 	    if ( $res >0 ) {
 	      $r=pg_fetch_array($ret,0);
-	      $_SESSION['use_theme']=$r['use_theme'];
 	      $_SESSION['use_admin']=$r['use_admin'];
 	      $_SESSION['use_name']=$r['use_name'];
 	      $_SESSION['use_first_name']=$r['use_first_name'];
 	      
-	      $this->theme=$_SESSION['use_theme'];
+	      $this->theme=$_SESSION['g_theme'];
 	      $this->admin=$_SESSION['use_admin'];
 	      $this->name=$_SESSION['use_name'];
 	      $this->first_name=$_SESSION['use_first_name'];
+	      $this->GetGlobalPref();
+
 	    }
 	  }
 	  
@@ -265,7 +266,40 @@ function GetPreferences ()
   if ( $Count == 1 ) return 1;
   echo "<H2 class=\"error\"> Invalid action !!! $Count select * from user_sec_act where ua_login='$p_login' and ua_act_id=$p_action_id </H2>";
 }
+/* function GetGlobalPref
+ **************************************************
+ * Purpose : Get the global preferences from user_global_pref
+ *        in the account_repository db
+ * parm : 
+ *	- set g_variable
+ * gen :
+ *	- none
+ * return:
+ *     - none
+ */
 
 
+function GetGlobalPref() 
+{
+  $cn=Dbconnect();
+  // Load everything in an array
+  $Res=ExecSql ($cn,"select parameter_type,parameter_value from 
+                  user_global_pref
+                  where user_id='".$this->id."'");
+  $Max=pg_NumRows($Res);
+  if (  $Max == 0 ) return null;
+  // Load value into array
+  $line=array();
+  for ($i=0;$i<$Max;$i++) {
+    $row=pg_fetch_array($Res,$i);
+    $type=$row['parameter_type']; 
+    $line[$type]=$row['parameter_value'];;
+  }
+  // save array into g_ variable
+  $array_pref=array ('g_theme'=>'THEME','g_pagesize'=>'PAGESIZE');
+  foreach ($array_pref as $name=>$parameter ) {
+    $_SESSION[$name]=$line[$parameter];
+  }
+}
 }
 ?>

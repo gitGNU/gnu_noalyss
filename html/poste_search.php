@@ -20,7 +20,7 @@
 /* $Revision$ */
 
 include_once ("ac_common.php");
-html_page_start($_SESSION['use_theme'],"onLoad='window.focus();'");
+html_page_start($_SESSION['g_theme'],"onLoad='window.focus();'");
 include_once ("postgres.php");
 include_once("jrn.php");
 /* Admin. Dossier */
