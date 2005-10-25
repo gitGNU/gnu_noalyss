@@ -12,5 +12,6 @@ comment on column user_global_pref.parameter_value is 'the value of parameter ';
 alter table user_global_pref add constraint pk_user_global_pref primary key (user_id,parameter_type);
 
 insert into user_global_pref select use_login,'PAGESIZE','50' from ac_users;
+alter table ac_users drop use_usertype;
 update version set val=7;
 
