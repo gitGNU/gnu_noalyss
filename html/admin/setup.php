@@ -400,3 +400,6 @@ if ( GetVersion($cn) <= 4 ) {
 if ( GetVersion($cn) == 5 ) {
   ExecuteScript($cn,'sql/patch/ac-upgrade5.sql');
  }
+if ( GetVersion($cn) == 6 ) {
+  ExecuteScript($cn,'sql/patch/ac-upgrade7.sql');
+ }

@@ -454,7 +454,7 @@ function FormAchView ($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$p_number,$p_pi
     // vat rate
     $a_vat=GetTvaRate($p_cn,$vat);
     if ( $a_vat == null ) {
-      $vat_label="unknown";
+      $vat_label="";
       $vat_rate=0.0;
     } else { 
       $vat_label=$a_vat['tva_label'];

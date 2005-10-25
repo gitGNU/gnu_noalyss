@@ -40,8 +40,6 @@ class cl_user {
     $this->pass=$_SESSION['g_pass'];
     $this->valid=(isset ($_SESSION['isValid']))?1:0;
     $this->db=$p_cn;
-    if ( isset($_SESSION['use_usertype']) )
-      $this->type=$_SESSION['use_usertype'];
     if ( isset($_SESSION['use_theme']) )
       $this->theme=$_SESSION['use_theme'];
     
@@ -93,7 +91,7 @@ class cl_user {
 	$cn=DbConnect();
 	if ( $cn != false ) {
 	  $sql="select ac_users.use_login,ac_users.use_active, ac_users.use_pass,
-                       use_usertype,use_theme,use_admin,use_first_name,use_name
+                       use_theme,use_admin,use_first_name,use_name
 				from ac_users  
 				 where ac_users.use_login='$this->id' 
 					and ac_users.use_active=1
@@ -104,13 +102,11 @@ class cl_user {
 	    echo_debug(__FILE__,__LINE__,"Number of found rows : $res");
 	    if ( $res >0 ) {
 	      $r=pg_fetch_array($ret,0);
-	      $_SESSION['use_usertype']=$r['use_usertype'];
 	      $_SESSION['use_theme']=$r['use_theme'];
 	      $_SESSION['use_admin']=$r['use_admin'];
 	      $_SESSION['use_name']=$r['use_name'];
 	      $_SESSION['use_first_name']=$r['use_first_name'];
 	      
-	      $this->type=$_SESSION['use_usertype'];
 	      $this->theme=$_SESSION['use_theme'];
 	      $this->admin=$_SESSION['use_admin'];
 	      $this->name=$_SESSION['use_name'];

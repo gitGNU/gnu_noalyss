@@ -215,8 +215,6 @@ function NoAccess() {
  *	-
  * return:
  */
-
-
 function FormatString($p_string) 
 {
   if ( !isset ($p_string) ) {
@@ -229,24 +227,6 @@ function FormatString($p_string)
   $p_string=str_replace("''","'",$p_string);
   $p_string=str_replace("'","\'",$p_string);
   return $p_string;
-}
-/* function GetUserType
- * Purpose : get the type of an user (compta,developper or user)
- *        
- * parm : 
- *	- param $p_user user_login
- * gen :
- *	- none
- * return: the type of the user
- */
-function GetUserType($p_user)
-{
-  $cn=DbConnect();
-  $Res=ExecSql($cn,"select use_usertype from ac_users
-                    where use_login='".$p_user."'");
-  if ( pg_NumRows($Res) == 0 ) return null;
-  $Ret=pg_fetch_row($Res,0);
-  return $Ret[0];
 }
 
 /* function ShowItem($p_array) */
