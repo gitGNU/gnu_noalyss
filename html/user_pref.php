@@ -29,15 +29,19 @@ $User=new cl_user($cn);
 $User->Check();
 // Met a jour le theme utilisateur (style)
 if ( isset ( $_POST['style_user']) ) {
-      $Res=ExecSql($Rep,
-		   "update user_global_pref set parameter_value='".$_POST['style_user'].
-		   "'  where user_id='".$_SESSION['g_user']."' and parameter_type='THEME'");
- //     echo '<H2 class="info"> Theme utilisateur changé </H1>';
+	$User->update_global_pref('THEME',$_POST['style_user']);
       $_SESSION['g_theme']=$_POST['style_user'];
 
 }
 
 html_page_start($_SESSION['g_theme']);
+
+// Met a jour le pagesize
+if ( isset ( $_POST['p_size']) ) {
+	$User->update_global_pref('PAGESIZE',$_POST['p_size']);
+      $_SESSION['g_pagesize']=$_POST['p_size'];
+
+}
 
 // show the top menu depending of the use_style
 // comta style
@@ -133,6 +137,27 @@ if ( isset ($_SESSION['g_dossier']) ) {
 <TR><TD>PERIODE</TD>
 <?    printf('<TD> %s </TD></TR>',$l_form_per); ?>
 <TR><TD><input type="submit" name="sub_periode" value="Sauve"></TD></TR>
+</TABLE>
+</FORM>
+
+<H2 CLASS="info"> Taille des pages</H2>
+<FORM ACTION="user_pref.php" METHOD="POST">
+<TABLE ALIGN="CENTER">
+<TR><TD>Taille des pages</TD>
+<TD>
+<SELECT NAME="p_size">
+<option value="50">50
+<option value="100">100
+<option value="150">150
+<option value="200">200
+<option value="-1">Illimité
+<?
+	$label=($_SESSION['g_pagesize'] == -1)?'Illimité':$_SESSION['g_pagesize'];
+	echo '<option value="'.$_SESSION['g_pagesize'].'" selected>'.$label;
+?>
+</SELECT>
+</TD></TR>
+<TR><TD><input type="submit" name="sub_taille" value="Sauve"></TD></TR>
 </TABLE>
 </FORM>
 

@@ -106,7 +106,6 @@ class cl_user {
 	      $_SESSION['use_name']=$r['use_name'];
 	      $_SESSION['use_first_name']=$r['use_first_name'];
 	      
-	      $this->theme=$_SESSION['g_theme'];
 	      $this->admin=$_SESSION['use_admin'];
 	      $this->name=$_SESSION['use_name'];
 	      $this->first_name=$_SESSION['use_first_name'];
@@ -281,13 +280,18 @@ function GetPreferences ()
 
 function GetGlobalPref() 
 {
+	echo_debug(__FILE__,__LINE__,"function GetGlobalPref");
   $cn=Dbconnect();
   // Load everything in an array
   $Res=ExecSql ($cn,"select parameter_type,parameter_value from 
                   user_global_pref
                   where user_id='".$this->id."'");
   $Max=pg_NumRows($Res);
-  if (  $Max == 0 ) return null;
+  if (  $Max == 0 ) {
+	  $this->insert_default_global_pref();
+	  $this->GetGlobalPref();
+	  return;
+	  }
   // Load value into array
   $line=array();
   for ($i=0;$i<$Max;$i++) {
@@ -298,8 +302,73 @@ function GetGlobalPref()
   // save array into g_ variable
   $array_pref=array ('g_theme'=>'THEME','g_pagesize'=>'PAGESIZE');
   foreach ($array_pref as $name=>$parameter ) {
+	  if ( ! isset ($line[$parameter]) ) {
+		  echo_debug("Missing pref : ".$parameter);
+		  $this->insert_default_global_pref($parameter);
+		$this->GetGlobalPref();
+		return;
+		}	
     $_SESSION[$name]=$line[$parameter];
   }
 }
+
+/* function insert_default_global_pref
+ **************************************************
+ * Purpose : insert default pref
+ *        if no parameter are given insert all the existing 
+ *        parameter otherwise only the requested
+ * parm : 
+ *	- parameter's type or nothing
+ * gen :
+ *	- none
+ * return: nothing
+ */
+function insert_default_global_pref($p_type="",$p_value="") {
+	echo_debug(__FILE__,__LINE__,"function insert_default_global_pref");
+	echo_debug(__FILE__,__LINE__,"parameter p_type $p_type p_value  $p_value");
+
+	$default_parameter= array("THEME"=>"Light",
+		"PAGESIZE"=>"50");
+	$cn=Dbconnect();
+	$Sql="insert into user_global_pref(user_id,parameter_type,parameter_value) 
+				values ('%s','%s','%s')";
+	if ( $p_type == "" ) {
+		foreach ( $default_parameter as $name=>$value) {
+			$Insert=sprintf($Sql,$this->id,$name,$value);
+			ExecSql($cn,$Insert);
+		}
+	}
+	else {
+		$value=($p_value=="")?$default_parameter[$p_type]:$p_value;
+		$Insert=sprintf($Sql,$this->id,$p_type,$value);
+		ExecSql($cn,$Insert);
+	}
+
+
+}
+
+/* function update_global_pref
+ **************************************************
+ * Purpose : update default pref
+ *           if value is not given then use the default value
+ * parm : 
+ *	- parameter's type 
+ *      - parameter's value value of the type
+ * gen :
+ *	- none
+ * return: nothing
+ */
+function update_global_pref($p_type,$p_value="") {
+	$default_parameter= array("THEME"=>"Light",
+		"PAGESIZE"=>"50");
+	$cn=Dbconnect();
+	$Sql="update user_global_pref set parameter_value='%s' 
+			where parameter_type='%s' and 
+				user_id='%s'";
+	$value=($p_value=="")?$default_parameter[$p_type]:$p_value;
+	$Update=sprintf($Sql,$value,$p_type,$this->id);
+	ExecSql($cn,$Update);
+
+ }//end function
 }
 ?>
