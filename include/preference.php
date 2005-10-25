@@ -231,7 +231,7 @@ echo '<TD> <INPUT TYPE="text" NAME="p_devise"></TD>';
 function ShowPeriode($p_cn)
 {
   echo "<h2 class=\"info\"> Période </H2>";
-  $Res=ExecSql($p_cn,"select p_id,to_char(p_start,'DD.MM.YYYY') as date_start,to_char(p_end,'DD.MM.YYYY') as date_end,p_closed,p_exercice
+  $Res=ExecSql($p_cn,"select p_id,to_char(p_start,'DD.MM.YYYY') as date_start,to_char(p_end,'DD.MM.YYYY') as date_end,p_central,p_closed,p_exercice
   from parm_periode order by p_start");
   $Max=pg_NumRows($Res);
   echo '<TABLE ALIGN="CENTER">';
@@ -249,7 +249,7 @@ function ShowPeriode($p_cn)
     echo '<TD  ALIGN="CENTER"> '.$l_line['p_exercice'].'</TD>';
     echo_debug(__FILE__,__LINE__," closed : $l_line[p_closed]");
     if ( $l_line['p_closed'] == 't' )     { 
-      $closed='<TD></TD>';
+      $closed=($l_line['p_central']=='t')?'<TD>Centralisée</TD>':'<TD>Fermée</TD>';
       $change='<TD></TD>';
       $remove='<TD></TD>';
     } else {
