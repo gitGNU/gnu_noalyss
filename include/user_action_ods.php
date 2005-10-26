@@ -160,7 +160,7 @@ echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit',
 </form>
 <?
   $sql=SQL_LIST_ALL_INVOICE." and jr_tech_per=".$current." and jr_def_id=".$_GET['p_jrn'] ;
-   $list=ListJrn($cn,$_GET['p_jrn'],$sql);
+   list ($max_line,$list)=ListJrn($cn,$_GET['p_jrn'],$sql);
 
 
    echo $list;
@@ -184,7 +184,7 @@ if ( $action == 'search' ) {
   echo $search_box; 
   // if nofirst is set then show result
   if ( isset ($_GET['nofirst'] ) )     {
-    $a=ListJrn($cn,$_GET['p_jrn'],"",$HTTP_POST_VARS);
+    list ($max_line,$a)=ListJrn($cn,$_GET['p_jrn'],"",$HTTP_POST_VARS);
     echo $a;
   }
   echo '</DIV>'; 

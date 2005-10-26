@@ -46,9 +46,18 @@ echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit',
 <?
 
 $sql=SQL_LIST_ALL_INVOICE." and jr_tech_per=".$current;
-$list=ListJrn($cn,0,$sql);
+// Nav. bar 
+$step=$_SESSION['g_pagesize'];
+$page=(isset($_GET['offset']))?$_GET['page']:1;
+$offset=(isset($_GET['offset']))?$_GET['offset']:0;
 
+list ($max_line,$list)=ListJrn($cn,0,$sql,null,$offset);
+
+$bar=jrn_navigation_bar($offset,$max_line,$step,$page);
+
+echo $bar;
 echo $list;
+echo $bar;
 
 ?>
 </div>

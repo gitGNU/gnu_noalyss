@@ -154,9 +154,18 @@ echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit',
   echo_debug ("user_action_ach.php");
  // Date - date of payment - Customer - amount
    $sql=SQL_LIST_ALL_INVOICE." and jr_tech_per=".$current." and jr_def_id=".$_GET['p_jrn'];
-   $list=ListJrn($cn,$_GET['p_jrn'],$sql);
 
+   $step=$_SESSION['g_pagesize'];
+   $page=(isset($_GET['offset']))?$_GET['page']:1;
+   $offset=(isset($_GET['offset']))?$_GET['offset']:0;
+
+   list ($max_ligne,$list)=ListJrn($cn,$_GET['p_jrn'],$sql,null,$offset);
+   $bar=jrn_navigation_bar($offset,$max_ligne,$step,$page);
+
+   echo $bar;
    echo $list;
+   echo $bar;
+
    echo '</div>';
 }
 if ( $action == 'voir_jrn_non_paye' ) {
@@ -169,14 +178,30 @@ if ( $action == 'voir_jrn_non_paye' ) {
 // Show list of unpaid sell
 // Date - date of payment - Customer - amount
   $sql=SQL_LIST_UNPAID_INVOICE_DATE_LIMIT." and jr_def_id=".$_GET['p_jrn']  ;
-  $list=ListJrn($cn,$_GET['p_jrn'],$sql);
+  $offset=(isset($_GET['offset']))?$_GET['offset']:0;
+  $step=$_SESSION['g_pagesize'];
+  $page=(isset($_GET['offset']))?$_GET['page']:1;
+
+  list ($max_line,$list)=ListJrn($cn,$_GET['p_jrn'],$sql,null,$offset);
+  //  $bar=jrn_navigation_bar($offset,$max_ligne,$step,$page);
+
+
   $sql=SQL_LIST_UNPAID_INVOICE." and jr_def_id=".$_GET['p_jrn']  ;
-  $list2=ListJrn($cn,$_GET['p_jrn'],$sql);
+  list ($max_line2,$list2)=ListJrn($cn,$_GET['p_jrn'],$sql,null,$offset);
+
+  // Get the max line
+  $m=($max_line2>$max_line)?$max_line2:$max_line;
+  $bar2=jrn_navigation_bar($offset,$m,$step,$page);
+
     echo '<div class="u_redcontent">';
     echo '<h2 class="info"> Echeance dépassée </h2>';
+    echo $bar2;
     echo $list;
+
+
     echo  '<h2 class="info"> Non Payée </h2>';
     echo $list2;
+    echo $bar2;
     echo '</div>';
 }
 
@@ -189,15 +214,19 @@ if ( $action == 'search' ) {
   }
 
   // PhpSessid
-  $sessid=(isset ($_POST['PHPSESSID']))?$_POST['PHPSESSID']:$_GET['PHPSESSID'];
+  $sessid=$_REQUEST['PHPSESSID'];
+  // Search modules
+  $offset=(isset($_GET['offset']))?$_GET['offset']:0;
+  $step=$_SESSION['g_pagesize'];
+  $page=(isset($_GET['offset']))?$_GET['page']:1;
 
 // display a search box
-  $search_box=u_ShowMenuRecherche($cn,$_GET['p_jrn'],$sessid,$HTTP_POST_VARS);
+  $search_box=u_ShowMenuRecherche($cn,$_GET['p_jrn'],$sessid,$_POST);
   echo '<DIV class="u_redcontent">';
   echo $search_box; 
   // if nofirst is set then show result
   if ( isset ($_GET['nofirst'] ) )     {
-    $a=ListJrn($cn,$_GET['p_jrn'],"",$HTTP_POST_VARS);
+    list ($max_line,$a)=ListJrn($cn,$_GET['p_jrn'],"",$_POST);
     echo $a;
   }
   echo '</DIV>'; 

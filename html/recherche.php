@@ -46,16 +46,24 @@ ShowMenuCompta($_SESSION['g_dossier']);
    $sessid=$_REQUEST['PHPSESSID'];
 
 // display a search box
-   $search_box=u_ShowMenuRecherche($cn,0,$sessid,$HTTP_POST_VARS);
-   echo '<DIV>'; // class="recherche_form">';
-  echo $search_box; 
-   // if nofirst is set then show result
-   if ( isset ($_GET['nofirst'] ) ) {
-     $a=ListJrn($cn,0,"",$HTTP_POST_VARS);
-     echo '<div class="result">';
-     echo $a;
-     echo '</div>';
-   }
-   echo '</DIV>'; 
+$search_box=u_ShowMenuRecherche($cn,0,$sessid,$_GET);
+echo '<DIV>'; // class="recherche_form">';
+echo $search_box;
+ 
+// Navigation bar
+$step=$_SESSION['g_pagesize'];
+$page=(isset($_GET['offset']))?$_GET['page']:1;
+$offset=(isset($_GET['offset']))?$_GET['offset']:0;
+
+list($max_line,$a)=ListJrn($cn,0,"",$_GET,$offset);
+$bar=jrn_navigation_bar($offset,$max_line,$step,$page);
+
+echo '<div class="result">';
+echo $bar;
+echo $a;
+echo $bar;
+echo '</div>';
+
+echo '</DIV>'; 
  
 ?>

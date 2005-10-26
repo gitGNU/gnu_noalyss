@@ -408,14 +408,32 @@ function GetBaseFicheDefault($p_cn,$p_type) {
  *
  */ 
 function ViewFiche($p_cn,$p_type) {
+  require_once("user_common.php");
   echo '<H2 class="info">'.getFicheDefName($p_cn,$p_type).'</H2>';
+
+   $step=$_SESSION['g_pagesize'];
+   $sql_limit="";
+   $sql_offset="";
+   if ( $step != -1 ) {
+     $page=(isset($_GET['page']))?$_GET['page']:1;
+     $offset=(isset($_GET['offset']))?$_GET['offset']:0;
+     $max_line=CountSql($p_cn,"select f_id,av_text  from 
+                          fiche join jnt_fic_att_value using (f_id) 
+                                join attr_value using (jft_id)
+                       where fd_id='".$p_type."' and ad_id=".ATTR_DEF_NAME." order by f_id");
+     $sql_limit=" limit ".$step;
+     $sql_offset=" offset ".$offset;
+     $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
+   }
+   
   // Get all name the cards of the select category
   // 1 for attr_def.ad_id is always the name
     $Res=ExecSql($p_cn,"select f_id,av_text  from 
                           fiche join jnt_fic_att_value using (f_id) 
                                 join attr_value using (jft_id)
-                       where fd_id='".$p_type."' and ad_id=".ATTR_DEF_NAME." order by f_id");
+                       where fd_id='".$p_type."' and ad_id=".ATTR_DEF_NAME." order by f_id $sql_offset $sql_limit ");
     $Max=pg_NumRows($Res);
+    echo $bar;
 
     for ( $i = 0; $i < $Max; $i++) {
       $l_line=pg_fetch_array($Res,$i);
@@ -434,6 +452,7 @@ function ViewFiche($p_cn,$p_type) {
     echo '<INPUT TYPE="HIDDEN" name="fiche" value="'.$p_type.'">';
     echo '<INPUT TYPE="SUBMIT" name="add" Value="Ajout fiche">';
     echo '</FORM>';
+    echo $bar;
 
 }
 /* function GetNextFiche

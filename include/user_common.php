@@ -219,10 +219,12 @@ comment = $p_comment");
  * return:
  * 
  */
-function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
+function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0)
 {
 
   include_once("central_inc.php");
+  $limit=($_SESSION['g_pagesize']!=-1)?" LIMIT ".$_SESSION['g_pagesize']:"";
+  $offset=($_SESSION['g_pagesize']!=-1)?" OFFSET ".$p_value:"";
   if ( $p_array == null ) {
    $sql="select jr_id	,
 			jr_montant,
@@ -321,6 +323,12 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
     }
     $sql.=" order by jr_date_order asc";
   }// p_array != null
+  // Count 
+  $count=CountSql($p_cn,$sql);
+  // Add the limit 
+  $sql.=$limit.$offset;
+
+  // Execute SQL stmt
   $Res=ExecSql($p_cn,$sql);
   $r="";
   $r.=JS_VIEW_JRN_DETAIL;
@@ -330,6 +338,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
   $Max=pg_NumRows($Res);
 
   if ($Max==0) return "No row selected";
+
   $r.="<TABLE width=\"100%\">";
   $l_sessid=$_REQUEST['PHPSESSID'];
   $r.="<tr class=\"even\">";
@@ -422,8 +431,11 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null)
 	}
 $r.="</table>";
 
-return $r;
+return array ($count,$r);
 }
+
+
+
 /* function InsertStockGoods($p_cn,$j_id,$a_good[$i],$a_quant[$i],'c');
  **************************************************
  * Purpose : Insert data into stock_goods,
@@ -439,8 +451,6 @@ return $r;
  * return:
  *       none
  */
-
-
 function InsertStockGoods($p_cn,$p_j_id,$p_good,$p_quant,$p_type)
 {
   // Retrieve the good account for stock
@@ -700,4 +710,86 @@ function isValid ($p_cn,$p_grpt_id) {
   echo_error ("Invalid result = ".$a['result']);
 
 
+}
+
+/* function  jrn_navigation_bar
+ **************************************************
+ * Purpose : 
+ *     Create a navigation_bar (pagesize)
+ *        
+ * parm : 
+ *	- p_current first record number
+ *      - p_line total of returned row
+ *      - p_size current g_pagesize
+ *      - p_page number of the page
+ * gen :
+ *	-none
+ * return:
+ *     string
+ */
+function jrn_navigation_bar($p_offset,$p_line,$p_size,$p_page=1)
+{
+  // if the pagesize is unlimited return ""
+  // in that case there is no nav. bar
+  if ( $_SESSION['g_pagesize'] == -1 ) return "";
+
+  // Compute the url
+  $url="";
+  $and="";
+  $get=$_GET;
+  if ( isset ($get) ) {
+    foreach ($get as $name=>$value ) {
+      // we clean the parameter offset, step, page and size
+      if (  ! in_array($name,array('offset','step','page','size'))) {
+	$url.=$and.$name."=".$value;
+	$and="&";
+      }// if
+    }//foreach
+  }// if
+  // compute max of page
+  $nb_page=($p_line-($p_line%$p_size))/$p_size;
+  // if something remains
+  if ( $p_line % $p_size != 0 ) $nb_page+=1;
+  $r="";
+  // previous
+  if ($p_page !=1) {
+    $e=$p_page-1;
+    $step=$_SESSION['g_pagesize'];
+    $offset=($e-1)*$step;
+
+    $r='<A class="one" href="'.$_SERVER['PHP_SELF']."?".$url."&offset=$offset&step=$step&page=$e&size=$step".'">';
+    $r.="Pr&eacute;c&eacute;dent";
+    $r.="</A>&nbsp;&nbsp;";
+  }
+
+  // Create the bar
+  for ($e=1;$e<=$nb_page;$e++) {
+    // do not included current page
+    if ( $e != $p_page ) {
+    $step=$_SESSION['g_pagesize'];
+    $offset=($e-1)*$step;
+    $go=sprintf($_SERVER['PHP_SELF']."?".$url."&offset=$offset&step=$step&page=$e&size=$step");
+    $r.=sprintf('<A HREF="%s" CLASS="one">%d</A>&nbsp;',$go,$e);
+    } else {
+      $r.="<b> $e </b>";
+    } //else
+    // add a break if e > 80
+    if ( $e % 57 == 0 ) {
+      $r.="<br>";
+    }
+  } //for
+  // next
+  if ($p_page !=$nb_page) {
+    $e=$p_page+1;
+    $step=$_SESSION['g_pagesize'];
+    $offset=($e-1)*$step;
+
+    $r.='&nbsp;<A class="one" href="'.$_SERVER['PHP_SELF']."?".$url."&offset=$offset&step=$step&page=$e&size=$step".'">';
+    $r.="Suivant";
+    $r.="</A>";
+  }
+
+
+  return $r;
+  
 }

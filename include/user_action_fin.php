@@ -165,7 +165,16 @@ echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit',
   echo_debug ("user_action_jrn.php");
  // Date - date of payment - Customer - amount
    $sql=SQL_LIST_ALL_INVOICE." and jr_tech_per=".$current." and jr_def_id=".$_GET['p_jrn'];
-   $list=ListJrn($cn,$_GET['p_jrn'],$sql);
+
+  // Nav. bar 
+   $step=$_SESSION['g_pagesize'];
+   $page=(isset($_GET['offset']))?$_GET['page']:1;
+   $offset=(isset($_GET['offset']))?$_GET['offset']:0;
+   // SQL
+   list($max_line,$list)=ListJrn($cn,$_GET['p_jrn'],$sql,null,$offset);
+
+   $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
+
    echo $list;
    echo '</div>';
 }

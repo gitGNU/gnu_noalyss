@@ -146,6 +146,7 @@ if ( isset ($_SESSION['g_dossier']) ) {
 <TR><TD>Taille des pages</TD>
 <TD>
 <SELECT NAME="p_size">
+<option value="25">25
 <option value="50">50
 <option value="100">100
 <option value="150">150
