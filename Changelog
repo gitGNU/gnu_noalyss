@@ -1,4 +1,113 @@
+2005-10-26  sparkyx  <sparkyx@january.intra-alchimerys.be>
+
+	* include/user_action_ach.php, include/user_action_fin.php, include/user_action_gl.php, include/user_action_ods.php, include/user_action_ven.php, include/user_common.php, include/user_menu.php, html/recherche.php, html/user_pref.php, include/fiche_inc.php:
+	Task #4857 : For the big databases a nav. bar is now implemented
+
+2005-10-25  sparkyx  <sparkyx@january.intra-alchimerys.be>
+
+	* html/admin/sql/patch/ac-upgrade6.sql, include/class_user.php, html/admin_repo.php, html/user_pref.php:
+	Task #4857 : add a pagesize
+
+	* include/class_user.php, include/postgres.php, html/admin/sql/patch/ac-upgrade6.sql, html/central.php, html/dossier_prefs.php, html/facturation.php, html/fiche.php, html/form.php, html/jrn_add.php, html/jrn_detail.php, html/jrn_op_detail.php, html/jrn_update.php, html/pcmn_update.php, html/poste_search.php, html/priv_user.php, html/recherche.php, html/stock.php, html/user_advanced.php, html/user_impress.php, html/user_login.php, html/user_pref.php, html/user_sec.php:
+	Code cleaning : preference are now in a separate table
+
+	* html/admin/setup.php, html/admin/sql/patch/ac-upgrade6.sql, include/ac_common.php, include/class_user.php, include/user_form_ach.php, include/user_form_ven.php:
+	remove column ac_users.use_usertype from account_repository
+
+	* include/preference.php: Improve cosmetic
+
+2005-10-23  sparkyx  <sparkyx@january.intra-alchimerys.be>
+
+	* html/admin/sql/patch/downgrade7.sql:
+	Upgrade if something goes wrong
+
+	* html/user_pref.php: Use of the object user
+
+	* include/user_form_ach.php, include/user_form_ven.php: Code cleaning
+
+	* include/user_common.php, include/user_action_ods.php, include/user_action_fin.php, include/user_action_ven.php, include/user_action_ach.php, include/preference.php, include/form_input.php:
+	code cleaning
+
+	* include/class_widget.php: Add the type SPAN
+
+	* include/class_user.php:
+	The default user preference are now in a separate table
+
+	* html/admin/sql/patch/upgrade7.sql, html/admin/setup.php:
+	add a trigger to the database to validate the rounded value
+
+2005-10-22  sparkyx  <sparkyx@january.intra-alchimerys.be>
+
+	* include/form_input.php, include/user_common.php:
+	Check_balance is done by a trigger
+
+2005-10-20  sparkyx  <sparkyx@january.intra-alchimerys.be>
+
+	* contrib/test-size/simul.py:
+	Use copy from stdin instead of insert command, improve much the speed
+
+	* contrib/test-size/simul.py: Add file header
+
+	* contrib/test-size/readme, contrib/test-size/simul.py:
+	Add test for the performance and tuning
+
+2005-10-18  sparkyx  <sparkyx@january.intra-alchimerys.be>
+
+	* html/admin/sql/patch/upgrade7.sql:
+	add a needed check on the col j_tech_per and jr_tech_per
+
+2005-10-16  sparkyx  <sparkyx@january.intra-alchimerys.be>
+
+	* html/annulation.php:
+	fix bug: the j_tech_per was not updated, then the saldo was wrong
+
+	* include/form_input.php: Fix problem in financial ledger
+
+2005-10-10  sparkyx  <sparkyx@january.intra-alchimerys.be>
+
+	* html/modify_op.php, include/check_priv.php, include/jrn.php:
+	Fix : permit to see the detail of an operation if
+	the user has access to at least one legder
+
+	* include/postgres.php:
+	Fix : Show detail of an operation if the user has access to at least
+	one ledger (case of ledger == 0 )
+
+	* html/user_pref.php:
+	Fix problem when changing passord due to register_global off
+
+2005-10-05  sparkyx  <sparkyx@january.intra-alchimerys.be>
+
+	* html/admin_repo.php, html/priv_user.php:
+	Fix bug for user creation - password
+
+	* html/admin/sql/patch/upgrade7.sql, html/admin_repo.php:
+	Task #3108 : Domaine fix prob with modele
+
+2005-10-04  stanpinte  <stanpinte@january.intra-alchimerys.be>
+
+	* doc/manuel-fr.sgml: Corrige une ou deux fautes
+
+2005-10-04  sparkyx  <sparkyx@january.intra-alchimerys.be>
+
+	* AUTHORS: Correct my email
+
+2005-10-03  sparkyx  <sparkyx@january.intra-alchimerys.be>
+
+	* html/annulation.php, include/constant.php:
+	Add a confirmation dialog box before canceling a writing
+
+	* include/form_input.php: Fix problem with sequence j_grpt
+
 2005-09-28  sparkyx  <sparkyx@january.intra-alchimerys.be>
+
+	* html/admin/setup.php, html/annulation.php:
+	Fix : the jr_id computed was wrong
+	Fix : setup.php didn't update mod
+
+	* html/admin/sql/patch/upgrade7.sql: Index ?
+
+	* Changelog: changelog
 
 	* include/user_common.php, html/annulation.php:
 	Improve : when nullify an operation thanks a reversed operation
@@ -1598,7 +1707,12 @@
 	New documentation
 	task 3106
 
-	* sql/tva_rate.sql, sql/ac_users.sql, sql/dos_pref.sql, sql/fiche.sql, sql/journal.sql, sql/jrn_action.sql, include/user_common.php, include/preference.php, include/user_action_ach.php, include/user_action_ven.php, include/user_menu.php, include/ac_common.php, include/constant.php, include/fiche_inc.php, include/form_input.php, include/jrn.php, html/compta.php, html/enc_jrn.php, html/impress.php, html/jrn_op_detail.php, html/jrn_search.php, html/print_invoice.php, html/show_tva.php, html/user_advanced.php, html/win_search_jrn.js:
+	* sql/tva_rate.sql, sql/ac_users.sql, sql/dos_pref.sql, sql/fiche.sql, sql/journal.sql, sql/jrn_action.sql, include/user_common.php:
+	Creation of the interface USER
+
+	* include/user_action_ach.php: Correct the vat label
+
+	* include/preference.php, include/user_action_ven.php, include/user_menu.php, include/ac_common.php, include/constant.php, include/fiche_inc.php, include/form_input.php, include/jrn.php, html/compta.php, html/enc_jrn.php, html/impress.php, html/jrn_op_detail.php, html/jrn_search.php, html/print_invoice.php, html/show_tva.php, html/user_advanced.php, html/win_search_jrn.js:
 	Creation of the interface USER
 
 	* style-light.css: new class div.u_redcontent
@@ -1683,8 +1797,10 @@
 
 	* include/form_input.php: Form for the user profile
 
-	* html/impress.php, html/jrn_add.php, html/jrn_detail.php, include/ac_common.php, include/constant.php, include/fiche_inc.php, include/jrn.php, include/user_action_ven.php:
+	* html/impress.php, html/jrn_add.php, html/jrn_detail.php, include/ac_common.php, include/constant.php, include/fiche_inc.php, include/jrn.php:
 	Continue work for user profile
+
+	* include/user_action_ven.php: Correct the vat label
 
 	* style-elegant.css, style-light.css, style.css, style-aqua.css:
 	New style mtitle2
