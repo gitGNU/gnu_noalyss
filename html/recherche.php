@@ -49,21 +49,28 @@ ShowMenuCompta($_SESSION['g_dossier']);
 $search_box=u_ShowMenuRecherche($cn,0,$sessid,$_GET);
 echo '<DIV>'; // class="recherche_form">';
 echo $search_box;
- 
-// Navigation bar
-$step=$_SESSION['g_pagesize'];
-$page=(isset($_GET['offset']))?$_GET['page']:1;
-$offset=(isset($_GET['offset']))?$_GET['offset']:0;
+////////////////////////////////////////////////////////////////////////////////
+// Display search result
+////////////////////////////////////////////////////////////////////////////////
+if ( isset ($_GET['viewsearch'])) {
+  // Navigation bar
+  $step=$_SESSION['g_pagesize'];
+  $page=(isset($_GET['offset']))?$_GET['page']:1;
+  $offset=(isset($_GET['offset']))?$_GET['offset']:0;
+  if (count ($_GET) == 0) 
+    $array=null;
+  else
+     $array=$_GET;
+  
+  list($max_line,$a)=ListJrn($cn,0,"",$array,$offset);
+  $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
 
-list($max_line,$a)=ListJrn($cn,0,"",$_GET,$offset);
-$bar=jrn_navigation_bar($offset,$max_line,$step,$page);
-
-echo '<div class="result">';
-echo $bar;
-echo $a;
-echo $bar;
-echo '</div>';
-
+  echo '<div class="result">';
+  echo $bar;
+  echo $a;
+  echo $bar;
+  echo '</div>';
+}
 echo '</DIV>'; 
  
 ?>

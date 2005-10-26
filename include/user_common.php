@@ -337,7 +337,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0)
 
   $Max=pg_NumRows($Res);
 
-  if ($Max==0) return "No row selected";
+  if ($Max==0) return array(0,"No row selected");
 
   $r.="<TABLE width=\"100%\">";
   $l_sessid=$_REQUEST['PHPSESSID'];
@@ -748,8 +748,13 @@ function jrn_navigation_bar($p_offset,$p_line,$p_size,$p_page=1)
   }// if
   // compute max of page
   $nb_page=($p_line-($p_line%$p_size))/$p_size;
+
   // if something remains
   if ( $p_line % $p_size != 0 ) $nb_page+=1;
+
+  // if max page == 1 then return a empty string
+  if ( $nb_page == 1) return "";
+
   $r="";
   // previous
   if ($p_page !=1) {
