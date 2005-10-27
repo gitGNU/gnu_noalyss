@@ -1,4 +1,23 @@
+2005-10-27  sparkyx  <sparkyx@january.intra-alchimerys.be>
+
+	* include/form_input.php: task #3840 Code Cleaning
+
+	* doc/header-file.txt, include/user_action_ods.php, include/user_form_fin.php, include/user_form_ods.php:
+	Task #3840 : Code Cleaning
+
+	* html/style-light.css: Task #3840 Code Cleaning
+
+	* html/jrn_search.php: Task #4857 : add a pagesize
+
+	* include/class_widget.php, include/form_input.php, include/user_form_ach.php, include/user_form_ven.php, include/user_action_fin.php:
+	Task #3840 Code Cleaning
+
 2005-10-26  sparkyx  <sparkyx@january.intra-alchimerys.be>
+
+	* html/recherche.php, include/user_common.php:
+	Task #4857 : For the big databases a nav. bar is now implemented
+
+	* Changelog: changelog
 
 	* include/user_action_ach.php, include/user_action_fin.php, include/user_action_gl.php, include/user_action_ods.php, include/user_action_ven.php, include/user_common.php, include/user_menu.php, html/recherche.php, html/user_pref.php, include/fiche_inc.php:
 	Task #4857 : For the big databases a nav. bar is now implemented
