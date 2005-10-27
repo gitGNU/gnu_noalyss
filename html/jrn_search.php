@@ -18,8 +18,9 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
-include_once ("ac_common.php");
-include_once ("postgres.php");
+require_once ("ac_common.php");
+require_once ("postgres.php");
+require_once("user_common.php");
 /* Admin. Dossier */
 $rep=DbConnect();
 include_once ("class_user.php");
@@ -57,9 +58,9 @@ $condition="";
 $part=" where ";
 $cn=DbConnect($_SESSION['g_dossier']);
 // if search then build the condition
-if ( isset ($_POST["search"]) ) {
+if ( isset ($_GET["search"]) ) {
   $c1=0;
-  foreach( $HTTP_POST_VARS as $key=>$element){
+  foreach( $_GET as $key=>$element){
     echo_debug(__FILE__,__LINE__,"$key = $element");
     ${"$key"}=$element;
   }
@@ -100,7 +101,7 @@ if ( $User->admin != 1 ) {
 ?>
 <div style="font-size:11px;">
 <?
-echo '<FORM ACTION="jrn_search.php" METHOD="POST">';
+echo '<FORM ACTION="jrn_search.php" METHOD="GET">';
 echo '<TABLE>';
 echo '<TR>';
 if ( ! isset ($p_date)) $p_date="";
@@ -131,26 +132,43 @@ echo '<INPUT TYPE="submit" name="search" value="cherche">';
 echo '</FORM>';
 
 // if a search is asked otherwise don't show all the rows
-if ( isset ($_POST["search"]) ) {
-  $Res=ExecSql($cn,"select j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
+if ( isset ($_GET["search"]) ) {
+  $sql="select j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
                  j_montant,j_poste,j_debit,j_tech_per,jr_id,jr_comment,j_grpt,pcm_lib,jr_internal from jrnx inner join 
                  jrn on jr_grpt_id=j_grpt inner join tmp_pcmn on j_poste=pcm_val ".
-	       " inner join user_sec_jrn on uj_jrn_id=j_jrn_def".
-	       $condition." order by jr_date,jr_id,j_debit desc");
+    " inner join user_sec_jrn on uj_jrn_id=j_jrn_def".
+    $condition." order by jr_date,jr_id,j_debit desc";
+  $Res=ExecSql($cn,$sql);
 
   $MaxLine=pg_NumRows($Res);
-  if ( $MaxLine==0) { 
-    html_page_stop();
-    return;
+  $offset=(isset($_GET['offset']))?$_GET['offset']:0;
+  $limit=$_SESSION['g_pagesize'];
+  $sql_limit="";
+  $sql_offset="";
+  if ( $limit != -1) {
+    $page=(isset($_GET['page']))?$_GET['page']:0;
+    $sql_limit=" LIMIT $limit ";
+    $sql_offset=" OFFSET $offset ";
+    $bar=jrn_navigation_bar($offset,$MaxLine,$limit,$page);
+
   }
+  $sql.=$sql_limit.$sql_offset;
+   if ( $MaxLine==0) { 
+     html_page_stop();
+     return;
+   }
+  $Res=ExecSql($cn,$sql);
+  $MaxLine=pg_NumRows($Res);
+
   $col_vide="<TD></TD>";
+  echo $bar;
   echo '<TABLE ALIGN="center" BORDER="0" CELLSPACING="O">';
   $l_id="";
-  if ( $MaxLine > 250 ) {
-    echo "Trop de lignes redéfinir la recherche";
-    html_page_stop();
-    return;
-  }
+//   if ( $MaxLine > 250 ) {
+//     echo "Trop de lignes redéfinir la recherche";
+//     html_page_stop();
+//     return;
+//   }
   for ( $i=0; $i < $MaxLine; $i++) {
     $l_line=pg_fetch_array($Res,$i);
     if ( $l_id == $l_line['j_grpt'] ) {
@@ -203,6 +221,7 @@ if ( isset ($_POST["search"]) ) {
   }
   
   echo '</TABLE>';
+  echo $bar;
 }// if $_POST [search]
 ?>
 </div>
