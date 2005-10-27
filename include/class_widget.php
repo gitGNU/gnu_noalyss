@@ -73,8 +73,9 @@ class widget {
     if (strtoupper($this->type)=="TEXT") {
       if ( $this->readonly==false) {
 	$r="<INPUT TYPE=\"TEXT\" NAME=\"$p_name\" VALUE=\"$this->value\" SIZE=\"$this->size\" ".$disabled.">";} else {
-	$r=$this->value;
-      }
+	    $r=sprintf('<span>%s</span><input type="hidden" name="%s" value="%s"></TD>', $this->value,$this->name,$this->value);
+	}
+	
       if ($this->table==1) {
 	if ( $this->label != "") {
 	  $r="<TD>".$this->label."</TD><TD>".$r."</TD>";
@@ -293,24 +294,50 @@ class widget {
     return $r;
   }// end type = span
 
-//   // input type == js_tva
-//   if ( strtolower($this->type)=="js_tva") {
-//     $id=sprintf("<span id=%s></span>",$this->label);
-//        $r=sprintf('%s<TD> <INPUT TYPE="Text" NAME="%s" VALUE="%s" SIZE="3" onChange="ChangeTVA(\'%s\',\'%s\');">',
-// 		  $id,
-// 	       $this->name,
-// 	       $this->value,
-// 	       $this->label,
-// 	       $this->name);
-//     $l_sessid=$_REQUEST['PHPSESSID'];
-//     $r.=sprintf("<input type=\"button\" value=\"Tva\" 
-//     	onClick=\"
-//        	           ShowTva('%s','%s');\"></TD>",
-// 		$l_sessid,$this->name);
-//     return $r;
-//   }
+   // input type == js_tva
+   if ( strtolower($this->type)=="js_tva") {
+     $id=sprintf("<span id=%s></span>",$this->label);
+        $r=sprintf('%s<TD> <INPUT TYPE="Text" NAME="%s" VALUE="%s" SIZE="3" onChange="ChangeTVA(\'%s\',\'%s\');">',
+ 		  $id,
+ 	       $this->name,
+ 	       $this->value,
+ 	       $this->label,
+ 	       $this->name);
+     $l_sessid=$_REQUEST['PHPSESSID'];
+     $r.=sprintf("<input type=\"button\" value=\"Tva\" 
+     	onClick=\"
+        	           ShowTva('%s','%s');\"></TD>",
+ 		$l_sessid,$this->name);
+     return $r;
+   }
 
+  // input type == js_concerned => button search for the concerned operations
+  if ( strtolower($this->type)=="js_concerned") {
+    if ( $this->readonly == false) {
+      $l_sessid=$_REQUEST['PHPSESSID'];
+      $r=sprintf('<TD>
+         <INPUT TYPE="button" onClick=SearchJrn(\'%s\',\'%s\') value="Search">
+            %s</TD><TD> 
+
+             <INPUT TYPE="Text" NAME="%s" VALUE="%s" SIZE="8">
+                 </TD>',
+		 $l_sessid,
+		 $this->name,
+		 $this->label,
+		 $this->name,
+		 $this->value 
+		 );
+    } else {
+      $r=sprintf("<TD><span>%s</span>",$this->value);
+      $r.=sprintf('<input type="hidden" name="%s" value="%s"></TD>', $this->name,$this->value);
+    }
+
+    return $r;
+  }// end js_concerned
+  return "INVALID WIDGET ";
   } //end function
+  /* Debug
+   */
   function debug() {
     echo "Type ".$this->type."<br>";
     echo "name ".$this->name."<br>";
