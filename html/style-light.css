@@ -14,14 +14,12 @@ div.result {
   
  }
 table.result th { 
-
   font-size:11px;
   font-weight:bold;
   font-family:sans-serif;
   border-bottom:1px solid blue;
   padding-left:10px;
   padding-right:10px;
-
 }
 
 h2 {
