@@ -19,7 +19,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
 echo_debug(__FILE__,__LINE__,"include user_action_ods.php");
-include_once("form_input.php");
+include_once("user_form_ods.php");
 include_once("class_widget.php");
 
 $cn=DbConnect($_SESSION['g_dossier']);
