@@ -306,7 +306,8 @@ for ($o = 0;$o < $p_number; $o++) {
   $p_ech=date('d.m.Y',mktime(0,0,0,$month,$day+$e_ech,$year));
   echo_debug(__FILE__,__LINE__,"p_ech = $e_ech $p_ech");
   $e_ech=$p_ech;
-  $data.=InputType("","HIDDEN","e_ech",$e_ech);
+  $wHidden=new widget("hidden");
+  $data.=$wHidden->IOValue("e_ech",$e_ech);
  }
 
  // Check if the fiche is in the jrn

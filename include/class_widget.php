@@ -73,7 +73,7 @@ class widget {
     if (strtoupper($this->type)=="TEXT") {
       if ( $this->readonly==false) {
 	$r="<INPUT TYPE=\"TEXT\" NAME=\"$p_name\" VALUE=\"$this->value\" SIZE=\"$this->size\" ".$disabled.">";} else {
-	    $r=sprintf('<span>%s</span><input type="hidden" name="%s" value="%s"></TD>', $this->value,$this->name,$this->value);
+	    $r=sprintf('<span>%s</span><input type="hidden" name="%s" value="%s">', $this->value,$this->name,$this->value);
 	}
 	
       if ($this->table==1) {
