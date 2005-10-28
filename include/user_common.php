@@ -36,12 +36,15 @@ include_once("postgres.php");
  */
 
 function GetTvaRate($p_cn,$p_tva_id) {
+  // $p_tva_id is an empty string, returns 0
   if (strlen(trim($p_tva_id))==0) return 0;
-$Res=ExecSql($p_cn,"select tva_id,tva_rate,tva_label from tva_rate where tva_id=".$p_tva_id);
-if (pg_NumRows($Res) == 0 ) return null;
 
-$r=pg_fetch_array($Res,0);
-return $r;
+  // Get vat info from the database
+  $Res=ExecSql($p_cn,"select tva_id,tva_rate,tva_label from tva_rate where tva_id=".$p_tva_id);
+  if (pg_NumRows($Res) == 0 ) return null;
+
+  $r=pg_fetch_array($Res,0);
+  return $r;
 
 }
 /* function ComputeVat($p_cn,$a_fiche,$a_quant,$a_price,$ap_vat)
@@ -53,10 +56,10 @@ return $r;
  *        
  * parm : 
  *	- database connection
- *  - fiche id array
- *  - quantity array 
- *  - price array 
- *  - $ap_vat Array of tva id
+ *      - fiche id array
+ *      1- quantity array 
+ *      - price array 
+ *      - $ap_vat Array of tva id
  * gen :
  *	-
  * return: array
@@ -69,6 +72,7 @@ echo_debug(__FILE__,__LINE__,"ComputeVat $a_fiche $a_quant $a_price");
  }
  $r=null;
 // foreach goods 
+//--
  foreach ( $a_fiche as $idx=>$element) {
    echo_debug ("idx $idx element $element");
   // if the card id is null or empty 
@@ -369,68 +373,66 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0)
     $r.="</TD>";
     // echeance
     $r.="<TD>";
-	$r.=$row['jr_ech'];
-	$r.="</TD>";
+    $r.=$row['jr_ech'];
+    $r.="</TD>";
+    
+    // comment
+    $r.="<TD>";
+    $r.=$row['jr_comment'];
+    $r.="</TD>";
+    
+    // Amount
+    // If the ledger is financial :
+    // the credit must be negative and written in red
+    // Get the jrn type
+    $jrn_prop=GetJrnProp($p_cn,$row['jrn_def_id'],1);  
+    $positive=0;
+    if ( $positive=1  &&  $jrn_prop['jrn_def_type'] == 'FIN' ) {
+      $positive = CountSql($p_cn,"select * from jrn inner join jrnx on jr_grpt_id=j_grpt ".
+			   " where jr_id=".$row['jr_id']." and (j_poste like '55%' or j_poste like '57%' )".
+			   " and j_debit='f'");
+    }
+    $r.="<TD align=\"right\">";
+    $r.=( $positive != 0 )?"<font color=\"red\">  - ".sprintf("%8.2f",$row['jr_montant'])."</font>":sprintf("%8.2f",$row['jr_montant']);
+    $r.="</TD>";
+    
+    // Rapt
+    $a=GetConcerned($p_cn,$row['jr_id']);
+    $r.="<TD>";
+    if ( $a != null ) {
+      // $r.="operation concernée ";
+      
+      foreach ($a as $key => $element) {
+	$r.= "<A class=\"detail\" HREF=\"javascript:viewDetail('".GetGrpt($p_cn,$element)."','$l_sessid')\" > ".GetInternal($p_cn,$element)."</A>";
 	
-// comment
-	$r.="<TD>";
-	$r.=$row['jr_comment'];
-	$r.="</TD>";
-	
-// Amount
-	// If the ledger is financial :
-	// the credit must be negative and written in red
-  	// Get the jrn type
-	$jrn_prop=GetJrnProp($p_cn,$row['jrn_def_id'],1);  
-	$positive=0;
-	if ( $positive=1  &&  $jrn_prop['jrn_def_type'] == 'FIN' ) {
-	  $positive = CountSql($p_cn,"select * from jrn inner join jrnx on jr_grpt_id=j_grpt ".
-		   " where jr_id=".$row['jr_id']." and (j_poste like '55%' or j_poste like '57%' )".
-			       " and j_debit='f'");
-	}
-	$r.="<TD align=\"right\">";
-	$r.=( $positive != 0 )?"<font color=\"red\">  - ".sprintf("%8.2f",$row['jr_montant'])."</font>":sprintf("%8.2f",$row['jr_montant']);
-	$r.="</TD>";
-	
-// Rapt
-	$a=GetConcerned($p_cn,$row['jr_id']);
-	$r.="<TD>";
-	if ( $a != null ) {
-	  // $r.="operation concernée ";
-
-	  foreach ($a as $key => $element) {
-	    $r.= "<A class=\"detail\" HREF=\"javascript:viewDetail('".GetGrpt($p_cn,$element)."','$l_sessid')\" > ".GetInternal($p_cn,$element)."</A>";
-
-	  }//for
-	}// if ( $a != null ) {
-	$r.="</TD>";
-	//$l=user_jrn.php?action=update&line=91
-	
-	if ( $row['jr_valid'] == 'f'  ) {
-	  $r.="<TD> Opération annulée</TD>";
-	}
-	else {
-	  // if ( $row ['p_closed'] == 'f' && $p_jrn != 0 ) {
-	    // TODO Add print
-	    $r.="<TD>";
-	    // cancel operation
-	    $r.=sprintf('<input TYPE="BUTTON" VALUE="%s" onClick="cancelOperation(\'%s\',\'%s\',\'%s\')">',
-			"Annuler",$row['jr_grpt_id'],$l_sessid,$p_jrn);
-	    $r.="</TD>";
-	    // }
-	}
-	//document
-	$r.="<TD>".sprintf('<A class="detail" HREF="show_document.php?jrn=%s&jr_grpt_id=%s">%s</A>',
-		$p_jrn,
-		$row['jr_grpt_id'],
-		$row['jr_pj_name'])."</TD>";
-
-// end row
-	$r.="</tr>";
-	
-	}
-$r.="</table>";
-
+      }//for
+    }// if ( $a != null ) {
+    $r.="</TD>";
+    //$l=user_jrn.php?action=update&line=91
+    
+    if ( $row['jr_valid'] == 'f'  ) {
+      $r.="<TD> Opération annulée</TD>";
+    }    else {
+      // all operations can be removed either by setting to 0 the amount
+      // or by writing the opposite operation if the period is closed
+      $r.="<TD>";
+      // cancel operation
+      $r.=sprintf('<input TYPE="BUTTON" VALUE="%s" onClick="cancelOperation(\'%s\',\'%s\',\'%s\')">',
+		  "Annuler",$row['jr_grpt_id'],$l_sessid,$p_jrn);
+      $r.="</TD>";
+    } // else
+    //document
+    $r.="<TD>".sprintf('<A class="detail" HREF="show_document.php?jrn=%s&jr_grpt_id=%s">%s</A>',
+		       $p_jrn,
+		       $row['jr_grpt_id'],
+		       $row['jr_pj_name'])."</TD>";
+    
+    // end row
+    $r.="</tr>";
+    
+  }
+  $r.="</table>";
+  
 return array ($count,$r);
 }
 

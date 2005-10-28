@@ -107,7 +107,7 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
   $sum_deb=0.0;
   $sum_cred=0.0;
 
-
+  // for each good
   for ($i=0;$i< $p_article;$i++) {
 
     $account=(isset(${"e_account$i"}))?${"e_account$i"}:"";
@@ -155,7 +155,6 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
     //libelle
     $r.="<td> $lib </td>";
     //amount
-    //    $r.=InputType("","text","e_account".$i."_amount",${"e_account$i"."_amount"},$pview_only);
     $wAmount=new widget("text");
     $wAmount->table=1;
     $wAmount->SetReadOnly($pview_only);
@@ -178,7 +177,7 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
     $r.='</TR>';
     $sum_deb+=(${"e_account$i"."_type"}=='d')?${"e_account$i"."_amount"}:0;
     $sum_cred+=(${"e_account$i"."_type"}=='c')?${"e_account$i"."_amount"}:0;
-  }
+  } // End for 
 
   $r.="</TABLE>";
 

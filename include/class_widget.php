@@ -53,21 +53,22 @@ class widget {
   function SetReadOnly($p_read) {
     $this->readonly=$p_read;
   }
-  /*+++ 
-  function IOValue($p_name,$p_value="",$p_label="") {
-  purpose : create the INPUT tag 
-  parameters: $p_name is the INPUT NAME
-              $p_value is the INPUT VALUE or an array for select
-              $p_label is the label of the INPUT
-  return : string containing the tag
-  +++*/
+  /*  function IOValue($p_name,$p_value="",$p_label="") 
+   *****************************************************
+   *  purpose : create the corresponding INPUT tag 
+   *        
+   *  parameters: $p_name is the INPUT NAME
+   *          $p_value is the INPUT VALUE or an array for select
+   *          $p_label is the label of the INPUT
+   *  return : string containing the tag
+   */
   function IOValue($p_name=null,$p_value=null,$p_label="") {
-    //    echo __FILE__."p_value $p_value";
+    
     if ( $p_name != null)
       $this->name=$p_name;
     $this->value=($p_value===null)?$this->value:$p_value;
     $this->label=($p_label == "")?$this->label:$p_label;
-    //echo "this->value =".$this->value;
+    
     // Input text type
     $disabled = $this->disabled ? "DISABLED" : "";
     if (strtoupper($this->type)=="TEXT") {

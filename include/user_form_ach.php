@@ -29,15 +29,14 @@ require_once("user_common.php");
  *           or update one
  *        
  * parm : 
- *	- p_array which can be empty
- *      - the "journal"
+ *	- $p_array which can be empty (normally = $_POST)
+ *      - $p_jrn the ledger
  *      - $p_periode = periode
- *      - view_only if we cannot change it (no right or centralized op)
+ *      - $pview_only if we cannot change it (no right or centralized op)
  *      - $p_article number of article
  * gen :
  *	-
  * return: string with the form
- * TODO Add in parameters the infos about the company for making the invoice
  */
 function FormAchInput($p_cn,$p_jrn,$p_periode,$p_array=null,$p_submit="",$pview_only=true,$p_article=1)
 { 
@@ -51,7 +50,7 @@ function FormAchInput($p_cn,$p_jrn,$p_periode,$p_array=null,$p_submit="",$pview_
   $op_date=( ! isset($e_date) ) ?substr($l_date_start,2,8):$e_date;
   $e_ech=(isset($e_ech))?$e_ech:"";
   $e_comm=(isset($e_comm))?$e_comm:"";
-  //  $e_jrn=(isset($e_jrn))?$e_jrn:"";
+
   // Save old value and set a new one
   echo_debug(__FILE__,__LINE__,"form_input.php.FormSell_op_date is $op_date");
   $r="";
@@ -65,20 +64,24 @@ function FormAchInput($p_cn,$p_jrn,$p_periode,$p_array=null,$p_submit="",$pview_
   $sql="select jrn_def_id as value,jrn_def_name as label from jrn_def where jrn_def_type='VEN'";
   $list=GetArray($p_cn,$sql);
   $r.='<TABLE>';
-  //  $r.='<TR>'.InputType("Date ","Text","e_date",$op_date,$pview_only).'</TR>';
+  // Date widget
+  //--
   $Date=new widget("text");
   $Date->SetReadOnly($pview_only);
   $Date->table=1;
   $r.="<tr>";
   $r.=$Date->IOValue("e_date",$op_date,"Date");
   $r.="</tr>";
+  // Payment limit widget
+  //--
   $Echeance=new widget("text");
   $Echeance->SetReadOnly($pview_only);
   $Echeance->table=1;
   $r.="<tr>";
   $r.=$Echeance->IOValue("e_ech",$e_ech,"Echeance");
   $r.="</tr>";
-
+  // Comment
+  //--
   $Commentaire=new widget("text");
   $Commentaire->table=1;
   $Commentaire->SetReadOnly($pview_only);
@@ -87,9 +90,10 @@ function FormAchInput($p_cn,$p_jrn,$p_periode,$p_array=null,$p_submit="",$pview_
   $r.=$Commentaire->IOValue("e_comm",$e_comm,"Description");
   $r.="</tr>";
   include_once("fiche_inc.php");
-  // Display the customer
+  // Display the supplier
+  //--
   $fiche='cred';
-  echo_debug(__FILE__,__LINE__,"Client Nombre d'enregistrement ".sizeof($fiche));
+  echo_debug(__FILE__,__LINE__,"Fournisseurs Nombre d'enregistrement ".sizeof($fiche));
   // Save old value and set a new one
   $e_client=( isset ($e_client) )?$e_client:"";
 
@@ -108,7 +112,7 @@ function FormAchInput($p_cn,$p_jrn,$p_periode,$p_array=null,$p_submit="",$pview_
 	  $e_client_label=$a_client['vw_name']."  adresse ".$a_client['vw_addr']."  ".$a_client['vw_cp'];
     }
   }
-
+  // widget search
   $W1=new widget("js_search");
   $W1->label="Fournisseur";
   $W1->name="e_client";
@@ -138,8 +142,11 @@ function FormAchInput($p_cn,$p_jrn,$p_periode,$p_array=null,$p_submit="",$pview_
   $r.="<th>tva</th>";
   $r.="<th>quantité</th>";
   $r.='</TR>';
-  //  $fiche=GetFicheJrn($p_cn,$p_jrn,'cred');
-  //  echo_debug(__FILE__,__LINE__,"Cred Nombre d'enregistrement ".sizeof($fiche));
+  // For each article
+  // compute amount
+  // verify if card exists
+  // retrieve vat label
+  //--
   for ($i=0;$i< $p_article;$i++) {
     // Code id
     $march=(isset(${"e_march$i"}))?${"e_march$i"}:"";
@@ -169,7 +176,7 @@ function FormAchInput($p_cn,$p_jrn,$p_periode,$p_array=null,$p_submit="",$pview_
       }
     }
     // Show input
-    //    $r.='<TR>'.InputType("","js_search","e_march".$i,$march,$pview_only,'cred');
+
     $W1=new widget("js_search");
     $W1->label="";
     $W1->name="e_march".$i;
@@ -181,13 +188,11 @@ function FormAchInput($p_cn,$p_jrn,$p_periode,$p_array=null,$p_submit="",$pview_
     $Span=new widget ("span");
     $Span->SetReadOnly($pview_only);
     // card's name
-    //$r.=InputType("","span", "e_march".$i."_label", $march_label,$pview_only);
     $r.="<TD>".$Span->IOValue("e_march".$i."_label",$march_label)."</TD>";
    // price
     $Price=new widget("text");
     $Price->SetReadOnly($pview_only);
     $Price->table=1;
-    //$r.=InputType("","text","e_march".$i."_sell",$march_sell,$pview_only);
     $r.=$Price->IOValue("e_march".$i."_sell",$march_sell);
     // vat label
     $select_tva=make_array($p_cn,"select tva_id,tva_label from tva_rate order by tva_id",1);
@@ -201,7 +206,6 @@ function FormAchInput($p_cn,$p_jrn,$p_periode,$p_array=null,$p_submit="",$pview_
     $Quantity=new widget("text");
     $Quantity->SetReadOnly($pview_only);
     $Quantity->table=1;
-    //$r.=InputType("","TEXT","e_quant".$i,$quant,$pview_only);
     $r.=$Quantity->IOValue("e_quant".$i,$quant);
     $r.='</TR>';
   }

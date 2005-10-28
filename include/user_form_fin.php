@@ -113,7 +113,7 @@ function FormFin($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
     
   }
   
-  //  $r.='<TR>'.InputType("Banque","js_search","e_bank_account",$e_bank_account,$pview_only,FICHE_TYPE_FIN).'</TR>';
+  //  search widget
     $W1=new widget("js_search");
     $W1->readonly=$pview_only;
     $W1->label="Banque";
@@ -125,7 +125,6 @@ function FormFin($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
 
     $r.="</TABLE>";
   
-  //  $r.=       InputType(""       ,"span"   ,"e_bank_account_label",$e_bank_account_label,false).'</TD>';
     $Span=new widget ("span");
     $Span->SetReadOnly($pview_only);
     $r.="<TD>".$Span->IOValue("e_bank_account_label",$e_bank_account_label)."</TD>";
@@ -195,9 +194,7 @@ function FormFin($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
     $other=new widget("span");
     $r.="<TD>";
     $r.=$other->IOValue("e_other$i"."_label", $tiers_label);
-    //    $r.=InputType("","span", "e_other$i"."_label", $tiers_label,$pview_only);
     // Comment
-    //    $r.=InputType("","Text","e_other$i"."_comment",$tiers_comment,$pview_only);
     $wComment=new widget("text");
     $wComment->table=1;
     $wComment->SetReadOnly($pview_only);
@@ -207,10 +204,9 @@ function FormFin($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
     $wAmount->table=1;
     $wAmount->size=7;
     $wAmount->SetReadOnly($pview_only);
-    //    $r.=InputType("","TEXT","e_other$i"."_amount",$tiers_amount,$pview_only);
     $r.=$wAmount->IOValue("e_other$i"."_amount",$tiers_amount);
+    // concerned
     ${"e_concerned".$i}=(isset(${"e_concerned".$i}))?${"e_concerned".$i}:"";
-    //    $r.=InputType("","js_concerned","e_concerned".$i,${"e_concerned".$i},$pview_only);
     $wConcerned=new widget("js_concerned");
     $wConcerned->SetReadOnly($pview_only);
     $r.=$wConcerned->IOValue("e_concerned".$i,${"e_concerned".$i});
@@ -306,7 +302,6 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
 
     $amount+=${"e_other$i"."_amount"};
     // Record a line for the bank
-    //    $type=( ${"e_other$i"."_amount"} < 0 )?'d':'c';
 
     // Compute the j_grpt
     $seq=NextSequence($p_cn,'s_grpt');
@@ -317,7 +312,6 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
 
 
     // Record a line for the other account
-    //    $type=( ${"e_other$i"."_amount"} < 0 )?'c':'d';
     if ( ($j_id=InsertJrnx($p_cn,'c',$p_user->id,$p_jrn,$poste,$e_date,round(${"e_other$i"."_amount"},2),$seq,$periode)) == false )
       { $Rollback($p_cn);exit("error __FILE__ __LINE__");}
 

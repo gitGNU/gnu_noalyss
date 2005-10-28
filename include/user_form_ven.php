@@ -1,4 +1,4 @@
-<?
+w<?
 /*
  *   This file is part of PhpCompta.
  *
@@ -68,20 +68,24 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
   $sql="select jrn_def_id as value,jrn_def_name as label from jrn_def where jrn_def_type='VEN'";
   $list=GetArray($p_cn,$sql);
   $r.='<TABLE>';
-  //  $r.='<TR>'.InputType("Date ","Text","e_date",$op_date,$pview_only).'</TR>';
+  //  Date
+  //--
   $Date=new widget("text");
   $Date->SetReadOnly($pview_only);
   $Date->table=1;
   $r.="<tr>";
   $r.=$Date->IOValue("e_date",$op_date,"Date");
   $r.="</tr>";
+  // Payment limit
+  //--
   $Echeance=new widget("text");
   $Echeance->SetReadOnly($pview_only);
   $Echeance->table=1;
   $r.="<tr>";
   $r.=$Echeance->IOValue("e_ech",$e_ech,"Echeance");
   $r.="</tr>";
-
+  // Comment
+  //--
   $Commentaire=new widget("text");
   $Commentaire->table=1;
   $Commentaire->SetReadOnly($pview_only);
@@ -91,14 +95,16 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
   $r.="</tr>";
   include_once("fiche_inc.php");
   // Display the customer
+  //--
   $fiche='deb';
   echo_debug(__FILE__,__LINE__,"Client Nombre d'enregistrement ".sizeof($fiche));
   // Save old value and set a new one
+  //--
   $e_client=( isset ($e_client) )?$e_client:"";
-
   $e_client_label="";  
 
   // retrieve e_client_label
+  //--
   if ( isNumber($e_client) == 1 ) {
     if ( isFicheOfJrn($p_cn,$p_jrn,$e_client,'deb') == 0 ) {
       $msg="Fiche inexistante !!! ";
@@ -141,10 +147,11 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
   $r.="<th>tva</th>";
   $r.="<th>quantité</th>";
   $r.='</TR>';
-  //  $fiche=GetFicheJrn($p_cn,$p_jrn,'cred');
-  //  echo_debug(__FILE__,__LINE__,"Cred Nombre d'enregistrement ".sizeof($fiche));
+  // For each article
+  //--
   for ($i=0;$i< $p_article;$i++) {
-    // Code id
+    // Code id, price & vat code
+    //--
     $march=(isset(${"e_march$i"}))?${"e_march$i"}:"";
     $march_sell=(isset(${"e_march".$i."_sell"}))?${"e_march".$i."_sell"}:"";
     $march_tva_id=(isset(${"e_march$i"."_tva_id"}))?${"e_march$i"."_tva_id"}:"";
@@ -153,6 +160,7 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
     $march_label="";
 
     // If $march has a value
+    //--
     if ( isNumber($march) == 1 ) {
       if ( isFicheOfJrn($p_cn,$p_jrn,$march,'cred') == 0 ) {
 	$msg="Fiche inexistante !!! ";
@@ -161,6 +169,7 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
 	$march="";
       } else {
 	// retrieve the tva label and name
+	//--
 	$a_fiche=GetFicheAttribut($p_cn, $march);
 	if ( $a_fiche != null ) {
 	  if ( $march_tva_id == "" ) {
@@ -172,7 +181,7 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
       }
     }
     // Show input
-    //    $r.='<TR>'.InputType("","js_search","e_march".$i,$march,$pview_only,'cred');
+    //--
     $W1=new widget("js_search");
     $W1->label="";
     $W1->name="e_march".$i;
@@ -183,16 +192,16 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
     $r.="<TR>".$W1->IOValue()."</TD>";
     $Span=new widget ("span");
     $Span->SetReadOnly($pview_only);
-    // card's name
-    //$r.=InputType("","span", "e_march".$i."_label", $march_label,$pview_only);
+    // card's name, price
+    //--
     $r.="<TD>".$Span->IOValue("e_march".$i."_label",$march_label)."</TD>";
    // price
     $Price=new widget("text");
     $Price->SetReadOnly($pview_only);
     $Price->table=1;
-    //$r.=InputType("","text","e_march".$i."_sell",$march_sell,$pview_only);
     $r.=$Price->IOValue("e_march".$i."_sell",$march_sell);
     // vat label
+    //--
     $select_tva=make_array($p_cn,"select tva_id,tva_label from tva_rate order by tva_id",1);
     $Tva=new widget("select");
     $Tva->table=1;
@@ -200,6 +209,7 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
     $r.=$Tva->IOValue("e_march$i"."_tva_id",$select_tva);
 
     // quantity
+    //--
     $quant=(isset(${"e_quant$i"}))?${"e_quant$i"}:"0";
     $Quantity=new widget("text");
     $Quantity->SetReadOnly($pview_only);
@@ -562,13 +572,14 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
   $periode=$p_user->GetPeriode();
   $amount=0.0;
   // Computing total customer
+  //--
   for ($i=0;$i<$nb_item;$i++) {
     // store quantity & goods in array
     $a_good[$i]=${"e_march$i"};
     $a_quant[$i]=${"e_quant$i"};
     $a_price[$i]=0;
     $a_vat[$i]=${"e_march$i"."_tva_id"};
-    // check wether the price is set or no
+    // check whether the price is set or no
     if ( isNumber(${"e_march$i"."_sell"}) == 0 ) {
       if ( isNumber($a_good[$i]) == 1 ) {
 	     // If the price is not set we have to find it from the database
@@ -579,10 +590,12 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
       $a_price[$i]=${"e_march$i"."_sell"};
     }
     $amount+=$a_price[$i]*$a_quant[$i];
-  }
-  $comm=FormatString($e_comm);
-  $a_vat=ComputeVat($p_cn,$a_good,$a_quant,$a_price,$a_vat);
+  }// for
 
+  $comm=FormatString($e_comm);
+  // Compute VAT
+  //--
+  $a_vat=ComputeVat($p_cn,$a_good,$a_quant,$a_price,$a_vat);
   $sum_vat=0.0;
   if ( $a_vat != null ){
     foreach ( $a_vat as $element => $t) {
