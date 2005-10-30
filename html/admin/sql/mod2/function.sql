@@ -1,35 +1,6 @@
 -- Name: plpgsql_call_handler(); Type: FUNCTION; Schema: public; Owner: postgres
 --
 
-CREATE FUNCTION plpgsql_call_handler() RETURNS language_handler
-    AS '$libdir/plpgsql', 'plpgsql_call_handler'
-    LANGUAGE c;
-ALTER FUNCTION public.plpgsql_call_handler() OWNER TO postgres;
-
---
--- Name: plpgsql_validator(oid); Type: FUNCTION; Schema: public; Owner: postgres
---
-
-CREATE FUNCTION plpgsql_validator(oid) RETURNS void
-    AS '$libdir/plpgsql', 'plpgsql_validator'
-    LANGUAGE c;
-ALTER FUNCTION public.plpgsql_validator(oid) OWNER TO postgres;
-
---
--- Name: plpgsql; Type: PROCEDURAL LANGUAGE; Schema: public; Owner: 
--- Name: plpython_call_handler(); Type: FUNCTION; Schema: public; Owner: postgres
---
-
-CREATE FUNCTION plpython_call_handler() RETURNS language_handler
-    AS '$libdir/plpython', 'plpython_call_handler'
-    LANGUAGE c;
-ALTER FUNCTION public.plpython_call_handler() OWNER TO postgres;
-
---
--- Name: plpythonu; Type: PROCEDURAL LANGUAGE; Schema: public; Owner: 
--- Name: check_balance(text); Type: FUNCTION; Schema: public; Owner: phpcompta
---
-
 CREATE FUNCTION check_balance(p_internal text) RETURNS numeric
     AS $$
 declare 

@@ -1,5 +1,3 @@
--- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: postgres
-COMMENT ON SCHEMA public IS 'Standard public schema';
 -- Name: TABLE "action"; Type: COMMENT; Schema: public; Owner: phpcompta
 COMMENT ON TABLE "action" IS 'The different privileges';
 -- Name: TABLE attr_def; Type: COMMENT; Schema: public; Owner: phpcompta

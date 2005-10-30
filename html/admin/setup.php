@@ -112,7 +112,7 @@ function ExecuteScript($p_cn,$script) {
 	    //echo "Blank $buffer";
       Continue;
     }
-    if ( strpos($buffer,"create function")===0 ) {
+    if ( strpos(strtolower($buffer),"create function")===0 ) {
 	    echo "found a function";
 	    $flag_function=true;
 	    $sql=$buffer;
@@ -124,7 +124,7 @@ function ExecuteScript($p_cn,$script) {
       continue;
     } 
     if ( $flag_function ) {
-	    if ( strpos($buffer, "language plpgsql") == false ) {
+      if ( strpos(strtolower($buffer), "language plpgsql") == false ) {
 		$sql.=$buffer;
 		continue;
 	    }
@@ -135,8 +135,9 @@ function ExecuteScript($p_cn,$script) {
     $sql.=$buffer;
     if ( ExecSql($p_cn,$sql) == false ) {
 	    Rollback($p_cn);
+	    if ( DEBUG=='false' ) ob_end_flush();
 	    print "ERROR : $sql";
-            break;
+            exit();
 	    }
     $sql="";
     $flag_function=false;
@@ -163,6 +164,9 @@ foreach (array('magic_quotes_gpc','magic_quotes_runtime') as $a) {
 	$flag_php++;
   }
 
+}
+if ( ini_get("max_execution_time") < 60 )  {
+	print '<h2 class="info"> max_execution_time should be set to 60 minimum</h2>';
 }
 if ( ini_get("session.auto_start") == false )  {
 	print '<h2 class="error"> session.auto_start must be set to true </h2>';
@@ -339,7 +343,7 @@ for ($e=0;$e < $MaxDossier;$e++) {
   $db_row=pg_fetch_array($Resdossier,$e);
   $db=DbConnect($db_row['dos_id'],'dossier');
   echo "Patching ".$db_row['dos_name']." from the version ".GetVersion($db)."<hr>";
-
+if ( DEBUG=='false' ) ob_start();
   if ( GetVersion($db) <= 4 ) { 
     ExecuteScript($db,'sql/patch/upgrade4.sql');
       
@@ -383,8 +387,8 @@ for ($e=0;$e < $MaxDossier;$e++) {
       ExecSql($db,"select setval('s_grpt',$M,true)");
     }
   } // version == 7
-
- }
+if ( DEBUG == 'false') ob_end_clean();
+ }//for
 
 $Resdossier=ExecSql($cn,"select mod_id, mod_name from modeledef");
 $MaxDossier=pg_NumRows($Resdossier);
@@ -393,6 +397,7 @@ for ($e=0;$e < $MaxDossier;$e++) {
   $db_row=pg_fetch_array($Resdossier,$e);
   echo "Patching ".$db_row['mod_name']."<hr>";
   $db=DbConnect($db_row['mod_id'],'mod');
+if (DEBUG == 'false' ) ob_start();
   if ( GetVersion($db) <= 4 ) { 
     ExecuteScript($db,'sql/patch/upgrade4.sql');
       
@@ -432,11 +437,12 @@ for ($e=0;$e < $MaxDossier;$e++) {
       ExecSql($db,"select setval('s_grpt',$M,true)");
     }
   } // version == 7
-
+if ( DEBUG == 'false') ob_end_clean();
  }
 
 echo "Upgrading Repository";
 $cn=DbConnect();
+if ( DEBUG == 'false') ob_start();
 if ( GetVersion($cn) <= 4 ) {
   ExecuteScript($cn,'sql/patch/ac-upgrade4.sql');
  }
@@ -446,3 +452,5 @@ if ( GetVersion($cn) == 5 ) {
 if ( GetVersion($cn) == 6 ) {
   ExecuteScript($cn,'sql/patch/ac-upgrade6.sql');
  }
+if (DEBUG=='false') ob_end_clean();
+echo "<h2 class=\"info\">Voilà tout est installé ;-)</h2>";
