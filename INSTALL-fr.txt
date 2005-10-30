@@ -13,7 +13,7 @@
 
 
   1. Avertissement
-  2. Postgresql (version 732 minimum)
+  2. Postgresql (version 8.0.1 minimum)
      2.1 Installation
      2.2 Configuration et démarrage de PostgreSql
      2.3 Optimisation
@@ -54,17 +54,20 @@
   Cependant, les configurations des différents produits sont importantes
   et devraient être lues avant d'appeler à l'aide.
 
-  [1m2.  Postgresql (version 732 minimum)[0m
+  [1m2.  Postgresql (version 8.0.1 minimum)[0m
 
   [1m2.1.  Installation[0m
 
   Soit avec des binaires préparés, soit à partir du code source
 
+  Le plus simple est d'utiliser les binaires de votre distribution, ne
+  compiler ces programmes que si vraiment vous devez le faire ou que
+  vous préfèrez avoir la dernière version disponible.
+
   Si vous décidez de le compiler vous-même, les options suivantes
   fonctionnent
 
-
-  ./configure -with-tk --with-python --with-perl --prefix=/opt/psql732
+  ./configure -with-tk --with-python --with-perl --prefix=/usr/local/psql
 
 
 
@@ -192,8 +195,6 @@
 
   Le fichier httpd.conf doit au moins contenir.
 
-
-
   LoadModule      php4_module     modules/libphp4.so
   AddType application/x-httpd-php .php4 .php3 .php .phtml
 
@@ -227,7 +228,7 @@
            --with-apxs2=/opt/http2/bin/apxs \
            --with-fastcgi \
            --with-zlib \
-           --with-pgsql=/opt/psql732 \
+           --with-pgsql=/usr/local/psql \
            --with-mysql \
            --with-apache2=/software/httpd-2.0.44
 

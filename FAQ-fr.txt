@@ -121,11 +121,13 @@
   session.cookie_path       = /tmp       ; the path the cookie is valid for
 
 
+  lors de l'installation (admin/setup.php), on vérifie que toutes les
+  paramètres d'initialisation sont corrects.
+
 
   [1m6.  Quand on réinitialise le mot de passe, que vaut-il ?[0m
 
   phpcompta
-
 
 
   [1m7.  Quel est l'utilisateur et le mot de passe par défaut?[0m

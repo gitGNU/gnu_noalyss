@@ -1,17 +1,9 @@
-************************* File = admin_dossier.php ****************
 ************************* File = admin_repo.php ****************
-************************* File = advanced.php ****************
 ************************* File = annulation.php ****************
-************************* File = a.php ****************
 ************************* File = bal_csv.php ****************
-************************* File = b.php ****************
+************************* File = bilan.php ****************
 ************************* File = central.php ****************
-************************* File = class.ezpdf.php ****************
-************************* File = class.pdf.php ****************
-************************* File = c.php ****************
 ************************* File = dossier_prefs.php ****************
-************************* File = d.php ****************
-************************* File = e.php ****************
 ************************* File = facturation.php ****************
 ************************* File = fiche_csv.php ****************
 ************************* File = fiche_new.php ****************
@@ -20,9 +12,6 @@
 ************************* File = form_csv.php ****************
 ************************* File = form_pdf.php ****************
 ************************* File = form.php ****************
-************************* File = f.php ****************
-************************* File = g.php ****************
-************************* File = html_balance.php ****************
 ************************* File = index.php ****************
 ************************* File = jrn_add.php ****************
 ************************* File = jrn_csv.php ****************
@@ -32,6 +21,7 @@
 ************************* File = jrn_search.php ****************
 ************************* File = jrn_update.php ****************
 ************************* File = line_update.php ****************
+************************* File = listing_client.php ****************
 ************************* File = login.php ****************
 ************************* File = logout.php ****************
 ************************* File = modify_op.php ****************
@@ -43,7 +33,6 @@
 ************************* File = print_balance.php ****************
 ************************* File = print_invoice.php ****************
 ************************* File = priv_user.php ****************
-************************* File = readme.php ****************
 ************************* File = recherche.php ****************
 ************************* File = sec_pdf.php ****************
 ************************* File = send_jrn_pdf.php ****************
@@ -52,7 +41,6 @@
 ************************* File = show_tva.php ****************
 ************************* File = stock.php ****************
 ************************* File = test.php ****************
-************************* File = t.php ****************
 ************************* File = user_advanced.php ****************
 ************************* File = user_compta.php ****************
 ************************* File = user_impress.php ****************
@@ -60,8 +48,6 @@
 ************************* File = user_login.php ****************
 ************************* File = user_pref.php ****************
 ************************* File = user_sec.php ****************
-************************* File = verif.php ****************
-************************* File = 1.php ****************
 ************************* File = ac_common.php ****************
 ac_common.php /* function cmpDate
 ac_common.php  * Purpose : 
@@ -154,15 +140,6 @@ ac_common.php  * gen :
 ac_common.php  *	-
 ac_common.php  * return:
 ac_common.php  */
-ac_common.php /* function GetUserType
-ac_common.php  * Purpose : get the type of an user (compta,developper or user)
-ac_common.php  *        
-ac_common.php  * parm : 
-ac_common.php  *	- param $p_user user_login
-ac_common.php  * gen :
-ac_common.php  *	- none
-ac_common.php  * return: the type of the user
-ac_common.php  */
 ac_common.php /* function ShowItem($p_array) */
 ac_common.php /* function echo_warning
 ac_common.php  * Purpose : warns
@@ -198,6 +175,20 @@ ac_common.php  * gen :
 ac_common.php  *	-
 ac_common.php  * return: string
 ac_common.php  */
+ac_common.php /* function getPeriodeFromMonth
+ac_common.php  **************************************************
+ac_common.php  * Purpose : Return the period corresponding to the 
+ac_common.php  *           date
+ac_common.php  *        
+ac_common.php  * parm : 
+ac_common.php  *	- p_cn database connection
+ac_common.php  *      - the month + year 'MM.YYYY'
+ac_common.php  * gen :
+ac_common.php  *	- none
+ac_common.php  *
+ac_common.php  * return:
+ac_common.php  *       parm_periode.p_id
+ac_common.php  */
 ac_common.php /* function getPeriodeFromDate
 ac_common.php  **************************************************
 ac_common.php  * Purpose : Return the period corresponding to the 
@@ -205,7 +196,7 @@ ac_common.php  *           date
 ac_common.php  *        
 ac_common.php  * parm : 
 ac_common.php  *	- p_cn database connection
-ac_common.php  *      - the date 'MM.YYYY'
+ac_common.php  *      - the date 'DD.MM.YYYY'
 ac_common.php  * gen :
 ac_common.php  *	- none
 ac_common.php  *
@@ -308,6 +299,19 @@ class_attribut.php  *	-
 class_attribut.php  * return: the ordered array
 class_attribut.php  */
 ************************* File = class_balance.php ****************
+************************* File = class_customer.php ****************
+class_customer.php /* function ListingVat
+class_customer.php  **************************************************
+class_customer.php  * Purpose : Get all the info for making a vat listing
+class_customer.php  *           for the vat administration
+class_customer.php  *        
+class_customer.php  * parm : 
+class_customer.php  *	- periode
+class_customer.php  * 
+class_customer.php  * return:
+class_customer.php  * 
+class_customer.php  *	- array
+class_customer.php  */
 ************************* File = class_fiche.php ****************
 class_fiche.php /* function GetAttribut
 class_fiche.php  **************************************************
@@ -341,10 +345,20 @@ class_fiche.php  * gen :
 class_fiche.php  *	- none
 class_fiche.php  * return: an array of fiche_def object 
 class_fiche.php  */
-************************* File = class_form.php ****************
+class_fiche.php /* function HasAttribute
+class_fiche.php  **************************************************
+class_fiche.php  * Purpose : Check in vw_fiche_def if a fiche has 
+class_fiche.php  *           a attribut X
+class_fiche.php  *        
+class_fiche.php  * parm : 
+class_fiche.php  *	- attribut to check
+class_fiche.php  * gen :
+class_fiche.php  *	- none
+class_fiche.php  * return:  true or false
+class_fiche.php  */
 ************************* File = class_jrn.php ****************
 class_jrn.php /* function GetRow
-class_jrn.php  * Purpose : Get The data for the pdf printing
+class_jrn.php  * Purpose : Get The data 
 class_jrn.php  * 
 class_jrn.php  * parm : 
 class_jrn.php  *	- connection
@@ -358,7 +372,46 @@ class_jrn.php  * return:
 class_jrn.php  *	- Array with the asked data
 class_jrn.php  *
 class_jrn.php  */ 
+class_jrn.php  /* function GetRowSimple
+class_jrn.php  **************************************************
+class_jrn.php  * Purpose : Get simplified row
+class_jrn.php  *        
+class_jrn.php  * parm : 
+class_jrn.php  *	- connection
+class_jrn.php  *      - array
+class_jrn.php  *      - p_limit starting line
+class_jrn.php  *      - p_offset number of lines
+class_jrn.php  *
+class_jrn.php  * gen :
+class_jrn.php  *	- none
+class_jrn.php  * return:
+class_jrn.php  *	- Array with the asked data
+class_jrn.php  *
+class_jrn.php  */ 
 ************************* File = class_operation.php ****************
+************************* File = class_own.php ****************
+class_own.php /* function UpdateRow
+class_own.php  **************************************************
+class_own.php  * Purpose : Update a row
+class_own.php  *        
+class_own.php  * parm : 
+class_own.php  *	- give the attribut name
+class_own.php  * gen :
+class_own.php  *	- none
+class_own.php  * return:
+class_own.php  *      -none
+class_own.php  */
+class_own.php /* function Save
+class_own.php  **************************************************
+class_own.php  * Purpose : save data
+class_own.php  *        
+class_own.php  * parm : 
+class_own.php  *	- none
+class_own.php  * gen :
+class_own.php  *	- none
+class_own.php  * return:
+class_own.php  *    - nothing
+class_own.php  */
 ************************* File = class_poste.php ****************
 class_poste.php   /* function GetRow
 class_poste.php    * Purpose : Get dat for poste 
@@ -384,8 +437,20 @@ class_poste.php    * return:
 class_poste.php    *      - balance of the account
 class_poste.php    *
 class_poste.php    */ 
+class_poste.php   /* function GetSoldeDetail
+class_poste.php    * Purpose : give the balance of an account
+class_poste.php    * 
+class_poste.php    * parm : 
+class_poste.php    *      - cond
+class_poste.php    * gen :
+class_poste.php    *	- none
+class_poste.php    * return:
+class_poste.php    *      - balance of the account
+class_poste.php    *
+class_poste.php    */ 
+************************* File = class_rapport.php ****************
 ************************* File = class_user.php ****************
-class_user.php /* function CheckAdmin
+class_user.php /* function Admin
 class_user.php  **************************************************
 class_user.php  * Purpose : Check if an user is an admin
 class_user.php  *        
@@ -446,9 +511,55 @@ class_user.php  *	- 0 no priv
 class_user.php  *      - 1 priv granted
 class_user.php  *
 class_user.php  */ 
+class_user.php /* function GetGlobalPref
+class_user.php  **************************************************
+class_user.php  * Purpose : Get the global preferences from user_global_pref
+class_user.php  *        in the account_repository db
+class_user.php  * parm : 
+class_user.php  *	- set g_variable
+class_user.php  * gen :
+class_user.php  *	- none
+class_user.php  * return:
+class_user.php  *     - none
+class_user.php  */
+class_user.php /* function insert_default_global_pref
+class_user.php  **************************************************
+class_user.php  * Purpose : insert default pref
+class_user.php  *        if no parameter are given insert all the existing 
+class_user.php  *        parameter otherwise only the requested
+class_user.php  * parm : 
+class_user.php  *	- parameter's type or nothing
+class_user.php  * gen :
+class_user.php  *	- none
+class_user.php  * return: nothing
+class_user.php  */
+class_user.php /* function update_global_pref
+class_user.php  **************************************************
+class_user.php  * Purpose : update default pref
+class_user.php  *           if value is not given then use the default value
+class_user.php  * parm : 
+class_user.php  *	- parameter's type 
+class_user.php  *      - parameter's value value of the type
+class_user.php  * gen :
+class_user.php  *	- none
+class_user.php  * return: nothing
+class_user.php  */
 ************************* File = class_widget.php ****************
 ************************* File = constant.php ****************
 ************************* File = debug.php ****************
+************************* File = decla.BE.inc.php ****************
+decla.BE.inc.php /* function MakeListingVat
+decla.BE.inc.php  **************************************************
+decla.BE.inc.php  * Purpose : Créer le fichier à déposer pour la TVA
+decla.BE.inc.php  *           voir le fichier BE_fr_list_client_nonpapier.pdf
+decla.BE.inc.php  *        
+decla.BE.inc.php  * parm : 
+decla.BE.inc.php  *	-array
+decla.BE.inc.php  * gen :
+decla.BE.inc.php  *	-none
+decla.BE.inc.php  * return:
+decla.BE.inc.php  *     - none
+decla.BE.inc.php  */
 ************************* File = error.php ****************
 error.php /* function AnalyzeError
 error.php  * Purpose : Following the error code
@@ -522,6 +633,7 @@ fiche_inc.php  *	- none
 fiche_inc.php  *
 fiche_inc.php  * NOTE STAN: je ne trouve pas le nom "EncodeFiche" super claire pour une fonction qui affiche les détails d'une fiche...
 fiche_inc.php  * on ne changerait pas en "DisplayFiche" ?
+fiche_inc.php  * NOTE DANY: Oui je suis assez d'accord avec toi
 fiche_inc.php  *
 fiche_inc.php  */ 
 fiche_inc.php /* function GetBaseFiche
@@ -894,52 +1006,6 @@ fiche_inc.php  *
 fiche_inc.php  * return 1 if the fiche is in the range otherwise 0
 fiche_inc.php  * 
 fiche_inc.php  */
-************************* File = fin.php ****************
-fin.php /* function FormODS($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article=1)
-fin.php  * Purpose : Display the miscellaneous operation
-fin.php  *           Used to show detail, encode a new oper
-fin.php  *           or update one
-fin.php  *        
-fin.php  * parm : 
-fin.php  *	- p_array which can be empty
-fin.php  *      - the "journal"
-fin.php  *      - $p_user = $g_user
-fin.php  *      - $p_submit contains the submit string
-fin.php  *      - view_only if we cannot change it (no right or centralized op)
-fin.php  *      - $p_article number of article
-fin.php  * gen :
-fin.php  *	-
-fin.php  * return: string with the form
-fin.php  */
-fin.php /* function RecordAchat
-fin.php  **************************************************
-fin.php  * Purpose : Record an buy in the table jrn &
-fin.php  *           jrnx
-fin.php  *        
-fin.php  * parm : 
-fin.php  *	- $p_cn Database connection
-fin.php  *  - $p_array contains all the invoice data
-fin.php  * e_date => e : 01.01.2003
-fin.php  * e_client => e : 3
-fin.php  * nb_item => e : 3
-fin.php  * e_march0 => e : 6
-fin.php  * e_quant0 => e : 0
-fin.php  * e_march0_sell=>e:1
-fin.php  * e_march1 => e : 6
-fin.php  * e_quant1 => e : 2
-fin.php  * e_march1_sell=>e:1
-fin.php  * e_march2 => e : 7
-fin.php  * e_quant2 => e : 3
-fin.php  * e_march2_sell=>e:1
-fin.php V : view_invoice => e : Voir cette facture
-fin.php V : record_invoice => e : Sauver 
-fin.php  *  - $p_user userid
-fin.php  *  - $p_jrn current folder (journal)
-fin.php  * gen :
-fin.php  *	- none
-fin.php  * return:
-fin.php  *	      true on success
-fin.php  */
 ************************* File = form_inc.php ****************
 form_inc.php /* function EncodeForm
 form_inc.php  * Purpose : 
@@ -952,6 +1018,19 @@ form_inc.php  *      - p_line number of line
 form_inc.php  * gen :
 form_inc.php  *	- none
 form_inc.php  * return:
+form_inc.php  *	- none
+form_inc.php  *
+form_inc.php  */ 
+form_inc.php /* function ViewForm
+form_inc.php  * Purpose : Show the details of a form
+form_inc.php  * 
+form_inc.php  * parm : 
+form_inc.php  *	- $p_cn connection
+form_inc.php  *      - $p_id gives the formdef.fr_id
+form_inc.php  *      - sessid for the search window
+form_inc.php  * gen :
+form_inc.php  *	- none
+form_inc.php  * return: 
 form_inc.php  *	- none
 form_inc.php  *
 form_inc.php  */ 
@@ -1030,203 +1109,8 @@ form_inc.php  * return:
 form_inc.php  *	- none
 form_inc.php  *
 form_inc.php  */ 
-************************* File = form_input.php ****************
-form_input.php /* function InputType
-form_input.php  * Purpose : Create the tag <INPUT TYPE=... Name=...>
-form_input.php  *        
-form_input.php  * parm : 
-form_input.php  *	- Label question
-form_input.php  *      - The type (text, select, text_big
-form_input.php  *      - Name of the variable
-form_input.php  *      - Default Value
-form_input.php  *      - View_only
-form_input.php  *      - $p_list for the select, give the possible values item[0] is the val and item[1] 
-form_input.php  *        is the label or for the js_search p_list is a string (cred
-form_input.php  *        or deb or the fiche_def_type
-form_input.php  * gen :
-form_input.php  *	- None
-form_input.php  * return: string
-form_input.php  */
-form_input.php /* function FormVente
-form_input.php  * Purpose : Display the form for a sell
-form_input.php  *           Used to show detail, encode a new invoice 
-form_input.php  *           or update one
-form_input.php  *        
-form_input.php  * parm : 
-form_input.php  *	- p_array which can be empty
-form_input.php  *      - the "journal"
-form_input.php  *      - $p_user = $g_user
-form_input.php  *      - view_only if we cannot change it (no right or centralized op)
-form_input.php  *      - $p_article number of article
-form_input.php  * gen :
-form_input.php  *	-
-form_input.php  * return: string with the form
-form_input.php  * TODO Add in parameters the infos about the company for making the invoice
-form_input.php  */
-form_input.php /* function FormVenteView ($p_cn,$p_jrn,$p_user,$p_array,$p_number,$p_doc='html',$p_comment='') 
-form_input.php  **************************************************
-form_input.php  * Purpose : Show the invoice before inserting it 
-form_input.php  *           the database
-form_input.php  *        
-form_input.php  * parm : 
-form_input.php  *	- p_cn database connection
-form_input.php  *      - p_jrn journal
-form_input.php  *      - p_user
-form_input.php  *      - array of value
-form_input.php  *      - nb of item
-form_input.php  *      - p_doc type pdf or html
-form_input.php  * gen :
-form_input.php  *	- none
-form_input.php  * return:
-form_input.php  *     - string
-form_input.php  * 
-form_input.php  */
-form_input.php /* function RecordInvoice
-form_input.php  **************************************************
-form_input.php  * Purpose : Record an invoice in the table jrn &
-form_input.php  *           jrnx
-form_input.php  *        
-form_input.php  * parm : 
-form_input.php  *	- $p_cn Database connection
-form_input.php  *  - $p_array contains all the invoice data
-form_input.php  * e_date => e : 01.01.2003
-form_input.php  * e_client => e : 3
-form_input.php  * nb_item => e : 3
-form_input.php  * e_march0 => e : 6
-form_input.php  * e_quant0 => e : 0
-form_input.php  * e_march0_sell=>e:1
-form_input.php  * e_march1 => e : 6
-form_input.php  * e_quant1 => e : 2
-form_input.php  * e_march1_sell=>e:1
-form_input.php  * e_march2 => e : 7
-form_input.php  * e_quant2 => e : 3
-form_input.php  * e_march2_sell=>e:1
-form_input.php V : view_invoice => e : Voir cette facture
-form_input.php V : record_invoice => e : Sauver 
-form_input.php  *  - $p_user userid
-form_input.php  *  - $p_jrn current folder (journal)
-form_input.php  * gen :
-form_input.php  *	- none
-form_input.php  * return:
-form_input.php  *	      true on success
-form_input.php  */
-form_input.php /* function FormAch($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article=1)
-form_input.php  * Purpose : Display the form for buying
-form_input.php  *           Used to show detail, encode a new invoice 
-form_input.php  *           or update one
-form_input.php  *        
-form_input.php  * parm : 
-form_input.php  *	- p_array which can be empty
-form_input.php  *      - the "journal"
-form_input.php  *      - $p_user = $g_user
-form_input.php  *      - $p_submit contains the submit string
-form_input.php  *      - view_only if we cannot change it (no right or centralized op)
-form_input.php  *      - $p_article number of article
-form_input.php  * gen :
-form_input.php  *	-
-form_input.php  * return: string with the form
-form_input.php  * TODO Add in parameters the infos about the company for making the invoice
-form_input.php  */
-form_input.php /* function RecordAchat
-form_input.php  **************************************************
-form_input.php  * Purpose : Record an buy in the table jrn &
-form_input.php  *           jrnx
-form_input.php  *        
-form_input.php  * parm : 
-form_input.php  *	- $p_cn Database connection
-form_input.php  *  - $p_array contains all the invoice data
-form_input.php  * e_date => e : 01.01.2003
-form_input.php  * e_client => e : 3
-form_input.php  * nb_item => e : 3
-form_input.php  * e_march0 => e : 6
-form_input.php  * e_quant0 => e : 0
-form_input.php  * e_march0_sell=>e:1
-form_input.php  * e_march1 => e : 6
-form_input.php  * e_quant1 => e : 2
-form_input.php  * e_march1_sell=>e:1
-form_input.php  * e_march2 => e : 7
-form_input.php  * e_quant2 => e : 3
-form_input.php  * e_march2_sell=>e:1
-form_input.php V : view_invoice => e : Voir cette facture
-form_input.php V : record_invoice => e : Sauver 
-form_input.php  *  - $p_user userid
-form_input.php  *  - $p_jrn current folder (journal)
-form_input.php  * gen :
-form_input.php  *	- none
-form_input.php  * return:
-form_input.php  *	      true on success
-form_input.php  */
-form_input.php /* function FormFin($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_item=1) 
-form_input.php  * Purpose : Display the form for financial 
-form_input.php  *           Used to show detail, encode a new fin op 
-form_input.php  *           or update one
-form_input.php  *        
-form_input.php  * parm : 
-form_input.php  *	- p_array which can be empty
-form_input.php  *      - the "journal"
-form_input.php  *      - $p_user = $g_user
-form_input.php  *      - $p_submit contains the submit string
-form_input.php  *      - view_only if we cannot change it (no right or centralized op)
-form_input.php  *      - $p_item number of article
-form_input.php  * gen :
-form_input.php  *	-
-form_input.php  * return: string with the form
-form_input.php  */
-form_input.php /* function RecordFin
-form_input.php  **************************************************
-form_input.php  * Purpose : Record an invoice in the table jrn &
-form_input.php  *           jrnx
-form_input.php  *        
-form_input.php  * parm : 
-form_input.php  *	- $p_cn Database connection
-form_input.php  *  - $p_array contains all the invoice data
-form_input.php  * e_date => e : 01.01.2003
-form_input.php  * e_bank_account => e : 3
-form_input.php  *  - $p_user userid
-form_input.php  *  - $p_jrn current folder (journal)
-form_input.php  *  - array e_other$i, e_other$i_amount, e_other$i_label
-form_input.php  * gen : 
-form_input.php  *	- none
-form_input.php  * return:
-form_input.php  *	      true on success
-form_input.php  */
-form_input.php /* function FormODS($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article=1)
-form_input.php  * Purpose : Display the miscellaneous operation
-form_input.php  *           Used to show detail, encode a new oper
-form_input.php  *           or update one
-form_input.php  *        
-form_input.php  * parm : 
-form_input.php  *	- p_array which can be empty
-form_input.php  *      - the "journal"
-form_input.php  *      - $p_user = $g_user
-form_input.php  *      - $p_submit contains the submit string
-form_input.php  *      - view_only if we cannot change it (no right or centralized op)
-form_input.php  *      - $p_article number of article
-form_input.php  * gen :
-form_input.php  *	-
-form_input.php  * return: string with the form
-form_input.php  */
-form_input.php /* function RecordODS
-form_input.php  **************************************************
-form_input.php  * Purpose : Record an buy in the table jrn &
-form_input.php  *           jrnx
-form_input.php  *
-form_input.php  * parm :
-form_input.php  *	- $p_cn Database connection
-form_input.php  *  - $p_array contains all the invoice data
-form_input.php  * e_date => e : 01.01.2003
-form_input.php  * nb_item => e : 3
-form_input.php  * e_account0 => e : 6
-form_input.php  * e_account0_amount=>e:1
-form_input.php  *  - $p_user userid
-form_input.php  *  - $p_jrn current folder (journal)
-form_input.php  * gen :
-form_input.php  *	- none
-form_input.php  * return:
-form_input.php  *	      true on success
-form_input.php  */
+************************* File = impress_bilan.php ****************
 ************************* File = impress_fiche.php ****************
-************************* File = impress_form.php ****************
 ************************* File = impress_inc.php ****************
 impress_inc.php /* function ViewImp
 impress_inc.php  * Purpose : Create the form where the period
@@ -1352,10 +1236,13 @@ impress_inc.php  * parm :
 impress_inc.php  *	- $p_cn connexion
 impress_inc.php  *      - $p_label
 impress_inc.php  *      - $p_formula
+impress_inc.php  *      - $p_eval  true if we eval here otherwise the function returns
+impress_inc.php  *                 a string which must be evaluated
 impress_inc.php  * gen :
 impress_inc.php  *	- none
 impress_inc.php  * return:
 impress_inc.php  *	- array
+impress_inc.php  *
 impress_inc.php  *
 impress_inc.php  */ 
 impress_inc.php /* function GetFormulaValue
@@ -1370,10 +1257,24 @@ impress_inc.php  * gen :
 impress_inc.php  *	- none
 impress_inc.php  * return:
 impress_inc.php  *	- array
+impress_inc.php  * 
 impress_inc.php  *
 impress_inc.php  */ 
+impress_inc.php /* function CheckFormula
+impress_inc.php  **************************************************
+impress_inc.php  * Purpose : Check if formula doesn't contain
+impress_inc.php  *           php injection
+impress_inc.php  *        
+impress_inc.php  * parm : 
+impress_inc.php  *	- string
+impress_inc.php  * gen :
+impress_inc.php  *	- 
+impress_inc.php  * return: none : stop on error
+impress_inc.php  */
 ************************* File = impress_jrn.php ****************
+************************* File = impress_listing_client.php ****************
 ************************* File = impress_poste.php ****************
+************************* File = impress_rapport.php ****************
 ************************* File = jrn.php ****************
 jrn.php /* function RecordJrn
 jrn.php  * Purpose : Record an entry in the selected journal
@@ -1463,28 +1364,6 @@ jrn.php  * gen :
 jrn.php  *	- none
 jrn.php  * return:
 jrn.php  *	- an array containing properties
-jrn.php  *
-jrn.php  */ 
-jrn.php /* function  GetNextId($p_cn,$p_name) 
-jrn.php  * Purpose :
-jrn.php  * 
-jrn.php  * parm : 
-jrn.php  *	- 
-jrn.php  * gen :
-jrn.php  *	-
-jrn.php  * return:
-jrn.php  *	-
-jrn.php  *
-jrn.php  */ 
-jrn.php /* function GetNextJrnId($p_cn,$p_name) 
-jrn.php  * Purpose :
-jrn.php  * 
-jrn.php  * parm : 
-jrn.php  *	- 
-jrn.php  * gen :
-jrn.php  *	-
-jrn.php  * return:
-jrn.php  *	-
 jrn.php  *
 jrn.php  */ 
 jrn.php /* function ViewJrn
@@ -1616,42 +1495,6 @@ jrn.php  * return:
 jrn.php  *	- return array
 jrn.php  *
 jrn.php  */ 
-************************* File = ods.php ****************
-ods.php /* function FormODS($p_cn,$p_jrn,$p_user,$p_array=null,$view_only=true,$p_article=1)
-ods.php  * Purpose : Display the miscellaneous operation
-ods.php  *           Used to show detail, encode a new oper
-ods.php  *           or update one
-ods.php  *        
-ods.php  * parm : 
-ods.php  *	- p_array which can be empty
-ods.php  *      - the "journal"
-ods.php  *      - $p_user = $g_user
-ods.php  *      - $p_submit contains the submit string
-ods.php  *      - view_only if we cannot change it (no right or centralized op)
-ods.php  *      - $p_article number of article
-ods.php  * gen :
-ods.php  *	-
-ods.php  * return: string with the form
-ods.php  */
-ods.php /* function RecordAchat
-ods.php  **************************************************
-ods.php  * Purpose : Record an buy in the table jrn &
-ods.php  *           jrnx
-ods.php  *        
-ods.php  * parm : 
-ods.php  *	- $p_cn Database connection
-ods.php  *  - $p_array contains all the invoice data
-ods.php  * e_date => e : 01.01.2003
-ods.php  * nb_item => e : 3
-ods.php  * e_account0 => e : 6
-ods.php  * e_account0_amount=>e:1
-ods.php  *  - $p_user userid
-ods.php  *  - $p_jrn current folder (journal)
-ods.php  * gen :
-ods.php  *	- none
-ods.php  * return:
-ods.php  *	      true on success
-ods.php  */
 ************************* File = poste.php ****************
 poste.php /* function GetPosteLibelle
 poste.php  * Purpose : Return the label of a poste
@@ -1767,7 +1610,7 @@ postgres.php  *	-
 postgres.php  * return: an array
 postgres.php  *         containing use_admin
 postgres.php  *                    use_usertype
-postgres.php  *                    use_theme
+postgres.php  *                    g_theme
 postgres.php  *                    use_name
 postgres.php  *                    use_login
 postgres.php  */
@@ -1823,43 +1666,6 @@ preference.php  *	- none
 preference.php  * return:
 preference.php  *	- string containing html code for the
 preference.php  *        form
-preference.php  *
-preference.php  */ 
-preference.php /* function SetUserPeriode
-preference.php  * Purpose : Set the selected periode in the user's preferences
-preference.php  * 
-preference.php  * parm : 
-preference.php  *	- $p_cn connexion 
-preference.php  *      - $p_periode 
-preference.php  *      - $p_user
-preference.php  * gen :
-preference.php  *	- none
-preference.php  * return:
-preference.php  *	- none
-preference.php  *
-preference.php  */ 
-preference.php /* function GetUserPeriode
-preference.php  * Purpose : Get the default periode from the user's preferences
-preference.php  * 
-preference.php  * parm : 
-preference.php  *	- $p_cn connexion 
-preference.php  *      - $p_user
-preference.php  * gen :
-preference.php  *	- none
-preference.php  * return:
-preference.php  *	- the default periode
-preference.php  *
-preference.php  */ 
-preference.php /* function SetUserPreferences
-preference.php  * Purpose : Get the default user's preferences
-preference.php  * 
-preference.php  * parm : 
-preference.php  *	- $p_cn connexion 
-preference.php  *      - $p_user
-preference.php  * gen :
-preference.php  *	- none
-preference.php  * return:
-preference.php  *	- none
 preference.php  *
 preference.php  */ 
 preference.php /* function GetPeriode
@@ -1969,143 +1775,6 @@ stock_inc.php  * purpose return the quantity of a sg_code for the period
 stock_inc.php  *
 stock_inc.php  * Return number or NULL
 stock_inc.php  */ 
-************************* File = top_menu_compta.php ****************
-top_menu_compta.php /* function ShowMenu
-top_menu_compta.php  * Purpose : Show The login menu
-top_menu_compta.php  * 
-top_menu_compta.php  * parm : 
-top_menu_compta.php  *	- $p_admin 1 if admin
-top_menu_compta.php  *      - $p_item item to add 
-top_menu_compta.php  * gen :
-top_menu_compta.php  *	- none
-top_menu_compta.php  * return:
-top_menu_compta.php  *	- nothing
-top_menu_compta.php  *
-top_menu_compta.php  */ 
-top_menu_compta.php /* function ShowMenuCompta
-top_menu_compta.php  * Purpose : Montre le menu du haut
-top_menu_compta.php  * 
-top_menu_compta.php  * parm : 
-top_menu_compta.php  *	- dossier
-top_menu_compta.php  *	- $p_user	array ($g_UserProperty)
-top_menu_compta.php  * gen :
-top_menu_compta.php  *	- none
-top_menu_compta.php  * return:
-top_menu_compta.php  *	- none
-top_menu_compta.php  *
-top_menu_compta.php  */ 
-top_menu_compta.php /* function
-top_menu_compta.php  * Purpose :
-top_menu_compta.php  * 
-top_menu_compta.php  * parm : 
-top_menu_compta.php  *	- 
-top_menu_compta.php  * gen :
-top_menu_compta.php  *	-
-top_menu_compta.php  * return:
-top_menu_compta.php  *	-
-top_menu_compta.php  *
-top_menu_compta.php  */ 
-top_menu_compta.php /* function ShowMenuComptaRight
-top_menu_compta.php  * Purpose : Display menu on the Right
-top_menu_compta.php  *           (preference, logout and admin)
-top_menu_compta.php  * parm : 
-top_menu_compta.php  *	- $p_dossier the current dossier
-top_menu_compta.php  *      - $p_auser	array $g_UserProperty
-top_menu_compta.php  *      - $p_more code
-top_menu_compta.php  * gen :
-top_menu_compta.php  *	- none
-top_menu_compta.php  * return:
-top_menu_compta.php  *	- none
-top_menu_compta.php  *
-top_menu_compta.php  */ 
-top_menu_compta.php /* function ShowMenuAdminGlobalRight($p_dossier=0)
-top_menu_compta.php  * Purpose :
-top_menu_compta.php  *        Same as previous : show the right menu
-top_menu_compta.php  * parm : 
-top_menu_compta.php  *	- p_dossier
-top_menu_compta.php  * gen :
-top_menu_compta.php  *	- none
-top_menu_compta.php  * return:
-top_menu_compta.php  *	- none
-top_menu_compta.php  *
-top_menu_compta.php  */ 
-top_menu_compta.php /* function ShowMenuPcmn($p_start=1)
-top_menu_compta.php  * Purpose : Show the menu from the pcmn page
-top_menu_compta.php  * 
-top_menu_compta.php  * parm : 
-top_menu_compta.php  *	- $p_start class start
-top_menu_compta.php  * gen :
-top_menu_compta.php  *	- none
-top_menu_compta.php  * return:
-top_menu_compta.php  *	- none
-top_menu_compta.php  *
-top_menu_compta.php  */ 
-top_menu_compta.php /* function  ShowMenuJrn($p_dossier)
-top_menu_compta.php  * Purpose : Show the menu in the jrn page
-top_menu_compta.php  * 
-top_menu_compta.php  * parm : 
-top_menu_compta.php  *	- $p_dossier 
-top_menu_compta.php  * gen :
-top_menu_compta.php  *	- none
-top_menu_compta.php  * return:
-top_menu_compta.php  *	- none
-top_menu_compta.php  *
-top_menu_compta.php  */ 
-top_menu_compta.php /* function ShowMenuJrnUser($p_dossier,$p_user)
-top_menu_compta.php  * Purpose : Display and Show the Menu from the jrn encode
-top_menu_compta.php  *           page following the use_usertype (compta,user,...)
-top_menu_compta.php  * 
-top_menu_compta.php  * parm : 
-top_menu_compta.php  *	- $p_dossier
-top_menu_compta.php  *      - $p_auser
-top_menu_compta.php  *      - $p_type (ACH, BQE, VEN)
-top_menu_compta.php  *      - $p_jrn  what journal
-top_menu_compta.php  * gen :
-top_menu_compta.php  *	- none
-top_menu_compta.php  * return:
-top_menu_compta.php  *	- none
-top_menu_compta.php  *
-top_menu_compta.php  */ 
-top_menu_compta.php /* function ShowMenuRecherche
-top_menu_compta.php  * Purpose :
-top_menu_compta.php  * 
-top_menu_compta.php  * parm : 
-top_menu_compta.php  *	- $p_dossier,
-top_menu_compta.php  *      - $p_jrn jrn id
-top_menu_compta.php  *      - $p_array=null previous search
-top_menu_compta.php  * gen :
-top_menu_compta.php  *	- none
-top_menu_compta.php  * return:
-top_menu_compta.php  *	- none
-top_menu_compta.php  *
-top_menu_compta.php  */ 
-top_menu_compta.php /* function
-top_menu_compta.php  * Purpose :
-top_menu_compta.php  * 
-top_menu_compta.php  * parm : 
-top_menu_compta.php  *	- 
-top_menu_compta.php  * gen :
-top_menu_compta.php  *	-
-top_menu_compta.php  * return:
-top_menu_compta.php  *	-
-top_menu_compta.php  *
-top_menu_compta.php  */ 
-top_menu_compta.php /* function  ShowMenuJrnUserImp(
-top_menu_compta.php  *
-top_menu_compta.php  * 
-top_menu_compta.php  * Purpose : Show the menu of jrn to print
-top_menu_compta.php  * 
-top_menu_compta.php  * parm : 
-top_menu_compta.php  *	- $p_cn, connection
-top_menu_compta.php  *        $p_user, user
-top_menu_compta.php  *         $p_dossier dossier
-top_menu_compta.php  * gen :
-top_menu_compta.php  *	- none
-top_menu_compta.php  * return:
-top_menu_compta.php  *	- none
-top_menu_compta.php  *
-top_menu_compta.php  */ 
-************************* File = top_menu.php ****************
 ************************* File = user_action_ach.php ****************
 ************************* File = user_action_fin.php ****************
 ************************* File = user_action_gl.php ****************
@@ -2134,10 +1803,10 @@ user_common.php  *
 user_common.php  *        
 user_common.php  * parm : 
 user_common.php  *	- database connection
-user_common.php  *  - fiche id array
-user_common.php  *  - quantity array 
-user_common.php  *  - price array 
-user_common.php  *  - $ap_vat Array of tva id
+user_common.php  *      - fiche id array
+user_common.php  *      1- quantity array 
+user_common.php  *      - price array 
+user_common.php  *      - $ap_vat Array of tva id
 user_common.php  * gen :
 user_common.php  *	-
 user_common.php  * return: array
@@ -2232,7 +1901,7 @@ user_common.php  *	- none
 user_common.php  * return:
 user_common.php  *       none
 user_common.php  */
-user_common.php /* function  VerifyDate ($p_cn,$p_user,$p_date) 
+user_common.php /* function  VerifyOperationDate ($p_cn,$p_user,$p_date) 
 user_common.php  **************************************************
 user_common.php  * Purpose : Verify if 
 user_common.php  *    the date is a valid date
@@ -2325,6 +1994,247 @@ user_common.php  * return:
 user_common.php  *        1 is valid
 user_common.php  *        0 is not valid
 user_common.php  */
+user_common.php /* function  jrn_navigation_bar
+user_common.php  **************************************************
+user_common.php  * Purpose : 
+user_common.php  *     Create a navigation_bar (pagesize)
+user_common.php  *        
+user_common.php  * parm : 
+user_common.php  *	- p_current first record number
+user_common.php  *      - p_line total of returned row
+user_common.php  *      - p_size current g_pagesize
+user_common.php  *      - p_page number of the page
+user_common.php  * gen :
+user_common.php  *	-none
+user_common.php  * return:
+user_common.php  *     string
+user_common.php  */
+************************* File = user_form_ach.php ****************
+user_form_ach.php /* function FormAchInput
+user_form_ach.php  * Purpose : Display the form for a sell
+user_form_ach.php  *           Used to show detail, encode a new invoice 
+user_form_ach.php  *           or update one
+user_form_ach.php  *        
+user_form_ach.php  * parm : 
+user_form_ach.php  *	- $p_array which can be empty (normally = $_POST)
+user_form_ach.php  *      - $p_jrn the ledger
+user_form_ach.php  *      - $p_periode = periode
+user_form_ach.php  *      - $pview_only if we cannot change it (no right or centralized op)
+user_form_ach.php  *      - $p_article number of article
+user_form_ach.php  * gen :
+user_form_ach.php  *	-
+user_form_ach.php  * return: string with the form
+user_form_ach.php  */
+user_form_ach.php /* function form_verify_input
+user_form_ach.php  **************************************************
+user_form_ach.php  * Purpose : verify if the data to insert are valid
+user_form_ach.php  *        
+user_form_ach.php  * parm : 
+user_form_ach.php  *	- p_cn database connection
+user_form_ach.php  *      - p_jrn concerned ledger
+user_form_ach.php  *      - User periode
+user_form_ach.php  *      - array with the post data
+user_form_ach.php  *      - p_number number of items
+user_form_ach.php  * gen :
+user_form_ach.php  *	-
+user_form_ach.php  * return:
+user_form_ach.php  */
+user_form_ach.php /* function FormAchView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='html',$p_comment='') 
+user_form_ach.php  **************************************************
+user_form_ach.php  * Purpose : Show the invoice before inserting it 
+user_form_ach.php  *           the database
+user_form_ach.php  *        
+user_form_ach.php  * parm : 
+user_form_ach.php  *	- p_cn database connection
+user_form_ach.php  *      - p_jrn journal
+user_form_ach.php  *      - p_periode
+user_form_ach.php  *      - array of value
+user_form_ach.php  *      - nb of item
+user_form_ach.php  *      - p_doc type pdf or html
+user_form_ach.php  * gen :
+user_form_ach.php  *	- none
+user_form_ach.php  * return:
+user_form_ach.php  *     - string
+user_form_ach.php  * 
+user_form_ach.php  */
+user_form_ach.php /* function RecordSell
+user_form_ach.php  **************************************************
+user_form_ach.php  * Purpose : Record an invoice in the table jrn &
+user_form_ach.php  *           jrnx
+user_form_ach.php  *        
+user_form_ach.php  * parm : 
+user_form_ach.php  *	- $p_cn Database connection
+user_form_ach.php  *  - $p_array contains all the invoice data
+user_form_ach.php  * e_date => e : 01.01.2003
+user_form_ach.php  * e_client => e : 3
+user_form_ach.php  * nb_item => e : 3
+user_form_ach.php  * e_march0 => e : 6
+user_form_ach.php  * e_quant0 => e : 0
+user_form_ach.php  * e_march0_sell=>e:1
+user_form_ach.php  * e_march1 => e : 6
+user_form_ach.php  * e_quant1 => e : 2
+user_form_ach.php  * e_march1_sell=>e:1
+user_form_ach.php  * e_march2 => e : 7
+user_form_ach.php  * e_quant2 => e : 3
+user_form_ach.php  * e_march2_sell=>e:1
+user_form_ach.php V : view_invoice => e : Voir cette facture
+user_form_ach.php V : record_invoice => e : Sauver 
+user_form_ach.php  *  - $p_periode periode
+user_form_ach.php  *  - $p_jrn current folder (journal)
+user_form_ach.php  * gen :
+user_form_ach.php  *	- none
+user_form_ach.php  * return:
+user_form_ach.php  *	      true on success
+user_form_ach.php  */
+************************* File = user_form_fin.php ****************
+user_form_fin.php /* function FormFin($p_cn,$p_jrn,$p_user,$p_array=null,$pview_only=true,$p_item=1) 
+user_form_fin.php  * Purpose : Display the form for financial 
+user_form_fin.php  *           Used to show detail, encode a new fin op 
+user_form_fin.php  *           or update one
+user_form_fin.php  *        
+user_form_fin.php  * parm : 
+user_form_fin.php  *	- p_array which can be empty
+user_form_fin.php  *      - the "journal"
+user_form_fin.php  *      - $p_user = $g_user
+user_form_fin.php  *      - $p_submit contains the submit string
+user_form_fin.php  *      - view_only if we cannot change it (no right or centralized op)
+user_form_fin.php  *      - $p_item number of article
+user_form_fin.php  * gen :
+user_form_fin.php  *	-
+user_form_fin.php  * return: string with the form
+user_form_fin.php  */
+user_form_fin.php /* function RecordFin
+user_form_fin.php  **************************************************
+user_form_fin.php  * Purpose : Record an invoice in the table jrn &
+user_form_fin.php  *           jrnx
+user_form_fin.php  *        
+user_form_fin.php  * parm : 
+user_form_fin.php  *	- $p_cn Database connection
+user_form_fin.php  *  - $p_array contains all the invoice data
+user_form_fin.php  * e_date => e : 01.01.2003
+user_form_fin.php  * e_bank_account => e : 3
+user_form_fin.php  *  - $p_user userid
+user_form_fin.php  *  - $p_jrn current folder (journal)
+user_form_fin.php  *  - array e_other$i, e_other$i_amount, e_other$i_label
+user_form_fin.php  * gen : 
+user_form_fin.php  *	- none
+user_form_fin.php  * return:
+user_form_fin.php  *	      true on success
+user_form_fin.php  */
+************************* File = user_form_ods.php ****************
+user_form_ods.php /* function FormODS($p_cn,$p_jrn,$p_user,$p_array=null,$pview_only=true,$p_article=1)
+user_form_ods.php  * Purpose : Display the miscellaneous operation
+user_form_ods.php  *           Used to show detail, encode a new oper
+user_form_ods.php  *           or update one
+user_form_ods.php  *        
+user_form_ods.php  * parm : 
+user_form_ods.php  *	- p_array which can be empty
+user_form_ods.php  *      - the "journal"
+user_form_ods.php  *      - $p_user = $g_user
+user_form_ods.php  *      - $p_submit contains the submit string
+user_form_ods.php  *      - view_only if we cannot change it (no right or centralized op)
+user_form_ods.php  *      - $p_article number of article
+user_form_ods.php  * gen :
+user_form_ods.php  *	-
+user_form_ods.php  * return: string with the form
+user_form_ods.php  */
+user_form_ods.php /* function RecordODS
+user_form_ods.php  **************************************************
+user_form_ods.php  * Purpose : Record an buy in the table jrn &
+user_form_ods.php  *           jrnx
+user_form_ods.php  *
+user_form_ods.php  * parm :
+user_form_ods.php  *	- $p_cn Database connection
+user_form_ods.php  *  - $p_array contains all the invoice data
+user_form_ods.php  * e_date => e : 01.01.2003
+user_form_ods.php  * nb_item => e : 3
+user_form_ods.php  * e_account0 => e : 6
+user_form_ods.php  * e_account0_amount=>e:1
+user_form_ods.php  *  - $p_user userid
+user_form_ods.php  *  - $p_jrn current folder (journal)
+user_form_ods.php  * gen :
+user_form_ods.php  *	- none
+user_form_ods.php  * return:
+user_form_ods.php  *	      true on success
+user_form_ods.php  */
+************************* File = user_form_ven.php ****************
+user_form_ven.php /* function FormVenInput
+user_form_ven.php  * Purpose : Display the form for a sell
+user_form_ven.php  *           Used to show detail, encode a new invoice 
+user_form_ven.php  *           or update one
+user_form_ven.php  *        
+user_form_ven.php  * parm : 
+user_form_ven.php  *	- p_array which can be empty
+user_form_ven.php  *      - the "journal"
+user_form_ven.php  *      - $p_periode = periode
+user_form_ven.php  *      - view_only if we cannot change it (no right or centralized op)
+user_form_ven.php  *      - $p_article number of article
+user_form_ven.php  * gen :
+user_form_ven.php  *	-
+user_form_ven.php  * return: string with the form
+user_form_ven.php  * TODO Add in parameters the infos about the company for making the invoice
+user_form_ven.php  */
+user_form_ven.php /* function form_verify_input
+user_form_ven.php  **************************************************
+user_form_ven.php  * Purpose : verify if the data to insert are valid
+user_form_ven.php  *        
+user_form_ven.php  * parm : 
+user_form_ven.php  *	- p_cn database connection
+user_form_ven.php  *      - p_jrn concerned ledger
+user_form_ven.php  *      - User periode
+user_form_ven.php  *      - array with the post data
+user_form_ven.php  *      - p_number number of items
+user_form_ven.php  * gen :
+user_form_ven.php  *	-
+user_form_ven.php  * return:
+user_form_ven.php  */
+user_form_ven.php /* function FormVenteView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='html',$p_comment='') 
+user_form_ven.php  **************************************************
+user_form_ven.php  * Purpose : Show the invoice before inserting it 
+user_form_ven.php  *           the database
+user_form_ven.php  *        
+user_form_ven.php  * parm : 
+user_form_ven.php  *	- p_cn database connection
+user_form_ven.php  *      - p_jrn journal
+user_form_ven.php  *      - p_periode
+user_form_ven.php  *      - array of value
+user_form_ven.php  *      - nb of item
+user_form_ven.php  *      - p_doc type pdf or html
+user_form_ven.php  * gen :
+user_form_ven.php  *	- none
+user_form_ven.php  * return:
+user_form_ven.php  *     - string
+user_form_ven.php  * 
+user_form_ven.php  */
+user_form_ven.php /* function RecordInvoice
+user_form_ven.php  **************************************************
+user_form_ven.php  * Purpose : Record an invoice in the table jrn &
+user_form_ven.php  *           jrnx
+user_form_ven.php  *        
+user_form_ven.php  * parm : 
+user_form_ven.php  *	- $p_cn Database connection
+user_form_ven.php  *  - $p_array contains all the invoice data
+user_form_ven.php  * e_date => e : 01.01.2003
+user_form_ven.php  * e_client => e : 3
+user_form_ven.php  * nb_item => e : 3
+user_form_ven.php  * e_march0 => e : 6
+user_form_ven.php  * e_quant0 => e : 0
+user_form_ven.php  * e_march0_sell=>e:1
+user_form_ven.php  * e_march1 => e : 6
+user_form_ven.php  * e_quant1 => e : 2
+user_form_ven.php  * e_march1_sell=>e:1
+user_form_ven.php  * e_march2 => e : 7
+user_form_ven.php  * e_quant2 => e : 3
+user_form_ven.php  * e_march2_sell=>e:1
+user_form_ven.php V : view_invoice => e : Voir cette facture
+user_form_ven.php V : record_invoice => e : Sauver 
+user_form_ven.php  *  - $p_periode periode
+user_form_ven.php  *  - $p_jrn current folder (journal)
+user_form_ven.php  * gen :
+user_form_ven.php  *	- none
+user_form_ven.php  * return:
+user_form_ven.php  *	      true on success
+user_form_ven.php  */
 ************************* File = user_menu.php ****************
 user_menu.php /* function u_ShowDossier
 user_menu.php  * Purpose :  Show all the available folder 
@@ -2401,7 +2311,7 @@ user_menu.php  * return:
 user_menu.php  *	- none
 user_menu.php  *
 user_menu.php  */ 
-user_menu.php /* function u_ShowMenuJrn
+user_menu.php /* function ShowMenuJrn
 user_menu.php  * Purpose : Show the menu of the jrn depending of its type
 user_menu.php  *        
 user_menu.php  * parm : 
@@ -2526,18 +2436,3 @@ user_menu.php  *	-
 user_menu.php  *
 user_menu.php  */ 
 ************************* File = user_update.php ****************
-************************* File = viewjrn.php ****************
-viewjrn.php /* function ViewJrn
-viewjrn.php  * Purpose : Vue des écritures comptables
-viewjrn.php  * 
-viewjrn.php  * parm : 
-viewjrn.php  *	- p_dossier,
-viewjrn.php  *      - p_user,
-viewjrn.php  *      - p_jrn
-viewjrn.php  *      - array
-viewjrn.php  * gen :
-viewjrn.php  *	-
-viewjrn.php  * return:
-viewjrn.php  *	-
-viewjrn.php  *
-viewjrn.php  */ 

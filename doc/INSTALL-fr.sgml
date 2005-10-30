@@ -29,16 +29,20 @@ name="Postgres"> et <url url="http://www.easyphp.org/" name="EasyPhp">.
 et devraient être lues avant d'appeler à l'aide.
 </sect>
 
-<sect>Postgresql (version 732 minimum)
+<sect>Postgresql (version 8.0.1 minimum)
 <sect1>Installation
 <p>
 Soit avec des binaires préparés, soit à partir du code source
+</p>
+<p> Le plus simple est d'utiliser les binaires de votre distribution, ne
+compiler ces programmes que si vraiment vous devez le faire ou que vous préfèrez
+avoir la dernière version disponible.
 </p>
 <p>
 Si vous décidez de le compiler vous-même, les
 options suivantes fonctionnent
 <verb>
-./configure -with-tk --with-python --with-perl --prefix=/opt/psql732
+./configure -with-tk --with-python --with-perl --prefix=/usr/local/psql
 </verb>
 </p>
 </sect1>
@@ -191,7 +195,7 @@ options suivantes fonctionnent
     --with-apxs2=/opt/http2/bin/apxs \
     --with-fastcgi \
     --with-zlib \
-    --with-pgsql=/opt/psql732 \
+    --with-pgsql=/usr/local/psql \
     --with-mysql \
     --with-apache2=/software/httpd-2.0.44
 </verb></tscreen>

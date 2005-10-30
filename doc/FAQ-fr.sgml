@@ -99,6 +99,8 @@ session.cookie_lifetime   = 0       ; lifetime in seconds of cookie
                                     ; or if 0, until browser is restarted
 session.cookie_path       = /tmp       ; the path the cookie is valid for
 </verb>
+lors de l'installation (admin/setup.php), on vérifie que toutes les paramètres d'initialisation sont
+corrects.
 
 </sect>
 <sect>Quand on réinitialise le mot de passe, que vaut-il ?
