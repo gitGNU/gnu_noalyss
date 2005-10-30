@@ -733,7 +733,9 @@ function jrn_navigation_bar($p_offset,$p_line,$p_size,$p_page=1)
 {
   // if the pagesize is unlimited return ""
   // in that case there is no nav. bar
-  if ( $_SESSION['g_pagesize'] == -1 ) return "";
+  if ( $_SESSION['g_pagesize'] == -1  ) return "";
+  // if there is no row return an empty string
+  if ( $p_line == 0 ) return "";
 
   // Compute the url
   $url="";

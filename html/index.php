@@ -3,7 +3,7 @@
 echo '<!DOCTYPE HTML PUBLIC "-//W3C/DTD HTML 3.2 FINAL//EN">
 <HTML>
 <head>
-<TITLE> Gnu Accountancy</TITLE>
+<TITLE> PhpCompta </TITLE>
 <style>
 BODY {
   background-color:white;
@@ -29,7 +29,7 @@ BODY {
 <script src="scripts.js" type="text/javascript"></script>
 </head>
 <BODY onLoad="SetFocus(\'login\',0)">
-Version CVS 
+Version 1.2.2
 <div class="remark">
  <p class="gras">Il est conseill&eacute; de ne PAS utiliser Internet Explorer.
  </p><p>

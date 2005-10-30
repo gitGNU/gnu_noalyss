@@ -199,12 +199,45 @@ puis la base de données par défaut de phpcompta.</p>";
   exit();
  }
 ?>
+<h2>Database version </h2>
+<?
+ // Verify Psql version
+ //--
+$sql="select setting from pg_settings where name='server_version'";
+$Res=ExecSql($cn,$sql);
+$row=pg_fetch_array($Res,0);
+$version=$row[0];
+
+if ( $version[0]  != '8' ) {
+?>
+  <p> Vous devez absolument utiliser au minimum une version 8 de PostGresql, si votre distribution n'en
+offre pas, installez en une en la compilant. </p><p>Lisez attentivement la notice sur postgresql.org pour migrer
+vos bases de données en 8
+</p>
+<? exit();
+}
+
+?>
 <h2>Database Setting</h2>
 <?
+// Language plsql is installed
+//--
+$sql="select lanname from pg_language where lanname='plpgsql'";
+$Res=CountSql($cn,$sql);
+if ( $Res==0) { ?>
+<p> Vous devez installer le langage plpgsql pour permettre aux fonctions SQL de fonctionner.</p>
+<p>Pour cela, sur la ligne de commande, faites 
+createlang plpgsql pour chaque base de données que vous possédez (y compris template0 et template1).
+</p>
+<p>Pour afficher toutes les bases de données, tapez sur la ligne de commande "psql -l"</p>
+<? exit(); }
+
+// Memory setting
+//--
 $sql="select name,setting 
       from pg_settings 
       where 
-      name in ('effective_cache_size','shared_buffers','sort_mem')";
+      name in ('effective_cache_size','shared_buffers','work_mem')";
 $Res=ExecSql($cn,$sql);
 $flag=0;
 for ($e=0;$e<pg_NumRows($Res);$e++) {
@@ -224,9 +257,9 @@ for ($e=0;$e<pg_NumRows($Res);$e++) {
       $flag++;
     }
     break;
-  case 'sort_mem':
+  case 'work_mem':
     if ( $a['setting'] < 8192 ){
-      print '<p class="warning">Attention le paramètre sort_mem est de '.
+      print '<p class="warning">Attention le paramètre work_mem est de '.
 	$a['setting']." au lieu de 8192 </p>";
     $flag++;
     }
@@ -239,11 +272,13 @@ if ( $flag == 0 ) {
  } else {
   echo '<p class="warning">Il y a '.$flag.' paramètre qui sont trop bas</p>';
  }
+if ( ! isset($_POST['go']) ) {
 ?>
 <FORM action="setup.php" METHOD="post">
 <input type="submit" name="go" value="Prêt à commencer la mise à jour ou l'installation?">
 </form>
 <?
+}
 if ( ! isset($_POST['go']) )
 	exit();
 // Check if account_repository exists
@@ -347,7 +382,7 @@ for ($e=0;$e < $MaxDossier;$e++) {
 
 $Resdossier=ExecSql($cn,"select mod_id, mod_name from modeledef");
 $MaxDossier=pg_NumRows($Resdossier);
-
+echo "Upgrading Dossier";
 for ($e=0;$e < $MaxDossier;$e++) {
   $db_row=pg_fetch_array($Resdossier,$e);
   echo "Patching ".$db_row['mod_name']."<hr>";
@@ -393,6 +428,8 @@ for ($e=0;$e < $MaxDossier;$e++) {
   } // version == 7
 
  }
+
+echo "Upgrading Repository";
 $cn=DbConnect();
 if ( GetVersion($cn) <= 4 ) {
   ExecuteScript($cn,'sql/patch/ac-upgrade4.sql');
@@ -401,5 +438,5 @@ if ( GetVersion($cn) == 5 ) {
   ExecuteScript($cn,'sql/patch/ac-upgrade5.sql');
  }
 if ( GetVersion($cn) == 6 ) {
-  ExecuteScript($cn,'sql/patch/ac-upgrade7.sql');
+  ExecuteScript($cn,'sql/patch/ac-upgrade6.sql');
  }

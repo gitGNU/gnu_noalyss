@@ -60,7 +60,6 @@ declare
 	diff numeric;
 	tt text;
 begin
-	raise notice 'tg_op is %', TG_OP;
 	if TG_OP = 'INSERT' then
 	tt=NEW.jr_internal;
 	diff:=check_balance(tt);
