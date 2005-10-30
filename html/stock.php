@@ -33,9 +33,10 @@ if ( ! isset ( $_SESSION['g_dossier'] ) ) {
 }
 include_once ("postgres.php");
 /* Admin. Dossier */
-$rep=DbConnect();
+
+$cn=DbConnect($_SESSION['g_dossier']);
 include_once ("class_user.php");
-$User=new cl_user($rep);
+$User=new cl_user($cn);
 $User->Check();
 
 // Synchronize rights
@@ -51,7 +52,7 @@ if ( $User->admin == 0 ) {
   }
 
 }
-$cn=DbConnect($_SESSION['g_dossier']);
+
 
 //Show the top menu
 include_once ("user_menu.php");
@@ -113,7 +114,7 @@ if ( isset ($_POST['sub_change'])) {
 // if year is not set then use the year of the user's periode
 if ( ! isset ($_GET['year']) ) {
   // get defaut periode
-  $a=GetUserPeriode($cn,$_SESSION['g_user']);
+  $a=$User->GetPeriode();
   // get exercice of periode
   $year=GetExercice($cn,$a);
   } else
