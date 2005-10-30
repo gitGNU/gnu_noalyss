@@ -42,7 +42,7 @@ avoir la dernière version disponible.
 Si vous décidez de le compiler vous-même, les
 options suivantes fonctionnent
 <verb>
-./configure -with-tk --with-python --with-perl --prefix=/usr/local/psql
+./configure -with-tk --with-python --with-perl --prefix=/ou_vous_voulez
 </verb>
 </p>
 </sect1>
