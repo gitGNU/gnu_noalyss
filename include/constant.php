@@ -22,7 +22,7 @@
 define ("phpcompta_password","dany");
 define ("domaine","dev_");
 
-define ("DEBUG","true");
+define ("DEBUG","false");
 
 // securite correspond a la table 
 // action

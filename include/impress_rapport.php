@@ -24,7 +24,7 @@ include_once("class_widget.php");
 // after in pdf or cvs
 ////////////////////////////////////////////////////////////////////////////////
 if ( isset( $_POST['bt_html'] ) ) {
-include("class_rapport.php");
+  include("class_rapport.php");
   $Form=new rapport($cn,$_POST['form_id']);
   $Form->GetName();
   // step asked ?
@@ -110,7 +110,6 @@ include("class_rapport.php");
 ////////////////////////////////////////////////////////////////////////////////
 // Show the jrn and date
 ////////////////////////////////////////////////////////////////////////////////
-include_once('form_input.php');
 include_once("postgres.php");
 $ret=make_array($cn,"select fr_id,fr_label
                  from formdef

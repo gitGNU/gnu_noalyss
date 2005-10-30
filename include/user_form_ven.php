@@ -1,4 +1,4 @@
-w<?
+<?
 /*
  *   This file is part of PhpCompta.
  *

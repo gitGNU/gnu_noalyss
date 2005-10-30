@@ -103,7 +103,6 @@ include("class_poste.php");
 ////////////////////////////////////////////////////////////////////////////////
 // Show the jrn and date
 ////////////////////////////////////////////////////////////////////////////////
-include_once('form_input.php');
 include_once("postgres.php");
 $ret=make_array($cn,"select distinct j_poste::text ,j_poste::text||'  '||pcm_lib
                  from jrnx inner join tmp_pcmn on (pcm_val=j_poste)

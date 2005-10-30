@@ -187,7 +187,7 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
    $file->table=1;
    $r.="<hr>";
    $r.= "<table>"; 
-   $r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
+   $r.="<TR>".$file->IOValue("pj","","Pi&egrave;ce justificative")."</TR>";
    $r.="</table>";
    $r.="<hr>";
  }
