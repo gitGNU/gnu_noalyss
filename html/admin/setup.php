@@ -306,6 +306,12 @@ if ($account == 0 ) {
   ExecuteScript($cn,'sql/mod1/schema.sql');
   ExecuteScript($cn,'sql/mod1/data.sql');
 
+  echo "Creation of Modele2";
+  ExecSql($cn,"create database ".domaine."mod2 encoding='latin1'");
+  $cn=DbConnect(2,'mod');
+  ExecuteScript($cn,'sql/mod2/schema.sql');
+  ExecuteScript($cn,'sql/mod2/data.sql');
+
 
  ob_end_clean();
 

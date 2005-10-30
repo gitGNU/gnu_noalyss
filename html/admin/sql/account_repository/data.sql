@@ -74,6 +74,7 @@ INSERT INTO theme (the_name, the_filestyle, the_filebutton) VALUES ('Light', 'st
 --
 
 INSERT INTO modeledef (mod_id, mod_name, mod_desc) VALUES (1, '(BE) Basique', 'Comptabilité Belge, tout doit être adaptée');
+INSERT INTO modeledef (mod_id, mod_name, mod_desc) VALUES (2, '(FR) Basique', 'Comptabilité Française, tout doit être adaptée');
 
 
 --
