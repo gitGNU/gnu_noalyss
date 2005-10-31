@@ -1,5 +1,9 @@
 2005-10-31  sparkyx  <sparkyx@eleven>
 
+	* release-note: update doc
+
+	* Changelog, release-note: Ajout d'une release note
+
 	* html/admin/sql/mod2/schema.sql, html/admin/sql/mod2/table.sql, html/admin/sql/patch/upgrade7.sql, include/constant.php, html/admin/setup.php, html/admin/sql/mod2/function.sql, Changelog:
 	Bug when upgrading PhpCompta to 1.2.2
 
