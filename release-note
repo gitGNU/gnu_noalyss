@@ -13,8 +13,8 @@ A PLUS RIEN A FAIRE POUR LES VERSIONS FONCTIONNANT SOUS WINDOWS
 
 
 
-a. faire un backup complet de votre systeme de base de données
 primo ) 
+faire un backup complet de votre systeme de base de données
 grâce à ce petit script
  la valeur de TARGET_DIR peut être adapté
 ############################################################################
