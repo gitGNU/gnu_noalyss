@@ -19,7 +19,7 @@ CREATE TABLE centralized (
     c_j_id integer,
     c_date date NOT NULL,
     c_internal text NOT NULL,
-    c_montant double precision NOT NULL,
+    c_montant numeric(20,4) not null,
     c_debit boolean DEFAULT true,
     c_jrn_def integer NOT NULL,
     c_poste integer,
@@ -69,7 +69,7 @@ CREATE TABLE jnt_fic_attr (
 CREATE TABLE jrn (
     jr_id integer DEFAULT nextval('s_jrn'::text) NOT NULL,
     jr_def_id integer NOT NULL,
-    jr_montant numeric(8,4) NOT NULL,
+    jr_montant numeric(20,4) NOT NULL,
     jr_comment text,
     jr_date date,
     jr_grpt_id integer NOT NULL,
@@ -141,7 +141,7 @@ CREATE TABLE parameter (
 CREATE TABLE parm_money (
     pm_id integer DEFAULT nextval('s_currency'::text),
     pm_code character(3) NOT NULL,
-    pm_rate double precision
+    pm_rate numeric (20,4)
 );
 CREATE TABLE parm_periode (
     p_id integer DEFAULT nextval('s_periode'::text) NOT NULL,
@@ -173,7 +173,7 @@ CREATE TABLE tmp_pcmn (
 CREATE TABLE tva_rate (
     tva_id integer NOT NULL,
     tva_label text NOT NULL,
-    tva_rate double precision DEFAULT 0.0 NOT NULL,
+    tva_rate numeric (8,4) DEFAULT 0.0 NOT NULL,
     tva_comment text,
     tva_poste text
 );

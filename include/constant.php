@@ -20,7 +20,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 // $Revision$
 define ("phpcompta_password","dany");
-define ("domaine","dev_");
+define ("domaine","");
 
 define ("DEBUG","false");
 

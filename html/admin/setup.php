@@ -293,35 +293,48 @@ $account=CountSql($cn,
 if ($account == 0 ) {
 
   echo "Creation of ".domaine."account_repository";
-  ob_start();  
+  if ( DEBUG=='false') ob_start();  
   ExecSql($cn,"create database ".domaine."account_repository encoding='latin1'");
   $cn=DbConnect();
   ExecuteScript($cn,"sql/account_repository/schema.sql");
   ExecuteScript($cn,"sql/account_repository/data.sql");
+ if ( DEBUG=='false') ob_end_clean();
   echo "Creation of Démo";
+  if ( DEBUG=='false') ob_start();  
   ExecSql($cn,"create database ".domaine."dossier1 encoding='latin1'");
   $cn=DbConnect(1,'dossier');
   ExecuteScript($cn,'sql/dossier1/schema.sql');
   ExecuteScript($cn,'sql/dossier1/data.sql');
+ if ( DEBUG=='false') ob_end_clean();
 
   echo "Creation of Modele1";
+  if ( DEBUG=='false') ob_start();  
   ExecSql($cn,"create database ".domaine."mod1 encoding='latin1'");
   $cn=DbConnect(1,'mod');
   ExecuteScript($cn,'sql/mod1/schema.sql');
   ExecuteScript($cn,'sql/mod1/data.sql');
-
+ if ( DEBUG=='false') ob_end_clean();
+ }// end if
+ 
+// Add a french accountancy model
+//--
+$cn=DbConnect();
+$Res=CountSql($cn,"select * from modeledef where mod_id=2");
+if ( $Res == 0) {
   echo "Creation of Modele2";
   ExecSql($cn,"create database ".domaine."mod2 encoding='latin1'");
   $cn=DbConnect(2,'mod');
+  if ( DEBUG=='false') { ob_start();  }
   ExecuteScript($cn,'sql/mod2/schema.sql');
   ExecuteScript($cn,'sql/mod2/data.sql');
-
-
- ob_end_clean();
-
+  $sql="INSERT INTO modeledef VALUES (2, '(FR) Basique', 'Comptabilité Française, tout doit être adaptée');";
+  $cn=DbConnect();
+  ExecSql($cn,$sql);
+ if ( DEBUG=='false') ob_end_clean();
 }
-// _SERVER["DOCUMENT_ROOT"]
+// 
 // Test the connection
+//--
 $a=DbConnect();
 if ( $a==false) {
    exit ("<h2 class=\"error\">".__LINE__." test has failed !!!</h2>");

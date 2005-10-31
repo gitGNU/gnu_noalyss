@@ -70,7 +70,6 @@ declare
 	diff numeric;
 	tt text;
 begin
-	raise notice 'tg_op is %', TG_OP;
 	if TG_OP = 'INSERT' then
 	tt=NEW.jr_internal;
 	diff:=check_balance(tt);
@@ -168,7 +167,7 @@ CREATE TABLE centralized (
     c_j_id integer,
     c_date date NOT NULL,
     c_internal text NOT NULL,
-    c_montant double precision NOT NULL,
+    c_montant numeric(20,4) not null,
     c_debit boolean DEFAULT true,
     c_jrn_def integer NOT NULL,
     c_poste integer,
@@ -331,7 +330,7 @@ COMMENT ON TABLE jnt_fic_attr IS 'join between the family card and the attribut 
 CREATE TABLE jrn (
     jr_id integer DEFAULT nextval('s_jrn'::text) NOT NULL,
     jr_def_id integer NOT NULL,
-    jr_montant numeric(8,4) NOT NULL,
+    jr_montant numeric(20,4) NOT NULL,
     jr_comment text,
     jr_date date,
     jr_grpt_id integer NOT NULL,
@@ -458,7 +457,7 @@ COMMENT ON TABLE jrn_type IS 'Type of journal (Sell, Buy, Financial...)';
 CREATE TABLE jrnx (
     j_id integer DEFAULT nextval('s_jrn_op'::text) NOT NULL,
     j_date date DEFAULT now(),
-    j_montant numeric(8,4) DEFAULT 0,
+    j_montant numeric(20,4) DEFAULT 0,
     j_poste integer NOT NULL,
     j_grpt integer NOT NULL,
     j_rapt text,
@@ -501,7 +500,7 @@ ALTER TABLE public.parameter OWNER TO phpcompta;
 CREATE TABLE parm_money (
     pm_id integer DEFAULT nextval('s_currency'::text),
     pm_code character(3) NOT NULL,
-    pm_rate double precision
+    pm_rate numeric (20,4) not null
 );
 
 
@@ -991,7 +990,7 @@ COMMENT ON TABLE tmp_pcmn IS 'Plan comptable minimum normalisé';
 CREATE TABLE tva_rate (
     tva_id integer NOT NULL,
     tva_label text NOT NULL,
-    tva_rate double precision DEFAULT 0.0 NOT NULL,
+    tva_rate numeric(6,4) DEFAULT 0.0 NOT NULL,
     tva_comment text,
     tva_poste text
 );

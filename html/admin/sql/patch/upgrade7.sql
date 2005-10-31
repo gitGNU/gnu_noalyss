@@ -15,9 +15,52 @@ delete from jnt_fic_attr where fd_id=2 and ad_id=19;
 update jrnx set j_tech_per = jr_tech_per  from jrn  where j_grpt=jr_grpt_id and j_tech_per is null;
 alter table jrnx alter j_tech_per set not null;
 alter table jrn alter jr_tech_per set not null;
-alter table jrn  alter jr_montant type numeric(8,4);
-alter table jrnx  alter j_montant type numeric(8,4);
+alter table jrn  alter jr_montant type numeric(20,4);
+alter table jrnx  alter j_montant type numeric(20,4);
+alter table centralized  alter c_montant type numeric(20,4);
+alter table parm_money  alter pm_rate type numeric(20,4);
+drop view vw_fiche_attr;
+alter table tva_rate  alter tva_rate type numeric(8,4);
 -- version 8
+create view vw_fiche_attr as  SELECT a.f_id, a.fd_id, a.av_text AS vw_name, b.av_text AS vw_sell, c.av_text AS vw_buy, d.av_text AS tva_code, tva_rate.tva_id, tva_rate.tva_rate, tva_rate.tva_label, e.av_text AS vw_addr, f.av_text AS vw_cp, fiche_def.frd_id
+   FROM ( SELECT fiche.f_id, fiche.fd_id, attr_value.av_text
+           FROM fiche
+      JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+   JOIN attr_def USING (ad_id)
+  WHERE jnt_fic_att_value.ad_id = 1) a
+   LEFT JOIN ( SELECT fiche.f_id, attr_value.av_text
+           FROM fiche
+      JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+   JOIN attr_def USING (ad_id)
+  WHERE jnt_fic_att_value.ad_id = 6) b ON a.f_id = b.f_id
+   LEFT JOIN ( SELECT fiche.f_id, attr_value.av_text
+      FROM fiche
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+   JOIN attr_def USING (ad_id)
+  WHERE jnt_fic_att_value.ad_id = 7) c ON a.f_id = c.f_id
+   LEFT JOIN ( SELECT fiche.f_id, attr_value.av_text
+   FROM fiche
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+   JOIN attr_def USING (ad_id)
+  WHERE jnt_fic_att_value.ad_id = 2) d ON a.f_id = d.f_id
+   LEFT JOIN ( SELECT fiche.f_id, attr_value.av_text
+   FROM fiche
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+   JOIN attr_def USING (ad_id)
+  WHERE jnt_fic_att_value.ad_id = 14) e ON a.f_id = e.f_id
+   LEFT JOIN ( SELECT fiche.f_id, attr_value.av_text
+   FROM fiche
+   JOIN jnt_fic_att_value USING (f_id)
+   JOIN attr_value USING (jft_id)
+   JOIN attr_def USING (ad_id)
+  WHERE jnt_fic_att_value.ad_id = 15) f ON a.f_id = f.f_id
+   LEFT JOIN tva_rate ON d.av_text = tva_rate.tva_id::text
+   JOIN fiche_def USING (fd_id);
 
 
 create function check_balance (p_internal text)  returns numeric as $$

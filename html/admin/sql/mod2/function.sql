@@ -145,7 +145,7 @@ CREATE TABLE centralized (
     c_j_id integer,
     c_date date NOT NULL,
     c_internal text NOT NULL,
-    c_montant double precision NOT NULL,
+    c_montant numeric(20,6) not null,
     c_debit boolean DEFAULT true,
     c_jrn_def integer NOT NULL,
     c_poste integer,
@@ -478,7 +478,7 @@ ALTER TABLE public.parameter OWNER TO phpcompta;
 CREATE TABLE parm_money (
     pm_id integer DEFAULT nextval('s_currency'::text),
     pm_code character(3) NOT NULL,
-    pm_rate double precision
+    pm_rate numeric (20,6) not null
 );
 
 
@@ -968,7 +968,7 @@ COMMENT ON TABLE tmp_pcmn IS 'Plan comptable minimum normalisé';
 CREATE TABLE tva_rate (
     tva_id integer NOT NULL,
     tva_label text NOT NULL,
-    tva_rate double precision DEFAULT 0.0 NOT NULL,
+    tva_rate numeric (8,4) DEFAULT 0.0 NOT NULL,
     tva_comment text,
     tva_poste text
 );
