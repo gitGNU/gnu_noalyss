@@ -84,7 +84,7 @@ if ( isset ($_POST['annul']) ) {
    }
 if  ($p_id != -1 ) { // A
    // userPref contient la periode par default
-    $userPref=GetUserPeriode($cn,$User->id);
+   $userPref=$User->GetPeriode($cn);
     list ($l_date_start,$l_date_end)=GetPeriode($cn,$userPref);
 
     // Periode fermée 
