@@ -137,16 +137,18 @@
 
   [1m8.  J'ai trouvé un tit bug, comment faire un patchs ??[0m
 
-  Le plus simplement du monde : d'abord récupérez le projet avec cvs,
-  corrigez le problème que vous avez détectez; vous vous placez à la
-  racine du projet et vous tapez :
+  Le plus simplement du monde : d'abord récupérez le projet , corrigez
+  le problème que vous avez détecté, vous vous placez à la racine du
+  projet et vous tapez :
 
-  cvs diff -u > patch-date-email
+  cvs diff -rrelease -u > patch-date-email
 
 
   Pensez à d'abord effacer les fichiers inutiles, les  , les core-
   files...  Vous pouvez envoyer le fichier résultat. Pensez à me dire si
-  c'est un patch relatif aux cvs ou non. Mais testez-le avant.
+  c'est un patch relatif aux cvs ou non. Mais testez-le avant.  rem-
+  placer release par la release (allez sur savannah, browse CVS pour
+  connaitre le nom du tag que vous voulez)
 
   Pour tester les patch,
 
@@ -193,8 +195,6 @@
   visionner, faites linuxdoc -B html FAQ.sgml soit linuxdoc -B rtf pour
   avoir un fichier rtf... Puis faites un patch :-) ``Comment faire un
   patch''
-
-
 
   [1m10.  Comment contribuer ?[0m
 
@@ -260,13 +260,12 @@
 
   [1m13.2.  Comment appliquer le patch[0m
 
-  Après l'avoir télécharger, allez dans le répertoire au-dessus du
-  répertoire qui installe PhpCompta, c'est-à-dire celui qui contient les
-  sources (pas le répertoire où PhpCompta est installé!)
+  Après l'avoir télécharger, allez dans le répertoire de PhpCompta,
+  c'est-à-dire celui qui contient les sources
 
   1. Décompresser le patch (gzunip patch-...)
 
-  2. puis appliquez le patch -p9 < patch...
+  2. puis appliquez le patch -p0 < patch...
 
 
 
@@ -321,6 +320,7 @@
 
 
   C'est à cause de cela, qu'il faut re-centraliser.
+
 
 
   [1m18.  J'ai toujours des timeouts[0m

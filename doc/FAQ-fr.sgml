@@ -113,15 +113,17 @@ l'utilisateur demo a aussi phpcompta comme mot de passe.
 </sect>
 <sect>J'ai trouvé un tit bug, comment faire un patchs ??<label id="bug">
 <p>
-Le plus simplement du monde : d'abord récupérez le projet avec cvs,
-corrigez le problème que vous avez détectez; vous vous placez à la
+Le plus simplement du monde : d'abord récupérez le projet ,
+corrigez le problème que vous avez détecté, vous vous placez à la
 racine du projet et vous tapez :  
 <verb>
-cvs diff -u > patch-date-email
+cvs diff -rrelease -u > patch-date-email
 </verb>
 Pensez à d'abord effacer les fichiers inutiles, les ~, les corefiles...
 Vous pouvez envoyer le fichier résultat. Pensez à me dire si c'est un
 patch relatif aux cvs ou non. Mais testez-le avant.
+remplacer release par la release (allez sur savannah, browse CVS pour connaitre
+le nom du tag que vous voulez)
 </p>
 <p> Pour tester les patch,
 <p>
@@ -226,10 +228,10 @@ path-r092-1.tgz, est le premier patch pour la release 0.9.2
 </sect1>
 <sect1> Comment appliquer le patch
 <p>
-Après l'avoir télécharger, allez dans le répertoire au-dessus du répertoire qui installe PhpCompta, c'est-à-dire celui qui contient les sources (pas le répertoire où PhpCompta est installé!)
+Après l'avoir télécharger, allez dans le répertoire de PhpCompta, c'est-à-dire celui qui contient les sources
 <enum>
 <item>Décompresser le patch (gzunip patch-...)
-<item>puis appliquez le patch -p9 &lt; patch...
+<item>puis appliquez le patch -p0 &lt; patch...
 </enum>
 
 
