@@ -225,9 +225,9 @@ function GetPreferences ()
   $Res=ExecSql($this->db,$sql);
   if (pg_NumRows($Res) == 0 ) {
     // default periode
-    $sql=sprintf("insert into user_local_pref (pref_periode,pref_user) 
-                 select min(p_id),'%s' from parm_periode where p_closed=false"
-		 , $this->id);
+    $sql=sprintf("insert into user_local_pref (user_id,parameter_value,parameter_type) 
+                 select '%s',min(p_id),'PERIODE' from parm_periode where p_closed=false",
+		 $this->id);
     $Res=ExecSql($this->db,$sql);
 
     $l_array=$this->GetPreferences();
