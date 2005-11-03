@@ -23,21 +23,22 @@ include_once ("poste.php");
 include_once("preference.php");
 include_once("central_inc.php");
 include_once("user_common.php");
-include_once("form_input.php");
 include_once("check_priv.php");
 include_once ("postgres.php");
 include_once("jrn.php");
+require_once("class_widget.php");
 /* Admin. Dossier */
-$rep=DbConnect();
 include_once ("class_user.php");
-$User=new cl_user($rep);
-$User->Check();
 
-html_page_start($User->theme,"onLoad='window.focus();'");
 if ( ! isset ( $_SESSION['g_dossier'] ) ) {
   echo "You must choose a Dossier ";
   exit -2;
 }
+$cn=DbConnect($_SESSION['g_dossier']);
+$User=new cl_user($cn);
+$User->Check();
+
+html_page_start($User->theme,"onLoad='window.focus();'");
 
 if ( isset( $_GET['p_jrn'] )) {
   $p_jrn=$_GET['p_jrn'];
@@ -52,7 +53,6 @@ if ( isset( $_GET['p_jrn'] )) {
   }
 
 
-$cn=DbConnect($_SESSION['g_dossier']);
 
 list ($l_array,$max_deb,$max_cred)=GetData($cn,$_GET['jrn_op']);
 foreach ($l_array as $key=>$element) {
@@ -213,12 +213,16 @@ echo '<div align="center"> Opération '.$l_array['jr_internal'].'</div>
 <div>
 <form action="'.$_SERVER['REQUEST_URI'].'" method="post" >';
 
-$a=InputType("Date","text", "op_date",$e_op_date,false);
+$a=new widget("text");
+// $a=InputType("Date","text", "op_date",$e_op_date,false);
 //echo 'Date : '.$e_op_date;
-echo $a;
+$a->SetReadOnly(false);
+echo $a->IOValue("op_date",$e_op_date,"Date");
+
 echo '<div style="border-style:solid;border-width:1pt;">';
-$a=InputType("Description:","text_big","comment",$e_comment,false);
-echo $a;
+//$a=InputType("Description:","text_big","comment",$e_comment,false);
+$a->size=80;
+echo $a->IOValue("comment",$e_comment,"Description");
 echo '</DIV>';
 
 if ( isset ($e_ech) ) {

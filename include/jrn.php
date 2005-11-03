@@ -849,7 +849,7 @@ function VerifData($p_cn,$p_array,$p_user)
       return BADDATE;
     }
     // userPref contient la periode par default
-    $userPref=GetUserPeriode($p_cn,$p_user);
+    $userPref=$p_user->GetPeriode();
     list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$userPref);
 
     // Date dans la periode active
