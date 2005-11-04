@@ -214,9 +214,10 @@ Du à une commande drop sur un objet inexistant, n'y pretez pas attention
 <p>
 <sect1>Quel patch utiliser ?
 <p>
-Dans certains cas, le dernier patch reprend les autres, 
+Dans certains cas, le dernier patch ne reprend PAS les autres, 
 il faudra lire la release note du patch
-pour savoir ce qu'il faut appliquer avant.
+pour savoir ce qu'il faut appliquer avant. En règle générale, il 
+faut appliquer les patch dans l'ordre : le premier, puis le second...
 
 Sinon, les patchs sont toujours nommés ainsi
 <bf>path-(numéro_version)-(numéro_de_path).tgz</bf>
