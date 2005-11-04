@@ -248,8 +248,10 @@
 
   [1m13.1.  Quel patch utiliser ?[0m
 
-  Dans certains cas, le dernier patch reprend les autres, il faudra lire
-  la release note du patch pour savoir ce qu'il faut appliquer avant.
+  Dans certains cas, le dernier patch ne reprend PAS les autres, il
+  faudra lire la release note du patch pour savoir ce qu'il faut
+  appliquer avant. En règle générale, il faut appliquer les patch dans
+  l'ordre : le premier, puis le second...
 
   Sinon, les patchs sont toujours nommés ainsi
   [1mpath-(numéro_version)-(numéro_de_path).tgz[0m

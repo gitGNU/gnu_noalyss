@@ -356,7 +356,7 @@ for ($o = 0;$o < $p_number; $o++) {
       echo "<SCRIPT>alert('$msg');</SCRIPT>";
       return null;
     }
-    // Periode fermï¿½ 
+    // Periode fermé
     if ( PeriodeClosed ($p_cn,$p_periode)=='t' )
       {
 		$msg="This periode is closed please change your preference";
@@ -558,6 +558,7 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
   // Get the default period
   $periode=$p_user->GetPeriode();
   $amount=0.0;
+  $amount_jrn=0.0;
   // Computing total customer
   for ($i=0;$i<$nb_item;$i++) {
     // store quantity & goods in array
@@ -575,7 +576,10 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
       // The price is valid
       $a_price[$i]=${"e_march$i"."_sell"};
     }
-    $amount+=$a_price[$i]*$a_quant[$i];
+    $cost=$a_price[$i]*$a_quant[$i];
+    $amount+=$cost;
+    // if cost  < 0 => not added to jrn.jr_amount
+    $amount_jrn+=($cost<0)?0:$cost;
   }
   $comm=FormatString($e_comm);
   $a_vat=ComputeVat($p_cn,$a_good,$a_quant,$a_price,$a_vat);
@@ -629,7 +633,7 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
       }
     }
   echo_debug(__FILE__,__LINE__,"echeance = $e_ech");
-  $r=InsertJrn($p_cn,$e_date,$e_ech,$p_jrn,"Invoice",round($amount,2)+round($sum_vat,2),$seq,$periode);
+  $r=InsertJrn($p_cn,$e_date,$e_ech,$p_jrn,"Invoice",round($amount_jrn,2)+round($sum_vat,2),$seq,$periode);
   if ( $r == false ) { Rollback($p_cn); exit(" Error __FILE__ __LINE__");}
   // Set Internal code and Comment
   $internal=SetInternalCode($p_cn,$seq,$p_jrn);
