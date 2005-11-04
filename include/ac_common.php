@@ -152,7 +152,7 @@ function html_page_start($p_theme="",$p_script="")
  echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 FINAL//EN">';
  echo "<HTML>";
  echo "<HEAD> 
-      <TITLE> Gnu Accountancy</TITLE>
+      <TITLE>PhpCompta</TITLE>
       <META http-equiv=\"Content-Type\" content=\"text/html; charset=ISO-8859-1\">
       <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$style\" media=\"screen\">
       <link rel=\"stylesheet\" type=\"text/css\" href=\"style-print.css\" media=\"print\">
