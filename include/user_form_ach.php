@@ -202,7 +202,7 @@ function FormAchInput($p_cn,$p_jrn,$p_periode,$p_array=null,$p_submit="",$pview_
     $r.=$Tva->IOValue("e_march$i"."_tva_id",$select_tva);
 
     // quantity
-    $quant=(isset(${"e_quant$i"}))?${"e_quant$i"}:"0";
+    $quant=(isset(${"e_quant$i"}))?${"e_quant$i"}:"1";
     $Quantity=new widget("text");
     $Quantity->SetReadOnly($pview_only);
     $Quantity->table=1;
@@ -601,7 +601,7 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
   // Debit = client
   $poste=GetFicheAttribut($p_cn,$e_client,ATTR_DEF_ACCOUNT);
   StartSql($p_cn);	
-  $r=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste,$e_date,round($amount,2)+round($sum_vat,2),$seq,$periode);
+  $r=InsertJrnx($p_cn,'c',$p_user->id,$p_jrn,$poste,$e_date,round($amount,2)+round($sum_vat,2),$seq,$periode);
   if ( $r == false) { $Rollback($p_cn);exit("error __FILE__ __LINE__");}
   // Credit = goods 
   for ( $i = 0; $i < $nb_item;$i++) {
@@ -612,7 +612,7 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
     if ( $a_price[$i]*$a_quant[$i] == 0 ) continue;
 	  
     // record into jrnx
-    $j_id=InsertJrnx($p_cn,'c',$p_user->id,$p_jrn,$poste,$e_date,round($a_price[$i]*$a_quant[$i],2),$seq,$periode);
+    $j_id=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste,$e_date,round($a_price[$i]*$a_quant[$i],2),$seq,$periode);
     if ( $j_id == false) { $Rollback($p_cn);exit("error __FILE__ __LINE__");}
     // always save quantity but in withStock we can find what card need a stock management
     if (  InsertStockGoods($p_cn,$j_id,$a_good[$i],$a_quant[$i],'c') == false ) {
@@ -625,9 +625,9 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 
     {
       foreach ($a_vat as $tva_id => $tva_amount ) {
-	$poste=GetTvaPoste($p_cn,$tva_id,'c');
+	$poste=GetTvaPoste($p_cn,$tva_id,'d');
 	if ($tva_amount == 0 ) continue;
-	$r=InsertJrnx($p_cn,'c',$p_user->id,$p_jrn,$poste,$e_date,round($tva_amount,2),$seq,$periode);
+	$r=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste,$e_date,round($tva_amount,2),$seq,$periode);
 	if ( $r == false ) { Rollback($p_cn); exit(" Error __FILE__ __LINE__");}
       
       }

@@ -210,7 +210,7 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
 
     // quantity
     //--
-    $quant=(isset(${"e_quant$i"}))?${"e_quant$i"}:"0";
+    $quant=(isset(${"e_quant$i"}))?${"e_quant$i"}:"1";
     $Quantity=new widget("text");
     $Quantity->SetReadOnly($pview_only);
     $Quantity->table=1;
@@ -619,6 +619,7 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
   StartSql($p_cn);	
   $r=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste,$e_date,round($amount,2)+round($sum_vat,2),$seq,$periode);
   if ( $r == false) { $Rollback($p_cn);exit("error __FILE__ __LINE__");}
+
   // Credit = goods 
   for ( $i = 0; $i < $nb_item;$i++) {
     if ( isNumber($a_good[$i]) == 0 ) continue;
