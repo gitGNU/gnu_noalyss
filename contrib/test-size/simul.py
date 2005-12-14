@@ -107,7 +107,7 @@ def Creation_operation(p_base,p_type):
 					#jrnx1=jrnx % (loop_day,loop_periode-39,j_montant,j_client,p_base,2,'true',loop_periode)
 					array_jrnx.append(jrnx % (loop_day,month,j_montant,j_client,p_base,2,'true',loop_periode))
 					#print jrnx1
-					array_jrnx.append(jrnx % (loop_day,month,j_tva,'4511',p_base,2,'true',loop_periode))
+					array_jrnx.append(jrnx % (loop_day,month,j_tva,'4511',p_base,2,'false',loop_periode))
 					#print jrnx1
 					total=j_montant+j_tva
 					array_jrnx.append( jrnx % (loop_day,month,total,'700',p_base,2,'false',loop_periode))
@@ -121,7 +121,7 @@ def Creation_operation(p_base,p_type):
 					j_charge='61%04d' % (random.randrange(0,nb_charge)+100)
 					array_jrnx.append(jrnx%(loop_day,month,j_montant,j_fournisseur,p_base,3,'false',loop_periode))
 					#print jrnx1
-					array_jrnx.append(jrnx % (loop_day,month,j_tva,'4111',p_base,3,'false',loop_periode))
+					array_jrnx.append(jrnx % (loop_day,month,j_tva,'4111',p_base,3,'true',loop_periode))
 					#print jrnx1
 					total=j_montant+j_tva
 					array_jrnx.append(jrnx % (loop_day,month,total,j_charge,p_base,3,'true',loop_periode))
