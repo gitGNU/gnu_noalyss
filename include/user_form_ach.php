@@ -41,7 +41,7 @@ require_once("user_common.php");
 function FormAchInput($p_cn,$p_jrn,$p_periode,$p_array=null,$p_submit="",$pview_only=true,$p_article=1)
 { 
 
-  if ( $p_array != null ) {
+  if ( $p_array != null) {
     // array contains old value
     extract($p_array);
   }

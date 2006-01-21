@@ -43,7 +43,7 @@ if ( $action == 'new' ) {
 	if ( isset($_GET['blank'] )) {
 	  // Submit button in the form
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
-                    <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver">';
+                    <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver" ID="SubmitButton">';
 	  $r=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,$submit,false);
 	  echo '<div class="u_redcontent">';
 	  echo $r;

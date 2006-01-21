@@ -230,7 +230,7 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
 
   if ($pview_only == false ) {
     $r.='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article" TABINDEX="32767">';
-    $r.='<INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer" TABINDEX="32767">';
+    $r.='<INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer" TABINDEX="32767" ID="SubmitButton">';
     $r.="</DIV>";
     $r.="</FORM>";
     $r.=JS_CALC_LINE;
