@@ -237,7 +237,7 @@ function ShowPeriode($p_cn)
   echo '<TABLE ALIGN="CENTER">';
   echo "</TR>";
   echo '<TH> Date début </TH>';
-  echo '<TH> Date début </TH>';
+  echo '<TH> Date fin </TH>';
   echo '<TH> Exercice </TH>';
   echo "</TR>";
   
