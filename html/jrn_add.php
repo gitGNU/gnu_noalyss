@@ -102,11 +102,7 @@ echo_debug(__FILE__,__LINE__,"nom journal $p_jrn_name");
 }
 echo ShowMenuAdvanced();
 MenuJrn($_SESSION['g_dossier']);
-if ( isset ($_GET["PHPSESSID"]) ) {
-  $sessid=$_GET["PHPSESSID"];
-}else {
-  $sessid=$_POST["PHPSESSID"];
-}
+$sessid=$_REQUEST['PHPSESSID'];
 $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$sessid."','not')\">";
 
 echo '<DIV CLASS="ccontent">';
