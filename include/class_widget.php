@@ -38,6 +38,7 @@ class widget {
   var $disabled;
   var $extra;
   var $extra2;
+  var $tabindex;
   function widget($p_type="") {
     $this->type=$p_type;
     $this->readonly=false;
@@ -49,6 +50,7 @@ class widget {
     $this->table=0;
     $this->label="";
     $this->disabled=false;
+    $this->tabindex=32767;
   }
   function SetReadOnly($p_read) {
     $this->readonly=$p_read;
@@ -73,7 +75,7 @@ class widget {
     $disabled = $this->disabled ? "DISABLED" : "";
     if (strtoupper($this->type)=="TEXT") {
       if ( $this->readonly==false) {
-	$r="<INPUT TYPE=\"TEXT\" NAME=\"$p_name\" VALUE=\"$this->value\" SIZE=\"$this->size\" ".$disabled.">";} else {
+	$r="<INPUT TYPE=\"TEXT\" NAME=\"$p_name\" VALUE=\"$this->value\" TABINDEX=\"$this->tabindex\" SIZE=\"$this->size\" ".$disabled.">";} else {
 	    $r=sprintf('<span>%s</span><input type="hidden" name="%s" value="%s">', $this->value,$this->name,$this->value);
 	}
 	
@@ -259,7 +261,7 @@ class widget {
       $r=sprintf('<TD>
          <INPUT TYPE="button" onClick=NewCard(\'%s\',\'%s\',\'%s\',\'%s\') value="New">
          <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') value="Search">
-            %s</TD><TD> <INPUT TYPE="Text" NAME="%s" VALUE="%s" SIZE="8">
+            %s</TD><TD> <INPUT TYPE="Text" NAME="%s" VALUE="%s" SIZE="8" TABINDEX="%s">
                  ',
 	       $l_sessid,
 	       $this->extra, // deb or cred
@@ -271,7 +273,8 @@ class widget {
 	       $this->extra2,
 	       $this->label,
 	       $this->name,
-	       $this->value 
+	       $this->value, 
+         $this->tabindex
 	       );
     } else {
       // readonly == true
