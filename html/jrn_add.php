@@ -176,7 +176,7 @@ $num=pg_NumRows($Res);
 
 echo '<TR>';
 echo '<th> Fiches Crédit</TH>';
-echo '<th> Fiches Dédit</TH>';
+echo '<th> Fiches Débit</TH>';
 echo '</TR>';
 // Show the fiche in deb section
 for ($i=0;$i<$num;$i++) {
