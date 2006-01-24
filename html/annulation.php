@@ -62,13 +62,37 @@ foreach ($l_array as $key=>$element) {
 
 // cancel an operation
 if ( isset ($_POST['annul']) ) {
+	/* Confirm it first */
+	if ( ! isset ( $_POST['confirm'])) {
 ?>
-<script>
-    if ( window.confirm ('Etes-vous sûr d\'annuler cette opération')  == false) {
-      window.close();
-    }
-</script>
+<p>
+<h2 class="info">Confirmation</h2>
+<br>
+<p>
+Voulez-vous vraiment annuler  cette information soit par une remise à z&eacute;ro des montants 
+soit par son &eacute;criture inverse ?
+</p>
+<span>
+<FORM METHOD="POST" ACTION="annulation.php?p_jrn=<?echo $_GET['p_jrn'];?>&jrn_op=<?echo $_GET['jrn_op'];?>">
+<INPUT TYPE="HIDDEN" NAME="annul">
+<INPUT TYPE="HIDDEN" NAME="p_id" value="<? echo $_POST['p_id']; ?>">
+<INPUT TYPE="HIDDEN" NAME="op_date" value="<? echo $_POST['op_date']; ?>">
+<INPUT TYPE="SUBMIT" NAME="confirm" value="Oui"> 
+</FORM>
+
+<FORM METHOD="GET" ACTION="annulation.php">
+<INPUT TYPE="HIDDEN" NAME="p_jrn" value="<? echo $_REQUEST['p_jrn']; ?>">
+<INPUT TYPE="HIDDEN" NAME="p_id" value="<? echo $_REQUEST['p_id']; ?>">
+<INPUT TYPE="HIDDEN" NAME="jrn_op" value="<? echo $_REQUEST['jrn_op']; ?>">
+<INPUT TYPE="SUBMIT" NAME="not_confirm" value="non">
+</form>
+</span>
 <?
+return;
+} // end confirm
+
+
+// Remove is confirmed
   if ( isset ($_POST['p_id'])) {
     $p_id=$_POST['p_id'];
    // Get the date
