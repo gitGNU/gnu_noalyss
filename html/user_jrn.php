@@ -30,7 +30,7 @@ include ('class_user.php');
 $User=new cl_user($cn);
 $User->Check();
 
-html_page_start($User->theme, "OnLoad=\"SetFocus('e_date',0); AttachEvent(document, 'keydown', HandleSubmit, true);\" ");
+html_page_start($User->theme, "OnLoad=\"SetFocus('e_date',0)\"");
 if ( ! isset ( $_SESSION['g_dossier'] ) ) {
   echo "You must choose a Dossier ";
   exit -2;
@@ -79,33 +79,19 @@ if ( isset ($_GET['show'])) {
 //TODO: add direct show of jrn if there is only one jrn of type JRN_TYPE (stan)
 
 // if type of journal is asked
-if ( isset ($_GET['JRN_TYPE'] ) && $_GET['JRN_TYPE']=='NONE')
-{
-  $jrn_type=$_GET['JRN_TYPE'];  
-  include('user_action_gl.php');
+if ( isset ($_GET['JRN_TYPE'] ) ) {
+  $jrn_type=$_GET['JRN_TYPE'];
+
+  //when we get there, count jrns of selected type. select count(*) from jrn_def where jrn_def_type='$jrn_type'; 
+  
   $result=ShowJrn("user_jrn.php?JRN_TYPE=".$jrn_type);
-  echo "<DIV class=\"u_subtmenu\">";
-  echo $result;
-  ShowMenuJrnUser($_SESSION['g_dossier'],$jrn_type,$p_jrn);
-  echo "</DIV>";
-} else
-{
-if ( isset ($_GET['JRN_TYPE'])) 
-{
-  $jrn_type=$_GET['JRN_TYPE'];  
-  
-  //when we get there, select min(jrn_def_id) from jrn_def where jrn_def_type='$jrn_type'
-  $p_jrn=GetFirstJrnIdForJrnType($_SESSION['g_dossier'],$jrn_type); 
-  
-  //$result=ShowJrn("user_jrn.php?JRN_TYPE=".$jrn_type);
-  //echo "<DIV class=\"u_subtmenu\">";
-  //echo $result;
-  //ShowMenuJrnUser($_SESSION['g_dossier'],$jrn_type,$p_jrn);
-  //echo "</DIV>";
- 
-  //if ( $jrn_type=='NONE' )     include('user_action_gl.php');
-} 
-//else {  
+   echo "<DIV class=\"u_subtmenu\">";
+   echo $result;
+  ShowMenuJrnUser($_SESSION['g_dossier'],$_GET['JRN_TYPE'],$p_jrn);
+   echo "</DIV>";
+ if ( $jrn_type=='NONE' )     include('user_action_gl.php');
+} else {
+
   echo_debug("Selected is ".$p_jrn);
   // Get the jrn_type_id
   include_once('jrn.php');
@@ -118,8 +104,8 @@ if ( isset ($_GET['JRN_TYPE']))
  echo ShowJrn("user_jrn.php?JRN_TYPE=".$jrn_type);
  ShowMenuJrnUser($_SESSION['g_dossier'],$jrn_type,$p_jrn);
  echo '</div>';
-//}
 }
+
 
   // if a journal is selected show the journal's menu
 if ( $p_jrn != -1 ) {

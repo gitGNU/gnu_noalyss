@@ -145,7 +145,6 @@ if ( isset ($_GET["search"]) ) {
   $limit=$_SESSION['g_pagesize'];
   $sql_limit="";
   $sql_offset="";
-  $bar="";
   if ( $limit != -1) {
     $page=(isset($_GET['page']))?$_GET['page']:0;
     $sql_limit=" LIMIT $limit ";

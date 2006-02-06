@@ -73,7 +73,6 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
   $Date=new widget("text");
   $Date->SetReadOnly($pview_only);
   $Date->table=1;
-  $Date->tabindex=1;
   $r.="<tr>";
   $r.=$Date->IOValue("e_date",$op_date,"Date");
   $r.="</tr>";
@@ -82,7 +81,6 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
   $Echeance=new widget("text");
   $Echeance->SetReadOnly($pview_only);
   $Echeance->table=1;
-  $Echeance->tabindex=2;
   $r.="<tr>";
   $r.=$Echeance->IOValue("e_ech",$e_ech,"Echeance");
   $r.="</tr>";
@@ -92,7 +90,6 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
   $Commentaire->table=1;
   $Commentaire->SetReadOnly($pview_only);
   $Commentaire->size=80;
-  $Commentaire->tabindex=3;
   $r.="<tr>";
   $r.=$Commentaire->IOValue("e_comm",$e_comm,"Description");
   $r.="</tr>";
@@ -124,7 +121,6 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
   $W1=new widget("js_search");
   $W1->label="Client";
   $W1->name="e_client";
-  $W1->tabindex=3;
   $W1->value=$e_client;
   $W1->extra=$fiche;  // list of card
   $W1->extra2=$p_jrn;
@@ -229,8 +225,8 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
   $r.="<hr>";
 
   if ($pview_only == false ) {
-    $r.='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article" TABINDEX="32767">';
-    $r.='<INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer" TABINDEX="32767" ID="SubmitButton">';
+    $r.='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">';
+    $r.='<INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
     $r.="</DIV>";
     $r.="</FORM>";
     $r.=JS_CALC_LINE;

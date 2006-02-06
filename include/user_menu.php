@@ -240,19 +240,6 @@ function ShowMenuComptaRight($p_dossier=0,$p_admin=0)
  *
  */ 
 
-function GetFirstJrnIdForJrnType($p_dossier,$p_type)
-{
-  include_once("postgres.php");
-  
-  //get db connection
-  $Cn=DbConnect($p_dossier);  
-  //execute query: select min(jrn_def_id) from jrn_def where jrn_def_type='$jrn_type'
-  $Ret=ExecSql($Cn,"select min(jrn_def_id) from jrn_def where jrn_def_type='".$p_type."';");
-  $l_line=pg_fetch_array($Ret,0);
-  return $l_line[0];
-  //return 0;
-}
- 
 function ShowMenuJrnUser($p_dossier,$p_type,$p_jrn)
 {
   include_once ("debug.php");

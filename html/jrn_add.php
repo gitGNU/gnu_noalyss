@@ -102,7 +102,11 @@ echo_debug(__FILE__,__LINE__,"nom journal $p_jrn_name");
 }
 echo ShowMenuAdvanced();
 MenuJrn($_SESSION['g_dossier']);
-$sessid=$_REQUEST['PHPSESSID'];
+if ( isset ($_GET["PHPSESSID"]) ) {
+  $sessid=$_GET["PHPSESSID"];
+}else {
+  $sessid=$_POST["PHPSESSID"];
+}
 $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$sessid."','not')\">";
 
 echo '<DIV CLASS="ccontent">';
@@ -172,7 +176,7 @@ $num=pg_NumRows($Res);
 
 echo '<TR>';
 echo '<th> Fiches Crédit</TH>';
-echo '<th> Fiches Débit</TH>';
+echo '<th> Fiches Dédit</TH>';
 echo '</TR>';
 // Show the fiche in deb section
 for ($i=0;$i<$num;$i++) {
