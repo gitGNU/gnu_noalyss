@@ -58,8 +58,14 @@ if ( pg_num_rows ($ret) == 0 )
 $row=pg_fetch_array($ret,0);
 $tmp=tempnam('/tmp/','document_');
 pg_lo_export($cn,$row['jr_pj'],$tmp);
+ini_set('zlib.output_compression','Off');
+header("Pragma: public");
+header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+header("Cache-Control: must-revalidate");
 header('Content-type: '.$row['jr_pj_type']);
 header('Content-Disposition: attachment;filename="'.$row['jr_pj_name'].'"',FALSE);
+header("Accept-Ranges: bytes");
 $file=fopen($tmp,'r');
 while ( !feof ($file) )
 	echo fread($file,8192);

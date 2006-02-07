@@ -135,7 +135,7 @@ function html_page_start($p_theme="",$p_script="")
 {	
   include_once ("postgres.php");
  ini_set('magic_quotes_gpc','Off');
- ini_set('session.use_trans_sid',1);
+
  $cn=DbConnect();
  if ( $p_theme != "") {
    $Res=ExecSql($cn,"select the_filestyle from theme

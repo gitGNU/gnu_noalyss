@@ -244,6 +244,19 @@ session.use_trans_sid = 1
 include_path=".:../include:addon"
 </verb>
 </p>
+</sect1> configuration de .htaccess
+<p>Dans le cas où vous ne pouvez pas changer le fichier php.ini, il faut
+simplement ajouter un fichier .htaccess qui contiendrait
+<verb>
+	php_value include_path ".:../include:addon"
+	php_value session.use_trans_sid true
+	php_value session.auto_start true
+	php_value max_execution_time 120
+	php_value magic_quotes_gpc 0
+</verb>
+
+
+<sect1>
 </sect1>
 </sect>
 <sect>Installation de PhpCompta 
