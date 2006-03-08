@@ -68,9 +68,9 @@ foreach ($ret as $poste_id) {
 	$result=$Poste->GetSoldeDetail($sql );
 	if ( $result['solde'] == 0 ) continue;
 	if ( $result['debit'] > $result ['credit'] ) {
-		printf ("debit;%d;%9.4f\n",$Poste->id,$result['solde']);
+		printf ("d;%d;%12.4f\n",$Poste->id,$result['solde']);
 	} else {
-		printf ("credit;%d;%9.4f\n",$Poste->id,$result['solde']);
+		printf ("c;%d;%12.4f\n",$Poste->id,$result['solde']);
 	}
 }
 

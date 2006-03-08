@@ -27,16 +27,16 @@ if ( ! isset ( $_SESSION['g_dossier'] ) ) {
 }
 include_once ("postgres.php");
 /* Admin. Dossier */
-$rep=DbConnect();
 include_once ("class_user.php");
-$User=new cl_user($rep);
+$cn=DbConnect($_SESSION['g_dossier']);
+$User=new cl_user($cn);
 $User->Check();
 
 include_once ("check_priv.php");
 
 include_once ("user_menu.php");
 ShowMenuCompta($_SESSION['g_dossier']);
-$cn=DbConnect($_SESSION['g_dossier']);
+
 // TODO : add a check for permission
 if ( $User->CheckAction($cn,GJRN) == 0 ) {
   /* Cannot Access */
@@ -46,6 +46,12 @@ if ( $User->CheckAction($cn,GJRN) == 0 ) {
 
 echo '<div class="u_subtmenu">';
 echo ShowMenuAdvanced("ecrit_ouv.php");
+echo ShowItem ( array (
+			array ("ecrit_ouv.php?export","Export"),
+			array ("ecrit_ouv.php?import","Import")
+			),'V');
+echo '</div>';
+echo '<div class="redcontent">';
 /////////////////////////// EXPORT ////////////////////////////////////////////
 if ( isset ($_GET['export'])) {
 // if the year is not set, ask it
@@ -53,15 +59,13 @@ if ( isset ($_GET['export'])) {
 	$periode=make_array($cn,"select distinct p_exercice,p_exercice from parm_periode order by p_exercice");
 	echo '<form method="GET" ACTION="export_ouv.php">';
 	$w=new widget('select');
-	echo '<table>';
-	$w->table=1;
+	$w->table=0;
 	$w->label='Periode';
 	$w->readonly=false;
 	$w->value=$periode;
 	$w->name="p_periode";
-	echo $w->IOValue();
-	echo '<TD>'.$w->Submit('export','Export').'</TD>';
-	echo '</table>';
+	echo 'P&eacute;riode : '.$w->IOValue();
+	echo $w->Submit('export','Export');
 	echo "</form>";
 	exit(0);
 }
@@ -70,14 +74,81 @@ if ( isset ($_GET['import'])) {
 	// show a form to upload the file
 	// that form will parse the file, create an ods operation
 	// and ask you to validate it
+  // if no file is given
+  if ( ! isset ($_REQUEST['p_submit']) ) {
+?>
+<FORM NAME="form_detail" enctype="multipart/form-data" ACTION="ecrit_ouv.php?import" METHOD="POST">
+<?
+  // TODO propose  ODS ledger 
+  $ods=make_array($cn,"select jrn_def_id,jrn_def_name from jrn_def where jrn_def_type = 'OD'");
+  $x=new widget("select");
+  $x->name='p_jrn';
+  $x->value=$ods;
+  echo "Choississez votre journal ".$x->IOValue();
+
+  	$w=new widget("file");
+  $w->name='import_file';
+  $w->label='p_file';
+  echo $w->IOValue();
+  echo $w->Submit('p_submit','Charger le fichier');
+?>
+</FORM>
+<?
 	exit(0);
-}
+  } else { 
+    require_once("user_form_ods.php");
+    require_once("jrn.php");
+    // a file is given, so we upload it
+    $new_name=tempnam('/tmp','import');
+    if ( strlen ( $_FILES['import_file']['tmp_name']) != 0 ) {
+      if ( move_uploaded_file($_FILES['import_file']['tmp_name'],$new_name) ) {
+	// upload succeed
+	$h_file=fopen($new_name,'r') ;
+	// test if the file is opened
+	if ( $h_file == false) { echo 'Je ne peux ouvrir pas ce fichier';exit(-1);}
+	// Analyze the file and store result into array
+	$valid=false;
+	$idx=0;
+	while ( !feof($h_file) ) {
+
+	  $line=fgets($h_file);
+	  // check if the first line contains the signature
+	  if ( $valid  ) {
+	    // skip blank line
+	    if (strlen (trim($line)) == 0 ) continue;
+	    // put the line into an array
+	    list($sign,$poste,$amount)=explode(";",$line);
+	    $asign[$idx]=$sign; $aposte[$idx]=$poste;$aamount[$idx]=$amount;
+	    $idx++;
+	    }
+	  $valid=(($line=="OUVERTURE\n" && $valid==false) || $valid)?true:false;
+	  
+	} // read the file
+	// compose the array for the function FormODS
+	$array_ods['e_comm']='Ecriture d\'ouverture';
+	for ($i=0;$i<$idx;$i++) {
+		$n="e_account$i";
+		$array_ods[$n]=$aposte[$i];
+		$n="e_account".$i."_type";
+		$array_ods[$n]=$asign[$i];
+		$n="e_account".$i."_amount";
+		$array_ods[$n]=$aamount[$i];
+	}
+	
+	// submit button in the form	
+	$submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout Poste">
+                    <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver">';
+	 $r=FormODS($cn,$_POST['p_jrn'],$User->GetPeriode(),$submit,
+			$array_ods,false,$idx,$p_saved=false);
+	
+	  echo $r;
+	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."<div>";
+	
+      } 
+    }
+  } // else -> a file is given
+ }// if import
 // IF import and export are not set then the choice is proposed
-echo '<div>';
-echo ShowItem ( array (
-			array ("ecrit_ouv.php?export","Export"),
-			array ("ecrit_ouv.php?import","Import")
-			),'V');
 echo '</div>';
 html_page_stop(); 
 ?>

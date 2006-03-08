@@ -42,7 +42,7 @@ require_once("user_common.php");
  */
 function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=true,$p_article=6,$p_saved=false)
 { 
-  include_once("poste.php");
+   include_once("poste.php");
   if ( $p_array != null ) {
     // array contains old value
     foreach ( $p_array as $a=>$v) {
@@ -126,6 +126,7 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
 	$lib=GetPosteLibelle($p_cn, $account,1);
       }
     }
+
     ${"e_account$i"."_amount"}=(isset(${"e_account$i"."_amount"}))?${"e_account$i"."_amount"}:0;
     if ( isNumber(${"e_account$i"."_amount"}) == 0 ) {
       if ( $pview_only==true) {
