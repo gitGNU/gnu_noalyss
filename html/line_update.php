@@ -22,8 +22,7 @@ include_once ("ac_common.php");
 
 if ( !isset ($_SESSION['g_dossier'])) {
     echo "You must choose a Dossier ";
-  phpinfo();
-  exit -2;
+   exit -2;
 }
 include_once ("postgres.php");
 include_once("check_priv.php");
