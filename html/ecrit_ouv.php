@@ -124,6 +124,8 @@ if ( isset ($_GET['import'])) {
 	  $valid=(($line=="OUVERTURE\n" && $valid==false) || $valid)?true:false;
 	  
 	} // read the file
+	// if valid is still false then there is nothing to do
+	if ( ! $valid) { echo 'Aucun enregistrement valide'; return ;}
 	// compose the array for the function FormODS
 	$array_ods['e_comm']='Ecriture d\'ouverture';
 	for ($i=0;$i<$idx;$i++) {
