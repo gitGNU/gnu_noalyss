@@ -450,6 +450,12 @@ if (DEBUG == 'false' ) ob_start();
       ExecSql($db,"select setval('s_grpt',$M,true)");
     }
   } // version == 7
+  //--
+  // update to the version 9
+  //--
+  if ( GetVersion($db) == 8 ) { 
+    ExecuteScript($db,'sql/patch/upgrade8.sql');
+  } // version == 7
 if ( DEBUG == 'false') ob_end_clean();
  }
 
