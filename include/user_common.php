@@ -217,10 +217,10 @@ comment = $p_comment");
  * parm : 
  *	- $p_cn database connection
  *      - $p_jrn jrn_id jrn.jrn_def_id
- *      - $p_sql the sql query (where clause)
- * gen :
- *	- none
- * return:
+ *      - $p_where the sql query where clause
+ *      - $p_array TODO
+ *      - $p_value TODO
+ * return: array (entryCount,generatedHTML);
  * 
  */
 function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0)
@@ -230,6 +230,9 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0)
   $limit=($_SESSION['g_pagesize']!=-1)?" LIMIT ".$_SESSION['g_pagesize']:"";
   $offset=($_SESSION['g_pagesize']!=-1)?" OFFSET ".$p_value:"";
   if ( $p_array == null ) {
+
+  //que fait cette requête??? 
+    
    $sql="select jr_id	,
 			jr_montant,
 			jr_comment,
@@ -284,12 +287,14 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0)
     $jrn_sql=($p_jrn =0)?"1=1":"jrn_def_id=$p_jrn ";
     $l_and=" where ";
     // amount
-    if ( ereg("^[0-9]+$", $l_s_montant) || ereg ("^[0-9]+\.[0-9]+$", $l_s_montant) ) {
-    $sql.=$l_and."  jr_montant $l_mont_sel $l_s_montant";
-    $l_and=" and ";
+    if ( ereg("^[0-9]+$", $l_s_montant) || ereg ("^[0-9]+\.[0-9]+$", $l_s_montant) ) 
+    {
+      $sql.=$l_and."  jr_montant $l_mont_sel $l_s_montant";
+      $l_and=" and ";
     }
     // date
-    if ( isDate($l_date_start) != null ) {
+    if ( isDate($l_date_start) != null ) 
+    {
       $sql.=$l_and." jr_date >= to_date('".$l_date_start."','DD.MM.YYYY')";
       $l_and=" and ";
     }
@@ -299,7 +304,8 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0)
     }
     // comment
     $l_s_comment=FormatString($l_s_comment);
-    if ( $l_s_comment != null ) {
+    if ( $l_s_comment != null ) 
+    {
       $sql.=$l_and." upper(jr_comment) like upper('%".$l_s_comment."%') ";
       $l_and=" and ";
     }
@@ -319,7 +325,8 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0)
     // if not admin check filter 
     $User=new cl_user(DbConnect());
     $User->Check();
-    if ( $User->admin == 0 ) {
+    if ( $User->admin == 0 ) 
+    {
       $sql.=$l_and." jr_def_id in ( select uj_jrn_id ".
 	" from user_sec_jrn where ".
 	" uj_login='".$_SESSION['g_user']."'".
@@ -334,6 +341,10 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0)
 
   // Execute SQL stmt
   $Res=ExecSql($p_cn,$sql);
+
+  //starting from here we can refactor, so that instead of returning the generated HTML, 
+  //this function returns a tree structure.
+  
   $r="";
   $r.=JS_VIEW_JRN_DETAIL;
   $r.=JS_VIEW_JRN_CANCEL;
@@ -341,6 +352,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0)
 
   $Max=pg_NumRows($Res);
 
+  //TODO: correct this message. 
   if ($Max==0) return array(0,"No row selected");
 
   $r.="<TABLE width=\"100%\">";
@@ -356,6 +368,9 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0)
   $r.="</tr>";
 
   for ($i=0; $i < $Max;$i++) {
+
+    //STAN the rows here must be stored in an array
+    
     $row=pg_fetch_array($Res,$i);
     
     if ( $i % 2 == 0 ) $tr='<TR class="odd">'; 
@@ -387,24 +402,28 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0)
     // Get the jrn type
     $jrn_prop=GetJrnProp($p_cn,$row['jrn_def_id'],1);  
     $positive=0;
-    if ( $positive=1  &&  $jrn_prop['jrn_def_type'] == 'FIN' ) {
+    //STAN following code will never be executed, as $positive=0 TO CHECK with DANY
+    if ( $positive=1  &&  $jrn_prop['jrn_def_type'] == 'FIN' ) 
+    {
       $positive = CountSql($p_cn,"select * from jrn inner join jrnx on jr_grpt_id=j_grpt ".
 			   " where jr_id=".$row['jr_id']." and (j_poste like '55%' or j_poste like '57%' )".
 			   " and j_debit='f'");
     }
     $r.="<TD align=\"right\">";
+    //STAN $positive always == 0
     $r.=( $positive != 0 )?"<font color=\"red\">  - ".sprintf("%8.2f",$row['jr_montant'])."</font>":sprintf("%8.2f",$row['jr_montant']);
     $r.="</TD>";
     
-    // Rapt
+    // Rapprochement
     $a=GetConcerned($p_cn,$row['jr_id']);
     $r.="<TD>";
     if ( $a != null ) {
       // $r.="operation concernée ";
       
-      foreach ($a as $key => $element) {
-	$r.= "<A class=\"detail\" HREF=\"javascript:viewDetail('".GetGrpt($p_cn,$element)."','$l_sessid')\" > ".GetInternal($p_cn,$element)."</A>";
-	
+      foreach ($a as $key => $element) 
+      {      
+        //TODO add to each row the related operations
+	      $r.= "<A class=\"detail\" HREF=\"javascript:viewDetail('".GetGrpt($p_cn,$element)."','$l_sessid')\" > ".GetInternal($p_cn,$element)."</A>";
       }//for
     }// if ( $a != null ) {
     $r.="</TD>";
