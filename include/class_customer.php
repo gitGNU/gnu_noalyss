@@ -66,11 +66,8 @@ class Customer {
  *	- array
  */
   function VatListing($p_year) {
-    $cond_sql=" and A.j_tech_per = B.j_tech_per 
-         and A.j_tech_per= any (select p_id 
-             from parm_periode
-              where 
-              p_exercice='$p_year')";
+    $cond_sql=" and A.j_date = B.j_date 
+      and extract(year from A.j_date) ='$p_year'";
     
     // BASE ACCOUNT
     // for belgium
@@ -103,7 +100,7 @@ where
       //---
       $row1=pg_fetch_array($Res,$i);
   
-      // select the customer
+      // select the operation
       //----
       $Res2=ExecSql($this->db,"select j_poste,j_montant,j_debit from jrnx where j_grpt=".$row1['j_grpt']); 
       $a_row=array();
@@ -139,17 +136,25 @@ where
 	}
 	// store sold
 	//---
-	$a_Res[$customer]['amount']=(isset($a_Res[$customer]['amount']))?$a_Res[$customer]['amount']:0;
-	$a_Res[$customer]['amount']+=$amount;
+	$a_Res[$customer]['amount']=(isset($a_Res[$customer]['amount']))?$a_Res[$customer]['amount']:0;    	
+  $a_Res[$customer]['amount']+=$amount;
 
 	// store vat
 	//---
 	$a_Res[$customer]['tva']=(isset($a_Res[$customer]['tva']))?$a_Res[$customer]['tva']:0;
-	$a_Res[$customer]['tva']+=$tva;
-
+	$a_Res[$customer]['tva']+=$tva;  
+  
 	// store customef info
 	//---
 	$a_Res[$customer]['customer']=$customer;
+
+  //if not submitted to VAT, remove from list:
+  //STAN: currently commented out because I don't know if it is really what we need.
+  //if (!isset($a_Res[$customer]['vat_number']) || strcmp($a_Res[$customer]['vat_number'], "") == 0)
+  //{
+  //  unset($a_Res[$customer]);
+  //}
+  
       }// foreach $a
 
     }

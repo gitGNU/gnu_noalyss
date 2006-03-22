@@ -69,7 +69,7 @@ echo '<FORM ACTION="user_impress.php?type=list_client" METHOD="POST">';
 echo '<TABLE>';
 
 print '<TR>';
-$year=make_array($cn,"select distinct p_exercice,p_exercice from  parm_periode");
+$year=make_array($cn,"select distinct extract(year from jr_date), extract(year from jr_date) from jrn");
 $w->label="Année concernée";
 print $w->IOValue('year',$year);
 print "</TR>";
