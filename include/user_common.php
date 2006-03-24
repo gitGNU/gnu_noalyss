@@ -47,7 +47,7 @@ function GetTvaRate($p_cn,$p_tva_id) {
   return $r;
 
 }
-/* function ComputeVat($p_cn,$a_fiche,$a_quant,$a_price,$ap_vat)
+/* function ComputeTotalVat($p_cn,$a_fiche,$a_quant,$a_price,$ap_vat)
  **************************************************
  * Purpose : Compute the vat,
  *           the fiche.f_id are in a_fiche
@@ -65,8 +65,8 @@ function GetTvaRate($p_cn,$p_tva_id) {
  * return: array
  *       a[tva_id] =  amount vat
  */
-function ComputeVat($p_cn,	$a_fiche,$a_quant,$a_price,$ap_vat ) {
-echo_debug(__FILE__,__LINE__,"ComputeVat $a_fiche $a_quant $a_price");
+function ComputeTotalVat($p_cn,	$a_fiche,$a_quant,$a_price,$ap_vat ) {
+echo_debug(__FILE__,__LINE__,"ComputeTotalVat $a_fiche $a_quant $a_price");
  foreach ( $a_fiche as $t=>$el) {
    echo_debug(__FILE__,__LINE__,"t $t e $el");
  }
@@ -104,6 +104,43 @@ echo_debug(__FILE__,__LINE__,"ComputeVat $a_fiche $a_quant $a_price");
  
 }
 
+/* function ComputeVat($p_cn,$a_fiche,$a_quant,$a_price,$ap_vat)
+ **************************************************
+ * Purpose : Compute the vat for only one elt,
+ *           the fiche.f_id are in p_fiche
+ *           the quantity in p_quant
+ *           
+ *        
+ * parm : 
+ *	- database connection
+ *      - fiche id int
+ *      1- quantity int
+ *      - price float 
+ *      - Tva_id
+ * gen :
+ *	-
+ * return: the amount of vat
+ */
+function ComputeVat($p_cn,	$p_fiche,$p_quant,$p_price,$p_vat ) {
+    // Get the tva_id
+    if ( $p_vat != null and  isNumber($p_vat)== 1)
+      $tva_id=$p_vat;
+    else
+      $tva_id=GetFicheAttribut($p_cn,$p_fiche,ATTR_DEF_TVA);
+    
+    if ( $tva_id == 'Unknown' ) return -1;
+    // for each fiche find the tva_rate and tva_id
+    $a_vat=GetTvaRate($p_cn,$tva_id);
+    $vat_amount=-1;
+    // Get the attribut price of the card(fiche)
+    if ( $a_vat != null  and  $a_vat['tva_id'] != "" ) 
+   {  $a=$a_vat['tva_id'];
+      $vat_amount=$p_price*$a_vat['tva_rate']*$p_quant;
+    } 
+ return $vat_amount;
+ 
+ 
+}
 
 
 /* function GetTvaPoste($p_cn,$tva_id,$p_type);

@@ -492,7 +492,9 @@ $left_menu=ShowItem(array(
 			  array('central.php','Centralise'),
 		          array('pcmn_update.php?p_start=1','Plan Comptable'),
 			  array('stock.php','Stock'),
-			  array('form.php','Rapport')
+			  array('form.php','Rapport'),
+			  array('import.php','Import Banque'),
+			  array('ecrit_ouv.php','Ecriture ouverture')
 			  ),
 		    'H',"cell","mtitle",$default);
 return $left_menu;
@@ -708,4 +710,13 @@ function ShowMenuComptaForm($p_dossier) {
     echo "</TABLE>";
     echo '</div>';
 }
+function ShowMenuImport(){
+    echo '<TABLE>';
+    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="import.php?action=import">Importer CSV</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="import.php?action=verif">Verif CSV</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="import.php?action=transfer">Transfert CSV</A></TD></TR>';
+    
+    echo "</TABLE>";
+}
+
 ?>

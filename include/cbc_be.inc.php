@@ -1,0 +1,3 @@
+<?
+echo "Encore rien désolé";
+?>

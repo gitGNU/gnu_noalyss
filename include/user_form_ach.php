@@ -582,7 +582,7 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
     $amount_jrn+=($cost<0)?0:$cost;
   }
   $comm=FormatString($e_comm);
-  $a_vat=ComputeVat($p_cn,$a_good,$a_quant,$a_price,$a_vat);
+  $a_vat=ComputeTotalVat($p_cn,$a_good,$a_quant,$a_price,$a_vat);
 
   $sum_vat=0.0;
   if ( $a_vat != null ){

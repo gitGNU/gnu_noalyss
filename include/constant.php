@@ -59,7 +59,8 @@ define ("ODS",13);
 define ("FICHE_WRITE",15);
 define ("STOCK_WRITE",16);
 define ("STOCK_READ",17);
-
+define ("EXP_IMP_ECR",21);
+define ("IMP_BQE",22);
 // Erreur
 define ("NOERROR",0);
 define ("BADPARM",1);

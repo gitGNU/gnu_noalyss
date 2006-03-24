@@ -603,10 +603,10 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
   $comm=FormatString($e_comm);
   // Compute VAT
   //--
-  $a_vat=ComputeVat($p_cn,$a_good,$a_quant,$a_price,$a_vat);
+  $a_vat_new=ComputeTotalVat($p_cn,$a_good,$a_quant,$a_price,$a_vat);
   $sum_vat=0.0;
-  if ( $a_vat != null ){
-    foreach ( $a_vat as $element => $t) {
+  if ( $a_vat_new != null ){
+    foreach ( $a_vat_new as $element => $t) {
       echo_debug(__FILE__,__LINE__," a_vat element $element t $t");
       $sum_vat+=$t;
       echo_debug(__FILE__,__LINE__,"sum_vat = $sum_vat");
@@ -638,14 +638,14 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
     // always save quantity but in withStock we can find what card need a stock management
     if (  InsertStockGoods($p_cn,$j_id,$a_good[$i],$a_quant[$i],'c') == false ) {
       $Rollback($p_cn);exit("error __FILE__ __LINE__");}
-  }
+    } // end loop
   
   // Insert Vat
 
-  if ( $a_vat  !=  null  ) // no vat
+  if ( $a_vat_new  !=  null  ) // no vat
 
     {
-      foreach ($a_vat as $tva_id => $tva_amount ) {
+      foreach ($a_vat_new as $tva_id => $tva_amount ) {
 	$poste=GetTvaPoste($p_cn,$tva_id,'c');
 	if ($tva_amount == 0 ) continue;
 	$r=InsertJrnx($p_cn,'c',$p_user->id,$p_jrn,$poste,$e_date,round($tva_amount,2),$seq,$periode);
@@ -667,7 +667,28 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
   if ( isset ($_FILES))
     save_upload_document($p_cn,$seq);
 
-
+// save the quantity, then we can make an invoice
+  for ( $i=0;$i < $nb_item;$i++) 
+	{
+	// don't record operation of 0
+    	if ( $a_price[$i]*$a_quant[$i] == 0 ) continue;
+	
+	// insert into the table quant_sold
+	// Note that negative value are also saved but not the vat !
+	if (  $a_vat[$i] == -1) {
+		$computed_vat=0;
+		$vat_code="null";
+	} else {
+		$computed_vat=ComputeVat($p_cn,$a_good[$i],$a_quant[$i],$a_price[$i],$a_vat[$i]);
+		$vat_code=$a_vat[$i];
+	}
+	 $r=ExecSql($p_cn,"insert into quant_sold".
+	  	"(qs_internal,qs_fiche,qs_quantite,qs_price,qs_vat,qs_vat_code) values".
+	 	"('".$internal."',".$a_good[$i].",".$a_quant[$i].",".$a_price[$i].
+	 	",".$computed_vat.
+	 	",".$vat_code.")");
+	 if ( $r == false ) { Rollback($p_cn); exit(" Error __FILE__ __LINE__"); };
+	}
   Commit($p_cn);
 
   return $comment;
