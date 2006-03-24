@@ -3,7 +3,7 @@
 // Bank type = eub
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // first line is skipped
-if ( $row == 1)  continue;
+if ( $row > 1) {
 $code=""; $date_exec=""; $detail=""; $montant=""; 
 list($code, $date_exec, $detail, $montant) = split(";", $data[$c]);
 
@@ -41,4 +41,5 @@ values ('$code',
 	'$p_bq_account',
 	false)";
 $Res=ExecSql($p_cn,$Sql);
+}
 ?>

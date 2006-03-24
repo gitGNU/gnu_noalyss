@@ -49,7 +49,7 @@ function ImportCSV($p_cn,$file,$p_bq_account,$p_format_csv)
                 $num = count($data);
                 for ($c=0; $c < $num; $c++) {
 // if $p_format_csv == fortis
-				require_once($p_format_csv);
+				include($p_format_csv);
 
               }
                 $row++;
