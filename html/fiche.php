@@ -30,14 +30,14 @@ if ( ! isset ( $_SESSION['g_dossier'] ) ) {
 include_once ("postgres.php");
 include_once ("user_menu.php");
 
-echo JS_SEARCH_POSTE;
+
 $rep=DbConnect();
 include_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
 include ("check_priv.php");
 ShowMenuCompta($_SESSION['g_dossier']);
-
+echo JS_SEARCH_POSTE;
 
 if ( !isset($sessid)) 
 {
