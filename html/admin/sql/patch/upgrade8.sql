@@ -18,9 +18,9 @@ create table format_csv_banque
 	name text primary key,
 	include_file text not null
 );
-drop trigger trim_space on format_csv_banque;
-
-drop function trim_space_format_csv_banque();
+-- drop trigger trim_space on format_csv_banque;
+-- 
+-- drop function trim_space_format_csv_banque();
 
 create function trim_space_format_csv_banque() returns trigger as $trim$
 declare
@@ -58,10 +58,30 @@ CREATE TABLE import_tmp (
     num_compte text,
     poste_comptable text,
     ok boolean DEFAULT false,
-    bq_account integer,
-	jrn integer
+    bq_account integer not null,
+	jrn integer not null
 );
+create function trim_cvs_quote() returns trigger as $trim$
+declare
+        modified import_tmp%ROWTYPE;
+begin
+		modified.code=new.code;
+		modified.montant=new.montant;
+		modified.date_exec=new.date_exec;
+		modified.date_valeur=new.date_valeur;
+		modified.devise=replace(new.devise,'"','');
+		modified.poste_comptable=replace(new.poste_comptable,'"','');
+        modified.compte_ordre=replace(NEW.COMPTE_ORDRE,'"','');
+        modified.detail=replace(NEW.DETAIL,'"','');
+        modified.num_compte=replace(NEW.NUM_COMPTE,'"','');
+		modified.bq_account=NEW.bq_account;
+		modified.jrn=NEW.jrn;
+		modified.ok=new.ok;
+        return modified;
+end;
+$trim$ language plpgsql;
 
+create trigger trim_quote before insert or update on import_tmp FOR EACH ROW execute procedure trim_cvs_quote();
 
 
 update version set val=9;

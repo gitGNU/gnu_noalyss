@@ -8,7 +8,8 @@ if ( $row>1) {
 	$code=""; $date_exec=""; $date_valeur=""; $montant=""; $devise=""; $compte_ordre=""; $detail=""; $num_compte=""; $iduser="";
 	
 	list($code, $date_exec, $date_valeur, $montant, $devise, $compte_ordre, $detail, $num_compte) = split(";", $data[$c]);
-	
+	echo "line : $row > ".$data[$c]."<hr>";
+
 	//corrige un bug de date
 	$date_exec = str_replace(chr(34),"", $date_exec);
 	
@@ -34,11 +35,14 @@ if ( $row>1) {
 	
 	$montant = str_replace(",", ".", $montant);
 	$montant = str_replace("+", "", $montant);
+	$montant = str_replace("\"", "", $montant);
 	
+	$detail=str_replace("\"","",$detail);
+
 	$sql = "select * from import_tmp 
 			where 
 			code='".$code."' and 
-			num_compte='".$p_bq_account."'";
+			num_compte='".$num_compte."'";
 	$Res=ExecSql($p_cn,$sql);
 	$Num=pg_NumRows($Res);
 	
@@ -55,7 +59,7 @@ if ( $row>1) {
 			detail,
 			num_compte,
 			bq_account ,
-			jrn
+			jrn,
 			ok)
 		values ('$code',
 			'$date_exec',
@@ -64,7 +68,8 @@ if ( $row>1) {
 			'$devise',
 			'".addslashes($compte_ordre)."',	
 			'".addslashes($detail)."',
-			'$p_bq_account',
+			'$num_compte',
+			$p_bq_account,
 			$p_jrn,
 			false)";
 	

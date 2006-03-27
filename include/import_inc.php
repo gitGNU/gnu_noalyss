@@ -44,8 +44,11 @@ function ImportCSV($p_cn,$file,$p_bq_account,$p_format_csv,$p_jrn)
                 print 'could not open file. quitting';
                 die;
         }
+
+StartSql($p_cn);
+
         $row = 1;
-        while (($data = fgetcsv($handle, 2000, '#@!')) !== FALSE) {
+        while (($data = fgetcsv($handle, 2000,'!@')) !== FALSE) {
                 $num = count($data);
                 for ($c=0; $c < $num; $c++) {
 // include the right format for CSV --> given by the <form>
@@ -56,6 +59,16 @@ function ImportCSV($p_cn,$file,$p_bq_account,$p_format_csv,$p_jrn)
         }
 	echo "Importation terminée.";
 	fclose($handle);
+// if importation succeeds then we can commit the change
+Commit($p_cn);
+/* Done by trigger
+// clean all the double quote
+$sql="update import_tmp set 
+		compte_ordre=replace(compte_ordre,'\"',''),
+		detail=replace(detail,'\"',''),
+		num_compte=replace(num_compte,'\"','');";
+ExecSql($p_cn,$sql);*/
+
 }
 
 function UpdateCSV($p_cn, $code, $poste){
@@ -130,15 +143,16 @@ function TransferCSV($p_cn, $periode){
 		//$periode = GetUserPeriode($p_cn,$p_user);
 		//$periode = $User->GetPeriode();
 		StartSql($p_cn);
-		
-// 		if($num_compte == '001-3983978-70') $r=InsertJrnx($p_cn,"d",$p_user,$p_jrn,'55000001',$date_exec,$montant,$seq,$periode);
-// 		elseif ($num_compte == '360-1062770-44' ) $r=InsertJrnx($p_cn,"d",$p_user,$p_jrn,'55000002',$date_exec,$montant,$seq,$periode);
-// 		elseif ($num_compte == '671-9032279-01' ) $r=InsertJrnx($p_cn,"d",$p_user,$p_jrn,'55000003',$date_exec,$montant,$seq,$periode);
+
 		$r=InsertJrnx($p_cn,"d",$p_user,$jrn,$bq_account,$date_exec,$montant,$seq,$periode);
 		if ( $r == false) { $Rollback($p_cn);exit("error __FILE__ __LINE__");}
 	
 		$r=InsertJrnx($p_cn,"c",$p_user,$jrn,$poste_comptable,$date_exec,$montant,$seq,$periode);
 		if ( $r == false) { $Rollback($p_cn);exit("error __FILE__ __LINE__");}
+
+		//remove annoying double-quote
+		$num_compte=str_replace('"','',$num_compte);
+		$code=str_replace('\"','',$code);
 	
 		$r=InsertJrn($p_cn,$date_exec,NULL,$jrn,$num_compte." ".$code,$montant,$seq,$periode);
 		if ( $r == false ) { Rollback($p_cn); exit(" Error __FILE__ __LINE__");}
@@ -146,12 +160,12 @@ function TransferCSV($p_cn, $periode){
 		//$sql = "insert into jrn (jr_def_id,jr_montant,jr_comment,jr_date,jr_grpt_id,jr_tech_per) values ( ".$p_jrn.", abs(".round($montant,2)."), '".$num_compte." ".$code."','".$date_valeur."','".$seq."','".$periode."')";
 		SetInternalCode($p_cn,$seq,$jrn);
 
-		Commit($p_cn);
 
 		echo "Tranfer de l'opération ".$code." effectué<br/>";
 		$sql2 = "update import_tmp set ok=TRUE where code='".$code."'";
 		$Res2=ExecSql($p_cn,$sql2);
 
+		Commit($p_cn);
 		}
 	}
 }
