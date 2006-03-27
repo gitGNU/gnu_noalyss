@@ -14,7 +14,9 @@ if ( $row > 1 ) {
 	# Bug CSV ING : espace après la date
 	$date_exec = str_replace(" ", "", $date_exec);
 	$date_valeur = str_replace(" ", "", $date_valeur);
-	
+	$date_exec = str_replace("\"", "", $date_exec);
+	$date_valeur = str_replace("\"", "", $date_valeur);
+	$montant = str_replace("\"", "", $montant);
 	if ((ereg ("([0-9]{3})-([0-9]{7})-([0-9]{2})", $num_compte, $regs))){
 		$num_compte = $regs[0];
 	}
@@ -56,27 +58,29 @@ if ( $row > 1 ) {
 	if($Num > 0) {
 		echo "Op&eacute;ration FORTIS ".$code." d&eacute;j&eagrave; import&eacute;e.<br/>";
 	} else {
-		//echo $code." ".$date_exec." ".$date_valeur." ".$montant." ".$devise." ".$compte_ordre." detail ".$num_compte." <b>".$poste_comptable."</b><br/>";
+		echo $code." ".$date_exec." ".$date_valeur." ".$montant." ".$devise." ".$compte_ordre." detail ".$num_compte." <b>".$poste_comptable."</b><br/>";
 		//$Sql="insert into import_tmp values ('$code','$date_exec','$date_valeur','$montant','$devise','".addslashes($compte_ordre)."','".addslashes($detail)."','$num_compte','$poste_comptable')";
-		$Sql="insert into import_tmp (code 
+		$Sql="insert into import_tmp (code,
 			date_exec ,
 			date_valeur,
 			montant,
 			devise,
 			compte_ordre,
 			detail,
-			num_compte,
-			poste_comptable,
+			bq_account ,
+			jrn,
 			ok)
 		values ('$code',
 			'$date_exec',
 			'$date_exec',
-			'$montant',
+			$montant,
 			'$devise',
 			'".addslashes($compte_ordre)."',	
-			'".addslashes($detail)."',
+			'".addslashes($detail).$num_compte."	',
 			'$p_bq_account',
+			$p_jrn,
 			false)";
+echo $sql;
 		$Res=ExecSql($p_cn,$Sql);
 	}
 }

@@ -38,7 +38,7 @@ include_once("user_common.php");
  *	-
  * return:
  */
-function ImportCSV($p_cn,$file,$p_bq_account,$p_format_csv)
+function ImportCSV($p_cn,$file,$p_bq_account,$p_format_csv,$p_jrn)
 {
         if(!$handle = fopen($file, "r")) {
                 print 'could not open file. quitting';
@@ -48,7 +48,7 @@ function ImportCSV($p_cn,$file,$p_bq_account,$p_format_csv)
         while (($data = fgetcsv($handle, 2000, '#@!')) !== FALSE) {
                 $num = count($data);
                 for ($c=0; $c < $num; $c++) {
-// if $p_format_csv == fortis
+// include the right format for CSV --> given by the <form>
 				include($p_format_csv);
 
               }
@@ -64,7 +64,7 @@ function UpdateCSV($p_cn, $code, $poste){
 }
 
 function VerifImport($p_cn){
-	$sql = "select * from import_tmp where poste_comptable=''";
+	$sql = "select * from import_tmp where poste_comptable='' or poste_comptable is null";
 	$Res=ExecSql($p_cn,$sql);
 	$Num=pg_NumRows($Res);
 	echo $Num." opérations à complèter.<br/><br/>";
@@ -95,7 +95,8 @@ function TransferCSV($p_cn, $periode){
 	$val = pg_fetch_array($Res);
 	$start = $val['p_start'];   $end = $val['p_end'];
 	
-	$sql = "select * from import_tmp where poste_comptable <> '' AND ok <> TRUE AND date_exec BETWEEN '".$start."' and '".$end."'";
+	$sql = "select * from import_tmp where poste_comptable is not null and  poste_comptable <> '' 
+            AND ok <> TRUE AND date_exec BETWEEN '".$start."' and '".$end."'";
 	$Res=ExecSql($p_cn,$sql);
 	//echo "boucle: ".sizeof($Res)."<br/>";
 	//while($val = pg_fetch_array($Res)){
@@ -104,7 +105,9 @@ function TransferCSV($p_cn, $periode){
 	for ($i = 0;$i < $Max;$i++) {
 		$val=pg_fetch_array($Res,$i);
 		
-		$code=$val['code']; $date_exec=$val['date_exec']; $montant=$val['montant']; $num_compte=$val['num_compte']; $poste_comptable=$val['poste_comptable'];
+		$code=$val['code']; $date_exec=$val['date_exec']; $montant=$val['montant']; $num_compte=$val['num_compte']; 
+		$poste_comptable=$val['poste_comptable'];$bq_account=$val['bq_account'];
+		$jrn=$val['jrn'];
 
 		list($annee, $mois, $jour) = explode("-", $date_exec);
 		$date_exec = $jour.".".$mois.".".$annee;
@@ -120,7 +123,6 @@ function TransferCSV($p_cn, $periode){
 		} else {
 
 		// Finances
-		$p_jrn = 1;
 	
 		//$seq = GetNextId($p_cn,'j_grpt')+1;
 		$seq=NextSequence($p_cn,'s_grpt');
@@ -132,17 +134,17 @@ function TransferCSV($p_cn, $periode){
 // 		if($num_compte == '001-3983978-70') $r=InsertJrnx($p_cn,"d",$p_user,$p_jrn,'55000001',$date_exec,$montant,$seq,$periode);
 // 		elseif ($num_compte == '360-1062770-44' ) $r=InsertJrnx($p_cn,"d",$p_user,$p_jrn,'55000002',$date_exec,$montant,$seq,$periode);
 // 		elseif ($num_compte == '671-9032279-01' ) $r=InsertJrnx($p_cn,"d",$p_user,$p_jrn,'55000003',$date_exec,$montant,$seq,$periode);
-		$r=InsertJrnx($p_cn,"d",$p_user,$p_jrn,$poste_comptable,$date_exec,$montant,$seq,$periode);
+		$r=InsertJrnx($p_cn,"d",$p_user,$jrn,$bq_account,$date_exec,$montant,$seq,$periode);
 		if ( $r == false) { $Rollback($p_cn);exit("error __FILE__ __LINE__");}
 	
-		$r=InsertJrnx($p_cn,"c",$p_user,$p_jrn,$poste_comptable,$date_exec,$montant,$seq,$periode);
+		$r=InsertJrnx($p_cn,"c",$p_user,$jrn,$poste_comptable,$date_exec,$montant,$seq,$periode);
 		if ( $r == false) { $Rollback($p_cn);exit("error __FILE__ __LINE__");}
 	
-		$r=InsertJrn($p_cn,$date_exec,NULL,$p_jrn,$num_compte." ".$code,$montant,$seq,$periode);
+		$r=InsertJrn($p_cn,$date_exec,NULL,$jrn,$num_compte." ".$code,$montant,$seq,$periode);
 		if ( $r == false ) { Rollback($p_cn); exit(" Error __FILE__ __LINE__");}
 		  
 		//$sql = "insert into jrn (jr_def_id,jr_montant,jr_comment,jr_date,jr_grpt_id,jr_tech_per) values ( ".$p_jrn.", abs(".round($montant,2)."), '".$num_compte." ".$code."','".$date_valeur."','".$seq."','".$periode."')";
-		SetInternalCode($p_cn,$seq,$p_jrn);
+		SetInternalCode($p_cn,$seq,$jrn);
 
 		Commit($p_cn);
 

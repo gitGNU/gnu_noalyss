@@ -46,7 +46,7 @@ if ( $row>1) {
 		echo "Op&eacute;ration FORTIS ".$code." d&eacute;j&eagrave; import&eacute;e.<br/>";
 	} else {
 	//	$Sql="insert into import_tmp values ('$code','$date_exec','$date_valeur','$montant','$devise','".addslashes($compte_ordre)."','".addslashes($detail)."','$num_compte','$poste_comptable')";
-		$Sql="insert into import_tmp (code 
+		$Sql="insert into import_tmp (code ,
 			date_exec ,
 			date_valeur,
 			montant,
@@ -54,7 +54,8 @@ if ( $row>1) {
 			compte_ordre,
 			detail,
 			num_compte,
-			poste_comptable,
+			bq_account ,
+			jrn
 			ok)
 		values ('$code',
 			'$date_exec',
@@ -64,6 +65,7 @@ if ( $row>1) {
 			'".addslashes($compte_ordre)."',	
 			'".addslashes($detail)."',
 			'$p_bq_account',
+			$p_jrn,
 			false)";
 	
 		$Res=ExecSql($p_cn,$Sql);

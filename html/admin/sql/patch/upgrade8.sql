@@ -47,6 +47,21 @@ INSERT INTO format_csv_banque VALUES ('EUB', 'eub_be.inc.php');
 INSERT INTO format_csv_banque VALUES ('ING', 'ing_be.inc.php');
 INSERT INTO format_csv_banque VALUES ('CBC', 'cbc_be.inc.php');
 
+CREATE TABLE import_tmp (
+    code text,
+    date_exec date,
+    date_valeur date,
+    montant text,
+    devise text,
+    compte_ordre text,
+    detail text,
+    num_compte text,
+    poste_comptable text,
+    ok boolean DEFAULT false,
+    bq_account integer,
+	jrn integer
+);
+
 
 
 update version set val=9;

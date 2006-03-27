@@ -23,14 +23,15 @@ if($code >= 100) $code = "0".$code;
 $code = $annee."-".$code;
 
 
-$Sql="insert into import_tmp (code 
+$Sql="insert into import_tmp (code, 
 	date_exec ,
 	date_valeur,
 	montant,
 	devise,
 	detail,
 	num_compte,
-	poste_comptable,
+	bq_account 	,
+	jrn,
 	ok)
 values ('$code',
 	'$date_exec',
@@ -39,6 +40,7 @@ values ('$code',
 	'EUR',
 	'".addslashes($detail)."',
 	'$p_bq_account',
+	$p_jrn,
 	false)";
 $Res=ExecSql($p_cn,$Sql);
 }

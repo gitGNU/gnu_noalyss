@@ -67,7 +67,7 @@ if ( isset ($_GET["action"]) ) {
     if(isset($_FILES['fupload'])) {
 	// load the table with the cvs' content
       echo '<DIV class="ccontent">';
-      ImportCSV($cn,$_FILES['fupload']['tmp_name'],$_POST['import_bq'],$_POST['format_csv']);
+      ImportCSV($cn,$_FILES['fupload']['tmp_name'],$_POST['import_bq'],$_POST['format_csv'],$_POST['import_jrn']);
       echo "</DIV>";
     } else {
       echo '<DIV class="ccontent">';
