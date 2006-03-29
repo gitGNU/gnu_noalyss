@@ -47,18 +47,13 @@ function ImportCSV($p_cn,$file,$p_bq_account,$p_format_csv,$p_jrn)
 
 StartSql($p_cn);
 
-        $row = 1;
-        while (($data = fgetcsv($handle, 2000,'!@')) !== FALSE) {
-                $num = count($data);
-                for ($c=0; $c < $num; $c++) {
-// include the right format for CSV --> given by the <form>
-				include($p_format_csv);
+        
+// include the right format for CSV --> given by the <form
+		include($p_format_csv);
 
-              }
-                $row++;
-        }
+        
 	echo "Importation terminée.";
-	fclose($handle);
+
 // if importation succeeds then we can commit the change
 Commit($p_cn);
 /* Done by trigger
