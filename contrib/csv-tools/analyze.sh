@@ -9,6 +9,8 @@ Help () {
 	echo "Usage is $0 line < file "
 }
 
+Help
+
 if [ $# -eq 2 ]; then
 	START=$1
 	END=$2
@@ -16,6 +18,7 @@ if [ $# -eq 2 ]; then
 awk 'BEGIN {FS=";"}  { for ( i=1; i<NF;i++) { print "field nb"i"->"$i;}}'
 fi
 if [ $# -eq 1 ]; then
+	START=$1
  	sed -ne "${START}p" ACI20-janv.-06.csv |
 awk 'BEGIN {FS=";"}  { for ( i=1; i<NF;i++) { print "field nb"i"->"$i;}}'
 fi
