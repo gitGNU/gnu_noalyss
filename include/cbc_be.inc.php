@@ -26,7 +26,29 @@ $row=1;
 while (($data = fgetcsv($handle, 2000,'!@')) !== FALSE) {
 	$num = count($data);
 	for ($c=0; $c < $num; $c++) {
+// Parsing CSV comes here
 
+// insert into import_tmp
+			$Sql="insert into import_tmp (code,
+				date_exec ,
+				date_valeur,
+				montant,
+				devise,
+				compte_ordre,
+				detail,
+				bq_account ,
+				jrn,
+				ok)
+			values ('$code',
+				'$date_exec',
+				'$date_exec',
+				$montant,
+				'$devise',
+				'".addslashes($compte_ordre)."',	
+				'".addslashes($detail).$num_compte."	',
+				'$p_bq_account',
+				$p_jrn,
+				false)";
 		} // for ($c=0;$c<$num;$c++)
 		$row++;
 } // file is read
