@@ -23,6 +23,120 @@ require_once("constant.php");
 require_once("preference.php");
 require_once("fiche_inc.php");
 require_once("user_common.php");
+/* function form_verify_input
+ **************************************************
+ * Purpose : verify if the data to insert are valid
+ *        
+ * parm : 
+ *	- p_cn database connection
+ *      - p_jrn concerned ledger
+ *      - User periode
+ *      - array with the post data
+ *      - p_number number of items
+ * gen :
+ *	-
+ * return:
+ */
+function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
+{
+  foreach ($p_array as $name=>$content) {
+    ${"$name"}=$content;
+  }
+  // Verify the date
+  if ( isDate($e_date) == null ) { 
+	  echo_error("Invalid date $e_date");
+	  echo_debug(__FILE__,__LINE__,"Invalid date $e_date");
+	  echo "<SCRIPT> alert('INVALID DATE $e_date !!!!');</SCRIPT>";
+	  return null;
+		}
+// Verify is a client is set
+ if ( isNumber($e_bank_account)    == 0) {
+   $msg="Banque inexistante";
+   echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);	
+   echo "<SCRIPT>alert('$msg');</SCRIPT>";
+   return null;
+ }
+
+
+ // Check if the fiche is in the jrn
+ if (IsFicheOfJrn($p_cn , $p_jrn, $e_bank_account,'deb') == 0 ) 
+   {
+     $msg="Mauvais compte en banque";
+     echo_error($msg);echo_debug(__FILE__,__LINE__,$msg);	
+     echo "<SCRIPT>alert('$msg');</SCRIPT>";
+     return null;
+   }
+
+ // check if all e_march are in fiche
+  for ($i=0;$i<$p_number;$i++) {
+    if ( trim(${"e_other$i"})  == "" ) {
+      // nothing to do
+      continue;
+    }
+	// Check amount
+    if ( isNumber(${"e_other".$i."_amount"}) == 0) {
+		$msg="Montant invalide !!! ";
+		echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);	
+		echo "<SCRIPT>alert('$msg');</SCRIPT>";
+		return null;
+  	}
+    // Check wether the f_id is a number
+    if ( isNumber(${"e_other$i"}) == 0 ) {
+      $msg="Fiche inexistante !!! ";
+      echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);	
+      echo "<SCRIPT>alert('$msg');</SCRIPT>";
+      return null;
+    }
+    // Check 
+    if ( isFicheOfJrn($p_cn,$p_jrn,${"e_other$i"},'cred') == 0 ) {
+      $msg="Fiche inexistante !!! ";
+      echo_error($msg);echo_debug(__FILE__,__LINE__,$msg);	
+      echo "<SCRIPT>alert('$msg');</SCRIPT>";
+      return null;
+    }
+	// check if the  ATTR_DEF_ACCOUNT is set
+	$poste=GetFicheAttribut($p_cn,${"e_other$i"},ATTR_DEF_ACCOUNT);
+	if ( $poste == null ) 
+	{	
+		$msg="La fiche ".${"e_other$i"}." n\'a pas de poste comptable";
+      echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);	
+      echo "<SCRIPT>alert('$msg');</SCRIPT>";
+      return null;
+	
+	}
+  	if ( strlen(trim($poste))==0 )
+	{
+		$msg="La fiche ".${"e_other$i"}." n\'a pas de poste comptable";
+		echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);	
+		echo "<SCRIPT>alert('$msg');</SCRIPT>";
+	}
+
+  }
+// Verify the userperiode
+
+// p_periode contient la periode par default
+  list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$p_periode);
+  
+  // Date dans la periode active
+  echo_debug ("date start periode $l_date_start date fin periode $l_date_end date demande $e_date");
+  if ( cmpDate($e_date,$l_date_start)<0 || 
+       cmpDate($e_date,$l_date_end)>0 )
+    {
+      $msg="Not in the active periode please change your preference";
+      echo_error($msg); echo_error($msg);	
+      echo "<SCRIPT>alert('$msg');</SCRIPT>";
+      return null;
+    }
+    // Periode ferm� 
+    if ( PeriodeClosed ($p_cn,$p_periode)=='t' )
+      {
+		$msg="This periode is closed please change your preference";
+		echo_error($msg); echo_error($msg);	
+		echo "<SCRIPT>alert('$msg');</SCRIPT>";
+		return null;
+      }
+    return true;
+}
 
 
 /* function FormFin($p_cn,$p_jrn,$p_user,$p_array=null,$pview_only=true,$p_item=1) 
@@ -57,10 +171,7 @@ function FormFin($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
 
   // Verify if valid date
   if ($flag ==1 and   VerifyOperationDate($p_cn,$p_periode,$e_date)   == null) {
-    if ( $pview_only == true) 
-      return null;
-    else 
-      $e_date=substr($l_date_start,2,8);
+        $e_date=substr($l_date_start,2,8);
   }
 
 
@@ -92,27 +203,10 @@ function FormFin($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
 
     // retrieve e_bank_account_label
   if ( isNumber($e_bank_account) == 1 ) {
-    if ( isFicheOfJrn($p_cn,$p_jrn,$e_bank_account,'deb') == 0 ) {
-      $msg="Fiche inexistante !!! ";
-      echo_error($msg); echo_error($msg);	
-      echo "<SCRIPT>alert('$msg');</SCRIPT>";
-      $e_bank_account="";
-      echo_debug(__FILE__,__LINE__,"FormFin returns NULL the bank account is not valid");
-      return null;
-    } else {
       $a_client=GetFicheAttribut($p_cn,$e_bank_account);
       if ( $a_client != null)   
 	$e_bank_account_label=$a_client['vw_name']."  adresse ".$a_client['vw_addr']."  ".$a_client['vw_cp'];
-      }
-  }else {
-    
-    if ( $pview_only ==true) {
-      return null;
-      echo_debug(__FILE__,__LINE__,"FormFin returns NULL the bank account is not valid");
-    }
-    
-  }
-  
+	  }  
   //  search widget
     $W1=new widget("js_search");
     $W1->readonly=$pview_only;
@@ -155,57 +249,17 @@ function FormFin($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
       $tiers=(isset(${"e_other".$i}))?${"e_other".$i}:"";
       $tiers_label="";
       $tiers_amount=(isset(${"e_other$i"."_amount"}))?${"e_other$i"."_amount"}:0;
-      if ( isNumber($tiers_amount) == 0) {
-		if ( $pview_only==true )
-		{
-			$msg="Montant invalide !!! ";
-			echo_error($msg); echo_error($msg);	
-			echo "<SCRIPT>alert('$msg');</SCRIPT>";
-			return null;
-		}
-		$tiers_amount=0;
-      }
+  
       $tiers_comment=(isset (${"e_other$i"."_comment"}))?${"e_other$i"."_comment"}:"";
     // If $tiers has a value
     if ( isNumber($tiers) == 1 ) 
 	{
-      if ( $pview_only && isFicheOfJrn($p_cn,$p_jrn,$tiers,'cred') == 0 ) 
-		{
-			$msg="Fiche inexistante !!! ";
-			echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);
-			echo "<SCRIPT>alert('$msg');</SCRIPT>";
-			$tiers="";
-			return null;
-		} 
-	  else 
-		{
-			// retrieve the tva label and name
-			$a_fiche=GetFicheAttribut($p_cn, $tiers);
-			if ( $a_fiche != null ) {
-			$tiers_label=$a_fiche['vw_name'];
-			}
-    	}
-		// if the parameter is set to view only we do not check
-		if ( $pview_only  ) 
-		{
-			// check if the  ATTR_DEF_ACCOUNT is set
-			$poste=GetFicheAttribut($p_cn,$tiers,ATTR_DEF_ACCOUNT);
-		if ( $poste == null ) 
-			{	
-				$msg="La fiche ".$tiers." n\'a pas poste comptable";
-				echo_error($msg);echo_debug(__FILE__,__LINE__,$msg);
-				echo "<SCRIPT>alert('$msg');</SCRIPT>";
-				return null;
-			}	
-		if ( strlen(trim($poste))==0 )
-			{
-				$msg="La fiche ".$tiers." n\'a pas poste comptable";
-				echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);
-				echo "<SCRIPT>alert('$msg');</SCRIPT>";
-				return null;
-			}
-		}
-    }
+		// retrieve the tva label and name
+		$a_fiche=GetFicheAttribut($p_cn, $tiers);
+		if ( $a_fiche != null ) {
+		$tiers_label=$a_fiche['vw_name'];
+   		}
+	}
     ${"e_other$i"."_amount"}=(isset (${"e_other$i"."_amount"}))?${"e_other$i"."_amount"}:0;
 
     $W1=new widget("js_search");

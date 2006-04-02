@@ -100,16 +100,19 @@ if ( $action == 'new' ) {
 	$nb_number=$_POST["nb_item"];
 	$submit='<INPUT TYPE="SUBMIT" name="save" value="Confirmer">';
 	$submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
-
-	$r=FormFin($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$HTTP_POST_VARS,true,$nb_number);
-
+	$r=form_verify_input($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,$nb_number);
 	// if something goes wrong correct it
-	if ( $r == null ) {
+	if ( $r == null ) 
+	{
 	  // submit button in the form
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver">';
 
 	  $r=FormFin($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$HTTP_POST_VARS,false,  $nb_number);
+	}
+	else 
+	{
+		$r=FormFin($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$HTTP_POST_VARS,true,$nb_number);
 	}
 
 	echo '<div class="u_redcontent">';
