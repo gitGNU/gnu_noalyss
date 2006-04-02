@@ -20,7 +20,6 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 include_once ("ac_common.php");
-//phpinfo();
 html_page_start($_SESSION['g_theme']);
 
 if ( ! isset ( $_SESSION['g_dossier'] ) ) {
