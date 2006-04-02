@@ -355,11 +355,54 @@ for ($o = 0;$o < $p_number; $o++) {
 	}
   	if ( strlen(trim($poste))==0 )
 	{
-		$msg="La fiche ".$tiers." n\'a pas de poste comptable";
+		$msg="La fiche ".${"e_march$i"}." n\'a pas de poste comptable";
 		echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);		
 		echo "<SCRIPT>alert('$msg');</SCRIPT>";
 		return null;
 	}
+
+	// Check if the percentage indicated in this field is valid
+	$non_dedu=GetFicheAttribut($p_cn,${"e_march$i"},ATTR_DEF_DEPENSE_NON_DEDUCTIBLE);
+	if ( $non_dedu != null && strlen(trim($non_dedu)) != 0 )
+	{
+		if ( isNumber($non_dedu) == 0 || $non_dedu > 1.00 ) 
+		{
+			$msg="La fiche ".${"e_march$i"}." a un pourcentage invalide, 
+			il doit être compris entre 0 et 1";
+			echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);	
+			echo "<SCRIPT>alert('$msg');</SCRIPT>";
+			return null;
+		
+		}
+	}
+	// Check if the percentage indicated in this field is valid
+	$non_dedu=GetFicheAttribut($p_cn,${"e_march$i"},ATTR_DEF_TVA_NON_DEDUCTIBLE);
+	if ( $non_dedu != null && strlen(trim($non_dedu)) != 0 )
+	{
+		if ( isNumber($non_dedu) == 0 || $non_dedu > 1.00 ) 
+		{
+			$msg="La fiche ".${"e_march$i"}." a un pourcentage invalide, 
+			il doit être compris entre 0 et 1";
+			echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);	
+			echo "<SCRIPT>alert('$msg');</SCRIPT>";
+			return null;
+		
+		}
+	}	// Check if the percentage indicated in this field is valid
+	$non_dedu=GetFicheAttribut($p_cn,${"e_march$i"},ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP);
+	if ( $non_dedu != null && strlen(trim($non_dedu)) != 0 )
+	{
+		if ( isNumber($non_dedu) == 0 || $non_dedu > 1.00 ) 
+		{
+			$msg="La fiche ".${"e_march$i"}." a un pourcentage invalide, 
+			il doit être compris entre 0 et 1";
+			echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);	
+			echo "<SCRIPT>alert('$msg');</SCRIPT>";
+			return null;
+		
+		}
+	}
+
   }
 // Verify the userperiode
 
@@ -476,13 +519,13 @@ function FormAchView ($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$p_number,$p_pi
     // VAT 
     $vat=(isNumber(${"e_march$i"."_tva_id"})==0)?getFicheAttribut($p_cn,${"e_march$i"},ATTR_DEF_TVA):${"e_march$i"."_tva_id"};
 
-    //VAT deductibility rate
+/*    //VAT deductibility rate
     $deduct_rate = getFicheAttribut($p_cn,${"e_march$i"},ATTR_DEF_TVA_DEDUCT_RATE);      
     if ($deduct_rate == null)
     {
       $deduct_rate = 100;
     }
-    
+    */
     // vat label
     // vat rate
     $a_vat=GetTvaRate($p_cn,$vat);
@@ -586,13 +629,14 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
   $periode=$p_user->GetPeriode();
   $amount=0.0;
   $amount_jrn=0.0;
+  $sum_tva_nd=0.0;
   // Computing total customer
   for ($i=0;$i<$nb_item;$i++) {
     // store quantity & goods in array
     $a_good[$i]=${"e_march$i"};
     $a_quant[$i]=${"e_quant$i"};
     $a_price[$i]=0;
-    $a_vat[$i]=${"e_march$i"."_tva_id"};
+    $a_vat1[$i]=${"e_march$i"."_tva_id"};
     // check wether the price is set or no
     if ( isNumber(${"e_march$i"."_sell"}) == 0 ) {
       if ( isNumber($a_good[$i]) == 1 ) {
@@ -609,8 +653,7 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
     $amount_jrn+=($cost<0)?0:$cost;
   }
   $comm=FormatString($e_comm);
-  $a_vat=ComputeTotalVat($p_cn,$a_good,$a_quant,$a_price,$a_vat);
-
+  $a_vat=ComputeTotalVat($p_cn,$a_good,$a_quant,$a_price,$a_vat1,false);
   $sum_vat=0.0;
   if ( $a_vat != null ){
     foreach ( $a_vat as $element => $t) {
@@ -619,6 +662,16 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
       echo_debug(__FILE__,__LINE__,"sum_vat = $sum_vat");
     }
   }
+// Compute vat without reduction
+	$a_vat_full=ComputeTotalVat($p_cn,$a_good,$a_quant,$a_price,$a_vat1,true);
+	$sum_vat_full=0.0;
+	if ( $a_vat_full != null ){
+		foreach ( $a_vat_full as $element => $t) {
+		echo_debug(__FILE__,__LINE__," a_vat element $element t $t");
+		$sum_vat_full+=$t;
+		echo_debug(__FILE__,__LINE__,"sum_vat = $sum_vat");
+		}
+	}
   // First we add in jrnx
 	
   // Compute the j_grpt
@@ -628,7 +681,7 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
   // Debit = client
   $poste=GetFicheAttribut($p_cn,$e_client,ATTR_DEF_ACCOUNT);
   StartSql($p_cn);	
-  $r=InsertJrnx($p_cn,'c',$p_user->id,$p_jrn,$poste,$e_date,round($amount,2)+round($sum_vat,2),$seq,$periode);
+  $r=InsertJrnx($p_cn,'c',$p_user->id,$p_jrn,$poste,$e_date,round($amount,2)+round($sum_vat_full,2),$seq,$periode);
   if ( $r == false) { $Rollback($p_cn);exit("error __FILE__ __LINE__");}
   // Credit = goods 
   for ( $i = 0; $i < $nb_item;$i++) {
@@ -637,14 +690,55 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 	  
     // don't record operation of 0
     if ( $a_price[$i]*$a_quant[$i] == 0 ) continue;
-	  
+
+	$amount=$a_price[$i]*$a_quant[$i];
+	// Put the non deductible part into a special account
+	$non_dedu=GetFicheAttribut($p_cn,$a_good[$i],ATTR_DEF_DEPENSE_NON_DEDUCTIBLE);
+	echo_debug(__FILE__,__LINE__,"value non ded : $non_dedu");
+	if ( $non_dedu != null && strlen(trim($non_dedu)) != 0 )
+	{
+		$nd_amount=$a_quant[$i]*$a_price[$i]*$non_dedu;
+		$j_id=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,'6740',$e_date,round($nd_amount,2),$seq,$periode);
+		if ( $j_id == false) { Rollback($p_cn);exit("error __FILE__ __LINE__");}
+		$amount=$amount-$nd_amount;
+	}
+  	// Put the non deductible part into a special account
+	$non_dedu=GetFicheAttribut($p_cn,$a_good[$i],ATTR_DEF_TVA_NON_DEDUCTIBLE);
+	echo_debug(__FILE__,__LINE__,"TVA value non ded : $non_dedu");
+	if ( $non_dedu != null && strlen(trim($non_dedu)) != 0 )
+	{
+		$ded_vat=ComputeVat($p_cn,	$a_good[$i],$a_quant[$i],$a_price[$i],
+				$a_vat1[$i] )*$non_dedu;
+		$sum_tva_nd+=$ded_vat;
+		$j_id=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,'6740',$e_date,round($ded_vat,2),$seq,$periode);
+		if ( $j_id == false) { Rollback($p_cn);exit("error __FILE__ __LINE__");}
+	}
+
+  	// Put the non deductible part into a special account
+	$non_dedu=GetFicheAttribut($p_cn,$a_good[$i],ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP);
+	echo_debug(__FILE__,__LINE__,"TVA value non ded : $non_dedu");
+	if ( $non_dedu != null && strlen(trim($non_dedu)) != 0 )
+	{
+		$ded_vat=ComputeVat($p_cn,	$a_good[$i],$a_quant[$i],$a_price[$i],
+				$a_vat1[$i] )*$non_dedu;
+		$sum_tva_nd+=$ded_vat;
+		$j_id=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,'6190',$e_date,round($ded_vat,2),$seq,$periode);
+		if ( $j_id == false) { Rollback($p_cn);exit("error __FILE__ __LINE__");}
+	}
+
+
+
+
     // record into jrnx
-    $j_id=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste,$e_date,round($a_price[$i]*$a_quant[$i],2),$seq,$periode);
-    if ( $j_id == false) { $Rollback($p_cn);exit("error __FILE__ __LINE__");}
+    $j_id=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste,$e_date,round($amount,2),$seq,$periode);
+    if ( $j_id == false) { Rollback($p_cn);exit("error __FILE__ __LINE__");}
     // always save quantity but in withStock we can find what card need a stock management
     if (  InsertStockGoods($p_cn,$j_id,$a_good[$i],$a_quant[$i],'c') == false ) {
       $Rollback($p_cn);exit("error __FILE__ __LINE__");}
+	echo_debug(__FILE__,__LINE__,"value non ded : ".$a_good[$i]."is");		
+
   }
+
   
   // Insert Vat
 
@@ -660,7 +754,7 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
       }
     }
   echo_debug(__FILE__,__LINE__,"echeance = $e_ech");
-  $r=InsertJrn($p_cn,$e_date,$e_ech,$p_jrn,"Invoice",round($amount_jrn,2)+round($sum_vat,2),$seq,$periode);
+  $r=InsertJrn($p_cn,$e_date,$e_ech,$p_jrn,"Invoice",round($amount_jrn,2)+round($sum_vat,2)+round($sum_tva_nd,2),$seq,$periode);
   if ( $r == false ) { Rollback($p_cn); exit(" Error __FILE__ __LINE__");}
   // Set Internal code and Comment
   $internal=SetInternalCode($p_cn,$seq,$p_jrn);

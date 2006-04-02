@@ -60,12 +60,13 @@ function GetTvaRate($p_cn,$p_tva_id) {
  *      1- quantity array 
  *      - price array 
  *      - $ap_vat Array of tva id
+ *      - $all = false if we reduce VAT
  * gen :
  *	-
  * return: array
  *       a[tva_id] =  amount vat
  */
-function ComputeTotalVat($p_cn,	$a_fiche,$a_quant,$a_price,$ap_vat ) {
+function ComputeTotalVat($p_cn,	$a_fiche,$a_quant,$a_price,$ap_vat,$all=false ) {
 echo_debug(__FILE__,__LINE__,"ComputeTotalVat $a_fiche $a_quant $a_price");
  foreach ( $a_fiche as $t=>$el) {
    echo_debug(__FILE__,__LINE__,"t $t e $el");
@@ -74,7 +75,7 @@ echo_debug(__FILE__,__LINE__,"ComputeTotalVat $a_fiche $a_quant $a_price");
 // foreach goods 
 //--
  foreach ( $a_fiche as $idx=>$element) {
-   echo_debug ("idx $idx element $element");
+   echo_debug (__FILE__,__LINE__,"idx $idx element $element");
   // if the card id is null or empty 
     if ( isNumber($element)==0 
 	 or strlen(trim($element))==0) continue;
@@ -86,16 +87,46 @@ echo_debug(__FILE__,__LINE__,"ComputeTotalVat $a_fiche $a_quant $a_price");
     else
       $tva_id=GetFicheAttribut($p_cn,$a_fiche[$idx],ATTR_DEF_TVA);
     
-    if ( $tva_id == 'Unknown' ) continue;
+    if ( $tva_id == null ) continue;
     // for each fiche find the tva_rate and tva_id
     $a_vat=GetTvaRate($p_cn,$tva_id);
-    
-    // Get the attribut price of the card(fiche)
-    if ( $a_vat != null  and  $a_vat['tva_id'] != "" ) 
-   {  $a=$a_vat['tva_id'];
-      $vat_amount=$a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx];
-      $r[$a]=isset ( $r[$a] )?$r[$a]+$vat_amount:$vat_amount;
-    } 
+   
+	// Get the attribut price of the card(fiche)
+	if ( $a_vat != null  and  $a_vat['tva_id'] != "" ) 
+	{  
+		$flag=true;
+		$a=$a_vat['tva_id'];
+		// Compute vat for this item
+		$vat_amount=$a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx];
+	
+		 if ( $all == false ) 
+		{
+			// if a part is not deductible then reduce vat_amount
+			$nd=GetFicheAttribut($p_cn,$a_fiche[$idx],ATTR_DEF_TVA_NON_DEDUCTIBLE);
+			if ( $nd != null && strlen(trim($nd)) != 0 )
+			{
+				$nd_amount=$a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx]*$nd;
+				$vat_amount=$a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx];
+				echo_debug(__FILE__,__LINE__,"TVA Attr fiche [$nd] nd amount [ $nd_amount ]".
+							"vat amount [ $vat_amount]");
+				$vat_amount-=$nd_amount;
+				$flag=false;
+			}	
+			// if a part is not deductible then reduce vat_amount
+			$nd=GetFicheAttribut($p_cn,$a_fiche[$idx],ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP);
+			if ( $nd != null && strlen(trim($nd)) != 0 )
+			{
+				$nd_amount=$a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx]*$nd;
+				$vat_amount=$a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx];
+				echo_debug(__FILE__,__LINE__,"TVA Attr fiche [$nd] nd amount [ $nd_amount ]".
+							"vat amount [ $vat_amount]");
+				$vat_amount-=$nd_amount;
+				$flag=false;
+			}	
+		}
+		$r[$a]=isset ( $r[$a] )?$r[$a]+$vat_amount:$vat_amount; 
+	}
+		
     
  }
  echo_debug(__FILE__,__LINE__," return $r");
@@ -128,7 +159,7 @@ function ComputeVat($p_cn,	$p_fiche,$p_quant,$p_price,$p_vat ) {
     else
       $tva_id=GetFicheAttribut($p_cn,$p_fiche,ATTR_DEF_TVA);
     
-    if ( $tva_id == 'Unknown' ) return -1;
+    if ( $tva_id == null  ) return -1;
     // for each fiche find the tva_rate and tva_id
     $a_vat=GetTvaRate($p_cn,$tva_id);
     $vat_amount=-1;
