@@ -354,6 +354,23 @@ for ($o = 0;$o < $p_number; $o++) {
       echo "<SCRIPT>alert('$msg');</SCRIPT>";
       return null;
     }
+	// check if the  ATTR_DEF_ACCOUNT is set
+	$poste=GetFicheAttribut($p_cn,${"e_march$i"},ATTR_DEF_ACCOUNT);
+	if ( $poste == null ) 
+	{	
+		$msg="La fiche ".${"e_march$i"}." n\'a pas de poste comptable";
+      echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);	
+      echo "<SCRIPT>alert('$msg');</SCRIPT>";
+      return null;
+	
+	}
+  	if ( strlen(trim($poste))==0 )
+	{
+		$msg="La fiche ".$tiers." n\'a pas de poste comptable";
+		echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);	
+		echo "<SCRIPT>alert('$msg');</SCRIPT>";
+	}
+
   }
 // Verify the userperiode
 
@@ -683,10 +700,10 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
 		$vat_code=$a_vat[$i];
 	}
 	 $r=ExecSql($p_cn,"insert into quant_sold".
-	  	"(qs_internal,qs_fiche,qs_quantite,qs_price,qs_vat,qs_vat_code) values".
-	 	"('".$internal."',".$a_good[$i].",".$a_quant[$i].",".$a_price[$i].
+	  	"(qs_internal,qs_fiche,qs_quantite,qs_price,qs_vat,qs_vat_code,qs_client) values".
+	 	"('".$internal."',".$a_good[$i].",".$a_quant[$i].",".$a_price[$i]*$a_quant[$i].
 	 	",".$computed_vat.
-	 	",".$vat_code.")");
+		    ",".$vat_code.",".$e_client.")");
 	 if ( $r == false ) { Rollback($p_cn); exit(" Error __FILE__ __LINE__"); };
 	}
   Commit($p_cn);

@@ -40,7 +40,7 @@ require_once("user_common.php");
  */
 function FormAchInput($p_cn,$p_jrn,$p_periode,$p_array=null,$p_submit="",$pview_only=true,$p_article=1)
 { 
-
+echo_debug(__FILE__,__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$pview_only,$p_article");
   if ( $p_array != null) {
     // array contains old value
     extract($p_array);
@@ -247,6 +247,7 @@ function FormAchInput($p_cn,$p_jrn,$p_periode,$p_array=null,$p_submit="",$pview_
  */
 function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
 {
+echo_debug(__FILE__,__LINE__,"Enter form_verify_input $p_cn,$p_jrn,$p_periode,".var_export($p_array,true).",$p_number");
   foreach ($p_array as $name=>$content) {
     ${"$name"}=$content;
   }
@@ -341,6 +342,24 @@ for ($o = 0;$o < $p_number; $o++) {
       echo "<SCRIPT>alert('$msg');</SCRIPT>";
       return null;
     }
+	// check if the  ATTR_DEF_ACCOUNT is set
+	$poste=GetFicheAttribut($p_cn,${"e_march$i"},ATTR_DEF_ACCOUNT);
+	echo_debug(__FILE__,__LINE__,"poste value = ".$poste."size = ".strlen(trim($poste)));
+	if ( $poste == null ) 
+	{	
+		$msg="La fiche ".${"e_march$i"}." n\'a pas de poste comptable";
+      echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);	
+      echo "<SCRIPT>alert('$msg');</SCRIPT>";
+      return null;
+	
+	}
+  	if ( strlen(trim($poste))==0 )
+	{
+		$msg="La fiche ".$tiers." n\'a pas de poste comptable";
+		echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);		
+		echo "<SCRIPT>alert('$msg');</SCRIPT>";
+		return null;
+	}
   }
 // Verify the userperiode
 
@@ -348,7 +367,7 @@ for ($o = 0;$o < $p_number; $o++) {
   list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$p_periode);
   
   // Date dans la periode active
-  echo_debug ("date start periode $l_date_start date fin periode $l_date_end date demand� $e_date");
+  echo_debug ("date start periode $l_date_start date fin periode $l_date_end date demande $e_date");
   if ( cmpDate($e_date,$l_date_start)<0 || 
        cmpDate($e_date,$l_date_end)>0 )
     {

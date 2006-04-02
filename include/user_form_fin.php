@@ -156,29 +156,55 @@ function FormFin($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
       $tiers_label="";
       $tiers_amount=(isset(${"e_other$i"."_amount"}))?${"e_other$i"."_amount"}:0;
       if ( isNumber($tiers_amount) == 0) {
-	if ( $pview_only==true ){
-	  $msg="Montant invalide !!! ";
-	  echo_error($msg); echo_error($msg);	
-	  echo "<SCRIPT>alert('$msg');</SCRIPT>";
-	  return null;
-	}
-	$tiers_amount=0;
+		if ( $pview_only==true )
+		{
+			$msg="Montant invalide !!! ";
+			echo_error($msg); echo_error($msg);	
+			echo "<SCRIPT>alert('$msg');</SCRIPT>";
+			return null;
+		}
+		$tiers_amount=0;
       }
       $tiers_comment=(isset (${"e_other$i"."_comment"}))?${"e_other$i"."_comment"}:"";
     // If $tiers has a value
-    if ( isNumber($tiers) == 1 ) {
-      if ( isFicheOfJrn($p_cn,$p_jrn,$tiers,'cred') == 0 ) {
-	$msg="Fiche inexistante !!! ";
-	echo_error($msg); echo_error($msg);	
-	echo "<SCRIPT>alert('$msg');</SCRIPT>";
-	$tiers="";
-      } else {
-	// retrieve the tva label and name
-	$a_fiche=GetFicheAttribut($p_cn, $tiers);
-	if ( $a_fiche != null ) {
-	  $tiers_label=$a_fiche['vw_name'];
-	}
-      }
+    if ( isNumber($tiers) == 1 ) 
+	{
+      if ( $pview_only && isFicheOfJrn($p_cn,$p_jrn,$tiers,'cred') == 0 ) 
+		{
+			$msg="Fiche inexistante !!! ";
+			echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);
+			echo "<SCRIPT>alert('$msg');</SCRIPT>";
+			$tiers="";
+			return null;
+		} 
+	  else 
+		{
+			// retrieve the tva label and name
+			$a_fiche=GetFicheAttribut($p_cn, $tiers);
+			if ( $a_fiche != null ) {
+			$tiers_label=$a_fiche['vw_name'];
+			}
+    	}
+		// if the parameter is set to view only we do not check
+		if ( $pview_only  ) 
+		{
+			// check if the  ATTR_DEF_ACCOUNT is set
+			$poste=GetFicheAttribut($p_cn,$tiers,ATTR_DEF_ACCOUNT);
+		if ( $poste == null ) 
+			{	
+				$msg="La fiche ".$tiers." n\'a pas poste comptable";
+				echo_error($msg);echo_debug(__FILE__,__LINE__,$msg);
+				echo "<SCRIPT>alert('$msg');</SCRIPT>";
+				return null;
+			}	
+		if ( strlen(trim($poste))==0 )
+			{
+				$msg="La fiche ".$tiers." n\'a pas poste comptable";
+				echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);
+				echo "<SCRIPT>alert('$msg');</SCRIPT>";
+				return null;
+			}
+		}
     }
     ${"e_other$i"."_amount"}=(isset (${"e_other$i"."_amount"}))?${"e_other$i"."_amount"}:0;
 

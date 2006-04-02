@@ -101,7 +101,7 @@ if ( $action == 'new' ) {
 	  // if something goes wrong, correct it
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver">';
-	  $r=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$HTTP_POST_VARS,  $nb_number);
+	  $r=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,$submit, false, $nb_number);
 	}
 	echo '<div class="u_redcontent">';
 	echo $r;

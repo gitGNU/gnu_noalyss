@@ -1453,7 +1453,7 @@ function getFicheAttribut($p_cn,$p_id,$p_attr="") {
                     where
                     f_id=$p_id and
                     ad_id=$p_attr");
-    if ( pg_NumRows($Res) == 0 ) return "Unknown";
+    if ( pg_NumRows($Res) == 0 ) return NULL;
     $st=pg_fetch_array($Res,0);
     return $st['av_text'];
   } else {
