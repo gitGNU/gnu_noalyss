@@ -153,8 +153,11 @@ function ExecuteScript($p_cn,$script) {
 // include_path
 
 ?>
+<h2>Info</h2>
+Vous utilisez le domaine <? echo domaine; ?>
 <h2>Php setting</h2>
 <?
+
 $flag_php=0;
 foreach (array('magic_quotes_gpc','magic_quotes_runtime') as $a) {
 
@@ -400,6 +403,10 @@ if ( DEBUG=='false' ) ob_start();
       ExecSql($db,"select setval('s_grpt',$M,true)");
     }
   } // version == 7
+  // version 8 -> 9
+  if ( GetVersion($db) == 8 ) { 
+    ExecuteScript($db,'sql/patch/upgrade8.sql');
+  } // version == 9
 if ( DEBUG == 'false') ob_end_clean();
  }//for
 
@@ -449,13 +456,13 @@ if (DEBUG == 'false' ) ob_start();
       $M=$Row['l'];
       ExecSql($db,"select setval('s_grpt',$M,true)");
     }
-  } // version == 7
+  } // version == 8
   //--
   // update to the version 9
   //--
   if ( GetVersion($db) == 8 ) { 
     ExecuteScript($db,'sql/patch/upgrade8.sql');
-  } // version == 7
+  } // version == 9
 if ( DEBUG == 'false') ob_end_clean();
  }
 

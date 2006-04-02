@@ -3,7 +3,7 @@ begin;
 insert into action values (21,'Import et export des écritures d''ouverture');
 create sequence s_quantity;
 
-create index idx_qs_internal on quant_sold(qs_internal);
+
 CREATE TABLE quant_sold (
     qs_id integer DEFAULT nextval('s_quantity'::text),
     qs_internal text NOT NULL,
@@ -11,13 +11,30 @@ CREATE TABLE quant_sold (
     qs_quantite integer NOT NULL,
     qs_price numeric(20,4),
     qs_vat numeric(20,4),
-    qs_vat_code integer
+    qs_vat_code integer,
+	qs_client integer not null
 );
+
+create index idx_qs_internal on quant_sold(qs_internal);
+
 create table format_csv_banque 
 (
 	name text primary key,
 	include_file text not null
 );
+
+create sequence s_invoice;
+
+CREATE TABLE invoice (
+    iv_id integer DEFAULT nextval('s_invoice'::text) NOT NULL,
+    iv_name text NOT NULL,
+    iv_file oid
+);
+alter TABLE invoice add  primary key(iv_id);
+create unique index ix_iv_name on invoice (upper(iv_name));
+
+
+
 -- drop trigger trim_space on format_csv_banque;
 -- 
 -- drop function trim_space_format_csv_banque();
@@ -82,8 +99,13 @@ end;
 $trim$ language plpgsql;
 
 create trigger trim_quote before insert or update on import_tmp FOR EACH ROW execute procedure trim_cvs_quote();
-
-
+alter sequence s_attr_def restart 20;
+insert into attr_def(ad_text) values ('Partie fiscalement non déductible');
+insert into attr_def(ad_text) values ('TVA non déductible');
+insert into attr_def(ad_text) values ('TVA non déductible récupérable par l''impôt');
+insert into tmp_pcmn( pcm_val,pcm_lib,pcm_val_parent,pcm_country) select distinct 6190,'TVA récupérable par l''impôt',61,'BE' from tmp_pcmn where pcm_country='BE';
+insert into tmp_pcmn( pcm_val,pcm_lib,pcm_val_parent,pcm_country) select distinct 6740,'Dépense non admise',67,'BE' from tmp_pcmn where pcm_country='BE' and not exists (select pcm_val from tmp_pcmn where pcm_val=6740);
+alter table tmp_pcmn alter pcm_val type text;
 update version set val=9;
 
 
