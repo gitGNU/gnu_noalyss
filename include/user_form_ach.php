@@ -170,6 +170,7 @@ function FormAchInput($p_cn,$p_jrn,$p_periode,$p_array=null,$p_submit="",$pview_
 	  if ( $march_tva_id == "" ) {
 	    $march_tva_id=$a_fiche['tva_id'];
 	    $march_tva_label=$a_fiche['tva_label'];
+      //STAN: here I could get the VAT deduction rate, and impact the computations coming after.
 	  }
 	  $march_label=$a_fiche['vw_name'];
 	}
@@ -455,7 +456,14 @@ function FormAchView ($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$p_number,$p_pi
     
     // VAT 
     $vat=(isNumber(${"e_march$i"."_tva_id"})==0)?getFicheAttribut($p_cn,${"e_march$i"},ATTR_DEF_TVA):${"e_march$i"."_tva_id"};
-	
+
+    //VAT deductibility rate
+    $deduct_rate = getFicheAttribut($p_cn,${"e_march$i"},ATTR_DEF_TVA_DEDUCT_RATE);      
+    if ($deduct_rate == null)
+    {
+      $deduct_rate = 100;
+    }
+    
     // vat label
     // vat rate
     $a_vat=GetTvaRate($p_cn,$vat);
