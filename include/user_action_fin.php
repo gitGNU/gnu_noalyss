@@ -150,14 +150,24 @@ if ( $action == 'voir_jrn' ) {
 ?>
 <div class="u_redcontent">
 
+<form method= "get" action="user_jrn.php">
+
 <?
-echo "<form method= \"GET\" action=\"user_jrn.php?action=voir_jrn&p_jrn=$p_jrn\">";
+$hid=new widget("hidden");
+
+$hid->name="p_jrn";
+$hid->value=$p_jrn;
+echo $hid->IOValue();
+
+$hid->name="action";
+$hid->value="voir_jrn";
+echo $hid->IOValue();
 
 $w=new widget("select");
 
 $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode order by p_id");
 $User=new cl_user($cn);
-$current=(isset($_POST['p_periode']))?$_POST['p_periode']:$User->GetPeriode();
+$current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->GetPeriode();
 $w->selected=$current;
 
 echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit','Valider');
@@ -178,8 +188,10 @@ echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit',
    list($max_line,$list)=ListJrn($cn,$_GET['p_jrn'],$sql,null,$offset);
 
    $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
-
-   echo $list;
+	
+	echo $bar;
+	echo $list;
+	echo $bar;
    echo '</div>';
 }
 //////////////////////////////////////////////////////////////////////

@@ -32,13 +32,24 @@ if (CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],0)  < 1 )
 
 ?>
 <div class="u_redcontent">
-<form method="post" action="user_jrn.php?JRN_TYPE=NONE">
+<form method="GET" action="user_jrn.php">
 <?
+
+$hid=new widget("hidden");
+
+$hid->name="JRN_TYPE";
+$hid->value="NONE";
+echo $hid->IOValue();
+
+$hid->name="action";
+$hid->value="voir_jrn";
+echo $hid->IOValue();
+
 $w=new widget("select");
 
 $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode order by p_id");
 $User=new cl_user($cn);
-$current=(isset($_POST['p_periode']))?$_POST['p_periode']:$User->GetPeriode();
+$current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->GetPeriode();
 $w->selected=$current;
 echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit','Valider');
 ?>
