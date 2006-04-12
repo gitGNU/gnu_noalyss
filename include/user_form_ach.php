@@ -104,7 +104,7 @@ echo_debug(__FILE__,__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_periode,$p_arra
     if ( isFicheOfJrn($p_cn,$p_jrn,$e_client,'cred') == 0 ) {
       $msg="Fiche inexistante !!! ";
       echo_error($msg); echo_error($msg);	
-      echo "<SCRIPT>alert('$msg');</SCRIPT>";
+      //      echo "<SCRIPT>alert('$msg');</SCRIPT>";
       $e_client="";
     } else {
       $a_client=GetFicheAttribut($p_cn,$e_client);
@@ -161,7 +161,7 @@ echo_debug(__FILE__,__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_periode,$p_arra
       if ( isFicheOfJrn($p_cn,$p_jrn,$march,'deb') == 0 ) {
 	$msg="Fiche inexistante !!! ";
 	echo_error($msg); echo_error($msg);	
-	echo "<SCRIPT>alert('$msg');</SCRIPT>";
+	//echo "<SCRIPT>alert('$msg');</SCRIPT>";
 	$march="";
       } else {
 	// retrieve the tva label and name
@@ -247,7 +247,7 @@ echo_debug(__FILE__,__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_periode,$p_arra
  */
 function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
 {
-echo_debug(__FILE__,__LINE__,"Enter form_verify_input $p_cn,$p_jrn,$p_periode,".var_export($p_array,true).",$p_number");
+  echo_debug(__FILE__,__LINE__,"Enter form_verify_input $p_cn,$p_jrn,$p_periode,".var_export($p_array,true).",$p_number");
   foreach ($p_array as $name=>$content) {
     ${"$name"}=$content;
   }
@@ -288,32 +288,35 @@ echo_debug(__FILE__,__LINE__,"Enter form_verify_input $p_cn,$p_jrn,$p_periode,".
     
     }
 
-// Verify the ech
- if (strlen($e_ech) != 0 and isNumber($e_ech)  == 0 and  isDate ($e_ech) == null ) {
-	$msg="Echeance invalide";
-		echo_error($msg); echo_error($msg);	
-		echo "<SCRIPT>alert('$msg');</SCRIPT>";
-		return null;
- } 
-// Verify is a client is set
- if ( isNumber($e_client)    == 0) {
-   $msg="Client inexistant";
-   echo_error($msg); echo_error($msg);	
-   echo "<SCRIPT>alert('$msg');</SCRIPT>";
-   return null;
- }
+  // Verify the ech
+ if (strlen($e_ech) != 0 and isNumber($e_ech)  == 0 and  isDate ($e_ech) == null ) 
+   {
+     $msg="Echeance invalide";
+     echo_error($msg); echo_error($msg);	
+     echo "<SCRIPT>alert('$msg');</SCRIPT>";
+     return null;
+   } 
+ // Verify is a client is set
+ if ( isNumber($e_client)    == 0) 
+   {
+     $msg="Client inexistant";
+     echo_error($msg); echo_error($msg);	
+     echo "<SCRIPT>alert('$msg');</SCRIPT>";
+     return null;
+   }
 
  // if ech is a number of days then compute date limit
- if ( strlen($e_ech) != 0 and isNumber($e_ech) == 1) {
- list($day,$month,$year)=explode(".",$e_date);
-  echo_debug(__FILE__,__LINE__," date $e_date = $day.$month.$year");
-  $p_ech=date('d.m.Y',mktime(0,0,0,$month,$day+$e_ech,$year));
-  echo_debug(__FILE__,__LINE__,"p_ech = $e_ech $p_ech");
-  $e_ech=$p_ech;
-  $wHidden=new widget("hidden");
-  $data.=$wHidden->IOValue("e_ech",$e_ech);
-  # $data.=InputType("","HIDDEN","e_ech",$e_ech);
- }
+ if ( strlen($e_ech) != 0 and isNumber($e_ech) == 1) 
+   {
+     list($day,$month,$year)=explode(".",$e_date);
+     echo_debug(__FILE__,__LINE__," date $e_date = $day.$month.$year");
+     $p_ech=date('d.m.Y',mktime(0,0,0,$month,$day+$e_ech,$year));
+     echo_debug(__FILE__,__LINE__,"p_ech = $e_ech $p_ech");
+     $e_ech=$p_ech;
+     $wHidden=new widget("hidden");
+     $data.=$wHidden->IOValue("e_ech",$e_ech);
+# $data.=InputType("","HIDDEN","e_ech",$e_ech);
+   }
 
  // Check if the fiche is in the jrn
  if (IsFicheOfJrn($p_cn , $p_jrn, $e_client,'cred') == 0 ) 
@@ -482,45 +485,47 @@ function FormAchView ($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$p_number,$p_pi
   $r.="</tr>";
   
   $sum_with_vat=0.0;
-    $sum_march=0.0;
+  $sum_march=0.0;
   // show all article, price vat and sum
-    $r.="<TR>";
-    $r.="<TH>Article</TH>";
-    $r.="<TH>quantité</TH>";
-    $r.="<TH>prix unit.</TH>";
-    $r.="<TH>taux tva</TH>";
-    $r.="<TH>Montant HTVA</TH>";
-    $r.="<TH>Montant TVA</TH>";
-    $r.="<TH>Total</TH>";
-    $r.="</TR>";
-  for ($i=0;$i<$p_number;$i++) {
-    if ( trim(${"e_march$i"})  == "" ) {
-      // no goods to sell 
-      continue;
-    }
-  
-    // Get the name
-    $fiche_name=getFicheName($p_cn,${"e_march$i"});
+  $r.="<TR>";
+  $r.="<TH>Article</TH>";
+  $r.="<TH>quantité</TH>";
+  $r.="<TH>prix unit.</TH>";
+  $r.="<TH>taux tva</TH>";
+  $r.="<TH>Montant HTVA</TH>";
+  $r.="<TH>Montant TVA</TH>";
+  $r.="<TH>Total</TH>";
+  $r.="</TR>";
+  for ($i=0;$i<$p_number;$i++) 
+    {
+      if ( trim(${"e_march$i"})  == "" ) 
+	{
+	  // no goods to sell 
+	  continue;
+	}
+      
+      // Get the name
+      $fiche_name=getFicheName($p_cn,${"e_march$i"});
+      
+      // Quantity
+      $fiche_quant=${"e_quant$i"};
+      
+      // No  row if there is quantity
+      if ( $fiche_quant == 0.0 ) continue;
+      
 
-    // Quantity
-    $fiche_quant=${"e_quant$i"};
-
-    // No  row if there is quantity
-    if ( $fiche_quant == 0.0 ) continue;
-
-
-    // If the price is not a number, retrieve the price from the database
-    if ( isNumber(${"e_march$i"."_sell"}) == 0 ) {
-	   $fiche_price=getFicheAttribut($p_cn,${"e_march$i"},ATTR_DEF_PRIX_VENTE);
-	 } else {
-      $fiche_price=${"e_march$i"."_sell"};
-    }
+      // If the price is not a number, retrieve the price from the database
+      if ( isNumber(${"e_march$i"."_sell"}) == 0 ) {
+	$fiche_price=getFicheAttribut($p_cn,${"e_march$i"},ATTR_DEF_PRIX_VENTE);
+      } else {
+	$fiche_price=${"e_march$i"."_sell"};
+      }
+      
     
-    
-    // VAT 
-    $vat=(isNumber(${"e_march$i"."_tva_id"})==0)?getFicheAttribut($p_cn,${"e_march$i"},ATTR_DEF_TVA):${"e_march$i"."_tva_id"};
-
-/*    //VAT deductibility rate
+      // VAT 
+      $vat=(isNumber(${"e_march$i"."_tva_id"})==0)?getFicheAttribut($p_cn,${"e_march$i"},ATTR_DEF_TVA):${"e_march$i"."_tva_id"};
+      
+      /*    //VAT deductibility rate
     $deduct_rate = getFicheAttribut($p_cn,${"e_march$i"},ATTR_DEF_TVA_DEDUCT_RATE);      
     if ($deduct_rate == null)
     {
@@ -529,38 +534,41 @@ function FormAchView ($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$p_number,$p_pi
     */
     // vat label
     // vat rate
-    $a_vat=GetTvaRate($p_cn,$vat);
-    if ( $a_vat == null ) {
-      $vat_label="";
-      $vat_rate=0.0;
-    } else { 
-      $vat_label=$a_vat['tva_label'];
-      $vat_rate=$a_vat['tva_rate'];
-    }		
-	
-    // Total card without vat
-    $fiche_sum=$fiche_price*$fiche_quant;
-    // Sum of invoice
-    $sum_march+=$fiche_sum;
-    // vat of the card
-    $fiche_amount_vat=$fiche_price*$fiche_quant*$vat_rate;
-    // value card + vat
-    $fiche_with_vat=$fiche_price*$fiche_quant*(1+$vat_rate);
-    // Sum of invoice vat 
-    $sum_with_vat+=$fiche_with_vat;
-    // Show the data
-    $r.='<TR>';
-    $r.='<TD>'.$fiche_name.'</TD>';
-    $r.='<TD ALIGN="CENTER">'.$fiche_quant.'</TD>';
-    $r.='<TD ALIGN="right">'.$fiche_price.'</TD>';
-    $r.="<TD  ALIGN=\"RIGHT\"> $vat_label </TD>";
-    $r.='<TD  ALIGN="RIGHT">'.round($fiche_sum,2).'</TD>';
-    $r.='<TD ALIGN="RIGHT">'.round($fiche_amount_vat,2).'</TD>';
+      $a_vat=GetTvaRate($p_cn,$vat);
+      if ( $a_vat == null ) 
+	{
+	  $vat_label="";
+	  $vat_rate=0.0;
+	} 
+      else 
+	{ 
+	  $vat_label=$a_vat['tva_label'];
+	  $vat_rate=$a_vat['tva_rate'];
+	}		
+      
+      // Total card without vat
+      $fiche_sum=$fiche_price*$fiche_quant;
+      // Sum of invoice
+      $sum_march+=$fiche_sum;
+      // vat of the card
+      $fiche_amount_vat=$fiche_price*$fiche_quant*$vat_rate;
+      // value card + vat
+      $fiche_with_vat=$fiche_price*$fiche_quant*(1+$vat_rate);
+      // Sum of invoice vat 
+      $sum_with_vat+=$fiche_with_vat;
+      // Show the data
+      $r.='<TR>';
+      $r.='<TD>'.$fiche_name.'</TD>';
+      $r.='<TD ALIGN="CENTER">'.$fiche_quant.'</TD>';
+      $r.='<TD ALIGN="right">'.$fiche_price.'</TD>';
+      $r.="<TD  ALIGN=\"RIGHT\"> $vat_label </TD>";
+      $r.='<TD  ALIGN="RIGHT">'.round($fiche_sum,2).'</TD>';
+      $r.='<TD ALIGN="RIGHT">'.round($fiche_amount_vat,2).'</TD>';
+      
+      $r.='<TD>'.round($fiche_with_vat,2).'</TD>';
 
-    $r.='<TD>'.round($fiche_with_vat,2).'</TD>';
-
-    $r.="</TR>";
-  }
+      $r.="</TR>";
+    }
   
   // end table
   $r.='</TABLE> ';
