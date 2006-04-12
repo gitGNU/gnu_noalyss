@@ -197,7 +197,7 @@ function ShowMenuCompta($p_dossier)
 
   $result=ShowItem($p_array,'H',"mtitle","mtitle",$default);
 
-  echo "<H2 class=\"info\">Comptabilit&eacute;".$_SESSION['g_name']." </H2>";
+  echo "<H2 class=\"info\">Comptabilit&eacute;  ".$_SESSION['g_name']." </H2>";
   echo $result;
 
 
