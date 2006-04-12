@@ -252,19 +252,22 @@ echo_debug(__FILE__,__LINE__,"Enter form_verify_input $p_cn,$p_jrn,$p_periode,".
     ${"$name"}=$content;
   }
   // Verify the date
-  if ( isDate($e_date) == null ) { 
-	  echo_error("Invalid date $e_date");
-	  echo_debug(__FILE__,__LINE__,"Invalid date $e_date");
-	  echo "<SCRIPT> alert('INVALID DATE $e_date !!!!');</SCRIPT>";
-	  return null;
-		}
+  if ( isDate($e_date) == null ) 
+    { 
+      echo_error("Invalid date $e_date");
+      echo_debug(__FILE__,__LINE__,"Invalid date $e_date");
+      echo "<SCRIPT> alert('INVALID DATE $e_date !!!!');</SCRIPT>";
+      return null;
+    }
 // Verify the quantity
-for ($o = 0;$o < $p_number; $o++) {
-	if ( isNumber(${"e_quant$o"}) == 0 ) {
-		echo_debug(__FILE__,__LINE__,"invalid quantity ".${"e_quant$o"});
-		echo_error("invalid quantity ".${"e_quant$o"});
-		echo "<SCRIPT> alert('INVALID QUANTITY !!!');</SCRIPT>";
-		return null;
+  for ($o = 0;$o < $p_number; $o++) 
+    {
+      if ( isNumber(${"e_quant$o"}) == 0 ) 
+	{
+	  echo_debug(__FILE__,__LINE__,"invalid quantity ".${"e_quant$o"});
+	  echo_error("invalid quantity ".${"e_quant$o"});
+	  echo "<SCRIPT> alert('INVALID QUANTITY !!!');</SCRIPT>";
+	  return null;
 	}	
     // check if vat is correct
     if ( strlen(trim(${"e_march$o"."_tva_id"})) !=0 
@@ -280,10 +283,10 @@ for ($o = 0;$o < $p_number; $o++) {
 	  echo "<SCRIPT>alert('$msg');</SCRIPT>";
 	  return null;
 	
+	}
       }
-    }
     
- }
+    }
 
 // Verify the ech
  if (strlen($e_ech) != 0 and isNumber($e_ech)  == 0 and  isDate ($e_ech) == null ) {
@@ -322,10 +325,11 @@ for ($o = 0;$o < $p_number; $o++) {
    }
 
  // check if all e_march are in fiche
-  for ($i=0;$i<$p_number;$i++) {
-    if ( trim(${"e_march$i"})  == "" ) {
-      // no goods to sell 
-      continue;
+  for ($i=0;$i<$p_number;$i++) 
+    {
+      if ( trim(${"e_march$i"})  == "" ) {
+	// no goods to sell 
+	continue;
     }
   
     // Check wether the f_id is a number
@@ -342,68 +346,65 @@ for ($o = 0;$o < $p_number; $o++) {
       echo "<SCRIPT>alert('$msg');</SCRIPT>";
       return null;
     }
-	// check if the  ATTR_DEF_ACCOUNT is set
-	$poste=GetFicheAttribut($p_cn,${"e_march$i"},ATTR_DEF_ACCOUNT);
-	echo_debug(__FILE__,__LINE__,"poste value = ".$poste."size = ".strlen(trim($poste)));
-	if ( $poste == null ) 
-	{	
-		$msg="La fiche ".${"e_march$i"}." n\'a pas de poste comptable";
-      echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);	
-      echo "<SCRIPT>alert('$msg');</SCRIPT>";
-      return null;
+    // check if the  ATTR_DEF_ACCOUNT is set
+    $poste=GetFicheAttribut($p_cn,${"e_march$i"},ATTR_DEF_ACCOUNT);
+    echo_debug(__FILE__,__LINE__,"poste value = ".$poste."size = ".strlen(trim($poste)));
+    if ( $poste == null ) 
+      {	
+	$msg="La fiche ".${"e_march$i"}." n\'a pas de poste comptable";
+	echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);	
+	echo "<SCRIPT>alert('$msg');</SCRIPT>";
+	return null;
 	
-	}
-  	if ( strlen(trim($poste))==0 )
-	{
-		$msg="La fiche ".${"e_march$i"}." n\'a pas de poste comptable";
-		echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);		
-		echo "<SCRIPT>alert('$msg');</SCRIPT>";
-		return null;
-	}
-
-	// Check if the percentage indicated in this field is valid
-	$non_dedu=GetFicheAttribut($p_cn,${"e_march$i"},ATTR_DEF_DEPENSE_NON_DEDUCTIBLE);
-	if ( $non_dedu != null && strlen(trim($non_dedu)) != 0 )
-	{
-		if ( isNumber($non_dedu) == 0 || $non_dedu > 1.00 ) 
-		{
-			$msg="La fiche ".${"e_march$i"}." a un pourcentage invalide, 
-			il doit être compris entre 0 et 1";
+      }
+    if ( strlen(trim($poste))==0 )
+      {
+	$msg="La fiche ".${"e_march$i"}." n\'a pas de poste comptable";
+	echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);		
+	echo "<SCRIPT>alert('$msg');</SCRIPT>";
+	return null;
+      }
+    
+    // Check if the percentage indicated in this field is valid
+    $non_dedu=GetFicheAttribut($p_cn,${"e_march$i"},ATTR_DEF_DEPENSE_NON_DEDUCTIBLE);
+    if ( $non_dedu != null && strlen(trim($non_dedu)) != 0 )
+      {
+	if ( isNumber($non_dedu) == 0 || $non_dedu > 1.00 ) 
+	  {
+	    $msg="La fiche ".${"e_march$i"}." a un pourcentage invalide,il doit être compris entre 0 et 1";
 			echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);	
 			echo "<SCRIPT>alert('$msg');</SCRIPT>";
 			return null;
 		
 		}
 	}
-	// Check if the percentage indicated in this field is valid
-	$non_dedu=GetFicheAttribut($p_cn,${"e_march$i"},ATTR_DEF_TVA_NON_DEDUCTIBLE);
-	if ( $non_dedu != null && strlen(trim($non_dedu)) != 0 )
+    // Check if the percentage indicated in this field is valid
+    $non_dedu=GetFicheAttribut($p_cn,${"e_march$i"},ATTR_DEF_TVA_NON_DEDUCTIBLE);
+    if ( $non_dedu != null && strlen(trim($non_dedu)) != 0 )
+      {
+	if ( isNumber($non_dedu) == 0 || $non_dedu > 1.00 ) 
+	  {
+	    $msg="La fiche ".${"e_march$i"}." a un pourcentage invalide, il doit être compris entre 0 et 1";
+	    echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);	
+	    echo "<SCRIPT>alert('$msg');</SCRIPT>";
+	    return null;
+	    
+	  }
+      }	// Check if the percentage indicated in this field is valid
+    $non_dedu=GetFicheAttribut($p_cn,${"e_march$i"},ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP);
+    if ( $non_dedu != null && strlen(trim($non_dedu)) != 0 )
 	{
-		if ( isNumber($non_dedu) == 0 || $non_dedu > 1.00 ) 
-		{
-			$msg="La fiche ".${"e_march$i"}." a un pourcentage invalide, 
-			il doit être compris entre 0 et 1";
-			echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);	
-			echo "<SCRIPT>alert('$msg');</SCRIPT>";
-			return null;
-		
-		}
-	}	// Check if the percentage indicated in this field is valid
-	$non_dedu=GetFicheAttribut($p_cn,${"e_march$i"},ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP);
-	if ( $non_dedu != null && strlen(trim($non_dedu)) != 0 )
-	{
-		if ( isNumber($non_dedu) == 0 || $non_dedu > 1.00 ) 
-		{
-			$msg="La fiche ".${"e_march$i"}." a un pourcentage invalide, 
-			il doit être compris entre 0 et 1";
-			echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);	
-			echo "<SCRIPT>alert('$msg');</SCRIPT>";
-			return null;
-		
-		}
+	  if ( isNumber($non_dedu) == 0 || $non_dedu > 1.00 ) 
+	    {
+	      $msg="La fiche ".${"e_march$i"}." a un pourcentage invalide, il doit être compris entre 0 et 1";
+	      echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);	
+	      echo "<SCRIPT>alert('$msg');</SCRIPT>";
+	      return null;
+	      
+	    }
 	}
-
-  }
+    
+    }
 // Verify the userperiode
 
 // p_periode contient la periode par default
@@ -745,13 +746,14 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
   if ( $a_vat  !=  null  ) // no vat
 
     {
-      foreach ($a_vat as $tva_id => $tva_amount ) {
-	$poste=GetTvaPoste($p_cn,$tva_id,'d');
-	if ($tva_amount == 0 ) continue;
-	$r=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste,$e_date,round($tva_amount,2),$seq,$periode);
-	if ( $r == false ) { Rollback($p_cn); exit(" Error __FILE__ __LINE__");}
+      foreach ($a_vat as $tva_id => $tva_amount ) 
+	{
+	  $poste=GetTvaPoste($p_cn,$tva_id,'d');
+	  if ($tva_amount == 0 ) continue;
+	  $r=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste,$e_date,round($tva_amount,2),$seq,$periode);
+	  if ( $r == false ) { Rollback($p_cn); exit(" Error __FILE__ __LINE__");}
       
-      }
+	}
     }
   echo_debug(__FILE__,__LINE__,"echeance = $e_ech");
   $r=InsertJrn($p_cn,$e_date,$e_ech,$p_jrn,"Invoice",round($amount_jrn,2)+round($sum_vat,2)+round($sum_tva_nd,2),$seq,$periode);
