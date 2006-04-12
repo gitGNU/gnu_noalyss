@@ -62,6 +62,16 @@ function u_ShowDossier($p_user,$p_admin)
     $result.="</TD><TD class=\"mtitle\">";
     $result.="<A class=\"mtitle\" HREF=\"user_compta.php?dos=$id\">Comptabilité</A>";
     $result.="</TD>";
+    $result.="<TD class=\"mtitle\">";
+    $result.="<A class=\"mtitle\" HREF=\"commercial.php?dos=$id\">Commercial</A>";
+    $result.="</TD>";
+    $result.="<TD class=\"mtitle\">";
+    $result.="<A class=\"mtitle\" HREF=\"facturation.php?dos=$id\">Facturation</A>";
+    $result.="</TD>";
+    $result.="<TD class=\"mtitle\">";
+    $result.="<A class=\"mtitle\" HREF=\"parametre.php?dos=$id\">Paramètres</A>";
+    $result.="</TD>";
+
     $result.="</TR>";
   }
   $result.="</TABLE>";
@@ -159,7 +169,7 @@ function GetAvailableFolder($p_user,$p_admin)
 function ShowMenuCompta($p_dossier)
 {
   include_once("postgres.php");
-  $l_name=GetDossierName($p_dossier);
+  //  $l_name=GetDossierName($p_dossier);
   // find our current menu
   $default=basename($_SERVER['SCRIPT_NAME']);
   switch ($default) {
@@ -179,7 +189,7 @@ function ShowMenuCompta($p_dossier)
 		 array("fiche.php?p_dossier=$p_dossier","Fiche","Ajouter, modifier ou effacer des fiches"),
 		 array("user_impress.php","Impression","Impression"),
 		 array("user_advanced.php","Avancé","Opérations délicates"),
-		 array("dossier_prefs.php","Paramètre"),
+		 //		 array("dossier_prefs.php","Paramètre"),
   		 array('user_pref.php','Preference',"Préférence de l'utilisateur"),
 		 array('login.php','Accueil',"Accueil"),
 		 array('logout.php','logout',"Sortie")
@@ -187,7 +197,7 @@ function ShowMenuCompta($p_dossier)
 
   $result=ShowItem($p_array,'H',"mtitle","mtitle",$default);
 
-  echo "<H2 class=\"info\"> $l_name </H2>";
+  echo "<H2 class=\"info\">Comptabilit&eacute;".$_SESSION['g_name']." </H2>";
   echo $result;
 
 
@@ -195,35 +205,7 @@ function ShowMenuCompta($p_dossier)
 
 
 }
-/* function ShowMenuComptaRight
- * Purpose : Display menu on the Right
- *           (preference, logout and admin)
- * parm : 
- *	- $p_dossier the current dossier
- *      - $p_admin   $g_UserProperty['use_admin'] 1 if admin
- *      - $p_more code
- * gen :
- *	- none
- * return:
- *	- string containing the html menu
- *
- */ 
-function ShowMenuComptaRight($p_dossier=0,$p_admin=0)
-{
-  include_once("ac_common.php");
-  $i=0;
-  if ( $p_admin != 0 && $p_dossier != 0) {
-    $p_array[$i++]=array("admin_repo.php","Admin");
-  }
-  $p_array[$i++]=array('login.php','Accueil');
-  $p_array[$i++]=array('user_pref.php','Preference');
-  $p_array[$i]=array('logout.php','logout');
-  $menu=ShowItem($p_array);
-  echo '<DIV class="rmenu">';
-  echo $menu;
-  echo '</DIV>';
 
-}
 /* function ShowMenuJrnUser($p_dossier,$p_user)
  * Purpose : Show the Menu from the jrn encode
  *           page
@@ -490,7 +472,7 @@ $left_menu=ShowItem(array(
 			  //('rapprt.php','Rapprochement'),
 			  array('jrn_update.php','Journaux'),
 			  array('central.php','Centralise'),
-		          array('pcmn_update.php?p_start=1','Plan Comptable'),
+		      array('pcmn_update.php?p_start=1','Plan Comptable'),
 			  array('stock.php','Stock'),
 			  array('form.php','Rapport'),
 			  array('import.php','Import Banque'),
@@ -604,6 +586,26 @@ function MenuAdmin()
   $menu=ShowItem($item,'H');
   return $menu;
 }
+/* function ShowMenuInvoice
+ * Purpose :
+ * 			Display invoice's menu
+ * parm : 
+ *	- 	none
+ * gen :
+ *	- none
+ * return:
+ *	-	string
+ *
+ */ 
+function ShowMenuInvoice()
+{
+  $base="parametre.php?p_action=";
+  $sub_menu=ShowItem(
+		     array(array($base."add_invoice","Ajout"))
+		     ,'V',"cell","mtitle");
+  return $sub_menu;
+
+}
 /* function
  * Purpose :
  * 
@@ -618,13 +620,16 @@ function MenuAdmin()
 function ShowMenuParam()
 {
     $sub_menu=ShowItem(array(
-			  //('rapprt.php','Rapprochement'),
-			  array('dossier_prefs.php?p_action=company','Paramètres sociétés'),
-			  array('dossier_prefs.php?p_action=devise','Devises'),
-			  array('dossier_prefs.php?p_action=periode','Période'),
-		          array('user_sec.php','Sécurité')
+			  
+			  array('parametre.php?p_action=company','Sociétés'),
+			  array('parametre.php?p_action=devise','Devises'),
+			  array('parametre.php?p_action=periode','Période'),
+			  array('user_sec.php','Sécurité'),
+			  array('parametre.php?p_action=invoice','Facture'),
+			  array('login.php','Accueil',"Accueil"),
+			  array('logout.php','logout',"Sortie")
 			  ),
-		    'H',"cell","mtitle");
+		    'H',"mtitle","mtitle");
     return $sub_menu;
 
 }
