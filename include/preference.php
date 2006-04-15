@@ -83,7 +83,7 @@ function FormPeriode($p_cn,$l_default=0,$p_type=OPEN,$p_suff="")
     $sql_closed="p_closed=true and p_central = false ";
     break;
   default:
-    error("invalide p_type in __FILE__#__LINE__");
+    error("invalide p_type in 'preference.php'#__LINE__");
   }
   $sql="select p_id,to_char(p_start,'DD.MM.YYYY') as p_start_string,
                     to_char(p_end,'DD.MM.YYYY') as p_end_string 
@@ -230,7 +230,7 @@ echo '<TD> <INPUT TYPE="text" NAME="p_devise"></TD>';
  */ 
 function ShowPeriode($p_cn)
 {
-  echo "<h2 class=\"info\"> Période </H2>";
+  //  echo "<h2 class=\"info\"> Période </H2>";
   $Res=ExecSql($p_cn,"select p_id,to_char(p_start,'DD.MM.YYYY') as date_start,to_char(p_end,'DD.MM.YYYY') as date_end,p_central,p_closed,p_exercice
   from parm_periode order by p_start");
   $Max=pg_NumRows($Res);
@@ -247,21 +247,21 @@ function ShowPeriode($p_cn)
     echo '<TD ALIGN="CENTER"> '.$l_line['date_start'].'</TD>';
     echo '<TD  ALIGN="CENTER"> '.$l_line['date_end'].'</TD>';
     echo '<TD  ALIGN="CENTER"> '.$l_line['p_exercice'].'</TD>';
-    echo_debug(__FILE__,__LINE__," closed : $l_line[p_closed]");
+    echo_debug('preference.php',__LINE__," closed : $l_line[p_closed]");
     if ( $l_line['p_closed'] == 't' )     { 
       $closed=($l_line['p_central']=='t')?'<TD>Centralisée</TD>':'<TD>Fermée</TD>';
       $change='<TD></TD>';
       $remove='<TD></TD>';
     } else {
       $closed='<TD class="mtitle">'; 
-      $closed.='<A class="mtitle" HREF="dossier_prefs.php?p_action=closed&p_per='.$l_line['p_id'].'"> Cloturer</A>';
+      $closed.='<A class="mtitle" HREF="parametre.php?p_action=closed&p_per='.$l_line['p_id'].'"> Cloturer</A>';
     $change='<TD class="mtitle">';
-    $change.='<A class="mtitle" HREF=dossier_prefs.php?p_action=change_per&p_per='.
+    $change.='<A class="mtitle" HREF=parametre.php?p_action=change_per&p_per='.
       $l_line['p_id']."&p_date_start=".$l_line['date_start'].
       "&p_date_end=".$l_line['date_end']."&p_exercice=".
       $l_line['p_exercice']."> Changer</A>";
     $remove='<TD class="mtitle">';
-    $remove.='<A class="mtitle" HREF=dossier_prefs.php?p_action=delete_per&p_per='.
+    $remove.='<A class="mtitle" HREF=parametre.php?p_action=delete_per&p_per='.
       $l_line['p_id']."> Efface</A>";
 
     }
@@ -273,7 +273,7 @@ function ShowPeriode($p_cn)
     echo '</TR>';
     
   }
-  echo '<TR> <FORM ACTION="dossier_prefs.php" METHOD="POST">';
+  echo '<TR> <FORM ACTION="parametre.php" METHOD="POST">';
   echo '<TD> <INPUT TYPE="text" NAME="p_date_start" SIZE="10"></TD>';
   echo '<TD> <INPUT TYPE="text" NAME="p_date_end" SIZE="10"></TD>';
   echo '<TD> <INPUT TYPE="text" NAME="p_exercice" SIZE="10"></TD>';
