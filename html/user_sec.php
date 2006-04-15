@@ -34,7 +34,7 @@ $User=new cl_user($rep);
 $User->Check();
 
 include_once ("user_menu.php");
-ShowMenuCompta($_SESSION['g_dossier']);
+
 $cn_dossier=DbConnect($_SESSION['g_dossier']);
 
 if ( $User->CheckAction($cn_dossier,SECU) == 0 ) {
@@ -42,7 +42,9 @@ if ( $User->CheckAction($cn_dossier,SECU) == 0 ) {
   NoAccess();
   exit -1;
  }
-echo ShowMenuParam();
+echo "<H2 class=\"info\">".$_SESSION['g_name']." </H2>";
+
+echo ShowMenuParam("user_sec.php");
 
 
 $cn=DbConnect();
@@ -50,8 +52,8 @@ $User=ExecSql($cn,"select  use_id,use_first_name,use_name,use_login from ac_user
 $MaxUser=pg_NumRows($User);
 
 
-echo '<DIV CLASS="ccontent">';
-echo '<H2 class="info"> Sécurité </H2>';
+echo '<DIV >';
+
 echo '<TABLE CELLSPACING="20" ALIGN="CENTER">';
 for ($i = 0;$i < $MaxUser;$i++) {
   $l_line=pg_fetch_array($User,$i);
@@ -90,7 +92,7 @@ if ( $action == "change_jrn" ) {
   $jrn=$_GET['jrn'];
   $access=$_GET['access'];
   $l_Db=sprintf("dossier%d",$_SESSION['g_dossier']);
-  echo_debug(__FILE__,__LINE__,"select * from user_sec_jrn where uj_login='$login' and uj_jrn_id=$jrn");
+  echo_debug('user_sec.php',__LINE__,"select * from user_sec_jrn where uj_login='$login' and uj_jrn_id=$jrn");
   $cn_dossier=DbConnect($_SESSION['g_dossier']);
   $l2_Res=ExecSql($cn_dossier,
 		  "select * from user_sec_jrn where uj_login='$login' and uj_jrn_id=$jrn");
@@ -113,11 +115,11 @@ if ( $action == "change_act" ) {
   $l_Db=sprintf("dossier%d",$_SESSION['g_dossier']);
   $cn_dossier=DbConnect($_SESSION['g_dossier']);
   if ( $_GET['access']==0) {
-    echo_debug(__FILE__,__LINE__,"delete right");
+    echo_debug('user_sec.php',__LINE__,"delete right");
     $Res=ExecSql($cn_dossier,
 		 "delete from user_sec_act where ua_login='".$_GET['login']."' and ua_act_id=$act");
   } else {
-    echo_debug(__FILE__,__LINE__,"insert right");
+    echo_debug('user_sec.php',__LINE__,"insert right");
     $Res=ExecSql($cn_dossier,
 		 "insert into  user_sec_act(ua_login,ua_act_id) values( '$login' ,$act)");
   }
@@ -166,7 +168,7 @@ if ( $action == "view" ) {
 
     if ( $admin == 0) {
       $right=    CheckJrn($_SESSION['g_dossier'],$l2_line['use_login'],$l_line['jrn_def_id'] );
-      echo_debug(__FILE__,__LINE__,"Privilege is $right");
+      echo_debug('user_sec.php',__LINE__,"Privilege is $right");
     } else $right = 3;
     if ( $right == 0 ) {
       echo "<TD BGCOLOR=RED>";
