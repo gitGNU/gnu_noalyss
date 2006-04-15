@@ -75,7 +75,7 @@ class widget {
     $disabled = $this->disabled ? "DISABLED" : "";
     if (strtoupper($this->type)=="TEXT") {
       if ( $this->readonly==false) {
-	$r="<INPUT TYPE=\"TEXT\" NAME=\"$p_name\" VALUE=\"$this->value\" TABINDEX=\"$this->tabindex\" SIZE=\"$this->size\" ".$disabled.">";} else {
+	$r="<INPUT TYPE=\"TEXT\" NAME=\"$this->name\" VALUE=\"$this->value\" TABINDEX=\"$this->tabindex\" SIZE=\"$this->size\" ".$disabled.">";} else {
 	    $r=sprintf('<span>%s</span><input type="hidden" name="%s" value="%s">', $this->value,$this->name,$this->value);
 	}
 	
@@ -106,9 +106,9 @@ class widget {
       }
       $r.="</SELECT>";
       } else {
-	echo_debug(__FILE__,__LINE__,"this->selected = ".$this->selected); 
+	echo_debug('class_widget.php',__LINE__,"this->selected = ".$this->selected); 
 	for ( $i=0;$i<sizeof($this->value);$i++) {
-	  echo_debug(__FILE__,__LINE__,"check for ".$this->value[$i]['value']);
+	  echo_debug('class_widget.php',__LINE__,"check for ".$this->value[$i]['value']);
 	  if ($this->selected==$this->value[$i]['value'] ) {
 	    $r=$this->value[$i]['label'];
  	

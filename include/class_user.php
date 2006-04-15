@@ -35,7 +35,7 @@ class cl_user {
   function cl_user ($p_cn,$p_id=-1){
     // if p_id is not set then check the connected user
     if ( $p_id == -1 ) {
-	  echo_debug(__FILE__,__LINE__," g_user = ".$_SESSION['g_user']);
+	  echo_debug('class_user.php',__LINE__," g_user = ".$_SESSION['g_user']);
     $this->id=$_SESSION['g_user'];
     $this->pass=$_SESSION['g_pass'];
     $this->valid=(isset ($_SESSION['isValid']))?1:0;
@@ -96,10 +96,10 @@ class cl_user {
 				 where ac_users.use_login='$this->id' 
 					and ac_users.use_active=1
 					and ac_users.use_pass='$pass5'";
-	    echo_debug(__FILE__,__LINE__,"Sql = $sql");
+	    echo_debug('class_user.php',__LINE__,"Sql = $sql");
 	    $ret=pg_exec($cn,$sql);
 	    $res=pg_NumRows($ret);
-	    echo_debug(__FILE__,__LINE__,"Number of found rows : $res");
+	    echo_debug('class_user.php',__LINE__,"Number of found rows : $res");
 	    if ( $res >0 ) {
 	      $r=pg_fetch_array($ret,0);
 	      $_SESSION['use_admin']=$r['use_admin'];
@@ -280,7 +280,7 @@ function GetPreferences ()
 
 function GetGlobalPref() 
 {
-	echo_debug(__FILE__,__LINE__,"function GetGlobalPref");
+	echo_debug('class_user.php',__LINE__,"function GetGlobalPref");
   $cn=Dbconnect();
   // Load everything in an array
   $Res=ExecSql ($cn,"select parameter_type,parameter_value from 
@@ -324,8 +324,8 @@ function GetGlobalPref()
  * return: nothing
  */
 function insert_default_global_pref($p_type="",$p_value="") {
-	echo_debug(__FILE__,__LINE__,"function insert_default_global_pref");
-	echo_debug(__FILE__,__LINE__,"parameter p_type $p_type p_value  $p_value");
+	echo_debug('class_user.php',__LINE__,"function insert_default_global_pref");
+	echo_debug('class_user.php',__LINE__,"parameter p_type $p_type p_value  $p_value");
 
 	$default_parameter= array("THEME"=>"Light",
 		"PAGESIZE"=>"50");

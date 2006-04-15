@@ -30,7 +30,7 @@ include_once("ac_common.php");
 include_once("postgres.php");
 include_once("class.ezpdf.php");
 require_once("check_priv.php");
-echo_debug(__FILE__,__LINE__,"imp pdf securité");
+echo_debug('sec_pdf.php',__LINE__,"imp pdf securité");
 $cn=DbConnect($_SESSION['g_dossier']);
 //////////////////////////////////////////////////////////////////////
 // Security 

@@ -62,7 +62,7 @@ class jrn {
  */ 
   function GetRow($p_from,$p_to,$cent='off',$p_limit=-1,$p_offset=-1) {
 
-  echo_debug(__FILE__,__LINE__,"GetRow ( $p_from,$p_to,$cent,$p_limit,$p_offset)");
+  echo_debug('class_jrn.php',__LINE__,"GetRow ( $p_from,$p_to,$cent,$p_limit,$p_offset)");
 
     if ( $p_from == $p_to ) 
       $periode=" jr_tech_per = $p_from ";
@@ -74,7 +74,7 @@ class jrn {
     if ( $this->id != 0 ) {
 
       if ( $cent=='off' ) {
-	echo_debug(__FILE__,__LINE__,"journaux non  centralisé");
+	echo_debug('class_jrn.php',__LINE__,"journaux non  centralisé");
 	// Journaux non centralisés
 	$Res=ExecSql($this->db,"select j_id,j_id as int_j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
                       jr_internal,
@@ -90,7 +90,7 @@ class jrn {
 		 $cond_limite);
     }else {
       // Journaux centralisés
-      echo_debug(__FILE__,__LINE__,"journaux centralisé");
+      echo_debug('class_jrn.php',__LINE__,"journaux centralisé");
       $Sql="select jr_opid as j_id,
                     c_order as int_j_id,
             to_char (c_date,'DD.MM.YYYY') as j_date ,
@@ -116,7 +116,7 @@ class jrn {
   } else {
     // Grand Livre
     if ( $cent == 'off') {
-      echo_debug(__FILE__,__LINE__,"Grand livre non centralisé");
+      echo_debug('class_jrn.php',__LINE__,"Grand livre non centralisé");
       // Non centralisé
       $Res=ExecSql($this->db,"select j_id,j_id as int_j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
                       jr_internal,
@@ -132,7 +132,7 @@ class jrn {
 	       $cond_limite);
 
     } else {
-      echo_debug(__FILE__,__LINE__,"Grand livre  centralisé");
+      echo_debug('class_jrn.php',__LINE__,"Grand livre  centralisé");
       // Centralisé
       $Sql="select jr_c_opid as j_id,
                    c_order as int_j_id,
@@ -172,8 +172,8 @@ class jrn {
     $jr_montant=($line['jr_montant']!=0)?sprintf("% 8.2f",$line['jr_montant']):"";
     $tot_deb+=$line['deb_montant'];
     $tot_cred+=$line['cred_montant'];
-    echo_debug(__FILE__,__LINE__," GetRow : mont_Deb ".$mont_deb);
-    echo_debug(__FILE__,__LINE__," GetRow : mont_cred ".$mont_cred);
+    echo_debug('class_jrn.php',__LINE__," GetRow : mont_Deb ".$mont_deb);
+    echo_debug('class_jrn.php',__LINE__," GetRow : mont_cred ".$mont_cred);
 
     if ( $case != $line['grp'] ) {
       $case=$line['grp'];
@@ -216,7 +216,7 @@ class jrn {
       
 
   }
-  echo_debug(__FILE__,__LINE__,"Total debit $tot_deb,credit $tot_cred");
+  echo_debug('class_jrn.php',__LINE__,"Total debit $tot_deb,credit $tot_cred");
   $this->row=$array;
   $a=array($array,$tot_deb,$tot_cred);
   return $a;
@@ -241,7 +241,7 @@ class jrn {
   function GetRowSimple($p_from,$p_to,$cent='off',$p_limit=-1,$p_offset=-1) 
   {
     
-    echo_debug(__FILE__,__LINE__,"GetRowSimple ( $p_from,$p_to,$cent,$p_limit,$p_offset)");
+    echo_debug('class_jrn.php',__LINE__,"GetRowSimple ( $p_from,$p_to,$cent,$p_limit,$p_offset)");
     // Periode check
     //---
     if ( $p_from == $p_to ) 

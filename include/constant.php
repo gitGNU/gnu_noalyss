@@ -112,6 +112,7 @@ define ("FICHE_TYPE_ADM_TAX",14);
 define ("ATTR_DEF_DEPENSE_NON_DEDUCTIBLE",20);
 define ("ATTR_DEF_TVA_NON_DEDUCTIBLE",21);
 define ("ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP",22);
+define ("ATTR_DEF_QUICKCODE",23);
 define ("JS_SEARCH_POSTE","<SCRIPT language=\"javascript\">function SearchPoste(p_sessid,p_ctl,p_jrn)
      {
        var win=window.open('poste_search.php?p_jrn='+p_jrn+'&p_ctl='+p_ctl+'&PHPSESSID='+p_sessid,'Cherche','toolbar=no,width=600,height=600,scrollbars=yes,resizable=yes');

@@ -55,12 +55,13 @@ function GetSqlFiche($p_type) {
  *
  */ 
 function AddFiche($p_cn,$p_type,$p_array) {
-  echo_debug(__FILE__,__LINE__," AddFiche($p_cn,$p_type,$p_array) ");
+  // TODO ADD ROLLBACK !!!
+  echo_debug('fiche_inc.php',__LINE__," AddFiche($p_cn,$p_type,$p_array) ");
   // Push the array in element starting with p
   //
   foreach ($p_array as $key=>$element){
     ${"p_$key"}=$element;
-    echo_debug(__FILE__,__LINE__,"p_$key=$element;");
+    echo_debug('fiche_inc.php',__LINE__,"p_$key=$element;");
   }
   // First verify that the name is not null
   // av_text.ATTR_DEF_NAME
@@ -182,6 +183,13 @@ function AddFiche($p_cn,$p_type,$p_array) {
     //Except for the class base
        if ( ${"p_ad_id$i"} == ATTR_DEF_ACCOUNT ) continue;
 
+    // Special treatment for QuickCode
+       if ( ${"p_ad_id$i"} == ATTR_DEF_QUICKCODE ) {
+	 $sql=sprintf("select insert_quick_code(%d,'%s')",
+		      $l_f_id,FormatString(${"p_av_text$i"}));
+	 $Res=ExecSql($p_cn,$sql);
+	 continue;
+       }
     // Add it the jnt table
     $Sql=sprintf("insert into jnt_fic_att_value (f_id,ad_id) values (%d,%d)",
 		 $l_f_id,${"p_ad_id$i"});
@@ -239,7 +247,7 @@ function AddFiche($p_cn,$p_type,$p_array) {
  *
  */ 
 function EncodeFiche($p_cn,$p_type,$p_array=null) {
-  echo_debug(__FILE__,__LINE__,"function EncodeFiche($p_cn,$p_type) ");
+  echo_debug('fiche_inc.php',__LINE__,"function EncodeFiche($p_cn,$p_type) ");
 
   $ch_col="</TD><TD>";
   $ch_li='</TR><TR>';
@@ -255,7 +263,7 @@ function EncodeFiche($p_cn,$p_type,$p_array=null) {
     //    echo '<H2 class="info">'.getFicheName($p_cn,$p_type).'</H2>';
     echo '<H2 class="info">New </H2>';
     $p_f_id="";
-    echo_debug(__FILE__,__LINE__,"Array is null");
+    echo_debug('fiche_inc.php',__LINE__,"Array is null");
     // Find all the attribute of the existing cards
     // --> Get_attr_def 
     $sql="select frd_id,ad_id,ad_text from  fiche_def join jnt_fic_attr using (fd_id)
@@ -296,7 +304,7 @@ function EncodeFiche($p_cn,$p_type,$p_array=null) {
     // and display them
 
     // Display the card name
-    $label=getFicheName($p_cn,$p_type);
+    $label=getFicheNameById($p_cn,$p_type);
     echo '<H2 class="info">'.$label.'</H2>';
 
     // Find all the data related to the card
@@ -307,7 +315,7 @@ function EncodeFiche($p_cn,$p_type,$p_array=null) {
 
     $Res=ExecSql($p_cn,$sql);
     $Max=pg_NumRows($Res);
-    echo_debug(__FILE__,__LINE__,"Max ==== $Max");    
+    echo_debug('fiche_inc.php',__LINE__,"Max ==== $Max");    
 
     echo '<INPUT TYPE="HIDDEN" name="f_id" value="'.$p_type.'">';
     echo '<INPUT TYPE="HIDDEN" name="f_label" value="'.$label.'">';
@@ -428,10 +436,12 @@ function ViewFiche($p_cn,$p_type) {
    
   // Get all name the cards of the select category
   // 1 for attr_def.ad_id is always the name
-    $Res=ExecSql($p_cn,"select f_id,av_text  from 
+    $Res=ExecSql($p_cn,"select f_id,av_text,j_qcode  from 
                           fiche join jnt_fic_att_value using (f_id) 
                                 join attr_value using (jft_id)
-                       where fd_id='".$p_type."' and ad_id=".ATTR_DEF_NAME." order by f_id $sql_offset $sql_limit ");
+                                join vw_poste_qcode using(f_id)
+                       where fd_id='".$p_type.
+                       "' and ad_id=".ATTR_DEF_NAME." order by f_id $sql_offset $sql_limit ");
     $Max=pg_NumRows($Res);
     echo $bar;
 
@@ -442,7 +452,7 @@ function ViewFiche($p_cn,$p_type) {
       $span_del='<span class="mtitle2" ALIGN="left">'.
 	'<A class="mtitle2" href="fiche.php?f_fd_id='.$p_type.'&action=delete&fiche_id='.$l_line['f_id'].
 	'"> delete</A></SPAN>';
-      $span_id='<SPAN style="background-color:lightgrey;">'.$l_line['f_id']."</SPAN>";
+      $span_id='<SPAN style="background-color:lightgrey;">'.$l_line['j_qcode']."</SPAN>";
       if ( $i %2 == 0 ) 
 	$div='<DIV style="background-color:#DDE6FF;">';
         echo $div.$span_del.'&nbsp;'.'&nbsp;'.'&nbsp;'.'&nbsp;'.'&nbsp;'.'&nbsp;'.
@@ -472,7 +482,7 @@ function ViewFiche($p_cn,$p_type) {
 function GetNextFiche($p_cn,$p_base) {
   $Res=ExecSql($p_cn,"select max(pcm_val) as maxcode from tmp_pcmn where pcm_val_parent = $p_base");
  $Max=pg_NumRows($Res);
- echo_debug(__FILE__,__LINE__,"$Max=pg_NumRows");
+ echo_debug('fiche_inc.php',__LINE__,"$Max=pg_NumRows");
   $l_line=pg_fetch_array($Res,0);
   $ret=$l_line['maxcode'];
  if ( $ret == "" ) {
@@ -481,7 +491,7 @@ function GetNextFiche($p_cn,$p_base) {
 
  }
 
-  echo_debug(__FILE__,__LINE__,"ret $ret");
+  echo_debug('fiche_inc.php',__LINE__,"ret $ret");
   return $ret+1;
 }
 /* function ViewFicheDetail
@@ -538,10 +548,11 @@ function ViewFicheDetail($p_cn,$p_id) {
  */ 
 
 function UpdateFiche($p_cn,$p_array) {
-  echo_debug (__FILE__,__LINE__,"UpdateFiche");
+
+  echo_debug ('fiche_inc.php',__LINE__,"UpdateFiche");
   $tva_error=false;
   foreach ( $p_array as $key=> $element) {
-    echo_debug(__FILE__,__LINE__,"UF  $key => $element");
+    echo_debug('fiche_inc.php',__LINE__,"UF  $key => $element");
     ${"$key"}=$element;
     // Get the name
     if ( $key == "ad_id".ATTR_DEF_NAME ) {
@@ -573,16 +584,27 @@ function UpdateFiche($p_cn,$p_array) {
   $fd_ref=GetFicheDefRef($p_cn,$fiche);
   // Update all the others data
   for ( $i =0 ; $i < $max ; $i++) {
+    // Format text
     $text=FormatString( ${"av_text$i"});
-    $sql=sprintf("update attr_value set av_text='%s' where jft_id=%d",
-		 $text,
-		 ${"jft_id$i"});
-    echo_debug($sql);
+    // Check if we don't try to update a QUICK CODE
+    $Res=ExecSql($p_cn,"select ad_id from jnt_fic_att_value where jft_id=".${"jft_id$i"});
+    $a=pg_fetch_array($Res,0);
+    if ( $a['ad_id'] != ATTR_DEF_QUICKCODE) 
+      {
+	$sql=sprintf("update attr_value set av_text='%s' where jft_id=%d",
+		     $text,
+		     ${"jft_id$i"});
+      }
+    else
+      {
+	$sql=sprintf("select update_quick_code(%d,'%s')",
+		     ${"jft_id$i"},
+		     $text);
+      }
+    // Execute SQL
     $Res=ExecSql($p_cn,$sql);
-
   }
-
-  // Update tva to his default value
+    // Update tva to his default value
   if ( $tva_error == true ) { 
     $sql="update attr_value set av_text=1 where jft_id = ( select jft_id from jnt_fic_att_value 
                     natural join fiche natural join attr_def 
@@ -623,7 +645,7 @@ function UpdateFiche($p_cn,$p_array) {
     } else // $class=""
       {
 
-	echo_debug(__FILE__,__LINE__,"new account ");
+	echo_debug('fiche_inc.php',__LINE__,"new account ");
 	$class=$class_old;
 	if ( CountSql($p_cn,"select * from tmp_pcmn where pcm_val=".$class) == 0 ) {
 	  // First we must use a parent
@@ -687,7 +709,7 @@ function EncodeModele($p_js)
  */ 
 function DefModele ($p_cn,$p_js,$p_array=null,$p_ligne=1) 
 {
-  echo_debug(__FILE__,__LINE__,"DefModele ($p_array,$p_ligne=1) ");
+  echo_debug('fiche_inc.php',__LINE__,"DefModele ($p_array,$p_ligne=1) ");
 
   // Creating form
   $display='<FORM ACTION="fiche.php" METHOD="POST">';
@@ -758,16 +780,16 @@ function DefModele ($p_cn,$p_js,$p_array=null,$p_ligne=1)
  *
  */ 
 function AddModele($p_cn,$p_array) {
-  echo_debug(__FILE__,__LINE__,"AddModele");
+  echo_debug('fiche_inc.php',__LINE__,"AddModele");
   // Show what we receive for debug purpose only
   //
   foreach ( $p_array as $key=>$element ) {
-    echo_debug(__FILE__,__LINE__,"p_$key $element");
+    echo_debug('fiche_inc.php',__LINE__,"p_$key $element");
     ${"p_$key"}=$element;
   }
   // Format correctly the name of the cat. of card
   $p_nom_mod=FormatString($p_nom_mod);
-  echo_debug(__FILE__,__LINE__,"Adding $p_nom_mod");
+  echo_debug('fiche_inc.php',__LINE__,"Adding $p_nom_mod");
    // Format the p_class_base 
   // must be an integer
   if ( isNumber($p_class_base) == 0 && FormatString($p_class_base) != null ) {
@@ -868,7 +890,7 @@ function UpdateModele($p_cn,$p_fiche) {
     return;
   }
   echo '<H2 class="info">'.getFicheDefName($p_cn,$p_fiche).'</H2>';
-  foreach ( $array as $key=>$element) echo_debug(__FILE__,__LINE__,"$key => $element");
+  foreach ( $array as $key=>$element) echo_debug('fiche_inc.php',__LINE__,"$key => $element");
   DisplayDetailModele($p_cn,$array,$array['ligne']);
 
 }
@@ -969,10 +991,11 @@ function Remove ($p_cn, $p_fid) {
 /* function getFicheName
  ***************************************************
  * Purpose : retourne le nom de la fiche
+ *           en fournissant le quick_code
  *        
  * parm : 
  *	- p_cn connexion
- *      - p_id fiche id
+ *      - p_id quick_code
  * gen :
  *	- none
  * return:
@@ -982,17 +1005,40 @@ function getFicheName($p_cn,$p_id) {
   // Retrieve the attribute with the ad_id 1
   // 1 is always the name
 
-  $Res=ExecSql($p_cn,"select av_text from 
-                    attr_value
-                    natural join jnt_fic_att_value 
-                    natural join fiche 
-                    where
-                    f_id=$p_id and
-                    ad_id=".ATTR_DEF_NAME);
+  $Res=ExecSql($p_cn,"select vw_name from 
+                        vw_fiche_attr where quick_code='$p_id'");
+  if ( pg_NumRows($Res) == 0 ) return "Unknown";
+  $st=pg_fetch_array($Res,0);
+  return $st['vw_name'];
+}
+/* function getFicheNameById
+ ***************************************************
+ * Purpose : retourne le nom de la fiche en fournissant le f_id
+ *        
+ * parm : 
+ *	- p_cn connexion
+ *      - p_id quick_code
+ * gen :
+ *	- none
+ * return:
+ *     - string avec nom fiche
+ */
+function getFicheNameById($p_cn,$p_id) {
+  // Retrieve the attribute with the ad_id 1
+  // 1 is always the name
+   $Res=ExecSql($p_cn,"select av_text from
+                     attr_value
+                     natural join jnt_fic_att_value
+                     natural join fiche
+                     where
+                     f_id=$p_id and
+                     ad_id=".ATTR_DEF_NAME);
+
   if ( pg_NumRows($Res) == 0 ) return "Unknown";
   $st=pg_fetch_array($Res,0);
   return $st['av_text'];
 }
+
 /* function getFicheDefName
  ***************************************************
  * Purpose : retourne le nom de la cat. de  fiches
@@ -1198,11 +1244,11 @@ function GetCreateAccount($p_cn,$p_fiche_def) {
     $f=pg_fetch_array($Res,$i);
     echo_debug ("fd_create_account == ".$f['fd_create_account']);
     if ( $f['fd_create_account']=='t') {
-      echo_debug(__FILE__,__LINE__,"fd_create_account return 1");
+      echo_debug('fiche_inc.php',__LINE__,"fd_create_account return 1");
       return 1;
     }
   }
-  echo_debug(__FILE__,__LINE__,"fd_create_account return 0");
+  echo_debug('fiche_inc.php',__LINE__,"fd_create_account return 0");
   return 0;
 }
 /* function GetFicheDefRef
@@ -1281,7 +1327,7 @@ function GetFicheDef($p_cn,$p_f_id)
  *      string if a class if found or null otherwise
  */
 function GetClass($p_cn,$p_fid) {
-  echo_debug(__FILE__,__LINE__,"GetClass($p_fid)");
+  echo_debug('fiche_inc.php',__LINE__,"GetClass($p_fid)");
   
   // the account class is in the av_text with the ad_id=5 in 
   // attr_Def
@@ -1359,10 +1405,10 @@ function SaveModeleName($p_cn,$p_fid,$p_label)
  */
 function DisplayDetailModele($p_cn,$p_array,$MaxLine)
 {
-  echo_debug(__FILE__,__LINE__,"DisplayDetailModele");
+  echo_debug('fiche_inc.php',__LINE__,"DisplayDetailModele");
 
   foreach ($p_array as $v=>$i) { 
-    echo_debug(__FILE__,__LINE__,"v == $v i==$i");
+    echo_debug('fiche_inc.php',__LINE__,"v == $v i==$i");
     ${"$v"}=$i;
   }
   echo '<FORM action="fiche.php" method="get">';
@@ -1433,7 +1479,7 @@ function GetParent($p_cn,$p_val)
  *        
  * parm : 
  *	- p_cn connexion
- *      - p_id fiche id
+ *      - p_id quick_code
  *      - attribut if attribut == "" then return a array
  *        taken from vw_fiche_attr
  * gen :
@@ -1451,14 +1497,14 @@ function getFicheAttribut($p_cn,$p_id,$p_attr="") {
                     natural join jnt_fic_att_value 
                     natural join fiche 
                     where
-                    f_id=$p_id and
-                    ad_id=$p_attr");
+                    ad_id=$p_attr 
+                    and f_id=(select f_id from vw_poste_qcode where j_qcode='$p_id') ");
     if ( pg_NumRows($Res) == 0 ) return NULL;
     $st=pg_fetch_array($Res,0);
     return $st['av_text'];
   } else {
     // Get attribut from the view
-    $Res=ExecSql($p_cn,"select * from vw_fiche_attr where f_id=$p_id");
+    $Res=ExecSql($p_cn,"select * from vw_fiche_attr where quick_code='$p_id'");
     if ( pg_NumRows($Res) == 0 ) return null;
     $st=pg_fetch_array($Res,0);
     return $st;
@@ -1474,7 +1520,7 @@ function getFicheAttribut($p_cn,$p_id,$p_attr="") {
  *	- p_cn connextion
  *      - j_jrn journal_id
  *      - $p_type : deb or cred
- *      - $p_fiche : p_f_id
+ *      - $p_fiche : quick_code
  * gen :
  *	- none
  *
@@ -1513,13 +1559,10 @@ function IsFicheOfJrn($p_cn,$p_jrn,$p_fiche,$p_type="")
     return null;
   }
   
- $sql="select f_id,av_text as f_label 
-        from fiche natural join jnt_fic_att_value
-        natural join attr_def
-        natural join attr_value
-        natural join fiche_def
-        where ad_id=1 and
-           fd_id in (".$list['fiche'].") and f_id=$p_fiche  order by f_label";
+ $sql="select *
+        from vw_fiche_attr
+        where  
+           fd_id in (".$list['fiche'].") and quick_code='$p_fiche'"; 
 
   $Res=ExecSql($p_cn,$sql);
   $Max=pg_NumRows($Res);

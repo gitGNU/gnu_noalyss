@@ -28,7 +28,7 @@ if ( isset( $_POST['bt_html'] ) ) {
 include("jrn.php");
  $p_cent=( isset ( $_POST['cent']) )?'on':'off';
   // $POST=from_periode, to_periode, jrn_id, cent
-  echo_debug(__FILE__,__LINE__," jrn sql = $sql");
+  echo_debug('class_operation.php',__LINE__," jrn sql = $sql");
   $Jrn=new jrn($cn,$_POST['jrn_id']);
   $Jrn->GetName();
   $Jrn->GetRow( $_POST['from_periode'],

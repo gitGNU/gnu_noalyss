@@ -329,7 +329,7 @@ function make_array($p_cn,$p_sql,$p_null=0) {
 function getPeriodeName($p_cn,$p_id,$pos='p_start') {
   if ( $pos != 'p_start' and 
        $pos != 'p_end')
-    echo_error(__FILE__."-".__LINE__.'  UNDEFINED PERIODE');
+    echo_error('ac_common.php'."-".__LINE__.'  UNDEFINED PERIODE');
   $ret=execSql($p_cn,"select to_char($pos,'Mon YYYY') as t from parm_periode where p_id=$p_id");
   if (pg_NumRows($ret) == 0) return null;
   $a=pg_fetch_array($ret,0);
