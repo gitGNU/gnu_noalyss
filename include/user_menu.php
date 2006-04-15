@@ -240,7 +240,7 @@ function ShowMenuJrnUser($p_dossier,$p_type,$p_jrn)
   include_once ("debug.php");
   include_once("constant.php");
   include_once("class_user.php");
-  echo_debug(__FILE__,__LINE__,"U_SHOWMENUJRNUSER PTYPE=$p_type");
+  echo_debug('user_menu.php',__LINE__,"U_SHOWMENUJRNUSER PTYPE=$p_type");
   //    echo '<div class="searchmenu">';
     echo '<TABLE><TR>';
     include_once("postgres.php");
@@ -286,7 +286,7 @@ function ShowMenuJrnUser($p_dossier,$p_type,$p_jrn)
 
       if ( $right > 0 ) {
 	// Minimum Lecture 
-	echo_debug(__FILE__,__LINE__,"p_jrn = $p_jrn ");
+	echo_debug('user_menu.php',__LINE__,"p_jrn = $p_jrn ");
 	if ( $l_line['jrn_def_id'] != $p_jrn ) {
 	  echo '<TD class="cell">';
 	  printf ('<A class="mtitle" HREF="user_jrn.php?p_jrn=%s">%s</A></TD>',
@@ -386,11 +386,11 @@ function get_quick_key($title,&$access_key_list)
 
 function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
 {
-  echo_debug(__FILE__,__LINE__,"u_ShowMenuRecherche($p_cn,$p_array)");
+  echo_debug('user_menu.php',__LINE__,"u_ShowMenuRecherche($p_cn,$p_array)");
   if ( $p_array != null ) {
     foreach ( $p_array as $key=> $element) {
       ${"p_$key"}=$element;
-      echo_debug(__FILE__,__LINE__,"p_$key =$element;");
+      echo_debug('user_menu.php',__LINE__,"p_$key =$element;");
     }
   }
 
@@ -409,6 +409,7 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
   if ( ! isset ($p_s_montant)) $p_s_montant="";
   if ( ! isset ($p_s_internal)) $p_s_internal="";
   if ( ! isset ($p_poste)) $p_poste="";
+  if ( ! isset ($p_qcode)) $p_qcode="";
 
 
   if ( $p_mont_sel != "" )  $opt.='<OPTION value="'.$p_mont_sel.'" SELECTED> '.$p_mont_sel;
@@ -433,15 +434,23 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
   $r.= "</TR><TR>";
   $r.="<TD> Internal code</td>";
   $r.='<TD><input type="text" name="s_internal" value="'.$p_s_internal.'"></td>';
-  $r.= "</TR>";
 
+  $r.= "</TR>";
+  $r.= "<TR>";
   $W=new widget("js_search_poste");
   $W->label="Numéro de poste";
   $W->name="poste";
   $W->value=$p_poste;
   $r.="<TR>".$W->IOValue();
-
+  $r.= "</TR>";
   $r.= "<TR>";
+  $A=new widget("TEXT");
+  $A->label="Quick Code";
+  $A->name="qcode";
+  $A->value=$p_qcode;
+  $r.="<TD> Quick Code</TD><TD>".$A->IOValue()."</TD>";
+  $r.= "</TR>";
+
 
   $r.= '<TD colspan="3"> Le commentaire contient </TD>';
   $r.= "</TR><TR>";
@@ -606,18 +615,18 @@ function ShowMenuInvoice()
   return $sub_menu;
 
 }
-/* function
- * Purpose :
+/* function ShowMenuParam
+ * Purpose : Show the parametre menu
  * 
  * parm : 
- *	- 
+ *	- p_action
  * gen :
- *	-
+ *	- none
  * return:
- *	-
+ *	- none
  *
  */ 
-function ShowMenuParam()
+function ShowMenuParam($p_action="")
 {
     $sub_menu=ShowItem(array(
 			  
@@ -629,7 +638,7 @@ function ShowMenuParam()
 			  array('login.php','Accueil',"Accueil"),
 			  array('logout.php','logout',"Sortie")
 			  ),
-		    'H',"mtitle","mtitle");
+		    'H',"mtitle","mtitle",$p_action);
     return $sub_menu;
 
 }

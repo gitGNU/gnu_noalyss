@@ -67,18 +67,17 @@ function GetTvaRate($p_cn,$p_tva_id) {
  *       a[tva_id] =  amount vat
  */
 function ComputeTotalVat($p_cn,	$a_fiche,$a_quant,$a_price,$ap_vat,$all=false ) {
-echo_debug(__FILE__,__LINE__,"ComputeTotalVat $a_fiche $a_quant $a_price");
+echo_debug('user_common.php',__LINE__,"ComputeTotalVat $a_fiche $a_quant $a_price");
  foreach ( $a_fiche as $t=>$el) {
-   echo_debug(__FILE__,__LINE__,"t $t e $el");
+   echo_debug('user_common.php',__LINE__,"t $t e $el");
  }
  $r=null;
 // foreach goods 
 //--
  foreach ( $a_fiche as $idx=>$element) {
-   echo_debug (__FILE__,__LINE__,"idx $idx element $element");
+   echo_debug ('user_common.php',__LINE__,"idx $idx element $element");
   // if the card id is null or empty 
-    if ( isNumber($element)==0 
-	 or strlen(trim($element))==0) continue;
+    if (  strlen(trim($element))==0) continue;
 
     // Get the tva_id
     if ( $ap_vat != null and
@@ -107,7 +106,7 @@ echo_debug(__FILE__,__LINE__,"ComputeTotalVat $a_fiche $a_quant $a_price");
 			{
 				$nd_amount=$a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx]*$nd;
 				$vat_amount=$a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx];
-				echo_debug(__FILE__,__LINE__,"TVA Attr fiche [$nd] nd amount [ $nd_amount ]".
+				echo_debug('user_common.php',__LINE__,"TVA Attr fiche [$nd] nd amount [ $nd_amount ]".
 							"vat amount [ $vat_amount]");
 				$vat_amount-=$nd_amount;
 				$flag=false;
@@ -118,7 +117,7 @@ echo_debug(__FILE__,__LINE__,"ComputeTotalVat $a_fiche $a_quant $a_price");
 			{
 				$nd_amount=$a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx]*$nd;
 				$vat_amount=$a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx];
-				echo_debug(__FILE__,__LINE__,"TVA Attr fiche [$nd] nd amount [ $nd_amount ]".
+				echo_debug('user_common.php',__LINE__,"TVA Attr fiche [$nd] nd amount [ $nd_amount ]".
 							"vat amount [ $vat_amount]");
 				$vat_amount-=$nd_amount;
 				$flag=false;
@@ -129,7 +128,7 @@ echo_debug(__FILE__,__LINE__,"ComputeTotalVat $a_fiche $a_quant $a_price");
 		
     
  }
- echo_debug(__FILE__,__LINE__," return $r");
+ echo_debug('user_common.php',__LINE__," return $r");
  return $r;
  
  
@@ -152,7 +151,9 @@ echo_debug(__FILE__,__LINE__,"ComputeTotalVat $a_fiche $a_quant $a_price");
  *	-
  * return: the amount of vat
  */
-function ComputeVat($p_cn,	$p_fiche,$p_quant,$p_price,$p_vat ) {
+function ComputeVat($p_cn,	$p_fiche,$p_quant,$p_price,$p_vat ) 
+{
+  echo_debug('user_common.php',__LINE__,"function ComputeVat($p_cn,$p_fiche,$p_quant,$p_price,$p_vat )");
     // Get the tva_id
     if ( $p_vat != null and  isNumber($p_vat)== 1)
       $tva_id=$p_vat;
@@ -220,10 +221,12 @@ function GetTvaPoste($p_cn,$p_tva_id,$p_cred) {
  *   - nothing
  */
 
-function InsertJrnx($p_cn,$p_type,$p_user,$p_jrn,$p_poste,$p_date,$p_amount,$p_grpt,$p_periode)
+function InsertJrnx($p_cn,$p_type,$p_user,$p_jrn,$p_poste,$p_date,$p_amount,$p_grpt,$p_periode,$p_qcode="")
 {
-  echo_debug ("InsertJrnx param 
-	    type = $p_type p_user $p_user p_date $p_date p_poste $p_poste p_amount $p_amount p_grpt = $p_grpt p_periode = $p_periode");
+  echo_debug ('user_common.php',__LINE__,"InsertJrnx param 
+	    type = $p_type p_user $p_user 
+            p_date $p_date p_poste $p_poste 
+            p_amount $p_amount p_grpt = $p_grpt p_periode = $p_periode");
   $debit=($p_type=='c')?'false':'true';
 
   // if negative value the operation is inversed
@@ -231,10 +234,11 @@ function InsertJrnx($p_cn,$p_type,$p_user,$p_jrn,$p_poste,$p_date,$p_amount,$p_g
     $debit=($debit=='false')?'true':'false';
   }
 
-  $sql=sprintf("insert into jrnx (j_date,j_montant, j_poste,j_grpt, j_jrn_def,j_debit,j_tech_user,j_tech_per)
-			values (to_date('%s','DD.MM.YYYY'),abs(%.2f),%d,%d,%d,%s,'%s',%d)",
-	       $p_date,round($p_amount,2),$p_poste,$p_grpt,$p_jrn,$debit,$p_user,$p_periode);
-  echo_debug(__FILE__,__LINE__,"InsertJrnx $sql");
+  $sql=sprintf("select insert_jrnx
+		 ('%s',abs(%.2f),%d,%d,%d,%s,'%s',%d,'%s')",
+	          $p_date,round($p_amount,2),$p_poste,$p_grpt,$p_jrn,$debit,$p_user,$p_periode,$p_qcode);
+
+  echo_debug('user_common.php',__LINE__,"InsertJrnx $sql");
   $Res=ExecSql($p_cn,$sql);
   if ( $Res==false) return $Res;
   return GetSequence($p_cn,'s_jrn_op');
@@ -260,7 +264,7 @@ function InsertJrnx($p_cn,$p_type,$p_user,$p_jrn,$p_poste,$p_date,$p_amount,$p_g
 
 function InsertJrn($p_cn,$p_date,$p_echeance,$p_jrn,$p_comment,$p_amount,$p_grpt,$p_periode)
 {
-	echo_debug (__FILE__,__LINE__,"InsertJrn param 
+	echo_debug ('user_common.php',__LINE__,"InsertJrn param 
 	    p_date $p_date p_poste $p_comment p_amount $p_amount p_grpt = $p_grpt p_periode = $p_periode p_echeance = $p_echeance
 comment = $p_comment");
 	$p_comment=FormatString($p_comment);
@@ -273,7 +277,7 @@ comment = $p_comment");
 	$sql=sprintf("insert into jrn (jr_def_id,jr_montant,jr_comment,jr_date,jr_ech,jr_grpt_id,jr_tech_per)
 	         values ( %d,abs(%.2f),'%s',to_date('%s','DD.MM.YYYY'),%s,%d,%d)",
 		     $p_jrn, round($p_amount,2),$p_comment,$p_date,$p_echeance,$p_grpt,$p_periode);
-	echo_debug(__FILE__,__LINE__,"InsertJrn $sql");
+	echo_debug('user_common.php',__LINE__,"InsertJrn $sql");
 	$Res=ExecSql($p_cn,$sql);				 
 	if ( $Res == false)  return false;
 	return GetSequence($p_cn,'s_jrn');
@@ -329,7 +333,6 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0)
     // Construction Query 
     foreach ( $p_array as $key=>$element) {
       ${"l_$key"}=$element;
-      echo_debug ("l_$key $element");
     }
     $sql="select jr_id	,
 		jr_montant,
@@ -390,6 +393,13 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0)
              from jrnx where j_poste = $l_poste)  ";
       $l_and=" and ";
     }
+    // Quick Code
+    if ( $l_qcode != null ) 
+      {
+	$sql.=$l_and."  jr_grpt_id in ( select j_grpt from 
+             jrnx where j_qcode = '$l_qcode')";
+	$l_and=" and ";
+      }
     // if not admin check filter 
     $User=new cl_user(DbConnect());
     $User->Check();
@@ -542,29 +552,22 @@ return array ($count,$r);
  */
 function InsertStockGoods($p_cn,$p_j_id,$p_good,$p_quant,$p_type)
 {
+  echo_debug('user_common.php',__LINE__,"function InsertStockGoods($p_cn,$p_j_id,$p_good,$p_quant,$p_type)");
   // Retrieve the good account for stock
-  $code_marchandise="select av_text from 
-                  jnt_fic_att_value 
-                  natural join attr_value
-                    where
-                  ad_id=".ATTR_DEF_STOCK." 
-                   and f_id=$p_good";
- $Res=ExecSql($p_cn,$code_marchandise);
- if ( pg_NumRows($Res) == 0 ) {
-   $l_code='null';
- }else {
-   $r=pg_fetch_array($Res,0);
-   $l_code=$r['av_text'];
- }
- $Res=ExecSql($p_cn,"insert into stock_goods (
+  $code_marchandise=GetFicheAttribut($p_cn,$p_good,ATTR_DEF_STOCK);
+  $sql="select f_id from vw_poste_qcode where j_qcode='$p_good'";
+  $Res=ExecSql($p_cn,$sql);
+  $r=pg_fetch_array($Res,0);
+  $f_id=$r['f_id'];
+  $Res=ExecSql($p_cn,"insert into stock_goods (
                             j_id,
                             f_id,
                             sg_code, 
                             sg_quantity,
                              sg_type ) values (
                             $p_j_id,
-                            $p_good,
-                            '$l_code',
+                            $f_id,
+                            '$code_marchandise',
                             $p_quant, '$p_type') 
                      ");
  return $Res;
@@ -610,7 +613,7 @@ function VerifyOperationDate($p_cn,$p_periode,$p_date) {
   // Verify the date
   if ( isDate($p_date) == null ) { 
 	  echo_error("Invalid date $p_date");
-	  echo_debug(__FILE__,__LINE__,"Invalid date $p_date");
+	  echo_debug('user_common.php',__LINE__,"Invalid date $p_date");
 	  echo "<SCRIPT> alert('INVALID DATE $p_date !!!!');</SCRIPT>";
 	  return null;
 		}
@@ -656,7 +659,7 @@ function InsertRapt($p_cn,$jr_id,$jr_id2) {
        isNumber($jr_id2) == 0 )
     {
       echo_error(" InsertRapt : invalid jr_id $jr_id, jr_id2 $jr_id2");
-      echo_debug(__FILE__,__LINE__," InsertRapt : invalid jr_id $jr_id, jr_id2 $jr_id2");
+      echo_debug('user_common.php',__LINE__," InsertRapt : invalid jr_id $jr_id, jr_id2 $jr_id2");
       return false;
     }
   // verify if exists
@@ -683,7 +686,7 @@ function InsertRapt($p_cn,$jr_id,$jr_id2) {
  *      - none
  */
 function DeleteRapt($p_cn,$jr_id,$jr_id2) {
-  echo_debug(__FILE__,__LINE__,"DeleteRapt($p_cn,$jr_id,$jr_id2) ");
+  echo_debug('user_common.php',__LINE__,"DeleteRapt($p_cn,$jr_id,$jr_id2) ");
   if ( isNumber($jr_id)  == 0 or 
        isNumber($jr_id2) == 0 )
     {

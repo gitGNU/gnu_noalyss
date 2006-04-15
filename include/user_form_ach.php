@@ -40,7 +40,7 @@ require_once("user_common.php");
  */
 function FormAchInput($p_cn,$p_jrn,$p_periode,$p_array=null,$p_submit="",$pview_only=true,$p_article=1)
 { 
-echo_debug(__FILE__,__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$pview_only,$p_article");
+echo_debug('user_form_ach.php',__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$pview_only,$p_article");
   if ( $p_array != null) {
     // array contains old value
     extract($p_array);
@@ -52,7 +52,7 @@ echo_debug(__FILE__,__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_periode,$p_arra
   $e_comm=(isset($e_comm))?$e_comm:"";
 
   // Save old value and set a new one
-  echo_debug(__FILE__,__LINE__,"form_input.php.FormSell_op_date is $op_date");
+  echo_debug('user_form_ach.php',__LINE__,"form_input.php.FormSell_op_date is $op_date");
   $r="";
   if ( $pview_only == false) {
     $r.=JS_SEARCH_CARD;
@@ -93,7 +93,7 @@ echo_debug(__FILE__,__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_periode,$p_arra
   // Display the supplier
   //--
   $fiche='cred';
-  echo_debug(__FILE__,__LINE__,"Fournisseurs Nombre d'enregistrement ".sizeof($fiche));
+  echo_debug('user_form_ach.php',__LINE__,"Fournisseurs Nombre d'enregistrement ".sizeof($fiche));
   // Save old value and set a new one
   $e_client=( isset ($e_client) )?$e_client:"";
 
@@ -157,25 +157,22 @@ echo_debug(__FILE__,__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_periode,$p_arra
     $march_label="";
 
     // If $march has a value
-    if ( isNumber($march) == 1 ) {
-      if ( isFicheOfJrn($p_cn,$p_jrn,$march,'deb') == 0 ) {
+    if ( isFicheOfJrn($p_cn,$p_jrn,$march,'deb') == 0 ) {
 	$msg="Fiche inexistante !!! ";
 	echo_error($msg); echo_error($msg);	
-	//echo "<SCRIPT>alert('$msg');</SCRIPT>";
 	$march="";
-      } else {
+    } else {
 	// retrieve the tva label and name
-	$a_fiche=GetFicheAttribut($p_cn, $march);
-	if ( $a_fiche != null ) {
-	  if ( $march_tva_id == "" ) {
-	    $march_tva_id=$a_fiche['tva_id'];
-	    $march_tva_label=$a_fiche['tva_label'];
-      //STAN: here I could get the VAT deduction rate, and impact the computations coming after.
-	  }
-	  $march_label=$a_fiche['vw_name'];
+      $a_fiche=GetFicheAttribut($p_cn, $march);
+      if ( $a_fiche != null ) {
+	if ( $march_tva_id == "" ) {
+	  $march_tva_id=$a_fiche['tva_id'];
+	  $march_tva_label=$a_fiche['tva_label'];
 	}
+	$march_label=$a_fiche['vw_name'];
       }
     }
+  
     // Show input
 
     $W1=new widget("js_search");
@@ -247,7 +244,7 @@ echo_debug(__FILE__,__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_periode,$p_arra
  */
 function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
 {
-  echo_debug(__FILE__,__LINE__,"Enter form_verify_input $p_cn,$p_jrn,$p_periode,".var_export($p_array,true).",$p_number");
+  echo_debug('user_form_ach.php',__LINE__,"Enter form_verify_input $p_cn,$p_jrn,$p_periode,".var_export($p_array,true).",$p_number");
   foreach ($p_array as $name=>$content) {
     ${"$name"}=$content;
   }
@@ -255,7 +252,7 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
   if ( isDate($e_date) == null ) 
     { 
       echo_error("Invalid date $e_date");
-      echo_debug(__FILE__,__LINE__,"Invalid date $e_date");
+      echo_debug('user_form_ach.php',__LINE__,"Invalid date $e_date");
       echo "<SCRIPT> alert('INVALID DATE $e_date !!!!');</SCRIPT>";
       return null;
     }
@@ -264,7 +261,7 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
     {
       if ( isNumber(${"e_quant$o"}) == 0 ) 
 	{
-	  echo_debug(__FILE__,__LINE__,"invalid quantity ".${"e_quant$o"});
+	  echo_debug('user_form_ach.php',__LINE__,"invalid quantity ".${"e_quant$o"});
 	  echo_error("invalid quantity ".${"e_quant$o"});
 	  echo "<SCRIPT> alert('INVALID QUANTITY !!!');</SCRIPT>";
 	  return null;
@@ -297,21 +294,21 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
      return null;
    } 
  // Verify is a client is set
- if ( isNumber($e_client)    == 0) 
-   {
-     $msg="Client inexistant";
-     echo_error($msg); echo_error($msg);	
-     echo "<SCRIPT>alert('$msg');</SCRIPT>";
-     return null;
-   }
+//  if ( isNumber($e_client)    == 0) 
+//    {
+//      $msg="Client inexistant";
+//      echo_error($msg); echo_error($msg);	
+//      echo "<SCRIPT>alert('$msg');</SCRIPT>";
+//      return null;
+//    }
 
  // if ech is a number of days then compute date limit
  if ( strlen($e_ech) != 0 and isNumber($e_ech) == 1) 
    {
      list($day,$month,$year)=explode(".",$e_date);
-     echo_debug(__FILE__,__LINE__," date $e_date = $day.$month.$year");
+     echo_debug('user_form_ach.php',__LINE__," date $e_date = $day.$month.$year");
      $p_ech=date('d.m.Y',mktime(0,0,0,$month,$day+$e_ech,$year));
-     echo_debug(__FILE__,__LINE__,"p_ech = $e_ech $p_ech");
+     echo_debug('user_form_ach.php',__LINE__,"p_ech = $e_ech $p_ech");
      $e_ech=$p_ech;
      $wHidden=new widget("hidden");
      $data.=$wHidden->IOValue("e_ech",$e_ech);
@@ -335,13 +332,13 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
 	continue;
     }
   
-    // Check wether the f_id is a number
-    if ( isNumber(${"e_march$i"}) == 0 ) {
-      $msg="Fiche inexistante !!! ";
-      echo_error($msg); echo_error($msg);	
-      echo "<SCRIPT>alert('$msg');</SCRIPT>";
-      return null;
-    }
+//     // Check wether the f_id is a number
+//     if ( isNumber(${"e_march$i"}) == 0 ) {
+//       $msg="Fiche inexistante !!! ";
+//       echo_error($msg); echo_error($msg);	
+//       echo "<SCRIPT>alert('$msg');</SCRIPT>";
+//       return null;
+//     }
     // Check 
     if ( isFicheOfJrn($p_cn,$p_jrn,${"e_march$i"},'deb') == 0 ) {
       $msg="Fiche inexistante !!! ";
@@ -351,11 +348,11 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
     }
     // check if the  ATTR_DEF_ACCOUNT is set
     $poste=GetFicheAttribut($p_cn,${"e_march$i"},ATTR_DEF_ACCOUNT);
-    echo_debug(__FILE__,__LINE__,"poste value = ".$poste."size = ".strlen(trim($poste)));
+    echo_debug('user_form_ach.php',__LINE__,"poste value = ".$poste."size = ".strlen(trim($poste)));
     if ( $poste == null ) 
       {	
 	$msg="La fiche ".${"e_march$i"}." n\'a pas de poste comptable";
-	echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);	
+	echo_error($msg); echo_debug('user_form_ach.php',__LINE__,$msg);	
 	echo "<SCRIPT>alert('$msg');</SCRIPT>";
 	return null;
 	
@@ -363,7 +360,7 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
     if ( strlen(trim($poste))==0 )
       {
 	$msg="La fiche ".${"e_march$i"}." n\'a pas de poste comptable";
-	echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);		
+	echo_error($msg); echo_debug('user_form_ach.php',__LINE__,$msg);		
 	echo "<SCRIPT>alert('$msg');</SCRIPT>";
 	return null;
       }
@@ -375,7 +372,7 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
 	if ( isNumber($non_dedu) == 0 || $non_dedu > 1.00 ) 
 	  {
 	    $msg="La fiche ".${"e_march$i"}." a un pourcentage invalide,il doit être compris entre 0 et 1";
-			echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);	
+			echo_error($msg); echo_debug('user_form_ach.php',__LINE__,$msg);	
 			echo "<SCRIPT>alert('$msg');</SCRIPT>";
 			return null;
 		
@@ -388,7 +385,7 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
 	if ( isNumber($non_dedu) == 0 || $non_dedu > 1.00 ) 
 	  {
 	    $msg="La fiche ".${"e_march$i"}." a un pourcentage invalide, il doit être compris entre 0 et 1";
-	    echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);	
+	    echo_error($msg); echo_debug('user_form_ach.php',__LINE__,$msg);	
 	    echo "<SCRIPT>alert('$msg');</SCRIPT>";
 	    return null;
 	    
@@ -400,7 +397,7 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
 	  if ( isNumber($non_dedu) == 0 || $non_dedu > 1.00 ) 
 	    {
 	      $msg="La fiche ".${"e_march$i"}." a un pourcentage invalide, il doit être compris entre 0 et 1";
-	      echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);	
+	      echo_error($msg); echo_debug('user_form_ach.php',__LINE__,$msg);	
 	      echo "<SCRIPT>alert('$msg');</SCRIPT>";
 	      return null;
 	      
@@ -525,13 +522,6 @@ function FormAchView ($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$p_number,$p_pi
       // VAT 
       $vat=(isNumber(${"e_march$i"."_tva_id"})==0)?getFicheAttribut($p_cn,${"e_march$i"},ATTR_DEF_TVA):${"e_march$i"."_tva_id"};
       
-      /*    //VAT deductibility rate
-    $deduct_rate = getFicheAttribut($p_cn,${"e_march$i"},ATTR_DEF_TVA_DEDUCT_RATE);      
-    if ($deduct_rate == null)
-    {
-      $deduct_rate = 100;
-    }
-    */
     // vat label
     // vat rate
       $a_vat=GetTvaRate($p_cn,$vat);
@@ -629,6 +619,7 @@ V : record_invoice => e : Sauver
  */
 function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 {
+  echo_debug('user_form_ach',__LINE__,"function RecordSell($p_cn,$p_array,$p_user,$p_jrn)");
   foreach ( $p_array as $v => $e)
   {
     ${"$v"}=$e;
@@ -648,7 +639,7 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
     $a_vat1[$i]=${"e_march$i"."_tva_id"};
     // check wether the price is set or no
     if ( isNumber(${"e_march$i"."_sell"}) == 0 ) {
-      if ( isNumber($a_good[$i]) == 1 ) {
+      if ( $a_good[$i] !="" ) {
 	     // If the price is not set we have to find it from the database
 	     $a_price[$i]=GetFicheAttribut($p_cn,$a_good[$i],ATTR_DEF_PRIX_VENTE);
 	   } 
@@ -662,13 +653,14 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
     $amount_jrn+=($cost<0)?0:$cost;
   }
   $comm=FormatString($e_comm);
+echo_debug('user_form_achat.php',__LINE__,"Call ComputeTotalVat");
   $a_vat=ComputeTotalVat($p_cn,$a_good,$a_quant,$a_price,$a_vat1,false);
   $sum_vat=0.0;
   if ( $a_vat != null ){
     foreach ( $a_vat as $element => $t) {
-      echo_debug(__FILE__,__LINE__," a_vat element $element t $t");
+      echo_debug('user_form_ach.php',__LINE__," a_vat element $element t $t");
       $sum_vat+=$t;
-      echo_debug(__FILE__,__LINE__,"sum_vat = $sum_vat");
+      echo_debug('user_form_ach.php',__LINE__,"sum_vat = $sum_vat");
     }
   }
 // Compute vat without reduction
@@ -676,9 +668,9 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 	$sum_vat_full=0.0;
 	if ( $a_vat_full != null ){
 		foreach ( $a_vat_full as $element => $t) {
-		echo_debug(__FILE__,__LINE__," a_vat element $element t $t");
+		echo_debug('user_form_ach.php',__LINE__," a_vat element $element t $t");
 		$sum_vat_full+=$t;
-		echo_debug(__FILE__,__LINE__,"sum_vat = $sum_vat");
+		echo_debug('user_form_ach.php',__LINE__,"sum_vat = $sum_vat");
 		}
 	}
   // First we add in jrnx
@@ -689,12 +681,14 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 
   // Debit = client
   $poste=GetFicheAttribut($p_cn,$e_client,ATTR_DEF_ACCOUNT);
+  echo_debug('user_form_achat.php',__LINE__,"get e_client $e_client poste $poste");
   StartSql($p_cn);	
+  echo_debug('user_form_achat.php',__LINE__,"insert client");
   $r=InsertJrnx($p_cn,'c',$p_user->id,$p_jrn,$poste,$e_date,round($amount,2)+round($sum_vat_full,2),$seq,$periode);
-  if ( $r == false) { $Rollback($p_cn);exit("error __FILE__ __LINE__");}
+  if ( $r == false) { $Rollback($p_cn);exit("error 'user_form_ach.php' __LINE__");}
   // Credit = goods 
   for ( $i = 0; $i < $nb_item;$i++) {
-    if ( isNumber($a_good[$i]) == 0 ) continue;
+    //    if ( isNumber($a_good[$i]) == 0 ) continue;
     $poste=GetFicheAttribut($p_cn,$a_good[$i],ATTR_DEF_ACCOUNT);
 	  
     // don't record operation of 0
@@ -703,36 +697,36 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 	$amount=$a_price[$i]*$a_quant[$i];
 	// Put the non deductible part into a special account
 	$non_dedu=GetFicheAttribut($p_cn,$a_good[$i],ATTR_DEF_DEPENSE_NON_DEDUCTIBLE);
-	echo_debug(__FILE__,__LINE__,"value non ded : $non_dedu");
+	echo_debug('user_form_ach.php',__LINE__,"value non ded : $non_dedu");
 	if ( $non_dedu != null && strlen(trim($non_dedu)) != 0 )
 	{
 		$nd_amount=$a_quant[$i]*$a_price[$i]*$non_dedu;
 		$j_id=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,'6740',$e_date,round($nd_amount,2),$seq,$periode);
-		if ( $j_id == false) { Rollback($p_cn);exit("error __FILE__ __LINE__");}
+		if ( $j_id == false) { Rollback($p_cn);exit("error 'user_form_ach.php' __LINE__");}
 		$amount=$amount-$nd_amount;
 	}
   	// Put the non deductible part into a special account
 	$non_dedu=GetFicheAttribut($p_cn,$a_good[$i],ATTR_DEF_TVA_NON_DEDUCTIBLE);
-	echo_debug(__FILE__,__LINE__,"TVA value non ded : $non_dedu");
+	echo_debug('user_form_ach.php',__LINE__,"TVA value non ded : $non_dedu");
 	if ( $non_dedu != null && strlen(trim($non_dedu)) != 0 )
 	{
 		$ded_vat=ComputeVat($p_cn,	$a_good[$i],$a_quant[$i],$a_price[$i],
 				$a_vat1[$i] )*$non_dedu;
 		$sum_tva_nd+=$ded_vat;
 		$j_id=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,'6740',$e_date,round($ded_vat,2),$seq,$periode);
-		if ( $j_id == false) { Rollback($p_cn);exit("error __FILE__ __LINE__");}
+		if ( $j_id == false) { Rollback($p_cn);exit("error 'user_form_ach.php' __LINE__");}
 	}
 
   	// Put the non deductible part into a special account
 	$non_dedu=GetFicheAttribut($p_cn,$a_good[$i],ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP);
-	echo_debug(__FILE__,__LINE__,"TVA value non ded : $non_dedu");
+	echo_debug('user_form_ach.php',__LINE__,"TVA value non ded : $non_dedu");
 	if ( $non_dedu != null && strlen(trim($non_dedu)) != 0 )
 	{
 		$ded_vat=ComputeVat($p_cn,	$a_good[$i],$a_quant[$i],$a_price[$i],
 				$a_vat1[$i] )*$non_dedu;
 		$sum_tva_nd+=$ded_vat;
 		$j_id=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,'6190',$e_date,round($ded_vat,2),$seq,$periode);
-		if ( $j_id == false) { Rollback($p_cn);exit("error __FILE__ __LINE__");}
+		if ( $j_id == false) { Rollback($p_cn);exit("error 'user_form_ach.php' __LINE__");}
 	}
 
 
@@ -740,11 +734,11 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 
     // record into jrnx
     $j_id=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste,$e_date,round($amount,2),$seq,$periode);
-    if ( $j_id == false) { Rollback($p_cn);exit("error __FILE__ __LINE__");}
+    if ( $j_id == false) { Rollback($p_cn);exit("error 'user_form_ach.php' __LINE__");}
     // always save quantity but in withStock we can find what card need a stock management
     if (  InsertStockGoods($p_cn,$j_id,$a_good[$i],$a_quant[$i],'c') == false ) {
-      $Rollback($p_cn);exit("error __FILE__ __LINE__");}
-	echo_debug(__FILE__,__LINE__,"value non ded : ".$a_good[$i]."is");		
+      $Rollback($p_cn);exit("error 'user_form_ach.php' __LINE__");}
+	echo_debug('user_form_ach.php',__LINE__,"value non ded : ".$a_good[$i]."is");		
 
   }
 
@@ -759,20 +753,20 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 	  $poste=GetTvaPoste($p_cn,$tva_id,'d');
 	  if ($tva_amount == 0 ) continue;
 	  $r=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste,$e_date,round($tva_amount,2),$seq,$periode);
-	  if ( $r == false ) { Rollback($p_cn); exit(" Error __FILE__ __LINE__");}
+	  if ( $r == false ) { Rollback($p_cn); exit(" Error 'user_form_ach.php' __LINE__");}
       
 	}
     }
-  echo_debug(__FILE__,__LINE__,"echeance = $e_ech");
+  echo_debug('user_form_ach.php',__LINE__,"echeance = $e_ech");
   $r=InsertJrn($p_cn,$e_date,$e_ech,$p_jrn,"Invoice",round($amount_jrn,2)+round($sum_vat,2)+round($sum_tva_nd,2),$seq,$periode);
-  if ( $r == false ) { Rollback($p_cn); exit(" Error __FILE__ __LINE__");}
+  if ( $r == false ) { Rollback($p_cn); exit(" Error 'user_form_ach.php' __LINE__");}
   // Set Internal code and Comment
   $internal=SetInternalCode($p_cn,$seq,$p_jrn);
   $comment=(FormatString($e_comm) == null )?$internal."  client : ".GetFicheName($p_cn,$e_client):FormatString($e_comm);
 
   // Update and set the invoice's comment 
   $Res=ExecSql($p_cn,"update jrn set jr_comment='".$comment."' where jr_grpt_id=".$seq);
-  if ( $Res == false ) { Rollback($p_cn); exit(" Error __FILE__ __LINE__"); };
+  if ( $Res == false ) { Rollback($p_cn); exit(" Error 'user_form_ach.php' __LINE__"); };
 
   if ( isset ($_FILES))
     save_upload_document($p_cn,$seq);

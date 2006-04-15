@@ -55,7 +55,7 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
   $e_comm=(isset($e_comm))?$e_comm:"";
   //  $e_jrn=(isset($e_jrn))?$e_jrn:"";
   // Save old value and set a new one
-  echo_debug(__FILE__,__LINE__,"form_input.php.FormVentep_op_date is $op_date");
+  echo_debug('user_form_ven.php',__LINE__,"form_input.php.FormVentep_op_date is $op_date");
   $r="";
   if ( $pview_only == false) {
     $r.=JS_SEARCH_CARD;
@@ -100,7 +100,7 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
   // Display the customer
   //--
   $fiche='deb';
-  echo_debug(__FILE__,__LINE__,"Client Nombre d'enregistrement ".sizeof($fiche));
+  echo_debug('user_form_ven.php',__LINE__,"Client Nombre d'enregistrement ".sizeof($fiche));
   // Save old value and set a new one
   //--
   $e_client=( isset ($e_client) )?$e_client:"";
@@ -267,14 +267,14 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
   // Verify the date
   if ( isDate($e_date) == null ) { 
 	  echo_error("Invalid date $e_date");
-	  echo_debug(__FILE__,__LINE__,"Invalid date $e_date");
+	  echo_debug('user_form_ven.php',__LINE__,"Invalid date $e_date");
 	  echo "<SCRIPT> alert('INVALID DATE $e_date !!!!');</SCRIPT>";
 	  return null;
 		}
 // Verify the quantity
 for ($o = 0;$o < $p_number; $o++) {
 	if ( isNumber(${"e_quant$o"}) == 0 ) {
-		echo_debug(__FILE__,__LINE__,"invalid quantity ".${"e_quant$o"});
+		echo_debug('user_form_ven.php',__LINE__,"invalid quantity ".${"e_quant$o"});
 		echo_error("invalid quantity ".${"e_quant$o"});
 		echo "<SCRIPT> alert('INVALID QUANTITY !!!');</SCRIPT>";
 		return null;
@@ -305,20 +305,13 @@ for ($o = 0;$o < $p_number; $o++) {
 		echo "<SCRIPT>alert('$msg');</SCRIPT>";
 		return null;
  } 
-// Verify is a client is set
- if ( isNumber($e_client)    == 0) {
-   $msg="Client inexistant";
-   echo_error($msg); echo_error($msg);	
-   echo "<SCRIPT>alert('$msg');</SCRIPT>";
-   return null;
- }
 
  // if ech is a number of days then compute date limit
  if ( strlen($e_ech) != 0 and isNumber($e_ech) == 1) {
  list($day,$month,$year)=explode(".",$e_date);
-  echo_debug(__FILE__,__LINE__," date $e_date = $day.$month.$year");
+  echo_debug('user_form_ven.php',__LINE__," date $e_date = $day.$month.$year");
   $p_ech=date('d.m.Y',mktime(0,0,0,$month,$day+$e_ech,$year));
-  echo_debug(__FILE__,__LINE__,"p_ech = $e_ech $p_ech");
+  echo_debug('user_form_ven.php',__LINE__,"p_ech = $e_ech $p_ech");
   $e_ech=$p_ech;
   $wHidden=new widget("hidden");
   $data.=$wHidden->IOValue("e_ech",$e_ech);
@@ -340,13 +333,7 @@ for ($o = 0;$o < $p_number; $o++) {
       continue;
     }
   
-    // Check wether the f_id is a number
-    if ( isNumber(${"e_march$i"}) == 0 ) {
-      $msg="Fiche inexistante !!! ";
-      echo_error($msg); echo_error($msg);	
-      echo "<SCRIPT>alert('$msg');</SCRIPT>";
-      return null;
-    }
+
     // Check 
     if ( isFicheOfJrn($p_cn,$p_jrn,${"e_march$i"},'cred') == 0 ) {
       $msg="Fiche inexistante !!! ";
@@ -359,7 +346,7 @@ for ($o = 0;$o < $p_number; $o++) {
 	if ( $poste == null ) 
 	{	
 		$msg="La fiche ".${"e_march$i"}." n\'a pas de poste comptable";
-      echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);	
+      echo_error($msg); echo_debug('user_form_ven.php',__LINE__,$msg);	
       echo "<SCRIPT>alert('$msg');</SCRIPT>";
       return null;
 	
@@ -367,7 +354,7 @@ for ($o = 0;$o < $p_number; $o++) {
   	if ( strlen(trim($poste))==0 )
 	{
 		$msg="La fiche ".$tiers." n\'a pas de poste comptable";
-		echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);	
+		echo_error($msg); echo_debug('user_form_ven.php',__LINE__,$msg);	
 		echo "<SCRIPT>alert('$msg');</SCRIPT>";
 	}
 
@@ -603,7 +590,7 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
     $a_vat[$i]=${"e_march$i"."_tva_id"};
     // check whether the price is set or no
     if ( isNumber(${"e_march$i"."_sell"}) == 0 ) {
-      if ( isNumber($a_good[$i]) == 1 ) {
+      if ( $a_good[$i] != "" ) {
 	     // If the price is not set we have to find it from the database
 	     $a_price[$i]=GetFicheAttribut($p_cn,$a_good[$i],ATTR_DEF_PRIX_VENTE);
 	   } 
@@ -624,9 +611,9 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
   $sum_vat=0.0;
   if ( $a_vat_new != null ){
     foreach ( $a_vat_new as $element => $t) {
-      echo_debug(__FILE__,__LINE__," a_vat element $element t $t");
+      echo_debug('user_form_ven.php',__LINE__," a_vat element $element t $t");
       $sum_vat+=$t;
-      echo_debug(__FILE__,__LINE__,"sum_vat = $sum_vat");
+      echo_debug('user_form_ven.php',__LINE__,"sum_vat = $sum_vat");
     }
   }
   // First we add in jrnx
@@ -639,11 +626,11 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
   $poste=GetFicheAttribut($p_cn,$e_client,ATTR_DEF_ACCOUNT);
   StartSql($p_cn);	
   $r=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste,$e_date,round($amount,2)+round($sum_vat,2),$seq,$periode);
-  if ( $r == false) { $Rollback($p_cn);exit("error __FILE__ __LINE__");}
+  if ( $r == false) { $Rollback($p_cn);exit("error 'user_form_ven.php' __LINE__");}
 
   // Credit = goods 
   for ( $i = 0; $i < $nb_item;$i++) {
-    if ( isNumber($a_good[$i]) == 0 ) continue;
+    if ( $a_good[$i] == ""  ) continue;
     $poste=GetFicheAttribut($p_cn,$a_good[$i],ATTR_DEF_ACCOUNT);
 	  
     // don't record operation of 0
@@ -651,10 +638,10 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
 	  
     // record into jrnx
     $j_id=InsertJrnx($p_cn,'c',$p_user->id,$p_jrn,$poste,$e_date,round($a_price[$i]*$a_quant[$i],2),$seq,$periode);
-    if ( $j_id == false) { $Rollback($p_cn);exit("error __FILE__ __LINE__");}
+    if ( $j_id == false) { $Rollback($p_cn);exit("error 'user_form_ven.php' __LINE__");}
     // always save quantity but in withStock we can find what card need a stock management
     if (  InsertStockGoods($p_cn,$j_id,$a_good[$i],$a_quant[$i],'c') == false ) {
-      $Rollback($p_cn);exit("error __FILE__ __LINE__");}
+      $Rollback($p_cn);exit("error 'user_form_ven.php' __LINE__");}
     } // end loop
   
   // Insert Vat
@@ -666,20 +653,20 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
 	$poste=GetTvaPoste($p_cn,$tva_id,'c');
 	if ($tva_amount == 0 ) continue;
 	$r=InsertJrnx($p_cn,'c',$p_user->id,$p_jrn,$poste,$e_date,round($tva_amount,2),$seq,$periode);
-	if ( $r == false ) { Rollback($p_cn); exit(" Error __FILE__ __LINE__");}
+	if ( $r == false ) { Rollback($p_cn); exit(" Error 'user_form_ven.php' __LINE__");}
       
       }
     }
-  echo_debug(__FILE__,__LINE__,"echeance = $e_ech");
+  echo_debug('user_form_ven.php',__LINE__,"echeance = $e_ech");
   $r=InsertJrn($p_cn,$e_date,$e_ech,$p_jrn,"Invoice",round($amount_jrn,2)+round($sum_vat,2),$seq,$periode);
-  if ( $r == false ) { Rollback($p_cn); exit(" Error __FILE__ __LINE__");}
+  if ( $r == false ) { Rollback($p_cn); exit(" Error 'user_form_ven.php' __LINE__");}
   // Set Internal code and Comment
   $internal=SetInternalCode($p_cn,$seq,$p_jrn);
   $comment=(FormatString($e_comm) == null )?$internal."  client : ".GetFicheName($p_cn,$e_client):FormatString($e_comm);
 
   // Update and set the invoice's comment 
   $Res=ExecSql($p_cn,"update jrn set jr_comment='".$comment."' where jr_grpt_id=".$seq);
-  if ( $Res == false ) { Rollback($p_cn); exit(" Error __FILE__ __LINE__"); };
+  if ( $Res == false ) { Rollback($p_cn); exit(" Error 'user_form_ven.php' __LINE__"); };
 
   if ( isset ($_FILES))
     save_upload_document($p_cn,$seq);
@@ -699,12 +686,11 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
 		$computed_vat=ComputeVat($p_cn,$a_good[$i],$a_quant[$i],$a_price[$i],$a_vat[$i]);
 		$vat_code=$a_vat[$i];
 	}
-	 $r=ExecSql($p_cn,"insert into quant_sold".
-	  	"(qs_internal,qs_fiche,qs_quantite,qs_price,qs_vat,qs_vat_code,qs_client) values".
-	 	"('".$internal."',".$a_good[$i].",".$a_quant[$i].",".$a_price[$i]*$a_quant[$i].
-	 	",".$computed_vat.
-		    ",".$vat_code.",".$e_client.")");
-	 if ( $r == false ) { Rollback($p_cn); exit(" Error __FILE__ __LINE__"); };
+	 $r=ExecSql($p_cn,"select insert_quant_sold ".
+		    "('".$internal."','".$a_good[$i]."',".$a_quant[$i].",".$a_price[$i]*$a_quant[$i].
+		    ",".$computed_vat.
+		    ",".$vat_code.",'".$e_client."')");
+	 if ( $r == false ) { Rollback($p_cn); exit(" Error 'user_form_ven.php' __LINE__"); };
 	}
   Commit($p_cn);
 

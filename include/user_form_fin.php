@@ -45,24 +45,17 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
   // Verify the date
   if ( isDate($e_date) == null ) { 
 	  echo_error("Invalid date $e_date");
-	  echo_debug(__FILE__,__LINE__,"Invalid date $e_date");
+	  echo_debug('user_form_fin.php',__LINE__,"Invalid date $e_date");
 	  echo "<SCRIPT> alert('INVALID DATE $e_date !!!!');</SCRIPT>";
 	  return null;
 		}
-// Verify is a client is set
- if ( isNumber($e_bank_account)    == 0) {
-   $msg="Banque inexistante";
-   echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);	
-   echo "<SCRIPT>alert('$msg');</SCRIPT>";
-   return null;
- }
 
 
  // Check if the fiche is in the jrn
  if (IsFicheOfJrn($p_cn , $p_jrn, $e_bank_account,'deb') == 0 ) 
    {
      $msg="Mauvais compte en banque";
-     echo_error($msg);echo_debug(__FILE__,__LINE__,$msg);	
+     echo_error($msg);echo_debug('user_form_fin.php',__LINE__,$msg);	
      echo "<SCRIPT>alert('$msg');</SCRIPT>";
      return null;
    }
@@ -76,21 +69,14 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
 	// Check amount
     if ( isNumber(${"e_other".$i."_amount"}) == 0) {
 		$msg="Montant invalide !!! ";
-		echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);	
+		echo_error($msg); echo_debug('user_form_fin.php',__LINE__,$msg);	
 		echo "<SCRIPT>alert('$msg');</SCRIPT>";
 		return null;
   	}
-    // Check wether the f_id is a number
-    if ( isNumber(${"e_other$i"}) == 0 ) {
-      $msg="Fiche inexistante !!! ";
-      echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);	
-      echo "<SCRIPT>alert('$msg');</SCRIPT>";
-      return null;
-    }
     // Check 
     if ( isFicheOfJrn($p_cn,$p_jrn,${"e_other$i"},'cred') == 0 ) {
       $msg="Fiche inexistante !!! ";
-      echo_error($msg);echo_debug(__FILE__,__LINE__,$msg);	
+      echo_error($msg);echo_debug('user_form_fin.php',__LINE__,$msg);	
       echo "<SCRIPT>alert('$msg');</SCRIPT>";
       return null;
     }
@@ -99,7 +85,7 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
 	if ( $poste == null ) 
 	{	
 		$msg="La fiche ".${"e_other$i"}." n\'a pas de poste comptable";
-      echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);	
+      echo_error($msg); echo_debug('user_form_fin.php',__LINE__,$msg);	
       echo "<SCRIPT>alert('$msg');</SCRIPT>";
       return null;
 	
@@ -107,7 +93,7 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
   	if ( strlen(trim($poste))==0 )
 	{
 		$msg="La fiche ".${"e_other$i"}." n\'a pas de poste comptable";
-		echo_error($msg); echo_debug(__FILE__,__LINE__,$msg);	
+		echo_error($msg); echo_debug('user_form_fin.php',__LINE__,$msg);	
 		echo "<SCRIPT>alert('$msg');</SCRIPT>";
 	}
 
@@ -202,7 +188,7 @@ function FormFin($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
   $e_bank_account_label="";  
 
     // retrieve e_bank_account_label
-  if ( isNumber($e_bank_account) == 1 ) {
+  if ( $e_bank_account != ""  ) {
       $a_client=GetFicheAttribut($p_cn,$e_bank_account);
       if ( $a_client != null)   
 	$e_bank_account_label=$a_client['vw_name']."  adresse ".$a_client['vw_addr']."  ".$a_client['vw_cp'];
@@ -252,7 +238,7 @@ function FormFin($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
   
       $tiers_comment=(isset (${"e_other$i"."_comment"}))?${"e_other$i"."_comment"}:"";
     // If $tiers has a value
-    if ( isNumber($tiers) == 1 ) 
+    if ( $tiers != ""  ) 
 	{
 		// retrieve the tva label and name
 		$a_fiche=GetFicheAttribut($p_cn, $tiers);
@@ -352,7 +338,7 @@ return $r;
  *	      true on success
  */
 function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
-  echo_debug(__FILE__,__LINE__,"RecordFin");
+  echo_debug('user_form_fin.php',__LINE__,"RecordFin");
   foreach ( $p_array as $v => $e)
   {
     ${"$v"}=$e;
@@ -364,7 +350,7 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
   // Verify the date
   if ( isDate($e_date) == null ) { 
 	  echo_error("Invalid date $e_date");
-	  echo_debug(__FILE__,__LINE__,"Invalid date $e_date");
+	  echo_debug('user_form_fin.php',__LINE__,"Invalid date $e_date");
 	  echo "<SCRIPT> alert('INVALID DATE $e_date !!!!');</SCRIPT>";
 	  return null;
 		}
@@ -387,19 +373,19 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
     $seq=NextSequence($p_cn,'s_grpt');
 
     if ( InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste_bq,$e_date,round(${"e_other$i"."_amount"},2),$seq,$periode) == false ) {
-      $Rollback($p_cn);exit("error __FILE__ __LINE__");
+      $Rollback($p_cn);exit("error 'user_form_fin.php' __LINE__");
     }
 
 
     // Record a line for the other account
     if ( ($j_id=InsertJrnx($p_cn,'c',$p_user->id,$p_jrn,$poste,$e_date,round(${"e_other$i"."_amount"},2),$seq,$periode)) == false )
-      { $Rollback($p_cn);exit("error __FILE__ __LINE__");}
+      { $Rollback($p_cn);exit("error 'user_form_fin.php' __LINE__");}
 
-    echo_debug(__FILE__,__LINE__,"   $j_id=InsertJrnx($p_cn,'d',$p_user,$p_jrn,$poste,$e_date,".${"e_other$i"}."_amount".",$seq,$periode);");
+    echo_debug('user_form_fin.php',__LINE__,"   $j_id=InsertJrnx($p_cn,'d',$p_user,$p_jrn,$poste,$e_date,".${"e_other$i"}."_amount".",$seq,$periode);");
 
     if ( ($jr_id=InsertJrn($p_cn,$e_date,'',$p_jrn,FormatString(${"e_other$i"."_comment"}),
 			   round(${"e_other$i"."_amount"},2),$seq,$periode))==false) {
-      $Rollback($p_cn);exit("error __FILE__ __LINE__");}
+      $Rollback($p_cn);exit("error 'user_form_fin.php' __LINE__");}
   
     if ( isNumber(${"e_concerned".$i}) == 1 ) {
 
