@@ -18,7 +18,7 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
-echo_debug(__FILE__,__LINE__,"include user_action_fin.php");
+echo_debug('user_action_fin.php',__LINE__,"include user_action_fin.php");
 // include_once("form_input.php");
 require_once("user_form_fin.php");
 include_once("class_widget.php");

@@ -18,7 +18,7 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
-echo_debug(__FILE__,__LINE__,"include user_action_ach.php");
+echo_debug('user_action_ach.php',__LINE__,"include user_action_ach.php");
 require_once("user_form_ach.php");
 require_once ("preference.php");
 require_once ("user_common.php");

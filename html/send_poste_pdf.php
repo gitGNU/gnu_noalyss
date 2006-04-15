@@ -27,7 +27,7 @@
     include_once("class.ezpdf.php");
     include_once("impress_inc.php");
 include("poste.php");
-    echo_debug(__FILE__,__LINE__,"imp pdf journaux");
+    echo_debug('send_poste_pdf.php',__LINE__,"imp pdf journaux");
     $cn=DbConnect($g_dossier);
 foreach ($HTTP_POST_VARS as $key=>$element) {
   ${"$key"}=$element;

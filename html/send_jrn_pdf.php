@@ -33,7 +33,7 @@ include_once("postgres.php");
 include_once("class.ezpdf.php");
 include_once("impress_inc.php");
 include_once("preference.php");
-echo_debug(__FILE__,__LINE__,"imp pdf journaux");
+echo_debug('send_jrn_pdf.php',__LINE__,"imp pdf journaux");
 $l_Db=sprintf("dossier%d",$g_dossier);
 $cn=DbConnect($g_dossier);
 $l_type="JRN";
@@ -58,14 +58,14 @@ $rap_deb=0;$rap_cred=0;
 while (1) {
   $a=0;
   list ($a_jrn,$tot_deb,$tot_cred)=GetDataJrnPdf($cn,$HTTP_GET_VARS,$limit,$offset);
-  echo_debug(__FILE__,__LINE__,"Total debit $tot_deb,credit $tot_cred");
+  echo_debug('send_jrn_pdf.php',__LINE__,"Total debit $tot_deb,credit $tot_cred");
 
   if ( $a_jrn==null) break;
   $offset+=$step; 
   foreach ($a_jrn as $key=>$element) {
-    echo_debug(__FILE__,__LINE__,"$key => $element");
+    echo_debug('send_jrn_pdf.php',__LINE__,"$key => $element");
     foreach ($element as $c1=>$c2) 
-      echo_debug(__FILE__,__LINE__,"Array is $c1 => $c2");
+      echo_debug('send_jrn_pdf.php',__LINE__,"Array is $c1 => $c2");
   }
   $first_id=$a_jrn[0]['j_id'];
    $Exercice=GetExercice($cn,$a_jrn[0]['periode']);
@@ -75,8 +75,8 @@ while (1) {
 				     $_GET['filter'],
 				     $l_centr
 				     );
-  echo_debug(__FILE__,__LINE__,"MONTANT $rap_deb,$rap_cred");
-  echo_debug(__FILE__,__LINE__,"  list($rap_deb,$rap_cred)=GetRappel($cn,$first_id,".$_GET["p_id"].",$Exercice,FIRST)");
+  echo_debug('send_jrn_pdf.php',__LINE__,"MONTANT $rap_deb,$rap_cred");
+  echo_debug('send_jrn_pdf.php',__LINE__,"  list($rap_deb,$rap_cred)=GetRappel($cn,$first_id,".$_GET["p_id"].",$Exercice,FIRST)");
   $pdf->ezText($name_jrn,30);
 
   if (  $l_centr == 1 ) {
@@ -100,7 +100,7 @@ while (1) {
   $a=1;
   // Total Page
   $apage=array(array('deb'=>sprintf("%8.2f",$tot_deb),'cred'=>$tot_cred));
-  foreach ($apage as $key=>$element) echo_debug(__FILE__,__LINE__,"apage $key => $element");
+  foreach ($apage as $key=>$element) echo_debug('send_jrn_pdf.php',__LINE__,"apage $key => $element");
   $pdf->ezTable($apage,
 		array (
 		       'deb'=> 'Total Débit',

@@ -32,7 +32,7 @@ html_page_start($User->theme);
 if ( isset ( $_GET['dos'] ) ) {
   $g_dossier=$_GET['dos'];
   $_SESSION[ "g_dossier"]=$g_dossier;
-  echo_debug(__FILE__,__LINE__,"admin_dossier = $g_dossier ");
+  echo_debug('user_compta.php',__LINE__,"admin_dossier = $g_dossier ");
   $g_name=GetDossierName($g_dossier);
   $_SESSION["g_name"]=$g_name;
 
@@ -40,7 +40,7 @@ if ( isset ( $_GET['dos'] ) ) {
   echo "You must choose a Dossier ";
   exit -2;
 }
-echo_debug(__FILE__,__LINE__,"user is ".$_SESSION['g_user']);
+echo_debug('user_compta.php',__LINE__,"user is ".$_SESSION['g_user']);
 
 // Synchronize rights
 SyncRight($_SESSION['g_dossier'],$_SESSION['g_user']);

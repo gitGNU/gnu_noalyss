@@ -247,7 +247,7 @@ function UpdateForm($p_cn,$p_array) {
     }
     if ( ${"pos$i"} > $line || ${"pos$i"} < 0) { 
       ${"pos$i"}=$i+1;
-      echo_debug(__FILE__,__LINE__,"position trop grand max = $line+1 ");
+      echo_debug('form_inc.php',__LINE__,"position trop grand max = $line+1 ");
     }
   }
   for ($i =0; $i <$line;$i++) {

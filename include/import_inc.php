@@ -140,17 +140,17 @@ function TransferCSV($p_cn, $periode){
 		StartSql($p_cn);
 
 		$r=InsertJrnx($p_cn,"d",$p_user,$jrn,$bq_account,$date_exec,$montant,$seq,$periode);
-		if ( $r == false) { $Rollback($p_cn);exit("error __FILE__ __LINE__");}
+		if ( $r == false) { $Rollback($p_cn);exit("error 'import_inc.php' __LINE__");}
 	
 		$r=InsertJrnx($p_cn,"c",$p_user,$jrn,$poste_comptable,$date_exec,$montant,$seq,$periode);
-		if ( $r == false) { $Rollback($p_cn);exit("error __FILE__ __LINE__");}
+		if ( $r == false) { $Rollback($p_cn);exit("error 'import_inc.php' __LINE__");}
 
 		//remove annoying double-quote
 		$num_compte=str_replace('"','',$num_compte);
 		$code=str_replace('\"','',$code);
 	
 		$r=InsertJrn($p_cn,$date_exec,NULL,$jrn,$num_compte." ".$code,$montant,$seq,$periode);
-		if ( $r == false ) { Rollback($p_cn); exit(" Error __FILE__ __LINE__");}
+		if ( $r == false ) { Rollback($p_cn); exit(" Error 'import_inc.php' __LINE__");}
 		  
 		//$sql = "insert into jrn (jr_def_id,jr_montant,jr_comment,jr_date,jr_grpt_id,jr_tech_per) values ( ".$p_jrn.", abs(".round($montant,2)."), '".$num_compte." ".$code."','".$date_valeur."','".$seq."','".$periode."')";
 		SetInternalCode($p_cn,$seq,$jrn);

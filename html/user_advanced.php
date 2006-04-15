@@ -33,7 +33,7 @@ $User=new cl_user($rep);
 $User->Check();
 
 include_once ("postgres.php");
-echo_debug(__FILE__,__LINE__,"user is ".$_SESSION['g_user']);
+echo_debug('user_advanced.php',__LINE__,"user is ".$_SESSION['g_user']);
 $rep=DbConnect();
 include_once ("class_user.php");
 $User=new cl_user($rep);

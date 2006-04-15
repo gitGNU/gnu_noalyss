@@ -37,7 +37,7 @@ function ViewImp($p_array,$p_cn) {
   include_once("preference.php");
   $periode=FormPeriodeMult($p_cn);
   foreach ( $p_array as $key=>$element) {
-    echo_debug(__FILE__,__LINE__,"VIEWIMP $key $element");
+    echo_debug('impress_inc.php',__LINE__,"VIEWIMP $key $element");
     ${"$key"}=$element;
   }
   if ( ! isset($type) ) return;
@@ -118,7 +118,7 @@ function ImpHtml($p_array,$p_cn)
 {
   foreach($p_array as $key=>$element) {
     ${"$key"}=$element;
-    echo_debug(__FILE__,__LINE__,"ImpHtml $key => $element");
+    echo_debug('impress_inc.php',__LINE__,"ImpHtml $key => $element");
   }
 
 
@@ -214,7 +214,7 @@ function ImpHtml($p_array,$p_cn)
   if ($type=="jrn") {
     if ( !isset ($periode)) return NO_PERIOD_SELECTED;
 
-    echo_debug(__FILE__,__LINE__,"imp html journaux");
+    echo_debug('impress_inc.php',__LINE__,"imp html journaux");
     $ret="";
     if (isset($filter)) {
       $array=GetDataJrn($p_cn,$p_array,$filter);
@@ -420,7 +420,7 @@ function CreatePeriodeCond($p_periode,$p_field=" j_tech_per") {
  */ 
 function GetDataJrnPdf($p_cn,$p_array,$p_limit,$p_offset)
 {
-  echo_debug(__FILE__,__LINE__,"GetDataJrnPdf");
+  echo_debug('impress_inc.php',__LINE__,"GetDataJrnPdf");
 
   if ( !isset ($p_array['periode']) ) return NO_PERIOD_SELECTED;
 
@@ -521,8 +521,8 @@ function GetDataJrnPdf($p_cn,$p_array,$p_limit,$p_offset)
     $jr_montant=($line['jr_montant']!=0)?sprintf("% 8.2f",$line['jr_montant']):"";
     $tot_deb+=$line['deb_montant'];
     $tot_cred+=$line['cred_montant'];
-    echo_debug(__FILE__,__LINE__," GetJrnDataPdf : mont_Deb ".$mont_deb);
-    echo_debug(__FILE__,__LINE__," GetJrnDataPdf : mont_cred ".$mont_cred);
+    echo_debug('impress_inc.php',__LINE__," GetJrnDataPdf : mont_Deb ".$mont_deb);
+    echo_debug('impress_inc.php',__LINE__," GetJrnDataPdf : mont_cred ".$mont_cred);
 
     if ( $case != $line['grp'] ) {
       $case=$line['grp'];
@@ -562,7 +562,7 @@ function GetDataJrnPdf($p_cn,$p_array,$p_limit,$p_offset)
       
 
   }
-  echo_debug(__FILE__,__LINE__,"Total debit $tot_deb,credit $tot_cred");
+  echo_debug('impress_inc.php',__LINE__,"Total debit $tot_deb,credit $tot_cred");
   $a=array($array,$tot_deb,$tot_cred);
  return $a;
 }
@@ -656,7 +656,7 @@ function GetRappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_cent
 	$line=pg_fetch_array($Res,0);
 	$cred=$line['tot_amount'];
       }
-      echo_debug(__FILE__,__LINE__,"MONTANT $deb,$cred");
+      echo_debug('impress_inc.php',__LINE__,"MONTANT $deb,$cred");
       $a=array($deb,$cred);
       return $a;
 
@@ -691,7 +691,7 @@ function GetRappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_cent
 	$line=pg_fetch_array($Res,0);
 	$cred=$line['tot_amount'];
       }
-      echo_debug(__FILE__,__LINE__,"MONTANT $deb,$cred");
+      echo_debug('impress_inc.php',__LINE__,"MONTANT $deb,$cred");
       $a=array($deb,$cred);
       return $a;
     } // central == 1
@@ -768,7 +768,7 @@ function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true) {
   // $p_eval is true then we eval and returns result
   if ( $p_eval == true) {
     $p_formula="\$result=".$p_formula.";";
-    echo_debug(__FILE__,__LINE__, $p_formula);
+    echo_debug('impress_inc.php',__LINE__, $p_formula);
     
     eval("$p_formula");
     $aret=array('desc'=>$p_label,

@@ -31,7 +31,7 @@ if  ( isset ($_REQUEST['fd_id'])) {
   $with_amount= (isset($_REQUEST['with_amount']))?true:false;
   if ($with_amount) 
     include_once("class_poste.php");
-  //echo '<div class="redcontent">';
+
   echo "<div>";
   $submit=new widget();
   $hid=new widget("hidden");
@@ -78,7 +78,7 @@ if  ( isset ($_REQUEST['fd_id'])) {
   $fiche=new fiche($cn);
   $e=$fiche->GetByType($fiche_def->id);
   $l=var_export($e,true);
-  echo_debug(__FILE__,__LINE__,$l);
+  echo_debug('impress_fiche.php',__LINE__,$l);
   $old=-1;
   echo "<TABLE class=\"result\">";
   echo "<TR>";

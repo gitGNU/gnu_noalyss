@@ -18,7 +18,7 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
-echo_debug(__FILE__,__LINE__,"include user_action_ven.php");
+echo_debug('user_action_ven.php',__LINE__,"include user_action_ven.php");
 require_once("user_form_ven.php");
 include_once("class_widget.php");
 $cn=DbConnect($_SESSION['g_dossier']);
@@ -34,7 +34,7 @@ if ( $action == 'insert_vente' ) {
    
     // Add item
         if (isset($_POST["add_item"]) ) {
-	  echo_debug(__FILE__,__LINE__,"Add an item");
+	  echo_debug('user_action_ven.php',__LINE__,"Add an item");
 	  $nb_number=$_POST["nb_item"];
 	  $nb_number++;
 	  
@@ -65,7 +65,7 @@ if ( $action == 'insert_vente' ) {
     // We want a blank form
     if ( $blank==1)
       {
-      echo_debug(__FILE__,__LINE__,"Blank form");
+      echo_debug('user_action_ven.php',__LINE__,"Blank form");
       // Show an empty form of invoice
       $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),null,false);
       echo '<div class="u_redcontent">';

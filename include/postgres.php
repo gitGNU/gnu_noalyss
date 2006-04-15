@@ -50,7 +50,7 @@ function ShowDossier($p_type,$p_first=0,$p_max=10,$p_Num=0) {
   $l_sql=$l_sql.$l_step;
   $p_res=ExecSql($cn,$l_sql);
 
-  echo_debug(__FILE__,__LINE__,"ShowDossier:".$p_res." Line = $p_Num");
+  echo_debug('postgres.php',__LINE__,"ShowDossier:".$p_res." Line = $p_Num");
 
   $Max=pg_NumRows($p_res);
   if ( $Max == 0 ) return null;
@@ -87,7 +87,7 @@ function DbConnect($p_db=-1,$p_type='dossier') {
   }
   $password=phpcompta_password;
   $a=pg_connect("dbname=$l_dossier host=127.0.0.1 user='phpcompta' password='$password'");
-  echo_debug (__FILE__,__LINE__,"connect to $p_db dbname $l_dossier");
+  echo_debug ('postgres.php',__LINE__,"connect to $p_db dbname $l_dossier");
   return $a;
 }
 /* function ExecSql
@@ -97,7 +97,7 @@ function DbConnect($p_db=-1,$p_type='dossier') {
  * return false if error otherwise true
  */
 function ExecSql($p_connection, $p_string) {
-  echo_debug(__FILE__,__LINE__,"SQL = $p_string");
+  echo_debug('postgres.php',__LINE__,"SQL = $p_string");
   // probl. with Ubuntu & UTF8
   //----
   pg_set_client_encoding($p_connection,'latin1');
@@ -115,10 +115,10 @@ function ExecSql($p_connection, $p_string) {
  * as an array
  */
 function GetAllUser() {
-  echo_debug(__FILE__,__LINE__,"GetUser");
+  echo_debug('postgres.php',__LINE__,"GetUser");
   $cn=DbConnect();
   $sql="select * from ac_users where use_login!='phpcompta'";
-  echo_debug(__FILE__,__LINE__,"ExecSql");
+  echo_debug('postgres.php',__LINE__,"ExecSql");
   $Res=ExecSql($cn,$sql);
   $Num=pg_NumRows($Res);
   if ( $Num == 0 ) return null;
@@ -152,7 +152,7 @@ function GetPriv($p_dossier,$p_login)
 			inner join ac_users on ac_users.use_id=jnt_use_dos.use_id
                     where use_login='$p_login' and dos_id=$p_dossier");
   $Num=pg_NumRows($Res);
-  echo_debug(__FILE__,__LINE__,"Found ".$Num." rows in GetPriv");
+  echo_debug('postgres.php',__LINE__,"Found ".$Num." rows in GetPriv");
   if ( $Num==0) { return 0;}
   for($i=0;$i < $Num;$i++) {
     $Right=pg_fetch_array($Res,$i); 
@@ -361,11 +361,11 @@ function GetModeleId($p_cn,$p_modname) {
  *         $p_sql sql query
  */
 function GetArray($p_cn,$p_sql) {
-  echo_debug(__FILE__,__LINE__,"GetArray");
+  echo_debug('postgres.php',__LINE__,"GetArray");
   $r=ExecSql($p_cn,$p_sql);
   if ( ($Max=  pg_NumRows($r)) == 0 ) return null;
   $array=pg_fetch_all($r);
-  echo_debug(__FILE__,__LINE__,var_export($array,true));
+  echo_debug('postgres.php',__LINE__,var_export($array,true));
   return $array;
 }
 /* function save_upload_document
@@ -378,7 +378,7 @@ function GetArray($p_cn,$p_sql) {
 function save_upload_document ($cn,$seq) {
 
   $new_name=tempnam('/tmp','pj');
-  echo_debug(__FILE__,__LINE__,"new name=".$new_name);
+  echo_debug('postgres.php',__LINE__,"new name=".$new_name);
   if ( strlen ($_FILES['pj']['tmp_name']) != 0 ) {
       if (move_uploaded_file($_FILES['pj']['tmp_name'],
 			     $new_name)) {
@@ -386,11 +386,11 @@ function save_upload_document ($cn,$seq) {
 
 	$oid= pg_lo_import($cn,$new_name);
 	if ( $oid == false ) {
-	  echo_error(__FILE__,__LINE__,"cannot upload document");
+	  echo_error('postgres.php',__LINE__,"cannot upload document");
 	  Rollback($cn);
 	  return;
 	}
-	echo_debug(__FILE__,__LINE__,"Loading document");
+	echo_debug('postgres.php',__LINE__,"Loading document");
 	// Remove old document
 	$ret=ExecSql($cn,"select jr_pj from jrn where jr_grpt_id=$seq");
 	if (pg_num_rows($ret) != 0) {

@@ -18,7 +18,7 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
-echo_debug(__FILE__,__LINE__,"include user_action_gl.php");
+echo_debug('user_action_gl.php',__LINE__,"include user_action_gl.php");
 
 include_once ("preference.php");
 include_once ("user_common.php");

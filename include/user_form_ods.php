@@ -198,7 +198,7 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
   $r.="</FORM>";
   //TODO if view only show total
   $tmp= abs($sum_deb-$sum_cred);
-  echo_debug(__FILE__,__LINE__,"Diff = ".$tmp);
+  echo_debug('user_form_ods.php',__LINE__,"Diff = ".$tmp);
   if ( abs($sum_deb-$sum_cred) > 0.0001  and $pview_only==true) {
     $msg=sprintf("Montant non correspondant credit = %.5f debit = %.5f diff = %.5f",
 		 $sum_cred,$sum_deb,$sum_cred-$sum_deb);
@@ -264,11 +264,11 @@ function RecordODS($p_cn,$p_array,$p_user,$p_jrn)
 
     if ( ${"e_account$i"."_amount"} == 0 ) continue;
     if ( ($j_id=InsertJrnx($p_cn,${"e_account$i"."_type"},$p_user->id,$p_jrn,${"e_account$i"},$e_date,${"e_account$i"."_amount"},$seq,$periode)) == false ) {
-      $Rollback($p_cn);exit("error __FILE__ __LINE__");}
+      $Rollback($p_cn);exit("error 'user_form_ods.php' __LINE__");}
   }
 
   if ( InsertJrn($p_cn,$e_date,"",$p_jrn,$e_comm,$sum_deb,$seq,$periode) == false ) {
-    $Rollback($p_cn);exit("error __FILE__ __LINE__");}
+    $Rollback($p_cn);exit("error 'user_form_ods.php' __LINE__");}
 
   // Set Internal code and Comment
   $internal_code=SetInternalCode($p_cn,$seq,$p_jrn);

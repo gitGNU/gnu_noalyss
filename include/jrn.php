@@ -37,7 +37,7 @@ function RecordJrn($p_dossier,$p_user,$p_jrn,$p_MaxDeb,$p_MaxCred,$p_array = nul
   include_once("postgres.php");
   include_once("preference.php");
 
-  echo_debug(__FILE__,__LINE__,"RecordJrn($p_dossier,$p_user,$p_jrn,$p_MaxDeb,$p_MaxCred,$p_array,$p_update)");
+  echo_debug('jrn.php',__LINE__,"RecordJrn($p_dossier,$p_user,$p_jrn,$p_MaxDeb,$p_MaxCred,$p_array,$p_update)");
   for ( $i = 0; $i < $p_MaxDeb; $i++) {
       ${"e_class_deb$i"}=0;
       ${"e_mont_deb$i"}=0;
@@ -89,7 +89,7 @@ function RecordJrn($p_dossier,$p_user,$p_jrn,$p_MaxDeb,$p_MaxCred,$p_array = nul
     $SqlDeb="select pcm_val,pcm_lib from tmp_pcmn where ";
     foreach ( $valid_deb as $item_deb) {
       if ( strlen (trim($item_deb))) {
-	echo_debug(__FILE__,__LINE__,"l_line[jrn_def_class_deb] $l_line[jrn_def_class_deb] item_deb $item_deb");
+	echo_debug('jrn.php',__LINE__,"l_line[jrn_def_class_deb] $l_line[jrn_def_class_deb] item_deb $item_deb");
 	if ( strstr($item_deb,"*") == true ) {
 	  $item_deb=strtr($item_deb,"*","%");
 	  $Sql=" pcm_val like '$item_deb' or";
@@ -104,7 +104,7 @@ function RecordJrn($p_dossier,$p_user,$p_jrn,$p_MaxDeb,$p_MaxCred,$p_array = nul
     {
       $SqlDeb="select pcm_val,pcm_lib from tmp_pcmn  order by pcm_val::text";
     }
-  echo_debug(__FILE__,__LINE__,"SqlDeb $SqlDeb");
+  echo_debug('jrn.php',__LINE__,"SqlDeb $SqlDeb");
   $Res=ExecSql($cn,$SqlDeb);
   $Count=pg_NumRows($Res);
 
@@ -158,7 +158,7 @@ if ( $p_update == 0 )  echo "<TR><TD> <INPUT TYPE=\"SUBMIT\" VALUE=\"+ de line\"
     $SqlCred="select pcm_val,pcm_lib from tmp_pcmn where ";
     foreach ( $valid_cred as $item_cred) {
       if ( strlen (trim($item_cred))) {
-	echo_debug(__FILE__,__LINE__,"l_line[jrn_def_class_cred] $l_line[jrn_def_class_cred] item_cred $item_cred");
+	echo_debug('jrn.php',__LINE__,"l_line[jrn_def_class_cred] $l_line[jrn_def_class_cred] item_cred $item_cred");
 	if ( strstr($item_cred,"*") == true ) {
 	  $item_cred=strtr($item_cred,"*","%");
 	  $Sql=" pcm_val like '$item_cred' or";
@@ -173,7 +173,7 @@ if ( $p_update == 0 )  echo "<TR><TD> <INPUT TYPE=\"SUBMIT\" VALUE=\"+ de line\"
     {
       $SqlCred="select pcm_val,pcm_lib from tmp_pcmn  order by pcm_val::text";
     }
-  echo_debug(__FILE__,__LINE__,"SqlCred $SqlCred");
+  echo_debug('jrn.php',__LINE__,"SqlCred $SqlCred");
   $Res=ExecSql($cn,$SqlCred);
   $Count=pg_NumRows($Res);
 
@@ -221,7 +221,7 @@ if ( $p_update == 0 )  echo "<TR><TD> <INPUT TYPE=\"SUBMIT\" VALUE=\"+ de line\"
   }
 
   $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchJrn(\''.$sessid."','rapt')\">";
-  echo_debug(__FILE__,__LINE__,"search $search");
+  echo_debug('jrn.php',__LINE__,"search $search");
   // To avoid problem with unknown variable
   if ( ! isset ($e_rapt) ) {
   	$e_rapt="";
@@ -278,7 +278,7 @@ if ( $p_update == 0 )  echo "<TR><TD> <INPUT TYPE=\"SUBMIT\" VALUE=\"+ de line\"
  */ 
  function UpdateJrn($p_cn,$p_jr_id)
 {
-  echo_debug(__FILE__,__LINE__,"function UpdateJrn");
+  echo_debug('jrn.php',__LINE__,"function UpdateJrn");
 
   $l_array=GetDataJrnJrId($p_cn,$p_jr_id);
   if ( $l_array == null ) {
@@ -411,10 +411,10 @@ if ( $p_update == 0 )  echo "<TR><TD> <INPUT TYPE=\"SUBMIT\" VALUE=\"+ de line\"
 
 function ViewRec($p_array = null) {
   if ($p_array == null) { 
-    echo_debug(__FILE__,__LINE__,"p_array is null");
+    echo_debug('jrn.php',__LINE__,"p_array is null");
   }else {
     foreach ( $p_array as $n=>$e) {
-      echo_debug(__FILE__,__LINE__,"a[$n]= $e");
+      echo_debug('jrn.php',__LINE__,"a[$n]= $e");
     }
  
   }
@@ -454,10 +454,10 @@ function CorrectRecord($p_dossier,$p_user,$p_jrn,$p_MaxDeb,$p_MaxCred,$p_array)
 function ViewRecord ($p_dossier,$p_jrn,$p_id,$p_MaxDeb,$p_MaxCred,$p_array)
 {
   echo_debug ("ViewRecord : $p_dossier");
-  echo_debug(__FILE__,__LINE__,"function ViewRecord ($p_dossier,$p_jrn,$p_id,$p_MaxCred,$p_MaxDeb,$p_array)");
+  echo_debug('jrn.php',__LINE__,"function ViewRecord ($p_dossier,$p_jrn,$p_id,$p_MaxCred,$p_MaxDeb,$p_array)");
   foreach ( $p_array as $key=>$element) {
     ${"e_$key"}=$element;
-    echo_debug(__FILE__,__LINE__," e_$key=$element;");
+    echo_debug('jrn.php',__LINE__," e_$key=$element;");
 
   }
   // Get Jrn's Prop
@@ -578,7 +578,7 @@ function GetJrnProp($p_dossier,$p_jrn,$is_connected=0)
  *
  */ 
 function ViewJrn($p_dossier,$p_user,$p_jrn,$p_url,$p_array=null) {
-  echo_debug(__FILE__,__LINE__,"function ViewJrn($p_dossier,$p_user,$p_jrn,$p_array=null) ");
+  echo_debug('jrn.php',__LINE__,"function ViewJrn($p_dossier,$p_user,$p_jrn,$p_array=null) ");
   echo JS_VIEW_JRN_DETAIL;
   $db=sprintf("dossier%d",$p_dossier);
   $l_prop=GetJrnProp($p_dossier,$p_jrn);
@@ -706,7 +706,7 @@ function ViewJrn($p_dossier,$p_user,$p_jrn,$p_url,$p_array=null) {
  *
  */ 
 function GetData ($p_cn,$p_grpt) {
-  echo_debug(__FILE__,__LINE__,"GetData $p_cn $p_grpt");
+  echo_debug('jrn.php',__LINE__,"GetData $p_cn $p_grpt");
   $Res=ExecSql($p_cn,"select 
                         to_char(j_date,'DD.MM.YYYY') as j_date,
                         j_text,
@@ -840,7 +840,7 @@ function VerifData($p_cn,$p_array,$p_user)
   // Montre ce qu'on a encodé et demande vérif
   $next="";
   foreach ( $p_array as $name=>$element ) {
-      echo_debug(__FILE__,__LINE__,"element $name -> $element ");
+      echo_debug('jrn.php',__LINE__,"element $name -> $element ");
       // Sauve les données dans des variables
       ${"p_$name"}=$element;
     }
@@ -881,7 +881,7 @@ function VerifData($p_cn,$p_array,$p_user)
       if ( isset ( ${"p_mont_deb$i"} ))
 	$tot_deb+=${"p_mont_deb$i"};
     }
-    echo_debug(__FILE__,__LINE__,"Amont = 	$tot_deb $tot_cred");
+    echo_debug('jrn.php',__LINE__,"Amont = 	$tot_deb $tot_cred");
     if ( round($tot_deb,2) != round($tot_cred,2) ) { 
       return DIFF_AMOUNT;
     }
@@ -968,7 +968,7 @@ function SetInternalCode($p_cn,$p_grpt,$p_jrn)
  *
  */ 
 function GetDataJrnJrId ($p_cn,$p_jr_id) {
-  echo_debug(__FILE__,__LINE__,"GetDataJrn $p_cn $p_jr_id");
+  echo_debug('jrn.php',__LINE__,"GetDataJrn $p_cn $p_jr_id");
   $Res=ExecSql($p_cn,"select 
                         j_text,
                         j_debit,
@@ -992,7 +992,7 @@ function GetDataJrnJrId ($p_cn,$p_jr_id) {
                          jr_id=$p_jr_id 
                       order by j_debit desc");
   $MaxLine=pg_NumRows($Res);
-  echo_debug(__FILE__,__LINE__,"Found $MaxLine lines");
+  echo_debug('jrn.php',__LINE__,"Found $MaxLine lines");
   if ( $MaxLine == 0 ) return null;
 
   for ( $i=0; $i < $MaxLine; $i++) {

@@ -37,11 +37,11 @@ include_once("class.ezpdf.php");
 include_once("impress_inc.php");
 include_once("fiche_inc.php");
 include_once("user_common.php");
-echo_debug(__FILE__,__LINE__,"imp pdf journaux");
+echo_debug('print_invoice.php',__LINE__,"imp pdf journaux");
 $cn=DbConnect($g_dossier);
 foreach ($HTTP_POST_VARS as $key=>$element) {
   ${"$key"}=$element;
-  echo_debug(__FILE__,__LINE__,"key => $key element $element");
+  echo_debug('print_invoice.php',__LINE__,"key => $key element $element");
 }
 
 $amount=0.0;
@@ -74,9 +74,9 @@ for ($i=0;$i<$nb_item;$i++) {
 $a_vat=ComputeVat($cn,	$a_good,$a_quant,$a_price,$a_vat);
 $sum_vat=0.0;
 foreach ( $a_vat as $element => $t) {
-  echo_debug(__FILE__,__LINE__," a_vat element $element t $t");
+  echo_debug('print_invoice.php',__LINE__," a_vat element $element t $t");
   $sum_vat+=$t;
-  echo_debug(__FILE__,__LINE__,"sum_vat = $sum_vat");
+  echo_debug('print_invoice.php',__LINE__,"sum_vat = $sum_vat");
 }
 
 $ret="";
@@ -115,7 +115,7 @@ $pdf->ezTable($a_good_detail,null,'Detail invoice',
 $sum_detail[0] = array ('label'=>'Total HTVA ','amount'=>$amount);
 $index=1;
 foreach ( $a_vat as $element => $t) {
-  echo_debug(__FILE__,__LINE__," a_vat element $element t $t");
+  echo_debug('print_invoice.php',__LINE__," a_vat element $element t $t");
   $a_tva_sum=GetTvaRate($cn,$element);
   $sum_detail[++$index]=array('label'=>"tva ". $a_tva_sum['tva_label'],'amount'=>$t);
 }

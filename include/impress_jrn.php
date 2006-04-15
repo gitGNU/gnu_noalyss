@@ -29,7 +29,7 @@ include("class_jrn.php");
  $p_cent=( isset ( $_POST['cent']) )?'on':'off';
   // $POST=from_periode, to_periode, jrn_id, cent
  $d=var_export($_POST,true);
- echo_debug(__FILE__,__LINE__,$d);
+ echo_debug('impress_jrn.php',__LINE__,$d);
   $Jrn=new jrn($cn,$_POST['jrn_id']);
   $Jrn->GetName();
   if ( $_POST['p_simple']==0 ) 

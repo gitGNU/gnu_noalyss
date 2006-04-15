@@ -49,10 +49,10 @@ if ( $User->CheckAction($cn,BALANCE) == 0)
     NoAccess();
     exit;
   }
-echo_debug(__FILE__,__LINE__,"imp pdf journaux");
+echo_debug('print_balance.php',__LINE__,"imp pdf journaux");
 foreach ($HTTP_POST_VARS as $key=>$element) {
   ${"$key"}=$element;
-  echo_debug(__FILE__,__LINE__,"key => $key element $element");
+  echo_debug('print_balance.php',__LINE__,"key => $key element $element");
 }
 // if centralized
 $t_cent="";

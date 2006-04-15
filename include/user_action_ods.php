@@ -18,7 +18,7 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
-echo_debug(__FILE__,__LINE__,"include user_action_ods.php");
+echo_debug('user_action_ods.php',__LINE__,"include user_action_ods.php");
 include_once("user_form_ods.php");
 include_once("class_widget.php");
 
