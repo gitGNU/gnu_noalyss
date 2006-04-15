@@ -45,7 +45,7 @@ $jrn_op=$_GET['jrn_op'];
 list ($l_array,$max_deb,$max_cred)=GetData($cn,$jrn_op);
 foreach ($l_array as $key=>$element) {
   ${"e_$key"}=$element;
-  echo_debug(__FILE__,__LINE__,"jrn_op_detail.php e_$key =$element");
+  echo_debug('jrn_op_detail.php',__LINE__,"jrn_op_detail.php e_$key =$element");
 }
 
 echo '<div align="center"> Opération </div>';

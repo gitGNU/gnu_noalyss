@@ -17,41 +17,67 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+/* $Revision$ */
 include ("ac_common.php");
 include ("check_priv.php");
-/* $Revision$ */
-html_page_start($g_UserProperty['g_theme']);
-if ( ! isset ( $g_dossier ) ) {
+include_once ("class_user.php");
+include_once ("postgres.php");
+include ("user_menu.php");
+include_once("class_invoice.php");
+// Check user
+$rep=DbConnect();
+$User=new cl_user($rep);
+$User->Check();
+$g_dossier=(isset ($_REQUEST['dos']))?$_REQUEST['dos']:-1;
+$_SESSION[ "g_dossier"]=$g_dossier;
+// List of customer select * from fiche_def where frd_id=9;
+if (  $g_dossier==-1  ) {
   echo "You must choose a Dossier ";
   exit -2;
 }
-include_once ("postgres.php");
-$rep=DbConnect();
-include_once ("class_user.php");
-$User=new cl_user($rep);
-$User->Check();
-include ("user_menu.php");
-ShowMenuCompta($g_dossier,$g_UserProperty);
 
-if ( $g_UserProperty['use_admin']==0 ) {
-  $r=CheckAction($g_dossier,$g_user,FACT);
-  if ($r == 0 ){
+// Save Folder's name
+$g_name=GetDossierName($g_dossier);
+$_SESSION["g_name"]=$g_name;
+
+
+if ( $User->CheckAction($g_dossier,FACT) == 0 ){
     /* Cannot Access */
-    NoAccess();
-  }
+     NoAccess();
+     exit -1;
 }
-include_once("facture_inc.php");
+html_page_start($User->theme);
 
 $cn=DbConnect($g_dossier);
-ShowMenuComptaLeft($g_dossier,MENU_FACT);
-ShowMenuComptaRight($g_dossier,$g_UserProperty); 
-if ( $_GET["action"] ) {
-  if ($_GET["fact"] == "all" ) {
-    ViewFactAll($cn);
+
+echo "<H2 class=\"info\"> Facturation ".$_SESSION['g_name']." </H2>";
+
+// Show Menu
+echo ShowItem(array(			  
+	       array('?p_action=create_invoice&dos='.$g_dossier,'Nouvelle'),
+	       array('?p_action=view_invoice&dos='.$g_dossier,'Voir'),
+	       array('parametre.php?p_action=invoice&dos='.$g_dossier,'Paramètre'),
+	       array('login.php','Accueil',"Accueil"),
+	       array('logout.php','logout',"Sortie")
+	       ),
+	 'H',"mtitle","mtitle");
+////////////////////////////////////////////////////////////////////////////////
+// Action requested
+//
+////////////////////////////////////////////////////////////////////////////////
+if ( isset ($_GET["p_action"] ))  {
+  $action=$_GET["p_action"];
+  ////////////////////////////////////////////////////
+  // See All invoices
+  if ($action == "create_invoice" ) {
   }
-  if ($_GET["fact"]=="impaye") {
-    ViewFactImpaye($cn);
+  //////////////////////////////////////////////////
+  // See only unpaid invoices
+  if ($action=="view_invoice") {
   }
+  //////////////////////////////////////////////////
+  // Create an invoice
+
 }//get action
 
 html_page_stop();

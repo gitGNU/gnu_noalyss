@@ -50,8 +50,8 @@ if ( $User->CheckAction($cn,PARM) == 0 ) {
 
 echo ShowMenuParam();
 $p_action="";
-if ( isset($_GET["p_action"]) ) {
-  $p_action=$_GET["p_action"];
+if ( isset($_REQUEST["p_action"]) ) {
+  $p_action=$_REQUEST["p_action"];
 }
 
 
@@ -166,7 +166,7 @@ if ( isset ($_POST["add_per"] )) {
 
 }
 
-echo_debug(__FILE__,__LINE__,"Action $action");
+echo_debug('dossier_prefs.php',__LINE__,"Action $action");
 if ( $p_action=="closed") {
   $p_per=$_GET['p_per'];
   $Res=ExecSql($cn,"update parm_periode set p_closed=true where p_id=$p_per");
@@ -223,7 +223,37 @@ if ( $p_action=='company') {
   echo $submit->Submit("record_company","Enregistre");
   echo "</form>";
  }
+///////////////////////////////////////////////////////////////////
+// Invoice 
+//////////////////////////////////////////////////////////////////
 
+if ( $p_action == 'invoice' ) {
+  	require_once("class_invoice.php");
+	echo ShowMenuInvoice();
+	$inv=new Invoice($cn);
+	$inv->myList();
+	$inv->FormAdd();
+	
+} 
+
+///////////////////////////////////////////////////////////////////
+// Invoice 	add a template
+//////////////////////////////////////////////////////////////////
+if ( $p_action=='add_template') {
+	require_once("class_invoice.php");
+	$inv=new Invoice($cn);
+	//$inv->List();
+}
+///////////////////////////////////////////////////////////////////
+// Invoice remove a template
+//////////////////////////////////////////////////////////////////
+if ( $p_action=='rm_template') {
+require_once("class_invoice.php");
+	$inv=new Invoice($cn);
+	$inv->Delete();
+}
+  
+  
 
 echo "</DIV>";
 html_page_stop();

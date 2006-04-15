@@ -45,7 +45,7 @@ include ("user_menu.php");
 /* Modif d'une ligne */
 if ( isset ($_POST["update"] ) ) {
   foreach ($HTTP_POST_VARS as $name => $element) {
-    echo_debug(__FILE__,__LINE__,"name $name $element");
+    echo_debug('line_update.php',__LINE__,"name $name $element");
   }
   echo JS_UPDATE_PCMN;
   $cn=DbConnect($_SESSION['g_dossier']);
@@ -53,14 +53,14 @@ if ( isset ($_POST["update"] ) ) {
     $p_lib=FormatString($_POST["p_name"]);
     $p_parent=trim($_POST["p_val_parent"]);
     $old_line=trim($_POST["p_old"]);
-    echo_debug(__FILE__,__LINE__,"Update old : $old_line News = $p_val $p_lib");
+    echo_debug('line_update.php',__LINE__,"Update old : $old_line News = $p_val $p_lib");
     if ( strlen ($p_val) != 0 && strlen ($p_lib) != 0 && strlen($old_line)!=0 ) {
       if (strlen ($p_val) == 1 ) {
 	$p_parent=0;
       } else {
 	if ( strlen($p_parent)==0 ) {
 	  $p_parent=substr($p_val,0,strlen($p_val)-1);
-	  echo_debug(__FILE__,__LINE__,"Modif valeur = $p_val parent = $p_parent");
+	  echo_debug('line_update.php',__LINE__,"Modif valeur = $p_val parent = $p_parent");
 	}
       }
       /* Parent existe */

@@ -48,7 +48,7 @@ include_once("fiche_inc.php");
 foreach ($HTTP_GET_VARS as $key=>$element) {
   // The value are e_name e_type e_PHPSESSID
   ${"e_$key"}=$element;
-  echo_debug(__FILE__,__LINE__,"e_$key =$element<br>");
+  echo_debug('fiche_new.php',__LINE__,"e_$key =$element<br>");
 
 }
 
@@ -64,7 +64,7 @@ function new_fiche($p_cn,$p_type) {
   $r.="<TABLE>";
   echo '<H2 class="info">New </H2>';
   $p_f_id="";
-  echo_debug(__FILE__,__LINE__,"Array is null");
+  echo_debug('fiche_new.php',__LINE__,"Array is null");
   // Find all the attribute of the existing cards
   // --> Get_attr_def 
     $sql="select frd_id,ad_id,ad_text from  fiche_def join jnt_fic_attr using (fd_id)

@@ -61,7 +61,7 @@ $cn=DbConnect($_SESSION['g_dossier']);
 if ( isset ($_GET["search"]) ) {
   $c1=0;
   foreach( $_GET as $key=>$element){
-    echo_debug(__FILE__,__LINE__,"$key = $element");
+    echo_debug('jrn_search.php',__LINE__,"$key = $element");
     ${"$key"}=$element;
   }
 
@@ -88,7 +88,7 @@ if ( isset ($_GET["search"]) ) {
   }
 
 $condition=$c_comment.$c_montant.$c_date.$c_internal;
-echo_debug(__FILE__,__LINE__,"condition = $condition");
+echo_debug('jrn_search.php',__LINE__,"condition = $condition");
 }
 $condition=$condition." ".$part;
 

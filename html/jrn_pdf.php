@@ -36,7 +36,7 @@ include_once("preference.php");
 include_once("class_jrn.php");
 include_once("check_priv.php");
 
-echo_debug(__FILE__,__LINE__,"imp pdf journaux");
+echo_debug('jrn_pdf.php',__LINE__,"imp pdf journaux");
 $cn=DbConnect($_SESSION['g_dossier']);
 $l_type="JRN";
 $centr=" Non centralisé";
@@ -73,7 +73,7 @@ while (1) {
 					  $_GET['to_periode'],
 					  $_GET['central'],
 					  $limit,$offset);
-  echo_debug(__FILE__,__LINE__,"Total debit $tot_deb,credit $tot_cred");
+  echo_debug('jrn_pdf.php',__LINE__,"Total debit $tot_deb,credit $tot_cred");
 
   if ( $a_jrn==null) break;
   $offset+=$step; 
@@ -85,8 +85,8 @@ while (1) {
 				     $filter,
 				     $l_centr
 				     );
-  echo_debug(__FILE__,__LINE__,"MONTANT $rap_deb,$rap_cred");
-  echo_debug(__FILE__,__LINE__,"  list($rap_deb,$rap_cred)=GetRappel($cn,$first_id,".$Jrn->id.",$Exercice,FIRST)");
+  echo_debug('jrn_pdf.php',__LINE__,"MONTANT $rap_deb,$rap_cred");
+  echo_debug('jrn_pdf.php',__LINE__,"  list($rap_deb,$rap_cred)=GetRappel($cn,$first_id,".$Jrn->id.",$Exercice,FIRST)");
   $pdf->ezText($Jrn->name,30);
 
   if (  $l_centr == 1 ) {
@@ -110,7 +110,7 @@ while (1) {
   $a=1;
   // Total Page
   $apage=array(array('deb'=>sprintf("%8.2f",$tot_deb),'cred'=>$tot_cred));
-  foreach ($apage as $key=>$element) echo_debug(__FILE__,__LINE__,"apage $key => $element");
+  foreach ($apage as $key=>$element) echo_debug('jrn_pdf.php',__LINE__,"apage $key => $element");
   $pdf->ezTable($apage,
 		array (
 		       'deb'=> 'Total Débit',

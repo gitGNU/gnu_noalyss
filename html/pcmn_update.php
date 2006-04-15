@@ -100,7 +100,7 @@ if ( isset ( $_POST["Add"] ) ) {
 	     (string) $p_parent != (string)(int) $p_parent) {
 	  $p_parent=substr($p_val,0,strlen($p_val)-1);
 	}
-	echo_debug(__FILE__,__LINE__,"Ajout valeur = $p_val parent = $p_parent");
+	echo_debug('pcmn_update.php',__LINE__,"Ajout valeur = $p_val parent = $p_parent");
       }
       /* Parent existe */
       $Ret=ExecSql($cn,"select pcm_val from tmp_pcmn where pcm_val=$p_parent");

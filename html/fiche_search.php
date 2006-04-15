@@ -88,7 +88,7 @@ $r="";
 foreach ($HTTP_GET_VARS as $key=>$element) {
   // The value are e_name e_type e_PHPSESSID
   ${"e_$key"}=$element;
-  echo_debug(__FILE__,__LINE__,"e_$key =$element<br>");
+  echo_debug('fiche_search.php',__LINE__,"e_$key =$element<br>");
 
 }
 $e_fic_search=(isset ($_POST['fic_search']))?$_POST['fic_search']:"";
@@ -121,6 +121,7 @@ if ( isset ( $_POST['search']) )  {
   if ( $e_type != 'cred' and $e_type != 'deb')     {
     $list_fiche=$e_type;
     $sql="select * from vw_fiche_attr where frd_id in ( $list_fiche )";
+    //    $sql="select * from vw_fiche_attr ";
   }
 // e_fic_search contains the pattern
 
@@ -147,15 +148,16 @@ if ( isset ( $_POST['search']) )  {
     $class="odd";
   $text=FormatString($row['vw_name']);
   $r.="<span class=\"$class\">";
-  $r.=sprintf ('<input name="%s" type="button" onClick="'."SetData('%s','%s','%s','%s','%s','%s','%s')".'" value="select">',
+  $r.=sprintf ('<input name="%s" type="button" onClick="'."SetData('%s','%s','%s','%s','%s','%s','%s')".'" value="%s">',
         "select" . $i,
 	      $e_name,
-	      $row['f_id'] ,
+	      $row['quick_code'] ,
 	      $text, 
 	      $row['vw_sell'], 
 	      $row['vw_buy'], 
 	      $row['tva_id'], 
-	      $row['tva_label']  
+	       $row['tva_label']  ,
+	       $row['quick_code'] 
 	       );
   $r.="&nbsp;".$row['vw_name'];
   if ( $row['vw_addr'] !="")

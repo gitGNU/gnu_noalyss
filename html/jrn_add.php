@@ -71,7 +71,7 @@ If ( isset ($_POST["JRN_ADD"]) ) {
     else
       $l_cred_max_line=$_POST['p_jrn_cred_max_line'];
      $p_jrn_name=$_POST["p_jrn_name"];
-echo_debug(__FILE__,__LINE__,"nom journal $p_jrn_name");
+echo_debug('jrn_add.php',__LINE__,"nom journal $p_jrn_name");
      $p_jrn_class_deb=FormatString($_POST["p_jrn_class_deb"]);
      if (strlen(trim($p_jrn_name))==0) return;
      $p_jrn_name=FormatString($p_jrn_name);

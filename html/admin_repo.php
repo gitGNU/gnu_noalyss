@@ -30,7 +30,7 @@ $User->Check();
 
 
 html_page_start($User->theme);
-echo_debug(__FILE__,__LINE__,"entering admin_repo");
+echo_debug('admin_repo.php',__LINE__,"entering admin_repo");
 
 if ($User->admin != 1) {
   html_page_stop();
@@ -58,7 +58,7 @@ if ( isset ($_GET["action"]) ) {
 
     // Show all the existing user on 7 columns
     $cn=GetAllUser();
-    echo_debug(__FILE__,__LINE__,"Array = $cn");
+    echo_debug('admin_repo.php',__LINE__,"Array = $cn");
     $compteur=0;
 ?>
 <h2>Gestion Utilisateurs</h2>
