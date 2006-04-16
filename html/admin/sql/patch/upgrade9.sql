@@ -233,11 +233,12 @@ $BODY$
 	end;
 $BODY$
   LANGUAGE 'plpgsql' VOLATILE;
-ALTER FUNCTION insert_quick_code(int4, text) OWNER TO dany;
+
+--ALTER FUNCTION insert_quick_code(int4, text) OWNER TO dany;
 
 
-
-create view vw_fiche_attr as 
+DROP VIEW vw_fiche_attr;
+CREATE view vw_fiche_attr as 
 SELECT a.f_id, a.fd_id, a.av_text AS vw_name, b.av_text AS vw_sell, c.av_text AS vw_buy, d.av_text AS tva_code, tva_rate.tva_id, tva_rate.tva_rate, tva_rate.tva_label, e.av_text AS vw_addr, f.av_text AS vw_cp, j.av_text as quick_code,fiche_def.frd_id
    FROM ( SELECT fiche.f_id, fiche.fd_id, attr_value.av_text
            FROM fiche
