@@ -87,7 +87,7 @@ if ( $action == 'update' ) {
     $r.="<br>";
     $r.='<input type="SUBMIT" name="update_record" value="Enregistre">';
     $r.="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-    $r.='<input type="button" value="Annuler" onClick="window.close();">';
+    $r.='<input type="button" value="Fermer" onClick="window.close();">';
     $r.='</FORM>';
 
 //    echo '<div class="redcontent">';
