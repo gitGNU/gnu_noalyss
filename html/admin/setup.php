@@ -118,13 +118,19 @@ function ExecuteScript($p_cn,$script) {
 	    $sql=$buffer;
 	    continue;
     }
+ if ( strpos(strtolower($buffer),"create or replace function")===0 ) {
+	    echo "found a function";
+	    $flag_function=true;
+	    $sql=$buffer;
+	    continue;
+    }
     // No semi colon -> multiline command
     if ( $flag_function== false && strpos($buffer,';') == false ) {
       $sql.=$buffer;
       continue;
     } 
     if ( $flag_function ) {
-      if ( strpos(strtolower($buffer), "language plpgsql") == false ) {
+      if ( strpos(strtolower($buffer), "language plpgsql") === false ) {
 		$sql.=$buffer;
 		continue;
 	    }
@@ -221,13 +227,13 @@ if ( $version[0]  != '8' ) {
 offre pas, installez en une en la compilant. </p><p>Lisez attentivement la notice sur postgresql.org pour migrer
 vos bases de données en 8
 </p>
-<? exit();
+<? exit(); //'
 }
 
 ?>
-<h2>Database Setting</h2>
+<h2>Database Setting</h2> 
 <?
-// Language plsql is installed
+// Language plsql is installed 
 //--
 $sql="select lanname from pg_language where lanname='plpgsql'";
 $Res=CountSql($cn,$sql);
@@ -406,10 +412,14 @@ if ( DEBUG=='false' ) ob_start();
   // version 8 -> 9
   if ( GetVersion($db) == 8 ) { 
     ExecuteScript($db,'sql/patch/upgrade8.sql');
-  } // version == 9
+  } // version == 9->10
   if ( GetVersion($db) == 9 ) { 
     ExecuteScript($db,'sql/patch/upgrade9.sql');
-  } // version == 8->9
+  } // version == 10->11
+  if ( GetVersion($db) == 10 ) { 
+    ExecuteScript($db,'sql/patch/upgrade10.sql');
+  } // version 
+
 if ( DEBUG == 'false') ob_end_clean();
  }//for
 
@@ -471,6 +481,10 @@ if (DEBUG == 'false' ) ob_start();
   if ( GetVersion($db) == 9 ) { 
     ExecuteScript($db,'sql/patch/upgrade9.sql');
   } // version == 9
+  if ( GetVersion($db) == 10 ) { 
+    ExecuteScript($db,'sql/patch/upgrade10.sql');
+  } // version 
+
 if ( DEBUG == 'false') ob_end_clean();
  }
 

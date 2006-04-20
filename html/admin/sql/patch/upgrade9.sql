@@ -2,11 +2,11 @@ begin;
 -- index needed
 create unique index attr_value_jft_id on attr_value (jft_id);
 -- add quick code
-insert into attr_def (ad_text) values('Quick Code');
+insert into attr_def (ad_id,ad_text) values(23,'Quick Code');
 -- update existing card & template
 insert into attr_min select frd_id,23 from fiche_def_ref;
 insert into jnt_fic_attr select fd_id,23 from fiche_Def;
-insert into jnt_fic_att_value(f_id,ad_id) select f_id,23 from fiche;
+insert into jnt_fic_att_value(jft_id,f_id,ad_id) select nextval('s_jnt_fic_att_value')+200,f_id,23 from fiche;
 -- generate a quick code
 insert into attr_value select jft_id,'FID'||f_id from jnt_fic_att_value join fiche using(f_id) where ad_id=23;
 -- add quick code to jrnx
@@ -28,9 +28,7 @@ create or replace function insert_jrnx (
 	p_tech_user	jrnx.j_tech_user%type,
 	p_tech_per	jrnx.j_tech_per%type,
 	p_qcode		jrnx.j_qcode%type 
-) returns void 
-as 
-$body$
+) returns void as $body$
 declare
 	sCode varchar;
 	nCount_qcode integer;
@@ -80,7 +78,7 @@ begin
 return;
 end;
 $body$
-language plpgsql;
+  language plpgsql;
 
 
 
@@ -89,9 +87,7 @@ language plpgsql;
 -- DROP FUNCTION update_quick_code(int4, text);
 
 CREATE OR REPLACE FUNCTION update_quick_code(njft_id int4,tav_text text)
-  RETURNS int4 AS
-$BODY$
-
+  RETURNS int4 AS $BODY$
 	declare
 	ns integer;
 	nExist integer;
@@ -135,7 +131,7 @@ $BODY$
 	return ns;
 	end;
 $BODY$
-  LANGUAGE 'plpgsql' VOLATILE;
+  LANGUAGE plpgsql VOLATILE;
 
 
 
@@ -169,8 +165,7 @@ create or replace function insert_quant_sold (
 	p_price quant_sold.qs_price%type,
 	p_vat 	quant_sold.qs_vat%type,
 	p_vat_code quant_sold.qs_vat_code%type,
-	p_client varchar) returns void as
-$body$
+	p_client varchar) returns void as $body$
 declare 
 	fid_client integer;
 	fid_good   integer;
@@ -189,7 +184,7 @@ begin
 	return;
 end;	
 $body$
-  LANGUAGE 'plpgsql' VOLATILE;
+  LANGUAGE plpgsql VOLATILE;
 
 
 
@@ -198,8 +193,7 @@ $body$
 -- DROP FUNCTION insert_quick_code(int4, text);
 
 CREATE OR REPLACE FUNCTION insert_quick_code(nf_id int4, tav_text text)
-  RETURNS int4 AS
-$BODY$
+  RETURNS int4 AS $BODY$
 	declare
 	ns integer;
 	nExist integer;
@@ -232,9 +226,10 @@ $BODY$
 	return ns;
 	end;
 $BODY$
-  LANGUAGE 'plpgsql' VOLATILE;
+  LANGUAGE plpgsql VOLATILE;
 
---ALTER FUNCTION insert_quick_code(int4, text) OWNER TO dany;
+
+drop view vw_fiche_attr ;
 
 
 DROP VIEW vw_fiche_attr;
