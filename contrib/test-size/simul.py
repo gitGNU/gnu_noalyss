@@ -129,7 +129,29 @@ def Creation_operation(p_base,p_type):
 					array_jrn.append(jrn%(3,total,j_internal,loop_day,month,p_base,j_internal,loop_periode))
 					##print jrn1
 					p_base+=1
-	print "copy  jrn (jr_def_id,jr_montant,jr_comment,jr_date,jr_grpt_id,jr_internal,jr_tech_per) from stdin;"
+				if p_type== 'O':
+					j_internal='4ODS-01-%d' % (p_base)
+					j_banque='400'
+					j_charge='440'
+					array_jrnx.append(jrnx%(loop_day,month,j_montant,j_banque,p_base,4,'false',loop_periode))
+					array_jrnx.append(jrnx % (loop_day,month,j_montant,j_charge,p_base,4,'true',loop_periode))
+					#print jrnx1
+					array_jrn.append(jrn%(4,j_montant,j_internal,loop_day,month,p_base,j_internal,loop_periode))
+					##print jrn1
+					p_base+=1
+				if p_type== 'F':
+					j_internal='1FIN-01-%d' % (p_base)
+					j_banque='550'
+					j_charge='400'
+					array_jrnx.append(jrnx%(loop_day,month,j_montant,j_banque,p_base,1,'false',loop_periode))
+					array_jrnx.append(jrnx % (loop_day,month,j_montant,j_charge,p_base,1,'true',loop_periode))
+					#print jrnx1
+					array_jrn.append(jrn%(1,j_montant,j_internal,loop_day,month,p_base,j_internal,loop_periode))
+					##print jrn1
+					p_base+=1
+	print """copy 
+jrn (jr_def_id,jr_montant,jr_comment,jr_date,jr_grpt_id,jr_internal,jr_tech_per)
+from stdin;"""
 	for e in array_jrn: print e
 	print "\."
 	print "copy  jrnx (j_date,j_montant,j_poste,j_grpt,j_jrn_def,j_debit,j_tech_user,j_tech_per) from stdin;"
@@ -206,5 +228,9 @@ Creation_operation(1000,'V')
 
 #Creation_operation Achat
 Creation_operation(17000,'A')
+#Creation_operation FIN
+Creation_operation(34000,'F')
+#Creation_operation ODS
+Creation_operation(51000,'O')
 
 print "commit;"
