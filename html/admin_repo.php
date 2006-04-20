@@ -16,6 +16,7 @@
  *   You should have received a copy of the GNU General Public License
  *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * $Revision$
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
@@ -87,7 +88,7 @@ if ( isset ($_GET["action"]) ) {
 <TABLE> <TR> 
 <form action="admin_repo.php?action=user_mgt" method="POST">
 <TD><H3>Ajout d'utilisateur<H3></TD></TR>
-<?
+<? //'
     echo '<TR><TD> First Name </TD><TD><INPUT TYPE="TEXT" NAME="FNAME"></TD>';
     echo '<TD> Last Name </TD><TD><INPUT TYPE="TEXT" NAME="LNAME"></TD></TR>';
     echo '<TR><TD> login </TD><TD><INPUT TYPE="TEXT" NAME="LOGIN"></TD>';
