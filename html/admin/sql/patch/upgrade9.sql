@@ -50,7 +50,9 @@ begin
 		end if;
 		
 	end if;
-
+	if p_montant = 0 then 
+		return;	
+	end if;
 	insert into jrnx 
 	(
 		j_date,

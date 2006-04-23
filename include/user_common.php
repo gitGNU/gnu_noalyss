@@ -78,14 +78,21 @@ echo_debug('user_common.php',__LINE__,"ComputeTotalVat $a_fiche $a_quant $a_pric
    echo_debug ('user_common.php',__LINE__,"idx $idx element $element");
   // if the card id is null or empty 
     if (  strlen(trim($element))==0) continue;
-
+   
     // Get the tva_id
     if ( $ap_vat != null and
-	 isNumber($ap_vat[$idx])== 1)
-      $tva_id=$ap_vat[$idx];
+	 isNumber($ap_vat[$idx])== 1 and $ap_vat[$idx] != -1 ) 
+      {
+	$tva_id=$ap_vat[$idx];
+	echo_debug('user_common',__LINE__,' tva_id is given');
+	echo_debug('user_common',__LINE__,$ap_vat);
+      }
     else
-      $tva_id=GetFicheAttribut($p_cn,$a_fiche[$idx],ATTR_DEF_TVA);
-    
+      {
+	$tva_id=GetFicheAttribut($p_cn,$element,ATTR_DEF_TVA);
+	echo_debug('user_common',__LINE__,'retrieve tva_id');
+      }
+    echo_debug('user_common',__LINE__,"tva id $tva_id");
     if ( $tva_id == null ) continue;
     // for each fiche find the tva_rate and tva_id
     $a_vat=GetTvaRate($p_cn,$tva_id);
@@ -98,37 +105,42 @@ echo_debug('user_common.php',__LINE__,"ComputeTotalVat $a_fiche $a_quant $a_pric
 		// Compute vat for this item
 		$vat_amount=$a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx];
 	
+		// only the deductible vat
 		 if ( $all == false ) 
 		{
 			// if a part is not deductible then reduce vat_amount
 			$nd=GetFicheAttribut($p_cn,$a_fiche[$idx],ATTR_DEF_TVA_NON_DEDUCTIBLE);
-			if ( $nd != null && strlen(trim($nd)) != 0 )
+			if ( $nd != null && strlen(trim($nd)) != 0 && $nd != 0 )
 			{
 				$nd_amount=$a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx]*$nd;
 				$vat_amount=$a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx];
-				echo_debug('user_common.php',__LINE__,"TVA Attr fiche [$nd] nd amount [ $nd_amount ]".
-							"vat amount [ $vat_amount]");
 				$vat_amount-=$nd_amount;
+
+				echo_debug('user_common.php',__LINE__,
+					   "A - TVA Attr fiche [$nd] nd amount [ $nd_amount ]".
+					   "vat amount [ $vat_amount]");
 				$flag=false;
 			}	
 			// if a part is not deductible then reduce vat_amount
 			$nd=GetFicheAttribut($p_cn,$a_fiche[$idx],ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP);
-			if ( $nd != null && strlen(trim($nd)) != 0 )
+			if ( $nd != null && strlen(trim($nd)) != 0 && $nd != 0 )
 			{
 				$nd_amount=$a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx]*$nd;
 				$vat_amount=$a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx];
-				echo_debug('user_common.php',__LINE__,"TVA Attr fiche [$nd] nd amount [ $nd_amount ]".
-							"vat amount [ $vat_amount]");
 				$vat_amount-=$nd_amount;
+				echo_debug('user_common.php',__LINE__,
+					   "B - TVA Attr fiche [$nd] nd amount [ $nd_amount ]".
+					   "vat amount [ $vat_amount]");
+
 				$flag=false;
 			}	
 		}
+		 
 		$r[$a]=isset ( $r[$a] )?$r[$a]+$vat_amount:$vat_amount; 
 	}
-		
     
  }
- echo_debug('user_common.php',__LINE__," return $r");
+ echo_debug('user_common.php',__LINE__," return ".var_export($r,true));
  return $r;
  
  
@@ -154,24 +166,26 @@ echo_debug('user_common.php',__LINE__,"ComputeTotalVat $a_fiche $a_quant $a_pric
 function ComputeVat($p_cn,	$p_fiche,$p_quant,$p_price,$p_vat ) 
 {
   echo_debug('user_common.php',__LINE__,"function ComputeVat($p_cn,$p_fiche,$p_quant,$p_price,$p_vat )");
-    // Get the tva_id
-    if ( $p_vat != null and  isNumber($p_vat)== 1)
-      $tva_id=$p_vat;
-    else
-      $tva_id=GetFicheAttribut($p_cn,$p_fiche,ATTR_DEF_TVA);
-    
-    if ( $tva_id == null  ) return -1;
-    // for each fiche find the tva_rate and tva_id
-    $a_vat=GetTvaRate($p_cn,$tva_id);
-    $vat_amount=-1;
-    // Get the attribut price of the card(fiche)
-    if ( $a_vat != null  and  $a_vat['tva_id'] != "" ) 
-   {  $a=$a_vat['tva_id'];
+  // Get the tva_id
+  if ( $p_vat != null and  isNumber($p_vat)== 1 and $p_vat != -1)
+    $tva_id=$p_vat;
+  else
+    $tva_id=GetFicheAttribut($p_cn,$p_fiche,ATTR_DEF_TVA);
+ 
+  echo_debug('user_common',__LINE__,"ComputeVat tva id = $tva_id"); 
+  if ( $tva_id == null  ) return -1;
+  // for each fiche find the tva_rate and tva_id
+  $a_vat=GetTvaRate($p_cn,$tva_id);
+  $vat_amount=-1;
+  // Get the attribut price of the card(fiche)
+  if ( $a_vat != null  and  $a_vat['tva_id'] != "" ) 
+    {
+      $a=$a_vat['tva_id'];
       $vat_amount=$p_price*$a_vat['tva_rate']*$p_quant;
     } 
- return $vat_amount;
- 
- 
+  return $vat_amount;
+  
+  
 }
 
 
@@ -480,16 +494,17 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0)
     // Get the jrn type
     $jrn_prop=GetJrnProp($p_cn,$row['jrn_def_id'],1);  
     $positive=0;
-    //STAN following code will never be executed, as $positive=0 TO CHECK with DANY
-    if ( $positive=1  &&  $jrn_prop['jrn_def_type'] == 'FIN' ) 
-    {
-      $positive = CountSql($p_cn,"select * from jrn inner join jrnx on jr_grpt_id=j_grpt ".
-			   " where jr_id=".$row['jr_id']." and (j_poste like '55%' or j_poste like '57%' )".
-			   " and j_debit='f'");
-    }
+
+    // Check ledger type
+     if (  $jrn_prop['jrn_def_type'] == 'FIN' ) 
+     {
+       $positive = CountSql($p_cn,"select * from jrn inner join jrnx on jr_grpt_id=j_grpt ".
+ 			   " where jr_id=".$row['jr_id']." and (j_poste like '55%' or j_poste like '57%' )".
+ 			   " and j_debit='f'");
+     }
     $r.="<TD align=\"right\">";
     //STAN $positive always == 0
-    $r.=( $positive != 0 )?"<font color=\"red\">  - ".sprintf("%8.2f",$row['jr_montant'])."</font>":sprintf("%8.2f",$row['jr_montant']);
+     $r.=( $positive != 0 )?"<font color=\"red\">  - ".sprintf("%8.2f",$row['jr_montant'])."</font>":sprintf("%8.2f",$row['jr_montant']);
     $r.="</TD>";
     
     // Rapprochement

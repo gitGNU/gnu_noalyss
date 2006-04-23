@@ -30,7 +30,8 @@ function echo_debug      ($file,$line="",$msg="") {
     $cn=pg_connect($l_Db);
     $file=FormatString($file);
     $line=FormatString($line);
-    $msg='domaine :'.domaine.' '.FormatString($msg);
+
+    $msg='domaine :'.domaine.' '.FormatString(var_export($msg,true));
     
     $sql= "insert into log (lg_file,lg_line,lg_msg) ".
  	  "values ('$file','$line','$msg');";
