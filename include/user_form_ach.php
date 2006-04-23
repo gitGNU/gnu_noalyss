@@ -649,8 +649,7 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
     }
     $cost=$a_price[$i]*$a_quant[$i];
     $amount+=$cost;
-    // if cost  < 0 => not added to jrn.jr_amount
-    $amount_jrn+=($cost<0)?0:$cost;
+    $amount_jrn+=$cost;
     echo_debug('user_form_ach.php',__LINE__,'Total customer:'.$amount_jrn);
   }
   $comm=FormatString($e_comm);
@@ -719,7 +718,7 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
       {
 	$lvat=ComputeVat($p_cn,	$a_good[$i],$a_quant[$i],$a_price[$i],
 			    $a_vat_good[$i] );
-	$ded_vat=($lvat>0)?$lvat*$non_dedu:0;
+	$ded_vat=($lvat != null )?$lvat*$non_dedu:0;
 	$sum_tva_nd+=$ded_vat;
 
 	echo_debug('user_form_ach.php',__LINE__,
@@ -735,7 +734,7 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 	{
 	  $lvat=ComputeVat($p_cn,	$a_good[$i],$a_quant[$i],$a_price[$i],
 			   $a_vat_good[$i] );
-	  $ded_vat=($lvat>0)?$lvat*$non_dedu:0;
+	  $ded_vat=($lvat != null )?$lvat*$non_dedu:0;
 	  
 	  $sum_tva_nd+=$ded_vat;
 

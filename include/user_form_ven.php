@@ -600,8 +600,7 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
     }
     $cost=$a_price[$i]*$a_quant[$i];
     $amount+=$cost;
-    // if cost < 0 not added to jr_montant
-    $amount_jrn+=($cost<0)?0:$cost;
+    $amount_jrn+=$cost;
   }// for
 
   $comm=FormatString($e_comm);

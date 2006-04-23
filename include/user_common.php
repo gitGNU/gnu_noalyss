@@ -176,7 +176,7 @@ function ComputeVat($p_cn,	$p_fiche,$p_quant,$p_price,$p_vat )
   if ( $tva_id == null  ) return -1;
   // for each fiche find the tva_rate and tva_id
   $a_vat=GetTvaRate($p_cn,$tva_id);
-  $vat_amount=-1;
+  $vat_amount=null;
   // Get the attribut price of the card(fiche)
   if ( $a_vat != null  and  $a_vat['tva_id'] != "" ) 
     {
