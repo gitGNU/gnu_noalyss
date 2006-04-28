@@ -4,7 +4,7 @@ awk '/CREATE TABLE/,/;/ { print $0;}' < schema.sql > table.sql
 awk '/CREATE VIEW/,/;/ { print $0;}' < schema.sql > view.sql
 awk '/INDEX/,/;/ { print $0;}' < schema.sql > index.sql
 awk '/ALTER TABLE/,/;/ { print $0;}' < schema.sql > constraint.sql
-awk '/FUNCTION/,/LANGUAGE/ { print $0;}' < schema.sql > function.sql
+awk '/CREATE FUNCTION/,/LANGUAGE/ { print $0;}' < schema.sql > function.sql
 awk '/COMMENT/,/;/ {print $0;}' < schema.sql > comment.sql
 
 grep setval schema.sql >> sequence.sql
