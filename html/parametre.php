@@ -282,7 +282,7 @@ if ( ! isset ($_POST['add'])) { ?>
    <th>Commentaire</th>
    <th>Poste</th>
    </tr>
-<tr>
+<tr valign="top">
    <td> <? $w=new widget("text");$w->size=5; echo $w->IOValue('tva_id','') ?></td>
    <td> <? $w=new widget("text");$w->size=20; echo $w->IOValue('tva_label','') ?></td>
    <td> <? $w=new widget("text");$w->size=5; echo $w->IOValue('tva_rate','') ?></td>
@@ -314,7 +314,7 @@ if ( ! isset ($_POST['add'])) { ?>
    <th>Commentaire</th>
    <th>Poste</th>
    </tr>
-<tr>
+<tr valign="top">
    <td> <? $w=new widget("text");$w->size=20; echo $w->IOValue('tva_label',$a[$index]['tva_label']) ?></td>
    <td> <? $w=new widget("text");$w->size=5; echo $w->IOValue('tva_rate',$a[$index]['tva_rate']) ?></td>
    <td> <? $w=new widget("textarea"); $w->heigh=2;$w->width=20;
