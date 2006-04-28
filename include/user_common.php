@@ -174,7 +174,7 @@ function ComputeVat($p_cn,	$p_fiche,$p_quant,$p_price,$p_vat )
  
   echo_debug('user_common',__LINE__,"ComputeVat tva id = $tva_id"); 
   if ( $tva_id == null  ) return -1;
-  // for each fiche find the tva_rate and tva_id
+  // find the tva_rate and tva_id
   $a_vat=GetTvaRate($p_cn,$tva_id);
   $vat_amount=null;
   // Get the attribut price of the card(fiche)
@@ -825,7 +825,7 @@ function isValid ($p_cn,$p_grpt_id) {
  *     Create a navigation_bar (pagesize)
  *        
  * parm : 
- *	- p_current first record number
+ *	- p_offset first record number
  *      - p_line total of returned row
  *      - p_size current g_pagesize
  *      - p_page number of the page

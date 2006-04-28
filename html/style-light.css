@@ -250,13 +250,13 @@ a.mtitle {
 }
 
 a.mtitle:hover {
-  font-size:10px;
-  color:white;
-  background-color:#5D90CD;
+//  font-size:10px;
+//  color:white;
+//  background-color:#5D90CD;
   text-decoration:none;
   display:block;
   border-style:groove;
-  border-color:blue;
+  border-color:gray;
 }
 a.cell {
   text-decoration:none;

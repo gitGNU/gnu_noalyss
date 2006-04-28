@@ -24,17 +24,21 @@ include_once ("class_user.php");
 include_once ("postgres.php");
 include ("user_menu.php");
 include_once("class_invoice.php");
-// Check user
-$rep=DbConnect();
-$User=new cl_user($rep);
-$User->Check();
-$g_dossier=(isset ($_REQUEST['dos']))?$_REQUEST['dos']:-1;
-$_SESSION[ "g_dossier"]=$g_dossier;
+if ( isset ($_REQUEST['dos'])) 
+{
+  $_SESSION["g_dossier"]=$_REQUEST['dos'];
+}
+$g_dossier=(isset ($_SESSION['g_dossier']))?$_SESSION['g_dossier']:-1;
+
 // List of customer select * from fiche_def where frd_id=9;
 if (  $g_dossier==-1  ) {
   echo "You must choose a Dossier ";
   exit -2;
 }
+// Check user
+$rep=DbConnect($g_dossier);
+$User=new cl_user($rep);
+$User->Check();
 
 // Save Folder's name
 $g_name=GetDossierName($g_dossier);
@@ -46,6 +50,22 @@ if ( $User->CheckAction($g_dossier,FACT) == 0 ){
      NoAccess();
      exit -1;
 }
+////////////////////////////////////////////////////////////////////////////////
+// update preference
+////////////////////////////////////////////////////////////////////////////////
+if ( isset ( $_POST['style_user']) ) {
+  $User->update_global_pref('THEME',$_POST['style_user']);
+  $_SESSION['g_theme']=$_POST['style_user'];
+  $User->theme=$_POST['style_user'];
+}
+// Met a jour le pagesize
+if ( isset ( $_POST['p_size']) ) {
+  $User->update_global_pref('PAGESIZE',$_POST['p_size']);
+  $_SESSION['g_pagesize']=$_POST['p_size'];
+  
+}
+
+///
 html_page_start($User->theme);
 
 $cn=DbConnect($g_dossier);
@@ -56,6 +76,7 @@ echo "<H2 class=\"info\"> Facturation ".$_SESSION['g_name']." </H2>";
 echo ShowItem(array(			  
 	       array('?p_action=create_invoice&dos='.$g_dossier,'Nouvelle'),
 	       array('?p_action=view_invoice&dos='.$g_dossier,'Voir'),
+	       array('?p_action=pref','Préférence'),
 	       array('parametre.php?p_action=invoice&dos='.$g_dossier,'Paramètre'),
 	       array('login.php','Accueil',"Accueil"),
 	       array('logout.php','logout',"Sortie")
@@ -65,8 +86,16 @@ echo ShowItem(array(
 // Action requested
 //
 ////////////////////////////////////////////////////////////////////////////////
-if ( isset ($_GET["p_action"] ))  {
-  $action=$_GET["p_action"];
+if ( isset ($_REQUEST["p_action"] ))  {
+  $action=$_REQUEST["p_action"];
+  ////////////////////////////////////////////////////////////////////////////////
+  // p_action == pref
+  ////////////////////////////////////////////////////////////////////////////////
+  if ( $action == "pref" ) 
+    {
+      require_once("pref.inc.php");
+    }
+
   ////////////////////////////////////////////////////
   // See All invoices
   if ($action == "create_invoice" ) {

@@ -22,6 +22,7 @@ include_once ("ac_common.php");
 require_once("constant.php");
 include_once ("postgres.php");
 
+
 if ( isset ($_REQUEST['dos'] ) ) {
   $_SESSION['g_dossier']=$_REQUEST['dos'];
   $g_name=GetDossierName($_SESSION['g_dossier']);
@@ -29,17 +30,33 @@ if ( isset ($_REQUEST['dos'] ) ) {
 
 }
 
+include_once ("postgres.php");
+/* Admin. Dossier */
+$rep=DbConnect($_SESSION['g_dossier']);
+require_once ("class_user.php");
+$User=new cl_user($rep);
+$User->Check();
+////////////////////////////////////////////////////////////////////////////////
+// update preference
+////////////////////////////////////////////////////////////////////////////////
+if ( isset ( $_POST['style_user']) ) {
+	$User->update_global_pref('THEME',$_POST['style_user']);
+      $_SESSION['g_theme']=$_POST['style_user'];
+
+}
+// Met a jour le pagesize
+if ( isset ( $_POST['p_size']) ) {
+	$User->update_global_pref('PAGESIZE',$_POST['p_size']);
+      $_SESSION['g_pagesize']=$_POST['p_size'];
+
+}
+
+///
 html_page_start($_SESSION['g_theme']);
 if ( ! isset ( $_SESSION['g_dossier'] ) ) {
   echo "You must choose a Dossier ";
   exit -2;
 }
-include_once ("postgres.php");
-/* Admin. Dossier */
-$rep=DbConnect();
-require_once ("class_user.php");
-$User=new cl_user($rep);
-$User->Check();
 
 include("preference.php");
 include_once("user_menu.php");
@@ -51,6 +68,9 @@ $p_action=(isset ($_REQUEST['p_action']))?$_REQUEST['p_action']:"";
 echo ShowItem(array(
 		    array('?p_action=client','Client'),
 		    array('?p_action=fournisseur','Fournisseur'),
+		    array('?p_action=suivi_courrier','Suivi courrier'),
+		    array('?p_action=mbre','Membre'),
+		    array('?p_action=pref','Préférence'),
 		    array('login.php','Accueil',"Accueil"),
 		    array('logout.php','logout',"Sortie")
 		    ),
@@ -61,6 +81,13 @@ echo ShowItem(array(
 
 
 $cn=DbConnect($_SESSION['g_dossier']);
+////////////////////////////////////////////////////////////////////////////////
+// p_action == pref
+////////////////////////////////////////////////////////////////////////////////
+if ( $p_action == "pref" ) 
+{
+  require_once("pref.inc.php");
+}
 ////////////////////////////////////////////////////////////////////////////////
 // p_action == client
 ////////////////////////////////////////////////////////////////////////////////
