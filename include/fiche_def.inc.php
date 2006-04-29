@@ -53,8 +53,9 @@ echo "</table>";
 if ( isset ($_POST['mod']) ) 
 {
   extract ($_POST);
-  echo '<div style="position:absolute;right:100px;">';
-  echo "Voulez-vous modifier ?";
+  echo '<div style="position:float;right:100px;">';
+  echo "Voulez-vous modifier ?<br><font color=\"red\"> Attention, ne changer pas la signification de ";
+  echo " ce poste, <i>par exemple ne pas changer Client par fournisseur</i>, <br>sinon le programme fonctionnera mal, utiliser uniquement des chiffres pour la classe de base ou rien</font>";
   $idx=$_POST['idx'];
   $mod=new fiche_def_ref($cn);
   $mod->frd_id=$all[$idx]->frd_id;

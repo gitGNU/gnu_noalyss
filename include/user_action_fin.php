@@ -22,6 +22,7 @@ echo_debug('user_action_fin.php',__LINE__,"include user_action_fin.php");
 // include_once("form_input.php");
 require_once("user_form_fin.php");
 include_once("class_widget.php");
+require_once("class_parm_code.php");
 
 $cn=DbConnect($_SESSION['g_dossier']);
 
@@ -202,9 +203,13 @@ if ( $action == 'solde' ) {
   // find the bank account
  // TODO : those values should be in a table because
  // they are _national_ parameters
+  $banque=new parm_code($cn,'BANQUE');
+  $caisse=new parm_code($cn,'CAISSE');
+  $vir_interne=new parm_code($cn,'VIREMENT_INTERNE');
   $accountSql="select distinct pcm_val::text,pcm_lib from 
             tmp_pcmn 
-            where pcm_val like '550%' or pcm_val like '58%' or pcm_val like '57%'
+            where pcm_val like '".$banque->p_value."%' or pcm_val like '".$vir_interne->p_value."%' 
+            or pcm_val like '".$caisse->p_value."%'
             order by pcm_val::text";
   $ResAccount=ExecSql($cn,$accountSql);
   echo '<div class="u_redcontent">';

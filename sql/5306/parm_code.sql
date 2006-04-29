@@ -12,5 +12,5 @@ INSERT INTO parm_code VALUES ('COMPTE_COURANT', '56', 'Poste comptable pour le c
 INSERT INTO parm_code VALUES ('CAISSE', '57', 'Poste comptable pour la caisse');
 INSERT INTO parm_code VALUES ('TVA_DNA', '6740', 'Tva non déductible s');
 INSERT INTO parm_code VALUES ('TVA_DED_IMPOT', '619000', 'Tva déductible par l''impôt');
-
+INSERT INTO parm_code VALUES ('VENTE ', '70', 'Poste comptable de base pour les ventes');
 

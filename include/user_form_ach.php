@@ -23,6 +23,7 @@ require_once("class_widget.php");
 require_once("preference.php");
 require_once("fiche_inc.php");
 require_once("user_common.php");
+require_once("class_parm_code.php");
 /* function FormAchInput
  * Purpose : Display the form for a sell
  *           Used to show detail, encode a new invoice 
@@ -709,7 +710,8 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
  // they are _national_ parameters
 	// save it
 	  echo_debug('user_form_ach.php',__LINE__,"InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,'6740',$e_date,round($nd_amount,2),$seq,$periode);");
-	$j_id=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,'6740',$e_date,round($nd_amount,2),$seq,$periode);
+	  $dna=new parm_code($p_cn,'DNA');
+	$j_id=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$dna->p_value,$e_date,round($nd_amount,2),$seq,$periode);
 	if ( $j_id == false) { Rollback($p_cn);exit("error 'user_form_ach.php' __LINE__");}
 	$amount=$amount-$nd_amount;
       }
@@ -725,9 +727,11 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 
  // TODO : those values should be in a table because
  // they are _national_ parameters
+	$tva_dna=new parm_code($p_cn,'TVA_DNA');
 	echo_debug('user_form_ach.php',__LINE__,
-		   "InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,'6190',$e_date,round($ded_vat,2),$seq,$periode);");
-	$j_id=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,'6740',$e_date,round($ded_vat,2),$seq,$periode);
+		   "InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,".$tva_dna->p_value.",$e_date,round($ded_vat,2),$seq,$periode);");
+
+	$j_id=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$tva_dna->p_value,$e_date,round($ded_vat,2),$seq,$periode);
 	if ( $j_id == false) { Rollback($p_cn);exit("error 'user_form_ach.php' __LINE__");}
       }
     
@@ -743,12 +747,13 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 	  $sum_tva_nd+=$ded_vat;
 
 	  // Save it 
+	  $tva_ded_impot=new parm_code($p_cn,'TVA_DED_IMPOT');
 	  echo_debug('user_form_ach.php',__LINE__,
-		     "InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,'6190',$e_date,round($ded_vat,2),$seq,$periode);");
+		     "InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,".$tva_ded_impot->p_value.",$e_date,round($ded_vat,2),$seq,$periode);");
  // TODO : those values should be in a table because
  // they are _national_ parameters
 
-	  $j_id=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,'6190',$e_date,round($ded_vat,2),$seq,$periode);
+	  $j_id=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$tva_ded_impot->p_value,$e_date,round($ded_vat,2),$seq,$periode);
 	  if ( $j_id == false) { Rollback($p_cn);exit("error 'user_form_ach.php' __LINE__");}
 	}
 

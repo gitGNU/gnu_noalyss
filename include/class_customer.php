@@ -20,6 +20,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 require_once("constant.php");
 require_once("postgres.php");
+require_once("class_parm_code.php");
 // Use the view vw_customer
 // 
 class Customer {
@@ -71,12 +72,17 @@ class Customer {
     
     // BASE ACCOUNT
     // for belgium
-    // TODO : those values should be in a table because 
-    // they are _national_ parameters
-    //-----
-    $SOLD="70";
-    $CUSTOMER="400";
-    $TVA="451";
+    $s=new parm_code($this->db,'VENTE');
+    $s->Get()
+    $SOLD=$s->p_value;
+
+    $c=new parm_code($this->db,'CUSTOMER');
+    $c->Get();
+    $CUSTOMER=$c->p_value;
+
+    $t=new parm_code($this->db,'COMPTE_TVA');
+    $t->Get();
+    $TVA=$t->p_value;
     // Get all the sell operation
     //----
     $sql="select  j_grpt 
@@ -150,11 +156,12 @@ where
 
   //if not submitted to VAT, remove from list:
   //STAN: currently commented out because I don't know if it is really what we need.
-  //if (!isset($a_Res[$customer]['vat_number']) || strcmp($a_Res[$customer]['vat_number'], "") == 0)
-  //{
-  //  unset($a_Res[$customer]);
-  //}
-  
+  //Dany : yes we need it because the decla. concerns only the registered customer at the VAT 
+	if (!isset($a_Res[$customer]['vat_number']) || strcmp($a_Res[$customer]['vat_number'], "") == 0)
+	  {
+	    unset($a_Res[$customer]);
+	  }
+	
       }// foreach $a
 
     }
