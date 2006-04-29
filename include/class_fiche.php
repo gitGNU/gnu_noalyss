@@ -128,6 +128,25 @@ class fiche_def {
    return (CountSql($this->cn,"select * from vw_fiche_def where ad_id=$p_attr and fd_id=".$this->id)>0)?true:false;
 
  }
+/* function Display
+ **************************************************
+ * Purpose : Display a fiche_def object into a table
+ *        
+ * parm : 
+ *	- none
+ * gen :
+ *	-
+ * return: string
+ */
+ function Display() 
+   {
+
+     $r=sprintf("<TD>%s</TD>",$this->id);
+     $r.=sprintf("<TD>%s</TD>",$this->label);
+     $r.=sprintf("<TD>%s</TD>",$this->class_base);
+     $r.=sprintf("<TD>%s</TD>",$this->fiche_def);
+     return $r;
+   }
 
 }
 

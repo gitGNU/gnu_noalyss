@@ -634,6 +634,8 @@ function ShowMenuParam($p_action="")
 			  array('parametre.php?p_action=devise','Devises'),
 			  array('parametre.php?p_action=periode','Période'),
 			  array('parametre.php?p_action=tva','Tva'),
+			  array('parametre.php?p_action=poste','Poste Comptable'),
+			  array('parametre.php?p_action=fiche','Fiche'),
 			  array('user_sec.php','Sécurité'),
 			  array('parametre.php?p_action=invoice','Facture'),
 			  array('login.php','Accueil',"Accueil"),

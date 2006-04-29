@@ -25,8 +25,9 @@
     ExecSql($cn,'select tva_delete('.$_POST['tva_id'].')');
   }
 ///////////////////////////////////////////////////////////////////////////////
-  // confirm add
-  if ( isset ($_POST['confirm_add'])) 
+// Record Change
+  if ( isset ($_POST['confirm_mod'])
+       || isset ($_POST['confirm_add'])) 
     {
       extract($_POST);
       $tva_id=FormatString($tva_id);
@@ -45,45 +46,19 @@
 
       if ( $err == 0 ) 
 	{
+	  if (  isset ($_POST['confirm_add']) ) 
+	    {
 	  $Res=ExecSql($cn,
-		       "select tva_insert($tva_id,'$tva_label','$tva_rate','$tva_comment','$tva_poste')");
-	  $ret_sql=pg_fetch_row($Res);
-	  $err=$ret_sql[0];
-	}
-      if ( $err != 0 ) 
-	{
-	  $err_code=array(1=>"Tva id n\'est pas un nombre",
-			  2=>"Taux tva invalide",
-			  3=>"Label ne peut être vide",
-			  4=>"Poste invalide",
-			  5=>"Tva id doit être unique");
-	  $str_err=$err_code[$err];
-	  echo "<script>alert ('$str_err'); </script>";;
-	}
-  }
-///////////////////////////////////////////////////////////////////////////////
-  // confirm mod
-  if ( isset ($_POST['confirm_mod'])) 
-    {
-      extract($_POST);
-      $tva_id=FormatString($tva_id);
-      $tva_label=FormatString($tva_label);
-      $tva_rate=FormatString($tva_rate);
-      $tva_comment=FormatString($tva_comment);
-      $tva_poste=FormatString($tva_poste);
-      $err=0; // Error code
-      if ( isNumber($tva_id) == 0 ) {
-	$err=1;
-	
-     } 
-      if ( isNumber($tva_rate) == 0 ) {
-	$err=2;
-     } 
+		       "select tva_insert($tva_id,'$tva_label',
+                        '$tva_rate','$tva_comment','$tva_poste')");
 
-      if ( $err == 0 ) 
-	{
+	    }
+	  if (  isset ($_POST['confirm_mod']) ) 
+	    {
 	  $Res=ExecSql($cn,
-		       "select tva_modify($tva_id,'$tva_label','$tva_rate','$tva_comment','$tva_poste')");
+		       "select tva_modify($tva_id,'$tva_label',
+                       '$tva_rate','$tva_comment','$tva_poste')");
+	    }
 	  $ret_sql=pg_fetch_row($Res);
 	  $err=$ret_sql[0];
 	}
@@ -167,7 +142,7 @@
     }
 ?>
 </TABLE>
-    <? // if we add a vat we don't show this button
+    <? // if we add / remove or modify a vat we don't show this button
 if (   ! isset ($_POST['add'])
   &&   ! isset ($_POST['mod'])
   &&   ! isset ($_POST['rm'])
