@@ -705,6 +705,8 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
       {
 	$nd_amount=$a_quant[$i]*$a_price[$i]*$non_dedu;
 
+ // TODO : those values should be in a table because
+ // they are _national_ parameters
 	// save it
 	  echo_debug('user_form_ach.php',__LINE__,"InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,'6740',$e_date,round($nd_amount,2),$seq,$periode);");
 	$j_id=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,'6740',$e_date,round($nd_amount,2),$seq,$periode);
@@ -721,6 +723,8 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 	$ded_vat=($lvat != null )?$lvat*$non_dedu:0;
 	$sum_tva_nd+=$ded_vat;
 
+ // TODO : those values should be in a table because
+ // they are _national_ parameters
 	echo_debug('user_form_ach.php',__LINE__,
 		   "InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,'6190',$e_date,round($ded_vat,2),$seq,$periode);");
 	$j_id=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,'6740',$e_date,round($ded_vat,2),$seq,$periode);
@@ -741,6 +745,9 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 	  // Save it 
 	  echo_debug('user_form_ach.php',__LINE__,
 		     "InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,'6190',$e_date,round($ded_vat,2),$seq,$periode);");
+ // TODO : those values should be in a table because
+ // they are _national_ parameters
+
 	  $j_id=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,'6190',$e_date,round($ded_vat,2),$seq,$periode);
 	  if ( $j_id == false) { Rollback($p_cn);exit("error 'user_form_ach.php' __LINE__");}
 	}

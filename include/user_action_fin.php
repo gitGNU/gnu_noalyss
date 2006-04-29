@@ -200,6 +200,8 @@ echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit',
 if ( $action == 'solde' ) {
   require_once("poste.php");
   // find the bank account
+ // TODO : those values should be in a table because
+ // they are _national_ parameters
   $accountSql="select distinct pcm_val::text,pcm_lib from 
             tmp_pcmn 
             where pcm_val like '550%' or pcm_val like '58%' or pcm_val like '57%'
