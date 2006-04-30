@@ -25,7 +25,7 @@ $BODY$
 
 -- Function: check_balance(p_grpt text)
 
-DROP FUNCTION check_balance(text);
+-- DROP FUNCTION check_balance(text);
 
 CREATE OR REPLACE FUNCTION check_balance(p_grpt integer)
   RETURNS "numeric" AS
