@@ -41,5 +41,4 @@ insert into tva_rate(tva_id,tva_label,tva_rate,tva_comment,tva_poste)
 	values (p_tva_id,p_tva_label,p_tva_rate,p_tva_comment,p_tva_poste);
 return 0;
 end;$BODY$
-  LANGUAGE 'plpgsql' VOLATILE;
-ALTER FUNCTION tva_insert(int4, text, "numeric", text, text) OWNER TO phpcompta;
+  LANGUAGE plpgsql VOLATILE;

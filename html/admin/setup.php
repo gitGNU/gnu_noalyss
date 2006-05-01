@@ -419,6 +419,9 @@ if ( DEBUG=='false' ) ob_start();
   if ( GetVersion($db) == 10 ) { 
     ExecuteScript($db,'sql/patch/upgrade10.sql');
   } // version 
+  if ( GetVersion($db) == 11 ) { 
+    ExecuteScript($db,'sql/patch/upgrade11.sql');
+  } // version 
 
 if ( DEBUG == 'false') ob_end_clean();
  }//for
@@ -483,6 +486,9 @@ if (DEBUG == 'false' ) ob_start();
   } // version == 9
   if ( GetVersion($db) == 10 ) { 
     ExecuteScript($db,'sql/patch/upgrade10.sql');
+  } // version 
+  if ( GetVersion($db) == 11 ) { 
+    ExecuteScript($db,'sql/patch/upgrade11.sql');
   } // version 
 
 if ( DEBUG == 'false') ob_end_clean();
