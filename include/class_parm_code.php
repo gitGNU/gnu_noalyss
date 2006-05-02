@@ -45,7 +45,7 @@ class parm_code {
  */
 
   function LoadAll() {
-    $sql="select * from parm_code";
+    $sql="select * from parm_code order by p_code";
     $Res=ExecSql($this->db,$sql);
     $r= pg_fetch_all($Res);
     $idx=0;
@@ -152,7 +152,7 @@ class parm_code {
 
   function Get() {
     if ( $this->p_code == -1 ) return "p_code non initialisé";
-    $sql=sprintf("select * from parm_code where p_code='%s'",
+    $sql=sprintf("select * from parm_code where p_code='%s' ",
 		 $this->p_code);
     $Res=ExecSql($this->db,$sql);
 
