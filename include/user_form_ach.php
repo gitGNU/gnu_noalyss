@@ -692,7 +692,7 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
   if ( $r == false) { $Rollback($p_cn);exit("error 'user_form_ach.php' __LINE__");}
   // Credit = goods 
   for ( $i = 0; $i < $nb_item;$i++) {
-    //    if ( isNumber($a_good[$i]) == 0 ) continue;
+
     $poste=GetFicheAttribut($p_cn,$a_good[$i],ATTR_DEF_ACCOUNT);
 	  
     // don't record operation of 0
@@ -706,8 +706,6 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
       {
 	$nd_amount=$a_quant[$i]*$a_price[$i]*$non_dedu;
 
- // TODO : those values should be in a table because
- // they are _national_ parameters
 	// save it
 	  echo_debug('user_form_ach.php',__LINE__,"InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,'6740',$e_date,round($nd_amount,2),$seq,$periode);");
 	  $dna=new parm_code($p_cn,'DNA');
@@ -725,8 +723,7 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 	$ded_vat=($lvat != null )?$lvat*$non_dedu:0;
 	$sum_tva_nd+=$ded_vat;
 
- // TODO : those values should be in a table because
- // they are _national_ parameters
+	// compute the NDA TVA
 	$tva_dna=new parm_code($p_cn,'TVA_DNA');
 	echo_debug('user_form_ach.php',__LINE__,
 		   "InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,".$tva_dna->p_value.",$e_date,round($ded_vat,2),$seq,$periode);");
@@ -750,8 +747,6 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 	  $tva_ded_impot=new parm_code($p_cn,'TVA_DED_IMPOT');
 	  echo_debug('user_form_ach.php',__LINE__,
 		     "InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,".$tva_ded_impot->p_value.",$e_date,round($ded_vat,2),$seq,$periode);");
- // TODO : those values should be in a table because
- // they are _national_ parameters
 
 	  $j_id=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$tva_ded_impot->p_value,$e_date,round($ded_vat,2),$seq,$periode);
 	  if ( $j_id == false) { Rollback($p_cn);exit("error 'user_form_ach.php' __LINE__");}

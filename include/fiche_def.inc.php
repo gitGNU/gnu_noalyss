@@ -53,7 +53,7 @@ echo "</table>";
 if ( isset ($_POST['mod']) ) 
 {
   extract ($_POST);
-  echo '<div style="position:float;right:100px;">';
+  echo '<div style="position:float;padding:2%">';
   echo "Voulez-vous modifier ?<br><font color=\"red\"> Attention, ne changer pas la signification de ";
   echo " ce poste, <i>par exemple ne pas changer Client par fournisseur</i>, <br>sinon le programme fonctionnera mal, utiliser uniquement des chiffres pour la classe de base ou rien</font>";
   $idx=$_POST['idx'];

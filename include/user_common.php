@@ -107,32 +107,33 @@ echo_debug('user_common.php',__LINE__,"ComputeTotalVat $a_fiche $a_quant $a_pric
 	
 		// only the deductible vat
 		 if ( $all == false ) 
-		{
-			// if a part is not deductible then reduce vat_amount
-			$nd=GetFicheAttribut($p_cn,$a_fiche[$idx],ATTR_DEF_TVA_NON_DEDUCTIBLE);
-			if ( $nd != null && strlen(trim($nd)) != 0 && $nd != 0 )
-			{
-				$nd_amount=$a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx]*$nd;
-				$vat_amount=$a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx];
-				$vat_amount-=$nd_amount;
+		   {
+		     $vat_amount=$a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx];
 
-				echo_debug('user_common.php',__LINE__,
-					   "A - TVA Attr fiche [$nd] nd amount [ $nd_amount ]".
-					   "vat amount [ $vat_amount]");
-				$flag=false;
+		     // if a part is not deductible then reduce vat_amount
+		     $nd=GetFicheAttribut($p_cn,$a_fiche[$idx],ATTR_DEF_TVA_NON_DEDUCTIBLE);
+		     if ( $nd != null && strlen(trim($nd)) != 0 && $nd != 0 )
+		       {
+			 $nd_amount=$a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx]*$nd;
+			 $vat_amount-=$nd_amount;
+			 
+			 echo_debug('user_common.php',__LINE__,
+				    "A - TVA Attr fiche [$nd] nd amount [ $nd_amount ]".
+				    "vat amount [ $vat_amount]");
+			 $flag=false;
 			}	
 			// if a part is not deductible then reduce vat_amount
 			$nd=GetFicheAttribut($p_cn,$a_fiche[$idx],ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP);
 			if ( $nd != null && strlen(trim($nd)) != 0 && $nd != 0 )
 			{
-				$nd_amount=$a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx]*$nd;
-				$vat_amount=$a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx];
-				$vat_amount-=$nd_amount;
-				echo_debug('user_common.php',__LINE__,
-					   "B - TVA Attr fiche [$nd] nd amount [ $nd_amount ]".
-					   "vat amount [ $vat_amount]");
-
-				$flag=false;
+			  $nd_amount=$a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx]*$nd;
+			  
+			  $vat_amount-=$nd_amount;
+			  echo_debug('user_common.php',__LINE__,
+				     "B - TVA Attr fiche [$nd] nd amount [ $nd_amount ]".
+				     "vat amount [ $vat_amount]");
+			  
+			  $flag=false;
 			}	
 		}
 		 

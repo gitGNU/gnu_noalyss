@@ -1,3 +1,155 @@
+2006-05-01  author  <author@mercure>
+
+	* html/admin/setup.php, sql/5306/tva_insert.sql:
+	Task 5406 Add missing files
+
+	* html/admin/sql/patch/upgrade10.sql, html/admin/sql/patch/upgrade11.sql:
+	About upgrade10; the function check_balance MUST BE dropped before being
+	recreated because the parameters change
+	Upgrade 11 : Update the database to a new version
+
+	* contrib/sql-utility/get-sql.sh: *** empty log message ***
+
+	* contrib/sql-utility/get-sql.sh: small bug
+
+	* contrib/sql-utility/get-sql.sh: Get SQL utility for developpper
+
+	* include/class_parm_code.php: Task 5406 : add parameters setting
+
+2006-04-30  author  <author@mercure>
+
+	* html/admin/sql/patch/upgrade10.sql:
+	Removed problematic DROP statement.
+
+2006-04-29  author  <author@mercure>
+
+	* include/class_customer.php, include/class_fiche_def.php, include/fiche_def.inc.php, include/user_action_fin.php, include/user_form_ach.php, sql/5306/parm_code.sql:
+	Task 5406 : Parameter used in different places --> to be more tested
+
+	* sql/5306/parm_code.sql: Add data
+
+	* html/parametre.php, include/class_fiche.php, include/class_fiche_def.php, include/fiche_def.inc.php, include/poste.inc.php, include/tva.inc.php, include/user_menu.php:
+	task 5406 : parameter menu is now completed with the possibility to
+	change the fiche definition
+
+	* html/parametre.php, include/tva.inc.php, include/user_action_fin.php, include/user_form_ach.php, sql/5306/parm_code.sql:
+	task 5406 : improve presentation
+
+2006-04-28  author  <author@mercure>
+
+	* html/parametre.php: task 5406 : add setting
+
+	* sql/5306/tva_delete.sql, sql/5306/tva_insert.sql, sql/5306/tva_modify.sql:
+	task 5306 : parameter tva
+
+	* html/commercial.php, html/facturation.php, html/parametre.php, html/style-light.css, html/user_pref.php, include/pref.inc.php, include/user_common.php, include/user_menu.php:
+	progress task
+	5410 -> fonction CRM
+	5306 -> Improve parameter setting
+
+	* html/admin/sql/account_repository/make-sql, html/admin/sql/dossier1/make-sql, html/admin/sql/mod1/make-sql, html/admin/sql/patch/upgrade10.sql:
+	fix a problem in the function dump
+
+2006-04-23  author  <author@mercure>
+
+	* include/user_common.php, include/user_form_ach.php, include/user_form_ven.php:
+	Task 5023: note de credit
+
+	* html/admin/sql/patch/upgrade9.sql, html/style-light.css, include/debug.php, include/user_common.php, include/user_form_ach.php:
+	task 5023 :  bug dans le calcul des dna, tva non ded quand il y avait les 2
+		dans une fiche
+
+2006-04-20  author  <author@mercure>
+
+	* Changelog, html/admin_repo.php, scripts/cleanup.sh: minor bugs
+
+	* html/admin/sql/patch/upgrade9.sql, html/admin/setup.php, html/admin/sql/patch/upgrade10.sql:
+	Fix problem with create function add patch 9 and 10
+
+	* contrib/test-size/simul.py:
+	Add operations for Miscellaneous and financial ledger
+
+2006-04-18  author  <author@mercure>
+
+	* html/modify_op.php: Cosmetic replace 'annuler' by 'Fermer'
+
+2006-04-16  author  <author@mercure>
+
+	* html/admin/sql/patch/upgrade9.sql: Added some fixes
+
+2006-04-15  author  <author@mercure>
+
+	* html/commercial.php: task 5410 Suivi client
+
+	* html/parametre.php: task #5406 Paramètre
+
+	* html/admin/setup.php, html/admin/sql/patch/upgrade9.sql:
+	task #5405 Quick Code
+
+	* include/cbc_be.inc.php: task #4898, Import CSV opération banquaire
+
+	* html/admin_repo.php, html/annulation.php, html/dossier_prefs.php, html/facturation.php, html/fiche_new.php, html/fiche_search.php, html/jrn_add.php, html/jrn_detail.php, html/jrn_op_detail.php, html/jrn_pdf.php, html/jrn_search.php, html/line_update.php, html/login.php, html/modify_op.php, html/pcmn_update.php, html/poste_search.php:
+	task #5409 debug info
+	task #5406 Paramètre
+	task #5405 Quick Code
+
+	* html/priv_user.php, html/sec_pdf.php: task #5409 debug info
+	task #5405 Quick Code
+
+	* html/print_balance.php, html/print_invoice.php, html/send_jrn_pdf.php, html/send_poste_pdf.php:
+	task #5409 debug info
+
+	* html/style-light.css: cosmetic
+
+	* html/user_advanced.php, html/user_compta.php: task #5409 debug info
+
+	* html/user_sec.php: task #5406 Paramètre
+
+	* include/ac_common.php, include/class_jrn.php, include/class_operation.php, include/class_user.php, include/class_widget.php, include/constant.php, include/fiche_inc.php:
+	task #5409 debug info
+	task #5405 Quick Code
+
+	* include/form_inc.php, include/import_inc.php, include/impress_fiche.php, include/impress_inc.php, include/impress_jrn.php, include/jrn.php, include/postgres.php:
+	task #5409 debug info
+
+	* include/preference.php: task #5409 debug info
+	task #5406 Paramètre
+
+	* include/user_action_ach.php, include/user_action_fin.php, include/user_action_gl.php, include/user_action_ods.php, include/user_action_ven.php:
+	task #5409 debug info
+
+	* include/user_common.php, include/user_form_ach.php, include/user_form_fin.php:
+	task #5409 debug info
+	task #5405 Quick Code
+
+	* include/user_form_ods.php: task #5409 debug info
+
+	* include/user_form_ven.php, include/user_menu.php:
+	task #5409 debug info
+	task #5405 Quick Code
+
+	* include/user_update.php: task #5409 debug info
+
+2006-04-12  author  <author@mercure>
+
+	* include/user_menu.php: cosmetic : add a space
+
+	* include/user_menu.php: Add menu
+
+	* include/user_form_ach.php: Cosmetic : indent correctly
+
+	* include/user_form_ach.php: Task #5023: fix bug in the alert message
+
+2006-04-09  author  <author@mercure>
+
+	* include/user_action_ach.php, include/user_action_fin.php, include/user_action_gl.php, include/user_action_ods.php, include/user_action_ven.php:
+	Bug nav. bar
+
+2006-04-08  author  <author@mercure>
+
+	* include/user_action_fin.php, include/user_action_ods.php, include/user_action_ven.php:
+	Replaced POST by GET method for all action=voir_jrn calls -> As this is read-only, it has no reason to be a POST.
+
 2006-04-02  author  <author@mercure>
 
 	* html/admin/setup.php, html/admin/sql/patch/upgrade8.sql:
