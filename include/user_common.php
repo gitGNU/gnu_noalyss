@@ -103,34 +103,40 @@ echo_debug('user_common.php',__LINE__,"ComputeTotalVat $a_fiche $a_quant $a_pric
 		$flag=true;
 		$a=$a_vat['tva_id'];
 		// Compute vat for this item
-		$vat_amount=$a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx];
+		$vat_amount=round($a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx],2);
 	
 		// only the deductible vat
 		 if ( $all == false ) 
 		   {
-		     $vat_amount=$a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx];
-
+		     //variable containing the nd part 
+		     // used when a card has both special rule for vat 
+		     $nd1=0;
 		     // if a part is not deductible then reduce vat_amount
 		     $nd=GetFicheAttribut($p_cn,$a_fiche[$idx],ATTR_DEF_TVA_NON_DEDUCTIBLE);
 		     if ( $nd != null && strlen(trim($nd)) != 0 && $nd != 0 )
 		       {
-			 $nd_amount=$a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx]*$nd;
-			 $vat_amount-=$nd_amount;
-			 
+			 $nd_amount=round($a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx]*$nd,2);
+			 // problem with round
+			 $vat_amount=$vat_amount-$nd_amount;
 			 echo_debug('user_common.php',__LINE__,
 				    "A - TVA Attr fiche [$nd] nd amount [ $nd_amount ]".
 				    "vat amount [ $vat_amount]");
 			 $flag=false;
+			 // save nd into nd1
+			 $nd1=$nd;
 			}	
 			// if a part is not deductible then reduce vat_amount
 			$nd=GetFicheAttribut($p_cn,$a_fiche[$idx],ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP);
 			if ( $nd != null && strlen(trim($nd)) != 0 && $nd != 0 )
 			{
-			  $nd_amount=$a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx]*$nd;
-			  
-			  $vat_amount-=$nd_amount;
+			  $nd_amount2=round($a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx]*$nd,2);
+			 
+			  $vat_amount=$vat_amount-$nd_amount2;
+			  // when using both vat, their sum cannot exceed 1, if = 1 then vat = 0
+			  if ( ($nd+$nd1) == 1)
+			    $vat_amount=0;
 			  echo_debug('user_common.php',__LINE__,
-				     "B - TVA Attr fiche [$nd] nd amount [ $nd_amount ]".
+				     "B - TVA Attr fiche [$nd] nd amount [ $nd_amount2 ]".
 				     "vat amount [ $vat_amount]");
 			  
 			  $flag=false;
@@ -184,7 +190,8 @@ function ComputeVat($p_cn,	$p_fiche,$p_quant,$p_price,$p_vat )
       $a=$a_vat['tva_id'];
       $vat_amount=$p_price*$a_vat['tva_rate']*$p_quant;
     } 
-  return $vat_amount;
+  echo_debug('user_common',__LINE__,'return '.round($vat_amount,2));
+  return round($vat_amount,2);
   
   
 }
@@ -242,6 +249,9 @@ function InsertJrnx($p_cn,$p_type,$p_user,$p_jrn,$p_poste,$p_date,$p_amount,$p_g
 	    type = $p_type p_user $p_user 
             p_date $p_date p_poste $p_poste 
             p_amount $p_amount p_grpt = $p_grpt p_periode = $p_periode");
+
+  if ( $p_amount == 0) return true;
+
   $debit=($p_type=='c')?'false':'true';
 
   // if negative value the operation is inversed

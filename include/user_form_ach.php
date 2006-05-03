@@ -412,7 +412,7 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
   list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$p_periode);
   
   // Date dans la periode active
-  echo_debug ("date start periode $l_date_start date fin periode $l_date_end date demande $e_date");
+  echo_debug ('user_form_ach',__LINE__,"date start periode $l_date_start date fin periode $l_date_end date demande $e_date");
   if ( cmpDate($e_date,$l_date_start)<0 || 
        cmpDate($e_date,$l_date_end)>0 )
     {
@@ -653,43 +653,20 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
     $amount_jrn+=$cost;
     echo_debug('user_form_ach.php',__LINE__,'Total customer:'.$amount_jrn);
   }
+  //  $amount_jrn=round(
   $comm=FormatString($e_comm);
 
   // Compute vat with ded
   echo_debug('user_form_achat.php',__LINE__,"Call ComputeTotalVat");
   $a_vat=ComputeTotalVat($p_cn,$a_good,$a_quant,$a_price,$a_vat_good,false);
-  $sum_vat=0.0;
-  if ( $a_vat != null ){
-    foreach ( $a_vat as $element => $t) {
-      echo_debug('user_form_ach.php',__LINE__," a_vat element $element t $t");
-      $sum_vat+=$t;
-      echo_debug('user_form_ach.php',__LINE__,"sum_vat = $sum_vat");
-    }
-  }
-  
-  // Compute vat without reduction
-  $a_vat_full=ComputeTotalVat($p_cn,$a_good,$a_quant,$a_price,$a_vat_good,true);
-  $sum_vat_full=0.0;
-  if ( $a_vat_full != null ){
-    foreach ( $a_vat_full as $element => $t) {
-      echo_debug('user_form_ach.php',__LINE__," a_vat_full element $element t $t");
-      $sum_vat_full+=$t;
-      echo_debug('user_form_ach.php',__LINE__,"sum_vat_full = $sum_vat");
-    }
-  }
-  // First we add in jrnx
 	
+  StartSql($p_cn);	
+
   // Compute the j_grpt
   $seq=NextSequence($p_cn,'s_grpt');
 
 
-  // Debit = client
-  $poste=GetFicheAttribut($p_cn,$e_client,ATTR_DEF_ACCOUNT);
-  echo_debug('user_form_achat.php',__LINE__,"get e_client $e_client poste $poste");
-  StartSql($p_cn);	
-  echo_debug('user_form_achat.php',__LINE__,"insert client");
-  $r=InsertJrnx($p_cn,'c',$p_user->id,$p_jrn,$poste,$e_date,round($amount,2)+round($sum_vat_full,2),$seq,$periode);
-  if ( $r == false) { $Rollback($p_cn);exit("error 'user_form_ach.php' __LINE__");}
+
   // Credit = goods 
   for ( $i = 0; $i < $nb_item;$i++) {
 
@@ -702,9 +679,9 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
     // Put the non deductible part into a special account
     $non_dedu=GetFicheAttribut($p_cn,$a_good[$i],ATTR_DEF_DEPENSE_NON_DEDUCTIBLE);
     echo_debug('user_form_ach.php',__LINE__,"value non ded : $non_dedu");
-    if ( $non_dedu != null && strlen(trim($non_dedu)) != 0 )
+    if ( $non_dedu != null && strlen(trim($non_dedu)) != 0)
       {
-	$nd_amount=$a_quant[$i]*$a_price[$i]*$non_dedu;
+	$nd_amount=round($a_quant[$i]*$a_price[$i]*$non_dedu,2);
 
 	// save it
 	  echo_debug('user_form_ach.php',__LINE__,"InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,'6740',$e_date,round($nd_amount,2),$seq,$periode);");
@@ -716,11 +693,12 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
     // Put the non deductible part into a special account
     $non_dedu=GetFicheAttribut($p_cn,$a_good[$i],ATTR_DEF_TVA_NON_DEDUCTIBLE);
     echo_debug('user_form_ach.php',__LINE__,"TVA value non ded : $non_dedu");
-    if ( $non_dedu != null && strlen(trim($non_dedu)) != 0 )
+    if ( $non_dedu != null && strlen(trim($non_dedu)) != 0)
       {
 	$lvat=ComputeVat($p_cn,	$a_good[$i],$a_quant[$i],$a_price[$i],
 			    $a_vat_good[$i] );
 	$ded_vat=($lvat != null )?$lvat*$non_dedu:0;
+	$ded_vat=round($ded_vat,2);
 	$sum_tva_nd+=$ded_vat;
 
 	// compute the NDA TVA
@@ -741,7 +719,7 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 			   $a_vat_good[$i] );
 	  $ded_vat=($lvat != null )?$lvat*$non_dedu:0;
 	  
-	  $sum_tva_nd+=$ded_vat;
+	  $sum_tva_nd+=round($ded_vat,2);
 
 	  // Save it 
 	  $tva_ded_impot=new parm_code($p_cn,'TVA_DED_IMPOT');
@@ -768,7 +746,7 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 
   
   // Insert Vat
-
+  $sum_tva=0.0;
   if ( $a_vat  !=  null  ) // no vat
 
     {
@@ -782,15 +760,23 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 	  echo_debug('user_form_ach',__LINE__,"InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste,$e_date,round($tva_amount,2),$seq,$periode);");
 	  $r=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste,$e_date,round($tva_amount,2),$seq,$periode);
 	  if ( $r == false ) { Rollback($p_cn); exit(" Error 'user_form_ach.php' __LINE__");}
-      
+	  $sum_tva+=round($tva_amount,2);
 	}
     }
   echo_debug('user_form_ach.php',__LINE__,"echeance = $e_ech");
-  echo_debug('user_form_ach.php',__LINE__,"sum_vat = $sum_vat");
+  echo_debug('user_form_ach.php',__LINE__,"sum_tva = $sum_tva");
   echo_debug('user_form_ach.php',__LINE__,"amount_jrn = $amount_jrn");
   echo_debug('user_form_ach.php',__LINE__,"sum_tva_nd = $sum_tva_nd");
 
-  $r=InsertJrn($p_cn,$e_date,$e_ech,$p_jrn,"Invoice",round($amount_jrn,2)+round($sum_vat,2)+round($sum_tva_nd,2),$seq,$periode);
+  // Debit = client
+  $poste=GetFicheAttribut($p_cn,$e_client,ATTR_DEF_ACCOUNT);
+  echo_debug('user_form_achat.php',__LINE__,"get e_client $e_client poste $poste");
+  echo_debug('user_form_achat.php',__LINE__,"insert client");
+
+  $r=InsertJrnx($p_cn,'c',$p_user->id,$p_jrn,$poste,$e_date,round($amount_jrn+$sum_tva+$sum_tva_nd,2),$seq,$periode);
+  if ( $r == false) { $Rollback($p_cn);exit("error 'user_form_ach.php' __LINE__");}
+
+  $r=InsertJrn($p_cn,$e_date,$e_ech,$p_jrn,"--",round($amount_jrn+$sum_tva+$sum_tva_nd,2),$seq,$periode);
   if ( $r == false ) { Rollback($p_cn); exit(" Error 'user_form_ach.php' __LINE__");}
   // Set Internal code and Comment
   $internal=SetInternalCode($p_cn,$seq,$p_jrn);

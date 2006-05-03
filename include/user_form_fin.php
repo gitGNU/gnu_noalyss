@@ -104,7 +104,7 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
   list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$p_periode);
   
   // Date dans la periode active
-  echo_debug ("date start periode $l_date_start date fin periode $l_date_end date demande $e_date");
+  echo_debug ('user_form_fin',__LINE__,"date start periode $l_date_start date fin periode $l_date_end date demande $e_date");
   if ( cmpDate($e_date,$l_date_start)<0 || 
        cmpDate($e_date,$l_date_end)>0 )
     {
