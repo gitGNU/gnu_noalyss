@@ -140,89 +140,6 @@ if ( $p_action=="devise") {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// Periode
-////////////////////////////////////////////////////////////////////////////////
-if ( $p_action=="change_per") {
-  foreach($HTTP_GET_VARS as $key=>$element) 
-    ${"$key"}=$element;
-  echo "<TABLE>";
-  echo '<TR> <FORM ACTION="parametre.php" METHOD="POST">';
-  echo ' <INPUT TYPE="HIDDEN" NAME="p_per" VALUE="'.$p_per.'">';
-  echo '<TD> <INPUT TYPE="text" NAME="p_date_start" VALUE="'.$p_date_start.'"></TD>';
-  echo '<TD> <INPUT TYPE="text" NAME="p_date_end" VALUE="'.$p_date_end.'"></TD>';
-  echo '<TD> <INPUT TYPE="text" NAME="p_exercice" VALUE="'.$p_exercice.'"></TD>';
-  echo '<TD> <INPUT TYPE="SUBMIT" NAME="chg_per" Value="Change"</TD>';
-  echo '</FORM></TR>';
-  echo "</TABLE>";
-
-}
-if ( isset ($_POST["chg_per"] ) ) {
-  foreach($HTTP_POST_VARS as $key=>$element) 
-    ${"$key"}=$element;
-  if (isDate($p_date_start) == null ||
-      isDate($p_date_end) == null ||
-      strlen (trim($p_exercice)) == 0 ||
-     (string) $p_exercice != (string)(int) $p_exercice)
-    { 
-      echo "<H2 class=\"error\"> Valeurs invalides</H2>";
-      ShowPeriode($cn);
-      return;
-    }
-  $Res=ExecSql($cn," update parm_periode ".
-	       "set p_start=to_date('". $p_date_start."','DD.MM.YYYY'),".
-	       " p_end=to_date('". $p_date_end."','DD.MM.YYYY'),".
-	       " p_exercice='".$p_exercice."'".
-	       " where p_id=".$p_per);
-
-  ShowPeriode($cn);
-
-}
-if ( isset ($_POST["add_per"] )) {
-  foreach($HTTP_POST_VARS as $key=>$element) 
-    ${"$key"}=$element;
-  if (isDate($p_date_start) == null ||
-      isDate($p_date_end) == null ||
-      strlen (trim($p_exercice)) == 0 ||
-     (string) $p_exercice != (string)(int) $p_exercice)
-    { 
-      echo "<H2 class=\"error\"> Valeurs invalides</H2>";
-      ShowPeriode($cn);
-      return;
-    }
-  $Res=ExecSql($cn,sprintf(" insert into parm_periode(p_start,p_end,p_closed,p_exercice)".
-			   "values (to_date('%s','DD.MM.YYYY'),to_date('%s','DD.MM.YYYY')".
-			   ",'f','%s')",
-			   $p_date_start,
-			   $p_date_end,
-			   $p_exercice));
-
-  ShowPeriode($cn);
-
-}
-
-echo_debug('parametre.php',__LINE__,"Action $action");
-if ( $p_action=="closed") {
-  $p_per=$_GET['p_per'];
-  $Res=ExecSql($cn,"update parm_periode set p_closed=true where p_id=$p_per");
-  ShowPeriode($cn);
-}
-
-if ( $p_action== "delete_per" ) {
-  $p_per=$_GET["p_per"];
-// Check if the periode is not used
-  if ( CountSql($cn,"select * from jrnx where j_tech_per=$p_per") != 0 ) {
-  echo '<h2 class="error"> Désolé mais cette période est utilisée</h2>';
-  } else
-  {
-  $Res=ExecSql($cn,"delete from parm_periode where p_id=$p_per");
-  ShowPeriode($cn);
-  }
-}
-
-if ( $p_action == "periode" ) {
-  ShowPeriode($cn);
-}
-////////////////////////////////////////////////////////////////////////////////
 // Coord societe
 ////////////////////////////////////////////////////////////////////////////////
 if ( $p_action=='company') { 
@@ -258,10 +175,10 @@ if ( $p_action=='company') {
   echo "</form>";
  }
 ///////////////////////////////////////////////////////////////////
-// Invoice 
+// Document 
 //////////////////////////////////////////////////////////////////
 
-if ( $p_action == 'invoice' ) {
+if ( $p_action == 'document' ) {
   	require_once("class_invoice.php");
 	echo ShowMenuInvoice();
 	$inv=new Invoice($cn);

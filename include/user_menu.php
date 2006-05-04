@@ -480,6 +480,7 @@ function ShowMenuAdvanced($default="") {
 $left_menu=ShowItem(array(
 			  //('rapprt.php','Rapprochement'),
 			  array('jrn_update.php','Journaux'),
+			  array('user_advanced.php?p_action=periode','Periode'),
 			  array('central.php','Centralise'),
 		      array('pcmn_update.php?p_start=1','Plan Comptable'),
 			  array('stock.php','Stock'),
@@ -632,12 +633,11 @@ function ShowMenuParam($p_action="")
 			  
 			  array('parametre.php?p_action=company','Sociétés'),
 			  array('parametre.php?p_action=devise','Devises'),
-			  array('parametre.php?p_action=periode','Période'),
 			  array('parametre.php?p_action=tva','Tva'),
 			  array('parametre.php?p_action=poste','Poste Comptable'),
 			  array('parametre.php?p_action=fiche','Fiche'),
 			  array('user_sec.php','Sécurité'),
-			  array('parametre.php?p_action=invoice','Facture'),
+			  array('parametre.php?p_action=document','Document'),
 			  array('login.php','Accueil',"Accueil"),
 			  array('logout.php','logout',"Sortie")
 			  ),

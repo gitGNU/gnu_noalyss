@@ -70,6 +70,7 @@ def Creation_fiche (p_seq_f_id,p_seq_jft_id,p_fd_id,p_type,p_base_poste,p_nbfich
 		(t1,t2)=Add_Attribut_Fiche(p_seq_jft_id,p_seq_f_id,5,str_poste_comptable)
 		jnt.append(t1)
 		Attribut.append(t2)
+		p_seq_jft_id+=1
 		str_quick_code="FID%06d" % (p_seq_f_id)
 		(t1,t2)=Add_Attribut_Fiche(p_seq_jft_id,p_seq_f_id,23,str_quick_code)
 		jnt.append(t1)
@@ -194,6 +195,7 @@ for option,value in a1:
 		nb_charge=1500
 		nb_per_day=500
 
+print '\\timing'
 print "begin;"
 print "set DateStyle=European;"
 # fd_id => client

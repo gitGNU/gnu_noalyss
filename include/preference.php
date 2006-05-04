@@ -254,15 +254,15 @@ function ShowPeriode($p_cn)
       $remove='<TD></TD>';
     } else {
       $closed='<TD class="mtitle">'; 
-      $closed.='<A class="mtitle" HREF="parametre.php?p_action=closed&p_per='.$l_line['p_id'].'"> Cloturer</A>';
+      $closed.='<A class="mtitle" HREF="user_advanced.php?p_action=periode&action=closed&p_per='.$l_line['p_id'].'"> Cloturer</A>';
     $change='<TD class="mtitle">';
-    $change.='<A class="mtitle" HREF=parametre.php?p_action=change_per&p_per='.
+    $change.='<A class="mtitle" HREF="user_advanced.php?p_action=periode&action=change_per&p_per='.
       $l_line['p_id']."&p_date_start=".$l_line['date_start'].
       "&p_date_end=".$l_line['date_end']."&p_exercice=".
-      $l_line['p_exercice']."> Changer</A>";
+      $l_line['p_exercice']."\"> Changer</A>";
     $remove='<TD class="mtitle">';
-    $remove.='<A class="mtitle" HREF=parametre.php?p_action=delete_per&p_per='.
-      $l_line['p_id']."> Efface</A>";
+    $remove.='<A class="mtitle" HREF="user_advanced.php?p_action=periode&action=delete_per&p_per='.
+      $l_line['p_id']."\"> Efface</A>";
 
     }
     echo "$closed";
@@ -273,7 +273,7 @@ function ShowPeriode($p_cn)
     echo '</TR>';
     
   }
-  echo '<TR> <FORM ACTION="parametre.php" METHOD="POST">';
+  echo '<TR> <FORM ACTION="user_advanced.php?p_action=periode" METHOD="POST">';
   echo '<TD> <INPUT TYPE="text" NAME="p_date_start" SIZE="10"></TD>';
   echo '<TD> <INPUT TYPE="text" NAME="p_date_end" SIZE="10"></TD>';
   echo '<TD> <INPUT TYPE="text" NAME="p_exercice" SIZE="10"></TD>';

@@ -54,6 +54,10 @@ ShowMenuCompta($_SESSION['g_dossier']);
 echo ShowMenuAdvanced();
 
 
+if ( isset($_REQUEST['p_action']) && $_REQUEST['p_action'] == "periode" ) {
+  $p_action=$_REQUEST['p_action'];
+  include_once("periode.inc.php");
+}
 
 html_page_stop();
 ?>
