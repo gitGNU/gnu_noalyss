@@ -231,7 +231,6 @@ $BODY$
   LANGUAGE plpgsql VOLATILE;
 
 
-drop view vw_fiche_attr ;
 
 
 DROP VIEW vw_fiche_attr;
