@@ -90,7 +90,7 @@ if ( isset ( $_POST["Add"] ) ) {
 	extract ($_POST);
   if ( isset ( $p_val) && isset ( $p_lib ) ) {
     $p_val=trim($p_val);
-    $p_lib=trim($p_lib);
+    $p_lib=FormatString(trim($p_lib));
     $p_parent=$_POST["p_parent"];
     if ( strlen ($p_val) != 0 && strlen ($p_lib) != 0 ) {
       if (strlen ($p_val) == 1 ) {
