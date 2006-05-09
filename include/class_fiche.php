@@ -240,6 +240,70 @@ class fiche {
     }
     return $all;
   }
+/* function GetByDef
+ **************************************************
+ * Purpose : Return array of card from the frd family
+ *        
+ * parm : 
+ *	- the fiche_def_ref.frd_id
+ * gen :
+ *	-
+ * return: array of fiche object
+ */
+  function CountByDef($p_frd_id) {
+     $sql="select * 
+           from
+               fiche join fiche_Def using (fd_id)
+            where frd_id=".$p_frd_id;
+
+
+    $Ret=ExecSql($this->cn,$sql);
+    
+    return pg_NumRows($Ret) ;
+  }
+/* function GetByDef
+ **************************************************
+ * Purpose : Return array of card from the frd family
+ *        
+ * parm : 
+ *	- the fiche_def_ref.frd_id
+ * gen :
+ *	-
+ * return: array of fiche object
+ */
+  function GetByDef($p_frd_id,$p_offset=-1) {
+    if ( $p_offset == -1 ) 
+      {
+	$sql="select * 
+           from
+               fiche join fiche_Def using (fd_id)
+            where frd_id=".$p_frd_id." order by f_id";
+      } 
+    else 
+      {
+	$limit=$_SESSION['g_pagesize'];
+	$sql="select * 
+           from
+               fiche join fiche_Def using (fd_id)
+            where frd_id=".$p_frd_id." order by f_id
+           limit ".$limit." offset ".$p_offset;
+
+      }
+
+    $Ret=ExecSql($this->cn,$sql);
+    if ( ($Max=pg_NumRows($Ret)) == 0 )
+      return ;
+    $all[0]=new fiche($this->cn);
+
+    for ($i=0;$i<$Max;$i++) {
+      $row=pg_fetch_array($Ret,$i);
+      $t=new fiche($this->cn,$row['f_id']);
+      $t->getAttribut();
+      $all[$i]=$t;
+
+    }
+    return $all;
+  }
   function ShowTable() {
     echo "<TR><TD> ".
       $this->id."</TD>".
@@ -248,5 +312,26 @@ class fiche {
       "<TR> <TD>".
       $this->attribut_def."</TD></TR>";
   }
+/* function strAttribut
+ **************************************************
+ * Purpose : return the string of the given attribute
+ *        (attr_def.ad_id)
+ * parm : 
+ *	-
+ * gen :
+ *	-
+ * return:
+ */
+  function strAttribut($p_ad_id) 
+    {
+      if ( sizeof ($this->attribut) == 0 )
+	return '- ERROR -';
+      foreach ($this->attribut as $e)
+	{
+	  if ( $e->ad_id == $p_ad_id ) 
+	    return $e->av_text;
+	}
+	return '- ERROR -';
+    }
 }
 ?>

@@ -96,6 +96,7 @@ define ("ALL_FICHE_DEF_REF", 1000);
 // fixed value for attr_def data
 define ("ATTR_DEF_ACCOUNT",5);
 define ("ATTR_DEF_NAME",1);
+//define ("ATTR_DEF_QUICKCODE",13);
 define ("ATTR_DEF_PRIX_ACHAT",7);
 define ("ATTR_DEF_PRIX_VENTE",6);
 define ("ATTR_DEF_TVA",2);

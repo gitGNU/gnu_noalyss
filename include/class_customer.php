@@ -21,28 +21,35 @@
 require_once("constant.php");
 require_once("postgres.php");
 require_once("class_parm_code.php");
+
+require_once('class_fiche.php');
+require_once('class_poste.php');
+require_once('user_common.php');
+
 // Use the view vw_customer
 // 
-class Customer {
+class Customer extends fiche{
   var $id;         // f_id
   var $poste;      // poste comptable
-  var $db;        // base de donnée
   var $name;
   var $street;
   var $country;
   var $cp;
   var $vat_number;
+  var $fiche_def_ref;  // fiche_def_ref.frd_id
   // Constructor
   // only a db connection is needed
-  function Customer($p_cn) {
-    $this->db=$p_cn;
+  function Customer($p_cn,$p_id=0) {
+      $this->fiche_def_ref=FICHE_TYPE_CLIENT;
+      fiche::fiche($p_cn,$p_id) ;
+
   }
   // Get all info contains in the view
   // thanks to the poste elt
   function GetFromPoste($p_poste=0) {
     $this->poste=($p_poste==0)?$this->poste:$p_poste;
     $sql="select * from vw_client where poste_comptable=".$this->poste;
-    $Res=ExecSql($this->db,$sql);
+    $Res=ExecSql($this->cn,$sql);
     if ( pg_NumRows($Res) == 0) return null;
     // There is only _one_ row by customer
     $row=pg_fetch_array($Res,0);
@@ -58,7 +65,7 @@ class Customer {
  **************************************************
  * Purpose : Get all the info for making a vat listing
  *           for the vat administration
- *        
+ *        TODO : optimize SQL
  * parm : 
  *	- periode
  * 
@@ -72,15 +79,15 @@ class Customer {
     
     // BASE ACCOUNT
     // for belgium
-    $s=new parm_code($this->db,'VENTE');
-    $s->Get()
+    $s=new parm_code($this->cn,'VENTE');
+    $s->Get();
     $SOLD=$s->p_value;
 
-    $c=new parm_code($this->db,'CUSTOMER');
+    $c=new parm_code($this->cn,'CUSTOMER');
     $c->Get();
     $CUSTOMER=$c->p_value;
 
-    $t=new parm_code($this->db,'COMPTE_TVA');
+    $t=new parm_code($this->cn,'COMPTE_TVA');
     $t->Get();
     $TVA=$t->p_value;
     // Get all the sell operation
@@ -95,7 +102,7 @@ where
       $cond_sql
 ";
 
-    $Res=ExecSql($this->db,$sql);
+    $Res=ExecSql($this->cn,$sql);
     // Foreach operation 
     // where 7% or tva account are involved
     // and store the result in an array (a_Res)
@@ -108,7 +115,7 @@ where
   
       // select the operation
       //----
-      $Res2=ExecSql($this->db,"select j_poste,j_montant,j_debit from jrnx where j_grpt=".$row1['j_grpt']); 
+      $Res2=ExecSql($this->cn,"select j_poste,j_montant,j_debit from jrnx where j_grpt=".$row1['j_grpt']); 
       $a_row=array();
       // Store the result in the array 
       //---
@@ -167,6 +174,111 @@ where
     }
     return $a_Res;
   }
+  
+/* function Display
+ **************************************************
+ * Purpose : Display object instance
+ *        
+ * parm : 
+ *	-
+ * gen :
+ *	-
+ * return:
+ */
+  function Display() 
+    {
+      var_dump($this);
+    }
+/* function Get
+ **************************************************
+ * Purpose : Get Attribute of client
+ *        
+ * parm : 
+ *	-
+ * gen :
+ *	-
+ * return:
+ */
+  function Get() 
+    {
+      echo_debug('class_client',__LINE__,'Get');
+      fiche::getAttribut();
+    }
+/* function GetAll
+ **************************************************
+ * Purpose : Get array of fiche with all attribute
+ *        
+ * parm : 
+ *	- none
+ * gen :
+ *	-
+ * return: array of fiche with all attribute
+ */
+  function GetAll($p_offset=-1) 
+    {
+      return fiche::GetByDef($this->fiche_def_ref,$p_offset);
+    }
+/* function Summary
+ **************************************************
+ * Purpose : show the default screen
+ *        
+ * parm : 
+ *	-
+ * gen :
+ *	-
+ * return: string to display
+ */
+  function Summary() 
+    {
+      
+      $url=urlencode($_SERVER['REQUEST_URI']);
+      $script=$_SERVER['SCRIPT_NAME'];
+      // Creation of the nav bar
+      // Get the max numberRow
+      $all_client=$this->CountByDef($this->fiche_def_ref); 
+      // Get offset and page variable
+      $offset=( isset ($_REQUEST['offset'] )) ?$_REQUEST['offset']:0;
+      $page=(isset($_REQUEST['page']))?$_REQUEST['page']:1;
+      $bar=jrn_navigation_bar($offset,$all_client,$_SESSION['g_pagesize'],$page);
+
+      // Get The result Array
+      $step_client=$this->GetAll($offset);
+      if ( $all_client == 0 ) return "";
+      $r=$bar;
+      $r.="<table border=1><TR>
+<TH>Quick Code</TH>
+<th>Nom</th>
+<th>Adresse</th>
+<th>Solde</th>
+<th>Action </th>
+</TR>";
+      foreach ($step_client as $client ) {
+	$r.="<TR>";
+	$r.="<TD>".$client->strAttribut(ATTR_DEF_QUICKCODE)."</TD>";
+	$r.="<TD>".$client->strAttribut(ATTR_DEF_NAME)."</TD>";
+	$r.="<TD>".$client->strAttribut(ATTR_DEF_ADRESS).
+	  " ".$client->strAttribut(ATTR_DEF_CP).
+	  " ".$client->strAttribut(ATTR_DEF_PAYS).
+	  "</TD>";
+	$post=new poste($this->cn,$client->strAttribut(ATTR_DEF_ACCOUNT));
+	$a=$post->GetSoldeDetail();
+	$r.=sprintf('<TD align="right"> %10.2f&euro;</TD>',$a['solde']);
+	$r.="<TD>";
+	$r.=sprintf('<A HREF="%s?p_action=client&sa=detail&f_id=%d&url=%s">D</A> - ',
+		    $script,$client->id,$url);
+
+		    $r.='<A HREF="#">C</A>';
+		    $r.='<A HREF="#">S</A>';
+	  $r.='</TD>';
+
+	$r.="</TR>";
+
+      }
+      $r.="</TABLE>";
+      return $r;
+    }
+
+
 }
 
 ?>

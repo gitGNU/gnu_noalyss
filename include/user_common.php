@@ -575,6 +575,7 @@ return array ($count,$r);
  *	- none
  * return:
  *       none
+ * TODO ADD A DATE !!!
  */
 function InsertStockGoods($p_cn,$p_j_id,$p_good,$p_quant,$p_type)
 {
@@ -845,11 +846,14 @@ function isValid ($p_cn,$p_grpt_id) {
  * return:
  *     string
  */
-function jrn_navigation_bar($p_offset,$p_line,$p_size,$p_page=1)
+function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1)
 {
   // if the pagesize is unlimited return ""
   // in that case there is no nav. bar
   if ( $_SESSION['g_pagesize'] == -1  ) return "";
+  if ( $p_size==0) {
+    $p_size= $_SESSION['g_pagesize'];
+  }
   // if there is no row return an empty string
   if ( $p_line == 0 ) return "";
 

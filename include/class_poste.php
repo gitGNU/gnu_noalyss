@@ -123,13 +123,14 @@ function GetSolde($p_cond="") {
    *
    */ 
 function GetSoldeDetail($p_cond="") {
+	if ( $p_cond != "") $p_cond.=" and ";
   $Res=ExecSql($this->db,"select sum(deb) as sum_deb, sum(cred) as sum_cred from 
           ( select j_poste, 
              case when j_debit='t' then j_montant else 0 end as deb, 
              case when j_debit='f' then j_montant else 0 end as cred 
           from jrnx join tmp_pcmn on j_poste=pcm_val 
               where  
-            j_poste like ('$this->id'::text) and
+            j_poste like ('$this->id'::text)
             $p_cond
           ) as m  ");
   $Max=pg_NumRows($Res);

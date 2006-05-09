@@ -68,6 +68,7 @@ if ( isset ($_POST["update"] ) ) {
       if ( pg_NumRows($Ret) == 0 || $p_parent==$old_line ) {
 	echo '<SCRIPT> alert(" Ne peut pas modifier; aucune poste parent"); </SCRIPT>';
       } else {
+	
 	$Ret=ExecSql($cn,"update tmp_pcmn set pcm_val=$p_val, pcm_lib='$p_lib',pcm_val_parent=$p_parent where pcm_val=$old_line");
       }
     } else {
