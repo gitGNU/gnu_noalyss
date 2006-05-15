@@ -175,6 +175,23 @@ n'est pas obligatoire
 &lt;/VirtualHost &gt;
 </verb>
 
+<p> Note certains ont fait ceci pour configurer Apache
+<verb>
+&lt;VirtualHost localhost&gt;
+   ServerAdmin webmaster@dummy-host.example.com
+   DocumentRoot /www/phpcompta/html/
+   ServerName phpcompta
+   php_flag session.auto_start 1
+   php_flag magic_quotes_gpc 0
+   php_flag session.use_trans_sid 1
+   php_value include_path ".:../include:../addon"
+&lt;/VirtualHost&gt;
+</verb>
+Actuellement, le répertoire html, contient un fichier .htaccess
+qui contient le nécessaire pour que les variables php soient
+correctes  (voir <ref id="htaccess" name="configuration de .htaccess">).
+
+<p>
 Apache se démarre avec apachectl start
 </p>
 <p>
@@ -244,9 +261,10 @@ session.use_trans_sid = 1
 include_path=".:../include:addon"
 </verb>
 </p>
-</sect1> configuration de .htaccess
+<sect1> configuration de .htaccess <label id="htaccess">
 <p>Dans le cas où vous ne pouvez pas changer le fichier php.ini, il faut
-simplement ajouter un fichier .htaccess qui contiendrait
+simplement modifier ls fichier PHPCOMPTA/html/.htaccess qui contient. 
+
 <verb>
 	php_value include_path ".:../include:addon"
 	php_value session.use_trans_sid true
@@ -254,9 +272,9 @@ simplement ajouter un fichier .htaccess qui contiendrait
 	php_value max_execution_time 120
 	php_value magic_quotes_gpc 0
 </verb>
+Note:Normalement, vous ne devez pas changer ce fichier.
 
 
-<sect1>
 </sect1>
 </sect>
 <sect>Installation de PhpCompta 
