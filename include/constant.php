@@ -16,9 +16,13 @@
  *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 // $Revision$
+/*! \file
+ * \brief Contains all the variable + the javascript
+ * and some parameter 
+ */
+
 define ("phpcompta_password","dany");
 define ("domaine","");
 
@@ -96,19 +100,25 @@ define ("ALL_FICHE_DEF_REF", 1000);
 // fixed value for attr_def data
 define ("ATTR_DEF_ACCOUNT",5);
 define ("ATTR_DEF_NAME",1);
-//define ("ATTR_DEF_QUICKCODE",13);
 define ("ATTR_DEF_PRIX_ACHAT",7);
 define ("ATTR_DEF_PRIX_VENTE",6);
 define ("ATTR_DEF_TVA",2);
+define ("ATTR_DEF_NUMTVA",13);
 define ("ATTR_DEF_ADRESS",14);
 define ("ATTR_DEF_CP",15);
 define ("ATTR_DEF_PAYS",16);
 define ("ATTR_DEF_STOCK",19);
+define ("ATTR_DEF_TEL",17);
+define ("ATTR_DEF_EMAIL",18);
+define ("ATTR_DEF_COMPANY",25);
+define ("ATTR_DEF_FAX",26);
+
 
 define ("FICHE_TYPE_CLIENT",9);
 define ("FICHE_TYPE_VENTE",1);
 define ("FICHE_TYPE_FOURNISSEUR",8);
 define ("FICHE_TYPE_FIN",4);
+define ("FICHE_TYPE_CONTACT",16);
 define ("FICHE_TYPE_ADM_TAX",14);
 define ("ATTR_DEF_DEPENSE_NON_DEDUCTIBLE",20);
 define ("ATTR_DEF_TVA_NON_DEDUCTIBLE",21);
@@ -359,6 +369,7 @@ function ChangeTVA(p_ctl,p_value) {
 </script>");
 // Sql string
 define ("SQL_LIST_ALL_INVOICE","");
+
 define ("SQL_LIST_UNPAID_INVOICE"," where (jr_rapt is null or jr_rapt = '') and jr_valid = true "); 
 define ("SQL_LIST_UNPAID_INVOICE_DATE_LIMIT" ," where (jr_rapt is null or jr_rapt = '') 
                        and to_date(to_char(jr_ech,'DD.MM.YYYY'),'DD.MM.YYYY') < to_date(to_char(now(),'DD.MM.YYYY'),'DD.MM.YYYY') and jr_valid = true" );

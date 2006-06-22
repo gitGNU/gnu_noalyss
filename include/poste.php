@@ -21,17 +21,16 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
 
-/* function GetPosteLibelle
- * Purpose : Return the label of a poste
+/*! 
+ * \brief  Return the label of a poste
  * 
- * parm : 
- *	- p_dossier
- *      - p_id tmp_pcmn (pcm_val)
- *      - is_cn conneciton
- * gen :
- *	- none
- * return:
- *	- string 
+ *  
+ * \param     $p_dossier
+ * \param     $p_id tmp_pcmn (pcm_val)
+ * \param     $is_cn conneciton
+ *
+ * \return string 
+ *     
  *
  */ 
 function GetPosteLibelle($p_dossier,$p_id,$is_cn=0)
@@ -48,17 +47,17 @@ function GetPosteLibelle($p_dossier,$p_id,$is_cn=0)
   $l_poste=pg_fetch_row($Res,0);
   return $l_poste[0];
 }
-/* function GetNumberLine
- * Purpose : Max of ligne definie dans le journal
+/*! 
+ * \brief  Max of ligne definie dans le journal
  * 
- * parm : 
- *	- p_dossier
- *      - p_jrn
+ * 
+ * \param $p_dossier dossier id
+ * \param $p_jrn ledger id
  * gen :
  *	- none
  * return:
  *	- 
- *
+ * \todo obsolete ?
  */ 
 function GetNumberLine($p_dossier,$p_jrn) 
 {
@@ -71,18 +70,17 @@ function GetNumberLine($p_dossier,$p_jrn)
   $l_line=pg_fetch_array($Res,0);
   $l_deb=$l_line['jrn_deb_max_line'];
   $l_cred=$l_line['jrn_cred_max_line'];
-  //  return ($l_deb,$l_cred);
+  return array ($l_deb,$l_cred);
 
 }
-/* function PosteForm
- * Purpose : Cree un form pour prendre les postes
+/*! 
+ * \brief  Cree un form pour prendre les postes
  * 
- * parm : 
- *	-  connection
- * gen :
- *	- noen
- * return:
- *	- morceau de code d'html qui contient un multiselect
+ * 
+ * \param  connection
+ *
+ * \return
+ *	morceau de code d'html qui contient un multiselect
  *        pour les postes
  *
  */ 
@@ -102,17 +100,15 @@ function PosteForm($p_cn) {
   $ret.="</SELECT>";
   return $ret;
 }
-/* function GetSolde
- * Purpose : give the balance of an account
+/*! 
+ * \brief  give the balance of an account
  * 
- * parm : 
- *	-  connection
- *      - account
- *      - cond
- * gen :
- *	- none
- * return:
- *      - balance of the account
+ * 
+ * \param $p_cn connection
+ * \param $p_account account
+ * \param $p_cond sql condition
+ *
+ * \return balance of the account
  *
  */ 
 function GetSolde($p_cn,$p_account,$p_cond="") {

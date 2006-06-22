@@ -18,15 +18,25 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+/*! \file
+ * \brief Create, view, modify and parse report
+ */
+/*! 
+ * \brief Class rapport  Create, view, modify and parse report
+ */
+
 class rapport {
-  var $db;
-  var $id;
-  var $name;
+  var $db;    /*! \enum $db database connx */
+  var $id;    /*! \enum $id formdef.fr_id */
+  var $name;  /*! \enum $name report's name */
+  /*!\brief  Constructor */
   function rapport($p_cn,$p_id) {
     $this->db=$p_cn;
     $this->id=$p_id;
     $this->name='UNDEF';
   }
+  /*!\brief Return the report's name
+   */
   function GetName() {
     $ret=execSql($this->db,"select fr_label from formdef where fr_id=".$this->id);
     if (pg_NumRows($ret) == 0) return $this->name;
@@ -34,7 +44,13 @@ class rapport {
     $this->name=$a['fr_label'];
     return $this->name;
   }
-  function GetRow($p_start,$p_end) {
+  /*!\brief return all the row and parse formula
+   *        from a report
+   * \param $p_start start periode
+   * \param $p_end end periode
+   */
+ 
+   function GetRow($p_start,$p_end) {
 
    $Res=ExecSql($this->db,"select fo_id ,
                      fo_fr_id,

@@ -20,17 +20,17 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
-
-/* function FormPeriodeMult
- * Purpose :
- *         Generate the form for the periode
+/*! \file
+ * \brief include file for the periode form, currency,...
+ *
+ */
+/*!   FormPeriodeMult
+ * \brief         Generate the form for the periode
  * 
- * parm : 
- *	- $p_cn connexion
- * gen :
- *	- none
- * return:
- *	- string containing html code for the
+ * 
+ * \param $p_cn connexion
+ *
+ * \return string containing html code for the
  *        form
  *
  */ 
@@ -54,20 +54,18 @@ function FormPeriodeMult($p_cn)
   return $ret;
 }
 
-/* function FormPeriode
- * Purpose :
- *         Generate the form for the periode
+/*!   
+ * \brief          Generate the form for the periode
+ *
  * 
- * parm : 
- *	- $p_cn connexion
- *      - $p_default default periode
- *      - $p_type the type of the periode
- *      - $p_suff the suffix of the name 
- * gen :
- *	- none
- * return:
- *	- string containing html code for the
- *        form
+ * \param $p_cn connexion 
+ * \param $p_default default periode
+ * \param $p_type the type of the periode
+ * \param $p_suff the suffix of the name 
+ *
+ * \return string containing html code for the HTML
+ *
+ *       
  *
  */ 
 function FormPeriode($p_cn,$l_default=0,$p_type=OPEN,$p_suff="")
@@ -111,16 +109,14 @@ function FormPeriode($p_cn,$l_default=0,$p_type=OPEN,$p_suff="")
   $ret.="</SELECT>";
   return $ret;
 }
-/* function GetPeriode
- * Purpose :Give the start & end date of a periode
+/*!   GetPeriode
+ * \brief Give the start & end date of a periode
  * 
- * parm : 
- *	- connection
- *      - p_periode
- * gen :
- *	- none
- * return:
- *	- array containing the start date & the end date
+ * \param  p_connection
+ * \param  p_periode
+ *
+ * \return array containing the start date & the end date
+ *     
  *
  */ 
 function GetPeriode($p_cn,$p_periode) 
@@ -134,15 +130,14 @@ function GetPeriode($p_cn,$p_periode)
  return pg_fetch_array($Res,0);
 
 }
-/* function  PeriodeClosed($p_cn,$p_periode) 
- * Purpose :
+/*!   
+ * \brief get the status of a periode
  * 
- * parm : 
- *	- 
- * gen :
- *	-
- * return:
- *	- true if closed
+ * \param $p_cn database connex
+ * \param periode id
+ *	
+ * \return true if closed
+ *      
  *
  */ 
 function PeriodeClosed($p_cn,$p_periode) 
@@ -156,16 +151,15 @@ function PeriodeClosed($p_cn,$p_periode)
  return $l_line['p_closed'];
 
 }
-/* function GetExercice
- * Purpose :
+/*!   
+ * \brief get the exercice of a periode
  * 
- * parm : 
- *	- $p_cn connection
- *      - $p_periode periode
- * gen :
- *	-
- * return:
- *	- Exercice of the periode
+ * 
+ * \param $p_cn connection
+ * \param $p_periode periode
+ *
+ * \return Exercice of the periode
+ *	
  *
  */ 
 function GetExercice($p_cn,$p_periode)
@@ -176,15 +170,13 @@ function GetExercice($p_cn,$p_periode)
   $line=pg_fetch_array($Res,0);
   return $line['p_exercice'];
 }
-/* function ShowDevise
- * Purpose :
+/*!
+ * \brief Show all the currency encoded
  * 
- * parm : 
- *	- 
- * gen :
- *	-
- * return:
- *	-
+ * \param  $p_cn database connextion
+ *
+ * \return nothing
+ *	
  *
  */ 
 function ShowDevise($p_cn)
@@ -205,27 +197,25 @@ function ShowDevise($p_cn)
     echo '<TD>'.$l_line['pm_code'].'</TD>';
     $l_rate=sprintf("% 10.6f",$l_line['pm_rate']);
     echo '<TD ALIGN="RIGHT">'.$l_rate.'</TD>';
-    echo "<TD class=\"mtitle\"> <A class=\"mtitle\" HREF=\"dossier_prefs.php?p_mid=$l_line[pm_id]&p_action=change&p_code=$l_line[pm_code]&p_rate=$l_line[pm_rate]\">Change</A></TD>";
-    echo "<TD class=\"mtitle\"> <A class=\"mtitle\" HREF=\"dossier_prefs.php?p_mid=$l_line[pm_id]&p_action=delete&p_code=$l_line[pm_code]\">Efface</A></TD>";
+    echo "<TD class=\"mtitle\"> <A class=\"mtitle\" HREF=\"parametre.php?p_mid=$l_line[pm_id]&p_action=change&p_code=$l_line[pm_code]&p_rate=$l_line[pm_rate]\">Change</A></TD>";
+    echo "<TD class=\"mtitle\"> <A class=\"mtitle\" HREF=\"parametre.php?p_mid=$l_line[pm_id]&p_action=delete&p_code=$l_line[pm_code]\">Efface</A></TD>";
     echo '</TR>';
     
   }
-  echo '<TR> <FORM ACTION="dossier_prefs.php" METHOD="POST">';
+  echo '<TR> <FORM ACTION="parametre.php" METHOD="POST">';
 echo '<TD> <INPUT TYPE="text" NAME="p_devise"></TD>';
  echo '<TD> <INPUT TYPE="text" NAME="p_rate"></TD>';
  echo '<TD> <INPUT TYPE="SUBMIT" NAME="action" Value="Ajout"</TD>';
  echo '</FORM></TR>';
  echo '</TABLE>';
 }
-/* function ShowPeriode
- * Purpose :
+/*!   
+ * \brief Show all the periode and their status
  * 
- * parm : 
- *	- 
- * gen :
- *	-
- * return:
- *	-
+ * \param $p_cn database connection
+ *
+ * \return nothing
+ *     
  *
  */ 
 function ShowPeriode($p_cn)

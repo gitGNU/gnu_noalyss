@@ -18,7 +18,9 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-
+/*! \file 
+ * \brief send a Bilan in RTF format
+ */
 include_once("ac_common.php");
 include_once("impress_inc.php");
 include_once("postgres.php");

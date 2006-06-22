@@ -18,6 +18,9 @@
 */
 /* $Revision$ */
 include_once("class_widget.php");
+/*! \file
+ * \brief print the listing of customer for vat
+ */
 
 ////////////////////////////////////////////////////////////////////////////////
 // Show the jrn and date

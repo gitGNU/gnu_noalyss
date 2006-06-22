@@ -1,5 +1,10 @@
 
 <?
+/*! \file
+ * \brief default page where user access
+ */
+
+?>
 echo '<!DOCTYPE HTML PUBLIC "-//W3C/DTD HTML 3.2 FINAL//EN">
 <HTML>
 <head>

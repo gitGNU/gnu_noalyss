@@ -21,6 +21,9 @@ include_once ("ac_common.php");
 /* $Revision$ */
 include_once ("class_user.php");
 include_once ("postgres.php");
+/*! \file
+ * \brief main page of the accountancy module
+ */
 
 $rep=DbConnect();
 
@@ -59,9 +62,10 @@ if ( $User->admin == 0 ) {
 
 
 include_once ("user_menu.php");
+echo '<div class="u_tmenu">';
 
-ShowMenuCompta($g_dossier);
-
+echo ShowMenuCompta($g_dossier);
+echo '</div>';
 html_page_stop();
 
 ?>

@@ -19,6 +19,10 @@
 // Auteur Dany De Bontridder ddebontridder@yahoo.fr
 include_once ("ac_common.php");
 /* $Revision$ */
+/*! \file
+ * \brief Obsolete
+ * \todo Obsolete ?
+ */
 
 html_page_start($_SESSION['g_theme']);
 if ( ! isset ( $_SESSION['g_dossier'] ) ) {
@@ -48,8 +52,10 @@ $User->Check();
 
 // Show the top menus
 include_once ("user_menu.php");
+echo '<div class="u_tmenu">';
 
-ShowMenuCompta($_SESSION['g_dossier']);
+echo ShowMenuCompta($_SESSION['g_dossier']);
+echo '</div>';
 
 echo ShowMenuAdvanced();
 

@@ -18,6 +18,10 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
+/*! \file
+ * \brief included file for the financial ledger 
+ */
+
 echo_debug('user_action_fin.php',__LINE__,"include user_action_fin.php");
 // include_once("form_input.php");
 require_once("user_form_fin.php");
@@ -163,6 +167,12 @@ echo $hid->IOValue();
 $hid->name="action";
 $hid->value="voir_jrn";
 echo $hid->IOValue();
+
+
+$hid->name="jrn_type";
+$hid->value=$jrn_type;
+echo $hid->IOValue();
+
 
 $w=new widget("select");
 

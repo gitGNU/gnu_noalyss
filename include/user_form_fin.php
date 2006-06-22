@@ -23,9 +23,12 @@ require_once("constant.php");
 require_once("preference.php");
 require_once("fiche_inc.php");
 require_once("user_common.php");
-/* function form_verify_input
+/*! \file
+ * \brief Functions for the financial ledger
+ */
+/*! \function  form_verify_input
  **************************************************
- * Purpose : verify if the data to insert are valid
+ \Brief  verify if the data to insert are valid
  *        
  * parm : 
  *	- p_cn database connection
@@ -125,8 +128,8 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
 }
 
 
-/* function FormFin($p_cn,$p_jrn,$p_user,$p_array=null,$pview_only=true,$p_item=1) 
- * Purpose : Display the form for financial 
+/*! \function  FormFin($p_cn,$p_jrn,$p_user,$p_array=null,$pview_only=true,$p_item=1) 
+ \Brief  Display the form for financial 
  *           Used to show detail, encode a new fin op 
  *           or update one
  *        
@@ -286,7 +289,7 @@ function FormFin($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
 $r.="</TABLE>";
 
  if ( $pview_only==true && $p_save==false) {
-// check for upload piece
+   // check for upload piece
    $file=new widget("file");
    $file->table=1;
    $r.="<hr>";
@@ -295,6 +298,12 @@ $r.="</TABLE>";
    $r.="</table>";
    $r.="<hr>";
  }
+ // Set correctly the REQUEST param for jrn_type 
+ $h=new widget('hidden');
+ $h->name='jrn_type';
+ $h->value=$_REQUEST['jrn_type'];
+ $r.=$h->IOValue();
+
 $r.=$p_submit;
 $r.="</DIV>";
 $r.="</FORM>";
@@ -319,9 +328,9 @@ return $r;
 
 }
 
-/* function RecordFin
+/*! \function  RecordFin
  **************************************************
- * Purpose : Record an invoice in the table jrn &
+ \Brief  Record an invoice in the table jrn &
  *           jrnx
  *        
  * parm : 

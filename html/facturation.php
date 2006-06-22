@@ -18,6 +18,10 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
+/*! \file
+ * \brief obsolete
+ * \todo to remove
+ */  
 include ("ac_common.php");
 include ("check_priv.php");
 include_once ("class_user.php");

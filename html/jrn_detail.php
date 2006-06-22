@@ -18,6 +18,10 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
+/*! \file
+ * \brief Show and let modify ledger parameter
+ */
+
 include_once ("ac_common.php");
 html_page_start($_SESSION['g_theme']);
 if ( ! isset ( $_SESSION['g_dossier'] ) ) {
@@ -33,7 +37,11 @@ $User->Check();
 
 //include_once ("top_menu_compta.php");
 include_once ("user_menu.php");
-ShowMenuCompta($_SESSION['g_dossier']);
+
+
+echo '<div class="u_tmenu">';
+echo ShowMenuCompta($_SESSION['g_dossier']);
+echo '</div>';
 
 include_once("check_priv.php");
 
@@ -104,8 +112,9 @@ If ( isset ($_POST["JRN_UPD"] )) {
   }
 }
 echo ShowMenuAdvanced();
+echo '<div class="lmenu">';
 MenuJrn($_SESSION['g_dossier']);
-
+echo '</div>';
 
 $Res=ExecSql($cn,"select jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,".
 	     "jrn_deb_max_line,jrn_cred_max_line,jrn_def_code".
@@ -115,8 +124,8 @@ $Res=ExecSql($cn,"select jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,".
 $l_line=pg_fetch_array($Res,0);
 $sessid = $_REQUEST['PHPSESSID'];
 $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$sessid."','not','".$_GET['p_jrn']."')\">";
-echo '<DIV CLASS="ccontent">';
-echo '<H2 class="info"> Fiches </H2>';
+echo '<DIV CLASS="u_redcontent">';
+echo '<H2 class="info">'.$l_line['jrn_def_name'].'</H2>';
 echo '<FORM ACTION="jrn_detail.php?p_jrn='.$_GET['p_jrn'].'" METHOD="POST">';
 echo '<INPUT TYPE="HIDDEN" NAME="JRN_UPD">';
 echo '<TABLE>';

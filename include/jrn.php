@@ -18,9 +18,12 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
+/*! \file
+ * \brief work with the ledger
+ */
 
-/* function RecordJrn
- * Purpose : Record an entry in the selected journal
+/*! 
+ * \brief  Record an entry in the selected journal
  * 
  * parm : 
  *	- p_dossier dossier id
@@ -261,8 +264,8 @@ if ( $p_update == 0 )  echo "<TR><TD> <INPUT TYPE=\"SUBMIT\" VALUE=\"+ de line\"
   echo '</DIV>';
   
 }
-/* function UpdateJrn
- * Purpose : Display the form to UPDATE account operation
+/*! 
+ * \brief  Display the form to UPDATE account operation
  *          
  * parm : 
  *	- p_dossier
@@ -345,7 +348,7 @@ if ( $p_update == 0 )  echo "<TR><TD> <INPUT TYPE=\"SUBMIT\" VALUE=\"+ de line\"
     $file->table=1;
 	//document
     $r.='<TD>A effacer <INPUT TYPE="CHECKBOX" name="to_remove" ></TD>';
-    $r.="<TD>".sprintf('<A class="detail" HREF="show_document.php?jrn=%s&jr_grpt_id=%s">%s</A>',
+    $r.="<TD>".sprintf('<A class="detail" HREF="show_pj.php?jrn=%s&jr_grpt_id=%s">%s</A>',
 		$content['jr_id'],
 		$content['jr_grpt_id'],
 		$content['jr_pj_name'])."</TD>";
@@ -397,8 +400,8 @@ if ( $p_update == 0 )  echo "<TR><TD> <INPUT TYPE=\"SUBMIT\" VALUE=\"+ de line\"
   return $r;
 }
 
-/* function ViewRec
- * Purpose : debug function to be dropped
+/*! 
+ * \brief  debug function to be dropped
  * 
  * parm : 
  *	- 
@@ -419,8 +422,8 @@ function ViewRec($p_array = null) {
  
   }
 }
-/* function CorrectRecord
- * Purpose : Call the RecordJrn. In fact does nothing
+/*! 
+ * \brief  Call the RecordJrn. In fact does nothing
  * 
  * parm : 
  *	- the same as RecordJrn
@@ -435,8 +438,8 @@ function CorrectRecord($p_dossier,$p_user,$p_jrn,$p_MaxDeb,$p_MaxCred,$p_array)
 
    RecordJrn($p_dossier,$p_user,$p_jrn,$p_MaxDeb,$p_MaxCred,$p_array);
 }
-/* function ViewRecord
- * Purpose : View the added operation
+/*! 
+ * \brief  View the added operation
  * 
  * parm : 
  *	- p_dossier
@@ -505,8 +508,8 @@ function ViewRecord ($p_dossier,$p_jrn,$p_id,$p_MaxDeb,$p_MaxCred,$p_array)
   echo ' <A class="mtitle" HREF="enc_jrn.php?action=record&max_deb='.$l_prop['jrn_deb_max_line'].'&max_cred='.$l_prop['jrn_cred_max_line'].'&p_jrn='.$p_jrn.'"> Ajouter</A>';
   echo '</TD></TR></TABLE>';
 }
-/* function GetJrnProperty ($p_cn,$p_jrn) 
- * Purpose : Get the properties of a journal
+/*! 
+ * \brief  Get the properties of a journal
  * 
  * parm : 
  *	- p_cn database connection
@@ -531,8 +534,8 @@ function GetJrnProperty($p_cn,$p_jrn)
   }
   return pg_fetch_array($Res,0);
 }
-/* function GetJrnProp
- * Purpose : Get the properties of a journal
+/*! 
+ * \brief  Get the properties of a journal
  * 
  * parm : 
  *	- p_dossier the folder id
@@ -562,8 +565,8 @@ function GetJrnProp($p_dossier,$p_jrn,$is_connected=0)
   }
   return pg_fetch_array($Res,0);
 }
-/* function ViewJrn
- * Purpose : Vue des écritures comptables
+/*! 
+ * \brief  Vue des écritures comptables
  * 
  * parm : 
  *	- p_dossier,
@@ -693,8 +696,8 @@ function ViewJrn($p_dossier,$p_user,$p_jrn,$p_url,$p_array=null) {
   }
   echo '</TABLE>';
 }
-/* function GetData
- * Purpose : Get data from jrnx where p_grpt=jrnx(j_grpt)
+/*! 
+ * \brief  Get data from jrnx where p_grpt=jrnx(j_grpt)
  * 
  * parm : 
  *	- connection
@@ -757,8 +760,8 @@ function GetData ($p_cn,$p_grpt) {
    }
   return array($l_array,$deb,$cred);
 }
-/* function
- * Purpose :
+/*! 
+ * \brief 
  * 
  * parm : 
  *	- 
@@ -775,8 +778,8 @@ function GetData ($p_cn,$p_grpt) {
 //   $l_line=pg_fetch_array($Res);
 //   return $l_line['jr_id'];
 // }
-/* function  GetInternal($p_cn,$p_id)
- * Purpose : Return the internal value
+/*! 
+ * \brief  Return the internal value
  * 
  * parm : 
  *	- p_cn database connection
@@ -795,8 +798,8 @@ function GetInternal($p_cn,$p_id) {
   return $l_line['jr_internal'];
 }
 
-/* function GetAmount
- * Purpose : return the sum of jrn where
+/*! 
+ * \brief  return the sum of jrn where
  *            the internal_code is the p_id
  * 
  * parm : 
@@ -814,8 +817,8 @@ function GetAmount($p_cn,$p_id) {
   $l_line=pg_fetch_array($Res,0);
   return $l_line['jr_montant'];
 }
-/* function VerifData
- * Purpose : Verify the data before inserting or
+/*! 
+ * \brief  Verify the data before inserting or
  *           updating
  * 
  * parm : 
@@ -889,8 +892,8 @@ function VerifData($p_cn,$p_array,$p_user)
     return NOERROR;
 
 }
-/* function GetJrnName
- * Purpose : Return the name of the jrn
+/*! 
+ * \brief  Return the name of the jrn
  * 
  * parm : 
  *	- p_cn connexion resource
@@ -910,8 +913,8 @@ function GetJrnName($p_cn,$p_id) {
   $ret=pg_fetch_array($Res,0);
   return $ret['jrn_def_name'];
 }
-/* function NextJrn
- * Purpose :
+/*! 
+ * \brief 
  *         Get the number of the next jrn
  *         from the jrn_def.jrn_code
  * 
@@ -929,8 +932,8 @@ function NextJrn($p_cn,$p_type)
   $Ret=CountSql($p_cn,"select * from jrn_def where jrn_def_type='".$p_type."'");
   return $Ret+1; 
 }
-/* function 	SetInternalCode
- * Purpose :
+/*! 
+ * \brief 
  * 
  * parm : 
  *	- $p_cn connection
@@ -955,8 +958,8 @@ function SetInternalCode($p_cn,$p_grpt,$p_jrn)
 	       " jr_grpt_id = ".$p_grpt);
   return $internal_code;
 }
-/* function GetDataJrnJrid
- * Purpose : Get data from jrn and jrnx thanks the jr_id
+/*! 
+ * \brief  Get data from jrn and jrnx thanks the jr_id
  * 
  * parm : 
  *	- connection

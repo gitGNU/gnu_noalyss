@@ -19,39 +19,20 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 // $Revision$
-/* function GetSqlFiche 
- ***************************************************
- * purpose : return the sql string which match the p_type 
- *           permit to have all the sql here
- * param : $p_type what sql select command u want
- * return : string
+/*! \file
+ * \brief Function for managing card, redundant with the class fiche
+ * \todo remove this file but adapt first the pages which needs those 
+ *       function and complete the class_fiche.php
  */
-function GetSqlFiche($p_type) {
-  switch ($p_type ) {
 
-    // return all the existing fiche_def_ref
-  case ALL_FICHE_DEF_REF:
-    return "select frd_id, frd text from fiche_def_ref";
-
-  default:
-    echo_error("undefined type cannot return the corresponding select");
-    return null;
-  }
-
-}
-
-/* function addFiche
+/*!
  ***************************************************
- * Purpose : ajoute une nouvelle fiche
+ * \brief  ajoute une nouvelle fiche
  * 
- * parm : 
- *	- connexion
- *      - type de la fiche
- *      - tableau
- * gen :
- *	- none
- * return:
- *	- none
+ * 
+ * \param $p_cn connexion
+ * \param $p_type type de la fiche
+ * \param $p_array tableau
  *
  */ 
 function AddFiche($p_cn,$p_type,$p_array) {
@@ -225,25 +206,20 @@ function AddFiche($p_cn,$p_type,$p_array) {
   }
 
 }
-/* function EncodeFiche
+/*!   EncodeFiche
  ***************************************************
- * Purpose : Affiche les détails d'une fiche et propose
+ * \brief  Affiche les détails d'une fiche et propose
  *           de mettre à jour
  *           ou si array est a null, permet d'ajouter une
  *           fiche, to fill the attribute
  * 
- * parm : 
- *	-  p_cn connexion
- *      -  p_type id du modele fiche_def(fd_id) de la fiche SI array est null
+ * \param  $p_cn connexion
+ * \param  $p_type id du modele fiche_def(fd_id) de la fiche SI array est null
  *         sinon correspond au id d'une fiche fiche(f_id)
- * gen :
- *	- none
- * return:
- *	- none
  *
- * NOTE STAN: je ne trouve pas le nom "EncodeFiche" super claire pour une fonction qui affiche les détails d'une fiche...
+ * \note STAN: je ne trouve pas le nom "EncodeFiche" super claire pour une fonction qui affiche les détails d'une fiche...
  * on ne changerait pas en "DisplayFiche" ?
- * NOTE DANY: Oui je suis assez d'accord avec toi
+ * \note DANY: Oui je suis assez d'accord avec toi
  *
  */ 
 function EncodeFiche($p_cn,$p_type,$p_array=null) {
@@ -360,9 +336,9 @@ function EncodeFiche($p_cn,$p_type,$p_array=null) {
   }
 }
 
-/* function GetBaseFiche
+/*!   GetBaseFiche
  ***************************************************
- * Purpose : donne la classe comptable de base d'une fiche
+ * \brief  donne la classe comptable de base d'une fiche
  *  
  * parm : 
  *	- p_cn connexion
@@ -381,9 +357,9 @@ function GetBaseFiche($p_cn,$p_type) {
   return $base['fd_class_base'];
 }
 
-/* function GetBaseFicheDefault
+/*!   GetBaseFicheDefault
  ***************************************************
- * Purpose : Give the default accounts of fiche_def
+ * \brief  Give the default accounts of fiche_def
  *
  *  
  * parm : 
@@ -402,9 +378,9 @@ function GetBaseFicheDefault($p_cn,$p_type) {
   $base=pg_fetch_array($Res,0);
   return $base['frd_class_base'];
 }
-/* function ViewFiche
+/*!   ViewFiche
  ***************************************************
- * Purpose : Montre les fiches d'une rubrique
+ * \brief  Montre les fiches d'une rubrique
  * 
  * parm : 
  *	-  p_cn connexion
@@ -439,7 +415,7 @@ function ViewFiche($p_cn,$p_type) {
     $Res=ExecSql($p_cn,"select f_id,av_text,j_qcode  from 
                           fiche join jnt_fic_att_value using (f_id) 
                                 join attr_value using (jft_id)
-                                join vw_poste_qcode using(f_id)
+                                left outer join vw_poste_qcode using(f_id)
                        where fd_id='".$p_type.
                        "' and ad_id=".ATTR_DEF_NAME." order by f_id $sql_offset $sql_limit ");
     $Max=pg_NumRows($Res);
@@ -465,9 +441,9 @@ function ViewFiche($p_cn,$p_type) {
     echo $bar;
 
 }
-/* function GetNextFiche
+/*!   GetNextFiche
  ***************************************************
- * Purpose : Crée le poste suivant pour une fiche en fonction
+ * \brief  Crée le poste suivant pour une fiche en fonction
  *           de la classe de base (fichedef(fd_class_base))
  * 
  * parm : 
@@ -494,9 +470,9 @@ function GetNextFiche($p_cn,$p_base) {
   echo_debug('fiche_inc.php',__LINE__,"ret $ret");
   return $ret+1;
 }
-/* function ViewFicheDetail
+/*!   ViewFicheDetail
  ***************************************************
- * Purpose : Montre  le detail d'une fiche
+ * \brief  Montre  le detail d'une fiche
  *           et ajoute les lignes manquantes
  *           dans le cas où le modèle à changer
  * 
@@ -532,9 +508,9 @@ function ViewFicheDetail($p_cn,$p_id) {
 
   EncodeFiche ($p_cn,$p_id,1);
 }
-/* function UpdateFiche
+/*!   UpdateFiche
  ***************************************************
- * Purpose : Met a jour une fiche
+ * \brief  Met a jour une fiche
  *          change dans le plan comptable, fiche,et isupp
  *          
  * parm : 
@@ -669,9 +645,9 @@ function UpdateFiche($p_cn,$p_array) {
 
 
 }
-/* function EncodeModele
+/*!   EncodeModele
  ***************************************************
- * Purpose :
+ * \brief 
  * 
  * parm : 
  *	- 
@@ -692,9 +668,9 @@ function EncodeModele($p_js)
   echo '<BR><INPUT TYPE="SUBMIT" name="record_model" VALUE="Ajoute modèle">';
   echo '</FORM>';
 }
-/* function DefModele
+/*!   DefModele
  ***************************************************
- * Purpose : Creation of a model of card or correction
+ * \brief  Creation of a model of card or correction
  * 
  * parm : 
  *      - $p_cn  database connection 
@@ -764,9 +740,9 @@ function DefModele ($p_cn,$p_js,$p_array=null,$p_ligne=1)
   echo $display;
 
 }
-/* function AddModele
+/*!   AddModele
  ***************************************************
- * Purpose : Add a modele of card into the database
+ * \brief  Add a modele of card into the database
  *           
  * parm : 
  *	- connection
@@ -825,6 +801,11 @@ function AddModele($p_cn,$p_array) {
     $sql=sprintf("insert into fiche_def(fd_label,fd_class_base,frd_id,fd_create_account) 
                 values ('%s',%s,%d,'%s')",
 		 $p_nom_mod,$p_class_base,$p_FICHE_REF,$p_create);
+    $Res=ExecSql($p_cn,$sql);
+
+    // p_class must be added to tmp_pcmn 
+    $sql=sprintf("select account_add(%d,'%s')",
+		 $p_class_base,$p_nom_mod);
 
     $Res=ExecSql($p_cn,$sql);
 
@@ -867,9 +848,9 @@ function AddModele($p_cn,$p_array) {
   
   
 }
-/* function UpdateModele
+/*!   UpdateModele
  ***************************************************
- * Purpose : Modify the model of card
+ * \brief  Modify the model of card
  *           change some attribute (fd_label) and permit
  *           to add line
  * 
@@ -894,9 +875,9 @@ function UpdateModele($p_cn,$p_fiche) {
   DisplayDetailModele($p_cn,$array,$array['ligne']);
 
 }
-/* function GetDataModele
+/*!   GetDataModele
  ***************************************************
- * Purpose : Return the info of an fiche identified by
+ * \brief  Return the info of an fiche identified by
  *           p_fiche
  * 
  * parm : 
@@ -938,9 +919,9 @@ function GetDataModele($p_cn,$p_fiche) {
   $array['ligne']=$Max;
   return $array;
 }
-/* function Remove
+/*!   Remove
  ***************************************************
- * Purpose : enleve une fiche dans attr_value, jnt_fic_att_value  et fiche
+ * \brief  enleve une fiche dans attr_value, jnt_fic_att_value  et fiche
  *           a la condition que ce poste n'aie jamais
  *           été utilisé
  * parm : 
@@ -988,9 +969,9 @@ function Remove ($p_cn, $p_fid) {
   $Res=ExecSql($p_cn,"delete from fiche where f_id=$p_fid");
     
 }
-/* function getFicheName
+/*!   getFicheName
  ***************************************************
- * Purpose : retourne le nom de la fiche
+ * \brief  retourne le nom de la fiche
  *           en fournissant le quick_code
  *        
  * parm : 
@@ -1011,9 +992,9 @@ function getFicheName($p_cn,$p_id) {
   $st=pg_fetch_array($Res,0);
   return $st['vw_name'];
 }
-/* function getFicheNameById
+/*!   getFicheNameById
  ***************************************************
- * Purpose : retourne le nom de la fiche en fournissant le f_id
+ * \brief  retourne le nom de la fiche en fournissant le f_id
  *        
  * parm : 
  *	- p_cn connexion
@@ -1039,9 +1020,9 @@ function getFicheNameById($p_cn,$p_id) {
   return $st['av_text'];
 }
 
-/* function getFicheDefName
+/*!   getFicheDefName
  ***************************************************
- * Purpose : retourne le nom de la cat. de  fiches
+ * \brief  retourne le nom de la cat. de  fiches
  *        
  * parm : 
  *	- p_cn connexion
@@ -1058,9 +1039,9 @@ function getFicheDefName($p_cn,$p_id) {
   return $st['fd_label'];
 }
 
-/* function GetFicheJrn
+/*!   GetFicheJrn
  ***************************************************
- * Purpose : Get all the fiche related to a "journal"
+ * \brief  Get all the fiche related to a "journal"
  *        
  * parm : 
  *	- p_cn connextion
@@ -1116,9 +1097,9 @@ function GetFicheJrn($p_cn,$p_jrn,$p_type)
   }
   return $a;
 }
-/* function Get_fiche_def_ref
+/*!   Get_fiche_def_ref
  ***************************************************
- * Purpose : 
+ * \brief  
  *        return an array containing all the
  *        data contained in the table fiche_def_ref
  * parm : 
@@ -1150,9 +1131,9 @@ function Get_fiche_def_ref($p_cn)
   // return result
   return $array;
 }
-/* function Get_attr_min
+/*!   Get_attr_min
  ***************************************************
- * Purpose : retrieve the mandatory field of the card model
+ * \brief  retrieve the mandatory field of the card model
  *        
  * parm : 
  *	- $p_cn  database connexion
@@ -1182,9 +1163,9 @@ function Get_attr_min($p_cn,$p_fiche_def_ref) {
   }
   return $array;
 }
-/* function Get_attr_def
+/*!   Get_attr_def
  ***************************************************
- * Purpose : retrieve the  fields of the card model
+ * \brief  retrieve the  fields of the card model
  *        
  * parm : 
  *	- $p_cn  database connexion
@@ -1215,9 +1196,9 @@ function Get_attr_def($p_cn,$p_fiche_def) {
   }
   return $array;
 }
-/* function GetCreateAccount
+/*!   GetCreateAccount
  ***************************************************
- * Purpose : retrieve the  fields of the card model
+ * \brief  retrieve the  fields of the card model
  *        which indicate if each cards needs its own account
  * parm : 
  *	- $p_cn  database connexion
@@ -1251,9 +1232,9 @@ function GetCreateAccount($p_cn,$p_fiche_def) {
   echo_debug('fiche_inc.php',__LINE__,"fd_create_account return 0");
   return 0;
 }
-/* function GetFicheDefRef
+/*!   GetFicheDefRef
  ***************************************************
- * Purpose : retrieve the fiche_def.frd_id thanks the f_id 
+ * \brief  retrieve the fiche_def.frd_id thanks the f_id 
  *           of a card
  *        
  * parm : 
@@ -1282,9 +1263,9 @@ function GetFicheDefRef($p_cn,$p_f_id)
   return $f['frd_id'];
 
 }
-/* function GetFicheRef
+/*!   GetFicheRef
  ***************************************************
- * Purpose : retrieve the fiche_def.fd_id thanks the f_id 
+ * \brief  retrieve the fiche_def.fd_id thanks the f_id 
  *           of a card
  *        
  * parm : 
@@ -1314,9 +1295,9 @@ function GetFicheDef($p_cn,$p_f_id)
 
 }
 
-/* function  GetClass
+/*!    GetClass
  ***************************************************
- * Purpose : Retrieve the account of a card
+ * \brief  Retrieve the account of a card
  *        
  * parm : 
  *	- connection 
@@ -1344,9 +1325,9 @@ function GetClass($p_cn,$p_fid) {
   $f=pg_fetch_array($Res,0);
   return $f['av_text'];
 }
-/* function InsertModeleLine
+/*!   InsertModeleLine
  **************************************************
- * Purpose : Insert a new row into jnt_fic_attr
+ * \brief  Insert a new row into jnt_fic_attr
  *        for adding a new attribute to the card model
  * parm : 
  *	- p_cn   connection
@@ -1365,9 +1346,9 @@ function InsertModeleLine($p_cn,$p_fid,$p_adid)
   $Res=ExecSql($p_cn,$sql);
                        
 }
-/* function SaveModeleName
+/*!   SaveModeleName
  **************************************************
- * Purpose : Update the model's name
+ * \brief  Update the model's name
  *
  * parm : 
  *	- p_cn   connection
@@ -1388,9 +1369,9 @@ function SaveModeleName($p_cn,$p_fid,$p_label)
                        
 }
 
-/* function DisplayDetailModele
+/*!   DisplayDetailModele
  **************************************************
- * Purpose : Show the data contained in an array of
+ * \brief  Show the data contained in an array of
  *           a model of card (fiche_def)
  *        
  * parm : 
@@ -1451,9 +1432,9 @@ function DisplayDetailModele($p_cn,$p_array,$MaxLine)
   printf("</TABLE>");
   echo '</FORM>';
 }
-/* function GetParent
+/*!   GetParent
  **************************************************
- * Purpose : Get the parent in tmp_pcmn
+ * \brief  Get the parent in tmp_pcmn
  *        
  * parm : 
  *	- cn database connextion
@@ -1473,9 +1454,9 @@ function GetParent($p_cn,$p_val)
       return $a;
   }
 }
-/* function getFicheAttribut
+/*!   getFicheAttribut
  ***************************************************
- * Purpose : retrun array of attribut or string
+ * \brief  retrun array of attribut or string
  *        
  * parm : 
  *	- p_cn connexion
@@ -1511,9 +1492,9 @@ function getFicheAttribut($p_cn,$p_id,$p_attr="") {
   }
 }
 
-/* function IsFicheOfJrn
+/*!   IsFicheOfJrn
  ***************************************************
- * Purpose :  Check if a fiche is used by a jrn
+ * \brief   Check if a fiche is used by a jrn
  *  return 1 if the  fiche is in the range otherwise 0
  *        
  * parm : 

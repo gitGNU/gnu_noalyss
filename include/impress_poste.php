@@ -19,6 +19,10 @@
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 include_once("class_widget.php");
+/*! \file
+ * \brief Print account (html or pdf)
+ */
+
 ////////////////////////////////////////////////////////////////////////////////
 // If print is asked
 // First time in html
@@ -35,7 +39,7 @@ include("class_poste.php");
   $rep="";
   $submit=new widget();
   $hid=new widget("hidden");
-  echo '<div class="u_redcontent">';
+  echo '<div class="u_content">';
   echo '<h2 class="info">'.$Poste->id." ".$Poste->name.'</h2>';
   echo "<table >";
   echo '<TR>';
@@ -110,7 +114,7 @@ $ret=make_array($cn,"select distinct j_poste::text ,j_poste::text||'  '||pcm_lib
 ////////////////////////////////////////////////////////////////////////////////
 // Form
 ////////////////////////////////////////////////////////////////////////////////
-echo '<div class="u_redcontent">';
+echo '<div class="u_content">';
 echo '<FORM ACTION="?type=poste" METHOD="POST">';
 echo '<TABLE><TR>';
 $w=new widget("select");

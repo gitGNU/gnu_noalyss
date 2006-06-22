@@ -32,7 +32,7 @@ if  ( isset ($_REQUEST['fd_id'])) {
   if ($with_amount) 
     include_once("class_poste.php");
 
-  echo "<div>";
+  echo '<div class="u_content">';
   $submit=new widget();
   $hid=new widget("hidden");
   $fiche_id=new widget("hidden");

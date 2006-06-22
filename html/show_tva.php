@@ -18,6 +18,9 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
+/*! \file
+ * \brief Popup window to let the user choose the vat
+ */
 
 include_once ("ac_common.php");
 include_once ("postgres.php");

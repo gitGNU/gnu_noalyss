@@ -19,6 +19,10 @@
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
+/*! \file
+ * \brief Parametre module
+ */
+
 include_once ("ac_common.php");
 html_page_start($_SESSION['g_theme']);
 include_once ("postgres.php");
@@ -96,7 +100,7 @@ if ( $p_action == "fiche" )
   require_once('fiche_def.inc.php');
   return;
 }
-echo '<DIV CLASS="ccontent">';
+echo '<DIV CLASS="u_redcontent">';
 ////////////////////////////////////////////////////////////////////////////////
 // Currency
 ////////////////////////////////////////////////////////////////////////////////
@@ -177,35 +181,13 @@ if ( $p_action=='company') {
 ///////////////////////////////////////////////////////////////////
 // Document 
 //////////////////////////////////////////////////////////////////
-
-if ( $p_action == 'document' ) {
-  	require_once("class_invoice.php");
-	echo ShowMenuInvoice();
-	$inv=new Invoice($cn);
-	$inv->myList();
-	$inv->FormAdd();
-	
-} 
-
-///////////////////////////////////////////////////////////////////
-// Invoice 	add a template
-//////////////////////////////////////////////////////////////////
-if ( $p_action=='add_invoice') {
-	require_once("class_invoice.php");
-	$inv=new Invoice($cn);
-	//$inv->List();
-}
-///////////////////////////////////////////////////////////////////
-// Invoice remove a template
-//////////////////////////////////////////////////////////////////
-if ( $p_action=='rm_template') {
-require_once("class_invoice.php");
-	$inv=new Invoice($cn);
-	$inv->Delete();
-}
-  
-  
-
 echo "</DIV>";
+if ( $p_action == 'document' ) {
+  echo '<div class="u_content">';
+  require_once('document_modele.inc.php');
+  echo '</div>';
+}  
+
+
 html_page_stop();
 ?>

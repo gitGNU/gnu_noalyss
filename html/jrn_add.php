@@ -19,6 +19,10 @@
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
+/*! \file
+ * \brief To add a ledger
+ */
+
 include_once ("ac_common.php");
 include_once("jrn.php");
 html_page_start($_SESSION['g_theme']);
@@ -34,7 +38,11 @@ $User=new cl_user($rep);
 $User->Check();
 include_once("check_priv.php");
 include_once ("user_menu.php");
-ShowMenuCompta($_SESSION['g_dossier']);
+
+echo '<div class="u_tmenu">';
+echo ShowMenuCompta($_SESSION['g_dossier']);
+echo '</div>';
+
 
 
 $cn=DbConnect($_SESSION['g_dossier']);
@@ -101,11 +109,14 @@ echo_debug('jrn_add.php',__LINE__,"nom journal $p_jrn_name");
   }
 }
 echo ShowMenuAdvanced();
+echo '<div class="lmenu">';
 MenuJrn($_SESSION['g_dossier']);
+echo '</div>';
+
 $sessid=$_REQUEST['PHPSESSID'];
 $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$sessid."','not')\">";
 
-echo '<DIV CLASS="ccontent">';
+echo '<DIV CLASS="u_redcontent">';
 echo '<FORM ACTION="jrn_add.php" METHOD="POST">';
 echo '<INPUT TYPE="HIDDEN" NAME="JRN_ADD">';
 echo '<TABLE>';
@@ -171,8 +182,8 @@ $num=pg_NumRows($Res);
 
 
 echo '<TR>';
-echo '<th> Fiches Crédit</TH>';
-echo '<th> Fiches Débit</TH>';
+echo '<th> Fiches Dédit</TH>';
+echo '<th> Fiches Crébit</TH>';
 echo '</TR>';
 // Show the fiche in deb section
 for ($i=0;$i<$num;$i++) {

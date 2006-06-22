@@ -18,13 +18,15 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
+/*! \file
+ * \brief concerns the management of the "Plan Comptable"
+ */
 include_once ("ac_common.php");
 html_page_start($_SESSION['g_theme']);
 require_once("constant.php");
 
 if ( ! isset ( $_SESSION['g_dossier'] ) ) {
   echo "You must choose a Dossier ";
-  phpinfo();
   exit -2;
 }
 include_once ("postgres.php");
@@ -38,7 +40,7 @@ $User->Check();
 include_once ("user_menu.php");
 include_once ("check_priv.php");
 
-ShowMenuCompta($_SESSION['g_dossier']);
+echo ShowMenuCompta($_SESSION['g_dossier'],"user_advanced.php");
 
 $cn=DbConnect($_SESSION['g_dossier']);
 if ( $User->CheckAction($cn,MPCMN) == 0 ) {
@@ -60,6 +62,8 @@ if ( isset ($_GET['p_start'])) {
 
 echo '<div class="u_subtmenu">';
 echo ShowMenuAdvanced("pcmn_update.php?p_start=1");
+echo '</div>';
+echo '<div class="lmenu">';
 ShowMenuPcmn($_SESSION['g_start']);
 echo '</div>';
 echo '<DIV CLASS="u_redcontent">';

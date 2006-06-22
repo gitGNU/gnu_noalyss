@@ -18,19 +18,19 @@
 */
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+/*! \file
+ * \brief Concerns the centralization operations
+ */
 
-/* function Centralise
- * Purpose :
+/*! 
+ * \brief 
  *        Met les donnees centralisees dans la table
  *        centralize 
  * 
- * parm : 
- *	- p_cn connection
- *      - periode a centraliser
- * gen :
- *	- none
- * return:
- *	- code error
+ * \param p_cn connection
+ * \param periode a centraliser
+ *
+ * \return  code error
  *
  */ 
 function Centralise($p_cn,$p_periode) {
@@ -145,9 +145,9 @@ $sql="insert into centralized( c_j_id,
  EndSql($p_cn);
  return NOERROR;
 }
-/* function isCentralize($p_cn,$p_user) 
+/*! 
  **************************************************
- * Purpose : test if e jrn_jr.id is centralize or not 
+ * \brief  test if e jrn_jr.id is centralize or not 
  *        
  * parm :  
  *	- p_cn 

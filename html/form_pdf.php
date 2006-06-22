@@ -20,6 +20,9 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 // $Revision$
+/*! \file
+ * \brief Send a report in PDF
+ */
 
 include_once("class_rapport.php");
 include_once("ac_common.php");

@@ -18,7 +18,9 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-
+/*!\brief Class for jrn
+ *
+ */
 class jrn {
   var $id;
   var $name;
@@ -45,12 +47,12 @@ class jrn {
     return $ret['jrn_def_name'];
   }
 
-/* function GetRow
- * Purpose : Get The data 
+/*! \function  GetRow
+ \Brief  Get The data 
  * 
- * parm : 
+ * \param : 
  *	- connection
- *      - array
+ *      - an array
  *      - p_limit starting line
  *      - p_offset number of lines
  *
@@ -221,20 +223,20 @@ class jrn {
   $a=array($array,$tot_deb,$tot_cred);
   return $a;
   }
- /* function GetRowSimple
+ /*! \function  GetRowSimple
  **************************************************
- * Purpose : Get simplified row
+ \Brief  Get simplified row
  *        
- * parm : 
+ * \param : 
  *	- connection
- *      - array
+ *      - an array
  *      - p_limit starting line
  *      - p_offset number of lines
  *
  * gen :
  *	- none
  * return:
- *	- Array with the asked data
+ *	- an Array with the asked data
  *
  */ 
 
@@ -309,4 +311,21 @@ where $periode $jrn order by jr_date";
 
     return $array;  
   }// end function GetRowSimple
+
+/*! \function GetDefLine
+ * \Brief Get the number of lines of a journal
+ * \param $p_cred deb or cred
+ *
+ * \return an integer
+ */
+function GetDefLine($p_cred) 
+{
+	$sql_cred=($p_cred=='cred')?'jrn_cred_max_line':'jrn_deb_max_line';
+	$sql="select $sql_cred as value from jrn_def where jrn_def_id=".$this->id;
+	$r=ExecSql($this->db,$sql);
+	$Res=pg_fetch_all($r);
+	echo_debug('class_jrn',__LINE__,$Res);
+	if ( sizeof($Res) == 0 ) return 1;
+	return $Res[0]['value'];
+}
 }

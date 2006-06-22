@@ -23,19 +23,21 @@ require_once("class_widget.php");
 require_once("preference.php");
 require_once("fiche_inc.php");
 require_once("user_common.php");
-
-/* function FormODS($p_cn,$p_jrn,$p_user,$p_array=null,$pview_only=true,$p_article=1)
- * Purpose : Display the miscellaneous operation
+/*! \file
+ * \brief Functions for the ledger of misc. operation
+ */
+/*! 
+ * \brief  Display the miscellaneous operation
  *           Used to show detail, encode a new oper
  *           or update one
- *        
- * parm : 
- *	- p_array which can be empty
- *      - the "journal"
- *      - $p_user = $g_user
- *      - $p_submit contains the submit string
- *      - view_only if we cannot change it (no right or centralized op)
- *      - $p_article number of article
+ *\param $p_cn database connextion  
+ *\param $p_array which can be empty
+ * \param $p_jrn the "journal"
+ * \param $p_user = $g_user
+ * \param $p_submit contains the submit string
+ * \param $pview_only if we cannot change it (no right or centralized op)
+ * \param $p_article number of article
+ * \param $p_saved if true propose to upload a piece
  * gen :
  *	-
  * return: string with the form
@@ -192,6 +194,11 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
    $r.="</table>";
    $r.="<hr>";
  }
+  // Set correctly the REQUEST param for jrn_type 
+  $h=new widget('hidden');
+  $h->name='jrn_type';
+  $h->value=$_REQUEST['jrn_type'];
+  $r.=$h->IOValue();
 
   $r.=$p_submit;
   //  $r.="</DIV>";
@@ -219,23 +226,22 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
 
 }
 
-/* function RecordODS
+/*! 
  **************************************************
- * Purpose : Record an buy in the table jrn &
+ * \brief  Record an buy in the table jrn &
  *           jrnx
  *
- * parm :
- *	- $p_cn Database connection
- *  - $p_array contains all the invoice data
+ * 
+ * \param  $p_cn Database connection
+ * \param $p_array contains all the  data
  * e_date => e : 01.01.2003
  * nb_item => e : 3
  * e_account0 => e : 6
  * e_account0_amount=>e:1
  *  - $p_user userid
  *  - $p_jrn current folder (journal)
- * gen :
- *	- none
- * return:
+ *
+ * \return
  *	      true on success
  */
 function RecordODS($p_cn,$p_array,$p_user,$p_jrn)

@@ -17,6 +17,10 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 /* $Revision$ */
+/*!\file
+ * \brief for reporting the saldo of account to the next year.
+ */
+
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 include_once ("ac_common.php");
 require_once('class_widget.php');
@@ -35,8 +39,9 @@ $User->Check();
 include_once ("check_priv.php");
 
 include_once ("user_menu.php");
-ShowMenuCompta($_SESSION['g_dossier']);
-
+echo '<div class="u_tmenu">';
+echo ShowMenuCompta($_SESSION['g_dossier'],"user_advanced.php");
+echo '</div>';
 // TODO : add a check for permission
 if ( $User->CheckAction($cn,EXP_IMP_ECR) == 0 ) {
   /* Cannot Access */
@@ -44,8 +49,9 @@ if ( $User->CheckAction($cn,EXP_IMP_ECR) == 0 ) {
   exit -1;			
  }
 
-echo '<div class="u_subtmenu">';
 echo ShowMenuAdvanced("ecrit_ouv.php");
+echo '<div class="lmenu">';
+
 echo ShowItem ( array (
 			array ("ecrit_ouv.php?export","Export"),
 			array ("ecrit_ouv.php?import","Import")

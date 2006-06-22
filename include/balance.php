@@ -19,6 +19,9 @@
 */
 // Auteur Dany De Bontridder ddebontridder@yahoo.fr
 // /* $Revision$ */
+/*! \file
+ * \brief Show the balance and let you print it or export to PDF
+ */
 
 include_once ("ac_common.php");
 include_once("preference.php");
@@ -29,7 +32,7 @@ if ( $User->CheckAction($cn,BALANCE) == 0)
     NoAccess();
     exit;
   }
-echo '<div class="u_redcontent">';
+echo '<div class="u_content">';
 
 ////////////////////////////////////////////////////////////////////////////////
 // Form
@@ -106,7 +109,7 @@ if ( isset($_POST['view'] ) ) {
     $b=GetPeriode($cn,$_POST['to_periode']);
     echo "<h2 class=\"info\"> période du ".$a['p_start']." au ".$b['p_end']."</h2>";
 
-  echo '<table>';  
+  echo '<table width="100%">';  
   $i=0;
   foreach ($row as $r) {
     $i++;

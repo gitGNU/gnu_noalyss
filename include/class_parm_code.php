@@ -18,11 +18,20 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+/*! \file
+ * \brief Manage the table parm_code which contains the custom parameter
+ * for the module accountancy
+ */
+/*!
+ * \brief Manage the table parm_code which contains the custom parameter
+ * for the module accountancy
+ */
+
 class parm_code {
-  var $db; // database connection
-  var $p_code; // parm_code.p_code primary key
-  var $p_value; // parm_code.p_value 
-  var $p_comment; // parm_code.p_comment
+  var $db;        /*! \enum $db  database connection */
+  var $p_code;    /*! \enum $p_code  parm_code.p_code primary key */
+  var $p_value;   /*! \enum $p_value  parm_code.p_value  */
+  var $p_comment; /*! \enum $p_comment parm_code.p_comment */
  // constructor
   function parm_code($p_cn,$p_id=-1) 
     {
@@ -31,17 +40,13 @@ class parm_code {
       if ( $p_id != -1 )
 	$this->Get();
     }
-/* function LoadAll
+/*! 
  **************************************************
- * Purpose : 
+ * \brief  
  *  Load all parmCode
  *  return an array of parm_code object
- *        
- * parm : 
- *	- none
- * gen :
- *	-
- * return: array
+ *
+ * \return array
  */
 
   function LoadAll() {
@@ -61,15 +66,11 @@ class parm_code {
     
     return $array;
   }
-  /* function Save
+  /*! 
  **************************************************
- * Purpose : update a parm_object into the database
+ * \brief  update a parm_object into the database
  *        p_code is _not_ updatable
- * parm : 
- *	- none
- * gen :
- *	- none
- * return:
+ * \return
  *     nothing
  */
   function Save() 
@@ -85,15 +86,11 @@ class parm_code {
 	"where p_code='".$this->p_code."'";
       $Res=ExecSql($this->db,$sql);
     }
-/* function Display
+/*! 
  **************************************************
- * Purpose : Display an object, with the <TD> tag
+ * \brief  Display an object, with the <TD> tag
  *        
- * parm : 
- *	- none
- * gen :
- *	- none
- * return:
+ * \return
  *     string
  */
   function Display() 
@@ -105,16 +102,12 @@ class parm_code {
 
       return $r;
     }
-/* function Input
+/*! 
  **************************************************
- * Purpose : Display a form to enter info about
+ * \brief  Display a form to enter info about
  *        a parm_code object with the <TD> tag
  *    
- * parm : 
- *	- none
- * gen :
- *	- none
- * return: string
+ * \return string
  */
   function Input() 
     {
@@ -137,17 +130,12 @@ class parm_code {
       
     }
 
-/* function Get
+/*! 
  **************************************************
- * Purpose : 
+ * \brief  
  * Complete a parm_code object thanks the p_code 
-
  *        
- * parm : 
- *	- none
- * gen :
- *	-
- * return: array
+ * \return array
  */
 
   function Get() {

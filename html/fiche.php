@@ -18,7 +18,9 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-
+/*! \file
+ * \brief module to manage the card (removing, listing, creating, modify attribut)
+ */
 include_once ("ac_common.php");
 html_page_start($_SESSION['g_theme']);
 
@@ -35,7 +37,9 @@ include_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
 include ("check_priv.php");
-ShowMenuCompta($_SESSION['g_dossier']);
+echo '<div class="u_tmenu">';
+echo ShowMenuCompta($_SESSION['g_dossier']);
+echo '</div>';
 echo JS_SEARCH_POSTE;
 
 if ( !isset($sessid)) 
@@ -70,12 +74,12 @@ if ( isset ( $_GET["action"]) ) {
   $action=$_GET["action"];
   // View the details of the selected cat. of cards
   if ( isset ($_GET["fiche"]) && $action=="vue" ) {
-    echo '<DIV class="redcontent">';
+    echo '<DIV class="u_redcontent">';
     ViewFiche($cn,$_GET["fiche"]);
     echo '</DIV>';
   }// Display the detail of a card
   if ($action== "detail" ) {
-    echo '<DIV class="redcontent">';
+    echo '<DIV class="u_redcontent">';
     if ( $write == 0) echo '<H2 class="info"> Vos changements ne seront pas sauvés</h2>';
     ViewFicheDetail($cn,$_GET["fiche_id"]);
     echo '</DIV>';
@@ -83,13 +87,13 @@ if ( isset ( $_GET["action"]) ) {
   // Display the form where you can enter
   // the property of the card model
   if ($action == "add_modele" and $write !=0) {
-    echo '<DIV class="redcontent">';
+    echo '<DIV class="u_redcontent">';
     DefModele($cn,$search);
     echo '</DIV>';
   }
   // Modify a card Model
   if ($action == "modifier" ) {
-    echo '<DIV class="redcontent">';
+    echo '<DIV class="u_redcontent">';
     if ( $write ==0)  
       echo "<h2 class=\"error\"> Pas d'accès </h2>";
     else
@@ -98,7 +102,7 @@ if ( isset ( $_GET["action"]) ) {
   }
   // delete a card
   if ($action== "delete"  ) {
-    echo '<DIV class="redcontent">';
+    echo '<DIV class="u_redcontent">';
     if ( $write ==0)  
       echo "<h2 class=\"error\"> Pas d'accès </h2>";
     else
@@ -112,7 +116,7 @@ if ( isset ( $_GET["action"]) ) {
 }
 // Add a line in the card model
 if ( isset ($_GET["add_ligne"])  ) {
-  echo '<DIV class="redcontent">';
+  echo '<DIV class="u_redcontent">';
     if ( $write ==0)  
       echo "<h2 class=\"error\"> Pas d'accès </h2>";
     else
@@ -125,7 +129,7 @@ if ( isset ($_GET["add_ligne"])  ) {
 }
 // Change the name of the card  model
 if ( isset ($_GET["change_name"] )  ) {
-  echo '<DIV class="redcontent">';
+  echo '<DIV class="u_redcontent">';
     if ( $write ==0)  
       echo "<h2 class=\"error\"> Pas d'accès </h2>";
     else
@@ -138,7 +142,7 @@ if ( isset ($_GET["change_name"] )  ) {
 
 // Display a blank  card from the selected category
 if ( isset ($_POST["fiche"]) && isset ($_POST["add"] ) ) {
-  echo '<DIV class="redcontent">';
+  echo '<DIV class="u_redcontent">';
     if ( $write ==0)  
       echo "<h2 class=\"error\"> Pas d'accès </h2>";
     else
@@ -147,7 +151,7 @@ if ( isset ($_POST["fiche"]) && isset ($_POST["add"] ) ) {
 }
 // Add the data (attribute) of the card
 if ( isset ($_POST["add_fiche"]) ) {
-  echo '<DIV class="redcontent">';
+  echo '<DIV class="u_redcontent">';
   
   if ( $write ==0)  
     echo "<h2 class=\"error\"> Pas d'accès </h2>";
@@ -160,7 +164,7 @@ if ( isset ($_POST["add_fiche"]) ) {
 }
 // Update a card
 if ( isset ($_POST["update_fiche"])  ) {
-  echo '<DIV class="redcontent">';
+  echo '<DIV class="u_redcontent">';
       if ( $write ==0)  
       echo "<h2 class=\"error\"> Pas d'accès </h2>";
     else

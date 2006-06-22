@@ -18,6 +18,10 @@
 */
 /* $Revision$ */
 include_once("class_widget.php");
+/*! \file
+ * \brief print first the report in html and propose to print it in pdf
+ */
+
 ////////////////////////////////////////////////////////////////////////////////
 // If print is asked
 // First time in html
@@ -50,13 +54,13 @@ if ( isset( $_POST['bt_html'] ) ) {
   $rep="";
   $submit=new widget();
   $hid=new widget("hidden");
-  echo '<div class="u_redcontent">';
+  echo '<div class="u_content">';
   $t=($_POST['from_periode']==$_POST['to_periode'])?"":" -> ".getPeriodeName($cn,$_POST['to_periode'],'p_end');
   echo '<h2 class="info">'.$Form->id." ".$Form->name.
     " - ".getPeriodeName($cn,$_POST['from_periode'],'p_start').
     " ".$t.
     '</h2>';
-  echo "<table>";
+  echo '<table >';
   echo '<TR>';
   echo '<TD><form method="GET" ACTION="user_impress.php">'.
     $submit->Submit('bt_other',"Autre Rapport").
@@ -121,7 +125,7 @@ if ( sizeof($ret) == 0 ) {
 ////////////////////////////////////////////////////////////////////////////////
 // Form
 ////////////////////////////////////////////////////////////////////////////////
-echo '<div class="u_redcontent">';
+echo '<div class="u_content">';
 echo '<FORM ACTION="?type=rapport" METHOD="POST">';
 echo '<TABLE><TR>';
 $w=new widget("select");
@@ -155,13 +159,17 @@ echo '</div>';
 ////////////////////////////////////////////////////////////////////////////////
  function ShowReportResult($p_array) {
    
-   echo "<TABLE width=\"100%\">";
+   echo '<TABLE class="result">';
    echo "<TR>".
      "<TH> Description </TH>".
      "<TH> montant </TH>".
      "</TR>";
+   $i=0;
    foreach ( $p_array as $op ) { 
-     echo "<TR>".
+     $i++;
+     $class= ( $i % 2 == 0 )?' class="odd"':"";
+   
+     echo "<TR $class>".
        "<TD>".$op['desc']."</TD>".
        "<TD align=\"right\">".sprintf("% 8.2f",$op['montant'])."</TD>".
        "</TR>";

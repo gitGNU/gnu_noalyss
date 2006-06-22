@@ -18,11 +18,18 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+/*! \file
+ * \brief Manage the attribut of the card
+ */
+/*! 
+ * \brief Manage the attribut of the card
+ */
+
 class Attribut {
-  var $ad_id;			// pk for attribut
-  var $ad_text;			// type of content
-  var $av_text;			// Description (content)
-  var $cn;			// database connection
+  var $ad_id;			/*! \enum  pk for attribut */
+  var $ad_text;			/*! \enum  type of content */
+  var $av_text;			/*! \enum Description (content) */
+  var $cn;			/*! \enum  database connection */
   function Attribut($p_ad_id) {
     $this->ad_id=$p_ad_id;
     $this->cn=-1;
@@ -30,15 +37,15 @@ class Attribut {
 
 }
 
-/* function       SortAttributeById
+/*! 
  **************************************************
- * Purpose : Sort an array of object attribut thx the
+ * \brief  Sort an array of object attribut thx the
  *        ad_id
- * parm : 
- *	- array of Attribut objects
- * gen :
- *	-
- * return: the ordered array
+ * 
+ *\param  array of Attribut objects
+ * 
+ *	
+ * \return the ordered array
  */
 function SortAttributeById($p_attribut) {
   for ($i=0;$i< sizeof($p_attribut)-1;$i++) {

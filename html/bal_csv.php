@@ -18,6 +18,9 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+/*! \file
+ * \brief Return the balance in CSV format
+ */
 header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="balance.csv"',FALSE);
 include_once ("ac_common.php");

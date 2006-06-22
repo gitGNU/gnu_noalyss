@@ -18,6 +18,9 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
+/*! \file
+ * \brief Set the security for an user
+ */
 
 include_once ("ac_common.php");
 include_once("check_priv.php");

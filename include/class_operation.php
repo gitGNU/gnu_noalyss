@@ -18,6 +18,10 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+/*! \file
+ * \brief To remove ?
+ * \todo obsolete ? then remove
+ */
 
 ////////////////////////////////////////////////////////////////////////////////
 // If print is asked

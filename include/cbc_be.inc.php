@@ -18,6 +18,9 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+/*! \file
+ * \brief This file must be included to parse the CVS from the CBC Bank
+ */
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // Bank CBC 

@@ -18,30 +18,35 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+/*! \file
+ * \brief fiche_def_ref, a fiche is owned by fiche_def which is owned by 
+ *        fiche_def_ref
+ */
+/*! 
+ * \brief fiche_def_ref, a fiche is owned by fiche_def which is owned by 
+ *        fiche_def_ref
+ */
 
 class fiche_def_ref 
 {
-  var $frd_id;      // fiche_def_ref.frd_id
-  var $frd_text;      // fiche_def_ref.frd_tex
-  var $frd_class_base;      // fiche_def_ref.frd_class_base
-  var $attribut;            // array which containing list of attr.
-                            // it is used with dynamic variables
+  var $frd_id;           /*! \enum $frd_id fiche_def_ref.frd_id */
+  var $frd_text;         /*! \enum $frd_text fiche_def_ref.frd_tex */
+  var $frd_class_base;   /*! \enum fiche_def_ref.frd_class_base */
+  var $attribut;         /*! \enum array which containing list of attr */
+                         /* it is used with dynamic variables */
+
   function fiche_def_ref($p_cn,$p_frd_id=-1)
     {
       $this->db=$p_cn;
       $this->frd_id=$p_frd_id;
       $this->attribut=array('frd_id','frd_text','frd_class_base');
     }
-/* function LoadAll
+/*! 
  **************************************************
- * Purpose : Load all the fiche_def_ref data and
+ * \brief  Load all the fiche_def_ref data and
  *           return an array of  fiche_def_ref objects
  *        
- * parm : 
- *	- none
- * gen :
- *	- none
- * return: array
+ * \return array
  */
   function LoadAll()
     {
@@ -64,15 +69,11 @@ class fiche_def_ref
 	}
       return $array;
     }
-/* function Display
+/*! 
  **************************************************
- * Purpose : Display data between <TD> tag
+ * \brief  Display data between <TD> tag
  *        
- * parm : 
- *	- none
- * gen :
- *	-
- * return: string
+ * \return string
  */
   function Display() 
     {
@@ -83,15 +84,15 @@ class fiche_def_ref
 	}
       return $r;
     }
-/* function Input
+/*! 
  **************************************************
- * Purpose : Input Data between <td> tag
+ * \brief  Input Data between <td> tag
  *        
  * parm : 
  *	- none
  * gen :
  *	-
- * return: string
+ * \return string
  */
   function Input()
     {
@@ -105,16 +106,13 @@ class fiche_def_ref
 
       return $r;
     }
-/* function Save
+/*! 
  **************************************************
- * Purpose : Store data into the database: update the 
+ * \brief  Store data into the database: update the 
  *           record
  *        
- * parm : 
- *	- none
- * gen :
  *	-
- * return: none
+ * \return none
  */
   function Save()
     {
@@ -123,16 +121,12 @@ class fiche_def_ref
 	" where frd_id=".$this->frd_id;
       $Res=ExecSql($this->db,$sql);
     }
-/* function Get
+/*! 
  **************************************************
- * Purpose : Get the data with the p_code and complete
+ * \brief  Get the data with the p_code and complete
  *           the current object
  *        
- * parm : 
- *	- none
- * gen :
- *	-
- * return: none
+ * \return none
  */
   function Get()
     {

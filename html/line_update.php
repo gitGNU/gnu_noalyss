@@ -18,6 +18,9 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 // $Revision$
+/*! \file
+ * \brief Modify the "Plan Comptable"
+ */
 include_once ("ac_common.php");
 
 if ( !isset ($_SESSION['g_dossier'])) {

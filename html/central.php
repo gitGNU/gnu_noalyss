@@ -19,6 +19,9 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
+/*! \file
+ * \brief concerns the centralisation of the operations
+ */
 include_once ("ac_common.php");
 
 html_page_start($_SESSION['g_theme']);
@@ -38,7 +41,7 @@ include_once("preference.php");
 
 
 include_once ("user_menu.php");
-ShowMenuCompta($_SESSION['g_dossier']);
+echo ShowMenuCompta($_SESSION['g_dossier'],"user_advanced.php");
 
 $cn=DbConnect($_SESSION['g_dossier']);
 if ( $User->CheckAction($cn,CENTRALIZE)==0 ) {
@@ -53,7 +56,7 @@ echo ShowMenuAdvanced("central.php");
 echo '</div>';
 
 
-echo '<DIV CLASS="u_subtmenu">';
+echo '<DIV CLASS="u_redcontent">';
 echo '<H2 CLASS="info"> Centralise </H2><BR>';
 if ( isset ($_POST["central"] )) {
 

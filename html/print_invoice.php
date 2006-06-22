@@ -17,15 +17,19 @@
  *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-/* received parameters
- e_date element 01.01.2003
- e_client element 3
- nb_item element 2
- e_march0 element 11
- e_quant0 element 1
- e_march1 element 6
- e_quant1 element 2
- e_comment  invoice number
+/*! \file
+ * \brief Print invoice
+ * \todo Obsolete ? 
+
+ * \param received parameters
+ * \param e_date element 01.01.2003
+ * \param e_client element 3
+ * \param nb_item element 2
+ * \param e_march0 element 11
+ * \param e_quant0 element 1
+ * \param e_march1 element 6
+ * \param e_quant1 element 2
+ * \param e_comment  invoice number
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 // $Revision$

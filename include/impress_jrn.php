@@ -18,6 +18,10 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+/*! \file
+ * \brief ask for Printing the ledger (pdf,html)
+ */
+
 include_once("class_widget.php");
 ////////////////////////////////////////////////////////////////////////////////
 // If print is asked
@@ -48,7 +52,7 @@ include("class_jrn.php");
   $rep="";
   $submit=new widget();
   $hid=new widget("hidden");
-  echo '<div class="u_redcontent">';
+  echo '<div class="u_content">';
   echo '<h2 class="info">'.$Jrn->name.'</h2>';
   echo "<table>";
   echo '<TR>';
@@ -83,7 +87,7 @@ include("class_jrn.php");
        && $Row==null) 
   	exit;
 
-  echo "<TABLE class=\"result\">";
+  echo '<TABLE class="result">';
 
   if ( $_POST['p_simple'] == 0 ) {
     // detailled printing
@@ -192,9 +196,9 @@ if ( count($ret) < 1 )
 ////////////////////////////////////////////////////////////////////////////////
 // Form
 ////////////////////////////////////////////////////////////////////////////////
-echo '<div class="u_redcontent">';
+echo '<div class="u_content">';
 echo '<FORM ACTION="?type=jrn" METHOD="POST">';
-echo '<TABLE><TR>';
+echo '<TABLE width="90%" align="center"><TR>';
 $w=new widget("select");
 $w->table=1;
 $w->label="Choississez le journal";

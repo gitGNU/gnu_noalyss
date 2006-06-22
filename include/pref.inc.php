@@ -19,7 +19,7 @@
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-echo '<DIV class="ccontent">';
+echo '<DIV class="u_content">';
 
 if ( isset ($_POST['spass']) ) {
   if ( $_POST['pass_1'] != $_POST['pass_2'] ) {
@@ -117,6 +117,7 @@ if ( isset ($_SESSION['g_dossier']) ) {
 <TR><TD>Taille des pages</TD>
 <TD>
 <SELECT NAME="p_size">
+<option value="15">15
 <option value="25">25
 <option value="50">50
 <option value="100">100

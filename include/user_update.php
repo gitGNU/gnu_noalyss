@@ -18,6 +18,9 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
+/*! \file
+ * \brief Check if still used
+ */
 
 if ( $action == 'update' ) {
     if ( CheckJrn($g_dossier,$g_user,$p_jrn) < 2 ) {

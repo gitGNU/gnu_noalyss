@@ -18,6 +18,9 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+/*! \file
+ * \brief Send a report in CSV format
+ */
 include_once("ac_common.php");
 include_once ("postgres.php");
 include ('class_user.php');

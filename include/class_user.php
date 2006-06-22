@@ -18,11 +18,16 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-/* Class user 
+/*! \file
  **************************************************
- * Purpose : 
+ * \brief  
  *   Data & function about connected users
  */
+/*!
+ * \brief  
+ *   Data & function about connected users
+ */
+
 include_once("constant.php");
 
 class cl_user {
@@ -72,13 +77,8 @@ class cl_user {
       $this->admin=$row['use_admin'];
     } 
   }
-  /*++ 
-   * function : CheckUser
-   * Parameter : none
-   * return    : not use
-   * Description :
-   * Check if user is active and exists in the
-   * repository
+  /*!
+   * \brief Check if user is active and exists in therepository
    * Automatically redirect
    * 
    ++*/
@@ -134,15 +134,11 @@ class cl_user {
 
   function getJrn() {
   }
-/* function Admin
+/*! 
  **************************************************
- * Purpose : Check if an user is an admin
+ * \brief  Check if an user is an admin
  *        
- * parm : 
- *	- none
- * gen : 
- *	- none 
- * return: 1 for yes 0 for no
+ * \return 1 for yes 0 for no
  */
   function Admin() {
     $res=0;
@@ -172,33 +168,24 @@ class cl_user {
     return false;
         
   }
-/* function SetPeriode
- * Purpose : Set the selected periode in the user's preferences
+/*! 
+ * \brief  Set the selected periode in the user's preferences
  * 
- * parm : 
- 
- *      - $p_periode 
- *      - $p_user
- * gen :
- *	- none
- * return:
- *	- none
+ * \param $p_periode periode 
+ * \param     - $p_user
  *
  */ 
 function SetPeriode($p_periode) {
   $sql="update user_local_pref set parameter_value='$p_periode' where user_id='$this->id' and parameter_type='PERIODE'";
   $Res=ExecSql($this->db,$sql);
 }
-/* function GetPeriode
- * Purpose : Get the default periode from the user's preferences
+/*! 
+ * \brief  Get the default periode from the user's preferences
  * 
- * parm : 
- *	- $p_cn connexion 
- *      - $p_user
- * gen :
- *	- none
- * return:
- *	- the default periode
+ * \param $p_cn connexion 
+ * \param  $p_user
+ * \return the default periode
+ *	
  *
  */ 
 
@@ -206,17 +193,13 @@ function GetPeriode() {
   $array=$this->GetPreferences();
   return $array['PERIODE'];
 }
-/* function GetPreferences
- * Purpose : Get the default user's preferences
+/*! 
+ * \brief  Get the default user's preferences
  * 
- * parm : 
- *	- $p_cn connexion 
- *      - $p_user
- * gen :
- *	- none
- * return:
- *	- none
- *
+ *  
+ * \param $p_cn connexion 
+ * \param $p_user
+ * \return array of (parameter_type => parameter_value)
  */ 
 function GetPreferences ()
 {
@@ -240,16 +223,13 @@ function GetPreferences ()
   }
   return $l_array;
 }
-/* function CheckAction
- * Purpose : Check if an user is allowed to do an action
+/*! 
+ * \brief  Check if an user is allowed to do an action
  * 
- * parm : 
- *	- p_dossier dossier id
- *      - p_login   user's login
- *      - p_action_id 
- * gen :
- *	-
- * return:
+ * \param p_dossier dossier id
+ * \param p_login   user's login
+ * \param p_action_id 
+ * \return
  *	- 0 no priv
  *      - 1 priv granted
  *
@@ -265,16 +245,12 @@ function GetPreferences ()
   if ( $Count == 1 ) return 1;
   echo "<H2 class=\"error\"> Invalid action !!! $Count select * from user_sec_act where ua_login='$p_login' and ua_act_id=$p_action_id </H2>";
 }
-/* function GetGlobalPref
+/*! 
  **************************************************
- * Purpose : Get the global preferences from user_global_pref
+ * \brief  Get the global preferences from user_global_pref
  *        in the account_repository db
- * parm : 
- *	- set g_variable
- * gen :
- *	- none
- * return:
- *     - none
+ *
+ * \param set g_variable
  */
 
 
@@ -312,16 +288,13 @@ function GetGlobalPref()
   }
 }
 
-/* function insert_default_global_pref
+/*! 
  **************************************************
- * Purpose : insert default pref
+ * \brief  insert default pref
  *        if no parameter are given insert all the existing 
  *        parameter otherwise only the requested
- * parm : 
- *	- parameter's type or nothing
- * gen :
- *	- none
- * return: nothing
+ * \param parameter's type or nothing
+ *
  */
 function insert_default_global_pref($p_type="",$p_value="") {
 	echo_debug('class_user.php',__LINE__,"function insert_default_global_pref");
@@ -347,16 +320,13 @@ function insert_default_global_pref($p_type="",$p_value="") {
 
 }
 
-/* function update_global_pref
+/*! 
  **************************************************
- * Purpose : update default pref
+ * \brief  update default pref
  *           if value is not given then use the default value
- * parm : 
- *	- parameter's type 
- *      - parameter's value value of the type
- * gen :
- *	- none
- * return: nothing
+ *
+ * \param parameter's type 
+ * \param parameter's value value of the type
  */
 function update_global_pref($p_type,$p_value="") {
 	$default_parameter= array("THEME"=>"Light",

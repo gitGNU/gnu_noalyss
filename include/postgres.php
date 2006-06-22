@@ -19,13 +19,15 @@
 
  //$Revision$
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-/*++
- * function : ShowDossier
- * Parameter : p_type string : all for all dossiers lim for only the 
+/*! \file
+ * \brief Contains the procedure for connecting to postgresql
+ */
+
+/*!
+ * \param  p_type string : all for all dossiers lim for only the 
  *             dossier where we've got rights
- * Return    : nothing
- * Description :
- * Show the folder where user have access
+ * 
+ * Show the folder where user have access. Return    : nothing
 ++*/ 
 function ShowDossier($p_type,$p_first=0,$p_max=10,$p_Num=0) {
   $l_user=$_SESSION['g_user'];
@@ -62,12 +64,10 @@ function ShowDossier($p_type,$p_first=0,$p_max=10,$p_Num=0) {
   return $row;
 }
 
-/* function DbConnect
- * purpose : connect to the database
- * parameter : p_db : db_name
- * return the connection
- * todo : replace hardcoded by variable placed in
- *        constant.php
+/*! 
+ * \brief connect to the database
+ * \param : p_db : db_name
+ * \return the connection
  */
 function DbConnect($p_db=-1,$p_type='dossier') {
   if ( $p_db==-1) 
@@ -90,11 +90,11 @@ function DbConnect($p_db=-1,$p_type='dossier') {
   echo_debug ('postgres.php',__LINE__,"connect to $p_db dbname $l_dossier");
   return $a;
 }
-/* function ExecSql
- * purpose : send a sql string to the database
- * parameter p_connection db connection 
- *           p_string     sql string
- * return false if error otherwise true
+/*! 
+ * \brief send a sql string to the database
+ * \param $p_connection db connection 
+ * \param $p_string     sql string
+ * \return false if error otherwise true
  */
 function ExecSql($p_connection, $p_string) {
   echo_debug('postgres.php',__LINE__,"SQL = $p_string");
@@ -110,8 +110,8 @@ function ExecSql($p_connection, $p_string) {
   return $ret;
 }
 
-/* function GetAllUser
- * Return all the users
+/*! 
+ * \brief Return all the users
  * as an array
  */
 function GetAllUser() {
@@ -127,8 +127,8 @@ function GetAllUser() {
   }
   return $User;
 }
-/* function GetUid
- * Check if the User is valid
+/*!   
+ * \brief Check if the User is valid
  * and return an array with his property
  */
 function GetUid($p_uid) {
@@ -141,8 +141,8 @@ function GetUid($p_uid) {
   }
   return $Prop;
 }
-/* function GetPriv
- * Get the privilege of an user on a folder
+/*!   
+ * \brief Get the privilege of an user on a folder
  */
 function GetPriv($p_dossier,$p_login)
 {
@@ -160,8 +160,8 @@ function GetPriv($p_dossier,$p_login)
   }
   return $Priv;
 }
-/* function ExisteJnt
- * Get the number of rows
+/*!   
+ * \brief Get the number of rows
  * from table jnt_use_dos where $p_dossier = dos_id and 
  * use_id=$p_user
  */
@@ -213,10 +213,10 @@ function GetDbId($p_name)
      
 }
 /* CountSql
- * Count the number of row
+ * \brief Count the number of row
  * 
- * parm: p_conn connection handler
- *       p_sql sql string
+ * \param $p_conn connection handler
+ * \param $p_sql sql string
  */
 
 function CountSql($p_conn,$p_sql)
@@ -225,9 +225,9 @@ function CountSql($p_conn,$p_sql)
   return pg_NumRows($r_sql);
 
 }
-/* function GetDossierName
- * Param: id of a dossier
- * return : Name of the dossier
+/*! 
+ * \param id of a dossier
+ * \return  Name of the dossier
  */
 function GetDossierName($p_dossier)
 {
@@ -236,8 +236,8 @@ function GetDossierName($p_dossier)
   $r= pg_fetch_array($Ret,0);
   return $r['dos_name'];
 }
-/* function GetSequence
- * get the current sequence
+
+/*!\brief get the current sequence
  */
 function GetSequence($p_cn,$p_seq)
 {
@@ -245,8 +245,8 @@ function GetSequence($p_cn,$p_seq)
   $seq=pg_fetch_array($Res,0);
   return $seq['seq'];
 }
-/* function NextSequence
- * get the current sequence
+
+/*!\brief  get the current sequence
  */
 function NextSequence($p_cn,$p_seq)
 {
@@ -268,8 +268,7 @@ function Rollback($p_cn) {
 }
 function AlterSequence($p_cn,$p_name,$p_value) {
   
-  $Res=ExecSql($p_cn,"drop sequence $p_name");
-  $Res=ExecSql($p_cn,"create sequence $p_name start $p_value");
+  $Res=ExecSql($p_cn,"alter sequence $p_name restart $p_value");
 }
 function GetLogin($p_uid)
 {
@@ -280,15 +279,11 @@ function GetLogin($p_uid)
   return $a_login['use_login'];
 }
 
-/* function SyncRight
- * Purpose : Synchronize les droits par défaut
+/*!   SyncRight
+ * \brief  Synchronize les droits par défaut
  *           avec  les journaux existants
- * parm : 
- *	- 
- * gen :
- *	-
- * return:
- *	-
+ *\param $p_dossier dossier id
+ * \param $p_user user id
  *
  */ 
 function SyncRight($p_dossier,$p_user) {
@@ -303,22 +298,19 @@ function SyncRight($p_dossier,$p_user) {
    "(select uj_jrn_id from user_sec_jrn where uj_login='".$p_user."')";
  $Res=ExecSql($cn,$sql);
 }
-/* function GetUserProperty
- * Purpose : Get the properties of an user
+/*!
+ * \brief  Get the properties of an user
  *           it means theme, profile, admin...
  *        
- * parm : 
- *	- $p_user    user login
- *      - $p_cn      connection resource
- *      -
- * gen :
- *	-
- * return: an array
- *         containing use_admin
- *                    use_usertype
- *                    g_theme
- *                    use_name
- *                    use_login
+ * \param $p_user    user login
+ * \param $p_cn      connection 
+ *
+ * \return an array containing 
+ *                 - use_admin
+ *                 -  use_usertype
+ *                 -  g_theme
+ *                 -  use_name
+ *                 -  use_login
  */
 function GetUserProperty($p_cn,$p_user)
 {
@@ -336,16 +328,14 @@ function GetUserProperty($p_cn,$p_user)
  $a=pg_fetch_array($Ret,0);
  return $a;
 }
-/* function GetModeleId
- * Purpose :  Give the mod_id from modeledef
+/*!
+ * \brief   Give the mod_id from modeledef
  *        
- * parm : 
- *	- p_cn database connection (repository)
- *      - p_modname template name
- * gen :
- *	- none
- * return:
- *        template id or 0 if not found
+ *  
+ * \param $p_cn database connection (repository)
+ * \param     $p_modname template name
+ * \return template id or 0 if not found
+ *        
  */
 function GetModeleId($p_cn,$p_modname) {
   $Res=ExecSql($p_cn,"select mod_id from modeledef where mod_name='$p_modname'");
@@ -354,11 +344,11 @@ function GetModeleId($p_cn,$p_modname) {
   return $name['mod_id'];
 }
 
-/* function GetArray
- * purpose return the result of a sql statment 
+
+ /*!\brief  purpose return the result of a sql statment 
  * in a array
- * param : $p_cn database connection
- *         $p_sql sql query
+ * \param $p_cn database connection
+ * \param $p_sql sql query
  */
 function GetArray($p_cn,$p_sql) {
   echo_debug('postgres.php',__LINE__,"GetArray");
@@ -368,12 +358,12 @@ function GetArray($p_cn,$p_sql) {
   echo_debug('postgres.php',__LINE__,var_export($array,true));
   return $array;
 }
-/* function save_upload_document
- * Save a picture of a rest_id
- * parameters 
- * - $cn database connection
- * - $file array (from $_FILES)
- * - $name ( name of the input)
+/*!   save_upload_document
+ * \brief Save a "piece justificative"
+ *
+ * \param $cn database connection
+ * \param $seq jr_grpt_id
+ * 
  */
 function save_upload_document ($cn,$seq) {
 

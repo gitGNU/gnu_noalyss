@@ -20,6 +20,9 @@
 include_once ("ac_common.php");
 include_once ("postgres.php");
 include_once ("check_priv.php");
+/*! \file
+ * \brief Create a new card in a popup window
+ */
 
 /* $Revision$ */
 /* Admin. Dossier */
@@ -45,6 +48,8 @@ if ( $User->CheckAction($cn,FICHE_WRITE)== 0) {
 }
 
 include_once("fiche_inc.php");
+
+
 foreach ($HTTP_GET_VARS as $key=>$element) {
   // The value are e_name e_type e_PHPSESSID
   ${"e_$key"}=$element;

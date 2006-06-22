@@ -19,16 +19,37 @@
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 include_once("poste.php");
+/*! \file
+ * \brief Class for manipulating data to print the balance of account
+ */
+/*!
+ * \brief Class for manipulating data to print the balance of account
+ */
 
 class Balance {
-  var $db; // database connection
-  var $central; 
-  var $row;
+  var $db;       /*! \enum database connection */
+  var $central; /*! \enum from centralized ledger if equal to Y */
+  var $row;     /*! \enum row for ledger*/
   function Balance($p_cn) {
     $this->db=$p_cn;
     $this->central='N';
   }
 
+
+/*! 
+ * \brief retrieve all the row from the ledger in the range of a periode
+ * \param $p_from_periode start periode
+ * \param $p_to_periode end periode
+ *
+ * \return a double array
+ *     array of
+ *         - $a['poste']
+ *         - $a['label']
+ *         - $a['sum_deb']
+ *         - $a['sum_cred']
+ *         - $a['solde_deb']
+ *         - $a['solde_cred']
+ */
   function GetRow($p_from_periode,$p_to_periode) {
     // compute periode
     if ( $p_from_periode==$p_to_periode ) {

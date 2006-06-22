@@ -18,6 +18,9 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
+/*! \file
+ * \brief create, modify parameter ledger
+ */
 include_once ("ac_common.php");
 html_page_start($_SESSION['g_theme']);
 if ( ! isset ( $_SESSION['g_dossier'] ) ) {
@@ -34,7 +37,12 @@ $User->Check();
 include_once ("check_priv.php");
 
 include_once ("user_menu.php");
-ShowMenuCompta($_SESSION['g_dossier']);
+
+echo '<div class="u_tmenu">';
+echo ShowMenuCompta($_SESSION['g_dossier'],"user_advanced.php");
+echo '</div>';
+
+
 $cn=DbConnect($_SESSION['g_dossier']);
 if ( $User->CheckAction($cn,GJRN) == 0 ) {
   /* Cannot Access */
@@ -44,6 +52,8 @@ if ( $User->CheckAction($cn,GJRN) == 0 ) {
 
 echo '<div class="u_subtmenu">';
 echo ShowMenuAdvanced("jrn_update.php");
+echo '</div>';
+echo '<div class="lmenu">';
 MenuJrn($_SESSION['g_dossier']);
 echo '</div>';
 html_page_stop();

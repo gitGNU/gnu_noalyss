@@ -18,6 +18,10 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
+/*! \file
+ * \brief Search a card in a popup window
+ */
+
 include_once ("ac_common.php");
 include_once ("poste.php");
 include_once ("postgres.php");
@@ -41,7 +45,6 @@ if ( isset ( $_POST['search']) )
 
 if ( ! isset ( $_SESSION['g_dossier'] ) ) {
   echo "You must choose a Dossier ";
-  phpinfo();
   exit -2;
 }
 

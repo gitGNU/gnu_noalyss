@@ -19,6 +19,10 @@
 */
 // Auteur Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
+/*!\file 
+ * \brief Manage the stock by year
+ */
+
 include_once("preference.php");
 include_once ("ac_common.php");
 include_once("postgres.php");
@@ -57,7 +61,7 @@ if ( $User->admin == 0 ) {
 //Show the top menu
 include_once ("user_menu.php");
 
-ShowMenuCompta($_SESSION['g_dossier']);
+echo ShowMenuCompta($_SESSION['g_dossier'],"user_advanced.php");
 
 // Show Menu Left
 $left_menu=ShowMenuAdvanced("stock.php");

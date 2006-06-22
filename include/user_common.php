@@ -20,17 +20,18 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 include_once("postgres.php");
-
-/* function GetTvaRate
+/*! \file
+ * \brief Common functions 
+ */
+/*! 
  **************************************************
- * Purpose : Return the rate of the p_tva_id
+ *\brief  Return the rate of the p_tva_id
  *        
- * parm : 
- * -  p_cn database connection
- *	- p_tva_id tva.tva_id
- * gen :
- *	- none
- * return:
+ * 
+ * \param $p_cn database connection
+ * \param $p_tva_id tva.tva_id
+ *
+ * \return
  *       an array containing the rate and the label
  *       the tva rate or null if a problem occured
  */
@@ -47,23 +48,21 @@ function GetTvaRate($p_cn,$p_tva_id) {
   return $r;
 
 }
-/* function ComputeTotalVat($p_cn,$a_fiche,$a_quant,$a_price,$ap_vat)
+/*!
  **************************************************
- * Purpose : Compute the vat,
+ *\brief  Compute the vat,
  *           the fiche.f_id are in a_fiche
  *           the quantity in a_quant
  *           
  *        
- * parm : 
- *	- database connection
- *      - fiche id array
- *      1- quantity array 
- *      - price array 
- *      - $ap_vat Array of tva id
- *      - $all = false if we reduce VAT
- * gen :
- *	-
- * return: array
+ *  
+ * \param $p_cn database connection
+ * \param $a_fiche fiche id array
+ * \param $a_quantity array 
+ * \param $a_price array 
+ * \param $ap_vat Array of tva id
+ * \param $all = false if we reduce VAT
+ * \return: array
  *       a[tva_id] =  amount vat
  */
 function ComputeTotalVat($p_cn,	$a_fiche,$a_quant,$a_price,$ap_vat,$all=false ) {
@@ -153,22 +152,21 @@ echo_debug('user_common.php',__LINE__,"ComputeTotalVat $a_fiche $a_quant $a_pric
  
 }
 
-/* function ComputeVat($p_cn,$a_fiche,$a_quant,$a_price,$ap_vat)
+/*!   
  **************************************************
- * Purpose : Compute the vat for only one elt,
+ *\brief  Compute the vat for only one elt,
  *           the fiche.f_id are in p_fiche
  *           the quantity in p_quant
  *           
  *        
- * parm : 
- *	- database connection
- *      - fiche id int
- *      1- quantity int
- *      - price float 
- *      - Tva_id
- * gen :
+ *
+ * \param $p_cn database connection
+ * \param $p_fiche fiche id int
+ * \param $p_quantity int
+ * \param $p_price float 
+ * \param $p_tva_id
  *	-
- * return: the amount of vat
+ * \return the amount of vat
  */
 function ComputeVat($p_cn,	$p_fiche,$p_quant,$p_price,$p_vat ) 
 {
@@ -197,16 +195,15 @@ function ComputeVat($p_cn,	$p_fiche,$p_quant,$p_price,$p_vat )
 }
 
 
-/* function GetTvaPoste($p_cn,$tva_id,$p_type);
+/*!   
  **************************************************
- * Purpose : Get the account of tva_rate.tva_poste
+ *\brief  Get the account of tva_rate.tva_poste
  *        return the credit or the debit account
- * parm : connection
- *	-     tva_rate.tva_id
- *        type ( d or credit)
- * gen :
- *	-
- * return:
+ * \param $p_cn connection
+ * \param $p_tva_id tva_rate.tva_id
+ * \param $p_cred       type ( d or credit)
+ *
+ * \return
  *        return the credit or the debit account
  *        null if error
  */
@@ -224,9 +221,9 @@ function GetTvaPoste($p_cn,$p_tva_id,$p_cred) {
 
 
 
-/* function InsertJrnx($p_cn,$p_type,$p_user,$p_jrn,$p_poste,$p_date,$p_amount,$p_grpt,$p_periode
+/*!   InsertJrnx($p_cn,$p_type,$p_user,$p_jrn,$p_poste,$p_date,$p_amount,$p_grpt,$p_periode
  **************************************************
- * Purpose : Insert into the table Jrn
+ *\brief  Insert into the table Jrn
  *        
  * parm : 
  *	- $p_cn database connection
@@ -269,9 +266,9 @@ function InsertJrnx($p_cn,$p_type,$p_user,$p_jrn,$p_poste,$p_date,$p_amount,$p_g
   return GetSequence($p_cn,'s_jrn_op');
 
 }
-/* function InsertJrn($p_cn,$p_date,$p_jrn,$p_comment,$p_amount,$p_grpt,$p_periode
+/*!   InsertJrn($p_cn,$p_date,$p_jrn,$p_comment,$p_amount,$p_grpt,$p_periode
  **************************************************
- * Purpose : Insert into the table Jrnx
+ *\brief  Insert into the table Jrnx
  *        
  * parm : 
  *	- $p_cn database connection
@@ -307,20 +304,21 @@ comment = $p_comment");
 	if ( $Res == false)  return false;
 	return GetSequence($p_cn,'s_jrn');
 }
-/* function ListJrn($p_cn,$p_jrn,$p_wherel)
+/*!   ListJrn($p_cn,$p_jrn,$p_wherel)
  **************************************************
- * Purpose : show all the lines of the asked jrn
+ *\brief  show all the lines of the asked jrn
  *        
  * parm : 
  *	- $p_cn database connection
  *      - $p_jrn jrn_id jrn.jrn_def_id
  *      - $p_where the sql query where clause
- *      - $p_array TODO
- *      - $p_value TODO
+ *      - $p_array param. for a search
+ *      - $p_value offset
+ *      - $p_paid value : 0 nothing is shown, 1 check box; 2 check_box disable
  * return: array (entryCount,generatedHTML);
  * 
  */
-function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0)
+function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0,$p_paid=0)
 {
 
   include_once("central_inc.php");
@@ -352,7 +350,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0)
                             join jrn_def on jrn_def_id=jr_def_id 
                             join parm_periode on p_id=jr_tech_per
                        $p_where 
-			 order by jr_date_order asc";
+			 order by jr_date_order asc,jr_internal asc";
   }
   if ( $p_array != null ) {
     // Construction Query 
@@ -456,9 +454,9 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0)
   $Max=pg_NumRows($Res);
 
   //TODO: correct this message. 
-  if ($Max==0) return array(0,"No row selected");
+  if ($Max==0) return array(0,"Aucun enregistrement trouvé");
 
-  $r.="<TABLE width=\"100%\">";
+  $r.='<table style="width:100%;border:solid blue 2px ;border-style:outset;">';
   $l_sessid=$_REQUEST['PHPSESSID'];
   $r.="<tr class=\"even\">";
  $r.="<th> Internal </th>";
@@ -466,6 +464,11 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0)
   $r.="<th> Echéance </th>";
   $r.="<th> Description</th>";
   $r.="<th> Montant </th>";
+  // if $p_paid is not equal to 0 then we have a paid column
+  if ( $p_paid != 0 ) 
+    {
+      $r.="<th> Pay&eacute;</th>";
+    }
   $r.="<th>Op. Concernée</th>";
   $r.="<th>Document</th>";
   $r.="</tr>";
@@ -517,6 +520,20 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0)
     //STAN $positive always == 0
      $r.=( $positive != 0 )?"<font color=\"red\">  - ".sprintf("%8.2f",$row['jr_montant'])."</font>":sprintf("%8.2f",$row['jr_montant']);
     $r.="</TD>";
+
+
+    // Show the paid column if p_paid is not null
+    if ( $p_paid !=0 )
+      {
+	$w=new widget("checkbox");
+	$w->name="rd_paid".$row['jr_id'];
+	$w->selected=($row['jr_rapt']=='paid')?true:false;
+	// if p_paid == 2 then readonly
+	$w->readonly=( $p_paid == 2)?true:false;
+	$h=new widget("hidden");
+	$h->name="set_jr_id".$row['jr_id'];
+	$r.='<TD>'.$w->IOValue().$h->IOValue().'</TD>';
+      }
     
     // Rapprochement
     $a=GetConcerned($p_cn,$row['jr_id']);
@@ -526,13 +543,11 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0)
       
       foreach ($a as $key => $element) 
       {      
-        //TODO add to each row the related operations
 	      $r.= "<A class=\"detail\" HREF=\"javascript:viewDetail('".GetGrpt($p_cn,$element)."','$l_sessid')\" > ".GetInternal($p_cn,$element)."</A>";
       }//for
     }// if ( $a != null ) {
     $r.="</TD>";
-    //$l=user_jrn.php?action=update&line=91
-    
+
     if ( $row['jr_valid'] == 'f'  ) {
       $r.="<TD> Opération annulée</TD>";
     }    else {
@@ -545,7 +560,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0)
       $r.="</TD>";
     } // else
     //document
-    $r.="<TD>".sprintf('<A class="detail" HREF="show_document.php?jrn=%s&jr_grpt_id=%s">%s</A>',
+    $r.="<TD>".sprintf('<A class="detail" HREF="show_pj.php?jrn=%s&jr_grpt_id=%s">%s</A>',
 		       $p_jrn,
 		       $row['jr_grpt_id'],
 		       $row['jr_pj_name'])."</TD>";
@@ -561,9 +576,9 @@ return array ($count,$r);
 
 
 
-/* function InsertStockGoods($p_cn,$j_id,$a_good[$i],$a_quant[$i],'c');
+/*!   InsertStockGoods($p_cn,$j_id,$a_good[$i],$a_quant[$i],'c');
  **************************************************
- * Purpose : Insert data into stock_goods,
+ *\brief  Insert data into stock_goods,
  *        
  * parm : 
  *	- $p_cn database connection
@@ -599,9 +614,9 @@ function InsertStockGoods($p_cn,$p_j_id,$p_good,$p_quant,$p_type)
                      ");
  return $Res;
 }
-/* function withStock($p_cn,$p_f_id)
+/*!   withStock($p_cn,$p_f_id)
  **************************************************
- * Purpose : return true if we manage stock for it
+ *\brief  return true if we manage stock for it
  *          value is stored in attr_value
  *        
  * parm : 
@@ -619,9 +634,9 @@ function withStock($p_cn,$p_f_id)
   return false;
 
 }
-/* function  VerifyOperationDate ($p_cn,$p_user,$p_date) 
+/*!    VerifyOperationDate ($p_cn,$p_user,$p_date) 
  **************************************************
- * Purpose : Verify if 
+ *\brief  Verify if 
  *    the date is a valid date
  *    the date is in the default period
  *    the period is not closed
@@ -668,9 +683,9 @@ function VerifyOperationDate($p_cn,$p_periode,$p_date) {
     return $p_date;
 }
 
-/* function InsertRapt($p_cn,$jr_id,$jr_id2)
+/*!   InsertRapt($p_cn,$jr_id,$jr_id2)
  **************************************************
- * Purpose :  Insert into jrn_rapt the concerned operations
+ *\brief   Insert into jrn_rapt the concerned operations
  *        
  * parm : 
  *	- p_cn database connection
@@ -699,9 +714,9 @@ function InsertRapt($p_cn,$jr_id,$jr_id2) {
     }
   return true;
 }
-/* function DeleteRapt($p_cn,$jr_id,$jr_id2)
+/*!   DeleteRapt($p_cn,$jr_id,$jr_id2)
  **************************************************
- * Purpose :  Insert into jrn_rapt the concerned operations
+ *\brief   Insert into jrn_rapt the concerned operations
  *        
  * parm : 
  *	- p_cn database connection
@@ -731,9 +746,9 @@ function DeleteRapt($p_cn,$jr_id,$jr_id2) {
     }
 }
 
-/* function GetConcerned (p_cn ,jr_id)
+/*!   GetConcerned (p_cn ,jr_id)
  **************************************************
- * Purpose :  Return an array of the concerned operation
+ *\brief   Return an array of the concerned operation
  *        
  * parm : 
  *	- database connection
@@ -761,9 +776,9 @@ $sql=" select jr_id as cn from jrn_rapt where jra_concerned=$jr_id
  }
  return $r;
 }
-/* function GetGrpt($p_cn,$p_jr_id)
+/*!   GetGrpt($p_cn,$p_jr_id)
  **************************************************
- * Purpose :  Return the jr_grpt_id from jrn where
+ *\brief   Return the jr_grpt_id from jrn where
  *            jr_id = $p_jr_id
  *        
  * parm : 
@@ -783,9 +798,9 @@ function  GetGrpt($p_cn,$p_jr_id)
   $r=pg_fetch_array($Res,0);
   return $r['jr_grpt_id'];
 }
-/* function UpdateComment ($p_cn,$p_jr_id,$p_comment)
+/*!   UpdateComment ($p_cn,$p_jr_id,$p_comment)
  **************************************************
- * Purpose : Update comment in jrn 
+ *\brief  Update comment in jrn 
  *         
  * parm : 
  *	- database conn.
@@ -803,9 +818,9 @@ function UpdateComment ($p_cn,$p_jr_id,$p_comment) {
 
 }
 
-/* function isValid ($p_cn, $p_grpt_id
+/*!   isValid ($p_cn, $p_grpt_id
  **************************************************
- * Purpose :  test if a jrn op is valid
+ *\brief   test if a jrn op is valid
  *        
  * parm : 
  *	- db connection 
@@ -831,20 +846,17 @@ function isValid ($p_cn,$p_grpt_id) {
 
 }
 
-/* function  jrn_navigation_bar
+/*!    jrn_navigation_bar
  **************************************************
- * Purpose : 
+ *\brief  
  *     Create a navigation_bar (pagesize)
  *        
- * parm : 
+ * \param  
  *	- p_offset first record number
  *      - p_line total of returned row
  *      - p_size current g_pagesize
  *      - p_page number of the page
- * gen :
- *	-none
- * return:
- *     string
+ * \return   string
  */
 function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1)
 {

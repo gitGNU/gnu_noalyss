@@ -1,0 +1,283 @@
+<?
+/*
+ *   This file is part of PhpCompta.
+ *
+ *   PhpCompta is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 2 of the License, or
+ *   (at your option) any later version.
+ *
+ *   PhpCompta is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with PhpCompta; if not, write to the Free Software
+ *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
+/* $Revision$ */
+// Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+/*! \file
+ * \brief Class for the document template 
+ */
+/*!
+ * \brief Class for the document template 
+ */
+
+class Document_modele {
+  var $cn;         	/*! \enum $cn  database connection */
+  var $md_id;	        /*! \enum $md_id pk */
+  var $md_name;         /*! \enum $md_name template's name */
+  var $md_type;         /*! \enum $md_type template's type (letter, invoice, order...) */
+  var $md_lob;          /*! \enum $md_lob Document file */
+  var $md_sequence;     /*! \enum  $md_sequence sequence name (autogenerate) */
+  var $sequence;        /*! \enum $sequence sequence number used by the create sequence start with */
+  //Constructor parameter = database connexion
+  function Document_modele($p_cn,$p_id=-1) {
+    $this->cn=$p_cn;	
+    $this->md_id=$p_id;
+  }
+  
+  /*!
+   **************************************************
+   * \brief : show all the stored document_modele.
+   *        return a string containing all the data
+   *        separate by TD & TR tag
+   * \return table in HTML Code
+   */
+  function myList() { 
+    $sql="select md_id,md_name,dt_value from document_modele join document_type on(dt_id=md_type)";
+    $Res=ExecSql($this->cn,$sql);
+    $all=pg_fetch_all($Res);
+    if ( pg_NumRows($Res) == 0 ) return "";
+    $r='<p><form method="post">';
+    $r.="<table>";
+    $r.="<tr> <th> Nom </th> <th>Type</Th><th>Fichier</th><th> Effacer</th>"; 
+    $r.="</tr>";
+    foreach ( $all as $row) {
+      $r.="<tr>";
+      $r.="<td>";
+      $r.=$row['md_name'];
+      $r.="</td>";
+      $r.="<td>";
+      $r.=$row['dt_value'];
+      $r.="</td>";
+      $r.="<td>";
+      $r.='<A HREF="show_document_modele.php?md_id='.$row['md_id'].'">Document</a>';
+      $r.="</td>";
+      $r.="<TD>";
+      $c=new widget("checkbox");
+      $c->name="dm_remove_".$row['md_id'];
+      $r.=$c->IOValue();
+      $r.="</td>";
+      $r.="</tr>";
+    } 
+    $r.="</table>";
+    
+    // need hidden parameter for subaction
+    $a=new widget("hidden");
+    $a->name="sa";
+    $a->value="rm_template";
+    $r.=$a->IOValue();
+    $r.=$a->Submit("rm_template","Effacer la sélection");
+    $r.="</form></p>";
+    return $r;
+  }
+  /*!  Save
+   **************************************************
+   * \brief :  Save a document_modele in the database, 
+   *       if the document_modele doesn't exist yet it will be
+   *       first created (-> insert into document_modele)
+   *       in that case the name and the type must be set
+   *       set before calling Save, the name will be modified
+   *       with FormatString
+   *        
+   * parm : 
+   *	- none
+   * gen :
+   *	- none
+   * return:
+   *     - none
+   */
+  function Save() 
+    {
+      // if name is empty return immediately
+      if ( trim(strlen($this->md_name))==0) 
+	return;
+      // Start transaction
+      StartSql($this->cn);
+      // Save data into the table invoice
+      // if $this->md_id == -1 it means it is a new document model
+      // so first we have to insert it
+      // the name and the type must be set before calling save
+      if ( $this->md_id == -1) 
+	{
+
+	  // insert into the table document_modele
+	  $this->name=FormatString($this->md_name);
+	  $this->md_id=NextSequence($this->cn,'document_modele_md_id_seq');
+	  $sql=sprintf("insert into document_modele(md_id,md_name,md_type) 
+                              values (%d,'%s',%d)",
+			     $this->md_id,$this->name,$this->md_type);
+	  $Ret=ExecSql($this->cn,$sql);
+	  // create the sequence for this modele of document
+	  $this->md_sequence="document_".NextSequence($this->cn,"document_seq");
+	  // if start is not equal to 0 and he's a number than the user
+	  // request a number change
+	  if ( $this->start != 0 && isNumber($this->start) == 1 )
+	    {
+	      $sql="alter sequence seq_doc_type_".$this->md_type." start with ".$this->start;
+	      ExecSql($this->cn,$sql);
+	    }
+	  
+	}
+      // Save the file
+      $new_name=tempnam('/tmp','document_');
+      echo_debug('class_document_modele.php',__LINE__,"new name=".$new_name);
+      if ( strlen ($_FILES['doc']['tmp_name']) != 0 ) 
+	{
+	  if (move_uploaded_file($_FILES['doc']['tmp_name'],
+				 $new_name)) 
+	    {
+		    // echo "Image saved";
+	      $oid= pg_lo_import($this->cn,$new_name);
+	      if ( $oid == false ) 
+		{
+		  echo_error('class_document_modele.php',__LINE__,"cannot upload document");
+		  Rollback($cn);
+		  return;
+		}
+	      echo_debug('class_document_modele.php',__LINE__,"Loading document");
+	      // Remove old document
+	      $ret=ExecSql($this->cn,"select md_lob from document_modele where md_id=".$this->md_id);
+	      if (pg_num_rows($ret) != 0) 
+		{
+		  $r=pg_fetch_array($ret,0);
+		  $old_oid=$r['md_lob'];
+		  if (strlen($old_oid) != 0) 
+		    pg_lo_unlink($this->cn,$old_oid);
+		}
+	      // Load new document
+	      var_dump($_FILES);
+	      ExecSql($this->cn,"update document_modele set md_lob=".$oid.", md_mimetype='".$_FILES['doc']['type']."' ,md_filename='".$_FILES['doc']['name']."' where md_id=".$this->md_id);
+	      Commit($this->cn);
+	    }
+	  else 
+	    {
+	      echo "<H1>Error</H1>";
+	      Rollback($this->cn);
+	      exit;
+	    }
+	}
+    }
+  /*!
+   * \brief Remove a template 
+   * \return nothing
+   */
+  function Delete() 
+    {
+      StartSql($this->cn);
+      // first we unlink the document
+      $sql="select md_lob from document_modele where md_id=".$this->md_id;
+      $res=ExecSql($this->cn,$sql);
+      $r=pg_fetch_array($res,0);
+      // if a lob is found
+      if ( strlen ($r['md_lob']) != 0 )
+	{
+	  // we remove it first
+	  pg_lo_unlink($r['md_lob']);
+	}
+      // now we can delete the row
+      $sql="delete from document_modele where md_id =".$this->md_id;
+      $sql=ExecSql($this->cn,$sql);
+      Commit($this->cn);
+    }
+  
+  /*!
+   * \brief Parse and remplace the tag in the invoice 
+   *         By the value found in quant_sold
+   * \param p_id is the id of the invoice
+   * \param p_internal reference (quant_sold qs_internal)
+   */
+  function Get($p_id,$p_internal) 
+    {
+      // retrieve info from the table invoice
+      
+      // retrieve the template and generate document
+      StartSql($this->cn);
+      $ret=ExecSql($cn,"select iv_name,iv_file from invoice where iv_id".$this->iv_id);
+      if ( pg_num_rows ($ret) == 0 )
+	return;
+      $row=pg_fetch_array($ret,0);
+      //the template is saved into file $tmp
+      $tmp=tempnam('/tmp/','invoice_');
+      pg_lo_export($cn,$row['iv_file'],$tmp);
+      // Parse the file 
+      
+      
+      
+      
+      // send it to stdout
+      ini_set('zlib.output_compression','Off');
+      header("Pragma: public");
+      header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+      header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+      header("Cache-Control: must-revalidate");
+      header('Content-type: rtf/x-application');
+      header('Content-Disposition: attachment;filename="invoice'.$p_internal.'.rtf"',FALSE);
+      header("Accept-Ranges: bytes");
+      $file=fopen($tmp,'r');
+      while ( !feof ($file) )
+	{
+	  echo fread($file,8192);
+	}
+      fclose($file);
+      
+      unlink ($tmp);
+      
+      Commit($cn);
+      
+    }
+  /*!
+   * \brief show the form for loading a template
+   * \param p_action for the field action = destination url 
+   * \param
+   * \param
+   * 
+   *
+   * \return string containing the forms
+   */
+  function form($p_action) 
+    {
+      $r="<p>";
+      $r.='<form enctype="multipart/form-data"  action="'.$p_action.'" method="post">';
+      $t=new widget("text");
+      $t->name="md_name";
+      $r.=" Nom ".$t->IOValue()."";
+      $r.="Type de document ";
+      $w=new widget("select");
+      $w->name="md_type";
+      $w->value=make_array($this->cn,'select dt_id,dt_value from document_type');
+      $r.=$w->IOValue();
+      $r.="</p><p>";
+      $f=new widget("file");
+      $f->name="doc";
+      $r.="fichier ".$f->IOValue()."";
+      // we need to add the sub action as hidden
+      $h=new widget("hidden");
+      $h->name="sa";
+      $h->value="add_document";
+      $r.=$h->IOValue();
+      $start=new widget("text");
+      $start->name="start_seq";
+      $start->size=9;
+      $start->value="0";
+      $r.=" Numerotation commence a ".$start->IOValue()."";
+      $r.=$w->Submit('add_document','Ajout');
+      $r.="</form></p>";
+      return $r;
+    }
+
+}
+?>

@@ -18,9 +18,12 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-/* function MakeListingVat
+/*!\file OBSOLETE ?
+ */
+
+/*! 
  **************************************************
- * Purpose : Créer le fichier à déposer pour la TVA
+ * \brief  Créer le fichier à déposer pour la TVA
  *           voir le fichier BE_fr_list_client_nonpapier.pdf
  *        
  * parm : 

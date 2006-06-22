@@ -19,6 +19,9 @@
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 // Author Olivier Dzwoniarkiewicz
+/*! \file
+ * \brief for importing Bank operations
+ */
 
 include_once("ac_common.php");
 include_once("user_menu.php");
@@ -43,8 +46,9 @@ html_page_start($User->theme);
 include_once("import_inc.php");
 
 include_once ("user_menu.php");
-ShowMenuCompta($_SESSION['g_dossier']);
-
+echo '<div class="u_tmenu">';
+echo ShowMenuCompta($_SESSION['g_dossier'],"user_advanced.php");
+echo '</div>';
 $cn=DbConnect($_SESSION['g_dossier']);
 if ( $User->CheckAction($cn,IMP_BQE)==0){
   /* Cannot Access */
@@ -52,8 +56,9 @@ if ( $User->CheckAction($cn,IMP_BQE)==0){
  }
 echo ShowMenuAdvanced("import.php");
 
+echo '<div class="lmenu">';
 ShowMenuImport();
-
+echo '</div>';
 if ( isset( $_REQUEST['PHPSESSID'])) {
 	$sessid = $_REQUEST['PHPSESSID'];
 }
@@ -66,11 +71,11 @@ if ( isset ($_GET["action"]) ) {
   if ($action == "import" ) {
     if(isset($_FILES['fupload'])) {
 	// load the table with the cvs' content
-      echo '<DIV class="ccontent">';
+      echo '<DIV class="u_redcontent">';
       ImportCSV($cn,$_FILES['fupload']['tmp_name'],$_POST['import_bq'],$_POST['format_csv'],$_POST['import_jrn']);
       echo "</DIV>";
     } else {
-      echo '<DIV class="ccontent">';
+      echo '<DIV class="u_redcontent">';
       ShowFormTransfert($cn);
       echo "</DIV>";
     }
@@ -79,12 +84,12 @@ if ( isset ($_GET["action"]) ) {
     if(isset($_POST['poste'])) {
       UpdateCSV($cn, $_POST['code'], $_POST['poste']);
     }
-    echo '<DIV class="ccontent">';
+    echo '<DIV class="u_redcontent">';
     VerifImport($cn);
     echo "</DIV>";
   }
   if ($action == "transfer" ) {
-    echo '<DIV class="ccontent">';
+    echo '<DIV class="u_redcontent">';
     TransferCSV($cn, $User->GetPeriode());
     echo "</DIV>";
   }

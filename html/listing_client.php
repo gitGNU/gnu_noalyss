@@ -20,6 +20,9 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 require_once("ac_common.php");
 require_once("postgres.php");
+/*! \file
+ * \brief Electronic declaration for VAT BELGIUM --> experimental
+ */
 //////////////////////////////////////////////////////////////////////
 // Check User
 include ('class_user.php');

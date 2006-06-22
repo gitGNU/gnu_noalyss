@@ -18,6 +18,9 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
+/*! \file
+ * \brief in a popup window manage the deletion of the operations
+ */
 include_once ("ac_common.php");
 include_once ("poste.php");
 include_once("preference.php");

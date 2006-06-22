@@ -18,26 +18,28 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+/*! \file
+ * \brief Functions for the ledger of expenses
+ */
 require_once("constant.php");
 require_once("class_widget.php");
 require_once("preference.php");
 require_once("fiche_inc.php");
 require_once("user_common.php");
 require_once("class_parm_code.php");
-/* function FormAchInput
- * Purpose : Display the form for a sell
+/*! 
+ * \brief  Display the form for a sell
  *           Used to show detail, encode a new invoice 
  *           or update one
  *        
- * parm : 
- *	- $p_array which can be empty (normally = $_POST)
- *      - $p_jrn the ledger
- *      - $p_periode = periode
- *      - $pview_only if we cannot change it (no right or centralized op)
- *      - $p_article number of article
- * gen :
- *	-
- * return: string with the form
+ *  
+ *\param $p_array which can be empty (normally = $_POST)
+ *\param $p_jrn the ledger
+ *\param $p_periode = periode
+ *\param $pview_only if we cannot change it (no right or centralized op)
+ *\param $p_article number of article
+ *
+ * \return: string with the form
  */
 function FormAchInput($p_cn,$p_jrn,$p_periode,$p_array=null,$p_submit="",$pview_only=true,$p_article=1)
 { 
@@ -124,6 +126,11 @@ echo_debug('user_form_ach.php',__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_peri
   $client_label=new widget("span");
   $r.= $client_label->IOValue("e_client_label",$e_client_label)."</TD></TR>";
   $r.="</TABLE>";
+  // Set correctly the REQUEST param for jrn_type 
+  $h=new widget('hidden');
+  $h->name='jrn_type';
+  $h->value=$_REQUEST['jrn_type'];
+  $r.=$h->IOValue();
 
   // Record the current number of article
   $Hid=new widget('hidden');
@@ -229,19 +236,17 @@ echo_debug('user_form_ach.php',__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_peri
 
 
 }
-/* function form_verify_input
+/*! 
  **************************************************
- * Purpose : verify if the data to insert are valid
+ * \brief  verify if the data to insert are valid
  *        
- * parm : 
- *	- p_cn database connection
- *      - p_jrn concerned ledger
- *      - User periode
- *      - array with the post data
- *      - p_number number of items
- * gen :
- *	-
- * return:
+ * \param $p_cn database connection
+ *\param $p_jrn concerned ledger
+ *\param $p_periode User periode
+ *\param $p_array array with the post data
+ *\param $p_number number of items
+ *
+ * \return null if error
  */
 function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
 {
@@ -431,22 +436,17 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
       }
     return true;
 }
-/* function FormAchView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='html',$p_comment='') 
+/*! 
  **************************************************
- * Purpose : Show the invoice before inserting it 
+ * \brief  Show the invoice before inserting it 
  *           the database
  *        
- * parm : 
- *	- p_cn database connection
- *      - p_jrn journal
- *      - p_periode
- *      - array of value
- *      - nb of item
- *      - p_doc type pdf or html
- * gen :
- *	- none
- * return:
- *     - string
+ * \param $p_cn database connection
+ * \param p_jrn journal
+ * \param $p_periode
+ * \param $p_array array of value
+ * \param $p_number nb of item
+ *\param $piece == true we can upload a doc.
  * 
  */
 
@@ -572,6 +572,12 @@ function FormAchView ($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$p_number,$p_pi
 
   $r.='<FORM METHOD="POST" enctype="multipart/form-data" ACTION="user_jrn.php?action=new&p_jrn='.$p_jrn.'">';
   // check for upload piece
+  // Set correctly the REQUEST param for jrn_type 
+  $h=new widget('hidden');
+  $h->name='jrn_type';
+  $h->value=$_REQUEST['jrn_type'];
+  $r.=$h->IOValue();
+
   $file=new widget("file");
   $file->table=1;
   $r.="<hr>";
@@ -589,9 +595,9 @@ function FormAchView ($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$p_number,$p_pi
   
 }
 
-/* function RecordSell
+/*! 
  **************************************************
- * Purpose : Record an invoice in the table jrn &
+ * \brief  Record an invoice in the table jrn &
  *           jrnx
  *        
  * parm : 

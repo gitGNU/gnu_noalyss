@@ -18,25 +18,26 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+/*! \file
+ * \brief Functions for the ledger of sold
+ */
 require_once("constant.php");
 require_once("class_widget.php");
 require_once("preference.php");
 require_once("fiche_inc.php");
 require_once("user_common.php");
-/* function FormVenInput
- * Purpose : Display the form for a sell
+/*!   FormVenInput
+ \brief  Display the form for a sell
  *           Used to show detail, encode a new invoice 
  *           or update one
  *        
- * parm : 
+ * \param  
  *	- p_array which can be empty
  *      - the "journal"
  *      - $p_periode = periode
  *      - view_only if we cannot change it (no right or centralized op)
  *      - $p_article number of article
- * gen :
- *	-
- * return: string with the form
+ * \return string with the form
  * TODO Add in parameters the infos about the company for making the invoice
  */
 function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_article=1)
@@ -61,7 +62,23 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
     $r.=JS_SEARCH_CARD;
     $r.=JS_SHOW_TVA;    
     $r.=JS_TVA;
-    $r.="<FORM NAME=\"form_detail\" ACTION=\"user_jrn.php?action=insert_vente&p_jrn=$p_jrn\" METHOD=\"POST\">";
+    // Compute href
+    $href=$_SERVER['SCRIPT_NAME'];
+    switch ($href)
+      {
+	// user_jrn.php
+      case '/user_jrn.php':
+	$href="user_jrn.php?action=insert_vente&p_jrn=$p_jrn";
+	break;
+      case '/commercial.php':
+	$href="commercial.php?p_action=facture&p_jrn=$p_jrn";
+	break;
+      default:
+	echo_error('user_form_ven.php',__LINE__,'Erreur invalid request uri');
+	exit (-1);
+      }
+      
+    $r.="<FORM NAME=\"form_detail\" ACTION=\"$href\" METHOD=\"POST\">";
 
     
   }
@@ -227,6 +244,11 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
 
   $r.="</TABLE>";
   $r.="<hr>";
+  // Set correctly the REQUEST param for jrn_type 
+  $h=new widget('hidden');
+  $h->name='jrn_type';
+  $h->value=$_REQUEST['jrn_type'];
+  $r.=$h->IOValue();
 
   if ($pview_only == false ) {
     $r.='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article" TABINDEX="32767">';
@@ -245,9 +267,9 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
 
 
 }
-/* function form_verify_input
+/*!   form_verify_input
  **************************************************
- * Purpose : verify if the data to insert are valid
+ \brief  verify if the data to insert are valid
  *        
  * parm : 
  *	- p_cn database connection
@@ -374,7 +396,7 @@ for ($o = 0;$o < $p_number; $o++) {
       echo "<SCRIPT>alert('$msg');</SCRIPT>";
       return null;
     }
-    // Periode fermï¿½ 
+    // Periode ferme
     if ( PeriodeClosed ($p_cn,$p_periode)=='t' )
       {
 		$msg="This periode is closed please change your preference";
@@ -384,22 +406,19 @@ for ($o = 0;$o < $p_number; $o++) {
       }
     return true;
 }
-/* function FormVenteView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='html',$p_comment='') 
+/*!   FormVenteView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='html',$p_comment='') 
  **************************************************
- * Purpose : Show the invoice before inserting it 
- *           the database
+ * \brief  Show the invoice before inserting it 
+ *         the database.
  *        
- * parm : 
- *	- p_cn database connection
- *      - p_jrn journal
- *      - p_periode
- *      - array of value
- *      - nb of item
- *      - p_doc type pdf or html
- * gen :
- *	- none
- * return:
- *     - string
+ *  
+ * \param p_cn database connection
+ * \param p_jrn journal
+ * \param p_periode
+ * \param array of value
+ * \param nb of item
+ * \param p_doc type pdf or html
+ * \return string
  * 
  */
 
@@ -518,56 +537,95 @@ function FormVenteView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='form'
  
   $r.="</DIV>";
   if ( $p_doc == 'form' ) {
-	  $r.='<FORM METHOD="POST" enctype="multipart/form-data" ACTION="user_jrn.php?action=record&p_jrn='.$p_jrn.'">';
-	  // check for upload piece
-	  $file=new widget("file");
-	  $file->table=1;
-	  $r.="<hr>";
-	  $r.= "<table>"; 
-	  $r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
-	  $r.="</table>";
-	  $r.="<hr>";
+    // Compute href
+    $href=$_SERVER['SCRIPT_NAME'];
+    switch ($href)
+      {
+	// user_jrn.php
+      case '/user_jrn.php':
+	$href="user_jrn.php?action=record&p_jrn=$p_jrn";
+	break;
+      case '/commercial.php':
+	$href="commercial.php?p_action=facture&sa=record&p_jrn=$p_jrn";
+	break;
+      default:
+	echo_error('user_form_ven.php',__LINE__,'Erreur invalid request uri');
+	exit (-1);
+      }
+      
 
-	  $r.=$data;
-	  if ( $sum_with_vat != 0 ) {
-	    $r.='<INPUT TYPE="SUBMIT" name="record_and_print_invoice" value="Sauver" >';
+    $r.='<FORM METHOD="POST" enctype="multipart/form-data" ACTION="'.$href.'">';
+    // if we create the invoice from the accountancy module, appl. propose
+    // to upload a invoice
+    if ( $_SERVER['SCRIPT_NAME'] == '/user_jrn.php')
+      {
+	// check for upload piece
+	$file=new widget("file");
+	$file->table=1;
+	$r.="<hr>";
+	$r.= "<table>"; 
+	$r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
+	$r.="</table>";
+	$r.="<hr>";
+
+      }
+    // if we were in the management module, appl. propose to generate an invoice
+    if ( $_SERVER['SCRIPT_NAME'] == '/commercial.php')
+      {
+	// if a template exists propose to choose an invoice template
+	if ( CountSql($p_cn,
+		      "select md_id,md_name from document_modele where md_type=4") > 0 )
+	  {
+	    $r.='G&eacute;n&eacute;rer une facture <input type="checkbox" name="gen_invoice" CHECKED>';
+	    // We propose to generate  the invoice and some template
+	    $doc_gen=new widget("select");
+	    $doc_gen->name="gen_doc";
+	    $doc_gen->value=make_array($p_cn,
+				       "select md_id,md_name from document_modele where md_type=4");
+	    $r.=$doc_gen->IOValue();  
+
+	    $r.="<hr>";
 	  }
-	  $r.='<INPUT TYPE="SUBMIT" name="correct_new_invoice" value="Corriger">';
+      }
 
-	  $r.='</FORM>';
-	  } 
+    
+    $r.=$data;
+    if ( $sum_with_vat != 0 ) {
+      $r.='<INPUT TYPE="SUBMIT" name="record_and_print_invoice" value="Sauver" >';
+    }
+    $r.='<INPUT TYPE="SUBMIT" name="correct_new_invoice" value="Corriger">';
+    
+    $r.='</FORM>';
+  } 
   return $r;
   
 }
 
-/* function RecordInvoice
+/*!   RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
  **************************************************
- * Purpose : Record an invoice in the table jrn &
+ * \brief  Record an invoice in the table jrn &
  *           jrnx
  *        
- * parm : 
- *	- $p_cn Database connection
- *  - $p_array contains all the invoice data
- * e_date => e : 01.01.2003
- * e_client => e : 3
- * nb_item => e : 3
- * e_march0 => e : 6
- * e_quant0 => e : 0
- * e_march0_sell=>e:1
- * e_march1 => e : 6
- * e_quant1 => e : 2
- * e_march1_sell=>e:1
- * e_march2 => e : 7
- * e_quant2 => e : 3
- * e_march2_sell=>e:1
-V : view_invoice => e : Voir cette facture
-V : record_invoice => e : Sauver 
- *  - $p_periode periode
- *  - $p_jrn current folder (journal)
- * gen :
- *	- none
- * return:
- *	      true on success
+ * \param  $p_cn Database connection
+ * \param $p_array array contains all the invoice data
+ *        - e_date => e : 01.01.2003
+ *        - e_client => e : 3
+ *        - nb_item => e : 3
+ *        - e_march0 => e : 6
+ *        - e_quant0 => e : 0
+ *        - e_march0_sell=>e:1
+ *        - e_march1 => e : 6
+ *        - e_quant1 => e : 2
+ *        - e_march1_sell=>e:1
+ *        - e_march2 => e : 7
+ *        - e_quant2 => e : 3
+ *        - e_march2_sell=>e:1
+ *        * V :        view_invoice => e : Voir cette facture
+ *        * V : record_invoice => e : Sauver 
+ * \param $p_periode periode
+ * \param $p_jrn current folder (journal)
+ *
+ * \return     true on success
  */
 function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
 {
@@ -667,8 +725,10 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
   $Res=ExecSql($p_cn,"update jrn set jr_comment='".$comment."' where jr_grpt_id=".$seq);
   if ( $Res == false ) { Rollback($p_cn); exit(" Error 'user_form_ven.php' __LINE__"); };
 
-  if ( isset ($_FILES))
+  if ( isset ($_FILES)) {
+    if ( sizeof($_FILES) != 0 )
     save_upload_document($p_cn,$seq);
+  }
 
 // save the quantity, then we can make an invoice
   for ( $i=0;$i < $nb_item;$i++) 
@@ -692,7 +752,6 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
 	 if ( $r == false ) { Rollback($p_cn); exit(" Error 'user_form_ven.php' __LINE__"); };
 	}
   Commit($p_cn);
-
   return $comment;
 }
 

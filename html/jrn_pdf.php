@@ -21,6 +21,9 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 // $Revision$
+/*! \file
+ * \brief Send a ledger in a pdf format
+ */
 
 if ( ! isset($_SESSION['g_dossier']) ) {
   echo "INVALID G_DOSSIER UNKNOWN !!! ";

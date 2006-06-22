@@ -18,6 +18,10 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+/*! \file
+ * \brief Send a ledger in CSV format
+ */
+
 header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="jrn.csv"',FALSE);
 include_once ("ac_common.php");

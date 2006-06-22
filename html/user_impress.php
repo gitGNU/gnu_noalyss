@@ -18,6 +18,10 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
+/*! \file
+ * \brief Main page for the printing
+ */
+
 include_once ("ac_common.php");
 html_page_start($_SESSION['g_theme']);
 if ( ! isset ( $_SESSION['g_dossier'] ) ) {
@@ -35,8 +39,10 @@ $User->Check();
 
 include ("check_priv.php");
 include_once ("user_menu.php");
-ShowMenuCompta($_SESSION['g_dossier']);
+echo '<div class="u_tmenu">';
 
+echo ShowMenuCompta($_SESSION['g_dossier']);
+echo '</div>';
 // show sub menu
 
 echo "<DIV class=\"u_subtmenu\">";

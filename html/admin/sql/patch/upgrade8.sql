@@ -105,7 +105,7 @@ insert into attr_def(ad_text) values ('TVA non déductible');
 insert into attr_def(ad_text) values ('TVA non déductible récupérable par l''impôt');
 insert into tmp_pcmn( pcm_val,pcm_lib,pcm_val_parent,pcm_country) select distinct 6190,'TVA récupérable par l''impôt',61,'BE' from tmp_pcmn where pcm_country='BE';
 insert into tmp_pcmn( pcm_val,pcm_lib,pcm_val_parent,pcm_country) select distinct 6740,'Dépense non admise',67,'BE' from tmp_pcmn where pcm_country='BE' and not exists (select pcm_val from tmp_pcmn where pcm_val=6740);
-alter table tmp_pcmn alter pcm_val type text;
+-- Change for Stan alter table tmp_pcmn alter pcm_val type text;
 update version set val=9;
 
 

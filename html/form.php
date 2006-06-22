@@ -18,7 +18,9 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-
+/*! \file
+ * \brief handle your own report: create or view report
+ */
 include_once ("ac_common.php");
 include_once ("user_menu.php");
 
@@ -38,7 +40,10 @@ $User->Check();
 include_once("form_inc.php");
 
 include_once ("user_menu.php");
-ShowMenuCompta($_SESSION['g_dossier']);
+echo '<div class="u_tmenu">';
+echo ShowMenuCompta($_SESSION['g_dossier'],"user_advanced.php");
+echo '</div>';
+
 include ("check_priv.php");
 
 $cn=DbConnect($_SESSION['g_dossier']);
@@ -48,12 +53,12 @@ if ( $User->CheckAction($cn,FORM)==0){
  }
 echo ShowMenuAdvanced("form.php");
 if ( isset ($_POST["record"] )) {
-  echo '<DIV class="ccontent">';
+  echo '<DIV class="u_redcontent">';
   AddForm($cn,$HTTP_POST_VARS);
   echo "</DIV>";
 }
 if ( isset ($_POST["del_form"]) ) {
-  echo '<DIV class="ccontent">';
+  echo '<DIV class="u_redcontent">';
   DeleteForm($cn,$_POST['fr_id']);
    echo "</DIV>";
 }
@@ -75,12 +80,12 @@ if ( isset ($_GET["action"]) ) {
   $action=$_GET["action"];
   if ($action == "add" )
     {
-      echo '<DIV class="ccontent">';
+      echo '<DIV class="u_redcontent">';
       EncodeForm(1,$sessid);
       echo "</DIV>";
     }
   if ($action=="view" ) {
-      echo '<DIV class="ccontent">';
+      echo '<DIV class="u_redcontent">';
     if ( ! $_GET["fr_id"] ) {
       echo_error("fr_id n'est pas donné");
       return;
@@ -90,20 +95,19 @@ if ( isset ($_GET["action"]) ) {
   }
 } // if $_GET
 if ( isset ($_POST["add_line"]) ) {
-  echo '<DIV class="ccontent">';
+  echo '<DIV class="u_redcontent">';
   $line=$_POST["line"];
   EncodeForm($line+1,$sessid,$HTTP_POST_VARS);
   echo "</DIV>";
 }
 if ( isset ($_POST["update"]) ) {
-  echo '<DIV class="ccontent">';
+  echo '<DIV class="u_redcontent">';
   UpdateForm($cn,$HTTP_POST_VARS);
     ViewForm($cn,$sessid,$_POST["fr_id"]);
 
   echo "</DIV>";
 }
 
-//echo '<DIV CLASS="ccontent">';
 
 //echo "</DIV>";
 html_page_stop();

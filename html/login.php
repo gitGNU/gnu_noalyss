@@ -18,7 +18,9 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 include_once ("ac_common.php");
-
+/*! \file
+ * \brief Login page
+ */
 /* $Revision$ */
 
 include_once ("postgres.php");

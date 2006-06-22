@@ -18,6 +18,13 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+/*! \file
+ * \brief Manage the account 
+ */
+/*!
+ * \brief Manage the account 
+ */
+
 class poste {
   var $db;
   var $id;
@@ -27,17 +34,13 @@ class poste {
     $this->id=$p_id;
   }
 
-  /* function GetRow
-   * Purpose : Get dat for poste 
+  /*! 
+   * \brief  Get dat for poste 
    * 
-   * parm : 
-   *      - connection
-   *	- condition
-   *      -. position
-   * gen :
-   *	- none
-   * return:
-   *	- none
+   * \param  $p_from periode from
+   * \param  $p_to   end periode
+   * \return double array (j_date,deb_montant,cred_montant,description,jrn_name,j_debit,jr_internal)
+   *         (tot_deb,tot_credit
    *
    */ 
   function GetRow($p_from,$p_to)
@@ -72,6 +75,8 @@ class poste {
   $this->row=$array;
   return array($array,$tot_deb,$tot_cred);
 }
+  /*!\brief Return the name of a account
+   */
   function GetName() {
     $ret=pg_exec($this->db,
 		 "select pcm_lib from tmp_pcmn where
@@ -84,15 +89,11 @@ class poste {
       }
     return $this->name;
   }
-  /* function GetSolde
-   * Purpose : give the balance of an account
+  /*! 
+   * \brief  give the balance of an account
    * 
-   * parm : 
-   *      - cond
-   * gen :
-   *	- none
-   * return:
-   *      - balance of the account
+   * \return
+   *      balance of the account
    *
    */ 
 function GetSolde($p_cond="") {
@@ -111,19 +112,14 @@ function GetSolde($p_cond="") {
   
   return abs($r['sum_deb']-$r['sum_cred']);
 }
-  /* function GetSoldeDetail
-   * Purpose : give the balance of an account
-   * 
-   * parm : 
-   *      - cond
-   * gen :
-   *	- none
-   * return:
-   *      - balance of the account
+  /*! 
+   * \brief   give the balance of an account
+   * \return
+   *      balance of the account
    *
    */ 
 function GetSoldeDetail($p_cond="") {
-	if ( $p_cond != "") $p_cond.=" and ";
+	if ( $p_cond != "") $p_cond=" and ".$p_cond;
   $Res=ExecSql($this->db,"select sum(deb) as sum_deb, sum(cred) as sum_cred from 
           ( select j_poste, 
              case when j_debit='t' then j_montant else 0 end as deb, 

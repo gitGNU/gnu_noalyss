@@ -18,11 +18,15 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
+/*! \file
+ * \brief included file for the ledger of expenses
+ */
 echo_debug('user_action_ach.php',__LINE__,"include user_action_ach.php");
 require_once("user_form_ach.php");
 require_once ("preference.php");
 require_once ("user_common.php");
 require_once("class_widget.php");
+require_once("class_jrn.php");
 $cn=DbConnect($_SESSION['g_dossier']);
 
 if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {
@@ -44,7 +48,8 @@ if ( $action == 'new' ) {
 	  // Submit button in the form
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver" ID="SubmitButton">';
-	  $r=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,$submit,false);
+          $jrn=new jrn($cn,  $_GET['p_jrn']);
+	  $r=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,$submit,false,$jrn->getDefLine('deb'));
 	  echo '<div class="u_redcontent">';
 	  echo $r;
 	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."<div>";
@@ -63,7 +68,8 @@ if ( $action == 'new' ) {
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver">';
 
-	  $r=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,$submit,false,  $nb_number);
+	  $r=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,$submit,false,  
+			  $nb_number);
 	  echo '<div class="u_redcontent">';
 	  echo $r;
 	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."<div>";
@@ -134,7 +140,6 @@ if ( $action == 'voir_jrn' ) {
   }
 ?>
 <div class="u_redcontent">
-
 <form method= "get" action="user_jrn.php">
 
 <?
@@ -142,6 +147,10 @@ $hid=new widget("hidden");
 
 $hid->name="p_jrn";
 $hid->value=$p_jrn;
+echo $hid->IOValue();
+
+$hid->name="jrn_type";
+$hid->value=$jrn_type;
 echo $hid->IOValue();
 
 $hid->name="action";
@@ -160,6 +169,32 @@ echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit',
 ?>
 </form>
 <?
+    // Ask to update payment
+    if ( isset ( $_POST['paid'])) 
+      {
+	// reset all the paid flag because the checkbox is post only
+	// when checked
+	foreach ($_POST as $name=>$paid) 
+	  {
+	    list($ad) = sscanf($name,"set_jr_id%d");
+ 	    if ( $ad == null ) continue;
+ 	    $sql="update jrn set jr_rapt='' where jr_id=$ad";
+ 	    $Res=ExecSql($cn,$sql);
+
+	  }
+	// set a paid flag for the checked box
+	foreach ($_POST as $name=>$paid) 
+	  {
+	    list ($id) = sscanf ($name,"rd_paid%d");
+
+	    if ( $id == null ) continue;
+	    echo "Mise à jour $id";
+	    $paid=($paid=='on')?'paid':'';
+	    $sql="update jrn set jr_rapt='$paid' where jr_id=$id";
+	    $Res=ExecSql($cn,$sql);
+	  }
+
+      }
 
  // Show list of sell
   echo_debug ("user_action_ach.php");
@@ -170,13 +205,17 @@ echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit',
    $page=(isset($_GET['offset']))?$_GET['page']:1;
    $offset=(isset($_GET['offset']))?$_GET['offset']:0;
 
-   list ($max_ligne,$list)=ListJrn($cn,$_GET['p_jrn'],$sql,null,$offset);
+   list ($max_ligne,$list)=ListJrn($cn,$_GET['p_jrn'],$sql,null,$offset,1);
    $bar=jrn_navigation_bar($offset,$max_ligne,$step,$page);
+   echo '<form method="POST">';
 
-   echo $bar;
+   echo "<hr> $bar";
    echo $list;
-   echo $bar;
-
+   echo "$bar <hr>";
+   $hid=new widget();
+   if ( $max_ligne != 0 )
+     echo $hid->Submit('paid','Mise à jour paiement');
+   echo '</form>';
    echo '</div>';
 }
 if ( $action == 'voir_jrn_non_paye' ) {
@@ -185,6 +224,32 @@ if ( $action == 'voir_jrn_non_paye' ) {
        NoAccess();
        exit -1;
   }
+  // Ask to update payment
+  if ( isset ( $_POST['paid'])) 
+    {
+      // reset all the paid flag because the checkbox is post only
+      // when checked
+      foreach ($_POST as $name=>$paid) 
+	{
+	  list($ad) = sscanf($name,"set_jr_id%d");
+	  if ( $ad == null ) continue;
+	  $sql="update jrn set jr_rapt='' where jr_id=$ad";
+	  $Res=ExecSql($cn,$sql);
+	  
+	}
+      // set a paid flag for the checked box
+      foreach ($_POST as $name=>$paid) 
+	  {
+	    list ($id) = sscanf ($name,"rd_paid%d");
+	    
+	    if ( $id == null ) continue;
+	    echo "Mise à jour $id";
+	    $paid=($paid=='on')?'paid':'';
+	    $sql="update jrn set jr_rapt='$paid' where jr_id=$id";
+	    $Res=ExecSql($cn,$sql);
+	  }
+      
+    }
 
 // Show list of unpaid sell
 // Date - date of payment - Customer - amount
@@ -193,12 +258,12 @@ if ( $action == 'voir_jrn_non_paye' ) {
   $step=$_SESSION['g_pagesize'];
   $page=(isset($_GET['offset']))?$_GET['page']:1;
 
-  list ($max_line,$list)=ListJrn($cn,$_GET['p_jrn'],$sql,null,$offset);
+  list ($max_line,$list)=ListJrn($cn,$_GET['p_jrn'],$sql,null,$offset,1);
   //  $bar=jrn_navigation_bar($offset,$max_ligne,$step,$page);
 
 
   $sql=SQL_LIST_UNPAID_INVOICE." and jr_def_id=".$_GET['p_jrn']  ;
-  list ($max_line2,$list2)=ListJrn($cn,$_GET['p_jrn'],$sql,null,$offset);
+  list ($max_line2,$list2)=ListJrn($cn,$_GET['p_jrn'],$sql,null,$offset,1);
 
   // Get the max line
   $m=($max_line2>$max_line)?$max_line2:$max_line;
@@ -206,6 +271,7 @@ if ( $action == 'voir_jrn_non_paye' ) {
 
     echo '<div class="u_redcontent">';
     echo '<h2 class="info"> Echeance dépassée </h2>';
+    echo '<FORM METHOD="POST">';
     echo $bar2;
     echo $list;
 
@@ -213,6 +279,11 @@ if ( $action == 'voir_jrn_non_paye' ) {
     echo  '<h2 class="info"> Non Payée </h2>';
     echo $list2;
     echo $bar2;
+    $hid=new widget();
+   if ( $m != 0 )
+     echo $hid->Submit('paid','Mise à jour paiement');
+    echo '</form>';
+
     echo '</div>';
 }
 

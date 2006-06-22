@@ -21,31 +21,39 @@
 require_once("constant.php");
 require_once("postgres.php");
 require_once("class_parm_code.php");
+require_once("class_widget.php");
 
 require_once('class_fiche.php');
 require_once('class_poste.php');
 require_once('user_common.php');
+/*! \file
+ * \brief Derived from class fiche Customer are a specific kind of card
+ */
+/*! 
+ * \brief  class  Customer are a specific kind of card
+ */
 
 // Use the view vw_customer
 // 
 class Customer extends fiche{
-  var $id;         // f_id
-  var $poste;      // poste comptable
-  var $name;
-  var $street;
-  var $country;
-  var $cp;
-  var $vat_number;
-  var $fiche_def_ref;  // fiche_def_ref.frd_id
-  // Constructor
-  // only a db connection is needed
+
+  var $poste;      /*! \enum $poste poste comptable */
+  var $name;        /*! \enum $name name of the company */
+  var $street;      /*! \enum $street Street */
+  var $country;     /*! \enum $country Country */
+  var $cp;          /*! \enum $cp Zip code */
+  var $vat_number;  /*! \enum $vat_number vat number */
+
+  /*! \brief Constructor 
+  /* only a db connection is needed */
   function Customer($p_cn,$p_id=0) {
       $this->fiche_def_ref=FICHE_TYPE_CLIENT;
       fiche::fiche($p_cn,$p_id) ;
 
   }
-  // Get all info contains in the view
-  // thanks to the poste elt
+  /*! \brief  Get all info contains in the view
+   *  thanks to the poste elt (account)
+  */
   function GetFromPoste($p_poste=0) {
     $this->poste=($p_poste==0)?$this->poste:$p_poste;
     $sql="select * from vw_client where poste_comptable=".$this->poste;
@@ -61,17 +69,17 @@ class Customer extends fiche{
     $this->vat_number=$row['tva_num'];
 
   }
-/* function ListingVat
+/*! 
  **************************************************
- * Purpose : Get all the info for making a vat listing
+ * \brief  Get all the info for making a vat listing
  *           for the vat administration
- *        TODO : optimize SQL
- * parm : 
- *	- periode
+ * \todo  optimize SQL
+ *  
+ * \param	 periode
  * 
- * return:
- * 
- *	- array
+ * \return  double array structure is 
+ *            ( j_poste,name,vat_number,amount,tva,customer(object)
+ *
  */
   function VatListing($p_year) {
     $cond_sql=" and A.j_date = B.j_date 
@@ -174,110 +182,88 @@ where
     }
     return $a_Res;
   }
-  
-/* function Display
+/*! \function  Summary
  **************************************************
- * Purpose : Display object instance
+ \Brief  show the default screen
  *        
  * parm : 
- *	-
- * gen :
- *	-
- * return:
- */
-  function Display() 
-    {
-      var_dump($this);
-    }
-/* function Get
- **************************************************
- * Purpose : Get Attribute of client
- *        
- * parm : 
- *	-
- * gen :
- *	-
- * return:
- */
-  function Get() 
-    {
-      echo_debug('class_client',__LINE__,'Get');
-      fiche::getAttribut();
-    }
-/* function GetAll
- **************************************************
- * Purpose : Get array of fiche with all attribute
- *        
- * parm : 
- *	- none
- * gen :
- *	-
- * return: array of fiche with all attribute
- */
-  function GetAll($p_offset=-1) 
-    {
-      return fiche::GetByDef($this->fiche_def_ref,$p_offset);
-    }
-/* function Summary
- **************************************************
- * Purpose : show the default screen
- *        
- * parm : 
- *	-
+ *	- p_search (filter)
  * gen :
  *	-
  * return: string to display
  */
-  function Summary() 
+  function Summary($p_search) 
     {
-      
+      $p_search=FormatString($p_search);
       $url=urlencode($_SERVER['REQUEST_URI']);
       $script=$_SERVER['SCRIPT_NAME'];
       // Creation of the nav bar
       // Get the max numberRow
-      $all_client=$this->CountByDef($this->fiche_def_ref); 
+      $all_client=$this->CountByDef($this->fiche_def_ref,$p_search); 
       // Get offset and page variable
       $offset=( isset ($_REQUEST['offset'] )) ?$_REQUEST['offset']:0;
       $page=(isset($_REQUEST['page']))?$_REQUEST['page']:1;
       $bar=jrn_navigation_bar($offset,$all_client,$_SESSION['g_pagesize'],$page);
-
+      // set a filter ?
+      $search="";
+      if ( trim($p_search) != "" )
+	{
+	  $search=" and f_id in
+(select f_id from jnt_fic_att_value 
+                  join fiche using (f_id) 
+                  join attr_value using (jft_id)
+                where
+                ad_id=1 and av_text ~* '$p_search')";
+	}
       // Get The result Array
-      $step_client=$this->GetAll($offset);
+      $step_client=$this->GetAll($offset,$search);
       if ( $all_client == 0 ) return "";
       $r=$bar;
-      $r.="<table border=1><TR>
+      $r.='<table>
+<TR style="background-color:lightgrey;">
 <TH>Quick Code</TH>
 <th>Nom</th>
 <th>Adresse</th>
 <th>Solde</th>
 <th>Action </th>
-</TR>";
+</TR>';
+      if ( sizeof ($step_client ) == 0 )
+	return $r;
       foreach ($step_client as $client ) {
 	$r.="<TR>";
-	$r.="<TD>".$client->strAttribut(ATTR_DEF_QUICKCODE)."</TD>";
+	$e=sprintf('<A HREF="%s?p_action=client&sa=detail&f_id=%d&url=%s" title="Détail"> ',
+		    $script,$client->id,$url);
+
+	$r.="<TD> $e".$client->strAttribut(ATTR_DEF_QUICKCODE)."</A></TD>";
 	$r.="<TD>".$client->strAttribut(ATTR_DEF_NAME)."</TD>";
 	$r.="<TD>".$client->strAttribut(ATTR_DEF_ADRESS).
 	  " ".$client->strAttribut(ATTR_DEF_CP).
 	  " ".$client->strAttribut(ATTR_DEF_PAYS).
 	  "</TD>";
+
 	$post=new poste($this->cn,$client->strAttribut(ATTR_DEF_ACCOUNT));
 	$a=$post->GetSoldeDetail();
-	$r.=sprintf('<TD align="right"> %10.2f&euro;</TD>',$a['solde']);
+	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$a['solde']);
 	$r.="<TD>";
-	$r.=sprintf('<A HREF="%s?p_action=client&sa=detail&f_id=%d&url=%s">D</A> - ',
-		    $script,$client->id,$url);
 
-		    $r.='<A HREF="#">C</A>';
-		    $r.='<A HREF="#">S</A>';
-	  $r.='</TD>';
+	$r.=sprintf('<A HREF="%s?p_action=contact&qcode=%s&url=%s" title="Contact">C</A> - ',
+		    $script,$client->strAttribut(ATTR_DEF_QUICKCODE),$url);
+	$r.=sprintf('<A HREF="%s?p_action=suivi_courrier&sa=list&qcode=%s&url=%s" title="Action">A</A> - ',
+		    $script,$client->strAttribut(ATTR_DEF_QUICKCODE) ,$url);
+
+
+
+	$r.='<A HREF="commercial.php?p_action=facture&sa=list&qcode='.$client->strAttribut(ATTR_DEF_QUICKCODE).'&url='.$url.'" title="Historique Facture">F</A> -';
+
+	$r.='</TD>';
 
 	$r.="</TR>";
 
       }
       $r.="</TABLE>";
+      $r.=$bar;
       return $r;
     }
-
 
 }
 

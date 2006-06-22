@@ -18,6 +18,9 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+/*! \file
+ * \brief included file for customizing with the vat (account,rate...)
+ */
 
   // Confirm remove
   if ( isset ($_POST['confirm_rm'])) 

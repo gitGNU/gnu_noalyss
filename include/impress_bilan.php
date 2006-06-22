@@ -18,6 +18,9 @@
 */
 /* $Revision$ */
 include_once("class_widget.php");
+/*! \file
+ * \brief form who call the printing of the bilan in RTF
+ */
 
 ////////////////////////////////////////////////////////////////////////////////
 // Show the jrn and date

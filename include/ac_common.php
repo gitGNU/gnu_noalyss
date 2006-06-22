@@ -19,29 +19,37 @@
 */
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+/*! \file
+ * \brief common utilities for a lot of procedure, classe
+ */
 
 include_once("debug.php");
 include_once("constant.php");
-
+/*! 
+ * \brief  log error into the /tmp/phpcompta_error.log it doesn't work on windows
+ *
+ * \param log message
+ * 
+ * \return nothing
+ *  
+ */
 function echo_error      ($p_log) {
 	$fdebug=fopen("/tmp/phpcompta_error.log","a+");
 	fwrite($fdebug,date("Ymd H:i:s").$p_log."\n");
 	fclose($fdebug);
+	echo_debug($p_log);
 }
 
-/* function cmpDate
- * Purpose : 
- *         Compare 2 dates
- * parm : 
- *	- date1 date2
- * gen :
- *	- rien
- * return:
- *	- == 0 les dates sont identiques
+/*! 
+ * \brief  Compare 2 dates
+ * \param date 
+ * \param date2
+ * 
+ * \return 
+ *      - == 0 les dates sont identiques
  *      - > 0 date1 > date2 
  *      - < 0 date1 < date2
  */
-
 function cmpDate ($p_date,$p_date_oth) {
   $l_date=isDate($p_date);
   $l2_date=isDate($p_date_oth);
@@ -56,16 +64,14 @@ function cmpDate ($p_date,$p_date_oth) {
   // si $p_date > $p_date_oth return > 0
   return $l_mkdate-$l2_mkdate;
 }
-/* function IsNumber
- * purpose : check if the argument is a number
+/* 
+ * \brief check if the argument is a number
  *
- * parm : $p_int
+ * \param $p_int
  *
- * gen nothing
- * 
- * return :
- *        1 it's a number
- *        0 it is not
+ * \return 
+ *        - 1 it's a number
+ *        - 0 it is not
  */
 function isNumber($p_int) {
   if ( strlen (trim($p_int)) == 0 ) return 0;
@@ -77,14 +83,12 @@ function isNumber($p_int) {
   }// !ereg
 }
 
-/* function isDate
- * Purpose : Verifie qu'une date est bien formaté
+/*! 
+ * \brief Verifie qu'une date est bien formaté
  *           en d.m.y et est valable
- * parm : 
- *	- $p_date
- * gen :
- *	- rien
- * return:
+ * \param $p_date
+ *	
+ * \return
  *	- null si la date est invalide ou malformaté
  *      - $p_date si tout est bon
  *
@@ -107,31 +111,25 @@ function isDate ( $p_date) {
   }// !ereg
   return $p_date;
 }
-/* function  formatDate($p_date) 
- * Purpose : 
+/*! 
+ * \brief call cmpDate
  *        
- * parm : 
- *	-
- * gen :
- *	-
- * return:
+ * \return the date or the quoted string null 
  */
 function formatDate($p_date) {
   if ( isDate($p_date)== null) return "null";
   return "'".$p_date."'";
 }
-/* function html_page_start
- * Purpose : Default page header for each page
+/*! 
+ * \brief Default page header for each page
  *        
- * parm : 
- *      - default theme
- *	- $p_script
- * gen :
- *	- none
- * return:
- *        none
+ * \param default theme
+ * \param $p_script
+ * \param $p_script2  another js script
+ *
+ * \return none
  */
-function html_page_start($p_theme="",$p_script="")
+function html_page_start($p_theme="",$p_script="",$p_script2="")
 {	
   include_once ("postgres.php");
  ini_set('magic_quotes_gpc','Off');
@@ -151,49 +149,42 @@ function html_page_start($p_theme="",$p_script="")
  } // end if
  echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 FINAL//EN">';
  echo "<HTML>";
+
+ if ( $p_script2 != "" )
+   $p_script2='<script src="'.$p_script2.'" type="text/javascript"></script>';
+
  echo "<HEAD> 
       <TITLE>PhpCompta</TITLE>
       <META http-equiv=\"Content-Type\" content=\"text/html; charset=ISO-8859-1\">
       <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$style\" media=\"screen\">
-      <link rel=\"stylesheet\" type=\"text/css\" href=\"style-print.css\" media=\"print\">
+      <link rel=\"stylesheet\" type=\"text/css\" href=\"style-print.css\" media=\"print\">".
+   $p_script2. "
 	</HEAD><script src=\"scripts.js\" type=\"text/javascript\"></script>";
  echo "<BODY $p_script>";
 }
-/* function html_page_stop()
- * Purpose : 
+/*! 
+ * \brief end tag 
  *        
- * parm : 
- *	-
- * gen :
- *	-
- * return:
  */
 function html_page_stop()
 {
 	echo "</BODY>";
 	echo "</HTML>";
 }
-/* function html_button_logout 
- * Purpose : 
+/*! 
+ * \brief Button logout
  *        
- * parm : 
- *	-
- * gen :
- *	-
- * return:
+
+ * \return nothing
  */
 
 function html_button_logout() {
 	echo "<A class=\"mtitle\" HREF=logout.php> Logout </A>";
 }
-/* function  NoAccess 
- * Purpose : 
+/*! 
+ * \brief Echo no access and stop 
  *        
- * parm : 
- *	-
- * gen :
- *	-
- * return:
+ * \return nothing
  */
 
 
@@ -206,14 +197,12 @@ function NoAccess() {
 		
   exit -1;
 }
-/* function FormatString($p_string) 
- * Purpose : Fix the problem with the ' char
+/*! 
+ * \brief Fix the problem with the quote char for the database
  *        
- * parm : 
- *	-
- * gen :
- *	-
- * return:
+ * \param $p_string 
+ *
+ * \return a string which won't let strange char for the database
  */
 function FormatString($p_string) 
 {
@@ -229,15 +218,15 @@ function FormatString($p_string)
   return $p_string;
 }
 
-/* function ShowItem($p_array) */
-/* purpose : store the string which print */
+/*! 
+/* \brief store the string which print */
 /*           the content of p_array in a table */
 /*           used to display the menu */
-/* parameter : array */
-/* return : string */
-function ShowItem($p_array,$p_dir='V',$class="mtitle",$class_ref="mtitle",$default="")
+/* \param  array */
+/* \return : string */
+function ShowItem($p_array,$p_dir='V',$class="mtitle",$class_ref="mtitle",$default="",$p_extra="")
 {
-  $ret="<TABLE>";
+  $ret="<TABLE $p_extra>";
   // direction Vertical
   if ( $p_dir == 'V') {
     foreach ($p_array as $all=>$href){
@@ -266,30 +255,28 @@ function ShowItem($p_array,$p_dir='V',$class="mtitle",$class_ref="mtitle",$defau
     $ret.="</TABLE>";
   return $ret;
 }
-/* function echo_warning
- * Purpose : warns
+/*! 
+ * \brief warns
  *        
- * parm : 
+ * \param : 
  *	- string
  * gen :
  *	- none
- * return:
+ * \return:
  *      - none
  */
 function echo_warning($p_string) 
 {
   echo '<H2 class="info">'.$p_string."</H2>";
 }
-/* function make_array($cn,$sql)
+/*! 
  **************************************************
- * Purpose : make a array with the sql
+ * \brief make a array with the sql
  *        
- * parm : 
- *	- $cn dbatabase connection
- *      - $sql related sql 
- * gen :
- *	- none
- * return: a double array [value,label]
+ * \param  $cn dbatabase connection
+ * \param $sql related sql 
+ *
+ * \return: a double array [value,label]
  */
 function make_array($p_cn,$p_sql,$p_null=0) {
 
@@ -313,18 +300,16 @@ function make_array($p_cn,$p_sql,$p_null=0) {
 
   return $r;
 }
-/* function getPeriodeName
+/*! 
  **************************************************
- * Purpose : Show the periode which found thanks its
- *           id
+ * \brief Show the periode which found thanks its id
+ *           
  *        
- * parm : 
- *	- $p_cn database connection 
- *      - p_id
- *      - Start or end
- * gen :
- *	-
- * return: string
+ * \param  $p_cn database connection 
+ * \param p_id
+ * \param Start or end
+ *
+ * \return: string
  */
 function getPeriodeName($p_cn,$p_id,$pos='p_start') {
   if ( $pos != 'p_start' and 
@@ -335,18 +320,15 @@ function getPeriodeName($p_cn,$p_id,$pos='p_start') {
   $a=pg_fetch_array($ret,0);
   return $a['t'];
 }
-/* function getPeriodeFromMonth
+/*! 
  **************************************************
- * Purpose : Return the period corresponding to the 
+ * \brief Return the period corresponding to the 
  *           date
  *        
- * parm : 
- *	- p_cn database connection
- *      - the month + year 'MM.YYYY'
- * gen :
- *	- none
+ * \param p_cn database connection
+ * \param  the month + year 'MM.YYYY'
  *
- * return:
+ * \return:
  *       parm_periode.p_id
  */
 function getPeriodeFromMonth($p_cn,$p_date) {
@@ -358,18 +340,15 @@ function getPeriodeFromMonth($p_cn,$p_date) {
 
   return $a['p_id'];
 }
-/* function getPeriodeFromDate
+/*! 
  **************************************************
- * Purpose : Return the period corresponding to the 
+ * \brief Return the period corresponding to the 
  *           date
  *        
- * parm : 
+ * \param : 
  *	- p_cn database connection
  *      - the date 'DD.MM.YYYY'
- * gen :
- *	- none
- *
- * return:
+ * \return:
  *       parm_periode.p_id
  */
 function getPeriodeFromDate($p_cn,$p_date) {

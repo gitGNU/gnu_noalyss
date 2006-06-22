@@ -19,6 +19,10 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
+/*! \file
+ * \brief Page for the personal preference (theme, password,...)
+ */
+
 include_once ("ac_common.php");
 include_once ("postgres.php");
 /* Admin. Dossier */
@@ -49,7 +53,10 @@ if ( isset ( $_POST['p_size']) ) {
 include_once ("user_menu.php");
 if ( isset ($_SESSION['g_dossier']) ) {
   if ( $_SESSION['g_dossier'] != 0 )  
-    ShowMenuCompta($_SESSION['g_dossier']);
+echo '<div class="u_tmenu">';
+
+echo    ShowMenuCompta($_SESSION['g_dossier']);
+ echo "</div>";
   }
 require_once("pref.inc.php");
 html_page_stop();

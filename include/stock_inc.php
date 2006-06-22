@@ -18,17 +18,19 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+/*! \file
+ * \brief Function for managing the stock
+ */
 
 
-/* function ViewStock ($p_cn)
+/*! 
  **************************************************
- * Purpose : show the listing of all goods 
+ * \brief  show the listing of all goods 
  *        
- * parm : 
- *	- database connection
- * gen :
+ *
+ *\param	- database connection
  *	-
- * return: string containing the table
+ * \return string containing the table
  */
 function ViewStock($p_cn,$p_year) {
  // build sql -- get the different merchandise sold or bought
@@ -96,16 +98,14 @@ $sql=" select distinct sg_code
 
   return $result;
 }
-/* function  getFicheNameCode ($p_cn,$p_sg_code)
+/*! 
  ************************************************************
- * Purpose : return an array of f_id and f_name
+ * \brief  return an array of f_id and f_name
  *        
- * parm : 
- *	- p_cn database connection
- *      - stock_goods.sg_code
- * gen :
- *	- none
- * return:
+ * 
+ * \param $p_cn database connection
+ * \param _sg_code stock_goods.sg_code
+ * \return
  *      - array (f_id, f_label) or null if nothing is found 
  */
 function getFicheNameCode ($p_cn,$p_sg_code) {
@@ -134,17 +134,15 @@ $sql="select distinct f_id,av_text
  return $result;
   
 }
-/* function ViewDetailStock($cn,$sg_code,$year)
+/*! 
  **************************************************
- * Purpose : 
+ * \brief View the details of a stock 
  *        
- * parm : 
- *	- cn database connection
- *      - sg_code
- *      - year
- * gen :
- *	-
- * return: HTML code
+ * 
+ *\param $p_cn database connection
+ * \param$p_sg_code
+ * \param $p_year
+ * \return HTML code
  */
 function ViewDetailStock($p_cn,$p_sg_code,$p_year) {
 $sql="select sg_code,
@@ -248,9 +246,9 @@ $sql="select sg_code,
   return $r;
 	 
 }
-/* function ChangeStock($cn,$sg_code,$sg_date)
+/*! 
  **************************************************
- * Purpose : 
+ * \brief  
  *        
  * parm : 
  *	-
@@ -270,10 +268,10 @@ $r='
  return $r;
 
 }
-/* function GetQuantity($p_cn,$p_sg_code,$year,$p_type 'd' or 'c'
- * purpose return the quantity of a sg_code for the period 
+/*! 
+ * \brief return the quantity of a sg_code for the period 
  *
- * Return number or NULL
+ * \return number or NULL
  */ 
 function GetQuantity($p_cn,$p_sg_code,$p_year,$p_type) {
   $sql="select sum(sg_quantity) as result

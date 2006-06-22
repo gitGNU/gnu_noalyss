@@ -19,12 +19,15 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
 echo_debug('user_action_gl.php',__LINE__,"include user_action_gl.php");
+/*! \file
+ * \brief included file for the great ledger 
+ */
 
 include_once ("preference.php");
 include_once ("user_common.php");
 include_once ("class_widget.php");
 include_once("class_user.php");
-include("jrn.php");
+require_once("jrn.php");
 
 $cn=DbConnect($_SESSION['g_dossier']);
 if (CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],0)  < 1 )
@@ -37,7 +40,7 @@ if (CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],0)  < 1 )
 
 $hid=new widget("hidden");
 
-$hid->name="JRN_TYPE";
+$hid->name="jrn_type";
 $hid->value="NONE";
 echo $hid->IOValue();
 

@@ -18,6 +18,9 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision*/
+/*! \file
+ * \brief Update a operation in a popup window : add a document 
+ */
 include_once ("ac_common.php");
 include_once ("poste.php");
 include_once("preference.php");

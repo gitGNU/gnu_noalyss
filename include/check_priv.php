@@ -20,11 +20,14 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
+/*! \file
+ * \brief Tools for checking the security
+ * \todo some of those tools are redundant with the class user and should be cleaned
+ */
 
 include_once("postgres.php");
-/* function CheckJrn
- * Purpose :
- * Vérifie les acces d'un utilisateur
+/*! 
+ * \brief  Vérifie les acces d'un utilisateur
  * sur un journal
  * 
  * parm : 
@@ -128,16 +131,14 @@ function CheckJrn($p_dossier,$p_user,$p_jrn,$p_detail=False)
   return 0;
 
 }
-/* function CheckAction
- * Purpose : Check if an user is allowed to do an action
+/*! 
+ * \brief  Check if an user is allowed to do an action
  * 
- * parm : 
- *	- p_dossier dossier id
- *      - p_login   user's login
- *      - p_action_id 
- * gen :
- *	-
- * return:
+ * \param p_dossier dossier id
+ * \param p_login   user's login
+ * \param p_action_id 
+ *	
+ * \return
  *	- 0 no priv
  *      - 1 priv granted
  *
@@ -152,14 +153,13 @@ function CheckAction ( $p_dossier,$p_login,$p_action_id)
   if ( $Count == 1 ) return 1;
   echo "<H2 class=\"error\"> Invalid action !!! $Count select * from user_sec_act where ua_login='$p_login' and ua_act_id=$p_action_id </H2>";
 }
-/* function CheckIsAdmin
- * Purpose : Check if an user is an administrator
+/*! 
+ * \brief  Check if an user is an administrator
  * 
- * parm : 
- *	- $p_user  user login
- * gen :
- *	-
- * return:
+ * 
+ * \param $p_user  user login
+ * 
+ * \return
  *	- 0 if no
  *      - 1 if yes
  *
@@ -177,16 +177,15 @@ function CheckIsAdmin($p_user)
   return $isAdmin;
 
 }
-/* function CheckDossier
+/*! 
  **************************************************
- * Purpose : Check if an user has acces to a folder
+ * \brief  Check if an user has acces to a folder
  *        
- * parm : 
- *	- user
- *      - p_dossier concerned folder
- * gen :
- *	- none
- * return: 
+ *  
+ * \param user
+ * \param p_dossier concerned folder
+ * 
+ * \return
  *     1 if yes
  *     0 if no
  */

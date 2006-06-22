@@ -24,7 +24,9 @@ include_once ("constant.php");
 include_once("jrn.php");
 include_once("user_common.php");
 include_once("class_widget.php");
-
+/*! \file
+ * \brief Search module
+ */
 
 html_page_start($_SESSION['g_theme']);
 if ( ! isset ( $_SESSION['g_dossier'] ) ) {
@@ -39,16 +41,17 @@ $cn=DbConnect($_SESSION['g_dossier']);
 include ('class_user.php');
 $User=new cl_user($cn);
 $User->Check();
-
-ShowMenuCompta($_SESSION['g_dossier']);
-
+echo '<div class="u_tmenu">';
+echo ShowMenuCompta($_SESSION['g_dossier']);
+echo '</div>';
    // PhpSessid
    $sessid=$_REQUEST['PHPSESSID'];
 
 // display a search box
 $search_box=u_ShowMenuRecherche($cn,0,$sessid,$_GET);
-echo '<DIV>'; // class="recherche_form">';
+echo '<DIV class="lextmenu">'; // class="recherche_form">';
 echo $search_box;
+echo "</div>";
 ////////////////////////////////////////////////////////////////////////////////
 // Display search result
 ////////////////////////////////////////////////////////////////////////////////
@@ -62,10 +65,10 @@ if ( isset ($_GET['viewsearch'])) {
   else
      $array=$_GET;
   
-  list($max_line,$a)=ListJrn($cn,0,"",$array,$offset);
+  list($max_line,$a)=ListJrn($cn,0,"",$array,$offset,2);
   $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
 
-  echo '<div class="result">';
+  echo '<div class="u_redcontent">';
   echo $bar;
   echo $a;
   echo $bar;

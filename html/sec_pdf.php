@@ -20,7 +20,9 @@
 // Copyright Stanislas Pinte stanpinte@sauvages.be
 
 // $Revision$
-
+/*! \file
+ * \brief Print the user security in pdf
+ */
 
 if ( ! isset($_SESSION['g_dossier']) ) {
   echo "INVALID G_DOSSIER UNKNOWN !!! ";

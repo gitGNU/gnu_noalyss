@@ -19,6 +19,9 @@
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 require_once("class_fiche_def.php");
+/*! \file
+ * \brief Let customise the fiche_def_ref for the user
+ */
 
 // record change
 if ( isset ($_POST['confirm_mod'])) {

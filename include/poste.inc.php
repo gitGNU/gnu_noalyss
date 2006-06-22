@@ -18,8 +18,10 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-//p_action contains the main action (always poste here)
-// action contains the sub action 
+/*! \file
+ * \brief p_action contains the main action (always poste here)
+ *  action contains the sub action 
+ */
 require_once("class_parm_code.php");
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -297,4 +297,9 @@ scripts sql soit grâce à pgAdmin soit en commande en ligne soit avec
 l'outil PhpPgAdmin.
 
 </sect>
+<sect>Developpeur
+<p> Les développeurs trouveront toutes la documentation dans doc/developper.
+Pour la base de données, j'utilise postgresql_autodoc et pour php, doxygen.
+
+</sect>
 </article>

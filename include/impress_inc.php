@@ -20,8 +20,8 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 // $Revision$
 
-/* function ViewImp
- * Purpose : Create the form where the period
+/*! \function  ViewImp
+ \Brief  Create the form where the period
  *           is asked
  * 
  * parm : 
@@ -79,8 +79,8 @@ function ViewImp($p_array,$p_cn) {
   echo '</FORM>';
   echo "</DIV>";
 }
-/* function Imp
- * Purpose : Show the html printing result 
+/*! \function  Imp
+ \Brief  Show the html printing result 
  *           
  * 
  * parm : 
@@ -101,8 +101,8 @@ function Imp($p_array,$p_cn) {
   }
   echo_error ("IMP no action specified"); return;
 }
-/* function ImpHtml
- * Purpose : Show the html result
+/*! \function  ImpHtml
+ \Brief  Show the html result
  * 
  * parm : 
  *	- array (type,periode,
@@ -249,8 +249,8 @@ function ImpHtml($p_array,$p_cn)
   }//jrn
 
 }
-/* function GetDataPoste
- * Purpose : Get dat for poste 
+/*! \function  GetDataPoste
+ \Brief  Get dat for poste 
  * 
  * parm : 
  *      - connection
@@ -289,8 +289,8 @@ function GetDataPoste($p_cn,$p_poste,$p_condition)
   }
   return array($array,$tot_deb,$tot_cred);
 }
-/* function GetDataJrn
- * Purpose : Get data from the jrn table
+/*! \function  GetDataJrn
+ \Brief  Get data from the jrn table
  * 
  * parm : 
  *	- connection
@@ -357,8 +357,8 @@ function GetDataJrn($p_cn,$p_array,$filter=YES)
   }
   return $array;
 }
-/* function CreatePeriodeCond
- * Purpose : Create the sql query for the periode
+/*! \function  CreatePeriodeCond
+ \Brief  Create the sql query for the periode
  * 
  * parm : 
  *	- p_periode
@@ -403,8 +403,8 @@ function CreatePeriodeCond($p_periode,$p_field=" j_tech_per") {
   $cond_periode.=")";
   return $cond_periode;
 }
-/* function GetDataJrnPdf
- * Purpose : Get The data for the pdf printing
+/*! \function  GetDataJrnPdf
+ \Brief  Get The data for the pdf printing
  * 
  * parm : 
  *	- connection
@@ -566,8 +566,8 @@ function GetDataJrnPdf($p_cn,$p_array,$p_limit,$p_offset)
   $a=array($array,$tot_deb,$tot_cred);
  return $a;
 }
-/* function 
- * Purpose : 
+/*! \function  
+ \Brief  
  *        
  * parm : 
  *	-
@@ -595,8 +595,8 @@ function GetDataGrpt($p_cn,$p_array)
   return $array;
 }
 
-/* function GetRappel
- * Purpose : Get the amount on each page
+/*! \function  GetRappel
+ \Brief  Get the amount on each page
  * 
  * parm : 
  *	- $p_cn
@@ -705,7 +705,7 @@ function GetRappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_cent
   
 }
 
-/* function ParseFormula
+/*! \function  ParseFormula
  * Purpose Parse a formula
  * 
  * parm : 
@@ -779,8 +779,8 @@ function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true) {
     return $p_formula;
   }
 }
-/* function GetFormulaValue
- * Purpose : Parse the formula contained in the fo_formula 
+/*! \function  GetFormulaValue
+ \Brief  Parse the formula contained in the fo_formula 
  *           field and return a array containing all the columns
  * 
  * parm : 
@@ -838,9 +838,9 @@ function GetFormulaValue($p_cn,$p_label,$p_formula,$p_cond)
   }
   return $aret;
 }
-/* function CheckFormula
+/*! \function  CheckFormula
  **************************************************
- * Purpose : Check if formula doesn't contain
+ \Brief  Check if formula doesn't contain
  *           php injection
  *        
  * parm : 

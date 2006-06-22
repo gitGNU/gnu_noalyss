@@ -21,18 +21,14 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 //$Revision$
 include_once("impress_inc.php");
-/* function EncodeForm
- * Purpose : 
- *          Encoding Form
+/*! 
+ * \brief  
+ *          Encoding report
  * 
  * parm : 
- *	- array of previous changes
- *      - sessid for the search window
- *      - p_line number of line
- * gen :
- *	- none
- * return:
- *	- none
+ * \param $p_array array of previous changes
+ * \param $p_sessid sessid for the search window
+ * \param $p_line number of line
  *
  */ 
 function EncodeForm($p_line,$p_sessid,$p_array=null) {
@@ -109,17 +105,13 @@ if ( isset ($fr_id))   printf ('<INPUT TYPE="HIDDEN" NAME="fr_id" value="%s"',
   echo "</FORM>";
 
 }
-/* function ViewForm
- * Purpose : Show the details of a form
+/*! 
+ * \brief  Show the details of a report
  * 
  * parm : 
- *	- $p_cn connection
- *      - $p_id gives the formdef.fr_id
- *      - sessid for the search window
- * gen :
- *	- none
- * return: 
- *	- none
+ * \param $p_cn connection
+ * \param $p_id gives the formdef.fr_id
+ * \param sessid for the search window
  *
  */ 
 function ViewForm($p_cn,$p_sessid,$p_id) {
@@ -131,34 +123,27 @@ function ViewForm($p_cn,$p_sessid,$p_id) {
   EncodeForm($l_line,$p_sessid,$array);
 
 }
-/* function ViewForm
- * Purpose : Show the details of a form
+/*! 
+ * \brief  Remove a report
  * 
  * parm : 
- *	- $p_cn connection
- *      - $p_id gives the formdef.fr_id
- *      - sessid for the search window
- * gen :
- *	- none
- * return: 
- *	- none
+ * \param $p_cn connection
+ * \param $p_id gives the formdef.fr_id
  *
  */ 
 function DeleteForm($p_cn,$p_id) {
   ExecSql($p_cn,"delete from form where fo_fr_id=$p_id");
   ExecSql($p_cn,"delete from formdef where fr_id=$p_id");
 }
-/* function GetDataForm
- * Purpose :
+/*! 
+ * \brief 
  *         Get data from a form 
- * parm : 
- *	- $p_cn connection
- *      - $p_id gives the formdef.fr_id
+ * 
+ * \param $p_cn connection
+ * \param $p_id gives the formdef.fr_id
  *	- 
- * gen :
- *	- none
- * return:
- *	- array
+ * \return array(fo_idX=>fo_id,textX=>fo_label,formX=>fo_formula,posX=>fo_pos)
+ *         where X is the row number
  *
  */ 
 function GetDataForm($p_cn,$p_id) {
@@ -184,17 +169,12 @@ function GetDataForm($p_cn,$p_id) {
   $array["fr_id"]=$p_id;
   return $array;
 }
-/* function GetNumberLine
- * Purpose : Get the number of line of a form
+/*! 
+ * \brief  Get the number of line of a form
  * 
- * parm : 
- *	- $p_cn connection
- *      - $p_id gives the formdef.fr_id
- *	- 
- * gen :
- *	- none
- * return:
- *	- integer
+ * \param  $p_cn connection
+ * \param $p_id gives the formdef.fr_id
+ * \return integer
  *
  */ 
 function GetNumberLine($p_cn,$p_id) {
@@ -202,16 +182,14 @@ function GetNumberLine($p_cn,$p_id) {
   $count=pg_NumRows($Res);
   return $count;
 }
-/* function GetFormName
- * Purpose : Get the name of the form
+/*! 
+ * \brief  Get the name of the report
  * 
- * parm : 
- *	- $p_cn connection
- *      - $p_id formdef.fr_id
- * gen :
- *	- none
- * return:
- *	- string name
+ * \param $p_cn connection
+ * \param $p_id formdef.fr_id
+ *
+ * \return string name
+ *	
  *
  */ 
 function GetFormName($p_cn,$p_id) {
@@ -220,16 +198,11 @@ function GetFormName($p_cn,$p_id) {
   $name=pg_fetch_array($Res,0);
   return $name['fr_label'];
 }
-/* function UpdateForm
- * Purpose :
+/*! 
+ * \brief Update a report
  * 
- * parm : 
- *	-  $p_cn connexion
- *      -  $array
- * gen :
- *	- none
- * return:
- *	- none
+ * \param $p_cn connexion
+ * \param  $array
  *
  */ 
 function UpdateForm($p_cn,$p_array) {
@@ -284,16 +257,11 @@ function UpdateForm($p_cn,$p_array) {
   }//for
 
 }
-/* function AddForm
- * Purpose :
+/*! 
+ * \brief Add a report
  * 
- * parm : 
- *	-  $p_cn connexion
- *      -  $array
- * gen :
- *	- none
- * return:
- *	- none
+ * \param  $p_cn connexion
+ * \param  $array
  *
  */ 
 function AddForm($p_cn,$p_array) {

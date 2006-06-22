@@ -18,15 +18,16 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 // $Revision$
+/*! \file
+ * \brief Obsolete ?
+ */
+
 include_once("constant.php");
-/* function AnalyzeError
- * Purpose : Following the error code
+/*! 
+ * \brief  Following the error code
  *        show adialog box
- * parm : 
- *	- $p_result
- * gen :
- *	- none
- * return: none
+ *  
+ * \param $p_result
  */
 
 function AnalyzeError( $p_result) {

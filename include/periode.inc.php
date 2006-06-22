@@ -18,6 +18,11 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+/*! \file
+ * \brief Still used ?
+ * \todo check if obsolete
+ */
+
 require_once("preference.php");
 $cn=DbConnect($_SESSION['g_dossier']);
 ////////////////////////////////////////////////////////////////////////////////

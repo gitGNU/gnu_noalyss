@@ -18,15 +18,32 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-/*+++
-function    widget
-purpose     create the widget
-parameters  p_type the type of the widget
-            p_name     name of widget
-            value      widget's value
-            readonly   true or false
-+++*/
+
+/*! \file
+ * \brief This class is used to create all the HTML INPUT TYPE
+ */
+
+
+/*!
+ * \brief class widget This class is used to create all the HTML INPUT TYPE
+ *        and some specials which works with javascript like 
+ *        js_search
+ */
 class widget {
+  /*! \enum $type type of the input tag (text, select, files, js_search,...)
+   * \enum  $name name of the input tag
+   * \enum   $value value 
+   * \enum   $readonly if set to false cannot modify
+   * \enum   $size size for the text type
+   * \enum   $selected selected value for the radio or select
+   * \enum   $table if we want to make a HTML table row
+   * \enum   $label text before the input tag
+   * \enum   $disabled to disable the type
+   * \enum   $extra depends of the input type
+   * \enum   $extra2 depends of the input type
+   * \enum   $tabindex the tabindex
+   */
+
   var $type;
   var $name;
   var $value;
@@ -55,14 +72,14 @@ class widget {
   function SetReadOnly($p_read) {
     $this->readonly=$p_read;
   }
-  /*  function IOValue($p_name,$p_value="",$p_label="") 
+  /*!  function IOValue($p_name,$p_value="",$p_label="") 
    *****************************************************
-   *  purpose : create the corresponding INPUT tag 
+   * \brief  create the corresponding INPUT tag 
    *        
-   *  parameters: $p_name is the INPUT NAME
-   *          $p_value is the INPUT VALUE or an array for select
-   *          $p_label is the label of the INPUT
-   *  return : string containing the tag
+   *  \param $p_name is the INPUT NAME
+   * \param         $p_value is the INPUT VALUE or an array for select
+   * \param         $p_label is the label of the INPUT
+   *  \return  string containing the tag
    */
   function IOValue($p_name=null,$p_value=null,$p_label="") {
     
@@ -135,8 +152,11 @@ class widget {
     // Checkbox
     if (strtoupper($this->type)=="CHECKBOX") {
       if ( $this->readonly == true) {
-	$check=( $this->selected==true )?"Yes":"no";
-	$r=$check;
+	$check=( $this->selected==true )?"checked":"unchecked";
+	$r='<input type="CHECKBOX" name="'.$this->name.'"';
+	$r.="  $check";
+	$r.=' disabled>';
+
       } else {
 	$check=( $this->selected==true )?"checked":"unchecked";
 	$r='<input type="CHECKBOX" name="'.$this->name.'"';
@@ -174,7 +194,7 @@ class widget {
     //textarea
     if (strtoupper($this->type)=="TEXTAREA") {
       if ( $this->readonly == false ) {
-	$r='<TEXTAREA name="'.$this->name.'"';
+	$r.='<TEXTAREA name="'.$this->name.'"';
 	$r.=" rows=\"$this->heigh\" ";
 	$r.=" cols=\"$this->width\" ";
 	$r.=' '.$disabled.'>';
@@ -184,7 +204,10 @@ class widget {
       } else {
 	$r='<p>';
 	$r.=$this->value;
+	$r.=sprintf('<input type="hidden" name="%s" value="%s">',
+		    $this->name,urlencode($this->value));
 	$r.='</p>';
+
       }
       if ($this->table==1) {
 	$r="<TD> $this->label </TD><TD> $r </TD>";
@@ -290,9 +313,11 @@ class widget {
     }
     return $r;
   }// poste==js_search
+
+
   // type=span
   if ( strtolower($this->type)=="span") {
-    $r=sprintf('<span id="%s">%s</span>',
+    $r=sprintf('<span id="%s"  >%s</span>',
 	       $this->name,
 	       $this->value);
     return $r;
@@ -352,4 +377,8 @@ class widget {
   function Submit ($p_name,$p_value) {
     return '<INPUT TYPE="SUBMIT" NAME="'.$p_name.'" VALUE="'.$p_value.'">';
   }
+  function Reset ($p_value) {
+    return '<INPUT TYPE="SUBMIT"  VALUE="'.$p_value.'">';
+  }
+
 }

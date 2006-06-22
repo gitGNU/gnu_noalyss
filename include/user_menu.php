@@ -17,22 +17,23 @@
  *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inshowc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+/*!\file
+ * \brief Nearly all the menu are here, some of them returns a HTML string, others echo
+ * directly the result.
+ */
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
 
-/* function u_ShowDossier
- * Purpose :  Show all the available folder 
- *            for the users
- * parm : 
- *	- $p_user user login
- *      - $p_admin 1 if admin
- * gen :
- *	- none
- * return:
- *	- nothing
- *
- */ 
+/*!
+ * \brief   Show all the available folder  for the users
+ *          at the login page
+ * \param $p_user user 
+ * \param $p_admin 1 if admin
+ *	 
+ * \return table in HTML
+ * 
+ */  
 function u_ShowDossier($p_user,$p_admin)
 {
   $p_array=GetAvailableFolder($p_user,$p_admin);   
@@ -63,10 +64,7 @@ function u_ShowDossier($p_user,$p_admin)
     $result.="<A class=\"mtitle\" HREF=\"user_compta.php?dos=$id\">Comptabilité</A>";
     $result.="</TD>";
     $result.="<TD class=\"mtitle\">";
-    $result.="<A class=\"mtitle\" HREF=\"commercial.php?dos=$id\">Commercial</A>";
-    $result.="</TD>";
-    $result.="<TD class=\"mtitle\">";
-    $result.="<A class=\"mtitle\" HREF=\"facturation.php?dos=$id\">Facturation</A>";
+    $result.="<A class=\"mtitle\" HREF=\"commercial.php?dos=$id\">Gestion</A>";
     $result.="</TD>";
     $result.="<TD class=\"mtitle\">";
     $result.="<A class=\"mtitle\" HREF=\"parametre.php?dos=$id\">Paramètres</A>";
@@ -77,18 +75,16 @@ function u_ShowDossier($p_user,$p_admin)
   $result.="</TABLE>";
   return $result;
 }
-/* function GetAvailableFolder
- * Purpose :  Get all the available folders
- *            for the users
- * parm : 
- *	- $p_user user login
- *      - $p_admin 1 if admin
- * gen :
- *	- none
- * return:
- *	- array containing ac_dossier.dos_id
- *                         ac_dossier.dos_name
- *                         ac_dossier.dos_description
+/*!
+ * \brief   Get all the available folders
+ *          for the users, checked with the security
+ * 
+ * \param  $p_user user login
+ * \param  $p_admin 1 if admin
+ * \return array containing 
+ *       - ac_dossier.dos_id
+ *       - ac_dossier.dos_name
+ *       - ac_dossier.dos_description
  *
  */ 
 function GetAvailableFolder($p_user,$p_admin)
@@ -122,16 +118,15 @@ function GetAvailableFolder($p_user,$p_admin)
   }
   return $array;
 }
-/* function u_ShowMenu
- * Purpose : Show The login menu
+/*!   
+ * \brief  Show The login menu
  * 
- * parm : 
- *	- $p_admin 1 if admin
- *      - $p_item item to add 
- * gen :
- *	- none
- * return:
- *	- nothing
+ * 
+ * \param $p_admin 1 if admin
+ * \param $p_check not used 
+ * \param $p_item item to add (default="")
+ * \return: nothing
+ * \todo clean $p_check	
  *
  */ 
   function u_ShowMenu($p_admin,$p_check = 1,$p_item="")
@@ -157,19 +152,21 @@ function GetAvailableFolder($p_user,$p_admin)
   echo "</TR></TABLE>";
   echo "</div>";
 }
-/* function u_ShowMenuCompta 
- * purpose : show the top menu for 
- *           the user profile
- * parm : p_dossier
+/*!   
+ * \brief show the top menu for the user profile
+ *        and highight the selected one
+ * \param  p_dossier $_SESSION['g_dossier']
+ * \param  p_high what to hightlight, by default it is autodetected
+ *         but sometimes it must be given. Default value=""
+ * \todo clean param p_dossier
  *
- * return: none
+ * \return none
  *
- * gen : none
  */
-function ShowMenuCompta($p_dossier)
+function ShowMenuCompta($p_dossier,$p_high="")
 {
   include_once("postgres.php");
-  //  $l_name=GetDossierName($p_dossier);
+
   // find our current menu
   $default=basename($_SERVER['SCRIPT_NAME']);
   switch ($default) {
@@ -183,44 +180,42 @@ function ShowMenuCompta($p_dossier)
     $default.="?p_dossier=$p_dossier";
     break;
   }
+  if ( $p_high !== "" ) $default=$p_high;
+
+  echo_debug('user_menu.php',__LINE__,'defaut is '.$default);
 
   $p_array=array(array("user_jrn.php?show","Journaux","Les journaux permettent d'encoder toutes les opérations"),
 		 array("recherche.php?p_dossier=$p_dossier","Recherche","Pour retrouver une opération"),
 		 array("fiche.php?p_dossier=$p_dossier","Fiche","Ajouter, modifier ou effacer des fiches"),
 		 array("user_impress.php","Impression","Impression"),
 		 array("user_advanced.php","Avancé","Opérations délicates"),
-		 //		 array("dossier_prefs.php","Paramètre"),
+
   		 array('user_pref.php','Preference',"Préférence de l'utilisateur"),
+		 array('parametre.php?dos='.$_SESSION['g_dossier'],"Paramètre"),
+		 array('commercial.php?dos='.$_SESSION['g_dossier'],"Gestion"),
 		 array('login.php','Accueil',"Accueil"),
 		 array('logout.php','logout',"Sortie")
 		 );
 
-  $result=ShowItem($p_array,'H',"mtitle","mtitle",$default);
+  $result=ShowItem($p_array,'H',"mtitle","mtitle",$default,' width="100%"');
 
-  echo "<H2 class=\"info\">Comptabilit&eacute;  ".$_SESSION['g_name']." </H2>";
-  echo $result;
-
+  $r="<H2 class=\"info\">Comptabilit&eacute;  ".$_SESSION['g_name']." </H2>";
+  $r.=$result;
+  return $r;
 
 
 
 
 }
-
-/* function ShowMenuJrnUser($p_dossier,$p_user)
- * Purpose : Show the Menu from the jrn encode
- *           page
+/*! 
+ * \brief Open the first legder automaticaly
+ * \param $p_dossier ($_SESSION['g_dossier'])
+ * \param $p_type type of the ledger (VEN,ACH,FIN,ODS)
  * 
- * parm : 
- *	- $p_dossier
- *      - $p_user
- *      - $p_type type of journal (VEN,ACH,BQE,ODS)
- *      - $p_jrn journal
- * gen :
- *	- none
- * return:
- *	- none
+ * 
  *
- */ 
+ * \return the first jrn_def_id
+ */
 
 function GetFirstJrnIdForJrnType($p_dossier,$p_type)
 {
@@ -228,30 +223,43 @@ function GetFirstJrnIdForJrnType($p_dossier,$p_type)
   
   //get db connection
   $Cn=DbConnect($p_dossier);  
-  //execute query: select min(jrn_def_id) from jrn_def where jrn_def_type='$jrn_type'
+  //execute query
   $Ret=ExecSql($Cn,"select min(jrn_def_id) from jrn_def where jrn_def_type='".$p_type."';");
   $l_line=pg_fetch_array($Ret,0);
   return $l_line[0];
   //return 0;
 }
- 
-function ShowMenuJrnUser($p_dossier,$p_type,$p_jrn)
+/*!   ShowMenuJrnUser($p_dossier,$p_type,$p_jrn)
+ * \brief  Show the Menu from the jrn encode
+ *           page
+ * 
+ * \param $p_dossier number
+ * \param $p_type type of journal (VEN,ACH,BQE,ODS)
+ * \param $p_jrn journal
+ * \param $p_extra html code to add at the return (before the \</table\>)
+ * \return string with table in HTML
+ * \note we use the SCRIPT_NAME variable to build the href value but we need to add
+ *       a parameter when the REQUEST_url is commercial.php
+ *       
+ *
+ */ 
+function ShowMenuJrnUser($p_dossier,$p_type,$p_jrn,$p_extra="")
 {
   include_once ("debug.php");
   include_once("constant.php");
   include_once("class_user.php");
   echo_debug('user_menu.php',__LINE__,"U_SHOWMENUJRNUSER PTYPE=$p_type");
-  //    echo '<div class="searchmenu">';
-    echo '<TABLE><TR>';
-    include_once("postgres.php");
 
-
-    $Cn=DbConnect($p_dossier);
-
-	$User=new cl_user($Cn);
-	$User->Check();
-	if ( $User->Admin() ==0) {
-      $Ret=ExecSql($Cn,"select jrn_def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
+  echo '<TABLE><TR>';
+  include_once("postgres.php");
+  
+  
+  $Cn=DbConnect($p_dossier);
+  
+  $User=new cl_user($Cn);
+  $User->Check();
+  if ( $User->Admin() ==0) {
+    $Ret=ExecSql($Cn,"select jrn_def_id,jrn_def_type,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
                                jrn_deb_max_line,jrn_cred_max_line
                              from jrn_def join jrn_type on jrn_def_type=jrn_type_id
                              join user_sec_jrn on uj_jrn_id=jrn_def_id 
@@ -261,7 +269,7 @@ function ShowMenuJrnUser($p_dossier,$p_type,$p_jrn)
                              and jrn_def_type='$p_type'
                              ");
     } else {
-      $Ret=ExecSql($Cn,"select jrn_def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_deb_max_line,jrn_cred_max_line,
+      $Ret=ExecSql($Cn,"select jrn_def_id,jrn_def_type,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_deb_max_line,jrn_cred_max_line,
                             jrn_type_id,jrn_desc,'W' as uj_priv
                              from jrn_def join jrn_type on jrn_def_type=jrn_type_id where
                               jrn_def_type='$p_type'");
@@ -279,18 +287,24 @@ function ShowMenuJrnUser($p_dossier,$p_type,$p_jrn)
 	$right=3;
       }
 
-      // Show saldo
-//       echo '<TD class="cell">';
-//       echo ('<A class="mtitle" HREF="user_jrn.php?saldo&JRN_TYPE=FIN">Solde</A></TD>');
-//       echo '</TR>';
-
       if ( $right > 0 ) {
 	// Minimum Lecture 
 	echo_debug('user_menu.php',__LINE__,"p_jrn = $p_jrn ");
 	if ( $l_line['jrn_def_id'] != $p_jrn ) {
+	  $href=$_SERVER["SCRIPT_NAME"];
+	  $add="";
+	  // if the SCRIPT_NAME == commercial.php, we need to add the parameter
+	  // p_action=facture
+	  if ( $href=="/commercial.php" ) 
+	    {
+	      $add="&p_action=facture";
+	    }
 	  echo '<TD class="cell">';
-	  printf ('<A class="mtitle" HREF="user_jrn.php?p_jrn=%s">%s</A></TD>',
+	  printf ('<A class="mtitle" HREF="%s?jrn_type=%s&p_jrn=%s%s">%s</A></TD>',
+		  $href,
+		  $l_line['jrn_def_type'],
 		  $l_line['jrn_def_id'],
+		  $add,
 		  $l_line['jrn_def_name']
 		  );
 	} else
@@ -299,24 +313,22 @@ function ShowMenuJrnUser($p_dossier,$p_type,$p_jrn)
 	  }
       }// if right
     }// for
+    if ( $p_extra !="" ) echo $p_extra;
     echo '</TR>';
     echo "</TABLE>";
     //echo '</div>';
 
 }
-/* function ShowMenuJrn
- * Purpose : Show the menu of the jrn depending of its type
+/*! 
+ * \brief  Show the menu of the jrn depending of its type, check with the security
  *        
- * parm : 
- *      - p_cn database connection
- *	- p_dossier
- *      - p_UserProperty
- *      - p_jrn_type
- *      - p_jrn
- * gen :
- *	- none
- * return:
- *     - string containing the menu
+ * \param p_cn database connection
+ * \param p_jrn_type type of the ledger
+ * \param p_jrn jrn id
+ *
+ *
+ * \return string containing the menu
+ *    
  */
 function ShowMenuJrn($p_cn,$p_jrn_type,$p_jrn) 
 {
@@ -334,8 +346,14 @@ function ShowMenuJrn($p_cn,$p_jrn_type,$p_jrn)
     $lib=str_replace($access_key,'<u>'.$access_key.'</u>',$action['ja_name']);
 
     $ret.=sprintf('<TR><TD class="cell"><A class="mtitle" accesskey="%s" title="%s" '.
-		  'HREF="%s?%s&p_jrn=%s">%s</A></td></tR>',
-		  $access_key, $action['ja_desc'], $action['ja_url'],$action['ja_action'], $p_jrn, $lib);
+		  'HREF="%s?%s&p_jrn=%s&jrn_type=%s">%s</A></td></tR>',
+		  $access_key, 
+		  $action['ja_desc'], 
+		  $action['ja_url'],
+		  $action['ja_action'], 
+		  $p_jrn, 
+		  $_REQUEST['jrn_type'],
+		  $lib);
 
   }
   $ret.='</TABLE>';
@@ -343,16 +361,16 @@ function ShowMenuJrn($p_cn,$p_jrn_type,$p_jrn)
 
 }
 
-/* function get_quick_key
- * Purpose : Show the menu of the jrn depending of its type
+/*!   get_quick_key
+ * \brief  Show the menu of the jrn depending of its type
  *  return a not yet used access key. The returned key is added to $access_key_list       
- * parm : 
- *      - $title
- *	- &$access_key_list
- * gen :
- *	- none
- * return:
- *     - string containing the menu
+ * 
+ * \param $title
+ * \param &$access_key_list
+ *
+ *
+ * \return string containing the menu
+ *     - 
  */
 function get_quick_key($title,&$access_key_list)
 {
@@ -366,21 +384,21 @@ function get_quick_key($title,&$access_key_list)
 		echo_debug(" new key: " . $quick);
 	}
 	$access_key_list[$quick] = $quick;
-	//var_dump($access_key_list);
+	
 	return $quick;
 }
 
-/* function u_ShowMenuRecherche ($p_cn,$p_jrn,$p_sessid,$p_array=null)
- * Purpose :
- * 
- * parm : 
- *	- $p_cn database connection
- *      - $p_jrn jrn id
- *      - $p_array=null previous search
- * gen :
- *	- none
- * return:
- *	- none
+/*!  
+ * \brief Returns the form for the search (module accountancy)
+ *        
+ * \param : 
+ * \param $p_cn database connection
+ * \param $p_jrn jrn id
+ * \param $p_array=null previous search
+ *
+ *
+ * \return HTML Code
+ *	
  *
  */ 
 
@@ -416,10 +434,11 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
   $r="";
  
   //  $r.= '<div style="border-style:outset;border-width:1pt;">';
-  $r.= '<div class="recherche_form">';
+
   $r.=JS_SEARCH_POSTE;
   $r.= "<B>Recherche</B>";
-  $r.= '<FORM ACTION="recherche.php" METHOD="GET">';  
+  $r.= '<FORM ACTION="recherche.php" METHOD="GET">';
+  $r.="<table><tr><TD>";  
   $r.= '<TABLE>';
   $r.= "<TR>";
   $r.= '<TD COLSPAN="3">  Date compris entre</TD> ';
@@ -434,6 +453,8 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
   $r.= "</TR><TR>";
   $r.="<TD> Internal code</td>";
   $r.='<TD><input type="text" name="s_internal" value="'.$p_s_internal.'"></td>';
+
+  $r.="</TD></TR></TABLE></td><TD><table>";
 
   $r.= "</TR>";
   $r.= "<TR>";
@@ -459,21 +480,20 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
   $r.= '<TD COLSPAN="3"><INPUT TYPE="SUBMIT" VALUE="Recherche" NAME="viewsearch"></TD>';
   $r.= "</TR>";
   $r.= "</TABLE>";
+  $r.="</TR></TABLE>";
   $r.= "</FORM>";
-  $r.= '</div>';
+
 
   return $r;
 
 }
-/* function function ShowMenuAdvanced() {
+/*!  
  **************************************************
- * Purpose :  build the menu of user_advanced.php
+ * \brief   build the menu of user_advanced.php
  *        
- * parm : 
- *	- none
- * gen :
- *	- none
- * return: the menu
+ * \param $default 
+ *
+ * \return the menu
  */
 function ShowMenuAdvanced($default="") {
 // Show the left menu
@@ -482,58 +502,57 @@ $left_menu=ShowItem(array(
 			  array('jrn_update.php','Journaux'),
 			  array('user_advanced.php?p_action=periode','Periode'),
 			  array('central.php','Centralise'),
-		      array('pcmn_update.php?p_start=1','Plan Comptable'),
+			  array('pcmn_update.php?p_start=1','Plan Comptable'),
 			  array('stock.php','Stock'),
 			  array('form.php','Rapport'),
 			  array('import.php','Import Banque'),
 			  array('ecrit_ouv.php','Ecriture ouverture')
+			
 			  ),
 		    'H',"cell","mtitle",$default);
-return $left_menu;
+ $r='<div class="u_subtmenu">'.$left_menu."</div>";
+return $r;
 }
-/* function ShowJrn
+/*!  
  **************************************************
- * Purpose : Return a string containing the menu
+ * \brief  Return a string containing the menu
  *           main menu when you click on Journaux
- * parm : 
- *	- $p_menu the current menu (selected)
- * gen :
- *	- none
- * return: a string
+ * \param $p_menu the current menu (selected)
+ *
+ * \return HTML Code
  */
 function ShowJrn($p_menu="")
 {
 
  $p_array=array(
- 		array("user_jrn.php?JRN_TYPE=NONE" ,"Grand Livre"),
- 		array("user_jrn.php?JRN_TYPE=VEN" ,"Entrée"),
-                array("user_jrn.php?JRN_TYPE=ACH","Dépense"),
-                array("user_jrn.php?JRN_TYPE=FIN","Financier"),
-                array("user_jrn.php?JRN_TYPE=OD","Op. Diverses")
+ 		array("user_jrn.php?jrn_type=NONE" ,"Grand Livre"),
+ 		array("user_jrn.php?jrn_type=VEN" ,"Entrée"),
+                array("user_jrn.php?jrn_type=ACH","Dépense"),
+                array("user_jrn.php?jrn_type=FIN","Financier"),
+                array("user_jrn.php?jrn_type=OD","Op. Diverses")
                  );
  $result=ShowItem($p_array,'H',"cell","mtitle",$p_menu);
  return $result;
 }
 
-/* function ShowMenuFiche
+/*!   
  **************************************************
- * Purpose : 
+ * \brief  Show the menu for the card management
  *        
- * parm : 
- *	-
- * gen :
- *	-
- * return:
+ * \param $p_dossier dossier 1
+ *	
+ * 
+ *	
+ * \return nothing
  */
 function ShowMenuFiche($p_dossier)
 {
      $cn=DbConnect($p_dossier);
      echo '<div class="lmenu">';
      echo '<TABLE>';
- // TODO
- // Only for developper
- // A test must be added
-     echo '<TR><TD colspan="3" class="mshort">
+     /*! \todo  Only for developper A test must be added
+      */
+      echo '<TR><TD colspan="3" class="mtitle">
           <A class="mtitle" HREF="fiche.php?action=add_modele&fiche=modele">Creation</A></TD></TR>';
      $Res=ExecSql($cn,"select fd_id,fd_label from fiche_def order by fd_label");
      $Max=pg_NumRows($Res);
@@ -550,39 +569,11 @@ function ShowMenuFiche($p_dossier)
      echo "</TABLE>";
      echo '</div>';
 }
-/* function ShowMenuAdminGlobalRight($p_dossier=0)
- * Purpose :
- *        Same as previous : show the right menu
- * parm : 
- *	- p_dossier
- * gen :
- *	- none
- * return:
- *	- none
- *
- */ 
-function ShowMenuAdminGlobalRight($p_dossier=0)
-{
-  include_once("ac_common.php");
-  echo '<div class="rmenu">';
-  echo '<TABLE>';
-  echo '<TR><TD class="mtitle"> <A class="mtitle" HREF="login.php">Accueil</A></TD></TR>';
-  echo '<TR><TD class="mtitle"> <A class="mtitle" HREF="user_pref.php">Preference</A></TD></TR>';
-  if ( $p_dossier != 0) {
-printf( '<TR><TD class="mtitle"> <A class="mtitle" HREF="compta.php?dos=%d">Retour Dossier</A></TD></TR>',
-	$p_dossier);
-  }
-
-  echo '<TR><TD class="mtitle"> ';
-  html_button_logout();
-  echo ' </TD></TR>';
-  echo "</TABLE>";
-  echo '</div>';
-}
-/* function MenuAdmin */
-/* purpose : show the menu for user/database management */
-/* parameter : none */
-/* return : none */
+/*!   MenuAdmin */
+/* \brief show the menu for user/database management 
+/*
+/* \return HTML code with the menu
+*/
 
 function MenuAdmin()
 {
@@ -596,35 +587,32 @@ function MenuAdmin()
   $menu=ShowItem($item,'H');
   return $menu;
 }
-/* function ShowMenuInvoice
- * Purpose :
- * 			Display invoice's menu
- * parm : 
- *	- 	none
- * gen :
- *	- none
- * return:
- *	-	string
+/*!  
+ * \brief : Display Document's menu
+ *   
+ * \param none
+ * \return string
+ *
  *
  */ 
-function ShowMenuInvoice()
+function ShowMenuDocument()
 {
-  $base="parametre.php?p_action=";
+  $base="parametre.php?p_action=document&sa=";
   $sub_menu=ShowItem(
-		     array(array($base."add_invoice","Ajout"))
+		     array(array($base."add_document","Ajout"))
 		     ,'V',"cell","mtitle");
   return $sub_menu;
 
 }
-/* function ShowMenuParam
- * Purpose : Show the parametre menu
+/*!   
+ * \brief  Show the parameter menu
  * 
- * parm : 
- *	- p_action
- * gen :
- *	- none
- * return:
- *	- none
+ * \param $p_action the last action choosed 
+ *	
+ * 
+ *
+ * \return HTML Code
+ *	
  *
  */ 
 function ShowMenuParam($p_action="")
@@ -638,22 +626,25 @@ function ShowMenuParam($p_action="")
 			  array('parametre.php?p_action=fiche','Fiche'),
 			  array('user_sec.php','Sécurité'),
 			  array('parametre.php?p_action=document','Document'),
+			  array('commercial.php?dos='.$_SESSION['g_dossier'],"Gestion"),
+			  array('user_compta.php?dos='.$_SESSION['g_dossier'],"Comptabilité"),
+
 			  array('login.php','Accueil',"Accueil"),
 			  array('logout.php','logout',"Sortie")
 			  ),
-		    'H',"mtitle","mtitle",$p_action);
+		    'H',"mtitle","mtitle",$p_action,' width="100%"');
     return $sub_menu;
 
 }
-/* function  MenuJrn($p_dossier)
- * Purpose : Show the menu in the jrn page
+/*! 
+ * \brief  Show the menu in the jrn page
  * 
- * parm : 
- *	- $p_dossier 
- * gen :
- *	- none
- * return:
- *	- none
+ * \param  $p_dossier  
+ *	
+ * 
+ *
+ * \return nothing
+ *	
  *
  */ 
 
@@ -675,15 +666,15 @@ function MenuJrn($p_dossier)
     }
     echo "</TABLE>";
 }
-/* function ShowMenuPcmn($p_start=1)
- * Purpose : Show the menu from the pcmn page
+/*!
+ * \brief  Show the menu from the pcmn page
  * 
- * parm : 
- *	- $p_start class start
- * gen :
- *	- none
- * return:
- *	- none
+ * \param $p_start class start default=1
+ *
+ *
+ *
+ * \return nothing 
+ * 
  *
  */ 
 
@@ -699,15 +690,15 @@ function ShowMenuPcmn($p_start=1)
     echo '<TR><TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=7">7 Produits</A></TD></TR>';
     echo "</TABLE>";
 }
-/* function
- * Purpose :
+/*!  
+ * \brief Show the left menu for the report (add a report, view it)
  * 
- * parm : 
- *	- 
- * gen :
- *	-
- * return:
- *	-
+ * \param $p_dossier dossier id
+ *
+ *
+ *
+ * \return nothing
+ *
  *
  */ 
 function ShowMenuComptaForm($p_dossier) {
@@ -727,6 +718,12 @@ function ShowMenuComptaForm($p_dossier) {
     echo "</TABLE>";
     echo '</div>';
 }
+
+/*! 
+ * \brief Show the menu for importing, verify and transfert Bank CSV
+ *
+ * \return nothing
+ */
 function ShowMenuImport(){
     echo '<TABLE>';
     echo '<TR><TD class="mtitle"><A class="mtitle" HREF="import.php?action=import">Importer CSV</A></TD></TR>';

@@ -20,7 +20,9 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 // $Revision$
-
+/*! \file
+ * \brief send the account list in PDF
+ */
 include_once("class_poste.php");
 include_once("ac_common.php");
 include_once("postgres.php");

@@ -18,9 +18,13 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
+/*! \file
+ * \brief Manage the ledger of type VEN
+ */
 echo_debug('user_action_ven.php',__LINE__,"include user_action_ven.php");
 require_once("user_form_ven.php");
 include_once("class_widget.php");
+require_once("class_jrn.php");
 $cn=DbConnect($_SESSION['g_dossier']);
 // default action is insert_vente
 if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {
@@ -65,9 +69,10 @@ if ( $action == 'insert_vente' ) {
     // We want a blank form
     if ( $blank==1)
       {
+       $jrn=new jrn($cn,  $_GET['p_jrn']);
       echo_debug('user_action_ven.php',__LINE__,"Blank form");
       // Show an empty form of invoice
-      $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),null,false);
+      $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),null,false,$jrn->GetDefLine('cred'));
       echo '<div class="u_redcontent">';
       echo $form;
       echo '</div>';
@@ -153,6 +158,12 @@ $hid->value="voir_jrn";
 echo $hid->IOValue();
 
 
+$hid->name="jrn_type";
+$hid->value=$jrn_type;
+echo $hid->IOValue();
+
+
+
 $w=new widget("select");
 
 $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode order by p_id");
@@ -164,6 +175,32 @@ echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit',
 ?>
 </form>
 <?
+    // Ask to update payment
+    if ( isset ( $_POST['paid'])) 
+      {
+	// reset all the paid flag because the checkbox is post only
+	// when checked
+	foreach ($_POST as $name=>$paid) 
+	  {
+	    list($ad) = sscanf($name,"set_jr_id%d");
+ 	    if ( $ad == null ) continue;
+ 	    $sql="update jrn set jr_rapt='' where jr_id=$ad";
+ 	    $Res=ExecSql($cn,$sql);
+
+	  }
+	// set a paid flag for the checked box
+	foreach ($_POST as $name=>$paid) 
+	  {
+	    list ($id) = sscanf ($name,"rd_paid%d");
+
+	    if ( $id == null ) continue;
+	    echo "Mise à jour $id";
+	    $paid=($paid=='on')?'paid':'';
+	    $sql="update jrn set jr_rapt='$paid' where jr_id=$id";
+	    $Res=ExecSql($cn,$sql);
+	  }
+
+      }
  // Show list of sell
  // Date - date of payment - Customer - amount
    $sql=SQL_LIST_ALL_INVOICE." and jr_tech_per=".$current." and jr_def_id=".$_GET['p_jrn'] ;
@@ -171,12 +208,32 @@ echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit',
    $page=(isset($_GET['offset']))?$_GET['page']:1;
    $offset=(isset($_GET['offset']))?$_GET['offset']:0;
 
-   list($max_line,$list)=ListJrn($cn,$_GET['p_jrn'],$sql,null,$offset);
+   list($max_line,$list)=ListJrn($cn,$_GET['p_jrn'],$sql,null,$offset,1);
    $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
 
-   echo $bar;
+   echo "<hr>$bar";
+   echo '<form method="POST">';
+   $hid=new widget("hidden");
+
+   $hid->name="p_jrn";
+   $hid->value=$p_jrn;
+   echo $hid->IOValue();
+
+   $hid->name="action";
+   $hid->value="voir_jrn";
+   echo $hid->IOValue();
+
+
+   $hid->name="jrn_type";
+   $hid->value=$jrn_type;
+   echo $hid->IOValue();
+
+
    echo $list;
-   echo $bar;
+   if ( $max_line !=0 )
+     echo $hid->Submit('paid','Mise à jour paiement');
+   echo '</FORM>';
+   echo "$bar <hr>";
 
    echo '</div>';
 }
@@ -186,6 +243,32 @@ if ( $action == 'voir_jrn_non_paye' ) {
      NoAccess();
      exit -1;
    }
+    // Ask to update payment
+    if ( isset ( $_POST['paid'])) 
+      {
+	// reset all the paid flag because the checkbox is post only
+	// when checked
+	foreach ($_POST as $name=>$paid) 
+	  {
+	    list($ad) = sscanf($name,"set_jr_id%d");
+ 	    if ( $ad == null ) continue;
+ 	    $sql="update jrn set jr_rapt='' where jr_id=$ad";
+ 	    $Res=ExecSql($cn,$sql);
+
+	  }
+	// set a paid flag for the checked box
+	foreach ($_POST as $name=>$paid) 
+	  {
+	    list ($id) = sscanf ($name,"rd_paid%d");
+
+	    if ( $id == null ) continue;
+	    echo "Mise à jour $id";
+	    $paid=($paid=='on')?'paid':'';
+	    $sql="update jrn set jr_rapt='$paid' where jr_id=$id";
+	    $Res=ExecSql($cn,$sql);
+	  }
+
+      }
 
 // Show list of unpaid sell
 // Date - date of payment - Customer - amount
@@ -195,21 +278,44 @@ if ( $action == 'voir_jrn_non_paye' ) {
    $offset=(isset($_GET['offset']))?$_GET['offset']:0;
 
   $sql=SQL_LIST_UNPAID_INVOICE_DATE_LIMIT." and jr_def_id=".$_GET['p_jrn'] ;
-  list($max_line,$list)=ListJrn($cn,$_GET['p_jrn'],$sql,null,$offset);
+  list($max_line,$list)=ListJrn($cn,$_GET['p_jrn'],$sql,null,$offset,1);
   $sql=SQL_LIST_UNPAID_INVOICE." and jr_def_id=".$_GET['p_jrn'] ;
-  list($max_line2,$list2)=ListJrn($cn,$_GET['p_jrn'],$sql,null,$offset);
+  list($max_line2,$list2)=ListJrn($cn,$_GET['p_jrn'],$sql,null,$offset,1);
 
   // Get the max line
    $m=($max_line2>$max_line)?$max_line2:$max_line;
    $bar2=jrn_navigation_bar($offset,$m,$step,$page);
    
     echo '<div class="u_redcontent">';
+    echo '<FORM METHOD="POST">';
     echo $bar2;
     echo '<h2 class="info"> Echeance dépassée </h2>';
     echo $list;
     echo  '<h2 class="info"> Non Payée </h2>';
     echo $list2;
     echo $bar2;
+    // Add hidden parameter
+    $hid=new widget("hidden");
+
+    $hid->name="p_jrn";
+    $hid->value=$p_jrn;
+    echo $hid->IOValue();
+
+    $hid->name="action";
+    $hid->value="voir_jrn_non_paye";
+    echo $hid->IOValue();
+
+
+    $hid->name="jrn_type";
+    $hid->value=$jrn_type;
+    echo $hid->IOValue();
+
+
+    echo $list;
+    if ( $m != 0 )
+      echo $hid->Submit('paid','Mise à jour paiement');
+
+    echo '</FORM>';
     echo '</div>';
 }
 

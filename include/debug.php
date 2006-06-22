@@ -22,21 +22,20 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 //include_once ("postgres.php");
 include_once("constant.php");
+/*! \file
+ * \brief Debug procedure
+ */
+/*!\brief print debug 
+ *\param $file file name
+ *\param what line
+ *\param debugging msg
+ */
 
 function echo_debug      ($file,$line="",$msg="") {
   if ( DEBUG=='true' ) {
-    $password=phpcompta_password;
-    $l_Db="dbname=log user='phpcompta' password='$password' host=127.0.0.1";
-    $cn=pg_connect($l_Db);
-    $file=FormatString($file);
-    $line=FormatString($line);
-
-    $msg='domaine :'.domaine.' '.FormatString(var_export($msg,true));
-    
-    $sql= "insert into log (lg_file,lg_line,lg_msg) ".
- 	  "values ('$file','$line','$msg');";
-    pg_set_client_encoding($cn,'latin1');
-    pg_exec($cn,$sql);
+    $f=fopen ("/tmp/phpcompta.log","a+");
+    fwrite($f,"$file $line $msg\n");
+    fclose ($f);
   }
 }
 

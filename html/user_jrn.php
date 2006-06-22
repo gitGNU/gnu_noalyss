@@ -18,39 +18,39 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
+/*! \file
+ * \brief Main page for encoding in the ledger
+ */
+
 include_once("ac_common.php");
 include_once("user_menu.php");
 include_once ("constant.php");
 include_once ("postgres.php");
 include_once ("check_priv.php");
 include_once ("class_widget.php");
+require_once("jrn.php");
 
 $cn=DbConnect($_SESSION['g_dossier']);
 include ('class_user.php');
 $User=new cl_user($cn);
 $User->Check();
 
-html_page_start($User->theme, "OnLoad=\"SetFocus('e_date',0); AttachEvent(document, 'keydown', HandleSubmit, true);\" ");
+html_page_start($User->theme, 
+	 "OnLoad=\"SetFocus('e_date',0); AttachEvent(document, 'keydown', HandleSubmit, true);\" ");
+
+// Check if dossier set
 if ( ! isset ( $_SESSION['g_dossier'] ) ) {
   echo "You must choose a Dossier ";
   exit -2;
 }
-/* Admin. Dossier */
-
-if ( isset( $_GET['p_jrn'] )) 
-{
-  $p_jrn=$_GET['p_jrn'];
-} else 
-{
-  $p_jrn=-1;
-}
-
-if ( isset ($_GET['JRN_TYPE'] ) ) {
-  $p_jrn=-1;
-}
+/* Get the _REQUEST value for p_jrn (jrn_def.jrn_def_id) and jrn_type (jrn_def.jrn_def_code) */
+$p_jrn=(isset($_REQUEST['p_jrn']))?$_REQUEST['p_jrn']:-1;
+$jrn_type=(isset($_REQUEST['jrn_type']))?$_REQUEST['jrn_type']:-1;
 
 
-ShowMenuCompta($_SESSION['g_dossier']);
+echo '<div class="u_tmenu">';
+echo ShowMenuCompta($_SESSION['g_dossier']);
+echo '</div>';
 
 if ( $User->admin == 0 ) {
   // check if user can access
@@ -58,7 +58,8 @@ if ( $User->admin == 0 ) {
     /* Cannot Access */
     NoAccess();
   }
-  if ( isset ($p_jrn)) {
+  // if a jrn is asked
+  if ( $p_jrn != -1 ) {
 	  if (CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn) == 0 ){
 	    /* Cannot Access */
 	    NoAccess();
@@ -67,83 +68,66 @@ if ( $User->admin == 0 ) {
     } // if isset p_jrn
 
 }
-// if show
-if ( isset ($_GET['show'])) {
-  $result=ShowJrn();
-   echo "<DIV class=\"u_subtmenu\">";
-   echo $result;
-   echo "</DIV>";
-   exit();
-}
 
-//TODO: add direct show of jrn if there is only one jrn of type JRN_TYPE (stan)
+// Show the available jrn
+$result=ShowJrn("user_jrn.php?jrn_type=".$jrn_type);
+echo "<div class=\"u_subtmenu\">";
+echo $result;
+echo "</div>";
 
-// if type of journal is asked
-if ( isset ($_GET['JRN_TYPE'] ) && $_GET['JRN_TYPE']=='NONE')
+
+
+// if a journal is selected show the journal's menu
+if ( $p_jrn != -1 ) 
 {
-  $jrn_type=$_GET['JRN_TYPE'];  
-  include('user_action_gl.php');
-  $result=ShowJrn("user_jrn.php?JRN_TYPE=".$jrn_type);
-  echo "<DIV class=\"u_subtmenu\">";
-  echo $result;
-  ShowMenuJrnUser($_SESSION['g_dossier'],$jrn_type,$p_jrn);
-  echo "</DIV>";
-} else
-{
-if ( isset ($_GET['JRN_TYPE'])) 
-{
-  $jrn_type=$_GET['JRN_TYPE'];  
-  
-  //when we get there, select min(jrn_def_id) from jrn_def where jrn_def_type='$jrn_type'
-  $p_jrn=GetFirstJrnIdForJrnType($_SESSION['g_dossier'],$jrn_type); 
-  
-  //$result=ShowJrn("user_jrn.php?JRN_TYPE=".$jrn_type);
-  //echo "<DIV class=\"u_subtmenu\">";
-  //echo $result;
-  //ShowMenuJrnUser($_SESSION['g_dossier'],$jrn_type,$p_jrn);
-  //echo "</DIV>";
- 
-  //if ( $jrn_type=='NONE' )     include('user_action_gl.php');
-} 
-//else {  
-  echo_debug("Selected is ".$p_jrn);
-  // Get the jrn_type_id
-  include_once('jrn.php');
-  $JrnProp=GetJrnProp($_SESSION['g_dossier'],$p_jrn);
-  $jrn_type=$JrnProp['jrn_def_type'];
-  echo_debug("Type is $jrn_type");
-  echo_debug("Jrn_def_type = $jrn_type");
-
- echo '<div class="u_subtmenu">';
- echo ShowJrn("user_jrn.php?JRN_TYPE=".$jrn_type);
- ShowMenuJrnUser($_SESSION['g_dossier'],$jrn_type,$p_jrn);
- echo '</div>';
-//}
-}
-
-  // if a journal is selected show the journal's menu
-if ( $p_jrn != -1 ) {
- $result=ShowJrn( "user_jrn.php?JRN_TYPE=".$jrn_type);
-  // Get the jrn_type_id
-  include_once('jrn.php');
-  $JrnProp=GetJrnProp($_SESSION['g_dossier'],$p_jrn);
-  $jrn_type=$JrnProp['jrn_def_type'];
   // display jrn's menu
 
-   $menu_jrn=ShowMenuJrn($cn,$jrn_type, $p_jrn);
-   //      echo '<div class="searchmenu">';
-   //   echo $result;
-   echo $menu_jrn;
-   //   echo '</DIV>';
-   $g_dossier=$_SESSION['g_dossier'];
-   $g_user=$_SESSION['g_user'];
+  //   echo '</DIV>';
+  echo '<div class="u_subt2menu">';      
+  // show the available ledger of the type jrn_type
+  ShowMenuJrnUser($_SESSION['g_dossier'],$jrn_type,$p_jrn);
+  echo '</div>';
+  echo '<div class="lmenu">';      
+  // show the menu for this journal (Nouveau, voir,...)
+  $menu_jrn=ShowMenuJrn($cn,$jrn_type, $p_jrn);
+  echo $menu_jrn;
+
+  echo '</div>';
+
+  $g_dossier=$_SESSION['g_dossier'];
+  $g_user=$_SESSION['g_user'];
+      
   // Execute Action for p_jrn
- 
-  if ( $jrn_type=='VEN' )     include('user_action_ven.php');
-  if ( $jrn_type=='ACH' )     include('user_action_ach.php');
-  if ( $jrn_type=='FIN' )     include('user_action_fin.php');
-  if ( $jrn_type=='OD ' )     include('user_action_ods.php');
-  } // if isset p_jrn
+  if ( $jrn_type=='VEN' )     require('user_action_ven.php');
+  if ( $jrn_type=='ACH' )     require('user_action_ach.php');
+  if ( $jrn_type=='FIN' )     require('user_action_fin.php');
+  if ( $jrn_type=='OD' )     require('user_action_ods.php');
+  
+}
+else 
+{
+  if ( $jrn_type=='NONE')
+    {
+      include('user_action_gl.php');
+
+    } else {
+      // no journal are selected so we select the first one
+      $p_jrn=GetFirstJrnIdForJrnType($_SESSION['g_dossier'],$jrn_type); 
+      // display jrn's menu
+      
+  //   echo '</DIV>';
+      echo '<div class="u_subt2menu">';      
+      ShowMenuJrnUser($_SESSION['g_dossier'],$jrn_type,$p_jrn);
+      echo '</div>';
+      echo '<div class="lmenu">';      
+      $menu_jrn=ShowMenuJrn($cn,$jrn_type, $p_jrn);
+      
+      echo $menu_jrn;
+      echo '</div><br>';
+    }
+
+}
 
 html_page_stop();
+
 ?>

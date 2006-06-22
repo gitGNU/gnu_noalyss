@@ -18,6 +18,10 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
+/*! \file
+ * \brief included file for the miscellaneous operation ledger 
+ */
+
 echo_debug('user_action_ods.php',__LINE__,"include user_action_ods.php");
 include_once("user_form_ods.php");
 include_once("class_widget.php");
@@ -31,10 +35,12 @@ if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {
 include_once ("preference.php");
 include_once ("user_common.php");
 
+
 $action=(isset($_GET['action']))?$_GET['action']:$_POST['action'];
 
 // action = new
 if ( $action == 'new' ) {
+
   // Check privilege
   if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_GET['p_jrn']) != 2 )    {
        NoAccess();
@@ -42,21 +48,21 @@ if ( $action == 'new' ) {
   }
 
 // We request a new form
-	if ( isset($_GET['blank'] )) {
-	  // Submit button in the form
-	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout poste">
+  if ( isset($_GET['blank'] )) {
+    // Submit button in the form
+    $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout poste">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Confirmer">';
-	  // add a one-line calculator
+    // add a one-line calculator
 
-
-	  $r=FormODS($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,null,false);
-	  echo '<div class="u_redcontent">';
-	  echo $r;
-	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."<div>";
-	  echo "</div>";
-
-
-	}
+    
+    $r=FormODS($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,null,false);
+    echo '<div class="u_redcontent">';
+    echo $r;
+    echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."<div>";
+    echo "</div>";
+	  
+    
+  }
 
 	// Add an item
 	if ( isset ($_POST['add_item'])) {
@@ -157,6 +163,13 @@ echo $hid->IOValue();
 $hid->name="action";
 $hid->value="voir_jrn";
 echo $hid->IOValue();
+
+
+$hid->name="jrn_type";
+$hid->value=$jrn_type;
+echo $hid->IOValue();
+
+
 
 $w=new widget("select");
 

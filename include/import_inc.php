@@ -22,21 +22,17 @@
 include_once("jrn.php");
 include_once("preference.php");
 include_once("user_common.php");
-/* function ImportCSV
+/*! 
  **************************************************
- * Purpose : Parse the file and insert the record
+ * \brief  Parse the file and insert the record
  *          into the table import_tmp. Insert in a temporary table, if
  *          no confirmation is given then the data are removed otherwise
  *          records are inserted into import_tmp
  *        
- * parm : 
- *	- p_cn database connection
- *  - file the uploaded file
- *  - $p_bq_account 
- *  - p_format_csv file to include (depending of the bank)
- * gen :
- *	-
- * return:
+ * \param $p_cn database connection
+ * \param $file  the uploaded file
+ * \param $p_bq_account the bank account (target)
+ * \param $p_format_csv file to include (depending of the bank)
  */
 function ImportCSV($p_cn,$file,$p_bq_account,$p_format_csv,$p_jrn)
 {
@@ -56,20 +52,17 @@ StartSql($p_cn);
 
 // if importation succeeds then we can commit the change
 Commit($p_cn);
-/* Done by trigger
-// clean all the double quote
-$sql="update import_tmp set 
-		compte_ordre=replace(compte_ordre,'\"',''),
-		detail=replace(detail,'\"',''),
-		num_compte=replace(num_compte,'\"','');";
-ExecSql($p_cn,$sql);*/
 
 }
-
+/*!\brief Update import_tmp with the bank account
+ * \note still used ?
+ */
 function UpdateCSV($p_cn, $code, $poste){
 	$sql = "update import_tmp set poste_comptable='".$poste."' where code='".$code."'";
 	$Res=ExecSql($p_cn,$sql);
 }
+/*!\brief Verify the import
+ */
 
 function VerifImport($p_cn){
 	$sql = "select * from import_tmp where poste_comptable='' or poste_comptable is null";
@@ -91,6 +84,8 @@ function VerifImport($p_cn){
 		$i++;
 	}
 }
+/*!\brief Transfert data into the ledger
+ */
 
 function TransferCSV($p_cn, $periode){
 	//on obtient la période courante
@@ -164,9 +159,9 @@ function TransferCSV($p_cn, $periode){
 		}
 	}
 }
-/* function ShowForm
+/*! 
  **************************************************
- * Purpose : ShowForm for getting data about 
+ * \brief  ShowForm for getting data about 
  *           the bank transfert in cvs
  *        
  * parm :  database connection

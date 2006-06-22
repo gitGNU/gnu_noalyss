@@ -19,6 +19,10 @@
  * $Revision$
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+/*! \file
+ * \brief Administration of the repository : creation of user, folder, security, 
+ *        templates... Accessible only by the administrator
+ */
 
 include_once("ac_common.php");
 include_once("postgres.php");

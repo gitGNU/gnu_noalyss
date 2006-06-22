@@ -18,6 +18,12 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+/*! \file
+ * \brief Base of the module "Gestion", the p_action indicates what
+ *        file must included and this file will manage the request 
+ *        (customer, supplier, contact,...)
+ */
+
 include_once ("ac_common.php");
 require_once("constant.php");
 include_once ("postgres.php");
@@ -52,7 +58,8 @@ if ( isset ( $_POST['p_size']) ) {
 }
 
 ///
-html_page_start($_SESSION['g_theme']);
+html_page_start($_SESSION['g_theme'],"","richtext.js");
+
 if ( ! isset ( $_SESSION['g_dossier'] ) ) {
   echo "You must choose a Dossier ";
   exit -2;
@@ -60,25 +67,28 @@ if ( ! isset ( $_SESSION['g_dossier'] ) ) {
 
 include("preference.php");
 include_once("user_menu.php");
-
+echo '<div class="u_tmenu">';
 echo "<H2 class=\"info\">Commercial ".$_SESSION['g_name']." </H2>";
 
 $p_action=(isset ($_REQUEST['p_action']))?$_REQUEST['p_action']:"";
 // TODO Menu with all the customer
 echo ShowItem(array(
 		    array('?p_action=client','Client'),
+		    array('?p_action=facture','Facture'),
 		    array('?p_action=fournisseur','Fournisseur'),
+		    array('?p_action=contact','Contact'),
 		    array('?p_action=suivi_courrier','Suivi courrier'),
-		    array('?p_action=mbre','Membre'),
 		    array('?p_action=pref','Préférence'),
+		    array('parametre.php?dos='.$_SESSION['g_dossier'],"Paramètre"),
+		    array('user_compta.php?dos='.$_SESSION['g_dossier'],"Comptabilité"),
 		    array('login.php','Accueil',"Accueil"),
 		    array('logout.php','logout',"Sortie")
 		    ),
-	      'H',"mtitle","mtitle","?p_action=$p_action");
+	      'H',"mtitle","mtitle","?p_action=$p_action",' width="100%"');
 
 
 		    //
-
+echo '</div>';
 
 $cn=DbConnect($_SESSION['g_dossier']);
 ////////////////////////////////////////////////////////////////////////////////
@@ -100,4 +110,23 @@ if ( $p_action == "client" )
 if ( $p_action == 'fournisseur') 
 {
   require_once("fournisseur.inc.php");
+}
+////////////////////////////////////////////////////////////////////////////////
+// action
+if ( $p_action == 'suivi_courrier') 
+{
+  require_once("action.inc.php");
+}
+////////////////////////////////////////////////////////////////////////////////
+// p_action == facture
+////////////////////////////////////////////////////////////////////////////////
+if ( $p_action == "facture" ) 
+{
+  require_once("facture.inc.php");
+}
+////////////////////////////////////////////////////////////////////////////////
+// Contact
+if ( $p_action == 'contact') 
+{
+  require_once("contact.inc.php");
 }

@@ -18,6 +18,10 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+/*! \file
+ * \brief Send the final balance in CSV this balance is used to open an exercice
+ */
+
 include_once ("ac_common.php");
 require_once("class_poste.php");
 header('Content-type: application/csv');

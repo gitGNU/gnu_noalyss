@@ -18,6 +18,13 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+/*! \file
+ * \brief Class to manage the company parameter (address, name...)
+ */
+/*! 
+ * \brief Class to manage the company parameter (address, name...)
+ */
+
 class Own {
   var $db;
   // constructor 
@@ -33,32 +40,24 @@ class Own {
     }
 
   }
-/* function UpdateRow
+/*! 
  **************************************************
- * Purpose : Update a row
+ * \brief  Update a row
  *        
- * parm : 
- *	- give the attribut name
- * gen :
- *	- none
- * return:
- *      -none
+ *  
+ * \param give the attribut name
+ * 
  */
   function UpdateRow($p_attr) {
     $value=FormatString($this->{"$p_attr"});
     $Res=ExecSql($this->db,"update parameter set pr_value='$value' where pr_id='$p_attr'");
   }
 
-/* function Save
+/*! 
  **************************************************
- * Purpose : save data
+ * \brief  save data
  *        
- * parm : 
- *	- none
- * gen :
- *	- none
- * return:
- *    - nothing
+ *
  */
   function Save() {
     $this->UpdateRow('MY_NAME');

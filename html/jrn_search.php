@@ -18,6 +18,10 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
+/*! \file
+ * \brief Search a operation from a ledger into a popup window, used for the "rapprochement"
+ */
+
 require_once ("ac_common.php");
 require_once ("postgres.php");
 require_once("user_common.php");
