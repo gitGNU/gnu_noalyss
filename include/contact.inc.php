@@ -1,0 +1,191 @@
+<?
+/*
+ *   This file is part of PhpCompta.
+ *
+ *   PhpCompta is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 2 of the License, or
+ *   (at your option) any later version.
+ *
+ *   PhpCompta is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with PhpCompta; if not, write to the Free Software
+ *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
+/* $Revision$ */
+// Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+//!\brief File for adding contact, contact is a kind of fiche
+require_once('class_contact.php');
+require_once('class_widget.php');
+/*! \file
+ * \brief the contact class is derived from the class fiche
+ *        the contact is in fact a card but more specific
+ *        This file is included from the module "Gestion"
+ */
+
+$sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
+var_dump($_REQUEST);
+// if this page is called from another menu (customer, supplier,...)
+// a button back is added
+// TODO add function for generating url, hidden tags...
+if ( isset ($_REQUEST['url'])) 
+{
+     $retour=sprintf('<A HREF="%s"><input type="button" value="Retour"></A>',urldecode($_REQUEST['url']));
+     $h_url=sprintf('<input type="hidden" name="url" value="%s">',urldecode($_REQUEST['url']));
+}
+else 
+{ 
+     $retour="";
+     $h_url="";
+}
+
+// Menu
+// Remove a card
+if ( isset ($_POST['delete']) ) 
+{
+  echo 'delete';
+  $f_id=$_REQUEST['f_id'];
+
+  $fiche=new contact($cn,$f_id);
+  $fiche->remove();
+  $sub_action="list"; 
+}
+////////////////////////////////////////////////////////////////////////////////
+// Add card
+if ( $sub_action=="insert" )
+{
+  $contact=new Contact($cn);
+  $contact->Save($_REQUEST['fd_id']);
+  echo $retour;
+  echo "<table>";
+  echo $contact->Display(true);
+  echo "</table>";
+  echo $retour;
+
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Save modification
+if ( isset ($_POST['mod'])) 
+{
+  // modification is asked
+  $f_id=$_REQUEST['f_id'];
+
+  $contact=new contact($cn,$f_id);
+  $contact->Save();
+}
+// by default open liste
+if ( $sub_action  == "" ) 
+      $sub_action="list";
+////////////////////////////////////////////////////////////////////////////////
+//Display a blank card 
+if ( $sub_action=="blank") 
+{
+  $retour=sprintf('<A class="two" HREF="%s"><input type="button" value="Retour"></A>',
+		  "commercial.php?p_action=contact");
+  echo '<div class="u_redcontent">';
+
+  echo $retour;
+  $c=new contact($cn);
+  echo '<form method="post" action="commercial.php"';
+  echo '<input type="hidden" name="p_action" value="client">';
+  echo '<input type="hidden" name="sa" value="insert">';
+  echo '<input type="hidden" name="fd_id" value="'.$_GET['fd_id'].'">';
+  echo '<input type="hidden" name="url" value="'.$_GET['url'].'">';
+  echo $c->blank($_GET['fd_id']);
+  echo '<input type="Submit" value="Sauve">';
+  echo '</form>';
+  echo $retour;
+  echo '</div>';
+}
+////////////////////////////////////////////////////////////////////////////////
+// list
+if ( $sub_action == "list" )
+{
+?>
+<div class="u_content">
+<span>
+<form method="get" action="commercial.php">
+<?
+   $a=(isset($_GET['query']))?$_GET['query']:"";
+   printf ('<input type="text" name="query" value="%s">',
+	   $a);
+?>
+<input type="submit" name="submit_query" value="recherche">
+<input type="hidden" name="p_action" value="contact">
+</form>
+</span>
+<span>
+<form method="get" action="commercial.php">
+<input type="hidden" name="url" <?      $url=urlencode($_SERVER['REQUEST_URI']);echo 'value="'.$url.'"'; ?>
+<input type="hidden" name="p_action" value="contact">
+
+<?
+ $w=new widget("select");
+ $w->name="fd_id";
+ $w->value= make_array($cn,"select fd_id,fd_label from fiche_def where ".
+	     " frd_id=".FICHE_TYPE_CONTACT);
+ echo $w->IOValue();
+?>
+<input type="hidden" name="sa" value="blank">
+<input type="submit" name="submit_query" value="Ajout Contact">
+
+</form>
+</span>
+
+<form>
+<?
+  $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
+  printf ('<span>Tiers QuickCode: <input type="text" name="qcode" value="%s"></span>',
+	   $qcode);
+?>
+<input type="submit" name="submit_query" value="recherche">
+<input type="hidden" name="p_action" value="contact">
+
+</FORM>
+<?
+   $contact=new Contact($cn);
+ $search=(isset($_GET['query']))?$_GET['query']:"";
+ // check if a company is asked if yes, add a condition
+ if ( $qcode != "" )
+   {
+     $contact->company=$qcode;
+   }
+ echo '<div class="u_redcontent">';
+ echo $contact->Summary($search);
+ echo '</div>';
+
+
+}
+////////////////////////////////////////////////////////////////////////////////
+// Show Detail
+if ( $sub_action == 'detail' )
+{
+  $f_id=$_REQUEST['f_id'];
+  echo '<div class="u_redcontent">';
+  $contact=new contact($cn,$f_id);
+  echo $retour;
+  echo '<form action="'.$_SERVER['REQUEST_URI'].'" method="post">'; 
+  echo $contact->Display(false);
+  $w=new widget("hidden");
+  $w->name="p_action";
+  $w->value="contact";
+  echo $w->IOValue();
+  $w->name="f_id";
+  $w->value=$f_id;
+  echo $w->IOValue();
+
+  echo $w->Submit('mod','Sauver les modifications');
+  echo '<A HREF="commercial.php?p_action=contact"><INPUT TYPE="button" value="Retour"></A>';
+  echo $w->Submit('delete','Effacer cette fiche');
+  echo '</form>';
+  echo $retour;
+  echo '<div>';
+}
+html_page_stop();
+
+
