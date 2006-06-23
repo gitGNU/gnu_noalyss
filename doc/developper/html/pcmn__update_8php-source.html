@@ -54,7 +54,7 @@
 <a name="l00048"></a>00048   <a class="code" href="ac__common_8php.html#a8">NoAccess</a>();
 <a name="l00049"></a><a class="code" href="pcmn__update_8php.html#a3">00049</a>   <a class="code" href="balance_8php.html#a0">exit</a> -1;                      
 <a name="l00050"></a>00050  }
-<a name="l00051"></a>00051 echo <a class="code" href="constant_8php.html#a77">JS_UPDATE_PCMN</a>;
+<a name="l00051"></a>00051 echo <a class="code" href="constant_8php.html#a78">JS_UPDATE_PCMN</a>;
 <a name="l00052"></a>00052 <span class="comment">/* Store the p_start parameter */</span>
 <a name="l00053"></a>00053 <span class="keywordflow">if</span> ( ! isset ( $_SESSION['g_start']) ) {
 <a name="l00054"></a>00054   <a class="code" href="commercial_8php.html#a0">$_SESSION</a>['g_start']=<span class="stringliteral">""</span>;
@@ -85,7 +85,7 @@
 <a name="l00080"></a>00080         echo <span class="stringliteral">"&lt;SCRIPT&gt; alert(\"Ne peut pas effacer le poste: d'autres postes en dépendent\");&lt;/SCRIPT&gt;"</span>;
 <a name="l00081"></a>00081       } <span class="keywordflow">else</span> {
 <a name="l00082"></a>00082         <span class="comment">/* Vérifier que le poste n'est pas utilisé qq part dans les journaux */</span>
-<a name="l00083"></a>00083         <a class="code" href="eub__be_8inc_8php.html#a5">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select * from jrnx where j_poste="</span>.$_GET[<span class="charliteral">'l'</span>]);
+<a name="l00083"></a>00083         <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select * from jrnx where j_poste="</span>.$_GET[<span class="charliteral">'l'</span>]);
 <a name="l00084"></a>00084         <span class="keywordflow">if</span> ( pg_NumRows($R) != 0 ) {
 <a name="l00085"></a>00085           echo <span class="stringliteral">"&lt;SCRIPT&gt; alert(\"Ne peut pas effacer le poste: il est utilisé dans les journaux\");&lt;/SCRIPT&gt;"</span>;
 <a name="l00086"></a>00086         }
@@ -142,7 +142,7 @@
 <a name="l00138"></a>00138 
 <a name="l00139"></a>00139 ?&gt;
 <a name="l00140"></a>00140 
-<a name="l00141"></a>00141 &lt;<a class="code" href="constant_8php.html#a7">FORM</a> ACTION=<span class="stringliteral">"pcmn_update.php"</span> <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"POST"</span>&gt;
+<a name="l00141"></a>00141 &lt;<a class="code" href="constant_8php.html#a7">FORM</a> <a class="code" href="constant_8php.html#a39">ACTION</a>=<span class="stringliteral">"pcmn_update.php"</span> <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"POST"</span>&gt;
 <a name="l00142"></a>00142 &lt;TABLE ALIGN=<span class="stringliteral">"center"</span> BORDER=0 CELLPADDING=0 CELLSPACING=0&gt; 
 <a name="l00143"></a>00143 &lt;TR&gt;
 <a name="l00144"></a>00144 &lt;TH&gt; Classe &lt;/TH&gt;
@@ -201,7 +201,7 @@
 <a name="l00197"></a>00197 echo <span class="stringliteral">"&lt;/DIV&gt;"</span>;
 <a name="l00198"></a>00198 <a class="code" href="ac__common_8php.html#a6">html_page_stop</a>();
 <a name="l00199"></a>00199 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 21:19:07 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 23:33:59 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

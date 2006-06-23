@@ -60,7 +60,7 @@
 <a name="l00055"></a>00055                 <a class="code" href="fiche__csv_8php.html#a5">$o</a>=1;
 <a name="l00056"></a>00056           }<span class="keywordflow">else</span> {
 <a name="l00057"></a>00057             printf(<span class="stringliteral">";%s"</span>,$attribut-&gt;ad_text);
-<a name="l00058"></a>00058             <span class="keywordflow">if</span> ( $attribut-&gt;ad_id == <a class="code" href="constant_8php.html#a48">ATTR_DEF_ACCOUNT</a> 
+<a name="l00058"></a>00058             <span class="keywordflow">if</span> ( $attribut-&gt;ad_id == <a class="code" href="constant_8php.html#a49">ATTR_DEF_ACCOUNT</a> 
 <a name="l00059"></a>00059                  &amp;&amp; isset ($_REQUEST['with_amount'])) 
 <a name="l00060"></a>00060               echo <span class="stringliteral">";debit;credit;solde"</span>;
 <a name="l00061"></a>00061           }
@@ -78,7 +78,7 @@
 <a name="l00073"></a>00073             printf (<span class="stringliteral">";%s"</span>,$dattribut-&gt;av_text);
 <a name="l00074"></a>00074             <span class="comment">// if solde resquested</span>
 <a name="l00075"></a>00075             <span class="comment">//--</span>
-<a name="l00076"></a>00076             <span class="keywordflow">if</span> ( $dattribut-&gt;ad_id == <a class="code" href="constant_8php.html#a48">ATTR_DEF_ACCOUNT</a> 
+<a name="l00076"></a>00076             <span class="keywordflow">if</span> ( $dattribut-&gt;ad_id == <a class="code" href="constant_8php.html#a49">ATTR_DEF_ACCOUNT</a> 
 <a name="l00077"></a>00077                  &amp;&amp; isset ($_REQUEST['with_amount']))  {
 <a name="l00078"></a>00078               $account=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a6">poste</a> ($cn,$dattribut-&gt;av_text);
 <a name="l00079"></a>00079               <a class="code" href="impress__fiche_8php.html#a13">$solde</a>=$account-&gt;GetSoldeDetail(<span class="stringliteral">"j_tech_per between "</span>.$_REQUEST['from_periode'].
@@ -103,7 +103,7 @@
 <a name="l00098"></a>00098  }
 <a name="l00099"></a><a class="code" href="fiche__csv_8php.html#a6">00099</a>   <a class="code" href="balance_8php.html#a0">exit</a>;
 <a name="l00100"></a>00100 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 21:19:07 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 23:33:59 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

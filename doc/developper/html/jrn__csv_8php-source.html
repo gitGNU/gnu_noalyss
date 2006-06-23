@@ -47,16 +47,16 @@
 <a name="l00042"></a>00042   }
 <a name="l00043"></a>00043 
 <a name="l00044"></a>00044 
-<a name="l00045"></a><a class="code" href="jrn__csv_8php.html#a3">00045</a>  <a class="code" href="class__operation_8php.html#a0">$p_cent</a>=( isset ( $_GET['central']) )?$_GET['central']:'off';
+<a name="l00045"></a><a class="code" href="jrn__csv_8php.html#a3">00045</a>  <a class="code" href="impress__jrn_8php.html#a0">$p_cent</a>=( isset ( $_GET['central']) )?$_GET['central']:'off';
 <a name="l00046"></a>00046 
-<a name="l00047"></a><a class="code" href="jrn__csv_8php.html#a4">00047</a> <a class="code" href="class__operation_8php.html#a1">$Jrn</a>=<span class="keyword">new</span> <a class="code" href="classjrn.html">jrn</a>($cn,$_GET['jrn_id']);
+<a name="l00047"></a><a class="code" href="jrn__csv_8php.html#a4">00047</a> <a class="code" href="impress__jrn_8php.html#a2">$Jrn</a>=<span class="keyword">new</span> <a class="code" href="classjrn.html">jrn</a>($cn,$_GET['jrn_id']);
 <a name="l00048"></a>00048 
-<a name="l00049"></a>00049 <a class="code" href="class__operation_8php.html#a1">$Jrn</a>-&gt;GetName();
+<a name="l00049"></a>00049 <a class="code" href="impress__jrn_8php.html#a2">$Jrn</a>-&gt;GetName();
 <a name="l00050"></a>00050 <span class="comment">// Detailled printing</span>
 <a name="l00051"></a>00051 <span class="comment">//---</span>
 <a name="l00052"></a>00052 <span class="keywordflow">if</span>  ( $_GET['p_simple'] == 0 ) 
 <a name="l00053"></a>00053   {
-<a name="l00054"></a>00054     <a class="code" href="class__operation_8php.html#a1">$Jrn</a>-&gt;GetRow( $_GET['from_periode'],
+<a name="l00054"></a>00054     <a class="code" href="impress__jrn_8php.html#a2">$Jrn</a>-&gt;GetRow( $_GET['from_periode'],
 <a name="l00055"></a>00055                   $_GET['to_periode'],
 <a name="l00056"></a>00056                   $p_cent);
 <a name="l00057"></a>00057 
@@ -86,7 +86,7 @@
 <a name="l00081"></a>00081   }
 <a name="l00082"></a>00082  <span class="keywordflow">else</span> 
 <a name="l00083"></a>00083    {
-<a name="l00084"></a>00084      $Row=<a class="code" href="class__operation_8php.html#a1">$Jrn</a>-&gt;GetRowSimple($_GET['from_periode'],
+<a name="l00084"></a>00084      $Row=<a class="code" href="impress__jrn_8php.html#a2">$Jrn</a>-&gt;GetRowSimple($_GET['from_periode'],
 <a name="l00085"></a>00085                              $_GET['to_periode'],
 <a name="l00086"></a>00086                              $p_cent);
 <a name="l00088"></a>00088      printf ('<span class="stringliteral">" operation "</span>'.
@@ -124,7 +124,7 @@
 <a name="l00120"></a>00120       
 <a name="l00122"></a>00122    }
 <a name="l00123"></a>00123 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 21:19:07 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 23:33:59 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

@@ -43,7 +43,7 @@
 <a name="l00034"></a>00034 include_once(<span class="stringliteral">"ac_common.php"</span>);
 <a name="l00035"></a>00035 include_once(<span class="stringliteral">"postgres.php"</span>);
 <a name="l00036"></a>00036 <span class="comment">// Test the connection</span>
-<a name="l00037"></a><a class="code" href="test_8php.html#a0">00037</a> <a class="code" href="balance_8php.html#a9">$a</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
+<a name="l00037"></a><a class="code" href="test_8php.html#a0">00037</a> <a class="code" href="action_8inc_8php.html#a15">$a</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
 <a name="l00038"></a>00038 <span class="keywordflow">if</span> ( $a==<span class="keyword">false</span>) {
 <a name="l00039"></a>00039    <a class="code" href="balance_8php.html#a0">exit</a> (<span class="stringliteral">"&lt;h2 class=\"error\"&gt;__LINE__ test has failed !!!&lt;/h2&gt;"</span>);
 <a name="l00040"></a>00040 
@@ -51,7 +51,7 @@
 <a name="l00042"></a>00042 <span class="keywordflow">if</span> ( ($Res=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($a,<span class="stringliteral">"select  * from ac_users"</span>) ) == <span class="keyword">false</span> ) {
 <a name="l00043"></a>00043         <a class="code" href="balance_8php.html#a0">exit</a> (<span class="stringliteral">"&lt;h2 class=\"error\"&gt;__LINE__ test has failed !!!&lt;/h2&gt;"</span>);
 <a name="l00044"></a>00044 } <span class="keywordflow">else</span> 
-<a name="l00045"></a><a class="code" href="test_8php.html#a1">00045</a>         <a class="code" href="class__operation_8php.html#a8">print</a> <span class="stringliteral">"Connect to database success &lt;br&gt;"</span>;
+<a name="l00045"></a><a class="code" href="test_8php.html#a1">00045</a>         <a class="code" href="impress__bilan_8php.html#a3">print</a> <span class="stringliteral">"Connect to database success &lt;br&gt;"</span>;
 <a name="l00046"></a>00046 
 <a name="l00047"></a>00047 <span class="comment">// Verify some PHP parameters</span>
 <a name="l00048"></a>00048 <span class="comment">// magic_quotes_gpc = Off</span>
@@ -61,21 +61,21 @@
 <a name="l00052"></a>00052 <span class="comment">// register_global</span>
 <a name="l00053"></a>00053 foreach (array('magic_quotes_gpc<span class="charliteral">','</span>magic_quotes_runtime') as $a) {
 <a name="l00054"></a>00054 
-<a name="l00055"></a>00055   <span class="keywordflow">if</span> ( ini_get($a) == <span class="keyword">false</span> ) <a class="code" href="class__operation_8php.html#a8">print</a> <a class="code" href="balance_8php.html#a9">$a</a>.': Ok  &lt;br&gt;';
+<a name="l00055"></a>00055   <span class="keywordflow">if</span> ( ini_get($a) == <span class="keyword">false</span> ) <a class="code" href="impress__bilan_8php.html#a3">print</a> <a class="code" href="action_8inc_8php.html#a15">$a</a>.': Ok  &lt;br&gt;';
 <a name="l00056"></a>00056   <span class="keywordflow">else</span> {
-<a name="l00057"></a>00057         <a class="code" href="class__operation_8php.html#a8">print</a> (<span class="stringliteral">"&lt;h2 class=\"error\"&gt;$a has a bad value  !!!&lt;/h2&gt;"</span>);
+<a name="l00057"></a>00057         <a class="code" href="impress__bilan_8php.html#a3">print</a> (<span class="stringliteral">"&lt;h2 class=\"error\"&gt;$a has a bad value  !!!&lt;/h2&gt;"</span>);
 <a name="l00058"></a>00058   }
 <a name="l00059"></a>00059 
 <a name="l00060"></a>00060 }
 <a name="l00061"></a>00061 <span class="keywordflow">if</span> ( ereg(<span class="stringliteral">"\.\.\/include"</span>,ini_get('include_path')) == <span class="keyword">false</span> )
-<a name="l00062"></a>00062   <a class="code" href="class__operation_8php.html#a8">print</a> (<span class="stringliteral">"&lt;h2 class=\"error\"&gt;include_path incorrect  !!!"</span>.ini_get('include_path').<span class="stringliteral">"&lt;/h2&gt;"</span>);
+<a name="l00062"></a>00062   <a class="code" href="impress__bilan_8php.html#a3">print</a> (<span class="stringliteral">"&lt;h2 class=\"error\"&gt;include_path incorrect  !!!"</span>.ini_get('include_path').<span class="stringliteral">"&lt;/h2&gt;"</span>);
 <a name="l00063"></a>00063  <span class="keywordflow">else</span>
-<a name="l00064"></a>00064    <a class="code" href="class__operation_8php.html#a8">print</a> 'include_path : ok ('.ini_get('include_path').')&lt;br&gt;';
+<a name="l00064"></a>00064    <a class="code" href="impress__bilan_8php.html#a3">print</a> 'include_path : ok ('.ini_get('include_path').')&lt;br&gt;';
 <a name="l00065"></a>00065 
 <a name="l00066"></a>00066 echo <span class="stringliteral">"&lt;h2 class=\"info\"&gt; Congratulation : Test successfull&lt;/h2&gt;"</span>;
 <a name="l00067"></a>00067 
 <a name="l00068"></a>00068 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 21:19:07 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 23:33:59 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

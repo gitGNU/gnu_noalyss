@@ -34,8 +34,8 @@
 <a name="l00031"></a>00031 
 <a name="l00032"></a>00032 <span class="keywordflow">if</span> ( isset ($_REQUEST['dos'] ) ) {
 <a name="l00033"></a>00033   <a class="code" href="commercial_8php.html#a0">$_SESSION</a>['g_dossier']=$_REQUEST['dos'];
-<a name="l00034"></a>00034   <a class="code" href="facturation_8php.html#a1">$g_name</a>=<a class="code" href="postgres_8php.html#a11">GetDossierName</a>($_SESSION['g_dossier']);
-<a name="l00035"></a><a class="code" href="commercial_8php.html#a0">00035</a>   <a class="code" href="commercial_8php.html#a0">$_SESSION</a>[<span class="stringliteral">"g_name"</span>]=<a class="code" href="facturation_8php.html#a1">$g_name</a>;
+<a name="l00034"></a>00034   <a class="code" href="user__compta_8php.html#a2">$g_name</a>=<a class="code" href="postgres_8php.html#a11">GetDossierName</a>($_SESSION['g_dossier']);
+<a name="l00035"></a><a class="code" href="commercial_8php.html#a0">00035</a>   <a class="code" href="commercial_8php.html#a0">$_SESSION</a>[<span class="stringliteral">"g_name"</span>]=<a class="code" href="user__compta_8php.html#a2">$g_name</a>;
 <a name="l00036"></a>00036 
 <a name="l00037"></a>00037 }
 <a name="l00038"></a>00038 
@@ -76,52 +76,64 @@
 <a name="l00076"></a>00076                     array('?p_action=client<span class="charliteral">','</span>Client'),
 <a name="l00077"></a>00077                     array('?p_action=facture<span class="charliteral">','</span>Facture'),
 <a name="l00078"></a>00078                     array('?p_action=fournisseur<span class="charliteral">','</span>Fournisseur'),
-<a name="l00079"></a>00079                     array('?p_action=<a class="code" href="classcontact.html">contact</a><span class="charliteral">','</span>Contact'),
-<a name="l00080"></a>00080                     array('?p_action=suivi_courrier<span class="charliteral">','</span>Suivi courrier'),
-<a name="l00081"></a>00081                     array('?p_action=pref<span class="charliteral">','</span>Préférence'),
-<a name="l00082"></a>00082                     array('parametre.php?dos='.$_SESSION['g_dossier'],<span class="stringliteral">"Paramètre"</span>),
-<a name="l00083"></a>00083                     array('user_compta.php?dos='.$_SESSION['g_dossier'],<span class="stringliteral">"Comptabilité"</span>),
-<a name="l00084"></a>00084                     array('login.php<span class="charliteral">','</span>Accueil',<span class="stringliteral">"Accueil"</span>),
-<a name="l00085"></a>00085                     array('logout.php<span class="charliteral">','</span>logout',<span class="stringliteral">"Sortie"</span>)
-<a name="l00086"></a>00086                     ),
-<a name="l00087"></a>00087               <span class="charliteral">'H'</span>,<span class="stringliteral">"mtitle"</span>,<span class="stringliteral">"mtitle"</span>,<span class="stringliteral">"?p_action=$p_action"</span>,' <a class="code" href="tva_8inc_8php.html#a17">width</a>=<span class="stringliteral">"100%"</span>');
-<a name="l00088"></a>00088 
-<a name="l00089"></a>00089 
-<a name="l00090"></a>00090                     <span class="comment">//</span>
-<a name="l00091"></a>00091 echo '&lt;/div&gt;';
-<a name="l00092"></a>00092 
-<a name="l00093"></a><a class="code" href="commercial_8php.html#a4">00093</a> <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>($_SESSION['g_dossier']);
-<a name="l00095"></a>00095 <span class="comment">// p_action == pref</span>
-<a name="l00097"></a>00097 <span class="comment"></span><span class="keywordflow">if</span> ( $p_action == <span class="stringliteral">"pref"</span> ) 
-<a name="l00098"></a>00098 {
-<a name="l00099"></a>00099   require_once(<span class="stringliteral">"pref.inc.php"</span>);
-<a name="l00100"></a>00100 }
-<a name="l00102"></a>00102 <span class="comment">// p_action == client</span>
-<a name="l00104"></a>00104 <span class="comment"></span><span class="keywordflow">if</span> ( $p_action == <span class="stringliteral">"client"</span> ) 
-<a name="l00105"></a>00105 {
-<a name="l00106"></a>00106   require_once(<span class="stringliteral">"client.inc.php"</span>);
-<a name="l00107"></a>00107 }<span class="comment">// $p_action == fournisseur</span>
-<a name="l00109"></a>00109 <span class="comment"></span><span class="comment">// Fournisseur</span>
-<a name="l00110"></a>00110 <span class="keywordflow">if</span> ( $p_action == 'fournisseur') 
-<a name="l00111"></a>00111 {
-<a name="l00112"></a>00112   require_once(<span class="stringliteral">"fournisseur.inc.php"</span>);
-<a name="l00113"></a>00113 }
-<a name="l00115"></a>00115 <span class="comment">// action</span>
-<a name="l00116"></a>00116 <span class="keywordflow">if</span> ( $p_action == 'suivi_courrier') 
-<a name="l00117"></a>00117 {
-<a name="l00118"></a>00118   require_once(<span class="stringliteral">"action.inc.php"</span>);
-<a name="l00119"></a>00119 }
-<a name="l00121"></a>00121 <span class="comment">// p_action == facture</span>
-<a name="l00123"></a>00123 <span class="comment"></span><span class="keywordflow">if</span> ( $p_action == <span class="stringliteral">"facture"</span> ) 
-<a name="l00124"></a>00124 {
-<a name="l00125"></a>00125   require_once(<span class="stringliteral">"facture.inc.php"</span>);
-<a name="l00126"></a>00126 }
-<a name="l00128"></a>00128 <span class="comment">// Contact</span>
-<a name="l00129"></a>00129 <span class="keywordflow">if</span> ( $p_action == '<a class="code" href="classcontact.html">contact</a>') 
-<a name="l00130"></a>00130 {
-<a name="l00131"></a>00131   require_once(<span class="stringliteral">"contact.inc.php"</span>);
-<a name="l00132"></a>00132 }
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 21:19:07 2006 for phpcompta by&nbsp;
+<a name="l00079"></a>00079                     array('?p_action=depense<span class="charliteral">','</span>D&amp;eacute;pense'),
+<a name="l00080"></a>00080                     array('?p_action=<a class="code" href="classcontact.html">contact</a><span class="charliteral">','</span>Contact'),
+<a name="l00081"></a>00081                     array('?p_action=admin<span class="charliteral">','</span>Administration'),
+<a name="l00082"></a>00082                     array('?p_action=suivi_courrier<span class="charliteral">','</span>Suivi courrier'),
+<a name="l00083"></a>00083                     array('?p_action=pref<span class="charliteral">','</span>Préférence'),
+<a name="l00084"></a>00084                     array('parametre.php?dos='.$_SESSION['g_dossier'],<span class="stringliteral">"Paramètre"</span>),
+<a name="l00085"></a>00085                     array('user_compta.php?dos='.$_SESSION['g_dossier'],<span class="stringliteral">"Comptabilité"</span>),
+<a name="l00086"></a>00086                     array('login.php<span class="charliteral">','</span>Accueil',<span class="stringliteral">"Accueil"</span>),
+<a name="l00087"></a>00087                     array('logout.php<span class="charliteral">','</span>logout',<span class="stringliteral">"Sortie"</span>)
+<a name="l00088"></a>00088                     ),
+<a name="l00089"></a>00089               <span class="charliteral">'H'</span>,<span class="stringliteral">"mtitle"</span>,<span class="stringliteral">"mtitle"</span>,<span class="stringliteral">"?p_action=$p_action"</span>,' <a class="code" href="tva_8inc_8php.html#a17">width</a>=<span class="stringliteral">"100%"</span>');
+<a name="l00090"></a>00090 
+<a name="l00091"></a>00091 
+<a name="l00092"></a>00092                     <span class="comment">//</span>
+<a name="l00093"></a>00093 echo '&lt;/div&gt;';
+<a name="l00094"></a>00094 
+<a name="l00095"></a><a class="code" href="commercial_8php.html#a4">00095</a> <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>($_SESSION['g_dossier']);
+<a name="l00097"></a>00097 <span class="comment">// p_action == pref</span>
+<a name="l00099"></a>00099 <span class="comment"></span><span class="keywordflow">if</span> ( $p_action == <span class="stringliteral">"pref"</span> ) 
+<a name="l00100"></a>00100 {
+<a name="l00101"></a>00101   require_once(<span class="stringliteral">"pref.inc.php"</span>);
+<a name="l00102"></a>00102 }
+<a name="l00104"></a>00104 <span class="comment">// p_action == client</span>
+<a name="l00106"></a>00106 <span class="comment"></span><span class="keywordflow">if</span> ( $p_action == <span class="stringliteral">"client"</span> ) 
+<a name="l00107"></a>00107 {
+<a name="l00108"></a>00108   require_once(<span class="stringliteral">"client.inc.php"</span>);
+<a name="l00109"></a>00109 }<span class="comment">// $p_action == fournisseur</span>
+<a name="l00111"></a>00111 <span class="comment"></span><span class="comment">// Fournisseur</span>
+<a name="l00112"></a>00112 <span class="keywordflow">if</span> ( $p_action == 'fournisseur') 
+<a name="l00113"></a>00113 {
+<a name="l00114"></a>00114   require_once(<span class="stringliteral">"supplier.inc.php"</span>);
+<a name="l00115"></a>00115 }
+<a name="l00117"></a>00117 <span class="comment">// action</span>
+<a name="l00118"></a>00118 <span class="keywordflow">if</span> ( $p_action == 'suivi_courrier') 
+<a name="l00119"></a>00119 {
+<a name="l00120"></a>00120   require_once(<span class="stringliteral">"action.inc.php"</span>);
+<a name="l00121"></a>00121 }
+<a name="l00123"></a>00123 <span class="comment">// p_action == facture</span>
+<a name="l00125"></a>00125 <span class="comment"></span><span class="keywordflow">if</span> ( $p_action == <span class="stringliteral">"facture"</span> ) 
+<a name="l00126"></a>00126 {
+<a name="l00127"></a>00127   require_once(<span class="stringliteral">"facture.inc.php"</span>);
+<a name="l00128"></a>00128 }
+<a name="l00130"></a>00130 <span class="comment">// Contact</span>
+<a name="l00131"></a>00131 <span class="keywordflow">if</span> ( $p_action == '<a class="code" href="classcontact.html">contact</a>') 
+<a name="l00132"></a>00132 {
+<a name="l00133"></a>00133   require_once(<span class="stringliteral">"contact.inc.php"</span>);
+<a name="l00134"></a>00134 }
+<a name="l00136"></a>00136 <span class="comment">// Expense</span>
+<a name="l00137"></a>00137 <span class="keywordflow">if</span> ( $p_action == 'depense') 
+<a name="l00138"></a>00138 {
+<a name="l00139"></a>00139   require_once(<span class="stringliteral">"depense.inc.php"</span>);
+<a name="l00140"></a>00140 }
+<a name="l00142"></a>00142 <span class="comment">// Administration</span>
+<a name="l00143"></a>00143 <span class="keywordflow">if</span> ( $p_action == 'admin') 
+<a name="l00144"></a>00144 {
+<a name="l00145"></a>00145   require_once(<span class="stringliteral">"admin.inc.php"</span>);
+<a name="l00146"></a>00146 }
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 23:33:59 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

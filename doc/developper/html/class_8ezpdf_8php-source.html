@@ -103,9 +103,9 @@
 <a name="l00094"></a>00094                 }
 <a name="l00095"></a>00095                 <span class="keywordflow">switch</span> (strtolower($orientation)){
 <a name="l00096"></a>00096                         <span class="keywordflow">case</span> 'landscape':
-<a name="l00097"></a>00097                                 <a class="code" href="balance_8php.html#a9">$a</a>=<a class="code" href="readme_8php.html#a8">$size</a>[3];
+<a name="l00097"></a>00097                                 <a class="code" href="action_8inc_8php.html#a15">$a</a>=<a class="code" href="readme_8php.html#a8">$size</a>[3];
 <a name="l00098"></a>00098                                 <a class="code" href="readme_8php.html#a8">$size</a>[3]=<a class="code" href="readme_8php.html#a8">$size</a>[2];
-<a name="l00099"></a>00099                                 <a class="code" href="readme_8php.html#a8">$size</a>[2]=<a class="code" href="balance_8php.html#a9">$a</a>;
+<a name="l00099"></a>00099                                 <a class="code" href="readme_8php.html#a8">$size</a>[2]=<a class="code" href="action_8inc_8php.html#a15">$a</a>;
 <a name="l00100"></a>00100                                 <span class="keywordflow">break</span>;
 <a name="l00101"></a>00101                 }
 <a name="l00102"></a>00102         } <span class="keywordflow">else</span> {
@@ -396,9 +396,9 @@
 <a name="l00387"></a>00387       <span class="keywordflow">if</span> ($k &amp;&amp; $k&gt;0){
 <a name="l00388"></a>00388         $totalPages = $k-1;
 <a name="l00389"></a>00389       } <span class="keywordflow">else</span> {
-<a name="l00390"></a>00390         <a class="code" href="facture_8inc_8php.html#a15">$l</a> = $this-&gt;<a class="code" href="classCezpdf.html#a11">ezPRVTpageNumberSearch</a>('stoptn',$tmp);
+<a name="l00390"></a>00390         <a class="code" href="depense_8inc_8php.html#a16">$l</a> = $this-&gt;<a class="code" href="classCezpdf.html#a11">ezPRVTpageNumberSearch</a>('stoptn',$tmp);
 <a name="l00391"></a>00391         <span class="keywordflow">if</span> ($l &amp;&amp; $l&gt;0){
-<a name="l00392"></a>00392           $totalPages = <a class="code" href="facture_8inc_8php.html#a15">$l</a>;
+<a name="l00392"></a>00392           $totalPages = <a class="code" href="depense_8inc_8php.html#a16">$l</a>;
 <a name="l00393"></a>00393         } <span class="keywordflow">else</span> {
 <a name="l00394"></a>00394           $totalPages = $totalPages1;
 <a name="l00395"></a>00395         }
@@ -408,8 +408,8 @@
 <a name="l00399"></a>00399           <span class="keywordflow">if</span> (is_array($tmp[$pageNum])){
 <a name="l00400"></a>00400             <span class="comment">// then this must be starting page numbers</span>
 <a name="l00401"></a>00401             $status=1;
-<a name="l00402"></a>00402             <a class="code" href="print__invoice_8php.html#a8">$info</a> = <a class="code" href="show__document__modele_8php.html#a5">$tmp</a>[$pageNum];
-<a name="l00403"></a>00403             <a class="code" href="print__invoice_8php.html#a8">$info</a>['dnum']=<a class="code" href="print__invoice_8php.html#a8">$info</a>['num']-$pageNum;
+<a name="l00402"></a>00402             $info = <a class="code" href="show__document__modele_8php.html#a5">$tmp</a>[$pageNum];
+<a name="l00403"></a>00403             $info['dnum']=$info['num']-$pageNum;
 <a name="l00404"></a>00404             <span class="comment">// also check for the special case of the numbering stopping and starting on the same page</span>
 <a name="l00405"></a>00405             <span class="keywordflow">if</span> (isset($info['stopn']) || isset($info['stoptn']) ){
 <a name="l00406"></a>00406               $status=2;
@@ -425,20 +425,20 @@
 <a name="l00416"></a>00416         <span class="keywordflow">if</span> ($status){
 <a name="l00417"></a>00417           <span class="comment">// then add the page numbering to this page</span>
 <a name="l00418"></a>00418           <span class="keywordflow">if</span> (strlen($info['num'])){
-<a name="l00419"></a>00419             <a class="code" href="jrn__add_8php.html#a17">$num</a>=$pageNum+<a class="code" href="print__invoice_8php.html#a8">$info</a>['dnum'];
+<a name="l00419"></a>00419             <a class="code" href="jrn__add_8php.html#a17">$num</a>=$pageNum+$info['dnum'];
 <a name="l00420"></a>00420           } <span class="keywordflow">else</span> {
 <a name="l00421"></a>00421             <a class="code" href="jrn__add_8php.html#a17">$num</a>=$pageNum;
 <a name="l00422"></a>00422           }
-<a name="l00423"></a>00423           <a class="code" href="print__invoice_8php.html#a12">$total</a> = $totalPages+<a class="code" href="jrn__add_8php.html#a17">$num</a>-$pageNum;
+<a name="l00423"></a>00423           $total = $totalPages+<a class="code" href="jrn__add_8php.html#a17">$num</a>-$pageNum;
 <a name="l00424"></a>00424           $pat = str_replace('{PAGENUM}',$num,$info['pattern']);
 <a name="l00425"></a>00425           $pat = str_replace('{TOTALPAGENUM}',$total,$pat);
 <a name="l00426"></a>00426           $this-&gt;<a class="code" href="classCpdf.html#a58">reopenObject</a>($<span class="keywordtype">id</span>);
-<a name="l00427"></a>00427           <span class="keywordflow">switch</span>(<a class="code" href="print__invoice_8php.html#a8">$info</a>['pos']){
+<a name="l00427"></a>00427           <span class="keywordflow">switch</span>($info['pos']){
 <a name="l00428"></a>00428             <span class="keywordflow">case</span> 'right':
 <a name="l00429"></a>00429               $this-&gt;<a class="code" href="classCpdf.html#a51">addText</a>($info[<span class="charliteral">'x'</span>],$info[<span class="charliteral">'y'</span>],$info['<a class="code" href="tva_8inc_8php.html#a15">size</a>'],$pat);
 <a name="l00430"></a>00430               <span class="keywordflow">break</span>;
 <a name="l00431"></a>00431             <span class="keywordflow">default</span>:
-<a name="l00432"></a>00432               <a class="code" href="balance_8php.html#a2">$w</a>=$this-&gt;<a class="code" href="classCpdf.html#a52">getTextWidth</a>($info['size'],$pat);
+<a name="l00432"></a>00432               <a class="code" href="admin_8inc_8php.html#a4">$w</a>=$this-&gt;<a class="code" href="classCpdf.html#a52">getTextWidth</a>($info['size'],$pat);
 <a name="l00433"></a>00433               $this-&gt;<a class="code" href="classCpdf.html#a51">addText</a>($info[<span class="charliteral">'x'</span>]-$w,$info[<span class="charliteral">'y'</span>],$info['size'],$pat);
 <a name="l00434"></a>00434               <span class="keywordflow">break</span>;
 <a name="l00435"></a>00435           }
@@ -603,9 +603,9 @@
 <a name="l00594"></a>00594   $mx=0;
 <a name="l00595"></a>00595   $lines = explode(<span class="stringliteral">"\n"</span>,$text);
 <a name="l00596"></a>00596   foreach ($lines as $<a class="code" href="classCpdf.html#a34">line</a>){
-<a name="l00597"></a>00597     <a class="code" href="balance_8php.html#a2">$w</a> = $this-&gt;<a class="code" href="classCpdf.html#a52">getTextWidth</a>($<a class="code" href="tva_8inc_8php.html#a15">size</a>,$line);
+<a name="l00597"></a>00597     <a class="code" href="admin_8inc_8php.html#a4">$w</a> = $this-&gt;<a class="code" href="classCpdf.html#a52">getTextWidth</a>($<a class="code" href="tva_8inc_8php.html#a15">size</a>,$line);
 <a name="l00598"></a>00598     <span class="keywordflow">if</span> ($w&gt;$mx){
-<a name="l00599"></a>00599       $mx=<a class="code" href="balance_8php.html#a2">$w</a>;
+<a name="l00599"></a>00599       $mx=<a class="code" href="admin_8inc_8php.html#a4">$w</a>;
 <a name="l00600"></a>00600     }
 <a name="l00601"></a>00601   }
 <a name="l00602"></a>00602   <span class="keywordflow">return</span> $mx;
@@ -679,8 +679,8 @@
 <a name="l00670"></a>00670     ,'innerLineThickness'=&gt;1,'outerLineThickness'=&gt;1,'splitRows'=&gt;0,'protectRows'=&gt;1
 <a name="l00671"></a>00671     );
 <a name="l00672"></a>00672 
-<a name="l00673"></a>00673   foreach($defaults as $key=&gt;$<a class="code" href="client_8inc_8php.html#a6">value</a>){
-<a name="l00674"></a>00674     <span class="keywordflow">if</span> (is_array($<a class="code" href="client_8inc_8php.html#a6">value</a>)){
+<a name="l00673"></a>00673   foreach($defaults as $key=&gt;$<a class="code" href="action_8inc_8php.html#a4">value</a>){
+<a name="l00674"></a>00674     <span class="keywordflow">if</span> (is_array($<a class="code" href="action_8inc_8php.html#a4">value</a>)){
 <a name="l00675"></a>00675       <span class="keywordflow">if</span> (!isset($options[$key]) || !is_array($options[$key])){
 <a name="l00676"></a>00676         <a class="code" href="classCpdf.html#o23">$options</a>[$key]=$value;
 <a name="l00677"></a>00677       }
@@ -701,17 +701,17 @@
 <a name="l00692"></a>00692   <span class="comment">// find the maximum cell widths based on the data</span>
 <a name="l00693"></a>00693   foreach($data as $row){
 <a name="l00694"></a>00694     foreach($cols as $colName=&gt;$colHeading){
-<a name="l00695"></a>00695       <a class="code" href="balance_8php.html#a2">$w</a> = $this-&gt;<a class="code" href="classCezpdf.html#a20">ezPrvtGetTextWidth</a>($options['fontSize'],(string)$row[$colName])*1.01;
+<a name="l00695"></a>00695       <a class="code" href="admin_8inc_8php.html#a4">$w</a> = $this-&gt;<a class="code" href="classCezpdf.html#a20">ezPrvtGetTextWidth</a>($options['fontSize'],(string)$row[$colName])*1.01;
 <a name="l00696"></a>00696       <span class="keywordflow">if</span> ($w &gt; $maxWidth[$colName]){
-<a name="l00697"></a>00697         $maxWidth[$colName]=<a class="code" href="balance_8php.html#a2">$w</a>;
+<a name="l00697"></a>00697         $maxWidth[$colName]=<a class="code" href="admin_8inc_8php.html#a4">$w</a>;
 <a name="l00698"></a>00698       }
 <a name="l00699"></a>00699     }
 <a name="l00700"></a>00700   }
 <a name="l00701"></a>00701   <span class="comment">// and the maximum widths to fit in the headings</span>
 <a name="l00702"></a>00702   foreach($cols as $colName=&gt;$colTitle){
-<a name="l00703"></a>00703     <a class="code" href="balance_8php.html#a2">$w</a> = $this-&gt;<a class="code" href="classCezpdf.html#a20">ezPrvtGetTextWidth</a>($options['fontSize'],(string)$colTitle)*1.01;
+<a name="l00703"></a>00703     <a class="code" href="admin_8inc_8php.html#a4">$w</a> = $this-&gt;<a class="code" href="classCezpdf.html#a20">ezPrvtGetTextWidth</a>($options['fontSize'],(string)$colTitle)*1.01;
 <a name="l00704"></a>00704     <span class="keywordflow">if</span> ($w &gt; $maxWidth[$colName]){
-<a name="l00705"></a>00705       $maxWidth[$colName]=<a class="code" href="balance_8php.html#a2">$w</a>;
+<a name="l00705"></a>00705       $maxWidth[$colName]=<a class="code" href="admin_8inc_8php.html#a4">$w</a>;
 <a name="l00706"></a>00706     }
 <a name="l00707"></a>00707   }
 <a name="l00708"></a>00708   
@@ -730,8 +730,8 @@
 <a name="l00721"></a>00721       $maxWidth[$colName] = $options['cols'][$colName]['width']-$options['gap'];
 <a name="l00722"></a>00722       $setWidth += $options['cols'][$colName]['width'];
 <a name="l00723"></a>00723     } <span class="keywordflow">else</span> {
-<a name="l00724"></a>00724       <a class="code" href="impress__rapport_8php.html#a3">$t</a>=<a class="code" href="impress__rapport_8php.html#a3">$t</a>+<a class="code" href="balance_8php.html#a2">$w</a>+<a class="code" href="classCpdf.html#o23">$options</a>['gap'];
-<a name="l00725"></a>00725       $adjustmentWidth += <a class="code" href="balance_8php.html#a2">$w</a>;
+<a name="l00724"></a>00724       <a class="code" href="impress__rapport_8php.html#a3">$t</a>=<a class="code" href="impress__rapport_8php.html#a3">$t</a>+<a class="code" href="admin_8inc_8php.html#a4">$w</a>+<a class="code" href="classCpdf.html#o23">$options</a>['gap'];
+<a name="l00725"></a>00725       $adjustmentWidth += <a class="code" href="admin_8inc_8php.html#a4">$w</a>;
 <a name="l00726"></a>00726       $setWidth += $options['gap'];
 <a name="l00727"></a>00727     }
 <a name="l00728"></a>00728   }
@@ -783,7 +783,7 @@
 <a name="l00774"></a>00774           <span class="keywordflow">if</span> ($w&gt;$widest){
 <a name="l00775"></a>00775             $aWidest=array($colName);
 <a name="l00776"></a>00776             $nWidest = $widest;
-<a name="l00777"></a>00777             $widest=<a class="code" href="balance_8php.html#a2">$w</a>;
+<a name="l00777"></a>00777             $widest=<a class="code" href="admin_8inc_8php.html#a4">$w</a>;
 <a name="l00778"></a>00778           } <span class="keywordflow">else</span> <span class="keywordflow">if</span> ($w==$widest){
 <a name="l00779"></a>00779             $aWidest[]=$colName;
 <a name="l00780"></a>00780           }
@@ -894,7 +894,7 @@
 <a name="l00885"></a>00885 
 <a name="l00886"></a>00886   <span class="comment">// if the title is set, then do that</span>
 <a name="l00887"></a>00887   <span class="keywordflow">if</span> (strlen($title)){
-<a name="l00888"></a>00888     <a class="code" href="balance_8php.html#a2">$w</a> = $this-&gt;<a class="code" href="classCpdf.html#a52">getTextWidth</a>($options['titleFontSize'],$title);
+<a name="l00888"></a>00888     <a class="code" href="admin_8inc_8php.html#a4">$w</a> = $this-&gt;<a class="code" href="classCpdf.html#a52">getTextWidth</a>($options['titleFontSize'],$title);
 <a name="l00889"></a>00889     $this-&gt;y -= $this-&gt;<a class="code" href="classCpdf.html#a45">getFontHeight</a>($options['titleFontSize']);
 <a name="l00890"></a>00890     <span class="keywordflow">if</span> ($this-&gt;y &lt; $this-&gt;ez['bottomMargin']){
 <a name="l00891"></a>00891       $this-&gt;<a class="code" href="classCezpdf.html#a5">ezNewPage</a>();
@@ -1204,7 +1204,7 @@
 <a name="l01195"></a><a class="code" href="classCezpdf.html#a22">01195</a> function <a class="code" href="classCezpdf.html#a22">ezProcessText</a>($text){
 <a name="l01196"></a>01196   <span class="comment">// this function will intially be used to implement underlining support, but could be used for a range of other</span>
 <a name="l01197"></a>01197   <span class="comment">// purposes</span>
-<a name="l01198"></a>01198   <a class="code" href="client_8inc_8php.html#a8">$search</a> = array('&lt;u&gt;<span class="charliteral">','</span>&lt;U&gt;<span class="charliteral">','</span>&lt;/u&gt;<span class="charliteral">','</span>&lt;/U&gt;');
+<a name="l01198"></a>01198   <a class="code" href="admin_8inc_8php.html#a8">$search</a> = array('&lt;u&gt;<span class="charliteral">','</span>&lt;U&gt;<span class="charliteral">','</span>&lt;/u&gt;<span class="charliteral">','</span>&lt;/U&gt;');
 <a name="l01199"></a>01199   $replace = array('&lt;c:uline&gt;<span class="charliteral">','</span>&lt;c:uline&gt;<span class="charliteral">','</span>&lt;/c:uline&gt;<span class="charliteral">','</span>&lt;/c:uline&gt;');
 <a name="l01200"></a>01200   <span class="keywordflow">return</span> str_replace($search,$replace,$text);
 <a name="l01201"></a>01201 }
@@ -1377,17 +1377,17 @@
 <a name="l01368"></a>01368                 <span class="comment">//center if justification=center</span>
 <a name="l01369"></a>01369                 <span class="keywordflow">if</span> ($just == 'center')
 <a name="l01370"></a>01370                 {
-<a name="l01371"></a>01371                         <a class="code" href="facture_8inc_8php.html#a14">$offset</a> = ($bigwidth - $width) / 2;
+<a name="l01371"></a>01371                         <a class="code" href="depense_8inc_8php.html#a15">$offset</a> = ($bigwidth - $width) / 2;
 <a name="l01372"></a>01372                 }
 <a name="l01373"></a>01373                 <span class="comment">//move to right if justification=right</span>
 <a name="l01374"></a>01374                 <span class="keywordflow">if</span> ($just == 'right')
 <a name="l01375"></a>01375                 {
-<a name="l01376"></a>01376                         <a class="code" href="facture_8inc_8php.html#a14">$offset</a> = ($bigwidth - $width);
+<a name="l01376"></a>01376                         <a class="code" href="depense_8inc_8php.html#a15">$offset</a> = ($bigwidth - $width);
 <a name="l01377"></a>01377                 }
 <a name="l01378"></a>01378                 <span class="comment">//leave at left if justification=left</span>
 <a name="l01379"></a>01379                 <span class="keywordflow">if</span> ($just == 'left')
 <a name="l01380"></a>01380                 {
-<a name="l01381"></a>01381                         <a class="code" href="facture_8inc_8php.html#a14">$offset</a> = 0;
+<a name="l01381"></a>01381                         <a class="code" href="depense_8inc_8php.html#a15">$offset</a> = 0;
 <a name="l01382"></a>01382                 }
 <a name="l01383"></a>01383         }
 <a name="l01384"></a>01384 
@@ -1482,7 +1482,7 @@
 <a name="l01473"></a><a class="code" href="classCezpdf.html#a28">01473</a> function alink($info,$internal=0){
 <a name="l01474"></a>01474   <span class="comment">// a callback function to support the formation of clickable links within the document</span>
 <a name="l01475"></a>01475   $lineFactor=0.05; <span class="comment">// the thickness of the line as a proportion of the height. also the drop of the line.</span>
-<a name="l01476"></a>01476   <span class="keywordflow">switch</span>(<a class="code" href="print__invoice_8php.html#a8">$info</a>['status']){
+<a name="l01476"></a>01476   <span class="keywordflow">switch</span>($info['status']){
 <a name="l01477"></a>01477     <span class="keywordflow">case</span> '<a class="code" href="document__modele_8inc_8php.html#a5">start</a>':
 <a name="l01478"></a>01478     <span class="keywordflow">case</span> 'sol':
 <a name="l01479"></a>01479       <span class="comment">// the beginning of the link</span>
@@ -1490,13 +1490,13 @@
 <a name="l01481"></a>01481       <span class="keywordflow">if</span> (!isset($this-&gt;ez['links'])){
 <a name="l01482"></a>01482         $this-&gt;ez['links']=array();
 <a name="l01483"></a>01483       }
-<a name="l01484"></a>01484       <a class="code" href="balance_8php.html#a11">$i</a> = <a class="code" href="print__invoice_8php.html#a8">$info</a>['nCallback'];
+<a name="l01484"></a>01484       <a class="code" href="balance_8php.html#a11">$i</a> = $info['nCallback'];
 <a name="l01485"></a>01485       $this-&gt;ez['links'][<a class="code" href="balance_8php.html#a11">$i</a>] = array(<span class="charliteral">'x'</span>=&gt;$info[<span class="charliteral">'x'</span>],<span class="charliteral">'y'</span>=&gt;$info[<span class="charliteral">'y'</span>],'angle'=&gt;$info['angle'],'decender'=&gt;$info['decender'],'height'=&gt;$info['height'],'url'=&gt;$info[<span class="charliteral">'p'</span>]);
 <a name="l01486"></a>01486       <span class="keywordflow">if</span> ($internal==0){
 <a name="l01487"></a>01487         $this-&gt;saveState();
 <a name="l01488"></a>01488         $this-&gt;setColor(0,0,1);
 <a name="l01489"></a>01489         $this-&gt;setStrokeColor(0,0,1);
-<a name="l01490"></a>01490         $thick = <a class="code" href="print__invoice_8php.html#a8">$info</a>['height']*$lineFactor;
+<a name="l01490"></a>01490         $thick = $info['height']*$lineFactor;
 <a name="l01491"></a>01491         $this-&gt;setLineStyle($thick);
 <a name="l01492"></a>01492       }
 <a name="l01493"></a>01493       <span class="keywordflow">break</span>;
@@ -1504,13 +1504,13 @@
 <a name="l01495"></a>01495     <span class="keywordflow">case</span> 'eol':
 <a name="l01496"></a>01496       <span class="comment">// the end of the link</span>
 <a name="l01497"></a>01497       <span class="comment">// assume that it is the most recent opening which has closed</span>
-<a name="l01498"></a>01498       <a class="code" href="balance_8php.html#a11">$i</a> = <a class="code" href="print__invoice_8php.html#a8">$info</a>['nCallback'];
+<a name="l01498"></a>01498       <a class="code" href="balance_8php.html#a11">$i</a> = $info['nCallback'];
 <a name="l01499"></a>01499       <a class="code" href="bilan_8php.html#a2">$start</a> = $this-&gt;ez['links'][<a class="code" href="balance_8php.html#a11">$i</a>];
 <a name="l01500"></a>01500       <span class="comment">// add underlining</span>
 <a name="l01501"></a>01501       <span class="keywordflow">if</span> ($internal){
 <a name="l01502"></a>01502         $this-&gt;addInternalLink($<a class="code" href="document__modele_8inc_8php.html#a5">start</a>['url'],$<a class="code" href="document__modele_8inc_8php.html#a5">start</a>[<span class="charliteral">'x'</span>],$<a class="code" href="document__modele_8inc_8php.html#a5">start</a>[<span class="charliteral">'y'</span>]+$<a class="code" href="document__modele_8inc_8php.html#a5">start</a>['decender'],$info[<span class="charliteral">'x'</span>],$<a class="code" href="document__modele_8inc_8php.html#a5">start</a>[<span class="charliteral">'y'</span>]+$<a class="code" href="document__modele_8inc_8php.html#a5">start</a>['decender']+$<a class="code" href="document__modele_8inc_8php.html#a5">start</a>['height']);
 <a name="l01503"></a>01503       } <span class="keywordflow">else</span> {
-<a name="l01504"></a>01504         <a class="code" href="balance_8php.html#a9">$a</a> = deg2rad((<span class="keywordtype">float</span>)$<a class="code" href="document__modele_8inc_8php.html#a5">start</a>['angle']-90.0);
+<a name="l01504"></a>01504         <a class="code" href="action_8inc_8php.html#a15">$a</a> = deg2rad((<span class="keywordtype">float</span>)$<a class="code" href="document__modele_8inc_8php.html#a5">start</a>['angle']-90.0);
 <a name="l01505"></a>01505         $drop = <a class="code" href="bilan_8php.html#a2">$start</a>['height']*$lineFactor*1.5;
 <a name="l01506"></a>01506         $dropx = cos($a)*$drop;
 <a name="l01507"></a>01507         $dropy = -sin($a)*$drop;
@@ -1527,7 +1527,7 @@
 <a name="l01518"></a><a class="code" href="classCezpdf.html#a29">01518</a> function uline($info){
 <a name="l01519"></a>01519   <span class="comment">// a callback function to support underlining</span>
 <a name="l01520"></a>01520   $lineFactor=0.05; <span class="comment">// the thickness of the line as a proportion of the height. also the drop of the line.</span>
-<a name="l01521"></a>01521   <span class="keywordflow">switch</span>(<a class="code" href="print__invoice_8php.html#a8">$info</a>['status']){
+<a name="l01521"></a>01521   <span class="keywordflow">switch</span>($info['status']){
 <a name="l01522"></a>01522     <span class="keywordflow">case</span> '<a class="code" href="document__modele_8inc_8php.html#a5">start</a>':
 <a name="l01523"></a>01523     <span class="keywordflow">case</span> 'sol':
 <a name="l01524"></a>01524     
@@ -1535,20 +1535,20 @@
 <a name="l01526"></a>01526       <span class="keywordflow">if</span> (!isset($this-&gt;ez['links'])){
 <a name="l01527"></a>01527         $this-&gt;ez['links']=array();
 <a name="l01528"></a>01528       }
-<a name="l01529"></a>01529       <a class="code" href="balance_8php.html#a11">$i</a> = <a class="code" href="print__invoice_8php.html#a8">$info</a>['nCallback'];
+<a name="l01529"></a>01529       <a class="code" href="balance_8php.html#a11">$i</a> = $info['nCallback'];
 <a name="l01530"></a>01530       $this-&gt;ez['links'][<a class="code" href="balance_8php.html#a11">$i</a>] = array(<span class="charliteral">'x'</span>=&gt;$info[<span class="charliteral">'x'</span>],<span class="charliteral">'y'</span>=&gt;$info[<span class="charliteral">'y'</span>],'angle'=&gt;$info['angle'],'decender'=&gt;$info['decender'],'height'=&gt;$info['height']);
 <a name="l01531"></a>01531       $this-&gt;saveState();
-<a name="l01532"></a>01532       $thick = <a class="code" href="print__invoice_8php.html#a8">$info</a>['height']*$lineFactor;
+<a name="l01532"></a>01532       $thick = $info['height']*$lineFactor;
 <a name="l01533"></a>01533       $this-&gt;setLineStyle($thick);
 <a name="l01534"></a>01534       <span class="keywordflow">break</span>;
 <a name="l01535"></a>01535     <span class="keywordflow">case</span> 'end':
 <a name="l01536"></a>01536     <span class="keywordflow">case</span> 'eol':
 <a name="l01537"></a>01537       <span class="comment">// the end of the link</span>
 <a name="l01538"></a>01538       <span class="comment">// assume that it is the most recent opening which has closed</span>
-<a name="l01539"></a>01539       <a class="code" href="balance_8php.html#a11">$i</a> = <a class="code" href="print__invoice_8php.html#a8">$info</a>['nCallback'];
+<a name="l01539"></a>01539       <a class="code" href="balance_8php.html#a11">$i</a> = $info['nCallback'];
 <a name="l01540"></a>01540       <a class="code" href="bilan_8php.html#a2">$start</a> = $this-&gt;ez['links'][<a class="code" href="balance_8php.html#a11">$i</a>];
 <a name="l01541"></a>01541       <span class="comment">// add underlining</span>
-<a name="l01542"></a>01542       <a class="code" href="balance_8php.html#a9">$a</a> = deg2rad((<span class="keywordtype">float</span>)$<a class="code" href="document__modele_8inc_8php.html#a5">start</a>['angle']-90.0);
+<a name="l01542"></a>01542       <a class="code" href="action_8inc_8php.html#a15">$a</a> = deg2rad((<span class="keywordtype">float</span>)$<a class="code" href="document__modele_8inc_8php.html#a5">start</a>['angle']-90.0);
 <a name="l01543"></a>01543       $drop = <a class="code" href="bilan_8php.html#a2">$start</a>['height']*$lineFactor*1.5;
 <a name="l01544"></a>01544       $dropx = cos($a)*$drop;
 <a name="l01545"></a>01545       $dropy = -sin($a)*$drop;
@@ -1562,7 +1562,7 @@
 <a name="l01553"></a>01553 
 <a name="l01554"></a>01554 }
 <a name="l01555"></a>01555 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 21:19:07 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 23:33:59 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

@@ -34,20 +34,20 @@
 <a name="l00040"></a>00040   <span class="comment">// load the data</span>
 <a name="l00041"></a>00041   <a class="code" href="parametre_8php.html#a14">$my</a>=<span class="keyword">new</span> <a class="code" href="classOwn.html">Own</a>($p_cn);
 <a name="l00042"></a>00042   <span class="comment">//Make the first record</span>
-<a name="l00043"></a>00043   <a class="code" href="balance_8php.html#a9">$a</a>=<span class="stringliteral">"000000"</span>;
-<a name="l00044"></a>00044   <a class="code" href="balance_8php.html#a9">$a</a>.=sprintf(<span class="stringliteral">"% 32s"</span>,$my-&gt;MY_NAME);
+<a name="l00043"></a>00043   <a class="code" href="action_8inc_8php.html#a15">$a</a>=<span class="stringliteral">"000000"</span>;
+<a name="l00044"></a>00044   <a class="code" href="action_8inc_8php.html#a15">$a</a>.=sprintf(<span class="stringliteral">"% 32s"</span>,$my-&gt;MY_NAME);
 <a name="l00045"></a>00045   <a class="code" href="balance_8php.html#a10">$b</a>=<a class="code" href="parametre_8php.html#a14">$my</a>-&gt;MY_STREET.<span class="stringliteral">","</span>.<a class="code" href="parametre_8php.html#a14">$my</a>-&gt;MY_NUMBER;
-<a name="l00046"></a>00046   <a class="code" href="balance_8php.html#a9">$a</a>.=sprintf(<span class="stringliteral">"% 24s"</span>,$b);
+<a name="l00046"></a>00046   <a class="code" href="action_8inc_8php.html#a15">$a</a>.=sprintf(<span class="stringliteral">"% 24s"</span>,$b);
 <a name="l00047"></a>00047   <a class="code" href="balance_8php.html#a10">$b</a>=<a class="code" href="parametre_8php.html#a14">$my</a>-&gt;MY_CP.<span class="stringliteral">" "</span>.<a class="code" href="parametre_8php.html#a14">$my</a>-&gt;MY_COMMUNE;
-<a name="l00048"></a>00048   <a class="code" href="balance_8php.html#a9">$a</a>.=sprintf(<span class="stringliteral">"% 27s"</span>,$b);
-<a name="l00049"></a>00049   <a class="code" href="balance_8php.html#a9">$a</a>.=<span class="stringliteral">"BE"</span>;
-<a name="l00050"></a>00050   <a class="code" href="balance_8php.html#a9">$a</a>.=sprintf(<span class="stringliteral">"%9s"</span>,$my-&gt;MY_TVA);
+<a name="l00048"></a>00048   <a class="code" href="action_8inc_8php.html#a15">$a</a>.=sprintf(<span class="stringliteral">"% 27s"</span>,$b);
+<a name="l00049"></a>00049   <a class="code" href="action_8inc_8php.html#a15">$a</a>.=<span class="stringliteral">"BE"</span>;
+<a name="l00050"></a>00050   <a class="code" href="action_8inc_8php.html#a15">$a</a>.=sprintf(<span class="stringliteral">"%9s"</span>,$my-&gt;MY_TVA);
 <a name="l00051"></a>00051   <span class="comment">// special zone</span>
-<a name="l00052"></a>00052   <a class="code" href="balance_8php.html#a9">$a</a>.=sprintf(<span class="stringliteral">"% 20s"</span>,<span class="charliteral">' '</span>);
+<a name="l00052"></a>00052   <a class="code" href="action_8inc_8php.html#a15">$a</a>.=sprintf(<span class="stringliteral">"% 20s"</span>,<span class="charliteral">' '</span>);
 <a name="l00053"></a>00053   <span class="comment">//</span>
-<a name="l00054"></a>00054   <a class="code" href="balance_8php.html#a9">$a</a>.=<span class="stringliteral">"E"</span>;
-<a name="l00055"></a>00055   <a class="code" href="balance_8php.html#a9">$a</a>.=$p_year;
-<a name="l00056"></a>00056   <a class="code" href="balance_8php.html#a9">$a</a>.=<span class="stringliteral">"\n"</span>;
+<a name="l00054"></a>00054   <a class="code" href="action_8inc_8php.html#a15">$a</a>.=<span class="stringliteral">"E"</span>;
+<a name="l00055"></a>00055   <a class="code" href="action_8inc_8php.html#a15">$a</a>.=$p_year;
+<a name="l00056"></a>00056   <a class="code" href="action_8inc_8php.html#a15">$a</a>.=<span class="stringliteral">"\n"</span>;
 <a name="l00057"></a>00057   <span class="comment">// customer record</span>
 <a name="l00058"></a>00058   $rec_id=0;
 <a name="l00059"></a>00059   $tot_amount=0;
@@ -55,30 +55,30 @@
 <a name="l00061"></a>00061   foreach ($p_array as $client) {
 <a name="l00062"></a>00062     <span class="keywordflow">if</span> ( strlen(trim($client['tva'])) != 0 ) {
 <a name="l00063"></a>00063       $rec_id++;
-<a name="l00064"></a>00064       <a class="code" href="balance_8php.html#a9">$a</a>.=sprintf(<span class="stringliteral">"%06d"</span>,$rec_id);
-<a name="l00065"></a>00065       <a class="code" href="balance_8php.html#a9">$a</a>.=sprintf(<span class="stringliteral">"% 32s"</span>,$client['<a class="code" href="client_8inc_8php.html#a5">name</a>']);
-<a name="l00066"></a>00066       <a class="code" href="balance_8php.html#a9">$a</a>.=str_repeat(<span class="stringliteral">" "</span>,51);
-<a name="l00067"></a>00067       <a class="code" href="balance_8php.html#a9">$a</a>.=sprintf(<span class="stringliteral">"BE%s"</span>,$client['vat_number']);
-<a name="l00068"></a>00068       <a class="code" href="balance_8php.html#a9">$a</a>.=sprintf(<span class="stringliteral">"%010d"</span>,$client['amount']*100);
-<a name="l00069"></a>00069       <a class="code" href="balance_8php.html#a9">$a</a>.=sprintf(<span class="stringliteral">"%010d"</span>,$client['tva']*100);
-<a name="l00070"></a>00070       <a class="code" href="balance_8php.html#a9">$a</a>.=str_repeat(<span class="stringliteral">" "</span>,10);
-<a name="l00071"></a>00071       <a class="code" href="balance_8php.html#a9">$a</a>.=<span class="stringliteral">"\n"</span>;
+<a name="l00064"></a>00064       <a class="code" href="action_8inc_8php.html#a15">$a</a>.=sprintf(<span class="stringliteral">"%06d"</span>,$rec_id);
+<a name="l00065"></a>00065       <a class="code" href="action_8inc_8php.html#a15">$a</a>.=sprintf(<span class="stringliteral">"% 32s"</span>,$client['<a class="code" href="action_8inc_8php.html#a3">name</a>']);
+<a name="l00066"></a>00066       <a class="code" href="action_8inc_8php.html#a15">$a</a>.=str_repeat(<span class="stringliteral">" "</span>,51);
+<a name="l00067"></a>00067       <a class="code" href="action_8inc_8php.html#a15">$a</a>.=sprintf(<span class="stringliteral">"BE%s"</span>,$client['vat_number']);
+<a name="l00068"></a>00068       <a class="code" href="action_8inc_8php.html#a15">$a</a>.=sprintf(<span class="stringliteral">"%010d"</span>,$client['amount']*100);
+<a name="l00069"></a>00069       <a class="code" href="action_8inc_8php.html#a15">$a</a>.=sprintf(<span class="stringliteral">"%010d"</span>,$client['tva']*100);
+<a name="l00070"></a>00070       <a class="code" href="action_8inc_8php.html#a15">$a</a>.=str_repeat(<span class="stringliteral">" "</span>,10);
+<a name="l00071"></a>00071       <a class="code" href="action_8inc_8php.html#a15">$a</a>.=<span class="stringliteral">"\n"</span>;
 <a name="l00072"></a>00072       $tot_amount=+<a class="code" href="client_8inc_8php.html#a7">$client</a>['amount']*100;
 <a name="l00073"></a>00073       $tot_tva+=<a class="code" href="client_8inc_8php.html#a7">$client</a>['tva']*100;
 <a name="l00074"></a>00074     }
 <a name="l00075"></a>00075   }
 <a name="l00076"></a>00076     <span class="comment">//Last Record</span>
-<a name="l00077"></a>00077   <a class="code" href="balance_8php.html#a9">$a</a>.=<span class="stringliteral">"999999"</span>;
-<a name="l00078"></a>00078   <a class="code" href="balance_8php.html#a9">$a</a>.=sprintf(<span class="stringliteral">"%016d"</span>,$tot_amount);
-<a name="l00079"></a>00079   <a class="code" href="balance_8php.html#a9">$a</a>.=sprintf(<span class="stringliteral">"%016d"</span>,$tot_tva);
-<a name="l00080"></a>00080   <a class="code" href="balance_8php.html#a9">$a</a>.=str_repeat(<span class="stringliteral">" "</span>,51);
-<a name="l00081"></a>00081   <a class="code" href="balance_8php.html#a9">$a</a>.=<span class="stringliteral">"BE"</span>;
-<a name="l00082"></a>00082   <a class="code" href="balance_8php.html#a9">$a</a>.=<a class="code" href="parametre_8php.html#a14">$my</a>-&gt;MY_TVA;
-<a name="l00083"></a>00083   <a class="code" href="balance_8php.html#a9">$a</a>.=str_repeat(<span class="stringliteral">" "</span>,28);
-<a name="l00084"></a>00084   <a class="code" href="balance_8php.html#a9">$a</a>.=<span class="stringliteral">"\r\n"</span>;
-<a name="l00085"></a>00085   <span class="keywordflow">return</span> <a class="code" href="balance_8php.html#a9">$a</a>;
+<a name="l00077"></a>00077   <a class="code" href="action_8inc_8php.html#a15">$a</a>.=<span class="stringliteral">"999999"</span>;
+<a name="l00078"></a>00078   <a class="code" href="action_8inc_8php.html#a15">$a</a>.=sprintf(<span class="stringliteral">"%016d"</span>,$tot_amount);
+<a name="l00079"></a>00079   <a class="code" href="action_8inc_8php.html#a15">$a</a>.=sprintf(<span class="stringliteral">"%016d"</span>,$tot_tva);
+<a name="l00080"></a>00080   <a class="code" href="action_8inc_8php.html#a15">$a</a>.=str_repeat(<span class="stringliteral">" "</span>,51);
+<a name="l00081"></a>00081   <a class="code" href="action_8inc_8php.html#a15">$a</a>.=<span class="stringliteral">"BE"</span>;
+<a name="l00082"></a>00082   <a class="code" href="action_8inc_8php.html#a15">$a</a>.=<a class="code" href="parametre_8php.html#a14">$my</a>-&gt;MY_TVA;
+<a name="l00083"></a>00083   <a class="code" href="action_8inc_8php.html#a15">$a</a>.=str_repeat(<span class="stringliteral">" "</span>,28);
+<a name="l00084"></a>00084   <a class="code" href="action_8inc_8php.html#a15">$a</a>.=<span class="stringliteral">"\r\n"</span>;
+<a name="l00085"></a>00085   <span class="keywordflow">return</span> <a class="code" href="action_8inc_8php.html#a15">$a</a>;
 <a name="l00086"></a>00086 }
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 21:19:08 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 23:33:59 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

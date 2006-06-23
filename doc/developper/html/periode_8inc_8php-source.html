@@ -38,7 +38,7 @@
 <a name="l00036"></a>00036   foreach($HTTP_GET_VARS as $key=&gt;$element) 
 <a name="l00037"></a>00037     ${<span class="stringliteral">"$key"</span>}=$element;
 <a name="l00038"></a>00038   echo <span class="stringliteral">"&lt;TABLE&gt;"</span>;
-<a name="l00039"></a>00039   echo '&lt;TR&gt; &lt;<a class="code" href="constant_8php.html#a7">FORM</a> ACTION=<span class="stringliteral">"user_advanced.php?p_action=periode"</span> <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"POST"</span>&gt;';
+<a name="l00039"></a>00039   echo '&lt;TR&gt; &lt;<a class="code" href="constant_8php.html#a7">FORM</a> <a class="code" href="constant_8php.html#a39">ACTION</a>=<span class="stringliteral">"user_advanced.php?p_action=periode"</span> <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"POST"</span>&gt;';
 <a name="l00040"></a>00040   echo ' &lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> NAME=<span class="stringliteral">"p_per"</span> VALUE=<span class="stringliteral">"'.$p_per.'"</span>&gt;';
 <a name="l00041"></a>00041   echo '&lt;TD&gt; &lt;INPUT TYPE=<span class="stringliteral">"text"</span> NAME=<span class="stringliteral">"p_date_start"</span> VALUE=<span class="stringliteral">"'.$p_date_start.'"</span>&gt;&lt;/TD&gt;';
 <a name="l00042"></a>00042   echo '&lt;TD&gt; &lt;INPUT TYPE=<span class="stringliteral">"text"</span> NAME=<span class="stringliteral">"p_date_end"</span> VALUE=<span class="stringliteral">"'.$p_date_end.'"</span>&gt;&lt;/TD&gt;';
@@ -60,7 +60,7 @@
 <a name="l00058"></a>00058       <a class="code" href="preference_8php.html#a6">ShowPeriode</a>($cn);
 <a name="l00059"></a><a class="code" href="periode_8inc_8php.html#a2">00059</a>       <span class="keywordflow">return</span>;
 <a name="l00060"></a>00060     }
-<a name="l00061"></a><a class="code" href="periode_8inc_8php.html#a3">00061</a>   <a class="code" href="eub__be_8inc_8php.html#a5">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">" update parm_periode "</span>.
+<a name="l00061"></a><a class="code" href="periode_8inc_8php.html#a3">00061</a>   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">" update parm_periode "</span>.
 <a name="l00062"></a>00062                <span class="stringliteral">"set p_start=to_date('"</span>. $p_date_start.<span class="stringliteral">"','DD.MM.YYYY'),"</span>.
 <a name="l00063"></a>00063                <span class="stringliteral">" p_end=to_date('"</span>. $p_date_end.<span class="stringliteral">"','DD.MM.YYYY'),"</span>.
 <a name="l00064"></a>00064                <span class="stringliteral">" p_exercice='"</span>.$p_exercice.<span class="stringliteral">"'"</span>.
@@ -81,7 +81,7 @@
 <a name="l00079"></a>00079       <a class="code" href="preference_8php.html#a6">ShowPeriode</a>($cn);
 <a name="l00080"></a>00080       <span class="keywordflow">return</span>;
 <a name="l00081"></a>00081     }
-<a name="l00082"></a>00082   <a class="code" href="eub__be_8inc_8php.html#a5">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,sprintf(<span class="stringliteral">" insert into parm_periode(p_start,p_end,p_closed,p_exercice)"</span>.
+<a name="l00082"></a>00082   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,sprintf(<span class="stringliteral">" insert into parm_periode(p_start,p_end,p_closed,p_exercice)"</span>.
 <a name="l00083"></a>00083                            <span class="stringliteral">"values (to_date('%s','DD.MM.YYYY'),to_date('%s','DD.MM.YYYY')"</span>.
 <a name="l00084"></a>00084                            <span class="stringliteral">",'f','%s')"</span>,
 <a name="l00085"></a>00085                            $p_date_start,
@@ -94,7 +94,7 @@
 <a name="l00092"></a>00092 <a class="code" href="debug_8php.html#a0">echo_debug</a>('periode.inc',__LINE__,<span class="stringliteral">"Action $p_action"</span>);
 <a name="l00093"></a>00093 <span class="keywordflow">if</span> ( $action==<span class="stringliteral">"closed"</span>) {
 <a name="l00094"></a>00094   $p_per=$_GET['p_per'];
-<a name="l00095"></a>00095   <a class="code" href="eub__be_8inc_8php.html#a5">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"update parm_periode set p_closed=true where p_id=$p_per"</span>);
+<a name="l00095"></a>00095   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"update parm_periode set p_closed=true where p_id=$p_per"</span>);
 <a name="l00096"></a>00096 }
 <a name="l00097"></a>00097 
 <a name="l00098"></a>00098 <span class="keywordflow">if</span> ( $action== <span class="stringliteral">"delete_per"</span> ) {
@@ -104,7 +104,7 @@
 <a name="l00102"></a>00102   echo '&lt;h2 <span class="keyword">class</span>=<span class="stringliteral">"error"</span>&gt; Désolé mais cette période est utilisée&lt;/h2&gt;';
 <a name="l00103"></a>00103   } <span class="keywordflow">else</span>
 <a name="l00104"></a>00104   {
-<a name="l00105"></a>00105   <a class="code" href="eub__be_8inc_8php.html#a5">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"delete from parm_periode where p_id=$p_per"</span>);
+<a name="l00105"></a>00105   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"delete from parm_periode where p_id=$p_per"</span>);
 <a name="l00106"></a>00106   }
 <a name="l00107"></a>00107 }
 <a name="l00108"></a>00108 
@@ -112,7 +112,7 @@
 <a name="l00110"></a>00110 <a class="code" href="preference_8php.html#a6">ShowPeriode</a>($cn);
 <a name="l00111"></a>00111 
 <a name="l00112"></a>00112 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 21:19:08 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 23:33:59 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

@@ -19,10 +19,10 @@
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Return the rate of the p_tva_id.  <a href="#a0"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="user__common_8php.html#a1">ComputeTotalVat</a> ($p_cn, $a_fiche, $a_quant, $a_price, $ap_vat, $all=false)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Compute the vat, the <a class="el" href="facture_8inc_8php.html#a18">fiche.f_id</a> are in a_fiche the quantity in a_quant.  <a href="#a1"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Compute the vat, the <a class="el" href="facture_8inc_8php.html#a19">fiche.f_id</a> are in a_fiche the quantity in a_quant.  <a href="#a1"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="user__common_8php.html#a2">ComputeVat</a> ($p_cn, $p_fiche, $p_quant, $p_price, $p_vat)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Compute the vat for only one elt, the <a class="el" href="facture_8inc_8php.html#a18">fiche.f_id</a> are in p_fiche the quantity in p_quant.  <a href="#a2"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Compute the vat for only one elt, the <a class="el" href="facture_8inc_8php.html#a19">fiche.f_id</a> are in p_fiche the quantity in p_quant.  <a href="#a2"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="user__common_8php.html#a3">GetTvaPoste</a> ($p_cn, $p_tva_id, $p_cred)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Get the account of tva_rate.tva_poste return the credit or the debit account.  <a href="#a3"></a><br></td></tr>
@@ -130,7 +130,7 @@ Definition in file <a class="el" href="user__common_8php-source.html">user_commo
     <td>
 
 <p>
-Compute the vat, the <a class="el" href="facture_8inc_8php.html#a18">fiche.f_id</a> are in a_fiche the quantity in a_quant. 
+Compute the vat, the <a class="el" href="facture_8inc_8php.html#a19">fiche.f_id</a> are in a_fiche the quantity in a_quant. 
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
@@ -147,9 +147,9 @@ Compute the vat, the <a class="el" href="facture_8inc_8php.html#a18">fiche.f_id<
 <p>
 Definition at line <a class="el" href="user__common_8php-source.html#l00069">69</a> of file <a class="el" href="user__common_8php-source.html">user_common.php</a>.
 <p>
-References <a class="el" href="balance_8php-source.html#l00108">$a</a>, <a class="el" href="print__invoice_8php-source.html#l00078">$a_vat</a>, <a class="el" href="setup_8php-source.html#l00255">$flag</a>, <a class="el" href="fiche__def_8inc_8php-source.html#l00062">$idx</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="tva_8inc_8php-source.html#l00036">$tva_id</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="user__common_8php-source.html#l00040">GetTvaRate()</a>, and <a class="el" href="ac__common_8php-source.html#l00076">isNumber()</a>.
+References <a class="el" href="action_8inc_8php-source.html#l00213">$a</a>, <a class="el" href="setup_8php-source.html#l00255">$flag</a>, <a class="el" href="fiche__def_8inc_8php-source.html#l00062">$idx</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="tva_8inc_8php-source.html#l00036">$tva_id</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="user__common_8php-source.html#l00040">GetTvaRate()</a>, and <a class="el" href="ac__common_8php-source.html#l00076">isNumber()</a>.
 <p>
-Referenced by <a class="el" href="user__form__ven_8php-source.html#l00627">RecordInvoice()</a>, and <a class="el" href="user__form__ach_8php-source.html#l00627">RecordSell()</a>.    </td>
+Referenced by <a class="el" href="user__form__ven_8php-source.html#l00627">RecordInvoice()</a>, and <a class="el" href="user__form__ach_8php-source.html#l00661">RecordSell()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a2"></a><!-- doxytag: member="user_common.php::ComputeVat" ref="a2" args="($p_cn, $p_fiche, $p_quant, $p_price, $p_vat)" --><p>
@@ -204,7 +204,7 @@ Referenced by <a class="el" href="user__form__ven_8php-source.html#l00627">Recor
     <td>
 
 <p>
-Compute the vat for only one elt, the <a class="el" href="facture_8inc_8php.html#a18">fiche.f_id</a> are in p_fiche the quantity in p_quant. 
+Compute the vat for only one elt, the <a class="el" href="facture_8inc_8php.html#a19">fiche.f_id</a> are in p_fiche the quantity in p_quant. 
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
@@ -222,9 +222,9 @@ Compute the vat for only one elt, the <a class="el" href="facture_8inc_8php.html
 <p>
 Definition at line <a class="el" href="user__common_8php-source.html#l00172">172</a> of file <a class="el" href="user__common_8php-source.html">user_common.php</a>.
 <p>
-References <a class="el" href="balance_8php-source.html#l00108">$a</a>, <a class="el" href="print__invoice_8php-source.html#l00078">$a_vat</a>, <a class="el" href="tva_8inc_8php-source.html#l00036">$tva_id</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="user__common_8php-source.html#l00040">GetTvaRate()</a>, and <a class="el" href="ac__common_8php-source.html#l00076">isNumber()</a>.
+References <a class="el" href="action_8inc_8php-source.html#l00213">$a</a>, <a class="el" href="tva_8inc_8php-source.html#l00036">$tva_id</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="user__common_8php-source.html#l00040">GetTvaRate()</a>, and <a class="el" href="ac__common_8php-source.html#l00076">isNumber()</a>.
 <p>
-Referenced by <a class="el" href="user__form__ven_8php-source.html#l00627">RecordInvoice()</a>, and <a class="el" href="user__form__ach_8php-source.html#l00627">RecordSell()</a>.    </td>
+Referenced by <a class="el" href="user__form__ven_8php-source.html#l00627">RecordInvoice()</a>, and <a class="el" href="user__form__ach_8php-source.html#l00661">RecordSell()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a11"></a><!-- doxytag: member="user_common.php::DeleteRapt" ref="a11" args="($p_cn, $jr_id, $jr_id2)" --><p>
@@ -281,7 +281,7 @@ jr_id (jrn.jr_id) =&gt; jrn_rapt.jr_id<ul>
 <p>
 Definition at line <a class="el" href="user__common_8php-source.html#l00731">731</a> of file <a class="el" href="user__common_8php-source.html">user_common.php</a>.
 <p>
-References <a class="el" href="eub__be_8inc_8php-source.html#l00074">$Res</a>, <a class="el" href="postgres_8php-source.html#l00222">CountSql()</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="ac__common_8php-source.html#l00036">echo_error()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="ac__common_8php-source.html#l00076">isNumber()</a>.    </td>
+References <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="postgres_8php-source.html#l00222">CountSql()</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="ac__common_8php-source.html#l00036">echo_error()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="ac__common_8php-source.html#l00076">isNumber()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a12"></a><!-- doxytag: member="user_common.php::GetConcerned" ref="a12" args="($p_cn, $jr_id)" --><p>
@@ -331,7 +331,7 @@ array if something is found
 <p>
 Definition at line <a class="el" href="user__common_8php-source.html#l00762">762</a> of file <a class="el" href="user__common_8php-source.html">user_common.php</a>.
 <p>
-References <a class="el" href="balance_8php-source.html#l00113">$i</a>, <a class="el" href="facture_8inc_8php-source.html#l00138">$l</a>, <a class="el" href="fiche__new_8php-source.html#l00131">$n</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="eub__be_8inc_8php-source.html#l00074">$Res</a>, <a class="el" href="facture_8inc_8php-source.html#l00082">$sql</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
+References <a class="el" href="balance_8php-source.html#l00113">$i</a>, <a class="el" href="depense_8inc_8php-source.html#l00128">$l</a>, <a class="el" href="fiche__new_8php-source.html#l00131">$n</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="depense_8inc_8php-source.html#l00072">$sql</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
 <p>
 Referenced by <a class="el" href="user__common_8php-source.html#l00322">ListJrn()</a>, and <a class="el" href="jrn_8php-source.html#l00282">UpdateJrn()</a>.    </td>
   </tr>
@@ -383,7 +383,7 @@ return the jrn.jr_grpt_id or null
 <p>
 Definition at line <a class="el" href="user__common_8php-source.html#l00793">793</a> of file <a class="el" href="user__common_8php-source.html">user_common.php</a>.
 <p>
-References <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="eub__be_8inc_8php-source.html#l00074">$Res</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
+References <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
 <p>
 Referenced by <a class="el" href="jrn_8php-source.html#l00282">UpdateJrn()</a>.    </td>
   </tr>
@@ -442,9 +442,9 @@ Get the account of tva_rate.tva_poste return the credit or the debit account.
 <p>
 Definition at line <a class="el" href="user__common_8php-source.html#l00211">211</a> of file <a class="el" href="user__common_8php-source.html">user_common.php</a>.
 <p>
-References <a class="el" href="balance_8php-source.html#l00108">$a</a>, <a class="el" href="eub__be_8inc_8php-source.html#l00074">$Res</a>, <a class="el" href="ac__common_8php-source.html#l00036">echo_error()</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
+References <a class="el" href="action_8inc_8php-source.html#l00213">$a</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="ac__common_8php-source.html#l00036">echo_error()</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
 <p>
-Referenced by <a class="el" href="user__form__ven_8php-source.html#l00627">RecordInvoice()</a>, and <a class="el" href="user__form__ach_8php-source.html#l00627">RecordSell()</a>.    </td>
+Referenced by <a class="el" href="user__form__ven_8php-source.html#l00627">RecordInvoice()</a>, and <a class="el" href="user__form__ach_8php-source.html#l00661">RecordSell()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a0"></a><!-- doxytag: member="user_common.php::GetTvaRate" ref="a0" args="($p_cn, $p_tva_id)" --><p>
@@ -494,9 +494,9 @@ Return the rate of the p_tva_id.
 <p>
 Definition at line <a class="el" href="user__common_8php-source.html#l00040">40</a> of file <a class="el" href="user__common_8php-source.html">user_common.php</a>.
 <p>
-References <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="eub__be_8inc_8php-source.html#l00074">$Res</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
+References <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
 <p>
-Referenced by <a class="el" href="user__common_8php-source.html#l00069">ComputeTotalVat()</a>, <a class="el" href="user__common_8php-source.html#l00172">ComputeVat()</a>, <a class="el" href="user__form__ach_8php-source.html#l00453">FormAchView()</a>, <a class="el" href="user__form__ven_8php-source.html#l00425">FormVenteView()</a>, and <a class="el" href="class__document_8php-source.html#l00363">Document::Replace()</a>.    </td>
+Referenced by <a class="el" href="user__common_8php-source.html#l00069">ComputeTotalVat()</a>, <a class="el" href="user__common_8php-source.html#l00172">ComputeVat()</a>, <a class="el" href="user__form__ach_8php-source.html#l00471">FormAchView()</a>, <a class="el" href="user__form__ven_8php-source.html#l00425">FormVenteView()</a>, and <a class="el" href="class__document_8php-source.html#l00363">Document::Replace()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a5"></a><!-- doxytag: member="user_common.php::InsertJrn" ref="a5" args="($p_cn, $p_date, $p_echeance, $p_jrn, $p_comment, $p_amount, $p_grpt, $p_periode)" --><p>
@@ -584,9 +584,9 @@ nothing
 <p>
 Definition at line <a class="el" href="user__common_8php-source.html#l00288">288</a> of file <a class="el" href="user__common_8php-source.html">user_common.php</a>.
 <p>
-References <a class="el" href="eub__be_8inc_8php-source.html#l00074">$Res</a>, <a class="el" href="facture_8inc_8php-source.html#l00082">$sql</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="ac__common_8php-source.html#l00207">FormatString()</a>, <a class="el" href="postgres_8php-source.html#l00242">GetSequence()</a>, and <a class="el" href="poste_8inc_8php-source.html#l00033">p_comment</a>.
+References <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="depense_8inc_8php-source.html#l00072">$sql</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="ac__common_8php-source.html#l00207">FormatString()</a>, <a class="el" href="postgres_8php-source.html#l00242">GetSequence()</a>, and <a class="el" href="poste_8inc_8php-source.html#l00033">p_comment</a>.
 <p>
-Referenced by <a class="el" href="user__form__fin_8php-source.html#l00349">RecordFin()</a>, <a class="el" href="user__form__ven_8php-source.html#l00627">RecordInvoice()</a>, <a class="el" href="user__form__ach_8php-source.html#l00627">RecordSell()</a>, and <a class="el" href="import__inc_8php-source.html#l00090">TransferCSV()</a>.    </td>
+Referenced by <a class="el" href="user__form__fin_8php-source.html#l00349">RecordFin()</a>, <a class="el" href="user__form__ven_8php-source.html#l00627">RecordInvoice()</a>, <a class="el" href="user__form__ach_8php-source.html#l00661">RecordSell()</a>, and <a class="el" href="import__inc_8php-source.html#l00090">TransferCSV()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a4"></a><!-- doxytag: member="user_common.php::InsertJrnx" ref="a4" args="($p_cn, $p_type, $p_user, $p_jrn, $p_poste, $p_date, $p_amount, $p_grpt, $p_periode, $p_qcode=&quot;&quot;)" --><p>
@@ -686,9 +686,9 @@ nothing
 <p>
 Definition at line <a class="el" href="user__common_8php-source.html#l00244">244</a> of file <a class="el" href="user__common_8php-source.html">user_common.php</a>.
 <p>
-References <a class="el" href="eub__be_8inc_8php-source.html#l00074">$Res</a>, <a class="el" href="facture_8inc_8php-source.html#l00082">$sql</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="postgres_8php-source.html#l00242">GetSequence()</a>.
+References <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="depense_8inc_8php-source.html#l00072">$sql</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="postgres_8php-source.html#l00242">GetSequence()</a>.
 <p>
-Referenced by <a class="el" href="user__form__fin_8php-source.html#l00349">RecordFin()</a>, <a class="el" href="user__form__ven_8php-source.html#l00627">RecordInvoice()</a>, <a class="el" href="user__form__ods_8php-source.html#l00247">RecordODS()</a>, <a class="el" href="user__form__ach_8php-source.html#l00627">RecordSell()</a>, and <a class="el" href="import__inc_8php-source.html#l00090">TransferCSV()</a>.    </td>
+Referenced by <a class="el" href="user__form__fin_8php-source.html#l00349">RecordFin()</a>, <a class="el" href="user__form__ven_8php-source.html#l00627">RecordInvoice()</a>, <a class="el" href="user__form__ods_8php-source.html#l00247">RecordODS()</a>, <a class="el" href="user__form__ach_8php-source.html#l00661">RecordSell()</a>, and <a class="el" href="import__inc_8php-source.html#l00090">TransferCSV()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a10"></a><!-- doxytag: member="user_common.php::InsertRapt" ref="a10" args="($p_cn, $jr_id, $jr_id2)" --><p>
@@ -745,7 +745,7 @@ jr_id (jrn.jr_id) =&gt; jrn_rapt.jr_id<ul>
 <p>
 Definition at line <a class="el" href="user__common_8php-source.html#l00700">700</a> of file <a class="el" href="user__common_8php-source.html">user_common.php</a>.
 <p>
-References <a class="el" href="eub__be_8inc_8php-source.html#l00074">$Res</a>, <a class="el" href="postgres_8php-source.html#l00222">CountSql()</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="ac__common_8php-source.html#l00036">echo_error()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="ac__common_8php-source.html#l00076">isNumber()</a>.
+References <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="postgres_8php-source.html#l00222">CountSql()</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="ac__common_8php-source.html#l00036">echo_error()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="ac__common_8php-source.html#l00076">isNumber()</a>.
 <p>
 Referenced by <a class="el" href="user__form__fin_8php-source.html#l00349">RecordFin()</a>.    </td>
   </tr>
@@ -816,9 +816,9 @@ $p_j_id the j_id<ul>
 <p>
 Definition at line <a class="el" href="user__common_8php-source.html#l00596">596</a> of file <a class="el" href="user__common_8php-source.html">user_common.php</a>.
 <p>
-References <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="eub__be_8inc_8php-source.html#l00074">$Res</a>, <a class="el" href="facture_8inc_8php-source.html#l00082">$sql</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="facture_8inc_8php-source.html#l00200">f_id</a>.
+References <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="depense_8inc_8php-source.html#l00072">$sql</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="facture_8inc_8php-source.html#l00192">f_id</a>.
 <p>
-Referenced by <a class="el" href="user__form__ven_8php-source.html#l00627">RecordInvoice()</a>, and <a class="el" href="user__form__ach_8php-source.html#l00627">RecordSell()</a>.    </td>
+Referenced by <a class="el" href="user__form__ven_8php-source.html#l00627">RecordInvoice()</a>, and <a class="el" href="user__form__ach_8php-source.html#l00661">RecordSell()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a15"></a><!-- doxytag: member="user_common.php::isValid" ref="a15" args="($p_cn, $p_grpt_id)" --><p>
@@ -867,7 +867,7 @@ p_grpt_id gen :<ul>
 <p>
 Definition at line <a class="el" href="user__common_8php-source.html#l00835">835</a> of file <a class="el" href="user__common_8php-source.html">user_common.php</a>.
 <p>
-References <a class="el" href="balance_8php-source.html#l00108">$a</a>, <a class="el" href="eub__be_8inc_8php-source.html#l00074">$Res</a>, <a class="el" href="ac__common_8php-source.html#l00036">echo_error()</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
+References <a class="el" href="action_8inc_8php-source.html#l00213">$a</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="ac__common_8php-source.html#l00036">echo_error()</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
 <p>
 Referenced by <a class="el" href="class__user_8php-source.html#l00040">cl_user::cl_user()</a>.    </td>
   </tr>
@@ -933,9 +933,9 @@ jrn_navigation_bar<p>
 <p>
 Definition at line <a class="el" href="user__common_8php-source.html#l00862">862</a> of file <a class="el" href="user__common_8php-source.html">user_common.php</a>.
 <p>
-References <a class="el" href="commercial_8php-source.html#l00035">$_SESSION</a>, <a class="el" href="impress__fiche_8php-source.html#l00079">$e</a>, <a class="el" href="facture_8inc_8php-source.html#l00136">$offset</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="facture_8inc_8php-source.html#l00134">$step</a>, <a class="el" href="client_8inc_8php-source.html#l00111">$url</a>, <a class="el" href="client_8inc_8php-source.html#l00116">name</a>, <a class="el" href="tva_8inc_8php-source.html#l00212">size</a>, and <a class="el" href="client_8inc_8php-source.html#l00117">value</a>.
+References <a class="el" href="commercial_8php-source.html#l00035">$_SESSION</a>, <a class="el" href="impress__fiche_8php-source.html#l00079">$e</a>, <a class="el" href="depense_8inc_8php-source.html#l00126">$offset</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00124">$step</a>, <a class="el" href="admin_8inc_8php-source.html#l00111">$url</a>, <a class="el" href="action_8inc_8php-source.html#l00137">name</a>, <a class="el" href="tva_8inc_8php-source.html#l00212">size</a>, and <a class="el" href="action_8inc_8php-source.html#l00138">value</a>.
 <p>
-Referenced by <a class="el" href="class__action_8php-source.html#l00329">action::myList()</a>, <a class="el" href="class__customer_8php-source.html#l00195">Customer::Summary()</a>, <a class="el" href="class__contact_8php-source.html#l00050">contact::Summary()</a>, and <a class="el" href="fiche__inc_8php-source.html#l00394">ViewFiche()</a>.    </td>
+Referenced by <a class="el" href="class__action_8php-source.html#l00329">action::myList()</a>, <a class="el" href="class__supplier_8php-source.html#l00083">Supplier::Summary()</a>, <a class="el" href="class__customer_8php-source.html#l00195">Customer::Summary()</a>, <a class="el" href="class__contact_8php-source.html#l00050">contact::Summary()</a>, <a class="el" href="class__admin_8php-source.html#l00065">Admin::Summary()</a>, and <a class="el" href="fiche__inc_8php-source.html#l00394">ViewFiche()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a6"></a><!-- doxytag: member="user_common.php::ListJrn" ref="a6" args="($p_cn, $p_jrn, $p_where=&quot;&quot;, $p_array=null, $p_value=0, $p_paid=0)" --><p>
@@ -1008,7 +1008,7 @@ $p_jrn jrn_id jrn.jrn_def_id<ul>
 <p>
 Definition at line <a class="el" href="user__common_8php-source.html#l00322">322</a> of file <a class="el" href="user__common_8php-source.html">user_common.php</a>.
 <p>
-References <a class="el" href="commercial_8php-source.html#l00035">$_SESSION</a>, <a class="el" href="balance_8php-source.html#l00108">$a</a>, <a class="el" href="admin__repo_8php-source.html#l00163">$count</a>, <a class="el" href="poste_8inc_8php-source.html#l00069">$h</a>, <a class="el" href="jrn__pdf_8php-source.html#l00071">$limit</a>, <a class="el" href="setup_8php-source.html#l00374">$Max</a>, <a class="el" href="facture_8inc_8php-source.html#l00136">$offset</a>, <a class="el" href="modify__op_8php-source.html#l00054">$p_jrn</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="eub__be_8inc_8php-source.html#l00074">$Res</a>, <a class="el" href="cbc__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="facture_8inc_8php-source.html#l00082">$sql</a>, <a class="el" href="balance_8php-source.html#l00119">$tr</a>, <a class="el" href="user__action__ach_8php-source.html#l00164">$User</a>, <a class="el" href="balance_8php-source.html#l00067">$w</a>, <a class="el" href="postgres_8php-source.html#l00222">CountSql()</a>, <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="ac__common_8php-source.html#l00207">FormatString()</a>, <a class="el" href="user__common_8php-source.html#l00762">GetConcerned()</a>, <a class="el" href="jrn_8php-source.html#l00793">GetInternal()</a>, <a class="el" href="jrn_8php-source.html#l00549">GetJrnProp()</a>, <a class="el" href="ac__common_8php-source.html#l00097">isDate()</a>, and <a class="el" href="balance_8php-source.html#l00068">table</a>.    </td>
+References <a class="el" href="commercial_8php-source.html#l00035">$_SESSION</a>, <a class="el" href="action_8inc_8php-source.html#l00213">$a</a>, <a class="el" href="admin__repo_8php-source.html#l00163">$count</a>, <a class="el" href="poste_8inc_8php-source.html#l00069">$h</a>, <a class="el" href="jrn__pdf_8php-source.html#l00071">$limit</a>, <a class="el" href="setup_8php-source.html#l00374">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00126">$offset</a>, <a class="el" href="modify__op_8php-source.html#l00054">$p_jrn</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="cbc__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="depense_8inc_8php-source.html#l00072">$sql</a>, <a class="el" href="balance_8php-source.html#l00119">$tr</a>, <a class="el" href="user__action__ach_8php-source.html#l00164">$User</a>, <a class="el" href="admin_8inc_8php-source.html#l00115">$w</a>, <a class="el" href="postgres_8php-source.html#l00222">CountSql()</a>, <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="ac__common_8php-source.html#l00207">FormatString()</a>, <a class="el" href="user__common_8php-source.html#l00762">GetConcerned()</a>, <a class="el" href="jrn_8php-source.html#l00793">GetInternal()</a>, <a class="el" href="jrn_8php-source.html#l00549">GetJrnProp()</a>, <a class="el" href="ac__common_8php-source.html#l00097">isDate()</a>, and <a class="el" href="balance_8php-source.html#l00068">table</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a14"></a><!-- doxytag: member="user_common.php::UpdateComment" ref="a14" args="($p_cn, $p_jr_id, $p_comment)" --><p>
@@ -1064,7 +1064,7 @@ parm :<ul>
 <p>
 Definition at line <a class="el" href="user__common_8php-source.html#l00815">815</a> of file <a class="el" href="user__common_8php-source.html">user_common.php</a>.
 <p>
-References <a class="el" href="eub__be_8inc_8php-source.html#l00074">$Res</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="ac__common_8php-source.html#l00207">FormatString()</a>, and <a class="el" href="poste_8inc_8php-source.html#l00033">p_comment</a>.    </td>
+References <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="ac__common_8php-source.html#l00207">FormatString()</a>, and <a class="el" href="poste_8inc_8php-source.html#l00033">p_comment</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a9"></a><!-- doxytag: member="user_common.php::VerifyOperationDate" ref="a9" args="($p_cn, $p_periode, $p_date)" --><p>
@@ -1167,16 +1167,16 @@ withStock($p_cn,$p_f_id)<p>
 parm :<ul>
 <li>$p_cn database connection</li></ul>
 <p>
-$p_f_id <a class="el" href="facture_8inc_8php.html#a18">fiche.f_id</a> gen :<ul>
+$p_f_id <a class="el" href="facture_8inc_8php.html#a19">fiche.f_id</a> gen :<ul>
 <li>none return: none</li></ul>
 
 <p>
 Definition at line <a class="el" href="user__common_8php-source.html#l00631">631</a> of file <a class="el" href="user__common_8php-source.html">user_common.php</a>.
 <p>
-References <a class="el" href="balance_8php-source.html#l00108">$a</a>, and <a class="el" href="fiche__inc_8php-source.html#l01471">getFicheAttribut()</a>.    </td>
+References <a class="el" href="action_8inc_8php-source.html#l00213">$a</a>, and <a class="el" href="fiche__inc_8php-source.html#l01471">getFicheAttribut()</a>.    </td>
   </tr>
 </table>
-<hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 21:19:09 2006 for phpcompta by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 23:34:00 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

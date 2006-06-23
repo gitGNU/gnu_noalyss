@@ -11,11 +11,17 @@
  *
  * \section convention_code Convention de codage
  * <p>
- * Tant que ce peut réutiliser ce qui existe déjà, 
+ * Quelques conventions de codage pour avoir un code plus ou moins
+ * homogène
  * <ol>
+ * <li>Tant que ce peut réutiliser ce qui existe déjà, </li>
  * <li>Documenter avec les tags doxygen votre nouveau code,</li>
  * <li>Les noms de fichiers sont *.inc.php pour les fichiers à include</li>
- * <li>et class_*.php pour les fichiers contenant des classes.</li>
+ * <li>Les noms de fichier sont  class_*.php pour les fichiers contenant des classes.</li>
+ * <li>Faire de la doc c'est bien </li>
+ * </ol>
+ * 
+ * </p>
  *
  */
 

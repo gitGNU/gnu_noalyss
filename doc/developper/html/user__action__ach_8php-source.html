@@ -52,10 +52,10 @@
 <a name="l00046"></a>00046 
 <a name="l00047"></a>00047         <span class="keywordflow">if</span> ( isset($_GET['blank'] )) {
 <a name="l00048"></a>00048           <span class="comment">// Submit button in the form</span>
-<a name="l00049"></a>00049           <a class="code" href="impress__fiche_8php.html#a1">$submit</a>='&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> NAME=<span class="stringliteral">"add_item"</span> VALUE=<span class="stringliteral">"Ajout article"</span>&gt;
+<a name="l00049"></a>00049           <a class="code" href="depense_8inc_8php.html#a19">$submit</a>='&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> NAME=<span class="stringliteral">"add_item"</span> VALUE=<span class="stringliteral">"Ajout article"</span>&gt;
 <a name="l00050"></a>00050                     &lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> NAME=<span class="stringliteral">"view_invoice"</span> VALUE=<span class="stringliteral">"Sauver"</span> ID=<span class="stringliteral">"SubmitButton"</span>&gt;';
 <a name="l00051"></a>00051           <a class="code" href="show__pj_8php.html#a6">$jrn</a>=<span class="keyword">new</span> <a class="code" href="classjrn.html">jrn</a>($cn,  $_GET['p_jrn']);
-<a name="l00052"></a><a class="code" href="user__action__ach_8php.html#a2">00052</a>           <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="user__form__ach_8php.html#a0">FormAchInput</a>($cn,$_GET['p_jrn'],$User-&gt;GetPeriode(),$HTTP_POST_VARS,<a class="code" href="impress__fiche_8php.html#a1">$submit</a>,<span class="keyword">false</span>,<a class="code" href="show__pj_8php.html#a6">$jrn</a>-&gt;getDefLine('cred'));
+<a name="l00052"></a><a class="code" href="user__action__ach_8php.html#a2">00052</a>           <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="user__form__ach_8php.html#a0">FormAchInput</a>($cn,$_GET['p_jrn'],$User-&gt;GetPeriode(),$HTTP_POST_VARS,<a class="code" href="depense_8inc_8php.html#a19">$submit</a>,<span class="keyword">false</span>,<a class="code" href="show__pj_8php.html#a6">$jrn</a>-&gt;getDefLine('cred'));
 <a name="l00053"></a>00053           echo '&lt;div <span class="keyword">class</span>=<span class="stringliteral">"u_redcontent"</span>&gt;';
 <a name="l00054"></a>00054           echo <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
 <a name="l00055"></a>00055           echo <span class="stringliteral">"&lt;div&gt;&lt;h4&gt;On-line calculator&lt;/h4&gt;"</span>.JS_CALC_LINE.<span class="stringliteral">"&lt;div&gt;"</span>;
@@ -103,8 +103,8 @@
 <a name="l00097"></a>00097         <span class="keywordflow">if</span> ( isset ($_POST['view_invoice']) and 
 <a name="l00098"></a>00098              ! isset ($_POST['save'])) {
 <a name="l00099"></a>00099         <a class="code" href="user__action__fin_8php.html#a3">$nb_number</a>=$_POST[<span class="stringliteral">"nb_item"</span>];
-<a name="l00100"></a>00100         $submit='&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> <a class="code" href="client_8inc_8php.html#a5">name</a>=<span class="stringliteral">"save"</span> <a class="code" href="client_8inc_8php.html#a6">value</a>=<span class="stringliteral">"Confirmer"</span>&gt;';
-<a name="l00101"></a>00101         $submit.='&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> <a class="code" href="client_8inc_8php.html#a5">name</a>=<span class="stringliteral">"correct"</span> <a class="code" href="client_8inc_8php.html#a6">value</a>=<span class="stringliteral">"Corriger"</span>&gt;';
+<a name="l00100"></a>00100         $submit='&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"save"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"Confirmer"</span>&gt;';
+<a name="l00101"></a>00101         $submit.='&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"correct"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"Corriger"</span>&gt;';
 <a name="l00102"></a>00102         <span class="keywordflow">if</span> ( <a class="code" href="user__form__ach_8php.html#a1">form_verify_input</a> ($cn,$_GET['p_jrn'],$User-&gt;GetPeriode(),$HTTP_POST_VARS,<a class="code" href="user__action__fin_8php.html#a3">$nb_number</a>) == true ) {
 <a name="l00103"></a>00103           <span class="comment">// Should use a read only view instead of FormAch</span>
 <a name="l00104"></a>00104           <span class="comment">// where we can check</span>
@@ -164,12 +164,12 @@
 <a name="l00158"></a>00158 echo <a class="code" href="balance_8php.html#a1">$hid</a>-&gt;IOValue();
 <a name="l00159"></a>00159 
 <a name="l00160"></a>00160 
-<a name="l00161"></a><a class="code" href="user__action__ach_8php.html#a7">00161</a> <a class="code" href="balance_8php.html#a2">$w</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"select"</span>);
-<a name="l00162"></a>00162 <a class="code" href="balance_8php.html#a2">$w</a>-&gt;name=<span class="stringliteral">"p_periode"</span>;
+<a name="l00161"></a><a class="code" href="user__action__ach_8php.html#a7">00161</a> <a class="code" href="admin_8inc_8php.html#a4">$w</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"select"</span>);
+<a name="l00162"></a>00162 <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;name=<span class="stringliteral">"p_periode"</span>;
 <a name="l00163"></a><a class="code" href="user__action__ach_8php.html#a8">00163</a> <a class="code" href="balance_8php.html#a4">$periode_start</a>=<a class="code" href="ac__common_8php.html#a12">make_array</a>($cn,<span class="stringliteral">"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode order by p_id"</span>);
 <a name="l00164"></a><a class="code" href="user__action__ach_8php.html#a9">00164</a> <a class="code" href="user__action__ach_8php.html#a9">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>($cn);
-<a name="l00165"></a><a class="code" href="user__action__ach_8php.html#a10">00165</a> <a class="code" href="facture_8inc_8php.html#a9">$current</a>=(isset($_GET['p_periode']))?$_GET['p_periode']:<a class="code" href="user__action__ach_8php.html#a9">$User</a>-&gt;GetPeriode();
-<a name="l00166"></a><a class="code" href="user__action__ach_8php.html#a11">00166</a> <a class="code" href="balance_8php.html#a2">$w</a>-&gt;selected=<a class="code" href="facture_8inc_8php.html#a9">$current</a>;
+<a name="l00165"></a><a class="code" href="user__action__ach_8php.html#a10">00165</a> <a class="code" href="depense_8inc_8php.html#a10">$current</a>=(isset($_GET['p_periode']))?$_GET['p_periode']:<a class="code" href="user__action__ach_8php.html#a9">$User</a>-&gt;GetPeriode();
+<a name="l00166"></a><a class="code" href="user__action__ach_8php.html#a11">00166</a> <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;selected=<a class="code" href="depense_8inc_8php.html#a10">$current</a>;
 <a name="l00167"></a>00167 
 <a name="l00168"></a>00168 echo 'Période  '.$w-&gt;IOValue(<span class="stringliteral">"p_periode"</span>,$periode_start).$w-&gt;Submit('gl_submit<span class="charliteral">','</span>Valider');
 <a name="l00169"></a>00169 ?&gt;
@@ -180,24 +180,24 @@
 <a name="l00174"></a>00174       {
 <a name="l00175"></a>00175         <span class="comment">// reset all the paid flag because the checkbox is post only</span>
 <a name="l00176"></a>00176         <span class="comment">// when checked</span>
-<a name="l00177"></a>00177         foreach ($_POST as $<a class="code" href="client_8inc_8php.html#a5">name</a>=&gt;$paid) 
+<a name="l00177"></a>00177         foreach ($_POST as $<a class="code" href="action_8inc_8php.html#a3">name</a>=&gt;$paid) 
 <a name="l00178"></a>00178           {
-<a name="l00179"></a>00179             list($ad) = sscanf($<a class="code" href="client_8inc_8php.html#a5">name</a>,<span class="stringliteral">"set_jr_id%d"</span>);
+<a name="l00179"></a>00179             list($ad) = sscanf($<a class="code" href="action_8inc_8php.html#a3">name</a>,<span class="stringliteral">"set_jr_id%d"</span>);
 <a name="l00180"></a>00180             <span class="keywordflow">if</span> ( $ad == null ) <span class="keywordflow">continue</span>;
-<a name="l00181"></a><a class="code" href="user__action__ach_8php.html#a12">00181</a>             <a class="code" href="facture_8inc_8php.html#a1">$sql</a>=<span class="stringliteral">"update jrn set jr_rapt='' where jr_id=$ad"</span>;
-<a name="l00182"></a><a class="code" href="user__action__ach_8php.html#a13">00182</a>             <a class="code" href="eub__be_8inc_8php.html#a5">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$sql);
+<a name="l00181"></a><a class="code" href="user__action__ach_8php.html#a12">00181</a>             <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"update jrn set jr_rapt='' where jr_id=$ad"</span>;
+<a name="l00182"></a><a class="code" href="user__action__ach_8php.html#a13">00182</a>             <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$sql);
 <a name="l00183"></a>00183 
 <a name="l00184"></a>00184           }
 <a name="l00185"></a>00185         <span class="comment">// set a paid flag for the checked box</span>
-<a name="l00186"></a>00186         foreach ($_POST as $<a class="code" href="client_8inc_8php.html#a5">name</a>=&gt;$paid) 
+<a name="l00186"></a>00186         foreach ($_POST as $<a class="code" href="action_8inc_8php.html#a3">name</a>=&gt;$paid) 
 <a name="l00187"></a>00187           {
-<a name="l00188"></a>00188             list ($<span class="keywordtype">id</span>) = sscanf ($<a class="code" href="client_8inc_8php.html#a5">name</a>,<span class="stringliteral">"rd_paid%d"</span>);
+<a name="l00188"></a>00188             list ($<span class="keywordtype">id</span>) = sscanf ($<a class="code" href="action_8inc_8php.html#a3">name</a>,<span class="stringliteral">"rd_paid%d"</span>);
 <a name="l00189"></a>00189 
 <a name="l00190"></a>00190             <span class="keywordflow">if</span> ( $<span class="keywordtype">id</span> == null ) <span class="keywordflow">continue</span>;
 <a name="l00191"></a>00191             echo <span class="stringliteral">"Mise à jour $id"</span>;
-<a name="l00192"></a><a class="code" href="user__action__ach_8php.html#a14">00192</a>             <a class="code" href="facture_8inc_8php.html#a3">$paid</a>=(<a class="code" href="facture_8inc_8php.html#a3">$paid</a>=='on')?'paid<span class="charliteral">':'</span>';
-<a name="l00193"></a>00193             <a class="code" href="facture_8inc_8php.html#a1">$sql</a>=<span class="stringliteral">"update jrn set jr_rapt='$paid' where jr_id=$id"</span>;
-<a name="l00194"></a>00194             <a class="code" href="eub__be_8inc_8php.html#a5">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$sql);
+<a name="l00192"></a><a class="code" href="user__action__ach_8php.html#a14">00192</a>             <a class="code" href="depense_8inc_8php.html#a4">$paid</a>=(<a class="code" href="depense_8inc_8php.html#a4">$paid</a>=='on')?'paid<span class="charliteral">':'</span>';
+<a name="l00193"></a>00193             <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"update jrn set jr_rapt='$paid' where jr_id=$id"</span>;
+<a name="l00194"></a>00194             <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$sql);
 <a name="l00195"></a>00195           }
 <a name="l00196"></a>00196 
 <a name="l00197"></a>00197       }
@@ -205,14 +205,14 @@
 <a name="l00199"></a>00199  <span class="comment">// Show list of sell</span>
 <a name="l00200"></a>00200   <a class="code" href="debug_8php.html#a0">echo_debug</a> (<span class="stringliteral">"user_action_ach.php"</span>);
 <a name="l00201"></a>00201  <span class="comment">// Date - date of payment - Customer - amount</span>
-<a name="l00202"></a>00202    <a class="code" href="facture_8inc_8php.html#a1">$sql</a>=<a class="code" href="constant_8php.html#a82">SQL_LIST_ALL_INVOICE</a>.<span class="stringliteral">" and jr_tech_per="</span>.<a class="code" href="facture_8inc_8php.html#a9">$current</a>.<span class="stringliteral">" and jr_def_id="</span>.$_GET['p_jrn'];
+<a name="l00202"></a>00202    <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<a class="code" href="constant_8php.html#a83">SQL_LIST_ALL_INVOICE</a>.<span class="stringliteral">" and jr_tech_per="</span>.<a class="code" href="depense_8inc_8php.html#a10">$current</a>.<span class="stringliteral">" and jr_def_id="</span>.$_GET['p_jrn'];
 <a name="l00203"></a>00203 
-<a name="l00204"></a><a class="code" href="user__action__ach_8php.html#a15">00204</a>    <a class="code" href="facture_8inc_8php.html#a12">$step</a>=<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['g_pagesize'];
-<a name="l00205"></a><a class="code" href="user__action__ach_8php.html#a16">00205</a>    <a class="code" href="facture_8inc_8php.html#a13">$page</a>=(isset($_GET['offset']))?$_GET['page']:1;
-<a name="l00206"></a><a class="code" href="user__action__ach_8php.html#a17">00206</a>    <a class="code" href="facture_8inc_8php.html#a14">$offset</a>=(isset($_GET['offset']))?$_GET['offset']:0;
+<a name="l00204"></a><a class="code" href="user__action__ach_8php.html#a15">00204</a>    <a class="code" href="depense_8inc_8php.html#a13">$step</a>=<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['g_pagesize'];
+<a name="l00205"></a><a class="code" href="user__action__ach_8php.html#a16">00205</a>    <a class="code" href="depense_8inc_8php.html#a14">$page</a>=(isset($_GET['offset']))?$_GET['page']:1;
+<a name="l00206"></a><a class="code" href="user__action__ach_8php.html#a17">00206</a>    <a class="code" href="depense_8inc_8php.html#a15">$offset</a>=(isset($_GET['offset']))?$_GET['offset']:0;
 <a name="l00207"></a>00207 
 <a name="l00208"></a>00208    list ($max_ligne,$list)=<a class="code" href="user__common_8php.html#a6">ListJrn</a>($cn,$_GET['p_jrn'],$sql,null,$offset,1);
-<a name="l00209"></a><a class="code" href="user__action__ach_8php.html#a18">00209</a>    <a class="code" href="facture_8inc_8php.html#a16">$bar</a>=<a class="code" href="user__common_8php.html#a16">jrn_navigation_bar</a>($offset,$max_ligne,$step,$page);
+<a name="l00209"></a><a class="code" href="user__action__ach_8php.html#a18">00209</a>    <a class="code" href="depense_8inc_8php.html#a17">$bar</a>=<a class="code" href="user__common_8php.html#a16">jrn_navigation_bar</a>($offset,$max_ligne,$step,$page);
 <a name="l00210"></a>00210    echo '&lt;form method=<span class="stringliteral">"POST"</span>&gt;';
 <a name="l00211"></a>00211 
 <a name="l00212"></a>00212    echo <span class="stringliteral">"&lt;hr&gt; $bar"</span>;
@@ -235,40 +235,40 @@
 <a name="l00229"></a>00229     {
 <a name="l00230"></a>00230       <span class="comment">// reset all the paid flag because the checkbox is post only</span>
 <a name="l00231"></a>00231       <span class="comment">// when checked</span>
-<a name="l00232"></a>00232       foreach ($_POST as $<a class="code" href="client_8inc_8php.html#a5">name</a>=&gt;$paid) 
+<a name="l00232"></a>00232       foreach ($_POST as $<a class="code" href="action_8inc_8php.html#a3">name</a>=&gt;$paid) 
 <a name="l00233"></a>00233         {
-<a name="l00234"></a>00234           list($ad) = sscanf($<a class="code" href="client_8inc_8php.html#a5">name</a>,<span class="stringliteral">"set_jr_id%d"</span>);
+<a name="l00234"></a>00234           list($ad) = sscanf($<a class="code" href="action_8inc_8php.html#a3">name</a>,<span class="stringliteral">"set_jr_id%d"</span>);
 <a name="l00235"></a>00235           <span class="keywordflow">if</span> ( $ad == null ) <span class="keywordflow">continue</span>;
-<a name="l00236"></a>00236           <a class="code" href="facture_8inc_8php.html#a1">$sql</a>=<span class="stringliteral">"update jrn set jr_rapt='' where jr_id=$ad"</span>;
-<a name="l00237"></a>00237           <a class="code" href="eub__be_8inc_8php.html#a5">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$sql);
+<a name="l00236"></a>00236           <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"update jrn set jr_rapt='' where jr_id=$ad"</span>;
+<a name="l00237"></a>00237           <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$sql);
 <a name="l00238"></a>00238           
 <a name="l00239"></a>00239         }
 <a name="l00240"></a>00240       <span class="comment">// set a paid flag for the checked box</span>
-<a name="l00241"></a>00241       foreach ($_POST as $<a class="code" href="client_8inc_8php.html#a5">name</a>=&gt;$paid) 
+<a name="l00241"></a>00241       foreach ($_POST as $<a class="code" href="action_8inc_8php.html#a3">name</a>=&gt;$paid) 
 <a name="l00242"></a>00242           {
-<a name="l00243"></a>00243             list ($<span class="keywordtype">id</span>) = sscanf ($<a class="code" href="client_8inc_8php.html#a5">name</a>,<span class="stringliteral">"rd_paid%d"</span>);
+<a name="l00243"></a>00243             list ($<span class="keywordtype">id</span>) = sscanf ($<a class="code" href="action_8inc_8php.html#a3">name</a>,<span class="stringliteral">"rd_paid%d"</span>);
 <a name="l00244"></a>00244             
 <a name="l00245"></a>00245             <span class="keywordflow">if</span> ( $<span class="keywordtype">id</span> == null ) <span class="keywordflow">continue</span>;
 <a name="l00246"></a>00246             echo <span class="stringliteral">"Mise à jour $id"</span>;
-<a name="l00247"></a>00247             <a class="code" href="facture_8inc_8php.html#a3">$paid</a>=(<a class="code" href="facture_8inc_8php.html#a3">$paid</a>=='on')?'paid<span class="charliteral">':'</span>';
-<a name="l00248"></a>00248             <a class="code" href="facture_8inc_8php.html#a1">$sql</a>=<span class="stringliteral">"update jrn set jr_rapt='$paid' where jr_id=$id"</span>;
-<a name="l00249"></a>00249             <a class="code" href="eub__be_8inc_8php.html#a5">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$sql);
+<a name="l00247"></a>00247             <a class="code" href="depense_8inc_8php.html#a4">$paid</a>=(<a class="code" href="depense_8inc_8php.html#a4">$paid</a>=='on')?'paid<span class="charliteral">':'</span>';
+<a name="l00248"></a>00248             <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"update jrn set jr_rapt='$paid' where jr_id=$id"</span>;
+<a name="l00249"></a>00249             <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$sql);
 <a name="l00250"></a>00250           }
 <a name="l00251"></a>00251       
 <a name="l00252"></a>00252     }
 <a name="l00253"></a>00253 
 <a name="l00254"></a>00254 <span class="comment">// Show list of unpaid sell</span>
 <a name="l00255"></a>00255 <span class="comment">// Date - date of payment - Customer - amount</span>
-<a name="l00256"></a>00256   <a class="code" href="facture_8inc_8php.html#a1">$sql</a>=<a class="code" href="constant_8php.html#a84">SQL_LIST_UNPAID_INVOICE_DATE_LIMIT</a>.<span class="stringliteral">" and jr_def_id="</span>.$_GET['p_jrn']  ;
-<a name="l00257"></a>00257   <a class="code" href="facture_8inc_8php.html#a14">$offset</a>=(isset($_GET['offset']))?$_GET['offset']:0;
-<a name="l00258"></a>00258   <a class="code" href="facture_8inc_8php.html#a12">$step</a>=<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['g_pagesize'];
-<a name="l00259"></a>00259   <a class="code" href="facture_8inc_8php.html#a13">$page</a>=(isset($_GET['offset']))?$_GET['page']:1;
+<a name="l00256"></a>00256   <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<a class="code" href="constant_8php.html#a85">SQL_LIST_UNPAID_INVOICE_DATE_LIMIT</a>.<span class="stringliteral">" and jr_def_id="</span>.$_GET['p_jrn']  ;
+<a name="l00257"></a>00257   <a class="code" href="depense_8inc_8php.html#a15">$offset</a>=(isset($_GET['offset']))?$_GET['offset']:0;
+<a name="l00258"></a>00258   <a class="code" href="depense_8inc_8php.html#a13">$step</a>=<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['g_pagesize'];
+<a name="l00259"></a>00259   <a class="code" href="depense_8inc_8php.html#a14">$page</a>=(isset($_GET['offset']))?$_GET['page']:1;
 <a name="l00260"></a>00260 
 <a name="l00261"></a>00261   list ($max_line,$list)=<a class="code" href="user__common_8php.html#a6">ListJrn</a>($cn,$_GET['p_jrn'],$sql,null,$offset,1);
 <a name="l00262"></a>00262   <span class="comment">//  $bar=jrn_navigation_bar($offset,$max_ligne,$step,$page);</span>
 <a name="l00263"></a>00263 
 <a name="l00264"></a>00264 
-<a name="l00265"></a>00265   <a class="code" href="facture_8inc_8php.html#a1">$sql</a>=<a class="code" href="constant_8php.html#a83">SQL_LIST_UNPAID_INVOICE</a>.<span class="stringliteral">" and jr_def_id="</span>.$_GET['p_jrn']  ;
+<a name="l00265"></a>00265   <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<a class="code" href="constant_8php.html#a84">SQL_LIST_UNPAID_INVOICE</a>.<span class="stringliteral">" and jr_def_id="</span>.$_GET['p_jrn']  ;
 <a name="l00266"></a>00266   list ($max_line2,$list2)=<a class="code" href="user__common_8php.html#a6">ListJrn</a>($cn,$_GET['p_jrn'],$sql,null,$offset,1);
 <a name="l00267"></a>00267 
 <a name="l00268"></a>00268   <span class="comment">// Get the max line</span>
@@ -304,9 +304,9 @@
 <a name="l00298"></a>00298   <span class="comment">// PhpSessid</span>
 <a name="l00299"></a><a class="code" href="user__action__ach_8php.html#a21">00299</a>   <a class="code" href="user__action__ach_8php.html#a21">$sessid</a>=$_REQUEST['PHPSESSID'];
 <a name="l00300"></a>00300   <span class="comment">// Search modules</span>
-<a name="l00301"></a>00301   <a class="code" href="facture_8inc_8php.html#a14">$offset</a>=(isset($_GET['offset']))?$_GET['offset']:0;
-<a name="l00302"></a>00302   <a class="code" href="facture_8inc_8php.html#a12">$step</a>=<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['g_pagesize'];
-<a name="l00303"></a>00303   <a class="code" href="facture_8inc_8php.html#a13">$page</a>=(isset($_GET['offset']))?$_GET['page']:1;
+<a name="l00301"></a>00301   <a class="code" href="depense_8inc_8php.html#a15">$offset</a>=(isset($_GET['offset']))?$_GET['offset']:0;
+<a name="l00302"></a>00302   <a class="code" href="depense_8inc_8php.html#a13">$step</a>=<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['g_pagesize'];
+<a name="l00303"></a>00303   <a class="code" href="depense_8inc_8php.html#a14">$page</a>=(isset($_GET['offset']))?$_GET['page']:1;
 <a name="l00304"></a>00304 
 <a name="l00305"></a>00305 <span class="comment">// display a search box</span>
 <a name="l00306"></a><a class="code" href="user__action__ach_8php.html#a22">00306</a>   <a class="code" href="user__action__ach_8php.html#a22">$search_box</a>=<a class="code" href="user__menu_8php.html#a8">u_ShowMenuRecherche</a>($cn,$_GET['p_jrn'],$sessid,$_POST);
@@ -315,13 +315,13 @@
 <a name="l00309"></a>00309   <span class="comment">// if nofirst is set then show result</span>
 <a name="l00310"></a>00310   <span class="keywordflow">if</span> ( isset ($_GET['nofirst'] ) )     {
 <a name="l00311"></a>00311     list ($max_line,$a)=<a class="code" href="user__common_8php.html#a6">ListJrn</a>($cn,$_GET['p_jrn'],<span class="stringliteral">""</span>,$_POST);
-<a name="l00312"></a>00312     echo <a class="code" href="balance_8php.html#a9">$a</a>;
+<a name="l00312"></a>00312     echo <a class="code" href="action_8inc_8php.html#a15">$a</a>;
 <a name="l00313"></a>00313   }
 <a name="l00314"></a>00314   echo '&lt;/DIV&gt;'; 
 <a name="l00315"></a>00315 }
 <a name="l00316"></a>00316 include(<span class="stringliteral">"user_update.php"</span>);
 <a name="l00317"></a>00317 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 21:19:08 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 23:34:00 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

@@ -91,7 +91,7 @@
 <a name="l00085"></a>00085   <span class="comment">//ereg("\\$[a-zA-Z]+[0-9]*=",$buffer,$e);</span>
 <a name="l00086"></a>00086   <span class="comment">//  echo $e[0];</span>
 <a name="l00087"></a>00087   <span class="comment">//echo "&lt;br&gt;".$form;</span>
-<a name="l00088"></a><a class="code" href="bilan_8php.html#a6">00088</a>   <a class="code" href="balance_8php.html#a9">$a</a>=<a class="code" href="impress__inc_8php.html#a9">ParseFormula</a>($cn,<span class="stringliteral">"$buffer"</span>,$buffer,$<a class="code" href="document__modele_8inc_8php.html#a5">start</a>,$end,<span class="keyword">false</span>);
+<a name="l00088"></a><a class="code" href="bilan_8php.html#a6">00088</a>   <a class="code" href="action_8inc_8php.html#a15">$a</a>=<a class="code" href="impress__inc_8php.html#a9">ParseFormula</a>($cn,<span class="stringliteral">"$buffer"</span>,$buffer,$<a class="code" href="document__modele_8inc_8php.html#a5">start</a>,$end,<span class="keyword">false</span>);
 <a name="l00089"></a><a class="code" href="bilan_8php.html#a7">00089</a>   <a class="code" href="balance_8php.html#a10">$b</a>=str_replace(<span class="stringliteral">"$"</span>,<span class="stringliteral">"\$"</span>,$a);
 <a name="l00090"></a>00090 
 <a name="l00091"></a>00091   <span class="comment">// echo "Formule to eval".$b.'&lt;hr&gt;';</span>
@@ -129,7 +129,7 @@
 <a name="l00124"></a>00124       <a class="code" href="bilan_8php.html#a9">$f2_value</a>=str_replace(<span class="stringliteral">"$"</span>,<span class="stringliteral">""</span>,$f2_value);
 <a name="l00125"></a>00125       <span class="comment">// DEBUG</span>
 <a name="l00126"></a>00126       <span class="comment">//echo "f2_value=$f2_value";</span>
-<a name="l00127"></a>00127       <a class="code" href="balance_8php.html#a9">$a</a>=${<span class="stringliteral">"$f2_value"</span>};
+<a name="l00127"></a>00127       <a class="code" href="action_8inc_8php.html#a15">$a</a>=${<span class="stringliteral">"$f2_value"</span>};
 <a name="l00128"></a>00128       <span class="comment">// DEBUG      echo " a = $a";</span>
 <a name="l00129"></a><a class="code" href="bilan_8php.html#a10">00129</a>       <a class="code" href="bilan_8php.html#a10">$line_rtf</a>=str_replace($f2_str,$a,$line_rtf);
 <a name="l00130"></a>00130 
@@ -142,7 +142,7 @@
 <a name="l00137"></a>00137 
 <a name="l00138"></a>00138  }<span class="comment">// rtf file is read</span>
 <a name="l00139"></a>00139 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 21:19:07 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 23:33:59 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

@@ -48,7 +48,7 @@
 <a name="l00075"></a><a class="code" href="classaction.html#a0">00075</a>   function <a class="code" href="classaction.html#a0">action</a> ($p_cn)
 <a name="l00076"></a>00076     {
 <a name="l00077"></a>00077       $this-&gt;db=$p_cn;
-<a name="l00078"></a>00078       $this-&gt;<a class="code" href="facture_8inc_8php.html#a18">f_id</a>=0;
+<a name="l00078"></a>00078       $this-&gt;<a class="code" href="facture_8inc_8php.html#a19">f_id</a>=0;
 <a name="l00079"></a>00079     }
 <a name="l00085"></a><a class="code" href="classaction.html#a1">00085</a>   function <a class="code" href="classaction.html#a1">Display</a>() 
 <a name="l00086"></a>00086     {
@@ -58,34 +58,34 @@
 <a name="l00090"></a>00090       $date=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"text"</span>);
 <a name="l00091"></a>00091       $date-&gt;readonly=<span class="keyword">true</span>;
 <a name="l00092"></a>00092       $date-&gt;name=<span class="stringliteral">"ag_date"</span>;
-<a name="l00093"></a>00093       $date-&gt;value=$this-&gt;ag_date;
+<a name="l00093"></a>00093       $date-&gt;value=$this-&gt;<a class="code" href="action_8inc_8php.html#a17">ag_date</a>;
 <a name="l00094"></a>00094       <span class="comment">// Doc Type</span>
-<a name="l00095"></a>00095       $doc_type=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"hidden"</span>);
-<a name="l00096"></a>00096       $doc_type-&gt;name=<span class="stringliteral">"dt_id"</span>;
-<a name="l00097"></a>00097       $doc_type-&gt;value=$this-&gt;dt_id;
-<a name="l00098"></a>00098       <a class="code" href="balance_8php.html#a9">$a</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,<span class="stringliteral">"select dt_value from document_type where dt_id="</span>.$this-&gt;dt_id);
+<a name="l00095"></a>00095       <a class="code" href="action_8inc_8php.html#a11">$doc_type</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"hidden"</span>);
+<a name="l00096"></a>00096       <a class="code" href="action_8inc_8php.html#a11">$doc_type</a>-&gt;name=<span class="stringliteral">"dt_id"</span>;
+<a name="l00097"></a>00097       <a class="code" href="action_8inc_8php.html#a11">$doc_type</a>-&gt;value=$this-&gt;<a class="code" href="action_8inc_8php.html#a19">dt_id</a>;
+<a name="l00098"></a>00098       <a class="code" href="action_8inc_8php.html#a15">$a</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,<span class="stringliteral">"select dt_value from document_type where dt_id="</span>.$this-&gt;dt_id);
 <a name="l00099"></a>00099       $v=pg_fetch_array($a,0);
 <a name="l00100"></a>00100       $str_type=$v[0];
 <a name="l00101"></a>00101 
 <a name="l00102"></a>00102       <span class="comment">// state</span>
 <a name="l00103"></a>00103       <span class="comment">// Retrieve the value</span>
-<a name="l00104"></a>00104       <a class="code" href="balance_8php.html#a9">$a</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,<span class="stringliteral">"select s_value from document_state where s_id="</span>.$this-&gt;d_state);
+<a name="l00104"></a>00104       <a class="code" href="action_8inc_8php.html#a15">$a</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,<span class="stringliteral">"select s_value from document_state where s_id="</span>.$this-&gt;d_state);
 <a name="l00105"></a>00105       $v=pg_fetch_array($a,0);
 <a name="l00106"></a>00106       $str_state=$v[0];
 <a name="l00107"></a>00107       $state=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"hidden"</span>);
 <a name="l00108"></a>00108       $state-&gt;name=<span class="stringliteral">"d_state"</span>;
-<a name="l00109"></a>00109       $state-&gt;value=$this-&gt;d_state;
+<a name="l00109"></a>00109       $state-&gt;value=$this-&gt;<a class="code" href="action_8inc_8php.html#a18">d_state</a>;
 <a name="l00110"></a>00110       <span class="comment">// title</span>
-<a name="l00111"></a>00111       $title=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"text"</span>);
-<a name="l00112"></a>00112       $title-&gt;readonly=<span class="keyword">true</span>;
-<a name="l00113"></a>00113       $title-&gt;name=<span class="stringliteral">"ag_title"</span>;
-<a name="l00114"></a>00114       $title-&gt;value=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($this-&gt;ag_title);
+<a name="l00111"></a>00111       <a class="code" href="action_8inc_8php.html#a14">$title</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"text"</span>);
+<a name="l00112"></a>00112       <a class="code" href="action_8inc_8php.html#a14">$title</a>-&gt;readonly=<span class="keyword">true</span>;
+<a name="l00113"></a>00113       <a class="code" href="action_8inc_8php.html#a14">$title</a>-&gt;name=<span class="stringliteral">"ag_title"</span>;
+<a name="l00114"></a>00114       <a class="code" href="action_8inc_8php.html#a14">$title</a>-&gt;value=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($this-&gt;ag_title);
 <a name="l00115"></a>00115 
 <a name="l00116"></a>00116       <span class="comment">// Description</span>
 <a name="l00117"></a>00117       <a class="code" href="admin__repo_8php.html#a9">$desc</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>('textarea');
 <a name="l00118"></a>00118       <a class="code" href="admin__repo_8php.html#a9">$desc</a>-&gt;name=<span class="stringliteral">"ag_desc"</span>;
 <a name="l00119"></a>00119       <a class="code" href="admin__repo_8php.html#a9">$desc</a>-&gt;readonly=<span class="stringliteral">" disabled "</span>;
-<a name="l00120"></a>00120       <a class="code" href="admin__repo_8php.html#a9">$desc</a>-&gt;value=$this-&gt;ag_desc;
+<a name="l00120"></a>00120       <a class="code" href="admin__repo_8php.html#a9">$desc</a>-&gt;value=$this-&gt;<a class="code" href="action_8inc_8php.html#a16">ag_desc</a>;
 <a name="l00121"></a>00121       <span class="comment">// Propose to generate a document</span>
 <a name="l00122"></a>00122       $gen=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a> (<span class="stringliteral">"checkbox"</span>);
 <a name="l00123"></a>00123       $gen-&gt;name=<span class="stringliteral">"p_gen"</span>;
@@ -113,51 +113,51 @@
 <a name="l00153"></a>00153       <span class="keywordflow">if</span> ( <a class="code" href="ac__common_8php.html#a3">isDate</a>($this-&gt;ag_date) == NULL )
 <a name="l00154"></a>00154         {
 <a name="l00155"></a>00155           <span class="comment">// if the date is invalid, default date is today</span>
-<a name="l00156"></a>00156           $this-&gt;ag_date=date(<span class="stringliteral">"d.m.Y"</span>);
+<a name="l00156"></a>00156           $this-&gt;<a class="code" href="action_8inc_8php.html#a17">ag_date</a>=date(<span class="stringliteral">"d.m.Y"</span>);
 <a name="l00157"></a>00157         }
 <a name="l00158"></a>00158       <span class="comment">// Compute the widget</span>
 <a name="l00159"></a>00159       <span class="comment">// Date </span>
 <a name="l00160"></a>00160       $date=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"text"</span>);
 <a name="l00161"></a>00161       $date-&gt;readonly=<span class="keyword">true</span>;
 <a name="l00162"></a>00162       $date-&gt;name=<span class="stringliteral">"ag_date"</span>;
-<a name="l00163"></a>00163       $date-&gt;value=$this-&gt;ag_date;
+<a name="l00163"></a>00163       $date-&gt;value=$this-&gt;<a class="code" href="action_8inc_8php.html#a17">ag_date</a>;
 <a name="l00164"></a>00164       <span class="comment">// Doc Type</span>
-<a name="l00165"></a>00165       $doc_type=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"hidden"</span>);
-<a name="l00166"></a>00166       $doc_type-&gt;name=<span class="stringliteral">"dt_id"</span>;
-<a name="l00167"></a>00167       $doc_type-&gt;value=$this-&gt;dt_id;
-<a name="l00168"></a>00168       <a class="code" href="balance_8php.html#a9">$a</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,<span class="stringliteral">"select dt_value from document_type where dt_id="</span>.$this-&gt;dt_id);
+<a name="l00165"></a>00165       <a class="code" href="action_8inc_8php.html#a11">$doc_type</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"hidden"</span>);
+<a name="l00166"></a>00166       <a class="code" href="action_8inc_8php.html#a11">$doc_type</a>-&gt;name=<span class="stringliteral">"dt_id"</span>;
+<a name="l00167"></a>00167       <a class="code" href="action_8inc_8php.html#a11">$doc_type</a>-&gt;value=$this-&gt;<a class="code" href="action_8inc_8php.html#a19">dt_id</a>;
+<a name="l00168"></a>00168       <a class="code" href="action_8inc_8php.html#a15">$a</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,<span class="stringliteral">"select dt_value from document_type where dt_id="</span>.$this-&gt;dt_id);
 <a name="l00169"></a>00169       $v=pg_fetch_array($a,0);
 <a name="l00170"></a>00170       $str_type=$v[0];
 <a name="l00171"></a>00171       <span class="keywordflow">if</span> ( isset ($_REQUEST['url'])) 
 <a name="l00172"></a>00172         {
-<a name="l00173"></a>00173           <a class="code" href="client_8inc_8php.html#a9">$retour</a>=sprintf('&lt;A HREF=<span class="stringliteral">"%s"</span>&gt;&lt;input type=<span class="stringliteral">"button"</span> <a class="code" href="client_8inc_8php.html#a6">value</a>=<span class="stringliteral">"Retour"</span>&gt;&lt;/A&gt;',urldecode($_REQUEST['url']));
-<a name="l00174"></a>00174           <a class="code" href="action_8inc_8php.html#a1">$h_url</a>=sprintf('&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="client_8inc_8php.html#a5">name</a>=<span class="stringliteral">"url"</span> <a class="code" href="client_8inc_8php.html#a6">value</a>=<span class="stringliteral">"%s"</span>&gt;',urldecode($_REQUEST['url']));
+<a name="l00173"></a>00173           <a class="code" href="action_8inc_8php.html#a1">$retour</a>=sprintf('&lt;A HREF=<span class="stringliteral">"%s"</span>&gt;&lt;input type=<span class="stringliteral">"button"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"Retour"</span>&gt;&lt;/A&gt;',urldecode($_REQUEST['url']));
+<a name="l00174"></a>00174           <a class="code" href="action_8inc_8php.html#a2">$h_url</a>=sprintf('&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"url"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"%s"</span>&gt;',urldecode($_REQUEST['url']));
 <a name="l00175"></a>00175         }
 <a name="l00176"></a>00176       <span class="keywordflow">else</span> 
 <a name="l00177"></a>00177         { 
-<a name="l00178"></a>00178           <a class="code" href="client_8inc_8php.html#a9">$retour</a>=<span class="stringliteral">""</span>;
-<a name="l00179"></a>00179           <a class="code" href="action_8inc_8php.html#a1">$h_url</a>=<span class="stringliteral">""</span>;
+<a name="l00178"></a>00178           <a class="code" href="action_8inc_8php.html#a1">$retour</a>=<span class="stringliteral">""</span>;
+<a name="l00179"></a>00179           <a class="code" href="action_8inc_8php.html#a2">$h_url</a>=<span class="stringliteral">""</span>;
 <a name="l00180"></a>00180         }
 <a name="l00181"></a>00181 
 <a name="l00182"></a>00182       <span class="comment">// state</span>
 <a name="l00183"></a>00183       <span class="comment">// Retrieve the value</span>
-<a name="l00184"></a>00184       <a class="code" href="balance_8php.html#a9">$a</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,<span class="stringliteral">"select s_value from document_state where s_id="</span>.$this-&gt;d_state);
+<a name="l00184"></a>00184       <a class="code" href="action_8inc_8php.html#a15">$a</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,<span class="stringliteral">"select s_value from document_state where s_id="</span>.$this-&gt;d_state);
 <a name="l00185"></a>00185       $v=pg_fetch_array($a,0);
 <a name="l00186"></a>00186       $str_state=$v[0];
 <a name="l00187"></a>00187       $state=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"hidden"</span>);
 <a name="l00188"></a>00188       $state-&gt;name=<span class="stringliteral">"d_state"</span>;
-<a name="l00189"></a>00189       $state-&gt;value=$this-&gt;d_state;
+<a name="l00189"></a>00189       $state-&gt;value=$this-&gt;<a class="code" href="action_8inc_8php.html#a18">d_state</a>;
 <a name="l00190"></a>00190       <span class="comment">// title</span>
-<a name="l00191"></a>00191       $title=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"text"</span>);
-<a name="l00192"></a>00192       $title-&gt;readonly=<span class="keyword">true</span>;
-<a name="l00193"></a>00193       $title-&gt;name=<span class="stringliteral">"ag_title"</span>;
-<a name="l00194"></a>00194       $title-&gt;value=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($this-&gt;ag_title);
+<a name="l00191"></a>00191       <a class="code" href="action_8inc_8php.html#a14">$title</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"text"</span>);
+<a name="l00192"></a>00192       <a class="code" href="action_8inc_8php.html#a14">$title</a>-&gt;readonly=<span class="keyword">true</span>;
+<a name="l00193"></a>00193       <a class="code" href="action_8inc_8php.html#a14">$title</a>-&gt;name=<span class="stringliteral">"ag_title"</span>;
+<a name="l00194"></a>00194       <a class="code" href="action_8inc_8php.html#a14">$title</a>-&gt;value=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($this-&gt;ag_title);
 <a name="l00195"></a>00195 
 <a name="l00196"></a>00196       <span class="comment">// Description</span>
 <a name="l00197"></a>00197       <a class="code" href="admin__repo_8php.html#a9">$desc</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>('textarea');
 <a name="l00198"></a>00198       <a class="code" href="admin__repo_8php.html#a9">$desc</a>-&gt;name=<span class="stringliteral">"ag_desc"</span>;
 <a name="l00199"></a>00199       <a class="code" href="admin__repo_8php.html#a9">$desc</a>-&gt;readonly=<span class="stringliteral">" disabled "</span>;
-<a name="l00200"></a>00200       <a class="code" href="admin__repo_8php.html#a9">$desc</a>-&gt;value=$this-&gt;ag_desc;
+<a name="l00200"></a>00200       <a class="code" href="admin__repo_8php.html#a9">$desc</a>-&gt;value=$this-&gt;<a class="code" href="action_8inc_8php.html#a16">ag_desc</a>;
 <a name="l00201"></a>00201       <span class="comment">// Propose to generate a document</span>
 <a name="l00202"></a>00202       $gen=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a> (<span class="stringliteral">"checkbox"</span>);
 <a name="l00203"></a>00203       $gen-&gt;name=<span class="stringliteral">"p_gen"</span>;
@@ -169,7 +169,7 @@
 <a name="l00209"></a>00209       $tiers=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($this-&gt;db);
 <a name="l00210"></a>00210       $tiers-&gt;GetByQCode($this-&gt;qcode);
 <a name="l00211"></a>00211       <span class="comment">// Preparing the return string</span>
-<a name="l00212"></a>00212       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="client_8inc_8php.html#a9">$retour</a>.<span class="stringliteral">"&lt;form method=\"post\"&gt;"</span>;
+<a name="l00212"></a>00212       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="action_8inc_8php.html#a1">$retour</a>.<span class="stringliteral">"&lt;form method=\"post\"&gt;"</span>;
 <a name="l00213"></a>00213       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;p&gt;Date : "</span>.$date-&gt;IOValue().<span class="stringliteral">"&lt;/p&gt;"</span>;
 <a name="l00214"></a>00214       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;p&gt;Etat $str_state"</span>.$state-&gt;IOValue().<span class="stringliteral">"&lt;/p&gt;"</span>;
 <a name="l00215"></a>00215       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;p&gt;Type du document $str_type"</span>.$doc_type-&gt;IOValue().<span class="stringliteral">"&lt;/p&gt;"</span>;
@@ -181,63 +181,63 @@
 <a name="l00221"></a>00221         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;p&gt; G&amp;eacute;n&amp;eacute;rer un document "</span>.$gen-&gt;IOValue().<span class="stringliteral">" "</span>.$doc_gen-&gt;IOValue().<span class="stringliteral">"&lt;/p&gt;"</span>;
 <a name="l00222"></a>00222 
 <a name="l00223"></a>00223       <span class="comment">// Add the hidden tag</span>
-<a name="l00224"></a>00224       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="client_8inc_8php.html#a5">name</a>=<span class="stringliteral">"sa"</span> <a class="code" href="client_8inc_8php.html#a6">value</a>=<span class="stringliteral">"save_action_st2"</span>&gt;';
-<a name="l00225"></a>00225       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="client_8inc_8php.html#a5">name</a>=<span class="stringliteral">"p_action"</span> <a class="code" href="client_8inc_8php.html#a6">value</a>=<span class="stringliteral">"suivi_courrier"</span>&gt;';
-<a name="l00226"></a>00226       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="client_8inc_8php.html#a5">name</a>=<span class="stringliteral">"tiers"</span> <a class="code" href="client_8inc_8php.html#a6">value</a>=<span class="stringliteral">"'.$this-&gt;qcode.'"</span>&gt;';
+<a name="l00224"></a>00224       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"sa"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"save_action_st2"</span>&gt;';
+<a name="l00225"></a>00225       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"p_action"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"suivi_courrier"</span>&gt;';
+<a name="l00226"></a>00226       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"tiers"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"'.$this-&gt;qcode.'"</span>&gt;';
 <a name="l00227"></a>00227       <span class="keywordflow">if</span> ( $tiers-&gt;strAttribut(1) != <span class="stringliteral">"- ERROR -"</span>)
 <a name="l00228"></a>00228         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="admin__repo_8php.html#a9">$desc</a>-&gt;Submit(<span class="stringliteral">"Save"</span>,<span class="stringliteral">"Sauve"</span>);
 <a name="l00229"></a>00229       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="admin__repo_8php.html#a9">$desc</a>-&gt;Submit(<span class="stringliteral">"corr"</span>,<span class="stringliteral">"Corrige"</span>);
 <a name="l00230"></a>00230 
-<a name="l00231"></a>00231       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="action_8inc_8php.html#a1">$h_url</a>.<span class="stringliteral">"&lt;/form&gt;"</span>;
+<a name="l00231"></a>00231       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="action_8inc_8php.html#a2">$h_url</a>.<span class="stringliteral">"&lt;/form&gt;"</span>;
 <a name="l00232"></a>00232       <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
 <a name="l00233"></a>00233     }
 <a name="l00241"></a><a class="code" href="classaction.html#a3">00241</a>   function <a class="code" href="classaction.html#a3">SaveStage2</a>() 
 <a name="l00242"></a>00242     {
 <a name="l00243"></a>00243       <span class="comment">// Get The sequence id, </span>
 <a name="l00244"></a>00244       $seq_name=<span class="stringliteral">"seq_doc_type_"</span>.$this-&gt;dt_id;
-<a name="l00245"></a>00245       <a class="code" href="facture_8inc_8php.html#a21">$str_file</a>=<span class="stringliteral">""</span>;
+<a name="l00245"></a>00245       <a class="code" href="facture_8inc_8php.html#a22">$str_file</a>=<span class="stringliteral">""</span>;
 <a name="l00246"></a>00246       $add_file='';
 <a name="l00247"></a>00247       <span class="comment">// f_id</span>
 <a name="l00248"></a>00248       $tiers=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($this-&gt;db);
 <a name="l00249"></a>00249       $tiers-&gt;GetByQCode($this-&gt;qcode);
 <a name="l00250"></a>00250       <span class="keywordflow">if</span> ( trim($this-&gt;ag_title) == <span class="stringliteral">""</span>) {
 <a name="l00251"></a>00251         $doc_mod=<span class="keyword">new</span> document_type($this-&gt;db);
-<a name="l00252"></a>00252         $doc_mod-&gt;dt_id=$this-&gt;dt_id;
+<a name="l00252"></a>00252         $doc_mod-&gt;dt_id=$this-&gt;<a class="code" href="action_8inc_8php.html#a19">dt_id</a>;
 <a name="l00253"></a>00253         $doc_mod-&gt;get();
-<a name="l00254"></a>00254         $this-&gt;ag_title=$doc_mod-&gt;dt_value;
+<a name="l00254"></a>00254         $this-&gt;<a class="code" href="action_8inc_8php.html#a21">ag_title</a>=$doc_mod-&gt;dt_value;
 <a name="l00255"></a>00255       }
 <a name="l00256"></a>00256       <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_action',__LINE__,<span class="stringliteral">" tiers-&gt;id  "</span>.$tiers-&gt;id);
-<a name="l00257"></a>00257       <a class="code" href="facture_8inc_8php.html#a1">$sql</a>=sprintf(<span class="stringliteral">"insert into action_gestion(ag_type,ag_title,f_id,ag_comment) values ('%s','%s',%d,'%s')"</span>,              $this-&gt;dt_id,
+<a name="l00257"></a>00257       <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=sprintf(<span class="stringliteral">"insert into action_gestion(ag_type,ag_title,f_id,ag_comment) values ('%s','%s',%d,'%s')"</span>,              $this-&gt;dt_id,
 <a name="l00258"></a>00258                    <a class="code" href="ac__common_8php.html#a9">FormatString</a>($this-&gt;ag_title),
 <a name="l00259"></a>00259                    $tiers-&gt;id,
 <a name="l00260"></a>00260                    <a class="code" href="ac__common_8php.html#a9">FormatString</a>(urlencode($this-&gt;ag_desc)));
 <a name="l00261"></a>00261       <a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql);
-<a name="l00262"></a>00262       $this-&gt;<a class="code" href="facture_8inc_8php.html#a20">ag_id</a>=<a class="code" href="postgres_8php.html#a12">GetSequence</a>($this-&gt;db,'action_gestion_ag_id_seq');
+<a name="l00262"></a>00262       $this-&gt;<a class="code" href="action_8inc_8php.html#a25">ag_id</a>=<a class="code" href="postgres_8php.html#a12">GetSequence</a>($this-&gt;db,'action_gestion_ag_id_seq');
 <a name="l00263"></a>00263 
 <a name="l00264"></a>00264       <span class="comment">// the lob filename and the mimetype needed if we want to generate a doc.</span>
 <a name="l00265"></a>00265       <span class="keywordflow">if</span> ( $this-&gt;gen == 'on' ) 
 <a name="l00266"></a>00266         {
 <a name="l00267"></a>00267           <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>=<span class="keyword">new</span> <a class="code" href="classDocument.html">Document</a>($this-&gt;db);
 <a name="l00268"></a>00268           <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;f_id=$tiers-&gt;id;
-<a name="l00269"></a>00269           <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;md_id=$this-&gt;<a class="code" href="document__modele_8inc_8php.html#a3">md_id</a>;
-<a name="l00270"></a>00270           <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;ag_id=$this-&gt;<a class="code" href="facture_8inc_8php.html#a20">ag_id</a>;
-<a name="l00271"></a>00271           <a class="code" href="facture_8inc_8php.html#a21">$str_file</a>=<a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;Generate();
+<a name="l00269"></a>00269           <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;md_id=$this-&gt;<a class="code" href="action_8inc_8php.html#a22">md_id</a>;
+<a name="l00270"></a>00270           <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;ag_id=$this-&gt;<a class="code" href="action_8inc_8php.html#a25">ag_id</a>;
+<a name="l00271"></a>00271           <a class="code" href="facture_8inc_8php.html#a22">$str_file</a>=<a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;Generate();
 <a name="l00272"></a>00272         }
 <a name="l00273"></a>00273 
 <a name="l00274"></a>00274       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=$this-&gt;<a class="code" href="classaction.html#a1">Display</a>();
 <a name="l00275"></a>00275       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;hr&gt;"</span>;
 <a name="l00276"></a>00276       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;form enctype=<span class="stringliteral">"multipart/form-data"</span> method=<span class="stringliteral">"post"</span>&gt;';
 <a name="l00277"></a>00277       <span class="comment">// Add the hidden tag</span>
-<a name="l00278"></a>00278       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="client_8inc_8php.html#a5">name</a>=<span class="stringliteral">"sa"</span> <a class="code" href="client_8inc_8php.html#a6">value</a>=<span class="stringliteral">"save_action_st3"</span>&gt;';
-<a name="l00279"></a>00279       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="client_8inc_8php.html#a5">name</a>=<span class="stringliteral">"p_action"</span> <a class="code" href="client_8inc_8php.html#a6">value</a>=<span class="stringliteral">"suivi_courrier"</span>&gt;';
-<a name="l00280"></a>00280       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="client_8inc_8php.html#a5">name</a>=<span class="stringliteral">"ag_id"</span> <a class="code" href="client_8inc_8php.html#a6">value</a>=<span class="stringliteral">"'.$this-&gt;ag_id.'"</span>&gt;';
+<a name="l00278"></a>00278       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"sa"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"save_action_st3"</span>&gt;';
+<a name="l00279"></a>00279       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"p_action"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"suivi_courrier"</span>&gt;';
+<a name="l00280"></a>00280       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"ag_id"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"'.$this-&gt;ag_id.'"</span>&gt;';
 <a name="l00281"></a>00281 
 <a name="l00282"></a>00282       <span class="comment">// Value for the generated document</span>
 <a name="l00283"></a>00283       <span class="keywordflow">if</span> ( $this-&gt;gen == 'on' ) 
 <a name="l00284"></a>00284         {
-<a name="l00285"></a>00285           <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="client_8inc_8php.html#a5">name</a>=<span class="stringliteral">"d_id"</span> <a class="code" href="client_8inc_8php.html#a6">value</a>=<span class="stringliteral">"'.$doc-&gt;d_id.'"</span>&gt;';
+<a name="l00285"></a>00285           <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"d_id"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"'.$doc-&gt;d_id.'"</span>&gt;';
 <a name="l00286"></a>00286           <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"Sauver le document généré :"</span>;
-<a name="l00287"></a>00287           <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="facture_8inc_8php.html#a21">$str_file</a>;
+<a name="l00287"></a>00287           <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="facture_8inc_8php.html#a22">$str_file</a>;
 <a name="l00288"></a>00288           $checkbox=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"checkbox"</span>);
 <a name="l00289"></a>00289           $checkbox-&gt;name=<span class="stringliteral">"save_generate"</span>;
 <a name="l00290"></a>00290           <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=$checkbox-&gt;IOValue();
@@ -263,12 +263,12 @@
 <a name="l00315"></a>00315 
 <a name="l00316"></a>00316       <span class="comment">// Upload a new document</span>
 <a name="l00317"></a>00317       <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>=<span class="keyword">new</span> <a class="code" href="classDocument.html">Document</a>($this-&gt;db);
-<a name="l00318"></a>00318       <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;d_id=$d_id;
+<a name="l00318"></a>00318       <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;d_id=<a class="code" href="action_8inc_8php.html#a26">$d_id</a>;
 <a name="l00319"></a>00319       <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;Upload($this-&gt;ag_id);
 <a name="l00320"></a>00320     }
 <a name="l00329"></a><a class="code" href="classaction.html#a5">00329</a>   function <a class="code" href="classaction.html#a5">myList</a>($p_filter=<span class="stringliteral">""</span>,$p_search=<span class="stringliteral">""</span>)
 <a name="l00330"></a>00330     {
-<a name="l00331"></a>00331       <a class="code" href="facture_8inc_8php.html#a1">$sql</a>=<span class="stringliteral">"</span>
+<a name="l00331"></a>00331       <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"</span>
 <a name="l00332"></a>00332 <span class="stringliteral">   select ag_id,to_char(ag_timestamp,'DD-MM-YYYY HH:MI') as my_date,f_id,ag_title,d_id,md_type,dt_value </span>
 <a name="l00333"></a>00333 <span class="stringliteral">   from action_gestion </span>
 <a name="l00334"></a>00334 <span class="stringliteral">      left outer join document using (ag_id)</span>
@@ -276,16 +276,16 @@
 <a name="l00336"></a>00336 <span class="stringliteral">      join document_type on (ag_type=dt_id)</span>
 <a name="l00337"></a>00337 <span class="stringliteral">   where dt_id in ($p_filter) $p_search"</span>;
 <a name="l00338"></a>00338       $max_line=<a class="code" href="postgres_8php.html#a10">CountSql</a>($this-&gt;db,$sql);
-<a name="l00339"></a>00339       <a class="code" href="facture_8inc_8php.html#a12">$step</a>=<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['g_pagesize'];
-<a name="l00340"></a>00340       <a class="code" href="facture_8inc_8php.html#a13">$page</a>=(isset($_GET['offset']))?$_GET['page']:1;
-<a name="l00341"></a>00341       <a class="code" href="facture_8inc_8php.html#a14">$offset</a>=(isset($_GET['offset']))?$_GET['offset']:0;
+<a name="l00339"></a>00339       <a class="code" href="depense_8inc_8php.html#a13">$step</a>=<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['g_pagesize'];
+<a name="l00340"></a>00340       <a class="code" href="depense_8inc_8php.html#a14">$page</a>=(isset($_GET['offset']))?$_GET['page']:1;
+<a name="l00341"></a>00341       <a class="code" href="depense_8inc_8php.html#a15">$offset</a>=(isset($_GET['offset']))?$_GET['offset']:0;
 <a name="l00342"></a>00342       <a class="code" href="jrn__pdf_8php.html#a9">$limit</a>=<span class="stringliteral">" LIMIT $step OFFSET $offset "</span>;  
-<a name="l00343"></a>00343       <a class="code" href="facture_8inc_8php.html#a16">$bar</a>=<a class="code" href="user__common_8php.html#a16">jrn_navigation_bar</a>($offset,$max_line,$step,$page);
+<a name="l00343"></a>00343       <a class="code" href="depense_8inc_8php.html#a17">$bar</a>=<a class="code" href="user__common_8php.html#a16">jrn_navigation_bar</a>($offset,$max_line,$step,$page);
 <a name="l00344"></a>00344 
-<a name="l00345"></a>00345       <a class="code" href="eub__be_8inc_8php.html#a5">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql.$limit);
+<a name="l00345"></a>00345       <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql.$limit);
 <a name="l00346"></a>00346       $a_row=pg_fetch_all($Res);
 <a name="l00347"></a>00347       <a class="code" href="user__action__ach_8php.html#a2">$r</a>='&lt;div <span class="keyword">class</span>=<span class="stringliteral">"u_redcontent"</span>&gt;';
-<a name="l00348"></a>00348       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="facture_8inc_8php.html#a16">$bar</a>;
+<a name="l00348"></a>00348       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="depense_8inc_8php.html#a17">$bar</a>;
 <a name="l00349"></a>00349       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;table&gt;"</span>;
 <a name="l00350"></a>00350       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;tr&gt;"</span>;
 <a name="l00351"></a>00351       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;th&gt;Date&lt;/th&gt;"</span>;
@@ -309,9 +309,9 @@
 <a name="l00369"></a>00369           <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;tr&gt;"</span>;
 <a name="l00370"></a>00370           <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.$row['my_date'].<span class="stringliteral">"&lt;/td&gt;"</span>;
 <a name="l00371"></a>00371           $f=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($this-&gt;db);
-<a name="l00372"></a>00372           $f-&gt;id=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['<a class="code" href="facture_8inc_8php.html#a18">f_id</a>'];
+<a name="l00372"></a>00372           $f-&gt;id=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['<a class="code" href="facture_8inc_8php.html#a19">f_id</a>'];
 <a name="l00373"></a>00373           <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.$f-&gt;getName().<span class="stringliteral">"&lt;/td&gt;"</span>;
-<a name="l00374"></a>00374           <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.$row['ag_title'].<span class="stringliteral">"&lt;/td&gt;"</span>;
+<a name="l00374"></a>00374           <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.$row['<a class="code" href="action_8inc_8php.html#a21">ag_title</a>'].<span class="stringliteral">"&lt;/td&gt;"</span>;
 <a name="l00375"></a>00375           <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.$row['dt_value'].<span class="stringliteral">"&lt;/td&gt;"</span>;
 <a name="l00376"></a>00376 
 <a name="l00377"></a>00377           <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>=<span class="keyword">new</span> <a class="code" href="classDocument.html">Document</a>($this-&gt;db,$row['d_id']);
@@ -320,7 +320,7 @@
 <a name="l00380"></a>00380 
 <a name="l00381"></a>00381         }
 <a name="l00382"></a>00382       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/table&gt;"</span>;
-<a name="l00383"></a>00383       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="facture_8inc_8php.html#a16">$bar</a>;
+<a name="l00383"></a>00383       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="depense_8inc_8php.html#a17">$bar</a>;
 <a name="l00384"></a>00384       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/div&gt;"</span>;
 <a name="l00385"></a>00385       <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
 <a name="l00386"></a>00386     }
@@ -328,7 +328,7 @@
 <a name="l00388"></a>00388 
 <a name="l00389"></a>00389 
 <a name="l00390"></a>00390 }
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 21:19:07 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 23:33:59 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

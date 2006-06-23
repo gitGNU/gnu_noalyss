@@ -45,12 +45,12 @@
 <a name="l00046"></a>00046     $this-&gt;valid=(isset ($_SESSION['<a class="code" href="user__common_8php.html#a15">isValid</a>']))?1:0;
 <a name="l00047"></a>00047     $this-&gt;db=$p_cn;
 <a name="l00048"></a>00048     <span class="keywordflow">if</span> ( isset($_SESSION['g_theme']) )
-<a name="l00049"></a>00049       $this-&gt;<a class="code" href="facturation_8php.html#a4">theme</a>=<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['g_theme'];
+<a name="l00049"></a>00049       $this-&gt;theme=<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['g_theme'];
 <a name="l00050"></a>00050     
 <a name="l00051"></a>00051     $this-&gt;admin=( isset($_SESSION['use_admin']) )?<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['use_admin']:0;
 <a name="l00052"></a>00052     
 <a name="l00053"></a>00053     <span class="keywordflow">if</span> ( isset($_SESSION['use_name']) )
-<a name="l00054"></a>00054       $this-&gt;<a class="code" href="client_8inc_8php.html#a5">name</a>=<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['use_name'];
+<a name="l00054"></a>00054       $this-&gt;<a class="code" href="action_8inc_8php.html#a3">name</a>=<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['use_name'];
 <a name="l00055"></a>00055     <span class="keywordflow">if</span> ( isset($_SESSION['use_first_name']) )
 <a name="l00056"></a>00056       $this-&gt;first_name=<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['use_first_name'];
 <a name="l00057"></a>00057     } 
@@ -66,11 +66,11 @@
 <a name="l00067"></a>00067 <span class="stringliteral">                     from ac_users</span>
 <a name="l00068"></a>00068 <span class="stringliteral">             where use_id=$p_id"</span>;
 <a name="l00069"></a>00069       <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>(); 
-<a name="l00070"></a>00070       <a class="code" href="eub__be_8inc_8php.html#a5">$Res</a>=pg_exec($cn,$Sql);
+<a name="l00070"></a>00070       <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=pg_exec($cn,$Sql);
 <a name="l00071"></a>00071       <span class="keywordflow">if</span> (($Max=pg_NumRows($Res)) == 0 ) <span class="keywordflow">return</span> -1;
 <a name="l00072"></a>00072       <a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($Res,0);
 <a name="l00073"></a>00073       $this-&gt;first_name=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['use_first_name'];
-<a name="l00074"></a>00074       $this-&gt;<a class="code" href="client_8inc_8php.html#a5">name</a>=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['use_name'];
+<a name="l00074"></a>00074       $this-&gt;<a class="code" href="action_8inc_8php.html#a3">name</a>=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['use_name'];
 <a name="l00075"></a>00075       $this-&gt;active=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['use_active'];
 <a name="l00076"></a>00076       $this-&gt;login=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['use_login'];
 <a name="l00077"></a>00077       $this-&gt;admin=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['use_admin'];
@@ -84,14 +84,14 @@
 <a name="l00090"></a>00090         <span class="keywordflow">if</span>  ( $this-&gt;valid == 1 ) { <span class="keywordflow">return</span>; }
 <a name="l00091"></a>00091         <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
 <a name="l00092"></a>00092         <span class="keywordflow">if</span> ( $cn != <span class="keyword">false</span> ) {
-<a name="l00093"></a>00093           <a class="code" href="facture_8inc_8php.html#a1">$sql</a>=<span class="stringliteral">"select ac_users.use_login,ac_users.use_active, ac_users.use_pass,</span>
+<a name="l00093"></a>00093           <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"select ac_users.use_login,ac_users.use_active, ac_users.use_pass,</span>
 <a name="l00094"></a>00094 <span class="stringliteral">                    use_admin,use_first_name,use_name</span>
 <a name="l00095"></a>00095 <span class="stringliteral">                                from ac_users  </span>
 <a name="l00096"></a>00096 <span class="stringliteral">                                 where ac_users.use_login='$this-&gt;id' </span>
 <a name="l00097"></a>00097 <span class="stringliteral">                                        and ac_users.use_active=1</span>
 <a name="l00098"></a>00098 <span class="stringliteral">                                        and ac_users.use_pass='$pass5'"</span>;
 <a name="l00099"></a>00099             <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_user.php',__LINE__,<span class="stringliteral">"Sql = $sql"</span>);
-<a name="l00100"></a>00100             <a class="code" href="class__operation_8php.html#a4">$ret</a>=pg_exec($cn,$sql);
+<a name="l00100"></a>00100             <a class="code" href="impress__bilan_8php.html#a0">$ret</a>=pg_exec($cn,$sql);
 <a name="l00101"></a>00101             <a class="code" href="pref_8inc_8php.html#a1">$res</a>=pg_NumRows($ret);
 <a name="l00102"></a>00102             <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_user.php',__LINE__,<span class="stringliteral">"Number of found rows : $res"</span>);
 <a name="l00103"></a>00103             <span class="keywordflow">if</span> ( $res &gt;0 ) {
@@ -101,7 +101,7 @@
 <a name="l00107"></a>00107               <a class="code" href="commercial_8php.html#a0">$_SESSION</a>['use_first_name']=<a class="code" href="user__action__ach_8php.html#a2">$r</a>['use_first_name'];
 <a name="l00108"></a>00108               
 <a name="l00109"></a>00109               $this-&gt;admin=<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['use_admin'];
-<a name="l00110"></a>00110               $this-&gt;<a class="code" href="client_8inc_8php.html#a5">name</a>=<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['use_name'];
+<a name="l00110"></a>00110               $this-&gt;<a class="code" href="action_8inc_8php.html#a3">name</a>=<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['use_name'];
 <a name="l00111"></a>00111               $this-&gt;first_name=<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['use_first_name'];
 <a name="l00112"></a>00112               $this-&gt;<a class="code" href="classcl__user.html#a9">GetGlobalPref</a>();
 <a name="l00113"></a>00113 
@@ -122,7 +122,7 @@
 <a name="l00128"></a>00128           $this-&gt;valid=1;
 <a name="l00129"></a>00129         }
 <a name="l00130"></a>00130         
-<a name="l00131"></a>00131         <span class="keywordflow">return</span> <a class="code" href="class__operation_8php.html#a4">$ret</a>;
+<a name="l00131"></a>00131         <span class="keywordflow">return</span> <a class="code" href="impress__bilan_8php.html#a0">$ret</a>;
 <a name="l00132"></a>00132         
 <a name="l00133"></a>00133   }
 <a name="l00134"></a>00134 
@@ -133,7 +133,7 @@
 <a name="l00145"></a>00145     
 <a name="l00146"></a>00146     <span class="keywordflow">if</span> ( $this-&gt;id != 'phpcompta') {
 <a name="l00147"></a>00147       <a class="code" href="admin__repo_8php.html#a3">$pass5</a>=md5($this-&gt;pass);
-<a name="l00148"></a>00148       <a class="code" href="facture_8inc_8php.html#a1">$sql</a>=<span class="stringliteral">"select use_id from ac_users where use_login='$this-&gt;id'</span>
+<a name="l00148"></a>00148       <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"select use_id from ac_users where use_login='$this-&gt;id'</span>
 <a name="l00149"></a>00149 <span class="stringliteral">                and use_active=1 and use_admin=1 and use_pass='$pass5'"</span>;
 <a name="l00150"></a>00150       
 <a name="l00151"></a>00151       <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
@@ -146,7 +146,7 @@
 <a name="l00158"></a><a class="code" href="classcl__user.html#a4">00158</a>   function <a class="code" href="classcl__user.html#a4">AccessJrn</a>($p_cn,$p_jrn_id) {
 <a name="l00159"></a>00159     $this-&gt;<a class="code" href="classcl__user.html#a3">Admin</a>();
 <a name="l00160"></a>00160     <span class="keywordflow">if</span> ( $this-&gt;admin==1) <span class="keywordflow">return</span> <span class="keyword">true</span>;
-<a name="l00161"></a>00161     <a class="code" href="facture_8inc_8php.html#a1">$sql</a>=<a class="code" href="postgres_8php.html#a10">CountSql</a>($p_cn,<span class="stringliteral">"select uj_id </span>
+<a name="l00161"></a>00161     <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<a class="code" href="postgres_8php.html#a10">CountSql</a>($p_cn,<span class="stringliteral">"select uj_id </span>
 <a name="l00162"></a>00162 <span class="stringliteral">                             from user_sec_jrn </span>
 <a name="l00163"></a>00163 <span class="stringliteral">                             where</span>
 <a name="l00164"></a>00164 <span class="stringliteral">                             uj_priv in ('R','W')</span>
@@ -157,8 +157,8 @@
 <a name="l00169"></a>00169         
 <a name="l00170"></a>00170   }
 <a name="l00178"></a><a class="code" href="classcl__user.html#a5">00178</a> function <a class="code" href="classcl__user.html#a5">SetPeriode</a>($p_periode) {
-<a name="l00179"></a>00179   <a class="code" href="facture_8inc_8php.html#a1">$sql</a>=<span class="stringliteral">"update user_local_pref set parameter_value='$p_periode' where user_id='$this-&gt;id' and parameter_type='PERIODE'"</span>;
-<a name="l00180"></a>00180   <a class="code" href="eub__be_8inc_8php.html#a5">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql);
+<a name="l00179"></a>00179   <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"update user_local_pref set parameter_value='$p_periode' where user_id='$this-&gt;id' and parameter_type='PERIODE'"</span>;
+<a name="l00180"></a>00180   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql);
 <a name="l00181"></a>00181 }
 <a name="l00192"></a><a class="code" href="classcl__user.html#a6">00192</a> function <a class="code" href="classcl__user.html#a6">GetPeriode</a>() {
 <a name="l00193"></a>00193   <a class="code" href="recherche_8php.html#a4">$array</a>=$this-&gt;<a class="code" href="classcl__user.html#a7">GetPreferences</a>();
@@ -167,14 +167,14 @@
 <a name="l00204"></a><a class="code" href="classcl__user.html#a7">00204</a> function <a class="code" href="classcl__user.html#a7">GetPreferences</a> ()
 <a name="l00205"></a>00205 {
 <a name="l00206"></a>00206   <span class="comment">// si preference n'existe pas, les créer</span>
-<a name="l00207"></a>00207   <a class="code" href="facture_8inc_8php.html#a1">$sql</a>=<span class="stringliteral">"select parameter_type,parameter_value from user_local_pref where user_id='"</span>.$this-&gt;id.<span class="stringliteral">"'"</span>;
-<a name="l00208"></a>00208   <a class="code" href="eub__be_8inc_8php.html#a5">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql);
+<a name="l00207"></a>00207   <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"select parameter_type,parameter_value from user_local_pref where user_id='"</span>.$this-&gt;id.<span class="stringliteral">"'"</span>;
+<a name="l00208"></a>00208   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql);
 <a name="l00209"></a>00209   <span class="keywordflow">if</span> (pg_NumRows($Res) == 0 ) {
 <a name="l00210"></a>00210     <span class="comment">// default periode</span>
-<a name="l00211"></a>00211     <a class="code" href="facture_8inc_8php.html#a1">$sql</a>=sprintf(<span class="stringliteral">"insert into user_local_pref (user_id,parameter_value,parameter_type) </span>
+<a name="l00211"></a>00211     <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=sprintf(<span class="stringliteral">"insert into user_local_pref (user_id,parameter_value,parameter_type) </span>
 <a name="l00212"></a>00212 <span class="stringliteral">                 select '%s',min(p_id),'PERIODE' from parm_periode where p_closed=false"</span>,
 <a name="l00213"></a>00213                  $this-&gt;id);
-<a name="l00214"></a>00214     <a class="code" href="eub__be_8inc_8php.html#a5">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql);
+<a name="l00214"></a>00214     <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql);
 <a name="l00215"></a>00215 
 <a name="l00216"></a>00216     $l_array=$this-&gt;<a class="code" href="classcl__user.html#a7">GetPreferences</a>();
 <a name="l00217"></a>00217   } <span class="keywordflow">else</span> {
@@ -191,7 +191,7 @@
 <a name="l00239"></a>00239 
 <a name="l00240"></a>00240   <span class="keywordflow">if</span> ( $this-&gt;admin==1 ) <span class="keywordflow">return</span> 1;
 <a name="l00241"></a>00241 
-<a name="l00242"></a>00242   <a class="code" href="eub__be_8inc_8php.html#a5">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select * from user_sec_act where ua_login='"</span>.$this-&gt;id.<span class="stringliteral">"' and ua_act_id=$p_action_id"</span>);
+<a name="l00242"></a>00242   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select * from user_sec_act where ua_login='"</span>.$this-&gt;id.<span class="stringliteral">"' and ua_act_id=$p_action_id"</span>);
 <a name="l00243"></a>00243   $Count=pg_NumRows($Res);
 <a name="l00244"></a>00244   <span class="keywordflow">if</span> ( $Count == 0 ) <span class="keywordflow">return</span> 0;
 <a name="l00245"></a>00245   <span class="keywordflow">if</span> ( $Count == 1 ) <span class="keywordflow">return</span> 1;
@@ -202,7 +202,7 @@
 <a name="l00259"></a>00259         <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_user.php',__LINE__,<span class="stringliteral">"function GetGlobalPref"</span>);
 <a name="l00260"></a>00260   <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=Dbconnect();
 <a name="l00261"></a>00261   <span class="comment">// Load everything in an array</span>
-<a name="l00262"></a>00262   <a class="code" href="eub__be_8inc_8php.html#a5">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a> ($cn,<span class="stringliteral">"select parameter_type,parameter_value from </span>
+<a name="l00262"></a>00262   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a> ($cn,<span class="stringliteral">"select parameter_type,parameter_value from </span>
 <a name="l00263"></a>00263 <span class="stringliteral">                  user_global_pref</span>
 <a name="l00264"></a>00264 <span class="stringliteral">                  where user_id='"</span>.$this-&gt;id.<span class="stringliteral">"'"</span>);
 <a name="l00265"></a>00265   <a class="code" href="setup_8php.html#a11">$Max</a>=pg_NumRows($Res);
@@ -220,7 +220,7 @@
 <a name="l00277"></a>00277   }
 <a name="l00278"></a>00278   <span class="comment">// save array into g_ variable</span>
 <a name="l00279"></a>00279   $array_pref=array ('g_theme'=&gt;'THEME<span class="charliteral">','</span>g_pagesize'=&gt;'PAGESIZE');
-<a name="l00280"></a>00280   foreach ($array_pref as $<a class="code" href="client_8inc_8php.html#a5">name</a>=&gt;$parameter ) {
+<a name="l00280"></a>00280   foreach ($array_pref as $<a class="code" href="action_8inc_8php.html#a3">name</a>=&gt;$parameter ) {
 <a name="l00281"></a>00281           <span class="keywordflow">if</span> ( ! isset ($line[$parameter]) ) {
 <a name="l00282"></a>00282                   <a class="code" href="debug_8php.html#a0">echo_debug</a>(<span class="stringliteral">"Missing pref : "</span>.$parameter);
 <a name="l00283"></a>00283                   $this-&gt;<a class="code" href="classcl__user.html#a10">insert_default_global_pref</a>($parameter);
@@ -241,14 +241,14 @@
 <a name="l00306"></a>00306         <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=<span class="stringliteral">"insert into user_global_pref(user_id,parameter_type,parameter_value) </span>
 <a name="l00307"></a>00307 <span class="stringliteral">                                values ('%s','%s','%s')"</span>;
 <a name="l00308"></a>00308         <span class="keywordflow">if</span> ( $p_type == <span class="stringliteral">""</span> ) {
-<a name="l00309"></a>00309                 foreach ( $default_parameter as $<a class="code" href="client_8inc_8php.html#a5">name</a>=&gt;$<a class="code" href="client_8inc_8php.html#a6">value</a>) {
-<a name="l00310"></a>00310                         $Insert=sprintf($Sql,$this-&gt;id,$<a class="code" href="client_8inc_8php.html#a5">name</a>,$<a class="code" href="client_8inc_8php.html#a6">value</a>);
+<a name="l00309"></a>00309                 foreach ( $default_parameter as $<a class="code" href="action_8inc_8php.html#a3">name</a>=&gt;$<a class="code" href="action_8inc_8php.html#a4">value</a>) {
+<a name="l00310"></a>00310                         $Insert=sprintf($Sql,$this-&gt;id,$<a class="code" href="action_8inc_8php.html#a3">name</a>,$<a class="code" href="action_8inc_8php.html#a4">value</a>);
 <a name="l00311"></a>00311                         <a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$Insert);
 <a name="l00312"></a>00312                 }
 <a name="l00313"></a>00313         }
 <a name="l00314"></a>00314         <span class="keywordflow">else</span> {
 <a name="l00315"></a>00315                 $value=($p_value==<span class="stringliteral">""</span>)?$default_parameter[$p_type]:$p_value;
-<a name="l00316"></a>00316                 $Insert=sprintf($Sql,$this-&gt;id,$p_type,$<a class="code" href="client_8inc_8php.html#a6">value</a>);
+<a name="l00316"></a>00316                 $Insert=sprintf($Sql,$this-&gt;id,$p_type,$<a class="code" href="action_8inc_8php.html#a4">value</a>);
 <a name="l00317"></a>00317                 <a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$Insert);
 <a name="l00318"></a>00318         }
 <a name="l00319"></a>00319 
@@ -263,13 +263,13 @@
 <a name="l00336"></a>00336 <span class="stringliteral">                        where parameter_type='%s' and </span>
 <a name="l00337"></a>00337 <span class="stringliteral">                                user_id='%s'"</span>;
 <a name="l00338"></a>00338         $value=($p_value==<span class="stringliteral">""</span>)?$default_parameter[$p_type]:$p_value;
-<a name="l00339"></a>00339         $Update=sprintf($Sql,$<a class="code" href="client_8inc_8php.html#a6">value</a>,$p_type,$this-&gt;id);
+<a name="l00339"></a>00339         $Update=sprintf($Sql,$<a class="code" href="action_8inc_8php.html#a4">value</a>,$p_type,$this-&gt;id);
 <a name="l00340"></a>00340         <a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$Update);
 <a name="l00341"></a>00341 
 <a name="l00342"></a>00342  }<span class="comment">//end function</span>
 <a name="l00343"></a>00343 }
 <a name="l00344"></a>00344 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 21:19:08 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 23:33:59 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

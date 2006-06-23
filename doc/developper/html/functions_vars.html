@@ -31,10 +31,10 @@
 : <a class="el" href="classBalance.html#o1">Balance</a><li>$checkpoint
 : <a class="el" href="classCpdf.html#o38">Cpdf</a><li>$class_base
 : <a class="el" href="classfiche__def.html#o3">fiche_def</a><li>$cn
-: <a class="el" href="classInvoice.html#o0">Invoice</a>, <a class="el" href="classfiche.html#o0">fiche</a>, <a class="el" href="classfiche__def.html#o0">fiche_def</a>, <a class="el" href="classDocument__modele.html#o0">Document_modele</a>, <a class="el" href="classAttribut.html#o3">Attribut</a><li>$company
+: <a class="el" href="classfiche.html#o0">fiche</a>, <a class="el" href="classfiche__def.html#o0">fiche_def</a>, <a class="el" href="classDocument__modele.html#o0">Document_modele</a>, <a class="el" href="classAttribut.html#o3">Attribut</a><li>$company
 : <a class="el" href="classcontact.html#o0">contact</a><li>$country
-: <a class="el" href="classCustomer.html#o3">Customer</a><li>$cp
-: <a class="el" href="classCustomer.html#o4">Customer</a><li>$create_account
+: <a class="el" href="classSupplier.html#o3">Supplier</a>, <a class="el" href="classCustomer.html#o3">Customer</a>, <a class="el" href="classAdmin.html#o2">Admin</a><li>$cp
+: <a class="el" href="classSupplier.html#o4">Supplier</a>, <a class="el" href="classCustomer.html#o4">Customer</a>, <a class="el" href="classAdmin.html#o3">Admin</a><li>$create_account
 : <a class="el" href="classfiche__def.html#o5">fiche_def</a><li>$currentBaseFont
 : <a class="el" href="classCpdf.html#o5">Cpdf</a><li>$currentColour
 : <a class="el" href="classCpdf.html#o11">Cpdf</a><li>$currentContents
@@ -72,7 +72,7 @@
 : <a class="el" href="classfiche__def__ref.html#o2">fiche_def_ref</a><li>$frd_id
 : <a class="el" href="classfiche__def__ref.html#o0">fiche_def_ref</a><li>$frd_text
 : <a class="el" href="classfiche__def__ref.html#o1">fiche_def_ref</a><li>$id
-: <a class="el" href="classcl__user.html#o0">cl_user</a>, <a class="el" href="classrapport.html#o1">rapport</a>, <a class="el" href="classposte.html#o1">poste</a>, <a class="el" href="classjrn.html#o0">jrn</a>, <a class="el" href="classInvoice.html#o1">Invoice</a>, <a class="el" href="classfiche.html#o1">fiche</a>, <a class="el" href="classfiche__def.html#o1">fiche_def</a><li>$infoObject
+: <a class="el" href="classcl__user.html#o0">cl_user</a>, <a class="el" href="classrapport.html#o1">rapport</a>, <a class="el" href="classposte.html#o1">poste</a>, <a class="el" href="classjrn.html#o0">jrn</a>, <a class="el" href="classfiche.html#o1">fiche</a>, <a class="el" href="classfiche__def.html#o1">fiche_def</a><li>$infoObject
 : <a class="el" href="classCpdf.html#o21">Cpdf</a><li>$label
 : <a class="el" href="classwidget.html#o7">widget</a>, <a class="el" href="classfiche__def.html#o2">fiche_def</a><li>$looseObjects
 : <a class="el" href="classCpdf.html#o19">Cpdf</a><li>$md_id
@@ -82,7 +82,7 @@
 : <a class="el" href="classDocument__modele.html#o5">Document_modele</a><li>$md_type
 : <a class="el" href="classDocument__modele.html#o3">Document_modele</a><li>$messages
 : <a class="el" href="classCpdf.html#o29">Cpdf</a><li>$name
-: <a class="el" href="classwidget.html#o1">widget</a>, <a class="el" href="classrapport.html#o2">rapport</a>, <a class="el" href="classjrn.html#o1">jrn</a>, <a class="el" href="classCustomer.html#o1">Customer</a><li>$nCallback
+: <a class="el" href="classwidget.html#o1">widget</a>, <a class="el" href="classSupplier.html#o1">Supplier</a>, <a class="el" href="classrapport.html#o2">rapport</a>, <a class="el" href="classjrn.html#o1">jrn</a>, <a class="el" href="classCustomer.html#o1">Customer</a>, <a class="el" href="classAdmin.html#o0">Admin</a><li>$nCallback
 : <a class="el" href="classCpdf.html#o36">Cpdf</a><li>$nStack
 : <a class="el" href="classCpdf.html#o18">Cpdf</a><li>$nStateStack
 : <a class="el" href="classCpdf.html#o15">Cpdf</a><li>$numFonts
@@ -96,7 +96,7 @@
 : <a class="el" href="classparm__code.html#o3">parm_code</a><li>$p_value
 : <a class="el" href="classparm__code.html#o2">parm_code</a><li>$pass
 : <a class="el" href="classcl__user.html#o1">cl_user</a><li>$poste
-: <a class="el" href="classCustomer.html#o0">Customer</a><li>$procsetObjectId
+: <a class="el" href="classSupplier.html#o0">Supplier</a>, <a class="el" href="classCustomer.html#o0">Customer</a><li>$procsetObjectId
 : <a class="el" href="classCpdf.html#o26">Cpdf</a><li>$readonly
 : <a class="el" href="classwidget.html#o3">widget</a><li>$reportContents
 : <a class="el" href="classCreport.html#o0">Creport</a><li>$row
@@ -106,17 +106,16 @@
 : <a class="el" href="classwidget.html#o4">widget</a><li>$stack
 : <a class="el" href="classCpdf.html#o17">Cpdf</a><li>$stateStack
 : <a class="el" href="classCpdf.html#o14">Cpdf</a><li>$street
-: <a class="el" href="classCustomer.html#o2">Customer</a><li>$tabindex
+: <a class="el" href="classSupplier.html#o2">Supplier</a>, <a class="el" href="classCustomer.html#o2">Customer</a>, <a class="el" href="classAdmin.html#o1">Admin</a><li>$tabindex
 : <a class="el" href="classwidget.html#o11">widget</a><li>$table
-: <a class="el" href="classwidget.html#o6">widget</a><li>$template
-: <a class="el" href="classInvoice.html#o2">Invoice</a><li>$type
+: <a class="el" href="classwidget.html#o6">widget</a><li>$type
 : <a class="el" href="classwidget.html#o0">widget</a><li>$valid
 : <a class="el" href="classcl__user.html#o4">cl_user</a><li>$value
 : <a class="el" href="classwidget.html#o2">widget</a><li>$vat_number
-: <a class="el" href="classCustomer.html#o5">Customer</a><li>$wordSpaceAdjust
+: <a class="el" href="classSupplier.html#o5">Supplier</a>, <a class="el" href="classCustomer.html#o5">Customer</a>, <a class="el" href="classAdmin.html#o4">Admin</a><li>$wordSpaceAdjust
 : <a class="el" href="classCpdf.html#o25">Cpdf</a><li>$y
 : <a class="el" href="classCezpdf.html#o1">Cezpdf</a></ul>
-<hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 21:19:09 2006 for phpcompta by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 23:34:00 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

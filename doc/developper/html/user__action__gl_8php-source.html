@@ -53,34 +53,34 @@
 <a name="l00048"></a>00048 <a class="code" href="balance_8php.html#a1">$hid</a>-&gt;value=<span class="stringliteral">"voir_jrn"</span>;
 <a name="l00049"></a>00049 echo <a class="code" href="balance_8php.html#a1">$hid</a>-&gt;IOValue();
 <a name="l00050"></a>00050 
-<a name="l00051"></a><a class="code" href="user__action__gl_8php.html#a5">00051</a> <a class="code" href="balance_8php.html#a2">$w</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"select"</span>);
+<a name="l00051"></a><a class="code" href="user__action__gl_8php.html#a5">00051</a> <a class="code" href="admin_8inc_8php.html#a4">$w</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"select"</span>);
 <a name="l00052"></a>00052 
 <a name="l00053"></a><a class="code" href="user__action__gl_8php.html#a6">00053</a> <a class="code" href="balance_8php.html#a4">$periode_start</a>=<a class="code" href="ac__common_8php.html#a12">make_array</a>($cn,<span class="stringliteral">"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode order by p_id"</span>);
 <a name="l00054"></a><a class="code" href="user__action__gl_8php.html#a7">00054</a> <a class="code" href="user__action__ach_8php.html#a9">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>($cn);
-<a name="l00055"></a><a class="code" href="user__action__gl_8php.html#a8">00055</a> <a class="code" href="facture_8inc_8php.html#a9">$current</a>=(isset($_GET['p_periode']))?$_GET['p_periode']:<a class="code" href="user__action__ach_8php.html#a9">$User</a>-&gt;GetPeriode();
-<a name="l00056"></a><a class="code" href="user__action__gl_8php.html#a9">00056</a> <a class="code" href="balance_8php.html#a2">$w</a>-&gt;selected=<a class="code" href="facture_8inc_8php.html#a9">$current</a>;
+<a name="l00055"></a><a class="code" href="user__action__gl_8php.html#a8">00055</a> <a class="code" href="depense_8inc_8php.html#a10">$current</a>=(isset($_GET['p_periode']))?$_GET['p_periode']:<a class="code" href="user__action__ach_8php.html#a9">$User</a>-&gt;GetPeriode();
+<a name="l00056"></a><a class="code" href="user__action__gl_8php.html#a9">00056</a> <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;selected=<a class="code" href="depense_8inc_8php.html#a10">$current</a>;
 <a name="l00057"></a>00057 echo 'Période  '.$w-&gt;IOValue(<span class="stringliteral">"p_periode"</span>,$periode_start).$w-&gt;Submit('gl_submit<span class="charliteral">','</span>Valider');
 <a name="l00058"></a>00058 ?&gt;
 <a name="l00059"></a>00059 &lt;/form&gt;
 <a name="l00060"></a>00060 &lt;?
 <a name="l00061"></a>00061 
-<a name="l00062"></a><a class="code" href="user__action__gl_8php.html#a10">00062</a> <a class="code" href="facture_8inc_8php.html#a1">$sql</a>=<a class="code" href="constant_8php.html#a82">SQL_LIST_ALL_INVOICE</a>.<span class="stringliteral">" and jr_tech_per="</span>.<a class="code" href="facture_8inc_8php.html#a9">$current</a>;
+<a name="l00062"></a><a class="code" href="user__action__gl_8php.html#a10">00062</a> <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<a class="code" href="constant_8php.html#a83">SQL_LIST_ALL_INVOICE</a>.<span class="stringliteral">" and jr_tech_per="</span>.<a class="code" href="depense_8inc_8php.html#a10">$current</a>;
 <a name="l00063"></a>00063 <span class="comment">// Nav. bar </span>
-<a name="l00064"></a><a class="code" href="user__action__gl_8php.html#a11">00064</a> <a class="code" href="facture_8inc_8php.html#a12">$step</a>=<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['g_pagesize'];
-<a name="l00065"></a><a class="code" href="user__action__gl_8php.html#a12">00065</a> <a class="code" href="facture_8inc_8php.html#a13">$page</a>=(isset($_GET['offset']))?$_GET['page']:1;
-<a name="l00066"></a><a class="code" href="user__action__gl_8php.html#a13">00066</a> <a class="code" href="facture_8inc_8php.html#a14">$offset</a>=(isset($_GET['offset']))?$_GET['offset']:0;
+<a name="l00064"></a><a class="code" href="user__action__gl_8php.html#a11">00064</a> <a class="code" href="depense_8inc_8php.html#a13">$step</a>=<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['g_pagesize'];
+<a name="l00065"></a><a class="code" href="user__action__gl_8php.html#a12">00065</a> <a class="code" href="depense_8inc_8php.html#a14">$page</a>=(isset($_GET['offset']))?$_GET['page']:1;
+<a name="l00066"></a><a class="code" href="user__action__gl_8php.html#a13">00066</a> <a class="code" href="depense_8inc_8php.html#a15">$offset</a>=(isset($_GET['offset']))?$_GET['offset']:0;
 <a name="l00067"></a>00067 
 <a name="l00068"></a>00068 list ($max_line,$list)=<a class="code" href="user__common_8php.html#a6">ListJrn</a>($cn,0,$sql,null,$offset);
 <a name="l00069"></a>00069 
-<a name="l00070"></a><a class="code" href="user__action__gl_8php.html#a14">00070</a> <a class="code" href="facture_8inc_8php.html#a16">$bar</a>=<a class="code" href="user__common_8php.html#a16">jrn_navigation_bar</a>($offset,$max_line,$step,$page);
+<a name="l00070"></a><a class="code" href="user__action__gl_8php.html#a14">00070</a> <a class="code" href="depense_8inc_8php.html#a17">$bar</a>=<a class="code" href="user__common_8php.html#a16">jrn_navigation_bar</a>($offset,$max_line,$step,$page);
 <a name="l00071"></a>00071 
-<a name="l00072"></a>00072 echo <a class="code" href="facture_8inc_8php.html#a16">$bar</a>;
+<a name="l00072"></a>00072 echo <a class="code" href="depense_8inc_8php.html#a17">$bar</a>;
 <a name="l00073"></a>00073 echo <a class="code" href="fiche__new_8php.html#a7">$list</a>;
 <a name="l00074"></a>00074 echo $bar;
 <a name="l00075"></a>00075 
 <a name="l00076"></a>00076 ?&gt;
 <a name="l00077"></a>00077 &lt;/div&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 21:19:08 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 23:34:00 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

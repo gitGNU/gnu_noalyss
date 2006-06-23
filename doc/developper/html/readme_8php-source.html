@@ -41,7 +41,7 @@
 <a name="l00032"></a><a class="code" href="classCreport.html#a1">00032</a> function <a class="code" href="classCreport.html#a1">rf</a>($info){
 <a name="l00033"></a>00033   <span class="comment">// this callback records all of the table of contents entries, it also places a destination marker there</span>
 <a name="l00034"></a>00034   <span class="comment">// so that it can be linked too</span>
-<a name="l00035"></a>00035   <a class="code" href="show__document__modele_8php.html#a5">$tmp</a> = <a class="code" href="print__invoice_8php.html#a8">$info</a>[<span class="charliteral">'p'</span>];
+<a name="l00035"></a>00035   <a class="code" href="show__document__modele_8php.html#a5">$tmp</a> = $info[<span class="charliteral">'p'</span>];
 <a name="l00036"></a>00036   $lvl = <a class="code" href="show__document__modele_8php.html#a5">$tmp</a>[0];
 <a name="l00037"></a>00037   $lbl = rawurldecode(substr($tmp,1));
 <a name="l00038"></a>00038   <a class="code" href="jrn__add_8php.html#a17">$num</a>=$this-&gt;<a class="code" href="classCezpdf.html#a9">ezWhatPageNumber</a>($this-&gt;ezGetCurrentPageNumber());
@@ -51,7 +51,7 @@
 <a name="l00042"></a>00042 
 <a name="l00043"></a><a class="code" href="classCreport.html#a2">00043</a> function <a class="code" href="classCreport.html#a2">dots</a>($info){
 <a name="l00044"></a>00044   <span class="comment">// draw a dotted line over to the right and put on a page number</span>
-<a name="l00045"></a>00045   <a class="code" href="show__document__modele_8php.html#a5">$tmp</a> = <a class="code" href="print__invoice_8php.html#a8">$info</a>[<span class="charliteral">'p'</span>];
+<a name="l00045"></a>00045   <a class="code" href="show__document__modele_8php.html#a5">$tmp</a> = $info[<span class="charliteral">'p'</span>];
 <a name="l00046"></a>00046   $lvl = <a class="code" href="show__document__modele_8php.html#a5">$tmp</a>[0];
 <a name="l00047"></a>00047   $lbl = substr($tmp,1);
 <a name="l00048"></a>00048   <a class="code" href="readme_8php.html#a21">$xpos</a> = 520;
@@ -88,7 +88,7 @@
 <a name="l00079"></a>00079 <a class="code" href="readme_8php.html#a0">$pdf</a> -&gt; ezSetMargins(50,70,50,50);
 <a name="l00080"></a>00080 
 <a name="l00081"></a>00081 <span class="comment">// put a line top and bottom on all the pages</span>
-<a name="l00082"></a><a class="code" href="readme_8php.html#a1">00082</a> <a class="code" href="class__operation_8php.html#a3">$all</a> = <a class="code" href="readme_8php.html#a0">$pdf</a>-&gt;openObject();
+<a name="l00082"></a><a class="code" href="readme_8php.html#a1">00082</a> <a class="code" href="fiche__def_8inc_8php.html#a5">$all</a> = <a class="code" href="readme_8php.html#a0">$pdf</a>-&gt;openObject();
 <a name="l00083"></a>00083 <a class="code" href="readme_8php.html#a0">$pdf</a>-&gt;saveState();
 <a name="l00084"></a>00084 <a class="code" href="readme_8php.html#a0">$pdf</a>-&gt;setStrokeColor(0,0,0,1);
 <a name="l00085"></a>00085 <a class="code" href="readme_8php.html#a0">$pdf</a>-&gt;line(20,40,578,40);
@@ -303,7 +303,7 @@
 <a name="l00294"></a>00294   <a class="code" href="readme_8php.html#a0">$pdf</a>-&gt;ezStream();
 <a name="l00295"></a>00295 }
 <a name="l00296"></a>00296 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 21:19:07 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 23:33:59 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

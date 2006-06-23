@@ -34,7 +34,7 @@
 <a name="l00025"></a>00025 require_once(<span class="stringliteral">"user_common.php"</span>);
 <a name="l00043"></a><a class="code" href="user__form__fin_8php.html#a0">00043</a> function <a class="code" href="user__form__ach_8php.html#a1">form_verify_input</a>($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
 <a name="l00044"></a>00044 {
-<a name="l00045"></a>00045   foreach ($p_array as $<a class="code" href="client_8inc_8php.html#a5">name</a>=&gt;$content) {
+<a name="l00045"></a>00045   foreach ($p_array as $<a class="code" href="action_8inc_8php.html#a3">name</a>=&gt;$content) {
 <a name="l00046"></a>00046     ${<span class="stringliteral">"$name"</span>}=$content;
 <a name="l00047"></a>00047   }
 <a name="l00048"></a>00048   <span class="comment">// Verify the date</span>
@@ -76,7 +76,7 @@
 <a name="l00084"></a>00084       <span class="keywordflow">return</span> null;
 <a name="l00085"></a>00085     }
 <a name="l00086"></a>00086         <span class="comment">// check if the  ATTR_DEF_ACCOUNT is set</span>
-<a name="l00087"></a>00087         <a class="code" href="send__poste__pdf_8php.html#a2">$poste</a>=GetFicheAttribut($p_cn,${<span class="stringliteral">"e_other$i"</span>},<a class="code" href="constant_8php.html#a48">ATTR_DEF_ACCOUNT</a>);
+<a name="l00087"></a>00087         <a class="code" href="send__poste__pdf_8php.html#a2">$poste</a>=GetFicheAttribut($p_cn,${<span class="stringliteral">"e_other$i"</span>},<a class="code" href="constant_8php.html#a49">ATTR_DEF_ACCOUNT</a>);
 <a name="l00088"></a>00088         <span class="keywordflow">if</span> ( $<a class="code" href="classposte.html">poste</a> == null ) 
 <a name="l00089"></a>00089         {       
 <a name="l00090"></a>00090                 $msg=<span class="stringliteral">"La fiche "</span>.${<span class="stringliteral">"e_other$i"</span>}.<span class="stringliteral">" n\'a pas de poste comptable"</span>;
@@ -144,8 +144,8 @@
 <a name="l00168"></a>00168 
 <a name="l00169"></a>00169   <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<span class="stringliteral">""</span>;
 <a name="l00170"></a>00170   <span class="keywordflow">if</span> ( $pview_only == <span class="keyword">false</span>) {
-<a name="l00171"></a>00171     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="constant_8php.html#a78">JS_SEARCH_CARD</a>;
-<a name="l00172"></a>00172     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="constant_8php.html#a79">JS_CONCERNED_OP</a>;
+<a name="l00171"></a>00171     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="constant_8php.html#a79">JS_SEARCH_CARD</a>;
+<a name="l00172"></a>00172     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="constant_8php.html#a80">JS_CONCERNED_OP</a>;
 <a name="l00173"></a>00173   }
 <a name="l00174"></a>00174 
 <a name="l00175"></a>00175   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;FORM NAME=\"form_detail\" enctype=\"multipart/form-data\" ACTION=\"user_jrn.php?action=new&amp;p_jrn=$p_jrn\" METHOD=\"POST\"&gt;"</span>;
@@ -159,7 +159,7 @@
 <a name="l00183"></a>00183 
 <a name="l00184"></a>00184 
 <a name="l00185"></a>00185   include_once(<span class="stringliteral">"fiche_inc.php"</span>);
-<a name="l00186"></a>00186   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> <a class="code" href="client_8inc_8php.html#a5">name</a>=<span class="stringliteral">"nb_item"</span> <a class="code" href="client_8inc_8php.html#a6">value</a>=<span class="stringliteral">"'.$p_item.'"</span>&gt;';
+<a name="l00186"></a>00186   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"nb_item"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"'.$p_item.'"</span>&gt;';
 <a name="l00187"></a>00187 
 <a name="l00188"></a>00188   <span class="comment">// bank_account operation</span>
 <a name="l00189"></a>00189   <span class="comment">// Save old value and set a new one</span>
@@ -173,13 +173,13 @@
 <a name="l00197"></a>00197         $e_bank_account_label=$a_client['vw_name'].<span class="stringliteral">"  adresse "</span>.$a_client['vw_addr'].<span class="stringliteral">"  "</span>.$a_client['vw_cp'];
 <a name="l00198"></a>00198           }  
 <a name="l00199"></a>00199   <span class="comment">//  search widget</span>
-<a name="l00200"></a>00200     $W1=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"js_search"</span>);
-<a name="l00201"></a>00201     $W1-&gt;readonly=$pview_only;
-<a name="l00202"></a>00202     $W1-&gt;label=<span class="stringliteral">"Banque"</span>;
-<a name="l00203"></a>00203     $W1-&gt;name=<span class="stringliteral">"e_bank_account"</span>;
-<a name="l00204"></a>00204     $W1-&gt;value=$e_bank_account;
-<a name="l00205"></a>00205     $W1-&gt;extra=<a class="code" href="constant_8php.html#a65">FICHE_TYPE_FIN</a>;  <span class="comment">// credits</span>
-<a name="l00206"></a>00206     $W1-&gt;extra2=<a class="code" href="modify__op_8php.html#a2">$p_jrn</a>;
+<a name="l00200"></a>00200     <a class="code" href="action_8inc_8php.html#a5">$W1</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"js_search"</span>);
+<a name="l00201"></a>00201     <a class="code" href="action_8inc_8php.html#a5">$W1</a>-&gt;readonly=$pview_only;
+<a name="l00202"></a>00202     <a class="code" href="action_8inc_8php.html#a5">$W1</a>-&gt;label=<span class="stringliteral">"Banque"</span>;
+<a name="l00203"></a>00203     <a class="code" href="action_8inc_8php.html#a5">$W1</a>-&gt;name=<span class="stringliteral">"e_bank_account"</span>;
+<a name="l00204"></a>00204     <a class="code" href="action_8inc_8php.html#a5">$W1</a>-&gt;value=$e_bank_account;
+<a name="l00205"></a>00205     <a class="code" href="action_8inc_8php.html#a5">$W1</a>-&gt;extra=<a class="code" href="constant_8php.html#a66">FICHE_TYPE_FIN</a>;  <span class="comment">// credits</span>
+<a name="l00206"></a>00206     <a class="code" href="action_8inc_8php.html#a5">$W1</a>-&gt;extra2=<a class="code" href="modify__op_8php.html#a2">$p_jrn</a>;
 <a name="l00207"></a>00207     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TR&gt;"</span>.$W1-&gt;IOValue().<span class="stringliteral">"&lt;/TD&gt;"</span>;
 <a name="l00208"></a>00208 
 <a name="l00209"></a>00209     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/TABLE&gt;"</span>;
@@ -192,7 +192,7 @@
 <a name="l00216"></a>00216   <span class="comment">// ComputeBanqueSaldo</span>
 <a name="l00217"></a>00217   <span class="comment">// </span>
 <a name="l00218"></a>00218   <span class="keywordflow">if</span> ( $pview_only == <span class="keyword">true</span> ) {
-<a name="l00219"></a>00219     <a class="code" href="impress__fiche_8php.html#a13">$solde</a>=<a class="code" href="poste_8php.html#a3">GetSolde</a>($p_cn,GetFicheAttribut($p_cn,$e_bank_account,<a class="code" href="constant_8php.html#a48">ATTR_DEF_ACCOUNT</a>));
+<a name="l00219"></a>00219     <a class="code" href="impress__fiche_8php.html#a13">$solde</a>=<a class="code" href="poste_8php.html#a3">GetSolde</a>($p_cn,GetFicheAttribut($p_cn,$e_bank_account,<a class="code" href="constant_8php.html#a49">ATTR_DEF_ACCOUNT</a>));
 <a name="l00220"></a>00220     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">" &lt;b&gt; Solde = "</span>.$solde.<span class="stringliteral">" &lt;/b&gt;"</span>;
 <a name="l00221"></a>00221     $new_solde=<a class="code" href="impress__fiche_8php.html#a13">$solde</a>;
 <a name="l00222"></a>00222   }
@@ -212,7 +212,7 @@
 <a name="l00236"></a>00236   <span class="comment">// Parse each " tiers" </span>
 <a name="l00237"></a>00237     <span class="keywordflow">for</span> ($i=0; $i &lt; $p_item; $i++) {
 <a name="l00238"></a>00238       $tiers=(isset(${<span class="stringliteral">"e_other"</span>.$i}))?${<span class="stringliteral">"e_other"</span>.$i}:<span class="stringliteral">""</span>;
-<a name="l00239"></a>00239       $tiers_label=<span class="stringliteral">""</span>;
+<a name="l00239"></a>00239       <a class="code" href="action_8inc_8php.html#a10">$tiers_label</a>=<span class="stringliteral">""</span>;
 <a name="l00240"></a>00240       $tiers_amount=(isset(${<span class="stringliteral">"e_other$i"</span>.<span class="stringliteral">"_amount"</span>}))?${<span class="stringliteral">"e_other$i"</span>.<span class="stringliteral">"_amount"</span>}:0;
 <a name="l00241"></a>00241   
 <a name="l00242"></a>00242       $tiers_comment=(isset (${<span class="stringliteral">"e_other$i"</span>.<span class="stringliteral">"_comment"</span>}))?${<span class="stringliteral">"e_other$i"</span>.<span class="stringliteral">"_comment"</span>}:<span class="stringliteral">""</span>;
@@ -222,18 +222,18 @@
 <a name="l00246"></a>00246                 <span class="comment">// retrieve the tva label and name</span>
 <a name="l00247"></a>00247                 $a_fiche=GetFicheAttribut($p_cn, $tiers);
 <a name="l00248"></a>00248                 <span class="keywordflow">if</span> ( $a_fiche != null ) {
-<a name="l00249"></a>00249                 $tiers_label=$a_fiche['vw_name'];
+<a name="l00249"></a>00249                 <a class="code" href="action_8inc_8php.html#a10">$tiers_label</a>=$a_fiche['vw_name'];
 <a name="l00250"></a>00250                 }
 <a name="l00251"></a>00251         }
 <a name="l00252"></a>00252     ${<span class="stringliteral">"e_other$i"</span>.<span class="stringliteral">"_amount"</span>}=(isset (${<span class="stringliteral">"e_other$i"</span>.<span class="stringliteral">"_amount"</span>}))?${<span class="stringliteral">"e_other$i"</span>.<span class="stringliteral">"_amount"</span>}:0;
 <a name="l00253"></a>00253 
-<a name="l00254"></a>00254     $W1=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"js_search"</span>);
-<a name="l00255"></a>00255     $W1-&gt;label=<span class="stringliteral">""</span>;
-<a name="l00256"></a>00256     $W1-&gt;name=<span class="stringliteral">"e_other"</span>.$i;
-<a name="l00257"></a>00257     $W1-&gt;value=$tiers;
-<a name="l00258"></a>00258     $W1-&gt;extra='cred';  <span class="comment">// credits</span>
-<a name="l00259"></a>00259     $W1-&gt;extra2=<a class="code" href="modify__op_8php.html#a2">$p_jrn</a>;
-<a name="l00260"></a>00260     $W1-&gt;readonly=$pview_only;
+<a name="l00254"></a>00254     <a class="code" href="action_8inc_8php.html#a5">$W1</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"js_search"</span>);
+<a name="l00255"></a>00255     <a class="code" href="action_8inc_8php.html#a5">$W1</a>-&gt;label=<span class="stringliteral">""</span>;
+<a name="l00256"></a>00256     <a class="code" href="action_8inc_8php.html#a5">$W1</a>-&gt;name=<span class="stringliteral">"e_other"</span>.$i;
+<a name="l00257"></a>00257     <a class="code" href="action_8inc_8php.html#a5">$W1</a>-&gt;value=$tiers;
+<a name="l00258"></a>00258     <a class="code" href="action_8inc_8php.html#a5">$W1</a>-&gt;extra='cred';  <span class="comment">// credits</span>
+<a name="l00259"></a>00259     <a class="code" href="action_8inc_8php.html#a5">$W1</a>-&gt;extra2=<a class="code" href="modify__op_8php.html#a2">$p_jrn</a>;
+<a name="l00260"></a>00260     <a class="code" href="action_8inc_8php.html#a5">$W1</a>-&gt;readonly=$pview_only;
 <a name="l00261"></a>00261     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TR&gt;"</span>.$W1-&gt;IOValue().<span class="stringliteral">"&lt;/TD&gt;"</span>;
 <a name="l00262"></a>00262     <span class="comment">// label</span>
 <a name="l00263"></a>00263     $other=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"span"</span>);
@@ -323,17 +323,17 @@
 <a name="l00365"></a>00365                 }
 <a name="l00366"></a>00366   
 <a name="l00367"></a>00367   <span class="comment">// Debit = banque</span>
-<a name="l00368"></a>00368   $poste_bq=GetFicheAttribut($p_cn,$e_bank_account,<a class="code" href="constant_8php.html#a48">ATTR_DEF_ACCOUNT</a>);
+<a name="l00368"></a>00368   $poste_bq=GetFicheAttribut($p_cn,$e_bank_account,<a class="code" href="constant_8php.html#a49">ATTR_DEF_ACCOUNT</a>);
 <a name="l00369"></a>00369   <a class="code" href="postgres_8php.html#a14">StartSql</a>($p_cn);
-<a name="l00370"></a>00370   <a class="code" href="print__invoice_8php.html#a1">$amount</a>=0.0;  
+<a name="l00370"></a>00370   $amount=0.0;  
 <a name="l00371"></a>00371   <span class="comment">// Credit = goods </span>
 <a name="l00372"></a>00372   <span class="keywordflow">for</span> ( $i = 0; $i &lt; $nb_item;$i++) {
 <a name="l00373"></a>00373     <span class="comment">// if tiers is set and amount != 0 insert it into the database </span>
 <a name="l00374"></a>00374     <span class="comment">// and quit the loop ?</span>
 <a name="l00375"></a>00375     <span class="keywordflow">if</span> ( ${<span class="stringliteral">"e_other$i"</span>.<span class="stringliteral">"_amount"</span>} == 0 ) <span class="keywordflow">continue</span>;
-<a name="l00376"></a>00376     <a class="code" href="send__poste__pdf_8php.html#a2">$poste</a>=GetFicheAttribut($p_cn,${<span class="stringliteral">"e_other$i"</span>},<a class="code" href="constant_8php.html#a48">ATTR_DEF_ACCOUNT</a>);
+<a name="l00376"></a>00376     <a class="code" href="send__poste__pdf_8php.html#a2">$poste</a>=GetFicheAttribut($p_cn,${<span class="stringliteral">"e_other$i"</span>},<a class="code" href="constant_8php.html#a49">ATTR_DEF_ACCOUNT</a>);
 <a name="l00377"></a>00377 
-<a name="l00378"></a>00378     <a class="code" href="print__invoice_8php.html#a1">$amount</a>+=${<span class="stringliteral">"e_other$i"</span>.<span class="stringliteral">"_amount"</span>};
+<a name="l00378"></a>00378     $amount+=${<span class="stringliteral">"e_other$i"</span>.<span class="stringliteral">"_amount"</span>};
 <a name="l00379"></a>00379     <span class="comment">// Record a line for the bank</span>
 <a name="l00380"></a>00380 
 <a name="l00381"></a>00381     <span class="comment">// Compute the j_grpt</span>
@@ -375,7 +375,7 @@
 <a name="l00417"></a>00417   <a class="code" href="postgres_8php.html#a16">Commit</a>($p_cn);
 <a name="l00418"></a>00418 }
 <a name="l00419"></a>00419 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 21:19:08 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 23:34:00 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>
