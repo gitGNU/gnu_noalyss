@@ -75,12 +75,6 @@ h1.title {
 	color: blue;
 	font-size:25px;
 }
-div.mtitle {
-	position: absolute;
-	right:300px;
-	width:100px;
-
-}
 
 div.u_tmenu {
   position: float;
