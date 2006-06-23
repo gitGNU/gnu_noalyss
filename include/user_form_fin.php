@@ -26,16 +26,16 @@ require_once("user_common.php");
 /*! \file
  * \brief Functions for the financial ledger
  */
-/*! \function  form_verify_input
+/*! 
  **************************************************
- \Brief  verify if the data to insert are valid
+ * \brief  verify if the data to insert are valid
  *        
- * parm : 
- *	- p_cn database connection
- *      - p_jrn concerned ledger
- *      - User periode
- *      - array with the post data
- *      - p_number number of items
+ *  
+ * \param $p_cn database connection
+ * \param $p_jrn concerned ledger
+ * \param $p_periode User periode
+ * \param $p_array array with the post data
+ * \param $p_number number of items
  * gen :
  *	-
  * return:
@@ -128,8 +128,8 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
 }
 
 
-/*! \function  FormFin($p_cn,$p_jrn,$p_user,$p_array=null,$pview_only=true,$p_item=1) 
- \Brief  Display the form for financial 
+/*! 
+ * \brief  Display the form for financial 
  *           Used to show detail, encode a new fin op 
  *           or update one
  *        
@@ -328,23 +328,22 @@ return $r;
 
 }
 
-/*! \function  RecordFin
+/*! 
  **************************************************
- \Brief  Record an invoice in the table jrn &
+ * \brief  Record an invoice in the table jrn &
  *           jrnx
  *        
- * parm : 
- *	- $p_cn Database connection
- *  - $p_array contains all the invoice data
- * e_date => e : 01.01.2003
- * e_bank_account => e : 3
- *  - $p_user userid
- *  - $p_jrn current folder (journal)
- *  - array e_other$i, e_other$i_amount, e_other$i_label
- * gen : 
- *	- none
- * return:
- *	      true on success
+ *
+ * \param $p_cn Database connection
+ * \param  $p_array contains all the invoice data
+ *           e_date => e : 01.01.2003
+ *        e_bank_account => e : 3
+ * \param $p_user userid
+ * \param $p_jrn current folder (journal)
+ * \param array e_other$i, e_other$i_amount, e_other$i_label
+
+ * \return    true on success
+ *	  
  */
 function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
   echo_debug('user_form_fin.php',__LINE__,"RecordFin");
@@ -377,7 +376,6 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
 
     $amount+=${"e_other$i"."_amount"};
     // Record a line for the bank
-
     // Compute the j_grpt
     $seq=NextSequence($p_cn,'s_grpt');
 
@@ -409,11 +407,24 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
       // Update comment if comment is blank
       $Res=ExecSql($p_cn,"update jrn set jr_comment='".$comment."' where jr_grpt_id=".$seq);
     }
+    if ( $i == 0 )
+      {
+	// first record we upload the files and
+	// keep variable to update other row of jrn
+	if ( isset ($_FILES))
+	  $oid=save_upload_document($p_cn,$seq);
+
+      } else {
+	if ( sizeof($_FILES) != 0 ) 
+	  {
+	    ExecSql($p_cn,"update jrn set jr_pj=".$oid.", jr_pj_name='".$_FILES['pj']['name']."', ".
+                "jr_pj_type='".$_FILES['pj']['type']."'  where jr_grpt_id=$seq");
+	  }
+      }
     
   } // for nbitem
-  if ( isset ($_FILES))
-    save_upload_document($p_cn,$seq);
 
   Commit($p_cn);
+  return $internal_code;
 }
 ?>

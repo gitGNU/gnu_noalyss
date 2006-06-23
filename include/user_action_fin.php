@@ -132,7 +132,7 @@ if ( $action == 'new' ) {
 	  $nb_number=$_POST["nb_item"];
 
 	  // submit button in the form
-	  $submit='<h2 class="info">Recorded</h2>';
+	  $submit='<h2 class="info">Recorded '.$r.'</h2>';
 
 	  $r.=FormFin($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$HTTP_POST_VARS,true,  $nb_number,true);
 	  echo '<div class="u_redcontent">';

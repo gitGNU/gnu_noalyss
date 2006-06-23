@@ -363,6 +363,7 @@ function GetArray($p_cn,$p_sql) {
  *
  * \param $cn database connection
  * \param $seq jr_grpt_id
+ * \return $oid of the lob file
  * 
  */
 function save_upload_document ($cn,$seq) {
@@ -399,6 +400,7 @@ function save_upload_document ($cn,$seq) {
 	exit;
       }
     }
+  return $oid;
  }
 
 
