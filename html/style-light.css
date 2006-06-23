@@ -79,23 +79,25 @@ div.mtitle {
 	position: absolute;
 	right:300px;
 	width:100px;
-background-color:yellow;
+
 }
 
 div.u_tmenu {
   position: float;
   margin-top:1px;
   width:100%;	
-  background-color:green;
+background-color:blue;
   
 }
 div.u_subtmenu {
+  background-color:lightblue	;
   left:10px;
-  background-color:pink;
+
 }
 div.u_subt2menu {
+background-color:lightgrey;
   left:1%;	
-  background-color:orange;
+
 }
 div.lmenu {
 	 position: float;
@@ -103,21 +105,21 @@ div.lmenu {
 	left:20px;
 	width:15em;
 	font-size:9px;
-	background-color:grey;
+
 }
 div.lextmenu {
 	position: float;
 	float:left;
 	font-family:sans-serif;
 	font-size:9px;
-	background-color:blue;
+
 }
 div.searchmenu {
   left:30px;
   width:95px;
   top:100px;
   position:absolute;
-background-color:green;
+
 }
 
 div.recherche_form{
@@ -136,7 +138,7 @@ div.u_redcontent{
 	 padding-left:8px;
          font-size:9px; 	 
          font-family:sans-serif; 	 
-	 background-color:lightgreen;
+
 }
 div.u_content{ 	 
          position: float; 	 
@@ -144,7 +146,7 @@ div.u_content{
          width:100%; 	 
          font-size:9px; 	 
          font-family:sans-serif; 	 
-	 background-color:lightgreen;
+
 }
 div.no span{
 	position:static;

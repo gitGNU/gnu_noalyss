@@ -1,9 +1,37 @@
 /* <style type="text/css"> */
 BODY {
  background-color:#E3F0FF;
-  font-size:12px;
+  font-size:10px;
   font-family:sans-serif;
 
+}
+
+table.result {
+  font-size:10px;
+  color:blue;
+  border:blue solid 1px;
+  width:80%;
+  
+  }
+table.result th { 
+  font-size:11px;
+  font-weight:bold;
+  font-family:sans-serif;
+  border-bottom:1px solid blue;
+  padding-left:10px;
+  padding-right:10px;
+}
+
+h2 {
+  font-family:sans-serif;
+  font-size:14px;
+  color:grey;
+}
+div.info {
+	background:#879ed4;
+	color:white;
+	font-size:16pt;
+  text-align:center;
 }
 
 h2.info {
@@ -20,7 +48,14 @@ h2.info2 {
 
 }
 
-
+u_redcontent h2.info {
+  background:#879ed4;
+  color:white;
+  font-size:14pt;
+  text-align:center;
+  padding:0px;
+  margin:0px;
+}
 h2.error {
 	background:red;
 	color:white;
@@ -40,25 +75,39 @@ div.mtitle {
         background:#E3F0FF;
 
 }
+div.u_subtmenu {
+  background-color:lightblue	;
+  left:10px;
 
-div.tmenu {
-	position: absolute;
-	top:10px;
-	left:120px;
-	width:800px;
+}
+
+div.u_tmenu {
+	position: float;
+	margin-top:1px;
+	width:100%;
         background-color:#E3F0FF;
+}
+div.u_subtmenu {
+  background-color:lightblue	;
+  left:10px;
+
+}
+div.u_subt2menu {
+background-color:lightgrey;
+  left:1%;	
+
 }
 
 div.lmenu {
-	position: absolute;
-	top:110px;
+	position: float;
+	float:left;
 	left:30px;
 	width:100px;
         background-color:#E3F0FF;
 }
 div.lextmenu {
-	position: absolute;
-	top:50px;
+	position: float;
+	float:left;
 	font-size:11pt;
 	left:30px;
 	width:200px;
@@ -70,36 +119,55 @@ div.searchmenu {
 	width:245px;
         background-color:#E3F0FF;
 }
-div.credit{
-	border-style:solid;
-	border-width:1pt;
+
+
+div.recherche_form{
+	width:700px;
+	font-size:9px;
+	font-family:sans-serif;
+  border-style:outset;
+  border-width:1px;
+
+}
+
+div.u_redcontent{
+	position: float;
+	float:left;
+	width:80%; 	 
+	 padding-top:7px;
+	 padding-left:8px;
+         font-size:9px; 	 
+         font-family:sans-serif; 	 
+
         background-color:#E3F0FF;
 }
-div.debit{
-	border-style:solid;
-	border-width:1pt;
+div.u_content{
+	position: float;
+	float:left;
+	width:100%;
         background-color:#E3F0FF;
 }
-div.redcontent{
-	position: absolute;
-	top:110px;
-	left:250px;
-	width:600px;
-        background-color:#E3F0FF;
+div.no span{
+	position:static;
+     	font-size:9px;	
+	font-family:sans-serif;	
+	font-weight:bold;
+	font-color:red;	
+	
 }
-div.ccontent{
-	position: absolute;
-	top:125px;
-	left:130px;
-	width:680px;
-        background-color:#E3F0FF;
+
+div.u_content span {
+	  position :float;
+	  float:left;
+	  margin-left:40px;	
 }
-div.rmenu {
-	position: absolute;
-	top:50px;
-	right:30px;
-	width:100px;
-        background-color:#E3F0FF;
+div.u_content table {
+	    width:100%;
+	    border:solid blue 2px ;
+	    border-style:outset;  
+}
+div.u_content table th {
+	      background-color:lightgrey;
 }
 
 table.mtitle {
@@ -114,27 +182,13 @@ td.mshort {
   font-family:sans-serif;
 
 }
-td.mlltitle {
-	text-align:center;
-	background:url('image/freebtn1-ll.gif') no-repeat;
-	height:30px;
-	width:30px;
-	font-size:12px;
-}
-td.mltitle {
-	text-align:center;
-	background:url('image/freebtn1-l.gif') no-repeat;
-	height:30px;
-	width:100px;
-	font-size:9px;
-}
 td.mtitle {
 	text-align:center;
-	background:url('image/freebtn1.gif') no-repeat center;
+	background:url('image/freebtn2.gif') no-repeat center;
 	height:30px;
 	width:100px;
   font-family:sans-serif;
-	font-size:12px;
+	font-size:9px;
 }
 span.mtitle2 {
 	background-color:red;
@@ -157,7 +211,7 @@ td.odd{
 }
 td.cell{
 	text-align:center;
-	background:url('image/freebtn1.gif') no-repeat center;
+	background:url('image/freebtn2.gif') no-repeat center;
 	height:30px;
 	width:90px;
   font-family:sans-serif;
@@ -165,7 +219,7 @@ td.cell{
 }
 td.selectedcell{
 	text-align:center;
-	background:url('image/freebtn1.gif') no-repeat center;
+	background:url('image/freebtn2.gif') no-repeat center;
 	height:30px;
 	width:100px;
   font-family:sans-serif;
@@ -241,20 +295,11 @@ table.doc {
 }
 
 div.u_tmenu {
- 	position: absolute;
- 	top:10px;
- 	left:150px;
- 	width:800px;
+ 	position: float;
+	margin-top:1px;
+ 	width:100%;
  
 }
-div.u_redcontent{
- 	position: absolute;
- 	top:125px;
- 	left:150px;
- 	width:700px;
-        font-size:9pt;
-}
-
 span.odd { 
    background-color:#ECF3FF;
    display:block;
