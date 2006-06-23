@@ -35,6 +35,12 @@
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">replace the TAG by the real value, this value can be into the database or in $_POST The possible tags are<ul>
 <li>[CUST_NAME] customer's name</li><li>[CUST_ADDR_1] customer's address line 1</li><li>[CUST_CP] customer's ZIP code</li><li>[CUST_CO] customer's country</li><li>[CUST_VAT] customer's VAT</li><li>[MARCH_NEXT] end this item and increment the counter $i</li><li>[VEN_ART_NAME]</li><li>[VEN_ART_PRICE]</li><li>[VEN_ART_QUANT]</li><li>[VEN_ART_TVA_CODE]</li><li>[VEN_ART_TVA_AMOUNT]</li><li>[VEN_ART_STOCK_CODE]</li><li>[VEN_HTVA]</li><li>[VEN_TVAC]</li><li>[VEN_TVA]</li><li>[TOTAL_VEN_HTVA]</li><li>[DATE]</li><li>[NUMBER_ID]</li><li>[MY_NAME]</li><li>[MY_CP]</li><li>[MY_COMMUNE]</li><li>[MY_TVA]</li><li>[MY_STREET]</li><li>[MY_NUMBER] </li></ul>
  <a href="#a7"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDocument.html#a8">remove</a> ()</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">remove a row from the table document, the lob object is not deleted because can be linked elsewhere  <a href="#a8"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDocument.html#a9">MoveDocumentPj</a> ($p_internal)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Copy a document from the table document into the concerned row the document is not copied : it is only a link.  <a href="#a9"></a><br></td></tr>
 <tr><td colspan="2"><br><h2>Data Fields</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDocument.html#o0">$db</a></td></tr>
 
@@ -205,6 +211,45 @@ Definition at line <a class="el" href="class__document_8php-source.html#l00295">
 References <a class="el" href="show__document__modele_8php-source.html#l00060">$file</a>, <a class="el" href="class__operation_8php-source.html#l00087">$ret</a>, <a class="el" href="cbc__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="show__document__modele_8php-source.html#l00050">$tmp</a>, <a class="el" href="postgres_8php-source.html#l00263">Commit()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="postgres_8php-source.html#l00257">StartSql()</a>.    </td>
   </tr>
 </table>
+<a class="anchor" name="a9"></a><!-- doxytag: member="Document::MoveDocumentPj" ref="a9" args="($p_internal)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">Document::MoveDocumentPj           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">$&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>p_internal</em>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+Copy a document from the table document into the concerned row the document is not copied : it is only a link. 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>$p_internal</em>&nbsp;</td><td>internal code</td></tr>
+  </table>
+</dl>
+
+<p>
+Definition at line <a class="el" href="class__document_8php-source.html#l00602">602</a> of file <a class="el" href="class__document_8php-source.html">class_document.php</a>.
+<p>
+References <a class="el" href="facture_8inc_8php-source.html#l00082">$sql</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.    </td>
+  </tr>
+</table>
 <a class="anchor" name="a2"></a><!-- doxytag: member="Document::ParseDocument" ref="a2" args="($p_dir, $p_file)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -260,6 +305,39 @@ References <a class="el" href="poste_8inc_8php-source.html#l00069">$h</a>, <a cl
 Referenced by <a class="el" href="class__document_8php-source.html#l00055">Generate()</a>.    </td>
   </tr>
 </table>
+<a class="anchor" name="a8"></a><!-- doxytag: member="Document::remove" ref="a8" args="()" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">Document::remove           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+remove a row from the table document, the lob object is not deleted because can be linked elsewhere 
+<p>
+
+<p>
+Definition at line <a class="el" href="class__document_8php-source.html#l00591">591</a> of file <a class="el" href="class__document_8php-source.html">class_document.php</a>.
+<p>
+References <a class="el" href="facture_8inc_8php-source.html#l00082">$sql</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.    </td>
+  </tr>
+</table>
 <a class="anchor" name="a7"></a><!-- doxytag: member="Document::Replace" ref="a7" args="($p_tag)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -303,7 +381,7 @@ replace the TAG by the real value, this value can be into the database or in $_P
 <p>
 Definition at line <a class="el" href="class__document_8php-source.html#l00363">363</a> of file <a class="el" href="class__document_8php-source.html">class_document.php</a>.
 <p>
-References <a class="el" href="parametre_8php-source.html#l00164">$my</a>, <a class="el" href="contact_8inc_8php-source.html#l00142">$qcode</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="print__invoice_8php-source.html#l00067">$tva</a>, <a class="el" href="readme_8php-source.html#l00200">break</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, <a class="el" href="user__common_8php-source.html#l00039">GetTvaRate()</a>, <a class="el" href="parametre_8php-source.html#l00160">MY_COMMUNE</a>, <a class="el" href="parametre_8php-source.html#l00159">MY_CP</a>, <a class="el" href="parametre_8php-source.html#l00155">MY_NAME</a>, <a class="el" href="parametre_8php-source.html#l00158">MY_NUMBER</a>, <a class="el" href="parametre_8php-source.html#l00157">MY_STREET</a>, and <a class="el" href="parametre_8php-source.html#l00156">MY_TVA</a>.
+References <a class="el" href="parametre_8php-source.html#l00164">$my</a>, <a class="el" href="contact_8inc_8php-source.html#l00142">$qcode</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="print__invoice_8php-source.html#l00067">$tva</a>, <a class="el" href="readme_8php-source.html#l00200">break</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, <a class="el" href="user__common_8php-source.html#l00040">GetTvaRate()</a>, <a class="el" href="parametre_8php-source.html#l00160">MY_COMMUNE</a>, <a class="el" href="parametre_8php-source.html#l00159">MY_CP</a>, <a class="el" href="parametre_8php-source.html#l00155">MY_NAME</a>, <a class="el" href="parametre_8php-source.html#l00158">MY_NUMBER</a>, <a class="el" href="parametre_8php-source.html#l00157">MY_STREET</a>, and <a class="el" href="parametre_8php-source.html#l00156">MY_TVA</a>.
 <p>
 Referenced by <a class="el" href="class__document_8php-source.html#l00125">ParseDocument()</a>.    </td>
   </tr>
@@ -563,7 +641,7 @@ Definition at line <a class="el" href="class__document_8php-source.html#l00036">
 </table>
 <hr>The documentation for this class was generated from the following file:<ul>
 <li>/home/dany/developpement/phpcompta-dev/phpcompta/include/<a class="el" href="class__document_8php-source.html">class_document.php</a></ul>
-<hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 00:28:25 2006 for phpcompta by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 21:19:11 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

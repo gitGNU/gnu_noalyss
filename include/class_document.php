@@ -585,6 +585,29 @@ class Document
 	}
       return $r;
     }
+  /*!\brief remove a row from the table document, the lob object is not deleted
+   *        because can be linked elsewhere
+   */
+  function remove()
+    {
+      $sql='delete from document where d_id='.$this->d_id;
+      ExecSql($this->db,$sql);
+    }
+  /*!\brief Copy a document from the table document into the concerned row
+   *        the document is not copied : it is only a link
+   *
+   * \param $p_internal internal code
+   *
+   */
+  function MoveDocumentPj($p_internal)
+    {
+
+      $sql=sprintf("update jrn set jr_pj=%s,jr_pj_name='%s',jr_pj_type='%s' where jr_internal='%s'",
+		   $this->d_lob,$this->d_filename,$this->d_mimetype,$p_internal);
+      ExecSql($this->db,$sql);
+      // clean the table document
+      $this->remove();
+    }
 
 
 }

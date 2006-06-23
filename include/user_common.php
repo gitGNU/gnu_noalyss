@@ -20,6 +20,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 include_once("postgres.php");
+require_once("class_document.php");
 /*! \file
  * \brief Common functions 
  */
@@ -932,5 +933,5 @@ function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1)
 
 
   return $r;
-  
 }
+

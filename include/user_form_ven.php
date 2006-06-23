@@ -555,20 +555,17 @@ function FormVenteView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='form'
       
 
     $r.='<FORM METHOD="POST" enctype="multipart/form-data" ACTION="'.$href.'">';
-    // if we create the invoice from the accountancy module, appl. propose
-    // to upload a invoice
-    if ( $_SERVER['SCRIPT_NAME'] == '/user_jrn.php')
-      {
-	// check for upload piece
-	$file=new widget("file");
-	$file->table=1;
-	$r.="<hr>";
-	$r.= "<table>"; 
-	$r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
-	$r.="</table>";
-	$r.="<hr>";
 
-      }
+    // check for upload piece
+    $file=new widget("file");
+    $file->table=1;
+    $r.="<hr>";
+    $r.= "<table>"; 
+    $r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
+    $r.="</table>";
+    $r.="<hr>";
+
+
     // if we were in the management module, appl. propose to generate an invoice
     if ( $_SERVER['SCRIPT_NAME'] == '/commercial.php')
       {
@@ -625,7 +622,7 @@ function FormVenteView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='form'
  * \param $p_periode periode
  * \param $p_jrn current folder (journal)
  *
- * \return     true on success
+ * \return     array ( internal_code,true on success)
  */
 function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
 {
@@ -752,7 +749,7 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
 	 if ( $r == false ) { Rollback($p_cn); exit(" Error 'user_form_ven.php' __LINE__"); };
 	}
   Commit($p_cn);
-  return $comment;
+  return array($internal,$comment);
 }
 
 ?>

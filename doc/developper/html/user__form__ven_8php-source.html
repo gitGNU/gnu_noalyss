@@ -517,182 +517,179 @@
 <a name="l00555"></a>00555       
 <a name="l00556"></a>00556 
 <a name="l00557"></a>00557     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;<a class="code" href="constant_8php.html#a7">FORM</a> <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"POST"</span> enctype=<span class="stringliteral">"multipart/form-data"</span> ACTION=<span class="stringliteral">"'.$href.'"</span>&gt;';
-<a name="l00558"></a>00558     <span class="comment">// if we create the invoice from the accountancy module, appl. propose</span>
-<a name="l00559"></a>00559     <span class="comment">// to upload a invoice</span>
-<a name="l00560"></a>00560     <span class="keywordflow">if</span> ( $_SERVER['SCRIPT_NAME'] == '/user_jrn.php')
-<a name="l00561"></a>00561       {
-<a name="l00562"></a>00562         <span class="comment">// check for upload piece</span>
-<a name="l00563"></a>00563         <a class="code" href="show__document__modele_8php.html#a6">$file</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"file"</span>);
-<a name="l00564"></a>00564         <a class="code" href="show__document__modele_8php.html#a6">$file</a>-&gt;table=1;
-<a name="l00565"></a>00565         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;hr&gt;"</span>;
-<a name="l00566"></a>00566         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.= <span class="stringliteral">"&lt;table&gt;"</span>; 
-<a name="l00567"></a>00567         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TR&gt;"</span>.$file-&gt;IOValue(<span class="stringliteral">"pj"</span>,<span class="stringliteral">""</span>,<span class="stringliteral">"Pièce justificative"</span>).<span class="stringliteral">"&lt;/TR&gt;"</span>;
-<a name="l00568"></a>00568         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/table&gt;"</span>;
-<a name="l00569"></a>00569         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;hr&gt;"</span>;
-<a name="l00570"></a>00570 
-<a name="l00571"></a>00571       }
-<a name="l00572"></a>00572     <span class="comment">// if we were in the management module, appl. propose to generate an invoice</span>
-<a name="l00573"></a>00573     <span class="keywordflow">if</span> ( $_SERVER['SCRIPT_NAME'] == '/commercial.php')
-<a name="l00574"></a>00574       {
-<a name="l00575"></a>00575         <span class="comment">// if a template exists propose to choose an invoice template</span>
-<a name="l00576"></a>00576         <span class="keywordflow">if</span> ( <a class="code" href="postgres_8php.html#a10">CountSql</a>($p_cn,
-<a name="l00577"></a>00577                       <span class="stringliteral">"select md_id,md_name from document_modele where md_type=4"</span>) &gt; 0 )
-<a name="l00578"></a>00578           {
-<a name="l00579"></a>00579             <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='G&amp;eacute;n&amp;eacute;rer une facture &lt;input type=<span class="stringliteral">"checkbox"</span> <a class="code" href="client_8inc_8php.html#a5">name</a>=<span class="stringliteral">"gen_invoice"</span> CHECKED&gt;';
-<a name="l00580"></a>00580             <span class="comment">// We propose to generate  the invoice and some template</span>
-<a name="l00581"></a>00581             $doc_gen=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"select"</span>);
-<a name="l00582"></a>00582             $doc_gen-&gt;name=<span class="stringliteral">"gen_doc"</span>;
-<a name="l00583"></a>00583             $doc_gen-&gt;value=<a class="code" href="ac__common_8php.html#a12">make_array</a>($p_cn,
-<a name="l00584"></a>00584                                        <span class="stringliteral">"select md_id,md_name from document_modele where md_type=4"</span>);
-<a name="l00585"></a>00585             <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=$doc_gen-&gt;IOValue();  
-<a name="l00586"></a>00586 
-<a name="l00587"></a>00587             <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;hr&gt;"</span>;
-<a name="l00588"></a>00588           }
-<a name="l00589"></a>00589       }
-<a name="l00590"></a>00590 
-<a name="l00591"></a>00591     
-<a name="l00592"></a>00592     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="readme_8php.html#a4">$data</a>;
-<a name="l00593"></a>00593     <span class="keywordflow">if</span> ( $sum_with_vat != 0 ) {
-<a name="l00594"></a>00594       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> <a class="code" href="client_8inc_8php.html#a5">name</a>=<span class="stringliteral">"record_and_print_invoice"</span> <a class="code" href="client_8inc_8php.html#a6">value</a>=<span class="stringliteral">"Sauver"</span> &gt;';
-<a name="l00595"></a>00595     }
-<a name="l00596"></a>00596     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> <a class="code" href="client_8inc_8php.html#a5">name</a>=<span class="stringliteral">"correct_new_invoice"</span> <a class="code" href="client_8inc_8php.html#a6">value</a>=<span class="stringliteral">"Corriger"</span>&gt;';
-<a name="l00597"></a>00597     
-<a name="l00598"></a>00598     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;/<a class="code" href="constant_8php.html#a7">FORM</a>&gt;';
-<a name="l00599"></a>00599   } 
-<a name="l00600"></a>00600   <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
-<a name="l00601"></a>00601   
-<a name="l00602"></a>00602 }
-<a name="l00603"></a>00603 
-<a name="l00630"></a><a class="code" href="user__form__ven_8php.html#a3">00630</a> function <a class="code" href="user__form__ven_8php.html#a3">RecordInvoice</a>($p_cn,$p_array,$p_user,$p_jrn)
-<a name="l00631"></a>00631 {
-<a name="l00632"></a>00632   foreach ( $p_array as $v =&gt; $e)
-<a name="l00633"></a>00633   {
-<a name="l00634"></a>00634     ${<span class="stringliteral">"$v"</span>}=<a class="code" href="impress__fiche_8php.html#a10">$e</a>;
-<a name="l00635"></a>00635   }
-<a name="l00636"></a>00636 
-<a name="l00637"></a>00637   <span class="comment">// Get the default period</span>
-<a name="l00638"></a>00638   $periode=$p_user-&gt;GetPeriode();
-<a name="l00639"></a>00639   <a class="code" href="print__invoice_8php.html#a1">$amount</a>=0.0;
-<a name="l00640"></a>00640   $amount_jrn=0.0;
-<a name="l00641"></a>00641   <span class="comment">// Computing total customer</span>
-<a name="l00642"></a>00642   <span class="comment">//--</span>
-<a name="l00643"></a>00643   <span class="keywordflow">for</span> ($i=0;$i&lt;$nb_item;$i++) {
-<a name="l00644"></a>00644     <span class="comment">// store quantity &amp; goods in array</span>
-<a name="l00645"></a>00645     $a_good[<a class="code" href="balance_8php.html#a11">$i</a>]=${<span class="stringliteral">"e_march$i"</span>};
-<a name="l00646"></a>00646     $a_quant[<a class="code" href="balance_8php.html#a11">$i</a>]=${<span class="stringliteral">"e_quant$i"</span>};
-<a name="l00647"></a>00647     $a_price[<a class="code" href="balance_8php.html#a11">$i</a>]=0;
-<a name="l00648"></a>00648     <a class="code" href="print__invoice_8php.html#a4">$a_vat</a>[<a class="code" href="balance_8php.html#a11">$i</a>]=${<span class="stringliteral">"e_march$i"</span>.<span class="stringliteral">"_tva_id"</span>};
-<a name="l00649"></a>00649     <span class="comment">// check whether the price is set or no</span>
-<a name="l00650"></a>00650     <span class="keywordflow">if</span> ( <a class="code" href="ac__common_8php.html#a2">isNumber</a>(${<span class="stringliteral">"e_march$i"</span>.<span class="stringliteral">"_sell"</span>}) == 0 ) {
-<a name="l00651"></a>00651       <span class="keywordflow">if</span> ( $a_good[$i] != <span class="stringliteral">""</span> ) {
-<a name="l00652"></a>00652              <span class="comment">// If the price is not set we have to find it from the database</span>
-<a name="l00653"></a>00653              $a_price[<a class="code" href="balance_8php.html#a11">$i</a>]=GetFicheAttribut($p_cn,$a_good[$i],<a class="code" href="constant_8php.html#a51">ATTR_DEF_PRIX_VENTE</a>);
-<a name="l00654"></a>00654            } 
-<a name="l00655"></a>00655     } <span class="keywordflow">else</span> {
-<a name="l00656"></a>00656       <span class="comment">// The price is valid</span>
-<a name="l00657"></a>00657       $a_price[<a class="code" href="balance_8php.html#a11">$i</a>]=${<span class="stringliteral">"e_march$i"</span>.<span class="stringliteral">"_sell"</span>};
-<a name="l00658"></a>00658     }
-<a name="l00659"></a>00659     $cost=$a_price[<a class="code" href="balance_8php.html#a11">$i</a>]*$a_quant[<a class="code" href="balance_8php.html#a11">$i</a>];
-<a name="l00660"></a>00660     <a class="code" href="print__invoice_8php.html#a1">$amount</a>+=$cost;
-<a name="l00661"></a>00661     $amount_jrn+=$cost;
-<a name="l00662"></a>00662   }<span class="comment">// for</span>
-<a name="l00663"></a>00663 
-<a name="l00664"></a>00664   $comm=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($e_comm);
-<a name="l00665"></a>00665   <span class="comment">// Compute VAT</span>
-<a name="l00666"></a>00666   <span class="comment">//--</span>
-<a name="l00667"></a>00667   $a_vat_new=<a class="code" href="user__common_8php.html#a1">ComputeTotalVat</a>($p_cn,$a_good,$a_quant,$a_price,$a_vat);
-<a name="l00668"></a>00668   <a class="code" href="print__invoice_8php.html#a5">$sum_vat</a>=0.0;
-<a name="l00669"></a>00669   <span class="keywordflow">if</span> ( $a_vat_new != null ){
-<a name="l00670"></a>00670     foreach ( $a_vat_new as $element =&gt; $t) {
-<a name="l00671"></a>00671       <a class="code" href="debug_8php.html#a0">echo_debug</a>('user_form_ven.php',__LINE__,<span class="stringliteral">" a_vat element $element t $t"</span>);
-<a name="l00672"></a>00672       <a class="code" href="print__invoice_8php.html#a5">$sum_vat</a>+=<a class="code" href="impress__rapport_8php.html#a3">$t</a>;
-<a name="l00673"></a>00673       <a class="code" href="debug_8php.html#a0">echo_debug</a>('user_form_ven.php',__LINE__,<span class="stringliteral">"sum_vat = $sum_vat"</span>);
-<a name="l00674"></a>00674     }
-<a name="l00675"></a>00675   }
-<a name="l00676"></a>00676   <span class="comment">// First we add in jrnx</span>
-<a name="l00677"></a>00677         
-<a name="l00678"></a>00678   <span class="comment">// Compute the j_grpt</span>
-<a name="l00679"></a>00679   <a class="code" href="annulation_8php.html#a4">$seq</a>=<a class="code" href="postgres_8php.html#a13">NextSequence</a>($p_cn,'s_grpt');
-<a name="l00680"></a>00680 
-<a name="l00681"></a>00681 
-<a name="l00682"></a>00682   <span class="comment">// Debit = client</span>
-<a name="l00683"></a>00683   <a class="code" href="send__poste__pdf_8php.html#a2">$poste</a>=GetFicheAttribut($p_cn,$e_client,<a class="code" href="constant_8php.html#a48">ATTR_DEF_ACCOUNT</a>);
-<a name="l00684"></a>00684   <a class="code" href="postgres_8php.html#a14">StartSql</a>($p_cn);      
-<a name="l00685"></a>00685   <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="user__common_8php.html#a4">InsertJrnx</a>($p_cn,<span class="charliteral">'d'</span>,$p_user-&gt;id,$p_jrn,$<a class="code" href="classposte.html">poste</a>,$e_date,round($amount,2)+round($sum_vat,2),$seq,$periode);
-<a name="l00686"></a>00686   <span class="keywordflow">if</span> ( $r == <span class="keyword">false</span>) { $Rollback($p_cn);<a class="code" href="balance_8php.html#a0">exit</a>(<span class="stringliteral">"error 'user_form_ven.php' __LINE__"</span>);}
-<a name="l00687"></a>00687 
-<a name="l00688"></a>00688   <span class="comment">// Credit = goods </span>
-<a name="l00689"></a>00689   <span class="keywordflow">for</span> ( $i = 0; $i &lt; $nb_item;$i++) {
-<a name="l00690"></a>00690     <span class="keywordflow">if</span> ( $a_good[$i] == <span class="stringliteral">""</span>  ) <span class="keywordflow">continue</span>;
-<a name="l00691"></a>00691     <a class="code" href="send__poste__pdf_8php.html#a2">$poste</a>=GetFicheAttribut($p_cn,$a_good[$i],<a class="code" href="constant_8php.html#a48">ATTR_DEF_ACCOUNT</a>);
+<a name="l00558"></a>00558 
+<a name="l00559"></a>00559     <span class="comment">// check for upload piece</span>
+<a name="l00560"></a>00560     <a class="code" href="show__document__modele_8php.html#a6">$file</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"file"</span>);
+<a name="l00561"></a>00561     <a class="code" href="show__document__modele_8php.html#a6">$file</a>-&gt;table=1;
+<a name="l00562"></a>00562     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;hr&gt;"</span>;
+<a name="l00563"></a>00563     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.= <span class="stringliteral">"&lt;table&gt;"</span>; 
+<a name="l00564"></a>00564     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TR&gt;"</span>.$file-&gt;IOValue(<span class="stringliteral">"pj"</span>,<span class="stringliteral">""</span>,<span class="stringliteral">"Pièce justificative"</span>).<span class="stringliteral">"&lt;/TR&gt;"</span>;
+<a name="l00565"></a>00565     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/table&gt;"</span>;
+<a name="l00566"></a>00566     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;hr&gt;"</span>;
+<a name="l00567"></a>00567 
+<a name="l00568"></a>00568 
+<a name="l00569"></a>00569     <span class="comment">// if we were in the management module, appl. propose to generate an invoice</span>
+<a name="l00570"></a>00570     <span class="keywordflow">if</span> ( $_SERVER['SCRIPT_NAME'] == '/commercial.php')
+<a name="l00571"></a>00571       {
+<a name="l00572"></a>00572         <span class="comment">// if a template exists propose to choose an invoice template</span>
+<a name="l00573"></a>00573         <span class="keywordflow">if</span> ( <a class="code" href="postgres_8php.html#a10">CountSql</a>($p_cn,
+<a name="l00574"></a>00574                       <span class="stringliteral">"select md_id,md_name from document_modele where md_type=4"</span>) &gt; 0 )
+<a name="l00575"></a>00575           {
+<a name="l00576"></a>00576             <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='G&amp;eacute;n&amp;eacute;rer une facture &lt;input type=<span class="stringliteral">"checkbox"</span> <a class="code" href="client_8inc_8php.html#a5">name</a>=<span class="stringliteral">"gen_invoice"</span> CHECKED&gt;';
+<a name="l00577"></a>00577             <span class="comment">// We propose to generate  the invoice and some template</span>
+<a name="l00578"></a>00578             $doc_gen=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"select"</span>);
+<a name="l00579"></a>00579             $doc_gen-&gt;name=<span class="stringliteral">"gen_doc"</span>;
+<a name="l00580"></a>00580             $doc_gen-&gt;value=<a class="code" href="ac__common_8php.html#a12">make_array</a>($p_cn,
+<a name="l00581"></a>00581                                        <span class="stringliteral">"select md_id,md_name from document_modele where md_type=4"</span>);
+<a name="l00582"></a>00582             <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=$doc_gen-&gt;IOValue();  
+<a name="l00583"></a>00583 
+<a name="l00584"></a>00584             <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;hr&gt;"</span>;
+<a name="l00585"></a>00585           }
+<a name="l00586"></a>00586       }
+<a name="l00587"></a>00587 
+<a name="l00588"></a>00588     
+<a name="l00589"></a>00589     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="readme_8php.html#a4">$data</a>;
+<a name="l00590"></a>00590     <span class="keywordflow">if</span> ( $sum_with_vat != 0 ) {
+<a name="l00591"></a>00591       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> <a class="code" href="client_8inc_8php.html#a5">name</a>=<span class="stringliteral">"record_and_print_invoice"</span> <a class="code" href="client_8inc_8php.html#a6">value</a>=<span class="stringliteral">"Sauver"</span> &gt;';
+<a name="l00592"></a>00592     }
+<a name="l00593"></a>00593     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> <a class="code" href="client_8inc_8php.html#a5">name</a>=<span class="stringliteral">"correct_new_invoice"</span> <a class="code" href="client_8inc_8php.html#a6">value</a>=<span class="stringliteral">"Corriger"</span>&gt;';
+<a name="l00594"></a>00594     
+<a name="l00595"></a>00595     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;/<a class="code" href="constant_8php.html#a7">FORM</a>&gt;';
+<a name="l00596"></a>00596   } 
+<a name="l00597"></a>00597   <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
+<a name="l00598"></a>00598   
+<a name="l00599"></a>00599 }
+<a name="l00600"></a>00600 
+<a name="l00627"></a><a class="code" href="user__form__ven_8php.html#a3">00627</a> function <a class="code" href="user__form__ven_8php.html#a3">RecordInvoice</a>($p_cn,$p_array,$p_user,$p_jrn)
+<a name="l00628"></a>00628 {
+<a name="l00629"></a>00629   foreach ( $p_array as $v =&gt; $e)
+<a name="l00630"></a>00630   {
+<a name="l00631"></a>00631     ${<span class="stringliteral">"$v"</span>}=<a class="code" href="impress__fiche_8php.html#a10">$e</a>;
+<a name="l00632"></a>00632   }
+<a name="l00633"></a>00633 
+<a name="l00634"></a>00634   <span class="comment">// Get the default period</span>
+<a name="l00635"></a>00635   $periode=$p_user-&gt;GetPeriode();
+<a name="l00636"></a>00636   <a class="code" href="print__invoice_8php.html#a1">$amount</a>=0.0;
+<a name="l00637"></a>00637   $amount_jrn=0.0;
+<a name="l00638"></a>00638   <span class="comment">// Computing total customer</span>
+<a name="l00639"></a>00639   <span class="comment">//--</span>
+<a name="l00640"></a>00640   <span class="keywordflow">for</span> ($i=0;$i&lt;$nb_item;$i++) {
+<a name="l00641"></a>00641     <span class="comment">// store quantity &amp; goods in array</span>
+<a name="l00642"></a>00642     $a_good[<a class="code" href="balance_8php.html#a11">$i</a>]=${<span class="stringliteral">"e_march$i"</span>};
+<a name="l00643"></a>00643     $a_quant[<a class="code" href="balance_8php.html#a11">$i</a>]=${<span class="stringliteral">"e_quant$i"</span>};
+<a name="l00644"></a>00644     $a_price[<a class="code" href="balance_8php.html#a11">$i</a>]=0;
+<a name="l00645"></a>00645     <a class="code" href="print__invoice_8php.html#a4">$a_vat</a>[<a class="code" href="balance_8php.html#a11">$i</a>]=${<span class="stringliteral">"e_march$i"</span>.<span class="stringliteral">"_tva_id"</span>};
+<a name="l00646"></a>00646     <span class="comment">// check whether the price is set or no</span>
+<a name="l00647"></a>00647     <span class="keywordflow">if</span> ( <a class="code" href="ac__common_8php.html#a2">isNumber</a>(${<span class="stringliteral">"e_march$i"</span>.<span class="stringliteral">"_sell"</span>}) == 0 ) {
+<a name="l00648"></a>00648       <span class="keywordflow">if</span> ( $a_good[$i] != <span class="stringliteral">""</span> ) {
+<a name="l00649"></a>00649              <span class="comment">// If the price is not set we have to find it from the database</span>
+<a name="l00650"></a>00650              $a_price[<a class="code" href="balance_8php.html#a11">$i</a>]=GetFicheAttribut($p_cn,$a_good[$i],<a class="code" href="constant_8php.html#a51">ATTR_DEF_PRIX_VENTE</a>);
+<a name="l00651"></a>00651            } 
+<a name="l00652"></a>00652     } <span class="keywordflow">else</span> {
+<a name="l00653"></a>00653       <span class="comment">// The price is valid</span>
+<a name="l00654"></a>00654       $a_price[<a class="code" href="balance_8php.html#a11">$i</a>]=${<span class="stringliteral">"e_march$i"</span>.<span class="stringliteral">"_sell"</span>};
+<a name="l00655"></a>00655     }
+<a name="l00656"></a>00656     $cost=$a_price[<a class="code" href="balance_8php.html#a11">$i</a>]*$a_quant[<a class="code" href="balance_8php.html#a11">$i</a>];
+<a name="l00657"></a>00657     <a class="code" href="print__invoice_8php.html#a1">$amount</a>+=$cost;
+<a name="l00658"></a>00658     $amount_jrn+=$cost;
+<a name="l00659"></a>00659   }<span class="comment">// for</span>
+<a name="l00660"></a>00660 
+<a name="l00661"></a>00661   $comm=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($e_comm);
+<a name="l00662"></a>00662   <span class="comment">// Compute VAT</span>
+<a name="l00663"></a>00663   <span class="comment">//--</span>
+<a name="l00664"></a>00664   $a_vat_new=<a class="code" href="user__common_8php.html#a1">ComputeTotalVat</a>($p_cn,$a_good,$a_quant,$a_price,$a_vat);
+<a name="l00665"></a>00665   <a class="code" href="print__invoice_8php.html#a5">$sum_vat</a>=0.0;
+<a name="l00666"></a>00666   <span class="keywordflow">if</span> ( $a_vat_new != null ){
+<a name="l00667"></a>00667     foreach ( $a_vat_new as $element =&gt; $t) {
+<a name="l00668"></a>00668       <a class="code" href="debug_8php.html#a0">echo_debug</a>('user_form_ven.php',__LINE__,<span class="stringliteral">" a_vat element $element t $t"</span>);
+<a name="l00669"></a>00669       <a class="code" href="print__invoice_8php.html#a5">$sum_vat</a>+=<a class="code" href="impress__rapport_8php.html#a3">$t</a>;
+<a name="l00670"></a>00670       <a class="code" href="debug_8php.html#a0">echo_debug</a>('user_form_ven.php',__LINE__,<span class="stringliteral">"sum_vat = $sum_vat"</span>);
+<a name="l00671"></a>00671     }
+<a name="l00672"></a>00672   }
+<a name="l00673"></a>00673   <span class="comment">// First we add in jrnx</span>
+<a name="l00674"></a>00674         
+<a name="l00675"></a>00675   <span class="comment">// Compute the j_grpt</span>
+<a name="l00676"></a>00676   <a class="code" href="annulation_8php.html#a4">$seq</a>=<a class="code" href="postgres_8php.html#a13">NextSequence</a>($p_cn,'s_grpt');
+<a name="l00677"></a>00677 
+<a name="l00678"></a>00678 
+<a name="l00679"></a>00679   <span class="comment">// Debit = client</span>
+<a name="l00680"></a>00680   <a class="code" href="send__poste__pdf_8php.html#a2">$poste</a>=GetFicheAttribut($p_cn,$e_client,<a class="code" href="constant_8php.html#a48">ATTR_DEF_ACCOUNT</a>);
+<a name="l00681"></a>00681   <a class="code" href="postgres_8php.html#a14">StartSql</a>($p_cn);      
+<a name="l00682"></a>00682   <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="user__common_8php.html#a4">InsertJrnx</a>($p_cn,<span class="charliteral">'d'</span>,$p_user-&gt;id,$p_jrn,$<a class="code" href="classposte.html">poste</a>,$e_date,round($amount,2)+round($sum_vat,2),$seq,$periode);
+<a name="l00683"></a>00683   <span class="keywordflow">if</span> ( $r == <span class="keyword">false</span>) { $Rollback($p_cn);<a class="code" href="balance_8php.html#a0">exit</a>(<span class="stringliteral">"error 'user_form_ven.php' __LINE__"</span>);}
+<a name="l00684"></a>00684 
+<a name="l00685"></a>00685   <span class="comment">// Credit = goods </span>
+<a name="l00686"></a>00686   <span class="keywordflow">for</span> ( $i = 0; $i &lt; $nb_item;$i++) {
+<a name="l00687"></a>00687     <span class="keywordflow">if</span> ( $a_good[$i] == <span class="stringliteral">""</span>  ) <span class="keywordflow">continue</span>;
+<a name="l00688"></a>00688     <a class="code" href="send__poste__pdf_8php.html#a2">$poste</a>=GetFicheAttribut($p_cn,$a_good[$i],<a class="code" href="constant_8php.html#a48">ATTR_DEF_ACCOUNT</a>);
+<a name="l00689"></a>00689           
+<a name="l00690"></a>00690     <span class="comment">// don't record operation of 0</span>
+<a name="l00691"></a>00691     <span class="keywordflow">if</span> ( $a_price[$i]*$a_quant[$i] == 0 ) <span class="keywordflow">continue</span>;
 <a name="l00692"></a>00692           
-<a name="l00693"></a>00693     <span class="comment">// don't record operation of 0</span>
-<a name="l00694"></a>00694     <span class="keywordflow">if</span> ( $a_price[$i]*$a_quant[$i] == 0 ) <span class="keywordflow">continue</span>;
-<a name="l00695"></a>00695           
-<a name="l00696"></a>00696     <span class="comment">// record into jrnx</span>
-<a name="l00697"></a>00697     $j_id=<a class="code" href="user__common_8php.html#a4">InsertJrnx</a>($p_cn,<span class="charliteral">'c'</span>,$p_user-&gt;id,$p_jrn,$<a class="code" href="classposte.html">poste</a>,$e_date,round($a_price[$i]*$a_quant[$i],2),$seq,$periode);
-<a name="l00698"></a>00698     <span class="keywordflow">if</span> ( $j_id == <span class="keyword">false</span>) { $Rollback($p_cn);<a class="code" href="balance_8php.html#a0">exit</a>(<span class="stringliteral">"error 'user_form_ven.php' __LINE__"</span>);}
-<a name="l00699"></a>00699     <span class="comment">// always save quantity but in withStock we can find what card need a stock management</span>
-<a name="l00700"></a>00700     <span class="keywordflow">if</span> (  <a class="code" href="user__common_8php.html#a7">InsertStockGoods</a>($p_cn,$j_id,$a_good[$i],$a_quant[$i],<span class="charliteral">'c'</span>) == <span class="keyword">false</span> ) {
-<a name="l00701"></a>00701       $Rollback($p_cn);<a class="code" href="balance_8php.html#a0">exit</a>(<span class="stringliteral">"error 'user_form_ven.php' __LINE__"</span>);}
-<a name="l00702"></a>00702     } <span class="comment">// end loop</span>
-<a name="l00703"></a>00703   
-<a name="l00704"></a>00704   <span class="comment">// Insert Vat</span>
-<a name="l00705"></a>00705 
-<a name="l00706"></a>00706   <span class="keywordflow">if</span> ( $a_vat_new  !=  null  ) <span class="comment">// no vat</span>
-<a name="l00707"></a>00707 
-<a name="l00708"></a>00708     {
-<a name="l00709"></a>00709       foreach ($a_vat_new as $tva_id =&gt; $tva_amount ) {
-<a name="l00710"></a>00710         <a class="code" href="send__poste__pdf_8php.html#a2">$poste</a>=<a class="code" href="user__common_8php.html#a3">GetTvaPoste</a>($p_cn,$tva_id,<span class="charliteral">'c'</span>);
-<a name="l00711"></a>00711         <span class="keywordflow">if</span> ($tva_amount == 0 ) <span class="keywordflow">continue</span>;
-<a name="l00712"></a>00712         <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="user__common_8php.html#a4">InsertJrnx</a>($p_cn,<span class="charliteral">'c'</span>,$p_user-&gt;id,$p_jrn,$<a class="code" href="classposte.html">poste</a>,$e_date,round($tva_amount,2),$seq,$periode);
-<a name="l00713"></a>00713         <span class="keywordflow">if</span> ( $r == <span class="keyword">false</span> ) { <a class="code" href="postgres_8php.html#a17">Rollback</a>($p_cn); <a class="code" href="balance_8php.html#a0">exit</a>(<span class="stringliteral">" Error 'user_form_ven.php' __LINE__"</span>);}
-<a name="l00714"></a>00714       
-<a name="l00715"></a>00715       }
-<a name="l00716"></a>00716     }
-<a name="l00717"></a>00717   <a class="code" href="debug_8php.html#a0">echo_debug</a>('user_form_ven.php',__LINE__,<span class="stringliteral">"echeance = $e_ech"</span>);
-<a name="l00718"></a>00718   <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="user__common_8php.html#a5">InsertJrn</a>($p_cn,$e_date,$e_ech,$p_jrn,<span class="stringliteral">"Invoice"</span>,round($amount_jrn,2)+round($sum_vat,2),$seq,$periode);
-<a name="l00719"></a>00719   <span class="keywordflow">if</span> ( $r == <span class="keyword">false</span> ) { <a class="code" href="postgres_8php.html#a17">Rollback</a>($p_cn); <a class="code" href="balance_8php.html#a0">exit</a>(<span class="stringliteral">" Error 'user_form_ven.php' __LINE__"</span>);}
-<a name="l00720"></a>00720   <span class="comment">// Set Internal code and Comment</span>
-<a name="l00721"></a>00721   $internal=<a class="code" href="jrn_8php.html#a14">SetInternalCode</a>($p_cn,$seq,$p_jrn);
-<a name="l00722"></a>00722   <a class="code" href="user__action__ven_8php.html#a5">$comment</a>=(<a class="code" href="ac__common_8php.html#a9">FormatString</a>($e_comm) == null )?$internal.<span class="stringliteral">"  client : "</span>.GetFicheName($p_cn,$e_client):<a class="code" href="ac__common_8php.html#a9">FormatString</a>($e_comm);
-<a name="l00723"></a>00723 
-<a name="l00724"></a>00724   <span class="comment">// Update and set the invoice's comment </span>
-<a name="l00725"></a>00725   <a class="code" href="eub__be_8inc_8php.html#a5">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"update jrn set jr_comment='"</span>.$comment.<span class="stringliteral">"' where jr_grpt_id="</span>.$seq);
-<a name="l00726"></a>00726   <span class="keywordflow">if</span> ( $Res == <span class="keyword">false</span> ) { <a class="code" href="postgres_8php.html#a17">Rollback</a>($p_cn); <a class="code" href="balance_8php.html#a0">exit</a>(<span class="stringliteral">" Error 'user_form_ven.php' __LINE__"</span>); };
-<a name="l00727"></a>00727 
-<a name="l00728"></a>00728   <span class="keywordflow">if</span> ( isset ($_FILES)) {
-<a name="l00729"></a>00729     <span class="keywordflow">if</span> ( <span class="keyword">sizeof</span>($_FILES) != 0 )
-<a name="l00730"></a>00730     <a class="code" href="postgres_8php.html#a24">save_upload_document</a>($p_cn,$seq);
-<a name="l00731"></a>00731   }
-<a name="l00732"></a>00732 
-<a name="l00733"></a>00733 <span class="comment">// save the quantity, then we can make an invoice</span>
-<a name="l00734"></a>00734   <span class="keywordflow">for</span> ( $i=0;$i &lt; $nb_item;$i++) 
-<a name="l00735"></a>00735         {
-<a name="l00736"></a>00736         <span class="comment">// don't record operation of 0</span>
-<a name="l00737"></a>00737         <span class="keywordflow">if</span> ( $a_price[$i]*$a_quant[$i] == 0 ) <span class="keywordflow">continue</span>;
-<a name="l00738"></a>00738         
-<a name="l00739"></a>00739         <span class="comment">// insert into the table quant_sold</span>
-<a name="l00740"></a>00740         <span class="comment">// Note that negative value are also saved but not the vat !</span>
-<a name="l00741"></a>00741         <span class="keywordflow">if</span> (  $a_vat[$i] == -1) {
-<a name="l00742"></a>00742                 $computed_vat=0;
-<a name="l00743"></a>00743                 $vat_code=<span class="stringliteral">"null"</span>;
-<a name="l00744"></a>00744         } <span class="keywordflow">else</span> {
-<a name="l00745"></a>00745                 $computed_vat=<a class="code" href="user__common_8php.html#a2">ComputeVat</a>($p_cn,$a_good[$i],$a_quant[$i],$a_price[$i],$a_vat[$i]);
-<a name="l00746"></a>00746                 $vat_code=<a class="code" href="print__invoice_8php.html#a4">$a_vat</a>[<a class="code" href="balance_8php.html#a11">$i</a>];
-<a name="l00747"></a>00747         }
-<a name="l00748"></a>00748          <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select insert_quant_sold "</span>.
-<a name="l00749"></a>00749                     <span class="stringliteral">"('"</span>.$internal.<span class="stringliteral">"','"</span>.$a_good[$i].<span class="stringliteral">"',"</span>.$a_quant[$i].<span class="stringliteral">","</span>.$a_price[$i]*$a_quant[$i].
-<a name="l00750"></a>00750                     <span class="stringliteral">","</span>.$computed_vat.
-<a name="l00751"></a>00751                     <span class="stringliteral">","</span>.$vat_code.<span class="stringliteral">",'"</span>.$e_client.<span class="stringliteral">"')"</span>);
-<a name="l00752"></a>00752          <span class="keywordflow">if</span> ( $r == <span class="keyword">false</span> ) { <a class="code" href="postgres_8php.html#a17">Rollback</a>($p_cn); <a class="code" href="balance_8php.html#a0">exit</a>(<span class="stringliteral">" Error 'user_form_ven.php' __LINE__"</span>); };
-<a name="l00753"></a>00753         }
-<a name="l00754"></a>00754   <a class="code" href="postgres_8php.html#a16">Commit</a>($p_cn);
-<a name="l00755"></a>00755   <span class="keywordflow">return</span> <a class="code" href="user__action__ven_8php.html#a5">$comment</a>;
-<a name="l00756"></a>00756 }
-<a name="l00757"></a>00757 
-<a name="l00758"></a>00758 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 00:28:23 2006 for phpcompta by&nbsp;
+<a name="l00693"></a>00693     <span class="comment">// record into jrnx</span>
+<a name="l00694"></a>00694     $j_id=<a class="code" href="user__common_8php.html#a4">InsertJrnx</a>($p_cn,<span class="charliteral">'c'</span>,$p_user-&gt;id,$p_jrn,$<a class="code" href="classposte.html">poste</a>,$e_date,round($a_price[$i]*$a_quant[$i],2),$seq,$periode);
+<a name="l00695"></a>00695     <span class="keywordflow">if</span> ( $j_id == <span class="keyword">false</span>) { $Rollback($p_cn);<a class="code" href="balance_8php.html#a0">exit</a>(<span class="stringliteral">"error 'user_form_ven.php' __LINE__"</span>);}
+<a name="l00696"></a>00696     <span class="comment">// always save quantity but in withStock we can find what card need a stock management</span>
+<a name="l00697"></a>00697     <span class="keywordflow">if</span> (  <a class="code" href="user__common_8php.html#a7">InsertStockGoods</a>($p_cn,$j_id,$a_good[$i],$a_quant[$i],<span class="charliteral">'c'</span>) == <span class="keyword">false</span> ) {
+<a name="l00698"></a>00698       $Rollback($p_cn);<a class="code" href="balance_8php.html#a0">exit</a>(<span class="stringliteral">"error 'user_form_ven.php' __LINE__"</span>);}
+<a name="l00699"></a>00699     } <span class="comment">// end loop</span>
+<a name="l00700"></a>00700   
+<a name="l00701"></a>00701   <span class="comment">// Insert Vat</span>
+<a name="l00702"></a>00702 
+<a name="l00703"></a>00703   <span class="keywordflow">if</span> ( $a_vat_new  !=  null  ) <span class="comment">// no vat</span>
+<a name="l00704"></a>00704 
+<a name="l00705"></a>00705     {
+<a name="l00706"></a>00706       foreach ($a_vat_new as $tva_id =&gt; $tva_amount ) {
+<a name="l00707"></a>00707         <a class="code" href="send__poste__pdf_8php.html#a2">$poste</a>=<a class="code" href="user__common_8php.html#a3">GetTvaPoste</a>($p_cn,$tva_id,<span class="charliteral">'c'</span>);
+<a name="l00708"></a>00708         <span class="keywordflow">if</span> ($tva_amount == 0 ) <span class="keywordflow">continue</span>;
+<a name="l00709"></a>00709         <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="user__common_8php.html#a4">InsertJrnx</a>($p_cn,<span class="charliteral">'c'</span>,$p_user-&gt;id,$p_jrn,$<a class="code" href="classposte.html">poste</a>,$e_date,round($tva_amount,2),$seq,$periode);
+<a name="l00710"></a>00710         <span class="keywordflow">if</span> ( $r == <span class="keyword">false</span> ) { <a class="code" href="postgres_8php.html#a17">Rollback</a>($p_cn); <a class="code" href="balance_8php.html#a0">exit</a>(<span class="stringliteral">" Error 'user_form_ven.php' __LINE__"</span>);}
+<a name="l00711"></a>00711       
+<a name="l00712"></a>00712       }
+<a name="l00713"></a>00713     }
+<a name="l00714"></a>00714   <a class="code" href="debug_8php.html#a0">echo_debug</a>('user_form_ven.php',__LINE__,<span class="stringliteral">"echeance = $e_ech"</span>);
+<a name="l00715"></a>00715   <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="user__common_8php.html#a5">InsertJrn</a>($p_cn,$e_date,$e_ech,$p_jrn,<span class="stringliteral">"Invoice"</span>,round($amount_jrn,2)+round($sum_vat,2),$seq,$periode);
+<a name="l00716"></a>00716   <span class="keywordflow">if</span> ( $r == <span class="keyword">false</span> ) { <a class="code" href="postgres_8php.html#a17">Rollback</a>($p_cn); <a class="code" href="balance_8php.html#a0">exit</a>(<span class="stringliteral">" Error 'user_form_ven.php' __LINE__"</span>);}
+<a name="l00717"></a>00717   <span class="comment">// Set Internal code and Comment</span>
+<a name="l00718"></a>00718   $internal=<a class="code" href="jrn_8php.html#a14">SetInternalCode</a>($p_cn,$seq,$p_jrn);
+<a name="l00719"></a>00719   <a class="code" href="user__action__ven_8php.html#a5">$comment</a>=(<a class="code" href="ac__common_8php.html#a9">FormatString</a>($e_comm) == null )?$internal.<span class="stringliteral">"  client : "</span>.GetFicheName($p_cn,$e_client):<a class="code" href="ac__common_8php.html#a9">FormatString</a>($e_comm);
+<a name="l00720"></a>00720 
+<a name="l00721"></a>00721   <span class="comment">// Update and set the invoice's comment </span>
+<a name="l00722"></a>00722   <a class="code" href="eub__be_8inc_8php.html#a5">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"update jrn set jr_comment='"</span>.$comment.<span class="stringliteral">"' where jr_grpt_id="</span>.$seq);
+<a name="l00723"></a>00723   <span class="keywordflow">if</span> ( $Res == <span class="keyword">false</span> ) { <a class="code" href="postgres_8php.html#a17">Rollback</a>($p_cn); <a class="code" href="balance_8php.html#a0">exit</a>(<span class="stringliteral">" Error 'user_form_ven.php' __LINE__"</span>); };
+<a name="l00724"></a>00724 
+<a name="l00725"></a>00725   <span class="keywordflow">if</span> ( isset ($_FILES)) {
+<a name="l00726"></a>00726     <span class="keywordflow">if</span> ( <span class="keyword">sizeof</span>($_FILES) != 0 )
+<a name="l00727"></a>00727     <a class="code" href="postgres_8php.html#a24">save_upload_document</a>($p_cn,$seq);
+<a name="l00728"></a>00728   }
+<a name="l00729"></a>00729 
+<a name="l00730"></a>00730 <span class="comment">// save the quantity, then we can make an invoice</span>
+<a name="l00731"></a>00731   <span class="keywordflow">for</span> ( $i=0;$i &lt; $nb_item;$i++) 
+<a name="l00732"></a>00732         {
+<a name="l00733"></a>00733         <span class="comment">// don't record operation of 0</span>
+<a name="l00734"></a>00734         <span class="keywordflow">if</span> ( $a_price[$i]*$a_quant[$i] == 0 ) <span class="keywordflow">continue</span>;
+<a name="l00735"></a>00735         
+<a name="l00736"></a>00736         <span class="comment">// insert into the table quant_sold</span>
+<a name="l00737"></a>00737         <span class="comment">// Note that negative value are also saved but not the vat !</span>
+<a name="l00738"></a>00738         <span class="keywordflow">if</span> (  $a_vat[$i] == -1) {
+<a name="l00739"></a>00739                 $computed_vat=0;
+<a name="l00740"></a>00740                 $vat_code=<span class="stringliteral">"null"</span>;
+<a name="l00741"></a>00741         } <span class="keywordflow">else</span> {
+<a name="l00742"></a>00742                 $computed_vat=<a class="code" href="user__common_8php.html#a2">ComputeVat</a>($p_cn,$a_good[$i],$a_quant[$i],$a_price[$i],$a_vat[$i]);
+<a name="l00743"></a>00743                 $vat_code=<a class="code" href="print__invoice_8php.html#a4">$a_vat</a>[<a class="code" href="balance_8php.html#a11">$i</a>];
+<a name="l00744"></a>00744         }
+<a name="l00745"></a>00745          <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select insert_quant_sold "</span>.
+<a name="l00746"></a>00746                     <span class="stringliteral">"('"</span>.$internal.<span class="stringliteral">"','"</span>.$a_good[$i].<span class="stringliteral">"',"</span>.$a_quant[$i].<span class="stringliteral">","</span>.$a_price[$i]*$a_quant[$i].
+<a name="l00747"></a>00747                     <span class="stringliteral">","</span>.$computed_vat.
+<a name="l00748"></a>00748                     <span class="stringliteral">","</span>.$vat_code.<span class="stringliteral">",'"</span>.$e_client.<span class="stringliteral">"')"</span>);
+<a name="l00749"></a>00749          <span class="keywordflow">if</span> ( $r == <span class="keyword">false</span> ) { <a class="code" href="postgres_8php.html#a17">Rollback</a>($p_cn); <a class="code" href="balance_8php.html#a0">exit</a>(<span class="stringliteral">" Error 'user_form_ven.php' __LINE__"</span>); };
+<a name="l00750"></a>00750         }
+<a name="l00751"></a>00751   <a class="code" href="postgres_8php.html#a16">Commit</a>($p_cn);
+<a name="l00752"></a>00752   <span class="keywordflow">return</span> array($internal,$comment);
+<a name="l00753"></a>00753 }
+<a name="l00754"></a>00754 
+<a name="l00755"></a>00755 ?&gt;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 21:19:08 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

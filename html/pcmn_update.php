@@ -70,6 +70,8 @@ echo '<DIV CLASS="u_redcontent">';
 /* Analyse ce qui est demandé */
 /* Effacement d'une ligne */
 if (isset ($_GET['action'])) {
+////////////////////////////////////////////////////////////////////////////////
+// Action == remove a line
   if ( $_GET['action']=="del" ) {
     if ( isset ($_GET['l']) ) {
       /* Ligne a enfant*/
@@ -89,10 +91,11 @@ if (isset ($_GET['action'])) {
     } // isset ($l)
   } //$action == del
 } // isset action
+////////////////////////////////////////////////////////////////////////////////
 /* Ajout d'une ligne */
 if ( isset ( $_POST["Add"] ) ) {
 	extract ($_POST);
-  if ( isset ( $p_val) && isset ( $p_lib ) ) {
+  if ( isset ( $p_val) && isset ( $p_lib ) && isNumber(trim($p_val)) && isNumber(trim($p_parent)) ) {
     $p_val=trim($p_val);
     $p_lib=FormatString(trim($p_lib));
     $p_parent=$_POST["p_parent"];
@@ -111,7 +114,18 @@ if ( isset ( $_POST["Add"] ) ) {
       if ( pg_NumRows($Ret) == 0 ) {
 	echo '<SCRIPT> alert(" Ne peut pas modifier; aucune poste parent"); </SCRIPT>';
       } else {
-	$Ret=ExecSql($cn,"insert into tmp_pcmn (pcm_val,pcm_lib,pcm_val_parent) values ('$p_val','$p_lib',$p_parent)");
+	// Check if the account already exists
+
+	$Count=CountSql($cn,"select * from tmp_pcmn where pcm_val='".$p_val."'");
+	if ( $Count != 0 ) 
+	  {
+	    // Alert message account already exists
+	    echo '<SCRIPT> alert(" Ce poste existe déjà "); </SCRIPT>';
+
+	  } else 
+	    {
+	      $Ret=ExecSql($cn,"insert into tmp_pcmn (pcm_val,pcm_lib,pcm_val_parent) values ('$p_val','$p_lib',$p_parent)");
+	    }
       }
     } else {
       echo '<H2 class="error"> Valeurs invalides </H3>';

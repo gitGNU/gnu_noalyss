@@ -181,11 +181,15 @@ if ( isset ($_POST['add_item']) || isset ($_POST["correct_new_invoice"])  )
 //
 if ( isset($_POST['record_and_print_invoice'])) 
 {
-  // First we save the invoice
-  RecordInvoice($cn,$_POST,$User,$p_jrn);
+  // First we save the invoice, the internal code will be used to change the description
+  // and upload the file
+  list ($internal,$e)=RecordInvoice($cn,$_POST,$User,$p_jrn);
+
+  
   $form=FormVenteView($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$_POST['nb_item'],'noform','');
-      //  $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,true,$_POST['nb_item']);
+
   echo '<div class="u_redcontent">';
+  echo '<h2 class="info"> Op&eacute;ration '.$internal.' enregistr&eacute;</h2>';
   echo $form;
   echo '<hr>';
   // Show the details of the encoded invoice 
@@ -197,6 +201,8 @@ if ( isset($_POST['record_and_print_invoice']))
 	  $doc->md_id=$_POST['gen_doc'];
 	  $doc->ag_id=0;
 	  $str_file=$doc->Generate();
+	  // Move the document to the jrn
+	  $doc->MoveDocumentPj($internal);
 	  echo $str_file;
     }
   echo '</form>';

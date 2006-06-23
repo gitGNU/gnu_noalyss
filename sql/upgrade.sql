@@ -450,3 +450,14 @@ insert into attr_min values(16,18);
 insert into attr_min values(16,25);
 insert into attr_min values(16,26);
 
+CREATE or replace FUNCTION t_jrn_def_sequence() RETURNS trigger AS $body$
+    BEGIN
+        execute  'create sequence s_jrn_'||NEW.jrn_def_id;
+raise notice 'Creating sequence s_jrn_%',NEW.jrn_def_id;
+        RETURN NEW;
+    END;
+$body$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_jrn_def_sequence_i after INSERT oN jrn_def
+    FOR EACH ROW EXECUTE PROCEDURE t_jrn_def_sequence();
+

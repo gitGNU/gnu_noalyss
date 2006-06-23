@@ -72,7 +72,7 @@ if ( $action == 'insert_vente' ) {
        $jrn=new jrn($cn,  $_GET['p_jrn']);
       echo_debug('user_action_ven.php',__LINE__,"Blank form");
       // Show an empty form of invoice
-      $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),null,false,$jrn->GetDefLine('cred'));
+      $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),null,false,$jrn->GetDefLine('deb'));
       echo '<div class="u_redcontent">';
       echo $form;
       echo '</div>';

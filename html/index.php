@@ -3,9 +3,24 @@
 /*! \file
  * \brief default page where user access
  */
+/*! \mainpage PhpCompta
+ *
+ * \section intro_sec Introduction
+ *
+ * Cette partie contient de la documentation pour les développeurs.
+ *
+ * \section convention_code Convention de codage
+ * <p>
+ * Tant que ce peut réutiliser ce qui existe déjà, 
+ * <ol>
+ * <li>Documenter avec les tags doxygen votre nouveau code,</li>
+ * <li>Les noms de fichiers sont *.inc.php pour les fichiers à include</li>
+ * <li>et class_*.php pour les fichiers contenant des classes.</li>
+ *
+ */
 
-?>
 echo '<!DOCTYPE HTML PUBLIC "-//W3C/DTD HTML 3.2 FINAL//EN">
+
 <HTML>
 <head>
 <TITLE> PhpCompta </TITLE>
