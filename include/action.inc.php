@@ -88,7 +88,7 @@ function ShowActionList($cn,$retour,$h_url)
 	 }
      }
    
-   $r=$act->myList('1,5,6,7',$query.$str);
+   $r=$act->myList(ACTION,$query.$str);
    echo $r;
  }
 
@@ -160,7 +160,7 @@ if ( $sub_action == "add_action" )
 
   $doc_type=new widget("select");
   $doc_type->name="dt_id";
-  $doc_type->value=make_array($cn,"select dt_id,dt_value from document_type where dt_id in (1,5,6,7)");
+  $doc_type->value=make_array($cn,"select dt_id,dt_value from document_type where dt_id in (".ACTION.")");
   echo 'Type d\' action';
   $doc_type->selected=(isset($_POST['dt_id']))?$_POST['dt_id']:"";
   echo $doc_type->IOValue();

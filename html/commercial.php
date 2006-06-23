@@ -78,6 +78,7 @@ echo ShowItem(array(
 		    array('?p_action=fournisseur','Fournisseur'),
 		    array('?p_action=depense','D&eacute;pense'),
 		    array('?p_action=contact','Contact'),
+		    array('?p_action=admin','Administration'),
 		    array('?p_action=suivi_courrier','Suivi courrier'),
 		    array('?p_action=pref','Préférence'),
 		    array('parametre.php?dos='.$_SESSION['g_dossier'],"Paramètre"),
@@ -136,4 +137,10 @@ if ( $p_action == 'contact')
 if ( $p_action == 'depense') 
 {
   require_once("depense.inc.php");
+}
+////////////////////////////////////////////////////////////////////////////////
+// Administration
+if ( $p_action == 'admin') 
+{
+  require_once("admin.inc.php");
 }
