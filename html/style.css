@@ -67,8 +67,6 @@ background-color:lightgrey;
 div.lmenu {
 	position: float;
 	float:left;
-	left:30px;
-	width:100px;
 }
 div.lextmenu {
 	position: float;
@@ -94,7 +92,6 @@ div.recherche_form{
 div.u_redcontent{
 	position: float;
 	float:left;
-	width:80%;
 }
 div.u_content{
 	position: float;
