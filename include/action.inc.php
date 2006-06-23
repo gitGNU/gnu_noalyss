@@ -27,41 +27,17 @@
 //////////////////////////////////////////////////////////////////////
 require_once("class_widget.php");
 require_once("class_action.php");
-
-// We need a sub action (3rd level)
-  // show a list of already taken action 
-  // propose to add one 
-  // permit also a search
-  // show detail
-$sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
-var_dump($_REQUEST);echo '<hr>';
-if ( $sub_action == "" ) $sub_action="list";
-
-// if correction is asked go to directly to add_action
-if (isset($_POST['corr'] )) 
-     $sub_action="add_action";
-
-// if this page is called from another menu (customer, supplier,...)
-// a button back is added
-// TODO add function for generating url, hidden tags...
-if ( isset ($_REQUEST['url'])) 
+/*!\brief Show the list of action, this code should be common
+ *        to several webpage. But for the moment we keep like that
+ *        because it is used only by this file.
+ *\param $cn database connection
+ * \param $retour button for going back
+ * \param $h_url calling url
+ */
+function ShowActionList($cn,$retour,$h_url)
 {
-     $retour=sprintf('<A HREF="%s"><input type="button" value="Retour"></A>',urldecode($_REQUEST['url']));
-     $h_url=sprintf('<input type="hidden" name="url" value="%s">',urldecode($_REQUEST['url']));
-}
-else 
-{ 
-     $retour="";
-     $h_url="";
-}
-//////////////////////////////////////////////////////////////////////
-// Show a list of the action
-if ( $sub_action == "list" )
-    {
-
-
-      // show the search menu
-?>
+  // show the search menu
+  ?>
 <div class="u_content">
 <span>
 <form method="get" action="commercial.php">
@@ -114,7 +90,38 @@ if ( $sub_action == "list" )
    
    $r=$act->myList('1,5,6,7',$query.$str);
    echo $r;
-    }    
+ }
+
+// We need a sub action (3rd level)
+  // show a list of already taken action 
+  // propose to add one 
+  // permit also a search
+  // show detail
+$sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
+var_dump($_REQUEST);echo '<hr>';
+if ( $sub_action == "" ) $sub_action="list";
+
+// if correction is asked go to directly to add_action
+if (isset($_POST['corr'] )) 
+     $sub_action="add_action";
+
+// if this page is called from another menu (customer, supplier,...)
+// a button back is added
+// TODO add function for generating url, hidden tags...
+$retour="";
+$h_url="";
+
+if ( isset ($_REQUEST['url'])) 
+{
+     $retour=sprintf('<A HREF="%s"><input type="button" value="Retour"></A>',urldecode($_REQUEST['url']));
+     $h_url=sprintf('<input type="hidden" name="url" value="%s">',urldecode($_REQUEST['url']));
+}
+
+//////////////////////////////////////////////////////////////////////
+// Show a list of the action
+if ( $sub_action == "list" )
+     ShowActionList($cn,$retour,$h_url);
+       
 //////////////////////////////////////////////////////////////////////
 // Add an action
 if ( $sub_action == "add_action" ) 
@@ -242,11 +249,12 @@ if  ( $sub_action == "save_action_st2" )
   $act->dt_id=$_POST['dt_id'];
   $act->qcode=$_POST['tiers'];
   $act->ag_title=$_POST['ag_title'];
-  $act->md_id=$_POST['gen_doc'];
+  $act->md_id=(isset($_POST['gen_doc']))?$_POST['gen_doc']:0;
 
   $act->gen=isset($_POST['p_gen'])?'on':'off';
 
   echo $act->SaveStage2();
+  echo '<A HREF="commercial.php?p_action=suivi_courrier"><INPUT TYPE="BUTTON" VALUE="Retour Liste"></A>';
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -260,5 +268,8 @@ if  ( $sub_action == "save_action_st3" )
   $act->ag_id=$_POST['ag_id'];
   $d_id=(isset($_POST['d_id']))?$_POST['d_id']:0;
   echo $act->SaveStage3($d_id);
+  
+  ShowActionList($cn,$retour,$h_url);
+
 }
 
