@@ -422,6 +422,14 @@ if ( DEBUG=='false' ) ob_start();
   if ( GetVersion($db) == 11 ) { 
     ExecuteScript($db,'sql/patch/upgrade11.sql');
   } // version 
+  if ( GetVersion($db) == 12 ) { 
+    ExecuteScript($db,'sql/patch/upgrade12.sql');
+  } // version 
+
+  if ( GetVersion($db) == 13 ) { 
+    ExecuteScript($db,'sql/patch/upgrade13.sql');
+  } // version 
+
 
 if ( DEBUG == 'false') ob_end_clean();
  }//for
@@ -490,6 +498,12 @@ if (DEBUG == 'false' ) ob_start();
   if ( GetVersion($db) == 11 ) { 
     ExecuteScript($db,'sql/patch/upgrade11.sql');
   } // version 
+  if ( GetVersion($db) == 12 ) { 
+    ExecuteScript($db,'sql/patch/upgrade12.sql');
+  } // version 
+  if ( GetVersion($db) == 13 ) { 
+    ExecuteScript($db,'sql/patch/upgrade13.sql');
+  } // version 
 
 if ( DEBUG == 'false') ob_end_clean();
  }
@@ -506,5 +520,9 @@ if ( GetVersion($cn) == 5 ) {
 if ( GetVersion($cn) == 6 ) {
   ExecuteScript($cn,'sql/patch/ac-upgrade6.sql');
  }
+if ( GetVersion($cn) == 7 ) {
+  ExecuteScript($cn,'sql/patch/ac-upgrade7.sql');
+ }
+
 if (DEBUG=='false') ob_end_clean();
 echo "<h2 class=\"info\">Voilà tout est installé ;-)</h2>";
