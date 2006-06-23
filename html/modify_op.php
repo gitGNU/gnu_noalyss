@@ -116,16 +116,23 @@ if ( isset($_POST['update_record']) ) {
        $Res=ExecSql($cn,"update jrn set jr_rapt='paid' where jr_id=".$_POST['jr_id']);
 
   if ( isset ($_POST['to_remove'] )) {
-	// Remove old document
-	$ret=ExecSql($cn,"select jr_pj from jrn where jr_id=".$_POST['jr_id']);
-	if (pg_num_rows($ret) != 0) {
-	  $r=pg_fetch_array($ret,0);
-	  $old_oid=$r['jr_pj'];
-	  if (strlen($old_oid) != 0) 
-	    pg_lo_unlink($cn,$old_oid);
-	  ExecSql($cn,"update jrn set jr_pj=null, jr_pj_name=null, ".
+    /*! \note we don't remove the document file if another
+     * operation needs it.
+     */
+    $ret=ExecSql($cn,"select jr_pj from jrn where jr_id=".$_POST['jr_id']);
+    if (pg_num_rows($ret) != 0) {
+         $r=pg_fetch_array($ret,0);
+         $old_oid=$r['jr_pj'];
+         if (strlen($old_oid) != 0)
+	   {
+	     // check if this pj is used somewhere else
+	     $c=CountSql($cn,"select * from jrn where jr_pj=".$old_oid);
+	     if ( $c == 1 )
+	       pg_lo_unlink($cn,$old_oid);
+	   }
+	 ExecSql($cn,"update jrn set jr_pj=null, jr_pj_name=null, ".
 		"jr_pj_type=null  where jr_id=".$_POST['jr_id']);
-	}
+    }
   }
   
 
