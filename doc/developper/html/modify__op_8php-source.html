@@ -121,37 +121,41 @@
 <a name="l00116"></a>00116        <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"update jrn set jr_rapt='paid' where jr_id="</span>.$_POST['jr_id']);
 <a name="l00117"></a>00117 
 <a name="l00118"></a>00118   <span class="keywordflow">if</span> ( isset ($_POST['to_remove'] )) {
-<a name="l00119"></a>00119         <span class="comment">// Remove old document</span>
-<a name="l00120"></a>00120         <a class="code" href="impress__bilan_8php.html#a0">$ret</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select jr_pj from jrn where jr_id="</span>.$_POST['jr_id']);
-<a name="l00121"></a>00121         <span class="keywordflow">if</span> (pg_num_rows($ret) != 0) {
-<a name="l00122"></a>00122           <a class="code" href="user__action__ach_8php.html#a2">$r</a>=pg_fetch_array($ret,0);
-<a name="l00123"></a><a class="code" href="modify__op_8php.html#a6">00123</a>           <a class="code" href="modify__op_8php.html#a6">$old_oid</a>=<a class="code" href="user__action__ach_8php.html#a2">$r</a>['jr_pj'];
-<a name="l00124"></a>00124           <span class="keywordflow">if</span> (strlen($old_oid) != 0) 
-<a name="l00125"></a>00125             pg_lo_unlink($cn,$old_oid);
-<a name="l00126"></a>00126           <a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"update jrn set jr_pj=null, jr_pj_name=null, "</span>.
-<a name="l00127"></a>00127                 <span class="stringliteral">"jr_pj_type=null  where jr_id="</span>.$_POST['jr_id']);
-<a name="l00128"></a>00128         }
-<a name="l00129"></a>00129   }
-<a name="l00130"></a>00130   
-<a name="l00131"></a>00131 
-<a name="l00132"></a>00132   <a class="code" href="postgres_8php.html#a16">Commit</a>($cn);
-<a name="l00133"></a>00133 
-<a name="l00134"></a>00134   echo ' &lt;script&gt; 
-<a name="l00135"></a>00135  window.close();
-<a name="l00136"></a>00136  <span class="keyword">self</span>.opener.RefreshMe();
-<a name="l00137"></a>00137  &lt;/script&gt;';
-<a name="l00138"></a>00138 } <span class="comment">// if update_record</span>
-<a name="l00140"></a>00140 <span class="comment"></span><span class="keywordflow">if</span> (  $action  == '<span class="keyword">delete</span>' ) {
-<a name="l00141"></a>00141   <a class="code" href="debug_8php.html#a0">echo_debug</a>('modify_op.php',__LINE__,<span class="stringliteral">" Call   DeleteRapt($cn,"</span>.$_GET['line'].<span class="stringliteral">","</span>.$_GET['line2'].<span class="stringliteral">")"</span>);
-<a name="l00142"></a>00142   <a class="code" href="user__common_8php.html#a11">DeleteRapt</a>($cn,$_GET['line'],$_GET['line2']);
-<a name="l00143"></a>00143  echo ' &lt;script&gt; 
-<a name="l00144"></a>00144   window.close();
-<a name="l00145"></a>00145  <span class="keyword">self</span>.opener.RefreshMe();
-<a name="l00146"></a>00146  &lt;/script&gt;';
-<a name="l00147"></a>00147 }
-<a name="l00148"></a>00148 <a class="code" href="ac__common_8php.html#a6">html_page_stop</a>();
-<a name="l00149"></a>00149 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 23:33:59 2006 for phpcompta by&nbsp;
+<a name="l00122"></a>00122     <a class="code" href="impress__bilan_8php.html#a0">$ret</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select jr_pj from jrn where jr_id="</span>.$_POST['jr_id']);
+<a name="l00123"></a>00123     <span class="keywordflow">if</span> (pg_num_rows($ret) != 0) {
+<a name="l00124"></a>00124          <a class="code" href="user__action__ach_8php.html#a2">$r</a>=pg_fetch_array($ret,0);
+<a name="l00125"></a><a class="code" href="modify__op_8php.html#a6">00125</a>          <a class="code" href="modify__op_8php.html#a6">$old_oid</a>=<a class="code" href="user__action__ach_8php.html#a2">$r</a>['jr_pj'];
+<a name="l00126"></a>00126          <span class="keywordflow">if</span> (strlen($old_oid) != 0)
+<a name="l00127"></a>00127            {
+<a name="l00128"></a>00128              <span class="comment">// check if this pj is used somewhere else</span>
+<a name="l00129"></a>00129              <a class="code" href="admin_8inc_8php.html#a2">$c</a>=<a class="code" href="postgres_8php.html#a10">CountSql</a>($cn,<span class="stringliteral">"select * from jrn where jr_pj="</span>.$old_oid);
+<a name="l00130"></a>00130              <span class="keywordflow">if</span> ( $c == 1 )
+<a name="l00131"></a>00131                pg_lo_unlink($cn,$old_oid);
+<a name="l00132"></a>00132            }
+<a name="l00133"></a>00133          <a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"update jrn set jr_pj=null, jr_pj_name=null, "</span>.
+<a name="l00134"></a>00134                 <span class="stringliteral">"jr_pj_type=null  where jr_id="</span>.$_POST['jr_id']);
+<a name="l00135"></a>00135     }
+<a name="l00136"></a>00136   }
+<a name="l00137"></a>00137   
+<a name="l00138"></a>00138 
+<a name="l00139"></a>00139   <a class="code" href="postgres_8php.html#a16">Commit</a>($cn);
+<a name="l00140"></a>00140 
+<a name="l00141"></a>00141   echo ' &lt;script&gt; 
+<a name="l00142"></a>00142  window.close();
+<a name="l00143"></a>00143  <span class="keyword">self</span>.opener.RefreshMe();
+<a name="l00144"></a>00144  &lt;/script&gt;';
+<a name="l00145"></a>00145 } <span class="comment">// if update_record</span>
+<a name="l00147"></a>00147 <span class="comment"></span><span class="keywordflow">if</span> (  $action  == '<span class="keyword">delete</span>' ) {
+<a name="l00148"></a>00148   <a class="code" href="debug_8php.html#a0">echo_debug</a>('modify_op.php',__LINE__,<span class="stringliteral">" Call   DeleteRapt($cn,"</span>.$_GET['line'].<span class="stringliteral">","</span>.$_GET['line2'].<span class="stringliteral">")"</span>);
+<a name="l00149"></a>00149   <a class="code" href="user__common_8php.html#a11">DeleteRapt</a>($cn,$_GET['line'],$_GET['line2']);
+<a name="l00150"></a>00150  echo ' &lt;script&gt; 
+<a name="l00151"></a>00151   window.close();
+<a name="l00152"></a>00152  <span class="keyword">self</span>.opener.RefreshMe();
+<a name="l00153"></a>00153  &lt;/script&gt;';
+<a name="l00154"></a>00154 }
+<a name="l00155"></a>00155 <a class="code" href="ac__common_8php.html#a6">html_page_stop</a>();
+<a name="l00156"></a>00156 ?&gt;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 00:05:12 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

@@ -16,10 +16,13 @@
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="user__form__fin_8php.html#a0">form_verify_input</a> ($p_cn, $p_jrn, $p_periode, $p_array, $p_number)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">verify if the data to insert are valid  <a href="#a0"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="user__form__fin_8php.html#a1">FormFin</a> ($p_cn, $p_jrn, $p_periode, $p_submit, $p_array=null, $pview_only=true, $p_item=4, $p_save=false)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Display the form for financial Used to show detail, encode a new fin op or update one.  <a href="#a1"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="user__form__fin_8php.html#a2">RecordFin</a> ($p_cn, $p_array, $p_user, $p_jrn)</td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Record an invoice in the table jrn &amp; jrnx.  <a href="#a2"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 Functions for the financial ledger. 
@@ -79,15 +82,19 @@ Definition in file <a class="el" href="user__form__fin_8php-source.html">user_fo
     <td>
 
 <p>
-form_verify_input<p>
-verify if the data to insert are valid<p>
-parm :<ul>
-<li>p_cn database connection</li></ul>
+verify if the data to insert are valid 
 <p>
-p_jrn concerned ledger<ul>
-<li>User periode</li><li>array with the post data</li><li>p_number number of items gen :<ul>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>$p_cn</em>&nbsp;</td><td>database connection </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>$p_jrn</em>&nbsp;</td><td>concerned ledger </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>$p_periode</em>&nbsp;</td><td>User periode </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>$p_array</em>&nbsp;</td><td>array with the post data </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>$p_number</em>&nbsp;</td><td>number of items gen :<ul>
 <li>return:</li></ul>
-</li></ul>
+</td></tr>
+  </table>
+</dl>
 
 <p>
 Definition at line <a class="el" href="user__form__fin_8php-source.html#l00043">43</a> of file <a class="el" href="user__form__fin_8php-source.html">user_form_fin.php</a>.
@@ -165,7 +172,8 @@ References <a class="el" href="send__poste__pdf_8php-source.html#l00044">$poste<
     <td>
 
 <p>
-FormFin($p_cn,$p_jrn,$p_user,$p_array=null,$pview_only=true,$p_item=1)  Display the form for financial Used to show detail, encode a new fin op or update one<p>
+Display the form for financial Used to show detail, encode a new fin op or update one. 
+<p>
 parm :<ul>
 <li>p_array which can be empty</li></ul>
 <p>
@@ -226,23 +234,26 @@ References <a class="el" href="show__document__modele_8php-source.html#l00060">$
     <td>
 
 <p>
-RecordFin<p>
-Record an invoice in the table jrn &amp; jrnx<p>
-parm :<ul>
-<li>$p_cn Database connection</li></ul>
+Record an invoice in the table jrn &amp; jrnx. 
 <p>
-$p_array contains all the invoice data e_date =&gt; e : 01.01.2003 e_bank_account =&gt; e : 3<ul>
-<li>$p_user userid</li><li>$p_jrn current folder (journal)</li><li>array e_other$i, e_other$i_amount, e_other$i_label gen :<ul>
-<li>none return: true on success</li></ul>
-</li></ul>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>$p_cn</em>&nbsp;</td><td>Database connection </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>$p_array</em>&nbsp;</td><td>contains all the invoice data e_date =&gt; e : 01.01.2003 e_bank_account =&gt; e : 3 </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>$p_user</em>&nbsp;</td><td>userid </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>$p_jrn</em>&nbsp;</td><td>current folder (journal) </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>array</em>&nbsp;</td><td>e_other$i, e_other$i_amount, e_other$i_label</td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>true on success</dd></dl>
 
 <p>
-Definition at line <a class="el" href="user__form__fin_8php-source.html#l00349">349</a> of file <a class="el" href="user__form__fin_8php-source.html">user_form_fin.php</a>.
+Definition at line <a class="el" href="user__form__fin_8php-source.html#l00348">348</a> of file <a class="el" href="user__form__fin_8php-source.html">user_form_fin.php</a>.
 <p>
 References <a class="el" href="impress__fiche_8php-source.html#l00079">$e</a>, <a class="el" href="send__poste__pdf_8php-source.html#l00044">$poste</a>, <a class="el" href="annulation_8php-source.html#l00136">$seq</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="ac__common_8php-source.html#l00036">echo_error()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="balance_8php-source.html#l00033">exit</a>, <a class="el" href="ac__common_8php-source.html#l00207">FormatString()</a>, <a class="el" href="user__common_8php-source.html#l00288">InsertJrn()</a>, <a class="el" href="user__common_8php-source.html#l00244">InsertJrnx()</a>, <a class="el" href="user__common_8php-source.html#l00700">InsertRapt()</a>, <a class="el" href="ac__common_8php-source.html#l00097">isDate()</a>, <a class="el" href="ac__common_8php-source.html#l00076">isNumber()</a>, <a class="el" href="postgres_8php-source.html#l00251">NextSequence()</a>, <a class="el" href="postgres_8php-source.html#l00266">Rollback()</a>, <a class="el" href="jrn_8php-source.html#l00949">SetInternalCode()</a>, and <a class="el" href="postgres_8php-source.html#l00257">StartSql()</a>.    </td>
   </tr>
 </table>
-<hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 23:34:00 2006 for phpcompta by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 00:05:14 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

@@ -287,46 +287,47 @@
 <a name="l00358"></a>00358   <a class="code" href="debug_8php.html#a0">echo_debug</a>('postgres.php',__LINE__,var_export($array,<span class="keyword">true</span>));
 <a name="l00359"></a>00359   <span class="keywordflow">return</span> <a class="code" href="recherche_8php.html#a4">$array</a>;
 <a name="l00360"></a>00360 }
-<a name="l00368"></a><a class="code" href="postgres_8php.html#a24">00368</a> function <a class="code" href="postgres_8php.html#a24">save_upload_document</a> ($cn,$seq) {
-<a name="l00369"></a>00369 
-<a name="l00370"></a>00370   $new_name=tempnam('/tmp<span class="charliteral">','</span>pj');
-<a name="l00371"></a>00371   <a class="code" href="debug_8php.html#a0">echo_debug</a>('postgres.php',__LINE__,<span class="stringliteral">"new name="</span>.$new_name);
-<a name="l00372"></a>00372   <span class="keywordflow">if</span> ( strlen ($_FILES['pj']['tmp_name']) != 0 ) {
-<a name="l00373"></a>00373       <span class="keywordflow">if</span> (move_uploaded_file($_FILES['pj']['tmp_name'],
-<a name="l00374"></a>00374                              $new_name)) {
-<a name="l00375"></a>00375         <span class="comment">// echo "Image saved";</span>
-<a name="l00376"></a>00376 
-<a name="l00377"></a>00377         $oid= pg_lo_import($cn,$new_name);
-<a name="l00378"></a>00378         <span class="keywordflow">if</span> ( $oid == <span class="keyword">false</span> ) {
-<a name="l00379"></a>00379           <a class="code" href="ac__common_8php.html#a0">echo_error</a>('postgres.php',__LINE__,<span class="stringliteral">"cannot upload document"</span>);
-<a name="l00380"></a>00380           <a class="code" href="postgres_8php.html#a17">Rollback</a>($cn);
-<a name="l00381"></a>00381           <span class="keywordflow">return</span>;
-<a name="l00382"></a>00382         }
-<a name="l00383"></a>00383         <a class="code" href="debug_8php.html#a0">echo_debug</a>('postgres.php',__LINE__,<span class="stringliteral">"Loading document"</span>);
-<a name="l00384"></a>00384         <span class="comment">// Remove old document</span>
-<a name="l00385"></a>00385         <a class="code" href="impress__bilan_8php.html#a0">$ret</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select jr_pj from jrn where jr_grpt_id=$seq"</span>);
-<a name="l00386"></a>00386         <span class="keywordflow">if</span> (pg_num_rows($ret) != 0) {
-<a name="l00387"></a>00387           <a class="code" href="user__action__ach_8php.html#a2">$r</a>=pg_fetch_array($ret,0);
-<a name="l00388"></a>00388           <a class="code" href="modify__op_8php.html#a6">$old_oid</a>=<a class="code" href="user__action__ach_8php.html#a2">$r</a>['jr_pj'];
-<a name="l00389"></a>00389           <span class="keywordflow">if</span> (strlen($old_oid) != 0) 
-<a name="l00390"></a>00390             pg_lo_unlink($cn,$old_oid);
-<a name="l00391"></a>00391         }
-<a name="l00392"></a>00392         <span class="comment">// Load new document</span>
-<a name="l00393"></a>00393         <a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"update jrn set jr_pj="</span>.$oid.<span class="stringliteral">", jr_pj_name='"</span>.$_FILES['pj']['<a class="code" href="action_8inc_8php.html#a3">name</a>'].<span class="stringliteral">"', "</span>.
-<a name="l00394"></a>00394                 <span class="stringliteral">"jr_pj_type='"</span>.$_FILES['pj']['type'].<span class="stringliteral">"'  where jr_grpt_id=$seq"</span>);
-<a name="l00395"></a>00395 
-<a name="l00396"></a>00396       }      <span class="keywordflow">else</span> {
-<a name="l00397"></a>00397         echo <span class="stringliteral">"&lt;H1&gt;Error&lt;/H1&gt;"</span>;
-<a name="l00398"></a>00398         <a class="code" href="postgres_8php.html#a17">Rollback</a>($cn);
-<a name="l00399"></a>00399         <a class="code" href="balance_8php.html#a0">exit</a>;
-<a name="l00400"></a>00400       }
-<a name="l00401"></a>00401     }
-<a name="l00402"></a>00402  }
-<a name="l00403"></a>00403 
-<a name="l00404"></a>00404 
+<a name="l00369"></a><a class="code" href="postgres_8php.html#a24">00369</a> function <a class="code" href="postgres_8php.html#a24">save_upload_document</a> ($cn,$seq) {
+<a name="l00370"></a>00370 
+<a name="l00371"></a>00371   $new_name=tempnam('/tmp<span class="charliteral">','</span>pj');
+<a name="l00372"></a>00372   <a class="code" href="debug_8php.html#a0">echo_debug</a>('postgres.php',__LINE__,<span class="stringliteral">"new name="</span>.$new_name);
+<a name="l00373"></a>00373   <span class="keywordflow">if</span> ( strlen ($_FILES['pj']['tmp_name']) != 0 ) {
+<a name="l00374"></a>00374       <span class="keywordflow">if</span> (move_uploaded_file($_FILES['pj']['tmp_name'],
+<a name="l00375"></a>00375                              $new_name)) {
+<a name="l00376"></a>00376         <span class="comment">// echo "Image saved";</span>
+<a name="l00377"></a>00377 
+<a name="l00378"></a>00378         $oid= pg_lo_import($cn,$new_name);
+<a name="l00379"></a>00379         <span class="keywordflow">if</span> ( $oid == <span class="keyword">false</span> ) {
+<a name="l00380"></a>00380           <a class="code" href="ac__common_8php.html#a0">echo_error</a>('postgres.php',__LINE__,<span class="stringliteral">"cannot upload document"</span>);
+<a name="l00381"></a>00381           <a class="code" href="postgres_8php.html#a17">Rollback</a>($cn);
+<a name="l00382"></a>00382           <span class="keywordflow">return</span>;
+<a name="l00383"></a>00383         }
+<a name="l00384"></a>00384         <a class="code" href="debug_8php.html#a0">echo_debug</a>('postgres.php',__LINE__,<span class="stringliteral">"Loading document"</span>);
+<a name="l00385"></a>00385         <span class="comment">// Remove old document</span>
+<a name="l00386"></a>00386         <a class="code" href="impress__bilan_8php.html#a0">$ret</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select jr_pj from jrn where jr_grpt_id=$seq"</span>);
+<a name="l00387"></a>00387         <span class="keywordflow">if</span> (pg_num_rows($ret) != 0) {
+<a name="l00388"></a>00388           <a class="code" href="user__action__ach_8php.html#a2">$r</a>=pg_fetch_array($ret,0);
+<a name="l00389"></a>00389           <a class="code" href="modify__op_8php.html#a6">$old_oid</a>=<a class="code" href="user__action__ach_8php.html#a2">$r</a>['jr_pj'];
+<a name="l00390"></a>00390           <span class="keywordflow">if</span> (strlen($old_oid) != 0) 
+<a name="l00391"></a>00391             pg_lo_unlink($cn,$old_oid);
+<a name="l00392"></a>00392         }
+<a name="l00393"></a>00393         <span class="comment">// Load new document</span>
+<a name="l00394"></a>00394         <a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"update jrn set jr_pj="</span>.$oid.<span class="stringliteral">", jr_pj_name='"</span>.$_FILES['pj']['<a class="code" href="action_8inc_8php.html#a3">name</a>'].<span class="stringliteral">"', "</span>.
+<a name="l00395"></a>00395                 <span class="stringliteral">"jr_pj_type='"</span>.$_FILES['pj']['type'].<span class="stringliteral">"'  where jr_grpt_id=$seq"</span>);
+<a name="l00396"></a>00396 
+<a name="l00397"></a>00397       }      <span class="keywordflow">else</span> {
+<a name="l00398"></a>00398         echo <span class="stringliteral">"&lt;H1&gt;Error&lt;/H1&gt;"</span>;
+<a name="l00399"></a>00399         <a class="code" href="postgres_8php.html#a17">Rollback</a>($cn);
+<a name="l00400"></a>00400         <a class="code" href="balance_8php.html#a0">exit</a>;
+<a name="l00401"></a>00401       }
+<a name="l00402"></a>00402     }
+<a name="l00403"></a>00403   <span class="keywordflow">return</span> $oid;
+<a name="l00404"></a>00404  }
 <a name="l00405"></a>00405 
-<a name="l00406"></a>00406 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 23 23:33:59 2006 for phpcompta by&nbsp;
+<a name="l00406"></a>00406 
+<a name="l00407"></a>00407 
+<a name="l00408"></a>00408 ?&gt;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 00:05:13 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>
