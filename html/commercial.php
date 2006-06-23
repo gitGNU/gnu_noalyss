@@ -76,6 +76,7 @@ echo ShowItem(array(
 		    array('?p_action=client','Client'),
 		    array('?p_action=facture','Facture'),
 		    array('?p_action=fournisseur','Fournisseur'),
+		    array('?p_action=depense','D&eacute;pense'),
 		    array('?p_action=contact','Contact'),
 		    array('?p_action=suivi_courrier','Suivi courrier'),
 		    array('?p_action=pref','Préférence'),
@@ -109,7 +110,7 @@ if ( $p_action == "client" )
 // Fournisseur
 if ( $p_action == 'fournisseur') 
 {
-  require_once("fournisseur.inc.php");
+  require_once("supplier.inc.php");
 }
 ////////////////////////////////////////////////////////////////////////////////
 // action
@@ -129,4 +130,10 @@ if ( $p_action == "facture" )
 if ( $p_action == 'contact') 
 {
   require_once("contact.inc.php");
+}
+////////////////////////////////////////////////////////////////////////////////
+// Expense
+if ( $p_action == 'depense') 
+{
+  require_once("depense.inc.php");
 }

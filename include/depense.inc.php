@@ -19,12 +19,11 @@
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 require_once('class_jrn.php');
-require_once('user_form_ven.php');
+require_once('user_form_ach.php');
 require_once('jrn.php');
 require_once("class_document.php");
 require_once("class_fiche.php");
-/*!\brief the purpose off this file is to create invoices, to record them and to generate
- *        them, and of course to save them into the database
+/*!\brief the purpose off this file encode expense and  to record them
  *
  */
 
@@ -34,8 +33,8 @@ var_dump($_REQUEST);
 // to enter a new invoice
 if ( ! isset ($_REQUEST['p_jrn'])) {
   // no journal are selected so we select the first one
-  $p_jrn=GetFirstJrnIdForJrnType($_SESSION['g_dossier'],'VEN'); 
-  // $p_jrn=-1;
+  $p_jrn=GetFirstJrnIdForJrnType($_SESSION['g_dossier'],'ACH'); 
+
 } else
 {
   $p_jrn=$_REQUEST['p_jrn'];
@@ -52,14 +51,14 @@ if ( isset ($_REQUEST['url']))
 
 $sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
 ////////////////////////////////////////////////////////////////////////////////
-// If a list of invoice is asked
+// If a list of depense is asked
 // 
 if ( $sub_action == "list") 
 {
 
   // show the menu with the list item selected
   echo '<div class="u_subtmenu">';
-  echo ShowMenuJrnUser($_SESSION['g_dossier'],'VEN',0,'<td class="selectedcell">Liste</td>');
+  echo ShowMenuJrnUser($_SESSION['g_dossier'],'ACH',0,'<td class="selectedcell">Liste</td>');
   echo '</div>';
   // Ask to update payment
   if ( isset ( $_GET['paid'])) 
@@ -97,7 +96,7 @@ if ( $sub_action == "list")
   $hid=new widget("hidden");
   
   $hid->name="p_action";
-  $hid->value="facture";
+  $hid->value="depense";
   echo $hid->IOValue();
 
 
@@ -118,10 +117,10 @@ if ( $sub_action == "list")
   $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
   printf ('<span>Tiers QuickCode: <input type="text" name="qcode" value="%s"></span>',
 	   $qcode);
-
+  echo $retour;
   // Show list of sell
   // Date - date of payment - Customer - amount
-  $sql=SQL_LIST_ALL_INVOICE." and jr_tech_per=".$current." and jr_def_type='VEN'" ;
+  $sql=SQL_LIST_ALL_INVOICE." and jr_tech_per=".$current." and jr_def_type='ACH'" ;
   $step=$_SESSION['g_pagesize'];
   $page=(isset($_GET['offset']))?$_GET['page']:1;
   $offset=(isset($_GET['offset']))?$_GET['offset']:0;
@@ -134,7 +133,7 @@ if ( $sub_action == "list")
       $l=" and jr_grpt_id in (select j_grpt from jrnx where j_qcode='$qcode') ";
     }
 
-  list($max_line,$list)=ListJrn($cn,0,"where jrn_def_type='VEN' and jr_tech_per=$current $l "
+  list($max_line,$list)=ListJrn($cn,0,"where jrn_def_type='ACH' and jr_tech_per=$current $l "
 				,null,$offset,1);
   $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
 
@@ -152,7 +151,7 @@ if ( $sub_action == "list")
 } 
 ////////////////////////////////////////////////////////////////////////////////
 echo '<div class="u_subtmenu">';
-echo ShowMenuJrnUser($_SESSION['g_dossier'],'VEN',$p_jrn,'<td class="cell"><A class="mtitle" HREF="commercial.php?liste&p_action=facture&sa=list">Liste</A></td>');
+echo ShowMenuJrnUser($_SESSION['g_dossier'],'ACH',$p_jrn,'<td class="cell"><A class="mtitle" HREF="commercial.php?liste&p_action=depense&sa=list">Liste</A></td>');
 echo '</div>';
 ////////////////////////////////////////////////////////////////////////////////
 // if we request to add an item 
@@ -162,7 +161,11 @@ if ( isset ($_POST['add_item']) || isset ($_POST["correct_new_invoice"])  )
 {
   $nb_item=$_POST['nb_item'];
   $nb_item++;
-  $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,false,$nb_item);
+ // Submit button in the form
+  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
+          <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver" ID="SubmitButton">';
+
+  $form=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$submit,false,$nb_item);
   echo '<div class="u_redcontent">';
   echo $form;
   echo '</div>';
@@ -171,51 +174,42 @@ if ( isset ($_POST['add_item']) || isset ($_POST["correct_new_invoice"])  )
 ////////////////////////////////////////////////////////////////////////////////
 // we want to save the invoice and to generate a invoice
 //
-if ( isset($_POST['record_and_print_invoice'])) 
+if ( isset($_POST['save'])) 
 {
-  // First we save the invoice, the internal code will be used to change the description
-  // and upload the file
-  list ($internal,$e)=RecordInvoice($cn,$_POST,$User,$p_jrn);
+  // we save the expense
+  list ($internal,$c)=RecordSell($cn,$_POST,$User,$p_jrn);
 
   
-  $form=FormVenteView($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$_POST['nb_item'],'noform','');
+  $form=FormAchView($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,"",$_POST['nb_item'],false);
 
   echo '<div class="u_redcontent">';
   echo '<h2 class="info"> Op&eacute;ration '.$internal.' enregistr&eacute;</h2>';
   echo $form;
   echo '<hr>';
-  // Show the details of the encoded invoice 
-  // and the url of the invoice
-  if ( isset($_POST['gen_invoice'])) 
-    {
-      	  $doc=new Document($cn);
-	  $doc->f_id=$_POST['e_client'];
-	  $doc->md_id=$_POST['gen_doc'];
-	  $doc->ag_id=0;
-	  $str_file=$doc->Generate();
-	  // Move the document to the jrn
-	  $doc->MoveDocumentPj($internal);
-	  echo $str_file;
-    }
   echo '</form>';
+  echo '<A href="commercial.php?p_action=depense&p_jrn='.$_GET['p_jrn'].'">
+    <input type="button" Value="Nouveau"></A>';
   exit();
 }
 ////////////////////////////////////////////////////////////////////////////////
-// we show the confirmation screen it is proposed here to generate the
-// invoice
+// we show the confirmation screen
+// 
 if ( isset ($_POST['view_invoice']) ) 
 {
   $nb_number=$_POST["nb_item"];
-  if ( form_verify_input($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,$nb_number) == true)
-    {
-      $form=FormVenteView($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,$nb_number);
-
-    } else {
-      // Check failed : invalid date or quantity
-      echo_error("Cannot validate ");
-      $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,false,$nb_number);
-    }
-
+  $submit='<INPUT TYPE="SUBMIT" name="save" value="Confirmer">';
+  $submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
+  if ( form_verify_input ($cn,$p_jrn,$User->GetPeriode(),$_POST,$nb_number) == true ) {
+    // Should use a read only view instead of FormAch
+    // where we can check
+    $form=FormAchView($cn,$p_jrn,$User->GetPeriode(),$_POST,$submit,$nb_number);
+  } else {
+    // if something goes wrong, correct it
+    $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
+                    <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver">';
+    $form=FormAchInput($cn,$p_jrn,$User->GetPeriode(),$_POST,$submit, false, $nb_number);
+  }
+  
   echo '<div class="u_redcontent">';
   echo         $form;
   echo '</div>';
@@ -230,9 +224,12 @@ if ( isset ($_POST['view_invoice']) )
 if ( $p_jrn != -1 ) 
 {
   $jrn=new jrn($cn,  $p_jrn);
-  echo_debug('facture.inc.php.php',__LINE__,"Blank form");
+  echo_debug('depense.inc.php',__LINE__,"Blank form");
+ // Submit button in the form
+  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
+          <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver" ID="SubmitButton">';
   // Show an empty form of invoice
-  $form=FormVenInput($cn,$p_jrn,$User->GetPeriode(),null,false,$jrn->GetDefLine('cred'));
+  $form=FormAchInput($cn,$p_jrn,$User->GetPeriode(),null,$submit,false,$jrn->getDefLine('cred'));
   echo '<div class="u_redcontent">';
   echo $form;
   echo '</div>';

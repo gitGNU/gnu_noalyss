@@ -61,7 +61,25 @@ echo_debug('user_form_ach.php',__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_peri
     $r.=JS_SEARCH_CARD;
     $r.=JS_SHOW_TVA;    
     $r.=JS_TVA;
-    $r.="<FORM NAME=\"form_detail\"  enctype=\"multipart/form-data\" ACTION=\"user_jrn.php?action=new&p_jrn=$p_jrn\" METHOD=\"POST\">";
+    // Compute href
+    $href=$_SERVER['SCRIPT_NAME'];
+    switch ($href)
+      {
+	// user_jrn.php
+      case '/user_jrn.php':
+	$href="user_jrn.php?action=new&p_jrn=$p_jrn";
+	break;
+      case '/commercial.php':
+	$href="commercial.php?p_action=depense&p_jrn=$p_jrn";
+	break;
+      default:
+	echo_error('user_form_ach.php',__LINE__,'Erreur invalid request uri');
+	exit (-1);
+      }
+      
+
+    //    $r.="<FORM NAME=\"form_detail\"  enctype=\"multipart/form-data\" ACTION=\"user_jrn.php?action=new&p_jrn=$p_jrn\" METHOD=\"POST\">";
+    $r.="<FORM NAME=\"form_detail\"  enctype=\"multipart/form-data\" ACTION=\"$href\" METHOD=\"POST\">";
   }
 
   $sql="select jrn_def_id as value,jrn_def_name as label from jrn_def where jrn_def_type='VEN'";
@@ -129,7 +147,7 @@ echo_debug('user_form_ach.php',__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_peri
   // Set correctly the REQUEST param for jrn_type 
   $h=new widget('hidden');
   $h->name='jrn_type';
-  $h->value=$_REQUEST['jrn_type'];
+  $h->value='ACH';
   $r.=$h->IOValue();
 
   // Record the current number of article
@@ -569,8 +587,24 @@ function FormAchView ($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$p_number,$p_pi
 
  
   $r.="</DIV>";
+  // Compute href
+  $href=$_SERVER['SCRIPT_NAME'];
+  switch ($href)
+    {
+      // user_jrn.php
+    case '/user_jrn.php':
+      $href="user_jrn.php?action=new&p_jrn=$p_jrn";
+      break;
+    case '/commercial.php':
+      $href="commercial.php?p_action=depense&p_jrn=$p_jrn";
+      break;
+    default:
+      echo_error('user_form_ach.php',__LINE__,'Erreur invalid request uri');
+      exit (-1);
+    }
 
-  $r.='<FORM METHOD="POST" enctype="multipart/form-data" ACTION="user_jrn.php?action=new&p_jrn='.$p_jrn.'">';
+  //  $r.='<FORM METHOD="POST" enctype="multipart/form-data" ACTION="user_jrn.php?action=new&p_jrn='.$p_jrn.'">';
+  $r.='<FORM METHOD="POST" enctype="multipart/form-data" ACTION="'.$href.'">';
   // check for upload piece
   // Set correctly the REQUEST param for jrn_type 
   $h=new widget('hidden');
@@ -798,7 +832,7 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 
   Commit($p_cn);
 
-  return $comment;
+  return array($internal,$comment);
 }
 
 ?>

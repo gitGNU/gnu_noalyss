@@ -247,7 +247,7 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
   // Set correctly the REQUEST param for jrn_type 
   $h=new widget('hidden');
   $h->name='jrn_type';
-  $h->value=$_REQUEST['jrn_type'];
+  $h->value='VEN';
   $r.=$h->IOValue();
 
   if ($pview_only == false ) {

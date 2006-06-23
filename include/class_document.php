@@ -593,7 +593,7 @@ class Document
       $sql='delete from document where d_id='.$this->d_id;
       ExecSql($this->db,$sql);
     }
-  /*!\brief Copy a document from the table document into the concerned row
+  /*!\brief Move a document from the table document into the concerned row
    *        the document is not copied : it is only a link
    *
    * \param $p_internal internal code

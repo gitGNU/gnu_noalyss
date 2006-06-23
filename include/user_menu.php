@@ -266,13 +266,13 @@ function ShowMenuJrnUser($p_dossier,$p_type,$p_jrn,$p_extra="")
                              where
                              uj_login='".$User->id."'
                              and uj_priv !='X'
-                             and jrn_def_type='$p_type'
+                             and jrn_def_type='$p_type' order by jrn_Def_id
                              ");
     } else {
       $Ret=ExecSql($Cn,"select jrn_def_id,jrn_def_type,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_deb_max_line,jrn_cred_max_line,
                             jrn_type_id,jrn_desc,'W' as uj_priv
                              from jrn_def join jrn_type on jrn_def_type=jrn_type_id where
-                              jrn_def_type='$p_type'");
+                              jrn_def_type='$p_type' order by jrn_Def_id");
 
     } 
     $Max=pg_NumRows($Ret);
@@ -297,7 +297,7 @@ function ShowMenuJrnUser($p_dossier,$p_type,$p_jrn,$p_extra="")
 	  // p_action=facture
 	  if ( $href=="/commercial.php" ) 
 	    {
-	      $add="&p_action=facture";
+	      $add='&p_action='.$_REQUEST['p_action'];
 	    }
 	  echo '<TD class="cell">';
 	  printf ('<A class="mtitle" HREF="%s?jrn_type=%s&p_jrn=%s%s">%s</A></TD>',
