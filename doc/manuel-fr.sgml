@@ -625,7 +625,7 @@ id="journal_comptable"  name="définition journal">
 </sect1>
 
 </sect>
-<sect> Les fiches
+<sect> Les fiches <label id="fiche">
 <sect1>Création d'une catégorie de fiche
 <p>
 Les catégories de fiches sont en fait le rassemblement de fiche
@@ -1043,4 +1043,187 @@ où vous travailliez, le poste comptable est maintenant disponible.
 
 </sect1>
 </sect>
+<sect> Le module de comptabilité
+<p> Après toute cette théorie, il est temps d'apprendre à utiliser
+PhpCompta
+
+<sect1>Journaux
+<sect2>Grand Livre
+</sect2>
+<sect2>Entrée
+</sect2>
+<sect2>Vente
+</sect2>
+<sect2>Dépense
+</sect2>
+
+<sect2>Financier
+</sect2>
+
+</sect1>
+<sect1>Recherche
+</sect1>
+
+<sect1>Fiche
+<p>C'est ici que vous pourrez ajoutez des fiches mais aussi ajouter
+des nouveaux attributs aux fiches voir <ref id="fiche" name="fiche">
+
+</sect1>
+
+<sect1>Impression
+<sect2>Journaux
+</sect2>
+<sect2>Poste
+</sect2>
+<sect2>Fiche
+</sect2>
+<sect2>Rapport
+</sect2>
+
+<sect2>Balance des comptes
+</sect2>
+
+<sect2>Bilan
+</sect2>
+
+<sect2>Liste Assujetti
+</sect2>
+</sect1>
+
+<sect1>Avancé
+<sect2>Journaux
+</sect2>
+<sect2>Période
+</sect2>
+<sect2>Centralise
+</sect2>
+<sect2>Plan Comptable
+</sect2>
+
+<sect2>Stock
+</sect2>
+
+<sect2>Rapport
+</sect2>
+
+<sect2>Import Banque
+</sect2>
+
+<sect2>Ecriture d'ouverture
+</sect2>
+
+
+</sect1>
+
+
+</sect>
+<sect>Le module de gestion
+<p> Le module de gestion, comprend en partie la comptabilité et
+surtout le suivi des clients, fournisseurs,... Il permet aussi la
+création de facture, de documents qui peuvent être généré.
+
+
+<sect1> Menu : clients
+<p> En sélectionnant cette option, vous allez directement voir la
+liste des clients que vous avez. En cliquant sur le premier élément de
+la colonne, vous pourrez modifier la fiche client. 
+
+<p>Dans la 3ième colonne, vous avez les actions
+<itemize>
+<item> C pour avoir la liste des contacts
+<item> A pour accèder à toutes la correspondance avec ce client
+<item> F pour accèder à toutes les factures au nom de ce client
+</itemize>
+
+
+</sect1>
+<sect1> Menu Facture
+<p> Par défaut le premier journal est ouvert, et vous propose
+d'encoder une facture, cela se passe dans la même façon que dans le
+module de comptabilité sauf que vous pouvez ici générer une facture et
+l'imprimer.
+
+<p> Pour ajouter des modèles de facture, il faut aller dans le module
+Paramètre<ref id="parametre" name="Module Paramètre">.
+
+</sect1>
+
+<sect1>Menu Dépense
+<p> Exactement comme dans le module comptable 
+
+
+</sect1>
+
+<sect1> Contact
+<p> Dans une companie ou dans une administration, vous pouvez avoir
+plusieurs personnes de contact, dans ce cas vous utiliserez les fiches
+contacts. 
+
+
+</sect1>
+<sect1>Administration
+<p>Administrations des finances ou une autre, vous avez besoin de
+suivre le courrier que vous entretenez avec eux. Que ce soit pour
+charger les documents que vous envoyez ou que vous recevez, il vaut
+toujours mieux garder une trace de toute vos communications avec eux. 
+
+
+</sect1>
+<sect1>Suivi Courrier
+<p>
+
+
+</sect1>
+
+
+
+</sect>
+<sect>Module Paramètre <label id="parametre">
+<sect1>Société
+<p>Ici vous indiquez les paramètres de votre société, nom,
+adresse... Cela sera réutilisez dans divers endroits.
+
+</sect1>
+
+<sect1>Devise
+<p>Pas vraiment utile, vous donne la possibilité de charger les cours
+de monnaie.
+
+</sect1>
+<sect1>TVA
+<p> Dans cette page-ci,  vous pouvez
+paramètrer correctement votre tva, vous pouvez ajouter ici des taux de
+tva, de complèter la description et surtout de paramètrer les postes
+comptables qui doivent utiliser la tva. Ces postes sont séparés par
+des virgules, le premier est la tva sur les achats qui doit être
+récupéré et le second est la tva sur les ventes qui doit être payée.
+
+<p>Ces postes seront utilisés automatiquement avec les opérations de
+vente et d'achat.
+
+</sect1>
+<sect1>Poste Comptable
+<p>Paramètrage de certains poste comptable qui sont utilisés à d'autres
+endroits du programme, vous pouvez les modifier mais assurez-vous
+qu'il existe déjà dans votre Plan Comptable
+</sect1>
+<sect1>Fiche
+<p>Quand vous créez une nouvelle fiche, ou vous demande sur quel
+modèle, vous voulez vous baser. Ce sont ces modèles qui peuvent être
+modifiées ici.
+
+<p>C'est un paramètrage assez délicat, il faut mieux ne pas
+le modifier si vous n'êtes pas sur de ce que vous faites.
+
+<p>Pour l'instant, il n'est pas possible d'ajouter des fiches, sauf en
+ajoutant des données dans les table fiche_def_ref et attr_min, il faut
+voir avec la doc. développeurs pour cela
+
+</sect1>
+<sect1>Sécurité
+</sect1>
+<sect1>Document <label id="document">
+<p>
+</sect1>
+
 </article>
