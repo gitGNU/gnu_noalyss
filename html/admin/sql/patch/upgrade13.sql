@@ -530,6 +530,6 @@ create view vw_supplier as SELECT a.f_id, a.av_text AS name, a1.av_text AS quick
   WHERE a.frd_id = 8;
 
 
-upgrade version set val=14;
+update version set val=14;
 
 commit;
