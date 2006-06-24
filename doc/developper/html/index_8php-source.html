@@ -9,76 +9,76 @@
 <a class="el" href="dir_000000.html">developpement</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_000001.html">phpcompta-dev</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_000002.html">phpcompta</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_000003.html">html</a></div>
 <h1>index.php</h1><a href="index_8php.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 
 <a name="l00002"></a>00002 &lt;?
-<a name="l00028"></a>00028 echo '&lt;!DOCTYPE HTML PUBLIC <span class="stringliteral">"-//W3C/DTD HTML 3.2 FINAL//EN"</span>&gt;
-<a name="l00029"></a>00029 
-<a name="l00030"></a>00030 &lt;HTML&gt;
-<a name="l00031"></a>00031 &lt;head&gt;
-<a name="l00032"></a>00032 &lt;TITLE&gt; PhpCompta &lt;/TITLE&gt;
-<a name="l00033"></a>00033 &lt;style&gt;
-<a name="l00034"></a>00034 BODY {
-<a name="l00035"></a>00035   background-color:white;
-<a name="l00036"></a>00036   font-<a class="code" href="tva_8inc_8php.html#a15">size</a>:12px;
-<a name="l00037"></a>00037   font-family:sans-serif;
-<a name="l00038"></a>00038   color:blue;
-<a name="l00039"></a>00039 }
-<a name="l00040"></a>00040 .remark {
-<a name="l00041"></a>00041         border: solid black 1px;
-<a name="l00042"></a>00042         font-family:sans-serif;
-<a name="l00043"></a>00043         font-<a class="code" href="tva_8inc_8php.html#a15">size</a>: 9px;
-<a name="l00044"></a>00044         color:blue;
-<a name="l00045"></a>00045         <a class="code" href="tva_8inc_8php.html#a17">width</a>:200px;
-<a name="l00046"></a>00046         padding:3px;
-<a name="l00047"></a>00047 }
-<a name="l00048"></a>00048 .gras {
-<a name="l00049"></a>00049   font-<a class="code" href="tva_8inc_8php.html#a15">size</a>:12px;
-<a name="l00050"></a>00050   font-family:sans-serif;
-<a name="l00051"></a>00051   color:red;
-<a name="l00052"></a>00052 
-<a name="l00053"></a>00053 }
-<a name="l00054"></a>00054 &lt;/style&gt;
-<a name="l00055"></a>00055 &lt;script src=<span class="stringliteral">"scripts.js"</span> type=<span class="stringliteral">"text/javascript"</span>&gt;&lt;/script&gt;
-<a name="l00056"></a>00056 &lt;/head&gt;
-<a name="l00057"></a>00057 &lt;BODY onLoad=<span class="stringliteral">"SetFocus(\'login\',0)"</span>&gt;
-<a name="l00058"></a>00058 Version  developpement 1.2.2 patch 5
-<a name="l00059"></a>00059 &lt;div <span class="keyword">class</span>=<span class="stringliteral">"remark"</span>&gt;
-<a name="l00060"></a>00060  &lt;p <span class="keyword">class</span>=<span class="stringliteral">"gras"</span>&gt;Il est conseill&amp;eacute; de ne PAS utiliser Internet Explorer.
-<a name="l00061"></a>00061  &lt;/p&gt;&lt;p&gt;
-<a name="l00062"></a>00062  Vous pouvez utiliser un autre browser: firefox, mozilla, netscape, Konqueror, opera...
-<a name="l00063"></a>00063  &lt;/p&gt;
-<a name="l00064"></a>00064  &lt;p&gt;
-<a name="l00065"></a>00065  &lt;a href=<span class="stringliteral">"https://savannah.nongnu.org/projects/phpcompta"</span>&gt;
-<a name="l00066"></a>00066  Si vous avez envie de nous rejoindre, vous êtes les bienvenus
-<a name="l00067"></a>00067  &lt;/a&gt;   .
-<a name="l00068"></a>00068  &lt;/p&gt;
-<a name="l00069"></a>00069 &lt;/div&gt;
-<a name="l00070"></a>00070 
-<a name="l00071"></a>00071 &lt;center&gt;
-<a name="l00072"></a>00072         &lt;IMG SRC=<span class="stringliteral">"image/logo7.jpg"</span> alt=<span class="stringliteral">"Logo"</span>&gt;
-<a name="l00073"></a>00073 &lt;BR&gt;
-<a name="l00074"></a>00074 
-<a name="l00075"></a>00075 &lt;form <a class="code" href="classaction.html">action</a>=<span class="stringliteral">"login.php"</span> method=<span class="stringliteral">"post"</span> <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"loginform"</span>&gt;
-<a name="l00076"></a>00076 &lt;TABLE&gt;&lt;TR&gt;&lt;TD&gt;
-<a name="l00077"></a>00077 &lt;TABLE  BORDER=0 CELLSPACING=0&gt;
-<a name="l00078"></a>00078 &lt;TR&gt;
-<a name="l00079"></a>00079 &lt;TD <span class="keyword">class</span>=<span class="stringliteral">"cell"</span>&gt;Login&lt;/TD&gt;
-<a name="l00080"></a>00080 &lt;TD&gt;&lt;input type=<span class="stringliteral">"text"</span> <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"p_user"</span> tabindex=<span class="stringliteral">"1"</span>&gt;&lt;/TD&gt;
-<a name="l00081"></a>00081 &lt;/TR&gt;
-<a name="l00082"></a>00082 &lt;TR&gt;
-<a name="l00083"></a>00083 &lt;TD&gt; Password&lt;/TD&gt;
-<a name="l00084"></a>00084 &lt;TD&gt;&lt;INPUT TYPE=<span class="stringliteral">"PASSWORD"</span> NAME=<span class="stringliteral">"p_pass"</span> tabindex=<span class="stringliteral">"2"</span>&gt;&lt;/TD&gt;
-<a name="l00085"></a>00085 &lt;/TR&gt;
-<a name="l00086"></a>00086 &lt;TR&gt;
-<a name="l00087"></a>00087 &lt;TD COLSPAN=2 ALIGN=CENTER&gt;&lt;INPUT TYPE=SUBMIT  NAME=<span class="stringliteral">"login"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"Log in"</span>&gt;&lt;/TD&gt;
-<a name="l00088"></a>00088 &lt;/TR&gt;
-<a name="l00089"></a>00089 &lt;/<a class="code" href="balance_8php.html#a3">table</a>&gt;
-<a name="l00090"></a>00090 &lt;/TD&gt;&lt;/TR&gt;&lt;/TABLE&gt;
-<a name="l00091"></a>00091 &lt;/form&gt; 
-<a name="l00092"></a>00092 &lt;/Center&gt;
-<a name="l00093"></a>00093 &lt;/body&gt;
-<a name="l00094"></a>00094 &lt;/html&gt;';
-<a name="l00095"></a>00095 
-<a name="l00096"></a>00096 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 00:05:12 2006 for phpcompta by&nbsp;
+<a name="l00030"></a>00030 echo '&lt;!DOCTYPE HTML PUBLIC <span class="stringliteral">"-//W3C/DTD HTML 3.2 FINAL//EN"</span>&gt;
+<a name="l00031"></a>00031 
+<a name="l00032"></a>00032 &lt;HTML&gt;
+<a name="l00033"></a>00033 &lt;head&gt;
+<a name="l00034"></a>00034 &lt;TITLE&gt; PhpCompta &lt;/TITLE&gt;
+<a name="l00035"></a>00035 &lt;style&gt;
+<a name="l00036"></a>00036 BODY {
+<a name="l00037"></a>00037   background-color:white;
+<a name="l00038"></a>00038   font-<a class="code" href="tva_8inc_8php.html#a15">size</a>:12px;
+<a name="l00039"></a>00039   font-family:sans-serif;
+<a name="l00040"></a>00040   color:blue;
+<a name="l00041"></a>00041 }
+<a name="l00042"></a>00042 .remark {
+<a name="l00043"></a>00043         border: solid black 1px;
+<a name="l00044"></a>00044         font-family:sans-serif;
+<a name="l00045"></a>00045         font-<a class="code" href="tva_8inc_8php.html#a15">size</a>: 9px;
+<a name="l00046"></a>00046         color:blue;
+<a name="l00047"></a>00047         <a class="code" href="tva_8inc_8php.html#a17">width</a>:200px;
+<a name="l00048"></a>00048         padding:3px;
+<a name="l00049"></a>00049 }
+<a name="l00050"></a>00050 .gras {
+<a name="l00051"></a>00051   font-<a class="code" href="tva_8inc_8php.html#a15">size</a>:12px;
+<a name="l00052"></a>00052   font-family:sans-serif;
+<a name="l00053"></a>00053   color:red;
+<a name="l00054"></a>00054 
+<a name="l00055"></a>00055 }
+<a name="l00056"></a>00056 &lt;/style&gt;
+<a name="l00057"></a>00057 &lt;script src=<span class="stringliteral">"scripts.js"</span> type=<span class="stringliteral">"text/javascript"</span>&gt;&lt;/script&gt;
+<a name="l00058"></a>00058 &lt;/head&gt;
+<a name="l00059"></a>00059 &lt;BODY onLoad=<span class="stringliteral">"SetFocus(\'login\',0)"</span>&gt;
+<a name="l00060"></a>00060 Version  developpement 1.2.2 patch 5
+<a name="l00061"></a>00061 &lt;div <span class="keyword">class</span>=<span class="stringliteral">"remark"</span>&gt;
+<a name="l00062"></a>00062  &lt;p <span class="keyword">class</span>=<span class="stringliteral">"gras"</span>&gt;Il est conseill&amp;eacute; de ne PAS utiliser Internet Explorer.
+<a name="l00063"></a>00063  &lt;/p&gt;&lt;p&gt;
+<a name="l00064"></a>00064  Vous pouvez utiliser un autre browser: firefox, mozilla, netscape, Konqueror, opera...
+<a name="l00065"></a>00065  &lt;/p&gt;
+<a name="l00066"></a>00066  &lt;p&gt;
+<a name="l00067"></a>00067  &lt;a href=<span class="stringliteral">"https://savannah.nongnu.org/projects/phpcompta"</span>&gt;
+<a name="l00068"></a>00068  Si vous avez envie de nous rejoindre, vous êtes les bienvenus
+<a name="l00069"></a>00069  &lt;/a&gt;   .
+<a name="l00070"></a>00070  &lt;/p&gt;
+<a name="l00071"></a>00071 &lt;/div&gt;
+<a name="l00072"></a>00072 
+<a name="l00073"></a>00073 &lt;center&gt;
+<a name="l00074"></a>00074         &lt;IMG SRC=<span class="stringliteral">"image/logo7.jpg"</span> alt=<span class="stringliteral">"Logo"</span>&gt;
+<a name="l00075"></a>00075 &lt;BR&gt;
+<a name="l00076"></a>00076 
+<a name="l00077"></a>00077 &lt;form <a class="code" href="classaction.html">action</a>=<span class="stringliteral">"login.php"</span> method=<span class="stringliteral">"post"</span> <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"loginform"</span>&gt;
+<a name="l00078"></a>00078 &lt;TABLE&gt;&lt;TR&gt;&lt;TD&gt;
+<a name="l00079"></a>00079 &lt;TABLE  BORDER=0 CELLSPACING=0&gt;
+<a name="l00080"></a>00080 &lt;TR&gt;
+<a name="l00081"></a>00081 &lt;TD <span class="keyword">class</span>=<span class="stringliteral">"cell"</span>&gt;Login&lt;/TD&gt;
+<a name="l00082"></a>00082 &lt;TD&gt;&lt;input type=<span class="stringliteral">"text"</span> <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"p_user"</span> tabindex=<span class="stringliteral">"1"</span>&gt;&lt;/TD&gt;
+<a name="l00083"></a>00083 &lt;/TR&gt;
+<a name="l00084"></a>00084 &lt;TR&gt;
+<a name="l00085"></a>00085 &lt;TD&gt; Password&lt;/TD&gt;
+<a name="l00086"></a>00086 &lt;TD&gt;&lt;INPUT TYPE=<span class="stringliteral">"PASSWORD"</span> NAME=<span class="stringliteral">"p_pass"</span> tabindex=<span class="stringliteral">"2"</span>&gt;&lt;/TD&gt;
+<a name="l00087"></a>00087 &lt;/TR&gt;
+<a name="l00088"></a>00088 &lt;TR&gt;
+<a name="l00089"></a>00089 &lt;TD COLSPAN=2 ALIGN=CENTER&gt;&lt;INPUT TYPE=SUBMIT  NAME=<span class="stringliteral">"login"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"Log in"</span>&gt;&lt;/TD&gt;
+<a name="l00090"></a>00090 &lt;/TR&gt;
+<a name="l00091"></a>00091 &lt;/<a class="code" href="balance_8php.html#a3">table</a>&gt;
+<a name="l00092"></a>00092 &lt;/TD&gt;&lt;/TR&gt;&lt;/TABLE&gt;
+<a name="l00093"></a>00093 &lt;/form&gt; 
+<a name="l00094"></a>00094 &lt;/Center&gt;
+<a name="l00095"></a>00095 &lt;/body&gt;
+<a name="l00096"></a>00096 &lt;/html&gt;';
+<a name="l00097"></a>00097 
+<a name="l00098"></a>00098 ?&gt;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 20:41:32 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

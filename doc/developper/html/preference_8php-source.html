@@ -31,7 +31,7 @@
 <a name="l00022"></a>00022 <span class="comment">/* $Revision$ */</span>
 <a name="l00037"></a><a class="code" href="preference_8php.html#a0">00037</a> function <a class="code" href="preference_8php.html#a0">FormPeriodeMult</a>($p_cn)
 <a name="l00038"></a>00038 {
-<a name="l00039"></a>00039   <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"select p_id,to_char(p_start,'DD.MM.YYYY') as p_start,</span>
+<a name="l00039"></a>00039   <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"select p_id,to_char(p_start,'DD.MM.YYYY') as p_start,</span>
 <a name="l00040"></a>00040 <span class="stringliteral">                    to_char(p_end,'DD.MM.YYYY') as p_end </span>
 <a name="l00041"></a>00041 <span class="stringliteral">        from parm_periode  </span>
 <a name="l00042"></a>00042 <span class="stringliteral">            order by p_exercice,p_start"</span>;
@@ -64,7 +64,7 @@
 <a name="l00083"></a>00083   <span class="keywordflow">default</span>:
 <a name="l00084"></a>00084     error(<span class="stringliteral">"invalide p_type in 'preference.php'#__LINE__"</span>);
 <a name="l00085"></a>00085   }
-<a name="l00086"></a>00086   <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"select p_id,to_char(p_start,'DD.MM.YYYY') as p_start_string,</span>
+<a name="l00086"></a>00086   <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"select p_id,to_char(p_start,'DD.MM.YYYY') as p_start_string,</span>
 <a name="l00087"></a>00087 <span class="stringliteral">                    to_char(p_end,'DD.MM.YYYY') as p_end_string </span>
 <a name="l00088"></a>00088 <span class="stringliteral">        from parm_periode where </span>
 <a name="l00089"></a>00089 <span class="stringliteral">         $sql_closed </span>
@@ -92,7 +92,7 @@
 <a name="l00111"></a>00111 }
 <a name="l00122"></a><a class="code" href="preference_8php.html#a2">00122</a> function <a class="code" href="preference_8php.html#a2">GetPeriode</a>($p_cn,$p_periode) 
 <a name="l00123"></a>00123 {
-<a name="l00124"></a>00124  <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"select to_char(p_start,'DD.MM.YYYY') as p_start,</span>
+<a name="l00124"></a>00124  <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"select to_char(p_start,'DD.MM.YYYY') as p_start,</span>
 <a name="l00125"></a>00125 <span class="stringliteral">              to_char(p_end,'DD.MM.YYYY')   as p_end</span>
 <a name="l00126"></a>00126 <span class="stringliteral">       from parm_periode</span>
 <a name="l00127"></a>00127 <span class="stringliteral">         where p_id="</span>.$p_periode;
@@ -103,7 +103,7 @@
 <a name="l00132"></a>00132 }
 <a name="l00143"></a><a class="code" href="preference_8php.html#a3">00143</a> function <a class="code" href="preference_8php.html#a3">PeriodeClosed</a>($p_cn,$p_periode) 
 <a name="l00144"></a>00144 {
-<a name="l00145"></a>00145  <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"select p_closed</span>
+<a name="l00145"></a>00145  <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"select p_closed</span>
 <a name="l00146"></a>00146 <span class="stringliteral">       from parm_periode</span>
 <a name="l00147"></a>00147 <span class="stringliteral">         where p_id="</span>.$p_periode;
 <a name="l00148"></a>00148  <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
@@ -208,7 +208,7 @@
 <a name="l00276"></a>00276 }
 <a name="l00277"></a>00277 
 <a name="l00278"></a>00278 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 00:05:13 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 20:41:33 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

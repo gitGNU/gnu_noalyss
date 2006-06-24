@@ -170,195 +170,196 @@
 <a name="l00194"></a>00194     <span class="comment">//textarea</span>
 <a name="l00195"></a>00195     <span class="keywordflow">if</span> (strtoupper($this-&gt;type)==<span class="stringliteral">"TEXTAREA"</span>) {
 <a name="l00196"></a>00196       <span class="keywordflow">if</span> ( $this-&gt;readonly == <span class="keyword">false</span> ) {
-<a name="l00197"></a>00197         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;TEXTAREA <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"'.$this-&gt;name.'"</span>';
-<a name="l00198"></a>00198         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">" rows=\"$this-&gt;heigh\" "</span>;
-<a name="l00199"></a>00199         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">" cols=\"$this-&gt;width\" "</span>;
-<a name="l00200"></a>00200         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="charliteral">' '</span>.$disabled.<span class="charliteral">'&gt;'</span>;
-<a name="l00201"></a>00201         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=$this-&gt;<a class="code" href="action_8inc_8php.html#a4">value</a>;
-<a name="l00202"></a>00202 
-<a name="l00203"></a>00203         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/TEXTAREA&gt;"</span>;
-<a name="l00204"></a>00204       } <span class="keywordflow">else</span> {
-<a name="l00205"></a>00205         <a class="code" href="user__action__ach_8php.html#a2">$r</a>='&lt;p&gt;';
-<a name="l00206"></a>00206         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=$this-&gt;<a class="code" href="action_8inc_8php.html#a4">value</a>;
-<a name="l00207"></a>00207         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=sprintf('&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"%s"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"%s"</span>&gt;',
-<a name="l00208"></a>00208                     $this-&gt;name,urlencode($this-&gt;value));
-<a name="l00209"></a>00209         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;/p&gt;';
-<a name="l00210"></a>00210 
-<a name="l00211"></a>00211       }
-<a name="l00212"></a>00212       <span class="keywordflow">if</span> ($this-&gt;table==1) {
-<a name="l00213"></a>00213         <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<span class="stringliteral">"&lt;TD&gt; $this-&gt;label &lt;/TD&gt;&lt;TD&gt; $r &lt;/TD&gt;"</span>;
-<a name="l00214"></a>00214       }
-<a name="l00215"></a>00215       <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
-<a name="l00216"></a>00216     }
-<a name="l00217"></a>00217 
-<a name="l00218"></a>00218     <span class="comment">//file</span>
-<a name="l00219"></a>00219     <span class="keywordflow">if</span> (strtoupper($this-&gt;type)==<span class="stringliteral">"FILE"</span>) {
-<a name="l00220"></a>00220       <span class="keywordflow">if</span> ( $this-&gt;readonly == <span class="keyword">false</span> ) {
-<a name="l00221"></a>00221         <a class="code" href="user__action__ach_8php.html#a2">$r</a>='&lt;INPUT TYPE=<span class="stringliteral">"file"</span> <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"'.$this-&gt;name.'"</span> VALUE=<span class="stringliteral">"'.$this-&gt;value.'"</span>&gt;';
-<a name="l00222"></a>00222 
-<a name="l00223"></a>00223       }
-<a name="l00224"></a>00224       <span class="keywordflow">if</span> ( $this-&gt;table==1) <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<span class="stringliteral">"&lt;TD&gt;$this-&gt;label&lt;/TD&gt;&lt;TD&gt;$r&lt;/TD&gt;"</span>; 
-<a name="l00225"></a>00225       <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
-<a name="l00226"></a>00226     }
-<a name="l00227"></a>00227   <span class="comment">// input type == js_search_poste =&gt; button search for the account</span>
-<a name="l00228"></a>00228     <span class="keywordflow">if</span> ( strtolower($this-&gt;type)==<span class="stringliteral">"js_search_poste"</span>) {
-<a name="l00229"></a>00229      
-<a name="l00230"></a>00230       $l_sessid=$_REQUEST['PHPSESSID'];
-<a name="l00231"></a>00231       <span class="keywordflow">if</span> ( $this-&gt;readonly == <span class="keyword">false</span> ) {
-<a name="l00232"></a>00232       <span class="comment">// Do we need to filter ??</span>
-<a name="l00233"></a>00233       <span class="keywordflow">if</span> ( $this-&gt;extra2 == null ) {
-<a name="l00234"></a>00234       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=sprintf('&lt;TD&gt;
-<a name="l00235"></a>00235          &lt;INPUT TYPE=<span class="stringliteral">"button"</span> onClick=SearchPoste(\'%s\',\'%s\',\'%s\') <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"Search"</span>&gt;
-<a name="l00236"></a>00236             %s&lt;/TD&gt;&lt;TD&gt; 
-<a name="l00237"></a>00237 
-<a name="l00238"></a>00238              &lt;INPUT TYPE=<span class="stringliteral">"Text"</span> NAME=<span class="stringliteral">"%s"</span> VALUE=<span class="stringliteral">"%s"</span> SIZE=<span class="stringliteral">"8"</span>&gt;
-<a name="l00239"></a>00239                  &lt;/TD&gt;',
-<a name="l00240"></a>00240                  $l_sessid,
-<a name="l00241"></a>00241                  $this-&gt;name,
-<a name="l00242"></a>00242                  $this-&gt;extra,
-<a name="l00243"></a>00243                  $this-&gt;label,
-<a name="l00244"></a>00244                  $this-&gt;name,
-<a name="l00245"></a>00245                  $this-&gt;value 
-<a name="l00246"></a>00246                  );
-<a name="l00247"></a>00247 
-<a name="l00248"></a>00248     } <span class="keywordflow">else</span> { <span class="comment">// $p_list is not null, so we have a filter</span>
-<a name="l00249"></a>00249       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=sprintf('&lt;TD&gt;
-<a name="l00250"></a>00250          &lt;INPUT TYPE=<span class="stringliteral">"button"</span> onClick=SearchPosteFilter(\'%s\',\'%s\',\'%s\',\'%s\') <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"Search"</span>&gt;
-<a name="l00251"></a>00251             %s&lt;/TD&gt;&lt;TD&gt; 
-<a name="l00252"></a>00252 
-<a name="l00253"></a>00253              &lt;INPUT TYPE=<span class="stringliteral">"Text"</span> NAME=<span class="stringliteral">"%s"</span> VALUE=<span class="stringliteral">"%s"</span> SIZE=<span class="stringliteral">"8"</span>&gt;
-<a name="l00254"></a>00254                  &lt;/TD&gt;',
-<a name="l00255"></a>00255                  $l_sessid,
-<a name="l00256"></a>00256                  $this-&gt;name,
-<a name="l00257"></a>00257                  $this-&gt;extra2,
-<a name="l00258"></a>00258                  $this-&gt;extra,
-<a name="l00259"></a>00259                  $this-&gt;label,
-<a name="l00260"></a>00260                  $this-&gt;name,
-<a name="l00261"></a>00261                  $this-&gt;value 
-<a name="l00262"></a>00262                  );
-<a name="l00263"></a>00263 
-<a name="l00264"></a>00264       } <span class="comment">//else</span>
-<a name="l00265"></a>00265       } <span class="keywordflow">else</span> {
-<a name="l00266"></a>00266       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=sprintf('&lt;TD&gt;&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"%s"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"%s"</span>&gt;
-<a name="l00267"></a>00267                   %s
-<a name="l00268"></a>00268 
-<a name="l00269"></a>00269                  &lt;/TD&gt;',
-<a name="l00270"></a>00270                  $this-&gt;name, 
-<a name="l00271"></a>00271                  $this-&gt;value ,
-<a name="l00272"></a>00272                  $this-&gt;value 
-<a name="l00273"></a>00273                  );
-<a name="l00274"></a>00274 
-<a name="l00275"></a>00275       } <span class="comment">//else if readonly == true</span>
-<a name="l00276"></a>00276       <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
-<a name="l00277"></a>00277 
-<a name="l00278"></a>00278     } <span class="comment">// end js_search_poste</span>
-<a name="l00279"></a>00279 
-<a name="l00280"></a>00280   <span class="comment">// input type == js_search =&gt; button search for card</span>
-<a name="l00281"></a>00281   <span class="keywordflow">if</span> ( strtolower($this-&gt;type)==<span class="stringliteral">"js_search"</span>) {
-<a name="l00282"></a>00282     $l_sessid=$_REQUEST['PHPSESSID'];
-<a name="l00283"></a>00283     <span class="keywordflow">if</span>  ( $this-&gt;readonly == <span class="keyword">false</span> ) {
-<a name="l00284"></a>00284       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=sprintf('&lt;TD&gt;
-<a name="l00285"></a>00285          &lt;INPUT TYPE=<span class="stringliteral">"button"</span> onClick=NewCard(\'%s\',\'%s\',\'%s\',\'%s\') <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"New"</span>&gt;
-<a name="l00286"></a>00286          &lt;INPUT TYPE=<span class="stringliteral">"button"</span> onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"Search"</span>&gt;
-<a name="l00287"></a>00287             %s&lt;/TD&gt;&lt;TD&gt; &lt;INPUT TYPE=<span class="stringliteral">"Text"</span> NAME=<span class="stringliteral">"%s"</span> VALUE=<span class="stringliteral">"%s"</span> SIZE=<span class="stringliteral">"8"</span> TABINDEX=<span class="stringliteral">"%s"</span>&gt;
-<a name="l00288"></a>00288                  ',
-<a name="l00289"></a>00289                $l_sessid,
-<a name="l00290"></a>00290                $this-&gt;extra, <span class="comment">// deb or cred</span>
-<a name="l00291"></a>00291                $this-&gt;name,
-<a name="l00292"></a>00292                $this-&gt;extra2, <span class="comment">//jrn</span>
-<a name="l00293"></a>00293                $l_sessid,
-<a name="l00294"></a>00294                $this-&gt;extra,
-<a name="l00295"></a>00295                $this-&gt;name,
-<a name="l00296"></a>00296                $this-&gt;extra2,
-<a name="l00297"></a>00297                $this-&gt;label,
-<a name="l00298"></a>00298                $this-&gt;name,
-<a name="l00299"></a>00299                $this-&gt;value, 
-<a name="l00300"></a>00300          $this-&gt;tabindex
-<a name="l00301"></a>00301                );
-<a name="l00302"></a>00302     } <span class="keywordflow">else</span> {
-<a name="l00303"></a>00303       <span class="comment">// readonly == true</span>
-<a name="l00304"></a>00304       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=sprintf('&lt;TD&gt;            %s&lt;/TD&gt;
-<a name="l00305"></a>00305                  &lt;TD&gt; 
-<a name="l00306"></a>00306                  &lt;INPUT TYPE=<span class="stringliteral">"hidden"</span> NAME=<span class="stringliteral">"%s"</span> VALUE=<span class="stringliteral">"%s"</span> SIZE=<span class="stringliteral">"8"</span>&gt;
-<a name="l00307"></a>00307                  &lt;/TD&gt;',
-<a name="l00308"></a>00308                $this-&gt;label,
-<a name="l00309"></a>00309                $this-&gt;name,
-<a name="l00310"></a>00310                $this-&gt;value 
-<a name="l00311"></a>00311                  );
-<a name="l00312"></a>00312 
-<a name="l00313"></a>00313     }
-<a name="l00314"></a>00314     <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
-<a name="l00315"></a>00315   }<span class="comment">// poste==js_search</span>
-<a name="l00316"></a>00316 
+<a name="l00197"></a>00197         <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<span class="stringliteral">""</span>;
+<a name="l00198"></a>00198         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;TEXTAREA <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"'.$this-&gt;name.'"</span>';
+<a name="l00199"></a>00199         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">" rows=\"$this-&gt;heigh\" "</span>;
+<a name="l00200"></a>00200         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">" cols=\"$this-&gt;width\" "</span>;
+<a name="l00201"></a>00201         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="charliteral">' '</span>.$disabled.<span class="charliteral">'&gt;'</span>;
+<a name="l00202"></a>00202         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=$this-&gt;<a class="code" href="action_8inc_8php.html#a4">value</a>;
+<a name="l00203"></a>00203 
+<a name="l00204"></a>00204         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/TEXTAREA&gt;"</span>;
+<a name="l00205"></a>00205       } <span class="keywordflow">else</span> {
+<a name="l00206"></a>00206         <a class="code" href="user__action__ach_8php.html#a2">$r</a>='&lt;p&gt;';
+<a name="l00207"></a>00207         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=$this-&gt;<a class="code" href="action_8inc_8php.html#a4">value</a>;
+<a name="l00208"></a>00208         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=sprintf('&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"%s"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"%s"</span>&gt;',
+<a name="l00209"></a>00209                     $this-&gt;name,urlencode($this-&gt;value));
+<a name="l00210"></a>00210         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;/p&gt;';
+<a name="l00211"></a>00211 
+<a name="l00212"></a>00212       }
+<a name="l00213"></a>00213       <span class="keywordflow">if</span> ($this-&gt;table==1) {
+<a name="l00214"></a>00214         <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<span class="stringliteral">"&lt;TD&gt; $this-&gt;label &lt;/TD&gt;&lt;TD&gt; $r &lt;/TD&gt;"</span>;
+<a name="l00215"></a>00215       }
+<a name="l00216"></a>00216       <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
+<a name="l00217"></a>00217     }
+<a name="l00218"></a>00218 
+<a name="l00219"></a>00219     <span class="comment">//file</span>
+<a name="l00220"></a>00220     <span class="keywordflow">if</span> (strtoupper($this-&gt;type)==<span class="stringliteral">"FILE"</span>) {
+<a name="l00221"></a>00221       <span class="keywordflow">if</span> ( $this-&gt;readonly == <span class="keyword">false</span> ) {
+<a name="l00222"></a>00222         <a class="code" href="user__action__ach_8php.html#a2">$r</a>='&lt;INPUT TYPE=<span class="stringliteral">"file"</span> <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"'.$this-&gt;name.'"</span> VALUE=<span class="stringliteral">"'.$this-&gt;value.'"</span>&gt;';
+<a name="l00223"></a>00223 
+<a name="l00224"></a>00224       }
+<a name="l00225"></a>00225       <span class="keywordflow">if</span> ( $this-&gt;table==1) <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<span class="stringliteral">"&lt;TD&gt;$this-&gt;label&lt;/TD&gt;&lt;TD&gt;$r&lt;/TD&gt;"</span>; 
+<a name="l00226"></a>00226       <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
+<a name="l00227"></a>00227     }
+<a name="l00228"></a>00228   <span class="comment">// input type == js_search_poste =&gt; button search for the account</span>
+<a name="l00229"></a>00229     <span class="keywordflow">if</span> ( strtolower($this-&gt;type)==<span class="stringliteral">"js_search_poste"</span>) {
+<a name="l00230"></a>00230      
+<a name="l00231"></a>00231       $l_sessid=$_REQUEST['PHPSESSID'];
+<a name="l00232"></a>00232       <span class="keywordflow">if</span> ( $this-&gt;readonly == <span class="keyword">false</span> ) {
+<a name="l00233"></a>00233       <span class="comment">// Do we need to filter ??</span>
+<a name="l00234"></a>00234       <span class="keywordflow">if</span> ( $this-&gt;extra2 == null ) {
+<a name="l00235"></a>00235       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=sprintf('&lt;TD&gt;
+<a name="l00236"></a>00236          &lt;INPUT TYPE=<span class="stringliteral">"button"</span> onClick=SearchPoste(\'%s\',\'%s\',\'%s\') <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"Search"</span>&gt;
+<a name="l00237"></a>00237             %s&lt;/TD&gt;&lt;TD&gt; 
+<a name="l00238"></a>00238 
+<a name="l00239"></a>00239              &lt;INPUT TYPE=<span class="stringliteral">"Text"</span> NAME=<span class="stringliteral">"%s"</span> VALUE=<span class="stringliteral">"%s"</span> SIZE=<span class="stringliteral">"8"</span>&gt;
+<a name="l00240"></a>00240                  &lt;/TD&gt;',
+<a name="l00241"></a>00241                  $l_sessid,
+<a name="l00242"></a>00242                  $this-&gt;name,
+<a name="l00243"></a>00243                  $this-&gt;extra,
+<a name="l00244"></a>00244                  $this-&gt;label,
+<a name="l00245"></a>00245                  $this-&gt;name,
+<a name="l00246"></a>00246                  $this-&gt;value 
+<a name="l00247"></a>00247                  );
+<a name="l00248"></a>00248 
+<a name="l00249"></a>00249     } <span class="keywordflow">else</span> { <span class="comment">// $p_list is not null, so we have a filter</span>
+<a name="l00250"></a>00250       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=sprintf('&lt;TD&gt;
+<a name="l00251"></a>00251          &lt;INPUT TYPE=<span class="stringliteral">"button"</span> onClick=SearchPosteFilter(\'%s\',\'%s\',\'%s\',\'%s\') <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"Search"</span>&gt;
+<a name="l00252"></a>00252             %s&lt;/TD&gt;&lt;TD&gt; 
+<a name="l00253"></a>00253 
+<a name="l00254"></a>00254              &lt;INPUT TYPE=<span class="stringliteral">"Text"</span> NAME=<span class="stringliteral">"%s"</span> VALUE=<span class="stringliteral">"%s"</span> SIZE=<span class="stringliteral">"8"</span>&gt;
+<a name="l00255"></a>00255                  &lt;/TD&gt;',
+<a name="l00256"></a>00256                  $l_sessid,
+<a name="l00257"></a>00257                  $this-&gt;name,
+<a name="l00258"></a>00258                  $this-&gt;extra2,
+<a name="l00259"></a>00259                  $this-&gt;extra,
+<a name="l00260"></a>00260                  $this-&gt;label,
+<a name="l00261"></a>00261                  $this-&gt;name,
+<a name="l00262"></a>00262                  $this-&gt;value 
+<a name="l00263"></a>00263                  );
+<a name="l00264"></a>00264 
+<a name="l00265"></a>00265       } <span class="comment">//else</span>
+<a name="l00266"></a>00266       } <span class="keywordflow">else</span> {
+<a name="l00267"></a>00267       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=sprintf('&lt;TD&gt;&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"%s"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"%s"</span>&gt;
+<a name="l00268"></a>00268                   %s
+<a name="l00269"></a>00269 
+<a name="l00270"></a>00270                  &lt;/TD&gt;',
+<a name="l00271"></a>00271                  $this-&gt;name, 
+<a name="l00272"></a>00272                  $this-&gt;value ,
+<a name="l00273"></a>00273                  $this-&gt;value 
+<a name="l00274"></a>00274                  );
+<a name="l00275"></a>00275 
+<a name="l00276"></a>00276       } <span class="comment">//else if readonly == true</span>
+<a name="l00277"></a>00277       <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
+<a name="l00278"></a>00278 
+<a name="l00279"></a>00279     } <span class="comment">// end js_search_poste</span>
+<a name="l00280"></a>00280 
+<a name="l00281"></a>00281   <span class="comment">// input type == js_search =&gt; button search for card</span>
+<a name="l00282"></a>00282   <span class="keywordflow">if</span> ( strtolower($this-&gt;type)==<span class="stringliteral">"js_search"</span>) {
+<a name="l00283"></a>00283     $l_sessid=$_REQUEST['PHPSESSID'];
+<a name="l00284"></a>00284     <span class="keywordflow">if</span>  ( $this-&gt;readonly == <span class="keyword">false</span> ) {
+<a name="l00285"></a>00285       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=sprintf('&lt;TD&gt;
+<a name="l00286"></a>00286          &lt;INPUT TYPE=<span class="stringliteral">"button"</span> onClick=NewCard(\'%s\',\'%s\',\'%s\',\'%s\') <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"New"</span>&gt;
+<a name="l00287"></a>00287          &lt;INPUT TYPE=<span class="stringliteral">"button"</span> onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"Search"</span>&gt;
+<a name="l00288"></a>00288             %s&lt;/TD&gt;&lt;TD&gt; &lt;INPUT TYPE=<span class="stringliteral">"Text"</span> NAME=<span class="stringliteral">"%s"</span> VALUE=<span class="stringliteral">"%s"</span> SIZE=<span class="stringliteral">"8"</span> TABINDEX=<span class="stringliteral">"%s"</span>&gt;
+<a name="l00289"></a>00289                  ',
+<a name="l00290"></a>00290                $l_sessid,
+<a name="l00291"></a>00291                $this-&gt;extra, <span class="comment">// deb or cred</span>
+<a name="l00292"></a>00292                $this-&gt;name,
+<a name="l00293"></a>00293                $this-&gt;extra2, <span class="comment">//jrn</span>
+<a name="l00294"></a>00294                $l_sessid,
+<a name="l00295"></a>00295                $this-&gt;extra,
+<a name="l00296"></a>00296                $this-&gt;name,
+<a name="l00297"></a>00297                $this-&gt;extra2,
+<a name="l00298"></a>00298                $this-&gt;label,
+<a name="l00299"></a>00299                $this-&gt;name,
+<a name="l00300"></a>00300                $this-&gt;value, 
+<a name="l00301"></a>00301          $this-&gt;tabindex
+<a name="l00302"></a>00302                );
+<a name="l00303"></a>00303     } <span class="keywordflow">else</span> {
+<a name="l00304"></a>00304       <span class="comment">// readonly == true</span>
+<a name="l00305"></a>00305       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=sprintf('&lt;TD&gt;            %s&lt;/TD&gt;
+<a name="l00306"></a>00306                  &lt;TD&gt; 
+<a name="l00307"></a>00307                  &lt;INPUT TYPE=<span class="stringliteral">"hidden"</span> NAME=<span class="stringliteral">"%s"</span> VALUE=<span class="stringliteral">"%s"</span> SIZE=<span class="stringliteral">"8"</span>&gt;
+<a name="l00308"></a>00308                  &lt;/TD&gt;',
+<a name="l00309"></a>00309                $this-&gt;label,
+<a name="l00310"></a>00310                $this-&gt;name,
+<a name="l00311"></a>00311                $this-&gt;value 
+<a name="l00312"></a>00312                  );
+<a name="l00313"></a>00313 
+<a name="l00314"></a>00314     }
+<a name="l00315"></a>00315     <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
+<a name="l00316"></a>00316   }<span class="comment">// poste==js_search</span>
 <a name="l00317"></a>00317 
-<a name="l00318"></a>00318   <span class="comment">// type=span</span>
-<a name="l00319"></a>00319   <span class="keywordflow">if</span> ( strtolower($this-&gt;type)==<span class="stringliteral">"span"</span>) {
-<a name="l00320"></a>00320     <a class="code" href="user__action__ach_8php.html#a2">$r</a>=sprintf('&lt;span <span class="keywordtype">id</span>=<span class="stringliteral">"%s"</span>  &gt;%s&lt;/span&gt;',
-<a name="l00321"></a>00321                $this-&gt;name,
-<a name="l00322"></a>00322                $this-&gt;value);
-<a name="l00323"></a>00323     <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
-<a name="l00324"></a>00324   }<span class="comment">// end type = span</span>
-<a name="l00325"></a>00325 
-<a name="l00326"></a>00326    <span class="comment">// input type == js_tva</span>
-<a name="l00327"></a>00327    <span class="keywordflow">if</span> ( strtolower($this-&gt;type)==<span class="stringliteral">"js_tva"</span>) {
-<a name="l00328"></a>00328      $id=sprintf(<span class="stringliteral">"&lt;span id=%s&gt;&lt;/span&gt;"</span>,$this-&gt;label);
-<a name="l00329"></a>00329         <a class="code" href="user__action__ach_8php.html#a2">$r</a>=sprintf('%s&lt;TD&gt; &lt;INPUT TYPE=<span class="stringliteral">"Text"</span> NAME=<span class="stringliteral">"%s"</span> VALUE=<span class="stringliteral">"%s"</span> SIZE=<span class="stringliteral">"3"</span> onChange=<span class="stringliteral">"ChangeTVA(\'%s\',\'%s\');"</span>&gt;',
-<a name="l00330"></a>00330                   $<span class="keywordtype">id</span>,
-<a name="l00331"></a>00331                $this-&gt;name,
-<a name="l00332"></a>00332                $this-&gt;value,
-<a name="l00333"></a>00333                $this-&gt;label,
-<a name="l00334"></a>00334                $this-&gt;name);
-<a name="l00335"></a>00335      $l_sessid=$_REQUEST['PHPSESSID'];
-<a name="l00336"></a>00336      <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=sprintf(<span class="stringliteral">"&lt;input type=\"button\" value=\"Tva\" </span>
-<a name="l00337"></a>00337 <span class="stringliteral">        onClick=\"</span>
-<a name="l00338"></a>00338 <span class="stringliteral">                           ShowTva('%s','%s');\"&gt;&lt;/TD&gt;"</span>,
-<a name="l00339"></a>00339                 $l_sessid,$this-&gt;name);
-<a name="l00340"></a>00340      <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
-<a name="l00341"></a>00341    }
-<a name="l00342"></a>00342 
-<a name="l00343"></a>00343   <span class="comment">// input type == js_concerned =&gt; button search for the concerned operations</span>
-<a name="l00344"></a>00344   <span class="keywordflow">if</span> ( strtolower($this-&gt;type)==<span class="stringliteral">"js_concerned"</span>) {
-<a name="l00345"></a>00345     <span class="keywordflow">if</span> ( $this-&gt;readonly == <span class="keyword">false</span>) {
-<a name="l00346"></a>00346       $l_sessid=$_REQUEST['PHPSESSID'];
-<a name="l00347"></a>00347       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=sprintf('&lt;TD&gt;
-<a name="l00348"></a>00348          &lt;INPUT TYPE=<span class="stringliteral">"button"</span> onClick=SearchJrn(\'%s\',\'%s\') <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"Search"</span>&gt;
-<a name="l00349"></a>00349             %s&lt;/TD&gt;&lt;TD&gt; 
-<a name="l00350"></a>00350 
-<a name="l00351"></a>00351              &lt;INPUT TYPE=<span class="stringliteral">"Text"</span> NAME=<span class="stringliteral">"%s"</span> VALUE=<span class="stringliteral">"%s"</span> SIZE=<span class="stringliteral">"8"</span>&gt;
-<a name="l00352"></a>00352                  &lt;/TD&gt;',
-<a name="l00353"></a>00353                  $l_sessid,
-<a name="l00354"></a>00354                  $this-&gt;name,
-<a name="l00355"></a>00355                  $this-&gt;label,
-<a name="l00356"></a>00356                  $this-&gt;name,
-<a name="l00357"></a>00357                  $this-&gt;value 
-<a name="l00358"></a>00358                  );
-<a name="l00359"></a>00359     } <span class="keywordflow">else</span> {
-<a name="l00360"></a>00360       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=sprintf(<span class="stringliteral">"&lt;TD&gt;&lt;span&gt;%s&lt;/span&gt;"</span>,$this-&gt;value);
-<a name="l00361"></a>00361       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=sprintf('&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"%s"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"%s"</span>&gt;&lt;/TD&gt;', $this-&gt;name,$this-&gt;value);
-<a name="l00362"></a>00362     }
-<a name="l00363"></a>00363 
-<a name="l00364"></a>00364     <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
-<a name="l00365"></a>00365   }<span class="comment">// end js_concerned</span>
-<a name="l00366"></a>00366   <span class="keywordflow">return</span> <span class="stringliteral">"INVALID WIDGET "</span>;
-<a name="l00367"></a>00367   } <span class="comment">//end function</span>
-<a name="l00368"></a>00368   <span class="comment">/* Debug</span>
-<a name="l00369"></a>00369 <span class="comment">   */</span>
-<a name="l00370"></a><a class="code" href="classwidget.html#a3">00370</a>   function <a class="code" href="classwidget.html#a3">debug</a>() {
-<a name="l00371"></a>00371     echo <span class="stringliteral">"Type "</span>.$this-&gt;type.<span class="stringliteral">"&lt;br&gt;"</span>;
-<a name="l00372"></a>00372     echo <span class="stringliteral">"name "</span>.$this-&gt;name.<span class="stringliteral">"&lt;br&gt;"</span>;
-<a name="l00373"></a>00373     echo <span class="stringliteral">"value"</span>. $this-&gt;<a class="code" href="action_8inc_8php.html#a4">value</a>.<span class="stringliteral">"&lt;br&gt;"</span>;
-<a name="l00374"></a>00374     <a class="code" href="classwidget.html#o3">$readonly</a>=($this-&gt;<a class="code" href="ecrit__ouv_8php.html#a6">readonly</a>==<span class="keyword">false</span>)?<span class="stringliteral">"false"</span>:<span class="stringliteral">"true"</span>;
-<a name="l00375"></a>00375     echo <span class="stringliteral">"read only"</span>.$readonly.<span class="stringliteral">"&lt;br&gt;"</span>;
-<a name="l00376"></a>00376   }
-<a name="l00377"></a><a class="code" href="classwidget.html#a4">00377</a>   function <a class="code" href="classwidget.html#a4">Submit</a> ($p_name,$<a class="code" href="poste_8inc_8php.html#a2">p_value</a>) {
-<a name="l00378"></a>00378     <span class="keywordflow">return</span> '&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> NAME=<span class="stringliteral">"'.$p_name.'"</span> VALUE=<span class="stringliteral">"'.$p_value.'"</span>&gt;';
-<a name="l00379"></a>00379   }
-<a name="l00380"></a><a class="code" href="classwidget.html#a5">00380</a>   function <a class="code" href="classwidget.html#a5">Reset</a> ($<a class="code" href="poste_8inc_8php.html#a2">p_value</a>) {
-<a name="l00381"></a>00381     <span class="keywordflow">return</span> '&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span>  VALUE=<span class="stringliteral">"'.$p_value.'"</span>&gt;';
-<a name="l00382"></a>00382   }
-<a name="l00383"></a>00383 
-<a name="l00384"></a>00384 }
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 00:05:13 2006 for phpcompta by&nbsp;
+<a name="l00318"></a>00318 
+<a name="l00319"></a>00319   <span class="comment">// type=span</span>
+<a name="l00320"></a>00320   <span class="keywordflow">if</span> ( strtolower($this-&gt;type)==<span class="stringliteral">"span"</span>) {
+<a name="l00321"></a>00321     <a class="code" href="user__action__ach_8php.html#a2">$r</a>=sprintf('&lt;span <span class="keywordtype">id</span>=<span class="stringliteral">"%s"</span>  &gt;%s&lt;/span&gt;',
+<a name="l00322"></a>00322                $this-&gt;name,
+<a name="l00323"></a>00323                $this-&gt;value);
+<a name="l00324"></a>00324     <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
+<a name="l00325"></a>00325   }<span class="comment">// end type = span</span>
+<a name="l00326"></a>00326 
+<a name="l00327"></a>00327    <span class="comment">// input type == js_tva</span>
+<a name="l00328"></a>00328    <span class="keywordflow">if</span> ( strtolower($this-&gt;type)==<span class="stringliteral">"js_tva"</span>) {
+<a name="l00329"></a>00329      $id=sprintf(<span class="stringliteral">"&lt;span id=%s&gt;&lt;/span&gt;"</span>,$this-&gt;label);
+<a name="l00330"></a>00330         <a class="code" href="user__action__ach_8php.html#a2">$r</a>=sprintf('%s&lt;TD&gt; &lt;INPUT TYPE=<span class="stringliteral">"Text"</span> NAME=<span class="stringliteral">"%s"</span> VALUE=<span class="stringliteral">"%s"</span> SIZE=<span class="stringliteral">"3"</span> onChange=<span class="stringliteral">"ChangeTVA(\'%s\',\'%s\');"</span>&gt;',
+<a name="l00331"></a>00331                   $<span class="keywordtype">id</span>,
+<a name="l00332"></a>00332                $this-&gt;name,
+<a name="l00333"></a>00333                $this-&gt;value,
+<a name="l00334"></a>00334                $this-&gt;label,
+<a name="l00335"></a>00335                $this-&gt;name);
+<a name="l00336"></a>00336      $l_sessid=$_REQUEST['PHPSESSID'];
+<a name="l00337"></a>00337      <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=sprintf(<span class="stringliteral">"&lt;input type=\"button\" value=\"Tva\" </span>
+<a name="l00338"></a>00338 <span class="stringliteral">        onClick=\"</span>
+<a name="l00339"></a>00339 <span class="stringliteral">                           ShowTva('%s','%s');\"&gt;&lt;/TD&gt;"</span>,
+<a name="l00340"></a>00340                 $l_sessid,$this-&gt;name);
+<a name="l00341"></a>00341      <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
+<a name="l00342"></a>00342    }
+<a name="l00343"></a>00343 
+<a name="l00344"></a>00344   <span class="comment">// input type == js_concerned =&gt; button search for the concerned operations</span>
+<a name="l00345"></a>00345   <span class="keywordflow">if</span> ( strtolower($this-&gt;type)==<span class="stringliteral">"js_concerned"</span>) {
+<a name="l00346"></a>00346     <span class="keywordflow">if</span> ( $this-&gt;readonly == <span class="keyword">false</span>) {
+<a name="l00347"></a>00347       $l_sessid=$_REQUEST['PHPSESSID'];
+<a name="l00348"></a>00348       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=sprintf('&lt;TD&gt;
+<a name="l00349"></a>00349          &lt;INPUT TYPE=<span class="stringliteral">"button"</span> onClick=SearchJrn(\'%s\',\'%s\') <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"Search"</span>&gt;
+<a name="l00350"></a>00350             %s&lt;/TD&gt;&lt;TD&gt; 
+<a name="l00351"></a>00351 
+<a name="l00352"></a>00352              &lt;INPUT TYPE=<span class="stringliteral">"Text"</span> NAME=<span class="stringliteral">"%s"</span> VALUE=<span class="stringliteral">"%s"</span> SIZE=<span class="stringliteral">"8"</span>&gt;
+<a name="l00353"></a>00353                  &lt;/TD&gt;',
+<a name="l00354"></a>00354                  $l_sessid,
+<a name="l00355"></a>00355                  $this-&gt;name,
+<a name="l00356"></a>00356                  $this-&gt;label,
+<a name="l00357"></a>00357                  $this-&gt;name,
+<a name="l00358"></a>00358                  $this-&gt;value 
+<a name="l00359"></a>00359                  );
+<a name="l00360"></a>00360     } <span class="keywordflow">else</span> {
+<a name="l00361"></a>00361       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=sprintf(<span class="stringliteral">"&lt;TD&gt;&lt;span&gt;%s&lt;/span&gt;"</span>,$this-&gt;value);
+<a name="l00362"></a>00362       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=sprintf('&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"%s"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"%s"</span>&gt;&lt;/TD&gt;', $this-&gt;name,$this-&gt;value);
+<a name="l00363"></a>00363     }
+<a name="l00364"></a>00364 
+<a name="l00365"></a>00365     <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
+<a name="l00366"></a>00366   }<span class="comment">// end js_concerned</span>
+<a name="l00367"></a>00367   <span class="keywordflow">return</span> <span class="stringliteral">"INVALID WIDGET "</span>;
+<a name="l00368"></a>00368   } <span class="comment">//end function</span>
+<a name="l00369"></a>00369   <span class="comment">/* Debug</span>
+<a name="l00370"></a>00370 <span class="comment">   */</span>
+<a name="l00371"></a><a class="code" href="classwidget.html#a3">00371</a>   function <a class="code" href="classwidget.html#a3">debug</a>() {
+<a name="l00372"></a>00372     echo <span class="stringliteral">"Type "</span>.$this-&gt;type.<span class="stringliteral">"&lt;br&gt;"</span>;
+<a name="l00373"></a>00373     echo <span class="stringliteral">"name "</span>.$this-&gt;name.<span class="stringliteral">"&lt;br&gt;"</span>;
+<a name="l00374"></a>00374     echo <span class="stringliteral">"value"</span>. $this-&gt;<a class="code" href="action_8inc_8php.html#a4">value</a>.<span class="stringliteral">"&lt;br&gt;"</span>;
+<a name="l00375"></a>00375     <a class="code" href="classwidget.html#o3">$readonly</a>=($this-&gt;<a class="code" href="ecrit__ouv_8php.html#a6">readonly</a>==<span class="keyword">false</span>)?<span class="stringliteral">"false"</span>:<span class="stringliteral">"true"</span>;
+<a name="l00376"></a>00376     echo <span class="stringliteral">"read only"</span>.$readonly.<span class="stringliteral">"&lt;br&gt;"</span>;
+<a name="l00377"></a>00377   }
+<a name="l00378"></a><a class="code" href="classwidget.html#a4">00378</a>   function <a class="code" href="classwidget.html#a4">Submit</a> ($p_name,$<a class="code" href="poste_8inc_8php.html#a2">p_value</a>) {
+<a name="l00379"></a>00379     <span class="keywordflow">return</span> '&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> NAME=<span class="stringliteral">"'.$p_name.'"</span> VALUE=<span class="stringliteral">"'.$p_value.'"</span>&gt;';
+<a name="l00380"></a>00380   }
+<a name="l00381"></a><a class="code" href="classwidget.html#a5">00381</a>   function <a class="code" href="classwidget.html#a5">Reset</a> ($<a class="code" href="poste_8inc_8php.html#a2">p_value</a>) {
+<a name="l00382"></a>00382     <span class="keywordflow">return</span> '&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span>  VALUE=<span class="stringliteral">"'.$p_value.'"</span>&gt;';
+<a name="l00383"></a>00383   }
+<a name="l00384"></a>00384 
+<a name="l00385"></a>00385 }
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 20:41:33 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

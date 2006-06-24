@@ -27,7 +27,7 @@ echo_debug('user_action_fin.php',__LINE__,"include user_action_fin.php");
 require_once("user_form_fin.php");
 include_once("class_widget.php");
 require_once("class_parm_code.php");
-
+require_once("class_jrn.php");
 $cn=DbConnect($_SESSION['g_dossier']);
 
 if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {  
@@ -53,9 +53,10 @@ if ( $action == 'new' ) {
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver">';
 	  // add a one-line calculator
+	  $p_jrn=$_GET['p_jrn'];
+	  $jrn=new jrn($cn,  $p_jrn);
 
-
-	  $r=FormFin($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,null,false);
+	  $r=FormFin($cn,$p_jrn,$User->GetPeriode(),$submit,null,false,$jrn->GetDefLine('deb'));
 	  echo '<div class="u_redcontent">';
 	  echo $r;
 	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."</div>";

@@ -36,9 +36,8 @@ require_once("user_common.php");
  * \param $p_periode User periode
  * \param $p_array array with the post data
  * \param $p_number number of items
- * gen :
- *	-
- * return:
+ *
+ * \return:
  */
 function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
 {
@@ -88,9 +87,9 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
 	if ( $poste == null ) 
 	{	
 		$msg="La fiche ".${"e_other$i"}." n\'a pas de poste comptable";
-      echo_error($msg); echo_debug('user_form_fin.php',__LINE__,$msg);	
-      echo "<SCRIPT>alert('$msg');</SCRIPT>";
-      return null;
+		echo_error($msg); echo_debug('user_form_fin.php',__LINE__,$msg);	
+		echo "<SCRIPT>alert('$msg');</SCRIPT>";
+		return null;
 	
 	}
   	if ( strlen(trim($poste))==0 )
@@ -133,16 +132,16 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
  *           Used to show detail, encode a new fin op 
  *           or update one
  *        
- * parm : 
- *	- p_array which can be empty
- *      - the "journal"
- *      - $p_user = $g_user
- *      - $p_submit contains the submit string
- *      - view_only if we cannot change it (no right or centralized op)
- *      - $p_item number of article
- * gen :
- *	-
- * return: string with the form
+ * \param $p_cn database connection 
+ * \param $p_jrn ledger id (jr_id)
+ * \param $p_submit contains the submit string
+ * \param $p_array (default=null) containing the $_POST
+ * \param $p_view_only (default=true) true if we cannot change it (no right or centralized op)
+ * \param $p_item number of article (default=4)
+ * \param $p_save (default false) if the operation is already recorded
+ *
+ *
+ * \return string with the form, in readonly  or  writable mode
  */
 function FormFin($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=true,$p_item=4,$p_save=false)
 { 
@@ -158,12 +157,7 @@ function FormFin($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
   $flag=(isset($e_date))?1:0;
   $e_date=( ! isset($e_date) ) ? substr($l_date_start,2,8):$e_date;
 
-  // Verify if valid date
-  if ($flag ==1 and   VerifyOperationDate($p_cn,$p_periode,$e_date)   == null) {
-        $e_date=substr($l_date_start,2,8);
-  }
-
-
+  // Comment
   $e_comment=(isset($e_comment))?$e_comment:"";
 
   $r="";
@@ -171,8 +165,24 @@ function FormFin($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
     $r.=JS_SEARCH_CARD;
     $r.=JS_CONCERNED_OP;
   }
+  // Compute href
+  $href=$_SERVER['SCRIPT_NAME'];
+  switch ($href)
+    {
+      // user_jrn.php module "Comptable"
+    case '/user_jrn.php':
+      $href="user_jrn.php?action=new&p_jrn=$p_jrn";
+      break;
+      // commercial.php  module "Gestion"
+    case '/commercial.php':
+      $href="commercial.php?p_action=bank&p_jrn=$p_jrn";
+      break;
+    default:
+      echo_error('user_form_fin.php',__LINE__,'Erreur invalid request uri');
+      exit (-1);
+    }
 
-  $r.="<FORM NAME=\"form_detail\" enctype=\"multipart/form-data\" ACTION=\"user_jrn.php?action=new&p_jrn=$p_jrn\" METHOD=\"POST\">";
+  $r.="<FORM NAME=\"form_detail\" enctype=\"multipart/form-data\" ACTION=\"$href\" METHOD=\"POST\">";
   $r.='<TABLE>';
   $Date=new widget("text");
   $Date->SetReadOnly($pview_only);
@@ -301,7 +311,7 @@ $r.="</TABLE>";
  // Set correctly the REQUEST param for jrn_type 
  $h=new widget('hidden');
  $h->name='jrn_type';
- $h->value=$_REQUEST['jrn_type'];
+ $h->value='FIN';
  $r.=$h->IOValue();
 
 $r.=$p_submit;
@@ -353,15 +363,6 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
   }
   // Get the default period
   $periode=$p_user->GetPeriode();
-
-  // Test if the data are correct
-  // Verify the date
-  if ( isDate($e_date) == null ) { 
-	  echo_error("Invalid date $e_date");
-	  echo_debug('user_form_fin.php',__LINE__,"Invalid date $e_date");
-	  echo "<SCRIPT> alert('INVALID DATE $e_date !!!!');</SCRIPT>";
-	  return null;
-		}
   
   // Debit = banque
   $poste_bq=GetFicheAttribut($p_cn,$e_bank_account,ATTR_DEF_ACCOUNT);

@@ -19,7 +19,7 @@
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 require_once('class_jrn.php');
-require_once('user_form_ach.php');
+require_once('user_form_fin.php');
 require_once('jrn.php');
 require_once("class_document.php");
 require_once("class_fiche.php");
@@ -33,7 +33,7 @@ var_dump($_REQUEST);
 // to enter a new invoice
 if ( ! isset ($_REQUEST['p_jrn'])) {
   // no journal are selected so we select the first one
-  $p_jrn=GetFirstJrnIdForJrnType($_SESSION['g_dossier'],'ACH'); 
+  $p_jrn=GetFirstJrnIdForJrnType($_SESSION['g_dossier'],'FIN'); 
 
 } else
 {
@@ -58,45 +58,17 @@ if ( $sub_action == "list")
 
   // show the menu with the list item selected
   echo '<div class="u_subtmenu">';
-  echo ShowMenuJrnUser($_SESSION['g_dossier'],'ACH',0,'<td class="selectedcell">Liste</td>');
+  echo ShowMenuJrnUser($_SESSION['g_dossier'],'FIN',0,'<td class="selectedcell">Liste</td>');
   echo '</div>';
-  // Ask to update payment
-  if ( isset ( $_GET['paid'])) 
-    {
-      // reset all the paid flag because the checkbox is post only
-      // when checked
-      foreach ($_GET as $name=>$paid) 
-	{
-	    list($ad) = sscanf($name,"set_jr_id%d");
- 	    if ( $ad == null ) continue;
- 	    $sql="update jrn set jr_rapt='' where jr_id=$ad";
- 	    $Res=ExecSql($cn,$sql);
-	    
-	}
-	// set a paid flag for the checked box
-      foreach ($_GET as $name=>$paid) 
-	{
-	  list ($id) = sscanf ($name,"rd_paid%d");
-	  
-	  if ( $id == null ) continue;
-	  //	  echo "Mise à jour $id";
-	  $paid=($paid=='on')?'paid':'';
-	  $sql="update jrn set jr_rapt='$paid' where jr_id=$id";
-	  $Res=ExecSql($cn,$sql);
-	}
-      
-      }
 
   echo '<div class="u_redcontent">';
 
   
 
-  echo '<form method= "GET" action="commercial.php">';
-
   $hid=new widget("hidden");
   
   $hid->name="p_action";
-  $hid->value="depense";
+  $hid->value="bank";
   echo $hid->IOValue();
 
 
@@ -120,7 +92,7 @@ if ( $sub_action == "list")
   echo $retour;
   // Show list of sell
   // Date - date of payment - Customer - amount
-  $sql=SQL_LIST_ALL_INVOICE." and jr_tech_per=".$current." and jr_def_type='ACH'" ;
+  $sql=SQL_LIST_ALL_INVOICE." and jr_tech_per=".$current." and jr_def_type='FIN'" ;
   $step=$_SESSION['g_pagesize'];
   $page=(isset($_GET['offset']))?$_GET['page']:1;
   $offset=(isset($_GET['offset']))?$_GET['offset']:0;
@@ -133,16 +105,13 @@ if ( $sub_action == "list")
       $l=" and jr_grpt_id in (select j_grpt from jrnx where j_qcode='$qcode') ";
     }
 
-  list($max_line,$list)=ListJrn($cn,0,"where jrn_def_type='ACH' and jr_tech_per=$current $l "
-				,null,$offset,1);
+  list($max_line,$list)=ListJrn($cn,0,"where jrn_def_type='FIN' and jr_tech_per=$current $l "
+				,null,$offset,0);
   $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
 
   echo "<hr> $bar";
   echo $list;
   echo "$bar <hr>";
-  if ( $max_line !=0 )
-    echo $hid->Submit('paid','Mise à jour paiement');
-  echo '</FORM>';
   echo $retour;
 
   echo '</div>';
@@ -151,44 +120,46 @@ if ( $sub_action == "list")
 } 
 ////////////////////////////////////////////////////////////////////////////////
 echo '<div class="u_subtmenu">';
-echo ShowMenuJrnUser($_SESSION['g_dossier'],'ACH',$p_jrn,'<td class="cell"><A class="mtitle" HREF="commercial.php?liste&p_action=depense&sa=list">Liste</A></td>');
+echo ShowMenuJrnUser($_SESSION['g_dossier'],'FIN',$p_jrn,'<td class="cell"><A class="mtitle" HREF="commercial.php?liste&p_action=bank&sa=list">Liste</A></td>');
 echo '</div>';
 ////////////////////////////////////////////////////////////////////////////////
 // if we request to add an item 
 // the $_POST['add_item'] is set
 // or if we ask to correct the invoice
-if ( isset ($_POST['add_item']) || isset ($_POST["correct_new_invoice"])  ) 
+if ( isset ($_POST['add_item']) || isset ($_POST['correct'])  ) 
 {
   $nb_item=$_POST['nb_item'];
-  if ( isset ($_POST['add_item']))
-    $nb_item++;
+  if ( isset  ($_POST['add_item']))
+    $nb_item++; 
  // Submit button in the form
   $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
           <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver" ID="SubmitButton">';
+  $form=FormFin($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$_POST,false,  $nb_item);
+  //$form=FormFin($cn,$p_jrn,$User->GetPeriode(),$submit,$_POST,false,  $nb_number);
 
-  $form=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$submit,false,$nb_item);
   echo '<div class="u_redcontent">';
   echo $form;
   echo '</div>';
   exit();
 }
 ////////////////////////////////////////////////////////////////////////////////
-// we want to save the invoice and to generate a invoice
+// Save : record 
 //
 if ( isset($_POST['save'])) 
 {
   // we save the expense
-  list ($internal,$c)=RecordSell($cn,$_POST,$User,$p_jrn);
-
+  $r=RecordFin($cn,$_POST,$User,$p_jrn);
+  $nb_number=$_POST['nb_item'];
   
-  $form=FormAchView($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,"",$_POST['nb_item'],false);
+  $submit='<h2 class="info"> Op&eacute;ration '.$r.' enregistr&eacute;</h2>';
+
+  $form=FormFin($cn,$p_jrn,$User->GetPeriode(),$submit,$_POST,true,$nb_number,true);
 
   echo '<div class="u_redcontent">';
-  echo '<h2 class="info"> Op&eacute;ration '.$internal.' enregistr&eacute;</h2>';
   echo $form;
   echo '<hr>';
   echo '</form>';
-  echo '<A href="commercial.php?p_action=depense&p_jrn='.$_GET['p_jrn'].'">
+  echo '<A href="commercial.php?p_action=bank&p_jrn='.$_GET['p_jrn'].'">
     <input type="button" Value="Nouveau"></A>';
   exit();
 }
@@ -200,15 +171,16 @@ if ( isset ($_POST['view_invoice']) )
   $nb_number=$_POST["nb_item"];
   $submit='<INPUT TYPE="SUBMIT" name="save" value="Confirmer">';
   $submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
-  if ( form_verify_input ($cn,$p_jrn,$User->GetPeriode(),$_POST,$nb_number) == true ) {
-    // Should use a read only view instead of FormAch
+  if ( form_verify_input ($cn,$p_jrn,$User->GetPeriode(),$_POST,$nb_number) != null ) {
+    // Should use a read only view instead of FormFin
     // where we can check
-    $form=FormAchView($cn,$p_jrn,$User->GetPeriode(),$_POST,$submit,$nb_number);
+    $form=FormFin($cn,$p_jrn,$User->GetPeriode(),$submit,$_POST,true,  $nb_number,false);
   } else {
     // if something goes wrong, correct it
     $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver">';
-    $form=FormAchInput($cn,$p_jrn,$User->GetPeriode(),$_POST,$submit, false, $nb_number);
+    $form=FormFin($cn,$p_jrn,$User->GetPeriode(),$submit,$_POST,false,  $nb_number);
+
   }
   
   echo '<div class="u_redcontent">';
@@ -230,7 +202,7 @@ if ( $p_jrn != -1 )
   $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
           <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver" ID="SubmitButton">';
   // Show an empty form of invoice
-  $form=FormAchInput($cn,$p_jrn,$User->GetPeriode(),null,$submit,false,$jrn->getDefLine('cred'));
+  $form=FormFin($cn,$p_jrn,$User->GetPeriode(),$submit,null,false,$jrn->GetDefLine('deb'));
   echo '<div class="u_redcontent">';
   echo $form;
   echo '</div>';

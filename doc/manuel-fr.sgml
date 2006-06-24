@@ -1144,6 +1144,9 @@ la colonne, vous pourrez modifier la fiche client.
 <item> F pour accèder à toutes les factures au nom de ce client
 </itemize>
 
+<p>Ajout de client en cliquant sur le bouton ajout
+
+<p>Modification d'un client en cliquant sur son quickcode
 
 </sect1>
 <sect1> Menu Facture

@@ -85,7 +85,7 @@
 <a name="l00092"></a>00092 
 <a name="l00093"></a>00093           } <span class="comment">// if $len == 0</span>
 <a name="l00094"></a>00094           $lib=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($p_av_text0);
-<a name="l00095"></a>00095           <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=sprintf(<span class="stringliteral">"insert into tmp_pcmn (pcm_val,pcm_lib,pcm_val_parent) </span>
+<a name="l00095"></a>00095           <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=sprintf(<span class="stringliteral">"insert into tmp_pcmn (pcm_val,pcm_lib,pcm_val_parent) </span>
 <a name="l00096"></a>00096 <span class="stringliteral">                values (%s,'%s',%d)"</span>,
 <a name="l00097"></a>00097                        ${<span class="stringliteral">"p_av_text$i"</span>},
 <a name="l00098"></a>00098                        $lib,
@@ -127,7 +127,7 @@
 <a name="l00134"></a>00134       <a class="code" href="jrn__add_8php.html#a17">$num</a>=<a class="code" href="fiche__inc_8php.html#a5">GetNextFiche</a>($p_cn,$base);
 <a name="l00135"></a>00135 
 <a name="l00136"></a>00136       $lib=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($p_av_text0);
-<a name="l00137"></a>00137       <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=sprintf(<span class="stringliteral">"insert into tmp_pcmn (pcm_val,pcm_lib,pcm_val_parent) </span>
+<a name="l00137"></a>00137       <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=sprintf(<span class="stringliteral">"insert into tmp_pcmn (pcm_val,pcm_lib,pcm_val_parent) </span>
 <a name="l00138"></a>00138 <span class="stringliteral">                values (%s,'%s',%d)"</span>,
 <a name="l00139"></a>00139                    $num,
 <a name="l00140"></a>00140                    $lib,
@@ -159,7 +159,7 @@
 <a name="l00166"></a>00166 
 <a name="l00167"></a>00167     <span class="comment">// Special treatment for QuickCode</span>
 <a name="l00168"></a>00168        <span class="keywordflow">if</span> ( ${<span class="stringliteral">"p_ad_id$i"</span>} == <a class="code" href="constant_8php.html#a72">ATTR_DEF_QUICKCODE</a> ) {
-<a name="l00169"></a>00169          <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=sprintf(<span class="stringliteral">"select insert_quick_code(%d,'%s')"</span>,
+<a name="l00169"></a>00169          <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=sprintf(<span class="stringliteral">"select insert_quick_code(%d,'%s')"</span>,
 <a name="l00170"></a>00170                       $l_f_id,<a class="code" href="ac__common_8php.html#a9">FormatString</a>(${<span class="stringliteral">"p_av_text$i"</span>}));
 <a name="l00171"></a>00171          <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
 <a name="l00172"></a>00172          <span class="keywordflow">continue</span>;
@@ -219,7 +219,7 @@
 <a name="l00242"></a>00242     <a class="code" href="debug_8php.html#a0">echo_debug</a>('fiche_inc.php',__LINE__,<span class="stringliteral">"Array is null"</span>);
 <a name="l00243"></a>00243     <span class="comment">// Find all the attribute of the existing cards</span>
 <a name="l00244"></a>00244     <span class="comment">// --&gt; Get_attr_def </span>
-<a name="l00245"></a>00245     <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"select frd_id,ad_id,ad_text from  fiche_def join jnt_fic_attr using (fd_id)</span>
+<a name="l00245"></a>00245     <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"select frd_id,ad_id,ad_text from  fiche_def join jnt_fic_attr using (fd_id)</span>
 <a name="l00246"></a>00246 <span class="stringliteral">           join attr_def using (ad_id) where fd_id="</span>.$p_type.<span class="stringliteral">" order by ad_id"</span>;
 <a name="l00247"></a>00247 
 <a name="l00248"></a>00248     <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
@@ -261,7 +261,7 @@
 <a name="l00284"></a>00284     echo '&lt;H2 <span class="keyword">class</span>=<span class="stringliteral">"info"</span>&gt;'.$label.'&lt;/H2&gt;';
 <a name="l00285"></a>00285 
 <a name="l00286"></a>00286     <span class="comment">// Find all the data related to the card</span>
-<a name="l00287"></a>00287     <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"select av_text,ad_id,ad_text,jft_id from attr_value</span>
+<a name="l00287"></a>00287     <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"select av_text,ad_id,ad_text,jft_id from attr_value</span>
 <a name="l00288"></a>00288 <span class="stringliteral">        natural join attr_def </span>
 <a name="l00289"></a>00289 <span class="stringliteral">        natural join jnt_fic_att_value </span>
 <a name="l00290"></a>00290 <span class="stringliteral">        natural join fiche where f_id=$p_type order by ad_id"</span>;
@@ -332,19 +332,19 @@
 <a name="l00395"></a>00395   require_once(<span class="stringliteral">"user_common.php"</span>);
 <a name="l00396"></a>00396   echo '&lt;H2 <span class="keyword">class</span>=<span class="stringliteral">"info"</span>&gt;'.getFicheDefName($p_cn,$p_type).'&lt;/H2&gt;';
 <a name="l00397"></a>00397 
-<a name="l00398"></a>00398    <a class="code" href="depense_8inc_8php.html#a13">$step</a>=<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['g_pagesize'];
+<a name="l00398"></a>00398    <a class="code" href="bank_8inc_8php.html#a11">$step</a>=<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['g_pagesize'];
 <a name="l00399"></a>00399    <a class="code" href="jrn__search_8php.html#a16">$sql_limit</a>=<span class="stringliteral">""</span>;
 <a name="l00400"></a>00400    <a class="code" href="jrn__search_8php.html#a17">$sql_offset</a>=<span class="stringliteral">""</span>;
 <a name="l00401"></a>00401    <span class="keywordflow">if</span> ( $step != -1 ) {
-<a name="l00402"></a>00402      <a class="code" href="depense_8inc_8php.html#a14">$page</a>=(isset($_GET['page']))?$_GET['page']:1;
-<a name="l00403"></a>00403      <a class="code" href="depense_8inc_8php.html#a15">$offset</a>=(isset($_GET['offset']))?$_GET['offset']:0;
+<a name="l00402"></a>00402      <a class="code" href="bank_8inc_8php.html#a12">$page</a>=(isset($_GET['page']))?$_GET['page']:1;
+<a name="l00403"></a>00403      <a class="code" href="bank_8inc_8php.html#a13">$offset</a>=(isset($_GET['offset']))?$_GET['offset']:0;
 <a name="l00404"></a>00404      $max_line=<a class="code" href="postgres_8php.html#a10">CountSql</a>($p_cn,<span class="stringliteral">"select f_id,av_text  from </span>
 <a name="l00405"></a>00405 <span class="stringliteral">                          fiche join jnt_fic_att_value using (f_id) </span>
 <a name="l00406"></a>00406 <span class="stringliteral">                                join attr_value using (jft_id)</span>
 <a name="l00407"></a>00407 <span class="stringliteral">                       where fd_id='"</span>.$p_type.<span class="stringliteral">"' and ad_id="</span>.<a class="code" href="constant_8php.html#a50">ATTR_DEF_NAME</a>.<span class="stringliteral">" order by f_id"</span>);
 <a name="l00408"></a>00408      <a class="code" href="jrn__search_8php.html#a16">$sql_limit</a>=<span class="stringliteral">" limit "</span>.$step;
 <a name="l00409"></a>00409      <a class="code" href="jrn__search_8php.html#a17">$sql_offset</a>=<span class="stringliteral">" offset "</span>.$offset;
-<a name="l00410"></a>00410      <a class="code" href="depense_8inc_8php.html#a17">$bar</a>=<a class="code" href="user__common_8php.html#a16">jrn_navigation_bar</a>($offset,$max_line,$step,$page);
+<a name="l00410"></a>00410      <a class="code" href="bank_8inc_8php.html#a15">$bar</a>=<a class="code" href="user__common_8php.html#a16">jrn_navigation_bar</a>($offset,$max_line,$step,$page);
 <a name="l00411"></a>00411    }
 <a name="l00412"></a>00412    
 <a name="l00413"></a>00413   <span class="comment">// Get all name the cards of the select category</span>
@@ -356,7 +356,7 @@
 <a name="l00419"></a>00419 <span class="stringliteral">                       where fd_id='"</span>.$p_type.
 <a name="l00420"></a>00420                        <span class="stringliteral">"' and ad_id="</span>.ATTR_DEF_NAME.<span class="stringliteral">" order by f_id $sql_offset $sql_limit "</span>);
 <a name="l00421"></a>00421     <a class="code" href="setup_8php.html#a11">$Max</a>=pg_NumRows($Res);
-<a name="l00422"></a>00422     echo <a class="code" href="depense_8inc_8php.html#a17">$bar</a>;
+<a name="l00422"></a>00422     echo <a class="code" href="bank_8inc_8php.html#a15">$bar</a>;
 <a name="l00423"></a>00423 
 <a name="l00424"></a>00424     <span class="keywordflow">for</span> ( $i = 0; $i &lt; $Max; $i++) {
 <a name="l00425"></a>00425       <a class="code" href="jrn__detail_8php.html#a11">$l_line</a>=pg_fetch_array($Res,$i);
@@ -399,7 +399,7 @@
 <a name="l00491"></a>00491   $fd_id=<a class="code" href="fiche__inc_8php.html#a23">GetFicheDef</a>($p_cn,$p_id);
 <a name="l00492"></a>00492 
 <a name="l00493"></a>00493   <span class="comment">//Update the default attribute of a card if is model has changed</span>
-<a name="l00494"></a>00494   <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"insert into jnt_fic_att_value (f_id,ad_id) </span>
+<a name="l00494"></a>00494   <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"insert into jnt_fic_att_value (f_id,ad_id) </span>
 <a name="l00495"></a>00495 <span class="stringliteral">        select $p_id, ad_id </span>
 <a name="l00496"></a>00496 <span class="stringliteral">              from jnt_fic_attr </span>
 <a name="l00497"></a>00497 <span class="stringliteral">        where fd_id=$fd_id and </span>
@@ -409,7 +409,7 @@
 <a name="l00501"></a>00501  <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
 <a name="l00502"></a>00502 
 <a name="l00503"></a>00503  <span class="comment">// add a empty string to attr_value</span>
-<a name="l00504"></a>00504  <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"insert into attr_value select jft_id,'' from jnt_fic_att_value</span>
+<a name="l00504"></a>00504  <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"insert into attr_value select jft_id,'' from jnt_fic_att_value</span>
 <a name="l00505"></a>00505 <span class="stringliteral">         where f_id=$p_id and jft_id not in (select jft_id from attr_value natural join jnt_fic_att_value where </span>
 <a name="l00506"></a>00506 <span class="stringliteral">         f_id = $p_id)"</span>; 
 <a name="l00507"></a>00507  <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
@@ -460,13 +460,13 @@
 <a name="l00567"></a>00567     <a class="code" href="action_8inc_8php.html#a15">$a</a>=pg_fetch_array($Res,0);
 <a name="l00568"></a>00568     <span class="keywordflow">if</span> ( $a['ad_id'] != <a class="code" href="constant_8php.html#a72">ATTR_DEF_QUICKCODE</a>) 
 <a name="l00569"></a>00569       {
-<a name="l00570"></a>00570         <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=sprintf(<span class="stringliteral">"update attr_value set av_text='%s' where jft_id=%d"</span>,
+<a name="l00570"></a>00570         <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=sprintf(<span class="stringliteral">"update attr_value set av_text='%s' where jft_id=%d"</span>,
 <a name="l00571"></a>00571                      $text,
 <a name="l00572"></a>00572                      ${<span class="stringliteral">"jft_id$i"</span>});
 <a name="l00573"></a>00573       }
 <a name="l00574"></a>00574     <span class="keywordflow">else</span>
 <a name="l00575"></a>00575       {
-<a name="l00576"></a>00576         <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=sprintf(<span class="stringliteral">"select update_quick_code(%d,'%s')"</span>,
+<a name="l00576"></a>00576         <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=sprintf(<span class="stringliteral">"select update_quick_code(%d,'%s')"</span>,
 <a name="l00577"></a>00577                      ${<span class="stringliteral">"jft_id$i"</span>},
 <a name="l00578"></a>00578                      $text);
 <a name="l00579"></a>00579       }
@@ -475,14 +475,14 @@
 <a name="l00582"></a>00582   }
 <a name="l00583"></a>00583     <span class="comment">// Update tva to his default value</span>
 <a name="l00584"></a>00584   <span class="keywordflow">if</span> ( $tva_error == <span class="keyword">true</span> ) { 
-<a name="l00585"></a>00585     <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"update attr_value set av_text=1 where jft_id = ( select jft_id from jnt_fic_att_value </span>
+<a name="l00585"></a>00585     <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"update attr_value set av_text=1 where jft_id = ( select jft_id from jnt_fic_att_value </span>
 <a name="l00586"></a>00586 <span class="stringliteral">                    natural join fiche natural join attr_def </span>
 <a name="l00587"></a>00587 <span class="stringliteral">                 where ad_id="</span>.ATTR_DEF_TVA.<span class="stringliteral">" and f_id=$fiche)"</span>;
 <a name="l00588"></a>00588     <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
 <a name="l00589"></a>00589   } 
 <a name="l00590"></a>00590 
 <a name="l00591"></a>00591   <span class="comment">// Update the PCMN if needed</span>
-<a name="l00592"></a>00592   <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"select av_text from attr_value natural join jnt_fic_att_value</span>
+<a name="l00592"></a>00592   <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"select av_text from attr_value natural join jnt_fic_att_value</span>
 <a name="l00593"></a>00593 <span class="stringliteral">        where f_id=$fiche and ad_id="</span>.ATTR_DEF_ACCOUNT;
 <a name="l00594"></a>00594   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
 <a name="l00595"></a>00595 
@@ -649,13 +649,13 @@
 <a name="l00798"></a>00798   <span class="keywordflow">if</span> ( <a class="code" href="ac__common_8php.html#a9">FormatString</a>($p_class_base) != null) {
 <a name="l00799"></a>00799 
 <a name="l00800"></a>00800     <span class="comment">// p_class is a valid number</span>
-<a name="l00801"></a>00801     <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=sprintf(<span class="stringliteral">"insert into fiche_def(fd_label,fd_class_base,frd_id,fd_create_account) </span>
+<a name="l00801"></a>00801     <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=sprintf(<span class="stringliteral">"insert into fiche_def(fd_label,fd_class_base,frd_id,fd_create_account) </span>
 <a name="l00802"></a>00802 <span class="stringliteral">                values ('%s',%s,%d,'%s')"</span>,
 <a name="l00803"></a>00803                  $p_nom_mod,$p_class_base,$p_FICHE_REF,$p_create);
 <a name="l00804"></a>00804     <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
 <a name="l00805"></a>00805 
 <a name="l00806"></a>00806     <span class="comment">// p_class must be added to tmp_pcmn </span>
-<a name="l00807"></a>00807     <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=sprintf(<span class="stringliteral">"select account_add(%d,'%s')"</span>,
+<a name="l00807"></a>00807     <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=sprintf(<span class="stringliteral">"select account_add(%d,'%s')"</span>,
 <a name="l00808"></a>00808                  $p_class_base,$p_nom_mod);
 <a name="l00809"></a>00809 
 <a name="l00810"></a>00810     <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
@@ -666,13 +666,13 @@
 <a name="l00815"></a>00815     <span class="comment">// Add the class_base if needed</span>
 <a name="l00816"></a>00816 
 <a name="l00817"></a>00817     <span class="keywordflow">if</span> ( $p_create=='<span class="keyword">true</span>' ) {
-<a name="l00818"></a>00818       <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=sprintf(<span class="stringliteral">"insert into jnt_fic_attr(fd_id,ad_id) </span>
+<a name="l00818"></a>00818       <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=sprintf(<span class="stringliteral">"insert into jnt_fic_attr(fd_id,ad_id) </span>
 <a name="l00819"></a>00819 <span class="stringliteral">                     values (%d,%d)"</span>,$fd_id,<a class="code" href="constant_8php.html#a49">ATTR_DEF_ACCOUNT</a>);
 <a name="l00820"></a>00820       <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
 <a name="l00821"></a>00821     }
 <a name="l00822"></a>00822   } <span class="keywordflow">else</span> {
 <a name="l00823"></a>00823     <span class="comment">//There is no class base not even as default</span>
-<a name="l00824"></a>00824     <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=sprintf(<span class="stringliteral">"insert into fiche_def(fd_label,frd_id,fd_create_account) values ('%s',%d,'%s')"</span>,
+<a name="l00824"></a>00824     <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=sprintf(<span class="stringliteral">"insert into fiche_def(fd_label,frd_id,fd_create_account) values ('%s',%d,'%s')"</span>,
 <a name="l00825"></a>00825                  $p_nom_mod,$p_FICHE_REF,$p_create);
 <a name="l00826"></a>00826 
 <a name="l00827"></a>00827   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
@@ -690,7 +690,7 @@
 <a name="l00839"></a>00839   <span class="keywordflow">if</span> (<span class="keyword">sizeof</span>($def_attr) != 0 ) {
 <a name="l00840"></a>00840     <span class="comment">// insert all the mandatory fields into jnt_fiche_attr</span>
 <a name="l00841"></a>00841     foreach ( $def_attr as $i=&gt;$v) {
-<a name="l00842"></a>00842       <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=sprintf(<span class="stringliteral">"insert into jnt_fic_Attr(fd_id,ad_id)</span>
+<a name="l00842"></a>00842       <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=sprintf(<span class="stringliteral">"insert into jnt_fic_Attr(fd_id,ad_id)</span>
 <a name="l00843"></a>00843 <span class="stringliteral">                   values (%d,%s)"</span>,
 <a name="l00844"></a>00844                    $fd_id,$v['ad_id']);
 <a name="l00845"></a>00845       <a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
@@ -837,7 +837,7 @@
 <a name="l01077"></a>01077     <span class="keywordflow">return</span> null;
 <a name="l01078"></a>01078   }
 <a name="l01079"></a>01079   
-<a name="l01080"></a>01080  <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"select f_id,av_text as f_label </span>
+<a name="l01080"></a>01080  <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"select f_id,av_text as f_label </span>
 <a name="l01081"></a>01081 <span class="stringliteral">        from fiche natural join jnt_fic_att_value</span>
 <a name="l01082"></a>01082 <span class="stringliteral">        natural join attr_def</span>
 <a name="l01083"></a>01083 <span class="stringliteral">        natural join attr_value</span>
@@ -947,7 +947,7 @@
 <a name="l01248"></a><a class="code" href="fiche__inc_8php.html#a22">01248</a> function <a class="code" href="fiche__inc_8php.html#a22">GetFicheDefRef</a>($p_cn,$p_f_id)
 <a name="l01249"></a>01249 {
 <a name="l01250"></a>01250   <span class="comment">// Sql stmt</span>
-<a name="l01251"></a>01251   <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"select frd_id from fiche_def join fiche using (fd_id) </span>
+<a name="l01251"></a>01251   <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"select frd_id from fiche_def join fiche using (fd_id) </span>
 <a name="l01252"></a>01252 <span class="stringliteral">      where f_id=$p_f_id"</span>;
 <a name="l01253"></a>01253   <span class="comment">// Execute it</span>
 <a name="l01254"></a>01254   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
@@ -965,7 +965,7 @@
 <a name="l01279"></a><a class="code" href="fiche__inc_8php.html#a23">01279</a> function <a class="code" href="fiche__inc_8php.html#a23">GetFicheDef</a>($p_cn,$p_f_id)
 <a name="l01280"></a>01280 {
 <a name="l01281"></a>01281   <span class="comment">// Sql stmt</span>
-<a name="l01282"></a>01282   <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"select fd_id from fiche_def join fiche using (fd_id) </span>
+<a name="l01282"></a>01282   <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"select fd_id from fiche_def join fiche using (fd_id) </span>
 <a name="l01283"></a>01283 <span class="stringliteral">      where f_id=$p_f_id"</span>;
 <a name="l01284"></a>01284   <span class="comment">// Execute it</span>
 <a name="l01285"></a>01285   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
@@ -986,7 +986,7 @@
 <a name="l01312"></a>01312   
 <a name="l01313"></a>01313   <span class="comment">// the account class is in the av_text with the ad_id=5 in </span>
 <a name="l01314"></a>01314   <span class="comment">// attr_Def</span>
-<a name="l01315"></a>01315   <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"select av_text from attr_value </span>
+<a name="l01315"></a>01315   <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"select av_text from attr_value </span>
 <a name="l01316"></a>01316 <span class="stringliteral">                     natural join jnt_fic_att_value</span>
 <a name="l01317"></a>01317 <span class="stringliteral">                      natural join attr_def </span>
 <a name="l01318"></a>01318 <span class="stringliteral">                    where</span>
@@ -1003,7 +1003,7 @@
 <a name="l01341"></a>01341 {
 <a name="l01342"></a>01342   <span class="comment">// Insert a new attribute for the model</span>
 <a name="l01343"></a>01343   <span class="comment">// it means insert a row in jnt_fic_attr</span>
-<a name="l01344"></a>01344   <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=sprintf(<span class="stringliteral">"insert into jnt_fic_attr (fd_id,ad_id) values (%d,%d)"</span>, 
+<a name="l01344"></a>01344   <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=sprintf(<span class="stringliteral">"insert into jnt_fic_attr (fd_id,ad_id) values (%d,%d)"</span>, 
 <a name="l01345"></a>01345                $p_fid,$p_adid);
 <a name="l01346"></a>01346   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
 <a name="l01347"></a>01347                        
@@ -1012,7 +1012,7 @@
 <a name="l01362"></a>01362 {
 <a name="l01363"></a>01363   <span class="comment">// Insert a new attribute for the model</span>
 <a name="l01364"></a>01364   <span class="comment">// it means insert a row in jnt_fic_attr</span>
-<a name="l01365"></a>01365   <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=sprintf(<span class="stringliteral">"update   fiche_def set fd_label='%s' where </span>
+<a name="l01365"></a>01365   <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=sprintf(<span class="stringliteral">"update   fiche_def set fd_label='%s' where </span>
 <a name="l01366"></a>01366 <span class="stringliteral">                  fd_id=%d"</span>, 
 <a name="l01367"></a>01367                $p_label,$p_fid);
 <a name="l01368"></a>01368   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
@@ -1058,7 +1058,7 @@
 <a name="l01423"></a>01423   echo '&lt;TR&gt; &lt;TD&gt;';
 <a name="l01424"></a>01424   echo '&lt;SELECT NAME=<span class="stringliteral">"ad_id"</span>&gt;';
 <a name="l01425"></a>01425   <span class="keywordflow">for</span> ($i=0;$i&lt;$M;$i++) {
-<a name="l01426"></a>01426     <a class="code" href="depense_8inc_8php.html#a16">$l</a>=pg_fetch_array($Res,$i);
+<a name="l01426"></a>01426     <a class="code" href="bank_8inc_8php.html#a14">$l</a>=pg_fetch_array($Res,$i);
 <a name="l01427"></a>01427     printf('&lt;OPTION VALUE=<span class="stringliteral">"%s"</span>&gt; %s',
 <a name="l01428"></a>01428            $l['ad_id'],$l['ad_text']);
 <a name="l01429"></a>01429   }
@@ -1133,7 +1133,7 @@
 <a name="l01540"></a>01540     <span class="keywordflow">return</span> null;
 <a name="l01541"></a>01541   }
 <a name="l01542"></a>01542   
-<a name="l01543"></a>01543  <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"select *</span>
+<a name="l01543"></a>01543  <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"select *</span>
 <a name="l01544"></a>01544 <span class="stringliteral">        from vw_fiche_attr</span>
 <a name="l01545"></a>01545 <span class="stringliteral">        where  </span>
 <a name="l01546"></a>01546 <span class="stringliteral">           fd_id in ("</span>.$list['<a class="code" href="classfiche.html">fiche</a>'].<span class="stringliteral">") and quick_code='$p_fiche'"</span>; 
@@ -1146,7 +1146,7 @@
 <a name="l01553"></a>01553     <span class="keywordflow">return</span> 1;
 <a name="l01554"></a>01554 }
 <a name="l01555"></a>01555 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 00:05:13 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 20:41:33 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

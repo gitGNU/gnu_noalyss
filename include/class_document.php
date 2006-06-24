@@ -32,7 +32,7 @@ class Document
   var $d_mimetype;  /*! \enum $d_mimetype  */
   var $d_filename;  /*! \enum $d_filename */
   var $d_lob;       /*! \enum $d_lob the oid of the lob */
-  var $d_number;    /*! \enum $d_number seq of action */
+  var $d_number;    /*! \enum $d_number number of the document */
   var $md_id;       /*! \enum $md_id document's template */
   /* Constructor
    * \param $p_cn Database connection

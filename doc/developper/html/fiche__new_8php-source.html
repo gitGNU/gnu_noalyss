@@ -77,7 +77,7 @@
 <a name="l00072"></a>00072   <a class="code" href="debug_8php.html#a0">echo_debug</a>('fiche_new.php',__LINE__,<span class="stringliteral">"Array is null"</span>);
 <a name="l00073"></a>00073   <span class="comment">// Find all the attribute of the existing cards</span>
 <a name="l00074"></a>00074   <span class="comment">// --&gt; Get_attr_def </span>
-<a name="l00075"></a>00075     <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"select frd_id,ad_id,ad_text from  fiche_def join jnt_fic_attr using (fd_id)</span>
+<a name="l00075"></a>00075     <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"select frd_id,ad_id,ad_text from  fiche_def join jnt_fic_attr using (fd_id)</span>
 <a name="l00076"></a>00076 <span class="stringliteral">           join attr_def using (ad_id) where fd_id="</span>.$p_type.<span class="stringliteral">" order by ad_id"</span>;
 <a name="l00077"></a>00077 
 <a name="l00078"></a>00078     <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
@@ -125,7 +125,7 @@
 <a name="l00120"></a>00120   <span class="comment">// if e_type contains a list of value</span>
 <a name="l00121"></a>00121   <span class="keywordflow">if</span> ( $e_type != 'cred' and $e_type != 'deb')     {
 <a name="l00122"></a>00122     <span class="comment">//    $list['fiche']=$e_type;</span>
-<a name="l00123"></a>00123     <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"select fd_id from fiche_def where frd_id in ($e_type)"</span>;
+<a name="l00123"></a>00123     <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"select fd_id from fiche_def where frd_id in ($e_type)"</span>;
 <a name="l00124"></a><a class="code" href="fiche__new_8php.html#a3">00124</a>     <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$sql);
 <a name="l00125"></a>00125     <span class="comment">// fetch it</span>
 <a name="l00126"></a><a class="code" href="fiche__new_8php.html#a4">00126</a>     <a class="code" href="setup_8php.html#a11">$Max</a>=pg_NumRows($Res);
@@ -142,11 +142,11 @@
 <a name="l00137"></a>00137   } <span class="keywordflow">else</span> { <span class="comment">// We have to find it from the database</span>
 <a name="l00138"></a>00138     <span class="keywordflow">if</span> ( $e_type == 'deb' ) {
 <a name="l00139"></a>00139       $get='jrn_def_fiche_deb';
-<a name="l00140"></a>00140       <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"select $get as fiche from jrn_def where jrn_def_id="</span>.$_GET['p_jrn'];
+<a name="l00140"></a>00140       <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"select $get as fiche from jrn_def where jrn_def_id="</span>.$_GET['p_jrn'];
 <a name="l00141"></a>00141     }
 <a name="l00142"></a>00142     <span class="keywordflow">if</span> ( $e_type == 'cred' ) {
 <a name="l00143"></a>00143       $get='jrn_def_fiche_cred';
-<a name="l00144"></a>00144     <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"select $get as fiche from jrn_def where jrn_def_id="</span>.$_GET['p_jrn'];
+<a name="l00144"></a>00144     <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"select $get as fiche from jrn_def where jrn_def_id="</span>.$_GET['p_jrn'];
 <a name="l00145"></a>00145     }
 <a name="l00146"></a>00146     
 <a name="l00147"></a>00147     
@@ -200,7 +200,7 @@
 <a name="l00195"></a>00195     echo <span class="stringliteral">"&lt;FORM&gt;"</span>;
 <a name="l00196"></a>00196   }
 <a name="l00197"></a>00197 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 00:05:12 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 20:41:32 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

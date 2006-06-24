@@ -64,7 +64,7 @@
 <a name="l00059"></a>00059 
 <a name="l00060"></a>00060 function get_list_fiche($p_cn,$get,$p_jrn)
 <a name="l00061"></a>00061 {
-<a name="l00062"></a>00062   <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"select $get as fiche from jrn_def where jrn_def_id=$p_jrn"</span>;
+<a name="l00062"></a>00062   <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"select $get as fiche from jrn_def where jrn_def_id=$p_jrn"</span>;
 <a name="l00063"></a>00063   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
 <a name="l00064"></a>00064 
 <a name="l00065"></a>00065   <span class="comment">// fetch it</span>
@@ -116,19 +116,19 @@
 <a name="l00111"></a>00111   <span class="keywordflow">if</span> ( $e_type == 'deb' ) {
 <a name="l00112"></a>00112     $get='jrn_def_fiche_deb';
 <a name="l00113"></a>00113     <a class="code" href="fiche__search_8php.html#a5">$list_fiche</a>=get_list_fiche($cn,$get,$_GET['p_jrn']);
-<a name="l00114"></a><a class="code" href="fiche__search_8php.html#a8">00114</a>     <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"select * from vw_fiche_attr where fd_id in ( $list_fiche )"</span>;
+<a name="l00114"></a><a class="code" href="fiche__search_8php.html#a8">00114</a>     <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"select * from vw_fiche_attr where fd_id in ( $list_fiche )"</span>;
 <a name="l00115"></a>00115   }
 <a name="l00116"></a>00116   <span class="keywordflow">if</span> ( $e_type == 'cred' ) {
 <a name="l00117"></a>00117     $get='jrn_def_fiche_cred';
 <a name="l00118"></a>00118     <a class="code" href="fiche__search_8php.html#a5">$list_fiche</a>=get_list_fiche($cn,$get,$_GET['p_jrn']);
-<a name="l00119"></a>00119     <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"select * from vw_fiche_attr where fd_id in ( $list_fiche )"</span>;
+<a name="l00119"></a>00119     <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"select * from vw_fiche_attr where fd_id in ( $list_fiche )"</span>;
 <a name="l00120"></a>00120   }
 <a name="l00121"></a>00121 
 <a name="l00122"></a>00122 
 <a name="l00123"></a>00123   <span class="comment">// if e_type contains a list of value</span>
 <a name="l00124"></a>00124   <span class="keywordflow">if</span> ( $e_type != 'cred' and $e_type != 'deb')     {
 <a name="l00125"></a>00125     <a class="code" href="fiche__search_8php.html#a5">$list_fiche</a>=$e_type;
-<a name="l00126"></a>00126     <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"select * from vw_fiche_attr where frd_id in ( $list_fiche )"</span>;
+<a name="l00126"></a>00126     <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"select * from vw_fiche_attr where frd_id in ( $list_fiche )"</span>;
 <a name="l00127"></a>00127     <span class="comment">//    $sql="select * from vw_fiche_attr ";</span>
 <a name="l00128"></a>00128   }
 <a name="l00129"></a>00129 <span class="comment">// e_fic_search contains the pattern</span>
@@ -183,7 +183,7 @@
 <a name="l00178"></a>00178 
 <a name="l00179"></a>00179 <a class="code" href="ac__common_8php.html#a6">html_page_stop</a>();
 <a name="l00180"></a>00180 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 00:05:12 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 20:41:32 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

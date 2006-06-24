@@ -23,7 +23,8 @@ require_once('user_form_ven.php');
 require_once('jrn.php');
 require_once("class_document.php");
 require_once("class_fiche.php");
-/*!\brief the purpose off this file is to create invoices, to record them and to generate
+/*!\file
+ * \brief the purpose off this file is to create invoices, to record them and to generate
  *        them, and of course to save them into the database
  *
  */
@@ -35,7 +36,6 @@ var_dump($_REQUEST);
 if ( ! isset ($_REQUEST['p_jrn'])) {
   // no journal are selected so we select the first one
   $p_jrn=GetFirstJrnIdForJrnType($_SESSION['g_dossier'],'VEN'); 
-  // $p_jrn=-1;
 } else
 {
   $p_jrn=$_REQUEST['p_jrn'];
@@ -161,7 +161,8 @@ echo '</div>';
 if ( isset ($_POST['add_item']) || isset ($_POST["correct_new_invoice"])  ) 
 {
   $nb_item=$_POST['nb_item'];
-  $nb_item++;
+  if ( isset ($_POST['add_item']))
+    $nb_item++;
   $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,false,$nb_item);
   echo '<div class="u_redcontent">';
   echo $form;
@@ -184,6 +185,7 @@ if ( isset($_POST['record_and_print_invoice']))
   echo '<h2 class="info"> Op&eacute;ration '.$internal.' enregistr&eacute;</h2>';
   echo $form;
   echo '<hr>';
+  
   // Show the details of the encoded invoice 
   // and the url of the invoice
   if ( isset($_POST['gen_invoice'])) 
@@ -195,6 +197,9 @@ if ( isset($_POST['record_and_print_invoice']))
 	  $str_file=$doc->Generate();
 	  // Move the document to the jrn
 	  $doc->MoveDocumentPj($internal);
+	  // Update the comment with invoice number
+	  $sql="update jrn set jr_comment='Facture ".$doc->d_number."' where jr_internal='$internal'";
+	  ExecSql($cn,$sql);
 	  echo $str_file;
     }
   echo '</form>';

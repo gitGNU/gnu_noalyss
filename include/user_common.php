@@ -309,14 +309,14 @@ comment = $p_comment");
  **************************************************
  *\brief  show all the lines of the asked jrn
  *        
- * parm : 
- *	- $p_cn database connection
- *      - $p_jrn jrn_id jrn.jrn_def_id
- *      - $p_where the sql query where clause
- *      - $p_array param. for a search
- *      - $p_value offset
- *      - $p_paid value : 0 nothing is shown, 1 check box; 2 check_box disable
- * return: array (entryCount,generatedHTML);
+ * 
+ * \param $p_cn database connection
+ * \param $p_jrn jrn_id jrn.jrn_def_id
+ * \param $p_where the sql query where clause
+ * \param $p_array param. for a search
+ * \param $p_value offset
+ * \param $p_paid value : 0 nothing is shown, 1 check box; 2 check_box disable
+ * \return array (entryCount,generatedHTML);
  * 
  */
 function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0,$p_paid=0)

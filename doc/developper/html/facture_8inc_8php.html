@@ -7,7 +7,9 @@
 <div class="qindex"><a class="qindex" href="index.html">Main&nbsp;Page</a> | <a class="qindex" href="namespaces.html">Namespace List</a> | <a class="qindex" href="hierarchy.html">Class&nbsp;Hierarchy</a> | <a class="qindex" href="annotated.html">Data&nbsp;Structures</a> | <a class="qindex" href="dirs.html">Directories</a> | <a class="qindex" href="files.html">File&nbsp;List</a> | <a class="qindex" href="functions.html">Data&nbsp;Fields</a> | <a class="qindex" href="globals.html">Globals</a> | <a class="qindex" href="pages.html">Related&nbsp;Pages</a></div>
 <div class="nav">
 <a class="el" href="dir_000000.html">developpement</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_000001.html">phpcompta-dev</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_000002.html">phpcompta</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_000006.html">include</a></div>
-<h1>facture.inc.php File Reference</h1>
+<h1>facture.inc.php File Reference</h1>the purpose off this file is to create invoices, to record them and to generate them, and of course to save them into the database <a href="#_details">More...</a>
+<p>
+
 <p>
 <a href="facture_8inc_8php-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
@@ -48,7 +50,7 @@
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="facture_8inc_8php.html#a17">$bar</a> = jrn_navigation_bar($offset,$max_line,$step,$page)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="facture_8inc_8php.html#a18">$form</a> = FormVenteView($cn,$_GET['p_jrn'],$User-&gt;GetPeriode(),$_POST,$_POST['nb_item'],'noform','')</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="facture_8inc_8php.html#a18">$form</a> = FormVenInput($cn,$_GET['p_jrn'],$User-&gt;GetPeriode(),$_POST,false,$nb_item)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">$doc&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="facture_8inc_8php.html#a19">f_id</a> = $_POST['e_client']</td></tr>
 
@@ -59,7 +61,12 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="facture_8inc_8php.html#a22">$str_file</a> = $doc-&gt;Generate()</td></tr>
 
 </table>
-<hr><h2>Variable Documentation</h2>
+<hr><a name="_details"></a><h2>Detailed Description</h2>
+the purpose off this file is to create invoices, to record them and to generate them, and of course to save them into the database 
+<p>
+
+<p>
+Definition in file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.<hr><h2>Variable Documentation</h2>
 <a class="anchor" name="a17"></a><!-- doxytag: member="facture.inc.php::$bar" ref="a17" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -116,7 +123,7 @@ Definition at line <a class="el" href="facture_8inc_8php-source.html#l00114">114
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">$form = FormVenteView($cn,$_GET['p_jrn'],$User-&gt;GetPeriode(),$_POST,$_POST['nb_item'],'noform','')          </td>
+          <td class="md" nowrap valign="top">$form = FormVenInput($cn,$_GET['p_jrn'],$User-&gt;GetPeriode(),$_POST,false,$nb_item)          </td>
         </tr>
       </table>
     </td>
@@ -132,7 +139,7 @@ Definition at line <a class="el" href="facture_8inc_8php-source.html#l00114">114
 <p>
 
 <p>
-Definition at line <a class="el" href="facture_8inc_8php-source.html#l00181">181</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
+Definition at line <a class="el" href="facture_8inc_8php-source.html#l00166">166</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a0"></a><!-- doxytag: member="facture.inc.php::$h_url" ref="a0" args="" --><p>
@@ -432,7 +439,7 @@ Definition at line <a class="el" href="facture_8inc_8php-source.html#l00125">125
 <p>
 
 <p>
-Definition at line <a class="el" href="facture_8inc_8php-source.html#l00195">195</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.
+Definition at line <a class="el" href="facture_8inc_8php-source.html#l00197">197</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.
 <p>
 Referenced by <a class="el" href="class__action_8php-source.html#l00241">action::SaveStage2()</a>.    </td>
   </tr>
@@ -509,7 +516,7 @@ Definition at line <a class="el" href="facture_8inc_8php-source.html#l00110">110
 <p>
 
 <p>
-Definition at line <a class="el" href="facture_8inc_8php-source.html#l00194">194</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
+Definition at line <a class="el" href="facture_8inc_8php-source.html#l00196">196</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a19"></a><!-- doxytag: member="facture.inc.php::f_id" ref="a19" args="" --><p>
@@ -534,7 +541,7 @@ Definition at line <a class="el" href="facture_8inc_8php-source.html#l00194">194
 <p>
 
 <p>
-Definition at line <a class="el" href="facture_8inc_8php-source.html#l00192">192</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.
+Definition at line <a class="el" href="facture_8inc_8php-source.html#l00194">194</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.
 <p>
 Referenced by <a class="el" href="class__action_8php-source.html#l00075">action::action()</a>, <a class="el" href="class__fiche_8php-source.html#l00315">fiche::GetByDef()</a>, <a class="el" href="class__fiche_8php-source.html#l00167">fiche::GetByQCode()</a>, <a class="el" href="class__fiche_8php-source.html#l00258">fiche::GetByType()</a>, <a class="el" href="fiche__inc_8php-source.html#l01054">GetFicheJrn()</a>, <a class="el" href="stock__inc_8php-source.html#l00111">getFicheNameCode()</a>, <a class="el" href="class__supplier_8php-source.html#l00057">Supplier::GetFromPoste()</a>, <a class="el" href="class__customer_8php-source.html#l00057">Customer::GetFromPoste()</a>, <a class="el" href="user__common_8php-source.html#l00596">InsertStockGoods()</a>, <a class="el" href="class__action_8php-source.html#l00329">action::myList()</a>, and <a class="el" href="class__contact_8php-source.html#l00050">contact::Summary()</a>.    </td>
   </tr>
@@ -561,7 +568,7 @@ Referenced by <a class="el" href="class__action_8php-source.html#l00075">action:
 <p>
 
 <p>
-Definition at line <a class="el" href="facture_8inc_8php-source.html#l00193">193</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
+Definition at line <a class="el" href="facture_8inc_8php-source.html#l00195">195</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a6"></a><!-- doxytag: member="facture.inc.php::name" ref="a6" args="" --><p>
@@ -639,7 +646,7 @@ Definition at line <a class="el" href="facture_8inc_8php-source.html#l00115">115
 Definition at line <a class="el" href="facture_8inc_8php-source.html#l00100">100</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
   </tr>
 </table>
-<hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 00:05:14 2006 for phpcompta by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 20:41:34 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

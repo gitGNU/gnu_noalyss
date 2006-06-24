@@ -42,19 +42,19 @@
 <a name="l00038"></a>00038 <span class="comment">// Form</span>
 <a name="l00040"></a>00040 <span class="comment"></span><span class="comment">// Show the export button</span>
 <a name="l00041"></a>00041 <span class="keywordflow">if</span> ( isset ($_POST['view']  ) ) {
-<a name="l00042"></a>00042   <a class="code" href="depense_8inc_8php.html#a19">$submit</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>();
+<a name="l00042"></a>00042   <a class="code" href="bank_8inc_8php.html#a16">$submit</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>();
 <a name="l00043"></a><a class="code" href="balance_8php.html#a1">00043</a>   <a class="code" href="balance_8php.html#a1">$hid</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"hidden"</span>);
 <a name="l00044"></a>00044 
 <a name="l00045"></a>00045   echo <span class="stringliteral">"&lt;table&gt;"</span>;
 <a name="l00046"></a>00046   echo '&lt;TR&gt;';
 <a name="l00047"></a>00047   echo '&lt;TD&gt;&lt;form method=<span class="stringliteral">"POST"</span> <a class="code" href="constant_8php.html#a39">ACTION</a>=<span class="stringliteral">"print_balance.php"</span>&gt;'.
-<a name="l00048"></a>00048     <a class="code" href="depense_8inc_8php.html#a19">$submit</a>-&gt;Submit('bt_pdf',<span class="stringliteral">"Export PDF"</span>).
+<a name="l00048"></a>00048     <a class="code" href="bank_8inc_8php.html#a16">$submit</a>-&gt;Submit('bt_pdf',<span class="stringliteral">"Export PDF"</span>).
 <a name="l00049"></a>00049     <a class="code" href="balance_8php.html#a1">$hid</a>-&gt;IOValue(<span class="stringliteral">"from_periode"</span>,$_POST['from_periode']).
 <a name="l00050"></a>00050     <a class="code" href="balance_8php.html#a1">$hid</a>-&gt;IOValue(<span class="stringliteral">"to_periode"</span>,$_POST['to_periode']);
 <a name="l00051"></a>00051 
 <a name="l00052"></a>00052   echo <span class="stringliteral">"&lt;/form&gt;&lt;/TD&gt;"</span>;
 <a name="l00053"></a>00053   echo '&lt;TD&gt;&lt;form method=<span class="stringliteral">"POST"</span> <a class="code" href="constant_8php.html#a39">ACTION</a>=<span class="stringliteral">"bal_csv.php"</span>&gt;'.
-<a name="l00054"></a>00054     <a class="code" href="depense_8inc_8php.html#a19">$submit</a>-&gt;Submit('bt_csv',<span class="stringliteral">"Export CSV"</span>).
+<a name="l00054"></a>00054     <a class="code" href="bank_8inc_8php.html#a16">$submit</a>-&gt;Submit('bt_csv',<span class="stringliteral">"Export CSV"</span>).
 <a name="l00055"></a>00055     <a class="code" href="balance_8php.html#a1">$hid</a>-&gt;IOValue(<span class="stringliteral">"from_periode"</span>,$_POST['from_periode']).
 <a name="l00056"></a>00056     <a class="code" href="balance_8php.html#a1">$hid</a>-&gt;IOValue(<span class="stringliteral">"to_periode"</span>,$_POST['to_periode']);
 <a name="l00057"></a>00057 
@@ -133,7 +133,7 @@
 <a name="l00132"></a>00132  }<span class="comment">// end submit</span>
 <a name="l00133"></a>00133   echo <span class="stringliteral">"&lt;/div&gt;"</span>;
 <a name="l00134"></a>00134 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 00:05:13 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 20:41:33 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

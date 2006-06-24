@@ -522,7 +522,7 @@
 <a name="l00633"></a>00633                        <span class="stringliteral">" and c_order $cmp $p_jrnx_id "</span>);
 <a name="l00634"></a>00634       
 <a name="l00635"></a>00635       <span class="keywordflow">if</span> ($c_line == 0 ) { <span class="keywordflow">return</span> array (0,0); }
-<a name="l00636"></a>00636       <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"select sum(c_montant) as tot_amount "</span>.
+<a name="l00636"></a>00636       <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"select sum(c_montant) as tot_amount "</span>.
 <a name="l00637"></a>00637         <span class="stringliteral">" from centralized "</span>.
 <a name="l00638"></a>00638         <span class="stringliteral">" left join parm_periode on c_periode=p_id "</span>.
 <a name="l00639"></a>00639         <span class="stringliteral">" inner join jrn on jr_grpt_id=c_grp "</span>.
@@ -558,7 +558,7 @@
 <a name="l00669"></a>00669                        <span class="stringliteral">" and c_id $cmp $p_jrnx_id "</span>);
 <a name="l00670"></a>00670       
 <a name="l00671"></a>00671       <span class="keywordflow">if</span> ($c_line == 0 ) { <span class="keywordflow">return</span> array (0,0); }
-<a name="l00672"></a>00672       <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"select sum(c_montant) as tot_amount "</span>.
+<a name="l00672"></a>00672       <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"select sum(c_montant) as tot_amount "</span>.
 <a name="l00673"></a>00673         <span class="stringliteral">" from centralized "</span>.
 <a name="l00674"></a>00674         <span class="stringliteral">" left join parm_periode on c_periode=p_id "</span>.
 <a name="l00675"></a>00675         <span class="stringliteral">" where "</span>.
@@ -663,8 +663,8 @@
 <a name="l00805"></a>00805   <span class="keywordflow">if</span> (pg_NumRows($Res)==0){
 <a name="l00806"></a>00806     $l_debit=0;                   
 <a name="l00807"></a>00807   } <span class="keywordflow">else</span> {
-<a name="l00808"></a>00808     <a class="code" href="depense_8inc_8php.html#a16">$l</a>=pg_fetch_array($Res,0);
-<a name="l00809"></a>00809     $l_debit=<a class="code" href="depense_8inc_8php.html#a16">$l</a>['montant'];
+<a name="l00808"></a>00808     <a class="code" href="bank_8inc_8php.html#a14">$l</a>=pg_fetch_array($Res,0);
+<a name="l00809"></a>00809     $l_debit=<a class="code" href="bank_8inc_8php.html#a14">$l</a>['montant'];
 <a name="l00810"></a>00810       }
 <a name="l00811"></a>00811   <span class="comment">// somme credit</span>
 <a name="l00812"></a>00812   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select sum (j_montant) as montant from</span>
@@ -672,8 +672,8 @@
 <a name="l00814"></a>00814   <span class="keywordflow">if</span> (pg_NumRows($Res)==0) {
 <a name="l00815"></a>00815     $l_credit=0;                   
 <a name="l00816"></a>00816   } <span class="keywordflow">else</span> {
-<a name="l00817"></a>00817     <a class="code" href="depense_8inc_8php.html#a16">$l</a>=pg_fetch_array($Res,0);
-<a name="l00818"></a>00818     $l_credit=<a class="code" href="depense_8inc_8php.html#a16">$l</a>['montant'];
+<a name="l00817"></a>00817     <a class="code" href="bank_8inc_8php.html#a14">$l</a>=pg_fetch_array($Res,0);
+<a name="l00818"></a>00818     $l_credit=<a class="code" href="bank_8inc_8php.html#a14">$l</a>['montant'];
 <a name="l00819"></a>00819   }
 <a name="l00820"></a>00820 
 <a name="l00821"></a>00821   <span class="keywordflow">if</span> ( $l_credit==$l_debit) {
@@ -723,7 +723,7 @@
 <a name="l00876"></a>00876 }
 <a name="l00877"></a>00877 
 <a name="l00878"></a>00878 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 00:05:13 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 20:41:33 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

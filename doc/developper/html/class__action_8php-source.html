@@ -207,7 +207,7 @@
 <a name="l00254"></a>00254         $this-&gt;<a class="code" href="action_8inc_8php.html#a21">ag_title</a>=$doc_mod-&gt;dt_value;
 <a name="l00255"></a>00255       }
 <a name="l00256"></a>00256       <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_action',__LINE__,<span class="stringliteral">" tiers-&gt;id  "</span>.$tiers-&gt;id);
-<a name="l00257"></a>00257       <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=sprintf(<span class="stringliteral">"insert into action_gestion(ag_type,ag_title,f_id,ag_comment) values ('%s','%s',%d,'%s')"</span>,              $this-&gt;dt_id,
+<a name="l00257"></a>00257       <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=sprintf(<span class="stringliteral">"insert into action_gestion(ag_type,ag_title,f_id,ag_comment) values ('%s','%s',%d,'%s')"</span>,              $this-&gt;dt_id,
 <a name="l00258"></a>00258                    <a class="code" href="ac__common_8php.html#a9">FormatString</a>($this-&gt;ag_title),
 <a name="l00259"></a>00259                    $tiers-&gt;id,
 <a name="l00260"></a>00260                    <a class="code" href="ac__common_8php.html#a9">FormatString</a>(urlencode($this-&gt;ag_desc)));
@@ -268,7 +268,7 @@
 <a name="l00320"></a>00320     }
 <a name="l00329"></a><a class="code" href="classaction.html#a5">00329</a>   function <a class="code" href="classaction.html#a5">myList</a>($p_filter=<span class="stringliteral">""</span>,$p_search=<span class="stringliteral">""</span>)
 <a name="l00330"></a>00330     {
-<a name="l00331"></a>00331       <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"</span>
+<a name="l00331"></a>00331       <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"</span>
 <a name="l00332"></a>00332 <span class="stringliteral">   select ag_id,to_char(ag_timestamp,'DD-MM-YYYY HH:MI') as my_date,f_id,ag_title,d_id,md_type,dt_value </span>
 <a name="l00333"></a>00333 <span class="stringliteral">   from action_gestion </span>
 <a name="l00334"></a>00334 <span class="stringliteral">      left outer join document using (ag_id)</span>
@@ -276,16 +276,16 @@
 <a name="l00336"></a>00336 <span class="stringliteral">      join document_type on (ag_type=dt_id)</span>
 <a name="l00337"></a>00337 <span class="stringliteral">   where dt_id in ($p_filter) $p_search"</span>;
 <a name="l00338"></a>00338       $max_line=<a class="code" href="postgres_8php.html#a10">CountSql</a>($this-&gt;db,$sql);
-<a name="l00339"></a>00339       <a class="code" href="depense_8inc_8php.html#a13">$step</a>=<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['g_pagesize'];
-<a name="l00340"></a>00340       <a class="code" href="depense_8inc_8php.html#a14">$page</a>=(isset($_GET['offset']))?$_GET['page']:1;
-<a name="l00341"></a>00341       <a class="code" href="depense_8inc_8php.html#a15">$offset</a>=(isset($_GET['offset']))?$_GET['offset']:0;
+<a name="l00339"></a>00339       <a class="code" href="bank_8inc_8php.html#a11">$step</a>=<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['g_pagesize'];
+<a name="l00340"></a>00340       <a class="code" href="bank_8inc_8php.html#a12">$page</a>=(isset($_GET['offset']))?$_GET['page']:1;
+<a name="l00341"></a>00341       <a class="code" href="bank_8inc_8php.html#a13">$offset</a>=(isset($_GET['offset']))?$_GET['offset']:0;
 <a name="l00342"></a>00342       <a class="code" href="jrn__pdf_8php.html#a9">$limit</a>=<span class="stringliteral">" LIMIT $step OFFSET $offset "</span>;  
-<a name="l00343"></a>00343       <a class="code" href="depense_8inc_8php.html#a17">$bar</a>=<a class="code" href="user__common_8php.html#a16">jrn_navigation_bar</a>($offset,$max_line,$step,$page);
+<a name="l00343"></a>00343       <a class="code" href="bank_8inc_8php.html#a15">$bar</a>=<a class="code" href="user__common_8php.html#a16">jrn_navigation_bar</a>($offset,$max_line,$step,$page);
 <a name="l00344"></a>00344 
 <a name="l00345"></a>00345       <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql.$limit);
 <a name="l00346"></a>00346       $a_row=pg_fetch_all($Res);
 <a name="l00347"></a>00347       <a class="code" href="user__action__ach_8php.html#a2">$r</a>='&lt;div <span class="keyword">class</span>=<span class="stringliteral">"u_redcontent"</span>&gt;';
-<a name="l00348"></a>00348       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="depense_8inc_8php.html#a17">$bar</a>;
+<a name="l00348"></a>00348       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="bank_8inc_8php.html#a15">$bar</a>;
 <a name="l00349"></a>00349       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;table&gt;"</span>;
 <a name="l00350"></a>00350       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;tr&gt;"</span>;
 <a name="l00351"></a>00351       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;th&gt;Date&lt;/th&gt;"</span>;
@@ -320,7 +320,7 @@
 <a name="l00380"></a>00380 
 <a name="l00381"></a>00381         }
 <a name="l00382"></a>00382       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/table&gt;"</span>;
-<a name="l00383"></a>00383       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="depense_8inc_8php.html#a17">$bar</a>;
+<a name="l00383"></a>00383       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="bank_8inc_8php.html#a15">$bar</a>;
 <a name="l00384"></a>00384       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/div&gt;"</span>;
 <a name="l00385"></a>00385       <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
 <a name="l00386"></a>00386     }
@@ -328,7 +328,7 @@
 <a name="l00388"></a>00388 
 <a name="l00389"></a>00389 
 <a name="l00390"></a>00390 }
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 00:05:13 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 20:41:33 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

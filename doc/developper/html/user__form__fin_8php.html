@@ -90,14 +90,13 @@ verify if the data to insert are valid
     <tr><td valign="top"></td><td valign="top"><em>$p_jrn</em>&nbsp;</td><td>concerned ledger </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>$p_periode</em>&nbsp;</td><td>User periode </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>$p_array</em>&nbsp;</td><td>array with the post data </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>$p_number</em>&nbsp;</td><td>number of items gen :<ul>
-<li>return:</li></ul>
-</td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>$p_number</em>&nbsp;</td><td>number of items</td></tr>
   </table>
 </dl>
+<dl compact><dt><b>Returns:</b></dt><dd>:</dd></dl>
 
 <p>
-Definition at line <a class="el" href="user__form__fin_8php-source.html#l00043">43</a> of file <a class="el" href="user__form__fin_8php-source.html">user_form_fin.php</a>.
+Definition at line <a class="el" href="user__form__fin_8php-source.html#l00042">42</a> of file <a class="el" href="user__form__fin_8php-source.html">user_form_fin.php</a>.
 <p>
 References <a class="el" href="send__poste__pdf_8php-source.html#l00044">$poste</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="ac__common_8php-source.html#l00036">echo_error()</a>, <a class="el" href="ac__common_8php-source.html#l00097">isDate()</a>, <a class="el" href="fiche__inc_8php-source.html#l01511">IsFicheOfJrn()</a>, <a class="el" href="ac__common_8php-source.html#l00076">isNumber()</a>, and <a class="el" href="action_8inc_8php-source.html#l00137">name</a>.    </td>
   </tr>
@@ -174,18 +173,23 @@ References <a class="el" href="send__poste__pdf_8php-source.html#l00044">$poste<
 <p>
 Display the form for financial Used to show detail, encode a new fin op or update one. 
 <p>
-parm :<ul>
-<li>p_array which can be empty</li></ul>
-<p>
-the "journal"<ul>
-<li>$p_user = $g_user</li><li>$p_submit contains the submit string</li><li>view_only if we cannot change it (no right or centralized op)</li><li>$p_item number of article gen :<ul>
-<li>return: string with the form</li></ul>
-</li></ul>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>$p_cn</em>&nbsp;</td><td>database connection </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>$p_jrn</em>&nbsp;</td><td>ledger id (jr_id) </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>$p_submit</em>&nbsp;</td><td>contains the submit string </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>$p_array</em>&nbsp;</td><td>(default=null) containing the $_POST </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>$p_view_only</em>&nbsp;</td><td>(default=true) true if we cannot change it (no right or centralized op) </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>$p_item</em>&nbsp;</td><td>number of article (default=4) </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>$p_save</em>&nbsp;</td><td>(default false) if the operation is already recorded</td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Returns:</b></dt><dd>string with the form, in readonly or writable mode</dd></dl>
 
 <p>
-Definition at line <a class="el" href="user__form__fin_8php-source.html#l00147">147</a> of file <a class="el" href="user__form__fin_8php-source.html">user_form_fin.php</a>.
+Definition at line <a class="el" href="user__form__fin_8php-source.html#l00146">146</a> of file <a class="el" href="user__form__fin_8php-source.html">user_form_fin.php</a>.
 <p>
-References <a class="el" href="show__document__modele_8php-source.html#l00060">$file</a>, <a class="el" href="setup_8php-source.html#l00255">$flag</a>, <a class="el" href="poste_8inc_8php-source.html#l00069">$h</a>, <a class="el" href="modify__op_8php-source.html#l00054">$p_jrn</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="impress__fiche_8php-source.html#l00110">$solde</a>, <a class="el" href="action_8inc_8php-source.html#l00150">$tiers_label</a>, <a class="el" href="action_8inc_8php-source.html#l00142">$W1</a>, <a class="el" href="preference_8php-source.html#l00122">GetPeriode()</a>, <a class="el" href="poste_8php-source.html#l00114">GetSolde()</a>, <a class="el" href="action_8inc_8php-source.html#l00137">name</a>, <a class="el" href="action_8inc_8php-source.html#l00138">value</a>, and <a class="el" href="user__common_8php-source.html#l00654">VerifyOperationDate()</a>.    </td>
+References <a class="el" href="show__document__modele_8php-source.html#l00060">$file</a>, <a class="el" href="setup_8php-source.html#l00255">$flag</a>, <a class="el" href="poste_8inc_8php-source.html#l00069">$h</a>, <a class="el" href="modify__op_8php-source.html#l00054">$p_jrn</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="impress__fiche_8php-source.html#l00110">$solde</a>, <a class="el" href="action_8inc_8php-source.html#l00150">$tiers_label</a>, <a class="el" href="action_8inc_8php-source.html#l00142">$W1</a>, <a class="el" href="ac__common_8php-source.html#l00036">echo_error()</a>, <a class="el" href="balance_8php-source.html#l00033">exit</a>, <a class="el" href="preference_8php-source.html#l00122">GetPeriode()</a>, <a class="el" href="poste_8php-source.html#l00114">GetSolde()</a>, <a class="el" href="action_8inc_8php-source.html#l00137">name</a>, and <a class="el" href="action_8inc_8php-source.html#l00138">value</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a2"></a><!-- doxytag: member="user_form_fin.php::RecordFin" ref="a2" args="($p_cn, $p_array, $p_user, $p_jrn)" --><p>
@@ -248,12 +252,12 @@ Record an invoice in the table jrn &amp; jrnx.
 <dl compact><dt><b>Returns:</b></dt><dd>true on success</dd></dl>
 
 <p>
-Definition at line <a class="el" href="user__form__fin_8php-source.html#l00348">348</a> of file <a class="el" href="user__form__fin_8php-source.html">user_form_fin.php</a>.
+Definition at line <a class="el" href="user__form__fin_8php-source.html#l00358">358</a> of file <a class="el" href="user__form__fin_8php-source.html">user_form_fin.php</a>.
 <p>
-References <a class="el" href="impress__fiche_8php-source.html#l00079">$e</a>, <a class="el" href="send__poste__pdf_8php-source.html#l00044">$poste</a>, <a class="el" href="annulation_8php-source.html#l00136">$seq</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="ac__common_8php-source.html#l00036">echo_error()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="balance_8php-source.html#l00033">exit</a>, <a class="el" href="ac__common_8php-source.html#l00207">FormatString()</a>, <a class="el" href="user__common_8php-source.html#l00288">InsertJrn()</a>, <a class="el" href="user__common_8php-source.html#l00244">InsertJrnx()</a>, <a class="el" href="user__common_8php-source.html#l00700">InsertRapt()</a>, <a class="el" href="ac__common_8php-source.html#l00097">isDate()</a>, <a class="el" href="ac__common_8php-source.html#l00076">isNumber()</a>, <a class="el" href="postgres_8php-source.html#l00251">NextSequence()</a>, <a class="el" href="postgres_8php-source.html#l00266">Rollback()</a>, <a class="el" href="jrn_8php-source.html#l00949">SetInternalCode()</a>, and <a class="el" href="postgres_8php-source.html#l00257">StartSql()</a>.    </td>
+References <a class="el" href="impress__fiche_8php-source.html#l00079">$e</a>, <a class="el" href="send__poste__pdf_8php-source.html#l00044">$poste</a>, <a class="el" href="annulation_8php-source.html#l00136">$seq</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="balance_8php-source.html#l00033">exit</a>, <a class="el" href="ac__common_8php-source.html#l00207">FormatString()</a>, <a class="el" href="user__common_8php-source.html#l00288">InsertJrn()</a>, <a class="el" href="user__common_8php-source.html#l00244">InsertJrnx()</a>, <a class="el" href="user__common_8php-source.html#l00700">InsertRapt()</a>, <a class="el" href="ac__common_8php-source.html#l00076">isNumber()</a>, <a class="el" href="postgres_8php-source.html#l00251">NextSequence()</a>, <a class="el" href="postgres_8php-source.html#l00266">Rollback()</a>, <a class="el" href="jrn_8php-source.html#l00949">SetInternalCode()</a>, and <a class="el" href="postgres_8php-source.html#l00257">StartSql()</a>.    </td>
   </tr>
 </table>
-<hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 00:05:14 2006 for phpcompta by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 20:41:34 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

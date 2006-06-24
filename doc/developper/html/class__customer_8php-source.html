@@ -52,7 +52,7 @@
 <a name="l00053"></a>00053   }
 <a name="l00057"></a><a class="code" href="classCustomer.html#a1">00057</a>   function <a class="code" href="classCustomer.html#a1">GetFromPoste</a>($p_poste=0) {
 <a name="l00058"></a>00058     $this-&gt;<a class="code" href="classposte.html">poste</a>=($p_poste==0)?$this-&gt;<a class="code" href="classposte.html">poste</a>:$p_poste;
-<a name="l00059"></a>00059     <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"select * from vw_client where poste_comptable="</span>.$this-&gt;poste;
+<a name="l00059"></a>00059     <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"select * from vw_client where poste_comptable="</span>.$this-&gt;poste;
 <a name="l00060"></a>00060     <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;cn,$sql);
 <a name="l00061"></a>00061     <span class="keywordflow">if</span> ( pg_NumRows($Res) == 0) <span class="keywordflow">return</span> null;
 <a name="l00062"></a>00062     <span class="comment">// There is only _one_ row by customer</span>
@@ -84,7 +84,7 @@
 <a name="l00100"></a>00100     $TVA=<a class="code" href="impress__rapport_8php.html#a3">$t</a>-&gt;p_value;
 <a name="l00101"></a>00101     <span class="comment">// Get all the sell operation</span>
 <a name="l00102"></a>00102     <span class="comment">//----</span>
-<a name="l00103"></a>00103     <a class="code" href="depense_8inc_8php.html#a2">$sql</a>=<span class="stringliteral">"select  j_grpt </span>
+<a name="l00103"></a>00103     <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"select  j_grpt </span>
 <a name="l00104"></a>00104 <span class="stringliteral">      from</span>
 <a name="l00105"></a>00105 <span class="stringliteral">jrnx as A</span>
 <a name="l00106"></a>00106 <span class="stringliteral"> join jrnx as B using (j_grpt)</span>
@@ -175,9 +175,9 @@
 <a name="l00201"></a>00201       <span class="comment">// Get the max numberRow</span>
 <a name="l00202"></a>00202       $all_client=$this-&gt;<a class="code" href="classfiche.html#a5">CountByDef</a>($this-&gt;fiche_def_ref,$p_search); 
 <a name="l00203"></a>00203       <span class="comment">// Get offset and page variable</span>
-<a name="l00204"></a>00204       <a class="code" href="depense_8inc_8php.html#a15">$offset</a>=( isset ($_REQUEST['offset'] )) ?$_REQUEST['offset']:0;
-<a name="l00205"></a>00205       <a class="code" href="depense_8inc_8php.html#a14">$page</a>=(isset($_REQUEST['page']))?$_REQUEST['page']:1;
-<a name="l00206"></a>00206       <a class="code" href="depense_8inc_8php.html#a17">$bar</a>=<a class="code" href="user__common_8php.html#a16">jrn_navigation_bar</a>($offset,$all_client,$_SESSION['g_pagesize'],$page);
+<a name="l00204"></a>00204       <a class="code" href="bank_8inc_8php.html#a13">$offset</a>=( isset ($_REQUEST['offset'] )) ?$_REQUEST['offset']:0;
+<a name="l00205"></a>00205       <a class="code" href="bank_8inc_8php.html#a12">$page</a>=(isset($_REQUEST['page']))?$_REQUEST['page']:1;
+<a name="l00206"></a>00206       <a class="code" href="bank_8inc_8php.html#a15">$bar</a>=<a class="code" href="user__common_8php.html#a16">jrn_navigation_bar</a>($offset,$all_client,$_SESSION['g_pagesize'],$page);
 <a name="l00207"></a>00207       <span class="comment">// set a filter ?</span>
 <a name="l00208"></a>00208       <a class="code" href="admin_8inc_8php.html#a8">$search</a>=<span class="stringliteral">""</span>;
 <a name="l00209"></a>00209       <span class="keywordflow">if</span> ( trim($p_search) != <span class="stringliteral">""</span> )
@@ -192,7 +192,7 @@
 <a name="l00218"></a>00218       <span class="comment">// Get The result Array</span>
 <a name="l00219"></a>00219       $step_client=$this-&gt;<a class="code" href="classfiche.html#a17">GetAll</a>($offset,$search);
 <a name="l00220"></a>00220       <span class="keywordflow">if</span> ( $all_client == 0 ) <span class="keywordflow">return</span> <span class="stringliteral">""</span>;
-<a name="l00221"></a>00221       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="depense_8inc_8php.html#a17">$bar</a>;
+<a name="l00221"></a>00221       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="bank_8inc_8php.html#a15">$bar</a>;
 <a name="l00222"></a>00222       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;<a class="code" href="balance_8php.html#a3">table</a>&gt;
 <a name="l00223"></a>00223 &lt;TR style=<span class="stringliteral">"background-color:lightgrey;"</span>&gt;
 <a name="l00224"></a>00224 &lt;TH&gt;Quick Code&lt;/TH&gt;
@@ -235,14 +235,14 @@
 <a name="l00261"></a>00261 
 <a name="l00262"></a>00262       }
 <a name="l00263"></a>00263       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/TABLE&gt;"</span>;
-<a name="l00264"></a>00264       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="depense_8inc_8php.html#a17">$bar</a>;
+<a name="l00264"></a>00264       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="bank_8inc_8php.html#a15">$bar</a>;
 <a name="l00265"></a>00265       <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
 <a name="l00266"></a>00266     }
 <a name="l00267"></a>00267 
 <a name="l00268"></a>00268 }
 <a name="l00269"></a>00269 
 <a name="l00270"></a>00270 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 00:05:13 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 20:41:33 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

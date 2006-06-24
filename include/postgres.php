@@ -363,7 +363,9 @@ function GetArray($p_cn,$p_sql) {
  *
  * \param $cn database connection
  * \param $seq jr_grpt_id
- * \return $oid of the lob file
+ * \return $oid of the lob file if success
+ *         null if a error occurs
+
  * 
  */
 function save_upload_document ($cn,$seq) {
@@ -393,14 +395,15 @@ function save_upload_document ($cn,$seq) {
 	// Load new document
 	ExecSql($cn,"update jrn set jr_pj=".$oid.", jr_pj_name='".$_FILES['pj']['name']."', ".
 		"jr_pj_type='".$_FILES['pj']['type']."'  where jr_grpt_id=$seq");
+	return $oid;
 
       }      else {
 	echo "<H1>Error</H1>";
 	Rollback($cn);
-	exit;
+	return null;
       }
     }
-  return $oid;
+
  }
 
 

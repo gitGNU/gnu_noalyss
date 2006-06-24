@@ -77,6 +77,7 @@ echo ShowItem(array(
 		    array('?p_action=facture','Facture'),
 		    array('?p_action=fournisseur','Fournisseur'),
 		    array('?p_action=depense','D&eacute;pense'),
+		    array('?p_action=bank','Banque'),
 		    array('?p_action=contact','Contact'),
 		    array('?p_action=admin','Administration'),
 		    array('?p_action=suivi_courrier','Suivi courrier'),
@@ -143,4 +144,10 @@ if ( $p_action == 'depense')
 if ( $p_action == 'admin') 
 {
   require_once("admin.inc.php");
+}
+////////////////////////////////////////////////////////////////////////////////
+// Banque
+if ( $p_action == 'bank') 
+{
+  require_once("bank.inc.php");
 }

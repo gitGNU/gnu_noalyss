@@ -54,7 +54,7 @@
 <a name="l00049"></a>00049 
 <a name="l00050"></a>00050 
 <a name="l00051"></a>00051 echo '&lt;div <span class="keyword">class</span>=<span class="stringliteral">"u_tmenu"</span>&gt;';
-<a name="l00052"></a>00052 echo <a class="code" href="user__menu_8php.html#a3">ShowMenuCompta</a>($_SESSION['g_dossier']);
+<a name="l00052"></a>00052 echo <a class="code" href="user__menu_8php.html#a2">ShowMenuCompta</a>($_SESSION['g_dossier']);
 <a name="l00053"></a>00053 echo '&lt;/div&gt;';
 <a name="l00054"></a>00054 
 <a name="l00055"></a>00055 <span class="keywordflow">if</span> ( $User-&gt;admin == 0 ) {
@@ -75,7 +75,7 @@
 <a name="l00070"></a>00070 }
 <a name="l00071"></a>00071 
 <a name="l00072"></a>00072 <span class="comment">// Show the available jrn</span>
-<a name="l00073"></a><a class="code" href="user__jrn_8php.html#a3">00073</a> <a class="code" href="export__ouv_8php.html#a8">$result</a>=<a class="code" href="user__menu_8php.html#a10">ShowJrn</a>(<span class="stringliteral">"user_jrn.php?jrn_type="</span>.$jrn_type);
+<a name="l00073"></a><a class="code" href="user__jrn_8php.html#a3">00073</a> <a class="code" href="export__ouv_8php.html#a8">$result</a>=<a class="code" href="user__menu_8php.html#a9">ShowJrn</a>(<span class="stringliteral">"user_jrn.php?jrn_type="</span>.$jrn_type);
 <a name="l00074"></a>00074 echo <span class="stringliteral">"&lt;div class=\"u_subtmenu\"&gt;"</span>;
 <a name="l00075"></a>00075 echo <a class="code" href="export__ouv_8php.html#a8">$result</a>;
 <a name="l00076"></a>00076 echo <span class="stringliteral">"&lt;/div&gt;"</span>;
@@ -90,11 +90,11 @@
 <a name="l00085"></a>00085   <span class="comment">//   echo '&lt;/DIV&gt;';</span>
 <a name="l00086"></a>00086   echo '&lt;div <span class="keyword">class</span>=<span class="stringliteral">"u_subt2menu"</span>&gt;';      
 <a name="l00087"></a>00087   <span class="comment">// show the available ledger of the type jrn_type</span>
-<a name="l00088"></a>00088   <a class="code" href="user__menu_8php.html#a5">ShowMenuJrnUser</a>($_SESSION['g_dossier'],$jrn_type,$p_jrn);
+<a name="l00088"></a>00088   <a class="code" href="user__menu_8php.html#a4">ShowMenuJrnUser</a>($_SESSION['g_dossier'],$jrn_type,$p_jrn);
 <a name="l00089"></a>00089   echo '&lt;/div&gt;';
 <a name="l00090"></a>00090   echo '&lt;div <span class="keyword">class</span>=<span class="stringliteral">"lmenu"</span>&gt;';      
 <a name="l00091"></a>00091   <span class="comment">// show the menu for this journal (Nouveau, voir,...)</span>
-<a name="l00092"></a><a class="code" href="user__jrn_8php.html#a4">00092</a>   <a class="code" href="user__jrn_8php.html#a4">$menu_jrn</a>=<a class="code" href="user__menu_8php.html#a6">ShowMenuJrn</a>($cn,$jrn_type, $p_jrn);
+<a name="l00092"></a><a class="code" href="user__jrn_8php.html#a4">00092</a>   <a class="code" href="user__jrn_8php.html#a4">$menu_jrn</a>=<a class="code" href="user__menu_8php.html#a5">ShowMenuJrn</a>($cn,$jrn_type, $p_jrn);
 <a name="l00093"></a>00093   echo <a class="code" href="user__jrn_8php.html#a4">$menu_jrn</a>;
 <a name="l00094"></a>00094 
 <a name="l00095"></a>00095   echo '&lt;/div&gt;';
@@ -117,15 +117,15 @@
 <a name="l00112"></a>00112 
 <a name="l00113"></a>00113     } <span class="keywordflow">else</span> {
 <a name="l00114"></a>00114       <span class="comment">// no journal are selected so we select the first one</span>
-<a name="l00115"></a>00115       <a class="code" href="modify__op_8php.html#a2">$p_jrn</a>=<a class="code" href="user__menu_8php.html#a4">GetFirstJrnIdForJrnType</a>($_SESSION['g_dossier'],$jrn_type); 
+<a name="l00115"></a>00115       <a class="code" href="modify__op_8php.html#a2">$p_jrn</a>=<a class="code" href="user__menu_8php.html#a3">GetFirstJrnIdForJrnType</a>($_SESSION['g_dossier'],$jrn_type); 
 <a name="l00116"></a>00116       <span class="comment">// display jrn's menu</span>
 <a name="l00117"></a>00117       
 <a name="l00118"></a>00118   <span class="comment">//   echo '&lt;/DIV&gt;';</span>
 <a name="l00119"></a>00119       echo '&lt;div <span class="keyword">class</span>=<span class="stringliteral">"u_subt2menu"</span>&gt;';      
-<a name="l00120"></a>00120       <a class="code" href="user__menu_8php.html#a5">ShowMenuJrnUser</a>($_SESSION['g_dossier'],$jrn_type,$p_jrn);
+<a name="l00120"></a>00120       <a class="code" href="user__menu_8php.html#a4">ShowMenuJrnUser</a>($_SESSION['g_dossier'],$jrn_type,$p_jrn);
 <a name="l00121"></a>00121       echo '&lt;/div&gt;';
 <a name="l00122"></a>00122       echo '&lt;div <span class="keyword">class</span>=<span class="stringliteral">"lmenu"</span>&gt;';      
-<a name="l00123"></a>00123       $menu_jrn=<a class="code" href="user__menu_8php.html#a6">ShowMenuJrn</a>($cn,$jrn_type, $p_jrn);
+<a name="l00123"></a>00123       $menu_jrn=<a class="code" href="user__menu_8php.html#a5">ShowMenuJrn</a>($cn,$jrn_type, $p_jrn);
 <a name="l00124"></a>00124       
 <a name="l00125"></a>00125       echo $menu_jrn;
 <a name="l00126"></a>00126       echo '&lt;/div&gt;&lt;br&gt;';
@@ -136,7 +136,7 @@
 <a name="l00131"></a>00131 <a class="code" href="ac__common_8php.html#a6">html_page_stop</a>();
 <a name="l00132"></a>00132 
 <a name="l00133"></a>00133 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 00:05:13 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 20:41:32 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

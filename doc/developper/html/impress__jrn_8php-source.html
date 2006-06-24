@@ -53,18 +53,18 @@
 <a name="l00050"></a>00050       <span class="comment">//      var_dump($Row);</span>
 <a name="l00051"></a>00051     }
 <a name="l00052"></a>00052   <a class="code" href="impress__poste_8php.html#a1">$rep</a>=<span class="stringliteral">""</span>;
-<a name="l00053"></a><a class="code" href="impress__jrn_8php.html#a3">00053</a>   <a class="code" href="depense_8inc_8php.html#a19">$submit</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>();
+<a name="l00053"></a><a class="code" href="impress__jrn_8php.html#a3">00053</a>   <a class="code" href="bank_8inc_8php.html#a16">$submit</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>();
 <a name="l00054"></a><a class="code" href="impress__jrn_8php.html#a4">00054</a>   <a class="code" href="balance_8php.html#a1">$hid</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"hidden"</span>);
 <a name="l00055"></a>00055   echo '&lt;div <span class="keyword">class</span>=<span class="stringliteral">"u_content"</span>&gt;';
 <a name="l00056"></a>00056   echo '&lt;h2 <span class="keyword">class</span>=<span class="stringliteral">"info"</span>&gt;'.$Jrn-&gt;name.'&lt;/h2&gt;';
 <a name="l00057"></a>00057   echo <span class="stringliteral">"&lt;table&gt;"</span>;
 <a name="l00058"></a>00058   echo '&lt;TR&gt;';
 <a name="l00059"></a>00059   echo '&lt;TD&gt;&lt;form method=<span class="stringliteral">"GET"</span> <a class="code" href="constant_8php.html#a39">ACTION</a>=<span class="stringliteral">"user_impress.php"</span>&gt;'.
-<a name="l00060"></a>00060     <a class="code" href="depense_8inc_8php.html#a19">$submit</a>-&gt;Submit('bt_other',<span class="stringliteral">"Autre journal"</span>).
+<a name="l00060"></a>00060     <a class="code" href="bank_8inc_8php.html#a16">$submit</a>-&gt;Submit('bt_other',<span class="stringliteral">"Autre journal"</span>).
 <a name="l00061"></a>00061     <a class="code" href="balance_8php.html#a1">$hid</a>-&gt;IOValue(<span class="stringliteral">"type"</span>,<span class="stringliteral">"jrn"</span>).<span class="stringliteral">"&lt;/form&gt;&lt;/TD&gt;"</span>;
 <a name="l00062"></a>00062 
 <a name="l00063"></a>00063   echo '&lt;TD&gt;&lt;form method=<span class="stringliteral">"GET"</span> <a class="code" href="constant_8php.html#a39">ACTION</a>=<span class="stringliteral">"jrn_pdf.php"</span>&gt;'.
-<a name="l00064"></a>00064     <a class="code" href="depense_8inc_8php.html#a19">$submit</a>-&gt;Submit('bt_pdf',<span class="stringliteral">"Export PDF"</span>).
+<a name="l00064"></a>00064     <a class="code" href="bank_8inc_8php.html#a16">$submit</a>-&gt;Submit('bt_pdf',<span class="stringliteral">"Export PDF"</span>).
 <a name="l00065"></a>00065     <a class="code" href="balance_8php.html#a1">$hid</a>-&gt;IOValue(<span class="stringliteral">"type"</span>,<span class="stringliteral">"jrn"</span>).
 <a name="l00066"></a>00066     <a class="code" href="balance_8php.html#a1">$hid</a>-&gt;IOValue(<span class="stringliteral">"central"</span>,$p_cent).
 <a name="l00067"></a>00067     <a class="code" href="balance_8php.html#a1">$hid</a>-&gt;IOValue(<span class="stringliteral">"jrn_id"</span>,$Jrn-&gt;id).
@@ -74,7 +74,7 @@
 <a name="l00071"></a>00071 
 <a name="l00072"></a>00072   echo <span class="stringliteral">"&lt;/form&gt;&lt;/TD&gt;"</span>;
 <a name="l00073"></a>00073   echo '&lt;TD&gt;&lt;form method=<span class="stringliteral">"GET"</span> <a class="code" href="constant_8php.html#a39">ACTION</a>=<span class="stringliteral">"jrn_csv.php"</span>&gt;'.
-<a name="l00074"></a>00074     <a class="code" href="depense_8inc_8php.html#a19">$submit</a>-&gt;Submit('bt_csv',<span class="stringliteral">"Export CSV"</span>).
+<a name="l00074"></a>00074     <a class="code" href="bank_8inc_8php.html#a16">$submit</a>-&gt;Submit('bt_csv',<span class="stringliteral">"Export CSV"</span>).
 <a name="l00075"></a>00075     <a class="code" href="balance_8php.html#a1">$hid</a>-&gt;IOValue(<span class="stringliteral">"type"</span>,<span class="stringliteral">"jrn"</span>).
 <a name="l00076"></a>00076     <a class="code" href="balance_8php.html#a1">$hid</a>-&gt;IOValue(<span class="stringliteral">"central"</span>,$p_cent).
 <a name="l00077"></a>00077     <a class="code" href="balance_8php.html#a1">$hid</a>-&gt;IOValue(<span class="stringliteral">"jrn_id"</span>,$Jrn-&gt;id).
@@ -228,7 +228,7 @@
 <a name="l00229"></a>00229 echo '&lt;/<a class="code" href="constant_8php.html#a7">FORM</a>&gt;';
 <a name="l00230"></a>00230 echo '&lt;/div&gt;';
 <a name="l00231"></a>00231 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 00:05:13 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 20:41:33 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

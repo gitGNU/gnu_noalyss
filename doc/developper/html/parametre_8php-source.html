@@ -72,7 +72,7 @@
 <a name="l00067"></a>00067 <span class="keywordflow">if</span> ( isset($_REQUEST[<span class="stringliteral">"p_action"</span>]) ) {
 <a name="l00068"></a>00068   <a class="code" href="commercial_8php.html#a3">$p_action</a>=$_REQUEST[<span class="stringliteral">"p_action"</span>];
 <a name="l00069"></a>00069 }
-<a name="l00070"></a>00070 echo <a class="code" href="user__menu_8php.html#a14">ShowMenuParam</a>(<span class="stringliteral">"parametre.php?p_action="</span>.$p_action);
+<a name="l00070"></a>00070 echo <a class="code" href="user__menu_8php.html#a13">ShowMenuParam</a>(<span class="stringliteral">"parametre.php?p_action="</span>.$p_action);
 <a name="l00071"></a>00071 
 <a name="l00072"></a>00072 
 <a name="l00073"></a>00073 <span class="comment">// sub action</span>
@@ -169,8 +169,8 @@
 <a name="l00174"></a>00174   echo <span class="stringliteral">"&lt;tr&gt;"</span>.$all-&gt;IOValue(<span class="stringliteral">"p_cp"</span>,$my-&gt;MY_CP,<span class="stringliteral">"Code Postal"</span>).<span class="stringliteral">"&lt;/tr&gt;"</span>;
 <a name="l00175"></a>00175   echo <span class="stringliteral">"&lt;tr&gt;"</span>.$all-&gt;IOValue(<span class="stringliteral">"p_Commune"</span>,$my-&gt;MY_COMMUNE,<span class="stringliteral">"Commune"</span>).<span class="stringliteral">"&lt;/tr&gt;"</span>;
 <a name="l00176"></a>00176   echo <span class="stringliteral">"&lt;/table&gt;"</span>;
-<a name="l00177"></a><a class="code" href="parametre_8php.html#a17">00177</a>   <a class="code" href="depense_8inc_8php.html#a19">$submit</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"submit"</span>);
-<a name="l00178"></a>00178   echo <a class="code" href="depense_8inc_8php.html#a19">$submit</a>-&gt;Submit(<span class="stringliteral">"record_company"</span>,<span class="stringliteral">"Enregistre"</span>);
+<a name="l00177"></a><a class="code" href="parametre_8php.html#a17">00177</a>   <a class="code" href="bank_8inc_8php.html#a16">$submit</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"submit"</span>);
+<a name="l00178"></a>00178   echo <a class="code" href="bank_8inc_8php.html#a16">$submit</a>-&gt;Submit(<span class="stringliteral">"record_company"</span>,<span class="stringliteral">"Enregistre"</span>);
 <a name="l00179"></a>00179   echo <span class="stringliteral">"&lt;/form&gt;"</span>;
 <a name="l00180"></a>00180  }
 <a name="l00182"></a>00182 <span class="comment">// Document </span>
@@ -184,7 +184,7 @@
 <a name="l00191"></a>00191 
 <a name="l00192"></a>00192 <a class="code" href="ac__common_8php.html#a6">html_page_stop</a>();
 <a name="l00193"></a>00193 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 00:05:12 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 20:41:32 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>
