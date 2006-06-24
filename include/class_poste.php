@@ -26,9 +26,11 @@
  */
 
 class poste {
-  var $db;
-  var $id;
-  var $row;
+  var $db;          /*! \enum $db database connection */
+  var $id;          /*! \enum $id poste_id */
+  var $label;       /*! \enum $label label of the poste */
+  var $parent;      /*! \enum $parent parent account */
+  var $row;         /*! \enum $row double array see GetRow */
   function poste($p_cn,$p_id) {
     $this->db=$p_cn;
     $this->id=$p_id;
@@ -44,13 +46,13 @@ class poste {
    *
    */ 
   function GetRow($p_from,$p_to)
-{
-    if ( $p_from == $p_to ) 
-      $periode=" jr_tech_per = $p_from ";
-    else
-      $periode = "(jr_tech_per >= $p_from and jr_tech_per <= $p_to) ";
-
-  $Res=ExecSql($this->db,"select to_char(j_date,'DD.MM.YYYY') as j_date,".
+    {
+      if ( $p_from == $p_to ) 
+	$periode=" jr_tech_per = $p_from ";
+      else
+	$periode = "(jr_tech_per >= $p_from and jr_tech_per <= $p_to) ";
+      
+      $Res=ExecSql($this->db,"select to_char(j_date,'DD.MM.YYYY') as j_date,".
 	       "case when j_debit='t' then j_montant else 0 end as deb_montant,".
 	       "case when j_debit='f' then j_montant else 0 end as cred_montant,".
 	       " jr_comment as description,jrn_def_name as jrn_name,".
@@ -59,23 +61,25 @@ class poste {
 	       " left join jrn on jr_grpt_id=j_grpt".
 	       " where j_poste=".$this->id." and ".$periode.
 	       " order by j_date::date");
-  $array=array();
-  $tot_cred=0.0;
-  $tot_deb=0.0;
-  $Max=pg_NumRows($Res);
-  if ( $Max == 0 ) return null;
-  for ($i=0;$i<$Max;$i++) {
-    $array[]=pg_fetch_array($Res,$i);
-    if ($array[$i]['j_debit']=='t') {
-      $tot_deb+=$array[$i]['deb_montant'] ;
-    } else {
-      $tot_cred+=$array[$i]['cred_montant'] ;
-    }
-  }
-  $this->row=$array;
+      $array=array();
+      $tot_cred=0.0;
+      $tot_deb=0.0;
+      $Max=pg_NumRows($Res);
+      if ( $Max == 0 ) return null;
+      for ($i=0;$i<$Max;$i++) {
+	$array[]=pg_fetch_array($Res,$i);
+	if ($array[$i]['j_debit']=='t') {
+	  $tot_deb+=$array[$i]['deb_montant'] ;
+	} else {
+	  $tot_cred+=$array[$i]['cred_montant'] ;
+	}
+      }
+      $this->row=$array;
   return array($array,$tot_deb,$tot_cred);
 }
   /*!\brief Return the name of a account
+   *        it doesn't change any data member
+   * \return string with the pcm_lib
    */
   function GetName() {
     $ret=pg_exec($this->db,
@@ -89,6 +93,22 @@ class poste {
       }
     return $this->name;
   }
+  /*!\brief Get all the value for this object from the database
+   *        the data member are set 
+   * \return false if this account doesn't exist otherwise true
+   */
+  function get()
+    {
+      $ret=ExecSql($this->db,"select pcm_lib,pcm_val_parent from 
+                              tmp_pcmn where pcm_val=".$this->id);
+      $r=pg_fetch_all($ret);
+
+      if ( ! $r ) return false;
+      $this->label=$r[0]['pcm_lib'];
+      $this->parent=$r[0]['pcm_val_parent'];
+      return true;
+    }
+         
   /*! 
    * \brief  give the balance of an account
    * 

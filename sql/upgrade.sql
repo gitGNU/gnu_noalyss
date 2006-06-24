@@ -269,7 +269,7 @@ declare
 	nCount integer;
 begin
 	select count(*) into nCount from tmp_pcmn where pcm_val=p_id;
-	if nCount != 0 then
+	if nCount = 0 then
 		nParent=account_parent(p_id);
 		insert into tmp_pcmn (pcm_val,pcm_lib,pcm_val_parent)
 			values (p_id, p_name,nParent);

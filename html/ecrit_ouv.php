@@ -24,6 +24,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 include_once ("ac_common.php");
 require_once('class_widget.php');
+require_once('class_poste.php');
 html_page_start($_SESSION['g_theme']);
 if ( ! isset ( $_SESSION['g_dossier'] ) ) {
   echo "You must choose a Dossier ";
@@ -42,7 +43,7 @@ include_once ("user_menu.php");
 echo '<div class="u_tmenu">';
 echo ShowMenuCompta($_SESSION['g_dossier'],"user_advanced.php");
 echo '</div>';
-// TODO : add a check for permission
+// \todo add a check for permission
 if ( $User->CheckAction($cn,EXP_IMP_ECR) == 0 ) {
   /* Cannot Access */
   NoAccess();
@@ -60,20 +61,20 @@ echo '</div>';
 echo '<div class="redcontent">';
 /////////////////////////// EXPORT ////////////////////////////////////////////
 if ( isset ($_GET['export'])) {
-// if the year is not set, ask it
-	// ask the exercice and do the export
-	$periode=make_array($cn,"select distinct p_exercice,p_exercice from parm_periode order by p_exercice");
-	echo '<form method="GET" ACTION="export_ouv.php">';
-	$w=new widget('select');
-	$w->table=0;
-	$w->label='Periode';
-	$w->readonly=false;
-	$w->value=$periode;
-	$w->name="p_periode";
-	echo 'P&eacute;riode : '.$w->IOValue();
-	echo $w->Submit('export','Export');
-	echo "</form>";
-	exit(0);
+  // if the year is not set, ask it
+  // ask the exercice and do the export
+  $periode=make_array($cn,"select distinct p_exercice,p_exercice from parm_periode order by p_exercice");
+  echo '<form method="GET" ACTION="export_ouv.php">';
+  $w=new widget('select');
+  $w->table=0;
+  $w->label='Periode';
+  $w->readonly=false;
+  $w->value=$periode;
+  $w->name="p_periode";
+  echo 'P&eacute;riode : '.$w->IOValue();
+  echo $w->Submit('export','Export');
+  echo "</form>";
+  exit(0);
 }
 /////////////////////////// IMPORT ////////////////////////////////////////////
 if ( isset ($_GET['import'])) {
@@ -122,9 +123,10 @@ if ( isset ($_GET['import'])) {
 	  if ( $valid  ) {
 	    // skip blank line
 	    if (strlen (trim($line)) == 0 ) continue;
-	    // put the line into an array
-	    list($sign,$poste,$amount)=explode(";",$line);
+	    // put the line into several array with the same index
+	    list($sign,$poste,$label,$amount)=explode(";",$line);
 	    $asign[$idx]=$sign; $aposte[$idx]=$poste;$aamount[$idx]=$amount;
+	    $alabel[$idx]=$label;
 	    $idx++;
 	    }
 	  $valid=(($line=="OUVERTURE\n" && $valid==false) || $valid)?true:false;
@@ -142,7 +144,22 @@ if ( isset ($_GET['import'])) {
 		$n="e_account".$i."_amount";
 		$array_ods[$n]=$aamount[$i];
 	}
-	
+	// Check if all the poste exist
+	// otherwise create it
+	for ($i=0;$i<$idx;$i++)
+	  {
+	    
+	    $p=new Poste($cn,$aposte[$i]);
+
+	    // if the poste exists then check the next one
+	    if ( $p->get() == true ) continue;
+	    echo 'Attention creation de '.$p->id.' '.$alabel[$i].'<br>';
+	    $sql=sprintf("select account_add(%d,'%s')",
+			$p->id,$alabel[$i]);
+
+	    ExecSql($cn,$sql);
+	  }
+
 	// submit button in the form	
 	$submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout Poste">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver">';

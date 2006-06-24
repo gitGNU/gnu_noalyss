@@ -65,17 +65,35 @@ $ret=GetArray($cn,"select distinct j_poste::text
                  order by j_poste::text");
 if ( $ret == null ) {echo 'Rien à exporter'; exit();}
 printf ("OUVERTURE\n");
+// check if the account are balanced 
+$sum=0;
 foreach ($ret as $poste_id) {
-//var_dump($poste_id); echo "<br>";
+
 	$Poste=new poste($cn,$poste_id['j_poste']);
+	// fill the object
+	$Poste->get();
+	// build sql stmt
 	$sql="j_tech_per >=". $sql_from[0]['min']." and j_tech_per <=".$sql_to[0]['max'];
 	$result=$Poste->GetSoldeDetail($sql );
+	$Poste->label=str_replace(';','',$Poste->label);
+	
 	if ( $result['solde'] == 0 ) continue;
 	if ( $result['debit'] > $result ['credit'] ) {
-		printf ("d;%d;%12.4f\n",$Poste->id,$result['solde']);
+		printf ("d;%d;%s;%12.4f\n",$Poste->id,$Poste->label,$result['solde']);
+		$sum+=$result['solde'];
 	} else {
-		printf ("c;%d;%12.4f\n",$Poste->id,$result['solde']);
+		printf ("c;%d;%s;%12.4f\n",$Poste->id,$Poste->label,$result['solde']);
+		$sum-=$result['solde'];
 	}
 }
-
+// $sum must be equal to 0 
+// $sum > 0 then deb is too big
+// $sum < 0 then cred is too big
+if ( $sum != 0) 
+{
+  printf("ATTENTION : COMPTE NON EQUILIBRE\n ");
+  $msg = ($sum > 0)?" Debit plus grand de $sum":"Credit plus grand de $sum";
+  printf ("DIFFERENCE = $msg \n");
+ 
+}
 ?>
