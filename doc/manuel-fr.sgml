@@ -678,8 +678,17 @@ tout, par exemple pour les restaurants, vous pouvez encodez une seule
 et unique fiche appelée restaurant.
 
 <p>Autre : comme plusieur fiches peuvent utiliser le même poste comptable, si on
-modifie le nom d'une fiche cela ne modifiera pas son nom dans le Plan Comptable
-
+modifie le nom d'une fiche cela ne modifiera pas son nom dans le Plan Comptable.
+Attribut spéciaux:
+<itemize>
+<item>Partie fiscalement non déductible : entre 0 & 1, il s'agit de ce que vous 
+ne pourrez pas déduire comme charge. En cas d'achat sur cette fiche, le montant 
+HTVA multiplié par ce que vous avez inscrit ici sera rangé dans les dépenses non
+admises, le poste comptable est celui qui est indiqué dans le Module Paramètre->
+Poste
+<item>TVA non déductible même remarque
+<item>TVA non déductible récupérable par l'impôt idem
+</itemize>
 
 </sect1>
 

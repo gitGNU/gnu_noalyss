@@ -119,40 +119,6 @@ function GetAvailableFolder($p_user,$p_admin)
   return $array;
 }
 /*!   
- * \brief  Show The login menu
- * 
- * 
- * \param $p_admin 1 if admin
- * \param $p_check not used 
- * \param $p_item item to add (default="")
- * \return: nothing
- * \todo clean $p_check	
- *
- */ 
-  function u_ShowMenu($p_admin,$p_check = 1,$p_item="")
-{
-  /* $p_check == 1 si test sur Admin */
-  include_once("postgres.php");
-  echo '<div class="mtitle">';
-  echo "<TABLE align=center cellspadding=0><TR>";
-  if ( $p_admin !=0 ) {
-      /* Administrator Menu */
-      echo '<TD class="mtitle"><A class="mtitle" HREF=admin_repo.php>Administrator Menu</A></TD>';
-    } 
-
-  if (strlen ( $p_item ) != 0 ) {
-    echo '<TD class="mtitle">'.$p_item.'</A></TD>';
-  }
-  
-  echo ' <TD class="mtitle"> <A class="mtitle" HREF="user_pref.php">Préférence</A></TD>';
-
-  echo "<TD class=\"mtitle\">"; 
-  html_button_logout();
-  echo "</TD>";
-  echo "</TR></TABLE>";
-  echo "</div>";
-}
-/*!   
  * \brief show the top menu for the user profile
  *        and highight the selected one
  * \param  p_dossier $_SESSION['g_dossier']
