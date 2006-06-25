@@ -172,7 +172,7 @@
 <a name="l00166"></a>00166 
 <a name="l00167"></a><a class="code" href="user__action__ven_8php.html#a10">00167</a> <a class="code" href="admin_8inc_8php.html#a4">$w</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"select"</span>);
 <a name="l00168"></a>00168 
-<a name="l00169"></a><a class="code" href="user__action__ven_8php.html#a11">00169</a> <a class="code" href="balance_8php.html#a4">$periode_start</a>=<a class="code" href="ac__common_8php.html#a12">make_array</a>($cn,<span class="stringliteral">"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode order by p_id"</span>);
+<a name="l00169"></a><a class="code" href="user__action__ven_8php.html#a11">00169</a> <a class="code" href="balance_8php.html#a5">$periode_start</a>=<a class="code" href="ac__common_8php.html#a12">make_array</a>($cn,<span class="stringliteral">"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode order by p_id"</span>);
 <a name="l00170"></a>00170 <span class="comment">// User is already set User=new cl_user($cn);</span>
 <a name="l00171"></a><a class="code" href="user__action__ven_8php.html#a12">00171</a> <a class="code" href="bank_8inc_8php.html#a7">$current</a>=(isset($_GET['p_periode']))?$_GET['p_periode']:<a class="code" href="user__action__ach_8php.html#a9">$User</a>-&gt;GetPeriode();
 <a name="l00172"></a><a class="code" href="user__action__ven_8php.html#a13">00172</a> <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;selected=<a class="code" href="bank_8inc_8php.html#a7">$current</a>;
@@ -186,21 +186,21 @@
 <a name="l00180"></a>00180       {
 <a name="l00181"></a>00181         <span class="comment">// reset all the paid flag because the checkbox is post only</span>
 <a name="l00182"></a>00182         <span class="comment">// when checked</span>
-<a name="l00183"></a>00183         foreach ($_POST as $<a class="code" href="action_8inc_8php.html#a3">name</a>=&gt;$paid) 
+<a name="l00183"></a>00183         foreach ($_POST as $<a class="code" href="action_8inc_8php.html#a4">name</a>=&gt;$paid) 
 <a name="l00184"></a>00184           {
-<a name="l00185"></a>00185             list($ad) = sscanf($<a class="code" href="action_8inc_8php.html#a3">name</a>,<span class="stringliteral">"set_jr_id%d"</span>);
+<a name="l00185"></a>00185             list($ad) = sscanf($<a class="code" href="action_8inc_8php.html#a4">name</a>,<span class="stringliteral">"set_jr_id%d"</span>);
 <a name="l00186"></a>00186             <span class="keywordflow">if</span> ( $ad == null ) <span class="keywordflow">continue</span>;
 <a name="l00187"></a><a class="code" href="user__action__ven_8php.html#a14">00187</a>             <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"update jrn set jr_rapt='' where jr_id=$ad"</span>;
 <a name="l00188"></a><a class="code" href="user__action__ven_8php.html#a15">00188</a>             <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$sql);
 <a name="l00189"></a>00189 
 <a name="l00190"></a>00190           }
 <a name="l00191"></a>00191         <span class="comment">// set a paid flag for the checked box</span>
-<a name="l00192"></a>00192         foreach ($_POST as $<a class="code" href="action_8inc_8php.html#a3">name</a>=&gt;$paid) 
+<a name="l00192"></a>00192         foreach ($_POST as $<a class="code" href="action_8inc_8php.html#a4">name</a>=&gt;$paid) 
 <a name="l00193"></a>00193           {
-<a name="l00194"></a>00194             list ($<span class="keywordtype">id</span>) = sscanf ($<a class="code" href="action_8inc_8php.html#a3">name</a>,<span class="stringliteral">"rd_paid%d"</span>);
+<a name="l00194"></a>00194             list ($<span class="keywordtype">id</span>) = sscanf ($<a class="code" href="action_8inc_8php.html#a4">name</a>,<span class="stringliteral">"rd_paid%d"</span>);
 <a name="l00195"></a>00195 
 <a name="l00196"></a>00196             <span class="keywordflow">if</span> ( $<span class="keywordtype">id</span> == null ) <span class="keywordflow">continue</span>;
-<a name="l00197"></a>00197             echo <span class="stringliteral">"Mise à jour $id"</span>;
+<a name="l00197"></a>00197 
 <a name="l00198"></a><a class="code" href="user__action__ven_8php.html#a16">00198</a>             <a class="code" href="depense_8inc_8php.html#a4">$paid</a>=(<a class="code" href="depense_8inc_8php.html#a4">$paid</a>=='on')?'paid<span class="charliteral">':'</span>';
 <a name="l00199"></a>00199             <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"update jrn set jr_rapt='$paid' where jr_id=$id"</span>;
 <a name="l00200"></a>00200             <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$sql);
@@ -209,7 +209,7 @@
 <a name="l00203"></a>00203       }
 <a name="l00204"></a>00204  <span class="comment">// Show list of sell</span>
 <a name="l00205"></a>00205  <span class="comment">// Date - date of payment - Customer - amount</span>
-<a name="l00206"></a>00206    <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<a class="code" href="constant_8php.html#a83">SQL_LIST_ALL_INVOICE</a>.<span class="stringliteral">" and jr_tech_per="</span>.<a class="code" href="bank_8inc_8php.html#a7">$current</a>.<span class="stringliteral">" and jr_def_id="</span>.$_GET['p_jrn'] ;
+<a name="l00206"></a>00206    <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<a class="code" href="constant_8php.html#a84">SQL_LIST_ALL_INVOICE</a>.<span class="stringliteral">" and jr_tech_per="</span>.<a class="code" href="bank_8inc_8php.html#a7">$current</a>.<span class="stringliteral">" and jr_def_id="</span>.$_GET['p_jrn'] ;
 <a name="l00207"></a><a class="code" href="user__action__ven_8php.html#a17">00207</a>    <a class="code" href="bank_8inc_8php.html#a11">$step</a>=<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['g_pagesize'];
 <a name="l00208"></a><a class="code" href="user__action__ven_8php.html#a18">00208</a>    <a class="code" href="bank_8inc_8php.html#a12">$page</a>=(isset($_GET['offset']))?$_GET['page']:1;
 <a name="l00209"></a><a class="code" href="user__action__ven_8php.html#a19">00209</a>    <a class="code" href="bank_8inc_8php.html#a13">$offset</a>=(isset($_GET['offset']))?$_GET['offset']:0;
@@ -254,18 +254,18 @@
 <a name="l00248"></a>00248       {
 <a name="l00249"></a>00249         <span class="comment">// reset all the paid flag because the checkbox is post only</span>
 <a name="l00250"></a>00250         <span class="comment">// when checked</span>
-<a name="l00251"></a>00251         foreach ($_POST as $<a class="code" href="action_8inc_8php.html#a3">name</a>=&gt;$paid) 
+<a name="l00251"></a>00251         foreach ($_POST as $<a class="code" href="action_8inc_8php.html#a4">name</a>=&gt;$paid) 
 <a name="l00252"></a>00252           {
-<a name="l00253"></a>00253             list($ad) = sscanf($<a class="code" href="action_8inc_8php.html#a3">name</a>,<span class="stringliteral">"set_jr_id%d"</span>);
+<a name="l00253"></a>00253             list($ad) = sscanf($<a class="code" href="action_8inc_8php.html#a4">name</a>,<span class="stringliteral">"set_jr_id%d"</span>);
 <a name="l00254"></a>00254             <span class="keywordflow">if</span> ( $ad == null ) <span class="keywordflow">continue</span>;
 <a name="l00255"></a>00255             <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"update jrn set jr_rapt='' where jr_id=$ad"</span>;
 <a name="l00256"></a>00256             <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$sql);
 <a name="l00257"></a>00257 
 <a name="l00258"></a>00258           }
 <a name="l00259"></a>00259         <span class="comment">// set a paid flag for the checked box</span>
-<a name="l00260"></a>00260         foreach ($_POST as $<a class="code" href="action_8inc_8php.html#a3">name</a>=&gt;$paid) 
+<a name="l00260"></a>00260         foreach ($_POST as $<a class="code" href="action_8inc_8php.html#a4">name</a>=&gt;$paid) 
 <a name="l00261"></a>00261           {
-<a name="l00262"></a>00262             list ($<span class="keywordtype">id</span>) = sscanf ($<a class="code" href="action_8inc_8php.html#a3">name</a>,<span class="stringliteral">"rd_paid%d"</span>);
+<a name="l00262"></a>00262             list ($<span class="keywordtype">id</span>) = sscanf ($<a class="code" href="action_8inc_8php.html#a4">name</a>,<span class="stringliteral">"rd_paid%d"</span>);
 <a name="l00263"></a>00263 
 <a name="l00264"></a>00264             <span class="keywordflow">if</span> ( $<span class="keywordtype">id</span> == null ) <span class="keywordflow">continue</span>;
 <a name="l00265"></a>00265             echo <span class="stringliteral">"Mise à jour $id"</span>;
@@ -283,9 +283,9 @@
 <a name="l00277"></a>00277    <a class="code" href="bank_8inc_8php.html#a12">$page</a>=(isset($_GET['offset']))?$_GET['page']:1;
 <a name="l00278"></a>00278    <a class="code" href="bank_8inc_8php.html#a13">$offset</a>=(isset($_GET['offset']))?$_GET['offset']:0;
 <a name="l00279"></a>00279 
-<a name="l00280"></a>00280   <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<a class="code" href="constant_8php.html#a85">SQL_LIST_UNPAID_INVOICE_DATE_LIMIT</a>.<span class="stringliteral">" and jr_def_id="</span>.$_GET['p_jrn'] ;
+<a name="l00280"></a>00280   <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<a class="code" href="constant_8php.html#a86">SQL_LIST_UNPAID_INVOICE_DATE_LIMIT</a>.<span class="stringliteral">" and jr_def_id="</span>.$_GET['p_jrn'] ;
 <a name="l00281"></a>00281   list($max_line,$list)=<a class="code" href="user__common_8php.html#a6">ListJrn</a>($cn,$_GET['p_jrn'],$sql,null,$offset,1);
-<a name="l00282"></a>00282   <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<a class="code" href="constant_8php.html#a84">SQL_LIST_UNPAID_INVOICE</a>.<span class="stringliteral">" and jr_def_id="</span>.$_GET['p_jrn'] ;
+<a name="l00282"></a>00282   <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<a class="code" href="constant_8php.html#a85">SQL_LIST_UNPAID_INVOICE</a>.<span class="stringliteral">" and jr_def_id="</span>.$_GET['p_jrn'] ;
 <a name="l00283"></a>00283   list($max_line2,$list2)=<a class="code" href="user__common_8php.html#a6">ListJrn</a>($cn,$_GET['p_jrn'],$sql,null,$offset,1);
 <a name="l00284"></a>00284 
 <a name="l00285"></a>00285   <span class="comment">// Get the max line</span>
@@ -317,7 +317,7 @@
 <a name="l00311"></a>00311     echo <a class="code" href="balance_8php.html#a1">$hid</a>-&gt;IOValue();
 <a name="l00312"></a>00312 
 <a name="l00313"></a>00313 
-<a name="l00314"></a>00314     echo $list;
+<a name="l00314"></a>00314 
 <a name="l00315"></a>00315     <span class="keywordflow">if</span> ( $m != 0 )
 <a name="l00316"></a>00316       echo <a class="code" href="balance_8php.html#a1">$hid</a>-&gt;Submit('paid<span class="charliteral">','</span>Mise à jour paiement');
 <a name="l00317"></a>00317 
@@ -327,7 +327,7 @@
 <a name="l00321"></a>00321 
 <a name="l00322"></a>00322 include(<span class="stringliteral">"user_update.php"</span>);
 <a name="l00323"></a>00323 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 20:41:33 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sun Jun 25 23:05:35 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

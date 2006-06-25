@@ -7,7 +7,7 @@
 <div class="qindex"><a class="qindex" href="index.html">Main&nbsp;Page</a> | <a class="qindex" href="namespaces.html">Namespace List</a> | <a class="qindex" href="hierarchy.html">Class&nbsp;Hierarchy</a> | <a class="qindex" href="annotated.html">Data&nbsp;Structures</a> | <a class="qindex" href="dirs.html">Directories</a> | <a class="qindex" href="files.html">File&nbsp;List</a> | <a class="qindex" href="functions.html">Data&nbsp;Fields</a> | <a class="qindex" href="globals.html">Globals</a> | <a class="qindex" href="pages.html">Related&nbsp;Pages</a></div>
 <div class="nav">
 <a class="el" href="dir_000000.html">developpement</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_000001.html">phpcompta-dev</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_000002.html">phpcompta</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_000006.html">include</a></div>
-<h1>balance.php File Reference</h1>Show the balance and let you print it or export to PDF. <a href="#_details">More...</a>
+<h1>balance.php File Reference</h1>Show the balance and let you print it or export to PDF file included by user_impress. <a href="#_details">More...</a>
 <p>
 
 <p>
@@ -22,32 +22,34 @@
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">$w&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="balance_8php.html#a3">table</a> = 1</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="balance_8php.html#a4">$periode_start</a> = make_array($cn,&quot;select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode order by p_id&quot;)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="balance_8php.html#a4">$filter_year</a> = &quot; where p_exercice='&quot;.$User-&gt;getExercice().&quot;'&quot;</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">$w&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="balance_8php.html#a5">label</a> = &quot;Depuis&quot;</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="balance_8php.html#a5">$periode_start</a> = make_array($cn,&quot;select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_id&quot;)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="balance_8php.html#a6">$periode_end</a> = make_array($cn,&quot;select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode order by p_id&quot;)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">$w&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="balance_8php.html#a6">label</a> = &quot;Depuis&quot;</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="balance_8php.html#a7">$c</a> = new <a class="el" href="classwidget.html">widget</a>(&quot;checkbox&quot;)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="balance_8php.html#a7">$periode_end</a> = make_array($cn,&quot;select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode $filter_year order by p_id&quot;)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="balance_8php.html#a8">$t_cent</a> = &quot;&quot;</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="balance_8php.html#a8">$c</a> = new <a class="el" href="classwidget.html">widget</a>(&quot;checkbox&quot;)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="balance_8php.html#a9">$a</a> = GetPeriode($cn,$_POST['from_periode'])</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="balance_8php.html#a9">$t_cent</a> = &quot;&quot;</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="balance_8php.html#a10">$b</a> = GetPeriode($cn,$_POST['to_periode'])</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="balance_8php.html#a10">$a</a> = GetPeriode($cn,$_POST['from_periode'])</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="balance_8php.html#a11">$i</a> = 0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="balance_8php.html#a11">$b</a> = GetPeriode($cn,$_POST['to_periode'])</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="user__sec_8php.html#a13">else</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="balance_8php.html#a12">$tr</a> = &quot;odd&quot;</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="balance_8php.html#a12">$i</a> = 0</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="user__sec_8php.html#a13">else</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="balance_8php.html#a13">$tr</a> = &quot;odd&quot;</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
-Show the balance and let you print it or export to PDF. 
+Show the balance and let you print it or export to PDF file included by user_impress. 
 <p>
-
+some variable are already defined ($cn, $User ...)
 <p>
 Definition in file <a class="el" href="balance_8php-source.html">balance.php</a>.<hr><h2>Variable Documentation</h2>
-<a class="anchor" name="a9"></a><!-- doxytag: member="balance.php::$a" ref="a9" args="" --><p>
+<a class="anchor" name="a10"></a><!-- doxytag: member="balance.php::$a" ref="a10" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -69,10 +71,10 @@ Definition in file <a class="el" href="balance_8php-source.html">balance.php</a>
 <p>
 
 <p>
-Definition at line <a class="el" href="balance_8php-source.html#l00108">108</a> of file <a class="el" href="balance_8php-source.html">balance.php</a>.    </td>
+Definition at line <a class="el" href="balance_8php-source.html#l00113">113</a> of file <a class="el" href="balance_8php-source.html">balance.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a10"></a><!-- doxytag: member="balance.php::$b" ref="a10" args="" --><p>
+<a class="anchor" name="a11"></a><!-- doxytag: member="balance.php::$b" ref="a11" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -94,12 +96,12 @@ Definition at line <a class="el" href="balance_8php-source.html#l00108">108</a> 
 <p>
 
 <p>
-Definition at line <a class="el" href="balance_8php-source.html#l00109">109</a> of file <a class="el" href="balance_8php-source.html">balance.php</a>.
+Definition at line <a class="el" href="balance_8php-source.html#l00114">114</a> of file <a class="el" href="balance_8php-source.html">balance.php</a>.
 <p>
 Referenced by <a class="el" href="class_8pdf_8php-source.html#l01138">Cpdf::ARC4()</a>, and <a class="el" href="decla_8BE_8inc_8php-source.html#l00036">MakeListingVat()</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a7"></a><!-- doxytag: member="balance.php::$c" ref="a7" args="" --><p>
+<a class="anchor" name="a8"></a><!-- doxytag: member="balance.php::$c" ref="a8" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -121,7 +123,32 @@ Referenced by <a class="el" href="class_8pdf_8php-source.html#l01138">Cpdf::ARC4
 <p>
 
 <p>
-Definition at line <a class="el" href="balance_8php-source.html#l00082">82</a> of file <a class="el" href="balance_8php-source.html">balance.php</a>.    </td>
+Definition at line <a class="el" href="balance_8php-source.html#l00087">87</a> of file <a class="el" href="balance_8php-source.html">balance.php</a>.    </td>
+  </tr>
+</table>
+<a class="anchor" name="a4"></a><!-- doxytag: member="balance.php::$filter_year" ref="a4" args="" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">$filter_year = &quot; where p_exercice='&quot;.$User-&gt;getExercice().&quot;'&quot;          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+
+<p>
+Definition at line <a class="el" href="balance_8php-source.html#l00073">73</a> of file <a class="el" href="balance_8php-source.html">balance.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a1"></a><!-- doxytag: member="balance.php::$hid" ref="a1" args="" --><p>
@@ -146,10 +173,10 @@ Definition at line <a class="el" href="balance_8php-source.html#l00082">82</a> o
 <p>
 
 <p>
-Definition at line <a class="el" href="balance_8php-source.html#l00043">43</a> of file <a class="el" href="balance_8php-source.html">balance.php</a>.    </td>
+Definition at line <a class="el" href="balance_8php-source.html#l00046">46</a> of file <a class="el" href="balance_8php-source.html">balance.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a11"></a><!-- doxytag: member="balance.php::$i" ref="a11" args="" --><p>
+<a class="anchor" name="a12"></a><!-- doxytag: member="balance.php::$i" ref="a12" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -171,18 +198,18 @@ Definition at line <a class="el" href="balance_8php-source.html#l00043">43</a> o
 <p>
 
 <p>
-Definition at line <a class="el" href="balance_8php-source.html#l00113">113</a> of file <a class="el" href="balance_8php-source.html">balance.php</a>.
+Definition at line <a class="el" href="balance_8php-source.html#l00118">118</a> of file <a class="el" href="balance_8php-source.html">balance.php</a>.
 <p>
-Referenced by <a class="el" href="class_8ezpdf_8php-source.html#l01473">Cezpdf::alink()</a>, <a class="el" href="class_8pdf_8php-source.html#l01112">Cpdf::ARC4_init()</a>, <a class="el" href="fiche__inc_8php-source.html#l01387">DisplayDetailModele()</a>, <a class="el" href="class_8pdf_8php-source.html#l01713">Cpdf::ellipse()</a>, <a class="el" href="class_8ezpdf_8php-source.html#l00360">Cezpdf::ezPRVTpageNumberSearch()</a>, <a class="el" href="class_8ezpdf_8php-source.html#l00273">Cezpdf::ezStartPageNumbers()</a>, <a class="el" href="class_8ezpdf_8php-source.html#l00331">Cezpdf::ezStopPageNumbers()</a>, <a class="el" href="user__form__ods_8php-source.html#l00045">FormODS()</a>, <a class="el" href="fiche__inc_8php-source.html#l01178">Get_attr_def()</a>, <a class="el" href="fiche__inc_8php-source.html#l01146">Get_attr_min()</a>, <a class="el" href="fiche__inc_8php-source.html#l01112">Get_fiche_def_ref()</a>, <a class="el" href="class__fiche_8php-source.html#l00094">fiche_def::GetAll()</a>, <a class="el" href="class__fiche_8php-source.html#l00188">fiche::getAttribut()</a>, <a class="el" href="class__fiche_8php-source.html#l00051">fiche_def::GetAttribut()</a>, <a class="el" href="class__fiche_8php-source.html#l00315">fiche::GetByDef()</a>, <a class="el" href="class__fiche_8php-source.html#l00258">fiche::GetByType()</a>, <a class="el" href="user__common_8php-source.html#l00762">GetConcerned()</a>, <a class="el" href="jrn_8php-source.html#l00973">GetDataJrnJrId()</a>, <a class="el" href="impress__inc_8php-source.html#l00265">GetDataPoste()</a>, <a class="el" href="fiche__inc_8php-source.html#l01054">GetFicheJrn()</a>, <a class="el" href="stock__inc_8php-source.html#l00111">getFicheNameCode()</a>, <a class="el" href="postgres_8php-source.html#l00147">GetPriv()</a>, <a class="el" href="class__poste_8php-source.html#l00046">poste::GetRow()</a>, <a class="el" href="class__balance_8php-source.html#l00053">Balance::GetRow()</a>, <a class="el" href="impress__inc_8php-source.html#l00117">ImpHtml()</a>, <a class="el" href="class__widget_8php-source.html#l00084">widget::IOValue()</a>, <a class="el" href="ac__common_8php-source.html#l00281">make_array()</a>, <a class="el" href="class_8pdf_8php-source.html#l00347">Cpdf::o_pages()</a>, <a class="el" href="class_8pdf_8php-source.html#l01306">Cpdf::openFont()</a>, <a class="el" href="impress__inc_8php-source.html#l00724">ParseFormula()</a>, <a class="el" href="user__form__ven_8php-source.html#l00627">RecordInvoice()</a>, <a class="el" href="user__form__ach_8php-source.html#l00661">RecordSell()</a>, <a class="el" href="class_8pdf_8php-source.html#l01417">Cpdf::selectFont()</a>, <a class="el" href="impress__rapport_8php-source.html#l00160">ShowReportResult()</a>, <a class="el" href="class__attribut_8php-source.html#l00050">SortAttributeById()</a>, <a class="el" href="user__menu_8php-source.html#l00037">u_ShowDossier()</a>, <a class="el" href="class_8ezpdf_8php-source.html#l01518">Cezpdf::uline()</a>, <a class="el" href="form__inc_8php-source.html#l00208">UpdateForm()</a>, <a class="el" href="jrn_8php-source.html#l00282">UpdateJrn()</a>, and <a class="el" href="import__inc_8php-source.html#l00067">VerifImport()</a>.    </td>
+Referenced by <a class="el" href="class_8ezpdf_8php-source.html#l01473">Cezpdf::alink()</a>, <a class="el" href="class_8pdf_8php-source.html#l01112">Cpdf::ARC4_init()</a>, <a class="el" href="fiche__inc_8php-source.html#l01390">DisplayDetailModele()</a>, <a class="el" href="class_8pdf_8php-source.html#l01713">Cpdf::ellipse()</a>, <a class="el" href="class_8ezpdf_8php-source.html#l00360">Cezpdf::ezPRVTpageNumberSearch()</a>, <a class="el" href="class_8ezpdf_8php-source.html#l00273">Cezpdf::ezStartPageNumbers()</a>, <a class="el" href="class_8ezpdf_8php-source.html#l00331">Cezpdf::ezStopPageNumbers()</a>, <a class="el" href="user__form__ods_8php-source.html#l00045">FormODS()</a>, <a class="el" href="fiche__inc_8php-source.html#l01181">Get_attr_def()</a>, <a class="el" href="fiche__inc_8php-source.html#l01149">Get_attr_min()</a>, <a class="el" href="fiche__inc_8php-source.html#l01115">Get_fiche_def_ref()</a>, <a class="el" href="class__fiche_8php-source.html#l00094">fiche_def::GetAll()</a>, <a class="el" href="class__fiche_8php-source.html#l00188">fiche::getAttribut()</a>, <a class="el" href="class__fiche_8php-source.html#l00051">fiche_def::GetAttribut()</a>, <a class="el" href="class__fiche_8php-source.html#l00315">fiche::GetByDef()</a>, <a class="el" href="class__fiche_8php-source.html#l00258">fiche::GetByType()</a>, <a class="el" href="user__common_8php-source.html#l00758">GetConcerned()</a>, <a class="el" href="jrn_8php-source.html#l00973">GetDataJrnJrId()</a>, <a class="el" href="impress__inc_8php-source.html#l00265">GetDataPoste()</a>, <a class="el" href="fiche__inc_8php-source.html#l01057">GetFicheJrn()</a>, <a class="el" href="stock__inc_8php-source.html#l00111">getFicheNameCode()</a>, <a class="el" href="postgres_8php-source.html#l00147">GetPriv()</a>, <a class="el" href="class__poste_8php-source.html#l00048">poste::GetRow()</a>, <a class="el" href="class__balance_8php-source.html#l00053">Balance::GetRow()</a>, <a class="el" href="impress__inc_8php-source.html#l00117">ImpHtml()</a>, <a class="el" href="class__widget_8php-source.html#l00090">widget::IOValue()</a>, <a class="el" href="ac__common_8php-source.html#l00282">make_array()</a>, <a class="el" href="class_8pdf_8php-source.html#l00347">Cpdf::o_pages()</a>, <a class="el" href="class_8pdf_8php-source.html#l01306">Cpdf::openFont()</a>, <a class="el" href="impress__inc_8php-source.html#l00724">ParseFormula()</a>, <a class="el" href="user__form__ven_8php-source.html#l00627">RecordInvoice()</a>, <a class="el" href="user__form__ach_8php-source.html#l00661">RecordSell()</a>, <a class="el" href="class_8pdf_8php-source.html#l01417">Cpdf::selectFont()</a>, <a class="el" href="impress__rapport_8php-source.html#l00167">ShowReportResult()</a>, <a class="el" href="class__attribut_8php-source.html#l00050">SortAttributeById()</a>, <a class="el" href="user__menu_8php-source.html#l00037">u_ShowDossier()</a>, <a class="el" href="class_8ezpdf_8php-source.html#l01518">Cezpdf::uline()</a>, <a class="el" href="form__inc_8php-source.html#l00208">UpdateForm()</a>, <a class="el" href="jrn_8php-source.html#l00282">UpdateJrn()</a>, and <a class="el" href="import__inc_8php-source.html#l00067">VerifImport()</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a6"></a><!-- doxytag: member="balance.php::$periode_end" ref="a6" args="" --><p>
+<a class="anchor" name="a7"></a><!-- doxytag: member="balance.php::$periode_end" ref="a7" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">$periode_end = make_array($cn,&quot;select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode order by p_id&quot;)          </td>
+          <td class="md" nowrap valign="top">$periode_end = make_array($cn,&quot;select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode $filter_year order by p_id&quot;)          </td>
         </tr>
       </table>
     </td>
@@ -198,16 +225,16 @@ Referenced by <a class="el" href="class_8ezpdf_8php-source.html#l01473">Cezpdf::
 <p>
 
 <p>
-Definition at line <a class="el" href="balance_8php-source.html#l00077">77</a> of file <a class="el" href="balance_8php-source.html">balance.php</a>.    </td>
+Definition at line <a class="el" href="balance_8php-source.html#l00082">82</a> of file <a class="el" href="balance_8php-source.html">balance.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a4"></a><!-- doxytag: member="balance.php::$periode_start" ref="a4" args="" --><p>
+<a class="anchor" name="a5"></a><!-- doxytag: member="balance.php::$periode_start" ref="a5" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">$periode_start = make_array($cn,&quot;select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode order by p_id&quot;)          </td>
+          <td class="md" nowrap valign="top">$periode_start = make_array($cn,&quot;select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_id&quot;)          </td>
         </tr>
       </table>
     </td>
@@ -223,10 +250,10 @@ Definition at line <a class="el" href="balance_8php-source.html#l00077">77</a> o
 <p>
 
 <p>
-Definition at line <a class="el" href="balance_8php-source.html#l00070">70</a> of file <a class="el" href="balance_8php-source.html">balance.php</a>.    </td>
+Definition at line <a class="el" href="balance_8php-source.html#l00075">75</a> of file <a class="el" href="balance_8php-source.html">balance.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a8"></a><!-- doxytag: member="balance.php::$t_cent" ref="a8" args="" --><p>
+<a class="anchor" name="a9"></a><!-- doxytag: member="balance.php::$t_cent" ref="a9" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -248,10 +275,10 @@ Definition at line <a class="el" href="balance_8php-source.html#l00070">70</a> o
 <p>
 
 <p>
-Definition at line <a class="el" href="balance_8php-source.html#l00097">97</a> of file <a class="el" href="balance_8php-source.html">balance.php</a>.    </td>
+Definition at line <a class="el" href="balance_8php-source.html#l00102">102</a> of file <a class="el" href="balance_8php-source.html">balance.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a12"></a><!-- doxytag: member="balance.php::$tr" ref="a12" args="" --><p>
+<a class="anchor" name="a13"></a><!-- doxytag: member="balance.php::$tr" ref="a13" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -273,7 +300,7 @@ Definition at line <a class="el" href="balance_8php-source.html#l00097">97</a> o
 <p>
 
 <p>
-Definition at line <a class="el" href="balance_8php-source.html#l00119">119</a> of file <a class="el" href="balance_8php-source.html">balance.php</a>.
+Definition at line <a class="el" href="balance_8php-source.html#l00124">124</a> of file <a class="el" href="balance_8php-source.html">balance.php</a>.
 <p>
 Referenced by <a class="el" href="user__common_8php-source.html#l00322">ListJrn()</a>, and <a class="el" href="user__menu_8php-source.html#l00037">u_ShowDossier()</a>.    </td>
   </tr>
@@ -300,7 +327,7 @@ Referenced by <a class="el" href="user__common_8php-source.html#l00322">ListJrn(
 <p>
 
 <p>
-Definition at line <a class="el" href="balance_8php-source.html#l00067">67</a> of file <a class="el" href="balance_8php-source.html">balance.php</a>.    </td>
+Definition at line <a class="el" href="balance_8php-source.html#l00070">70</a> of file <a class="el" href="balance_8php-source.html">balance.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a0"></a><!-- doxytag: member="balance.php::exit" ref="a0" args="" --><p>
@@ -325,18 +352,18 @@ Definition at line <a class="el" href="balance_8php-source.html#l00067">67</a> o
 <p>
 
 <p>
-Definition at line <a class="el" href="balance_8php-source.html#l00033">33</a> of file <a class="el" href="balance_8php-source.html">balance.php</a>.
+Definition at line <a class="el" href="balance_8php-source.html#l00036">36</a> of file <a class="el" href="balance_8php-source.html">balance.php</a>.
 <p>
-Referenced by <a class="el" href="fiche__inc_8php-source.html#l00038">AddFiche()</a>, <a class="el" href="class__user_8php-source.html#l00085">cl_user::Check()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="setup_8php-source.html#l00097">ExecuteScript()</a>, <a class="el" href="user__form__ach_8php-source.html#l00044">FormAchInput()</a>, <a class="el" href="user__form__ach_8php-source.html#l00471">FormAchView()</a>, <a class="el" href="user__form__fin_8php-source.html#l00146">FormFin()</a>, <a class="el" href="user__form__ven_8php-source.html#l00043">FormVenInput()</a>, <a class="el" href="user__form__ven_8php-source.html#l00425">FormVenteView()</a>, <a class="el" href="fiche__inc_8php-source.html#l01054">GetFicheJrn()</a>, <a class="el" href="ac__common_8php-source.html#l00191">NoAccess()</a>, <a class="el" href="class__document_8php-source.html#l00125">Document::ParseDocument()</a>, <a class="el" href="user__form__fin_8php-source.html#l00358">RecordFin()</a>, <a class="el" href="user__form__ven_8php-source.html#l00627">RecordInvoice()</a>, <a class="el" href="user__form__ods_8php-source.html#l00247">RecordODS()</a>, <a class="el" href="user__form__ach_8php-source.html#l00661">RecordSell()</a>, <a class="el" href="class__document__modele_8php-source.html#l00103">Document_modele::Save()</a>, and <a class="el" href="import__inc_8php-source.html#l00090">TransferCSV()</a>.    </td>
+Referenced by <a class="el" href="fiche__inc_8php-source.html#l00038">AddFiche()</a>, <a class="el" href="class__user_8php-source.html#l00085">cl_user::Check()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="setup_8php-source.html#l00097">ExecuteScript()</a>, <a class="el" href="user__form__ach_8php-source.html#l00044">FormAchInput()</a>, <a class="el" href="user__form__ach_8php-source.html#l00471">FormAchView()</a>, <a class="el" href="user__form__fin_8php-source.html#l00146">FormFin()</a>, <a class="el" href="user__form__ven_8php-source.html#l00043">FormVenInput()</a>, <a class="el" href="user__form__ven_8php-source.html#l00425">FormVenteView()</a>, <a class="el" href="fiche__inc_8php-source.html#l01057">GetFicheJrn()</a>, <a class="el" href="ac__common_8php-source.html#l00192">NoAccess()</a>, <a class="el" href="class__document_8php-source.html#l00131">Document::ParseDocument()</a>, <a class="el" href="user__form__fin_8php-source.html#l00358">RecordFin()</a>, <a class="el" href="user__form__ven_8php-source.html#l00627">RecordInvoice()</a>, <a class="el" href="user__form__ods_8php-source.html#l00247">RecordODS()</a>, <a class="el" href="user__form__ach_8php-source.html#l00661">RecordSell()</a>, <a class="el" href="class__document__modele_8php-source.html#l00103">Document_modele::Save()</a>, and <a class="el" href="import__inc_8php-source.html#l00090">TransferCSV()</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a5"></a><!-- doxytag: member="balance.php::label" ref="a5" args="" --><p>
+<a class="anchor" name="a6"></a><!-- doxytag: member="balance.php::label" ref="a6" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">$c <a class="el" href="ecrit__ouv_8php.html#a5">label</a> = &quot;Depuis&quot;          </td>
+          <td class="md" nowrap valign="top">$c <a class="el" href="export__ouv_8php.html#a10">label</a> = &quot;Depuis&quot;          </td>
         </tr>
       </table>
     </td>
@@ -352,7 +379,7 @@ Referenced by <a class="el" href="fiche__inc_8php-source.html#l00038">AddFiche()
 <p>
 
 <p>
-Definition at line <a class="el" href="balance_8php-source.html#l00071">71</a> of file <a class="el" href="balance_8php-source.html">balance.php</a>.    </td>
+Definition at line <a class="el" href="balance_8php-source.html#l00076">76</a> of file <a class="el" href="balance_8php-source.html">balance.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a3"></a><!-- doxytag: member="balance.php::table" ref="a3" args="" --><p>
@@ -361,7 +388,7 @@ Definition at line <a class="el" href="balance_8php-source.html#l00071">71</a> o
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">centralise <a class="el" href="parametre_8php.html#a16">table</a> = 1          </td>
+          <td class="md" nowrap valign="top">centralise <a class="el" href="parametre_8php.html#a19">table</a> = 1          </td>
         </tr>
       </table>
     </td>
@@ -377,12 +404,12 @@ Definition at line <a class="el" href="balance_8php-source.html#l00071">71</a> o
 <p>
 
 <p>
-Definition at line <a class="el" href="balance_8php-source.html#l00068">68</a> of file <a class="el" href="balance_8php-source.html">balance.php</a>.
+Definition at line <a class="el" href="balance_8php-source.html#l00071">71</a> of file <a class="el" href="balance_8php-source.html">balance.php</a>.
 <p>
-Referenced by <a class="el" href="class__fiche_8php-source.html#l00397">fiche::blank()</a>, <a class="el" href="user__common_8php-source.html#l00322">ListJrn()</a>, <a class="el" href="class__supplier_8php-source.html#l00083">Supplier::Summary()</a>, <a class="el" href="class__customer_8php-source.html#l00195">Customer::Summary()</a>, <a class="el" href="class__contact_8php-source.html#l00050">contact::Summary()</a>, <a class="el" href="class__admin_8php-source.html#l00065">Admin::Summary()</a>, <a class="el" href="import__inc_8php-source.html#l00067">VerifImport()</a>, <a class="el" href="jrn_8php-source.html#l00457">ViewRecord()</a>, and <a class="el" href="class__widget_8php-source.html#l00059">widget::widget()</a>.    </td>
+Referenced by <a class="el" href="class__fiche_8php-source.html#l00397">fiche::blank()</a>, <a class="el" href="user__common_8php-source.html#l00322">ListJrn()</a>, <a class="el" href="class__supplier_8php-source.html#l00083">Supplier::Summary()</a>, <a class="el" href="class__customer_8php-source.html#l00195">Customer::Summary()</a>, <a class="el" href="class__contact_8php-source.html#l00050">contact::Summary()</a>, <a class="el" href="class__admin_8php-source.html#l00065">Admin::Summary()</a>, <a class="el" href="import__inc_8php-source.html#l00067">VerifImport()</a>, <a class="el" href="fiche__inc_8php-source.html#l00394">ViewFiche()</a>, <a class="el" href="jrn_8php-source.html#l00457">ViewRecord()</a>, and <a class="el" href="class__widget_8php-source.html#l00065">widget::widget()</a>.    </td>
   </tr>
 </table>
-<hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 20:41:33 2006 for phpcompta by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Sun Jun 25 23:05:36 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

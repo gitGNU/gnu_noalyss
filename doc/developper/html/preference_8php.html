@@ -94,7 +94,7 @@ Generate the form for the periode.
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>$p_cn</em>&nbsp;</td><td>connexion </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>$p_default</em>&nbsp;</td><td>default periode </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>$p_type</em>&nbsp;</td><td>the type of the periode </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>$p_type</em>&nbsp;</td><td>the type of the periode OPEN CLOSE NOTCENTRALIZED or ALL </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>$p_suff</em>&nbsp;</td><td>the suffix of the name</td></tr>
   </table>
 </dl>
@@ -103,7 +103,7 @@ Generate the form for the periode.
 <p>
 Definition at line <a class="el" href="preference_8php-source.html#l00071">71</a> of file <a class="el" href="preference_8php-source.html">preference.php</a>.
 <p>
-References <a class="el" href="jrn__detail_8php-source.html#l00128">$l_line</a>, <a class="el" href="setup_8php-source.html#l00374">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="impress__bilan_8php-source.html#l00029">$ret</a>, <a class="el" href="bank_8inc_8php-source.html#l00095">$sql</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.    </td>
+References <a class="el" href="jrn__detail_8php-source.html#l00128">$l_line</a>, <a class="el" href="setup_8php-source.html#l00379">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="impress__bilan_8php-source.html#l00032">$ret</a>, <a class="el" href="bank_8inc_8php-source.html#l00095">$sql</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a0"></a><!-- doxytag: member="preference.php::FormPeriodeMult" ref="a0" args="($p_cn)" --><p>
@@ -144,7 +144,7 @@ FormPeriodeMult<p>
 <p>
 Definition at line <a class="el" href="preference_8php-source.html#l00037">37</a> of file <a class="el" href="preference_8php-source.html">preference.php</a>.
 <p>
-References <a class="el" href="jrn__detail_8php-source.html#l00128">$l_line</a>, <a class="el" href="setup_8php-source.html#l00374">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="impress__bilan_8php-source.html#l00029">$ret</a>, <a class="el" href="bank_8inc_8php-source.html#l00095">$sql</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
+References <a class="el" href="jrn__detail_8php-source.html#l00128">$l_line</a>, <a class="el" href="setup_8php-source.html#l00379">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="impress__bilan_8php-source.html#l00032">$ret</a>, <a class="el" href="bank_8inc_8php-source.html#l00095">$sql</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
 <p>
 Referenced by <a class="el" href="impress__inc_8php-source.html#l00036">ViewImp()</a>.    </td>
   </tr>
@@ -194,7 +194,7 @@ get the exercice of a periode
 <dl compact><dt><b>Returns:</b></dt><dd>Exercice of the periode</dd></dl>
 
 <p>
-Definition at line <a class="el" href="preference_8php-source.html#l00165">165</a> of file <a class="el" href="preference_8php-source.html">preference.php</a>.
+Definition at line <a class="el" href="preference_8php-source.html#l00168">168</a> of file <a class="el" href="preference_8php-source.html">preference.php</a>.
 <p>
 References <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.    </td>
   </tr>
@@ -245,7 +245,7 @@ GetPeriode<p>
 <dl compact><dt><b>Returns:</b></dt><dd>array containing the start date &amp; the end date</dd></dl>
 
 <p>
-Definition at line <a class="el" href="preference_8php-source.html#l00122">122</a> of file <a class="el" href="preference_8php-source.html">preference.php</a>.
+Definition at line <a class="el" href="preference_8php-source.html#l00125">125</a> of file <a class="el" href="preference_8php-source.html">preference.php</a>.
 <p>
 References <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00095">$sql</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
 <p>
@@ -294,10 +294,10 @@ get the status of a periode
     <tr><td valign="top"></td><td valign="top"><em>periode</em>&nbsp;</td><td>id</td></tr>
   </table>
 </dl>
-<dl compact><dt><b>Returns:</b></dt><dd>true if closed</dd></dl>
+<dl compact><dt><b>Returns:</b></dt><dd>'t' if closed otherwise 'f'</dd></dl>
 
 <p>
-Definition at line <a class="el" href="preference_8php-source.html#l00143">143</a> of file <a class="el" href="preference_8php-source.html">preference.php</a>.
+Definition at line <a class="el" href="preference_8php-source.html#l00146">146</a> of file <a class="el" href="preference_8php-source.html">preference.php</a>.
 <p>
 References <a class="el" href="jrn__detail_8php-source.html#l00128">$l_line</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00095">$sql</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
 <p>
@@ -339,9 +339,9 @@ Show all the currency encoded.
 <dl compact><dt><b>Returns:</b></dt><dd>nothing</dd></dl>
 
 <p>
-Definition at line <a class="el" href="preference_8php-source.html#l00182">182</a> of file <a class="el" href="preference_8php-source.html">preference.php</a>.
+Definition at line <a class="el" href="preference_8php-source.html#l00185">185</a> of file <a class="el" href="preference_8php-source.html">preference.php</a>.
 <p>
-References <a class="el" href="jrn__detail_8php-source.html#l00128">$l_line</a>, <a class="el" href="setup_8php-source.html#l00374">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="pref_8inc_8php-source.html#l00045">METHOD</a>.    </td>
+References <a class="el" href="jrn__detail_8php-source.html#l00128">$l_line</a>, <a class="el" href="setup_8php-source.html#l00379">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="pref_8inc_8php-source.html#l00048">METHOD</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a6"></a><!-- doxytag: member="preference.php::ShowPeriode" ref="a6" args="($p_cn)" --><p>
@@ -379,12 +379,12 @@ Show all the periode and their status.
 <dl compact><dt><b>Returns:</b></dt><dd>nothing</dd></dl>
 
 <p>
-Definition at line <a class="el" href="preference_8php-source.html#l00221">221</a> of file <a class="el" href="preference_8php-source.html">preference.php</a>.
+Definition at line <a class="el" href="preference_8php-source.html#l00224">224</a> of file <a class="el" href="preference_8php-source.html">preference.php</a>.
 <p>
-References <a class="el" href="jrn__detail_8php-source.html#l00128">$l_line</a>, <a class="el" href="setup_8php-source.html#l00374">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="pref_8inc_8php-source.html#l00045">METHOD</a>.    </td>
+References <a class="el" href="jrn__detail_8php-source.html#l00128">$l_line</a>, <a class="el" href="setup_8php-source.html#l00379">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="pref_8inc_8php-source.html#l00048">METHOD</a>.    </td>
   </tr>
 </table>
-<hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 20:41:34 2006 for phpcompta by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Sun Jun 25 23:05:36 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

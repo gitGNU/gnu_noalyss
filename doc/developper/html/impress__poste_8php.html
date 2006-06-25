@@ -7,7 +7,7 @@
 <div class="qindex"><a class="qindex" href="index.html">Main&nbsp;Page</a> | <a class="qindex" href="namespaces.html">Namespace List</a> | <a class="qindex" href="hierarchy.html">Class&nbsp;Hierarchy</a> | <a class="qindex" href="annotated.html">Data&nbsp;Structures</a> | <a class="qindex" href="dirs.html">Directories</a> | <a class="qindex" href="files.html">File&nbsp;List</a> | <a class="qindex" href="functions.html">Data&nbsp;Fields</a> | <a class="qindex" href="globals.html">Globals</a> | <a class="qindex" href="pages.html">Related&nbsp;Pages</a></div>
 <div class="nav">
 <a class="el" href="dir_000000.html">developpement</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_000001.html">phpcompta-dev</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_000002.html">phpcompta</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_000006.html">include</a></div>
-<h1>impress_poste.php File Reference</h1>Print account (html or pdf). <a href="#_details">More...</a>
+<h1>impress_poste.php File Reference</h1>Print account (html or pdf) file included from user_impress. <a href="#_details">More...</a>
 <p>
 
 <p>
@@ -34,22 +34,24 @@
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="impress__poste_8php.html#a9">print</a></td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="impress__poste_8php.html#a10">$periode_start</a> = make_array($cn,&quot;select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode order by p_id&quot;)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="impress__poste_8php.html#a10">$filter_year</a> = &quot; where p_exercice='&quot;.$User-&gt;getExercice().&quot;'&quot;</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="impress__poste_8php.html#a11">$periode_end</a> = make_array($cn,&quot;select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode order by p_id&quot;)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="impress__poste_8php.html#a11">$periode_start</a> = make_array($cn,&quot;select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_id&quot;)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="impress__rapport_8php.html#a8">print</a>&lt;/TR &gt; <a class="el" href="impress__rapport_8php.html#a8">print</a>&lt; TR &gt;&lt; TD &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="impress__poste_8php.html#a12">$all</a> = new <a class="el" href="classwidget.html">widget</a>(&quot;checkbox&quot;)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="impress__poste_8php.html#a12">$periode_end</a> = make_array($cn,&quot;select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode order $filter_year by p_id&quot;)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">$all&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="impress__poste_8php.html#a13">disabled</a> = true</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="impress__rapport_8php.html#a8">print</a>&lt;/TR &gt; <a class="el" href="impress__rapport_8php.html#a8">print</a>&lt; TR &gt;&lt; TD &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="impress__poste_8php.html#a13">$all</a> = new <a class="el" href="classwidget.html">widget</a>(&quot;checkbox&quot;)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">$all&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="impress__poste_8php.html#a14">disabled</a> = true</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
-Print account (html or pdf). 
+Print account (html or pdf) file included from user_impress. 
 <p>
-
+some variable are already defined $cn, $User ...
 <p>
 Definition in file <a class="el" href="impress__poste_8php-source.html">impress_poste.php</a>.<hr><h2>Variable Documentation</h2>
-<a class="anchor" name="a12"></a><!-- doxytag: member="impress_poste.php::$all" ref="a12" args="" --><p>
+<a class="anchor" name="a13"></a><!-- doxytag: member="impress_poste.php::$all" ref="a13" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -71,7 +73,32 @@ Definition in file <a class="el" href="impress__poste_8php-source.html">impress_
 <p>
 
 <p>
-Definition at line <a class="el" href="impress__poste_8php-source.html#l00134">134</a> of file <a class="el" href="impress__poste_8php-source.html">impress_poste.php</a>.    </td>
+Definition at line <a class="el" href="impress__poste_8php-source.html#l00142">142</a> of file <a class="el" href="impress__poste_8php-source.html">impress_poste.php</a>.    </td>
+  </tr>
+</table>
+<a class="anchor" name="a10"></a><!-- doxytag: member="impress_poste.php::$filter_year" ref="a10" args="" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">$filter_year = &quot; where p_exercice='&quot;.$User-&gt;getExercice().&quot;'&quot;          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+
+<p>
+Definition at line <a class="el" href="impress__poste_8php-source.html#l00133">133</a> of file <a class="el" href="impress__poste_8php-source.html">impress_poste.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a3"></a><!-- doxytag: member="impress_poste.php::$hid" ref="a3" args="" --><p>
@@ -96,16 +123,16 @@ Definition at line <a class="el" href="impress__poste_8php-source.html#l00134">1
 <p>
 
 <p>
-Definition at line <a class="el" href="impress__poste_8php-source.html#l00041">41</a> of file <a class="el" href="impress__poste_8php-source.html">impress_poste.php</a>.    </td>
+Definition at line <a class="el" href="impress__poste_8php-source.html#l00045">45</a> of file <a class="el" href="impress__poste_8php-source.html">impress_poste.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a11"></a><!-- doxytag: member="impress_poste.php::$periode_end" ref="a11" args="" --><p>
+<a class="anchor" name="a12"></a><!-- doxytag: member="impress_poste.php::$periode_end" ref="a12" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">$periode_end = make_array($cn,&quot;select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode order by p_id&quot;)          </td>
+          <td class="md" nowrap valign="top">$periode_end = make_array($cn,&quot;select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode order $filter_year by p_id&quot;)          </td>
         </tr>
       </table>
     </td>
@@ -121,16 +148,16 @@ Definition at line <a class="el" href="impress__poste_8php-source.html#l00041">4
 <p>
 
 <p>
-Definition at line <a class="el" href="impress__poste_8php-source.html#l00130">130</a> of file <a class="el" href="impress__poste_8php-source.html">impress_poste.php</a>.    </td>
+Definition at line <a class="el" href="impress__poste_8php-source.html#l00138">138</a> of file <a class="el" href="impress__poste_8php-source.html">impress_poste.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a10"></a><!-- doxytag: member="impress_poste.php::$periode_start" ref="a10" args="" --><p>
+<a class="anchor" name="a11"></a><!-- doxytag: member="impress_poste.php::$periode_start" ref="a11" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">$periode_start = make_array($cn,&quot;select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode order by p_id&quot;)          </td>
+          <td class="md" nowrap valign="top">$periode_start = make_array($cn,&quot;select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_id&quot;)          </td>
         </tr>
       </table>
     </td>
@@ -146,7 +173,7 @@ Definition at line <a class="el" href="impress__poste_8php-source.html#l00130">1
 <p>
 
 <p>
-Definition at line <a class="el" href="impress__poste_8php-source.html#l00126">126</a> of file <a class="el" href="impress__poste_8php-source.html">impress_poste.php</a>.    </td>
+Definition at line <a class="el" href="impress__poste_8php-source.html#l00134">134</a> of file <a class="el" href="impress__poste_8php-source.html">impress_poste.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a0"></a><!-- doxytag: member="impress_poste.php::$Poste" ref="a0" args="" --><p>
@@ -171,7 +198,7 @@ Definition at line <a class="el" href="impress__poste_8php-source.html#l00126">1
 <p>
 
 <p>
-Definition at line <a class="el" href="impress__poste_8php-source.html#l00033">33</a> of file <a class="el" href="impress__poste_8php-source.html">impress_poste.php</a>.    </td>
+Definition at line <a class="el" href="impress__poste_8php-source.html#l00037">37</a> of file <a class="el" href="impress__poste_8php-source.html">impress_poste.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a1"></a><!-- doxytag: member="impress_poste.php::$rep" ref="a1" args="" --><p>
@@ -196,7 +223,7 @@ Definition at line <a class="el" href="impress__poste_8php-source.html#l00033">3
 <p>
 
 <p>
-Definition at line <a class="el" href="impress__poste_8php-source.html#l00039">39</a> of file <a class="el" href="impress__poste_8php-source.html">impress_poste.php</a>.    </td>
+Definition at line <a class="el" href="impress__poste_8php-source.html#l00043">43</a> of file <a class="el" href="impress__poste_8php-source.html">impress_poste.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a5"></a><!-- doxytag: member="impress_poste.php::$ret" ref="a5" args="" --><p>
@@ -224,7 +251,7 @@ Definition at line <a class="el" href="impress__poste_8php-source.html#l00039">3
 <span class="stringliteral">                 order by j_poste::text"</span>)
 </pre></div>
 <p>
-Definition at line <a class="el" href="impress__poste_8php-source.html#l00111">111</a> of file <a class="el" href="impress__poste_8php-source.html">impress_poste.php</a>.    </td>
+Definition at line <a class="el" href="impress__poste_8php-source.html#l00115">115</a> of file <a class="el" href="impress__poste_8php-source.html">impress_poste.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a2"></a><!-- doxytag: member="impress_poste.php::$submit" ref="a2" args="" --><p>
@@ -249,7 +276,7 @@ Definition at line <a class="el" href="impress__poste_8php-source.html#l00111">1
 <p>
 
 <p>
-Definition at line <a class="el" href="impress__poste_8php-source.html#l00040">40</a> of file <a class="el" href="impress__poste_8php-source.html">impress_poste.php</a>.    </td>
+Definition at line <a class="el" href="impress__poste_8php-source.html#l00044">44</a> of file <a class="el" href="impress__poste_8php-source.html">impress_poste.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a6"></a><!-- doxytag: member="impress_poste.php::$w" ref="a6" args="" --><p>
@@ -274,16 +301,16 @@ Definition at line <a class="el" href="impress__poste_8php-source.html#l00040">4
 <p>
 
 <p>
-Definition at line <a class="el" href="impress__poste_8php-source.html#l00120">120</a> of file <a class="el" href="impress__poste_8php-source.html">impress_poste.php</a>.    </td>
+Definition at line <a class="el" href="impress__poste_8php-source.html#l00126">126</a> of file <a class="el" href="impress__poste_8php-source.html">impress_poste.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a13"></a><!-- doxytag: member="impress_poste.php::disabled" ref="a13" args="" --><p>
+<a class="anchor" name="a14"></a><!-- doxytag: member="impress_poste.php::disabled" ref="a14" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">$all <a class="el" href="impress__poste_8php.html#a13">disabled</a> = true          </td>
+          <td class="md" nowrap valign="top">$all <a class="el" href="impress__poste_8php.html#a14">disabled</a> = true          </td>
         </tr>
       </table>
     </td>
@@ -299,9 +326,9 @@ Definition at line <a class="el" href="impress__poste_8php-source.html#l00120">1
 <p>
 
 <p>
-Definition at line <a class="el" href="impress__poste_8php-source.html#l00136">136</a> of file <a class="el" href="impress__poste_8php-source.html">impress_poste.php</a>.
+Definition at line <a class="el" href="impress__poste_8php-source.html#l00144">144</a> of file <a class="el" href="impress__poste_8php-source.html">impress_poste.php</a>.
 <p>
-Referenced by <a class="el" href="class__widget_8php-source.html#l00084">widget::IOValue()</a>, and <a class="el" href="class__widget_8php-source.html#l00059">widget::widget()</a>.    </td>
+Referenced by <a class="el" href="class__widget_8php-source.html#l00090">widget::IOValue()</a>, and <a class="el" href="class__widget_8php-source.html#l00065">widget::widget()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a4"></a><!-- doxytag: member="impress_poste.php::exit" ref="a4" args="" --><p>
@@ -326,7 +353,7 @@ Referenced by <a class="el" href="class__widget_8php-source.html#l00084">widget:
 <p>
 
 <p>
-Definition at line <a class="el" href="impress__poste_8php-source.html#l00100">100</a> of file <a class="el" href="impress__poste_8php-source.html">impress_poste.php</a>.    </td>
+Definition at line <a class="el" href="impress__poste_8php-source.html#l00104">104</a> of file <a class="el" href="impress__poste_8php-source.html">impress_poste.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a8"></a><!-- doxytag: member="impress_poste.php::label" ref="a8" args="" --><p>
@@ -335,7 +362,7 @@ Definition at line <a class="el" href="impress__poste_8php-source.html#l00100">1
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">$all <a class="el" href="ecrit__ouv_8php.html#a5">label</a> = &quot;Choississez le <a class="el" href="classposte.html">poste</a>&quot;          </td>
+          <td class="md" nowrap valign="top">$all <a class="el" href="export__ouv_8php.html#a10">label</a> = &quot;Choississez le <a class="el" href="classposte.html">poste</a>&quot;          </td>
         </tr>
       </table>
     </td>
@@ -351,7 +378,7 @@ Definition at line <a class="el" href="impress__poste_8php-source.html#l00100">1
 <p>
 
 <p>
-Definition at line <a class="el" href="impress__poste_8php-source.html#l00122">122</a> of file <a class="el" href="impress__poste_8php-source.html">impress_poste.php</a>.    </td>
+Definition at line <a class="el" href="impress__poste_8php-source.html#l00128">128</a> of file <a class="el" href="impress__poste_8php-source.html">impress_poste.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a9"></a><!-- doxytag: member="impress_poste.php::print" ref="a9" args="" --><p>
@@ -376,7 +403,7 @@ Definition at line <a class="el" href="impress__poste_8php-source.html#l00122">1
 <p>
 
 <p>
-Definition at line <a class="el" href="impress__poste_8php-source.html#l00124">124</a> of file <a class="el" href="impress__poste_8php-source.html">impress_poste.php</a>.    </td>
+Definition at line <a class="el" href="impress__poste_8php-source.html#l00130">130</a> of file <a class="el" href="impress__poste_8php-source.html">impress_poste.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a7"></a><!-- doxytag: member="impress_poste.php::table" ref="a7" args="" --><p>
@@ -385,7 +412,7 @@ Definition at line <a class="el" href="impress__poste_8php-source.html#l00124">1
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">$w <a class="el" href="parametre_8php.html#a16">table</a> = 1          </td>
+          <td class="md" nowrap valign="top">$w <a class="el" href="parametre_8php.html#a19">table</a> = 1          </td>
         </tr>
       </table>
     </td>
@@ -401,10 +428,10 @@ Definition at line <a class="el" href="impress__poste_8php-source.html#l00124">1
 <p>
 
 <p>
-Definition at line <a class="el" href="impress__poste_8php-source.html#l00121">121</a> of file <a class="el" href="impress__poste_8php-source.html">impress_poste.php</a>.    </td>
+Definition at line <a class="el" href="impress__poste_8php-source.html#l00127">127</a> of file <a class="el" href="impress__poste_8php-source.html">impress_poste.php</a>.    </td>
   </tr>
 </table>
-<hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 20:41:34 2006 for phpcompta by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Sun Jun 25 23:05:36 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

@@ -39,8 +39,8 @@
 <a name="l00033"></a>00033   }
 <a name="l00034"></a><a class="code" href="classjrn.html#a1">00034</a>   function <a class="code" href="classjrn.html#a1">GetName</a>() {
 <a name="l00035"></a>00035     <span class="keywordflow">if</span> ( $this-&gt;id==0 ) {
-<a name="l00036"></a>00036       $this-&gt;<a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">" Grand Livre "</span>;
-<a name="l00037"></a>00037       <span class="keywordflow">return</span> $this-&gt;<a class="code" href="action_8inc_8php.html#a3">name</a>;
+<a name="l00036"></a>00036       $this-&gt;<a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">" Grand Livre "</span>;
+<a name="l00037"></a>00037       <span class="keywordflow">return</span> $this-&gt;<a class="code" href="action_8inc_8php.html#a4">name</a>;
 <a name="l00038"></a>00038     }
 <a name="l00039"></a>00039 
 <a name="l00040"></a>00040     <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,<span class="stringliteral">"select jrn_def_name from "</span>.
@@ -49,7 +49,7 @@
 <a name="l00043"></a>00043     <a class="code" href="setup_8php.html#a11">$Max</a>=pg_NumRows($Res);
 <a name="l00044"></a>00044     <span class="keywordflow">if</span> ($Max==0) <span class="keywordflow">return</span> null;
 <a name="l00045"></a>00045     <a class="code" href="impress__bilan_8php.html#a0">$ret</a>=pg_fetch_array($Res,0);
-<a name="l00046"></a>00046     $this-&gt;<a class="code" href="action_8inc_8php.html#a3">name</a>=<a class="code" href="impress__bilan_8php.html#a0">$ret</a>['jrn_def_name'];
+<a name="l00046"></a>00046     $this-&gt;<a class="code" href="action_8inc_8php.html#a4">name</a>=<a class="code" href="impress__bilan_8php.html#a0">$ret</a>['jrn_def_name'];
 <a name="l00047"></a>00047     <span class="keywordflow">return</span> <a class="code" href="impress__bilan_8php.html#a0">$ret</a>['jrn_def_name'];
 <a name="l00048"></a>00048   }
 <a name="l00049"></a>00049 
@@ -211,8 +211,8 @@
 <a name="l00220"></a>00220   }
 <a name="l00221"></a>00221   <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_jrn.php',__LINE__,<span class="stringliteral">"Total debit $tot_deb,credit $tot_cred"</span>);
 <a name="l00222"></a>00222   $this-&gt;row=<a class="code" href="recherche_8php.html#a4">$array</a>;
-<a name="l00223"></a>00223   <a class="code" href="action_8inc_8php.html#a15">$a</a>=array($array,$tot_deb,$tot_cred);
-<a name="l00224"></a>00224   <span class="keywordflow">return</span> <a class="code" href="action_8inc_8php.html#a15">$a</a>;
+<a name="l00223"></a>00223   <a class="code" href="action_8inc_8php.html#a16">$a</a>=array($array,$tot_deb,$tot_cred);
+<a name="l00224"></a>00224   <span class="keywordflow">return</span> <a class="code" href="action_8inc_8php.html#a16">$a</a>;
 <a name="l00225"></a>00225   }
 <a name="l00243"></a><a class="code" href="classjrn.html#a3">00243</a>   function <a class="code" href="classjrn.html#a3">GetRowSimple</a>($p_from,$p_to,$cent='off',$p_limit=-1,$p_offset=-1) 
 <a name="l00244"></a>00244   {
@@ -294,10 +294,10 @@
 <a name="l00326"></a>00326         <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=pg_fetch_all($r);
 <a name="l00327"></a>00327         <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_jrn',__LINE__,$Res);
 <a name="l00328"></a>00328         <span class="keywordflow">if</span> ( <span class="keyword">sizeof</span>($Res) == 0 ) <span class="keywordflow">return</span> 1;
-<a name="l00329"></a>00329         <span class="keywordflow">return</span> <a class="code" href="depense_8inc_8php.html#a3">$Res</a>[0]['<a class="code" href="action_8inc_8php.html#a4">value</a>'];
+<a name="l00329"></a>00329         <span class="keywordflow">return</span> <a class="code" href="depense_8inc_8php.html#a3">$Res</a>[0]['<a class="code" href="action_8inc_8php.html#a5">value</a>'];
 <a name="l00330"></a>00330 }
 <a name="l00331"></a>00331 }
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 20:41:33 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sun Jun 25 23:05:35 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

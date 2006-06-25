@@ -54,11 +54,11 @@
 <a name="l00057"></a>00057   <a class="code" href="debug_8php.html#a0">echo_debug</a>('print_balance.php',__LINE__,<span class="stringliteral">"key =&gt; $key element $element"</span>);
 <a name="l00058"></a>00058 }
 <a name="l00059"></a>00059 <span class="comment">// if centralized</span>
-<a name="l00060"></a><a class="code" href="print__balance_8php.html#a5">00060</a> <a class="code" href="balance_8php.html#a8">$t_cent</a>=<span class="stringliteral">""</span>;
+<a name="l00060"></a><a class="code" href="print__balance_8php.html#a5">00060</a> <a class="code" href="balance_8php.html#a9">$t_cent</a>=<span class="stringliteral">""</span>;
 <a name="l00061"></a>00061 
 <a name="l00062"></a>00062 <span class="keywordflow">if</span> ( isset($central) ) {
 <a name="l00063"></a>00063     <a class="code" href="bal__csv_8php.html#a3">$bal</a>-&gt;central=<span class="charliteral">'Y'</span>;
-<a name="l00064"></a>00064     <a class="code" href="balance_8php.html#a8">$t_cent</a>=<span class="stringliteral">"centralisée"</span>;
+<a name="l00064"></a>00064     <a class="code" href="balance_8php.html#a9">$t_cent</a>=<span class="stringliteral">"centralisée"</span>;
 <a name="l00065"></a>00065  }
 <a name="l00066"></a>00066  <span class="keywordflow">else</span> 
 <a name="l00067"></a>00067   <a class="code" href="bal__csv_8php.html#a3">$bal</a>-&gt;central=<span class="charliteral">'N'</span>;
@@ -74,20 +74,20 @@
 <a name="l00077"></a>00077   <a class="code" href="balance_8php.html#a0">exit</a>();
 <a name="l00078"></a>00078   
 <a name="l00079"></a>00079  }
-<a name="l00080"></a><a class="code" href="print__balance_8php.html#a6">00080</a> <a class="code" href="action_8inc_8php.html#a15">$a</a>=<a class="code" href="preference_8php.html#a2">GetPeriode</a>($cn,$from_periode);
-<a name="l00081"></a><a class="code" href="print__balance_8php.html#a7">00081</a> <a class="code" href="balance_8php.html#a10">$b</a>=<a class="code" href="preference_8php.html#a2">GetPeriode</a>($cn,$to_periode);
-<a name="l00082"></a><a class="code" href="print__balance_8php.html#a8">00082</a> <a class="code" href="print__balance_8php.html#a8">$per_text</a>=<span class="stringliteral">" période du "</span>.$a['p_start'].<span class="stringliteral">" au "</span>.<a class="code" href="balance_8php.html#a10">$b</a>['p_end'];
+<a name="l00080"></a><a class="code" href="print__balance_8php.html#a6">00080</a> <a class="code" href="action_8inc_8php.html#a16">$a</a>=<a class="code" href="preference_8php.html#a2">GetPeriode</a>($cn,$from_periode);
+<a name="l00081"></a><a class="code" href="print__balance_8php.html#a7">00081</a> <a class="code" href="balance_8php.html#a11">$b</a>=<a class="code" href="preference_8php.html#a2">GetPeriode</a>($cn,$to_periode);
+<a name="l00082"></a><a class="code" href="print__balance_8php.html#a8">00082</a> <a class="code" href="print__balance_8php.html#a8">$per_text</a>=<span class="stringliteral">" période du "</span>.$a['p_start'].<span class="stringliteral">" au "</span>.<a class="code" href="balance_8php.html#a11">$b</a>['p_end'];
 <a name="l00083"></a><a class="code" href="print__balance_8php.html#a9">00083</a> <a class="code" href="readme_8php.html#a0">$pdf</a>=&amp; <span class="keyword">new</span> <a class="code" href="classCezpdf.html">Cezpdf</a>('a4');
 <a name="l00084"></a>00084 <a class="code" href="readme_8php.html#a0">$pdf</a>-&gt;selectFont('./addon/fonts/Helvetica.afm');
 <a name="l00085"></a>00085 <a class="code" href="readme_8php.html#a0">$pdf</a>-&gt;ezSetCmMargins(2,2,2,2);
-<a name="l00086"></a>00086 <a class="code" href="readme_8php.html#a0">$pdf</a>-&gt;ezTable($array,array('<a class="code" href="classposte.html">poste</a>'=&gt;'Poste<span class="charliteral">','</span><a class="code" href="action_8inc_8php.html#a6">label</a>'=&gt;'Libellé<span class="charliteral">','</span>sum_deb'=&gt;'Total Débit',
+<a name="l00086"></a>00086 <a class="code" href="readme_8php.html#a0">$pdf</a>-&gt;ezTable($array,array('<a class="code" href="classposte.html">poste</a>'=&gt;'Poste<span class="charliteral">','</span><a class="code" href="action_8inc_8php.html#a7">label</a>'=&gt;'Libellé<span class="charliteral">','</span>sum_deb'=&gt;'Total Débit',
 <a name="l00087"></a>00087                            'sum_cred'=&gt;'Total crédit<span class="charliteral">','</span>solde_deb'=&gt;'Solde débiteur',
 <a name="l00088"></a>00088                            'solde_cred'=&gt;'Solde créditeur'),'<a class="code" href="classBalance.html">Balance</a> des comptes '.$t_cent.$per_text);
 <a name="l00089"></a>00089 <a class="code" href="readme_8php.html#a0">$pdf</a>-&gt;ezStream();
 <a name="l00090"></a>00090 
 <a name="l00091"></a>00091 
 <a name="l00092"></a>00092 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 20:41:32 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sun Jun 25 23:05:35 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

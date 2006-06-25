@@ -153,38 +153,44 @@
 <a name="l00158"></a><a class="code" href="parametre_8php.html#a11">00158</a>     <a class="code" href="user__action__ach_8php.html#a19">$m</a>-&gt;MY_NUMBER=$p_no;
 <a name="l00159"></a><a class="code" href="parametre_8php.html#a12">00159</a>     <a class="code" href="user__action__ach_8php.html#a19">$m</a>-&gt;MY_CP=$p_cp;
 <a name="l00160"></a><a class="code" href="parametre_8php.html#a13">00160</a>     <a class="code" href="user__action__ach_8php.html#a19">$m</a>-&gt;MY_COMMUNE=$p_Commune;
-<a name="l00161"></a>00161     <a class="code" href="user__action__ach_8php.html#a19">$m</a>-&gt;Save();
-<a name="l00162"></a>00162   }
-<a name="l00163"></a>00163 
-<a name="l00164"></a><a class="code" href="parametre_8php.html#a14">00164</a>   <a class="code" href="parametre_8php.html#a14">$my</a>=<span class="keyword">new</span> <a class="code" href="classOwn.html">Own</a>($cn);
-<a name="l00165"></a><a class="code" href="parametre_8php.html#a15">00165</a>   <a class="code" href="fiche__def_8inc_8php.html#a5">$all</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"text"</span>);
-<a name="l00166"></a><a class="code" href="parametre_8php.html#a16">00166</a>   <a class="code" href="fiche__def_8inc_8php.html#a5">$all</a>-&gt;table=1;
-<a name="l00167"></a>00167   echo '&lt;form method=<span class="stringliteral">"post"</span> action=<span class="stringliteral">"?p_action=company"</span>&gt;';
-<a name="l00168"></a>00168   echo <span class="stringliteral">"&lt;table class=\"result\"&gt;"</span>;
-<a name="l00169"></a>00169   echo <span class="stringliteral">"&lt;tr&gt;"</span>.$all-&gt;IOValue(<span class="stringliteral">"p_name"</span>,$my-&gt;MY_NAME,<span class="stringliteral">"Nom société"</span>).<span class="stringliteral">"&lt;/tr&gt;"</span>;
-<a name="l00170"></a>00170 
-<a name="l00171"></a>00171   echo <span class="stringliteral">"&lt;tr&gt;"</span>.$all-&gt;IOValue(<span class="stringliteral">"p_tva"</span>,$my-&gt;MY_TVA,<span class="stringliteral">"Numéro de Tva"</span>).<span class="stringliteral">"&lt;/tr&gt;"</span>;
-<a name="l00172"></a>00172   echo <span class="stringliteral">"&lt;tr&gt;"</span>.$all-&gt;IOValue(<span class="stringliteral">"p_street"</span>,$my-&gt;MY_STREET,<span class="stringliteral">"Rue "</span>).<span class="stringliteral">"&lt;/tr&gt;"</span>;
-<a name="l00173"></a>00173   echo <span class="stringliteral">"&lt;tr&gt;"</span>.$all-&gt;IOValue(<span class="stringliteral">"p_no"</span>,$my-&gt;MY_NUMBER,<span class="stringliteral">"Numéro"</span>).<span class="stringliteral">"&lt;/tr&gt;"</span>;
-<a name="l00174"></a>00174   echo <span class="stringliteral">"&lt;tr&gt;"</span>.$all-&gt;IOValue(<span class="stringliteral">"p_cp"</span>,$my-&gt;MY_CP,<span class="stringliteral">"Code Postal"</span>).<span class="stringliteral">"&lt;/tr&gt;"</span>;
-<a name="l00175"></a>00175   echo <span class="stringliteral">"&lt;tr&gt;"</span>.$all-&gt;IOValue(<span class="stringliteral">"p_Commune"</span>,$my-&gt;MY_COMMUNE,<span class="stringliteral">"Commune"</span>).<span class="stringliteral">"&lt;/tr&gt;"</span>;
-<a name="l00176"></a>00176   echo <span class="stringliteral">"&lt;/table&gt;"</span>;
-<a name="l00177"></a><a class="code" href="parametre_8php.html#a17">00177</a>   <a class="code" href="bank_8inc_8php.html#a16">$submit</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"submit"</span>);
-<a name="l00178"></a>00178   echo <a class="code" href="bank_8inc_8php.html#a16">$submit</a>-&gt;Submit(<span class="stringliteral">"record_company"</span>,<span class="stringliteral">"Enregistre"</span>);
-<a name="l00179"></a>00179   echo <span class="stringliteral">"&lt;/form&gt;"</span>;
-<a name="l00180"></a>00180  }
-<a name="l00182"></a>00182 <span class="comment">// Document </span>
-<a name="l00184"></a>00184 <span class="comment"></span>echo <span class="stringliteral">"&lt;/DIV&gt;"</span>;
-<a name="l00185"></a>00185 <span class="keywordflow">if</span> ( $p_action == 'document' ) {
-<a name="l00186"></a>00186   echo '&lt;div <span class="keyword">class</span>=<span class="stringliteral">"u_content"</span>&gt;';
-<a name="l00187"></a>00187   require_once('document_modele.inc.php');
-<a name="l00188"></a>00188   echo '&lt;/div&gt;';
-<a name="l00189"></a>00189 }  
-<a name="l00190"></a>00190 
-<a name="l00191"></a>00191 
-<a name="l00192"></a>00192 <a class="code" href="ac__common_8php.html#a6">html_page_stop</a>();
-<a name="l00193"></a>00193 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 20:41:32 2006 for phpcompta by&nbsp;
+<a name="l00161"></a><a class="code" href="parametre_8php.html#a14">00161</a>     <a class="code" href="user__action__ach_8php.html#a19">$m</a>-&gt;MY_TEL=$p_tel;
+<a name="l00162"></a><a class="code" href="parametre_8php.html#a15">00162</a>     <a class="code" href="user__action__ach_8php.html#a19">$m</a>-&gt;MY_FAX=$p_fax;
+<a name="l00163"></a><a class="code" href="parametre_8php.html#a16">00163</a>     <a class="code" href="user__action__ach_8php.html#a19">$m</a>-&gt;MY_PAYS=$p_pays;
+<a name="l00164"></a>00164     <a class="code" href="user__action__ach_8php.html#a19">$m</a>-&gt;Save();
+<a name="l00165"></a>00165   }
+<a name="l00166"></a>00166 
+<a name="l00167"></a><a class="code" href="parametre_8php.html#a17">00167</a>   <a class="code" href="parametre_8php.html#a17">$my</a>=<span class="keyword">new</span> <a class="code" href="classOwn.html">Own</a>($cn);
+<a name="l00168"></a><a class="code" href="parametre_8php.html#a18">00168</a>   <a class="code" href="fiche__def_8inc_8php.html#a5">$all</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"text"</span>);
+<a name="l00169"></a><a class="code" href="parametre_8php.html#a19">00169</a>   <a class="code" href="fiche__def_8inc_8php.html#a5">$all</a>-&gt;table=1;
+<a name="l00170"></a>00170   echo '&lt;form method=<span class="stringliteral">"post"</span> action=<span class="stringliteral">"?p_action=company"</span>&gt;';
+<a name="l00171"></a>00171   echo <span class="stringliteral">"&lt;table class=\"result\"&gt;"</span>;
+<a name="l00172"></a>00172   echo <span class="stringliteral">"&lt;tr&gt;"</span>.$all-&gt;IOValue(<span class="stringliteral">"p_name"</span>,$my-&gt;MY_NAME,<span class="stringliteral">"Nom société"</span>).<span class="stringliteral">"&lt;/tr&gt;"</span>;
+<a name="l00173"></a>00173   echo <span class="stringliteral">"&lt;tr&gt;"</span>.$all-&gt;IOValue(<span class="stringliteral">"p_tel"</span>,$my-&gt;MY_TEL,<span class="stringliteral">"Téléphone"</span>).<span class="stringliteral">"&lt;/tr&gt;"</span>;
+<a name="l00174"></a>00174   echo <span class="stringliteral">"&lt;tr&gt;"</span>.$all-&gt;IOValue(<span class="stringliteral">"p_fax"</span>,$my-&gt;MY_FAX,<span class="stringliteral">"Fax"</span>).<span class="stringliteral">"&lt;/tr&gt;"</span>;
+<a name="l00175"></a>00175   echo <span class="stringliteral">"&lt;tr&gt;"</span>.$all-&gt;IOValue(<span class="stringliteral">"p_street"</span>,$my-&gt;MY_STREET,<span class="stringliteral">"Rue "</span>).<span class="stringliteral">"&lt;/tr&gt;"</span>;
+<a name="l00176"></a>00176   echo <span class="stringliteral">"&lt;tr&gt;"</span>.$all-&gt;IOValue(<span class="stringliteral">"p_no"</span>,$my-&gt;MY_NUMBER,<span class="stringliteral">"Numéro"</span>).<span class="stringliteral">"&lt;/tr&gt;"</span>;
+<a name="l00177"></a>00177   echo <span class="stringliteral">"&lt;tr&gt;"</span>.$all-&gt;IOValue(<span class="stringliteral">"p_cp"</span>,$my-&gt;MY_CP,<span class="stringliteral">"Code Postal"</span>).<span class="stringliteral">"&lt;/tr&gt;"</span>;
+<a name="l00178"></a>00178   echo <span class="stringliteral">"&lt;tr&gt;"</span>.$all-&gt;IOValue(<span class="stringliteral">"p_Commune"</span>,$my-&gt;MY_COMMUNE,<span class="stringliteral">"Commune"</span>).<span class="stringliteral">"&lt;/tr&gt;"</span>;
+<a name="l00179"></a>00179   echo <span class="stringliteral">"&lt;tr&gt;"</span>.$all-&gt;IOValue(<span class="stringliteral">"p_pays"</span>,$my-&gt;MY_PAYS,<span class="stringliteral">"Pays"</span>).<span class="stringliteral">"&lt;/tr&gt;"</span>;
+<a name="l00180"></a>00180   echo <span class="stringliteral">"&lt;tr&gt;"</span>.$all-&gt;IOValue(<span class="stringliteral">"p_tva"</span>,$my-&gt;MY_TVA,<span class="stringliteral">"Numéro de Tva"</span>).<span class="stringliteral">"&lt;/tr&gt;"</span>;
+<a name="l00181"></a>00181 
+<a name="l00182"></a>00182   echo <span class="stringliteral">"&lt;/table&gt;"</span>;
+<a name="l00183"></a><a class="code" href="parametre_8php.html#a20">00183</a>   <a class="code" href="bank_8inc_8php.html#a16">$submit</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"submit"</span>);
+<a name="l00184"></a>00184   echo <a class="code" href="bank_8inc_8php.html#a16">$submit</a>-&gt;Submit(<span class="stringliteral">"record_company"</span>,<span class="stringliteral">"Enregistre"</span>);
+<a name="l00185"></a>00185   echo <span class="stringliteral">"&lt;/form&gt;"</span>;
+<a name="l00186"></a>00186  }
+<a name="l00188"></a>00188 <span class="comment">// Document </span>
+<a name="l00190"></a>00190 <span class="comment"></span>echo <span class="stringliteral">"&lt;/DIV&gt;"</span>;
+<a name="l00191"></a>00191 <span class="keywordflow">if</span> ( $p_action == 'document' ) {
+<a name="l00192"></a>00192   echo '&lt;div <span class="keyword">class</span>=<span class="stringliteral">"u_content"</span>&gt;';
+<a name="l00193"></a>00193   require_once('document_modele.inc.php');
+<a name="l00194"></a>00194   echo '&lt;/div&gt;';
+<a name="l00195"></a>00195 }  
+<a name="l00196"></a>00196 
+<a name="l00197"></a>00197 
+<a name="l00198"></a>00198 <a class="code" href="ac__common_8php.html#a6">html_page_stop</a>();
+<a name="l00199"></a>00199 ?&gt;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sun Jun 25 23:05:35 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

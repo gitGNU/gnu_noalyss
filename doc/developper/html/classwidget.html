@@ -17,7 +17,7 @@
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwidget.html#a2">IOValue</a> ($p_name=null, $<a class="el" href="poste_8inc_8php.html#a2">p_value</a>=null, $p_label=&quot;&quot;)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">create the corresponding INPUT tag  <a href="#a2"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">create the corresponding INPUT tag js_search_only only for searching a card no new button  <a href="#a2"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwidget.html#a3">debug</a> ()</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwidget.html#a4">Submit</a> ($p_name, $<a class="el" href="poste_8inc_8php.html#a2">p_value</a>)</td></tr>
@@ -49,6 +49,7 @@
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwidget.html#o11">$tabindex</a></td></tr>
 
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">special value js_search and js_search_only :you need to add a span widget the name of the js_* widget + '_label' , the member extra contains cred,deb to filter the search of cred of deb of a jrn or contains a string with a list of frd_id  <a href="#o11"></a><br></td></tr>
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 class widget This class is used to create all the HTML INPUT TYPE and some specials which works with javascript like js_search 
@@ -83,9 +84,9 @@ Definition at line <a class="el" href="class__widget_8php-source.html#l00032">32
 <p>
 
 <p>
-Definition at line <a class="el" href="class__widget_8php-source.html#l00059">59</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.
+Definition at line <a class="el" href="class__widget_8php-source.html#l00065">65</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.
 <p>
-References <a class="el" href="impress__poste_8php-source.html#l00136">disabled</a>, <a class="el" href="tva_8inc_8php-source.html#l00215">heigh</a>, <a class="el" href="action_8inc_8php-source.html#l00143">label</a>, <a class="el" href="ecrit__ouv_8php-source.html#l00070">readonly</a>, <a class="el" href="action_8inc_8php-source.html#l00165">selected</a>, <a class="el" href="tva_8inc_8php-source.html#l00212">size</a>, <a class="el" href="balance_8php-source.html#l00068">table</a>, <a class="el" href="action_8inc_8php-source.html#l00138">value</a>, and <a class="el" href="tva_8inc_8php-source.html#l00215">width</a>.    </td>
+References <a class="el" href="impress__poste_8php-source.html#l00144">disabled</a>, <a class="el" href="tva_8inc_8php-source.html#l00215">heigh</a>, <a class="el" href="action_8inc_8php-source.html#l00166">label</a>, <a class="el" href="ecrit__ouv_8php-source.html#l00071">readonly</a>, <a class="el" href="action_8inc_8php-source.html#l00188">selected</a>, <a class="el" href="tva_8inc_8php-source.html#l00212">size</a>, <a class="el" href="balance_8php-source.html#l00071">table</a>, <a class="el" href="action_8inc_8php-source.html#l00161">value</a>, and <a class="el" href="tva_8inc_8php-source.html#l00215">width</a>.    </td>
   </tr>
 </table>
 <hr><h2>Member Function Documentation</h2>
@@ -115,9 +116,9 @@ References <a class="el" href="impress__poste_8php-source.html#l00136">disabled<
 <p>
 
 <p>
-Definition at line <a class="el" href="class__widget_8php-source.html#l00371">371</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.
+Definition at line <a class="el" href="class__widget_8php-source.html#l00435">435</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.
 <p>
-References <a class="el" href="class__widget_8php-source.html#l00050">$readonly</a>, <a class="el" href="ecrit__ouv_8php-source.html#l00070">readonly</a>, and <a class="el" href="action_8inc_8php-source.html#l00138">value</a>.    </td>
+References <a class="el" href="class__widget_8php-source.html#l00056">$readonly</a>, <a class="el" href="ecrit__ouv_8php-source.html#l00071">readonly</a>, and <a class="el" href="action_8inc_8php-source.html#l00161">value</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a2"></a><!-- doxytag: member="widget::IOValue" ref="a2" args="($p_name=null, $p_value=null, $p_label=&quot;&quot;)" --><p>
@@ -160,7 +161,7 @@ References <a class="el" href="class__widget_8php-source.html#l00050">$readonly<
     <td>
 
 <p>
-create the corresponding INPUT tag 
+create the corresponding INPUT tag js_search_only only for searching a card no new button 
 <p>
 function IOValue($p_name,$p_value="",$p_label="")<p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
@@ -173,9 +174,9 @@ function IOValue($p_name,$p_value="",$p_label="")<p>
 <dl compact><dt><b>Returns:</b></dt><dd>string containing the tag</dd></dl>
 
 <p>
-Definition at line <a class="el" href="class__widget_8php-source.html#l00084">84</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.
+Definition at line <a class="el" href="class__widget_8php-source.html#l00090">90</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.
 <p>
-References <a class="el" href="fortis__be_8inc_8php-source.html#l00054">$check</a>, <a class="el" href="class__widget_8php-source.html#l00055">$disabled</a>, <a class="el" href="balance_8php-source.html#l00113">$i</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="impress__poste_8php-source.html#l00136">disabled</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="action_8inc_8php-source.html#l00143">label</a>, <a class="el" href="action_8inc_8php-source.html#l00137">name</a>, <a class="el" href="action_8inc_8php-source.html#l00165">selected</a>, and <a class="el" href="action_8inc_8php-source.html#l00138">value</a>.    </td>
+References <a class="el" href="fortis__be_8inc_8php-source.html#l00054">$check</a>, <a class="el" href="class__widget_8php-source.html#l00061">$disabled</a>, <a class="el" href="balance_8php-source.html#l00118">$i</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="impress__poste_8php-source.html#l00144">disabled</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="action_8inc_8php-source.html#l00166">label</a>, <a class="el" href="action_8inc_8php-source.html#l00160">name</a>, <a class="el" href="action_8inc_8php-source.html#l00188">selected</a>, and <a class="el" href="action_8inc_8php-source.html#l00161">value</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a5"></a><!-- doxytag: member="widget::Reset" ref="a5" args="($p_value)" --><p>
@@ -205,7 +206,7 @@ References <a class="el" href="fortis__be_8inc_8php-source.html#l00054">$check</
 <p>
 
 <p>
-Definition at line <a class="el" href="class__widget_8php-source.html#l00381">381</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.    </td>
+Definition at line <a class="el" href="class__widget_8php-source.html#l00445">445</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a1"></a><!-- doxytag: member="widget::SetReadOnly" ref="a1" args="($p_read)" --><p>
@@ -235,9 +236,9 @@ Definition at line <a class="el" href="class__widget_8php-source.html#l00381">38
 <p>
 
 <p>
-Definition at line <a class="el" href="class__widget_8php-source.html#l00072">72</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.
+Definition at line <a class="el" href="class__widget_8php-source.html#l00078">78</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.
 <p>
-References <a class="el" href="ecrit__ouv_8php-source.html#l00070">readonly</a>.    </td>
+References <a class="el" href="ecrit__ouv_8php-source.html#l00071">readonly</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a4"></a><!-- doxytag: member="widget::Submit" ref="a4" args="($p_name, $p_value)" --><p>
@@ -276,7 +277,7 @@ References <a class="el" href="ecrit__ouv_8php-source.html#l00070">readonly</a>.
 <p>
 
 <p>
-Definition at line <a class="el" href="class__widget_8php-source.html#l00378">378</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.    </td>
+Definition at line <a class="el" href="class__widget_8php-source.html#l00442">442</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.    </td>
   </tr>
 </table>
 <hr><h2>Field Documentation</h2>
@@ -286,7 +287,7 @@ Definition at line <a class="el" href="class__widget_8php-source.html#l00378">37
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">widget::$<a class="el" href="impress__poste_8php.html#a13">disabled</a>          </td>
+          <td class="md" nowrap valign="top">widget::$<a class="el" href="impress__poste_8php.html#a14">disabled</a>          </td>
         </tr>
       </table>
     </td>
@@ -302,9 +303,9 @@ Definition at line <a class="el" href="class__widget_8php-source.html#l00378">37
 <p>
 to disable the type
 <p>
-Definition at line <a class="el" href="class__widget_8php-source.html#l00055">55</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.
+Definition at line <a class="el" href="class__widget_8php-source.html#l00061">61</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.
 <p>
-Referenced by <a class="el" href="class__widget_8php-source.html#l00084">IOValue()</a>.    </td>
+Referenced by <a class="el" href="class__widget_8php-source.html#l00090">IOValue()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="o9"></a><!-- doxytag: member="widget::$extra" ref="o9" args="" --><p>
@@ -313,7 +314,7 @@ Referenced by <a class="el" href="class__widget_8php-source.html#l00084">IOValue
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">widget::$<a class="el" href="action_8inc_8php.html#a7">extra</a>          </td>
+          <td class="md" nowrap valign="top">widget::$<a class="el" href="contact_8inc_8php.html#a9">extra</a>          </td>
         </tr>
       </table>
     </td>
@@ -329,7 +330,7 @@ Referenced by <a class="el" href="class__widget_8php-source.html#l00084">IOValue
 <p>
 depends of the input type
 <p>
-Definition at line <a class="el" href="class__widget_8php-source.html#l00056">56</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.    </td>
+Definition at line <a class="el" href="class__widget_8php-source.html#l00062">62</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="o10"></a><!-- doxytag: member="widget::$extra2" ref="o10" args="" --><p>
@@ -338,7 +339,7 @@ Definition at line <a class="el" href="class__widget_8php-source.html#l00056">56
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">widget::$<a class="el" href="action_8inc_8php.html#a8">extra2</a>          </td>
+          <td class="md" nowrap valign="top">widget::$<a class="el" href="action_8inc_8php.html#a9">extra2</a>          </td>
         </tr>
       </table>
     </td>
@@ -354,7 +355,7 @@ Definition at line <a class="el" href="class__widget_8php-source.html#l00056">56
 <p>
 depends of the input type
 <p>
-Definition at line <a class="el" href="class__widget_8php-source.html#l00057">57</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.    </td>
+Definition at line <a class="el" href="class__widget_8php-source.html#l00063">63</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="o7"></a><!-- doxytag: member="widget::$label" ref="o7" args="" --><p>
@@ -363,7 +364,7 @@ Definition at line <a class="el" href="class__widget_8php-source.html#l00057">57
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">widget::$<a class="el" href="ecrit__ouv_8php.html#a5">label</a>          </td>
+          <td class="md" nowrap valign="top">widget::$<a class="el" href="export__ouv_8php.html#a10">label</a>          </td>
         </tr>
       </table>
     </td>
@@ -379,7 +380,7 @@ Definition at line <a class="el" href="class__widget_8php-source.html#l00057">57
 <p>
 text before the input tag
 <p>
-Definition at line <a class="el" href="class__widget_8php-source.html#l00054">54</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.    </td>
+Definition at line <a class="el" href="class__widget_8php-source.html#l00060">60</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="o1"></a><!-- doxytag: member="widget::$name" ref="o1" args="" --><p>
@@ -404,7 +405,7 @@ Definition at line <a class="el" href="class__widget_8php-source.html#l00054">54
 <p>
 name of the input tag
 <p>
-Definition at line <a class="el" href="class__widget_8php-source.html#l00048">48</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.    </td>
+Definition at line <a class="el" href="class__widget_8php-source.html#l00054">54</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="o3"></a><!-- doxytag: member="widget::$readonly" ref="o3" args="" --><p>
@@ -429,9 +430,9 @@ Definition at line <a class="el" href="class__widget_8php-source.html#l00048">48
 <p>
 if set to false cannot modify
 <p>
-Definition at line <a class="el" href="class__widget_8php-source.html#l00050">50</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.
+Definition at line <a class="el" href="class__widget_8php-source.html#l00056">56</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.
 <p>
-Referenced by <a class="el" href="class__widget_8php-source.html#l00371">debug()</a>.    </td>
+Referenced by <a class="el" href="class__widget_8php-source.html#l00435">debug()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="o5"></a><!-- doxytag: member="widget::$selected" ref="o5" args="" --><p>
@@ -456,7 +457,7 @@ Referenced by <a class="el" href="class__widget_8php-source.html#l00371">debug()
 <p>
 selected value for the radio or select
 <p>
-Definition at line <a class="el" href="class__widget_8php-source.html#l00052">52</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.    </td>
+Definition at line <a class="el" href="class__widget_8php-source.html#l00058">58</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="o4"></a><!-- doxytag: member="widget::$size" ref="o4" args="" --><p>
@@ -481,7 +482,7 @@ Definition at line <a class="el" href="class__widget_8php-source.html#l00052">52
 <p>
 size for the text type
 <p>
-Definition at line <a class="el" href="class__widget_8php-source.html#l00051">51</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.    </td>
+Definition at line <a class="el" href="class__widget_8php-source.html#l00057">57</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="o11"></a><!-- doxytag: member="widget::$tabindex" ref="o11" args="" --><p>
@@ -504,9 +505,11 @@ Definition at line <a class="el" href="class__widget_8php-source.html#l00051">51
     <td>
 
 <p>
+special value js_search and js_search_only :you need to add a span widget the name of the js_* widget + '_label' , the member extra contains cred,deb to filter the search of cred of deb of a jrn or contains a string with a list of frd_id 
+<p>
 the tabindex
 <p>
-Definition at line <a class="el" href="class__widget_8php-source.html#l00058">58</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.    </td>
+Definition at line <a class="el" href="class__widget_8php-source.html#l00064">64</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="o6"></a><!-- doxytag: member="widget::$table" ref="o6" args="" --><p>
@@ -515,7 +518,7 @@ Definition at line <a class="el" href="class__widget_8php-source.html#l00058">58
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">widget::$<a class="el" href="parametre_8php.html#a16">table</a>          </td>
+          <td class="md" nowrap valign="top">widget::$<a class="el" href="parametre_8php.html#a19">table</a>          </td>
         </tr>
       </table>
     </td>
@@ -529,9 +532,9 @@ Definition at line <a class="el" href="class__widget_8php-source.html#l00058">58
     <td>
 
 <p>
-if we want to make a HTML table row
+if we want to make a HTML table row the value is return with &lt;TD&gt;
 <p>
-Definition at line <a class="el" href="class__widget_8php-source.html#l00053">53</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.    </td>
+Definition at line <a class="el" href="class__widget_8php-source.html#l00059">59</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="o0"></a><!-- doxytag: member="widget::$type" ref="o0" args="" --><p>
@@ -556,7 +559,7 @@ Definition at line <a class="el" href="class__widget_8php-source.html#l00053">53
 <p>
 type of the input tag (text, select, files, js_search,...)
 <p>
-Definition at line <a class="el" href="class__widget_8php-source.html#l00047">47</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.    </td>
+Definition at line <a class="el" href="class__widget_8php-source.html#l00053">53</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="o2"></a><!-- doxytag: member="widget::$value" ref="o2" args="" --><p>
@@ -581,12 +584,12 @@ Definition at line <a class="el" href="class__widget_8php-source.html#l00047">47
 <p>
 value
 <p>
-Definition at line <a class="el" href="class__widget_8php-source.html#l00049">49</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.    </td>
+Definition at line <a class="el" href="class__widget_8php-source.html#l00055">55</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.    </td>
   </tr>
 </table>
 <hr>The documentation for this class was generated from the following file:<ul>
 <li>/home/dany/developpement/phpcompta-dev/phpcompta/include/<a class="el" href="class__widget_8php-source.html">class_widget.php</a></ul>
-<hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 20:41:36 2006 for phpcompta by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Sun Jun 25 23:05:38 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

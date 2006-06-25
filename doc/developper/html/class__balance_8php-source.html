@@ -72,35 +72,35 @@
 <a name="l00084"></a>00084     <span class="comment">// Load the array</span>
 <a name="l00085"></a>00085     <span class="keywordflow">for</span> ($i=0; $i &lt;$M;$i++) {
 <a name="l00086"></a>00086       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=pg_fetch_array($Res,$i);
-<a name="l00087"></a>00087       <a class="code" href="action_8inc_8php.html#a15">$a</a>['<a class="code" href="classposte.html">poste</a>']=<a class="code" href="user__action__ach_8php.html#a2">$r</a>['j_poste'];
-<a name="l00088"></a>00088       <a class="code" href="action_8inc_8php.html#a15">$a</a>['<a class="code" href="action_8inc_8php.html#a6">label</a>']=substr(<a class="code" href="poste_8php.html#a0">GetPosteLibelle</a>($this-&gt;db,$r['j_poste'],1),0,40);
-<a name="l00089"></a>00089       <a class="code" href="action_8inc_8php.html#a15">$a</a>['sum_deb']=round($r['sum_deb'],2);
-<a name="l00090"></a>00090       <a class="code" href="action_8inc_8php.html#a15">$a</a>['sum_cred']=round($r['sum_cred'],2);
-<a name="l00091"></a>00091       <a class="code" href="action_8inc_8php.html#a15">$a</a>['solde_deb']=round(( $a['sum_deb']  &gt;=  $a['sum_cred'] )? $a['sum_deb']- $a['sum_cred']:0,2);
-<a name="l00092"></a>00092       <a class="code" href="action_8inc_8php.html#a15">$a</a>['solde_cred']=round(( $a['sum_deb'] &lt;=  $a['sum_cred'] )?$a['sum_cred']-$a['sum_deb']:0,2);
-<a name="l00093"></a>00093       <a class="code" href="recherche_8php.html#a4">$array</a>[<a class="code" href="balance_8php.html#a11">$i</a>]=<a class="code" href="action_8inc_8php.html#a15">$a</a>;
-<a name="l00094"></a>00094       $tot_cred+=  <a class="code" href="action_8inc_8php.html#a15">$a</a>['sum_cred'];
-<a name="l00095"></a>00095       $tot_deb+= <a class="code" href="action_8inc_8php.html#a15">$a</a>['sum_deb']; 
-<a name="l00096"></a>00096       $tot_deb_saldo+= <a class="code" href="action_8inc_8php.html#a15">$a</a>['solde_deb'];
-<a name="l00097"></a>00097       $tot_cred_saldo+= <a class="code" href="action_8inc_8php.html#a15">$a</a>['solde_cred'];
+<a name="l00087"></a>00087       <a class="code" href="action_8inc_8php.html#a16">$a</a>['<a class="code" href="classposte.html">poste</a>']=<a class="code" href="user__action__ach_8php.html#a2">$r</a>['j_poste'];
+<a name="l00088"></a>00088       <a class="code" href="action_8inc_8php.html#a16">$a</a>['<a class="code" href="action_8inc_8php.html#a7">label</a>']=substr(<a class="code" href="poste_8php.html#a0">GetPosteLibelle</a>($this-&gt;db,$r['j_poste'],1),0,40);
+<a name="l00089"></a>00089       <a class="code" href="action_8inc_8php.html#a16">$a</a>['sum_deb']=round($r['sum_deb'],2);
+<a name="l00090"></a>00090       <a class="code" href="action_8inc_8php.html#a16">$a</a>['sum_cred']=round($r['sum_cred'],2);
+<a name="l00091"></a>00091       <a class="code" href="action_8inc_8php.html#a16">$a</a>['solde_deb']=round(( $a['sum_deb']  &gt;=  $a['sum_cred'] )? $a['sum_deb']- $a['sum_cred']:0,2);
+<a name="l00092"></a>00092       <a class="code" href="action_8inc_8php.html#a16">$a</a>['solde_cred']=round(( $a['sum_deb'] &lt;=  $a['sum_cred'] )?$a['sum_cred']-$a['sum_deb']:0,2);
+<a name="l00093"></a>00093       <a class="code" href="recherche_8php.html#a4">$array</a>[<a class="code" href="balance_8php.html#a12">$i</a>]=<a class="code" href="action_8inc_8php.html#a16">$a</a>;
+<a name="l00094"></a>00094       $tot_cred+=  <a class="code" href="action_8inc_8php.html#a16">$a</a>['sum_cred'];
+<a name="l00095"></a>00095       $tot_deb+= <a class="code" href="action_8inc_8php.html#a16">$a</a>['sum_deb']; 
+<a name="l00096"></a>00096       $tot_deb_saldo+= <a class="code" href="action_8inc_8php.html#a16">$a</a>['solde_deb'];
+<a name="l00097"></a>00097       $tot_cred_saldo+= <a class="code" href="action_8inc_8php.html#a16">$a</a>['solde_cred'];
 <a name="l00098"></a>00098       
 <a name="l00099"></a>00099       
 <a name="l00100"></a>00100     }<span class="comment">//for i</span>
 <a name="l00101"></a>00101     <span class="comment">// Add the saldo</span>
-<a name="l00102"></a>00102     <a class="code" href="balance_8php.html#a11">$i</a>+=1;
-<a name="l00103"></a>00103     <a class="code" href="action_8inc_8php.html#a15">$a</a>['<a class="code" href="classposte.html">poste</a>']=<span class="stringliteral">""</span>;
-<a name="l00104"></a>00104     <a class="code" href="action_8inc_8php.html#a15">$a</a>['<a class="code" href="action_8inc_8php.html#a6">label</a>']=<span class="stringliteral">"&lt;b&gt; Totaux &lt;/b&gt;"</span>;
-<a name="l00105"></a>00105     <a class="code" href="action_8inc_8php.html#a15">$a</a>['sum_deb']=$tot_deb;
-<a name="l00106"></a>00106     <a class="code" href="action_8inc_8php.html#a15">$a</a>['sum_cred']=$tot_cred;
-<a name="l00107"></a>00107     <a class="code" href="action_8inc_8php.html#a15">$a</a>['solde_deb']=$tot_deb_saldo;
-<a name="l00108"></a>00108     <a class="code" href="action_8inc_8php.html#a15">$a</a>['solde_cred']=$tot_cred_saldo;
-<a name="l00109"></a>00109     <a class="code" href="recherche_8php.html#a4">$array</a>[<a class="code" href="balance_8php.html#a11">$i</a>]=<a class="code" href="action_8inc_8php.html#a15">$a</a>;
+<a name="l00102"></a>00102     <a class="code" href="balance_8php.html#a12">$i</a>+=1;
+<a name="l00103"></a>00103     <a class="code" href="action_8inc_8php.html#a16">$a</a>['<a class="code" href="classposte.html">poste</a>']=<span class="stringliteral">""</span>;
+<a name="l00104"></a>00104     <a class="code" href="action_8inc_8php.html#a16">$a</a>['<a class="code" href="action_8inc_8php.html#a7">label</a>']=<span class="stringliteral">"&lt;b&gt; Totaux &lt;/b&gt;"</span>;
+<a name="l00105"></a>00105     <a class="code" href="action_8inc_8php.html#a16">$a</a>['sum_deb']=$tot_deb;
+<a name="l00106"></a>00106     <a class="code" href="action_8inc_8php.html#a16">$a</a>['sum_cred']=$tot_cred;
+<a name="l00107"></a>00107     <a class="code" href="action_8inc_8php.html#a16">$a</a>['solde_deb']=$tot_deb_saldo;
+<a name="l00108"></a>00108     <a class="code" href="action_8inc_8php.html#a16">$a</a>['solde_cred']=$tot_cred_saldo;
+<a name="l00109"></a>00109     <a class="code" href="recherche_8php.html#a4">$array</a>[<a class="code" href="balance_8php.html#a12">$i</a>]=<a class="code" href="action_8inc_8php.html#a16">$a</a>;
 <a name="l00110"></a>00110     $this-&gt;row=<a class="code" href="recherche_8php.html#a4">$array</a>;
 <a name="l00111"></a>00111     <span class="keywordflow">return</span> <a class="code" href="recherche_8php.html#a4">$array</a>;
 <a name="l00112"></a>00112 
 <a name="l00113"></a>00113   }
 <a name="l00114"></a>00114 }
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 20:41:33 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sun Jun 25 23:05:35 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

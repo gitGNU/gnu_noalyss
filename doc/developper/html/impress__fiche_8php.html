@@ -28,7 +28,7 @@
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">$w&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="impress__fiche_8php.html#a7">selected</a> = (isset($_POST['from_periode']))?$_POST['from_periode']:&quot;&quot;</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="impress__fiche_8php.html#a8">$periode_end</a> = make_array($cn,&quot;select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode order by p_id&quot;)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="impress__fiche_8php.html#a8">$periode_end</a> = make_array($cn,&quot;select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode $filter_year order by p_id&quot;)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="impress__fiche_8php.html#a9">$fiche</a> = new <a class="el" href="classfiche.html">fiche</a>($cn)</td></tr>
 
@@ -66,7 +66,7 @@
 <p>
 Definition at line <a class="el" href="impress__fiche_8php-source.html#l00026">26</a> of file <a class="el" href="impress__fiche_8php-source.html">impress_fiche.php</a>.
 <p>
-Referenced by <a class="el" href="class__user_8php-source.html#l00143">cl_user::Admin()</a>, <a class="el" href="class__user_8php-source.html#l00085">cl_user::Check()</a>, <a class="el" href="check__priv_8php-source.html#l00146">CheckAction()</a>, <a class="el" href="check__priv_8php-source.html#l00192">CheckDossier()</a>, <a class="el" href="check__priv_8php-source.html#l00167">CheckIsAdmin()</a>, <a class="el" href="check__priv_8php-source.html#l00046">CheckJrn()</a>, <a class="el" href="class__user_8php-source.html#l00040">cl_user::cl_user()</a>, <a class="el" href="postgres_8php-source.html#l00168">ExisteJnt()</a>, <a class="el" href="postgres_8php-source.html#l00179">ExistePriv()</a>, <a class="el" href="postgres_8php-source.html#l00117">GetAllUser()</a>, <a class="el" href="user__menu_8php-source.html#l00090">GetAvailableFolder()</a>, <a class="el" href="postgres_8php-source.html#l00201">GetDbId()</a>, <a class="el" href="postgres_8php-source.html#l00232">GetDossierName()</a>, <a class="el" href="class__user_8php-source.html#l00257">cl_user::GetGlobalPref()</a>, <a class="el" href="postgres_8php-source.html#l00190">GetJnt()</a>, <a class="el" href="jrn_8php-source.html#l00549">GetJrnProp()</a>, <a class="el" href="postgres_8php-source.html#l00273">GetLogin()</a>, <a class="el" href="poste_8php-source.html#l00062">GetNumberLine()</a>, <a class="el" href="poste_8php-source.html#l00036">GetPosteLibelle()</a>, <a class="el" href="postgres_8php-source.html#l00147">GetPriv()</a>, <a class="el" href="postgres_8php-source.html#l00134">GetUid()</a>, <a class="el" href="ac__common_8php-source.html#l00132">html_page_start()</a>, <a class="el" href="class__user_8php-source.html#l00299">cl_user::insert_default_global_pref()</a>, <a class="el" href="jrn_8php-source.html#l00038">RecordJrn()</a>, <a class="el" href="postgres_8php-source.html#l00032">ShowDossier()</a>, <a class="el" href="user__menu_8php-source.html#l00670">ShowMenuComptaForm()</a>, <a class="el" href="user__menu_8php-source.html#l00514">ShowMenuFiche()</a>, <a class="el" href="postgres_8php-source.html#l00289">SyncRight()</a>, <a class="el" href="class__user_8php-source.html#l00331">cl_user::update_global_pref()</a>, and <a class="el" href="jrn_8php-source.html#l00583">ViewJrn()</a>.    </td>
+Referenced by <a class="el" href="class__user_8php-source.html#l00143">cl_user::Admin()</a>, <a class="el" href="class__user_8php-source.html#l00085">cl_user::Check()</a>, <a class="el" href="check__priv_8php-source.html#l00146">CheckAction()</a>, <a class="el" href="check__priv_8php-source.html#l00192">CheckDossier()</a>, <a class="el" href="check__priv_8php-source.html#l00167">CheckIsAdmin()</a>, <a class="el" href="check__priv_8php-source.html#l00046">CheckJrn()</a>, <a class="el" href="class__user_8php-source.html#l00040">cl_user::cl_user()</a>, <a class="el" href="postgres_8php-source.html#l00168">ExisteJnt()</a>, <a class="el" href="postgres_8php-source.html#l00179">ExistePriv()</a>, <a class="el" href="postgres_8php-source.html#l00117">GetAllUser()</a>, <a class="el" href="user__menu_8php-source.html#l00090">GetAvailableFolder()</a>, <a class="el" href="postgres_8php-source.html#l00201">GetDbId()</a>, <a class="el" href="postgres_8php-source.html#l00232">GetDossierName()</a>, <a class="el" href="class__user_8php-source.html#l00257">cl_user::GetGlobalPref()</a>, <a class="el" href="postgres_8php-source.html#l00190">GetJnt()</a>, <a class="el" href="jrn_8php-source.html#l00549">GetJrnProp()</a>, <a class="el" href="postgres_8php-source.html#l00273">GetLogin()</a>, <a class="el" href="poste_8php-source.html#l00062">GetNumberLine()</a>, <a class="el" href="poste_8php-source.html#l00036">GetPosteLibelle()</a>, <a class="el" href="postgres_8php-source.html#l00147">GetPriv()</a>, <a class="el" href="postgres_8php-source.html#l00134">GetUid()</a>, <a class="el" href="ac__common_8php-source.html#l00133">html_page_start()</a>, <a class="el" href="class__user_8php-source.html#l00299">cl_user::insert_default_global_pref()</a>, <a class="el" href="jrn_8php-source.html#l00038">RecordJrn()</a>, <a class="el" href="postgres_8php-source.html#l00032">ShowDossier()</a>, <a class="el" href="user__menu_8php-source.html#l00682">ShowMenuComptaForm()</a>, <a class="el" href="user__menu_8php-source.html#l00526">ShowMenuFiche()</a>, <a class="el" href="postgres_8php-source.html#l00289">SyncRight()</a>, <a class="el" href="class__user_8php-source.html#l00331">cl_user::update_global_pref()</a>, and <a class="el" href="jrn_8php-source.html#l00583">ViewJrn()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a10"></a><!-- doxytag: member="impress_fiche.php::$e" ref="a10" args="" --><p>
@@ -91,9 +91,9 @@ Referenced by <a class="el" href="class__user_8php-source.html#l00143">cl_user::
 <p>
 
 <p>
-Definition at line <a class="el" href="impress__fiche_8php-source.html#l00079">79</a> of file <a class="el" href="impress__fiche_8php-source.html">impress_fiche.php</a>.
+Definition at line <a class="el" href="impress__fiche_8php-source.html#l00082">82</a> of file <a class="el" href="impress__fiche_8php-source.html">impress_fiche.php</a>.
 <p>
-Referenced by <a class="el" href="class__fiche_8php-source.html#l00188">fiche::getAttribut()</a>, <a class="el" href="user__common_8php-source.html#l00862">jrn_navigation_bar()</a>, <a class="el" href="impress__inc_8php-source.html#l00724">ParseFormula()</a>, <a class="el" href="user__form__fin_8php-source.html#l00358">RecordFin()</a>, <a class="el" href="user__form__ven_8php-source.html#l00627">RecordInvoice()</a>, <a class="el" href="jrn_8php-source.html#l00038">RecordJrn()</a>, <a class="el" href="user__form__ods_8php-source.html#l00247">RecordODS()</a>, <a class="el" href="user__form__ach_8php-source.html#l00661">RecordSell()</a>, <a class="el" href="class__fiche_8php-source.html#l00364">fiche::strAttribut()</a>, <a class="el" href="class__supplier_8php-source.html#l00083">Supplier::Summary()</a>, <a class="el" href="class__customer_8php-source.html#l00195">Customer::Summary()</a>, <a class="el" href="class__admin_8php-source.html#l00065">Admin::Summary()</a>, and <a class="el" href="class__customer_8php-source.html#l00084">Customer::VatListing()</a>.    </td>
+Referenced by <a class="el" href="class__fiche_8php-source.html#l00188">fiche::getAttribut()</a>, <a class="el" href="user__common_8php-source.html#l00858">jrn_navigation_bar()</a>, <a class="el" href="impress__inc_8php-source.html#l00724">ParseFormula()</a>, <a class="el" href="user__form__fin_8php-source.html#l00358">RecordFin()</a>, <a class="el" href="user__form__ven_8php-source.html#l00627">RecordInvoice()</a>, <a class="el" href="jrn_8php-source.html#l00038">RecordJrn()</a>, <a class="el" href="user__form__ods_8php-source.html#l00247">RecordODS()</a>, <a class="el" href="user__form__ach_8php-source.html#l00661">RecordSell()</a>, <a class="el" href="class__fiche_8php-source.html#l00364">fiche::strAttribut()</a>, <a class="el" href="class__supplier_8php-source.html#l00083">Supplier::Summary()</a>, <a class="el" href="class__customer_8php-source.html#l00195">Customer::Summary()</a>, <a class="el" href="class__admin_8php-source.html#l00065">Admin::Summary()</a>, and <a class="el" href="class__customer_8php-source.html#l00084">Customer::VatListing()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a9"></a><!-- doxytag: member="impress_fiche.php::$fiche" ref="a9" args="" --><p>
@@ -118,7 +118,7 @@ Referenced by <a class="el" href="class__fiche_8php-source.html#l00188">fiche::g
 <p>
 
 <p>
-Definition at line <a class="el" href="impress__fiche_8php-source.html#l00078">78</a> of file <a class="el" href="impress__fiche_8php-source.html">impress_fiche.php</a>.
+Definition at line <a class="el" href="impress__fiche_8php-source.html#l00081">81</a> of file <a class="el" href="impress__fiche_8php-source.html">impress_fiche.php</a>.
 <p>
 Referenced by <a class="el" href="user__form__ach_8php-source.html#l00044">FormAchInput()</a>, <a class="el" href="user__form__ven_8php-source.html#l00043">FormVenInput()</a>, and <a class="el" href="action_8inc_8php-source.html#l00037">ShowActionList()</a>.    </td>
   </tr>
@@ -172,7 +172,7 @@ Definition at line <a class="el" href="impress__fiche_8php-source.html#l00040">4
 <p>
 Definition at line <a class="el" href="impress__fiche_8php-source.html#l00038">38</a> of file <a class="el" href="impress__fiche_8php-source.html">impress_fiche.php</a>.
 <p>
-Referenced by <a class="el" href="class__fiche_8php-source.html#l00533">fiche::insert()</a>.    </td>
+Referenced by <a class="el" href="class__fiche_8php-source.html#l00540">fiche::insert()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a2"></a><!-- doxytag: member="impress_fiche.php::$hid" ref="a2" args="" --><p>
@@ -222,7 +222,7 @@ Definition at line <a class="el" href="impress__fiche_8php-source.html#l00037">3
 <p>
 
 <p>
-Definition at line <a class="el" href="impress__fiche_8php-source.html#l00080">80</a> of file <a class="el" href="impress__fiche_8php-source.html">impress_fiche.php</a>.    </td>
+Definition at line <a class="el" href="impress__fiche_8php-source.html#l00083">83</a> of file <a class="el" href="impress__fiche_8php-source.html">impress_fiche.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a12"></a><!-- doxytag: member="impress_fiche.php::$old" ref="a12" args="" --><p>
@@ -247,7 +247,7 @@ Definition at line <a class="el" href="impress__fiche_8php-source.html#l00080">8
 <p>
 
 <p>
-Definition at line <a class="el" href="impress__fiche_8php-source.html#l00082">82</a> of file <a class="el" href="impress__fiche_8php-source.html">impress_fiche.php</a>.
+Definition at line <a class="el" href="impress__fiche_8php-source.html#l00085">85</a> of file <a class="el" href="impress__fiche_8php-source.html">impress_fiche.php</a>.
 <p>
 Referenced by <a class="el" href="impress__inc_8php-source.html#l00372">CreatePeriodeCond()</a>.    </td>
   </tr>
@@ -258,7 +258,7 @@ Referenced by <a class="el" href="impress__inc_8php-source.html#l00372">CreatePe
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">$periode_end = make_array($cn,&quot;select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode order by p_id&quot;)          </td>
+          <td class="md" nowrap valign="top">$periode_end = make_array($cn,&quot;select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode $filter_year order by p_id&quot;)          </td>
         </tr>
       </table>
     </td>
@@ -274,7 +274,7 @@ Referenced by <a class="el" href="impress__inc_8php-source.html#l00372">CreatePe
 <p>
 
 <p>
-Definition at line <a class="el" href="impress__fiche_8php-source.html#l00065">65</a> of file <a class="el" href="impress__fiche_8php-source.html">impress_fiche.php</a>.    </td>
+Definition at line <a class="el" href="impress__fiche_8php-source.html#l00068">68</a> of file <a class="el" href="impress__fiche_8php-source.html">impress_fiche.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a13"></a><!-- doxytag: member="impress_fiche.php::$solde" ref="a13" args="" --><p>
@@ -302,7 +302,7 @@ Definition at line <a class="el" href="impress__fiche_8php-source.html#l00065">6
                                       $_REQUEST['to_periode'])
 </pre></div>
 <p>
-Definition at line <a class="el" href="impress__fiche_8php-source.html#l00110">110</a> of file <a class="el" href="impress__fiche_8php-source.html">impress_fiche.php</a>.
+Definition at line <a class="el" href="impress__fiche_8php-source.html#l00113">113</a> of file <a class="el" href="impress__fiche_8php-source.html">impress_fiche.php</a>.
 <p>
 Referenced by <a class="el" href="user__form__fin_8php-source.html#l00146">FormFin()</a>, and <a class="el" href="impress__inc_8php-source.html#l00117">ImpHtml()</a>.    </td>
   </tr>
@@ -404,10 +404,10 @@ Definition at line <a class="el" href="impress__fiche_8php-source.html#l00054">5
 <p>
 
 <p>
-Definition at line <a class="el" href="impress__fiche_8php-source.html#l00063">63</a> of file <a class="el" href="impress__fiche_8php-source.html">impress_fiche.php</a>.    </td>
+Definition at line <a class="el" href="impress__fiche_8php-source.html#l00066">66</a> of file <a class="el" href="impress__fiche_8php-source.html">impress_fiche.php</a>.    </td>
   </tr>
 </table>
-<hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 20:41:34 2006 for phpcompta by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Sun Jun 25 23:05:36 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

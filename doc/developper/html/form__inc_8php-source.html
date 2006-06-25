@@ -33,7 +33,7 @@
 <a name="l00034"></a><a class="code" href="form__inc_8php.html#a0">00034</a> function <a class="code" href="form__inc_8php.html#a0">EncodeForm</a>($p_line,$p_sessid,$p_array=null) {
 <a name="l00035"></a>00035   <span class="comment">//  echo '&lt;SCRIPT LANGUAGE="javascript" SRC="win_search_poste.js"&gt;&lt;/SCRIPT&gt;';</span>
 <a name="l00036"></a>00036   include_once(<span class="stringliteral">"constant.php"</span>);
-<a name="l00037"></a>00037   echo <a class="code" href="constant_8php.html#a73">JS_SEARCH_POSTE</a>;
+<a name="l00037"></a>00037   echo <a class="code" href="constant_8php.html#a74">JS_SEARCH_POSTE</a>;
 <a name="l00038"></a>00038    <a class="code" href="admin_8inc_8php.html#a8">$search</a>='&lt;INPUT TYPE=<span class="stringliteral">"BUTTON"</span> VALUE=<span class="stringliteral">"Cherche"</span> OnClick=<span class="stringliteral">"SearchPoste(\''.$p_sessid."</span><span class="charliteral">','</span>not')\<span class="stringliteral">"&gt;"</span>;
 <a name="l00039"></a>00039   <span class="keywordflow">for</span> ( $i =0 ; $i &lt;= $p_line; $i++) {
 <a name="l00040"></a>00040     ${<span class="stringliteral">"text$i"</span>}=<span class="stringliteral">""</span>;
@@ -55,9 +55,9 @@
 <a name="l00056"></a>00056   echo <span class="stringliteral">"&lt;FORM ACTION=\"form.php\" METHOD=\"POST\"&gt;"</span>;
 <a name="l00057"></a>00057   printf (<span class="stringliteral">"Nom du rapport : &lt;INPUT TYPE=\"TEXT\" NAME=\"form_nom\" VALUE=\"%s\"&gt;"</span>,
 <a name="l00058"></a>00058           $form_nom);
-<a name="l00059"></a>00059   printf ('&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> NAME=<span class="stringliteral">"line"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"%s"</span>',
+<a name="l00059"></a>00059   printf ('&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> NAME=<span class="stringliteral">"line"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"%s"</span>',
 <a name="l00060"></a>00060           $p_line);
-<a name="l00061"></a>00061 <span class="keywordflow">if</span> ( isset ($fr_id))   printf ('&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> NAME=<span class="stringliteral">"fr_id"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"%s"</span>',
+<a name="l00061"></a>00061 <span class="keywordflow">if</span> ( isset ($fr_id))   printf ('&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> NAME=<span class="stringliteral">"fr_id"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"%s"</span>',
 <a name="l00062"></a>00062           $fr_id);
 <a name="l00063"></a>00063 
 <a name="l00064"></a>00064   echo '&lt;TABLE&gt;';
@@ -94,12 +94,12 @@
 <a name="l00095"></a>00095   }
 <a name="l00096"></a>00096   echo <span class="stringliteral">"&lt;/TABLE&gt;"</span>;
 <a name="l00097"></a>00097   <span class="keywordflow">if</span> ( isset($fr_id)){
-<a name="l00098"></a>00098     echo '&lt;INPUT TYPE=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"Enregistre"</span> <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"update"</span>&gt;';
+<a name="l00098"></a>00098     echo '&lt;INPUT TYPE=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"Enregistre"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"update"</span>&gt;';
 <a name="l00099"></a>00099   }<span class="keywordflow">else</span> {
-<a name="l00100"></a>00100     echo '&lt;INPUT TYPE=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"Enregistre"</span> <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"record"</span>&gt;';
+<a name="l00100"></a>00100     echo '&lt;INPUT TYPE=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"Enregistre"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"record"</span>&gt;';
 <a name="l00101"></a>00101   }
-<a name="l00102"></a>00102   echo '&lt;INPUT TYPE=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"Ajoute une ligne"</span> <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"add_line"</span>&gt;';
-<a name="l00103"></a>00103   echo '&lt;INPUT TYPE=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"Efface ce rapport"</span> <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"del_form"</span>&gt;';
+<a name="l00102"></a>00102   echo '&lt;INPUT TYPE=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"Ajoute une ligne"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"add_line"</span>&gt;';
+<a name="l00103"></a>00103   echo '&lt;INPUT TYPE=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"Efface ce rapport"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"del_form"</span>&gt;';
 <a name="l00104"></a>00104 
 <a name="l00105"></a>00105   echo <span class="stringliteral">"&lt;/FORM&gt;"</span>;
 <a name="l00106"></a>00106 
@@ -162,10 +162,10 @@
 <a name="l00216"></a>00216   <span class="keywordflow">for</span> ($i =0; $i &lt;$line;$i++) {
 <a name="l00217"></a>00217     <a class="code" href="debug_8php.html#a0">echo_debug</a> (<span class="stringliteral">"position ="</span>.${<span class="stringliteral">"pos$i"</span>});
 <a name="l00218"></a>00218     <span class="keywordflow">if</span> ( (string) ${<span class="stringliteral">"pos$i"</span>} != (string) (<span class="keywordtype">int</span>) ${<span class="stringliteral">"pos$i"</span>}) {
-<a name="l00219"></a>00219       ${<span class="stringliteral">"pos$i"</span>}=<a class="code" href="balance_8php.html#a11">$i</a>+1;
+<a name="l00219"></a>00219       ${<span class="stringliteral">"pos$i"</span>}=<a class="code" href="balance_8php.html#a12">$i</a>+1;
 <a name="l00220"></a>00220     }
 <a name="l00221"></a>00221     <span class="keywordflow">if</span> ( ${<span class="stringliteral">"pos$i"</span>} &gt; $line || ${<span class="stringliteral">"pos$i"</span>} &lt; 0) { 
-<a name="l00222"></a>00222       ${<span class="stringliteral">"pos$i"</span>}=<a class="code" href="balance_8php.html#a11">$i</a>+1;
+<a name="l00222"></a>00222       ${<span class="stringliteral">"pos$i"</span>}=<a class="code" href="balance_8php.html#a12">$i</a>+1;
 <a name="l00223"></a>00223       <a class="code" href="debug_8php.html#a0">echo_debug</a>('form_inc.php',__LINE__,<span class="stringliteral">"position trop grand max = $line+1 "</span>);
 <a name="l00224"></a>00224     }
 <a name="l00225"></a>00225   }
@@ -242,7 +242,7 @@
 <a name="l00303"></a>00303 }
 <a name="l00304"></a>00304 
 <a name="l00305"></a>00305 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 20:41:33 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sun Jun 25 23:05:35 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

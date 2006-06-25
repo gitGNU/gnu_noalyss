@@ -45,22 +45,22 @@
 <a name="l00050"></a>00050   
 <a name="l00051"></a>00051   <span class="keywordflow">if</span> ( ( $M = pg_NumRows($Res)) == 0 ) <span class="keywordflow">return</span> null;
 <a name="l00052"></a>00052   <span class="comment">// store it in a HTLM table</span>
-<a name="l00053"></a>00053   <a class="code" href="export__ouv_8php.html#a8">$result</a>=<span class="stringliteral">"&lt;table&gt;"</span>;
-<a name="l00054"></a>00054   <a class="code" href="export__ouv_8php.html#a8">$result</a>.=<span class="stringliteral">"&lt;tr&gt;"</span>;
-<a name="l00055"></a>00055   <a class="code" href="export__ouv_8php.html#a8">$result</a>.='&lt;th&gt;Code&lt;/th&gt;';
-<a name="l00056"></a>00056   <a class="code" href="export__ouv_8php.html#a8">$result</a>.='&lt;th&gt;Noms&lt;/th&gt;';
-<a name="l00057"></a>00057   <a class="code" href="export__ouv_8php.html#a8">$result</a>.='&lt;th&gt;Entrée&lt;/th&gt;';
-<a name="l00058"></a>00058   <a class="code" href="export__ouv_8php.html#a8">$result</a>.='&lt;th&gt;Sortie&lt;/th&gt;';
-<a name="l00059"></a>00059   <a class="code" href="export__ouv_8php.html#a8">$result</a>.='&lt;th&gt;Solde&lt;/th&gt;';
-<a name="l00060"></a>00060   <a class="code" href="export__ouv_8php.html#a8">$result</a>.=<span class="stringliteral">"&lt;/tr&gt;"</span>;
+<a name="l00053"></a>00053   <a class="code" href="export__ouv_8php.html#a9">$result</a>=<span class="stringliteral">"&lt;table&gt;"</span>;
+<a name="l00054"></a>00054   <a class="code" href="export__ouv_8php.html#a9">$result</a>.=<span class="stringliteral">"&lt;tr&gt;"</span>;
+<a name="l00055"></a>00055   <a class="code" href="export__ouv_8php.html#a9">$result</a>.='&lt;th&gt;Code&lt;/th&gt;';
+<a name="l00056"></a>00056   <a class="code" href="export__ouv_8php.html#a9">$result</a>.='&lt;th&gt;Noms&lt;/th&gt;';
+<a name="l00057"></a>00057   <a class="code" href="export__ouv_8php.html#a9">$result</a>.='&lt;th&gt;Entrée&lt;/th&gt;';
+<a name="l00058"></a>00058   <a class="code" href="export__ouv_8php.html#a9">$result</a>.='&lt;th&gt;Sortie&lt;/th&gt;';
+<a name="l00059"></a>00059   <a class="code" href="export__ouv_8php.html#a9">$result</a>.='&lt;th&gt;Solde&lt;/th&gt;';
+<a name="l00060"></a>00060   <a class="code" href="export__ouv_8php.html#a9">$result</a>.=<span class="stringliteral">"&lt;/tr&gt;"</span>;
 <a name="l00061"></a>00061 
 <a name="l00062"></a>00062   <span class="comment">// Sql result =&gt; table</span>
 <a name="l00063"></a>00063   <span class="keywordflow">for</span> ($i = 0; $i &lt; $M ; $i++ ) {
 <a name="l00064"></a>00064     <a class="code" href="user__action__ach_8php.html#a2">$r</a>=pg_fetch_array($Res,$i);
-<a name="l00065"></a>00065     <a class="code" href="export__ouv_8php.html#a8">$result</a>.=<span class="stringliteral">"&lt;TR&gt;"</span>;
+<a name="l00065"></a>00065     <a class="code" href="export__ouv_8php.html#a9">$result</a>.=<span class="stringliteral">"&lt;TR&gt;"</span>;
 <a name="l00066"></a>00066 
 <a name="l00067"></a>00067     <span class="comment">// sg_code  and link to details</span>
-<a name="l00068"></a>00068     <a class="code" href="export__ouv_8php.html#a8">$result</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.'&lt;a <span class="keyword">class</span>=<span class="stringliteral">"one"</span> 
+<a name="l00068"></a>00068     <a class="code" href="export__ouv_8php.html#a9">$result</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.'&lt;a <span class="keyword">class</span>=<span class="stringliteral">"one"</span> 
 <a name="l00069"></a>00069               HREF=<span class="stringliteral">"stock.php?action=detail&amp;sg_code='.$r['sg_code'].'&amp;year='.$p_year.'"</span>&gt;'. 
 <a name="l00070"></a>00070               <a class="code" href="user__action__ach_8php.html#a2">$r</a>['sg_code'].<span class="stringliteral">"&lt;/A&gt;&lt;/td&gt;"</span>;
 <a name="l00071"></a>00071 
@@ -72,26 +72,26 @@
 <a name="l00077"></a>00077         $name.=$element['av_text'].<span class="stringliteral">","</span>;
 <a name="l00078"></a>00078       }
 <a name="l00079"></a>00079     }<span class="comment">// if ( $a_name</span>
-<a name="l00080"></a>00080     <a class="code" href="export__ouv_8php.html#a8">$result</a>.=<span class="stringliteral">"&lt;td&gt; $name &lt;/td&gt;"</span>;
+<a name="l00080"></a>00080     <a class="code" href="export__ouv_8php.html#a9">$result</a>.=<span class="stringliteral">"&lt;td&gt; $name &lt;/td&gt;"</span>;
 <a name="l00081"></a>00081 
 <a name="l00082"></a>00082     <span class="comment">// Debit (in)</span>
 <a name="l00083"></a>00083     $deb=<a class="code" href="stock__inc_8php.html#a4">GetQuantity</a>($p_cn,$r['sg_code'],$p_year,<span class="charliteral">'d'</span>);
-<a name="l00084"></a>00084     <a class="code" href="export__ouv_8php.html#a8">$result</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.$deb.<span class="stringliteral">"&lt;/td&gt;"</span>;
+<a name="l00084"></a>00084     <a class="code" href="export__ouv_8php.html#a9">$result</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.$deb.<span class="stringliteral">"&lt;/td&gt;"</span>;
 <a name="l00085"></a>00085 
 <a name="l00086"></a>00086     <span class="comment">// Credit (out)</span>
 <a name="l00087"></a>00087     $cred=<a class="code" href="stock__inc_8php.html#a4">GetQuantity</a>($p_cn,$r['sg_code'],$p_year,<span class="charliteral">'c'</span>);
-<a name="l00088"></a>00088     <a class="code" href="export__ouv_8php.html#a8">$result</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.$cred.<span class="stringliteral">"&lt;/td&gt;"</span>;
+<a name="l00088"></a>00088     <a class="code" href="export__ouv_8php.html#a9">$result</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.$cred.<span class="stringliteral">"&lt;/td&gt;"</span>;
 <a name="l00089"></a>00089 
 <a name="l00090"></a>00090 
 <a name="l00091"></a>00091     <span class="comment">// diff</span>
 <a name="l00092"></a>00092     <a class="code" href="poste__csv_8php.html#a4">$diff</a>=$deb-$cred;
-<a name="l00093"></a>00093     <a class="code" href="export__ouv_8php.html#a8">$result</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.$diff.<span class="stringliteral">"&lt;/td&gt;"</span>;
-<a name="l00094"></a>00094     <a class="code" href="export__ouv_8php.html#a8">$result</a>.=<span class="stringliteral">"&lt;/tr&gt;"</span>;
+<a name="l00093"></a>00093     <a class="code" href="export__ouv_8php.html#a9">$result</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.$diff.<span class="stringliteral">"&lt;/td&gt;"</span>;
+<a name="l00094"></a>00094     <a class="code" href="export__ouv_8php.html#a9">$result</a>.=<span class="stringliteral">"&lt;/tr&gt;"</span>;
 <a name="l00095"></a>00095 
 <a name="l00096"></a>00096   }
-<a name="l00097"></a>00097       <a class="code" href="export__ouv_8php.html#a8">$result</a>.=<span class="stringliteral">"&lt;/table&gt;"</span>;
+<a name="l00097"></a>00097       <a class="code" href="export__ouv_8php.html#a9">$result</a>.=<span class="stringliteral">"&lt;/table&gt;"</span>;
 <a name="l00098"></a>00098 
-<a name="l00099"></a>00099   <span class="keywordflow">return</span> <a class="code" href="export__ouv_8php.html#a8">$result</a>;
+<a name="l00099"></a>00099   <span class="keywordflow">return</span> <a class="code" href="export__ouv_8php.html#a9">$result</a>;
 <a name="l00100"></a>00100 }
 <a name="l00111"></a><a class="code" href="stock__inc_8php.html#a1">00111</a> function <a class="code" href="stock__inc_8php.html#a1">getFicheNameCode</a> ($p_cn,$p_sg_code) {
 <a name="l00112"></a>00112   <span class="comment">// Sql stmt</span>
@@ -110,13 +110,13 @@
 <a name="l00125"></a>00125  <span class="comment">// Store in an array</span>
 <a name="l00126"></a>00126  <span class="keywordflow">for</span> ( $i=0; $i&lt;$M;$i++) {
 <a name="l00127"></a>00127    <a class="code" href="user__action__ach_8php.html#a2">$r</a>=pg_fetch_array($Res,$i);
-<a name="l00128"></a>00128    <a class="code" href="action_8inc_8php.html#a15">$a</a>['<a class="code" href="facture_8inc_8php.html#a19">f_id</a>']=<a class="code" href="user__action__ach_8php.html#a2">$r</a>['<a class="code" href="facture_8inc_8php.html#a19">f_id</a>'];
-<a name="l00129"></a>00129    <a class="code" href="action_8inc_8php.html#a15">$a</a>['av_text']=<a class="code" href="user__action__ach_8php.html#a2">$r</a>['av_text'];
-<a name="l00130"></a>00130    <a class="code" href="export__ouv_8php.html#a8">$result</a>[<a class="code" href="balance_8php.html#a11">$i</a>]=<a class="code" href="action_8inc_8php.html#a15">$a</a>;
+<a name="l00128"></a>00128    <a class="code" href="action_8inc_8php.html#a16">$a</a>['<a class="code" href="facture_8inc_8php.html#a19">f_id</a>']=<a class="code" href="user__action__ach_8php.html#a2">$r</a>['<a class="code" href="facture_8inc_8php.html#a19">f_id</a>'];
+<a name="l00129"></a>00129    <a class="code" href="action_8inc_8php.html#a16">$a</a>['av_text']=<a class="code" href="user__action__ach_8php.html#a2">$r</a>['av_text'];
+<a name="l00130"></a>00130    <a class="code" href="export__ouv_8php.html#a9">$result</a>[<a class="code" href="balance_8php.html#a12">$i</a>]=<a class="code" href="action_8inc_8php.html#a16">$a</a>;
 <a name="l00131"></a>00131 
 <a name="l00132"></a>00132  }
 <a name="l00133"></a>00133 
-<a name="l00134"></a>00134  <span class="keywordflow">return</span> <a class="code" href="export__ouv_8php.html#a8">$result</a>;
+<a name="l00134"></a>00134  <span class="keywordflow">return</span> <a class="code" href="export__ouv_8php.html#a9">$result</a>;
 <a name="l00135"></a>00135   
 <a name="l00136"></a>00136 }
 <a name="l00147"></a><a class="code" href="stock__inc_8php.html#a2">00147</a> function <a class="code" href="stock__inc_8php.html#a2">ViewDetailStock</a>($p_cn,$p_sg_code,$p_year) {
@@ -153,7 +153,7 @@
 <a name="l00178"></a>00178     }
 <a name="l00179"></a>00179   }<span class="comment">// if ( $a_name</span>
 <a name="l00180"></a>00180   <span class="comment">// Add java script for detail</span>
-<a name="l00181"></a>00181   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="constant_8php.html#a75">JS_VIEW_JRN_DETAIL</a>;
+<a name="l00181"></a>00181   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="constant_8php.html#a76">JS_VIEW_JRN_DETAIL</a>;
 <a name="l00182"></a>00182 
 <a name="l00183"></a>00183  <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;H2 <span class="keyword">class</span>=<span class="stringliteral">"info"</span>&gt;'.$p_sg_code.<span class="stringliteral">"  Noms : "</span>.$name.'&lt;/H2&gt;';
 <a name="l00184"></a>00184   
@@ -224,10 +224,10 @@
 <a name="l00259"></a><a class="code" href="stock__inc_8php.html#a3">00259</a> function <a class="code" href="stock__inc_8php.html#a3">ChangeStock</a>($p_sg_code,$p_year){
 <a name="l00260"></a>00260 $sg_date=date(<span class="stringliteral">"d.m.Y"</span>);
 <a name="l00261"></a>00261 <a class="code" href="user__action__ach_8php.html#a2">$r</a>='
-<a name="l00262"></a>00262 &lt;input type=<span class="stringliteral">"text"</span> <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"stock_change"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"0"</span>&gt;
-<a name="l00263"></a>00263 &lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"sg_code"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"'.$p_sg_code.'"</span>&gt;
-<a name="l00264"></a>00264 &lt;input type=<span class="stringliteral">"text"</span> <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"sg_date"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"'.$sg_date.'"</span>&gt;
-<a name="l00265"></a>00265 &lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"year"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"'.$p_year.'"</span>&gt;
+<a name="l00262"></a>00262 &lt;input type=<span class="stringliteral">"text"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"stock_change"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"0"</span>&gt;
+<a name="l00263"></a>00263 &lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"sg_code"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"'.$p_sg_code.'"</span>&gt;
+<a name="l00264"></a>00264 &lt;input type=<span class="stringliteral">"text"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"sg_date"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"'.$sg_date.'"</span>&gt;
+<a name="l00265"></a>00265 &lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"year"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"'.$p_year.'"</span>&gt;
 <a name="l00266"></a>00266 &lt;br&gt;
 <a name="l00267"></a>00267  ';
 <a name="l00268"></a>00268  <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
@@ -248,7 +248,7 @@
 <a name="l00288"></a>00288   <span class="keywordflow">return</span> $value['result'];
 <a name="l00289"></a>00289     
 <a name="l00290"></a>00290 }
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 20:41:33 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sun Jun 25 23:05:35 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

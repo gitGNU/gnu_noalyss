@@ -35,7 +35,7 @@
 <a name="l00034"></a><a class="code" href="classcontact.html#o0">00034</a>   var <a class="code" href="classcontact.html#o0">$company</a>; 
 <a name="l00036"></a><a class="code" href="classcontact.html#a0">00036</a>   function <a class="code" href="classcontact.html#a0">contact</a>($p_cn,$p_id=0)
 <a name="l00037"></a>00037     {
-<a name="l00038"></a>00038       $this-&gt;<a class="code" href="classfiche__def__ref.html">fiche_def_ref</a>=<a class="code" href="constant_8php.html#a67">FICHE_TYPE_CONTACT</a>;
+<a name="l00038"></a>00038       $this-&gt;<a class="code" href="classfiche__def__ref.html">fiche_def_ref</a>=<a class="code" href="constant_8php.html#a68">FICHE_TYPE_CONTACT</a>;
 <a name="l00039"></a>00039       <a class="code" href="classfiche.html#a0">fiche::fiche</a>($p_cn,$p_id) ;
 <a name="l00040"></a>00040       $this-&gt;company=<span class="stringliteral">""</span>;
 <a name="l00041"></a>00041     }
@@ -46,7 +46,7 @@
 <a name="l00054"></a>00054       <span class="keywordflow">if</span> ( $this-&gt;company != <span class="stringliteral">""</span>) 
 <a name="l00055"></a>00055         {
 <a name="l00056"></a>00056           $extra_sql=<span class="stringliteral">"and f_id in (select f_id from jnt_fic_att_value join </span>
-<a name="l00057"></a>00057 <span class="stringliteral">attr_value using (jft_id) where av_text='"</span>.$this-&gt;company.<span class="stringliteral">"' and ad_id="</span>.<a class="code" href="constant_8php.html#a61">ATTR_DEF_COMPANY</a>.<span class="stringliteral">") "</span>;
+<a name="l00057"></a>00057 <span class="stringliteral">attr_value using (jft_id) where av_text='"</span>.$this-&gt;company.<span class="stringliteral">"' and ad_id="</span>.<a class="code" href="constant_8php.html#a62">ATTR_DEF_COMPANY</a>.<span class="stringliteral">") "</span>;
 <a name="l00058"></a>00058         }
 <a name="l00059"></a>00059       <a class="code" href="admin_8inc_8php.html#a3">$url</a>=urlencode($_SERVER['REQUEST_URI']);
 <a name="l00060"></a>00060       $script=$_SERVER['SCRIPT_NAME'];
@@ -72,13 +72,13 @@
 <a name="l00080"></a>00080       $step_contact=$this-&gt;<a class="code" href="classfiche.html#a17">GetAll</a>($offset,$search.$extra_sql);
 <a name="l00081"></a>00081       <span class="keywordflow">if</span> ( $all_contact == 0 ) <span class="keywordflow">return</span> <span class="stringliteral">""</span>;
 <a name="l00082"></a>00082       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="bank_8inc_8php.html#a15">$bar</a>;
-<a name="l00083"></a>00083       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;<a class="code" href="balance_8php.html#a3">table</a>&gt;
+<a name="l00083"></a>00083       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;<a class="code" href="balance_8php.html#a3">table</a> border=<span class="stringliteral">"0"</span>&gt;
 <a name="l00084"></a>00084 &lt;TR style=<span class="stringliteral">"background-color:lightgrey;"</span>&gt;
 <a name="l00085"></a>00085 &lt;th&gt;Nom&lt;/th&gt;
 <a name="l00086"></a>00086 &lt;th&gt;Téléphone&lt;/th&gt;
 <a name="l00087"></a>00087 &lt;th&gt;email&lt;/th&gt;
 <a name="l00088"></a>00088 &lt;th&gt;Fax&lt;/th&gt;
-<a name="l00089"></a>00089 &lt;th&gt;Société&lt;/th&gt;
+<a name="l00089"></a>00089 &lt;th colspan=<span class="stringliteral">"2"</span>&gt;Société&lt;/th&gt;
 <a name="l00090"></a>00090 &lt;/TR&gt;';
 <a name="l00091"></a>00091       $base=$_SERVER['SCRIPT_NAME'];
 <a name="l00092"></a>00092       <span class="comment">// Compute the url</span>
@@ -86,9 +86,9 @@
 <a name="l00094"></a>00094       $and=<span class="stringliteral">"?"</span>;
 <a name="l00095"></a>00095       $get=$_GET;
 <a name="l00096"></a>00096       <span class="keywordflow">if</span> ( isset ($get) ) {
-<a name="l00097"></a>00097         foreach ($get as $<a class="code" href="action_8inc_8php.html#a3">name</a>=&gt;$<a class="code" href="action_8inc_8php.html#a4">value</a> ) {
+<a name="l00097"></a>00097         foreach ($get as $<a class="code" href="action_8inc_8php.html#a4">name</a>=&gt;$<a class="code" href="action_8inc_8php.html#a5">value</a> ) {
 <a name="l00098"></a>00098           <span class="comment">// we clean the parameter offset, step, page and size</span>
-<a name="l00099"></a>00099           <span class="keywordflow">if</span> (  ! in_array($<a class="code" href="action_8inc_8php.html#a3">name</a>,array('<a class="code" href="facture_8inc_8php.html#a19">f_id</a><span class="charliteral">','</span>detail'))) {
+<a name="l00099"></a>00099           <span class="keywordflow">if</span> (  ! in_array($<a class="code" href="action_8inc_8php.html#a4">name</a>,array('<a class="code" href="facture_8inc_8php.html#a19">f_id</a><span class="charliteral">','</span>detail'))) {
 <a name="l00100"></a>00100             <a class="code" href="admin_8inc_8php.html#a3">$url</a>.=$and.$name.<span class="stringliteral">"="</span>.$value;
 <a name="l00101"></a>00101             $and=<span class="stringliteral">"&amp;"</span>;
 <a name="l00102"></a>00102           }<span class="comment">// if</span>
@@ -97,29 +97,39 @@
 <a name="l00105"></a>00105 
 <a name="l00106"></a>00106       <span class="keywordflow">if</span> ( <span class="keyword">sizeof</span> ($step_contact ) == 0 )
 <a name="l00107"></a>00107         <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
-<a name="l00108"></a>00108       foreach ($step_contact as $<a class="code" href="classcontact.html">contact</a> ) {
-<a name="l00109"></a>00109         $l_company=<span class="keyword">new</span> <a class="code" href="classfiche.html#a0">fiche</a>($this-&gt;cn);
-<a name="l00110"></a>00110         $l_company-&gt;GetByQCode($contact-&gt;strAttribut(<a class="code" href="constant_8php.html#a61">ATTR_DEF_COMPANY</a>),<span class="keyword">false</span>);
-<a name="l00111"></a>00111         $l_company_name=$l_company-&gt;strAttribut(<a class="code" href="constant_8php.html#a50">ATTR_DEF_NAME</a>);
-<a name="l00112"></a>00112         <span class="keywordflow">if</span> ( $l_company_name == '- <a class="code" href="constant_8php.html#a38">ERROR</a> -' ) $l_company_name=<span class="stringliteral">""</span>;
-<a name="l00113"></a>00113         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TR&gt;"</span>;
-<a name="l00114"></a>00114         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;TD&gt;&lt;A HREF=<span class="stringliteral">"'.$url."</span>&amp;sa=detail&amp;<a class="code" href="facture_8inc_8php.html#a19">f_id</a>=<span class="stringliteral">".$contact-&gt;id."</span>\<span class="stringliteral">"&gt;"</span>.$contact-&gt;strAttribut(<a class="code" href="constant_8php.html#a50">ATTR_DEF_NAME</a>).<span class="stringliteral">"&lt;/A&gt;&lt;/TD&gt;"</span>;
-<a name="l00115"></a>00115         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TD&gt;"</span>.$contact-&gt;strAttribut(<a class="code" href="constant_8php.html#a59">ATTR_DEF_TEL</a>).<span class="stringliteral">"&lt;/TD&gt;"</span>;
-<a name="l00116"></a>00116         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TD&gt;"</span>.$contact-&gt;strAttribut(<a class="code" href="constant_8php.html#a60">ATTR_DEF_EMAIL</a>).<span class="stringliteral">"&lt;/TD&gt;"</span>.
-<a name="l00117"></a>00117             <span class="stringliteral">"&lt;TD&gt; "</span>.$contact-&gt;strAttribut(<a class="code" href="constant_8php.html#a62">ATTR_DEF_FAX</a>).<span class="stringliteral">"&lt;/TD&gt;"</span>.
-<a name="l00118"></a>00118             <span class="stringliteral">"&lt;TD&gt; "</span>.$l_company_name.
-<a name="l00119"></a>00119           <span class="stringliteral">"&lt;/TD&gt;"</span>;
-<a name="l00120"></a>00120 
-<a name="l00121"></a>00121         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/TR&gt;"</span>;
-<a name="l00122"></a>00122 
-<a name="l00123"></a>00123       }
-<a name="l00124"></a>00124       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/TABLE&gt;"</span>;
-<a name="l00125"></a>00125       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="bank_8inc_8php.html#a15">$bar</a>;
-<a name="l00126"></a>00126       <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
-<a name="l00127"></a>00127     }
-<a name="l00128"></a>00128 
-<a name="l00129"></a>00129 }
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 20:41:33 2006 for phpcompta by&nbsp;
+<a name="l00108"></a>00108       echo <a class="code" href="constant_8php.html#a80">JS_SEARCH_CARD</a>;
+<a name="l00109"></a>00109       foreach ($step_contact as $<a class="code" href="classcontact.html">contact</a> ) {
+<a name="l00110"></a>00110         $l_company=<span class="keyword">new</span> <a class="code" href="classfiche.html#a0">fiche</a>($this-&gt;cn);
+<a name="l00111"></a>00111         $l_company-&gt;GetByQCode($contact-&gt;strAttribut(<a class="code" href="constant_8php.html#a62">ATTR_DEF_COMPANY</a>),<span class="keyword">false</span>);
+<a name="l00112"></a>00112         $l_company_name=$l_company-&gt;strAttribut(<a class="code" href="constant_8php.html#a51">ATTR_DEF_NAME</a>);
+<a name="l00113"></a>00113         <span class="keywordflow">if</span> ( $l_company_name == '- <a class="code" href="constant_8php.html#a38">ERROR</a> -' ) $l_company_name=<span class="stringliteral">""</span>;
+<a name="l00114"></a>00114         <span class="comment">// add popup for detail</span>
+<a name="l00115"></a>00115         <span class="keywordflow">if</span> ( $l_company_name !=<span class="stringliteral">""</span>)
+<a name="l00116"></a>00116           {
+<a name="l00117"></a>00117             $l_company_name=sprintf(<span class="stringliteral">"&lt;A HREF=\"javascript:showfiche('%s','%s')\"&gt;%s  - %s&lt;/A&gt;"</span>,
+<a name="l00118"></a>00118                                     $_REQUEST['PHPSESSID'],
+<a name="l00119"></a>00119                                     $contact-&gt;strAttribut(<a class="code" href="constant_8php.html#a62">ATTR_DEF_COMPANY</a>),
+<a name="l00120"></a>00120                                     <a class="code" href="contact_8inc_8php.html#a11">$contact</a>-&gt;strAttribut(<a class="code" href="constant_8php.html#a62">ATTR_DEF_COMPANY</a>),
+<a name="l00121"></a>00121                                     $l_company_name
+<a name="l00122"></a>00122                                     );
+<a name="l00123"></a>00123           }
+<a name="l00124"></a>00124         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TR&gt;"</span>;
+<a name="l00125"></a>00125         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;TD&gt;&lt;A HREF=<span class="stringliteral">"'.$url."</span>&amp;sa=detail&amp;<a class="code" href="facture_8inc_8php.html#a19">f_id</a>=<span class="stringliteral">".$contact-&gt;id."</span>\<span class="stringliteral">"&gt;"</span>.$contact-&gt;strAttribut(<a class="code" href="constant_8php.html#a51">ATTR_DEF_NAME</a>).<span class="stringliteral">"&lt;/A&gt;&lt;/TD&gt;"</span>;
+<a name="l00126"></a>00126         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TD&gt;"</span>.$contact-&gt;strAttribut(<a class="code" href="constant_8php.html#a60">ATTR_DEF_TEL</a>).<span class="stringliteral">"&lt;/TD&gt;"</span>;
+<a name="l00127"></a>00127         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TD&gt;"</span>.$contact-&gt;strAttribut(<a class="code" href="constant_8php.html#a61">ATTR_DEF_EMAIL</a>).<span class="stringliteral">"&lt;/TD&gt;"</span>.
+<a name="l00128"></a>00128             <span class="stringliteral">"&lt;TD&gt; "</span>.$contact-&gt;strAttribut(<a class="code" href="constant_8php.html#a63">ATTR_DEF_FAX</a>).<span class="stringliteral">"&lt;/TD&gt;"</span>.
+<a name="l00129"></a>00129             <span class="stringliteral">"&lt;TD&gt; "</span>.$l_company_name. <span class="stringliteral">"&lt;/TD&gt;"</span>;
+<a name="l00130"></a>00130 
+<a name="l00131"></a>00131         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/TR&gt;"</span>;
+<a name="l00132"></a>00132 
+<a name="l00133"></a>00133       }
+<a name="l00134"></a>00134       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/TABLE&gt;"</span>;
+<a name="l00135"></a>00135       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="bank_8inc_8php.html#a15">$bar</a>;
+<a name="l00136"></a>00136       <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
+<a name="l00137"></a>00137     }
+<a name="l00138"></a>00138 
+<a name="l00139"></a>00139 }
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sun Jun 25 23:05:35 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

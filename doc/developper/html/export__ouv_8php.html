@@ -28,9 +28,13 @@
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="export__ouv_8php.html#a6">$ret</a></td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="export__ouv_8php.html#a7">$sql</a> = &quot;j_tech_per &gt;=&quot;. $sql_from[0]['min'].&quot; and j_tech_per &lt;=&quot;.$sql_to[0]['max']</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="export__ouv_8php.html#a7">$sum</a> = 0</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="export__ouv_8php.html#a8">$result</a> = $Poste-&gt;GetSoldeDetail($sql )</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="export__ouv_8php.html#a8">$sql</a> = &quot;j_tech_per &gt;=&quot;. $sql_from[0]['min'].&quot; and j_tech_per &lt;=&quot;.$sql_to[0]['max']</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="export__ouv_8php.html#a9">$result</a> = $Poste-&gt;GetSoldeDetail($sql )</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">$Poste&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="export__ouv_8php.html#a10">label</a> = str_replace(';','',$Poste-&gt;<a class="el" href="export__ouv_8php.html#a10">label</a>)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -89,7 +93,7 @@ Definition at line <a class="el" href="export__ouv_8php-source.html#l00044">44</
 Definition at line <a class="el" href="export__ouv_8php-source.html#l00035">35</a> of file <a class="el" href="export__ouv_8php-source.html">export_ouv.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a8"></a><!-- doxytag: member="export_ouv.php::$result" ref="a8" args="" --><p>
+<a class="anchor" name="a9"></a><!-- doxytag: member="export_ouv.php::$result" ref="a9" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -111,9 +115,9 @@ Definition at line <a class="el" href="export__ouv_8php-source.html#l00035">35</
 <p>
 
 <p>
-Definition at line <a class="el" href="export__ouv_8php-source.html#l00072">72</a> of file <a class="el" href="export__ouv_8php-source.html">export_ouv.php</a>.
+Definition at line <a class="el" href="export__ouv_8php-source.html#l00077">77</a> of file <a class="el" href="export__ouv_8php-source.html">export_ouv.php</a>.
 <p>
-Referenced by <a class="el" href="stock__inc_8php-source.html#l00111">getFicheNameCode()</a>, <a class="el" href="user__menu_8php-source.html#l00490">ShowJrn()</a>, <a class="el" href="user__menu_8php-source.html#l00132">ShowMenuCompta()</a>, <a class="el" href="user__menu_8php-source.html#l00037">u_ShowDossier()</a>, and <a class="el" href="stock__inc_8php-source.html#l00035">ViewStock()</a>.    </td>
+Referenced by <a class="el" href="stock__inc_8php-source.html#l00111">getFicheNameCode()</a>, <a class="el" href="user__menu_8php-source.html#l00502">ShowJrn()</a>, <a class="el" href="user__menu_8php-source.html#l00132">ShowMenuCompta()</a>, <a class="el" href="user__menu_8php-source.html#l00037">u_ShowDossier()</a>, and <a class="el" href="stock__inc_8php-source.html#l00035">ViewStock()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a6"></a><!-- doxytag: member="export_ouv.php::$ret" ref="a6" args="" --><p>
@@ -148,7 +152,7 @@ Referenced by <a class="el" href="stock__inc_8php-source.html#l00111">getFicheNa
 Definition at line <a class="el" href="export__ouv_8php-source.html#l00059">59</a> of file <a class="el" href="export__ouv_8php-source.html">export_ouv.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a7"></a><!-- doxytag: member="export_ouv.php::$sql" ref="a7" args="" --><p>
+<a class="anchor" name="a8"></a><!-- doxytag: member="export_ouv.php::$sql" ref="a8" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -170,7 +174,7 @@ Definition at line <a class="el" href="export__ouv_8php-source.html#l00059">59</
 <p>
 
 <p>
-Definition at line <a class="el" href="export__ouv_8php-source.html#l00071">71</a> of file <a class="el" href="export__ouv_8php-source.html">export_ouv.php</a>.    </td>
+Definition at line <a class="el" href="export__ouv_8php-source.html#l00076">76</a> of file <a class="el" href="export__ouv_8php-source.html">export_ouv.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a4"></a><!-- doxytag: member="export_ouv.php::$sql_from" ref="a4" args="" --><p>
@@ -223,6 +227,31 @@ Definition at line <a class="el" href="export__ouv_8php-source.html#l00055">55</
 Definition at line <a class="el" href="export__ouv_8php-source.html#l00057">57</a> of file <a class="el" href="export__ouv_8php-source.html">export_ouv.php</a>.    </td>
   </tr>
 </table>
+<a class="anchor" name="a7"></a><!-- doxytag: member="export_ouv.php::$sum" ref="a7" args="" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">$sum = 0          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+
+<p>
+Definition at line <a class="el" href="export__ouv_8php-source.html#l00069">69</a> of file <a class="el" href="export__ouv_8php-source.html">export_ouv.php</a>.    </td>
+  </tr>
+</table>
 <a class="anchor" name="a1"></a><!-- doxytag: member="export_ouv.php::$User" ref="a1" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -273,7 +302,32 @@ Definition at line <a class="el" href="export__ouv_8php-source.html#l00037">37</
 Definition at line <a class="el" href="export__ouv_8php-source.html#l00049">49</a> of file <a class="el" href="export__ouv_8php-source.html">export_ouv.php</a>.    </td>
   </tr>
 </table>
-<hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 20:41:33 2006 for phpcompta by&nbsp;
+<a class="anchor" name="a10"></a><!-- doxytag: member="export_ouv.php::label" ref="a10" args="" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">$Poste <a class="el" href="export__ouv_8php.html#a10">label</a> = str_replace(';','',$Poste-&gt;<a class="el" href="export__ouv_8php.html#a10">label</a>)          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+
+<p>
+Definition at line <a class="el" href="export__ouv_8php-source.html#l00078">78</a> of file <a class="el" href="export__ouv_8php-source.html">export_ouv.php</a>.    </td>
+  </tr>
+</table>
+<hr size="1"><address style="align: right;"><small>Generated on Sun Jun 25 23:05:36 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

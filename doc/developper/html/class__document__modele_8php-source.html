@@ -38,7 +38,7 @@
 <a name="l00036"></a>00036   <span class="comment">//Constructor parameter = database connexion</span>
 <a name="l00037"></a><a class="code" href="classDocument__modele.html#a0">00037</a>   function <a class="code" href="classDocument__modele.html#a0">Document_modele</a>($p_cn,$p_id=-1) {
 <a name="l00038"></a>00038     $this-&gt;cn=$p_cn;    
-<a name="l00039"></a>00039     $this-&gt;<a class="code" href="action_8inc_8php.html#a22">md_id</a>=<a class="code" href="user__update_8php.html#a1">$p_id</a>;
+<a name="l00039"></a>00039     $this-&gt;<a class="code" href="action_8inc_8php.html#a23">md_id</a>=<a class="code" href="user__update_8php.html#a1">$p_id</a>;
 <a name="l00040"></a>00040   }
 <a name="l00041"></a>00041   
 <a name="l00049"></a><a class="code" href="classDocument__modele.html#a1">00049</a>   function <a class="code" href="classDocument__modele.html#a1">myList</a>() { 
@@ -63,7 +63,7 @@
 <a name="l00068"></a>00068       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/td&gt;"</span>;
 <a name="l00069"></a>00069       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TD&gt;"</span>;
 <a name="l00070"></a>00070       <a class="code" href="admin_8inc_8php.html#a2">$c</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"checkbox"</span>);
-<a name="l00071"></a>00071       <a class="code" href="admin_8inc_8php.html#a2">$c</a>-&gt;name=<span class="stringliteral">"dm_remove_"</span>.$row['<a class="code" href="action_8inc_8php.html#a22">md_id</a>'];
+<a name="l00071"></a>00071       <a class="code" href="admin_8inc_8php.html#a2">$c</a>-&gt;name=<span class="stringliteral">"dm_remove_"</span>.$row['<a class="code" href="action_8inc_8php.html#a23">md_id</a>'];
 <a name="l00072"></a>00072       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="admin_8inc_8php.html#a2">$c</a>-&gt;IOValue();
 <a name="l00073"></a>00073       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/td&gt;"</span>;
 <a name="l00074"></a>00074       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/tr&gt;"</span>;
@@ -71,11 +71,11 @@
 <a name="l00076"></a>00076     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/table&gt;"</span>;
 <a name="l00077"></a>00077     
 <a name="l00078"></a>00078     <span class="comment">// need hidden parameter for subaction</span>
-<a name="l00079"></a>00079     <a class="code" href="action_8inc_8php.html#a15">$a</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"hidden"</span>);
-<a name="l00080"></a>00080     <a class="code" href="action_8inc_8php.html#a15">$a</a>-&gt;name=<span class="stringliteral">"sa"</span>;
-<a name="l00081"></a>00081     <a class="code" href="action_8inc_8php.html#a15">$a</a>-&gt;value=<span class="stringliteral">"rm_template"</span>;
-<a name="l00082"></a>00082     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="action_8inc_8php.html#a15">$a</a>-&gt;IOValue();
-<a name="l00083"></a>00083     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="action_8inc_8php.html#a15">$a</a>-&gt;Submit(<span class="stringliteral">"rm_template"</span>,<span class="stringliteral">"Effacer la sélection"</span>);
+<a name="l00079"></a>00079     <a class="code" href="action_8inc_8php.html#a16">$a</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"hidden"</span>);
+<a name="l00080"></a>00080     <a class="code" href="action_8inc_8php.html#a16">$a</a>-&gt;name=<span class="stringliteral">"sa"</span>;
+<a name="l00081"></a>00081     <a class="code" href="action_8inc_8php.html#a16">$a</a>-&gt;value=<span class="stringliteral">"rm_template"</span>;
+<a name="l00082"></a>00082     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="action_8inc_8php.html#a16">$a</a>-&gt;IOValue();
+<a name="l00083"></a>00083     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="action_8inc_8php.html#a16">$a</a>-&gt;Submit(<span class="stringliteral">"rm_template"</span>,<span class="stringliteral">"Effacer la sélection"</span>);
 <a name="l00084"></a>00084     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/form&gt;&lt;/p&gt;"</span>;
 <a name="l00085"></a>00085     <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
 <a name="l00086"></a>00086   }
@@ -94,8 +94,8 @@
 <a name="l00115"></a>00115         {
 <a name="l00116"></a>00116 
 <a name="l00117"></a>00117           <span class="comment">// insert into the table document_modele</span>
-<a name="l00118"></a>00118           $this-&gt;<a class="code" href="action_8inc_8php.html#a3">name</a>=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($this-&gt;md_name);
-<a name="l00119"></a>00119           $this-&gt;<a class="code" href="action_8inc_8php.html#a22">md_id</a>=<a class="code" href="postgres_8php.html#a13">NextSequence</a>($this-&gt;cn,'document_modele_md_id_seq');
+<a name="l00118"></a>00118           $this-&gt;<a class="code" href="action_8inc_8php.html#a4">name</a>=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($this-&gt;md_name);
+<a name="l00119"></a>00119           $this-&gt;<a class="code" href="action_8inc_8php.html#a23">md_id</a>=<a class="code" href="postgres_8php.html#a13">NextSequence</a>($this-&gt;cn,'document_modele_md_id_seq');
 <a name="l00120"></a>00120           <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=sprintf(<span class="stringliteral">"insert into document_modele(md_id,md_name,md_type) </span>
 <a name="l00121"></a>00121 <span class="stringliteral">                              values (%d,'%s',%d)"</span>,
 <a name="l00122"></a>00122                              $this-&gt;md_id,$this-&gt;name,$this-&gt;md_type);
@@ -104,144 +104,145 @@
 <a name="l00125"></a>00125           $this-&gt;md_sequence=<span class="stringliteral">"document_"</span>.NextSequence($this-&gt;cn,<span class="stringliteral">"document_seq"</span>);
 <a name="l00126"></a>00126           <span class="comment">// if start is not equal to 0 and he's a number than the user</span>
 <a name="l00127"></a>00127           <span class="comment">// request a number change</span>
-<a name="l00128"></a>00128           <span class="keywordflow">if</span> ( $this-&gt;start != 0 &amp;&amp; <a class="code" href="ac__common_8php.html#a2">isNumber</a>($this-&gt;start) == 1 )
-<a name="l00129"></a>00129             {
-<a name="l00130"></a>00130               <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"alter sequence seq_doc_type_"</span>.$this-&gt;md_type.<span class="stringliteral">" start with "</span>.$this-&gt;<a class="code" href="document__modele_8inc_8php.html#a5">start</a>;
-<a name="l00131"></a>00131               <a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;cn,$sql);
-<a name="l00132"></a>00132             }
-<a name="l00133"></a>00133           
-<a name="l00134"></a>00134         }
-<a name="l00135"></a>00135       <span class="comment">// Save the file</span>
-<a name="l00136"></a>00136       $new_name=tempnam('/tmp<span class="charliteral">','</span>document_');
-<a name="l00137"></a>00137       <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_document_modele.php',__LINE__,<span class="stringliteral">"new name="</span>.$new_name);
-<a name="l00138"></a>00138       <span class="keywordflow">if</span> ( strlen ($_FILES['doc']['tmp_name']) != 0 ) 
-<a name="l00139"></a>00139         {
-<a name="l00140"></a>00140           <span class="keywordflow">if</span> (move_uploaded_file($_FILES['doc']['tmp_name'],
-<a name="l00141"></a>00141                                  $new_name)) 
-<a name="l00142"></a>00142             {
-<a name="l00143"></a>00143                     <span class="comment">// echo "Image saved";</span>
-<a name="l00144"></a>00144               $oid= pg_lo_import($this-&gt;cn,$new_name);
-<a name="l00145"></a>00145               <span class="keywordflow">if</span> ( $oid == <span class="keyword">false</span> ) 
-<a name="l00146"></a>00146                 {
-<a name="l00147"></a>00147                   <a class="code" href="ac__common_8php.html#a0">echo_error</a>('class_document_modele.php',__LINE__,<span class="stringliteral">"cannot upload document"</span>);
-<a name="l00148"></a>00148                   <a class="code" href="postgres_8php.html#a17">Rollback</a>($cn);
-<a name="l00149"></a>00149                   <span class="keywordflow">return</span>;
-<a name="l00150"></a>00150                 }
-<a name="l00151"></a>00151               <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_document_modele.php',__LINE__,<span class="stringliteral">"Loading document"</span>);
-<a name="l00152"></a>00152               <span class="comment">// Remove old document</span>
-<a name="l00153"></a>00153               <a class="code" href="impress__bilan_8php.html#a0">$ret</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;cn,<span class="stringliteral">"select md_lob from document_modele where md_id="</span>.$this-&gt;md_id);
-<a name="l00154"></a>00154               <span class="keywordflow">if</span> (pg_num_rows($ret) != 0) 
-<a name="l00155"></a>00155                 {
-<a name="l00156"></a>00156                   <a class="code" href="user__action__ach_8php.html#a2">$r</a>=pg_fetch_array($ret,0);
-<a name="l00157"></a>00157                   <a class="code" href="modify__op_8php.html#a6">$old_oid</a>=<a class="code" href="user__action__ach_8php.html#a2">$r</a>['md_lob'];
-<a name="l00158"></a>00158                   <span class="keywordflow">if</span> (strlen($old_oid) != 0) 
-<a name="l00159"></a>00159                     pg_lo_unlink($this-&gt;cn,$old_oid);
-<a name="l00160"></a>00160                 }
-<a name="l00161"></a>00161               <span class="comment">// Load new document</span>
-<a name="l00162"></a>00162               var_dump($_FILES);
-<a name="l00163"></a>00163               <a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;cn,<span class="stringliteral">"update document_modele set md_lob="</span>.$oid.<span class="stringliteral">", md_mimetype='"</span>.$_FILES['doc']['type'].<span class="stringliteral">"' ,md_filename='"</span>.$_FILES['doc']['<a class="code" href="action_8inc_8php.html#a3">name</a>'].<span class="stringliteral">"' where md_id="</span>.$this-&gt;md_id);
-<a name="l00164"></a>00164               <a class="code" href="postgres_8php.html#a16">Commit</a>($this-&gt;cn);
-<a name="l00165"></a>00165             }
-<a name="l00166"></a>00166           <span class="keywordflow">else</span> 
-<a name="l00167"></a>00167             {
-<a name="l00168"></a>00168               echo <span class="stringliteral">"&lt;H1&gt;Error&lt;/H1&gt;"</span>;
-<a name="l00169"></a>00169               <a class="code" href="postgres_8php.html#a17">Rollback</a>($this-&gt;cn);
-<a name="l00170"></a>00170               <a class="code" href="balance_8php.html#a0">exit</a>;
-<a name="l00171"></a>00171             }
-<a name="l00172"></a>00172         }
-<a name="l00173"></a>00173     }
-<a name="l00178"></a><a class="code" href="classDocument__modele.html#a3">00178</a>   function <a class="code" href="classDocument__modele.html#a3">Delete</a>() 
-<a name="l00179"></a>00179     {
-<a name="l00180"></a>00180       <a class="code" href="postgres_8php.html#a14">StartSql</a>($this-&gt;cn);
-<a name="l00181"></a>00181       <span class="comment">// first we unlink the document</span>
-<a name="l00182"></a>00182       <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"select md_lob from document_modele where md_id="</span>.$this-&gt;md_id;
-<a name="l00183"></a>00183       <a class="code" href="pref_8inc_8php.html#a1">$res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;cn,$sql);
-<a name="l00184"></a>00184       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=pg_fetch_array($res,0);
-<a name="l00185"></a>00185       <span class="comment">// if a lob is found</span>
-<a name="l00186"></a>00186       <span class="keywordflow">if</span> ( strlen ($r['md_lob']) != 0 )
-<a name="l00187"></a>00187         {
-<a name="l00188"></a>00188           <span class="comment">// we remove it first</span>
-<a name="l00189"></a>00189           pg_lo_unlink($r['md_lob']);
-<a name="l00190"></a>00190         }
-<a name="l00191"></a>00191       <span class="comment">// now we can delete the row</span>
-<a name="l00192"></a>00192       <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"delete from document_modele where md_id ="</span>.$this-&gt;md_id;
-<a name="l00193"></a>00193       <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;cn,$sql);
-<a name="l00194"></a>00194       <a class="code" href="postgres_8php.html#a16">Commit</a>($this-&gt;cn);
-<a name="l00195"></a>00195     }
-<a name="l00196"></a>00196   
-<a name="l00203"></a><a class="code" href="classDocument__modele.html#a4">00203</a>   function <a class="code" href="classDocument__modele.html#a4">Get</a>($p_id,$p_internal) 
-<a name="l00204"></a>00204     {
-<a name="l00205"></a>00205       <span class="comment">// retrieve info from the table invoice</span>
-<a name="l00206"></a>00206       
-<a name="l00207"></a>00207       <span class="comment">// retrieve the template and generate document</span>
-<a name="l00208"></a>00208       <a class="code" href="postgres_8php.html#a14">StartSql</a>($this-&gt;cn);
-<a name="l00209"></a>00209       <a class="code" href="impress__bilan_8php.html#a0">$ret</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select iv_name,iv_file from invoice where iv_id"</span>.$this-&gt;iv_id);
-<a name="l00210"></a>00210       <span class="keywordflow">if</span> ( pg_num_rows ($ret) == 0 )
-<a name="l00211"></a>00211         <span class="keywordflow">return</span>;
-<a name="l00212"></a>00212       <a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($ret,0);
-<a name="l00213"></a>00213       <span class="comment">//the template is saved into file $tmp</span>
-<a name="l00214"></a>00214       <a class="code" href="show__document__modele_8php.html#a5">$tmp</a>=tempnam('/tmp/<span class="charliteral">','</span>invoice_');
-<a name="l00215"></a>00215       pg_lo_export($cn,$row['iv_file'],$tmp);
-<a name="l00216"></a>00216       <span class="comment">// Parse the file </span>
-<a name="l00217"></a>00217       
+<a name="l00128"></a>00128           <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_document_modele',__LINE__, <span class="stringliteral">"this-&gt;start "</span>.$this-&gt;start.<span class="stringliteral">" a number "</span>.<a class="code" href="ac__common_8php.html#a2">isNumber</a>($this-&gt;start));
+<a name="l00129"></a>00129 
+<a name="l00130"></a>00130           <span class="keywordflow">if</span> ( $this-&gt;start != 0 &amp;&amp; <a class="code" href="ac__common_8php.html#a2">isNumber</a>($this-&gt;start) == 1 )
+<a name="l00131"></a>00131             {
+<a name="l00132"></a>00132               <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"alter sequence seq_doc_type_"</span>.$this-&gt;md_type.<span class="stringliteral">" restart "</span>.$this-&gt;<a class="code" href="document__modele_8inc_8php.html#a5">start</a>;
+<a name="l00133"></a>00133               <a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;cn,$sql);
+<a name="l00134"></a>00134             }
+<a name="l00135"></a>00135           
+<a name="l00136"></a>00136         }
+<a name="l00137"></a>00137       <span class="comment">// Save the file</span>
+<a name="l00138"></a>00138       $new_name=tempnam('/tmp<span class="charliteral">','</span>document_');
+<a name="l00139"></a>00139       <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_document_modele.php',__LINE__,<span class="stringliteral">"new name="</span>.$new_name);
+<a name="l00140"></a>00140       <span class="keywordflow">if</span> ( strlen ($_FILES['doc']['tmp_name']) != 0 ) 
+<a name="l00141"></a>00141         {
+<a name="l00142"></a>00142           <span class="keywordflow">if</span> (move_uploaded_file($_FILES['doc']['tmp_name'],
+<a name="l00143"></a>00143                                  $new_name)) 
+<a name="l00144"></a>00144             {
+<a name="l00145"></a>00145                     <span class="comment">// echo "Image saved";</span>
+<a name="l00146"></a>00146               $oid= pg_lo_import($this-&gt;cn,$new_name);
+<a name="l00147"></a>00147               <span class="keywordflow">if</span> ( $oid == <span class="keyword">false</span> ) 
+<a name="l00148"></a>00148                 {
+<a name="l00149"></a>00149                   <a class="code" href="ac__common_8php.html#a0">echo_error</a>('class_document_modele.php',__LINE__,<span class="stringliteral">"cannot upload document"</span>);
+<a name="l00150"></a>00150                   <a class="code" href="postgres_8php.html#a17">Rollback</a>($cn);
+<a name="l00151"></a>00151                   <span class="keywordflow">return</span>;
+<a name="l00152"></a>00152                 }
+<a name="l00153"></a>00153               <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_document_modele.php',__LINE__,<span class="stringliteral">"Loading document"</span>);
+<a name="l00154"></a>00154               <span class="comment">// Remove old document</span>
+<a name="l00155"></a>00155               <a class="code" href="impress__bilan_8php.html#a0">$ret</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;cn,<span class="stringliteral">"select md_lob from document_modele where md_id="</span>.$this-&gt;md_id);
+<a name="l00156"></a>00156               <span class="keywordflow">if</span> (pg_num_rows($ret) != 0) 
+<a name="l00157"></a>00157                 {
+<a name="l00158"></a>00158                   <a class="code" href="user__action__ach_8php.html#a2">$r</a>=pg_fetch_array($ret,0);
+<a name="l00159"></a>00159                   <a class="code" href="modify__op_8php.html#a6">$old_oid</a>=<a class="code" href="user__action__ach_8php.html#a2">$r</a>['md_lob'];
+<a name="l00160"></a>00160                   <span class="keywordflow">if</span> (strlen($old_oid) != 0) 
+<a name="l00161"></a>00161                     pg_lo_unlink($this-&gt;cn,$old_oid);
+<a name="l00162"></a>00162                 }
+<a name="l00163"></a>00163               <span class="comment">// Load new document</span>
+<a name="l00164"></a>00164               <a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;cn,<span class="stringliteral">"update document_modele set md_lob="</span>.$oid.<span class="stringliteral">", md_mimetype='"</span>.$_FILES['doc']['type'].<span class="stringliteral">"' ,md_filename='"</span>.$_FILES['doc']['<a class="code" href="action_8inc_8php.html#a4">name</a>'].<span class="stringliteral">"' where md_id="</span>.$this-&gt;md_id);
+<a name="l00165"></a>00165               <a class="code" href="postgres_8php.html#a16">Commit</a>($this-&gt;cn);
+<a name="l00166"></a>00166             }
+<a name="l00167"></a>00167           <span class="keywordflow">else</span> 
+<a name="l00168"></a>00168             {
+<a name="l00169"></a>00169               echo <span class="stringliteral">"&lt;H1&gt;Error&lt;/H1&gt;"</span>;
+<a name="l00170"></a>00170               <a class="code" href="postgres_8php.html#a17">Rollback</a>($this-&gt;cn);
+<a name="l00171"></a>00171               <a class="code" href="balance_8php.html#a0">exit</a>;
+<a name="l00172"></a>00172             }
+<a name="l00173"></a>00173         }
+<a name="l00174"></a>00174     }
+<a name="l00179"></a><a class="code" href="classDocument__modele.html#a3">00179</a>   function <a class="code" href="classDocument__modele.html#a3">Delete</a>() 
+<a name="l00180"></a>00180     {
+<a name="l00181"></a>00181       <a class="code" href="postgres_8php.html#a14">StartSql</a>($this-&gt;cn);
+<a name="l00182"></a>00182       <span class="comment">// first we unlink the document</span>
+<a name="l00183"></a>00183       <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"select md_lob from document_modele where md_id="</span>.$this-&gt;md_id;
+<a name="l00184"></a>00184       <a class="code" href="pref_8inc_8php.html#a1">$res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;cn,$sql);
+<a name="l00185"></a>00185       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=pg_fetch_array($res,0);
+<a name="l00186"></a>00186       <span class="comment">// if a lob is found</span>
+<a name="l00187"></a>00187       <span class="keywordflow">if</span> ( strlen ($r['md_lob']) != 0 )
+<a name="l00188"></a>00188         {
+<a name="l00189"></a>00189           <span class="comment">// we remove it first</span>
+<a name="l00190"></a>00190           pg_lo_unlink($r['md_lob']);
+<a name="l00191"></a>00191         }
+<a name="l00192"></a>00192       <span class="comment">// now we can delete the row</span>
+<a name="l00193"></a>00193       <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"delete from document_modele where md_id ="</span>.$this-&gt;md_id;
+<a name="l00194"></a>00194       <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;cn,$sql);
+<a name="l00195"></a>00195       <a class="code" href="postgres_8php.html#a16">Commit</a>($this-&gt;cn);
+<a name="l00196"></a>00196     }
+<a name="l00197"></a>00197   
+<a name="l00204"></a><a class="code" href="classDocument__modele.html#a4">00204</a>   function <a class="code" href="classDocument__modele.html#a4">Get</a>($p_id,$p_internal) 
+<a name="l00205"></a>00205     {
+<a name="l00206"></a>00206       <span class="comment">// retrieve info from the table invoice</span>
+<a name="l00207"></a>00207       
+<a name="l00208"></a>00208       <span class="comment">// retrieve the template and generate document</span>
+<a name="l00209"></a>00209       <a class="code" href="postgres_8php.html#a14">StartSql</a>($this-&gt;cn);
+<a name="l00210"></a>00210       <a class="code" href="impress__bilan_8php.html#a0">$ret</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select iv_name,iv_file from invoice where iv_id"</span>.$this-&gt;iv_id);
+<a name="l00211"></a>00211       <span class="keywordflow">if</span> ( pg_num_rows ($ret) == 0 )
+<a name="l00212"></a>00212         <span class="keywordflow">return</span>;
+<a name="l00213"></a>00213       <a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($ret,0);
+<a name="l00214"></a>00214       <span class="comment">//the template is saved into file $tmp</span>
+<a name="l00215"></a>00215       <a class="code" href="show__document__modele_8php.html#a5">$tmp</a>=tempnam('/tmp/<span class="charliteral">','</span>invoice_');
+<a name="l00216"></a>00216       pg_lo_export($cn,$row['iv_file'],$tmp);
+<a name="l00217"></a>00217       <span class="comment">// Parse the file </span>
 <a name="l00218"></a>00218       
 <a name="l00219"></a>00219       
 <a name="l00220"></a>00220       
-<a name="l00221"></a>00221       <span class="comment">// send it to stdout</span>
-<a name="l00222"></a>00222       ini_set('zlib.output_compression<span class="charliteral">','</span>Off');
-<a name="l00223"></a>00223       header(<span class="stringliteral">"Pragma: public"</span>);
-<a name="l00224"></a>00224       header(<span class="stringliteral">"Expires: Mon, 26 Jul 1997 05:00:00 GMT"</span>);
-<a name="l00225"></a>00225       header(<span class="stringliteral">"Last-Modified: "</span> . gmdate(<span class="stringliteral">"D, d M Y H:i:s"</span>) . <span class="stringliteral">" GMT"</span>);
-<a name="l00226"></a>00226       header(<span class="stringliteral">"Cache-Control: must-revalidate"</span>);
-<a name="l00227"></a>00227       header('Content-type: rtf/x-application');
-<a name="l00228"></a>00228       header('Content-Disposition: attachment;filename=<span class="stringliteral">"invoice'.$p_internal.'.rtf"</span>',FALSE);
-<a name="l00229"></a>00229       header(<span class="stringliteral">"Accept-Ranges: bytes"</span>);
-<a name="l00230"></a>00230       <a class="code" href="show__document__modele_8php.html#a6">$file</a>=fopen($tmp,<span class="charliteral">'r'</span>);
-<a name="l00231"></a>00231       <span class="keywordflow">while</span> ( !feof ($file) )
-<a name="l00232"></a>00232         {
-<a name="l00233"></a>00233           echo fread($file,8192);
-<a name="l00234"></a>00234         }
-<a name="l00235"></a>00235       fclose($file);
-<a name="l00236"></a>00236       
-<a name="l00237"></a>00237       unlink ($tmp);
-<a name="l00238"></a>00238       
-<a name="l00239"></a>00239       <a class="code" href="postgres_8php.html#a16">Commit</a>($cn);
-<a name="l00240"></a>00240       
-<a name="l00241"></a>00241     }
-<a name="l00251"></a><a class="code" href="classDocument__modele.html#a5">00251</a>   function <a class="code" href="classDocument__modele.html#a5">form</a>($p_action) 
-<a name="l00252"></a>00252     {
-<a name="l00253"></a>00253       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<span class="stringliteral">"&lt;p&gt;"</span>;
-<a name="l00254"></a>00254       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;<a class="code" href="classDocument__modele.html#a5">form</a> enctype=<span class="stringliteral">"multipart/form-data"</span>  <a class="code" href="classaction.html">action</a>=<span class="stringliteral">"'.$p_action.'"</span> method=<span class="stringliteral">"post"</span>&gt;';
-<a name="l00255"></a>00255       <a class="code" href="impress__rapport_8php.html#a3">$t</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"text"</span>);
-<a name="l00256"></a>00256       <a class="code" href="impress__rapport_8php.html#a3">$t</a>-&gt;name=<span class="stringliteral">"md_name"</span>;
-<a name="l00257"></a>00257       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">" Nom "</span>.$t-&gt;IOValue().<span class="stringliteral">""</span>;
-<a name="l00258"></a>00258       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"Type de document "</span>;
-<a name="l00259"></a>00259       <a class="code" href="admin_8inc_8php.html#a4">$w</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"select"</span>);
-<a name="l00260"></a>00260       <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;name=<span class="stringliteral">"md_type"</span>;
-<a name="l00261"></a>00261       <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;value=<a class="code" href="ac__common_8php.html#a12">make_array</a>($this-&gt;cn,'select <a class="code" href="action_8inc_8php.html#a19">dt_id</a>,dt_value from document_type');
-<a name="l00262"></a>00262       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;IOValue();
-<a name="l00263"></a>00263       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/p&gt;&lt;p&gt;"</span>;
-<a name="l00264"></a>00264       $f=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"file"</span>);
-<a name="l00265"></a>00265       $f-&gt;name=<span class="stringliteral">"doc"</span>;
-<a name="l00266"></a>00266       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"fichier "</span>.$f-&gt;IOValue().<span class="stringliteral">""</span>;
-<a name="l00267"></a>00267       <span class="comment">// we need to add the sub action as hidden</span>
-<a name="l00268"></a>00268       <a class="code" href="poste_8inc_8php.html#a8">$h</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"hidden"</span>);
-<a name="l00269"></a>00269       <a class="code" href="poste_8inc_8php.html#a8">$h</a>-&gt;name=<span class="stringliteral">"sa"</span>;
-<a name="l00270"></a>00270       <a class="code" href="poste_8inc_8php.html#a8">$h</a>-&gt;value=<span class="stringliteral">"add_document"</span>;
-<a name="l00271"></a>00271       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="poste_8inc_8php.html#a8">$h</a>-&gt;IOValue();
-<a name="l00272"></a>00272       <a class="code" href="bilan_8php.html#a2">$start</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"text"</span>);
-<a name="l00273"></a>00273       <a class="code" href="bilan_8php.html#a2">$start</a>-&gt;name=<span class="stringliteral">"start_seq"</span>;
-<a name="l00274"></a>00274       <a class="code" href="bilan_8php.html#a2">$start</a>-&gt;size=9;
-<a name="l00275"></a>00275       <a class="code" href="bilan_8php.html#a2">$start</a>-&gt;value=<span class="stringliteral">"0"</span>;
-<a name="l00276"></a>00276       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">" Numerotation commence a "</span>.$start-&gt;IOValue().<span class="stringliteral">""</span>;
-<a name="l00277"></a>00277       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;Submit('add_document<span class="charliteral">','</span>Ajout');
-<a name="l00278"></a>00278       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/form&gt;&lt;/p&gt;"</span>;
-<a name="l00279"></a>00279       <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
-<a name="l00280"></a>00280     }
-<a name="l00281"></a>00281 
-<a name="l00282"></a>00282 }
-<a name="l00283"></a>00283 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 20:41:33 2006 for phpcompta by&nbsp;
+<a name="l00221"></a>00221       
+<a name="l00222"></a>00222       <span class="comment">// send it to stdout</span>
+<a name="l00223"></a>00223       ini_set('zlib.output_compression<span class="charliteral">','</span>Off');
+<a name="l00224"></a>00224       header(<span class="stringliteral">"Pragma: public"</span>);
+<a name="l00225"></a>00225       header(<span class="stringliteral">"Expires: Mon, 26 Jul 1997 05:00:00 GMT"</span>);
+<a name="l00226"></a>00226       header(<span class="stringliteral">"Last-Modified: "</span> . gmdate(<span class="stringliteral">"D, d M Y H:i:s"</span>) . <span class="stringliteral">" GMT"</span>);
+<a name="l00227"></a>00227       header(<span class="stringliteral">"Cache-Control: must-revalidate"</span>);
+<a name="l00228"></a>00228       header('Content-type: rtf/x-application');
+<a name="l00229"></a>00229       header('Content-Disposition: attachment;filename=<span class="stringliteral">"invoice'.$p_internal.'.rtf"</span>',FALSE);
+<a name="l00230"></a>00230       header(<span class="stringliteral">"Accept-Ranges: bytes"</span>);
+<a name="l00231"></a>00231       <a class="code" href="show__document__modele_8php.html#a6">$file</a>=fopen($tmp,<span class="charliteral">'r'</span>);
+<a name="l00232"></a>00232       <span class="keywordflow">while</span> ( !feof ($file) )
+<a name="l00233"></a>00233         {
+<a name="l00234"></a>00234           echo fread($file,8192);
+<a name="l00235"></a>00235         }
+<a name="l00236"></a>00236       fclose($file);
+<a name="l00237"></a>00237       
+<a name="l00238"></a>00238       unlink ($tmp);
+<a name="l00239"></a>00239       
+<a name="l00240"></a>00240       <a class="code" href="postgres_8php.html#a16">Commit</a>($cn);
+<a name="l00241"></a>00241       
+<a name="l00242"></a>00242     }
+<a name="l00252"></a><a class="code" href="classDocument__modele.html#a5">00252</a>   function <a class="code" href="classDocument__modele.html#a5">form</a>($p_action) 
+<a name="l00253"></a>00253     {
+<a name="l00254"></a>00254       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<span class="stringliteral">"&lt;p&gt;"</span>;
+<a name="l00255"></a>00255       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;<a class="code" href="classDocument__modele.html#a5">form</a> enctype=<span class="stringliteral">"multipart/form-data"</span>  <a class="code" href="classaction.html">action</a>=<span class="stringliteral">"'.$p_action.'"</span> method=<span class="stringliteral">"post"</span>&gt;';
+<a name="l00256"></a>00256       <a class="code" href="impress__rapport_8php.html#a3">$t</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"text"</span>);
+<a name="l00257"></a>00257       <a class="code" href="impress__rapport_8php.html#a3">$t</a>-&gt;name=<span class="stringliteral">"md_name"</span>;
+<a name="l00258"></a>00258       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">" Nom "</span>.$t-&gt;IOValue().<span class="stringliteral">""</span>;
+<a name="l00259"></a>00259       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"Type de document "</span>;
+<a name="l00260"></a>00260       <a class="code" href="admin_8inc_8php.html#a4">$w</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"select"</span>);
+<a name="l00261"></a>00261       <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;name=<span class="stringliteral">"md_type"</span>;
+<a name="l00262"></a>00262       <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;value=<a class="code" href="ac__common_8php.html#a12">make_array</a>($this-&gt;cn,'select <a class="code" href="action_8inc_8php.html#a20">dt_id</a>,dt_value from document_type');
+<a name="l00263"></a>00263       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;IOValue();
+<a name="l00264"></a>00264       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/p&gt;&lt;p&gt;"</span>;
+<a name="l00265"></a>00265       $f=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"file"</span>);
+<a name="l00266"></a>00266       $f-&gt;name=<span class="stringliteral">"doc"</span>;
+<a name="l00267"></a>00267       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"fichier "</span>.$f-&gt;IOValue().<span class="stringliteral">""</span>;
+<a name="l00268"></a>00268       <span class="comment">// we need to add the sub action as hidden</span>
+<a name="l00269"></a>00269       <a class="code" href="poste_8inc_8php.html#a8">$h</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"hidden"</span>);
+<a name="l00270"></a>00270       <a class="code" href="poste_8inc_8php.html#a8">$h</a>-&gt;name=<span class="stringliteral">"sa"</span>;
+<a name="l00271"></a>00271       <a class="code" href="poste_8inc_8php.html#a8">$h</a>-&gt;value=<span class="stringliteral">"add_document"</span>;
+<a name="l00272"></a>00272       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="poste_8inc_8php.html#a8">$h</a>-&gt;IOValue();
+<a name="l00273"></a>00273       <a class="code" href="bilan_8php.html#a2">$start</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"text"</span>);
+<a name="l00274"></a>00274       <a class="code" href="bilan_8php.html#a2">$start</a>-&gt;name=<span class="stringliteral">"start_seq"</span>;
+<a name="l00275"></a>00275       <a class="code" href="bilan_8php.html#a2">$start</a>-&gt;size=9;
+<a name="l00276"></a>00276       <a class="code" href="bilan_8php.html#a2">$start</a>-&gt;value=<span class="stringliteral">"0"</span>;
+<a name="l00277"></a>00277       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">" Numerotation commence a "</span>.$start-&gt;IOValue().<span class="stringliteral">""</span>;
+<a name="l00278"></a>00278       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;Submit('add_document<span class="charliteral">','</span>Ajout');
+<a name="l00279"></a>00279       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/form&gt;&lt;/p&gt;"</span>;
+<a name="l00280"></a>00280       <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
+<a name="l00281"></a>00281     }
+<a name="l00282"></a>00282 
+<a name="l00283"></a>00283 }
+<a name="l00284"></a>00284 ?&gt;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sun Jun 25 23:05:35 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

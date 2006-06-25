@@ -70,21 +70,39 @@
 <a name="l00065"></a>00065 <span class="stringliteral">                 order by j_poste::text"</span>);
 <a name="l00066"></a>00066 <span class="keywordflow">if</span> ( $ret == null ) {echo 'Rien à exporter'; <a class="code" href="balance_8php.html#a0">exit</a>();}
 <a name="l00067"></a>00067 printf (<span class="stringliteral">"OUVERTURE\n"</span>);
-<a name="l00068"></a>00068 foreach ($ret as $poste_id) {
-<a name="l00069"></a>00069 <span class="comment">//var_dump($poste_id); echo "&lt;br&gt;";</span>
-<a name="l00070"></a>00070         <a class="code" href="impress__poste_8php.html#a0">$Poste</a>=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a6">poste</a>($cn,$poste_id['j_poste']);
-<a name="l00071"></a><a class="code" href="export__ouv_8php.html#a7">00071</a>         <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"j_tech_per &gt;="</span>. <a class="code" href="export__ouv_8php.html#a4">$sql_from</a>[0]['min'].<span class="stringliteral">" and j_tech_per &lt;="</span>.<a class="code" href="export__ouv_8php.html#a5">$sql_to</a>[0]['max'];
-<a name="l00072"></a><a class="code" href="export__ouv_8php.html#a8">00072</a>         <a class="code" href="export__ouv_8php.html#a8">$result</a>=<a class="code" href="impress__poste_8php.html#a0">$Poste</a>-&gt;GetSoldeDetail($sql );
-<a name="l00073"></a>00073         <span class="keywordflow">if</span> ( $result['solde'] == 0 ) <span class="keywordflow">continue</span>;
-<a name="l00074"></a>00074         <span class="keywordflow">if</span> ( $result['debit'] &gt; $result ['credit'] ) {
-<a name="l00075"></a>00075                 printf (<span class="stringliteral">"d;%d;%12.4f\n"</span>,$Poste-&gt;id,$result['solde']);
-<a name="l00076"></a>00076         } <span class="keywordflow">else</span> {
-<a name="l00077"></a>00077                 printf (<span class="stringliteral">"c;%d;%12.4f\n"</span>,$Poste-&gt;id,$result['solde']);
-<a name="l00078"></a>00078         }
-<a name="l00079"></a>00079 }
-<a name="l00080"></a>00080 
-<a name="l00081"></a>00081 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 20:41:32 2006 for phpcompta by&nbsp;
+<a name="l00068"></a>00068 <span class="comment">// check if the account are balanced </span>
+<a name="l00069"></a><a class="code" href="export__ouv_8php.html#a7">00069</a> <a class="code" href="export__ouv_8php.html#a7">$sum</a>=0;
+<a name="l00070"></a>00070 foreach ($ret as $poste_id) {
+<a name="l00071"></a>00071 
+<a name="l00072"></a>00072         <a class="code" href="impress__poste_8php.html#a0">$Poste</a>=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a6">poste</a>($cn,$poste_id['j_poste']);
+<a name="l00073"></a>00073         <span class="comment">// fill the object</span>
+<a name="l00074"></a>00074         <a class="code" href="impress__poste_8php.html#a0">$Poste</a>-&gt;get();
+<a name="l00075"></a>00075         <span class="comment">// build sql stmt</span>
+<a name="l00076"></a><a class="code" href="export__ouv_8php.html#a8">00076</a>         <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"j_tech_per &gt;="</span>. <a class="code" href="export__ouv_8php.html#a4">$sql_from</a>[0]['min'].<span class="stringliteral">" and j_tech_per &lt;="</span>.<a class="code" href="export__ouv_8php.html#a5">$sql_to</a>[0]['max'];
+<a name="l00077"></a><a class="code" href="export__ouv_8php.html#a9">00077</a>         <a class="code" href="export__ouv_8php.html#a9">$result</a>=<a class="code" href="impress__poste_8php.html#a0">$Poste</a>-&gt;GetSoldeDetail($sql );
+<a name="l00078"></a><a class="code" href="export__ouv_8php.html#a10">00078</a>         <a class="code" href="impress__poste_8php.html#a0">$Poste</a>-&gt;label=str_replace(<span class="charliteral">';'</span>,'',$Poste-&gt;label);
+<a name="l00079"></a>00079         
+<a name="l00080"></a>00080         <span class="keywordflow">if</span> ( $result['solde'] == 0 ) <span class="keywordflow">continue</span>;
+<a name="l00081"></a>00081         <span class="keywordflow">if</span> ( $result['debit'] &gt; $result ['credit'] ) {
+<a name="l00082"></a>00082                 printf (<span class="stringliteral">"d;%d;%s;%12.4f\n"</span>,$Poste-&gt;id,$Poste-&gt;label,$result['solde']);
+<a name="l00083"></a>00083                 <a class="code" href="export__ouv_8php.html#a7">$sum</a>+=<a class="code" href="export__ouv_8php.html#a9">$result</a>['solde'];
+<a name="l00084"></a>00084         } <span class="keywordflow">else</span> {
+<a name="l00085"></a>00085                 printf (<span class="stringliteral">"c;%d;%s;%12.4f\n"</span>,$Poste-&gt;id,$Poste-&gt;label,$result['solde']);
+<a name="l00086"></a>00086                 <a class="code" href="export__ouv_8php.html#a7">$sum</a>-=<a class="code" href="export__ouv_8php.html#a9">$result</a>['solde'];
+<a name="l00087"></a>00087         }
+<a name="l00088"></a>00088 }
+<a name="l00089"></a>00089 <span class="comment">// $sum must be equal to 0 </span>
+<a name="l00090"></a>00090 <span class="comment">// $sum &gt; 0 then deb is too big</span>
+<a name="l00091"></a>00091 <span class="comment">// $sum &lt; 0 then cred is too big</span>
+<a name="l00092"></a>00092 <span class="keywordflow">if</span> ( $sum != 0) 
+<a name="l00093"></a>00093 {
+<a name="l00094"></a>00094   printf(<span class="stringliteral">"ATTENTION : COMPTE NON EQUILIBRE\n "</span>);
+<a name="l00095"></a>00095   <a class="code" href="pref_8inc_8php.html#a4">$msg</a> = (<a class="code" href="export__ouv_8php.html#a7">$sum</a> &gt; 0)?<span class="stringliteral">" Debit plus grand de $sum"</span>:<span class="stringliteral">"Credit plus grand de $sum"</span>;
+<a name="l00096"></a>00096   printf (<span class="stringliteral">"DIFFERENCE = $msg \n"</span>);
+<a name="l00097"></a>00097  
+<a name="l00098"></a>00098 }
+<a name="l00099"></a>00099 ?&gt;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sun Jun 25 23:05:35 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

@@ -59,7 +59,7 @@
 <a name="l00069"></a>00069 
 <a name="l00070"></a>00070   <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<span class="stringliteral">""</span>;
 <a name="l00071"></a>00071   <span class="keywordflow">if</span> ( $pview_only == <span class="keyword">false</span>) {
-<a name="l00072"></a>00072     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="constant_8php.html#a73">JS_SEARCH_POSTE</a>;
+<a name="l00072"></a>00072     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="constant_8php.html#a74">JS_SEARCH_POSTE</a>;
 <a name="l00073"></a>00073   }
 <a name="l00074"></a>00074   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;FORM NAME=\"form_detail\" enctype=\"multipart/form-data\" ACTION=\"user_jrn.php?action=new&amp;p_jrn=$p_jrn\" METHOD=\"POST\"&gt;"</span>;
 <a name="l00075"></a>00075   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;TABLE&gt;';
@@ -81,7 +81,7 @@
 <a name="l00091"></a>00091   include_once(<span class="stringliteral">"fiche_inc.php"</span>);
 <a name="l00092"></a>00092 
 <a name="l00093"></a>00093   <span class="comment">// Record the current number of article</span>
-<a name="l00094"></a>00094   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"nb_item"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"'.$p_article.'"</span>&gt;';
+<a name="l00094"></a>00094   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"nb_item"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"'.$p_article.'"</span>&gt;';
 <a name="l00095"></a>00095   $e_comment=(isset($e_comment))?$e_comment:<span class="stringliteral">""</span>;
 <a name="l00096"></a>00096 
 <a name="l00097"></a>00097 
@@ -108,7 +108,7 @@
 <a name="l00118"></a>00118     <span class="comment">// If $account has a value</span>
 <a name="l00119"></a>00119     <span class="keywordflow">if</span> ( <a class="code" href="ac__common_8php.html#a2">isNumber</a>($account) == 1 ) {
 <a name="l00120"></a>00120       <span class="keywordflow">if</span> ( <a class="code" href="postgres_8php.html#a10">CountSql</a>($p_cn,<span class="stringliteral">"select * from tmp_pcmn where pcm_val=$account"</span>) == 0 ) {
-<a name="l00121"></a>00121         $msg=<span class="stringliteral">"Poste comptable inexistant !!! "</span>;
+<a name="l00121"></a>00121         <a class="code" href="pref_8inc_8php.html#a4">$msg</a>=<span class="stringliteral">"Poste comptable inexistant !!! "</span>;
 <a name="l00122"></a>00122         <a class="code" href="ac__common_8php.html#a0">echo_error</a>($msg); <a class="code" href="ac__common_8php.html#a0">echo_error</a>($msg);
 <a name="l00123"></a>00123         echo <span class="stringliteral">"&lt;SCRIPT&gt;alert('$msg');&lt;/SCRIPT&gt;"</span>;
 <a name="l00124"></a>00124         $account=<span class="stringliteral">""</span>;
@@ -122,7 +122,7 @@
 <a name="l00132"></a>00132     ${<span class="stringliteral">"e_account$i"</span>.<span class="stringliteral">"_amount"</span>}=(isset(${<span class="stringliteral">"e_account$i"</span>.<span class="stringliteral">"_amount"</span>}))?${<span class="stringliteral">"e_account$i"</span>.<span class="stringliteral">"_amount"</span>}:0;
 <a name="l00133"></a>00133     <span class="keywordflow">if</span> ( <a class="code" href="ac__common_8php.html#a2">isNumber</a>(${<span class="stringliteral">"e_account$i"</span>.<span class="stringliteral">"_amount"</span>}) == 0 ) {
 <a name="l00134"></a>00134       <span class="keywordflow">if</span> ( $pview_only==<span class="keyword">true</span>) {
-<a name="l00135"></a>00135         $msg=<span class="stringliteral">"Montant invalide !!! "</span>;
+<a name="l00135"></a>00135         <a class="code" href="pref_8inc_8php.html#a4">$msg</a>=<span class="stringliteral">"Montant invalide !!! "</span>;
 <a name="l00136"></a>00136         <a class="code" href="ac__common_8php.html#a0">echo_error</a>($msg); <a class="code" href="ac__common_8php.html#a0">echo_error</a>($msg);
 <a name="l00137"></a>00137         echo <span class="stringliteral">"&lt;SCRIPT&gt;alert('$msg');&lt;/SCRIPT&gt;"</span>;
 <a name="l00138"></a>00138         <span class="keywordflow">return</span> null;
@@ -160,11 +160,11 @@
 <a name="l00170"></a>00170     $d_check=( ${<span class="stringliteral">"e_account$i"</span>.<span class="stringliteral">"_type"</span>} == <span class="charliteral">'d'</span> )?<span class="stringliteral">"CHECKED"</span>:<span class="stringliteral">""</span>;
 <a name="l00171"></a>00171     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;td&gt;';
 <a name="l00172"></a>00172     <span class="keywordflow">if</span> ( $pview_only == <span class="keyword">false</span> ) {
-<a name="l00173"></a>00173       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='  &lt;input type=<span class="stringliteral">"radio"</span> <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"'."</span>e_account<span class="stringliteral">"."</span><a class="code" href="balance_8php.html#a11">$i</a><span class="stringliteral">"."</span>_type<span class="stringliteral">".'"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"d"</span> '.$d_check.'&gt; D&amp;eacute;bit ou ';
-<a name="l00174"></a>00174       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='  &lt;input type=<span class="stringliteral">"radio"</span> <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"'."</span>e_account<span class="stringliteral">"."</span><a class="code" href="balance_8php.html#a11">$i</a><span class="stringliteral">"."</span>_type<span class="stringliteral">".'"</span> value=<span class="stringliteral">"c"</span> '.$c_check.'&gt; Cr&amp;eacute;dit ';
+<a name="l00173"></a>00173       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='  &lt;input type=<span class="stringliteral">"radio"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"'."</span>e_account<span class="stringliteral">"."</span><a class="code" href="balance_8php.html#a12">$i</a><span class="stringliteral">"."</span>_type<span class="stringliteral">".'"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"d"</span> '.$d_check.'&gt; D&amp;eacute;bit ou ';
+<a name="l00174"></a>00174       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='  &lt;input type=<span class="stringliteral">"radio"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"'."</span>e_account<span class="stringliteral">"."</span><a class="code" href="balance_8php.html#a12">$i</a><span class="stringliteral">"."</span>_type<span class="stringliteral">".'"</span> value=<span class="stringliteral">"c"</span> '.$c_check.'&gt; Cr&amp;eacute;dit ';
 <a name="l00175"></a>00175     }<span class="keywordflow">else</span> {
 <a name="l00176"></a>00176       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=(${<span class="stringliteral">"e_account$i"</span>.<span class="stringliteral">"_type"</span>} == <span class="charliteral">'c'</span> )?<span class="stringliteral">"Cr&amp;eacute;dit"</span>:<span class="stringliteral">"D&amp;eacute;dit"</span>;
-<a name="l00177"></a>00177       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"e_account'.$i.'_type"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"'.${"</span>e_account<a class="code" href="balance_8php.html#a11">$i</a><span class="stringliteral">"."</span>_type<span class="stringliteral">"}.'"</span>&gt;';
+<a name="l00177"></a>00177       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"e_account'.$i.'_type"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"'.${"</span>e_account<a class="code" href="balance_8php.html#a12">$i</a><span class="stringliteral">"."</span>_type<span class="stringliteral">"}.'"</span>&gt;';
 <a name="l00178"></a>00178     }
 <a name="l00179"></a>00179     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;/td&gt;';
 <a name="l00180"></a>00180     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;/TR&gt;';
@@ -187,7 +187,7 @@
 <a name="l00197"></a>00197   <span class="comment">// Set correctly the REQUEST param for jrn_type </span>
 <a name="l00198"></a>00198   <a class="code" href="poste_8inc_8php.html#a8">$h</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>('hidden');
 <a name="l00199"></a>00199   <a class="code" href="poste_8inc_8php.html#a8">$h</a>-&gt;name='jrn_type';
-<a name="l00200"></a>00200   <a class="code" href="poste_8inc_8php.html#a8">$h</a>-&gt;value=$_REQUEST['jrn_type'];
+<a name="l00200"></a>00200   <a class="code" href="poste_8inc_8php.html#a8">$h</a>-&gt;value='OD';
 <a name="l00201"></a>00201   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="poste_8inc_8php.html#a8">$h</a>-&gt;IOValue();
 <a name="l00202"></a>00202 
 <a name="l00203"></a>00203   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=$p_submit;
@@ -197,7 +197,7 @@
 <a name="l00207"></a>00207   <a class="code" href="show__document__modele_8php.html#a5">$tmp</a>= abs($sum_deb-$sum_cred);
 <a name="l00208"></a>00208   <a class="code" href="debug_8php.html#a0">echo_debug</a>('user_form_ods.php',__LINE__,<span class="stringliteral">"Diff = "</span>.$tmp);
 <a name="l00209"></a>00209   <span class="keywordflow">if</span> ( abs($sum_deb-$sum_cred) &gt; 0.0001  and $pview_only==<span class="keyword">true</span>) {
-<a name="l00210"></a>00210     $msg=sprintf(<span class="stringliteral">"Montant non correspondant credit = %.5f debit = %.5f diff = %.5f"</span>,
+<a name="l00210"></a>00210     <a class="code" href="pref_8inc_8php.html#a4">$msg</a>=sprintf(<span class="stringliteral">"Montant non correspondant credit = %.5f debit = %.5f diff = %.5f"</span>,
 <a name="l00211"></a>00211                  $sum_cred,$sum_deb,$sum_cred-$sum_deb);
 <a name="l00212"></a>00212     echo <span class="stringliteral">"&lt;script&gt; alert('$msg'); &lt;/script&gt;"</span>;
 <a name="l00213"></a>00213     <span class="keywordflow">return</span> null;
@@ -206,7 +206,7 @@
 <a name="l00216"></a>00216   <span class="comment">// Verify that we have a non-null operation</span>
 <a name="l00217"></a>00217   <span class="keywordflow">if</span> ($pview_only==<span class="keyword">true</span> and $sum_cred == 0)
 <a name="l00218"></a>00218   {
-<a name="l00219"></a>00219     $msg=sprintf(<span class="stringliteral">"Montant null"</span>);
+<a name="l00219"></a>00219     <a class="code" href="pref_8inc_8php.html#a4">$msg</a>=sprintf(<span class="stringliteral">"Montant null"</span>);
 <a name="l00220"></a>00220     echo <span class="stringliteral">"&lt;script&gt; alert('$msg'); &lt;/script&gt;"</span>;
 <a name="l00221"></a>00221     <span class="keywordflow">return</span> null;
 <a name="l00222"></a>00222   }
@@ -263,7 +263,7 @@
 <a name="l00291"></a>00291 
 <a name="l00292"></a>00292 
 <a name="l00293"></a>00293 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 20:41:33 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sun Jun 25 23:05:35 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

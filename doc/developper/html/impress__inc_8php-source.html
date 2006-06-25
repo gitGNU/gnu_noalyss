@@ -54,15 +54,15 @@
 <a name="l00058"></a>00058       echo '&lt;<a class="code" href="constant_8php.html#a7">FORM</a> <a class="code" href="constant_8php.html#a39">ACTION</a>=send_poste_pdf.php <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"GET"</span>&gt;';
 <a name="l00059"></a>00059   }
 <a name="l00060"></a>00060   echo $periode;
-<a name="l00061"></a>00061   echo '&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> NAME=<span class="stringliteral">"type"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"'.$type.'"</span>&gt;';
-<a name="l00062"></a>00062   echo '&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> NAME=<span class="stringliteral">"action"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"'.$action.'"</span>&gt;';
+<a name="l00061"></a>00061   echo '&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> NAME=<span class="stringliteral">"type"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"'.$type.'"</span>&gt;';
+<a name="l00062"></a>00062   echo '&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> NAME=<span class="stringliteral">"action"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"'.$action.'"</span>&gt;';
 <a name="l00063"></a>00063 
 <a name="l00064"></a>00064   echo <a class="code" href="jrn__pdf_8php.html#a2">$centr</a>;
 <a name="l00065"></a>00065 
 <a name="l00066"></a>00066   <span class="keywordflow">if</span> ( isset($filter))
-<a name="l00067"></a>00067     echo '&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> NAME=<span class="stringliteral">"filter"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"'.$filter.'"</span>&gt;';
+<a name="l00067"></a>00067     echo '&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> NAME=<span class="stringliteral">"filter"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"'.$filter.'"</span>&gt;';
 <a name="l00068"></a>00068   <span class="keywordflow">if</span> ( isset ($p_id)) {
-<a name="l00069"></a>00069     echo '&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> NAME=<span class="stringliteral">"p_id"</span> <a class="code" href="action_8inc_8php.html#a4">value</a>=<span class="stringliteral">"'.$p_id.'"</span>&gt;';
+<a name="l00069"></a>00069     echo '&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> NAME=<span class="stringliteral">"p_id"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"'.$p_id.'"</span>&gt;';
 <a name="l00070"></a>00070   } <span class="keywordflow">else</span> {
 <a name="l00071"></a>00071     include_once(<span class="stringliteral">"poste.php"</span>);
 <a name="l00072"></a>00072     echo <span class="stringliteral">"&lt;BR&gt;"</span>;
@@ -70,7 +70,7 @@
 <a name="l00074"></a>00074     echo ' &lt;BR&gt;Tous les postes ';
 <a name="l00075"></a>00075     echo '&lt;INPUT TYPE=<span class="stringliteral">"checkbox"</span> NAME=<span class="stringliteral">"all_poste"</span>&gt;&lt;BR&gt;';
 <a name="l00076"></a>00076   }
-<a name="l00077"></a>00077   echo '&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> <a class="code" href="action_8inc_8php.html#a3">name</a>=<span class="stringliteral">"print"</span> Value=<span class="stringliteral">"Executer"</span>&gt;';
+<a name="l00077"></a>00077   echo '&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"print"</span> Value=<span class="stringliteral">"Executer"</span>&gt;';
 <a name="l00078"></a>00078 
 <a name="l00079"></a>00079   echo '&lt;/<a class="code" href="constant_8php.html#a7">FORM</a>&gt;';
 <a name="l00080"></a>00080   echo <span class="stringliteral">"&lt;/DIV&gt;"</span>;
@@ -141,9 +141,9 @@
 <a name="l00171"></a>00171       <a class="code" href="impress__bilan_8php.html#a0">$ret</a>.=sprintf(<span class="stringliteral">"&lt;H2 class=\"info\"&gt;%d %s&lt;/H2&gt;"</span>,
 <a name="l00172"></a>00172                     $poste[$i],<a class="code" href="poste_8php.html#a0">GetPosteLibelle</a>($p_cn,$poste[$i],1));
 <a name="l00173"></a>00173       <a class="code" href="impress__bilan_8php.html#a0">$ret</a>.=<span class="stringliteral">"&lt;TABLE style=\"border-bottom-style:solid; border-width:2px\" &gt;"</span>;
-<a name="l00174"></a>00174       <a class="code" href="balance_8php.html#a11">$i</a>=0;
+<a name="l00174"></a>00174       <a class="code" href="balance_8php.html#a12">$i</a>=0;
 <a name="l00175"></a>00175       foreach ($array as $col=&gt;$element) {
-<a name="l00176"></a>00176         <a class="code" href="balance_8php.html#a11">$i</a>++;
+<a name="l00176"></a>00176         <a class="code" href="balance_8php.html#a12">$i</a>++;
 <a name="l00177"></a>00177         <span class="keywordflow">if</span> ( $i %2 == 0) 
 <a name="l00178"></a>00178           <a class="code" href="impress__bilan_8php.html#a0">$ret</a>.=<span class="stringliteral">"&lt;tr class=\"even\"&gt;"</span>;
 <a name="l00179"></a>00179         <span class="keywordflow">else</span>
@@ -239,9 +239,9 @@
 <a name="l00282"></a>00282   <span class="keywordflow">for</span> ($i=0;$i&lt;$Max;$i++) {
 <a name="l00283"></a>00283     <a class="code" href="recherche_8php.html#a4">$array</a>[]=pg_fetch_array($Res,$i);
 <a name="l00284"></a>00284     <span class="keywordflow">if</span> ($array[$i]['j_debit']==<span class="charliteral">'t'</span>) {
-<a name="l00285"></a>00285       $tot_deb+=<a class="code" href="recherche_8php.html#a4">$array</a>[<a class="code" href="balance_8php.html#a11">$i</a>]['deb_montant'] ;
+<a name="l00285"></a>00285       $tot_deb+=<a class="code" href="recherche_8php.html#a4">$array</a>[<a class="code" href="balance_8php.html#a12">$i</a>]['deb_montant'] ;
 <a name="l00286"></a>00286     } <span class="keywordflow">else</span> {
-<a name="l00287"></a>00287       $tot_cred+=<a class="code" href="recherche_8php.html#a4">$array</a>[<a class="code" href="balance_8php.html#a11">$i</a>]['cred_montant'] ;
+<a name="l00287"></a>00287       $tot_cred+=<a class="code" href="recherche_8php.html#a4">$array</a>[<a class="code" href="balance_8php.html#a12">$i</a>]['cred_montant'] ;
 <a name="l00288"></a>00288     }
 <a name="l00289"></a>00289   }
 <a name="l00290"></a>00290   <span class="keywordflow">return</span> array($array,$tot_deb,$tot_cred);
@@ -479,8 +479,8 @@
 <a name="l00563"></a>00563 
 <a name="l00564"></a>00564   }
 <a name="l00565"></a>00565   <a class="code" href="debug_8php.html#a0">echo_debug</a>('impress_inc.php',__LINE__,<span class="stringliteral">"Total debit $tot_deb,credit $tot_cred"</span>);
-<a name="l00566"></a>00566   <a class="code" href="action_8inc_8php.html#a15">$a</a>=array($array,$tot_deb,$tot_cred);
-<a name="l00567"></a>00567  <span class="keywordflow">return</span> <a class="code" href="action_8inc_8php.html#a15">$a</a>;
+<a name="l00566"></a>00566   <a class="code" href="action_8inc_8php.html#a16">$a</a>=array($array,$tot_deb,$tot_cred);
+<a name="l00567"></a>00567  <span class="keywordflow">return</span> <a class="code" href="action_8inc_8php.html#a16">$a</a>;
 <a name="l00568"></a>00568 }
 <a name="l00580"></a><a class="code" href="impress__inc_8php.html#a7">00580</a> function <a class="code" href="impress__inc_8php.html#a7">GetDataGrpt</a>($p_cn,$p_array)
 <a name="l00581"></a>00581 {
@@ -546,8 +546,8 @@
 <a name="l00657"></a>00657         $cred=$line['tot_amount'];
 <a name="l00658"></a>00658       }
 <a name="l00659"></a>00659       <a class="code" href="debug_8php.html#a0">echo_debug</a>('impress_inc.php',__LINE__,<span class="stringliteral">"MONTANT $deb,$cred"</span>);
-<a name="l00660"></a>00660       <a class="code" href="action_8inc_8php.html#a15">$a</a>=array($deb,$cred);
-<a name="l00661"></a>00661       <span class="keywordflow">return</span> <a class="code" href="action_8inc_8php.html#a15">$a</a>;
+<a name="l00660"></a>00660       <a class="code" href="action_8inc_8php.html#a16">$a</a>=array($deb,$cred);
+<a name="l00661"></a>00661       <span class="keywordflow">return</span> <a class="code" href="action_8inc_8php.html#a16">$a</a>;
 <a name="l00662"></a>00662 
 <a name="l00663"></a>00663     }
 <a name="l00664"></a>00664   } <span class="comment">// Type = jrn</span>
@@ -581,8 +581,8 @@
 <a name="l00692"></a>00692         $cred=$line['tot_amount'];
 <a name="l00693"></a>00693       }
 <a name="l00694"></a>00694       <a class="code" href="debug_8php.html#a0">echo_debug</a>('impress_inc.php',__LINE__,<span class="stringliteral">"MONTANT $deb,$cred"</span>);
-<a name="l00695"></a>00695       <a class="code" href="action_8inc_8php.html#a15">$a</a>=array($deb,$cred);
-<a name="l00696"></a>00696       <span class="keywordflow">return</span> <a class="code" href="action_8inc_8php.html#a15">$a</a>;
+<a name="l00695"></a>00695       <a class="code" href="action_8inc_8php.html#a16">$a</a>=array($deb,$cred);
+<a name="l00696"></a>00696       <span class="keywordflow">return</span> <a class="code" href="action_8inc_8php.html#a16">$a</a>;
 <a name="l00697"></a>00697     } <span class="comment">// central == 1</span>
 <a name="l00698"></a>00698     <span class="keywordflow">else</span> <span class="comment">// Donnée non centralisée =&gt; pas de rappel</span>
 <a name="l00699"></a>00699       {
@@ -634,7 +634,7 @@
 <a name="l00761"></a>00761     }
 <a name="l00762"></a>00762     <span class="comment">// Get sum of account</span>
 <a name="l00763"></a>00763     $P=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a6">poste</a>($p_cn,$e[0]);
-<a name="l00764"></a>00764     <a class="code" href="balance_8php.html#a11">$i</a>=$P-&gt;GetSolde($cond);
+<a name="l00764"></a>00764     <a class="code" href="balance_8php.html#a12">$i</a>=$P-&gt;GetSolde($cond);
 <a name="l00765"></a>00765     $p_formula=str_replace($x,$i,$p_formula);
 <a name="l00766"></a>00766   }
 <a name="l00767"></a>00767 
@@ -723,7 +723,7 @@
 <a name="l00876"></a>00876 }
 <a name="l00877"></a>00877 
 <a name="l00878"></a>00878 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sat Jun 24 20:41:33 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sun Jun 25 23:05:35 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>
