@@ -6,6 +6,6 @@ drop table user_pref;
 -- trim the space
 update parm_code set p_code=trim(p_code);
 
-upgrade version set val=13;
+update version set val=13;
 
 commit;

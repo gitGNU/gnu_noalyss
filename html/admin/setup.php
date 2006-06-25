@@ -96,6 +96,10 @@ function GetVersion($p_cn) {
  */
 function ExecuteScript($p_cn,$script) {
   $hf=fopen($script,'r');
+  if ( $hf == false ) {
+	  echo 'Ne peut ouvrir '.$script;
+	  exit();
+	  }
   $sql="";
   $flag_function=false;
   while (!feof($hf)) {

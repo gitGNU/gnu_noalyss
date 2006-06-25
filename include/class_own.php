@@ -65,7 +65,10 @@ class Own {
     $this->UpdateRow('MY_STREET');
     $this->UpdateRow('MY_NUMBER');
     $this->UpdateRow('MY_CP');
+    $this->UpdateRow('MY_TEL');
+    $this->UpdateRow('MY_PAYS');
     $this->UpdateRow('MY_COMMUNE');
+    $this->UpdateRow('MY_FAX');
 
   }
 

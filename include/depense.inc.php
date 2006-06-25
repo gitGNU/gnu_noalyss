@@ -27,7 +27,7 @@ require_once("class_fiche.php");
  *
  */
 
-var_dump($_REQUEST);
+
 // First we show the menu
 // If nothing is asked the propose a blank form
 // to enter a new invoice

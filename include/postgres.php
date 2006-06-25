@@ -163,7 +163,7 @@ function GetPriv($p_dossier,$p_login)
 /*!   
  * \brief Get the number of rows
  * from table jnt_use_dos where $p_dossier = dos_id and 
- * use_id=$p_user
+ * use_id=$p_user. 
  */
 function ExisteJnt($p_dossier,$p_user)
 {

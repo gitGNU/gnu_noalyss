@@ -684,22 +684,20 @@ function VerifyOperationDate($p_cn,$p_periode,$p_date) {
     return $p_date;
 }
 
-/*!   InsertRapt($p_cn,$jr_id,$jr_id2)
+/*!
  **************************************************
  *\brief   Insert into jrn_rapt the concerned operations
  *        
- * parm : 
- *	- p_cn database connection
- *      - jr_id (jrn.jr_id) => jrn_rapt.jr_id
- *      - jr_id2 (jrn.jr_id) => jrn_rapt.jra_concerned
- * gen :
- *	- none
- * return:
- *      - none
+ * 
+ * \param $p_cn database connection
+ * \param $jr_id (jrn.jr_id) => jrn_rapt.jr_id
+ * \param $jr_id2 (jrn.jr_id) => jrn_rapt.jra_concerned
+ *
+ * \return none
+ *
  */
 function InsertRapt($p_cn,$jr_id,$jr_id2) {
-  if ( isNumber($jr_id)  == 0 or 
-       isNumber($jr_id2) == 0 )
+  if ( isNumber($jr_id)  == 0 ||  isNumber($jr_id2) == 0 )
     {
       echo_error(" InsertRapt : invalid jr_id $jr_id, jr_id2 $jr_id2");
       echo_debug('user_common.php',__LINE__," InsertRapt : invalid jr_id $jr_id, jr_id2 $jr_id2");
@@ -720,13 +718,11 @@ function InsertRapt($p_cn,$jr_id,$jr_id2) {
  *\brief   Insert into jrn_rapt the concerned operations
  *        
  * parm : 
- *	- p_cn database connection
- *      - jr_id (jrn.jr_id) => jrn_rapt.jr_id
- *      - jr_id2 (jrn.jr_id) => jrn_rapt.jra_concerned
- * gen :
- *	- none
- * return:
- *      - none
+ * \param $p_cn database connection
+ * \param $jr_id (jrn.jr_id) => jrn_rapt.jr_id
+ * \param $jr_id2 (jrn.jr_id) => jrn_rapt.jra_concerned
+ * 
+ * \return none
  */
 function DeleteRapt($p_cn,$jr_id,$jr_id2) {
   echo_debug('user_common.php',__LINE__,"DeleteRapt($p_cn,$jr_id,$jr_id2) ");
@@ -899,7 +895,7 @@ function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1)
     $step=$_SESSION['g_pagesize'];
     $offset=($e-1)*$step;
 
-    $r='<A class="one" href="'.$_SERVER['PHP_SELF']."?".$url."&offset=$offset&step=$step&page=$e&size=$step".'">';
+    $r='<A class="mtitle" href="'.$_SERVER['PHP_SELF']."?".$url."&offset=$offset&step=$step&page=$e&size=$step".'">';
     $r.="Pr&eacute;c&eacute;dent";
     $r.="</A>&nbsp;&nbsp;";
   }
@@ -911,7 +907,7 @@ function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1)
     $step=$_SESSION['g_pagesize'];
     $offset=($e-1)*$step;
     $go=sprintf($_SERVER['PHP_SELF']."?".$url."&offset=$offset&step=$step&page=$e&size=$step");
-    $r.=sprintf('<A HREF="%s" CLASS="one">%d</A>&nbsp;',$go,$e);
+    $r.=sprintf('<A class="mtitle" HREF="%s" CLASS="one">%d</A>&nbsp;',$go,$e);
     } else {
       $r.="<b> $e </b>";
     } //else
@@ -926,7 +922,7 @@ function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1)
     $step=$_SESSION['g_pagesize'];
     $offset=($e-1)*$step;
 
-    $r.='&nbsp;<A class="one" href="'.$_SERVER['PHP_SELF']."?".$url."&offset=$offset&step=$step&page=$e&size=$step".'">';
+    $r.='&nbsp;<A class="mtitle" href="'.$_SERVER['PHP_SELF']."?".$url."&offset=$offset&step=$step&page=$e&size=$step".'">';
     $r.="Suivant";
     $r.="</A>";
   }

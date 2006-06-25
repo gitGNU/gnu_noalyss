@@ -29,7 +29,7 @@ require_once("class_fiche.php");
  *
  */
 
-var_dump($_REQUEST);
+
 // First we show the menu
 // If nothing is asked the propose a blank form
 // to enter a new invoice
@@ -46,7 +46,7 @@ $h_url="";
 
 if ( isset ($_REQUEST['url'])) 
 {
-  $retour=sprintf('<A HREF="%s"><input type="button" value="Retour"></A>',urldecode($_REQUEST['url']));
+  $retour=sprintf('<A class="mtitle" HREF="%s"><input type="button" value="Retour"></A>',urldecode($_REQUEST['url']));
   $h_url=sprintf('<input type="hidden" name="url" value="%s">',urldecode($_REQUEST['url']));
 }
 
@@ -87,7 +87,7 @@ if ( $sub_action == "list")
 	}
       
       }
-
+  echo $retour;
   echo '<div class="u_redcontent">';
 
   

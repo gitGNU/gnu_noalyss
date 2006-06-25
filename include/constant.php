@@ -24,7 +24,7 @@
  */
 
 define ("phpcompta_password","dany");
-define ("domaine","");
+define ("domaine","test_");
 
 define ("DEBUG","true");
 

@@ -403,7 +403,7 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
 
   // Set Internal code and Comment
     $internal_code=SetInternalCode($p_cn,$seq,$p_jrn);
-    $comment=$internal_code."  client : ".GetFicheName($p_cn,$e_bank_account);
+    $comment=$internal_code."  compte : ".GetFicheName($p_cn,$e_bank_account);
     if ( FormatString(${"e_other$i"."_comment"}) == null ) {
       // Update comment if comment is blank
       $Res=ExecSql($p_cn,"update jrn set jr_comment='".$comment."' where jr_grpt_id=".$seq);

@@ -24,10 +24,8 @@
 
 require_once("class_document_modele.php");
 $sub_action=(isset ($_REQUEST['sa']))?$_REQUEST['sa']:"";
-var_dump($_REQUEST);
-echo "<hr>";
-// echo ShowMenuDocument();
 
+echo "<hr>";
 // show the form for adding a template
 //
 $doc=new Document_modele($cn);

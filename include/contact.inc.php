@@ -28,13 +28,13 @@ require_once('class_widget.php');
  */
 
 $sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
-var_dump($_REQUEST);
+
 // if this page is called from another menu (customer, supplier,...)
 // a button back is added
 // TODO add function for generating url, hidden tags...
 if ( isset ($_REQUEST['url'])) 
 {
-     $retour=sprintf('<A HREF="%s"><input type="button" value="Retour"></A>',urldecode($_REQUEST['url']));
+     $retour=sprintf('<A class="mtitle" HREF="%s"><input type="button" value="Retour"></A>',urldecode($_REQUEST['url']));
      $h_url=sprintf('<input type="hidden" name="url" value="%s">',urldecode($_REQUEST['url']));
 }
 else 
@@ -156,9 +156,11 @@ if ( $sub_action == "list" )
    {
      $contact->company=$qcode;
    }
+ echo $retour;
  echo '<div class="u_redcontent">';
  echo $contact->Summary($search);
  echo '</div>';
+ echo $retour;
 
 
 }

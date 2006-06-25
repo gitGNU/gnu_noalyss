@@ -39,12 +39,12 @@ function u_ShowDossier($p_user,$p_admin)
   $p_array=GetAvailableFolder($p_user,$p_admin);   
   if ( $p_array == 0 ) return " * Aucun dossier *";
   $result="";
-  $result.="<table>";
+  $result.="<table border=\"0\">";
   $result.='<TR>';
     if ( $p_admin == 1 ) {
-      $result.="<TD><A class=\"mtitle\" HREF=\"admin_repo.php\"> Administration : </A></TD>";
+      $result.="<TD  class=\"mtitle\" ><A class=\"mtitle\" HREF=\"admin_repo.php\"> Administration  </A></TD>";
     }
-    $result.='<TD><A HREF="logout.php" CLASS="mtitle">: Sortir</a></TD>';
+    $result.='<TD  class="mtitle" ><A class="mtitle" HREF="logout.php" > Sortir</a></TD>';
     $result.="</TR>";
   $result.="</table>";
   $result.="<TABLE>";
@@ -647,12 +647,12 @@ function MenuJrn($p_dossier)
 function ShowMenuPcmn($p_start=1)
 {
     echo '<TABLE>';
-    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=1">1 Immobilisé </A></TD></TR>';
-    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=2">2 Actif a un an au plus</A></TD></TR>';
-    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=3">3 Stock et commande</A></TD></TR>';
-    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=4">4 Compte tiers</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="pcmn_update.php?p_start=1">1 Immobilisé </A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="pcmn_update.php?p_start=2">2 Actif a un an au plus</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="pcmn_update.php?p_start=3">3 Stock et commande</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="pcmn_update.php?p_start=4">4 Compte tiers</A></TD></TR>';
     echo '<TR><TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=5">5 Actif</A></TD></TR>';
-    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=6">6 Charges</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="pcmn_update.php?p_start=6">6 Charges</A></TD></TR>';
     echo '<TR><TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=7">7 Produits</A></TD></TR>';
     echo "</TABLE>";
 }

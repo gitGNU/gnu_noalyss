@@ -98,7 +98,7 @@ function ShowActionList($cn,$retour,$h_url)
   // permit also a search
   // show detail
 $sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
-var_dump($_REQUEST);echo '<hr>';
+
 if ( $sub_action == "" ) $sub_action="list";
 
 // if correction is asked go to directly to add_action

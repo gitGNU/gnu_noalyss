@@ -64,10 +64,10 @@ function cmpDate ($p_date,$p_date_oth) {
   // si $p_date > $p_date_oth return > 0
   return $l_mkdate-$l2_mkdate;
 }
-/* 
+/*! 
  * \brief check if the argument is a number
  *
- * \param $p_int
+ * \param $p_int number to test
  *
  * \return 
  *        - 1 it's a number

@@ -393,7 +393,7 @@ create table document
 	d_mimetype text
 );
 
-alter table document add constraint fk_ag_id foreign key (ag_id) references action_gestion(ag_id);
+
 
 comment on table document is 'This table contains all the documents : summary and lob files';
 
@@ -417,8 +417,8 @@ INSERT INTO document_state VALUES (2, 'Brouillon');
 INSERT INTO document_state VALUES (3, 'A envoyer');
 
 ALTER TABLE ONLY document_state ADD CONSTRAINT document_state_pkey PRIMARY KEY (s_id);
-
-insert into attr_def (ad_id,ad_text) values (24,'Ville');
+alter sequence s_attr_def restart with 24;
+insert into attr_def (ad_text) values ('Ville');
 insert into attr_min values(9,24);
 insert into attr_min values(8,24);
 insert into attr_min values(14,24);
@@ -442,9 +442,13 @@ create table action_gestion (
 );
 
 comment on table action_gestion is 'Action for Managing';
+
+
 -- add contact
-insert into fiche_def_ref(frd_text) values ('Contact');
-insert into attr_def(ad_text) values ('Société');
+alter sequence s_fiche_def_ref restart 16;
+insert into fiche_def_ref(frd_text) values ('Contact'); 
+
+insert into attr_def(ad_text) values ('Société'); 
 insert into attr_def(ad_text) values ('Fax');
 insert into attr_min values(16,1);
 insert into attr_min values(16,17);
@@ -529,6 +533,9 @@ create view vw_supplier as SELECT a.f_id, a.av_text AS name, a1.av_text AS quick
   WHERE jnt_fic_att_value.ad_id = 18) h USING (f_id)
   WHERE a.frd_id = 8;
 
+insert into parameter (pr_id) values ('MY_TEL');
+insert into parameter (pr_id) values ('MY_PAYS');
+insert into parameter (pr_id) values ('MY_FAX');
 
 update version set val=14;
 

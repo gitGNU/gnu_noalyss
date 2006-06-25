@@ -125,9 +125,11 @@ class Document_modele {
 	  $this->md_sequence="document_".NextSequence($this->cn,"document_seq");
 	  // if start is not equal to 0 and he's a number than the user
 	  // request a number change
+	  echo_debug('class_document_modele',__LINE__, "this->start ".$this->start." a number ".isNumber($this->start));
+
 	  if ( $this->start != 0 && isNumber($this->start) == 1 )
 	    {
-	      $sql="alter sequence seq_doc_type_".$this->md_type." start with ".$this->start;
+	      $sql="alter sequence seq_doc_type_".$this->md_type." restart ".$this->start;
 	      ExecSql($this->cn,$sql);
 	    }
 	  
@@ -159,7 +161,6 @@ class Document_modele {
 		    pg_lo_unlink($this->cn,$old_oid);
 		}
 	      // Load new document
-	      var_dump($_FILES);
 	      ExecSql($this->cn,"update document_modele set md_lob=".$oid.", md_mimetype='".$_FILES['doc']['type']."' ,md_filename='".$_FILES['doc']['name']."' where md_id=".$this->md_id);
 	      Commit($this->cn);
 	    }

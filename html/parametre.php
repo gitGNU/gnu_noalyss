@@ -158,6 +158,9 @@ if ( $p_action=='company') {
     $m->MY_NUMBER=$p_no;
     $m->MY_CP=$p_cp;
     $m->MY_COMMUNE=$p_Commune;
+    $m->MY_TEL=$p_tel;
+    $m->MY_FAX=$p_fax;
+    $m->MY_PAYS=$p_pays;
     $m->Save();
   }
 
@@ -167,12 +170,15 @@ if ( $p_action=='company') {
   echo '<form method="post" action="?p_action=company">';
   echo "<table class=\"result\">";
   echo "<tr>".$all->IOValue("p_name",$my->MY_NAME,"Nom société")."</tr>";
-
-  echo "<tr>".$all->IOValue("p_tva",$my->MY_TVA,"Numéro de Tva")."</tr>";
+  echo "<tr>".$all->IOValue("p_tel",$my->MY_TEL,"Téléphone")."</tr>";
+  echo "<tr>".$all->IOValue("p_fax",$my->MY_FAX,"Fax")."</tr>";
   echo "<tr>".$all->IOValue("p_street",$my->MY_STREET,"Rue ")."</tr>";
   echo "<tr>".$all->IOValue("p_no",$my->MY_NUMBER,"Numéro")."</tr>";
   echo "<tr>".$all->IOValue("p_cp",$my->MY_CP,"Code Postal")."</tr>";
   echo "<tr>".$all->IOValue("p_Commune",$my->MY_COMMUNE,"Commune")."</tr>";
+  echo "<tr>".$all->IOValue("p_pays",$my->MY_PAYS,"Pays")."</tr>";
+  echo "<tr>".$all->IOValue("p_tva",$my->MY_TVA,"Numéro de Tva")."</tr>";
+
   echo "</table>";
   $submit=new widget("submit");
   echo $submit->Submit("record_company","Enregistre");

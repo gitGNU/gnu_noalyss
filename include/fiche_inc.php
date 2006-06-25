@@ -421,19 +421,23 @@ function ViewFiche($p_cn,$p_type) {
     $Max=pg_NumRows($Res);
     echo $bar;
 
+    echo '<table>';
     for ( $i = 0; $i < $Max; $i++) {
       $l_line=pg_fetch_array($Res,$i);
-      $div="<DIV>";
-      $span_mod='<span class="mtitle"><A class="mtitle2" href="fiche.php?action=detail&fiche_id='.$l_line['f_id'].'"> Modifie</A></SPAN>';
-      $span_del='<span class="mtitle2" ALIGN="left">'.
-	'<A class="mtitle2" href="fiche.php?f_fd_id='.$p_type.'&action=delete&fiche_id='.$l_line['f_id'].
-	'"> delete</A></SPAN>';
-      $span_id='<SPAN style="background-color:lightgrey;">'.$l_line['j_qcode']."</SPAN>";
-      if ( $i %2 == 0 ) 
-	$div='<DIV style="background-color:#DDE6FF;">';
-        echo $div.$span_del.'&nbsp;'.'&nbsp;'.'&nbsp;'.'&nbsp;'.'&nbsp;'.'&nbsp;'.
-	  $span_mod."&nbsp;"."&nbsp;"."&nbsp;".$span_id."&nbsp;"."&nbsp;"."&nbsp;".$l_line['av_text']."</DIV>";
+      if ( $i%2 == 0) 
+	echo '<TR class="odd">';
+      else
+	echo '<TR class="even">';
+
+      $span_mod='<TD><A href="fiche.php?action=detail&fiche_id='.$l_line['f_id'].'">'.$l_line['j_qcode'].'</A></TD>';
+      $span_del='<TD>'.
+	'<A  href="fiche.php?f_fd_id='.$p_type.'&action=delete&fiche_id='.$l_line['f_id'].
+	'"> delete</A></td>';
+
+      echo $span_del.$span_mod.'<TD>'.$l_line['av_text']."</TD>";
+      echo '</tr>';
     }
+    echo '</table>';
     echo '<FORM METHOD="POST" action="fiche.php">';
     echo '<INPUT TYPE="HIDDEN" name="fiche" value="'.$p_type.'">';
     echo '<INPUT TYPE="SUBMIT" name="add" Value="Ajout fiche">';
@@ -672,15 +676,14 @@ function EncodeModele($p_js)
  ***************************************************
  * \brief  Creation of a model of card or correction
  * 
- * parm : 
- *      - $p_cn  database connection 
- *	- $p_ligne number of lines
- *      - $p_array  array
- *      - $p_js class base (javascript code)
- * gen :
- *	- none
- * return:
- *	- nothing
+ * 
+ * \param $p_cn  database connection 
+ * \param $p_ligne number of lines
+ * \param $p_array  array
+ * \param $p_js class base (javascript code)
+ *
+ * \return nothing
+ *	
  *
  */ 
 function DefModele ($p_cn,$p_js,$p_array=null,$p_ligne=1) 
@@ -707,7 +710,7 @@ function DefModele ($p_cn,$p_js,$p_array=null,$p_ligne=1)
   $display.='<TD><INPUT TYPE="INPUT" NAME="class_base"> '.$p_js;
   $display.='</TD></TR>';
   // Checkbox for the creation of a post
-  $display.='<TR><TD> <INPUT TYPE="CHECKBOX" NAME="create"  UNCHECKED>Create accounts for each</TD></TR>';
+  $display.='<TR><TD> <INPUT TYPE="CHECKBOX" NAME="create" CHECKED>Create accounts for each</TD></TR>';
 
   //display the different template
   $ref=Get_fiche_def_ref($p_cn);

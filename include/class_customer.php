@@ -225,7 +225,7 @@ where
 <th>Nom</th>
 <th>Adresse</th>
 <th>Solde</th>
-<th>Action </th>
+<th colspan="3">Action </th>
 </TR>';
       if ( sizeof ($step_client ) == 0 )
 	return $r;
@@ -246,14 +246,14 @@ where
 	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$a['solde']);
 	$r.="<TD>";
 
-	$r.=sprintf('<A HREF="%s?p_action=contact&qcode=%s&url=%s" title="Contact">C</A> - ',
+	$r.=sprintf('<A HREF="%s?p_action=contact&qcode=%s&url=%s" title="Contact">Contact</A></td>',
 		    $script,$client->strAttribut(ATTR_DEF_QUICKCODE),$url);
-	$r.=sprintf('<A HREF="%s?p_action=suivi_courrier&sa=list&qcode=%s&url=%s" title="Action">A</A> - ',
+	$r.=sprintf('<td><A HREF="%s?p_action=suivi_courrier&sa=list&qcode=%s&url=%s" title="Action">Courrier</A></td> ',
 		    $script,$client->strAttribut(ATTR_DEF_QUICKCODE) ,$url);
 
 
 
-	$r.='<A HREF="commercial.php?p_action=facture&sa=list&qcode='.$client->strAttribut(ATTR_DEF_QUICKCODE).'&url='.$url.'" title="Historique Facture">F</A> -';
+	$r.='<td><A HREF="commercial.php?p_action=facture&sa=list&qcode='.$client->strAttribut(ATTR_DEF_QUICKCODE).'&url='.$url.'" title="Historique Facture">Facture</A></td>';
 
 	$r.='</TD>';
 

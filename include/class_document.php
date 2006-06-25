@@ -62,7 +62,7 @@ class Document
       echo_debug('class_action',__LINE__,"Dirname is $dirname");
       // Retrieve the lob and save it into $dirname
       StartSql($this->db);
-      $dm_info="select md_lob,md_filename,md_mimetype 
+      $dm_info="select md_type,md_lob,md_filename,md_mimetype 
                    from document_modele where md_id=".$this->md_id;
       $Res=ExecSql($this->db,$dm_info);
 
@@ -76,28 +76,31 @@ class Document
       chdir($dirname);
       $filename=$row['md_filename'];
       pg_lo_export($this->db,$row['md_lob'],$filename);
-
+      $type="n";
+      echo_debug('class_document',__LINE__,'The document type is '.$row['md_mimetype']);
       // if the doc is a OOo, we need to unzip it first
       // and the name of the file to change is always content.xml
-      if ( substr($row['md_mimetype'],'vnd.oasis') != 0 )
+      if ( strpos($row['md_mimetype'],'vnd.oasis') != 0 )
 	{
+	  echo_debug('class_document',__LINE__,'Unzip the OOo');
 	  system("unzip ".$filename);
 	  // Remove the file we do  not need anymore
 	  unlink($filename);
 	  $file_to_parse="content.xml";
+	  $type="OOo";
 	}
       else 
 	$file_to_parse=$filename;
       // affect a number
-      $this->d_number=NextSequence($this->db,"seq_doc_type_".$this->md_id);
+      $this->d_number=NextSequence($this->db,"seq_doc_type_".$row['md_type']);
 
 
       // parse the document - return the doc number ?
-      $this->ParseDocument($dirname,$file_to_parse);
+      $this->ParseDocument($dirname,$file_to_parse,$type);
 
       Commit($this->db);
       // if the doc is a OOo, we need to re-zip it 
-      if ( substr($row['md_mimetype'],'vnd.oasis') != 0 )
+      if ( strpos($row['md_mimetype'],'vnd.oasis') != 0 )
 	{
 	  system ("zip -r ".$filename." *");
 	  $file_to_parse=$filename;
@@ -121,11 +124,12 @@ class Document
    *
    * \param $p_dir directory name
    * \param $p_file filename
+   * \param $p_type For the OOo document the tag are &lt and &gt instead of < and >
    */
-  function ParseDocument($p_dir,$p_file)
+  function ParseDocument($p_dir,$p_file,$p_type)
     {
 
-      
+      echo_debug('class_document',__LINE__,'Begin parsing of '.$p_dir.' '.$p_file.'Type = '.$p_type);
       
       /*!\note Replace in the doc the tags by their values.
        *  - MY_*   table parameter
@@ -150,6 +154,19 @@ class Document
 	  echo "ne peut pas ouvrir le fichier de sortie";
 	  exit();
 	}
+      // compute the regex
+      if ( $p_type=='OOo')
+	{
+	  $regex="&lt;&lt;[A-Z]+_*[A-Z]*_*[A-Z]*_*[0-9]*&gt;&gt;";
+	  $lt="&lt;";
+	  $gt="&gt;";
+	}
+      else
+	{
+	  $regex="<<[A-Z]+_*[A-Z]*_*[A-Z]*_*[0-9]*>>";
+	  $lt="<";
+	  $gt=">";
+	}
       //read the file
       while(! feof($h)) 
 	{
@@ -157,25 +174,30 @@ class Document
 	  $buffer=fgets($h);
 	  // search in the buffer the magic << and >>
 	  // while ereg finds something to replace
-	  while ( ereg ("<<[A-Z]+_*[A-Z]*_*[A-Z]*_*[0-9]*>>",$buffer,$f) )
+	  while ( ereg ($regex,$buffer,$f) )
 	    {
 
-	    echo_debug('class_document',__LINE__,var_export( $f,true));
+	    echo_debug('class_document',__LINE__,'var_export '.var_export( $f,true));
 	    foreach ( $f as $pattern )
 	      {
 		echo_debug('class_document',__LINE__, "pattern");
 		echo_debug('class_document',__LINE__, var_export($pattern,true));
 		$to_remove=$pattern;
 		// we remove the < and > from the pattern
-		$pattern=str_replace('<','',$pattern);
-		$pattern=str_replace('>','',$pattern);
+		$pattern=str_replace($lt,'',$pattern);
+		$pattern=str_replace($gt,'',$pattern);
 
 
 		// if the pattern if found we replace it
 		$value=$this->Replace($pattern);
 		// replace into the $buffer
-		$buffer=str_replace($to_remove,$value,$buffer);
-		echo_debug('class_document',__LINE__, $buffer);
+		// take the position in the buffer 
+		$pos=strpos($buffer,$to_remove);
+		// get the length of the string to remove
+		$len=strlen($to_remove);
+		$buffer=substr_replace($buffer,$value,$pos,$len);
+
+		//		echo_debug('class_document',__LINE__, $buffer);
 		// if the pattern if found we replace it
 		echo_debug('class_document',__LINE__,"Transform $pattern by $value");
 	      }
@@ -234,7 +256,7 @@ class Document
       // Start Transaction
       StartSql($this->db);
       $new_name=tempnam('/tmp','doc_');
-      var_dump($_FILES);
+
       // nothing to save
       if ( sizeof($_FILES) == 0 ) return;
       // check if a file is submitted
@@ -403,6 +425,19 @@ class Document
 	  $my=new own($this->db);
 	  $r=$my->MY_NUMBER;
 	  break;
+	case 'MY_TEL':
+	  $my=new own($this->db);
+	  $r=$my->MY_TEL;
+	  break;
+	case 'MY_FAX':
+	  $my=new own($this->db);
+	  $r=$my->MY_FAX;
+	  break;
+	case 'MY_PAYS':
+	  $my=new own($this->db);
+	  $r=$my->MY_PAYS;
+	  break;
+
 	  // customer 
 	  /*\note The CUST_* are retrieved thx the $_REQUEST['tiers'] 
 	   * which contains the quick_code
@@ -483,14 +518,22 @@ class Document
 	  $r=${$id};
 	  break;
 
-	case 'VEN_ART_TVA_CODE':
+	case 'TVA_CODE':
 	  extract ($_POST);
 	  $id='e_march'.$counter.'_tva_id';
 	  if ( !isset (${$id}) ) return "";
+	  if ( ${$id} == -1 ) return "";
+	  $qt='e_quant'.$counter;
+	  $price='e_march'.$counter.'_sell' ;
+	  if ( ${$price} == 0 || ${$qt} == 0 
+	       || strlen(trim( $price )) ==0 
+	       || strlen(trim($qt)) ==0)
+	    return "";
+
 	  $r=${$id};
 	  break;
 
-	case 'VEN_ART_TVA_LABEL':
+	case 'TVA_LABEL':
 	  extract ($_POST);
 	  $id='e_march'.$counter.'_tva_id';
 	  if ( !isset (${$id}) ) return "";
@@ -500,19 +543,22 @@ class Document
 	  break;
 
 
-	case 'VEN_ART_TVA_AMOUNT':
+	case 'TVA_AMOUNT':
 	  extract ($_POST);
 	  $qt='e_quant'.$counter;
 	  $price='e_march'.$counter.'_sell' ;
 	  $tva='e_march'.$counter.'_tva_id';
 	  if ( !isset (${'e_march'.$counter}) ) return "";
 	  // check that something is sold
-	  if ( ${'e_march'.$counter.'_sell'} == 0 && ${'e_quant'.$counter} == 0 )
+	  if ( ${$price} == 0 || ${$qt} == 0 
+	       || strlen(trim( $price )) ==0 
+	       || strlen(trim($qt)) ==0)
 	    return "";
 	  $a_tva=GetTvaRate($this->db,${$tva});
+	  echo_debug('class_document',__LINE__,'Tva  :'.var_export($a_tva,true));
 	  // if no vat returns 0
-	  if ( $a_tva == null || $a_tva == 0 ) return 0;
-	  $r=round($price,2)*$qt*$a_tva['tva_rate'];
+	  if ( sizeof($a_tva) == 0 ) return "";
+	  $r=round(${$price},2)*${$qt}*$a_tva['tva_rate'];
 	  $r=round($r,2);
 	  break;
 
@@ -521,7 +567,10 @@ class Document
 	  $id='e_quant'.$counter;
 	  if ( !isset (${$id}) ) return "";
 	  // check that something is sold
-	  if ( ${'e_march'.$counter.'_sell'} == 0 && ${'e_quant'.$counter} == 0 )
+	  if ( ${'e_march'.$counter.'_sell'} == 0 
+	       || ${'e_quant'.$counter} == 0 
+	       || strlen(trim( ${'e_march'.$counter.'_sell'} )) ==0 
+	       || strlen(trim(${'e_quant'.$counter})) ==0 )
 	    return "";
 	  $r=${$id};
 	  break;
@@ -530,8 +579,12 @@ class Document
 	  extract ($_POST);
 	  $id='e_march'.$counter.'_sell' ;
 	  $quant='e_quant'.$counter;
+	  if ( !isset (${$id}) ) return "";
+
 	  // check that something is sold
-	  if ( ${'e_march'.$counter.'_sell'} == 0 && ${'e_quant'.$counter} == 0 )
+	  if ( ${'e_march'.$counter.'_sell'} == 0 || ${'e_quant'.$counter} == 0 
+	       || strlen(trim( ${'e_march'.$counter.'_sell'} )) ==0 
+	       || strlen(trim(${'e_quant'.$counter})) ==0)
 	    return "";
 	  /*!\todo verify that price and quant are numeric
 	   */
@@ -545,8 +598,11 @@ class Document
 	  extract ($_POST);
 	  $id='e_march'.$counter.'_sell' ;
 	  $quant='e_quant'.$counter;
+	  // if it is exist
+	  if ( ! isset(${$id})) 
+	    return "";
 	  // check that something is sold
-	  if ( ${'e_march'.$counter.'_sell'} == 0 && ${'e_quant'.$counter} == 0 )
+	  if ( ${'e_march'.$counter.'_sell'} == 0 || ${'e_quant'.$counter} == 0 )
 	    return "";
 	  /*!\todo verify that price and quant are numeric
 	   */
@@ -557,15 +613,31 @@ class Document
 	  // if there is no vat we return now
 	  if ( $tva == null || $tva == 0 ) return $r;
 	  // we compute with the vat included
-	  $r=$r+$tva['tva_rate'];
+	  $r=$r+$r*$tva['tva_rate'];
 	  $r=round($r,2);
 	  break;
 	case 'TOTAL_VEN_HTVA':
 	  extract($_POST);
+	  echo_debug('class_document',__LINE__,'TOTAL_VEN_TVA item :'.$nb_item);
+
 	  $sum=0.0;
 	  for ($i=0;$i<$nb_item;$i++)
 	    {
-	      $sum+=${'e_march'.$i.'_sell'}*$e{'e_quant'.$i};
+	      $sell='e_march'.$i.'_sell';
+	      $qt='e_quant'.$i;
+	      echo_debug('class_document',__LINE__,'sell :'.$sell.' qt = '.$qt);
+
+	      echo_debug('class_document',__LINE__,'counter :'.$i.' sur '.$nb_item);
+	      if ( ! isset (${$sell}) ) break;
+	      echo_debug('class_document',__LINE__,'sell :'.${$sell}.' qt = '.${$qt});
+
+	      if ( strlen(trim(${$sell})) == 0 ||
+		   strlen(trim(${$qt})) == 0 ||
+		   ${$qt}==0 || ${$sell}==0)
+		continue;
+	      $sum+=${$sell}*${$qt};
+	      echo_debug('class_document',__LINE__,'sum :'.$sum);
+
 	    }
 	  $r=round($sum,2);
 	  break;
@@ -576,7 +648,13 @@ class Document
 	    {
 	      $tva=GetTvaRate($this->db,${'e_march'.$i.'_tva_id'});
 	      $tva_rate=( $tva == null || $tva == 0 )?0.0:$tva['tva_rate'];
-	      $sum+=${'e_march'.$i.'_sell'}*${'e_quant'.$i}*(1+$tva_rate);
+	      echo_debug('class_document',__LINE__,' :'.$i.' sur '.$nb_item);
+	      $sell=${'e_march'.$i.'_sell'};
+	      $qt=${'e_quant'.$i};
+	      echo_debug('class_document',__LINE__,'sell :'.$sell.' qt = '.$qt);
+
+	      $sum+=$sell*$qt*(1+$tva_rate);
+	      //	      $sum+=${'e_march'.$i.'_sell'}*${'e_quant'.$i}*(1+$tva_rate);
 	    }
 	  $r=round($sum,2);
 

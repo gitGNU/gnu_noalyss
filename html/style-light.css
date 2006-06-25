@@ -244,13 +244,10 @@ a.mtitle {
 }
 
 a.mtitle:hover {
-//  font-size:10px;
-//  color:white;
-//  background-color:#5D90CD;
   text-decoration:none;
   display:block;
-  border-style:groove;
-  border-color:gray;
+  background-color:yellow;
+
 }
 a.cell {
   text-decoration:none;
@@ -312,4 +309,71 @@ li.menuv,ol.menuv {
 	 display:inline;
 	 padding:1em 1em;
 }
+div.u_redcontent a {
+  font-size:9px;
+  font-family:sans-serif;
+  text-decoration: none;
+  display: block;
+  color: blue;
+
+}
+
+div.u_redcontent a:hover {
+  font-size:9px;
+  font-family:sans-serif;
+    color: white;
+    background-color: rgb(93, 144, 205);
+    text-decoration: none;
+    display: block;
+
+}
+div.u_content a {
+  font-size:9px;
+  font-family:sans-serif;
+  text-decoration: none;
+  display: block;
+  color: blue;
+
+}
+
+div.u_content a:hover {
+  font-size:9px;
+  font-family:sans-serif;
+    color: white;
+    background-color: rgb(93, 144, 205);
+    text-decoration: none;
+    display: block;
+
+}
+div.u_redcontent a.mtitle {
+  font-size:10px;
+  text-decoration:none;
+  display:inline;
+  color:blue;
+
+}
+
+div.u_redcontent a.mtitle:hover {
+  text-decoration:none;
+  display:inline;
+  background-color:yellow;
+
+
+}
+div.u_content a.mtitle {
+  font-size:10px;
+  text-decoration:none;
+  display:inline;
+  color:blue;
+
+}
+
+div.u_content a.mtitle:hover {
+  text-decoration:none;
+  display:inline;
+  background-color:yellow;
+
+
+}
+
 /* </style> */

@@ -820,7 +820,7 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
   if ( $r == false ) { Rollback($p_cn); exit(" Error 'user_form_ach.php' __LINE__");}
   // Set Internal code and Comment
   $internal=SetInternalCode($p_cn,$seq,$p_jrn);
-  $comment=(FormatString($e_comm) == null )?$internal."  client : ".GetFicheName($p_cn,$e_client):FormatString($e_comm);
+  $comment=(FormatString($e_comm) == null )?$internal." Fournisseur : ".GetFicheName($p_cn,$e_client):FormatString($e_comm);
 
   // Update and set the invoice's comment 
   $Res=ExecSql($p_cn,"update jrn set jr_comment='".$comment."' where jr_grpt_id=".$seq);

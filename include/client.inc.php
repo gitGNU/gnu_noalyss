@@ -20,7 +20,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 require_once("class_customer.php");
 $sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
-var_dump($_REQUEST);
+
 /*! \file
  * \brief Called from the module "Gestion" to manage the customer
  */
@@ -129,15 +129,6 @@ if ( $sub_action == "list" )
  // echo '<div style="position:absolute;left:15%;width:67%;margin-top:20px;">';
  echo '<div class="u_redcontent">';
  echo $client->Summary($search);
- echo '</div>';
- echo '<div style="position:absolute;right:1%;width:10%;color:blue;background-color:lightgrey;margin-top:10px;">';
- echo "<strong>Action :</strong> Ajout, mise à jour ou effacement";
- echo " <ul>";
- echo "<li>C  - Contact</li>";
- echo "<li>F  - Facture</li>";
- echo "<li>FC - Courrier</li>";
- echo "</ul>";
-
  echo '</div>';
  echo '</div>';
 
