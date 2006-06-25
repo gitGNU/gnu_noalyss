@@ -17,24 +17,44 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 /* $Revision$ */
+
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-// Verify parameters
-/*! \file
- * \brief retrieve a document
+
+/* !\file 
+ * This file show in a popup window the detail a of card in read only mode
+ * the parameter are q (for qcode) & PHPSESSID
  */
 
-include_once ("postgres.php");
-require_once("ac_common.php");
-require_once( "class_document.php");
+/* \brief 
+ *
+ */
+require_once ('class_user.php');
+require_once ('class_fiche.php');
+require_once ('postgres.php');
+require_once ('debug.php');
+require_once ('ac_common.php');
+require_once('class_widget.php');
 
-$cn=DbConnect($_SESSION['g_dossier']);
-
-
-include ('class_user.php');
 $User=new cl_user(DbConnect());
-/*!\todo Add security here
- */
 $User->Check();
-// retrieve the document
-$doc=new Document($cn,$_REQUEST['d_id']);
-$doc->Send();
+html_page_start($_SESSION['g_theme'],"onLoad='window.focus();'");
+
+
+if ( ! isset ($_REQUEST['q'])) {
+  echo 'appel invalide';
+  exit();
+}
+// connect to the database
+$cn=DbConnect($_SESSION['g_dossier']);
+if ( $User->CheckAction($cn,FICHE_READ) == 0 ){
+    /* Cannot Access */
+    echo '<h2 class="error"> Vous n\' avez pas accès</h2>';
+    return;
+}
+
+// Create a object fiche
+
+$f=new fiche($cn);
+$f->GetByQCode($_REQUEST['q'],false);
+echo $f->Display(true);
+?>

@@ -130,7 +130,14 @@ if ( $sub_action == "list" )
  $w->name="fd_id";
  $w->value= make_array($cn,"select fd_id,fd_label from fiche_def where ".
 	     " frd_id=".FICHE_TYPE_CONTACT);
+ // if array is empty show an warning and stops
+ if ( sizeof ($w->value) == 0 ) {
+   echo '<p style="color:red">Aucune fiche de catégories contact</p>';
+   echo '<p>allez dans comptabilité -> fiche creation et choississez contact comme sorte</p>';
+   exit();
+ }
  echo $w->IOValue();
+
 ?>
 <input type="hidden" name="sa" value="blank">
 <input type="submit" name="submit_query" value="Ajout Contact">
@@ -140,9 +147,20 @@ if ( $sub_action == "list" )
 
 <form>
 <?
-  $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
-  printf ('<span>Tiers QuickCode: <input type="text" name="qcode" value="%s"></span>',
-	   $qcode);
+   $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
+ echo JS_SEARCH_CARD;
+ $w=new widget('js_search_only');
+ $w->name='qcode';
+ $w->value=$qcode;
+ $w->label='qcode';
+ $w->extra='4,8,9,14';
+ $sp= new widget("span");
+ echo $sp->IOValue("qcode_label",$qcode)."</TD></TR>";
+
+ echo $w->IOValue();
+
+//   printf ('<span>Tiers QuickCode: <input type="text" name="qcode" value="%s"></span>',
+// 	   $qcode);
 ?>
 <input type="submit" name="submit_query" value="recherche">
 <input type="hidden" name="p_action" value="contact">

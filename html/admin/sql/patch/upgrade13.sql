@@ -537,6 +537,12 @@ insert into parameter (pr_id) values ('MY_TEL');
 insert into parameter (pr_id) values ('MY_PAYS');
 insert into parameter (pr_id) values ('MY_FAX');
 
+insert into parameter (pr_id) values ('MY_TEL');
+insert into parameter (pr_id) values ('MY_PAYS');
+insert into parameter (pr_id) values ('MY_FAX');
+alter table document add d_state int;
+alter table action_gestion add ag_ref text;
+
 update version set val=14;
 
 commit;

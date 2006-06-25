@@ -20,6 +20,10 @@
 include_once("class_widget.php");
 /*! \file
  * \brief print first the report in html and propose to print it in pdf
+ *        file included by user_impress
+ *
+ * some variable are already defined ($cn, $User ...)
+
  */
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -134,11 +138,14 @@ $w->label="Choississez le rapport";
 print $w->IOValue("form_id",$ret);
 print '</TR>';
 print '<TR>';
-$periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode order by p_id");
+// filter on the current year
+$filter_year=" where p_exercice='".$User->getExercice()."'";
+
+$periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_id");
 $w->label="Depuis";
 print $w->IOValue('from_periode',$periode_start);
 $w->label=" jusqu'à ";
-$periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode order by p_id");
+$periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode  $filter_year order by p_id");
 print $w->IOValue('to_periode',$periode_end);
 print "</TR>";
 $aStep=array(

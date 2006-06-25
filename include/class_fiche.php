@@ -466,39 +466,46 @@ class fiche {
       foreach ( $attr as $r) 
 	{
 	  $msg="";
-	  if ( $r->ad_id == ATTR_DEF_ACCOUNT) 
-	    {
-	      $ret.=JS_SEARCH_POSTE;
-	      $w=new widget("js_search_poste");
-	      //  account created automatically
-	      $sql="select account_auto($this->fiche_def)";
-	      echo_debug("class_fiche",__LINE__,$sql);
-	      $ret_sql=ExecSql($this->cn,$sql);
-	      $a=pg_fetch_array($ret_sql,0);
-// 	      if ( $a['account_auto'] == 't' )
-// 		$msg="<TD> <font color=\"red\">si vide le Poste sera créer automatiquement</font></TD> ";
-	     }
-	  elseif ( $r->ad_id == ATTR_DEF_TVA) 
-	    {
-	      $ret.=JS_TVA;
-	      $w=new widget("js_tva");
-	    }
-	  elseif ( $r->ad_id == ATTR_DEF_COMPANY )
-	    {
-	      $ret.=JS_SEARCH_CARD;
-	      $w=new widget("js_search");
-	      // filter on frd_id
-	      $w->extra=FICHE_TYPE_CLIENT.','.FICHE_TYPE_FOURNISSEUR.','.FICHE_TYPE_ADM_TAX; 
-	      $w->extra2=0;      // jrn = 0
-	      $label=new widget("span");
-	      $label->name="av_text".$r->ad_id."_label";
-	      $msg=$label->IOValue();
-	    }
-	  else 
+	  if ( $p_readonly) 
 	    {
 	      $w=new widget("text");
 	    }
-
+	  if ($p_readonly==false)
+	    {
+	      if ( $r->ad_id == ATTR_DEF_ACCOUNT) 
+		{
+		  $ret.=JS_SEARCH_POSTE;
+		  $w=new widget("js_search_poste");
+		  //  account created automatically
+		  $sql="select account_auto($this->fiche_def)";
+		  echo_debug("class_fiche",__LINE__,$sql);
+		  $ret_sql=ExecSql($this->cn,$sql);
+		  $a=pg_fetch_array($ret_sql,0);
+		  if ( $a['account_auto'] == 't' )
+		    $msg="<TD> <font color=\"red\">si vide le Poste sera créer automatiquement</font></TD> ";
+		}
+	      elseif ( $r->ad_id == ATTR_DEF_TVA) 
+		{
+		  $ret.=JS_TVA;
+		  $w=new widget("js_tva");
+	    }
+	      elseif ( $r->ad_id == ATTR_DEF_COMPANY )
+		{
+		  $ret.=JS_SEARCH_CARD;
+		  $w=new widget("js_search");
+		  // filter on frd_id
+		  $w->extra=FICHE_TYPE_CLIENT.','.FICHE_TYPE_FOURNISSEUR.','.FICHE_TYPE_ADM_TAX; 
+		  $w->extra2=0;      // jrn = 0
+		  $label=new widget("span");
+		  $label->name="av_text".$r->ad_id."_label";
+		  $msg=$label->IOValue();
+		}
+	    
+	      else 
+		{
+		  $w=new widget("text");
+		}
+	    }
 	  $w->label=$r->ad_text;
 	  $w->value=$r->av_text;
 	  $w->name="av_text".$r->ad_id;

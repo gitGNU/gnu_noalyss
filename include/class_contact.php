@@ -80,13 +80,13 @@ attr_value using (jft_id) where av_text='".$this->company."' and ad_id=".ATTR_DE
       $step_contact=$this->GetAll($offset,$search.$extra_sql);
       if ( $all_contact == 0 ) return "";
       $r=$bar;
-      $r.='<table>
+      $r.='<table border="0">
 <TR style="background-color:lightgrey;">
 <th>Nom</th>
 <th>Téléphone</th>
 <th>email</th>
 <th>Fax</th>
-<th>Société</th>
+<th colspan="2">Société</th>
 </TR>';
       $base=$_SERVER['SCRIPT_NAME'];
       // Compute the url
@@ -105,18 +105,28 @@ attr_value using (jft_id) where av_text='".$this->company."' and ad_id=".ATTR_DE
 
       if ( sizeof ($step_contact ) == 0 )
 	return $r;
+      echo JS_SEARCH_CARD;
       foreach ($step_contact as $contact ) {
 	$l_company=new fiche($this->cn);
 	$l_company->GetByQCode($contact->strAttribut(ATTR_DEF_COMPANY),false);
 	$l_company_name=$l_company->strAttribut(ATTR_DEF_NAME);
 	if ( $l_company_name == '- ERROR -' ) $l_company_name="";
+	// add popup for detail
+	if ( $l_company_name !="")
+	  {
+	    $l_company_name=sprintf("<A HREF=\"javascript:showfiche('%s','%s')\">%s  - %s</A>",
+				    $_REQUEST['PHPSESSID'],
+				    $contact->strAttribut(ATTR_DEF_COMPANY),
+				    $contact->strAttribut(ATTR_DEF_COMPANY),
+				    $l_company_name
+				    );
+	  }
 	$r.="<TR>";
 	$r.='<TD><A HREF="'.$url."&sa=detail&f_id=".$contact->id."\">".$contact->strAttribut(ATTR_DEF_NAME)."</A></TD>";
 	$r.="<TD>".$contact->strAttribut(ATTR_DEF_TEL)."</TD>";
 	$r.="<TD>".$contact->strAttribut(ATTR_DEF_EMAIL)."</TD>".
             "<TD> ".$contact->strAttribut(ATTR_DEF_FAX)."</TD>".
-            "<TD> ".$l_company_name.
-	  "</TD>";
+            "<TD> ".$l_company_name. "</TD>";
 
 	$r.="</TR>";
 

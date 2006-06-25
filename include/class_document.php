@@ -19,6 +19,7 @@
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 require_once('class_own.php');
+require_once('class_poste.php');
 /*! \file 
  * \brief Class Document corresponds to the table document
  */
@@ -34,6 +35,7 @@ class Document
   var $d_lob;       /*! \enum $d_lob the oid of the lob */
   var $d_number;    /*! \enum $d_number number of the document */
   var $md_id;       /*! \enum $md_id document's template */
+  var $d_state;     /*! \enum $d_state document.d_state status of the document */
   /* Constructor
    * \param $p_cn Database connection
    */
@@ -221,6 +223,7 @@ class Document
    */
   function SaveGenerated($p_file) 
     {
+      echo_debug('class_document',__LINE__,'Save generated');
       // We save the generated file
       $doc=new Document($this->db);
       StartSql($this->db);
@@ -229,17 +232,18 @@ class Document
 	Rollback($this->db); echo_debug('class_document',__LINE__,"can't save file $p_file");
 	return 1; }
     
-      $sql=sprintf("insert into document(ag_id,d_lob,d_number,d_filename,d_mimetype) 
-                        values (%d,%s,%d,'%s','%s')",
+      $sql=sprintf("insert into document(ag_id,d_lob,d_number,d_filename,d_mimetype,d_state) 
+                        values (%d,%s,%d,'%s','%s',%d)",
 		   $this->ag_id,
 		   $this->d_lob,
 		   $this->d_number,
 		   $this->d_filename,
-		   $this->d_mimetype
+		   $this->d_mimetype,
+		   $this->d_state
 		   );
       ExecSql($this->db,$sql);
       $this->d_id=GetSequence($this->db,"document_d_id_seq");
-
+      echo_debug('class_document',__LINE__,'document sauvé : d_id'.$this->d_id);
       Commit($this->db);
       return 0;
     }
@@ -312,9 +316,9 @@ class Document
       return $r;
     }
   /* ! Get
-   * \brief Retrieve the document
+   * \brief Send the document
    */
-  function Get() 
+  function Send() 
     {
       // retrieve the template and generate document
       StartSql($this->db);
@@ -349,6 +353,24 @@ class Document
       
       Commit($this->db);
       
+    }
+  /*!\brief Get  complete all the data member thx info from the database
+   */
+  function get()
+    {
+      $sql="select * from document where d_id=".$this->d_id;
+      $ret=Exec($this->db,$sql);
+      if ( pg_num_rows($ret) == 0 )
+	return;
+      $row=pg_fetch_array($ret,0);
+      $this->ag_id=$row['ag_id'];
+      $this->d_mimetype=$row['d_mimetype'];
+      $this->d_filename=$row['d_filename'];
+      $this->d_lob=$row['d_lob'];
+      $this->d_number=$row[''];
+      $this->d_state=$row['ag_id'];
+      $this->d_number=$row['d_number'];
+
     }
 /*! 
  * \brief replace the TAG by the real value, this value can be into
@@ -442,6 +464,14 @@ class Document
 	  /*\note The CUST_* are retrieved thx the $_REQUEST['tiers'] 
 	   * which contains the quick_code
 	   */
+	case 'SOLDE':
+	  $tiers=new fiche($this->db);
+	  $qcode=isset($_REQUEST['tiers'])?$_REQUEST['tiers']:$_REQUEST['e_client'];
+	  $tiers->Getbyqcode($qcode,false);
+	  $p=$tiers->strAttribut(ATTR_DEF_ACCOUNT);
+	  $poste=new Poste($this->db,$p);
+	  $r=$poste->GetSolde(' true' );
+	  break;
 	case 'CUST_NAME':
 	  $tiers=new fiche($this->db);
 	  $qcode=isset($_REQUEST['tiers'])?$_REQUEST['tiers']:$_REQUEST['e_client'];
@@ -480,6 +510,13 @@ class Document
 	case 'NUMBER':
 	  $r=$this->d_number;
 	  break;
+	case 'REFERENCE':
+	  $act=new action($this->db);
+	  $act->ag_id=$this->ag_id;
+	  $act->get();
+	  $r=$act->ag_ref;
+	  break;
+
 	  /*
 	   *  - [VEN_ART_NAME]
 	   *  - [VEN_ART_PRICE]

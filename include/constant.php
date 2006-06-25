@@ -24,7 +24,7 @@
  */
 
 define ("phpcompta_password","dany");
-define ("domaine","test_");
+define ("domaine","");
 
 define ("DEBUG","true");
 
@@ -91,6 +91,7 @@ define ("NO",0);
 define ("OPEN",1);
 define ("CLOSED",0);
 define ("NOTCENTRALIZED",3);
+define ("ALL",4);
 
 // Pour les ShowMenuComptaLeft
 define ("MENU_FACT",1);
@@ -219,6 +220,12 @@ function RefreshMe() {
 
 define ("JS_SEARCH_CARD","
 <script  language=\"javascript\">
+function showfiche(p_sessid,qcode)
+{
+  var a=window.open('show_fiche.php?PHPSESSID='+p_sessid+'&q='+qcode,'','toolbar=no,width=350,height=450,scrollbar=yes');
+  
+}
+
 /* type must be cred or deb and name is
  * the control's name
 */

@@ -21,6 +21,9 @@
 // /* $Revision$ */
 /*! \file
  * \brief Show the balance and let you print it or export to PDF
+ *        file included by user_impress
+ *
+ * some variable are already defined ($cn, $User ...)
  */
 
 include_once ("ac_common.php");
@@ -66,15 +69,17 @@ if ( isset ($_POST['view']  ) ) {
 echo '<FORM action="user_impress.php?type=bal" method="post">';
 $w=new widget("select");
 $w->table=1;
+// filter on the current year
+$filter_year=" where p_exercice='".$User->getExercice()."'";
 
-$periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode order by p_id");
+$periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_id");
 $w->label="Depuis";
 if ( isset ($_POST['from_periode']) )
   $w->selected=$_POST['from_periode'];
 
 echo $w->IOValue('from_periode',$periode_start);
 $w->label=" jusqu'à ";
-$periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode order by p_id");
+$periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode $filter_year order by p_id");
 if ( isset ($_POST['to_periode']) )
   $w->selected=$_POST['to_periode'];
 

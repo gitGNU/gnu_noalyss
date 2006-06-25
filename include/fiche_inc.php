@@ -710,7 +710,7 @@ function DefModele ($p_cn,$p_js,$p_array=null,$p_ligne=1)
   $display.='<TD><INPUT TYPE="INPUT" NAME="class_base"> '.$p_js;
   $display.='</TD></TR>';
   // Checkbox for the creation of a post
-  $display.='<TR><TD> <INPUT TYPE="CHECKBOX" NAME="create" CHECKED>Create accounts for each</TD></TR>';
+  $display.='<TR><TD> <INPUT TYPE="CHECKBOX" NAME="create" CHECKED>Cr&eacute;ation automatique du poste comptable</TD></TR>';
 
   //display the different template
   $ref=Get_fiche_def_ref($p_cn);

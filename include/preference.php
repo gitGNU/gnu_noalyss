@@ -60,7 +60,7 @@ function FormPeriodeMult($p_cn)
  * 
  * \param $p_cn connexion 
  * \param $p_default default periode
- * \param $p_type the type of the periode
+ * \param $p_type the type of the periode OPEN CLOSE NOTCENTRALIZED or ALL
  * \param $p_suff the suffix of the name 
  *
  * \return string containing html code for the HTML
@@ -72,20 +72,23 @@ function FormPeriode($p_cn,$l_default=0,$p_type=OPEN,$p_suff="")
 {
   switch ($p_type) {
   case CLOSED:
-    $sql_closed="p_closed=true and p_central = false ";
+    $sql_closed="where p_closed=true and p_central = false ";
     break;
   case OPEN:
-    $sql_closed="p_closed=false";
+    $sql_closed="where p_closed=false";
     break;
   case NOTCENTRALIZED:
-    $sql_closed="p_closed=true and p_central = false ";
+    $sql_closed="where p_closed=true and p_central = false ";
+    break;
+  case ALL:
+    $sql_closed="";
     break;
   default:
     error("invalide p_type in 'preference.php'#__LINE__");
   }
   $sql="select p_id,to_char(p_start,'DD.MM.YYYY') as p_start_string,
                     to_char(p_end,'DD.MM.YYYY') as p_end_string 
-        from parm_periode where 
+        from parm_periode  
          $sql_closed 
           order by p_start";
           
@@ -136,7 +139,7 @@ function GetPeriode($p_cn,$p_periode)
  * \param $p_cn database connex
  * \param periode id
  *	
- * \return true if closed
+ * \return 't' if closed otherwise 'f'
  *      
  *
  */ 

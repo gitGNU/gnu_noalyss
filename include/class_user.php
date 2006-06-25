@@ -340,5 +340,16 @@ function update_global_pref($p_type,$p_value="") {
 	ExecSql($cn,$Update);
 
  }//end function
+/*!\brief Return the year of current Periode
+ *        it is the parm_periode.p_exercice col
+ */
+function getExercice()
+{
+  $sql="select p_exercice from parm_periode where p_id=".$this->GetPeriode();
+  $Ret=ExecSql($this->db,$sql);
+  $r=pg_fetch_array($Ret,0);
+  return $r['p_exercice'];
+}
+
 }
 ?>

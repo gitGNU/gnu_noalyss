@@ -402,6 +402,7 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
   //  $r.= '<div style="border-style:outset;border-width:1pt;">';
 
   $r.=JS_SEARCH_POSTE;
+  $r.=JS_SEARCH_CARD;
   $r.= "<B>Recherche</B>";
   $r.= '<FORM ACTION="recherche.php" METHOD="GET">';
   $r.="<table><tr><TD>";  
@@ -431,13 +432,24 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
   $r.="<TR>".$W->IOValue();
   $r.= "</TR>";
   $r.= "<TR>";
-  $A=new widget("TEXT");
-  $A->label="Quick Code";
-  $A->name="qcode";
-  $A->value=$p_qcode;
-  $r.="<TD> Quick Code</TD><TD>".$A->IOValue()."</TD>";
-  $r.= "</TR>";
+ 
+ $A=new widget('js_search_only');
+ $A->name='qcode';
+ $A->value=$p_qcode;
+ $A->extra="";
+ $A->table=1;
+ // $r.=$sp->IOValue("p_qcode_label")."</TD></TR>";
 
+ //  $A=new widget("TEXT");
+  $A->label="Quick Code";
+  $A->extra='all';
+  //$A->name="qcode";
+  //  $A->value=$p_qcode;
+  $sp= new widget("span");
+  $sp->table=0;
+  $r.=$A->IOValue().'</TD>'.$sp->IOValue("qcode_label");
+  $r.= "</TR>";
+  echo_debug('user_menu.php',__LINE__,"<TD>".$A->IOValue().'</TD><TD>'.$sp->IOValue("p_qcode_label")."</TD>");
 
   $r.= '<TD colspan="3"> Le commentaire contient </TD>';
   $r.= "</TR><TR>";

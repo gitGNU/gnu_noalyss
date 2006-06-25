@@ -113,15 +113,19 @@ if ( isset ( $_POST['search']) )  {
     $list_fiche=get_list_fiche($cn,$get,$_GET['p_jrn']);
     $sql="select * from vw_fiche_attr where fd_id in ( $list_fiche )";
   }
-  if ( $e_type == 'cred' ) {
+  elseif ( $e_type == 'cred' ) {
     $get='jrn_def_fiche_cred';
     $list_fiche=get_list_fiche($cn,$get,$_GET['p_jrn']);
     $sql="select * from vw_fiche_attr where fd_id in ( $list_fiche )";
   }
-
-
-  // if e_type contains a list of value
-  if ( $e_type != 'cred' and $e_type != 'deb')     {
+  /*!\brief if $e_type (from widget::extra) equal all, all the card are shown 
+   * without restriction
+   */
+  elseif ( $e_type == 'all' ) {
+    $sql="select * from vw_fiche_attr where true";
+  }
+  // if e_type contains a list of value for filtering on fiche_def_ref.frd_id
+  else{
     $list_fiche=$e_type;
     $sql="select * from vw_fiche_attr where frd_id in ( $list_fiche )";
     //    $sql="select * from vw_fiche_attr ";
@@ -145,6 +149,11 @@ if ( isset ( $_POST['search']) )  {
   //set focus on first "Select" button.
    
   $row=pg_fetch_array($Res,$i);
+  // if quick code is empty pass ( it not used for the contact)
+  if (trim($row['quick_code']) == "")
+    continue;
+
+
   if ( $i %2  == 0 ) 
     $class="even";
   else

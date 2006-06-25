@@ -36,12 +36,18 @@ class widget {
    * \enum   $readonly if set to false cannot modify
    * \enum   $size size for the text type
    * \enum   $selected selected value for the radio or select
-   * \enum   $table if we want to make a HTML table row
+   * \enum   $table if we want to make a HTML table row the value is return with &lt;TD&gt;
    * \enum   $label text before the input tag
    * \enum   $disabled to disable the type
    * \enum   $extra depends of the input type
    * \enum   $extra2 depends of the input type
    * \enum   $tabindex the tabindex
+   * \brief special value 
+   *    js_search and js_search_only :you need to add a span widget the name
+   *    of the js_* widget + '_label' , the member extra contains cred,deb to 
+   *    filter the search of cred of deb of a jrn or contains a string with 
+   *    a list of frd_id 
+   *
    */
 
   var $type;
@@ -98,7 +104,7 @@ class widget {
 	
       if ($this->table==1) {
 	if ( $this->label != "") {
-	  $r="<TD>".$this->label."</TD><TD>".$r."</TD>";
+	  $r="<TD  style=\"border:solid 1px blue;\">".$this->label."</TD><TD>".$r."</TD>";
 	}else {
 	  $r="<TD>".$r."</TD>";
 	}
@@ -316,11 +322,69 @@ class widget {
   }// poste==js_search
 
 
+  // input type == js_search => button search for card
+  /*!\brief js_search_only only for searching a card no new button
+   */
+  if ( strtolower($this->type)=="js_search_only") {
+    $l_sessid=$_REQUEST['PHPSESSID'];
+    if  ( $this->readonly == false ) {
+      if ( $this->table==1)
+	{
+	  $r=sprintf('<TD>
+         <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') value="Search">
+            %s</TD><TD> <INPUT TYPE="Text" NAME="%s" VALUE="%s" SIZE="8" TABINDEX="%s">
+                 ',
+	       $l_sessid,
+	       $this->extra,
+	       $this->name,
+	       $this->extra2,
+	       $this->label,
+	       $this->name,
+	       $this->value, 
+         $this->tabindex
+	       );
+	}
+      else
+	{
+	  $r=sprintf('
+         <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') value="Search">
+            %s <INPUT TYPE="Text" NAME="%s" VALUE="%s" SIZE="8" TABINDEX="%s">           ',
+	       $l_sessid,
+	       $this->extra,
+	       $this->name,
+	       $this->extra2,
+	       $this->label,
+	       $this->name,
+	       $this->value, 
+	       $this->tabindex
+	       );
+	}
+    } else {
+      // readonly == true
+      $r=sprintf('<TD>            %s</TD>
+                 <TD> 
+                 <INPUT TYPE="hidden" NAME="%s" VALUE="%s" SIZE="8">
+                 </TD>',
+	       $this->label,
+	       $this->name,
+	       $this->value 
+		 );
+
+    }
+    return $r;
+  }// poste==js_search_only
+
+
+
+
+
   // type=span
   if ( strtolower($this->type)=="span") {
-    $r=sprintf('<span id="%s"  >%s</span>',
+    $r=sprintf('<span id="%s"  >%s </span>',
 	       $this->name,
-	       $this->value);
+	       $this->value
+	       );
+
     return $r;
   }// end type = span
 

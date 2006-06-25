@@ -134,7 +134,8 @@ function ExecuteScript($p_cn,$script) {
       continue;
     } 
     if ( $flag_function ) {
-      if ( strpos(strtolower($buffer), "language plpgsql") === false ) {
+      if ( strpos(strtolower($buffer), "language plpgsql") === false && 
+	   strpos(strtolower($buffer), "language 'plpgsql'") === false ) {
 		$sql.=$buffer;
 		continue;
 	    }

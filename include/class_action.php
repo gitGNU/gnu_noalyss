@@ -47,8 +47,8 @@ require_once("user_common.php");
 class action 
 {
  /*! \enum $db  database connexion   
-  * \enum $ag_desc description (ag_gestion.ag_desc)
-  * \enum $ag_date document date (ag_gestion.ag_date)
+  * \enum $ag_comment description (ag_gestion.ag_comment)
+  * \enum $ag_timestamp document date (ag_gestion.ag_timestamp)
   * \enum $dt_id type of the document (document_type.dt_id)
   * \enum $d_state stage of the document (printed, send to client...)
   * \enum $d_number number of the document
@@ -56,11 +56,11 @@ class action
   * \enum $d_mimetype document's filename
   * \enum $ag_title title document
   * \enum $f_id fiche id
+  * \enum \todo replace attribut frmo document by an object document 
   */
   var $db;
-  var $ag_desc;
-  var $ag_date;
-  var $d_lob;
+  var $ag_comment;
+  var $ag_timestamp;
   var $dt_id;
   var $d_state;
   var $d_number;
@@ -89,8 +89,8 @@ class action
       // Date 
       $date=new widget("text");
       $date->readonly=true;
-      $date->name="ag_date";
-      $date->value=$this->ag_date;
+      $date->name="ag_timestamp";
+      $date->value=$this->ag_timestamp;
       // Doc Type
       $doc_type=new widget("hidden");
       $doc_type->name="dt_id";
@@ -101,23 +101,39 @@ class action
 
       // state
       // Retrieve the value
-      $a=ExecSql($this->db,"select s_value from document_state where s_id=".$this->d_state);
-      $v=pg_fetch_array($a,0);
-      $str_state=$v[0];
-      $state=new widget("hidden");
-      $state->name="d_state";
-      $state->value=$this->d_state;
+      // Retrieve the value if there is an attached doc
+      $doc_ref="";
+      if ( strlen ($this->d_state) > 0 )
+	{
+	  $a=ExecSql($this->db,"select s_value from document_state where s_id=".$this->d_state);
+	  $v=pg_fetch_array($a,0);
+	  $str_state=$v[0];
+	  $state=new widget("hidden");
+	  $state->name="d_state";
+	  $state->value=$this->d_state;
+	  $doc=new Document($this->db,$this->d_id);
+	  $doc_ref="<p> Document ".$doc->a_ref().'</p>';
+	}
+      else 
+	$str_state="";
       // title
       $title=new widget("text");
       $title->readonly=true;
       $title->name="ag_title";
       $title->value=FormatString($this->ag_title);
 
+      // ag_ref
+      $ag_ref=new widget("text");
+      $ag_ref->readonly=true;
+      $ag_ref->name="ag_ref";
+      $ag_ref->value=FormatString($this->ag_ref);
+
+
       // Description
       $desc=new widget('textarea');
-      $desc->name="ag_desc";
+      $desc->name="ag_comment";
       $desc->readonly=" disabled ";
-      $desc->value=$this->ag_desc;
+      $desc->value=$this->ag_comment;
       // Propose to generate a document
       $gen=new widget ("checkbox");
       $gen->name="p_gen";
@@ -131,15 +147,47 @@ class action
       // Preparing the return string
 
       $r.="<p>Date : ".$date->IOValue()."</p>";
-      $r.="<p>Etat $str_state".$state->IOValue()."</p>";
-      $r.="<p>Type du document $str_type".$doc_type->IOValue()."</p>";
+      if ( $str_type != "" )
+	$r.="<p>Type du document $str_type".$doc_type->IOValue()."</p>";
       $r.="<p> Tiers : ".$this->qcode." ".$tiers->strAttribut(1).'</p>';
-      $r.="<p> Titre : ".$title->IOValue();
-      $r.="<p>Description :".urldecode($desc->IOValue())."</p>";
+      $r.="<p> Titre : ".$title->IOValue().' Ref :'.$ag_ref->IOValue();
+      $r.=$doc_ref;
+      $r.="<p>Description :".urldecode(urldecode($desc->IOValue()))."</p>";
+
       return $r;
  
     }
+  /*!\brief This function shows the detail of an action thanks the ag_id
+   */
+  function get()
+    {
+      echo_debug('class_action',__LINE__,'Action::Get() ');
+      $sql="select * from action_gestion left join document using (ag_id) where ag_id=".$this->ag_id;
+      $r=ExecSql($this->db,$sql);
+      $row=pg_fetch_all($r);
+      if ( $row==false) return;
+      $this->ag_comment=$row[0]['ag_comment'];
+      $this->ag_timestamp=$row[0]['ag_timestamp'];
+      $this->f_id=$row[0]['f_id'];
+      $this->ag_title=$row[0]['ag_title'];
+      $this->ag_type=$row[0]['ag_type'];
+      $this->ag_ref=$row[0]['ag_ref'];
+      $this->d_id=$row[0]['d_id'];
+      echo_debug('class_action',__LINE__,' Document id = '.$this->d_id);
+      // if there is no document set 0 to d_id
+      if ( $this->d_id == "" ) 
+	$this->d_id=0;
+      // if there is a document fill the object
+      if ($this->d_id != 0 )
+	{
+	  $this->d_state=$row[0]['d_state'];
+	}
+      echo_debug('class_action',__LINE__,' After test Document id = '.$this->d_id);
+      $this->dt_id=$this->ag_type;
+      $a=new fiche($this->db,$this->f_id);
+      $this->qcode=$a->strAttribut(ATTR_DEF_QUICKCODE);
 
+    }
 /*!  Confirm
  * \brief Display the encoded data and ask a confirmation
  *        this correspond to the stage 1, before the generation
@@ -150,17 +198,18 @@ class action
  */
   function Confirm()
     {
-      if ( isDate($this->ag_date) == NULL )
+      /*! \todo add the hour */
+      if ( isDate($this->ag_timestamp) == NULL )
 	{
 	  // if the date is invalid, default date is today
-	  $this->ag_date=date("d.m.Y");
+	  $this->ag_timestamp=date("d.m.Y");
 	}
       // Compute the widget
       // Date 
       $date=new widget("text");
       $date->readonly=true;
-      $date->name="ag_date";
-      $date->value=$this->ag_date;
+      $date->name="ag_timestamp";
+      $date->value=$this->ag_timestamp;
       // Doc Type
       $doc_type=new widget("hidden");
       $doc_type->name="dt_id";
@@ -180,13 +229,13 @@ class action
 	}
 
       // state
-      // Retrieve the value
       $a=ExecSql($this->db,"select s_value from document_state where s_id=".$this->d_state);
       $v=pg_fetch_array($a,0);
       $str_state=$v[0];
       $state=new widget("hidden");
       $state->name="d_state";
       $state->value=$this->d_state;
+	
       // title
       $title=new widget("text");
       $title->readonly=true;
@@ -195,9 +244,9 @@ class action
 
       // Description
       $desc=new widget('textarea');
-      $desc->name="ag_desc";
+      $desc->name="ag_comment";
       $desc->readonly=" disabled ";
-      $desc->value=$this->ag_desc;
+      $desc->value=$this->ag_comment;
       // Propose to generate a document
       $gen=new widget ("checkbox");
       $gen->name="p_gen";
@@ -216,6 +265,7 @@ class action
       $r.="<p> Tiers : ".$this->qcode." ".$tiers->strAttribut(1).'</p>';
       $r.="<p> Titre : ".$title->IOValue();
       $r.="<p>Description :".$desc->IOValue()."</p>";
+
       // if no document exist for this type then do not display the question
       if ( sizeof($doc_gen->value) != 0) 
 	$r.="<p> G&eacute;n&eacute;rer un document ".$gen->IOValue()." ".$doc_gen->IOValue()."</p>";
@@ -254,12 +304,22 @@ class action
 	$this->ag_title=$doc_mod->dt_value;
       }
       echo_debug('class_action',__LINE__," tiers->id  ".$tiers->id);
-      $sql=sprintf("insert into action_gestion(ag_type,ag_title,f_id,ag_comment) values ('%s','%s',%d,'%s')",		   $this->dt_id,
+      $this->ag_id=NextSequence($this->db,'action_gestion_ag_id_seq');
+      // Create the reference 
+      $ref=$this->dt_id.'/'.$this->ag_id;
+      $this->ag_ref=$ref;
+
+      $sql=sprintf("insert into action_gestion(ag_id,ag_type,ag_title,f_id,ag_comment,ag_ref) values (%d,'%s','%s',%d,'%s','%s')",
+		   $this->ag_id,
+		   $this->dt_id,
 		   FormatString($this->ag_title),
 		   $tiers->id,
-		   FormatString(urlencode($this->ag_desc)));
+		   FormatString(urlencode($this->ag_comment)),
+		   $ref
+		   );
       ExecSql($this->db,$sql);
-      $this->ag_id=GetSequence($this->db,'action_gestion_ag_id_seq');
+
+
 
       // the lob filename and the mimetype needed if we want to generate a doc.
       if ( $this->gen == 'on' ) 
@@ -268,7 +328,9 @@ class action
 	  $doc->f_id=$tiers->id;
 	  $doc->md_id=$this->md_id;
 	  $doc->ag_id=$this->ag_id;
+	  $doc->d_state=$this->d_state;
 	  $str_file=$doc->Generate();
+	  $d='<input type="hidden" name="d_id" value="'.$doc->d_id.'">';
 	}
 
       $r=$this->Display();
@@ -278,6 +340,8 @@ class action
       $r.='<input type="hidden" name="sa" value="save_action_st3">';
       $r.='<input type="hidden" name="p_action" value="suivi_courrier">';
       $r.='<input type="hidden" name="ag_id" value="'.$this->ag_id.'">';
+      // add the d_id
+      $r.=$d;
 
       // Value for the generated document
       if ( $this->gen == 'on' ) 
@@ -329,7 +393,7 @@ class action
   function myList($p_filter="",$p_search="")
     {
       $sql="
-   select ag_id,to_char(ag_timestamp,'DD-MM-YYYY HH:MI') as my_date,f_id,ag_title,d_id,md_type,dt_value 
+   select ag_id,to_char(ag_timestamp,'DD-MM-YYYY HH:MI') as my_date,f_id,ag_title,d_id,md_type,dt_value,ag_ref 
    from action_gestion 
       left outer join document using (ag_id)
       left outer join document_modele on (ag_type=md_type) 
@@ -352,6 +416,7 @@ class action
       $r.="<th>Société</th>";
       $r.="<th>Titre</th>";
       $r.="<th>type</th>";
+      $r.="<th>Référence</th>";
       $r.="<th>Document</th>";
       $r.="</tr>";
 
@@ -364,15 +429,21 @@ class action
 	  return $r;
 
 	}
+      echo JS_SEARCH_CARD;
       foreach ($a_row as $row )
 	{
 	  $r.="<tr>";
 	  $r.="<td>".$row['my_date']."</td>";
 	  $f=new fiche($this->db);
 	  $f->id=$row['f_id'];
-	  $r.="<td>".$f->getName()."</td>";
-	  $r.="<td>".$row['ag_title']."</td>";
+	  $q=$f->strAttribut(ATTR_DEF_QUICKCODE);
+	  $js=sprintf("javascript:showfiche('%s','%s')",
+		      $_REQUEST['PHPSESSID'],$q);
+	  $r.="<td>".'<A HREF="'.$js.'">'.$q." : ".$f->getName().'</A></td>';
+	  $r.='<td><A HREF="commercial.php?p_action=suivi_courrier&sa=detail&ag_id='.$row['ag_id'].'">'.
+	    $row['ag_title']."</A></td>";
 	  $r.="<td>".$row['dt_value']."</td>";
+	  $r.="<td>".$row['ag_ref']."</td>";
 
 	  $doc=new Document($this->db,$row['d_id']);
 	  $r.="<td>".$doc->a_ref()."</td>";

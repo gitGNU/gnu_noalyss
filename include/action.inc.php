@@ -43,11 +43,22 @@ function ShowActionList($cn,$retour,$h_url)
 <form method="get" action="commercial.php">
 <?
    $a=(isset($_GET['query']))?$_GET['query']:"";
-   printf ('<span>Titre : <input type="text" name="query" value="%s"></span>',
+   printf ('<span>Titre ou référence: <input type="text" name="query" value="%s"></span>',
 	   $a);
    $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
-   printf ('<span>Tiers QuickCode: <input type="text" name="qcode" value="%s"></span>',
-	   $qcode);
+   echo JS_SEARCH_CARD;
+   $w=new widget('js_search_only');
+   $w->name='qcode';
+   $w->value=$qcode;
+   $w->label='Quick Code';
+   $w->extra='4,9,14,16,8';
+   $w->table=0;
+   $sp= new widget("span");
+   echo $sp->IOValue("qcode_label","",$qcode);
+   echo $w->IOValue();
+
+   // printf ('<span>Tiers QuickCode: <input type="text" name="qcode" value="%s"></span>',
+   //	   $qcode);
 
 ?>
 <input type="submit" name="submit_query" value="recherche">
@@ -75,19 +86,21 @@ function ShowActionList($cn,$retour,$h_url)
     // show the  action in 
     $act=new action($cn);
    
-   $query=(isset ($_REQUEST['query']))?"and ag_title ~* '".FormatString($_REQUEST['query'])."'":"";
+   $query=(isset ($_REQUEST['query']))?"and (ag_title ~* '".FormatString($_REQUEST['query'])."' or ag_ref ='".trim(FormatString($_REQUEST['query']))."')":"";
    $str="";
    if ( isset($_REQUEST['qcode'] )) 
      {
+
        // verify that qcode is not empty
        if ( strlen(trim($_REQUEST['qcode'] )) != 0 )
 	 { 
+
 	   $fiche=new Fiche($cn);
 	   $fiche->GetByQCode($_REQUEST['qcode']);
 	   $str=" and f_id= ".$fiche->id;
 	 }
      }
-   
+
    $r=$act->myList(ACTION,$query.$str);
    echo $r;
  }
@@ -108,7 +121,7 @@ if (isset($_POST['corr'] ))
 // if this page is called from another menu (customer, supplier,...)
 // a button back is added
 // TODO add function for generating url, hidden tags...
-$retour="";
+$retour='<A HREF="commercial.php?p_action=suivi_courrier"><input type="button" value="Retour"></A>';
 $h_url="";
 
 if ( isset ($_REQUEST['url'])) 
@@ -116,7 +129,17 @@ if ( isset ($_REQUEST['url']))
      $retour=sprintf('<A HREF="%s"><input type="button" value="Retour"></A>',urldecode($_REQUEST['url']));
      $h_url=sprintf('<input type="hidden" name="url" value="%s">',urldecode($_REQUEST['url']));
 }
+//////////////////////////////////////////////////////////////////////////////////
+// Show the detail of an action
+if ( $sub_action=='detail' )
+{
+  $act=new action($cn);
+  $act->ag_id=$_REQUEST['ag_id'];
+  echo $act->get();
+  echo $act->display();
+  echo $retour;
 
+}
 //////////////////////////////////////////////////////////////////////
 // Show a list of the action
 if ( $sub_action == "list" )
@@ -134,8 +157,8 @@ if ( $sub_action == "add_action" )
   echo '<form name="RTEDemo" action="commercial.php?p_action=suivi_courrier" method="post" onsubmit="return submitForm();">';
   echo $h_url;
   $date=new widget("text");
-  $date->name="ag_date";
-  $date->value=(isset($_POST['ag_date']))?$_POST['ag_date']:"";
+  $date->name="ag_timestamp";
+  $date->value=(isset($_POST['ag_timestamp']))?$_POST['ag_timestamp']:"";
   echo "<p>Date : ";
   echo $date->IOValue()."</p>";
   // Tiers
@@ -195,7 +218,7 @@ function submitForm() {
 	//make sure hidden and iframe values are in sync before submitting form
 	//to sync only 1 rte, use updateRTE(rte)
 	//to sync all rtes, use updateRTEs
-	updateRTE('ag_desc');
+	updateRTE('ag_comment');
 	//updateRTE();
 	//change the following line to true to submit form
 	return true;
@@ -210,8 +233,8 @@ initRTE("images/", "", "");
 <script language="JavaScript" type="text/javascript">
 <!--
 //Usage: writeRichText(fieldname, html, width, height, buttons, readOnly)
-    <? $a=(isset($_POST['ag_desc']))?FormatString(urldecode($_POST['ag_desc'])):""; ?>
-writeRichText('ag_desc', <? printf ("'%s'",$a); ?>, 520, 200, true, false);
+    <? $a=(isset($_POST['ag_comment']))?FormatString(urldecode($_POST['ag_comment'])):""; ?>
+writeRichText('ag_comment', <? printf ("'%s'",$a); ?>, 520, 200, true, false);
 <? echo_debug('action.inc',__LINE__, " A = ".$a); ?>
 //-->
 </script>
@@ -228,8 +251,8 @@ writeRichText('ag_desc', <? printf ("'%s'",$a); ?>, 520, 200, true, false);
 if  ( $sub_action == "save_action_st1" ) 
 {
   $act=new action($cn);
-  $act->ag_desc=$_POST['ag_desc'];
-  $act->ag_date=$_POST['ag_date'];
+  $act->ag_comment=$_POST['ag_comment'];
+  $act->ag_timestamp=$_POST['ag_timestamp'];
   $act->d_state=$_POST['d_state'];
   $act->dt_id=$_POST['dt_id'];
   $act->qcode=$_POST['tiers'];
@@ -243,12 +266,14 @@ if  ( $sub_action == "save_action_st1" )
 if  ( $sub_action == "save_action_st2" ) 
 {
   $act=new action($cn);
-  $act->ag_desc=$_POST['ag_desc'];
-  $act->ag_date=$_POST['ag_date'];
+  $act->ag_comment=$_POST['ag_comment'];
+  $act->ag_timestamp=$_POST['ag_timestamp'];
   $act->d_state=$_POST['d_state'];
   $act->dt_id=$_POST['dt_id'];
   $act->qcode=$_POST['tiers'];
   $act->ag_title=$_POST['ag_title'];
+
+
   $act->md_id=(isset($_POST['gen_doc']))?$_POST['gen_doc']:0;
 
   $act->gen=isset($_POST['p_gen'])?'on':'off';

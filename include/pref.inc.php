@@ -18,6 +18,9 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+/*!\brief this file is always included and then executed
+ *        it permits to change the user preferences
+ */
 
 echo '<DIV class="u_content">';
 
@@ -90,19 +93,26 @@ $disp_style.="</SELECT>";
 if ( isset ($_SESSION['g_dossier']) ) {
 
   include_once("preference.php");
- 
+  $msg=""; 
 
   if ( isset ($_POST["sub_periode"] ) ) {
     $periode=$_POST["periode"];
     $User->SetPeriode($periode);
-    //    SetUserPeriode($cn,$periode,$_SESSION['g_user']); 
+    echo_debug('pref.inc',__LINE__,"Periode returns ".PeriodeClosed($cn,$periode));
+    // if periode is closed then warns the users
+    if ( PeriodeClosed($cn,$periode)=='t')
+    {
+      $msg= '<h2 class="error">Attention cette période est fermée, vous ne pourrez rien modifier dans le module comptable</h2>';
+    }
+
   }
 
   $l_user_per=$User->GetPeriode();
-  $l_form_per=FormPeriode($cn,$l_user_per);
+  $l_form_per=FormPeriode($cn,$l_user_per,ALL);
 
 ?>
 <H2 CLASS="info"> Période</H2>
+  <? echo $msg; ?>
 <FORM ACTION="<? echo $url;?>" METHOD="POST">
 <TABLE ALIGN="CENTER">
 <TR><TD>PERIODE</TD>
