@@ -183,7 +183,7 @@ td.selectedcell{
 
 a.mtitle {
 	text-decoration:none;
-	color:white;
+	color:grey;
 }
 a.mtitle:hover {
 	background:#4BCCD0;
