@@ -54,9 +54,9 @@
 <a name="l00062"></a>00062       <span class="comment">// Get the max numberRow</span>
 <a name="l00063"></a>00063       $all_contact=$this-&gt;<a class="code" href="classfiche.html#a5">CountByDef</a>($this-&gt;fiche_def_ref,$p_search,$extra_sql); 
 <a name="l00064"></a>00064       <span class="comment">// Get offset and page variable</span>
-<a name="l00065"></a>00065       <a class="code" href="bank_8inc_8php.html#a13">$offset</a>=( isset ($_REQUEST['offset'] )) ?$_REQUEST['offset']:0;
-<a name="l00066"></a>00066       <a class="code" href="bank_8inc_8php.html#a12">$page</a>=(isset($_REQUEST['page']))?$_REQUEST['page']:1;
-<a name="l00067"></a>00067       <a class="code" href="bank_8inc_8php.html#a15">$bar</a>=<a class="code" href="user__common_8php.html#a16">jrn_navigation_bar</a>($offset,$all_contact,$_SESSION['g_pagesize'],$page);
+<a name="l00065"></a>00065       <a class="code" href="bank_8inc_8php.html#a16">$offset</a>=( isset ($_REQUEST['offset'] )) ?$_REQUEST['offset']:0;
+<a name="l00066"></a>00066       <a class="code" href="bank_8inc_8php.html#a15">$page</a>=(isset($_REQUEST['page']))?$_REQUEST['page']:1;
+<a name="l00067"></a>00067       <a class="code" href="bank_8inc_8php.html#a18">$bar</a>=<a class="code" href="user__common_8php.html#a16">jrn_navigation_bar</a>($offset,$all_contact,$_SESSION['g_pagesize'],$page);
 <a name="l00068"></a>00068       <span class="comment">// set a filter ?</span>
 <a name="l00069"></a>00069       <a class="code" href="admin_8inc_8php.html#a8">$search</a>=<span class="stringliteral">""</span>;
 <a name="l00070"></a>00070       <span class="keywordflow">if</span> ( trim($p_search) != <span class="stringliteral">""</span> )
@@ -71,7 +71,7 @@
 <a name="l00079"></a>00079       <span class="comment">// Get The result Array</span>
 <a name="l00080"></a>00080       $step_contact=$this-&gt;<a class="code" href="classfiche.html#a17">GetAll</a>($offset,$search.$extra_sql);
 <a name="l00081"></a>00081       <span class="keywordflow">if</span> ( $all_contact == 0 ) <span class="keywordflow">return</span> <span class="stringliteral">""</span>;
-<a name="l00082"></a>00082       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="bank_8inc_8php.html#a15">$bar</a>;
+<a name="l00082"></a>00082       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="bank_8inc_8php.html#a18">$bar</a>;
 <a name="l00083"></a>00083       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;<a class="code" href="balance_8php.html#a3">table</a> border=<span class="stringliteral">"0"</span>&gt;
 <a name="l00084"></a>00084 &lt;TR style=<span class="stringliteral">"background-color:lightgrey;"</span>&gt;
 <a name="l00085"></a>00085 &lt;th&gt;Nom&lt;/th&gt;
@@ -86,9 +86,9 @@
 <a name="l00094"></a>00094       $and=<span class="stringliteral">"?"</span>;
 <a name="l00095"></a>00095       $get=$_GET;
 <a name="l00096"></a>00096       <span class="keywordflow">if</span> ( isset ($get) ) {
-<a name="l00097"></a>00097         foreach ($get as $<a class="code" href="action_8inc_8php.html#a4">name</a>=&gt;$<a class="code" href="action_8inc_8php.html#a5">value</a> ) {
+<a name="l00097"></a>00097         foreach ($get as $<a class="code" href="action_8inc_8php.html#a12">name</a>=&gt;$<a class="code" href="action_8inc_8php.html#a13">value</a> ) {
 <a name="l00098"></a>00098           <span class="comment">// we clean the parameter offset, step, page and size</span>
-<a name="l00099"></a>00099           <span class="keywordflow">if</span> (  ! in_array($<a class="code" href="action_8inc_8php.html#a4">name</a>,array('<a class="code" href="facture_8inc_8php.html#a19">f_id</a><span class="charliteral">','</span>detail'))) {
+<a name="l00099"></a>00099           <span class="keywordflow">if</span> (  ! in_array($<a class="code" href="action_8inc_8php.html#a12">name</a>,array('<a class="code" href="facture_8inc_8php.html#a19">f_id</a><span class="charliteral">','</span>detail'))) {
 <a name="l00100"></a>00100             <a class="code" href="admin_8inc_8php.html#a3">$url</a>.=$and.$name.<span class="stringliteral">"="</span>.$value;
 <a name="l00101"></a>00101             $and=<span class="stringliteral">"&amp;"</span>;
 <a name="l00102"></a>00102           }<span class="comment">// if</span>
@@ -124,12 +124,12 @@
 <a name="l00132"></a>00132 
 <a name="l00133"></a>00133       }
 <a name="l00134"></a>00134       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/TABLE&gt;"</span>;
-<a name="l00135"></a>00135       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="bank_8inc_8php.html#a15">$bar</a>;
+<a name="l00135"></a>00135       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="bank_8inc_8php.html#a18">$bar</a>;
 <a name="l00136"></a>00136       <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
 <a name="l00137"></a>00137     }
 <a name="l00138"></a>00138 
 <a name="l00139"></a>00139 }
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jun 26 20:13:15 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Jun 27 01:39:27 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

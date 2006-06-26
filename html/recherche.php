@@ -52,9 +52,9 @@ $search_box=u_ShowMenuRecherche($cn,0,$sessid,$_GET);
 echo '<DIV class="lextmenu">'; // class="recherche_form">';
 echo $search_box;
 echo "</div>";
-////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // Display search result
-////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 if ( isset ($_GET['viewsearch'])) {
   // Navigation bar
   $step=$_SESSION['g_pagesize'];

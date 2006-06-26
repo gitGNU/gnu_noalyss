@@ -59,7 +59,7 @@ echo ShowItem ( array (
 			),'V');
 echo '</div>';
 echo '<div class="redcontent">';
-/////////////////////////// EXPORT ////////////////////////////////////////////
+//----------------------------------------------------- EXPORT ////////////////////////////////////////////
 if ( isset ($_GET['export'])) {
   // if the year is not set, ask it
   // ask the exercice and do the export
@@ -76,7 +76,7 @@ if ( isset ($_GET['export'])) {
   echo "</form>";
   exit(0);
 }
-/////////////////////////// IMPORT ////////////////////////////////////////////
+//----------------------------------------------------- IMPORT ////////////////////////////////////////////
 if ( isset ($_GET['import'])) {
 	// show a form to upload the file
 	// that form will parse the file, create an ods operation

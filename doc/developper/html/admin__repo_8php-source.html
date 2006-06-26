@@ -229,15 +229,15 @@
 <a name="l00225"></a>00225       <span class="comment">// Reset Sequence</span>
 <a name="l00226"></a><a class="code" href="admin__repo_8php.html#a16">00226</a>       <a class="code" href="admin__repo_8php.html#a16">$a_seq</a>=array('s_jrn<span class="charliteral">','</span>s_jrn_op<span class="charliteral">','</span>s_centralized<span class="charliteral">','</span>s_stock_goods');
 <a name="l00227"></a>00227       foreach ($a_seq as $seq ) {
-<a name="l00228"></a>00228         <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=sprintf(<span class="stringliteral">"select setval('%s',1,false)"</span>,$seq);
+<a name="l00228"></a>00228         <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=sprintf(<span class="stringliteral">"select setval('%s',1,false)"</span>,$seq);
 <a name="l00229"></a>00229         <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn_mod,$sql);
 <a name="l00230"></a>00230         }
-<a name="l00231"></a><a class="code" href="admin__repo_8php.html#a17">00231</a>         <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"select jrn_def_id from jrn_def "</span>;
+<a name="l00231"></a><a class="code" href="admin__repo_8php.html#a17">00231</a>         <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=<span class="stringliteral">"select jrn_def_id from jrn_def "</span>;
 <a name="l00232"></a>00232         <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn_mod,$sql);
 <a name="l00233"></a><a class="code" href="admin__repo_8php.html#a18">00233</a>         <a class="code" href="setup_8php.html#a11">$Max</a>=pg_NumRows($Res);
 <a name="l00234"></a>00234         <span class="keywordflow">for</span> ($seq=0;$seq&lt;$Max;$seq++) {
 <a name="l00235"></a>00235             <a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($Res,$seq);
-<a name="l00236"></a>00236             <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=sprintf (<span class="stringliteral">"select setval('s_jrn_%d',1,false)"</span>,$row['jrn_def_id']);
+<a name="l00236"></a>00236             <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=sprintf (<span class="stringliteral">"select setval('s_jrn_%d',1,false)"</span>,$row['jrn_def_id']);
 <a name="l00237"></a>00237             <a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn_mod,$sql);
 <a name="l00238"></a>00238         }
 <a name="l00239"></a>00239       
@@ -318,7 +318,7 @@
 <a name="l00314"></a>00314 
 <a name="l00315"></a>00315 <a class="code" href="ac__common_8php.html#a6">html_page_stop</a>();
 <a name="l00316"></a>00316 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jun 26 20:13:15 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Jun 27 01:39:26 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

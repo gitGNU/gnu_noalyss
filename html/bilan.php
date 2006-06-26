@@ -95,7 +95,7 @@ while (! feof ($bnb_form)) {
  }// end read form line per line
 // echo "<hr>";
 fclose ($bnb_form);
-//////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // Open the rtf document in order to read it and to 
 // replace the <<>> by the appropriate values
 //

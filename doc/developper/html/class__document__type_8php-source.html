@@ -32,19 +32,19 @@
 <a name="l00035"></a><a class="code" href="classDocument__type.html#a0">00035</a>   function <a class="code" href="classDocument__type.html#a0">document_type</a>($p_cn)
 <a name="l00036"></a>00036     {
 <a name="l00037"></a>00037       $this-&gt;db=$p_cn;
-<a name="l00038"></a>00038       $this-&gt;<a class="code" href="action_8inc_8php.html#a20">dt_id</a>=-1;
+<a name="l00038"></a>00038       $this-&gt;<a class="code" href="action_8inc_8php.html#a7">dt_id</a>=-1;
 <a name="l00039"></a>00039     }
 <a name="l00043"></a><a class="code" href="classDocument__type.html#a1">00043</a>   function <a class="code" href="classDocument__type.html#a1">get</a>()
 <a name="l00044"></a>00044     {
-<a name="l00045"></a>00045       <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"select * from document_type where dt_id="</span>.$this-&gt;dt_id;
+<a name="l00045"></a>00045       <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=<span class="stringliteral">"select * from document_type where dt_id="</span>.$this-&gt;dt_id;
 <a name="l00046"></a>00046       $R=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql);
 <a name="l00047"></a>00047       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=pg_fetch_array($R,0);
-<a name="l00048"></a>00048       $this-&gt;<a class="code" href="action_8inc_8php.html#a20">dt_id</a>=<a class="code" href="user__action__ach_8php.html#a2">$r</a>['<a class="code" href="action_8inc_8php.html#a20">dt_id</a>'];
+<a name="l00048"></a>00048       $this-&gt;<a class="code" href="action_8inc_8php.html#a7">dt_id</a>=<a class="code" href="user__action__ach_8php.html#a2">$r</a>['<a class="code" href="action_8inc_8php.html#a7">dt_id</a>'];
 <a name="l00049"></a>00049       $this-&gt;dt_value=<a class="code" href="user__action__ach_8php.html#a2">$r</a>['dt_value'];
 <a name="l00050"></a>00050     }
 <a name="l00051"></a>00051 
 <a name="l00052"></a>00052 }
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jun 26 20:13:15 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Jun 27 01:39:27 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

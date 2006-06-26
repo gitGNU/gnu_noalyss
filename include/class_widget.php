@@ -23,7 +23,6 @@
  * \brief This class is used to create all the HTML INPUT TYPE
  */
 
-
 /*!
  * \brief class widget This class is used to create all the HTML INPUT TYPE
  *        and some specials which works with javascript like 
@@ -119,25 +118,30 @@ class widget {
     }
     // Select value
     if ( strtoupper($this->type) == "SELECT") {
-      if ($this->readonly==false ){
-	      //echo "<b>Selected <b>".$this->selected;
-      $r="<SELECT  NAME=\"$this->name\">";
-      for ( $i=0;$i<sizeof($this->value);$i++) {
-	$checked=($this->selected==$this->value[$i]['value'])?"SELECTED":"";
-	$r.='<OPTION VALUE="'.$this->value[$i]['value'].'" '.$checked.'>';
-	$r.=$this->value[$i]['label'];
-      }
-      $r.="</SELECT>";
-      } else {
-	echo_debug('class_widget.php',__LINE__,"this->selected = ".$this->selected); 
-	for ( $i=0;$i<sizeof($this->value);$i++) {
-	  echo_debug('class_widget.php',__LINE__,"check for ".$this->value[$i]['value']);
-	  if ($this->selected==$this->value[$i]['value'] ) {
-	    $r=$this->value[$i]['label'];
+      if ($this->readonly==false )
+	{
+	  //echo "<b>Selected <b>".$this->selected;
+	  $r="<SELECT  NAME=\"$this->name\">";
+	  for ( $i=0;$i<sizeof($this->value);$i++) 
+	    {
+	      $checked=($this->selected==$this->value[$i]['value'])?"SELECTED":"";
+	      $r.='<OPTION VALUE="'.$this->value[$i]['value'].'" '.$checked.'>';
+	      $r.=$this->value[$i]['label'];
+	    }
+	  $r.="</SELECT>";
+	} else 
+	  {
+	    echo_debug('class_widget.php',__LINE__,"this->selected = ".$this->selected); 
+	    for ( $i=0;$i<sizeof($this->value);$i++) 
+	      {
+		echo_debug('class_widget.php',__LINE__,"check for ".$this->value[$i]['value']);
+		if ($this->selected==$this->value[$i]['value'] ) 
+		  {
+		    $r=$this->value[$i]['label'];
  	
+		  }
+	      }
 	  }
-	}
-      }
       if ( $this->table==1) {
 	$r="<TD> $r </TD>";
 	if ( $this->label != "") $r="<TD> $this->label</TD>".$r;
@@ -222,6 +226,64 @@ class widget {
       return $r;
     }
 
+    //----------------------------------------------------------------------
+
+    //----------------------------------------------------------------------
+    // Rich Text
+    /*!\brief
+     * \note for the type RICHTEXT we need to include the javascript file
+     *       into the head \see commercial.php html_page_start($_SESSION['g_theme'],"","richtext.js");
+     */
+
+    if ( strtoupper($this->type)=='RICHTEXT')
+      {
+	    $r= ' <script language="JavaScript" type="text/javascript"> '.
+	      '<!-- '."\n".
+	      "\nfunction submitForm() {\n".
+	      " updateRTE('".$this->name."');\n ".
+	      " return true; \n".
+	      "} \n".
+	      'initRTE("images/", "", "");'."\n".
+	      '//-->'."\n".
+	      '</script>'.
+	      '<noscript><p><b>Javascript must be enabled to use this form.</b></p></noscript>'.
+	      'Note Interne : '.
+	      '<script language="JavaScript" type="text/javascript">'."\n".
+	      '<!--'."\n";
+	      //Usage: writeRichText(fieldname, html, width, height, buttons, readOnly)
+
+	    echo_debug('class_widget',__LINE__,'to write is '.$this->name);
+	    /*\! brief 
+	     *\note the value must be urlencoded
+	     */
+	    //  Removing new line
+	    
+	    //	    $msg=urlencode($this->value);
+	    $msg=$this->value;
+	    $msg=str_replace("%OA","",$msg);
+	    $msg=str_replace("%OD","",$msg);
+	    $msg=str_replace("\n","",$msg);
+	    $msg=str_replace("\r","",$msg);
+
+	    $read=($this->readonly)?"false":"true";	    
+	    //	    $r.=sprintf("var msg='%s';",urldecode($msg));
+
+
+	    $r.=sprintf(" writeRichText('%s','%s',%d,%d,true,%s);\n",
+			$this->name,
+			$msg,
+			$this->width,
+			$this->heigh, 
+			$read);
+	    $r.= "\n//-->".
+	      "</script>";
+	    echo_debug ('class_widget',__LINE__,"writeRichText '$r'");
+
+	    return $r;
+	  
+      }
+
+    //----------------------------------------------------------------------
     //file
     if (strtoupper($this->type)=="FILE") {
       if ( $this->readonly == false ) {
@@ -429,7 +491,7 @@ class widget {
 
     return $r;
   }// end js_concerned
-  return "INVALID WIDGET ";
+  return "INVALID WIDGET $this->type ";
   } //end function
   /* Debug
    */

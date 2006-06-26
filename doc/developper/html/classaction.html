@@ -16,9 +16,9 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaction.html#a0">action</a> ($p_cn)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">constructor  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaction.html#a1">Display</a> ()</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaction.html#a1">Display</a> ($p_view)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Display the object.  <a href="#a1"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Display the object, the tags for the FORM are in the caller. It will be used for adding and updating action.  <a href="#a1"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaction.html#a2">get</a> ()</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function shows the detail of an action thanks the ag_id.  <a href="#a2"></a><br></td></tr>
@@ -27,13 +27,16 @@
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Display the encoded data and ask a confirmation this correspond to the stage 1, before the generation or the upload of document.  <a href="#a3"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaction.html#a4">SaveStage2</a> ()</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Save the document and propose to save the generated document or to upload one, the data are included except the file. Temporary the generated document is save.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaction.html#a5">SaveStage3</a> ($d_id)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Save the document and propose to save the generated document or to upload one, the data are included except the file. Temporary the generated document is savethe ag_comment is already urlencoded.  <a href="#a4"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaction.html#a5">SaveStage3</a> ($<a class="el" href="action_8inc_8php.html#a10">d_id</a>)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Upload the document or save the generated document.  <a href="#a5"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaction.html#a6">myList</a> ($p_filter=&quot;&quot;, $p_search=&quot;&quot;)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Show list of action.  <a href="#a6"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaction.html#a7">Update</a> ()</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Update the data into the database.  <a href="#a7"></a><br></td></tr>
 <tr><td colspan="2"><br><h2>Data Fields</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaction.html#o0">$db</a></td></tr>
 
@@ -137,12 +140,12 @@ Confirm<p>
 <dl compact><dt><b><a class="el" href="todo.html#_todo000002">Todo:</a></b></dt><dd>add the hour </dd></dl>
 
 <p>
-Definition at line <a class="el" href="class__action_8php-source.html#l00199">199</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
+Definition at line <a class="el" href="class__action_8php-source.html#l00247">247</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
 <p>
-References <a class="el" href="action_8inc_8php-source.html#l00236">$a</a>, <a class="el" href="admin__repo_8php-source.html#l00119">$desc</a>, <a class="el" href="action_8inc_8php-source.html#l00184">$doc_type</a>, <a class="el" href="action_8inc_8php-source.html#l00125">$h_url</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="action_8inc_8php-source.html#l00124">$retour</a>, <a class="el" href="action_8inc_8php-source.html#l00199">$title</a>, <a class="el" href="action_8inc_8php-source.html#l00254">ag_comment</a>, <a class="el" href="action_8inc_8php-source.html#l00255">ag_timestamp</a>, <a class="el" href="action_8inc_8php-source.html#l00256">d_state</a>, <a class="el" href="action_8inc_8php-source.html#l00257">dt_id</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, <a class="el" href="ac__common_8php-source.html#l00208">FormatString()</a>, <a class="el" href="ac__common_8php-source.html#l00097">isDate()</a>, <a class="el" href="ac__common_8php-source.html#l00282">make_array()</a>, <a class="el" href="action_8inc_8php-source.html#l00160">name</a>, and <a class="el" href="action_8inc_8php-source.html#l00161">value</a>.    </td>
+References <a class="el" href="action_8inc_8php-source.html#l00273">$a</a>, <a class="el" href="admin__repo_8php-source.html#l00119">$desc</a>, <a class="el" href="action_8inc_8php-source.html#l00221">$doc_type</a>, <a class="el" href="class__action_8php-source.html#l00070">$f_id</a>, <a class="el" href="action_8inc_8php-source.html#l00125">$h_url</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="action_8inc_8php-source.html#l00124">$retour</a>, <a class="el" href="action_8inc_8php-source.html#l00236">$title</a>, <a class="el" href="action_8inc_8php-source.html#l00140">ag_comment</a>, <a class="el" href="action_8inc_8php-source.html#l00141">ag_timestamp</a>, <a class="el" href="action_8inc_8php-source.html#l00142">d_state</a>, <a class="el" href="action_8inc_8php-source.html#l00143">dt_id</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="facture_8inc_8php-source.html#l00194">f_id</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, <a class="el" href="ac__common_8php-source.html#l00208">FormatString()</a>, <a class="el" href="ac__common_8php-source.html#l00097">isDate()</a>, <a class="el" href="ac__common_8php-source.html#l00282">make_array()</a>, <a class="el" href="action_8inc_8php-source.html#l00170">name</a>, and <a class="el" href="action_8inc_8php-source.html#l00171">value</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a1"></a><!-- doxytag: member="action::Display" ref="a1" args="()" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="action::Display" ref="a1" args="($p_view)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -150,7 +153,8 @@ References <a class="el" href="action_8inc_8php-source.html#l00236">$a</a>, <a c
         <tr>
           <td class="md" nowrap valign="top">action::Display           </td>
           <td class="md" valign="top">(&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" nowrap valign="top">$&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap> <em>p_view</em>          </td>
           <td class="md" valign="top">&nbsp;)&nbsp;</td>
           <td class="md" nowrap></td>
         </tr>
@@ -166,17 +170,23 @@ References <a class="el" href="action_8inc_8php-source.html#l00236">$a</a>, <a c
     <td>
 
 <p>
-Display the object. 
+Display the object, the tags for the FORM are in the caller. It will be used for adding and updating action. 
 <p>
-Display<p>
+Display <dl compact><dt><b>Note:</b></dt><dd>If ag_id is not equal to zero then it is an update otherwise it is a new document</dd></dl>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>$p_view</em>&nbsp;</td><td>if set to true the form will be in readonly mode </td></tr>
+  </table>
+</dl>
+<dl compact><dt><b>Note:</b></dt><dd>update the reference number or the document type is not allowed</dd></dl>
 <dl compact><dt><b>Returns:</b></dt><dd>string containing the html code</dd></dl>
 
 <p>
-Definition at line <a class="el" href="class__action_8php-source.html#l00085">85</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
+Definition at line <a class="el" href="class__action_8php-source.html#l00094">94</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
 <p>
-References <a class="el" href="action_8inc_8php-source.html#l00236">$a</a>, <a class="el" href="admin__repo_8php-source.html#l00119">$desc</a>, <a class="el" href="document__modele_8inc_8php-source.html#l00031">$doc</a>, <a class="el" href="action_8inc_8php-source.html#l00184">$doc_type</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="action_8inc_8php-source.html#l00199">$title</a>, <a class="el" href="action_8inc_8php-source.html#l00254">ag_comment</a>, <a class="el" href="action_8inc_8php-source.html#l00255">ag_timestamp</a>, <a class="el" href="action_8inc_8php-source.html#l00256">d_state</a>, <a class="el" href="action_8inc_8php-source.html#l00257">dt_id</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, <a class="el" href="ac__common_8php-source.html#l00208">FormatString()</a>, and <a class="el" href="ac__common_8php-source.html#l00282">make_array()</a>.
+References <a class="el" href="action_8inc_8php-source.html#l00273">$a</a>, <a class="el" href="admin__repo_8php-source.html#l00119">$desc</a>, <a class="el" href="document__modele_8inc_8php-source.html#l00031">$doc</a>, <a class="el" href="action_8inc_8php-source.html#l00221">$doc_type</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="bank_8inc_8php-source.html#l00097">$sp</a>, <a class="el" href="action_8inc_8php-source.html#l00236">$title</a>, <a class="el" href="admin_8inc_8php-source.html#l00115">$w</a>, <a class="el" href="action_8inc_8php-source.html#l00141">ag_timestamp</a>, <a class="el" href="action_8inc_8php-source.html#l00146">d_id</a>, <a class="el" href="action_8inc_8php-source.html#l00142">d_state</a>, <a class="el" href="action_8inc_8php-source.html#l00143">dt_id</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, <a class="el" href="ac__common_8php-source.html#l00208">FormatString()</a>, <a class="el" href="ac__common_8php-source.html#l00282">make_array()</a>, and <a class="el" href="action_8inc_8php-source.html#l00144">qcode</a>.
 <p>
-Referenced by <a class="el" href="class__action_8php-source.html#l00291">SaveStage2()</a>.    </td>
+Referenced by <a class="el" href="class__action_8php-source.html#l00359">SaveStage2()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a2"></a><!-- doxytag: member="action::get" ref="a2" args="()" --><p>
@@ -207,9 +217,9 @@ This function shows the detail of an action thanks the ag_id.
 <p>
 
 <p>
-Definition at line <a class="el" href="class__action_8php-source.html#l00162">162</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
+Definition at line <a class="el" href="class__action_8php-source.html#l00206">206</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
 <p>
-References <a class="el" href="action_8inc_8php-source.html#l00236">$a</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="cbc__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00096">$sql</a>, <a class="el" href="action_8inc_8php-source.html#l00254">ag_comment</a>, <a class="el" href="action_8inc_8php-source.html#l00255">ag_timestamp</a>, <a class="el" href="action_8inc_8php-source.html#l00259">ag_title</a>, <a class="el" href="action_8inc_8php-source.html#l00256">d_state</a>, <a class="el" href="action_8inc_8php-source.html#l00257">dt_id</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="facture_8inc_8php-source.html#l00194">f_id</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, and <a class="el" href="action_8inc_8php-source.html#l00258">qcode</a>.    </td>
+References <a class="el" href="action_8inc_8php-source.html#l00273">$a</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="cbc__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, <a class="el" href="action_8inc_8php-source.html#l00140">ag_comment</a>, <a class="el" href="action_8inc_8php-source.html#l00141">ag_timestamp</a>, <a class="el" href="action_8inc_8php-source.html#l00145">ag_title</a>, <a class="el" href="action_8inc_8php-source.html#l00146">d_id</a>, <a class="el" href="action_8inc_8php-source.html#l00142">d_state</a>, <a class="el" href="action_8inc_8php-source.html#l00143">dt_id</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="facture_8inc_8php-source.html#l00194">f_id</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, and <a class="el" href="action_8inc_8php-source.html#l00144">qcode</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a6"></a><!-- doxytag: member="action::myList" ref="a6" args="($p_filter=&quot;&quot;, $p_search=&quot;&quot;)" --><p>
@@ -257,9 +267,9 @@ myList($p_filter="") <dl compact><dt><b>Parameters:</b></dt><dd>
 <dl compact><dt><b>Returns:</b></dt><dd>string containing html code</dd></dl>
 
 <p>
-Definition at line <a class="el" href="class__action_8php-source.html#l00394">394</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
+Definition at line <a class="el" href="class__action_8php-source.html#l00468">468</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
 <p>
-References <a class="el" href="commercial_8php-source.html#l00035">$_SESSION</a>, <a class="el" href="bank_8inc_8php-source.html#l00111">$bar</a>, <a class="el" href="document__modele_8inc_8php-source.html#l00031">$doc</a>, <a class="el" href="jrn__pdf_8php-source.html#l00071">$limit</a>, <a class="el" href="bank_8inc_8php-source.html#l00099">$offset</a>, <a class="el" href="bank_8inc_8php-source.html#l00098">$page</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="cbc__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00096">$sql</a>, <a class="el" href="bank_8inc_8php-source.html#l00097">$step</a>, <a class="el" href="action_8inc_8php-source.html#l00259">ag_title</a>, <a class="el" href="postgres_8php-source.html#l00222">CountSql()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="facture_8inc_8php-source.html#l00194">f_id</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, and <a class="el" href="user__common_8php-source.html#l00858">jrn_navigation_bar()</a>.    </td>
+References <a class="el" href="commercial_8php-source.html#l00035">$_SESSION</a>, <a class="el" href="bank_8inc_8php-source.html#l00119">$bar</a>, <a class="el" href="document__modele_8inc_8php-source.html#l00031">$doc</a>, <a class="el" href="jrn__pdf_8php-source.html#l00071">$limit</a>, <a class="el" href="bank_8inc_8php-source.html#l00107">$offset</a>, <a class="el" href="bank_8inc_8php-source.html#l00106">$page</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="cbc__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, <a class="el" href="bank_8inc_8php-source.html#l00105">$step</a>, <a class="el" href="action_8inc_8php-source.html#l00145">ag_title</a>, <a class="el" href="postgres_8php-source.html#l00222">CountSql()</a>, <a class="el" href="action_8inc_8php-source.html#l00146">d_id</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="facture_8inc_8php-source.html#l00194">f_id</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, and <a class="el" href="user__common_8php-source.html#l00858">jrn_navigation_bar()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a4"></a><!-- doxytag: member="action::SaveStage2" ref="a4" args="()" --><p>
@@ -286,15 +296,15 @@ References <a class="el" href="commercial_8php-source.html#l00035">$_SESSION</a>
     <td>
 
 <p>
-Save the document and propose to save the generated document or to upload one, the data are included except the file. Temporary the generated document is save. 
+Save the document and propose to save the generated document or to upload one, the data are included except the file. Temporary the generated document is savethe ag_comment is already urlencoded. 
 <p>
 SaveStage2<p>
 <dl compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="class__action_8php-source.html#l00291">291</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
+Definition at line <a class="el" href="class__action_8php-source.html#l00359">359</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
 <p>
-References <a class="el" href="impress__jrn_8php-source.html#l00035">$d</a>, <a class="el" href="document__modele_8inc_8php-source.html#l00031">$doc</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="bank_8inc_8php-source.html#l00096">$sql</a>, <a class="el" href="facture_8inc_8php-source.html#l00197">$str_file</a>, <a class="el" href="action_8inc_8php-source.html#l00137">ag_id</a>, <a class="el" href="action_8inc_8php-source.html#l00259">ag_title</a>, <a class="el" href="action_8inc_8php-source.html#l00256">d_state</a>, <a class="el" href="class__action_8php-source.html#l00085">Display()</a>, <a class="el" href="action_8inc_8php-source.html#l00257">dt_id</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, <a class="el" href="ac__common_8php-source.html#l00208">FormatString()</a>, <a class="el" href="action_8inc_8php-source.html#l00277">md_id</a>, <a class="el" href="action_8inc_8php-source.html#l00160">name</a>, <a class="el" href="postgres_8php-source.html#l00251">NextSequence()</a>, and <a class="el" href="action_8inc_8php-source.html#l00161">value</a>.    </td>
+References <a class="el" href="impress__jrn_8php-source.html#l00035">$d</a>, <a class="el" href="document__modele_8inc_8php-source.html#l00031">$doc</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, <a class="el" href="facture_8inc_8php-source.html#l00197">$str_file</a>, <a class="el" href="action_8inc_8php-source.html#l00169">$upload</a>, <a class="el" href="action_8inc_8php-source.html#l00140">ag_comment</a>, <a class="el" href="action_8inc_8php-source.html#l00139">ag_id</a>, <a class="el" href="action_8inc_8php-source.html#l00145">ag_title</a>, <a class="el" href="action_8inc_8php-source.html#l00142">d_state</a>, <a class="el" href="class__action_8php-source.html#l00094">Display()</a>, <a class="el" href="action_8inc_8php-source.html#l00143">dt_id</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, <a class="el" href="ac__common_8php-source.html#l00208">FormatString()</a>, <a class="el" href="action_8inc_8php-source.html#l00316">md_id</a>, <a class="el" href="action_8inc_8php-source.html#l00170">name</a>, <a class="el" href="postgres_8php-source.html#l00251">NextSequence()</a>, and <a class="el" href="action_8inc_8php-source.html#l00171">value</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a5"></a><!-- doxytag: member="action::SaveStage3" ref="a5" args="($d_id)" --><p>
@@ -331,19 +341,22 @@ SaveStage3 <dl compact><dt><b>Parameters:</b></dt><dd>
 </dl>
 
 <p>
-Definition at line <a class="el" href="class__action_8php-source.html#l00371">371</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
+Definition at line <a class="el" href="class__action_8php-source.html#l00445">445</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
 <p>
-References <a class="el" href="action_8inc_8php-source.html#l00294">$d_id</a>, and <a class="el" href="document__modele_8inc_8php-source.html#l00031">$doc</a>.    </td>
+References <a class="el" href="action_8inc_8php-source.html#l00333">$d_id</a>, <a class="el" href="document__modele_8inc_8php-source.html#l00031">$doc</a>, and <a class="el" href="action_8inc_8php-source.html#l00146">d_id</a>.    </td>
   </tr>
 </table>
-<hr><h2>Field Documentation</h2>
-<a class="anchor" name="o1"></a><!-- doxytag: member="action::$ag_comment" ref="o1" args="" --><p>
+<a class="anchor" name="a7"></a><!-- doxytag: member="action::Update" ref="a7" args="()" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">action::$<a class="el" href="action_8inc_8php.html#a17">ag_comment</a>          </td>
+          <td class="md" nowrap valign="top">action::Update           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="mdname1" valign="top" nowrap>          </td>
+          <td class="md" valign="top">&nbsp;)&nbsp;</td>
+          <td class="md" nowrap></td>
         </tr>
       </table>
     </td>
@@ -357,7 +370,38 @@ References <a class="el" href="action_8inc_8php-source.html#l00294">$d_id</a>, a
     <td>
 
 <p>
-description (<a class="el" href="action_8inc_8php.html#a17">ag_gestion.ag_comment</a>)
+Update the data into the database. 
+<p>
+<dl compact><dt><b>Returns:</b></dt><dd>true on success otherwise false</dd></dl>
+
+<p>
+Definition at line <a class="el" href="class__action_8php-source.html#l00538">538</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
+<p>
+References <a class="el" href="document__modele_8inc_8php-source.html#l00031">$doc</a>, <a class="el" href="class__action_8php-source.html#l00070">$f_id</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, <a class="el" href="action_8inc_8php-source.html#l00140">ag_comment</a>, <a class="el" href="action_8inc_8php-source.html#l00139">ag_id</a>, <a class="el" href="action_8inc_8php-source.html#l00146">d_id</a>, <a class="el" href="action_8inc_8php-source.html#l00143">dt_id</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="facture_8inc_8php-source.html#l00194">f_id</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, <a class="el" href="ac__common_8php-source.html#l00208">FormatString()</a>, and <a class="el" href="impress__listing__client_8php-source.html#l00059">return</a>.    </td>
+  </tr>
+</table>
+<hr><h2>Field Documentation</h2>
+<a class="anchor" name="o1"></a><!-- doxytag: member="action::$ag_comment" ref="o1" args="" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">action::$<a class="el" href="action_8inc_8php.html#a4">ag_comment</a>          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+description (<a class="el" href="action_8inc_8php.html#a4">ag_gestion.ag_comment</a>)
 <p>
 Definition at line <a class="el" href="class__action_8php-source.html#l00062">62</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.    </td>
   </tr>
@@ -368,7 +412,7 @@ Definition at line <a class="el" href="class__action_8php-source.html#l00062">62
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">action::$<a class="el" href="action_8inc_8php.html#a18">ag_timestamp</a>          </td>
+          <td class="md" nowrap valign="top">action::$<a class="el" href="action_8inc_8php.html#a5">ag_timestamp</a>          </td>
         </tr>
       </table>
     </td>
@@ -382,7 +426,7 @@ Definition at line <a class="el" href="class__action_8php-source.html#l00062">62
     <td>
 
 <p>
-document date (<a class="el" href="action_8inc_8php.html#a18">ag_gestion.ag_timestamp</a>)
+document date (<a class="el" href="action_8inc_8php.html#a5">ag_gestion.ag_timestamp</a>)
 <p>
 Definition at line <a class="el" href="class__action_8php-source.html#l00063">63</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.    </td>
   </tr>
@@ -393,7 +437,7 @@ Definition at line <a class="el" href="class__action_8php-source.html#l00063">63
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">action::$<a class="el" href="action_8inc_8php.html#a22">ag_title</a>          </td>
+          <td class="md" nowrap valign="top">action::$<a class="el" href="action_8inc_8php.html#a9">ag_title</a>          </td>
         </tr>
       </table>
     </td>
@@ -493,7 +537,7 @@ Definition at line <a class="el" href="class__action_8php-source.html#l00066">66
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">action::$<a class="el" href="action_8inc_8php.html#a19">d_state</a>          </td>
+          <td class="md" nowrap valign="top">action::$<a class="el" href="action_8inc_8php.html#a6">d_state</a>          </td>
         </tr>
       </table>
     </td>
@@ -543,7 +587,7 @@ Definition at line <a class="el" href="class__action_8php-source.html#l00061">61
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">action::$<a class="el" href="action_8inc_8php.html#a20">dt_id</a>          </td>
+          <td class="md" nowrap valign="top">action::$<a class="el" href="action_8inc_8php.html#a7">dt_id</a>          </td>
         </tr>
       </table>
     </td>
@@ -557,7 +601,7 @@ Definition at line <a class="el" href="class__action_8php-source.html#l00061">61
     <td>
 
 <p>
-type of the document (<a class="el" href="action_8inc_8php.html#a20">document_type.dt_id</a>)
+type of the document (<a class="el" href="action_8inc_8php.html#a7">document_type.dt_id</a>)
 <p>
 Definition at line <a class="el" href="class__action_8php-source.html#l00064">64</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.    </td>
   </tr>
@@ -584,12 +628,14 @@ Definition at line <a class="el" href="class__action_8php-source.html#l00064">64
 <p>
 fiche id
 <p>
-Definition at line <a class="el" href="class__action_8php-source.html#l00070">70</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.    </td>
+Definition at line <a class="el" href="class__action_8php-source.html#l00070">70</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
+<p>
+Referenced by <a class="el" href="class__action_8php-source.html#l00247">Confirm()</a>, and <a class="el" href="class__action_8php-source.html#l00538">Update()</a>.    </td>
   </tr>
 </table>
 <hr>The documentation for this class was generated from the following file:<ul>
 <li>/home/dany/developpement/phpcompta-dev/phpcompta/include/<a class="el" href="class__action_8php-source.html">class_action.php</a></ul>
-<hr size="1"><address style="align: right;"><small>Generated on Mon Jun 26 20:13:16 2006 for phpcompta by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Tue Jun 27 01:39:30 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

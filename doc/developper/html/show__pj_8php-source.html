@@ -51,8 +51,8 @@
 <a name="l00042"></a>00042   <a class="code" href="ac__common_8php.html#a0">echo_error</a>(<span class="stringliteral">"Invalid operation id jr_grpt_id=$jr_grpt_id"</span>);
 <a name="l00043"></a><a class="code" href="show__pj_8php.html#a4">00043</a>   <a class="code" href="balance_8php.html#a0">exit</a>;
 <a name="l00044"></a>00044  }
-<a name="l00045"></a><a class="code" href="show__pj_8php.html#a5">00045</a> <a class="code" href="action_8inc_8php.html#a16">$a</a>=pg_fetch_array($r,0);
-<a name="l00046"></a><a class="code" href="show__pj_8php.html#a6">00046</a> <a class="code" href="show__pj_8php.html#a6">$jrn</a>=<a class="code" href="action_8inc_8php.html#a16">$a</a>['jr_def_id'];
+<a name="l00045"></a><a class="code" href="show__pj_8php.html#a5">00045</a> <a class="code" href="action_8inc_8php.html#a24">$a</a>=pg_fetch_array($r,0);
+<a name="l00046"></a><a class="code" href="show__pj_8php.html#a6">00046</a> <a class="code" href="show__pj_8php.html#a6">$jrn</a>=<a class="code" href="action_8inc_8php.html#a24">$a</a>['jr_def_id'];
 <a name="l00047"></a>00047 
 <a name="l00048"></a>00048 <span class="keywordflow">if</span> ($User-&gt;AccessJrn($cn,$jrn) == false ){
 <a name="l00049"></a>00049   <span class="comment">/* Cannot Access */</span>
@@ -84,7 +84,7 @@
 <a name="l00075"></a>00075 unlink ($tmp);
 <a name="l00076"></a>00076 
 <a name="l00077"></a>00077 <a class="code" href="postgres_8php.html#a16">Commit</a>($cn);
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jun 26 20:13:15 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Jun 27 01:39:27 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

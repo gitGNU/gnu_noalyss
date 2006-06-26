@@ -76,68 +76,88 @@ class action
     {
       $this->db=$p_cn;
       $this->f_id=0;
+
     }
 /*!  Display
  * \brief Display the object, the tags for the FORM
- *        are in the caller
+ *        are in the caller. It will be used for adding and updating 
+ *        action 
+ *\note  If  ag_id is not equal to zero then it is an update otherwise
+ *        it is a new document
  *
- * \param $p_view if set to true the form will be in readonly mode
- *        
+ * \param $p_view if set to true the form will be in readonly mode 
+ * \note  update the reference number or the document type is not allowed
+ *       
  *
  * \return string containing the html code
  */
   function Display($p_view) 
     {
-      $r="";
+
       // Compute the widget
       // Date 
       $date=new widget("text");
-      $date->readonly=true;
+      $date->readonly=$p_view;
       $date->name="ag_timestamp";
       $date->value=$this->ag_timestamp;
+      
       // Doc Type
       $doc_type=new widget("hidden");
       $doc_type->name="dt_id";
       $doc_type->value=$this->dt_id;
-      $a=ExecSql($this->db,"select dt_value from document_type where dt_id=".$this->dt_id);
-      $v=pg_fetch_array($a,0);
-      $str_type=$v[0];
+
+      //      $doc_type->value=make_array($this->db,"select dt_id,dt_value from document_type where dt_id in (".ACTION.")");
+//       $doc_type->selected=$this->dt_id;
+//       $doc_type->readonly=true;
+
+
+      //      echo "\\n = ".urlencode("\n"); %0A
+      // echo "\\r = ".urlencode("\r"); %OD
+
+      // Description
+      $desc=new widget('RICHTEXT');
+      $desc->width=540;
+      $desc->heigh=200;
+      $desc->name="ag_comment";
+      $desc->readonly=$p_view;
+      $desc->value=urldecode($this->ag_comment);
 
       // state
       // Retrieve the value
+      $a=make_array($this->db,"select s_id,s_value from document_state ");
+      $state=new widget("select");
+      $state->name="d_state";
+      $state->value=$a;
+      $state->selected=$this->d_state;
+
       // Retrieve the value if there is an attached doc
       $doc_ref="";
-      if ( strlen ($this->d_state) > 0 )
+      // Document id
+      $this->d_id=(isset($this->d_id))?isset($this->d_id):0;
+      if ( $this->d_id != 0 )
 	{
-	  $a=ExecSql($this->db,"select s_value from document_state where s_id=".$this->d_state);
-	  $v=pg_fetch_array($a,0);
-	  $str_state=$v[0];
-	  $state=new widget("hidden");
-	  $state->name="d_state";
-	  $state->value=$this->d_state;
+	  $h2=new widget("hidden");
+	  $h2->name="d_id";
+	  $h2->value=$this->d_id;
 	  $doc=new Document($this->db,$this->d_id);
 	  $doc_ref="<p> Document ".$doc->a_ref().'</p>';
+	  $doc_ref.=$h2->IOValue();
 	}
-      else 
-	$str_state="";
+
+
       // title
       $title=new widget("text");
-      $title->readonly=true;
+      $title->readonly=$p_view;
       $title->name="ag_title";
       $title->value=FormatString($this->ag_title);
 
       // ag_ref
+      // Always false this field shouldn't be changed
       $ag_ref=new widget("text");
       $ag_ref->readonly=true;
       $ag_ref->name="ag_ref";
       $ag_ref->value=FormatString($this->ag_ref);
 
-
-      // Description
-      $desc=new widget('textarea');
-      $desc->name="ag_comment";
-      $desc->readonly=" disabled ";
-      $desc->value=$this->ag_comment;
       // Propose to generate a document
       $gen=new widget ("checkbox");
       $gen->name="p_gen";
@@ -148,15 +168,35 @@ class action
       // f_id
       $tiers=new fiche($this->db);
       $tiers->GetByQCode($this->qcode);
-      // Preparing the return string
 
-      $r.="<p>Date : ".$date->IOValue()."</p>";
-      if ( $str_type != "" )
-	$r.="<p>Type du document $str_type".$doc_type->IOValue()."</p>";
-      $r.="<p> Tiers : ".$this->qcode." ".$tiers->strAttribut(1).'</p>';
-      $r.="<p> Titre : ".$title->IOValue().' Ref :'.$ag_ref->IOValue();
-      $r.=$doc_ref;
-      $r.="<p>Description :".urldecode(urldecode($desc->IOValue()))."</p>";
+
+      $w=new widget('js_search_only');
+      $w->name='qcode';
+      $w->value=$this->qcode;
+      $w->label="";
+      $w->extra='4,8,9,14';
+      $sp= new widget("span");
+
+      // Preparing the return string
+      $r="";
+      $r.=JS_SEARCH_CARD;
+      $r.= "<p>Date : ".$date->IOValue()." Reference  ". $this->ag_ref."</p>";
+
+      $r.= 'Type d\' action';
+      $r.= $doc_type->IOValue();
+
+      // state
+      $r.="<p>Etat :".$state->IOValue();
+
+
+      $r.= "<p> ";
+      $r.=$sp->IOValue("qcode_label",$tiers->strAttribut(1))."</TD></TR>";
+      $r.=$w->IOValue();
+      $r.="</p>";
+
+      $r.= "<p> Titre : ".$title->IOValue().' Ref :'.$ag_ref->IOValue();
+      $r.= $doc_ref;
+      $r.= "<p>Description :".$desc->IOValue()."</p>";
 
       return $r;
  
@@ -166,7 +206,9 @@ class action
   function get()
     {
       echo_debug('class_action',__LINE__,'Action::Get() ');
-      $sql="select * from action_gestion left join document using (ag_id) where ag_id=".$this->ag_id;
+      $sql="select ag_id, ag_comment,to_char (ag_timestamp,'DD-MM-YYYY') as ag_timestamp,".
+	" f_id,ag_title,ag_comment,ag_ref,d_id,ag_type,d_state  ".
+	" from action_gestion left join document using (ag_id) where ag_id=".$this->ag_id;
       $r=ExecSql($this->db,$sql);
       $row=pg_fetch_all($r);
       if ( $row==false) return;
@@ -177,6 +219,7 @@ class action
       $this->ag_type=$row[0]['ag_type'];
       $this->ag_ref=$row[0]['ag_ref'];
       $this->d_id=$row[0]['d_id'];
+      //
       echo_debug('class_action',__LINE__,' Document id = '.$this->d_id);
       // if there is no document set 0 to d_id
       if ( $this->d_id == "" ) 
@@ -184,6 +227,7 @@ class action
       // if there is a document fill the object
       if ($this->d_id != 0 )
 	{
+	  $this->state=$row['0']['d_state'];
 	  $this->d_state=$row[0]['d_state'];
 	}
       echo_debug('class_action',__LINE__,' After test Document id = '.$this->d_id);
@@ -258,15 +302,32 @@ class action
       $doc_gen->name="gen_doc";
       $doc_gen->value=make_array($this->db,
 				 "select md_id,md_name from document_modele where md_type=".$this->dt_id);
+
       // f_id
-      $tiers=new fiche($this->db);
-      $tiers->GetByQCode($this->qcode);
+      if ( trim($this->qcode) =="" && $this->dt_id==1)
+	{
+	  // internal document
+	  $f_id=0; // internal document
+	  $name="interne";
+	}
+      elseif ( trim($this->qcode) !="" && $this->dt_id != 1 )
+	{
+	  $tiers=new fiche($this->db);
+	  $tiers->GetByQCode($this->qcode);
+	  $f_id=$tiers->id;
+	  $name=$tiers->strAttribut(1);
+	}
+      else {
+	$name="ERROR";
+	$f_id=-1;
+      }
+
       // Preparing the return string
       $r=$retour."<form method=\"post\">";
       $r.="<p>Date : ".$date->IOValue()."</p>";
       $r.="<p>Etat $str_state".$state->IOValue()."</p>";
       $r.="<p>Type du document $str_type".$doc_type->IOValue()."</p>";
-      $r.="<p> Tiers : ".$this->qcode." ".$tiers->strAttribut(1).'</p>';
+      $r.="<p> Tiers : ".$this->qcode." ".$name.'</p>';
       $r.="<p> Titre : ".$title->IOValue();
       $r.="<p>Description :".$desc->IOValue()."</p>";
 
@@ -278,7 +339,10 @@ class action
       $r.='<input type="hidden" name="sa" value="save_action_st2">';
       $r.='<input type="hidden" name="p_action" value="suivi_courrier">';
       $r.='<input type="hidden" name="tiers" value="'.$this->qcode.'">';
-      if ( $tiers->strAttribut(1) != "- ERROR -")
+      // retrieve customer
+
+
+      if ( $f_id != -1 )
 	$r.=$desc->Submit("Save","Sauve");
       $r.=$desc->Submit("corr","Corrige");
 
@@ -312,14 +376,20 @@ class action
       // Create the reference 
       $ref=$this->dt_id.'/'.$this->ag_id;
       $this->ag_ref=$ref;
-
+      /*!\brief the ag_comment is already urlencoded 
+       */
+      //we remove newline 
+      $this->ag_comment=str_replace("%OA","",$this->ag_comment);
+      $this->ag_comment=str_replace("%OD","",$this->ag_comment);
+      // save into the database
       $sql=sprintf("insert into action_gestion(ag_id,ag_timestamp,ag_type,ag_title,f_id,ag_comment,ag_ref) ".
-		   " values (%d,'%s',to_date('%s','DD-MM-YYYY','%s',%d,'%s','%s')",
+		   " values (%d,to_date('%s','DD-MM-YYYY'),'%d','%s',%d,'%s','%s')",
 		   $this->ag_id,
+		   $this->ag_timestamp,
 		   $this->dt_id,
 		   FormatString($this->ag_title),
 		   $tiers->id,
-		   FormatString(urlencode($this->ag_comment)),
+		   $this->ag_comment,
 		   $ref
 		   );
       ExecSql($this->db,$sql);
@@ -338,7 +408,7 @@ class action
 	  $d='<input type="hidden" name="d_id" value="'.$doc->d_id.'">';
 	}
 
-      $r=$this->Display();
+      $r=$this->Display(false);
       $r.="<hr>";
       $r.='<form enctype="multipart/form-data" method="post">';
       // Add the hidden tag
@@ -346,7 +416,7 @@ class action
       $r.='<input type="hidden" name="p_action" value="suivi_courrier">';
       $r.='<input type="hidden" name="ag_id" value="'.$this->ag_id.'">';
       // add the d_id
-      $r.=$d;
+      $r.='<input type="hidden" name="ag_id" value="'.$this->d_id.'">'; 
 
       // Value for the generated document
       if ( $this->gen == 'on' ) 
@@ -398,12 +468,12 @@ class action
   function myList($p_filter="",$p_search="")
     {
       $sql="
-   select ag_id,to_char(ag_timestamp,'DD-MM-YYYY HH:MI') as my_date,f_id,ag_title,d_id,md_type,dt_value,ag_ref 
+   select ag_id,to_char(ag_timestamp,'DD-MM-YYYY') as my_date,f_id,ag_title,d_id,md_type,dt_value,ag_ref 
    from action_gestion 
       left outer join document using (ag_id)
       left outer join document_modele on (ag_type=md_type) 
       join document_type on (ag_type=dt_id)
-   where dt_id in ($p_filter) $p_search";
+   where dt_id in ($p_filter) $p_search order by ag_timestamp desc,ag_ref desc";
       $max_line=CountSql($this->db,$sql);
       $step=$_SESSION['g_pagesize'];
       $page=(isset($_GET['offset']))?$_GET['page']:1;
@@ -460,7 +530,78 @@ class action
       $r.="</div>";
       return $r;
     }
+  //----------------------------------------------------------------------
+  /*!\brief Update the data into the database
+   *
+   * \return true on success otherwise false
+   */
+  function Update()
+    {
+      // if ag_id == 0 nothing to do
+      if ( $this->ag_id == 0 ) return ;
 
+
+      // retrieve customer
+      // f_id
+      if ( trim($this->qcode) =="" && $this->dt_id==1)
+	{
+	  // internal document
+	  $f_id=0; // internal document
+	}
+      elseif ( trim($this->qcode) !="" && $this->dt_id!=1 )
+	{
+	  $tiers=new fiche($this->db);
+	  $tiers->GetByQCode($this->qcode);
+	  $f_id=$tiers->id;
+
+	}
+      else {
+	return false;
+      }
+
+      //remove newline from ag_comment
+      $this->ag_comment=str_replace("\n","",$this->ag_comment);
+      $this->ag_comment=str_replace("\r","",$this->ag_comment);
+
+      // url encoded
+      $this->ag_comment=urlencode($this->ag_comment);
+
+      // bug PHP : sometimes the newline remains
+      $this->ag_comment=str_replace("%A0","",$this->ag_comment);
+      $this->ag_comment=str_replace("%0D","",$this->ag_comment);
+
+
+      $sql=sprintf("update action_gestion set ag_comment='%s',".
+		   "ag_timestamp=to_date('%s','DD.MM.YYYY'),".
+		   "ag_title='%s',".
+		   "ag_type=%d".
+		   " where ag_id = %d",
+		   $this->ag_comment,
+		   $this->ag_timestamp,
+		   FormatString($this->ag_title),
+		   $this->dt_id,
+		   $f_id);
+      ExecSql($this->db,$sql);
+      
+      if ( sizeof($_FILES) !=0 ) 
+	{
+	  // Upload a new document
+	  $doc=new Document($this->db);
+	  if ( isset ($_POST['d_id'] ) )
+	    {
+	      $doc->d_id=$this->d_id;
+	    } else {
+	      // we need to increment the counter 
+	      $doc->ag_id=$this->ag_id;
+	      $doc->md_type=$this->dt_id;
+	      $doc->blank();
+	    }
+	  $doc->Upload($this->ag_id);
+      
+	}
+	   
+      return true;
+    }
 
 
 }

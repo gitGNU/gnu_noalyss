@@ -23,7 +23,7 @@ require_once("postgres.php");
 /*! \file
  * \brief Electronic declaration for VAT BELGIUM --> experimental
  */
-//////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // Check User
 include ('class_user.php');
 /* Admin. Dossier */
@@ -42,10 +42,10 @@ if ($User->CheckAction($cn,IMP) == 0 ){
 header('Content-type: application/bin');
 header('Content-Disposition: attachment;filename="declaration.bin"',FALSE);
 
-////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // Submit for a magnetic declaration
 // Belgium only
-////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 if ( isset($_POST['bt_disk'])) {
   require_once("class_customer.php");
   $customer=new Customer($cn);

@@ -76,7 +76,7 @@
 <a name="l00093"></a>00093   <span class="keywordflow">if</span> ($p_admin==0) {
 <a name="l00094"></a>00094     <span class="comment">// show only available folders</span>
 <a name="l00095"></a>00095     <span class="comment">// if user is not an admin</span>
-<a name="l00096"></a>00096     <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"select distinct dos_id,dos_name,dos_description from ac_users </span>
+<a name="l00096"></a>00096     <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=<span class="stringliteral">"select distinct dos_id,dos_name,dos_description from ac_users </span>
 <a name="l00097"></a>00097 <span class="stringliteral">                  natural join jnt_use_dos </span>
 <a name="l00098"></a>00098 <span class="stringliteral">                  natural join  ac_dossier </span>
 <a name="l00099"></a>00099 <span class="stringliteral">                  join  priv_user on ( priv_jnt=jnt_id)</span>
@@ -85,7 +85,7 @@
 <a name="l00102"></a>00102 <span class="stringliteral">         and priv_priv != 'NO' "</span>;
 <a name="l00103"></a>00103 
 <a name="l00104"></a>00104   } <span class="keywordflow">else</span> {
-<a name="l00105"></a>00105     <a class="code" href="bank_8inc_8php.html#a10">$sql</a>=<span class="stringliteral">"select distinct dos_id,dos_name,dos_description from ac_users </span>
+<a name="l00105"></a>00105     <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=<span class="stringliteral">"select distinct dos_id,dos_name,dos_description from ac_users </span>
 <a name="l00106"></a>00106 <span class="stringliteral">                  natural join jnt_use_dos </span>
 <a name="l00107"></a>00107 <span class="stringliteral">                  natural join  ac_dossier </span>
 <a name="l00108"></a>00108 <span class="stringliteral">      where  use_active=1 "</span>;
@@ -266,7 +266,7 @@
 <a name="l00329"></a>00329 
 <a name="l00341"></a><a class="code" href="user__menu_8php.html#a6">00341</a> function <a class="code" href="user__menu_8php.html#a6">get_quick_key</a>($title,&amp;$access_key_list)
 <a name="l00342"></a>00342 {
-<a name="l00343"></a>00343         $quick = <a class="code" href="action_8inc_8php.html#a15">$title</a>[0];
+<a name="l00343"></a>00343         $quick = <a class="code" href="action_8inc_8php.html#a23">$title</a>[0];
 <a name="l00344"></a>00344         <span class="keywordflow">if</span>(array_key_exists($quick, $access_key_list))
 <a name="l00345"></a>00345         {
 <a name="l00346"></a>00346                 <a class="code" href="debug_8php.html#a0">echo_debug</a>(<span class="stringliteral">" key exists: "</span> . $quick);
@@ -308,7 +308,7 @@
 <a name="l00396"></a>00396   <span class="keywordflow">if</span> ( ! isset ($p_qcode)) $p_qcode=<span class="stringliteral">""</span>;
 <a name="l00397"></a>00397 
 <a name="l00398"></a>00398 
-<a name="l00399"></a>00399   <span class="keywordflow">if</span> ( $p_mont_sel != <span class="stringliteral">""</span> )  <a class="code" href="jrn__search_8php.html#a3">$opt</a>.='&lt;OPTION <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"'.$p_mont_sel.'"</span> SELECTED&gt; '.$p_mont_sel;
+<a name="l00399"></a>00399   <span class="keywordflow">if</span> ( $p_mont_sel != <span class="stringliteral">""</span> )  <a class="code" href="jrn__search_8php.html#a3">$opt</a>.='&lt;OPTION <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"'.$p_mont_sel.'"</span> SELECTED&gt; '.$p_mont_sel;
 <a name="l00400"></a>00400   <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<span class="stringliteral">""</span>;
 <a name="l00401"></a>00401  
 <a name="l00402"></a>00402   <span class="comment">//  $r.= '&lt;div style="border-style:outset;border-width:1pt;"&gt;';</span>
@@ -331,7 +331,7 @@
 <a name="l00419"></a>00419   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.= ' &lt;INPUT TYPE=<span class="stringliteral">"TEXT"</span> NAME=<span class="stringliteral">"s_montant"</span> SIZE=<span class="stringliteral">"10"</span> VALUE=<span class="stringliteral">"'.$p_s_montant.'"</span>&gt;&lt;/TD&gt;';
 <a name="l00420"></a>00420   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.= <span class="stringliteral">"&lt;/TR&gt;&lt;TR&gt;"</span>;
 <a name="l00421"></a>00421   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TD&gt; Internal code&lt;/td&gt;"</span>;
-<a name="l00422"></a>00422   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;TD&gt;&lt;input type=<span class="stringliteral">"text"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"s_internal"</span> value=<span class="stringliteral">"'.$p_s_internal.'"</span>&gt;&lt;/td&gt;';
+<a name="l00422"></a>00422   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;TD&gt;&lt;input type=<span class="stringliteral">"text"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"s_internal"</span> value=<span class="stringliteral">"'.$p_s_internal.'"</span>&gt;&lt;/td&gt;';
 <a name="l00423"></a>00423 
 <a name="l00424"></a>00424   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/TD&gt;&lt;/TR&gt;&lt;/TABLE&gt;&lt;/td&gt;&lt;TD&gt;&lt;table&gt;"</span>;
 <a name="l00425"></a>00425 
@@ -346,7 +346,7 @@
 <a name="l00434"></a>00434   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.= <span class="stringliteral">"&lt;TR&gt;"</span>;
 <a name="l00435"></a>00435  
 <a name="l00436"></a>00436  $A=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>('js_search_only');
-<a name="l00437"></a>00437  $A-&gt;name='<a class="code" href="action_8inc_8php.html#a21">qcode</a>';
+<a name="l00437"></a>00437  $A-&gt;name='<a class="code" href="action_8inc_8php.html#a8">qcode</a>';
 <a name="l00438"></a>00438  $A-&gt;value=$p_qcode;
 <a name="l00439"></a>00439  $A-&gt;extra=<span class="stringliteral">""</span>;
 <a name="l00440"></a>00440  $A-&gt;table=1;
@@ -357,8 +357,8 @@
 <a name="l00445"></a>00445   $A-&gt;extra='all';
 <a name="l00446"></a>00446   <span class="comment">//$A-&gt;name="qcode";</span>
 <a name="l00447"></a>00447   <span class="comment">//  $A-&gt;value=$p_qcode;</span>
-<a name="l00448"></a>00448   <a class="code" href="contact_8inc_8php.html#a10">$sp</a>= <span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"span"</span>);
-<a name="l00449"></a>00449   <a class="code" href="contact_8inc_8php.html#a10">$sp</a>-&gt;table=0;
+<a name="l00448"></a>00448   <a class="code" href="bank_8inc_8php.html#a12">$sp</a>= <span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"span"</span>);
+<a name="l00449"></a>00449   <a class="code" href="bank_8inc_8php.html#a12">$sp</a>-&gt;table=0;
 <a name="l00450"></a>00450   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=$A-&gt;IOValue().'&lt;/TD&gt;'.$sp-&gt;IOValue(<span class="stringliteral">"qcode_label"</span>);
 <a name="l00451"></a>00451   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.= <span class="stringliteral">"&lt;/TR&gt;"</span>;
 <a name="l00452"></a>00452   <a class="code" href="debug_8php.html#a0">echo_debug</a>('user_menu.php',__LINE__,<span class="stringliteral">"&lt;TD&gt;"</span>.$A-&gt;IOValue().'&lt;/TD&gt;&lt;TD&gt;'.$sp-&gt;IOValue(<span class="stringliteral">"p_qcode_label"</span>).<span class="stringliteral">"&lt;/TD&gt;"</span>);
@@ -536,7 +536,7 @@
 <a name="l00712"></a>00712 }
 <a name="l00713"></a>00713 
 <a name="l00714"></a>00714 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jun 26 20:13:15 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Jun 27 01:39:29 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

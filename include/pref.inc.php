@@ -99,15 +99,16 @@ if ( isset ($_SESSION['g_dossier']) ) {
     $periode=$_POST["periode"];
     $User->SetPeriode($periode);
     echo_debug('pref.inc',__LINE__,"Periode returns ".PeriodeClosed($cn,$periode));
-    // if periode is closed then warns the users
-    if ( PeriodeClosed($cn,$periode)=='t')
-    {
-      $msg= '<h2 class="error">Attention cette période est fermée, vous ne pourrez rien modifier dans le module comptable</h2>';
-    }
-
   }
 
   $l_user_per=$User->GetPeriode();
+  // if periode is closed then warns the users
+  if ( PeriodeClosed($cn,$l_user_per)=='t')
+  {
+    $msg= '<h2 class="error">Attention cette période est fermée, vous ne pourrez rien modifier dans le module comptable</h2>';
+  }
+
+
   $l_form_per=FormPeriode($cn,$l_user_per,ALL);
 
 ?>

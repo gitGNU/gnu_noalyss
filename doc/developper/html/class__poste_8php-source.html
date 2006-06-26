@@ -76,11 +76,11 @@
 <a name="l00087"></a>00087 <span class="stringliteral">                  pcm_val="</span>.$this-&gt;id);
 <a name="l00088"></a>00088       <span class="keywordflow">if</span> ( pg_NumRows($ret) != 0) {
 <a name="l00089"></a>00089         <a class="code" href="user__action__ach_8php.html#a2">$r</a>=pg_fetch_array($ret);
-<a name="l00090"></a>00090         $this-&gt;<a class="code" href="action_8inc_8php.html#a4">name</a>=<a class="code" href="user__action__ach_8php.html#a2">$r</a>['pcm_lib'];
+<a name="l00090"></a>00090         $this-&gt;<a class="code" href="action_8inc_8php.html#a12">name</a>=<a class="code" href="user__action__ach_8php.html#a2">$r</a>['pcm_lib'];
 <a name="l00091"></a>00091       } <span class="keywordflow">else</span> {
-<a name="l00092"></a>00092         $this-&gt;<a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"Poste inconnu"</span>;
+<a name="l00092"></a>00092         $this-&gt;<a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"Poste inconnu"</span>;
 <a name="l00093"></a>00093       }
-<a name="l00094"></a>00094     <span class="keywordflow">return</span> $this-&gt;<a class="code" href="action_8inc_8php.html#a4">name</a>;
+<a name="l00094"></a>00094     <span class="keywordflow">return</span> $this-&gt;<a class="code" href="action_8inc_8php.html#a12">name</a>;
 <a name="l00095"></a>00095   }
 <a name="l00100"></a><a class="code" href="classposte.html#a3">00100</a>   function <a class="code" href="classposte.html#a3">get</a>()
 <a name="l00101"></a>00101     {
@@ -89,7 +89,7 @@
 <a name="l00104"></a>00104       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=pg_fetch_all($ret);
 <a name="l00105"></a>00105 
 <a name="l00106"></a>00106       <span class="keywordflow">if</span> ( ! $r ) <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00107"></a>00107       $this-&gt;<a class="code" href="action_8inc_8php.html#a7">label</a>=<a class="code" href="user__action__ach_8php.html#a2">$r</a>[0]['pcm_lib'];
+<a name="l00107"></a>00107       $this-&gt;<a class="code" href="action_8inc_8php.html#a15">label</a>=<a class="code" href="user__action__ach_8php.html#a2">$r</a>[0]['pcm_lib'];
 <a name="l00108"></a>00108       $this-&gt;parent=<a class="code" href="user__action__ach_8php.html#a2">$r</a>[0]['pcm_val_parent'];
 <a name="l00109"></a>00109       <span class="keywordflow">return</span> <span class="keyword">true</span>;
 <a name="l00110"></a>00110     }
@@ -130,7 +130,7 @@
 <a name="l00158"></a>00158                'solde'=&gt;abs($r['sum_deb']-$r['sum_cred']));
 <a name="l00159"></a>00159 }
 <a name="l00160"></a>00160 }
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jun 26 20:13:15 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Jun 27 01:39:28 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

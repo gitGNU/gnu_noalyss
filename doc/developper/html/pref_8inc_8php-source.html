@@ -52,9 +52,9 @@
 <a name="l00047"></a>00047 
 <a name="l00048"></a><a class="code" href="pref_8inc_8php.html#a0">00048</a> &lt;<a class="code" href="constant_8php.html#a7">FORM</a> <a class="code" href="constant_8php.html#a39">ACTION</a>=<span class="stringliteral">"&lt;?echo $url;?&gt;"</span> <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"POST"</span>&gt;
 <a name="l00049"></a>00049 &lt;TABLE ALIGN=<span class="stringliteral">"CENTER"</span>&gt;
-<a name="l00050"></a>00050 &lt;TR&gt;&lt;TD&gt;&lt;input type=<span class="stringliteral">"password"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"pass_1"</span>&gt;&lt;/TD&gt;&lt;/TR&gt;
-<a name="l00051"></a>00051 &lt;TR&gt;&lt;TD&gt;&lt;input type=<span class="stringliteral">"password"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"pass_2"</span>&gt;&lt;/TD&gt;&lt;/TR&gt;
-<a name="l00052"></a>00052 &lt;TR&gt;&lt;TD&gt;&lt;input type=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"spass"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"Change mot de passe"</span>&gt;&lt;/TD&gt;&lt;/TR&gt;
+<a name="l00050"></a>00050 &lt;TR&gt;&lt;TD&gt;&lt;input type=<span class="stringliteral">"password"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"pass_1"</span>&gt;&lt;/TD&gt;&lt;/TR&gt;
+<a name="l00051"></a>00051 &lt;TR&gt;&lt;TD&gt;&lt;input type=<span class="stringliteral">"password"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"pass_2"</span>&gt;&lt;/TD&gt;&lt;/TR&gt;
+<a name="l00052"></a>00052 &lt;TR&gt;&lt;TD&gt;&lt;input type=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"spass"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"Change mot de passe"</span>&gt;&lt;/TD&gt;&lt;/TR&gt;
 <a name="l00053"></a>00053 &lt;/TABLE&gt;
 <a name="l00054"></a>00054 &lt;/<a class="code" href="constant_8php.html#a7">FORM</a>&gt;
 <a name="l00055"></a>00055 &lt;?
@@ -104,58 +104,59 @@
 <a name="l00099"></a>00099     $periode=$_POST[<span class="stringliteral">"periode"</span>];
 <a name="l00100"></a>00100     <a class="code" href="user__action__ach_8php.html#a9">$User</a>-&gt;SetPeriode($periode);
 <a name="l00101"></a>00101     <a class="code" href="debug_8php.html#a0">echo_debug</a>('pref.inc',__LINE__,<span class="stringliteral">"Periode returns "</span>.PeriodeClosed($cn,$periode));
-<a name="l00102"></a>00102     <span class="comment">// if periode is closed then warns the users</span>
-<a name="l00103"></a>00103     <span class="keywordflow">if</span> ( <a class="code" href="preference_8php.html#a3">PeriodeClosed</a>($cn,$periode)==<span class="charliteral">'t'</span>)
-<a name="l00104"></a>00104     {
-<a name="l00105"></a>00105       <a class="code" href="pref_8inc_8php.html#a4">$msg</a>= '&lt;h2 <span class="keyword">class</span>=<span class="stringliteral">"error"</span>&gt;Attention cette période est fermée, vous ne pourrez rien modifier dans le module comptable&lt;/h2&gt;';
-<a name="l00106"></a>00106     }
-<a name="l00107"></a>00107 
-<a name="l00108"></a>00108   }
-<a name="l00109"></a>00109 
-<a name="l00110"></a>00110   $l_user_per=<a class="code" href="user__action__ach_8php.html#a9">$User</a>-&gt;GetPeriode();
-<a name="l00111"></a><a class="code" href="pref_8inc_8php.html#a5">00111</a>   <a class="code" href="pref_8inc_8php.html#a5">$l_form_per</a>=<a class="code" href="preference_8php.html#a1">FormPeriode</a>($cn,$l_user_per,<a class="code" href="constant_8php.html#a45">ALL</a>);
-<a name="l00112"></a>00112 
-<a name="l00113"></a>00113 ?&gt;
-<a name="l00114"></a>00114 &lt;H2 CLASS=<span class="stringliteral">"info"</span>&gt; Période&lt;/H2&gt;
-<a name="l00115"></a>00115   &lt;? echo <a class="code" href="pref_8inc_8php.html#a4">$msg</a>; ?&gt;
-<a name="l00116"></a>00116 &lt;<a class="code" href="constant_8php.html#a7">FORM</a> ACTION=<span class="stringliteral">"&lt;? echo $url;?&gt;"</span> <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"POST"</span>&gt;
-<a name="l00117"></a>00117 &lt;TABLE ALIGN=<span class="stringliteral">"CENTER"</span>&gt;
-<a name="l00118"></a>00118 &lt;TR&gt;&lt;TD&gt;<a class="code" href="constant_8php.html#a13">PERIODE</a>&lt;/TD&gt;
-<a name="l00119"></a>00119 &lt;?    printf('&lt;TD&gt; %s &lt;/TD&gt;&lt;/TR&gt;',$l_form_per); ?&gt;
-<a name="l00120"></a>00120 &lt;TR&gt;&lt;TD&gt;&lt;input type=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"sub_periode"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"Sauve"</span>&gt;&lt;/TD&gt;&lt;/TR&gt;
-<a name="l00121"></a>00121 &lt;/TABLE&gt;
-<a name="l00122"></a>00122 &lt;/<a class="code" href="constant_8php.html#a7">FORM</a>&gt;
-<a name="l00123"></a>00123 
-<a name="l00124"></a>00124 &lt;H2 CLASS=<span class="stringliteral">"info"</span>&gt; Taille des pages&lt;/H2&gt;
-<a name="l00125"></a>00125 &lt;<a class="code" href="constant_8php.html#a7">FORM</a> ACTION=<span class="stringliteral">"&lt;? echo $url;?&gt;"</span> <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"POST"</span>&gt;
-<a name="l00126"></a>00126 &lt;TABLE ALIGN=<span class="stringliteral">"CENTER"</span>&gt;
-<a name="l00127"></a>00127 &lt;TR&gt;&lt;TD&gt;Taille des pages&lt;/TD&gt;
-<a name="l00128"></a>00128 &lt;TD&gt;
-<a name="l00129"></a>00129 &lt;SELECT NAME=<span class="stringliteral">"p_size"</span>&gt;
-<a name="l00130"></a>00130 &lt;option <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"15"</span>&gt;15
-<a name="l00131"></a>00131 &lt;option value=<span class="stringliteral">"25"</span>&gt;25
-<a name="l00132"></a>00132 &lt;option value=<span class="stringliteral">"50"</span>&gt;50
-<a name="l00133"></a>00133 &lt;option value=<span class="stringliteral">"100"</span>&gt;100
-<a name="l00134"></a>00134 &lt;option value=<span class="stringliteral">"150"</span>&gt;150
-<a name="l00135"></a>00135 &lt;option value=<span class="stringliteral">"200"</span>&gt;200
-<a name="l00136"></a>00136 &lt;option value=<span class="stringliteral">"-1"</span>&gt;Illimité
-<a name="l00137"></a>00137 &lt;?
-<a name="l00138"></a><a class="code" href="pref_8inc_8php.html#a6">00138</a>         <a class="code" href="pref_8inc_8php.html#a6">$label</a>=(<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['g_pagesize'] == -1)?'Illimité':<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['g_pagesize'];
-<a name="l00139"></a>00139         echo '&lt;option value=<span class="stringliteral">"'.$_SESSION['g_pagesize'].'"</span> <a class="code" href="action_8inc_8php.html#a13">selected</a>&gt;'.$label;
-<a name="l00140"></a>00140 ?&gt;
-<a name="l00141"></a>00141 &lt;/SELECT&gt;
-<a name="l00142"></a>00142 &lt;/TD&gt;&lt;/TR&gt;
-<a name="l00143"></a>00143 &lt;TR&gt;&lt;TD&gt;&lt;input type=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"sub_taille"</span> value=<span class="stringliteral">"Sauve"</span>&gt;&lt;/TD&gt;&lt;/TR&gt;
-<a name="l00144"></a>00144 &lt;/TABLE&gt;
-<a name="l00145"></a>00145 &lt;/<a class="code" href="constant_8php.html#a7">FORM</a>&gt;
-<a name="l00146"></a>00146 
+<a name="l00102"></a>00102   }
+<a name="l00103"></a>00103 
+<a name="l00104"></a><a class="code" href="pref_8inc_8php.html#a5">00104</a>   <a class="code" href="pref_8inc_8php.html#a5">$l_user_per</a>=<a class="code" href="user__action__ach_8php.html#a9">$User</a>-&gt;GetPeriode();
+<a name="l00105"></a>00105   <span class="comment">// if periode is closed then warns the users</span>
+<a name="l00106"></a>00106   <span class="keywordflow">if</span> ( <a class="code" href="preference_8php.html#a3">PeriodeClosed</a>($cn,$l_user_per)==<span class="charliteral">'t'</span>)
+<a name="l00107"></a>00107   {
+<a name="l00108"></a>00108     <a class="code" href="pref_8inc_8php.html#a4">$msg</a>= '&lt;h2 <span class="keyword">class</span>=<span class="stringliteral">"error"</span>&gt;Attention cette période est fermée, vous ne pourrez rien modifier dans le module comptable&lt;/h2&gt;';
+<a name="l00109"></a>00109   }
+<a name="l00110"></a>00110 
+<a name="l00111"></a>00111 
+<a name="l00112"></a>00112   $l_form_per=<a class="code" href="preference_8php.html#a1">FormPeriode</a>($cn,$l_user_per,<a class="code" href="constant_8php.html#a45">ALL</a>);
+<a name="l00113"></a>00113 
+<a name="l00114"></a>00114 ?&gt;
+<a name="l00115"></a>00115 &lt;H2 CLASS=<span class="stringliteral">"info"</span>&gt; Période&lt;/H2&gt;
+<a name="l00116"></a>00116   &lt;? echo <a class="code" href="pref_8inc_8php.html#a4">$msg</a>; ?&gt;
+<a name="l00117"></a>00117 &lt;<a class="code" href="constant_8php.html#a7">FORM</a> ACTION=<span class="stringliteral">"&lt;? echo $url;?&gt;"</span> <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"POST"</span>&gt;
+<a name="l00118"></a>00118 &lt;TABLE ALIGN=<span class="stringliteral">"CENTER"</span>&gt;
+<a name="l00119"></a>00119 &lt;TR&gt;&lt;TD&gt;<a class="code" href="constant_8php.html#a13">PERIODE</a>&lt;/TD&gt;
+<a name="l00120"></a>00120 &lt;?    printf('&lt;TD&gt; %s &lt;/TD&gt;&lt;/TR&gt;',$l_form_per); ?&gt;
+<a name="l00121"></a>00121 &lt;TR&gt;&lt;TD&gt;&lt;input type=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"sub_periode"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"Sauve"</span>&gt;&lt;/TD&gt;&lt;/TR&gt;
+<a name="l00122"></a>00122 &lt;/TABLE&gt;
+<a name="l00123"></a>00123 &lt;/<a class="code" href="constant_8php.html#a7">FORM</a>&gt;
+<a name="l00124"></a>00124 
+<a name="l00125"></a>00125 &lt;H2 CLASS=<span class="stringliteral">"info"</span>&gt; Taille des pages&lt;/H2&gt;
+<a name="l00126"></a>00126 &lt;<a class="code" href="constant_8php.html#a7">FORM</a> ACTION=<span class="stringliteral">"&lt;? echo $url;?&gt;"</span> <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"POST"</span>&gt;
+<a name="l00127"></a>00127 &lt;TABLE ALIGN=<span class="stringliteral">"CENTER"</span>&gt;
+<a name="l00128"></a>00128 &lt;TR&gt;&lt;TD&gt;Taille des pages&lt;/TD&gt;
+<a name="l00129"></a>00129 &lt;TD&gt;
+<a name="l00130"></a>00130 &lt;SELECT NAME=<span class="stringliteral">"p_size"</span>&gt;
+<a name="l00131"></a>00131 &lt;option <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"15"</span>&gt;15
+<a name="l00132"></a>00132 &lt;option value=<span class="stringliteral">"25"</span>&gt;25
+<a name="l00133"></a>00133 &lt;option value=<span class="stringliteral">"50"</span>&gt;50
+<a name="l00134"></a>00134 &lt;option value=<span class="stringliteral">"100"</span>&gt;100
+<a name="l00135"></a>00135 &lt;option value=<span class="stringliteral">"150"</span>&gt;150
+<a name="l00136"></a>00136 &lt;option value=<span class="stringliteral">"200"</span>&gt;200
+<a name="l00137"></a>00137 &lt;option value=<span class="stringliteral">"-1"</span>&gt;Illimité
+<a name="l00138"></a>00138 &lt;?
+<a name="l00139"></a><a class="code" href="pref_8inc_8php.html#a6">00139</a>         <a class="code" href="pref_8inc_8php.html#a6">$label</a>=(<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['g_pagesize'] == -1)?'Illimité':<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['g_pagesize'];
+<a name="l00140"></a>00140         echo '&lt;option value=<span class="stringliteral">"'.$_SESSION['g_pagesize'].'"</span> <a class="code" href="action_8inc_8php.html#a21">selected</a>&gt;'.$label;
+<a name="l00141"></a>00141 ?&gt;
+<a name="l00142"></a>00142 &lt;/SELECT&gt;
+<a name="l00143"></a>00143 &lt;/TD&gt;&lt;/TR&gt;
+<a name="l00144"></a>00144 &lt;TR&gt;&lt;TD&gt;&lt;input type=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"sub_taille"</span> value=<span class="stringliteral">"Sauve"</span>&gt;&lt;/TD&gt;&lt;/TR&gt;
+<a name="l00145"></a>00145 &lt;/TABLE&gt;
+<a name="l00146"></a>00146 &lt;/<a class="code" href="constant_8php.html#a7">FORM</a>&gt;
 <a name="l00147"></a>00147 
-<a name="l00148"></a>00148 &lt;?
-<a name="l00149"></a>00149 }
-<a name="l00150"></a>00150      
-<a name="l00151"></a>00151 echo <span class="stringliteral">"&lt;/DIV&gt;"</span>;
-<a name="l00152"></a>00152 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jun 26 20:13:15 2006 for phpcompta by&nbsp;
+<a name="l00148"></a>00148 
+<a name="l00149"></a>00149 &lt;?
+<a name="l00150"></a>00150 }
+<a name="l00151"></a>00151      
+<a name="l00152"></a>00152 echo <span class="stringliteral">"&lt;/DIV&gt;"</span>;
+<a name="l00153"></a>00153 ?&gt;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Jun 27 01:39:28 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

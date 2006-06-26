@@ -32,7 +32,7 @@
 <a name="l00027"></a>00027 <span class="comment">//-----------------------------------------------------</span>
 <a name="l00028"></a>00028 require_once(<span class="stringliteral">"class_widget.php"</span>);
 <a name="l00029"></a>00029 require_once(<span class="stringliteral">"class_action.php"</span>);
-<a name="l00037"></a><a class="code" href="action_8inc_8php.html#a27">00037</a> function <a class="code" href="action_8inc_8php.html#a27">ShowActionList</a>($cn,$retour,$h_url)
+<a name="l00037"></a><a class="code" href="action_8inc_8php.html#a29">00037</a> function <a class="code" href="action_8inc_8php.html#a29">ShowActionList</a>($cn,$retour,$h_url)
 <a name="l00038"></a>00038 {
 <a name="l00039"></a>00039   <span class="comment">// show the search menu</span>
 <a name="l00040"></a>00040   ?&gt;
@@ -40,10 +40,10 @@
 <a name="l00042"></a>00042 &lt;span&gt;
 <a name="l00043"></a>00043 &lt;form method=<span class="stringliteral">"get"</span> <a class="code" href="classaction.html">action</a>=<span class="stringliteral">"commercial.php"</span>&gt;
 <a name="l00044"></a>00044 &lt;?
-<a name="l00045"></a>00045    <a class="code" href="action_8inc_8php.html#a16">$a</a>=(isset($_GET['query']))?$_GET['query']:<span class="stringliteral">""</span>;
+<a name="l00045"></a>00045    <a class="code" href="action_8inc_8php.html#a24">$a</a>=(isset($_GET['query']))?$_GET['query']:<span class="stringliteral">""</span>;
 <a name="l00046"></a>00046    printf ('&lt;span&gt;Titre ou référence: &lt;input type="text" name="query" value="%s"&gt;&lt;/span&gt;',
 <a name="l00047"></a>00047            $a);
-<a name="l00048"></a>00048    <a class="code" href="bank_8inc_8php.html#a9">$qcode</a>=(isset($_GET['<a class="code" href="action_8inc_8php.html#a21">qcode</a>']))?$_GET['qcode']:<span class="stringliteral">""</span>;
+<a name="l00048"></a>00048    <a class="code" href="bank_8inc_8php.html#a9">$qcode</a>=(isset($_GET['<a class="code" href="action_8inc_8php.html#a8">qcode</a>']))?$_GET['qcode']:<span class="stringliteral">""</span>;
 <a name="l00049"></a>00049    echo <a class="code" href="constant_8php.html#a80">JS_SEARCH_CARD</a>;
 <a name="l00050"></a>00050    <a class="code" href="admin_8inc_8php.html#a4">$w</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>('js_search_only');
 <a name="l00051"></a>00051    <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;name='qcode';
@@ -51,15 +51,15 @@
 <a name="l00053"></a>00053    <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;label='Quick Code';
 <a name="l00054"></a>00054    <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;extra='4,9,14,16,8';
 <a name="l00055"></a>00055    <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;table=0;
-<a name="l00056"></a>00056    <a class="code" href="contact_8inc_8php.html#a10">$sp</a>= <span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"span"</span>);
-<a name="l00057"></a>00057    echo <a class="code" href="contact_8inc_8php.html#a10">$sp</a>-&gt;IOValue(<span class="stringliteral">"qcode_label"</span>,<span class="stringliteral">""</span>,$qcode);
+<a name="l00056"></a>00056    <a class="code" href="bank_8inc_8php.html#a12">$sp</a>= <span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"span"</span>);
+<a name="l00057"></a>00057    echo <a class="code" href="bank_8inc_8php.html#a12">$sp</a>-&gt;IOValue(<span class="stringliteral">"qcode_label"</span>,<span class="stringliteral">""</span>,$qcode);
 <a name="l00058"></a>00058    echo <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;IOValue();
 <a name="l00059"></a>00059 
 <a name="l00060"></a>00060 
 <a name="l00061"></a>00061 ?&gt;
-<a name="l00062"></a>00062 &lt;input type=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"submit_query"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"recherche"</span>&gt;
-<a name="l00063"></a>00063 &lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"sa"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"list"</span>&gt;
-<a name="l00064"></a>00064 &lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"p_action"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"suivi_courrier"</span>&gt;
+<a name="l00062"></a>00062 &lt;input type=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"submit_query"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"recherche"</span>&gt;
+<a name="l00063"></a>00063 &lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"sa"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"list"</span>&gt;
+<a name="l00064"></a>00064 &lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"p_action"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"suivi_courrier"</span>&gt;
 <a name="l00065"></a>00065 &lt;/form&gt;
 <a name="l00066"></a>00066 &lt;/span&gt;
 <a name="l00067"></a>00067 
@@ -67,10 +67,10 @@
 <a name="l00069"></a>00069 ?&gt;
 <a name="l00070"></a>00070 &lt;span&gt;
 <a name="l00071"></a>00071 &lt;form method=<span class="stringliteral">"get"</span> <a class="code" href="classaction.html">action</a>=<span class="stringliteral">"commercial.php"</span>&gt;
-<a name="l00072"></a>00072 &lt;input type=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"submit_query"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"Ajout Action"</span>&gt;
-<a name="l00073"></a>00073 &lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"p_action"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"suivi_courrier"</span>&gt;
-<a name="l00074"></a>00074 &lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"sa"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"add_action"</span>&gt;
-<a name="l00075"></a>00075 &lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"tiers"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=&lt;? echo <span class="charliteral">'"'</span>.$qcode.<span class="charliteral">'"'</span>;?&gt;&gt;
+<a name="l00072"></a>00072 &lt;input type=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"submit_query"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"Ajout Action"</span>&gt;
+<a name="l00073"></a>00073 &lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"p_action"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"suivi_courrier"</span>&gt;
+<a name="l00074"></a>00074 &lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"sa"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"add_action"</span>&gt;
+<a name="l00075"></a>00075 &lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"tiers"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=&lt;? echo <span class="charliteral">'"'</span>.$qcode.<span class="charliteral">'"'</span>;?&gt;&gt;
 <a name="l00076"></a>00076    &lt;? <span class="comment">// if called from another menu, url is set</span>
 <a name="l00077"></a>00077    echo <a class="code" href="action_8inc_8php.html#a2">$h_url</a>;
 <a name="l00078"></a>00078    echo <a class="code" href="action_8inc_8php.html#a1">$retour</a>; ?&gt;
@@ -80,7 +80,7 @@
 <a name="l00082"></a>00082 &lt;/span&gt;
 <a name="l00083"></a>00083 &lt;?
 <a name="l00084"></a>00084     <span class="comment">// show the  action in </span>
-<a name="l00085"></a>00085     <a class="code" href="action_8inc_8php.html#a25">$act</a>=<span class="keyword">new</span> <a class="code" href="classaction.html">action</a>($cn);
+<a name="l00085"></a>00085     <a class="code" href="action_8inc_8php.html#a27">$act</a>=<span class="keyword">new</span> <a class="code" href="classaction.html">action</a>($cn);
 <a name="l00089"></a>00089    $query=(isset ($_REQUEST['query']))?<span class="stringliteral">"and (ag_title ~* '"</span>.FormatString($_REQUEST['query']).<span class="stringliteral">"' or ag_ref ='"</span>.trim(<a class="code" href="ac__common_8php.html#a9">FormatString</a>($_REQUEST['query'])).<span class="stringliteral">"')"</span>:<span class="stringliteral">""</span>;
 <a name="l00090"></a>00090    $str=<span class="stringliteral">""</span>;
 <a name="l00091"></a>00091    <span class="keywordflow">if</span> ( isset($_REQUEST['qcode'] )) 
@@ -116,184 +116,224 @@
 <a name="l00121"></a>00121 <span class="comment">// if this page is called from another menu (customer, supplier,...)</span>
 <a name="l00122"></a>00122 <span class="comment">// a button back is added</span>
 <a name="l00123"></a>00123 <span class="comment">// TODO add function for generating url, hidden tags...</span>
-<a name="l00124"></a><a class="code" href="action_8inc_8php.html#a1">00124</a> <a class="code" href="action_8inc_8php.html#a1">$retour</a>='&lt;A HREF=<span class="stringliteral">"commercial.php?p_action=suivi_courrier"</span>&gt;&lt;input type=<span class="stringliteral">"button"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"Retour"</span>&gt;&lt;/A&gt;';
+<a name="l00124"></a><a class="code" href="action_8inc_8php.html#a1">00124</a> <a class="code" href="action_8inc_8php.html#a1">$retour</a>='&lt;A HREF=<span class="stringliteral">"commercial.php?p_action=suivi_courrier"</span>&gt;&lt;input type=<span class="stringliteral">"button"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"Retour"</span>&gt;&lt;/A&gt;';
 <a name="l00125"></a><a class="code" href="action_8inc_8php.html#a2">00125</a> <a class="code" href="action_8inc_8php.html#a2">$h_url</a>=<span class="stringliteral">""</span>;
 <a name="l00126"></a>00126 
 <a name="l00127"></a>00127 <span class="keywordflow">if</span> ( isset ($_REQUEST['url'])) 
 <a name="l00128"></a>00128 {
-<a name="l00129"></a>00129      <a class="code" href="action_8inc_8php.html#a1">$retour</a>=sprintf('&lt;A HREF=<span class="stringliteral">"%s"</span>&gt;&lt;input type=<span class="stringliteral">"button"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"Retour"</span>&gt;&lt;/A&gt;',urldecode($_REQUEST['url']));
-<a name="l00130"></a>00130      <a class="code" href="action_8inc_8php.html#a2">$h_url</a>=sprintf('&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"url"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"%s"</span>&gt;',urldecode($_REQUEST['url']));
+<a name="l00129"></a>00129      <a class="code" href="action_8inc_8php.html#a1">$retour</a>=sprintf('&lt;A HREF=<span class="stringliteral">"%s"</span>&gt;&lt;input type=<span class="stringliteral">"button"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"Retour"</span>&gt;&lt;/A&gt;',urldecode($_REQUEST['url']));
+<a name="l00130"></a>00130      <a class="code" href="action_8inc_8php.html#a2">$h_url</a>=sprintf('&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"url"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"%s"</span>&gt;',urldecode($_REQUEST['url']));
 <a name="l00131"></a>00131 }
-<a name="l00132"></a>00132 <span class="comment">//--------------------------------------------------------------------------------</span>
-<a name="l00133"></a>00133 <span class="comment">// Show the detail of an action</span>
-<a name="l00134"></a>00134 <span class="keywordflow">if</span> ( $sub_action=='detail' )
+<a name="l00132"></a>00132 <span class="comment">//----------------------------------------------------------------------</span>
+<a name="l00133"></a>00133 <span class="comment">// Update the detail</span>
+<a name="l00134"></a>00134 <span class="keywordflow">if</span> ( $sub_action==<span class="stringliteral">"update"</span> )
 <a name="l00135"></a>00135 {
-<a name="l00136"></a>00136   <a class="code" href="action_8inc_8php.html#a25">$act</a>=<span class="keyword">new</span> <a class="code" href="classaction.html">action</a>($cn);
-<a name="l00137"></a><a class="code" href="action_8inc_8php.html#a3">00137</a>   <a class="code" href="action_8inc_8php.html#a25">$act</a>-&gt;ag_id=$_REQUEST['<a class="code" href="action_8inc_8php.html#a3">ag_id</a>'];
-<a name="l00138"></a>00138   echo <a class="code" href="action_8inc_8php.html#a25">$act</a>-&gt;get();
-<a name="l00139"></a>00139   echo <a class="code" href="action_8inc_8php.html#a25">$act</a>-&gt;display();
-<a name="l00140"></a>00140   echo <a class="code" href="action_8inc_8php.html#a1">$retour</a>;
-<a name="l00141"></a>00141 
-<a name="l00142"></a>00142 }
-<a name="l00143"></a>00143 <span class="comment">//--------------------------------------------------------------------------------</span>
-<a name="l00144"></a>00144 <span class="comment">// Show a list of the action</span>
-<a name="l00145"></a>00145 <span class="keywordflow">if</span> ( $sub_action == <span class="stringliteral">"list"</span> )
-<a name="l00146"></a>00146      <a class="code" href="action_8inc_8php.html#a27">ShowActionList</a>($cn,$retour,$h_url);
-<a name="l00147"></a>00147        
-<a name="l00148"></a>00148 <span class="comment">//--------------------------------------------------------------------------------</span>
-<a name="l00149"></a>00149 <span class="comment">// Add an action</span>
-<a name="l00150"></a>00150 <span class="keywordflow">if</span> ( $sub_action == <span class="stringliteral">"add_action"</span> ) 
-<a name="l00151"></a>00151 {
-<a name="l00152"></a>00152   echo <a class="code" href="action_8inc_8php.html#a1">$retour</a>;
-<a name="l00153"></a>00153 
-<a name="l00154"></a>00154   echo '&lt;div <span class="keyword">class</span>=<span class="stringliteral">"u_redcontent"</span>&gt;';
-<a name="l00155"></a>00155   echo <a class="code" href="constant_8php.html#a80">JS_SEARCH_CARD</a>;
-<a name="l00156"></a>00156   <span class="comment">// Add hidden tag</span>
-<a name="l00157"></a>00157   echo '&lt;form <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"RTEDemo"</span> <a class="code" href="classaction.html">action</a>=<span class="stringliteral">"commercial.php?p_action=suivi_courrier"</span> method=<span class="stringliteral">"post"</span> onsubmit=<span class="stringliteral">"return submitForm();"</span>&gt;';
-<a name="l00158"></a>00158   echo <a class="code" href="action_8inc_8php.html#a2">$h_url</a>;
-<a name="l00159"></a>00159   $date=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"text"</span>);
-<a name="l00160"></a><a class="code" href="action_8inc_8php.html#a4">00160</a>   $date-&gt;name=<span class="stringliteral">"ag_timestamp"</span>;
-<a name="l00161"></a><a class="code" href="action_8inc_8php.html#a5">00161</a>   $date-&gt;value=(isset($_POST['<a class="code" href="action_8inc_8php.html#a18">ag_timestamp</a>']))?$_POST['<a class="code" href="action_8inc_8php.html#a18">ag_timestamp</a>']:<span class="stringliteral">""</span>;
-<a name="l00162"></a>00162   echo <span class="stringliteral">"&lt;p&gt;Date : "</span>;
-<a name="l00163"></a>00163   echo $date-&gt;IOValue().<span class="stringliteral">"&lt;/p&gt;"</span>;
-<a name="l00164"></a>00164   <span class="comment">// Tiers</span>
-<a name="l00165"></a><a class="code" href="action_8inc_8php.html#a6">00165</a>   <a class="code" href="action_8inc_8php.html#a6">$W1</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"js_search"</span>);
-<a name="l00166"></a><a class="code" href="action_8inc_8php.html#a7">00166</a>   <a class="code" href="action_8inc_8php.html#a6">$W1</a>-&gt;label=<span class="stringliteral">"Tiers"</span>;
-<a name="l00167"></a>00167   <a class="code" href="action_8inc_8php.html#a6">$W1</a>-&gt;name=<span class="stringliteral">"tiers"</span>;
-<a name="l00168"></a>00168   <a class="code" href="action_8inc_8php.html#a6">$W1</a>-&gt;value=isset($_REQUEST['tiers'])?$_REQUEST['tiers']:<span class="stringliteral">""</span>;
-<a name="l00169"></a><a class="code" href="action_8inc_8php.html#a8">00169</a>   <a class="code" href="action_8inc_8php.html#a6">$W1</a>-&gt;extra=<span class="stringliteral">"8,9,14"</span>; <span class="comment">// filter on frd_id</span>
-<a name="l00170"></a><a class="code" href="action_8inc_8php.html#a9">00170</a>   <a class="code" href="action_8inc_8php.html#a6">$W1</a>-&gt;extra2=0;      <span class="comment">// jrn = 0</span>
-<a name="l00171"></a>00171   echo <span class="stringliteral">"&lt;div class=\"no\"&gt;"</span>.$W1-&gt;IOValue();
-<a name="l00172"></a><a class="code" href="action_8inc_8php.html#a10">00172</a>   <a class="code" href="action_8inc_8php.html#a10">$client_label</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"span"</span>);
-<a name="l00173"></a><a class="code" href="action_8inc_8php.html#a11">00173</a>   <a class="code" href="action_8inc_8php.html#a11">$tiers_label</a>=<span class="stringliteral">""</span>;
-<a name="l00174"></a>00174   <span class="comment">// Retrieve name</span>
-<a name="l00175"></a>00175   <span class="keywordflow">if</span> ( $W1-&gt;value != <span class="stringliteral">""</span> ) 
-<a name="l00176"></a>00176     {
-<a name="l00177"></a>00177       $tiers=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($cn);
-<a name="l00178"></a>00178       $tiers-&gt;GetByQCode($W1-&gt;value);
-<a name="l00179"></a>00179       <a class="code" href="action_8inc_8php.html#a11">$tiers_label</a>=$tiers-&gt;strAttribut(1);
-<a name="l00180"></a>00180 
-<a name="l00181"></a>00181     }
-<a name="l00182"></a>00182   echo <a class="code" href="action_8inc_8php.html#a10">$client_label</a>-&gt;IOValue(<span class="stringliteral">"tiers_label"</span>,$tiers_label).<span class="stringliteral">"&lt;/div&gt;"</span>;
-<a name="l00183"></a>00183 
-<a name="l00184"></a><a class="code" href="action_8inc_8php.html#a12">00184</a>   <a class="code" href="action_8inc_8php.html#a12">$doc_type</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"select"</span>);
-<a name="l00185"></a>00185   <a class="code" href="action_8inc_8php.html#a12">$doc_type</a>-&gt;name=<span class="stringliteral">"dt_id"</span>;
-<a name="l00186"></a>00186   <a class="code" href="action_8inc_8php.html#a12">$doc_type</a>-&gt;value=<a class="code" href="ac__common_8php.html#a12">make_array</a>($cn,<span class="stringliteral">"select dt_id,dt_value from document_type where dt_id in ("</span>.<a class="code" href="constant_8php.html#a39">ACTION</a>.<span class="stringliteral">")"</span>);
-<a name="l00187"></a>00187   echo 'Type d\' <a class="code" href="classaction.html">action</a>';
-<a name="l00188"></a><a class="code" href="action_8inc_8php.html#a13">00188</a>   <a class="code" href="action_8inc_8php.html#a12">$doc_type</a>-&gt;selected=(isset($_POST['<a class="code" href="action_8inc_8php.html#a20">dt_id</a>']))?$_POST['<a class="code" href="action_8inc_8php.html#a20">dt_id</a>']:<span class="stringliteral">""</span>;
-<a name="l00189"></a>00189   echo <a class="code" href="action_8inc_8php.html#a12">$doc_type</a>-&gt;IOValue();
+<a name="l00136"></a>00136 
+<a name="l00137"></a>00137 
+<a name="l00138"></a>00138   <a class="code" href="action_8inc_8php.html#a27">$act</a>=<span class="keyword">new</span> <a class="code" href="classaction.html">action</a>($cn);
+<a name="l00139"></a><a class="code" href="action_8inc_8php.html#a3">00139</a>   <a class="code" href="action_8inc_8php.html#a27">$act</a>-&gt;ag_id=$_REQUEST['<a class="code" href="action_8inc_8php.html#a3">ag_id</a>'];
+<a name="l00140"></a><a class="code" href="action_8inc_8php.html#a4">00140</a>   <a class="code" href="action_8inc_8php.html#a27">$act</a>-&gt;ag_comment=$_POST['<a class="code" href="action_8inc_8php.html#a4">ag_comment</a>'];
+<a name="l00141"></a><a class="code" href="action_8inc_8php.html#a5">00141</a>   <a class="code" href="action_8inc_8php.html#a27">$act</a>-&gt;ag_timestamp=$_POST['<a class="code" href="action_8inc_8php.html#a5">ag_timestamp</a>'];
+<a name="l00142"></a><a class="code" href="action_8inc_8php.html#a6">00142</a>   <a class="code" href="action_8inc_8php.html#a27">$act</a>-&gt;d_state=$_POST['<a class="code" href="action_8inc_8php.html#a6">d_state</a>'];
+<a name="l00143"></a><a class="code" href="action_8inc_8php.html#a7">00143</a>   <a class="code" href="action_8inc_8php.html#a27">$act</a>-&gt;dt_id=(isset($_POST['<a class="code" href="action_8inc_8php.html#a7">dt_id</a>']))?$_POST['<a class="code" href="action_8inc_8php.html#a7">dt_id</a>']:0;
+<a name="l00144"></a><a class="code" href="action_8inc_8php.html#a8">00144</a>   <a class="code" href="action_8inc_8php.html#a27">$act</a>-&gt;qcode=$_POST['<a class="code" href="action_8inc_8php.html#a8">qcode</a>'];
+<a name="l00145"></a><a class="code" href="action_8inc_8php.html#a9">00145</a>   <a class="code" href="action_8inc_8php.html#a27">$act</a>-&gt;ag_title=$_POST['<a class="code" href="action_8inc_8php.html#a9">ag_title</a>'];
+<a name="l00146"></a><a class="code" href="action_8inc_8php.html#a10">00146</a>   <a class="code" href="action_8inc_8php.html#a27">$act</a>-&gt;d_id=$_POST['<a class="code" href="action_8inc_8php.html#a10">d_id</a>'];
+<a name="l00147"></a>00147   <span class="keywordflow">if</span> ( $act-&gt;Update() == false ) {
+<a name="l00148"></a>00148     <a class="code" href="action_8inc_8php.html#a0">$sub_action</a>=<span class="stringliteral">"detail"</span>;
+<a name="l00149"></a>00149   } 
+<a name="l00150"></a>00150    <span class="keywordflow">else</span> 
+<a name="l00151"></a>00151     {
+<a name="l00152"></a>00152       <a class="code" href="action_8inc_8php.html#a29">ShowActionList</a>($cn,$retour,$h_url);
+<a name="l00153"></a>00153     }
+<a name="l00154"></a>00154 
+<a name="l00155"></a>00155 }
+<a name="l00156"></a>00156 <span class="comment">//--------------------------------------------------------------------------------</span>
+<a name="l00157"></a>00157 <span class="comment">// Show the detail of an action</span>
+<a name="l00158"></a>00158 <span class="comment">// permit the update</span>
+<a name="l00159"></a>00159 <span class="keywordflow">if</span> ( $sub_action=='detail' )
+<a name="l00160"></a>00160 {
+<a name="l00161"></a>00161   <a class="code" href="action_8inc_8php.html#a27">$act</a>=<span class="keyword">new</span> <a class="code" href="classaction.html">action</a>($cn);
+<a name="l00162"></a>00162   <a class="code" href="action_8inc_8php.html#a27">$act</a>-&gt;ag_id=$_REQUEST['<a class="code" href="action_8inc_8php.html#a3">ag_id</a>'];
+<a name="l00163"></a>00163   echo <a class="code" href="action_8inc_8php.html#a27">$act</a>-&gt;get();
+<a name="l00164"></a>00164   echo '&lt;form <a class="code" href="classaction.html">action</a>=<span class="stringliteral">"commercial.php"</span>  enctype=<span class="stringliteral">"multipart/form-data"</span>  method=<span class="stringliteral">"post"</span> &gt;';
+<a name="l00165"></a>00165   echo <a class="code" href="action_8inc_8php.html#a27">$act</a>-&gt;display(<span class="keyword">false</span>);
+<a name="l00166"></a>00166   echo '&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"p_action"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"suivi_courrier"</span>&gt;';
+<a name="l00167"></a>00167   echo '&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"sa"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"update"</span>&gt;';
+<a name="l00168"></a>00168   echo '&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"ag_id"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"'.$_REQUEST['ag_id'].'"</span>&gt;';
+<a name="l00169"></a><a class="code" href="action_8inc_8php.html#a11">00169</a>   <a class="code" href="action_8inc_8php.html#a11">$upload</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"file"</span>);
+<a name="l00170"></a><a class="code" href="action_8inc_8php.html#a12">00170</a>   <a class="code" href="action_8inc_8php.html#a11">$upload</a>-&gt;name=<span class="stringliteral">"file_upload"</span>;
+<a name="l00171"></a><a class="code" href="action_8inc_8php.html#a13">00171</a>   <a class="code" href="action_8inc_8php.html#a11">$upload</a>-&gt;value=<span class="stringliteral">""</span>;
+<a name="l00172"></a>00172   echo <span class="stringliteral">"Enregistrer le fichier "</span>.$upload-&gt;IOValue();
+<a name="l00173"></a>00173   echo <a class="code" href="action_8inc_8php.html#a11">$upload</a>-&gt;Submit(<span class="stringliteral">"save"</span>,<span class="stringliteral">"Sauve"</span>);
+<a name="l00174"></a>00174   echo '&lt;/form&gt;';
+<a name="l00175"></a>00175   echo <a class="code" href="action_8inc_8php.html#a1">$retour</a>;
+<a name="l00176"></a>00176 
+<a name="l00177"></a>00177 }
+<a name="l00178"></a>00178 
+<a name="l00179"></a>00179 
+<a name="l00180"></a>00180 <span class="comment">//--------------------------------------------------------------------------------</span>
+<a name="l00181"></a>00181 <span class="comment">// Show a list of the action</span>
+<a name="l00182"></a>00182 <span class="keywordflow">if</span> ( $sub_action == <span class="stringliteral">"list"</span> )
+<a name="l00183"></a>00183      <a class="code" href="action_8inc_8php.html#a29">ShowActionList</a>($cn,$retour,$h_url);
+<a name="l00184"></a>00184        
+<a name="l00185"></a>00185 <span class="comment">//--------------------------------------------------------------------------------</span>
+<a name="l00186"></a>00186 <span class="comment">// Add an action</span>
+<a name="l00187"></a>00187 <span class="keywordflow">if</span> ( $sub_action == <span class="stringliteral">"add_action"</span> ) 
+<a name="l00188"></a>00188 {
+<a name="l00189"></a>00189   echo <a class="code" href="action_8inc_8php.html#a1">$retour</a>;
 <a name="l00190"></a>00190 
-<a name="l00191"></a>00191   <span class="comment">// state </span>
-<a name="l00192"></a><a class="code" href="action_8inc_8php.html#a14">00192</a>   <a class="code" href="action_8inc_8php.html#a14">$doc_state</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"select"</span>);
-<a name="l00193"></a>00193   <a class="code" href="action_8inc_8php.html#a14">$doc_state</a>-&gt;name=<span class="stringliteral">"d_state"</span>;
-<a name="l00194"></a>00194   <a class="code" href="action_8inc_8php.html#a14">$doc_state</a>-&gt;value=<a class="code" href="ac__common_8php.html#a12">make_array</a>($cn,<span class="stringliteral">"select s_id,s_value from document_state"</span>);
-<a name="l00195"></a>00195   <a class="code" href="action_8inc_8php.html#a14">$doc_state</a>-&gt;selected=(isset($_POST['<a class="code" href="action_8inc_8php.html#a19">d_state</a>']))?$_POST['<a class="code" href="action_8inc_8php.html#a19">d_state</a>']:<span class="stringliteral">""</span>;
-<a name="l00196"></a>00196   echo <span class="stringliteral">"Etat : "</span>.$doc_state-&gt;IOValue();
-<a name="l00197"></a>00197   echo '&lt;input type=<span class="stringliteral">"hidden"</span> name=<span class="stringliteral">"p_action"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"suivi_courrier"</span>&gt;';
-<a name="l00198"></a>00198   echo '&lt;input type=<span class="stringliteral">"hidden"</span> name=<span class="stringliteral">"sa"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"save_action_st1"</span>&gt;';
-<a name="l00199"></a><a class="code" href="action_8inc_8php.html#a15">00199</a>   <a class="code" href="action_8inc_8php.html#a15">$title</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"text"</span>);
-<a name="l00200"></a>00200   <a class="code" href="action_8inc_8php.html#a15">$title</a>-&gt;name=<span class="stringliteral">"ag_title"</span>;
-<a name="l00201"></a>00201   <a class="code" href="action_8inc_8php.html#a15">$title</a>-&gt;value=(isset($_POST['<a class="code" href="action_8inc_8php.html#a22">ag_title</a>']))?$_POST['<a class="code" href="action_8inc_8php.html#a22">ag_title</a>']:<span class="stringliteral">""</span>;
-<a name="l00202"></a>00202   echo <span class="stringliteral">"&lt;p&gt;Titre  : "</span>;
-<a name="l00203"></a>00203   echo <a class="code" href="action_8inc_8php.html#a15">$title</a>-&gt;IOValue().<span class="stringliteral">"&lt;/p&gt;"</span>;
-<a name="l00204"></a>00204 
-<a name="l00205"></a>00205 ?&gt;
-<a name="l00206"></a>00206 
-<a name="l00207"></a>00207 &lt;? 
-<a name="l00208"></a>00208 <span class="comment">//--------------------------------------------------------------------------------</span>
-<a name="l00209"></a>00209 <span class="comment">// add here for who the action is taken (contact, client or supplier)</span>
-<a name="l00210"></a>00210 
-<a name="l00211"></a>00211 ?&gt;
-<a name="l00212"></a>00212 
-<a name="l00213"></a>00213 
-<a name="l00214"></a>00214 
-<a name="l00215"></a>00215 &lt;script language=<span class="stringliteral">"JavaScript"</span> type=<span class="stringliteral">"text/javascript"</span>&gt;
-<a name="l00216"></a>00216 &lt;!--
-<a name="l00217"></a>00217 function submitForm() {
-<a name="l00218"></a>00218         <span class="comment">//make sure hidden and iframe values are in sync before submitting form</span>
-<a name="l00219"></a>00219         <span class="comment">//to sync only 1 rte, use updateRTE(rte)</span>
-<a name="l00220"></a>00220         <span class="comment">//to sync all rtes, use updateRTEs</span>
-<a name="l00221"></a>00221         updateRTE('<a class="code" href="action_8inc_8php.html#a17">ag_comment</a>');
-<a name="l00222"></a>00222         <span class="comment">//updateRTE();</span>
-<a name="l00223"></a>00223         <span class="comment">//change the following line to true to submit form</span>
-<a name="l00224"></a>00224         <span class="keywordflow">return</span> <span class="keyword">true</span>;
-<a name="l00225"></a>00225 }
-<a name="l00226"></a>00226 
-<a name="l00227"></a>00227 <span class="comment">//Usage: initRTE(imagesPath, includesPath, cssFile)</span>
-<a name="l00228"></a>00228 initRTE(<span class="stringliteral">"images/"</span>, <span class="stringliteral">""</span>, <span class="stringliteral">""</span>);
-<a name="l00229"></a>00229 <span class="comment">//--&gt;</span>
-<a name="l00230"></a>00230 &lt;/script&gt;
-<a name="l00231"></a>00231 &lt;noscript&gt;&lt;p&gt;&lt;b&gt;Javascript must be enabled to use <span class="keyword">this</span> form.&lt;/b&gt;&lt;/p&gt;&lt;/noscript&gt;
-<a name="l00232"></a>00232     Note Interne : 
-<a name="l00233"></a>00233 &lt;script language=<span class="stringliteral">"JavaScript"</span> type=<span class="stringliteral">"text/javascript"</span>&gt;
-<a name="l00234"></a>00234 &lt;!--
-<a name="l00235"></a>00235 <span class="comment">//Usage: writeRichText(fieldname, html, width, height, buttons, readOnly)</span>
-<a name="l00236"></a><a class="code" href="action_8inc_8php.html#a16">00236</a>     &lt;? <a class="code" href="action_8inc_8php.html#a16">$a</a>=(isset($_POST['<a class="code" href="action_8inc_8php.html#a17">ag_comment</a>']))?<a class="code" href="ac__common_8php.html#a9">FormatString</a>(urldecode($_POST['<a class="code" href="action_8inc_8php.html#a17">ag_comment</a>'])):<span class="stringliteral">""</span>; ?&gt;
-<a name="l00237"></a>00237 writeRichText('ag_comment', &lt;? printf (<span class="stringliteral">"'%s'"</span>,$a); ?&gt;, 520, 200, <span class="keyword">true</span>, <span class="keyword">false</span>);
-<a name="l00238"></a>00238 &lt;? <a class="code" href="debug_8php.html#a0">echo_debug</a>('<a class="code" href="classaction.html">action</a>.inc',__LINE__, <span class="stringliteral">" A = "</span>.$a); ?&gt;
-<a name="l00239"></a>00239 <span class="comment">//--&gt;</span>
-<a name="l00240"></a>00240 &lt;/script&gt;
+<a name="l00191"></a>00191   echo '&lt;div <span class="keyword">class</span>=<span class="stringliteral">"u_redcontent"</span>&gt;';
+<a name="l00192"></a>00192   echo <a class="code" href="constant_8php.html#a80">JS_SEARCH_CARD</a>;
+<a name="l00193"></a>00193   <span class="comment">// Add hidden tag</span>
+<a name="l00194"></a>00194   echo '&lt;form <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"RTEDemo"</span> action=<span class="stringliteral">"commercial.php?p_action=suivi_courrier"</span> method=<span class="stringliteral">"post"</span> onsubmit=<span class="stringliteral">"return submitForm();"</span>&gt;';
+<a name="l00195"></a>00195   echo <a class="code" href="action_8inc_8php.html#a2">$h_url</a>;
+<a name="l00196"></a>00196   $date=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"text"</span>);
+<a name="l00197"></a>00197   $date-&gt;name=<span class="stringliteral">"ag_timestamp"</span>;
+<a name="l00198"></a>00198   $date-&gt;value=(isset($_POST['<a class="code" href="action_8inc_8php.html#a5">ag_timestamp</a>']))?$_POST['<a class="code" href="action_8inc_8php.html#a5">ag_timestamp</a>']:<span class="stringliteral">""</span>;
+<a name="l00199"></a>00199   echo <span class="stringliteral">"&lt;p&gt;Date : "</span>;
+<a name="l00200"></a>00200   echo $date-&gt;IOValue().<span class="stringliteral">"&lt;/p&gt;"</span>;
+<a name="l00201"></a>00201   <span class="comment">// Tiers</span>
+<a name="l00202"></a><a class="code" href="action_8inc_8php.html#a14">00202</a>   <a class="code" href="action_8inc_8php.html#a14">$W1</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"js_search"</span>);
+<a name="l00203"></a><a class="code" href="action_8inc_8php.html#a15">00203</a>   <a class="code" href="action_8inc_8php.html#a14">$W1</a>-&gt;label=<span class="stringliteral">"Tiers"</span>;
+<a name="l00204"></a>00204   <a class="code" href="action_8inc_8php.html#a14">$W1</a>-&gt;name=<span class="stringliteral">"tiers"</span>;
+<a name="l00205"></a>00205   <a class="code" href="action_8inc_8php.html#a14">$W1</a>-&gt;value=isset($_REQUEST['tiers'])?$_REQUEST['tiers']:<span class="stringliteral">""</span>;
+<a name="l00206"></a><a class="code" href="action_8inc_8php.html#a16">00206</a>   <a class="code" href="action_8inc_8php.html#a14">$W1</a>-&gt;extra=<span class="stringliteral">"8,9,14"</span>; <span class="comment">// filter on frd_id</span>
+<a name="l00207"></a><a class="code" href="action_8inc_8php.html#a17">00207</a>   <a class="code" href="action_8inc_8php.html#a14">$W1</a>-&gt;extra2=0;      <span class="comment">// jrn = 0</span>
+<a name="l00208"></a>00208   echo <span class="stringliteral">"&lt;div class=\"no\"&gt;"</span>.$W1-&gt;IOValue();
+<a name="l00209"></a><a class="code" href="action_8inc_8php.html#a18">00209</a>   <a class="code" href="action_8inc_8php.html#a18">$client_label</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"span"</span>);
+<a name="l00210"></a><a class="code" href="action_8inc_8php.html#a19">00210</a>   <a class="code" href="action_8inc_8php.html#a19">$tiers_label</a>=<span class="stringliteral">""</span>;
+<a name="l00211"></a>00211   <span class="comment">// Retrieve name</span>
+<a name="l00212"></a>00212   <span class="keywordflow">if</span> ( $W1-&gt;value != <span class="stringliteral">""</span> ) 
+<a name="l00213"></a>00213     {
+<a name="l00214"></a>00214       $tiers=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($cn);
+<a name="l00215"></a>00215       $tiers-&gt;GetByQCode($W1-&gt;value);
+<a name="l00216"></a>00216       <a class="code" href="action_8inc_8php.html#a19">$tiers_label</a>=$tiers-&gt;strAttribut(1);
+<a name="l00217"></a>00217 
+<a name="l00218"></a>00218     }
+<a name="l00219"></a>00219   echo <a class="code" href="action_8inc_8php.html#a18">$client_label</a>-&gt;IOValue(<span class="stringliteral">"tiers_label"</span>,$tiers_label).<span class="stringliteral">"&lt;/div&gt;"</span>;
+<a name="l00220"></a>00220 
+<a name="l00221"></a><a class="code" href="action_8inc_8php.html#a20">00221</a>   <a class="code" href="action_8inc_8php.html#a20">$doc_type</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"select"</span>);
+<a name="l00222"></a>00222   <a class="code" href="action_8inc_8php.html#a20">$doc_type</a>-&gt;name=<span class="stringliteral">"dt_id"</span>;
+<a name="l00223"></a>00223   <a class="code" href="action_8inc_8php.html#a20">$doc_type</a>-&gt;value=<a class="code" href="ac__common_8php.html#a12">make_array</a>($cn,<span class="stringliteral">"select dt_id,dt_value from document_type where dt_id in ("</span>.<a class="code" href="constant_8php.html#a39">ACTION</a>.<span class="stringliteral">")"</span>);
+<a name="l00224"></a>00224   echo 'Type d\' action';
+<a name="l00225"></a><a class="code" href="action_8inc_8php.html#a21">00225</a>   <a class="code" href="action_8inc_8php.html#a20">$doc_type</a>-&gt;selected=(isset($_POST['<a class="code" href="action_8inc_8php.html#a7">dt_id</a>']))?$_POST['<a class="code" href="action_8inc_8php.html#a7">dt_id</a>']:<span class="stringliteral">""</span>;
+<a name="l00226"></a>00226   echo <a class="code" href="action_8inc_8php.html#a20">$doc_type</a>-&gt;IOValue();
+<a name="l00227"></a>00227 
+<a name="l00228"></a>00228   <span class="comment">// state </span>
+<a name="l00229"></a><a class="code" href="action_8inc_8php.html#a22">00229</a>   <a class="code" href="action_8inc_8php.html#a22">$doc_state</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"select"</span>);
+<a name="l00230"></a>00230   <a class="code" href="action_8inc_8php.html#a22">$doc_state</a>-&gt;name=<span class="stringliteral">"d_state"</span>;
+<a name="l00231"></a>00231   <a class="code" href="action_8inc_8php.html#a22">$doc_state</a>-&gt;value=<a class="code" href="ac__common_8php.html#a12">make_array</a>($cn,<span class="stringliteral">"select s_id,s_value from document_state"</span>);
+<a name="l00232"></a>00232   <a class="code" href="action_8inc_8php.html#a22">$doc_state</a>-&gt;selected=(isset($_POST['<a class="code" href="action_8inc_8php.html#a6">d_state</a>']))?$_POST['<a class="code" href="action_8inc_8php.html#a6">d_state</a>']:<span class="stringliteral">""</span>;
+<a name="l00233"></a>00233   echo <span class="stringliteral">"Etat : "</span>.$doc_state-&gt;IOValue();
+<a name="l00234"></a>00234   echo '&lt;input type=<span class="stringliteral">"hidden"</span> name=<span class="stringliteral">"p_action"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"suivi_courrier"</span>&gt;';
+<a name="l00235"></a>00235   echo '&lt;input type=<span class="stringliteral">"hidden"</span> name=<span class="stringliteral">"sa"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"save_action_st1"</span>&gt;';
+<a name="l00236"></a><a class="code" href="action_8inc_8php.html#a23">00236</a>   <a class="code" href="action_8inc_8php.html#a23">$title</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"text"</span>);
+<a name="l00237"></a>00237   <a class="code" href="action_8inc_8php.html#a23">$title</a>-&gt;name=<span class="stringliteral">"ag_title"</span>;
+<a name="l00238"></a>00238   <a class="code" href="action_8inc_8php.html#a23">$title</a>-&gt;value=(isset($_POST['<a class="code" href="action_8inc_8php.html#a9">ag_title</a>']))?$_POST['<a class="code" href="action_8inc_8php.html#a9">ag_title</a>']:<span class="stringliteral">""</span>;
+<a name="l00239"></a>00239   echo <span class="stringliteral">"&lt;p&gt;Titre  : "</span>;
+<a name="l00240"></a>00240   echo <a class="code" href="action_8inc_8php.html#a23">$title</a>-&gt;IOValue().<span class="stringliteral">"&lt;/p&gt;"</span>;
 <a name="l00241"></a>00241 
-<a name="l00242"></a>00242 &lt;input type=<span class="stringliteral">"submit"</span> name=<span class="stringliteral">"save_action_st1"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"Sauver"</span>&gt;&lt;/p&gt;
-<a name="l00243"></a>00243 &lt;/form&gt;
-<a name="l00244"></a>00244 &lt;/div&gt;
-<a name="l00245"></a>00245 &lt;?
-<a name="l00246"></a>00246 }
-<a name="l00247"></a>00247 <span class="comment">//--------------------------------------------------------------------------------</span>
-<a name="l00248"></a>00248 <span class="comment">// Save Action</span>
-<a name="l00249"></a>00249 <span class="comment">// Stage 1 : show the result and confirm</span>
-<a name="l00250"></a>00250 <span class="comment">//--------------------------------------------------------------------------------</span>
-<a name="l00251"></a>00251 <span class="keywordflow">if</span>  ( $sub_action == <span class="stringliteral">"save_action_st1"</span> ) 
-<a name="l00252"></a>00252 {
-<a name="l00253"></a>00253   <a class="code" href="action_8inc_8php.html#a25">$act</a>=<span class="keyword">new</span> <a class="code" href="classaction.html">action</a>($cn);
-<a name="l00254"></a><a class="code" href="action_8inc_8php.html#a17">00254</a>   <a class="code" href="action_8inc_8php.html#a25">$act</a>-&gt;ag_comment=$_POST['ag_comment'];
-<a name="l00255"></a><a class="code" href="action_8inc_8php.html#a18">00255</a>   <a class="code" href="action_8inc_8php.html#a25">$act</a>-&gt;ag_timestamp=$_POST['<a class="code" href="action_8inc_8php.html#a18">ag_timestamp</a>'];
-<a name="l00256"></a><a class="code" href="action_8inc_8php.html#a19">00256</a>   <a class="code" href="action_8inc_8php.html#a25">$act</a>-&gt;d_state=$_POST['<a class="code" href="action_8inc_8php.html#a19">d_state</a>'];
-<a name="l00257"></a><a class="code" href="action_8inc_8php.html#a20">00257</a>   <a class="code" href="action_8inc_8php.html#a25">$act</a>-&gt;dt_id=$_POST['<a class="code" href="action_8inc_8php.html#a20">dt_id</a>'];
-<a name="l00258"></a><a class="code" href="action_8inc_8php.html#a21">00258</a>   <a class="code" href="action_8inc_8php.html#a25">$act</a>-&gt;qcode=$_POST['tiers'];
-<a name="l00259"></a><a class="code" href="action_8inc_8php.html#a22">00259</a>   <a class="code" href="action_8inc_8php.html#a25">$act</a>-&gt;ag_title=$_POST['<a class="code" href="action_8inc_8php.html#a22">ag_title</a>'];
-<a name="l00260"></a>00260   echo <a class="code" href="action_8inc_8php.html#a25">$act</a>-&gt;Confirm();
-<a name="l00261"></a>00261 }
-<a name="l00262"></a>00262 <span class="comment">//--------------------------------------------------------------------------------</span>
-<a name="l00263"></a>00263 <span class="comment">// Save Action</span>
-<a name="l00264"></a>00264 <span class="comment">// Stage 2 : Save the action and propose to save a file</span>
-<a name="l00265"></a>00265 <span class="comment">//--------------------------------------------------------------------------------</span>
-<a name="l00266"></a>00266 <span class="keywordflow">if</span>  ( $sub_action == <span class="stringliteral">"save_action_st2"</span> ) 
-<a name="l00267"></a>00267 {
-<a name="l00268"></a>00268   <a class="code" href="action_8inc_8php.html#a25">$act</a>=<span class="keyword">new</span> <a class="code" href="classaction.html">action</a>($cn);
-<a name="l00269"></a>00269   <a class="code" href="action_8inc_8php.html#a25">$act</a>-&gt;ag_comment=$_POST['ag_comment'];
-<a name="l00270"></a>00270   <a class="code" href="action_8inc_8php.html#a25">$act</a>-&gt;ag_timestamp=$_POST['<a class="code" href="action_8inc_8php.html#a18">ag_timestamp</a>'];
-<a name="l00271"></a>00271   <a class="code" href="action_8inc_8php.html#a25">$act</a>-&gt;d_state=$_POST['<a class="code" href="action_8inc_8php.html#a19">d_state</a>'];
-<a name="l00272"></a>00272   <a class="code" href="action_8inc_8php.html#a25">$act</a>-&gt;dt_id=$_POST['<a class="code" href="action_8inc_8php.html#a20">dt_id</a>'];
-<a name="l00273"></a>00273   <a class="code" href="action_8inc_8php.html#a25">$act</a>-&gt;qcode=$_POST['tiers'];
-<a name="l00274"></a>00274   <a class="code" href="action_8inc_8php.html#a25">$act</a>-&gt;ag_title=$_POST['<a class="code" href="action_8inc_8php.html#a22">ag_title</a>'];
-<a name="l00275"></a>00275 
-<a name="l00276"></a>00276 
-<a name="l00277"></a><a class="code" href="action_8inc_8php.html#a23">00277</a>   <a class="code" href="action_8inc_8php.html#a25">$act</a>-&gt;md_id=(isset($_POST['gen_doc']))?$_POST['gen_doc']:0;
-<a name="l00278"></a>00278 
-<a name="l00279"></a><a class="code" href="action_8inc_8php.html#a24">00279</a>   <a class="code" href="action_8inc_8php.html#a25">$act</a>-&gt;gen=isset($_POST['p_gen'])?'on<span class="charliteral">':'</span>off';
+<a name="l00242"></a>00242 ?&gt;
+<a name="l00243"></a>00243 
+<a name="l00244"></a>00244 &lt;? 
+<a name="l00245"></a>00245 <span class="comment">//--------------------------------------------------------------------------------</span>
+<a name="l00246"></a>00246 <span class="comment">// add here for who the action is taken (contact, client or supplier)</span>
+<a name="l00247"></a>00247 
+<a name="l00248"></a>00248 ?&gt;
+<a name="l00249"></a>00249 
+<a name="l00250"></a>00250 
+<a name="l00251"></a>00251 
+<a name="l00252"></a>00252 &lt;script language=<span class="stringliteral">"JavaScript"</span> type=<span class="stringliteral">"text/javascript"</span>&gt;
+<a name="l00253"></a>00253 &lt;!--
+<a name="l00254"></a>00254 function submitForm() {
+<a name="l00255"></a>00255         <span class="comment">//make sure hidden and iframe values are in sync before submitting form</span>
+<a name="l00256"></a>00256         <span class="comment">//to sync only 1 rte, use updateRTE(rte)</span>
+<a name="l00257"></a>00257         <span class="comment">//to sync all rtes, use updateRTEs</span>
+<a name="l00258"></a>00258         updateRTE('<a class="code" href="action_8inc_8php.html#a4">ag_comment</a>');
+<a name="l00259"></a>00259         <span class="comment">//updateRTE();</span>
+<a name="l00260"></a>00260         <span class="comment">//change the following line to true to submit form</span>
+<a name="l00261"></a>00261         <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00262"></a>00262 }
+<a name="l00263"></a>00263 
+<a name="l00264"></a>00264 <span class="comment">//Usage: initRTE(imagesPath, includesPath, cssFile)</span>
+<a name="l00265"></a>00265 initRTE(<span class="stringliteral">"images/"</span>, <span class="stringliteral">""</span>, <span class="stringliteral">""</span>);
+<a name="l00266"></a>00266 <span class="comment">//--&gt;</span>
+<a name="l00267"></a>00267 &lt;/script&gt;
+<a name="l00268"></a>00268 &lt;noscript&gt;&lt;p&gt;&lt;b&gt;Javascript must be enabled to use <span class="keyword">this</span> form.&lt;/b&gt;&lt;/p&gt;&lt;/noscript&gt;
+<a name="l00269"></a>00269     Note Interne : 
+<a name="l00270"></a>00270 &lt;script language=<span class="stringliteral">"JavaScript"</span> type=<span class="stringliteral">"text/javascript"</span>&gt;
+<a name="l00271"></a>00271 &lt;!--
+<a name="l00272"></a>00272 <span class="comment">//Usage: writeRichText(fieldname, html, width, height, buttons, readOnly)</span>
+<a name="l00273"></a><a class="code" href="action_8inc_8php.html#a24">00273</a>     &lt;? <a class="code" href="action_8inc_8php.html#a24">$a</a>=(isset($_POST['<a class="code" href="action_8inc_8php.html#a4">ag_comment</a>']))?<a class="code" href="ac__common_8php.html#a9">FormatString</a>(urldecode($_POST['<a class="code" href="action_8inc_8php.html#a4">ag_comment</a>'])):<span class="stringliteral">""</span>;
+<a name="l00274"></a>00274 
+<a name="l00275"></a>00275  ?&gt;
+<a name="l00276"></a>00276 writeRichText('ag_comment', &lt;? printf (<span class="stringliteral">"'%s'"</span>,$a); ?&gt;, 520, 200, <span class="keyword">true</span>, <span class="keyword">false</span>);
+<a name="l00277"></a>00277 &lt;? <a class="code" href="debug_8php.html#a0">echo_debug</a>('action.inc',__LINE__, <span class="stringliteral">" A = "</span>.$a); ?&gt;
+<a name="l00278"></a>00278 <span class="comment">//--&gt;</span>
+<a name="l00279"></a>00279 &lt;/script&gt;
 <a name="l00280"></a>00280 
-<a name="l00281"></a>00281   echo <a class="code" href="action_8inc_8php.html#a25">$act</a>-&gt;SaveStage2();
-<a name="l00282"></a>00282   echo '&lt;A HREF=<span class="stringliteral">"commercial.php?p_action=suivi_courrier"</span>&gt;&lt;INPUT TYPE=<span class="stringliteral">"BUTTON"</span> VALUE=<span class="stringliteral">"Retour Liste"</span>&gt;&lt;/A&gt;';
-<a name="l00283"></a>00283 }
-<a name="l00284"></a>00284 
-<a name="l00285"></a>00285 <span class="comment">//--------------------------------------------------------------------------------</span>
-<a name="l00286"></a>00286 <span class="comment">// Save Document</span>
-<a name="l00287"></a>00287 <span class="comment">// Stage 3 : Save the document</span>
-<a name="l00288"></a>00288 <span class="comment">//--------------------------------------------------------------------------------</span>
-<a name="l00289"></a>00289 <span class="keywordflow">if</span>  ( $sub_action == <span class="stringliteral">"save_action_st3"</span> ) 
-<a name="l00290"></a>00290 {
-<a name="l00291"></a>00291   <a class="code" href="debug_8php.html#a0">echo_debug</a>(<span class="stringliteral">"action.inc.php"</span>,__LINE__,'Stage 3');
-<a name="l00292"></a><a class="code" href="action_8inc_8php.html#a25">00292</a>   <a class="code" href="action_8inc_8php.html#a25">$act</a>=<span class="keyword">new</span> <a class="code" href="classaction.html">action</a>($cn);
-<a name="l00293"></a>00293   <a class="code" href="action_8inc_8php.html#a25">$act</a>-&gt;ag_id=$_POST['<a class="code" href="action_8inc_8php.html#a3">ag_id</a>'];
-<a name="l00294"></a><a class="code" href="action_8inc_8php.html#a26">00294</a>   <a class="code" href="action_8inc_8php.html#a26">$d_id</a>=(isset($_POST['d_id']))?$_POST['d_id']:0;
-<a name="l00295"></a>00295   echo <a class="code" href="action_8inc_8php.html#a25">$act</a>-&gt;SaveStage3($d_id);
-<a name="l00296"></a>00296   
-<a name="l00297"></a>00297   <a class="code" href="action_8inc_8php.html#a27">ShowActionList</a>($cn,$retour,$h_url);
-<a name="l00298"></a>00298 
-<a name="l00299"></a>00299 }
-<a name="l00300"></a>00300 
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jun 26 20:13:15 2006 for phpcompta by&nbsp;
+<a name="l00281"></a>00281 &lt;input type=<span class="stringliteral">"submit"</span> name=<span class="stringliteral">"save_action_st1"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"Sauver"</span>&gt;&lt;/p&gt;
+<a name="l00282"></a>00282 &lt;/form&gt;
+<a name="l00283"></a>00283 &lt;/div&gt;
+<a name="l00284"></a>00284 &lt;?
+<a name="l00285"></a>00285 }
+<a name="l00286"></a>00286 <span class="comment">//--------------------------------------------------------------------------------</span>
+<a name="l00287"></a>00287 <span class="comment">// Save Action</span>
+<a name="l00288"></a>00288 <span class="comment">// Stage 1 : show the result and confirm</span>
+<a name="l00289"></a>00289 <span class="comment">//--------------------------------------------------------------------------------</span>
+<a name="l00290"></a>00290 <span class="keywordflow">if</span>  ( $sub_action == <span class="stringliteral">"save_action_st1"</span> ) 
+<a name="l00291"></a>00291 {
+<a name="l00292"></a>00292   <a class="code" href="action_8inc_8php.html#a27">$act</a>=<span class="keyword">new</span> action($cn);
+<a name="l00293"></a>00293   <a class="code" href="action_8inc_8php.html#a27">$act</a>-&gt;ag_comment=$_POST['ag_comment'];
+<a name="l00294"></a>00294   <a class="code" href="action_8inc_8php.html#a27">$act</a>-&gt;ag_timestamp=$_POST['<a class="code" href="action_8inc_8php.html#a5">ag_timestamp</a>'];
+<a name="l00295"></a>00295   <a class="code" href="action_8inc_8php.html#a27">$act</a>-&gt;d_state=$_POST['<a class="code" href="action_8inc_8php.html#a6">d_state</a>'];
+<a name="l00296"></a>00296   <a class="code" href="action_8inc_8php.html#a27">$act</a>-&gt;dt_id=$_POST['<a class="code" href="action_8inc_8php.html#a7">dt_id</a>'];
+<a name="l00297"></a>00297   <a class="code" href="action_8inc_8php.html#a27">$act</a>-&gt;qcode=$_POST['tiers'];
+<a name="l00298"></a>00298   <a class="code" href="action_8inc_8php.html#a27">$act</a>-&gt;ag_title=$_POST['<a class="code" href="action_8inc_8php.html#a9">ag_title</a>'];
+<a name="l00299"></a>00299   echo <a class="code" href="action_8inc_8php.html#a27">$act</a>-&gt;Confirm();
+<a name="l00300"></a>00300 }
+<a name="l00301"></a>00301 <span class="comment">//--------------------------------------------------------------------------------</span>
+<a name="l00302"></a>00302 <span class="comment">// Save Action</span>
+<a name="l00303"></a>00303 <span class="comment">// Stage 2 : Save the action and propose to save a file</span>
+<a name="l00304"></a>00304 <span class="comment">//--------------------------------------------------------------------------------</span>
+<a name="l00305"></a>00305 <span class="keywordflow">if</span>  ( $sub_action == <span class="stringliteral">"save_action_st2"</span> ) 
+<a name="l00306"></a>00306 {
+<a name="l00307"></a>00307   <a class="code" href="action_8inc_8php.html#a27">$act</a>=<span class="keyword">new</span> action($cn);
+<a name="l00308"></a>00308   <a class="code" href="action_8inc_8php.html#a27">$act</a>-&gt;ag_comment=$_POST['ag_comment'];
+<a name="l00309"></a>00309   <a class="code" href="action_8inc_8php.html#a27">$act</a>-&gt;ag_timestamp=$_POST['<a class="code" href="action_8inc_8php.html#a5">ag_timestamp</a>'];
+<a name="l00310"></a>00310   <a class="code" href="action_8inc_8php.html#a27">$act</a>-&gt;d_state=$_POST['<a class="code" href="action_8inc_8php.html#a6">d_state</a>'];
+<a name="l00311"></a>00311   <a class="code" href="action_8inc_8php.html#a27">$act</a>-&gt;dt_id=$_POST['<a class="code" href="action_8inc_8php.html#a7">dt_id</a>'];
+<a name="l00312"></a>00312   <a class="code" href="action_8inc_8php.html#a27">$act</a>-&gt;qcode=$_POST['tiers'];
+<a name="l00313"></a>00313   <a class="code" href="action_8inc_8php.html#a27">$act</a>-&gt;ag_title=$_POST['<a class="code" href="action_8inc_8php.html#a9">ag_title</a>'];
+<a name="l00314"></a>00314 
+<a name="l00315"></a>00315 
+<a name="l00316"></a><a class="code" href="action_8inc_8php.html#a25">00316</a>   <a class="code" href="action_8inc_8php.html#a27">$act</a>-&gt;md_id=(isset($_POST['gen_doc']))?$_POST['gen_doc']:0;
+<a name="l00317"></a>00317 
+<a name="l00318"></a><a class="code" href="action_8inc_8php.html#a26">00318</a>   <a class="code" href="action_8inc_8php.html#a27">$act</a>-&gt;gen=isset($_POST['p_gen'])?'on<span class="charliteral">':'</span>off';
+<a name="l00319"></a>00319 
+<a name="l00320"></a>00320   echo <a class="code" href="action_8inc_8php.html#a27">$act</a>-&gt;SaveStage2();
+<a name="l00321"></a>00321   echo '&lt;A HREF=<span class="stringliteral">"commercial.php?p_action=suivi_courrier"</span>&gt;&lt;INPUT TYPE=<span class="stringliteral">"BUTTON"</span> VALUE=<span class="stringliteral">"Retour Liste"</span>&gt;&lt;/A&gt;';
+<a name="l00322"></a>00322 }
+<a name="l00323"></a>00323 
+<a name="l00324"></a>00324 <span class="comment">//--------------------------------------------------------------------------------</span>
+<a name="l00325"></a>00325 <span class="comment">// Save Document</span>
+<a name="l00326"></a>00326 <span class="comment">// Stage 3 : Save the document</span>
+<a name="l00327"></a>00327 <span class="comment">//--------------------------------------------------------------------------------</span>
+<a name="l00328"></a>00328 <span class="keywordflow">if</span>  ( $sub_action == <span class="stringliteral">"save_action_st3"</span> ) 
+<a name="l00329"></a>00329 {
+<a name="l00330"></a>00330   <a class="code" href="debug_8php.html#a0">echo_debug</a>(<span class="stringliteral">"action.inc.php"</span>,__LINE__,'Stage 3');
+<a name="l00331"></a><a class="code" href="action_8inc_8php.html#a27">00331</a>   <a class="code" href="action_8inc_8php.html#a27">$act</a>=<span class="keyword">new</span> action($cn);
+<a name="l00332"></a>00332   <a class="code" href="action_8inc_8php.html#a27">$act</a>-&gt;ag_id=$_POST['<a class="code" href="action_8inc_8php.html#a3">ag_id</a>'];
+<a name="l00333"></a><a class="code" href="action_8inc_8php.html#a28">00333</a>   <a class="code" href="action_8inc_8php.html#a28">$d_id</a>=(isset($_POST['<a class="code" href="action_8inc_8php.html#a10">d_id</a>']))?$_POST['<a class="code" href="action_8inc_8php.html#a10">d_id</a>']:0;
+<a name="l00334"></a>00334   echo <a class="code" href="action_8inc_8php.html#a27">$act</a>-&gt;SaveStage3($<a class="code" href="action_8inc_8php.html#a10">d_id</a>);
+<a name="l00335"></a>00335   
+<a name="l00336"></a>00336   <a class="code" href="action_8inc_8php.html#a29">ShowActionList</a>($cn,$retour,$h_url);
+<a name="l00337"></a>00337 
+<a name="l00338"></a>00338 }
+<a name="l00339"></a>00339 <span class="comment">//---------------------------------------------------------------------</span>
+<a name="l00340"></a>00340 
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Jun 27 01:39:27 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

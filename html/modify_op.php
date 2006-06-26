@@ -69,7 +69,7 @@ if ( ! isset ( $action )) {
 
 // Javascript
 echo JS_VIEW_JRN_MODIFY;
-//////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 if ( $action == 'update' ) {
   if ( ($priv=CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_GET['p_jrn'],true)) < 1 ) {
       NoAccess();
@@ -143,7 +143,7 @@ if ( isset($_POST['update_record']) ) {
  self.opener.RefreshMe();
  </script>';
 } // if update_record
-//////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 if (  $action  == 'delete' ) {
   echo_debug('modify_op.php',__LINE__," Call   DeleteRapt($cn,".$_GET['line'].",".$_GET['line2'].")");
   DeleteRapt($cn,$_GET['line'],$_GET['line2']);

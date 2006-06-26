@@ -44,6 +44,20 @@ class Document
       $this->db=$p_cn;
       $this->d_id=$p_d_id;
     } 
+  /*!\brief insert a minimal document and set the d_id
+   */
+  function blank()
+    {
+      $this->d_id=NextSequence($this->db,"document_d_id_seq");
+      // affect a number
+      $this->d_number=NextSequence($this->db,"seq_doc_type_".$this->md_type);
+      $sql=sprintf('insert into document(d_id,ag_id,d_number) values(%d,%d,%d)',
+		   $this->d_id,
+		   $this->ag_id,
+		   $this->d_number);
+      ExecSql($this->db,$sql);
+
+    }
 /*!  
  * \brief Generate the document, Call $this-\>Replace to replace
  *        tag by value

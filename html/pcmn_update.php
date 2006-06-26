@@ -70,7 +70,7 @@ echo '<DIV CLASS="u_redcontent">';
 /* Analyse ce qui est demandé */
 /* Effacement d'une ligne */
 if (isset ($_GET['action'])) {
-////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // Action == remove a line
   if ( $_GET['action']=="del" ) {
     if ( isset ($_GET['l']) ) {
@@ -91,7 +91,7 @@ if (isset ($_GET['action'])) {
     } // isset ($l)
   } //$action == del
 } // isset action
-////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 /* Ajout d'une ligne */
 if ( isset ( $_POST["Add"] ) ) {
 	extract ($_POST);

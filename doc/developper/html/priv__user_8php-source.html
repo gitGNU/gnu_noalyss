@@ -94,13 +94,13 @@
 <a name="l00088"></a>00088 <span class="stringliteral">         use_id="</span>.<a class="code" href="priv__user_8php.html#a3">$uid</a>;
 <a name="l00089"></a>00089   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$Sql);
 <a name="l00090"></a>00090   <span class="comment">// Update Priv on Folder</span>
-<a name="l00091"></a>00091   foreach ($HTTP_POST_VARS as $<a class="code" href="action_8inc_8php.html#a4">name</a>=&gt;$elem)
+<a name="l00091"></a>00091   foreach ($HTTP_POST_VARS as $<a class="code" href="action_8inc_8php.html#a12">name</a>=&gt;$elem)
 <a name="l00092"></a>00092     { 
 <a name="l00093"></a>00093       <a class="code" href="debug_8php.html#a0">echo_debug</a>('priv_user.php',__LINE__,<span class="stringliteral">"HTTP_POST_VARS $name $elem"</span>);
-<a name="l00094"></a>00094       <span class="keywordflow">if</span> ( substr_count($<a class="code" href="action_8inc_8php.html#a4">name</a>,'PRIV')!=0 )
+<a name="l00094"></a>00094       <span class="keywordflow">if</span> ( substr_count($<a class="code" href="action_8inc_8php.html#a12">name</a>,'PRIV')!=0 )
 <a name="l00095"></a>00095       {
 <a name="l00096"></a>00096         <a class="code" href="debug_8php.html#a0">echo_debug</a>('priv_user.php',__LINE__,<span class="stringliteral">"Found a priv"</span>);
-<a name="l00097"></a><a class="code" href="priv__user_8php.html#a9">00097</a>         <a class="code" href="priv__user_8php.html#a9">$db_id</a>=substr($<a class="code" href="action_8inc_8php.html#a4">name</a>,4);
+<a name="l00097"></a><a class="code" href="priv__user_8php.html#a9">00097</a>         <a class="code" href="priv__user_8php.html#a9">$db_id</a>=substr($<a class="code" href="action_8inc_8php.html#a12">name</a>,4);
 <a name="l00098"></a>00098         <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
 <a name="l00099"></a>00099         <span class="keywordflow">if</span> ( <a class="code" href="postgres_8php.html#a6">ExisteJnt</a>($db_id,$uid) != 1 ) 
 <a name="l00100"></a>00100           {
@@ -248,7 +248,7 @@
 <a name="l00242"></a>00242 ?&gt;
 <a name="l00243"></a>00243 
 <a name="l00244"></a>00244 
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jun 26 20:13:15 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Jun 27 01:39:27 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

@@ -34,7 +34,7 @@ include_once("class.ezpdf.php");
 require_once("check_priv.php");
 echo_debug('sec_pdf.php',__LINE__,"imp pdf securité");
 $cn=DbConnect($_SESSION['g_dossier']);
-//////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // Security 
 
 // Check User
@@ -48,7 +48,7 @@ if ( $User->CheckAction($cn,SECU) == 0 ) {
   NoAccess();
   exit -1;
  }
-//////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // Get User's info
 if ( ! isset($_GET['user_id']) ) 
   return;
@@ -56,7 +56,7 @@ if ( ! isset($_GET['user_id']) )
 $SecUser=new cl_user($rep,$_GET['user_id']);
 
 
-//////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // Print result
 
 $pdf=& new Cezpdf("A4");
@@ -74,7 +74,7 @@ if ( $SecUser->active==0)
 
 if ( $SecUser->admin==1)
   $pdf->ezText('Administrateur',12,array('justification'=>'center'));
-//////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // Journal
 $Res=ExecSql($cn,"select jrn_def_id,jrn_def_name  from jrn_def ");
 for ($e=0;$e < pg_NumRows($Res);$e++) {
@@ -100,7 +100,7 @@ $pdf->ezTable($a_jrn,
 		       'priv'=>'Privilège')," ",
 		array('shaded'=>0,'showHeadings'=>1,'width'=>500));
 
-////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // Action
 $Res=ExecSql($cn,
 	     "select ac_id, ac_description from action   order by ac_description ");

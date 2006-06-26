@@ -129,17 +129,54 @@ if ( isset ($_REQUEST['url']))
      $retour=sprintf('<A HREF="%s"><input type="button" value="Retour"></A>',urldecode($_REQUEST['url']));
      $h_url=sprintf('<input type="hidden" name="url" value="%s">',urldecode($_REQUEST['url']));
 }
+//----------------------------------------------------------------------
+// Update the detail
+if ( $sub_action=="update" )
+{
+
+
+  $act=new action($cn);
+  $act->ag_id=$_REQUEST['ag_id'];
+  $act->ag_comment=$_POST['ag_comment'];
+  $act->ag_timestamp=$_POST['ag_timestamp'];
+  $act->d_state=$_POST['d_state'];
+  $act->dt_id=(isset($_POST['dt_id']))?$_POST['dt_id']:0;
+  $act->qcode=$_POST['qcode'];
+  $act->ag_title=$_POST['ag_title'];
+  $act->d_id=$_POST['d_id'];
+  if ( $act->Update() == false ) {
+    $sub_action="detail";
+  } 
+   else 
+    {
+      ShowActionList($cn,$retour,$h_url);
+    }
+
+}
 //--------------------------------------------------------------------------------
 // Show the detail of an action
+// permit the update
 if ( $sub_action=='detail' )
 {
   $act=new action($cn);
   $act->ag_id=$_REQUEST['ag_id'];
   echo $act->get();
-  echo $act->display();
+  echo '<form action="commercial.php"  enctype="multipart/form-data"  method="post" >';
+  echo $act->display(false);
+  echo '<input type="hidden" name="p_action" value="suivi_courrier">';
+  echo '<input type="hidden" name="sa" value="update">';
+  echo '<input type="hidden" name="ag_id" value="'.$_REQUEST['ag_id'].'">';
+  $upload=new widget("file");
+  $upload->name="file_upload";
+  $upload->value="";
+  echo "Enregistrer le fichier ".$upload->IOValue();
+  echo $upload->Submit("save","Sauve");
+  echo '</form>';
   echo $retour;
 
 }
+
+
 //--------------------------------------------------------------------------------
 // Show a list of the action
 if ( $sub_action == "list" )
@@ -233,7 +270,9 @@ initRTE("images/", "", "");
 <script language="JavaScript" type="text/javascript">
 <!--
 //Usage: writeRichText(fieldname, html, width, height, buttons, readOnly)
-    <? $a=(isset($_POST['ag_comment']))?FormatString(urldecode($_POST['ag_comment'])):""; ?>
+    <? $a=(isset($_POST['ag_comment']))?FormatString(urldecode($_POST['ag_comment'])):"";
+
+ ?>
 writeRichText('ag_comment', <? printf ("'%s'",$a); ?>, 520, 200, true, false);
 <? echo_debug('action.inc',__LINE__, " A = ".$a); ?>
 //-->
@@ -297,4 +336,5 @@ if  ( $sub_action == "save_action_st3" )
   ShowActionList($cn,$retour,$h_url);
 
 }
+//---------------------------------------------------------------------
 

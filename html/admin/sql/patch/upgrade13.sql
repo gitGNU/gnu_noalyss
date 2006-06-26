@@ -546,6 +546,7 @@ insert into parameter (pr_id) values ('MY_FAX');
 alter table document add d_state int;
 alter table action_gestion add ag_ref text;
 
+create  unique index k_ag_ref on action_gestion(ag_ref);
 update version set val=14;
 
 commit;

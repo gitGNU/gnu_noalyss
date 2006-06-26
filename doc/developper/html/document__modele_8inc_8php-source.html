@@ -58,11 +58,11 @@
 <a name="l00053"></a>00053   require_once(<span class="stringliteral">"class_document_modele.php"</span>);
 <a name="l00054"></a>00054   <span class="comment">// Get all the document to remove</span>
 <a name="l00055"></a>00055 
-<a name="l00056"></a>00056   foreach ( $_POST as $<a class="code" href="action_8inc_8php.html#a4">name</a>=&gt;$<a class="code" href="action_8inc_8php.html#a5">value</a> )
+<a name="l00056"></a>00056   foreach ( $_POST as $<a class="code" href="action_8inc_8php.html#a12">name</a>=&gt;$<a class="code" href="action_8inc_8php.html#a13">value</a> )
 <a name="l00057"></a>00057     {
-<a name="l00058"></a>00058       <a class="code" href="debug_8php.html#a0">echo_debug</a>(__FILE__,__LINE__,<span class="stringliteral">"name = "</span>.$<a class="code" href="action_8inc_8php.html#a4">name</a>);
-<a name="l00059"></a>00059       <a class="code" href="debug_8php.html#a0">echo_debug</a>(__FILE__,__LINE__,<span class="stringliteral">"value = "</span>.$<a class="code" href="action_8inc_8php.html#a5">value</a>);
-<a name="l00060"></a>00060       list ($<span class="keywordtype">id</span>) = sscanf ($<a class="code" href="action_8inc_8php.html#a4">name</a>,<span class="stringliteral">"dm_remove_%d"</span>);
+<a name="l00058"></a>00058       <a class="code" href="debug_8php.html#a0">echo_debug</a>(__FILE__,__LINE__,<span class="stringliteral">"name = "</span>.$<a class="code" href="action_8inc_8php.html#a12">name</a>);
+<a name="l00059"></a>00059       <a class="code" href="debug_8php.html#a0">echo_debug</a>(__FILE__,__LINE__,<span class="stringliteral">"value = "</span>.$<a class="code" href="action_8inc_8php.html#a13">value</a>);
+<a name="l00060"></a>00060       list ($<span class="keywordtype">id</span>) = sscanf ($<a class="code" href="action_8inc_8php.html#a12">name</a>,<span class="stringliteral">"dm_remove_%d"</span>);
 <a name="l00061"></a>00061       <a class="code" href="debug_8php.html#a0">echo_debug</a>(__FILE__,__LINE__,<span class="stringliteral">"id = "</span>.$<span class="keywordtype">id</span>);
 <a name="l00062"></a>00062       <span class="keywordflow">if</span> ( $<span class="keywordtype">id</span> == null ) <span class="keywordflow">continue</span>;
 <a name="l00063"></a>00063       <span class="comment">// a document has to be removed</span>
@@ -79,7 +79,7 @@
 <a name="l00074"></a>00074 <span class="comment">//-----------------------------------------------------</span>
 <a name="l00075"></a>00075 echo <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;myList();
 <a name="l00076"></a>00076 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jun 26 20:13:15 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Jun 27 01:39:28 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

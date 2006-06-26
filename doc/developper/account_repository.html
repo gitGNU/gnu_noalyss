@@ -111,12 +111,12 @@
   <body>
 
     <!-- Primary Index -->
-	<p><br><br>Dumped on 2006-06-26</p>
+	<p><br><br>Dumped on 2006-06-27</p>
 <h1><a name="index">Index of database - account_repository</a></h1>
 <ul>
     
     <li><a name="public.schema">public</a></li><ul>
-    	<li><a href="#public.table.ac-dossier">ac_dossier</a></li><li><a href="#public.table.ac-users">ac_users</a></li><li><a href="#public.table.jnt-use-dos">jnt_use_dos</a></li><li><a href="#public.table.modeledef">modeledef</a></li><li><a href="#public.table.priv-user">priv_user</a></li><li><a href="#public.table.theme">theme</a></li><li><a href="#public.table.user-global-pref">user_global_pref</a></li><li><a href="#public.table.version">version</a></li>
+    	<li><a href="#public.table.ac-dossier">ac_dossier</a></li><li><a href="#public.table.ac-users">ac_users</a></li><li><a href="#public.table.jnt-use-dos">jnt_use_dos</a></li><li><a href="#public.table.modeledef">modeledef</a></li><li><a href="#public.table.priv-user">priv_user</a></li><li><a href="#public.table.theme">theme</a></li><li><a href="#public.table.version">version</a></li>
   	<li><a href="#public.function.plpgsql-validator-oid">plpgsql_validator( oid )</a></li>
     </ul>
     
@@ -388,6 +388,38 @@
 				</td>
 			 </tr>
             
+            <tr class="tr1">
+				<td>
+                
+                </td>
+            	<td>use_theme</td>
+            	<td>text</td>
+                <td><i>
+				
+
+				
+				DEFAULT &#39;Light&#39;::text
+				</i>
+				
+				</td>
+			 </tr>
+            
+            <tr class="tr0">
+				<td>
+                
+                </td>
+            	<td>use_usertype</td>
+            	<td>text</td>
+                <td><i>
+				
+
+				NOT NULL
+				
+				</i>
+				
+				</td>
+			 </tr>
+            
         </table>
 
 		
@@ -413,13 +445,6 @@
 		
 
         <!-- Foreign Key Discovery -->
-		
-			<p>Tables referencing this one via Foreign Key Constraints:</p>
-		
-			<ul>	
-				<li><a href="#public.table.user-global-pref">user_global_pref</a></li>
-			</ul>
-		
 		
 
 	<!-- View Definition -->
@@ -776,117 +801,6 @@
 				
 				</i>
 				
-				</td>
-			 </tr>
-            
-        </table>
-
-		
-		
-		
-
-        <!-- Constraint List -->
-		
-
-        <!-- Foreign Key Discovery -->
-		
-
-	<!-- View Definition -->
-	
-
-	<!-- List off permissions -->
-	
-
-	<p>
-		<a href="#index">Index</a> -
-		<a href="#public.schema">Schema public</a>
-    </p>
-	
-        <hr>
-		<h2>Table:
-			<a name="public.table.user-global-pref">user_global_pref</a>
-		</h2>
-        
-         <p>The user&#39;s global parameter </p>
-        
-
-
-        <table width="100%" cellspacing="0" cellpadding="3">
-                <caption>user_global_pref Structure</caption>
-                <tr>
-                <th>F-Key</th>
-                <th>Name</th>
-                <th>Type</th>
-                <th>Description</th>
-                </tr>
-            
-            <tr class="tr0">
-				<td>
-                
-                  
-                  <a href="#public.table.ac-users">ac_users.use_login</a>
-                  
-                
-                  
-                
-                </td>
-            	<td>user_id</td>
-            	<td>text</td>
-                <td><i>
-				
-					
-
-					
-				
-					PRIMARY KEY
-					
-
-					
-				
-
-				
-				
-				</i>
-				<br><br>user&#39;s login 
-				</td>
-			 </tr>
-            
-            <tr class="tr1">
-				<td>
-                
-                  
-                
-                </td>
-            	<td>parameter_type</td>
-            	<td>text</td>
-                <td><i>
-				
-					PRIMARY KEY
-					
-
-					
-				
-
-				
-				
-				</i>
-				<br><br>the type of parameter 
-				</td>
-			 </tr>
-            
-            <tr class="tr0">
-				<td>
-                
-                </td>
-            	<td>parameter_value</td>
-            	<td>text</td>
-                <td><i>
-				
-
-				
-				
-				</i>
-				<br><br>the value of parameter 
 				</td>
 			 </tr>
             

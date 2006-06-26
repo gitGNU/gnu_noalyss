@@ -103,9 +103,9 @@
 <a name="l00094"></a>00094                 }
 <a name="l00095"></a>00095                 <span class="keywordflow">switch</span> (strtolower($orientation)){
 <a name="l00096"></a>00096                         <span class="keywordflow">case</span> 'landscape':
-<a name="l00097"></a>00097                                 <a class="code" href="action_8inc_8php.html#a16">$a</a>=<a class="code" href="readme_8php.html#a8">$size</a>[3];
+<a name="l00097"></a>00097                                 <a class="code" href="action_8inc_8php.html#a24">$a</a>=<a class="code" href="readme_8php.html#a8">$size</a>[3];
 <a name="l00098"></a>00098                                 <a class="code" href="readme_8php.html#a8">$size</a>[3]=<a class="code" href="readme_8php.html#a8">$size</a>[2];
-<a name="l00099"></a>00099                                 <a class="code" href="readme_8php.html#a8">$size</a>[2]=<a class="code" href="action_8inc_8php.html#a16">$a</a>;
+<a name="l00099"></a>00099                                 <a class="code" href="readme_8php.html#a8">$size</a>[2]=<a class="code" href="action_8inc_8php.html#a24">$a</a>;
 <a name="l00100"></a>00100                                 <span class="keywordflow">break</span>;
 <a name="l00101"></a>00101                 }
 <a name="l00102"></a>00102         } <span class="keywordflow">else</span> {
@@ -396,9 +396,9 @@
 <a name="l00387"></a>00387       <span class="keywordflow">if</span> ($k &amp;&amp; $k&gt;0){
 <a name="l00388"></a>00388         $totalPages = $k-1;
 <a name="l00389"></a>00389       } <span class="keywordflow">else</span> {
-<a name="l00390"></a>00390         <a class="code" href="bank_8inc_8php.html#a14">$l</a> = $this-&gt;<a class="code" href="classCezpdf.html#a11">ezPRVTpageNumberSearch</a>('stoptn',$tmp);
+<a name="l00390"></a>00390         <a class="code" href="bank_8inc_8php.html#a17">$l</a> = $this-&gt;<a class="code" href="classCezpdf.html#a11">ezPRVTpageNumberSearch</a>('stoptn',$tmp);
 <a name="l00391"></a>00391         <span class="keywordflow">if</span> ($l &amp;&amp; $l&gt;0){
-<a name="l00392"></a>00392           $totalPages = <a class="code" href="bank_8inc_8php.html#a14">$l</a>;
+<a name="l00392"></a>00392           $totalPages = <a class="code" href="bank_8inc_8php.html#a17">$l</a>;
 <a name="l00393"></a>00393         } <span class="keywordflow">else</span> {
 <a name="l00394"></a>00394           $totalPages = $totalPages1;
 <a name="l00395"></a>00395         }
@@ -679,8 +679,8 @@
 <a name="l00670"></a>00670     ,'innerLineThickness'=&gt;1,'outerLineThickness'=&gt;1,'splitRows'=&gt;0,'protectRows'=&gt;1
 <a name="l00671"></a>00671     );
 <a name="l00672"></a>00672 
-<a name="l00673"></a>00673   foreach($defaults as $key=&gt;$<a class="code" href="action_8inc_8php.html#a5">value</a>){
-<a name="l00674"></a>00674     <span class="keywordflow">if</span> (is_array($<a class="code" href="action_8inc_8php.html#a5">value</a>)){
+<a name="l00673"></a>00673   foreach($defaults as $key=&gt;$<a class="code" href="action_8inc_8php.html#a13">value</a>){
+<a name="l00674"></a>00674     <span class="keywordflow">if</span> (is_array($<a class="code" href="action_8inc_8php.html#a13">value</a>)){
 <a name="l00675"></a>00675       <span class="keywordflow">if</span> (!isset($options[$key]) || !is_array($options[$key])){
 <a name="l00676"></a>00676         <a class="code" href="classCpdf.html#o23">$options</a>[$key]=$value;
 <a name="l00677"></a>00677       }
@@ -1377,17 +1377,17 @@
 <a name="l01368"></a>01368                 <span class="comment">//center if justification=center</span>
 <a name="l01369"></a>01369                 <span class="keywordflow">if</span> ($just == 'center')
 <a name="l01370"></a>01370                 {
-<a name="l01371"></a>01371                         <a class="code" href="bank_8inc_8php.html#a13">$offset</a> = ($bigwidth - $width) / 2;
+<a name="l01371"></a>01371                         <a class="code" href="bank_8inc_8php.html#a16">$offset</a> = ($bigwidth - $width) / 2;
 <a name="l01372"></a>01372                 }
 <a name="l01373"></a>01373                 <span class="comment">//move to right if justification=right</span>
 <a name="l01374"></a>01374                 <span class="keywordflow">if</span> ($just == 'right')
 <a name="l01375"></a>01375                 {
-<a name="l01376"></a>01376                         <a class="code" href="bank_8inc_8php.html#a13">$offset</a> = ($bigwidth - $width);
+<a name="l01376"></a>01376                         <a class="code" href="bank_8inc_8php.html#a16">$offset</a> = ($bigwidth - $width);
 <a name="l01377"></a>01377                 }
 <a name="l01378"></a>01378                 <span class="comment">//leave at left if justification=left</span>
 <a name="l01379"></a>01379                 <span class="keywordflow">if</span> ($just == 'left')
 <a name="l01380"></a>01380                 {
-<a name="l01381"></a>01381                         <a class="code" href="bank_8inc_8php.html#a13">$offset</a> = 0;
+<a name="l01381"></a>01381                         <a class="code" href="bank_8inc_8php.html#a16">$offset</a> = 0;
 <a name="l01382"></a>01382                 }
 <a name="l01383"></a>01383         }
 <a name="l01384"></a>01384 
@@ -1510,7 +1510,7 @@
 <a name="l01501"></a>01501       <span class="keywordflow">if</span> ($internal){
 <a name="l01502"></a>01502         $this-&gt;addInternalLink($<a class="code" href="document__modele_8inc_8php.html#a5">start</a>['url'],$<a class="code" href="document__modele_8inc_8php.html#a5">start</a>[<span class="charliteral">'x'</span>],$<a class="code" href="document__modele_8inc_8php.html#a5">start</a>[<span class="charliteral">'y'</span>]+$<a class="code" href="document__modele_8inc_8php.html#a5">start</a>['decender'],$info[<span class="charliteral">'x'</span>],$<a class="code" href="document__modele_8inc_8php.html#a5">start</a>[<span class="charliteral">'y'</span>]+$<a class="code" href="document__modele_8inc_8php.html#a5">start</a>['decender']+$<a class="code" href="document__modele_8inc_8php.html#a5">start</a>['height']);
 <a name="l01503"></a>01503       } <span class="keywordflow">else</span> {
-<a name="l01504"></a>01504         <a class="code" href="action_8inc_8php.html#a16">$a</a> = deg2rad((<span class="keywordtype">float</span>)$<a class="code" href="document__modele_8inc_8php.html#a5">start</a>['angle']-90.0);
+<a name="l01504"></a>01504         <a class="code" href="action_8inc_8php.html#a24">$a</a> = deg2rad((<span class="keywordtype">float</span>)$<a class="code" href="document__modele_8inc_8php.html#a5">start</a>['angle']-90.0);
 <a name="l01505"></a>01505         $drop = <a class="code" href="bilan_8php.html#a2">$start</a>['height']*$lineFactor*1.5;
 <a name="l01506"></a>01506         $dropx = cos($a)*$drop;
 <a name="l01507"></a>01507         $dropy = -sin($a)*$drop;
@@ -1548,7 +1548,7 @@
 <a name="l01539"></a>01539       <a class="code" href="balance_8php.html#a12">$i</a> = $info['nCallback'];
 <a name="l01540"></a>01540       <a class="code" href="bilan_8php.html#a2">$start</a> = $this-&gt;ez['links'][<a class="code" href="balance_8php.html#a12">$i</a>];
 <a name="l01541"></a>01541       <span class="comment">// add underlining</span>
-<a name="l01542"></a>01542       <a class="code" href="action_8inc_8php.html#a16">$a</a> = deg2rad((<span class="keywordtype">float</span>)$<a class="code" href="document__modele_8inc_8php.html#a5">start</a>['angle']-90.0);
+<a name="l01542"></a>01542       <a class="code" href="action_8inc_8php.html#a24">$a</a> = deg2rad((<span class="keywordtype">float</span>)$<a class="code" href="document__modele_8inc_8php.html#a5">start</a>['angle']-90.0);
 <a name="l01543"></a>01543       $drop = <a class="code" href="bilan_8php.html#a2">$start</a>['height']*$lineFactor*1.5;
 <a name="l01544"></a>01544       $dropx = cos($a)*$drop;
 <a name="l01545"></a>01545       $dropy = -sin($a)*$drop;
@@ -1562,7 +1562,7 @@
 <a name="l01553"></a>01553 
 <a name="l01554"></a>01554 }
 <a name="l01555"></a>01555 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jun 26 20:13:14 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Jun 27 01:39:26 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

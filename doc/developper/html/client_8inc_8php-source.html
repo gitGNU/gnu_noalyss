@@ -48,7 +48,7 @@
 <a name="l00043"></a>00043 <span class="comment">// Add card</span>
 <a name="l00044"></a>00044 <span class="keywordflow">if</span> ( $sub_action==<span class="stringliteral">"insert"</span> )
 <a name="l00045"></a>00045 {
-<a name="l00046"></a>00046   <a class="code" href="action_8inc_8php.html#a1">$retour</a>=sprintf('&lt;A <span class="keyword">class</span>=<span class="stringliteral">"two"</span> HREF=<span class="stringliteral">"%s"</span>&gt;&lt;input type=<span class="stringliteral">"button"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"Retour"</span>&gt;&lt;/A&gt;',
+<a name="l00046"></a>00046   <a class="code" href="action_8inc_8php.html#a1">$retour</a>=sprintf('&lt;A <span class="keyword">class</span>=<span class="stringliteral">"two"</span> HREF=<span class="stringliteral">"%s"</span>&gt;&lt;input type=<span class="stringliteral">"button"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"Retour"</span>&gt;&lt;/A&gt;',
 <a name="l00047"></a>00047                   urldecode($_REQUEST['url']));
 <a name="l00048"></a>00048 
 <a name="l00049"></a><a class="code" href="client_8inc_8php.html#a1">00049</a>   <a class="code" href="client_8inc_8php.html#a1">$customer</a>=<span class="keyword">new</span> <a class="code" href="classCustomer.html">Customer</a>($cn);
@@ -77,19 +77,19 @@
 <a name="l00072"></a>00072 <span class="comment">//Display a blank card </span>
 <a name="l00073"></a>00073 <span class="keywordflow">if</span> ( $sub_action==<span class="stringliteral">"blank"</span>) 
 <a name="l00074"></a>00074 {
-<a name="l00075"></a>00075   $retour=sprintf('&lt;A <span class="keyword">class</span>=<span class="stringliteral">"two"</span> HREF=<span class="stringliteral">"%s"</span>&gt;&lt;input type=<span class="stringliteral">"button"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"Retour"</span>&gt;&lt;/A&gt;',
+<a name="l00075"></a>00075   $retour=sprintf('&lt;A <span class="keyword">class</span>=<span class="stringliteral">"two"</span> HREF=<span class="stringliteral">"%s"</span>&gt;&lt;input type=<span class="stringliteral">"button"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"Retour"</span>&gt;&lt;/A&gt;',
 <a name="l00076"></a>00076                   <span class="stringliteral">"commercial.php?p_action=client"</span>);
 <a name="l00077"></a>00077   echo '&lt;div <span class="keyword">class</span>=<span class="stringliteral">"u_redcontent"</span>&gt;';
 <a name="l00078"></a>00078 
 <a name="l00079"></a>00079   echo $retour;
 <a name="l00080"></a><a class="code" href="client_8inc_8php.html#a2">00080</a>   <a class="code" href="admin_8inc_8php.html#a2">$c</a>=<span class="keyword">new</span> <a class="code" href="classCustomer.html">Customer</a>($cn);
 <a name="l00081"></a>00081   echo '&lt;form method=<span class="stringliteral">"post"</span> <a class="code" href="classaction.html">action</a>=<span class="stringliteral">"commercial.php"</span>';
-<a name="l00082"></a>00082   echo '&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"p_action"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"client"</span>&gt;';
-<a name="l00083"></a>00083   echo '&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"sa"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"insert"</span>&gt;';
-<a name="l00084"></a>00084   echo '&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"fd_id"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"'.$_GET['fd_id'].'"</span>&gt;';
-<a name="l00085"></a>00085   echo '&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"url"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"'.$_GET['url'].'"</span>&gt;';
+<a name="l00082"></a>00082   echo '&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"p_action"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"client"</span>&gt;';
+<a name="l00083"></a>00083   echo '&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"sa"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"insert"</span>&gt;';
+<a name="l00084"></a>00084   echo '&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"fd_id"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"'.$_GET['fd_id'].'"</span>&gt;';
+<a name="l00085"></a>00085   echo '&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"url"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"'.$_GET['url'].'"</span>&gt;';
 <a name="l00086"></a>00086   echo <a class="code" href="admin_8inc_8php.html#a2">$c</a>-&gt;blank($_GET['fd_id']);
-<a name="l00087"></a>00087   echo '&lt;input type=<span class="stringliteral">"Submit"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"Sauve"</span>&gt;';
+<a name="l00087"></a>00087   echo '&lt;input type=<span class="stringliteral">"Submit"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"Sauve"</span>&gt;';
 <a name="l00088"></a>00088   echo '&lt;/form&gt;';
 <a name="l00089"></a>00089   echo $retour;
 <a name="l00090"></a>00090   echo '&lt;/div&gt;';
@@ -103,18 +103,18 @@
 <a name="l00098"></a>00098 &lt;span&gt;
 <a name="l00099"></a>00099 &lt;form method=<span class="stringliteral">"get"</span> <a class="code" href="classaction.html">action</a>=<span class="stringliteral">"commercial.php"</span>&gt;
 <a name="l00100"></a>00100 &lt;?
-<a name="l00101"></a>00101    <a class="code" href="action_8inc_8php.html#a16">$a</a>=(isset($_GET['query']))?$_GET['query']:<span class="stringliteral">""</span>;
-<a name="l00102"></a>00102    printf ('&lt;input type=<span class="stringliteral">"text"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"query"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"%s"</span>&gt;',
+<a name="l00101"></a>00101    <a class="code" href="action_8inc_8php.html#a24">$a</a>=(isset($_GET['query']))?$_GET['query']:<span class="stringliteral">""</span>;
+<a name="l00102"></a>00102    printf ('&lt;input type=<span class="stringliteral">"text"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"query"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"%s"</span>&gt;',
 <a name="l00103"></a>00103            $a);
 <a name="l00104"></a>00104 ?&gt;
-<a name="l00105"></a>00105 &lt;input type=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"submit_query"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"recherche"</span>&gt;
-<a name="l00106"></a>00106 &lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"p_action"</span> <a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"client"</span>&gt;
+<a name="l00105"></a>00105 &lt;input type=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"submit_query"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"recherche"</span>&gt;
+<a name="l00106"></a>00106 &lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"p_action"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"client"</span>&gt;
 <a name="l00107"></a>00107 &lt;/form&gt;
 <a name="l00108"></a>00108 &lt;/span&gt;
 <a name="l00109"></a>00109 &lt;span&gt;
 <a name="l00110"></a>00110 &lt;form method=<span class="stringliteral">"get"</span> <a class="code" href="classaction.html">action</a>=<span class="stringliteral">"commercial.php"</span>&gt;
-<a name="l00111"></a><a class="code" href="client_8inc_8php.html#a3">00111</a> &lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"url"</span> &lt;?      <a class="code" href="admin_8inc_8php.html#a3">$url</a>=urlencode($_SERVER['REQUEST_URI']);echo '<a class="code" href="action_8inc_8php.html#a5">value</a>=<span class="stringliteral">"'.$url.'"</span>'; ?&gt;
-<a name="l00112"></a>00112 &lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"p_action"</span> value=<span class="stringliteral">"client"</span>&gt;
+<a name="l00111"></a><a class="code" href="client_8inc_8php.html#a3">00111</a> &lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"url"</span> &lt;?      <a class="code" href="admin_8inc_8php.html#a3">$url</a>=urlencode($_SERVER['REQUEST_URI']);echo '<a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"'.$url.'"</span>'; ?&gt;
+<a name="l00112"></a>00112 &lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"p_action"</span> value=<span class="stringliteral">"client"</span>&gt;
 <a name="l00113"></a>00113 
 <a name="l00114"></a>00114 &lt;?
 <a name="l00115"></a><a class="code" href="client_8inc_8php.html#a4">00115</a>  <a class="code" href="admin_8inc_8php.html#a4">$w</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"select"</span>);
@@ -123,8 +123,8 @@
 <a name="l00118"></a>00118              <span class="stringliteral">" frd_id="</span>.<a class="code" href="constant_8php.html#a64">FICHE_TYPE_CLIENT</a>);
 <a name="l00119"></a>00119  echo <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;IOValue();
 <a name="l00120"></a>00120 ?&gt;
-<a name="l00121"></a>00121 &lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"sa"</span> value=<span class="stringliteral">"blank"</span>&gt;
-<a name="l00122"></a>00122 &lt;input type=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a4">name</a>=<span class="stringliteral">"submit_query"</span> value=<span class="stringliteral">"Ajout Client"</span>&gt;
+<a name="l00121"></a>00121 &lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"sa"</span> value=<span class="stringliteral">"blank"</span>&gt;
+<a name="l00122"></a>00122 &lt;input type=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"submit_query"</span> value=<span class="stringliteral">"Ajout Client"</span>&gt;
 <a name="l00123"></a>00123 
 <a name="l00124"></a>00124 &lt;/form&gt;
 <a name="l00125"></a>00125 &lt;/span&gt;
@@ -167,7 +167,7 @@
 <a name="l00162"></a>00162 }
 <a name="l00163"></a>00163 <a class="code" href="ac__common_8php.html#a6">html_page_stop</a>();
 <a name="l00164"></a>00164 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jun 26 20:13:15 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Jun 27 01:39:28 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

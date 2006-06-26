@@ -29,7 +29,7 @@
 <a name="l00020"></a>00020 <span class="comment">// Copyright Author Dany De Bontridder ddebontridder@yahoo.fr</span>
 <a name="l00021"></a>00021 require_once(<span class="stringliteral">"ac_common.php"</span>);
 <a name="l00022"></a>00022 require_once(<span class="stringliteral">"postgres.php"</span>);
-<a name="l00026"></a>00026 
+<a name="l00026"></a>00026 <span class="comment">//-----------------------------------------------------</span>
 <a name="l00027"></a>00027 <span class="comment">// Check User</span>
 <a name="l00028"></a>00028 include ('class_user.php');
 <a name="l00029"></a>00029 <span class="comment">/* Admin. Dossier */</span>
@@ -48,20 +48,22 @@
 <a name="l00042"></a>00042 header('Content-type: application/bin');
 <a name="l00043"></a>00043 header('Content-Disposition: attachment;filename=<span class="stringliteral">"declaration.bin"</span>',FALSE);
 <a name="l00044"></a>00044 
+<a name="l00045"></a>00045 <span class="comment">//-----------------------------------------------------</span>
 <a name="l00046"></a>00046 <span class="comment">// Submit for a magnetic declaration</span>
 <a name="l00047"></a>00047 <span class="comment">// Belgium only</span>
-<a name="l00049"></a>00049 <span class="comment"></span><span class="keywordflow">if</span> ( isset($_POST['bt_disk'])) {
+<a name="l00048"></a>00048 <span class="comment">//-----------------------------------------------------</span>
+<a name="l00049"></a>00049 <span class="keywordflow">if</span> ( isset($_POST['bt_disk'])) {
 <a name="l00050"></a>00050   require_once(<span class="stringliteral">"class_customer.php"</span>);
 <a name="l00051"></a><a class="code" href="listing__client_8php.html#a2">00051</a>   <a class="code" href="client_8inc_8php.html#a1">$customer</a>=<span class="keyword">new</span> <a class="code" href="classCustomer.html">Customer</a>($cn);
 <a name="l00052"></a><a class="code" href="listing__client_8php.html#a3">00052</a>   <a class="code" href="impress__listing__client_8php.html#a1">$a_Res</a>=<a class="code" href="client_8inc_8php.html#a1">$customer</a>-&gt;VatListing($_POST['year']);
 <a name="l00053"></a>00053 
 <a name="l00054"></a>00054   require_once(<span class="stringliteral">"decla.BE.inc.php"</span>);
-<a name="l00055"></a><a class="code" href="listing__client_8php.html#a4">00055</a>   <a class="code" href="action_8inc_8php.html#a16">$a</a>=<a class="code" href="decla_8BE_8inc_8php.html#a0">MakeListingVat</a>($cn,$a_Res,$_POST['year']);
+<a name="l00055"></a><a class="code" href="listing__client_8php.html#a4">00055</a>   <a class="code" href="action_8inc_8php.html#a24">$a</a>=<a class="code" href="decla_8BE_8inc_8php.html#a0">MakeListingVat</a>($cn,$a_Res,$_POST['year']);
 <a name="l00056"></a><a class="code" href="listing__client_8php.html#a5">00056</a>   echo <span class="stringliteral">"$a"</span>;
 <a name="l00057"></a>00057   <span class="keywordflow">return</span>;
 <a name="l00058"></a>00058  }
 <a name="l00059"></a>00059 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jun 26 20:13:15 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Jun 27 01:39:27 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>
