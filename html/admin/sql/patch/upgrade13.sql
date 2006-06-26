@@ -536,9 +536,6 @@ create view vw_supplier as SELECT a.f_id, a.av_text AS name, a1.av_text AS quick
   WHERE jnt_fic_att_value.ad_id = 18) h USING (f_id)
   WHERE a.frd_id = 8;
 
-insert into parameter (pr_id) values ('MY_TEL');
-insert into parameter (pr_id) values ('MY_PAYS');
-insert into parameter (pr_id) values ('MY_FAX');
 
 insert into parameter (pr_id) values ('MY_TEL');
 insert into parameter (pr_id) values ('MY_PAYS');
