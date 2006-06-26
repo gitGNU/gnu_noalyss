@@ -20,12 +20,12 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
- * This file show in a popup window the detail a of card in read only mode
+/*!\file 
+ * \brief This file show in a popup window the detail a of card in read only mode
  * the parameter are q (for qcode) & PHPSESSID
  */
 
-/* \brief 
+/*! \brief 
  *
  */
 require_once ('class_user.php');

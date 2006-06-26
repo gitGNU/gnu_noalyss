@@ -35,6 +35,8 @@
  */ 
 function ViewImp($p_array,$p_cn) {
   include_once("preference.php");
+  require_once("class_user.php");
+
   $periode=FormPeriodeMult($p_cn);
   foreach ( $p_array as $key=>$element) {
     echo_debug('impress_inc.php',__LINE__,"VIEWIMP $key $element");
@@ -742,6 +744,7 @@ function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true) {
     $x=$e;
     $e[0]=str_replace ("[","",$e[0]);
     $e[0]=str_replace ("]","",$e[0]);
+
     // If there is a FROM clause we must recompute 
     // the time cond
     if ( ereg ("FROM=[0-9]+\.[0-9]+", $p_formula,$afrom) == true ){
@@ -749,17 +752,31 @@ function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true) {
       // then we must modify the cond for the periode
       $from=str_replace("FROM=","",$afrom[0]);
       // Get the periode 
+      /*! \note special value for the clause FROM=0000.00
+       */
       $from=getPeriodeFromMonth($p_cn,$from);
-
-      //  Compute the cond
-      if ( $from == $p_end ) 
-	$cond=" j_tech_per = $from ";
-      else
-	$cond = "(j_tech_per >= $from and j_tech_per <= $p_end) ";
+      if ( $from == '0000.00' ) {
+	$User=new cl_user(DbConnect());
+	$user_periode=$User-getPeriode();
+	$sql_per="select min(p_id) from parm_periode where ".
+	  " p_exercice='".$user_periode."'";
+	$ret=ExecSql($p_cn);
+	$per="01".$user_periode;
+	$cond="";
+      } 
+      else 
+	{
+	  // the clause from is something else
+	  //  Compute the cond
+	  if ( $from == $p_end ) 
+	    $cond=" j_tech_per = $from ";
+	  else
+	    $cond = "(j_tech_per >= $from and j_tech_per <= $p_end) ";
+	}
       // We remove FROM out of the p_formula
       $p_formula=substr_replace($p_formula,"",strpos($p_formula,"FROM"));
     }
-    // Get sum of account
+      // Get sum of account
     $P=new poste($p_cn,$e[0]);
     $i=$P->GetSolde($cond);
     $p_formula=str_replace($x,$i,$p_formula);

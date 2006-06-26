@@ -297,7 +297,7 @@ $body$ LANGUAGE plpgsql;
 CREATE TRIGGER trigger_document_type_i after INSERT oN document_type
     FOR EACH ROW EXECUTE PROCEDURE t_document_type_insert();
 
-INSERT INTO document_type VALUES (1,'Rendez-vous');
+INSERT INTO document_type VALUES (1,'Document Interne');
 INSERT INTO document_type VALUES (2,'Bons de commande client');
 INSERT INTO document_type VALUES (3,'Bon de commande Fournisseur');
 INSERT INTO document_type VALUES (4,'Facture');
@@ -305,7 +305,8 @@ INSERT INTO document_type VALUES (5,'Lettre de rappel');
 INSERT INTO document_type VALUES (6,'Courrier');
 INSERT INTO document_type VALUES (7,'Proposition');
 INSERT INTO document_type VALUES (8,'Email');
-alter sequence document_type_dt_id_seq restart with 9;
+INSERT INTO document_type VALUES (9,'Divers');
+alter sequence document_type_dt_id_seq restart with 10;
 
 create table document_modele (
 	md_id serial primary key,
@@ -455,6 +456,8 @@ insert into attr_min values(16,17);
 insert into attr_min values(16,18);
 insert into attr_min values(16,25);
 insert into attr_min values(16,26);
+insert into attr_def (ad_text) values ('GSM'); 
+insert into attr_min values(16,27);
 
 CREATE or replace FUNCTION t_jrn_def_sequence() RETURNS trigger AS $body$
     BEGIN

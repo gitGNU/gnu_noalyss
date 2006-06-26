@@ -80,7 +80,7 @@ echo ShowItem(array(
 		    array('?p_action=bank','Banque'),
 		    array('?p_action=contact','Contact'),
 		    array('?p_action=admin','Administration'),
-		    array('?p_action=suivi_courrier','Suivi courrier'),
+		    array('?p_action=suivi_courrier','Document'),
 		    array('?p_action=pref','Préférence'),
 		    array('parametre.php?dos='.$_SESSION['g_dossier'],"Paramètre"),
 		    array('user_compta.php?dos='.$_SESSION['g_dossier'],"Comptabilité"),

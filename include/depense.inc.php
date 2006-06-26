@@ -50,7 +50,7 @@ if ( isset ($_REQUEST['url']))
 }
 
 $sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
-////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // If a list of depense is asked
 // 
 if ( $sub_action == "list") 
@@ -149,11 +149,11 @@ if ( $sub_action == "list")
 
  exit();
 } 
-////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 echo '<div class="u_subtmenu">';
 echo ShowMenuJrnUser($_SESSION['g_dossier'],'ACH',$p_jrn,'<td class="cell"><A class="mtitle" HREF="commercial.php?liste&p_action=depense&sa=list">Liste</A></td>');
 echo '</div>';
-////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // if we request to add an item 
 // the $_POST['add_item'] is set
 // or if we ask to correct the invoice
@@ -172,7 +172,7 @@ if ( isset ($_POST['add_item']) || isset ($_POST["correct_new_invoice"])  )
   echo '</div>';
   exit();
 }
-////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // we want to save the invoice and to generate a invoice
 //
 if ( isset($_POST['save'])) 
@@ -192,7 +192,7 @@ if ( isset($_POST['save']))
     <input type="button" Value="Nouveau"></A>';
   exit();
 }
-////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // we show the confirmation screen
 // 
 if ( isset ($_POST['view_invoice']) ) 
@@ -220,7 +220,7 @@ if ( isset ($_POST['view_invoice']) )
 
 
 
-////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // By default we add a new invoice
 if ( $p_jrn != -1 ) 
 {

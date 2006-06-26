@@ -28,10 +28,12 @@
 <a name="l00019"></a>00019 <span class="comment">/* $Revision$ */</span>
 <a name="l00020"></a>00020 <span class="comment">// Copyright Author Dany De Bontridder ddebontridder@yahoo.fr</span>
 <a name="l00025"></a>00025 <span class="comment"></span>include_once(<span class="stringliteral">"class_widget.php"</span>);
+<a name="l00026"></a>00026 <span class="comment">//-----------------------------------------------------</span>
 <a name="l00027"></a>00027 <span class="comment">// If print is asked</span>
 <a name="l00028"></a>00028 <span class="comment">// First time in html</span>
 <a name="l00029"></a>00029 <span class="comment">// after in pdf or cvs</span>
-<a name="l00031"></a>00031 <span class="comment"></span><span class="keywordflow">if</span> ( isset( $_POST['bt_html'] ) ) {
+<a name="l00030"></a>00030 <span class="comment">//-----------------------------------------------------</span>
+<a name="l00031"></a>00031 <span class="keywordflow">if</span> ( isset( $_POST['bt_html'] ) ) {
 <a name="l00032"></a>00032 include(<span class="stringliteral">"class_jrn.php"</span>);
 <a name="l00033"></a><a class="code" href="impress__jrn_8php.html#a0">00033</a>  <a class="code" href="impress__jrn_8php.html#a0">$p_cent</a>=( isset ( $_POST['cent']) )?'on<span class="charliteral">':'</span>off';
 <a name="l00034"></a>00034   <span class="comment">// $POST=from_periode, to_periode, jrn_id, cent</span>
@@ -160,8 +162,10 @@
 <a name="l00157"></a>00157   <a class="code" href="balance_8php.html#a0">exit</a>;
 <a name="l00158"></a>00158 }
 <a name="l00159"></a>00159 
+<a name="l00160"></a>00160 <span class="comment">//-----------------------------------------------------</span>
 <a name="l00161"></a>00161 <span class="comment">// Show the jrn and date</span>
-<a name="l00163"></a>00163 <span class="comment"></span>include_once(<span class="stringliteral">"postgres.php"</span>);
+<a name="l00162"></a>00162 <span class="comment">//-----------------------------------------------------</span>
+<a name="l00163"></a>00163 include_once(<span class="stringliteral">"postgres.php"</span>);
 <a name="l00164"></a>00164 
 <a name="l00165"></a>00165 <span class="keywordflow">if</span> ( $User-&gt;Admin() ==0) {
 <a name="l00166"></a>00166   <a class="code" href="impress__bilan_8php.html#a0">$ret</a>=<a class="code" href="ac__common_8php.html#a12">make_array</a>($cn,<span class="stringliteral">"select jrn_def_id,jrn_def_name</span>
@@ -194,8 +198,10 @@
 <a name="l00193"></a>00193    }
 <a name="l00194"></a>00194 <span class="keywordflow">if</span> ( count($ret) &lt; 1 ) 
 <a name="l00195"></a>00195   <a class="code" href="ac__common_8php.html#a8">NoAccess</a>();
+<a name="l00196"></a>00196 <span class="comment">//-----------------------------------------------------</span>
 <a name="l00197"></a>00197 <span class="comment">// Form</span>
-<a name="l00199"></a>00199 <span class="comment"></span>echo '&lt;div <span class="keyword">class</span>=<span class="stringliteral">"u_content"</span>&gt;';
+<a name="l00198"></a>00198 <span class="comment">//-----------------------------------------------------</span>
+<a name="l00199"></a>00199 echo '&lt;div <span class="keyword">class</span>=<span class="stringliteral">"u_content"</span>&gt;';
 <a name="l00200"></a>00200 echo '&lt;<a class="code" href="constant_8php.html#a7">FORM</a> <a class="code" href="constant_8php.html#a39">ACTION</a>=<span class="stringliteral">"?type=jrn"</span> <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"POST"</span>&gt;';
 <a name="l00201"></a>00201 echo '&lt;TABLE <a class="code" href="tva_8inc_8php.html#a17">width</a>=<span class="stringliteral">"90%"</span> align=<span class="stringliteral">"center"</span>&gt;&lt;TR&gt;';
 <a name="l00202"></a><a class="code" href="impress__jrn_8php.html#a8">00202</a> <a class="code" href="admin_8inc_8php.html#a4">$w</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"select"</span>);
@@ -228,7 +234,7 @@
 <a name="l00229"></a>00229 echo '&lt;/<a class="code" href="constant_8php.html#a7">FORM</a>&gt;';
 <a name="l00230"></a>00230 echo '&lt;/div&gt;';
 <a name="l00231"></a>00231 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sun Jun 25 23:09:58 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jun 26 20:13:15 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

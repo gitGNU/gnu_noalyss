@@ -53,6 +53,7 @@
 <a name="l00051"></a>00051 }
 <a name="l00052"></a>00052 
 <a name="l00053"></a><a class="code" href="facture_8inc_8php.html#a1">00053</a> <a class="code" href="action_8inc_8php.html#a0">$sub_action</a>=(isset($_REQUEST['sa']))?$_REQUEST['sa']:<span class="stringliteral">""</span>;
+<a name="l00054"></a>00054 <span class="comment">//-----------------------------------------------------</span>
 <a name="l00055"></a>00055 <span class="comment">// If a list of invoice is asked</span>
 <a name="l00056"></a>00056 <span class="comment">// </span>
 <a name="l00057"></a>00057 <span class="keywordflow">if</span> ( $sub_action == <span class="stringliteral">"list"</span>) 
@@ -151,9 +152,11 @@
 <a name="l00150"></a>00150 
 <a name="l00151"></a>00151  <a class="code" href="balance_8php.html#a0">exit</a>();
 <a name="l00152"></a>00152 } 
+<a name="l00153"></a>00153 <span class="comment">//-----------------------------------------------------</span>
 <a name="l00154"></a>00154 echo '&lt;div <span class="keyword">class</span>=<span class="stringliteral">"u_subtmenu"</span>&gt;';
 <a name="l00155"></a>00155 echo <a class="code" href="user__menu_8php.html#a4">ShowMenuJrnUser</a>($_SESSION['g_dossier'],'<a class="code" href="constant_8php.html#a16">VEN</a>',$p_jrn,'&lt;td <span class="keyword">class</span>=<span class="stringliteral">"cell"</span>&gt;&lt;A <span class="keyword">class</span>=<span class="stringliteral">"mtitle"</span> HREF=<span class="stringliteral">"commercial.php?liste&amp;p_action=facture&amp;sa=list"</span>&gt;Liste&lt;/A&gt;&lt;/td&gt;');
 <a name="l00156"></a>00156 echo '&lt;/div&gt;';
+<a name="l00157"></a>00157 <span class="comment">//-----------------------------------------------------</span>
 <a name="l00158"></a>00158 <span class="comment">// if we request to add an item </span>
 <a name="l00159"></a>00159 <span class="comment">// the $_POST['add_item'] is set</span>
 <a name="l00160"></a>00160 <span class="comment">// or if we ask to correct the invoice</span>
@@ -168,6 +171,7 @@
 <a name="l00169"></a>00169   echo '&lt;/div&gt;';
 <a name="l00170"></a>00170   <a class="code" href="balance_8php.html#a0">exit</a>();
 <a name="l00171"></a>00171 }
+<a name="l00172"></a>00172 <span class="comment">//-----------------------------------------------------</span>
 <a name="l00173"></a>00173 <span class="comment">// we want to save the invoice and to generate a invoice</span>
 <a name="l00174"></a>00174 <span class="comment">//</span>
 <a name="l00175"></a>00175 <span class="keywordflow">if</span> ( isset($_POST['record_and_print_invoice'])) 
@@ -203,6 +207,7 @@
 <a name="l00205"></a>00205   echo '&lt;/form&gt;';
 <a name="l00206"></a>00206   <a class="code" href="balance_8php.html#a0">exit</a>();
 <a name="l00207"></a>00207 }
+<a name="l00208"></a>00208 <span class="comment">//-----------------------------------------------------</span>
 <a name="l00209"></a>00209 <span class="comment">// we show the confirmation screen it is proposed here to generate the</span>
 <a name="l00210"></a>00210 <span class="comment">// invoice</span>
 <a name="l00211"></a>00211 <span class="keywordflow">if</span> ( isset ($_POST['view_invoice']) ) 
@@ -227,6 +232,7 @@
 <a name="l00230"></a>00230 
 <a name="l00231"></a>00231 
 <a name="l00232"></a>00232 
+<a name="l00233"></a>00233 <span class="comment">//-----------------------------------------------------</span>
 <a name="l00234"></a>00234 <span class="comment">// By default we add a new invoice</span>
 <a name="l00235"></a>00235 <span class="keywordflow">if</span> ( $p_jrn != -1 ) 
 <a name="l00236"></a>00236 {
@@ -238,7 +244,7 @@
 <a name="l00242"></a>00242   echo $form;
 <a name="l00243"></a>00243   echo '&lt;/div&gt;';
 <a name="l00244"></a>00244 }
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sun Jun 25 23:09:58 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jun 26 20:13:15 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

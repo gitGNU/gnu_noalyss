@@ -78,11 +78,15 @@ class action
       $this->f_id=0;
     }
 /*!  Display
- * \brief Display the object
+ * \brief Display the object, the tags for the FORM
+ *        are in the caller
+ *
+ * \param $p_view if set to true the form will be in readonly mode
+ *        
  *
  * \return string containing the html code
  */
-  function Display() 
+  function Display($p_view) 
     {
       $r="";
       // Compute the widget
@@ -309,7 +313,8 @@ class action
       $ref=$this->dt_id.'/'.$this->ag_id;
       $this->ag_ref=$ref;
 
-      $sql=sprintf("insert into action_gestion(ag_id,ag_type,ag_title,f_id,ag_comment,ag_ref) values (%d,'%s','%s',%d,'%s','%s')",
+      $sql=sprintf("insert into action_gestion(ag_id,ag_timestamp,ag_type,ag_title,f_id,ag_comment,ag_ref) ".
+		   " values (%d,'%s',to_date('%s','DD-MM-YYYY','%s',%d,'%s','%s')",
 		   $this->ag_id,
 		   $this->dt_id,
 		   FormatString($this->ag_title),

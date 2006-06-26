@@ -23,7 +23,8 @@ require_once('user_form_fin.php');
 require_once('jrn.php');
 require_once("class_document.php");
 require_once("class_fiche.php");
-/*!\brief the purpose off this file encode expense and  to record them
+/*!\file
+ * \brief the purpose off this file encode expense and  to record them
  *
  */
 
@@ -50,7 +51,7 @@ if ( isset ($_REQUEST['url']))
 }
 
 $sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
-////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // If a list of depense is asked
 // 
 if ( $sub_action == "list") 
@@ -86,9 +87,17 @@ if ( $sub_action == "list")
   $w->selected=$current;
 
   echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit','Valider');
-  $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
-  printf ('<span>Tiers QuickCode: <input type="text" name="qcode" value="%s"></span>',
-	   $qcode);
+   $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
+ echo JS_SEARCH_CARD;
+ $w=new widget('js_search_only');
+ $w->name='qcode';
+ $w->value=$qcode;
+ $w->label='qcode';
+ $w->extra='4,8,9,14';
+ $sp= new widget("span");
+ echo $sp->IOValue("qcode_label",$qcode)."</TD></TR>";
+ echo $w->IOValue();
+
   echo $retour;
   // Show list of sell
   // Date - date of payment - Customer - amount
@@ -118,11 +127,11 @@ if ( $sub_action == "list")
 
  exit();
 } 
-////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 echo '<div class="u_subtmenu">';
 echo ShowMenuJrnUser($_SESSION['g_dossier'],'FIN',$p_jrn,'<td class="cell"><A class="mtitle" HREF="commercial.php?liste&p_action=bank&sa=list">Liste</A></td>');
 echo '</div>';
-////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // if we request to add an item 
 // the $_POST['add_item'] is set
 // or if we ask to correct the invoice
@@ -142,7 +151,7 @@ if ( isset ($_POST['add_item']) || isset ($_POST['correct'])  )
   echo '</div>';
   exit();
 }
-////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // Save : record 
 //
 if ( isset($_POST['save'])) 
@@ -163,7 +172,7 @@ if ( isset($_POST['save']))
     <input type="button" Value="Nouveau"></A>';
   exit();
 }
-////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // we show the confirmation screen
 // 
 if ( isset ($_POST['view_invoice']) ) 
@@ -192,7 +201,7 @@ if ( isset ($_POST['view_invoice']) )
 
 
 
-////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // By default we add a new invoice
 if ( $p_jrn != -1 ) 
 {

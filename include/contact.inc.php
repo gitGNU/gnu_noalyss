@@ -54,7 +54,7 @@ if ( isset ($_POST['delete']) )
   $fiche->remove();
   $sub_action="list"; 
 }
-////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // Add card
 if ( $sub_action=="insert" )
 {
@@ -68,7 +68,7 @@ if ( $sub_action=="insert" )
 
 }
 
-////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // Save modification
 if ( isset ($_POST['mod'])) 
 {
@@ -82,7 +82,7 @@ if ( isset ($_POST['mod']))
 // by default open liste
 if ( $sub_action  == "" ) 
       $sub_action="list";
-////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 //Display a blank card 
 if ( $sub_action=="blank") 
 {
@@ -103,7 +103,7 @@ if ( $sub_action=="blank")
   echo $retour;
   echo '</div>';
 }
-////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // list
 if ( $sub_action == "list" )
 {
@@ -159,8 +159,6 @@ if ( $sub_action == "list" )
 
  echo $w->IOValue();
 
-//   printf ('<span>Tiers QuickCode: <input type="text" name="qcode" value="%s"></span>',
-// 	   $qcode);
 ?>
 <input type="submit" name="submit_query" value="recherche">
 <input type="hidden" name="p_action" value="contact">
@@ -182,7 +180,7 @@ if ( $sub_action == "list" )
 
 
 }
-////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // Show Detail
 if ( $sub_action == 'detail' )
 {

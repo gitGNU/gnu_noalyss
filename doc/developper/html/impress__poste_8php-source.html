@@ -28,11 +28,12 @@
 <a name="l00019"></a>00019 <span class="comment">/* $Revision$ */</span>
 <a name="l00020"></a>00020 <span class="comment">// Copyright Author Dany De Bontridder ddebontridder@yahoo.fr</span>
 <a name="l00021"></a>00021 include_once(<span class="stringliteral">"class_widget.php"</span>);
-<a name="l00030"></a>00030 
+<a name="l00030"></a>00030 <span class="comment">//-----------------------------------------------------</span>
 <a name="l00031"></a>00031 <span class="comment">// If print is asked</span>
 <a name="l00032"></a>00032 <span class="comment">// First time in html</span>
 <a name="l00033"></a>00033 <span class="comment">// after in pdf or cvs</span>
-<a name="l00035"></a>00035 <span class="comment"></span><span class="keywordflow">if</span> ( isset( $_POST['bt_html'] ) ) {
+<a name="l00034"></a>00034 <span class="comment">//-----------------------------------------------------</span>
+<a name="l00035"></a>00035 <span class="keywordflow">if</span> ( isset( $_POST['bt_html'] ) ) {
 <a name="l00036"></a>00036 include(<span class="stringliteral">"class_poste.php"</span>);
 <a name="l00037"></a><a class="code" href="impress__poste_8php.html#a0">00037</a>   <a class="code" href="impress__poste_8php.html#a0">$Poste</a>=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a6">poste</a>($cn,$_POST['poste_id']);
 <a name="l00038"></a>00038   <a class="code" href="impress__poste_8php.html#a0">$Poste</a>-&gt;GetName();
@@ -108,13 +109,17 @@
 <a name="l00108"></a>00108   <a class="code" href="balance_8php.html#a0">exit</a>;
 <a name="l00109"></a>00109 }
 <a name="l00110"></a>00110 
+<a name="l00111"></a>00111 <span class="comment">//-----------------------------------------------------</span>
 <a name="l00112"></a>00112 <span class="comment">// Show the jrn and date</span>
-<a name="l00114"></a>00114 <span class="comment"></span>include_once(<span class="stringliteral">"postgres.php"</span>);
+<a name="l00113"></a>00113 <span class="comment">//-----------------------------------------------------</span>
+<a name="l00114"></a>00114 include_once(<span class="stringliteral">"postgres.php"</span>);
 <a name="l00115"></a><a class="code" href="impress__poste_8php.html#a5">00115</a> <a class="code" href="impress__bilan_8php.html#a0">$ret</a>=<a class="code" href="ac__common_8php.html#a12">make_array</a>($cn,<span class="stringliteral">"select distinct j_poste::text ,j_poste::text||'  '||pcm_lib</span>
 <a name="l00116"></a>00116 <span class="stringliteral">                 from jrnx inner join tmp_pcmn on (pcm_val=j_poste)</span>
 <a name="l00117"></a>00117 <span class="stringliteral">                 order by j_poste::text"</span>);
+<a name="l00118"></a>00118 <span class="comment">//-----------------------------------------------------</span>
 <a name="l00119"></a>00119 <span class="comment">// Form</span>
-<a name="l00121"></a>00121 <span class="comment"></span><span class="keywordflow">if</span> ( $ret==null) 
+<a name="l00120"></a>00120 <span class="comment">//-----------------------------------------------------</span>
+<a name="l00121"></a>00121 <span class="keywordflow">if</span> ( $ret==null) 
 <a name="l00122"></a>00122      <a class="code" href="balance_8php.html#a0">exit</a>('Les journaux sont vides');
 <a name="l00123"></a>00123 echo '&lt;div <span class="keyword">class</span>=<span class="stringliteral">"u_content"</span>&gt;';
 <a name="l00124"></a>00124 echo '&lt;<a class="code" href="constant_8php.html#a7">FORM</a> <a class="code" href="constant_8php.html#a39">ACTION</a>=<span class="stringliteral">"?type=poste"</span> <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"POST"</span>&gt;';
@@ -145,7 +150,7 @@
 <a name="l00149"></a>00149 echo '&lt;/<a class="code" href="constant_8php.html#a7">FORM</a>&gt;';
 <a name="l00150"></a>00150 echo '&lt;/div&gt;';
 <a name="l00151"></a>00151 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sun Jun 25 23:09:58 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jun 26 20:13:15 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

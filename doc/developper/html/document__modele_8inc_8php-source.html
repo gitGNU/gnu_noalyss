@@ -37,8 +37,10 @@
 <a name="l00032"></a>00032 
 <a name="l00033"></a>00033 echo <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;form('parametre.php?p_action=document');
 <a name="l00034"></a>00034 
+<a name="l00035"></a>00035 <span class="comment">//-----------------------------------------------------</span>
 <a name="l00036"></a>00036 <span class="comment">// Document     add a template</span>
-<a name="l00038"></a>00038 <span class="comment"></span><span class="keywordflow">if</span> ( $sub_action=='add_document') 
+<a name="l00037"></a>00037 <span class="comment">//-----------------------------------------------------</span>
+<a name="l00038"></a>00038 <span class="keywordflow">if</span> ( $sub_action=='add_document') 
 <a name="l00039"></a>00039 {
 <a name="l00040"></a>00040   require_once(<span class="stringliteral">"class_document_modele.php"</span>);
 <a name="l00041"></a>00041   <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>=<span class="keyword">new</span> <a class="code" href="classDocument__modele.html">Document_modele</a>($cn);
@@ -48,8 +50,10 @@
 <a name="l00045"></a><a class="code" href="document__modele_8inc_8php.html#a5">00045</a>   <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;start=$_POST['start_seq'];
 <a name="l00046"></a>00046   <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;Save();
 <a name="l00047"></a>00047   }
+<a name="l00048"></a>00048 <span class="comment">//-----------------------------------------------------</span>
 <a name="l00049"></a>00049 <span class="comment">// Document remove a template</span>
-<a name="l00051"></a>00051 <span class="comment"></span><span class="keywordflow">if</span> ( $sub_action=='rm_template') {
+<a name="l00050"></a>00050 <span class="comment">//-----------------------------------------------------</span>
+<a name="l00051"></a>00051 <span class="keywordflow">if</span> ( $sub_action=='rm_template') {
 <a name="l00052"></a>00052   <a class="code" href="debug_8php.html#a0">echo_debug</a> (__FILE__,__LINE__,'<a class="code" href="fiche__inc_8php.html#a13">Remove</a> some templates');
 <a name="l00053"></a>00053   require_once(<span class="stringliteral">"class_document_modele.php"</span>);
 <a name="l00054"></a>00054   <span class="comment">// Get all the document to remove</span>
@@ -70,10 +74,12 @@
 <a name="l00069"></a>00069 
 <a name="l00070"></a>00070 }
 <a name="l00071"></a>00071 
+<a name="l00072"></a>00072 <span class="comment">//-----------------------------------------------------</span>
 <a name="l00073"></a>00073 <span class="comment">// Default action : Show the list</span>
-<a name="l00075"></a>00075 <span class="comment"></span>echo <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;myList();
+<a name="l00074"></a>00074 <span class="comment">//-----------------------------------------------------</span>
+<a name="l00075"></a>00075 echo <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;myList();
 <a name="l00076"></a>00076 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sun Jun 25 23:09:58 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jun 26 20:13:15 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

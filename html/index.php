@@ -20,11 +20,30 @@
  * <li>Les noms de fichiers sont *.inc.php pour les fichiers à éxécuter</li>
  * <li>Les noms de fichiers sont *.php pour les fichiers contenant des fonctions uniquement</li>
  * <li>Les noms de fichier sont  class_*.php pour les fichiers contenant des classes.</li>
+ * <li>Utiliser sql/upgrade.sql comme fichier temporaire pour modifier la base de données, en général
+ *  ce fichier deviendra l'un des patch </li>
  * <li>Faire de la doc </li>
  * </ol>
  * 
  * </p>
- *
+ * \section conseil Conseils
+ * <p>
+ * Utiliser cette documentation, elle est générée automatiquement avec Doxygen,
+ * <ul>
+ * <li>Related contient tous les \\todo</li>
+ * <li>Global -> function pour lire toute la doc sur les fonctions</li>
+ * <li>Regarder dans dossier1.html et account_repository.html  pour la doc des base de données
+ *</ul>
+ *  et il ne faut connaître que 7 tags
+ * <ul>
+ * <li> \\file en début de fichier</li>
+ * <li> \\todo ajouter un todo </li>
+ * <li> \\enum pour commenter une variable</li>
+ * <li> \\param pour commenter le paramètre d'une fonction</li>
+ * <li> \\brief Commentaire du fichier, de la fonction ou de la classe</li>
+ * <li> \\note des notes, des exemples</li>
+ * <li> \\return ce que la fonction retourne</li>
+ * </ul>
  */
 
 echo '<!DOCTYPE HTML PUBLIC "-//W3C/DTD HTML 3.2 FINAL//EN">

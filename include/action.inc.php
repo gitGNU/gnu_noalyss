@@ -22,9 +22,9 @@
  * \brief Page who manage the different action (meeting, letter)
  */
 
-//////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // Action
-//////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 require_once("class_widget.php");
 require_once("class_action.php");
 /*!\brief Show the list of action, this code should be common
@@ -57,8 +57,6 @@ function ShowActionList($cn,$retour,$h_url)
    echo $sp->IOValue("qcode_label","",$qcode);
    echo $w->IOValue();
 
-   // printf ('<span>Tiers QuickCode: <input type="text" name="qcode" value="%s"></span>',
-   //	   $qcode);
 
 ?>
 <input type="submit" name="submit_query" value="recherche">
@@ -85,7 +83,9 @@ function ShowActionList($cn,$retour,$h_url)
 <?
     // show the  action in 
     $act=new action($cn);
-   
+   /*! \brief
+    *  \note The field 'recherche' is   about a part of the title or a ref. number
+    */
    $query=(isset ($_REQUEST['query']))?"and (ag_title ~* '".FormatString($_REQUEST['query'])."' or ag_ref ='".trim(FormatString($_REQUEST['query']))."')":"";
    $str="";
    if ( isset($_REQUEST['qcode'] )) 
@@ -129,7 +129,7 @@ if ( isset ($_REQUEST['url']))
      $retour=sprintf('<A HREF="%s"><input type="button" value="Retour"></A>',urldecode($_REQUEST['url']));
      $h_url=sprintf('<input type="hidden" name="url" value="%s">',urldecode($_REQUEST['url']));
 }
-//////////////////////////////////////////////////////////////////////////////////
+//--------------------------------------------------------------------------------
 // Show the detail of an action
 if ( $sub_action=='detail' )
 {
@@ -140,12 +140,12 @@ if ( $sub_action=='detail' )
   echo $retour;
 
 }
-//////////////////////////////////////////////////////////////////////
+//--------------------------------------------------------------------------------
 // Show a list of the action
 if ( $sub_action == "list" )
      ShowActionList($cn,$retour,$h_url);
        
-//////////////////////////////////////////////////////////////////////
+//--------------------------------------------------------------------------------
 // Add an action
 if ( $sub_action == "add_action" ) 
 {
@@ -205,7 +205,7 @@ if ( $sub_action == "add_action" )
 ?>
 
 <? 
-////////////////////////////////////////////////////////////////////////////////
+//--------------------------------------------------------------------------------
 // add here for who the action is taken (contact, client or supplier)
 
 ?>
@@ -244,10 +244,10 @@ writeRichText('ag_comment', <? printf ("'%s'",$a); ?>, 520, 200, true, false);
 </div>
 <?
 }
-////////////////////////////////////////////////////////////////////////////////
+//--------------------------------------------------------------------------------
 // Save Action
 // Stage 1 : show the result and confirm
-////////////////////////////////////////////////////////////////////////////////
+//--------------------------------------------------------------------------------
 if  ( $sub_action == "save_action_st1" ) 
 {
   $act=new action($cn);
@@ -259,10 +259,10 @@ if  ( $sub_action == "save_action_st1" )
   $act->ag_title=$_POST['ag_title'];
   echo $act->Confirm();
 }
-////////////////////////////////////////////////////////////////////////////////
+//--------------------------------------------------------------------------------
 // Save Action
 // Stage 2 : Save the action and propose to save a file
-////////////////////////////////////////////////////////////////////////////////
+//--------------------------------------------------------------------------------
 if  ( $sub_action == "save_action_st2" ) 
 {
   $act=new action($cn);
@@ -282,10 +282,10 @@ if  ( $sub_action == "save_action_st2" )
   echo '<A HREF="commercial.php?p_action=suivi_courrier"><INPUT TYPE="BUTTON" VALUE="Retour Liste"></A>';
 }
 
-////////////////////////////////////////////////////////////////////////////////
+//--------------------------------------------------------------------------------
 // Save Document
 // Stage 3 : Save the document
-////////////////////////////////////////////////////////////////////////////////
+//--------------------------------------------------------------------------------
 if  ( $sub_action == "save_action_st3" ) 
 {
   echo_debug("action.inc.php",__LINE__,'Stage 3');

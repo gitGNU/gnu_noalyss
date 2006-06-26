@@ -25,7 +25,7 @@ include_once("class_widget.php");
 
 $cn=DbConnect($_SESSION['g_dossier']);
 
-////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 if  ( isset ($_REQUEST['fd_id'])) {
   // if amount requested
   $with_amount= (isset($_REQUEST['with_amount']))?true:false;

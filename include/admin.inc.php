@@ -39,7 +39,7 @@ if ( isset ($_POST['delete']) )
   $fiche->remove();
   $sub_action="list";
 }
-////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // Add card
 if ( $sub_action=="insert" )
 {
@@ -55,7 +55,7 @@ if ( $sub_action=="insert" )
   echo $retour;
 
 }
-////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // Save modification
 if ( isset ($_POST['mod'])) 
 {
@@ -68,7 +68,7 @@ if ( isset ($_POST['mod']))
 // by default open liste
 if ( $sub_action  == "" ) 
       $sub_action="list";
-////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 //Display a blank card 
 if ( $sub_action=="blank") 
 {
@@ -89,7 +89,7 @@ if ( $sub_action=="blank")
   echo $retour;
   echo '</div>';
 }
-////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // list
 if ( $sub_action == "list" )
 {
@@ -130,18 +130,10 @@ if ( $sub_action == "list" )
  echo '<div class="u_redcontent">';
  echo $sup->Summary($search);
  echo '</div>';
- echo '<div style="position:absolute;right:1%;width:10%;color:blue;background-color:lightgrey;margin-top:10px;">';
- echo "<strong>Action :</strong> Ajout, mise à jour ou effacement";
- echo " <ul>";
- echo "<li>C  - Contact</li>";
- echo "<li>FC - Courrier</li>";
- echo "</ul>";
-
- echo '</div>';
  echo '</div>';
 
 }
-////////////////////////////////////////////////////////////////////////////////
+//-----------------------------------------------------
 // Show Detail
 if ( $sub_action == 'detail' )
 {

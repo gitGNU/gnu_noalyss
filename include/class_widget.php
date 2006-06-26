@@ -98,13 +98,13 @@ class widget {
     $disabled = $this->disabled ? "DISABLED" : "";
     if (strtoupper($this->type)=="TEXT") {
       if ( $this->readonly==false) {
-	$r="<INPUT TYPE=\"TEXT\" NAME=\"$this->name\" VALUE=\"$this->value\" TABINDEX=\"$this->tabindex\" SIZE=\"$this->size\" ".$disabled.">";} else {
+	$r="<INPUT style=\"border:solid 1px blue;\" TYPE=\"TEXT\" NAME=\"$this->name\" VALUE=\"$this->value\" TABINDEX=\"$this->tabindex\" SIZE=\"$this->size\" ".$disabled.">";} else {
 	    $r=sprintf('<span>%s</span><input type="hidden" name="%s" value="%s">', $this->value,$this->name,$this->value);
 	}
 	
       if ($this->table==1) {
 	if ( $this->label != "") {
-	  $r="<TD  style=\"border:solid 1px blue;\">".$this->label."</TD><TD>".$r."</TD>";
+	  $r="<TD  style=\"border:groove 1px blue;\">".$this->label."</TD><TD>".$r."</TD>";
 	}else {
 	  $r="<TD>".$r."</TD>";
 	}
@@ -121,7 +121,7 @@ class widget {
     if ( strtoupper($this->type) == "SELECT") {
       if ($this->readonly==false ){
 	      //echo "<b>Selected <b>".$this->selected;
-      $r="<SELECT NAME=\"$this->name\">";
+      $r="<SELECT  NAME=\"$this->name\">";
       for ( $i=0;$i<sizeof($this->value);$i++) {
 	$checked=($this->selected==$this->value[$i]['value'])?"SELECTED":"";
 	$r.='<OPTION VALUE="'.$this->value[$i]['value'].'" '.$checked.'>';
@@ -242,7 +242,7 @@ class widget {
          <INPUT TYPE="button" onClick=SearchPoste(\'%s\',\'%s\',\'%s\') value="Search">
             %s</TD><TD> 
 
-             <INPUT TYPE="Text" NAME="%s" VALUE="%s" SIZE="8">
+             <INPUT   TYPE="Text" NAME="%s" VALUE="%s" SIZE="8">
                  </TD>',
 		 $l_sessid,
 		 $this->name,
@@ -290,8 +290,9 @@ class widget {
     if  ( $this->readonly == false ) {
       $r=sprintf('<TD>
          <INPUT TYPE="button" onClick=NewCard(\'%s\',\'%s\',\'%s\',\'%s\') value="New">
+         </TD><TD>
          <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') value="Search">
-            %s</TD><TD> <INPUT TYPE="Text" NAME="%s" VALUE="%s" SIZE="8" TABINDEX="%s">
+            %s <INPUT TYPE="Text"    NAME="%s" VALUE="%s" SIZE="8" TABINDEX="%s">
                  ',
 	       $l_sessid,
 	       $this->extra, // deb or cred

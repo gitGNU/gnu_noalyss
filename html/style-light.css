@@ -9,7 +9,7 @@ BODY {
 table.result {
   font-size:10px;
   color:blue;
-  border:blue solid 1px;
+/*  border:blue solid 1px; */
   width:80%;
   
   }
@@ -374,6 +374,22 @@ div.u_content a.mtitle:hover {
   background-color:yellow;
 
 
+}
+div.u_redcontent input {
+   font-family:sans-serif;
+  font-weight:bold;
+  border-color:336699;
+  border-style:solid;
+  border-width:1px;
+  color:blue; 
+}
+div.u_content input {
+   font-family:sans-serif;
+  font-weight:bold;
+  border-color:336699;
+  border-style:solid;
+  border-width:1px;
+  color:blue; 
 }
 
 /* </style> */

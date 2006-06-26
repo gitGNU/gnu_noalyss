@@ -27,14 +27,17 @@
 <a name="l00018"></a>00018 <span class="comment">*/</span>
 <a name="l00019"></a>00019 <span class="comment">/* $Revision$ */</span>
 <a name="l00020"></a>00020 include_once(<span class="stringliteral">"class_widget.php"</span>);
-<a name="l00028"></a>00028 
+<a name="l00028"></a>00028 <span class="comment">//-----------------------------------------------------</span>
 <a name="l00029"></a>00029 <span class="comment">// Show the jrn and date</span>
-<a name="l00031"></a>00031 <span class="comment"></span>include_once(<span class="stringliteral">"postgres.php"</span>);
+<a name="l00030"></a>00030 <span class="comment">//-----------------------------------------------------</span>
+<a name="l00031"></a>00031 include_once(<span class="stringliteral">"postgres.php"</span>);
 <a name="l00032"></a><a class="code" href="impress__bilan_8php.html#a0">00032</a> <a class="code" href="impress__bilan_8php.html#a0">$ret</a>=<a class="code" href="ac__common_8php.html#a12">make_array</a>($cn,<span class="stringliteral">"select fr_id,fr_label</span>
 <a name="l00033"></a>00033 <span class="stringliteral">                 from formdef</span>
 <a name="l00034"></a>00034 <span class="stringliteral">                 order by fr_label"</span>);
+<a name="l00035"></a>00035 <span class="comment">//-----------------------------------------------------</span>
 <a name="l00036"></a>00036 <span class="comment">// Form</span>
-<a name="l00038"></a><a class="code" href="impress__bilan_8php.html#a1">00038</a> <span class="comment"></span><a class="code" href="admin_8inc_8php.html#a4">$w</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"select"</span>);
+<a name="l00037"></a>00037 <span class="comment">//-----------------------------------------------------</span>
+<a name="l00038"></a><a class="code" href="impress__bilan_8php.html#a1">00038</a> <a class="code" href="admin_8inc_8php.html#a4">$w</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"select"</span>);
 <a name="l00039"></a><a class="code" href="impress__bilan_8php.html#a2">00039</a> <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;table=1;
 <a name="l00040"></a>00040 
 <a name="l00041"></a><a class="code" href="impress__bilan_8php.html#a3">00041</a> echo '&lt;div <span class="keyword">class</span>=<span class="stringliteral">"u_redcontent"</span>&gt;';
@@ -58,7 +61,7 @@
 <a name="l00059"></a>00059 echo '&lt;/<a class="code" href="constant_8php.html#a7">FORM</a>&gt;';
 <a name="l00060"></a>00060 echo '&lt;/div&gt;';
 <a name="l00061"></a>00061 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sun Jun 25 23:09:58 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jun 26 20:13:15 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

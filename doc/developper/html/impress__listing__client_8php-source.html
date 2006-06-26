@@ -27,11 +27,14 @@
 <a name="l00018"></a>00018 <span class="comment">*/</span>
 <a name="l00019"></a>00019 <span class="comment">/* $Revision$ */</span>
 <a name="l00020"></a>00020 include_once(<span class="stringliteral">"class_widget.php"</span>);
-<a name="l00025"></a>00025 
+<a name="l00025"></a>00025 <span class="comment">//-----------------------------------------------------</span>
 <a name="l00026"></a>00026 <span class="comment">// Show the jrn and date</span>
-<a name="l00028"></a>00028 <span class="comment"></span>
+<a name="l00027"></a>00027 <span class="comment">//-----------------------------------------------------</span>
+<a name="l00028"></a>00028 
+<a name="l00029"></a>00029 <span class="comment">//-----------------------------------------------------</span>
 <a name="l00030"></a>00030 <span class="comment">// Submit Html</span>
-<a name="l00032"></a>00032 <span class="comment"></span><span class="keywordflow">if</span> ( isset($_POST['bt_html'] )) {
+<a name="l00031"></a>00031 <span class="comment">//-----------------------------------------------------</span>
+<a name="l00032"></a>00032 <span class="keywordflow">if</span> ( isset($_POST['bt_html'] )) {
 <a name="l00033"></a>00033   require_once(<span class="stringliteral">"class_customer.php"</span>);
 <a name="l00034"></a><a class="code" href="impress__listing__client_8php.html#a0">00034</a>   <a class="code" href="client_8inc_8php.html#a1">$customer</a>=<span class="keyword">new</span> <a class="code" href="classCustomer.html">Customer</a>($cn);
 <a name="l00035"></a><a class="code" href="impress__listing__client_8php.html#a1">00035</a>   <a class="code" href="impress__listing__client_8php.html#a1">$a_Res</a>=<a class="code" href="client_8inc_8php.html#a1">$customer</a>-&gt;VatListing($_POST['year']);
@@ -63,8 +66,10 @@
 <a name="l00061"></a>00061   <span class="keywordflow">return</span>;
 <a name="l00062"></a>00062  }
 <a name="l00063"></a>00063 
+<a name="l00064"></a>00064 <span class="comment">//-----------------------------------------------------</span>
 <a name="l00065"></a>00065 <span class="comment">// Form</span>
-<a name="l00067"></a><a class="code" href="impress__listing__client_8php.html#a3">00067</a> <span class="comment"></span><a class="code" href="admin_8inc_8php.html#a4">$w</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"select"</span>);
+<a name="l00066"></a>00066 <span class="comment">//-----------------------------------------------------</span>
+<a name="l00067"></a><a class="code" href="impress__listing__client_8php.html#a3">00067</a> <a class="code" href="admin_8inc_8php.html#a4">$w</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"select"</span>);
 <a name="l00068"></a><a class="code" href="impress__listing__client_8php.html#a4">00068</a> <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;table=1;
 <a name="l00069"></a>00069 
 <a name="l00070"></a><a class="code" href="impress__listing__client_8php.html#a5">00070</a> echo '&lt;div <span class="keyword">class</span>=<span class="stringliteral">"u_redcontent"</span>&gt;';
@@ -84,7 +89,7 @@
 <a name="l00084"></a>00084 echo '&lt;/div&gt;';
 <a name="l00085"></a>00085 
 <a name="l00086"></a>00086 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Sun Jun 25 23:09:58 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jun 26 20:13:15 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>
