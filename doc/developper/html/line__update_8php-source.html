@@ -53,7 +53,7 @@
 <a name="l00047"></a>00047 
 <a name="l00048"></a>00048 <span class="comment">/* Modif d'une ligne */</span>
 <a name="l00049"></a>00049 <span class="keywordflow">if</span> ( isset ($_POST[<span class="stringliteral">"update"</span>] ) ) {
-<a name="l00050"></a>00050   foreach ($HTTP_POST_VARS as $<a class="code" href="action_8inc_8php.html#a12">name</a> =&gt; $element) {
+<a name="l00050"></a>00050   foreach ($HTTP_POST_VARS as $<a class="code" href="action_8inc_8php.html#a15">name</a> =&gt; $element) {
 <a name="l00051"></a>00051     <a class="code" href="debug_8php.html#a0">echo_debug</a>('line_update.php',__LINE__,<span class="stringliteral">"name $name $element"</span>);
 <a name="l00052"></a>00052   }
 <a name="l00053"></a>00053   echo <a class="code" href="constant_8php.html#a79">JS_UPDATE_PCMN</a>;
@@ -101,19 +101,19 @@
 <a name="l00095"></a><a class="code" href="line__update_8php.html#a10">00095</a> <a class="code" href="line__update_8php.html#a10">$p</a>=$_GET[<span class="charliteral">'p'</span>];
 <a name="l00096"></a><a class="code" href="line__update_8php.html#a11">00096</a> <a class="code" href="fiche__new_8php.html#a5">$n</a>=$_GET[<span class="charliteral">'n'</span>];
 <a name="l00097"></a>00097 
-<a name="l00098"></a>00098 printf ('&lt;TD&gt;Numéro de classe &lt;/TD&gt;&lt;TD&gt;&lt;INPUT TYPE=<span class="stringliteral">"TEXT"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"p_val"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"%s"</span>&gt;&lt;/TD&gt;',$l);
+<a name="l00098"></a>00098 printf ('&lt;TD&gt;Numéro de classe &lt;/TD&gt;&lt;TD&gt;&lt;INPUT TYPE=<span class="stringliteral">"TEXT"</span> <a class="code" href="action_8inc_8php.html#a15">name</a>=<span class="stringliteral">"p_val"</span> <a class="code" href="action_8inc_8php.html#a16">value</a>=<span class="stringliteral">"%s"</span>&gt;&lt;/TD&gt;',$l);
 <a name="l00099"></a>00099 echo <span class="stringliteral">"&lt;/TR&gt;&lt;TR&gt;"</span>;
-<a name="l00100"></a>00100 printf('&lt;TD&gt;Libellé &lt;/TD&gt;&lt;TD&gt;&lt;INPUT TYPE=<span class="stringliteral">"TEXT"</span> <a class="code" href="tva_8inc_8php.html#a15">size</a>=<span class="stringliteral">"70"</span> NAME=<span class="stringliteral">"p_name"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"%s"</span>&gt;&lt;/TD&gt;',urldecode($n));
+<a name="l00100"></a>00100 printf('&lt;TD&gt;Libellé &lt;/TD&gt;&lt;TD&gt;&lt;INPUT TYPE=<span class="stringliteral">"TEXT"</span> <a class="code" href="tva_8inc_8php.html#a15">size</a>=<span class="stringliteral">"70"</span> NAME=<span class="stringliteral">"p_name"</span> <a class="code" href="action_8inc_8php.html#a16">value</a>=<span class="stringliteral">"%s"</span>&gt;&lt;/TD&gt;',urldecode($n));
 <a name="l00101"></a>00101 echo <span class="stringliteral">"&lt;/TR&gt;&lt;TR&gt;"</span>;
-<a name="l00102"></a>00102 printf ('&lt;TD&gt;Classe Parent&lt;/TD&gt;&lt;TD&gt;&lt;INPUT TYPE=<span class="stringliteral">"TEXT"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"p_val_parent"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"%s"</span>&gt;&lt;/TD&gt;',$p);
+<a name="l00102"></a>00102 printf ('&lt;TD&gt;Classe Parent&lt;/TD&gt;&lt;TD&gt;&lt;INPUT TYPE=<span class="stringliteral">"TEXT"</span> <a class="code" href="action_8inc_8php.html#a15">name</a>=<span class="stringliteral">"p_val_parent"</span> <a class="code" href="action_8inc_8php.html#a16">value</a>=<span class="stringliteral">"%s"</span>&gt;&lt;/TD&gt;',$p);
 <a name="l00103"></a>00103 ?&gt;
 <a name="l00104"></a>00104 &lt;/TR&gt;
 <a name="l00105"></a>00105 &lt;/TABLE&gt;
 <a name="l00106"></a>00106 &lt;TABLE&gt;
 <a name="l00107"></a>00107 &lt;TR&gt;
 <a name="l00108"></a>00108 &lt;TD&gt;&lt;INPUT TYPE=<span class="stringliteral">"Submit"</span> VALUE=<span class="stringliteral">"Sauve"</span>&gt;
-<a name="l00109"></a>00109 &lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"update"</span>&gt;
-<a name="l00110"></a>00110 &lt;? printf ('&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"p_old"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"%s"</span>&gt;',$l); ?&gt;
+<a name="l00109"></a>00109 &lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> <a class="code" href="action_8inc_8php.html#a15">name</a>=<span class="stringliteral">"update"</span>&gt;
+<a name="l00110"></a>00110 &lt;? printf ('&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> <a class="code" href="action_8inc_8php.html#a15">name</a>=<span class="stringliteral">"p_old"</span> <a class="code" href="action_8inc_8php.html#a16">value</a>=<span class="stringliteral">"%s"</span>&gt;',$l); ?&gt;
 <a name="l00111"></a>00111 &lt;/TD&gt;&lt;TD&gt;&lt;input type=<span class="stringliteral">"button"</span>  Value=<span class="stringliteral">"Retour sans sauver"</span> onClick='window.close();'&gt;&lt;/TD&gt;&lt;/TR&gt;
 <a name="l00112"></a>00112 &lt;/TABLE&gt;
 <a name="l00113"></a>00113 &lt;/<a class="code" href="constant_8php.html#a7">FORM</a>&gt;
@@ -122,7 +122,7 @@
 <a name="l00116"></a>00116 &lt;?
 <a name="l00117"></a>00117 <a class="code" href="ac__common_8php.html#a6">html_page_stop</a>();
 <a name="l00118"></a>00118 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Wed Jun 28 02:07:23 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 00:04:07 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

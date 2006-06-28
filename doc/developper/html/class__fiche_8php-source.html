@@ -430,10 +430,10 @@
 <a name="l00550"></a>00550                    $fiche_id,$p_fiche_def);
 <a name="l00551"></a>00551       <a class="code" href="line__update_8php.html#a8">$Ret</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;cn,$sql);
 <a name="l00552"></a>00552       <span class="comment">// parse the $_POST array</span>
-<a name="l00553"></a>00553       foreach ($_POST as $<a class="code" href="action_8inc_8php.html#a12">name</a>=&gt;$<a class="code" href="action_8inc_8php.html#a13">value</a> ) 
+<a name="l00553"></a>00553       foreach ($_POST as $<a class="code" href="action_8inc_8php.html#a15">name</a>=&gt;$<a class="code" href="action_8inc_8php.html#a16">value</a> ) 
 <a name="l00554"></a>00554         {
 <a name="l00555"></a>00555           <a class="code" href="debug_8php.html#a0">echo_debug</a> (<span class="stringliteral">"class_fiche"</span>,__LINE__,<span class="stringliteral">"Name = $name value $value"</span>) ;
-<a name="l00556"></a>00556           list ($<span class="keywordtype">id</span>) = sscanf ($<a class="code" href="action_8inc_8php.html#a12">name</a>,<span class="stringliteral">"av_text%d"</span>);
+<a name="l00556"></a>00556           list ($<span class="keywordtype">id</span>) = sscanf ($<a class="code" href="action_8inc_8php.html#a15">name</a>,<span class="stringliteral">"av_text%d"</span>);
 <a name="l00557"></a>00557           <span class="keywordflow">if</span> ( $<span class="keywordtype">id</span> == null ) <span class="keywordflow">continue</span>;
 <a name="l00558"></a>00558           <a class="code" href="debug_8php.html#a0">echo_debug</a>(<span class="stringliteral">"class_fiche"</span>,__LINE__,<span class="stringliteral">"add $id"</span>);
 <a name="l00559"></a>00559           
@@ -443,7 +443,7 @@
 <a name="l00563"></a>00563             {
 <a name="l00564"></a>00564               <a class="code" href="debug_8php.html#a0">echo_debug</a>(<span class="stringliteral">"Modify ATTR_DEF_QUICKCODE"</span>);
 <a name="l00565"></a>00565               <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=sprintf(<span class="stringliteral">"select insert_quick_code(%d,'%s')"</span>,
-<a name="l00566"></a>00566                            $fiche_id,<a class="code" href="ac__common_8php.html#a9">FormatString</a>($<a class="code" href="action_8inc_8php.html#a13">value</a>));
+<a name="l00566"></a>00566                            $fiche_id,<a class="code" href="ac__common_8php.html#a9">FormatString</a>($<a class="code" href="action_8inc_8php.html#a16">value</a>));
 <a name="l00567"></a>00567               <a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;cn,$sql);
 <a name="l00568"></a>00568               <span class="keywordflow">continue</span>;
 <a name="l00569"></a>00569             }
@@ -451,7 +451,7 @@
 <a name="l00571"></a>00571           <span class="keywordflow">if</span> ( $<span class="keywordtype">id</span> == <a class="code" href="constant_8php.html#a51">ATTR_DEF_NAME</a> ) 
 <a name="l00572"></a>00572             {
 <a name="l00573"></a>00573               <a class="code" href="debug_8php.html#a0">echo_debug</a>(<span class="stringliteral">"Modify ATTR_DEF_NAME"</span>);
-<a name="l00574"></a>00574               <span class="keywordflow">if</span> ( strlen(trim($<a class="code" href="action_8inc_8php.html#a13">value</a>)) == 0 )
+<a name="l00574"></a>00574               <span class="keywordflow">if</span> ( strlen(trim($<a class="code" href="action_8inc_8php.html#a16">value</a>)) == 0 )
 <a name="l00575"></a>00575                 $value=<span class="stringliteral">"pas de nom"</span>;
 <a name="l00576"></a>00576               
 <a name="l00577"></a>00577             }
@@ -459,7 +459,7 @@
 <a name="l00579"></a>00579           <span class="keywordflow">if</span> ( $<span class="keywordtype">id</span> == <a class="code" href="constant_8php.html#a50">ATTR_DEF_ACCOUNT</a> ) 
 <a name="l00580"></a>00580             {
 <a name="l00581"></a>00581               <a class="code" href="debug_8php.html#a0">echo_debug</a>(<span class="stringliteral">"Modify ATTR_DEF_ACCOUNT"</span>);
-<a name="l00582"></a>00582               $v=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($<a class="code" href="action_8inc_8php.html#a13">value</a>);
+<a name="l00582"></a>00582               $v=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($<a class="code" href="action_8inc_8php.html#a16">value</a>);
 <a name="l00583"></a>00583               <span class="keywordflow">if</span> ( <a class="code" href="ac__common_8php.html#a2">isNumber</a>($v) == 1 )
 <a name="l00584"></a>00584                 {
 <a name="l00585"></a>00585                   <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=sprintf(<span class="stringliteral">"select account_insert(%d,%d)"</span>,
@@ -480,7 +480,7 @@
 <a name="l00600"></a>00600             {
 <a name="l00601"></a>00601               <a class="code" href="debug_8php.html#a0">echo_debug</a>(<span class="stringliteral">"Modify ATTR_DEF_TVA"</span>);
 <a name="l00602"></a>00602               <span class="comment">// Verify if the rate exists, if not then do not update</span>
-<a name="l00603"></a>00603               <span class="keywordflow">if</span> ( strlen(trim($<a class="code" href="action_8inc_8php.html#a13">value</a>)) != 0 ) 
+<a name="l00603"></a>00603               <span class="keywordflow">if</span> ( strlen(trim($<a class="code" href="action_8inc_8php.html#a16">value</a>)) != 0 ) 
 <a name="l00604"></a>00604                 {
 <a name="l00605"></a>00605                   <span class="keywordflow">if</span> ( <a class="code" href="postgres_8php.html#a10">CountSql</a>($this-&gt;cn,<span class="stringliteral">"select * from tva_rate where tva_id="</span>.$value) == 0) 
 <a name="l00606"></a>00606                     {
@@ -495,14 +495,14 @@
 <a name="l00615"></a>00615               $exist=<a class="code" href="postgres_8php.html#a10">CountSql</a>($this-&gt;cn,<span class="stringliteral">"select f_id from fiche join fiche_def using (fd_id) "</span>.
 <a name="l00616"></a>00616                               <span class="stringliteral">" join jnt_fic_att_value using (f_id) join attr_value using (jft_id) "</span>.
 <a name="l00617"></a>00617                               <span class="stringliteral">" where frd_id in (8,9,14) and ad_id="</span>.ATTR_DEF_QUICKCODE.
-<a name="l00618"></a>00618                               <span class="stringliteral">" and av_text='"</span>.FormatString($<a class="code" href="action_8inc_8php.html#a13">value</a>).<span class="stringliteral">"'"</span>);
+<a name="l00618"></a>00618                               <span class="stringliteral">" and av_text='"</span>.FormatString($<a class="code" href="action_8inc_8php.html#a16">value</a>).<span class="stringliteral">"'"</span>);
 <a name="l00619"></a>00619               <span class="keywordflow">if</span> ( $exist == 0 ) 
 <a name="l00620"></a>00620                 {
 <a name="l00621"></a>00621                   $value=<span class="stringliteral">"Attention : pas de société  "</span>;
 <a name="l00622"></a>00622                 }
 <a name="l00623"></a>00623             }
 <a name="l00624"></a>00624           <span class="comment">// Normal traitement</span>
-<a name="l00625"></a>00625           $value2=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($<a class="code" href="action_8inc_8php.html#a13">value</a>);
+<a name="l00625"></a>00625           $value2=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($<a class="code" href="action_8inc_8php.html#a16">value</a>);
 <a name="l00626"></a>00626 
 <a name="l00627"></a>00627           <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=sprintf(<span class="stringliteral">"select attribut_insert(%d,%d,'%s')"</span>,
 <a name="l00628"></a>00628                        $fiche_id,$<span class="keywordtype">id</span>,$value2);
@@ -519,10 +519,10 @@
 <a name="l00642"></a><a class="code" href="classfiche.html#a13">00642</a>  function <a class="code" href="classfiche.html#a13">update</a>() 
 <a name="l00643"></a>00643      {
 <a name="l00644"></a>00644        <span class="comment">// parse the $_POST array</span>
-<a name="l00645"></a>00645        foreach ($_POST as $<a class="code" href="action_8inc_8php.html#a12">name</a>=&gt;$<a class="code" href="action_8inc_8php.html#a13">value</a> ) 
+<a name="l00645"></a>00645        foreach ($_POST as $<a class="code" href="action_8inc_8php.html#a15">name</a>=&gt;$<a class="code" href="action_8inc_8php.html#a16">value</a> ) 
 <a name="l00646"></a>00646          {
 <a name="l00647"></a>00647            <a class="code" href="debug_8php.html#a0">echo_debug</a> (<span class="stringliteral">"class_fiche"</span>,__LINE__,<span class="stringliteral">"Name = $name value $value"</span>) ;
-<a name="l00648"></a>00648            list ($<span class="keywordtype">id</span>) = sscanf ($<a class="code" href="action_8inc_8php.html#a12">name</a>,<span class="stringliteral">"av_text%d"</span>);
+<a name="l00648"></a>00648            list ($<span class="keywordtype">id</span>) = sscanf ($<a class="code" href="action_8inc_8php.html#a15">name</a>,<span class="stringliteral">"av_text%d"</span>);
 <a name="l00649"></a>00649            <span class="keywordflow">if</span> ( $<span class="keywordtype">id</span> == null ) <span class="keywordflow">continue</span>;
 <a name="l00650"></a>00650            <a class="code" href="debug_8php.html#a0">echo_debug</a>(<span class="stringliteral">"class_fiche"</span>,__LINE__,<span class="stringliteral">"modify $id"</span>);
 <a name="l00651"></a>00651            
@@ -542,7 +542,7 @@
 <a name="l00665"></a>00665              {
 <a name="l00666"></a>00666                <a class="code" href="debug_8php.html#a0">echo_debug</a>(<span class="stringliteral">"Modify ATTR_DEF_QUICKCODE"</span>);
 <a name="l00667"></a>00667                <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=sprintf(<span class="stringliteral">"select update_quick_code(%d,'%s')"</span>,
-<a name="l00668"></a>00668                             $jft_id,<a class="code" href="ac__common_8php.html#a9">FormatString</a>($<a class="code" href="action_8inc_8php.html#a13">value</a>));
+<a name="l00668"></a>00668                             $jft_id,<a class="code" href="ac__common_8php.html#a9">FormatString</a>($<a class="code" href="action_8inc_8php.html#a16">value</a>));
 <a name="l00669"></a>00669                <a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;cn,$sql);
 <a name="l00670"></a>00670                <span class="keywordflow">continue</span>;
 <a name="l00671"></a>00671              }
@@ -550,7 +550,7 @@
 <a name="l00673"></a>00673            <span class="keywordflow">if</span> ( $<span class="keywordtype">id</span> == <a class="code" href="constant_8php.html#a51">ATTR_DEF_NAME</a> ) 
 <a name="l00674"></a>00674              {
 <a name="l00675"></a>00675                <a class="code" href="debug_8php.html#a0">echo_debug</a>(<span class="stringliteral">"Modify ATTR_DEF_NAME"</span>);
-<a name="l00676"></a>00676                <span class="keywordflow">if</span> ( strlen(trim($<a class="code" href="action_8inc_8php.html#a13">value</a>)) == 0 )
+<a name="l00676"></a>00676                <span class="keywordflow">if</span> ( strlen(trim($<a class="code" href="action_8inc_8php.html#a16">value</a>)) == 0 )
 <a name="l00677"></a>00677                  <span class="keywordflow">continue</span>;
 <a name="l00678"></a>00678                
 <a name="l00679"></a>00679              }
@@ -558,7 +558,7 @@
 <a name="l00681"></a>00681            <span class="keywordflow">if</span> ( $<span class="keywordtype">id</span> == <a class="code" href="constant_8php.html#a50">ATTR_DEF_ACCOUNT</a> ) 
 <a name="l00682"></a>00682              {
 <a name="l00683"></a>00683                <a class="code" href="debug_8php.html#a0">echo_debug</a>(<span class="stringliteral">"Modify ATTR_DEF_ACCOUNT"</span>);
-<a name="l00684"></a>00684                $v=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($<a class="code" href="action_8inc_8php.html#a13">value</a>);
+<a name="l00684"></a>00684                $v=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($<a class="code" href="action_8inc_8php.html#a16">value</a>);
 <a name="l00685"></a>00685                <span class="keywordflow">if</span> ( <a class="code" href="ac__common_8php.html#a2">isNumber</a>($v) == 1 )
 <a name="l00686"></a>00686                  {
 <a name="l00687"></a>00687                    <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=sprintf(<span class="stringliteral">"select account_update(%d,%d)"</span>,
@@ -578,7 +578,7 @@
 <a name="l00701"></a>00701              {
 <a name="l00702"></a>00702                <a class="code" href="debug_8php.html#a0">echo_debug</a>(<span class="stringliteral">"Modify ATTR_DEF_TVA"</span>);
 <a name="l00703"></a>00703                <span class="comment">// Verify if the rate exists, if not then do not update</span>
-<a name="l00704"></a>00704                <span class="keywordflow">if</span> ( strlen(trim($<a class="code" href="action_8inc_8php.html#a13">value</a>)) != 0 ) 
+<a name="l00704"></a>00704                <span class="keywordflow">if</span> ( strlen(trim($<a class="code" href="action_8inc_8php.html#a16">value</a>)) != 0 ) 
 <a name="l00705"></a>00705                  {
 <a name="l00706"></a>00706                    <span class="keywordflow">if</span> ( <a class="code" href="postgres_8php.html#a10">CountSql</a>($this-&gt;cn,<span class="stringliteral">"select * from tva_rate where tva_id="</span>.$value) == 0) 
 <a name="l00707"></a>00707                      {
@@ -592,7 +592,7 @@
 <a name="l00715"></a>00715                $exist=<a class="code" href="postgres_8php.html#a10">CountSql</a>($this-&gt;cn,<span class="stringliteral">"select f_id from fiche join fiche_def using (fd_id) "</span>.
 <a name="l00716"></a>00716                                <span class="stringliteral">" join jnt_fic_att_value using (f_id) join attr_value using (jft_id) "</span>.
 <a name="l00717"></a>00717                                <span class="stringliteral">" where frd_id in (8,9,14) and ad_id="</span>.ATTR_DEF_QUICKCODE.
-<a name="l00718"></a>00718                                <span class="stringliteral">" and av_text='"</span>.FormatString($<a class="code" href="action_8inc_8php.html#a13">value</a>).<span class="stringliteral">"'"</span>);
+<a name="l00718"></a>00718                                <span class="stringliteral">" and av_text='"</span>.FormatString($<a class="code" href="action_8inc_8php.html#a16">value</a>).<span class="stringliteral">"'"</span>);
 <a name="l00719"></a>00719  
 <a name="l00720"></a>00720  
 <a name="l00721"></a>00721                <span class="keywordflow">if</span> ( $exist == 0 ) 
@@ -602,7 +602,7 @@
 <a name="l00725"></a>00725              }
 <a name="l00726"></a>00726            
 <a name="l00727"></a>00727            <span class="comment">// Normal traitement</span>
-<a name="l00728"></a>00728            $value2=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($<a class="code" href="action_8inc_8php.html#a13">value</a>);
+<a name="l00728"></a>00728            $value2=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($<a class="code" href="action_8inc_8php.html#a16">value</a>);
 <a name="l00729"></a>00729            <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=sprintf(<span class="stringliteral">"update attr_value set av_text='%s' where jft_id=%d"</span>,
 <a name="l00730"></a>00730                         $value2,$jft_id);
 <a name="l00731"></a>00731            <a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;cn,$sql);
@@ -649,7 +649,7 @@
 <a name="l00783"></a>00783     }
 <a name="l00784"></a>00784 }
 <a name="l00785"></a>00785 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Wed Jun 28 02:07:23 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 00:04:07 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

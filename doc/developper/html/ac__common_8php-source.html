@@ -193,16 +193,16 @@
 <a name="l00286"></a>00286   <span class="keywordflow">if</span> ( $max==0) <span class="keywordflow">return</span> null;
 <a name="l00287"></a>00287   <span class="keywordflow">for</span> ($i=0;$i&lt;$max;$i++) {
 <a name="l00288"></a>00288     <a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>=pg_fetch_row($a);
-<a name="l00289"></a>00289     <a class="code" href="user__action__ach_8php.html#a2">$r</a>[<a class="code" href="balance_8php.html#a12">$i</a>]['<a class="code" href="action_8inc_8php.html#a13">value</a>']=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>[0];
+<a name="l00289"></a>00289     <a class="code" href="user__action__ach_8php.html#a2">$r</a>[<a class="code" href="balance_8php.html#a12">$i</a>]['<a class="code" href="action_8inc_8php.html#a16">value</a>']=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>[0];
 <a name="l00290"></a>00290     <a class="code" href="user__action__ach_8php.html#a2">$r</a>[<a class="code" href="balance_8php.html#a12">$i</a>]['<a class="code" href="balance_8php.html#a6">label</a>']=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>[1];
 <a name="l00291"></a>00291   }
 <a name="l00292"></a>00292   <span class="comment">// add a blank item ?</span>
 <a name="l00293"></a>00293   <span class="keywordflow">if</span> ( $p_null == 1 ) {
 <a name="l00294"></a>00294   <span class="keywordflow">for</span> ($i=$max;$i!=0;$i--) {
-<a name="l00295"></a>00295     <a class="code" href="user__action__ach_8php.html#a2">$r</a>[<a class="code" href="balance_8php.html#a12">$i</a>]['<a class="code" href="action_8inc_8php.html#a13">value</a>']=    <a class="code" href="user__action__ach_8php.html#a2">$r</a>[<a class="code" href="balance_8php.html#a12">$i</a>-1]['<a class="code" href="action_8inc_8php.html#a13">value</a>'];
+<a name="l00295"></a>00295     <a class="code" href="user__action__ach_8php.html#a2">$r</a>[<a class="code" href="balance_8php.html#a12">$i</a>]['<a class="code" href="action_8inc_8php.html#a16">value</a>']=    <a class="code" href="user__action__ach_8php.html#a2">$r</a>[<a class="code" href="balance_8php.html#a12">$i</a>-1]['<a class="code" href="action_8inc_8php.html#a16">value</a>'];
 <a name="l00296"></a>00296     <a class="code" href="user__action__ach_8php.html#a2">$r</a>[<a class="code" href="balance_8php.html#a12">$i</a>]['<a class="code" href="balance_8php.html#a6">label</a>']=    <a class="code" href="user__action__ach_8php.html#a2">$r</a>[<a class="code" href="balance_8php.html#a12">$i</a>-1]['<a class="code" href="balance_8php.html#a6">label</a>'];
 <a name="l00297"></a>00297   }
-<a name="l00298"></a>00298   <a class="code" href="user__action__ach_8php.html#a2">$r</a>[0]['<a class="code" href="action_8inc_8php.html#a13">value</a>']=-1;
+<a name="l00298"></a>00298   <a class="code" href="user__action__ach_8php.html#a2">$r</a>[0]['<a class="code" href="action_8inc_8php.html#a16">value</a>']=-1;
 <a name="l00299"></a>00299   <a class="code" href="user__action__ach_8php.html#a2">$r</a>[0]['<a class="code" href="balance_8php.html#a6">label</a>']=<span class="stringliteral">" "</span>;
 <a name="l00300"></a>00300   } <span class="comment">//   if ( $p_null == 1 ) </span>
 <a name="l00301"></a>00301 
@@ -244,7 +244,7 @@
 <a name="l00375"></a>00375   <span class="keywordflow">return</span> $p_html;
 <a name="l00376"></a>00376 }
 <a name="l00377"></a>00377 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Wed Jun 28 02:07:23 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 00:04:07 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

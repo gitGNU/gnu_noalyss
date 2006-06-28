@@ -204,8 +204,8 @@
 <a name="l00227"></a>00227 
 <a name="l00228"></a>00228   $ch_col=<span class="stringliteral">"&lt;/TD&gt;&lt;TD&gt;"</span>;
 <a name="l00229"></a>00229   $ch_li='&lt;/TR&gt;&lt;TR&gt;';
-<a name="l00230"></a>00230   echo '&lt;<a class="code" href="constant_8php.html#a7">FORM</a> <a class="code" href="classaction.html">action</a>=<span class="stringliteral">"fiche.php"</span> method=<span class="stringliteral">"post"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"fiche"</span>&gt;';
-<a name="l00231"></a>00231   echo '&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"fiche"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"'.$p_type.'"</span>&gt;';
+<a name="l00230"></a>00230   echo '&lt;<a class="code" href="constant_8php.html#a7">FORM</a> <a class="code" href="classaction.html">action</a>=<span class="stringliteral">"fiche.php"</span> method=<span class="stringliteral">"post"</span> <a class="code" href="action_8inc_8php.html#a15">name</a>=<span class="stringliteral">"fiche"</span>&gt;';
+<a name="l00231"></a>00231   echo '&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> <a class="code" href="action_8inc_8php.html#a15">name</a>=<span class="stringliteral">"fiche"</span> <a class="code" href="action_8inc_8php.html#a16">value</a>=<span class="stringliteral">"'.$p_type.'"</span>&gt;';
 <a name="l00232"></a>00232   $l_sessid=$_REQUEST['PHPSESSID'];
 <a name="l00233"></a>00233 
 <a name="l00234"></a>00234   echo <a class="code" href="constant_8php.html#a75">JS_SHOW_TVA</a>;
@@ -225,12 +225,12 @@
 <a name="l00248"></a>00248     <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
 <a name="l00249"></a>00249     <a class="code" href="setup_8php.html#a11">$Max</a>=pg_NumRows($Res);
 <a name="l00250"></a>00250     <span class="comment">// Put the card modele id (fiche_def.fd_id)</span>
-<a name="l00251"></a>00251     echo '&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"fd_id"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"'.$p_type.'"</span>&gt;';
+<a name="l00251"></a>00251     echo '&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> <a class="code" href="action_8inc_8php.html#a15">name</a>=<span class="stringliteral">"fd_id"</span> <a class="code" href="action_8inc_8php.html#a16">value</a>=<span class="stringliteral">"'.$p_type.'"</span>&gt;';
 <a name="l00252"></a>00252     <span class="keywordflow">for</span> ($i=0;$i &lt; $Max;$i++) {
 <a name="l00253"></a>00253       <a class="code" href="jrn__detail_8php.html#a11">$l_line</a>=pg_fetch_array($Res,$i);
 <a name="l00254"></a>00254 
 <a name="l00255"></a>00255       <span class="comment">// The number of the attribute</span>
-<a name="l00256"></a>00256       $Hid=sprintf('&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"ad_id%d"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"%s"</span>&gt;',
+<a name="l00256"></a>00256       $Hid=sprintf('&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> <a class="code" href="action_8inc_8php.html#a15">name</a>=<span class="stringliteral">"ad_id%d"</span> <a class="code" href="action_8inc_8php.html#a16">value</a>=<span class="stringliteral">"%s"</span>&gt;',
 <a name="l00257"></a>00257                    $i,$l_line['ad_id']);
 <a name="l00258"></a>00258 
 <a name="l00259"></a>00259       $but_search_poste=<span class="stringliteral">""</span>;
@@ -249,8 +249,8 @@
 <a name="l00272"></a>00272    }
 <a name="l00273"></a>00273     echo '&lt;/TR&gt;';
 <a name="l00274"></a>00274     echo '&lt;/TABLE&gt;';
-<a name="l00275"></a>00275     echo '&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"inc"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"'.$Max.'"</span>&gt;';
-<a name="l00276"></a>00276     echo '&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"add_fiche"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"ajoute"</span>&gt;';
+<a name="l00275"></a>00275     echo '&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> <a class="code" href="action_8inc_8php.html#a15">name</a>=<span class="stringliteral">"inc"</span> <a class="code" href="action_8inc_8php.html#a16">value</a>=<span class="stringliteral">"'.$Max.'"</span>&gt;';
+<a name="l00276"></a>00276     echo '&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> <a class="code" href="action_8inc_8php.html#a15">name</a>=<span class="stringliteral">"add_fiche"</span> <a class="code" href="action_8inc_8php.html#a16">value</a>=<span class="stringliteral">"ajoute"</span>&gt;';
 <a name="l00277"></a>00277     echo '&lt;/<a class="code" href="constant_8php.html#a7">FORM</a>&gt;';
 <a name="l00278"></a>00278   }<span class="keywordflow">else</span> {
 <a name="l00279"></a>00279     <span class="comment">// Array is not null so we have to find the card's data from the database</span>
@@ -270,9 +270,9 @@
 <a name="l00293"></a>00293     <a class="code" href="setup_8php.html#a11">$Max</a>=pg_NumRows($Res);
 <a name="l00294"></a>00294     <a class="code" href="debug_8php.html#a0">echo_debug</a>('fiche_inc.php',__LINE__,<span class="stringliteral">"Max ==== $Max"</span>);    
 <a name="l00295"></a>00295 
-<a name="l00296"></a>00296     echo '&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"f_id"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"'.$p_type.'"</span>&gt;';
-<a name="l00297"></a>00297     echo '&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"f_label"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"'.$label.'"</span>&gt;';
-<a name="l00298"></a>00298     echo '&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"max"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"'.$Max.'"</span>&gt;';
+<a name="l00296"></a>00296     echo '&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> <a class="code" href="action_8inc_8php.html#a15">name</a>=<span class="stringliteral">"f_id"</span> <a class="code" href="action_8inc_8php.html#a16">value</a>=<span class="stringliteral">"'.$p_type.'"</span>&gt;';
+<a name="l00297"></a>00297     echo '&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> <a class="code" href="action_8inc_8php.html#a15">name</a>=<span class="stringliteral">"f_label"</span> <a class="code" href="action_8inc_8php.html#a16">value</a>=<span class="stringliteral">"'.$label.'"</span>&gt;';
+<a name="l00298"></a>00298     echo '&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> <a class="code" href="action_8inc_8php.html#a15">name</a>=<span class="stringliteral">"max"</span> <a class="code" href="action_8inc_8php.html#a16">value</a>=<span class="stringliteral">"'.$Max.'"</span>&gt;';
 <a name="l00299"></a>00299 
 <a name="l00300"></a>00300     <span class="keywordflow">for</span> ($i=0;$i &lt; $Max;$i++) {
 <a name="l00301"></a>00301       <span class="comment">// fetch the data</span>
@@ -283,7 +283,7 @@
 <a name="l00306"></a>00306 
 <a name="l00307"></a>00307       $but_search_poste=<span class="stringliteral">""</span>;
 <a name="l00308"></a>00308       <span class="keywordflow">if</span> ( $l_line['ad_id'] == <a class="code" href="constant_8php.html#a50">ATTR_DEF_ACCOUNT</a> ) {
-<a name="l00309"></a>00309         printf('&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"class"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"%s"</span>&gt;',
+<a name="l00309"></a>00309         printf('&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> <a class="code" href="action_8inc_8php.html#a15">name</a>=<span class="stringliteral">"class"</span> <a class="code" href="action_8inc_8php.html#a16">value</a>=<span class="stringliteral">"%s"</span>&gt;',
 <a name="l00310"></a>00310                $l_line['av_text']);
 <a name="l00311"></a>00311       <span class="comment">// Javascript for searching the account</span>
 <a name="l00312"></a>00312         $ctl_name=<span class="stringliteral">"av_text$i"</span>;
@@ -296,11 +296,11 @@
 <a name="l00319"></a>00319       }
 <a name="l00320"></a>00320       
 <a name="l00321"></a>00321       <span class="comment">// hide ad_id</span>
-<a name="l00322"></a>00322       $ad=sprintf('&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"ad_id%d"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"%s"</span>&gt;',
+<a name="l00322"></a>00322       $ad=sprintf('&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a15">name</a>=<span class="stringliteral">"ad_id%d"</span> <a class="code" href="action_8inc_8php.html#a16">value</a>=<span class="stringliteral">"%s"</span>&gt;',
 <a name="l00323"></a>00323                   $l_line['ad_id'],$l_line['av_text']);
 <a name="l00324"></a>00324       
 <a name="l00325"></a>00325       <span class="comment">// in hidden we put the jft_id</span>
-<a name="l00326"></a>00326       $Hid=sprintf('&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"jft_id%d"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"%s"</span>&gt;',
+<a name="l00326"></a>00326       $Hid=sprintf('&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> <a class="code" href="action_8inc_8php.html#a15">name</a>=<span class="stringliteral">"jft_id%d"</span> <a class="code" href="action_8inc_8php.html#a16">value</a>=<span class="stringliteral">"%s"</span>&gt;',
 <a name="l00327"></a>00327                    $i,$l_line['jft_id']);
 <a name="l00328"></a>00328       printf ('&lt;TR&gt;&lt;TD&gt; %s &lt;/TD&gt;&lt;TD&gt;&lt;INPUT TYPE=<span class="stringliteral">"TEXT"</span> NAME=<span class="stringliteral">"av_text%d"</span> VALUE=<span class="stringliteral">"%s"</span>&gt;%s %s %s&lt;/TD&gt;&lt;/TR&gt;',
 <a name="l00329"></a>00329               $l_line['ad_text'], $i, $l_line['av_text'],$Hid,$but_search_poste,$ad);
@@ -308,7 +308,7 @@
 <a name="l00331"></a>00331     }
 <a name="l00332"></a>00332     echo '&lt;/TR&gt;';
 <a name="l00333"></a>00333     echo '&lt;/TABLE&gt;';
-<a name="l00334"></a>00334     echo '&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"update_fiche"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"Mis à jour"</span>&gt;';
+<a name="l00334"></a>00334     echo '&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> <a class="code" href="action_8inc_8php.html#a15">name</a>=<span class="stringliteral">"update_fiche"</span> <a class="code" href="action_8inc_8php.html#a16">value</a>=<span class="stringliteral">"Mis à jour"</span>&gt;';
 <a name="l00335"></a>00335     echo '&lt;/<a class="code" href="constant_8php.html#a7">FORM</a>&gt;';
 <a name="l00336"></a>00336   }
 <a name="l00337"></a>00337 }
@@ -376,8 +376,8 @@
 <a name="l00439"></a>00439     }
 <a name="l00440"></a>00440     echo '&lt;/table&gt;';
 <a name="l00441"></a>00441     echo '&lt;<a class="code" href="constant_8php.html#a7">FORM</a> <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"POST"</span> <a class="code" href="classaction.html">action</a>=<span class="stringliteral">"fiche.php"</span>&gt;';
-<a name="l00442"></a>00442     echo '&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"fiche"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"'.$p_type.'"</span>&gt;';
-<a name="l00443"></a>00443     echo '&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"add"</span> Value=<span class="stringliteral">"Ajout fiche"</span>&gt;';
+<a name="l00442"></a>00442     echo '&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> <a class="code" href="action_8inc_8php.html#a15">name</a>=<span class="stringliteral">"fiche"</span> <a class="code" href="action_8inc_8php.html#a16">value</a>=<span class="stringliteral">"'.$p_type.'"</span>&gt;';
+<a name="l00443"></a>00443     echo '&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> <a class="code" href="action_8inc_8php.html#a15">name</a>=<span class="stringliteral">"add"</span> Value=<span class="stringliteral">"Ajout fiche"</span>&gt;';
 <a name="l00444"></a>00444     echo '&lt;/<a class="code" href="constant_8php.html#a7">FORM</a>&gt;';
 <a name="l00445"></a>00445     echo $bar;
 <a name="l00446"></a>00446 
@@ -550,7 +550,7 @@
 <a name="l00669"></a>00669   echo '&lt;BR&gt;Classe de base &lt;INPUT TYPE=<span class="stringliteral">"TEXT"</span> NAME=<span class="stringliteral">"class_base"</span>&gt;';
 <a name="l00670"></a>00670   echo $p_js;
 <a name="l00671"></a>00671   echo '&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> NAME=<span class="stringliteral">"inc"</span> VALUE=<span class="stringliteral">"1"</span>&gt;';
-<a name="l00672"></a>00672   echo '&lt;BR&gt;&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"record_model"</span> VALUE=<span class="stringliteral">"Ajoute modèle"</span>&gt;';
+<a name="l00672"></a>00672   echo '&lt;BR&gt;&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> <a class="code" href="action_8inc_8php.html#a15">name</a>=<span class="stringliteral">"record_model"</span> VALUE=<span class="stringliteral">"Ajoute modèle"</span>&gt;';
 <a name="l00673"></a>00673   echo '&lt;/<a class="code" href="constant_8php.html#a7">FORM</a>&gt;';
 <a name="l00674"></a>00674 }
 <a name="l00689"></a><a class="code" href="fiche__inc_8php.html#a9">00689</a> function <a class="code" href="fiche__inc_8php.html#a9">DefModele</a> ($p_cn,$p_js,$p_array=null,$p_ligne=1) 
@@ -1042,7 +1042,7 @@
 <a name="l01406"></a>01406     <span class="keywordflow">if</span> ( ${<span class="stringliteral">"ad_id$i"</span>} == <a class="code" href="constant_8php.html#a51">ATTR_DEF_NAME</a> ) {
 <a name="l01407"></a>01407       printf('Label&lt;/TD&gt;&lt;TD&gt;&lt;INPUT TYPE=<span class="stringliteral">"TEXT"</span> NAME=<span class="stringliteral">"label"</span> VALUE=<span class="stringliteral">"%s"</span>&gt;',
 <a name="l01408"></a>01408              $<a class="code" href="balance_8php.html#a6">label</a>);
-<a name="l01409"></a>01409       printf('&lt;/td&gt;&lt;TD&gt;&lt;input type=<span class="stringliteral">"submit"</span> NAME=<span class="stringliteral">"change_name"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"Change Nom"</span>&gt;');
+<a name="l01409"></a>01409       printf('&lt;/td&gt;&lt;TD&gt;&lt;input type=<span class="stringliteral">"submit"</span> NAME=<span class="stringliteral">"change_name"</span> <a class="code" href="action_8inc_8php.html#a16">value</a>=<span class="stringliteral">"Change Nom"</span>&gt;');
 <a name="l01410"></a>01410     } <span class="keywordflow">else</span> {
 <a name="l01411"></a>01411       <span class="comment">// The attr.</span>
 <a name="l01412"></a>01412       printf('%s ',
@@ -1150,7 +1150,7 @@
 <a name="l01556"></a>01556     <span class="keywordflow">return</span> 1;
 <a name="l01557"></a>01557 }
 <a name="l01558"></a>01558 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Wed Jun 28 02:07:23 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 00:04:07 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

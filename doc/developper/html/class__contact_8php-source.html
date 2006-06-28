@@ -86,9 +86,9 @@
 <a name="l00094"></a>00094       $and=<span class="stringliteral">"?"</span>;
 <a name="l00095"></a>00095       $get=$_GET;
 <a name="l00096"></a>00096       <span class="keywordflow">if</span> ( isset ($get) ) {
-<a name="l00097"></a>00097         foreach ($get as $<a class="code" href="action_8inc_8php.html#a12">name</a>=&gt;$<a class="code" href="action_8inc_8php.html#a13">value</a> ) {
+<a name="l00097"></a>00097         foreach ($get as $<a class="code" href="action_8inc_8php.html#a15">name</a>=&gt;$<a class="code" href="action_8inc_8php.html#a16">value</a> ) {
 <a name="l00098"></a>00098           <span class="comment">// we clean the parameter offset, step, page and size</span>
-<a name="l00099"></a>00099           <span class="keywordflow">if</span> (  ! in_array($<a class="code" href="action_8inc_8php.html#a12">name</a>,array('<a class="code" href="facture_8inc_8php.html#a19">f_id</a><span class="charliteral">','</span>detail'))) {
+<a name="l00099"></a>00099           <span class="keywordflow">if</span> (  ! in_array($<a class="code" href="action_8inc_8php.html#a15">name</a>,array('<a class="code" href="facture_8inc_8php.html#a19">f_id</a><span class="charliteral">','</span>detail'))) {
 <a name="l00100"></a>00100             <a class="code" href="admin_8inc_8php.html#a3">$url</a>.=$and.$name.<span class="stringliteral">"="</span>.$value;
 <a name="l00101"></a>00101             $and=<span class="stringliteral">"&amp;"</span>;
 <a name="l00102"></a>00102           }<span class="comment">// if</span>
@@ -129,7 +129,7 @@
 <a name="l00137"></a>00137     }
 <a name="l00138"></a>00138 
 <a name="l00139"></a>00139 }
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Wed Jun 28 02:07:23 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 00:04:07 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

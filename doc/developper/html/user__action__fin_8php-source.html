@@ -109,8 +109,8 @@
 <a name="l00104"></a>00104         <span class="comment">// View the charge and show a submit button to save it </span>
 <a name="l00105"></a>00105         <span class="keywordflow">if</span> ( isset ($_POST['view_invoice']) ) {
 <a name="l00106"></a>00106         <a class="code" href="bank_8inc_8php.html#a21">$nb_number</a>=$_POST[<span class="stringliteral">"nb_item"</span>];
-<a name="l00107"></a>00107         <a class="code" href="bank_8inc_8php.html#a19">$submit</a>='&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"save"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"Confirmer"</span>&gt;';
-<a name="l00108"></a>00108         <a class="code" href="bank_8inc_8php.html#a19">$submit</a>.='&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> <a class="code" href="action_8inc_8php.html#a12">name</a>=<span class="stringliteral">"correct"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"Corriger"</span>&gt;';
+<a name="l00107"></a>00107         <a class="code" href="bank_8inc_8php.html#a19">$submit</a>='&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> <a class="code" href="action_8inc_8php.html#a15">name</a>=<span class="stringliteral">"save"</span> <a class="code" href="action_8inc_8php.html#a16">value</a>=<span class="stringliteral">"Confirmer"</span>&gt;';
+<a name="l00108"></a>00108         <a class="code" href="bank_8inc_8php.html#a19">$submit</a>.='&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> <a class="code" href="action_8inc_8php.html#a15">name</a>=<span class="stringliteral">"correct"</span> <a class="code" href="action_8inc_8php.html#a16">value</a>=<span class="stringliteral">"Corriger"</span>&gt;';
 <a name="l00109"></a>00109         <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="user__form__ach_8php.html#a1">form_verify_input</a>($cn,$_GET['p_jrn'],$User-&gt;GetPeriode(),$HTTP_POST_VARS,<a class="code" href="bank_8inc_8php.html#a21">$nb_number</a>);
 <a name="l00110"></a>00110         <span class="comment">// if something goes wrong correct it</span>
 <a name="l00111"></a>00111         <span class="keywordflow">if</span> ( $r == null ) 
@@ -256,7 +256,7 @@
 <a name="l00251"></a>00251 
 <a name="l00252"></a>00252 
 <a name="l00253"></a>00253 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Wed Jun 28 02:07:23 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 00:04:08 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

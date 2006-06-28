@@ -38,7 +38,7 @@
 <a name="l00036"></a>00036   <span class="comment">//Constructor parameter = database connexion</span>
 <a name="l00037"></a><a class="code" href="classDocument__modele.html#a0">00037</a>   function <a class="code" href="classDocument__modele.html#a0">Document_modele</a>($p_cn,$p_id=-1) {
 <a name="l00038"></a>00038     $this-&gt;cn=$p_cn;    
-<a name="l00039"></a>00039     $this-&gt;<a class="code" href="action_8inc_8php.html#a15">md_id</a>=<a class="code" href="user__update_8php.html#a1">$p_id</a>;
+<a name="l00039"></a>00039     $this-&gt;<a class="code" href="action_8inc_8php.html#a17">md_id</a>=<a class="code" href="user__update_8php.html#a1">$p_id</a>;
 <a name="l00040"></a>00040   }
 <a name="l00041"></a>00041   
 <a name="l00049"></a><a class="code" href="classDocument__modele.html#a1">00049</a>   function <a class="code" href="classDocument__modele.html#a1">myList</a>() { 
@@ -63,7 +63,7 @@
 <a name="l00068"></a>00068       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/td&gt;"</span>;
 <a name="l00069"></a>00069       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TD&gt;"</span>;
 <a name="l00070"></a>00070       <a class="code" href="admin_8inc_8php.html#a2">$c</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"checkbox"</span>);
-<a name="l00071"></a>00071       <a class="code" href="admin_8inc_8php.html#a2">$c</a>-&gt;name=<span class="stringliteral">"dm_remove_"</span>.$row['<a class="code" href="action_8inc_8php.html#a15">md_id</a>'];
+<a name="l00071"></a>00071       <a class="code" href="admin_8inc_8php.html#a2">$c</a>-&gt;name=<span class="stringliteral">"dm_remove_"</span>.$row['<a class="code" href="action_8inc_8php.html#a17">md_id</a>'];
 <a name="l00072"></a>00072       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="admin_8inc_8php.html#a2">$c</a>-&gt;IOValue();
 <a name="l00073"></a>00073       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/td&gt;"</span>;
 <a name="l00074"></a>00074       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/tr&gt;"</span>;
@@ -94,8 +94,8 @@
 <a name="l00115"></a>00115         {
 <a name="l00116"></a>00116 
 <a name="l00117"></a>00117           <span class="comment">// insert into the table document_modele</span>
-<a name="l00118"></a>00118           $this-&gt;<a class="code" href="action_8inc_8php.html#a12">name</a>=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($this-&gt;md_name);
-<a name="l00119"></a>00119           $this-&gt;<a class="code" href="action_8inc_8php.html#a15">md_id</a>=<a class="code" href="postgres_8php.html#a13">NextSequence</a>($this-&gt;cn,'document_modele_md_id_seq');
+<a name="l00118"></a>00118           $this-&gt;<a class="code" href="action_8inc_8php.html#a15">name</a>=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($this-&gt;md_name);
+<a name="l00119"></a>00119           $this-&gt;<a class="code" href="action_8inc_8php.html#a17">md_id</a>=<a class="code" href="postgres_8php.html#a13">NextSequence</a>($this-&gt;cn,'document_modele_md_id_seq');
 <a name="l00120"></a>00120           <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=sprintf(<span class="stringliteral">"insert into document_modele(md_id,md_name,md_type) </span>
 <a name="l00121"></a>00121 <span class="stringliteral">                              values (%d,'%s',%d)"</span>,
 <a name="l00122"></a>00122                              $this-&gt;md_id,$this-&gt;name,$this-&gt;md_type);
@@ -140,7 +140,7 @@
 <a name="l00161"></a>00161                     pg_lo_unlink($this-&gt;cn,$old_oid);
 <a name="l00162"></a>00162                 }
 <a name="l00163"></a>00163               <span class="comment">// Load new document</span>
-<a name="l00164"></a>00164               <a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;cn,<span class="stringliteral">"update document_modele set md_lob="</span>.$oid.<span class="stringliteral">", md_mimetype='"</span>.$_FILES['doc']['type'].<span class="stringliteral">"' ,md_filename='"</span>.$_FILES['doc']['<a class="code" href="action_8inc_8php.html#a12">name</a>'].<span class="stringliteral">"' where md_id="</span>.$this-&gt;md_id);
+<a name="l00164"></a>00164               <a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;cn,<span class="stringliteral">"update document_modele set md_lob="</span>.$oid.<span class="stringliteral">", md_mimetype='"</span>.$_FILES['doc']['type'].<span class="stringliteral">"' ,md_filename='"</span>.$_FILES['doc']['<a class="code" href="action_8inc_8php.html#a15">name</a>'].<span class="stringliteral">"' where md_id="</span>.$this-&gt;md_id);
 <a name="l00165"></a>00165               <a class="code" href="postgres_8php.html#a16">Commit</a>($this-&gt;cn);
 <a name="l00166"></a>00166             }
 <a name="l00167"></a>00167           <span class="keywordflow">else</span> 
@@ -219,7 +219,7 @@
 <a name="l00259"></a>00259       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"Type de document "</span>;
 <a name="l00260"></a>00260       <a class="code" href="admin_8inc_8php.html#a4">$w</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"select"</span>);
 <a name="l00261"></a>00261       <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;name=<span class="stringliteral">"md_type"</span>;
-<a name="l00262"></a>00262       <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;value=<a class="code" href="ac__common_8php.html#a12">make_array</a>($this-&gt;cn,'select <a class="code" href="action_8inc_8php.html#a7">dt_id</a>,dt_value from document_type');
+<a name="l00262"></a>00262       <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;value=<a class="code" href="ac__common_8php.html#a12">make_array</a>($this-&gt;cn,'select <a class="code" href="action_8inc_8php.html#a8">dt_id</a>,dt_value from document_type');
 <a name="l00263"></a>00263       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;IOValue();
 <a name="l00264"></a>00264       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/p&gt;&lt;p&gt;"</span>;
 <a name="l00265"></a>00265       $f=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"file"</span>);
@@ -242,7 +242,7 @@
 <a name="l00282"></a>00282 
 <a name="l00283"></a>00283 }
 <a name="l00284"></a>00284 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Wed Jun 28 02:07:23 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 00:04:07 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>
