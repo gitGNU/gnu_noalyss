@@ -184,13 +184,13 @@
 <a name="l00207"></a>00207         $e_bank_account_label=$a_client['vw_name'].<span class="stringliteral">"  adresse "</span>.$a_client['vw_addr'].<span class="stringliteral">"  "</span>.$a_client['vw_cp'];
 <a name="l00208"></a>00208           }  
 <a name="l00209"></a>00209   <span class="comment">//  search widget</span>
-<a name="l00210"></a>00210     <a class="code" href="action_8inc_8php.html#a14">$W1</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"js_search"</span>);
-<a name="l00211"></a>00211     <a class="code" href="action_8inc_8php.html#a14">$W1</a>-&gt;readonly=$pview_only;
-<a name="l00212"></a>00212     <a class="code" href="action_8inc_8php.html#a14">$W1</a>-&gt;label=<span class="stringliteral">"Banque"</span>;
-<a name="l00213"></a>00213     <a class="code" href="action_8inc_8php.html#a14">$W1</a>-&gt;name=<span class="stringliteral">"e_bank_account"</span>;
-<a name="l00214"></a>00214     <a class="code" href="action_8inc_8php.html#a14">$W1</a>-&gt;value=$e_bank_account;
-<a name="l00215"></a>00215     <a class="code" href="action_8inc_8php.html#a14">$W1</a>-&gt;extra=<a class="code" href="constant_8php.html#a67">FICHE_TYPE_FIN</a>;  <span class="comment">// credits</span>
-<a name="l00216"></a>00216     <a class="code" href="action_8inc_8php.html#a14">$W1</a>-&gt;extra2=<a class="code" href="modify__op_8php.html#a2">$p_jrn</a>;
+<a name="l00210"></a>00210     $W1=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"js_search"</span>);
+<a name="l00211"></a>00211     $W1-&gt;readonly=$pview_only;
+<a name="l00212"></a>00212     $W1-&gt;label=<span class="stringliteral">"Banque"</span>;
+<a name="l00213"></a>00213     $W1-&gt;name=<span class="stringliteral">"e_bank_account"</span>;
+<a name="l00214"></a>00214     $W1-&gt;value=$e_bank_account;
+<a name="l00215"></a>00215     $W1-&gt;extra=<a class="code" href="constant_8php.html#a67">FICHE_TYPE_FIN</a>;  <span class="comment">// credits</span>
+<a name="l00216"></a>00216     $W1-&gt;extra2=<a class="code" href="modify__op_8php.html#a2">$p_jrn</a>;
 <a name="l00217"></a>00217     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TR&gt;"</span>.$W1-&gt;IOValue().<span class="stringliteral">"&lt;/TD&gt;"</span>;
 <a name="l00218"></a>00218 
 <a name="l00219"></a>00219     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/TABLE&gt;"</span>;
@@ -223,7 +223,7 @@
 <a name="l00246"></a>00246   <span class="comment">// Parse each " tiers" </span>
 <a name="l00247"></a>00247     <span class="keywordflow">for</span> ($i=0; $i &lt; $p_item; $i++) {
 <a name="l00248"></a>00248       $tiers=(isset(${<span class="stringliteral">"e_other"</span>.$i}))?${<span class="stringliteral">"e_other"</span>.$i}:<span class="stringliteral">""</span>;
-<a name="l00249"></a>00249       <a class="code" href="action_8inc_8php.html#a19">$tiers_label</a>=<span class="stringliteral">""</span>;
+<a name="l00249"></a>00249       $tiers_label=<span class="stringliteral">""</span>;
 <a name="l00250"></a>00250       $tiers_amount=(isset(${<span class="stringliteral">"e_other$i"</span>.<span class="stringliteral">"_amount"</span>}))?${<span class="stringliteral">"e_other$i"</span>.<span class="stringliteral">"_amount"</span>}:0;
 <a name="l00251"></a>00251   
 <a name="l00252"></a>00252       $tiers_comment=(isset (${<span class="stringliteral">"e_other$i"</span>.<span class="stringliteral">"_comment"</span>}))?${<span class="stringliteral">"e_other$i"</span>.<span class="stringliteral">"_comment"</span>}:<span class="stringliteral">""</span>;
@@ -233,18 +233,18 @@
 <a name="l00256"></a>00256                 <span class="comment">// retrieve the tva label and name</span>
 <a name="l00257"></a>00257                 $a_fiche=GetFicheAttribut($p_cn, $tiers);
 <a name="l00258"></a>00258                 <span class="keywordflow">if</span> ( $a_fiche != null ) {
-<a name="l00259"></a>00259                 <a class="code" href="action_8inc_8php.html#a19">$tiers_label</a>=$a_fiche['vw_name'];
+<a name="l00259"></a>00259                 $tiers_label=$a_fiche['vw_name'];
 <a name="l00260"></a>00260                 }
 <a name="l00261"></a>00261         }
 <a name="l00262"></a>00262     ${<span class="stringliteral">"e_other$i"</span>.<span class="stringliteral">"_amount"</span>}=(isset (${<span class="stringliteral">"e_other$i"</span>.<span class="stringliteral">"_amount"</span>}))?${<span class="stringliteral">"e_other$i"</span>.<span class="stringliteral">"_amount"</span>}:0;
 <a name="l00263"></a>00263 
-<a name="l00264"></a>00264     <a class="code" href="action_8inc_8php.html#a14">$W1</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"js_search"</span>);
-<a name="l00265"></a>00265     <a class="code" href="action_8inc_8php.html#a14">$W1</a>-&gt;label=<span class="stringliteral">""</span>;
-<a name="l00266"></a>00266     <a class="code" href="action_8inc_8php.html#a14">$W1</a>-&gt;name=<span class="stringliteral">"e_other"</span>.$i;
-<a name="l00267"></a>00267     <a class="code" href="action_8inc_8php.html#a14">$W1</a>-&gt;value=$tiers;
-<a name="l00268"></a>00268     <a class="code" href="action_8inc_8php.html#a14">$W1</a>-&gt;extra='cred';  <span class="comment">// credits</span>
-<a name="l00269"></a>00269     <a class="code" href="action_8inc_8php.html#a14">$W1</a>-&gt;extra2=<a class="code" href="modify__op_8php.html#a2">$p_jrn</a>;
-<a name="l00270"></a>00270     <a class="code" href="action_8inc_8php.html#a14">$W1</a>-&gt;readonly=$pview_only;
+<a name="l00264"></a>00264     $W1=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"js_search"</span>);
+<a name="l00265"></a>00265     $W1-&gt;label=<span class="stringliteral">""</span>;
+<a name="l00266"></a>00266     $W1-&gt;name=<span class="stringliteral">"e_other"</span>.$i;
+<a name="l00267"></a>00267     $W1-&gt;value=$tiers;
+<a name="l00268"></a>00268     $W1-&gt;extra='cred';  <span class="comment">// credits</span>
+<a name="l00269"></a>00269     $W1-&gt;extra2=<a class="code" href="modify__op_8php.html#a2">$p_jrn</a>;
+<a name="l00270"></a>00270     $W1-&gt;readonly=$pview_only;
 <a name="l00271"></a>00271     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TR&gt;"</span>.$W1-&gt;IOValue().<span class="stringliteral">"&lt;/TD&gt;"</span>;
 <a name="l00272"></a>00272     <span class="comment">// label</span>
 <a name="l00273"></a>00273     $other=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"span"</span>);
@@ -389,7 +389,7 @@
 <a name="l00429"></a>00429   <span class="keywordflow">return</span> $internal_code;
 <a name="l00430"></a>00430 }
 <a name="l00431"></a>00431 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Jun 27 01:39:28 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Wed Jun 28 02:07:24 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

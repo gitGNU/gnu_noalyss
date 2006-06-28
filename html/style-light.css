@@ -246,8 +246,8 @@ a.mtitle {
 a.mtitle:hover {
   text-decoration:none;
   display:block;
-  background-color:yellow;
-
+  background-color:darkblue;
+  color:white;
 }
 a.cell {
   text-decoration:none;
@@ -356,7 +356,8 @@ div.u_redcontent a.mtitle {
 div.u_redcontent a.mtitle:hover {
   text-decoration:none;
   display:inline;
-  background-color:yellow;
+  color:white;
+  background-color:darkblue;
 
 
 }
@@ -371,25 +372,37 @@ div.u_content a.mtitle {
 div.u_content a.mtitle:hover {
   text-decoration:none;
   display:inline;
-  background-color:yellow;
+  background-color:darkblue;
+  color:white;
 
 
 }
-div.u_redcontent input {
+div.u_redcontent input.text {
    font-family:sans-serif;
-  font-weight:bold;
+  font-weight:normal;
   border-color:336699;
   border-style:solid;
+  background-color:white;  
   border-width:1px;
   color:blue; 
 }
-div.u_content input {
+div.u_content input.text {
    font-family:sans-serif;
-  font-weight:bold;
+  font-weight:normal;
   border-color:336699;
   border-style:solid;
   border-width:1px;
+  background-color:white;
   color:blue; 
 }
 
+div.u_redcontent input:focus {
+  background-color:fff6aa;
+}
+div.u_content input:focus {
+  background-color:fff6aa;
+}
+div.u_redcontent textarea:focus{
+background-color: orange;
+}
 /* </style> */

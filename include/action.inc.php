@@ -21,12 +21,13 @@
 /*! \file
  * \brief Page who manage the different action (meeting, letter)
  */
-
+var_dump($_POST);
 //-----------------------------------------------------
 // Action
 //-----------------------------------------------------
 require_once("class_widget.php");
 require_once("class_action.php");
+
 /*!\brief Show the list of action, this code should be common
  *        to several webpage. But for the moment we keep like that
  *        because it is used only by this file.
@@ -88,7 +89,7 @@ function ShowActionList($cn,$retour,$h_url)
     */
    $query=(isset ($_REQUEST['query']))?"and (ag_title ~* '".FormatString($_REQUEST['query'])."' or ag_ref ='".trim(FormatString($_REQUEST['query']))."')":"";
    $str="";
-   if ( isset($_REQUEST['qcode'] )) 
+   if ( isset($_GET['qcode'] )) 
      {
 
        // verify that qcode is not empty
@@ -116,8 +117,10 @@ if ( $sub_action == "" ) $sub_action="list";
 
 // if correction is asked go to directly to add_action
 if (isset($_POST['corr'] )) 
-     $sub_action="add_action";
-
+{
+  $ag_comment=rawurldecode($_POST['ag_comment']);
+  $sub_action="add_action";
+}
 // if this page is called from another menu (customer, supplier,...)
 // a button back is added
 // TODO add function for generating url, hidden tags...
@@ -136,14 +139,15 @@ if ( $sub_action=="update" )
 
 
   $act=new action($cn);
-  $act->ag_id=$_REQUEST['ag_id'];
+
+  $act->ag_id=$_POST['ag_id'];
   $act->ag_comment=$_POST['ag_comment'];
   $act->ag_timestamp=$_POST['ag_timestamp'];
   $act->d_state=$_POST['d_state'];
   $act->dt_id=(isset($_POST['dt_id']))?$_POST['dt_id']:0;
   $act->qcode=$_POST['qcode'];
   $act->ag_title=$_POST['ag_title'];
-  $act->d_id=$_POST['d_id'];
+  $act->d_id=(isset($_POST['d_id']))?$_POST['d_id']:0;
   if ( $act->Update() == false ) {
     $sub_action="detail";
   } 
@@ -161,11 +165,12 @@ if ( $sub_action=='detail' )
   $act=new action($cn);
   $act->ag_id=$_REQUEST['ag_id'];
   echo $act->get();
-  echo '<form action="commercial.php"  enctype="multipart/form-data"  method="post" >';
-  echo $act->display(false);
+  $act->ag_comment=Decode($act->ag_comment);
+  echo '<form name="RTEDemo" action="commercial.php"  enctype="multipart/form-data"  method="post"  onsubmit="return submitForm();" >';
+  echo JS_SEARCH_CARD;
+  echo $act->display('UPD',false);
   echo '<input type="hidden" name="p_action" value="suivi_courrier">';
   echo '<input type="hidden" name="sa" value="update">';
-  echo '<input type="hidden" name="ag_id" value="'.$_REQUEST['ag_id'].'">';
   $upload=new widget("file");
   $upload->name="file_upload";
   $upload->value="";
@@ -187,101 +192,31 @@ if ( $sub_action == "list" )
 if ( $sub_action == "add_action" ) 
 {
   echo $retour;
-
+  $act=new action($cn);
+  $act->ag_id=0;
+  $act->ag_timestamp=(isset($_POST['ag_timestamp']))?$_POST['ag_timestamp']:"";
+  $act->qcode=isset($_POST['tiers'])?$_REQUEST['tiers']:"";
+  $act->d_id=0;
+  $act->dt_id=isset($_POST['dt_id'])?$_REQUEST['dt_id']:"";
+  $act->d_state=(isset($_POST['d_state']))?$_POST['d_state']:"";
+  $act->ag_ref="";
+  $act->ag_title=(isset($_POST['ag_title']))?$_POST['ag_title']:"";
   echo '<div class="u_redcontent">';
   echo JS_SEARCH_CARD;
   // Add hidden tag
   echo '<form name="RTEDemo" action="commercial.php?p_action=suivi_courrier" method="post" onsubmit="return submitForm();">';
-  echo $h_url;
-  $date=new widget("text");
-  $date->name="ag_timestamp";
-  $date->value=(isset($_POST['ag_timestamp']))?$_POST['ag_timestamp']:"";
-  echo "<p>Date : ";
-  echo $date->IOValue()."</p>";
-  // Tiers
-  $W1=new widget("js_search");
-  $W1->label="Tiers";
-  $W1->name="tiers";
-  $W1->value=isset($_REQUEST['tiers'])?$_REQUEST['tiers']:"";
-  $W1->extra="8,9,14"; // filter on frd_id
-  $W1->extra2=0;      // jrn = 0
-  echo "<div class=\"no\">".$W1->IOValue();
-  $client_label=new widget("span");
-  $tiers_label="";
-  // Retrieve name
-  if ( $W1->value != "" ) 
-    {
-      $tiers=new fiche($cn);
-      $tiers->GetByQCode($W1->value);
-      $tiers_label=$tiers->strAttribut(1);
 
-    }
-  echo $client_label->IOValue("tiers_label",$tiers_label)."</div>";
+  $act->ag_comment=(isset($_POST['ag_comment']))?Decode($_POST['ag_comment']):"";
+  echo $act->Display('NEW',false);
 
-  $doc_type=new widget("select");
-  $doc_type->name="dt_id";
-  $doc_type->value=make_array($cn,"select dt_id,dt_value from document_type where dt_id in (".ACTION.")");
-  echo 'Type d\' action';
-  $doc_type->selected=(isset($_POST['dt_id']))?$_POST['dt_id']:"";
-  echo $doc_type->IOValue();
-
-  // state 
-  $doc_state=new widget("select");
-  $doc_state->name="d_state";
-  $doc_state->value=make_array($cn,"select s_id,s_value from document_state");
-  $doc_state->selected=(isset($_POST['d_state']))?$_POST['d_state']:"";
-  echo "Etat : ".$doc_state->IOValue();
   echo '<input type="hidden" name="p_action" value="suivi_courrier">';
   echo '<input type="hidden" name="sa" value="save_action_st1">';
-  $title=new widget("text");
-  $title->name="ag_title";
-  $title->value=(isset($_POST['ag_title']))?$_POST['ag_title']:"";
-  echo "<p>Titre  : ";
-  echo $title->IOValue()."</p>";
 
-?>
+  echo $h_url;
+  echo '<input type="submit" name="save_action_st1" value="Sauver"></p>'.
+    '</form>'.
+    '</div>';
 
-<? 
-//--------------------------------------------------------------------------------
-// add here for who the action is taken (contact, client or supplier)
-
-?>
-
-
-
-<script language="JavaScript" type="text/javascript">
-<!--
-function submitForm() {
-	//make sure hidden and iframe values are in sync before submitting form
-	//to sync only 1 rte, use updateRTE(rte)
-	//to sync all rtes, use updateRTEs
-	updateRTE('ag_comment');
-	//updateRTE();
-	//change the following line to true to submit form
-	return true;
-}
-
-//Usage: initRTE(imagesPath, includesPath, cssFile)
-initRTE("images/", "", "");
-//-->
-</script>
-<noscript><p><b>Javascript must be enabled to use this form.</b></p></noscript>
-    Note Interne : 
-<script language="JavaScript" type="text/javascript">
-<!--
-//Usage: writeRichText(fieldname, html, width, height, buttons, readOnly)
-    <? $a=(isset($_POST['ag_comment']))?FormatString(urldecode($_POST['ag_comment'])):"";
-
- ?>
-writeRichText('ag_comment', <? printf ("'%s'",$a); ?>, 520, 200, true, false);
-<? echo_debug('action.inc',__LINE__, " A = ".$a); ?>
-//-->
-</script>
-
-<input type="submit" name="save_action_st1" value="Sauver"></p>
-</form>
-</div>
-<?
 }
 //--------------------------------------------------------------------------------
 // Save Action
@@ -290,12 +225,15 @@ writeRichText('ag_comment', <? printf ("'%s'",$a); ?>, 520, 200, true, false);
 if  ( $sub_action == "save_action_st1" ) 
 {
   $act=new action($cn);
+  $act->ag_timestamp=$_POST['ag_timestamp'];
   $act->ag_comment=$_POST['ag_comment'];
   $act->ag_timestamp=$_POST['ag_timestamp'];
   $act->d_state=$_POST['d_state'];
   $act->dt_id=$_POST['dt_id'];
-  $act->qcode=$_POST['tiers'];
+  $act->qcode=$_POST['qcode'];
   $act->ag_title=$_POST['ag_title'];
+  $act->d_id=0;
+  $act->ag_id=$_POST['ag_id'];
   echo $act->Confirm();
 }
 //--------------------------------------------------------------------------------
@@ -305,18 +243,19 @@ if  ( $sub_action == "save_action_st1" )
 if  ( $sub_action == "save_action_st2" ) 
 {
   $act=new action($cn);
+
   $act->ag_comment=$_POST['ag_comment'];
   $act->ag_timestamp=$_POST['ag_timestamp'];
   $act->d_state=$_POST['d_state'];
   $act->dt_id=$_POST['dt_id'];
   $act->qcode=$_POST['tiers'];
   $act->ag_title=$_POST['ag_title'];
-
+  $act->d_id=0;
 
   $act->md_id=(isset($_POST['gen_doc']))?$_POST['gen_doc']:0;
 
   $act->gen=isset($_POST['p_gen'])?'on':'off';
-
+  // insert into action_gestion
   echo $act->SaveStage2();
   echo '<A HREF="commercial.php?p_action=suivi_courrier"><INPUT TYPE="BUTTON" VALUE="Retour Liste"></A>';
 }
@@ -330,6 +269,12 @@ if  ( $sub_action == "save_action_st3" )
   echo_debug("action.inc.php",__LINE__,'Stage 3');
   $act=new action($cn);
   $act->ag_id=$_POST['ag_id'];
+  $act->ag_comment=$_POST['ag_comment'];
+  $act->ag_timestamp=$_POST['ag_timestamp'];
+  $act->d_state=$_POST['d_state'];
+  $act->dt_id=$_POST['dt_id'];
+  $act->qcode=$_POST['qcode'];
+  $act->ag_title=$_POST['ag_title'];
   $d_id=(isset($_POST['d_id']))?$_POST['d_id']:0;
   echo $act->SaveStage3($d_id);
   

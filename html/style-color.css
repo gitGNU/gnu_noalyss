@@ -380,6 +380,34 @@ div.u_content a.mtitle:hover {
 
 
 }
+div.u_redcontent input.text {
+   font-family:sans-serif;
+  font-weight:normal;
+  border-color:336699;
+  border-style:solid;
+  background-color:white;  
+  border-width:1px;
+  color:blue; 
+}
+div.u_content input.text {
+   font-family:sans-serif;
+  font-weight:normal;
+  border-color:336699;
+  border-style:solid;
+  border-width:1px;
+  background-color:white;
+  color:blue; 
+}
+
+div.u_redcontent input:focus {
+  background-color:cfffe4;
+}
+div.u_content input:focus {
+  background-color:cfffe4;
+}
+div.u_redcontent textarea:focus{
+background-color: orange;
+}
 
 
 /* </style> */

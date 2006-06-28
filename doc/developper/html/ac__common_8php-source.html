@@ -157,9 +157,9 @@
 <a name="l00231"></a>00231   <span class="comment">// direction Vertical</span>
 <a name="l00232"></a>00232   <span class="keywordflow">if</span> ( $p_dir == <span class="charliteral">'V'</span>) {
 <a name="l00233"></a>00233     foreach ($p_array as $all=&gt;$href){
-<a name="l00234"></a>00234       <a class="code" href="action_8inc_8php.html#a23">$title</a>=<span class="stringliteral">""</span>;
+<a name="l00234"></a>00234       $title=<span class="stringliteral">""</span>;
 <a name="l00235"></a>00235       <span class="keywordflow">if</span> ( isset ($href[2] )) 
-<a name="l00236"></a>00236         <a class="code" href="action_8inc_8php.html#a23">$title</a>=$href[2];
+<a name="l00236"></a>00236         $title=$href[2];
 <a name="l00237"></a>00237       <a class="code" href="impress__bilan_8php.html#a0">$ret</a>.='&lt;TR&gt;&lt;TD CLASS=<span class="stringliteral">"'.$class.'"</span>&gt;&lt;A <span class="keyword">class</span>=<span class="stringliteral">"'.$class_ref.'"</span> HREF=<span class="stringliteral">"'.$href[0].'"</span> title=<span class="stringliteral">"'.$title.'"</span>&gt;'.$href[1].'&lt;/A&gt;&lt;/TD&gt;&lt;/TR&gt;';
 <a name="l00238"></a>00238     }
 <a name="l00239"></a>00239   }
@@ -167,9 +167,9 @@
 <a name="l00241"></a>00241   <span class="keywordflow">else</span> <span class="keywordflow">if</span> ( $p_dir == <span class="charliteral">'H'</span> ) {
 <a name="l00242"></a>00242     <a class="code" href="impress__bilan_8php.html#a0">$ret</a>.=<span class="stringliteral">"&lt;TR&gt;"</span>;
 <a name="l00243"></a>00243     foreach ($p_array as $all=&gt;$href){
-<a name="l00244"></a>00244       <a class="code" href="action_8inc_8php.html#a23">$title</a>=<span class="stringliteral">""</span>;
+<a name="l00244"></a>00244       $title=<span class="stringliteral">""</span>;
 <a name="l00245"></a>00245       <span class="keywordflow">if</span> ( isset ($href[2] )) 
-<a name="l00246"></a>00246         <a class="code" href="action_8inc_8php.html#a23">$title</a>=$href[2];
+<a name="l00246"></a>00246         $title=$href[2];
 <a name="l00247"></a>00247       <span class="keywordflow">if</span> ( $<span class="keywordflow">default</span>== $href[0]) {
 <a name="l00248"></a>00248       <a class="code" href="impress__bilan_8php.html#a0">$ret</a>.='&lt;TD CLASS=<span class="stringliteral">"selectedcell"</span>&gt;'.$href[1].'&lt;/TD&gt;';
 <a name="l00249"></a>00249 
@@ -188,22 +188,22 @@
 <a name="l00272"></a>00272 }
 <a name="l00282"></a><a class="code" href="ac__common_8php.html#a12">00282</a> function <a class="code" href="ac__common_8php.html#a12">make_array</a>($p_cn,$p_sql,$p_null=0) {
 <a name="l00283"></a>00283 
-<a name="l00284"></a>00284   <a class="code" href="action_8inc_8php.html#a24">$a</a>=pg_exec($p_cn,$p_sql);
+<a name="l00284"></a>00284   <a class="code" href="balance_8php.html#a10">$a</a>=pg_exec($p_cn,$p_sql);
 <a name="l00285"></a>00285   $max=pg_NumRows($a);
 <a name="l00286"></a>00286   <span class="keywordflow">if</span> ( $max==0) <span class="keywordflow">return</span> null;
 <a name="l00287"></a>00287   <span class="keywordflow">for</span> ($i=0;$i&lt;$max;$i++) {
 <a name="l00288"></a>00288     <a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>=pg_fetch_row($a);
 <a name="l00289"></a>00289     <a class="code" href="user__action__ach_8php.html#a2">$r</a>[<a class="code" href="balance_8php.html#a12">$i</a>]['<a class="code" href="action_8inc_8php.html#a13">value</a>']=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>[0];
-<a name="l00290"></a>00290     <a class="code" href="user__action__ach_8php.html#a2">$r</a>[<a class="code" href="balance_8php.html#a12">$i</a>]['<a class="code" href="action_8inc_8php.html#a15">label</a>']=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>[1];
+<a name="l00290"></a>00290     <a class="code" href="user__action__ach_8php.html#a2">$r</a>[<a class="code" href="balance_8php.html#a12">$i</a>]['<a class="code" href="balance_8php.html#a6">label</a>']=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>[1];
 <a name="l00291"></a>00291   }
 <a name="l00292"></a>00292   <span class="comment">// add a blank item ?</span>
 <a name="l00293"></a>00293   <span class="keywordflow">if</span> ( $p_null == 1 ) {
 <a name="l00294"></a>00294   <span class="keywordflow">for</span> ($i=$max;$i!=0;$i--) {
 <a name="l00295"></a>00295     <a class="code" href="user__action__ach_8php.html#a2">$r</a>[<a class="code" href="balance_8php.html#a12">$i</a>]['<a class="code" href="action_8inc_8php.html#a13">value</a>']=    <a class="code" href="user__action__ach_8php.html#a2">$r</a>[<a class="code" href="balance_8php.html#a12">$i</a>-1]['<a class="code" href="action_8inc_8php.html#a13">value</a>'];
-<a name="l00296"></a>00296     <a class="code" href="user__action__ach_8php.html#a2">$r</a>[<a class="code" href="balance_8php.html#a12">$i</a>]['<a class="code" href="action_8inc_8php.html#a15">label</a>']=    <a class="code" href="user__action__ach_8php.html#a2">$r</a>[<a class="code" href="balance_8php.html#a12">$i</a>-1]['<a class="code" href="action_8inc_8php.html#a15">label</a>'];
+<a name="l00296"></a>00296     <a class="code" href="user__action__ach_8php.html#a2">$r</a>[<a class="code" href="balance_8php.html#a12">$i</a>]['<a class="code" href="balance_8php.html#a6">label</a>']=    <a class="code" href="user__action__ach_8php.html#a2">$r</a>[<a class="code" href="balance_8php.html#a12">$i</a>-1]['<a class="code" href="balance_8php.html#a6">label</a>'];
 <a name="l00297"></a>00297   }
 <a name="l00298"></a>00298   <a class="code" href="user__action__ach_8php.html#a2">$r</a>[0]['<a class="code" href="action_8inc_8php.html#a13">value</a>']=-1;
-<a name="l00299"></a>00299   <a class="code" href="user__action__ach_8php.html#a2">$r</a>[0]['<a class="code" href="action_8inc_8php.html#a15">label</a>']=<span class="stringliteral">" "</span>;
+<a name="l00299"></a>00299   <a class="code" href="user__action__ach_8php.html#a2">$r</a>[0]['<a class="code" href="balance_8php.html#a6">label</a>']=<span class="stringliteral">" "</span>;
 <a name="l00300"></a>00300   } <span class="comment">//   if ( $p_null == 1 ) </span>
 <a name="l00301"></a>00301 
 <a name="l00302"></a>00302   <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
@@ -214,17 +214,17 @@
 <a name="l00318"></a>00318     <a class="code" href="ac__common_8php.html#a0">echo_error</a>('ac_common.php'.<span class="stringliteral">"-"</span>.__LINE__.'  UNDEFINED <a class="code" href="constant_8php.html#a13">PERIODE</a>');
 <a name="l00319"></a>00319   <a class="code" href="impress__bilan_8php.html#a0">$ret</a>=execSql($p_cn,<span class="stringliteral">"select to_char($pos,'Mon YYYY') as t from parm_periode where p_id=$p_id"</span>);
 <a name="l00320"></a>00320   <span class="keywordflow">if</span> (pg_NumRows($ret) == 0) <span class="keywordflow">return</span> null;
-<a name="l00321"></a>00321   <a class="code" href="action_8inc_8php.html#a24">$a</a>=pg_fetch_array($ret,0);
-<a name="l00322"></a>00322   <span class="keywordflow">return</span> <a class="code" href="action_8inc_8php.html#a24">$a</a>[<span class="charliteral">'t'</span>];
+<a name="l00321"></a>00321   <a class="code" href="balance_8php.html#a10">$a</a>=pg_fetch_array($ret,0);
+<a name="l00322"></a>00322   <span class="keywordflow">return</span> <a class="code" href="balance_8php.html#a10">$a</a>[<span class="charliteral">'t'</span>];
 <a name="l00323"></a>00323 }
 <a name="l00335"></a><a class="code" href="ac__common_8php.html#a14">00335</a> function <a class="code" href="ac__common_8php.html#a14">getPeriodeFromMonth</a>($p_cn,$p_date) {
 <a name="l00336"></a>00336   $R=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select p_id from parm_periode where</span>
 <a name="l00337"></a>00337 <span class="stringliteral">              to_char(p_start,'DD.MM.YYYY') = '01.$p_date'"</span>);
 <a name="l00338"></a>00338   <span class="keywordflow">if</span> ( pg_NumRows($R) == 0 ) 
 <a name="l00339"></a>00339     <span class="keywordflow">return</span> -1;
-<a name="l00340"></a>00340   <a class="code" href="action_8inc_8php.html#a24">$a</a>=pg_fetch_array($R,0);
+<a name="l00340"></a>00340   <a class="code" href="balance_8php.html#a10">$a</a>=pg_fetch_array($R,0);
 <a name="l00341"></a>00341 
-<a name="l00342"></a>00342   <span class="keywordflow">return</span> <a class="code" href="action_8inc_8php.html#a24">$a</a>['p_id'];
+<a name="l00342"></a>00342   <span class="keywordflow">return</span> <a class="code" href="balance_8php.html#a10">$a</a>['p_id'];
 <a name="l00343"></a>00343 }
 <a name="l00355"></a><a class="code" href="ac__common_8php.html#a15">00355</a> function <a class="code" href="ac__common_8php.html#a15">getPeriodeFromDate</a>($p_cn,$p_date) {
 <a name="l00356"></a>00356   $R=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select p_id from parm_periode where</span>
@@ -233,13 +233,18 @@
 <a name="l00359"></a>00359 <span class="stringliteral">           "</span>);
 <a name="l00360"></a>00360   <span class="keywordflow">if</span> ( pg_NumRows($R) == 0 ) 
 <a name="l00361"></a>00361     <span class="keywordflow">return</span> -1;
-<a name="l00362"></a>00362   <a class="code" href="action_8inc_8php.html#a24">$a</a>=pg_fetch_array($R,0);
+<a name="l00362"></a>00362   <a class="code" href="balance_8php.html#a10">$a</a>=pg_fetch_array($R,0);
 <a name="l00363"></a>00363 
-<a name="l00364"></a>00364   <span class="keywordflow">return</span> <a class="code" href="action_8inc_8php.html#a24">$a</a>['p_id'];
+<a name="l00364"></a>00364   <span class="keywordflow">return</span> <a class="code" href="balance_8php.html#a10">$a</a>['p_id'];
 <a name="l00365"></a>00365 }
-<a name="l00366"></a>00366 
-<a name="l00367"></a>00367 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Jun 27 01:39:27 2006 for phpcompta by&nbsp;
+<a name="l00371"></a><a class="code" href="ac__common_8php.html#a16">00371</a> function <a class="code" href="ac__common_8php.html#a16">Decode</a>($p_html){
+<a name="l00372"></a>00372   $p_html=str_replace('%0D<span class="charliteral">','</span>',$p_html);
+<a name="l00373"></a>00373   $p_html=str_replace('%0A<span class="charliteral">','</span>',$p_html);
+<a name="l00374"></a>00374   $p_html=urldecode($p_html);
+<a name="l00375"></a>00375   <span class="keywordflow">return</span> $p_html;
+<a name="l00376"></a>00376 }
+<a name="l00377"></a>00377 ?&gt;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Wed Jun 28 02:07:23 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

@@ -126,15 +126,15 @@
 <a name="l00134"></a>00134     }
 <a name="l00135"></a>00135   }
 <a name="l00136"></a>00136   <span class="comment">// widget search</span>
-<a name="l00137"></a>00137   <a class="code" href="action_8inc_8php.html#a14">$W1</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"js_search"</span>);
-<a name="l00138"></a>00138   <a class="code" href="action_8inc_8php.html#a14">$W1</a>-&gt;label=<span class="stringliteral">"Fournisseur"</span>;
-<a name="l00139"></a>00139   <a class="code" href="action_8inc_8php.html#a14">$W1</a>-&gt;name=<span class="stringliteral">"e_client"</span>;
-<a name="l00140"></a>00140   <a class="code" href="action_8inc_8php.html#a14">$W1</a>-&gt;value=$e_client;
-<a name="l00141"></a>00141   <a class="code" href="action_8inc_8php.html#a14">$W1</a>-&gt;extra=<a class="code" href="impress__fiche_8php.html#a9">$fiche</a>;  <span class="comment">// list of card</span>
-<a name="l00142"></a>00142   <a class="code" href="action_8inc_8php.html#a14">$W1</a>-&gt;extra2=<a class="code" href="modify__op_8php.html#a2">$p_jrn</a>;
+<a name="l00137"></a>00137   $W1=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"js_search"</span>);
+<a name="l00138"></a>00138   $W1-&gt;label=<span class="stringliteral">"Fournisseur"</span>;
+<a name="l00139"></a>00139   $W1-&gt;name=<span class="stringliteral">"e_client"</span>;
+<a name="l00140"></a>00140   $W1-&gt;value=$e_client;
+<a name="l00141"></a>00141   $W1-&gt;extra=<a class="code" href="impress__fiche_8php.html#a9">$fiche</a>;  <span class="comment">// list of card</span>
+<a name="l00142"></a>00142   $W1-&gt;extra2=<a class="code" href="modify__op_8php.html#a2">$p_jrn</a>;
 <a name="l00143"></a>00143   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TR&gt;"</span>.$W1-&gt;IOValue();
-<a name="l00144"></a>00144   <a class="code" href="action_8inc_8php.html#a18">$client_label</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"span"</span>);
-<a name="l00145"></a>00145   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.= <a class="code" href="action_8inc_8php.html#a18">$client_label</a>-&gt;IOValue(<span class="stringliteral">"e_client_label"</span>,$e_client_label).<span class="stringliteral">"&lt;/TD&gt;&lt;/TR&gt;"</span>;
+<a name="l00144"></a>00144   $client_label=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"span"</span>);
+<a name="l00145"></a>00145   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.= $client_label-&gt;IOValue(<span class="stringliteral">"e_client_label"</span>,$e_client_label).<span class="stringliteral">"&lt;/TD&gt;&lt;/TR&gt;"</span>;
 <a name="l00146"></a>00146   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/TABLE&gt;"</span>;
 <a name="l00147"></a>00147   <span class="comment">// Set correctly the REQUEST param for jrn_type </span>
 <a name="l00148"></a>00148   <a class="code" href="poste_8inc_8php.html#a8">$h</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>('hidden');
@@ -193,13 +193,13 @@
 <a name="l00201"></a>00201   
 <a name="l00202"></a>00202     <span class="comment">// Show input</span>
 <a name="l00203"></a>00203 
-<a name="l00204"></a>00204     <a class="code" href="action_8inc_8php.html#a14">$W1</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"js_search"</span>);
-<a name="l00205"></a>00205     <a class="code" href="action_8inc_8php.html#a14">$W1</a>-&gt;label=<span class="stringliteral">""</span>;
-<a name="l00206"></a>00206     <a class="code" href="action_8inc_8php.html#a14">$W1</a>-&gt;name=<span class="stringliteral">"e_march"</span>.$i;
-<a name="l00207"></a>00207     <a class="code" href="action_8inc_8php.html#a14">$W1</a>-&gt;value=$march;
-<a name="l00208"></a>00208     <a class="code" href="action_8inc_8php.html#a14">$W1</a>-&gt;extra='deb';  <span class="comment">// credits</span>
-<a name="l00209"></a>00209     <a class="code" href="action_8inc_8php.html#a14">$W1</a>-&gt;extra2=<a class="code" href="modify__op_8php.html#a2">$p_jrn</a>;
-<a name="l00210"></a>00210     <a class="code" href="action_8inc_8php.html#a14">$W1</a>-&gt;readonly=$pview_only;
+<a name="l00204"></a>00204     $W1=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"js_search"</span>);
+<a name="l00205"></a>00205     $W1-&gt;label=<span class="stringliteral">""</span>;
+<a name="l00206"></a>00206     $W1-&gt;name=<span class="stringliteral">"e_march"</span>.$i;
+<a name="l00207"></a>00207     $W1-&gt;value=$march;
+<a name="l00208"></a>00208     $W1-&gt;extra='deb';  <span class="comment">// credits</span>
+<a name="l00209"></a>00209     $W1-&gt;extra2=<a class="code" href="modify__op_8php.html#a2">$p_jrn</a>;
+<a name="l00210"></a>00210     $W1-&gt;readonly=$pview_only;
 <a name="l00211"></a>00211     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TR&gt;"</span>.$W1-&gt;IOValue().<span class="stringliteral">"&lt;/TD&gt;"</span>;
 <a name="l00212"></a>00212     $Span=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a> (<span class="stringliteral">"span"</span>);
 <a name="l00213"></a>00213     $Span-&gt;SetReadOnly($pview_only);
@@ -773,7 +773,7 @@
 <a name="l00836"></a>00836 }
 <a name="l00837"></a>00837 
 <a name="l00838"></a>00838 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Jun 27 01:39:28 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Wed Jun 28 02:07:24 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

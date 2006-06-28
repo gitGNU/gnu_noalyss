@@ -166,12 +166,14 @@ class fiche {
 
   function GetByQCode($p_qcode,$p_all=true)
     {
+
       $p_qcode=FormatString($p_qcode);
       $sql="select f_id from jnt_fic_att_value join attr_value 
            using (jft_id)  where ad_id=23 and av_text='".$p_qcode."'";
       $Res=ExecSql($this->cn,$sql);
       $r=pg_fetch_all($Res);
-      if ( sizeof($r) == 0 ) 
+      echo_debug('fiche',__LINE__,'result:'.var_export($r).'size '.sizeof($r));
+      if ( $r == null  ) 
 	return 1;
       $this->id=$r[0]['f_id'];
       echo_debug('class_fiche',__LINE__,'f_id = '.$this->id);

@@ -430,7 +430,7 @@
 <a name="l00537"></a>00537     <span class="comment">// Get the name</span>
 <a name="l00538"></a>00538     <span class="keywordflow">if</span> ( $key == <span class="stringliteral">"ad_id"</span>.<a class="code" href="constant_8php.html#a51">ATTR_DEF_NAME</a> ) {
 <a name="l00539"></a>00539       <a class="code" href="pref_8inc_8php.html#a6">$label</a>=$element;
-<a name="l00540"></a>00540       <span class="keywordflow">if</span> (strlen(trim($<a class="code" href="action_8inc_8php.html#a15">label</a>))== 0  ) 
+<a name="l00540"></a>00540       <span class="keywordflow">if</span> (strlen(trim($<a class="code" href="balance_8php.html#a6">label</a>))== 0  ) 
 <a name="l00541"></a>00541         <span class="keywordflow">return</span>;
 <a name="l00542"></a>00542     }
 <a name="l00543"></a>00543     <span class="comment">// Get the class base</span>
@@ -461,7 +461,7 @@
 <a name="l00568"></a>00568     $text=<a class="code" href="ac__common_8php.html#a9">FormatString</a>( ${<span class="stringliteral">"av_text$i"</span>});
 <a name="l00569"></a>00569     <span class="comment">// Check if we don't try to update a QUICK CODE</span>
 <a name="l00570"></a>00570     <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select ad_id from jnt_fic_att_value where jft_id="</span>.${<span class="stringliteral">"jft_id$i"</span>});
-<a name="l00571"></a>00571     <a class="code" href="action_8inc_8php.html#a24">$a</a>=pg_fetch_array($Res,0);
+<a name="l00571"></a>00571     <a class="code" href="balance_8php.html#a10">$a</a>=pg_fetch_array($Res,0);
 <a name="l00572"></a>00572     <span class="keywordflow">if</span> ( $a['ad_id'] != <a class="code" href="constant_8php.html#a73">ATTR_DEF_QUICKCODE</a>) 
 <a name="l00573"></a>00573       {
 <a name="l00574"></a>00574         <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=sprintf(<span class="stringliteral">"update attr_value set av_text='%s' where jft_id=%d"</span>,
@@ -729,7 +729,7 @@
 <a name="l00906"></a>00906   <span class="keywordflow">for</span> ($i=0; $i &lt; $Max;$i++) {
 <a name="l00907"></a>00907     $line=pg_fetch_array($Res,$i);
 <a name="l00908"></a>00908     <span class="keywordflow">if</span> ($i == 0 ) {
-<a name="l00909"></a>00909       <a class="code" href="recherche_8php.html#a4">$array</a>['<a class="code" href="action_8inc_8php.html#a15">label</a>']=GetFicheDefName($p_cn,$p_fiche);
+<a name="l00909"></a>00909       <a class="code" href="recherche_8php.html#a4">$array</a>['<a class="code" href="balance_8php.html#a6">label</a>']=GetFicheDefName($p_cn,$p_fiche);
 <a name="l00910"></a>00910       <a class="code" href="recherche_8php.html#a4">$array</a>['class_base']=$line['fd_class_base'];
 <a name="l00911"></a>00911       <a class="code" href="recherche_8php.html#a4">$array</a>['fd_id']=$p_fiche;
 <a name="l00912"></a>00912     }<span class="comment">//if $i == 0</span>
@@ -857,9 +857,9 @@
 <a name="l01096"></a>01096     $line=pg_fetch_array($Res,$i);
 <a name="l01097"></a>01097     $f_id=$line['<a class="code" href="facture_8inc_8php.html#a19">f_id</a>'];
 <a name="l01098"></a>01098     $f_label=$line['f_label'];
-<a name="l01099"></a>01099     <a class="code" href="action_8inc_8php.html#a24">$a</a>[<a class="code" href="balance_8php.html#a12">$i</a>]=array($<a class="code" href="facture_8inc_8php.html#a19">f_id</a>,$f_label);
+<a name="l01099"></a>01099     <a class="code" href="balance_8php.html#a10">$a</a>[<a class="code" href="balance_8php.html#a12">$i</a>]=array($<a class="code" href="facture_8inc_8php.html#a19">f_id</a>,$f_label);
 <a name="l01100"></a>01100   }
-<a name="l01101"></a>01101   <span class="keywordflow">return</span> <a class="code" href="action_8inc_8php.html#a24">$a</a>;
+<a name="l01101"></a>01101   <span class="keywordflow">return</span> <a class="code" href="balance_8php.html#a10">$a</a>;
 <a name="l01102"></a>01102 }
 <a name="l01115"></a><a class="code" href="fiche__inc_8php.html#a18">01115</a> function <a class="code" href="fiche__inc_8php.html#a18">Get_fiche_def_ref</a>($p_cn)
 <a name="l01116"></a>01116 {
@@ -1041,7 +1041,7 @@
 <a name="l01405"></a>01405     <span class="comment">// Can change the name</span>
 <a name="l01406"></a>01406     <span class="keywordflow">if</span> ( ${<span class="stringliteral">"ad_id$i"</span>} == <a class="code" href="constant_8php.html#a51">ATTR_DEF_NAME</a> ) {
 <a name="l01407"></a>01407       printf('Label&lt;/TD&gt;&lt;TD&gt;&lt;INPUT TYPE=<span class="stringliteral">"TEXT"</span> NAME=<span class="stringliteral">"label"</span> VALUE=<span class="stringliteral">"%s"</span>&gt;',
-<a name="l01408"></a>01408              $<a class="code" href="action_8inc_8php.html#a15">label</a>);
+<a name="l01408"></a>01408              $<a class="code" href="balance_8php.html#a6">label</a>);
 <a name="l01409"></a>01409       printf('&lt;/td&gt;&lt;TD&gt;&lt;input type=<span class="stringliteral">"submit"</span> NAME=<span class="stringliteral">"change_name"</span> <a class="code" href="action_8inc_8php.html#a13">value</a>=<span class="stringliteral">"Change Nom"</span>&gt;');
 <a name="l01410"></a>01410     } <span class="keywordflow">else</span> {
 <a name="l01411"></a>01411       <span class="comment">// The attr.</span>
@@ -1075,10 +1075,10 @@
 <a name="l01451"></a>01451 {
 <a name="l01452"></a>01452   $len=strlen($p_val)-1;
 <a name="l01453"></a>01453   <span class="keywordflow">for</span> ($i=$len-1;$i&gt;0;$i--) {
-<a name="l01454"></a>01454     <a class="code" href="action_8inc_8php.html#a24">$a</a>=substr($p_val,0,$i);
+<a name="l01454"></a>01454     <a class="code" href="balance_8php.html#a10">$a</a>=substr($p_val,0,$i);
 <a name="l01455"></a>01455     <a class="code" href="debug_8php.html#a0">echo_debug</a> (<span class="stringliteral">"parent == $a len =1"</span>);
 <a name="l01456"></a>01456     <span class="keywordflow">if</span> (<a class="code" href="postgres_8php.html#a10">CountSql</a>($p_cn,<span class="stringliteral">"select pcm_val from tmp_pcmn where pcm_val=$a"</span>) == 1)
-<a name="l01457"></a>01457       <span class="keywordflow">return</span> <a class="code" href="action_8inc_8php.html#a24">$a</a>;
+<a name="l01457"></a>01457       <span class="keywordflow">return</span> <a class="code" href="balance_8php.html#a10">$a</a>;
 <a name="l01458"></a>01458   }
 <a name="l01459"></a>01459 }
 <a name="l01474"></a><a class="code" href="fiche__inc_8php.html#a29">01474</a> function <a class="code" href="fiche__inc_8php.html#a29">getFicheAttribut</a>($p_cn,$p_id,$p_attr=<span class="stringliteral">""</span>) {
@@ -1150,7 +1150,7 @@
 <a name="l01556"></a>01556     <span class="keywordflow">return</span> 1;
 <a name="l01557"></a>01557 }
 <a name="l01558"></a>01558 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Jun 27 01:39:28 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Wed Jun 28 02:07:23 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

@@ -88,8 +88,8 @@
 <a name="l00079"></a>00079 <span class="comment"> */</span>
 <a name="l00080"></a><a class="code" href="setup_8php.html#a15">00080</a> function <a class="code" href="setup_8php.html#a15">GetVersion</a>($p_cn) {
 <a name="l00081"></a>00081         <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select val from version"</span>);
-<a name="l00082"></a>00082         <a class="code" href="action_8inc_8php.html#a24">$a</a>=pg_fetch_array($Res,0);
-<a name="l00083"></a>00083         <span class="keywordflow">return</span> <a class="code" href="action_8inc_8php.html#a24">$a</a>['val'];
+<a name="l00082"></a>00082         <a class="code" href="balance_8php.html#a10">$a</a>=pg_fetch_array($Res,0);
+<a name="l00083"></a>00083         <span class="keywordflow">return</span> <a class="code" href="balance_8php.html#a10">$a</a>['val'];
 <a name="l00084"></a>00084 }
 <a name="l00085"></a>00085 <span class="comment">/* function ExecuteScript</span>
 <a name="l00086"></a>00086 <span class="comment"> **************************************************</span>
@@ -181,7 +181,7 @@
 <a name="l00172"></a><a class="code" href="setup_8php.html#a1">00172</a> <a class="code" href="setup_8php.html#a1">$flag_php</a>=0;
 <a name="l00173"></a>00173 foreach (array('magic_quotes_gpc<span class="charliteral">','</span>magic_quotes_runtime') as $a) {
 <a name="l00174"></a>00174 
-<a name="l00175"></a>00175   <span class="keywordflow">if</span> ( ini_get($a) == <span class="keyword">false</span> ) <a class="code" href="impress__bilan_8php.html#a3">print</a> <a class="code" href="action_8inc_8php.html#a24">$a</a>.': Ok  &lt;br&gt;';
+<a name="l00175"></a>00175   <span class="keywordflow">if</span> ( ini_get($a) == <span class="keyword">false</span> ) <a class="code" href="impress__bilan_8php.html#a3">print</a> <a class="code" href="balance_8php.html#a10">$a</a>.': Ok  &lt;br&gt;';
 <a name="l00176"></a>00176   <span class="keywordflow">else</span> {
 <a name="l00177"></a>00177         <a class="code" href="impress__bilan_8php.html#a3">print</a> (<span class="stringliteral">"&lt;h2 class=\"error\"&gt;$a has a bad value  !!!&lt;/h2&gt;"</span>);
 <a name="l00178"></a>00178         <a class="code" href="setup_8php.html#a1">$flag_php</a>++;
@@ -268,26 +268,26 @@
 <a name="l00259"></a>00259 <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$sql);
 <a name="l00260"></a><a class="code" href="setup_8php.html#a4">00260</a> <a class="code" href="setup_8php.html#a4">$flag</a>=0;
 <a name="l00261"></a>00261 <span class="keywordflow">for</span> ($e=0;$e&lt;pg_NumRows($Res);$e++) {
-<a name="l00262"></a>00262   <a class="code" href="action_8inc_8php.html#a24">$a</a>=pg_fetch_array($Res,$e);
+<a name="l00262"></a>00262   <a class="code" href="balance_8php.html#a10">$a</a>=pg_fetch_array($Res,$e);
 <a name="l00263"></a>00263   <span class="keywordflow">switch</span> ($a['<a class="code" href="action_8inc_8php.html#a12">name</a>']){
 <a name="l00264"></a>00264   <span class="keywordflow">case</span> 'effective_cache_size':
 <a name="l00265"></a>00265     <span class="keywordflow">if</span> ( $a['setting'] &lt; 1000 ){
 <a name="l00266"></a>00266       <a class="code" href="impress__bilan_8php.html#a3">print</a> '&lt;p <span class="keyword">class</span>=<span class="stringliteral">"warning"</span>&gt;Attention le paramètre effective_cache_size est de '.
-<a name="l00267"></a>00267         <a class="code" href="action_8inc_8php.html#a24">$a</a>['setting'].<span class="stringliteral">" au lieu de 1000 &lt;/p&gt;"</span>;
+<a name="l00267"></a>00267         <a class="code" href="balance_8php.html#a10">$a</a>['setting'].<span class="stringliteral">" au lieu de 1000 &lt;/p&gt;"</span>;
 <a name="l00268"></a>00268       <a class="code" href="setup_8php.html#a4">$flag</a>++;
 <a name="l00269"></a>00269     }
 <a name="l00270"></a>00270     <span class="keywordflow">break</span>;
 <a name="l00271"></a>00271   <span class="keywordflow">case</span> 'shared_buffers':
 <a name="l00272"></a>00272     <span class="keywordflow">if</span> ( $a['setting'] &lt; 640 ){
 <a name="l00273"></a>00273       <a class="code" href="impress__bilan_8php.html#a3">print</a> '&lt;p <span class="keyword">class</span>=<span class="stringliteral">"warning"</span>&gt;Attention le paramètre shared_buffer est de '.
-<a name="l00274"></a>00274         <a class="code" href="action_8inc_8php.html#a24">$a</a>['setting'].<span class="stringliteral">"au lieu de 640&lt;/p&gt;"</span>;
+<a name="l00274"></a>00274         <a class="code" href="balance_8php.html#a10">$a</a>['setting'].<span class="stringliteral">"au lieu de 640&lt;/p&gt;"</span>;
 <a name="l00275"></a>00275       <a class="code" href="setup_8php.html#a4">$flag</a>++;
 <a name="l00276"></a>00276     }
 <a name="l00277"></a>00277     <span class="keywordflow">break</span>;
 <a name="l00278"></a>00278   <span class="keywordflow">case</span> 'work_mem':
 <a name="l00279"></a>00279     <span class="keywordflow">if</span> ( $a['setting'] &lt; 8192 ){
 <a name="l00280"></a>00280       <a class="code" href="impress__bilan_8php.html#a3">print</a> '&lt;p <span class="keyword">class</span>=<span class="stringliteral">"warning"</span>&gt;Attention le paramètre work_mem est de '.
-<a name="l00281"></a>00281         <a class="code" href="action_8inc_8php.html#a24">$a</a>['setting'].<span class="stringliteral">" au lieu de 8192 &lt;/p&gt;"</span>;
+<a name="l00281"></a>00281         <a class="code" href="balance_8php.html#a10">$a</a>['setting'].<span class="stringliteral">" au lieu de 8192 &lt;/p&gt;"</span>;
 <a name="l00282"></a>00282     <a class="code" href="setup_8php.html#a4">$flag</a>++;
 <a name="l00283"></a>00283     }
 <a name="l00284"></a>00284     <span class="keywordflow">break</span>;
@@ -358,7 +358,7 @@
 <a name="l00349"></a>00349 <span class="comment">// </span>
 <a name="l00350"></a>00350 <span class="comment">// Test the connection</span>
 <a name="l00351"></a>00351 <span class="comment">//--</span>
-<a name="l00352"></a><a class="code" href="setup_8php.html#a5">00352</a> <a class="code" href="action_8inc_8php.html#a24">$a</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
+<a name="l00352"></a><a class="code" href="setup_8php.html#a5">00352</a> <a class="code" href="balance_8php.html#a10">$a</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
 <a name="l00353"></a>00353 <span class="keywordflow">if</span> ( $a==<span class="keyword">false</span>) {
 <a name="l00354"></a>00354    <a class="code" href="balance_8php.html#a0">exit</a> (<span class="stringliteral">"&lt;h2 class=\"error\"&gt;"</span>.__LINE__.<span class="stringliteral">" test has failed !!!&lt;/h2&gt;"</span>);
 <a name="l00355"></a>00355 
@@ -540,7 +540,7 @@
 <a name="l00531"></a>00531 
 <a name="l00532"></a>00532 <span class="keywordflow">if</span> (<a class="code" href="constant_8php.html#a2">DEBUG</a>=='<span class="keyword">false</span>') ob_end_clean();
 <a name="l00533"></a>00533 echo <span class="stringliteral">"&lt;h2 class=\"info\"&gt;Voilà tout est installé ;-)&lt;/h2&gt;"</span>;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Jun 27 01:39:26 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Wed Jun 28 02:07:23 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

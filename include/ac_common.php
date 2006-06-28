@@ -363,5 +363,15 @@ function getPeriodeFromDate($p_cn,$p_date) {
 
   return $a['p_id'];
 }
+/*!\brief Decode the html for the widegt richtext and remove newline
+ *\param $p_html string to decode
+ * \return the html code without new line
+ */
 
+function Decode($p_html){
+  $p_html=str_replace('%0D','',$p_html);
+  $p_html=str_replace('%0A','',$p_html);
+  $p_html=urldecode($p_html);
+  return $p_html;
+}
 ?>

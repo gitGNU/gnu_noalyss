@@ -405,7 +405,18 @@ function save_upload_document ($cn,$seq) {
     }
 
  }
-
-
+/*!\brief return the value of the sql, the sql will return only one value
+ *        with the value
+ * \param $p_cn database connection
+ * \param $p_sql the sql stmt example :select s_value from document_state where s_id=2
+ * \return only the first value
+ */ 
+function getDbValue($p_cn,$sql)
+{
+  $ret=ExecSql($p_cn,$sql);
+  if ( pg_NumRows($ret) == 0 ) return "";
+  $r=pg_fetch_row($ret,0);
+  return $r[0];
+}
 
 ?>

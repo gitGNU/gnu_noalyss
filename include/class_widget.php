@@ -131,6 +131,7 @@ class widget {
 	  $r.="</SELECT>";
 	} else 
 	  {
+	    $r="";
 	    echo_debug('class_widget.php',__LINE__,"this->selected = ".$this->selected); 
 	    for ( $i=0;$i<sizeof($this->value);$i++) 
 	      {
@@ -265,8 +266,7 @@ class widget {
 	    $msg=str_replace("\n","",$msg);
 	    $msg=str_replace("\r","",$msg);
 
-	    $read=($this->readonly)?"false":"true";	    
-	    //	    $r.=sprintf("var msg='%s';",urldecode($msg));
+	    $read=($this->readonly==false)?"false":"true";	    
 
 
 	    $r.=sprintf(" writeRichText('%s','%s',%d,%d,true,%s);\n",

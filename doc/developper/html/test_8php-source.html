@@ -43,7 +43,7 @@
 <a name="l00034"></a>00034 include_once(<span class="stringliteral">"ac_common.php"</span>);
 <a name="l00035"></a>00035 include_once(<span class="stringliteral">"postgres.php"</span>);
 <a name="l00036"></a>00036 <span class="comment">// Test the connection</span>
-<a name="l00037"></a><a class="code" href="test_8php.html#a0">00037</a> <a class="code" href="action_8inc_8php.html#a24">$a</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
+<a name="l00037"></a><a class="code" href="test_8php.html#a0">00037</a> <a class="code" href="balance_8php.html#a10">$a</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
 <a name="l00038"></a>00038 <span class="keywordflow">if</span> ( $a==<span class="keyword">false</span>) {
 <a name="l00039"></a>00039    <a class="code" href="balance_8php.html#a0">exit</a> (<span class="stringliteral">"&lt;h2 class=\"error\"&gt;__LINE__ test has failed !!!&lt;/h2&gt;"</span>);
 <a name="l00040"></a>00040 
@@ -61,7 +61,7 @@
 <a name="l00052"></a>00052 <span class="comment">// register_global</span>
 <a name="l00053"></a>00053 foreach (array('magic_quotes_gpc<span class="charliteral">','</span>magic_quotes_runtime') as $a) {
 <a name="l00054"></a>00054 
-<a name="l00055"></a>00055   <span class="keywordflow">if</span> ( ini_get($a) == <span class="keyword">false</span> ) <a class="code" href="impress__bilan_8php.html#a3">print</a> <a class="code" href="action_8inc_8php.html#a24">$a</a>.': Ok  &lt;br&gt;';
+<a name="l00055"></a>00055   <span class="keywordflow">if</span> ( ini_get($a) == <span class="keyword">false</span> ) <a class="code" href="impress__bilan_8php.html#a3">print</a> <a class="code" href="balance_8php.html#a10">$a</a>.': Ok  &lt;br&gt;';
 <a name="l00056"></a>00056   <span class="keywordflow">else</span> {
 <a name="l00057"></a>00057         <a class="code" href="impress__bilan_8php.html#a3">print</a> (<span class="stringliteral">"&lt;h2 class=\"error\"&gt;$a has a bad value  !!!&lt;/h2&gt;"</span>);
 <a name="l00058"></a>00058   }
@@ -75,7 +75,7 @@
 <a name="l00066"></a>00066 echo <span class="stringliteral">"&lt;h2 class=\"info\"&gt; Congratulation : Test successfull&lt;/h2&gt;"</span>;
 <a name="l00067"></a>00067 
 <a name="l00068"></a>00068 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Jun 27 01:39:27 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Wed Jun 28 02:07:23 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

@@ -76,7 +76,7 @@
 <a name="l00071"></a><a class="code" href="jrn__pdf_8php.html#a10">00071</a> <a class="code" href="bank_8inc_8php.html#a16">$offset</a>=0;<a class="code" href="jrn__pdf_8php.html#a9">$limit</a>=22;<a class="code" href="bank_8inc_8php.html#a14">$step</a>=22;
 <a name="l00072"></a><a class="code" href="jrn__pdf_8php.html#a11">00072</a> <a class="code" href="jrn__pdf_8php.html#a11">$rap_deb</a>=0;<a class="code" href="jrn__pdf_8php.html#a12">$rap_cred</a>=0;
 <a name="l00073"></a>00073 <span class="keywordflow">while</span> (1) {
-<a name="l00074"></a>00074   <a class="code" href="action_8inc_8php.html#a24">$a</a>=0;
+<a name="l00074"></a>00074   <a class="code" href="balance_8php.html#a10">$a</a>=0;
 <a name="l00075"></a>00075   list ($a_jrn,$tot_deb,$tot_cred)=<a class="code" href="impress__jrn_8php.html#a2">$Jrn</a>-&gt;GetRow($_GET['from_periode'],
 <a name="l00076"></a>00076                                           $_GET['to_periode'],
 <a name="l00077"></a>00077                                           $_GET['central'],
@@ -115,7 +115,7 @@
 <a name="l00110"></a>00110                 array('shaded'=&gt;0,'showHeadings'=&gt;1,'<a class="code" href="tva_8inc_8php.html#a17">width</a>'=&gt;500,
 <a name="l00111"></a>00111                       'cols'=&gt;array('deb_montant'=&gt; array('justification'=&gt;'right'),
 <a name="l00112"></a>00112                       'cred_montant'=&gt; array('justification'=&gt;'right'))));
-<a name="l00113"></a><a class="code" href="jrn__pdf_8php.html#a16">00113</a>   <a class="code" href="action_8inc_8php.html#a24">$a</a>=1;
+<a name="l00113"></a><a class="code" href="jrn__pdf_8php.html#a16">00113</a>   <a class="code" href="balance_8php.html#a10">$a</a>=1;
 <a name="l00114"></a>00114   <span class="comment">// Total Page</span>
 <a name="l00115"></a><a class="code" href="jrn__pdf_8php.html#a17">00115</a>   <a class="code" href="jrn__pdf_8php.html#a17">$apage</a>=array(array('deb'=&gt;sprintf(<span class="stringliteral">"%8.2f"</span>,$tot_deb),'cred'=&gt;$tot_cred));
 <a name="l00116"></a>00116   foreach ($apage as $key=&gt;$element) <a class="code" href="debug_8php.html#a0">echo_debug</a>('jrn_pdf.php',__LINE__,"apage $key =&gt; $element");
@@ -165,7 +165,7 @@
 <a name="l00160"></a>00160 <a class="code" href="readme_8php.html#a0">$pdf</a>-&gt;ezStream();
 <a name="l00161"></a>00161 
 <a name="l00162"></a>00162 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Jun 27 01:39:27 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Wed Jun 28 02:07:23 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

@@ -14,9 +14,9 @@
 <a href="action_8inc_8php-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="action_8inc_8php.html#a29">ShowActionList</a> ($cn, $retour, $h_url)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="action_8inc_8php.html#a19">ShowActionList</a> ($cn, $retour, $h_url)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Show the list of action, this code should be common to several webpage. But for the moment we keep like that because it is used only by this file.  <a href="#a29"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Show the list of action, this code should be common to several webpage. But for the moment we keep like that because it is used only by this file.  <a href="#a19"></a><br></td></tr>
 <tr><td colspan="2"><br><h2>Variables</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="action_8inc_8php.html#a0">$sub_action</a> = (isset($_REQUEST['sa']))?$_REQUEST['sa']:&quot;&quot;</td></tr>
 
@@ -24,7 +24,7 @@
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="action_8inc_8php.html#a2">$h_url</a> = &quot;&quot;</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">$act&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="action_8inc_8php.html#a3">ag_id</a> = $_REQUEST['<a class="el" href="facture_8inc_8php.html#a21">ag_id</a>']</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">$act&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="action_8inc_8php.html#a3">ag_id</a> = $_POST['<a class="el" href="facture_8inc_8php.html#a21">ag_id</a>']</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">$act&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="action_8inc_8php.html#a4">ag_comment</a> = $_POST['<a class="el" href="action_8inc_8php.html#a4">ag_comment</a>']</td></tr>
 
@@ -39,7 +39,7 @@
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">$act&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="action_8inc_8php.html#a9">ag_title</a> = $_POST['<a class="el" href="action_8inc_8php.html#a9">ag_title</a>']</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">$act&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="action_8inc_8php.html#a10">d_id</a> = $_POST['<a class="el" href="action_8inc_8php.html#a10">d_id</a>']</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">$act&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="action_8inc_8php.html#a10">d_id</a> = (isset($_POST['<a class="el" href="action_8inc_8php.html#a10">d_id</a>']))?$_POST['<a class="el" href="action_8inc_8php.html#a10">d_id</a>']:0</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="action_8inc_8php.html#a11">$upload</a> = new <a class="el" href="classwidget.html">widget</a>(&quot;file&quot;)</td></tr>
 
@@ -47,35 +47,15 @@
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">$upload&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="action_8inc_8php.html#a13">value</a> = &quot;&quot;</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="action_8inc_8php.html#a14">$W1</a> = new <a class="el" href="classwidget.html">widget</a>(&quot;js_search&quot;)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">$act&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="action_8inc_8php.html#a14">ag_ref</a> = &quot;&quot;</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">$W1&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="action_8inc_8php.html#a15">label</a> = &quot;Tiers&quot;</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">$act&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="action_8inc_8php.html#a15">md_id</a> = (isset($_POST['gen_doc']))?$_POST['gen_doc']:0</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">$W1&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="action_8inc_8php.html#a16">extra</a> = &quot;8,9,14&quot;</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">$act&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="action_8inc_8php.html#a16">gen</a> = isset($_POST['p_gen'])?'on':'off'</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">$W1&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="action_8inc_8php.html#a17">extra2</a> = 0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="action_8inc_8php.html#a17">$act</a> = new <a class="el" href="classaction.html">action</a>($cn)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="action_8inc_8php.html#a18">$client_label</a> = new <a class="el" href="classwidget.html">widget</a>(&quot;span&quot;)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="action_8inc_8php.html#a19">$tiers_label</a> = &quot;&quot;</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="action_8inc_8php.html#a20">$doc_type</a> = new <a class="el" href="classwidget.html">widget</a>(&quot;select&quot;)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">$doc_type&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="action_8inc_8php.html#a21">selected</a> = (isset($_POST['<a class="el" href="action_8inc_8php.html#a7">dt_id</a>']))?$_POST['<a class="el" href="action_8inc_8php.html#a7">dt_id</a>']:&quot;&quot;</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="action_8inc_8php.html#a22">$doc_state</a> = new <a class="el" href="classwidget.html">widget</a>(&quot;select&quot;)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="action_8inc_8php.html#a23">$title</a> = new <a class="el" href="classwidget.html">widget</a>(&quot;text&quot;)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="action_8inc_8php.html#a24">$a</a> = (isset($_POST['<a class="el" href="action_8inc_8php.html#a4">ag_comment</a>']))?FormatString(urldecode($_POST['<a class="el" href="action_8inc_8php.html#a4">ag_comment</a>'])):&quot;&quot;</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">$act&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="action_8inc_8php.html#a25">md_id</a> = (isset($_POST['gen_doc']))?$_POST['gen_doc']:0</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">$act&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="action_8inc_8php.html#a26">gen</a> = isset($_POST['p_gen'])?'on':'off'</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="action_8inc_8php.html#a27">$act</a> = new <a class="el" href="classaction.html">action</a>($cn)</td></tr>
-
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="action_8inc_8php.html#a28">$d_id</a> = (isset($_POST['<a class="el" href="action_8inc_8php.html#a10">d_id</a>']))?$_POST['<a class="el" href="action_8inc_8php.html#a10">d_id</a>']:0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="action_8inc_8php.html#a18">$d_id</a> = (isset($_POST['<a class="el" href="action_8inc_8php.html#a10">d_id</a>']))?$_POST['<a class="el" href="action_8inc_8php.html#a10">d_id</a>']:0</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -84,7 +64,7 @@ Page who manage the different action (meeting, letter).
 
 <p>
 Definition in file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.<hr><h2>Function Documentation</h2>
-<a class="anchor" name="a29"></a><!-- doxytag: member="action.inc.php::ShowActionList" ref="a29" args="($cn, $retour, $h_url)" --><p>
+<a class="anchor" name="a19"></a><!-- doxytag: member="action.inc.php::ShowActionList" ref="a19" args="($cn, $retour, $h_url)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -136,40 +116,13 @@ Show the list of action, this code should be common to several webpage. But for 
 <dl compact><dt><b>Note:</b></dt><dd>The field 'recherche' is about a part of the title or a ref. number</dd></dl>
 
 <p>
-Definition at line <a class="el" href="action_8inc_8php-source.html#l00037">37</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
+Definition at line <a class="el" href="action_8inc_8php-source.html#l00038">38</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
 <p>
-References <a class="el" href="action_8inc_8php-source.html#l00273">$a</a>, <a class="el" href="action_8inc_8php-source.html#l00331">$act</a>, <a class="el" href="impress__fiche_8php-source.html#l00081">$fiche</a>, <a class="el" href="action_8inc_8php-source.html#l00125">$h_url</a>, <a class="el" href="bank_8inc_8php-source.html#l00090">$qcode</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="action_8inc_8php-source.html#l00124">$retour</a>, <a class="el" href="bank_8inc_8php-source.html#l00097">$sp</a>, <a class="el" href="admin_8inc_8php-source.html#l00115">$w</a>, <a class="el" href="ac__common_8php-source.html#l00208">FormatString()</a>, <a class="el" href="action_8inc_8php-source.html#l00170">name</a>, <a class="el" href="action_8inc_8php-source.html#l00144">qcode</a>, and <a class="el" href="action_8inc_8php-source.html#l00171">value</a>.    </td>
+References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="action_8inc_8php-source.html#l00270">$act</a>, <a class="el" href="impress__fiche_8php-source.html#l00081">$fiche</a>, <a class="el" href="action_8inc_8php-source.html#l00128">$h_url</a>, <a class="el" href="bank_8inc_8php-source.html#l00090">$qcode</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="action_8inc_8php-source.html#l00127">$retour</a>, <a class="el" href="bank_8inc_8php-source.html#l00097">$sp</a>, <a class="el" href="admin_8inc_8php-source.html#l00115">$w</a>, <a class="el" href="ac__common_8php-source.html#l00208">FormatString()</a>, <a class="el" href="action_8inc_8php-source.html#l00175">name</a>, <a class="el" href="action_8inc_8php-source.html#l00148">qcode</a>, and <a class="el" href="action_8inc_8php-source.html#l00176">value</a>.    </td>
   </tr>
 </table>
 <hr><h2>Variable Documentation</h2>
-<a class="anchor" name="a24"></a><!-- doxytag: member="action.inc.php::$a" ref="a24" args="" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">$a = (isset($_POST['<a class="el" href="action_8inc_8php.html#a4">ag_comment</a>']))?FormatString(urldecode($_POST['<a class="el" href="action_8inc_8php.html#a4">ag_comment</a>'])):&quot;&quot;          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-
-<p>
-Definition at line <a class="el" href="action_8inc_8php-source.html#l00273">273</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
-<p>
-Referenced by <a class="el" href="class_8ezpdf_8php-source.html#l01473">Cezpdf::alink()</a>, <a class="el" href="class_8pdf_8php-source.html#l01138">Cpdf::ARC4()</a>, <a class="el" href="class__fiche_8php-source.html#l00397">fiche::blank()</a>, <a class="el" href="class_8ezpdf_8php-source.html#l00028">Cezpdf::Cezpdf()</a>, <a class="el" href="user__common_8php-source.html#l00069">ComputeTotalVat()</a>, <a class="el" href="user__common_8php-source.html#l00172">ComputeVat()</a>, <a class="el" href="class__action_8php-source.html#l00247">action::Confirm()</a>, <a class="el" href="class__fiche_8php-source.html#l00289">fiche::CountByDef()</a>, <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>, <a class="el" href="class__fiche_8php-source.html#l00459">fiche::Display()</a>, <a class="el" href="class__action_8php-source.html#l00094">action::Display()</a>, <a class="el" href="class_8pdf_8php-source.html#l01713">Cpdf::ellipse()</a>, <a class="el" href="class__action_8php-source.html#l00206">action::get()</a>, <a class="el" href="impress__inc_8php-source.html#l00423">GetDataJrnPdf()</a>, <a class="el" href="fiche__inc_8php-source.html#l01057">GetFicheJrn()</a>, <a class="el" href="stock__inc_8php-source.html#l00111">getFicheNameCode()</a>, <a class="el" href="class__rapport_8php-source.html#l00040">rapport::GetName()</a>, <a class="el" href="fiche__inc_8php-source.html#l01450">GetParent()</a>, <a class="el" href="ac__common_8php-source.html#l00355">getPeriodeFromDate()</a>, <a class="el" href="ac__common_8php-source.html#l00335">getPeriodeFromMonth()</a>, <a class="el" href="ac__common_8php-source.html#l00315">getPeriodeName()</a>, <a class="el" href="impress__inc_8php-source.html#l00616">GetRappel()</a>, <a class="el" href="class__jrn_8php-source.html#l00065">jrn::GetRow()</a>, <a class="el" href="class__balance_8php-source.html#l00053">Balance::GetRow()</a>, <a class="el" href="user__common_8php-source.html#l00211">GetTvaPoste()</a>, <a class="el" href="postgres_8php-source.html#l00315">GetUserProperty()</a>, <a class="el" href="setup_8php-source.html#l00080">GetVersion()</a>, <a class="el" href="user__common_8php-source.html#l00831">isValid()</a>, <a class="el" href="user__common_8php-source.html#l00322">ListJrn()</a>, <a class="el" href="ac__common_8php-source.html#l00282">make_array()</a>, <a class="el" href="decla_8BE_8inc_8php-source.html#l00036">MakeListingVat()</a>, <a class="el" href="class__document__modele_8php-source.html#l00049">Document_modele::myList()</a>, <a class="el" href="jrn_8php-source.html#l00038">RecordJrn()</a>, <a class="el" href="action_8inc_8php-source.html#l00037">ShowActionList()</a>, <a class="el" href="class__supplier_8php-source.html#l00083">Supplier::Summary()</a>, <a class="el" href="class__customer_8php-source.html#l00195">Customer::Summary()</a>, <a class="el" href="class_8ezpdf_8php-source.html#l01518">Cezpdf::uline()</a>, <a class="el" href="fiche__inc_8php-source.html#l00530">UpdateFiche()</a>, <a class="el" href="jrn_8php-source.html#l00282">UpdateJrn()</a>, and <a class="el" href="user__common_8php-source.html#l00631">withStock()</a>.    </td>
-  </tr>
-</table>
-<a class="anchor" name="a27"></a><!-- doxytag: member="action.inc.php::$act" ref="a27" args="" --><p>
+<a class="anchor" name="a17"></a><!-- doxytag: member="action.inc.php::$act" ref="a17" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -191,39 +144,12 @@ Referenced by <a class="el" href="class_8ezpdf_8php-source.html#l01473">Cezpdf::
 <p>
 
 <p>
-Definition at line <a class="el" href="action_8inc_8php-source.html#l00331">331</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
+Definition at line <a class="el" href="action_8inc_8php-source.html#l00270">270</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
 <p>
-Referenced by <a class="el" href="class__document_8php-source.html#l00421">Document::Replace()</a>, and <a class="el" href="action_8inc_8php-source.html#l00037">ShowActionList()</a>.    </td>
+Referenced by <a class="el" href="class__document_8php-source.html#l00423">Document::Replace()</a>, and <a class="el" href="action_8inc_8php-source.html#l00038">ShowActionList()</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a18"></a><!-- doxytag: member="action.inc.php::$client_label" ref="a18" args="" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">$client_label = new <a class="el" href="classwidget.html">widget</a>(&quot;span&quot;)          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-
-<p>
-Definition at line <a class="el" href="action_8inc_8php-source.html#l00209">209</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
-<p>
-Referenced by <a class="el" href="user__form__ach_8php-source.html#l00044">FormAchInput()</a>, and <a class="el" href="user__form__ven_8php-source.html#l00043">FormVenInput()</a>.    </td>
-  </tr>
-</table>
-<a class="anchor" name="a28"></a><!-- doxytag: member="action.inc.php::$d_id" ref="a28" args="" --><p>
+<a class="anchor" name="a18"></a><!-- doxytag: member="action.inc.php::$d_id" ref="a18" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -245,61 +171,9 @@ Referenced by <a class="el" href="user__form__ach_8php-source.html#l00044">FormA
 <p>
 
 <p>
-Definition at line <a class="el" href="action_8inc_8php-source.html#l00333">333</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
+Definition at line <a class="el" href="action_8inc_8php-source.html#l00278">278</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
 <p>
-Referenced by <a class="el" href="class__action_8php-source.html#l00445">action::SaveStage3()</a>.    </td>
-  </tr>
-</table>
-<a class="anchor" name="a22"></a><!-- doxytag: member="action.inc.php::$doc_state" ref="a22" args="" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">$doc_state = new <a class="el" href="classwidget.html">widget</a>(&quot;select&quot;)          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-
-<p>
-Definition at line <a class="el" href="action_8inc_8php-source.html#l00229">229</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.    </td>
-  </tr>
-</table>
-<a class="anchor" name="a20"></a><!-- doxytag: member="action.inc.php::$doc_type" ref="a20" args="" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">$doc_type = new <a class="el" href="classwidget.html">widget</a>(&quot;select&quot;)          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-
-<p>
-Definition at line <a class="el" href="action_8inc_8php-source.html#l00221">221</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
-<p>
-Referenced by <a class="el" href="class__action_8php-source.html#l00247">action::Confirm()</a>, and <a class="el" href="class__action_8php-source.html#l00094">action::Display()</a>.    </td>
+Referenced by <a class="el" href="class__action_8php-source.html#l00098">action::Display()</a>, and <a class="el" href="class__action_8php-source.html#l00511">action::SaveStage3()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a2"></a><!-- doxytag: member="action.inc.php::$h_url" ref="a2" args="" --><p>
@@ -324,9 +198,9 @@ Referenced by <a class="el" href="class__action_8php-source.html#l00247">action:
 <p>
 
 <p>
-Definition at line <a class="el" href="action_8inc_8php-source.html#l00125">125</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
+Definition at line <a class="el" href="action_8inc_8php-source.html#l00128">128</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
 <p>
-Referenced by <a class="el" href="class__action_8php-source.html#l00247">action::Confirm()</a>, and <a class="el" href="action_8inc_8php-source.html#l00037">ShowActionList()</a>.    </td>
+Referenced by <a class="el" href="class__action_8php-source.html#l00303">action::Confirm()</a>, and <a class="el" href="action_8inc_8php-source.html#l00038">ShowActionList()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a1"></a><!-- doxytag: member="action.inc.php::$retour" ref="a1" args="" --><p>
@@ -351,9 +225,9 @@ Referenced by <a class="el" href="class__action_8php-source.html#l00247">action:
 <p>
 
 <p>
-Definition at line <a class="el" href="action_8inc_8php-source.html#l00124">124</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
+Definition at line <a class="el" href="action_8inc_8php-source.html#l00127">127</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
 <p>
-Referenced by <a class="el" href="class__action_8php-source.html#l00247">action::Confirm()</a>, and <a class="el" href="action_8inc_8php-source.html#l00037">ShowActionList()</a>.    </td>
+Referenced by <a class="el" href="class__action_8php-source.html#l00303">action::Confirm()</a>, and <a class="el" href="action_8inc_8php-source.html#l00038">ShowActionList()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a0"></a><!-- doxytag: member="action.inc.php::$sub_action" ref="a0" args="" --><p>
@@ -378,61 +252,7 @@ Referenced by <a class="el" href="class__action_8php-source.html#l00247">action:
 <p>
 
 <p>
-Definition at line <a class="el" href="action_8inc_8php-source.html#l00113">113</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.    </td>
-  </tr>
-</table>
-<a class="anchor" name="a19"></a><!-- doxytag: member="action.inc.php::$tiers_label" ref="a19" args="" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">$tiers_label = &quot;&quot;          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-
-<p>
-Definition at line <a class="el" href="action_8inc_8php-source.html#l00210">210</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
-<p>
-Referenced by <a class="el" href="user__form__fin_8php-source.html#l00146">FormFin()</a>.    </td>
-  </tr>
-</table>
-<a class="anchor" name="a23"></a><!-- doxytag: member="action.inc.php::$title" ref="a23" args="" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">$title = new <a class="el" href="classwidget.html">widget</a>(&quot;text&quot;)          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-
-<p>
-Definition at line <a class="el" href="action_8inc_8php-source.html#l00236">236</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
-<p>
-Referenced by <a class="el" href="class__action_8php-source.html#l00247">action::Confirm()</a>, <a class="el" href="class__action_8php-source.html#l00094">action::Display()</a>, <a class="el" href="user__menu_8php-source.html#l00341">get_quick_key()</a>, and <a class="el" href="ac__common_8php-source.html#l00228">ShowItem()</a>.    </td>
+Definition at line <a class="el" href="action_8inc_8php-source.html#l00114">114</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a11"></a><!-- doxytag: member="action.inc.php::$upload" ref="a11" args="" --><p>
@@ -457,36 +277,9 @@ Referenced by <a class="el" href="class__action_8php-source.html#l00247">action:
 <p>
 
 <p>
-Definition at line <a class="el" href="action_8inc_8php-source.html#l00169">169</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
+Definition at line <a class="el" href="action_8inc_8php-source.html#l00174">174</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
 <p>
-Referenced by <a class="el" href="class__action_8php-source.html#l00359">action::SaveStage2()</a>.    </td>
-  </tr>
-</table>
-<a class="anchor" name="a14"></a><!-- doxytag: member="action.inc.php::$W1" ref="a14" args="" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">$W1 = new <a class="el" href="classwidget.html">widget</a>(&quot;js_search&quot;)          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-
-<p>
-Definition at line <a class="el" href="action_8inc_8php-source.html#l00202">202</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
-<p>
-Referenced by <a class="el" href="user__form__ach_8php-source.html#l00044">FormAchInput()</a>, <a class="el" href="user__form__fin_8php-source.html#l00146">FormFin()</a>, and <a class="el" href="user__form__ven_8php-source.html#l00043">FormVenInput()</a>.    </td>
+Referenced by <a class="el" href="class__action_8php-source.html#l00418">action::SaveStage2()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a4"></a><!-- doxytag: member="action.inc.php::ag_comment" ref="a4" args="" --><p>
@@ -511,9 +304,9 @@ Referenced by <a class="el" href="user__form__ach_8php-source.html#l00044">FormA
 <p>
 
 <p>
-Definition at line <a class="el" href="action_8inc_8php-source.html#l00140">140</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
+Definition at line <a class="el" href="action_8inc_8php-source.html#l00144">144</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
 <p>
-Referenced by <a class="el" href="class__action_8php-source.html#l00247">action::Confirm()</a>, <a class="el" href="class__action_8php-source.html#l00206">action::get()</a>, <a class="el" href="class__action_8php-source.html#l00359">action::SaveStage2()</a>, and <a class="el" href="class__action_8php-source.html#l00538">action::Update()</a>.    </td>
+Referenced by <a class="el" href="class__action_8php-source.html#l00303">action::Confirm()</a>, <a class="el" href="class__action_8php-source.html#l00260">action::get()</a>, <a class="el" href="class__action_8php-source.html#l00418">action::SaveStage2()</a>, and <a class="el" href="class__action_8php-source.html#l00623">action::Update()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a3"></a><!-- doxytag: member="action.inc.php::ag_id" ref="a3" args="" --><p>
@@ -522,7 +315,7 @@ Referenced by <a class="el" href="class__action_8php-source.html#l00247">action:
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">act <a class="el" href="facture_8inc_8php.html#a21">ag_id</a> = $_REQUEST['<a class="el" href="facture_8inc_8php.html#a21">ag_id</a>']          </td>
+          <td class="md" nowrap valign="top">act <a class="el" href="facture_8inc_8php.html#a21">ag_id</a> = $_POST['<a class="el" href="facture_8inc_8php.html#a21">ag_id</a>']          </td>
         </tr>
       </table>
     </td>
@@ -538,9 +331,36 @@ Referenced by <a class="el" href="class__action_8php-source.html#l00247">action:
 <p>
 
 <p>
-Definition at line <a class="el" href="action_8inc_8php-source.html#l00139">139</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
+Definition at line <a class="el" href="action_8inc_8php-source.html#l00143">143</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
 <p>
-Referenced by <a class="el" href="class__document_8php-source.html#l00049">Document::blank()</a>, <a class="el" href="class__document_8php-source.html#l00373">Document::get()</a>, <a class="el" href="class__document_8php-source.html#l00421">Document::Replace()</a>, <a class="el" href="class__action_8php-source.html#l00359">action::SaveStage2()</a>, and <a class="el" href="class__action_8php-source.html#l00538">action::Update()</a>.    </td>
+Referenced by <a class="el" href="class__document_8php-source.html#l00049">Document::blank()</a>, <a class="el" href="class__action_8php-source.html#l00098">action::Display()</a>, <a class="el" href="class__document_8php-source.html#l00375">Document::get()</a>, <a class="el" href="class__document_8php-source.html#l00423">Document::Replace()</a>, <a class="el" href="class__action_8php-source.html#l00418">action::SaveStage2()</a>, <a class="el" href="class__action_8php-source.html#l00511">action::SaveStage3()</a>, and <a class="el" href="class__action_8php-source.html#l00623">action::Update()</a>.    </td>
+  </tr>
+</table>
+<a class="anchor" name="a14"></a><!-- doxytag: member="action.inc.php::ag_ref" ref="a14" args="" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">$act <a class="el" href="action_8inc_8php.html#a14">ag_ref</a> = &quot;&quot;          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+
+<p>
+Definition at line <a class="el" href="action_8inc_8php-source.html#l00202">202</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
+<p>
+Referenced by <a class="el" href="class__action_8php-source.html#l00098">action::Display()</a>, <a class="el" href="class__action_8php-source.html#l00260">action::get()</a>, <a class="el" href="class__action_8php-source.html#l00545">action::myList()</a>, and <a class="el" href="class__action_8php-source.html#l00418">action::SaveStage2()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a5"></a><!-- doxytag: member="action.inc.php::ag_timestamp" ref="a5" args="" --><p>
@@ -565,9 +385,9 @@ Referenced by <a class="el" href="class__document_8php-source.html#l00049">Docum
 <p>
 
 <p>
-Definition at line <a class="el" href="action_8inc_8php-source.html#l00141">141</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
+Definition at line <a class="el" href="action_8inc_8php-source.html#l00145">145</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
 <p>
-Referenced by <a class="el" href="class__action_8php-source.html#l00247">action::Confirm()</a>, <a class="el" href="class__action_8php-source.html#l00094">action::Display()</a>, and <a class="el" href="class__action_8php-source.html#l00206">action::get()</a>.    </td>
+Referenced by <a class="el" href="class__action_8php-source.html#l00303">action::Confirm()</a>, <a class="el" href="class__action_8php-source.html#l00098">action::Display()</a>, and <a class="el" href="class__action_8php-source.html#l00260">action::get()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a9"></a><!-- doxytag: member="action.inc.php::ag_title" ref="a9" args="" --><p>
@@ -592,9 +412,9 @@ Referenced by <a class="el" href="class__action_8php-source.html#l00247">action:
 <p>
 
 <p>
-Definition at line <a class="el" href="action_8inc_8php-source.html#l00145">145</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
+Definition at line <a class="el" href="action_8inc_8php-source.html#l00149">149</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
 <p>
-Referenced by <a class="el" href="class__action_8php-source.html#l00206">action::get()</a>, <a class="el" href="class__action_8php-source.html#l00468">action::myList()</a>, and <a class="el" href="class__action_8php-source.html#l00359">action::SaveStage2()</a>.    </td>
+Referenced by <a class="el" href="class__action_8php-source.html#l00260">action::get()</a>, <a class="el" href="class__action_8php-source.html#l00545">action::myList()</a>, and <a class="el" href="class__action_8php-source.html#l00418">action::SaveStage2()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a10"></a><!-- doxytag: member="action.inc.php::d_id" ref="a10" args="" --><p>
@@ -603,7 +423,7 @@ Referenced by <a class="el" href="class__action_8php-source.html#l00206">action:
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">$act <a class="el" href="action_8inc_8php.html#a10">d_id</a> = $_POST['<a class="el" href="action_8inc_8php.html#a10">d_id</a>']          </td>
+          <td class="md" nowrap valign="top">act <a class="el" href="action_8inc_8php.html#a10">d_id</a> = (isset($_POST['<a class="el" href="action_8inc_8php.html#a10">d_id</a>']))?$_POST['<a class="el" href="action_8inc_8php.html#a10">d_id</a>']:0          </td>
         </tr>
       </table>
     </td>
@@ -619,9 +439,9 @@ Referenced by <a class="el" href="class__action_8php-source.html#l00206">action:
 <p>
 
 <p>
-Definition at line <a class="el" href="action_8inc_8php-source.html#l00146">146</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
+Definition at line <a class="el" href="action_8inc_8php-source.html#l00150">150</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
 <p>
-Referenced by <a class="el" href="class__document_8php-source.html#l00049">Document::blank()</a>, <a class="el" href="class__action_8php-source.html#l00094">action::Display()</a>, <a class="el" href="class__document_8php-source.html#l00042">Document::Document()</a>, <a class="el" href="class__action_8php-source.html#l00206">action::get()</a>, <a class="el" href="class__action_8php-source.html#l00468">action::myList()</a>, <a class="el" href="class__document_8php-source.html#l00720">Document::remove()</a>, <a class="el" href="class__document_8php-source.html#l00238">Document::SaveGenerated()</a>, <a class="el" href="class__action_8php-source.html#l00445">action::SaveStage3()</a>, and <a class="el" href="class__action_8php-source.html#l00538">action::Update()</a>.    </td>
+Referenced by <a class="el" href="class__document_8php-source.html#l00049">Document::blank()</a>, <a class="el" href="class__action_8php-source.html#l00098">action::Display()</a>, <a class="el" href="class__document_8php-source.html#l00042">Document::Document()</a>, <a class="el" href="class__action_8php-source.html#l00260">action::get()</a>, <a class="el" href="class__action_8php-source.html#l00545">action::myList()</a>, <a class="el" href="class__document_8php-source.html#l00722">Document::remove()</a>, <a class="el" href="class__document_8php-source.html#l00238">Document::SaveGenerated()</a>, <a class="el" href="class__action_8php-source.html#l00511">action::SaveStage3()</a>, and <a class="el" href="class__action_8php-source.html#l00623">action::Update()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a6"></a><!-- doxytag: member="action.inc.php::d_state" ref="a6" args="" --><p>
@@ -646,9 +466,9 @@ Referenced by <a class="el" href="class__document_8php-source.html#l00049">Docum
 <p>
 
 <p>
-Definition at line <a class="el" href="action_8inc_8php-source.html#l00142">142</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
+Definition at line <a class="el" href="action_8inc_8php-source.html#l00146">146</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
 <p>
-Referenced by <a class="el" href="class__action_8php-source.html#l00247">action::Confirm()</a>, <a class="el" href="class__action_8php-source.html#l00094">action::Display()</a>, <a class="el" href="class__document_8php-source.html#l00373">Document::get()</a>, <a class="el" href="class__action_8php-source.html#l00206">action::get()</a>, and <a class="el" href="class__action_8php-source.html#l00359">action::SaveStage2()</a>.    </td>
+Referenced by <a class="el" href="class__action_8php-source.html#l00303">action::Confirm()</a>, <a class="el" href="class__action_8php-source.html#l00098">action::Display()</a>, <a class="el" href="class__document_8php-source.html#l00375">Document::get()</a>, <a class="el" href="class__action_8php-source.html#l00260">action::get()</a>, and <a class="el" href="class__action_8php-source.html#l00418">action::SaveStage2()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a7"></a><!-- doxytag: member="action.inc.php::dt_id" ref="a7" args="" --><p>
@@ -675,18 +495,18 @@ class for the table document_type pk document_type
 <p>
 
 <p>
-Definition at line <a class="el" href="action_8inc_8php-source.html#l00143">143</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
+Definition at line <a class="el" href="action_8inc_8php-source.html#l00147">147</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
 <p>
-Referenced by <a class="el" href="class__action_8php-source.html#l00247">action::Confirm()</a>, <a class="el" href="class__action_8php-source.html#l00094">action::Display()</a>, <a class="el" href="class__document__type_8php-source.html#l00035">Document_type::document_type()</a>, <a class="el" href="class__document__modele_8php-source.html#l00252">Document_modele::form()</a>, <a class="el" href="class__document__type_8php-source.html#l00043">Document_type::get()</a>, <a class="el" href="class__action_8php-source.html#l00206">action::get()</a>, <a class="el" href="class__action_8php-source.html#l00359">action::SaveStage2()</a>, and <a class="el" href="class__action_8php-source.html#l00538">action::Update()</a>.    </td>
+Referenced by <a class="el" href="class__action_8php-source.html#l00303">action::Confirm()</a>, <a class="el" href="class__action_8php-source.html#l00098">action::Display()</a>, <a class="el" href="class__document__type_8php-source.html#l00035">Document_type::document_type()</a>, <a class="el" href="class__document__modele_8php-source.html#l00252">Document_modele::form()</a>, <a class="el" href="class__document__type_8php-source.html#l00043">Document_type::get()</a>, <a class="el" href="class__action_8php-source.html#l00260">action::get()</a>, <a class="el" href="class__action_8php-source.html#l00418">action::SaveStage2()</a>, <a class="el" href="class__action_8php-source.html#l00511">action::SaveStage3()</a>, and <a class="el" href="class__action_8php-source.html#l00623">action::Update()</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a16"></a><!-- doxytag: member="action.inc.php::extra" ref="a16" args="" --><p>
+<a class="anchor" name="a16"></a><!-- doxytag: member="action.inc.php::gen" ref="a16" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">$W1 <a class="el" href="contact_8inc_8php.html#a9">extra</a> = &quot;8,9,14&quot;          </td>
+          <td class="md" nowrap valign="top">$act <a class="el" href="action_8inc_8php.html#a16">gen</a> = isset($_POST['p_gen'])?'on':'off'          </td>
         </tr>
       </table>
     </td>
@@ -702,89 +522,10 @@ Referenced by <a class="el" href="class__action_8php-source.html#l00247">action:
 <p>
 
 <p>
-Definition at line <a class="el" href="action_8inc_8php-source.html#l00206">206</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
-<p>
-Referenced by <a class="el" href="class_8pdf_8php-source.html#l01417">Cpdf::selectFont()</a>.    </td>
+Definition at line <a class="el" href="action_8inc_8php-source.html#l00257">257</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a17"></a><!-- doxytag: member="action.inc.php::extra2" ref="a17" args="" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">$W1 <a class="el" href="action_8inc_8php.html#a17">extra2</a> = 0          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-
-<p>
-Definition at line <a class="el" href="action_8inc_8php-source.html#l00207">207</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.    </td>
-  </tr>
-</table>
-<a class="anchor" name="a26"></a><!-- doxytag: member="action.inc.php::gen" ref="a26" args="" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">$act <a class="el" href="action_8inc_8php.html#a26">gen</a> = isset($_POST['p_gen'])?'on':'off'          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-
-<p>
-Definition at line <a class="el" href="action_8inc_8php-source.html#l00318">318</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.    </td>
-  </tr>
-</table>
-<a class="anchor" name="a15"></a><!-- doxytag: member="action.inc.php::label" ref="a15" args="" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">w <a class="el" href="export__ouv_8php.html#a10">label</a> = &quot;Tiers&quot;          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-
-<p>
-Definition at line <a class="el" href="action_8inc_8php-source.html#l00203">203</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
-<p>
-Referenced by <a class="el" href="class_8pdf_8php-source.html#l01173">Cpdf::addInternalLink()</a>, <a class="el" href="fiche__inc_8php-source.html#l01390">DisplayDetailModele()</a>, <a class="el" href="class__poste_8php-source.html#l00100">poste::get()</a>, <a class="el" href="class__fiche_8php-source.html#l00074">fiche_def::Get()</a>, <a class="el" href="fiche__inc_8php-source.html#l00895">GetDataModele()</a>, <a class="el" href="class__balance_8php-source.html#l00053">Balance::GetRow()</a>, <a class="el" href="class__widget_8php-source.html#l00089">widget::IOValue()</a>, <a class="el" href="ac__common_8php-source.html#l00282">make_array()</a>, <a class="el" href="class_8pdf_8php-source.html#l00726">Cpdf::o_action()</a>, <a class="el" href="class_8pdf_8php-source.html#l00769">Cpdf::o_annotation()</a>, <a class="el" href="class_8pdf_8php-source.html#l00559">Cpdf::o_fontDescriptor()</a>, <a class="el" href="class_8pdf_8php-source.html#l00610">Cpdf::o_fontEncoding()</a>, <a class="el" href="class_8pdf_8php-source.html#l00940">Cpdf::o_image()</a>, <a class="el" href="class_8pdf_8php-source.html#l00347">Cpdf::o_pages()</a>, <a class="el" href="class_8pdf_8php-source.html#l00647">Cpdf::o_procset()</a>, <a class="el" href="fiche__inc_8php-source.html#l00530">UpdateFiche()</a>, and <a class="el" href="class__widget_8php-source.html#l00064">widget::widget()</a>.    </td>
-  </tr>
-</table>
-<a class="anchor" name="a25"></a><!-- doxytag: member="action.inc.php::md_id" ref="a25" args="" --><p>
+<a class="anchor" name="a15"></a><!-- doxytag: member="action.inc.php::md_id" ref="a15" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -806,9 +547,9 @@ Referenced by <a class="el" href="class_8pdf_8php-source.html#l01173">Cpdf::addI
 <p>
 
 <p>
-Definition at line <a class="el" href="action_8inc_8php-source.html#l00316">316</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
+Definition at line <a class="el" href="action_8inc_8php-source.html#l00255">255</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
 <p>
-Referenced by <a class="el" href="class__document__modele_8php-source.html#l00037">Document_modele::Document_modele()</a>, <a class="el" href="class__document__modele_8php-source.html#l00049">Document_modele::myList()</a>, <a class="el" href="class__document__modele_8php-source.html#l00103">Document_modele::Save()</a>, and <a class="el" href="class__action_8php-source.html#l00359">action::SaveStage2()</a>.    </td>
+Referenced by <a class="el" href="class__document__modele_8php-source.html#l00037">Document_modele::Document_modele()</a>, <a class="el" href="class__document__modele_8php-source.html#l00049">Document_modele::myList()</a>, <a class="el" href="class__document__modele_8php-source.html#l00103">Document_modele::Save()</a>, and <a class="el" href="class__action_8php-source.html#l00418">action::SaveStage2()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a12"></a><!-- doxytag: member="action.inc.php::name" ref="a12" args="" --><p>
@@ -833,9 +574,9 @@ Referenced by <a class="el" href="class__document__modele_8php-source.html#l0003
 <p>
 
 <p>
-Definition at line <a class="el" href="action_8inc_8php-source.html#l00170">170</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
+Definition at line <a class="el" href="action_8inc_8php-source.html#l00175">175</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
 <p>
-Referenced by <a class="el" href="stock__inc_8php-source.html#l00259">ChangeStock()</a>, <a class="el" href="class__user_8php-source.html#l00085">cl_user::Check()</a>, <a class="el" href="class__user_8php-source.html#l00040">cl_user::cl_user()</a>, <a class="el" href="class__action_8php-source.html#l00247">action::Confirm()</a>, <a class="el" href="fiche__inc_8php-source.html#l00225">EncodeFiche()</a>, <a class="el" href="form__inc_8php-source.html#l00034">EncodeForm()</a>, <a class="el" href="fiche__inc_8php-source.html#l00664">EncodeModele()</a>, <a class="el" href="user__form__ach_8php-source.html#l00269">form_verify_input()</a>, <a class="el" href="user__form__ach_8php-source.html#l00471">FormAchView()</a>, <a class="el" href="user__form__fin_8php-source.html#l00146">FormFin()</a>, <a class="el" href="user__form__ods_8php-source.html#l00045">FormODS()</a>, <a class="el" href="user__form__ven_8php-source.html#l00425">FormVenteView()</a>, <a class="el" href="class__supplier_8php-source.html#l00057">Supplier::GetFromPoste()</a>, <a class="el" href="class__customer_8php-source.html#l00057">Customer::GetFromPoste()</a>, <a class="el" href="class__user_8php-source.html#l00257">cl_user::GetGlobalPref()</a>, <a class="el" href="class__rapport_8php-source.html#l00040">rapport::GetName()</a>, <a class="el" href="class__poste_8php-source.html#l00084">poste::GetName()</a>, <a class="el" href="class__jrn_8php-source.html#l00034">jrn::GetName()</a>, <a class="el" href="class__fiche_8php-source.html#l00540">fiche::insert()</a>, <a class="el" href="class__user_8php-source.html#l00299">cl_user::insert_default_global_pref()</a>, <a class="el" href="class__widget_8php-source.html#l00089">widget::IOValue()</a>, <a class="el" href="user__common_8php-source.html#l00858">jrn_navigation_bar()</a>, <a class="el" href="decla_8BE_8inc_8php-source.html#l00036">MakeListingVat()</a>, <a class="el" href="fiche__new_8php-source.html#l00060">new_fiche()</a>, <a class="el" href="class_8pdf_8php-source.html#l00475">Cpdf::o_font()</a>, <a class="el" href="class_8pdf_8php-source.html#l01306">Cpdf::openFont()</a>, <a class="el" href="class__rapport_8php-source.html#l00033">rapport::rapport()</a>, <a class="el" href="jrn_8php-source.html#l00038">RecordJrn()</a>, <a class="el" href="class__document__modele_8php-source.html#l00103">Document_modele::Save()</a>, <a class="el" href="postgres_8php-source.html#l00371">save_upload_document()</a>, <a class="el" href="class__action_8php-source.html#l00359">action::SaveStage2()</a>, <a class="el" href="class_8pdf_8php-source.html#l01417">Cpdf::selectFont()</a>, <a class="el" href="action_8inc_8php-source.html#l00037">ShowActionList()</a>, <a class="el" href="import__inc_8php-source.html#l00174">ShowFormTransfert()</a>, <a class="el" href="class__contact_8php-source.html#l00050">contact::Summary()</a>, <a class="el" href="user__menu_8php-source.html#l00371">u_ShowMenuRecherche()</a>, <a class="el" href="class__fiche_8php-source.html#l00640">fiche::update()</a>, <a class="el" href="jrn_8php-source.html#l00282">UpdateJrn()</a>, <a class="el" href="class__document_8php-source.html#l00271">Document::Upload()</a>, <a class="el" href="class__customer_8php-source.html#l00084">Customer::VatListing()</a>, <a class="el" href="jrn_8php-source.html#l00834">VerifData()</a>, <a class="el" href="import__inc_8php-source.html#l00067">VerifImport()</a>, <a class="el" href="fiche__inc_8php-source.html#l00394">ViewFiche()</a>, and <a class="el" href="impress__inc_8php-source.html#l00036">ViewImp()</a>.    </td>
+Referenced by <a class="el" href="stock__inc_8php-source.html#l00259">ChangeStock()</a>, <a class="el" href="class__user_8php-source.html#l00085">cl_user::Check()</a>, <a class="el" href="class__user_8php-source.html#l00040">cl_user::cl_user()</a>, <a class="el" href="class__action_8php-source.html#l00303">action::Confirm()</a>, <a class="el" href="fiche__inc_8php-source.html#l00225">EncodeFiche()</a>, <a class="el" href="form__inc_8php-source.html#l00034">EncodeForm()</a>, <a class="el" href="fiche__inc_8php-source.html#l00664">EncodeModele()</a>, <a class="el" href="user__form__ach_8php-source.html#l00269">form_verify_input()</a>, <a class="el" href="user__form__ach_8php-source.html#l00471">FormAchView()</a>, <a class="el" href="user__form__fin_8php-source.html#l00146">FormFin()</a>, <a class="el" href="user__form__ods_8php-source.html#l00045">FormODS()</a>, <a class="el" href="user__form__ven_8php-source.html#l00425">FormVenteView()</a>, <a class="el" href="class__supplier_8php-source.html#l00057">Supplier::GetFromPoste()</a>, <a class="el" href="class__customer_8php-source.html#l00057">Customer::GetFromPoste()</a>, <a class="el" href="class__user_8php-source.html#l00257">cl_user::GetGlobalPref()</a>, <a class="el" href="class__rapport_8php-source.html#l00040">rapport::GetName()</a>, <a class="el" href="class__poste_8php-source.html#l00084">poste::GetName()</a>, <a class="el" href="class__jrn_8php-source.html#l00034">jrn::GetName()</a>, <a class="el" href="class__fiche_8php-source.html#l00542">fiche::insert()</a>, <a class="el" href="class__user_8php-source.html#l00299">cl_user::insert_default_global_pref()</a>, <a class="el" href="class__widget_8php-source.html#l00089">widget::IOValue()</a>, <a class="el" href="user__common_8php-source.html#l00858">jrn_navigation_bar()</a>, <a class="el" href="decla_8BE_8inc_8php-source.html#l00036">MakeListingVat()</a>, <a class="el" href="fiche__new_8php-source.html#l00060">new_fiche()</a>, <a class="el" href="class_8pdf_8php-source.html#l00475">Cpdf::o_font()</a>, <a class="el" href="class_8pdf_8php-source.html#l01306">Cpdf::openFont()</a>, <a class="el" href="class__rapport_8php-source.html#l00033">rapport::rapport()</a>, <a class="el" href="jrn_8php-source.html#l00038">RecordJrn()</a>, <a class="el" href="class__document__modele_8php-source.html#l00103">Document_modele::Save()</a>, <a class="el" href="postgres_8php-source.html#l00371">save_upload_document()</a>, <a class="el" href="class__action_8php-source.html#l00418">action::SaveStage2()</a>, <a class="el" href="class_8pdf_8php-source.html#l01417">Cpdf::selectFont()</a>, <a class="el" href="action_8inc_8php-source.html#l00038">ShowActionList()</a>, <a class="el" href="import__inc_8php-source.html#l00174">ShowFormTransfert()</a>, <a class="el" href="class__contact_8php-source.html#l00050">contact::Summary()</a>, <a class="el" href="user__menu_8php-source.html#l00371">u_ShowMenuRecherche()</a>, <a class="el" href="class__fiche_8php-source.html#l00642">fiche::update()</a>, <a class="el" href="jrn_8php-source.html#l00282">UpdateJrn()</a>, <a class="el" href="class__document_8php-source.html#l00271">Document::Upload()</a>, <a class="el" href="class__customer_8php-source.html#l00084">Customer::VatListing()</a>, <a class="el" href="jrn_8php-source.html#l00834">VerifData()</a>, <a class="el" href="import__inc_8php-source.html#l00067">VerifImport()</a>, <a class="el" href="fiche__inc_8php-source.html#l00394">ViewFiche()</a>, and <a class="el" href="impress__inc_8php-source.html#l00036">ViewImp()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a8"></a><!-- doxytag: member="action.inc.php::qcode" ref="a8" args="" --><p>
@@ -860,36 +601,9 @@ Referenced by <a class="el" href="stock__inc_8php-source.html#l00259">ChangeStoc
 <p>
 
 <p>
-Definition at line <a class="el" href="action_8inc_8php-source.html#l00144">144</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
+Definition at line <a class="el" href="action_8inc_8php-source.html#l00148">148</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
 <p>
-Referenced by <a class="el" href="class__action_8php-source.html#l00094">action::Display()</a>, <a class="el" href="class__action_8php-source.html#l00206">action::get()</a>, <a class="el" href="class__document_8php-source.html#l00421">Document::Replace()</a>, <a class="el" href="action_8inc_8php-source.html#l00037">ShowActionList()</a>, and <a class="el" href="user__menu_8php-source.html#l00371">u_ShowMenuRecherche()</a>.    </td>
-  </tr>
-</table>
-<a class="anchor" name="a21"></a><!-- doxytag: member="action.inc.php::selected" ref="a21" args="" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">w <a class="el" href="user__action__ven_8php.html#a13">selected</a> = (isset($_POST['<a class="el" href="action_8inc_8php.html#a7">dt_id</a>']))?$_POST['<a class="el" href="action_8inc_8php.html#a7">dt_id</a>']:&quot;&quot;          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-
-<p>
-Definition at line <a class="el" href="action_8inc_8php-source.html#l00225">225</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
-<p>
-Referenced by <a class="el" href="class__widget_8php-source.html#l00089">widget::IOValue()</a>, <a class="el" href="jrn_8php-source.html#l00038">RecordJrn()</a>, and <a class="el" href="class__widget_8php-source.html#l00064">widget::widget()</a>.    </td>
+Referenced by <a class="el" href="class__action_8php-source.html#l00098">action::Display()</a>, <a class="el" href="class__action_8php-source.html#l00260">action::get()</a>, <a class="el" href="class__document_8php-source.html#l00423">Document::Replace()</a>, <a class="el" href="action_8inc_8php-source.html#l00038">ShowActionList()</a>, and <a class="el" href="user__menu_8php-source.html#l00371">u_ShowMenuRecherche()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a13"></a><!-- doxytag: member="action.inc.php::value" ref="a13" args="" --><p>
@@ -914,12 +628,12 @@ Referenced by <a class="el" href="class__widget_8php-source.html#l00089">widget:
 <p>
 
 <p>
-Definition at line <a class="el" href="action_8inc_8php-source.html#l00171">171</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
+Definition at line <a class="el" href="action_8inc_8php-source.html#l00176">176</a> of file <a class="el" href="action_8inc_8php-source.html">action.inc.php</a>.
 <p>
-Referenced by <a class="el" href="stock__inc_8php-source.html#l00259">ChangeStock()</a>, <a class="el" href="class__action_8php-source.html#l00247">action::Confirm()</a>, <a class="el" href="class__widget_8php-source.html#l00498">widget::debug()</a>, <a class="el" href="class__fiche__def_8php-source.html#l00078">fiche_def_ref::Display()</a>, <a class="el" href="fiche__inc_8php-source.html#l01390">DisplayDetailModele()</a>, <a class="el" href="fiche__inc_8php-source.html#l00225">EncodeFiche()</a>, <a class="el" href="form__inc_8php-source.html#l00034">EncodeForm()</a>, <a class="el" href="class_8ezpdf_8php-source.html#l00607">Cezpdf::ezTable()</a>, <a class="el" href="user__form__fin_8php-source.html#l00146">FormFin()</a>, <a class="el" href="user__form__ods_8php-source.html#l00045">FormODS()</a>, <a class="el" href="user__form__ven_8php-source.html#l00425">FormVenteView()</a>, <a class="el" href="class__jrn_8php-source.html#l00321">jrn::GetDefLine()</a>, <a class="el" href="class__fiche_8php-source.html#l00540">fiche::insert()</a>, <a class="el" href="class__user_8php-source.html#l00299">cl_user::insert_default_global_pref()</a>, <a class="el" href="class__widget_8php-source.html#l00089">widget::IOValue()</a>, <a class="el" href="user__common_8php-source.html#l00858">jrn_navigation_bar()</a>, <a class="el" href="class__fiche__def_8php-source.html#l00051">fiche_def_ref::LoadAll()</a>, <a class="el" href="ac__common_8php-source.html#l00282">make_array()</a>, <a class="el" href="fiche__new_8php-source.html#l00060">new_fiche()</a>, <a class="el" href="class_8pdf_8php-source.html#l00559">Cpdf::o_fontDescriptor()</a>, <a class="el" href="class__document_8php-source.html#l00145">Document::ParseDocument()</a>, <a class="el" href="jrn_8php-source.html#l00038">RecordJrn()</a>, <a class="el" href="class__action_8php-source.html#l00359">action::SaveStage2()</a>, <a class="el" href="action_8inc_8php-source.html#l00037">ShowActionList()</a>, <a class="el" href="class__contact_8php-source.html#l00050">contact::Summary()</a>, <a class="el" href="user__menu_8php-source.html#l00371">u_ShowMenuRecherche()</a>, <a class="el" href="class__fiche_8php-source.html#l00640">fiche::update()</a>, <a class="el" href="class__user_8php-source.html#l00331">cl_user::update_global_pref()</a>, <a class="el" href="jrn_8php-source.html#l00282">UpdateJrn()</a>, <a class="el" href="import__inc_8php-source.html#l00067">VerifImport()</a>, <a class="el" href="fiche__inc_8php-source.html#l00394">ViewFiche()</a>, <a class="el" href="impress__inc_8php-source.html#l00036">ViewImp()</a>, and <a class="el" href="class__widget_8php-source.html#l00064">widget::widget()</a>.    </td>
+Referenced by <a class="el" href="stock__inc_8php-source.html#l00259">ChangeStock()</a>, <a class="el" href="class__action_8php-source.html#l00303">action::Confirm()</a>, <a class="el" href="class__widget_8php-source.html#l00498">widget::debug()</a>, <a class="el" href="class__fiche__def_8php-source.html#l00078">fiche_def_ref::Display()</a>, <a class="el" href="fiche__inc_8php-source.html#l01390">DisplayDetailModele()</a>, <a class="el" href="fiche__inc_8php-source.html#l00225">EncodeFiche()</a>, <a class="el" href="form__inc_8php-source.html#l00034">EncodeForm()</a>, <a class="el" href="class_8ezpdf_8php-source.html#l00607">Cezpdf::ezTable()</a>, <a class="el" href="user__form__fin_8php-source.html#l00146">FormFin()</a>, <a class="el" href="user__form__ods_8php-source.html#l00045">FormODS()</a>, <a class="el" href="user__form__ven_8php-source.html#l00425">FormVenteView()</a>, <a class="el" href="class__jrn_8php-source.html#l00321">jrn::GetDefLine()</a>, <a class="el" href="class__fiche_8php-source.html#l00542">fiche::insert()</a>, <a class="el" href="class__user_8php-source.html#l00299">cl_user::insert_default_global_pref()</a>, <a class="el" href="class__widget_8php-source.html#l00089">widget::IOValue()</a>, <a class="el" href="user__common_8php-source.html#l00858">jrn_navigation_bar()</a>, <a class="el" href="class__fiche__def_8php-source.html#l00051">fiche_def_ref::LoadAll()</a>, <a class="el" href="ac__common_8php-source.html#l00282">make_array()</a>, <a class="el" href="fiche__new_8php-source.html#l00060">new_fiche()</a>, <a class="el" href="class_8pdf_8php-source.html#l00559">Cpdf::o_fontDescriptor()</a>, <a class="el" href="class__document_8php-source.html#l00145">Document::ParseDocument()</a>, <a class="el" href="jrn_8php-source.html#l00038">RecordJrn()</a>, <a class="el" href="class__action_8php-source.html#l00418">action::SaveStage2()</a>, <a class="el" href="action_8inc_8php-source.html#l00038">ShowActionList()</a>, <a class="el" href="class__contact_8php-source.html#l00050">contact::Summary()</a>, <a class="el" href="user__menu_8php-source.html#l00371">u_ShowMenuRecherche()</a>, <a class="el" href="class__fiche_8php-source.html#l00642">fiche::update()</a>, <a class="el" href="class__user_8php-source.html#l00331">cl_user::update_global_pref()</a>, <a class="el" href="jrn_8php-source.html#l00282">UpdateJrn()</a>, <a class="el" href="import__inc_8php-source.html#l00067">VerifImport()</a>, <a class="el" href="fiche__inc_8php-source.html#l00394">ViewFiche()</a>, <a class="el" href="impress__inc_8php-source.html#l00036">ViewImp()</a>, and <a class="el" href="class__widget_8php-source.html#l00064">widget::widget()</a>.    </td>
   </tr>
 </table>
-<hr size="1"><address style="align: right;"><small>Generated on Tue Jun 27 01:39:29 2006 for phpcompta by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Wed Jun 28 02:07:24 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

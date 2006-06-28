@@ -271,12 +271,14 @@ class Document
   function Upload() 
     {
 
+      // nothing to save
+      if ( sizeof($_FILES) == 0 ) return;
+
       // Start Transaction
       StartSql($this->db);
       $new_name=tempnam('/tmp','doc_');
 
-      // nothing to save
-      if ( sizeof($_FILES) == 0 ) return;
+
       // check if a file is submitted
       if ( strlen($_FILES['file_upload']['tmp_name']) != 0 )
 	{
@@ -312,8 +314,8 @@ class Document
 	  $sql=sprintf("update document set d_lob=%s,d_filename='%s',d_mimetype='%s' where d_id=%d",
 		       $this->d_lob,$this->d_filename,$this->d_mimetype,$this->d_id);
 	  ExecSql($this->db,$sql);
-	  Commit($this->db);
 	}
+      Commit($this->db);
 
     }
 /*! a_ref

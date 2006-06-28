@@ -16,7 +16,7 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaction.html#a0">action</a> ($p_cn)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">constructor  <a href="#a0"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaction.html#a1">Display</a> ($p_view)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaction.html#a1">Display</a> ($p_view, $p_gen)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Display the object, the tags for the FORM are in the caller. It will be used for adding and updating action.  <a href="#a1"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaction.html#a2">get</a> ()</td></tr>
@@ -137,15 +137,15 @@ Display the encoded data and ask a confirmation this correspond to the stage 1, 
 <p>
 Confirm<p>
 <dl compact><dt><b>Returns:</b></dt><dd>string containing the form</dd></dl>
-<dl compact><dt><b><a class="el" href="todo.html#_todo000002">Todo:</a></b></dt><dd>add the hour </dd></dl>
+<dl compact><dt><b><a class="el" href="todo.html#_todo000003">Todo:</a></b></dt><dd>add the hour </dd></dl>
 
 <p>
-Definition at line <a class="el" href="class__action_8php-source.html#l00247">247</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
+Definition at line <a class="el" href="class__action_8php-source.html#l00303">303</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
 <p>
-References <a class="el" href="action_8inc_8php-source.html#l00273">$a</a>, <a class="el" href="admin__repo_8php-source.html#l00119">$desc</a>, <a class="el" href="action_8inc_8php-source.html#l00221">$doc_type</a>, <a class="el" href="class__action_8php-source.html#l00070">$f_id</a>, <a class="el" href="action_8inc_8php-source.html#l00125">$h_url</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="action_8inc_8php-source.html#l00124">$retour</a>, <a class="el" href="action_8inc_8php-source.html#l00236">$title</a>, <a class="el" href="action_8inc_8php-source.html#l00140">ag_comment</a>, <a class="el" href="action_8inc_8php-source.html#l00141">ag_timestamp</a>, <a class="el" href="action_8inc_8php-source.html#l00142">d_state</a>, <a class="el" href="action_8inc_8php-source.html#l00143">dt_id</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="facture_8inc_8php-source.html#l00194">f_id</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, <a class="el" href="ac__common_8php-source.html#l00208">FormatString()</a>, <a class="el" href="ac__common_8php-source.html#l00097">isDate()</a>, <a class="el" href="ac__common_8php-source.html#l00282">make_array()</a>, <a class="el" href="action_8inc_8php-source.html#l00170">name</a>, and <a class="el" href="action_8inc_8php-source.html#l00171">value</a>.    </td>
+References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="admin__repo_8php-source.html#l00119">$desc</a>, <a class="el" href="class__action_8php-source.html#l00070">$f_id</a>, <a class="el" href="action_8inc_8php-source.html#l00128">$h_url</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="action_8inc_8php-source.html#l00127">$retour</a>, <a class="el" href="action_8inc_8php-source.html#l00144">ag_comment</a>, <a class="el" href="action_8inc_8php-source.html#l00145">ag_timestamp</a>, <a class="el" href="action_8inc_8php-source.html#l00146">d_state</a>, <a class="el" href="action_8inc_8php-source.html#l00147">dt_id</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="facture_8inc_8php-source.html#l00194">f_id</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, <a class="el" href="ac__common_8php-source.html#l00208">FormatString()</a>, <a class="el" href="ac__common_8php-source.html#l00097">isDate()</a>, <a class="el" href="ac__common_8php-source.html#l00282">make_array()</a>, <a class="el" href="action_8inc_8php-source.html#l00175">name</a>, and <a class="el" href="action_8inc_8php-source.html#l00176">value</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a1"></a><!-- doxytag: member="action::Display" ref="a1" args="($p_view)" --><p>
+<a class="anchor" name="a1"></a><!-- doxytag: member="action::Display" ref="a1" args="($p_view, $p_gen)" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -154,9 +154,18 @@ References <a class="el" href="action_8inc_8php-source.html#l00273">$a</a>, <a c
           <td class="md" nowrap valign="top">action::Display           </td>
           <td class="md" valign="top">(&nbsp;</td>
           <td class="md" nowrap valign="top">$&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap> <em>p_view</em>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap></td>
+          <td class="mdname" nowrap> <em>p_view</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>$&nbsp;</td>
+          <td class="mdname" nowrap> <em>p_gen</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
         </tr>
       </table>
     </td>
@@ -175,18 +184,19 @@ Display the object, the tags for the FORM are in the caller. It will be used for
 Display <dl compact><dt><b>Note:</b></dt><dd>If ag_id is not equal to zero then it is an update otherwise it is a new document</dd></dl>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>$p_view</em>&nbsp;</td><td>if set to true the form will be in readonly mode </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>$p_view</em>&nbsp;</td><td>if set to true the form will be in readonly mode \param $p_gen true we show the tag for generating a doc </td></tr>
   </table>
 </dl>
-<dl compact><dt><b>Note:</b></dt><dd>update the reference number or the document type is not allowed</dd></dl>
+<dl compact><dt><b><a class="el" href="todo.html#_todo000002">Todo:</a></b></dt><dd>change this parameter by UPD : ag_ref and document type are read only, the other are writable, NEW: everything is writable, READ readonly mode <dl compact><dt><b>Note:</b></dt><dd>update the reference number or the document type is not allowed</dd></dl>
+</dd></dl>
 <dl compact><dt><b>Returns:</b></dt><dd>string containing the html code</dd></dl>
 
 <p>
-Definition at line <a class="el" href="class__action_8php-source.html#l00094">94</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
+Definition at line <a class="el" href="class__action_8php-source.html#l00098">98</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
 <p>
-References <a class="el" href="action_8inc_8php-source.html#l00273">$a</a>, <a class="el" href="admin__repo_8php-source.html#l00119">$desc</a>, <a class="el" href="document__modele_8inc_8php-source.html#l00031">$doc</a>, <a class="el" href="action_8inc_8php-source.html#l00221">$doc_type</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="bank_8inc_8php-source.html#l00097">$sp</a>, <a class="el" href="action_8inc_8php-source.html#l00236">$title</a>, <a class="el" href="admin_8inc_8php-source.html#l00115">$w</a>, <a class="el" href="action_8inc_8php-source.html#l00141">ag_timestamp</a>, <a class="el" href="action_8inc_8php-source.html#l00146">d_id</a>, <a class="el" href="action_8inc_8php-source.html#l00142">d_state</a>, <a class="el" href="action_8inc_8php-source.html#l00143">dt_id</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, <a class="el" href="ac__common_8php-source.html#l00208">FormatString()</a>, <a class="el" href="ac__common_8php-source.html#l00282">make_array()</a>, and <a class="el" href="action_8inc_8php-source.html#l00144">qcode</a>.
+References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="action_8inc_8php-source.html#l00278">$d_id</a>, <a class="el" href="admin__repo_8php-source.html#l00119">$desc</a>, <a class="el" href="document__modele_8inc_8php-source.html#l00031">$doc</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="bank_8inc_8php-source.html#l00097">$sp</a>, <a class="el" href="admin_8inc_8php-source.html#l00115">$w</a>, <a class="el" href="action_8inc_8php-source.html#l00143">ag_id</a>, <a class="el" href="action_8inc_8php-source.html#l00202">ag_ref</a>, <a class="el" href="action_8inc_8php-source.html#l00145">ag_timestamp</a>, <a class="el" href="action_8inc_8php-source.html#l00150">d_id</a>, <a class="el" href="action_8inc_8php-source.html#l00146">d_state</a>, <a class="el" href="action_8inc_8php-source.html#l00147">dt_id</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="balance_8php-source.html#l00036">exit</a>, <a class="el" href="facture_8inc_8php-source.html#l00194">f_id</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, <a class="el" href="ac__common_8php-source.html#l00208">FormatString()</a>, <a class="el" href="postgres_8php-source.html#l00414">getDbValue()</a>, <a class="el" href="ac__common_8php-source.html#l00282">make_array()</a>, and <a class="el" href="action_8inc_8php-source.html#l00148">qcode</a>.
 <p>
-Referenced by <a class="el" href="class__action_8php-source.html#l00359">SaveStage2()</a>.    </td>
+Referenced by <a class="el" href="class__action_8php-source.html#l00418">SaveStage2()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a2"></a><!-- doxytag: member="action::get" ref="a2" args="()" --><p>
@@ -217,9 +227,9 @@ This function shows the detail of an action thanks the ag_id.
 <p>
 
 <p>
-Definition at line <a class="el" href="class__action_8php-source.html#l00206">206</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
+Definition at line <a class="el" href="class__action_8php-source.html#l00260">260</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
 <p>
-References <a class="el" href="action_8inc_8php-source.html#l00273">$a</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="cbc__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, <a class="el" href="action_8inc_8php-source.html#l00140">ag_comment</a>, <a class="el" href="action_8inc_8php-source.html#l00141">ag_timestamp</a>, <a class="el" href="action_8inc_8php-source.html#l00145">ag_title</a>, <a class="el" href="action_8inc_8php-source.html#l00146">d_id</a>, <a class="el" href="action_8inc_8php-source.html#l00142">d_state</a>, <a class="el" href="action_8inc_8php-source.html#l00143">dt_id</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="facture_8inc_8php-source.html#l00194">f_id</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, and <a class="el" href="action_8inc_8php-source.html#l00144">qcode</a>.    </td>
+References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="cbc__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, <a class="el" href="action_8inc_8php-source.html#l00144">ag_comment</a>, <a class="el" href="action_8inc_8php-source.html#l00202">ag_ref</a>, <a class="el" href="action_8inc_8php-source.html#l00145">ag_timestamp</a>, <a class="el" href="action_8inc_8php-source.html#l00149">ag_title</a>, <a class="el" href="action_8inc_8php-source.html#l00150">d_id</a>, <a class="el" href="action_8inc_8php-source.html#l00146">d_state</a>, <a class="el" href="action_8inc_8php-source.html#l00147">dt_id</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="facture_8inc_8php-source.html#l00194">f_id</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, and <a class="el" href="action_8inc_8php-source.html#l00148">qcode</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a6"></a><!-- doxytag: member="action::myList" ref="a6" args="($p_filter=&quot;&quot;, $p_search=&quot;&quot;)" --><p>
@@ -267,9 +277,9 @@ myList($p_filter="") <dl compact><dt><b>Parameters:</b></dt><dd>
 <dl compact><dt><b>Returns:</b></dt><dd>string containing html code</dd></dl>
 
 <p>
-Definition at line <a class="el" href="class__action_8php-source.html#l00468">468</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
+Definition at line <a class="el" href="class__action_8php-source.html#l00545">545</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
 <p>
-References <a class="el" href="commercial_8php-source.html#l00035">$_SESSION</a>, <a class="el" href="bank_8inc_8php-source.html#l00119">$bar</a>, <a class="el" href="document__modele_8inc_8php-source.html#l00031">$doc</a>, <a class="el" href="jrn__pdf_8php-source.html#l00071">$limit</a>, <a class="el" href="bank_8inc_8php-source.html#l00107">$offset</a>, <a class="el" href="bank_8inc_8php-source.html#l00106">$page</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="cbc__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, <a class="el" href="bank_8inc_8php-source.html#l00105">$step</a>, <a class="el" href="action_8inc_8php-source.html#l00145">ag_title</a>, <a class="el" href="postgres_8php-source.html#l00222">CountSql()</a>, <a class="el" href="action_8inc_8php-source.html#l00146">d_id</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="facture_8inc_8php-source.html#l00194">f_id</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, and <a class="el" href="user__common_8php-source.html#l00858">jrn_navigation_bar()</a>.    </td>
+References <a class="el" href="commercial_8php-source.html#l00035">$_SESSION</a>, <a class="el" href="bank_8inc_8php-source.html#l00119">$bar</a>, <a class="el" href="document__modele_8inc_8php-source.html#l00031">$doc</a>, <a class="el" href="jrn__pdf_8php-source.html#l00071">$limit</a>, <a class="el" href="bank_8inc_8php-source.html#l00107">$offset</a>, <a class="el" href="bank_8inc_8php-source.html#l00106">$page</a>, <a class="el" href="bank_8inc_8php-source.html#l00090">$qcode</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="cbc__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, <a class="el" href="bank_8inc_8php-source.html#l00105">$step</a>, <a class="el" href="action_8inc_8php-source.html#l00202">ag_ref</a>, <a class="el" href="action_8inc_8php-source.html#l00149">ag_title</a>, <a class="el" href="postgres_8php-source.html#l00222">CountSql()</a>, <a class="el" href="action_8inc_8php-source.html#l00150">d_id</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="facture_8inc_8php-source.html#l00194">f_id</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, and <a class="el" href="user__common_8php-source.html#l00858">jrn_navigation_bar()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a4"></a><!-- doxytag: member="action::SaveStage2" ref="a4" args="()" --><p>
@@ -302,9 +312,9 @@ SaveStage2<p>
 <dl compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="class__action_8php-source.html#l00359">359</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
+Definition at line <a class="el" href="class__action_8php-source.html#l00418">418</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
 <p>
-References <a class="el" href="impress__jrn_8php-source.html#l00035">$d</a>, <a class="el" href="document__modele_8inc_8php-source.html#l00031">$doc</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, <a class="el" href="facture_8inc_8php-source.html#l00197">$str_file</a>, <a class="el" href="action_8inc_8php-source.html#l00169">$upload</a>, <a class="el" href="action_8inc_8php-source.html#l00140">ag_comment</a>, <a class="el" href="action_8inc_8php-source.html#l00139">ag_id</a>, <a class="el" href="action_8inc_8php-source.html#l00145">ag_title</a>, <a class="el" href="action_8inc_8php-source.html#l00142">d_state</a>, <a class="el" href="class__action_8php-source.html#l00094">Display()</a>, <a class="el" href="action_8inc_8php-source.html#l00143">dt_id</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, <a class="el" href="ac__common_8php-source.html#l00208">FormatString()</a>, <a class="el" href="action_8inc_8php-source.html#l00316">md_id</a>, <a class="el" href="action_8inc_8php-source.html#l00170">name</a>, <a class="el" href="postgres_8php-source.html#l00251">NextSequence()</a>, and <a class="el" href="action_8inc_8php-source.html#l00171">value</a>.    </td>
+References <a class="el" href="impress__jrn_8php-source.html#l00035">$d</a>, <a class="el" href="document__modele_8inc_8php-source.html#l00031">$doc</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, <a class="el" href="facture_8inc_8php-source.html#l00197">$str_file</a>, <a class="el" href="action_8inc_8php-source.html#l00174">$upload</a>, <a class="el" href="action_8inc_8php-source.html#l00144">ag_comment</a>, <a class="el" href="action_8inc_8php-source.html#l00143">ag_id</a>, <a class="el" href="action_8inc_8php-source.html#l00202">ag_ref</a>, <a class="el" href="action_8inc_8php-source.html#l00149">ag_title</a>, <a class="el" href="action_8inc_8php-source.html#l00146">d_state</a>, <a class="el" href="class__action_8php-source.html#l00098">Display()</a>, <a class="el" href="action_8inc_8php-source.html#l00147">dt_id</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, <a class="el" href="ac__common_8php-source.html#l00208">FormatString()</a>, <a class="el" href="action_8inc_8php-source.html#l00255">md_id</a>, <a class="el" href="action_8inc_8php-source.html#l00175">name</a>, <a class="el" href="postgres_8php-source.html#l00251">NextSequence()</a>, and <a class="el" href="action_8inc_8php-source.html#l00176">value</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a5"></a><!-- doxytag: member="action::SaveStage3" ref="a5" args="($d_id)" --><p>
@@ -341,9 +351,9 @@ SaveStage3 <dl compact><dt><b>Parameters:</b></dt><dd>
 </dl>
 
 <p>
-Definition at line <a class="el" href="class__action_8php-source.html#l00445">445</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
+Definition at line <a class="el" href="class__action_8php-source.html#l00511">511</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
 <p>
-References <a class="el" href="action_8inc_8php-source.html#l00333">$d_id</a>, <a class="el" href="document__modele_8inc_8php-source.html#l00031">$doc</a>, and <a class="el" href="action_8inc_8php-source.html#l00146">d_id</a>.    </td>
+References <a class="el" href="action_8inc_8php-source.html#l00278">$d_id</a>, <a class="el" href="document__modele_8inc_8php-source.html#l00031">$doc</a>, <a class="el" href="action_8inc_8php-source.html#l00143">ag_id</a>, <a class="el" href="action_8inc_8php-source.html#l00150">d_id</a>, <a class="el" href="action_8inc_8php-source.html#l00147">dt_id</a>, and <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a7"></a><!-- doxytag: member="action::Update" ref="a7" args="()" --><p>
@@ -375,9 +385,9 @@ Update the data into the database.
 <dl compact><dt><b>Returns:</b></dt><dd>true on success otherwise false</dd></dl>
 
 <p>
-Definition at line <a class="el" href="class__action_8php-source.html#l00538">538</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
+Definition at line <a class="el" href="class__action_8php-source.html#l00623">623</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
 <p>
-References <a class="el" href="document__modele_8inc_8php-source.html#l00031">$doc</a>, <a class="el" href="class__action_8php-source.html#l00070">$f_id</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, <a class="el" href="action_8inc_8php-source.html#l00140">ag_comment</a>, <a class="el" href="action_8inc_8php-source.html#l00139">ag_id</a>, <a class="el" href="action_8inc_8php-source.html#l00146">d_id</a>, <a class="el" href="action_8inc_8php-source.html#l00143">dt_id</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="facture_8inc_8php-source.html#l00194">f_id</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, <a class="el" href="ac__common_8php-source.html#l00208">FormatString()</a>, and <a class="el" href="impress__listing__client_8php-source.html#l00059">return</a>.    </td>
+References <a class="el" href="document__modele_8inc_8php-source.html#l00031">$doc</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, <a class="el" href="action_8inc_8php-source.html#l00144">ag_comment</a>, <a class="el" href="action_8inc_8php-source.html#l00143">ag_id</a>, <a class="el" href="action_8inc_8php-source.html#l00150">d_id</a>, <a class="el" href="action_8inc_8php-source.html#l00147">dt_id</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="facture_8inc_8php-source.html#l00194">f_id</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, <a class="el" href="ac__common_8php-source.html#l00208">FormatString()</a>, and <a class="el" href="impress__listing__client_8php-source.html#l00059">return</a>.    </td>
   </tr>
 </table>
 <hr><h2>Field Documentation</h2>
@@ -630,12 +640,12 @@ fiche id
 <p>
 Definition at line <a class="el" href="class__action_8php-source.html#l00070">70</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
 <p>
-Referenced by <a class="el" href="class__action_8php-source.html#l00247">Confirm()</a>, and <a class="el" href="class__action_8php-source.html#l00538">Update()</a>.    </td>
+Referenced by <a class="el" href="class__action_8php-source.html#l00303">Confirm()</a>.    </td>
   </tr>
 </table>
 <hr>The documentation for this class was generated from the following file:<ul>
 <li>/home/dany/developpement/phpcompta-dev/phpcompta/include/<a class="el" href="class__action_8php-source.html">class_action.php</a></ul>
-<hr size="1"><address style="align: right;"><small>Generated on Tue Jun 27 01:39:30 2006 for phpcompta by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Wed Jun 28 02:07:24 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

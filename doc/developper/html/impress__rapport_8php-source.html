@@ -104,10 +104,10 @@
 <a name="l00103"></a>00103         } 
 <a name="l00104"></a>00104         <span class="keywordflow">else</span>
 <a name="l00105"></a>00105           {
-<a name="l00106"></a>00106             <a class="code" href="action_8inc_8php.html#a24">$a</a>=0;
+<a name="l00106"></a>00106             <a class="code" href="balance_8php.html#a10">$a</a>=0;
 <a name="l00107"></a>00107             foreach ( $array as $e) {
-<a name="l00108"></a>00108               echo '&lt;h2 <span class="keyword">class</span>=<span class="stringliteral">"info"</span>&gt;Periode : '.$periode_name[<a class="code" href="action_8inc_8php.html#a24">$a</a>].<span class="stringliteral">"&lt;/h2&gt;"</span>;
-<a name="l00109"></a>00109               <a class="code" href="action_8inc_8php.html#a24">$a</a>++;
+<a name="l00108"></a>00108               echo '&lt;h2 <span class="keyword">class</span>=<span class="stringliteral">"info"</span>&gt;Periode : '.$periode_name[<a class="code" href="balance_8php.html#a10">$a</a>].<span class="stringliteral">"&lt;/h2&gt;"</span>;
+<a name="l00109"></a>00109               <a class="code" href="balance_8php.html#a10">$a</a>++;
 <a name="l00110"></a>00110               <a class="code" href="impress__rapport_8php.html#a13">ShowReportResult</a>($e);
 <a name="l00111"></a>00111             }
 <a name="l00112"></a>00112           }
@@ -150,8 +150,8 @@
 <a name="l00149"></a>00149 <a class="code" href="impress__bilan_8php.html#a3">print</a> <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;IOValue('to_periode',$periode_end);
 <a name="l00150"></a>00150 <a class="code" href="impress__bilan_8php.html#a3">print</a> <span class="stringliteral">"&lt;/TR&gt;"</span>;
 <a name="l00151"></a><a class="code" href="impress__rapport_8php.html#a12">00151</a> <a class="code" href="impress__rapport_8php.html#a12">$aStep</a>=array(
-<a name="l00152"></a>00152              array('<a class="code" href="action_8inc_8php.html#a13">value</a>'=&gt;0,'<a class="code" href="action_8inc_8php.html#a15">label</a>'=&gt;'Pas d\'étape'),
-<a name="l00153"></a>00153              array('<a class="code" href="action_8inc_8php.html#a13">value</a>'=&gt;1,'<a class="code" href="action_8inc_8php.html#a15">label</a>'=&gt;'1 mois')
+<a name="l00152"></a>00152              array('<a class="code" href="action_8inc_8php.html#a13">value</a>'=&gt;0,'<a class="code" href="balance_8php.html#a6">label</a>'=&gt;'Pas d\'étape'),
+<a name="l00153"></a>00153              array('<a class="code" href="action_8inc_8php.html#a13">value</a>'=&gt;1,'<a class="code" href="balance_8php.html#a6">label</a>'=&gt;'1 mois')
 <a name="l00154"></a>00154              );
 <a name="l00155"></a>00155 <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;label='Par étape de';
 <a name="l00156"></a>00156 echo '&lt;TR&gt; '.$w-&gt;IOValue('p_step',$aStep);
@@ -187,7 +187,7 @@
 <a name="l00186"></a>00186  }
 <a name="l00187"></a>00187 
 <a name="l00188"></a>00188 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Jun 27 01:39:28 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Wed Jun 28 02:07:23 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>
