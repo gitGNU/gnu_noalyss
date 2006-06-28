@@ -68,7 +68,6 @@ function ShowActionList($cn,$retour,$h_url)
 
 <?
 ?>
-<span>
 <form method="get" action="commercial.php">
 <input type="submit" name="submit_query" value="Ajout Action">
 <input type="hidden" name="p_action" value="suivi_courrier">
@@ -80,20 +79,29 @@ function ShowActionList($cn,$retour,$h_url)
 </form>
 
 
-</span>
 <?
     // show the  action in 
     $act=new action($cn);
    /*! \brief
     *  \note The field 'recherche' is   about a part of the title or a ref. number
     */
-   $query=(isset ($_REQUEST['query']))?"and (ag_title ~* '".FormatString($_REQUEST['query'])."' or ag_ref ='".trim(FormatString($_REQUEST['query']))."')":"";
+   $query="";
+
+   if ( isset($_REQUEST['query']) )
+   {
+
+     // if a query is request build the sql stmt
+     $query="and (ag_title ~* '".FormatString($_REQUEST['query'])."' ".
+       "or ag_ref ='".trim(FormatString($_REQUEST['query']))."'".
+       ")"; 
+   }
+ 
    $str="";
    if ( isset($_GET['qcode'] )) 
      {
 
-       // verify that qcode is not empty
-       if ( strlen(trim($_REQUEST['qcode'] )) != 0 )
+        // verify that qcode is not empty
+        if ( strlen(trim($_REQUEST['qcode'] )) != 0 )
 	 { 
 
 	   $fiche=new Fiche($cn);
@@ -118,7 +126,7 @@ if ( $sub_action == "" ) $sub_action="list";
 // if correction is asked go to directly to add_action
 if (isset($_POST['corr'] )) 
 {
-  $ag_comment=rawurldecode($_POST['ag_comment']);
+  $ag_comment=urldecode($_POST['ag_comment']);
   $sub_action="add_action";
 }
 // if this page is called from another menu (customer, supplier,...)
@@ -134,34 +142,78 @@ if ( isset ($_REQUEST['url']))
 }
 //----------------------------------------------------------------------
 // Update the detail
+// Add a new action related to this one or update 
+//----------------------------------------------------------------------
 if ( $sub_action=="update" )
 {
-
-
-  $act=new action($cn);
-
-  $act->ag_id=$_POST['ag_id'];
-  $act->ag_comment=$_POST['ag_comment'];
-  $act->ag_timestamp=$_POST['ag_timestamp'];
-  $act->d_state=$_POST['d_state'];
-  $act->dt_id=(isset($_POST['dt_id']))?$_POST['dt_id']:0;
-  $act->qcode=$_POST['qcode'];
-  $act->ag_title=$_POST['ag_title'];
-  $act->d_id=(isset($_POST['d_id']))?$_POST['d_id']:0;
-  if ( $act->Update() == false ) {
-    $sub_action="detail";
-  } 
-   else 
+  // Update the modification
+  if ( isset($_POST['save']))
     {
-      ShowActionList($cn,$retour,$h_url);
+      $act=new action($cn);
+      $act=new action($cn);
+      
+      $act->ag_id=$_POST['ag_id'];
+      $act->ag_comment=$_POST['ag_comment'];
+      $act->ag_timestamp=$_POST['ag_timestamp'];
+      $act->d_state=$_POST['d_state'];
+      $act->dt_id=(isset($_POST['dt_id']))?$_POST['dt_id']:0;
+      $act->qcode=$_POST['qcode'];
+      $act->ag_title=$_POST['ag_title'];
+      $act->d_id=(isset($_POST['d_id']))?$_POST['d_id']:0;
+      if ( $act->Update() == false ) {
+	$sub_action="detail";
+      } 
+      else 
+	{
+	  ShowActionList($cn,$retour,$h_url);
+	}
     }
-
+  //----------------------------------------------------------------------
+  // Add a related action 
+  //----------------------------------------------------------------------
+if ( isset ($_POST['add_action_here']) )
+{
+      $act=new action($cn);
+      $act->ag_ref_ag_id=$_POST['ag_id'];
+      
+      //----------------------------------------
+      // puis comme ajout normal (copier / coller )
+      echo $retour;
+      $act->ag_id=0;
+      $act->ag_ref_ag_id=$_POST['ag_id'];
+      $act->ag_timestamp=(isset($_POST['ag_timestamp']))?$_POST['ag_timestamp']:"";
+      $act->qcode=isset($_POST['tiers'])?$_REQUEST['tiers']:"";
+      $act->d_id=0;
+      $act->dt_id=isset($_POST['dt_id'])?$_REQUEST['dt_id']:"";
+      $act->d_state=(isset($_POST['d_state']))?$_POST['d_state']:"";
+      $act->ag_ref="";
+      $act->ag_title=(isset($_POST['ag_title']))?$_POST['ag_title']:"";
+      echo '<div class="u_redcontent">';
+      echo JS_SEARCH_CARD;
+      // Add hidden tag
+      echo '<form name="RTEDemo" action="commercial.php?p_action=suivi_courrier" method="post" onsubmit="return submitForm();">';
+      
+      $act->ag_comment=(isset($_POST['ag_comment']))?Decode($_POST['ag_comment']):"";
+      echo $act->Display('NEW',false);
+      
+      echo '<input type="hidden" name="p_action" value="suivi_courrier">';
+      echo '<input type="hidden" name="sa" value="save_action_st1">';
+      
+      echo $h_url;
+      echo '<input type="submit" name="save_action_st1" value="Sauver"></p>'.
+	'</form>'.
+	'</div>';
+      
+    }
+  
+  
 }
 //--------------------------------------------------------------------------------
 // Show the detail of an action
 // permit the update
 if ( $sub_action=='detail' )
 {
+  echo '<div class="u_redcontent">';
   $act=new action($cn);
   $act->ag_id=$_REQUEST['ag_id'];
   echo $act->get();
@@ -176,12 +228,12 @@ if ( $sub_action=='detail' )
   $upload->value="";
   echo "Enregistrer le fichier ".$upload->IOValue();
   echo $upload->Submit("save","Sauve");
+  echo $upload->Submit("add_action_here","Ajoute une action à celle-ci");
   echo '</form>';
+  /*! \todo show list of related action */
   echo $retour;
-
+  echo '</div>';
 }
-
-
 //--------------------------------------------------------------------------------
 // Show a list of the action
 if ( $sub_action == "list" )
@@ -194,6 +246,7 @@ if ( $sub_action == "add_action" )
   echo $retour;
   $act=new action($cn);
   $act->ag_id=0;
+  $act->ag_ref_ag_id=(isset($_POST['ag_ref_ag_id']))?$_POST['ag_ref_ag_id']:"0";
   $act->ag_timestamp=(isset($_POST['ag_timestamp']))?$_POST['ag_timestamp']:"";
   $act->qcode=isset($_POST['tiers'])?$_REQUEST['tiers']:"";
   $act->d_id=0;
@@ -234,6 +287,8 @@ if  ( $sub_action == "save_action_st1" )
   $act->ag_title=$_POST['ag_title'];
   $act->d_id=0;
   $act->ag_id=$_POST['ag_id'];
+  $act->ag_ref_ag_id=(isset($_POST['ag_ref_ag_id']))?$_POST['ag_ref_ag_id']:0;
+      
   echo $act->Confirm();
 }
 //--------------------------------------------------------------------------------
@@ -251,7 +306,7 @@ if  ( $sub_action == "save_action_st2" )
   $act->qcode=$_POST['tiers'];
   $act->ag_title=$_POST['ag_title'];
   $act->d_id=0;
-
+  $act->ag_ref_ag_id=(isset($_POST['ag_ref_ag_id']))?$_POST['ag_ref_ag_id']:0;
   $act->md_id=(isset($_POST['gen_doc']))?$_POST['gen_doc']:0;
 
   $act->gen=isset($_POST['p_gen'])?'on':'off';
@@ -269,6 +324,7 @@ if  ( $sub_action == "save_action_st3" )
   echo_debug("action.inc.php",__LINE__,'Stage 3');
   $act=new action($cn);
   $act->ag_id=$_POST['ag_id'];
+  $act->ag_ref_ag_idid=$_POST['ag_ref_ag_id'];
   $act->ag_comment=$_POST['ag_comment'];
   $act->ag_timestamp=$_POST['ag_timestamp'];
   $act->d_state=$_POST['d_state'];
@@ -276,6 +332,7 @@ if  ( $sub_action == "save_action_st3" )
   $act->qcode=$_POST['qcode'];
   $act->ag_title=$_POST['ag_title'];
   $d_id=(isset($_POST['d_id']))?$_POST['d_id']:0;
+  $act->ag_ref_ag_id=(isset($_POST['ag_ref_ag_id']))?$_POST['ag_ref_ag_id']:0;
   echo $act->SaveStage3($d_id);
   
   ShowActionList($cn,$retour,$h_url);

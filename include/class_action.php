@@ -36,7 +36,6 @@ require_once("user_common.php");
 /*!
  * \brief class_action for manipulating actions
  * action can be :
- * - an invoice
  * - a meeting
  * - an order
  * - a letter
@@ -56,7 +55,8 @@ class action
   * \enum $d_mimetype document's filename
   * \enum $ag_title title document
   * \enum $f_id fiche id
-  * \enum \todo replace attribut frmo document by an object document 
+  * \enum $ag_ref_ag_id concern previous action
+  * \todo replace attribut from class document  document by an object document 
   */
   var $db;
   var $ag_comment;
@@ -68,6 +68,7 @@ class action
   var $d_mimetype;
   var $ag_title;
   var $f_id;
+  var $ag_ref_ag_id;
 /*!  constructor
  * \brief constructor
  * \param p_cn database connection
@@ -146,13 +147,13 @@ class action
 	$doc_type=new widget("hidden");
 	$doc_type->name="dt_id";
 	$doc_type->value=$this->dt_id;
-	$str_doc_type=$doc_type->IOValue().getDbValue($this->db,"select dt_id,dt_value from document_type where dt_id=".$this->dt_id);
+	$str_doc_type=$doc_type->IOValue()." ".getDbValue($this->db,"select dt_value from document_type where dt_id=".$this->dt_id);
       }
 
       // Description
       $desc=new widget('RICHTEXT');
-      $desc->width=540;
-      $desc->heigh=200;
+      $desc->width=500;
+      $desc->heigh=250;
       $desc->name="ag_comment";
       $desc->readonly=$readonly;
       $desc->value=urldecode($this->ag_comment);
@@ -217,7 +218,15 @@ class action
 	  $qcode_label=($this->f_id==0 || trim($this->qcode)=="")?'Interne ':'Error';
 	}
       $h_ag_id=new widget("hidden");
-
+      // if concerns another action : show the link otherwise nothing
+      $lag_ref_ag_id="";
+      
+      if ( $this->ag_ref_ag_id != 0 )
+	{
+	  $lag_ref_ag_id='<a class="mtitle" href="commercial.php?p_action=suivi_courrier&sa=detail&ag_id='.
+	    $this->ag_ref_ag_id.'">'.
+	    $this->GetAgRef("ag_ref_ag_id")."</A>";
+	}  
 
       $w=new widget('js_search_only');
       $w->readonly=$readonly;
@@ -226,31 +235,42 @@ class action
       $w->label="";
       $w->extra='4,8,9,14,16';
       $sp= new widget("span");
+      $h_agrefid=new widget('hidden');
 
       // Preparing the return string
       $r="";
       $r.=JS_SEARCH_CARD;
       $r.= "<p>Date : ".$date->IOValue()." Reference  ". $this->ag_ref."</p>";
-
-      $r.= 'Type d\' action';
+      $r.="<p>Concerne :".$lag_ref_ag_id."</p>";
+      $r.= '<p>Type d\' action';
       echo_debug('class_action',__LINE__,"str_doc_type $str_doc_type");
-      $r.= $str_doc_type;
+      $r.= $str_doc_type."</p>";
 
       // state
       $r.="<p>Etat :".$str_state;
 
 
-      $r.= "<p> ";
+      $r.= "</p><p> ";
       $r.=$w->IOValue();
       $r.=$sp->IOValue('qcode_label',$qcode_label)."</TD></TR>";
 
-      $r.="</p>".$h_ag_id->IOValue('ag_id',$this->ag_id);
+      $r.="</p>";
       echo_debug('class_action',__LINE__,' ag_id is '.$this->ag_id);
 
       $r.= "<p> Titre : ".$title->IOValue().' Ref :'.$ag_ref->IOValue();
       $r.= $doc_ref;
       $r.= "<p>Description :".$desc->IOValue()."</p>";
+
+      //hidden
+      $r.="<p>";
       $r.=$h2->IOValue();
+      $r.=$h_agrefid->IOValue("ag_ref_ag_id",$this->ag_ref_ag_id); 
+      $r.=$h_ag_id->IOValue('ag_id',$this->ag_id);
+      $r.="</p>";
+
+      // show the list of the concern operation
+      if ( CountSql($this->db,'select * from action_gestion where ag_ref_ag_id!=0 and ag_ref_ag_id='.$this->ag_id.' limit 5') >0 )
+	$r.=$this->myList(ACTION," and ag_ref_ag_id=".$this->ag_id);
       return $r;
  
     }
@@ -261,7 +281,8 @@ class action
     {
       echo_debug('class_action',__LINE__,'Action::Get() ');
       $sql="select ag_id, ag_comment,to_char (ag_timestamp,'DD-MM-YYYY') as ag_timestamp,".
-	" f_id,ag_title,ag_comment,ag_ref,d_id,ag_type,d_state  ".
+	" f_id,ag_title,ag_comment,ag_ref,d_id,ag_type,d_state,  ".
+	" ag_ref_ag_id ".
 	" from action_gestion left join document using (ag_id) where ag_id=".$this->ag_id;
       $r=ExecSql($this->db,$sql);
       $row=pg_fetch_all($r);
@@ -272,6 +293,7 @@ class action
       $this->ag_title=$row[0]['ag_title'];
       $this->ag_type=$row[0]['ag_type'];
       $this->ag_ref=$row[0]['ag_ref'];
+      $this->ag_ref_ag_id=$row[0]['ag_ref_ag_id'];
       $this->d_id=$row[0]['d_id'];
       //
       echo_debug('class_action',__LINE__,' Document id = '.$this->d_id);
@@ -361,6 +383,8 @@ class action
       $doc_gen->value=make_array($this->db,
 				 "select md_id,md_name from document_modele where md_type=".$this->dt_id);
 
+      $h_agrefid=new widget('hidden');
+
       // f_id
       if ( trim($this->qcode) =="" && $this->dt_id==1)
 	{
@@ -398,6 +422,8 @@ class action
       $r.='<input type="hidden" name="sa" value="save_action_st2">';
       $r.='<input type="hidden" name="p_action" value="suivi_courrier">';
       $r.='<input type="hidden" name="tiers" value="'.$this->qcode.'">';
+      $r.=	$h_agrefid->IOValue("ag_ref_ag_id",$this->ag_ref_ag_id);
+	
       // retrieve customer
 
 
@@ -447,15 +473,16 @@ class action
       $this->ag_comment=str_replace("%OD","",$this->ag_comment);
       $this->ag_comment=str_replace("%OA","",$this->ag_comment);
       // save into the database
-      $sql=sprintf("insert into action_gestion(ag_id,ag_timestamp,ag_type,ag_title,f_id,ag_comment,ag_ref) ".
-		   " values (%d,to_date('%s','DD-MM-YYYY'),'%d','%s',%d,'%s','%s')",
+      $sql=sprintf("insert into action_gestion(ag_id,ag_timestamp,ag_type,ag_title,f_id,ag_comment,ag_ref,ag_ref_ag_id) ".
+		   " values (%d,to_date('%s','DD-MM-YYYY'),'%d','%s',%d,'%s','%s',%d)",
 		   $this->ag_id,
 		   $this->ag_timestamp,
 		   $this->dt_id,
 		   FormatString($this->ag_title),
 		   $tiers->id,
 		   $this->ag_comment,
-		   $ref
+		   $ref,
+		   $this->ag_ref_ag_id
 		   );
       ExecSql($this->db,$sql);
 
@@ -483,7 +510,7 @@ class action
       // add the d_id
       $r.='<input type="hidden" name="d_id" value="'.$this->d_id.'">'; 
       // ag_comment must be saved in urlcode
-      $r.='<input type="hidden" name="ag_comment" value="'.rawurlencode($this->ag_comment).'">';
+      $r.='<input type="hidden" name="ag_comment" value="'.urlencode($this->ag_comment).'">';
       // Value for the generated document
       if ( $this->gen == 'on' ) 
 	{
@@ -545,7 +572,7 @@ class action
   function myList($p_filter="",$p_search="")
     {
       $sql="
-   select ag_id,to_char(ag_timestamp,'DD-MM-YYYY') as my_date,f_id,ag_title,d_id,md_type,dt_value,ag_ref 
+   select ag_id,to_char(ag_timestamp,'DD-MM-YYYY') as my_date,ag_ref_ag_id,f_id,ag_title,d_id,md_type,dt_value,ag_ref 
    from action_gestion 
       left outer join document using (ag_id)
       left outer join document_modele on (ag_type=md_type) 
@@ -560,7 +587,8 @@ class action
 
       $Res=ExecSql($this->db,$sql.$limit);
       $a_row=pg_fetch_all($Res);
-      $r='<div class="u_redcontent">';
+      //      $r='<div class="u_redcontent">';
+      $r="";
       $r.=$bar;
       $r.="<table>";
       $r.="<tr>";
@@ -569,6 +597,7 @@ class action
       $r.="<th>Titre</th>";
       $r.="<th>type</th>";
       $r.="<th>Référence</th>";
+      $r.="<th>concerne</th>";
       $r.="<th>Document</th>";
       $r.="</tr>";
 
@@ -600,19 +629,36 @@ class action
 	  else
 	    $r.="<td>Interne </td>";
 
+	  // show reference
+	  if ( $row['ag_ref_ag_id'] != 0 ) 
+	    {
+	      $retSqlStmt=ExecSql($this->db,
+				  "select ag_ref from action_gestion where ag_id=".$row['ag_ref_ag_id']);
+	      $retSql=pg_fetch_all($retSqlStmt);
+	      $ref="";
+	      foreach ($retSql as $line) 
+		{
+		  $ref.='<A  href="commercial.php?p_action=suivi_courrier&query='.$line['ag_ref'].'">'.
+		    $line['ag_ref']."<A>";
+		}
+	    }
+	  else 
+	    $ref="";
+
 	  $r.='<td><A HREF="commercial.php?p_action=suivi_courrier&sa=detail&ag_id='.$row['ag_id'].'">'.
 	    $row['ag_title']."</A></td>";
 	  $r.="<td>".$row['dt_value']."</td>";
 	  $r.="<td>".$row['ag_ref']."</td>";
-
+	  $r.="<td>".$ref."</td>";
 	  $doc=new Document($this->db,$row['d_id']);
 	  $r.="<td>".$doc->a_ref()."</td>";
 	  $r.="</tr>";
 
 	}
       $r.="</table>";
+
       $r.=$bar;
-      $r.="</div>";
+      //$r.="</div>";
       return $r;
     }
   //----------------------------------------------------------------------
@@ -662,16 +708,18 @@ class action
 
 
       $sql=sprintf("update action_gestion set ag_comment='%s',".
-		   "ag_timestamp=to_date('%s','DD.MM.YYYY'),".
-		   "ag_title='%s',".
-		   "ag_type=%d, ".
-		   "f_id=%d ".
+		   " ag_timestamp=to_date('%s','DD.MM.YYYY'),".
+		   " ag_title='%s',".
+		   " ag_type=%d, ".
+		   " f_id=%d, ".
+		   " ag_ref_ag_id=%d".
 		   " where ag_id = %d",
 		   $this->ag_comment,
 		   $this->ag_timestamp,
 		   FormatString($this->ag_title),
 		   $this->dt_id,
 		   $this->f_id,
+		   $this->ag_ref_ag_id,
 		   $this->ag_id);
       ExecSql($this->db,$sql);
       
@@ -694,6 +742,19 @@ class action
 	   
       return true;
     }
+  /*!\brief GetAgRef returns the ag_ref value of the ag_id or ag_ref_ag_id passed
+   * as parameter. This function doesn't change the current object.
+   * \param $p_method : can be ag_ref_ag_id or ag_id
+   * \return string with the ag_ref
+   */
+  function GetAgRef($p_method)
+    {
+      if ($p_method=="ag_ref_ag_id")
+	$sql="select ag_ref from action_gestion where ag_id=".$this->ag_ref_ag_id;
+      elseif ($p_method=="ag_id")
+	$sql="select ag_ref from action_gestion where ag_id=".$this->ag_id;
+      return Getdbvalue($this->db,$sql);
 
+    }
 
 }
