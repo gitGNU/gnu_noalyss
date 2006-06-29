@@ -95,10 +95,14 @@ if ( counter%2 != 0 )
 function Clean() 
 {
 	str="";
+	counter=0;
+	val="";
 	this.document.getElementById('listing').innerHTML="";
 	this.document.getElementById('result').innerHTML="";
 	this.document.getElementById('sub_total').innerHTML="";
 	this.document.getElementById('inp').value="";
+	this.document.getElementById('inp').focus();
+
 }
 
 function Compute()
