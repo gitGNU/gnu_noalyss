@@ -73,6 +73,11 @@ echo '<TABLE>';
 
 print '<TR>';
 $year=make_array($cn,"select distinct extract(year from jr_date), extract(year from jr_date) from jrn");
+if ( sizeof($year) == 0 ) 
+{
+  echo "Aucun enregistrement dans les journaux";
+  exit();
+}
 $w->label="Année concernée";
 print $w->IOValue('year',$year);
 print "</TR>";
