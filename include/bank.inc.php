@@ -148,6 +148,7 @@ if ( isset ($_POST['add_item']) || isset ($_POST['correct'])  )
 
   echo '<div class="u_redcontent">';
   echo $form;
+  echo JS_CALC_LINE;
   echo '</div>';
   exit();
 }
@@ -214,5 +215,6 @@ if ( $p_jrn != -1 )
   $form=FormFin($cn,$p_jrn,$User->GetPeriode(),$submit,null,false,$jrn->GetDefLine('deb'));
   echo '<div class="u_redcontent">';
   echo $form;
+  echo JS_CALC_LINE;
   echo '</div>';
 }

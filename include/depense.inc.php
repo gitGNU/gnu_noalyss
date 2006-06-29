@@ -169,6 +169,8 @@ if ( isset ($_POST['add_item']) || isset ($_POST["correct_new_invoice"])  )
   $form=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$submit,false,$nb_item);
   echo '<div class="u_redcontent">';
   echo $form;
+  echo JS_CALC_LINE;
+
   echo '</div>';
   exit();
 }
@@ -233,5 +235,7 @@ if ( $p_jrn != -1 )
   $form=FormAchInput($cn,$p_jrn,$User->GetPeriode(),null,$submit,false,$jrn->getDefLine('cred'));
   echo '<div class="u_redcontent">';
   echo $form;
+  echo JS_CALC_LINE;
   echo '</div>';
+
 }

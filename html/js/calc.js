@@ -44,11 +44,11 @@ if ( counter==0)
 	this.document.getElementById('result').innerHTML="";
 }
 // if both parenthesis are not found we increase the counter 
-if ( p_variable.search(/\)+/) == -1 && p_variable.search(/\(+/) ==-1) {
+// --> bug if ( p_variable.search(/\)+/) == -1 && p_variable.search(/\(+/) ==-1) {
 	if ( counter%2 == 0)
 	{
 		// number only
-		var regex=/^\(?[0-9]*\.*[0-9]*\)?$/;
+		var regex=/^[0-9]*\.*[0-9]*$/;
 	
 		if (  p_variable.search(regex) ==-1)
 		{
@@ -67,7 +67,7 @@ if ( p_variable.search(/\)+/) == -1 && p_variable.search(/\(+/) ==-1) {
 		
 	}
 	counter++;	
-}
+// --> PARENTHESIS}
 	
 if ( p_variable == "=" ) {
 	Compute();
@@ -84,6 +84,7 @@ if ( counter%2 != 0 )
 	sub=eval(val);
 	str_sub="<hr><b><i> Total :"+val+" = "+sub+"<I></b>";
 	this.document.getElementById("sub_total").innerHTML=str_sub;
+
 }
   //alert ('value is '+p_variable+'Global :'+str);
   this.document.getElementById("listing").innerHTML=str;
@@ -96,7 +97,7 @@ function Clean()
 	str="";
 	this.document.getElementById('listing').innerHTML="";
 	this.document.getElementById('result').innerHTML="";
-//	this.document.getElementById('sub_total').innerHTML="";
+	this.document.getElementById('sub_total').innerHTML="";
 	this.document.getElementById('inp').value="";
 }
 
