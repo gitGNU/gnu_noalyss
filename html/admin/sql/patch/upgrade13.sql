@@ -435,10 +435,12 @@ insert into jnt_fic_attr select fd_id,24 from jnt_fic_attr join fiche_def using 
 create table action_gestion (
 	ag_id serial primary key,
 	ag_type  int4,
-	f_id int4 not null,
+	f_id_dest int4 not null,
+	f_id_exp int4 not null,
 	ag_title varchar(70),
 	ag_timestamp timestamp default now(),
 	ag_cal char(1) default 'C',
+	g_ref_ag_id int4,
 	ag_comment text
 );
 
