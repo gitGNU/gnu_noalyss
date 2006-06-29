@@ -482,7 +482,7 @@ class Document
 	   */
 	case 'SOLDE':
 	  $tiers=new fiche($this->db);
-	  $qcode=isset($_REQUEST['tiers'])?$_REQUEST['tiers']:$_REQUEST['e_client'];
+	  $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
 	  $tiers->Getbyqcode($qcode,false);
 	  $p=$tiers->strAttribut(ATTR_DEF_ACCOUNT);
 	  $poste=new Poste($this->db,$p);
@@ -490,34 +490,34 @@ class Document
 	  break;
 	case 'CUST_NAME':
 	  $tiers=new fiche($this->db);
-	  $qcode=isset($_REQUEST['tiers'])?$_REQUEST['tiers']:$_REQUEST['e_client'];
+	  $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
 	  $tiers->getByQcode($qcode,false);
 	  $r=$tiers->strAttribut(ATTR_DEF_NAME);
 	  break;
 	case 'CUST_ADDR_1':
 	  $tiers=new fiche($this->db);
-	  $qcode=isset($_REQUEST['tiers'])?$_REQUEST['tiers']:$_REQUEST['e_client'];
+	  $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
 	  $tiers->getByQcode($qcode,false);
 	  $r=$tiers->strAttribut(ATTR_DEF_ADRESS);
 	  
 	  break ;
 	case 'CUST_CP':
 	  $tiers=new fiche($this->db);
-	  $qcode=isset($_REQUEST['tiers'])?$_REQUEST['tiers']:$_REQUEST['e_client'];
+	  $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
 	  $tiers->getByQcode($qcode,false);
 	  $r=$tiers->strAttribut(ATTR_DEF_CP);
 
 	  break;
 	case 'CUST_CO':
 	  $tiers=new fiche($this->db);
-	  $qcode=isset($_REQUEST['tiers'])?$_REQUEST['tiers']:$_REQUEST['e_client'];
+	  $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
 	  $tiers->getByQcode($qcode,false);
 	  $r=$tiers->strAttribut(ATTR_DEF_PAYS);
 
 	  break; 
 	case 'CUST_VAT':
 	  $tiers=new fiche($this->db);
-	  $qcode=isset($_REQUEST['tiers'])?$_REQUEST['tiers']:$_REQUEST['e_client'];
+	  $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
 	  $tiers->getByQcode($qcode,false);
 	  $r=$tiers->strAttribut(ATTR_DEF_NUMTVA);
 	  break; 

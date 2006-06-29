@@ -54,8 +54,10 @@ class action
   * \enum $d_filename filename's document
   * \enum $d_mimetype document's filename
   * \enum $ag_title title document
-  * \enum $f_id fiche id
+  * \enum $f_id_dest fiche id (From field )
+  * \enum $f_id_exp fiche id (to field)
   * \enum $ag_ref_ag_id concern previous action
+
   * \todo replace attribut from class document  document by an object document 
   */
   var $db;
@@ -119,7 +121,7 @@ class action
 	}
       else
 	{
-	  exit('class_action'.__LINE__.'action::Display error unknown parameter'.$p_view);
+	  exit('class_action'.__LINE__.'Action::Display error unknown parameter'.$p_view);
 
 	}
       // Compute the widget
@@ -207,34 +209,57 @@ class action
       $ag_ref->value=FormatString($this->ag_ref);
       $client_label=new widget("span");
 
-      // f_id
-      if ( $this->qcode != '- ERROR -' && trim($this->qcode) != "")
+      // f_id_dest destination
+      if ( $this->qcode_dest != '- ERROR -' && strlen(trim($this->qcode_dest)) != 0)
 	{
 	  $tiers=new fiche($this->db);
-	  $tiers->GetByQCode($this->qcode);
-	  $qcode_label=$tiers->strAttribut(1);
+	  $tiers->GetByQCode($this->qcode_dest);
+	  $qcode_dest_label=$tiers->strAttribut(1);
 	} else {
-	  echo "f_id $this->f_id";
-	  $qcode_label=($this->f_id==0 || trim($this->qcode)=="")?'Interne ':'Error';
+	  //	  echo "f_id $this->f_id";
+	  $qcode_dest_label=($this->f_id_dest==0 || trim($this->qcode_dest)=="")?'Interne ':'Error';
 	}
+
+      // f_id_exp sender
+      if ( $this->qcode_exp != '- ERROR -' && strlen(trim($this->qcode_exp)) != 0)
+	{
+	  $tiers=new fiche($this->db);
+	  $tiers->GetByQCode($this->qcode_exp);
+	  $qcode_exp_label=$tiers->strAttribut(1);
+	} else {
+	  $qcode_exp_label=($this->f_id_exp==0 || trim($this->qcode_exp)=="")?'Interne ':'Error';
+	}
+
       $h_ag_id=new widget("hidden");
       // if concerns another action : show the link otherwise nothing
       $lag_ref_ag_id="";
       
       if ( $this->ag_ref_ag_id != 0 )
 	{
+    // 	    $this->GetAgRef("ag_ref_ag_id")."</A>";
+
 	  $lag_ref_ag_id='<a class="mtitle" href="commercial.php?p_action=suivi_courrier&sa=detail&ag_id='.
 	    $this->ag_ref_ag_id.'">'.
-	    $this->GetAgRef("ag_ref_ag_id")."</A>";
+	    getDbValue($this->db,"select ag_ref from action_gestion where ag_id=".$this->ag_ref_ag_id).
+	    "</A>";
 	}  
-
+      // sender
       $w=new widget('js_search_only');
       $w->readonly=$readonly;
-      $w->name='qcode';
-      $w->value=($this->f_id != 0)?$this->qcode:"";
+      $w->name='qcode_exp';
+      $w->value=($this->f_id_exp != 0)?$this->qcode_exp:"";
       $w->label="";
       $w->extra='4,8,9,14,16';
       $sp= new widget("span");
+      $h_agrefid=new widget('hidden');
+      // destination
+      $wdest=new widget('js_search_only');
+      $wdest->readonly=$readonly;
+      $wdest->name='qcode_dest';
+      $wdest->value=($this->f_id_dest != 0)?$this->qcode_dest:"";
+      $wdest->label="";
+      $wdest->extra='4,8,9,14,16';
+      $spdest= new widget("span");
       $h_agrefid=new widget('hidden');
 
       // Preparing the return string
@@ -252,7 +277,11 @@ class action
 
       $r.= "</p><p> ";
       $r.=$w->IOValue();
-      $r.=$sp->IOValue('qcode_label',$qcode_label)."</TD></TR>";
+      $r.=$sp->IOValue('qcode_exp_label',$qcode_exp_label)."</TD></TR>";
+ 
+      $r.=$wdest->IOValue();
+      $r.=$spdest->IOValue('qcode_dest_label',$qcode_dest_label)."</TD></TR>";
+
 
       $r.="</p>";
       echo_debug('class_action',__LINE__,' ag_id is '.$this->ag_id);
@@ -266,10 +295,15 @@ class action
       $r.=$h2->IOValue();
       $r.=$h_agrefid->IOValue("ag_ref_ag_id",$this->ag_ref_ag_id); 
       $r.=$h_ag_id->IOValue('ag_id',$this->ag_id);
+      $hidden=new widget('hidden');
+      $r.=$hidden->IOValue('f_id_dest',$this->f_id_dest);
+      $hidden2=new widget('hidden');
+      $r.=$hidden2->IOValue('f_id_exp',$this->f_id_exp);
       $r.="</p>";
 
       // show the list of the concern operation
-      if ( CountSql($this->db,'select * from action_gestion where ag_ref_ag_id!=0 and ag_ref_ag_id='.$this->ag_id.' limit 5') >0 )
+      if ( CountSql($this->db,'select * from action_gestion where ag_ref_ag_id!=0 and ag_ref_ag_id='.$this->ag_id.
+		    " limit 2") > 0 )
 	$r.=$this->myList(ACTION," and ag_ref_ag_id=".$this->ag_id);
       return $r;
  
@@ -281,7 +315,7 @@ class action
     {
       echo_debug('class_action',__LINE__,'Action::Get() ');
       $sql="select ag_id, ag_comment,to_char (ag_timestamp,'DD-MM-YYYY') as ag_timestamp,".
-	" f_id,ag_title,ag_comment,ag_ref,d_id,ag_type,d_state,  ".
+	" f_id_dest,f_id_exp,ag_title,ag_comment,ag_ref,d_id,ag_type,d_state,  ".
 	" ag_ref_ag_id ".
 	" from action_gestion left join document using (ag_id) where ag_id=".$this->ag_id;
       $r=ExecSql($this->db,$sql);
@@ -289,7 +323,8 @@ class action
       if ( $row==false) return;
       $this->ag_comment=$row[0]['ag_comment'];
       $this->ag_timestamp=$row[0]['ag_timestamp'];
-      $this->f_id=$row[0]['f_id'];
+      $this->f_id_dest=$row[0]['f_id_dest'];
+      $this->f_id_exp=$row[0]['f_id_exp'];
       $this->ag_title=$row[0]['ag_title'];
       $this->ag_type=$row[0]['ag_type'];
       $this->ag_ref=$row[0]['ag_ref'];
@@ -308,8 +343,11 @@ class action
 	}
       echo_debug('class_action',__LINE__,' After test Document id = '.$this->d_id);
       $this->dt_id=$this->ag_type;
-      $a=new fiche($this->db,$this->f_id);
-      $this->qcode=$a->strAttribut(ATTR_DEF_QUICKCODE);
+      $adest=new fiche($this->db,$this->f_id_dest);
+      $this->qcode_dest=$adest->strAttribut(ATTR_DEF_QUICKCODE);
+      $aexp=new fiche($this->db,$this->f_id_exp);
+      $this->qcode_exp=$aexp->strAttribut(ATTR_DEF_QUICKCODE);
+
       echo_debug('class_action',__LINE__,'Detail end ()  :'.var_export($_POST,true));
       echo_debug('class_action',__LINE__,'Detail $this  :'.var_export($this,true));
 
@@ -385,31 +423,47 @@ class action
 
       $h_agrefid=new widget('hidden');
 
-      // f_id
-      if ( trim($this->qcode) =="" && $this->dt_id==1)
-	{
-	  // internal document
-	  $f_id=0; // internal document
-	  $name="interne";
-	}
-      elseif ( trim($this->qcode) !="" && $this->dt_id != 1 )
-	{
-	  $tiers=new fiche($this->db);
-	  $tiers->GetByQCode($this->qcode);
-	  $f_id=$tiers->id;
-	  $name=$tiers->strAttribut(1);
-	}
-      else {
-	$name="ERROR";
-	$f_id=-1;
-      }
+       // f_id
+       if ( trim($this->qcode_dest) =="")
+         {
+           // internal document
+           $this->f_id_dest=0; // internal document
+           $namedest="interne";
+         }
+       else // ( trim($this->qcode_dest) !=""  )
+         {
+           $tiers=new fiche($this->db);
+           $tiers->GetByQCode($this->qcode_dest);
+           $this->f_id_dest=$tiers->id;
+           $namedest=$tiers->strAttribut(1);
+		if ( $namedest == '- ERROR  -') $this->f_id_dest=-1;	
+         }
+ 
+       // f_id
+       if ( trim($this->qcode_exp) =="")
+         {
+           // internal document
+           $this->f_id_exp=0; // internal document
+           $nameexp="interne";
+         }
+       else // ( trim($this->qcode_exp) !=""  )
+         {
+           $tiers=new fiche($this->db);
+           $tiers->GetByQCode($this->qcode_exp);
+           $this->f_id_exp=$tiers->id;
+           $nameexp=$tiers->strAttribut(1);
+		if ( $nameexp == '- ERROR  -') $this->f_id_exp=-1;	
+         }
+ 
+
 
       // Preparing the return string
       $r=$retour."<form method=\"post\">";
       $r.="<p>Date : ".$date->IOValue()."</p>";
       $r.="<p>Etat $str_state".$state->IOValue()."</p>";
       $r.="<p>Type du document $str_type".$doc_type->IOValue()."</p>";
-      $r.="<p> Tiers : ".$this->qcode." ".$name.'</p>';
+      $r.="<p> Expediteur : ".$this->qcode_exp." ".$nameexp.'</p>';
+      $r.="<p> Destinataire : ".$this->qcode_dest." ".$namedest.'</p>';
       $r.="<p> Titre : ".$title->IOValue();
       $r.="<p>Description :".$desc->IOValue()."</p>";
 
@@ -421,13 +475,18 @@ class action
       // Add the hidden tag
       $r.='<input type="hidden" name="sa" value="save_action_st2">';
       $r.='<input type="hidden" name="p_action" value="suivi_courrier">';
-      $r.='<input type="hidden" name="tiers" value="'.$this->qcode.'">';
+      $r.='<input type="hidden" name="f_id_dest" value="'.$this->f_id_dest.'">';
+      $r.='<input type="hidden" name="f_id_exp" value="'.$this->f_id_exp.'">';
+      $r.='<input type="hidden" name="qcode_dest" value="'.$this->qcode_dest.'">';
+      $r.='<input type="hidden" name="qcode_exp" value="'.$this->qcode_exp.'">';
+
+
       $r.=	$h_agrefid->IOValue("ag_ref_ag_id",$this->ag_ref_ag_id);
 	
       // retrieve customer
 
 
-      if ( $f_id != -1 )
+      if ( $this->f_id_dest != -1 && $this->f_id_exp !=-1 )
 	$r.=$desc->Submit("Save","Sauve");
       $r.=$desc->Submit("corr","Corrige");
 
@@ -450,9 +509,14 @@ class action
       $seq_name="seq_doc_type_".$this->dt_id;
       $str_file="";
       $add_file='';
-      // f_id
+      // f_id dest
       $tiers=new fiche($this->db);
-      $tiers->GetByQCode($this->qcode);
+      $tiers->GetByQCode($this->qcode_dest);
+
+      // f_id exp
+      $exp=new fiche($this->db);
+      $exp->GetByQCode($this->qcode_exp);
+
       if ( trim($this->ag_title) == "") 
 	{
 	  $doc_mod=new document_type($this->db);
@@ -468,18 +532,18 @@ class action
       /*!\brief the ag_comment is already urlencoded 
        */
       //we remove newline 
-      $this->ag_comment=str_replace("+%OA+","",$this->ag_comment);
-      $this->ag_comment=str_replace("+%OD+","",$this->ag_comment);
       $this->ag_comment=str_replace("%OD","",$this->ag_comment);
       $this->ag_comment=str_replace("%OA","",$this->ag_comment);
       // save into the database
-      $sql=sprintf("insert into action_gestion(ag_id,ag_timestamp,ag_type,ag_title,f_id,ag_comment,ag_ref,ag_ref_ag_id) ".
-		   " values (%d,to_date('%s','DD-MM-YYYY'),'%d','%s',%d,'%s','%s',%d)",
+      $sql=sprintf("insert into action_gestion".
+		   "(ag_id,ag_timestamp,ag_type,ag_title,f_id_dest,f_id_exp,ag_comment,ag_ref,ag_ref_ag_id) ".
+		   " values (%d,to_date('%s','DD-MM-YYYY'),'%d','%s',%d,%d,'%s','%s',%d)",
 		   $this->ag_id,
 		   $this->ag_timestamp,
 		   $this->dt_id,
 		   FormatString($this->ag_title),
 		   $tiers->id,
+		   $exp->id,
 		   $this->ag_comment,
 		   $ref,
 		   $this->ag_ref_ag_id
@@ -503,6 +567,7 @@ class action
       // readonly and upload of a file
       $r.="<hr>";
       $r.='<form enctype="multipart/form-data" method="post">';
+      echo_debug("class_action",__LINE__,"call display");
       $r.=$this->Display('READ',false);
       // Add the hidden tag
       $r.='<input type="hidden" name="sa" value="save_action_st3">';
@@ -572,7 +637,8 @@ class action
   function myList($p_filter="",$p_search="")
     {
       $sql="
-   select ag_id,to_char(ag_timestamp,'DD-MM-YYYY') as my_date,ag_ref_ag_id,f_id,ag_title,d_id,md_type,dt_value,ag_ref 
+   select ag_id,to_char(ag_timestamp,'DD-MM-YYYY') as my_date,ag_ref_ag_id,f_id_dest,f_id_exp".
+	",ag_title,d_id,md_type,dt_value,ag_ref 
    from action_gestion 
       left outer join document using (ag_id)
       left outer join document_modele on (ag_type=md_type) 
@@ -593,7 +659,8 @@ class action
       $r.="<table>";
       $r.="<tr>";
       $r.="<th>Date</th>";
-      $r.="<th>Société</th>";
+      $r.="<th>Destinataire</th>";
+      $r.="<th>Expéditeur</th>";
       $r.="<th>Titre</th>";
       $r.="<th>type</th>";
       $r.="<th>Référence</th>";
@@ -613,18 +680,34 @@ class action
       echo JS_SEARCH_CARD;
       foreach ($a_row as $row )
 	{
-	  $f=new fiche($this->db);
-	  $f->id=$row['f_id'];
-	  $qcode=$f->strAttribut(ATTR_DEF_QUICKCODE);
 
 	  $r.="<tr>";
 	  $r.="<td>".$row['my_date']."</td>";
-	  $q=($qcode=="- ERROR -")?"Interne":$qcode;
-	  $js=sprintf("javascript:showfiche('%s','%s')",
-		      $_REQUEST['PHPSESSID'],$q);
-	  if ( $q != 'Interne' )
+	  // Expediteur
+	  $fexp=new fiche($this->db);
+	  $fexp->id=$row['f_id_exp'];
+	  $qcode_exp=$fexp->strAttribut(ATTR_DEF_QUICKCODE);
+
+	  $qexp=($qcode_exp=="- ERROR -")?"Interne":$qcode_exp;
+	  $jsexp=sprintf("javascript:showfiche('%s','%s')",
+		      $_REQUEST['PHPSESSID'],$qexp);
+	  if ( $qexp != 'Interne' )
 	    {
-	      $r.="<td>".'<A HREF="'.$js.'">'.$q." : ".$f->getName().'</A></td>';
+	      $r.="<td>".'<A HREF="'.$jsexp.'">'.$qexp." : ".$fexp->getName().'</A></td>';
+	    }
+	  else
+	    $r.="<td>Interne </td>";
+	  // Destinataire
+	  $fdest=new fiche($this->db);
+	  $fdest->id=$row['f_id_dest'];
+	  $qcode_dest=$fdest->strAttribut(ATTR_DEF_QUICKCODE);
+
+	  $qdest=($qcode_dest=="- ERROR -")?"Interne":$qcode_dest;
+	  $jsdest=sprintf("javascript:showfiche('%s','%s')",
+		      $_REQUEST['PHPSESSID'],$qdest);
+	  if ( $qdest != 'Interne' )
+	    {
+	      $r.="<td>".'<A HREF="'.$jsdest.'">'.$qdest." : ".$fdest->getName().'</A></td>';
 	    }
 	  else
 	    $r.="<td>Interne </td>";
@@ -711,14 +794,16 @@ class action
 		   " ag_timestamp=to_date('%s','DD.MM.YYYY'),".
 		   " ag_title='%s',".
 		   " ag_type=%d, ".
-		   " f_id=%d, ".
+		   " f_id_exp=%d, ".
+		   " f_id_dest=%d, ".
 		   " ag_ref_ag_id=%d".
 		   " where ag_id = %d",
 		   $this->ag_comment,
 		   $this->ag_timestamp,
 		   FormatString($this->ag_title),
 		   $this->dt_id,
-		   $this->f_id,
+		   $this->f_id_exp,
+		   $this->f_id_dest,
 		   $this->ag_ref_ag_id,
 		   $this->ag_id);
       ExecSql($this->db,$sql);
@@ -747,14 +832,14 @@ class action
    * \param $p_method : can be ag_ref_ag_id or ag_id
    * \return string with the ag_ref
    */
-  function GetAgRef($p_method)
-    {
-      if ($p_method=="ag_ref_ag_id")
-	$sql="select ag_ref from action_gestion where ag_id=".$this->ag_ref_ag_id;
-      elseif ($p_method=="ag_id")
-	$sql="select ag_ref from action_gestion where ag_id=".$this->ag_id;
-      return Getdbvalue($this->db,$sql);
+//   function GetAgRef($p_method)
+//     {
+//       if ($p_method=="ag_ref_ag_id")
+// 	$sql="select ag_ref from action_gestion where ag_id=".$this->ag_ref_ag_id;
+//       elseif ($p_method=="ag_id")
+// 	$sql="select ag_ref from action_gestion where ag_id=".$this->ag_id;
+//       return Getdbvalue($this->db,$sql);
 
-    }
+//     }
 
 }

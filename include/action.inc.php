@@ -49,16 +49,15 @@ function ShowActionList($cn,$retour,$h_url)
    $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
    echo JS_SEARCH_CARD;
    $w=new widget('js_search_only');
-   $w->name='qcode';
+   $w->name='qcode_query';
    $w->value=$qcode;
    $w->label='Quick Code';
    $w->extra='4,9,14,16,8';
    $w->table=0;
    $sp= new widget("span");
-   echo $sp->IOValue("qcode_label","",$qcode);
+
+   echo $sp->IOValue("qcode_query_label","",$qcode);
    echo $w->IOValue();
-
-
 ?>
 <input type="submit" name="submit_query" value="recherche">
 <input type="hidden" name="sa" value="list">
@@ -72,7 +71,7 @@ function ShowActionList($cn,$retour,$h_url)
 <input type="submit" name="submit_query" value="Ajout Action">
 <input type="hidden" name="p_action" value="suivi_courrier">
 <input type="hidden" name="sa" value="add_action">
-<input type="hidden" name="tiers" value=<? echo '"'.$qcode.'"';?>>
+<!--    <input type="hidden" name="qcode_dest" value=<? echo '"'.$qcode_dest.'"';?> -->
    <? // if called from another menu, url is set
    echo $h_url;
    echo $retour; ?>
@@ -97,16 +96,18 @@ function ShowActionList($cn,$retour,$h_url)
    }
  
    $str="";
-   if ( isset($_GET['qcode'] )) 
+   if ( isset($_GET['qcode_query'] )) 
      {
 
         // verify that qcode is not empty
-        if ( strlen(trim($_REQUEST['qcode'] )) != 0 )
+        if ( strlen(trim($_REQUEST['qcode_query'] )) != 0 )
 	 { 
 
 	   $fiche=new Fiche($cn);
-	   $fiche->GetByQCode($_REQUEST['qcode']);
-	   $str=" and f_id= ".$fiche->id;
+	   $fiche->GetByQCode($_REQUEST['qcode_query']);
+	   $str=" and (f_id_exp= ".$fiche->id." or ".
+	     "f_id_dest=".$fiche->id.")";
+
 	 }
      }
 
@@ -157,7 +158,8 @@ if ( $sub_action=="update" )
       $act->ag_timestamp=$_POST['ag_timestamp'];
       $act->d_state=$_POST['d_state'];
       $act->dt_id=(isset($_POST['dt_id']))?$_POST['dt_id']:0;
-      $act->qcode=$_POST['qcode'];
+      $act->qcode_exp=$_POST['qcode_exp'];
+      $act->qcode_dest=$_POST['qcode_dest'];
       $act->ag_title=$_POST['ag_title'];
       $act->d_id=(isset($_POST['d_id']))?$_POST['d_id']:0;
       if ( $act->Update() == false ) {
@@ -180,9 +182,15 @@ if ( isset ($_POST['add_action_here']) )
       // puis comme ajout normal (copier / coller )
       echo $retour;
       $act->ag_id=0;
+      $act->qcode_dest=(isset($_POST['qcode_dest']))?$_REQUEST['qcode_dest']:"";
+      $act->qcode_exp=(isset($_POST['qcode_exp']))?$_REQUEST['qcode_exp']:"";
+      $act->f_id_dest=(isset($_POST['f_id_dest']))?$_POST['f_id_dest']:0;
+      $act->f_id_exp=(isset($_POST['f_id_exp']))?$_POST['f_id_exp']:0;
+
       $act->ag_ref_ag_id=$_POST['ag_id'];
       $act->ag_timestamp=(isset($_POST['ag_timestamp']))?$_POST['ag_timestamp']:"";
-      $act->qcode=isset($_POST['tiers'])?$_REQUEST['tiers']:"";
+      $act->qcode_dest=isset($_POST['qcode_dest'])?$_REQUEST['qcode_dest']:"";
+      $act->qcode_exp=isset($_POST['qcode_exp'])?$_REQUEST['qcode_exp']:"";
       $act->d_id=0;
       $act->dt_id=isset($_POST['dt_id'])?$_REQUEST['dt_id']:"";
       $act->d_state=(isset($_POST['d_state']))?$_POST['d_state']:"";
@@ -194,6 +202,7 @@ if ( isset ($_POST['add_action_here']) )
       echo '<form name="RTEDemo" action="commercial.php?p_action=suivi_courrier" method="post" onsubmit="return submitForm();">';
       
       $act->ag_comment=(isset($_POST['ag_comment']))?Decode($_POST['ag_comment']):"";
+      echo_debug("action.inc",__LINE__,"call display");
       echo $act->Display('NEW',false);
       
       echo '<input type="hidden" name="p_action" value="suivi_courrier">';
@@ -243,12 +252,16 @@ if ( $sub_action == "list" )
 // Add an action
 if ( $sub_action == "add_action" ) 
 {
+  echo_debug('action',__LINE__,var_export($_POST,true));
   echo $retour;
   $act=new action($cn);
   $act->ag_id=0;
   $act->ag_ref_ag_id=(isset($_POST['ag_ref_ag_id']))?$_POST['ag_ref_ag_id']:"0";
   $act->ag_timestamp=(isset($_POST['ag_timestamp']))?$_POST['ag_timestamp']:"";
-  $act->qcode=isset($_POST['tiers'])?$_REQUEST['tiers']:"";
+  $act->qcode_dest=(isset($_POST['qcode_dest']))?$_REQUEST['qcode_dest']:"";
+  $act->qcode_exp=(isset($_POST['qcode_exp']))?$_REQUEST['qcode_exp']:"";
+  $act->f_id_dest=(isset($_POST['f_id_dest']))?$_POST['f_id_dest']:0;
+  $act->f_id_exp=(isset($_POST['f_id_exp']))?$_POST['f_id_exp']:0;
   $act->d_id=0;
   $act->dt_id=isset($_POST['dt_id'])?$_REQUEST['dt_id']:"";
   $act->d_state=(isset($_POST['d_state']))?$_POST['d_state']:"";
@@ -260,6 +273,7 @@ if ( $sub_action == "add_action" )
   echo '<form name="RTEDemo" action="commercial.php?p_action=suivi_courrier" method="post" onsubmit="return submitForm();">';
 
   $act->ag_comment=(isset($_POST['ag_comment']))?Decode($_POST['ag_comment']):"";
+  echo_debug("action.inc",__LINE__,"call display");
   echo $act->Display('NEW',false);
 
   echo '<input type="hidden" name="p_action" value="suivi_courrier">';
@@ -283,7 +297,11 @@ if  ( $sub_action == "save_action_st1" )
   $act->ag_timestamp=$_POST['ag_timestamp'];
   $act->d_state=$_POST['d_state'];
   $act->dt_id=$_POST['dt_id'];
-  $act->qcode=$_POST['qcode'];
+  $act->qcode_exp=$_POST['qcode_exp'];
+  $act->qcode_dest=$_POST['qcode_dest'];
+  $act->f_id_dest=$_POST['f_id_dest'];
+  $act->f_id_exp=$_POST['f_id_exp'];
+
   $act->ag_title=$_POST['ag_title'];
   $act->d_id=0;
   $act->ag_id=$_POST['ag_id'];
@@ -303,7 +321,11 @@ if  ( $sub_action == "save_action_st2" )
   $act->ag_timestamp=$_POST['ag_timestamp'];
   $act->d_state=$_POST['d_state'];
   $act->dt_id=$_POST['dt_id'];
-  $act->qcode=$_POST['tiers'];
+  $act->qcode_dest=$_POST['qcode_dest'];
+  $act->qcode_exp=$_POST['qcode_exp'];
+  $act->f_id_dest=$_POST['f_id_dest'];
+  $act->f_id_exp=$_POST['f_id_exp'];
+
   $act->ag_title=$_POST['ag_title'];
   $act->d_id=0;
   $act->ag_ref_ag_id=(isset($_POST['ag_ref_ag_id']))?$_POST['ag_ref_ag_id']:0;
@@ -329,7 +351,9 @@ if  ( $sub_action == "save_action_st3" )
   $act->ag_timestamp=$_POST['ag_timestamp'];
   $act->d_state=$_POST['d_state'];
   $act->dt_id=$_POST['dt_id'];
-  $act->qcode=$_POST['qcode'];
+  $act->qcode_dest=$_POST['qcode_dest'];
+  $act->qcode_exp=$_POST['qcode_exp'];
+
   $act->ag_title=$_POST['ag_title'];
   $d_id=(isset($_POST['d_id']))?$_POST['d_id']:0;
   $act->ag_ref_ag_id=(isset($_POST['ag_ref_ag_id']))?$_POST['ag_ref_ag_id']:0;
