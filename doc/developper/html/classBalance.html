@@ -116,7 +116,7 @@ retrieve all the row from the ledger in the range of a periode
 <p>
 Definition at line <a class="el" href="class__balance_8php-source.html#l00053">53</a> of file <a class="el" href="class__balance_8php-source.html">class_balance.php</a>.
 <p>
-References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="recherche_8php-source.html#l00066">$array</a>, <a class="el" href="balance_8php-source.html#l00118">$i</a>, <a class="el" href="setup_8php-source.html#l00413">$M</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="poste_8php-source.html#l00036">GetPosteLibelle()</a>, and <a class="el" href="balance_8php-source.html#l00076">label</a>.<div class="fragment"><pre class="fragment"><a name="l00053"></a>00053                                                  {
+References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="recherche_8php-source.html#l00066">$array</a>, <a class="el" href="balance_8php-source.html#l00118">$i</a>, <a class="el" href="setup_8php-source.html#l00413">$M</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00151">$sql</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="poste_8php-source.html#l00036">GetPosteLibelle()</a>, and <a class="el" href="balance_8php-source.html#l00076">label</a>.<div class="fragment"><pre class="fragment"><a name="l00053"></a>00053                                                  {
 <a name="l00054"></a>00054     <span class="comment">// compute periode</span>
 <a name="l00055"></a>00055     <span class="keywordflow">if</span> ( $p_from_periode==$p_to_periode ) {
 <a name="l00056"></a>00056       $per_sql=<span class="stringliteral">" j_tech_per = $p_from_periode "</span>;
@@ -131,7 +131,7 @@ References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class
 <a name="l00065"></a>00065     <span class="keywordflow">if</span> ( $this-&gt;central==<span class="charliteral">'Y'</span> ) { $cent=<span class="stringliteral">"j_centralized = true and "</span>; }
 <a name="l00066"></a>00066 
 <a name="l00067"></a>00067     <span class="comment">// build query</span>
-<a name="l00068"></a>00068     <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=<span class="stringliteral">"select j_poste,sum(deb) as sum_deb, sum(cred) as sum_cred from </span>
+<a name="l00068"></a>00068     <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"select j_poste,sum(deb) as sum_deb, sum(cred) as sum_cred from </span>
 <a name="l00069"></a>00069 <span class="stringliteral">          ( select j_poste,</span>
 <a name="l00070"></a>00070 <span class="stringliteral">             case when j_debit='t' then j_montant else 0 end as deb,</span>
 <a name="l00071"></a>00071 <span class="stringliteral">             case when j_debit='f' then j_montant else 0 end as cred</span>
@@ -260,7 +260,7 @@ Definition at line <a class="el" href="class__balance_8php-source.html#l00032">3
 </table>
 <hr>The documentation for this class was generated from the following file:<ul>
 <li><a class="el" href="class__balance_8php-source.html">class_balance.php</a></ul>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 21:21:24 2006 for phpcompta by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri Jun 30 00:48:31 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

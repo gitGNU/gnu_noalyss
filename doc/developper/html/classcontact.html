@@ -121,7 +121,7 @@ Summary<p>
 <p>
 Definition at line <a class="el" href="class__contact_8php-source.html#l00050">50</a> of file <a class="el" href="class__contact_8php-source.html">class_contact.php</a>.
 <p>
-References <a class="el" href="bank_8inc_8php-source.html#l00119">$bar</a>, <a class="el" href="contact_8inc_8php-source.html#l00168">$contact</a>, <a class="el" href="bank_8inc_8php-source.html#l00107">$offset</a>, <a class="el" href="bank_8inc_8php-source.html#l00106">$page</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="admin_8inc_8php-source.html#l00128">$search</a>, <a class="el" href="admin_8inc_8php-source.html#l00111">$url</a>, <a class="el" href="class__fiche_8php-source.html#l00291">fiche::CountByDef()</a>, <a class="el" href="facture_8inc_8php-source.html#l00194">f_id</a>, <a class="el" href="class__fiche_8php-source.html#l00155">fiche::fiche()</a>, <a class="el" href="ac__common_8php-source.html#l00208">FormatString()</a>, <a class="el" href="class__fiche_8php-source.html#l00780">fiche::GetAll()</a>, <a class="el" href="user__common_8php-source.html#l00858">jrn_navigation_bar()</a>, <a class="el" href="action_8inc_8php-source.html#l00230">name</a>, <a class="el" href="balance_8php-source.html#l00071">table</a>, and <a class="el" href="action_8inc_8php-source.html#l00231">value</a>.<div class="fragment"><pre class="fragment"><a name="l00051"></a>00051     {
+References <a class="el" href="bank_8inc_8php-source.html#l00166">$bar</a>, <a class="el" href="contact_8inc_8php-source.html#l00168">$contact</a>, <a class="el" href="bank_8inc_8php-source.html#l00154">$offset</a>, <a class="el" href="bank_8inc_8php-source.html#l00153">$page</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="admin_8inc_8php-source.html#l00128">$search</a>, <a class="el" href="admin_8inc_8php-source.html#l00111">$url</a>, <a class="el" href="class__fiche_8php-source.html#l00291">fiche::CountByDef()</a>, <a class="el" href="facture_8inc_8php-source.html#l00194">f_id</a>, <a class="el" href="class__fiche_8php-source.html#l00155">fiche::fiche()</a>, <a class="el" href="ac__common_8php-source.html#l00208">FormatString()</a>, <a class="el" href="class__fiche_8php-source.html#l00780">fiche::GetAll()</a>, <a class="el" href="user__common_8php-source.html#l00858">jrn_navigation_bar()</a>, <a class="el" href="action_8inc_8php-source.html#l00239">name</a>, <a class="el" href="balance_8php-source.html#l00071">table</a>, and <a class="el" href="action_8inc_8php-source.html#l00240">value</a>.<div class="fragment"><pre class="fragment"><a name="l00051"></a>00051     {
 <a name="l00052"></a>00052       $p_search=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($p_search);
 <a name="l00053"></a>00053       $extra_sql=<span class="stringliteral">""</span>;
 <a name="l00054"></a>00054       <span class="keywordflow">if</span> ( $this-&gt;company != <span class="stringliteral">""</span>) 
@@ -135,9 +135,9 @@ References <a class="el" href="bank_8inc_8php-source.html#l00119">$bar</a>, <a c
 <a name="l00062"></a>00062       <span class="comment">// Get the max numberRow</span>
 <a name="l00063"></a>00063       $all_contact=$this-&gt;<a class="code" href="classfiche.html#a5">CountByDef</a>($this-&gt;fiche_def_ref,$p_search,$extra_sql); 
 <a name="l00064"></a>00064       <span class="comment">// Get offset and page variable</span>
-<a name="l00065"></a>00065       <a class="code" href="bank_8inc_8php.html#a16">$offset</a>=( isset ($_REQUEST['offset'] )) ?$_REQUEST['offset']:0;
-<a name="l00066"></a>00066       <a class="code" href="bank_8inc_8php.html#a15">$page</a>=(isset($_REQUEST['page']))?$_REQUEST['page']:1;
-<a name="l00067"></a>00067       <a class="code" href="bank_8inc_8php.html#a18">$bar</a>=<a class="code" href="user__common_8php.html#a16">jrn_navigation_bar</a>($offset,$all_contact,$_SESSION['g_pagesize'],$page);
+<a name="l00065"></a>00065       <a class="code" href="bank_8inc_8php.html#a22">$offset</a>=( isset ($_REQUEST['offset'] )) ?$_REQUEST['offset']:0;
+<a name="l00066"></a>00066       <a class="code" href="bank_8inc_8php.html#a21">$page</a>=(isset($_REQUEST['page']))?$_REQUEST['page']:1;
+<a name="l00067"></a>00067       <a class="code" href="bank_8inc_8php.html#a24">$bar</a>=<a class="code" href="user__common_8php.html#a16">jrn_navigation_bar</a>($offset,$all_contact,$_SESSION['g_pagesize'],$page);
 <a name="l00068"></a>00068       <span class="comment">// set a filter ?</span>
 <a name="l00069"></a>00069       <a class="code" href="admin_8inc_8php.html#a8">$search</a>=<span class="stringliteral">""</span>;
 <a name="l00070"></a>00070       <span class="keywordflow">if</span> ( trim($p_search) != <span class="stringliteral">""</span> )
@@ -152,7 +152,7 @@ References <a class="el" href="bank_8inc_8php-source.html#l00119">$bar</a>, <a c
 <a name="l00079"></a>00079       <span class="comment">// Get The result Array</span>
 <a name="l00080"></a>00080       $step_contact=$this-&gt;<a class="code" href="classfiche.html#a17">GetAll</a>($offset,$search.$extra_sql);
 <a name="l00081"></a>00081       <span class="keywordflow">if</span> ( $all_contact == 0 ) <span class="keywordflow">return</span> <span class="stringliteral">""</span>;
-<a name="l00082"></a>00082       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="bank_8inc_8php.html#a18">$bar</a>;
+<a name="l00082"></a>00082       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="bank_8inc_8php.html#a24">$bar</a>;
 <a name="l00083"></a>00083       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;<a class="code" href="balance_8php.html#a3">table</a> border=<span class="stringliteral">"0"</span>&gt;
 <a name="l00084"></a>00084 &lt;TR style=<span class="stringliteral">"background-color:lightgrey;"</span>&gt;
 <a name="l00085"></a>00085 &lt;th&gt;Nom&lt;/th&gt;
@@ -167,9 +167,9 @@ References <a class="el" href="bank_8inc_8php-source.html#l00119">$bar</a>, <a c
 <a name="l00094"></a>00094       $and=<span class="stringliteral">"?"</span>;
 <a name="l00095"></a>00095       $get=$_GET;
 <a name="l00096"></a>00096       <span class="keywordflow">if</span> ( isset ($get) ) {
-<a name="l00097"></a>00097         foreach ($get as $<a class="code" href="action_8inc_8php.html#a16">name</a>=&gt;$<a class="code" href="action_8inc_8php.html#a17">value</a> ) {
+<a name="l00097"></a>00097         foreach ($get as $<a class="code" href="action_8inc_8php.html#a18">name</a>=&gt;$<a class="code" href="action_8inc_8php.html#a19">value</a> ) {
 <a name="l00098"></a>00098           <span class="comment">// we clean the parameter offset, step, page and size</span>
-<a name="l00099"></a>00099           <span class="keywordflow">if</span> (  ! in_array($<a class="code" href="action_8inc_8php.html#a16">name</a>,array('<a class="code" href="facture_8inc_8php.html#a19">f_id</a><span class="charliteral">','</span>detail'))) {
+<a name="l00099"></a>00099           <span class="keywordflow">if</span> (  ! in_array($<a class="code" href="action_8inc_8php.html#a18">name</a>,array('<a class="code" href="facture_8inc_8php.html#a19">f_id</a><span class="charliteral">','</span>detail'))) {
 <a name="l00100"></a>00100             <a class="code" href="admin_8inc_8php.html#a3">$url</a>.=$and.$name.<span class="stringliteral">"="</span>.$value;
 <a name="l00101"></a>00101             $and=<span class="stringliteral">"&amp;"</span>;
 <a name="l00102"></a>00102           }<span class="comment">// if</span>
@@ -205,7 +205,7 @@ References <a class="el" href="bank_8inc_8php-source.html#l00119">$bar</a>, <a c
 <a name="l00132"></a>00132 
 <a name="l00133"></a>00133       }
 <a name="l00134"></a>00134       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/TABLE&gt;"</span>;
-<a name="l00135"></a>00135       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="bank_8inc_8php.html#a18">$bar</a>;
+<a name="l00135"></a>00135       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="bank_8inc_8php.html#a24">$bar</a>;
 <a name="l00136"></a>00136       <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
 <a name="l00137"></a>00137     }
 </pre></div>
@@ -241,7 +241,7 @@ Definition at line <a class="el" href="class__contact_8php-source.html#l00034">3
 </table>
 <hr>The documentation for this class was generated from the following file:<ul>
 <li><a class="el" href="class__contact_8php-source.html">class_contact.php</a></ul>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 21:21:24 2006 for phpcompta by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri Jun 30 00:48:32 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

@@ -30,7 +30,7 @@
 <a name="l00035"></a><a class="code" href="stock__inc_8php.html#a0">00035</a> <span class="comment"></span>function <a class="code" href="stock__inc_8php.html#a0">ViewStock</a>($p_cn,$p_year) {
 <a name="l00036"></a>00036  <span class="comment">// build sql -- get the different merchandise sold or bought</span>
 <a name="l00037"></a>00037   <span class="comment">// during the p_year</span>
-<a name="l00038"></a>00038 <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=<span class="stringliteral">" select distinct sg_code</span>
+<a name="l00038"></a>00038 <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">" select distinct sg_code</span>
 <a name="l00039"></a>00039 <span class="stringliteral">      from stock_goods </span>
 <a name="l00040"></a>00040 <span class="stringliteral">      join jrnx on (stock_goods.j_id=jrnx.j_id)</span>
 <a name="l00041"></a>00041 <span class="stringliteral">      join parm_periode on (parm_periode.p_id=jrnx.j_tech_per)</span>
@@ -95,7 +95,7 @@
 <a name="l00100"></a>00100 }
 <a name="l00111"></a><a class="code" href="stock__inc_8php.html#a1">00111</a> function <a class="code" href="stock__inc_8php.html#a1">getFicheNameCode</a> ($p_cn,$p_sg_code) {
 <a name="l00112"></a>00112   <span class="comment">// Sql stmt</span>
-<a name="l00113"></a>00113 <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=<span class="stringliteral">"select distinct f_id,av_text</span>
+<a name="l00113"></a>00113 <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"select distinct f_id,av_text</span>
 <a name="l00114"></a>00114 <span class="stringliteral">         from stock_goods</span>
 <a name="l00115"></a>00115 <span class="stringliteral">         join jnt_fic_att_value using (f_id )</span>
 <a name="l00116"></a>00116 <span class="stringliteral">         join attr_value using (jft_id)</span>
@@ -120,7 +120,7 @@
 <a name="l00135"></a>00135   
 <a name="l00136"></a>00136 }
 <a name="l00147"></a><a class="code" href="stock__inc_8php.html#a2">00147</a> function <a class="code" href="stock__inc_8php.html#a2">ViewDetailStock</a>($p_cn,$p_sg_code,$p_year) {
-<a name="l00148"></a>00148 <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=<span class="stringliteral">"select sg_code,</span>
+<a name="l00148"></a>00148 <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"select sg_code,</span>
 <a name="l00149"></a>00149 <span class="stringliteral">             j_montant,</span>
 <a name="l00150"></a>00150 <span class="stringliteral">             j_date,</span>
 <a name="l00151"></a>00151 <span class="stringliteral">             sg_quantity,</span>
@@ -173,17 +173,17 @@
 <a name="l00198"></a>00198   $l_sessid=$_REQUEST['PHPSESSID'];
 <a name="l00199"></a>00199 
 <a name="l00200"></a>00200   <span class="keywordflow">for</span> ( $i=0; $i &lt; $M;$i++) {
-<a name="l00201"></a>00201     <a class="code" href="bank_8inc_8php.html#a17">$l</a>=pg_fetch_array($Res,$i);
+<a name="l00201"></a>00201     <a class="code" href="bank_8inc_8php.html#a23">$l</a>=pg_fetch_array($Res,$i);
 <a name="l00202"></a>00202     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;tR&gt;"</span>;
 <a name="l00203"></a>00203 
 <a name="l00204"></a>00204     <span class="comment">// date</span>
 <a name="l00205"></a>00205     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TD&gt;"</span>;
-<a name="l00206"></a>00206     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="bank_8inc_8php.html#a17">$l</a>['j_date'];
+<a name="l00206"></a>00206     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="bank_8inc_8php.html#a23">$l</a>['j_date'];
 <a name="l00207"></a>00207     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/TD&gt;"</span>;
 <a name="l00208"></a>00208 
 <a name="l00209"></a>00209     <span class="comment">//type (deb = out cred=in)</span>
 <a name="l00210"></a>00210     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TD&gt;"</span>;
-<a name="l00211"></a>00211     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=(<a class="code" href="bank_8inc_8php.html#a17">$l</a>['sg_type']==<span class="charliteral">'c'</span>)?'OUT<span class="charliteral">':'</span>IN';
+<a name="l00211"></a>00211     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=(<a class="code" href="bank_8inc_8php.html#a23">$l</a>['sg_type']==<span class="charliteral">'c'</span>)?'OUT<span class="charliteral">':'</span>IN';
 <a name="l00212"></a>00212     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/TD&gt;"</span>;
 <a name="l00213"></a>00213 
 <a name="l00214"></a>00214     <span class="comment">// jr_internal</span>
@@ -193,22 +193,22 @@
 <a name="l00218"></a>00218 
 <a name="l00219"></a>00219     <span class="comment">// comment</span>
 <a name="l00220"></a>00220     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TD&gt;"</span>;
-<a name="l00221"></a>00221     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="bank_8inc_8php.html#a17">$l</a>['jr_comment'];
+<a name="l00221"></a>00221     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="bank_8inc_8php.html#a23">$l</a>['jr_comment'];
 <a name="l00222"></a>00222     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/TD&gt;"</span>;
 <a name="l00223"></a>00223 
 <a name="l00224"></a>00224     <span class="comment">//amount</span>
 <a name="l00225"></a>00225     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TD&gt;"</span>;
-<a name="l00226"></a>00226     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="bank_8inc_8php.html#a17">$l</a>['j_montant'];
+<a name="l00226"></a>00226     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="bank_8inc_8php.html#a23">$l</a>['j_montant'];
 <a name="l00227"></a>00227     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/TD&gt;"</span>;
 <a name="l00228"></a>00228 
 <a name="l00229"></a>00229     <span class="comment">//quantity</span>
 <a name="l00230"></a>00230     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TD&gt;"</span>;
-<a name="l00231"></a>00231     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="bank_8inc_8php.html#a17">$l</a>['sg_quantity'];
+<a name="l00231"></a>00231     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="bank_8inc_8php.html#a23">$l</a>['sg_quantity'];
 <a name="l00232"></a>00232     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/TD&gt;"</span>;
 <a name="l00233"></a>00233 
 <a name="l00234"></a>00234     <span class="comment">// Unit Price</span>
 <a name="l00235"></a>00235     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TD&gt;"</span>;
-<a name="l00236"></a>00236     $up=<a class="code" href="bank_8inc_8php.html#a17">$l</a>['j_montant']/<a class="code" href="bank_8inc_8php.html#a17">$l</a>['sg_quantity'];
+<a name="l00236"></a>00236     $up=<a class="code" href="bank_8inc_8php.html#a23">$l</a>['j_montant']/<a class="code" href="bank_8inc_8php.html#a23">$l</a>['sg_quantity'];
 <a name="l00237"></a>00237     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=$up;
 <a name="l00238"></a>00238     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/TD&gt;"</span>;
 <a name="l00239"></a>00239 
@@ -224,17 +224,17 @@
 <a name="l00259"></a><a class="code" href="stock__inc_8php.html#a3">00259</a> function <a class="code" href="stock__inc_8php.html#a3">ChangeStock</a>($p_sg_code,$p_year){
 <a name="l00260"></a>00260 $sg_date=date(<span class="stringliteral">"d.m.Y"</span>);
 <a name="l00261"></a>00261 <a class="code" href="user__action__ach_8php.html#a2">$r</a>='
-<a name="l00262"></a>00262 &lt;input type=<span class="stringliteral">"text"</span> <a class="code" href="action_8inc_8php.html#a16">name</a>=<span class="stringliteral">"stock_change"</span> <a class="code" href="action_8inc_8php.html#a17">value</a>=<span class="stringliteral">"0"</span>&gt;
-<a name="l00263"></a>00263 &lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a16">name</a>=<span class="stringliteral">"sg_code"</span> <a class="code" href="action_8inc_8php.html#a17">value</a>=<span class="stringliteral">"'.$p_sg_code.'"</span>&gt;
-<a name="l00264"></a>00264 &lt;input type=<span class="stringliteral">"text"</span> <a class="code" href="action_8inc_8php.html#a16">name</a>=<span class="stringliteral">"sg_date"</span> <a class="code" href="action_8inc_8php.html#a17">value</a>=<span class="stringliteral">"'.$sg_date.'"</span>&gt;
-<a name="l00265"></a>00265 &lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a16">name</a>=<span class="stringliteral">"year"</span> <a class="code" href="action_8inc_8php.html#a17">value</a>=<span class="stringliteral">"'.$p_year.'"</span>&gt;
+<a name="l00262"></a>00262 &lt;input type=<span class="stringliteral">"text"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"stock_change"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"0"</span>&gt;
+<a name="l00263"></a>00263 &lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"sg_code"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"'.$p_sg_code.'"</span>&gt;
+<a name="l00264"></a>00264 &lt;input type=<span class="stringliteral">"text"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"sg_date"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"'.$sg_date.'"</span>&gt;
+<a name="l00265"></a>00265 &lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"year"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"'.$p_year.'"</span>&gt;
 <a name="l00266"></a>00266 &lt;br&gt;
 <a name="l00267"></a>00267  ';
 <a name="l00268"></a>00268  <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
 <a name="l00269"></a>00269 
 <a name="l00270"></a>00270 }
 <a name="l00276"></a><a class="code" href="stock__inc_8php.html#a4">00276</a> function <a class="code" href="stock__inc_8php.html#a4">GetQuantity</a>($p_cn,$p_sg_code,$p_year,$p_type) {
-<a name="l00277"></a>00277   <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=<span class="stringliteral">"select sum(sg_quantity) as result</span>
+<a name="l00277"></a>00277   <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"select sum(sg_quantity) as result</span>
 <a name="l00278"></a>00278 <span class="stringliteral">        from stock_goods</span>
 <a name="l00279"></a>00279 <span class="stringliteral">      join jrnx on (stock_goods.j_id=jrnx.j_id)</span>
 <a name="l00280"></a>00280 <span class="stringliteral">      join parm_periode on (parm_periode.p_id=jrnx.j_tech_per)</span>
@@ -248,7 +248,7 @@
 <a name="l00288"></a>00288   <span class="keywordflow">return</span> $value['result'];
 <a name="l00289"></a>00289     
 <a name="l00290"></a>00290 }
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 21:21:22 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 30 00:48:26 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

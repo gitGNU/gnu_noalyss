@@ -171,17 +171,17 @@ Return the name of a account it doesn't change any data member.
 <p>
 Definition at line <a class="el" href="class__poste_8php-source.html#l00084">84</a> of file <a class="el" href="class__poste_8php-source.html">class_poste.php</a>.
 <p>
-References <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="impress__bilan_8php-source.html#l00032">$ret</a>, and <a class="el" href="action_8inc_8php-source.html#l00230">name</a>.<div class="fragment"><pre class="fragment"><a name="l00084"></a>00084                      {
+References <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="impress__bilan_8php-source.html#l00032">$ret</a>, and <a class="el" href="action_8inc_8php-source.html#l00239">name</a>.<div class="fragment"><pre class="fragment"><a name="l00084"></a>00084                      {
 <a name="l00085"></a>00085     <a class="code" href="impress__bilan_8php.html#a0">$ret</a>=pg_exec($this-&gt;db,
 <a name="l00086"></a>00086                  <span class="stringliteral">"select pcm_lib from tmp_pcmn where</span>
 <a name="l00087"></a>00087 <span class="stringliteral">                  pcm_val="</span>.$this-&gt;id);
 <a name="l00088"></a>00088       <span class="keywordflow">if</span> ( pg_NumRows($ret) != 0) {
 <a name="l00089"></a>00089         <a class="code" href="user__action__ach_8php.html#a2">$r</a>=pg_fetch_array($ret);
-<a name="l00090"></a>00090         $this-&gt;<a class="code" href="action_8inc_8php.html#a16">name</a>=<a class="code" href="user__action__ach_8php.html#a2">$r</a>['pcm_lib'];
+<a name="l00090"></a>00090         $this-&gt;<a class="code" href="action_8inc_8php.html#a18">name</a>=<a class="code" href="user__action__ach_8php.html#a2">$r</a>['pcm_lib'];
 <a name="l00091"></a>00091       } <span class="keywordflow">else</span> {
-<a name="l00092"></a>00092         $this-&gt;<a class="code" href="action_8inc_8php.html#a16">name</a>=<span class="stringliteral">"Poste inconnu"</span>;
+<a name="l00092"></a>00092         $this-&gt;<a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"Poste inconnu"</span>;
 <a name="l00093"></a>00093       }
-<a name="l00094"></a>00094     <span class="keywordflow">return</span> $this-&gt;<a class="code" href="action_8inc_8php.html#a16">name</a>;
+<a name="l00094"></a>00094     <span class="keywordflow">return</span> $this-&gt;<a class="code" href="action_8inc_8php.html#a18">name</a>;
 <a name="l00095"></a>00095   }
 </pre></div>
 <p>
@@ -508,7 +508,7 @@ Definition at line <a class="el" href="class__poste_8php-source.html#l00033">33<
 </table>
 <hr>The documentation for this class was generated from the following file:<ul>
 <li><a class="el" href="class__poste_8php-source.html">class_poste.php</a></ul>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 21:21:25 2006 for phpcompta by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri Jun 30 00:48:34 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

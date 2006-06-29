@@ -174,11 +174,11 @@ Complete a parm_code object thanks the p_code.
 <p>
 Definition at line <a class="el" href="class__parm__code_8php-source.html#l00141">141</a> of file <a class="el" href="class__parm__code_8php-source.html">class_parm_code.php</a>.
 <p>
-References <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="cbc__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="poste_8inc_8php-source.html#l00033">p_comment</a>, and <a class="el" href="poste_8inc_8php-source.html#l00034">p_value</a>.
+References <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="cbc__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00151">$sql</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="poste_8inc_8php-source.html#l00033">p_comment</a>, and <a class="el" href="poste_8inc_8php-source.html#l00034">p_value</a>.
 <p>
 Referenced by <a class="el" href="class__parm__code_8php-source.html#l00036">parm_code()</a>.<div class="fragment"><pre class="fragment"><a name="l00141"></a>00141                  {
 <a name="l00142"></a>00142     <span class="keywordflow">if</span> ( $this-&gt;p_code == -1 ) <span class="keywordflow">return</span> <span class="stringliteral">"p_code non initialisé"</span>;
-<a name="l00143"></a>00143     <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=sprintf(<span class="stringliteral">"select * from parm_code where p_code='%s' "</span>,
+<a name="l00143"></a>00143     <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=sprintf(<span class="stringliteral">"select * from parm_code where p_code='%s' "</span>,
 <a name="l00144"></a>00144                  $this-&gt;p_code);
 <a name="l00145"></a>00145     <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql);
 <a name="l00146"></a>00146 
@@ -280,8 +280,8 @@ Load all parmCode return an array of parm_code object.
 <p>
 Definition at line <a class="el" href="class__parm__code_8php-source.html#l00052">52</a> of file <a class="el" href="class__parm__code_8php-source.html">class_parm_code.php</a>.
 <p>
-References <a class="el" href="recherche_8php-source.html#l00066">$array</a>, <a class="el" href="fiche__def_8inc_8php-source.html#l00062">$idx</a>, <a class="el" href="fiche__csv_8php-source.html#l00049">$o</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="class__parm__code_8php-source.html#l00036">parm_code()</a>.<div class="fragment"><pre class="fragment"><a name="l00052"></a>00052                      {
-<a name="l00053"></a>00053     <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=<span class="stringliteral">"select * from parm_code order by p_code"</span>;
+References <a class="el" href="recherche_8php-source.html#l00066">$array</a>, <a class="el" href="fiche__def_8inc_8php-source.html#l00062">$idx</a>, <a class="el" href="fiche__csv_8php-source.html#l00049">$o</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00151">$sql</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="class__parm__code_8php-source.html#l00036">parm_code()</a>.<div class="fragment"><pre class="fragment"><a name="l00052"></a>00052                      {
+<a name="l00053"></a>00053     <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"select * from parm_code order by p_code"</span>;
 <a name="l00054"></a>00054     <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql);
 <a name="l00055"></a>00055     <a class="code" href="user__action__ach_8php.html#a2">$r</a>= pg_fetch_all($Res);
 <a name="l00056"></a>00056     <a class="code" href="fiche__def_8inc_8php.html#a7">$idx</a>=0;
@@ -333,13 +333,13 @@ update a parm_object into the database p_code is _not_ updatable
 <p>
 Definition at line <a class="el" href="class__parm__code_8php-source.html#l00076">76</a> of file <a class="el" href="class__parm__code_8php-source.html">class_parm_code.php</a>.
 <p>
-References <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="ac__common_8php-source.html#l00208">FormatString()</a>, <a class="el" href="poste_8inc_8php-source.html#l00033">p_comment</a>, and <a class="el" href="poste_8inc_8php-source.html#l00034">p_value</a>.<div class="fragment"><pre class="fragment"><a name="l00077"></a>00077     {
+References <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00151">$sql</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="ac__common_8php-source.html#l00208">FormatString()</a>, <a class="el" href="poste_8inc_8php-source.html#l00033">p_comment</a>, and <a class="el" href="poste_8inc_8php-source.html#l00034">p_value</a>.<div class="fragment"><pre class="fragment"><a name="l00077"></a>00077     {
 <a name="l00078"></a>00078       <span class="comment">// if p_code=="" nothing to save</span>
 <a name="l00079"></a>00079       <span class="keywordflow">if</span> ( $this-&gt;p_code== -1) <span class="keywordflow">return</span>;
 <a name="l00080"></a>00080       $this-&gt;<a class="code" href="poste_8inc_8php.html#a1">p_comment</a>=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($this-&gt;p_comment);
 <a name="l00081"></a>00081       $this-&gt;<a class="code" href="poste_8inc_8php.html#a2">p_value</a>=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($this-&gt;p_value);
 <a name="l00082"></a>00082       $this-&gt;p_code=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($this-&gt;p_code);
-<a name="l00083"></a>00083       <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=<span class="stringliteral">"update parm_code set "</span>.
+<a name="l00083"></a>00083       <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"update parm_code set "</span>.
 <a name="l00084"></a>00084         <span class="stringliteral">"p_comment='"</span>.$this-&gt;p_comment.<span class="stringliteral">"'  "</span>.
 <a name="l00085"></a>00085         <span class="stringliteral">",p_value='"</span>.$this-&gt;p_value.<span class="stringliteral">"'  "</span>.
 <a name="l00086"></a>00086         <span class="stringliteral">"where p_code='"</span>.$this-&gt;p_code.<span class="stringliteral">"'"</span>;
@@ -453,7 +453,7 @@ Definition at line <a class="el" href="class__parm__code_8php-source.html#l00033
 </table>
 <hr>The documentation for this class was generated from the following file:<ul>
 <li><a class="el" href="class__parm__code_8php-source.html">class_parm_code.php</a></ul>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 21:21:25 2006 for phpcompta by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri Jun 30 00:48:34 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

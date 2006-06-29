@@ -61,7 +61,7 @@
 <a name="l00056"></a><a class="code" href="send__jrn__pdf_8php.html#a5">00056</a>     <a class="code" href="readme_8php.html#a0">$pdf</a>=&amp; <span class="keyword">new</span> <a class="code" href="classCezpdf.html">Cezpdf</a>(<span class="stringliteral">"A4"</span>);
 <a name="l00057"></a>00057     <a class="code" href="readme_8php.html#a0">$pdf</a>-&gt;selectFont('./addon/fonts/Helvetica.afm');
 <a name="l00058"></a>00058 
-<a name="l00059"></a><a class="code" href="send__jrn__pdf_8php.html#a8">00059</a> <a class="code" href="bank_8inc_8php.html#a16">$offset</a>=0;<a class="code" href="jrn__pdf_8php.html#a9">$limit</a>=25;<a class="code" href="bank_8inc_8php.html#a14">$step</a>=25;
+<a name="l00059"></a><a class="code" href="send__jrn__pdf_8php.html#a8">00059</a> <a class="code" href="bank_8inc_8php.html#a22">$offset</a>=0;<a class="code" href="jrn__pdf_8php.html#a9">$limit</a>=25;<a class="code" href="bank_8inc_8php.html#a20">$step</a>=25;
 <a name="l00060"></a><a class="code" href="send__jrn__pdf_8php.html#a9">00060</a> <a class="code" href="jrn__pdf_8php.html#a11">$rap_deb</a>=0;<a class="code" href="jrn__pdf_8php.html#a12">$rap_cred</a>=0;
 <a name="l00061"></a>00061 <span class="keywordflow">while</span> (1) {
 <a name="l00062"></a>00062   <a class="code" href="balance_8php.html#a10">$a</a>=0;
@@ -69,7 +69,7 @@
 <a name="l00064"></a>00064   <a class="code" href="debug_8php.html#a0">echo_debug</a>('send_jrn_pdf.php',__LINE__,<span class="stringliteral">"Total debit $tot_deb,credit $tot_cred"</span>);
 <a name="l00065"></a>00065 
 <a name="l00066"></a>00066   <span class="keywordflow">if</span> ( $a_jrn==null) <span class="keywordflow">break</span>;
-<a name="l00067"></a>00067   <a class="code" href="bank_8inc_8php.html#a16">$offset</a>+=<a class="code" href="bank_8inc_8php.html#a14">$step</a>; 
+<a name="l00067"></a>00067   <a class="code" href="bank_8inc_8php.html#a22">$offset</a>+=<a class="code" href="bank_8inc_8php.html#a20">$step</a>; 
 <a name="l00068"></a>00068   foreach ($a_jrn as $key=&gt;$element) {
 <a name="l00069"></a>00069     <a class="code" href="debug_8php.html#a0">echo_debug</a>('send_jrn_pdf.php',__LINE__,<span class="stringliteral">"$key =&gt; $element"</span>);
 <a name="l00070"></a>00070     foreach ($element as $c1=&gt;$c2) 
@@ -155,7 +155,7 @@
 <a name="l00150"></a>00150 <a class="code" href="readme_8php.html#a0">$pdf</a>-&gt;ezStream();
 <a name="l00151"></a>00151 
 <a name="l00152"></a>00152 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 21:21:22 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 30 00:48:26 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

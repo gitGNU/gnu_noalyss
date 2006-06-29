@@ -74,7 +74,7 @@
 <a name="l00082"></a>00082     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;FORM NAME=\"form_detail\"  enctype=\"multipart/form-data\" ACTION=\"$href\" METHOD=\"POST\"&gt;"</span>;
 <a name="l00083"></a>00083   }
 <a name="l00084"></a>00084 
-<a name="l00085"></a>00085   <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=<span class="stringliteral">"select jrn_def_id as value,jrn_def_name as label from jrn_def where jrn_def_type='VEN'"</span>;
+<a name="l00085"></a>00085   <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"select jrn_def_id as value,jrn_def_name as label from jrn_def where jrn_def_type='VEN'"</span>;
 <a name="l00086"></a>00086   <a class="code" href="fiche__new_8php.html#a7">$list</a>=<a class="code" href="postgres_8php.html#a23">GetArray</a>($p_cn,$sql);
 <a name="l00087"></a>00087   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;TABLE&gt;';
 <a name="l00088"></a>00088   <span class="comment">// Date widget</span>
@@ -249,7 +249,7 @@
 <a name="l00269"></a><a class="code" href="user__form__ach_8php.html#a1">00269</a> function <a class="code" href="user__form__ach_8php.html#a1">form_verify_input</a>($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
 <a name="l00270"></a>00270 {
 <a name="l00271"></a>00271   <a class="code" href="debug_8php.html#a0">echo_debug</a>('user_form_ach.php',__LINE__,<span class="stringliteral">"Enter form_verify_input $p_cn,$p_jrn,$p_periode,"</span>.var_export($p_array,<span class="keyword">true</span>).<span class="stringliteral">",$p_number"</span>);
-<a name="l00272"></a>00272   foreach ($p_array as $<a class="code" href="action_8inc_8php.html#a16">name</a>=&gt;$content) {
+<a name="l00272"></a>00272   foreach ($p_array as $<a class="code" href="action_8inc_8php.html#a18">name</a>=&gt;$content) {
 <a name="l00273"></a>00273     ${<span class="stringliteral">"$name"</span>}=$content;
 <a name="l00274"></a>00274   }
 <a name="l00275"></a>00275   <span class="comment">// Verify the date</span>
@@ -441,8 +441,8 @@
 <a name="l00475"></a>00475   <span class="comment">// Keep all the data if hidden</span>
 <a name="l00476"></a>00476   <span class="comment">// and store the array in variables</span>
 <a name="l00477"></a>00477   $hidden=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"hidden"</span>);
-<a name="l00478"></a>00478   foreach ($p_array as $<a class="code" href="action_8inc_8php.html#a16">name</a>=&gt;$content) {
-<a name="l00479"></a>00479     <a class="code" href="readme_8php.html#a4">$data</a>.=$hidden-&gt;IOValue($<a class="code" href="action_8inc_8php.html#a16">name</a>,$content);
+<a name="l00478"></a>00478   foreach ($p_array as $<a class="code" href="action_8inc_8php.html#a18">name</a>=&gt;$content) {
+<a name="l00479"></a>00479     <a class="code" href="readme_8php.html#a4">$data</a>.=$hidden-&gt;IOValue($<a class="code" href="action_8inc_8php.html#a18">name</a>,$content);
 <a name="l00480"></a>00480     ${<span class="stringliteral">"$name"</span>}=$content;
 <a name="l00481"></a>00481   }
 <a name="l00482"></a>00482   
@@ -773,7 +773,7 @@
 <a name="l00836"></a>00836 }
 <a name="l00837"></a>00837 
 <a name="l00838"></a>00838 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 21:21:22 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 30 00:48:26 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

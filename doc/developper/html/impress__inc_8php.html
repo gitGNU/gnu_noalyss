@@ -710,7 +710,7 @@ $p_label<ul>
 <p>
 Definition at line <a class="el" href="impress__inc_8php-source.html#l00814">814</a> of file <a class="el" href="impress__inc_8php-source.html">impress_inc.php</a>.
 <p>
-References <a class="el" href="bank_8inc_8php-source.html#l00109">$l</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
+References <a class="el" href="bank_8inc_8php-source.html#l00156">$l</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
 <p>
 Referenced by <a class="el" href="impress__inc_8php-source.html#l00119">ImpHtml()</a>.<div class="fragment"><pre class="fragment"><a name="l00815"></a>00815 {
 <a name="l00816"></a>00816   $aret=array();
@@ -722,8 +722,8 @@ Referenced by <a class="el" href="impress__inc_8php-source.html#l00119">ImpHtml(
 <a name="l00822"></a>00822   <span class="keywordflow">if</span> (pg_NumRows($Res)==0){
 <a name="l00823"></a>00823     $l_debit=0;                   
 <a name="l00824"></a>00824   } <span class="keywordflow">else</span> {
-<a name="l00825"></a>00825     <a class="code" href="bank_8inc_8php.html#a17">$l</a>=pg_fetch_array($Res,0);
-<a name="l00826"></a>00826     $l_debit=<a class="code" href="bank_8inc_8php.html#a17">$l</a>['montant'];
+<a name="l00825"></a>00825     <a class="code" href="bank_8inc_8php.html#a23">$l</a>=pg_fetch_array($Res,0);
+<a name="l00826"></a>00826     $l_debit=<a class="code" href="bank_8inc_8php.html#a23">$l</a>['montant'];
 <a name="l00827"></a>00827       }
 <a name="l00828"></a>00828   <span class="comment">// somme credit</span>
 <a name="l00829"></a>00829   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select sum (j_montant) as montant from</span>
@@ -731,8 +731,8 @@ Referenced by <a class="el" href="impress__inc_8php-source.html#l00119">ImpHtml(
 <a name="l00831"></a>00831   <span class="keywordflow">if</span> (pg_NumRows($Res)==0) {
 <a name="l00832"></a>00832     $l_credit=0;                   
 <a name="l00833"></a>00833   } <span class="keywordflow">else</span> {
-<a name="l00834"></a>00834     <a class="code" href="bank_8inc_8php.html#a17">$l</a>=pg_fetch_array($Res,0);
-<a name="l00835"></a>00835     $l_credit=<a class="code" href="bank_8inc_8php.html#a17">$l</a>['montant'];
+<a name="l00834"></a>00834     <a class="code" href="bank_8inc_8php.html#a23">$l</a>=pg_fetch_array($Res,0);
+<a name="l00835"></a>00835     $l_credit=<a class="code" href="bank_8inc_8php.html#a23">$l</a>['montant'];
 <a name="l00836"></a>00836   }
 <a name="l00837"></a>00837 
 <a name="l00838"></a>00838   <span class="keywordflow">if</span> ( $l_credit==$l_debit) {
@@ -836,7 +836,7 @@ $p_jrnx_id jrnx.j_id<ul>
 <p>
 Definition at line <a class="el" href="impress__inc_8php-source.html#l00616">616</a> of file <a class="el" href="impress__inc_8php-source.html">impress_inc.php</a>.
 <p>
-References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, <a class="el" href="postgres_8php-source.html#l00222">CountSql()</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00617"></a>00617 {
+References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00151">$sql</a>, <a class="el" href="postgres_8php-source.html#l00222">CountSql()</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00617"></a>00617 {
 <a name="l00618"></a>00618   include_once(<span class="stringliteral">"preference.php"</span>);
 <a name="l00619"></a>00619 
 <a name="l00620"></a>00620   <span class="keywordflow">if</span> ( $which == <a class="code" href="constant_8php.html#a36">LAST</a>) 
@@ -857,7 +857,7 @@ References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class
 <a name="l00635"></a>00635                        <span class="stringliteral">" and c_order $cmp $p_jrnx_id "</span>);
 <a name="l00636"></a>00636       
 <a name="l00637"></a>00637       <span class="keywordflow">if</span> ($c_line == 0 ) { <span class="keywordflow">return</span> array (0,0); }
-<a name="l00638"></a>00638       <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=<span class="stringliteral">"select sum(c_montant) as tot_amount "</span>.
+<a name="l00638"></a>00638       <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"select sum(c_montant) as tot_amount "</span>.
 <a name="l00639"></a>00639         <span class="stringliteral">" from centralized "</span>.
 <a name="l00640"></a>00640         <span class="stringliteral">" left join parm_periode on c_periode=p_id "</span>.
 <a name="l00641"></a>00641         <span class="stringliteral">" inner join jrn on jr_grpt_id=c_grp "</span>.
@@ -893,7 +893,7 @@ References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class
 <a name="l00671"></a>00671                        <span class="stringliteral">" and c_id $cmp $p_jrnx_id "</span>);
 <a name="l00672"></a>00672       
 <a name="l00673"></a>00673       <span class="keywordflow">if</span> ($c_line == 0 ) { <span class="keywordflow">return</span> array (0,0); }
-<a name="l00674"></a>00674       <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=<span class="stringliteral">"select sum(c_montant) as tot_amount "</span>.
+<a name="l00674"></a>00674       <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"select sum(c_montant) as tot_amount "</span>.
 <a name="l00675"></a>00675         <span class="stringliteral">" from centralized "</span>.
 <a name="l00676"></a>00676         <span class="stringliteral">" left join parm_periode on c_periode=p_id "</span>.
 <a name="l00677"></a>00677         <span class="stringliteral">" where "</span>.
@@ -1370,7 +1370,7 @@ connection gen :<ul>
 <p>
 Definition at line <a class="el" href="impress__inc_8php-source.html#l00036">36</a> of file <a class="el" href="impress__inc_8php-source.html">impress_inc.php</a>.
 <p>
-References <a class="el" href="jrn__pdf_8php-source.html#l00045">$centr</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="preference_8php-source.html#l00037">FormPeriodeMult()</a>, <a class="el" href="pref_8inc_8php-source.html#l00048">METHOD</a>, <a class="el" href="action_8inc_8php-source.html#l00230">name</a>, <a class="el" href="poste_8php-source.html#l00087">PosteForm()</a>, and <a class="el" href="action_8inc_8php-source.html#l00231">value</a>.<div class="fragment"><pre class="fragment"><a name="l00036"></a>00036                                  {
+References <a class="el" href="jrn__pdf_8php-source.html#l00045">$centr</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="preference_8php-source.html#l00037">FormPeriodeMult()</a>, <a class="el" href="pref_8inc_8php-source.html#l00048">METHOD</a>, <a class="el" href="action_8inc_8php-source.html#l00239">name</a>, <a class="el" href="poste_8php-source.html#l00087">PosteForm()</a>, and <a class="el" href="action_8inc_8php-source.html#l00240">value</a>.<div class="fragment"><pre class="fragment"><a name="l00036"></a>00036                                  {
 <a name="l00037"></a>00037   include_once(<span class="stringliteral">"preference.php"</span>);
 <a name="l00038"></a>00038   require_once(<span class="stringliteral">"class_user.php"</span>);
 <a name="l00039"></a>00039 
@@ -1397,15 +1397,15 @@ References <a class="el" href="jrn__pdf_8php-source.html#l00045">$centr</a>, <a 
 <a name="l00060"></a>00060       echo '&lt;<a class="code" href="constant_8php.html#a7">FORM</a> ACTION=send_poste_pdf.php <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"GET"</span>&gt;';
 <a name="l00061"></a>00061   }
 <a name="l00062"></a>00062   echo $periode;
-<a name="l00063"></a>00063   echo '&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> NAME=<span class="stringliteral">"type"</span> <a class="code" href="action_8inc_8php.html#a17">value</a>=<span class="stringliteral">"'.$type.'"</span>&gt;';
-<a name="l00064"></a>00064   echo '&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> NAME=<span class="stringliteral">"action"</span> <a class="code" href="action_8inc_8php.html#a17">value</a>=<span class="stringliteral">"'.$action.'"</span>&gt;';
+<a name="l00063"></a>00063   echo '&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> NAME=<span class="stringliteral">"type"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"'.$type.'"</span>&gt;';
+<a name="l00064"></a>00064   echo '&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> NAME=<span class="stringliteral">"action"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"'.$action.'"</span>&gt;';
 <a name="l00065"></a>00065 
 <a name="l00066"></a>00066   echo <a class="code" href="jrn__pdf_8php.html#a2">$centr</a>;
 <a name="l00067"></a>00067 
 <a name="l00068"></a>00068   <span class="keywordflow">if</span> ( isset($filter))
-<a name="l00069"></a>00069     echo '&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> NAME=<span class="stringliteral">"filter"</span> <a class="code" href="action_8inc_8php.html#a17">value</a>=<span class="stringliteral">"'.$filter.'"</span>&gt;';
+<a name="l00069"></a>00069     echo '&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> NAME=<span class="stringliteral">"filter"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"'.$filter.'"</span>&gt;';
 <a name="l00070"></a>00070   <span class="keywordflow">if</span> ( isset ($p_id)) {
-<a name="l00071"></a>00071     echo '&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> NAME=<span class="stringliteral">"p_id"</span> <a class="code" href="action_8inc_8php.html#a17">value</a>=<span class="stringliteral">"'.$p_id.'"</span>&gt;';
+<a name="l00071"></a>00071     echo '&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> NAME=<span class="stringliteral">"p_id"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"'.$p_id.'"</span>&gt;';
 <a name="l00072"></a>00072   } <span class="keywordflow">else</span> {
 <a name="l00073"></a>00073     include_once(<span class="stringliteral">"poste.php"</span>);
 <a name="l00074"></a>00074     echo <span class="stringliteral">"&lt;BR&gt;"</span>;
@@ -1413,7 +1413,7 @@ References <a class="el" href="jrn__pdf_8php-source.html#l00045">$centr</a>, <a 
 <a name="l00076"></a>00076     echo ' &lt;BR&gt;Tous les postes ';
 <a name="l00077"></a>00077     echo '&lt;INPUT TYPE=<span class="stringliteral">"checkbox"</span> NAME=<span class="stringliteral">"all_poste"</span>&gt;&lt;BR&gt;';
 <a name="l00078"></a>00078   }
-<a name="l00079"></a>00079   echo '&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> <a class="code" href="action_8inc_8php.html#a16">name</a>=<span class="stringliteral">"print"</span> Value=<span class="stringliteral">"Executer"</span>&gt;';
+<a name="l00079"></a>00079   echo '&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"print"</span> Value=<span class="stringliteral">"Executer"</span>&gt;';
 <a name="l00080"></a>00080 
 <a name="l00081"></a>00081   echo '&lt;/<a class="code" href="constant_8php.html#a7">FORM</a>&gt;';
 <a name="l00082"></a>00082   echo <span class="stringliteral">"&lt;/DIV&gt;"</span>;
@@ -1423,7 +1423,7 @@ References <a class="el" href="jrn__pdf_8php-source.html#l00045">$centr</a>, <a 
     </td>
   </tr>
 </table>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 21:21:22 2006 for phpcompta by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri Jun 30 00:48:27 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

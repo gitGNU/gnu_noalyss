@@ -343,7 +343,7 @@
 <a name="l00339"></a>00339 <span class="stringliteral">"</span>);
 <a name="l00340"></a>00340 <span class="comment">// One line calculator</span>
 <a name="l00341"></a><a class="code" href="constant_8php.html#a82">00341</a> define (<span class="stringliteral">"JS_CALC_LINE"</span>,'
-<a name="l00342"></a>00342 &lt;div style=<span class="stringliteral">"border:outset black 2px; position:float; float:right;background-color:white;font-family:sans-serif;font-size:9pt;"</span>&gt;
+<a name="l00342"></a>00342 &lt;div style=<span class="stringliteral">"border:outset black 3px; position:float; float:right;background-color:white;font-family:sans-serif;font-size:9pt;"</span>&gt;
 <a name="l00343"></a>00343 &lt;script type=<span class="stringliteral">"text/javascript"</span> language=<span class="stringliteral">"javascript"</span>  src=<span class="stringliteral">"js/calc.js"</span>&gt;
 <a name="l00344"></a>00344 &lt;/script&gt;
 <a name="l00345"></a>00345 &lt;h2 <span class="keyword">class</span>=<span class="stringliteral">"info"</span>&gt; Calculette&lt;/H2&gt;
@@ -351,9 +351,9 @@
 <a name="l00347"></a>00347 &lt;br&gt;
 <a name="l00348"></a>00348 &lt;span <span class="keywordtype">id</span>=<span class="stringliteral">"sub_total"</span>&gt; &lt;/span&gt;
 <a name="l00349"></a>00349 &lt;span <span class="keywordtype">id</span>=<span class="stringliteral">"result"</span>&gt; &lt;/span&gt;
-<a name="l00350"></a>00350 &lt;form <a class="code" href="action_8inc_8php.html#a16">name</a>=<span class="stringliteral">"calc_line"</span>  method=<span class="stringliteral">"GET"</span> onSubmit=<span class="stringliteral">"cal();return false;"</span> &gt;
-<a name="l00351"></a>00351 &lt;input type=<span class="stringliteral">"text"</span> <a class="code" href="tva_8inc_8php.html#a15">size</a>=<span class="stringliteral">"30"</span> <span class="keywordtype">id</span>=<span class="stringliteral">"inp"</span> <a class="code" href="action_8inc_8php.html#a16">name</a>=<span class="stringliteral">"calculator"</span>&gt;
-<a name="l00352"></a>00352 &lt;input type=<span class="stringliteral">"button"</span> <a class="code" href="action_8inc_8php.html#a17">value</a>=<span class="stringliteral">"Efface tout"</span> onClick=<span class="stringliteral">"Clean();return false;"</span> &gt;
+<a name="l00350"></a>00350 &lt;form <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"calc_line"</span>  method=<span class="stringliteral">"GET"</span> onSubmit=<span class="stringliteral">"cal();return false;"</span> &gt;
+<a name="l00351"></a>00351 &lt;input style=<span class="stringliteral">"border:solid 1px;"</span> type=<span class="stringliteral">"text"</span> <a class="code" href="tva_8inc_8php.html#a15">size</a>=<span class="stringliteral">"30"</span> <span class="keywordtype">id</span>=<span class="stringliteral">"inp"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"calculator"</span>&gt;
+<a name="l00352"></a>00352 &lt;input type=<span class="stringliteral">"button"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"Efface tout"</span> onClick=<span class="stringliteral">"Clean();return false;"</span> &gt;
 <a name="l00353"></a>00353 &lt;/form&gt;
 <a name="l00354"></a>00354 &lt;/div&gt;
 <a name="l00355"></a>00355 '
@@ -378,7 +378,7 @@
 <a name="l00374"></a><a class="code" href="constant_8php.html#a86">00374</a> define (<span class="stringliteral">"SQL_LIST_UNPAID_INVOICE_DATE_LIMIT"</span> ,<span class="stringliteral">" where (jr_rapt is null or jr_rapt = '') </span>
 <a name="l00375"></a>00375 <span class="stringliteral">                       and to_date(to_char(jr_ech,'DD.MM.YYYY'),'DD.MM.YYYY') &lt; to_date(to_char(now(),'DD.MM.YYYY'),'DD.MM.YYYY') and jr_valid = true"</span> );
 <a name="l00376"></a>00376 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 21:21:21 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 30 00:48:25 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

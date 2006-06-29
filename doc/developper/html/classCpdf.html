@@ -566,7 +566,7 @@ Definition at line <a class="el" href="class_8pdf_8php-source.html#l02590">2590<
 <a name="l02597"></a>02597       $this-&gt;<a class="code" href="classCpdf.html#a10">o_info</a>($this-&gt;infoObject,$l,$v);
 <a name="l02598"></a>02598     }
 <a name="l02599"></a>02599   } <span class="keywordflow">else</span> {
-<a name="l02600"></a>02600     $this-&gt;<a class="code" href="classCpdf.html#a10">o_info</a>($this-&gt;infoObject,$label,$<a class="code" href="action_8inc_8php.html#a17">value</a>);
+<a name="l02600"></a>02600     $this-&gt;<a class="code" href="classCpdf.html#a10">o_info</a>($this-&gt;infoObject,$label,$<a class="code" href="action_8inc_8php.html#a19">value</a>);
 <a name="l02601"></a>02601   }
 <a name="l02602"></a>02602 }
 </pre></div>
@@ -2448,7 +2448,7 @@ Referenced by <a class="el" href="class_8ezpdf_8php-source.html#l00377">Cezpdf::
 <a name="l02277"></a>02277       <span class="keywordflow">if</span> (isset($this-&gt;fonts[$cf]['differences'][$<span class="keywordtype">char</span>])){
 <a name="l02278"></a>02278         <span class="comment">// then this character is being replaced by another</span>
 <a name="l02279"></a>02279         $name = $this-&gt;fonts[$cf]['differences'][$char];
-<a name="l02280"></a>02280         <span class="keywordflow">if</span> (isset($this-&gt;fonts[$cf][<span class="charliteral">'C'</span>][$<a class="code" href="action_8inc_8php.html#a16">name</a>]['WX'])){
+<a name="l02280"></a>02280         <span class="keywordflow">if</span> (isset($this-&gt;fonts[$cf][<span class="charliteral">'C'</span>][$<a class="code" href="action_8inc_8php.html#a18">name</a>]['WX'])){
 <a name="l02281"></a>02281           <a class="code" href="admin_8inc_8php.html#a4">$w</a>+=$this-&gt;fonts[$cf][<span class="charliteral">'C'</span>][$name]['WX'];
 <a name="l02282"></a>02282         }
 <a name="l02283"></a>02283       } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (isset($this-&gt;fonts[$cf][<span class="charliteral">'C'</span>][$<span class="keywordtype">char</span>]['WX'])){
@@ -3336,13 +3336,13 @@ an object to hold the font description
 <p>
 Definition at line <a class="el" href="class_8pdf_8php-source.html#l00475">475</a> of file <a class="el" href="class_8pdf_8php-source.html">class.pdf.php</a>.
 <p>
-References <a class="el" href="fiche__csv_8php-source.html#l00049">$o</a>, <a class="el" href="class_8pdf_8php-source.html#l00125">$options</a>, <a class="el" href="pref_8inc_8php-source.html#l00059">$res</a>, <a class="el" href="class_8pdf_8php-source.html#l03022">addMessage()</a>, <a class="el" href="action_8inc_8php-source.html#l00230">name</a>, <a class="el" href="class_8pdf_8php-source.html#l00610">o_fontEncoding()</a>, and <a class="el" href="class_8pdf_8php-source.html#l00347">o_pages()</a>.<div class="fragment"><pre class="fragment"><a name="l00475"></a>00475                                         {
+References <a class="el" href="fiche__csv_8php-source.html#l00049">$o</a>, <a class="el" href="class_8pdf_8php-source.html#l00125">$options</a>, <a class="el" href="pref_8inc_8php-source.html#l00059">$res</a>, <a class="el" href="class_8pdf_8php-source.html#l03022">addMessage()</a>, <a class="el" href="action_8inc_8php-source.html#l00239">name</a>, <a class="el" href="class_8pdf_8php-source.html#l00610">o_fontEncoding()</a>, and <a class="el" href="class_8pdf_8php-source.html#l00347">o_pages()</a>.<div class="fragment"><pre class="fragment"><a name="l00475"></a>00475                                         {
 <a name="l00476"></a>00476   <span class="keywordflow">if</span> ($<a class="code" href="classaction.html">action</a>!='<span class="keyword">new</span>'){
 <a name="l00477"></a>00477     <a class="code" href="fiche__csv_8php.html#a5">$o</a> =&amp; $this-&gt;objects[$id];
 <a name="l00478"></a>00478   }
 <a name="l00479"></a>00479   <span class="keywordflow">switch</span> ($<a class="code" href="classaction.html">action</a>){
 <a name="l00480"></a>00480     <span class="keywordflow">case</span> '<span class="keyword">new</span>':
-<a name="l00481"></a>00481       $this-&gt;objects[$id]=array(<span class="charliteral">'t'</span>=&gt;'font<span class="charliteral">','</span>info'=&gt;array('<a class="code" href="action_8inc_8php.html#a16">name</a>'=&gt;$options['<a class="code" href="action_8inc_8php.html#a16">name</a>'],'SubType'=&gt;'Type1'));
+<a name="l00481"></a>00481       $this-&gt;objects[$id]=array(<span class="charliteral">'t'</span>=&gt;'font<span class="charliteral">','</span>info'=&gt;array('<a class="code" href="action_8inc_8php.html#a18">name</a>'=&gt;$options['<a class="code" href="action_8inc_8php.html#a18">name</a>'],'SubType'=&gt;'Type1'));
 <a name="l00482"></a>00482       $fontNum=$this-&gt;numFonts;
 <a name="l00483"></a>00483       $this-&gt;objects[$id]['info']['fontNum']=$fontNum;
 <a name="l00484"></a>00484       <span class="comment">// deal with the encoding and the differences</span>
@@ -3375,7 +3375,7 @@ References <a class="el" href="fiche__csv_8php-source.html#l00049">$o</a>, <a cl
 <a name="l00511"></a>00511       foreach ($options as $k=&gt;$v){
 <a name="l00512"></a>00512         <span class="keywordflow">switch</span> ($k){
 <a name="l00513"></a>00513           <span class="keywordflow">case</span> 'BaseFont':
-<a name="l00514"></a>00514             <a class="code" href="fiche__csv_8php.html#a5">$o</a>['info']['<a class="code" href="action_8inc_8php.html#a16">name</a>'] = $v;
+<a name="l00514"></a>00514             <a class="code" href="fiche__csv_8php.html#a5">$o</a>['info']['<a class="code" href="action_8inc_8php.html#a18">name</a>'] = $v;
 <a name="l00515"></a>00515             <span class="keywordflow">break</span>;
 <a name="l00516"></a>00516           <span class="keywordflow">case</span> 'FirstChar':
 <a name="l00517"></a>00517           <span class="keywordflow">case</span> 'LastChar':
@@ -3391,7 +3391,7 @@ References <a class="el" href="fiche__csv_8php-source.html#l00049">$o</a>, <a cl
 <a name="l00527"></a>00527     <span class="keywordflow">case</span> 'out':
 <a name="l00528"></a>00528       <a class="code" href="pref_8inc_8php.html#a1">$res</a>=<span class="stringliteral">"\n"</span>.$id.<span class="stringliteral">" 0 obj\n&lt;&lt; /Type /Font\n/Subtype /"</span>.<a class="code" href="fiche__csv_8php.html#a5">$o</a>['info']['SubType'].<span class="stringliteral">"\n"</span>;
 <a name="l00529"></a>00529       <a class="code" href="pref_8inc_8php.html#a1">$res</a>.=<span class="stringliteral">"/Name /F"</span>.$o['info']['fontNum'].<span class="stringliteral">"\n"</span>;
-<a name="l00530"></a>00530       <a class="code" href="pref_8inc_8php.html#a1">$res</a>.=<span class="stringliteral">"/BaseFont /"</span>.$o['info']['<a class="code" href="action_8inc_8php.html#a16">name</a>'].<span class="stringliteral">"\n"</span>;
+<a name="l00530"></a>00530       <a class="code" href="pref_8inc_8php.html#a1">$res</a>.=<span class="stringliteral">"/BaseFont /"</span>.$o['info']['<a class="code" href="action_8inc_8php.html#a18">name</a>'].<span class="stringliteral">"\n"</span>;
 <a name="l00531"></a>00531       <span class="keywordflow">if</span> (isset($o['info']['encodingDictionary'])){
 <a name="l00532"></a>00532         <span class="comment">// then place a reference to the dictionary</span>
 <a name="l00533"></a>00533         <a class="code" href="pref_8inc_8php.html#a1">$res</a>.=<span class="stringliteral">"/Encoding "</span>.$o['info']['encodingDictionary'].<span class="stringliteral">" 0 R\n"</span>;
@@ -3465,7 +3465,7 @@ a font descriptor, needed for including additional fonts
 <p>
 Definition at line <a class="el" href="class_8pdf_8php-source.html#l00559">559</a> of file <a class="el" href="class_8pdf_8php-source.html">class.pdf.php</a>.
 <p>
-References <a class="el" href="fiche__csv_8php-source.html#l00049">$o</a>, <a class="el" href="pref_8inc_8php-source.html#l00059">$res</a>, <a class="el" href="balance_8php-source.html#l00076">label</a>, and <a class="el" href="action_8inc_8php-source.html#l00231">value</a>.<div class="fragment"><pre class="fragment"><a name="l00559"></a>00559                                                   {
+References <a class="el" href="fiche__csv_8php-source.html#l00049">$o</a>, <a class="el" href="pref_8inc_8php-source.html#l00059">$res</a>, <a class="el" href="balance_8php-source.html#l00076">label</a>, and <a class="el" href="action_8inc_8php-source.html#l00240">value</a>.<div class="fragment"><pre class="fragment"><a name="l00559"></a>00559                                                   {
 <a name="l00560"></a>00560   <span class="keywordflow">if</span> ($<a class="code" href="classaction.html">action</a>!='<span class="keyword">new</span>'){
 <a name="l00561"></a>00561     <a class="code" href="fiche__csv_8php.html#a5">$o</a> =&amp; $this-&gt;objects[$id];
 <a name="l00562"></a>00562   }
@@ -3475,7 +3475,7 @@ References <a class="el" href="fiche__csv_8php-source.html#l00049">$o</a>, <a cl
 <a name="l00566"></a>00566       <span class="keywordflow">break</span>;
 <a name="l00567"></a>00567     <span class="keywordflow">case</span> 'out':
 <a name="l00568"></a>00568       <a class="code" href="pref_8inc_8php.html#a1">$res</a>=<span class="stringliteral">"\n"</span>.$id.<span class="stringliteral">" 0 obj\n&lt;&lt; /Type /FontDescriptor\n"</span>;
-<a name="l00569"></a>00569       foreach ($o['info'] as $<a class="code" href="balance_8php.html#a6">label</a> =&gt; $<a class="code" href="action_8inc_8php.html#a17">value</a>){
+<a name="l00569"></a>00569       foreach ($o['info'] as $<a class="code" href="balance_8php.html#a6">label</a> =&gt; $<a class="code" href="action_8inc_8php.html#a19">value</a>){
 <a name="l00570"></a>00570         <span class="keywordflow">switch</span> ($<a class="code" href="balance_8php.html#a6">label</a>){
 <a name="l00571"></a>00571           <span class="keywordflow">case</span> 'Ascent':
 <a name="l00572"></a>00572           <span class="keywordflow">case</span> 'CapHeight':
@@ -3490,7 +3490,7 @@ References <a class="el" href="fiche__csv_8php-source.html#l00049">$o</a>, <a cl
 <a name="l00581"></a>00581           <span class="keywordflow">case</span> 'StemH':
 <a name="l00582"></a>00582           <span class="keywordflow">case</span> 'XHeight':
 <a name="l00583"></a>00583           <span class="keywordflow">case</span> 'CharSet':
-<a name="l00584"></a>00584             <span class="keywordflow">if</span> (strlen($<a class="code" href="action_8inc_8php.html#a17">value</a>)){
+<a name="l00584"></a>00584             <span class="keywordflow">if</span> (strlen($<a class="code" href="action_8inc_8php.html#a19">value</a>)){
 <a name="l00585"></a>00585               <a class="code" href="pref_8inc_8php.html#a1">$res</a>.=<span class="charliteral">'/'</span>.$label.<span class="charliteral">' '</span>.$value.<span class="stringliteral">"\n"</span>;
 <a name="l00586"></a>00586             }
 <a name="l00587"></a>00587             <span class="keywordflow">break</span>;
@@ -4339,7 +4339,7 @@ private
 <p>
 Definition at line <a class="el" href="class_8pdf_8php-source.html#l01306">1306</a> of file <a class="el" href="class_8pdf_8php-source.html">class.pdf.php</a>.
 <p>
-References <a class="el" href="readme_8php-source.html#l00174">$bits</a>, <a class="el" href="readme_8php-source.html#l00150">$data</a>, <a class="el" href="show__document__modele_8php-source.html#l00060">$file</a>, <a class="el" href="balance_8php-source.html#l00118">$i</a>, <a class="el" href="cbc__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="show__document__modele_8php-source.html#l00050">$tmp</a>, and <a class="el" href="action_8inc_8php-source.html#l00230">name</a>.<div class="fragment"><pre class="fragment"><a name="l01306"></a>01306                         {
+References <a class="el" href="readme_8php-source.html#l00174">$bits</a>, <a class="el" href="readme_8php-source.html#l00150">$data</a>, <a class="el" href="show__document__modele_8php-source.html#l00060">$file</a>, <a class="el" href="balance_8php-source.html#l00118">$i</a>, <a class="el" href="cbc__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="show__document__modele_8php-source.html#l00050">$tmp</a>, and <a class="el" href="action_8inc_8php-source.html#l00239">name</a>.<div class="fragment"><pre class="fragment"><a name="l01306"></a>01306                         {
 <a name="l01307"></a>01307   <span class="comment">// assume that $font contains both the path and perhaps the extension to the file, split them</span>
 <a name="l01308"></a>01308   $pos=strrpos($font,<span class="charliteral">'/'</span>);
 <a name="l01309"></a>01309   <span class="keywordflow">if</span> ($pos===<span class="keyword">false</span>){
@@ -4350,8 +4350,8 @@ References <a class="el" href="readme_8php-source.html#l00174">$bits</a>, <a cla
 <a name="l01314"></a>01314     $name=substr($font,$pos+1);
 <a name="l01315"></a>01315   }
 <a name="l01316"></a>01316 
-<a name="l01317"></a>01317   <span class="keywordflow">if</span> (substr($<a class="code" href="action_8inc_8php.html#a16">name</a>,-4)=='.afm'){
-<a name="l01318"></a>01318     $name=substr($<a class="code" href="action_8inc_8php.html#a16">name</a>,0,strlen($<a class="code" href="action_8inc_8php.html#a16">name</a>)-4);
+<a name="l01317"></a>01317   <span class="keywordflow">if</span> (substr($<a class="code" href="action_8inc_8php.html#a18">name</a>,-4)=='.afm'){
+<a name="l01318"></a>01318     $name=substr($<a class="code" href="action_8inc_8php.html#a18">name</a>,0,strlen($<a class="code" href="action_8inc_8php.html#a18">name</a>)-4);
 <a name="l01319"></a>01319   }
 <a name="l01320"></a>01320   $this-&gt;<a class="code" href="classCpdf.html#a72">addMessage</a>('openFont: '.$font.' - '.$name);
 <a name="l01321"></a>01321   <span class="keywordflow">if</span> (file_exists($dir.'php_'.$name.'.afm')){
@@ -5524,7 +5524,7 @@ if the font is not loaded then load it and make the required object else just ma
 <p>
 Definition at line <a class="el" href="class_8pdf_8php-source.html#l01417">1417</a> of file <a class="el" href="class_8pdf_8php-source.html">class.pdf.php</a>.
 <p>
-References <a class="el" href="impress__jrn_8php-source.html#l00035">$d</a>, <a class="el" href="readme_8php-source.html#l00150">$data</a>, <a class="el" href="balance_8php-source.html#l00118">$i</a>, <a class="el" href="fiche__new_8php-source.html#l00136">$list</a>, <a class="el" href="jrn__add_8php-source.html#l00181">$num</a>, <a class="el" href="show__document__modele_8php-source.html#l00050">$tmp</a>, <a class="el" href="bank_8inc_8php-source.html#l00096">extra</a>, <a class="el" href="action_8inc_8php-source.html#l00230">name</a>, and <a class="el" href="tva_8inc_8php-source.html#l00215">width</a>.<div class="fragment"><pre class="fragment"><a name="l01417"></a>01417                                                   {
+References <a class="el" href="impress__jrn_8php-source.html#l00035">$d</a>, <a class="el" href="readme_8php-source.html#l00150">$data</a>, <a class="el" href="balance_8php-source.html#l00118">$i</a>, <a class="el" href="fiche__new_8php-source.html#l00136">$list</a>, <a class="el" href="jrn__add_8php-source.html#l00181">$num</a>, <a class="el" href="show__document__modele_8php-source.html#l00050">$tmp</a>, <a class="el" href="bank_8inc_8php-source.html#l00143">extra</a>, <a class="el" href="action_8inc_8php-source.html#l00239">name</a>, and <a class="el" href="tva_8inc_8php-source.html#l00215">width</a>.<div class="fragment"><pre class="fragment"><a name="l01417"></a>01417                                                   {
 <a name="l01418"></a>01418   <span class="keywordflow">if</span> (!isset($this-&gt;fonts[$fontName])){
 <a name="l01419"></a>01419     <span class="comment">// load the file</span>
 <a name="l01420"></a>01420     $this-&gt;<a class="code" href="classCpdf.html#a27">openFont</a>($fontName);
@@ -5534,10 +5534,10 @@ References <a class="el" href="impress__jrn_8php-source.html#l00035">$d</a>, <a 
 <a name="l01424"></a>01424       $pos=strrpos($fontName,<span class="charliteral">'/'</span>);
 <a name="l01425"></a>01425 <span class="comment">//      $dir=substr($fontName,0,$pos+1);</span>
 <a name="l01426"></a>01426       $name=substr($fontName,$pos+1);
-<a name="l01427"></a>01427       <span class="keywordflow">if</span> (substr($<a class="code" href="action_8inc_8php.html#a16">name</a>,-4)=='.afm'){
-<a name="l01428"></a>01428         $name=substr($<a class="code" href="action_8inc_8php.html#a16">name</a>,0,strlen($<a class="code" href="action_8inc_8php.html#a16">name</a>)-4);
+<a name="l01427"></a>01427       <span class="keywordflow">if</span> (substr($<a class="code" href="action_8inc_8php.html#a18">name</a>,-4)=='.afm'){
+<a name="l01428"></a>01428         $name=substr($<a class="code" href="action_8inc_8php.html#a18">name</a>,0,strlen($<a class="code" href="action_8inc_8php.html#a18">name</a>)-4);
 <a name="l01429"></a>01429       }
-<a name="l01430"></a>01430       <a class="code" href="classCpdf.html#o23">$options</a>=array('<a class="code" href="action_8inc_8php.html#a16">name</a>'=&gt;$<a class="code" href="action_8inc_8php.html#a16">name</a>);
+<a name="l01430"></a>01430       <a class="code" href="classCpdf.html#o23">$options</a>=array('<a class="code" href="action_8inc_8php.html#a18">name</a>'=&gt;$<a class="code" href="action_8inc_8php.html#a18">name</a>);
 <a name="l01431"></a>01431       <span class="keywordflow">if</span> (is_array($encoding)){
 <a name="l01432"></a>01432         <span class="comment">// then encoding and differences might be set</span>
 <a name="l01433"></a>01433         <span class="keywordflow">if</span> (isset($encoding['encoding'])){
@@ -5678,7 +5678,7 @@ References <a class="el" href="impress__jrn_8php-source.html#l00035">$d</a>, <a 
 <a name="l01568"></a>01568         <span class="keywordflow">if</span> ($fbtype=='ttf'){
 <a name="l01569"></a>01569           <a class="code" href="show__document__modele_8php.html#a5">$tmp</a>['SubType']='TrueType';
 <a name="l01570"></a>01570         }
-<a name="l01571"></a>01571         $this-&gt;<a class="code" href="classCpdf.html#a72">addMessage</a>('adding <a class="code" href="bank_8inc_8php.html#a11">extra</a> info to font.('.$fontObj.<span class="charliteral">')'</span>);
+<a name="l01571"></a>01571         $this-&gt;<a class="code" href="classCpdf.html#a72">addMessage</a>('adding <a class="code" href="bank_8inc_8php.html#a17">extra</a> info to font.('.$fontObj.<span class="charliteral">')'</span>);
 <a name="l01572"></a>01572         foreach($tmp as $fk=&gt;$fv){
 <a name="l01573"></a>01573           $this-&gt;<a class="code" href="classCpdf.html#a72">addMessage</a>($fk.<span class="stringliteral">" : "</span>.$fv);
 <a name="l01574"></a>01574         }
@@ -6109,7 +6109,7 @@ Definition at line <a class="el" href="class_8pdf_8php-source.html#l02607">2607<
 <a name="l02611"></a>02611       $this-&gt;<a class="code" href="classCpdf.html#a3">o_catalog</a>($this-&gt;catalogId,'viewerPreferences',array($l=&gt;$v));
 <a name="l02612"></a>02612     }
 <a name="l02613"></a>02613   } <span class="keywordflow">else</span> {
-<a name="l02614"></a>02614     $this-&gt;<a class="code" href="classCpdf.html#a3">o_catalog</a>($this-&gt;catalogId,'viewerPreferences',array($label=&gt;$<a class="code" href="action_8inc_8php.html#a17">value</a>));
+<a name="l02614"></a>02614     $this-&gt;<a class="code" href="classCpdf.html#a3">o_catalog</a>($this-&gt;catalogId,'viewerPreferences',array($label=&gt;$<a class="code" href="action_8inc_8php.html#a19">value</a>));
 <a name="l02615"></a>02615   }
 <a name="l02616"></a>02616 }
 </pre></div>
@@ -7336,7 +7336,7 @@ Definition at line <a class="el" href="class_8pdf_8php-source.html#l00134">134</
 </table>
 <hr>The documentation for this class was generated from the following file:<ul>
 <li><a class="el" href="class_8pdf_8php-source.html">class.pdf.php</a></ul>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 21:21:25 2006 for phpcompta by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri Jun 30 00:48:33 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

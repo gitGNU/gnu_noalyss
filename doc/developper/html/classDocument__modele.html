@@ -88,9 +88,9 @@ Definition at line <a class="el" href="class__document__modele_8php-source.html#
 <p>
 Definition at line <a class="el" href="class__document__modele_8php-source.html#l00037">37</a> of file <a class="el" href="class__document__modele_8php-source.html">class_document_modele.php</a>.
 <p>
-References <a class="el" href="user__update_8php-source.html#l00032">$p_id</a>, and <a class="el" href="action_8inc_8php-source.html#l00316">md_id</a>.<div class="fragment"><pre class="fragment"><a name="l00037"></a>00037                                            {
+References <a class="el" href="user__update_8php-source.html#l00032">$p_id</a>, and <a class="el" href="action_8inc_8php-source.html#l00337">md_id</a>.<div class="fragment"><pre class="fragment"><a name="l00037"></a>00037                                            {
 <a name="l00038"></a>00038     $this-&gt;cn=$p_cn;    
-<a name="l00039"></a>00039     $this-&gt;<a class="code" href="action_8inc_8php.html#a18">md_id</a>=<a class="code" href="user__update_8php.html#a1">$p_id</a>;
+<a name="l00039"></a>00039     $this-&gt;<a class="code" href="action_8inc_8php.html#a20">md_id</a>=<a class="code" href="user__update_8php.html#a1">$p_id</a>;
 <a name="l00040"></a>00040   }
 </pre></div>
 <p>
@@ -129,10 +129,10 @@ Remove a template.
 <p>
 Definition at line <a class="el" href="class__document__modele_8php-source.html#l00179">179</a> of file <a class="el" href="class__document__modele_8php-source.html">class_document_modele.php</a>.
 <p>
-References <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="pref_8inc_8php-source.html#l00059">$res</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, <a class="el" href="postgres_8php-source.html#l00263">Commit()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="postgres_8php-source.html#l00257">StartSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00180"></a>00180     {
+References <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="pref_8inc_8php-source.html#l00059">$res</a>, <a class="el" href="bank_8inc_8php-source.html#l00151">$sql</a>, <a class="el" href="postgres_8php-source.html#l00263">Commit()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="postgres_8php-source.html#l00257">StartSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00180"></a>00180     {
 <a name="l00181"></a>00181       <a class="code" href="postgres_8php.html#a14">StartSql</a>($this-&gt;cn);
 <a name="l00182"></a>00182       <span class="comment">// first we unlink the document</span>
-<a name="l00183"></a>00183       <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=<span class="stringliteral">"select md_lob from document_modele where md_id="</span>.$this-&gt;md_id;
+<a name="l00183"></a>00183       <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"select md_lob from document_modele where md_id="</span>.$this-&gt;md_id;
 <a name="l00184"></a>00184       <a class="code" href="pref_8inc_8php.html#a1">$res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;cn,$sql);
 <a name="l00185"></a>00185       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=pg_fetch_array($res,0);
 <a name="l00186"></a>00186       <span class="comment">// if a lob is found</span>
@@ -142,8 +142,8 @@ References <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>
 <a name="l00190"></a>00190           pg_lo_unlink($r['md_lob']);
 <a name="l00191"></a>00191         }
 <a name="l00192"></a>00192       <span class="comment">// now we can delete the row</span>
-<a name="l00193"></a>00193       <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=<span class="stringliteral">"delete from document_modele where md_id ="</span>.$this-&gt;md_id;
-<a name="l00194"></a>00194       <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;cn,$sql);
+<a name="l00193"></a>00193       <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"delete from document_modele where md_id ="</span>.$this-&gt;md_id;
+<a name="l00194"></a>00194       <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;cn,$sql);
 <a name="l00195"></a>00195       <a class="code" href="postgres_8php.html#a16">Commit</a>($this-&gt;cn);
 <a name="l00196"></a>00196     }
 </pre></div>
@@ -189,7 +189,7 @@ show the form for loading a template
 <p>
 Definition at line <a class="el" href="class__document__modele_8php-source.html#l00252">252</a> of file <a class="el" href="class__document__modele_8php-source.html">class_document_modele.php</a>.
 <p>
-References <a class="el" href="poste_8inc_8php-source.html#l00069">$h</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="bilan_8php-source.html#l00058">$start</a>, <a class="el" href="impress__rapport_8php-source.html#l00062">$t</a>, <a class="el" href="admin_8inc_8php-source.html#l00115">$w</a>, <a class="el" href="action_8inc_8php-source.html#l00160">dt_id</a>, and <a class="el" href="ac__common_8php-source.html#l00282">make_array()</a>.
+References <a class="el" href="poste_8inc_8php-source.html#l00069">$h</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="bilan_8php-source.html#l00058">$start</a>, <a class="el" href="impress__rapport_8php-source.html#l00062">$t</a>, <a class="el" href="admin_8inc_8php-source.html#l00115">$w</a>, <a class="el" href="action_8inc_8php-source.html#l00162">dt_id</a>, and <a class="el" href="ac__common_8php-source.html#l00282">make_array()</a>.
 <p>
 Referenced by <a class="el" href="class__document__modele_8php-source.html#l00049">myList()</a>.<div class="fragment"><pre class="fragment"><a name="l00253"></a>00253     {
 <a name="l00254"></a>00254       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<span class="stringliteral">"&lt;p&gt;"</span>;
@@ -345,8 +345,8 @@ References <a class="el" href="show__document__modele_8php-source.html#l00060">$
 <p>
 Definition at line <a class="el" href="class__document__modele_8php-source.html#l00049">49</a> of file <a class="el" href="class__document__modele_8php-source.html">class_document_modele.php</a>.
 <p>
-References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="fiche__def_8inc_8php-source.html#l00037">$all</a>, <a class="el" href="admin_8inc_8php-source.html#l00080">$c</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="cbc__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="class__document__modele_8php-source.html#l00252">form()</a>, <a class="el" href="action_8inc_8php-source.html#l00316">md_id</a>, and <a class="el" href="document__modele_8inc_8php-source.html#l00042">md_name</a>.<div class="fragment"><pre class="fragment"><a name="l00049"></a>00049                     { 
-<a name="l00050"></a>00050     <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=<span class="stringliteral">"select md_id,md_name,dt_value from document_modele join document_type on(dt_id=md_type)"</span>;
+References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="fiche__def_8inc_8php-source.html#l00037">$all</a>, <a class="el" href="admin_8inc_8php-source.html#l00080">$c</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="cbc__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00151">$sql</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="class__document__modele_8php-source.html#l00252">form()</a>, <a class="el" href="action_8inc_8php-source.html#l00337">md_id</a>, and <a class="el" href="document__modele_8inc_8php-source.html#l00042">md_name</a>.<div class="fragment"><pre class="fragment"><a name="l00049"></a>00049                     { 
+<a name="l00050"></a>00050     <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"select md_id,md_name,dt_value from document_modele join document_type on(dt_id=md_type)"</span>;
 <a name="l00051"></a>00051     <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;cn,$sql);
 <a name="l00052"></a>00052     <a class="code" href="fiche__def_8inc_8php.html#a5">$all</a>=pg_fetch_all($Res);
 <a name="l00053"></a>00053     <span class="keywordflow">if</span> ( pg_NumRows($Res) == 0 ) <span class="keywordflow">return</span> <span class="stringliteral">""</span>;
@@ -367,7 +367,7 @@ References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class
 <a name="l00068"></a>00068       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/td&gt;"</span>;
 <a name="l00069"></a>00069       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TD&gt;"</span>;
 <a name="l00070"></a>00070       <a class="code" href="admin_8inc_8php.html#a2">$c</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"checkbox"</span>);
-<a name="l00071"></a>00071       <a class="code" href="admin_8inc_8php.html#a2">$c</a>-&gt;name=<span class="stringliteral">"dm_remove_"</span>.$row['<a class="code" href="action_8inc_8php.html#a18">md_id</a>'];
+<a name="l00071"></a>00071       <a class="code" href="admin_8inc_8php.html#a2">$c</a>-&gt;name=<span class="stringliteral">"dm_remove_"</span>.$row['<a class="code" href="action_8inc_8php.html#a20">md_id</a>'];
 <a name="l00072"></a>00072       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="admin_8inc_8php.html#a2">$c</a>-&gt;IOValue();
 <a name="l00073"></a>00073       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/td&gt;"</span>;
 <a name="l00074"></a>00074       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/tr&gt;"</span>;
@@ -422,7 +422,7 @@ none
 <p>
 Definition at line <a class="el" href="class__document__modele_8php-source.html#l00103">103</a> of file <a class="el" href="class__document__modele_8php-source.html">class_document_modele.php</a>.
 <p>
-References <a class="el" href="modify__op_8php-source.html#l00125">$old_oid</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="impress__bilan_8php-source.html#l00032">$ret</a>, <a class="el" href="line__update_8php-source.html#l00070">$Ret</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, <a class="el" href="postgres_8php-source.html#l00263">Commit()</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="ac__common_8php-source.html#l00036">echo_error()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="balance_8php-source.html#l00036">exit</a>, <a class="el" href="ac__common_8php-source.html#l00208">FormatString()</a>, <a class="el" href="ac__common_8php-source.html#l00076">isNumber()</a>, <a class="el" href="action_8inc_8php-source.html#l00316">md_id</a>, <a class="el" href="action_8inc_8php-source.html#l00230">name</a>, <a class="el" href="postgres_8php-source.html#l00251">NextSequence()</a>, <a class="el" href="postgres_8php-source.html#l00266">Rollback()</a>, <a class="el" href="document__modele_8inc_8php-source.html#l00045">start</a>, and <a class="el" href="postgres_8php-source.html#l00257">StartSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00104"></a>00104     {
+References <a class="el" href="modify__op_8php-source.html#l00125">$old_oid</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="impress__bilan_8php-source.html#l00032">$ret</a>, <a class="el" href="line__update_8php-source.html#l00070">$Ret</a>, <a class="el" href="bank_8inc_8php-source.html#l00151">$sql</a>, <a class="el" href="postgres_8php-source.html#l00263">Commit()</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="ac__common_8php-source.html#l00036">echo_error()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="balance_8php-source.html#l00036">exit</a>, <a class="el" href="ac__common_8php-source.html#l00208">FormatString()</a>, <a class="el" href="ac__common_8php-source.html#l00076">isNumber()</a>, <a class="el" href="action_8inc_8php-source.html#l00337">md_id</a>, <a class="el" href="action_8inc_8php-source.html#l00239">name</a>, <a class="el" href="postgres_8php-source.html#l00251">NextSequence()</a>, <a class="el" href="postgres_8php-source.html#l00266">Rollback()</a>, <a class="el" href="document__modele_8inc_8php-source.html#l00045">start</a>, and <a class="el" href="postgres_8php-source.html#l00257">StartSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00104"></a>00104     {
 <a name="l00105"></a>00105       <span class="comment">// if name is empty return immediately</span>
 <a name="l00106"></a>00106       <span class="keywordflow">if</span> ( trim(strlen($this-&gt;md_name))==0) 
 <a name="l00107"></a>00107         <span class="keywordflow">return</span>;
@@ -436,9 +436,9 @@ References <a class="el" href="modify__op_8php-source.html#l00125">$old_oid</a>,
 <a name="l00115"></a>00115         {
 <a name="l00116"></a>00116 
 <a name="l00117"></a>00117           <span class="comment">// insert into the table document_modele</span>
-<a name="l00118"></a>00118           $this-&gt;<a class="code" href="action_8inc_8php.html#a16">name</a>=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($this-&gt;md_name);
-<a name="l00119"></a>00119           $this-&gt;<a class="code" href="action_8inc_8php.html#a18">md_id</a>=<a class="code" href="postgres_8php.html#a13">NextSequence</a>($this-&gt;cn,'document_modele_md_id_seq');
-<a name="l00120"></a>00120           <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=sprintf(<span class="stringliteral">"insert into document_modele(md_id,md_name,md_type) </span>
+<a name="l00118"></a>00118           $this-&gt;<a class="code" href="action_8inc_8php.html#a18">name</a>=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($this-&gt;md_name);
+<a name="l00119"></a>00119           $this-&gt;<a class="code" href="action_8inc_8php.html#a20">md_id</a>=<a class="code" href="postgres_8php.html#a13">NextSequence</a>($this-&gt;cn,'document_modele_md_id_seq');
+<a name="l00120"></a>00120           <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=sprintf(<span class="stringliteral">"insert into document_modele(md_id,md_name,md_type) </span>
 <a name="l00121"></a>00121 <span class="stringliteral">                              values (%d,'%s',%d)"</span>,
 <a name="l00122"></a>00122                              $this-&gt;md_id,$this-&gt;name,$this-&gt;md_type);
 <a name="l00123"></a>00123           <a class="code" href="line__update_8php.html#a8">$Ret</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;cn,$sql);
@@ -450,7 +450,7 @@ References <a class="el" href="modify__op_8php-source.html#l00125">$old_oid</a>,
 <a name="l00129"></a>00129 
 <a name="l00130"></a>00130           <span class="keywordflow">if</span> ( $this-&gt;start != 0 &amp;&amp; <a class="code" href="ac__common_8php.html#a2">isNumber</a>($this-&gt;start) == 1 )
 <a name="l00131"></a>00131             {
-<a name="l00132"></a>00132               <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=<span class="stringliteral">"alter sequence seq_doc_type_"</span>.$this-&gt;md_type.<span class="stringliteral">" restart "</span>.$this-&gt;<a class="code" href="document__modele_8inc_8php.html#a5">start</a>;
+<a name="l00132"></a>00132               <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"alter sequence seq_doc_type_"</span>.$this-&gt;md_type.<span class="stringliteral">" restart "</span>.$this-&gt;<a class="code" href="document__modele_8inc_8php.html#a5">start</a>;
 <a name="l00133"></a>00133               <a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;cn,$sql);
 <a name="l00134"></a>00134             }
 <a name="l00135"></a>00135           
@@ -482,7 +482,7 @@ References <a class="el" href="modify__op_8php-source.html#l00125">$old_oid</a>,
 <a name="l00161"></a>00161                     pg_lo_unlink($this-&gt;cn,$old_oid);
 <a name="l00162"></a>00162                 }
 <a name="l00163"></a>00163               <span class="comment">// Load new document</span>
-<a name="l00164"></a>00164               <a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;cn,<span class="stringliteral">"update document_modele set md_lob="</span>.$oid.<span class="stringliteral">", md_mimetype='"</span>.$_FILES['doc']['type'].<span class="stringliteral">"' ,md_filename='"</span>.$_FILES['doc']['<a class="code" href="action_8inc_8php.html#a16">name</a>'].<span class="stringliteral">"' where md_id="</span>.$this-&gt;md_id);
+<a name="l00164"></a>00164               <a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;cn,<span class="stringliteral">"update document_modele set md_lob="</span>.$oid.<span class="stringliteral">", md_mimetype='"</span>.$_FILES['doc']['type'].<span class="stringliteral">"' ,md_filename='"</span>.$_FILES['doc']['<a class="code" href="action_8inc_8php.html#a18">name</a>'].<span class="stringliteral">"' where md_id="</span>.$this-&gt;md_id);
 <a name="l00165"></a>00165               <a class="code" href="postgres_8php.html#a16">Commit</a>($this-&gt;cn);
 <a name="l00166"></a>00166             }
 <a name="l00167"></a>00167           <span class="keywordflow">else</span> 
@@ -676,7 +676,7 @@ Definition at line <a class="el" href="class__document__modele_8php-source.html#
 </table>
 <hr>The documentation for this class was generated from the following file:<ul>
 <li><a class="el" href="class__document__modele_8php-source.html">class_document_modele.php</a></ul>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 21:21:25 2006 for phpcompta by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri Jun 30 00:48:33 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

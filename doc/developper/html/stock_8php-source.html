@@ -147,18 +147,18 @@
 <a name="l00142"></a>00142     echo 'Entrer la valeur qui doit augmenter ou diminuer le stock';
 <a name="l00143"></a>00143     echo '&lt;form <a class="code" href="classaction.html">action</a>=<span class="stringliteral">"stock.php"</span> method=<span class="stringliteral">"POST"</span>&gt;';
 <a name="l00144"></a>00144     echo <a class="code" href="balance_8php.html#a11">$b</a>;
-<a name="l00145"></a>00145     echo '&lt;input type=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a16">name</a>=<span class="stringliteral">"sub_change"</span> <a class="code" href="action_8inc_8php.html#a17">value</a>=<span class="stringliteral">"Ok"</span>&gt;';
+<a name="l00145"></a>00145     echo '&lt;input type=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"sub_change"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"Ok"</span>&gt;';
 <a name="l00146"></a>00146     echo '&lt;/form&gt;';
 <a name="l00147"></a>00147     echo '&lt;/div&gt;';
 <a name="l00148"></a>00148     <a class="code" href="balance_8php.html#a0">exit</a>();
 <a name="l00149"></a>00149 }
 <a name="l00150"></a>00150 
 <a name="l00151"></a>00151 <span class="comment">// Show the possible years</span>
-<a name="l00152"></a>00152 <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=<span class="stringliteral">"select distinct (p_exercice) as exercice from parm_periode "</span>;
+<a name="l00152"></a>00152 <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"select distinct (p_exercice) as exercice from parm_periode "</span>;
 <a name="l00153"></a><a class="code" href="stock_8php.html#a4">00153</a> <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$sql);
 <a name="l00154"></a><a class="code" href="stock_8php.html#a5">00154</a> <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<span class="stringliteral">""</span>;
 <a name="l00155"></a>00155 <span class="keywordflow">for</span> ( $i = 0; $i &lt; pg_NumRows($Res);$i++) {
-<a name="l00156"></a>00156   <a class="code" href="bank_8inc_8php.html#a17">$l</a>=pg_fetch_array($Res,$i);
+<a name="l00156"></a>00156   <a class="code" href="bank_8inc_8php.html#a23">$l</a>=pg_fetch_array($Res,$i);
 <a name="l00157"></a>00157   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=sprintf('&lt;A <span class="keyword">class</span>=<span class="stringliteral">"one"</span> HREF=<span class="stringliteral">"stock.php?year=%d"</span>&gt;%d&lt;/a&gt; - ',
 <a name="l00158"></a>00158               $l['exercice'],
 <a name="l00159"></a>00159               $l['exercice']);
@@ -180,7 +180,7 @@
 <a name="l00175"></a>00175 echo '&lt;/div&gt;';
 <a name="l00176"></a>00176 <a class="code" href="ac__common_8php.html#a6">html_page_stop</a>();
 <a name="l00177"></a>00177 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 21:21:22 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 30 00:48:26 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

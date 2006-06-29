@@ -42,14 +42,14 @@
 <a name="l00033"></a>00033     include_once(<span class="stringliteral">"class_poste.php"</span>);
 <a name="l00034"></a>00034 
 <a name="l00035"></a>00035   echo '&lt;div <span class="keyword">class</span>=<span class="stringliteral">"u_content"</span>&gt;';
-<a name="l00036"></a><a class="code" href="impress__fiche_8php.html#a1">00036</a>   <a class="code" href="bank_8inc_8php.html#a19">$submit</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>();
+<a name="l00036"></a><a class="code" href="impress__fiche_8php.html#a1">00036</a>   <a class="code" href="bank_8inc_8php.html#a25">$submit</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>();
 <a name="l00037"></a><a class="code" href="impress__fiche_8php.html#a2">00037</a>   <a class="code" href="balance_8php.html#a1">$hid</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"hidden"</span>);
 <a name="l00038"></a><a class="code" href="impress__fiche_8php.html#a3">00038</a>   <a class="code" href="impress__fiche_8php.html#a3">$fiche_id</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"hidden"</span>);
 <a name="l00039"></a><a class="code" href="impress__fiche_8php.html#a4">00039</a>   <a class="code" href="admin_8inc_8php.html#a4">$w</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"select"</span>);
 <a name="l00040"></a><a class="code" href="impress__fiche_8php.html#a5">00040</a>   <a class="code" href="fiche__def_8inc_8php.html#a4">$fiche_def</a>=<span class="keyword">new</span> <a class="code" href="classfiche__def.html">fiche_def</a>($cn);
 <a name="l00041"></a>00041 
 <a name="l00042"></a>00042   echo '&lt;form method=<span class="stringliteral">"POST"</span> <a class="code" href="constant_8php.html#a39">ACTION</a>=<span class="stringliteral">"fiche_csv.php"</span>&gt;'.
-<a name="l00043"></a>00043     <a class="code" href="bank_8inc_8php.html#a19">$submit</a>-&gt;Submit('bt_csv',<span class="stringliteral">"Export CSV"</span>).
+<a name="l00043"></a>00043     <a class="code" href="bank_8inc_8php.html#a25">$submit</a>-&gt;Submit('bt_csv',<span class="stringliteral">"Export CSV"</span>).
 <a name="l00044"></a>00044     <a class="code" href="balance_8php.html#a1">$hid</a>-&gt;IOValue(<span class="stringliteral">"type"</span>,<span class="stringliteral">"fiche"</span>).
 <a name="l00045"></a>00045     <a class="code" href="impress__fiche_8php.html#a3">$fiche_id</a>-&gt;IOValue(<span class="stringliteral">"fd_id"</span>,$_REQUEST['fd_id']);
 <a name="l00046"></a>00046   <span class="keywordflow">if</span> ($with_amount) {
@@ -79,7 +79,7 @@
 <a name="l00070"></a>00070     <a class="code" href="impress__bilan_8php.html#a3">print</a> <span class="stringliteral">" Jusque "</span>.$w-&gt;IOValue('to_periode',$periode_end);
 <a name="l00071"></a>00071     
 <a name="l00072"></a>00072 
-<a name="l00073"></a>00073     <a class="code" href="impress__bilan_8php.html#a3">print</a> <a class="code" href="bank_8inc_8php.html#a19">$submit</a>-&gt;Submit('bt_solde',<span class="stringliteral">"Avec solde"</span>).
+<a name="l00073"></a>00073     <a class="code" href="impress__bilan_8php.html#a3">print</a> <a class="code" href="bank_8inc_8php.html#a25">$submit</a>-&gt;Submit('bt_solde',<span class="stringliteral">"Avec solde"</span>).
 <a name="l00074"></a>00074     <a class="code" href="balance_8php.html#a1">$hid</a>-&gt;IOValue(<span class="stringliteral">"type"</span>,<span class="stringliteral">"fiche"</span>).
 <a name="l00075"></a>00075     <a class="code" href="impress__fiche_8php.html#a3">$fiche_id</a>-&gt;IOValue(<span class="stringliteral">"fd_id"</span>,$_REQUEST['fd_id']).
 <a name="l00076"></a>00076       <a class="code" href="balance_8php.html#a1">$hid</a>-&gt;IOValue(<span class="stringliteral">"with_amount"</span>);
@@ -89,7 +89,7 @@
 <a name="l00080"></a>00080   
 <a name="l00081"></a><a class="code" href="impress__fiche_8php.html#a9">00081</a>   <a class="code" href="impress__fiche_8php.html#a9">$fiche</a>=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($cn);
 <a name="l00082"></a><a class="code" href="impress__fiche_8php.html#a10">00082</a>   <a class="code" href="impress__fiche_8php.html#a10">$e</a>=<a class="code" href="impress__fiche_8php.html#a9">$fiche</a>-&gt;GetByType($<a class="code" href="classfiche__def.html">fiche_def</a>-&gt;id);
-<a name="l00083"></a><a class="code" href="impress__fiche_8php.html#a11">00083</a>   <a class="code" href="bank_8inc_8php.html#a17">$l</a>=var_export($e,<span class="keyword">true</span>);
+<a name="l00083"></a><a class="code" href="impress__fiche_8php.html#a11">00083</a>   <a class="code" href="bank_8inc_8php.html#a23">$l</a>=var_export($e,<span class="keyword">true</span>);
 <a name="l00084"></a>00084   <a class="code" href="debug_8php.html#a0">echo_debug</a>('impress_fiche.php',__LINE__,$l);
 <a name="l00085"></a><a class="code" href="impress__fiche_8php.html#a12">00085</a>   <a class="code" href="impress__fiche_8php.html#a12">$old</a>=-1;
 <a name="l00086"></a>00086   echo <span class="stringliteral">"&lt;TABLE class=\"result\"&gt;"</span>;
@@ -151,7 +151,7 @@
 <a name="l00142"></a>00142  }
 <a name="l00143"></a>00143 
 <a name="l00144"></a>00144 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 21:21:22 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 30 00:48:25 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

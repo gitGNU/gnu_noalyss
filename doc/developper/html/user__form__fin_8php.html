@@ -98,8 +98,8 @@ verify if the data to insert are valid
 <p>
 Definition at line <a class="el" href="user__form__fin_8php-source.html#l00042">42</a> of file <a class="el" href="user__form__fin_8php-source.html">user_form_fin.php</a>.
 <p>
-References <a class="el" href="pref_8inc_8php-source.html#l00096">$msg</a>, <a class="el" href="send__poste__pdf_8php-source.html#l00044">$poste</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="ac__common_8php-source.html#l00036">echo_error()</a>, <a class="el" href="ac__common_8php-source.html#l00097">isDate()</a>, <a class="el" href="fiche__inc_8php-source.html#l01514">IsFicheOfJrn()</a>, <a class="el" href="ac__common_8php-source.html#l00076">isNumber()</a>, and <a class="el" href="action_8inc_8php-source.html#l00230">name</a>.<div class="fragment"><pre class="fragment"><a name="l00043"></a>00043 {
-<a name="l00044"></a>00044   foreach ($p_array as $<a class="code" href="action_8inc_8php.html#a16">name</a>=&gt;$content) {
+References <a class="el" href="pref_8inc_8php-source.html#l00096">$msg</a>, <a class="el" href="send__poste__pdf_8php-source.html#l00044">$poste</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="ac__common_8php-source.html#l00036">echo_error()</a>, <a class="el" href="ac__common_8php-source.html#l00097">isDate()</a>, <a class="el" href="fiche__inc_8php-source.html#l01514">IsFicheOfJrn()</a>, <a class="el" href="ac__common_8php-source.html#l00076">isNumber()</a>, and <a class="el" href="action_8inc_8php-source.html#l00239">name</a>.<div class="fragment"><pre class="fragment"><a name="l00043"></a>00043 {
+<a name="l00044"></a>00044   foreach ($p_array as $<a class="code" href="action_8inc_8php.html#a18">name</a>=&gt;$content) {
 <a name="l00045"></a>00045     ${<span class="stringliteral">"$name"</span>}=$content;
 <a name="l00046"></a>00046   }
 <a name="l00047"></a>00047   <span class="comment">// Verify the date</span>
@@ -276,7 +276,7 @@ Display the form for financial Used to show detail, encode a new fin op or updat
 <p>
 Definition at line <a class="el" href="user__form__fin_8php-source.html#l00146">146</a> of file <a class="el" href="user__form__fin_8php-source.html">user_form_fin.php</a>.
 <p>
-References <a class="el" href="show__document__modele_8php-source.html#l00060">$file</a>, <a class="el" href="setup_8php-source.html#l00260">$flag</a>, <a class="el" href="poste_8inc_8php-source.html#l00069">$h</a>, <a class="el" href="modify__op_8php-source.html#l00054">$p_jrn</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="impress__fiche_8php-source.html#l00113">$solde</a>, <a class="el" href="ac__common_8php-source.html#l00036">echo_error()</a>, <a class="el" href="balance_8php-source.html#l00036">exit</a>, <a class="el" href="preference_8php-source.html#l00125">GetPeriode()</a>, <a class="el" href="poste_8php-source.html#l00114">GetSolde()</a>, <a class="el" href="action_8inc_8php-source.html#l00230">name</a>, and <a class="el" href="action_8inc_8php-source.html#l00231">value</a>.<div class="fragment"><pre class="fragment"><a name="l00147"></a>00147 { 
+References <a class="el" href="show__document__modele_8php-source.html#l00060">$file</a>, <a class="el" href="setup_8php-source.html#l00260">$flag</a>, <a class="el" href="poste_8inc_8php-source.html#l00069">$h</a>, <a class="el" href="modify__op_8php-source.html#l00054">$p_jrn</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="impress__fiche_8php-source.html#l00113">$solde</a>, <a class="el" href="ac__common_8php-source.html#l00036">echo_error()</a>, <a class="el" href="balance_8php-source.html#l00036">exit</a>, <a class="el" href="preference_8php-source.html#l00125">GetPeriode()</a>, <a class="el" href="poste_8php-source.html#l00114">GetSolde()</a>, <a class="el" href="action_8inc_8php-source.html#l00239">name</a>, and <a class="el" href="action_8inc_8php-source.html#l00240">value</a>.<div class="fragment"><pre class="fragment"><a name="l00147"></a>00147 { 
 <a name="l00148"></a>00148   include_once(<span class="stringliteral">"poste.php"</span>);
 <a name="l00149"></a>00149   <span class="keywordflow">if</span> ( $p_array != null ) {
 <a name="l00150"></a>00150     <span class="comment">// array contains old value</span>
@@ -325,7 +325,7 @@ References <a class="el" href="show__document__modele_8php-source.html#l00060">$
 <a name="l00193"></a>00193 
 <a name="l00194"></a>00194 
 <a name="l00195"></a>00195   include_once(<span class="stringliteral">"fiche_inc.php"</span>);
-<a name="l00196"></a>00196   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> <a class="code" href="action_8inc_8php.html#a16">name</a>=<span class="stringliteral">"nb_item"</span> <a class="code" href="action_8inc_8php.html#a17">value</a>=<span class="stringliteral">"'.$p_item.'"</span>&gt;';
+<a name="l00196"></a>00196   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"nb_item"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"'.$p_item.'"</span>&gt;';
 <a name="l00197"></a>00197 
 <a name="l00198"></a>00198   <span class="comment">// bank_account operation</span>
 <a name="l00199"></a>00199   <span class="comment">// Save old value and set a new one</span>
@@ -599,7 +599,7 @@ References <a class="el" href="impress__fiche_8php-source.html#l00082">$e</a>, <
 <a name="l00418"></a>00418       } <span class="keywordflow">else</span> {
 <a name="l00419"></a>00419         <span class="keywordflow">if</span> ( <span class="keyword">sizeof</span>($_FILES) != 0 ) 
 <a name="l00420"></a>00420           {
-<a name="l00421"></a>00421             <a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"update jrn set jr_pj="</span>.$oid.<span class="stringliteral">", jr_pj_name='"</span>.$_FILES['pj']['<a class="code" href="action_8inc_8php.html#a16">name</a>'].<span class="stringliteral">"', "</span>.
+<a name="l00421"></a>00421             <a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"update jrn set jr_pj="</span>.$oid.<span class="stringliteral">", jr_pj_name='"</span>.$_FILES['pj']['<a class="code" href="action_8inc_8php.html#a18">name</a>'].<span class="stringliteral">"', "</span>.
 <a name="l00422"></a>00422                 <span class="stringliteral">"jr_pj_type='"</span>.$_FILES['pj']['type'].<span class="stringliteral">"'  where jr_grpt_id=$seq"</span>);
 <a name="l00423"></a>00423           }
 <a name="l00424"></a>00424       }
@@ -614,7 +614,7 @@ References <a class="el" href="impress__fiche_8php-source.html#l00082">$e</a>, <
     </td>
   </tr>
 </table>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 21:21:23 2006 for phpcompta by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri Jun 30 00:48:28 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

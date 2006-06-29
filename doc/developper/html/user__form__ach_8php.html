@@ -101,9 +101,9 @@ verify if the data to insert are valid
 <p>
 Definition at line <a class="el" href="user__form__ach_8php-source.html#l00269">269</a> of file <a class="el" href="user__form__ach_8php-source.html">user_form_ach.php</a>.
 <p>
-References <a class="el" href="pref_8inc_8php-source.html#l00096">$msg</a>, <a class="el" href="postgres_8php-source.html#l00222">CountSql()</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="ac__common_8php-source.html#l00036">echo_error()</a>, <a class="el" href="ac__common_8php-source.html#l00097">isDate()</a>, <a class="el" href="ac__common_8php-source.html#l00076">isNumber()</a>, and <a class="el" href="action_8inc_8php-source.html#l00230">name</a>.<div class="fragment"><pre class="fragment"><a name="l00270"></a>00270 {
+References <a class="el" href="pref_8inc_8php-source.html#l00096">$msg</a>, <a class="el" href="postgres_8php-source.html#l00222">CountSql()</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="ac__common_8php-source.html#l00036">echo_error()</a>, <a class="el" href="ac__common_8php-source.html#l00097">isDate()</a>, <a class="el" href="ac__common_8php-source.html#l00076">isNumber()</a>, and <a class="el" href="action_8inc_8php-source.html#l00239">name</a>.<div class="fragment"><pre class="fragment"><a name="l00270"></a>00270 {
 <a name="l00271"></a>00271   <a class="code" href="debug_8php.html#a0">echo_debug</a>('user_form_ach.php',__LINE__,<span class="stringliteral">"Enter form_verify_input $p_cn,$p_jrn,$p_periode,"</span>.var_export($p_array,<span class="keyword">true</span>).<span class="stringliteral">",$p_number"</span>);
-<a name="l00272"></a>00272   foreach ($p_array as $<a class="code" href="action_8inc_8php.html#a16">name</a>=&gt;$content) {
+<a name="l00272"></a>00272   foreach ($p_array as $<a class="code" href="action_8inc_8php.html#a18">name</a>=&gt;$content) {
 <a name="l00273"></a>00273     ${<span class="stringliteral">"$name"</span>}=$content;
 <a name="l00274"></a>00274   }
 <a name="l00275"></a>00275   <span class="comment">// Verify the date</span>
@@ -373,7 +373,7 @@ Display the form for a sell Used to show detail, encode a new invoice or update 
 <p>
 Definition at line <a class="el" href="user__form__ach_8php-source.html#l00044">44</a> of file <a class="el" href="user__form__ach_8php-source.html">user_form_ach.php</a>.
 <p>
-References <a class="el" href="impress__fiche_8php-source.html#l00081">$fiche</a>, <a class="el" href="poste_8inc_8php-source.html#l00069">$h</a>, <a class="el" href="fiche__new_8php-source.html#l00136">$list</a>, <a class="el" href="pref_8inc_8php-source.html#l00096">$msg</a>, <a class="el" href="modify__op_8php-source.html#l00054">$p_jrn</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="ac__common_8php-source.html#l00036">echo_error()</a>, <a class="el" href="balance_8php-source.html#l00036">exit</a>, <a class="el" href="postgres_8php-source.html#l00353">GetArray()</a>, <a class="el" href="preference_8php-source.html#l00125">GetPeriode()</a>, <a class="el" href="ac__common_8php-source.html#l00076">isNumber()</a>, and <a class="el" href="ac__common_8php-source.html#l00282">make_array()</a>.<div class="fragment"><pre class="fragment"><a name="l00045"></a>00045 { 
+References <a class="el" href="impress__fiche_8php-source.html#l00081">$fiche</a>, <a class="el" href="poste_8inc_8php-source.html#l00069">$h</a>, <a class="el" href="fiche__new_8php-source.html#l00136">$list</a>, <a class="el" href="pref_8inc_8php-source.html#l00096">$msg</a>, <a class="el" href="modify__op_8php-source.html#l00054">$p_jrn</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="bank_8inc_8php-source.html#l00151">$sql</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="ac__common_8php-source.html#l00036">echo_error()</a>, <a class="el" href="balance_8php-source.html#l00036">exit</a>, <a class="el" href="postgres_8php-source.html#l00353">GetArray()</a>, <a class="el" href="preference_8php-source.html#l00125">GetPeriode()</a>, <a class="el" href="ac__common_8php-source.html#l00076">isNumber()</a>, and <a class="el" href="ac__common_8php-source.html#l00282">make_array()</a>.<div class="fragment"><pre class="fragment"><a name="l00045"></a>00045 { 
 <a name="l00046"></a>00046 <a class="code" href="debug_8php.html#a0">echo_debug</a>('user_form_ach.php',__LINE__,<span class="stringliteral">"Enter FormAchInput($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$pview_only,$p_article"</span>);
 <a name="l00047"></a>00047   <span class="keywordflow">if</span> ( $p_array != null) {
 <a name="l00048"></a>00048     <span class="comment">// array contains old value</span>
@@ -413,7 +413,7 @@ References <a class="el" href="impress__fiche_8php-source.html#l00081">$fiche</a
 <a name="l00082"></a>00082     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;FORM NAME=\"form_detail\"  enctype=\"multipart/form-data\" ACTION=\"$href\" METHOD=\"POST\"&gt;"</span>;
 <a name="l00083"></a>00083   }
 <a name="l00084"></a>00084 
-<a name="l00085"></a>00085   <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=<span class="stringliteral">"select jrn_def_id as value,jrn_def_name as label from jrn_def where jrn_def_type='VEN'"</span>;
+<a name="l00085"></a>00085   <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"select jrn_def_id as value,jrn_def_name as label from jrn_def where jrn_def_type='VEN'"</span>;
 <a name="l00086"></a>00086   <a class="code" href="fiche__new_8php.html#a7">$list</a>=<a class="code" href="postgres_8php.html#a23">GetArray</a>($p_cn,$sql);
 <a name="l00087"></a>00087   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;TABLE&gt;';
 <a name="l00088"></a>00088   <span class="comment">// Date widget</span>
@@ -670,14 +670,14 @@ Show the invoice before inserting it the database.
 <p>
 Definition at line <a class="el" href="user__form__ach_8php-source.html#l00471">471</a> of file <a class="el" href="user__form__ach_8php-source.html">user_form_ach.php</a>.
 <p>
-References <a class="el" href="readme_8php-source.html#l00150">$data</a>, <a class="el" href="show__document__modele_8php-source.html#l00060">$file</a>, <a class="el" href="poste_8inc_8php-source.html#l00069">$h</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="ac__common_8php-source.html#l00036">echo_error()</a>, <a class="el" href="balance_8php-source.html#l00036">exit</a>, <a class="el" href="fiche__inc_8php-source.html#l01474">getFicheAttribut()</a>, <a class="el" href="fiche__inc_8php-source.html#l00988">getFicheName()</a>, <a class="el" href="user__common_8php-source.html#l00040">GetTvaRate()</a>, <a class="el" href="ac__common_8php-source.html#l00076">isNumber()</a>, <a class="el" href="pref_8inc_8php-source.html#l00048">METHOD</a>, and <a class="el" href="action_8inc_8php-source.html#l00230">name</a>.<div class="fragment"><pre class="fragment"><a name="l00472"></a>00472 {
+References <a class="el" href="readme_8php-source.html#l00150">$data</a>, <a class="el" href="show__document__modele_8php-source.html#l00060">$file</a>, <a class="el" href="poste_8inc_8php-source.html#l00069">$h</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="ac__common_8php-source.html#l00036">echo_error()</a>, <a class="el" href="balance_8php-source.html#l00036">exit</a>, <a class="el" href="fiche__inc_8php-source.html#l01474">getFicheAttribut()</a>, <a class="el" href="fiche__inc_8php-source.html#l00988">getFicheName()</a>, <a class="el" href="user__common_8php-source.html#l00040">GetTvaRate()</a>, <a class="el" href="ac__common_8php-source.html#l00076">isNumber()</a>, <a class="el" href="pref_8inc_8php-source.html#l00048">METHOD</a>, and <a class="el" href="action_8inc_8php-source.html#l00239">name</a>.<div class="fragment"><pre class="fragment"><a name="l00472"></a>00472 {
 <a name="l00473"></a>00473   <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<span class="stringliteral">""</span>;
 <a name="l00474"></a>00474   <a class="code" href="readme_8php.html#a4">$data</a>=<span class="stringliteral">""</span>;
 <a name="l00475"></a>00475   <span class="comment">// Keep all the data if hidden</span>
 <a name="l00476"></a>00476   <span class="comment">// and store the array in variables</span>
 <a name="l00477"></a>00477   $hidden=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"hidden"</span>);
-<a name="l00478"></a>00478   foreach ($p_array as $<a class="code" href="action_8inc_8php.html#a16">name</a>=&gt;$content) {
-<a name="l00479"></a>00479     <a class="code" href="readme_8php.html#a4">$data</a>.=$hidden-&gt;IOValue($<a class="code" href="action_8inc_8php.html#a16">name</a>,$content);
+<a name="l00478"></a>00478   foreach ($p_array as $<a class="code" href="action_8inc_8php.html#a18">name</a>=&gt;$content) {
+<a name="l00479"></a>00479     <a class="code" href="readme_8php.html#a4">$data</a>.=$hidden-&gt;IOValue($<a class="code" href="action_8inc_8php.html#a18">name</a>,$content);
 <a name="l00480"></a>00480     ${<span class="stringliteral">"$name"</span>}=$content;
 <a name="l00481"></a>00481   }
 <a name="l00482"></a>00482   
@@ -1073,7 +1073,7 @@ References <a class="el" href="user__action__ven_8php-source.html#l00118">$comme
     </td>
   </tr>
 </table>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 21:21:23 2006 for phpcompta by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri Jun 30 00:48:28 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

@@ -133,7 +133,7 @@
 <a name="l00127"></a>00127 
 <a name="l00128"></a>00128 echo '&lt;<a class="code" href="constant_8php.html#a7">FORM</a> <a class="code" href="constant_8php.html#a39">ACTION</a>=<span class="stringliteral">"poste_search.php'.$url.'"</span> <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"POST"</span>&gt;';
 <a name="l00129"></a>00129 <span class="keywordflow">if</span> ( isset($p_ctl) ) {
-<a name="l00130"></a>00130   <span class="keywordflow">if</span> ($p_ctl != 'not')   echo '&lt;INPUT TYPE=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a16">name</a>=<span class="stringliteral">"p_ctl"</span> <a class="code" href="action_8inc_8php.html#a17">value</a>=<span class="stringliteral">"'.$p_ctl.'"</span>&gt;';
+<a name="l00130"></a>00130   <span class="keywordflow">if</span> ($p_ctl != 'not')   echo '&lt;INPUT TYPE=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"p_ctl"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"'.$p_ctl.'"</span>&gt;';
 <a name="l00131"></a>00131 }
 <a name="l00132"></a>00132 echo '&lt;TABLE&gt;';
 <a name="l00133"></a>00133 echo '&lt;TR&gt;';
@@ -142,14 +142,14 @@
 <a name="l00136"></a>00136 
 <a name="l00137"></a>00137 <span class="keywordflow">if</span> ( ! isset ($p_class) ) $p_class=<span class="stringliteral">""</span>;
 <a name="l00138"></a>00138 <a class="code" href="jrn__search_8php.html#a3">$opt</a>=<span class="stringliteral">" &lt;INPUT TYPE=\"text\" value=\"$p_class\" name=\"st_with\"&gt;"</span>;
-<a name="l00139"></a>00139 echo '&lt;TD&gt; &lt;INPUT TYPE=<span class="stringliteral">"text"</span> <a class="code" href="action_8inc_8php.html#a16">name</a>=<span class="stringliteral">"p_class"</span> VALUE=<span class="stringliteral">"'.$p_class.'"</span>&gt;&lt;/TD&gt;';
+<a name="l00139"></a>00139 echo '&lt;TD&gt; &lt;INPUT TYPE=<span class="stringliteral">"text"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"p_class"</span> VALUE=<span class="stringliteral">"'.$p_class.'"</span>&gt;&lt;/TD&gt;';
 <a name="l00140"></a>00140 
 <a name="l00141"></a>00141 echo '&lt;TD&gt; Libellé &lt;/TD&gt;';
 <a name="l00142"></a>00142 echo '&lt;TD&gt; contient &lt;/TD&gt;';
 <a name="l00143"></a>00143 <span class="keywordflow">if</span> ( ! isset ($<a class="code" href="poste_8inc_8php.html#a1">p_comment</a>) ) $p_comment=<span class="stringliteral">""</span>;
-<a name="l00144"></a>00144 echo '&lt;TD&gt; &lt;INPUT TYPE=<span class="stringliteral">"text"</span> <a class="code" href="action_8inc_8php.html#a16">name</a>=<span class="stringliteral">"p_comment"</span> VALUE=<span class="stringliteral">"'.$p_comment.'"</span>&gt;&lt;/TD&gt;&lt;/TR&gt;';
+<a name="l00144"></a>00144 echo '&lt;TD&gt; &lt;INPUT TYPE=<span class="stringliteral">"text"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"p_comment"</span> VALUE=<span class="stringliteral">"'.$p_comment.'"</span>&gt;&lt;/TD&gt;&lt;/TR&gt;';
 <a name="l00145"></a>00145 echo '&lt;/TABLE&gt;';
-<a name="l00146"></a>00146 echo '&lt;INPUT TYPE=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a16">name</a>=<span class="stringliteral">"search"</span> <a class="code" href="action_8inc_8php.html#a17">value</a>=<span class="stringliteral">"cherche"</span>&gt;';
+<a name="l00146"></a>00146 echo '&lt;INPUT TYPE=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"search"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"cherche"</span>&gt;';
 <a name="l00147"></a>00147 echo '&lt;/<a class="code" href="constant_8php.html#a7">FORM</a>&gt;';
 <a name="l00148"></a>00148 
 <a name="l00149"></a>00149 <span class="comment">// if request search</span>
@@ -189,7 +189,7 @@
 <a name="l00183"></a>00183 echo '&lt;INPUT TYPE=<span class="stringliteral">"BUTTON"</span> Value=<span class="stringliteral">"Close"</span> onClick=\'GetIt()\<span class="charliteral">'&gt;'</span>;
 <a name="l00184"></a>00184 <a class="code" href="ac__common_8php.html#a6">html_page_stop</a>();
 <a name="l00185"></a>00185 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 21:21:22 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 30 00:48:26 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

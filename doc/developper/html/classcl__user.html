@@ -103,7 +103,7 @@ Definition at line <a class="el" href="class__user_8php-source.html#l00033">33</
 <p>
 Definition at line <a class="el" href="class__user_8php-source.html#l00040">40</a> of file <a class="el" href="class__user_8php-source.html">class_user.php</a>.
 <p>
-References <a class="el" href="commercial_8php-source.html#l00035">$_SESSION</a>, <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="user__update_8php-source.html#l00032">$p_id</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="cbc__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="eub__be_8inc_8php-source.html#l00055">$Sql</a>, <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="user__common_8php-source.html#l00831">isValid()</a>, and <a class="el" href="action_8inc_8php-source.html#l00230">name</a>.<div class="fragment"><pre class="fragment"><a name="l00040"></a>00040                                    {
+References <a class="el" href="commercial_8php-source.html#l00035">$_SESSION</a>, <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="user__update_8php-source.html#l00032">$p_id</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="cbc__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="eub__be_8inc_8php-source.html#l00055">$Sql</a>, <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="user__common_8php-source.html#l00831">isValid()</a>, and <a class="el" href="action_8inc_8php-source.html#l00239">name</a>.<div class="fragment"><pre class="fragment"><a name="l00040"></a>00040                                    {
 <a name="l00041"></a>00041     <span class="comment">// if p_id is not set then check the connected user</span>
 <a name="l00042"></a>00042     <span class="keywordflow">if</span> ( $p_id == -1 ) {
 <a name="l00043"></a>00043           <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_user.php',__LINE__,<span class="stringliteral">" g_user = "</span>.$_SESSION['g_user']);
@@ -117,7 +117,7 @@ References <a class="el" href="commercial_8php-source.html#l00035">$_SESSION</a>
 <a name="l00051"></a>00051     $this-&gt;admin=( isset($_SESSION['use_admin']) )?<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['use_admin']:0;
 <a name="l00052"></a>00052     
 <a name="l00053"></a>00053     <span class="keywordflow">if</span> ( isset($_SESSION['use_name']) )
-<a name="l00054"></a>00054       $this-&gt;<a class="code" href="action_8inc_8php.html#a16">name</a>=<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['use_name'];
+<a name="l00054"></a>00054       $this-&gt;<a class="code" href="action_8inc_8php.html#a18">name</a>=<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['use_name'];
 <a name="l00055"></a>00055     <span class="keywordflow">if</span> ( isset($_SESSION['use_first_name']) )
 <a name="l00056"></a>00056       $this-&gt;first_name=<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['use_first_name'];
 <a name="l00057"></a>00057     } 
@@ -137,7 +137,7 @@ References <a class="el" href="commercial_8php-source.html#l00035">$_SESSION</a>
 <a name="l00071"></a>00071       <span class="keywordflow">if</span> (($Max=pg_NumRows($Res)) == 0 ) <span class="keywordflow">return</span> -1;
 <a name="l00072"></a>00072       <a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($Res,0);
 <a name="l00073"></a>00073       $this-&gt;first_name=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['use_first_name'];
-<a name="l00074"></a>00074       $this-&gt;<a class="code" href="action_8inc_8php.html#a16">name</a>=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['use_name'];
+<a name="l00074"></a>00074       $this-&gt;<a class="code" href="action_8inc_8php.html#a18">name</a>=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['use_name'];
 <a name="l00075"></a>00075       $this-&gt;active=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['use_active'];
 <a name="l00076"></a>00076       $this-&gt;login=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['use_login'];
 <a name="l00077"></a>00077       $this-&gt;admin=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['use_admin'];
@@ -187,10 +187,10 @@ References <a class="el" href="commercial_8php-source.html#l00035">$_SESSION</a>
 <p>
 Definition at line <a class="el" href="class__user_8php-source.html#l00158">158</a> of file <a class="el" href="class__user_8php-source.html">class_user.php</a>.
 <p>
-References <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, <a class="el" href="class__user_8php-source.html#l00143">Admin()</a>, and <a class="el" href="postgres_8php-source.html#l00222">CountSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00158"></a>00158                                       {
+References <a class="el" href="bank_8inc_8php-source.html#l00151">$sql</a>, <a class="el" href="class__user_8php-source.html#l00143">Admin()</a>, and <a class="el" href="postgres_8php-source.html#l00222">CountSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00158"></a>00158                                       {
 <a name="l00159"></a>00159     $this-&gt;<a class="code" href="classcl__user.html#a3">Admin</a>();
 <a name="l00160"></a>00160     <span class="keywordflow">if</span> ( $this-&gt;admin==1) <span class="keywordflow">return</span> <span class="keyword">true</span>;
-<a name="l00161"></a>00161     <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=<a class="code" href="postgres_8php.html#a10">CountSql</a>($p_cn,<span class="stringliteral">"select uj_id </span>
+<a name="l00161"></a>00161     <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<a class="code" href="postgres_8php.html#a10">CountSql</a>($p_cn,<span class="stringliteral">"select uj_id </span>
 <a name="l00162"></a>00162 <span class="stringliteral">                             from user_sec_jrn </span>
 <a name="l00163"></a>00163 <span class="stringliteral">                             where</span>
 <a name="l00164"></a>00164 <span class="stringliteral">                             uj_priv in ('R','W')</span>
@@ -236,14 +236,14 @@ Check if an user is an admin.
 <p>
 Definition at line <a class="el" href="class__user_8php-source.html#l00143">143</a> of file <a class="el" href="class__user_8php-source.html">class_user.php</a>.
 <p>
-References <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="admin__repo_8php-source.html#l00059">$pass5</a>, <a class="el" href="pref_8inc_8php-source.html#l00059">$res</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, <a class="el" href="postgres_8php-source.html#l00222">CountSql()</a>, and <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>.
+References <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="admin__repo_8php-source.html#l00059">$pass5</a>, <a class="el" href="pref_8inc_8php-source.html#l00059">$res</a>, <a class="el" href="bank_8inc_8php-source.html#l00151">$sql</a>, <a class="el" href="postgres_8php-source.html#l00222">CountSql()</a>, and <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>.
 <p>
 Referenced by <a class="el" href="class__user_8php-source.html#l00158">AccessJrn()</a>.<div class="fragment"><pre class="fragment"><a name="l00143"></a>00143                    {
 <a name="l00144"></a>00144     <a class="code" href="pref_8inc_8php.html#a1">$res</a>=0;
 <a name="l00145"></a>00145     
 <a name="l00146"></a>00146     <span class="keywordflow">if</span> ( $this-&gt;id != 'phpcompta') {
 <a name="l00147"></a>00147       <a class="code" href="admin__repo_8php.html#a3">$pass5</a>=md5($this-&gt;pass);
-<a name="l00148"></a>00148       <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=<span class="stringliteral">"select use_id from ac_users where use_login='$this-&gt;id'</span>
+<a name="l00148"></a>00148       <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"select use_id from ac_users where use_login='$this-&gt;id'</span>
 <a name="l00149"></a>00149 <span class="stringliteral">                and use_active=1 and use_admin=1 and use_pass='$pass5'"</span>;
 <a name="l00150"></a>00150       
 <a name="l00151"></a>00151       <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
@@ -288,14 +288,14 @@ Check if user is active and exists in therepository Automatically redirect.
 <p>
 Definition at line <a class="el" href="class__user_8php-source.html#l00085">85</a> of file <a class="el" href="class__user_8php-source.html">class_user.php</a>.
 <p>
-References <a class="el" href="commercial_8php-source.html#l00035">$_SESSION</a>, <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="admin__repo_8php-source.html#l00059">$pass5</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="pref_8inc_8php-source.html#l00059">$res</a>, <a class="el" href="impress__bilan_8php-source.html#l00032">$ret</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="balance_8php-source.html#l00036">exit</a>, <a class="el" href="class__user_8php-source.html#l00257">GetGlobalPref()</a>, and <a class="el" href="action_8inc_8php-source.html#l00230">name</a>.<div class="fragment"><pre class="fragment"><a name="l00086"></a>00086   {
+References <a class="el" href="commercial_8php-source.html#l00035">$_SESSION</a>, <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="admin__repo_8php-source.html#l00059">$pass5</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="pref_8inc_8php-source.html#l00059">$res</a>, <a class="el" href="impress__bilan_8php-source.html#l00032">$ret</a>, <a class="el" href="bank_8inc_8php-source.html#l00151">$sql</a>, <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="balance_8php-source.html#l00036">exit</a>, <a class="el" href="class__user_8php-source.html#l00257">GetGlobalPref()</a>, and <a class="el" href="action_8inc_8php-source.html#l00239">name</a>.<div class="fragment"><pre class="fragment"><a name="l00086"></a>00086   {
 <a name="l00087"></a>00087         
 <a name="l00088"></a>00088         <a class="code" href="pref_8inc_8php.html#a1">$res</a>=0;
 <a name="l00089"></a>00089         <a class="code" href="admin__repo_8php.html#a3">$pass5</a>=md5($this-&gt;pass);
 <a name="l00090"></a>00090         <span class="keywordflow">if</span>  ( $this-&gt;valid == 1 ) { <span class="keywordflow">return</span>; }
 <a name="l00091"></a>00091         <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
 <a name="l00092"></a>00092         <span class="keywordflow">if</span> ( $cn != <span class="keyword">false</span> ) {
-<a name="l00093"></a>00093           <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=<span class="stringliteral">"select ac_users.use_login,ac_users.use_active, ac_users.use_pass,</span>
+<a name="l00093"></a>00093           <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"select ac_users.use_login,ac_users.use_active, ac_users.use_pass,</span>
 <a name="l00094"></a>00094 <span class="stringliteral">                    use_admin,use_first_name,use_name</span>
 <a name="l00095"></a>00095 <span class="stringliteral">                                from ac_users  </span>
 <a name="l00096"></a>00096 <span class="stringliteral">                                 where ac_users.use_login='$this-&gt;id' </span>
@@ -312,7 +312,7 @@ References <a class="el" href="commercial_8php-source.html#l00035">$_SESSION</a>
 <a name="l00107"></a>00107               <a class="code" href="commercial_8php.html#a0">$_SESSION</a>['use_first_name']=<a class="code" href="user__action__ach_8php.html#a2">$r</a>['use_first_name'];
 <a name="l00108"></a>00108               
 <a name="l00109"></a>00109               $this-&gt;admin=<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['use_admin'];
-<a name="l00110"></a>00110               $this-&gt;<a class="code" href="action_8inc_8php.html#a16">name</a>=<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['use_name'];
+<a name="l00110"></a>00110               $this-&gt;<a class="code" href="action_8inc_8php.html#a18">name</a>=<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['use_name'];
 <a name="l00111"></a>00111               $this-&gt;first_name=<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['use_first_name'];
 <a name="l00112"></a>00112               $this-&gt;<a class="code" href="classcl__user.html#a9">GetGlobalPref</a>();
 <a name="l00113"></a>00113 
@@ -438,8 +438,8 @@ Return the year of current Periode it is the parm_periode.p_exercice col.
 <p>
 Definition at line <a class="el" href="class__user_8php-source.html#l00346">346</a> of file <a class="el" href="class__user_8php-source.html">class_user.php</a>.
 <p>
-References <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="line__update_8php-source.html#l00070">$Ret</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00347"></a>00347 {
-<a name="l00348"></a>00348   <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=<span class="stringliteral">"select p_exercice from parm_periode where p_id="</span>.$this-&gt;GetPeriode();
+References <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="line__update_8php-source.html#l00070">$Ret</a>, <a class="el" href="bank_8inc_8php-source.html#l00151">$sql</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00347"></a>00347 {
+<a name="l00348"></a>00348   <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"select p_exercice from parm_periode where p_id="</span>.$this-&gt;GetPeriode();
 <a name="l00349"></a>00349   <a class="code" href="line__update_8php.html#a8">$Ret</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql);
 <a name="l00350"></a>00350   <a class="code" href="user__action__ach_8php.html#a2">$r</a>=pg_fetch_array($Ret,0);
 <a name="l00351"></a>00351   <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>['p_exercice'];
@@ -484,7 +484,7 @@ Get the global preferences from user_global_pref in the account_repository db.
 <p>
 Definition at line <a class="el" href="class__user_8php-source.html#l00257">257</a> of file <a class="el" href="class__user_8php-source.html">class_user.php</a>.
 <p>
-References <a class="el" href="commercial_8php-source.html#l00035">$_SESSION</a>, <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="setup_8php-source.html#l00379">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="cbc__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="class__user_8php-source.html#l00299">insert_default_global_pref()</a>, and <a class="el" href="action_8inc_8php-source.html#l00230">name</a>.
+References <a class="el" href="commercial_8php-source.html#l00035">$_SESSION</a>, <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="setup_8php-source.html#l00379">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="cbc__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="class__user_8php-source.html#l00299">insert_default_global_pref()</a>, and <a class="el" href="action_8inc_8php-source.html#l00239">name</a>.
 <p>
 Referenced by <a class="el" href="class__user_8php-source.html#l00085">Check()</a>.<div class="fragment"><pre class="fragment"><a name="l00258"></a>00258 {
 <a name="l00259"></a>00259         <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_user.php',__LINE__,<span class="stringliteral">"function GetGlobalPref"</span>);
@@ -508,7 +508,7 @@ Referenced by <a class="el" href="class__user_8php-source.html#l00085">Check()</
 <a name="l00277"></a>00277   }
 <a name="l00278"></a>00278   <span class="comment">// save array into g_ variable</span>
 <a name="l00279"></a>00279   $array_pref=array ('g_theme'=&gt;'THEME<span class="charliteral">','</span>g_pagesize'=&gt;'PAGESIZE');
-<a name="l00280"></a>00280   foreach ($array_pref as $<a class="code" href="action_8inc_8php.html#a16">name</a>=&gt;$parameter ) {
+<a name="l00280"></a>00280   foreach ($array_pref as $<a class="code" href="action_8inc_8php.html#a18">name</a>=&gt;$parameter ) {
 <a name="l00281"></a>00281           <span class="keywordflow">if</span> ( ! isset ($line[$parameter]) ) {
 <a name="l00282"></a>00282                   <a class="code" href="debug_8php.html#a0">echo_debug</a>(<span class="stringliteral">"Missing pref : "</span>.$parameter);
 <a name="l00283"></a>00283                   $this-&gt;<a class="code" href="classcl__user.html#a10">insert_default_global_pref</a>($parameter);
@@ -639,15 +639,15 @@ Get the default user's preferences.
 <p>
 Definition at line <a class="el" href="class__user_8php-source.html#l00204">204</a> of file <a class="el" href="class__user_8php-source.html">class_user.php</a>.
 <p>
-References <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="cbc__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
+References <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="cbc__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00151">$sql</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
 <p>
 Referenced by <a class="el" href="class__user_8php-source.html#l00192">GetPeriode()</a>.<div class="fragment"><pre class="fragment"><a name="l00205"></a>00205 {
 <a name="l00206"></a>00206   <span class="comment">// si preference n'existe pas, les créer</span>
-<a name="l00207"></a>00207   <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=<span class="stringliteral">"select parameter_type,parameter_value from user_local_pref where user_id='"</span>.$this-&gt;id.<span class="stringliteral">"'"</span>;
+<a name="l00207"></a>00207   <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"select parameter_type,parameter_value from user_local_pref where user_id='"</span>.$this-&gt;id.<span class="stringliteral">"'"</span>;
 <a name="l00208"></a>00208   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql);
 <a name="l00209"></a>00209   <span class="keywordflow">if</span> (pg_NumRows($Res) == 0 ) {
 <a name="l00210"></a>00210     <span class="comment">// default periode</span>
-<a name="l00211"></a>00211     <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=sprintf(<span class="stringliteral">"insert into user_local_pref (user_id,parameter_value,parameter_type) </span>
+<a name="l00211"></a>00211     <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=sprintf(<span class="stringliteral">"insert into user_local_pref (user_id,parameter_value,parameter_type) </span>
 <a name="l00212"></a>00212 <span class="stringliteral">                 select '%s',min(p_id),'PERIODE' from parm_periode where p_closed=false"</span>,
 <a name="l00213"></a>00213                  $this-&gt;id);
 <a name="l00214"></a>00214     <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql);
@@ -712,7 +712,7 @@ insert default pref if no parameter are given insert all the existing parameter 
 <p>
 Definition at line <a class="el" href="class__user_8php-source.html#l00299">299</a> of file <a class="el" href="class__user_8php-source.html">class_user.php</a>.
 <p>
-References <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="eub__be_8inc_8php-source.html#l00055">$Sql</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="action_8inc_8php-source.html#l00230">name</a>, and <a class="el" href="action_8inc_8php-source.html#l00231">value</a>.
+References <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="eub__be_8inc_8php-source.html#l00055">$Sql</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="action_8inc_8php-source.html#l00239">name</a>, and <a class="el" href="action_8inc_8php-source.html#l00240">value</a>.
 <p>
 Referenced by <a class="el" href="class__user_8php-source.html#l00257">GetGlobalPref()</a>.<div class="fragment"><pre class="fragment"><a name="l00299"></a>00299                                                             {
 <a name="l00300"></a>00300         <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_user.php',__LINE__,<span class="stringliteral">"function insert_default_global_pref"</span>);
@@ -724,14 +724,14 @@ Referenced by <a class="el" href="class__user_8php-source.html#l00257">GetGlobal
 <a name="l00306"></a>00306         <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=<span class="stringliteral">"insert into user_global_pref(user_id,parameter_type,parameter_value) </span>
 <a name="l00307"></a>00307 <span class="stringliteral">                                values ('%s','%s','%s')"</span>;
 <a name="l00308"></a>00308         <span class="keywordflow">if</span> ( $p_type == <span class="stringliteral">""</span> ) {
-<a name="l00309"></a>00309                 foreach ( $default_parameter as $<a class="code" href="action_8inc_8php.html#a16">name</a>=&gt;$<a class="code" href="action_8inc_8php.html#a17">value</a>) {
-<a name="l00310"></a>00310                         $Insert=sprintf($Sql,$this-&gt;id,$<a class="code" href="action_8inc_8php.html#a16">name</a>,$<a class="code" href="action_8inc_8php.html#a17">value</a>);
+<a name="l00309"></a>00309                 foreach ( $default_parameter as $<a class="code" href="action_8inc_8php.html#a18">name</a>=&gt;$<a class="code" href="action_8inc_8php.html#a19">value</a>) {
+<a name="l00310"></a>00310                         $Insert=sprintf($Sql,$this-&gt;id,$<a class="code" href="action_8inc_8php.html#a18">name</a>,$<a class="code" href="action_8inc_8php.html#a19">value</a>);
 <a name="l00311"></a>00311                         <a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$Insert);
 <a name="l00312"></a>00312                 }
 <a name="l00313"></a>00313         }
 <a name="l00314"></a>00314         <span class="keywordflow">else</span> {
 <a name="l00315"></a>00315                 $value=($p_value==<span class="stringliteral">""</span>)?$default_parameter[$p_type]:$p_value;
-<a name="l00316"></a>00316                 $Insert=sprintf($Sql,$this-&gt;id,$p_type,$<a class="code" href="action_8inc_8php.html#a17">value</a>);
+<a name="l00316"></a>00316                 $Insert=sprintf($Sql,$this-&gt;id,$p_type,$<a class="code" href="action_8inc_8php.html#a19">value</a>);
 <a name="l00317"></a>00317                 <a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$Insert);
 <a name="l00318"></a>00318         }
 <a name="l00319"></a>00319 
@@ -779,8 +779,8 @@ Set the selected periode in the user's preferences.
 <p>
 Definition at line <a class="el" href="class__user_8php-source.html#l00178">178</a> of file <a class="el" href="class__user_8php-source.html">class_user.php</a>.
 <p>
-References <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00178"></a>00178                                 {
-<a name="l00179"></a>00179   <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=<span class="stringliteral">"update user_local_pref set parameter_value='$p_periode' where user_id='$this-&gt;id' and parameter_type='PERIODE'"</span>;
+References <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00151">$sql</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00178"></a>00178                                 {
+<a name="l00179"></a>00179   <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"update user_local_pref set parameter_value='$p_periode' where user_id='$this-&gt;id' and parameter_type='PERIODE'"</span>;
 <a name="l00180"></a>00180   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql);
 <a name="l00181"></a>00181 }
 </pre></div>
@@ -834,7 +834,7 @@ update default pref if value is not given then use the default value
 <p>
 Definition at line <a class="el" href="class__user_8php-source.html#l00331">331</a> of file <a class="el" href="class__user_8php-source.html">class_user.php</a>.
 <p>
-References <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="eub__be_8inc_8php-source.html#l00055">$Sql</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="action_8inc_8php-source.html#l00231">value</a>.<div class="fragment"><pre class="fragment"><a name="l00331"></a>00331                                                  {
+References <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="eub__be_8inc_8php-source.html#l00055">$Sql</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="action_8inc_8php-source.html#l00240">value</a>.<div class="fragment"><pre class="fragment"><a name="l00331"></a>00331                                                  {
 <a name="l00332"></a>00332         $default_parameter= array(<span class="stringliteral">"THEME"</span>=&gt;<span class="stringliteral">"Light"</span>,
 <a name="l00333"></a>00333                 <span class="stringliteral">"PAGESIZE"</span>=&gt;<span class="stringliteral">"50"</span>);
 <a name="l00334"></a>00334         <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=Dbconnect();
@@ -842,7 +842,7 @@ References <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, 
 <a name="l00336"></a>00336 <span class="stringliteral">                        where parameter_type='%s' and </span>
 <a name="l00337"></a>00337 <span class="stringliteral">                                user_id='%s'"</span>;
 <a name="l00338"></a>00338         $value=($p_value==<span class="stringliteral">""</span>)?$default_parameter[$p_type]:$p_value;
-<a name="l00339"></a>00339         $Update=sprintf($Sql,$<a class="code" href="action_8inc_8php.html#a17">value</a>,$p_type,$this-&gt;id);
+<a name="l00339"></a>00339         $Update=sprintf($Sql,$<a class="code" href="action_8inc_8php.html#a19">value</a>,$p_type,$this-&gt;id);
 <a name="l00340"></a>00340         <a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$Update);
 <a name="l00341"></a>00341 
 <a name="l00342"></a>00342  }<span class="comment">//end function</span>
@@ -979,7 +979,7 @@ Definition at line <a class="el" href="class__user_8php-source.html#l00038">38</
 </table>
 <hr>The documentation for this class was generated from the following file:<ul>
 <li><a class="el" href="class__user_8php-source.html">class_user.php</a></ul>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 21:21:24 2006 for phpcompta by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri Jun 30 00:48:31 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

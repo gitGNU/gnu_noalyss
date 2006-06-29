@@ -65,7 +65,7 @@ parm : -array gen : -none return:<ul>
 <p>
 Definition at line <a class="el" href="decla_8BE_8inc_8php-source.html#l00036">36</a> of file <a class="el" href="decla_8BE_8inc_8php-source.html">decla.BE.inc.php</a>.
 <p>
-References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="balance_8php-source.html#l00114">$b</a>, <a class="el" href="client_8inc_8php-source.html#l00127">$client</a>, <a class="el" href="parametre_8php-source.html#l00167">$my</a>, and <a class="el" href="action_8inc_8php-source.html#l00230">name</a>.<div class="fragment"><pre class="fragment"><a name="l00036"></a>00036                                                 {
+References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="balance_8php-source.html#l00114">$b</a>, <a class="el" href="client_8inc_8php-source.html#l00127">$client</a>, <a class="el" href="parametre_8php-source.html#l00167">$my</a>, and <a class="el" href="action_8inc_8php-source.html#l00239">name</a>.<div class="fragment"><pre class="fragment"><a name="l00036"></a>00036                                                 {
 <a name="l00037"></a>00037   <span class="comment">// declarant</span>
 <a name="l00038"></a>00038   <span class="comment">//--</span>
 <a name="l00039"></a>00039   require_once(<span class="stringliteral">"class_own.php"</span>);
@@ -94,7 +94,7 @@ References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class
 <a name="l00062"></a>00062     <span class="keywordflow">if</span> ( strlen(trim($client['tva'])) != 0 ) {
 <a name="l00063"></a>00063       $rec_id++;
 <a name="l00064"></a>00064       <a class="code" href="balance_8php.html#a10">$a</a>.=sprintf(<span class="stringliteral">"%06d"</span>,$rec_id);
-<a name="l00065"></a>00065       <a class="code" href="balance_8php.html#a10">$a</a>.=sprintf(<span class="stringliteral">"% 32s"</span>,$client['<a class="code" href="action_8inc_8php.html#a16">name</a>']);
+<a name="l00065"></a>00065       <a class="code" href="balance_8php.html#a10">$a</a>.=sprintf(<span class="stringliteral">"% 32s"</span>,$client['<a class="code" href="action_8inc_8php.html#a18">name</a>']);
 <a name="l00066"></a>00066       <a class="code" href="balance_8php.html#a10">$a</a>.=str_repeat(<span class="stringliteral">" "</span>,51);
 <a name="l00067"></a>00067       <a class="code" href="balance_8php.html#a10">$a</a>.=sprintf(<span class="stringliteral">"BE%s"</span>,$client['vat_number']);
 <a name="l00068"></a>00068       <a class="code" href="balance_8php.html#a10">$a</a>.=sprintf(<span class="stringliteral">"%010d"</span>,$client['amount']*100);
@@ -121,7 +121,7 @@ References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class
     </td>
   </tr>
 </table>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 21:21:22 2006 for phpcompta by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri Jun 30 00:48:26 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

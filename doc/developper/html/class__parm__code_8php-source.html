@@ -41,7 +41,7 @@
 <a name="l00041"></a>00041         $this-&gt;<a class="code" href="classparm__code.html#a5">Get</a>();
 <a name="l00042"></a>00042     }
 <a name="l00052"></a><a class="code" href="classparm__code.html#a1">00052</a>   function <a class="code" href="classparm__code.html#a1">LoadAll</a>() {
-<a name="l00053"></a>00053     <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=<span class="stringliteral">"select * from parm_code order by p_code"</span>;
+<a name="l00053"></a>00053     <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"select * from parm_code order by p_code"</span>;
 <a name="l00054"></a>00054     <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql);
 <a name="l00055"></a>00055     <a class="code" href="user__action__ach_8php.html#a2">$r</a>= pg_fetch_all($Res);
 <a name="l00056"></a>00056     <a class="code" href="fiche__def_8inc_8php.html#a7">$idx</a>=0;
@@ -64,7 +64,7 @@
 <a name="l00080"></a>00080       $this-&gt;<a class="code" href="poste_8inc_8php.html#a1">p_comment</a>=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($this-&gt;p_comment);
 <a name="l00081"></a>00081       $this-&gt;<a class="code" href="poste_8inc_8php.html#a2">p_value</a>=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($this-&gt;p_value);
 <a name="l00082"></a>00082       $this-&gt;p_code=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($this-&gt;p_code);
-<a name="l00083"></a>00083       <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=<span class="stringliteral">"update parm_code set "</span>.
+<a name="l00083"></a>00083       <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"update parm_code set "</span>.
 <a name="l00084"></a>00084         <span class="stringliteral">"p_comment='"</span>.$this-&gt;p_comment.<span class="stringliteral">"'  "</span>.
 <a name="l00085"></a>00085         <span class="stringliteral">",p_value='"</span>.$this-&gt;p_value.<span class="stringliteral">"'  "</span>.
 <a name="l00086"></a>00086         <span class="stringliteral">"where p_code='"</span>.$this-&gt;p_code.<span class="stringliteral">"'"</span>;
@@ -102,7 +102,7 @@
 <a name="l00132"></a>00132 
 <a name="l00141"></a><a class="code" href="classparm__code.html#a5">00141</a>   function <a class="code" href="classparm__code.html#a5">Get</a>() {
 <a name="l00142"></a>00142     <span class="keywordflow">if</span> ( $this-&gt;p_code == -1 ) <span class="keywordflow">return</span> <span class="stringliteral">"p_code non initialisé"</span>;
-<a name="l00143"></a>00143     <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=sprintf(<span class="stringliteral">"select * from parm_code where p_code='%s' "</span>,
+<a name="l00143"></a>00143     <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=sprintf(<span class="stringliteral">"select * from parm_code where p_code='%s' "</span>,
 <a name="l00144"></a>00144                  $this-&gt;p_code);
 <a name="l00145"></a>00145     <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql);
 <a name="l00146"></a>00146 
@@ -114,7 +114,7 @@
 <a name="l00152"></a>00152   }
 <a name="l00153"></a>00153 
 <a name="l00154"></a>00154 }
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 21:21:21 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 30 00:48:25 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

@@ -55,9 +55,9 @@
 <a name="l00056"></a>00056   echo <span class="stringliteral">"&lt;FORM ACTION=\"form.php\" METHOD=\"POST\"&gt;"</span>;
 <a name="l00057"></a>00057   printf (<span class="stringliteral">"Nom du rapport : &lt;INPUT TYPE=\"TEXT\" NAME=\"form_nom\" VALUE=\"%s\"&gt;"</span>,
 <a name="l00058"></a>00058           $form_nom);
-<a name="l00059"></a>00059   printf ('&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> NAME=<span class="stringliteral">"line"</span> <a class="code" href="action_8inc_8php.html#a17">value</a>=<span class="stringliteral">"%s"</span>',
+<a name="l00059"></a>00059   printf ('&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> NAME=<span class="stringliteral">"line"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"%s"</span>',
 <a name="l00060"></a>00060           $p_line);
-<a name="l00061"></a>00061 <span class="keywordflow">if</span> ( isset ($fr_id))   printf ('&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> NAME=<span class="stringliteral">"fr_id"</span> <a class="code" href="action_8inc_8php.html#a17">value</a>=<span class="stringliteral">"%s"</span>',
+<a name="l00061"></a>00061 <span class="keywordflow">if</span> ( isset ($fr_id))   printf ('&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> NAME=<span class="stringliteral">"fr_id"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"%s"</span>',
 <a name="l00062"></a>00062           $fr_id);
 <a name="l00063"></a>00063 
 <a name="l00064"></a>00064   echo '&lt;TABLE&gt;';
@@ -94,12 +94,12 @@
 <a name="l00095"></a>00095   }
 <a name="l00096"></a>00096   echo <span class="stringliteral">"&lt;/TABLE&gt;"</span>;
 <a name="l00097"></a>00097   <span class="keywordflow">if</span> ( isset($fr_id)){
-<a name="l00098"></a>00098     echo '&lt;INPUT TYPE=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a17">value</a>=<span class="stringliteral">"Enregistre"</span> <a class="code" href="action_8inc_8php.html#a16">name</a>=<span class="stringliteral">"update"</span>&gt;';
+<a name="l00098"></a>00098     echo '&lt;INPUT TYPE=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"Enregistre"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"update"</span>&gt;';
 <a name="l00099"></a>00099   }<span class="keywordflow">else</span> {
-<a name="l00100"></a>00100     echo '&lt;INPUT TYPE=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a17">value</a>=<span class="stringliteral">"Enregistre"</span> <a class="code" href="action_8inc_8php.html#a16">name</a>=<span class="stringliteral">"record"</span>&gt;';
+<a name="l00100"></a>00100     echo '&lt;INPUT TYPE=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"Enregistre"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"record"</span>&gt;';
 <a name="l00101"></a>00101   }
-<a name="l00102"></a>00102   echo '&lt;INPUT TYPE=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a17">value</a>=<span class="stringliteral">"Ajoute une ligne"</span> <a class="code" href="action_8inc_8php.html#a16">name</a>=<span class="stringliteral">"add_line"</span>&gt;';
-<a name="l00103"></a>00103   echo '&lt;INPUT TYPE=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a17">value</a>=<span class="stringliteral">"Efface ce rapport"</span> <a class="code" href="action_8inc_8php.html#a16">name</a>=<span class="stringliteral">"del_form"</span>&gt;';
+<a name="l00102"></a>00102   echo '&lt;INPUT TYPE=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"Ajoute une ligne"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"add_line"</span>&gt;';
+<a name="l00103"></a>00103   echo '&lt;INPUT TYPE=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"Efface ce rapport"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"del_form"</span>&gt;';
 <a name="l00104"></a>00104 
 <a name="l00105"></a>00105   echo <span class="stringliteral">"&lt;/FORM&gt;"</span>;
 <a name="l00106"></a>00106 
@@ -185,7 +185,7 @@
 <a name="l00239"></a>00239           ${<span class="stringliteral">"form$i"</span>}=<span class="stringliteral">"!!!!!!! FORMULE INVALIDE "</span>.${<span class="stringliteral">"form$i"</span>};
 <a name="l00240"></a>00240 
 <a name="l00241"></a>00241         ${<span class="stringliteral">"form$i"</span>}=(${<span class="stringliteral">"form$i"</span>}==null)?<span class="stringliteral">"null"</span>:<span class="stringliteral">"'"</span>.${<span class="stringliteral">"form$i"</span>}.<span class="stringliteral">"'"</span>;
-<a name="l00242"></a>00242         <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=sprintf(<span class="stringliteral">"insert into form (fo_fr_id,</span>
+<a name="l00242"></a>00242         <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=sprintf(<span class="stringliteral">"insert into form (fo_fr_id,</span>
 <a name="l00243"></a>00243 <span class="stringliteral">                                  fo_pos,</span>
 <a name="l00244"></a>00244 <span class="stringliteral">                                  fo_label,</span>
 <a name="l00245"></a>00245 <span class="stringliteral">                                  fo_formula) values</span>
@@ -215,7 +215,7 @@
 <a name="l00276"></a>00276     <span class="keywordflow">return</span>;
 <a name="l00277"></a>00277   }
 <a name="l00278"></a>00278   $form_nom=(<a class="code" href="ac__common_8php.html#a9">FormatString</a>($form_nom)==null)?<span class="stringliteral">"NoName"</span>:<a class="code" href="ac__common_8php.html#a9">FormatString</a>($form_nom);
-<a name="l00279"></a>00279   <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=<span class="stringliteral">"insert into formdef (fr_label) values ('"</span>.$form_nom.<span class="stringliteral">"')"</span>;
+<a name="l00279"></a>00279   <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"insert into formdef (fr_label) values ('"</span>.$form_nom.<span class="stringliteral">"')"</span>;
 <a name="l00280"></a>00280   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
 <a name="l00281"></a>00281   <a class="code" href="fiche__new_8php.html#a5">$n</a>=<a class="code" href="postgres_8php.html#a12">GetSequence</a>($p_cn,<span class="stringliteral">"s_formdef"</span>);
 <a name="l00282"></a>00282 
@@ -226,7 +226,7 @@
 <a name="l00287"></a>00287         <span class="comment">//      ${"form$i"}=(${"form$i"}==null)?${"form$i"}:"'".${"form$i"}."'";</span>
 <a name="l00288"></a>00288         ${<span class="stringliteral">"form$i"</span>}=(${<span class="stringliteral">"form$i"</span>}==null)?<span class="stringliteral">"null"</span>:<span class="stringliteral">"'"</span>.${<span class="stringliteral">"form$i"</span>}.<span class="stringliteral">"'"</span>;
 <a name="l00289"></a>00289         <a class="code" href="impress__inc_8php.html#a11">CheckFormula</a>(${<span class="stringliteral">"form$i"</span>});
-<a name="l00290"></a>00290         <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=sprintf(<span class="stringliteral">"insert into form (fo_fr_id,</span>
+<a name="l00290"></a>00290         <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=sprintf(<span class="stringliteral">"insert into form (fo_fr_id,</span>
 <a name="l00291"></a>00291 <span class="stringliteral">                                  fo_pos,</span>
 <a name="l00292"></a>00292 <span class="stringliteral">                                  fo_label,</span>
 <a name="l00293"></a>00293 <span class="stringliteral">                                  fo_formula) values</span>
@@ -242,7 +242,7 @@
 <a name="l00303"></a>00303 }
 <a name="l00304"></a>00304 
 <a name="l00305"></a>00305 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 21:21:22 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 30 00:48:25 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

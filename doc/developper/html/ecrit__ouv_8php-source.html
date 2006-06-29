@@ -159,16 +159,16 @@
 <a name="l00154"></a>00154             <span class="comment">// if the poste exists then check the next one</span>
 <a name="l00155"></a>00155             <span class="keywordflow">if</span> ( $p-&gt;get() == true ) <span class="keywordflow">continue</span>;
 <a name="l00156"></a>00156             echo 'Attention creation de '.$p-&gt;id.<span class="charliteral">' '</span>.$alabel[<a class="code" href="balance_8php.html#a12">$i</a>].'&lt;br&gt;';
-<a name="l00157"></a>00157             <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=sprintf(<span class="stringliteral">"select account_add(%d,'%s')"</span>,
+<a name="l00157"></a>00157             <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=sprintf(<span class="stringliteral">"select account_add(%d,'%s')"</span>,
 <a name="l00158"></a>00158                         $p-&gt;id,$alabel[$i]);
 <a name="l00159"></a>00159 
 <a name="l00160"></a>00160             <a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$sql);
 <a name="l00161"></a>00161           }
 <a name="l00162"></a>00162 
 <a name="l00163"></a>00163         <span class="comment">// submit button in the form    </span>
-<a name="l00164"></a>00164         <a class="code" href="bank_8inc_8php.html#a19">$submit</a>='&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> NAME=<span class="stringliteral">"add_item"</span> VALUE=<span class="stringliteral">"Ajout Poste"</span>&gt;
+<a name="l00164"></a>00164         <a class="code" href="bank_8inc_8php.html#a25">$submit</a>='&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> NAME=<span class="stringliteral">"add_item"</span> VALUE=<span class="stringliteral">"Ajout Poste"</span>&gt;
 <a name="l00165"></a>00165                     &lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> NAME=<span class="stringliteral">"view_invoice"</span> VALUE=<span class="stringliteral">"Sauver"</span>&gt;';
-<a name="l00166"></a>00166          <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="user__form__ods_8php.html#a0">FormODS</a>($cn,$_POST['p_jrn'],$User-&gt;GetPeriode(),<a class="code" href="bank_8inc_8php.html#a19">$submit</a>,
+<a name="l00166"></a>00166          <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="user__form__ods_8php.html#a0">FormODS</a>($cn,$_POST['p_jrn'],$User-&gt;GetPeriode(),<a class="code" href="bank_8inc_8php.html#a25">$submit</a>,
 <a name="l00167"></a>00167                         $array_ods,<span class="keyword">false</span>,<a class="code" href="fiche__def_8inc_8php.html#a7">$idx</a>,$p_saved=<span class="keyword">false</span>);
 <a name="l00168"></a>00168         
 <a name="l00169"></a>00169           echo <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
@@ -182,7 +182,7 @@
 <a name="l00177"></a>00177 echo '&lt;/div&gt;';
 <a name="l00178"></a>00178 <a class="code" href="ac__common_8php.html#a6">html_page_stop</a>(); 
 <a name="l00179"></a>00179 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 21:21:21 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 30 00:48:25 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

@@ -194,14 +194,14 @@ Get all the available folders for the users, checked with the security.
 <p>
 Definition at line <a class="el" href="user__menu_8php-source.html#l00090">90</a> of file <a class="el" href="user__menu_8php-source.html">user_menu.php</a>.
 <p>
-References <a class="el" href="recherche_8php-source.html#l00066">$array</a>, <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="jrn__pdf_8php-source.html#l00069">$filter</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
+References <a class="el" href="recherche_8php-source.html#l00066">$array</a>, <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="jrn__pdf_8php-source.html#l00069">$filter</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00151">$sql</a>, <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
 <p>
 Referenced by <a class="el" href="user__menu_8php-source.html#l00037">u_ShowDossier()</a>.<div class="fragment"><pre class="fragment"><a name="l00091"></a>00091 {
 <a name="l00092"></a>00092   <a class="code" href="jrn__pdf_8php.html#a7">$filter</a>=<span class="stringliteral">""</span>;
 <a name="l00093"></a>00093   <span class="keywordflow">if</span> ($p_admin==0) {
 <a name="l00094"></a>00094     <span class="comment">// show only available folders</span>
 <a name="l00095"></a>00095     <span class="comment">// if user is not an admin</span>
-<a name="l00096"></a>00096     <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=<span class="stringliteral">"select distinct dos_id,dos_name,dos_description from ac_users </span>
+<a name="l00096"></a>00096     <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"select distinct dos_id,dos_name,dos_description from ac_users </span>
 <a name="l00097"></a>00097 <span class="stringliteral">                  natural join jnt_use_dos </span>
 <a name="l00098"></a>00098 <span class="stringliteral">                  natural join  ac_dossier </span>
 <a name="l00099"></a>00099 <span class="stringliteral">                  join  priv_user on ( priv_jnt=jnt_id)</span>
@@ -210,7 +210,7 @@ Referenced by <a class="el" href="user__menu_8php-source.html#l00037">u_ShowDoss
 <a name="l00102"></a>00102 <span class="stringliteral">         and priv_priv != 'NO' "</span>;
 <a name="l00103"></a>00103 
 <a name="l00104"></a>00104   } <span class="keywordflow">else</span> {
-<a name="l00105"></a>00105     <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=<span class="stringliteral">"select distinct dos_id,dos_name,dos_description from ac_users </span>
+<a name="l00105"></a>00105     <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"select distinct dos_id,dos_name,dos_description from ac_users </span>
 <a name="l00106"></a>00106 <span class="stringliteral">                  natural join jnt_use_dos </span>
 <a name="l00107"></a>00107 <span class="stringliteral">                  natural join  ac_dossier </span>
 <a name="l00108"></a>00108 <span class="stringliteral">      where  use_active=1 "</span>;
@@ -553,7 +553,7 @@ show the top menu for the user profile and highight the selected one
     <tr><td valign="top"></td><td valign="top"><em>p_high</em>&nbsp;</td><td>what to hightlight, by default it is autodetected but sometimes it must be given. Default value="" </td></tr>
   </table>
 </dl>
-<dl compact><dt><b><a class="el" href="todo.html#_todo000016">Todo:</a></b></dt><dd>clean param p_dossier</dd></dl>
+<dl compact><dt><b><a class="el" href="todo.html#_todo000015">Todo:</a></b></dt><dd>clean param p_dossier</dd></dl>
 <dl compact><dt><b>Returns:</b></dt><dd>none</dd></dl>
 
 <p>
@@ -748,7 +748,7 @@ Show the menu for the card management.
   </table>
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>nothing</dd></dl>
-<dl compact><dt><b><a class="el" href="todo.html#_todo000017">Todo:</a></b></dt><dd>Only for developper A test must be added </dd></dl>
+<dl compact><dt><b><a class="el" href="todo.html#_todo000016">Todo:</a></b></dt><dd>Only for developper A test must be added </dd></dl>
 
 <p>
 Definition at line <a class="el" href="user__menu_8php-source.html#l00526">526</a> of file <a class="el" href="user__menu_8php-source.html">user_menu.php</a>.
@@ -1318,7 +1318,7 @@ Returns the form for the search (module accountancy).
 <p>
 Definition at line <a class="el" href="user__menu_8php-source.html#l00371">371</a> of file <a class="el" href="user__menu_8php-source.html">user_menu.php</a>.
 <p>
-References <a class="el" href="jrn__search_8php-source.html#l00050">$opt</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="bank_8inc_8php-source.html#l00097">$sp</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="pref_8inc_8php-source.html#l00048">METHOD</a>, <a class="el" href="action_8inc_8php-source.html#l00230">name</a>, <a class="el" href="tva_8inc_8php-source.html#l00212">size</a>, and <a class="el" href="action_8inc_8php-source.html#l00231">value</a>.<div class="fragment"><pre class="fragment"><a name="l00372"></a>00372 {
+References <a class="el" href="jrn__search_8php-source.html#l00050">$opt</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="bank_8inc_8php-source.html#l00144">$sp</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="pref_8inc_8php-source.html#l00048">METHOD</a>, <a class="el" href="action_8inc_8php-source.html#l00239">name</a>, <a class="el" href="tva_8inc_8php-source.html#l00212">size</a>, and <a class="el" href="action_8inc_8php-source.html#l00240">value</a>.<div class="fragment"><pre class="fragment"><a name="l00372"></a>00372 {
 <a name="l00373"></a>00373   <a class="code" href="debug_8php.html#a0">echo_debug</a>('user_menu.php',__LINE__,<span class="stringliteral">"u_ShowMenuRecherche($p_cn,$p_array)"</span>);
 <a name="l00374"></a>00374   <span class="keywordflow">if</span> ( $p_array != null ) {
 <a name="l00375"></a>00375     foreach ( $p_array as $key=&gt; $element) {
@@ -1345,7 +1345,7 @@ References <a class="el" href="jrn__search_8php-source.html#l00050">$opt</a>, <a
 <a name="l00396"></a>00396   <span class="keywordflow">if</span> ( ! isset ($p_qcode)) $p_qcode=<span class="stringliteral">""</span>;
 <a name="l00397"></a>00397 
 <a name="l00398"></a>00398 
-<a name="l00399"></a>00399   <span class="keywordflow">if</span> ( $p_mont_sel != <span class="stringliteral">""</span> )  <a class="code" href="jrn__search_8php.html#a3">$opt</a>.='&lt;OPTION <a class="code" href="action_8inc_8php.html#a17">value</a>=<span class="stringliteral">"'.$p_mont_sel.'"</span> SELECTED&gt; '.$p_mont_sel;
+<a name="l00399"></a>00399   <span class="keywordflow">if</span> ( $p_mont_sel != <span class="stringliteral">""</span> )  <a class="code" href="jrn__search_8php.html#a3">$opt</a>.='&lt;OPTION <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"'.$p_mont_sel.'"</span> SELECTED&gt; '.$p_mont_sel;
 <a name="l00400"></a>00400   <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<span class="stringliteral">""</span>;
 <a name="l00401"></a>00401  
 <a name="l00402"></a>00402   <span class="comment">//  $r.= '&lt;div style="border-style:outset;border-width:1pt;"&gt;';</span>
@@ -1368,7 +1368,7 @@ References <a class="el" href="jrn__search_8php-source.html#l00050">$opt</a>, <a
 <a name="l00419"></a>00419   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.= ' &lt;INPUT TYPE=<span class="stringliteral">"TEXT"</span> NAME=<span class="stringliteral">"s_montant"</span> SIZE=<span class="stringliteral">"10"</span> VALUE=<span class="stringliteral">"'.$p_s_montant.'"</span>&gt;&lt;/TD&gt;';
 <a name="l00420"></a>00420   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.= <span class="stringliteral">"&lt;/TR&gt;&lt;TR&gt;"</span>;
 <a name="l00421"></a>00421   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TD&gt; Internal code&lt;/td&gt;"</span>;
-<a name="l00422"></a>00422   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;TD&gt;&lt;input type=<span class="stringliteral">"text"</span> <a class="code" href="action_8inc_8php.html#a16">name</a>=<span class="stringliteral">"s_internal"</span> value=<span class="stringliteral">"'.$p_s_internal.'"</span>&gt;&lt;/td&gt;';
+<a name="l00422"></a>00422   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;TD&gt;&lt;input type=<span class="stringliteral">"text"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"s_internal"</span> value=<span class="stringliteral">"'.$p_s_internal.'"</span>&gt;&lt;/td&gt;';
 <a name="l00423"></a>00423 
 <a name="l00424"></a>00424   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/TD&gt;&lt;/TR&gt;&lt;/TABLE&gt;&lt;/td&gt;&lt;TD&gt;&lt;table&gt;"</span>;
 <a name="l00425"></a>00425 
@@ -1394,8 +1394,8 @@ References <a class="el" href="jrn__search_8php-source.html#l00050">$opt</a>, <a
 <a name="l00445"></a>00445   $A-&gt;extra='all';
 <a name="l00446"></a>00446   <span class="comment">//$A-&gt;name="qcode";</span>
 <a name="l00447"></a>00447   <span class="comment">//  $A-&gt;value=$p_qcode;</span>
-<a name="l00448"></a>00448   <a class="code" href="bank_8inc_8php.html#a12">$sp</a>= <span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"span"</span>);
-<a name="l00449"></a>00449   <a class="code" href="bank_8inc_8php.html#a12">$sp</a>-&gt;table=0;
+<a name="l00448"></a>00448   <a class="code" href="bank_8inc_8php.html#a18">$sp</a>= <span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"span"</span>);
+<a name="l00449"></a>00449   <a class="code" href="bank_8inc_8php.html#a18">$sp</a>-&gt;table=0;
 <a name="l00450"></a>00450   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=$A-&gt;IOValue().'&lt;/TD&gt;'.$sp-&gt;IOValue(<span class="stringliteral">"qcode_label"</span>);
 <a name="l00451"></a>00451   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.= <span class="stringliteral">"&lt;/TR&gt;"</span>;
 <a name="l00452"></a>00452   <a class="code" href="debug_8php.html#a0">echo_debug</a>('user_menu.php',__LINE__,<span class="stringliteral">"&lt;TD&gt;"</span>.$A-&gt;IOValue().'&lt;/TD&gt;&lt;TD&gt;'.$sp-&gt;IOValue(<span class="stringliteral">"p_qcode_label"</span>).<span class="stringliteral">"&lt;/TD&gt;"</span>);
@@ -1419,7 +1419,7 @@ References <a class="el" href="jrn__search_8php-source.html#l00050">$opt</a>, <a
     </td>
   </tr>
 </table>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 21:21:23 2006 for phpcompta by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri Jun 30 00:48:28 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

@@ -30,7 +30,7 @@
 <hr><a name="_details"></a><h2>Detailed Description</h2>
 Tools for checking the security. 
 <p>
-<dl compact><dt><b><a class="el" href="todo.html#_todo000002">Todo:</a></b></dt><dd>some of those tools are redundant with the class user and should be cleaned </dd></dl>
+<dl compact><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>some of those tools are redundant with the class user and should be cleaned </dd></dl>
 
 <p>
 Definition in file <a class="el" href="check__priv_8php-source.html">check_priv.php</a>.<hr><h2>Function Documentation</h2>
@@ -153,10 +153,10 @@ Check if an user has acces to a folder.
 <p>
 Definition at line <a class="el" href="check__priv_8php-source.html#l00192">192</a> of file <a class="el" href="check__priv_8php-source.html">check_priv.php</a>.
 <p>
-References <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, <a class="el" href="check__priv_8php-source.html#l00167">CheckIsAdmin()</a>, <a class="el" href="postgres_8php-source.html#l00222">CountSql()</a>, and <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>.<div class="fragment"><pre class="fragment"><a name="l00193"></a>00193 {
+References <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="bank_8inc_8php-source.html#l00151">$sql</a>, <a class="el" href="check__priv_8php-source.html#l00167">CheckIsAdmin()</a>, <a class="el" href="postgres_8php-source.html#l00222">CountSql()</a>, and <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>.<div class="fragment"><pre class="fragment"><a name="l00193"></a>00193 {
 <a name="l00194"></a>00194   <span class="keywordflow">if</span> ( <a class="code" href="check__priv_8php.html#a2">CheckIsAdmin</a> ($p_user) ) <span class="keywordflow">return</span> 1;
 <a name="l00195"></a>00195   <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
-<a name="l00196"></a>00196   <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=<span class="stringliteral">"select  dos_id from ac_users </span>
+<a name="l00196"></a>00196   <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"select  dos_id from ac_users </span>
 <a name="l00197"></a>00197 <span class="stringliteral">                  natural join jnt_use_dos </span>
 <a name="l00198"></a>00198 <span class="stringliteral">                  natural join  ac_dossier </span>
 <a name="l00199"></a>00199 <span class="stringliteral">                  join  priv_user on ( priv_jnt=jnt_id)</span>
@@ -213,11 +213,11 @@ Check if an user is an administrator.
 <p>
 Definition at line <a class="el" href="check__priv_8php-source.html#l00167">167</a> of file <a class="el" href="check__priv_8php-source.html">check_priv.php</a>.
 <p>
-References <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, <a class="el" href="postgres_8php-source.html#l00222">CountSql()</a>, and <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>.
+References <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="bank_8inc_8php-source.html#l00151">$sql</a>, <a class="el" href="postgres_8php-source.html#l00222">CountSql()</a>, and <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>.
 <p>
 Referenced by <a class="el" href="check__priv_8php-source.html#l00146">CheckAction()</a>, <a class="el" href="check__priv_8php-source.html#l00192">CheckDossier()</a>, and <a class="el" href="check__priv_8php-source.html#l00046">CheckJrn()</a>.<div class="fragment"><pre class="fragment"><a name="l00168"></a>00168 {
 <a name="l00169"></a>00169   <span class="keywordflow">if</span> ( $p_user == 'phpcompta') <span class="keywordflow">return</span> 1;
-<a name="l00170"></a>00170   <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=<span class="stringliteral">"select use_id from ac_users where use_login='$p_user'</span>
+<a name="l00170"></a>00170   <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"select use_id from ac_users where use_login='$p_user'</span>
 <a name="l00171"></a>00171 <span class="stringliteral">                and use_active=1 and use_admin=1 "</span>;
 <a name="l00172"></a>00172   <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
 <a name="l00173"></a>00173   
@@ -385,7 +385,7 @@ Referenced by <a class="el" href="user__menu_8php-source.html#l00212">ShowMenuJr
     </td>
   </tr>
 </table>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 21:21:22 2006 for phpcompta by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri Jun 30 00:48:26 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

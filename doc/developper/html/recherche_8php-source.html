@@ -62,19 +62,19 @@
 <a name="l00057"></a>00057 <span class="comment">//-----------------------------------------------------</span>
 <a name="l00058"></a>00058 <span class="keywordflow">if</span> ( isset ($_GET['viewsearch'])) {
 <a name="l00059"></a>00059   <span class="comment">// Navigation bar</span>
-<a name="l00060"></a>00060   <a class="code" href="bank_8inc_8php.html#a14">$step</a>=<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['g_pagesize'];
-<a name="l00061"></a>00061   <a class="code" href="bank_8inc_8php.html#a15">$page</a>=(isset($_GET['offset']))?$_GET['page']:1;
-<a name="l00062"></a>00062   <a class="code" href="bank_8inc_8php.html#a16">$offset</a>=(isset($_GET['offset']))?$_GET['offset']:0;
+<a name="l00060"></a>00060   <a class="code" href="bank_8inc_8php.html#a20">$step</a>=<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['g_pagesize'];
+<a name="l00061"></a>00061   <a class="code" href="bank_8inc_8php.html#a21">$page</a>=(isset($_GET['offset']))?$_GET['page']:1;
+<a name="l00062"></a>00062   <a class="code" href="bank_8inc_8php.html#a22">$offset</a>=(isset($_GET['offset']))?$_GET['offset']:0;
 <a name="l00063"></a>00063   <span class="keywordflow">if</span> (count ($_GET) == 0) 
 <a name="l00064"></a>00064     <a class="code" href="recherche_8php.html#a4">$array</a>=null;
 <a name="l00065"></a>00065   <span class="keywordflow">else</span>
 <a name="l00066"></a><a class="code" href="recherche_8php.html#a4">00066</a>      <a class="code" href="recherche_8php.html#a4">$array</a>=$_GET;
 <a name="l00067"></a>00067   
 <a name="l00068"></a>00068   list($max_line,$a)=<a class="code" href="user__common_8php.html#a6">ListJrn</a>($cn,0,<span class="stringliteral">""</span>,$array,$offset,2);
-<a name="l00069"></a><a class="code" href="recherche_8php.html#a5">00069</a>   <a class="code" href="bank_8inc_8php.html#a18">$bar</a>=<a class="code" href="user__common_8php.html#a16">jrn_navigation_bar</a>($offset,$max_line,$step,$page);
+<a name="l00069"></a><a class="code" href="recherche_8php.html#a5">00069</a>   <a class="code" href="bank_8inc_8php.html#a24">$bar</a>=<a class="code" href="user__common_8php.html#a16">jrn_navigation_bar</a>($offset,$max_line,$step,$page);
 <a name="l00070"></a>00070 
 <a name="l00071"></a>00071   echo '&lt;div <span class="keyword">class</span>=<span class="stringliteral">"u_redcontent"</span>&gt;';
-<a name="l00072"></a>00072   echo <a class="code" href="bank_8inc_8php.html#a18">$bar</a>;
+<a name="l00072"></a>00072   echo <a class="code" href="bank_8inc_8php.html#a24">$bar</a>;
 <a name="l00073"></a>00073   echo <a class="code" href="balance_8php.html#a10">$a</a>;
 <a name="l00074"></a>00074   echo $bar;
 <a name="l00075"></a>00075   echo '&lt;/div&gt;';
@@ -82,7 +82,7 @@
 <a name="l00077"></a>00077 echo '&lt;/DIV&gt;'; 
 <a name="l00078"></a>00078  
 <a name="l00079"></a>00079 ?&gt;
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 21:21:22 2006 for phpcompta by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 30 00:48:26 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>
