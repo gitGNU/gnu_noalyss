@@ -23,6 +23,7 @@ require_once('user_form_fin.php');
 require_once('jrn.php');
 require_once("class_document.php");
 require_once("class_fiche.php");
+require_once("class_parm_code.php");
 /*!\file
  * \brief the purpose off this file encode expense and  to record them
  *
@@ -51,6 +52,52 @@ if ( isset ($_REQUEST['url']))
 }
 
 $sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
+//----------------------------------------------------------------------
+// ask the saldo of the bank
+if ( $sub_action == "solde" )
+{
+  echo '<div class="u_subtmenu">';
+
+echo ShowMenuJrnUser($_SESSION['g_dossier'],'FIN',0,'<td class="cell"><A class="mtitle" HREF="commercial.php?liste&p_action=bank&sa=list">Liste</A></td>'.
+'<td class="selectedcell">Solde</td>');
+ echo '</div>';
+    require_once("poste.php");
+  // find the bank account
+ // NOTE : those values are in a table because
+ // they are _national_ parameters
+  $banque=new parm_code($cn,'BANQUE');
+  $caisse=new parm_code($cn,'CAISSE');
+  $vir_interne=new parm_code($cn,'VIREMENT_INTERNE');
+  $accountSql="select distinct pcm_val::text,pcm_lib from 
+            tmp_pcmn 
+            where pcm_val like '".$banque->p_value."%' or pcm_val like '".$vir_interne->p_value."%' 
+            or pcm_val like '".$caisse->p_value."%'
+            order by pcm_val::text";
+  $ResAccount=ExecSql($cn,$accountSql);
+  echo '<div class="u_redcontent">';
+  echo "<table>";
+  // for each account
+  for ( $i = 0; $i < pg_NumRows($ResAccount);$i++) {
+    // get the saldo
+    $l=pg_fetch_array($ResAccount,$i);
+    $m=GetSolde($cn,$l['pcm_val']);
+    // print the result if the saldo is not equal to 0
+    if ( $m != 0.0 ) {
+      echo "<tr>";
+      echo "<TD>".
+	$l['pcm_val'].
+	"</TD>".
+	"<TD>".
+	$l['pcm_lib'].
+	"</TD>"."<TD>".
+	$m.
+	"</TD>"."</TR>";
+    }
+  }// for
+  echo "</table>";
+  echo "</div>";
+  exit();
+}
 //-----------------------------------------------------
 // If a list of depense is asked
 // 
@@ -129,7 +176,8 @@ if ( $sub_action == "list")
 } 
 //-----------------------------------------------------
 echo '<div class="u_subtmenu">';
-echo ShowMenuJrnUser($_SESSION['g_dossier'],'FIN',$p_jrn,'<td class="cell"><A class="mtitle" HREF="commercial.php?liste&p_action=bank&sa=list">Liste</A></td>');
+echo ShowMenuJrnUser($_SESSION['g_dossier'],'FIN',$p_jrn,'<td class="cell"><A class="mtitle" HREF="commercial.php?liste&p_action=bank&sa=list">Liste</A></td>'.
+'<td class="cell"><A class="mtitle" HREF="commercial.php?liste&p_action=bank&sa=solde">Solde</A></td>');
 echo '</div>';
 //-----------------------------------------------------
 // if we request to add an item 

@@ -212,7 +212,7 @@ echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit',
 if ( $action == 'solde' ) {
   require_once("poste.php");
   // find the bank account
- // TODO : those values should be in a table because
+ // NOTE : those values are in a table because
  // they are _national_ parameters
   $banque=new parm_code($cn,'BANQUE');
   $caisse=new parm_code($cn,'CAISSE');
