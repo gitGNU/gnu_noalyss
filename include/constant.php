@@ -339,7 +339,7 @@ function SetIt(p_value,p_ctl) {
 ");
 // One line calculator
 define ("JS_CALC_LINE",'
-<div style="border:outset black 2px; position:float; float:right;background-color:white;font-family:sans-serif;font-size:9pt;">
+<div style="border:outset black 3px; position:float; float:right;background-color:white;font-family:sans-serif;font-size:9pt;">
 <script type="text/javascript" language="javascript"  src="js/calc.js">
 </script>
 <h2 class="info"> Calculette</H2>
@@ -348,7 +348,7 @@ define ("JS_CALC_LINE",'
 <span id="sub_total"> </span>
 <span id="result"> </span>
 <form name="calc_line"  method="GET" onSubmit="cal();return false;" >
-<input type="text" size="30" id="inp" name="calculator">
+<input style="border:solid 1px;" type="text" size="30" id="inp" name="calculator">
 <input type="button" value="Efface tout" onClick="Clean();return false;" >
 </form>
 </div>
