@@ -46,7 +46,7 @@ function ShowActionList($cn,$retour,$h_url)
    $a=(isset($_GET['query']))?$_GET['query']:"";
    printf ('<span>Titre ou référence: <input type="text" name="query" value="%s"></span>',
 	   $a);
-   $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
+   $qcode=(isset($_GET['qcode_query']))?$_GET['qcode_query']:"";
    echo JS_SEARCH_CARD;
    $w=new widget('js_search_only');
    $w->name='qcode_query';

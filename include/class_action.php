@@ -637,6 +637,36 @@ class action
  */
   function myList($p_filter="",$p_search="")
     {
+      // for the sort
+      $sort="";
+      if ( isset($_GET['s'])){
+	{
+	  switch ($_GET['s']) {
+	  case "date":
+	    $sort=" ag_timestamp";
+	    break;
+	  case "exp":
+	    $sort=" f_id_exp";
+	    break;
+	  case "dest":
+	    $sort=" f_id_dest";
+	    break;
+	  case "ti":
+	    $sort=" ag_title";
+	    break;
+	  case "type":
+	    $sort=" ag_type";
+	    break;
+	  case "ref":
+	    $sort=" ag_ref";
+	    break;
+	  case "conc":
+	    $sort=" ag_ref_ag_id";
+	    break;
+	  }
+	  $sort=" order by ".$sort." desc ";
+	}
+      }
       $sql="
    select ag_id,to_char(ag_timestamp,'DD-MM-YYYY') as my_date,ag_ref_ag_id,f_id_dest,f_id_exp".
 	",ag_title,d_id,md_type,dt_value,ag_ref 
@@ -644,7 +674,7 @@ class action
       left outer join document using (ag_id)
       left outer join document_modele on (ag_type=md_type) 
       join document_type on (ag_type=dt_id)
-   where dt_id in ($p_filter) $p_search order by ag_timestamp desc,ag_ref desc";
+   where dt_id in ($p_filter) $p_search $sort";
       $max_line=CountSql($this->db,$sql);
       $step=$_SESSION['g_pagesize'];
       $page=(isset($_GET['offset']))?$_GET['page']:1;
@@ -659,14 +689,14 @@ class action
       $r.=$bar;
       $r.="<table>";
       $r.="<tr>";
-      $r.="<th>Date</th>";
-      $r.="<th>Destinataire</th>";
-      $r.="<th>Expéditeur</th>";
-      $r.="<th>Titre</th>";
-      $r.="<th>type</th>";
-      $r.="<th>Référence</th>";
-      $r.="<th>concerne</th>";
-      $r.="<th>Document</th>";
+      $r.='<th><a href="?s=date&p_action=suivi_courrier'.$_SERVER['QUERY_STRING'].'"> Date</a></th>';
+      $r.='<th <a href="?s=dest&p_action=suivi_courrier'.$_SERVER['QUERY_STRING'].'">Destinataire</A></th>';
+      $r.='<th><a href="?s=exp&p_action=suivi_courrier'.$_SERVER['QUERY_STRING'].'">Expéditeur</A></th>';
+      $r.='<th><a href="?s=ti&p_action=suivi_courrier'.$_SERVER['QUERY_STRING'].'">Titre</a></th>';
+      $r.='<th><a href="?s=type&p_action=suivi_courrier'.$_SERVER['QUERY_STRING'].'">type</a></th>';
+      $r.='<th><a href="?s=ref&p_action=suivi_courrier'.$_SERVER['QUERY_STRING'].'">Référence</a></th>';
+      $r.='<th><a href="?s=conc&p_action=suivi_courrier'.$_SERVER['QUERY_STRING'].'">concerne</a></th>';
+      $r.='<th>Document</th>';
       $r.="</tr>";
 
       // if there are no records return a message
@@ -684,20 +714,6 @@ class action
 
 	  $r.="<tr>";
 	  $r.="<td>".$row['my_date']."</td>";
-	  // Expediteur
-	  $fexp=new fiche($this->db);
-	  $fexp->id=$row['f_id_exp'];
-	  $qcode_exp=$fexp->strAttribut(ATTR_DEF_QUICKCODE);
-
-	  $qexp=($qcode_exp=="- ERROR -")?"Interne":$qcode_exp;
-	  $jsexp=sprintf("javascript:showfiche('%s','%s')",
-		      $_REQUEST['PHPSESSID'],$qexp);
-	  if ( $qexp != 'Interne' )
-	    {
-	      $r.="<td>".'<A HREF="'.$jsexp.'">'.$qexp." : ".$fexp->getName().'</A></td>';
-	    }
-	  else
-	    $r.="<td>Interne </td>";
 	  // Destinataire
 	  $fdest=new fiche($this->db);
 	  $fdest->id=$row['f_id_dest'];
@@ -709,6 +725,21 @@ class action
 	  if ( $qdest != 'Interne' )
 	    {
 	      $r.="<td>".'<A HREF="'.$jsdest.'">'.$qdest." : ".$fdest->getName().'</A></td>';
+	    }
+	  else
+	    $r.="<td>Interne </td>";
+
+	  // Expediteur
+	  $fexp=new fiche($this->db);
+	  $fexp->id=$row['f_id_exp'];
+	  $qcode_exp=$fexp->strAttribut(ATTR_DEF_QUICKCODE);
+
+	  $qexp=($qcode_exp=="- ERROR -")?"Interne":$qcode_exp;
+	  $jsexp=sprintf("javascript:showfiche('%s','%s')",
+		      $_REQUEST['PHPSESSID'],$qexp);
+	  if ( $qexp != 'Interne' )
+	    {
+	      $r.="<td>".'<A HREF="'.$jsexp.'">'.$qexp." : ".$fexp->getName().'</A></td>';
 	    }
 	  else
 	    $r.="<td>Interne </td>";
