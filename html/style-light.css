@@ -137,6 +137,7 @@ div.u_redcontent{
 div.u_content{ 	 
          position: float; 	 
          float:left; 	 
+	 padding-top:7px;
          width:100%; 	 
          font-size:9px; 	 
          font-family:sans-serif; 	 
@@ -151,13 +152,7 @@ div.no span{
 	
 }
 
-div.u_content span {
-	  position :float;
-	  float:left;
-	  margin-left:40px;	
-}
 div.u_content table {
-	    width:100%;
 	    border:solid blue 2px ;
 	    border-style:outset;  
 }

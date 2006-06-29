@@ -338,31 +338,21 @@ function SetIt(p_value,p_ctl) {
 </script>
 ");
 // One line calculator
-define ("JS_CALC_LINE","
-
-<form name=\"calc_line\" onSubmit=\"cal()\">
-<input type=\"text\" size=\"20\" name=\"calculator\" onBlur=\"cal()\">
-Answer:<span id=\"name\"></span>
-<br>
-
-<!-- <input type=\"button\" name=\"B1\" value=\"Calculate\" > -->
-
-<input type=\"reset\" name=\"B2\" value=\"Reset\"><br>
-
-
-</form>
-<SCRIPT  language=\"javascript\">
-
-function cal()
-{
-  document.getElementById(\"name\").innerHTML=
-  eval(document.calc_line.calculator.value)
-}
+define ("JS_CALC_LINE",'
+<div style="border:outset black 2px; position:float; float:right;background-color:white;font-family:sans-serif;font-size:9pt;">
+<script type="text/javascript" language="javascript"  src="js/calc.js">
 </script>
-
-
-
-"
+<h2 class="info"> Calculette</H2>
+<span id="listing"> </span>
+<br>
+<span id="sub_total"> </span>
+<span id="result"> </span>
+<form name="calc_line"  method="GET" onSubmit="cal();return false;" >
+<input type="text" size="30" id="inp" name="calculator">
+<input type="button" value="Efface tout" onClick="Clean();return false;" >
+</form>
+</div>
+'
 );
 
 define ("JS_TVA","<script  language=\"javascript\">
