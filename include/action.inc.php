@@ -39,8 +39,8 @@ function ShowActionList($cn,$retour,$h_url)
 {
   // show the search menu
   ?>
-<div class="u_content">
-<span>
+<div>
+<span style="position:float;float:left">
 <form method="get" action="commercial.php">
 <?
    $a=(isset($_GET['query']))?$_GET['query']:"";
@@ -67,7 +67,7 @@ function ShowActionList($cn,$retour,$h_url)
 
 <?
 ?>
-<form method="get" action="commercial.php">
+<form  style="position:float;float:left" method="get" action="commercial.php">
 <input type="submit" name="submit_query" value="Ajout Action">
 <input type="hidden" name="p_action" value="suivi_courrier">
 <input type="hidden" name="sa" value="add_action">
@@ -76,7 +76,8 @@ function ShowActionList($cn,$retour,$h_url)
    echo $h_url;
    echo $retour; ?>
 </form>
-
+</div>
+<div class="u_content">
 
 <?
     // show the  action in 
@@ -133,12 +134,13 @@ if (isset($_POST['corr'] ))
 // if this page is called from another menu (customer, supplier,...)
 // a button back is added
 // TODO add function for generating url, hidden tags...
-$retour='<A HREF="commercial.php?p_action=suivi_courrier"><input type="button" value="Retour"></A>';
+//$retour='<A class="mtitle" HREF="commercial.php?p_action=suivi_courrier"><input type="button" value="Retour"></A>';
+$retour="";
 $h_url="";
 
 if ( isset ($_REQUEST['url'])) 
 {
-     $retour=sprintf('<A HREF="%s"><input type="button" value="Retour"></A>',urldecode($_REQUEST['url']));
+     $retour=sprintf('<A class="mtitle" HREF="%s"><input type="button" value="Retour"></A>',urldecode($_REQUEST['url']));
      $h_url=sprintf('<input type="hidden" name="url" value="%s">',urldecode($_REQUEST['url']));
 }
 //----------------------------------------------------------------------
@@ -223,6 +225,7 @@ if ( isset ($_POST['add_action_here']) )
 if ( $sub_action=='detail' )
 {
   echo '<div class="u_redcontent">';
+  echo '<A class="mtitle" HREF="commercial.php?p_action=suivi_courrier"><input type="button" value="Retour"></A>';
   $act=new action($cn);
   $act->ag_id=$_REQUEST['ag_id'];
   echo $act->get();
@@ -239,8 +242,9 @@ if ( $sub_action=='detail' )
   echo $upload->Submit("save","Sauve");
   echo $upload->Submit("add_action_here","Ajoute une action à celle-ci");
   echo '</form>';
-  /*! \todo show list of related action */
+
   echo $retour;
+
   echo '</div>';
 }
 //--------------------------------------------------------------------------------
@@ -252,6 +256,7 @@ if ( $sub_action == "list" )
 // Add an action
 if ( $sub_action == "add_action" ) 
 {
+  echo '<A class="mtitle" HREF="commercial.php?p_action=suivi_courrier"><input type="button" value="Retour"></A>';
   echo_debug('action',__LINE__,var_export($_POST,true));
   echo $retour;
   $act=new action($cn);
@@ -358,9 +363,9 @@ if  ( $sub_action == "save_action_st3" )
   $d_id=(isset($_POST['d_id']))?$_POST['d_id']:0;
   $act->ag_ref_ag_id=(isset($_POST['ag_ref_ag_id']))?$_POST['ag_ref_ag_id']:0;
   echo $act->SaveStage3($d_id);
-  
   ShowActionList($cn,$retour,$h_url);
 
 }
 //---------------------------------------------------------------------
 
+echo "</div>";

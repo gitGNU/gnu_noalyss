@@ -416,6 +416,7 @@ SELECT pg_catalog.setval(pg_catalog.pg_get_serial_sequence('document_state', 's_
 INSERT INTO document_state VALUES (1, 'Envoyé');
 INSERT INTO document_state VALUES (2, 'Brouillon');
 INSERT INTO document_state VALUES (3, 'A envoyer');
+INSERT INTO document_state VALUES (3, 'Reçu');
 
 ALTER TABLE ONLY document_state ADD CONSTRAINT document_state_pkey PRIMARY KEY (s_id);
 alter sequence s_attr_def restart with 24;

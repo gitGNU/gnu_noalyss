@@ -28,7 +28,7 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaction.html#a4">SaveStage2</a> ()</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Save the document and propose to save the generated document or to upload one, the data are included except the file. Temporary the generated document is savethe ag_comment is already urlencoded.  <a href="#a4"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaction.html#a5">SaveStage3</a> ($<a class="el" href="action_8inc_8php.html#a11">d_id</a>)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaction.html#a5">SaveStage3</a> ($<a class="el" href="action_8inc_8php.html#a12">d_id</a>)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Upload the document or save the generated document.  <a href="#a5"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaction.html#a6">myList</a> ($p_filter=&quot;&quot;, $p_search=&quot;&quot;)</td></tr>
@@ -37,9 +37,6 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaction.html#a7">Update</a> ()</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Update the data into the database.  <a href="#a7"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaction.html#a8">GetAgRef</a> ($p_method)</td></tr>
-
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">GetAgRef returns the ag_ref value of the ag_id or ag_ref_ag_id passed as parameter. This function doesn't change the current object.  <a href="#a8"></a><br></td></tr>
 <tr><td colspan="2"><br><h2>Data Fields</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaction.html#o0">$db</a></td></tr>
 
@@ -108,9 +105,16 @@ constructor <dl compact><dt><b>Parameters:</b></dt><dd>
 </dl>
 
 <p>
-Definition at line <a class="el" href="class__action_8php-source.html#l00076">76</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
+Definition at line <a class="el" href="class__action_8php-source.html#l00078">78</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
 <p>
-References <a class="el" href="facture_8inc_8php-source.html#l00194">f_id</a>.    </td>
+References <a class="el" href="facture_8inc_8php-source.html#l00194">f_id</a>.<div class="fragment"><pre class="fragment"><a name="l00079"></a>00079     {
+<a name="l00080"></a>00080       $this-&gt;db=$p_cn;
+<a name="l00081"></a>00081       $this-&gt;<a class="code" href="facture_8inc_8php.html#a19">f_id</a>=0;
+<a name="l00082"></a>00082 
+<a name="l00083"></a>00083     }
+</pre></div>
+<p>
+    </td>
   </tr>
 </table>
 <hr><h2>Member Function Documentation</h2>
@@ -145,9 +149,137 @@ Confirm<p>
 <dl compact><dt><b><a class="el" href="todo.html#_todo000005">Todo:</a></b></dt><dd>add the hour </dd></dl>
 
 <p>
-Definition at line <a class="el" href="class__action_8php-source.html#l00325">325</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
+Definition at line <a class="el" href="class__action_8php-source.html#l00358">358</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
 <p>
-References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="admin__repo_8php-source.html#l00119">$desc</a>, <a class="el" href="class__action_8php-source.html#l00070">$f_id</a>, <a class="el" href="action_8inc_8php-source.html#l00136">$h_url</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="action_8inc_8php-source.html#l00135">$retour</a>, <a class="el" href="action_8inc_8php-source.html#l00156">ag_comment</a>, <a class="el" href="action_8inc_8php-source.html#l00157">ag_timestamp</a>, <a class="el" href="action_8inc_8php-source.html#l00158">d_state</a>, <a class="el" href="action_8inc_8php-source.html#l00159">dt_id</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="facture_8inc_8php-source.html#l00194">f_id</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, <a class="el" href="ac__common_8php-source.html#l00208">FormatString()</a>, <a class="el" href="ac__common_8php-source.html#l00097">isDate()</a>, <a class="el" href="ac__common_8php-source.html#l00282">make_array()</a>, <a class="el" href="action_8inc_8php-source.html#l00227">name</a>, and <a class="el" href="action_8inc_8php-source.html#l00228">value</a>.    </td>
+References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="admin__repo_8php-source.html#l00119">$desc</a>, <a class="el" href="class__action_8php-source.html#l00072">$f_id</a>, <a class="el" href="action_8inc_8php-source.html#l00137">$h_url</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="action_8inc_8php-source.html#l00136">$retour</a>, <a class="el" href="action_8inc_8php-source.html#l00157">ag_comment</a>, <a class="el" href="action_8inc_8php-source.html#l00158">ag_timestamp</a>, <a class="el" href="action_8inc_8php-source.html#l00159">d_state</a>, <a class="el" href="action_8inc_8php-source.html#l00160">dt_id</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="facture_8inc_8php-source.html#l00194">f_id</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, <a class="el" href="ac__common_8php-source.html#l00208">FormatString()</a>, <a class="el" href="ac__common_8php-source.html#l00097">isDate()</a>, <a class="el" href="ac__common_8php-source.html#l00282">make_array()</a>, <a class="el" href="action_8inc_8php-source.html#l00230">name</a>, and <a class="el" href="action_8inc_8php-source.html#l00231">value</a>.<div class="fragment"><pre class="fragment"><a name="l00359"></a>00359     {
+<a name="l00360"></a>00360       <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_action',__LINE__,'confirm()  :'.var_export($_POST,<span class="keyword">true</span>));
+<a name="l00361"></a>00361       <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_action',__LINE__,'confirm $<span class="keyword">this</span>  :'.var_export($<span class="keyword">this</span>,<span class="keyword">true</span>));
+<a name="l00363"></a>00363       <span class="keywordflow">if</span> ( <a class="code" href="ac__common_8php.html#a3">isDate</a>($this-&gt;ag_timestamp) == null )
+<a name="l00364"></a>00364         {
+<a name="l00365"></a>00365           <span class="comment">// if the date is invalid, default date is today</span>
+<a name="l00366"></a>00366           $this-&gt;<a class="code" href="action_8inc_8php.html#a6">ag_timestamp</a>=date(<span class="stringliteral">"d.m.Y"</span>);
+<a name="l00367"></a>00367         }
+<a name="l00368"></a>00368       <span class="comment">// Compute the widget</span>
+<a name="l00369"></a>00369       <span class="comment">// Date </span>
+<a name="l00370"></a>00370       $date=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"text"</span>);
+<a name="l00371"></a>00371       $date-&gt;readonly=<span class="keyword">true</span>;
+<a name="l00372"></a>00372       $date-&gt;name=<span class="stringliteral">"ag_timestamp"</span>;
+<a name="l00373"></a>00373       $date-&gt;value=$this-&gt;<a class="code" href="action_8inc_8php.html#a6">ag_timestamp</a>;
+<a name="l00374"></a>00374       <span class="comment">// Doc Type</span>
+<a name="l00375"></a>00375       $doc_type=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"hidden"</span>);
+<a name="l00376"></a>00376       $doc_type-&gt;name=<span class="stringliteral">"dt_id"</span>;
+<a name="l00377"></a>00377       $doc_type-&gt;value=$this-&gt;<a class="code" href="action_8inc_8php.html#a8">dt_id</a>;
+<a name="l00378"></a>00378       <a class="code" href="balance_8php.html#a10">$a</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,<span class="stringliteral">"select dt_value from document_type where dt_id="</span>.$this-&gt;dt_id);
+<a name="l00379"></a>00379       $v=pg_fetch_array($a,0);
+<a name="l00380"></a>00380       $str_type=$v[0];
+<a name="l00381"></a>00381       <span class="keywordflow">if</span> ( isset ($_REQUEST['url'])) 
+<a name="l00382"></a>00382         {
+<a name="l00383"></a>00383           <a class="code" href="action_8inc_8php.html#a1">$retour</a>=sprintf('&lt;A HREF=<span class="stringliteral">"%s"</span>&gt;&lt;input type=<span class="stringliteral">"button"</span> <a class="code" href="action_8inc_8php.html#a17">value</a>=<span class="stringliteral">"Retour"</span>&gt;&lt;/A&gt;',urldecode($_REQUEST['url']));
+<a name="l00384"></a>00384           <a class="code" href="action_8inc_8php.html#a2">$h_url</a>=sprintf('&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a16">name</a>=<span class="stringliteral">"url"</span> <a class="code" href="action_8inc_8php.html#a17">value</a>=<span class="stringliteral">"%s"</span>&gt;',urldecode($_REQUEST['url']));
+<a name="l00385"></a>00385         }
+<a name="l00386"></a>00386       <span class="keywordflow">else</span> 
+<a name="l00387"></a>00387         { 
+<a name="l00388"></a>00388           <a class="code" href="action_8inc_8php.html#a1">$retour</a>=<span class="stringliteral">""</span>;
+<a name="l00389"></a>00389           <a class="code" href="action_8inc_8php.html#a2">$h_url</a>=<span class="stringliteral">""</span>;
+<a name="l00390"></a>00390         }
+<a name="l00391"></a>00391 
+<a name="l00392"></a>00392       <span class="comment">// state</span>
+<a name="l00393"></a>00393       <a class="code" href="balance_8php.html#a10">$a</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,<span class="stringliteral">"select s_value from document_state where s_id="</span>.$this-&gt;d_state);
+<a name="l00394"></a>00394       $v=pg_fetch_array($a,0);
+<a name="l00395"></a>00395       $str_state=$v[0];
+<a name="l00396"></a>00396       $state=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"hidden"</span>);
+<a name="l00397"></a>00397       $state-&gt;name=<span class="stringliteral">"d_state"</span>;
+<a name="l00398"></a>00398       $state-&gt;value=$this-&gt;<a class="code" href="action_8inc_8php.html#a7">d_state</a>;
+<a name="l00399"></a>00399         
+<a name="l00400"></a>00400       <span class="comment">// title</span>
+<a name="l00401"></a>00401       $title=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"text"</span>);
+<a name="l00402"></a>00402       $title-&gt;readonly=<span class="keyword">true</span>;
+<a name="l00403"></a>00403       $title-&gt;name=<span class="stringliteral">"ag_title"</span>;
+<a name="l00404"></a>00404       $title-&gt;value=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($this-&gt;ag_title);
+<a name="l00405"></a>00405 
+<a name="l00406"></a>00406       <span class="comment">// Description</span>
+<a name="l00407"></a>00407       <a class="code" href="admin__repo_8php.html#a9">$desc</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>('textarea');
+<a name="l00408"></a>00408       <a class="code" href="admin__repo_8php.html#a9">$desc</a>-&gt;name=<span class="stringliteral">"ag_comment"</span>;
+<a name="l00409"></a>00409       <a class="code" href="admin__repo_8php.html#a9">$desc</a>-&gt;readonly=<span class="stringliteral">" disabled "</span>;
+<a name="l00410"></a>00410       <a class="code" href="admin__repo_8php.html#a9">$desc</a>-&gt;value=$this-&gt;<a class="code" href="action_8inc_8php.html#a5">ag_comment</a>;
+<a name="l00411"></a>00411       <span class="comment">// Propose to generate a document</span>
+<a name="l00412"></a>00412       $gen=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a> (<span class="stringliteral">"checkbox"</span>);
+<a name="l00413"></a>00413       $gen-&gt;name=<span class="stringliteral">"p_gen"</span>;
+<a name="l00414"></a>00414       $doc_gen=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"select"</span>);
+<a name="l00415"></a>00415       $doc_gen-&gt;name=<span class="stringliteral">"gen_doc"</span>;
+<a name="l00416"></a>00416       $doc_gen-&gt;value=<a class="code" href="ac__common_8php.html#a12">make_array</a>($this-&gt;db,
+<a name="l00417"></a>00417                                  <span class="stringliteral">"select md_id,md_name from document_modele where md_type="</span>.$this-&gt;dt_id);
+<a name="l00418"></a>00418 
+<a name="l00419"></a>00419       $h_agrefid=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>('hidden');
+<a name="l00420"></a>00420 
+<a name="l00421"></a>00421        <span class="comment">// f_id</span>
+<a name="l00422"></a>00422        <span class="keywordflow">if</span> ( trim($this-&gt;qcode_dest) ==<span class="stringliteral">""</span>)
+<a name="l00423"></a>00423          {
+<a name="l00424"></a>00424            <span class="comment">// internal document</span>
+<a name="l00425"></a>00425            $f_id_dest=0; <span class="comment">// internal document</span>
+<a name="l00426"></a>00426            $namedest=<span class="stringliteral">"interne"</span>;
+<a name="l00427"></a>00427          }
+<a name="l00428"></a>00428        <span class="keywordflow">else</span> <span class="comment">// ( trim($this-&gt;qcode_dest) !=""  )</span>
+<a name="l00429"></a>00429          {
+<a name="l00430"></a>00430            $tiers=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($this-&gt;db);
+<a name="l00431"></a>00431            $tiers-&gt;GetByQCode($this-&gt;qcode_dest);
+<a name="l00432"></a>00432            <a class="code" href="classaction.html#o9">$f_id</a>=$tiers-&gt;id;
+<a name="l00433"></a>00433            $namedest=$tiers-&gt;strAttribut(1);
+<a name="l00434"></a>00434                 <span class="keywordflow">if</span> ( $namedest == '- <a class="code" href="constant_8php.html#a38">ERROR</a>  -') $this-&gt;f_id_dest=-1;    
+<a name="l00435"></a>00435          }
+<a name="l00436"></a>00436  
+<a name="l00437"></a>00437        <span class="comment">// f_id</span>
+<a name="l00438"></a>00438        <span class="keywordflow">if</span> ( trim($this-&gt;qcode_exp) ==<span class="stringliteral">""</span>)
+<a name="l00439"></a>00439          {
+<a name="l00440"></a>00440            <span class="comment">// internal document</span>
+<a name="l00441"></a>00441            $f_id_exp=0; <span class="comment">// internal document</span>
+<a name="l00442"></a>00442            $nameexp=<span class="stringliteral">"interne"</span>;
+<a name="l00443"></a>00443          }
+<a name="l00444"></a>00444        <span class="keywordflow">else</span> <span class="comment">// ( trim($this-&gt;qcode_exp) !=""  )</span>
+<a name="l00445"></a>00445          {
+<a name="l00446"></a>00446            $tiers=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($this-&gt;db);
+<a name="l00447"></a>00447            $tiers-&gt;GetByQCode($this-&gt;qcode_exp);
+<a name="l00448"></a>00448            <a class="code" href="classaction.html#o9">$f_id</a>=$tiers-&gt;id;
+<a name="l00449"></a>00449            $nameexp=$tiers-&gt;strAttribut(1);
+<a name="l00450"></a>00450                 <span class="keywordflow">if</span> ( $nameexp == '- <a class="code" href="constant_8php.html#a38">ERROR</a>  -') $this-&gt;f_id_exp=-1;      
+<a name="l00451"></a>00451          }
+<a name="l00452"></a>00452  
+<a name="l00453"></a>00453 
+<a name="l00454"></a>00454 
+<a name="l00455"></a>00455       <span class="comment">// Preparing the return string</span>
+<a name="l00456"></a>00456       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="action_8inc_8php.html#a1">$retour</a>.<span class="stringliteral">"&lt;form method=\"post\"&gt;"</span>;
+<a name="l00457"></a>00457       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;p&gt;Date : "</span>.$date-&gt;IOValue().<span class="stringliteral">"&lt;/p&gt;"</span>;
+<a name="l00458"></a>00458       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;p&gt;Etat $str_state"</span>.$state-&gt;IOValue().<span class="stringliteral">"&lt;/p&gt;"</span>;
+<a name="l00459"></a>00459       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;p&gt;Type du document $str_type"</span>.$doc_type-&gt;IOValue().<span class="stringliteral">"&lt;/p&gt;"</span>;
+<a name="l00460"></a>00460       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;p&gt; Expediteur : "</span>.$this-&gt;qcode_exp.<span class="stringliteral">" "</span>.$nameexp.'&lt;/p&gt;';
+<a name="l00461"></a>00461       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;p&gt; Destinataire : "</span>.$this-&gt;qcode_dest.<span class="stringliteral">" "</span>.$namedest.'&lt;/p&gt;';
+<a name="l00462"></a>00462       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;p&gt; Titre : "</span>.$title-&gt;IOValue();
+<a name="l00463"></a>00463       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;p&gt;Description :"</span>.$desc-&gt;IOValue().<span class="stringliteral">"&lt;/p&gt;"</span>;
+<a name="l00464"></a>00464 
+<a name="l00465"></a>00465       <span class="comment">// if no document exist for this type then do not display the question</span>
+<a name="l00466"></a>00466       <span class="keywordflow">if</span> ( <span class="keyword">sizeof</span>($doc_gen-&gt;value) != 0) 
+<a name="l00467"></a>00467         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;p&gt; G&amp;eacute;n&amp;eacute;rer un document "</span>.$gen-&gt;IOValue().<span class="stringliteral">" "</span>.$doc_gen-&gt;IOValue().<span class="stringliteral">"&lt;/p&gt;"</span>;
+<a name="l00468"></a>00468         
+<a name="l00469"></a>00469 
+<a name="l00470"></a>00470       <span class="comment">// Add the hidden tag</span>
+<a name="l00471"></a>00471       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a16">name</a>=<span class="stringliteral">"sa"</span> <a class="code" href="action_8inc_8php.html#a17">value</a>=<span class="stringliteral">"save_action_st2"</span>&gt;';
+<a name="l00472"></a>00472       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a16">name</a>=<span class="stringliteral">"p_action"</span> <a class="code" href="action_8inc_8php.html#a17">value</a>=<span class="stringliteral">"suivi_courrier"</span>&gt;';
+<a name="l00473"></a>00473       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a16">name</a>=<span class="stringliteral">"tiers"</span> <a class="code" href="action_8inc_8php.html#a17">value</a>=<span class="stringliteral">"'.$this-&gt;qcode_dest.'"</span>&gt;';
+<a name="l00474"></a>00474       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=      $h_agrefid-&gt;IOValue(<span class="stringliteral">"ag_ref_ag_id"</span>,$this-&gt;ag_ref_ag_id);
+<a name="l00475"></a>00475         
+<a name="l00476"></a>00476       <span class="comment">// retrieve customer</span>
+<a name="l00477"></a>00477 
+<a name="l00478"></a>00478 
+<a name="l00479"></a>00479       <span class="keywordflow">if</span> ( $<a class="code" href="facture_8inc_8php.html#a19">f_id</a> != -1 )
+<a name="l00480"></a>00480         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="admin__repo_8php.html#a9">$desc</a>-&gt;Submit(<span class="stringliteral">"Save"</span>,<span class="stringliteral">"Sauve"</span>);
+<a name="l00481"></a>00481       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="admin__repo_8php.html#a9">$desc</a>-&gt;Submit(<span class="stringliteral">"corr"</span>,<span class="stringliteral">"Corrige"</span>);
+<a name="l00482"></a>00482 
+<a name="l00483"></a>00483       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="action_8inc_8php.html#a2">$h_url</a>.<span class="stringliteral">"&lt;/form&gt;"</span>;
+<a name="l00484"></a>00484       <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
+<a name="l00485"></a>00485     }
+</pre></div>
+<p>
+    </td>
   </tr>
 </table>
 <a class="anchor" name="a1"></a><!-- doxytag: member="action::Display" ref="a1" args="($p_view, $p_gen)" --><p>
@@ -197,11 +329,217 @@ Display <dl compact><dt><b>Note:</b></dt><dd>If ag_id is not equal to zero then 
 <dl compact><dt><b>Returns:</b></dt><dd>string containing the html code</dd></dl>
 
 <p>
-Definition at line <a class="el" href="class__action_8php-source.html#l00099">99</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
+Definition at line <a class="el" href="class__action_8php-source.html#l00101">101</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
 <p>
-References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="action_8inc_8php-source.html#l00334">$d_id</a>, <a class="el" href="admin__repo_8php-source.html#l00119">$desc</a>, <a class="el" href="document__modele_8inc_8php-source.html#l00031">$doc</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="bank_8inc_8php-source.html#l00097">$sp</a>, <a class="el" href="admin_8inc_8php-source.html#l00115">$w</a>, <a class="el" href="action_8inc_8php-source.html#l00155">ag_id</a>, <a class="el" href="action_8inc_8php-source.html#l00189">ag_ref</a>, <a class="el" href="action_8inc_8php-source.html#l00177">ag_ref_ag_id</a>, <a class="el" href="action_8inc_8php-source.html#l00157">ag_timestamp</a>, <a class="el" href="postgres_8php-source.html#l00222">CountSql()</a>, <a class="el" href="action_8inc_8php-source.html#l00162">d_id</a>, <a class="el" href="action_8inc_8php-source.html#l00158">d_state</a>, <a class="el" href="action_8inc_8php-source.html#l00159">dt_id</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="balance_8php-source.html#l00036">exit</a>, <a class="el" href="facture_8inc_8php-source.html#l00194">f_id</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, <a class="el" href="ac__common_8php-source.html#l00208">FormatString()</a>, <a class="el" href="class__action_8php-source.html#l00750">GetAgRef()</a>, <a class="el" href="postgres_8php-source.html#l00414">getDbValue()</a>, <a class="el" href="ac__common_8php-source.html#l00282">make_array()</a>, <a class="el" href="class__action_8php-source.html#l00572">myList()</a>, and <a class="el" href="action_8inc_8php-source.html#l00160">qcode</a>.
+References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="action_8inc_8php-source.html#l00342">$d_id</a>, <a class="el" href="admin__repo_8php-source.html#l00119">$desc</a>, <a class="el" href="document__modele_8inc_8php-source.html#l00031">$doc</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="bank_8inc_8php-source.html#l00097">$sp</a>, <a class="el" href="admin_8inc_8php-source.html#l00115">$w</a>, <a class="el" href="action_8inc_8php-source.html#l00156">ag_id</a>, <a class="el" href="action_8inc_8php-source.html#l00192">ag_ref</a>, <a class="el" href="action_8inc_8php-source.html#l00179">ag_ref_ag_id</a>, <a class="el" href="action_8inc_8php-source.html#l00158">ag_timestamp</a>, <a class="el" href="postgres_8php-source.html#l00222">CountSql()</a>, <a class="el" href="action_8inc_8php-source.html#l00164">d_id</a>, <a class="el" href="action_8inc_8php-source.html#l00159">d_state</a>, <a class="el" href="action_8inc_8php-source.html#l00160">dt_id</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="balance_8php-source.html#l00036">exit</a>, <a class="el" href="facture_8inc_8php-source.html#l00194">f_id</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, <a class="el" href="ac__common_8php-source.html#l00208">FormatString()</a>, <a class="el" href="postgres_8php-source.html#l00414">getDbValue()</a>, <a class="el" href="ac__common_8php-source.html#l00282">make_array()</a>, <a class="el" href="action_8inc_8php-source.html#l00162">qcode_dest</a>, and <a class="el" href="action_8inc_8php-source.html#l00161">qcode_exp</a>.
 <p>
-Referenced by <a class="el" href="class__action_8php-source.html#l00444">SaveStage2()</a>.    </td>
+Referenced by <a class="el" href="class__action_8php-source.html#l00493">SaveStage2()</a>.<div class="fragment"><pre class="fragment"><a name="l00102"></a>00102     {
+<a name="l00103"></a>00103       <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_action',__LINE__,'<a class="code" href="classaction.html#a1">Display</a>()  :'.var_export($_POST,<span class="keyword">true</span>));
+<a name="l00104"></a>00104       <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_action',__LINE__,'<a class="code" href="classaction.html#a1">Display</a> $<span class="keyword">this</span>  :'.var_export($<span class="keyword">this</span>,<span class="keyword">true</span>));
+<a name="l00105"></a>00105 
+<a name="l00106"></a>00106 
+<a name="l00107"></a>00107       <span class="keywordflow">if</span> ( $p_view=='UPD')
+<a name="l00108"></a>00108         {
+<a name="l00109"></a>00109           $upd=<span class="keyword">true</span>;    
+<a name="l00110"></a>00110           $readonly=<span class="keyword">false</span>;
+<a name="l00111"></a>00111         }
+<a name="l00112"></a>00112       elseif ($p_view==<span class="stringliteral">"NEW"</span>)
+<a name="l00113"></a>00113         {
+<a name="l00114"></a>00114           $upd=<span class="keyword">false</span>;
+<a name="l00115"></a>00115           $readonly=<span class="keyword">false</span>;
+<a name="l00116"></a>00116         }
+<a name="l00117"></a>00117       elseif ($p_view=='READ')
+<a name="l00118"></a>00118         {
+<a name="l00119"></a>00119           $upd=<span class="keyword">true</span>;
+<a name="l00120"></a>00120           $readonly=<span class="keyword">true</span>;
+<a name="l00121"></a>00121         }
+<a name="l00122"></a>00122       <span class="keywordflow">else</span>
+<a name="l00123"></a>00123         {
+<a name="l00124"></a>00124           <a class="code" href="balance_8php.html#a0">exit</a>('class_action'.__LINE__.'<a class="code" href="classaction.html#a1">action::Display</a> error unknown parameter'.$p_view);
+<a name="l00125"></a>00125 
+<a name="l00126"></a>00126         }
+<a name="l00127"></a>00127       <span class="comment">// Compute the widget</span>
+<a name="l00128"></a>00128       <span class="comment">// Date </span>
+<a name="l00129"></a>00129       $date=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"text"</span>);
+<a name="l00130"></a>00130       $date-&gt;readonly=$readonly;
+<a name="l00131"></a>00131       $date-&gt;name=<span class="stringliteral">"ag_timestamp"</span>;
+<a name="l00132"></a>00132       $date-&gt;value=$this-&gt;<a class="code" href="action_8inc_8php.html#a6">ag_timestamp</a>;
+<a name="l00133"></a>00133       
+<a name="l00134"></a>00134       
+<a name="l00135"></a>00135       <span class="comment">// for insert mode only</span>
+<a name="l00136"></a>00136       <span class="keywordflow">if</span> ( $upd == <span class="keyword">false</span> )
+<a name="l00137"></a>00137         {
+<a name="l00138"></a>00138           <span class="comment">// Doc Type</span>
+<a name="l00139"></a>00139           $doc_type=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"select"</span>);
+<a name="l00140"></a>00140           $doc_type-&gt;name=<span class="stringliteral">"dt_id"</span>;
+<a name="l00141"></a>00141           $doc_type-&gt;value=<a class="code" href="ac__common_8php.html#a12">make_array</a>($this-&gt;db,<span class="stringliteral">"select dt_id,dt_value from document_type where dt_id in ("</span>.ACTION.<span class="stringliteral">")"</span>);
+<a name="l00142"></a>00142           $doc_type-&gt;selected=$this-&gt;<a class="code" href="action_8inc_8php.html#a8">dt_id</a>;
+<a name="l00143"></a>00143           $doc_type-&gt;readonly=<span class="keyword">false</span>;
+<a name="l00144"></a>00144           $str_doc_type=$doc_type-&gt;IOValue();
+<a name="l00145"></a>00145           <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_action',__LINE__,var_export($doc_type,<span class="keyword">true</span>));
+<a name="l00146"></a>00146         }
+<a name="l00147"></a>00147       <span class="keywordflow">else</span> {
+<a name="l00148"></a>00148         <span class="comment">// Doc Type</span>
+<a name="l00149"></a>00149         $doc_type=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"hidden"</span>);
+<a name="l00150"></a>00150         $doc_type-&gt;name=<span class="stringliteral">"dt_id"</span>;
+<a name="l00151"></a>00151         $doc_type-&gt;value=$this-&gt;<a class="code" href="action_8inc_8php.html#a8">dt_id</a>;
+<a name="l00152"></a>00152         $str_doc_type=$doc_type-&gt;IOValue().<span class="stringliteral">" "</span>.<a class="code" href="postgres_8php.html#a25">getDbValue</a>($this-&gt;db,<span class="stringliteral">"select dt_value from document_type where dt_id="</span>.$this-&gt;dt_id);
+<a name="l00153"></a>00153       }
+<a name="l00154"></a>00154 
+<a name="l00155"></a>00155       <span class="comment">// Description</span>
+<a name="l00156"></a>00156       <a class="code" href="admin__repo_8php.html#a9">$desc</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>('RICHTEXT');
+<a name="l00157"></a>00157       <a class="code" href="admin__repo_8php.html#a9">$desc</a>-&gt;width=500;
+<a name="l00158"></a>00158       <a class="code" href="admin__repo_8php.html#a9">$desc</a>-&gt;heigh=250;
+<a name="l00159"></a>00159       <a class="code" href="admin__repo_8php.html#a9">$desc</a>-&gt;name=<span class="stringliteral">"ag_comment"</span>;
+<a name="l00160"></a>00160       <a class="code" href="admin__repo_8php.html#a9">$desc</a>-&gt;readonly=$readonly;
+<a name="l00161"></a>00161       <a class="code" href="admin__repo_8php.html#a9">$desc</a>-&gt;value=urldecode($this-&gt;ag_comment);
+<a name="l00162"></a>00162 
+<a name="l00163"></a>00163       <span class="comment">// state</span>
+<a name="l00164"></a>00164       <span class="comment">// Retrieve the value</span>
+<a name="l00165"></a>00165       <span class="keywordflow">if</span> ( $p_view != 'READ' )
+<a name="l00166"></a>00166         {
+<a name="l00167"></a>00167           <a class="code" href="balance_8php.html#a10">$a</a>=<a class="code" href="ac__common_8php.html#a12">make_array</a>($this-&gt;db,<span class="stringliteral">"select s_id,s_value from document_state "</span>);
+<a name="l00168"></a>00168           $state=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"select"</span>);
+<a name="l00169"></a>00169           $state-&gt;readonly=$readonly;
+<a name="l00170"></a>00170           $state-&gt;name=<span class="stringliteral">"d_state"</span>;
+<a name="l00171"></a>00171           $state-&gt;value=<a class="code" href="balance_8php.html#a10">$a</a>;
+<a name="l00172"></a>00172           $state-&gt;selected=$this-&gt;<a class="code" href="action_8inc_8php.html#a7">d_state</a>;
+<a name="l00173"></a>00173           $str_state=$state-&gt;IOValue();
+<a name="l00174"></a>00174         } <span class="keywordflow">else</span> {
+<a name="l00175"></a>00175           $str_state=<a class="code" href="postgres_8php.html#a25">getDbValue</a>($this-&gt;db,<span class="stringliteral">"select s_value from document_state where s_id="</span>.$this-&gt;d_state);
+<a name="l00176"></a>00176           $g=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"hidden"</span>);
+<a name="l00177"></a>00177           $str_state.=$g-&gt;IOValue('<a class="code" href="action_8inc_8php.html#a7">d_state</a>',$this-&gt;d_state);
+<a name="l00178"></a>00178         }
+<a name="l00179"></a>00179       <span class="comment">// Retrieve the value if there is an attached doc</span>
+<a name="l00180"></a>00180       $doc_ref=<span class="stringliteral">""</span>;
+<a name="l00181"></a>00181       <span class="comment">// Document id</span>
+<a name="l00182"></a>00182 
+<a name="l00183"></a>00183       $h2=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"hidden"</span>);
+<a name="l00184"></a>00184       $h2-&gt;name=<span class="stringliteral">"d_id"</span>;
+<a name="l00185"></a>00185       $h2-&gt;value=$this-&gt;<a class="code" href="action_8inc_8php.html#a12">d_id</a>;
+<a name="l00186"></a>00186       
+<a name="l00187"></a>00187       <span class="keywordflow">if</span> ( $this-&gt;d_id != 0 &amp;&amp; $this-&gt;d_id != <span class="stringliteral">""</span> )
+<a name="l00188"></a>00188         {
+<a name="l00189"></a>00189           $h2-&gt;readonly=($p_view=='NEW')?<span class="keyword">false</span>:<span class="keyword">true</span>;
+<a name="l00190"></a>00190           <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>=<span class="keyword">new</span> <a class="code" href="classDocument.html">Document</a>($this-&gt;db,$this-&gt;d_id);
+<a name="l00191"></a>00191           <a class="code" href="action_8inc_8php.html#a21">$d_id</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"hidden"</span>);
+<a name="l00192"></a>00192           $doc_ref=<span class="stringliteral">"&lt;p&gt; Document "</span>.$doc-&gt;a_ref().'&lt;/p&gt;';
+<a name="l00193"></a>00193           $doc_ref.=$h2-&gt;IOValue().$d_id-&gt;IOValue('<a class="code" href="action_8inc_8php.html#a12">d_id</a>',$this-&gt;d_id);
+<a name="l00194"></a>00194           
+<a name="l00195"></a>00195         }
+<a name="l00196"></a>00196 
+<a name="l00197"></a>00197 
+<a name="l00198"></a>00198       <span class="comment">// title</span>
+<a name="l00199"></a>00199       $title=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"text"</span>);
+<a name="l00200"></a>00200       $title-&gt;readonly=$readonly;
+<a name="l00201"></a>00201       $title-&gt;name=<span class="stringliteral">"ag_title"</span>;
+<a name="l00202"></a>00202       $title-&gt;value=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($this-&gt;ag_title);
+<a name="l00203"></a>00203 
+<a name="l00204"></a>00204       <span class="comment">// ag_ref</span>
+<a name="l00205"></a>00205       <span class="comment">// Always false for update</span>
+<a name="l00206"></a>00206       $ag_ref=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"text"</span>);
+<a name="l00207"></a>00207       $ag_ref-&gt;readonly=<span class="keyword">true</span>;
+<a name="l00208"></a>00208       $ag_ref-&gt;name=<span class="stringliteral">"ag_ref"</span>;
+<a name="l00209"></a>00209       $ag_ref-&gt;value=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($this-&gt;ag_ref);
+<a name="l00210"></a>00210       $client_label=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"span"</span>);
+<a name="l00211"></a>00211 
+<a name="l00212"></a>00212       <span class="comment">// f_id_dest destination</span>
+<a name="l00213"></a>00213       <span class="keywordflow">if</span> ( $this-&gt;qcode_dest != '- <a class="code" href="constant_8php.html#a38">ERROR</a> -' &amp;&amp; trim($this-&gt;qcode_dest) != <span class="stringliteral">""</span>)
+<a name="l00214"></a>00214         {
+<a name="l00215"></a>00215           $tiers=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($this-&gt;db);
+<a name="l00216"></a>00216           $tiers-&gt;GetByQCode($this-&gt;qcode_dest);
+<a name="l00217"></a>00217           $qcode_dest_label=$tiers-&gt;strAttribut(1);
+<a name="l00218"></a>00218         } <span class="keywordflow">else</span> {
+<a name="l00219"></a>00219           <span class="comment">//      echo "f_id $this-&gt;f_id";</span>
+<a name="l00220"></a>00220           $qcode_dest_label=($this-&gt;<a class="code" href="facture_8inc_8php.html#a19">f_id</a>==0 || trim($this-&gt;qcode_dest)==<span class="stringliteral">""</span>)?'Interne <span class="charliteral">':'</span>Error';
+<a name="l00221"></a>00221         }
+<a name="l00222"></a>00222       <span class="comment">// f_id_exp sender</span>
+<a name="l00223"></a>00223       <span class="keywordflow">if</span> ( $this-&gt;qcode_exp != '- <a class="code" href="constant_8php.html#a38">ERROR</a> -' &amp;&amp; trim($this-&gt;qcode_exp) != <span class="stringliteral">""</span>)
+<a name="l00224"></a>00224         {
+<a name="l00225"></a>00225           $tiers=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($this-&gt;db);
+<a name="l00226"></a>00226           $tiers-&gt;GetByQCode($this-&gt;qcode_exp);
+<a name="l00227"></a>00227           $qcode_exp_label=$tiers-&gt;strAttribut(1);
+<a name="l00228"></a>00228         } <span class="keywordflow">else</span> {
+<a name="l00229"></a>00229           echo <span class="stringliteral">"f_id $this-&gt;f_id"</span>;
+<a name="l00230"></a>00230           $qcode_exp_label=($this-&gt;f_id_exp==0 || trim($this-&gt;qcode_exp)==<span class="stringliteral">""</span>)?'Interne <span class="charliteral">':'</span>Error';
+<a name="l00231"></a>00231         }
+<a name="l00232"></a>00232 
+<a name="l00233"></a>00233       $h_ag_id=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"hidden"</span>);
+<a name="l00234"></a>00234       <span class="comment">// if concerns another action : show the link otherwise nothing</span>
+<a name="l00235"></a>00235       $lag_ref_ag_id=<span class="stringliteral">""</span>;
+<a name="l00236"></a>00236       
+<a name="l00237"></a>00237       <span class="keywordflow">if</span> ( $this-&gt;ag_ref_ag_id != 0 )
+<a name="l00238"></a>00238         {
+<a name="l00239"></a>00239     <span class="comment">//      $this-&gt;GetAgRef("ag_ref_ag_id")."&lt;/A&gt;";</span>
+<a name="l00240"></a>00240 
+<a name="l00241"></a>00241           $lag_ref_ag_id='&lt;a <span class="keyword">class</span>=<span class="stringliteral">"mtitle"</span> href=<span class="stringliteral">"commercial.php?p_action=suivi_courrier&amp;sa=detail&amp;ag_id='.</span>
+<a name="l00242"></a>00242 <span class="stringliteral">            $this-&gt;ag_ref_ag_id.'"</span>&gt;'.
+<a name="l00243"></a>00243             $this-&gt;getDBValue($this-&gt;db,<span class="stringliteral">"select ag_ref from action_gestion where ag_id="</span>.$this-&gt;ag_ref_ag_id).
+<a name="l00244"></a>00244             <span class="stringliteral">"&lt;/A&gt;"</span>;
+<a name="l00245"></a>00245         }  
+<a name="l00246"></a>00246       <span class="comment">// sender</span>
+<a name="l00247"></a>00247       <a class="code" href="admin_8inc_8php.html#a4">$w</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>('js_search_only');
+<a name="l00248"></a>00248       <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;readonly=$readonly;
+<a name="l00249"></a>00249       <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;name='<a class="code" href="action_8inc_8php.html#a9">qcode_exp</a>';
+<a name="l00250"></a>00250       <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;value=($this-&gt;f_id_exp != 0)?$this-&gt;<a class="code" href="action_8inc_8php.html#a9">qcode_exp</a>:<span class="stringliteral">""</span>;
+<a name="l00251"></a>00251       <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;label=<span class="stringliteral">""</span>;
+<a name="l00252"></a>00252       <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;extra='4,8,9,14,16';
+<a name="l00253"></a>00253       <a class="code" href="bank_8inc_8php.html#a12">$sp</a>= <span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"span"</span>);
+<a name="l00254"></a>00254       $h_agrefid=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>('hidden');
+<a name="l00255"></a>00255       <span class="comment">// destination</span>
+<a name="l00256"></a>00256       $wdest=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>('js_search_only');
+<a name="l00257"></a>00257       $wdest-&gt;readonly=$readonly;
+<a name="l00258"></a>00258       $wdest-&gt;name='<a class="code" href="action_8inc_8php.html#a10">qcode_dest</a>';
+<a name="l00259"></a>00259       $wdest-&gt;value=($this-&gt;f_id_dest != 0)?$this-&gt;<a class="code" href="action_8inc_8php.html#a10">qcode_dest</a>:<span class="stringliteral">""</span>;
+<a name="l00260"></a>00260       $wdest-&gt;label=<span class="stringliteral">""</span>;
+<a name="l00261"></a>00261       $wdest-&gt;extra='4,8,9,14,16';
+<a name="l00262"></a>00262       $spdest= <span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"span"</span>);
+<a name="l00263"></a>00263       $h_agrefid=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>('hidden');
+<a name="l00264"></a>00264 
+<a name="l00265"></a>00265       <span class="comment">// Preparing the return string</span>
+<a name="l00266"></a>00266       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<span class="stringliteral">""</span>;
+<a name="l00267"></a>00267       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="constant_8php.html#a80">JS_SEARCH_CARD</a>;
+<a name="l00268"></a>00268       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.= <span class="stringliteral">"&lt;p&gt;Date : "</span>.$date-&gt;IOValue().<span class="stringliteral">" Reference  "</span>. $this-&gt;<a class="code" href="action_8inc_8php.html#a14">ag_ref</a>.<span class="stringliteral">"&lt;/p&gt;"</span>;
+<a name="l00269"></a>00269       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;p&gt;Concerne :"</span>.$lag_ref_ag_id.<span class="stringliteral">"&lt;/p&gt;"</span>;
+<a name="l00270"></a>00270       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.= '&lt;p&gt;Type d\' <a class="code" href="classaction.html">action</a>';
+<a name="l00271"></a>00271       <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_action',__LINE__,<span class="stringliteral">"str_doc_type $str_doc_type"</span>);
+<a name="l00272"></a>00272       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.= $str_doc_type.<span class="stringliteral">"&lt;/p&gt;"</span>;
+<a name="l00273"></a>00273 
+<a name="l00274"></a>00274       <span class="comment">// state</span>
+<a name="l00275"></a>00275       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;p&gt;Etat :"</span>.$str_state;
+<a name="l00276"></a>00276 
+<a name="l00277"></a>00277 
+<a name="l00278"></a>00278       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.= <span class="stringliteral">"&lt;/p&gt;&lt;p&gt; "</span>;
+<a name="l00279"></a>00279       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;IOValue();
+<a name="l00280"></a>00280       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="bank_8inc_8php.html#a12">$sp</a>-&gt;IOValue('qcode_exp_label',$qcode_exp_label).<span class="stringliteral">"&lt;/TD&gt;&lt;/TR&gt;"</span>;
+<a name="l00281"></a>00281  
+<a name="l00282"></a>00282       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=$wdest-&gt;IOValue();
+<a name="l00283"></a>00283       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=$spdest-&gt;IOValue('qcode_dest_label',$qcode_dest_label).<span class="stringliteral">"&lt;/TD&gt;&lt;/TR&gt;"</span>;
+<a name="l00284"></a>00284 
+<a name="l00285"></a>00285 
+<a name="l00286"></a>00286       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/p&gt;"</span>;
+<a name="l00287"></a>00287       <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_action',__LINE__,' <a class="code" href="action_8inc_8php.html#a4">ag_id</a> is '.$this-&gt;ag_id);
+<a name="l00288"></a>00288 
+<a name="l00289"></a>00289       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.= <span class="stringliteral">"&lt;p&gt; Titre : "</span>.$title-&gt;IOValue().' Ref :'.$ag_ref-&gt;IOValue();
+<a name="l00290"></a>00290       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.= $doc_ref;
+<a name="l00291"></a>00291       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.= <span class="stringliteral">"&lt;p&gt;Description :"</span>.$desc-&gt;IOValue().<span class="stringliteral">"&lt;/p&gt;"</span>;
+<a name="l00292"></a>00292 
+<a name="l00293"></a>00293       <span class="comment">//hidden</span>
+<a name="l00294"></a>00294       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;p&gt;"</span>;
+<a name="l00295"></a>00295       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=$h2-&gt;IOValue();
+<a name="l00296"></a>00296       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=$h_agrefid-&gt;IOValue(<span class="stringliteral">"ag_ref_ag_id"</span>,$this-&gt;ag_ref_ag_id); 
+<a name="l00297"></a>00297       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=$h_ag_id-&gt;IOValue('<a class="code" href="action_8inc_8php.html#a4">ag_id</a>',$this-&gt;ag_id);
+<a name="l00298"></a>00298       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/p&gt;"</span>;
+<a name="l00299"></a>00299 
+<a name="l00300"></a>00300       <span class="comment">// show the list of the concern operation</span>
+<a name="l00301"></a>00301       <span class="keywordflow">if</span> ( <a class="code" href="postgres_8php.html#a10">CountSql</a>($this-&gt;db,'select * from action_gestion where <a class="code" href="action_8inc_8php.html#a13">ag_ref_ag_id</a>!=0 and <a class="code" href="action_8inc_8php.html#a13">ag_ref_ag_id</a>='.$this-&gt;ag_id);
+<a name="l00302"></a>00302         $r.=$this-&gt;myList(<a class="code" href="constant_8php.html#a39">ACTION</a>,<span class="stringliteral">" and ag_ref_ag_id="</span>.$this-&gt;ag_id);
+<a name="l00303"></a>00303       <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
+<a name="l00304"></a>00304  
+<a name="l00305"></a>00305     }
+</pre></div>
+<p>
+    </td>
   </tr>
 </table>
 <a class="anchor" name="a2"></a><!-- doxytag: member="action::get" ref="a2" args="()" --><p>
@@ -232,51 +570,51 @@ This function shows the detail of an action thanks the ag_id.
 <p>
 
 <p>
-Definition at line <a class="el" href="class__action_8php-source.html#l00280">280</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
+Definition at line <a class="el" href="class__action_8php-source.html#l00309">309</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
 <p>
-References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="cbc__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, <a class="el" href="action_8inc_8php-source.html#l00156">ag_comment</a>, <a class="el" href="action_8inc_8php-source.html#l00189">ag_ref</a>, <a class="el" href="action_8inc_8php-source.html#l00177">ag_ref_ag_id</a>, <a class="el" href="action_8inc_8php-source.html#l00157">ag_timestamp</a>, <a class="el" href="action_8inc_8php-source.html#l00161">ag_title</a>, <a class="el" href="action_8inc_8php-source.html#l00162">d_id</a>, <a class="el" href="action_8inc_8php-source.html#l00158">d_state</a>, <a class="el" href="action_8inc_8php-source.html#l00159">dt_id</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="facture_8inc_8php-source.html#l00194">f_id</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, and <a class="el" href="action_8inc_8php-source.html#l00160">qcode</a>.    </td>
-  </tr>
-</table>
-<a class="anchor" name="a8"></a><!-- doxytag: member="action::GetAgRef" ref="a8" args="($p_method)" --><p>
-<table class="mdTable" cellpadding="2" cellspacing="0">
-  <tr>
-    <td class="mdRow">
-      <table cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td class="md" nowrap valign="top">action::GetAgRef           </td>
-          <td class="md" valign="top">(&nbsp;</td>
-          <td class="md" nowrap valign="top">$&nbsp;</td>
-          <td class="mdname1" valign="top" nowrap> <em>p_method</em>          </td>
-          <td class="md" valign="top">&nbsp;)&nbsp;</td>
-          <td class="md" nowrap></td>
-        </tr>
-      </table>
+References <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="cbc__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, <a class="el" href="action_8inc_8php-source.html#l00157">ag_comment</a>, <a class="el" href="action_8inc_8php-source.html#l00192">ag_ref</a>, <a class="el" href="action_8inc_8php-source.html#l00179">ag_ref_ag_id</a>, <a class="el" href="action_8inc_8php-source.html#l00158">ag_timestamp</a>, <a class="el" href="action_8inc_8php-source.html#l00163">ag_title</a>, <a class="el" href="action_8inc_8php-source.html#l00164">d_id</a>, <a class="el" href="action_8inc_8php-source.html#l00159">d_state</a>, <a class="el" href="action_8inc_8php-source.html#l00160">dt_id</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, <a class="el" href="action_8inc_8php-source.html#l00162">qcode_dest</a>, and <a class="el" href="action_8inc_8php-source.html#l00161">qcode_exp</a>.<div class="fragment"><pre class="fragment"><a name="l00310"></a>00310     {
+<a name="l00311"></a>00311       <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_action',__LINE__,'Action::Get() ');
+<a name="l00312"></a>00312       <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=<span class="stringliteral">"select ag_id, ag_comment,to_char (ag_timestamp,'DD-MM-YYYY') as ag_timestamp,"</span>.
+<a name="l00313"></a>00313         <span class="stringliteral">" f_id_dest,f_id_exp,ag_title,ag_comment,ag_ref,d_id,ag_type,d_state,  "</span>.
+<a name="l00314"></a>00314         <span class="stringliteral">" ag_ref_ag_id "</span>.
+<a name="l00315"></a>00315         <span class="stringliteral">" from action_gestion left join document using (ag_id) where ag_id="</span>.$this-&gt;ag_id;
+<a name="l00316"></a>00316       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql);
+<a name="l00317"></a>00317       <a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>=pg_fetch_all($r);
+<a name="l00318"></a>00318       <span class="keywordflow">if</span> ( $row==<span class="keyword">false</span>) <span class="keywordflow">return</span>;
+<a name="l00319"></a>00319       $this-&gt;<a class="code" href="action_8inc_8php.html#a5">ag_comment</a>=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>[0]['<a class="code" href="action_8inc_8php.html#a5">ag_comment</a>'];
+<a name="l00320"></a>00320       $this-&gt;<a class="code" href="action_8inc_8php.html#a6">ag_timestamp</a>=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>[0]['<a class="code" href="action_8inc_8php.html#a6">ag_timestamp</a>'];
+<a name="l00321"></a>00321       $this-&gt;f_id_dest=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>[0]['f_id_dest'];
+<a name="l00322"></a>00322       $this-&gt;f_id_exp=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>[0]['f_id_exp'];
+<a name="l00323"></a>00323       $this-&gt;<a class="code" href="action_8inc_8php.html#a11">ag_title</a>=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>[0]['<a class="code" href="action_8inc_8php.html#a11">ag_title</a>'];
+<a name="l00324"></a>00324       $this-&gt;ag_type=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>[0]['ag_type'];
+<a name="l00325"></a>00325       $this-&gt;<a class="code" href="action_8inc_8php.html#a14">ag_ref</a>=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>[0]['<a class="code" href="action_8inc_8php.html#a14">ag_ref</a>'];
+<a name="l00326"></a>00326       $this-&gt;<a class="code" href="action_8inc_8php.html#a13">ag_ref_ag_id</a>=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>[0]['<a class="code" href="action_8inc_8php.html#a13">ag_ref_ag_id</a>'];
+<a name="l00327"></a>00327       $this-&gt;<a class="code" href="action_8inc_8php.html#a12">d_id</a>=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>[0]['<a class="code" href="action_8inc_8php.html#a12">d_id</a>'];
+<a name="l00328"></a>00328       <span class="comment">//</span>
+<a name="l00329"></a>00329       <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_action',__LINE__,' <a class="code" href="classDocument.html">Document</a> <span class="keywordtype">id</span> = '.$this-&gt;d_id);
+<a name="l00330"></a>00330       <span class="comment">// if there is no document set 0 to d_id</span>
+<a name="l00331"></a>00331       <span class="keywordflow">if</span> ( $this-&gt;d_id == <span class="stringliteral">""</span> ) 
+<a name="l00332"></a>00332         $this-&gt;<a class="code" href="action_8inc_8php.html#a12">d_id</a>=0;
+<a name="l00333"></a>00333       <span class="comment">// if there is a document fill the object</span>
+<a name="l00334"></a>00334       <span class="keywordflow">if</span> ($this-&gt;d_id != 0 )
+<a name="l00335"></a>00335         {
+<a name="l00336"></a>00336           $this-&gt;state=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>[<span class="charliteral">'0'</span>]['<a class="code" href="action_8inc_8php.html#a7">d_state</a>'];
+<a name="l00337"></a>00337           $this-&gt;<a class="code" href="action_8inc_8php.html#a7">d_state</a>=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>[0]['<a class="code" href="action_8inc_8php.html#a7">d_state</a>'];
+<a name="l00338"></a>00338         }
+<a name="l00339"></a>00339       <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_action',__LINE__,' After test <a class="code" href="classDocument.html">Document</a> <span class="keywordtype">id</span> = '.$this-&gt;d_id);
+<a name="l00340"></a>00340       $this-&gt;<a class="code" href="action_8inc_8php.html#a8">dt_id</a>=$this-&gt;ag_type;
+<a name="l00341"></a>00341       $adest=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($this-&gt;db,$this-&gt;f_id_dest);
+<a name="l00342"></a>00342       $this-&gt;<a class="code" href="action_8inc_8php.html#a10">qcode_dest</a>=$adest-&gt;strAttribut(<a class="code" href="constant_8php.html#a73">ATTR_DEF_QUICKCODE</a>);
+<a name="l00343"></a>00343       $aexp=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($this-&gt;db,$this-&gt;f_id_exp);
+<a name="l00344"></a>00344       $this-&gt;<a class="code" href="action_8inc_8php.html#a9">qcode_exp</a>=$aexp-&gt;strAttribut(<a class="code" href="constant_8php.html#a73">ATTR_DEF_QUICKCODE</a>);
+<a name="l00345"></a>00345 
+<a name="l00346"></a>00346       <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_action',__LINE__,'Detail end ()  :'.var_export($_POST,<span class="keyword">true</span>));
+<a name="l00347"></a>00347       <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_action',__LINE__,'Detail $<span class="keyword">this</span>  :'.var_export($<span class="keyword">this</span>,<span class="keyword">true</span>));
+<a name="l00348"></a>00348 
+<a name="l00349"></a>00349     }
+</pre></div>
+<p>
     </td>
-  </tr>
-</table>
-<table cellspacing="5" cellpadding="0" border="0">
-  <tr>
-    <td>
-      &nbsp;
-    </td>
-    <td>
-
-<p>
-GetAgRef returns the ag_ref value of the ag_id or ag_ref_ag_id passed as parameter. This function doesn't change the current object. 
-<p>
-<dl compact><dt><b>Parameters:</b></dt><dd>
-  <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>$p_method</em>&nbsp;</td><td>: can be ag_ref_ag_id or ag_id </td></tr>
-  </table>
-</dl>
-<dl compact><dt><b>Returns:</b></dt><dd>string with the ag_ref</dd></dl>
-
-<p>
-Definition at line <a class="el" href="class__action_8php-source.html#l00750">750</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
-<p>
-References <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>.
-<p>
-Referenced by <a class="el" href="class__action_8php-source.html#l00099">Display()</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a6"></a><!-- doxytag: member="action::myList" ref="a6" args="($p_filter=&quot;&quot;, $p_search=&quot;&quot;)" --><p>
@@ -324,11 +662,120 @@ myList($p_filter="") <dl compact><dt><b>Parameters:</b></dt><dd>
 <dl compact><dt><b>Returns:</b></dt><dd>string containing html code</dd></dl>
 
 <p>
-Definition at line <a class="el" href="class__action_8php-source.html#l00572">572</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
+Definition at line <a class="el" href="class__action_8php-source.html#l00626">626</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
 <p>
-References <a class="el" href="commercial_8php-source.html#l00035">$_SESSION</a>, <a class="el" href="bank_8inc_8php-source.html#l00119">$bar</a>, <a class="el" href="document__modele_8inc_8php-source.html#l00031">$doc</a>, <a class="el" href="jrn__pdf_8php-source.html#l00071">$limit</a>, <a class="el" href="bank_8inc_8php-source.html#l00107">$offset</a>, <a class="el" href="bank_8inc_8php-source.html#l00106">$page</a>, <a class="el" href="bank_8inc_8php-source.html#l00090">$qcode</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="cbc__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, <a class="el" href="bank_8inc_8php-source.html#l00105">$step</a>, <a class="el" href="action_8inc_8php-source.html#l00189">ag_ref</a>, <a class="el" href="action_8inc_8php-source.html#l00177">ag_ref_ag_id</a>, <a class="el" href="action_8inc_8php-source.html#l00161">ag_title</a>, <a class="el" href="postgres_8php-source.html#l00222">CountSql()</a>, <a class="el" href="action_8inc_8php-source.html#l00162">d_id</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="facture_8inc_8php-source.html#l00194">f_id</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, and <a class="el" href="user__common_8php-source.html#l00858">jrn_navigation_bar()</a>.
+References <a class="el" href="commercial_8php-source.html#l00035">$_SESSION</a>, <a class="el" href="bank_8inc_8php-source.html#l00119">$bar</a>, <a class="el" href="document__modele_8inc_8php-source.html#l00031">$doc</a>, <a class="el" href="jrn__pdf_8php-source.html#l00071">$limit</a>, <a class="el" href="bank_8inc_8php-source.html#l00107">$offset</a>, <a class="el" href="bank_8inc_8php-source.html#l00106">$page</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="cbc__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, <a class="el" href="bank_8inc_8php-source.html#l00105">$step</a>, <a class="el" href="action_8inc_8php-source.html#l00192">ag_ref</a>, <a class="el" href="action_8inc_8php-source.html#l00179">ag_ref_ag_id</a>, <a class="el" href="action_8inc_8php-source.html#l00163">ag_title</a>, <a class="el" href="postgres_8php-source.html#l00222">CountSql()</a>, <a class="el" href="action_8inc_8php-source.html#l00164">d_id</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, and <a class="el" href="user__common_8php-source.html#l00858">jrn_navigation_bar()</a>.<div class="fragment"><pre class="fragment"><a name="l00627"></a>00627     {
+<a name="l00628"></a>00628       <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=<span class="stringliteral">"</span>
+<a name="l00629"></a>00629 <span class="stringliteral">   select ag_id,to_char(ag_timestamp,'DD-MM-YYYY') as my_date,ag_ref_ag_id,f_id_dest,f_id_exp"</span>.
+<a name="l00630"></a>00630         <span class="stringliteral">",ag_title,d_id,md_type,dt_value,ag_ref </span>
+<a name="l00631"></a>00631 <span class="stringliteral">   from action_gestion </span>
+<a name="l00632"></a>00632 <span class="stringliteral">      left outer join document using (ag_id)</span>
+<a name="l00633"></a>00633 <span class="stringliteral">      left outer join document_modele on (ag_type=md_type) </span>
+<a name="l00634"></a>00634 <span class="stringliteral">      join document_type on (ag_type=dt_id)</span>
+<a name="l00635"></a>00635 <span class="stringliteral">   where dt_id in ($p_filter) $p_search order by ag_timestamp desc,ag_ref desc"</span>;
+<a name="l00636"></a>00636       $max_line=<a class="code" href="postgres_8php.html#a10">CountSql</a>($this-&gt;db,$sql);
+<a name="l00637"></a>00637       <a class="code" href="bank_8inc_8php.html#a14">$step</a>=<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['g_pagesize'];
+<a name="l00638"></a>00638       <a class="code" href="bank_8inc_8php.html#a15">$page</a>=(isset($_GET['offset']))?$_GET['page']:1;
+<a name="l00639"></a>00639       <a class="code" href="bank_8inc_8php.html#a16">$offset</a>=(isset($_GET['offset']))?$_GET['offset']:0;
+<a name="l00640"></a>00640       <a class="code" href="jrn__pdf_8php.html#a9">$limit</a>=<span class="stringliteral">" LIMIT $step OFFSET $offset "</span>;  
+<a name="l00641"></a>00641       <a class="code" href="bank_8inc_8php.html#a18">$bar</a>=<a class="code" href="user__common_8php.html#a16">jrn_navigation_bar</a>($offset,$max_line,$step,$page);
+<a name="l00642"></a>00642 
+<a name="l00643"></a>00643       <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql.$limit);
+<a name="l00644"></a>00644       $a_row=pg_fetch_all($Res);
+<a name="l00645"></a>00645       <span class="comment">//      $r='&lt;div class="u_redcontent"&gt;';</span>
+<a name="l00646"></a>00646       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<span class="stringliteral">""</span>;
+<a name="l00647"></a>00647       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="bank_8inc_8php.html#a18">$bar</a>;
+<a name="l00648"></a>00648       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;table&gt;"</span>;
+<a name="l00649"></a>00649       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;tr&gt;"</span>;
+<a name="l00650"></a>00650       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;th&gt;Date&lt;/th&gt;"</span>;
+<a name="l00651"></a>00651       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;th&gt;Destinataire&lt;/th&gt;"</span>;
+<a name="l00652"></a>00652       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;th&gt;Expéditeur&lt;/th&gt;"</span>;
+<a name="l00653"></a>00653       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;th&gt;Titre&lt;/th&gt;"</span>;
+<a name="l00654"></a>00654       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;th&gt;type&lt;/th&gt;"</span>;
+<a name="l00655"></a>00655       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;th&gt;Référence&lt;/th&gt;"</span>;
+<a name="l00656"></a>00656       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;th&gt;concerne&lt;/th&gt;"</span>;
+<a name="l00657"></a>00657       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;th&gt;Document&lt;/th&gt;"</span>;
+<a name="l00658"></a>00658       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/tr&gt;"</span>;
+<a name="l00659"></a>00659 
+<a name="l00660"></a>00660       <span class="comment">// if there are no records return a message</span>
+<a name="l00661"></a>00661       <span class="keywordflow">if</span> ( <span class="keyword">sizeof</span> ($a_row) == 0 or $a_row == <span class="keyword">false</span> ) 
+<a name="l00662"></a>00662         {
+<a name="l00663"></a>00663           <a class="code" href="user__action__ach_8php.html#a2">$r</a>='&lt;div <span class="keyword">class</span>=<span class="stringliteral">"u_redcontent"</span>&gt;';
+<a name="l00664"></a>00664           <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;hr&gt;Aucun enregistrement trouvé';
+<a name="l00665"></a>00665           <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/div&gt;"</span>;
+<a name="l00666"></a>00666           <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
+<a name="l00667"></a>00667 
+<a name="l00668"></a>00668         }
+<a name="l00669"></a>00669       echo <a class="code" href="constant_8php.html#a80">JS_SEARCH_CARD</a>;
+<a name="l00670"></a>00670       foreach ($a_row as $row )
+<a name="l00671"></a>00671         {
+<a name="l00672"></a>00672 
+<a name="l00673"></a>00673           <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;tr&gt;"</span>;
+<a name="l00674"></a>00674           <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.$row['my_date'].<span class="stringliteral">"&lt;/td&gt;"</span>;
+<a name="l00675"></a>00675           <span class="comment">// Expediteur</span>
+<a name="l00676"></a>00676           $fexp=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($this-&gt;db);
+<a name="l00677"></a>00677           $fexp-&gt;id=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['f_id_exp'];
+<a name="l00678"></a>00678           $qcode_exp=$f-&gt;strAttribut(<a class="code" href="constant_8php.html#a73">ATTR_DEF_QUICKCODE</a>);
+<a name="l00679"></a>00679 
+<a name="l00680"></a>00680           $qexp=($qcode_exp==<span class="stringliteral">"- ERROR -"</span>)?<span class="stringliteral">"Interne"</span>:$qcode_exp;
+<a name="l00681"></a>00681           $jsexp=sprintf(<span class="stringliteral">"javascript:showfiche('%s','%s')"</span>,
+<a name="l00682"></a>00682                       $_REQUEST['PHPSESSID'],$qexp);
+<a name="l00683"></a>00683           <span class="keywordflow">if</span> ( $qexp != 'Interne' )
+<a name="l00684"></a>00684             {
+<a name="l00685"></a>00685               <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.'&lt;A HREF=<span class="stringliteral">"'.$jsexp.'"</span>&gt;'.$qexp.<span class="stringliteral">" : "</span>.$fexp-&gt;getName().'&lt;/A&gt;&lt;/td&gt;';
+<a name="l00686"></a>00686             }
+<a name="l00687"></a>00687           <span class="keywordflow">else</span>
+<a name="l00688"></a>00688             <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;td&gt;Interne &lt;/td&gt;"</span>;
+<a name="l00689"></a>00689           <span class="comment">// Destinataire</span>
+<a name="l00690"></a>00690           $fdest=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($this-&gt;db);
+<a name="l00691"></a>00691           $fdest-&gt;id=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['f_id_dest'];
+<a name="l00692"></a>00692           $qcode_dest=$fdest-&gt;strAttribut(<a class="code" href="constant_8php.html#a73">ATTR_DEF_QUICKCODE</a>);
+<a name="l00693"></a>00693 
+<a name="l00694"></a>00694           $qdest=($qcode_dest==<span class="stringliteral">"- ERROR -"</span>)?<span class="stringliteral">"Interne"</span>:$qcode_dest;
+<a name="l00695"></a>00695           $jsdest=sprintf(<span class="stringliteral">"javascript:showfiche('%s','%s')"</span>,
+<a name="l00696"></a>00696                       $_REQUEST['PHPSESSID'],$qdest);
+<a name="l00697"></a>00697           <span class="keywordflow">if</span> ( $qdest != 'Interne' )
+<a name="l00698"></a>00698             {
+<a name="l00699"></a>00699               <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.'&lt;A HREF=<span class="stringliteral">"'.$jsdest.'"</span>&gt;'.$qdest.<span class="stringliteral">" : "</span>.$fdest-&gt;getName().'&lt;/A&gt;&lt;/td&gt;';
+<a name="l00700"></a>00700             }
+<a name="l00701"></a>00701           <span class="keywordflow">else</span>
+<a name="l00702"></a>00702             <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;td&gt;Interne &lt;/td&gt;"</span>;
+<a name="l00703"></a>00703 
+<a name="l00704"></a>00704           <span class="comment">// show reference</span>
+<a name="l00705"></a>00705           <span class="keywordflow">if</span> ( $row['<a class="code" href="action_8inc_8php.html#a13">ag_ref_ag_id</a>'] != 0 ) 
+<a name="l00706"></a>00706             {
+<a name="l00707"></a>00707               $retSqlStmt=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,
+<a name="l00708"></a>00708                                   <span class="stringliteral">"select ag_ref from action_gestion where ag_id="</span>.$row['<a class="code" href="action_8inc_8php.html#a13">ag_ref_ag_id</a>']);
+<a name="l00709"></a>00709               $retSql=pg_fetch_all($retSqlStmt);
+<a name="l00710"></a>00710               $ref=<span class="stringliteral">""</span>;
+<a name="l00711"></a>00711               foreach ($retSql as $line) 
+<a name="l00712"></a>00712                 {
+<a name="l00713"></a>00713                   $ref.='&lt;A  href=<span class="stringliteral">"commercial.php?p_action=suivi_courrier&amp;query='.$line['ag_ref'].'"</span>&gt;'.
+<a name="l00714"></a>00714                     $line['<a class="code" href="action_8inc_8php.html#a14">ag_ref</a>'].<span class="stringliteral">"&lt;A&gt;"</span>;
+<a name="l00715"></a>00715                 }
+<a name="l00716"></a>00716             }
+<a name="l00717"></a>00717           <span class="keywordflow">else</span> 
+<a name="l00718"></a>00718             $ref=<span class="stringliteral">""</span>;
+<a name="l00719"></a>00719 
+<a name="l00720"></a>00720           <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;td&gt;&lt;A HREF=<span class="stringliteral">"commercial.php?p_action=suivi_courrier&amp;sa=detail&amp;ag_id='.$row['ag_id'].'"</span>&gt;'.
+<a name="l00721"></a>00721             <a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['<a class="code" href="action_8inc_8php.html#a11">ag_title</a>'].<span class="stringliteral">"&lt;/A&gt;&lt;/td&gt;"</span>;
+<a name="l00722"></a>00722           <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.$row['dt_value'].<span class="stringliteral">"&lt;/td&gt;"</span>;
+<a name="l00723"></a>00723           <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.$row['<a class="code" href="action_8inc_8php.html#a14">ag_ref</a>'].<span class="stringliteral">"&lt;/td&gt;"</span>;
+<a name="l00724"></a>00724           <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.$ref.<span class="stringliteral">"&lt;/td&gt;"</span>;
+<a name="l00725"></a>00725           <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>=<span class="keyword">new</span> <a class="code" href="classDocument.html">Document</a>($this-&gt;db,$row['<a class="code" href="action_8inc_8php.html#a12">d_id</a>']);
+<a name="l00726"></a>00726           <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.$doc-&gt;a_ref().<span class="stringliteral">"&lt;/td&gt;"</span>;
+<a name="l00727"></a>00727           <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/tr&gt;"</span>;
+<a name="l00728"></a>00728 
+<a name="l00729"></a>00729         }
+<a name="l00730"></a>00730       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/table&gt;"</span>;
+<a name="l00731"></a>00731 
+<a name="l00732"></a>00732       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="bank_8inc_8php.html#a18">$bar</a>;
+<a name="l00733"></a>00733       <span class="comment">//$r.="&lt;/div&gt;";</span>
+<a name="l00734"></a>00734       <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
+<a name="l00735"></a>00735     }
+</pre></div>
 <p>
-Referenced by <a class="el" href="class__action_8php-source.html#l00099">Display()</a>.    </td>
+    </td>
   </tr>
 </table>
 <a class="anchor" name="a4"></a><!-- doxytag: member="action::SaveStage2" ref="a4" args="()" --><p>
@@ -361,9 +808,102 @@ SaveStage2<p>
 <dl compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="class__action_8php-source.html#l00444">444</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
+Definition at line <a class="el" href="class__action_8php-source.html#l00493">493</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
 <p>
-References <a class="el" href="impress__jrn_8php-source.html#l00035">$d</a>, <a class="el" href="document__modele_8inc_8php-source.html#l00031">$doc</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, <a class="el" href="facture_8inc_8php-source.html#l00197">$str_file</a>, <a class="el" href="action_8inc_8php-source.html#l00226">$upload</a>, <a class="el" href="action_8inc_8php-source.html#l00156">ag_comment</a>, <a class="el" href="action_8inc_8php-source.html#l00155">ag_id</a>, <a class="el" href="action_8inc_8php-source.html#l00189">ag_ref</a>, <a class="el" href="action_8inc_8php-source.html#l00161">ag_title</a>, <a class="el" href="action_8inc_8php-source.html#l00158">d_state</a>, <a class="el" href="class__action_8php-source.html#l00099">Display()</a>, <a class="el" href="action_8inc_8php-source.html#l00159">dt_id</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, <a class="el" href="ac__common_8php-source.html#l00208">FormatString()</a>, <a class="el" href="action_8inc_8php-source.html#l00310">md_id</a>, <a class="el" href="action_8inc_8php-source.html#l00227">name</a>, <a class="el" href="postgres_8php-source.html#l00251">NextSequence()</a>, and <a class="el" href="action_8inc_8php-source.html#l00228">value</a>.    </td>
+References <a class="el" href="impress__jrn_8php-source.html#l00035">$d</a>, <a class="el" href="document__modele_8inc_8php-source.html#l00031">$doc</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, <a class="el" href="facture_8inc_8php-source.html#l00197">$str_file</a>, <a class="el" href="action_8inc_8php-source.html#l00229">$upload</a>, <a class="el" href="action_8inc_8php-source.html#l00157">ag_comment</a>, <a class="el" href="action_8inc_8php-source.html#l00156">ag_id</a>, <a class="el" href="action_8inc_8php-source.html#l00192">ag_ref</a>, <a class="el" href="action_8inc_8php-source.html#l00163">ag_title</a>, <a class="el" href="action_8inc_8php-source.html#l00159">d_state</a>, <a class="el" href="class__action_8php-source.html#l00101">Display()</a>, <a class="el" href="action_8inc_8php-source.html#l00160">dt_id</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, <a class="el" href="ac__common_8php-source.html#l00208">FormatString()</a>, <a class="el" href="action_8inc_8php-source.html#l00316">md_id</a>, <a class="el" href="action_8inc_8php-source.html#l00230">name</a>, <a class="el" href="postgres_8php-source.html#l00251">NextSequence()</a>, and <a class="el" href="action_8inc_8php-source.html#l00231">value</a>.<div class="fragment"><pre class="fragment"><a name="l00494"></a>00494     {
+<a name="l00495"></a>00495       <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_action',__LINE__,'saveStage2()  :'.var_export($_POST,<span class="keyword">true</span>));
+<a name="l00496"></a>00496       <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_action',__LINE__,' saveStage2()  $<span class="keyword">this</span>  :'.var_export($<span class="keyword">this</span>,<span class="keyword">true</span>));
+<a name="l00497"></a>00497 
+<a name="l00498"></a>00498       <span class="comment">// Get The sequence id, </span>
+<a name="l00499"></a>00499       $seq_name=<span class="stringliteral">"seq_doc_type_"</span>.$this-&gt;dt_id;
+<a name="l00500"></a>00500       <a class="code" href="facture_8inc_8php.html#a22">$str_file</a>=<span class="stringliteral">""</span>;
+<a name="l00501"></a>00501       $add_file='';
+<a name="l00502"></a>00502       <span class="comment">// f_id dest</span>
+<a name="l00503"></a>00503       $tiers=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($this-&gt;db);
+<a name="l00504"></a>00504       $tiers-&gt;GetByQCode($this-&gt;qcode_dest);
+<a name="l00505"></a>00505 
+<a name="l00506"></a>00506       <span class="comment">// f_id exp</span>
+<a name="l00507"></a>00507       $exp=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($this-&gt;db);
+<a name="l00508"></a>00508       $exp-&gt;GetByQCode($this-&gt;qcode_exp);
+<a name="l00509"></a>00509 
+<a name="l00510"></a>00510       <span class="keywordflow">if</span> ( trim($this-&gt;ag_title) == <span class="stringliteral">""</span>) 
+<a name="l00511"></a>00511         {
+<a name="l00512"></a>00512           $doc_mod=<span class="keyword">new</span> document_type($this-&gt;db);
+<a name="l00513"></a>00513           $doc_mod-&gt;dt_id=$this-&gt;<a class="code" href="action_8inc_8php.html#a8">dt_id</a>;
+<a name="l00514"></a>00514           $doc_mod-&gt;get();
+<a name="l00515"></a>00515           $this-&gt;<a class="code" href="action_8inc_8php.html#a11">ag_title</a>=$doc_mod-&gt;dt_value;
+<a name="l00516"></a>00516         }
+<a name="l00517"></a>00517       <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_action',__LINE__,<span class="stringliteral">" tiers-&gt;id  "</span>.$tiers-&gt;id);
+<a name="l00518"></a>00518       $this-&gt;<a class="code" href="action_8inc_8php.html#a4">ag_id</a>=<a class="code" href="postgres_8php.html#a13">NextSequence</a>($this-&gt;db,'action_gestion_ag_id_seq');
+<a name="l00519"></a>00519       <span class="comment">// Create the reference </span>
+<a name="l00520"></a>00520       $ref=$this-&gt;<a class="code" href="action_8inc_8php.html#a8">dt_id</a>.<span class="charliteral">'/'</span>.$this-&gt;<a class="code" href="action_8inc_8php.html#a4">ag_id</a>;
+<a name="l00521"></a>00521       $this-&gt;<a class="code" href="action_8inc_8php.html#a14">ag_ref</a>=$ref;
+<a name="l00524"></a>00524       <span class="comment">//we remove newline </span>
+<a name="l00525"></a>00525       $this-&gt;<a class="code" href="action_8inc_8php.html#a5">ag_comment</a>=str_replace(<span class="stringliteral">"%OD"</span>,<span class="stringliteral">""</span>,$this-&gt;ag_comment);
+<a name="l00526"></a>00526       $this-&gt;<a class="code" href="action_8inc_8php.html#a5">ag_comment</a>=str_replace(<span class="stringliteral">"%OA"</span>,<span class="stringliteral">""</span>,$this-&gt;ag_comment);
+<a name="l00527"></a>00527       <span class="comment">// save into the database</span>
+<a name="l00528"></a>00528       <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=sprintf(<span class="stringliteral">"insert into action_gestion"</span>.
+<a name="l00529"></a>00529                    <span class="stringliteral">"(ag_id,ag_timestamp,ag_type,ag_title,f_id_dest,f_id_exp,ag_comment,ag_ref,ag_ref_ag_id) "</span>.
+<a name="l00530"></a>00530                    <span class="stringliteral">" values (%d,to_date('%s','DD-MM-YYYY'),'%d','%s',%d,%d,'%s','%s',%d)"</span>,
+<a name="l00531"></a>00531                    $this-&gt;ag_id,
+<a name="l00532"></a>00532                    $this-&gt;ag_timestamp,
+<a name="l00533"></a>00533                    $this-&gt;dt_id,
+<a name="l00534"></a>00534                    <a class="code" href="ac__common_8php.html#a9">FormatString</a>($this-&gt;ag_title),
+<a name="l00535"></a>00535                    $tiers-&gt;id,
+<a name="l00536"></a>00536                    $exp-&gt;id,
+<a name="l00537"></a>00537                    $this-&gt;ag_comment,
+<a name="l00538"></a>00538                    $ref,
+<a name="l00539"></a>00539                    $this-&gt;ag_ref_ag_id
+<a name="l00540"></a>00540                    );
+<a name="l00541"></a>00541       <a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql);
+<a name="l00542"></a>00542 
+<a name="l00543"></a>00543 
+<a name="l00544"></a>00544 
+<a name="l00545"></a>00545       <span class="comment">// the lob filename and the mimetype needed if we want to generate a doc.</span>
+<a name="l00546"></a>00546       <span class="keywordflow">if</span> ( $this-&gt;gen == 'on' ) 
+<a name="l00547"></a>00547         {
+<a name="l00548"></a>00548           <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>=<span class="keyword">new</span> <a class="code" href="classDocument.html">Document</a>($this-&gt;db);
+<a name="l00549"></a>00549           <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;f_id=$tiers-&gt;id;
+<a name="l00550"></a>00550           <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;md_id=$this-&gt;<a class="code" href="action_8inc_8php.html#a18">md_id</a>;
+<a name="l00551"></a>00551           <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;ag_id=$this-&gt;<a class="code" href="action_8inc_8php.html#a4">ag_id</a>;
+<a name="l00552"></a>00552           <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;d_state=$this-&gt;<a class="code" href="action_8inc_8php.html#a7">d_state</a>;
+<a name="l00553"></a>00553           <a class="code" href="facture_8inc_8php.html#a22">$str_file</a>=<a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;Generate();
+<a name="l00554"></a>00554           <a class="code" href="impress__jrn_8php.html#a1">$d</a>='&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a16">name</a>=<span class="stringliteral">"d_id"</span> <a class="code" href="action_8inc_8php.html#a17">value</a>=<span class="stringliteral">"'.$doc-&gt;d_id.'"</span>&gt;';
+<a name="l00555"></a>00555         }
+<a name="l00556"></a>00556       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<span class="stringliteral">""</span>;
+<a name="l00557"></a>00557       <span class="comment">// readonly and upload of a file</span>
+<a name="l00558"></a>00558       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;hr&gt;"</span>;
+<a name="l00559"></a>00559       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;form enctype=<span class="stringliteral">"multipart/form-data"</span> method=<span class="stringliteral">"post"</span>&gt;';
+<a name="l00560"></a>00560       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=$this-&gt;<a class="code" href="classaction.html#a1">Display</a>('READ',<span class="keyword">false</span>);
+<a name="l00561"></a>00561       <span class="comment">// Add the hidden tag</span>
+<a name="l00562"></a>00562       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a16">name</a>=<span class="stringliteral">"sa"</span> <a class="code" href="action_8inc_8php.html#a17">value</a>=<span class="stringliteral">"save_action_st3"</span>&gt;';
+<a name="l00563"></a>00563       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a16">name</a>=<span class="stringliteral">"p_action"</span> <a class="code" href="action_8inc_8php.html#a17">value</a>=<span class="stringliteral">"suivi_courrier"</span>&gt;';
+<a name="l00564"></a>00564       <span class="comment">// add the d_id</span>
+<a name="l00565"></a>00565       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a16">name</a>=<span class="stringliteral">"d_id"</span> <a class="code" href="action_8inc_8php.html#a17">value</a>=<span class="stringliteral">"'.$this-&gt;d_id.'"</span>&gt;'; 
+<a name="l00566"></a>00566       <span class="comment">// ag_comment must be saved in urlcode</span>
+<a name="l00567"></a>00567       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a16">name</a>=<span class="stringliteral">"ag_comment"</span> <a class="code" href="action_8inc_8php.html#a17">value</a>=<span class="stringliteral">"'.urlencode($this-&gt;ag_comment).'"</span>&gt;';
+<a name="l00568"></a>00568       <span class="comment">// Value for the generated document</span>
+<a name="l00569"></a>00569       <span class="keywordflow">if</span> ( $this-&gt;gen == 'on' ) 
+<a name="l00570"></a>00570         {
+<a name="l00571"></a>00571           <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a16">name</a>=<span class="stringliteral">"d_id"</span> <a class="code" href="action_8inc_8php.html#a17">value</a>=<span class="stringliteral">"'.$doc-&gt;d_id.'"</span>&gt;';
+<a name="l00572"></a>00572           <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"Sauver le document généré :"</span>;
+<a name="l00573"></a>00573           <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="facture_8inc_8php.html#a22">$str_file</a>;
+<a name="l00574"></a>00574           $checkbox=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"checkbox"</span>);
+<a name="l00575"></a>00575           $checkbox-&gt;name=<span class="stringliteral">"save_generate"</span>;
+<a name="l00576"></a>00576           <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=$checkbox-&gt;IOValue();
+<a name="l00577"></a>00577           <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;hr&gt;"</span>;
+<a name="l00578"></a>00578         }
+<a name="l00579"></a>00579       <a class="code" href="action_8inc_8php.html#a15">$upload</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"file"</span>);
+<a name="l00580"></a>00580       <a class="code" href="action_8inc_8php.html#a15">$upload</a>-&gt;name=<span class="stringliteral">"file_upload"</span>;
+<a name="l00581"></a>00581       <a class="code" href="action_8inc_8php.html#a15">$upload</a>-&gt;value=<span class="stringliteral">""</span>;
+<a name="l00582"></a>00582       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"Enregistrer le fichier "</span>.$upload-&gt;IOValue();
+<a name="l00583"></a>00583       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="action_8inc_8php.html#a15">$upload</a>-&gt;Submit(<span class="stringliteral">"save"</span>,<span class="stringliteral">"Sauve le fichier"</span>);
+<a name="l00584"></a>00584       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/form&gt;"</span>;
+<a name="l00585"></a>00585       <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
+<a name="l00586"></a>00586     }
+</pre></div>
+<p>
+    </td>
   </tr>
 </table>
 <a class="anchor" name="a5"></a><!-- doxytag: member="action::SaveStage3" ref="a5" args="($d_id)" --><p>
@@ -400,9 +940,35 @@ SaveStage3 <dl compact><dt><b>Parameters:</b></dt><dd>
 </dl>
 
 <p>
-Definition at line <a class="el" href="class__action_8php-source.html#l00538">538</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
+Definition at line <a class="el" href="class__action_8php-source.html#l00592">592</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
 <p>
-References <a class="el" href="action_8inc_8php-source.html#l00334">$d_id</a>, <a class="el" href="document__modele_8inc_8php-source.html#l00031">$doc</a>, <a class="el" href="action_8inc_8php-source.html#l00155">ag_id</a>, <a class="el" href="action_8inc_8php-source.html#l00162">d_id</a>, <a class="el" href="action_8inc_8php-source.html#l00159">dt_id</a>, and <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>.    </td>
+References <a class="el" href="action_8inc_8php-source.html#l00342">$d_id</a>, <a class="el" href="document__modele_8inc_8php-source.html#l00031">$doc</a>, <a class="el" href="action_8inc_8php-source.html#l00156">ag_id</a>, <a class="el" href="action_8inc_8php-source.html#l00164">d_id</a>, <a class="el" href="action_8inc_8php-source.html#l00160">dt_id</a>, and <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>.<div class="fragment"><pre class="fragment"><a name="l00593"></a>00593     {
+<a name="l00594"></a>00594       <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_action',__LINE__,'<a class="code" href="classaction.html#a5">SaveStage3</a>()  :'.var_export($_POST,<span class="keyword">true</span>));
+<a name="l00595"></a>00595       <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_action',__LINE__,'<a class="code" href="classaction.html#a5">SaveStage3</a>  :'.var_export($<span class="keyword">this</span>,<span class="keyword">true</span>));
+<a name="l00596"></a>00596 
+<a name="l00597"></a>00597       <span class="comment">// if we save the generated doc</span>
+<a name="l00598"></a>00598       <span class="keywordflow">if</span> ( isset($_POST['save_generate']))
+<a name="l00599"></a>00599         {
+<a name="l00600"></a>00600           <span class="keywordflow">return</span>;
+<a name="l00601"></a>00601         }
+<a name="l00602"></a>00602 
+<a name="l00603"></a>00603       <span class="comment">// Upload a new document</span>
+<a name="l00604"></a>00604       <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>=<span class="keyword">new</span> <a class="code" href="classDocument.html">Document</a>($this-&gt;db);
+<a name="l00605"></a>00605       <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;ag_id=$this-&gt;<a class="code" href="action_8inc_8php.html#a4">ag_id</a>;
+<a name="l00606"></a>00606       <span class="comment">// if there is a document and it is not an update</span>
+<a name="l00607"></a>00607       <span class="keywordflow">if</span> ( <span class="keyword">sizeof</span>($_FILES) !=0 &amp;&amp; $<a class="code" href="action_8inc_8php.html#a12">d_id</a>==0) 
+<a name="l00608"></a>00608         {
+<a name="l00609"></a>00609           <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;md_type=$this-&gt;<a class="code" href="action_8inc_8php.html#a8">dt_id</a>;
+<a name="l00610"></a>00610           <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;blank();
+<a name="l00611"></a>00611         }
+<a name="l00612"></a>00612       <span class="keywordflow">else</span> 
+<a name="l00613"></a>00613         <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;d_id=<a class="code" href="action_8inc_8php.html#a21">$d_id</a>;
+<a name="l00614"></a>00614 
+<a name="l00615"></a>00615       <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;Upload($this-&gt;ag_id);
+<a name="l00616"></a>00616     }
+</pre></div>
+<p>
+    </td>
   </tr>
 </table>
 <a class="anchor" name="a7"></a><!-- doxytag: member="action::Update" ref="a7" args="()" --><p>
@@ -434,9 +1000,88 @@ Update the data into the database.
 <dl compact><dt><b>Returns:</b></dt><dd>true on success otherwise false</dd></dl>
 
 <p>
-Definition at line <a class="el" href="class__action_8php-source.html#l00669">669</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
+Definition at line <a class="el" href="class__action_8php-source.html#l00741">741</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
 <p>
-References <a class="el" href="document__modele_8inc_8php-source.html#l00031">$doc</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, <a class="el" href="action_8inc_8php-source.html#l00156">ag_comment</a>, <a class="el" href="action_8inc_8php-source.html#l00155">ag_id</a>, <a class="el" href="action_8inc_8php-source.html#l00162">d_id</a>, <a class="el" href="action_8inc_8php-source.html#l00159">dt_id</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="facture_8inc_8php-source.html#l00194">f_id</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, <a class="el" href="ac__common_8php-source.html#l00208">FormatString()</a>, and <a class="el" href="impress__listing__client_8php-source.html#l00059">return</a>.    </td>
+References <a class="el" href="document__modele_8inc_8php-source.html#l00031">$doc</a>, <a class="el" href="bank_8inc_8php-source.html#l00104">$sql</a>, <a class="el" href="action_8inc_8php-source.html#l00157">ag_comment</a>, <a class="el" href="action_8inc_8php-source.html#l00156">ag_id</a>, <a class="el" href="action_8inc_8php-source.html#l00164">d_id</a>, <a class="el" href="action_8inc_8php-source.html#l00160">dt_id</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="facture_8inc_8php-source.html#l00194">f_id</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, <a class="el" href="ac__common_8php-source.html#l00208">FormatString()</a>, and <a class="el" href="impress__listing__client_8php-source.html#l00059">return</a>.<div class="fragment"><pre class="fragment"><a name="l00742"></a>00742     {
+<a name="l00743"></a>00743       <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_action',__LINE__,'<a class="code" href="classaction.html#a7">Update</a>() $_POST()  :'.var_export($_POST,<span class="keyword">true</span>));
+<a name="l00744"></a>00744       <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_action',__LINE__,'<a class="code" href="classaction.html#a7">Update</a>()  $<span class="keyword">this</span>  :'.var_export($<span class="keyword">this</span>,<span class="keyword">true</span>));
+<a name="l00745"></a>00745 
+<a name="l00746"></a>00746       <span class="comment">// if ag_id == 0 nothing to do</span>
+<a name="l00747"></a>00747       <span class="keywordflow">if</span> ( $this-&gt;ag_id == 0 ) <a class="code" href="impress__listing__client_8php.html#a2">return</a> ;
+<a name="l00748"></a>00748 
+<a name="l00749"></a>00749 
+<a name="l00750"></a>00750       <span class="comment">// retrieve customer</span>
+<a name="l00751"></a>00751       <span class="comment">// f_id</span>
+<a name="l00752"></a>00752      
+<a name="l00753"></a>00753       <span class="keywordflow">if</span> ( trim($this-&gt;qcode) ==<span class="stringliteral">""</span> )
+<a name="l00754"></a>00754         {
+<a name="l00755"></a>00755           <span class="comment">// internal document</span>
+<a name="l00756"></a>00756           $this-&gt;<a class="code" href="facture_8inc_8php.html#a19">f_id</a>=0; <span class="comment">// internal document</span>
+<a name="l00757"></a>00757         }
+<a name="l00758"></a>00758       <span class="keywordflow">else</span>
+<a name="l00759"></a>00759         {
+<a name="l00760"></a>00760           $tiers=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($this-&gt;db);
+<a name="l00761"></a>00761           <span class="keywordflow">if</span> ( $tiers-&gt;GetByQCode($this-&gt;qcode) ==1 ) <span class="comment">// Error we cannot retrieve this qcode</span>
+<a name="l00762"></a>00762             <span class="keywordflow">return</span> <span class="keyword">false</span>; 
+<a name="l00763"></a>00763           <span class="keywordflow">else</span>
+<a name="l00764"></a>00764             $this-&gt;<a class="code" href="facture_8inc_8php.html#a19">f_id</a>=$tiers-&gt;id;
+<a name="l00765"></a>00765 
+<a name="l00766"></a>00766         }
+<a name="l00767"></a>00767 
+<a name="l00768"></a>00768       <span class="comment">//remove newline from ag_comment</span>
+<a name="l00769"></a>00769       $this-&gt;<a class="code" href="action_8inc_8php.html#a5">ag_comment</a>=str_replace(<span class="stringliteral">"\n"</span>,<span class="stringliteral">""</span>,$this-&gt;ag_comment);
+<a name="l00770"></a>00770       $this-&gt;<a class="code" href="action_8inc_8php.html#a5">ag_comment</a>=str_replace(<span class="stringliteral">"\r"</span>,<span class="stringliteral">""</span>,$this-&gt;ag_comment);
+<a name="l00771"></a>00771 
+<a name="l00772"></a>00772       <span class="comment">// url encoded</span>
+<a name="l00773"></a>00773       $this-&gt;<a class="code" href="action_8inc_8php.html#a5">ag_comment</a>=urlencode($this-&gt;ag_comment);
+<a name="l00774"></a>00774 
+<a name="l00775"></a>00775       <span class="comment">// bug PHP : sometimes the newline remains</span>
+<a name="l00776"></a>00776       $this-&gt;<a class="code" href="action_8inc_8php.html#a5">ag_comment</a>=str_replace(<span class="stringliteral">"%A0"</span>,<span class="stringliteral">""</span>,$this-&gt;ag_comment);
+<a name="l00777"></a>00777       $this-&gt;<a class="code" href="action_8inc_8php.html#a5">ag_comment</a>=str_replace(<span class="stringliteral">"%0D"</span>,<span class="stringliteral">""</span>,$this-&gt;ag_comment);
+<a name="l00778"></a>00778       $this-&gt;<a class="code" href="action_8inc_8php.html#a5">ag_comment</a>=str_replace(<span class="stringliteral">"+%A0+"</span>,<span class="stringliteral">""</span>,$this-&gt;ag_comment);
+<a name="l00779"></a>00779       $this-&gt;<a class="code" href="action_8inc_8php.html#a5">ag_comment</a>=str_replace(<span class="stringliteral">"+%0D+"</span>,<span class="stringliteral">""</span>,$this-&gt;ag_comment);
+<a name="l00780"></a>00780 
+<a name="l00781"></a>00781 
+<a name="l00782"></a>00782       <a class="code" href="bank_8inc_8php.html#a13">$sql</a>=sprintf(<span class="stringliteral">"update action_gestion set ag_comment='%s',"</span>.
+<a name="l00783"></a>00783                    <span class="stringliteral">" ag_timestamp=to_date('%s','DD.MM.YYYY'),"</span>.
+<a name="l00784"></a>00784                    <span class="stringliteral">" ag_title='%s',"</span>.
+<a name="l00785"></a>00785                    <span class="stringliteral">" ag_type=%d, "</span>.
+<a name="l00786"></a>00786                    <span class="stringliteral">" f_id_exp=%d, "</span>.
+<a name="l00787"></a>00787                    <span class="stringliteral">" f_id_dest=%d, "</span>.
+<a name="l00788"></a>00788                    <span class="stringliteral">" ag_ref_ag_id=%d"</span>.
+<a name="l00789"></a>00789                    <span class="stringliteral">" where ag_id = %d"</span>,
+<a name="l00790"></a>00790                    $this-&gt;ag_comment,
+<a name="l00791"></a>00791                    $this-&gt;ag_timestamp,
+<a name="l00792"></a>00792                    <a class="code" href="ac__common_8php.html#a9">FormatString</a>($this-&gt;ag_title),
+<a name="l00793"></a>00793                    $this-&gt;dt_id,
+<a name="l00794"></a>00794                    $this-&gt;f_id_exp,
+<a name="l00795"></a>00795                    $this-&gt;f_id_dest,
+<a name="l00796"></a>00796                    $this-&gt;ag_ref_ag_id,
+<a name="l00797"></a>00797                    $this-&gt;ag_id);
+<a name="l00798"></a>00798       <a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql);
+<a name="l00799"></a>00799       
+<a name="l00800"></a>00800       <span class="keywordflow">if</span> ( <span class="keyword">sizeof</span>($_FILES) !=0 ) 
+<a name="l00801"></a>00801         {
+<a name="l00802"></a>00802           <span class="comment">// Upload a new document</span>
+<a name="l00803"></a>00803           <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>=<span class="keyword">new</span> <a class="code" href="classDocument.html">Document</a>($this-&gt;db);
+<a name="l00804"></a>00804           <span class="keywordflow">if</span> ( $this-&gt;d_id !=0 )
+<a name="l00805"></a>00805             {
+<a name="l00806"></a>00806               <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;d_id=$this-&gt;<a class="code" href="action_8inc_8php.html#a12">d_id</a>;
+<a name="l00807"></a>00807             } <span class="keywordflow">else</span> {
+<a name="l00808"></a>00808               <span class="comment">// we need to increment the counter </span>
+<a name="l00809"></a>00809               <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;ag_id=$this-&gt;<a class="code" href="action_8inc_8php.html#a4">ag_id</a>;
+<a name="l00810"></a>00810               <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;md_type=$this-&gt;<a class="code" href="action_8inc_8php.html#a8">dt_id</a>;
+<a name="l00811"></a>00811               <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;blank();
+<a name="l00812"></a>00812             }
+<a name="l00813"></a>00813           <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;Upload($this-&gt;ag_id);
+<a name="l00814"></a>00814       
+<a name="l00815"></a>00815         }
+<a name="l00816"></a>00816            
+<a name="l00817"></a>00817       <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00818"></a>00818     }
+</pre></div>
+<p>
+    </td>
   </tr>
 </table>
 <hr><h2>Field Documentation</h2>
@@ -462,7 +1107,7 @@ References <a class="el" href="document__modele_8inc_8php-source.html#l00031">$d
 <p>
 description (<a class="el" href="action_8inc_8php.html#a5">ag_gestion.ag_comment</a>)
 <p>
-Definition at line <a class="el" href="class__action_8php-source.html#l00062">62</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.    </td>
+Definition at line <a class="el" href="class__action_8php-source.html#l00064">64</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="o10"></a><!-- doxytag: member="action::$ag_ref_ag_id" ref="o10" args="" --><p>
@@ -471,7 +1116,7 @@ Definition at line <a class="el" href="class__action_8php-source.html#l00062">62
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">action::$<a class="el" href="action_8inc_8php.html#a12">ag_ref_ag_id</a>          </td>
+          <td class="md" nowrap valign="top">action::$<a class="el" href="action_8inc_8php.html#a13">ag_ref_ag_id</a>          </td>
         </tr>
       </table>
     </td>
@@ -485,10 +1130,11 @@ Definition at line <a class="el" href="class__action_8php-source.html#l00062">62
     <td>
 
 <p>
-concern previous action <dl compact><dt><b><a class="el" href="todo.html#_todo000003">Todo:</a></b></dt><dd>replace attribut from class document document by an object document </dd></dl>
+concern previous action<p>
+<dl compact><dt><b><a class="el" href="todo.html#_todo000003">Todo:</a></b></dt><dd>replace attribut from class document document by an object document </dd></dl>
 
 <p>
-Definition at line <a class="el" href="class__action_8php-source.html#l00071">71</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.    </td>
+Definition at line <a class="el" href="class__action_8php-source.html#l00073">73</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="o2"></a><!-- doxytag: member="action::$ag_timestamp" ref="o2" args="" --><p>
@@ -513,7 +1159,7 @@ Definition at line <a class="el" href="class__action_8php-source.html#l00071">71
 <p>
 document date (<a class="el" href="action_8inc_8php.html#a6">ag_gestion.ag_timestamp</a>)
 <p>
-Definition at line <a class="el" href="class__action_8php-source.html#l00063">63</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.    </td>
+Definition at line <a class="el" href="class__action_8php-source.html#l00065">65</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="o8"></a><!-- doxytag: member="action::$ag_title" ref="o8" args="" --><p>
@@ -522,7 +1168,7 @@ Definition at line <a class="el" href="class__action_8php-source.html#l00063">63
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">action::$<a class="el" href="action_8inc_8php.html#a10">ag_title</a>          </td>
+          <td class="md" nowrap valign="top">action::$<a class="el" href="action_8inc_8php.html#a11">ag_title</a>          </td>
         </tr>
       </table>
     </td>
@@ -538,7 +1184,7 @@ Definition at line <a class="el" href="class__action_8php-source.html#l00063">63
 <p>
 title document
 <p>
-Definition at line <a class="el" href="class__action_8php-source.html#l00069">69</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.    </td>
+Definition at line <a class="el" href="class__action_8php-source.html#l00071">71</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="o6"></a><!-- doxytag: member="action::$d_filename" ref="o6" args="" --><p>
@@ -563,7 +1209,7 @@ Definition at line <a class="el" href="class__action_8php-source.html#l00069">69
 <p>
 filename's document
 <p>
-Definition at line <a class="el" href="class__action_8php-source.html#l00067">67</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.    </td>
+Definition at line <a class="el" href="class__action_8php-source.html#l00069">69</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="o7"></a><!-- doxytag: member="action::$d_mimetype" ref="o7" args="" --><p>
@@ -588,7 +1234,7 @@ Definition at line <a class="el" href="class__action_8php-source.html#l00067">67
 <p>
 document's filename
 <p>
-Definition at line <a class="el" href="class__action_8php-source.html#l00068">68</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.    </td>
+Definition at line <a class="el" href="class__action_8php-source.html#l00070">70</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="o5"></a><!-- doxytag: member="action::$d_number" ref="o5" args="" --><p>
@@ -613,7 +1259,7 @@ Definition at line <a class="el" href="class__action_8php-source.html#l00068">68
 <p>
 number of the document
 <p>
-Definition at line <a class="el" href="class__action_8php-source.html#l00066">66</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.    </td>
+Definition at line <a class="el" href="class__action_8php-source.html#l00068">68</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="o4"></a><!-- doxytag: member="action::$d_state" ref="o4" args="" --><p>
@@ -638,7 +1284,7 @@ Definition at line <a class="el" href="class__action_8php-source.html#l00066">66
 <p>
 stage of the document (printed, send to client...)
 <p>
-Definition at line <a class="el" href="class__action_8php-source.html#l00065">65</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.    </td>
+Definition at line <a class="el" href="class__action_8php-source.html#l00067">67</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="o0"></a><!-- doxytag: member="action::$db" ref="o0" args="" --><p>
@@ -663,7 +1309,7 @@ Definition at line <a class="el" href="class__action_8php-source.html#l00065">65
 <p>
 database connexion
 <p>
-Definition at line <a class="el" href="class__action_8php-source.html#l00061">61</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.    </td>
+Definition at line <a class="el" href="class__action_8php-source.html#l00063">63</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="o3"></a><!-- doxytag: member="action::$dt_id" ref="o3" args="" --><p>
@@ -688,7 +1334,7 @@ Definition at line <a class="el" href="class__action_8php-source.html#l00061">61
 <p>
 type of the document (<a class="el" href="action_8inc_8php.html#a8">document_type.dt_id</a>)
 <p>
-Definition at line <a class="el" href="class__action_8php-source.html#l00064">64</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.    </td>
+Definition at line <a class="el" href="class__action_8php-source.html#l00066">66</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="o9"></a><!-- doxytag: member="action::$f_id" ref="o9" args="" --><p>
@@ -711,16 +1357,16 @@ Definition at line <a class="el" href="class__action_8php-source.html#l00064">64
     <td>
 
 <p>
-fiche id
+
 <p>
-Definition at line <a class="el" href="class__action_8php-source.html#l00070">70</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
+Definition at line <a class="el" href="class__action_8php-source.html#l00072">72</a> of file <a class="el" href="class__action_8php-source.html">class_action.php</a>.
 <p>
-Referenced by <a class="el" href="class__action_8php-source.html#l00325">Confirm()</a>.    </td>
+Referenced by <a class="el" href="class__action_8php-source.html#l00358">Confirm()</a>.    </td>
   </tr>
 </table>
 <hr>The documentation for this class was generated from the following file:<ul>
-<li>/home/dany/developpement/phpcompta-dev/phpcompta/include/<a class="el" href="class__action_8php-source.html">class_action.php</a></ul>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 00:04:08 2006 for phpcompta by&nbsp;
+<li><a class="el" href="class__action_8php-source.html">class_action.php</a></ul>
+<hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 21:21:23 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

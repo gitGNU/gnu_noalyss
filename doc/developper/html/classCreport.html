@@ -68,7 +68,12 @@ Definition at line <a class="el" href="readme_8php-source.html#l00024">24</a> of
 <p>
 Definition at line <a class="el" href="readme_8php-source.html#l00028">28</a> of file <a class="el" href="readme_8php-source.html">readme.php</a>.
 <p>
-References <a class="el" href="class_8ezpdf_8php-source.html#l00028">Cezpdf::Cezpdf()</a>.    </td>
+References <a class="el" href="class_8ezpdf_8php-source.html#l00028">Cezpdf::Cezpdf()</a>.<div class="fragment"><pre class="fragment"><a name="l00028"></a>00028                        {
+<a name="l00029"></a>00029   $this-&gt;<a class="code" href="classCezpdf.html#a0">Cezpdf</a>($p,$o);
+<a name="l00030"></a>00030 }
+</pre></div>
+<p>
+    </td>
   </tr>
 </table>
 <hr><h2>Member Function Documentation</h2>
@@ -101,7 +106,35 @@ References <a class="el" href="class_8ezpdf_8php-source.html#l00028">Cezpdf::Cez
 <p>
 Definition at line <a class="el" href="readme_8php-source.html#l00043">43</a> of file <a class="el" href="readme_8php-source.html">readme.php</a>.
 <p>
-References <a class="el" href="readme_8php-source.html#l00185">$size</a>, <a class="el" href="show__document__modele_8php-source.html#l00050">$tmp</a>, <a class="el" href="readme_8php-source.html#l00272">$xpos</a>, <a class="el" href="class_8pdf_8php-source.html#l02156">Cpdf::addText()</a>, <a class="el" href="class_8pdf_8php-source.html#l01675">Cpdf::line()</a>, <a class="el" href="class_8pdf_8php-source.html#l02471">Cpdf::restoreState()</a>, <a class="el" href="class_8pdf_8php-source.html#l02447">Cpdf::saveState()</a>, <a class="el" href="class_8pdf_8php-source.html#l01789">Cpdf::setLineStyle()</a>, and <a class="el" href="tva_8inc_8php-source.html#l00212">size</a>.    </td>
+References <a class="el" href="readme_8php-source.html#l00185">$size</a>, <a class="el" href="show__document__modele_8php-source.html#l00050">$tmp</a>, <a class="el" href="readme_8php-source.html#l00272">$xpos</a>, <a class="el" href="class_8pdf_8php-source.html#l02156">Cpdf::addText()</a>, <a class="el" href="class_8pdf_8php-source.html#l01675">Cpdf::line()</a>, <a class="el" href="class_8pdf_8php-source.html#l02471">Cpdf::restoreState()</a>, <a class="el" href="class_8pdf_8php-source.html#l02447">Cpdf::saveState()</a>, <a class="el" href="class_8pdf_8php-source.html#l01789">Cpdf::setLineStyle()</a>, and <a class="el" href="tva_8inc_8php-source.html#l00212">size</a>.<div class="fragment"><pre class="fragment"><a name="l00043"></a>00043                     {
+<a name="l00044"></a>00044   <span class="comment">// draw a dotted line over to the right and put on a page number</span>
+<a name="l00045"></a>00045   <a class="code" href="show__document__modele_8php.html#a5">$tmp</a> = $info[<span class="charliteral">'p'</span>];
+<a name="l00046"></a>00046   $lvl = <a class="code" href="show__document__modele_8php.html#a5">$tmp</a>[0];
+<a name="l00047"></a>00047   $lbl = substr($tmp,1);
+<a name="l00048"></a>00048   <a class="code" href="readme_8php.html#a21">$xpos</a> = 520;
+<a name="l00049"></a>00049 
+<a name="l00050"></a>00050   <span class="keywordflow">switch</span>($lvl){
+<a name="l00051"></a>00051     <span class="keywordflow">case</span> <span class="charliteral">'1'</span>:
+<a name="l00052"></a>00052       <a class="code" href="readme_8php.html#a8">$size</a>=16;
+<a name="l00053"></a>00053       $thick=1;
+<a name="l00054"></a>00054       <span class="keywordflow">break</span>;
+<a name="l00055"></a>00055     <span class="keywordflow">case</span> <span class="charliteral">'2'</span>:
+<a name="l00056"></a>00056       <a class="code" href="readme_8php.html#a8">$size</a>=12;
+<a name="l00057"></a>00057       $thick=0.5;
+<a name="l00058"></a>00058       <span class="keywordflow">break</span>;
+<a name="l00059"></a>00059   }
+<a name="l00060"></a>00060 
+<a name="l00061"></a>00061   $this-&gt;<a class="code" href="classCpdf.html#a55">saveState</a>();
+<a name="l00062"></a>00062   $this-&gt;<a class="code" href="classCpdf.html#a39">setLineStyle</a>($thick,'round<span class="charliteral">','</span>',array(0,10));
+<a name="l00063"></a>00063   $this-&gt;<a class="code" href="classCpdf.html#a34">line</a>($xpos,$info[<span class="charliteral">'y'</span>],$info[<span class="charliteral">'x'</span>]+5,$info[<span class="charliteral">'y'</span>]);
+<a name="l00064"></a>00064   $this-&gt;<a class="code" href="classCpdf.html#a56">restoreState</a>();
+<a name="l00065"></a>00065   $this-&gt;<a class="code" href="classCpdf.html#a51">addText</a>($xpos+5,$info[<span class="charliteral">'y'</span>],$<a class="code" href="tva_8inc_8php.html#a15">size</a>,$lbl);
+<a name="l00066"></a>00066 
+<a name="l00067"></a>00067 
+<a name="l00068"></a>00068 }
+</pre></div>
+<p>
+    </td>
   </tr>
 </table>
 <a class="anchor" name="a1"></a><!-- doxytag: member="Creport::rf" ref="a1" args="($info)" --><p>
@@ -133,7 +166,19 @@ References <a class="el" href="readme_8php-source.html#l00185">$size</a>, <a cla
 <p>
 Definition at line <a class="el" href="readme_8php-source.html#l00032">32</a> of file <a class="el" href="readme_8php-source.html">readme.php</a>.
 <p>
-References <a class="el" href="jrn__add_8php-source.html#l00181">$num</a>, <a class="el" href="show__document__modele_8php-source.html#l00050">$tmp</a>, <a class="el" href="class_8pdf_8php-source.html#l02969">Cpdf::addDestination()</a>, and <a class="el" href="class_8ezpdf_8php-source.html#l00299">Cezpdf::ezWhatPageNumber()</a>.    </td>
+References <a class="el" href="jrn__add_8php-source.html#l00181">$num</a>, <a class="el" href="show__document__modele_8php-source.html#l00050">$tmp</a>, <a class="el" href="class_8pdf_8php-source.html#l02969">Cpdf::addDestination()</a>, and <a class="el" href="class_8ezpdf_8php-source.html#l00299">Cezpdf::ezWhatPageNumber()</a>.<div class="fragment"><pre class="fragment"><a name="l00032"></a>00032                   {
+<a name="l00033"></a>00033   <span class="comment">// this callback records all of the table of contents entries, it also places a destination marker there</span>
+<a name="l00034"></a>00034   <span class="comment">// so that it can be linked too</span>
+<a name="l00035"></a>00035   <a class="code" href="show__document__modele_8php.html#a5">$tmp</a> = $info[<span class="charliteral">'p'</span>];
+<a name="l00036"></a>00036   $lvl = <a class="code" href="show__document__modele_8php.html#a5">$tmp</a>[0];
+<a name="l00037"></a>00037   $lbl = rawurldecode(substr($tmp,1));
+<a name="l00038"></a>00038   <a class="code" href="jrn__add_8php.html#a17">$num</a>=$this-&gt;<a class="code" href="classCezpdf.html#a9">ezWhatPageNumber</a>($this-&gt;ezGetCurrentPageNumber());
+<a name="l00039"></a>00039   $this-&gt;reportContents[] = array($lbl,$num,$lvl );
+<a name="l00040"></a>00040   $this-&gt;<a class="code" href="classCpdf.html#a70">addDestination</a>('toc'.(count($this-&gt;reportContents)-1),'FitH',$info[<span class="charliteral">'y'</span>]+$info['height']);
+<a name="l00041"></a>00041 }
+</pre></div>
+<p>
+    </td>
   </tr>
 </table>
 <hr><h2>Field Documentation</h2>
@@ -163,8 +208,8 @@ Definition at line <a class="el" href="readme_8php-source.html#l00026">26</a> of
   </tr>
 </table>
 <hr>The documentation for this class was generated from the following file:<ul>
-<li>/home/dany/developpement/phpcompta-dev/phpcompta/html/addon/<a class="el" href="readme_8php-source.html">readme.php</a></ul>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 00:04:09 2006 for phpcompta by&nbsp;
+<li><a class="el" href="readme_8php-source.html">readme.php</a></ul>
+<hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 21:21:25 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

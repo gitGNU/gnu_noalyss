@@ -74,7 +74,14 @@ Constructor.
 <p>
 Definition at line <a class="el" href="class__rapport_8php-source.html#l00033">33</a> of file <a class="el" href="class__rapport_8php-source.html">class_rapport.php</a>.
 <p>
-References <a class="el" href="user__update_8php-source.html#l00032">$p_id</a>, and <a class="el" href="action_8inc_8php-source.html#l00227">name</a>.    </td>
+References <a class="el" href="user__update_8php-source.html#l00032">$p_id</a>, and <a class="el" href="action_8inc_8php-source.html#l00230">name</a>.<div class="fragment"><pre class="fragment"><a name="l00033"></a>00033                                 {
+<a name="l00034"></a>00034     $this-&gt;db=$p_cn;
+<a name="l00035"></a>00035     $this-&gt;<span class="keywordtype">id</span>=<a class="code" href="user__update_8php.html#a1">$p_id</a>;
+<a name="l00036"></a>00036     $this-&gt;<a class="code" href="action_8inc_8php.html#a16">name</a>='UNDEF';
+<a name="l00037"></a>00037   }
+</pre></div>
+<p>
+    </td>
   </tr>
 </table>
 <hr><h2>Member Function Documentation</h2>
@@ -108,7 +115,16 @@ Return the report's name.
 <p>
 Definition at line <a class="el" href="class__rapport_8php-source.html#l00040">40</a> of file <a class="el" href="class__rapport_8php-source.html">class_rapport.php</a>.
 <p>
-References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="impress__bilan_8php-source.html#l00032">$ret</a>, and <a class="el" href="action_8inc_8php-source.html#l00227">name</a>.    </td>
+References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="impress__bilan_8php-source.html#l00032">$ret</a>, and <a class="el" href="action_8inc_8php-source.html#l00230">name</a>.<div class="fragment"><pre class="fragment"><a name="l00040"></a>00040                      {
+<a name="l00041"></a>00041     <a class="code" href="impress__bilan_8php.html#a0">$ret</a>=execSql($this-&gt;db,<span class="stringliteral">"select fr_label from formdef where fr_id="</span>.$this-&gt;id);
+<a name="l00042"></a>00042     <span class="keywordflow">if</span> (pg_NumRows($ret) == 0) <span class="keywordflow">return</span> $this-&gt;<a class="code" href="action_8inc_8php.html#a16">name</a>;
+<a name="l00043"></a>00043     <a class="code" href="balance_8php.html#a10">$a</a>=pg_fetch_array($ret,0);
+<a name="l00044"></a>00044     $this-&gt;<a class="code" href="action_8inc_8php.html#a16">name</a>=<a class="code" href="balance_8php.html#a10">$a</a>['fr_label'];
+<a name="l00045"></a>00045     <span class="keywordflow">return</span> $this-&gt;<a class="code" href="action_8inc_8php.html#a16">name</a>;
+<a name="l00046"></a>00046   }
+</pre></div>
+<p>
+    </td>
   </tr>
 </table>
 <a class="anchor" name="a2"></a><!-- doxytag: member="rapport::GetRow" ref="a2" args="($p_start, $p_end)" --><p>
@@ -157,7 +173,36 @@ return all the row and parse formula from a report
 <p>
 Definition at line <a class="el" href="class__rapport_8php-source.html#l00053">53</a> of file <a class="el" href="class__rapport_8php-source.html">class_rapport.php</a>.
 <p>
-References <a class="el" href="bilan_8php-source.html#l00072">$col</a>, <a class="el" href="jrn__detail_8php-source.html#l00128">$l_line</a>, <a class="el" href="setup_8php-source.html#l00379">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="impress__inc_8php-source.html#l00726">ParseFormula()</a>.    </td>
+References <a class="el" href="bilan_8php-source.html#l00072">$col</a>, <a class="el" href="jrn__detail_8php-source.html#l00128">$l_line</a>, <a class="el" href="setup_8php-source.html#l00379">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="impress__inc_8php-source.html#l00726">ParseFormula()</a>.<div class="fragment"><pre class="fragment"><a name="l00053"></a>00053                                     {
+<a name="l00054"></a>00054 
+<a name="l00055"></a>00055    <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,<span class="stringliteral">"select fo_id ,</span>
+<a name="l00056"></a>00056 <span class="stringliteral">                     fo_fr_id,</span>
+<a name="l00057"></a>00057 <span class="stringliteral">                     fo_pos,</span>
+<a name="l00058"></a>00058 <span class="stringliteral">                     fo_label,</span>
+<a name="l00059"></a>00059 <span class="stringliteral">                     fo_formula,</span>
+<a name="l00060"></a>00060 <span class="stringliteral">                     fr_label from form</span>
+<a name="l00061"></a>00061 <span class="stringliteral">                      inner join formdef on fr_id=fo_fr_id</span>
+<a name="l00062"></a>00062 <span class="stringliteral">                     where fr_id ="</span>.$this-&gt;id.
+<a name="l00063"></a>00063                      <span class="stringliteral">"order by fo_pos"</span>);
+<a name="l00064"></a>00064     <a class="code" href="setup_8php.html#a11">$Max</a>=pg_NumRows($Res);
+<a name="l00065"></a>00065     <span class="keywordflow">if</span> ($Max==0) {      $this-&gt;row=0;<span class="keywordflow">return</span> null;}
+<a name="l00066"></a>00066     <a class="code" href="bilan_8php.html#a5">$col</a>=array();
+<a name="l00067"></a>00067     <span class="keywordflow">for</span> ($i=0;$i&lt;$Max;$i++) {
+<a name="l00068"></a>00068       <a class="code" href="jrn__detail_8php.html#a11">$l_line</a>=pg_fetch_array($Res,$i);
+<a name="l00069"></a>00069         <a class="code" href="bilan_8php.html#a5">$col</a>[]=<a class="code" href="impress__inc_8php.html#a9">ParseFormula</a>($this-&gt;db,
+<a name="l00070"></a>00070                             $l_line['fo_label'],
+<a name="l00071"></a>00071                             $l_line['fo_formula'],
+<a name="l00072"></a>00072                             $p_start,
+<a name="l00073"></a>00073                             $p_end
+<a name="l00074"></a>00074                             );
+<a name="l00075"></a>00075      
+<a name="l00076"></a>00076     } <span class="comment">//for ($i</span>
+<a name="l00077"></a>00077     $this-&gt;row=<a class="code" href="bilan_8php.html#a5">$col</a>;
+<a name="l00078"></a>00078     <span class="keywordflow">return</span> <a class="code" href="bilan_8php.html#a5">$col</a>;
+<a name="l00079"></a>00079   }
+</pre></div>
+<p>
+    </td>
   </tr>
 </table>
 <hr><h2>Field Documentation</h2>
@@ -237,8 +282,8 @@ Definition at line <a class="el" href="class__rapport_8php-source.html#l00031">3
   </tr>
 </table>
 <hr>The documentation for this class was generated from the following file:<ul>
-<li>/home/dany/developpement/phpcompta-dev/phpcompta/include/<a class="el" href="class__rapport_8php-source.html">class_rapport.php</a></ul>
-<hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 00:04:10 2006 for phpcompta by&nbsp;
+<li><a class="el" href="class__rapport_8php-source.html">class_rapport.php</a></ul>
+<hr size="1"><address style="align: right;"><small>Generated on Thu Jun 29 21:21:25 2006 for phpcompta by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.4.4 </small></address>
 </body>

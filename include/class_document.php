@@ -58,6 +58,14 @@ class Document
       ExecSql($this->db,$sql);
 
     }
+  /*!\brief Save save the state of the document
+   */
+  function save()
+    {
+      $sql="update document set d_state=".$this->d_state.
+	" where d_id=".$this->d_id;
+      ExecSql($this->db,$sql);
+    }
 /*!  
  * \brief Generate the document, Call $this-\>Replace to replace
  *        tag by value
@@ -328,7 +336,7 @@ class Document
       if ( $this->d_id == 0 )
 	return '';
       $r="";
-      $r='<A HREF="show_document.php?d_id='.$this->d_id.'">Document</A>';
+      $r='<A class="mtitle" HREF="show_document.php?d_id='.$this->d_id.'">Document</A>';
       return $r;
     }
   /* ! Get

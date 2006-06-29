@@ -200,6 +200,7 @@ class action
       $title->readonly=$readonly;
       $title->name="ag_title";
       $title->value=FormatString($this->ag_title);
+      $title->size=80;
 
       // ag_ref
       // Always false for update
@@ -232,7 +233,7 @@ class action
 
       $h_ag_id=new widget("hidden");
       // if concerns another action : show the link otherwise nothing
-      $lag_ref_ag_id="";
+      $lag_ref_ag_id=" X / XX ";
       
       if ( $this->ag_ref_ag_id != 0 )
 	{
@@ -261,34 +262,34 @@ class action
       $wdest->extra='4,8,9,14,16';
       $spdest= new widget("span");
       $h_agrefid=new widget('hidden');
-
+      $str_ag_ref="<b>".(($this->ag_ref != "")?$this->ag_ref:" Nouveau ")."</b>";
       // Preparing the return string
       $r="";
       $r.=JS_SEARCH_CARD;
-      $r.= "<p>Date : ".$date->IOValue()." Reference  ". $this->ag_ref."</p>";
-      $r.="<p>Concerne :".$lag_ref_ag_id."</p>";
-      $r.= '<p>Type d\' action';
+      $r.= '<p>Date :'.$date->IOValue()." Reference  ".$str_ag_ref; 
+      $r.="&nbsp;         Concerne :".$lag_ref_ag_id.
+      '   Type d\' action';
       echo_debug('class_action',__LINE__,"str_doc_type $str_doc_type");
-      $r.= $str_doc_type."</p>";
+      $r.= $str_doc_type;
 
       // state
-      $r.="<p>Etat :".$str_state;
+      $r.="     Etat :".$str_state."</p>";
 
 
-      $r.= "</p><p> ";
-      $r.=$w->IOValue();
+      $r.= "<p> ";
+      $r.="Exp&eacute;diteur : ".$w->IOValue();
       $r.=$sp->IOValue('qcode_exp_label',$qcode_exp_label)."</TD></TR>";
  
-      $r.=$wdest->IOValue();
+      $r.="Destinataire :".$wdest->IOValue();
       $r.=$spdest->IOValue('qcode_dest_label',$qcode_dest_label)."</TD></TR>";
 
-
+      //      $r.=' Ref :'.$ag_ref->IOValue();
       $r.="</p>";
       echo_debug('class_action',__LINE__,' ag_id is '.$this->ag_id);
 
-      $r.= "<p> Titre : ".$title->IOValue().' Ref :'.$ag_ref->IOValue();
+      $r.= "<p> Titre : ".$title->IOValue();
       $r.= $doc_ref;
-      $r.= "<p>Description :".$desc->IOValue()."</p>";
+      $r.= "<p>".$desc->IOValue()."</p>";
 
       //hidden
       $r.="<p>";
@@ -761,20 +762,35 @@ class action
       // retrieve customer
       // f_id
      
-      if ( trim($this->qcode) =="" )
+      if ( trim($this->qcode_exp) =="" )
 	{
 	  // internal document
-	  $this->f_id=0; // internal document
+	  $this->f_id_exp=0; // internal document
 	}
       else
 	{
 	  $tiers=new fiche($this->db);
-	  if ( $tiers->GetByQCode($this->qcode) ==1 ) // Error we cannot retrieve this qcode
+	  if ( $tiers->GetByQCode($this->qcode_exp) == -1 ) // Error we cannot retrieve this qcode
 	    return false; 
 	  else
-	    $this->f_id=$tiers->id;
+	    $this->f_id_exp=$tiers->id;
 
 	}
+      if ( trim($this->qcode_dest) =="" )
+	{
+	  // internal document
+	  $this->f_id_dest=0; // internal document
+	}
+      else
+	{
+	  $tiers=new fiche($this->db);
+	  if ( $tiers->GetByQCode($this->qcode_dest) == -1 ) // Error we cannot retrieve this qcode
+	    return false; 
+	  else
+	    $this->f_id_dest=$tiers->id;
+
+	}
+
 
       //remove newline from ag_comment
       $this->ag_comment=str_replace("\n","",$this->ag_comment);
@@ -824,22 +840,14 @@ class action
 	  $doc->Upload($this->ag_id);
       
 	}
-	   
+      if ( $this->d_id != 0 )
+	{
+	  $doc=new Document($this->db);
+	  $doc->d_id=$this->d_id ;
+	  $doc->d_state=$this->d_state;
+	  $doc->save();
+	}
       return true;
     }
-  /*!\brief GetAgRef returns the ag_ref value of the ag_id or ag_ref_ag_id passed
-   * as parameter. This function doesn't change the current object.
-   * \param $p_method : can be ag_ref_ag_id or ag_id
-   * \return string with the ag_ref
-   */
-//   function GetAgRef($p_method)
-//     {
-//       if ($p_method=="ag_ref_ag_id")
-// 	$sql="select ag_ref from action_gestion where ag_id=".$this->ag_ref_ag_id;
-//       elseif ($p_method=="ag_id")
-// 	$sql="select ag_ref from action_gestion where ag_id=".$this->ag_id;
-//       return Getdbvalue($this->db,$sql);
-
-//     }
 
 }
