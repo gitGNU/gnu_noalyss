@@ -343,14 +343,14 @@ define ("JS_CALC_LINE",'
 <script type="text/javascript" language="javascript"  src="js/calc.js">
 </script>
 <h2 class="info"> Calculette</H2>
-<span id="listing"> </span>
-<br>
-<span id="sub_total"> </span>
-<span id="result"> </span>
 <form name="calc_line"  method="GET" onSubmit="cal();return false;" >
 <input style="border:solid 1px;" type="text" size="30" id="inp" name="calculator">
 <input type="button" value="Efface tout" onClick="Clean();return false;" >
 </form>
+<span id="result">  </span><br>
+<span id="sub_total">  Taper un montant puis enter puis le signe et terminer par = </span><br>
+<span id="listing"> </span>
+<br>
 </div>
 '
 );
