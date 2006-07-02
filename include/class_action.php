@@ -685,17 +685,25 @@ class action
       $Res=ExecSql($this->db,$sql.$limit);
       $a_row=pg_fetch_all($Res);
       //      $r='<div class="u_redcontent">';
+      $query="";
+      if ( isset ($_GET['query'])) 
+	$query.="query=".$_GET['query'];
+      else 
+	$query="1";
+
+      if ( isset ($_GET['qcode_query'])) $query.='&qcode_query='.$_GET['qcode_query'];
+
       $r="";
       $r.=$bar;
       $r.="<table>";
       $r.="<tr>";
-      $r.='<th><a href="?s=date&p_action=suivi_courrier'.$_SERVER['QUERY_STRING'].'"> Date</a></th>';
-      $r.='<th <a href="?s=dest&p_action=suivi_courrier'.$_SERVER['QUERY_STRING'].'">Destinataire</A></th>';
-      $r.='<th><a href="?s=exp&p_action=suivi_courrier'.$_SERVER['QUERY_STRING'].'">Expéditeur</A></th>';
-      $r.='<th><a href="?s=ti&p_action=suivi_courrier'.$_SERVER['QUERY_STRING'].'">Titre</a></th>';
-      $r.='<th><a href="?s=type&p_action=suivi_courrier'.$_SERVER['QUERY_STRING'].'">type</a></th>';
-      $r.='<th><a href="?s=ref&p_action=suivi_courrier'.$_SERVER['QUERY_STRING'].'">Référence</a></th>';
-      $r.='<th><a href="?s=conc&p_action=suivi_courrier'.$_SERVER['QUERY_STRING'].'">concerne</a></th>';
+      $r.='<th><a href="?s=date&p_action=suivi_courrier&'.$query.'"> Date</a></th>';
+      $r.='<th <a href="?s=dest&p_action=suivi_courrier&'.$query.'">Destinataire</A></th>';
+      $r.='<th><a href="?s=exp&p_action=suivi_courrier&'.$query.'">Expéditeur</A></th>';
+      $r.='<th><a href="?s=ti&p_action=suivi_courrier&'.$query.'">Titre</a></th>';
+      $r.='<th><a href="?s=type&p_action=suivi_courrier&'.$query.'">type</a></th>';
+      $r.='<th><a href="?s=ref&p_action=suivi_courrier&'.$query.'">Référence</a></th>';
+      $r.='<th><a href="?s=conc&p_action=suivi_courrier&'.$query.'">concerne</a></th>';
       $r.='<th>Document</th>';
       $r.="</tr>";
 
