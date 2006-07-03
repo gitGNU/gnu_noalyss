@@ -548,5 +548,10 @@ alter table action_gestion add ag_ref text;
 
 create  unique index k_ag_ref on action_gestion(ag_ref);
 update version set val=14;
+insert into action values(28,'Module Suivi Document');
+insert into action values(22,'Module Client');
+insert into action (24,'Module Fournisseur');
+insert into action (26,'Module Administration');
+insert into action values (30,'Module Gestion');
 
 commit;

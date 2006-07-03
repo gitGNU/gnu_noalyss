@@ -21,7 +21,8 @@
 /*! \file
  * \brief Page who manage the different action (meeting, letter)
  */
-var_dump($_POST);
+$User->AccessRequest($cn,SEC_ACTION);
+
 //-----------------------------------------------------
 // Action
 //-----------------------------------------------------

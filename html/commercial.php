@@ -36,12 +36,14 @@ if ( isset ($_REQUEST['dos'] ) ) {
 
 }
 
+
 include_once ("postgres.php");
 /* Admin. Dossier */
 $rep=DbConnect($_SESSION['g_dossier']);
 require_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
+
 //-----------------------------------------------------
 // update preference
 //-----------------------------------------------------
@@ -94,6 +96,7 @@ echo ShowItem(array(
 echo '</div>';
 
 $cn=DbConnect($_SESSION['g_dossier']);
+$User->AccessRequest($cn,SEC_GESTION);
 //-----------------------------------------------------
 // p_action == pref
 //-----------------------------------------------------

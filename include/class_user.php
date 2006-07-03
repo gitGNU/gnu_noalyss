@@ -226,8 +226,7 @@ function GetPreferences ()
 /*! 
  * \brief  Check if an user is allowed to do an action
  * 
- * \param p_dossier dossier id
- * \param p_login   user's login
+ * \param p_cn Database connx
  * \param p_action_id 
  * \return
  *	- 0 no priv
@@ -350,6 +349,21 @@ function getExercice()
   $r=pg_fetch_array($Ret,0);
   return $r['p_exercice'];
 }
-
+/*!\brief Check if the user can access 
+ * otherwise warn and exit
+ * \param $p_cn database connx
+ * \param $action_id
+ * \return nothing the program exits automatically
+ */
+function AccessRequest($p_cn,$p_action)
+{
+  if ( $this->CheckAction($p_cn,$p_action)==0 )
+    {
+      echo "<script>";
+      echo "alert ('Cette action ne vous est pas autorisée. Contactez votre responsable');";
+      echo "</script>";
+      exit(-1);
+    }
+}
 }
 ?>

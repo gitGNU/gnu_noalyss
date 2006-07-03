@@ -189,13 +189,11 @@ function html_button_logout() {
  */
 
 
-function NoAccess() {
-  echo "<BR><BR><BR><BR><BR><BR>";
-  echo "<P ALIGN=center><BLINK>
-	<FONT size=+12 COLOR=RED>
-	You haven't access
-	</FONT></BLINK></P></BODY></HTML>";
-		
+function NoAccess() 
+{
+  echo "<script>";
+  echo "alert ('Cette action ne vous est pas autorisée Contactez votre responsable');";
+  echo "</script>";
   exit -1;
 }
 /*! 

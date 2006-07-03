@@ -23,6 +23,7 @@ require_once('user_form_ach.php');
 require_once('jrn.php');
 require_once("class_document.php");
 require_once("class_fiche.php");
+require_once("check_priv.php");
 /*!\brief the purpose off this file encode expense and  to record them
  *
  */
@@ -55,7 +56,10 @@ $sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
 // 
 if ( $sub_action == "list") 
 {
-
+  if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn) < 1 )    {
+        NoAccess();
+        exit -1;
+   }
   // show the menu with the list item selected
   echo '<div class="u_subtmenu">';
   echo ShowMenuJrnUser($_SESSION['g_dossier'],'ACH',0,'<td class="selectedcell">Liste</td>');
@@ -159,6 +163,11 @@ echo '</div>';
 // or if we ask to correct the invoice
 if ( isset ($_POST['add_item']) || isset ($_POST["correct_new_invoice"])  ) 
 {
+ if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn) != 2 )    {
+        NoAccess();
+        exit -1;
+   }
+
   $nb_item=$_POST['nb_item'];
   if ( isset ($_POST['add_item']))
     $nb_item++;
@@ -166,7 +175,7 @@ if ( isset ($_POST['add_item']) || isset ($_POST["correct_new_invoice"])  )
   $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
           <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver" ID="SubmitButton">';
 
-  $form=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$submit,false,$nb_item);
+  $form=FormAchInput($cn,$p_jrn,$User->GetPeriode(),$_POST,$submit,false,$nb_item);
   echo '<div class="u_redcontent">';
   echo $form;
   echo JS_CALC_LINE;
@@ -179,18 +188,23 @@ if ( isset ($_POST['add_item']) || isset ($_POST["correct_new_invoice"])  )
 //
 if ( isset($_POST['save'])) 
 {
+ if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn) != 2 )    {
+        NoAccess();
+        exit -1;
+   }
+
   // we save the expense
   list ($internal,$c)=RecordSell($cn,$_POST,$User,$p_jrn);
 
   
-  $form=FormAchView($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,"",$_POST['nb_item'],false);
+  $form=FormAchView($cn,$p_jrn,$User->GetPeriode(),$_POST,"",$_POST['nb_item'],false);
 
   echo '<div class="u_redcontent">';
   echo '<h2 class="info"> Op&eacute;ration '.$internal.' enregistr&eacute;</h2>';
   echo $form;
   echo '<hr>';
   echo '</form>';
-  echo '<A href="commercial.php?p_action=depense&p_jrn='.$_GET['p_jrn'].'">
+  echo '<A href="commercial.php?p_action=depense&p_jrn='.$p_jrn.'">
     <input type="button" Value="Nouveau"></A>';
   exit();
 }
@@ -199,6 +213,11 @@ if ( isset($_POST['save']))
 // 
 if ( isset ($_POST['view_invoice']) ) 
 {
+   // Check privilege
+   if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn) < 1 )    {
+        NoAccess();
+        exit -1;
+   }
   $nb_number=$_POST["nb_item"];
   $submit='<INPUT TYPE="SUBMIT" name="save" value="Confirmer">';
   $submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
@@ -226,6 +245,10 @@ if ( isset ($_POST['view_invoice']) )
 // By default we add a new invoice
 if ( $p_jrn != -1 ) 
 {
+ if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn) != 2 )    {
+        exit -1;
+   }
+
   $jrn=new jrn($cn,  $p_jrn);
   echo_debug('depense.inc.php',__LINE__,"Blank form");
  // Submit button in the form

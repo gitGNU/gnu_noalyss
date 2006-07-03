@@ -190,7 +190,8 @@ function GetFirstJrnIdForJrnType($p_dossier,$p_type)
   //get db connection
   $Cn=DbConnect($p_dossier);  
   //execute query
-  $Ret=ExecSql($Cn,"select min(jrn_def_id) from jrn_def where jrn_def_type='".$p_type."';");
+  $Ret=ExecSql($Cn,"select min(jrn_def_id) from jrn_def ".
+	       "where jrn_def_type='".$p_type."';");
   $l_line=pg_fetch_array($Ret,0);
   return $l_line[0];
   //return 0;

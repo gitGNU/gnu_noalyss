@@ -23,6 +23,7 @@ require_once('user_form_ven.php');
 require_once('jrn.php');
 require_once("class_document.php");
 require_once("class_fiche.php");
+require_once("check_priv.php");
 /*!\file
  * \brief the purpose off this file is to create invoices, to record them and to generate
  *        them, and of course to save them into the database
@@ -56,7 +57,11 @@ $sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
 // 
 if ( $sub_action == "list") 
 {
-
+   // Check privilege
+   if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn) < 1 )    {
+        NoAccess();
+        exit -1;
+   }
   // show the menu with the list item selected
   echo '<div class="u_subtmenu">';
   echo ShowMenuJrnUser($_SESSION['g_dossier'],'VEN',0,'<td class="selectedcell">Liste</td>');
@@ -160,10 +165,15 @@ echo '</div>';
 // or if we ask to correct the invoice
 if ( isset ($_POST['add_item']) || isset ($_POST["correct_new_invoice"])  ) 
 {
+ if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn) != 2 )    {
+        NoAccess();
+        exit -1;
+   }
+
   $nb_item=$_POST['nb_item'];
   if ( isset ($_POST['add_item']))
     $nb_item++;
-  $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,false,$nb_item);
+  $form=FormVenInput($cn,$p_jrn,$User->GetPeriode(),$_POST,false,$nb_item);
   echo '<div class="u_redcontent">';
   echo $form;
   echo '</div>';
@@ -174,12 +184,17 @@ if ( isset ($_POST['add_item']) || isset ($_POST["correct_new_invoice"])  )
 //
 if ( isset($_POST['record_and_print_invoice'])) 
 {
+ if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn) != 2 )    {
+        NoAccess();
+        exit -1;
+   }
+
   // First we save the invoice, the internal code will be used to change the description
   // and upload the file
   list ($internal,$e)=RecordInvoice($cn,$_POST,$User,$p_jrn);
 
   
-  $form=FormVenteView($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$_POST['nb_item'],'noform','');
+  $form=FormVenteView($cn,$p_jrn,$User->GetPeriode(),$_POST,$_POST['nb_item'],'noform','');
 
   echo '<div class="u_redcontent">';
   echo '<h2 class="info"> Op&eacute;ration '.$internal.' enregistr&eacute;</h2>';
@@ -210,15 +225,20 @@ if ( isset($_POST['record_and_print_invoice']))
 // invoice
 if ( isset ($_POST['view_invoice']) ) 
 {
+   // Check privilege
+   if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn) < 1 )    {
+        NoAccess();
+        exit -1;
+   }
   $nb_number=$_POST["nb_item"];
-  if ( form_verify_input($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,$nb_number) == true)
+  if ( form_verify_input($cn,$p_jrn,$User->GetPeriode(),$HTTP_POST_VARS,$nb_number) == true)
     {
-      $form=FormVenteView($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,$nb_number);
+      $form=FormVenteView($cn,$p_jrn,$User->GetPeriode(),$HTTP_POST_VARS,$nb_number);
 
     } else {
       // Check failed : invalid date or quantity
       echo_error("Cannot validate ");
-      $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,false,$nb_number);
+      $form=FormVenInput($cn,$p_jrn,$User->GetPeriode(),$HTTP_POST_VARS,false,$nb_number);
     }
 
   echo '<div class="u_redcontent">';
@@ -234,6 +254,10 @@ if ( isset ($_POST['view_invoice']) )
 // By default we add a new invoice
 if ( $p_jrn != -1 ) 
 {
+ if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn) != 2 )    {
+        exit -1;
+   }
+
   $jrn=new jrn($cn,  $p_jrn);
   echo_debug('facture.inc.php.php',__LINE__,"Blank form");
   // Show an empty form of invoice

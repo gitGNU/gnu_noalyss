@@ -60,6 +60,13 @@ define ("VEN",11);
 define ("BQE",12);
 define ("ODS",13);
 
+//!\enum Security 
+define("SEC_ACTION", 28); // Module Suivi Document
+define("CLIENT",22); // Module Client
+define("SUPPL",24); // Module Fournisseur 
+define("ADMIN",26); //  Module Administration	 
+define("SEC_GESTION",30); //  Module Gestion
+
 define ("FICHE_WRITE",15);
 define ("STOCK_WRITE",16);
 define ("STOCK_READ",17);
@@ -82,7 +89,7 @@ define ("LAST",1);
 define ("FIRST",0);
 define ("ERROR",12);
 
-//\enum ACTION  defines document_type for action
+//!\enum ACTION  defines document_type for action
 define('ACTION','1,5,6,7,8');
 
 //valeurs standardd

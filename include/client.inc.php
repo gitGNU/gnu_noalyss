@@ -24,6 +24,7 @@ $sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
 /*! \file
  * \brief Called from the module "Gestion" to manage the customer
  */
+$User->AccessRequest($cn,CLIENT);
 
 ?>
 
@@ -32,6 +33,7 @@ $sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
 // Remove a card
 if ( isset ($_POST['delete']) ) 
 {
+
   echo 'delete';
   $f_id=$_REQUEST['f_id'];
 
@@ -43,6 +45,7 @@ if ( isset ($_POST['delete']) )
 // Add card
 if ( $sub_action=="insert" )
 {
+
   $retour=sprintf('<A class="two" HREF="%s"><input type="button" value="Retour"></A>',
 		  urldecode($_REQUEST['url']));
 
@@ -59,6 +62,7 @@ if ( $sub_action=="insert" )
 // Save modification
 if ( isset ($_POST['mod'])) 
 {
+
   // modification is asked
   $f_id=$_REQUEST['f_id'];
 
@@ -72,6 +76,7 @@ if ( $sub_action  == "" )
 //Display a blank card 
 if ( $sub_action=="blank") 
 {
+
   $retour=sprintf('<A class="two" HREF="%s"><input type="button" value="Retour"></A>',
 		  "commercial.php?p_action=client");
   echo '<div class="u_redcontent">';
@@ -153,9 +158,11 @@ if ( $sub_action == 'detail' )
   $w->value=$f_id;
   echo $w->IOValue();
 
+  
   echo $w->Submit('mod','Sauver les modifications');
   echo $w->Reset("Annuler");
   echo $w->Submit('delete','Effacer cette fiche');
+  
   echo '</form>';
   echo $retour;
   echo '<div>';

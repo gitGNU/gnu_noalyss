@@ -160,6 +160,8 @@ if ( isset ( $_POST['search']) )  {
     $class="odd";
   $text=FormatString($row['vw_name']);
   $r.="<span class=\"$class\">";
+  $qcode=    $row['quick_code'] ;
+
   $r.=sprintf ('<input name="%s" type="button" onClick="'."SetData('%s','%s','%s','%s','%s','%s','%s')".'" value="%s">',
         "select" . $i,
 	      $e_name,
@@ -169,7 +171,7 @@ if ( isset ( $_POST['search']) )  {
 	      $row['vw_buy'], 
 	      $row['tva_id'], 
 	       $row['tva_label']  ,
-	       $row['quick_code'] 
+	       $qcode
 	       );
   $r.="&nbsp;".$row['vw_name'];
   if ( $row['vw_addr'] !="")

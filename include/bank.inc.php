@@ -24,6 +24,7 @@ require_once('jrn.php');
 require_once("class_document.php");
 require_once("class_fiche.php");
 require_once("class_parm_code.php");
+require_once("check_priv.php");
 /*!\file
  * \brief the purpose off this file encode expense and  to record them
  *
@@ -41,6 +42,12 @@ if ( ! isset ($_REQUEST['p_jrn'])) {
 {
   $p_jrn=$_REQUEST['p_jrn'];
 }
+
+if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn) < 1 )    {
+        NoAccess();
+        exit -1;
+   }
+
 // for the back button
 $retour="";
 $h_url="";
@@ -56,6 +63,11 @@ $sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
 // ask the saldo of the bank
 if ( $sub_action == "solde" )
 {
+   // Check privilege
+   if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn) < 1 )    {
+        NoAccess();
+        exit -1;
+   }
   echo '<div class="u_subtmenu">';
 
 echo ShowMenuJrnUser($_SESSION['g_dossier'],'FIN',0,'<td class="cell"><A class="mtitle" HREF="commercial.php?liste&p_action=bank&sa=list">Liste</A></td>'.
@@ -103,7 +115,11 @@ echo ShowMenuJrnUser($_SESSION['g_dossier'],'FIN',0,'<td class="cell"><A class="
 // 
 if ( $sub_action == "list") 
 {
-
+   // Check privilege
+   if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn) < 1 )    {
+        NoAccess();
+        exit -1;
+   }
   // show the menu with the list item selected
   echo '<div class="u_subtmenu">';
   echo ShowMenuJrnUser($_SESSION['g_dossier'],'FIN',0,'<td class="selectedcell">Liste</td>');
@@ -185,13 +201,18 @@ echo '</div>';
 // or if we ask to correct the invoice
 if ( isset ($_POST['add_item']) || isset ($_POST['correct'])  ) 
 {
+ if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn) != 2 )    {
+        NoAccess();
+        exit -1;
+   }
+
   $nb_item=$_POST['nb_item'];
   if ( isset  ($_POST['add_item']))
     $nb_item++; 
  // Submit button in the form
   $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
           <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver" ID="SubmitButton">';
-  $form=FormFin($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$_POST,false,  $nb_item);
+  $form=FormFin($cn,$p_jrn,$User->GetPeriode(),$submit,$_POST,false,  $nb_item);
   //$form=FormFin($cn,$p_jrn,$User->GetPeriode(),$submit,$_POST,false,  $nb_number);
 
   echo '<div class="u_redcontent">';
@@ -205,6 +226,11 @@ if ( isset ($_POST['add_item']) || isset ($_POST['correct'])  )
 //
 if ( isset($_POST['save'])) 
 {
+ if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn) != 2 )    {
+        NoAccess();
+        exit -1;
+   }
+
   // we save the expense
   $r=RecordFin($cn,$_POST,$User,$p_jrn);
   $nb_number=$_POST['nb_item'];
@@ -217,7 +243,7 @@ if ( isset($_POST['save']))
   echo $form;
   echo '<hr>';
   echo '</form>';
-  echo '<A href="commercial.php?p_action=bank&p_jrn='.$_GET['p_jrn'].'">
+  echo '<A href="commercial.php?p_action=bank&p_jrn='.$p_jrn.'">
     <input type="button" Value="Nouveau"></A>';
   exit();
 }
@@ -226,6 +252,11 @@ if ( isset($_POST['save']))
 // 
 if ( isset ($_POST['view_invoice']) ) 
 {
+ if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn) != 2 )    {
+        NoAccess();
+        exit -1;
+   }
+
   $nb_number=$_POST["nb_item"];
   $submit='<INPUT TYPE="SUBMIT" name="save" value="Confirmer">';
   $submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
@@ -254,6 +285,10 @@ if ( isset ($_POST['view_invoice']) )
 // By default we add a new invoice
 if ( $p_jrn != -1 ) 
 {
+ if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn) != 2 )    {
+                exit -1;
+   }
+
   $jrn=new jrn($cn,  $p_jrn);
   echo_debug('depense.inc.php',__LINE__,"Blank form");
  // Submit button in the form
