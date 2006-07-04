@@ -278,8 +278,8 @@ function echo_warning($p_string)
  * \return: a double array [value,label]
  */
 function make_array($p_cn,$p_sql,$p_null=0) {
-
-  $a=pg_exec($p_cn,$p_sql);
+  echo_debug('ac_common',__LINE__,$p_sql);
+  $a=ExecSql($p_cn,$p_sql);
   $max=pg_NumRows($a);
   if ( $max==0) return null;
   for ($i=0;$i<$max;$i++) {

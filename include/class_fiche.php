@@ -172,7 +172,7 @@ class fiche {
            using (jft_id)  where ad_id=23 and av_text='".$p_qcode."'";
       $Res=ExecSql($this->cn,$sql);
       $r=pg_fetch_all($Res);
-      echo_debug('fiche',__LINE__,'result:'.var_export($r).'size '.sizeof($r));
+      echo_debug('fiche',__LINE__,'result:'.var_export($r,true).'size '.sizeof($r));
       if ( $r == null  ) 
 	return 1;
       $this->id=$r[0]['f_id'];

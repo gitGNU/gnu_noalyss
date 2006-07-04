@@ -692,7 +692,8 @@ class action
 	$query="1";
 
       if ( isset ($_GET['qcode_query'])) $query.='&qcode_query='.$_GET['qcode_query'];
-
+      echo_debug('class_action',__LINE__,"jrn bar = $bar");
+      echo_debug('class_action',__LINE__,'$_SESSION='.var_export($_SESSION,true));
       $r="";
       $r.=$bar;
       $r.="<table>";
@@ -716,7 +717,7 @@ class action
 	  return $r;
 
 	}
-      echo JS_SEARCH_CARD;
+      $r.=JS_SEARCH_CARD;
       foreach ($a_row as $row )
 	{
 
@@ -752,21 +753,23 @@ class action
 	  else
 	    $r.="<td>Interne </td>";
 
+	  $ref="";
+
 	  // show reference
 	  if ( $row['ag_ref_ag_id'] != 0 ) 
 	    {
 	      $retSqlStmt=ExecSql($this->db,
 				  "select ag_ref from action_gestion where ag_id=".$row['ag_ref_ag_id']);
 	      $retSql=pg_fetch_all($retSqlStmt);
-	      $ref="";
-	      foreach ($retSql as $line) 
+	      if ( $retSql != null )
 		{
-		  $ref.='<A  href="commercial.php?p_action=suivi_courrier&query='.$line['ag_ref'].'">'.
-		    $line['ag_ref']."<A>";
+		  foreach ($retSql as $line) 
+		    {
+		      $ref.='<A  href="commercial.php?p_action=suivi_courrier&query='.$line['ag_ref'].'">'.
+			$line['ag_ref']."<A>";
+		    }
 		}
 	    }
-	  else 
-	    $ref="";
 
 	  $r.='<td><A HREF="commercial.php?p_action=suivi_courrier&sa=detail&ag_id='.$row['ag_id'].'">'.
 	    $row['ag_title']."</A></td>";
