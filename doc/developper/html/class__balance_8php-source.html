@@ -53,7 +53,7 @@
 <a name="l00065"></a>00065     <span class="keywordflow">if</span> ( $this-&gt;central==<span class="charliteral">'Y'</span> ) { $cent=<span class="stringliteral">"j_centralized = true and "</span>; }
 <a name="l00066"></a>00066 
 <a name="l00067"></a>00067     <span class="comment">// build query</span>
-<a name="l00068"></a>00068     <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"select j_poste,sum(deb) as sum_deb, sum(cred) as sum_cred from </span>
+<a name="l00068"></a>00068     <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">"select j_poste,sum(deb) as sum_deb, sum(cred) as sum_cred from </span>
 <a name="l00069"></a>00069 <span class="stringliteral">          ( select j_poste,</span>
 <a name="l00070"></a>00070 <span class="stringliteral">             case when j_debit='t' then j_montant else 0 end as deb,</span>
 <a name="l00071"></a>00071 <span class="stringliteral">             case when j_debit='f' then j_montant else 0 end as cred</span>
@@ -62,7 +62,7 @@
 <a name="l00074"></a>00074 <span class="stringliteral">             $cent</span>
 <a name="l00075"></a>00075 <span class="stringliteral">            $per_sql ) as m group by j_poste order by j_poste::text"</span>;
 <a name="l00076"></a>00076 
-<a name="l00077"></a>00077     <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql);
+<a name="l00077"></a>00077     <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql);
 <a name="l00078"></a>00078 
 <a name="l00079"></a>00079     $tot_cred=  0.0;
 <a name="l00080"></a>00080     $tot_deb=  0.0;
@@ -71,8 +71,8 @@
 <a name="l00083"></a>00083     <a class="code" href="setup_8php.html#a14">$M</a>=pg_NumRows($Res);
 <a name="l00084"></a>00084     <span class="comment">// Load the array</span>
 <a name="l00085"></a>00085     <span class="keywordflow">for</span> ($i=0; $i &lt;$M;$i++) {
-<a name="l00086"></a>00086       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=pg_fetch_array($Res,$i);
-<a name="l00087"></a>00087       <a class="code" href="balance_8php.html#a10">$a</a>['<a class="code" href="classposte.html">poste</a>']=<a class="code" href="user__action__ach_8php.html#a2">$r</a>['j_poste'];
+<a name="l00086"></a>00086       <a class="code" href="bank_8inc_8php.html#a29">$r</a>=pg_fetch_array($Res,$i);
+<a name="l00087"></a>00087       <a class="code" href="balance_8php.html#a10">$a</a>['<a class="code" href="classposte.html">poste</a>']=<a class="code" href="bank_8inc_8php.html#a29">$r</a>['j_poste'];
 <a name="l00088"></a>00088       <a class="code" href="balance_8php.html#a10">$a</a>['<a class="code" href="balance_8php.html#a6">label</a>']=substr(<a class="code" href="poste_8php.html#a0">GetPosteLibelle</a>($this-&gt;db,$r['j_poste'],1),0,40);
 <a name="l00089"></a>00089       <a class="code" href="balance_8php.html#a10">$a</a>['sum_deb']=round($r['sum_deb'],2);
 <a name="l00090"></a>00090       <a class="code" href="balance_8php.html#a10">$a</a>['sum_cred']=round($r['sum_cred'],2);

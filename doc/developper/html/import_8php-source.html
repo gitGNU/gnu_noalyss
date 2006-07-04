@@ -55,7 +55,7 @@
 <a name="l00050"></a>00050 echo <a class="code" href="user__menu_8php.html#a2">ShowMenuCompta</a>($_SESSION['g_dossier'],<span class="stringliteral">"user_advanced.php"</span>);
 <a name="l00051"></a>00051 echo '&lt;/div&gt;';
 <a name="l00052"></a><a class="code" href="import_8php.html#a1">00052</a> <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>($_SESSION['g_dossier']);
-<a name="l00053"></a>00053 <span class="keywordflow">if</span> ( $User-&gt;CheckAction($cn,<a class="code" href="constant_8php.html#a23">IMP_BQE</a>)==0){
+<a name="l00053"></a>00053 <span class="keywordflow">if</span> ( $User-&gt;CheckAction($cn,<a class="code" href="constant_8php.html#a28">IMP_BQE</a>)==0){
 <a name="l00054"></a>00054   <span class="comment">/* Cannot Access */</span>
 <a name="l00055"></a>00055   <a class="code" href="ac__common_8php.html#a8">NoAccess</a>();
 <a name="l00056"></a>00056  }
@@ -67,7 +67,7 @@
 <a name="l00062"></a>00062 <span class="keywordflow">if</span> ( isset( $_REQUEST['PHPSESSID'])) {
 <a name="l00063"></a>00063         <a class="code" href="user__action__ach_8php.html#a21">$sessid</a> = $_REQUEST['PHPSESSID'];
 <a name="l00064"></a>00064 }
-<a name="l00065"></a>00065 echo <a class="code" href="constant_8php.html#a74">JS_SEARCH_POSTE</a>;
+<a name="l00065"></a>00065 echo <a class="code" href="constant_8php.html#a79">JS_SEARCH_POSTE</a>;
 <a name="l00066"></a>00066 
 <a name="l00067"></a>00067 <span class="comment">// if action is set proceed to it</span>
 <a name="l00068"></a>00068 <span class="keywordflow">if</span> ( isset ($_GET[<span class="stringliteral">"action"</span>]) ) {

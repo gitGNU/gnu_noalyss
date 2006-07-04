@@ -31,11 +31,11 @@
 <a name="l00022"></a>00022 <span class="comment">/* $Revision$ */</span>
 <a name="l00037"></a><a class="code" href="preference_8php.html#a0">00037</a> function <a class="code" href="preference_8php.html#a0">FormPeriodeMult</a>($p_cn)
 <a name="l00038"></a>00038 {
-<a name="l00039"></a>00039   <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"select p_id,to_char(p_start,'DD.MM.YYYY') as p_start,</span>
+<a name="l00039"></a>00039   <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">"select p_id,to_char(p_start,'DD.MM.YYYY') as p_start,</span>
 <a name="l00040"></a>00040 <span class="stringliteral">                    to_char(p_end,'DD.MM.YYYY') as p_end </span>
 <a name="l00041"></a>00041 <span class="stringliteral">        from parm_periode  </span>
 <a name="l00042"></a>00042 <span class="stringliteral">            order by p_exercice,p_start"</span>;
-<a name="l00043"></a>00043   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
+<a name="l00043"></a>00043   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
 <a name="l00044"></a>00044   <a class="code" href="setup_8php.html#a11">$Max</a>=pg_NumRows($Res);
 <a name="l00045"></a>00045   <a class="code" href="impress__bilan_8php.html#a0">$ret</a>='&lt;SELECT NAME=<span class="stringliteral">"periode[]"</span> SIZE=<span class="stringliteral">"12"</span> multiple&gt;';
 <a name="l00046"></a>00046   <span class="keywordflow">for</span> ( $i = 0; $i &lt; $Max;$i++) {
@@ -49,31 +49,31 @@
 <a name="l00054"></a>00054   <span class="keywordflow">return</span> <a class="code" href="impress__bilan_8php.html#a0">$ret</a>;
 <a name="l00055"></a>00055 }
 <a name="l00056"></a>00056 
-<a name="l00071"></a><a class="code" href="preference_8php.html#a1">00071</a> function <a class="code" href="preference_8php.html#a1">FormPeriode</a>($p_cn,$l_default=0,$p_type=<a class="code" href="constant_8php.html#a42">OPEN</a>,$p_suff=<span class="stringliteral">""</span>)
+<a name="l00071"></a><a class="code" href="preference_8php.html#a1">00071</a> function <a class="code" href="preference_8php.html#a1">FormPeriode</a>($p_cn,$l_default=0,$p_type=<a class="code" href="constant_8php.html#a47">OPEN</a>,$p_suff=<span class="stringliteral">""</span>)
 <a name="l00072"></a>00072 {
 <a name="l00073"></a>00073   <span class="keywordflow">switch</span> ($p_type) {
-<a name="l00074"></a>00074   <span class="keywordflow">case</span> <a class="code" href="constant_8php.html#a43">CLOSED</a>:
+<a name="l00074"></a>00074   <span class="keywordflow">case</span> <a class="code" href="constant_8php.html#a48">CLOSED</a>:
 <a name="l00075"></a>00075     $sql_closed=<span class="stringliteral">"where p_closed=true and p_central = false "</span>;
 <a name="l00076"></a>00076     <span class="keywordflow">break</span>;
-<a name="l00077"></a>00077   <span class="keywordflow">case</span> <a class="code" href="constant_8php.html#a42">OPEN</a>:
+<a name="l00077"></a>00077   <span class="keywordflow">case</span> <a class="code" href="constant_8php.html#a47">OPEN</a>:
 <a name="l00078"></a>00078     $sql_closed=<span class="stringliteral">"where p_closed=false"</span>;
 <a name="l00079"></a>00079     <span class="keywordflow">break</span>;
-<a name="l00080"></a>00080   <span class="keywordflow">case</span> <a class="code" href="constant_8php.html#a44">NOTCENTRALIZED</a>:
+<a name="l00080"></a>00080   <span class="keywordflow">case</span> <a class="code" href="constant_8php.html#a49">NOTCENTRALIZED</a>:
 <a name="l00081"></a>00081     $sql_closed=<span class="stringliteral">"where p_closed=true and p_central = false "</span>;
 <a name="l00082"></a>00082     <span class="keywordflow">break</span>;
-<a name="l00083"></a>00083   <span class="keywordflow">case</span> <a class="code" href="constant_8php.html#a45">ALL</a>:
+<a name="l00083"></a>00083   <span class="keywordflow">case</span> <a class="code" href="constant_8php.html#a50">ALL</a>:
 <a name="l00084"></a>00084     $sql_closed=<span class="stringliteral">""</span>;
 <a name="l00085"></a>00085     <span class="keywordflow">break</span>;
 <a name="l00086"></a>00086   <span class="keywordflow">default</span>:
 <a name="l00087"></a>00087     error(<span class="stringliteral">"invalide p_type in 'preference.php'#__LINE__"</span>);
 <a name="l00088"></a>00088   }
-<a name="l00089"></a>00089   <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"select p_id,to_char(p_start,'DD.MM.YYYY') as p_start_string,</span>
+<a name="l00089"></a>00089   <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">"select p_id,to_char(p_start,'DD.MM.YYYY') as p_start_string,</span>
 <a name="l00090"></a>00090 <span class="stringliteral">                    to_char(p_end,'DD.MM.YYYY') as p_end_string </span>
 <a name="l00091"></a>00091 <span class="stringliteral">        from parm_periode  </span>
 <a name="l00092"></a>00092 <span class="stringliteral">         $sql_closed </span>
 <a name="l00093"></a>00093 <span class="stringliteral">          order by p_start"</span>;
 <a name="l00094"></a>00094           
-<a name="l00095"></a>00095   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
+<a name="l00095"></a>00095   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
 <a name="l00096"></a>00096   <a class="code" href="setup_8php.html#a11">$Max</a>=pg_NumRows($Res);
 <a name="l00097"></a>00097   <span class="keywordflow">if</span> ( $Max == 0 ) <span class="keywordflow">return</span> null;
 <a name="l00098"></a>00098   <a class="code" href="impress__bilan_8php.html#a0">$ret</a>='&lt;SELECT NAME=<span class="stringliteral">"periode'.$p_suff.'"</span>&gt;';
@@ -95,21 +95,21 @@
 <a name="l00114"></a>00114 }
 <a name="l00125"></a><a class="code" href="preference_8php.html#a2">00125</a> function <a class="code" href="preference_8php.html#a2">GetPeriode</a>($p_cn,$p_periode) 
 <a name="l00126"></a>00126 {
-<a name="l00127"></a>00127  <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"select to_char(p_start,'DD.MM.YYYY') as p_start,</span>
+<a name="l00127"></a>00127  <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">"select to_char(p_start,'DD.MM.YYYY') as p_start,</span>
 <a name="l00128"></a>00128 <span class="stringliteral">              to_char(p_end,'DD.MM.YYYY')   as p_end</span>
 <a name="l00129"></a>00129 <span class="stringliteral">       from parm_periode</span>
 <a name="l00130"></a>00130 <span class="stringliteral">         where p_id="</span>.$p_periode;
-<a name="l00131"></a>00131  <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
+<a name="l00131"></a>00131  <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
 <a name="l00132"></a>00132  <span class="keywordflow">if</span> ( pg_NumRows($Res) == 0) <span class="keywordflow">return</span> null;
 <a name="l00133"></a>00133  <span class="keywordflow">return</span> pg_fetch_array($Res,0);
 <a name="l00134"></a>00134 
 <a name="l00135"></a>00135 }
 <a name="l00146"></a><a class="code" href="preference_8php.html#a3">00146</a> function <a class="code" href="preference_8php.html#a3">PeriodeClosed</a>($p_cn,$p_periode) 
 <a name="l00147"></a>00147 {
-<a name="l00148"></a>00148  <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"select p_closed</span>
+<a name="l00148"></a>00148  <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">"select p_closed</span>
 <a name="l00149"></a>00149 <span class="stringliteral">       from parm_periode</span>
 <a name="l00150"></a>00150 <span class="stringliteral">         where p_id="</span>.$p_periode;
-<a name="l00151"></a>00151  <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
+<a name="l00151"></a>00151  <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
 <a name="l00152"></a>00152  <span class="keywordflow">if</span> ( pg_NumRows($Res) == 0) <span class="keywordflow">return</span> null;
 <a name="l00153"></a>00153  <a class="code" href="jrn__detail_8php.html#a11">$l_line</a>=pg_fetch_array($Res,0);
 <a name="l00154"></a>00154  <span class="keywordflow">return</span> <a class="code" href="jrn__detail_8php.html#a11">$l_line</a>['p_closed'];
@@ -117,7 +117,7 @@
 <a name="l00156"></a>00156 }
 <a name="l00168"></a><a class="code" href="preference_8php.html#a4">00168</a> function <a class="code" href="preference_8php.html#a4">GetExercice</a>($p_cn,$p_periode)
 <a name="l00169"></a>00169 {
-<a name="l00170"></a>00170   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select p_exercice from parm_periode"</span>.
+<a name="l00170"></a>00170   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select p_exercice from parm_periode"</span>.
 <a name="l00171"></a>00171                <span class="stringliteral">" where p_id=$p_periode"</span>);
 <a name="l00172"></a>00172   <span class="keywordflow">if</span> ( pg_NumRows($Res) == 0 ) <span class="keywordflow">return</span> <span class="stringliteral">""</span>;
 <a name="l00173"></a>00173   $line=pg_fetch_array($Res,0);
@@ -132,7 +132,7 @@
 <a name="l00191"></a>00191   echo '&lt;TH&gt; Valeur &lt;BR&gt;(par <a class="code" href="classrapport.html">rapport</a> à l\'euro) &lt;/TH&gt;';
 <a name="l00192"></a>00192   echo <span class="stringliteral">"&lt;/TR&gt;"</span>;
 <a name="l00193"></a>00193 
-<a name="l00194"></a>00194   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select pm_id,pm_code,pm_rate  from parm_money order by pm_code"</span>);
+<a name="l00194"></a>00194   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select pm_id,pm_code,pm_rate  from parm_money order by pm_code"</span>);
 <a name="l00195"></a>00195   <a class="code" href="setup_8php.html#a11">$Max</a>=pg_NumRows($Res);
 <a name="l00196"></a>00196   
 <a name="l00197"></a>00197   <span class="keywordflow">for</span> ($i=0;$i&lt;$Max;$i++) {
@@ -146,7 +146,7 @@
 <a name="l00205"></a>00205     echo '&lt;/TR&gt;';
 <a name="l00206"></a>00206     
 <a name="l00207"></a>00207   }
-<a name="l00208"></a>00208   echo '&lt;TR&gt; &lt;<a class="code" href="constant_8php.html#a7">FORM</a> <a class="code" href="constant_8php.html#a39">ACTION</a>=<span class="stringliteral">"parametre.php"</span> <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"POST"</span>&gt;';
+<a name="l00208"></a>00208   echo '&lt;TR&gt; &lt;<a class="code" href="constant_8php.html#a7">FORM</a> <a class="code" href="constant_8php.html#a44">ACTION</a>=<span class="stringliteral">"parametre.php"</span> <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"POST"</span>&gt;';
 <a name="l00209"></a>00209 echo '&lt;TD&gt; &lt;INPUT TYPE=<span class="stringliteral">"text"</span> NAME=<span class="stringliteral">"p_devise"</span>&gt;&lt;/TD&gt;';
 <a name="l00210"></a>00210  echo '&lt;TD&gt; &lt;INPUT TYPE=<span class="stringliteral">"text"</span> NAME=<span class="stringliteral">"p_rate"</span>&gt;&lt;/TD&gt;';
 <a name="l00211"></a>00211  echo '&lt;TD&gt; &lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> NAME=<span class="stringliteral">"action"</span> Value=<span class="stringliteral">"Ajout"</span>&lt;/TD&gt;';
@@ -156,7 +156,7 @@
 <a name="l00224"></a><a class="code" href="preference_8php.html#a6">00224</a> function <a class="code" href="preference_8php.html#a6">ShowPeriode</a>($p_cn)
 <a name="l00225"></a>00225 {
 <a name="l00226"></a>00226   <span class="comment">//  echo "&lt;h2 class=\"info\"&gt; Période &lt;/H2&gt;";</span>
-<a name="l00227"></a>00227   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select p_id,to_char(p_start,'DD.MM.YYYY') as date_start,to_char(p_end,'DD.MM.YYYY') as date_end,p_central,p_closed,p_exercice</span>
+<a name="l00227"></a>00227   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select p_id,to_char(p_start,'DD.MM.YYYY') as date_start,to_char(p_end,'DD.MM.YYYY') as date_end,p_central,p_closed,p_exercice</span>
 <a name="l00228"></a>00228 <span class="stringliteral">  from parm_periode order by p_start"</span>);
 <a name="l00229"></a>00229   <a class="code" href="setup_8php.html#a11">$Max</a>=pg_NumRows($Res);
 <a name="l00230"></a>00230   echo '&lt;TABLE ALIGN=<span class="stringliteral">"CENTER"</span>&gt;';
@@ -198,7 +198,7 @@
 <a name="l00266"></a>00266     echo '&lt;/TR&gt;';
 <a name="l00267"></a>00267     
 <a name="l00268"></a>00268   }
-<a name="l00269"></a>00269   echo '&lt;TR&gt; &lt;<a class="code" href="constant_8php.html#a7">FORM</a> <a class="code" href="constant_8php.html#a39">ACTION</a>=<span class="stringliteral">"user_advanced.php?p_action=periode"</span> <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"POST"</span>&gt;';
+<a name="l00269"></a>00269   echo '&lt;TR&gt; &lt;<a class="code" href="constant_8php.html#a7">FORM</a> <a class="code" href="constant_8php.html#a44">ACTION</a>=<span class="stringliteral">"user_advanced.php?p_action=periode"</span> <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"POST"</span>&gt;';
 <a name="l00270"></a>00270   echo '&lt;TD&gt; &lt;INPUT TYPE=<span class="stringliteral">"text"</span> NAME=<span class="stringliteral">"p_date_start"</span> SIZE=<span class="stringliteral">"10"</span>&gt;&lt;/TD&gt;';
 <a name="l00271"></a>00271   echo '&lt;TD&gt; &lt;INPUT TYPE=<span class="stringliteral">"text"</span> NAME=<span class="stringliteral">"p_date_end"</span> SIZE=<span class="stringliteral">"10"</span>&gt;&lt;/TD&gt;';
 <a name="l00272"></a>00272   echo '&lt;TD&gt; &lt;INPUT TYPE=<span class="stringliteral">"text"</span> NAME=<span class="stringliteral">"p_exercice"</span> SIZE=<span class="stringliteral">"10"</span>&gt;&lt;/TD&gt;';

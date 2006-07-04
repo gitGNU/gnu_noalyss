@@ -56,7 +56,7 @@
 <a name="l00051"></a>00051 <span class="comment">// Get The priv on the selected folder</span>
 <a name="l00052"></a>00052 <span class="keywordflow">if</span> ( $User-&gt;admin == 0 ) {
 <a name="l00053"></a>00053   
-<a name="l00054"></a>00054   <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="postgres_8php.html#a5">GetPriv</a>($_SESSION['g_dossier'],$_SESSION['g_user']);
+<a name="l00054"></a>00054   <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<a class="code" href="postgres_8php.html#a5">GetPriv</a>($_SESSION['g_dossier'],$_SESSION['g_user']);
 <a name="l00055"></a>00055   <span class="keywordflow">if</span> ($r == 0 ){
 <a name="l00056"></a>00056     <span class="comment">/* Cannot Access */</span>
 <a name="l00057"></a>00057     <a class="code" href="ac__common_8php.html#a8">NoAccess</a>();

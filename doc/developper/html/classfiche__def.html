@@ -133,13 +133,13 @@ Display a fiche_def object into a table.
 <p>
 Definition at line <a class="el" href="class__fiche_8php-source.html#l00129">129</a> of file <a class="el" href="class__fiche_8php-source.html">class_fiche.php</a>.
 <p>
-References <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>.<div class="fragment"><pre class="fragment"><a name="l00130"></a>00130    {
+References <a class="el" href="bank_8inc_8php-source.html#l00235">$r</a>.<div class="fragment"><pre class="fragment"><a name="l00130"></a>00130    {
 <a name="l00131"></a>00131 
-<a name="l00132"></a>00132      <a class="code" href="user__action__ach_8php.html#a2">$r</a>=sprintf(<span class="stringliteral">"&lt;TD&gt;%s&lt;/TD&gt;"</span>,$this-&gt;id);
-<a name="l00133"></a>00133      <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=sprintf(<span class="stringliteral">"&lt;TD&gt;%s&lt;/TD&gt;"</span>,$this-&gt;label);
-<a name="l00134"></a>00134      <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=sprintf(<span class="stringliteral">"&lt;TD&gt;%s&lt;/TD&gt;"</span>,$this-&gt;class_base);
-<a name="l00135"></a>00135      <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=sprintf(<span class="stringliteral">"&lt;TD&gt;%s&lt;/TD&gt;"</span>,$this-&gt;fiche_def);
-<a name="l00136"></a>00136      <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
+<a name="l00132"></a>00132      <a class="code" href="bank_8inc_8php.html#a29">$r</a>=sprintf(<span class="stringliteral">"&lt;TD&gt;%s&lt;/TD&gt;"</span>,$this-&gt;id);
+<a name="l00133"></a>00133      <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=sprintf(<span class="stringliteral">"&lt;TD&gt;%s&lt;/TD&gt;"</span>,$this-&gt;label);
+<a name="l00134"></a>00134      <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=sprintf(<span class="stringliteral">"&lt;TD&gt;%s&lt;/TD&gt;"</span>,$this-&gt;class_base);
+<a name="l00135"></a>00135      <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=sprintf(<span class="stringliteral">"&lt;TD&gt;%s&lt;/TD&gt;"</span>,$this-&gt;fiche_def);
+<a name="l00136"></a>00136      <span class="keywordflow">return</span> <a class="code" href="bank_8inc_8php.html#a29">$r</a>;
 <a name="l00137"></a>00137    }
 </pre></div>
 <p>
@@ -176,19 +176,19 @@ Get attribut of the fiche_def.
 <p>
 Definition at line <a class="el" href="class__fiche_8php-source.html#l00074">74</a> of file <a class="el" href="class__fiche_8php-source.html">class_fiche.php</a>.
 <p>
-References <a class="el" href="line__update_8php-source.html#l00070">$Ret</a>, <a class="el" href="cbc__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00151">$sql</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="fiche__def_8inc_8php-source.html#l00030">frd_id</a>, <a class="el" href="balance_8php-source.html#l00076">label</a>, and <a class="el" href="impress__listing__client_8php-source.html#l00059">return</a>.<div class="fragment"><pre class="fragment"><a name="l00074"></a>00074                  {
+References <a class="el" href="line__update_8php-source.html#l00070">$Ret</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00167">$sql</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="fiche__def_8inc_8php-source.html#l00030">frd_id</a>, <a class="el" href="balance_8php-source.html#l00076">label</a>, and <a class="el" href="impress__listing__client_8php-source.html#l00059">return</a>.<div class="fragment"><pre class="fragment"><a name="l00074"></a>00074                  {
 <a name="l00075"></a>00075     <span class="keywordflow">if</span> ( $this-&gt;id == 0 ) 
 <a name="l00076"></a>00076       <span class="keywordflow">return</span> 0;
-<a name="l00077"></a>00077     <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"select * from fiche_def "</span>.
+<a name="l00077"></a>00077     <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">"select * from fiche_def "</span>.
 <a name="l00078"></a>00078       <span class="stringliteral">" where fd_id="</span>.$this-&gt;id;
 <a name="l00079"></a>00079     <a class="code" href="line__update_8php.html#a8">$Ret</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;cn,$sql);
 <a name="l00080"></a>00080     <span class="keywordflow">if</span> ( ($Max=pg_NumRows($Ret)) == 0 )
 <a name="l00081"></a>00081       <a class="code" href="impress__listing__client_8php.html#a2">return</a> ;
-<a name="l00082"></a>00082     <a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($Ret,0);
-<a name="l00083"></a>00083     $this-&gt;<a class="code" href="balance_8php.html#a6">label</a>=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['fd_label'];
-<a name="l00084"></a>00084     $this-&gt;class_base=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['fd_class_base'];
-<a name="l00085"></a>00085     $this-&gt;<a class="code" href="classfiche__def.html">fiche_def</a>=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['<a class="code" href="fiche__def_8inc_8php.html#a1">frd_id</a>'];
-<a name="l00086"></a>00086     $this-&gt;create_account=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['fd_create_account'];
+<a name="l00082"></a>00082     <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($Ret,0);
+<a name="l00083"></a>00083     $this-&gt;<a class="code" href="balance_8php.html#a6">label</a>=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['fd_label'];
+<a name="l00084"></a>00084     $this-&gt;class_base=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['fd_class_base'];
+<a name="l00085"></a>00085     $this-&gt;<a class="code" href="classfiche__def.html">fiche_def</a>=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['<a class="code" href="fiche__def_8inc_8php.html#a1">frd_id</a>'];
+<a name="l00086"></a>00086     $this-&gt;create_account=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['fd_create_account'];
 <a name="l00087"></a>00087   }
 </pre></div>
 <p>
@@ -226,20 +226,20 @@ Get all the fiche_def.
 <p>
 Definition at line <a class="el" href="class__fiche_8php-source.html#l00094">94</a> of file <a class="el" href="class__fiche_8php-source.html">class_fiche.php</a>.
 <p>
-References <a class="el" href="balance_8php-source.html#l00118">$i</a>, <a class="el" href="line__update_8php-source.html#l00070">$Ret</a>, <a class="el" href="cbc__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00151">$sql</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="class__fiche_8php-source.html#l00039">fiche_def()</a>, <a class="el" href="fiche__def_8inc_8php-source.html#l00030">frd_id</a>, and <a class="el" href="impress__listing__client_8php-source.html#l00059">return</a>.<div class="fragment"><pre class="fragment"><a name="l00094"></a>00094                    {
-<a name="l00095"></a>00095    <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"select * from fiche_def "</span>;
+References <a class="el" href="balance_8php-source.html#l00118">$i</a>, <a class="el" href="line__update_8php-source.html#l00070">$Ret</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00167">$sql</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="class__fiche_8php-source.html#l00039">fiche_def()</a>, <a class="el" href="fiche__def_8inc_8php-source.html#l00030">frd_id</a>, and <a class="el" href="impress__listing__client_8php-source.html#l00059">return</a>.<div class="fragment"><pre class="fragment"><a name="l00094"></a>00094                    {
+<a name="l00095"></a>00095    <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">"select * from fiche_def "</span>;
 <a name="l00096"></a>00096 
 <a name="l00097"></a>00097     <a class="code" href="line__update_8php.html#a8">$Ret</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;cn,$sql);
 <a name="l00098"></a>00098     <span class="keywordflow">if</span> ( ($Max=pg_NumRows($Ret)) == 0 )
 <a name="l00099"></a>00099       <a class="code" href="impress__listing__client_8php.html#a2">return</a> ;
 <a name="l00100"></a>00100 
 <a name="l00101"></a>00101     <span class="keywordflow">for</span> ( $i = 0; $i &lt; $Max;$i++) {
-<a name="l00102"></a>00102       <a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($Ret,$i);
+<a name="l00102"></a>00102       <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($Ret,$i);
 <a name="l00103"></a>00103       $this-&gt;all[<a class="code" href="balance_8php.html#a12">$i</a>]=<span class="keyword">new</span> <a class="code" href="classfiche__def.html#a0">fiche_def</a>($this-&gt;cn,$row['fd_id']);
-<a name="l00104"></a>00104       $this-&gt;all[<a class="code" href="balance_8php.html#a12">$i</a>]-&gt;label=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['fd_label'];
-<a name="l00105"></a>00105       $this-&gt;all[<a class="code" href="balance_8php.html#a12">$i</a>]-&gt;class_base=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['fd_class_base'];
-<a name="l00106"></a>00106       $this-&gt;all[<a class="code" href="balance_8php.html#a12">$i</a>]-&gt;fiche_def=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['<a class="code" href="fiche__def_8inc_8php.html#a1">frd_id</a>'];
-<a name="l00107"></a>00107       $this-&gt;all[<a class="code" href="balance_8php.html#a12">$i</a>]-&gt;create_account=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['fd_create_account'];
+<a name="l00104"></a>00104       $this-&gt;all[<a class="code" href="balance_8php.html#a12">$i</a>]-&gt;label=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['fd_label'];
+<a name="l00105"></a>00105       $this-&gt;all[<a class="code" href="balance_8php.html#a12">$i</a>]-&gt;class_base=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['fd_class_base'];
+<a name="l00106"></a>00106       $this-&gt;all[<a class="code" href="balance_8php.html#a12">$i</a>]-&gt;fiche_def=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['<a class="code" href="fiche__def_8inc_8php.html#a1">frd_id</a>'];
+<a name="l00107"></a>00107       $this-&gt;all[<a class="code" href="balance_8php.html#a12">$i</a>]-&gt;create_account=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['fd_create_account'];
 <a name="l00108"></a>00108     }
 <a name="l00109"></a>00109   }
 </pre></div>
@@ -278,8 +278,8 @@ Get attribut of a fiche_def.
 <p>
 Definition at line <a class="el" href="class__fiche_8php-source.html#l00051">51</a> of file <a class="el" href="class__fiche_8php-source.html">class_fiche.php</a>.
 <p>
-References <a class="el" href="balance_8php-source.html#l00118">$i</a>, <a class="el" href="line__update_8php-source.html#l00070">$Ret</a>, <a class="el" href="cbc__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00151">$sql</a>, <a class="el" href="impress__rapport_8php-source.html#l00062">$t</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="impress__listing__client_8php-source.html#l00059">return</a>.<div class="fragment"><pre class="fragment"><a name="l00051"></a>00051                          {
-<a name="l00052"></a>00052     <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"select * from jnt_fic_attr "</span>.
+References <a class="el" href="balance_8php-source.html#l00118">$i</a>, <a class="el" href="line__update_8php-source.html#l00070">$Ret</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00167">$sql</a>, <a class="el" href="impress__rapport_8php-source.html#l00062">$t</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="impress__listing__client_8php-source.html#l00059">return</a>.<div class="fragment"><pre class="fragment"><a name="l00051"></a>00051                          {
+<a name="l00052"></a>00052     <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">"select * from jnt_fic_attr "</span>.
 <a name="l00053"></a>00053       <span class="stringliteral">" natural join attr_def where fd_id="</span>.$this-&gt;id.
 <a name="l00054"></a>00054       <span class="stringliteral">" order by ad_id"</span>;
 <a name="l00055"></a>00055 
@@ -288,9 +288,9 @@ References <a class="el" href="balance_8php-source.html#l00118">$i</a>, <a class
 <a name="l00058"></a>00058     <span class="keywordflow">if</span> ( ($Max=pg_NumRows($Ret)) == 0 )
 <a name="l00059"></a>00059       <a class="code" href="impress__listing__client_8php.html#a2">return</a> ;
 <a name="l00060"></a>00060     <span class="keywordflow">for</span> ($i=0;$i &lt; $Max;$i++) {
-<a name="l00061"></a>00061       <a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($Ret,$i);
+<a name="l00061"></a>00061       <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($Ret,$i);
 <a name="l00062"></a>00062       <a class="code" href="impress__rapport_8php.html#a3">$t</a> = <span class="keyword">new</span> <a class="code" href="classAttribut.html">Attribut</a>($row['ad_id']);
-<a name="l00063"></a>00063       <a class="code" href="impress__rapport_8php.html#a3">$t</a>-&gt;ad_text=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['ad_text'];
+<a name="l00063"></a>00063       <a class="code" href="impress__rapport_8php.html#a3">$t</a>-&gt;ad_text=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['ad_text'];
 <a name="l00064"></a>00064       $this-&gt;attribut[<a class="code" href="balance_8php.html#a12">$i</a>]=<a class="code" href="impress__rapport_8php.html#a3">$t</a>;
 <a name="l00065"></a>00065     }
 <a name="l00066"></a>00066     <span class="keywordflow">return</span> $this-&gt;attribut;

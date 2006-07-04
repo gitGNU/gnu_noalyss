@@ -61,23 +61,23 @@ Following the error code show adialog box.
 Definition at line <a class="el" href="error_8php-source.html#l00033">33</a> of file <a class="el" href="error_8php-source.html">error.php</a>.<div class="fragment"><pre class="fragment"><a name="l00033"></a>00033                                   {
 <a name="l00034"></a>00034 
 <a name="l00035"></a>00035     <span class="keywordflow">switch</span>( $p_result) {
-<a name="l00036"></a>00036       <span class="keywordflow">case</span> <a class="code" href="constant_8php.html#a24">NOERROR</a>:
+<a name="l00036"></a>00036       <span class="keywordflow">case</span> <a class="code" href="constant_8php.html#a29">NOERROR</a>:
 <a name="l00037"></a>00037         <span class="keywordflow">break</span>;
-<a name="l00038"></a>00038     <span class="keywordflow">case</span> <a class="code" href="constant_8php.html#a25">BADPARM</a>:
+<a name="l00038"></a>00038     <span class="keywordflow">case</span> <a class="code" href="constant_8php.html#a30">BADPARM</a>:
 <a name="l00039"></a>00039       <span class="keywordflow">break</span>;
-<a name="l00040"></a>00040     <span class="keywordflow">case</span> <a class="code" href="constant_8php.html#a26">BADDATE</a>:
+<a name="l00040"></a>00040     <span class="keywordflow">case</span> <a class="code" href="constant_8php.html#a31">BADDATE</a>:
 <a name="l00041"></a>00041       echo <span class="stringliteral">"&lt;SCRIPT&gt; alert('Invalid Date'); &lt;/SCRIPT&gt;"</span>;
 <a name="l00042"></a>00042       <span class="keywordflow">break</span>;
-<a name="l00043"></a>00043     <span class="keywordflow">case</span> <a class="code" href="constant_8php.html#a27">NOTPERIODE</a>:
+<a name="l00043"></a>00043     <span class="keywordflow">case</span> <a class="code" href="constant_8php.html#a32">NOTPERIODE</a>:
 <a name="l00044"></a>00044         echo <span class="stringliteral">"&lt;SCRIPT&gt; alert('Date n\'est pas dans la période par défaut, changez vos préférences'); &lt;/SCRIPT&gt;"</span>;
 <a name="l00045"></a>00045         <span class="keywordflow">break</span>;
-<a name="l00046"></a>00046     <span class="keywordflow">case</span> <a class="code" href="constant_8php.html#a28">PERIODCLOSED</a>:
+<a name="l00046"></a>00046     <span class="keywordflow">case</span> <a class="code" href="constant_8php.html#a33">PERIODCLOSED</a>:
 <a name="l00047"></a>00047       echo <span class="stringliteral">"&lt;SCRIPT&gt; alert('La date est dans une période cloturé'); &lt;/SCRIPT&gt;"</span>; 
 <a name="l00048"></a>00048       <span class="keywordflow">break</span>;
-<a name="l00049"></a>00049     <span class="keywordflow">case</span> <a class="code" href="constant_8php.html#a29">INVALID_ECH</a>:
+<a name="l00049"></a>00049     <span class="keywordflow">case</span> <a class="code" href="constant_8php.html#a34">INVALID_ECH</a>:
 <a name="l00050"></a>00050         echo <span class="stringliteral">"&lt;SCRIPT&gt; alert('Invalid Echeance Date'); &lt;/SCRIPT&gt;"</span>;
 <a name="l00051"></a>00051         <span class="keywordflow">break</span>;
-<a name="l00052"></a>00052     <span class="keywordflow">case</span> <a class="code" href="constant_8php.html#a30">RAPPT_ALREADY_USED</a>:
+<a name="l00052"></a>00052     <span class="keywordflow">case</span> <a class="code" href="constant_8php.html#a35">RAPPT_ALREADY_USED</a>:
 <a name="l00053"></a>00053       echo '&lt;SCRIPT&gt;alert(<span class="stringliteral">"Ne peut enregister le rapprochement l\'opération '.$p_rapt. "</span> est déjà utilisée\<span class="stringliteral">")&lt;/SCRIPT&gt;"</span>;
 <a name="l00054"></a>00054       <span class="keywordflow">break</span>;
 <a name="l00055"></a>00055     <span class="keywordflow">case</span> RAPPT_NOT_EXIST:

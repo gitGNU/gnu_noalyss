@@ -48,7 +48,7 @@
 <a name="l00043"></a>00043 
 <a name="l00044"></a><a class="code" href="export__ouv_8php.html#a2">00044</a> <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>($_SESSION['g_dossier']);
 <a name="l00045"></a>00045 <span class="comment">// TODO : add a check for permission</span>
-<a name="l00046"></a>00046 <span class="keywordflow">if</span> ( $User-&gt;CheckAction($cn,<a class="code" href="constant_8php.html#a22">EXP_IMP_ECR</a>) == 0 ) {
+<a name="l00046"></a>00046 <span class="keywordflow">if</span> ( $User-&gt;CheckAction($cn,<a class="code" href="constant_8php.html#a27">EXP_IMP_ECR</a>) == 0 ) {
 <a name="l00047"></a>00047   <span class="comment">/* Cannot Access */</span>
 <a name="l00048"></a>00048   <a class="code" href="ac__common_8php.html#a8">NoAccess</a>();
 <a name="l00049"></a><a class="code" href="export__ouv_8php.html#a3">00049</a>   <a class="code" href="balance_8php.html#a0">exit</a> -1;                      
@@ -78,7 +78,7 @@
 <a name="l00073"></a>00073         <span class="comment">// fill the object</span>
 <a name="l00074"></a>00074         <a class="code" href="impress__poste_8php.html#a0">$Poste</a>-&gt;get();
 <a name="l00075"></a>00075         <span class="comment">// build sql stmt</span>
-<a name="l00076"></a><a class="code" href="export__ouv_8php.html#a8">00076</a>         <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"j_tech_per &gt;="</span>. <a class="code" href="export__ouv_8php.html#a4">$sql_from</a>[0]['min'].<span class="stringliteral">" and j_tech_per &lt;="</span>.<a class="code" href="export__ouv_8php.html#a5">$sql_to</a>[0]['max'];
+<a name="l00076"></a><a class="code" href="export__ouv_8php.html#a8">00076</a>         <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">"j_tech_per &gt;="</span>. <a class="code" href="export__ouv_8php.html#a4">$sql_from</a>[0]['min'].<span class="stringliteral">" and j_tech_per &lt;="</span>.<a class="code" href="export__ouv_8php.html#a5">$sql_to</a>[0]['max'];
 <a name="l00077"></a><a class="code" href="export__ouv_8php.html#a9">00077</a>         <a class="code" href="export__ouv_8php.html#a9">$result</a>=<a class="code" href="impress__poste_8php.html#a0">$Poste</a>-&gt;GetSoldeDetail($sql );
 <a name="l00078"></a><a class="code" href="export__ouv_8php.html#a10">00078</a>         <a class="code" href="impress__poste_8php.html#a0">$Poste</a>-&gt;label=str_replace(<span class="charliteral">';'</span>,'',$Poste-&gt;label);
 <a name="l00079"></a>00079         

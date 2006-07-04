@@ -31,7 +31,7 @@
 <a name="l00026"></a>00026 <span class="comment"></span><span class="comment">//-----------------------------------------------------</span>
 <a name="l00027"></a>00027 <span class="comment">// Bank type = eub</span>
 <a name="l00028"></a>00028 <span class="comment">//-----------------------------------------------------</span>
-<a name="l00029"></a><a class="code" href="eub__be_8inc_8php.html#a0">00029</a> <a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>=1;
+<a name="l00029"></a><a class="code" href="eub__be_8inc_8php.html#a0">00029</a> <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>=1;
 <a name="l00030"></a>00030 <span class="keywordflow">while</span> (($data = fgetcsv($handle, 2000,'!@')) !== FALSE) {
 <a name="l00031"></a>00031         <a class="code" href="jrn__add_8php.html#a17">$num</a> = count($data);
 <a name="l00032"></a>00032         <span class="keywordflow">for</span> ($c=0; $c &lt; $num; $c++) {
@@ -76,10 +76,10 @@
 <a name="l00071"></a>00071 <span class="stringliteral">                        '$p_bq_account',</span>
 <a name="l00072"></a>00072 <span class="stringliteral">                        $p_jrn,</span>
 <a name="l00073"></a>00073 <span class="stringliteral">                        false)"</span>;
-<a name="l00074"></a><a class="code" href="eub__be_8inc_8php.html#a5">00074</a>                 <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$Sql);
+<a name="l00074"></a><a class="code" href="eub__be_8inc_8php.html#a5">00074</a>                 <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$Sql);
 <a name="l00075"></a>00075                 }
 <a name="l00076"></a>00076         } <span class="comment">// for ($c=0;$c&lt;$num;$c++)</span>
-<a name="l00077"></a>00077                 <a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>++;
+<a name="l00077"></a>00077                 <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>++;
 <a name="l00078"></a>00078 } <span class="comment">// file is read</span>
 <a name="l00079"></a>00079 fclose($handle);
 <a name="l00080"></a>00080 ?&gt;

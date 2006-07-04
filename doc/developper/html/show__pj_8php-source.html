@@ -46,7 +46,7 @@
 <a name="l00037"></a><a class="code" href="show__pj_8php.html#a2">00037</a> <a class="code" href="user__action__ach_8php.html#a9">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>(<a class="code" href="postgres_8php.html#a1">DbConnect</a>());
 <a name="l00038"></a>00038 <a class="code" href="user__action__ach_8php.html#a9">$User</a>-&gt;Check();
 <a name="l00039"></a>00039 <span class="comment">// retrieve the jrn</span>
-<a name="l00040"></a><a class="code" href="show__pj_8php.html#a3">00040</a> <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select jr_def_id from jrn where jr_grpt_id=$jr_grpt_id"</span>);
+<a name="l00040"></a><a class="code" href="show__pj_8php.html#a3">00040</a> <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select jr_def_id from jrn where jr_grpt_id=$jr_grpt_id"</span>);
 <a name="l00041"></a>00041 <span class="keywordflow">if</span> ( pg_num_rows($r) == 0 ) {
 <a name="l00042"></a>00042   <a class="code" href="ac__common_8php.html#a0">echo_error</a>(<span class="stringliteral">"Invalid operation id jr_grpt_id=$jr_grpt_id"</span>);
 <a name="l00043"></a><a class="code" href="show__pj_8php.html#a4">00043</a>   <a class="code" href="balance_8php.html#a0">exit</a>;
@@ -64,7 +64,7 @@
 <a name="l00055"></a><a class="code" href="show__pj_8php.html#a7">00055</a> <a class="code" href="impress__bilan_8php.html#a0">$ret</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select jr_pj,jr_pj_name,jr_pj_type from jrn where jr_grpt_id=$jr_grpt_id"</span>);
 <a name="l00056"></a>00056 <span class="keywordflow">if</span> ( pg_num_rows ($ret) == 0 )
 <a name="l00057"></a>00057         <span class="keywordflow">return</span>;
-<a name="l00058"></a><a class="code" href="show__pj_8php.html#a8">00058</a> <a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($ret,0);
+<a name="l00058"></a><a class="code" href="show__pj_8php.html#a8">00058</a> <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($ret,0);
 <a name="l00059"></a><a class="code" href="show__pj_8php.html#a9">00059</a> <a class="code" href="show__document__modele_8php.html#a5">$tmp</a>=tempnam('/tmp/<span class="charliteral">','</span>document_');
 <a name="l00060"></a>00060 pg_lo_export($cn,$row['jr_pj'],$tmp);
 <a name="l00061"></a>00061 ini_set('zlib.output_compression<span class="charliteral">','</span>Off');

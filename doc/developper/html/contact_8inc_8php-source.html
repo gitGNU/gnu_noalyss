@@ -50,9 +50,9 @@
 <a name="l00048"></a>00048 <span class="keywordflow">if</span> ( isset ($_POST['<span class="keyword">delete</span>']) ) 
 <a name="l00049"></a>00049 {
 <a name="l00050"></a>00050   echo '<span class="keyword">delete</span>';
-<a name="l00051"></a>00051   $f_id=$_REQUEST['<a class="code" href="facture_8inc_8php.html#a19">f_id</a>'];
+<a name="l00051"></a>00051   $f_id=$_REQUEST['<a class="code" href="facture_8inc_8php.html#a21">f_id</a>'];
 <a name="l00052"></a>00052 
-<a name="l00053"></a>00053   <a class="code" href="impress__fiche_8php.html#a9">$fiche</a>=<span class="keyword">new</span> <a class="code" href="classcontact.html">contact</a>($cn,$<a class="code" href="facture_8inc_8php.html#a19">f_id</a>);
+<a name="l00053"></a>00053   <a class="code" href="impress__fiche_8php.html#a9">$fiche</a>=<span class="keyword">new</span> <a class="code" href="classcontact.html">contact</a>($cn,$<a class="code" href="facture_8inc_8php.html#a21">f_id</a>);
 <a name="l00054"></a>00054   <a class="code" href="impress__fiche_8php.html#a9">$fiche</a>-&gt;remove();
 <a name="l00055"></a>00055   <a class="code" href="action_8inc_8php.html#a0">$sub_action</a>=<span class="stringliteral">"list"</span>; 
 <a name="l00056"></a>00056 }
@@ -75,9 +75,9 @@
 <a name="l00073"></a>00073 <span class="keywordflow">if</span> ( isset ($_POST['mod'])) 
 <a name="l00074"></a>00074 {
 <a name="l00075"></a>00075   <span class="comment">// modification is asked</span>
-<a name="l00076"></a>00076   $f_id=$_REQUEST['<a class="code" href="facture_8inc_8php.html#a19">f_id</a>'];
+<a name="l00076"></a>00076   $f_id=$_REQUEST['<a class="code" href="facture_8inc_8php.html#a21">f_id</a>'];
 <a name="l00077"></a>00077 
-<a name="l00078"></a>00078   <a class="code" href="contact_8inc_8php.html#a11">$contact</a>=<span class="keyword">new</span> <a class="code" href="classcontact.html">contact</a>($cn,$<a class="code" href="facture_8inc_8php.html#a19">f_id</a>);
+<a name="l00078"></a>00078   <a class="code" href="contact_8inc_8php.html#a11">$contact</a>=<span class="keyword">new</span> <a class="code" href="classcontact.html">contact</a>($cn,$<a class="code" href="facture_8inc_8php.html#a21">f_id</a>);
 <a name="l00079"></a>00079   <a class="code" href="contact_8inc_8php.html#a11">$contact</a>-&gt;Save();
 <a name="l00080"></a>00080   <a class="code" href="action_8inc_8php.html#a0">$sub_action</a>=<span class="stringliteral">"list"</span>;
 <a name="l00081"></a>00081 }
@@ -131,7 +131,7 @@
 <a name="l00129"></a><a class="code" href="contact_8inc_8php.html#a4">00129</a>  <a class="code" href="admin_8inc_8php.html#a4">$w</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"select"</span>);
 <a name="l00130"></a><a class="code" href="contact_8inc_8php.html#a5">00130</a>  <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;name=<span class="stringliteral">"fd_id"</span>;
 <a name="l00131"></a><a class="code" href="contact_8inc_8php.html#a6">00131</a>  <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;value= <a class="code" href="ac__common_8php.html#a12">make_array</a>($cn,<span class="stringliteral">"select fd_id,fd_label from fiche_def where "</span>.
-<a name="l00132"></a>00132              <span class="stringliteral">" frd_id="</span>.<a class="code" href="constant_8php.html#a68">FICHE_TYPE_CONTACT</a>);
+<a name="l00132"></a>00132              <span class="stringliteral">" frd_id="</span>.<a class="code" href="constant_8php.html#a73">FICHE_TYPE_CONTACT</a>);
 <a name="l00133"></a>00133  <span class="comment">// if array is empty show an warning and stops</span>
 <a name="l00134"></a>00134  <span class="keywordflow">if</span> ( <span class="keyword">sizeof</span> ($w-&gt;value) == 0 ) {
 <a name="l00135"></a>00135    echo '&lt;p style=<span class="stringliteral">"color:red"</span>&gt;Aucune <a class="code" href="classfiche.html">fiche</a> de catégories <a class="code" href="classcontact.html">contact</a>&lt;/p&gt;';
@@ -149,15 +149,15 @@
 <a name="l00147"></a>00147 
 <a name="l00148"></a>00148 &lt;form&gt;
 <a name="l00149"></a>00149 &lt;?
-<a name="l00150"></a><a class="code" href="contact_8inc_8php.html#a7">00150</a>    <a class="code" href="bank_8inc_8php.html#a15">$qcode</a>=(isset($_GET['qcode']))?$_GET['qcode']:<span class="stringliteral">""</span>;
-<a name="l00151"></a>00151  echo <a class="code" href="constant_8php.html#a80">JS_SEARCH_CARD</a>;
+<a name="l00150"></a><a class="code" href="contact_8inc_8php.html#a7">00150</a>    <a class="code" href="bank_8inc_8php.html#a16">$qcode</a>=(isset($_GET['qcode']))?$_GET['qcode']:<span class="stringliteral">""</span>;
+<a name="l00151"></a>00151  echo <a class="code" href="constant_8php.html#a85">JS_SEARCH_CARD</a>;
 <a name="l00152"></a>00152  <a class="code" href="admin_8inc_8php.html#a4">$w</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>('js_search_only');
 <a name="l00153"></a>00153  <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;name='qcode';
-<a name="l00154"></a>00154  <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;value=<a class="code" href="bank_8inc_8php.html#a15">$qcode</a>;
+<a name="l00154"></a>00154  <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;value=<a class="code" href="bank_8inc_8php.html#a16">$qcode</a>;
 <a name="l00155"></a><a class="code" href="contact_8inc_8php.html#a8">00155</a>  <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;label='qcode';
 <a name="l00156"></a><a class="code" href="contact_8inc_8php.html#a9">00156</a>  <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;extra='4,8,9,14';
-<a name="l00157"></a><a class="code" href="contact_8inc_8php.html#a10">00157</a>  <a class="code" href="bank_8inc_8php.html#a18">$sp</a>= <span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"span"</span>);
-<a name="l00158"></a>00158  echo <a class="code" href="bank_8inc_8php.html#a18">$sp</a>-&gt;IOValue(<span class="stringliteral">"qcode_label"</span>,$qcode).<span class="stringliteral">"&lt;/TD&gt;&lt;/TR&gt;"</span>;
+<a name="l00157"></a><a class="code" href="contact_8inc_8php.html#a10">00157</a>  <a class="code" href="bank_8inc_8php.html#a19">$sp</a>= <span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"span"</span>);
+<a name="l00158"></a>00158  echo <a class="code" href="bank_8inc_8php.html#a19">$sp</a>-&gt;IOValue(<span class="stringliteral">"qcode_label"</span>,$qcode).<span class="stringliteral">"&lt;/TD&gt;&lt;/TR&gt;"</span>;
 <a name="l00159"></a>00159 
 <a name="l00160"></a>00160  echo <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;IOValue();
 <a name="l00161"></a>00161 
@@ -172,7 +172,7 @@
 <a name="l00170"></a>00170  <span class="comment">// check if a company is asked if yes, add a condition</span>
 <a name="l00171"></a>00171  <span class="keywordflow">if</span> ( $qcode != <span class="stringliteral">""</span> )
 <a name="l00172"></a>00172    {
-<a name="l00173"></a>00173      <a class="code" href="contact_8inc_8php.html#a11">$contact</a>-&gt;company=<a class="code" href="bank_8inc_8php.html#a15">$qcode</a>;
+<a name="l00173"></a>00173      <a class="code" href="contact_8inc_8php.html#a11">$contact</a>-&gt;company=<a class="code" href="bank_8inc_8php.html#a16">$qcode</a>;
 <a name="l00174"></a>00174    }
 <a name="l00175"></a>00175  echo $retour;
 <a name="l00176"></a>00176  echo '&lt;div <span class="keyword">class</span>=<span class="stringliteral">"u_redcontent"</span>&gt;';
@@ -186,9 +186,9 @@
 <a name="l00184"></a>00184 <span class="comment">// Show Detail</span>
 <a name="l00185"></a>00185 <span class="keywordflow">if</span> ( $sub_action == 'detail' )
 <a name="l00186"></a>00186 {
-<a name="l00187"></a>00187   $f_id=$_REQUEST['<a class="code" href="facture_8inc_8php.html#a19">f_id</a>'];
+<a name="l00187"></a>00187   $f_id=$_REQUEST['<a class="code" href="facture_8inc_8php.html#a21">f_id</a>'];
 <a name="l00188"></a>00188   echo '&lt;div <span class="keyword">class</span>=<span class="stringliteral">"u_redcontent"</span>&gt;';
-<a name="l00189"></a>00189   <a class="code" href="contact_8inc_8php.html#a11">$contact</a>=<span class="keyword">new</span> <a class="code" href="classcontact.html">contact</a>($cn,$<a class="code" href="facture_8inc_8php.html#a19">f_id</a>);
+<a name="l00189"></a>00189   <a class="code" href="contact_8inc_8php.html#a11">$contact</a>=<span class="keyword">new</span> <a class="code" href="classcontact.html">contact</a>($cn,$<a class="code" href="facture_8inc_8php.html#a21">f_id</a>);
 <a name="l00190"></a>00190   echo $retour;
 <a name="l00191"></a>00191   echo '&lt;form <a class="code" href="classaction.html">action</a>=<span class="stringliteral">"'.$_SERVER['REQUEST_URI'].'"</span> method=<span class="stringliteral">"post"</span>&gt;'; 
 <a name="l00192"></a>00192   echo <a class="code" href="contact_8inc_8php.html#a11">$contact</a>-&gt;Display(<span class="keyword">false</span>);

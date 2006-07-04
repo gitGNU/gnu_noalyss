@@ -106,9 +106,9 @@
 <a name="l00101"></a>00101                   <span class="stringliteral">"select * from user_sec_jrn where uj_login='$login' and uj_jrn_id=$jrn"</span>);
 <a name="l00102"></a><a class="code" href="user__sec_8php.html#a8">00102</a>   <a class="code" href="user__sec_8php.html#a8">$l2_count</a>=pg_NumRows($l2_Res);
 <a name="l00103"></a>00103   <span class="keywordflow">if</span> ( $l2_count == 1 ) {
-<a name="l00104"></a>00104     <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn_dossier,<span class="stringliteral">"update  user_sec_jrn set uj_priv='$access' where uj_login='$login' and uj_jrn_id=$jrn"</span>);
+<a name="l00104"></a>00104     <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn_dossier,<span class="stringliteral">"update  user_sec_jrn set uj_priv='$access' where uj_login='$login' and uj_jrn_id=$jrn"</span>);
 <a name="l00105"></a>00105   } <span class="keywordflow">else</span> {
-<a name="l00106"></a>00106     <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn_dossier,<span class="stringliteral">"insert into  user_sec_jrn(uj_login,uj_jrn_id,uj_priv) values( '$login' ,$jrn,'$access')"</span>);
+<a name="l00106"></a>00106     <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn_dossier,<span class="stringliteral">"insert into  user_sec_jrn(uj_login,uj_jrn_id,uj_priv) values( '$login' ,$jrn,'$access')"</span>);
 <a name="l00107"></a>00107   }
 <a name="l00108"></a>00108 
 <a name="l00109"></a>00109   <a class="code" href="periode_8inc_8php.html#a1">$action</a>=<span class="stringliteral">"view"</span>;
@@ -124,11 +124,11 @@
 <a name="l00119"></a>00119   <a class="code" href="user__sec_8php.html#a2">$cn_dossier</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>($_SESSION['g_dossier']);
 <a name="l00120"></a>00120   <span class="keywordflow">if</span> ( $_GET['access']==0) {
 <a name="l00121"></a>00121     <a class="code" href="debug_8php.html#a0">echo_debug</a>('user_sec.php',__LINE__,<span class="stringliteral">"delete right"</span>);
-<a name="l00122"></a><a class="code" href="user__sec_8php.html#a9">00122</a>     <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn_dossier,
+<a name="l00122"></a><a class="code" href="user__sec_8php.html#a9">00122</a>     <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn_dossier,
 <a name="l00123"></a>00123                  <span class="stringliteral">"delete from user_sec_act where ua_login='"</span>.$_GET['login'].<span class="stringliteral">"' and ua_act_id=$act"</span>);
 <a name="l00124"></a>00124   } <span class="keywordflow">else</span> {
 <a name="l00125"></a>00125     <a class="code" href="debug_8php.html#a0">echo_debug</a>('user_sec.php',__LINE__,<span class="stringliteral">"insert right"</span>);
-<a name="l00126"></a>00126     <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn_dossier,
+<a name="l00126"></a>00126     <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn_dossier,
 <a name="l00127"></a>00127                  <span class="stringliteral">"insert into  user_sec_act(ua_login,ua_act_id) values( '$login' ,$act)"</span>);
 <a name="l00128"></a>00128   }
 <a name="l00129"></a>00129   <a class="code" href="periode_8inc_8php.html#a1">$action</a>=<span class="stringliteral">"view"</span>;
@@ -161,7 +161,7 @@
 <a name="l00156"></a>00156           );
 <a name="l00157"></a>00157 
 <a name="l00158"></a>00158   <span class="comment">// Show access for journal</span>
-<a name="l00159"></a>00159   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn_dossier,<span class="stringliteral">"select jrn_def_id,jrn_def_name  from jrn_def "</span>);
+<a name="l00159"></a>00159   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn_dossier,<span class="stringliteral">"select jrn_def_id,jrn_def_name  from jrn_def "</span>);
 <a name="l00160"></a><a class="code" href="user__sec_8php.html#a11">00160</a>   <a class="code" href="admin_8inc_8php.html#a1">$admin</a>=<a class="code" href="check__priv_8php.html#a2">CheckIsAdmin</a>($l2_line['use_login']);
 <a name="l00161"></a>00161 
 <a name="l00162"></a>00162   echo '&lt;<a class="code" href="balance_8php.html#a3">table</a> align=<span class="stringliteral">"CENTER"</span> <a class="code" href="tva_8inc_8php.html#a17">width</a>=<span class="stringliteral">"100%"</span>&gt;';
@@ -218,7 +218,7 @@
 <a name="l00213"></a>00213   }
 <a name="l00214"></a>00214 
 <a name="l00215"></a>00215   <span class="comment">// Priv. for actions</span>
-<a name="l00216"></a>00216   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn_dossier,
+<a name="l00216"></a>00216   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn_dossier,
 <a name="l00217"></a>00217                <span class="stringliteral">"select ac_id, ac_description from action   order by ac_description "</span>);
 <a name="l00218"></a>00218 
 <a name="l00219"></a>00219   <a class="code" href="user__sec_8php.html#a12">$MaxJrn</a>=pg_NumRows($Res);

@@ -32,11 +32,11 @@
 <a name="l00030"></a>00030   <span class="comment">// constructor </span>
 <a name="l00031"></a><a class="code" href="classOwn.html#a0">00031</a>   function <a class="code" href="classOwn.html#a0">Own</a>($p_cn) {
 <a name="l00032"></a>00032     $this-&gt;db=$p_cn;
-<a name="l00033"></a>00033     <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select * from parameter where pr_id like 'MY_%'"</span>);
+<a name="l00033"></a>00033     <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select * from parameter where pr_id like 'MY_%'"</span>);
 <a name="l00034"></a>00034     <span class="keywordflow">for</span> ($i = 0;$i &lt; pg_NumRows($Res);$i++) {
-<a name="l00035"></a>00035       <a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($Res,$i);
-<a name="l00036"></a>00036       $key=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['pr_id'];
-<a name="l00037"></a>00037       $elt=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['pr_value'];
+<a name="l00035"></a>00035       <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($Res,$i);
+<a name="l00036"></a>00036       $key=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['pr_id'];
+<a name="l00037"></a>00037       $elt=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['pr_value'];
 <a name="l00038"></a>00038       <span class="comment">// store value here</span>
 <a name="l00039"></a>00039       $this-&gt;{<span class="stringliteral">"$key"</span>}=$elt;
 <a name="l00040"></a>00040     }
@@ -44,7 +44,7 @@
 <a name="l00042"></a>00042   }
 <a name="l00051"></a><a class="code" href="classOwn.html#a1">00051</a>   function <a class="code" href="classOwn.html#a1">UpdateRow</a>($p_attr) {
 <a name="l00052"></a>00052     $value=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($this-&gt;{<span class="stringliteral">"$p_attr"</span>});
-<a name="l00053"></a>00053     <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,<span class="stringliteral">"update parameter set pr_value='$value' where pr_id='$p_attr'"</span>);
+<a name="l00053"></a>00053     <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,<span class="stringliteral">"update parameter set pr_value='$value' where pr_id='$p_attr'"</span>);
 <a name="l00054"></a>00054   }
 <a name="l00055"></a>00055 
 <a name="l00062"></a><a class="code" href="classOwn.html#a2">00062</a>   function Save() {

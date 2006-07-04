@@ -75,9 +75,9 @@ Max of ligne definie dans le journal.
 <p>
 Definition at line <a class="el" href="poste_8php-source.html#l00062">62</a> of file <a class="el" href="poste_8php-source.html">poste.php</a>.
 <p>
-References <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="jrn__detail_8php-source.html#l00128">$l_line</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00063"></a>00063 {
+References <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="jrn__detail_8php-source.html#l00128">$l_line</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00063"></a>00063 {
 <a name="l00064"></a>00064   <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>($p_dossier);
-<a name="l00065"></a>00065   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select jrn_deb_max_line,jrn_cred_max_line from jrn_def where jrn_def_id=$p_jrn"</span>);
+<a name="l00065"></a>00065   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select jrn_deb_max_line,jrn_cred_max_line from jrn_def where jrn_def_id=$p_jrn"</span>);
 <a name="l00066"></a>00066   <span class="keywordflow">if</span> ( pg_NumRows($Res) == 0 ) {
 <a name="l00067"></a>00067     echo <span class="stringliteral">"&lt;H2 class=\"warning\"&gt; Journal non trouvé &lt;/H2&gt;"</span>;
 <a name="l00068"></a>00068     <span class="comment">//    return (3,3);</span>
@@ -147,7 +147,7 @@ Return the label of a poste.
 <p>
 Definition at line <a class="el" href="poste_8php-source.html#l00036">36</a> of file <a class="el" href="poste_8php-source.html">poste.php</a>.
 <p>
-References <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
+References <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
 <p>
 Referenced by <a class="el" href="user__form__ods_8php-source.html#l00045">FormODS()</a>, <a class="el" href="class__balance_8php-source.html#l00053">Balance::GetRow()</a>, <a class="el" href="impress__inc_8php-source.html#l00119">ImpHtml()</a>, and <a class="el" href="jrn_8php-source.html#l00457">ViewRecord()</a>.<div class="fragment"><pre class="fragment"><a name="l00037"></a>00037 {
 <a name="l00038"></a>00038   include_once(<span class="stringliteral">"postgres.php"</span>);
@@ -157,7 +157,7 @@ Referenced by <a class="el" href="user__form__ods_8php-source.html#l00045">FormO
 <a name="l00042"></a>00042   } <span class="keywordflow">else</span> {
 <a name="l00043"></a>00043     <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=$p_dossier;
 <a name="l00044"></a>00044   }
-<a name="l00045"></a>00045   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select pcm_lib from tmp_pcmn where pcm_val=$p_id"</span>);
+<a name="l00045"></a>00045   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select pcm_lib from tmp_pcmn where pcm_val=$p_id"</span>);
 <a name="l00046"></a>00046   <span class="keywordflow">if</span> ( pg_NumRows($Res) == 0) { <span class="keywordflow">return</span> <span class="stringliteral">"non existing poste"</span>;}
 <a name="l00047"></a>00047   $l_poste=pg_fetch_row($Res,0);
 <a name="l00048"></a>00048   <span class="keywordflow">return</span> $l_poste[0];
@@ -221,10 +221,10 @@ give the balance of an account
 <p>
 Definition at line <a class="el" href="poste_8php-source.html#l00114">114</a> of file <a class="el" href="poste_8php-source.html">poste.php</a>.
 <p>
-References <a class="el" href="setup_8php-source.html#l00379">$Max</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
+References <a class="el" href="setup_8php-source.html#l00379">$Max</a>, <a class="el" href="bank_8inc_8php-source.html#l00235">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
 <p>
 Referenced by <a class="el" href="user__form__fin_8php-source.html#l00146">FormFin()</a>.<div class="fragment"><pre class="fragment"><a name="l00114"></a>00114                                                {
-<a name="l00115"></a>00115   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select j_poste,sum(deb) as sum_deb, sum(cred) as sum_cred from </span>
+<a name="l00115"></a>00115   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select j_poste,sum(deb) as sum_deb, sum(cred) as sum_cred from </span>
 <a name="l00116"></a>00116 <span class="stringliteral">          ( select j_poste, </span>
 <a name="l00117"></a>00117 <span class="stringliteral">             case when j_debit='t' then j_montant else 0 end as deb, </span>
 <a name="l00118"></a>00118 <span class="stringliteral">             case when j_debit='f' then j_montant else 0 end as cred </span>
@@ -234,9 +234,9 @@ Referenced by <a class="el" href="user__form__fin_8php-source.html#l00146">FormF
 <a name="l00122"></a>00122 <span class="stringliteral">          ) as m group by j_poste "</span>);
 <a name="l00123"></a>00123   <a class="code" href="setup_8php.html#a11">$Max</a>=pg_NumRows($Res);
 <a name="l00124"></a>00124   <span class="keywordflow">if</span> ($Max==0) <span class="keywordflow">return</span> 0;
-<a name="l00125"></a>00125   <a class="code" href="user__action__ach_8php.html#a2">$r</a>=pg_fetch_array($Res,0);
+<a name="l00125"></a>00125   <a class="code" href="bank_8inc_8php.html#a29">$r</a>=pg_fetch_array($Res,0);
 <a name="l00126"></a>00126 
-<a name="l00127"></a>00127   <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>['sum_deb']-<a class="code" href="user__action__ach_8php.html#a2">$r</a>['sum_cred'];
+<a name="l00127"></a>00127   <span class="keywordflow">return</span> <a class="code" href="bank_8inc_8php.html#a29">$r</a>['sum_deb']-<a class="code" href="bank_8inc_8php.html#a29">$r</a>['sum_cred'];
 <a name="l00128"></a>00128 }
 </pre></div>
 <p>
@@ -280,10 +280,10 @@ Cree un form pour prendre les postes.
 <p>
 Definition at line <a class="el" href="poste_8php-source.html#l00087">87</a> of file <a class="el" href="poste_8php-source.html">poste.php</a>.
 <p>
-References <a class="el" href="setup_8php-source.html#l00379">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="impress__bilan_8php-source.html#l00032">$ret</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
+References <a class="el" href="setup_8php-source.html#l00379">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="impress__bilan_8php-source.html#l00032">$ret</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
 <p>
 Referenced by <a class="el" href="impress__inc_8php-source.html#l00036">ViewImp()</a>.<div class="fragment"><pre class="fragment"><a name="l00087"></a>00087                           {
-<a name="l00088"></a>00088   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select pcm_val,pcm_lib from tmp_pcmn </span>
+<a name="l00088"></a>00088   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select pcm_val,pcm_lib from tmp_pcmn </span>
 <a name="l00089"></a>00089 <span class="stringliteral">         where pcm_val = any (select j_poste from jrnx) order by pcm_val::text"</span>);
 <a name="l00090"></a>00090   <a class="code" href="setup_8php.html#a11">$Max</a>=pg_NumRows($Res);
 <a name="l00091"></a>00091   <span class="keywordflow">if</span> ($Max==0) <span class="keywordflow">return</span> null;

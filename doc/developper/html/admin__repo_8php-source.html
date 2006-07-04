@@ -61,7 +61,7 @@
 <a name="l00057"></a>00057     <span class="keywordflow">if</span> ( isset ($_POST[<span class="stringliteral">"LOGIN"</span>]) ) {
 <a name="l00058"></a>00058       <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
 <a name="l00059"></a><a class="code" href="admin__repo_8php.html#a3">00059</a>       <a class="code" href="admin__repo_8php.html#a3">$pass5</a>=md5($_POST['PASS']);
-<a name="l00060"></a><a class="code" href="admin__repo_8php.html#a4">00060</a>       <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"insert into ac_users(use_first_name,use_name,use_login,use_active,use_pass)</span>
+<a name="l00060"></a><a class="code" href="admin__repo_8php.html#a4">00060</a>       <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"insert into ac_users(use_first_name,use_name,use_login,use_active,use_pass)</span>
 <a name="l00061"></a>00061 <span class="stringliteral">                    values ('"</span>.$_POST[<span class="stringliteral">"FNAME"</span>].<span class="stringliteral">"','"</span>.$_POST[<span class="stringliteral">"LNAME"</span>].<span class="stringliteral">"','"</span>.$_POST[<span class="stringliteral">"LOGIN"</span>].<span class="stringliteral">"',1,'$pass5')"</span>);
 <a name="l00062"></a>00062     } <span class="comment">//SET login</span>
 <a name="l00063"></a>00063 
@@ -121,7 +121,7 @@
 <a name="l00117"></a><a class="code" href="admin__repo_8php.html#a8">00117</a>         <a class="code" href="balance_8php.html#a0">exit</a> -1;
 <a name="l00118"></a>00118       }
 <a name="l00119"></a><a class="code" href="admin__repo_8php.html#a9">00119</a>       <a class="code" href="admin__repo_8php.html#a9">$desc</a>=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($_POST[<span class="stringliteral">"DESCRIPTION"</span>]);
-<a name="l00120"></a>00120       <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"insert into ac_dossier(dos_name,dos_description)</span>
+<a name="l00120"></a>00120       <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"insert into ac_dossier(dos_name,dos_description)</span>
 <a name="l00121"></a>00121 <span class="stringliteral">                    values ('"</span>.$dos.<span class="stringliteral">"','$desc')"</span>);
 <a name="l00122"></a>00122       <span class="comment">// If the id is not null, name successfully inserted</span>
 <a name="l00123"></a>00123       <span class="comment">// Database created</span>
@@ -130,7 +130,7 @@
 <a name="l00126"></a>00126         <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=sprintf(<span class="stringliteral">"CREATE DATABASE %sDOSSIER%d encoding='ISO8859-1' TEMPLATE %sMOD%d"</span>,<a class="code" href="constant_8php.html#a1">domaine</a>,$l_id,<a class="code" href="constant_8php.html#a1">domaine</a>,$_POST[<span class="stringliteral">"FMOD_ID"</span>]);
 <a name="l00127"></a>00127         <a class="code" href="debug_8php.html#a0">echo_debug</a>($Sql);
 <a name="l00128"></a>00128         <a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$Sql);
-<a name="l00129"></a>00129         <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"insert into jnt_use_dos (use_id,dos_id) values (1,$l_id)"</span>);
+<a name="l00129"></a>00129         <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"insert into jnt_use_dos (use_id,dos_id) values (1,$l_id)"</span>);
 <a name="l00130"></a>00130       } <span class="comment">// if $l_id != 0</span>
 <a name="l00131"></a>00131     } <span class="comment">// $_POST[DATABASE]</span>
 <a name="l00132"></a>00132 ?&gt;
@@ -139,7 +139,7 @@
 <a name="l00135"></a>00135 &lt;TABLE BORDER=1&gt;
 <a name="l00136"></a>00136 &lt;?
 <a name="l00137"></a>00137 <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
-<a name="l00138"></a>00138 <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a0">ShowDossier</a>('all');
+<a name="l00138"></a>00138 <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a0">ShowDossier</a>('all');
 <a name="l00139"></a>00139 <a class="code" href="admin__repo_8php.html#a6">$compteur</a>=1;
 <a name="l00140"></a><a class="code" href="admin__repo_8php.html#a11">00140</a> <a class="code" href="admin__repo_8php.html#a11">$template</a>=<span class="stringliteral">""</span>;
 <a name="l00141"></a>00141 
@@ -162,7 +162,7 @@
 <a name="l00158"></a>00158 }
 <a name="l00159"></a>00159 
 <a name="l00160"></a>00160   <span class="comment">// Load the available Templates</span>
-<a name="l00161"></a>00161 <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select mod_id,mod_name,mod_desc from </span>
+<a name="l00161"></a>00161 <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select mod_id,mod_name,mod_desc from </span>
 <a name="l00162"></a>00162 <span class="stringliteral">                      modeledef order by mod_name"</span>);
 <a name="l00163"></a><a class="code" href="admin__repo_8php.html#a13">00163</a> <a class="code" href="admin__repo_8php.html#a13">$count</a>=pg_NumRows($Res);
 <a name="l00164"></a>00164 
@@ -180,7 +180,7 @@
 <a name="l00176"></a>00176 <span class="comment">// Add a new folder</span>
 <a name="l00177"></a>00177 ?&gt;
 <a name="l00178"></a>00178 &lt;/TABLE&gt;
-<a name="l00179"></a>00179  &lt;<a class="code" href="constant_8php.html#a7">FORM</a> <a class="code" href="constant_8php.html#a39">ACTION</a>=<span class="stringliteral">"admin_repo.php?action=dossier_mgt"</span> <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"POST"</span>&gt;
+<a name="l00179"></a>00179  &lt;<a class="code" href="constant_8php.html#a7">FORM</a> <a class="code" href="constant_8php.html#a44">ACTION</a>=<span class="stringliteral">"admin_repo.php?action=dossier_mgt"</span> <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"POST"</span>&gt;
 <a name="l00180"></a>00180     &lt;TABLE&gt;
 <a name="l00181"></a>00181     &lt;TR&gt;
 <a name="l00182"></a>00182     &lt;TD&gt; Name&lt;/td&gt;&lt;td&gt;  &lt;INPUT TYPE=<span class="stringliteral">"TEXT"</span> NAME=<span class="stringliteral">"DATABASE"</span>&gt; &lt;/TD&gt;
@@ -206,7 +206,7 @@
 <a name="l00202"></a>00202       $mod_name=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($_POST[<span class="stringliteral">"FMOD_NAME"</span>]);
 <a name="l00203"></a><a class="code" href="admin__repo_8php.html#a14">00203</a>       <a class="code" href="admin__repo_8php.html#a14">$mod_desc</a>=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($_POST[<span class="stringliteral">"FMOD_DESC"</span>]);
 <a name="l00204"></a>00204       <span class="keywordflow">if</span> ( $mod_name != null) {
-<a name="l00205"></a>00205         <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"insert into modeledef(mod_name,mod_desc)</span>
+<a name="l00205"></a>00205         <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"insert into modeledef(mod_name,mod_desc)</span>
 <a name="l00206"></a>00206 <span class="stringliteral">                        values ('"</span>.$mod_name.<span class="stringliteral">"',"</span>.
 <a name="l00207"></a>00207                      <span class="stringliteral">"'"</span>.$mod_desc.<span class="stringliteral">"')"</span>);
 <a name="l00208"></a>00208         
@@ -220,24 +220,24 @@
 <a name="l00216"></a>00216 
 <a name="l00217"></a><a class="code" href="admin__repo_8php.html#a15">00217</a>       <a class="code" href="admin__repo_8php.html#a15">$cn_mod</a>=dbconnect($l_id,'mod');
 <a name="l00218"></a>00218       <span class="comment">// Clean some tables </span>
-<a name="l00219"></a>00219       <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn_mod,<span class="stringliteral">"truncate table jrn"</span>);
-<a name="l00220"></a>00220       <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn_mod,<span class="stringliteral">"truncate table jrnx"</span>);
-<a name="l00221"></a>00221       <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn_mod,<span class="stringliteral">"truncate table centralized"</span>);
-<a name="l00222"></a>00222       <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn_mod,<span class="stringliteral">"truncate table stock_goods"</span>);
+<a name="l00219"></a>00219       <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn_mod,<span class="stringliteral">"truncate table jrn"</span>);
+<a name="l00220"></a>00220       <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn_mod,<span class="stringliteral">"truncate table jrnx"</span>);
+<a name="l00221"></a>00221       <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn_mod,<span class="stringliteral">"truncate table centralized"</span>);
+<a name="l00222"></a>00222       <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn_mod,<span class="stringliteral">"truncate table stock_goods"</span>);
 <a name="l00223"></a>00223 <span class="comment">//      Reset the closed periode</span>
-<a name="l00224"></a>00224       <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn_mod,<span class="stringliteral">"update parm_periode set p_closed='f'"</span>);
+<a name="l00224"></a>00224       <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn_mod,<span class="stringliteral">"update parm_periode set p_closed='f'"</span>);
 <a name="l00225"></a>00225       <span class="comment">// Reset Sequence</span>
 <a name="l00226"></a><a class="code" href="admin__repo_8php.html#a16">00226</a>       <a class="code" href="admin__repo_8php.html#a16">$a_seq</a>=array('s_jrn<span class="charliteral">','</span>s_jrn_op<span class="charliteral">','</span>s_centralized<span class="charliteral">','</span>s_stock_goods');
 <a name="l00227"></a>00227       foreach ($a_seq as $seq ) {
-<a name="l00228"></a>00228         <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=sprintf(<span class="stringliteral">"select setval('%s',1,false)"</span>,$seq);
-<a name="l00229"></a>00229         <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn_mod,$sql);
+<a name="l00228"></a>00228         <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=sprintf(<span class="stringliteral">"select setval('%s',1,false)"</span>,$seq);
+<a name="l00229"></a>00229         <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn_mod,$sql);
 <a name="l00230"></a>00230         }
-<a name="l00231"></a><a class="code" href="admin__repo_8php.html#a17">00231</a>         <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"select jrn_def_id from jrn_def "</span>;
-<a name="l00232"></a>00232         <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn_mod,$sql);
+<a name="l00231"></a><a class="code" href="admin__repo_8php.html#a17">00231</a>         <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">"select jrn_def_id from jrn_def "</span>;
+<a name="l00232"></a>00232         <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn_mod,$sql);
 <a name="l00233"></a><a class="code" href="admin__repo_8php.html#a18">00233</a>         <a class="code" href="setup_8php.html#a11">$Max</a>=pg_NumRows($Res);
 <a name="l00234"></a>00234         <span class="keywordflow">for</span> ($seq=0;$seq&lt;$Max;$seq++) {
-<a name="l00235"></a>00235             <a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($Res,$seq);
-<a name="l00236"></a>00236             <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=sprintf (<span class="stringliteral">"select setval('s_jrn_%d',1,false)"</span>,$row['jrn_def_id']);
+<a name="l00235"></a>00235             <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($Res,$seq);
+<a name="l00236"></a>00236             <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=sprintf (<span class="stringliteral">"select setval('s_jrn_%d',1,false)"</span>,$row['jrn_def_id']);
 <a name="l00237"></a>00237             <a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn_mod,$sql);
 <a name="l00238"></a>00238         }
 <a name="l00239"></a>00239       
@@ -245,7 +245,7 @@
 <a name="l00241"></a>00241     }
 <a name="l00242"></a>00242     <span class="comment">// Show all available templates</span>
 <a name="l00243"></a>00243 
-<a name="l00244"></a>00244     <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select mod_id,mod_name,mod_desc from </span>
+<a name="l00244"></a>00244     <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select mod_id,mod_name,mod_desc from </span>
 <a name="l00245"></a>00245 <span class="stringliteral">                      modeledef order by mod_name"</span>);
 <a name="l00246"></a>00246     <a class="code" href="admin__repo_8php.html#a13">$count</a>=pg_NumRows($Res);
 <a name="l00247"></a>00247     <span class="keywordflow">if</span> ( $count == 0 ) {
@@ -276,7 +276,7 @@
 <a name="l00272"></a>00272         <span class="stringliteral">"et aucune données du dossier sur lequel le dossier est basé."</span>;
 <a name="l00273"></a>00273 
 <a name="l00274"></a>00274     <span class="comment">// Show All available folder</span>
-<a name="l00275"></a>00275     <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select dos_id, dos_name,dos_description from ac_dossier</span>
+<a name="l00275"></a>00275     <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select dos_id, dos_name,dos_description from ac_dossier</span>
 <a name="l00276"></a>00276 <span class="stringliteral">                      order by dos_name"</span>);
 <a name="l00277"></a>00277     <a class="code" href="admin__repo_8php.html#a13">$count</a>=pg_NumRows($Res);
 <a name="l00278"></a><a class="code" href="admin__repo_8php.html#a19">00278</a>     <a class="code" href="admin__repo_8php.html#a19">$available</a>=<span class="stringliteral">""</span>;

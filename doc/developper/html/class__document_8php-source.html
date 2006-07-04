@@ -52,7 +52,7 @@
 <a name="l00051"></a>00051       $this-&gt;<a class="code" href="action_8inc_8php.html#a12">d_id</a>=<a class="code" href="postgres_8php.html#a13">NextSequence</a>($this-&gt;db,<span class="stringliteral">"document_d_id_seq"</span>);
 <a name="l00052"></a>00052       <span class="comment">// affect a number</span>
 <a name="l00053"></a>00053       $this-&gt;d_number=<a class="code" href="postgres_8php.html#a13">NextSequence</a>($this-&gt;db,<span class="stringliteral">"seq_doc_type_"</span>.$this-&gt;md_type);
-<a name="l00054"></a>00054       <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=sprintf('insert into document(<a class="code" href="action_8inc_8php.html#a12">d_id</a>,<a class="code" href="action_8inc_8php.html#a4">ag_id</a>,d_number) values(%d,%d,%d)',
+<a name="l00054"></a>00054       <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=sprintf('insert into document(<a class="code" href="action_8inc_8php.html#a12">d_id</a>,<a class="code" href="action_8inc_8php.html#a4">ag_id</a>,d_number) values(%d,%d,%d)',
 <a name="l00055"></a>00055                    $this-&gt;d_id,
 <a name="l00056"></a>00056                    $this-&gt;ag_id,
 <a name="l00057"></a>00057                    $this-&gt;d_number);
@@ -61,7 +61,7 @@
 <a name="l00060"></a>00060     }
 <a name="l00063"></a><a class="code" href="classDocument.html#a2">00063</a>   function <a class="code" href="classDocument.html#a2">save</a>()
 <a name="l00064"></a>00064     {
-<a name="l00065"></a>00065       <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"update document set d_state="</span>.$this-&gt;d_state.
+<a name="l00065"></a>00065       <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">"update document set d_state="</span>.$this-&gt;d_state.
 <a name="l00066"></a>00066         <span class="stringliteral">" where d_id="</span>.$this-&gt;d_id;
 <a name="l00067"></a>00067       <a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql);
 <a name="l00068"></a>00068     }
@@ -77,16 +77,16 @@
 <a name="l00088"></a>00088       <a class="code" href="postgres_8php.html#a14">StartSql</a>($this-&gt;db);
 <a name="l00089"></a>00089       $dm_info=<span class="stringliteral">"select md_type,md_lob,md_filename,md_mimetype </span>
 <a name="l00090"></a>00090 <span class="stringliteral">                   from document_modele where md_id="</span>.$this-&gt;md_id;
-<a name="l00091"></a>00091       <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$dm_info);
+<a name="l00091"></a>00091       <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$dm_info);
 <a name="l00092"></a>00092 
-<a name="l00093"></a>00093       <a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($Res,0);
-<a name="l00094"></a>00094       $this-&gt;d_lob=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['md_lob'];
-<a name="l00095"></a>00095       $this-&gt;d_filename=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['md_filename'];
-<a name="l00096"></a>00096       $this-&gt;d_mimetype=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['md_mimetype'];
+<a name="l00093"></a>00093       <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($Res,0);
+<a name="l00094"></a>00094       $this-&gt;d_lob=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['md_lob'];
+<a name="l00095"></a>00095       $this-&gt;d_filename=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['md_filename'];
+<a name="l00096"></a>00096       $this-&gt;d_mimetype=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['md_mimetype'];
 <a name="l00097"></a>00097 
 <a name="l00098"></a>00098       <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_document',__LINE__,<span class="stringliteral">"OID is "</span>.$row['md_lob']);
 <a name="l00100"></a>00100       chdir($dirname);
-<a name="l00101"></a>00101       $filename=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['md_filename'];
+<a name="l00101"></a>00101       $filename=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['md_filename'];
 <a name="l00102"></a>00102       pg_lo_export($this-&gt;db,$row['md_lob'],$filename);
 <a name="l00103"></a>00103       $type=<span class="stringliteral">"n"</span>;
 <a name="l00104"></a>00104       <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_document',__LINE__,'The document type is '.$row['md_mimetype']);
@@ -219,7 +219,7 @@
 <a name="l00254"></a>00254         <a class="code" href="postgres_8php.html#a17">Rollback</a>($this-&gt;db); <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_document',__LINE__,<span class="stringliteral">"can't save file $p_file"</span>);
 <a name="l00255"></a>00255         <span class="keywordflow">return</span> 1; }
 <a name="l00256"></a>00256     
-<a name="l00257"></a>00257       <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=sprintf(<span class="stringliteral">"insert into document(ag_id,d_lob,d_number,d_filename,d_mimetype,d_state) </span>
+<a name="l00257"></a>00257       <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=sprintf(<span class="stringliteral">"insert into document(ag_id,d_lob,d_number,d_filename,d_mimetype,d_state) </span>
 <a name="l00258"></a>00258 <span class="stringliteral">                        values (%d,%s,%d,'%s','%s',%d)"</span>,
 <a name="l00259"></a>00259                    $this-&gt;ag_id,
 <a name="l00260"></a>00260                    $this-&gt;d_lob,
@@ -265,19 +265,19 @@
 <a name="l00307"></a>00307           $this-&gt;d_mimetype=$_FILES['file_upload']['type'];
 <a name="l00308"></a>00308           <span class="comment">// now we have to update the col.</span>
 <a name="l00309"></a>00309           <span class="comment">// We retrieve the row to remove a possible existing lob (replace)</span>
-<a name="l00310"></a>00310           <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"select d_lob from document where d_id="</span>.$this-&gt;d_id;
+<a name="l00310"></a>00310           <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">"select d_lob from document where d_id="</span>.$this-&gt;d_id;
 <a name="l00311"></a>00311           <a class="code" href="impress__bilan_8php.html#a0">$ret</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql);
 <a name="l00312"></a>00312 
 <a name="l00313"></a>00313           <span class="keywordflow">if</span> (pg_num_rows($ret) != 0)  
 <a name="l00314"></a>00314             {
 <a name="l00315"></a>00315               <span class="comment">// a result is found, the old oid is keept in order to</span>
 <a name="l00316"></a>00316               <span class="comment">// remove it later</span>
-<a name="l00317"></a>00317               <a class="code" href="user__action__ach_8php.html#a2">$r</a>=pg_fetch_array($ret,0) ;
-<a name="l00318"></a>00318               <a class="code" href="modify__op_8php.html#a6">$old_oid</a>=<a class="code" href="user__action__ach_8php.html#a2">$r</a>['d_lob'] ;
+<a name="l00317"></a>00317               <a class="code" href="bank_8inc_8php.html#a29">$r</a>=pg_fetch_array($ret,0) ;
+<a name="l00318"></a>00318               <a class="code" href="modify__op_8php.html#a6">$old_oid</a>=<a class="code" href="bank_8inc_8php.html#a29">$r</a>['d_lob'] ;
 <a name="l00319"></a>00319               <span class="keywordflow">if</span> (strlen($old_oid) != 0) { pg_lo_unlink ($this-&gt;db,$old_oid);}
 <a name="l00320"></a>00320             }
 <a name="l00321"></a>00321           <span class="comment">// Update the table</span>
-<a name="l00322"></a>00322           <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=sprintf(<span class="stringliteral">"update document set d_lob=%s,d_filename='%s',d_mimetype='%s' where d_id=%d"</span>,
+<a name="l00322"></a>00322           <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=sprintf(<span class="stringliteral">"update document set d_lob=%s,d_filename='%s',d_mimetype='%s' where d_id=%d"</span>,
 <a name="l00323"></a>00323                        $this-&gt;d_lob,$this-&gt;d_filename,$this-&gt;d_mimetype,$this-&gt;d_id);
 <a name="l00324"></a>00324           <a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql);
 <a name="l00325"></a>00325         }
@@ -288,9 +288,9 @@
 <a name="l00335"></a>00335     {
 <a name="l00336"></a>00336       <span class="keywordflow">if</span> ( $this-&gt;d_id == 0 )
 <a name="l00337"></a>00337         <span class="keywordflow">return</span> '';
-<a name="l00338"></a>00338       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<span class="stringliteral">""</span>;
-<a name="l00339"></a>00339       <a class="code" href="user__action__ach_8php.html#a2">$r</a>='&lt;A <span class="keyword">class</span>=<span class="stringliteral">"mtitle"</span> HREF=<span class="stringliteral">"show_document.php?d_id='.$this-&gt;d_id.'"</span>&gt;<a class="code" href="classDocument.html">Document</a>&lt;/A&gt;';
-<a name="l00340"></a>00340       <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
+<a name="l00338"></a>00338       <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<span class="stringliteral">""</span>;
+<a name="l00339"></a>00339       <a class="code" href="bank_8inc_8php.html#a29">$r</a>='&lt;A <span class="keyword">class</span>=<span class="stringliteral">"mtitle"</span> HREF=<span class="stringliteral">"show_document.php?d_id='.$this-&gt;d_id.'"</span>&gt;<a class="code" href="classDocument.html">Document</a>&lt;/A&gt;';
+<a name="l00340"></a>00340       <span class="keywordflow">return</span> <a class="code" href="bank_8inc_8php.html#a29">$r</a>;
 <a name="l00341"></a>00341     }
 <a name="l00342"></a>00342   <span class="comment">/* ! Get</span>
 <a name="l00343"></a>00343 <span class="comment">   * \brief Send the document</span>
@@ -303,12 +303,12 @@
 <a name="l00350"></a>00350                    <span class="stringliteral">"select d_id,d_lob,d_filename,d_mimetype from document where d_id="</span>.$this-&gt;d_id );
 <a name="l00351"></a>00351       <span class="keywordflow">if</span> ( pg_num_rows ($ret) == 0 )
 <a name="l00352"></a>00352         <span class="keywordflow">return</span>;
-<a name="l00353"></a>00353       <a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($ret,0);
+<a name="l00353"></a>00353       <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($ret,0);
 <a name="l00354"></a>00354       <span class="comment">//the document  is saved into file $tmp</span>
 <a name="l00355"></a>00355       <a class="code" href="show__document__modele_8php.html#a5">$tmp</a>=tempnam('/tmp/<span class="charliteral">','</span>document_');
 <a name="l00356"></a>00356       pg_lo_export($this-&gt;db,$row['d_lob'],$tmp);
-<a name="l00357"></a>00357       $this-&gt;d_mimetype=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['d_mimetype'];
-<a name="l00358"></a>00358       $this-&gt;d_filename=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['d_filename'];
+<a name="l00357"></a>00357       $this-&gt;d_mimetype=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['d_mimetype'];
+<a name="l00358"></a>00358       $this-&gt;d_filename=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['d_filename'];
 <a name="l00359"></a>00359 
 <a name="l00360"></a>00360       <span class="comment">// send it to stdout</span>
 <a name="l00361"></a>00361       ini_set('zlib.output_compression<span class="charliteral">','</span>Off');
@@ -333,34 +333,34 @@
 <a name="l00380"></a>00380     }
 <a name="l00383"></a><a class="code" href="classDocument.html#a9">00383</a>   function <a class="code" href="classDocument.html#a9">get</a>()
 <a name="l00384"></a>00384     {
-<a name="l00385"></a>00385       <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"select * from document where d_id="</span>.$this-&gt;d_id;
+<a name="l00385"></a>00385       <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">"select * from document where d_id="</span>.$this-&gt;d_id;
 <a name="l00386"></a>00386       <a class="code" href="impress__bilan_8php.html#a0">$ret</a>=Exec($this-&gt;db,$sql);
 <a name="l00387"></a>00387       <span class="keywordflow">if</span> ( pg_num_rows($ret) == 0 )
 <a name="l00388"></a>00388         <span class="keywordflow">return</span>;
-<a name="l00389"></a>00389       <a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($ret,0);
-<a name="l00390"></a>00390       $this-&gt;<a class="code" href="action_8inc_8php.html#a4">ag_id</a>=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['<a class="code" href="action_8inc_8php.html#a4">ag_id</a>'];
-<a name="l00391"></a>00391       $this-&gt;d_mimetype=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['d_mimetype'];
-<a name="l00392"></a>00392       $this-&gt;d_filename=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['d_filename'];
-<a name="l00393"></a>00393       $this-&gt;d_lob=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['d_lob'];
-<a name="l00394"></a>00394       $this-&gt;d_number=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>[''];
-<a name="l00395"></a>00395       $this-&gt;<a class="code" href="action_8inc_8php.html#a7">d_state</a>=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['<a class="code" href="action_8inc_8php.html#a4">ag_id</a>'];
-<a name="l00396"></a>00396       $this-&gt;d_number=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>['d_number'];
+<a name="l00389"></a>00389       <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($ret,0);
+<a name="l00390"></a>00390       $this-&gt;<a class="code" href="action_8inc_8php.html#a4">ag_id</a>=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['<a class="code" href="action_8inc_8php.html#a4">ag_id</a>'];
+<a name="l00391"></a>00391       $this-&gt;d_mimetype=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['d_mimetype'];
+<a name="l00392"></a>00392       $this-&gt;d_filename=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['d_filename'];
+<a name="l00393"></a>00393       $this-&gt;d_lob=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['d_lob'];
+<a name="l00394"></a>00394       $this-&gt;d_number=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>[''];
+<a name="l00395"></a>00395       $this-&gt;<a class="code" href="action_8inc_8php.html#a7">d_state</a>=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['<a class="code" href="action_8inc_8php.html#a4">ag_id</a>'];
+<a name="l00396"></a>00396       $this-&gt;d_number=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['d_number'];
 <a name="l00397"></a>00397 
 <a name="l00398"></a>00398     }
 <a name="l00431"></a><a class="code" href="classDocument.html#a10">00431</a>   function <a class="code" href="classDocument.html#a10">Replace</a>($p_tag)
 <a name="l00432"></a>00432     {
-<a name="l00433"></a>00433       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<span class="stringliteral">"Tag inconnu"</span>;
+<a name="l00433"></a>00433       <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<span class="stringliteral">"Tag inconnu"</span>;
 <a name="l00434"></a>00434       <span class="keyword">static</span> $counter=0;
 <a name="l00435"></a>00435       <span class="keywordflow">switch</span> ($p_tag)
 <a name="l00436"></a>00436         {
 <a name="l00437"></a>00437         <span class="keywordflow">case</span> 'DATE':
-<a name="l00438"></a>00438           <a class="code" href="user__action__ach_8php.html#a2">$r</a>=' Date inconnue ';
+<a name="l00438"></a>00438           <a class="code" href="bank_8inc_8php.html#a29">$r</a>=' Date inconnue ';
 <a name="l00439"></a>00439           <span class="comment">// Date are in $_REQUEST['ag_date'] </span>
 <a name="l00440"></a>00440           <span class="comment">// or $_POST['e_date']</span>
 <a name="l00441"></a>00441           <span class="keywordflow">if</span> ( isset ($_REQUEST['ag_date']))
-<a name="l00442"></a>00442             <a class="code" href="user__action__ach_8php.html#a2">$r</a>=$_REQUEST['ag_date'];
+<a name="l00442"></a>00442             <a class="code" href="bank_8inc_8php.html#a29">$r</a>=$_REQUEST['ag_date'];
 <a name="l00443"></a>00443           <span class="keywordflow">if</span> ( isset ($_REQUEST['e_date']))
-<a name="l00444"></a>00444             <a class="code" href="user__action__ach_8php.html#a2">$r</a>=$_REQUEST['e_date'];
+<a name="l00444"></a>00444             <a class="code" href="bank_8inc_8php.html#a29">$r</a>=$_REQUEST['e_date'];
 <a name="l00445"></a>00445 
 <a name="l00446"></a>00446           <span class="keywordflow">break</span>; 
 <a name="l00447"></a>00447           <span class="comment">//</span>
@@ -368,39 +368,39 @@
 <a name="l00449"></a>00449 
 <a name="l00450"></a>00450         <span class="keywordflow">case</span> '<a class="code" href="parametre_8php.html#a8">MY_NAME</a>':
 <a name="l00451"></a>00451           <a class="code" href="parametre_8php.html#a17">$my</a>=<span class="keyword">new</span> own($this-&gt;db);
-<a name="l00452"></a>00452           <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="parametre_8php.html#a17">$my</a>-&gt;MY_NAME;
+<a name="l00452"></a>00452           <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<a class="code" href="parametre_8php.html#a17">$my</a>-&gt;MY_NAME;
 <a name="l00453"></a>00453           <span class="keywordflow">break</span>;
 <a name="l00454"></a>00454         <span class="keywordflow">case</span> '<a class="code" href="parametre_8php.html#a12">MY_CP</a>':
 <a name="l00455"></a>00455           <a class="code" href="parametre_8php.html#a17">$my</a>=<span class="keyword">new</span> own($this-&gt;db);
-<a name="l00456"></a>00456           <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="parametre_8php.html#a17">$my</a>-&gt;MY_CP;
+<a name="l00456"></a>00456           <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<a class="code" href="parametre_8php.html#a17">$my</a>-&gt;MY_CP;
 <a name="l00457"></a>00457           <span class="keywordflow">break</span>;
 <a name="l00458"></a>00458         <span class="keywordflow">case</span> '<a class="code" href="parametre_8php.html#a13">MY_COMMUNE</a>':
 <a name="l00459"></a>00459           <a class="code" href="parametre_8php.html#a17">$my</a>=<span class="keyword">new</span> own($this-&gt;db);
-<a name="l00460"></a>00460           <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="parametre_8php.html#a17">$my</a>-&gt;MY_COMMUNE;
+<a name="l00460"></a>00460           <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<a class="code" href="parametre_8php.html#a17">$my</a>-&gt;MY_COMMUNE;
 <a name="l00461"></a>00461           <span class="keywordflow">break</span>;
 <a name="l00462"></a>00462         <span class="keywordflow">case</span> '<a class="code" href="parametre_8php.html#a9">MY_TVA</a>':
 <a name="l00463"></a>00463           <a class="code" href="parametre_8php.html#a17">$my</a>=<span class="keyword">new</span> own($this-&gt;db);
-<a name="l00464"></a>00464           <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="parametre_8php.html#a17">$my</a>-&gt;MY_TVA;
+<a name="l00464"></a>00464           <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<a class="code" href="parametre_8php.html#a17">$my</a>-&gt;MY_TVA;
 <a name="l00465"></a>00465           <span class="keywordflow">break</span>;
 <a name="l00466"></a>00466         <span class="keywordflow">case</span> '<a class="code" href="parametre_8php.html#a10">MY_STREET</a>':
 <a name="l00467"></a>00467           <a class="code" href="parametre_8php.html#a17">$my</a>=<span class="keyword">new</span> own($this-&gt;db);
-<a name="l00468"></a>00468           <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="parametre_8php.html#a17">$my</a>-&gt;MY_STREET;
+<a name="l00468"></a>00468           <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<a class="code" href="parametre_8php.html#a17">$my</a>-&gt;MY_STREET;
 <a name="l00469"></a>00469           <span class="keywordflow">break</span>;
 <a name="l00470"></a>00470         <span class="keywordflow">case</span> '<a class="code" href="parametre_8php.html#a11">MY_NUMBER</a>':
 <a name="l00471"></a>00471           <a class="code" href="parametre_8php.html#a17">$my</a>=<span class="keyword">new</span> own($this-&gt;db);
-<a name="l00472"></a>00472           <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="parametre_8php.html#a17">$my</a>-&gt;MY_NUMBER;
+<a name="l00472"></a>00472           <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<a class="code" href="parametre_8php.html#a17">$my</a>-&gt;MY_NUMBER;
 <a name="l00473"></a>00473           <span class="keywordflow">break</span>;
 <a name="l00474"></a>00474         <span class="keywordflow">case</span> '<a class="code" href="parametre_8php.html#a14">MY_TEL</a>':
 <a name="l00475"></a>00475           <a class="code" href="parametre_8php.html#a17">$my</a>=<span class="keyword">new</span> own($this-&gt;db);
-<a name="l00476"></a>00476           <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="parametre_8php.html#a17">$my</a>-&gt;MY_TEL;
+<a name="l00476"></a>00476           <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<a class="code" href="parametre_8php.html#a17">$my</a>-&gt;MY_TEL;
 <a name="l00477"></a>00477           <span class="keywordflow">break</span>;
 <a name="l00478"></a>00478         <span class="keywordflow">case</span> '<a class="code" href="parametre_8php.html#a15">MY_FAX</a>':
 <a name="l00479"></a>00479           <a class="code" href="parametre_8php.html#a17">$my</a>=<span class="keyword">new</span> own($this-&gt;db);
-<a name="l00480"></a>00480           <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="parametre_8php.html#a17">$my</a>-&gt;MY_FAX;
+<a name="l00480"></a>00480           <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<a class="code" href="parametre_8php.html#a17">$my</a>-&gt;MY_FAX;
 <a name="l00481"></a>00481           <span class="keywordflow">break</span>;
 <a name="l00482"></a>00482         <span class="keywordflow">case</span> '<a class="code" href="parametre_8php.html#a16">MY_PAYS</a>':
 <a name="l00483"></a>00483           <a class="code" href="parametre_8php.html#a17">$my</a>=<span class="keyword">new</span> own($this-&gt;db);
-<a name="l00484"></a>00484           <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="parametre_8php.html#a17">$my</a>-&gt;MY_PAYS;
+<a name="l00484"></a>00484           <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<a class="code" href="parametre_8php.html#a17">$my</a>-&gt;MY_PAYS;
 <a name="l00485"></a>00485           <span class="keywordflow">break</span>;
 <a name="l00486"></a>00486 
 <a name="l00487"></a>00487           <span class="comment">// customer </span>
@@ -409,55 +409,55 @@
 <a name="l00490"></a>00490 <span class="comment">           */</span>
 <a name="l00491"></a>00491         <span class="keywordflow">case</span> 'SOLDE':
 <a name="l00492"></a>00492           $tiers=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($this-&gt;db);
-<a name="l00493"></a>00493           <a class="code" href="bank_8inc_8php.html#a15">$qcode</a>=isset($_REQUEST['<a class="code" href="action_8inc_8php.html#a10">qcode_dest</a>'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
+<a name="l00493"></a>00493           <a class="code" href="bank_8inc_8php.html#a16">$qcode</a>=isset($_REQUEST['<a class="code" href="action_8inc_8php.html#a10">qcode_dest</a>'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
 <a name="l00494"></a>00494           $tiers-&gt;Getbyqcode($qcode,<span class="keyword">false</span>);
-<a name="l00495"></a>00495           <a class="code" href="line__update_8php.html#a10">$p</a>=$tiers-&gt;strAttribut(<a class="code" href="constant_8php.html#a50">ATTR_DEF_ACCOUNT</a>);
+<a name="l00495"></a>00495           <a class="code" href="line__update_8php.html#a10">$p</a>=$tiers-&gt;strAttribut(<a class="code" href="constant_8php.html#a55">ATTR_DEF_ACCOUNT</a>);
 <a name="l00496"></a>00496           <a class="code" href="send__poste__pdf_8php.html#a2">$poste</a>=<span class="keyword">new</span> Poste($this-&gt;db,$p);
-<a name="l00497"></a>00497           <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="send__poste__pdf_8php.html#a2">$poste</a>-&gt;GetSolde(' <span class="keyword">true</span>' );
+<a name="l00497"></a>00497           <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<a class="code" href="send__poste__pdf_8php.html#a2">$poste</a>-&gt;GetSolde(' <span class="keyword">true</span>' );
 <a name="l00498"></a>00498           <span class="keywordflow">break</span>;
 <a name="l00499"></a>00499         <span class="keywordflow">case</span> 'CUST_NAME':
 <a name="l00500"></a>00500           $tiers=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($this-&gt;db);
-<a name="l00501"></a>00501           <a class="code" href="bank_8inc_8php.html#a15">$qcode</a>=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
+<a name="l00501"></a>00501           <a class="code" href="bank_8inc_8php.html#a16">$qcode</a>=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
 <a name="l00502"></a>00502           $tiers-&gt;getByQcode($qcode,<span class="keyword">false</span>);
-<a name="l00503"></a>00503           <a class="code" href="user__action__ach_8php.html#a2">$r</a>=$tiers-&gt;strAttribut(<a class="code" href="constant_8php.html#a51">ATTR_DEF_NAME</a>);
+<a name="l00503"></a>00503           <a class="code" href="bank_8inc_8php.html#a29">$r</a>=$tiers-&gt;strAttribut(<a class="code" href="constant_8php.html#a56">ATTR_DEF_NAME</a>);
 <a name="l00504"></a>00504           <span class="keywordflow">break</span>;
 <a name="l00505"></a>00505         <span class="keywordflow">case</span> 'CUST_ADDR_1':
 <a name="l00506"></a>00506           $tiers=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($this-&gt;db);
-<a name="l00507"></a>00507           <a class="code" href="bank_8inc_8php.html#a15">$qcode</a>=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
+<a name="l00507"></a>00507           <a class="code" href="bank_8inc_8php.html#a16">$qcode</a>=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
 <a name="l00508"></a>00508           $tiers-&gt;getByQcode($qcode,<span class="keyword">false</span>);
-<a name="l00509"></a>00509           <a class="code" href="user__action__ach_8php.html#a2">$r</a>=$tiers-&gt;strAttribut(<a class="code" href="constant_8php.html#a56">ATTR_DEF_ADRESS</a>);
+<a name="l00509"></a>00509           <a class="code" href="bank_8inc_8php.html#a29">$r</a>=$tiers-&gt;strAttribut(<a class="code" href="constant_8php.html#a61">ATTR_DEF_ADRESS</a>);
 <a name="l00510"></a>00510           
 <a name="l00511"></a>00511           <a class="code" href="readme_8php.html#a13">break</a> ;
 <a name="l00512"></a>00512         <span class="keywordflow">case</span> 'CUST_CP':
 <a name="l00513"></a>00513           $tiers=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($this-&gt;db);
-<a name="l00514"></a>00514           <a class="code" href="bank_8inc_8php.html#a15">$qcode</a>=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
+<a name="l00514"></a>00514           <a class="code" href="bank_8inc_8php.html#a16">$qcode</a>=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
 <a name="l00515"></a>00515           $tiers-&gt;getByQcode($qcode,<span class="keyword">false</span>);
-<a name="l00516"></a>00516           <a class="code" href="user__action__ach_8php.html#a2">$r</a>=$tiers-&gt;strAttribut(<a class="code" href="constant_8php.html#a57">ATTR_DEF_CP</a>);
+<a name="l00516"></a>00516           <a class="code" href="bank_8inc_8php.html#a29">$r</a>=$tiers-&gt;strAttribut(<a class="code" href="constant_8php.html#a62">ATTR_DEF_CP</a>);
 <a name="l00517"></a>00517 
 <a name="l00518"></a>00518           <span class="keywordflow">break</span>;
 <a name="l00519"></a>00519         <span class="keywordflow">case</span> 'CUST_CO':
 <a name="l00520"></a>00520           $tiers=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($this-&gt;db);
-<a name="l00521"></a>00521           <a class="code" href="bank_8inc_8php.html#a15">$qcode</a>=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
+<a name="l00521"></a>00521           <a class="code" href="bank_8inc_8php.html#a16">$qcode</a>=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
 <a name="l00522"></a>00522           $tiers-&gt;getByQcode($qcode,<span class="keyword">false</span>);
-<a name="l00523"></a>00523           <a class="code" href="user__action__ach_8php.html#a2">$r</a>=$tiers-&gt;strAttribut(<a class="code" href="constant_8php.html#a58">ATTR_DEF_PAYS</a>);
+<a name="l00523"></a>00523           <a class="code" href="bank_8inc_8php.html#a29">$r</a>=$tiers-&gt;strAttribut(<a class="code" href="constant_8php.html#a63">ATTR_DEF_PAYS</a>);
 <a name="l00524"></a>00524 
 <a name="l00525"></a>00525           <span class="keywordflow">break</span>; 
 <a name="l00526"></a>00526         <span class="keywordflow">case</span> 'CUST_VAT':
 <a name="l00527"></a>00527           $tiers=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($this-&gt;db);
-<a name="l00528"></a>00528           <a class="code" href="bank_8inc_8php.html#a15">$qcode</a>=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
+<a name="l00528"></a>00528           <a class="code" href="bank_8inc_8php.html#a16">$qcode</a>=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
 <a name="l00529"></a>00529           $tiers-&gt;getByQcode($qcode,<span class="keyword">false</span>);
-<a name="l00530"></a>00530           <a class="code" href="user__action__ach_8php.html#a2">$r</a>=$tiers-&gt;strAttribut(<a class="code" href="constant_8php.html#a55">ATTR_DEF_NUMTVA</a>);
+<a name="l00530"></a>00530           <a class="code" href="bank_8inc_8php.html#a29">$r</a>=$tiers-&gt;strAttribut(<a class="code" href="constant_8php.html#a60">ATTR_DEF_NUMTVA</a>);
 <a name="l00531"></a>00531           <span class="keywordflow">break</span>; 
 <a name="l00532"></a>00532           <span class="comment">// Marchandise in $_POST['e_march*']</span>
 <a name="l00533"></a>00533           <span class="comment">// \see user_form_achat.php or user_form_ven.php</span>
 <a name="l00534"></a>00534         <span class="keywordflow">case</span> 'NUMBER':
-<a name="l00535"></a>00535           <a class="code" href="user__action__ach_8php.html#a2">$r</a>=$this-&gt;d_number;
+<a name="l00535"></a>00535           <a class="code" href="bank_8inc_8php.html#a29">$r</a>=$this-&gt;d_number;
 <a name="l00536"></a>00536           <span class="keywordflow">break</span>;
 <a name="l00537"></a>00537         <span class="keywordflow">case</span> 'REFERENCE':
 <a name="l00538"></a>00538           <a class="code" href="action_8inc_8php.html#a3">$act</a>=<span class="keyword">new</span> <a class="code" href="classaction.html">action</a>($this-&gt;db);
 <a name="l00539"></a>00539           <a class="code" href="action_8inc_8php.html#a3">$act</a>-&gt;ag_id=$this-&gt;<a class="code" href="action_8inc_8php.html#a4">ag_id</a>;
 <a name="l00540"></a>00540           <a class="code" href="action_8inc_8php.html#a3">$act</a>-&gt;get();
-<a name="l00541"></a>00541           <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="action_8inc_8php.html#a3">$act</a>-&gt;ag_ref;
+<a name="l00541"></a>00541           <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<a class="code" href="action_8inc_8php.html#a3">$act</a>-&gt;ag_ref;
 <a name="l00542"></a>00542           <span class="keywordflow">break</span>;
 <a name="l00543"></a>00543 
 <a name="l00544"></a>00544           <span class="comment">/*</span>
@@ -474,7 +474,7 @@
 <a name="l00555"></a>00555 <span class="comment">           */</span>
 <a name="l00556"></a>00556         <span class="keywordflow">case</span> 'MARCH_NEXT':
 <a name="l00557"></a>00557           $counter++;
-<a name="l00558"></a>00558           <a class="code" href="user__action__ach_8php.html#a2">$r</a>='';
+<a name="l00558"></a>00558           <a class="code" href="bank_8inc_8php.html#a29">$r</a>='';
 <a name="l00559"></a>00559           <span class="keywordflow">break</span>;
 <a name="l00560"></a>00560           
 <a name="l00561"></a>00561         <span class="keywordflow">case</span> 'VEN_ART_NAME':
@@ -487,15 +487,15 @@
 <a name="l00568"></a>00568             {
 <a name="l00569"></a>00569               $f=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($this-&gt;db);
 <a name="l00570"></a>00570               $f-&gt;GetByQCode(${$<span class="keywordtype">id</span>},<span class="keyword">false</span>);
-<a name="l00571"></a>00571               <a class="code" href="user__action__ach_8php.html#a2">$r</a>=$f-&gt;strAttribut(<a class="code" href="constant_8php.html#a51">ATTR_DEF_NAME</a>);
-<a name="l00572"></a>00572             } <span class="keywordflow">else</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a> = <span class="stringliteral">""</span>;
+<a name="l00571"></a>00571               <a class="code" href="bank_8inc_8php.html#a29">$r</a>=$f-&gt;strAttribut(<a class="code" href="constant_8php.html#a56">ATTR_DEF_NAME</a>);
+<a name="l00572"></a>00572             } <span class="keywordflow">else</span> <a class="code" href="bank_8inc_8php.html#a29">$r</a> = <span class="stringliteral">""</span>;
 <a name="l00573"></a>00573           <span class="keywordflow">break</span>;
 <a name="l00574"></a>00574 
 <a name="l00575"></a>00575         <span class="keywordflow">case</span> 'VEN_ART_PRICE':
 <a name="l00576"></a>00576           extract ($_POST);
 <a name="l00577"></a>00577           $id='e_march'.$counter.'_sell' ;
 <a name="l00578"></a>00578           <span class="keywordflow">if</span> ( !isset (${$<span class="keywordtype">id</span>}) ) <span class="keywordflow">return</span> <span class="stringliteral">""</span>;
-<a name="l00579"></a>00579           <a class="code" href="user__action__ach_8php.html#a2">$r</a>=${$id};
+<a name="l00579"></a>00579           <a class="code" href="bank_8inc_8php.html#a29">$r</a>=${$id};
 <a name="l00580"></a>00580           <span class="keywordflow">break</span>;
 <a name="l00581"></a>00581 
 <a name="l00582"></a>00582         <span class="keywordflow">case</span> 'TVA_CODE':
@@ -510,7 +510,7 @@
 <a name="l00591"></a>00591                || strlen(trim($qt)) ==0)
 <a name="l00592"></a>00592             <span class="keywordflow">return</span> <span class="stringliteral">""</span>;
 <a name="l00593"></a>00593 
-<a name="l00594"></a>00594           <a class="code" href="user__action__ach_8php.html#a2">$r</a>=${$id};
+<a name="l00594"></a>00594           <a class="code" href="bank_8inc_8php.html#a29">$r</a>=${$id};
 <a name="l00595"></a>00595           <span class="keywordflow">break</span>;
 <a name="l00596"></a>00596 
 <a name="l00597"></a>00597         <span class="keywordflow">case</span> 'TVA_LABEL':
@@ -538,8 +538,8 @@
 <a name="l00619"></a>00619           <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_document',__LINE__,'Tva  :'.var_export($a_tva,<span class="keyword">true</span>));
 <a name="l00620"></a>00620           <span class="comment">// if no vat returns 0</span>
 <a name="l00621"></a>00621           <span class="keywordflow">if</span> ( <span class="keyword">sizeof</span>($a_tva) == 0 ) <span class="keywordflow">return</span> <span class="stringliteral">""</span>;
-<a name="l00622"></a>00622           <a class="code" href="user__action__ach_8php.html#a2">$r</a>=round(${$price},2)*${$qt}*$a_tva['tva_rate'];
-<a name="l00623"></a>00623           <a class="code" href="user__action__ach_8php.html#a2">$r</a>=round($r,2);
+<a name="l00622"></a>00622           <a class="code" href="bank_8inc_8php.html#a29">$r</a>=round(${$price},2)*${$qt}*$a_tva['tva_rate'];
+<a name="l00623"></a>00623           <a class="code" href="bank_8inc_8php.html#a29">$r</a>=round($r,2);
 <a name="l00624"></a>00624           <span class="keywordflow">break</span>;
 <a name="l00625"></a>00625 
 <a name="l00626"></a>00626         <span class="keywordflow">case</span> 'VEN_ART_QUANT':
@@ -552,7 +552,7 @@
 <a name="l00633"></a>00633                || strlen(trim( ${'e_march'.$counter.'_sell'} )) ==0 
 <a name="l00634"></a>00634                || strlen(trim(${'e_quant'.$counter})) ==0 )
 <a name="l00635"></a>00635             <span class="keywordflow">return</span> <span class="stringliteral">""</span>;
-<a name="l00636"></a>00636           <a class="code" href="user__action__ach_8php.html#a2">$r</a>=${$id};
+<a name="l00636"></a>00636           <a class="code" href="bank_8inc_8php.html#a29">$r</a>=${$id};
 <a name="l00637"></a>00637           <span class="keywordflow">break</span>;
 <a name="l00638"></a>00638 
 <a name="l00639"></a>00639         <span class="keywordflow">case</span> 'VEN_HTVA':
@@ -566,7 +566,7 @@
 <a name="l00647"></a>00647                || strlen(trim( ${'e_march'.$counter.'_sell'} )) ==0 
 <a name="l00648"></a>00648                || strlen(trim(${'e_quant'.$counter})) ==0)
 <a name="l00649"></a>00649             <span class="keywordflow">return</span> <span class="stringliteral">""</span>;
-<a name="l00655"></a>00655           <a class="code" href="user__action__ach_8php.html#a2">$r</a>=round(${$<span class="keywordtype">id</span>}*${$quant},2); 
+<a name="l00655"></a>00655           <a class="code" href="bank_8inc_8php.html#a29">$r</a>=round(${$<span class="keywordtype">id</span>}*${$quant},2); 
 <a name="l00656"></a>00656           <span class="keywordflow">break</span>;
 <a name="l00657"></a>00657 
 <a name="l00658"></a>00658         <span class="keywordflow">case</span> 'VEN_TVAC':
@@ -579,7 +579,7 @@
 <a name="l00665"></a>00665           <span class="comment">// check that something is sold</span>
 <a name="l00666"></a>00666           <span class="keywordflow">if</span> ( ${'e_march'.$counter.'_sell'} == 0 || ${'e_quant'.$counter} == 0 )
 <a name="l00667"></a>00667             <span class="keywordflow">return</span> <span class="stringliteral">""</span>;
-<a name="l00672"></a>00672           <a class="code" href="user__action__ach_8php.html#a2">$r</a>=${$id}*${$quant}; 
+<a name="l00672"></a>00672           <a class="code" href="bank_8inc_8php.html#a29">$r</a>=${$id}*${$quant}; 
 <a name="l00673"></a>00673           $tva=<a class="code" href="user__common_8php.html#a0">GetTvaRate</a>($this-&gt;db,${'e_march'.$counter.'_tva_id'});
 <a name="l00674"></a>00674           <span class="comment">// if there is no vat we return now</span>
 <a name="l00675"></a>00675           <span class="keywordflow">if</span> ( $tva == null || $tva == 0 ) <span class="keywordflow">return</span> $r;
@@ -627,22 +627,22 @@
 <a name="l00717"></a>00717               <a class="code" href="export__ouv_8php.html#a7">$sum</a>+=$sell*$qt*(1+<a class="code" href="tva_8inc_8php.html#a2">$tva_rate</a>);
 <a name="l00718"></a>00718               <span class="comment">//              $sum+=${'e_march'.$i.'_sell'}*${'e_quant'.$i}*(1+$tva_rate);</span>
 <a name="l00719"></a>00719             }
-<a name="l00720"></a>00720           <a class="code" href="user__action__ach_8php.html#a2">$r</a>=round($sum,2);
+<a name="l00720"></a>00720           <a class="code" href="bank_8inc_8php.html#a29">$r</a>=round($sum,2);
 <a name="l00721"></a>00721 
 <a name="l00722"></a>00722           <span class="keywordflow">break</span>;
 <a name="l00723"></a>00723 
 <a name="l00724"></a>00724         }
-<a name="l00725"></a>00725       <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
+<a name="l00725"></a>00725       <span class="keywordflow">return</span> <a class="code" href="bank_8inc_8php.html#a29">$r</a>;
 <a name="l00726"></a>00726     }
 <a name="l00730"></a><a class="code" href="classDocument.html#a11">00730</a>   function remove()
 <a name="l00731"></a>00731     {
-<a name="l00732"></a>00732       <a class="code" href="bank_8inc_8php.html#a19">$sql</a>='<span class="keyword">delete</span> from document where <a class="code" href="action_8inc_8php.html#a12">d_id</a>='.$this-&gt;d_id;
+<a name="l00732"></a>00732       <a class="code" href="bank_8inc_8php.html#a20">$sql</a>='<span class="keyword">delete</span> from document where <a class="code" href="action_8inc_8php.html#a12">d_id</a>='.$this-&gt;d_id;
 <a name="l00733"></a>00733       <a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql);
 <a name="l00734"></a>00734     }
 <a name="l00741"></a><a class="code" href="classDocument.html#a12">00741</a>   function MoveDocumentPj($p_internal)
 <a name="l00742"></a>00742     {
 <a name="l00743"></a>00743 
-<a name="l00744"></a>00744       <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=sprintf(<span class="stringliteral">"update jrn set jr_pj=%s,jr_pj_name='%s',jr_pj_type='%s' where jr_internal='%s'"</span>,
+<a name="l00744"></a>00744       <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=sprintf(<span class="stringliteral">"update jrn set jr_pj=%s,jr_pj_name='%s',jr_pj_type='%s' where jr_internal='%s'"</span>,
 <a name="l00745"></a>00745                    $this-&gt;d_lob,$this-&gt;d_filename,$this-&gt;d_mimetype,$p_internal);
 <a name="l00746"></a>00746       <a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql);
 <a name="l00747"></a>00747       <span class="comment">// clean the table document</span>

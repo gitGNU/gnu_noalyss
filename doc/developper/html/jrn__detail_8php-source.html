@@ -57,7 +57,7 @@
 <a name="l00052"></a><a class="code" href="jrn__detail_8php.html#a3">00052</a>   <a class="code" href="balance_8php.html#a0">exit</a> -1;                      
 <a name="l00053"></a>00053 }
 <a name="l00054"></a>00054 <span class="comment">// Javascript</span>
-<a name="l00055"></a>00055 echo <a class="code" href="constant_8php.html#a74">JS_SEARCH_POSTE</a>;
+<a name="l00055"></a>00055 echo <a class="code" href="constant_8php.html#a79">JS_SEARCH_POSTE</a>;
 <a name="l00056"></a>00056 <span class="keywordflow">if</span> ( isset( $_GET['p_jrn'] )) {
 <a name="l00057"></a>00057   <a class="code" href="modify__op_8php.html#a2">$p_jrn</a>=$_GET['p_jrn'];
 <a name="l00058"></a>00058  } <span class="keywordflow">else</span> {
@@ -117,7 +117,7 @@
 <a name="l00112"></a>00112                  $_GET['p_jrn']
 <a name="l00113"></a>00113                  );
 <a name="l00114"></a>00114     <a class="code" href="debug_8php.html#a0">echo_debug</a>($Sql);
-<a name="l00115"></a><a class="code" href="jrn__detail_8php.html#a10">00115</a>     <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$Sql);
+<a name="l00115"></a><a class="code" href="jrn__detail_8php.html#a10">00115</a>     <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$Sql);
 <a name="l00116"></a>00116   }
 <a name="l00117"></a>00117 }
 <a name="l00118"></a>00118 echo <a class="code" href="user__menu_8php.html#a8">ShowMenuAdvanced</a>();
@@ -125,7 +125,7 @@
 <a name="l00120"></a>00120 <a class="code" href="user__menu_8php.html#a14">MenuJrn</a>($_SESSION['g_dossier']);
 <a name="l00121"></a>00121 echo '&lt;/div&gt;';
 <a name="l00122"></a>00122 
-<a name="l00123"></a>00123 <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,"</span>.
+<a name="l00123"></a>00123 <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,"</span>.
 <a name="l00124"></a>00124              <span class="stringliteral">"jrn_deb_max_line,jrn_cred_max_line,jrn_def_code"</span>.
 <a name="l00125"></a>00125                  <span class="stringliteral">",jrn_def_type,jrn_def_ech, jrn_def_ech_lib,jrn_def_fiche_deb,jrn_def_fiche_cred"</span>.
 <a name="l00126"></a>00126                  <span class="stringliteral">" from jrn_def where"</span>.
@@ -135,7 +135,7 @@
 <a name="l00130"></a><a class="code" href="jrn__detail_8php.html#a13">00130</a> <a class="code" href="admin_8inc_8php.html#a8">$search</a>='&lt;INPUT TYPE=<span class="stringliteral">"BUTTON"</span> VALUE=<span class="stringliteral">"Cherche"</span> OnClick=<span class="stringliteral">"SearchPoste(\''.$sessid."</span><span class="charliteral">','</span>not<span class="charliteral">','</span><span class="stringliteral">".$_GET['p_jrn']."</span>')\<span class="stringliteral">"&gt;"</span>;
 <a name="l00131"></a>00131 echo '&lt;DIV CLASS=<span class="stringliteral">"u_redcontent"</span>&gt;';
 <a name="l00132"></a>00132 echo '&lt;H2 <span class="keyword">class</span>=<span class="stringliteral">"info"</span>&gt;'.$l_line['jrn_def_name'].'&lt;/H2&gt;';
-<a name="l00133"></a>00133 echo '&lt;<a class="code" href="constant_8php.html#a7">FORM</a> <a class="code" href="constant_8php.html#a39">ACTION</a>=<span class="stringliteral">"jrn_detail.php?p_jrn='.$_GET['p_jrn'].'"</span> <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"POST"</span>&gt;';
+<a name="l00133"></a>00133 echo '&lt;<a class="code" href="constant_8php.html#a7">FORM</a> <a class="code" href="constant_8php.html#a44">ACTION</a>=<span class="stringliteral">"jrn_detail.php?p_jrn='.$_GET['p_jrn'].'"</span> <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"POST"</span>&gt;';
 <a name="l00134"></a>00134 echo '&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> NAME=<span class="stringliteral">"JRN_UPD"</span>&gt;';
 <a name="l00135"></a>00135 echo '&lt;TABLE&gt;';
 <a name="l00136"></a>00136 
@@ -185,7 +185,7 @@
 <a name="l00180"></a>00180 echo '&lt;TR&gt;'; 
 <a name="l00181"></a>00181 echo '&lt;TD&gt; Type de journal &lt;/TD&gt;';
 <a name="l00182"></a>00182 echo '&lt;TD&gt; ';
-<a name="l00183"></a>00183 <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select jrn_type_id,jrn_desc from jrn_type where "</span>.
+<a name="l00183"></a>00183 <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select jrn_type_id,jrn_desc from jrn_type where "</span>.
 <a name="l00184"></a>00184         <span class="stringliteral">"trim(jrn_type_id)=trim('"</span>.$l_line['jrn_def_type'].<span class="stringliteral">"')"</span>);
 <a name="l00185"></a><a class="code" href="jrn__detail_8php.html#a14">00185</a> <a class="code" href="setup_8php.html#a11">$Max</a>=pg_NumRows($Res);
 <a name="l00186"></a>00186 
@@ -207,7 +207,7 @@
 <a name="l00202"></a>00202 echo '&lt;/TABLE&gt;';
 <a name="l00203"></a>00203 <span class="comment">// Get all the fiches</span>
 <a name="l00204"></a>00204 echo '&lt;H2 <span class="keyword">class</span>=<span class="stringliteral">"info"</span>&gt; Fiches &lt;/H2&gt;';
-<a name="l00205"></a>00205 <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select fd_id,fd_label from fiche_def order by fd_label"</span>);
+<a name="l00205"></a>00205 <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select fd_id,fd_label from fiche_def order by fd_label"</span>);
 <a name="l00206"></a><a class="code" href="jrn__detail_8php.html#a15">00206</a> <a class="code" href="jrn__add_8php.html#a17">$num</a>=pg_NumRows($Res);
 <a name="l00207"></a>00207 
 <a name="l00208"></a><a class="code" href="jrn__detail_8php.html#a16">00208</a> <a class="code" href="jrn__detail_8php.html#a16">$rdeb</a>=split(<span class="charliteral">','</span>,$l_line['jrn_def_fiche_deb']);

@@ -177,12 +177,12 @@ Decode the html for the widegt richtext and remove newline.
 <dl compact><dt><b>Returns:</b></dt><dd>the html code without new line</dd></dl>
 
 <p>
-Definition at line <a class="el" href="ac__common_8php-source.html#l00371">371</a> of file <a class="el" href="ac__common_8php-source.html">ac_common.php</a>.<div class="fragment"><pre class="fragment"><a name="l00371"></a>00371                         {
-<a name="l00372"></a>00372   $p_html=str_replace('%0D<span class="charliteral">','</span>',$p_html);
-<a name="l00373"></a>00373   $p_html=str_replace('%0A<span class="charliteral">','</span>',$p_html);
-<a name="l00374"></a>00374   $p_html=urldecode($p_html);
-<a name="l00375"></a>00375   <span class="keywordflow">return</span> $p_html;
-<a name="l00376"></a>00376 }
+Definition at line <a class="el" href="ac__common_8php-source.html#l00369">369</a> of file <a class="el" href="ac__common_8php-source.html">ac_common.php</a>.<div class="fragment"><pre class="fragment"><a name="l00369"></a>00369                         {
+<a name="l00370"></a>00370   $p_html=str_replace('%0D<span class="charliteral">','</span>',$p_html);
+<a name="l00371"></a>00371   $p_html=str_replace('%0A<span class="charliteral">','</span>',$p_html);
+<a name="l00372"></a>00372   $p_html=urldecode($p_html);
+<a name="l00373"></a>00373   <span class="keywordflow">return</span> $p_html;
+<a name="l00374"></a>00374 }
 </pre></div>
 <p>
     </td>
@@ -227,7 +227,7 @@ Definition at line <a class="el" href="ac__common_8php-source.html#l00036">36</a
 <p>
 References <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>.
 <p>
-Referenced by <a class="el" href="fiche__inc_8php-source.html#l00038">AddFiche()</a>, <a class="el" href="form__inc_8php-source.html#l00267">AddForm()</a>, <a class="el" href="fiche__inc_8php-source.html#l00761">AddModele()</a>, <a class="el" href="user__common_8php-source.html#l00727">DeleteRapt()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="user__form__ach_8php-source.html#l00269">form_verify_input()</a>, <a class="el" href="user__form__ach_8php-source.html#l00044">FormAchInput()</a>, <a class="el" href="user__form__ach_8php-source.html#l00471">FormAchView()</a>, <a class="el" href="ac__common_8php-source.html#l00208">FormatString()</a>, <a class="el" href="user__form__fin_8php-source.html#l00146">FormFin()</a>, <a class="el" href="user__form__ods_8php-source.html#l00045">FormODS()</a>, <a class="el" href="user__form__ven_8php-source.html#l00043">FormVenInput()</a>, <a class="el" href="user__form__ven_8php-source.html#l00425">FormVenteView()</a>, <a class="el" href="fiche__inc_8php-source.html#l01057">GetFicheJrn()</a>, <a class="el" href="ac__common_8php-source.html#l00315">getPeriodeName()</a>, <a class="el" href="user__common_8php-source.html#l00211">GetTvaPoste()</a>, <a class="el" href="impress__inc_8php-source.html#l00097">Imp()</a>, <a class="el" href="user__common_8php-source.html#l00699">InsertRapt()</a>, <a class="el" href="user__common_8php-source.html#l00831">isValid()</a>, <a class="el" href="fiche__inc_8php-source.html#l00938">Remove()</a>, <a class="el" href="class__document__modele_8php-source.html#l00103">Document_modele::Save()</a>, <a class="el" href="postgres_8php-source.html#l00371">save_upload_document()</a>, <a class="el" href="class__fiche_8php-source.html#l00642">fiche::update()</a>, <a class="el" href="fiche__inc_8php-source.html#l00530">UpdateFiche()</a>, <a class="el" href="jrn_8php-source.html#l00282">UpdateJrn()</a>, <a class="el" href="fiche__inc_8php-source.html#l00869">UpdateModele()</a>, <a class="el" href="jrn_8php-source.html#l00834">VerifData()</a>, and <a class="el" href="user__common_8php-source.html#l00654">VerifyOperationDate()</a>.<div class="fragment"><pre class="fragment"><a name="l00036"></a>00036                                   {
+Referenced by <a class="el" href="fiche__inc_8php-source.html#l00038">AddFiche()</a>, <a class="el" href="form__inc_8php-source.html#l00267">AddForm()</a>, <a class="el" href="fiche__inc_8php-source.html#l00761">AddModele()</a>, <a class="el" href="user__common_8php-source.html#l00727">DeleteRapt()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="user__form__ach_8php-source.html#l00269">form_verify_input()</a>, <a class="el" href="user__form__ach_8php-source.html#l00044">FormAchInput()</a>, <a class="el" href="user__form__ach_8php-source.html#l00471">FormAchView()</a>, <a class="el" href="ac__common_8php-source.html#l00206">FormatString()</a>, <a class="el" href="user__form__fin_8php-source.html#l00146">FormFin()</a>, <a class="el" href="user__form__ods_8php-source.html#l00045">FormODS()</a>, <a class="el" href="user__form__ven_8php-source.html#l00043">FormVenInput()</a>, <a class="el" href="user__form__ven_8php-source.html#l00425">FormVenteView()</a>, <a class="el" href="fiche__inc_8php-source.html#l01057">GetFicheJrn()</a>, <a class="el" href="ac__common_8php-source.html#l00313">getPeriodeName()</a>, <a class="el" href="user__common_8php-source.html#l00211">GetTvaPoste()</a>, <a class="el" href="impress__inc_8php-source.html#l00097">Imp()</a>, <a class="el" href="user__common_8php-source.html#l00699">InsertRapt()</a>, <a class="el" href="user__common_8php-source.html#l00831">isValid()</a>, <a class="el" href="fiche__inc_8php-source.html#l00938">Remove()</a>, <a class="el" href="class__document__modele_8php-source.html#l00103">Document_modele::Save()</a>, <a class="el" href="postgres_8php-source.html#l00371">save_upload_document()</a>, <a class="el" href="class__fiche_8php-source.html#l00642">fiche::update()</a>, <a class="el" href="fiche__inc_8php-source.html#l00530">UpdateFiche()</a>, <a class="el" href="jrn_8php-source.html#l00282">UpdateJrn()</a>, <a class="el" href="fiche__inc_8php-source.html#l00869">UpdateModele()</a>, <a class="el" href="jrn_8php-source.html#l00834">VerifData()</a>, and <a class="el" href="user__common_8php-source.html#l00654">VerifyOperationDate()</a>.<div class="fragment"><pre class="fragment"><a name="l00036"></a>00036                                   {
 <a name="l00037"></a>00037         $fdebug=fopen(<span class="stringliteral">"/tmp/phpcompta_error.log"</span>,<span class="stringliteral">"a+"</span>);
 <a name="l00038"></a>00038         fwrite($fdebug,date(<span class="stringliteral">"Ymd H:i:s"</span>).$p_log.<span class="stringliteral">"\n"</span>);
 <a name="l00039"></a>00039         fclose($fdebug);
@@ -277,11 +277,11 @@ warns
 </dd></dl>
 
 <p>
-Definition at line <a class="el" href="ac__common_8php-source.html#l00269">269</a> of file <a class="el" href="ac__common_8php-source.html">ac_common.php</a>.
+Definition at line <a class="el" href="ac__common_8php-source.html#l00267">267</a> of file <a class="el" href="ac__common_8php-source.html">ac_common.php</a>.
 <p>
-Referenced by <a class="el" href="fiche__inc_8php-source.html#l01057">GetFicheJrn()</a>, and <a class="el" href="fiche__inc_8php-source.html#l01514">IsFicheOfJrn()</a>.<div class="fragment"><pre class="fragment"><a name="l00270"></a>00270 {
-<a name="l00271"></a>00271   echo '&lt;H2 <span class="keyword">class</span>=<span class="stringliteral">"info"</span>&gt;'.$p_string.<span class="stringliteral">"&lt;/H2&gt;"</span>;
-<a name="l00272"></a>00272 }
+Referenced by <a class="el" href="fiche__inc_8php-source.html#l01057">GetFicheJrn()</a>, and <a class="el" href="fiche__inc_8php-source.html#l01514">IsFicheOfJrn()</a>.<div class="fragment"><pre class="fragment"><a name="l00268"></a>00268 {
+<a name="l00269"></a>00269   echo '&lt;H2 <span class="keyword">class</span>=<span class="stringliteral">"info"</span>&gt;'.$p_string.<span class="stringliteral">"&lt;/H2&gt;"</span>;
+<a name="l00270"></a>00270 }
 </pre></div>
 <p>
     </td>
@@ -363,22 +363,22 @@ Fix the problem with the quote char for the database.
 <dl compact><dt><b>Returns:</b></dt><dd>a string which won't let strange char for the database</dd></dl>
 
 <p>
-Definition at line <a class="el" href="ac__common_8php-source.html#l00208">208</a> of file <a class="el" href="ac__common_8php-source.html">ac_common.php</a>.
+Definition at line <a class="el" href="ac__common_8php-source.html#l00206">206</a> of file <a class="el" href="ac__common_8php-source.html">ac_common.php</a>.
 <p>
 References <a class="el" href="ac__common_8php-source.html#l00036">echo_error()</a>.
 <p>
-Referenced by <a class="el" href="fiche__inc_8php-source.html#l00038">AddFiche()</a>, <a class="el" href="form__inc_8php-source.html#l00267">AddForm()</a>, <a class="el" href="fiche__inc_8php-source.html#l00761">AddModele()</a>, <a class="el" href="class__action_8php-source.html#l00364">action::Confirm()</a>, <a class="el" href="class__fiche_8php-source.html#l00291">fiche::CountByDef()</a>, <a class="el" href="class__action_8php-source.html#l00101">action::Display()</a>, <a class="el" href="class__fiche_8php-source.html#l00167">fiche::GetByQCode()</a>, <a class="el" href="class__fiche_8php-source.html#l00542">fiche::insert()</a>, <a class="el" href="user__common_8php-source.html#l00288">InsertJrn()</a>, <a class="el" href="user__common_8php-source.html#l00322">ListJrn()</a>, <a class="el" href="user__form__fin_8php-source.html#l00358">RecordFin()</a>, <a class="el" href="user__form__ven_8php-source.html#l00627">RecordInvoice()</a>, <a class="el" href="user__form__ach_8php-source.html#l00661">RecordSell()</a>, <a class="el" href="fiche__inc_8php-source.html#l00938">Remove()</a>, <a class="el" href="class__parm__code_8php-source.html#l00076">parm_code::Save()</a>, <a class="el" href="class__document__modele_8php-source.html#l00103">Document_modele::Save()</a>, <a class="el" href="class__action_8php-source.html#l00504">action::SaveStage2()</a>, <a class="el" href="action_8inc_8php-source.html#l00038">ShowActionList()</a>, <a class="el" href="class__supplier_8php-source.html#l00083">Supplier::Summary()</a>, <a class="el" href="class__customer_8php-source.html#l00195">Customer::Summary()</a>, <a class="el" href="class__contact_8php-source.html#l00050">contact::Summary()</a>, <a class="el" href="class__admin_8php-source.html#l00065">Admin::Summary()</a>, <a class="el" href="class__fiche_8php-source.html#l00642">fiche::update()</a>, <a class="el" href="class__action_8php-source.html#l00784">action::Update()</a>, <a class="el" href="user__common_8php-source.html#l00811">UpdateComment()</a>, <a class="el" href="fiche__inc_8php-source.html#l00530">UpdateFiche()</a>, <a class="el" href="form__inc_8php-source.html#l00208">UpdateForm()</a>, <a class="el" href="class__own_8php-source.html#l00051">Own::UpdateRow()</a>, and <a class="el" href="jrn_8php-source.html#l00583">ViewJrn()</a>.<div class="fragment"><pre class="fragment"><a name="l00209"></a>00209 {
-<a name="l00210"></a>00210   <span class="keywordflow">if</span> ( !isset ($p_string) ) {
-<a name="l00211"></a>00211     <a class="code" href="ac__common_8php.html#a0">echo_error</a>(<span class="stringliteral">"ac_common.php FormatString p_string empty"</span>);
-<a name="l00212"></a>00212     <span class="keywordflow">return</span> null;
-<a name="l00213"></a>00213   }
-<a name="l00214"></a>00214   $p_string=trim($p_string);
-<a name="l00215"></a>00215   <span class="keywordflow">if</span> (strlen($p_string) == 0 ) <span class="keywordflow">return</span> null;
-<a name="l00216"></a>00216   $p_string=str_replace(<span class="stringliteral">"\'"</span>,<span class="stringliteral">"'"</span>,$p_string);
-<a name="l00217"></a>00217   $p_string=str_replace(<span class="stringliteral">"''"</span>,<span class="stringliteral">"'"</span>,$p_string);
-<a name="l00218"></a>00218   $p_string=str_replace(<span class="stringliteral">"'"</span>,<span class="stringliteral">"\'"</span>,$p_string);
-<a name="l00219"></a>00219   <span class="keywordflow">return</span> $p_string;
-<a name="l00220"></a>00220 }
+Referenced by <a class="el" href="fiche__inc_8php-source.html#l00038">AddFiche()</a>, <a class="el" href="form__inc_8php-source.html#l00267">AddForm()</a>, <a class="el" href="fiche__inc_8php-source.html#l00761">AddModele()</a>, <a class="el" href="class__action_8php-source.html#l00364">action::Confirm()</a>, <a class="el" href="class__fiche_8php-source.html#l00291">fiche::CountByDef()</a>, <a class="el" href="class__action_8php-source.html#l00101">action::Display()</a>, <a class="el" href="class__fiche_8php-source.html#l00167">fiche::GetByQCode()</a>, <a class="el" href="class__fiche_8php-source.html#l00542">fiche::insert()</a>, <a class="el" href="user__common_8php-source.html#l00288">InsertJrn()</a>, <a class="el" href="user__common_8php-source.html#l00322">ListJrn()</a>, <a class="el" href="user__form__fin_8php-source.html#l00358">RecordFin()</a>, <a class="el" href="user__form__ven_8php-source.html#l00627">RecordInvoice()</a>, <a class="el" href="user__form__ach_8php-source.html#l00661">RecordSell()</a>, <a class="el" href="fiche__inc_8php-source.html#l00938">Remove()</a>, <a class="el" href="class__parm__code_8php-source.html#l00076">parm_code::Save()</a>, <a class="el" href="class__document__modele_8php-source.html#l00103">Document_modele::Save()</a>, <a class="el" href="class__action_8php-source.html#l00504">action::SaveStage2()</a>, <a class="el" href="action_8inc_8php-source.html#l00039">ShowActionList()</a>, <a class="el" href="class__supplier_8php-source.html#l00083">Supplier::Summary()</a>, <a class="el" href="class__customer_8php-source.html#l00195">Customer::Summary()</a>, <a class="el" href="class__contact_8php-source.html#l00050">contact::Summary()</a>, <a class="el" href="class__admin_8php-source.html#l00065">Admin::Summary()</a>, <a class="el" href="class__fiche_8php-source.html#l00642">fiche::update()</a>, <a class="el" href="class__action_8php-source.html#l00795">action::Update()</a>, <a class="el" href="user__common_8php-source.html#l00811">UpdateComment()</a>, <a class="el" href="fiche__inc_8php-source.html#l00530">UpdateFiche()</a>, <a class="el" href="form__inc_8php-source.html#l00208">UpdateForm()</a>, <a class="el" href="class__own_8php-source.html#l00051">Own::UpdateRow()</a>, and <a class="el" href="jrn_8php-source.html#l00583">ViewJrn()</a>.<div class="fragment"><pre class="fragment"><a name="l00207"></a>00207 {
+<a name="l00208"></a>00208   <span class="keywordflow">if</span> ( !isset ($p_string) ) {
+<a name="l00209"></a>00209     <a class="code" href="ac__common_8php.html#a0">echo_error</a>(<span class="stringliteral">"ac_common.php FormatString p_string empty"</span>);
+<a name="l00210"></a>00210     <span class="keywordflow">return</span> null;
+<a name="l00211"></a>00211   }
+<a name="l00212"></a>00212   $p_string=trim($p_string);
+<a name="l00213"></a>00213   <span class="keywordflow">if</span> (strlen($p_string) == 0 ) <span class="keywordflow">return</span> null;
+<a name="l00214"></a>00214   $p_string=str_replace(<span class="stringliteral">"\'"</span>,<span class="stringliteral">"'"</span>,$p_string);
+<a name="l00215"></a>00215   $p_string=str_replace(<span class="stringliteral">"''"</span>,<span class="stringliteral">"'"</span>,$p_string);
+<a name="l00216"></a>00216   $p_string=str_replace(<span class="stringliteral">"'"</span>,<span class="stringliteral">"\'"</span>,$p_string);
+<a name="l00217"></a>00217   <span class="keywordflow">return</span> $p_string;
+<a name="l00218"></a>00218 }
 </pre></div>
 <p>
     </td>
@@ -432,19 +432,19 @@ Return the period corresponding to the date.
 </li></ul>
 
 <p>
-Definition at line <a class="el" href="ac__common_8php-source.html#l00355">355</a> of file <a class="el" href="ac__common_8php-source.html">ac_common.php</a>.
+Definition at line <a class="el" href="ac__common_8php-source.html#l00353">353</a> of file <a class="el" href="ac__common_8php-source.html">ac_common.php</a>.
 <p>
-References <a class="el" href="balance_8php-source.html#l00113">$a</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00355"></a>00355                                            {
-<a name="l00356"></a>00356   $R=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select p_id from parm_periode where</span>
-<a name="l00357"></a>00357 <span class="stringliteral">              p_start &lt;= to_date('$p_date','DD.MM.YYYY')</span>
-<a name="l00358"></a>00358 <span class="stringliteral">           and p_end  &gt;= to_date('$p_date','DD.MM.YYYY')</span>
-<a name="l00359"></a>00359 <span class="stringliteral">           "</span>);
-<a name="l00360"></a>00360   <span class="keywordflow">if</span> ( pg_NumRows($R) == 0 ) 
-<a name="l00361"></a>00361     <span class="keywordflow">return</span> -1;
-<a name="l00362"></a>00362   <a class="code" href="balance_8php.html#a10">$a</a>=pg_fetch_array($R,0);
-<a name="l00363"></a>00363 
-<a name="l00364"></a>00364   <span class="keywordflow">return</span> <a class="code" href="balance_8php.html#a10">$a</a>['p_id'];
-<a name="l00365"></a>00365 }
+References <a class="el" href="balance_8php-source.html#l00113">$a</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00353"></a>00353                                            {
+<a name="l00354"></a>00354   $R=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select p_id from parm_periode where</span>
+<a name="l00355"></a>00355 <span class="stringliteral">              p_start &lt;= to_date('$p_date','DD.MM.YYYY')</span>
+<a name="l00356"></a>00356 <span class="stringliteral">           and p_end  &gt;= to_date('$p_date','DD.MM.YYYY')</span>
+<a name="l00357"></a>00357 <span class="stringliteral">           "</span>);
+<a name="l00358"></a>00358   <span class="keywordflow">if</span> ( pg_NumRows($R) == 0 ) 
+<a name="l00359"></a>00359     <span class="keywordflow">return</span> -1;
+<a name="l00360"></a>00360   <a class="code" href="balance_8php.html#a10">$a</a>=pg_fetch_array($R,0);
+<a name="l00361"></a>00361 
+<a name="l00362"></a>00362   <span class="keywordflow">return</span> <a class="code" href="balance_8php.html#a10">$a</a>['p_id'];
+<a name="l00363"></a>00363 }
 </pre></div>
 <p>
     </td>
@@ -495,19 +495,19 @@ Return the period corresponding to the date.
 <dl compact><dt><b>Returns:</b></dt><dd>: parm_periode.p_id</dd></dl>
 
 <p>
-Definition at line <a class="el" href="ac__common_8php-source.html#l00335">335</a> of file <a class="el" href="ac__common_8php-source.html">ac_common.php</a>.
+Definition at line <a class="el" href="ac__common_8php-source.html#l00333">333</a> of file <a class="el" href="ac__common_8php-source.html">ac_common.php</a>.
 <p>
 References <a class="el" href="balance_8php-source.html#l00113">$a</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
 <p>
-Referenced by <a class="el" href="impress__inc_8php-source.html#l00726">ParseFormula()</a>.<div class="fragment"><pre class="fragment"><a name="l00335"></a>00335                                             {
-<a name="l00336"></a>00336   $R=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select p_id from parm_periode where</span>
-<a name="l00337"></a>00337 <span class="stringliteral">              to_char(p_start,'DD.MM.YYYY') = '01.$p_date'"</span>);
-<a name="l00338"></a>00338   <span class="keywordflow">if</span> ( pg_NumRows($R) == 0 ) 
-<a name="l00339"></a>00339     <span class="keywordflow">return</span> -1;
-<a name="l00340"></a>00340   <a class="code" href="balance_8php.html#a10">$a</a>=pg_fetch_array($R,0);
-<a name="l00341"></a>00341 
-<a name="l00342"></a>00342   <span class="keywordflow">return</span> <a class="code" href="balance_8php.html#a10">$a</a>['p_id'];
-<a name="l00343"></a>00343 }
+Referenced by <a class="el" href="impress__inc_8php-source.html#l00726">ParseFormula()</a>.<div class="fragment"><pre class="fragment"><a name="l00333"></a>00333                                             {
+<a name="l00334"></a>00334   $R=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select p_id from parm_periode where</span>
+<a name="l00335"></a>00335 <span class="stringliteral">              to_char(p_start,'DD.MM.YYYY') = '01.$p_date'"</span>);
+<a name="l00336"></a>00336   <span class="keywordflow">if</span> ( pg_NumRows($R) == 0 ) 
+<a name="l00337"></a>00337     <span class="keywordflow">return</span> -1;
+<a name="l00338"></a>00338   <a class="code" href="balance_8php.html#a10">$a</a>=pg_fetch_array($R,0);
+<a name="l00339"></a>00339 
+<a name="l00340"></a>00340   <span class="keywordflow">return</span> <a class="code" href="balance_8php.html#a10">$a</a>['p_id'];
+<a name="l00341"></a>00341 }
 </pre></div>
 <p>
     </td>
@@ -565,17 +565,17 @@ Show the periode which found thanks its id.
 <dl compact><dt><b>Returns:</b></dt><dd>: string</dd></dl>
 
 <p>
-Definition at line <a class="el" href="ac__common_8php-source.html#l00315">315</a> of file <a class="el" href="ac__common_8php-source.html">ac_common.php</a>.
+Definition at line <a class="el" href="ac__common_8php-source.html#l00313">313</a> of file <a class="el" href="ac__common_8php-source.html">ac_common.php</a>.
 <p>
-References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="impress__bilan_8php-source.html#l00032">$ret</a>, and <a class="el" href="ac__common_8php-source.html#l00036">echo_error()</a>.<div class="fragment"><pre class="fragment"><a name="l00315"></a>00315                                                     {
-<a name="l00316"></a>00316   <span class="keywordflow">if</span> ( $pos != 'p_start' and 
-<a name="l00317"></a>00317        $pos != 'p_end')
-<a name="l00318"></a>00318     <a class="code" href="ac__common_8php.html#a0">echo_error</a>('ac_common.php'.<span class="stringliteral">"-"</span>.__LINE__.'  UNDEFINED <a class="code" href="constant_8php.html#a13">PERIODE</a>');
-<a name="l00319"></a>00319   <a class="code" href="impress__bilan_8php.html#a0">$ret</a>=execSql($p_cn,<span class="stringliteral">"select to_char($pos,'Mon YYYY') as t from parm_periode where p_id=$p_id"</span>);
-<a name="l00320"></a>00320   <span class="keywordflow">if</span> (pg_NumRows($ret) == 0) <span class="keywordflow">return</span> null;
-<a name="l00321"></a>00321   <a class="code" href="balance_8php.html#a10">$a</a>=pg_fetch_array($ret,0);
-<a name="l00322"></a>00322   <span class="keywordflow">return</span> <a class="code" href="balance_8php.html#a10">$a</a>[<span class="charliteral">'t'</span>];
-<a name="l00323"></a>00323 }
+References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="impress__bilan_8php-source.html#l00032">$ret</a>, and <a class="el" href="ac__common_8php-source.html#l00036">echo_error()</a>.<div class="fragment"><pre class="fragment"><a name="l00313"></a>00313                                                     {
+<a name="l00314"></a>00314   <span class="keywordflow">if</span> ( $pos != 'p_start' and 
+<a name="l00315"></a>00315        $pos != 'p_end')
+<a name="l00316"></a>00316     <a class="code" href="ac__common_8php.html#a0">echo_error</a>('ac_common.php'.<span class="stringliteral">"-"</span>.__LINE__.'  UNDEFINED <a class="code" href="constant_8php.html#a13">PERIODE</a>');
+<a name="l00317"></a>00317   <a class="code" href="impress__bilan_8php.html#a0">$ret</a>=execSql($p_cn,<span class="stringliteral">"select to_char($pos,'Mon YYYY') as t from parm_periode where p_id=$p_id"</span>);
+<a name="l00318"></a>00318   <span class="keywordflow">if</span> (pg_NumRows($ret) == 0) <span class="keywordflow">return</span> null;
+<a name="l00319"></a>00319   <a class="code" href="balance_8php.html#a10">$a</a>=pg_fetch_array($ret,0);
+<a name="l00320"></a>00320   <span class="keywordflow">return</span> <a class="code" href="balance_8php.html#a10">$a</a>[<span class="charliteral">'t'</span>];
+<a name="l00321"></a>00321 }
 </pre></div>
 <p>
     </td>
@@ -672,13 +672,13 @@ Default page header for each page.
 <p>
 Definition at line <a class="el" href="ac__common_8php-source.html#l00133">133</a> of file <a class="el" href="ac__common_8php-source.html">ac_common.php</a>.
 <p>
-References <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="pref_8inc_8php-source.html#l00063">$style</a>, <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00134"></a>00134 {       
+References <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="pref_8inc_8php-source.html#l00063">$style</a>, <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00134"></a>00134 {       
 <a name="l00135"></a>00135   include_once (<span class="stringliteral">"postgres.php"</span>);
 <a name="l00136"></a>00136  ini_set('magic_quotes_gpc<span class="charliteral">','</span>Off');
 <a name="l00137"></a>00137 
 <a name="l00138"></a>00138  <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
 <a name="l00139"></a>00139  <span class="keywordflow">if</span> ( $p_theme != <span class="stringliteral">""</span>) {
-<a name="l00140"></a>00140    <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select the_filestyle from theme</span>
+<a name="l00140"></a>00140    <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select the_filestyle from theme</span>
 <a name="l00141"></a>00141 <span class="stringliteral">                   where the_name='"</span>.$p_theme.<span class="stringliteral">"'"</span>);
 <a name="l00142"></a>00142     <span class="keywordflow">if</span> (pg_NumRows($Res)==0) 
 <a name="l00143"></a>00143       <a class="code" href="pref_8inc_8php.html#a2">$style</a>=<span class="stringliteral">"style.css"</span>;
@@ -916,32 +916,32 @@ make a array with the sql
 <dl compact><dt><b>Returns:</b></dt><dd>: a double array [value,label]</dd></dl>
 
 <p>
-Definition at line <a class="el" href="ac__common_8php-source.html#l00282">282</a> of file <a class="el" href="ac__common_8php-source.html">ac_common.php</a>.
+Definition at line <a class="el" href="ac__common_8php-source.html#l00280">280</a> of file <a class="el" href="ac__common_8php-source.html">ac_common.php</a>.
 <p>
-References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="balance_8php-source.html#l00118">$i</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="cbc__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="balance_8php-source.html#l00076">label</a>, and <a class="el" href="action_8inc_8php-source.html#l00240">value</a>.
+References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="balance_8php-source.html#l00118">$i</a>, <a class="el" href="bank_8inc_8php-source.html#l00235">$r</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="balance_8php-source.html#l00076">label</a>, and <a class="el" href="action_8inc_8php-source.html#l00241">value</a>.
 <p>
-Referenced by <a class="el" href="class__action_8php-source.html#l00364">action::Confirm()</a>, <a class="el" href="class__action_8php-source.html#l00101">action::Display()</a>, <a class="el" href="class__document__modele_8php-source.html#l00252">Document_modele::form()</a>, <a class="el" href="user__form__ach_8php-source.html#l00044">FormAchInput()</a>, <a class="el" href="user__form__ven_8php-source.html#l00043">FormVenInput()</a>, <a class="el" href="user__form__ven_8php-source.html#l00425">FormVenteView()</a>, and <a class="el" href="import__inc_8php-source.html#l00174">ShowFormTransfert()</a>.<div class="fragment"><pre class="fragment"><a name="l00282"></a>00282                                             {
-<a name="l00283"></a>00283 
-<a name="l00284"></a>00284   <a class="code" href="balance_8php.html#a10">$a</a>=pg_exec($p_cn,$p_sql);
-<a name="l00285"></a>00285   $max=pg_NumRows($a);
-<a name="l00286"></a>00286   <span class="keywordflow">if</span> ( $max==0) <span class="keywordflow">return</span> null;
-<a name="l00287"></a>00287   <span class="keywordflow">for</span> ($i=0;$i&lt;$max;$i++) {
-<a name="l00288"></a>00288     <a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>=pg_fetch_row($a);
-<a name="l00289"></a>00289     <a class="code" href="user__action__ach_8php.html#a2">$r</a>[<a class="code" href="balance_8php.html#a12">$i</a>]['<a class="code" href="action_8inc_8php.html#a19">value</a>']=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>[0];
-<a name="l00290"></a>00290     <a class="code" href="user__action__ach_8php.html#a2">$r</a>[<a class="code" href="balance_8php.html#a12">$i</a>]['<a class="code" href="balance_8php.html#a6">label</a>']=<a class="code" href="cbc__be_8inc_8php.html#a0">$row</a>[1];
-<a name="l00291"></a>00291   }
-<a name="l00292"></a>00292   <span class="comment">// add a blank item ?</span>
-<a name="l00293"></a>00293   <span class="keywordflow">if</span> ( $p_null == 1 ) {
-<a name="l00294"></a>00294   <span class="keywordflow">for</span> ($i=$max;$i!=0;$i--) {
-<a name="l00295"></a>00295     <a class="code" href="user__action__ach_8php.html#a2">$r</a>[<a class="code" href="balance_8php.html#a12">$i</a>]['<a class="code" href="action_8inc_8php.html#a19">value</a>']=    <a class="code" href="user__action__ach_8php.html#a2">$r</a>[<a class="code" href="balance_8php.html#a12">$i</a>-1]['<a class="code" href="action_8inc_8php.html#a19">value</a>'];
-<a name="l00296"></a>00296     <a class="code" href="user__action__ach_8php.html#a2">$r</a>[<a class="code" href="balance_8php.html#a12">$i</a>]['<a class="code" href="balance_8php.html#a6">label</a>']=    <a class="code" href="user__action__ach_8php.html#a2">$r</a>[<a class="code" href="balance_8php.html#a12">$i</a>-1]['<a class="code" href="balance_8php.html#a6">label</a>'];
-<a name="l00297"></a>00297   }
-<a name="l00298"></a>00298   <a class="code" href="user__action__ach_8php.html#a2">$r</a>[0]['<a class="code" href="action_8inc_8php.html#a19">value</a>']=-1;
-<a name="l00299"></a>00299   <a class="code" href="user__action__ach_8php.html#a2">$r</a>[0]['<a class="code" href="balance_8php.html#a6">label</a>']=<span class="stringliteral">" "</span>;
-<a name="l00300"></a>00300   } <span class="comment">//   if ( $p_null == 1 ) </span>
-<a name="l00301"></a>00301 
-<a name="l00302"></a>00302   <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
-<a name="l00303"></a>00303 }
+Referenced by <a class="el" href="class__action_8php-source.html#l00364">action::Confirm()</a>, <a class="el" href="class__action_8php-source.html#l00101">action::Display()</a>, <a class="el" href="class__document__modele_8php-source.html#l00252">Document_modele::form()</a>, <a class="el" href="user__form__ach_8php-source.html#l00044">FormAchInput()</a>, <a class="el" href="user__form__ven_8php-source.html#l00043">FormVenInput()</a>, <a class="el" href="user__form__ven_8php-source.html#l00425">FormVenteView()</a>, and <a class="el" href="import__inc_8php-source.html#l00174">ShowFormTransfert()</a>.<div class="fragment"><pre class="fragment"><a name="l00280"></a>00280                                             {
+<a name="l00281"></a>00281   <a class="code" href="debug_8php.html#a0">echo_debug</a>('ac_common',__LINE__,$p_sql);
+<a name="l00282"></a>00282   <a class="code" href="balance_8php.html#a10">$a</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$p_sql);
+<a name="l00283"></a>00283   $max=pg_NumRows($a);
+<a name="l00284"></a>00284   <span class="keywordflow">if</span> ( $max==0) <span class="keywordflow">return</span> null;
+<a name="l00285"></a>00285   <span class="keywordflow">for</span> ($i=0;$i&lt;$max;$i++) {
+<a name="l00286"></a>00286     <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>=pg_fetch_row($a);
+<a name="l00287"></a>00287     <a class="code" href="bank_8inc_8php.html#a29">$r</a>[<a class="code" href="balance_8php.html#a12">$i</a>]['<a class="code" href="action_8inc_8php.html#a19">value</a>']=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>[0];
+<a name="l00288"></a>00288     <a class="code" href="bank_8inc_8php.html#a29">$r</a>[<a class="code" href="balance_8php.html#a12">$i</a>]['<a class="code" href="balance_8php.html#a6">label</a>']=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>[1];
+<a name="l00289"></a>00289   }
+<a name="l00290"></a>00290   <span class="comment">// add a blank item ?</span>
+<a name="l00291"></a>00291   <span class="keywordflow">if</span> ( $p_null == 1 ) {
+<a name="l00292"></a>00292   <span class="keywordflow">for</span> ($i=$max;$i!=0;$i--) {
+<a name="l00293"></a>00293     <a class="code" href="bank_8inc_8php.html#a29">$r</a>[<a class="code" href="balance_8php.html#a12">$i</a>]['<a class="code" href="action_8inc_8php.html#a19">value</a>']=    <a class="code" href="bank_8inc_8php.html#a29">$r</a>[<a class="code" href="balance_8php.html#a12">$i</a>-1]['<a class="code" href="action_8inc_8php.html#a19">value</a>'];
+<a name="l00294"></a>00294     <a class="code" href="bank_8inc_8php.html#a29">$r</a>[<a class="code" href="balance_8php.html#a12">$i</a>]['<a class="code" href="balance_8php.html#a6">label</a>']=    <a class="code" href="bank_8inc_8php.html#a29">$r</a>[<a class="code" href="balance_8php.html#a12">$i</a>-1]['<a class="code" href="balance_8php.html#a6">label</a>'];
+<a name="l00295"></a>00295   }
+<a name="l00296"></a>00296   <a class="code" href="bank_8inc_8php.html#a29">$r</a>[0]['<a class="code" href="action_8inc_8php.html#a19">value</a>']=-1;
+<a name="l00297"></a>00297   <a class="code" href="bank_8inc_8php.html#a29">$r</a>[0]['<a class="code" href="balance_8php.html#a6">label</a>']=<span class="stringliteral">" "</span>;
+<a name="l00298"></a>00298   } <span class="comment">//   if ( $p_null == 1 ) </span>
+<a name="l00299"></a>00299 
+<a name="l00300"></a>00300   <span class="keywordflow">return</span> <a class="code" href="bank_8inc_8php.html#a29">$r</a>;
+<a name="l00301"></a>00301 }
 </pre></div>
 <p>
     </td>
@@ -978,15 +978,12 @@ Echo no access and stop.
 <p>
 Definition at line <a class="el" href="ac__common_8php-source.html#l00192">192</a> of file <a class="el" href="ac__common_8php-source.html">ac_common.php</a>.
 <p>
-References <a class="el" href="balance_8php-source.html#l00036">exit</a>.<div class="fragment"><pre class="fragment"><a name="l00192"></a>00192                     {
-<a name="l00193"></a>00193   echo <span class="stringliteral">"&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;&lt;BR&gt;"</span>;
-<a name="l00194"></a>00194   echo <span class="stringliteral">"&lt;P ALIGN=center&gt;&lt;BLINK&gt;</span>
-<a name="l00195"></a>00195 <span class="stringliteral">        &lt;FONT size=+12 COLOR=RED&gt;</span>
-<a name="l00196"></a>00196 <span class="stringliteral">        You haven't access</span>
-<a name="l00197"></a>00197 <span class="stringliteral">        &lt;/FONT&gt;&lt;/BLINK&gt;&lt;/P&gt;&lt;/BODY&gt;&lt;/HTML&gt;"</span>;
-<a name="l00198"></a>00198                 
-<a name="l00199"></a>00199   <a class="code" href="balance_8php.html#a0">exit</a> -1;
-<a name="l00200"></a>00200 }
+References <a class="el" href="balance_8php-source.html#l00036">exit</a>.<div class="fragment"><pre class="fragment"><a name="l00193"></a>00193 {
+<a name="l00194"></a>00194   echo <span class="stringliteral">"&lt;script&gt;"</span>;
+<a name="l00195"></a>00195   echo <span class="stringliteral">"alert ('Cette action ne vous est pas autorisée Contactez votre responsable');"</span>;
+<a name="l00196"></a>00196   echo <span class="stringliteral">"&lt;/script&gt;"</span>;
+<a name="l00197"></a>00197   <a class="code" href="balance_8php.html#a0">exit</a> -1;
+<a name="l00198"></a>00198 }
 </pre></div>
 <p>
     </td>
@@ -1054,40 +1051,40 @@ store the string which print
 <p>
 /* 
 <p>
-Definition at line <a class="el" href="ac__common_8php-source.html#l00228">228</a> of file <a class="el" href="ac__common_8php-source.html">ac_common.php</a>.
+Definition at line <a class="el" href="ac__common_8php-source.html#l00226">226</a> of file <a class="el" href="ac__common_8php-source.html">ac_common.php</a>.
 <p>
 References <a class="el" href="impress__bilan_8php-source.html#l00032">$ret</a>.
 <p>
-Referenced by <a class="el" href="user__menu_8php-source.html#l00556">MenuAdmin()</a>, <a class="el" href="user__menu_8php-source.html#l00502">ShowJrn()</a>, <a class="el" href="user__menu_8php-source.html#l00476">ShowMenuAdvanced()</a>, <a class="el" href="user__menu_8php-source.html#l00132">ShowMenuCompta()</a>, <a class="el" href="user__menu_8php-source.html#l00576">ShowMenuDocument()</a>, and <a class="el" href="user__menu_8php-source.html#l00596">ShowMenuParam()</a>.<div class="fragment"><pre class="fragment"><a name="l00229"></a>00229 {
-<a name="l00230"></a>00230   <a class="code" href="impress__bilan_8php.html#a0">$ret</a>=<span class="stringliteral">"&lt;TABLE $p_extra&gt;"</span>;
-<a name="l00231"></a>00231   <span class="comment">// direction Vertical</span>
-<a name="l00232"></a>00232   <span class="keywordflow">if</span> ( $p_dir == <span class="charliteral">'V'</span>) {
-<a name="l00233"></a>00233     foreach ($p_array as $all=&gt;$href){
-<a name="l00234"></a>00234       $title=<span class="stringliteral">""</span>;
-<a name="l00235"></a>00235       <span class="keywordflow">if</span> ( isset ($href[2] )) 
-<a name="l00236"></a>00236         $title=$href[2];
-<a name="l00237"></a>00237       <a class="code" href="impress__bilan_8php.html#a0">$ret</a>.='&lt;TR&gt;&lt;TD CLASS=<span class="stringliteral">"'.$class.'"</span>&gt;&lt;A <span class="keyword">class</span>=<span class="stringliteral">"'.$class_ref.'"</span> HREF=<span class="stringliteral">"'.$href[0].'"</span> title=<span class="stringliteral">"'.$title.'"</span>&gt;'.$href[1].'&lt;/A&gt;&lt;/TD&gt;&lt;/TR&gt;';
-<a name="l00238"></a>00238     }
-<a name="l00239"></a>00239   }
-<a name="l00240"></a>00240       <span class="comment">//direction Horizontal</span>
-<a name="l00241"></a>00241   <span class="keywordflow">else</span> <span class="keywordflow">if</span> ( $p_dir == <span class="charliteral">'H'</span> ) {
-<a name="l00242"></a>00242     <a class="code" href="impress__bilan_8php.html#a0">$ret</a>.=<span class="stringliteral">"&lt;TR&gt;"</span>;
-<a name="l00243"></a>00243     foreach ($p_array as $all=&gt;$href){
-<a name="l00244"></a>00244       $title=<span class="stringliteral">""</span>;
-<a name="l00245"></a>00245       <span class="keywordflow">if</span> ( isset ($href[2] )) 
-<a name="l00246"></a>00246         $title=$href[2];
-<a name="l00247"></a>00247       <span class="keywordflow">if</span> ( $<span class="keywordflow">default</span>== $href[0]) {
-<a name="l00248"></a>00248       <a class="code" href="impress__bilan_8php.html#a0">$ret</a>.='&lt;TD CLASS=<span class="stringliteral">"selectedcell"</span>&gt;'.$href[1].'&lt;/TD&gt;';
-<a name="l00249"></a>00249 
-<a name="l00250"></a>00250       } <span class="keywordflow">else</span> {
-<a name="l00251"></a>00251       <a class="code" href="impress__bilan_8php.html#a0">$ret</a>.='&lt;TD CLASS=<span class="stringliteral">"'.$class.'"</span>&gt;&lt;A <span class="keyword">class</span>=<span class="stringliteral">"'.$class_ref.'"</span> HREF=<span class="stringliteral">"'.$href[0].'"</span> title=<span class="stringliteral">"'.$title.'"</span>&gt;'.$href[1].'&lt;/A&gt;&lt;/TD&gt;';
-<a name="l00252"></a>00252       }
-<a name="l00253"></a>00253     }
-<a name="l00254"></a>00254     <a class="code" href="impress__bilan_8php.html#a0">$ret</a>.=<span class="stringliteral">"&lt;/TR&gt;"</span>;
-<a name="l00255"></a>00255   }
-<a name="l00256"></a>00256     <a class="code" href="impress__bilan_8php.html#a0">$ret</a>.=<span class="stringliteral">"&lt;/TABLE&gt;"</span>;
-<a name="l00257"></a>00257   <span class="keywordflow">return</span> <a class="code" href="impress__bilan_8php.html#a0">$ret</a>;
-<a name="l00258"></a>00258 }
+Referenced by <a class="el" href="user__menu_8php-source.html#l00557">MenuAdmin()</a>, <a class="el" href="user__menu_8php-source.html#l00503">ShowJrn()</a>, <a class="el" href="user__menu_8php-source.html#l00477">ShowMenuAdvanced()</a>, <a class="el" href="user__menu_8php-source.html#l00132">ShowMenuCompta()</a>, <a class="el" href="user__menu_8php-source.html#l00577">ShowMenuDocument()</a>, and <a class="el" href="user__menu_8php-source.html#l00597">ShowMenuParam()</a>.<div class="fragment"><pre class="fragment"><a name="l00227"></a>00227 {
+<a name="l00228"></a>00228   <a class="code" href="impress__bilan_8php.html#a0">$ret</a>=<span class="stringliteral">"&lt;TABLE $p_extra&gt;"</span>;
+<a name="l00229"></a>00229   <span class="comment">// direction Vertical</span>
+<a name="l00230"></a>00230   <span class="keywordflow">if</span> ( $p_dir == <span class="charliteral">'V'</span>) {
+<a name="l00231"></a>00231     foreach ($p_array as $all=&gt;$href){
+<a name="l00232"></a>00232       $title=<span class="stringliteral">""</span>;
+<a name="l00233"></a>00233       <span class="keywordflow">if</span> ( isset ($href[2] )) 
+<a name="l00234"></a>00234         $title=$href[2];
+<a name="l00235"></a>00235       <a class="code" href="impress__bilan_8php.html#a0">$ret</a>.='&lt;TR&gt;&lt;TD CLASS=<span class="stringliteral">"'.$class.'"</span>&gt;&lt;A <span class="keyword">class</span>=<span class="stringliteral">"'.$class_ref.'"</span> HREF=<span class="stringliteral">"'.$href[0].'"</span> title=<span class="stringliteral">"'.$title.'"</span>&gt;'.$href[1].'&lt;/A&gt;&lt;/TD&gt;&lt;/TR&gt;';
+<a name="l00236"></a>00236     }
+<a name="l00237"></a>00237   }
+<a name="l00238"></a>00238       <span class="comment">//direction Horizontal</span>
+<a name="l00239"></a>00239   <span class="keywordflow">else</span> <span class="keywordflow">if</span> ( $p_dir == <span class="charliteral">'H'</span> ) {
+<a name="l00240"></a>00240     <a class="code" href="impress__bilan_8php.html#a0">$ret</a>.=<span class="stringliteral">"&lt;TR&gt;"</span>;
+<a name="l00241"></a>00241     foreach ($p_array as $all=&gt;$href){
+<a name="l00242"></a>00242       $title=<span class="stringliteral">""</span>;
+<a name="l00243"></a>00243       <span class="keywordflow">if</span> ( isset ($href[2] )) 
+<a name="l00244"></a>00244         $title=$href[2];
+<a name="l00245"></a>00245       <span class="keywordflow">if</span> ( $<span class="keywordflow">default</span>== $href[0]) {
+<a name="l00246"></a>00246       <a class="code" href="impress__bilan_8php.html#a0">$ret</a>.='&lt;TD CLASS=<span class="stringliteral">"selectedcell"</span>&gt;'.$href[1].'&lt;/TD&gt;';
+<a name="l00247"></a>00247 
+<a name="l00248"></a>00248       } <span class="keywordflow">else</span> {
+<a name="l00249"></a>00249       <a class="code" href="impress__bilan_8php.html#a0">$ret</a>.='&lt;TD CLASS=<span class="stringliteral">"'.$class.'"</span>&gt;&lt;A <span class="keyword">class</span>=<span class="stringliteral">"'.$class_ref.'"</span> HREF=<span class="stringliteral">"'.$href[0].'"</span> title=<span class="stringliteral">"'.$title.'"</span>&gt;'.$href[1].'&lt;/A&gt;&lt;/TD&gt;';
+<a name="l00250"></a>00250       }
+<a name="l00251"></a>00251     }
+<a name="l00252"></a>00252     <a class="code" href="impress__bilan_8php.html#a0">$ret</a>.=<span class="stringliteral">"&lt;/TR&gt;"</span>;
+<a name="l00253"></a>00253   }
+<a name="l00254"></a>00254     <a class="code" href="impress__bilan_8php.html#a0">$ret</a>.=<span class="stringliteral">"&lt;/TABLE&gt;"</span>;
+<a name="l00255"></a>00255   <span class="keywordflow">return</span> <a class="code" href="impress__bilan_8php.html#a0">$ret</a>;
+<a name="l00256"></a>00256 }
 </pre></div>
 <p>
     </td>

@@ -45,7 +45,7 @@
 <a name="l00052"></a>00052       <span class="keywordflow">else</span>
 <a name="l00053"></a>00053         $periode = <span class="stringliteral">"(jr_tech_per &gt;= $p_from and jr_tech_per &lt;= $p_to) "</span>;
 <a name="l00054"></a>00054       
-<a name="l00055"></a>00055       <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,<span class="stringliteral">"select to_char(j_date,'DD.MM.YYYY') as j_date,"</span>.
+<a name="l00055"></a>00055       <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,<span class="stringliteral">"select to_char(j_date,'DD.MM.YYYY') as j_date,"</span>.
 <a name="l00056"></a>00056                <span class="stringliteral">"case when j_debit='t' then j_montant else 0 end as deb_montant,"</span>.
 <a name="l00057"></a>00057                <span class="stringliteral">"case when j_debit='f' then j_montant else 0 end as cred_montant,"</span>.
 <a name="l00058"></a>00058                <span class="stringliteral">" jr_comment as description,jrn_def_name as jrn_name,"</span>.
@@ -75,8 +75,8 @@
 <a name="l00086"></a>00086                  <span class="stringliteral">"select pcm_lib from tmp_pcmn where</span>
 <a name="l00087"></a>00087 <span class="stringliteral">                  pcm_val="</span>.$this-&gt;id);
 <a name="l00088"></a>00088       <span class="keywordflow">if</span> ( pg_NumRows($ret) != 0) {
-<a name="l00089"></a>00089         <a class="code" href="user__action__ach_8php.html#a2">$r</a>=pg_fetch_array($ret);
-<a name="l00090"></a>00090         $this-&gt;<a class="code" href="action_8inc_8php.html#a18">name</a>=<a class="code" href="user__action__ach_8php.html#a2">$r</a>['pcm_lib'];
+<a name="l00089"></a>00089         <a class="code" href="bank_8inc_8php.html#a29">$r</a>=pg_fetch_array($ret);
+<a name="l00090"></a>00090         $this-&gt;<a class="code" href="action_8inc_8php.html#a18">name</a>=<a class="code" href="bank_8inc_8php.html#a29">$r</a>['pcm_lib'];
 <a name="l00091"></a>00091       } <span class="keywordflow">else</span> {
 <a name="l00092"></a>00092         $this-&gt;<a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"Poste inconnu"</span>;
 <a name="l00093"></a>00093       }
@@ -86,16 +86,16 @@
 <a name="l00101"></a>00101     {
 <a name="l00102"></a>00102       <a class="code" href="impress__bilan_8php.html#a0">$ret</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,<span class="stringliteral">"select pcm_lib,pcm_val_parent from </span>
 <a name="l00103"></a>00103 <span class="stringliteral">                              tmp_pcmn where pcm_val="</span>.$this-&gt;id);
-<a name="l00104"></a>00104       <a class="code" href="user__action__ach_8php.html#a2">$r</a>=pg_fetch_all($ret);
+<a name="l00104"></a>00104       <a class="code" href="bank_8inc_8php.html#a29">$r</a>=pg_fetch_all($ret);
 <a name="l00105"></a>00105 
 <a name="l00106"></a>00106       <span class="keywordflow">if</span> ( ! $r ) <span class="keywordflow">return</span> <span class="keyword">false</span>;
-<a name="l00107"></a>00107       $this-&gt;<a class="code" href="balance_8php.html#a6">label</a>=<a class="code" href="user__action__ach_8php.html#a2">$r</a>[0]['pcm_lib'];
-<a name="l00108"></a>00108       $this-&gt;parent=<a class="code" href="user__action__ach_8php.html#a2">$r</a>[0]['pcm_val_parent'];
+<a name="l00107"></a>00107       $this-&gt;<a class="code" href="balance_8php.html#a6">label</a>=<a class="code" href="bank_8inc_8php.html#a29">$r</a>[0]['pcm_lib'];
+<a name="l00108"></a>00108       $this-&gt;parent=<a class="code" href="bank_8inc_8php.html#a29">$r</a>[0]['pcm_val_parent'];
 <a name="l00109"></a>00109       <span class="keywordflow">return</span> <span class="keyword">true</span>;
 <a name="l00110"></a>00110     }
 <a name="l00111"></a>00111          
 <a name="l00119"></a><a class="code" href="classposte.html#a4">00119</a> function <a class="code" href="classposte.html#a4">GetSolde</a>($p_cond=<span class="stringliteral">""</span>) {
-<a name="l00120"></a>00120   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,<span class="stringliteral">"select sum(deb) as sum_deb, sum(cred) as sum_cred from </span>
+<a name="l00120"></a>00120   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,<span class="stringliteral">"select sum(deb) as sum_deb, sum(cred) as sum_cred from </span>
 <a name="l00121"></a>00121 <span class="stringliteral">          ( select j_poste, </span>
 <a name="l00122"></a>00122 <span class="stringliteral">             case when j_debit='t' then j_montant else 0 end as deb, </span>
 <a name="l00123"></a>00123 <span class="stringliteral">             case when j_debit='f' then j_montant else 0 end as cred </span>
@@ -106,13 +106,13 @@
 <a name="l00128"></a>00128 <span class="stringliteral">          ) as m  "</span>);
 <a name="l00129"></a>00129   <a class="code" href="setup_8php.html#a11">$Max</a>=pg_NumRows($Res);
 <a name="l00130"></a>00130   <span class="keywordflow">if</span> ($Max==0) <span class="keywordflow">return</span> 0;
-<a name="l00131"></a>00131   <a class="code" href="user__action__ach_8php.html#a2">$r</a>=pg_fetch_array($Res,0);
+<a name="l00131"></a>00131   <a class="code" href="bank_8inc_8php.html#a29">$r</a>=pg_fetch_array($Res,0);
 <a name="l00132"></a>00132   
 <a name="l00133"></a>00133   <span class="keywordflow">return</span> abs($r['sum_deb']-$r['sum_cred']);
 <a name="l00134"></a>00134 }
 <a name="l00141"></a><a class="code" href="classposte.html#a5">00141</a> function <a class="code" href="classposte.html#a5">GetSoldeDetail</a>($p_cond=<span class="stringliteral">""</span>) {
 <a name="l00142"></a>00142         <span class="keywordflow">if</span> ( $p_cond != <span class="stringliteral">""</span>) $p_cond=<span class="stringliteral">" and "</span>.$p_cond;
-<a name="l00143"></a>00143   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,<span class="stringliteral">"select sum(deb) as sum_deb, sum(cred) as sum_cred from </span>
+<a name="l00143"></a>00143   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,<span class="stringliteral">"select sum(deb) as sum_deb, sum(cred) as sum_cred from </span>
 <a name="l00144"></a>00144 <span class="stringliteral">          ( select j_poste, </span>
 <a name="l00145"></a>00145 <span class="stringliteral">             case when j_debit='t' then j_montant else 0 end as deb, </span>
 <a name="l00146"></a>00146 <span class="stringliteral">             case when j_debit='f' then j_montant else 0 end as cred </span>
@@ -123,7 +123,7 @@
 <a name="l00151"></a>00151 <span class="stringliteral">          ) as m  "</span>);
 <a name="l00152"></a>00152   <a class="code" href="setup_8php.html#a11">$Max</a>=pg_NumRows($Res);
 <a name="l00153"></a>00153   <span class="keywordflow">if</span> ($Max==0) <span class="keywordflow">return</span> 0;
-<a name="l00154"></a>00154   <a class="code" href="user__action__ach_8php.html#a2">$r</a>=pg_fetch_array($Res,0);
+<a name="l00154"></a>00154   <a class="code" href="bank_8inc_8php.html#a29">$r</a>=pg_fetch_array($Res,0);
 <a name="l00155"></a>00155   
 <a name="l00156"></a>00156   <span class="keywordflow">return</span> array('debit'=&gt;$r['sum_deb'],
 <a name="l00157"></a>00157                'credit'=&gt;$r['sum_cred'],

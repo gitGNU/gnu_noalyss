@@ -49,11 +49,11 @@
 <a name="l00057"></a>00057   <span class="comment">//  $e_jrn=(isset($e_jrn))?$e_jrn:"";</span>
 <a name="l00058"></a>00058   <span class="comment">// Save old value and set a new one</span>
 <a name="l00059"></a>00059   <a class="code" href="debug_8php.html#a0">echo_debug</a>('user_form_ven.php',__LINE__,<span class="stringliteral">"form_input.php.FormVentep_op_date is $op_date"</span>);
-<a name="l00060"></a>00060   <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<span class="stringliteral">""</span>;
+<a name="l00060"></a>00060   <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<span class="stringliteral">""</span>;
 <a name="l00061"></a>00061   <span class="keywordflow">if</span> ( $pview_only == <span class="keyword">false</span>) {
-<a name="l00062"></a>00062     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="constant_8php.html#a80">JS_SEARCH_CARD</a>;
-<a name="l00063"></a>00063     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="constant_8php.html#a75">JS_SHOW_TVA</a>;    
-<a name="l00064"></a>00064     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="constant_8php.html#a83">JS_TVA</a>;
+<a name="l00062"></a>00062     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<a class="code" href="constant_8php.html#a85">JS_SEARCH_CARD</a>;
+<a name="l00063"></a>00063     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<a class="code" href="constant_8php.html#a80">JS_SHOW_TVA</a>;    
+<a name="l00064"></a>00064     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<a class="code" href="constant_8php.html#a88">JS_TVA</a>;
 <a name="l00065"></a>00065     <span class="comment">// Compute href</span>
 <a name="l00066"></a>00066     $href=$_SERVER['SCRIPT_NAME'];
 <a name="l00067"></a>00067     <span class="keywordflow">switch</span> ($href)
@@ -70,31 +70,31 @@
 <a name="l00078"></a>00078         <a class="code" href="balance_8php.html#a0">exit</a> (-1);
 <a name="l00079"></a>00079       }
 <a name="l00080"></a>00080       
-<a name="l00081"></a>00081     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;FORM NAME=\"form_detail\" ACTION=\"$href\" METHOD=\"POST\"&gt;"</span>;
+<a name="l00081"></a>00081     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;FORM NAME=\"form_detail\" ACTION=\"$href\" METHOD=\"POST\"&gt;"</span>;
 <a name="l00082"></a>00082 
 <a name="l00083"></a>00083     
 <a name="l00084"></a>00084   }
-<a name="l00085"></a>00085   <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"select jrn_def_id as value,jrn_def_name as label from jrn_def where jrn_def_type='VEN'"</span>;
+<a name="l00085"></a>00085   <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">"select jrn_def_id as value,jrn_def_name as label from jrn_def where jrn_def_type='VEN'"</span>;
 <a name="l00086"></a>00086   <a class="code" href="fiche__new_8php.html#a7">$list</a>=<a class="code" href="postgres_8php.html#a23">GetArray</a>($p_cn,$sql);
-<a name="l00087"></a>00087   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;TABLE&gt;';
+<a name="l00087"></a>00087   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;TABLE&gt;';
 <a name="l00088"></a>00088   <span class="comment">//  Date</span>
 <a name="l00089"></a>00089   <span class="comment">//--</span>
 <a name="l00090"></a>00090   $Date=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"text"</span>);
 <a name="l00091"></a>00091   $Date-&gt;SetReadOnly($pview_only);
 <a name="l00092"></a>00092   $Date-&gt;table=1;
 <a name="l00093"></a>00093   $Date-&gt;tabindex=1;
-<a name="l00094"></a>00094   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;tr&gt;"</span>;
-<a name="l00095"></a>00095   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=$Date-&gt;IOValue(<span class="stringliteral">"e_date"</span>,$op_date,<span class="stringliteral">"Date"</span>);
-<a name="l00096"></a>00096   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/tr&gt;"</span>;
+<a name="l00094"></a>00094   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;tr&gt;"</span>;
+<a name="l00095"></a>00095   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=$Date-&gt;IOValue(<span class="stringliteral">"e_date"</span>,$op_date,<span class="stringliteral">"Date"</span>);
+<a name="l00096"></a>00096   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/tr&gt;"</span>;
 <a name="l00097"></a>00097   <span class="comment">// Payment limit</span>
 <a name="l00098"></a>00098   <span class="comment">//--</span>
 <a name="l00099"></a>00099   $Echeance=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"text"</span>);
 <a name="l00100"></a>00100   $Echeance-&gt;SetReadOnly($pview_only);
 <a name="l00101"></a>00101   $Echeance-&gt;table=1;
 <a name="l00102"></a>00102   $Echeance-&gt;tabindex=2;
-<a name="l00103"></a>00103   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;tr&gt;"</span>;
-<a name="l00104"></a>00104   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=$Echeance-&gt;IOValue(<span class="stringliteral">"e_ech"</span>,$e_ech,<span class="stringliteral">"Echeance"</span>);
-<a name="l00105"></a>00105   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/tr&gt;"</span>;
+<a name="l00103"></a>00103   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;tr&gt;"</span>;
+<a name="l00104"></a>00104   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=$Echeance-&gt;IOValue(<span class="stringliteral">"e_ech"</span>,$e_ech,<span class="stringliteral">"Echeance"</span>);
+<a name="l00105"></a>00105   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/tr&gt;"</span>;
 <a name="l00106"></a>00106   <span class="comment">// Comment</span>
 <a name="l00107"></a>00107   <span class="comment">//--</span>
 <a name="l00108"></a>00108   $Commentaire=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"text"</span>);
@@ -102,9 +102,9 @@
 <a name="l00110"></a>00110   $Commentaire-&gt;SetReadOnly($pview_only);
 <a name="l00111"></a>00111   $Commentaire-&gt;size=80;
 <a name="l00112"></a>00112   $Commentaire-&gt;tabindex=3;
-<a name="l00113"></a>00113   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;tr&gt;"</span>;
-<a name="l00114"></a>00114   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=$Commentaire-&gt;IOValue(<span class="stringliteral">"e_comm"</span>,$e_comm,<span class="stringliteral">"Description"</span>);
-<a name="l00115"></a>00115   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/tr&gt;"</span>;
+<a name="l00113"></a>00113   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;tr&gt;"</span>;
+<a name="l00114"></a>00114   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=$Commentaire-&gt;IOValue(<span class="stringliteral">"e_comm"</span>,$e_comm,<span class="stringliteral">"Description"</span>);
+<a name="l00115"></a>00115   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/tr&gt;"</span>;
 <a name="l00116"></a>00116   include_once(<span class="stringliteral">"fiche_inc.php"</span>);
 <a name="l00117"></a>00117   <span class="comment">// Display the customer</span>
 <a name="l00118"></a>00118   <span class="comment">//--</span>
@@ -137,29 +137,29 @@
 <a name="l00145"></a>00145   $W1-&gt;value=$e_client;
 <a name="l00146"></a>00146   $W1-&gt;extra=<a class="code" href="impress__fiche_8php.html#a9">$fiche</a>;  <span class="comment">// list of card</span>
 <a name="l00147"></a>00147   $W1-&gt;extra2=<a class="code" href="modify__op_8php.html#a2">$p_jrn</a>;
-<a name="l00148"></a>00148   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TR&gt;"</span>.$W1-&gt;IOValue();
+<a name="l00148"></a>00148   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;TR&gt;"</span>.$W1-&gt;IOValue();
 <a name="l00149"></a>00149   $client_label=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"span"</span>);
-<a name="l00150"></a>00150   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.= $client_label-&gt;IOValue(<span class="stringliteral">"e_client_label"</span>,$e_client_label).<span class="stringliteral">"&lt;/TD&gt;&lt;/TR&gt;"</span>;
-<a name="l00151"></a>00151   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/TABLE&gt;"</span>;
+<a name="l00150"></a>00150   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.= $client_label-&gt;IOValue(<span class="stringliteral">"e_client_label"</span>,$e_client_label).<span class="stringliteral">"&lt;/TD&gt;&lt;/TR&gt;"</span>;
+<a name="l00151"></a>00151   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/TABLE&gt;"</span>;
 <a name="l00152"></a>00152 
 <a name="l00153"></a>00153   <span class="comment">// Record the current number of article</span>
 <a name="l00154"></a>00154   $Hid=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>('hidden');
-<a name="l00155"></a>00155   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=$Hid-&gt;IOValue(<span class="stringliteral">"nb_item"</span>,$p_article);
+<a name="l00155"></a>00155   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=$Hid-&gt;IOValue(<span class="stringliteral">"nb_item"</span>,$p_article);
 <a name="l00156"></a>00156   $e_comment=(isset($e_comment))?$e_comment:<span class="stringliteral">""</span>;
 <a name="l00157"></a>00157 
 <a name="l00158"></a>00158 
 <a name="l00159"></a>00159   <span class="comment">// Start the div for item to sell</span>
-<a name="l00160"></a>00160   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;DIV&gt;"</span>;
-<a name="l00161"></a>00161   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;H2 <span class="keyword">class</span>=<span class="stringliteral">"info"</span>&gt;Articles&lt;/H2&gt;';
-<a name="l00162"></a>00162   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;TABLE&gt;';
-<a name="l00163"></a>00163   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;TR&gt;';
-<a name="l00164"></a>00164   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;th&gt;&lt;/th&gt;"</span>;
-<a name="l00165"></a>00165   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;th&gt;Code&lt;/th&gt;"</span>;
-<a name="l00166"></a>00166   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;th&gt;Dénomination&lt;/th&gt;"</span>;
-<a name="l00167"></a>00167   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;th&gt;prix&lt;/th&gt;"</span>;
-<a name="l00168"></a>00168   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;th&gt;tva&lt;/th&gt;"</span>;
-<a name="l00169"></a>00169   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;th&gt;quantité&lt;/th&gt;"</span>;
-<a name="l00170"></a>00170   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;/TR&gt;';
+<a name="l00160"></a>00160   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;DIV&gt;"</span>;
+<a name="l00161"></a>00161   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;H2 <span class="keyword">class</span>=<span class="stringliteral">"info"</span>&gt;Articles&lt;/H2&gt;';
+<a name="l00162"></a>00162   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;TABLE&gt;';
+<a name="l00163"></a>00163   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;TR&gt;';
+<a name="l00164"></a>00164   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;th&gt;&lt;/th&gt;"</span>;
+<a name="l00165"></a>00165   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;th&gt;Code&lt;/th&gt;"</span>;
+<a name="l00166"></a>00166   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;th&gt;Dénomination&lt;/th&gt;"</span>;
+<a name="l00167"></a>00167   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;th&gt;prix&lt;/th&gt;"</span>;
+<a name="l00168"></a>00168   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;th&gt;tva&lt;/th&gt;"</span>;
+<a name="l00169"></a>00169   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;th&gt;quantité&lt;/th&gt;"</span>;
+<a name="l00170"></a>00170   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;/TR&gt;';
 <a name="l00171"></a>00171   <span class="comment">// For each article</span>
 <a name="l00172"></a>00172   <span class="comment">//--</span>
 <a name="l00173"></a>00173   <span class="keywordflow">for</span> ($i=0;$i&lt; $p_article;$i++) {
@@ -202,24 +202,24 @@
 <a name="l00210"></a>00210     $W1-&gt;extra='cred';  <span class="comment">// credits</span>
 <a name="l00211"></a>00211     $W1-&gt;extra2=<a class="code" href="modify__op_8php.html#a2">$p_jrn</a>;
 <a name="l00212"></a>00212     $W1-&gt;readonly=$pview_only;
-<a name="l00213"></a>00213     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TR&gt;"</span>.$W1-&gt;IOValue().<span class="stringliteral">"&lt;/TD&gt;"</span>;
+<a name="l00213"></a>00213     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;TR&gt;"</span>.$W1-&gt;IOValue().<span class="stringliteral">"&lt;/TD&gt;"</span>;
 <a name="l00214"></a>00214     $Span=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a> (<span class="stringliteral">"span"</span>);
 <a name="l00215"></a>00215     $Span-&gt;SetReadOnly($pview_only);
 <a name="l00216"></a>00216     <span class="comment">// card's name, price</span>
 <a name="l00217"></a>00217     <span class="comment">//--</span>
-<a name="l00218"></a>00218     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TD&gt;"</span>.$Span-&gt;IOValue(<span class="stringliteral">"e_march"</span>.$i.<span class="stringliteral">"_label"</span>,$march_label).<span class="stringliteral">"&lt;/TD&gt;"</span>;
+<a name="l00218"></a>00218     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;TD&gt;"</span>.$Span-&gt;IOValue(<span class="stringliteral">"e_march"</span>.$i.<span class="stringliteral">"_label"</span>,$march_label).<span class="stringliteral">"&lt;/TD&gt;"</span>;
 <a name="l00219"></a>00219    <span class="comment">// price</span>
 <a name="l00220"></a>00220     $Price=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"text"</span>);
 <a name="l00221"></a>00221     $Price-&gt;SetReadOnly($pview_only);
 <a name="l00222"></a>00222     $Price-&gt;table=1;
-<a name="l00223"></a>00223     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=$Price-&gt;IOValue(<span class="stringliteral">"e_march"</span>.$i.<span class="stringliteral">"_sell"</span>,$march_sell);
+<a name="l00223"></a>00223     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=$Price-&gt;IOValue(<span class="stringliteral">"e_march"</span>.$i.<span class="stringliteral">"_sell"</span>,$march_sell);
 <a name="l00224"></a>00224     <span class="comment">// vat label</span>
 <a name="l00225"></a>00225     <span class="comment">//--</span>
 <a name="l00226"></a>00226     $select_tva=<a class="code" href="ac__common_8php.html#a12">make_array</a>($p_cn,<span class="stringliteral">"select tva_id,tva_label from tva_rate order by tva_id"</span>,1);
 <a name="l00227"></a>00227     $Tva=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"select"</span>);
 <a name="l00228"></a>00228     $Tva-&gt;table=1;
 <a name="l00229"></a>00229     $Tva-&gt;selected=$march_tva_id;
-<a name="l00230"></a>00230     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=$Tva-&gt;IOValue(<span class="stringliteral">"e_march$i"</span>.<span class="stringliteral">"_tva_id"</span>,$select_tva);
+<a name="l00230"></a>00230     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=$Tva-&gt;IOValue(<span class="stringliteral">"e_march$i"</span>.<span class="stringliteral">"_tva_id"</span>,$select_tva);
 <a name="l00231"></a>00231 
 <a name="l00232"></a>00232     <span class="comment">// quantity</span>
 <a name="l00233"></a>00233     <span class="comment">//--</span>
@@ -228,34 +228,34 @@
 <a name="l00236"></a>00236     $Quantity-&gt;SetReadOnly($pview_only);
 <a name="l00237"></a>00237     $Quantity-&gt;table=1;
 <a name="l00238"></a>00238     <span class="comment">//$r.=InputType("","TEXT","e_quant".$i,$quant,$pview_only);</span>
-<a name="l00239"></a>00239     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=$Quantity-&gt;IOValue(<span class="stringliteral">"e_quant"</span>.$i,$quant);
-<a name="l00240"></a>00240     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;/TR&gt;';
+<a name="l00239"></a>00239     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=$Quantity-&gt;IOValue(<span class="stringliteral">"e_quant"</span>.$i,$quant);
+<a name="l00240"></a>00240     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;/TR&gt;';
 <a name="l00241"></a>00241   }
 <a name="l00242"></a>00242 
 <a name="l00243"></a>00243 
 <a name="l00244"></a>00244 
-<a name="l00245"></a>00245   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/TABLE&gt;"</span>;
-<a name="l00246"></a>00246   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;hr&gt;"</span>;
+<a name="l00245"></a>00245   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/TABLE&gt;"</span>;
+<a name="l00246"></a>00246   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;hr&gt;"</span>;
 <a name="l00247"></a>00247   <span class="comment">// Set correctly the REQUEST param for jrn_type </span>
 <a name="l00248"></a>00248   <a class="code" href="poste_8inc_8php.html#a8">$h</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>('hidden');
 <a name="l00249"></a>00249   <a class="code" href="poste_8inc_8php.html#a8">$h</a>-&gt;name='jrn_type';
 <a name="l00250"></a>00250   <a class="code" href="poste_8inc_8php.html#a8">$h</a>-&gt;value='<a class="code" href="constant_8php.html#a16">VEN</a>';
-<a name="l00251"></a>00251   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="poste_8inc_8php.html#a8">$h</a>-&gt;IOValue();
+<a name="l00251"></a>00251   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<a class="code" href="poste_8inc_8php.html#a8">$h</a>-&gt;IOValue();
 <a name="l00252"></a>00252 
 <a name="l00253"></a>00253   <span class="keywordflow">if</span> ($pview_only == <span class="keyword">false</span> ) {
-<a name="l00254"></a>00254     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> NAME=<span class="stringliteral">"add_item"</span> VALUE=<span class="stringliteral">"Ajout article"</span> TABINDEX=<span class="stringliteral">"32767"</span>&gt;';
-<a name="l00255"></a>00255     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> NAME=<span class="stringliteral">"view_invoice"</span> VALUE=<span class="stringliteral">"Enregistrer"</span> TABINDEX=<span class="stringliteral">"32767"</span> ID=<span class="stringliteral">"SubmitButton"</span>&gt;';
-<a name="l00256"></a>00256     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/DIV&gt;"</span>;
-<a name="l00257"></a>00257     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/FORM&gt;"</span>;
-<a name="l00258"></a>00258     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="constant_8php.html#a82">JS_CALC_LINE</a>;
+<a name="l00254"></a>00254     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> NAME=<span class="stringliteral">"add_item"</span> VALUE=<span class="stringliteral">"Ajout article"</span> TABINDEX=<span class="stringliteral">"32767"</span>&gt;';
+<a name="l00255"></a>00255     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> NAME=<span class="stringliteral">"view_invoice"</span> VALUE=<span class="stringliteral">"Enregistrer"</span> TABINDEX=<span class="stringliteral">"32767"</span> ID=<span class="stringliteral">"SubmitButton"</span>&gt;';
+<a name="l00256"></a>00256     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/DIV&gt;"</span>;
+<a name="l00257"></a>00257     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/FORM&gt;"</span>;
+<a name="l00258"></a>00258     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<a class="code" href="constant_8php.html#a87">JS_CALC_LINE</a>;
 <a name="l00259"></a>00259   } <span class="keywordflow">else</span> {
-<a name="l00260"></a>00260      <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/div&gt;"</span>;
+<a name="l00260"></a>00260      <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/div&gt;"</span>;
 <a name="l00261"></a>00261 
 <a name="l00262"></a>00262   }
 <a name="l00263"></a>00263 
 <a name="l00264"></a>00264 
 <a name="l00265"></a>00265 
-<a name="l00266"></a>00266   <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
+<a name="l00266"></a>00266   <span class="keywordflow">return</span> <a class="code" href="bank_8inc_8php.html#a29">$r</a>;
 <a name="l00267"></a>00267 
 <a name="l00268"></a>00268 
 <a name="l00269"></a>00269 }
@@ -342,7 +342,7 @@
 <a name="l00364"></a>00364       <span class="keywordflow">return</span> null;
 <a name="l00365"></a>00365     }
 <a name="l00366"></a>00366         <span class="comment">// check if the  ATTR_DEF_ACCOUNT is set</span>
-<a name="l00367"></a>00367         <a class="code" href="send__poste__pdf_8php.html#a2">$poste</a>=GetFicheAttribut($p_cn,${<span class="stringliteral">"e_march$i"</span>},<a class="code" href="constant_8php.html#a50">ATTR_DEF_ACCOUNT</a>);
+<a name="l00367"></a>00367         <a class="code" href="send__poste__pdf_8php.html#a2">$poste</a>=GetFicheAttribut($p_cn,${<span class="stringliteral">"e_march$i"</span>},<a class="code" href="constant_8php.html#a55">ATTR_DEF_ACCOUNT</a>);
 <a name="l00368"></a>00368         <span class="keywordflow">if</span> ( $<a class="code" href="classposte.html">poste</a> == null ) 
 <a name="l00369"></a>00369         {       
 <a name="l00370"></a>00370                 <a class="code" href="pref_8inc_8php.html#a4">$msg</a>=<span class="stringliteral">"La fiche "</span>.${<span class="stringliteral">"e_march$i"</span>}.<span class="stringliteral">" n\'a pas de poste comptable"</span>;
@@ -386,7 +386,7 @@
 <a name="l00408"></a>00408 }
 <a name="l00425"></a><a class="code" href="user__form__ven_8php.html#a2">00425</a> function <a class="code" href="user__form__ven_8php.html#a2">FormVenteView</a> ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='form',$<a class="code" href="poste_8inc_8php.html#a1">p_comment</a>='') 
 <a name="l00426"></a>00426 {
-<a name="l00427"></a>00427   <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<span class="stringliteral">""</span>;
+<a name="l00427"></a>00427   <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<span class="stringliteral">""</span>;
 <a name="l00428"></a>00428   <a class="code" href="readme_8php.html#a4">$data</a>=<span class="stringliteral">""</span>;
 <a name="l00429"></a>00429   <span class="comment">// Keep all the data if hidden</span>
 <a name="l00430"></a>00430   <span class="comment">// and store the array in variables</span>
@@ -397,37 +397,37 @@
 <a name="l00435"></a>00435   }
 <a name="l00436"></a>00436   
 <a name="l00437"></a>00437   <span class="comment">// start table</span>
-<a name="l00438"></a>00438   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;TABLE&gt;';
+<a name="l00438"></a>00438   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;TABLE&gt;';
 <a name="l00439"></a>00439   <span class="comment">// Show the Date</span>
-<a name="l00440"></a>00440   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;tr&gt;"</span>;
-<a name="l00441"></a>00441   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TD&gt;Date : $e_date&lt;/TD&gt;"</span>;
-<a name="l00442"></a>00442   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/tr&gt;"</span>;
+<a name="l00440"></a>00440   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;tr&gt;"</span>;
+<a name="l00441"></a>00441   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;TD&gt;Date : $e_date&lt;/TD&gt;"</span>;
+<a name="l00442"></a>00442   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/tr&gt;"</span>;
 <a name="l00443"></a>00443   <span class="comment">// Show the customer Name</span>
-<a name="l00444"></a>00444   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;tr&gt;"</span>;
-<a name="l00445"></a>00445   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TD&gt;Client : "</span>.getFicheName($p_cn,$e_client).<span class="stringliteral">"&lt;/TD&gt;"</span>;
-<a name="l00446"></a>00446   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/tr&gt;"</span>;
+<a name="l00444"></a>00444   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;tr&gt;"</span>;
+<a name="l00445"></a>00445   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;TD&gt;Client : "</span>.getFicheName($p_cn,$e_client).<span class="stringliteral">"&lt;/TD&gt;"</span>;
+<a name="l00446"></a>00446   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/tr&gt;"</span>;
 <a name="l00447"></a>00447   
 <a name="l00448"></a>00448   <span class="comment">// show date limit</span>
-<a name="l00449"></a>00449   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;tr&gt;"</span>;
-<a name="l00450"></a>00450   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TD&gt; Echeance : $e_ech &lt;/TD&gt;"</span>;
-<a name="l00451"></a>00451   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/tr&gt;"</span>;
+<a name="l00449"></a>00449   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;tr&gt;"</span>;
+<a name="l00450"></a>00450   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;TD&gt; Echeance : $e_ech &lt;/TD&gt;"</span>;
+<a name="l00451"></a>00451   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/tr&gt;"</span>;
 <a name="l00452"></a>00452   <span class="comment">// Show desc</span>
-<a name="l00453"></a>00453   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;tr&gt;"</span>;
-<a name="l00454"></a>00454   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TD&gt; Description : $e_comm&lt;/TD&gt;"</span>;
-<a name="l00455"></a>00455   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/tr&gt;"</span>;
+<a name="l00453"></a>00453   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;tr&gt;"</span>;
+<a name="l00454"></a>00454   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;TD&gt; Description : $e_comm&lt;/TD&gt;"</span>;
+<a name="l00455"></a>00455   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/tr&gt;"</span>;
 <a name="l00456"></a>00456   
 <a name="l00457"></a>00457   $sum_with_vat=0.0;
 <a name="l00458"></a>00458     $sum_march=0.0;
 <a name="l00459"></a>00459   <span class="comment">// show all article, price vat and sum</span>
-<a name="l00460"></a>00460     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TR&gt;"</span>;
-<a name="l00461"></a>00461     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TH&gt;Article&lt;/TH&gt;"</span>;
-<a name="l00462"></a>00462     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TH&gt;quantité&lt;/TH&gt;"</span>;
-<a name="l00463"></a>00463     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TH&gt;prix unit.&lt;/TH&gt;"</span>;
-<a name="l00464"></a>00464     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TH&gt;taux tva&lt;/TH&gt;"</span>;
-<a name="l00465"></a>00465     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TH&gt;Montant HTVA&lt;/TH&gt;"</span>;
-<a name="l00466"></a>00466     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TH&gt;Montant TVA&lt;/TH&gt;"</span>;
-<a name="l00467"></a>00467     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TH&gt;Total&lt;/TH&gt;"</span>;
-<a name="l00468"></a>00468     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/TR&gt;"</span>;
+<a name="l00460"></a>00460     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;TR&gt;"</span>;
+<a name="l00461"></a>00461     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;TH&gt;Article&lt;/TH&gt;"</span>;
+<a name="l00462"></a>00462     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;TH&gt;quantité&lt;/TH&gt;"</span>;
+<a name="l00463"></a>00463     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;TH&gt;prix unit.&lt;/TH&gt;"</span>;
+<a name="l00464"></a>00464     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;TH&gt;taux tva&lt;/TH&gt;"</span>;
+<a name="l00465"></a>00465     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;TH&gt;Montant HTVA&lt;/TH&gt;"</span>;
+<a name="l00466"></a>00466     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;TH&gt;Montant TVA&lt;/TH&gt;"</span>;
+<a name="l00467"></a>00467     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;TH&gt;Total&lt;/TH&gt;"</span>;
+<a name="l00468"></a>00468     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/TR&gt;"</span>;
 <a name="l00469"></a>00469   <span class="keywordflow">for</span> ($i=0;$i&lt;$p_number;$i++) {
 <a name="l00470"></a>00470     <span class="keywordflow">if</span> ( trim(${<span class="stringliteral">"e_march$i"</span>})  == <span class="stringliteral">""</span> ) {
 <a name="l00471"></a>00471       <span class="comment">// no goods to sell </span>
@@ -446,14 +446,14 @@
 <a name="l00484"></a>00484 
 <a name="l00485"></a>00485     <span class="comment">// If the price is not a number, retrieve the price from the database</span>
 <a name="l00486"></a>00486     <span class="keywordflow">if</span> ( <a class="code" href="ac__common_8php.html#a2">isNumber</a>(${<span class="stringliteral">"e_march$i"</span>.<span class="stringliteral">"_sell"</span>}) == 0 ) {
-<a name="l00487"></a>00487            $fiche_price=<a class="code" href="fiche__inc_8php.html#a29">getFicheAttribut</a>($p_cn,${<span class="stringliteral">"e_march$i"</span>},<a class="code" href="constant_8php.html#a53">ATTR_DEF_PRIX_VENTE</a>);
+<a name="l00487"></a>00487            $fiche_price=<a class="code" href="fiche__inc_8php.html#a29">getFicheAttribut</a>($p_cn,${<span class="stringliteral">"e_march$i"</span>},<a class="code" href="constant_8php.html#a58">ATTR_DEF_PRIX_VENTE</a>);
 <a name="l00488"></a>00488          } <span class="keywordflow">else</span> {
 <a name="l00489"></a>00489       $fiche_price=${<span class="stringliteral">"e_march$i"</span>.<span class="stringliteral">"_sell"</span>};
 <a name="l00490"></a>00490     }
 <a name="l00491"></a>00491     
 <a name="l00492"></a>00492     
 <a name="l00493"></a>00493     <span class="comment">// VAT </span>
-<a name="l00494"></a>00494     $vat=(<a class="code" href="ac__common_8php.html#a2">isNumber</a>(${<span class="stringliteral">"e_march$i"</span>.<span class="stringliteral">"_tva_id"</span>})==0)?<a class="code" href="fiche__inc_8php.html#a29">getFicheAttribut</a>($p_cn,${<span class="stringliteral">"e_march$i"</span>},<a class="code" href="constant_8php.html#a54">ATTR_DEF_TVA</a>):${<span class="stringliteral">"e_march$i"</span>.<span class="stringliteral">"_tva_id"</span>};
+<a name="l00494"></a>00494     $vat=(<a class="code" href="ac__common_8php.html#a2">isNumber</a>(${<span class="stringliteral">"e_march$i"</span>.<span class="stringliteral">"_tva_id"</span>})==0)?<a class="code" href="fiche__inc_8php.html#a29">getFicheAttribut</a>($p_cn,${<span class="stringliteral">"e_march$i"</span>},<a class="code" href="constant_8php.html#a59">ATTR_DEF_TVA</a>):${<span class="stringliteral">"e_march$i"</span>.<span class="stringliteral">"_tva_id"</span>};
 <a name="l00495"></a>00495         
 <a name="l00496"></a>00496     <span class="comment">// vat label</span>
 <a name="l00497"></a>00497     <span class="comment">// vat rate</span>
@@ -477,27 +477,27 @@
 <a name="l00515"></a>00515     <span class="comment">// Sum of invoice vat </span>
 <a name="l00516"></a>00516     $sum_with_vat+=$fiche_with_vat;
 <a name="l00517"></a>00517     <span class="comment">// Show the data</span>
-<a name="l00518"></a>00518     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;TR&gt;';
-<a name="l00519"></a>00519     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;TD&gt;'.$fiche_name.'&lt;/TD&gt;';
-<a name="l00520"></a>00520     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;TD ALIGN=<span class="stringliteral">"CENTER"</span>&gt;'.$fiche_quant.'&lt;/TD&gt;';
-<a name="l00521"></a>00521     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;TD ALIGN=<span class="stringliteral">"right"</span>&gt;'.$fiche_price.'&lt;/TD&gt;';
-<a name="l00522"></a>00522     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TD  ALIGN=\"RIGHT\"&gt; $vat_label &lt;/TD&gt;"</span>;
-<a name="l00523"></a>00523     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;TD  ALIGN=<span class="stringliteral">"RIGHT"</span>&gt;'.round($fiche_sum,2).'&lt;/TD&gt;';
-<a name="l00524"></a>00524     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;TD ALIGN=<span class="stringliteral">"RIGHT"</span>&gt;'.round($fiche_amount_vat,2).'&lt;/TD&gt;';
+<a name="l00518"></a>00518     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;TR&gt;';
+<a name="l00519"></a>00519     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;TD&gt;'.$fiche_name.'&lt;/TD&gt;';
+<a name="l00520"></a>00520     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;TD ALIGN=<span class="stringliteral">"CENTER"</span>&gt;'.$fiche_quant.'&lt;/TD&gt;';
+<a name="l00521"></a>00521     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;TD ALIGN=<span class="stringliteral">"right"</span>&gt;'.$fiche_price.'&lt;/TD&gt;';
+<a name="l00522"></a>00522     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;TD  ALIGN=\"RIGHT\"&gt; $vat_label &lt;/TD&gt;"</span>;
+<a name="l00523"></a>00523     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;TD  ALIGN=<span class="stringliteral">"RIGHT"</span>&gt;'.round($fiche_sum,2).'&lt;/TD&gt;';
+<a name="l00524"></a>00524     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;TD ALIGN=<span class="stringliteral">"RIGHT"</span>&gt;'.round($fiche_amount_vat,2).'&lt;/TD&gt;';
 <a name="l00525"></a>00525 
-<a name="l00526"></a>00526     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;TD&gt;'.round($fiche_with_vat,2).'&lt;/TD&gt;';
+<a name="l00526"></a>00526     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;TD&gt;'.round($fiche_with_vat,2).'&lt;/TD&gt;';
 <a name="l00527"></a>00527 
-<a name="l00528"></a>00528     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/TR&gt;"</span>;
+<a name="l00528"></a>00528     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/TR&gt;"</span>;
 <a name="l00529"></a>00529   }
 <a name="l00530"></a>00530   
 <a name="l00531"></a>00531   <span class="comment">// end table</span>
-<a name="l00532"></a>00532   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;/TABLE&gt; ';
-<a name="l00533"></a>00533   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;DIV style=<span class="stringliteral">"padding:30px;font-size:14px"</span>&gt;';
-<a name="l00534"></a>00534   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"Total HTVA ="</span>.round( $sum_march,2).<span class="stringliteral">" &lt;br&gt;"</span>;
-<a name="l00535"></a>00535   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"Total = "</span>.round($sum_with_vat,2);
+<a name="l00532"></a>00532   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;/TABLE&gt; ';
+<a name="l00533"></a>00533   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;DIV style=<span class="stringliteral">"padding:30px;font-size:14px"</span>&gt;';
+<a name="l00534"></a>00534   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"Total HTVA ="</span>.round( $sum_march,2).<span class="stringliteral">" &lt;br&gt;"</span>;
+<a name="l00535"></a>00535   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"Total = "</span>.round($sum_with_vat,2);
 <a name="l00536"></a>00536 
 <a name="l00537"></a>00537  
-<a name="l00538"></a>00538   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/DIV&gt;"</span>;
+<a name="l00538"></a>00538   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/DIV&gt;"</span>;
 <a name="l00539"></a>00539   <span class="keywordflow">if</span> ( $p_doc == 'form' ) {
 <a name="l00540"></a>00540     <span class="comment">// Compute href</span>
 <a name="l00541"></a>00541     $href=$_SERVER['SCRIPT_NAME'];
@@ -516,16 +516,16 @@
 <a name="l00554"></a>00554       }
 <a name="l00555"></a>00555       
 <a name="l00556"></a>00556 
-<a name="l00557"></a>00557     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;<a class="code" href="constant_8php.html#a7">FORM</a> <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"POST"</span> enctype=<span class="stringliteral">"multipart/form-data"</span> <a class="code" href="constant_8php.html#a39">ACTION</a>=<span class="stringliteral">"'.$href.'"</span>&gt;';
+<a name="l00557"></a>00557     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;<a class="code" href="constant_8php.html#a7">FORM</a> <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"POST"</span> enctype=<span class="stringliteral">"multipart/form-data"</span> <a class="code" href="constant_8php.html#a44">ACTION</a>=<span class="stringliteral">"'.$href.'"</span>&gt;';
 <a name="l00558"></a>00558 
 <a name="l00559"></a>00559     <span class="comment">// check for upload piece</span>
 <a name="l00560"></a>00560     <a class="code" href="show__document__modele_8php.html#a6">$file</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"file"</span>);
 <a name="l00561"></a>00561     <a class="code" href="show__document__modele_8php.html#a6">$file</a>-&gt;table=1;
-<a name="l00562"></a>00562     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;hr&gt;"</span>;
-<a name="l00563"></a>00563     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.= <span class="stringliteral">"&lt;table&gt;"</span>; 
-<a name="l00564"></a>00564     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TR&gt;"</span>.$file-&gt;IOValue(<span class="stringliteral">"pj"</span>,<span class="stringliteral">""</span>,<span class="stringliteral">"Pièce justificative"</span>).<span class="stringliteral">"&lt;/TR&gt;"</span>;
-<a name="l00565"></a>00565     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/table&gt;"</span>;
-<a name="l00566"></a>00566     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;hr&gt;"</span>;
+<a name="l00562"></a>00562     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;hr&gt;"</span>;
+<a name="l00563"></a>00563     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.= <span class="stringliteral">"&lt;table&gt;"</span>; 
+<a name="l00564"></a>00564     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;TR&gt;"</span>.$file-&gt;IOValue(<span class="stringliteral">"pj"</span>,<span class="stringliteral">""</span>,<span class="stringliteral">"Pièce justificative"</span>).<span class="stringliteral">"&lt;/TR&gt;"</span>;
+<a name="l00565"></a>00565     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/table&gt;"</span>;
+<a name="l00566"></a>00566     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;hr&gt;"</span>;
 <a name="l00567"></a>00567 
 <a name="l00568"></a>00568 
 <a name="l00569"></a>00569     <span class="comment">// if we were in the management module, appl. propose to generate an invoice</span>
@@ -535,28 +535,28 @@
 <a name="l00573"></a>00573         <span class="keywordflow">if</span> ( <a class="code" href="postgres_8php.html#a10">CountSql</a>($p_cn,
 <a name="l00574"></a>00574                       <span class="stringliteral">"select md_id,md_name from document_modele where md_type=4"</span>) &gt; 0 )
 <a name="l00575"></a>00575           {
-<a name="l00576"></a>00576             <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='G&amp;eacute;n&amp;eacute;rer une facture &lt;input type=<span class="stringliteral">"checkbox"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"gen_invoice"</span> CHECKED&gt;';
+<a name="l00576"></a>00576             <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='G&amp;eacute;n&amp;eacute;rer une facture &lt;input type=<span class="stringliteral">"checkbox"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"gen_invoice"</span> CHECKED&gt;';
 <a name="l00577"></a>00577             <span class="comment">// We propose to generate  the invoice and some template</span>
 <a name="l00578"></a>00578             $doc_gen=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"select"</span>);
 <a name="l00579"></a>00579             $doc_gen-&gt;name=<span class="stringliteral">"gen_doc"</span>;
 <a name="l00580"></a>00580             $doc_gen-&gt;value=<a class="code" href="ac__common_8php.html#a12">make_array</a>($p_cn,
 <a name="l00581"></a>00581                                        <span class="stringliteral">"select md_id,md_name from document_modele where md_type=4"</span>);
-<a name="l00582"></a>00582             <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=$doc_gen-&gt;IOValue();  
+<a name="l00582"></a>00582             <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=$doc_gen-&gt;IOValue();  
 <a name="l00583"></a>00583 
-<a name="l00584"></a>00584             <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;hr&gt;"</span>;
+<a name="l00584"></a>00584             <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;hr&gt;"</span>;
 <a name="l00585"></a>00585           }
 <a name="l00586"></a>00586       }
 <a name="l00587"></a>00587 
 <a name="l00588"></a>00588     
-<a name="l00589"></a>00589     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="readme_8php.html#a4">$data</a>;
+<a name="l00589"></a>00589     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<a class="code" href="readme_8php.html#a4">$data</a>;
 <a name="l00590"></a>00590     <span class="keywordflow">if</span> ( $sum_with_vat != 0 ) {
-<a name="l00591"></a>00591       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"record_and_print_invoice"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"Sauver"</span> &gt;';
+<a name="l00591"></a>00591       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"record_and_print_invoice"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"Sauver"</span> &gt;';
 <a name="l00592"></a>00592     }
-<a name="l00593"></a>00593     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"correct_new_invoice"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"Corriger"</span>&gt;';
+<a name="l00593"></a>00593     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"correct_new_invoice"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"Corriger"</span>&gt;';
 <a name="l00594"></a>00594     
-<a name="l00595"></a>00595     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;/<a class="code" href="constant_8php.html#a7">FORM</a>&gt;';
+<a name="l00595"></a>00595     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;/<a class="code" href="constant_8php.html#a7">FORM</a>&gt;';
 <a name="l00596"></a>00596   } 
-<a name="l00597"></a>00597   <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
+<a name="l00597"></a>00597   <span class="keywordflow">return</span> <a class="code" href="bank_8inc_8php.html#a29">$r</a>;
 <a name="l00598"></a>00598   
 <a name="l00599"></a>00599 }
 <a name="l00600"></a>00600 
@@ -583,7 +583,7 @@
 <a name="l00647"></a>00647     <span class="keywordflow">if</span> ( <a class="code" href="ac__common_8php.html#a2">isNumber</a>(${<span class="stringliteral">"e_march$i"</span>.<span class="stringliteral">"_sell"</span>}) == 0 ) {
 <a name="l00648"></a>00648       <span class="keywordflow">if</span> ( $a_good[$i] != <span class="stringliteral">""</span> ) {
 <a name="l00649"></a>00649              <span class="comment">// If the price is not set we have to find it from the database</span>
-<a name="l00650"></a>00650              $a_price[<a class="code" href="balance_8php.html#a12">$i</a>]=GetFicheAttribut($p_cn,$a_good[$i],<a class="code" href="constant_8php.html#a53">ATTR_DEF_PRIX_VENTE</a>);
+<a name="l00650"></a>00650              $a_price[<a class="code" href="balance_8php.html#a12">$i</a>]=GetFicheAttribut($p_cn,$a_good[$i],<a class="code" href="constant_8php.html#a58">ATTR_DEF_PRIX_VENTE</a>);
 <a name="l00651"></a>00651            } 
 <a name="l00652"></a>00652     } <span class="keywordflow">else</span> {
 <a name="l00653"></a>00653       <span class="comment">// The price is valid</span>
@@ -613,15 +613,15 @@
 <a name="l00677"></a>00677 
 <a name="l00678"></a>00678 
 <a name="l00679"></a>00679   <span class="comment">// Debit = client</span>
-<a name="l00680"></a>00680   <a class="code" href="send__poste__pdf_8php.html#a2">$poste</a>=GetFicheAttribut($p_cn,$e_client,<a class="code" href="constant_8php.html#a50">ATTR_DEF_ACCOUNT</a>);
+<a name="l00680"></a>00680   <a class="code" href="send__poste__pdf_8php.html#a2">$poste</a>=GetFicheAttribut($p_cn,$e_client,<a class="code" href="constant_8php.html#a55">ATTR_DEF_ACCOUNT</a>);
 <a name="l00681"></a>00681   <a class="code" href="postgres_8php.html#a14">StartSql</a>($p_cn);      
-<a name="l00682"></a>00682   <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="user__common_8php.html#a4">InsertJrnx</a>($p_cn,<span class="charliteral">'d'</span>,$p_user-&gt;id,$p_jrn,$<a class="code" href="classposte.html">poste</a>,$e_date,round($amount,2)+round($sum_vat,2),$seq,$periode);
+<a name="l00682"></a>00682   <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<a class="code" href="user__common_8php.html#a4">InsertJrnx</a>($p_cn,<span class="charliteral">'d'</span>,$p_user-&gt;id,$p_jrn,$<a class="code" href="classposte.html">poste</a>,$e_date,round($amount,2)+round($sum_vat,2),$seq,$periode);
 <a name="l00683"></a>00683   <span class="keywordflow">if</span> ( $r == <span class="keyword">false</span>) { $Rollback($p_cn);<a class="code" href="balance_8php.html#a0">exit</a>(<span class="stringliteral">"error 'user_form_ven.php' __LINE__"</span>);}
 <a name="l00684"></a>00684 
 <a name="l00685"></a>00685   <span class="comment">// Credit = goods </span>
 <a name="l00686"></a>00686   <span class="keywordflow">for</span> ( $i = 0; $i &lt; $nb_item;$i++) {
 <a name="l00687"></a>00687     <span class="keywordflow">if</span> ( $a_good[$i] == <span class="stringliteral">""</span>  ) <span class="keywordflow">continue</span>;
-<a name="l00688"></a>00688     <a class="code" href="send__poste__pdf_8php.html#a2">$poste</a>=GetFicheAttribut($p_cn,$a_good[$i],<a class="code" href="constant_8php.html#a50">ATTR_DEF_ACCOUNT</a>);
+<a name="l00688"></a>00688     <a class="code" href="send__poste__pdf_8php.html#a2">$poste</a>=GetFicheAttribut($p_cn,$a_good[$i],<a class="code" href="constant_8php.html#a55">ATTR_DEF_ACCOUNT</a>);
 <a name="l00689"></a>00689           
 <a name="l00690"></a>00690     <span class="comment">// don't record operation of 0</span>
 <a name="l00691"></a>00691     <span class="keywordflow">if</span> ( $a_price[$i]*$a_quant[$i] == 0 ) <span class="keywordflow">continue</span>;
@@ -642,20 +642,20 @@
 <a name="l00706"></a>00706       foreach ($a_vat_new as $tva_id =&gt; $tva_amount ) {
 <a name="l00707"></a>00707         <a class="code" href="send__poste__pdf_8php.html#a2">$poste</a>=<a class="code" href="user__common_8php.html#a3">GetTvaPoste</a>($p_cn,$tva_id,<span class="charliteral">'c'</span>);
 <a name="l00708"></a>00708         <span class="keywordflow">if</span> ($tva_amount == 0 ) <span class="keywordflow">continue</span>;
-<a name="l00709"></a>00709         <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="user__common_8php.html#a4">InsertJrnx</a>($p_cn,<span class="charliteral">'c'</span>,$p_user-&gt;id,$p_jrn,$<a class="code" href="classposte.html">poste</a>,$e_date,round($tva_amount,2),$seq,$periode);
+<a name="l00709"></a>00709         <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<a class="code" href="user__common_8php.html#a4">InsertJrnx</a>($p_cn,<span class="charliteral">'c'</span>,$p_user-&gt;id,$p_jrn,$<a class="code" href="classposte.html">poste</a>,$e_date,round($tva_amount,2),$seq,$periode);
 <a name="l00710"></a>00710         <span class="keywordflow">if</span> ( $r == <span class="keyword">false</span> ) { <a class="code" href="postgres_8php.html#a17">Rollback</a>($p_cn); <a class="code" href="balance_8php.html#a0">exit</a>(<span class="stringliteral">" Error 'user_form_ven.php' __LINE__"</span>);}
 <a name="l00711"></a>00711       
 <a name="l00712"></a>00712       }
 <a name="l00713"></a>00713     }
 <a name="l00714"></a>00714   <a class="code" href="debug_8php.html#a0">echo_debug</a>('user_form_ven.php',__LINE__,<span class="stringliteral">"echeance = $e_ech"</span>);
-<a name="l00715"></a>00715   <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="user__common_8php.html#a5">InsertJrn</a>($p_cn,$e_date,$e_ech,$p_jrn,<span class="stringliteral">"Invoice"</span>,round($amount_jrn,2)+round($sum_vat,2),$seq,$periode);
+<a name="l00715"></a>00715   <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<a class="code" href="user__common_8php.html#a5">InsertJrn</a>($p_cn,$e_date,$e_ech,$p_jrn,<span class="stringliteral">"Invoice"</span>,round($amount_jrn,2)+round($sum_vat,2),$seq,$periode);
 <a name="l00716"></a>00716   <span class="keywordflow">if</span> ( $r == <span class="keyword">false</span> ) { <a class="code" href="postgres_8php.html#a17">Rollback</a>($p_cn); <a class="code" href="balance_8php.html#a0">exit</a>(<span class="stringliteral">" Error 'user_form_ven.php' __LINE__"</span>);}
 <a name="l00717"></a>00717   <span class="comment">// Set Internal code and Comment</span>
 <a name="l00718"></a>00718   $internal=<a class="code" href="jrn_8php.html#a14">SetInternalCode</a>($p_cn,$seq,$p_jrn);
 <a name="l00719"></a>00719   <a class="code" href="user__action__ven_8php.html#a5">$comment</a>=(<a class="code" href="ac__common_8php.html#a9">FormatString</a>($e_comm) == null )?$internal.<span class="stringliteral">"  client : "</span>.GetFicheName($p_cn,$e_client):<a class="code" href="ac__common_8php.html#a9">FormatString</a>($e_comm);
 <a name="l00720"></a>00720 
 <a name="l00721"></a>00721   <span class="comment">// Update and set the invoice's comment </span>
-<a name="l00722"></a>00722   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"update jrn set jr_comment='"</span>.$comment.<span class="stringliteral">"' where jr_grpt_id="</span>.$seq);
+<a name="l00722"></a>00722   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"update jrn set jr_comment='"</span>.$comment.<span class="stringliteral">"' where jr_grpt_id="</span>.$seq);
 <a name="l00723"></a>00723   <span class="keywordflow">if</span> ( $Res == <span class="keyword">false</span> ) { <a class="code" href="postgres_8php.html#a17">Rollback</a>($p_cn); <a class="code" href="balance_8php.html#a0">exit</a>(<span class="stringliteral">" Error 'user_form_ven.php' __LINE__"</span>); };
 <a name="l00724"></a>00724 
 <a name="l00725"></a>00725   <span class="keywordflow">if</span> ( isset ($_FILES)) {
@@ -678,7 +678,7 @@
 <a name="l00742"></a>00742                 $computed_vat=<a class="code" href="user__common_8php.html#a2">ComputeVat</a>($p_cn,$a_good[$i],$a_quant[$i],$a_price[$i],$a_vat[$i]);
 <a name="l00743"></a>00743                 $vat_code=$a_vat[<a class="code" href="balance_8php.html#a12">$i</a>];
 <a name="l00744"></a>00744         }
-<a name="l00745"></a>00745          <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select insert_quant_sold "</span>.
+<a name="l00745"></a>00745          <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select insert_quant_sold "</span>.
 <a name="l00746"></a>00746                     <span class="stringliteral">"('"</span>.$internal.<span class="stringliteral">"','"</span>.$a_good[$i].<span class="stringliteral">"',"</span>.$a_quant[$i].<span class="stringliteral">","</span>.$a_price[$i]*$a_quant[$i].
 <a name="l00747"></a>00747                     <span class="stringliteral">","</span>.$computed_vat.
 <a name="l00748"></a>00748                     <span class="stringliteral">","</span>.$vat_code.<span class="stringliteral">",'"</span>.$e_client.<span class="stringliteral">"')"</span>);

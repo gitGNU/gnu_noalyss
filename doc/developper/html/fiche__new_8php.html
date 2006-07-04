@@ -78,28 +78,28 @@ Definition in file <a class="el" href="fiche__new_8php-source.html">fiche_new.ph
 <p>
 Definition at line <a class="el" href="fiche__new_8php-source.html#l00060">60</a> of file <a class="el" href="fiche__new_8php-source.html">fiche_new.php</a>.
 <p>
-References <a class="el" href="jrn__detail_8php-source.html#l00128">$l_line</a>, <a class="el" href="setup_8php-source.html#l00379">$Max</a>, <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00151">$sql</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="action_8inc_8php-source.html#l00239">name</a>, and <a class="el" href="action_8inc_8php-source.html#l00240">value</a>.<div class="fragment"><pre class="fragment"><a name="l00060"></a>00060                                   {
+References <a class="el" href="jrn__detail_8php-source.html#l00128">$l_line</a>, <a class="el" href="setup_8php-source.html#l00379">$Max</a>, <a class="el" href="bank_8inc_8php-source.html#l00235">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00167">$sql</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="action_8inc_8php-source.html#l00240">name</a>, and <a class="el" href="action_8inc_8php-source.html#l00241">value</a>.<div class="fragment"><pre class="fragment"><a name="l00060"></a>00060                                   {
 <a name="l00061"></a>00061   $ch_col=<span class="stringliteral">"&lt;/TD&gt;&lt;TD&gt;"</span>;
 <a name="l00062"></a>00062   $ch_li='&lt;/TR&gt;&lt;TR&gt;';
-<a name="l00063"></a>00063   <a class="code" href="user__action__ach_8php.html#a2">$r</a>='&lt;<a class="code" href="constant_8php.html#a7">FORM</a> <a class="code" href="classaction.html">action</a>=<span class="stringliteral">"fiche_new.php"</span> method=<span class="stringliteral">"post"</span>&gt;';
-<a name="l00064"></a>00064   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"fiche"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"'.$p_type.'"</span>&gt;';
+<a name="l00063"></a>00063   <a class="code" href="bank_8inc_8php.html#a29">$r</a>='&lt;<a class="code" href="constant_8php.html#a7">FORM</a> <a class="code" href="classaction.html">action</a>=<span class="stringliteral">"fiche_new.php"</span> method=<span class="stringliteral">"post"</span>&gt;';
+<a name="l00064"></a>00064   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"fiche"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"'.$p_type.'"</span>&gt;';
 <a name="l00065"></a>00065   $l_sessid=(isset ($_POST[<span class="stringliteral">"PHPSESSID"</span>]))?$_POST[<span class="stringliteral">"PHPSESSID"</span>]:$_GET[<span class="stringliteral">"PHPSESSID"</span>];
 <a name="l00066"></a>00066 
-<a name="l00067"></a>00067   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="constant_8php.html#a75">JS_SHOW_TVA</a>;
-<a name="l00068"></a>00068   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="constant_8php.html#a74">JS_SEARCH_POSTE</a>;
-<a name="l00069"></a>00069   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TABLE&gt;"</span>;
+<a name="l00067"></a>00067   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<a class="code" href="constant_8php.html#a80">JS_SHOW_TVA</a>;
+<a name="l00068"></a>00068   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<a class="code" href="constant_8php.html#a79">JS_SEARCH_POSTE</a>;
+<a name="l00069"></a>00069   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;TABLE&gt;"</span>;
 <a name="l00070"></a>00070   echo '&lt;H2 <span class="keyword">class</span>=<span class="stringliteral">"info"</span>&gt;New &lt;/H2&gt;';
 <a name="l00071"></a>00071   $p_f_id=<span class="stringliteral">""</span>;
 <a name="l00072"></a>00072   <a class="code" href="debug_8php.html#a0">echo_debug</a>('fiche_new.php',__LINE__,<span class="stringliteral">"Array is null"</span>);
 <a name="l00073"></a>00073   <span class="comment">// Find all the attribute of the existing cards</span>
 <a name="l00074"></a>00074   <span class="comment">// --&gt; Get_attr_def </span>
-<a name="l00075"></a>00075     <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"select frd_id,ad_id,ad_text from  fiche_def join jnt_fic_attr using (fd_id)</span>
+<a name="l00075"></a>00075     <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">"select frd_id,ad_id,ad_text from  fiche_def join jnt_fic_attr using (fd_id)</span>
 <a name="l00076"></a>00076 <span class="stringliteral">           join attr_def using (ad_id) where fd_id="</span>.$p_type.<span class="stringliteral">" order by ad_id"</span>;
 <a name="l00077"></a>00077 
-<a name="l00078"></a>00078     <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
+<a name="l00078"></a>00078     <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
 <a name="l00079"></a>00079     <a class="code" href="setup_8php.html#a11">$Max</a>=pg_NumRows($Res);
 <a name="l00080"></a>00080     <span class="comment">// Put the card modele id (fiche_def.fd_id)</span>
-<a name="l00081"></a>00081     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"fd_id"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"'.$p_type.'"</span>&gt;';
+<a name="l00081"></a>00081     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"fd_id"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"'.$p_type.'"</span>&gt;';
 <a name="l00082"></a>00082     <span class="keywordflow">for</span> ($i=0;$i &lt; $Max;$i++) {
 <a name="l00083"></a>00083       <a class="code" href="jrn__detail_8php.html#a11">$l_line</a>=pg_fetch_array($Res,$i);
 <a name="l00084"></a>00084 
@@ -109,22 +109,22 @@ References <a class="el" href="jrn__detail_8php-source.html#l00128">$l_line</a>,
 <a name="l00088"></a>00088 
 <a name="l00089"></a>00089       $but_search_poste=<span class="stringliteral">""</span>;
 <a name="l00090"></a>00090       <span class="comment">// Javascript for searching the account</span>
-<a name="l00091"></a>00091       <span class="keywordflow">if</span> ( $l_line ['ad_id'] == <a class="code" href="constant_8php.html#a50">ATTR_DEF_ACCOUNT</a> ) {
+<a name="l00091"></a>00091       <span class="keywordflow">if</span> ( $l_line ['ad_id'] == <a class="code" href="constant_8php.html#a55">ATTR_DEF_ACCOUNT</a> ) {
 <a name="l00092"></a>00092         $but_search_poste='&lt;INPUT TYPE=<span class="stringliteral">"BUTTON"</span> VALUE=<span class="stringliteral">"Cherche"</span> OnClick=<span class="stringliteral">"SearchPoste(\''.$l_sessid.'\',\'av_text'.$i.'\')"</span>&gt;';
 <a name="l00093"></a>00093       } 
 <a name="l00094"></a>00094       <span class="comment">// Javascript for showing the tva</span>
-<a name="l00095"></a>00095       <span class="keywordflow">if</span> ( $l_line ['ad_id'] == <a class="code" href="constant_8php.html#a54">ATTR_DEF_TVA</a> ) {
+<a name="l00095"></a>00095       <span class="keywordflow">if</span> ( $l_line ['ad_id'] == <a class="code" href="constant_8php.html#a59">ATTR_DEF_TVA</a> ) {
 <a name="l00096"></a>00096         $but_search_poste='&lt;INPUT TYPE=<span class="stringliteral">"BUTTON"</span> VALUE=<span class="stringliteral">"Montre"</span> OnClick=<span class="stringliteral">"ShowTva(\''.$l_sessid.'\',\'av_text'.$i.'\')"</span>&gt;';
 <a name="l00097"></a>00097       }
 <a name="l00098"></a>00098       <span class="comment">// content of the attribute</span>
-<a name="l00099"></a>00099       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.= sprintf('&lt;TR&gt;&lt;TD&gt; %s &lt;/TD&gt;&lt;TD&gt;&lt;INPUT TYPE=<span class="stringliteral">"TEXT"</span> NAME=<span class="stringliteral">"av_text%d"</span>&gt;%s %s&lt;/TD&gt;&lt;/TR&gt;',
+<a name="l00099"></a>00099       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.= sprintf('&lt;TR&gt;&lt;TD&gt; %s &lt;/TD&gt;&lt;TD&gt;&lt;INPUT TYPE=<span class="stringliteral">"TEXT"</span> NAME=<span class="stringliteral">"av_text%d"</span>&gt;%s %s&lt;/TD&gt;&lt;/TR&gt;',
 <a name="l00100"></a>00100               $l_line['ad_text'], $i,$Hid,$but_search_poste);
 <a name="l00101"></a>00101    }  
-<a name="l00102"></a>00102     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/TABLE&gt;"</span>;
-<a name="l00103"></a>00103     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"add_fiche"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"Mis à jour"</span>&gt;';
-<a name="l00104"></a>00104     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.= '&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"inc"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"'.$Max.'"</span>&gt;';
-<a name="l00105"></a>00105     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;/<a class="code" href="constant_8php.html#a7">FORM</a>&gt;';
-<a name="l00106"></a>00106     <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
+<a name="l00102"></a>00102     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/TABLE&gt;"</span>;
+<a name="l00103"></a>00103     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"add_fiche"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"Mis à jour"</span>&gt;';
+<a name="l00104"></a>00104     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.= '&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"inc"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"'.$Max.'"</span>&gt;';
+<a name="l00105"></a>00105     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;/<a class="code" href="constant_8php.html#a7">FORM</a>&gt;';
+<a name="l00106"></a>00106     <span class="keywordflow">return</span> <a class="code" href="bank_8inc_8php.html#a29">$r</a>;
 <a name="l00107"></a>00107 }
 </pre></div>
 <p>

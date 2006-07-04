@@ -69,7 +69,7 @@
 <a name="l00063"></a>00063   <span class="comment">//demande centralise</span>
 <a name="l00064"></a>00064 <span class="keywordflow">if</span> ( $_POST[<span class="stringliteral">"periode"</span>] != <span class="stringliteral">""</span> ) {
 <a name="l00065"></a>00065     <a class="code" href="impress__bilan_8php.html#a0">$ret</a>=<a class="code" href="central__inc_8php.html#a0">Centralise</a>($cn,$_POST[<span class="stringliteral">"periode"</span>]);
-<a name="l00066"></a>00066     <span class="keywordflow">if</span> ($ret==<a class="code" href="constant_8php.html#a24">NOERROR</a>) {
+<a name="l00066"></a>00066     <span class="keywordflow">if</span> ($ret==<a class="code" href="constant_8php.html#a29">NOERROR</a>) {
 <a name="l00067"></a>00067       echo '&lt;H2 <span class="keyword">class</span>=<span class="stringliteral">"info"</span>&gt;La période '.$_POST[<span class="stringliteral">"periode"</span>].' est centralisée&lt;/H2&gt;';
 <a name="l00068"></a>00068     } <span class="keywordflow">else</span> {
 <a name="l00069"></a>00069       echo '&lt;H2 <span class="keyword">class</span>=<span class="stringliteral">"error"</span>&gt;La période '.$_POST[<span class="stringliteral">"periode"</span>].' n\' a pu être centralisée&lt;/H2&gt;';
@@ -77,7 +77,7 @@
 <a name="l00071"></a>00071   } 
 <a name="l00072"></a>00072 }<span class="comment">// if ( isset ($_POST["central"] ))</span>
 <a name="l00073"></a>00073 
-<a name="l00074"></a>00074 <a class="code" href="impress__bilan_8php.html#a0">$ret</a>=<a class="code" href="preference_8php.html#a1">FormPeriode</a>($cn,0,<a class="code" href="constant_8php.html#a44">NOTCENTRALIZED</a>);
+<a name="l00074"></a>00074 <a class="code" href="impress__bilan_8php.html#a0">$ret</a>=<a class="code" href="preference_8php.html#a1">FormPeriode</a>($cn,0,<a class="code" href="constant_8php.html#a49">NOTCENTRALIZED</a>);
 <a name="l00075"></a>00075 <span class="keywordflow">if</span> ( $ret != null) {
 <a name="l00076"></a>00076   echo '&lt;<a class="code" href="constant_8php.html#a7">FORM</a> <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"POST"</span> <a class="code" href="classaction.html">action</a>=<span class="stringliteral">"central.php"</span>&gt;';
 <a name="l00077"></a>00077   echo <a class="code" href="impress__bilan_8php.html#a0">$ret</a>;

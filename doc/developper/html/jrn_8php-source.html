@@ -63,7 +63,7 @@
 <a name="l00071"></a>00071   <a class="code" href="jrn__detail_8php.html#a11">$l_line</a>=<a class="code" href="jrn_8php.html#a5">GetJrnProperty</a>($cn,$p_jrn);
 <a name="l00072"></a>00072   <span class="keywordflow">if</span> ( $l_line == null ) <span class="keywordflow">return</span>;
 <a name="l00073"></a>00073   echo '&lt;DIV <span class="keyword">class</span>=<span class="stringliteral">"redcontent"</span>&gt;';
-<a name="l00074"></a>00074   echo '&lt;<a class="code" href="constant_8php.html#a7">FORM</a> NAME=<span class="stringliteral">"encoding"</span> <a class="code" href="constant_8php.html#a39">ACTION</a>=<span class="stringliteral">"enc_jrn.php"</span> <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"POST"</span>&gt;';
+<a name="l00074"></a>00074   echo '&lt;<a class="code" href="constant_8php.html#a7">FORM</a> NAME=<span class="stringliteral">"encoding"</span> <a class="code" href="constant_8php.html#a44">ACTION</a>=<span class="stringliteral">"enc_jrn.php"</span> <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"POST"</span>&gt;';
 <a name="l00075"></a>00075 
 <a name="l00076"></a>00076   printf ('&lt;H2 <span class="keyword">class</span>=<span class="stringliteral">"info"</span>&gt; %s %s &lt;/H2&gt;',$l_line['jrn_def_name'],$l_line['jrn_def_code']);
 <a name="l00077"></a>00077 
@@ -100,7 +100,7 @@
 <a name="l00108"></a>00108       $SqlDeb=<span class="stringliteral">"select pcm_val,pcm_lib from tmp_pcmn  order by pcm_val::text"</span>;
 <a name="l00109"></a>00109     }
 <a name="l00110"></a>00110   <a class="code" href="debug_8php.html#a0">echo_debug</a>('<a class="code" href="classjrn.html">jrn</a>.php',__LINE__,<span class="stringliteral">"SqlDeb $SqlDeb"</span>);
-<a name="l00111"></a>00111   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$SqlDeb);
+<a name="l00111"></a>00111   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$SqlDeb);
 <a name="l00112"></a>00112   $Count=pg_NumRows($Res);
 <a name="l00113"></a>00113 
 <a name="l00114"></a>00114   <span class="keywordflow">for</span> ( $i=0;$i&lt;$Count;$i++) {
@@ -120,7 +120,7 @@
 <a name="l00128"></a>00128       <span class="keywordflow">if</span> ( ${<span class="stringliteral">"e_class_deb$i"</span>} == $key ) $selected=<span class="stringliteral">"SELECTED"</span>;
 <a name="l00129"></a>00129       <a class="code" href="balance_8php.html#a10">$a</a>=sprintf('&lt;OPTION VALUE=<span class="stringliteral">"%s"</span> %s &gt;%s - % .40s',
 <a name="l00130"></a>00130              $key,
-<a name="l00131"></a>00131              $<a class="code" href="bank_8inc_8php.html#a14">selected</a>,
+<a name="l00131"></a>00131              $<a class="code" href="bank_8inc_8php.html#a15">selected</a>,
 <a name="l00132"></a>00132              $key,
 <a name="l00133"></a>00133              $<a class="code" href="action_8inc_8php.html#a19">value</a>);
 <a name="l00134"></a>00134       echo <a class="code" href="balance_8php.html#a10">$a</a>;
@@ -169,7 +169,7 @@
 <a name="l00177"></a>00177       $SqlCred=<span class="stringliteral">"select pcm_val,pcm_lib from tmp_pcmn  order by pcm_val::text"</span>;
 <a name="l00178"></a>00178     }
 <a name="l00179"></a>00179   <a class="code" href="debug_8php.html#a0">echo_debug</a>('<a class="code" href="classjrn.html">jrn</a>.php',__LINE__,<span class="stringliteral">"SqlCred $SqlCred"</span>);
-<a name="l00180"></a>00180   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$SqlCred);
+<a name="l00180"></a>00180   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$SqlCred);
 <a name="l00181"></a>00181   $Count=pg_NumRows($Res);
 <a name="l00182"></a>00182 
 <a name="l00183"></a>00183 
@@ -187,7 +187,7 @@
 <a name="l00195"></a>00195       <span class="keywordflow">if</span> ( ${<span class="stringliteral">"e_class_cred$i"</span>} == $key ) $selected=<span class="stringliteral">"SELECTED"</span>;
 <a name="l00196"></a>00196       <a class="code" href="balance_8php.html#a10">$a</a>=sprintf('&lt;OPTION VALUE=<span class="stringliteral">"%s"</span> %s &gt;%s - % .40s',
 <a name="l00197"></a>00197              $key,
-<a name="l00198"></a>00198              $<a class="code" href="bank_8inc_8php.html#a14">selected</a>,
+<a name="l00198"></a>00198              $<a class="code" href="bank_8inc_8php.html#a15">selected</a>,
 <a name="l00199"></a>00199              $key,
 <a name="l00200"></a>00200              $<a class="code" href="action_8inc_8php.html#a19">value</a>);
 <a name="l00201"></a>00201       echo <a class="code" href="balance_8php.html#a10">$a</a>;
@@ -266,7 +266,7 @@
 <a name="l00289"></a>00289     <a class="code" href="impress__listing__client_8php.html#a2">return</a> ;
 <a name="l00290"></a>00290   }
 <a name="l00291"></a>00291   <span class="comment">// Javascript</span>
-<a name="l00292"></a>00292   <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="constant_8php.html#a78">JS_VIEW_JRN_MODIFY</a>;
+<a name="l00292"></a>00292   <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<a class="code" href="constant_8php.html#a83">JS_VIEW_JRN_MODIFY</a>;
 <a name="l00293"></a>00293 
 <a name="l00294"></a>00294   <span class="comment">// Build the form</span>
 <a name="l00295"></a>00295   <a class="code" href="jrn__search_8php.html#a22">$col_vide</a>=<span class="stringliteral">"&lt;TD&gt;&lt;/TD&gt;"</span>;
@@ -275,74 +275,74 @@
 <a name="l00298"></a>00298 
 <a name="l00299"></a>00299       <span class="comment">// for the first line</span>
 <a name="l00300"></a>00300       <span class="keywordflow">if</span> ( $i == 0 ) {
-<a name="l00301"></a>00301         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TABLE&gt;"</span>;
-<a name="l00302"></a>00302         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TR&gt;"</span>;
+<a name="l00301"></a>00301         <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;TABLE&gt;"</span>;
+<a name="l00302"></a>00302         <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;TR&gt;"</span>;
 <a name="l00303"></a>00303         <span class="comment">// Date</span>
-<a name="l00304"></a>00304         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TD&gt;"</span>;
-<a name="l00305"></a>00305         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=$content['jr_date'];
-<a name="l00306"></a>00306         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/TD&gt;"</span>;
+<a name="l00304"></a>00304         <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;TD&gt;"</span>;
+<a name="l00305"></a>00305         <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=$content['jr_date'];
+<a name="l00306"></a>00306         <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/TD&gt;"</span>;
 <a name="l00307"></a>00307         <span class="comment">// for upload document we need the grpt_id   </span>
-<a name="l00308"></a>00308         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;Input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"jr_grpt_id"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"'.$content['jr_grpt_id'].'"</span>&gt;';
+<a name="l00308"></a>00308         <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;Input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"jr_grpt_id"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"'.$content['jr_grpt_id'].'"</span>&gt;';
 <a name="l00309"></a>00309 
 <a name="l00310"></a>00310         <span class="comment">// comment can be changed</span>
-<a name="l00311"></a>00311         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TD&gt;"</span>;
-<a name="l00312"></a>00312         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;INPUT TYPE=<span class="stringliteral">"TEXT"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"comment"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"';</span>
+<a name="l00311"></a>00311         <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;TD&gt;"</span>;
+<a name="l00312"></a>00312         <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;INPUT TYPE=<span class="stringliteral">"TEXT"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"comment"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"';</span>
 <a name="l00313"></a>00313 <span class="stringliteral">        $r.=$content['jr_comment'];</span>
 <a name="l00314"></a>00314 <span class="stringliteral">        $r.='"</span> SIZE=<span class="stringliteral">"25"</span>&gt;';
-<a name="l00315"></a>00315         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/TD&gt;"</span>;
+<a name="l00315"></a>00315         <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/TD&gt;"</span>;
 <a name="l00316"></a>00316 
 <a name="l00317"></a>00317         <span class="comment">// Internal</span>
-<a name="l00318"></a>00318         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TD&gt;"</span>;
-<a name="l00319"></a>00319         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=$content['jr_internal'];
-<a name="l00320"></a>00320         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/TD&gt;"</span>;
+<a name="l00318"></a>00318         <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;TD&gt;"</span>;
+<a name="l00319"></a>00319         <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=$content['jr_internal'];
+<a name="l00320"></a>00320         <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/TD&gt;"</span>;
 <a name="l00321"></a>00321 
 <a name="l00322"></a>00322         <span class="keywordflow">if</span> ( $content['jrn_def_type'] == 'ACH' or 
 <a name="l00323"></a>00323              $content['jrn_def_type'] == '<a class="code" href="constant_8php.html#a16">VEN</a>' )
 <a name="l00324"></a>00324           {
 <a name="l00325"></a>00325             <span class="comment">// Is Paid</span>
-<a name="l00326"></a>00326             <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TD&gt;"</span>;
+<a name="l00326"></a>00326             <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;TD&gt;"</span>;
 <a name="l00327"></a>00327             <a class="code" href="fortis__be_8inc_8php.html#a2">$check</a>=( $content['jr_rapt'] != null )?<span class="stringliteral">"CHECKED"</span>:<span class="stringliteral">"UNCHECKED"</span>;
-<a name="l00328"></a>00328             <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;TD&gt;Payé &lt;INPUT TYPE=<span class="stringliteral">"CHECKBOX"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"is_paid"</span> '.$check.'&gt;&lt;/TD&gt;';
+<a name="l00328"></a>00328             <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;TD&gt;Payé &lt;INPUT TYPE=<span class="stringliteral">"CHECKBOX"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"is_paid"</span> '.$check.'&gt;&lt;/TD&gt;';
 <a name="l00329"></a>00329           }
-<a name="l00330"></a>00330         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/TR&gt;"</span>;
-<a name="l00331"></a>00331         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/TABLE&gt;"</span>;
-<a name="l00332"></a>00332         <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TABLE&gt;"</span>;
+<a name="l00330"></a>00330         <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/TR&gt;"</span>;
+<a name="l00331"></a>00331         <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/TABLE&gt;"</span>;
+<a name="l00332"></a>00332         <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;TABLE&gt;"</span>;
 <a name="l00333"></a>00333       }
-<a name="l00334"></a>00334       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TR&gt;"</span>;
-<a name="l00335"></a>00335       <span class="keywordflow">if</span> ( $content['j_debit'] == <span class="charliteral">'f'</span> ) <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="jrn__search_8php.html#a22">$col_vide</a>;
+<a name="l00334"></a>00334       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;TR&gt;"</span>;
+<a name="l00335"></a>00335       <span class="keywordflow">if</span> ( $content['j_debit'] == <span class="charliteral">'f'</span> ) <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<a class="code" href="jrn__search_8php.html#a22">$col_vide</a>;
 <a name="l00336"></a>00336       <span class="comment">//      $r.="&lt;TD&gt;".$content['j_debit']."&lt;/td&gt;";</span>
 <a name="l00337"></a>00337       
-<a name="l00338"></a>00338       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TD&gt;"</span>.$content['j_poste'].<span class="stringliteral">"&lt;/td&gt;"</span>;
-<a name="l00339"></a>00339       <span class="keywordflow">if</span> ( $content['j_debit'] == <span class="charliteral">'t'</span> ) <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="jrn__search_8php.html#a22">$col_vide</a>;
-<a name="l00340"></a>00340       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TD&gt;"</span>.$content['vw_name'].<span class="stringliteral">"&lt;/td&gt;"</span>;
-<a name="l00341"></a>00341       <span class="keywordflow">if</span> ( $content['j_debit'] == <span class="charliteral">'f'</span> ) <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<a class="code" href="jrn__search_8php.html#a22">$col_vide</a>;
-<a name="l00342"></a>00342       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TD&gt;"</span>.$content['j_montant'].<span class="stringliteral">"&lt;/td&gt;"</span>;
-<a name="l00343"></a>00343       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/TR&gt;"</span>;
+<a name="l00338"></a>00338       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;TD&gt;"</span>.$content['j_poste'].<span class="stringliteral">"&lt;/td&gt;"</span>;
+<a name="l00339"></a>00339       <span class="keywordflow">if</span> ( $content['j_debit'] == <span class="charliteral">'t'</span> ) <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<a class="code" href="jrn__search_8php.html#a22">$col_vide</a>;
+<a name="l00340"></a>00340       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;TD&gt;"</span>.$content['vw_name'].<span class="stringliteral">"&lt;/td&gt;"</span>;
+<a name="l00341"></a>00341       <span class="keywordflow">if</span> ( $content['j_debit'] == <span class="charliteral">'f'</span> ) <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<a class="code" href="jrn__search_8php.html#a22">$col_vide</a>;
+<a name="l00342"></a>00342       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;TD&gt;"</span>.$content['j_montant'].<span class="stringliteral">"&lt;/td&gt;"</span>;
+<a name="l00343"></a>00343       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/TR&gt;"</span>;
 <a name="l00344"></a>00344 
 <a name="l00345"></a>00345       <span class="comment">//    }//     foreach ($l_array[$i]  as $value=&gt;$content) </span>
 <a name="l00346"></a>00346   }<span class="comment">// for ( $i =0 ; $i &lt; sizeof($l_array); $i++) </span>
 <a name="l00347"></a>00347     <a class="code" href="show__document__modele_8php.html#a6">$file</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"file"</span>);
 <a name="l00348"></a>00348     <a class="code" href="show__document__modele_8php.html#a6">$file</a>-&gt;table=1;
 <a name="l00349"></a>00349         <span class="comment">//document</span>
-<a name="l00350"></a>00350     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;TD&gt;A effacer &lt;INPUT TYPE=<span class="stringliteral">"CHECKBOX"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"to_remove"</span> &gt;&lt;/TD&gt;';
-<a name="l00351"></a>00351     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TD&gt;"</span>.sprintf('&lt;A <span class="keyword">class</span>=<span class="stringliteral">"detail"</span> HREF=<span class="stringliteral">"show_pj.php?jrn=%s&amp;jr_grpt_id=%s"</span>&gt;%s&lt;/A&gt;',
+<a name="l00350"></a>00350     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;TD&gt;A effacer &lt;INPUT TYPE=<span class="stringliteral">"CHECKBOX"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"to_remove"</span> &gt;&lt;/TD&gt;';
+<a name="l00351"></a>00351     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;TD&gt;"</span>.sprintf('&lt;A <span class="keyword">class</span>=<span class="stringliteral">"detail"</span> HREF=<span class="stringliteral">"show_pj.php?jrn=%s&amp;jr_grpt_id=%s"</span>&gt;%s&lt;/A&gt;',
 <a name="l00352"></a>00352                 $content['jr_id'],
 <a name="l00353"></a>00353                 $content['jr_grpt_id'],
 <a name="l00354"></a>00354                 $content['jr_pj_name']).<span class="stringliteral">"&lt;/TD&gt;"</span>;
-<a name="l00355"></a>00355     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/TR&gt;&lt;/TABLE&gt;"</span>;
-<a name="l00356"></a>00356     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;hr&gt;"</span>;
-<a name="l00357"></a>00357     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.= <span class="stringliteral">"&lt;table&gt;"</span>; 
-<a name="l00358"></a>00358     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;TR&gt;"</span>.$file-&gt;IOValue(<span class="stringliteral">"pj"</span>,<span class="stringliteral">""</span>,<span class="stringliteral">"Pièce justificative"</span>).<span class="stringliteral">"&lt;/TR&gt;"</span>;
-<a name="l00359"></a>00359     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/table&gt;"</span>;
-<a name="l00360"></a>00360     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;hr&gt;"</span>;
+<a name="l00355"></a>00355     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/TR&gt;&lt;/TABLE&gt;"</span>;
+<a name="l00356"></a>00356     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;hr&gt;"</span>;
+<a name="l00357"></a>00357     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.= <span class="stringliteral">"&lt;table&gt;"</span>; 
+<a name="l00358"></a>00358     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;TR&gt;"</span>.$file-&gt;IOValue(<span class="stringliteral">"pj"</span>,<span class="stringliteral">""</span>,<span class="stringliteral">"Pièce justificative"</span>).<span class="stringliteral">"&lt;/TR&gt;"</span>;
+<a name="l00359"></a>00359     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/table&gt;"</span>;
+<a name="l00360"></a>00360     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;hr&gt;"</span>;
 <a name="l00361"></a>00361 
-<a name="l00362"></a>00362   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;/table&gt;"</span>;
-<a name="l00363"></a>00363   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"Total "</span>.$content['jr_montant'].<span class="stringliteral">"&lt;br&gt;"</span>;
+<a name="l00362"></a>00362   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/table&gt;"</span>;
+<a name="l00363"></a>00363   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"Total "</span>.$content['jr_montant'].<span class="stringliteral">"&lt;br&gt;"</span>;
 <a name="l00364"></a>00364   <span class="comment">// show all the related operation</span>
 <a name="l00365"></a>00365   <a class="code" href="balance_8php.html#a10">$a</a>=<a class="code" href="user__common_8php.html#a12">GetConcerned</a>($p_cn,$content['jr_id']);
 <a name="l00366"></a>00366   
 <a name="l00367"></a>00367   <span class="keywordflow">if</span> ( $a != null ) {
-<a name="l00368"></a>00368       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=<span class="stringliteral">"&lt;b&gt;Operation concernée&lt;/b&gt; &lt;br&gt;"</span>;
+<a name="l00368"></a>00368       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;b&gt;Operation concernée&lt;/b&gt; &lt;br&gt;"</span>;
 <a name="l00369"></a>00369       <span class="keywordflow">if</span> ( isset ($_GET[<span class="stringliteral">"PHPSESSID"</span>]) ) {
 <a name="l00370"></a>00370         <a class="code" href="user__action__ach_8php.html#a21">$sessid</a>=$_GET[<span class="stringliteral">"PHPSESSID"</span>];
 <a name="l00371"></a>00371       }
@@ -350,14 +350,14 @@
 <a name="l00373"></a>00373         <a class="code" href="user__action__ach_8php.html#a21">$sessid</a>=$_POST[<span class="stringliteral">"PHPSESSID"</span>];
 <a name="l00374"></a>00374       }
 <a name="l00375"></a>00375 
-<a name="l00376"></a>00376     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.= '&lt;div style=<span class="stringliteral">"margin-left:30px;"</span>&gt;';
+<a name="l00376"></a>00376     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.= '&lt;div style=<span class="stringliteral">"margin-left:30px;"</span>&gt;';
 <a name="l00377"></a>00377     foreach ($a as $key =&gt; $element) {
-<a name="l00378"></a>00378       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=sprintf ('%s &lt;INPUT TYPE=<span class="stringliteral">"BUTTON"</span> VALUE=<span class="stringliteral">"Détail"</span> onClick=<span class="stringliteral">"viewDetail(\'%s\',\'%s\')"</span>&gt;', 
+<a name="l00378"></a>00378       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=sprintf ('%s &lt;INPUT TYPE=<span class="stringliteral">"BUTTON"</span> VALUE=<span class="stringliteral">"Détail"</span> onClick=<span class="stringliteral">"viewDetail(\'%s\',\'%s\')"</span>&gt;', 
 <a name="l00379"></a>00379                    <a class="code" href="jrn_8php.html#a9">GetInternal</a>($p_cn,$element),<a class="code" href="user__common_8php.html#a13">GetGrpt</a>($p_cn,$element),$sessid);
-<a name="l00380"></a>00380       <a class="code" href="user__action__ach_8php.html#a2">$r</a>.=sprintf('&lt;INPUT TYPE=<span class="stringliteral">"button"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"Efface"</span> onClick=<span class="stringliteral">"dropLink(\'%s\',\'%s\',\'%s\')"</span>&gt;&lt;BR&gt;',
+<a name="l00380"></a>00380       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=sprintf('&lt;INPUT TYPE=<span class="stringliteral">"button"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"Efface"</span> onClick=<span class="stringliteral">"dropLink(\'%s\',\'%s\',\'%s\')"</span>&gt;&lt;BR&gt;',
 <a name="l00381"></a>00381                   $content['jr_id'],$element,$sessid);
 <a name="l00382"></a>00382     }<span class="comment">//for</span>
-<a name="l00383"></a>00383     <a class="code" href="user__action__ach_8php.html#a2">$r</a>.= <span class="stringliteral">"&lt;/div&gt;"</span>;
+<a name="l00383"></a>00383     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.= <span class="stringliteral">"&lt;/div&gt;"</span>;
 <a name="l00384"></a>00384   }<span class="comment">// if ( $a != null ) {</span>
 <a name="l00385"></a>00385 
 <a name="l00386"></a>00386   <span class="keywordflow">if</span> ( isset ($_GET[<span class="stringliteral">"PHPSESSID"</span>]) ) {
@@ -369,12 +369,12 @@
 <a name="l00392"></a>00392   
 <a name="l00393"></a>00393   <a class="code" href="admin_8inc_8php.html#a8">$search</a>='&lt;INPUT TYPE=<span class="stringliteral">"BUTTON"</span> VALUE=<span class="stringliteral">"Cherche"</span> OnClick=<span class="stringliteral">"SearchJrn(\''.$sessid."</span><span class="charliteral">','</span>rapt')\<span class="stringliteral">"&gt;"</span>;
 <a name="l00394"></a>00394 
-<a name="l00395"></a>00395   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.= '&lt;H2 <span class="keyword">class</span>=<span class="stringliteral">"info"</span>&gt;rapprochement &lt;/H2&gt; 
+<a name="l00395"></a>00395   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.= '&lt;H2 <span class="keyword">class</span>=<span class="stringliteral">"info"</span>&gt;rapprochement &lt;/H2&gt; 
 <a name="l00396"></a>00396        &lt;INPUT TYPE=<span class="stringliteral">"TEXT"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"rapt"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">""</span>&gt;'.$search;
-<a name="l00397"></a>00397   <a class="code" href="user__action__ach_8php.html#a2">$r</a>.='&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"jr_id"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"'.$content['jr_id'].'"</span>&gt;';
+<a name="l00397"></a>00397   <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"jr_id"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"'.$content['jr_id'].'"</span>&gt;';
 <a name="l00398"></a>00398 
 <a name="l00399"></a>00399   <span class="comment">//  echo $r;</span>
-<a name="l00400"></a>00400   <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
+<a name="l00400"></a>00400   <span class="keywordflow">return</span> <a class="code" href="bank_8inc_8php.html#a29">$r</a>;
 <a name="l00401"></a>00401 }
 <a name="l00402"></a>00402 
 <a name="l00415"></a><a class="code" href="jrn_8php.html#a2">00415</a> function <a class="code" href="jrn_8php.html#a2">ViewRec</a>($p_array = null) {
@@ -448,7 +448,7 @@
 <a name="l00510"></a>00510 }
 <a name="l00523"></a><a class="code" href="jrn_8php.html#a5">00523</a> function <a class="code" href="jrn_8php.html#a5">GetJrnProperty</a>($p_cn,$p_jrn) 
 <a name="l00524"></a>00524 {
-<a name="l00525"></a>00525   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select jrn_Def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_def_type, </span>
+<a name="l00525"></a>00525   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select jrn_Def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_def_type, </span>
 <a name="l00526"></a>00526 <span class="stringliteral">                   jrn_deb_max_line,jrn_cred_max_line,jrn_def_ech,jrn_def_ech_lib,jrn_def_code,</span>
 <a name="l00527"></a>00527 <span class="stringliteral">                   jrn_def_fiche_deb,jrn_def_fiche_deb</span>
 <a name="l00528"></a>00528 <span class="stringliteral">                   from jrn_Def </span>
@@ -467,7 +467,7 @@
 <a name="l00553"></a>00553   <span class="keywordflow">else</span>
 <a name="l00554"></a>00554     <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=$p_dossier;
 <a name="l00555"></a>00555 
-<a name="l00556"></a>00556   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select jrn_Def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_def_type, </span>
+<a name="l00556"></a>00556   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select jrn_Def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_def_type, </span>
 <a name="l00557"></a>00557 <span class="stringliteral">                   jrn_deb_max_line,jrn_cred_max_line,jrn_def_ech,jrn_def_ech_lib,jrn_def_code,</span>
 <a name="l00558"></a>00558 <span class="stringliteral">                   jrn_def_fiche_deb,jrn_def_fiche_deb</span>
 <a name="l00559"></a>00559 <span class="stringliteral">                   from jrn_Def </span>
@@ -481,7 +481,7 @@
 <a name="l00567"></a>00567 }
 <a name="l00583"></a><a class="code" href="jrn_8php.html#a7">00583</a> function <a class="code" href="jrn_8php.html#a7">ViewJrn</a>($p_dossier,$p_user,$p_jrn,$p_url,$p_array=null) {
 <a name="l00584"></a>00584   <a class="code" href="debug_8php.html#a0">echo_debug</a>('<a class="code" href="classjrn.html">jrn</a>.php',__LINE__,<span class="stringliteral">"function ViewJrn($p_dossier,$p_user,$p_jrn,$p_array=null) "</span>);
-<a name="l00585"></a>00585   echo <a class="code" href="constant_8php.html#a76">JS_VIEW_JRN_DETAIL</a>;
+<a name="l00585"></a>00585   echo <a class="code" href="constant_8php.html#a81">JS_VIEW_JRN_DETAIL</a>;
 <a name="l00586"></a>00586   <a class="code" href="setup_8php.html#a10">$db</a>=sprintf(<span class="stringliteral">"dossier%d"</span>,$p_dossier);
 <a name="l00587"></a>00587   $l_prop=<a class="code" href="jrn_8php.html#a6">GetJrnProp</a>($p_dossier,$p_jrn);
 <a name="l00588"></a>00588   echo <span class="stringliteral">"&lt;H2 class=\"info\"&gt;"</span>.$l_prop['jrn_def_name'].<span class="stringliteral">"( "</span>.$l_prop['jrn_def_code'].<span class="stringliteral">")"</span>.<span class="stringliteral">"&lt;/H2&gt;"</span>;
@@ -489,7 +489,7 @@
 <a name="l00590"></a>00590   <span class="keywordflow">if</span> ( $p_array == null) {
 <a name="l00591"></a>00591     include_once(<span class="stringliteral">"preference.php"</span>);
 <a name="l00592"></a>00592     $l_periode=GetUserPeriode($cn,$p_user);
-<a name="l00593"></a>00593     <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select jr_id,j_id,jr_internal,to_char(j_date,'DD.MM.YYYY') as j_date,</span>
+<a name="l00593"></a>00593     <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select jr_id,j_id,jr_internal,to_char(j_date,'DD.MM.YYYY') as j_date,</span>
 <a name="l00594"></a>00594 <span class="stringliteral">                       j_montant,j_poste,pcm_lib,j_grpt,j_debit,j_centralized,j_tech_per,</span>
 <a name="l00595"></a>00595 <span class="stringliteral">                       pcm_lib</span>
 <a name="l00596"></a>00596 <span class="stringliteral">                   from jrnx inner join tmp_pcmn on j_poste=pcm_val</span>
@@ -503,7 +503,7 @@
 <a name="l00604"></a>00604       ${<span class="stringliteral">"l_$key"</span>}=$element;
 <a name="l00605"></a>00605       <a class="code" href="debug_8php.html#a0">echo_debug</a> (<span class="stringliteral">"l_$key $element"</span>);
 <a name="l00606"></a>00606     }
-<a name="l00607"></a>00607     <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"select j_id,to_char(j_date,'DD.MM.YYYY') as j_date,j_montant,j_poste,</span>
+<a name="l00607"></a>00607     <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">"select j_id,to_char(j_date,'DD.MM.YYYY') as j_date,j_montant,j_poste,</span>
 <a name="l00608"></a>00608 <span class="stringliteral">                 pcm_lib,j_grpt,jr_id,j_debit,j_centralized,j_tech_per,jr_internal</span>
 <a name="l00609"></a>00609 <span class="stringliteral">                   from jrnx inner join tmp_pcmn on j_poste=pcm_val</span>
 <a name="l00610"></a>00610 <span class="stringliteral">                        inner join jrn on jr_grpt_id=j_grpt</span>
@@ -511,22 +511,22 @@
 <a name="l00612"></a>00612 <span class="stringliteral">                   j_jrn_def=$p_jrn"</span>;
 <a name="l00613"></a>00613     $l_and=<span class="stringliteral">"and "</span>;
 <a name="l00614"></a>00614     <span class="keywordflow">if</span> ( ereg(<span class="stringliteral">"^[0-9]+$"</span>, $l_s_montant) || ereg (<span class="stringliteral">"^[0-9]+\.[0-9]+$"</span>, $l_s_montant) ) {
-<a name="l00615"></a>00615     <a class="code" href="bank_8inc_8php.html#a19">$sql</a>.=<span class="stringliteral">" and jr_montant $l_mont_sel $l_s_montant"</span>;
+<a name="l00615"></a>00615     <a class="code" href="bank_8inc_8php.html#a20">$sql</a>.=<span class="stringliteral">" and jr_montant $l_mont_sel $l_s_montant"</span>;
 <a name="l00616"></a>00616     }
 <a name="l00617"></a>00617     <span class="keywordflow">if</span> ( <a class="code" href="ac__common_8php.html#a3">isDate</a>($l_date_start) != null ) {
-<a name="l00618"></a>00618       <a class="code" href="bank_8inc_8php.html#a19">$sql</a>.=$l_and.<span class="stringliteral">" j_date &gt;= to_date('"</span>.$l_date_start.<span class="stringliteral">"','DD.MM.YYYY')"</span>;
+<a name="l00618"></a>00618       <a class="code" href="bank_8inc_8php.html#a20">$sql</a>.=$l_and.<span class="stringliteral">" j_date &gt;= to_date('"</span>.$l_date_start.<span class="stringliteral">"','DD.MM.YYYY')"</span>;
 <a name="l00619"></a>00619     }
 <a name="l00620"></a>00620     <span class="keywordflow">if</span> ( <a class="code" href="ac__common_8php.html#a3">isDate</a>($l_date_end) != null ) {
-<a name="l00621"></a>00621       <a class="code" href="bank_8inc_8php.html#a19">$sql</a>.=$l_and.<span class="stringliteral">" j_date &lt;= to_date('"</span>.$l_date_end.<span class="stringliteral">"','DD.MM.YYYY')"</span>;
+<a name="l00621"></a>00621       <a class="code" href="bank_8inc_8php.html#a20">$sql</a>.=$l_and.<span class="stringliteral">" j_date &lt;= to_date('"</span>.$l_date_end.<span class="stringliteral">"','DD.MM.YYYY')"</span>;
 <a name="l00622"></a>00622     }
 <a name="l00623"></a>00623     $l_s_comment=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($l_s_comment);
 <a name="l00624"></a>00624     <span class="keywordflow">if</span> ( $l_s_comment != null ) {
-<a name="l00625"></a>00625       <a class="code" href="bank_8inc_8php.html#a19">$sql</a>.=$l_and.<span class="stringliteral">" upper(jr_comment) like upper('%"</span>.$l_s_comment.<span class="stringliteral">"%') "</span>;
+<a name="l00625"></a>00625       <a class="code" href="bank_8inc_8php.html#a20">$sql</a>.=$l_and.<span class="stringliteral">" upper(jr_comment) like upper('%"</span>.$l_s_comment.<span class="stringliteral">"%') "</span>;
 <a name="l00626"></a>00626     }
 <a name="l00627"></a>00627 
-<a name="l00628"></a>00628     <a class="code" href="bank_8inc_8php.html#a19">$sql</a>.=<span class="stringliteral">" order by j_id,j_grpt,j_debit desc"</span>;
+<a name="l00628"></a>00628     <a class="code" href="bank_8inc_8php.html#a20">$sql</a>.=<span class="stringliteral">" order by j_id,j_grpt,j_debit desc"</span>;
 <a name="l00629"></a>00629     <a class="code" href="debug_8php.html#a0">echo_debug</a> (<span class="stringliteral">"search query is $sql"</span>);
-<a name="l00630"></a>00630     <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$sql);
+<a name="l00630"></a>00630     <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$sql);
 <a name="l00631"></a>00631   }
 <a name="l00632"></a>00632   <a class="code" href="jrn__search_8php.html#a13">$MaxLine</a>=pg_NumRows($Res);
 <a name="l00633"></a>00633   <span class="keywordflow">if</span> ( $MaxLine == 0 ) <span class="keywordflow">return</span>;
@@ -597,7 +597,7 @@
 <a name="l00698"></a>00698 }
 <a name="l00711"></a><a class="code" href="jrn_8php.html#a8">00711</a> function <a class="code" href="jrn_8php.html#a8">GetData</a> ($p_cn,$p_grpt) {
 <a name="l00712"></a>00712   <a class="code" href="debug_8php.html#a0">echo_debug</a>('<a class="code" href="classjrn.html">jrn</a>.php',__LINE__,<span class="stringliteral">"GetData $p_cn $p_grpt"</span>);
-<a name="l00713"></a>00713   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select </span>
+<a name="l00713"></a>00713   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select </span>
 <a name="l00714"></a>00714 <span class="stringliteral">                        to_char(j_date,'DD.MM.YYYY') as j_date,</span>
 <a name="l00715"></a>00715 <span class="stringliteral">                        j_text,</span>
 <a name="l00716"></a>00716 <span class="stringliteral">                        j_debit,</span>
@@ -656,14 +656,14 @@
 <a name="l00780"></a>00780 <span class="comment">// }</span>
 <a name="l00793"></a><a class="code" href="jrn_8php.html#a9">00793</a> <span class="comment"></span>function <a class="code" href="jrn_8php.html#a9">GetInternal</a>($p_cn,$p_id) {
 <a name="l00794"></a>00794 
-<a name="l00795"></a>00795   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select jr_internal from jrn where jr_id=$p_id"</span>);
+<a name="l00795"></a>00795   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select jr_internal from jrn where jr_id=$p_id"</span>);
 <a name="l00796"></a>00796   <span class="keywordflow">if</span> ( pg_NumRows($Res) == 0 ) <span class="keywordflow">return</span> null;
 <a name="l00797"></a>00797   <a class="code" href="jrn__detail_8php.html#a11">$l_line</a>=pg_fetch_array($Res);
 <a name="l00798"></a>00798   <span class="keywordflow">return</span> <a class="code" href="jrn__detail_8php.html#a11">$l_line</a>['jr_internal'];
 <a name="l00799"></a>00799 }
 <a name="l00800"></a>00800 
 <a name="l00814"></a><a class="code" href="jrn_8php.html#a10">00814</a> function <a class="code" href="jrn_8php.html#a10">GetAmount</a>($p_cn,$p_id) {
-<a name="l00815"></a>00815   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select jr_montant from jrn where jr_internal='$p_id'"</span>);
+<a name="l00815"></a>00815   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select jr_montant from jrn where jr_internal='$p_id'"</span>);
 <a name="l00816"></a>00816   <span class="keywordflow">if</span> (pg_NumRows($Res)==0) <span class="keywordflow">return</span> -1;
 <a name="l00817"></a>00817   <a class="code" href="jrn__detail_8php.html#a11">$l_line</a>=pg_fetch_array($Res,0);
 <a name="l00818"></a>00818   <span class="keywordflow">return</span> <a class="code" href="jrn__detail_8php.html#a11">$l_line</a>['jr_montant'];
@@ -675,7 +675,7 @@
 <a name="l00838"></a>00838        ! isset ($p_user)||
 <a name="l00839"></a>00839        $p_array == null ){
 <a name="l00840"></a>00840     <a class="code" href="ac__common_8php.html#a0">echo_error</a>(<span class="stringliteral">"JRN.PHP VerifData missing parameter"</span>);
-<a name="l00841"></a>00841     <span class="keywordflow">return</span> <a class="code" href="constant_8php.html#a25">BADPARM</a>;
+<a name="l00841"></a>00841     <span class="keywordflow">return</span> <a class="code" href="constant_8php.html#a30">BADPARM</a>;
 <a name="l00842"></a>00842   }
 <a name="l00843"></a>00843   <span class="comment">// Montre ce qu'on a encodé et demande vérif</span>
 <a name="l00844"></a>00844   $next=<span class="stringliteral">""</span>;
@@ -686,7 +686,7 @@
 <a name="l00849"></a>00849     }
 <a name="l00850"></a>00850     <span class="comment">// Verif Date</span>
 <a name="l00851"></a>00851     <span class="keywordflow">if</span> ( <a class="code" href="ac__common_8php.html#a3">isDate</a>($p_op_date) == null) {
-<a name="l00852"></a>00852       <span class="keywordflow">return</span> <a class="code" href="constant_8php.html#a26">BADDATE</a>;
+<a name="l00852"></a>00852       <span class="keywordflow">return</span> <a class="code" href="constant_8php.html#a31">BADDATE</a>;
 <a name="l00853"></a>00853     }
 <a name="l00854"></a>00854     <span class="comment">// userPref contient la periode par default</span>
 <a name="l00855"></a>00855     $userPref=$p_user-&gt;GetPeriode();
@@ -697,18 +697,18 @@
 <a name="l00860"></a>00860     <span class="keywordflow">if</span> ( <a class="code" href="ac__common_8php.html#a1">cmpDate</a>($p_op_date,$l_date_start)&lt;0 || 
 <a name="l00861"></a>00861          <a class="code" href="ac__common_8php.html#a1">cmpDate</a>($p_op_date,$l_date_end)&gt;0 )
 <a name="l00862"></a>00862       {
-<a name="l00863"></a>00863         <span class="keywordflow">return</span> <a class="code" href="constant_8php.html#a27">NOTPERIODE</a>;
+<a name="l00863"></a>00863         <span class="keywordflow">return</span> <a class="code" href="constant_8php.html#a32">NOTPERIODE</a>;
 <a name="l00864"></a>00864       }
 <a name="l00865"></a>00865     <span class="comment">// Periode fermée </span>
 <a name="l00866"></a>00866     <span class="keywordflow">if</span> ( <a class="code" href="preference_8php.html#a3">PeriodeClosed</a> ($p_cn,$userPref)==<span class="charliteral">'t'</span> )
 <a name="l00867"></a>00867       {
-<a name="l00868"></a>00868         <span class="keywordflow">return</span> <a class="code" href="constant_8php.html#a28">PERIODCLOSED</a>;
+<a name="l00868"></a>00868         <span class="keywordflow">return</span> <a class="code" href="constant_8php.html#a33">PERIODCLOSED</a>;
 <a name="l00869"></a>00869       }
 <a name="l00870"></a>00870     $l_mont=0;
 <a name="l00871"></a>00871     <span class="keywordflow">if</span> ( ! isset ($p_ech) ) $p_ech=<span class="stringliteral">""</span>;
 <a name="l00872"></a>00872 
 <a name="l00873"></a>00873     <span class="keywordflow">if</span> ($p_ech!='' &amp;&amp; <a class="code" href="ac__common_8php.html#a3">isDate</a> ( $p_ech) == null ){
-<a name="l00874"></a>00874       <span class="keywordflow">return</span> <a class="code" href="constant_8php.html#a29">INVALID_ECH</a>;
+<a name="l00874"></a>00874       <span class="keywordflow">return</span> <a class="code" href="constant_8php.html#a34">INVALID_ECH</a>;
 <a name="l00875"></a>00875     }
 <a name="l00876"></a>00876 
 <a name="l00877"></a>00877     $tot_deb= 0;
@@ -723,14 +723,14 @@
 <a name="l00886"></a>00886     }
 <a name="l00887"></a>00887     <a class="code" href="debug_8php.html#a0">echo_debug</a>('<a class="code" href="classjrn.html">jrn</a>.php',__LINE__,<span class="stringliteral">"Amont =      $tot_deb $tot_cred"</span>);
 <a name="l00888"></a>00888     <span class="keywordflow">if</span> ( round($tot_deb,2) != round($tot_cred,2) ) { 
-<a name="l00889"></a>00889       <span class="keywordflow">return</span> <a class="code" href="constant_8php.html#a32">DIFF_AMOUNT</a>;
+<a name="l00889"></a>00889       <span class="keywordflow">return</span> <a class="code" href="constant_8php.html#a37">DIFF_AMOUNT</a>;
 <a name="l00890"></a>00890     }
 <a name="l00891"></a>00891 
-<a name="l00892"></a>00892     <span class="keywordflow">return</span> <a class="code" href="constant_8php.html#a24">NOERROR</a>;
+<a name="l00892"></a>00892     <span class="keywordflow">return</span> <a class="code" href="constant_8php.html#a29">NOERROR</a>;
 <a name="l00893"></a>00893 
 <a name="l00894"></a>00894 }
 <a name="l00907"></a><a class="code" href="jrn_8php.html#a12">00907</a> function <a class="code" href="jrn_8php.html#a12">GetJrnName</a>($p_cn,$p_id) {
-<a name="l00908"></a>00908   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select jrn_def_name from "</span>.
+<a name="l00908"></a>00908   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select jrn_def_name from "</span>.
 <a name="l00909"></a>00909                <span class="stringliteral">" jrn_def where jrn_def_id="</span>.
 <a name="l00910"></a>00910                $p_id);
 <a name="l00911"></a>00911   <a class="code" href="setup_8php.html#a11">$Max</a>=pg_NumRows($Res);
@@ -751,13 +751,13 @@
 <a name="l00954"></a>00954   $atype=<a class="code" href="jrn_8php.html#a5">GetJrnProperty</a>($p_cn,$p_jrn);
 <a name="l00955"></a>00955   $type=$atype['jrn_def_code'];
 <a name="l00956"></a>00956   $internal_code=sprintf(<span class="stringliteral">"%d%s-%s"</span>,$_SESSION['g_dossier'],$type,$num);
-<a name="l00957"></a>00957   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"update jrn set jr_internal='"</span>.$internal_code.<span class="stringliteral">"' where "</span>.
+<a name="l00957"></a>00957   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"update jrn set jr_internal='"</span>.$internal_code.<span class="stringliteral">"' where "</span>.
 <a name="l00958"></a>00958                <span class="stringliteral">" jr_grpt_id = "</span>.$p_grpt);
 <a name="l00959"></a>00959   <span class="keywordflow">return</span> $internal_code;
 <a name="l00960"></a>00960 }
 <a name="l00973"></a><a class="code" href="jrn_8php.html#a15">00973</a> function <a class="code" href="jrn_8php.html#a15">GetDataJrnJrId</a> ($p_cn,$p_jr_id) {
 <a name="l00974"></a>00974   <a class="code" href="debug_8php.html#a0">echo_debug</a>('<a class="code" href="classjrn.html">jrn</a>.php',__LINE__,<span class="stringliteral">"GetDataJrn $p_cn $p_jr_id"</span>);
-<a name="l00975"></a>00975   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select </span>
+<a name="l00975"></a>00975   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select </span>
 <a name="l00976"></a>00976 <span class="stringliteral">                        j_text,</span>
 <a name="l00977"></a>00977 <span class="stringliteral">                        j_debit,</span>
 <a name="l00978"></a>00978 <span class="stringliteral">                        j_poste,</span>

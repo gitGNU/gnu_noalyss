@@ -33,7 +33,7 @@
 <a name="l00034"></a><a class="code" href="form__inc_8php.html#a0">00034</a> function <a class="code" href="form__inc_8php.html#a0">EncodeForm</a>($p_line,$p_sessid,$p_array=null) {
 <a name="l00035"></a>00035   <span class="comment">//  echo '&lt;SCRIPT LANGUAGE="javascript" SRC="win_search_poste.js"&gt;&lt;/SCRIPT&gt;';</span>
 <a name="l00036"></a>00036   include_once(<span class="stringliteral">"constant.php"</span>);
-<a name="l00037"></a>00037   echo <a class="code" href="constant_8php.html#a74">JS_SEARCH_POSTE</a>;
+<a name="l00037"></a>00037   echo <a class="code" href="constant_8php.html#a79">JS_SEARCH_POSTE</a>;
 <a name="l00038"></a>00038    <a class="code" href="admin_8inc_8php.html#a8">$search</a>='&lt;INPUT TYPE=<span class="stringliteral">"BUTTON"</span> VALUE=<span class="stringliteral">"Cherche"</span> OnClick=<span class="stringliteral">"SearchPoste(\''.$p_sessid."</span><span class="charliteral">','</span>not')\<span class="stringliteral">"&gt;"</span>;
 <a name="l00039"></a>00039   <span class="keywordflow">for</span> ( $i =0 ; $i &lt;= $p_line; $i++) {
 <a name="l00040"></a>00040     ${<span class="stringliteral">"text$i"</span>}=<span class="stringliteral">""</span>;
@@ -118,7 +118,7 @@
 <a name="l00136"></a>00136   <a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"delete from formdef where fr_id=$p_id"</span>);
 <a name="l00137"></a>00137 }
 <a name="l00149"></a><a class="code" href="form__inc_8php.html#a3">00149</a> function <a class="code" href="form__inc_8php.html#a3">GetDataForm</a>($p_cn,$p_id) {
-<a name="l00150"></a>00150   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select fo_id,fo_fr_id,fo_pos,fo_label,fo_formula from form where fo_fr_id=$p_id</span>
+<a name="l00150"></a>00150   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select fo_id,fo_fr_id,fo_pos,fo_label,fo_formula from form where fo_fr_id=$p_id</span>
 <a name="l00151"></a>00151 <span class="stringliteral">                      order by fo_pos"</span>);
 <a name="l00152"></a>00152   <a class="code" href="setup_8php.html#a11">$Max</a>=pg_NumRows($Res);
 <a name="l00153"></a>00153   <span class="keywordflow">for</span> ( $i=0;$i&lt;$Max;$i++){
@@ -141,12 +141,12 @@
 <a name="l00170"></a>00170   <span class="keywordflow">return</span> <a class="code" href="recherche_8php.html#a4">$array</a>;
 <a name="l00171"></a>00171 }
 <a name="l00180"></a><a class="code" href="form__inc_8php.html#a4">00180</a> function <a class="code" href="form__inc_8php.html#a4">GetNumberLine</a>($p_cn,$p_id) {
-<a name="l00181"></a>00181   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select * from form where fo_fr_id="</span>.$p_id);
+<a name="l00181"></a>00181   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select * from form where fo_fr_id="</span>.$p_id);
 <a name="l00182"></a>00182   <a class="code" href="admin__repo_8php.html#a13">$count</a>=pg_NumRows($Res);
 <a name="l00183"></a>00183   <span class="keywordflow">return</span> <a class="code" href="admin__repo_8php.html#a13">$count</a>;
 <a name="l00184"></a>00184 }
 <a name="l00195"></a><a class="code" href="form__inc_8php.html#a5">00195</a> function <a class="code" href="form__inc_8php.html#a5">GetFormName</a>($p_cn,$p_id) {
-<a name="l00196"></a>00196   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select fr_label from formdef where fr_id="</span>.$p_id);
+<a name="l00196"></a>00196   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select fr_label from formdef where fr_id="</span>.$p_id);
 <a name="l00197"></a>00197   <span class="keywordflow">if</span> ( pg_NumRows($Res) == 0 ) <span class="keywordflow">return</span> null;
 <a name="l00198"></a>00198   $name=pg_fetch_array($Res,0);
 <a name="l00199"></a>00199   <span class="keywordflow">return</span> $name['fr_label'];
@@ -156,8 +156,8 @@
 <a name="l00210"></a>00210     <a class="code" href="debug_8php.html#a0">echo_debug</a> (<span class="stringliteral">"UpdateForm $key = $element"</span>);
 <a name="l00211"></a>00211     ${<span class="stringliteral">"$key"</span>}=$element;
 <a name="l00212"></a>00212   }
-<a name="l00213"></a>00213   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"update formdef set fr_label='"</span>.<a class="code" href="ac__common_8php.html#a9">FormatString</a>($form_nom).<span class="stringliteral">"' where fr_id="</span>.$fr_id);
-<a name="l00214"></a>00214   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"delete from form where fo_fr_id="</span>.$fr_id);
+<a name="l00213"></a>00213   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"update formdef set fr_label='"</span>.<a class="code" href="ac__common_8php.html#a9">FormatString</a>($form_nom).<span class="stringliteral">"' where fr_id="</span>.$fr_id);
+<a name="l00214"></a>00214   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"delete from form where fo_fr_id="</span>.$fr_id);
 <a name="l00215"></a>00215   <span class="comment">// Test les positions</span>
 <a name="l00216"></a>00216   <span class="keywordflow">for</span> ($i =0; $i &lt;$line;$i++) {
 <a name="l00217"></a>00217     <a class="code" href="debug_8php.html#a0">echo_debug</a> (<span class="stringliteral">"position ="</span>.${<span class="stringliteral">"pos$i"</span>});
@@ -185,7 +185,7 @@
 <a name="l00239"></a>00239           ${<span class="stringliteral">"form$i"</span>}=<span class="stringliteral">"!!!!!!! FORMULE INVALIDE "</span>.${<span class="stringliteral">"form$i"</span>};
 <a name="l00240"></a>00240 
 <a name="l00241"></a>00241         ${<span class="stringliteral">"form$i"</span>}=(${<span class="stringliteral">"form$i"</span>}==null)?<span class="stringliteral">"null"</span>:<span class="stringliteral">"'"</span>.${<span class="stringliteral">"form$i"</span>}.<span class="stringliteral">"'"</span>;
-<a name="l00242"></a>00242         <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=sprintf(<span class="stringliteral">"insert into form (fo_fr_id,</span>
+<a name="l00242"></a>00242         <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=sprintf(<span class="stringliteral">"insert into form (fo_fr_id,</span>
 <a name="l00243"></a>00243 <span class="stringliteral">                                  fo_pos,</span>
 <a name="l00244"></a>00244 <span class="stringliteral">                                  fo_label,</span>
 <a name="l00245"></a>00245 <span class="stringliteral">                                  fo_formula) values</span>
@@ -197,7 +197,7 @@
 <a name="l00251"></a>00251                      ${<span class="stringliteral">"text$i"</span>},
 <a name="l00252"></a>00252                      ${<span class="stringliteral">"form$i"</span>}
 <a name="l00253"></a>00253                      );
-<a name="l00254"></a>00254         <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
+<a name="l00254"></a>00254         <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
 <a name="l00255"></a>00255       }
 <a name="l00256"></a>00256     }<span class="comment">//if</span>
 <a name="l00257"></a>00257   }<span class="comment">//for</span>
@@ -215,8 +215,8 @@
 <a name="l00276"></a>00276     <span class="keywordflow">return</span>;
 <a name="l00277"></a>00277   }
 <a name="l00278"></a>00278   $form_nom=(<a class="code" href="ac__common_8php.html#a9">FormatString</a>($form_nom)==null)?<span class="stringliteral">"NoName"</span>:<a class="code" href="ac__common_8php.html#a9">FormatString</a>($form_nom);
-<a name="l00279"></a>00279   <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"insert into formdef (fr_label) values ('"</span>.$form_nom.<span class="stringliteral">"')"</span>;
-<a name="l00280"></a>00280   <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
+<a name="l00279"></a>00279   <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">"insert into formdef (fr_label) values ('"</span>.$form_nom.<span class="stringliteral">"')"</span>;
+<a name="l00280"></a>00280   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
 <a name="l00281"></a>00281   <a class="code" href="fiche__new_8php.html#a5">$n</a>=<a class="code" href="postgres_8php.html#a12">GetSequence</a>($p_cn,<span class="stringliteral">"s_formdef"</span>);
 <a name="l00282"></a>00282 
 <a name="l00283"></a>00283   <span class="keywordflow">for</span> ($i=0;$i &lt; $line;$i++) {
@@ -226,7 +226,7 @@
 <a name="l00287"></a>00287         <span class="comment">//      ${"form$i"}=(${"form$i"}==null)?${"form$i"}:"'".${"form$i"}."'";</span>
 <a name="l00288"></a>00288         ${<span class="stringliteral">"form$i"</span>}=(${<span class="stringliteral">"form$i"</span>}==null)?<span class="stringliteral">"null"</span>:<span class="stringliteral">"'"</span>.${<span class="stringliteral">"form$i"</span>}.<span class="stringliteral">"'"</span>;
 <a name="l00289"></a>00289         <a class="code" href="impress__inc_8php.html#a11">CheckFormula</a>(${<span class="stringliteral">"form$i"</span>});
-<a name="l00290"></a>00290         <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=sprintf(<span class="stringliteral">"insert into form (fo_fr_id,</span>
+<a name="l00290"></a>00290         <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=sprintf(<span class="stringliteral">"insert into form (fo_fr_id,</span>
 <a name="l00291"></a>00291 <span class="stringliteral">                                  fo_pos,</span>
 <a name="l00292"></a>00292 <span class="stringliteral">                                  fo_label,</span>
 <a name="l00293"></a>00293 <span class="stringliteral">                                  fo_formula) values</span>
@@ -236,7 +236,7 @@
 <a name="l00297"></a>00297 <span class="stringliteral">                                    %s)"</span>,
 <a name="l00298"></a>00298                    $n,$i+1,${<span class="stringliteral">"text$i"</span>},${<span class="stringliteral">"form$i"</span>}
 <a name="l00299"></a>00299                    );
-<a name="l00300"></a>00300         <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
+<a name="l00300"></a>00300         <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
 <a name="l00301"></a>00301     }<span class="comment">//if</span>
 <a name="l00302"></a>00302   }<span class="comment">//for $i</span>
 <a name="l00303"></a>00303 }

@@ -121,14 +121,14 @@ GetDefLine  Get the number of lines of a journal <dl compact><dt><b>Parameters:<
 <p>
 Definition at line <a class="el" href="class__jrn_8php-source.html#l00321">321</a> of file <a class="el" href="class__jrn_8php-source.html">class_jrn.php</a>.
 <p>
-References <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00151">$sql</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="action_8inc_8php-source.html#l00240">value</a>.<div class="fragment"><pre class="fragment"><a name="l00322"></a>00322 {
+References <a class="el" href="bank_8inc_8php-source.html#l00235">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00167">$sql</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="action_8inc_8php-source.html#l00241">value</a>.<div class="fragment"><pre class="fragment"><a name="l00322"></a>00322 {
 <a name="l00323"></a>00323         $sql_cred=($p_cred=='cred')?'jrn_cred_max_line<span class="charliteral">':'</span>jrn_deb_max_line';
-<a name="l00324"></a>00324         <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"select $sql_cred as value from jrn_def where jrn_def_id="</span>.$this-&gt;id;
-<a name="l00325"></a>00325         <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql);
-<a name="l00326"></a>00326         <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=pg_fetch_all($r);
+<a name="l00324"></a>00324         <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">"select $sql_cred as value from jrn_def where jrn_def_id="</span>.$this-&gt;id;
+<a name="l00325"></a>00325         <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql);
+<a name="l00326"></a>00326         <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=pg_fetch_all($r);
 <a name="l00327"></a>00327         <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_jrn',__LINE__,$Res);
 <a name="l00328"></a>00328         <span class="keywordflow">if</span> ( <span class="keyword">sizeof</span>($Res) == 0 ) <span class="keywordflow">return</span> 1;
-<a name="l00329"></a>00329         <span class="keywordflow">return</span> <a class="code" href="depense_8inc_8php.html#a3">$Res</a>[0]['<a class="code" href="action_8inc_8php.html#a19">value</a>'];
+<a name="l00329"></a>00329         <span class="keywordflow">return</span> <a class="code" href="depense_8inc_8php.html#a4">$Res</a>[0]['<a class="code" href="action_8inc_8php.html#a19">value</a>'];
 <a name="l00330"></a>00330 }
 </pre></div>
 <p>
@@ -163,13 +163,13 @@ References <a class="el" href="user__action__ach_8php-source.html#l00052">$r</a>
 <p>
 Definition at line <a class="el" href="class__jrn_8php-source.html#l00034">34</a> of file <a class="el" href="class__jrn_8php-source.html">class_jrn.php</a>.
 <p>
-References <a class="el" href="setup_8php-source.html#l00379">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="impress__bilan_8php-source.html#l00032">$ret</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="action_8inc_8php-source.html#l00239">name</a>.<div class="fragment"><pre class="fragment"><a name="l00034"></a>00034                      {
+References <a class="el" href="setup_8php-source.html#l00379">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="impress__bilan_8php-source.html#l00032">$ret</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="action_8inc_8php-source.html#l00240">name</a>.<div class="fragment"><pre class="fragment"><a name="l00034"></a>00034                      {
 <a name="l00035"></a>00035     <span class="keywordflow">if</span> ( $this-&gt;id==0 ) {
 <a name="l00036"></a>00036       $this-&gt;<a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">" Grand Livre "</span>;
 <a name="l00037"></a>00037       <span class="keywordflow">return</span> $this-&gt;<a class="code" href="action_8inc_8php.html#a18">name</a>;
 <a name="l00038"></a>00038     }
 <a name="l00039"></a>00039 
-<a name="l00040"></a>00040     <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,<span class="stringliteral">"select jrn_def_name from "</span>.
+<a name="l00040"></a>00040     <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,<span class="stringliteral">"select jrn_def_name from "</span>.
 <a name="l00041"></a>00041                <span class="stringliteral">" jrn_def where jrn_def_id="</span>.
 <a name="l00042"></a>00042                $this-&gt;id);
 <a name="l00043"></a>00043     <a class="code" href="setup_8php.html#a11">$Max</a>=pg_NumRows($Res);
@@ -252,7 +252,7 @@ gen :<ul>
 <p>
 Definition at line <a class="el" href="class__jrn_8php-source.html#l00065">65</a> of file <a class="el" href="class__jrn_8php-source.html">class_jrn.php</a>.
 <p>
-References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="recherche_8php-source.html#l00066">$array</a>, <a class="el" href="setup_8php-source.html#l00379">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="eub__be_8inc_8php-source.html#l00055">$Sql</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00065"></a>00065                                                                       {
+References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="recherche_8php-source.html#l00066">$array</a>, <a class="el" href="setup_8php-source.html#l00379">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="eub__be_8inc_8php-source.html#l00055">$Sql</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00065"></a>00065                                                                       {
 <a name="l00066"></a>00066 
 <a name="l00067"></a>00067   <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_jrn.php',__LINE__,<span class="stringliteral">"GetRow ( $p_from,$p_to,$cent,$p_limit,$p_offset)"</span>);
 <a name="l00068"></a>00068 
@@ -268,7 +268,7 @@ References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class
 <a name="l00078"></a>00078       <span class="keywordflow">if</span> ( $cent=='off' ) {
 <a name="l00079"></a>00079         <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_jrn.php',__LINE__,<span class="stringliteral">"journaux non  centralisé"</span>);
 <a name="l00080"></a>00080         <span class="comment">// Journaux non centralisés</span>
-<a name="l00081"></a>00081         <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,<span class="stringliteral">"select j_id,j_id as int_j_id,to_char(j_date,'DD.MM.YYYY') as j_date,</span>
+<a name="l00081"></a>00081         <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,<span class="stringliteral">"select j_id,j_id as int_j_id,to_char(j_date,'DD.MM.YYYY') as j_date,</span>
 <a name="l00082"></a>00082 <span class="stringliteral">                      jr_internal,</span>
 <a name="l00083"></a>00083 <span class="stringliteral">                case j_debit when 't' then j_montant::text else '   ' end as deb_montant,</span>
 <a name="l00084"></a>00084 <span class="stringliteral">                case j_debit when 'f' then j_montant::text else '   ' end as cred_montant,</span>
@@ -302,7 +302,7 @@ References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class
 <a name="l00112"></a>00112                 <span class="stringliteral">"jr_grpt_id=c_grp left join tmp_pcmn on pcm_val=c_poste where "</span>.
 <a name="l00113"></a>00113                 <span class="stringliteral">" c_jrn_def="</span>.$this-&gt;id.<span class="stringliteral">" and "</span>.
 <a name="l00114"></a>00114                 $periode.<span class="stringliteral">" order by c_order "</span>;
-<a name="l00115"></a>00115       <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$Sql.$cond_limite);
+<a name="l00115"></a>00115       <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$Sql.$cond_limite);
 <a name="l00116"></a>00116 
 <a name="l00117"></a>00117     }
 <a name="l00118"></a>00118   } <span class="keywordflow">else</span> {
@@ -310,7 +310,7 @@ References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class
 <a name="l00120"></a>00120     <span class="keywordflow">if</span> ( $cent == 'off') {
 <a name="l00121"></a>00121       <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_jrn.php',__LINE__,<span class="stringliteral">"Grand livre non centralisé"</span>);
 <a name="l00122"></a>00122       <span class="comment">// Non centralisé</span>
-<a name="l00123"></a>00123       <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,<span class="stringliteral">"select j_id,j_id as int_j_id,to_char(j_date,'DD.MM.YYYY') as j_date,</span>
+<a name="l00123"></a>00123       <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,<span class="stringliteral">"select j_id,j_id as int_j_id,to_char(j_date,'DD.MM.YYYY') as j_date,</span>
 <a name="l00124"></a>00124 <span class="stringliteral">                      jr_internal,</span>
 <a name="l00125"></a>00125 <span class="stringliteral">                case j_debit when 't' then j_montant::text else '   ' end as deb_montant,</span>
 <a name="l00126"></a>00126 <span class="stringliteral">                case j_debit when 'f' then j_montant::text else '   ' end as cred_montant,</span>
@@ -346,7 +346,7 @@ References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class
 <a name="l00156"></a>00156 <span class="stringliteral">            from centralized left join jrn on "</span>.
 <a name="l00157"></a>00157                 <span class="stringliteral">"jr_grpt_id=c_grp left join tmp_pcmn on pcm_val=c_poste where "</span>.
 <a name="l00158"></a>00158                 $periode.<span class="stringliteral">" order by c_order "</span>;
-<a name="l00159"></a>00159     <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$Sql.$cond_limite);
+<a name="l00159"></a>00159     <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$Sql.$cond_limite);
 <a name="l00160"></a>00160     } <span class="comment">// Grand Livre</span>
 <a name="l00161"></a>00161   }
 <a name="l00162"></a>00162 
@@ -488,7 +488,7 @@ gen :<ul>
 <p>
 Definition at line <a class="el" href="class__jrn_8php-source.html#l00243">243</a> of file <a class="el" href="class__jrn_8php-source.html">class_jrn.php</a>.
 <p>
-References <a class="el" href="recherche_8php-source.html#l00066">$array</a>, <a class="el" href="class__jrn_8php-source.html#l00025">$id</a>, <a class="el" href="show__pj_8php-source.html#l00046">$jrn</a>, <a class="el" href="depense_8inc_8php-source.html#l00073">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00151">$sql</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00244"></a>00244   {
+References <a class="el" href="recherche_8php-source.html#l00066">$array</a>, <a class="el" href="class__jrn_8php-source.html#l00025">$id</a>, <a class="el" href="show__pj_8php-source.html#l00046">$jrn</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00167">$sql</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00244"></a>00244   {
 <a name="l00245"></a>00245     
 <a name="l00246"></a>00246     <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_jrn.php',__LINE__,<span class="stringliteral">"GetRowSimple ( $p_from,$p_to,$cent,$p_limit,$p_offset)"</span>);
 <a name="l00247"></a>00247     <span class="comment">// Periode check</span>
@@ -506,7 +506,7 @@ References <a class="el" href="recherche_8php-source.html#l00066">$array</a>, <a
 <a name="l00259"></a>00259     <span class="keywordflow">if</span> ($cent=='off') 
 <a name="l00260"></a>00260       {<span class="comment">// Non centralisé</span>
 <a name="l00261"></a>00261         <span class="comment">//---</span>
-<a name="l00262"></a>00262         <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">" </span>
+<a name="l00262"></a>00262         <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">" </span>
 <a name="l00263"></a>00263 <span class="stringliteral">    SELECT jrn.jr_id as jr_id ,</span>
 <a name="l00264"></a>00264 <span class="stringliteral">           jrn.jr_id as num , </span>
 <a name="l00265"></a>00265 <span class="stringliteral">           jrn.jr_def_id as jr_def_id, </span>
@@ -528,7 +528,7 @@ References <a class="el" href="recherche_8php-source.html#l00066">$array</a>, <a
 <a name="l00281"></a>00281         <span class="comment">//Centralisé</span>
 <a name="l00282"></a>00282         <span class="comment">//---</span>
 <a name="l00283"></a>00283         <a class="code" href="classjrn.html#o0">$id</a>=($this-&gt;<span class="keywordtype">id</span> == 0 ) ?<span class="stringliteral">"jr_c_opid as num"</span>:<span class="stringliteral">"jr_opid as num"</span>;
-<a name="l00284"></a>00284         <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=<span class="stringliteral">"</span>
+<a name="l00284"></a>00284         <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">"</span>
 <a name="l00285"></a>00285 <span class="stringliteral">    SELECT jrn.jr_id as jr_id ,</span>
 <a name="l00286"></a>00286 <span class="stringliteral">           $id , </span>
 <a name="l00287"></a>00287 <span class="stringliteral">           jrn.jr_def_id as jr_def_id, </span>
@@ -547,7 +547,7 @@ References <a class="el" href="recherche_8php-source.html#l00066">$array</a>, <a
 <a name="l00300"></a>00300       }<span class="comment">// end else $cent=='off'</span>
 <a name="l00301"></a>00301     <span class="comment">//load all data into an array</span>
 <a name="l00302"></a>00302     <span class="comment">//---</span>
-<a name="l00303"></a>00303     <a class="code" href="depense_8inc_8php.html#a3">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql);
+<a name="l00303"></a>00303     <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql);
 <a name="l00304"></a>00304     <span class="keywordflow">if</span> ( pg_NumRows($Res) == 0 ) 
 <a name="l00305"></a>00305       {
 <a name="l00306"></a>00306         <span class="keywordflow">return</span> null;

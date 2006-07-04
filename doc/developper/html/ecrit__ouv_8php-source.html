@@ -49,7 +49,7 @@
 <a name="l00044"></a>00044 echo <a class="code" href="user__menu_8php.html#a2">ShowMenuCompta</a>($_SESSION['g_dossier'],<span class="stringliteral">"user_advanced.php"</span>);
 <a name="l00045"></a>00045 echo '&lt;/div&gt;';
 <a name="l00046"></a>00046 <span class="comment">// \todo add a check for permission</span>
-<a name="l00047"></a>00047 <span class="keywordflow">if</span> ( $User-&gt;CheckAction($cn,<a class="code" href="constant_8php.html#a22">EXP_IMP_ECR</a>) == 0 ) {
+<a name="l00047"></a>00047 <span class="keywordflow">if</span> ( $User-&gt;CheckAction($cn,<a class="code" href="constant_8php.html#a27">EXP_IMP_ECR</a>) == 0 ) {
 <a name="l00048"></a>00048   <span class="comment">/* Cannot Access */</span>
 <a name="l00049"></a>00049   <a class="code" href="ac__common_8php.html#a8">NoAccess</a>();
 <a name="l00050"></a><a class="code" href="ecrit__ouv_8php.html#a2">00050</a>   <a class="code" href="balance_8php.html#a0">exit</a> -1;                      
@@ -69,7 +69,7 @@
 <a name="l00064"></a>00064   <span class="comment">// if the year is not set, ask it</span>
 <a name="l00065"></a>00065   <span class="comment">// ask the exercice and do the export</span>
 <a name="l00066"></a>00066   $periode=<a class="code" href="ac__common_8php.html#a12">make_array</a>($cn,<span class="stringliteral">"select distinct p_exercice,p_exercice from parm_periode order by p_exercice"</span>);
-<a name="l00067"></a>00067   echo '&lt;form method=<span class="stringliteral">"GET"</span> <a class="code" href="constant_8php.html#a39">ACTION</a>=<span class="stringliteral">"export_ouv.php"</span>&gt;';
+<a name="l00067"></a>00067   echo '&lt;form method=<span class="stringliteral">"GET"</span> <a class="code" href="constant_8php.html#a44">ACTION</a>=<span class="stringliteral">"export_ouv.php"</span>&gt;';
 <a name="l00068"></a><a class="code" href="ecrit__ouv_8php.html#a3">00068</a>   <a class="code" href="admin_8inc_8php.html#a4">$w</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>('select');
 <a name="l00069"></a><a class="code" href="ecrit__ouv_8php.html#a4">00069</a>   <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;table=0;
 <a name="l00070"></a><a class="code" href="ecrit__ouv_8php.html#a5">00070</a>   <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;label='Periode';
@@ -89,7 +89,7 @@
 <a name="l00084"></a>00084   <span class="comment">// if no file is given</span>
 <a name="l00085"></a>00085   <span class="keywordflow">if</span> ( ! isset ($_REQUEST['p_submit']) ) {
 <a name="l00086"></a>00086 ?&gt;
-<a name="l00087"></a>00087 &lt;<a class="code" href="constant_8php.html#a7">FORM</a> NAME=<span class="stringliteral">"form_detail"</span> enctype=<span class="stringliteral">"multipart/form-data"</span> <a class="code" href="constant_8php.html#a39">ACTION</a>=<span class="stringliteral">"ecrit_ouv.php?import"</span> <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"POST"</span>&gt;
+<a name="l00087"></a>00087 &lt;<a class="code" href="constant_8php.html#a7">FORM</a> NAME=<span class="stringliteral">"form_detail"</span> enctype=<span class="stringliteral">"multipart/form-data"</span> <a class="code" href="constant_8php.html#a44">ACTION</a>=<span class="stringliteral">"ecrit_ouv.php?import"</span> <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"POST"</span>&gt;
 <a name="l00088"></a>00088 &lt;?
 <a name="l00089"></a>00089   <span class="comment">// TODO propose  ODS ledger </span>
 <a name="l00090"></a>00090   $ods=<a class="code" href="ac__common_8php.html#a12">make_array</a>($cn,<span class="stringliteral">"select jrn_def_id,jrn_def_name from jrn_def where jrn_def_type = 'OD'"</span>);
@@ -159,19 +159,19 @@
 <a name="l00154"></a>00154             <span class="comment">// if the poste exists then check the next one</span>
 <a name="l00155"></a>00155             <span class="keywordflow">if</span> ( $p-&gt;get() == true ) <span class="keywordflow">continue</span>;
 <a name="l00156"></a>00156             echo 'Attention creation de '.$p-&gt;id.<span class="charliteral">' '</span>.$alabel[<a class="code" href="balance_8php.html#a12">$i</a>].'&lt;br&gt;';
-<a name="l00157"></a>00157             <a class="code" href="bank_8inc_8php.html#a19">$sql</a>=sprintf(<span class="stringliteral">"select account_add(%d,'%s')"</span>,
+<a name="l00157"></a>00157             <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=sprintf(<span class="stringliteral">"select account_add(%d,'%s')"</span>,
 <a name="l00158"></a>00158                         $p-&gt;id,$alabel[$i]);
 <a name="l00159"></a>00159 
 <a name="l00160"></a>00160             <a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$sql);
 <a name="l00161"></a>00161           }
 <a name="l00162"></a>00162 
 <a name="l00163"></a>00163         <span class="comment">// submit button in the form    </span>
-<a name="l00164"></a>00164         <a class="code" href="bank_8inc_8php.html#a25">$submit</a>='&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> NAME=<span class="stringliteral">"add_item"</span> VALUE=<span class="stringliteral">"Ajout Poste"</span>&gt;
+<a name="l00164"></a>00164         <a class="code" href="bank_8inc_8php.html#a27">$submit</a>='&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> NAME=<span class="stringliteral">"add_item"</span> VALUE=<span class="stringliteral">"Ajout Poste"</span>&gt;
 <a name="l00165"></a>00165                     &lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> NAME=<span class="stringliteral">"view_invoice"</span> VALUE=<span class="stringliteral">"Sauver"</span>&gt;';
-<a name="l00166"></a>00166          <a class="code" href="user__action__ach_8php.html#a2">$r</a>=<a class="code" href="user__form__ods_8php.html#a0">FormODS</a>($cn,$_POST['p_jrn'],$User-&gt;GetPeriode(),<a class="code" href="bank_8inc_8php.html#a25">$submit</a>,
+<a name="l00166"></a>00166          <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<a class="code" href="user__form__ods_8php.html#a0">FormODS</a>($cn,$_POST['p_jrn'],$User-&gt;GetPeriode(),<a class="code" href="bank_8inc_8php.html#a27">$submit</a>,
 <a name="l00167"></a>00167                         $array_ods,<span class="keyword">false</span>,<a class="code" href="fiche__def_8inc_8php.html#a7">$idx</a>,$p_saved=<span class="keyword">false</span>);
 <a name="l00168"></a>00168         
-<a name="l00169"></a>00169           echo <a class="code" href="user__action__ach_8php.html#a2">$r</a>;
+<a name="l00169"></a>00169           echo <a class="code" href="bank_8inc_8php.html#a29">$r</a>;
 <a name="l00170"></a>00170           echo <span class="stringliteral">"&lt;div&gt;&lt;h4&gt;On-line calculator&lt;/h4&gt;"</span>.JS_CALC_LINE.<span class="stringliteral">"&lt;div&gt;"</span>;
 <a name="l00171"></a>00171         
 <a name="l00172"></a>00172       } 
