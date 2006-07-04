@@ -1,4 +1,4 @@
-pg_dump -U phpcompta -s dossier1  | awk '!/--/ {if ( ! /^$/) print $0;}' > schema.sql
+pg_dump -O -U phpcompta -s dossier1  | awk '!/--/ {if ( ! /^$/) print $0;}' > schema.sql
 awk '/SEQUENCE/,/;/ { print $0;}' < schema.sql > sequence.sql
 awk '/CREATE TABLE/,/;/ { print $0;}' < schema.sql > table.sql
 awk '/CREATE VIEW/,/;/ { print $0;}' < schema.sql > view.sql

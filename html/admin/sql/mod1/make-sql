@@ -1,4 +1,4 @@
-pg_dump -U phpcompta -s mod1 > schema.sql
+pg_dump -O -U phpcompta -s mod1 > schema.sql
 awk '/SEQUENCE/,/;/ { print $0;}' < schema.sql > sequence.sql
 awk '/CREATE TABLE/,/;/ { print $0;}' < schema.sql > table.sql
 awk '/CREATE VIEW/,/;/ { print $0;}' < schema.sql > view.sql
@@ -8,5 +8,5 @@ awk '/CREATE FUNCTION/,/LANGUAGE/ { print $0;}' < schema.sql > function.sql
 awk '/COMMENT/,/;/ {print $0;}' < schema.sql > comment.sql
 
 grep setval schema.sql >> sequence.sql
-pg_dump -U phpcompta -D -a -O mod1 > data.sql
+pg_dump -O -U phpcompta -D -a -O mod1 > data.sql
 
