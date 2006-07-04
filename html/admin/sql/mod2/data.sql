@@ -9,10 +9,52 @@ SET client_min_messages = warning;
 SET search_path = public, pg_catalog;
 
 --
+-- Name: action_gestion_ag_id_seq; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval(pg_catalog.pg_get_serial_sequence('action_gestion', 'ag_id'), 1, false);
+
+
+--
+-- Name: document_d_id_seq; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval(pg_catalog.pg_get_serial_sequence('document', 'd_id'), 1, false);
+
+
+--
+-- Name: document_modele_md_id_seq; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval(pg_catalog.pg_get_serial_sequence('document_modele', 'md_id'), 1, false);
+
+
+--
+-- Name: document_seq; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval('document_seq', 1, false);
+
+
+--
+-- Name: document_state_s_id_seq; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval(pg_catalog.pg_get_serial_sequence('document_state', 's_id'), 3, true);
+
+
+--
+-- Name: document_type_dt_id_seq; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval(pg_catalog.pg_get_serial_sequence('document_type', 'dt_id'), 10, false);
+
+
+--
 -- Name: s_attr_def; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('s_attr_def', 1, false);
+SELECT pg_catalog.setval('s_attr_def', 27, true);
 
 
 --
@@ -61,7 +103,7 @@ SELECT pg_catalog.setval('s_fiche', 20, true);
 -- Name: s_fiche_def_ref; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('s_fiche_def_ref', 1, false);
+SELECT pg_catalog.setval('s_fiche_def_ref', 16, true);
 
 
 --
@@ -100,6 +142,13 @@ SELECT pg_catalog.setval('s_internal', 1, false);
 
 
 --
+-- Name: s_invoice; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval('s_invoice', 1, false);
+
+
+--
 -- Name: s_isup; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -110,7 +159,7 @@ SELECT pg_catalog.setval('s_isup', 1, false);
 -- Name: s_jnt_fic_att_value; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('s_jnt_fic_att_value', 145, true);
+SELECT pg_catalog.setval('s_jnt_fic_att_value', 168, true);
 
 
 --
@@ -118,35 +167,6 @@ SELECT pg_catalog.setval('s_jnt_fic_att_value', 145, true);
 --
 
 SELECT pg_catalog.setval('s_jrn', 1, false);
-
-
---
--- Name: s_jrn_1; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
---
-
-SELECT pg_catalog.setval('s_jrn_1', 1, false);
-
-
---
--- Name: s_jrn_2; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
---
-
-SELECT pg_catalog.setval('s_jrn_2', 1, false);
-
-
---
--- Name: s_jrn_3; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
---
-
-SELECT pg_catalog.setval('s_jrn_3', 1, false);
-
-
---
--- Name: s_jrn_4; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
---
-
-SELECT pg_catalog.setval('s_jrn_4', 1, false);
-
 
 --
 -- Name: s_jrn_def; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
@@ -191,6 +211,13 @@ SELECT pg_catalog.setval('s_periode', 78, true);
 
 
 --
+-- Name: s_quantity; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval('s_quantity', 1, false);
+
+
+--
 -- Name: s_stock_goods; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
@@ -231,6 +258,18 @@ INSERT INTO "action" (ac_id, ac_description) VALUES (15, 'Fiche écriture');
 INSERT INTO "action" (ac_id, ac_description) VALUES (18, 'Devise');
 INSERT INTO "action" (ac_id, ac_description) VALUES (19, 'Période');
 INSERT INTO "action" (ac_id, ac_description) VALUES (20, 'Voir la balance des comptes');
+INSERT INTO "action" (ac_id, ac_description) VALUES (21, 'Import et export des écritures d''ouverture');
+INSERT INTO "action" (ac_id, ac_description) VALUES (28, 'Module Suivi Document');
+INSERT INTO "action" (ac_id, ac_description) VALUES (22, 'Module Client');
+INSERT INTO "action" (ac_id, ac_description) VALUES (24, 'Module Fournisseur');
+INSERT INTO "action" (ac_id, ac_description) VALUES (26, 'Module Administration');
+INSERT INTO "action" (ac_id, ac_description) VALUES (30, 'Module Gestion');
+
+
+--
+-- Data for Name: action_gestion; Type: TABLE DATA; Schema: public; Owner: phpcompta
+--
+
 
 
 --
@@ -256,12 +295,44 @@ INSERT INTO attr_def (ad_id, ad_text) VALUES (16, 'pays ');
 INSERT INTO attr_def (ad_id, ad_text) VALUES (17, 'téléphone ');
 INSERT INTO attr_def (ad_id, ad_text) VALUES (18, 'email ');
 INSERT INTO attr_def (ad_id, ad_text) VALUES (19, 'Gestion stock');
+INSERT INTO attr_def (ad_id, ad_text) VALUES (20, 'Partie fiscalement non déductible');
+INSERT INTO attr_def (ad_id, ad_text) VALUES (21, 'TVA non déductible');
+INSERT INTO attr_def (ad_id, ad_text) VALUES (22, 'TVA non déductible récupérable par l''impôt');
+INSERT INTO attr_def (ad_id, ad_text) VALUES (23, 'Quick Code');
+INSERT INTO attr_def (ad_id, ad_text) VALUES (24, 'Ville');
+INSERT INTO attr_def (ad_id, ad_text) VALUES (25, 'Société');
+INSERT INTO attr_def (ad_id, ad_text) VALUES (26, 'Fax');
+INSERT INTO attr_def (ad_id, ad_text) VALUES (27, 'GSM');
 
 
 --
 -- Data for Name: attr_min; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
+INSERT INTO attr_min (frd_id, ad_id) VALUES (7, 23);
+INSERT INTO attr_min (frd_id, ad_id) VALUES (13, 23);
+INSERT INTO attr_min (frd_id, ad_id) VALUES (14, 23);
+INSERT INTO attr_min (frd_id, ad_id) VALUES (15, 23);
+INSERT INTO attr_min (frd_id, ad_id) VALUES (1, 23);
+INSERT INTO attr_min (frd_id, ad_id) VALUES (2, 23);
+INSERT INTO attr_min (frd_id, ad_id) VALUES (3, 23);
+INSERT INTO attr_min (frd_id, ad_id) VALUES (4, 23);
+INSERT INTO attr_min (frd_id, ad_id) VALUES (5, 23);
+INSERT INTO attr_min (frd_id, ad_id) VALUES (8, 23);
+INSERT INTO attr_min (frd_id, ad_id) VALUES (9, 23);
+INSERT INTO attr_min (frd_id, ad_id) VALUES (10, 23);
+INSERT INTO attr_min (frd_id, ad_id) VALUES (11, 23);
+INSERT INTO attr_min (frd_id, ad_id) VALUES (12, 23);
+INSERT INTO attr_min (frd_id, ad_id) VALUES (6, 23);
+INSERT INTO attr_min (frd_id, ad_id) VALUES (9, 24);
+INSERT INTO attr_min (frd_id, ad_id) VALUES (8, 24);
+INSERT INTO attr_min (frd_id, ad_id) VALUES (14, 24);
+INSERT INTO attr_min (frd_id, ad_id) VALUES (16, 1);
+INSERT INTO attr_min (frd_id, ad_id) VALUES (16, 17);
+INSERT INTO attr_min (frd_id, ad_id) VALUES (16, 18);
+INSERT INTO attr_min (frd_id, ad_id) VALUES (16, 25);
+INSERT INTO attr_min (frd_id, ad_id) VALUES (16, 26);
+INSERT INTO attr_min (frd_id, ad_id) VALUES (16, 27);
 
 
 --
@@ -428,12 +499,72 @@ INSERT INTO attr_value (jft_id, av_text) VALUES (157, '1');
 INSERT INTO attr_value (jft_id, av_text) VALUES (158, '');
 INSERT INTO attr_value (jft_id, av_text) VALUES (159, '');
 INSERT INTO attr_value (jft_id, av_text) VALUES (160, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (346, 'FID1');
+INSERT INTO attr_value (jft_id, av_text) VALUES (347, 'FID2');
+INSERT INTO attr_value (jft_id, av_text) VALUES (348, 'FID3');
+INSERT INTO attr_value (jft_id, av_text) VALUES (349, 'FID4');
+INSERT INTO attr_value (jft_id, av_text) VALUES (350, 'FID5');
+INSERT INTO attr_value (jft_id, av_text) VALUES (351, 'FID6');
+INSERT INTO attr_value (jft_id, av_text) VALUES (352, 'FID7');
+INSERT INTO attr_value (jft_id, av_text) VALUES (353, 'FID8');
+INSERT INTO attr_value (jft_id, av_text) VALUES (354, 'FID9');
+INSERT INTO attr_value (jft_id, av_text) VALUES (355, 'FID10');
+INSERT INTO attr_value (jft_id, av_text) VALUES (356, 'FID11');
+INSERT INTO attr_value (jft_id, av_text) VALUES (357, 'FID12');
+INSERT INTO attr_value (jft_id, av_text) VALUES (358, 'FID13');
+INSERT INTO attr_value (jft_id, av_text) VALUES (359, 'FID14');
+INSERT INTO attr_value (jft_id, av_text) VALUES (360, 'FID15');
+INSERT INTO attr_value (jft_id, av_text) VALUES (361, 'FID16');
+INSERT INTO attr_value (jft_id, av_text) VALUES (362, 'FID17');
+INSERT INTO attr_value (jft_id, av_text) VALUES (363, 'FID18');
+INSERT INTO attr_value (jft_id, av_text) VALUES (364, 'FID19');
+INSERT INTO attr_value (jft_id, av_text) VALUES (365, 'FID20');
+INSERT INTO attr_value (jft_id, av_text) VALUES (366, 'FID21');
+INSERT INTO attr_value (jft_id, av_text) VALUES (367, 'FID22');
+INSERT INTO attr_value (jft_id, av_text) VALUES (368, 'FID24');
 
 
 --
 -- Data for Name: centralized; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
+
+
+--
+-- Data for Name: document; Type: TABLE DATA; Schema: public; Owner: phpcompta
+--
+
+
+
+--
+-- Data for Name: document_modele; Type: TABLE DATA; Schema: public; Owner: phpcompta
+--
+
+
+
+--
+-- Data for Name: document_state; Type: TABLE DATA; Schema: public; Owner: phpcompta
+--
+
+INSERT INTO document_state (s_id, s_value) VALUES (1, 'Envoyé');
+INSERT INTO document_state (s_id, s_value) VALUES (2, 'Brouillon');
+INSERT INTO document_state (s_id, s_value) VALUES (3, 'A envoyer');
+INSERT INTO document_state (s_id, s_value) VALUES (4, 'Reçu');
+
+
+--
+-- Data for Name: document_type; Type: TABLE DATA; Schema: public; Owner: phpcompta
+--
+
+INSERT INTO document_type (dt_id, dt_value) VALUES (1, 'Document Interne');
+INSERT INTO document_type (dt_id, dt_value) VALUES (2, 'Bons de commande client');
+INSERT INTO document_type (dt_id, dt_value) VALUES (3, 'Bon de commande Fournisseur');
+INSERT INTO document_type (dt_id, dt_value) VALUES (4, 'Facture');
+INSERT INTO document_type (dt_id, dt_value) VALUES (5, 'Lettre de rappel');
+INSERT INTO document_type (dt_id, dt_value) VALUES (6, 'Courrier');
+INSERT INTO document_type (dt_id, dt_value) VALUES (7, 'Proposition');
+INSERT INTO document_type (dt_id, dt_value) VALUES (8, 'Email');
+INSERT INTO document_type (dt_id, dt_value) VALUES (9, 'Divers');
 
 
 --
@@ -497,16 +628,51 @@ INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (10, 'Salair
 INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (11, 'Salaire Ouvrier', 6411);
 INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (12, 'Salaire Employé', 6411);
 INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (6, 'Prêt < a un an', NULL);
+INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (16, 'Contact', NULL);
 
 
 --
 -- Data for Name: form; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
+INSERT INTO form (fo_id, fo_fr_id, fo_pos, fo_label, fo_formula) VALUES (3000398, 3000000, 1, 'Prestation [ case 03 ]', '[700%]-[7000005]');
+INSERT INTO form (fo_id, fo_fr_id, fo_pos, fo_label, fo_formula) VALUES (3000399, 3000000, 2, 'Prestation intra [ case 47 ]', '[7000005]');
+INSERT INTO form (fo_id, fo_fr_id, fo_pos, fo_label, fo_formula) VALUES (3000400, 3000000, 3, 'Tva due   [case 54]', '[4513]+[4512]+[4511] FROM=01.2005');
+INSERT INTO form (fo_id, fo_fr_id, fo_pos, fo_label, fo_formula) VALUES (3000401, 3000000, 4, 'Marchandises, matière première et auxiliaire [case 81 ]', '[60%]');
+INSERT INTO form (fo_id, fo_fr_id, fo_pos, fo_label, fo_formula) VALUES (3000402, 3000000, 7, 'Service et bien divers [case 82]', '[61%]');
+INSERT INTO form (fo_id, fo_fr_id, fo_pos, fo_label, fo_formula) VALUES (3000403, 3000000, 8, 'bien d''invest [ case 83 ]', '[2400%]');
+INSERT INTO form (fo_id, fo_fr_id, fo_pos, fo_label, fo_formula) VALUES (3000404, 3000000, 9, 'TVA déductible [ case 59 ]', 'abs([4117]-[411%])');
+INSERT INTO form (fo_id, fo_fr_id, fo_pos, fo_label, fo_formula) VALUES (3000405, 3000000, 8, 'TVA non ded -> voiture', '[610022]*0.21/2');
+INSERT INTO form (fo_id, fo_fr_id, fo_pos, fo_label, fo_formula) VALUES (3000406, 3000000, 9, 'Acompte TVA', '[4117]');
+
+
+--
+-- Data for Name: format_csv_banque; Type: TABLE DATA; Schema: public; Owner: phpcompta
+--
+
+INSERT INTO format_csv_banque (name, include_file) VALUES ('Fortis', 'fortis_be.inc.php');
+INSERT INTO format_csv_banque (name, include_file) VALUES ('EUB', 'eub_be.inc.php');
+INSERT INTO format_csv_banque (name, include_file) VALUES ('ING', 'ing_be.inc.php');
+INSERT INTO format_csv_banque (name, include_file) VALUES ('CBC', 'cbc_be.inc.php');
+INSERT INTO format_csv_banque (name, include_file) VALUES ('Argenta Belgique', 'argenta_be.inc.php');
+INSERT INTO format_csv_banque (name, include_file) VALUES ('CBC Belgique', 'cbc_be.inc.php');
 
 
 --
 -- Data for Name: formdef; Type: TABLE DATA; Schema: public; Owner: phpcompta
+--
+
+INSERT INTO formdef (fr_id, fr_label) VALUES (3000000, 'TVA déclaration Belge');
+
+
+--
+-- Data for Name: import_tmp; Type: TABLE DATA; Schema: public; Owner: phpcompta
+--
+
+
+
+--
+-- Data for Name: invoice; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
 
@@ -675,6 +841,29 @@ INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (157, 22, 2);
 INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (158, 22, 6);
 INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (159, 22, 7);
 INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (160, 22, 19);
+INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (346, 1, 23);
+INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (347, 2, 23);
+INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (348, 3, 23);
+INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (349, 4, 23);
+INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (350, 5, 23);
+INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (351, 6, 23);
+INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (352, 7, 23);
+INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (353, 8, 23);
+INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (354, 9, 23);
+INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (355, 10, 23);
+INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (356, 11, 23);
+INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (357, 12, 23);
+INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (358, 13, 23);
+INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (359, 14, 23);
+INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (360, 15, 23);
+INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (361, 16, 23);
+INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (362, 17, 23);
+INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (363, 18, 23);
+INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (364, 19, 23);
+INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (365, 20, 23);
+INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (366, 21, 23);
+INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (367, 22, 23);
+INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (368, 24, 23);
 
 
 --
@@ -729,6 +918,16 @@ INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (7, 5);
 INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (7, 1);
 INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (7, 2);
 INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (7, 7);
+INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (5, 23);
+INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (6, 23);
+INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (2, 23);
+INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (4, 23);
+INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (3, 23);
+INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (1, 23);
+INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (7, 23);
+INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (2, 24);
+INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (4, 24);
+INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (2, 24);
 
 
 --
@@ -796,13 +995,32 @@ INSERT INTO parameter (pr_id, pr_value) VALUES ('MY_COMMUNE', NULL);
 INSERT INTO parameter (pr_id, pr_value) VALUES ('MY_TVA', NULL);
 INSERT INTO parameter (pr_id, pr_value) VALUES ('MY_STREET', NULL);
 INSERT INTO parameter (pr_id, pr_value) VALUES ('MY_NUMBER', NULL);
+INSERT INTO parameter (pr_id, pr_value) VALUES ('MY_TEL', NULL);
+INSERT INTO parameter (pr_id, pr_value) VALUES ('MY_PAYS', NULL);
+INSERT INTO parameter (pr_id, pr_value) VALUES ('MY_FAX', NULL);
+
+
+--
+-- Data for Name: parm_code; Type: TABLE DATA; Schema: public; Owner: phpcompta
+--
+
+INSERT INTO parm_code (p_code, p_value, p_comment) VALUES ('DNA', '6740', 'Dépense non déductible');
+INSERT INTO parm_code (p_code, p_value, p_comment) VALUES ('CUSTOMER', '400', 'Poste comptable de base pour les clients');
+INSERT INTO parm_code (p_code, p_value, p_comment) VALUES ('COMPTE_TVA', '451', 'TVA à payer');
+INSERT INTO parm_code (p_code, p_value, p_comment) VALUES ('BANQUE', '550', 'Poste comptable de base pour les banques');
+INSERT INTO parm_code (p_code, p_value, p_comment) VALUES ('VIREMENT_INTERNE', '58', 'Poste Comptable pour les virements internes');
+INSERT INTO parm_code (p_code, p_value, p_comment) VALUES ('COMPTE_COURANT', '56', 'Poste comptable pour le compte courant');
+INSERT INTO parm_code (p_code, p_value, p_comment) VALUES ('CAISSE', '57', 'Poste comptable pour la caisse');
+INSERT INTO parm_code (p_code, p_value, p_comment) VALUES ('TVA_DNA', '6740', 'Tva non déductible s');
+INSERT INTO parm_code (p_code, p_value, p_comment) VALUES ('TVA_DED_IMPOT', '619000', 'Tva déductible par l''impôt');
+INSERT INTO parm_code (p_code, p_value, p_comment) VALUES ('VENTE', '70', 'Poste comptable de base pour les ventes');
 
 
 --
 -- Data for Name: parm_money; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
-INSERT INTO parm_money (pm_id, pm_code, pm_rate) VALUES (1, 'EUR', 1);
+INSERT INTO parm_money (pm_id, pm_code, pm_rate) VALUES (1, 'EUR', 1.0000);
 
 
 --
@@ -835,6 +1053,12 @@ INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed, p_central)
 INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed, p_central) VALUES (76, '2006-11-01', '2006-11-30', '2006', false, false);
 INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed, p_central) VALUES (77, '2006-12-01', '2006-12-31', '2006', false, false);
 INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed, p_central) VALUES (78, '2006-12-31', '2006-12-31', '2006', false, false);
+
+
+--
+-- Data for Name: quant_sold; Type: TABLE DATA; Schema: public; Owner: phpcompta
+--
+
 
 
 --
@@ -1815,21 +2039,21 @@ INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent, pcm_country) VALUES (8, 
 -- Data for Name: tva_rate; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
-INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (5, '0%', 0, 'Pas soumis à la TVA', NULL);
-INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (5, '0%', 0, 'Pas soumis à la TVA', NULL);
-INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (5, '0%', 0, 'Pas soumis à la TVA', NULL);
-INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (5, '0%', 0, 'Pas soumis à la TVA', NULL);
-INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (5, '0%', 0, 'Pas soumis à la TVA', NULL);
-INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (5, '0%', 0, 'Pas soumis à la TVA', NULL);
-INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (5, '0%', 0, 'Pas soumis à la TVA', NULL);
-INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (5, '0%', 0, 'Pas soumis à la TVA', NULL);
-INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (5, '0%', 0, 'Pas soumis à la TVA', NULL);
-INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (5, '0%', 0, 'Pas soumis à la TVA', NULL);
-INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (5, '0%', 0, 'Pas soumis à la TVA', NULL);
-INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (1, '19.6%', 0.19600000000000001, 'TVA ', '44566,44571');
-INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (2, '5.5%', 0.055, 'TVA réduite', '44566,44571');
-INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (3, '2.1%', 0.021000000000000001, 'TVA réduite', '44566,44571');
-INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (4, '0%', 0, 'Tva applicable lors de vente/achat intracommunautaire ', '44566,44571');
+INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (5, '0%', 0.0000, 'Pas soumis à la TVA', NULL);
+INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (5, '0%', 0.0000, 'Pas soumis à la TVA', NULL);
+INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (5, '0%', 0.0000, 'Pas soumis à la TVA', NULL);
+INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (5, '0%', 0.0000, 'Pas soumis à la TVA', NULL);
+INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (5, '0%', 0.0000, 'Pas soumis à la TVA', NULL);
+INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (5, '0%', 0.0000, 'Pas soumis à la TVA', NULL);
+INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (5, '0%', 0.0000, 'Pas soumis à la TVA', NULL);
+INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (5, '0%', 0.0000, 'Pas soumis à la TVA', NULL);
+INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (5, '0%', 0.0000, 'Pas soumis à la TVA', NULL);
+INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (5, '0%', 0.0000, 'Pas soumis à la TVA', NULL);
+INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (5, '0%', 0.0000, 'Pas soumis à la TVA', NULL);
+INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (1, '19.6%', 0.1960, 'TVA ', '44566,44571');
+INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (2, '5.5%', 0.0550, 'TVA réduite', '44566,44571');
+INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (3, '2.1%', 0.0210, 'TVA réduite', '44566,44571');
+INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (4, '0%', 0.0000, 'Tva applicable lors de vente/achat intracommunautaire ', '44566,44571');
 
 
 --
@@ -1838,14 +2062,6 @@ INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUE
 
 INSERT INTO user_local_pref (user_id, parameter_type, parameter_value) VALUES ('dany', 'PERIODE', '30');
 INSERT INTO user_local_pref (user_id, parameter_type, parameter_value) VALUES ('phpcompta', 'PERIODE', '40');
-
-
---
--- Data for Name: user_pref; Type: TABLE DATA; Schema: public; Owner: phpcompta
---
-
-INSERT INTO user_pref (pref_user, pref_periode) VALUES ('dany', 30);
-INSERT INTO user_pref (pref_user, pref_periode) VALUES ('phpcompta', 40);
 
 
 --
@@ -1868,7 +2084,7 @@ INSERT INTO user_sec_jrn (uj_id, uj_login, uj_jrn_id, uj_priv) VALUES (4, 'phpco
 -- Data for Name: version; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
-INSERT INTO version (val) VALUES (8);
+INSERT INTO version (val) VALUES (14);
 
 
 --
@@ -1876,460 +2092,144 @@ INSERT INTO version (val) VALUES (8);
 --
 
 
---
--- Name: action_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
+ALTER TABLE ONLY action_gestion
+    ADD CONSTRAINT action_gestion_pkey PRIMARY KEY (ag_id);
 
 ALTER TABLE ONLY "action"
     ADD CONSTRAINT action_pkey PRIMARY KEY (ac_id);
 
-
-ALTER INDEX public.action_pkey OWNER TO phpcompta;
-
---
--- Name: attr_def_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
-
 ALTER TABLE ONLY attr_def
     ADD CONSTRAINT attr_def_pkey PRIMARY KEY (ad_id);
-
-
-ALTER INDEX public.attr_def_pkey OWNER TO phpcompta;
-
---
--- Name: centralized_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 ALTER TABLE ONLY centralized
     ADD CONSTRAINT centralized_pkey PRIMARY KEY (c_id);
 
+ALTER TABLE ONLY document_modele
+    ADD CONSTRAINT document_modele_pkey PRIMARY KEY (md_id);
 
-ALTER INDEX public.centralized_pkey OWNER TO phpcompta;
+ALTER TABLE ONLY document
+    ADD CONSTRAINT document_pkey PRIMARY KEY (d_id);
 
---
--- Name: fiche_def_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
+ALTER TABLE ONLY document_state
+    ADD CONSTRAINT document_state_pkey PRIMARY KEY (s_id);
+
+ALTER TABLE ONLY document_type
+    ADD CONSTRAINT document_type_pkey PRIMARY KEY (dt_id);
 
 ALTER TABLE ONLY fiche_def
     ADD CONSTRAINT fiche_def_pkey PRIMARY KEY (fd_id);
 
-
-ALTER INDEX public.fiche_def_pkey OWNER TO phpcompta;
-
---
--- Name: fiche_def_ref_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
-
 ALTER TABLE ONLY fiche_def_ref
     ADD CONSTRAINT fiche_def_ref_pkey PRIMARY KEY (frd_id);
-
-
-ALTER INDEX public.fiche_def_ref_pkey OWNER TO phpcompta;
-
---
--- Name: fiche_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 ALTER TABLE ONLY fiche
     ADD CONSTRAINT fiche_pkey PRIMARY KEY (f_id);
 
-
-ALTER INDEX public.fiche_pkey OWNER TO phpcompta;
-
---
--- Name: form_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
-
 ALTER TABLE ONLY form
     ADD CONSTRAINT form_pkey PRIMARY KEY (fo_id);
 
-
-ALTER INDEX public.form_pkey OWNER TO phpcompta;
-
---
--- Name: formdef_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
+ALTER TABLE ONLY format_csv_banque
+    ADD CONSTRAINT format_csv_banque_pkey PRIMARY KEY (name);
 
 ALTER TABLE ONLY formdef
     ADD CONSTRAINT formdef_pkey PRIMARY KEY (fr_id);
 
-
-ALTER INDEX public.formdef_pkey OWNER TO phpcompta;
-
---
--- Name: jnt_fic_att_value_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
+ALTER TABLE ONLY invoice
+    ADD CONSTRAINT invoice_pkey PRIMARY KEY (iv_id);
 
 ALTER TABLE ONLY jnt_fic_att_value
     ADD CONSTRAINT jnt_fic_att_value_pkey PRIMARY KEY (jft_id);
 
-
-ALTER INDEX public.jnt_fic_att_value_pkey OWNER TO phpcompta;
-
---
--- Name: jrn_action_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
-
 ALTER TABLE ONLY jrn_action
     ADD CONSTRAINT jrn_action_pkey PRIMARY KEY (ja_id);
-
-
-ALTER INDEX public.jrn_action_pkey OWNER TO phpcompta;
-
---
--- Name: jrn_def_jrn_def_name_key; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 ALTER TABLE ONLY jrn_def
     ADD CONSTRAINT jrn_def_jrn_def_name_key UNIQUE (jrn_def_name);
 
-
-ALTER INDEX public.jrn_def_jrn_def_name_key OWNER TO phpcompta;
-
---
--- Name: jrn_def_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
-
 ALTER TABLE ONLY jrn_def
     ADD CONSTRAINT jrn_def_pkey PRIMARY KEY (jrn_def_id);
-
-
-ALTER INDEX public.jrn_def_pkey OWNER TO phpcompta;
-
---
--- Name: jrn_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 ALTER TABLE ONLY jrn
     ADD CONSTRAINT jrn_pkey PRIMARY KEY (jr_id, jr_def_id);
 
-
-ALTER INDEX public.jrn_pkey OWNER TO phpcompta;
-
---
--- Name: jrn_rapt_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
-
 ALTER TABLE ONLY jrn_rapt
     ADD CONSTRAINT jrn_rapt_pkey PRIMARY KEY (jra_id);
-
-
-ALTER INDEX public.jrn_rapt_pkey OWNER TO phpcompta;
-
---
--- Name: jrn_type_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 ALTER TABLE ONLY jrn_type
     ADD CONSTRAINT jrn_type_pkey PRIMARY KEY (jrn_type_id);
 
-
-ALTER INDEX public.jrn_type_pkey OWNER TO phpcompta;
-
---
--- Name: jrnx_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
-
 ALTER TABLE ONLY jrnx
     ADD CONSTRAINT jrnx_pkey PRIMARY KEY (j_id);
-
-
-ALTER INDEX public.jrnx_pkey OWNER TO phpcompta;
-
---
--- Name: parameter_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 ALTER TABLE ONLY parameter
     ADD CONSTRAINT parameter_pkey PRIMARY KEY (pr_id);
 
-
-ALTER INDEX public.parameter_pkey OWNER TO phpcompta;
-
---
--- Name: parm_money_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
+ALTER TABLE ONLY parm_code
+    ADD CONSTRAINT parm_code_pkey PRIMARY KEY (p_code);
 
 ALTER TABLE ONLY parm_money
     ADD CONSTRAINT parm_money_pkey PRIMARY KEY (pm_code);
 
-
-ALTER INDEX public.parm_money_pkey OWNER TO phpcompta;
-
---
--- Name: parm_periode_p_start_key; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
-
 ALTER TABLE ONLY parm_periode
     ADD CONSTRAINT parm_periode_p_start_key UNIQUE (p_start);
-
-
-ALTER INDEX public.parm_periode_p_start_key OWNER TO phpcompta;
-
---
--- Name: parm_periode_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 ALTER TABLE ONLY parm_periode
     ADD CONSTRAINT parm_periode_pkey PRIMARY KEY (p_id);
 
-
-ALTER INDEX public.parm_periode_pkey OWNER TO phpcompta;
-
---
--- Name: pk_user_local_pref; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
-
 ALTER TABLE ONLY user_local_pref
     ADD CONSTRAINT pk_user_local_pref PRIMARY KEY (user_id, parameter_type);
 
-
-ALTER INDEX public.pk_user_local_pref OWNER TO phpcompta;
-
---
--- Name: stock_goods_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
+ALTER TABLE ONLY quant_sold
+    ADD CONSTRAINT qs_id_pk PRIMARY KEY (qs_id);
 
 ALTER TABLE ONLY stock_goods
     ADD CONSTRAINT stock_goods_pkey PRIMARY KEY (sg_id);
 
-
-ALTER INDEX public.stock_goods_pkey OWNER TO phpcompta;
-
---
--- Name: tmp_pcmn_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
-
 ALTER TABLE ONLY tmp_pcmn
     ADD CONSTRAINT tmp_pcmn_pkey PRIMARY KEY (pcm_val);
-
-
-ALTER INDEX public.tmp_pcmn_pkey OWNER TO phpcompta;
-
---
--- Name: user_pref_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
-
-ALTER TABLE ONLY user_pref
-    ADD CONSTRAINT user_pref_pkey PRIMARY KEY (pref_user);
-
-
-ALTER INDEX public.user_pref_pkey OWNER TO phpcompta;
-
---
--- Name: user_sec_act_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 ALTER TABLE ONLY user_sec_act
     ADD CONSTRAINT user_sec_act_pkey PRIMARY KEY (ua_id);
 
-
-ALTER INDEX public.user_sec_act_pkey OWNER TO phpcompta;
-
---
--- Name: user_sec_jrn_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
-
 ALTER TABLE ONLY user_sec_jrn
     ADD CONSTRAINT user_sec_jrn_pkey PRIMARY KEY (uj_id);
-
-
-ALTER INDEX public.user_sec_jrn_pkey OWNER TO phpcompta;
-
---
--- Name: fk_stock_goods_f_id; Type: INDEX; Schema: public; Owner: phpcompta; Tablespace: 
---
-
-CREATE INDEX fk_stock_goods_f_id ON stock_goods USING btree (f_id);
-
-
-ALTER INDEX public.fk_stock_goods_f_id OWNER TO phpcompta;
-
---
--- Name: fk_stock_goods_j_id; Type: INDEX; Schema: public; Owner: phpcompta; Tablespace: 
---
-
-CREATE INDEX fk_stock_goods_j_id ON stock_goods USING btree (j_id);
-
-
-ALTER INDEX public.fk_stock_goods_j_id OWNER TO phpcompta;
-
---
--- Name: x_jrn_jr_id; Type: INDEX; Schema: public; Owner: phpcompta; Tablespace: 
---
-
-CREATE UNIQUE INDEX x_jrn_jr_id ON jrn USING btree (jr_id);
-
-
-ALTER INDEX public.x_jrn_jr_id OWNER TO phpcompta;
-
---
--- Name: x_poste; Type: INDEX; Schema: public; Owner: phpcompta; Tablespace: 
---
-
-CREATE INDEX x_poste ON jrnx USING btree (j_poste);
-
-
-ALTER INDEX public.x_poste OWNER TO phpcompta;
-
---
--- Name: tr_jrn_check_balance; Type: TRIGGER; Schema: public; Owner: phpcompta
---
-
-CREATE TRIGGER tr_jrn_check_balance
-    AFTER INSERT ON jrn
-    FOR EACH ROW
-    EXECUTE PROCEDURE proc_check_balance();
-
-
---
--- Name: $1; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
-
 ALTER TABLE ONLY jrn_def
     ADD CONSTRAINT "$1" FOREIGN KEY (jrn_def_type) REFERENCES jrn_type(jrn_type_id);
-
-
---
--- Name: $1; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
-
-ALTER TABLE ONLY jrnx
-    ADD CONSTRAINT "$1" FOREIGN KEY (j_poste) REFERENCES tmp_pcmn(pcm_val);
-
-
---
--- Name: $1; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
-
 ALTER TABLE ONLY form
     ADD CONSTRAINT "$1" FOREIGN KEY (fo_fr_id) REFERENCES formdef(fr_id);
-
-
---
--- Name: $1; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
-
 ALTER TABLE ONLY centralized
     ADD CONSTRAINT "$1" FOREIGN KEY (c_jrn_def) REFERENCES jrn_def(jrn_def_id);
-
-
---
--- Name: $1; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
-
 ALTER TABLE ONLY user_sec_jrn
     ADD CONSTRAINT "$1" FOREIGN KEY (uj_jrn_id) REFERENCES jrn_def(jrn_def_id);
-
-
---
--- Name: $1; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
-
 ALTER TABLE ONLY user_sec_act
     ADD CONSTRAINT "$1" FOREIGN KEY (ua_act_id) REFERENCES "action"(ac_id);
-
-
---
--- Name: $1; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
-
 ALTER TABLE ONLY jrn_action
     ADD CONSTRAINT "$1" FOREIGN KEY (ja_jrn_type) REFERENCES jrn_type(jrn_type_id);
-
-
---
--- Name: $1; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
-
 ALTER TABLE ONLY attr_min
     ADD CONSTRAINT "$1" FOREIGN KEY (frd_id) REFERENCES fiche_def_ref(frd_id);
-
-
---
--- Name: $1; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
-
 ALTER TABLE ONLY jnt_fic_att_value
     ADD CONSTRAINT "$1" FOREIGN KEY (f_id) REFERENCES fiche(f_id);
-
-
---
--- Name: $1; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
-
 ALTER TABLE ONLY attr_value
     ADD CONSTRAINT "$1" FOREIGN KEY (jft_id) REFERENCES jnt_fic_att_value(jft_id);
-
-
---
--- Name: $1; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
-
 ALTER TABLE ONLY jnt_fic_attr
     ADD CONSTRAINT "$1" FOREIGN KEY (fd_id) REFERENCES fiche_def(fd_id);
-
-
---
--- Name: $1; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
-
 ALTER TABLE ONLY jrn
     ADD CONSTRAINT "$1" FOREIGN KEY (jr_def_id) REFERENCES jrn_def(jrn_def_id);
-
-
---
--- Name: $1; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
-
 ALTER TABLE ONLY fiche
     ADD CONSTRAINT "$1" FOREIGN KEY (fd_id) REFERENCES fiche_def(fd_id);
-
-
---
--- Name: $1; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
-
 ALTER TABLE ONLY fiche_def
     ADD CONSTRAINT "$1" FOREIGN KEY (frd_id) REFERENCES fiche_def_ref(frd_id);
-
-
---
--- Name: $2; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
-
+ALTER TABLE ONLY jrnx
+    ADD CONSTRAINT "$1" FOREIGN KEY (j_poste) REFERENCES tmp_pcmn(pcm_val);
 ALTER TABLE ONLY jrnx
     ADD CONSTRAINT "$2" FOREIGN KEY (j_jrn_def) REFERENCES jrn_def(jrn_def_id);
-
-
---
--- Name: $2; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
-
-ALTER TABLE ONLY centralized
-    ADD CONSTRAINT "$2" FOREIGN KEY (c_poste) REFERENCES tmp_pcmn(pcm_val);
-
-
---
--- Name: $2; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
-
 ALTER TABLE ONLY attr_min
     ADD CONSTRAINT "$2" FOREIGN KEY (ad_id) REFERENCES attr_def(ad_id);
-
-
---
--- Name: $2; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
-
 ALTER TABLE ONLY jnt_fic_att_value
     ADD CONSTRAINT "$2" FOREIGN KEY (ad_id) REFERENCES attr_def(ad_id);
-
-
---
--- Name: $2; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
-
 ALTER TABLE ONLY jnt_fic_attr
     ADD CONSTRAINT "$2" FOREIGN KEY (ad_id) REFERENCES attr_def(ad_id);
-
+ALTER TABLE ONLY centralized
+    ADD CONSTRAINT "$2" FOREIGN KEY (c_poste) REFERENCES tmp_pcmn(pcm_val);
+ALTER TABLE ONLY document_modele
+    ADD CONSTRAINT md_type FOREIGN KEY (md_type) REFERENCES document_type(dt_id);

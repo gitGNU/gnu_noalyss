@@ -1,2 +1,11 @@
-CREATE INDEX fk_jnt_use_dos ON jnt_use_dos USING btree (use_id);
+ALTER INDEX public.ac_dossier_dos_name_key OWNER TO phpcompta;
+ALTER INDEX public.ac_dossier_pkey OWNER TO phpcompta;
+ALTER INDEX public.ac_users_pkey OWNER TO phpcompta;
+ALTER INDEX public.ac_users_use_login_key OWNER TO phpcompta;
+ALTER INDEX public.jnt_use_dos_pkey OWNER TO phpcompta;
+ALTER INDEX public.modeledef_pkey OWNER TO phpcompta;
+ALTER INDEX public.pk_user_global_pref OWNER TO phpcompta;
 CREATE INDEX fk_jnt_dos_id ON jnt_use_dos USING btree (dos_id);
+ALTER INDEX public.fk_jnt_dos_id OWNER TO phpcompta;
+CREATE INDEX fk_jnt_use_dos ON jnt_use_dos USING btree (use_id);
+ALTER INDEX public.fk_jnt_use_dos OWNER TO phpcompta;
