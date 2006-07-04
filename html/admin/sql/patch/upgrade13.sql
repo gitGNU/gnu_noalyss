@@ -416,7 +416,7 @@ SELECT pg_catalog.setval(pg_catalog.pg_get_serial_sequence('document_state', 's_
 INSERT INTO document_state VALUES (1, 'Envoyé');
 INSERT INTO document_state VALUES (2, 'Brouillon');
 INSERT INTO document_state VALUES (3, 'A envoyer');
-INSERT INTO document_state VALUES (3, 'Reçu');
+INSERT INTO document_state VALUES (4, 'Reçu');
 
 ALTER TABLE ONLY document_state ADD CONSTRAINT document_state_pkey PRIMARY KEY (s_id);
 alter sequence s_attr_def restart with 24;
@@ -441,7 +441,7 @@ create table action_gestion (
 	ag_title varchar(70),
 	ag_timestamp timestamp default now(),
 	ag_cal char(1) default 'C',
-	g_ref_ag_id int4,
+	ag_ref_ag_id int4,
 	ag_comment text
 );
 
@@ -550,8 +550,10 @@ create  unique index k_ag_ref on action_gestion(ag_ref);
 update version set val=14;
 insert into action values(28,'Module Suivi Document');
 insert into action values(22,'Module Client');
-insert into action (24,'Module Fournisseur');
-insert into action (26,'Module Administration');
+insert into action values (24,'Module Fournisseur');
+insert into action values (26,'Module Administration');
 insert into action values (30,'Module Gestion');
 
+insert into format_csv_banque values ('Argenta Belgique','argenta_be.inc.php');
+insert into format_csv_banque values ('CBC Belgique','cbc_be.inc.php');
 commit;
