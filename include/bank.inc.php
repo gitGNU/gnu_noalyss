@@ -122,13 +122,14 @@ if ( $sub_action == "list")
    }
   // show the menu with the list item selected
   echo '<div class="u_subtmenu">';
-  echo ShowMenuJrnUser($_SESSION['g_dossier'],'FIN',0,'<td class="selectedcell">Liste</td>');
+  echo ShowMenuJrnUser($_SESSION['g_dossier'],'FIN',0,'<td class="selectedcell">Liste</td>'.
+		       '<td class="cell"><A class="mtitle" HREF="commercial.php?liste&p_action=bank&sa=solde">Solde</A></td>');
   echo '</div>';
 
   echo '<div class="u_redcontent">';
 
   
-
+  echo '<form>';
   $hid=new widget("hidden");
   
   $hid->name="p_action";
@@ -149,18 +150,19 @@ if ( $sub_action == "list")
   $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->GetPeriode();
   $w->selected=$current;
 
-  echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit','Valider');
+  echo 'Période  '.$w->IOValue("p_periode",$periode_start);
    $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
  echo JS_SEARCH_CARD;
  $w=new widget('js_search_only');
  $w->name='qcode';
  $w->value=$qcode;
- $w->label='qcode';
- $w->extra='4,8,9,14';
+ $w->label='';
+ $w->extra='4';
  $sp= new widget("span");
  echo $sp->IOValue("qcode_label",$qcode)."</TD></TR>";
  echo $w->IOValue();
-
+echo $w->Submit('gl_submit','Rechercher');
+  echo '</form>';
   echo $retour;
   // Show list of sell
   // Date - date of payment - Customer - amount

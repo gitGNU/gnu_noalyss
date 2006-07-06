@@ -110,9 +110,9 @@ class Admin extends fiche{
 	  " ".$admin->strAttribut(ATTR_DEF_PAYS).
 	  "</TD>";
 	$r.="<td>";
-	$r.=sprintf('<A HREF="%s?p_action=contact&qcode=%s&url=%s" title="Contact">C</A> - ',
+	$r.=sprintf('<A class="mtitle" HREF="%s?p_action=contact&qcode=%s&url=%s" title="Contact">C</A> - ',
 		    $script,$admin->strAttribut(ATTR_DEF_QUICKCODE),$url);
-	$r.=sprintf('<A HREF="%s?p_action=suivi_courrier&sa=list&qcode=%s&url=%s" title="Action">A</A> - ',
+	$r.=sprintf('<A class="mtitle" HREF="%s?p_action=suivi_courrier&sa=list&qcode=%s&url=%s" title="Action">A</A> - ',
 		    $script,$admin->strAttribut(ATTR_DEF_QUICKCODE) ,$url);
 
 	$r.='</TD>';

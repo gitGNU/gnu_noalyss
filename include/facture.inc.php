@@ -119,11 +119,21 @@ if ( $sub_action == "list")
   $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->GetPeriode();
   $w->selected=$current;
 
-  echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit','Valider');
+  echo 'Période  '.$w->IOValue("p_periode",$periode_start);
   $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
-  printf ('<span>Tiers QuickCode: <input type="text" name="qcode" value="%s"></span>',
-	   $qcode);
+  
+  echo JS_SEARCH_CARD;
+  $w=new widget('js_search_only');
+  $w->name='qcode';
+  $w->value=$qcode;
+  $w->label='';
+  $w->extra='9';
+  $w->table=0;
+  $sp= new widget("span");
 
+  echo $sp->IOValue("qcode_label","",$qcode);
+  echo $w->IOValue();
+echo $w->Submit('gl_submit','Rechercher');
   // Show list of sell
   // Date - date of payment - Customer - amount
   $sql=SQL_LIST_ALL_INVOICE." and jr_tech_per=".$current." and jr_def_type='VEN'" ;

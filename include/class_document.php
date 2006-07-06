@@ -80,7 +80,8 @@ class Document
     {
       // create a temp directory in /tmp to unpack file and to parse it
       $dirname=tempnam('/tmp','doc_');
-      echo $dirname;
+      
+
       unlink($dirname);
       mkdir ($dirname);
       echo_debug('class_action',__LINE__,"Dirname is $dirname");
@@ -107,9 +108,14 @@ class Document
       if ( strpos($row['md_mimetype'],'vnd.oasis') != 0 )
 	{
 	  echo_debug('class_document',__LINE__,'Unzip the OOo');
+	  echo '<span id="gen_msg">';
+	  echo '<blink><font color="red">Un moment de patience, le document se prépare...</font></blink>';
+	  echo '</span>';
+	  ob_start();
 	  system("unzip ".$filename);
 	  // Remove the file we do  not need anymore
 	  unlink($filename);
+	  ob_end_clean();
 	  $file_to_parse="content.xml";
 	  $type="OOo";
 	}
@@ -126,7 +132,11 @@ class Document
       // if the doc is a OOo, we need to re-zip it 
       if ( strpos($row['md_mimetype'],'vnd.oasis') != 0 )
 	{
+	  ob_start();
 	  system ("zip -r ".$filename." *");
+	  ob_end_clean();
+	  echo "le document est prêt  ";
+
 	  $file_to_parse=$filename;
 	}
       // Create a directory 

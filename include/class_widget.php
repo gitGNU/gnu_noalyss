@@ -394,7 +394,7 @@ class widget {
       if ( $this->table==1)
 	{
 	  $r=sprintf('<TD>
-         <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') value="Search">
+         <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') value="QuickCode">
             %s</TD><TD> <INPUT TYPE="Text" NAME="%s" VALUE="%s" SIZE="8" TABINDEX="%s">
                  ',
 	       $l_sessid,
@@ -410,7 +410,7 @@ class widget {
       else
 	{
 	  $r=sprintf('
-         <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') value="Search">
+         <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') value="QuickCode">
             %s <INPUT TYPE="Text" NAME="%s" VALUE="%s" SIZE="8" TABINDEX="%s">           ',
 	       $l_sessid,
 	       $this->extra,
