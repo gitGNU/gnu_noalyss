@@ -52,7 +52,7 @@ while (($data = fgetcsv($handle, 2000,'!@')) !== FALSE) {
 	  $montant=str_replace('+','',$montant);
 	  $devise=$row[1];
 	  $compte_ordre=$row[0];
-	  $detail=$row[7].$row[8].$row[9].$row[10];
+	  $detail=trim($row[7]).' '.trim($row[8]).' '.trim($row[9]).' '.trim($row[10]);
 	  if (  ereg('[0-9]{3}-[0-9]{7}-[0-9]{2}',$row[7],$r) )
 	    {
 	      $compte_ordre=$r[0];

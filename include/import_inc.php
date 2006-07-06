@@ -154,7 +154,9 @@ function TransferCSV($p_cn, $periode){
       //remove annoying double-quote
       $num_compte=str_replace('"','',$num_compte);
       $code=str_replace('\"','',$code);
-      
+      if ( strlen(trim($num_compte)) == 0 )
+	$num_compte=$val['detail'];
+
       $r=InsertJrn($p_cn,$date_exec,NULL,$jrn,$num_compte." ".$code,$montant,$seq,$periode);
       if ( $r == false ) { Rollback($p_cn); exit(" Error 'import_inc.php' __LINE__");}
       
