@@ -194,7 +194,7 @@ Get all the available folders for the users, checked with the security.
 <p>
 Definition at line <a class="el" href="user__menu_8php-source.html#l00090">90</a> of file <a class="el" href="user__menu_8php-source.html">user_menu.php</a>.
 <p>
-References <a class="el" href="recherche_8php-source.html#l00066">$array</a>, <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="jrn__pdf_8php-source.html#l00069">$filter</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00167">$sql</a>, <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
+References <a class="el" href="recherche_8php-source.html#l00066">$array</a>, <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="jrn__pdf_8php-source.html#l00069">$filter</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
 <p>
 Referenced by <a class="el" href="user__menu_8php-source.html#l00037">u_ShowDossier()</a>.<div class="fragment"><pre class="fragment"><a name="l00091"></a>00091 {
 <a name="l00092"></a>00092   <a class="code" href="jrn__pdf_8php.html#a7">$filter</a>=<span class="stringliteral">""</span>;
@@ -376,7 +376,7 @@ Show the menu in the jrn page.
 <p>
 Definition at line <a class="el" href="user__menu_8php-source.html#l00630">630</a> of file <a class="el" href="user__menu_8php-source.html">user_menu.php</a>.
 <p>
-References <a class="el" href="jrn__detail_8php-source.html#l00128">$l_line</a>, <a class="el" href="setup_8php-source.html#l00379">$Max</a>, <a class="el" href="line__update_8php-source.html#l00070">$Ret</a>, <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00631"></a>00631 {
+References <a class="el" href="jrn__detail_8php-source.html#l00128">$l_line</a>, <a class="el" href="setup_8php-source.html#l00395">$Max</a>, <a class="el" href="line__update_8php-source.html#l00070">$Ret</a>, <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00631"></a>00631 {
 <a name="l00632"></a>00632     echo '&lt;TABLE&gt;';
 <a name="l00633"></a>00633     echo '&lt;TR&gt;&lt;TD <span class="keyword">class</span>=<span class="stringliteral">"mtitle"</span>&gt;&lt;A <span class="keyword">class</span>=<span class="stringliteral">"mtitle"</span> HREF=<span class="stringliteral">"jrn_add.php"</span>&gt;Création &lt;/A&gt;&lt;/TD&gt;&lt;/TR&gt;';
 <a name="l00634"></a>00634     include_once(<span class="stringliteral">"postgres.php"</span>);
@@ -489,7 +489,7 @@ build the menu of <a class="el" href="user__advanced_8php.html">user_advanced.ph
 <p>
 Definition at line <a class="el" href="user__menu_8php-source.html#l00477">477</a> of file <a class="el" href="user__menu_8php-source.html">user_menu.php</a>.
 <p>
-References <a class="el" href="stock_8php-source.html#l00067">$left_menu</a>, <a class="el" href="bank_8inc_8php-source.html#l00235">$r</a>, <a class="el" href="central__inc_8php-source.html#l00036">Centralise()</a>, and <a class="el" href="ac__common_8php-source.html#l00226">ShowItem()</a>.<div class="fragment"><pre class="fragment"><a name="l00477"></a>00477                                        {
+References <a class="el" href="stock_8php-source.html#l00067">$left_menu</a>, <a class="el" href="bank_8inc_8php-source.html#l00237">$r</a>, <a class="el" href="central__inc_8php-source.html#l00036">Centralise()</a>, and <a class="el" href="ac__common_8php-source.html#l00226">ShowItem()</a>.<div class="fragment"><pre class="fragment"><a name="l00477"></a>00477                                        {
 <a name="l00478"></a>00478 <span class="comment">// Show the left menu</span>
 <a name="l00479"></a>00479 <a class="code" href="stock_8php.html#a2">$left_menu</a>=<a class="code" href="ac__common_8php.html#a10">ShowItem</a>(array(
 <a name="l00480"></a>00480                           <span class="comment">//('rapprt.php','Rapprochement'),</span>
@@ -560,7 +560,7 @@ show the top menu for the user profile and highight the selected one
 <p>
 Definition at line <a class="el" href="user__menu_8php-source.html#l00132">132</a> of file <a class="el" href="user__menu_8php-source.html">user_menu.php</a>.
 <p>
-References <a class="el" href="user__impress_8php-source.html#l00059">$default</a>, <a class="el" href="user__impress_8php-source.html#l00051">$p_array</a>, <a class="el" href="bank_8inc_8php-source.html#l00235">$r</a>, <a class="el" href="export__ouv_8php-source.html#l00077">$result</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="ac__common_8php-source.html#l00226">ShowItem()</a>, and <a class="el" href="tva_8inc_8php-source.html#l00215">width</a>.<div class="fragment"><pre class="fragment"><a name="l00133"></a>00133 {
+References <a class="el" href="user__impress_8php-source.html#l00059">$default</a>, <a class="el" href="user__impress_8php-source.html#l00051">$p_array</a>, <a class="el" href="bank_8inc_8php-source.html#l00237">$r</a>, <a class="el" href="export__ouv_8php-source.html#l00077">$result</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="ac__common_8php-source.html#l00226">ShowItem()</a>, and <a class="el" href="tva_8inc_8php-source.html#l00215">width</a>.<div class="fragment"><pre class="fragment"><a name="l00133"></a>00133 {
 <a name="l00134"></a>00134   include_once(<span class="stringliteral">"postgres.php"</span>);
 <a name="l00135"></a>00135 
 <a name="l00136"></a>00136   <span class="comment">// find our current menu</span>
@@ -645,7 +645,7 @@ Show the left menu for the report (add a report, view it).
 <p>
 Definition at line <a class="el" href="user__menu_8php-source.html#l00683">683</a> of file <a class="el" href="user__menu_8php-source.html">user_menu.php</a>.
 <p>
-References <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="jrn__detail_8php-source.html#l00128">$l_line</a>, <a class="el" href="setup_8php-source.html#l00379">$Max</a>, <a class="el" href="line__update_8php-source.html#l00070">$Ret</a>, <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00683"></a>00683                                         {
+References <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="jrn__detail_8php-source.html#l00128">$l_line</a>, <a class="el" href="setup_8php-source.html#l00395">$Max</a>, <a class="el" href="line__update_8php-source.html#l00070">$Ret</a>, <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00683"></a>00683                                         {
 <a name="l00684"></a>00684      <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>($p_dossier);
 <a name="l00685"></a>00685     echo '&lt;div <span class="keyword">class</span>=<span class="stringliteral">"lmenu"</span>&gt;';
 <a name="l00686"></a>00686     echo '&lt;TABLE&gt;';
@@ -754,7 +754,7 @@ Show the menu for the card management.
 <p>
 Definition at line <a class="el" href="user__menu_8php-source.html#l00527">527</a> of file <a class="el" href="user__menu_8php-source.html">user_menu.php</a>.
 <p>
-References <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="jrn__detail_8php-source.html#l00128">$l_line</a>, <a class="el" href="setup_8php-source.html#l00379">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00528"></a>00528 {
+References <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="jrn__detail_8php-source.html#l00128">$l_line</a>, <a class="el" href="setup_8php-source.html#l00395">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00528"></a>00528 {
 <a name="l00529"></a>00529      <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>($p_dossier);
 <a name="l00530"></a>00530      echo '&lt;div <span class="keyword">class</span>=<span class="stringliteral">"lmenu"</span>&gt;';
 <a name="l00531"></a>00531      echo '&lt;TABLE&gt;';
@@ -973,7 +973,7 @@ ShowMenuJrnUser($p_dossier,$p_type,$p_jrn)<p>
 <p>
 Definition at line <a class="el" href="user__menu_8php-source.html#l00213">213</a> of file <a class="el" href="user__menu_8php-source.html">user_menu.php</a>.
 <p>
-References <a class="el" href="jrn__detail_8php-source.html#l00128">$l_line</a>, <a class="el" href="setup_8php-source.html#l00379">$Max</a>, <a class="el" href="line__update_8php-source.html#l00070">$Ret</a>, <a class="el" href="user__sec_8php-source.html#l00175">$right</a>, <a class="el" href="user__action__ach_8php-source.html#l00164">$User</a>, <a class="el" href="check__priv_8php-source.html#l00046">CheckJrn()</a>, <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00214"></a>00214 {
+References <a class="el" href="jrn__detail_8php-source.html#l00128">$l_line</a>, <a class="el" href="setup_8php-source.html#l00395">$Max</a>, <a class="el" href="line__update_8php-source.html#l00070">$Ret</a>, <a class="el" href="user__sec_8php-source.html#l00175">$right</a>, <a class="el" href="user__action__ach_8php-source.html#l00164">$User</a>, <a class="el" href="check__priv_8php-source.html#l00046">CheckJrn()</a>, <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00214"></a>00214 {
 <a name="l00215"></a>00215   include_once (<span class="stringliteral">"debug.php"</span>);
 <a name="l00216"></a>00216   include_once(<span class="stringliteral">"constant.php"</span>);
 <a name="l00217"></a>00217   include_once(<span class="stringliteral">"class_user.php"</span>);
@@ -1319,7 +1319,7 @@ Returns the form for the search (module accountancy).
 <p>
 Definition at line <a class="el" href="user__menu_8php-source.html#l00372">372</a> of file <a class="el" href="user__menu_8php-source.html">user_menu.php</a>.
 <p>
-References <a class="el" href="jrn__search_8php-source.html#l00050">$opt</a>, <a class="el" href="bank_8inc_8php-source.html#l00235">$r</a>, <a class="el" href="bank_8inc_8php-source.html#l00160">$sp</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="pref_8inc_8php-source.html#l00048">METHOD</a>, <a class="el" href="action_8inc_8php-source.html#l00240">name</a>, <a class="el" href="tva_8inc_8php-source.html#l00212">size</a>, and <a class="el" href="action_8inc_8php-source.html#l00241">value</a>.<div class="fragment"><pre class="fragment"><a name="l00373"></a>00373 {
+References <a class="el" href="jrn__search_8php-source.html#l00050">$opt</a>, <a class="el" href="bank_8inc_8php-source.html#l00237">$r</a>, <a class="el" href="bank_8inc_8php-source.html#l00161">$sp</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="pref_8inc_8php-source.html#l00048">METHOD</a>, <a class="el" href="action_8inc_8php-source.html#l00240">name</a>, <a class="el" href="tva_8inc_8php-source.html#l00212">size</a>, and <a class="el" href="action_8inc_8php-source.html#l00241">value</a>.<div class="fragment"><pre class="fragment"><a name="l00373"></a>00373 {
 <a name="l00374"></a>00374   <a class="code" href="debug_8php.html#a0">echo_debug</a>('user_menu.php',__LINE__,<span class="stringliteral">"u_ShowMenuRecherche($p_cn,$p_array)"</span>);
 <a name="l00375"></a>00375   <span class="keywordflow">if</span> ( $p_array != null ) {
 <a name="l00376"></a>00376     foreach ( $p_array as $key=&gt; $element) {

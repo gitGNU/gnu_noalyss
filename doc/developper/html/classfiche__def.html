@@ -133,7 +133,7 @@ Display a fiche_def object into a table.
 <p>
 Definition at line <a class="el" href="class__fiche_8php-source.html#l00129">129</a> of file <a class="el" href="class__fiche_8php-source.html">class_fiche.php</a>.
 <p>
-References <a class="el" href="bank_8inc_8php-source.html#l00235">$r</a>.<div class="fragment"><pre class="fragment"><a name="l00130"></a>00130    {
+References <a class="el" href="bank_8inc_8php-source.html#l00237">$r</a>.<div class="fragment"><pre class="fragment"><a name="l00130"></a>00130    {
 <a name="l00131"></a>00131 
 <a name="l00132"></a>00132      <a class="code" href="bank_8inc_8php.html#a29">$r</a>=sprintf(<span class="stringliteral">"&lt;TD&gt;%s&lt;/TD&gt;"</span>,$this-&gt;id);
 <a name="l00133"></a>00133      <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=sprintf(<span class="stringliteral">"&lt;TD&gt;%s&lt;/TD&gt;"</span>,$this-&gt;label);
@@ -176,7 +176,7 @@ Get attribut of the fiche_def.
 <p>
 Definition at line <a class="el" href="class__fiche_8php-source.html#l00074">74</a> of file <a class="el" href="class__fiche_8php-source.html">class_fiche.php</a>.
 <p>
-References <a class="el" href="line__update_8php-source.html#l00070">$Ret</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00167">$sql</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="fiche__def_8inc_8php-source.html#l00030">frd_id</a>, <a class="el" href="balance_8php-source.html#l00076">label</a>, and <a class="el" href="impress__listing__client_8php-source.html#l00059">return</a>.<div class="fragment"><pre class="fragment"><a name="l00074"></a>00074                  {
+References <a class="el" href="line__update_8php-source.html#l00070">$Ret</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="fiche__def_8inc_8php-source.html#l00030">frd_id</a>, <a class="el" href="balance_8php-source.html#l00076">label</a>, and <a class="el" href="impress__listing__client_8php-source.html#l00059">return</a>.<div class="fragment"><pre class="fragment"><a name="l00074"></a>00074                  {
 <a name="l00075"></a>00075     <span class="keywordflow">if</span> ( $this-&gt;id == 0 ) 
 <a name="l00076"></a>00076       <span class="keywordflow">return</span> 0;
 <a name="l00077"></a>00077     <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">"select * from fiche_def "</span>.
@@ -226,7 +226,7 @@ Get all the fiche_def.
 <p>
 Definition at line <a class="el" href="class__fiche_8php-source.html#l00094">94</a> of file <a class="el" href="class__fiche_8php-source.html">class_fiche.php</a>.
 <p>
-References <a class="el" href="balance_8php-source.html#l00118">$i</a>, <a class="el" href="line__update_8php-source.html#l00070">$Ret</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00167">$sql</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="class__fiche_8php-source.html#l00039">fiche_def()</a>, <a class="el" href="fiche__def_8inc_8php-source.html#l00030">frd_id</a>, and <a class="el" href="impress__listing__client_8php-source.html#l00059">return</a>.<div class="fragment"><pre class="fragment"><a name="l00094"></a>00094                    {
+References <a class="el" href="balance_8php-source.html#l00118">$i</a>, <a class="el" href="line__update_8php-source.html#l00070">$Ret</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="class__fiche_8php-source.html#l00039">fiche_def()</a>, <a class="el" href="fiche__def_8inc_8php-source.html#l00030">frd_id</a>, and <a class="el" href="impress__listing__client_8php-source.html#l00059">return</a>.<div class="fragment"><pre class="fragment"><a name="l00094"></a>00094                    {
 <a name="l00095"></a>00095    <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">"select * from fiche_def "</span>;
 <a name="l00096"></a>00096 
 <a name="l00097"></a>00097     <a class="code" href="line__update_8php.html#a8">$Ret</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;cn,$sql);
@@ -278,7 +278,7 @@ Get attribut of a fiche_def.
 <p>
 Definition at line <a class="el" href="class__fiche_8php-source.html#l00051">51</a> of file <a class="el" href="class__fiche_8php-source.html">class_fiche.php</a>.
 <p>
-References <a class="el" href="balance_8php-source.html#l00118">$i</a>, <a class="el" href="line__update_8php-source.html#l00070">$Ret</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00167">$sql</a>, <a class="el" href="impress__rapport_8php-source.html#l00062">$t</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="impress__listing__client_8php-source.html#l00059">return</a>.<div class="fragment"><pre class="fragment"><a name="l00051"></a>00051                          {
+References <a class="el" href="balance_8php-source.html#l00118">$i</a>, <a class="el" href="line__update_8php-source.html#l00070">$Ret</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, <a class="el" href="impress__rapport_8php-source.html#l00062">$t</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="impress__listing__client_8php-source.html#l00059">return</a>.<div class="fragment"><pre class="fragment"><a name="l00051"></a>00051                          {
 <a name="l00052"></a>00052     <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">"select * from jnt_fic_attr "</span>.
 <a name="l00053"></a>00053       <span class="stringliteral">" natural join attr_def where fd_id="</span>.$this-&gt;id.
 <a name="l00054"></a>00054       <span class="stringliteral">" order by ad_id"</span>;

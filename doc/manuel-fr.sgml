@@ -533,228 +533,8 @@ il est nécessaire
 
 </sect1>
 </sect>
-<sect>Les journaux
-<p> Il existe 4 sortes de journaux
-<itemize>
-<item> Vente regroupant les ventes
-<item> Achat Celui regroupant les achats
-<item> Financier Celui regroupant tous les mouvements financiers (banque, caisse...)
-<item> Opérations divers Et celui regroupant toutes les autres
-opérations (augmentation de bilan, amortissement 
-</itemize>
-
-La première chose à faire quand on crée un journal est de le
-paramétrer correctement 
-L'écran est divisé en deux parties, celle du dessus, est utilisée par
-les journaux "Opérations Diverses" uniquement  celui 
-du dessous pour les autres journaux.<label id="journal_comptable">
-
-Pour le profil comptable, vous devez mettre un filtre pour les comptes
-visibles au débit ou au crédit
-
-exemple :
-<verb>
- Postes utilisables journal (débit)        60*
- Postes utilisables journal (crébit)       411* 4000001
-</verb>
-
-Ceux qui terminent par une étoile reprennent les comptes qui commence
-par l'expression ainsi 411* reprendra 411, 4111, 4112,4113 et
-4114. Vous séparez les différents comptes par un espace.
-
-En mode utilisateur, il faut cocher les fiches que l'on souhaite utiliser
-dans ce journal mais avec une exception : les journaux d'opérations diverses
-n'utilisent jamais les fiches voir <ref id="journal_od" name="Journaux
-des Opérations diverses">. 
-
-Il vaut mieux ne pas créer plus de 4 journaux par types, c'est-à-dire
-16 au total, il y a à cela deux raisons : la première est que cela
-devient ingérable, la seconde est que l'affichage en mode utilisateur
-serait euh... atroce. Quatre journaux en tout est largement suffisant
-pour les besoins d'une entreprise.
-<sect1> Journal des Achats
-<p>Reprend uniquement les opérations d'achat que ce soit pour l'achat
-de marchandises, de services ou de matériel.
-
-</sect1>
-
-<sect1> Journal des Ventes
-<p>Le journal des ventes regroupe les opérations de vente, donc ce que
-vous vendez. En mode utilisateur, c'est très simple: vous devez juste
-ajouter le client, la date et évidemment les articles.
-
-<p>Les rabais et remises ne sont pas prévues dans la version 1.0.0
-
-<p>La ligne du bas vous permet de faire des petits calculs rapide
-(exemple: 1+2*3.2)...  Ne surtout pas faire (ENTER) !
-
-</sect1>
-<sect1> Journal Financier
-<p> Uniquement pour gérer les comptes en banque, visa, bref tout ce
-qui est financier (pas les prêts qui devraient être en opération
-diverses mais bien le paiement de ces prêts).
-
-<p> La date est important, il est important de vous rappelez: on vous
-donne l'ancien solde et le nouveau, vérifiez sur vos extraits que
-cela correspond bien.
-
-<p> Le commentaire est optionnelle, c'est ce que vous verrez
-apparaître lorsque vous regarderez votre journal.
-
-<p>Introduisez un montants négatif si vous payez (le compte diminue)
-et un montant positif si vous recevez de l'argent.
-
-</sect1>
-<sect1> Journal des Opérations diverses <label id="journal_od">
-<p> Reprend toutes les opérations qui ne sont pas comprises dans les autres
-journaux. Ce qui implique les amortissements, les salaires, les produits financiers,
-les dépenses non admises, le paiement de l'impôt, de la tva...
-
-C'est l'unique journal qui n'utilise pas les fiches. Pourquoi ? Tout
-simplement parce 
-que s'il utilisait lui-aussi les fiches, il faudrait faire une fiche
-par poste comptable, 
-ce qui serait rapidement ingérable. De plus, les fiches sont là pour
-les opérations 
-courantes (vente/Achat/banque). Puisque ce journal n'utilise pas les
-fiches, le filtre est 
-le même que celui défini pour le mode comptable voir <ref
-id="journal_comptable"  name="définition journal">
 
 
-</sect1>
-
-</sect>
-<sect> Les fiches <label id="fiche">
-<sect1>Création d'une catégorie de fiche
-<p>
-Les catégories de fiches sont en fait le rassemblement de fiche
-ensembles, par exemple, les marchandises, les clients, les
-fournisseurs... 
-
-Pour créer une catégorie, cliquer sur Fiche et à droite sur
-création. Vous devez donner le nom de la catégorie et le type de fiche
-que vous voulez.  
-
-La classe de base est le poste comptable parent de vos fiche, ce poste
-doit exister, il faut alors 
-cliquer aussi sur "create account for each" qui permet de générer
-automatiquement le poste comptable voulu, ce poste sera
-automatiquement ajouté dans le Plan Comptable. Si cette option n'est
-pas cochée, vous devrez ajouter manuellement le poste comptable et le
-donner explicitement. Si vous ne souhaitez pas que chaque fiche aie
-son propre poste comptable, ne cochez pas l'option et n'ajoutez pas manuellement
-le poste comptable. Dans ce cas, ce sera le poste du modèle de fiche
-par défaut qui sera utilisé, si vous ne l'indiquez pas ce sera la
-classe par défaut de ce type de modèle. 
-
-Pour simplifier :
-<itemize>
-<item>Vous voulez que chaque fiche aie son propre poste comptable et
-vous souhaitez que ce poste soit crée automatiquement : cochez la case
-'Create account for each' 
-<item>Vous souhaitez qu'il n'y a pas de poste comptable attaché à
-chaque fiche: ne la cochez pas 
-
-<item>Vous souhaitez qu'il y aie un poste comptable attaché à chaque fiche 
-mais pas généré automatiquement: ne cochez pas. Par la suite,  ajoutez
- l'attribut 'Poste Comptable' si nécessaire, la plupart des fiches ont
-par défaut un attribut 'Poste Comptable,
-vous devrez mettre manuellement le poste comptable
- que vous souhaitez pour chaque fiche. Dans ce cas, toutes les
- fiches devront avoir un poste comptable. Sinon ce sera le poste comptable
- par défaut qui sera utilisé.
-</itemize>
-
-<p>Cas spécial: la classe de base "Autre" permet de créer des fiches
-sur mesure, par exemple: liste des employés, 
-
-</sect1>
-<sect1>Création d'une fiche 
-<p>
-Quelques attributs à expliquer : Gestion Poste, Prix Achat, Prix de
-vente, Poste Comptable. Vous n'êtes pas obligé de créer une fiche pour
-tout, par exemple pour les restaurants, vous pouvez encodez une seule
-et unique fiche appelée restaurant.
-
-<p>Autre : comme plusieur fiches peuvent utiliser le même poste comptable, si on
-modifie le nom d'une fiche cela ne modifiera pas son nom dans le Plan Comptable.
-Attribut spéciaux:
-<itemize>
-<item>Partie fiscalement non déductible : entre 0 & 1, il s'agit de ce que vous 
-ne pourrez pas déduire comme charge. En cas d'achat sur cette fiche, le montant 
-HTVA multiplié par ce que vous avez inscrit ici sera rangé dans les dépenses non
-admises, le poste comptable est celui qui est indiqué dans le Module Paramètre->
-Poste
-<item>TVA non déductible même remarque
-<item>TVA non déductible récupérable par l'impôt idem
-</itemize>
-
-</sect1>
-
-<sect>Encodage d'opération
-<sect1> Remarques générales
-<p> La tva est automatiquement mise, on prend celle de la fiche, il n'est
-donc normale que vous ne deviez pas l'encoder. Les prix sont aussi pris dans
-les attributs de la fiche mais vous pouvez modifier manuellement.
-
-<p> En cas de montant négatif, les écritures sont inversées 
-Exemple 
-<verb>
-* Paiement d'une facture (montant négatif) on aura 
-fournisseur
-    à 
-           client
-* Reprise de marchandise (diminution de vente & tva)
-Tva à payer, vente 
-    à 
-     client
-La dette du client diminue
-
-
-</verb>
-<p> Il n'est pas possible de modifier un encodage mais vous pouvez
-l'annuler. 
- Quand vous 
-cliquez sur Confirmer soyez sûr de ce que vous faites.
-
-</sect1>
-<sect1>Achat
-<p> Dans les journaux d'achats, un filtre vous empêchent de faire des
-erreurs.
-
-<p> Si vous ramenez du matériel, vous pouvez soit annuler l'opération
-d'achat, soit utiliser les quantités négatives.
-
-</sect1>
-<sect1>Vente
-<p> Pour ajouter une vente, cliquez sur nouvelle, puis utilisez les
-boutons pour ajouter les clients, services et marchandises que l'on
-vend. 
-
-<p> En cas de reprise de matériel, vous pouvez mettre des quantités
-négatives - attention : des quantités, pas des prix unitaires-. Le
-stock sera automatiquement réadapté pour tenir compte de ce retour de
-matériel. 
-
-<p> Pensez à utilisez le dossier "demo" pour faire tout vos tests et
-découvrir PhpCompta.
-</sect1>
-<sect1>Opérations financières
-<p> En cas de paiement, il faut introduire le montant négatif.
-
-
-</sect1>
-<sect1> Opérations Diverses
-<p> Les cartes de crédit :
-La visa = changement de créancier : visa paie le fournisseur vous
-payez Visa
-
-<p> Facture payée par mensualité
-Opération de rapprochement ???
-
-</sect1>
-</sect>
 <sect>Les Rapports<label id="rapport">
 <sect1>Introduction
 <p> Les rapports permettent de rapidement encoder des rapports.
@@ -997,96 +777,272 @@ de base de données.
 
 </sect1>
 </sect>
-<sect> Exemple
-<sect1>Ouverture de compte
-<p>
-En débit d'année, il faut réouvrir les comptes si on ouvre un nouveau dossier
-ou les ouvrir en commençant une activité.De toute façon, il faudrait régulariser certains
-compte
-
-1 janvier
-Pierre lance une société dont le capital est de 18200 euros, dont
-seulement 6100 euro sont libérés et mis sur un compte en banque
-
-Opération diverse ->
-débit banque 6100 euros
-débit capital non appelé 12100
-à crédit capital souscrit     18200
-</sect1>
-<sect1> Quelques factures
-<p>5 janvier
-Pierre paie le loyer (400 euro) à son propriétaire par banque, prendre
-le journal achat
-
-<p>7 janvier
-Pierre paie l'eau et le gaz (250 euros + 21%tva), cliquez  sur le
-bouton new pour créer les fiches manquantes
-
-<p>15 janvier
-Extrait de compte banquaire: on voit le paiement du loyer du 5 janvier
-
-<p>17 janvier
-Banque : on voit les paiements du 7 janvier
-encoder dans le journal financier, ne pas oublier le rapprochement
-
-<p>21 janvier
-Vente : vend 15 pièces de l'article A, paiement par banque
-
-<p>26 janvier
-Banque : on voit les paiements du 15 janvier
-encoder dans le journal financier, ne pas oublier le rapprochement
-
-<p>31 janvier
-Banque : le client nous a payé pour la facture du 21
-encoder dans le journal financier, ne pas oublier le rapprochement
-
-</sect1>
-</sect>
-<sect>Trucs et astuces
-<sect1>Ouvrir plusieur fenêtres
-<p>
-Vous pouvez toujours ouvrir plusieurs fenêtres. C'est très utile, par
-exemple dans le cas ou vous encodez une OD mais un poste comptable manque
-vous pouvez l'ajouter dans une autre fenêtre puis reprendre la fenêtre
-où vous travailliez, le poste comptable est maintenant disponible.
-
-</sect1>
-</sect>
 <sect> Le module de comptabilité
 <p> Après toute cette théorie, il est temps d'apprendre à utiliser
 PhpCompta
 
 <sect1>Journaux
+<p> Il existe 4 sortes de journaux
+<itemize>
+<item> Vente regroupant les ventes
+<item> Achat Celui regroupant les achats
+<item> Financier Celui regroupant tous les mouvements financiers (banque, caisse...)
+<item> Opérations divers Et celui regroupant toutes les autres
+opérations (augmentation de bilan, amortissement,... )
+</itemize>
+
+La première chose à faire quand on crée un journal est de le
+paramétrer correctement
+
+L'écran est divisé en deux parties, celle du dessus, est surtout utilisée par
+les journaux "Opérations Diverses",  celui 
+du dessous pour les autres journaux.<label id="journal_comptable">
+
+Le nombre de lignes maximum, donne le nombre ligne qu'on aura quand on
+ajoutera une dépense, un achat, une opération diverses ou une opération banquaire.
+
+Il vaut mieux ne pas créer plus de 4 journaux par types, c'est-à-dire
+16 au total, il y a à cela deux raisons : la première est que cela
+devient ingérable, la seconde est que l'affichage en mode utilisateur
+serait euh... atroce. Quatre journaux en tout est largement suffisant
+pour les besoins d'une entreprise.
+
+<p>Remarque générale: En mode utilisateur, il faut cocher les fiches que l'on souhaite utiliser
+dans ce journal mais avec une exception : les journaux d'opérations diverses
+n'utilisent jamais les fiches voir <ref id="journal_od" name="Journaux
+des Opérations diverses">. 
+
 <sect2>Grand Livre
+<p>Ce journal-ci est un peu spécial. En fait, il rassemble tous les
+journaux dans un seul, on ne peut pas y écrire directement mais on y
+voit toutes les opérations en provenance de tous les journaux.
+
+
 </sect2>
-<sect2>Entrée
-</sect2>
-<sect2>Vente
-</sect2>
-<sect2>Dépense
+<sect2>Entrée ou Journal des Ventes
+<p>Le journal des ventes regroupe les opérations de vente, donc ce que
+vous vendez. En mode utilisateur, c'est très simple: vous devez juste
+ajouter le client, la date et évidemment les articles.
+
+<p>Les rabais et remises ne sont utilisables qu'avec les fiches, il
+faut cependant encore les calculer séparément.
+
+<p>La ligne du bas vous permet de faire des petits calculs rapide
+(exemple: 1+2*3.2)...
+
+<p> Pour ajouter une vente, cliquez sur nouvelle, puis utilisez les
+boutons pour ajouter les clients, services et marchandises que l'on
+vend. 
+
+<p> En cas de reprise de matériel, vous pouvez mettre des quantités
+négatives - attention : des quantités, pas des prix unitaires-. Le
+stock sera automatiquement réadapté pour tenir compte de ce retour de
+matériel. 
+
+<p> Pensez à utilisez le dossier "demo" pour faire tout vos tests et
+découvrir PhpCompta.
+
+
 </sect2>
 
-<sect2>Financier
+<sect2>Dépense ou  Journal des Achats
+<p>Reprend uniquement les opérations d'achat que ce soit pour l'achat
+de marchandises, de services ou de matériel.
+
 </sect2>
 
+<sect2>Financier ou Journal Financier
+<p> Uniquement pour gérer les comptes en banque, visa, bref tout ce
+qui est financier (pas les prêts qui devraient être en opération
+diverses mais bien le paiement de ces prêts).
+
+<p> La date est important, il est important de vous rappelez: on vous
+donne l'ancien solde et le nouveau, vérifiez sur vos extraits que
+cela correspond bien.
+
+<p> Le commentaire est optionnelle, c'est ce que vous verrez
+apparaître lorsque vous regarderez votre journal.
+
+<p>Introduisez un montants négatif si vous payez (le compte diminue)
+et un montant positif si vous recevez de l'argent.
+
+<p> En cas de paiement, il faut introduire le montant négatif.
+
+</sect2>
+<sect2> Journal des Opérations diverses <label id="journal_od">
+<p> Reprend toutes les opérations qui ne sont pas comprises dans les autres
+journaux. Ce qui implique les amortissements, les salaires, les produits financiers,
+les dépenses non admises, le paiement de l'impôt, de la tva...
+
+C'est l'unique journal qui n'utilise pas les fiches. Pourquoi ? Tout
+simplement parce 
+que s'il utilisait lui-aussi les fiches, il faudrait faire une fiche
+par poste comptable, 
+ce qui serait rapidement ingérable. De plus, les fiches sont là pour
+les opérations 
+courantes (vente/Achat/banque). Puisque ce journal n'utilise pas les
+fiches, le filtre est 
+le même que celui défini pour le mode comptable voir <ref
+id="journal_comptable"  name="définition journal">
+
+Pour le profil comptable, vous devez mettre un filtre pour les comptes
+visibles au débit ou au crédit.
+
+exemple :
+<verb>
+ Postes utilisables journal (débit)        60*
+ Postes utilisables journal (crébit)       411* 4000001
+</verb>
+
+Ceux qui terminent par une étoile reprennent les comptes qui commence
+par l'expression ainsi 411* reprendra 411, 4111, 4112,4113 et
+4114. Vous séparez les différents comptes par un espace.
+
+<p> Les cartes de crédit :
+La visa = changement de créancier : visa paie le fournisseur vous
+payez Visa
+
+<p> Facture payée par mensualité
+Opération de rapprochement ???
+
+
+</sect2>
+<sect1>Encodage d'opération
+<p> La tva est automatiquement mise, on prend celle de la fiche, il n'est
+donc normale que vous ne deviez pas l'encoder. Les prix sont aussi pris dans
+les attributs de la fiche mais vous pouvez modifier manuellement.
+
+<p> En cas de montant négatif, les écritures sont inversées 
+Exemple 
+<verb>
+* Paiement d'une facture (montant négatif) on aura 
+fournisseur
+    à 
+           client
+* Reprise de marchandise (diminution de vente & tva)
+Tva à payer, vente 
+    à 
+     client
+La dette du client diminue
+
+
+</verb>
+<p> Il n'est pas possible de modifier un encodage mais vous pouvez
+l'annuler. 
+ Quand vous 
+cliquez sur Confirmer soyez sûr de ce que vous faites.
 </sect1>
+
 <sect1>Recherche
+<p>Ce menu permet de rechercher par date, montant, poste comptable, code
+interne, quick code ou grâce à une partie de la description.
+
+<p>La sécurité s'applique dans les recherches, il n'est pas possible
+de voir les opérations des journaux auquels vous n'avez pas accès.
+
 </sect1>
 
 <sect1>Fiche
 <p>C'est ici que vous pourrez ajoutez des fiches mais aussi ajouter
-des nouveaux attributs aux fiches voir <ref id="fiche" name="fiche">
+des nouveaux attributs aux fiches.
 
-</sect1>
+<sect2>Création d'une catégorie de fiche
+<p>
+Les catégories de fiches sont en fait le rassemblement de fiche
+ensembles, par exemple, les marchandises, les clients, les
+fournisseurs... 
+
+Pour créer une catégorie, cliquer sur Fiche et à droite sur
+création. Vous devez donner le nom de la catégorie et le type de fiche
+que vous voulez.  
+
+La classe de base est le poste comptable parent de vos fiche, ce poste
+doit exister, il faut alors 
+cliquer aussi sur "create account for each" qui permet de générer
+automatiquement le poste comptable voulu, ce poste sera
+automatiquement ajouté dans le Plan Comptable. Si cette option n'est
+pas cochée, vous devrez ajouter manuellement le poste comptable et le
+donner explicitement. Si vous ne souhaitez pas que chaque fiche aie
+son propre poste comptable, ne cochez pas l'option et n'ajoutez pas manuellement
+le poste comptable. Dans ce cas, ce sera le poste du modèle de fiche
+par défaut qui sera utilisé, si vous ne l'indiquez pas ce sera la
+classe par défaut de ce type de modèle. 
+
+Pour simplifier :
+<itemize>
+<item>Vous voulez que chaque fiche aie son propre poste comptable et
+vous souhaitez que ce poste soit crée automatiquement : cochez la case
+'Create account for each' 
+<item>Vous souhaitez qu'il n'y a pas de poste comptable attaché à
+chaque fiche: ne la cochez pas 
+
+<item>Vous souhaitez qu'il y aie un poste comptable attaché à chaque fiche 
+mais pas généré automatiquement: ne cochez pas. Par la suite,  ajoutez
+ l'attribut 'Poste Comptable' si nécessaire, la plupart des fiches ont
+par défaut un attribut 'Poste Comptable,
+vous devrez mettre manuellement le poste comptable
+ que vous souhaitez pour chaque fiche. Dans ce cas, toutes les
+ fiches devront avoir un poste comptable. Sinon ce sera le poste comptable
+ par défaut qui sera utilisé.
+</itemize>
+
+<p>Cas spécial: la classe de base "Autre" permet de créer des fiches
+sur mesure, par exemple: liste des employés, 
+
+</sect2>
+<sect2>Création d'une fiche 
+<p>
+Quelques attributs à expliquer : Gestion Poste, Prix Achat, Prix de
+vente, Poste Comptable. Vous n'êtes pas obligé de créer une fiche pour
+tout, par exemple pour les restaurants, vous pouvez encodez une seule
+et unique fiche appelée restaurant.
+
+<p>Autre : comme plusieur fiches peuvent utiliser le même poste comptable, si on
+modifie le nom d'une fiche cela ne modifiera pas son nom dans le Plan Comptable.
+Attribut spéciaux:
+<itemize>
+<item>Partie fiscalement non déductible : entre 0 & 1, il s'agit de ce que vous 
+ne pourrez pas déduire comme charge. En cas d'achat sur cette fiche, le montant 
+HTVA multiplié par ce que vous avez inscrit ici sera rangé dans les dépenses non
+admises, le poste comptable est celui qui est indiqué dans le Module Paramètre->
+Poste
+<item>TVA non déductible même remarque
+<item>TVA non déductible récupérable par l'impôt idem
+</itemize>
+</sect2>
 
 <sect1>Impression
+<p>
+Ce menu permet de demander des impressions.
+
 <sect2>Journaux
+Impression de journaux, les périodes que vous voyez sont celles de
+l'exercice de votre période par défaut (voir préférence).
+
+option<itemize>
+<item>Vous pouvez choisir entre les journaux centralisés et ceux qui ne le
+sont pas.
+<item>Style d'impression, soit simple donc sur une seule ligne soit en
+partie double
+</itemize>
+
+Une fois l'impression en HTML obtenue, on peut soit l'imprimer, soit
+l'avoir en pdf soit en CSV.
+
 </sect2>
 <sect2>Poste
+Impression des postes comptables par période.
+
+L'export en PDF et CSV est prévu.
+
 </sect2>
 <sect2>Fiche
+Impression des fiches, avec ou sans solde, par période. On peut
+exporter en PDF
+
 </sect2>
 <sect2>Rapport
+
 </sect2>
 
 <sect2>Balance des comptes
@@ -1126,6 +1082,9 @@ des nouveaux attributs aux fiches voir <ref id="fiche" name="fiche">
 
 
 </sect>
+
+
+
 <sect>Le module de gestion
 <p> Le module de gestion, comprend en partie la comptabilité et
 surtout le suivi des clients, fournisseurs,... Il permet aussi la
@@ -1190,7 +1149,7 @@ toujours mieux garder une trace de toute vos communications avec eux.
 
 
 </sect>
-<sect>Module Paramètre <label id="parametre">
+<sect>Le module Paramètre <label id="parametre">
 <sect1>Société
 <p>Ici vous indiquez les paramètres de votre société, nom,
 adresse... Cela sera réutilisez dans divers endroits.
@@ -1237,5 +1196,62 @@ voir avec la doc. développeurs pour cela
 <sect1>Document <label id="document">
 <p>
 </sect1>
+</sect>
+<sect> Exemple
+<sect1>Ouverture de compte
+<p>
+En débit d'année, il faut réouvrir les comptes si on ouvre un nouveau dossier
+ou les ouvrir en commençant une activité.De toute façon, il faudrait régulariser certains
+compte
+
+1 janvier
+Pierre lance une société dont le capital est de 18200 euros, dont
+seulement 6100 euro sont libérés et mis sur un compte en banque
+
+Opération diverse ->
+débit banque 6100 euros
+débit capital non appelé 12100
+à crédit capital souscrit     18200
+</sect1>
+<sect1> Quelques factures
+<p>5 janvier
+Pierre paie le loyer (400 euro) à son propriétaire par banque, prendre
+le journal achat
+
+<p>7 janvier
+Pierre paie l'eau et le gaz (250 euros + 21%tva), cliquez  sur le
+bouton new pour créer les fiches manquantes
+
+<p>15 janvier
+Extrait de compte banquaire: on voit le paiement du loyer du 5 janvier
+
+<p>17 janvier
+Banque : on voit les paiements du 7 janvier
+encoder dans le journal financier, ne pas oublier le rapprochement
+
+<p>21 janvier
+Vente : vend 15 pièces de l'article A, paiement par banque
+
+<p>26 janvier
+Banque : on voit les paiements du 15 janvier
+encoder dans le journal financier, ne pas oublier le rapprochement
+
+<p>31 janvier
+Banque : le client nous a payé pour la facture du 21
+encoder dans le journal financier, ne pas oublier le rapprochement
+
+</sect1>
+</sect>
+<sect>Trucs et astuces
+<sect1>Ouvrir plusieur fenêtres
+<p>
+Vous pouvez toujours ouvrir plusieurs fenêtres. C'est très utile, par
+exemple dans le cas ou vous encodez une OD mais un poste comptable manque
+vous pouvez l'ajouter dans une autre fenêtre puis reprendre la fenêtre
+où vous travailliez, le poste comptable est maintenant disponible.
+
+</sect1>
+</sect>
+
 
 </article>

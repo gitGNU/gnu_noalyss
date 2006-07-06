@@ -42,29 +42,37 @@
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="facture_8inc_8php.html#a13">$qcode</a> = (isset($_GET['qcode']))?$_GET['qcode']:&quot;&quot;</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="facture_8inc_8php.html#a14">$step</a> = $_SESSION['g_pagesize']</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">$w&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="facture_8inc_8php.html#a14">label</a> = ''</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="facture_8inc_8php.html#a15">$page</a> = (isset($_GET['offset']))?$_GET['page']:1</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">$w&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="facture_8inc_8php.html#a15">extra</a> = '9'</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="facture_8inc_8php.html#a16">$offset</a> = (isset($_GET['offset']))?$_GET['offset']:0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">$w&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="facture_8inc_8php.html#a16">table</a> = 0</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="facture_8inc_8php.html#a17">$l</a> = &quot;&quot;</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="facture_8inc_8php.html#a17">$sp</a> = new <a class="el" href="classwidget.html">widget</a>(&quot;span&quot;)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="facture_8inc_8php.html#a18">$bar</a> = jrn_navigation_bar($offset,$max_line,$step,$page)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="facture_8inc_8php.html#a18">$step</a> = $_SESSION['g_pagesize']</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="facture_8inc_8php.html#a19">$nb_item</a> = $_POST['nb_item']</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="facture_8inc_8php.html#a19">$page</a> = (isset($_GET['offset']))?$_GET['page']:1</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="facture_8inc_8php.html#a20">$form</a> = FormVenInput($cn,$p_jrn,$User-&gt;GetPeriode(),$_POST,false,$nb_item)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="facture_8inc_8php.html#a20">$offset</a> = (isset($_GET['offset']))?$_GET['offset']:0</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">$doc&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="facture_8inc_8php.html#a21">f_id</a> = $_POST['e_client']</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="facture_8inc_8php.html#a21">$l</a> = &quot;&quot;</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">$doc&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="facture_8inc_8php.html#a22">md_id</a> = $_POST['gen_doc']</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="facture_8inc_8php.html#a22">$bar</a> = jrn_navigation_bar($offset,$max_line,$step,$page)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">$doc&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="facture_8inc_8php.html#a23">ag_id</a> = 0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="facture_8inc_8php.html#a23">$nb_item</a> = $_POST['nb_item']</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="facture_8inc_8php.html#a24">$str_file</a> = $doc-&gt;Generate()</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="facture_8inc_8php.html#a24">$form</a> = FormVenInput($cn,$p_jrn,$User-&gt;GetPeriode(),$_POST,false,$nb_item)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="facture_8inc_8php.html#a25">$nb_number</a> = $_POST[&quot;nb_item&quot;]</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">$doc&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="facture_8inc_8php.html#a25">f_id</a> = $_POST['e_client']</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">$doc&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="facture_8inc_8php.html#a26">md_id</a> = $_POST['gen_doc']</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">$doc&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="facture_8inc_8php.html#a27">ag_id</a> = 0</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="facture_8inc_8php.html#a28">$str_file</a> = $doc-&gt;Generate()</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="facture_8inc_8php.html#a29">$nb_number</a> = $_POST[&quot;nb_item&quot;]</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -73,7 +81,7 @@ the purpose off this file is to create invoices, to record them and to generate 
 
 <p>
 Definition in file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.<hr><h2>Variable Documentation</h2>
-<a class="anchor" name="a18"></a><!-- doxytag: member="facture.inc.php::$bar" ref="a18" args="" --><p>
+<a class="anchor" name="a22"></a><!-- doxytag: member="facture.inc.php::$bar" ref="a22" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -95,7 +103,7 @@ Definition in file <a class="el" href="facture_8inc_8php-source.html">facture.in
 <p>
 
 <p>
-Definition at line <a class="el" href="facture_8inc_8php-source.html#l00144">144</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
+Definition at line <a class="el" href="facture_8inc_8php-source.html#l00154">154</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a11"></a><!-- doxytag: member="facture.inc.php::$current" ref="a11" args="" --><p>
@@ -123,7 +131,7 @@ Definition at line <a class="el" href="facture_8inc_8php-source.html#l00144">144
 Definition at line <a class="el" href="facture_8inc_8php-source.html#l00119">119</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a20"></a><!-- doxytag: member="facture.inc.php::$form" ref="a20" args="" --><p>
+<a class="anchor" name="a24"></a><!-- doxytag: member="facture.inc.php::$form" ref="a24" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -145,7 +153,7 @@ Definition at line <a class="el" href="facture_8inc_8php-source.html#l00119">119
 <p>
 
 <p>
-Definition at line <a class="el" href="facture_8inc_8php-source.html#l00176">176</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
+Definition at line <a class="el" href="facture_8inc_8php-source.html#l00186">186</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a0"></a><!-- doxytag: member="facture.inc.php::$h_url" ref="a0" args="" --><p>
@@ -198,7 +206,7 @@ Definition at line <a class="el" href="facture_8inc_8php-source.html#l00046">46<
 Definition at line <a class="el" href="facture_8inc_8php-source.html#l00102">102</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a17"></a><!-- doxytag: member="facture.inc.php::$l" ref="a17" args="" --><p>
+<a class="anchor" name="a21"></a><!-- doxytag: member="facture.inc.php::$l" ref="a21" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -220,10 +228,10 @@ Definition at line <a class="el" href="facture_8inc_8php-source.html#l00102">102
 <p>
 
 <p>
-Definition at line <a class="el" href="facture_8inc_8php-source.html#l00134">134</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
+Definition at line <a class="el" href="facture_8inc_8php-source.html#l00144">144</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a19"></a><!-- doxytag: member="facture.inc.php::$nb_item" ref="a19" args="" --><p>
+<a class="anchor" name="a23"></a><!-- doxytag: member="facture.inc.php::$nb_item" ref="a23" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -245,10 +253,10 @@ Definition at line <a class="el" href="facture_8inc_8php-source.html#l00134">134
 <p>
 
 <p>
-Definition at line <a class="el" href="facture_8inc_8php-source.html#l00173">173</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
+Definition at line <a class="el" href="facture_8inc_8php-source.html#l00183">183</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a25"></a><!-- doxytag: member="facture.inc.php::$nb_number" ref="a25" args="" --><p>
+<a class="anchor" name="a29"></a><!-- doxytag: member="facture.inc.php::$nb_number" ref="a29" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -270,10 +278,10 @@ Definition at line <a class="el" href="facture_8inc_8php-source.html#l00173">173
 <p>
 
 <p>
-Definition at line <a class="el" href="facture_8inc_8php-source.html#l00233">233</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
+Definition at line <a class="el" href="facture_8inc_8php-source.html#l00243">243</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a16"></a><!-- doxytag: member="facture.inc.php::$offset" ref="a16" args="" --><p>
+<a class="anchor" name="a20"></a><!-- doxytag: member="facture.inc.php::$offset" ref="a20" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -295,10 +303,10 @@ Definition at line <a class="el" href="facture_8inc_8php-source.html#l00233">233
 <p>
 
 <p>
-Definition at line <a class="el" href="facture_8inc_8php-source.html#l00132">132</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
+Definition at line <a class="el" href="facture_8inc_8php-source.html#l00142">142</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a15"></a><!-- doxytag: member="facture.inc.php::$page" ref="a15" args="" --><p>
+<a class="anchor" name="a19"></a><!-- doxytag: member="facture.inc.php::$page" ref="a19" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -320,7 +328,7 @@ Definition at line <a class="el" href="facture_8inc_8php-source.html#l00132">132
 <p>
 
 <p>
-Definition at line <a class="el" href="facture_8inc_8php-source.html#l00131">131</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
+Definition at line <a class="el" href="facture_8inc_8php-source.html#l00141">141</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a5"></a><!-- doxytag: member="facture.inc.php::$paid" ref="a5" args="" --><p>
@@ -423,6 +431,31 @@ Definition at line <a class="el" href="facture_8inc_8php-source.html#l00123">123
 Definition at line <a class="el" href="facture_8inc_8php-source.html#l00079">79</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
   </tr>
 </table>
+<a class="anchor" name="a17"></a><!-- doxytag: member="facture.inc.php::$sp" ref="a17" args="" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">$sp = new <a class="el" href="classwidget.html">widget</a>(&quot;span&quot;)          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+
+<p>
+Definition at line <a class="el" href="facture_8inc_8php-source.html#l00132">132</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
+  </tr>
+</table>
 <a class="anchor" name="a3"></a><!-- doxytag: member="facture.inc.php::$sql" ref="a3" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
@@ -448,7 +481,7 @@ Definition at line <a class="el" href="facture_8inc_8php-source.html#l00079">79<
 Definition at line <a class="el" href="facture_8inc_8php-source.html#l00078">78</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a14"></a><!-- doxytag: member="facture.inc.php::$step" ref="a14" args="" --><p>
+<a class="anchor" name="a18"></a><!-- doxytag: member="facture.inc.php::$step" ref="a18" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -470,10 +503,10 @@ Definition at line <a class="el" href="facture_8inc_8php-source.html#l00078">78<
 <p>
 
 <p>
-Definition at line <a class="el" href="facture_8inc_8php-source.html#l00130">130</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
+Definition at line <a class="el" href="facture_8inc_8php-source.html#l00140">140</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a24"></a><!-- doxytag: member="facture.inc.php::$str_file" ref="a24" args="" --><p>
+<a class="anchor" name="a28"></a><!-- doxytag: member="facture.inc.php::$str_file" ref="a28" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -495,7 +528,7 @@ Definition at line <a class="el" href="facture_8inc_8php-source.html#l00130">130
 <p>
 
 <p>
-Definition at line <a class="el" href="facture_8inc_8php-source.html#l00212">212</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.
+Definition at line <a class="el" href="facture_8inc_8php-source.html#l00222">222</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.
 <p>
 Referenced by <a class="el" href="class__action_8php-source.html#l00504">action::SaveStage2()</a>.    </td>
   </tr>
@@ -550,13 +583,13 @@ Definition at line <a class="el" href="facture_8inc_8php-source.html#l00054">54<
 Definition at line <a class="el" href="facture_8inc_8php-source.html#l00115">115</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a23"></a><!-- doxytag: member="facture.inc.php::ag_id" ref="a23" args="" --><p>
+<a class="anchor" name="a27"></a><!-- doxytag: member="facture.inc.php::ag_id" ref="a27" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">$doc <a class="el" href="facture_8inc_8php.html#a23">ag_id</a> = 0          </td>
+          <td class="md" nowrap valign="top">$doc <a class="el" href="facture_8inc_8php.html#a27">ag_id</a> = 0          </td>
         </tr>
       </table>
     </td>
@@ -572,7 +605,7 @@ Definition at line <a class="el" href="facture_8inc_8php-source.html#l00115">115
 <p>
 
 <p>
-Definition at line <a class="el" href="facture_8inc_8php-source.html#l00211">211</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
+Definition at line <a class="el" href="facture_8inc_8php-source.html#l00221">221</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a2"></a><!-- doxytag: member="facture.inc.php::exit" ref="a2" args="" --><p>
@@ -600,13 +633,13 @@ Definition at line <a class="el" href="facture_8inc_8php-source.html#l00211">211
 Definition at line <a class="el" href="facture_8inc_8php-source.html#l00063">63</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a21"></a><!-- doxytag: member="facture.inc.php::f_id" ref="a21" args="" --><p>
+<a class="anchor" name="a15"></a><!-- doxytag: member="facture.inc.php::extra" ref="a15" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">$doc <a class="el" href="facture_8inc_8php.html#a21">f_id</a> = $_POST['e_client']          </td>
+          <td class="md" nowrap valign="top">$w <a class="el" href="facture_8inc_8php.html#a15">extra</a> = '9'          </td>
         </tr>
       </table>
     </td>
@@ -622,18 +655,43 @@ Definition at line <a class="el" href="facture_8inc_8php-source.html#l00063">63<
 <p>
 
 <p>
-Definition at line <a class="el" href="facture_8inc_8php-source.html#l00209">209</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.
+Definition at line <a class="el" href="facture_8inc_8php-source.html#l00130">130</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
+  </tr>
+</table>
+<a class="anchor" name="a25"></a><!-- doxytag: member="facture.inc.php::f_id" ref="a25" args="" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">$doc <a class="el" href="facture_8inc_8php.html#a25">f_id</a> = $_POST['e_client']          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+
+<p>
+Definition at line <a class="el" href="facture_8inc_8php-source.html#l00219">219</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.
 <p>
 Referenced by <a class="el" href="class__action_8php-source.html#l00078">action::action()</a>, <a class="el" href="class__fiche_8php-source.html#l00317">fiche::GetByDef()</a>, <a class="el" href="class__fiche_8php-source.html#l00167">fiche::GetByQCode()</a>, <a class="el" href="class__fiche_8php-source.html#l00260">fiche::GetByType()</a>, <a class="el" href="fiche__inc_8php-source.html#l01057">GetFicheJrn()</a>, <a class="el" href="stock__inc_8php-source.html#l00111">getFicheNameCode()</a>, <a class="el" href="class__supplier_8php-source.html#l00057">Supplier::GetFromPoste()</a>, <a class="el" href="class__customer_8php-source.html#l00057">Customer::GetFromPoste()</a>, <a class="el" href="user__common_8php-source.html#l00596">InsertStockGoods()</a>, and <a class="el" href="class__contact_8php-source.html#l00050">contact::Summary()</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a22"></a><!-- doxytag: member="facture.inc.php::md_id" ref="a22" args="" --><p>
+<a class="anchor" name="a14"></a><!-- doxytag: member="facture.inc.php::label" ref="a14" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">$doc <a class="el" href="facture_8inc_8php.html#a22">md_id</a> = $_POST['gen_doc']          </td>
+          <td class="md" nowrap valign="top">$w <a class="el" href="export__ouv_8php.html#a10">label</a> = ''          </td>
         </tr>
       </table>
     </td>
@@ -649,7 +707,32 @@ Referenced by <a class="el" href="class__action_8php-source.html#l00078">action:
 <p>
 
 <p>
-Definition at line <a class="el" href="facture_8inc_8php-source.html#l00210">210</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
+Definition at line <a class="el" href="facture_8inc_8php-source.html#l00129">129</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
+  </tr>
+</table>
+<a class="anchor" name="a26"></a><!-- doxytag: member="facture.inc.php::md_id" ref="a26" args="" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">$doc <a class="el" href="facture_8inc_8php.html#a26">md_id</a> = $_POST['gen_doc']          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+
+<p>
+Definition at line <a class="el" href="facture_8inc_8php-source.html#l00220">220</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a7"></a><!-- doxytag: member="facture.inc.php::name" ref="a7" args="" --><p>
@@ -658,7 +741,7 @@ Definition at line <a class="el" href="facture_8inc_8php-source.html#l00210">210
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">$hid <a class="el" href="ecrit__ouv_8php.html#a8">name</a> = &quot;p_action&quot;          </td>
+          <td class="md" nowrap valign="top">$w <a class="el" href="ecrit__ouv_8php.html#a8">name</a> = &quot;p_action&quot;          </td>
         </tr>
       </table>
     </td>
@@ -702,13 +785,38 @@ Definition at line <a class="el" href="facture_8inc_8php-source.html#l00104">104
 Definition at line <a class="el" href="facture_8inc_8php-source.html#l00120">120</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
   </tr>
 </table>
+<a class="anchor" name="a16"></a><!-- doxytag: member="facture.inc.php::table" ref="a16" args="" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">$w <a class="el" href="parametre_8php.html#a19">table</a> = 0          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+
+<p>
+Definition at line <a class="el" href="facture_8inc_8php-source.html#l00131">131</a> of file <a class="el" href="facture_8inc_8php-source.html">facture.inc.php</a>.    </td>
+  </tr>
+</table>
 <a class="anchor" name="a8"></a><!-- doxytag: member="facture.inc.php::value" ref="a8" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">$hid <a class="el" href="ecrit__ouv_8php.html#a7">value</a> = &quot;facture&quot;          </td>
+          <td class="md" nowrap valign="top">$w <a class="el" href="ecrit__ouv_8php.html#a7">value</a> = &quot;facture&quot;          </td>
         </tr>
       </table>
     </td>

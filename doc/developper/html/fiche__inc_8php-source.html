@@ -855,9 +855,9 @@
 <a name="l01094"></a>01094   <span class="comment">// Get The result and put it into an array</span>
 <a name="l01095"></a>01095   <span class="keywordflow">for</span> ($i=0;$i&lt;$Max;$i++) {
 <a name="l01096"></a>01096     $line=pg_fetch_array($Res,$i);
-<a name="l01097"></a>01097     $f_id=$line['<a class="code" href="facture_8inc_8php.html#a21">f_id</a>'];
+<a name="l01097"></a>01097     $f_id=$line['<a class="code" href="facture_8inc_8php.html#a25">f_id</a>'];
 <a name="l01098"></a>01098     $f_label=$line['f_label'];
-<a name="l01099"></a>01099     <a class="code" href="balance_8php.html#a10">$a</a>[<a class="code" href="balance_8php.html#a12">$i</a>]=array($<a class="code" href="facture_8inc_8php.html#a21">f_id</a>,$f_label);
+<a name="l01099"></a>01099     <a class="code" href="balance_8php.html#a10">$a</a>[<a class="code" href="balance_8php.html#a12">$i</a>]=array($<a class="code" href="facture_8inc_8php.html#a25">f_id</a>,$f_label);
 <a name="l01100"></a>01100   }
 <a name="l01101"></a>01101   <span class="keywordflow">return</span> <a class="code" href="balance_8php.html#a10">$a</a>;
 <a name="l01102"></a>01102 }

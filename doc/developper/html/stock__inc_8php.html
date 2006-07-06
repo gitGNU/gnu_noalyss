@@ -80,7 +80,7 @@ parm :<ul>
 <p>
 Definition at line <a class="el" href="stock__inc_8php-source.html#l00259">259</a> of file <a class="el" href="stock__inc_8php-source.html">stock_inc.php</a>.
 <p>
-References <a class="el" href="bank_8inc_8php-source.html#l00235">$r</a>, <a class="el" href="action_8inc_8php-source.html#l00240">name</a>, and <a class="el" href="action_8inc_8php-source.html#l00241">value</a>.<div class="fragment"><pre class="fragment"><a name="l00259"></a>00259                                         {
+References <a class="el" href="bank_8inc_8php-source.html#l00237">$r</a>, <a class="el" href="action_8inc_8php-source.html#l00240">name</a>, and <a class="el" href="action_8inc_8php-source.html#l00241">value</a>.<div class="fragment"><pre class="fragment"><a name="l00259"></a>00259                                         {
 <a name="l00260"></a>00260 $sg_date=date(<span class="stringliteral">"d.m.Y"</span>);
 <a name="l00261"></a>00261 <a class="code" href="bank_8inc_8php.html#a29">$r</a>='
 <a name="l00262"></a>00262 &lt;input type=<span class="stringliteral">"text"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"stock_change"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"0"</span>&gt;
@@ -146,7 +146,7 @@ return an array of f_id and f_name
 <p>
 Definition at line <a class="el" href="stock__inc_8php-source.html#l00111">111</a> of file <a class="el" href="stock__inc_8php-source.html">stock_inc.php</a>.
 <p>
-References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="balance_8php-source.html#l00118">$i</a>, <a class="el" href="bank_8inc_8php-source.html#l00235">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="export__ouv_8php-source.html#l00077">$result</a>, <a class="el" href="bank_8inc_8php-source.html#l00167">$sql</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="facture_8inc_8php-source.html#l00209">f_id</a>.
+References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="balance_8php-source.html#l00118">$i</a>, <a class="el" href="bank_8inc_8php-source.html#l00237">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="export__ouv_8php-source.html#l00077">$result</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="facture_8inc_8php-source.html#l00219">f_id</a>.
 <p>
 Referenced by <a class="el" href="stock__inc_8php-source.html#l00147">ViewDetailStock()</a>, and <a class="el" href="stock__inc_8php-source.html#l00035">ViewStock()</a>.<div class="fragment"><pre class="fragment"><a name="l00111"></a>00111                                              {
 <a name="l00112"></a>00112   <span class="comment">// Sql stmt</span>
@@ -165,7 +165,7 @@ Referenced by <a class="el" href="stock__inc_8php-source.html#l00147">ViewDetail
 <a name="l00125"></a>00125  <span class="comment">// Store in an array</span>
 <a name="l00126"></a>00126  <span class="keywordflow">for</span> ( $i=0; $i&lt;$M;$i++) {
 <a name="l00127"></a>00127    <a class="code" href="bank_8inc_8php.html#a29">$r</a>=pg_fetch_array($Res,$i);
-<a name="l00128"></a>00128    <a class="code" href="balance_8php.html#a10">$a</a>['<a class="code" href="facture_8inc_8php.html#a21">f_id</a>']=<a class="code" href="bank_8inc_8php.html#a29">$r</a>['<a class="code" href="facture_8inc_8php.html#a21">f_id</a>'];
+<a name="l00128"></a>00128    <a class="code" href="balance_8php.html#a10">$a</a>['<a class="code" href="facture_8inc_8php.html#a25">f_id</a>']=<a class="code" href="bank_8inc_8php.html#a29">$r</a>['<a class="code" href="facture_8inc_8php.html#a25">f_id</a>'];
 <a name="l00129"></a>00129    <a class="code" href="balance_8php.html#a10">$a</a>['av_text']=<a class="code" href="bank_8inc_8php.html#a29">$r</a>['av_text'];
 <a name="l00130"></a>00130    <a class="code" href="export__ouv_8php.html#a9">$result</a>[<a class="code" href="balance_8php.html#a12">$i</a>]=<a class="code" href="balance_8php.html#a10">$a</a>;
 <a name="l00131"></a>00131 
@@ -232,7 +232,7 @@ return the quantity of a sg_code for the period
 <p>
 Definition at line <a class="el" href="stock__inc_8php-source.html#l00276">276</a> of file <a class="el" href="stock__inc_8php-source.html">stock_inc.php</a>.
 <p>
-References <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00167">$sql</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
+References <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
 <p>
 Referenced by <a class="el" href="stock__inc_8php-source.html#l00035">ViewStock()</a>.<div class="fragment"><pre class="fragment"><a name="l00276"></a>00276                                                        {
 <a name="l00277"></a>00277   <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">"select sum(sg_quantity) as result</span>
@@ -308,7 +308,7 @@ View the details of a stock.
 <p>
 Definition at line <a class="el" href="stock__inc_8php-source.html#l00147">147</a> of file <a class="el" href="stock__inc_8php-source.html">stock_inc.php</a>.
 <p>
-References <a class="el" href="bank_8inc_8php-source.html#l00172">$l</a>, <a class="el" href="bank_8inc_8php-source.html#l00235">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00167">$sql</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="stock__inc_8php-source.html#l00111">getFicheNameCode()</a>.<div class="fragment"><pre class="fragment"><a name="l00147"></a>00147                                                    {
+References <a class="el" href="bank_8inc_8php-source.html#l00174">$l</a>, <a class="el" href="bank_8inc_8php-source.html#l00237">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="stock__inc_8php-source.html#l00111">getFicheNameCode()</a>.<div class="fragment"><pre class="fragment"><a name="l00147"></a>00147                                                    {
 <a name="l00148"></a>00148 <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">"select sg_code,</span>
 <a name="l00149"></a>00149 <span class="stringliteral">             j_montant,</span>
 <a name="l00150"></a>00150 <span class="stringliteral">             j_date,</span>
@@ -463,7 +463,7 @@ show the listing of all goods
 <p>
 Definition at line <a class="el" href="stock__inc_8php-source.html#l00035">35</a> of file <a class="el" href="stock__inc_8php-source.html">stock_inc.php</a>.
 <p>
-References <a class="el" href="poste__csv_8php-source.html#l00066">$diff</a>, <a class="el" href="bank_8inc_8php-source.html#l00235">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="export__ouv_8php-source.html#l00077">$result</a>, <a class="el" href="bank_8inc_8php-source.html#l00167">$sql</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="stock__inc_8php-source.html#l00111">getFicheNameCode()</a>, and <a class="el" href="stock__inc_8php-source.html#l00276">GetQuantity()</a>.<div class="fragment"><pre class="fragment"><a name="l00035"></a>00035                                   {
+References <a class="el" href="poste__csv_8php-source.html#l00066">$diff</a>, <a class="el" href="bank_8inc_8php-source.html#l00237">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="export__ouv_8php-source.html#l00077">$result</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="stock__inc_8php-source.html#l00111">getFicheNameCode()</a>, and <a class="el" href="stock__inc_8php-source.html#l00276">GetQuantity()</a>.<div class="fragment"><pre class="fragment"><a name="l00035"></a>00035                                   {
 <a name="l00036"></a>00036  <span class="comment">// build sql -- get the different merchandise sold or bought</span>
 <a name="l00037"></a>00037   <span class="comment">// during the p_year</span>
 <a name="l00038"></a>00038 <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">" select distinct sg_code</span>

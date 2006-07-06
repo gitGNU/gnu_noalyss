@@ -86,7 +86,7 @@ Definition at line <a class="el" href="class__widget_8php-source.html#l00031">31
 <p>
 Definition at line <a class="el" href="class__widget_8php-source.html#l00064">64</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.
 <p>
-References <a class="el" href="impress__poste_8php-source.html#l00144">disabled</a>, <a class="el" href="tva_8inc_8php-source.html#l00215">heigh</a>, <a class="el" href="balance_8php-source.html#l00076">label</a>, <a class="el" href="ecrit__ouv_8php-source.html#l00071">readonly</a>, <a class="el" href="bank_8inc_8php-source.html#l00150">selected</a>, <a class="el" href="tva_8inc_8php-source.html#l00212">size</a>, <a class="el" href="balance_8php-source.html#l00071">table</a>, <a class="el" href="action_8inc_8php-source.html#l00241">value</a>, and <a class="el" href="tva_8inc_8php-source.html#l00215">width</a>.<div class="fragment"><pre class="fragment"><a name="l00064"></a>00064                               {
+References <a class="el" href="impress__poste_8php-source.html#l00144">disabled</a>, <a class="el" href="tva_8inc_8php-source.html#l00215">heigh</a>, <a class="el" href="balance_8php-source.html#l00076">label</a>, <a class="el" href="ecrit__ouv_8php-source.html#l00071">readonly</a>, <a class="el" href="bank_8inc_8php-source.html#l00151">selected</a>, <a class="el" href="tva_8inc_8php-source.html#l00212">size</a>, <a class="el" href="balance_8php-source.html#l00071">table</a>, <a class="el" href="action_8inc_8php-source.html#l00241">value</a>, and <a class="el" href="tva_8inc_8php-source.html#l00215">width</a>.<div class="fragment"><pre class="fragment"><a name="l00064"></a>00064                               {
 <a name="l00065"></a>00065     $this-&gt;type=$p_type;
 <a name="l00066"></a>00066     $this-&gt;<a class="code" href="ecrit__ouv_8php.html#a6">readonly</a>=<span class="keyword">false</span>;
 <a name="l00067"></a>00067     $this-&gt;<a class="code" href="tva_8inc_8php.html#a15">size</a>=20;
@@ -202,7 +202,7 @@ function IOValue($p_name,$p_value="",$p_label="")<p>
 <p>
 Definition at line <a class="el" href="class__widget_8php-source.html#l00089">89</a> of file <a class="el" href="class__widget_8php-source.html">class_widget.php</a>.
 <p>
-References <a class="el" href="fortis__be_8inc_8php-source.html#l00054">$check</a>, <a class="el" href="class__widget_8php-source.html#l00060">$disabled</a>, <a class="el" href="balance_8php-source.html#l00118">$i</a>, <a class="el" href="pref_8inc_8php-source.html#l00096">$msg</a>, <a class="el" href="bank_8inc_8php-source.html#l00235">$r</a>, <a class="el" href="impress__poste_8php-source.html#l00144">disabled</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="balance_8php-source.html#l00076">label</a>, <a class="el" href="action_8inc_8php-source.html#l00240">name</a>, <a class="el" href="ecrit__ouv_8php-source.html#l00071">readonly</a>, <a class="el" href="bank_8inc_8php-source.html#l00150">selected</a>, and <a class="el" href="action_8inc_8php-source.html#l00241">value</a>.<div class="fragment"><pre class="fragment"><a name="l00089"></a>00089                                                            {
+References <a class="el" href="fortis__be_8inc_8php-source.html#l00054">$check</a>, <a class="el" href="class__widget_8php-source.html#l00060">$disabled</a>, <a class="el" href="balance_8php-source.html#l00118">$i</a>, <a class="el" href="pref_8inc_8php-source.html#l00096">$msg</a>, <a class="el" href="bank_8inc_8php-source.html#l00237">$r</a>, <a class="el" href="impress__poste_8php-source.html#l00144">disabled</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="balance_8php-source.html#l00076">label</a>, <a class="el" href="action_8inc_8php-source.html#l00240">name</a>, <a class="el" href="ecrit__ouv_8php-source.html#l00071">readonly</a>, <a class="el" href="bank_8inc_8php-source.html#l00151">selected</a>, and <a class="el" href="action_8inc_8php-source.html#l00241">value</a>.<div class="fragment"><pre class="fragment"><a name="l00089"></a>00089                                                            {
 <a name="l00090"></a>00090     
 <a name="l00091"></a>00091     <span class="keywordflow">if</span> ( $p_name != null)
 <a name="l00092"></a>00092       $this-&gt;<a class="code" href="action_8inc_8php.html#a18">name</a>=$p_name;
@@ -503,7 +503,7 @@ References <a class="el" href="fortis__be_8inc_8php-source.html#l00054">$check</
 <a name="l00394"></a>00394       <span class="keywordflow">if</span> ( $this-&gt;table==1)
 <a name="l00395"></a>00395         {
 <a name="l00396"></a>00396           <a class="code" href="bank_8inc_8php.html#a29">$r</a>=sprintf('&lt;TD&gt;
-<a name="l00397"></a>00397          &lt;INPUT TYPE=<span class="stringliteral">"button"</span> onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"Search"</span>&gt;
+<a name="l00397"></a>00397          &lt;INPUT TYPE=<span class="stringliteral">"button"</span> onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"QuickCode"</span>&gt;
 <a name="l00398"></a>00398             %s&lt;/TD&gt;&lt;TD&gt; &lt;INPUT TYPE=<span class="stringliteral">"Text"</span> NAME=<span class="stringliteral">"%s"</span> VALUE=<span class="stringliteral">"%s"</span> SIZE=<span class="stringliteral">"8"</span> TABINDEX=<span class="stringliteral">"%s"</span>&gt;
 <a name="l00399"></a>00399                  ',
 <a name="l00400"></a>00400                $l_sessid,
@@ -519,7 +519,7 @@ References <a class="el" href="fortis__be_8inc_8php-source.html#l00054">$check</
 <a name="l00410"></a>00410       <span class="keywordflow">else</span>
 <a name="l00411"></a>00411         {
 <a name="l00412"></a>00412           <a class="code" href="bank_8inc_8php.html#a29">$r</a>=sprintf('
-<a name="l00413"></a>00413          &lt;INPUT TYPE=<span class="stringliteral">"button"</span> onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"Search"</span>&gt;
+<a name="l00413"></a>00413          &lt;INPUT TYPE=<span class="stringliteral">"button"</span> onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"QuickCode"</span>&gt;
 <a name="l00414"></a>00414             %s &lt;INPUT TYPE="Text" NAME="%s" VALUE="%s" SIZE="8" TABINDEX="%s"&gt;           ',
 <a name="l00415"></a>00415                $l_sessid,
 <a name="l00416"></a>00416                $this-&gt;extra,
@@ -757,7 +757,7 @@ Referenced by <a class="el" href="class__widget_8php-source.html#l00089">IOValue
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">widget::$<a class="el" href="contact_8inc_8php.html#a9">extra</a>          </td>
+          <td class="md" nowrap valign="top">widget::$<a class="el" href="facture_8inc_8php.html#a15">extra</a>          </td>
         </tr>
       </table>
     </td>

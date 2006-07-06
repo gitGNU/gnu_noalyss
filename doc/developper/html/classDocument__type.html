@@ -96,7 +96,7 @@ Get all the data for this dt_id.
 <p>
 Definition at line <a class="el" href="class__document__type_8php-source.html#l00043">43</a> of file <a class="el" href="class__document__type_8php-source.html">class_document_type.php</a>.
 <p>
-References <a class="el" href="bank_8inc_8php-source.html#l00235">$r</a>, <a class="el" href="bank_8inc_8php-source.html#l00167">$sql</a>, <a class="el" href="action_8inc_8php-source.html#l00163">dt_id</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00044"></a>00044     {
+References <a class="el" href="bank_8inc_8php-source.html#l00237">$r</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, <a class="el" href="action_8inc_8php-source.html#l00163">dt_id</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00044"></a>00044     {
 <a name="l00045"></a>00045       <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">"select * from document_type where dt_id="</span>.$this-&gt;dt_id;
 <a name="l00046"></a>00046       $R=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql);
 <a name="l00047"></a>00047       <a class="code" href="bank_8inc_8php.html#a29">$r</a>=pg_fetch_array($R,0);
