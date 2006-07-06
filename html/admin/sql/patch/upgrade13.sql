@@ -556,4 +556,10 @@ insert into action values (30,'Module Gestion');
 
 insert into format_csv_banque values ('Argenta Belgique','argenta_be.inc.php');
 insert into format_csv_banque values ('CBC Belgique','cbc_be.inc.php');
+CREATE SEQUENCE s_cbc
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
 commit;

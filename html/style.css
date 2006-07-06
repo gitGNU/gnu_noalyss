@@ -181,6 +181,11 @@ td.selectedcell{
         color:white;
 }
 
+td.mtitle a.mtitle {
+	text-decoration:none;
+	color:white;
+}
+
 a.mtitle {
 	text-decoration:none;
 	color:grey;

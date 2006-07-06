@@ -22,6 +22,7 @@
 include_once("jrn.php");
 include_once("preference.php");
 include_once("user_common.php");
+require_once('class_user.php');
 /*! 
  **************************************************
  * \brief  Parse the file and insert the record
@@ -85,90 +86,98 @@ function VerifImport($p_cn){
 	}
 }
 /*!\brief Transfert data into the ledger
+ * \param $p_cn connx
+ * \param $periode periode 
  */
 
 function TransferCSV($p_cn, $periode){
 	//on obtient la période courante
-	//$p_user = $_SESSION['g_user'];
-	//$periode = GetUserPeriode($p_cn,$p_user);
-	//$periode = $p_user->GetPeriode();
-	// on trouve les dates frontières de cette période
-	$sql = "select p_start,p_end from parm_periode where p_id = '".$periode."'";
-	$Res=ExecSql($p_cn,$sql);
-	$val = pg_fetch_array($Res);
-	$start = $val['p_start'];   $end = $val['p_end'];
-	
-	$sql = "select * from import_tmp where poste_comptable is not null and  poste_comptable <> '' 
-            AND ok <> TRUE AND date_exec BETWEEN '".$start."' and '".$end."'";
-	$Res=ExecSql($p_cn,$sql);
-	//echo "boucle: ".sizeof($Res)."<br/>";
-	//while($val = pg_fetch_array($Res)){
-	$Max=pg_NumRows($Res);
-	echo $Max." opérations à transférer.<br/>";
-	for ($i = 0;$i < $Max;$i++) {
-		$val=pg_fetch_array($Res,$i);
-		
-		$code=$val['code']; $date_exec=$val['date_exec']; $montant=$val['montant']; $num_compte=$val['num_compte']; 
-		$poste_comptable=$val['poste_comptable'];$bq_account=$val['bq_account'];
-		$jrn=$val['jrn'];
+  $User=new cl_user($p_cn);
+  $periode = $User->GetPeriode();
+  // on trouve les dates frontières de cette période
+  $sql = "select to_char(p_start,'DD-MM-YYYY') as p_start,to_char(p_end,'DD-MM-YYYY') as p_end".
+    " from parm_periode where p_id = '".$periode."'";
+  $Res=ExecSql($p_cn,$sql);
+  $val = pg_fetch_array($Res);
+  if ( $val == false )
+    {
+      echo "<script>".
+	"alert ('Vous devez selectionner votre période dans vos préférences');".
+	"</script>";
+      exit();
+    }
+  $start ="to_date('".$val['p_start']."','DD-MM-YYYY')";   
+  $end = "to_date('".$val['p_end']."','DD-MM-YYYY')";
+  var_dump($val);
+  $sql = "select * from import_tmp where poste_comptable is not null and  poste_comptable <> '' 
+          and   ok <> TRUE AND date_exec BETWEEN ".$start." and ".$end;
+  $Res=ExecSql($p_cn,$sql);
+  //echo "boucle: ".sizeof($Res)."<br/>";
+  //while($val = pg_fetch_array($Res)){
+  $Max=pg_NumRows($Res);
+  echo $Max." opérations à transférer.<br/>";
+  for ($i = 0;$i < $Max;$i++) {
+    $val=pg_fetch_array($Res,$i);
+    
+    $code=$val['code']; $date_exec=$val['date_exec']; $montant=$val['montant']; $num_compte=$val['num_compte']; 
+    $poste_comptable=$val['poste_comptable'];$bq_account=$val['bq_account'];
+    $jrn=$val['jrn'];
+    
+    list($annee, $mois, $jour) = explode("-", $date_exec);
+    $date_exec = $jour.".".$mois.".".$annee;
+    
+    // Vérification que le poste comptable trouvé existe
+    $sqltest = "select * from tmp_pcmn WHERE pcm_val='".$poste_comptable."'";
+    $Restest=ExecSql($p_cn,$sqltest);
+    $test=pg_NumRows($Restest);
+    if($test == 0) {
+      $sqlupdate = "update import_tmp set poste_comptable='' WHERE code='".$code."' AND num_compte='".$num_compte."'";
+      $Resupdate=ExecSql($p_cn,$sqlupdate);
+      echo "Poste comptable erronné pour l'opération ".$num_compte."-".$code.", réinitialisation du poste comptable<br/>";
+    } else {
+      
+      // Finances
+      
+      //$seq = GetNextId($p_cn,'j_grpt')+1;
+      $seq=NextSequence($p_cn,'s_grpt');
+      $p_user = $_SESSION['g_user'];
+      //$periode = GetUserPeriode($p_cn,$p_user);
+      //$periode = $User->GetPeriode();
+      StartSql($p_cn);
 
-		list($annee, $mois, $jour) = explode("-", $date_exec);
-		$date_exec = $jour.".".$mois.".".$annee;
-
-		// Vérification que le poste comptable trouvé existe
-		$sqltest = "select * from tmp_pcmn WHERE pcm_val='".$poste_comptable."'";
-		$Restest=ExecSql($p_cn,$sqltest);
-		$test=pg_NumRows($Restest);
-		if($test == 0) {
-			$sqlupdate = "update import_tmp set poste_comptable='' WHERE code='".$code."' AND num_compte='".$num_compte."'";
-			$Resupdate=ExecSql($p_cn,$sqlupdate);
-			echo "Poste comptable erronné pour l'opération ".$num_compte."-".$code.", réinitialisation du poste comptable<br/>";
-		} else {
-
-		// Finances
-	
-		//$seq = GetNextId($p_cn,'j_grpt')+1;
-		$seq=NextSequence($p_cn,'s_grpt');
-		$p_user = $_SESSION['g_user'];
-		//$periode = GetUserPeriode($p_cn,$p_user);
-		//$periode = $User->GetPeriode();
-		StartSql($p_cn);
-
-		$r=InsertJrnx($p_cn,"d",$p_user,$jrn,$bq_account,$date_exec,$montant,$seq,$periode);
-		if ( $r == false) { $Rollback($p_cn);exit("error 'import_inc.php' __LINE__");}
-	
-		$r=InsertJrnx($p_cn,"c",$p_user,$jrn,$poste_comptable,$date_exec,$montant,$seq,$periode);
-		if ( $r == false) { $Rollback($p_cn);exit("error 'import_inc.php' __LINE__");}
-
-		//remove annoying double-quote
-		$num_compte=str_replace('"','',$num_compte);
-		$code=str_replace('\"','',$code);
-	
-		$r=InsertJrn($p_cn,$date_exec,NULL,$jrn,$num_compte." ".$code,$montant,$seq,$periode);
-		if ( $r == false ) { Rollback($p_cn); exit(" Error 'import_inc.php' __LINE__");}
-		  
-		//$sql = "insert into jrn (jr_def_id,jr_montant,jr_comment,jr_date,jr_grpt_id,jr_tech_per) values ( ".$p_jrn.", abs(".round($montant,2)."), '".$num_compte." ".$code."','".$date_valeur."','".$seq."','".$periode."')";
-		SetInternalCode($p_cn,$seq,$jrn);
-
-
-		echo "Tranfer de l'opération ".$code." effectué<br/>";
-		$sql2 = "update import_tmp set ok=TRUE where code='".$code."'";
-		$Res2=ExecSql($p_cn,$sql2);
-
-		Commit($p_cn);
-		}
-	}
+      $r=InsertJrnx($p_cn,"d",$p_user,$jrn,$bq_account,$date_exec,$montant,$seq,$periode);
+      if ( $r == false) { $Rollback($p_cn);exit("error 'import_inc.php' __LINE__");}
+      
+      $r=InsertJrnx($p_cn,"c",$p_user,$jrn,$poste_comptable,$date_exec,$montant,$seq,$periode);
+      if ( $r == false) { $Rollback($p_cn);exit("error 'import_inc.php' __LINE__");}
+      
+      //remove annoying double-quote
+      $num_compte=str_replace('"','',$num_compte);
+      $code=str_replace('\"','',$code);
+      
+      $r=InsertJrn($p_cn,$date_exec,NULL,$jrn,$num_compte." ".$code,$montant,$seq,$periode);
+      if ( $r == false ) { Rollback($p_cn); exit(" Error 'import_inc.php' __LINE__");}
+      
+      //$sql = "insert into jrn (jr_def_id,jr_montant,jr_comment,jr_date,jr_grpt_id,jr_tech_per) values ( ".$p_jrn.", abs(".round($montant,2)."), '".$num_compte." ".$code."','".$date_valeur."','".$seq."','".$periode."')";
+      SetInternalCode($p_cn,$seq,$jrn);
+      
+      
+      echo "Tranfer de l'opération ".$code." effectué<br/>";
+      $sql2 = "update import_tmp set ok=TRUE where code='".$code."'";
+      $Res2=ExecSql($p_cn,$sql2);
+      
+      Commit($p_cn);
+    }
+  }
 }
 /*! 
  **************************************************
  * \brief  ShowForm for getting data about 
  *           the bank transfert in cvs
  *        
- * parm :  database connection
+ * \param :  database connection
  *	-
- * gen :
- *	-
- * return: none
+ * \return none
  */
 
 function ShowFormTransfert($p_cn){

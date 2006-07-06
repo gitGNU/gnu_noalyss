@@ -65,10 +65,10 @@ INSERT INTO format_csv_banque VALUES ('ING', 'ing_be.inc.php');
 INSERT INTO format_csv_banque VALUES ('CBC', 'cbc_be.inc.php');
 
 CREATE TABLE import_tmp (
-    code text,
-    date_exec date,
-    date_valeur date,
-    montant text,
+    code text not null,
+    date_exec date not null ,
+    date_valeur date not null,
+    montant number(20,4) not null default 0,
     devise text,
     compte_ordre text,
     detail text,

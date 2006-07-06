@@ -939,6 +939,12 @@ CREATE SEQUENCE s_user_jrn
     NO MAXVALUE
     NO MINVALUE
     CACHE 1;
+CREATE SEQUENCE s_cbc
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
 CREATE TABLE stock_goods (
     sg_id integer DEFAULT nextval('s_stock_goods'::text) NOT NULL,
     j_id integer,
