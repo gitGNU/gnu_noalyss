@@ -52,7 +52,14 @@ h2.error {
 */
 /* $Revision*/
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-
+/*!\file
+ * \brief This file permit to upgrade a version of phpcompta, it should be 
+ *        used and immediately delete after an upgrade.
+ *        This file is included in each release  for a new upgrade
+ * 
+ * \todo remove the rebuild of mod2 (drop / create) for the next version
+ *        the mod2 from the version < 2.0 are full of bugs
+ */
 $inc_path=get_include_path();
 if ( strpos($inc_path,";") != 0 ) {
   $new_path=$inc_path.';..\..\include;addon';
@@ -329,10 +336,19 @@ if ($account == 0 ) {
   ExecuteScript($cn,'sql/mod1/data.sql');
  if ( DEBUG=='false') ob_end_clean();
  }// end if
- 
 // Add a french accountancy model
 //--
 $cn=DbConnect();
+$Res=CountSql($cn,"select * from modeledef where mod_id=2");
+// ----------------------------------------------------------------------
+// to be remove 
+if ( $Res == 1 )
+ {
+  $cn=DbConnect();
+  ExecSql($cn,"drop database mod2;");
+  ExecSql($cn,"delete from modeledef where mod_id=2");
+ }
+//----------------------------------------------------------------------
 $Res=CountSql($cn,"select * from modeledef where mod_id=2");
 if ( $Res == 0) {
   echo "Creation of Modele2";

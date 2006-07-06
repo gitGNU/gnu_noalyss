@@ -74,7 +74,7 @@ If ( isset ($_POST["JRN_UPD"] )) {
       $p_ech='true';
       $p_ech_lib="'".$_POST['p_ech_lib']."'";
     }
-    echo $_POST['p_jrn_deb_max_line'];
+   
     if ( strlen(trim($_POST['p_jrn_deb_max_line'])) == 0 || 
 	(string) (int)$_POST['p_jrn_deb_max_line'] != (string)$_POST['p_jrn_deb_max_line'] ||
 	 $_POST['p_jrn_deb_max_line'] <= 0

@@ -56,5 +56,6 @@ if ( $User->CheckAction($cn,FICHE_READ) == 0 ){
 
 $f=new fiche($cn);
 $f->GetByQCode($_REQUEST['q'],false);
+
 echo $f->Display(true);
 ?>
