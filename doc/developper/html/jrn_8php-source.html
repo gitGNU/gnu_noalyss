@@ -87,9 +87,9 @@
 <a name="l00095"></a>00095         <a class="code" href="debug_8php.html#a0">echo_debug</a>('<a class="code" href="classjrn.html">jrn</a>.php',__LINE__,<span class="stringliteral">"l_line[jrn_def_class_deb] $l_line[jrn_def_class_deb] item_deb $item_deb"</span>);
 <a name="l00096"></a>00096         <span class="keywordflow">if</span> ( strstr($item_deb,<span class="stringliteral">"*"</span>) == <span class="keyword">true</span> ) {
 <a name="l00097"></a>00097           $item_deb=strtr($item_deb,<span class="stringliteral">"*"</span>,<span class="stringliteral">"%"</span>);
-<a name="l00098"></a>00098           <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=<span class="stringliteral">" pcm_val like '$item_deb' or"</span>;
+<a name="l00098"></a>00098           <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=<span class="stringliteral">" pcm_val like '$item_deb' or"</span>;
 <a name="l00099"></a>00099         } <span class="keywordflow">else</span> {
-<a name="l00100"></a>00100           <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=<span class="stringliteral">" pcm_val = '$item_deb' or"</span>;
+<a name="l00100"></a>00100           <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=<span class="stringliteral">" pcm_val = '$item_deb' or"</span>;
 <a name="l00101"></a>00101         }
 <a name="l00102"></a>00102         $SqlDeb=$SqlDeb.$Sql;
 <a name="l00103"></a>00103       }
@@ -156,9 +156,9 @@
 <a name="l00164"></a>00164         <a class="code" href="debug_8php.html#a0">echo_debug</a>('<a class="code" href="classjrn.html">jrn</a>.php',__LINE__,<span class="stringliteral">"l_line[jrn_def_class_cred] $l_line[jrn_def_class_cred] item_cred $item_cred"</span>);
 <a name="l00165"></a>00165         <span class="keywordflow">if</span> ( strstr($item_cred,<span class="stringliteral">"*"</span>) == <span class="keyword">true</span> ) {
 <a name="l00166"></a>00166           $item_cred=strtr($item_cred,<span class="stringliteral">"*"</span>,<span class="stringliteral">"%"</span>);
-<a name="l00167"></a>00167           <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=<span class="stringliteral">" pcm_val like '$item_cred' or"</span>;
+<a name="l00167"></a>00167           <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=<span class="stringliteral">" pcm_val like '$item_cred' or"</span>;
 <a name="l00168"></a>00168         } <span class="keywordflow">else</span> {
-<a name="l00169"></a>00169           <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=<span class="stringliteral">" pcm_val = '$item_cred' or"</span>;
+<a name="l00169"></a>00169           <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=<span class="stringliteral">" pcm_val = '$item_cred' or"</span>;
 <a name="l00170"></a>00170         }
 <a name="l00171"></a>00171         $SqlCred=$SqlCred.$Sql;
 <a name="l00172"></a>00172       }
@@ -784,20 +784,20 @@
 <a name="l00999"></a>00999   <span class="keywordflow">if</span> ( $MaxLine == 0 ) <span class="keywordflow">return</span> null;
 <a name="l01000"></a>01000 
 <a name="l01001"></a>01001   <span class="keywordflow">for</span> ( $i=0; $i &lt; $MaxLine; $i++) {
-<a name="l01002"></a>01002     $line=pg_fetch_array($Res,$i);
-<a name="l01003"></a>01003     <a class="code" href="recherche_8php.html#a4">$array</a>['j_debit']=$line['j_debit'];
-<a name="l01004"></a>01004     <a class="code" href="recherche_8php.html#a4">$array</a>['vw_name']=$line['vw_name'];
-<a name="l01005"></a>01005     <a class="code" href="recherche_8php.html#a4">$array</a>['jr_comment']=$line['jr_comment'];
-<a name="l01006"></a>01006     <a class="code" href="recherche_8php.html#a4">$array</a>['j_montant']=$line['j_montant'];
-<a name="l01007"></a>01007     <a class="code" href="recherche_8php.html#a4">$array</a>['jr_id']=$line['jr_id'];
-<a name="l01008"></a>01008     <a class="code" href="recherche_8php.html#a4">$array</a>['jr_date']=$line['jr_date'];
-<a name="l01009"></a>01009     <a class="code" href="recherche_8php.html#a4">$array</a>['jr_internal']=$line['jr_internal'];
-<a name="l01010"></a>01010     <a class="code" href="recherche_8php.html#a4">$array</a>['j_poste']=$line['j_poste'];
-<a name="l01011"></a>01011     <a class="code" href="recherche_8php.html#a4">$array</a>['jr_montant']=$line['jr_montant'];
-<a name="l01012"></a>01012     <a class="code" href="recherche_8php.html#a4">$array</a>['jr_rapt']=$line['jr_rapt'];
-<a name="l01013"></a>01013     <a class="code" href="recherche_8php.html#a4">$array</a>['jrn_def_type']=$line['jrn_def_type'];
-<a name="l01014"></a>01014     <a class="code" href="recherche_8php.html#a4">$array</a>['jr_grpt_id']=$line['jr_grpt_id'];
-<a name="l01015"></a>01015     <a class="code" href="recherche_8php.html#a4">$array</a>['jr_pj_name']=$line['jr_pj_name'];
+<a name="l01002"></a>01002     <a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>=pg_fetch_array($Res,$i);
+<a name="l01003"></a>01003     <a class="code" href="recherche_8php.html#a4">$array</a>['j_debit']=<a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>['j_debit'];
+<a name="l01004"></a>01004     <a class="code" href="recherche_8php.html#a4">$array</a>['vw_name']=<a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>['vw_name'];
+<a name="l01005"></a>01005     <a class="code" href="recherche_8php.html#a4">$array</a>['jr_comment']=<a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>['jr_comment'];
+<a name="l01006"></a>01006     <a class="code" href="recherche_8php.html#a4">$array</a>['j_montant']=<a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>['j_montant'];
+<a name="l01007"></a>01007     <a class="code" href="recherche_8php.html#a4">$array</a>['jr_id']=<a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>['jr_id'];
+<a name="l01008"></a>01008     <a class="code" href="recherche_8php.html#a4">$array</a>['jr_date']=<a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>['jr_date'];
+<a name="l01009"></a>01009     <a class="code" href="recherche_8php.html#a4">$array</a>['jr_internal']=<a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>['jr_internal'];
+<a name="l01010"></a>01010     <a class="code" href="recherche_8php.html#a4">$array</a>['j_poste']=<a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>['j_poste'];
+<a name="l01011"></a>01011     <a class="code" href="recherche_8php.html#a4">$array</a>['jr_montant']=<a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>['jr_montant'];
+<a name="l01012"></a>01012     <a class="code" href="recherche_8php.html#a4">$array</a>['jr_rapt']=<a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>['jr_rapt'];
+<a name="l01013"></a>01013     <a class="code" href="recherche_8php.html#a4">$array</a>['jrn_def_type']=<a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>['jrn_def_type'];
+<a name="l01014"></a>01014     <a class="code" href="recherche_8php.html#a4">$array</a>['jr_grpt_id']=<a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>['jr_grpt_id'];
+<a name="l01015"></a>01015     <a class="code" href="recherche_8php.html#a4">$array</a>['jr_pj_name']=<a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>['jr_pj_name'];
 <a name="l01016"></a>01016     <span class="comment">//    $array['']=$line[''];</span>
 <a name="l01017"></a>01017 
 <a name="l01018"></a>01018     $ret_array[<a class="code" href="balance_8php.html#a12">$i</a>]=<a class="code" href="recherche_8php.html#a4">$array</a>;

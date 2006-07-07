@@ -268,7 +268,7 @@ Load all the fiche_def_ref data and return an array of fiche_def_ref objects.
 <p>
 Definition at line <a class="el" href="class__fiche__def_8php-source.html#l00051">51</a> of file <a class="el" href="class__fiche__def_8php-source.html">class_fiche_def.php</a>.
 <p>
-References <a class="el" href="fiche__def_8inc_8php-source.html#l00037">$all</a>, <a class="el" href="recherche_8php-source.html#l00066">$array</a>, <a class="el" href="fiche__def_8inc_8php-source.html#l00062">$idx</a>, <a class="el" href="fiche__csv_8php-source.html#l00049">$o</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="class__fiche__def_8php-source.html#l00038">fiche_def_ref()</a>, and <a class="el" href="action_8inc_8php-source.html#l00241">value</a>.<div class="fragment"><pre class="fragment"><a name="l00052"></a>00052     {
+References <a class="el" href="fiche__def_8inc_8php-source.html#l00037">$all</a>, <a class="el" href="recherche_8php-source.html#l00066">$array</a>, <a class="el" href="fiche__def_8inc_8php-source.html#l00062">$idx</a>, <a class="el" href="fiche__csv_8php-source.html#l00049">$o</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00044">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="class__fiche__def_8php-source.html#l00038">fiche_def_ref()</a>, and <a class="el" href="action_8inc_8php-source.html#l00241">value</a>.<div class="fragment"><pre class="fragment"><a name="l00052"></a>00052     {
 <a name="l00053"></a>00053       <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">"select * from fiche_def_ref order by frd_id"</span>;
 <a name="l00054"></a>00054       <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql);
 <a name="l00055"></a>00055       <a class="code" href="fiche__def_8inc_8php.html#a5">$all</a>=pg_fetch_all($Res);
@@ -281,7 +281,7 @@ References <a class="el" href="fiche__def_8inc_8php-source.html#l00037">$all</a>
 <a name="l00062"></a>00062 
 <a name="l00063"></a>00063           foreach (  $this-&gt;attribut as  $<a class="code" href="action_8inc_8php.html#a19">value</a>)
 <a name="l00064"></a>00064             {
-<a name="l00065"></a>00065               <a class="code" href="fiche__csv_8php.html#a5">$o</a>-&gt;$value=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>[$value];
+<a name="l00065"></a>00065               <a class="code" href="fiche__csv_8php.html#a5">$o</a>-&gt;$value=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>[$value];
 <a name="l00066"></a>00066             }
 <a name="l00067"></a>00067           <a class="code" href="recherche_8php.html#a4">$array</a>[<a class="code" href="fiche__def_8inc_8php.html#a7">$idx</a>]=<a class="code" href="fiche__csv_8php.html#a5">$o</a>;
 <a name="l00068"></a>00068           <a class="code" href="fiche__def_8inc_8php.html#a7">$idx</a>++;

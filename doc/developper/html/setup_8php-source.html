@@ -231,8 +231,8 @@
 <a name="l00230"></a>00230  <span class="comment">//--</span>
 <a name="l00231"></a>00231 <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">"select setting from pg_settings where name='server_version'"</span>;
 <a name="l00232"></a>00232 <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$sql);
-<a name="l00233"></a>00233 <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($Res,0);
-<a name="l00234"></a>00234 $version=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>[0];
+<a name="l00233"></a>00233 <a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>=pg_fetch_array($Res,0);
+<a name="l00234"></a>00234 $version=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>[0];
 <a name="l00235"></a>00235 
 <a name="l00236"></a>00236 <span class="keywordflow">if</span> ( $version[0]  != <span class="charliteral">'8'</span> ) {
 <a name="l00237"></a>00237 ?&gt;
@@ -395,7 +395,7 @@
 <a name="l00394"></a>00394     <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($db,$sql);
 <a name="l00395"></a><a class="code" href="setup_8php.html#a11">00395</a>     <a class="code" href="setup_8php.html#a11">$Max</a>=pg_NumRows($Res);
 <a name="l00396"></a>00396     <span class="keywordflow">for</span> ($seq=0;$seq&lt;$Max;$seq++) {
-<a name="l00397"></a>00397             <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($Res,$seq);
+<a name="l00397"></a>00397             <a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>=pg_fetch_array($Res,$seq);
 <a name="l00398"></a>00398             $sql=sprintf (<span class="stringliteral">"create sequence s_jrn_%d"</span>,$row['jrn_def_id']);
 <a name="l00399"></a>00399             <a class="code" href="postgres_8php.html#a2">ExecSql</a>($db,$sql);
 <a name="l00400"></a>00400     }
@@ -471,7 +471,7 @@
 <a name="l00470"></a>00470     <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($db,$sql);
 <a name="l00471"></a>00471     <a class="code" href="setup_8php.html#a11">$Max</a>=pg_NumRows($Res);
 <a name="l00472"></a>00472     <span class="keywordflow">for</span> ($seq=0;$seq&lt;$Max;$seq++) {
-<a name="l00473"></a>00473             <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($Res,$seq);
+<a name="l00473"></a>00473             <a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>=pg_fetch_array($Res,$seq);
 <a name="l00474"></a>00474             $sql=sprintf (<span class="stringliteral">"create sequence s_jrn_%d"</span>,$row['jrn_def_id']);
 <a name="l00475"></a>00475             <a class="code" href="postgres_8php.html#a2">ExecSql</a>($db,$sql);
 <a name="l00476"></a>00476     }

@@ -74,7 +74,7 @@ Met les donnees centralisees dans la table centralize.
 <p>
 Definition at line <a class="el" href="central__inc_8php-source.html#l00036">36</a> of file <a class="el" href="central__inc_8php-source.html">central_inc.php</a>.
 <p>
-References <a class="el" href="user__sec_8php-source.html#l00163">$MaxJrn</a>, <a class="el" href="jrn__search_8php-source.html#l00147">$MaxLine</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="setup_8php-source.html#l00424">$Res2</a>, <a class="el" href="line__update_8php-source.html#l00070">$Ret</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, <a class="el" href="postgres_8php-source.html#l00263">Commit()</a>, <a class="el" href="postgres_8php-source.html#l00260">EndSql()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="postgres_8php-source.html#l00257">StartSql()</a>.
+References <a class="el" href="argenta__be_8inc_8php-source.html#l00028">$line</a>, <a class="el" href="user__sec_8php-source.html#l00163">$MaxJrn</a>, <a class="el" href="jrn__search_8php-source.html#l00147">$MaxLine</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="setup_8php-source.html#l00424">$Res2</a>, <a class="el" href="line__update_8php-source.html#l00070">$Ret</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00044">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, <a class="el" href="postgres_8php-source.html#l00263">Commit()</a>, <a class="el" href="postgres_8php-source.html#l00260">EndSql()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="postgres_8php-source.html#l00257">StartSql()</a>.
 <p>
 Referenced by <a class="el" href="user__menu_8php-source.html#l00477">ShowMenuAdvanced()</a>.<div class="fragment"><pre class="fragment"><a name="l00036"></a>00036                                       {
 <a name="l00037"></a>00037 <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">"insert into centralized( c_j_id,</span>
@@ -116,7 +116,7 @@ Referenced by <a class="el" href="user__menu_8php-source.html#l00477">ShowMenuAd
 <a name="l00073"></a>00073  <a class="code" href="user__sec_8php.html#a12">$MaxJrn</a>=pg_NumRows($Res);
 <a name="l00074"></a>00074  <span class="comment">// for each jrn_def_id</span>
 <a name="l00075"></a>00075  <span class="keywordflow">for</span> ( $i=0; $i &lt; $MaxJrn;$i++) {
-<a name="l00076"></a>00076    <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($Res,$i);
+<a name="l00076"></a>00076    <a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>=pg_fetch_array($Res,$i);
 <a name="l00077"></a>00077    <span class="comment">// get the op related to that jrn_def_id</span>
 <a name="l00078"></a>00078    <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=sprintf(<span class="stringliteral">"select jr_id from jrn </span>
 <a name="l00079"></a>00079 <span class="stringliteral">         where</span>
@@ -131,8 +131,8 @@ Referenced by <a class="el" href="user__menu_8php-source.html#l00477">ShowMenuAd
 <a name="l00088"></a>00088    <a class="code" href="jrn__search_8php.html#a13">$MaxLine</a>=pg_NumRows($Res2);
 <a name="l00089"></a>00089    <span class="keywordflow">for</span> ($e=0;$e &lt; $MaxLine;$e++) {
 <a name="l00090"></a>00090      <span class="comment">// each line is updated with a sequence</span>
-<a name="l00091"></a>00091      $line=pg_fetch_array($Res2,$e);
-<a name="l00092"></a>00092      $jr_id=$line['jr_id'];
+<a name="l00091"></a>00091      <a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>=pg_fetch_array($Res2,$e);
+<a name="l00092"></a>00092      $jr_id=<a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>['jr_id'];
 <a name="l00093"></a>00093      <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=sprintf (<span class="stringliteral">"update jrn set </span>
 <a name="l00094"></a>00094 <span class="stringliteral">                 jr_opid = (select nextval('s_jrn_%d'))</span>
 <a name="l00095"></a>00095 <span class="stringliteral">                 where jr_id =%d"</span>,
@@ -156,8 +156,8 @@ Referenced by <a class="el" href="user__menu_8php-source.html#l00477">ShowMenuAd
 <a name="l00113"></a>00113    <a class="code" href="jrn__search_8php.html#a13">$MaxLine</a>=pg_NumRows($Res2);
 <a name="l00114"></a>00114    <span class="keywordflow">for</span> ($e=0;$e &lt; $MaxLine;$e++) {
 <a name="l00115"></a>00115      <span class="comment">// each line is updated with a sequence</span>
-<a name="l00116"></a>00116      $line=pg_fetch_array($Res2,$e);
-<a name="l00117"></a>00117      $jr_id=$line['jr_id'];
+<a name="l00116"></a>00116      <a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>=pg_fetch_array($Res2,$e);
+<a name="l00117"></a>00117      $jr_id=<a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>['jr_id'];
 <a name="l00118"></a>00118      <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=sprintf (<span class="stringliteral">"update jrn set </span>
 <a name="l00119"></a>00119 <span class="stringliteral">                 jr_c_opid = (select nextval('s_central'))</span>
 <a name="l00120"></a>00120 <span class="stringliteral">                 where jr_id =%d"</span>,
@@ -170,7 +170,7 @@ Referenced by <a class="el" href="user__menu_8php-source.html#l00477">ShowMenuAd
 <a name="l00127"></a>00127 <span class="stringliteral">                 inner join jrn on c_grp = jr_grpt_id</span>
 <a name="l00128"></a>00128 <span class="stringliteral">                 order by jr_c_opid, c_debit desc"</span>);
 <a name="l00129"></a>00129    <span class="keywordflow">for</span> ( $e=0;$e &lt; pg_NumRows($Res);$e++) {
-<a name="l00130"></a>00130      <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($Res,$e);
+<a name="l00130"></a>00130      <a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>=pg_fetch_array($Res,$e);
 <a name="l00131"></a>00131      <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=sprintf (<span class="stringliteral">"update centralized set  </span>
 <a name="l00132"></a>00132 <span class="stringliteral">                 c_order = (select nextval('s_central_order'))</span>
 <a name="l00133"></a>00133 <span class="stringliteral">                 where c_id = %d"</span>,$row['c_id']);

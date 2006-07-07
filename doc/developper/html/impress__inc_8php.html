@@ -418,7 +418,7 @@ gen :<ul>
 <p>
 Definition at line <a class="el" href="impress__inc_8php-source.html#l00423">423</a> of file <a class="el" href="impress__inc_8php-source.html">impress_inc.php</a>.
 <p>
-References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="recherche_8php-source.html#l00066">$array</a>, <a class="el" href="send__poste__pdf_8php-source.html#l00052">$cond</a>, <a class="el" href="setup_8php-source.html#l00395">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="eub__be_8inc_8php-source.html#l00055">$Sql</a>, <a class="el" href="impress__inc_8php-source.html#l00374">CreatePeriodeCond()</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00424"></a>00424 {
+References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="recherche_8php-source.html#l00066">$array</a>, <a class="el" href="send__poste__pdf_8php-source.html#l00052">$cond</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00028">$line</a>, <a class="el" href="setup_8php-source.html#l00395">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00069">$Sql</a>, <a class="el" href="impress__inc_8php-source.html#l00374">CreatePeriodeCond()</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00424"></a>00424 {
 <a name="l00425"></a>00425   <a class="code" href="debug_8php.html#a0">echo_debug</a>('impress_inc.php',__LINE__,<span class="stringliteral">"GetDataJrnPdf"</span>);
 <a name="l00426"></a>00426 
 <a name="l00427"></a>00427   <span class="keywordflow">if</span> ( !isset ($p_array['periode']) ) <span class="keywordflow">return</span> <a class="code" href="constant_8php.html#a39">NO_PERIOD_SELECTED</a>;
@@ -442,7 +442,7 @@ References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class
 <a name="l00445"></a>00445     }<span class="keywordflow">else</span> {
 <a name="l00446"></a>00446       <span class="comment">// Journaux centralisés</span>
 <a name="l00447"></a>00447       <a class="code" href="send__poste__pdf_8php.html#a5">$cond</a>=<a class="code" href="impress__inc_8php.html#a5">CreatePeriodeCond</a>($p_array['periode'],<span class="stringliteral">"c_periode"</span>);
-<a name="l00448"></a>00448       <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=<span class="stringliteral">"select c_id as j_id,</span>
+<a name="l00448"></a>00448       <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=<span class="stringliteral">"select c_id as j_id,</span>
 <a name="l00449"></a>00449 <span class="stringliteral">            c_j_id,</span>
 <a name="l00450"></a>00450 <span class="stringliteral">            to_char (c_date,'DD.MM.YYYY') as j_date ,</span>
 <a name="l00451"></a>00451 <span class="stringliteral">            c_internal as jr_internal,</span>
@@ -484,7 +484,7 @@ References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class
 <a name="l00487"></a>00487     } <span class="keywordflow">else</span> {
 <a name="l00488"></a>00488       <span class="comment">// Centralisé</span>
 <a name="l00489"></a>00489       <a class="code" href="send__poste__pdf_8php.html#a5">$cond</a>=<a class="code" href="impress__inc_8php.html#a5">CreatePeriodeCond</a>($p_array['periode'],<span class="stringliteral">"c_periode"</span>);
-<a name="l00490"></a>00490       <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=<span class="stringliteral">"select c_id as j_id,</span>
+<a name="l00490"></a>00490       <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=<span class="stringliteral">"select c_id as j_id,</span>
 <a name="l00491"></a>00491 <span class="stringliteral">            c_j_id,</span>
 <a name="l00492"></a>00492 <span class="stringliteral">            to_char (c_date,'DD.MM.YYYY') as j_date ,</span>
 <a name="l00493"></a>00493 <span class="stringliteral">            c_internal as jr_internal,</span>
@@ -514,17 +514,17 @@ References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class
 <a name="l00517"></a>00517   $tot_deb=0;
 <a name="l00518"></a>00518   $tot_cred=0;
 <a name="l00519"></a>00519   <span class="keywordflow">for</span> ($i=0;$i&lt;$Max;$i++) {
-<a name="l00520"></a>00520     $line=pg_fetch_array($Res,$i);
-<a name="l00521"></a>00521     $mont_deb=($line['deb_montant']!=0)?sprintf(<span class="stringliteral">"% 8.2f"</span>,$line['deb_montant']):<span class="stringliteral">""</span>;
-<a name="l00522"></a>00522     $mont_cred=($line['cred_montant']!=0)?sprintf(<span class="stringliteral">"% 8.2f"</span>,$line['cred_montant']):<span class="stringliteral">""</span>;
-<a name="l00523"></a>00523     $jr_montant=($line['jr_montant']!=0)?sprintf(<span class="stringliteral">"% 8.2f"</span>,$line['jr_montant']):<span class="stringliteral">""</span>;
-<a name="l00524"></a>00524     $tot_deb+=$line['deb_montant'];
-<a name="l00525"></a>00525     $tot_cred+=$line['cred_montant'];
+<a name="l00520"></a>00520     <a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>=pg_fetch_array($Res,$i);
+<a name="l00521"></a>00521     $mont_deb=(<a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>['deb_montant']!=0)?sprintf(<span class="stringliteral">"% 8.2f"</span>,$line['deb_montant']):<span class="stringliteral">""</span>;
+<a name="l00522"></a>00522     $mont_cred=(<a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>['cred_montant']!=0)?sprintf(<span class="stringliteral">"% 8.2f"</span>,$line['cred_montant']):<span class="stringliteral">""</span>;
+<a name="l00523"></a>00523     $jr_montant=(<a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>['jr_montant']!=0)?sprintf(<span class="stringliteral">"% 8.2f"</span>,$line['jr_montant']):<span class="stringliteral">""</span>;
+<a name="l00524"></a>00524     $tot_deb+=<a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>['deb_montant'];
+<a name="l00525"></a>00525     $tot_cred+=<a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>['cred_montant'];
 <a name="l00526"></a>00526     <a class="code" href="debug_8php.html#a0">echo_debug</a>('impress_inc.php',__LINE__,<span class="stringliteral">" GetJrnDataPdf : mont_Deb "</span>.$mont_deb);
 <a name="l00527"></a>00527     <a class="code" href="debug_8php.html#a0">echo_debug</a>('impress_inc.php',__LINE__,<span class="stringliteral">" GetJrnDataPdf : mont_cred "</span>.$mont_cred);
 <a name="l00528"></a>00528 
 <a name="l00529"></a>00529     <span class="keywordflow">if</span> ( $<span class="keywordflow">case</span> != $line['grp'] ) {
-<a name="l00530"></a>00530       $case=$line['grp'];
+<a name="l00530"></a>00530       $case=<a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>['grp'];
 <a name="l00531"></a>00531       <a class="code" href="recherche_8php.html#a4">$array</a>[]=array (
 <a name="l00532"></a>00532                       'j_id'=&gt;$line['j_id'],
 <a name="l00533"></a>00533                       'j_date' =&gt; $line['j_date'],
@@ -836,7 +836,7 @@ $p_jrnx_id jrnx.j_id<ul>
 <p>
 Definition at line <a class="el" href="impress__inc_8php-source.html#l00616">616</a> of file <a class="el" href="impress__inc_8php-source.html">impress_inc.php</a>.
 <p>
-References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, <a class="el" href="postgres_8php-source.html#l00222">CountSql()</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00617"></a>00617 {
+References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00028">$line</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, <a class="el" href="postgres_8php-source.html#l00222">CountSql()</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00617"></a>00617 {
 <a name="l00618"></a>00618   include_once(<span class="stringliteral">"preference.php"</span>);
 <a name="l00619"></a>00619 
 <a name="l00620"></a>00620   <span class="keywordflow">if</span> ( $which == <a class="code" href="constant_8php.html#a41">LAST</a>) 
@@ -868,8 +868,8 @@ References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class
 <a name="l00646"></a>00646       <span class="keywordflow">if</span> ( pg_NumRows($Res) == 0 ) 
 <a name="l00647"></a>00647         $deb=0;
 <a name="l00648"></a>00648       <span class="keywordflow">else</span> {
-<a name="l00649"></a>00649         $line=pg_fetch_array($Res,0);
-<a name="l00650"></a>00650         $deb=$line['tot_amount'];
+<a name="l00649"></a>00649         <a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>=pg_fetch_array($Res,0);
+<a name="l00650"></a>00650         $deb=<a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>['tot_amount'];
 <a name="l00651"></a>00651       }
 <a name="l00652"></a>00652       
 <a name="l00653"></a>00653       <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql.<span class="stringliteral">" and c_debit='f' "</span>);
@@ -877,8 +877,8 @@ References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class
 <a name="l00655"></a>00655         $cred=0;
 <a name="l00656"></a>00656       <span class="keywordflow">else</span> {
 <a name="l00657"></a>00657         
-<a name="l00658"></a>00658         $line=pg_fetch_array($Res,0);
-<a name="l00659"></a>00659         $cred=$line['tot_amount'];
+<a name="l00658"></a>00658         <a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>=pg_fetch_array($Res,0);
+<a name="l00659"></a>00659         $cred=<a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>['tot_amount'];
 <a name="l00660"></a>00660       }
 <a name="l00661"></a>00661       <a class="code" href="debug_8php.html#a0">echo_debug</a>('impress_inc.php',__LINE__,<span class="stringliteral">"MONTANT $deb,$cred"</span>);
 <a name="l00662"></a>00662       <a class="code" href="balance_8php.html#a10">$a</a>=array($deb,$cred);
@@ -903,8 +903,8 @@ References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class
 <a name="l00681"></a>00681       <span class="keywordflow">if</span> ( pg_NumRows($Res) == 0 ) 
 <a name="l00682"></a>00682         $deb=0;
 <a name="l00683"></a>00683       <span class="keywordflow">else</span> {
-<a name="l00684"></a>00684         $line=pg_fetch_array($Res,0);
-<a name="l00685"></a>00685         $deb=$line['tot_amount'];
+<a name="l00684"></a>00684         <a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>=pg_fetch_array($Res,0);
+<a name="l00685"></a>00685         $deb=<a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>['tot_amount'];
 <a name="l00686"></a>00686       }
 <a name="l00687"></a>00687       
 <a name="l00688"></a>00688       <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql.<span class="stringliteral">" and c_debit='f' "</span>);
@@ -912,8 +912,8 @@ References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class
 <a name="l00690"></a>00690         $cred=0;
 <a name="l00691"></a>00691       <span class="keywordflow">else</span> {
 <a name="l00692"></a>00692         
-<a name="l00693"></a>00693         $line=pg_fetch_array($Res,0);
-<a name="l00694"></a>00694         $cred=$line['tot_amount'];
+<a name="l00693"></a>00693         <a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>=pg_fetch_array($Res,0);
+<a name="l00694"></a>00694         $cred=<a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>['tot_amount'];
 <a name="l00695"></a>00695       }
 <a name="l00696"></a>00696       <a class="code" href="debug_8php.html#a0">echo_debug</a>('impress_inc.php',__LINE__,<span class="stringliteral">"MONTANT $deb,$cred"</span>);
 <a name="l00697"></a>00697       <a class="code" href="balance_8php.html#a10">$a</a>=array($deb,$cred);

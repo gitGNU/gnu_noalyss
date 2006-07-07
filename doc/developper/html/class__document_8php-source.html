@@ -80,14 +80,14 @@
 <a name="l00091"></a>00091 <span class="stringliteral">                   from document_modele where md_id="</span>.$this-&gt;md_id;
 <a name="l00092"></a>00092       <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$dm_info);
 <a name="l00093"></a>00093 
-<a name="l00094"></a>00094       <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($Res,0);
-<a name="l00095"></a>00095       $this-&gt;d_lob=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['md_lob'];
-<a name="l00096"></a>00096       $this-&gt;d_filename=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['md_filename'];
-<a name="l00097"></a>00097       $this-&gt;d_mimetype=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['md_mimetype'];
+<a name="l00094"></a>00094       <a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>=pg_fetch_array($Res,0);
+<a name="l00095"></a>00095       $this-&gt;d_lob=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['md_lob'];
+<a name="l00096"></a>00096       $this-&gt;d_filename=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['md_filename'];
+<a name="l00097"></a>00097       $this-&gt;d_mimetype=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['md_mimetype'];
 <a name="l00098"></a>00098 
 <a name="l00099"></a>00099       <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_document',__LINE__,<span class="stringliteral">"OID is "</span>.$row['md_lob']);
 <a name="l00101"></a>00101       chdir($dirname);
-<a name="l00102"></a>00102       $filename=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['md_filename'];
+<a name="l00102"></a>00102       $filename=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['md_filename'];
 <a name="l00103"></a>00103       pg_lo_export($this-&gt;db,$row['md_lob'],$filename);
 <a name="l00104"></a>00104       $type=<span class="stringliteral">"n"</span>;
 <a name="l00105"></a>00105       <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_document',__LINE__,'The document type is '.$row['md_mimetype']);
@@ -313,12 +313,12 @@
 <a name="l00360"></a>00360                    <span class="stringliteral">"select d_id,d_lob,d_filename,d_mimetype from document where d_id="</span>.$this-&gt;d_id );
 <a name="l00361"></a>00361       <span class="keywordflow">if</span> ( pg_num_rows ($ret) == 0 )
 <a name="l00362"></a>00362         <span class="keywordflow">return</span>;
-<a name="l00363"></a>00363       <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($ret,0);
+<a name="l00363"></a>00363       <a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>=pg_fetch_array($ret,0);
 <a name="l00364"></a>00364       <span class="comment">//the document  is saved into file $tmp</span>
 <a name="l00365"></a>00365       <a class="code" href="show__document__modele_8php.html#a5">$tmp</a>=tempnam('/tmp/<span class="charliteral">','</span>document_');
 <a name="l00366"></a>00366       pg_lo_export($this-&gt;db,$row['d_lob'],$tmp);
-<a name="l00367"></a>00367       $this-&gt;d_mimetype=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['d_mimetype'];
-<a name="l00368"></a>00368       $this-&gt;d_filename=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['d_filename'];
+<a name="l00367"></a>00367       $this-&gt;d_mimetype=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['d_mimetype'];
+<a name="l00368"></a>00368       $this-&gt;d_filename=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['d_filename'];
 <a name="l00369"></a>00369 
 <a name="l00370"></a>00370       <span class="comment">// send it to stdout</span>
 <a name="l00371"></a>00371       ini_set('zlib.output_compression<span class="charliteral">','</span>Off');
@@ -347,14 +347,14 @@
 <a name="l00396"></a>00396       <a class="code" href="impress__bilan_8php.html#a0">$ret</a>=Exec($this-&gt;db,$sql);
 <a name="l00397"></a>00397       <span class="keywordflow">if</span> ( pg_num_rows($ret) == 0 )
 <a name="l00398"></a>00398         <span class="keywordflow">return</span>;
-<a name="l00399"></a>00399       <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($ret,0);
-<a name="l00400"></a>00400       $this-&gt;<a class="code" href="action_8inc_8php.html#a4">ag_id</a>=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['<a class="code" href="action_8inc_8php.html#a4">ag_id</a>'];
-<a name="l00401"></a>00401       $this-&gt;d_mimetype=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['d_mimetype'];
-<a name="l00402"></a>00402       $this-&gt;d_filename=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['d_filename'];
-<a name="l00403"></a>00403       $this-&gt;d_lob=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['d_lob'];
-<a name="l00404"></a>00404       $this-&gt;d_number=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>[''];
-<a name="l00405"></a>00405       $this-&gt;<a class="code" href="action_8inc_8php.html#a7">d_state</a>=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['<a class="code" href="action_8inc_8php.html#a4">ag_id</a>'];
-<a name="l00406"></a>00406       $this-&gt;d_number=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['d_number'];
+<a name="l00399"></a>00399       <a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>=pg_fetch_array($ret,0);
+<a name="l00400"></a>00400       $this-&gt;<a class="code" href="action_8inc_8php.html#a4">ag_id</a>=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['<a class="code" href="action_8inc_8php.html#a4">ag_id</a>'];
+<a name="l00401"></a>00401       $this-&gt;d_mimetype=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['d_mimetype'];
+<a name="l00402"></a>00402       $this-&gt;d_filename=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['d_filename'];
+<a name="l00403"></a>00403       $this-&gt;d_lob=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['d_lob'];
+<a name="l00404"></a>00404       $this-&gt;d_number=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>[''];
+<a name="l00405"></a>00405       $this-&gt;<a class="code" href="action_8inc_8php.html#a7">d_state</a>=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['<a class="code" href="action_8inc_8php.html#a4">ag_id</a>'];
+<a name="l00406"></a>00406       $this-&gt;d_number=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['d_number'];
 <a name="l00407"></a>00407 
 <a name="l00408"></a>00408     }
 <a name="l00441"></a><a class="code" href="classDocument.html#a10">00441</a>   function <a class="code" href="classDocument.html#a10">Replace</a>($p_tag)
@@ -437,7 +437,7 @@
 <a name="l00518"></a>00518           $tiers-&gt;getByQcode($qcode,<span class="keyword">false</span>);
 <a name="l00519"></a>00519           <a class="code" href="bank_8inc_8php.html#a29">$r</a>=$tiers-&gt;strAttribut(<a class="code" href="constant_8php.html#a61">ATTR_DEF_ADRESS</a>);
 <a name="l00520"></a>00520           
-<a name="l00521"></a>00521           <a class="code" href="readme_8php.html#a13">break</a> ;
+<a name="l00521"></a>00521           <a class="code" href="argenta__be_8inc_8php.html#a11">break</a> ;
 <a name="l00522"></a>00522         <span class="keywordflow">case</span> 'CUST_CP':
 <a name="l00523"></a>00523           $tiers=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($this-&gt;db);
 <a name="l00524"></a>00524           <a class="code" href="bank_8inc_8php.html#a16">$qcode</a>=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];

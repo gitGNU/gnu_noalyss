@@ -271,7 +271,7 @@ Parse and remplace the tag in the invoice By the value found in quant_sold.
 <p>
 Definition at line <a class="el" href="class__document__modele_8php-source.html#l00204">204</a> of file <a class="el" href="class__document__modele_8php-source.html">class_document_modele.php</a>.
 <p>
-References <a class="el" href="show__document__modele_8php-source.html#l00060">$file</a>, <a class="el" href="impress__bilan_8php-source.html#l00032">$ret</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="show__document__modele_8php-source.html#l00050">$tmp</a>, <a class="el" href="postgres_8php-source.html#l00263">Commit()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="postgres_8php-source.html#l00257">StartSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00205"></a>00205     {
+References <a class="el" href="show__document__modele_8php-source.html#l00060">$file</a>, <a class="el" href="impress__bilan_8php-source.html#l00032">$ret</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00044">$row</a>, <a class="el" href="show__document__modele_8php-source.html#l00050">$tmp</a>, <a class="el" href="postgres_8php-source.html#l00263">Commit()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="postgres_8php-source.html#l00257">StartSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00205"></a>00205     {
 <a name="l00206"></a>00206       <span class="comment">// retrieve info from the table invoice</span>
 <a name="l00207"></a>00207       
 <a name="l00208"></a>00208       <span class="comment">// retrieve the template and generate document</span>
@@ -279,7 +279,7 @@ References <a class="el" href="show__document__modele_8php-source.html#l00060">$
 <a name="l00210"></a>00210       <a class="code" href="impress__bilan_8php.html#a0">$ret</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select iv_name,iv_file from invoice where iv_id"</span>.$this-&gt;iv_id);
 <a name="l00211"></a>00211       <span class="keywordflow">if</span> ( pg_num_rows ($ret) == 0 )
 <a name="l00212"></a>00212         <span class="keywordflow">return</span>;
-<a name="l00213"></a>00213       <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($ret,0);
+<a name="l00213"></a>00213       <a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>=pg_fetch_array($ret,0);
 <a name="l00214"></a>00214       <span class="comment">//the template is saved into file $tmp</span>
 <a name="l00215"></a>00215       <a class="code" href="show__document__modele_8php.html#a5">$tmp</a>=tempnam('/tmp/<span class="charliteral">','</span>invoice_');
 <a name="l00216"></a>00216       pg_lo_export($cn,$row['iv_file'],$tmp);
@@ -345,7 +345,7 @@ References <a class="el" href="show__document__modele_8php-source.html#l00060">$
 <p>
 Definition at line <a class="el" href="class__document__modele_8php-source.html#l00049">49</a> of file <a class="el" href="class__document__modele_8php-source.html">class_document_modele.php</a>.
 <p>
-References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="fiche__def_8inc_8php-source.html#l00037">$all</a>, <a class="el" href="admin_8inc_8php-source.html#l00081">$c</a>, <a class="el" href="bank_8inc_8php-source.html#l00237">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="class__document__modele_8php-source.html#l00252">form()</a>, <a class="el" href="action_8inc_8php-source.html#l00338">md_id</a>, and <a class="el" href="document__modele_8inc_8php-source.html#l00042">md_name</a>.<div class="fragment"><pre class="fragment"><a name="l00049"></a>00049                     { 
+References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="fiche__def_8inc_8php-source.html#l00037">$all</a>, <a class="el" href="admin_8inc_8php-source.html#l00081">$c</a>, <a class="el" href="bank_8inc_8php-source.html#l00237">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00044">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="class__document__modele_8php-source.html#l00252">form()</a>, <a class="el" href="action_8inc_8php-source.html#l00338">md_id</a>, and <a class="el" href="document__modele_8inc_8php-source.html#l00042">md_name</a>.<div class="fragment"><pre class="fragment"><a name="l00049"></a>00049                     { 
 <a name="l00050"></a>00050     <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">"select md_id,md_name,dt_value from document_modele join document_type on(dt_id=md_type)"</span>;
 <a name="l00051"></a>00051     <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;cn,$sql);
 <a name="l00052"></a>00052     <a class="code" href="fiche__def_8inc_8php.html#a5">$all</a>=pg_fetch_all($Res);
@@ -357,10 +357,10 @@ References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class
 <a name="l00058"></a>00058     foreach ( $all as $row) {
 <a name="l00059"></a>00059       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;tr&gt;"</span>;
 <a name="l00060"></a>00060       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;td&gt;"</span>;
-<a name="l00061"></a>00061       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['<a class="code" href="document__modele_8inc_8php.html#a2">md_name</a>'];
+<a name="l00061"></a>00061       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['<a class="code" href="document__modele_8inc_8php.html#a2">md_name</a>'];
 <a name="l00062"></a>00062       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/td&gt;"</span>;
 <a name="l00063"></a>00063       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;td&gt;"</span>;
-<a name="l00064"></a>00064       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['dt_value'];
+<a name="l00064"></a>00064       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['dt_value'];
 <a name="l00065"></a>00065       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/td&gt;"</span>;
 <a name="l00066"></a>00066       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;td&gt;"</span>;
 <a name="l00067"></a>00067       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;A HREF=<span class="stringliteral">"show_document_modele.php?md_id='.$row['md_id'].'"</span>&gt;<a class="code" href="classDocument.html">Document</a>&lt;/a&gt;';

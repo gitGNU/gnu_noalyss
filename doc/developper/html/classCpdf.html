@@ -4339,7 +4339,7 @@ private
 <p>
 Definition at line <a class="el" href="class_8pdf_8php-source.html#l01306">1306</a> of file <a class="el" href="class_8pdf_8php-source.html">class.pdf.php</a>.
 <p>
-References <a class="el" href="readme_8php-source.html#l00174">$bits</a>, <a class="el" href="readme_8php-source.html#l00150">$data</a>, <a class="el" href="show__document__modele_8php-source.html#l00060">$file</a>, <a class="el" href="balance_8php-source.html#l00118">$i</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="show__document__modele_8php-source.html#l00050">$tmp</a>, and <a class="el" href="action_8inc_8php-source.html#l00240">name</a>.<div class="fragment"><pre class="fragment"><a name="l01306"></a>01306                         {
+References <a class="el" href="readme_8php-source.html#l00174">$bits</a>, <a class="el" href="readme_8php-source.html#l00150">$data</a>, <a class="el" href="show__document__modele_8php-source.html#l00060">$file</a>, <a class="el" href="balance_8php-source.html#l00118">$i</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00044">$row</a>, <a class="el" href="show__document__modele_8php-source.html#l00050">$tmp</a>, and <a class="el" href="action_8inc_8php-source.html#l00240">name</a>.<div class="fragment"><pre class="fragment"><a name="l01306"></a>01306                         {
 <a name="l01307"></a>01307   <span class="comment">// assume that $font contains both the path and perhaps the extension to the file, split them</span>
 <a name="l01308"></a>01308   $pos=strrpos($font,<span class="charliteral">'/'</span>);
 <a name="l01309"></a>01309   <span class="keywordflow">if</span> ($pos===<span class="keyword">false</span>){
@@ -4370,7 +4370,7 @@ References <a class="el" href="readme_8php-source.html#l00174">$bits</a>, <a cla
 <a name="l01334"></a>01334     <a class="code" href="readme_8php.html#a4">$data</a> = array();
 <a name="l01335"></a>01335     <a class="code" href="show__document__modele_8php.html#a6">$file</a> = file($dir.$name.'.afm');
 <a name="l01336"></a>01336     foreach ($file as $rowA){
-<a name="l01337"></a>01337       <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>=trim($rowA);
+<a name="l01337"></a>01337       <a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>=trim($rowA);
 <a name="l01338"></a>01338       $pos=strpos($row,<span class="charliteral">' '</span>);
 <a name="l01339"></a>01339       <span class="keywordflow">if</span> ($pos){
 <a name="l01340"></a>01340         <span class="comment">// then there must be some keyword</span>

@@ -272,17 +272,17 @@
 <a name="l00320"></a>00320         <span class="stringliteral">" ag_ref_ag_id "</span>.
 <a name="l00321"></a>00321         <span class="stringliteral">" from action_gestion left join document using (ag_id) where ag_id="</span>.$this-&gt;ag_id;
 <a name="l00322"></a>00322       <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql);
-<a name="l00323"></a>00323       <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>=pg_fetch_all($r);
+<a name="l00323"></a>00323       <a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>=pg_fetch_all($r);
 <a name="l00324"></a>00324       <span class="keywordflow">if</span> ( $row==<span class="keyword">false</span>) <span class="keywordflow">return</span>;
-<a name="l00325"></a>00325       $this-&gt;<a class="code" href="action_8inc_8php.html#a5">ag_comment</a>=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>[0]['<a class="code" href="action_8inc_8php.html#a5">ag_comment</a>'];
-<a name="l00326"></a>00326       $this-&gt;<a class="code" href="action_8inc_8php.html#a6">ag_timestamp</a>=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>[0]['<a class="code" href="action_8inc_8php.html#a6">ag_timestamp</a>'];
-<a name="l00327"></a>00327       $this-&gt;<a class="code" href="action_8inc_8php.html#a14">f_id_dest</a>=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>[0]['<a class="code" href="action_8inc_8php.html#a14">f_id_dest</a>'];
-<a name="l00328"></a>00328       $this-&gt;<a class="code" href="action_8inc_8php.html#a15">f_id_exp</a>=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>[0]['<a class="code" href="action_8inc_8php.html#a15">f_id_exp</a>'];
-<a name="l00329"></a>00329       $this-&gt;<a class="code" href="action_8inc_8php.html#a11">ag_title</a>=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>[0]['<a class="code" href="action_8inc_8php.html#a11">ag_title</a>'];
-<a name="l00330"></a>00330       $this-&gt;ag_type=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>[0]['ag_type'];
-<a name="l00331"></a>00331       $this-&gt;<a class="code" href="action_8inc_8php.html#a16">ag_ref</a>=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>[0]['<a class="code" href="action_8inc_8php.html#a16">ag_ref</a>'];
-<a name="l00332"></a>00332       $this-&gt;<a class="code" href="action_8inc_8php.html#a13">ag_ref_ag_id</a>=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>[0]['<a class="code" href="action_8inc_8php.html#a13">ag_ref_ag_id</a>'];
-<a name="l00333"></a>00333       $this-&gt;<a class="code" href="action_8inc_8php.html#a12">d_id</a>=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>[0]['<a class="code" href="action_8inc_8php.html#a12">d_id</a>'];
+<a name="l00325"></a>00325       $this-&gt;<a class="code" href="action_8inc_8php.html#a5">ag_comment</a>=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>[0]['<a class="code" href="action_8inc_8php.html#a5">ag_comment</a>'];
+<a name="l00326"></a>00326       $this-&gt;<a class="code" href="action_8inc_8php.html#a6">ag_timestamp</a>=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>[0]['<a class="code" href="action_8inc_8php.html#a6">ag_timestamp</a>'];
+<a name="l00327"></a>00327       $this-&gt;<a class="code" href="action_8inc_8php.html#a14">f_id_dest</a>=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>[0]['<a class="code" href="action_8inc_8php.html#a14">f_id_dest</a>'];
+<a name="l00328"></a>00328       $this-&gt;<a class="code" href="action_8inc_8php.html#a15">f_id_exp</a>=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>[0]['<a class="code" href="action_8inc_8php.html#a15">f_id_exp</a>'];
+<a name="l00329"></a>00329       $this-&gt;<a class="code" href="action_8inc_8php.html#a11">ag_title</a>=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>[0]['<a class="code" href="action_8inc_8php.html#a11">ag_title</a>'];
+<a name="l00330"></a>00330       $this-&gt;ag_type=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>[0]['ag_type'];
+<a name="l00331"></a>00331       $this-&gt;<a class="code" href="action_8inc_8php.html#a16">ag_ref</a>=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>[0]['<a class="code" href="action_8inc_8php.html#a16">ag_ref</a>'];
+<a name="l00332"></a>00332       $this-&gt;<a class="code" href="action_8inc_8php.html#a13">ag_ref_ag_id</a>=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>[0]['<a class="code" href="action_8inc_8php.html#a13">ag_ref_ag_id</a>'];
+<a name="l00333"></a>00333       $this-&gt;<a class="code" href="action_8inc_8php.html#a12">d_id</a>=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>[0]['<a class="code" href="action_8inc_8php.html#a12">d_id</a>'];
 <a name="l00334"></a>00334       <span class="comment">//</span>
 <a name="l00335"></a>00335       <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_action',__LINE__,' <a class="code" href="classDocument.html">Document</a> <span class="keywordtype">id</span> = '.$this-&gt;d_id);
 <a name="l00336"></a>00336       <span class="comment">// if there is no document set 0 to d_id</span>
@@ -291,8 +291,8 @@
 <a name="l00339"></a>00339       <span class="comment">// if there is a document fill the object</span>
 <a name="l00340"></a>00340       <span class="keywordflow">if</span> ($this-&gt;d_id != 0 )
 <a name="l00341"></a>00341         {
-<a name="l00342"></a>00342           $this-&gt;state=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>[<span class="charliteral">'0'</span>]['<a class="code" href="action_8inc_8php.html#a7">d_state</a>'];
-<a name="l00343"></a>00343           $this-&gt;<a class="code" href="action_8inc_8php.html#a7">d_state</a>=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>[0]['<a class="code" href="action_8inc_8php.html#a7">d_state</a>'];
+<a name="l00342"></a>00342           $this-&gt;state=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>[<span class="charliteral">'0'</span>]['<a class="code" href="action_8inc_8php.html#a7">d_state</a>'];
+<a name="l00343"></a>00343           $this-&gt;<a class="code" href="action_8inc_8php.html#a7">d_state</a>=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>[0]['<a class="code" href="action_8inc_8php.html#a7">d_state</a>'];
 <a name="l00344"></a>00344         }
 <a name="l00345"></a>00345       <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_action',__LINE__,' After test <a class="code" href="classDocument.html">Document</a> <span class="keywordtype">id</span> = '.$this-&gt;d_id);
 <a name="l00346"></a>00346       $this-&gt;<a class="code" href="action_8inc_8php.html#a8">dt_id</a>=$this-&gt;ag_type;
@@ -646,7 +646,7 @@
 <a name="l00725"></a>00725           <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.$row['my_date'].<span class="stringliteral">"&lt;/td&gt;"</span>;
 <a name="l00726"></a>00726           <span class="comment">// Destinataire</span>
 <a name="l00727"></a>00727           $fdest=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($this-&gt;db);
-<a name="l00728"></a>00728           $fdest-&gt;id=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['<a class="code" href="action_8inc_8php.html#a14">f_id_dest</a>'];
+<a name="l00728"></a>00728           $fdest-&gt;id=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['<a class="code" href="action_8inc_8php.html#a14">f_id_dest</a>'];
 <a name="l00729"></a>00729           $qcode_dest=$fdest-&gt;strAttribut(<a class="code" href="constant_8php.html#a78">ATTR_DEF_QUICKCODE</a>);
 <a name="l00730"></a>00730 
 <a name="l00731"></a>00731           $qdest=($qcode_dest==<span class="stringliteral">"- ERROR -"</span>)?<span class="stringliteral">"Interne"</span>:$qcode_dest;
@@ -661,7 +661,7 @@
 <a name="l00740"></a>00740 
 <a name="l00741"></a>00741           <span class="comment">// Expediteur</span>
 <a name="l00742"></a>00742           $fexp=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($this-&gt;db);
-<a name="l00743"></a>00743           $fexp-&gt;id=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['<a class="code" href="action_8inc_8php.html#a15">f_id_exp</a>'];
+<a name="l00743"></a>00743           $fexp-&gt;id=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['<a class="code" href="action_8inc_8php.html#a15">f_id_exp</a>'];
 <a name="l00744"></a>00744           $qcode_exp=$fexp-&gt;strAttribut(<a class="code" href="constant_8php.html#a78">ATTR_DEF_QUICKCODE</a>);
 <a name="l00745"></a>00745 
 <a name="l00746"></a>00746           $qexp=($qcode_exp==<span class="stringliteral">"- ERROR -"</span>)?<span class="stringliteral">"Interne"</span>:$qcode_exp;
@@ -687,13 +687,13 @@
 <a name="l00766"></a>00766                   foreach ($retSql as $line) 
 <a name="l00767"></a>00767                     {
 <a name="l00768"></a>00768                       $ref.='&lt;A  href=<span class="stringliteral">"commercial.php?p_action=suivi_courrier&amp;query='.$line['ag_ref'].'"</span>&gt;'.
-<a name="l00769"></a>00769                         $line['<a class="code" href="action_8inc_8php.html#a16">ag_ref</a>'].<span class="stringliteral">"&lt;A&gt;"</span>;
+<a name="l00769"></a>00769                         <a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>['<a class="code" href="action_8inc_8php.html#a16">ag_ref</a>'].<span class="stringliteral">"&lt;A&gt;"</span>;
 <a name="l00770"></a>00770                     }
 <a name="l00771"></a>00771                 }
 <a name="l00772"></a>00772             }
 <a name="l00773"></a>00773 
 <a name="l00774"></a>00774           <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;td&gt;&lt;A HREF=<span class="stringliteral">"commercial.php?p_action=suivi_courrier&amp;sa=detail&amp;ag_id='.$row['ag_id'].'"</span>&gt;'.
-<a name="l00775"></a>00775             <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['<a class="code" href="action_8inc_8php.html#a11">ag_title</a>'].<span class="stringliteral">"&lt;/A&gt;&lt;/td&gt;"</span>;
+<a name="l00775"></a>00775             <a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['<a class="code" href="action_8inc_8php.html#a11">ag_title</a>'].<span class="stringliteral">"&lt;/A&gt;&lt;/td&gt;"</span>;
 <a name="l00776"></a>00776           <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.$row['dt_value'].<span class="stringliteral">"&lt;/td&gt;"</span>;
 <a name="l00777"></a>00777           <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.$row['<a class="code" href="action_8inc_8php.html#a16">ag_ref</a>'].<span class="stringliteral">"&lt;/td&gt;"</span>;
 <a name="l00778"></a>00778           <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.$ref.<span class="stringliteral">"&lt;/td&gt;"</span>;

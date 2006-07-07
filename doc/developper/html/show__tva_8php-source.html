@@ -57,7 +57,7 @@
 <a name="l00052"></a><a class="code" href="show__tva_8php.html#a6">00052</a> <a class="code" href="setup_8php.html#a11">$Max</a>=pg_NumRows($Res);
 <a name="l00053"></a>00053 echo <span class="stringliteral">"&lt;TABLE BORDER=\"1\"&gt;"</span>;
 <a name="l00054"></a>00054 <span class="keywordflow">for</span> ($i=0;$i&lt;$Max;$i++) {
-<a name="l00055"></a>00055   <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($Res,$i);
+<a name="l00055"></a>00055   <a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>=pg_fetch_array($Res,$i);
 <a name="l00056"></a><a class="code" href="show__tva_8php.html#a7">00056</a>   <a class="code" href="show__tva_8php.html#a7">$set</a>=sprintf( '&lt;INPUT TYPE=<span class="stringliteral">"BUTTON"</span> Value=<span class="stringliteral">"select"</span> onClick=<span class="stringliteral">"GetIt(\'%s\',\'%s\');"</span>&gt;',
 <a name="l00057"></a>00057              $_GET['ctl'],$row['tva_id']);
 <a name="l00058"></a>00058   printf(<span class="stringliteral">"&lt;tr&gt;&lt;TD BGCOLOR=\LIGHTGREEN\" &gt;%s %d&lt;/TD&gt;&lt;TD&gt;%s&lt;/TD&gt;&lt;TD&gt;%s&lt;/TD&gt;&lt;/TR&gt;"</span>,

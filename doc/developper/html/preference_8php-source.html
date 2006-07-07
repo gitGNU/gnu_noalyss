@@ -120,8 +120,8 @@
 <a name="l00170"></a>00170   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select p_exercice from parm_periode"</span>.
 <a name="l00171"></a>00171                <span class="stringliteral">" where p_id=$p_periode"</span>);
 <a name="l00172"></a>00172   <span class="keywordflow">if</span> ( pg_NumRows($Res) == 0 ) <span class="keywordflow">return</span> <span class="stringliteral">""</span>;
-<a name="l00173"></a>00173   $line=pg_fetch_array($Res,0);
-<a name="l00174"></a>00174   <span class="keywordflow">return</span> $line['p_exercice'];
+<a name="l00173"></a>00173   <a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>=pg_fetch_array($Res,0);
+<a name="l00174"></a>00174   <span class="keywordflow">return</span> <a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>['p_exercice'];
 <a name="l00175"></a>00175 }
 <a name="l00185"></a><a class="code" href="preference_8php.html#a5">00185</a> function <a class="code" href="preference_8php.html#a5">ShowDevise</a>($p_cn)
 <a name="l00186"></a>00186 {

@@ -777,7 +777,7 @@ Definition at line <a class="el" href="user__common_8php-source.html#l00288">288
 <p>
 References <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="ac__common_8php-source.html#l00206">FormatString()</a>, <a class="el" href="postgres_8php-source.html#l00242">GetSequence()</a>, and <a class="el" href="poste_8inc_8php-source.html#l00033">p_comment</a>.
 <p>
-Referenced by <a class="el" href="user__form__fin_8php-source.html#l00358">RecordFin()</a>, <a class="el" href="user__form__ven_8php-source.html#l00627">RecordInvoice()</a>, <a class="el" href="user__form__ach_8php-source.html#l00661">RecordSell()</a>, and <a class="el" href="import__inc_8php-source.html#l00090">TransferCSV()</a>.<div class="fragment"><pre class="fragment"><a name="l00289"></a>00289 {
+Referenced by <a class="el" href="user__form__fin_8php-source.html#l00358">RecordFin()</a>, <a class="el" href="user__form__ven_8php-source.html#l00627">RecordInvoice()</a>, <a class="el" href="user__form__ach_8php-source.html#l00661">RecordSell()</a>, and <a class="el" href="import__inc_8php-source.html#l00108">TransferCSV()</a>.<div class="fragment"><pre class="fragment"><a name="l00289"></a>00289 {
 <a name="l00290"></a>00290         <a class="code" href="debug_8php.html#a0">echo_debug</a> ('user_common.php',__LINE__,<span class="stringliteral">"InsertJrn param </span>
 <a name="l00291"></a>00291 <span class="stringliteral">            p_date $p_date p_poste $p_comment p_amount $p_amount p_grpt = $p_grpt p_periode = $p_periode p_echeance = $p_echeance</span>
 <a name="l00292"></a>00292 <span class="stringliteral">comment = $p_comment"</span>);
@@ -900,7 +900,7 @@ Definition at line <a class="el" href="user__common_8php-source.html#l00244">244
 <p>
 References <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="postgres_8php-source.html#l00242">GetSequence()</a>.
 <p>
-Referenced by <a class="el" href="user__form__fin_8php-source.html#l00358">RecordFin()</a>, <a class="el" href="user__form__ven_8php-source.html#l00627">RecordInvoice()</a>, <a class="el" href="user__form__ods_8php-source.html#l00247">RecordODS()</a>, <a class="el" href="user__form__ach_8php-source.html#l00661">RecordSell()</a>, and <a class="el" href="import__inc_8php-source.html#l00090">TransferCSV()</a>.<div class="fragment"><pre class="fragment"><a name="l00245"></a>00245 {
+Referenced by <a class="el" href="user__form__fin_8php-source.html#l00358">RecordFin()</a>, <a class="el" href="user__form__ven_8php-source.html#l00627">RecordInvoice()</a>, <a class="el" href="user__form__ods_8php-source.html#l00247">RecordODS()</a>, <a class="el" href="user__form__ach_8php-source.html#l00661">RecordSell()</a>, and <a class="el" href="import__inc_8php-source.html#l00108">TransferCSV()</a>.<div class="fragment"><pre class="fragment"><a name="l00245"></a>00245 {
 <a name="l00246"></a>00246   <a class="code" href="debug_8php.html#a0">echo_debug</a> ('user_common.php',__LINE__,<span class="stringliteral">"InsertJrnx param </span>
 <a name="l00247"></a>00247 <span class="stringliteral">            type = $p_type p_user $p_user </span>
 <a name="l00248"></a>00248 <span class="stringliteral">            p_date $p_date p_poste $p_poste </span>
@@ -1388,7 +1388,7 @@ ListJrn($p_cn,$p_jrn,$p_wherel)<p>
 <p>
 Definition at line <a class="el" href="user__common_8php-source.html#l00322">322</a> of file <a class="el" href="user__common_8php-source.html">user_common.php</a>.
 <p>
-References <a class="el" href="commercial_8php-source.html#l00035">$_SESSION</a>, <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="admin__repo_8php-source.html#l00163">$count</a>, <a class="el" href="poste_8inc_8php-source.html#l00069">$h</a>, <a class="el" href="jrn__pdf_8php-source.html#l00071">$limit</a>, <a class="el" href="setup_8php-source.html#l00395">$Max</a>, <a class="el" href="bank_8inc_8php-source.html#l00172">$offset</a>, <a class="el" href="modify__op_8php-source.html#l00054">$p_jrn</a>, <a class="el" href="bank_8inc_8php-source.html#l00237">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00028">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, <a class="el" href="balance_8php-source.html#l00124">$tr</a>, <a class="el" href="user__action__ach_8php-source.html#l00164">$User</a>, <a class="el" href="admin_8inc_8php-source.html#l00116">$w</a>, <a class="el" href="postgres_8php-source.html#l00222">CountSql()</a>, <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="ac__common_8php-source.html#l00206">FormatString()</a>, <a class="el" href="user__common_8php-source.html#l00758">GetConcerned()</a>, <a class="el" href="jrn_8php-source.html#l00793">GetInternal()</a>, <a class="el" href="jrn_8php-source.html#l00549">GetJrnProp()</a>, <a class="el" href="ac__common_8php-source.html#l00097">isDate()</a>, and <a class="el" href="balance_8php-source.html#l00071">table</a>.<div class="fragment"><pre class="fragment"><a name="l00323"></a>00323 {
+References <a class="el" href="commercial_8php-source.html#l00035">$_SESSION</a>, <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="admin__repo_8php-source.html#l00163">$count</a>, <a class="el" href="poste_8inc_8php-source.html#l00069">$h</a>, <a class="el" href="jrn__pdf_8php-source.html#l00071">$limit</a>, <a class="el" href="setup_8php-source.html#l00395">$Max</a>, <a class="el" href="bank_8inc_8php-source.html#l00172">$offset</a>, <a class="el" href="modify__op_8php-source.html#l00054">$p_jrn</a>, <a class="el" href="bank_8inc_8php-source.html#l00237">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00044">$row</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, <a class="el" href="balance_8php-source.html#l00124">$tr</a>, <a class="el" href="user__action__ach_8php-source.html#l00164">$User</a>, <a class="el" href="admin_8inc_8php-source.html#l00116">$w</a>, <a class="el" href="postgres_8php-source.html#l00222">CountSql()</a>, <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="ac__common_8php-source.html#l00206">FormatString()</a>, <a class="el" href="user__common_8php-source.html#l00758">GetConcerned()</a>, <a class="el" href="jrn_8php-source.html#l00793">GetInternal()</a>, <a class="el" href="jrn_8php-source.html#l00549">GetJrnProp()</a>, <a class="el" href="ac__common_8php-source.html#l00097">isDate()</a>, and <a class="el" href="balance_8php-source.html#l00071">table</a>.<div class="fragment"><pre class="fragment"><a name="l00323"></a>00323 {
 <a name="l00324"></a>00324 
 <a name="l00325"></a>00325   include_once(<span class="stringliteral">"central_inc.php"</span>);
 <a name="l00326"></a>00326   <a class="code" href="jrn__pdf_8php.html#a9">$limit</a>=(<a class="code" href="commercial_8php.html#a0">$_SESSION</a>['g_pagesize']!=-1)?<span class="stringliteral">" LIMIT "</span>.$_SESSION['g_pagesize']:<span class="stringliteral">""</span>;
@@ -1546,7 +1546,7 @@ References <a class="el" href="commercial_8php-source.html#l00035">$_SESSION</a>
 <a name="l00478"></a>00478 
 <a name="l00479"></a>00479     <span class="comment">//STAN the rows here must be stored in an array</span>
 <a name="l00480"></a>00480     
-<a name="l00481"></a>00481     <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($Res,$i);
+<a name="l00481"></a>00481     <a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>=pg_fetch_array($Res,$i);
 <a name="l00482"></a>00482     
 <a name="l00483"></a>00483     <span class="keywordflow">if</span> ( $i % 2 == 0 ) <a class="code" href="balance_8php.html#a13">$tr</a>='&lt;TR <span class="keyword">class</span>=<span class="stringliteral">"odd"</span>&gt;'; 
 <a name="l00484"></a>00484                 <span class="keywordflow">else</span> <a class="code" href="balance_8php.html#a13">$tr</a>='&lt;TR <span class="keyword">class</span>=<span class="stringliteral">"even"</span>&gt;';
@@ -1559,16 +1559,16 @@ References <a class="el" href="commercial_8php-source.html#l00035">$_SESSION</a>
 <a name="l00491"></a>00491     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/TD&gt;"</span>;
 <a name="l00492"></a>00492     <span class="comment">// date</span>
 <a name="l00493"></a>00493     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;TD&gt;"</span>;
-<a name="l00494"></a>00494     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['jr_date'];
+<a name="l00494"></a>00494     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['jr_date'];
 <a name="l00495"></a>00495     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/TD&gt;"</span>;
 <a name="l00496"></a>00496     <span class="comment">// echeance</span>
 <a name="l00497"></a>00497     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;TD&gt;"</span>;
-<a name="l00498"></a>00498     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['jr_ech'];
+<a name="l00498"></a>00498     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['jr_ech'];
 <a name="l00499"></a>00499     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/TD&gt;"</span>;
 <a name="l00500"></a>00500     
 <a name="l00501"></a>00501     <span class="comment">// comment</span>
 <a name="l00502"></a>00502     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;TD&gt;"</span>;
-<a name="l00503"></a>00503     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['jr_comment'];
+<a name="l00503"></a>00503     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['jr_comment'];
 <a name="l00504"></a>00504     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/TD&gt;"</span>;
 <a name="l00505"></a>00505     
 <a name="l00506"></a>00506     <span class="comment">// Amount</span>
@@ -1596,7 +1596,7 @@ References <a class="el" href="commercial_8php-source.html#l00035">$_SESSION</a>
 <a name="l00528"></a>00528       {
 <a name="l00529"></a>00529         <a class="code" href="admin_8inc_8php.html#a4">$w</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"checkbox"</span>);
 <a name="l00530"></a>00530         <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;name=<span class="stringliteral">"rd_paid"</span>.$row['jr_id'];
-<a name="l00531"></a>00531         <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;selected=(<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['jr_rapt']=='paid')?<span class="keyword">true</span>:<span class="keyword">false</span>;
+<a name="l00531"></a>00531         <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;selected=(<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['jr_rapt']=='paid')?<span class="keyword">true</span>:<span class="keyword">false</span>;
 <a name="l00532"></a>00532         <span class="comment">// if p_paid == 2 then readonly</span>
 <a name="l00533"></a>00533         <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;readonly=( $p_paid == 2)?<span class="keyword">true</span>:<span class="keyword">false</span>;
 <a name="l00534"></a>00534         <a class="code" href="poste_8inc_8php.html#a8">$h</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"hidden"</span>);

@@ -150,7 +150,7 @@
 <a name="l00148"></a>00148 
 <a name="l00149"></a>00149   <span class="comment">//set focus on first "Select" button.</span>
 <a name="l00150"></a>00150    
-<a name="l00151"></a>00151   <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($Res,$i);
+<a name="l00151"></a>00151   <a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>=pg_fetch_array($Res,$i);
 <a name="l00152"></a>00152   <span class="comment">// if quick code is empty pass ( it not used for the contact)</span>
 <a name="l00153"></a>00153   <span class="keywordflow">if</span> (trim($row['quick_code']) == <span class="stringliteral">""</span>)
 <a name="l00154"></a>00154     <span class="keywordflow">continue</span>;
@@ -162,7 +162,7 @@
 <a name="l00160"></a>00160     $class=<span class="stringliteral">"odd"</span>;
 <a name="l00161"></a>00161   $text=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($row['vw_name']);
 <a name="l00162"></a>00162   $r.=<span class="stringliteral">"&lt;span class=\"$class\"&gt;"</span>;
-<a name="l00163"></a>00163   <a class="code" href="bank_8inc_8php.html#a16">$qcode</a>=    <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['quick_code'] ;
+<a name="l00163"></a>00163   <a class="code" href="bank_8inc_8php.html#a16">$qcode</a>=    <a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['quick_code'] ;
 <a name="l00164"></a>00164 
 <a name="l00165"></a>00165   $r.=sprintf ('&lt;input <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"%s"</span> type=<span class="stringliteral">"button"</span> onClick=<span class="stringliteral">"'."</span>SetData('%s<span class="charliteral">','</span>%s<span class="charliteral">','</span>%s<span class="charliteral">','</span>%s<span class="charliteral">','</span>%s<span class="charliteral">','</span>%s<span class="charliteral">','</span>%s')<span class="stringliteral">".'"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"%s"</span>&gt;',
 <a name="l00166"></a>00166         <span class="stringliteral">"select"</span> . $i,
@@ -177,7 +177,7 @@
 <a name="l00175"></a>00175                );
 <a name="l00176"></a>00176   $r.=<span class="stringliteral">"&amp;nbsp;"</span>.$row['vw_name'];
 <a name="l00177"></a>00177   <span class="keywordflow">if</span> ( $row['vw_addr'] !=<span class="stringliteral">""</span>)
-<a name="l00178"></a>00178     $r.=<span class="stringliteral">"&lt;br&gt;&lt;font size=-1&gt;Adresse:&amp;nbsp;"</span>.$row['vw_addr'].<span class="stringliteral">"&amp;nbsp;"</span>.<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['vw_cp'].<span class="stringliteral">"&lt;/font&gt;"</span>;
+<a name="l00178"></a>00178     $r.=<span class="stringliteral">"&lt;br&gt;&lt;font size=-1&gt;Adresse:&amp;nbsp;"</span>.$row['vw_addr'].<span class="stringliteral">"&amp;nbsp;"</span>.<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['vw_cp'].<span class="stringliteral">"&lt;/font&gt;"</span>;
 <a name="l00179"></a>00179   $r.=<span class="stringliteral">"&lt;/span&gt;"</span>;
 <a name="l00180"></a>00180  }
 <a name="l00181"></a>00181 }

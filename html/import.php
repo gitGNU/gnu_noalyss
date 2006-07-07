@@ -81,8 +81,8 @@ if ( isset ($_GET["action"]) ) {
     }
   }
   if ($action == "verif" ) {
-    if(isset($_POST['poste'])) {
-      UpdateCSV($cn, $_POST['code'], $_POST['poste']);
+    if(isset($_POST['count'])) {
+      UpdateCSV($cn);
     }
     echo '<DIV class="u_redcontent">';
     VerifImport($cn);

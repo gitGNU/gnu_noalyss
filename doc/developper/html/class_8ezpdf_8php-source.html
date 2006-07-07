@@ -970,7 +970,7 @@
 <a name="l00961"></a>00961         $columnStart = $this-&gt;ez['columns']['colNum'];
 <a name="l00962"></a>00962       }
 <a name="l00963"></a>00963       $this-&gt;<a class="code" href="classCpdf.html#a73">transaction</a>('<a class="code" href="document__modele_8inc_8php.html#a5">start</a>');
-<a name="l00964"></a>00964       $row_orig = <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>;
+<a name="l00964"></a>00964       $row_orig = <a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>;
 <a name="l00965"></a>00965       $y_orig = <a class="code" href="classCezpdf.html#o1">$y</a>;
 <a name="l00966"></a>00966       $y0_orig = $y0;
 <a name="l00967"></a>00967       $y1_orig = $y1;
@@ -1063,7 +1063,7 @@
 <a name="l01054"></a>01054         }
 <a name="l01055"></a>01055         $this-&gt;y -= <a class="code" href="classCpdf.html#o23">$options</a>['rowGap'];
 <a name="l01056"></a>01056         foreach ($lines as $<a class="code" href="classCpdf.html#a34">line</a>){
-<a name="l01057"></a>01057           $line = $this-&gt;<a class="code" href="classCezpdf.html#a22">ezProcessText</a>($line);
+<a name="l01057"></a>01057           <a class="code" href="argenta__be_8inc_8php.html#a0">$line</a> = $this-&gt;<a class="code" href="classCezpdf.html#a22">ezProcessText</a>($line);
 <a name="l01058"></a>01058           <a class="code" href="bilan_8php.html#a2">$start</a>=1;
 <a name="l01059"></a>01059 
 <a name="l01060"></a>01060           <span class="keywordflow">while</span> (strlen($line) || $<a class="code" href="document__modele_8inc_8php.html#a5">start</a>){
@@ -1080,9 +1080,9 @@
 <a name="l01071"></a>01071               <span class="keywordflow">if</span> (isset($leftOvers[$colName])){
 <a name="l01072"></a>01072                 $leftOvers[$colName].=<span class="stringliteral">"\n"</span>.$line;
 <a name="l01073"></a>01073               } <span class="keywordflow">else</span> {
-<a name="l01074"></a>01074                 $leftOvers[$colName] = $line;
+<a name="l01074"></a>01074                 $leftOvers[$colName] = <a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>;
 <a name="l01075"></a>01075               }
-<a name="l01076"></a>01076               $line='';
+<a name="l01076"></a>01076               <a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>='';
 <a name="l01077"></a>01077             } <span class="keywordflow">else</span> {
 <a name="l01078"></a>01078               <span class="keywordflow">if</span> (isset($options['cols'][$colName]) &amp;&amp; isset($options['cols'][$colName]['justification']) ){
 <a name="l01079"></a>01079                 $just = <a class="code" href="classCpdf.html#o23">$options</a>['cols'][$colName]['justification'];
@@ -1090,7 +1090,7 @@
 <a name="l01081"></a>01081                 $just='left';
 <a name="l01082"></a>01082               }
 <a name="l01083"></a>01083 
-<a name="l01084"></a>01084               $line=$this-&gt;<a class="code" href="classCpdf.html#a54">addTextWrap</a>($pos[$colName],$this-&gt;y,$maxWidth[$colName],$options['fontSize'],$line,$just);
+<a name="l01084"></a>01084               <a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>=$this-&gt;<a class="code" href="classCpdf.html#a54">addTextWrap</a>($pos[$colName],$this-&gt;y,$maxWidth[$colName],$options['fontSize'],$line,$just);
 <a name="l01085"></a>01085             }
 <a name="l01086"></a>01086           }
 <a name="l01087"></a>01087         }
@@ -1101,7 +1101,7 @@
 <a name="l01092"></a>01092         }
 <a name="l01093"></a>01093       }
 <a name="l01094"></a>01094       <span class="comment">// set $row to $leftOvers so that they will be processed onto the new page</span>
-<a name="l01095"></a>01095       <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a> = $leftOvers;
+<a name="l01095"></a>01095       <a class="code" href="argenta__be_8inc_8php.html#a2">$row</a> = $leftOvers;
 <a name="l01096"></a>01096       <span class="comment">// now add the shading underneath</span>
 <a name="l01097"></a>01097       <span class="keywordflow">if</span> ($options['shaded'] &amp;&amp; $cnt%2==0){
 <a name="l01098"></a>01098         $this-&gt;<a class="code" href="classCpdf.html#a59">closeObject</a>();
@@ -1143,7 +1143,7 @@
 <a name="l01134"></a>01134         $newPage=1;
 <a name="l01135"></a>01135         $secondTurn=1;
 <a name="l01136"></a>01136         $this-&gt;<a class="code" href="classCpdf.html#a73">transaction</a>('rewind');
-<a name="l01137"></a>01137         <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a> = $row_orig;
+<a name="l01137"></a>01137         <a class="code" href="argenta__be_8inc_8php.html#a2">$row</a> = $row_orig;
 <a name="l01138"></a>01138         <a class="code" href="classCezpdf.html#o1">$y</a> = $y_orig;
 <a name="l01139"></a>01139         $y0 = $y0_orig;
 <a name="l01140"></a>01140         $y1 = $y1_orig;
@@ -1293,7 +1293,7 @@
 <a name="l01284"></a>01284       } <span class="keywordflow">else</span> {
 <a name="l01285"></a>01285         <a class="code" href="user__sec_8php.html#a15">$right</a> = $this-&gt;ez['pageWidth'] - $this-&gt;ez['rightMargin'] - ((is_array($options) &amp;&amp; isset($options['right']))?<a class="code" href="classCpdf.html#o23">$options</a>['right']:0);
 <a name="l01286"></a>01286       }
-<a name="l01287"></a>01287       $line=$this-&gt;<a class="code" href="classCpdf.html#a54">addTextWrap</a>($left,$this-&gt;y,$right-$left,$<a class="code" href="tva_8inc_8php.html#a15">size</a>,$line,$just,0,$test);
+<a name="l01287"></a>01287       <a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>=$this-&gt;<a class="code" href="classCpdf.html#a54">addTextWrap</a>($left,$this-&gt;y,$right-$left,$<a class="code" href="tva_8inc_8php.html#a15">size</a>,$line,$just,0,$test);
 <a name="l01288"></a>01288     }
 <a name="l01289"></a>01289   }
 <a name="l01290"></a>01290 
@@ -1438,17 +1438,17 @@
 <a name="l01429"></a>01429     <span class="keywordflow">return</span> -1;
 <a name="l01430"></a>01430   }
 <a name="l01431"></a>01431 
-<a name="l01432"></a>01432   <a class="code" href="eub__be_8inc_8php.html#a3">$code</a> = implode('',file($templateFile));
+<a name="l01432"></a>01432   <a class="code" href="argenta__be_8inc_8php.html#a5">$code</a> = implode('',file($templateFile));
 <a name="l01433"></a>01433   <span class="keywordflow">if</span> (!strlen($code)){
 <a name="l01434"></a>01434     <span class="keywordflow">return</span>;
 <a name="l01435"></a>01435   }
 <a name="l01436"></a>01436 
-<a name="l01437"></a>01437   <a class="code" href="eub__be_8inc_8php.html#a3">$code</a> = trim($code);
+<a name="l01437"></a>01437   <a class="code" href="argenta__be_8inc_8php.html#a5">$code</a> = trim($code);
 <a name="l01438"></a>01438   <span class="keywordflow">if</span> (substr($code,0,5)=='&lt;?php'){
-<a name="l01439"></a>01439     <a class="code" href="eub__be_8inc_8php.html#a3">$code</a> = substr($code,5);
+<a name="l01439"></a>01439     <a class="code" href="argenta__be_8inc_8php.html#a5">$code</a> = substr($code,5);
 <a name="l01440"></a>01440   }
 <a name="l01441"></a>01441   <span class="keywordflow">if</span> (substr($code,-2)=='?&gt;'){
-<a name="l01442"></a>01442     <a class="code" href="eub__be_8inc_8php.html#a3">$code</a> = substr($code,0,strlen($code)-2);
+<a name="l01442"></a>01442     <a class="code" href="argenta__be_8inc_8php.html#a5">$code</a> = substr($code,0,strlen($code)-2);
 <a name="l01443"></a>01443   }
 <a name="l01444"></a>01444   <span class="keywordflow">if</span> (isset($this-&gt;ez['numTemplates'])){
 <a name="l01445"></a>01445     $newNum = $this-&gt;ez['numTemplates'];
@@ -1459,7 +1459,7 @@
 <a name="l01450"></a>01450     $this-&gt;ez['templates']=array();
 <a name="l01451"></a>01451   }
 <a name="l01452"></a>01452 
-<a name="l01453"></a>01453   $this-&gt;ez['templates'][$newNum]['code']=<a class="code" href="eub__be_8inc_8php.html#a3">$code</a>;
+<a name="l01453"></a>01453   $this-&gt;ez['templates'][$newNum]['code']=<a class="code" href="argenta__be_8inc_8php.html#a5">$code</a>;
 <a name="l01454"></a>01454 
 <a name="l01455"></a>01455   <span class="keywordflow">return</span> $newNum;
 <a name="l01456"></a>01456 }

@@ -106,7 +106,7 @@
 <a name="l00101"></a>00101       <span class="keywordflow">if</span> ( isset    ($_POST[<span class="stringliteral">"FICHECRED"</span>])) {
 <a name="l00102"></a>00102        <a class="code" href="jrn__add_8php.html#a11">$p_jrn_fiche_cred</a>=join(<span class="stringliteral">","</span>,$_POST[<span class="stringliteral">"FICHECRED"</span>]);
 <a name="l00103"></a>00103       }
-<a name="l00104"></a><a class="code" href="jrn__detail_8php.html#a9">00104</a>     <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=sprintf(<span class="stringliteral">"update jrn_def set jrn_def_name='%s',jrn_def_class_deb='%s',jrn_def_class_cred='%s',</span>
+<a name="l00104"></a><a class="code" href="jrn__detail_8php.html#a9">00104</a>     <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=sprintf(<span class="stringliteral">"update jrn_def set jrn_def_name='%s',jrn_def_class_deb='%s',jrn_def_class_cred='%s',</span>
 <a name="l00105"></a>00105 <span class="stringliteral">                 jrn_deb_max_line=%s,jrn_cred_max_line=%s,jrn_def_ech=%s,jrn_def_ech_lib=%s,jrn_def_fiche_deb='%s',</span>
 <a name="l00106"></a>00106 <span class="stringliteral">                  jrn_def_fiche_cred='%s'</span>
 <a name="l00107"></a>00107 <span class="stringliteral">                 where jrn_def_id=%s"</span>,

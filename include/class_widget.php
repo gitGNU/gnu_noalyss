@@ -26,7 +26,37 @@
 /*!
  * \brief class widget This class is used to create all the HTML INPUT TYPE
  *        and some specials which works with javascript like 
- *        js_search
+ *        js_search.
+ * special value 
+ *    js_search and js_search_only :you need to add a span widget the name
+ *    of the js_* widget + '_label' , the member extra contains cred,deb to 
+ *    filter the search of cred of deb of a jrn or contains a string with 
+ *    a list of frd_id.
+ *    Possible type 
+ *    $type 
+ *      - TEXT 
+ *      - HIDDEN
+ *      - SELECT
+ *      - PASSWORD
+ *      - CHECKBOX
+ *      - RADIO
+ *      - TEXTAREA
+ *      - RICHTEXT
+ *      - FILE
+ *      - JS_SEARCH_POSTE  call a popup window for searching the account
+ *      - JS_SEARCH call a popup window for searching a quickcode or to add one
+ *      - JS_SEARCH_ONLY like JS_SEARCH but without adding a quickcode
+ *      - SPAN
+ *      - JS_TVA        open a popup window for the VAT
+ *      - JS_CONCERNED  open a popup window for search a operation
+ *
+ *    For JS_SEARCH_POST,JS_SEARCH or JS_SEARCH_ONLY
+ *     - $extra contains 'cred', 'deb', 'all' or a list of fiche_def_ref (frd_id) 
+ *           to filter the search/add for the card
+ *        
+ *     - $extra2 filter on the card parameter, which are given in Avance->journaux menu, 
+ *            it is the journal id. If empty, there is no link with a ledger
+ *
  */
 class widget {
   /*! \enum $type type of the input tag (text, select, files, js_search,...)
@@ -41,26 +71,21 @@ class widget {
    * \enum   $extra depends of the input type
    * \enum   $extra2 depends of the input type
    * \enum   $tabindex the tabindex
-   * \brief special value 
-   *    js_search and js_search_only :you need to add a span widget the name
-   *    of the js_* widget + '_label' , the member extra contains cred,deb to 
-   *    filter the search of cred of deb of a jrn or contains a string with 
-   *    a list of frd_id 
-   *
+   * \brief
    */
 
-  var $type;
-  var $name;
-  var $value;
-  var $readonly;
-  var $size;
-  var $selected;
-  var $table;
-  var $label;
-  var $disabled;
-  var $extra;
-  var $extra2;
-  var $tabindex;
+  var $type;                      /*! \enum $type type of the widget */
+  var $name;                      /*! \enum $name field NAME of the INPUT */    
+  var $value;                     /*! \enum $value what the INPUT contains */
+  var $readonly;                  /*! \enum $readonly true : we cannot change value */
+  var $size;                      /*! \enum $size size of the input */
+  var $selected;                  /*! \enum $selected for SELECT RADIO and CHECKBOX the selected value */
+  var $table;                     /*! \enum $table =1 add the table tag */
+  var $label;                     /*! \enum $label the question before the input */
+  var $disabled;                  /*! \enum $disabled poss. value == true or nothing, to disable INPUT*/
+  var $extra;                     /*! \enum $extra different usage, it depends of the $type */
+  var $extra2;                    /*! \enum $extra2 different usage, it depends of the $type */
+  var $tabindex; 
   function widget($p_type="") {
     $this->type=$p_type;
     $this->readonly=false;

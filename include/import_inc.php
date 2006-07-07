@@ -17,18 +17,23 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-// Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+// Copyright Author Olivier Dzwoniarkiewicz
+// Modified Dany De Bontridder ddebontridder@yahoo.fr
 // $Revision$
 include_once("jrn.php");
 include_once("preference.php");
 include_once("user_common.php");
 require_once('class_user.php');
+require_once('class_widget.php');
+require_once('class_fiche.php');
 /*! 
  **************************************************
  * \brief  Parse the file and insert the record
  *          into the table import_tmp. Insert in a temporary table, if
  *          no confirmation is given then the data are removed otherwise
- *          records are inserted into import_tmp
+ *          records are inserted into import_tmp. Following
+ *          the choosen bank a different file is included to 
+ *          to parse the CSV, take the cbc_be.inc.php as template
  *        
  * \param $p_cn database connection
  * \param $file  the uploaded file
@@ -56,11 +61,14 @@ Commit($p_cn);
 
 }
 /*!\brief Update import_tmp with the bank account
- * \note still used ?
+ * 
  */
-function UpdateCSV($p_cn, $code, $poste){
-	$sql = "update import_tmp set poste_comptable='".$poste."' where code='".$code."'";
-	$Res=ExecSql($p_cn,$sql);
+function UpdateCSV($p_cn){
+  $code=$_POST['code'];
+  $count=$_POST['count'];
+  $poste=$_POST['poste'.$count];
+  $sql = "update import_tmp set poste_comptable='".$poste."' where code='".$code."'";
+  $Res=ExecSql($p_cn,$sql);
 }
 /*!\brief Verify the import
  */
@@ -71,18 +79,31 @@ function VerifImport($p_cn){
 	$Num=pg_NumRows($Res);
 	echo $Num." opérations à complèter.<br/><br/>";
 	$i=1;
+	// include javascript for popup 
+	echo JS_SEARCH_CARD;
 	while($val = pg_fetch_array($Res)){
-		echo '<form METHOD="POST" action="import.php?action=verif">';
-		echo '<input type="hidden" name="code" value="'.$val['code'].'">';
-		echo '<table border="1" width="500">';
-		echo '<tr><td width="200">'.$val['code'].'</td><td width="200">'.$val['date_exec'].'</td><td width="100">'.$val['montant'].' EUR</td><tr/>';
-		echo '<tr><td height="50" colspan="3">'.$val['detail'].'</td><tr/>';
-		echo '<tr><td>Poste Comptable : <input type="text" size="10" name="poste"></td>';
-		echo "<td>n° compte : ".$val['num_compte']."</td>";
-		echo '<td><input type="submit" value="modifier"></td><tr/>';
-		echo '</table>';
-		echo '</FORM>';
-		$i++;
+	  $w=new widget('js_search_only');
+	  $w->name='poste'.$i;
+	  $w->extra='cred';
+	  $w->extra2=$val['jrn'];
+	  $w->label='';
+	  $w->table=0;
+
+	  $s=new widget('span');
+
+	  echo '<form METHOD="POST" action="import.php?action=verif">';
+	  echo '<input type="hidden" name="code" value="'.$val['code'].'">';
+	  echo '<input type="hidden" name="count" value="'.$i.'">';
+	  echo '<table border="1" width="500">';
+	  echo '<tr><td width="200">'.$val['code'].'</td><td width="200">'.$val['date_exec'].'</td><td width="100">'.$val['montant'].' EUR</td><tr/>';
+	  echo '<tr><td height="50" colspan="3">'.$val['detail'].'</td><tr/>';
+	  //echo '<tr><td>Poste Comptable : <input type="text" size="10" name="poste"></td>';
+	  echo '<tr><td>'.$w->IOValue().' '.$s->IOValue('poste'.$i.'_label').'</td>';
+	  echo "<td>n° compte : ".$val['num_compte']."</td>";
+	  echo '<td><input type="submit" value="modifier"></td><tr/>';
+	  echo '</table>';
+	  echo '</FORM>';
+	  $i++;
 	}
 }
 /*!\brief Transfert data into the ledger
@@ -108,8 +129,10 @@ function TransferCSV($p_cn, $periode){
     }
   $start ="to_date('".$val['p_start']."','DD-MM-YYYY')";   
   $end = "to_date('".$val['p_end']."','DD-MM-YYYY')";
-  var_dump($val);
-  $sql = "select * from import_tmp where poste_comptable is not null and  poste_comptable <> '' 
+  // var_dump($val);
+  $sql = "select code,to_char(date_exec,'DD.MM.YYYY') as date_exec, ".
+    " montant,num_compte,poste_comptable,bq_account,jrn,detail ".
+    " from import_tmp where poste_comptable is not null and  poste_comptable <> '' 
           and   ok <> TRUE AND date_exec BETWEEN ".$start." and ".$end;
   $Res=ExecSql($p_cn,$sql);
   //echo "boucle: ".sizeof($Res)."<br/>";
@@ -123,27 +146,36 @@ function TransferCSV($p_cn, $periode){
     $poste_comptable=$val['poste_comptable'];$bq_account=$val['bq_account'];
     $jrn=$val['jrn'];
     
-    list($annee, $mois, $jour) = explode("-", $date_exec);
-    $date_exec = $jour.".".$mois.".".$annee;
-    
+// Retrieve the account thx the quick code    
+    $f=new fiche($p_cn);
+    $f->GetByQCode($poste_comptable,false);
+    $poste_comptable=$f->strAttribut(ATTR_DEF_ACCOUNT);
+    StartSql($p_cn);
+
     // Vérification que le poste comptable trouvé existe
-    $sqltest = "select * from tmp_pcmn WHERE pcm_val='".$poste_comptable."'";
-    $Restest=ExecSql($p_cn,$sqltest);
-    $test=pg_NumRows($Restest);
+    if ( $poste_comptable == '- ERROR -')
+      $test=0;
+      else
+	{
+	  $sqltest = "select * from tmp_pcmn WHERE pcm_val='".$poste_comptable."'";
+	  
+	  $Restest=ExecSql($p_cn,$sqltest);
+	  $test=pg_NumRows($Restest);
+	}
+
+    // Test it
     if($test == 0) {
       $sqlupdate = "update import_tmp set poste_comptable='' WHERE code='".$code."' AND num_compte='".$num_compte."'";
       $Resupdate=ExecSql($p_cn,$sqlupdate);
       echo "Poste comptable erronné pour l'opération ".$num_compte."-".$code.", réinitialisation du poste comptable<br/>";
-    } else {
+      continue;
+    }
+	 
       
       // Finances
       
-      //$seq = GetNextId($p_cn,'j_grpt')+1;
       $seq=NextSequence($p_cn,'s_grpt');
       $p_user = $_SESSION['g_user'];
-      //$periode = GetUserPeriode($p_cn,$p_user);
-      //$periode = $User->GetPeriode();
-      StartSql($p_cn);
 
       $r=InsertJrnx($p_cn,"d",$p_user,$jrn,$bq_account,$date_exec,$montant,$seq,$periode);
       if ( $r == false) { $Rollback($p_cn);exit("error 'import_inc.php' __LINE__");}
@@ -160,7 +192,6 @@ function TransferCSV($p_cn, $periode){
       $r=InsertJrn($p_cn,$date_exec,NULL,$jrn,$num_compte." ".$code,$montant,$seq,$periode);
       if ( $r == false ) { Rollback($p_cn); exit(" Error 'import_inc.php' __LINE__");}
       
-      //$sql = "insert into jrn (jr_def_id,jr_montant,jr_comment,jr_date,jr_grpt_id,jr_tech_per) values ( ".$p_jrn.", abs(".round($montant,2)."), '".$num_compte." ".$code."','".$date_valeur."','".$seq."','".$periode."')";
       SetInternalCode($p_cn,$seq,$jrn);
       
       
@@ -168,9 +199,10 @@ function TransferCSV($p_cn, $periode){
       $sql2 = "update import_tmp set ok=TRUE where code='".$code."'";
       $Res2=ExecSql($p_cn,$sql2);
       
-      Commit($p_cn);
-    }
+    	
   }
+  Commit($p_cn);
+
 }
 /*! 
  **************************************************

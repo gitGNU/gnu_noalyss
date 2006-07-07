@@ -280,7 +280,7 @@ Cree un form pour prendre les postes.
 <p>
 Definition at line <a class="el" href="poste_8php-source.html#l00087">87</a> of file <a class="el" href="poste_8php-source.html">poste.php</a>.
 <p>
-References <a class="el" href="setup_8php-source.html#l00395">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="impress__bilan_8php-source.html#l00032">$ret</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
+References <a class="el" href="argenta__be_8inc_8php-source.html#l00028">$line</a>, <a class="el" href="setup_8php-source.html#l00395">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="impress__bilan_8php-source.html#l00032">$ret</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
 <p>
 Referenced by <a class="el" href="impress__inc_8php-source.html#l00036">ViewImp()</a>.<div class="fragment"><pre class="fragment"><a name="l00087"></a>00087                           {
 <a name="l00088"></a>00088   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select pcm_val,pcm_lib from tmp_pcmn </span>
@@ -289,7 +289,7 @@ Referenced by <a class="el" href="impress__inc_8php-source.html#l00036">ViewImp(
 <a name="l00091"></a>00091   <span class="keywordflow">if</span> ($Max==0) <span class="keywordflow">return</span> null;
 <a name="l00092"></a>00092   <a class="code" href="impress__bilan_8php.html#a0">$ret</a>='&lt;SELECT NAME=<span class="stringliteral">"poste[]"</span> SIZE=<span class="stringliteral">"15"</span> MULTIPLE&gt;';
 <a name="l00093"></a>00093   <span class="keywordflow">for</span> ( $i = 0;$i&lt; $Max;$i++) {
-<a name="l00094"></a>00094     $line=pg_fetch_array($Res,$i);
+<a name="l00094"></a>00094     <a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>=pg_fetch_array($Res,$i);
 <a name="l00095"></a>00095     <a class="code" href="impress__bilan_8php.html#a0">$ret</a>.=sprintf('&lt;OPTION VALUE=<span class="stringliteral">"%s"</span> &gt; %s - %s',
 <a name="l00096"></a>00096                   $line['pcm_val'],
 <a name="l00097"></a>00097                   $line['pcm_val'],

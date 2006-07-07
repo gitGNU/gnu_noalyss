@@ -190,7 +190,7 @@ ajoute une nouvelle fiche
 <p>
 Definition at line <a class="el" href="fiche__inc_8php-source.html#l00038">38</a> of file <a class="el" href="fiche__inc_8php-source.html">fiche_inc.php</a>.
 <p>
-References <a class="el" href="setup_8php-source.html#l00267">$flag</a>, <a class="el" href="jrn__add_8php-source.html#l00181">$num</a>, <a class="el" href="line__update_8php-source.html#l00057">$p_parent</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, <a class="el" href="eub__be_8inc_8php-source.html#l00055">$Sql</a>, <a class="el" href="postgres_8php-source.html#l00222">CountSql()</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="ac__common_8php-source.html#l00036">echo_error()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="balance_8php-source.html#l00036">exit</a>, <a class="el" href="ac__common_8php-source.html#l00206">FormatString()</a>, <a class="el" href="fiche__inc_8php-source.html#l01181">Get_attr_def()</a>, <a class="el" href="fiche__inc_8php-source.html#l00352">GetBaseFiche()</a>, <a class="el" href="fiche__inc_8php-source.html#l01214">GetCreateAccount()</a>, <a class="el" href="fiche__inc_8php-source.html#l00462">GetNextFiche()</a>, <a class="el" href="postgres_8php-source.html#l00242">GetSequence()</a>, and <a class="el" href="ac__common_8php-source.html#l00076">isNumber()</a>.<div class="fragment"><pre class="fragment"><a name="l00038"></a>00038                                           {
+References <a class="el" href="setup_8php-source.html#l00267">$flag</a>, <a class="el" href="jrn__add_8php-source.html#l00181">$num</a>, <a class="el" href="line__update_8php-source.html#l00057">$p_parent</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00069">$Sql</a>, <a class="el" href="postgres_8php-source.html#l00222">CountSql()</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="ac__common_8php-source.html#l00036">echo_error()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="balance_8php-source.html#l00036">exit</a>, <a class="el" href="ac__common_8php-source.html#l00206">FormatString()</a>, <a class="el" href="fiche__inc_8php-source.html#l01181">Get_attr_def()</a>, <a class="el" href="fiche__inc_8php-source.html#l00352">GetBaseFiche()</a>, <a class="el" href="fiche__inc_8php-source.html#l01214">GetCreateAccount()</a>, <a class="el" href="fiche__inc_8php-source.html#l00462">GetNextFiche()</a>, <a class="el" href="postgres_8php-source.html#l00242">GetSequence()</a>, and <a class="el" href="ac__common_8php-source.html#l00076">isNumber()</a>.<div class="fragment"><pre class="fragment"><a name="l00038"></a>00038                                           {
 <a name="l00039"></a>00039   <span class="comment">// TODO ADD ROLLBACK !!!</span>
 <a name="l00040"></a>00040   <a class="code" href="debug_8php.html#a0">echo_debug</a>('fiche_inc.php',__LINE__,<span class="stringliteral">" AddFiche($p_cn,$p_type,$p_array) "</span>);
 <a name="l00041"></a>00041   <span class="comment">// Push the array in element starting with p</span>
@@ -210,7 +210,7 @@ References <a class="el" href="setup_8php-source.html#l00267">$flag</a>, <a clas
 <a name="l00055"></a>00055   <a class="code" href="setup_8php.html#a4">$flag</a>=1;
 <a name="l00056"></a>00056 
 <a name="l00057"></a>00057   <span class="comment">// Create the Fiche</span>
-<a name="l00058"></a>00058   <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=<span class="stringliteral">"insert into fiche (fd_id) values ("</span>.$p_fd_id.<span class="stringliteral">")"</span>;
+<a name="l00058"></a>00058   <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=<span class="stringliteral">"insert into fiche (fd_id) values ("</span>.$p_fd_id.<span class="stringliteral">")"</span>;
 <a name="l00059"></a>00059   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$Sql);
 <a name="l00060"></a>00060 
 <a name="l00061"></a>00061   <span class="comment">// Get is f_id (sequence)</span>
@@ -258,7 +258,7 @@ References <a class="el" href="setup_8php-source.html#l00267">$flag</a>, <a clas
 <a name="l00103"></a>00103         }
 <a name="l00104"></a>00104       <span class="comment">// Add it the jnt table</span>
 <a name="l00105"></a>00105       <span class="comment">// 5 is always for the account post</span>
-<a name="l00106"></a>00106       <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=sprintf(<span class="stringliteral">"insert into jnt_fic_att_value (f_id,ad_id) values (%d,%d)"</span>,
+<a name="l00106"></a>00106       <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=sprintf(<span class="stringliteral">"insert into jnt_fic_att_value (f_id,ad_id) values (%d,%d)"</span>,
 <a name="l00107"></a>00107                    $l_f_id,<a class="code" href="constant_8php.html#a55">ATTR_DEF_ACCOUNT</a>);
 <a name="l00108"></a>00108       <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$Sql);
 <a name="l00109"></a>00109       
@@ -267,7 +267,7 @@ References <a class="el" href="setup_8php-source.html#l00267">$flag</a>, <a clas
 <a name="l00112"></a>00112       
 <a name="l00113"></a>00113       
 <a name="l00114"></a>00114       <span class="comment">// Add it the attr_value table</span>
-<a name="l00115"></a>00115       <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=sprintf(<span class="stringliteral">"insert into attr_value(jft_id,av_text) values (%d,'%s')"</span>,
+<a name="l00115"></a>00115       <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=sprintf(<span class="stringliteral">"insert into attr_value(jft_id,av_text) values (%d,'%s')"</span>,
 <a name="l00116"></a>00116                    $l_jft_id,${<span class="stringliteral">"p_av_text$i"</span>});
 <a name="l00117"></a>00117       <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$Sql);
 <a name="l00118"></a>00118       <span class="comment">// If create == 0 we don't create automatically an account</span>
@@ -298,7 +298,7 @@ References <a class="el" href="setup_8php-source.html#l00267">$flag</a>, <a clas
 <a name="l00143"></a>00143       <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
 <a name="l00144"></a>00144       <span class="comment">// Add it the jnt table</span>
 <a name="l00145"></a>00145       <span class="comment">// 5 is always for the account post</span>
-<a name="l00146"></a>00146       <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=sprintf(<span class="stringliteral">"insert into jnt_fic_att_value (f_id,ad_id) values (%d,%d)"</span>,
+<a name="l00146"></a>00146       <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=sprintf(<span class="stringliteral">"insert into jnt_fic_att_value (f_id,ad_id) values (%d,%d)"</span>,
 <a name="l00147"></a>00147                    $l_f_id,<a class="code" href="constant_8php.html#a55">ATTR_DEF_ACCOUNT</a>);
 <a name="l00148"></a>00148       <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$Sql);
 <a name="l00149"></a>00149       
@@ -307,7 +307,7 @@ References <a class="el" href="setup_8php-source.html#l00267">$flag</a>, <a clas
 <a name="l00152"></a>00152       
 <a name="l00153"></a>00153       
 <a name="l00154"></a>00154       <span class="comment">// Add it the attr_value table</span>
-<a name="l00155"></a>00155       <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=sprintf(<span class="stringliteral">"insert into attr_value(jft_id,av_text) values (%d,'%s')"</span>,
+<a name="l00155"></a>00155       <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=sprintf(<span class="stringliteral">"insert into attr_value(jft_id,av_text) values (%d,'%s')"</span>,
 <a name="l00156"></a>00156                    $l_jft_id,$num);
 <a name="l00157"></a>00157       <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$Sql);
 <a name="l00158"></a>00158     }
@@ -327,7 +327,7 @@ References <a class="el" href="setup_8php-source.html#l00267">$flag</a>, <a clas
 <a name="l00172"></a>00172          <span class="keywordflow">continue</span>;
 <a name="l00173"></a>00173        }
 <a name="l00174"></a>00174     <span class="comment">// Add it the jnt table</span>
-<a name="l00175"></a>00175     <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=sprintf(<span class="stringliteral">"insert into jnt_fic_att_value (f_id,ad_id) values (%d,%d)"</span>,
+<a name="l00175"></a>00175     <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=sprintf(<span class="stringliteral">"insert into jnt_fic_att_value (f_id,ad_id) values (%d,%d)"</span>,
 <a name="l00176"></a>00176                  $l_f_id,${<span class="stringliteral">"p_ad_id$i"</span>});
 <a name="l00177"></a>00177     <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$Sql);
 <a name="l00178"></a>00178 
@@ -354,7 +354,7 @@ References <a class="el" href="setup_8php-source.html#l00267">$flag</a>, <a clas
 <a name="l00199"></a>00199     }
 <a name="l00200"></a>00200     $text=<a class="code" href="ac__common_8php.html#a9">FormatString</a>(${<span class="stringliteral">"p_av_text$i"</span>});
 <a name="l00201"></a>00201     <span class="comment">// Add it the attr_value table</span>
-<a name="l00202"></a>00202     <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=sprintf(<span class="stringliteral">"insert into attr_value(jft_id,av_text) values (%d,'%s')"</span>,
+<a name="l00202"></a>00202     <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=sprintf(<span class="stringliteral">"insert into attr_value(jft_id,av_text) values (%d,'%s')"</span>,
 <a name="l00203"></a>00203                  $l_jft_id,$text);
 <a name="l00204"></a>00204     <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$Sql);
 <a name="l00205"></a>00205 
@@ -1009,11 +1009,11 @@ $p_fiche_def_ref fiche_def.fd_id gen :<ul>
 <p>
 Definition at line <a class="el" href="fiche__inc_8php-source.html#l01181">1181</a> of file <a class="el" href="fiche__inc_8php-source.html">fiche_inc.php</a>.
 <p>
-References <a class="el" href="recherche_8php-source.html#l00066">$array</a>, <a class="el" href="balance_8php-source.html#l00118">$i</a>, <a class="el" href="fortis__be_8inc_8php-source.html#l00076">$Num</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="eub__be_8inc_8php-source.html#l00055">$Sql</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
+References <a class="el" href="recherche_8php-source.html#l00066">$array</a>, <a class="el" href="balance_8php-source.html#l00118">$i</a>, <a class="el" href="fortis__be_8inc_8php-source.html#l00076">$Num</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00069">$Sql</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
 <p>
 Referenced by <a class="el" href="fiche__inc_8php-source.html#l00038">AddFiche()</a>.<div class="fragment"><pre class="fragment"><a name="l01181"></a>01181                                           {
 <a name="l01182"></a>01182   <span class="comment">// find the min attr for the fiche_def_ref</span>
-<a name="l01183"></a>01183   <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=<span class="stringliteral">"select ad_id,ad_text from attr_def </span>
+<a name="l01183"></a>01183   <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=<span class="stringliteral">"select ad_id,ad_text from attr_def </span>
 <a name="l01184"></a>01184 <span class="stringliteral">         natural join jnt_fic_attr</span>
 <a name="l01185"></a>01185 <span class="stringliteral">         natural join fiche_def</span>
 <a name="l01186"></a>01186 <span class="stringliteral">      where</span>
@@ -1083,11 +1083,11 @@ $p_fiche_def_ref gen :<ul>
 <p>
 Definition at line <a class="el" href="fiche__inc_8php-source.html#l01149">1149</a> of file <a class="el" href="fiche__inc_8php-source.html">fiche_inc.php</a>.
 <p>
-References <a class="el" href="recherche_8php-source.html#l00066">$array</a>, <a class="el" href="balance_8php-source.html#l00118">$i</a>, <a class="el" href="fortis__be_8inc_8php-source.html#l00076">$Num</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="eub__be_8inc_8php-source.html#l00055">$Sql</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
+References <a class="el" href="recherche_8php-source.html#l00066">$array</a>, <a class="el" href="balance_8php-source.html#l00118">$i</a>, <a class="el" href="fortis__be_8inc_8php-source.html#l00076">$Num</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00069">$Sql</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
 <p>
 Referenced by <a class="el" href="fiche__inc_8php-source.html#l00761">AddModele()</a>.<div class="fragment"><pre class="fragment"><a name="l01149"></a>01149                                               {
 <a name="l01150"></a>01150   <span class="comment">// find the min attr for the fiche_def_ref</span>
-<a name="l01151"></a>01151   <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=<span class="stringliteral">"select ad_id,ad_text from attr_min natural join attr_def </span>
+<a name="l01151"></a>01151   <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=<span class="stringliteral">"select ad_id,ad_text from attr_min natural join attr_def </span>
 <a name="l01152"></a>01152 <span class="stringliteral">         natural join fiche_def_ref</span>
 <a name="l01153"></a>01153 <span class="stringliteral">      where</span>
 <a name="l01154"></a>01154 <span class="stringliteral">      frd_id= $p_fiche_def_ref"</span>;
@@ -1407,11 +1407,11 @@ GetCreateAccount
 <p>
 Definition at line <a class="el" href="fiche__inc_8php-source.html#l01214">1214</a> of file <a class="el" href="fiche__inc_8php-source.html">fiche_inc.php</a>.
 <p>
-References <a class="el" href="fortis__be_8inc_8php-source.html#l00076">$Num</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="eub__be_8inc_8php-source.html#l00055">$Sql</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
+References <a class="el" href="fortis__be_8inc_8php-source.html#l00076">$Num</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00069">$Sql</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
 <p>
 Referenced by <a class="el" href="fiche__inc_8php-source.html#l00038">AddFiche()</a>, and <a class="el" href="fiche__inc_8php-source.html#l00938">Remove()</a>.<div class="fragment"><pre class="fragment"><a name="l01214"></a>01214                                               {
 <a name="l01215"></a>01215   <span class="comment">// find the min attr for the fiche_def_ref</span>
-<a name="l01216"></a>01216   <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=<span class="stringliteral">"select fd_create_account</span>
+<a name="l01216"></a>01216   <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=<span class="stringliteral">"select fd_create_account</span>
 <a name="l01217"></a>01217 <span class="stringliteral">      from fiche_def</span>
 <a name="l01218"></a>01218 <span class="stringliteral">        where</span>
 <a name="l01219"></a>01219 <span class="stringliteral">      fd_id= $p_fiche_def"</span>;
@@ -1484,7 +1484,7 @@ fiche id gen :<ul>
 <p>
 Definition at line <a class="el" href="fiche__inc_8php-source.html#l00895">895</a> of file <a class="el" href="fiche__inc_8php-source.html">fiche_inc.php</a>.
 <p>
-References <a class="el" href="recherche_8php-source.html#l00066">$array</a>, <a class="el" href="setup_8php-source.html#l00395">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="balance_8php-source.html#l00076">label</a>.
+References <a class="el" href="recherche_8php-source.html#l00066">$array</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00028">$line</a>, <a class="el" href="setup_8php-source.html#l00395">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="balance_8php-source.html#l00076">label</a>.
 <p>
 Referenced by <a class="el" href="fiche__inc_8php-source.html#l00869">UpdateModele()</a>.<div class="fragment"><pre class="fragment"><a name="l00895"></a>00895                                        {
 <a name="l00896"></a>00896   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select fd_class_base,ad_id,ad_text from </span>
@@ -1498,19 +1498,19 @@ Referenced by <a class="el" href="fiche__inc_8php-source.html#l00869">UpdateMode
 <a name="l00904"></a>00904 
 <a name="l00905"></a>00905   <span class="comment">// store the data in an array</span>
 <a name="l00906"></a>00906   <span class="keywordflow">for</span> ($i=0; $i &lt; $Max;$i++) {
-<a name="l00907"></a>00907     $line=pg_fetch_array($Res,$i);
+<a name="l00907"></a>00907     <a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>=pg_fetch_array($Res,$i);
 <a name="l00908"></a>00908     <span class="keywordflow">if</span> ($i == 0 ) {
 <a name="l00909"></a>00909       <a class="code" href="recherche_8php.html#a4">$array</a>['<a class="code" href="balance_8php.html#a6">label</a>']=GetFicheDefName($p_cn,$p_fiche);
-<a name="l00910"></a>00910       <a class="code" href="recherche_8php.html#a4">$array</a>['class_base']=$line['fd_class_base'];
+<a name="l00910"></a>00910       <a class="code" href="recherche_8php.html#a4">$array</a>['class_base']=<a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>['fd_class_base'];
 <a name="l00911"></a>00911       <a class="code" href="recherche_8php.html#a4">$array</a>['fd_id']=$p_fiche;
 <a name="l00912"></a>00912     }<span class="comment">//if $i == 0</span>
 <a name="l00913"></a>00913 
 <a name="l00914"></a>00914     <span class="comment">//Label</span>
 <a name="l00915"></a>00915     $text=sprintf(<span class="stringliteral">"ad_id%d"</span>,$i);
-<a name="l00916"></a>00916     <a class="code" href="recherche_8php.html#a4">$array</a>[$text]=$line['ad_id'];
+<a name="l00916"></a>00916     <a class="code" href="recherche_8php.html#a4">$array</a>[$text]=<a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>['ad_id'];
 <a name="l00917"></a>00917     <span class="comment">//isd_id</span>
 <a name="l00918"></a>00918     $text=sprintf(<span class="stringliteral">"ad_text%d"</span>,$i);
-<a name="l00919"></a>00919     <a class="code" href="recherche_8php.html#a4">$array</a>[$text]=$line['ad_text'];
+<a name="l00919"></a>00919     <a class="code" href="recherche_8php.html#a4">$array</a>[$text]=<a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>['ad_text'];
 <a name="l00920"></a>00920 
 <a name="l00921"></a>00921   }<span class="comment">//for</span>
 <a name="l00922"></a>00922   <a class="code" href="recherche_8php.html#a4">$array</a>['ligne']=<a class="code" href="setup_8php.html#a11">$Max</a>;
@@ -1860,7 +1860,7 @@ j_jrn journal_id<ul>
 <p>
 Definition at line <a class="el" href="fiche__inc_8php-source.html#l01057">1057</a> of file <a class="el" href="fiche__inc_8php-source.html">fiche_inc.php</a>.
 <p>
-References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="balance_8php-source.html#l00118">$i</a>, <a class="el" href="fiche__new_8php-source.html#l00136">$list</a>, <a class="el" href="setup_8php-source.html#l00395">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, <a class="el" href="ac__common_8php-source.html#l00036">echo_error()</a>, <a class="el" href="ac__common_8php-source.html#l00267">echo_warning()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="balance_8php-source.html#l00036">exit</a>, and <a class="el" href="facture_8inc_8php-source.html#l00219">f_id</a>.<div class="fragment"><pre class="fragment"><a name="l01058"></a>01058 {
+References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="balance_8php-source.html#l00118">$i</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00028">$line</a>, <a class="el" href="fiche__new_8php-source.html#l00136">$list</a>, <a class="el" href="setup_8php-source.html#l00395">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, <a class="el" href="ac__common_8php-source.html#l00036">echo_error()</a>, <a class="el" href="ac__common_8php-source.html#l00267">echo_warning()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="balance_8php-source.html#l00036">exit</a>, and <a class="el" href="facture_8inc_8php-source.html#l00219">f_id</a>.<div class="fragment"><pre class="fragment"><a name="l01058"></a>01058 {
 <a name="l01059"></a>01059   $get=<span class="stringliteral">""</span>;
 <a name="l01060"></a>01060   <span class="keywordflow">if</span> ( $p_type == 'deb' ) {
 <a name="l01061"></a>01061     $get='jrn_def_fiche_deb';
@@ -1898,9 +1898,9 @@ References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class
 <a name="l01093"></a>01093   <span class="keywordflow">if</span> ($Max==0 ) <span class="keywordflow">return</span> null;
 <a name="l01094"></a>01094   <span class="comment">// Get The result and put it into an array</span>
 <a name="l01095"></a>01095   <span class="keywordflow">for</span> ($i=0;$i&lt;$Max;$i++) {
-<a name="l01096"></a>01096     $line=pg_fetch_array($Res,$i);
-<a name="l01097"></a>01097     $f_id=$line['<a class="code" href="facture_8inc_8php.html#a25">f_id</a>'];
-<a name="l01098"></a>01098     $f_label=$line['f_label'];
+<a name="l01096"></a>01096     <a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>=pg_fetch_array($Res,$i);
+<a name="l01097"></a>01097     $f_id=<a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>['<a class="code" href="facture_8inc_8php.html#a25">f_id</a>'];
+<a name="l01098"></a>01098     $f_label=<a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>['f_label'];
 <a name="l01099"></a>01099     <a class="code" href="balance_8php.html#a10">$a</a>[<a class="code" href="balance_8php.html#a12">$i</a>]=array($<a class="code" href="facture_8inc_8php.html#a25">f_id</a>,$f_label);
 <a name="l01100"></a>01100   }
 <a name="l01101"></a>01101   <span class="keywordflow">return</span> <a class="code" href="balance_8php.html#a10">$a</a>;

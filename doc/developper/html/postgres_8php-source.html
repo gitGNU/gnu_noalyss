@@ -57,10 +57,10 @@
 <a name="l00058"></a>00058   <span class="keywordflow">if</span> ( $Max == 0 ) <span class="keywordflow">return</span> null;
 <a name="l00059"></a>00059   <span class="keywordflow">for</span> ( $i=0;$i&lt;$Max; $i++) {   
 <a name="l00060"></a>00060     <span class="comment">//    echo_debug ("i = $i");</span>
-<a name="l00061"></a>00061     <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>[]=pg_fetch_array($p_res,$i);
+<a name="l00061"></a>00061     <a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>[]=pg_fetch_array($p_res,$i);
 <a name="l00062"></a>00062     <span class="comment">//echo $row[dossier];</span>
 <a name="l00063"></a>00063   }
-<a name="l00064"></a>00064   <span class="keywordflow">return</span> <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>;
+<a name="l00064"></a>00064   <span class="keywordflow">return</span> <a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>;
 <a name="l00065"></a>00065 }
 <a name="l00066"></a>00066 
 <a name="l00072"></a><a class="code" href="postgres_8php.html#a1">00072</a> function <a class="code" href="postgres_8php.html#a1">DbConnect</a>($p_db=-1,$p_type='dossier') {

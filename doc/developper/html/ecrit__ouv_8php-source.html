@@ -123,7 +123,7 @@
 <a name="l00118"></a>00118         <a class="code" href="fiche__def_8inc_8php.html#a7">$idx</a>=0;
 <a name="l00119"></a>00119         <span class="keywordflow">while</span> ( !feof($h_file) ) {
 <a name="l00120"></a>00120 
-<a name="l00121"></a>00121           $line=fgets($h_file);
+<a name="l00121"></a>00121           <a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>=fgets($h_file);
 <a name="l00122"></a>00122           <span class="comment">// check if the first line contains the signature</span>
 <a name="l00123"></a>00123           <span class="keywordflow">if</span> ( $valid  ) {
 <a name="l00124"></a>00124             <span class="comment">// skip blank line</span>
@@ -134,7 +134,7 @@
 <a name="l00129"></a>00129             $alabel[<a class="code" href="fiche__def_8inc_8php.html#a7">$idx</a>]=<a class="code" href="pref_8inc_8php.html#a6">$label</a>;
 <a name="l00130"></a>00130             <a class="code" href="fiche__def_8inc_8php.html#a7">$idx</a>++;
 <a name="l00131"></a>00131             }
-<a name="l00132"></a>00132           $valid=(($line==<span class="stringliteral">"OUVERTURE\n"</span> &amp;&amp; $valid==<span class="keyword">false</span>) || $valid)?<span class="keyword">true</span>:<span class="keyword">false</span>;
+<a name="l00132"></a>00132           $valid=((<a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>==<span class="stringliteral">"OUVERTURE\n"</span> &amp;&amp; $valid==<span class="keyword">false</span>) || $valid)?<span class="keyword">true</span>:<span class="keyword">false</span>;
 <a name="l00133"></a>00133           
 <a name="l00134"></a>00134         } <span class="comment">// read the file</span>
 <a name="l00135"></a>00135         <span class="comment">// if valid is still false then there is nothing to do</span>

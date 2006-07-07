@@ -58,7 +58,7 @@
 <a name="l00059"></a>00059       {
 <a name="l00060"></a>00060       $this-&gt;<span class="keywordtype">id</span>=<a class="code" href="user__update_8php.html#a1">$p_id</a>;
 <a name="l00061"></a>00061       $this-&gt;db=$p_cn;
-<a name="l00062"></a>00062       <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=<span class="stringliteral">"select use_first_name,</span>
+<a name="l00062"></a>00062       <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=<span class="stringliteral">"select use_first_name,</span>
 <a name="l00063"></a>00063 <span class="stringliteral">             use_name,</span>
 <a name="l00064"></a>00064 <span class="stringliteral">             use_login,</span>
 <a name="l00065"></a>00065 <span class="stringliteral">             use_active,</span>
@@ -68,12 +68,12 @@
 <a name="l00069"></a>00069       <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>(); 
 <a name="l00070"></a>00070       <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=pg_exec($cn,$Sql);
 <a name="l00071"></a>00071       <span class="keywordflow">if</span> (($Max=pg_NumRows($Res)) == 0 ) <span class="keywordflow">return</span> -1;
-<a name="l00072"></a>00072       <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($Res,0);
-<a name="l00073"></a>00073       $this-&gt;first_name=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['use_first_name'];
-<a name="l00074"></a>00074       $this-&gt;<a class="code" href="action_8inc_8php.html#a18">name</a>=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['use_name'];
-<a name="l00075"></a>00075       $this-&gt;active=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['use_active'];
-<a name="l00076"></a>00076       $this-&gt;login=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['use_login'];
-<a name="l00077"></a>00077       $this-&gt;admin=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['use_admin'];
+<a name="l00072"></a>00072       <a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>=pg_fetch_array($Res,0);
+<a name="l00073"></a>00073       $this-&gt;first_name=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['use_first_name'];
+<a name="l00074"></a>00074       $this-&gt;<a class="code" href="action_8inc_8php.html#a18">name</a>=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['use_name'];
+<a name="l00075"></a>00075       $this-&gt;active=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['use_active'];
+<a name="l00076"></a>00076       $this-&gt;login=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['use_login'];
+<a name="l00077"></a>00077       $this-&gt;admin=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['use_admin'];
 <a name="l00078"></a>00078     } 
 <a name="l00079"></a>00079   }
 <a name="l00085"></a><a class="code" href="classcl__user.html#a1">00085</a>   function <a class="code" href="classcl__user.html#a1">Check</a>()
@@ -179,9 +179,9 @@
 <a name="l00216"></a>00216     $l_array=$this-&gt;<a class="code" href="classcl__user.html#a7">GetPreferences</a>();
 <a name="l00217"></a>00217   } <span class="keywordflow">else</span> {
 <a name="l00218"></a>00218     <span class="keywordflow">for</span> ( $i =0;$i &lt; pg_NumRows($Res);$i++) {
-<a name="l00219"></a>00219       <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>= pg_fetch_array($Res,0);
-<a name="l00220"></a>00220       $type=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['parameter_type'];
-<a name="l00221"></a>00221       $l_array[$type]=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['parameter_value'];
+<a name="l00219"></a>00219       <a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>= pg_fetch_array($Res,0);
+<a name="l00220"></a>00220       $type=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['parameter_type'];
+<a name="l00221"></a>00221       $l_array[$type]=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['parameter_value'];
 <a name="l00222"></a>00222     }
 <a name="l00223"></a>00223   }
 <a name="l00224"></a>00224   <span class="keywordflow">return</span> $l_array;
@@ -212,11 +212,11 @@
 <a name="l00268"></a>00268           <span class="keywordflow">return</span>;
 <a name="l00269"></a>00269           }
 <a name="l00270"></a>00270   <span class="comment">// Load value into array</span>
-<a name="l00271"></a>00271   $line=array();
+<a name="l00271"></a>00271   <a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>=array();
 <a name="l00272"></a>00272   <span class="keywordflow">for</span> ($i=0;$i&lt;$Max;$i++) {
-<a name="l00273"></a>00273     <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($Res,$i);
-<a name="l00274"></a>00274     $type=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['parameter_type']; 
-<a name="l00275"></a>00275     $line[$type]=<a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>['parameter_value'];;
+<a name="l00273"></a>00273     <a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>=pg_fetch_array($Res,$i);
+<a name="l00274"></a>00274     $type=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['parameter_type']; 
+<a name="l00275"></a>00275     <a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>[$type]=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['parameter_value'];;
 <a name="l00276"></a>00276   }
 <a name="l00277"></a>00277   <span class="comment">// save array into g_ variable</span>
 <a name="l00278"></a>00278   $array_pref=array ('g_theme'=&gt;'THEME<span class="charliteral">','</span>g_pagesize'=&gt;'PAGESIZE');
@@ -227,7 +227,7 @@
 <a name="l00283"></a>00283                 $this-&gt;<a class="code" href="classcl__user.html#a9">GetGlobalPref</a>();
 <a name="l00284"></a>00284                 <span class="keywordflow">return</span>;
 <a name="l00285"></a>00285                 }       
-<a name="l00286"></a>00286     <a class="code" href="commercial_8php.html#a0">$_SESSION</a>[$name]=$line[$parameter];
+<a name="l00286"></a>00286     <a class="code" href="commercial_8php.html#a0">$_SESSION</a>[$name]=<a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>[$parameter];
 <a name="l00287"></a>00287   }
 <a name="l00288"></a>00288 }
 <a name="l00289"></a>00289 
@@ -238,7 +238,7 @@
 <a name="l00302"></a>00302         $default_parameter= array(<span class="stringliteral">"THEME"</span>=&gt;<span class="stringliteral">"Light"</span>,
 <a name="l00303"></a>00303                 <span class="stringliteral">"PAGESIZE"</span>=&gt;<span class="stringliteral">"50"</span>);
 <a name="l00304"></a>00304         <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=Dbconnect();
-<a name="l00305"></a>00305         <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=<span class="stringliteral">"insert into user_global_pref(user_id,parameter_type,parameter_value) </span>
+<a name="l00305"></a>00305         <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=<span class="stringliteral">"insert into user_global_pref(user_id,parameter_type,parameter_value) </span>
 <a name="l00306"></a>00306 <span class="stringliteral">                                values ('%s','%s','%s')"</span>;
 <a name="l00307"></a>00307         <span class="keywordflow">if</span> ( $p_type == <span class="stringliteral">""</span> ) {
 <a name="l00308"></a>00308                 foreach ( $default_parameter as $<a class="code" href="action_8inc_8php.html#a18">name</a>=&gt;$<a class="code" href="action_8inc_8php.html#a19">value</a>) {
@@ -259,7 +259,7 @@
 <a name="l00331"></a>00331         $default_parameter= array(<span class="stringliteral">"THEME"</span>=&gt;<span class="stringliteral">"Light"</span>,
 <a name="l00332"></a>00332                 <span class="stringliteral">"PAGESIZE"</span>=&gt;<span class="stringliteral">"50"</span>);
 <a name="l00333"></a>00333         <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=Dbconnect();
-<a name="l00334"></a>00334         <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=<span class="stringliteral">"update user_global_pref set parameter_value='%s' </span>
+<a name="l00334"></a>00334         <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=<span class="stringliteral">"update user_global_pref set parameter_value='%s' </span>
 <a name="l00335"></a>00335 <span class="stringliteral">                        where parameter_type='%s' and </span>
 <a name="l00336"></a>00336 <span class="stringliteral">                                user_id='%s'"</span>;
 <a name="l00337"></a>00337         $value=($p_value==<span class="stringliteral">""</span>)?$default_parameter[$p_type]:$p_value;

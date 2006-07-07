@@ -127,7 +127,7 @@
 <a name="l00123"></a>00123       <span class="comment">// Database created</span>
 <a name="l00124"></a><a class="code" href="admin__repo_8php.html#a10">00124</a>       <a class="code" href="admin__repo_8php.html#a10">$l_id</a>=<a class="code" href="postgres_8php.html#a9">GetDbId</a>($dos);
 <a name="l00125"></a>00125       <span class="keywordflow">if</span> ( $l_id != 0) {
-<a name="l00126"></a>00126         <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=sprintf(<span class="stringliteral">"CREATE DATABASE %sDOSSIER%d encoding='ISO8859-1' TEMPLATE %sMOD%d"</span>,<a class="code" href="constant_8php.html#a1">domaine</a>,$l_id,<a class="code" href="constant_8php.html#a1">domaine</a>,$_POST[<span class="stringliteral">"FMOD_ID"</span>]);
+<a name="l00126"></a>00126         <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=sprintf(<span class="stringliteral">"CREATE DATABASE %sDOSSIER%d encoding='ISO8859-1' TEMPLATE %sMOD%d"</span>,<a class="code" href="constant_8php.html#a1">domaine</a>,$l_id,<a class="code" href="constant_8php.html#a1">domaine</a>,$_POST[<span class="stringliteral">"FMOD_ID"</span>]);
 <a name="l00127"></a>00127         <a class="code" href="debug_8php.html#a0">echo_debug</a>($Sql);
 <a name="l00128"></a>00128         <a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$Sql);
 <a name="l00129"></a>00129         <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"insert into jnt_use_dos (use_id,dos_id) values (1,$l_id)"</span>);
@@ -213,7 +213,7 @@
 <a name="l00209"></a>00209         <span class="comment">// get the mod_id</span>
 <a name="l00210"></a>00210         <a class="code" href="admin__repo_8php.html#a10">$l_id</a>=<a class="code" href="postgres_8php.html#a12">GetSequence</a>($cn,'s_modid');
 <a name="l00211"></a>00211         <span class="keywordflow">if</span> ( $l_id != 0 ) {
-<a name="l00212"></a>00212            <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=sprintf(<span class="stringliteral">"CREATE DATABASE %sMOD%d encoding='ISO8859-1' TEMPLATE %sDOSSIER%s"</span>,<a class="code" href="constant_8php.html#a1">domaine</a>,$l_id,<a class="code" href="constant_8php.html#a1">domaine</a>,$_POST[<span class="stringliteral">"FMOD_DBID"</span>]);
+<a name="l00212"></a>00212            <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=sprintf(<span class="stringliteral">"CREATE DATABASE %sMOD%d encoding='ISO8859-1' TEMPLATE %sDOSSIER%s"</span>,<a class="code" href="constant_8php.html#a1">domaine</a>,$l_id,<a class="code" href="constant_8php.html#a1">domaine</a>,$_POST[<span class="stringliteral">"FMOD_DBID"</span>]);
 <a name="l00213"></a>00213            <a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$Sql);
 <a name="l00214"></a>00214         }
 <a name="l00215"></a>00215       }<span class="comment">// if $mod_name != null</span>
@@ -236,7 +236,7 @@
 <a name="l00232"></a>00232         <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn_mod,$sql);
 <a name="l00233"></a><a class="code" href="admin__repo_8php.html#a18">00233</a>         <a class="code" href="setup_8php.html#a11">$Max</a>=pg_NumRows($Res);
 <a name="l00234"></a>00234         <span class="keywordflow">for</span> ($seq=0;$seq&lt;$Max;$seq++) {
-<a name="l00235"></a>00235             <a class="code" href="argenta__be_8inc_8php.html#a0">$row</a>=pg_fetch_array($Res,$seq);
+<a name="l00235"></a>00235             <a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>=pg_fetch_array($Res,$seq);
 <a name="l00236"></a>00236             <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=sprintf (<span class="stringliteral">"select setval('s_jrn_%d',1,false)"</span>,$row['jrn_def_id']);
 <a name="l00237"></a>00237             <a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn_mod,$sql);
 <a name="l00238"></a>00238         }

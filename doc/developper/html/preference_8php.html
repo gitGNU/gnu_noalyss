@@ -261,12 +261,12 @@ get the exercice of a periode
 <p>
 Definition at line <a class="el" href="preference_8php-source.html#l00168">168</a> of file <a class="el" href="preference_8php-source.html">preference.php</a>.
 <p>
-References <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00169"></a>00169 {
+References <a class="el" href="argenta__be_8inc_8php-source.html#l00028">$line</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00169"></a>00169 {
 <a name="l00170"></a>00170   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select p_exercice from parm_periode"</span>.
 <a name="l00171"></a>00171                <span class="stringliteral">" where p_id=$p_periode"</span>);
 <a name="l00172"></a>00172   <span class="keywordflow">if</span> ( pg_NumRows($Res) == 0 ) <span class="keywordflow">return</span> <span class="stringliteral">""</span>;
-<a name="l00173"></a>00173   $line=pg_fetch_array($Res,0);
-<a name="l00174"></a>00174   <span class="keywordflow">return</span> $line['p_exercice'];
+<a name="l00173"></a>00173   <a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>=pg_fetch_array($Res,0);
+<a name="l00174"></a>00174   <span class="keywordflow">return</span> <a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>['p_exercice'];
 <a name="l00175"></a>00175 }
 </pre></div>
 <p>
