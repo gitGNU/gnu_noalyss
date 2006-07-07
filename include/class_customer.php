@@ -253,7 +253,7 @@ where
 
 
 
-	$r.='<td><A HREF="commercial.php?p_action=facture&sa=list&qcode='.$client->strAttribut(ATTR_DEF_QUICKCODE).'&url='.$url.'" title="Historique Facture">Facture</A></td>';
+	$r.='<td><A HREF="commercial.php?p_action=facture&sa=list&p_periode=-1&qcode='.$client->strAttribut(ATTR_DEF_QUICKCODE).'&url='.$url.'" title="Historique Facture">Facture</A></td>';
 
 	$r.='</TD>';
 

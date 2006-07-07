@@ -113,8 +113,11 @@ if ( $sub_action == "list")
 
 
   $w=new widget("select");
+  //  Add filter on the year
+  $filter_year=" where p_exercice='".$User->getExercice()."'";
 
-  $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode order by p_id");
+  $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') ".
+			    " from parm_periode $filter_year order by p_id",1);
   // User is already set User=new cl_user($cn);
   $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->GetPeriode();
   $w->selected=$current;
@@ -136,7 +139,12 @@ if ( $sub_action == "list")
 echo $w->Submit('gl_submit','Rechercher');
   // Show list of sell
   // Date - date of payment - Customer - amount
-  $sql=SQL_LIST_ALL_INVOICE." and jr_tech_per=".$current." and jr_def_type='VEN'" ;
+ if ( $current == -1) {
+   $cond=" and jr_tech_per in (select p_id from parm_periode where p_exercice='".$User->getExercice()."')";
+ } else {
+   $cond=" and jr_tech_per=".$current;
+ }
+  $sql=SQL_LIST_ALL_INVOICE.$cond." and jr_def_type='VEN'" ;
   $step=$_SESSION['g_pagesize'];
   $page=(isset($_GET['offset']))?$_GET['page']:1;
   $offset=(isset($_GET['offset']))?$_GET['offset']:0;
@@ -149,7 +157,7 @@ echo $w->Submit('gl_submit','Rechercher');
       $l=" and jr_grpt_id in (select j_grpt from jrnx where j_qcode='$qcode') ";
     }
 
-  list($max_line,$list)=ListJrn($cn,0,"where jrn_def_type='VEN' and jr_tech_per=$current $l "
+  list($max_line,$list)=ListJrn($cn,0,"where jrn_def_type='VEN' $cond $l "
 				,null,$offset,1);
   $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
 
