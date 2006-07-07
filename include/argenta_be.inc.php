@@ -23,15 +23,43 @@
  */
 
 //-----------------------------------------------------
-// Bank CBC 
+// Bank Argenta 
 //-----------------------------------------------------
-$row=1;
+$line=1;
+
 while (($data = fgetcsv($handle, 2000,'!@')) !== FALSE) {
 	$num = count($data);
+
 	for ($c=0; $c < $num; $c++) {
+	  if ( $line==1) {
+	    $row=split(';',$data[$c]);
+	    $num_compte=$row[1];
+	  }
+	  
+	  if ( $line == 2 )
+	    continue;
 //-----------------------------------------------------
 // Parsing CSV comes here
 //-----------------------------------------------------
+	  $row=split(';',$data[$c]);
+	  echo_debug('argenta',__LINE__,'$row = '.var_export($row,true));
+	  echo_debug('argenta',__LINE__,'sizeof($row)'.sizeof($row));
+	  if ( sizeof ($row) < 9 )
+	    continue;
+
+
+	  $date_exec=$row[1];
+	  $date_val=$row[1];
+	  $code=$row[1]."/".$row[0];
+	  // remove first the thousand sep.
+	  $montant=str_replace('.','',$row[3]);
+	  // replace the coma by a period
+	  $montant=str_replace(',','.',$montant);
+	  // remove the sign
+	  $montant=str_replace('+','',$montant);
+	  $devise=$row[4];
+	  $compte_ordre=$row[6];
+	  $detail=trim($row[2]).' '.trim($row[7]).' '.trim($row[8]).' '.trim($row[9]);
 
 
 
@@ -49,8 +77,8 @@ while (($data = fgetcsv($handle, 2000,'!@')) !== FALSE) {
 				jrn,
 				ok)
 			values ('$code',
-				'$date_exec',
-				'$date_exec',
+				to_date('$date_exec','DD-MM-YYYY'),
+				to_date('$date_exec','DD-MM-YYYY'),
 				$montant,
 				'$devise',
 				'".addslashes($compte_ordre)."',	
@@ -58,9 +86,14 @@ while (($data = fgetcsv($handle, 2000,'!@')) !== FALSE) {
 				'$p_bq_account',
 				$p_jrn,
 				false)";
+			if ( ExecSql($p_cn,$Sql) == false )
+			  {
+			    Rollback($p_cn); break;
+			  }
 		} // for ($c=0;$c<$num;$c++)
-		$row++;
+	       $line++;
 } // file is read
+
 fclose($handle);
-echo "Encore rien désolé";
+
 ?>
