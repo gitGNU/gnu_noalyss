@@ -78,7 +78,7 @@ begin
 			nParent:=account_parent(p_account);
 			insert into tmp_pcmn(pcm_val,pcm_lib,pcm_val_parent) 
 				values (p_account,sName,nParent);
-			attribut_insert(p_f_id,5,to_char(nNew,'999999999999'));
+			perform attribut_insert(p_f_id,5,to_char(nNew,'999999999999'));
 	
 		end if;		
 	else 
@@ -175,7 +175,7 @@ end;
 $$
     LANGUAGE plpgsql;
 ALTER FUNCTION public.attribut_insert(p_f_id integer, p_ad_id integer, p_value character varying) OWNER TO phpcompta;
-CREATE FUNCTION card_class_base(p_f_id integer) RETURNS poste_comptable
+CREATE FUNCTION card_class_base(p_f_id integer) RETURNS  fiche_def.fd_class_base%type
     AS $$
 declare
 	n_poste fiche_def.fd_class_base%type;
@@ -185,7 +185,7 @@ begin
 	if not FOUND then 
 		raise exception 'Invalid fiche card_class_base(%)',p_f_id;
 	end if;
-return;
+return nposte;
 end;
 $$
     LANGUAGE plpgsql;

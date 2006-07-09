@@ -122,7 +122,7 @@ begin
 			insert into tmp_pcmn(pcm_val,pcm_lib,pcm_val_parent) 
 				values (p_account,sName,nParent);
 			-- insert as card's attribute
-			attribut_insert(p_f_id,5,to_char(nNew,'999999999999'));
+			perform attribut_insert(p_f_id,5,to_char(nNew,'999999999999'));
 	
 		end if;		
 	else 
@@ -265,7 +265,7 @@ $$
 -- Name: card_class_base(integer); Type: FUNCTION; Schema: public; Owner: phpcompta
 --
 
-CREATE FUNCTION card_class_base(p_f_id integer) RETURNS poste_comptable
+CREATE FUNCTION card_class_base(p_f_id integer) RETURNS fiche_def.fd_class_base%type
     AS $$
 
 declare
@@ -277,7 +277,7 @@ begin
 	if not FOUND then 
 		raise exception 'Invalid fiche card_class_base(%)',p_f_id;
 	end if;
-return;
+return nposte;
 end;
 $$
     LANGUAGE plpgsql;
