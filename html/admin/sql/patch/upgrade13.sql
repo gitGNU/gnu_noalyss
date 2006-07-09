@@ -86,6 +86,25 @@ $body$ language plpgsql;
 
 
 
+create or replace function attribut_insert ( p_f_id integer, p_ad_id integer, p_value varchar)
+returns void
+as
+$$
+-- attribut_integer
+-- parameter : f_id, ad_id, p_value
+-- purpose add an attribute to a card
+-- it inserts a row into jnt_fic_att_value and attr_value
+declare 
+	n_jft_id integer;
+begin
+	select nextval('s_jnt_fic_att_value') into n_jft_id;
+	 insert into jnt_fic_att_value (jft_id,f_id,ad_id) values (n_jft_id,p_f_id,p_ad_id);
+	 insert into attr_value (jft_id,av_text) values (n_jft_id,p_value);
+return;
+end;
+$$
+language plpgsql volatile;
+
 
 
 CREATE OR REPLACE FUNCTION account_insert(p_f_id fiche.f_id%type,p_account tmp_pcmn.pcm_val%type)
@@ -122,7 +141,7 @@ begin
 			insert into tmp_pcmn(pcm_val,pcm_lib,pcm_val_parent) 
 				values (p_account,sName,nParent);
 			-- insert as card's attribute
-			attribut_insert(p_f_id,5,to_char(nNew,'999999999999'));
+			perform attribut_insert(p_f_id,5,to_char(nNew,'999999999999'));
 	
 		end if;		
 	else 
@@ -157,6 +176,7 @@ return 0;
 end;
 $BODY$
   LANGUAGE 'plpgsql' VOLATILE;
+
 create or replace function account_parent(p_account tmp_pcmn.pcm_val%type)
 returns 
 	-- account_parent
@@ -237,25 +257,6 @@ end;
 $BODY$
   LANGUAGE 'plpgsql' VOLATILE;
 
-
-create or replace function attribut_insert ( p_f_id integer, p_ad_id integer, p_value varchar)
-returns void
-as
-$$
--- attribut_integer
--- parameter : f_id, ad_id, p_value
--- purpose add an attribute to a card
--- it inserts a row into jnt_fic_att_value and attr_value
-declare 
-	n_jft_id integer;
-begin
-	select nextval('s_jnt_fic_att_value') into n_jft_id;
-	 insert into jnt_fic_att_value (jft_id,f_id,ad_id) values (n_jft_id,p_f_id,p_ad_id);
-	 insert into attr_value (jft_id,av_text) values (n_jft_id,p_value);
-return;
-end;
-$$
-language plpgsql volatile;
 create or replace function account_add (p_id tmp_pcmn.pcm_val%type,p_name varchar)
 returns void
 as
@@ -325,7 +326,7 @@ alter table document_modele add constraint md_type foreign key (md_type) referen
 
 
 create or replace function card_class_base(p_f_id fiche.f_id%type) 
-returns poste_comptable 
+returns fiche_def.fd_class_base%type
 as 
 $$
 
@@ -342,7 +343,7 @@ begin
 	if not FOUND then 
 		raise exception 'Invalid fiche card_class_base(%)',p_f_id;
 	end if;
-return;
+return n_poste;
 end;
 $$ language plpgsql;
 

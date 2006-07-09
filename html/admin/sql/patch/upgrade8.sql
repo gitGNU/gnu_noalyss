@@ -68,7 +68,7 @@ CREATE TABLE import_tmp (
     code text not null,
     date_exec date not null ,
     date_valeur date not null,
-    montant number(20,4) not null default 0,
+    montant numeric(20,4) not null default 0,
     devise text,
     compte_ordre text,
     detail text,

@@ -629,6 +629,20 @@ begin
 return maxcode+1;
 end;
 $$
+LANGUAGE plpgsql;
+
+
+CREATE FUNCTION attribut_insert(p_f_id integer, p_ad_id integer, p_value character varying) RETURNS void
+    AS $$
+declare 
+	n_jft_id integer;
+begin
+	select nextval('s_jnt_fic_att_value') into n_jft_id;
+	 insert into jnt_fic_att_value (jft_id,f_id,ad_id) values (n_jft_id,p_f_id,p_ad_id);
+	 insert into attr_value (jft_id,av_text) values (n_jft_id,p_value);
+return;
+end;
+$$
     LANGUAGE plpgsql;
 
 CREATE FUNCTION account_insert(p_f_id integer, p_account poste_comptable) RETURNS integer
@@ -652,7 +666,7 @@ begin
 			nParent:=account_parent(p_account);
 			insert into tmp_pcmn(pcm_val,pcm_lib,pcm_val_parent) 
 				values (p_account,sName,nParent);
-			attribut_insert(p_f_id,5,to_char(nNew,'999999999999'));
+			perform attribut_insert(p_f_id,5,to_char(nNew,'999999999999'));
 	
 		end if;		
 	else 
@@ -677,7 +691,7 @@ raise debug 'nNew %', nNew;
 return 0;
 end;
 $$
-    LANGUAGE plpgsql;
+LANGUAGE plpgsql;
 
 CREATE FUNCTION account_parent(p_account poste_comptable) RETURNS poste_comptable
     AS $$
@@ -735,34 +749,20 @@ return njft_id;
 end;
 $$
     LANGUAGE plpgsql;
-
-CREATE FUNCTION attribut_insert(p_f_id integer, p_ad_id integer, p_value character varying) RETURNS void
-    AS $$
-declare 
-	n_jft_id integer;
-begin
-	select nextval('s_jnt_fic_att_value') into n_jft_id;
-	 insert into jnt_fic_att_value (jft_id,f_id,ad_id) values (n_jft_id,p_f_id,p_ad_id);
-	 insert into attr_value (jft_id,av_text) values (n_jft_id,p_value);
-return;
-end;
-$$
-    LANGUAGE plpgsql;
-
-CREATE FUNCTION card_class_base(p_f_id integer) RETURNS poste_comptable
-    AS $$
+CREATE FUNCTION card_class_base(p_f_id integer) RETURNS fiche_def.fd_class_base%type
+AS $$
 declare
-	n_poste fiche_def.fd_class_base%type;
+ n_poste fiche_def.fd_class_base%type;
 begin
-	select fd_class_base into n_poste from fiche_def join fiche using (fd_id)
-	where f_id=p_f_id;
-	if not FOUND then 
-		raise exception 'Invalid fiche card_class_base(%)',p_f_id;
-	end if;
-return;
+ select fd_class_base into n_poste from fiche_def join fiche using (fd_id)
+ where f_id=p_f_id;
+ if not FOUND then
+ raise exception 'Invalid fiche card_class_base(%)',p_f_id;
+ end if;
+return n_poste;
 end;
 $$
-    LANGUAGE plpgsql;
+ LANGUAGE plpgsql;
 
 CREATE FUNCTION check_balance(p_grpt integer) RETURNS numeric
     AS $$
