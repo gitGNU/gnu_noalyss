@@ -233,6 +233,8 @@ $Res=ExecSql($cn,$sql);
 $row=pg_fetch_array($Res,0);
 $version=$row[0];
 
+var_dump($version);
+
 if ( $version[0]  != '8' ) {
 ?>
   <p> Vous devez absolument utiliser au minimum une version 8 de PostGresql, si votre distribution n'en
@@ -345,7 +347,7 @@ $Res=CountSql($cn,"select * from modeledef where mod_id=2");
 if ( $Res == 1 )
  {
   $cn=DbConnect();
-  ExecSql($cn,"drop database mod2;");
+  ExecSql($cn,"drop database ".domaine."mod2;");
   ExecSql($cn,"delete from modeledef where mod_id=2");
  }
 //----------------------------------------------------------------------
