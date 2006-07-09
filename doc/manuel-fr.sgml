@@ -535,45 +535,6 @@ il est nécessaire
 </sect>
 
 
-<sect>Les Rapports<label id="rapport">
-<sect1>Introduction
-<p> Les rapports permettent de rapidement encoder des rapports.
-Par exemple, le total des ventes, le total encore à payer, la différence
-entre les entrées et les charges... Il n'y a pas vraiment de limite. 
-
-<p> Les rapports permettent d'utilisent des formules (mod,round,*,-) 
-sur des soldes de comptes.
-
-<p>Très peu, voire aucun rapport, n'est fourni par défaut, vous devez
-les ajouter vous-même. Pour cela, soit vous regardez dans le
-répertoire contrib/rapport soit vous allez sur le site de phpcompta.
-
-</sect1>
-<sect1>Syntaxe
-<p>Quelques règles:
-<itemize>
-<item>les postes sont toujours écrits entre crochets;
-<item>pour avoir la somme du poste et des sous-poste, 
-il faut utiliser le %;
-<item>Les soldes sont toujours positifs et vous ne savez pas 
-s'ils sont au débit ou au crédit.
-<item>Si vous souhaitez commencer à une autre période pour certains
-compte et donc avoir plusieurs intervalles pour un rapport, vous
-devez utiliser l'option FROM=MM.YYYY (voir exemple). Ce genre d'option est 
-très utile pour par exemple les déclarations de TVA.
-</itemize>
-
-<p>
-Exemples de formule:
-<verb>
-Résultat d'exploitation brute round([7%]-[6%])
-Impot estimé (sans compter les amortissements) ([7%]-[6%])/0.35
-Total des comptes en banque [550%]
-Total TVA récolté depuis janvier 2005 : [4511]  FROM=01.2005
-Perte ou profit 	if ([7%]-[6%]>0)?"Benefice":"Perte"
-</verb>
-
-</sect1>
 <sect>Sécurité
 <sect1> Remarques
 <p>
@@ -697,44 +658,7 @@ les journaux achats et ventes uniquement.
 
 </sect1>
 </sect>
-<sect> Rapprochement
-<p>Vous pouvez lier des opérations entre elles,
-en général ce seront des paiements qui correspondent à des
-factures. Ce n'est pas obligatoire, c'est là uniquement pour vous
-permettre de mieux voir ce qui concerne quoi.
 
-<p>Les rapprochement ne se font pas forcément dans le même journal,
-par exemple un paiement sera dans le journal financier mais sera lié à
-une opération de vente (journal de vente) ou d'achat (journal
-d'achat).
-
-<p> Le point important est que dans la petite fenêtre montrant les
-détails, vous pouvez spécifier si la facture est ou non payée, cela
-vous permettra de savoir en temps réelle, ce qui est déjà payé et ce
-qui ne l'est pas, cette possibilité n'existe que pour les journaux de
-type vente et achat.
-
-</sect>
-<sect> Centralisation
-<sect1>Définition
-<p> La centralisation est l'opération comptable qui consiste à
-regrouper les différents journaux comptables dans le grand livre.
-</sect1>
-<sect1>Méthode
-<p> Cette opération n'est pas réversible. 
-
-<p> Tout d'abord, vous devez clôturer les périodes, une période
-clôturée est une période où il ne sera pas possible d'ajouter ou de
-modifier quoi que ce soit, d'ailleurs, il vaut mieux toujours mieux
-clôturer une période avant de faire la déclaration TVA. Cela empêche
-les erreurs.
-
-<p> Ensuite, vous pourrez centraliser. Pour l'instant, la clôture des
-périodes se fait par : "Paramètre -> période" et la
-centralisation se fait par le menu "Avancé -> Centralise".
-
-</sect1>
-</sect>
 <sect>Domaines
 <sect1>Définition
 <p> Ils est possible d'avoir phpcompta installé plusieurs  fois 
@@ -942,6 +866,27 @@ de voir les opérations des journaux auquels vous n'avez pas accès.
 
 </sect1>
 
+
+<sect1> Rapprochement
+<p>Vous pouvez lier des opérations entre elles,
+en général ce seront des paiements qui correspondent à des
+factures. Ce n'est pas obligatoire, c'est là uniquement pour vous
+permettre de mieux voir ce qui concerne quoi.
+
+<p>Les rapprochement ne se font pas forcément dans le même journal,
+par exemple un paiement sera dans le journal financier mais sera lié à
+une opération de vente (journal de vente) ou d'achat (journal
+d'achat).
+
+<p> Le point important est que dans la petite fenêtre montrant les
+détails, vous pouvez spécifier si la facture est ou non payée, cela
+vous permettra de savoir en temps réelle, ce qui est déjà payé et ce
+qui ne l'est pas, cette possibilité n'existe que pour les journaux de
+type vente et achat.
+
+</sect1>
+
+
 <sect1>Fiche
 <p>C'est ici que vous pourrez ajoutez des fiches mais aussi ajouter
 des nouveaux attributs aux fiches.
@@ -1041,8 +986,46 @@ Impression des fiches, avec ou sans solde, par période. On peut
 exporter en PDF
 
 </sect2>
-<sect2>Rapport
 
+<sect2>Les Rapports<label id="rapport">
+<sect3>Introduction
+<p> Les rapports permettent de rapidement encoder des rapports.
+Par exemple, le total des ventes, le total encore à payer, la différence
+entre les entrées et les charges... Il n'y a pas vraiment de limite. 
+
+<p> Les rapports permettent d'utilisent des formules (mod,round,*,-) 
+sur des soldes de comptes.
+
+<p>Très peu, voire aucun rapport, n'est fourni par défaut, vous devez
+les ajouter vous-même. Pour cela, soit vous regardez dans le
+répertoire contrib/rapport soit vous allez sur le site de phpcompta.
+
+</sect3>
+<sect3>Syntaxe
+<p>Quelques règles:
+<itemize>
+<item>les postes sont toujours écrits entre crochets;
+<item>pour avoir la somme du poste et des sous-poste, 
+il faut utiliser le %;
+<item>Les soldes sont toujours positifs et vous ne savez pas 
+s'ils sont au débit ou au crédit.
+<item>Si vous souhaitez commencer à une autre période pour certains
+compte et donc avoir plusieurs intervalles pour un rapport, vous
+devez utiliser l'option FROM=MM.YYYY (voir exemple). Ce genre d'option est 
+très utile pour par exemple les déclarations de TVA.
+</itemize>
+
+<p>
+Exemples de formule:
+<verb>
+Résultat d'exploitation brute round([7%]-[6%])
+Impot estimé (sans compter les amortissements) ([7%]-[6%])/0.35
+Total des comptes en banque [550%]
+Total TVA récolté depuis janvier 2005 : [4511]  FROM=01.2005
+Perte ou profit 	if ([7%]-[6%]>0)?"Benefice":"Perte"
+</verb>
+
+</sect3>
 </sect2>
 
 <sect2>Balance des comptes
@@ -1061,6 +1044,21 @@ exporter en PDF
 <sect2>Période
 </sect2>
 <sect2>Centralise
+<p> La centralisation est l'opération comptable qui consiste à
+regrouper les différents journaux comptables dans le grand livre.
+<sect3>Méthode
+<p> Cette opération n'est pas réversible. 
+
+<p> Tout d'abord, vous devez clôturer les périodes, une période
+clôturée est une période où il ne sera pas possible d'ajouter ou de
+modifier quoi que ce soit, d'ailleurs, il vaut mieux toujours mieux
+clôturer une période avant de faire la déclaration TVA. Cela empêche
+les erreurs.
+
+<p> Ensuite, vous pourrez centraliser. Pour l'instant, la clôture des
+périodes se fait par : "Paramètre -> période" et la
+centralisation se fait par le menu "Avancé -> Centralise".
+</sect3>
 </sect2>
 <sect2>Plan Comptable
 </sect2>
@@ -1114,8 +1112,14 @@ d'encoder une facture, cela se passe dans la même façon que dans le
 module de comptabilité sauf que vous pouvez ici générer une facture et
 l'imprimer.
 
+<p>Si vous avez chargé un modéle pour générer les factures, PhpCompta
+vous proposera avant de sauver l'opération de générer une facture.
+
 <p> Pour ajouter des modèles de facture, il faut aller dans le module
 Paramètre<ref id="parametre" name="Module Paramètre">.
+
+<p>A la dernière étape, PhpCompta vous permet de charger un fichier, si vous avez généré une 
+facture, celle-ci sera alors remplacée.
 
 </sect1>
 
@@ -1152,7 +1156,7 @@ toujours mieux garder une trace de toute vos communications avec eux.
 <sect>Le module Paramètre <label id="parametre">
 <sect1>Société
 <p>Ici vous indiquez les paramètres de votre société, nom,
-adresse... Cela sera réutilisez dans divers endroits.
+adresse... Cela sera réutilisé dans divers endroits.
 
 </sect1>
 
