@@ -141,7 +141,7 @@ class Supplier extends fiche{
 
 
 
-	$r.='<td><A HREF="commercial.php?p_action=depense&sa=list&qcode='.$supplier->strAttribut(ATTR_DEF_QUICKCODE).'&url='.$url.'" title="Historique Facture">Facture</A></td>';
+	$r.='<td><A HREF="commercial.php?p_action=depense&sa=list&p_periode=-1&qcode='.$supplier->strAttribut(ATTR_DEF_QUICKCODE).'&url='.$url.'" title="Historique Facture">Facture</A></td>';
 
 	$r.='</TD>';
 

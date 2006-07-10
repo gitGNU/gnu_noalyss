@@ -112,19 +112,41 @@ if ( $sub_action == "list")
 
   $w=new widget("select");
 
-  $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode order by p_id");
+  $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode order by p_id",1);
   // User is already set User=new cl_user($cn);
   $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->GetPeriode();
   $w->selected=$current;
 
-  echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit','Valider');
+  echo 'Période  '.$w->IOValue("p_periode",$periode_start);
   $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
-  printf ('<span>Tiers QuickCode: <input type="text" name="qcode" value="%s"></span>',
-	   $qcode);
+  echo JS_SEARCH_CARD;
+  $w=new widget('js_search_only');
+  $w->name='qcode';
+  $w->value=$qcode;
+  $w->label='';
+  $w->extra='8';
+  $w->table=0;
+  $sp= new widget("span");
+  echo $sp->IOValue("qcode_label","",$qcode);
+  echo $w->IOValue();
+  echo $w->Submit('gl_submit','Rechercher');
+
   echo $retour;
+
   // Show list of sell
   // Date - date of payment - Customer - amount
-  $sql=SQL_LIST_ALL_INVOICE." and jr_tech_per=".$current." and jr_def_type='ACH'" ;
+  if ( $current != -1 )
+    {
+      $filter_per=" and jr_tech_per=".$current;
+    }
+  else 
+    {
+      $filter_per=" and jr_tech_per in (select p_id from parm_periode where p_exercice=".
+	$User->getExercice().")";
+    }
+
+  $sql=SQL_LIST_ALL_INVOICE." $filter_per  and jr_def_type='ACH'" ;
+
   $step=$_SESSION['g_pagesize'];
   $page=(isset($_GET['offset']))?$_GET['page']:1;
   $offset=(isset($_GET['offset']))?$_GET['offset']:0;
@@ -137,7 +159,7 @@ if ( $sub_action == "list")
       $l=" and jr_grpt_id in (select j_grpt from jrnx where j_qcode='$qcode') ";
     }
 
-  list($max_line,$list)=ListJrn($cn,0,"where jrn_def_type='ACH' and jr_tech_per=$current $l "
+  list($max_line,$list)=ListJrn($cn,0,"where jrn_def_type='ACH'   $filter_per  $l "
 				,null,$offset,1);
   $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
 
