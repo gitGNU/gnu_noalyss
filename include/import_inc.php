@@ -139,6 +139,8 @@ function TransferCSV($p_cn, $periode){
   //while($val = pg_fetch_array($Res)){
   $Max=pg_NumRows($Res);
   echo $Max." opérations à transférer.<br/>";
+  StartSql($p_cn);
+
   for ($i = 0;$i < $Max;$i++) {
     $val=pg_fetch_array($Res,$i);
     
@@ -150,7 +152,6 @@ function TransferCSV($p_cn, $periode){
     $f=new fiche($p_cn);
     $f->GetByQCode($poste_comptable,false);
     $poste_comptable=$f->strAttribut(ATTR_DEF_ACCOUNT);
-    StartSql($p_cn);
 
     // Vérification que le poste comptable trouvé existe
     if ( $poste_comptable == '- ERROR -')
@@ -165,7 +166,7 @@ function TransferCSV($p_cn, $periode){
 
     // Test it
     if($test == 0) {
-      $sqlupdate = "update import_tmp set poste_comptable='' WHERE code='".$code."' AND num_compte='".$num_compte."'";
+      $sqlupdate = "update import_tmp set poste_comptable=null,  ok='f' WHERE code='".$code."' AND num_compte='".$num_compte."' or num_compte is null";
       $Resupdate=ExecSql($p_cn,$sqlupdate);
       echo "Poste comptable erronné pour l'opération ".$num_compte."-".$code.", réinitialisation du poste comptable<br/>";
       continue;
