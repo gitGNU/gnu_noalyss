@@ -42,7 +42,6 @@ require_once("user_common.php");
  */
 function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_article=1)
 { 
-
   if ( $p_array != null ) {
     // array contains old value
     foreach ( $p_array as $a=>$v) {
@@ -56,6 +55,7 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
   $e_comm=(isset($e_comm))?$e_comm:"";
   //  $e_jrn=(isset($e_jrn))?$e_jrn:"";
   // Save old value and set a new one
+
   echo_debug('user_form_ven.php',__LINE__,"form_input.php.FormVentep_op_date is $op_date");
   $r="";
   if ( $pview_only == false) {
@@ -63,21 +63,22 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
     $r.=JS_SHOW_TVA;    
     $r.=JS_TVA;
     // Compute href
-    $href=$_SERVER['SCRIPT_NAME'];
+    $href=basename($_SERVER['SCRIPT_NAME']);
+
     switch ($href)
       {
 	// user_jrn.php
-      case '/user_jrn.php':
+      case 'user_jrn.php':
 	$href="user_jrn.php?action=insert_vente&p_jrn=$p_jrn";
 	break;
-      case '/commercial.php':
+      case 'commercial.php':
 	$href="commercial.php?p_action=facture&p_jrn=$p_jrn";
 	break;
       default:
 	echo_error('user_form_ven.php',__LINE__,'Erreur invalid request uri');
 	exit (-1);
       }
-      
+
     $r.="<FORM NAME=\"form_detail\" ACTION=\"$href\" METHOD=\"POST\">";
 
     
@@ -538,14 +539,14 @@ function FormVenteView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='form'
   $r.="</DIV>";
   if ( $p_doc == 'form' ) {
     // Compute href
-    $href=$_SERVER['SCRIPT_NAME'];
+    $href=basename($_SERVER['SCRIPT_NAME']);
     switch ($href)
       {
 	// user_jrn.php
-      case '/user_jrn.php':
+      case 'user_jrn.php':
 	$href="user_jrn.php?action=record&p_jrn=$p_jrn";
 	break;
-      case '/commercial.php':
+      case 'commercial.php':
 	$href="commercial.php?p_action=facture&sa=record&p_jrn=$p_jrn";
 	break;
       default:

@@ -62,14 +62,15 @@ echo_debug('user_form_ach.php',__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_peri
     $r.=JS_SHOW_TVA;    
     $r.=JS_TVA;
     // Compute href
-    $href=$_SERVER['SCRIPT_NAME'];
+    $href=basename($_SERVER['SCRIPT_NAME']);
+
     switch ($href)
       {
 	// user_jrn.php
-      case '/user_jrn.php':
+      case 'user_jrn.php':
 	$href="user_jrn.php?action=new&p_jrn=$p_jrn";
 	break;
-      case '/commercial.php':
+      case 'commercial.php':
 	$href="commercial.php?p_action=depense&p_jrn=$p_jrn";
 	break;
       default:
@@ -588,14 +589,14 @@ function FormAchView ($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$p_number,$p_pi
  
   $r.="</DIV>";
   // Compute href
-  $href=$_SERVER['SCRIPT_NAME'];
+  $href=basename($_SERVER['SCRIPT_NAME']);
   switch ($href)
     {
       // user_jrn.php
-    case '/user_jrn.php':
+    case 'user_jrn.php':
       $href="user_jrn.php?action=new&p_jrn=$p_jrn";
       break;
-    case '/commercial.php':
+    case 'commercial.php':
       $href="commercial.php?p_action=depense&p_jrn=$p_jrn";
       break;
     default:

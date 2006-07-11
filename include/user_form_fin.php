@@ -166,15 +166,15 @@ function FormFin($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
     $r.=JS_CONCERNED_OP;
   }
   // Compute href
-  $href=$_SERVER['SCRIPT_NAME'];
+  $href=basename($_SERVER['SCRIPT_NAME']);
   switch ($href)
     {
       // user_jrn.php module "Comptable"
-    case '/user_jrn.php':
+    case 'user_jrn.php':
       $href="user_jrn.php?action=new&p_jrn=$p_jrn";
       break;
       // commercial.php  module "Gestion"
-    case '/commercial.php':
+    case 'commercial.php':
       $href="commercial.php?p_action=bank&p_jrn=$p_jrn";
       break;
     default:

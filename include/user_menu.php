@@ -258,11 +258,11 @@ function ShowMenuJrnUser($p_dossier,$p_type,$p_jrn,$p_extra="")
 	// Minimum Lecture 
 	echo_debug('user_menu.php',__LINE__,"p_jrn = $p_jrn ");
 	if ( $l_line['jrn_def_id'] != $p_jrn ) {
-	  $href=$_SERVER["SCRIPT_NAME"];
+	  $href=basename($_SERVER["SCRIPT_NAME"]);
 	  $add="";
 	  // if the SCRIPT_NAME == commercial.php, we need to add the parameter
 	  // p_action=facture
-	  if ( $href=="/commercial.php" ) 
+	  if ( $href=="commercial.php" ) 
 	    {
 	      $add='&p_action='.$_REQUEST['p_action'];
 	    }
