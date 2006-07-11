@@ -233,7 +233,7 @@ function TransferCSV($p_cn, $periode){
     
     $code=$val['code']; $date_exec=$val['date_exec']; $montant=$val['montant']; $num_compte=$val['num_compte']; 
     $poste_comptable=$val['poste_comptable'];$bq_account=$val['bq_account'];
-    $jrn=$val['jrn'];
+    $jrn=$val['jrn']; $detail=$val['detail'];
     
 // Retrieve the account thx the quick code    
     $f=new fiche($p_cn);
@@ -277,7 +277,7 @@ function TransferCSV($p_cn, $periode){
       if ( strlen(trim($num_compte)) == 0 )
 	$num_compte=$val['detail'];
 
-      $r=InsertJrn($p_cn,$date_exec,NULL,$jrn,$num_compte." ".$code,$montant,$seq,$periode);
+      $r=InsertJrn($p_cn,$date_exec,NULL,$jrn,$detail.$num_compte." ".$code,$montant,$seq,$periode);
       if ( $r == false ) { Rollback($p_cn); exit(" Error 'import_inc.php' __LINE__");}
       
       SetInternalCode($p_cn,$seq,$jrn);
