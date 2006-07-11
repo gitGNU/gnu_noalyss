@@ -78,7 +78,8 @@ function UpdateCSV($p_cn){
  *        are not included in the function and must set in the calling proc.
  * \param $p_val array (row from import_type)
  * \param $counter a counter used in the form
- * \param $p_form indicates if the button for the form is enable
+ * \param $p_form indicates if the button for the form is enable,
+ *        modify the Quick Code or remove record poss.value are form, remove
  */
 function ShowBox($p_val,$counter,$p_form='form'){
 
@@ -88,6 +89,8 @@ function ShowBox($p_val,$counter,$p_form='form'){
   $w->extra2=$p_val['jrn'];
   $w->label='';
   $w->table=0;
+  if ( $p_form == 'remove' )
+    $w->readonly=true;
 
   $s=new widget('span');
   
@@ -108,15 +111,27 @@ function ShowBox($p_val,$counter,$p_form='form'){
   echo "<td>n° compte : ".$p_val['num_compte']."</td>";
   if ( $p_form == 'form')
     echo '<td><input type="submit" value="modifier"></td><tr/>';
+  if ($p_form == 'remove' )
+    echo '<td><input type="submit" value="enlever"></td><tr/>';
+
   echo '</table>';
   
+}
+/*!\brief Remove the record, the data are in $_POST
+ *
+ */
+function RemoveCSV($cn)
+{
+  var_dump($_POST);
+  $sql="update import_tmp set poste_comptable=null where code='".$_POST['code']."'";
+  ExecSql($cn,$sql);
 }
 
 /*!\brief Verify the import
  */
 
 function VerifImport($p_cn){
-	$sql = "select * from import_tmp where poste_comptable='' or poste_comptable is null";
+	$sql = "select * from import_tmp where poste_comptable='' or poste_comptable is null order by date_exec,code";
 	$Res=ExecSql($p_cn,$sql);
 	$Num=pg_NumRows($Res);
 	echo $Num." opérations à complèter.<br/><br/>";
@@ -161,12 +176,17 @@ function ConfirmTransfert($p_cn,$periode){
   $Res=ExecSql($p_cn,$sql);
   $Num=pg_NumRows($Res);
   echo $Num." opérations à complèter.<br/><br/>";
-  echo '<form method="post" action="import.php">';
+  if ( $Num == 0 ) return;
   $i=1;
   while($val = pg_fetch_array($Res)){
-    ShowBox($val,$i,'disabled');
+
+    echo '<form method="post" action="import.php">';
+    echo '<input type="hidden" name="action" value="remove">';
+    ShowBox($val,$i,'remove');
+    echo '</form>';
     $i++;
   }
+  echo '<form method="post" action="import.php">';
   echo '<input type="hidden" name="action" value="transfer">';
   echo '<input type="submit" name="sub" value="Commencer le transfert">';
   echo '</form>';

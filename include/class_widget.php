@@ -449,14 +449,26 @@ class widget {
 	}
     } else {
       // readonly == true
-      $r=sprintf('<TD>            %s</TD>
-                 <TD> 
+      if ( $this->table == 1 )
+	{
+	
+	  $r=sprintf('<TD>            %s</TD>
+                 <TD> %s
                  <INPUT TYPE="hidden" NAME="%s" VALUE="%s" SIZE="8">
-                 </TD>',
+                 ',
 	       $this->label,
+		     $this->value, 
 	       $this->name,
-	       $this->value 
-		 );
+		     $this->value 
+		     );
+	}
+      else {
+	// readonly == true and table == 0
+	$r=sprintf('%s',
+	       $this->value
+	       );
+
+      }
 
     }
     return $r;
