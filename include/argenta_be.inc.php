@@ -48,8 +48,8 @@ while (($data = fgetcsv($handle, 2000,'!@')) !== FALSE) {
 	    continue;
 
 
-	  $date_exec=$row[1];
-	  $date_val=$row[1];
+	  $date_exec=$row[5];
+	  $date_val=$row[5];
 	  $code=$row[1]."/".$row[0];
 	  // remove first the thousand sep.
 	  $montant=str_replace('.','',$row[3]);
@@ -59,7 +59,7 @@ while (($data = fgetcsv($handle, 2000,'!@')) !== FALSE) {
 	  $montant=str_replace('+','',$montant);
 	  $devise=$row[4];
 	  $compte_ordre=$row[6];
-	  $detail=trim($row[2]).' '.trim($row[7]).' '.trim($row[8]).' '.trim($row[9]);
+	  $detail='virement du compte:'.$compte_ordre.trim($row[2]).' '.trim($row[7]).' '.trim($row[8]).' '.trim($row[9]);
 
 
 
@@ -72,6 +72,7 @@ while (($data = fgetcsv($handle, 2000,'!@')) !== FALSE) {
 				montant,
 				devise,
 				compte_ordre,
+                                num_compte,
 				detail,
 				bq_account ,
 				jrn,
@@ -82,7 +83,8 @@ while (($data = fgetcsv($handle, 2000,'!@')) !== FALSE) {
 				$montant,
 				'$devise',
 				'".addslashes($compte_ordre)."',	
-				'".addslashes($detail).$num_compte."	',
+                                '".$num_compte."',
+				'".addslashes($detail)."	',
 				'$p_bq_account',
 				$p_jrn,
 				false)";

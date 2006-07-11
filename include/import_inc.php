@@ -70,6 +70,48 @@ function UpdateCSV($p_cn){
   $sql = "update import_tmp set poste_comptable='".$poste."' where code='".$code."'";
   $Res=ExecSql($p_cn,$sql);
 }
+
+
+
+
+/*!\brief This function show a record from the table import_tmp, the tag for the form
+ *        are not included in the function and must set in the calling proc.
+ * \param $p_val array (row from import_type)
+ * \param $counter a counter used in the form
+ * \param $p_form indicates if the button for the form is enable
+ */
+function ShowBox($p_val,$counter,$p_form='form'){
+
+  $w=new widget('js_search_only');
+  $w->name='poste'.$counter;
+  $w->extra='cred';
+  $w->extra2=$p_val['jrn'];
+  $w->label='';
+  $w->table=0;
+
+  $s=new widget('span');
+  
+  if ( isset($p_val['poste_comptable']))
+    {
+      $w->value=$p_val['poste_comptable'];
+      $cn=DbConnect($_SESSION['g_dossier']);
+      $f=new fiche($cn);
+      $f->GetByQCode($p_val['poste_comptable']);
+      $s->value=$f->strAttribut(ATTR_DEF_NAME);
+  }
+  echo '<input type="hidden" name="code" value="'.$p_val['code'].'">';
+  echo '<input type="hidden" name="count" value="'.$counter.'">';
+  echo '<table border="1" width="500">';
+  echo '<tr><td width="200">'.$p_val['code'].'</td><td width="200">'.$p_val['date_exec'].'</td><td width="100">'.$p_val['montant'].' EUR</td><tr/>';
+  echo '<tr><td height="50" colspan="3">'.$p_val['detail'].'</td><tr/>';
+  echo '<tr><td>'.$w->IOValue().' '.$s->IOValue('poste'.$counter.'_label').'</td>';
+  echo "<td>n° compte : ".$p_val['num_compte']."</td>";
+  if ( $p_form == 'form')
+    echo '<td><input type="submit" value="modifier"></td><tr/>';
+  echo '</table>';
+  
+}
+
 /*!\brief Verify the import
  */
 
@@ -82,30 +124,55 @@ function VerifImport($p_cn){
 	// include javascript for popup 
 	echo JS_SEARCH_CARD;
 	while($val = pg_fetch_array($Res)){
-	  $w=new widget('js_search_only');
-	  $w->name='poste'.$i;
-	  $w->extra='cred';
-	  $w->extra2=$val['jrn'];
-	  $w->label='';
-	  $w->table=0;
-
-	  $s=new widget('span');
-
-	  echo '<form METHOD="POST" action="import.php?action=verif">';
-	  echo '<input type="hidden" name="code" value="'.$val['code'].'">';
-	  echo '<input type="hidden" name="count" value="'.$i.'">';
-	  echo '<table border="1" width="500">';
-	  echo '<tr><td width="200">'.$val['code'].'</td><td width="200">'.$val['date_exec'].'</td><td width="100">'.$val['montant'].' EUR</td><tr/>';
-	  echo '<tr><td height="50" colspan="3">'.$val['detail'].'</td><tr/>';
-	  //echo '<tr><td>Poste Comptable : <input type="text" size="10" name="poste"></td>';
-	  echo '<tr><td>'.$w->IOValue().' '.$s->IOValue('poste'.$i.'_label').'</td>';
-	  echo "<td>n° compte : ".$val['num_compte']."</td>";
-	  echo '<td><input type="submit" value="modifier"></td><tr/>';
-	  echo '</table>';
-	  echo '</FORM>';
+	  echo '<form METHOD="POST" action="import.php?action=verif">'; 
+	  ShowBox($val,$i);
+	  echo '</form>';
 	  $i++;
 	}
+
 }
+/*!\brief ConfirmCSV shows the operation which are going to be transfered
+ *  
+ * \param $p_cn database conx       
+ * \param $periode user's periode
+ */
+function ConfirmTransfert($p_cn,$periode){
+  $sql = "select to_char(p_start,'DD-MM-YYYY') as p_start,to_char(p_end,'DD-MM-YYYY') as p_end".
+    " from parm_periode where p_id = '".$periode."'";
+  $Res=ExecSql($p_cn,$sql);
+  $val = pg_fetch_array($Res);
+  if ( $val == false )
+    {
+      echo "<script>".
+	"alert ('Vous devez selectionner votre période dans vos préférences');".
+	"</script>";
+      exit();
+    }
+  $start ="to_date('".$val['p_start']."','DD-MM-YYYY')";   
+  $end = "to_date('".$val['p_end']."','DD-MM-YYYY')";
+
+  $sql = "select code,to_char(date_exec,'DD.MM.YYYY') as date_exec, ".
+    " montant,num_compte,poste_comptable,bq_account,jrn,detail ".
+    " from import_tmp where poste_comptable is not null and  poste_comptable <> '' 
+          and   ok <> TRUE AND date_exec BETWEEN ".$start." and ".$end;
+  
+
+	
+  $Res=ExecSql($p_cn,$sql);
+  $Num=pg_NumRows($Res);
+  echo $Num." opérations à complèter.<br/><br/>";
+  echo '<form method="post" action="import.php">';
+  $i=1;
+  while($val = pg_fetch_array($Res)){
+    ShowBox($val,$i,'disabled');
+    $i++;
+  }
+  echo '<input type="hidden" name="action" value="transfer">';
+  echo '<input type="submit" name="sub" value="Commencer le transfert">';
+  echo '</form>';
+
+}
+
 /*!\brief Transfert data into the ledger
  * \param $p_cn connx
  * \param $periode periode 
@@ -210,8 +277,8 @@ function TransferCSV($p_cn, $periode){
  * \brief  ShowForm for getting data about 
  *           the bank transfert in cvs
  *        
- * \param :  database connection
- *	-
+ * \param  $p_cn  database connection
+ *	
  * \return none
  */
 
