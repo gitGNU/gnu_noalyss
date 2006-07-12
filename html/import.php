@@ -62,7 +62,7 @@ echo '</div>';
 if ( isset( $_REQUEST['PHPSESSID'])) {
 	$sessid = $_REQUEST['PHPSESSID'];
 }
-echo JS_SEARCH_POSTE;
+
 
 // if action is set proceed to it
 if ( isset ($_GET["action"]) ) {
@@ -90,10 +90,30 @@ if ( isset ($_GET["action"]) ) {
   }
   if ($action == "transfer" ) {
     echo '<DIV class="u_redcontent">';
-    TransferCSV($cn, $User->GetPeriode());
+    //   TransferCSV($cn, 
+    ConfirmTransfert($cn,$User->GetPeriode());
     echo "</DIV>";
   }
 } 
+/*-----------------------------------------------
+ * transfert or remove the wrong record 
+ *
+ *-----------------------------------------------*/
+if ( isset ($_POST['action'])) {
+  $action=$_POST['action'];
+  if ($action == "transfer" ) {
+    echo '<DIV class="u_redcontent">';
+    TransferCSV($cn, $User->GetPeriode());
+    echo "</DIV>";
+  }
 
+  if ($action == "remove" ) {
+    echo '<DIV class="u_redcontent">';
+    RemoveCSV($cn);
+    ConfirmTransfert($cn,$User->GetPeriode());
+    echo "</DIV>";
+  }
+
+}
 html_page_stop();
 ?>
