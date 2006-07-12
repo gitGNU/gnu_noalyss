@@ -318,10 +318,10 @@ where $periode $jrn order by jr_date";
  *
  * \return an integer
  */
-function GetDefLine($p_cred) 
+function GetDefLine() 
 {
-	$sql_cred=($p_cred=='cred')?'jrn_cred_max_line':'jrn_deb_max_line';
-	$sql="select $sql_cred as value from jrn_def where jrn_def_id=".$this->id;
+	$sql_cred='jrn_deb_max_line';
+	$sql="select jrn_deb_max_line as value from jrn_def where jrn_def_id=".$this->id;
 	$r=ExecSql($this->db,$sql);
 	$Res=pg_fetch_all($r);
 	echo_debug('class_jrn',__LINE__,$Res);

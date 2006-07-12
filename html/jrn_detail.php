@@ -83,12 +83,8 @@ If ( isset ($_POST["JRN_UPD"] )) {
     else
       $l_deb_max_line=$_POST['p_jrn_deb_max_line'];
     
-    if ( (int) strlen(trim($_POST['p_jrn_cred_max_line'])) == 0 ||
-	  (string) (int)$_POST['p_jrn_cred_max_line'] != (string)$_POST['p_jrn_cred_max_line'] ||
-	 $_POST['p_jrn_cred_max_line'] <=0 )
-      $l_cred_max_line=1;
-    else
-      $l_cred_max_line=$_POST['p_jrn_cred_max_line'];
+    $l_cred_max_line=$l_deb_max_line;
+
     $p_jrn_name=$_POST['p_jrn_name'];
      if (strlen(trim($p_jrn_name))==0) return;
      $p_jrn_name=FormatString($p_jrn_name);
@@ -145,7 +141,7 @@ echo '<TD> <INPUT TYPE="text" NAME="p_jrn_class_deb" VALUE="'.$l_line['jrn_def_c
 echo '</TR>';
 
 echo '<TR>'; 
-echo '<TD> Nombre de lignes par défaut (débit) </TD>';
+echo '<TD> Nombre de lignes par défaut  </TD>';
 echo '<TD> <INPUT TYPE="text" NAME="p_jrn_deb_max_line" VALUE="'.$l_line['jrn_deb_max_line'].'"></TD>';
 echo '</TR>';
 
@@ -154,11 +150,6 @@ echo '<TD> Postes utilisables journal (crédit) </TD>';
 echo '<TD> <INPUT TYPE="text" NAME="p_jrn_class_cred" VALUE="'.$l_line['jrn_def_class_cred'].'">'.$search.'</TD>';
 echo '</TR>';
 
-
-echo '<TR>'; 
-echo '<TD> Nombre de lignes par défaut (crédit) </TD>';
-echo '<TD> <INPUT TYPE="text" NAME="p_jrn_cred_max_line" VALUE="'.$l_line['jrn_cred_max_line'].'"></TD>';
-echo '</TR>';
 
 echo '<TR>'; 
 echo '<TD> Date d\'échéance </TD>';

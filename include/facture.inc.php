@@ -279,7 +279,7 @@ if ( $p_jrn != -1 )
   $jrn=new jrn($cn,  $p_jrn);
   echo_debug('facture.inc.php.php',__LINE__,"Blank form");
   // Show an empty form of invoice
-  $form=FormVenInput($cn,$p_jrn,$User->GetPeriode(),null,false,$jrn->GetDefLine('cred'));
+  $form=FormVenInput($cn,$p_jrn,$User->GetPeriode(),null,false,$jrn->GetDefLine());
   echo '<div class="u_redcontent">';
   echo $form;
   echo '</div>';

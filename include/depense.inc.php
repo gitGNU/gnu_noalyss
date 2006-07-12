@@ -277,7 +277,7 @@ if ( $p_jrn != -1 )
   $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
           <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver" ID="SubmitButton">';
   // Show an empty form of invoice
-  $form=FormAchInput($cn,$p_jrn,$User->GetPeriode(),null,$submit,false,$jrn->getDefLine('cred'));
+  $form=FormAchInput($cn,$p_jrn,$User->GetPeriode(),null,$submit,false,$jrn->getDefLine());
   echo '<div class="u_redcontent">';
   echo $form;
   echo JS_CALC_LINE;

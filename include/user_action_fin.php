@@ -56,7 +56,7 @@ if ( $action == 'new' ) {
 	  $p_jrn=$_GET['p_jrn'];
 	  $jrn=new jrn($cn,  $p_jrn);
 
-	  $r=FormFin($cn,$p_jrn,$User->GetPeriode(),$submit,null,false,$jrn->GetDefLine('deb'));
+	  $r=FormFin($cn,$p_jrn,$User->GetPeriode(),$submit,null,false,$jrn->GetDefLine());
 	  echo '<div class="u_redcontent">';
 	  echo $r;
 	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."</div>";

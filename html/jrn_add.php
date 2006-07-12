@@ -73,11 +73,7 @@ If ( isset ($_POST["JRN_ADD"]) ) {
     else
       $l_deb_max_line=$_POST['p_jrn_deb_max_line'];
 
-     if (  strlen(trim($_POST['p_jrn_cred_max_line'])) == 0 ||
-	   (string) (int)$_POST['p_jrn_cred_max_line'] != (string)$_POST['p_jrn_cred_max_line'] )
-      $l_cred_max_line=1;
-    else
-      $l_cred_max_line=$_POST['p_jrn_cred_max_line'];
+
      $p_jrn_name=$_POST["p_jrn_name"];
 echo_debug('jrn_add.php',__LINE__,"nom journal $p_jrn_name");
      $p_jrn_class_deb=FormatString($_POST["p_jrn_class_deb"]);
@@ -95,7 +91,7 @@ echo_debug('jrn_add.php',__LINE__,"nom journal $p_jrn_name");
       if ( isset    ($_POST["FICHECRED"])) {
        $p_jrn_fiche_cred=join(",",$_POST["FICHECRED"]);
       }
-
+      $l_cred_max_line=$l_deb_max_line;
     $Sql=sprintf("insert into jrn_def(jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_deb_max_line,jrn_cred_max_line,
                   jrn_def_type,jrn_def_fiche_deb,jrn_def_fiche_cred,jrn_def_code) 
                   values ('%s','%s','%s',%s,%s,'%s','%s','%s','%s')",
@@ -132,7 +128,7 @@ echo '<TD> <INPUT TYPE="text" NAME="p_jrn_class_deb">'.$search.'</TD>';
 echo '</TR>';
 
 echo '<TR>'; 
-echo '<TD> Nombre de lignes par défaut (débit) </TD>';
+echo '<TD> Nombre de lignes par défaut  </TD>';
 echo '<TD> <INPUT TYPE="text" NAME="p_jrn_deb_max_line" ></TD>';
 echo '</TR>';
 
@@ -141,11 +137,6 @@ echo '<TD> Postes utilisables journal (crédit) </TD>';
 echo '<TD> <INPUT TYPE="text" NAME="p_jrn_class_cred">'.$search.'</TD>';
 echo '</TR>';
 
-
-echo '<TR>'; 
-echo '<TD> Nombre de lignes par défaut (crédit) </TD>';
-echo '<TD> <INPUT TYPE="text" NAME="p_jrn_cred_max_line"></TD>';
-echo '</TR>';
 
 echo '<TR>'; 
 echo '<TD> Date d\'échéance </TD>';
