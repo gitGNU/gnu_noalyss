@@ -61,7 +61,7 @@
 <a name="l00056"></a>00056           <a class="code" href="modify__op_8php.html#a2">$p_jrn</a>=$_GET['p_jrn'];
 <a name="l00057"></a>00057           <a class="code" href="show__pj_8php.html#a6">$jrn</a>=<span class="keyword">new</span> <a class="code" href="classjrn.html">jrn</a>($cn,  $p_jrn);
 <a name="l00058"></a>00058 
-<a name="l00059"></a><a class="code" href="user__action__fin_8php.html#a3">00059</a>           <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<a class="code" href="user__form__fin_8php.html#a1">FormFin</a>($cn,$p_jrn,$User-&gt;GetPeriode(),<a class="code" href="bank_8inc_8php.html#a27">$submit</a>,null,<span class="keyword">false</span>,<a class="code" href="show__pj_8php.html#a6">$jrn</a>-&gt;GetDefLine('deb'));
+<a name="l00059"></a><a class="code" href="user__action__fin_8php.html#a3">00059</a>           <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<a class="code" href="user__form__fin_8php.html#a1">FormFin</a>($cn,$p_jrn,$User-&gt;GetPeriode(),<a class="code" href="bank_8inc_8php.html#a27">$submit</a>,null,<span class="keyword">false</span>,<a class="code" href="show__pj_8php.html#a6">$jrn</a>-&gt;GetDefLine());
 <a name="l00060"></a>00060           echo '&lt;div <span class="keyword">class</span>=<span class="stringliteral">"u_redcontent"</span>&gt;';
 <a name="l00061"></a>00061           echo <a class="code" href="bank_8inc_8php.html#a29">$r</a>;
 <a name="l00062"></a>00062           echo <span class="stringliteral">"&lt;div&gt;&lt;h4&gt;On-line calculator&lt;/h4&gt;"</span>.JS_CALC_LINE.<span class="stringliteral">"&lt;/div&gt;"</span>;

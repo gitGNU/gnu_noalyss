@@ -106,7 +106,7 @@ Definition at line <a class="el" href="class__user_8php-source.html#l00033">33</
 <p>
 Definition at line <a class="el" href="class__user_8php-source.html#l00040">40</a> of file <a class="el" href="class__user_8php-source.html">class_user.php</a>.
 <p>
-References <a class="el" href="commercial_8php-source.html#l00035">$_SESSION</a>, <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="user__update_8php-source.html#l00032">$p_id</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00044">$row</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00069">$Sql</a>, <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="user__common_8php-source.html#l00831">isValid()</a>, and <a class="el" href="action_8inc_8php-source.html#l00240">name</a>.<div class="fragment"><pre class="fragment"><a name="l00040"></a>00040                                    {
+References <a class="el" href="commercial_8php-source.html#l00035">$_SESSION</a>, <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="user__update_8php-source.html#l00032">$p_id</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00044">$row</a>, <a class="el" href="eub__be_8inc_8php-source.html#l00055">$Sql</a>, <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="user__common_8php-source.html#l00831">isValid()</a>, and <a class="el" href="action_8inc_8php-source.html#l00240">name</a>.<div class="fragment"><pre class="fragment"><a name="l00040"></a>00040                                    {
 <a name="l00041"></a>00041     <span class="comment">// if p_id is not set then check the connected user</span>
 <a name="l00042"></a>00042     <span class="keywordflow">if</span> ( $p_id == -1 ) {
 <a name="l00043"></a>00043           <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_user.php',__LINE__,<span class="stringliteral">" g_user = "</span>.$_SESSION['g_user']);
@@ -128,7 +128,7 @@ References <a class="el" href="commercial_8php-source.html#l00035">$_SESSION</a>
 <a name="l00059"></a>00059       {
 <a name="l00060"></a>00060       $this-&gt;<span class="keywordtype">id</span>=<a class="code" href="user__update_8php.html#a1">$p_id</a>;
 <a name="l00061"></a>00061       $this-&gt;db=$p_cn;
-<a name="l00062"></a>00062       <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=<span class="stringliteral">"select use_first_name,</span>
+<a name="l00062"></a>00062       <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=<span class="stringliteral">"select use_first_name,</span>
 <a name="l00063"></a>00063 <span class="stringliteral">             use_name,</span>
 <a name="l00064"></a>00064 <span class="stringliteral">             use_login,</span>
 <a name="l00065"></a>00065 <span class="stringliteral">             use_active,</span>
@@ -547,7 +547,7 @@ Get the global preferences from user_global_pref in the account_repository db.
 <p>
 Definition at line <a class="el" href="class__user_8php-source.html#l00256">256</a> of file <a class="el" href="class__user_8php-source.html">class_user.php</a>.
 <p>
-References <a class="el" href="commercial_8php-source.html#l00035">$_SESSION</a>, <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00028">$line</a>, <a class="el" href="setup_8php-source.html#l00395">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00044">$row</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="class__user_8php-source.html#l00298">insert_default_global_pref()</a>, and <a class="el" href="action_8inc_8php-source.html#l00240">name</a>.
+References <a class="el" href="commercial_8php-source.html#l00035">$_SESSION</a>, <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00028">$line</a>, <a class="el" href="setup_8php-source.html#l00397">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00044">$row</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="class__user_8php-source.html#l00298">insert_default_global_pref()</a>, and <a class="el" href="action_8inc_8php-source.html#l00240">name</a>.
 <p>
 Referenced by <a class="el" href="class__user_8php-source.html#l00085">Check()</a>.<div class="fragment"><pre class="fragment"><a name="l00257"></a>00257 {
 <a name="l00258"></a>00258         <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_user.php',__LINE__,<span class="stringliteral">"function GetGlobalPref"</span>);
@@ -775,7 +775,7 @@ insert default pref if no parameter are given insert all the existing parameter 
 <p>
 Definition at line <a class="el" href="class__user_8php-source.html#l00298">298</a> of file <a class="el" href="class__user_8php-source.html">class_user.php</a>.
 <p>
-References <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00069">$Sql</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="action_8inc_8php-source.html#l00240">name</a>, and <a class="el" href="action_8inc_8php-source.html#l00241">value</a>.
+References <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="eub__be_8inc_8php-source.html#l00055">$Sql</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="action_8inc_8php-source.html#l00240">name</a>, and <a class="el" href="action_8inc_8php-source.html#l00241">value</a>.
 <p>
 Referenced by <a class="el" href="class__user_8php-source.html#l00256">GetGlobalPref()</a>.<div class="fragment"><pre class="fragment"><a name="l00298"></a>00298                                                             {
 <a name="l00299"></a>00299         <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_user.php',__LINE__,<span class="stringliteral">"function insert_default_global_pref"</span>);
@@ -784,7 +784,7 @@ Referenced by <a class="el" href="class__user_8php-source.html#l00256">GetGlobal
 <a name="l00302"></a>00302         $default_parameter= array(<span class="stringliteral">"THEME"</span>=&gt;<span class="stringliteral">"Light"</span>,
 <a name="l00303"></a>00303                 <span class="stringliteral">"PAGESIZE"</span>=&gt;<span class="stringliteral">"50"</span>);
 <a name="l00304"></a>00304         <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=Dbconnect();
-<a name="l00305"></a>00305         <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=<span class="stringliteral">"insert into user_global_pref(user_id,parameter_type,parameter_value) </span>
+<a name="l00305"></a>00305         <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=<span class="stringliteral">"insert into user_global_pref(user_id,parameter_type,parameter_value) </span>
 <a name="l00306"></a>00306 <span class="stringliteral">                                values ('%s','%s','%s')"</span>;
 <a name="l00307"></a>00307         <span class="keywordflow">if</span> ( $p_type == <span class="stringliteral">""</span> ) {
 <a name="l00308"></a>00308                 foreach ( $default_parameter as $<a class="code" href="action_8inc_8php.html#a18">name</a>=&gt;$<a class="code" href="action_8inc_8php.html#a19">value</a>) {
@@ -897,11 +897,11 @@ update default pref if value is not given then use the default value
 <p>
 Definition at line <a class="el" href="class__user_8php-source.html#l00330">330</a> of file <a class="el" href="class__user_8php-source.html">class_user.php</a>.
 <p>
-References <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00069">$Sql</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="action_8inc_8php-source.html#l00241">value</a>.<div class="fragment"><pre class="fragment"><a name="l00330"></a>00330                                                  {
+References <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="eub__be_8inc_8php-source.html#l00055">$Sql</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="action_8inc_8php-source.html#l00241">value</a>.<div class="fragment"><pre class="fragment"><a name="l00330"></a>00330                                                  {
 <a name="l00331"></a>00331         $default_parameter= array(<span class="stringliteral">"THEME"</span>=&gt;<span class="stringliteral">"Light"</span>,
 <a name="l00332"></a>00332                 <span class="stringliteral">"PAGESIZE"</span>=&gt;<span class="stringliteral">"50"</span>);
 <a name="l00333"></a>00333         <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=Dbconnect();
-<a name="l00334"></a>00334         <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=<span class="stringliteral">"update user_global_pref set parameter_value='%s' </span>
+<a name="l00334"></a>00334         <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=<span class="stringliteral">"update user_global_pref set parameter_value='%s' </span>
 <a name="l00335"></a>00335 <span class="stringliteral">                        where parameter_type='%s' and </span>
 <a name="l00336"></a>00336 <span class="stringliteral">                                user_id='%s'"</span>;
 <a name="l00337"></a>00337         $value=($p_value==<span class="stringliteral">""</span>)?$default_parameter[$p_type]:$p_value;

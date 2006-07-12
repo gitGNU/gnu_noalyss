@@ -87,9 +87,9 @@
 <a name="l00095"></a>00095         <a class="code" href="debug_8php.html#a0">echo_debug</a>('<a class="code" href="classjrn.html">jrn</a>.php',__LINE__,<span class="stringliteral">"l_line[jrn_def_class_deb] $l_line[jrn_def_class_deb] item_deb $item_deb"</span>);
 <a name="l00096"></a>00096         <span class="keywordflow">if</span> ( strstr($item_deb,<span class="stringliteral">"*"</span>) == <span class="keyword">true</span> ) {
 <a name="l00097"></a>00097           $item_deb=strtr($item_deb,<span class="stringliteral">"*"</span>,<span class="stringliteral">"%"</span>);
-<a name="l00098"></a>00098           <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=<span class="stringliteral">" pcm_val like '$item_deb' or"</span>;
+<a name="l00098"></a>00098           <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=<span class="stringliteral">" pcm_val like '$item_deb' or"</span>;
 <a name="l00099"></a>00099         } <span class="keywordflow">else</span> {
-<a name="l00100"></a>00100           <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=<span class="stringliteral">" pcm_val = '$item_deb' or"</span>;
+<a name="l00100"></a>00100           <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=<span class="stringliteral">" pcm_val = '$item_deb' or"</span>;
 <a name="l00101"></a>00101         }
 <a name="l00102"></a>00102         $SqlDeb=$SqlDeb.$Sql;
 <a name="l00103"></a>00103       }
@@ -156,9 +156,9 @@
 <a name="l00164"></a>00164         <a class="code" href="debug_8php.html#a0">echo_debug</a>('<a class="code" href="classjrn.html">jrn</a>.php',__LINE__,<span class="stringliteral">"l_line[jrn_def_class_cred] $l_line[jrn_def_class_cred] item_cred $item_cred"</span>);
 <a name="l00165"></a>00165         <span class="keywordflow">if</span> ( strstr($item_cred,<span class="stringliteral">"*"</span>) == <span class="keyword">true</span> ) {
 <a name="l00166"></a>00166           $item_cred=strtr($item_cred,<span class="stringliteral">"*"</span>,<span class="stringliteral">"%"</span>);
-<a name="l00167"></a>00167           <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=<span class="stringliteral">" pcm_val like '$item_cred' or"</span>;
+<a name="l00167"></a>00167           <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=<span class="stringliteral">" pcm_val like '$item_cred' or"</span>;
 <a name="l00168"></a>00168         } <span class="keywordflow">else</span> {
-<a name="l00169"></a>00169           <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=<span class="stringliteral">" pcm_val = '$item_cred' or"</span>;
+<a name="l00169"></a>00169           <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=<span class="stringliteral">" pcm_val = '$item_cred' or"</span>;
 <a name="l00170"></a>00170         }
 <a name="l00171"></a>00171         $SqlCred=$SqlCred.$Sql;
 <a name="l00172"></a>00172       }

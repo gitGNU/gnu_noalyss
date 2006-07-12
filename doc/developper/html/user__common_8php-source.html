@@ -482,7 +482,7 @@
 <a name="l00601"></a>00601   <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">"select f_id from vw_poste_qcode where j_qcode='$p_good'"</span>;
 <a name="l00602"></a>00602   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
 <a name="l00603"></a>00603   <a class="code" href="bank_8inc_8php.html#a29">$r</a>=pg_fetch_array($Res,0);
-<a name="l00604"></a>00604   $f_id=<a class="code" href="bank_8inc_8php.html#a29">$r</a>['<a class="code" href="facture_8inc_8php.html#a25">f_id</a>'];
+<a name="l00604"></a>00604   $f_id=<a class="code" href="bank_8inc_8php.html#a29">$r</a>['<a class="code" href="facture_8inc_8php.html#a26">f_id</a>'];
 <a name="l00605"></a>00605   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"insert into stock_goods (</span>
 <a name="l00606"></a>00606 <span class="stringliteral">                            j_id,</span>
 <a name="l00607"></a>00607 <span class="stringliteral">                            f_id,</span>

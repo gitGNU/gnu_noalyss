@@ -611,7 +611,7 @@ les journaux qu'il peut accéder... Chaque fois qu'une page est chargée,
 le mot de passe et le login utilisateur sont vérifiés pour savoir si
 primo il a accès a ce qu'il demandé à faire et secundo  si son compte
 est actif et que le mot de passe fourni est valide. Ces valeurs sont
-stockés sur le server. Peu de système vérifie aussi souvent les
+stockées sur le server. Peu de système vérifie aussi souvent les
 permissions d'un utilisateur. Evidemment utiliser le cache de
 l'explorateur pour découvrir ces informations est une perte de
 temps,  utiliser son historique pour accéder à vos données ne
@@ -705,7 +705,7 @@ de base de données.
 <p> Après toute cette théorie, il est temps d'apprendre à utiliser
 PhpCompta
 
-<sect1>Journaux
+<sect1>Journaux <label id="journaux">
 <p> Il existe 4 sortes de journaux
 <itemize>
 <item> Vente regroupant les ventes
@@ -714,27 +714,7 @@ PhpCompta
 <item> Opérations divers Et celui regroupant toutes les autres
 opérations (augmentation de bilan, amortissement,... )
 </itemize>
-
-La première chose à faire quand on crée un journal est de le
-paramétrer correctement
-
-L'écran est divisé en deux parties, celle du dessus, est surtout utilisée par
-les journaux "Opérations Diverses",  celui 
-du dessous pour les autres journaux.<label id="journal_comptable">
-
-Le nombre de lignes maximum, donne le nombre ligne qu'on aura quand on
-ajoutera une dépense, un achat, une opération diverses ou une opération banquaire.
-
-Il vaut mieux ne pas créer plus de 4 journaux par types, c'est-à-dire
-16 au total, il y a à cela deux raisons : la première est que cela
-devient ingérable, la seconde est que l'affichage en mode utilisateur
-serait euh... atroce. Quatre journaux en tout est largement suffisant
-pour les besoins d'une entreprise.
-
-<p>Remarque générale: En mode utilisateur, il faut cocher les fiches que l'on souhaite utiliser
-dans ce journal mais avec une exception : les journaux d'opérations diverses
-n'utilisent jamais les fiches voir <ref id="journal_od" name="Journaux
-des Opérations diverses">. 
+Pour la création voir <ref id="avance_journal" name="avance_journal">
 
 <sect2>Grand Livre
 <p>Ce journal-ci est un peu spécial. En fait, il rassemble tous les
@@ -795,8 +775,8 @@ et un montant positif si vous recevez de l'argent.
 </sect2>
 <sect2> Journal des Opérations diverses <label id="journal_od">
 <p> Reprend toutes les opérations qui ne sont pas comprises dans les autres
-journaux. Ce qui implique les amortissements, les salaires, les produits financiers,
-les dépenses non admises, le paiement de l'impôt, de la tva...
+journaux. Ce qui implique les amortissements, parfois les salaires ou les produits financiers,
+les dépenses non admises, le paiement de l'impôt, de la tva, les garanties...
 
 C'est l'unique journal qui n'utilise pas les fiches. Pourquoi ? Tout
 simplement parce 
@@ -822,12 +802,16 @@ Ceux qui terminent par une étoile reprennent les comptes qui commence
 par l'expression ainsi 411* reprendra 411, 4111, 4112,4113 et
 4114. Vous séparez les différents comptes par un espace.
 
+<sect2>Cas particuliers
 <p> Les cartes de crédit :
 La visa = changement de créancier : visa paie le fournisseur vous
-payez Visa
+payez Visa, vous pourriez aussi le mettre dans un journal financier
 
-<p> Facture payée par mensualité
-Opération de rapprochement ???
+<p> Facture payée par mensualité, la facture est encodée dans le journal
+d'achat, et à chaque paiement vous l'encodez dans le journal financier
+
+<p>Les salaires peuvent être soit dans un journal d'achat et les produits financiers dans
+un journal de vente, mais ils pourraient tous deux être dans le journal d'opérations diverses.
 
 
 </sect2>
@@ -887,9 +871,10 @@ type vente et achat.
 </sect1>
 
 
-<sect1>Fiche
-<p>C'est ici que vous pourrez ajoutez des fiches mais aussi ajouter
-des nouveaux attributs aux fiches.
+<sect1>Fiche <label id="avance_fiche">
+<p>Ce menu vous permet d'jouter et de modifier des fiches mais aussi de
+leur ajouter des attributs, un attribut est par exemple une adresse, une partie
+non déductible, une adresse...
 
 <sect2>Création d'une catégorie de fiche
 <p>
@@ -919,7 +904,8 @@ Pour simplifier :
 vous souhaitez que ce poste soit crée automatiquement : cochez la case
 'Create account for each' 
 <item>Vous souhaitez qu'il n'y a pas de poste comptable attaché à
-chaque fiche: ne la cochez pas 
+chaque fiche: ne la cochez pas. Pour les contacts par exemple, il n'y a pas
+de postes comptables.
 
 <item>Vous souhaitez qu'il y aie un poste comptable attaché à chaque fiche 
 mais pas généré automatiquement: ne cochez pas. Par la suite,  ajoutez
@@ -943,7 +929,7 @@ tout, par exemple pour les restaurants, vous pouvez encodez une seule
 et unique fiche appelée restaurant.
 
 <p>Autre : comme plusieur fiches peuvent utiliser le même poste comptable, si on
-modifie le nom d'une fiche cela ne modifiera pas son nom dans le Plan Comptable.
+modifie le nom d'une fiche, attention cela ne modifiera pas son nom dans le Plan Comptable.
 Attribut spéciaux:
 <itemize>
 <item>Partie fiscalement non déductible : entre 0 & 1, il s'agit de ce que vous 
@@ -962,9 +948,11 @@ Ce menu permet de demander des impressions.
 
 <sect2>Journaux
 Impression de journaux, les périodes que vous voyez sont celles de
-l'exercice de votre période par défaut (voir préférence).
+l'exercice de votre période par défaut (voir préférence). Vous pouvez soit les
+avoir comme un listing soit de manière détaillée c'est-à-dire en partie double. 
 
-option<itemize>
+<p>option
+<itemize>
 <item>Vous pouvez choisir entre les journaux centralisés et ceux qui ne le
 sont pas.
 <item>Style d'impression, soit simple donc sur une seule ligne soit en
@@ -972,18 +960,22 @@ partie double
 </itemize>
 
 Une fois l'impression en HTML obtenue, on peut soit l'imprimer, soit
-l'avoir en pdf soit en CSV.
+l'avoir en pdf soit en CSV. Avec le CSV, vous pouvez l'importez dans un 
+tableur et faire une autre présentation
 
 </sect2>
-<sect2>Poste
+<sect2>Poste <label id="impress_poste">
 Impression des postes comptables par période.
 
-L'export en PDF et CSV est prévu.
+L'export en PDF et CSV est prévu. Cela fonctionne exactement comme
+les journaux.
 
 </sect2>
 <sect2>Fiche
 Impression des fiches, avec ou sans solde, par période. On peut
-exporter en PDF
+exporter en PDF. On imprime des catégories de fiches, pour avoir le détail
+d'une fiche en particulier, il faut utiliser impression 
+des poste <ref id="impress_poste" name="impression_poste">
 
 </sect2>
 
@@ -1026,22 +1018,82 @@ Perte ou profit 	if ([7%]-[6%]>0)?"Benefice":"Perte"
 </verb>
 
 </sect3>
+<sect3>Statistiques mensuelles
+<p>Dans le menu rapport, vous pourrez choisir l'étape, si vous choississez mensuelle,
+vous aurez le résultat par mois.
+
+<p>Afin de pouvoir faire un graphique de vos statisques, il vous suffit de demander l'export
+en CSV puis de l'intégrer dans votre tableur 
+
+</sect3>
 </sect2>
 
 <sect2>Balance des comptes
+<p>Après avoir choisi la période, vous recevrez tous les postes comptables, la
+somme des débit et crédits de chacun. Cette balance est très pratique pour rapidement
+vérifier les comptes clients, dépenses. C'est un outil de vérification très utile.
+
 </sect2>
 
 <sect2>Bilan
+<p>Actuellement, seule le bilan Belge est disponible, pour en avoir un
+autre, il suffit 
+de créer 2 fichiers
+L'un sera en RTF et contiendra la présentation ainsi que les valeurs 
+à calculer et l'autre en format texte contiendra
+les formules qui remplaceront les balises dans le document RTF. 
+
+<p> Pour comprendre comment cela fonctionne, il suffit d'aller dans
+ html/document/fr_be et d'ouvrir les 2 fichiers qui s'y trouvent.
+
+<p>Le bilan et la balance des comptes, sont
+ les deux outils qui vous permettront de faire votre
+bilan de fin d'année.
+
 </sect2>
 
 <sect2>Liste Assujetti
+<p> Permet d'avoir la liste des assujetti à la TVA et
+ le montant qu'on leur a facturé, c'est une déclaration
+obligatoire et annuelle en Belgique.
+
 </sect2>
 </sect1>
 
 <sect1>Avancé
-<sect2>Journaux
+<sect2>Journaux <label id="avance_journal">
+<p>La première chose à faire quand on crée un journal est de le
+paramétrer correctement
+
+L'écran est divisé en deux parties, celle du dessus, est surtout utilisée par
+les journaux "Opérations Diverses",  celui 
+du dessous pour les autres journaux.<label id="journal_comptable">
+
+Le nombre de lignes maximum, donne le nombre lignes par défaut  qu'on verra dans l'écran d'encodage
+quand on
+ajoutera une dépense, un achat, une opération diverses ou une opération banquaire.
+
+Il vaut mieux ne pas créer plus de 4 journaux par types, c'est-à-dire
+16 au total, il y a à cela deux raisons : la première est que cela
+devient ingérable, la seconde est que l'affichage en mode utilisateur
+serait euh... atroce. Quatre journaux en tout sont largement suffisant
+pour les besoins d'une entreprise.
+
+<p>Remarque générale: En mode utilisateur, il faut cocher les fiches que l'on souhaite utiliser
+dans ce journal mais avec une exception : les journaux d'opérations diverses
+n'utilisent jamais les fiches voir <ref id="journal_od" name="Journaux
+des Opérations diverses">. 
+
+<p> Voir aussi Journaux <ref id="journaux" name="journaux">
 </sect2>
 <sect2>Période
+<p>C'est l'endroit ou les périodes sont créées, ou fermer, il faut toujours fermer
+les périodes en particulier après les déclarations TVA, afin d'éviter que les montants
+déjà déclarés ne correspondent plus, plus personne ne doit pouvoir encoder dans ces
+périodes-là.
+
+<p>Après la fermeture des périodes on peut les centraliser
+
 </sect2>
 <sect2>Centralise
 <p> La centralisation est l'opération comptable qui consiste à
@@ -1061,32 +1113,57 @@ centralisation se fait par le menu "Avancé -> Centralise".
 </sect3>
 </sect2>
 <sect2>Plan Comptable
+<p>Le plan comptable que vous utilisez, vous pouvez toujours ajoutez des postes
+ou enlever ceux qui n'ont jamais été utilisé.
+
+<p>Vous pouvez aussi les renommer
+
 </sect2>
 
 <sect2>Stock
 </sect2>
 
 <sect2>Rapport
+<p>Création des rapport voir impression des rapports <ref id="rapport" name="les rapports"> 
+
 </sect2>
 
 <sect2>Import Banque
+<p>Pour ajouter votre banque, vous pouvez le faire rapidement et simplement voir 
+la section Developpeur <ref id="dev_banque" name="dev_banque">.
+
+<p>Vous avez 3 sous menus
+<itemize>
+<item> Importer des fichiers CSV, faites bien attention aux journaux, format et compte choisi,
+il n'y aura pas de vérification.
+<item>Vérification, où vous pourrez ajouter le compte en contrepartie
+<item>Transfert. Dans ce menu-ci, vous voyez les opérations qui vont  être transfèrées. 
+Ce sont celles qui ont un poste comptable, qui n'ont pas encore été transfèrées et de la période
+que l'utilisateur a choisi dans ses préférences.
+Vous pouvez enlevez celles qui sont douteuses et que vous retrouverez alors dans Vérification. 
+Après confirmation, les opérations comptables sont inscrites dans le journal comptable, attention 
+ce n'est pas réversible
+</itemize>
+
 </sect2>
 
 <sect2>Ecriture d'ouverture
+<p>En début d'année, il faut réouvrir les comptes, mais uniquement les passifs et les actifs.
+
+<p>Quand votre bilan est fini, vous devez donc encoder dans la nouvelle année tous  les soldes,
+normalement vous utilisez la balance des comptes pour cela. Pour aller plus vite, vous les exportez
+avec ce menu, puis vous l'importez après avoir changé de dossier ou de période.
+
+<p>Attention : La réouverture des comptes se fait sur le nouvel exercice et normalement en janvier,
+pas l'exercice que vous venez de clôturer.
+
 </sect2>
-
-
 </sect1>
-
-
 </sect>
-
-
-
 <sect>Le module de gestion
 <p> Le module de gestion, comprend en partie la comptabilité et
 surtout le suivi des clients, fournisseurs,... Il permet aussi la
-création de facture, de documents qui peuvent être généré.
+création de facture, ou d'autre documents voir paramètre <ref id="param_document" name="param_document">
 
 
 <sect1> Menu : clients
@@ -1124,15 +1201,16 @@ facture, celle-ci sera alors remplacée.
 </sect1>
 
 <sect1>Menu Dépense
-<p> Exactement comme dans le module comptable 
-
+<p> Exactement comme dans le module comptable, sauf qu'aucun document n'est
+généré cependant vous pouvez charger une pièce justificative.
 
 </sect1>
 
 <sect1> Contact
 <p> Dans une companie ou dans une administration, vous pouvez avoir
 plusieurs personnes de contact, dans ce cas vous utiliserez les fiches
-contacts. 
+contacts. Elles n'ont pas de poste comptable normalement, mais 
+vous pourriez en ajouter via le menu fiche <ref id="avance_fiche" name="fiche">
 
 
 </sect1>
@@ -1145,8 +1223,15 @@ toujours mieux garder une trace de toute vos communications avec eux.
 
 </sect1>
 <sect1>Suivi Courrier
-<p>
+<p>Comme le dit le titre, garde une trace de toutes les communications
+reçues ou envoyées. 
 
+<p> Après avoir encodé un document, vous pouvez soit directement le lier à un autre, 
+si vous connaissez la référence (vous pouvez faire une recherche dans une autre fenêtre)
+ou vous ouvrez un document existant et vous ajoutez un document qui lui sera lié.
+
+<p>Vous pouvez ici aussi générer un document ou ajouter une pièce justificative en 
+plus de la note interne. Cette note n'est jamais repris dans le document.
 
 </sect1>
 
@@ -1156,7 +1241,8 @@ toujours mieux garder une trace de toute vos communications avec eux.
 <sect>Le module Paramètre <label id="parametre">
 <sect1>Société
 <p>Ici vous indiquez les paramètres de votre société, nom,
-adresse... Cela sera réutilisé dans divers endroits.
+adresse... Cela sera réutilisé dans divers endroits. Entre autre, dans les
+documents générés.
 
 </sect1>
 
@@ -1183,7 +1269,7 @@ endroits du programme, vous pouvez les modifier mais assurez-vous
 qu'il existe déjà dans votre Plan Comptable
 </sect1>
 <sect1>Fiche
-<p>Quand vous créez une nouvelle fiche, ou vous demande sur quel
+<p>Quand vous créez une nouvelle , ou vous demande sur quel
 modèle, vous voulez vous baser. Ce sont ces modèles qui peuvent être
 modifiées ici.
 
@@ -1196,15 +1282,62 @@ voir avec la doc. développeurs pour cela
 
 </sect1>
 <sect1>Sécurité
+<p> A complèter
+
 </sect1>
-<sect1>Document <label id="document">
-<p>
+<sect1>Document <label id="param_document">
+<p>C'est ici que vous pouvez charger vos documents, les formats acceptés
+sont HTML, RTF, ODF (document provenant de OOo ou de Kword iso26300) ou simplement TXT
+
+<p>Chaque type de document a un numéro de sequence, si vous avez 5 modèles de
+factures, tous les modéles utiliseront la même séquence. Ne modifier ce numéro que si
+vous êtes sûr de vous. Le numéro 0, signifie qu'il n'y aura pas de changement de la séquence.
+
+<p>Les balises possibles doivent être en [ ] sont:
+
+<itemize>
+<item> CUST_NAME customer's name </item>
+<item> CUST_ADDR_1 customer's address line 1</item>
+<item> CUST_CP customer's ZIP code</item>
+<item> CUST_CO customer's country</item>
+<item> CUST_VAT customer's VAT</item>
+<item> MARCH_NEXT end this item and increment the counter $i </item>
+<item> VEN_ART_NAME Nom de l'article</item>
+<item> VEN_ART_PRICE Prix de l'article</item>
+<item> VEN_ART_QUANT Quantité</item>
+<item> VEN_ART_TVA_CODE Le code TVA</item>
+<item> VEN_ART_TVA_AMOUNT Le montant TVA de l'article</item>
+<item> VEN_ART_STOCK_CODE Le code de stock de l'article</item>
+<item> VEN_HTVA le total hors TVA de l'article</item>
+<item> VEN_TVAC le total TVAC de l'article</item>
+<item> VEN_TVA le total de la tva de l'article</item>
+<item> TOTAL_VEN_HTVA le total HTVA</item>
+<item> TOTAL_VEN_TVAC le total TVAC</item>
+<item> TVA_LABEL Montre le % de tva</item>
+<item> TVA_AMOUNT Tva de l'article</item>
+<item> REFERENCE Référence</item>
+<item> SOLDE Solde du compte (pour les lettres de rappel)</item>
+<item> DATE Date encodée</item>
+<item> NUMBER numéro de séquence du document</item>
+<item> MY_NAME vos coordonnée</item>
+<item> MY_CP cope postal</item>
+<item> MY_COMMUNE commune</item>
+<item> MY_TVA numéro de TVA</item>
+<item> MY_STREET </item>
+<item> MY_NUMBER </item>
+<item> MY_TEL</item>
+<item> MY_FAX</item>
+<item> MY_PAYS</item>
+</itemize>
+
+<p> Il y a des exemples dans doc/contrib/document-test
+
 </sect1>
 </sect>
 <sect> Exemple
 <sect1>Ouverture de compte
 <p>
-En débit d'année, il faut réouvrir les comptes si on ouvre un nouveau dossier
+En débit d'année, il faut réouvrir les comptes 
 ou les ouvrir en commençant une activité.De toute façon, il faudrait régulariser certains
 compte
 
@@ -1256,6 +1389,32 @@ où vous travailliez, le poste comptable est maintenant disponible.
 
 </sect1>
 </sect>
+<sect>Developpeur
+<p> Vous pouvez modifier librement ce programme, et surtout envoyer vos corrections. 
+Toute la documentation nécessaire se trouve dans doc/developper. Le design des bases
+de données ainsi que le code sont présenté en HTML. 
 
+<p> La documentation des bases de données est faite avec postgresql_autodoc et celle
+du code avec Doxygen. Le manuel avec DocBook (voir la FAQ pour contribuer)
+
+<p>Si vous souhaitez envoyez un patch, regarder dans la FAQ "Comment contribuer"
+
+<sect1>Attributs des Fiches
+<p>Pour étendre la liste des attributs possibles, insérer simplement une ligne supplémentaire
+dans la table attr_def puis avec le menu fiche <ref id="avance_fiche" name="fiche"> ajoutez
+cette attribut à la catégorie de fiche voulue.
+
+</sect1>
+<sect1>Import des banques <label id="dev_banque">
+<p>Si votre banque ne se trouve pas dans le menu, vous pouvez l'ajouter très simplement.
+<p> Etape 1 : ajouter une ligne dans format_cvs_doc
+
+<p>Utilisez le fichier argenta_be.inc.be et cbc_be.inc.be comme modèle pour voir comment on importe. 
+Il y a aussi des outils dans contrib/cvs-tools pour vous aider, cela ne prend qu'une petite heure pour
+ajouter un format de banque.
+
+</sect1>
+
+</sect>
 
 </article>

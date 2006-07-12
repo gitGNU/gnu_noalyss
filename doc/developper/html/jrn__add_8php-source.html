@@ -78,135 +78,126 @@
 <a name="l00073"></a>00073     <span class="keywordflow">else</span>
 <a name="l00074"></a><a class="code" href="jrn__add_8php.html#a4">00074</a>       <a class="code" href="jrn__add_8php.html#a4">$l_deb_max_line</a>=$_POST['p_jrn_deb_max_line'];
 <a name="l00075"></a>00075 
-<a name="l00076"></a>00076      <span class="keywordflow">if</span> (  strlen(trim($_POST['p_jrn_cred_max_line'])) == 0 ||
-<a name="l00077"></a>00077            (string) (<span class="keywordtype">int</span>)$_POST['p_jrn_cred_max_line'] != (string)$_POST['p_jrn_cred_max_line'] )
-<a name="l00078"></a>00078       <a class="code" href="jrn__add_8php.html#a5">$l_cred_max_line</a>=1;
-<a name="l00079"></a>00079     <span class="keywordflow">else</span>
-<a name="l00080"></a><a class="code" href="jrn__add_8php.html#a5">00080</a>       <a class="code" href="jrn__add_8php.html#a5">$l_cred_max_line</a>=$_POST['p_jrn_cred_max_line'];
-<a name="l00081"></a><a class="code" href="jrn__add_8php.html#a6">00081</a>      <a class="code" href="jrn__add_8php.html#a6">$p_jrn_name</a>=$_POST[<span class="stringliteral">"p_jrn_name"</span>];
-<a name="l00082"></a>00082 <a class="code" href="debug_8php.html#a0">echo_debug</a>('jrn_add.php',__LINE__,<span class="stringliteral">"nom journal $p_jrn_name"</span>);
-<a name="l00083"></a><a class="code" href="jrn__add_8php.html#a7">00083</a>      <a class="code" href="jrn__add_8php.html#a7">$p_jrn_class_deb</a>=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($_POST[<span class="stringliteral">"p_jrn_class_deb"</span>]);
-<a name="l00084"></a>00084      <span class="keywordflow">if</span> (strlen(trim($p_jrn_name))==0) <span class="keywordflow">return</span>;
-<a name="l00085"></a>00085      <a class="code" href="jrn__add_8php.html#a6">$p_jrn_name</a>=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($p_jrn_name);
-<a name="l00086"></a><a class="code" href="jrn__add_8php.html#a8">00086</a>      <a class="code" href="jrn__add_8php.html#a8">$p_jrn_class_cred</a>=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($_POST[<span class="stringliteral">"p_jrn_class_cred"</span>]);
-<a name="l00087"></a>00087      <span class="comment">// compute the jrn_def.jrn_def_code</span>
-<a name="l00088"></a><a class="code" href="jrn__add_8php.html#a9">00088</a>      <a class="code" href="jrn__add_8php.html#a9">$p_code</a>=sprintf(<span class="stringliteral">"%s-%02d"</span>,trim($_POST['p_jrn_type']),<a class="code" href="jrn_8php.html#a13">NextJrn</a>($cn,$_POST['p_jrn_type']));
-<a name="l00089"></a><a class="code" href="jrn__add_8php.html#a10">00089</a>        <a class="code" href="jrn__add_8php.html#a10">$p_jrn_fiche_deb</a>=<span class="stringliteral">""</span>;
-<a name="l00090"></a><a class="code" href="jrn__add_8php.html#a11">00090</a>        <a class="code" href="jrn__add_8php.html#a11">$p_jrn_fiche_cred</a>=<span class="stringliteral">""</span>;
-<a name="l00091"></a>00091 
-<a name="l00092"></a>00092      <span class="keywordflow">if</span> ( isset    ($_POST[<span class="stringliteral">"FICHEDEB"</span>])) {
-<a name="l00093"></a>00093        <a class="code" href="jrn__add_8php.html#a10">$p_jrn_fiche_deb</a>=join(<span class="stringliteral">","</span>,$_POST[<span class="stringliteral">"FICHEDEB"</span>]);
-<a name="l00094"></a>00094      }
-<a name="l00095"></a>00095       <span class="keywordflow">if</span> ( isset    ($_POST[<span class="stringliteral">"FICHECRED"</span>])) {
-<a name="l00096"></a>00096        <a class="code" href="jrn__add_8php.html#a11">$p_jrn_fiche_cred</a>=join(<span class="stringliteral">","</span>,$_POST[<span class="stringliteral">"FICHECRED"</span>]);
-<a name="l00097"></a>00097       }
-<a name="l00098"></a>00098 
-<a name="l00099"></a><a class="code" href="jrn__add_8php.html#a12">00099</a>     <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=sprintf(<span class="stringliteral">"insert into jrn_def(jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_deb_max_line,jrn_cred_max_line,</span>
-<a name="l00100"></a>00100 <span class="stringliteral">                  jrn_def_type,jrn_def_fiche_deb,jrn_def_fiche_cred,jrn_def_code) </span>
-<a name="l00101"></a>00101 <span class="stringliteral">                  values ('%s','%s','%s',%s,%s,'%s','%s','%s','%s')"</span>,
-<a name="l00102"></a>00102                  $p_jrn_name,$p_jrn_class_deb,$p_jrn_class_cred,
-<a name="l00103"></a>00103                  $l_deb_max_line,$l_cred_max_line,$_POST['p_jrn_type'],
-<a name="l00104"></a>00104                  $p_jrn_fiche_deb,$p_jrn_fiche_cred,
-<a name="l00105"></a>00105                  $p_code
-<a name="l00106"></a>00106                  );
-<a name="l00107"></a>00107     <a class="code" href="debug_8php.html#a0">echo_debug</a>($Sql);
-<a name="l00108"></a><a class="code" href="jrn__add_8php.html#a13">00108</a>     <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$Sql);
-<a name="l00109"></a>00109   }
-<a name="l00110"></a>00110 }
-<a name="l00111"></a>00111 echo <a class="code" href="user__menu_8php.html#a8">ShowMenuAdvanced</a>();
-<a name="l00112"></a>00112 echo '&lt;div <span class="keyword">class</span>=<span class="stringliteral">"lmenu"</span>&gt;';
-<a name="l00113"></a>00113 <a class="code" href="user__menu_8php.html#a14">MenuJrn</a>($_SESSION['g_dossier']);
-<a name="l00114"></a>00114 echo '&lt;/div&gt;';
-<a name="l00115"></a>00115 
-<a name="l00116"></a><a class="code" href="jrn__add_8php.html#a14">00116</a> <a class="code" href="user__action__ach_8php.html#a21">$sessid</a>=$_REQUEST['PHPSESSID'];
-<a name="l00117"></a><a class="code" href="jrn__add_8php.html#a15">00117</a> <a class="code" href="admin_8inc_8php.html#a8">$search</a>='&lt;INPUT TYPE=<span class="stringliteral">"BUTTON"</span> VALUE=<span class="stringliteral">"Cherche"</span> OnClick=<span class="stringliteral">"SearchPoste(\''.$sessid."</span><span class="charliteral">','</span>not')\<span class="stringliteral">"&gt;"</span>;
-<a name="l00118"></a>00118 
-<a name="l00119"></a>00119 echo '&lt;DIV CLASS=<span class="stringliteral">"u_redcontent"</span>&gt;';
-<a name="l00120"></a>00120 echo '&lt;<a class="code" href="constant_8php.html#a7">FORM</a> <a class="code" href="constant_8php.html#a44">ACTION</a>=<span class="stringliteral">"jrn_add.php"</span> <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"POST"</span>&gt;';
-<a name="l00121"></a>00121 echo '&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> NAME=<span class="stringliteral">"JRN_ADD"</span>&gt;';
-<a name="l00122"></a>00122 echo '&lt;TABLE&gt;';
-<a name="l00123"></a>00123 
-<a name="l00124"></a>00124 echo '&lt;TR&gt;'; 
-<a name="l00125"></a>00125 echo '&lt;TD&gt; Nom journal &lt;/TD&gt;';
-<a name="l00126"></a>00126 echo '&lt;TD&gt; &lt;INPUT TYPE=<span class="stringliteral">"text"</span> NAME=<span class="stringliteral">"p_jrn_name"</span>&gt;&lt;/TD&gt;';
-<a name="l00127"></a>00127 echo '&lt;/TR&gt;';
-<a name="l00128"></a>00128 
-<a name="l00129"></a>00129 echo '&lt;TR&gt;'; 
-<a name="l00130"></a>00130 echo '&lt;TD&gt; Postes utilisables journal (débit) &lt;/TD&gt;';
-<a name="l00131"></a>00131 echo '&lt;TD&gt; &lt;INPUT TYPE=<span class="stringliteral">"text"</span> NAME=<span class="stringliteral">"p_jrn_class_deb"</span>&gt;'.$search.'&lt;/TD&gt;';
-<a name="l00132"></a>00132 echo '&lt;/TR&gt;';
-<a name="l00133"></a>00133 
-<a name="l00134"></a>00134 echo '&lt;TR&gt;'; 
-<a name="l00135"></a>00135 echo '&lt;TD&gt; Nombre de lignes par défaut (débit) &lt;/TD&gt;';
-<a name="l00136"></a>00136 echo '&lt;TD&gt; &lt;INPUT TYPE=<span class="stringliteral">"text"</span> NAME=<span class="stringliteral">"p_jrn_deb_max_line"</span> &gt;&lt;/TD&gt;';
-<a name="l00137"></a>00137 echo '&lt;/TR&gt;';
-<a name="l00138"></a>00138 
-<a name="l00139"></a>00139 echo '&lt;TR&gt;'; 
-<a name="l00140"></a>00140 echo '&lt;TD&gt; Postes utilisables journal (crédit) &lt;/TD&gt;';
-<a name="l00141"></a>00141 echo '&lt;TD&gt; &lt;INPUT TYPE=<span class="stringliteral">"text"</span> NAME=<span class="stringliteral">"p_jrn_class_cred"</span>&gt;'.$search.'&lt;/TD&gt;';
-<a name="l00142"></a>00142 echo '&lt;/TR&gt;';
-<a name="l00143"></a>00143 
-<a name="l00144"></a>00144 
-<a name="l00145"></a>00145 echo '&lt;TR&gt;'; 
-<a name="l00146"></a>00146 echo '&lt;TD&gt; Nombre de lignes par défaut (crédit) &lt;/TD&gt;';
-<a name="l00147"></a>00147 echo '&lt;TD&gt; &lt;INPUT TYPE=<span class="stringliteral">"text"</span> NAME=<span class="stringliteral">"p_jrn_cred_max_line"</span>&gt;&lt;/TD&gt;';
-<a name="l00148"></a>00148 echo '&lt;/TR&gt;';
-<a name="l00149"></a>00149 
-<a name="l00150"></a>00150 echo '&lt;TR&gt;'; 
-<a name="l00151"></a>00151 echo '&lt;TD&gt; Date d\'échéance &lt;/TD&gt;';
-<a name="l00152"></a>00152 echo '&lt;TD&gt; &lt;INPUT TYPE=<span class="stringliteral">"radio"</span> NAME=<span class="stringliteral">"p_ech"</span> VALUE=<span class="stringliteral">"yes"</span> &gt;Oui';
-<a name="l00153"></a>00153 echo '&lt;INPUT TYPE=<span class="stringliteral">"radio"</span> NAME=<span class="stringliteral">"p_ech"</span> VALUE=<span class="stringliteral">"no"</span> CHECKED&gt;Non&lt;/TD&gt;';
-<a name="l00154"></a>00154 
-<a name="l00155"></a>00155 echo '&lt;/TR&gt;';
-<a name="l00156"></a>00156 
-<a name="l00157"></a>00157 echo '&lt;TR&gt;'; 
-<a name="l00158"></a>00158 echo '&lt;TD&gt; Libellé echéance &lt;/TD&gt;';
-<a name="l00159"></a>00159 echo '&lt;TD&gt; &lt;INPUT TYPE=<span class="stringliteral">"text"</span> NAME=<span class="stringliteral">"p_ech_lib"</span> &gt;&lt;/TD&gt;';
-<a name="l00160"></a>00160 echo '&lt;/TR&gt;';
-<a name="l00161"></a>00161 
-<a name="l00162"></a>00162 
-<a name="l00163"></a>00163 echo '&lt;TR&gt;'; 
-<a name="l00164"></a>00164 echo '&lt;TD&gt; Type de journal &lt;/TD&gt;';
-<a name="l00165"></a>00165 echo '&lt;TD&gt; ';
-<a name="l00166"></a>00166 <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select jrn_type_id,jrn_desc from jrn_type"</span>);
-<a name="l00167"></a><a class="code" href="jrn__add_8php.html#a16">00167</a> <a class="code" href="setup_8php.html#a11">$Max</a>=pg_NumRows($Res);
-<a name="l00168"></a>00168 echo '&lt;SELECT NAME=<span class="stringliteral">"p_jrn_type"</span>&gt;';
-<a name="l00169"></a>00169 <span class="keywordflow">for</span> ($i=0;$i&lt;$Max;$i++) {
-<a name="l00170"></a>00170   $Line=pg_fetch_array($Res,$i);
-<a name="l00171"></a>00171   printf ('&lt;OPTION VALUE=<span class="stringliteral">"%s"</span>&gt;%s',$Line['jrn_type_id'],$Line['jrn_desc']);
-<a name="l00172"></a>00172 }
-<a name="l00173"></a>00173 echo '&lt;/SELECT&gt;';
-<a name="l00174"></a>00174 echo '&lt;/TD&gt;';
-<a name="l00175"></a>00175 echo '&lt;/TR&gt;';
-<a name="l00176"></a>00176 ?&gt;
-<a name="l00177"></a>00177 &lt;?
-<a name="l00178"></a>00178 <span class="comment">// Get all the fiches</span>
-<a name="l00179"></a>00179 echo '&lt;tr&gt; &lt;td colspan=<span class="stringliteral">"2"</span>&gt;&lt;H2 <span class="keyword">class</span>=<span class="stringliteral">"info"</span>&gt; Fiches &lt;/H2&gt;&lt;/TD&gt;&lt;/TR&gt;';
-<a name="l00180"></a>00180 <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select fd_id,fd_label from fiche_def order by fd_label"</span>);
-<a name="l00181"></a><a class="code" href="jrn__add_8php.html#a17">00181</a> <a class="code" href="jrn__add_8php.html#a17">$num</a>=pg_NumRows($Res);
-<a name="l00182"></a>00182 
-<a name="l00183"></a>00183 
-<a name="l00184"></a>00184 echo '&lt;TR&gt;';
-<a name="l00185"></a>00185 echo '&lt;th&gt; Fiches Dédit&lt;/TH&gt;';
-<a name="l00186"></a>00186 echo '&lt;th&gt; Fiches Crébit&lt;/TH&gt;';
-<a name="l00187"></a>00187 echo '&lt;/TR&gt;';
-<a name="l00188"></a>00188 <span class="comment">// Show the fiche in deb section</span>
-<a name="l00189"></a>00189 <span class="keywordflow">for</span> ($i=0;$i&lt;$num;$i++) {
-<a name="l00190"></a>00190   <a class="code" href="pref_8inc_8php.html#a1">$res</a>=pg_fetch_array($Res,$i);
-<a name="l00191"></a>00191   echo '&lt;TR&gt;';
-<a name="l00192"></a>00192   printf ('&lt;TD&gt; &lt;INPUT TYPE=<span class="stringliteral">"CHECKBOX"</span> VALUE=<span class="stringliteral">"%s"</span> NAME=<span class="stringliteral">"FICHEDEB[]"</span>&gt;%s&lt;/TD&gt;',
-<a name="l00193"></a>00193           $res['fd_id'],$res['fd_label']);
-<a name="l00194"></a>00194   printf ('&lt;TD&gt; &lt;INPUT TYPE=<span class="stringliteral">"CHECKBOX"</span> VALUE=<span class="stringliteral">"%s"</span> NAME=<span class="stringliteral">"FICHECRED[]"</span>&gt;%s&lt;/TD&gt;',
-<a name="l00195"></a>00195           $res['fd_id'],$res['fd_label']);
-<a name="l00196"></a>00196   echo '&lt;/TR&gt;';
-<a name="l00197"></a>00197 }
-<a name="l00198"></a>00198 ?&gt;
-<a name="l00199"></a>00199 &lt;TR&gt;&lt;TD&gt;&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> VALUE=<span class="stringliteral">"Sauve"</span>&gt;&lt;/TD&gt;&lt;TD&gt;&lt;INPUT TYPE=<span class="stringliteral">"RESET"</span> VALUE=<span class="stringliteral">"Reset"</span>&gt;&lt;/TD&gt;&lt;/TR&gt;
-<a name="l00200"></a>00200 &lt;?
-<a name="l00201"></a>00201 echo '&lt;/TABLE&gt;';
-<a name="l00202"></a>00202 echo '&lt;/<a class="code" href="constant_8php.html#a7">FORM</a>&gt;';
-<a name="l00203"></a>00203 echo <span class="stringliteral">"&lt;/DIV&gt;"</span>;
-<a name="l00204"></a>00204 <a class="code" href="ac__common_8php.html#a6">html_page_stop</a>();
-<a name="l00205"></a>00205 ?&gt;
+<a name="l00076"></a>00076 
+<a name="l00077"></a><a class="code" href="jrn__add_8php.html#a5">00077</a>      <a class="code" href="jrn__add_8php.html#a5">$p_jrn_name</a>=$_POST[<span class="stringliteral">"p_jrn_name"</span>];
+<a name="l00078"></a>00078 <a class="code" href="debug_8php.html#a0">echo_debug</a>('jrn_add.php',__LINE__,<span class="stringliteral">"nom journal $p_jrn_name"</span>);
+<a name="l00079"></a><a class="code" href="jrn__add_8php.html#a6">00079</a>      <a class="code" href="jrn__add_8php.html#a6">$p_jrn_class_deb</a>=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($_POST[<span class="stringliteral">"p_jrn_class_deb"</span>]);
+<a name="l00080"></a>00080      <span class="keywordflow">if</span> (strlen(trim($p_jrn_name))==0) <span class="keywordflow">return</span>;
+<a name="l00081"></a>00081      <a class="code" href="jrn__add_8php.html#a5">$p_jrn_name</a>=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($p_jrn_name);
+<a name="l00082"></a><a class="code" href="jrn__add_8php.html#a7">00082</a>      <a class="code" href="jrn__add_8php.html#a7">$p_jrn_class_cred</a>=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($_POST[<span class="stringliteral">"p_jrn_class_cred"</span>]);
+<a name="l00083"></a>00083      <span class="comment">// compute the jrn_def.jrn_def_code</span>
+<a name="l00084"></a><a class="code" href="jrn__add_8php.html#a8">00084</a>      <a class="code" href="jrn__add_8php.html#a8">$p_code</a>=sprintf(<span class="stringliteral">"%s-%02d"</span>,trim($_POST['p_jrn_type']),<a class="code" href="jrn_8php.html#a13">NextJrn</a>($cn,$_POST['p_jrn_type']));
+<a name="l00085"></a><a class="code" href="jrn__add_8php.html#a9">00085</a>        <a class="code" href="jrn__add_8php.html#a9">$p_jrn_fiche_deb</a>=<span class="stringliteral">""</span>;
+<a name="l00086"></a><a class="code" href="jrn__add_8php.html#a10">00086</a>        <a class="code" href="jrn__add_8php.html#a10">$p_jrn_fiche_cred</a>=<span class="stringliteral">""</span>;
+<a name="l00087"></a>00087 
+<a name="l00088"></a>00088      <span class="keywordflow">if</span> ( isset    ($_POST[<span class="stringliteral">"FICHEDEB"</span>])) {
+<a name="l00089"></a>00089        <a class="code" href="jrn__add_8php.html#a9">$p_jrn_fiche_deb</a>=join(<span class="stringliteral">","</span>,$_POST[<span class="stringliteral">"FICHEDEB"</span>]);
+<a name="l00090"></a>00090      }
+<a name="l00091"></a>00091       <span class="keywordflow">if</span> ( isset    ($_POST[<span class="stringliteral">"FICHECRED"</span>])) {
+<a name="l00092"></a>00092        <a class="code" href="jrn__add_8php.html#a10">$p_jrn_fiche_cred</a>=join(<span class="stringliteral">","</span>,$_POST[<span class="stringliteral">"FICHECRED"</span>]);
+<a name="l00093"></a>00093       }
+<a name="l00094"></a><a class="code" href="jrn__add_8php.html#a11">00094</a>       <a class="code" href="jrn__add_8php.html#a11">$l_cred_max_line</a>=<a class="code" href="jrn__add_8php.html#a4">$l_deb_max_line</a>;
+<a name="l00095"></a><a class="code" href="jrn__add_8php.html#a12">00095</a>     <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=sprintf(<span class="stringliteral">"insert into jrn_def(jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_deb_max_line,jrn_cred_max_line,</span>
+<a name="l00096"></a>00096 <span class="stringliteral">                  jrn_def_type,jrn_def_fiche_deb,jrn_def_fiche_cred,jrn_def_code) </span>
+<a name="l00097"></a>00097 <span class="stringliteral">                  values ('%s','%s','%s',%s,%s,'%s','%s','%s','%s')"</span>,
+<a name="l00098"></a>00098                  $p_jrn_name,$p_jrn_class_deb,$p_jrn_class_cred,
+<a name="l00099"></a>00099                  $l_deb_max_line,$l_cred_max_line,$_POST['p_jrn_type'],
+<a name="l00100"></a>00100                  $p_jrn_fiche_deb,$p_jrn_fiche_cred,
+<a name="l00101"></a>00101                  $p_code
+<a name="l00102"></a>00102                  );
+<a name="l00103"></a>00103     <a class="code" href="debug_8php.html#a0">echo_debug</a>($Sql);
+<a name="l00104"></a><a class="code" href="jrn__add_8php.html#a13">00104</a>     <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$Sql);
+<a name="l00105"></a>00105   }
+<a name="l00106"></a>00106 }
+<a name="l00107"></a>00107 echo <a class="code" href="user__menu_8php.html#a8">ShowMenuAdvanced</a>();
+<a name="l00108"></a>00108 echo '&lt;div <span class="keyword">class</span>=<span class="stringliteral">"lmenu"</span>&gt;';
+<a name="l00109"></a>00109 <a class="code" href="user__menu_8php.html#a14">MenuJrn</a>($_SESSION['g_dossier']);
+<a name="l00110"></a>00110 echo '&lt;/div&gt;';
+<a name="l00111"></a>00111 
+<a name="l00112"></a><a class="code" href="jrn__add_8php.html#a14">00112</a> <a class="code" href="user__action__ach_8php.html#a21">$sessid</a>=$_REQUEST['PHPSESSID'];
+<a name="l00113"></a><a class="code" href="jrn__add_8php.html#a15">00113</a> <a class="code" href="admin_8inc_8php.html#a8">$search</a>='&lt;INPUT TYPE=<span class="stringliteral">"BUTTON"</span> VALUE=<span class="stringliteral">"Cherche"</span> OnClick=<span class="stringliteral">"SearchPoste(\''.$sessid."</span><span class="charliteral">','</span>not')\<span class="stringliteral">"&gt;"</span>;
+<a name="l00114"></a>00114 
+<a name="l00115"></a>00115 echo '&lt;DIV CLASS=<span class="stringliteral">"u_redcontent"</span>&gt;';
+<a name="l00116"></a>00116 echo '&lt;<a class="code" href="constant_8php.html#a7">FORM</a> <a class="code" href="constant_8php.html#a44">ACTION</a>=<span class="stringliteral">"jrn_add.php"</span> <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"POST"</span>&gt;';
+<a name="l00117"></a>00117 echo '&lt;INPUT TYPE=<span class="stringliteral">"HIDDEN"</span> NAME=<span class="stringliteral">"JRN_ADD"</span>&gt;';
+<a name="l00118"></a>00118 echo '&lt;TABLE&gt;';
+<a name="l00119"></a>00119 
+<a name="l00120"></a>00120 echo '&lt;TR&gt;'; 
+<a name="l00121"></a>00121 echo '&lt;TD&gt; Nom journal &lt;/TD&gt;';
+<a name="l00122"></a>00122 echo '&lt;TD&gt; &lt;INPUT TYPE=<span class="stringliteral">"text"</span> NAME=<span class="stringliteral">"p_jrn_name"</span>&gt;&lt;/TD&gt;';
+<a name="l00123"></a>00123 echo '&lt;/TR&gt;';
+<a name="l00124"></a>00124 
+<a name="l00125"></a>00125 echo '&lt;TR&gt;'; 
+<a name="l00126"></a>00126 echo '&lt;TD&gt; Postes utilisables journal (débit) &lt;/TD&gt;';
+<a name="l00127"></a>00127 echo '&lt;TD&gt; &lt;INPUT TYPE=<span class="stringliteral">"text"</span> NAME=<span class="stringliteral">"p_jrn_class_deb"</span>&gt;'.$search.'&lt;/TD&gt;';
+<a name="l00128"></a>00128 echo '&lt;/TR&gt;';
+<a name="l00129"></a>00129 
+<a name="l00130"></a>00130 echo '&lt;TR&gt;'; 
+<a name="l00131"></a>00131 echo '&lt;TD&gt; Nombre de lignes par défaut  &lt;/TD&gt;';
+<a name="l00132"></a>00132 echo '&lt;TD&gt; &lt;INPUT TYPE=<span class="stringliteral">"text"</span> NAME=<span class="stringliteral">"p_jrn_deb_max_line"</span> &gt;&lt;/TD&gt;';
+<a name="l00133"></a>00133 echo '&lt;/TR&gt;';
+<a name="l00134"></a>00134 
+<a name="l00135"></a>00135 echo '&lt;TR&gt;'; 
+<a name="l00136"></a>00136 echo '&lt;TD&gt; Postes utilisables journal (crédit) &lt;/TD&gt;';
+<a name="l00137"></a>00137 echo '&lt;TD&gt; &lt;INPUT TYPE=<span class="stringliteral">"text"</span> NAME=<span class="stringliteral">"p_jrn_class_cred"</span>&gt;'.$search.'&lt;/TD&gt;';
+<a name="l00138"></a>00138 echo '&lt;/TR&gt;';
+<a name="l00139"></a>00139 
+<a name="l00140"></a>00140 
+<a name="l00141"></a>00141 echo '&lt;TR&gt;'; 
+<a name="l00142"></a>00142 echo '&lt;TD&gt; Date d\'échéance &lt;/TD&gt;';
+<a name="l00143"></a>00143 echo '&lt;TD&gt; &lt;INPUT TYPE=<span class="stringliteral">"radio"</span> NAME=<span class="stringliteral">"p_ech"</span> VALUE=<span class="stringliteral">"yes"</span> &gt;Oui';
+<a name="l00144"></a>00144 echo '&lt;INPUT TYPE=<span class="stringliteral">"radio"</span> NAME=<span class="stringliteral">"p_ech"</span> VALUE=<span class="stringliteral">"no"</span> CHECKED&gt;Non&lt;/TD&gt;';
+<a name="l00145"></a>00145 
+<a name="l00146"></a>00146 echo '&lt;/TR&gt;';
+<a name="l00147"></a>00147 
+<a name="l00148"></a>00148 echo '&lt;TR&gt;'; 
+<a name="l00149"></a>00149 echo '&lt;TD&gt; Libellé echéance &lt;/TD&gt;';
+<a name="l00150"></a>00150 echo '&lt;TD&gt; &lt;INPUT TYPE=<span class="stringliteral">"text"</span> NAME=<span class="stringliteral">"p_ech_lib"</span> &gt;&lt;/TD&gt;';
+<a name="l00151"></a>00151 echo '&lt;/TR&gt;';
+<a name="l00152"></a>00152 
+<a name="l00153"></a>00153 
+<a name="l00154"></a>00154 echo '&lt;TR&gt;'; 
+<a name="l00155"></a>00155 echo '&lt;TD&gt; Type de journal &lt;/TD&gt;';
+<a name="l00156"></a>00156 echo '&lt;TD&gt; ';
+<a name="l00157"></a>00157 <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select jrn_type_id,jrn_desc from jrn_type"</span>);
+<a name="l00158"></a><a class="code" href="jrn__add_8php.html#a16">00158</a> <a class="code" href="setup_8php.html#a11">$Max</a>=pg_NumRows($Res);
+<a name="l00159"></a>00159 echo '&lt;SELECT NAME=<span class="stringliteral">"p_jrn_type"</span>&gt;';
+<a name="l00160"></a>00160 <span class="keywordflow">for</span> ($i=0;$i&lt;$Max;$i++) {
+<a name="l00161"></a>00161   $Line=pg_fetch_array($Res,$i);
+<a name="l00162"></a>00162   printf ('&lt;OPTION VALUE=<span class="stringliteral">"%s"</span>&gt;%s',$Line['jrn_type_id'],$Line['jrn_desc']);
+<a name="l00163"></a>00163 }
+<a name="l00164"></a>00164 echo '&lt;/SELECT&gt;';
+<a name="l00165"></a>00165 echo '&lt;/TD&gt;';
+<a name="l00166"></a>00166 echo '&lt;/TR&gt;';
+<a name="l00167"></a>00167 ?&gt;
+<a name="l00168"></a>00168 &lt;?
+<a name="l00169"></a>00169 <span class="comment">// Get all the fiches</span>
+<a name="l00170"></a>00170 echo '&lt;tr&gt; &lt;td colspan=<span class="stringliteral">"2"</span>&gt;&lt;H2 <span class="keyword">class</span>=<span class="stringliteral">"info"</span>&gt; Fiches &lt;/H2&gt;&lt;/TD&gt;&lt;/TR&gt;';
+<a name="l00171"></a>00171 <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select fd_id,fd_label from fiche_def order by fd_label"</span>);
+<a name="l00172"></a><a class="code" href="jrn__add_8php.html#a17">00172</a> <a class="code" href="jrn__add_8php.html#a17">$num</a>=pg_NumRows($Res);
+<a name="l00173"></a>00173 
+<a name="l00174"></a>00174 
+<a name="l00175"></a>00175 echo '&lt;TR&gt;';
+<a name="l00176"></a>00176 echo '&lt;th&gt; Fiches Dédit&lt;/TH&gt;';
+<a name="l00177"></a>00177 echo '&lt;th&gt; Fiches Crébit&lt;/TH&gt;';
+<a name="l00178"></a>00178 echo '&lt;/TR&gt;';
+<a name="l00179"></a>00179 <span class="comment">// Show the fiche in deb section</span>
+<a name="l00180"></a>00180 <span class="keywordflow">for</span> ($i=0;$i&lt;$num;$i++) {
+<a name="l00181"></a>00181   <a class="code" href="pref_8inc_8php.html#a1">$res</a>=pg_fetch_array($Res,$i);
+<a name="l00182"></a>00182   echo '&lt;TR&gt;';
+<a name="l00183"></a>00183   printf ('&lt;TD&gt; &lt;INPUT TYPE=<span class="stringliteral">"CHECKBOX"</span> VALUE=<span class="stringliteral">"%s"</span> NAME=<span class="stringliteral">"FICHEDEB[]"</span>&gt;%s&lt;/TD&gt;',
+<a name="l00184"></a>00184           $res['fd_id'],$res['fd_label']);
+<a name="l00185"></a>00185   printf ('&lt;TD&gt; &lt;INPUT TYPE=<span class="stringliteral">"CHECKBOX"</span> VALUE=<span class="stringliteral">"%s"</span> NAME=<span class="stringliteral">"FICHECRED[]"</span>&gt;%s&lt;/TD&gt;',
+<a name="l00186"></a>00186           $res['fd_id'],$res['fd_label']);
+<a name="l00187"></a>00187   echo '&lt;/TR&gt;';
+<a name="l00188"></a>00188 }
+<a name="l00189"></a>00189 ?&gt;
+<a name="l00190"></a>00190 &lt;TR&gt;&lt;TD&gt;&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> VALUE=<span class="stringliteral">"Sauve"</span>&gt;&lt;/TD&gt;&lt;TD&gt;&lt;INPUT TYPE=<span class="stringliteral">"RESET"</span> VALUE=<span class="stringliteral">"Reset"</span>&gt;&lt;/TD&gt;&lt;/TR&gt;
+<a name="l00191"></a>00191 &lt;?
+<a name="l00192"></a>00192 echo '&lt;/TABLE&gt;';
+<a name="l00193"></a>00193 echo '&lt;/<a class="code" href="constant_8php.html#a7">FORM</a>&gt;';
+<a name="l00194"></a>00194 echo <span class="stringliteral">"&lt;/DIV&gt;"</span>;
+<a name="l00195"></a>00195 <a class="code" href="ac__common_8php.html#a6">html_page_stop</a>();
+<a name="l00196"></a>00196 ?&gt;
 </pre></div></BODY>
 </HTML>

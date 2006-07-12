@@ -146,7 +146,7 @@ return an array of f_id and f_name
 <p>
 Definition at line <a class="el" href="stock__inc_8php-source.html#l00111">111</a> of file <a class="el" href="stock__inc_8php-source.html">stock_inc.php</a>.
 <p>
-References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="balance_8php-source.html#l00118">$i</a>, <a class="el" href="bank_8inc_8php-source.html#l00237">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="export__ouv_8php-source.html#l00077">$result</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="facture_8inc_8php-source.html#l00219">f_id</a>.
+References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="balance_8php-source.html#l00118">$i</a>, <a class="el" href="bank_8inc_8php-source.html#l00237">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="export__ouv_8php-source.html#l00077">$result</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="facture_8inc_8php-source.html#l00227">f_id</a>.
 <p>
 Referenced by <a class="el" href="stock__inc_8php-source.html#l00147">ViewDetailStock()</a>, and <a class="el" href="stock__inc_8php-source.html#l00035">ViewStock()</a>.<div class="fragment"><pre class="fragment"><a name="l00111"></a>00111                                              {
 <a name="l00112"></a>00112   <span class="comment">// Sql stmt</span>
@@ -165,7 +165,7 @@ Referenced by <a class="el" href="stock__inc_8php-source.html#l00147">ViewDetail
 <a name="l00125"></a>00125  <span class="comment">// Store in an array</span>
 <a name="l00126"></a>00126  <span class="keywordflow">for</span> ( $i=0; $i&lt;$M;$i++) {
 <a name="l00127"></a>00127    <a class="code" href="bank_8inc_8php.html#a29">$r</a>=pg_fetch_array($Res,$i);
-<a name="l00128"></a>00128    <a class="code" href="balance_8php.html#a10">$a</a>['<a class="code" href="facture_8inc_8php.html#a25">f_id</a>']=<a class="code" href="bank_8inc_8php.html#a29">$r</a>['<a class="code" href="facture_8inc_8php.html#a25">f_id</a>'];
+<a name="l00128"></a>00128    <a class="code" href="balance_8php.html#a10">$a</a>['<a class="code" href="facture_8inc_8php.html#a26">f_id</a>']=<a class="code" href="bank_8inc_8php.html#a29">$r</a>['<a class="code" href="facture_8inc_8php.html#a26">f_id</a>'];
 <a name="l00129"></a>00129    <a class="code" href="balance_8php.html#a10">$a</a>['av_text']=<a class="code" href="bank_8inc_8php.html#a29">$r</a>['av_text'];
 <a name="l00130"></a>00130    <a class="code" href="export__ouv_8php.html#a9">$result</a>[<a class="code" href="balance_8php.html#a12">$i</a>]=<a class="code" href="balance_8php.html#a10">$a</a>;
 <a name="l00131"></a>00131 

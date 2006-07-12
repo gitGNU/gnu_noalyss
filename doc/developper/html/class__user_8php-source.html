@@ -58,7 +58,7 @@
 <a name="l00059"></a>00059       {
 <a name="l00060"></a>00060       $this-&gt;<span class="keywordtype">id</span>=<a class="code" href="user__update_8php.html#a1">$p_id</a>;
 <a name="l00061"></a>00061       $this-&gt;db=$p_cn;
-<a name="l00062"></a>00062       <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=<span class="stringliteral">"select use_first_name,</span>
+<a name="l00062"></a>00062       <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=<span class="stringliteral">"select use_first_name,</span>
 <a name="l00063"></a>00063 <span class="stringliteral">             use_name,</span>
 <a name="l00064"></a>00064 <span class="stringliteral">             use_login,</span>
 <a name="l00065"></a>00065 <span class="stringliteral">             use_active,</span>
@@ -238,7 +238,7 @@
 <a name="l00302"></a>00302         $default_parameter= array(<span class="stringliteral">"THEME"</span>=&gt;<span class="stringliteral">"Light"</span>,
 <a name="l00303"></a>00303                 <span class="stringliteral">"PAGESIZE"</span>=&gt;<span class="stringliteral">"50"</span>);
 <a name="l00304"></a>00304         <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=Dbconnect();
-<a name="l00305"></a>00305         <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=<span class="stringliteral">"insert into user_global_pref(user_id,parameter_type,parameter_value) </span>
+<a name="l00305"></a>00305         <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=<span class="stringliteral">"insert into user_global_pref(user_id,parameter_type,parameter_value) </span>
 <a name="l00306"></a>00306 <span class="stringliteral">                                values ('%s','%s','%s')"</span>;
 <a name="l00307"></a>00307         <span class="keywordflow">if</span> ( $p_type == <span class="stringliteral">""</span> ) {
 <a name="l00308"></a>00308                 foreach ( $default_parameter as $<a class="code" href="action_8inc_8php.html#a18">name</a>=&gt;$<a class="code" href="action_8inc_8php.html#a19">value</a>) {
@@ -259,7 +259,7 @@
 <a name="l00331"></a>00331         $default_parameter= array(<span class="stringliteral">"THEME"</span>=&gt;<span class="stringliteral">"Light"</span>,
 <a name="l00332"></a>00332                 <span class="stringliteral">"PAGESIZE"</span>=&gt;<span class="stringliteral">"50"</span>);
 <a name="l00333"></a>00333         <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=Dbconnect();
-<a name="l00334"></a>00334         <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=<span class="stringliteral">"update user_global_pref set parameter_value='%s' </span>
+<a name="l00334"></a>00334         <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=<span class="stringliteral">"update user_global_pref set parameter_value='%s' </span>
 <a name="l00335"></a>00335 <span class="stringliteral">                        where parameter_type='%s' and </span>
 <a name="l00336"></a>00336 <span class="stringliteral">                                user_id='%s'"</span>;
 <a name="l00337"></a>00337         $value=($p_value==<span class="stringliteral">""</span>)?$default_parameter[$p_type]:$p_value;

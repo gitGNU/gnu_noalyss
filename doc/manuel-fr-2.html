@@ -1,0 +1,486 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.21">
+ <TITLE> PhpCompta Manuel d'utilisation: M&eacute;mento de comptabilit&eacute;</TITLE>
+ <LINK HREF="manuel-fr-3.html" REL=next>
+ <LINK HREF="manuel-fr-1.html" REL=previous>
+ <LINK HREF="manuel-fr.html#toc2" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="manuel-fr-3.html">Next</A>
+<A HREF="manuel-fr-1.html">Previous</A>
+<A HREF="manuel-fr.html#toc2">Contents</A>
+<HR>
+<H2><A NAME="s2">2.</A> <A HREF="manuel-fr.html#toc2">M&eacute;mento de comptabilit&eacute;</A></H2>
+
+<H2><A NAME="ss2.1">2.1</A> <A HREF="manuel-fr.html#toc2.1">Introduction</A>
+</H2>
+
+<P> Ce m&eacute;mento sera vraiment tr&egrave;s bref; si vous voulez en savoir
+plus, vous serez oblig&eacute; d'aller chercher les livres ad&eacute;quats. 
+Je vous conseille vivement pour la Belgique 
+"le Pr&eacute;cis de comptabilisation de Joseph Antoie et Jean Paul Cornil. Ed. De Boeck Universit&eacute;".</P>
+
+<P>Cependant, sur le site de PhpCompta vous trouverez des liens qui
+devraient vous aider &agrave; commencer cette mati&egrave;re.</P>
+
+<H2><A NAME="ss2.2">2.2</A> <A HREF="manuel-fr.html#toc2.2">Le Bilan</A>
+</H2>
+
+<P> L'un des objectif de la comptabilit&eacute; est de pouvoir &eacute;tablir un bilan qui
+donnera une id&eacute;e de la sant&eacute; de la soci&eacute;t&eacute;. </P>
+
+<P>Le bilan correspond aussi &agrave; une obligation l&eacute;gale</P>
+
+<P>Le bilan est en deux parties, la partie droite repr&eacute;sente les comptes
+d'actifs tandis que la partie gauche repr&eacute;sente le passif. Il faut que
+les deux colonnes aient le m&ecirc;me total. Ce qui est normal puisque toute
+op&eacute;ration se passe entre par op&eacute;ration de d&eacute;bit - cr&eacute;dit.</P>
+
+<H2><A NAME="comptesap"></A> <A NAME="ss2.3">2.3</A> <A HREF="manuel-fr.html#toc2.3">Les comptes actifs / passifs </A>
+</H2>
+
+<P>Il existe une premi&egrave;re cat&eacute;gorie de compte (classe 1 &agrave; 5) qui est
+divis&eacute; en deux sortes de comptes : les comptes d'actif et les comptes
+de passif.</P>
+
+<P>Si un compte est d&eacute;bit&eacute; alors forc&eacute;ment au moins un autre compte sera
+cr&eacute;dit&eacute;</P>
+
+<P>Exemple
+Un client paie sa facture sur votre compte en banque on aura alors
+<PRE>
+Banque     (d&eacute;bit)
+            &agrave;
+               Client (cr&eacute;dit)
+</PRE>
+</P>
+<P>Pour bien comprendre les comptes on les sch&eacute;matise par le T
+<PRE>
+                      compte
+---------------------------+--------------------------------
+                           |
+ d&eacute;bit                     | cr&eacute;dit
+                           |
+</PRE>
+</P>
+<P>La dette du client diminue mais votre compte en banque augmente. Et
+toutes les op&eacute;rations comptables sont ainsi. La convention veut que
+l'on commence toujours par le compte d&eacute;bit&eacute; puis le compte cr&eacute;dit&eacute;. Il
+faut toujours garder un m&eacute;moire
+<UL>
+<LI> L'actif augmente au d&eacute;bit et diminue au cr&eacute;dit</LI>
+<LI> Le passif augmente au cr&eacute;dit et diminue au d&eacute;bit</LI>
+</UL>
+</P>
+
+<P>Les comptes d'actifs sont les comptes comme les comptes en banque, les
+cr&eacute;ances, le mat&eacute;riel que vous poss&eacute;dez. Ce sont les ressources.</P>
+
+<P>Les comptes de passif sont les dettes, les emprunts,.... Ce sont les
+Emplois.</P>
+
+<H2><A NAME="ss2.4">2.4</A> <A HREF="manuel-fr.html#toc2.4">Les comptes de r&eacute;sultats</A>
+</H2>
+
+<P> Il y a deux sortes de compte de r&eacute;sultat, les classes 6 et
+7.</P>
+
+<H3>Les charges</H3>
+
+<P> Les charges (classe 6) repr&eacute;sentent toutes les d&eacute;penses de votre
+entreprise: loyer, paiement au personnel, charge d'int&eacute;r&ecirc;t...</P>
+<P>Les charges augmentent au cr&eacute;dit mais certains comptes peuvent aussi
+&ecirc;tre diminu&eacute;s.</P>
+<P>Par exemple, vous encodez une facture d'&eacute;lectricit&eacute;, vous auriez
+<PRE>
+Charge   &eacute;lectricit&eacute;
+            &agrave;
+               Fournisseur
+</PRE>
+
+Remarquez qu'ici on encode la facture, la reconnaissance de
+notre dette envers le fournisseur d'&eacute;lectricit&eacute; et pas du tout le
+paiement! Ce paiement se fera dans le journal financier
+par l'&eacute;criture Fournisseur &agrave; 
+banque: la cr&eacute;ance de votre fournisseur diminue notre compte en banque
+diminue. voir les explications de la section  
+<A HREF="#comptesap">comptes actifs passifs</A>, tandis que la reconnaissance de dette
+se fera dans un journal d'achat.</P>
+
+<H3>Les produits</H3>
+
+<P> C'est tr&egrave;s simple, les produits sont tout simplement ce que vous
+vendez, gagnez comme int&eacute;r&ecirc;ts financiers, bref, les produits; ce sont
+aussi les cr&eacute;ances que vous avez.</P>
+
+<P>Le paiement de vos cr&eacute;ances, devrait se faire avec les comptes de
+banques et de d&eacute;biteurs.  Cependant, il arrive souvent que l'on ne
+passe pas par des comptes d&eacute;biteurs mais directement en faisant banque
+&agrave; produits... Ce qui devrait &ecirc;tre &eacute;vit&eacute;.</P>
+
+<H3>Les pi&egrave;ces justificatives.</H3>
+
+<P>Toutes les pi&egrave;ces justificatives (extrait de compte en banque, factures,
+...) doivent &ecirc;tre num&eacute;rot&eacute;es.</P>
+
+<P> Le num&eacute;ro de la pj doit &ecirc;tre soit celui de l'op&eacute;ration dans le grand livre,
+soit celui du livre centralis&eacute; o&ugrave; l'op&eacute;ration a &eacute;t&eacute; inscrite. Il est important 
+que ce num&eacute;ro vienne du livre centralis&eacute; puisque lors de la centralisation, les
+op&eacute;rations sont r&eacute;ordonn&eacute;es par date.</P>
+
+<H2><A NAME="ss2.5">2.5</A> <A HREF="manuel-fr.html#toc2.5">Belgique Fiscalit&eacute;, TVA</A>
+</H2>
+
+<P> Toutes les requalifications des montants doivent
+se faire par le journal des op&eacute;rations diverses</P>
+
+<P>Utilisez toujours les comptes 67xxx pour toutes  les op&eacute;rations
+fiscale non d&eacute;ductible de votre b&eacute;n&eacute;fice par exemple :versement anticip&eacute; d'imp&ocirc;t,
+paiement de l'imp&ocirc;t, d&eacute;pense non admise: partie non d&eacute;ductible de
+certains frais ( voiture, restaurant...).</P>
+
+<H3>D&eacute;claration TVA</H3>
+
+<P> Pour faire votre d&eacute;claration tva, vous pouvez utilisez les
+balances des comptes ou  
+<A HREF="manuel-fr-6.html#rapport">les rapports</A> .</P>
+
+<P>Attention  NE PAS REPRENDRE LES
+MONTANTS AINSI !!!. Avant de faire votre d&eacute;claration, vous devez d'abord
+rectifier les montants. Par exemple, 50% de la tva sur la voiture ne
+sont pas r&eacute;cup&eacute;rable par la tva mais par l'imp&ocirc;t des soci&eacute;t&eacute;.
+Il faut "d&eacute;placer" 50% de cette tva  dans un poste comptable tva non
+admises,
+cela devrait &ecirc;tre un compte de la classe 6 (donc 6xxxx &agrave; 411xxx), les charges
+augmentent mais la tva &agrave; r&eacute;cup&eacute;rer diminue, ce qui est logique puisque
+cette tva est &agrave; r&eacute;cup&eacute;rer par l'imp&ocirc;t des soci&eacute;t&eacute;s.</P>
+
+<P> Idem pour les frais de restaurant, ne pas oublier pendant les
+travaux de fin d'exercice,d'imputer 50% du total de vos frais de
+restaurant &agrave; un compte de d&eacute;pense non admise. Il n'est pas dans le
+PCMN donc cr&eacute;er le poste vous-m&ecirc;me (classe 67).</P>
+
+<P> Ensuite, vous pouvez utiliser le rapport "d&eacute;claration de tva",
+pensez &agrave; l'adapter &agrave; vos besoins</P>
+
+<H3>Op&eacute;rations comptables pour la TVA</H3>
+
+<P>Les &eacute;critures comptables : chaque trimestre vous devez payer un acompte de 
+tva qui est &eacute;gal au tiers du montant d&ucirc; &agrave; la derni&egrave;re d&eacute;claration
+<PRE>
+4117     Acompte TVA
+    5500 Banque
+</PRE>
+
+A la fin du trimestre, il faut regrouper tous les comptes TVA.
+Si vous devez payer la TVA
+<PRE>
+451x    TVA &agrave; payer
+&agrave;
+   411x TVA &agrave; r&eacute;cup&eacute;rer
+   4117 Acompte sur TVA
+   4519 Compte TVA
+</PRE>
+
+Si vous devez r&eacute;cup&eacute;rer de la TVA
+<PRE>
+451x    TVA &agrave; payer
+4119 Compte TVA
+&agrave;
+   411x TVA &agrave; r&eacute;cup&eacute;rer
+   4117 Acompte sur TVA
+</PRE>
+
+Quand vous recevrez la d&eacute;claration constatant votre cr&eacute;ance
+<PRE>
+4118   TVA &agrave; rembourser par l'administration
+&agrave;
+     4119  Compte TVA
+</PRE>
+
+Ensuite, utilisez le compte 4519 ou 4118 avec un compte en banque quand vous
+recevrez ou paierez la TVA</P>
+
+<H3>D&eacute;claration Assujetti TVA</H3>
+
+<P>Vous pouvez directement faire votre d&eacute;claration assujetti. </P>
+
+<P> Vous devez pour cela aller dans le menu "impression", puis "Liste
+Client Assujetti". Vous donnez l'ann&eacute;e, cliquer sur "Impression". A ce
+moment-l&agrave;, vous n'avez que la totalit&eacute; des clients, vous pouvez le
+recopier &agrave; la main sur le formulaire ad-hoc (doc/fr_BE_listing-client.pdf).</P>
+
+<P>Si vous continuez en cliquant sur d&eacute;claration magn&eacute;tique, un
+fichier sera g&eacute;n&eacute;r&eacute; conform&eacute;ment &agrave;
+doc/fr_BE_liste-client-nonpapier.pdf. Vous sauvez ce fichier sur une
+disquette ou un CDROM et vous l'envoyez &agrave; votre administration de
+tva. N'oubliez pas : vous devez tout d'abord lire  et imprimez en 3
+exemplaires l'annexe 6 (note d'accompagnement)</P>
+<H2><A NAME="ss2.6">2.6</A> <A HREF="manuel-fr.html#toc2.6">Fiscalit&eacute; Belgique : Imp&ocirc;ts </A>
+</H2>
+
+<H3>Pendant l'exercice</H3>
+
+<P>Pendant toute l'ann&eacute;e, vous payez probablement des versements 
+anticip&eacute;s d'imp&ocirc;ts. Dans votre comptabilit&eacute; cela doit appara&icirc;tre
+ainsi
+<PRE>
+6700    Imp&ocirc;t et pr&eacute;comptes dus ou vers&eacute;s
+      &agrave;
+     5500 Banque
+</PRE>
+</P>
+
+<P>Les versements anticip&eacute;s d'imp&ocirc;t ne sont pas des charges d&eacute;ductibles</P>
+
+<H3>Fin d'exercice</H3>
+
+<P>A la fin de l'exercice, vous devez estimer l'imp&ocirc;t. Soit vous pensez
+que vous aurez &agrave; rembourser soit &agrave; payer.</P>
+
+<H3>Remboursement d'imp&ocirc;t:</H3>
+
+<P>Dans ce cas, vous passerez les &eacute;critures suivantes
+<PRE>
+4120  Imp&ocirc;t estim&eacute; &agrave; r&eacute;cup&eacute;rer
+&agrave;
+6701  Exc&eacute;dent de versements d'imp&ocirc;t
+</PRE>
+</P>
+<H3>Dette envers l'imp&ocirc;t</H3>
+
+<P>Dans ce cas, vous passerez les &eacute;critures suivantes
+<PRE>
+6702    Charges fiscales estim&eacute;es
+&agrave;
+4500    Dettes fiscales estim&eacute;es
+</PRE>
+</P>
+<H3>L'ann&eacute;e suivante</H3>
+
+<P>L'ann&eacute;e suivante vous recevez votre extrait de r&ocirc;le. 
+Suivant que vous ayez pr&eacute;vu d'avoir une dette et une cr&eacute;ance d'imp&ocirc;t, il 
+y aura des &eacute;critures diff&eacute;rentes.</P>
+<H3>Premier cas, vous pensez avoir une cr&eacute;ance.</H3>
+
+<H3>La cr&eacute;ance estim&eacute;e est inf&eacute;rieure &agrave; ce que vous allez vraiment recevoir. </H3>
+
+<P>Autrement dit, vous avez sous-estim&eacute; votre cr&eacute;ance
+Dans ce cas, les &eacute;critures seront 
+<PRE>
+4121 Imp&ocirc;t &agrave; r&eacute;cup&eacute;rer
+&agrave;
+     7710 R&eacute;gularisation d'imp&ocirc;t dus ou vers&eacute;
+     4120 Imp&ocirc;t estim&eacute; &agrave; r&eacute;cup&eacute;rer
+</PRE>
+</P>
+
+<H3>la cr&eacute;ance estim&eacute;e est sup&eacute;rieure &agrave; ce que vous allez vraiment recevoir,</H3>
+
+<P>c'est-&agrave;-dire, surestimation de la cr&eacute;ance. vous recevrez moins que pr&eacute;vu.
+<PRE>
+4121 Imp&ocirc;t &agrave; r&eacute;cup&eacute;rer
+&agrave;
+     6710 Suppl&eacute;ment d'imp&ocirc;t dus ou vers&eacute;
+     4120 Imp&ocirc;t estim&eacute; &agrave; r&eacute;cup&eacute;rer
+</PRE>
+</P>
+
+<H3>Vous avez correctement estim&eacute; votre cr&eacute;ance.</H3>
+
+<P>Dans ce cas, vous devez simplement faire
+<PRE>
+4121 Imp&ocirc;t &agrave; r&eacute;cup&eacute;rer
+&agrave;
+     4120 Imp&ocirc;t estim&eacute; &agrave; r&eacute;cup&eacute;rer
+</PRE>
+
+Et quand l'argent tombera sur votre compte
+<PRE>
+5500 Banque
+&agrave;
+        4121 Imp&ocirc;t &agrave; r&eacute;cup&eacute;rer
+</PRE>
+
+Si vous d&eacute;cidez de le reporter en tant que versement anticip&eacute; d'imp&ocirc;t.
+<PRE>
+6700    Imp&ocirc;t dus ou vers&eacute;
+&agrave; 
+        4121 Imp&ocirc;t &agrave; r&eacute;cup&eacute;rer
+</PRE>
+</P>
+<H3>Second cas, vous pensez avoir une dette fiscale</H3>
+
+<H3>L'estimation de votre dette fiscale est sup&eacute;rieure &agrave; ce que vous allez vraiment payer.</H3>
+
+<P>Autrement dit, vous payez 
+moins d'imp&ocirc;t que pr&eacute;vu.
+<PRE>
+4500 Dettes fiscales estim&eacute;es
+&agrave; 
+     7710 R&eacute;gularisation d'imp&ocirc;t dus ou vers&eacute;
+     4520 Imp&ocirc;t et taxes &agrave; payer
+</PRE>
+</P>
+
+<H3>L'estimation de votre dette fiscale est inf&eacute;rieure &agrave; ce que vous allez vraiment payer.</H3>
+
+<P>Autrement dit, vous payez plus  d'imp&ocirc;t que pr&eacute;vu.
+<PRE>
+4500 Dettes fiscales estim&eacute;es
+6710 Suppl&eacute;ment d'imp&ocirc;t dus
+&agrave; 
+     4520 Imp&ocirc;t et taxes &agrave; payer
+</PRE>
+</P>
+
+<H3>Vous avez correctement &eacute;valu&eacute; votre dette fiscale.</H3>
+
+<P>Les &eacute;critures &agrave; passer seront donc
+<PRE>
+4500 Dettes fiscales estim&eacute;es
+&agrave; 
+     4520 Imp&ocirc;t et taxes &agrave; payer
+</PRE>
+
+Puis lors du paiement
+<PRE>
+4520  Imp&ocirc;t et taxes &agrave; payer
+&agrave;
+        5500  Banque
+</PRE>
+</P>
+
+<H2><A NAME="ss2.7">2.7</A> <A HREF="manuel-fr.html#toc2.7">Fiscalit&eacute; France</A>
+</H2>
+
+<P> Pas re&ccedil;u de doc ni d'aide sur ce sujet d&eacute;sol&eacute;</P>
+
+<H2><A NAME="ss2.8">2.8</A> <A HREF="manuel-fr.html#toc2.8">Ecriture de fin d'exercice comptable (Belgique)</A>
+</H2>
+
+<P> Chaque ann&eacute;e est compos&eacute;e de 13 p&eacute;riodes, les 12 premi&egrave;res font exactement
+un mois mais la 13i&egrave;me est toujours sur un seul jour : le 31
+d&eacute;cembre. 
+C'est cette p&eacute;riode qui sera la p&eacute;riode de cl&ocirc;ture de l'ann&eacute;e comptable.</P>
+
+<P>Pour commencer, changer vos pr&eacute;f&eacute;rences pour avoir cette p&eacute;riode
+par d&eacute;faut. 
+Normalement vous ne devrez utiliser que le journal des Op&eacute;rations diverses et
+aucun autre.</P>
+
+<P>Ensuite, imprimez une balance des comptes de l'ann&eacute;e &eacute;coul&eacute;e. 
+Cela fait, le reste est assez facile.</P>
+
+<H3>Les amortissements</H3>
+
+<P> Dans la comptabilit&eacute; Belge, vous trouverez ce qu'il y a &agrave; amortir
+dans le poste 24xxx, 
+imprimez ces fiches et calculez l'amortissement pour
+l'ann&eacute;e, ensuite en op&eacute;ration diverse, vous l'imputerez ainsi
+<PRE>
+63xxx Dotation aux amortissement
+&agrave;
+      2409xxxx Amortissement
+</PRE>
+</P>
+<P>Evidemment les postes comptables peuvent un peu changer suivant la
+fa&ccedil;on dont 
+vous avez adapt&eacute; votre plan comptable. Faites toutes m&ecirc;me attention &agrave;
+ne pas  
+m&eacute;langer ce que vous avez achet&eacute; il y a deux ans et l'ann&eacute;e pass&eacute;e.  
+Normalement, chaque &eacute;l&eacute;ment faisant l'objet d'un amortissement  
+doit avoir un plan d'amortissement, c'est-&agrave;-dire un document qui
+d&eacute;crit  
+ce qui est amorti, indique la valeur d'acquisition et quelle somme  
+sera amortie sur quelle ann&eacute;es. 
+Le document est de format libre, le mieux est d'utiliser 
+une feuille du tableur d'OpenOffice.org pour r&eacute;sumer tout ce qui doit
+&ecirc;tre amorti.  
+Ce document est appel&eacute; tableau d'amortissement. Attention les montants
+sont hors tva !!!! 
+<PRE>
+exemple :
+bureau valeur d'acquisition 500euros achet&eacute; en 2003
+ Amorti en 2003 100 euros
+ Amorti en 2004 100 euros
+ Amorti en 2005 100 euros
+ Amorti en 2006 100 euros
+ Amorti en 2007 100 euros
+PC valeur d'acquisition 1200euros achet&eacute; en 2002
+ Amorti en 2002 = 400 euros
+ Amorti en 2003 = 400 euros
+ Amorti en 2004 = 400 euros
+
+Total &agrave; amortir en 2003 = 100 (pour le bureau) + 400 (pour le PC)
+</PRE>
+</P>
+<H3>Les d&eacute;penses non admises</H3>
+
+<P> Dans la fiscalit&eacute; belge, 
+il s'agit entre autre de 50% des restaurants, 25% des frais de voiture
+(taxes de roulage, car wash...),  
+des versements anticip&eacute;s d'imp&ocirc;t et des paiements des imp&ocirc;ts d'ann&eacute;es
+ant&eacute;rieures. </P>
+<P>Vous devez donc utilisez le compte 67xxx pour diminuer les charges de
+leur partie non d&eacute;ductible </P>
+<H3>Reclassement des Charges, Produits et Dettes</H3>
+
+<P> Il faut tout d'abord retrouver toutes les fournisseurs non pay&eacute;s
+au 31 d&eacute;cembre  
+et v&eacute;rifier qu'ils n'ont pas &eacute;t&eacute; pay&eacute;s dans  le courant de janvier ou
+de f&eacute;vrier.  
+Si c'est le cas on aura un reclassement de dettes, sinon on devra
+penser  
+que la dette a &eacute;t&eacute; pay&eacute; par le g&eacute;rant ou que la dette est toujours
+due.  
+Cela doit se r&egrave;gler au cas par cas.</P>
+<P>Il faut aborder la r&eacute;gularisation des comptes de charges et des
+produits (comptes 490, 491, 492, ,493) , les dettes sup&eacute;rieures &agrave; un
+an &eacute;ch&eacute;ant dans l'ann&eacute;e... (doit &ecirc;tre compl&egrave;t&eacute;).  </P>
+<H3>Les variations de stocks</H3>
+
+<P>En fin d'ann&eacute;e, il faut faire l'inventaire du stocks. Soit on a
+plus de marchandise que ce qu'il est  
+inscrit dans notre comptabilit&eacute;, on aura alors une r&eacute;duction de charge
+(340 &agrave; 6094) soit on aura moins de marchandise que 
+pr&eacute;vu, dans ce cas il y aura une augmentation des charges (6094 &agrave;
+340). (INCOMPLET) </P>
+
+<H3>Compte de l'exploitant</H3>
+
+<P>Certaines d&eacute;penses ont &eacute;t&eacute; pay&eacute;es par le g&eacute;rant ou l'administrateur en liquide. 
+Donc ces paiements ne figureront pas dans les extraits de compte de la banque. 
+La seule fa&ccedil;on de faire est d'utiliser les comptes 4890 dans le cas d'une dette envers 
+le g&eacute;rant ou 4160 dans le cas d'une cr&eacute;ance sur le g&eacute;rant. 
+Il faut donc solder ces comptes et constater la dette ou la cr&eacute;ance.</P>
+
+
+<H3>Affectation du r&eacute;sultat</H3>
+
+<P>La derni&egrave;re &eacute;tape avant le
+bilan: affecter le r&eacute;sultat de l'exercice, que ce soit un b&eacute;n&eacute;fice ou
+une perte. Vous pouvez utiliser l'impression -> bilan pour v&eacute;rifier,
+il ne peut pas y avoir de diff&eacute;rences entre le total du passif et le
+total de l'actif. S'il y en a une, elle correspond souvent &agrave; une perte
+ou un b&eacute;n&eacute;fice.</P>
+
+<H2><A NAME="ss2.9">2.9</A> <A HREF="manuel-fr.html#toc2.9">Salaire et Compte de g&eacute;rant</A>
+</H2>
+
+<P>Le g&eacute;rant utilisera les comptes 4890 et 4160 pour g&eacute;rer l'argent
+qu'il pr&eacute;l&egrave;ve ou  
+qu'il avance &agrave; sa soci&eacute;t&eacute;. Ces comptes peuvent aussi &ecirc;tre utilis&eacute; lors
+du 
+paiement des salaires. Il est important de rappeler qu'en Belgique,
+il est n&eacute;cessaire 
+de payer le pr&eacute;compte professionnel.</P>
+
+<HR>
+<A HREF="manuel-fr-3.html">Next</A>
+<A HREF="manuel-fr-1.html">Previous</A>
+<A HREF="manuel-fr.html#toc2">Contents</A>
+</BODY>
+</HTML>

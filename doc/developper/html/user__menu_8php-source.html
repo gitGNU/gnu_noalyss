@@ -206,11 +206,11 @@
 <a name="l00258"></a>00258         <span class="comment">// Minimum Lecture </span>
 <a name="l00259"></a>00259         <a class="code" href="debug_8php.html#a0">echo_debug</a>('user_menu.php',__LINE__,<span class="stringliteral">"p_jrn = $p_jrn "</span>);
 <a name="l00260"></a>00260         <span class="keywordflow">if</span> ( $l_line['jrn_def_id'] != $p_jrn ) {
-<a name="l00261"></a>00261           $href=$_SERVER[<span class="stringliteral">"SCRIPT_NAME"</span>];
+<a name="l00261"></a>00261           $href=basename($_SERVER[<span class="stringliteral">"SCRIPT_NAME"</span>]);
 <a name="l00262"></a>00262           $add=<span class="stringliteral">""</span>;
 <a name="l00263"></a>00263           <span class="comment">// if the SCRIPT_NAME == commercial.php, we need to add the parameter</span>
 <a name="l00264"></a>00264           <span class="comment">// p_action=facture</span>
-<a name="l00265"></a>00265           <span class="keywordflow">if</span> ( $href==<span class="stringliteral">"/commercial.php"</span> ) 
+<a name="l00265"></a>00265           <span class="keywordflow">if</span> ( $href==<span class="stringliteral">"commercial.php"</span> ) 
 <a name="l00266"></a>00266             {
 <a name="l00267"></a>00267               $add='&amp;p_action='.$_REQUEST['p_action'];
 <a name="l00268"></a>00268             }

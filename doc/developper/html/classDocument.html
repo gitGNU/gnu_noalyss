@@ -651,7 +651,7 @@ replace the TAG by the real value, this value can be into the database or in $_P
 <p>
 Definition at line <a class="el" href="class__document_8php-source.html#l00441">441</a> of file <a class="el" href="class__document_8php-source.html">class_document.php</a>.
 <p>
-References <a class="el" href="action_8inc_8php-source.html#l00157">$act</a>, <a class="el" href="parametre_8php-source.html#l00167">$my</a>, <a class="el" href="line__update_8php-source.html#l00095">$p</a>, <a class="el" href="send__poste__pdf_8php-source.html#l00044">$poste</a>, <a class="el" href="bank_8inc_8php-source.html#l00154">$qcode</a>, <a class="el" href="bank_8inc_8php-source.html#l00237">$r</a>, <a class="el" href="action_8inc_8php-source.html#l00159">ag_id</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00091">break</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, <a class="el" href="user__common_8php-source.html#l00040">GetTvaRate()</a>, <a class="el" href="parametre_8php-source.html#l00160">MY_COMMUNE</a>, <a class="el" href="parametre_8php-source.html#l00159">MY_CP</a>, <a class="el" href="parametre_8php-source.html#l00162">MY_FAX</a>, <a class="el" href="parametre_8php-source.html#l00155">MY_NAME</a>, <a class="el" href="parametre_8php-source.html#l00158">MY_NUMBER</a>, <a class="el" href="parametre_8php-source.html#l00163">MY_PAYS</a>, <a class="el" href="parametre_8php-source.html#l00157">MY_STREET</a>, <a class="el" href="parametre_8php-source.html#l00161">MY_TEL</a>, <a class="el" href="parametre_8php-source.html#l00156">MY_TVA</a>, and <a class="el" href="action_8inc_8php-source.html#l00165">qcode_dest</a>.
+References <a class="el" href="action_8inc_8php-source.html#l00157">$act</a>, <a class="el" href="parametre_8php-source.html#l00167">$my</a>, <a class="el" href="line__update_8php-source.html#l00095">$p</a>, <a class="el" href="send__poste__pdf_8php-source.html#l00044">$poste</a>, <a class="el" href="bank_8inc_8php-source.html#l00154">$qcode</a>, <a class="el" href="bank_8inc_8php-source.html#l00237">$r</a>, <a class="el" href="action_8inc_8php-source.html#l00159">ag_id</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00104">break</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, <a class="el" href="user__common_8php-source.html#l00040">GetTvaRate()</a>, <a class="el" href="parametre_8php-source.html#l00160">MY_COMMUNE</a>, <a class="el" href="parametre_8php-source.html#l00159">MY_CP</a>, <a class="el" href="parametre_8php-source.html#l00162">MY_FAX</a>, <a class="el" href="parametre_8php-source.html#l00155">MY_NAME</a>, <a class="el" href="parametre_8php-source.html#l00158">MY_NUMBER</a>, <a class="el" href="parametre_8php-source.html#l00163">MY_PAYS</a>, <a class="el" href="parametre_8php-source.html#l00157">MY_STREET</a>, <a class="el" href="parametre_8php-source.html#l00161">MY_TEL</a>, <a class="el" href="parametre_8php-source.html#l00156">MY_TVA</a>, and <a class="el" href="action_8inc_8php-source.html#l00165">qcode_dest</a>.
 <p>
 Referenced by <a class="el" href="class__document_8php-source.html#l00163">ParseDocument()</a>.<div class="fragment"><pre class="fragment"><a name="l00442"></a>00442     {
 <a name="l00443"></a>00443       <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<span class="stringliteral">"Tag inconnu"</span>;
@@ -732,7 +732,7 @@ Referenced by <a class="el" href="class__document_8php-source.html#l00163">Parse
 <a name="l00518"></a>00518           $tiers-&gt;getByQcode($qcode,<span class="keyword">false</span>);
 <a name="l00519"></a>00519           <a class="code" href="bank_8inc_8php.html#a29">$r</a>=$tiers-&gt;strAttribut(<a class="code" href="constant_8php.html#a61">ATTR_DEF_ADRESS</a>);
 <a name="l00520"></a>00520           
-<a name="l00521"></a>00521           <a class="code" href="argenta__be_8inc_8php.html#a11">break</a> ;
+<a name="l00521"></a>00521           <a class="code" href="argenta__be_8inc_8php.html#a10">break</a> ;
 <a name="l00522"></a>00522         <span class="keywordflow">case</span> 'CUST_CP':
 <a name="l00523"></a>00523           $tiers=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($this-&gt;db);
 <a name="l00524"></a>00524           <a class="code" href="bank_8inc_8php.html#a16">$qcode</a>=isset($_REQUEST['<a class="code" href="action_8inc_8php.html#a10">qcode_dest</a>'])?$_REQUEST['<a class="code" href="action_8inc_8php.html#a10">qcode_dest</a>']:$_REQUEST['e_client'];
@@ -1214,7 +1214,7 @@ References <a class="el" href="modify__op_8php-source.html#l00125">$old_oid</a>,
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">Document::$<a class="el" href="facture_8inc_8php.html#a27">ag_id</a>          </td>
+          <td class="md" nowrap valign="top">Document::$<a class="el" href="facture_8inc_8php.html#a28">ag_id</a>          </td>
         </tr>
       </table>
     </td>
@@ -1228,7 +1228,7 @@ References <a class="el" href="modify__op_8php-source.html#l00125">$old_oid</a>,
     <td>
 
 <p>
-<a class="el" href="facture_8inc_8php.html#a27">action_gestion.ag_id</a> (pk) 
+<a class="el" href="facture_8inc_8php.html#a28">action_gestion.ag_id</a> (pk) 
 <p>
 Definition at line <a class="el" href="class__document_8php-source.html#l00032">32</a> of file <a class="el" href="class__document_8php-source.html">class_document.php</a>.    </td>
   </tr>
@@ -1389,7 +1389,7 @@ Definition at line <a class="el" href="class__document_8php-source.html#l00030">
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">Document::$<a class="el" href="facture_8inc_8php.html#a26">md_id</a>          </td>
+          <td class="md" nowrap valign="top">Document::$<a class="el" href="facture_8inc_8php.html#a27">md_id</a>          </td>
         </tr>
       </table>
     </td>

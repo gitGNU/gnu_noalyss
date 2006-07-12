@@ -24,19 +24,19 @@
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="user__sec_8php.html#a13">else</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="jrn__add_8php.html#a4">$l_deb_max_line</a> = $_POST['p_jrn_deb_max_line']</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top"><a class="el" href="user__sec_8php.html#a13">else</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="jrn__add_8php.html#a5">$l_cred_max_line</a> = $_POST['p_jrn_cred_max_line']</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="jrn__add_8php.html#a5">$p_jrn_name</a> = $_POST[&quot;p_jrn_name&quot;]</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="jrn__add_8php.html#a6">$p_jrn_name</a> = $_POST[&quot;p_jrn_name&quot;]</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="jrn__add_8php.html#a6">$p_jrn_class_deb</a> = FormatString($_POST[&quot;p_jrn_class_deb&quot;])</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="jrn__add_8php.html#a7">$p_jrn_class_deb</a> = FormatString($_POST[&quot;p_jrn_class_deb&quot;])</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="jrn__add_8php.html#a7">$p_jrn_class_cred</a> = FormatString($_POST[&quot;p_jrn_class_cred&quot;])</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="jrn__add_8php.html#a8">$p_jrn_class_cred</a> = FormatString($_POST[&quot;p_jrn_class_cred&quot;])</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="jrn__add_8php.html#a8">$p_code</a> = sprintf(&quot;%s-%02d&quot;,trim($_POST['p_jrn_type']),NextJrn($cn,$_POST['p_jrn_type']))</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="jrn__add_8php.html#a9">$p_code</a> = sprintf(&quot;%s-%02d&quot;,trim($_POST['p_jrn_type']),NextJrn($cn,$_POST['p_jrn_type']))</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="jrn__add_8php.html#a9">$p_jrn_fiche_deb</a> = &quot;&quot;</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="jrn__add_8php.html#a10">$p_jrn_fiche_deb</a> = &quot;&quot;</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="jrn__add_8php.html#a10">$p_jrn_fiche_cred</a> = &quot;&quot;</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="jrn__add_8php.html#a11">$p_jrn_fiche_cred</a> = &quot;&quot;</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="jrn__add_8php.html#a11">$l_cred_max_line</a> = $l_deb_max_line</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="jrn__add_8php.html#a12">$Sql</a></td></tr>
 
@@ -82,13 +82,13 @@ Definition in file <a class="el" href="jrn__add_8php-source.html">jrn_add.php</a
 Definition at line <a class="el" href="jrn__add_8php-source.html#l00048">48</a> of file <a class="el" href="jrn__add_8php-source.html">jrn_add.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a5"></a><!-- doxytag: member="jrn_add.php::$l_cred_max_line" ref="a5" args="" --><p>
+<a class="anchor" name="a11"></a><!-- doxytag: member="jrn_add.php::$l_cred_max_line" ref="a11" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top"><a class="el" href="user__sec_8php.html#a13">else</a> $l_cred_max_line = $_POST['p_jrn_cred_max_line']          </td>
+          <td class="md" nowrap valign="top">$l_cred_max_line = $l_deb_max_line          </td>
         </tr>
       </table>
     </td>
@@ -104,7 +104,7 @@ Definition at line <a class="el" href="jrn__add_8php-source.html#l00048">48</a> 
 <p>
 
 <p>
-Definition at line <a class="el" href="jrn__add_8php-source.html#l00080">80</a> of file <a class="el" href="jrn__add_8php-source.html">jrn_add.php</a>.    </td>
+Definition at line <a class="el" href="jrn__add_8php-source.html#l00094">94</a> of file <a class="el" href="jrn__add_8php-source.html">jrn_add.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a4"></a><!-- doxytag: member="jrn_add.php::$l_deb_max_line" ref="a4" args="" --><p>
@@ -154,7 +154,7 @@ Definition at line <a class="el" href="jrn__add_8php-source.html#l00074">74</a> 
 <p>
 
 <p>
-Definition at line <a class="el" href="jrn__add_8php-source.html#l00167">167</a> of file <a class="el" href="jrn__add_8php-source.html">jrn_add.php</a>.    </td>
+Definition at line <a class="el" href="jrn__add_8php-source.html#l00158">158</a> of file <a class="el" href="jrn__add_8php-source.html">jrn_add.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a17"></a><!-- doxytag: member="jrn_add.php::$num" ref="a17" args="" --><p>
@@ -179,12 +179,12 @@ Definition at line <a class="el" href="jrn__add_8php-source.html#l00167">167</a>
 <p>
 
 <p>
-Definition at line <a class="el" href="jrn__add_8php-source.html#l00181">181</a> of file <a class="el" href="jrn__add_8php-source.html">jrn_add.php</a>.
+Definition at line <a class="el" href="jrn__add_8php-source.html#l00172">172</a> of file <a class="el" href="jrn__add_8php-source.html">jrn_add.php</a>.
 <p>
 Referenced by <a class="el" href="fiche__inc_8php-source.html#l00038">AddFiche()</a>, <a class="el" href="class_8ezpdf_8php-source.html#l00377">Cezpdf::ezPRVTaddPageNumbers()</a>, <a class="el" href="class_8ezpdf_8php-source.html#l00299">Cezpdf::ezWhatPageNumber()</a>, <a class="el" href="postgres_8php-source.html#l00201">GetDbId()</a>, <a class="el" href="class_8pdf_8php-source.html#l00610">Cpdf::o_fontEncoding()</a>, <a class="el" href="readme_8php-source.html#l00032">Creport::rf()</a>, <a class="el" href="class_8pdf_8php-source.html#l01417">Cpdf::selectFont()</a>, <a class="el" href="jrn_8php-source.html#l00949">SetInternalCode()</a>, and <a class="el" href="user__menu_8php-source.html#l00300">ShowMenuJrn()</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a9"></a><!-- doxytag: member="jrn_add.php::$p_code" ref="a9" args="" --><p>
+<a class="anchor" name="a8"></a><!-- doxytag: member="jrn_add.php::$p_code" ref="a8" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -206,10 +206,10 @@ Referenced by <a class="el" href="fiche__inc_8php-source.html#l00038">AddFiche()
 <p>
 
 <p>
-Definition at line <a class="el" href="jrn__add_8php-source.html#l00088">88</a> of file <a class="el" href="jrn__add_8php-source.html">jrn_add.php</a>.    </td>
+Definition at line <a class="el" href="jrn__add_8php-source.html#l00084">84</a> of file <a class="el" href="jrn__add_8php-source.html">jrn_add.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a8"></a><!-- doxytag: member="jrn_add.php::$p_jrn_class_cred" ref="a8" args="" --><p>
+<a class="anchor" name="a7"></a><!-- doxytag: member="jrn_add.php::$p_jrn_class_cred" ref="a7" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -231,10 +231,10 @@ Definition at line <a class="el" href="jrn__add_8php-source.html#l00088">88</a> 
 <p>
 
 <p>
-Definition at line <a class="el" href="jrn__add_8php-source.html#l00086">86</a> of file <a class="el" href="jrn__add_8php-source.html">jrn_add.php</a>.    </td>
+Definition at line <a class="el" href="jrn__add_8php-source.html#l00082">82</a> of file <a class="el" href="jrn__add_8php-source.html">jrn_add.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a7"></a><!-- doxytag: member="jrn_add.php::$p_jrn_class_deb" ref="a7" args="" --><p>
+<a class="anchor" name="a6"></a><!-- doxytag: member="jrn_add.php::$p_jrn_class_deb" ref="a6" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -256,10 +256,10 @@ Definition at line <a class="el" href="jrn__add_8php-source.html#l00086">86</a> 
 <p>
 
 <p>
-Definition at line <a class="el" href="jrn__add_8php-source.html#l00083">83</a> of file <a class="el" href="jrn__add_8php-source.html">jrn_add.php</a>.    </td>
+Definition at line <a class="el" href="jrn__add_8php-source.html#l00079">79</a> of file <a class="el" href="jrn__add_8php-source.html">jrn_add.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a11"></a><!-- doxytag: member="jrn_add.php::$p_jrn_fiche_cred" ref="a11" args="" --><p>
+<a class="anchor" name="a10"></a><!-- doxytag: member="jrn_add.php::$p_jrn_fiche_cred" ref="a10" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -281,10 +281,10 @@ Definition at line <a class="el" href="jrn__add_8php-source.html#l00083">83</a> 
 <p>
 
 <p>
-Definition at line <a class="el" href="jrn__add_8php-source.html#l00090">90</a> of file <a class="el" href="jrn__add_8php-source.html">jrn_add.php</a>.    </td>
+Definition at line <a class="el" href="jrn__add_8php-source.html#l00086">86</a> of file <a class="el" href="jrn__add_8php-source.html">jrn_add.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a10"></a><!-- doxytag: member="jrn_add.php::$p_jrn_fiche_deb" ref="a10" args="" --><p>
+<a class="anchor" name="a9"></a><!-- doxytag: member="jrn_add.php::$p_jrn_fiche_deb" ref="a9" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -306,10 +306,10 @@ Definition at line <a class="el" href="jrn__add_8php-source.html#l00090">90</a> 
 <p>
 
 <p>
-Definition at line <a class="el" href="jrn__add_8php-source.html#l00089">89</a> of file <a class="el" href="jrn__add_8php-source.html">jrn_add.php</a>.    </td>
+Definition at line <a class="el" href="jrn__add_8php-source.html#l00085">85</a> of file <a class="el" href="jrn__add_8php-source.html">jrn_add.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a6"></a><!-- doxytag: member="jrn_add.php::$p_jrn_name" ref="a6" args="" --><p>
+<a class="anchor" name="a5"></a><!-- doxytag: member="jrn_add.php::$p_jrn_name" ref="a5" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -331,7 +331,7 @@ Definition at line <a class="el" href="jrn__add_8php-source.html#l00089">89</a> 
 <p>
 
 <p>
-Definition at line <a class="el" href="jrn__add_8php-source.html#l00081">81</a> of file <a class="el" href="jrn__add_8php-source.html">jrn_add.php</a>.    </td>
+Definition at line <a class="el" href="jrn__add_8php-source.html#l00077">77</a> of file <a class="el" href="jrn__add_8php-source.html">jrn_add.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a0"></a><!-- doxytag: member="jrn_add.php::$rep" ref="a0" args="" --><p>
@@ -381,7 +381,7 @@ Definition at line <a class="el" href="jrn__add_8php-source.html#l00035">35</a> 
 <p>
 
 <p>
-Definition at line <a class="el" href="jrn__add_8php-source.html#l00108">108</a> of file <a class="el" href="jrn__add_8php-source.html">jrn_add.php</a>.    </td>
+Definition at line <a class="el" href="jrn__add_8php-source.html#l00104">104</a> of file <a class="el" href="jrn__add_8php-source.html">jrn_add.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a15"></a><!-- doxytag: member="jrn_add.php::$search" ref="a15" args="" --><p>
@@ -406,7 +406,7 @@ Definition at line <a class="el" href="jrn__add_8php-source.html#l00108">108</a>
 <p>
 
 <p>
-Definition at line <a class="el" href="jrn__add_8php-source.html#l00117">117</a> of file <a class="el" href="jrn__add_8php-source.html">jrn_add.php</a>.    </td>
+Definition at line <a class="el" href="jrn__add_8php-source.html#l00113">113</a> of file <a class="el" href="jrn__add_8php-source.html">jrn_add.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a14"></a><!-- doxytag: member="jrn_add.php::$sessid" ref="a14" args="" --><p>
@@ -431,7 +431,7 @@ Definition at line <a class="el" href="jrn__add_8php-source.html#l00117">117</a>
 <p>
 
 <p>
-Definition at line <a class="el" href="jrn__add_8php-source.html#l00116">116</a> of file <a class="el" href="jrn__add_8php-source.html">jrn_add.php</a>.    </td>
+Definition at line <a class="el" href="jrn__add_8php-source.html#l00112">112</a> of file <a class="el" href="jrn__add_8php-source.html">jrn_add.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a12"></a><!-- doxytag: member="jrn_add.php::$Sql" ref="a12" args="" --><p>
@@ -464,7 +464,7 @@ Definition at line <a class="el" href="jrn__add_8php-source.html#l00116">116</a>
                  )
 </pre></div>
 <p>
-Definition at line <a class="el" href="jrn__add_8php-source.html#l00099">99</a> of file <a class="el" href="jrn__add_8php-source.html">jrn_add.php</a>.    </td>
+Definition at line <a class="el" href="jrn__add_8php-source.html#l00095">95</a> of file <a class="el" href="jrn__add_8php-source.html">jrn_add.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a1"></a><!-- doxytag: member="jrn_add.php::$User" ref="a1" args="" --><p>

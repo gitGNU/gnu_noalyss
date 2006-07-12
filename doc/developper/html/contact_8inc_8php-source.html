@@ -50,9 +50,9 @@
 <a name="l00048"></a>00048 <span class="keywordflow">if</span> ( isset ($_POST['<span class="keyword">delete</span>']) ) 
 <a name="l00049"></a>00049 {
 <a name="l00050"></a>00050   echo '<span class="keyword">delete</span>';
-<a name="l00051"></a>00051   $f_id=$_REQUEST['<a class="code" href="facture_8inc_8php.html#a25">f_id</a>'];
+<a name="l00051"></a>00051   $f_id=$_REQUEST['<a class="code" href="facture_8inc_8php.html#a26">f_id</a>'];
 <a name="l00052"></a>00052 
-<a name="l00053"></a>00053   <a class="code" href="impress__fiche_8php.html#a9">$fiche</a>=<span class="keyword">new</span> <a class="code" href="classcontact.html">contact</a>($cn,$<a class="code" href="facture_8inc_8php.html#a25">f_id</a>);
+<a name="l00053"></a>00053   <a class="code" href="impress__fiche_8php.html#a9">$fiche</a>=<span class="keyword">new</span> <a class="code" href="classcontact.html">contact</a>($cn,$<a class="code" href="facture_8inc_8php.html#a26">f_id</a>);
 <a name="l00054"></a>00054   <a class="code" href="impress__fiche_8php.html#a9">$fiche</a>-&gt;remove();
 <a name="l00055"></a>00055   <a class="code" href="action_8inc_8php.html#a0">$sub_action</a>=<span class="stringliteral">"list"</span>; 
 <a name="l00056"></a>00056 }
@@ -75,9 +75,9 @@
 <a name="l00073"></a>00073 <span class="keywordflow">if</span> ( isset ($_POST['mod'])) 
 <a name="l00074"></a>00074 {
 <a name="l00075"></a>00075   <span class="comment">// modification is asked</span>
-<a name="l00076"></a>00076   $f_id=$_REQUEST['<a class="code" href="facture_8inc_8php.html#a25">f_id</a>'];
+<a name="l00076"></a>00076   $f_id=$_REQUEST['<a class="code" href="facture_8inc_8php.html#a26">f_id</a>'];
 <a name="l00077"></a>00077 
-<a name="l00078"></a>00078   <a class="code" href="contact_8inc_8php.html#a11">$contact</a>=<span class="keyword">new</span> <a class="code" href="classcontact.html">contact</a>($cn,$<a class="code" href="facture_8inc_8php.html#a25">f_id</a>);
+<a name="l00078"></a>00078   <a class="code" href="contact_8inc_8php.html#a11">$contact</a>=<span class="keyword">new</span> <a class="code" href="classcontact.html">contact</a>($cn,$<a class="code" href="facture_8inc_8php.html#a26">f_id</a>);
 <a name="l00079"></a>00079   <a class="code" href="contact_8inc_8php.html#a11">$contact</a>-&gt;Save();
 <a name="l00080"></a>00080   <a class="code" href="action_8inc_8php.html#a0">$sub_action</a>=<span class="stringliteral">"list"</span>;
 <a name="l00081"></a>00081 }
@@ -186,9 +186,9 @@
 <a name="l00184"></a>00184 <span class="comment">// Show Detail</span>
 <a name="l00185"></a>00185 <span class="keywordflow">if</span> ( $sub_action == 'detail' )
 <a name="l00186"></a>00186 {
-<a name="l00187"></a>00187   $f_id=$_REQUEST['<a class="code" href="facture_8inc_8php.html#a25">f_id</a>'];
+<a name="l00187"></a>00187   $f_id=$_REQUEST['<a class="code" href="facture_8inc_8php.html#a26">f_id</a>'];
 <a name="l00188"></a>00188   echo '&lt;div <span class="keyword">class</span>=<span class="stringliteral">"u_redcontent"</span>&gt;';
-<a name="l00189"></a>00189   <a class="code" href="contact_8inc_8php.html#a11">$contact</a>=<span class="keyword">new</span> <a class="code" href="classcontact.html">contact</a>($cn,$<a class="code" href="facture_8inc_8php.html#a25">f_id</a>);
+<a name="l00189"></a>00189   <a class="code" href="contact_8inc_8php.html#a11">$contact</a>=<span class="keyword">new</span> <a class="code" href="classcontact.html">contact</a>($cn,$<a class="code" href="facture_8inc_8php.html#a26">f_id</a>);
 <a name="l00190"></a>00190   echo $retour;
 <a name="l00191"></a>00191   echo '&lt;form <a class="code" href="classaction.html">action</a>=<span class="stringliteral">"'.$_SERVER['REQUEST_URI'].'"</span> method=<span class="stringliteral">"post"</span>&gt;'; 
 <a name="l00192"></a>00192   echo <a class="code" href="contact_8inc_8php.html#a11">$contact</a>-&gt;Display(<span class="keyword">false</span>);

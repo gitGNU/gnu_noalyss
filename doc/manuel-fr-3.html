@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.21">
+ <TITLE> PhpCompta Manuel d'utilisation: S&eacute;curit&eacute;</TITLE>
+ <LINK HREF="manuel-fr-4.html" REL=next>
+ <LINK HREF="manuel-fr-2.html" REL=previous>
+ <LINK HREF="manuel-fr.html#toc3" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="manuel-fr-4.html">Next</A>
+<A HREF="manuel-fr-2.html">Previous</A>
+<A HREF="manuel-fr.html#toc3">Contents</A>
+<HR>
+<H2><A NAME="s3">3.</A> <A HREF="manuel-fr.html#toc3">S&eacute;curit&eacute;</A></H2>
+
+<H2><A NAME="ss3.1">3.1</A> <A HREF="manuel-fr.html#toc3.1">Remarques</A>
+</H2>
+
+<P>PhpCompta a sa propre s&eacute;curit&eacute;, cependant si vous voulez vraiment
+s&eacute;curiser votre comptabilit&eacute;, vous devez prendre en compte qu'il ne
+suffit de s&eacute;curiser votre server et phpcompta mais aussi les
+programmes sur lequel le programme s'appuie. C'est-&agrave;-dire Apache,
+utilisation de https &agrave; la place de http, de PostGresql, de l'utilisation
+des odbc, de l'encryption des backups, de la traque des mots de passe
+trop facile &agrave; deviner,... La liste est longue et c'est l'ensemble des
+mesures qui d&eacute;terminera la s&eacute;curit&eacute; de vos donn&eacute;es, il suffit d'une
+seule faiblesse pour que la s&eacute;curit&eacute; soit insuffisante. Le sujet
+est tr&egrave;s vaste, il englobe trop de choses. C'est pourquoi nous ne
+traiterons que de PhpCompta uniquement et un tout petit peu de PostgreSql.</P>
+<H2><A NAME="ss3.2">3.2</A> <A HREF="manuel-fr.html#toc3.2">Base de donn&eacute;es</A>
+</H2>
+
+<P> 
+En tout premier lieu, si vous avez r&eacute;ussi &agrave; tout installer, vous
+devez ajouter une s&eacute;curit&eacute; &agrave; l'acc&egrave;s de vos database. Donc n'essayez
+pas d'utiliser install.sh quand la s&eacute;curit&eacute; par mot de passe est
+activ&eacute;e !!! Ou alors mettez le mot de passe dans &nbsp;/.pgpass de
+l'utilisateur phpcompta</P>
+<P>Dans include/constant.php changer le mot de passe (ligne
+phpcompta_password), il contient dany par d&eacute;faut.</P>
+
+<P>En tant
+qu'utilisateur postgres, ajoutez un mot de passe &agrave; votre utilisateur
+phpcompta avec la commande //
+psql -c "alter user phpcompta password 'votre_mot_de_passe'" 
+Ce mot de passe est &eacute;videmment celui dont on a parl&eacute; au paragraphe
+pr&eacute;c&eacute;dent.</P>
+
+<P>Ensuite changez le pg_hba.conf, et mettez les lignes suivantes
+<PRE>
+host   all         all        172.16.31.0  255.255.255.0           md5
+local   all         all                                             md5
+host    all         all         127.0.0.1         255.255.255.255   md5
+</PRE>
+
+La premi&egrave;re ligne correspond &agrave; mon r&eacute;seau priv&eacute;.</P>
+<P>Relancez postgres, voil&agrave; maintenant un mot de passe sera toujours
+requis, n'oubliez pas de mettre un mot de passe &agrave; vos
+superutilisateurs PostgreSql avant de changer, sinon vous ne pourrez
+plus vous connecter.</P>
+<P>Ensuite, changer les droits sur le r&eacute;pertoire o&ugrave; sont vos fichiers
+avec chmod 700, attention : le propri&eacute;taire des fichiers doit &ecirc;tre le
+m&ecirc;me que du propri&eacute;taire du process httpd, pour v&eacute;rifier faite ps -ef|grep
+httpd, le propri&eacute;taire du processus ttpd se trouve dans la premi&egrave;re
+colonne.
+Exemple chez moi, le propri&eacute;taire est apache
+<PRE>
+root@july data]# ps -ef|grep httpd
+root     24540     1  0 22:47 ?        00:00:00 /opt/http2//bin/httpd -k start
+apache   24541 24540  0 22:47 ?        00:00:00 [httpd]
+apache   24542 24540  0 22:47 ?        00:00:00 [httpd]
+apache   24543 24540  0 22:47 ?        00:00:00 [httpd]
+apache   24544 24540  0 22:47 ?        00:00:00 [httpd]
+apache   24545 24540  0 22:47 ?        00:00:00 [httpd]
+root     24555 23968  0 22:56 pts/0    00:00:00 grep httpd
+</PRE>
+</P>
+<H2><A NAME="ss3.3">3.3</A> <A HREF="manuel-fr.html#toc3.3">PhpCompta</A>
+</H2>
+
+<P>Dans PhpCompta, le module de s&eacute;curit&eacute; permet d'&eacute;tablir quel
+utilisateur peut acc&eacute;der &agrave; quel dossier, ce qu'il peut y faire,
+les journaux qu'il peut acc&eacute;der... Chaque fois qu'une page est charg&eacute;e,
+le mot de passe et le login utilisateur sont v&eacute;rifi&eacute;s pour savoir si
+primo il a acc&egrave;s a ce qu'il demand&eacute; &agrave; faire et secundo  si son compte
+est actif et que le mot de passe fourni est valide. Ces valeurs sont
+stock&eacute;es sur le server. Peu de syst&egrave;me v&eacute;rifie aussi souvent les
+permissions d'un utilisateur. Evidemment utiliser le cache de
+l'explorateur pour d&eacute;couvrir ces informations est une perte de
+temps,  utiliser son historique pour acc&eacute;der &agrave; vos donn&eacute;es ne
+fonctionnera pas non plus.</P>
+
+<P>Pour ajouter un utilisateur, vous devez tout d'abord avoir les droits
+admin et cr&eacute;ez l'utilisateur. A ce moment-l&agrave;, il n'a acc&egrave;s &agrave; rien du
+tout. Il faut ensuite se connecter &agrave; un dossier sur lequel vous avez
+des droits admin et l'ajouter, par d&eacute;faut il ne peut rien faire. A
+vous de sp&eacute;cifier ce qu'il peut acc&eacute;der et son droits par d&eacute;faut
+(&eacute;criture ou lecture). De cette fa&ccedil;on, un utilisateur (sauf avec des
+droits admin ) ne peut pas acc&eacute;der &agrave; des nouveaux dossiers. Chaque
+acc&egrave;s doit &ecirc;tre donn&eacute; explicitement.</P>
+
+<P>Dans un dossier, un utilisateur a toujours un droit par d&eacute;faut. Si par
+exemple, son droit par d&eacute;faut est de lire il pourra lire tout 
+ce qu'il veut et &eacute;crire uniquement dans ce qui a &eacute;t&eacute; explicitement
+permis. Si son droit par d&eacute;faut est d'&eacute;crire, c'est l'inverse, il
+pourra &eacute;crire partout sauf l&agrave; ou est explicitement il ne peut
+qu'&eacute;crire. Le sens d'&eacute;crire dans ce contexte-ci doit se comprendre
+comme la capacit&eacute; &agrave;  pouvoir ajouter ou modifier des informations.</P>
+
+<HR>
+<A HREF="manuel-fr-4.html">Next</A>
+<A HREF="manuel-fr-2.html">Previous</A>
+<A HREF="manuel-fr.html#toc3">Contents</A>
+</BODY>
+</HTML>

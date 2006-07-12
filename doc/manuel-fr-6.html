@@ -1,0 +1,456 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.21">
+ <TITLE> PhpCompta Manuel d'utilisation: Le module de comptabilit&eacute;</TITLE>
+ <LINK HREF="manuel-fr-7.html" REL=next>
+ <LINK HREF="manuel-fr-5.html" REL=previous>
+ <LINK HREF="manuel-fr.html#toc6" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="manuel-fr-7.html">Next</A>
+<A HREF="manuel-fr-5.html">Previous</A>
+<A HREF="manuel-fr.html#toc6">Contents</A>
+<HR>
+<H2><A NAME="s6">6.</A> <A HREF="manuel-fr.html#toc6">Le module de comptabilit&eacute;</A></H2>
+
+<P> Apr&egrave;s toute cette th&eacute;orie, il est temps d'apprendre &agrave; utiliser
+PhpCompta</P>
+
+<H2><A NAME="journaux"></A> <A NAME="ss6.1">6.1</A> <A HREF="manuel-fr.html#toc6.1">Journaux </A>
+</H2>
+
+<P> Il existe 4 sortes de journaux
+<UL>
+<LI> Vente regroupant les ventes</LI>
+<LI> Achat Celui regroupant les achats</LI>
+<LI> Financier Celui regroupant tous les mouvements financiers (banque, caisse...)</LI>
+<LI> Op&eacute;rations divers Et celui regroupant toutes les autres
+op&eacute;rations (augmentation de bilan, amortissement,... )</LI>
+</UL>
+
+Pour la cr&eacute;ation voir 
+<A HREF="#avance_journal">avance_journal</A></P>
+
+<H3>Grand Livre</H3>
+
+<P>Ce journal-ci est un peu sp&eacute;cial. En fait, il rassemble tous les
+journaux dans un seul, on ne peut pas y &eacute;crire directement mais on y
+voit toutes les op&eacute;rations en provenance de tous les journaux.</P>
+
+
+<H3>Entr&eacute;e ou Journal des Ventes</H3>
+
+<P>Le journal des ventes regroupe les op&eacute;rations de vente, donc ce que
+vous vendez. En mode utilisateur, c'est tr&egrave;s simple: vous devez juste
+ajouter le client, la date et &eacute;videmment les articles.</P>
+
+<P>Les rabais et remises ne sont utilisables qu'avec les fiches, il
+faut cependant encore les calculer s&eacute;par&eacute;ment.</P>
+
+<P>La ligne du bas vous permet de faire des petits calculs rapide
+(exemple: 1+2*3.2)...</P>
+
+<P> Pour ajouter une vente, cliquez sur nouvelle, puis utilisez les
+boutons pour ajouter les clients, services et marchandises que l'on
+vend. </P>
+
+<P> En cas de reprise de mat&eacute;riel, vous pouvez mettre des quantit&eacute;s
+n&eacute;gatives - attention : des quantit&eacute;s, pas des prix unitaires-. Le
+stock sera automatiquement r&eacute;adapt&eacute; pour tenir compte de ce retour de
+mat&eacute;riel. </P>
+
+<P> Pensez &agrave; utilisez le dossier "demo" pour faire tout vos tests et
+d&eacute;couvrir PhpCompta.</P>
+
+
+<H3>D&eacute;pense ou  Journal des Achats</H3>
+
+<P>Reprend uniquement les op&eacute;rations d'achat que ce soit pour l'achat
+de marchandises, de services ou de mat&eacute;riel.</P>
+
+<H3>Financier ou Journal Financier</H3>
+
+<P> Uniquement pour g&eacute;rer les comptes en banque, visa, bref tout ce
+qui est financier (pas les pr&ecirc;ts qui devraient &ecirc;tre en op&eacute;ration
+diverses mais bien le paiement de ces pr&ecirc;ts).</P>
+
+<P> La date est important, il est important de vous rappelez: on vous
+donne l'ancien solde et le nouveau, v&eacute;rifiez sur vos extraits que
+cela correspond bien.</P>
+
+<P> Le commentaire est optionnelle, c'est ce que vous verrez
+appara&icirc;tre lorsque vous regarderez votre journal.</P>
+
+<P>Introduisez un montants n&eacute;gatif si vous payez (le compte diminue)
+et un montant positif si vous recevez de l'argent.</P>
+
+<P> En cas de paiement, il faut introduire le montant n&eacute;gatif.</P>
+
+<H3><A NAME="journal_od"></A> Journal des Op&eacute;rations diverses </H3>
+
+<P> Reprend toutes les op&eacute;rations qui ne sont pas comprises dans les autres
+journaux. Ce qui implique les amortissements, parfois les salaires ou les produits financiers,
+les d&eacute;penses non admises, le paiement de l'imp&ocirc;t, de la tva, les garanties...</P>
+<P>C'est l'unique journal qui n'utilise pas les fiches. Pourquoi ? Tout
+simplement parce 
+que s'il utilisait lui-aussi les fiches, il faudrait faire une fiche
+par poste comptable, 
+ce qui serait rapidement ing&eacute;rable. De plus, les fiches sont l&agrave; pour
+les op&eacute;rations 
+courantes (vente/Achat/banque). Puisque ce journal n'utilise pas les
+fiches, le filtre est 
+le m&ecirc;me que celui d&eacute;fini pour le mode comptable voir 
+<A HREF="#journal_comptable">d&eacute;finition journal</A></P>
+<P>Pour le profil comptable, vous devez mettre un filtre pour les comptes
+visibles au d&eacute;bit ou au cr&eacute;dit.</P>
+<P>exemple :
+<PRE>
+ Postes utilisables journal (d&eacute;bit)        60*
+ Postes utilisables journal (cr&eacute;bit)       411* 4000001
+</PRE>
+</P>
+<P>Ceux qui terminent par une &eacute;toile reprennent les comptes qui commence
+par l'expression ainsi 411* reprendra 411, 4111, 4112,4113 et
+4114. Vous s&eacute;parez les diff&eacute;rents comptes par un espace.</P>
+
+<H3>Cas particuliers</H3>
+
+<P> Les cartes de cr&eacute;dit :
+La visa = changement de cr&eacute;ancier : visa paie le fournisseur vous
+payez Visa, vous pourriez aussi le mettre dans un journal financier</P>
+
+<P> Facture pay&eacute;e par mensualit&eacute;, la facture est encod&eacute;e dans le journal
+d'achat, et &agrave; chaque paiement vous l'encodez dans le journal financier</P>
+
+<P>Les salaires peuvent &ecirc;tre soit dans un journal d'achat et les produits financiers dans
+un journal de vente, mais ils pourraient tous deux &ecirc;tre dans le journal d'op&eacute;rations diverses.</P>
+
+
+<H2><A NAME="ss6.2">6.2</A> <A HREF="manuel-fr.html#toc6.2">Encodage d'op&eacute;ration</A>
+</H2>
+
+<P> La tva est automatiquement mise, on prend celle de la fiche, il n'est
+donc normale que vous ne deviez pas l'encoder. Les prix sont aussi pris dans
+les attributs de la fiche mais vous pouvez modifier manuellement.</P>
+
+<P> En cas de montant n&eacute;gatif, les &eacute;critures sont invers&eacute;es 
+Exemple 
+<PRE>
+* Paiement d'une facture (montant n&eacute;gatif) on aura 
+fournisseur
+    &agrave; 
+           client
+* Reprise de marchandise (diminution de vente &amp; tva)
+Tva &agrave; payer, vente 
+    &agrave; 
+     client
+La dette du client diminue
+
+</PRE>
+</P>
+<P> Il n'est pas possible de modifier un encodage mais vous pouvez
+l'annuler. 
+Quand vous 
+cliquez sur Confirmer soyez s&ucirc;r de ce que vous faites.</P>
+<H2><A NAME="ss6.3">6.3</A> <A HREF="manuel-fr.html#toc6.3">Recherche</A>
+</H2>
+
+<P>Ce menu permet de rechercher par date, montant, poste comptable, code
+interne, quick code ou gr&acirc;ce &agrave; une partie de la description.</P>
+
+<P>La s&eacute;curit&eacute; s'applique dans les recherches, il n'est pas possible
+de voir les op&eacute;rations des journaux auquels vous n'avez pas acc&egrave;s.</P>
+
+<H2><A NAME="ss6.4">6.4</A> <A HREF="manuel-fr.html#toc6.4">Rapprochement</A>
+</H2>
+
+<P>Vous pouvez lier des op&eacute;rations entre elles,
+en g&eacute;n&eacute;ral ce seront des paiements qui correspondent &agrave; des
+factures. Ce n'est pas obligatoire, c'est l&agrave; uniquement pour vous
+permettre de mieux voir ce qui concerne quoi.</P>
+
+<P>Les rapprochement ne se font pas forc&eacute;ment dans le m&ecirc;me journal,
+par exemple un paiement sera dans le journal financier mais sera li&eacute; &agrave;
+une op&eacute;ration de vente (journal de vente) ou d'achat (journal
+d'achat).</P>
+
+<P> Le point important est que dans la petite fen&ecirc;tre montrant les
+d&eacute;tails, vous pouvez sp&eacute;cifier si la facture est ou non pay&eacute;e, cela
+vous permettra de savoir en temps r&eacute;elle, ce qui est d&eacute;j&agrave; pay&eacute; et ce
+qui ne l'est pas, cette possibilit&eacute; n'existe que pour les journaux de
+type vente et achat.</P>
+
+<H2><A NAME="avance_fiche"></A> <A NAME="ss6.5">6.5</A> <A HREF="manuel-fr.html#toc6.5">Fiche </A>
+</H2>
+
+<P>Ce menu vous permet d'jouter et de modifier des fiches mais aussi de
+leur ajouter des attributs, un attribut est par exemple une adresse, une partie
+non d&eacute;ductible, une adresse...</P>
+
+<H3>Cr&eacute;ation d'une cat&eacute;gorie de fiche</H3>
+
+<P>Les cat&eacute;gories de fiches sont en fait le rassemblement de fiche
+ensembles, par exemple, les marchandises, les clients, les
+fournisseurs... </P>
+<P>Pour cr&eacute;er une cat&eacute;gorie, cliquer sur Fiche et &agrave; droite sur
+cr&eacute;ation. Vous devez donner le nom de la cat&eacute;gorie et le type de fiche
+que vous voulez.  </P>
+<P>La classe de base est le poste comptable parent de vos fiche, ce poste
+doit exister, il faut alors 
+cliquer aussi sur "create account for each" qui permet de g&eacute;n&eacute;rer
+automatiquement le poste comptable voulu, ce poste sera
+automatiquement ajout&eacute; dans le Plan Comptable. Si cette option n'est
+pas coch&eacute;e, vous devrez ajouter manuellement le poste comptable et le
+donner explicitement. Si vous ne souhaitez pas que chaque fiche aie
+son propre poste comptable, ne cochez pas l'option et n'ajoutez pas manuellement
+le poste comptable. Dans ce cas, ce sera le poste du mod&egrave;le de fiche
+par d&eacute;faut qui sera utilis&eacute;, si vous ne l'indiquez pas ce sera la
+classe par d&eacute;faut de ce type de mod&egrave;le. </P>
+<P>Pour simplifier :
+<UL>
+<LI>Vous voulez que chaque fiche aie son propre poste comptable et
+vous souhaitez que ce poste soit cr&eacute;e automatiquement : cochez la case
+'Create account for each' </LI>
+<LI>Vous souhaitez qu'il n'y a pas de poste comptable attach&eacute; &agrave;
+chaque fiche: ne la cochez pas. Pour les contacts par exemple, il n'y a pas
+de postes comptables.
+</LI>
+<LI>Vous souhaitez qu'il y aie un poste comptable attach&eacute; &agrave; chaque fiche 
+mais pas g&eacute;n&eacute;r&eacute; automatiquement: ne cochez pas. Par la suite,  ajoutez
+l'attribut 'Poste Comptable' si n&eacute;cessaire, la plupart des fiches ont
+par d&eacute;faut un attribut 'Poste Comptable,
+vous devrez mettre manuellement le poste comptable
+que vous souhaitez pour chaque fiche. Dans ce cas, toutes les
+fiches devront avoir un poste comptable. Sinon ce sera le poste comptable
+par d&eacute;faut qui sera utilis&eacute;.</LI>
+</UL>
+</P>
+
+<P>Cas sp&eacute;cial: la classe de base "Autre" permet de cr&eacute;er des fiches
+sur mesure, par exemple: liste des employ&eacute;s, </P>
+
+<H3>Cr&eacute;ation d'une fiche </H3>
+
+<P>Quelques attributs &agrave; expliquer : Gestion Poste, Prix Achat, Prix de
+vente, Poste Comptable. Vous n'&ecirc;tes pas oblig&eacute; de cr&eacute;er une fiche pour
+tout, par exemple pour les restaurants, vous pouvez encodez une seule
+et unique fiche appel&eacute;e restaurant.</P>
+
+<P>Autre : comme plusieur fiches peuvent utiliser le m&ecirc;me poste comptable, si on
+modifie le nom d'une fiche, attention cela ne modifiera pas son nom dans le Plan Comptable.
+Attribut sp&eacute;ciaux:
+<UL>
+<LI>Partie fiscalement non d&eacute;ductible : entre 0 &amp; 1, il s'agit de ce que vous 
+ne pourrez pas d&eacute;duire comme charge. En cas d'achat sur cette fiche, le montant 
+HTVA multipli&eacute; par ce que vous avez inscrit ici sera rang&eacute; dans les d&eacute;penses non
+admises, le poste comptable est celui qui est indiqu&eacute; dans le Module Param&egrave;tre->
+Poste</LI>
+<LI>TVA non d&eacute;ductible m&ecirc;me remarque</LI>
+<LI>TVA non d&eacute;ductible r&eacute;cup&eacute;rable par l'imp&ocirc;t idem</LI>
+</UL>
+</P>
+<H2><A NAME="ss6.6">6.6</A> <A HREF="manuel-fr.html#toc6.6">Impression</A>
+</H2>
+
+<P>Ce menu permet de demander des impressions.</P>
+
+<H3>JournauxImpression de journaux, les p&eacute;riodes que vous voyez sont celles del'exercice de votre p&eacute;riode par d&eacute;faut (voir pr&eacute;f&eacute;rence). Vous pouvez soit lesavoir comme un listing soit de mani&egrave;re d&eacute;taill&eacute;e c'est-&agrave;-dire en partie double. </H3>
+
+<P>option
+<UL>
+<LI>Vous pouvez choisir entre les journaux centralis&eacute;s et ceux qui ne le
+sont pas.</LI>
+<LI>Style d'impression, soit simple donc sur une seule ligne soit en
+partie double</LI>
+</UL>
+</P>
+<P>Une fois l'impression en HTML obtenue, on peut soit l'imprimer, soit
+l'avoir en pdf soit en CSV. Avec le CSV, vous pouvez l'importez dans un 
+tableur et faire une autre pr&eacute;sentation</P>
+
+<H3><A NAME="impress_poste"></A> Poste Impression des postes comptables par p&eacute;riode.L'export en PDF et CSV est pr&eacute;vu. Cela fonctionne exactement commeles journaux.</H3>
+
+<H3>FicheImpression des fiches, avec ou sans solde, par p&eacute;riode. On peutexporter en PDF. On imprime des cat&eacute;gories de fiches, pour avoir le d&eacute;taild'une fiche en particulier, il faut utiliser impression des poste <A HREF="#impress_poste">impression_poste</A></H3>
+
+<H3><A NAME="rapport"></A> Les Rapports</H3>
+
+<H3>Introduction</H3>
+
+<P> Les rapports permettent de rapidement encoder des rapports.
+Par exemple, le total des ventes, le total encore &agrave; payer, la diff&eacute;rence
+entre les entr&eacute;es et les charges... Il n'y a pas vraiment de limite. </P>
+
+<P> Les rapports permettent d'utilisent des formules (mod,round,*,-) 
+sur des soldes de comptes.</P>
+
+<P>Tr&egrave;s peu, voire aucun rapport, n'est fourni par d&eacute;faut, vous devez
+les ajouter vous-m&ecirc;me. Pour cela, soit vous regardez dans le
+r&eacute;pertoire contrib/rapport soit vous allez sur le site de phpcompta.</P>
+
+<H3>Syntaxe</H3>
+
+<P>Quelques r&egrave;gles:
+<UL>
+<LI>les postes sont toujours &eacute;crits entre crochets;</LI>
+<LI>pour avoir la somme du poste et des sous-poste, 
+il faut utiliser le %;</LI>
+<LI>Les soldes sont toujours positifs et vous ne savez pas 
+s'ils sont au d&eacute;bit ou au cr&eacute;dit.</LI>
+<LI>Si vous souhaitez commencer &agrave; une autre p&eacute;riode pour certains
+compte et donc avoir plusieurs intervalles pour un rapport, vous
+devez utiliser l'option FROM=MM.YYYY (voir exemple). Ce genre d'option est 
+tr&egrave;s utile pour par exemple les d&eacute;clarations de TVA.</LI>
+</UL>
+</P>
+
+<P>Exemples de formule:
+<PRE>
+R&eacute;sultat d'exploitation brute round([7%]-[6%])
+Impot estim&eacute; (sans compter les amortissements) ([7%]-[6%])/0.35
+Total des comptes en banque [550%]
+Total TVA r&eacute;colt&eacute; depuis janvier 2005 : [4511]  FROM=01.2005
+Perte ou profit         if ([7%]-[6%]>0)?"Benefice":"Perte"
+</PRE>
+</P>
+
+<H3>Statistiques mensuelles</H3>
+
+<P>Dans le menu rapport, vous pourrez choisir l'&eacute;tape, si vous choississez mensuelle,
+vous aurez le r&eacute;sultat par mois.</P>
+
+<P>Afin de pouvoir faire un graphique de vos statisques, il vous suffit de demander l'export
+en CSV puis de l'int&eacute;grer dans votre tableur </P>
+
+<H3>Balance des comptes</H3>
+
+<P>Apr&egrave;s avoir choisi la p&eacute;riode, vous recevrez tous les postes comptables, la
+somme des d&eacute;bit et cr&eacute;dits de chacun. Cette balance est tr&egrave;s pratique pour rapidement
+v&eacute;rifier les comptes clients, d&eacute;penses. C'est un outil de v&eacute;rification tr&egrave;s utile.</P>
+
+<H3>Bilan</H3>
+
+<P>Actuellement, seule le bilan Belge est disponible, pour en avoir un
+autre, il suffit 
+de cr&eacute;er 2 fichiers
+L'un sera en RTF et contiendra la pr&eacute;sentation ainsi que les valeurs 
+&agrave; calculer et l'autre en format texte contiendra
+les formules qui remplaceront les balises dans le document RTF. </P>
+
+<P> Pour comprendre comment cela fonctionne, il suffit d'aller dans
+html/document/fr_be et d'ouvrir les 2 fichiers qui s'y trouvent.</P>
+
+<P>Le bilan et la balance des comptes, sont
+les deux outils qui vous permettront de faire votre
+bilan de fin d'ann&eacute;e.</P>
+
+<H3>Liste Assujetti</H3>
+
+<P> Permet d'avoir la liste des assujetti &agrave; la TVA et
+le montant qu'on leur a factur&eacute;, c'est une d&eacute;claration
+obligatoire et annuelle en Belgique.</P>
+
+<H2><A NAME="ss6.7">6.7</A> <A HREF="manuel-fr.html#toc6.7">Avanc&eacute;</A>
+</H2>
+
+<H3><A NAME="avance_journal"></A> Journaux </H3>
+
+<P>La premi&egrave;re chose &agrave; faire quand on cr&eacute;e un journal est de le
+param&eacute;trer correctement</P>
+<P>L'&eacute;cran est divis&eacute; en deux parties, celle du dessus, est surtout utilis&eacute;e par
+les journaux "Op&eacute;rations Diverses",  celui 
+du dessous pour les autres journaux.
+<A NAME="journal_comptable"></A> </P>
+<P>Le nombre de lignes maximum, donne le nombre lignes par d&eacute;faut  qu'on verra dans l'&eacute;cran d'encodage
+quand on
+ajoutera une d&eacute;pense, un achat, une op&eacute;ration diverses ou une op&eacute;ration banquaire.</P>
+<P>Il vaut mieux ne pas cr&eacute;er plus de 4 journaux par types, c'est-&agrave;-dire
+16 au total, il y a &agrave; cela deux raisons : la premi&egrave;re est que cela
+devient ing&eacute;rable, la seconde est que l'affichage en mode utilisateur
+serait euh... atroce. Quatre journaux en tout sont largement suffisant
+pour les besoins d'une entreprise.</P>
+
+<P>Remarque g&eacute;n&eacute;rale: En mode utilisateur, il faut cocher les fiches que l'on souhaite utiliser
+dans ce journal mais avec une exception : les journaux d'op&eacute;rations diverses
+n'utilisent jamais les fiches voir 
+<A HREF="#journal_od">Journaux des Op&eacute;rations diverses</A>. </P>
+
+<P> Voir aussi Journaux 
+<A HREF="#journaux">journaux</A></P>
+<H3>P&eacute;riode</H3>
+
+<P>C'est l'endroit ou les p&eacute;riodes sont cr&eacute;&eacute;es, ou fermer, il faut toujours fermer
+les p&eacute;riodes en particulier apr&egrave;s les d&eacute;clarations TVA, afin d'&eacute;viter que les montants
+d&eacute;j&agrave; d&eacute;clar&eacute;s ne correspondent plus, plus personne ne doit pouvoir encoder dans ces
+p&eacute;riodes-l&agrave;.</P>
+
+<P>Apr&egrave;s la fermeture des p&eacute;riodes on peut les centraliser</P>
+
+<H3>Centralise</H3>
+
+<P> La centralisation est l'op&eacute;ration comptable qui consiste &agrave;
+regrouper les diff&eacute;rents journaux comptables dans le grand livre.</P>
+<H3>M&eacute;thode</H3>
+
+<P> Cette op&eacute;ration n'est pas r&eacute;versible. </P>
+
+<P> Tout d'abord, vous devez cl&ocirc;turer les p&eacute;riodes, une p&eacute;riode
+cl&ocirc;tur&eacute;e est une p&eacute;riode o&ugrave; il ne sera pas possible d'ajouter ou de
+modifier quoi que ce soit, d'ailleurs, il vaut mieux toujours mieux
+cl&ocirc;turer une p&eacute;riode avant de faire la d&eacute;claration TVA. Cela emp&ecirc;che
+les erreurs.</P>
+
+<P> Ensuite, vous pourrez centraliser. Pour l'instant, la cl&ocirc;ture des
+p&eacute;riodes se fait par : "Param&egrave;tre -> p&eacute;riode" et la
+centralisation se fait par le menu "Avanc&eacute; -> Centralise".</P>
+<H3>Plan Comptable</H3>
+
+<P>Le plan comptable que vous utilisez, vous pouvez toujours ajoutez des postes
+ou enlever ceux qui n'ont jamais &eacute;t&eacute; utilis&eacute;.</P>
+
+<P>Vous pouvez aussi les renommer</P>
+
+<H3>Stock</H3>
+
+<H3>Rapport</H3>
+
+<P>Cr&eacute;ation des rapport voir impression des rapports 
+<A HREF="#rapport">les rapports</A> </P>
+
+<H3>Import Banque</H3>
+
+<P>Pour ajouter votre banque, vous pouvez le faire rapidement et simplement voir 
+la section Developpeur 
+<A HREF="manuel-fr-11.html#dev_banque">dev_banque</A>.</P>
+
+<P>Vous avez 3 sous menus
+<UL>
+<LI> Importer des fichiers CSV, faites bien attention aux journaux, format et compte choisi,
+il n'y aura pas de v&eacute;rification.</LI>
+<LI>V&eacute;rification, o&ugrave; vous pourrez ajouter le compte en contrepartie</LI>
+<LI>Transfert. Dans ce menu-ci, vous voyez les op&eacute;rations qui vont  &ecirc;tre transf&egrave;r&eacute;es. 
+Ce sont celles qui ont un poste comptable, qui n'ont pas encore &eacute;t&eacute; transf&egrave;r&eacute;es et de la p&eacute;riode
+que l'utilisateur a choisi dans ses pr&eacute;f&eacute;rences.
+Vous pouvez enlevez celles qui sont douteuses et que vous retrouverez alors dans V&eacute;rification. 
+Apr&egrave;s confirmation, les op&eacute;rations comptables sont inscrites dans le journal comptable, attention 
+ce n'est pas r&eacute;versible</LI>
+</UL>
+</P>
+
+<H3>Ecriture d'ouverture</H3>
+
+<P>En d&eacute;but d'ann&eacute;e, il faut r&eacute;ouvrir les comptes, mais uniquement les passifs et les actifs.</P>
+
+<P>Quand votre bilan est fini, vous devez donc encoder dans la nouvelle ann&eacute;e tous  les soldes,
+normalement vous utilisez la balance des comptes pour cela. Pour aller plus vite, vous les exportez
+avec ce menu, puis vous l'importez apr&egrave;s avoir chang&eacute; de dossier ou de p&eacute;riode.</P>
+
+<P>Attention : La r&eacute;ouverture des comptes se fait sur le nouvel exercice et normalement en janvier,
+pas l'exercice que vous venez de cl&ocirc;turer.</P>
+
+<HR>
+<A HREF="manuel-fr-7.html">Next</A>
+<A HREF="manuel-fr-5.html">Previous</A>
+<A HREF="manuel-fr.html#toc6">Contents</A>
+</BODY>
+</HTML>

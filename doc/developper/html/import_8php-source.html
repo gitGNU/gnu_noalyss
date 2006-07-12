@@ -67,7 +67,7 @@
 <a name="l00062"></a>00062 <span class="keywordflow">if</span> ( isset( $_REQUEST['PHPSESSID'])) {
 <a name="l00063"></a>00063         <a class="code" href="user__action__ach_8php.html#a21">$sessid</a> = $_REQUEST['PHPSESSID'];
 <a name="l00064"></a>00064 }
-<a name="l00065"></a>00065 echo <a class="code" href="constant_8php.html#a79">JS_SEARCH_POSTE</a>;
+<a name="l00065"></a>00065 
 <a name="l00066"></a>00066 
 <a name="l00067"></a>00067 <span class="comment">// if action is set proceed to it</span>
 <a name="l00068"></a>00068 <span class="keywordflow">if</span> ( isset ($_GET[<span class="stringliteral">"action"</span>]) ) {
@@ -81,26 +81,46 @@
 <a name="l00076"></a>00076       echo <span class="stringliteral">"&lt;/DIV&gt;"</span>;
 <a name="l00077"></a>00077     } <span class="keywordflow">else</span> {
 <a name="l00078"></a>00078       echo '&lt;DIV <span class="keyword">class</span>=<span class="stringliteral">"u_redcontent"</span>&gt;';
-<a name="l00079"></a>00079       <a class="code" href="import__inc_8php.html#a4">ShowFormTransfert</a>($cn);
+<a name="l00079"></a>00079       <a class="code" href="import__inc_8php.html#a7">ShowFormTransfert</a>($cn);
 <a name="l00080"></a>00080       echo <span class="stringliteral">"&lt;/DIV&gt;"</span>;
 <a name="l00081"></a>00081     }
 <a name="l00082"></a>00082   }
 <a name="l00083"></a>00083   <span class="keywordflow">if</span> ($<a class="code" href="classaction.html">action</a> == <span class="stringliteral">"verif"</span> ) {
-<a name="l00084"></a>00084     <span class="keywordflow">if</span>(isset($_POST['<a class="code" href="classposte.html">poste</a>'])) {
-<a name="l00085"></a>00085       <a class="code" href="import__inc_8php.html#a1">UpdateCSV</a>($cn, $_POST['code'], $_POST['<a class="code" href="classposte.html">poste</a>']);
+<a name="l00084"></a>00084     <span class="keywordflow">if</span>(isset($_POST['count'])) {
+<a name="l00085"></a>00085       <a class="code" href="import__inc_8php.html#a1">UpdateCSV</a>($cn);
 <a name="l00086"></a>00086     }
 <a name="l00087"></a>00087     echo '&lt;DIV <span class="keyword">class</span>=<span class="stringliteral">"u_redcontent"</span>&gt;';
-<a name="l00088"></a>00088     <a class="code" href="import__inc_8php.html#a2">VerifImport</a>($cn);
+<a name="l00088"></a>00088     <a class="code" href="import__inc_8php.html#a4">VerifImport</a>($cn);
 <a name="l00089"></a>00089     echo <span class="stringliteral">"&lt;/DIV&gt;"</span>;
 <a name="l00090"></a>00090   }
 <a name="l00091"></a>00091   <span class="keywordflow">if</span> ($<a class="code" href="classaction.html">action</a> == <span class="stringliteral">"transfer"</span> ) {
 <a name="l00092"></a>00092     echo '&lt;DIV <span class="keyword">class</span>=<span class="stringliteral">"u_redcontent"</span>&gt;';
-<a name="l00093"></a>00093     <a class="code" href="import__inc_8php.html#a3">TransferCSV</a>($cn, $User-&gt;GetPeriode());
-<a name="l00094"></a>00094     echo <span class="stringliteral">"&lt;/DIV&gt;"</span>;
-<a name="l00095"></a>00095   }
-<a name="l00096"></a>00096 } 
-<a name="l00097"></a>00097 
-<a name="l00098"></a>00098 <a class="code" href="ac__common_8php.html#a6">html_page_stop</a>();
-<a name="l00099"></a>00099 ?&gt;
+<a name="l00093"></a>00093     <span class="comment">//   TransferCSV($cn, </span>
+<a name="l00094"></a>00094     <a class="code" href="import__inc_8php.html#a5">ConfirmTransfert</a>($cn,$User-&gt;GetPeriode());
+<a name="l00095"></a>00095     echo <span class="stringliteral">"&lt;/DIV&gt;"</span>;
+<a name="l00096"></a>00096   }
+<a name="l00097"></a>00097 } 
+<a name="l00098"></a>00098 <span class="comment">/*-----------------------------------------------</span>
+<a name="l00099"></a>00099 <span class="comment"> * transfert or remove the wrong record </span>
+<a name="l00100"></a>00100 <span class="comment"> *</span>
+<a name="l00101"></a>00101 <span class="comment"> *-----------------------------------------------*/</span>
+<a name="l00102"></a>00102 <span class="keywordflow">if</span> ( isset ($_POST['<a class="code" href="classaction.html">action</a>'])) {
+<a name="l00103"></a>00103   <a class="code" href="periode_8inc_8php.html#a1">$action</a>=$_POST['action'];
+<a name="l00104"></a>00104   <span class="keywordflow">if</span> ($action == <span class="stringliteral">"transfer"</span> ) {
+<a name="l00105"></a>00105     echo '&lt;DIV <span class="keyword">class</span>=<span class="stringliteral">"u_redcontent"</span>&gt;';
+<a name="l00106"></a>00106     <a class="code" href="import__inc_8php.html#a6">TransferCSV</a>($cn, $User-&gt;GetPeriode());
+<a name="l00107"></a>00107     echo <span class="stringliteral">"&lt;/DIV&gt;"</span>;
+<a name="l00108"></a>00108   }
+<a name="l00109"></a>00109 
+<a name="l00110"></a>00110   <span class="keywordflow">if</span> ($action == <span class="stringliteral">"remove"</span> ) {
+<a name="l00111"></a>00111     echo '&lt;DIV <span class="keyword">class</span>=<span class="stringliteral">"u_redcontent"</span>&gt;';
+<a name="l00112"></a>00112     <a class="code" href="import__inc_8php.html#a3">RemoveCSV</a>($cn);
+<a name="l00113"></a>00113     <a class="code" href="import__inc_8php.html#a5">ConfirmTransfert</a>($cn,$User-&gt;GetPeriode());
+<a name="l00114"></a>00114     echo <span class="stringliteral">"&lt;/DIV&gt;"</span>;
+<a name="l00115"></a>00115   }
+<a name="l00116"></a>00116 
+<a name="l00117"></a>00117 }
+<a name="l00118"></a>00118 <a class="code" href="ac__common_8php.html#a6">html_page_stop</a>();
+<a name="l00119"></a>00119 ?&gt;
 </pre></div></BODY>
 </HTML>

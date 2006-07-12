@@ -198,7 +198,7 @@ p_id = jrn.jr_internal gen :<ul>
 <p>
 Definition at line <a class="el" href="jrn_8php-source.html#l00814">814</a> of file <a class="el" href="jrn_8php-source.html">jrn.php</a>.
 <p>
-References <a class="el" href="jrn__detail_8php-source.html#l00128">$l_line</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00814"></a>00814                                 {
+References <a class="el" href="jrn__detail_8php-source.html#l00124">$l_line</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00814"></a>00814                                 {
 <a name="l00815"></a>00815   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select jr_montant from jrn where jr_internal='$p_id'"</span>);
 <a name="l00816"></a>00816   <span class="keywordflow">if</span> (pg_NumRows($Res)==0) <span class="keywordflow">return</span> -1;
 <a name="l00817"></a>00817   <a class="code" href="jrn__detail_8php.html#a11">$l_line</a>=pg_fetch_array($Res,0);
@@ -254,7 +254,7 @@ p_grpt gen :<ul>
 <p>
 Definition at line <a class="el" href="jrn_8php-source.html#l00711">711</a> of file <a class="el" href="jrn_8php-source.html">jrn.php</a>.
 <p>
-References <a class="el" href="admin__repo_8php-source.html#l00124">$l_id</a>, <a class="el" href="jrn__detail_8php-source.html#l00128">$l_line</a>, <a class="el" href="jrn__search_8php-source.html#l00147">$MaxLine</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00711"></a>00711                                  {
+References <a class="el" href="admin__repo_8php-source.html#l00124">$l_id</a>, <a class="el" href="jrn__detail_8php-source.html#l00124">$l_line</a>, <a class="el" href="jrn__search_8php-source.html#l00147">$MaxLine</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00711"></a>00711                                  {
 <a name="l00712"></a>00712   <a class="code" href="debug_8php.html#a0">echo_debug</a>('<a class="code" href="classjrn.html">jrn</a>.php',__LINE__,<span class="stringliteral">"GetData $p_cn $p_grpt"</span>);
 <a name="l00713"></a>00713   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select </span>
 <a name="l00714"></a>00714 <span class="stringliteral">                        to_char(j_date,'DD.MM.YYYY') as j_date,</span>
@@ -459,7 +459,7 @@ p_id : jrn.jr_id gen :<ul>
 <p>
 Definition at line <a class="el" href="jrn_8php-source.html#l00793">793</a> of file <a class="el" href="jrn_8php-source.html">jrn.php</a>.
 <p>
-References <a class="el" href="jrn__detail_8php-source.html#l00128">$l_line</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
+References <a class="el" href="jrn__detail_8php-source.html#l00124">$l_line</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
 <p>
 Referenced by <a class="el" href="user__common_8php-source.html#l00322">ListJrn()</a>, and <a class="el" href="jrn_8php-source.html#l00282">UpdateJrn()</a>.<div class="fragment"><pre class="fragment"><a name="l00793"></a>00793                                   {
 <a name="l00794"></a>00794 
@@ -518,7 +518,7 @@ jrn id gen :<ul>
 <p>
 Definition at line <a class="el" href="jrn_8php-source.html#l00907">907</a> of file <a class="el" href="jrn_8php-source.html">jrn.php</a>.
 <p>
-References <a class="el" href="setup_8php-source.html#l00395">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="impress__bilan_8php-source.html#l00032">$ret</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00907"></a>00907                                  {
+References <a class="el" href="setup_8php-source.html#l00397">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="impress__bilan_8php-source.html#l00032">$ret</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00907"></a>00907                                  {
 <a name="l00908"></a>00908   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select jrn_def_name from "</span>.
 <a name="l00909"></a>00909                <span class="stringliteral">" jrn_def where jrn_def_id="</span>.
 <a name="l00910"></a>00910                $p_id);
@@ -804,7 +804,7 @@ p_user user id<ul>
 <p>
 Definition at line <a class="el" href="jrn_8php-source.html#l00038">38</a> of file <a class="el" href="jrn_8php-source.html">jrn.php</a>.
 <p>
-References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="impress__fiche_8php-source.html#l00082">$e</a>, <a class="el" href="user__sec_8php-source.html#l00141">$l2_line</a>, <a class="el" href="jrn__detail_8php-source.html#l00128">$l_line</a>, <a class="el" href="send__poste__pdf_8php-source.html#l00044">$poste</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="admin_8inc_8php-source.html#l00129">$search</a>, <a class="el" href="user__action__ach_8php-source.html#l00299">$sessid</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00069">$Sql</a>, <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="jrn_8php-source.html#l00523">GetJrnProperty()</a>, <a class="el" href="preference_8php-source.html#l00125">GetPeriode()</a>, <a class="el" href="pref_8inc_8php-source.html#l00048">METHOD</a>, <a class="el" href="action_8inc_8php-source.html#l00240">name</a>, <a class="el" href="bank_8inc_8php-source.html#l00151">selected</a>, and <a class="el" href="action_8inc_8php-source.html#l00241">value</a>.
+References <a class="el" href="balance_8php-source.html#l00113">$a</a>, <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="impress__fiche_8php-source.html#l00082">$e</a>, <a class="el" href="user__sec_8php-source.html#l00141">$l2_line</a>, <a class="el" href="jrn__detail_8php-source.html#l00124">$l_line</a>, <a class="el" href="send__poste__pdf_8php-source.html#l00044">$poste</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="admin_8inc_8php-source.html#l00129">$search</a>, <a class="el" href="user__action__ach_8php-source.html#l00299">$sessid</a>, <a class="el" href="eub__be_8inc_8php-source.html#l00055">$Sql</a>, <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="jrn_8php-source.html#l00523">GetJrnProperty()</a>, <a class="el" href="preference_8php-source.html#l00125">GetPeriode()</a>, <a class="el" href="pref_8inc_8php-source.html#l00048">METHOD</a>, <a class="el" href="action_8inc_8php-source.html#l00240">name</a>, <a class="el" href="bank_8inc_8php-source.html#l00151">selected</a>, and <a class="el" href="action_8inc_8php-source.html#l00241">value</a>.
 <p>
 Referenced by <a class="el" href="jrn_8php-source.html#l00436">CorrectRecord()</a>.<div class="fragment"><pre class="fragment"><a name="l00039"></a>00039 {
 <a name="l00040"></a>00040   include_once(<span class="stringliteral">"postgres.php"</span>);
@@ -865,9 +865,9 @@ Referenced by <a class="el" href="jrn_8php-source.html#l00436">CorrectRecord()</
 <a name="l00095"></a>00095         <a class="code" href="debug_8php.html#a0">echo_debug</a>('<a class="code" href="classjrn.html">jrn</a>.php',__LINE__,<span class="stringliteral">"l_line[jrn_def_class_deb] $l_line[jrn_def_class_deb] item_deb $item_deb"</span>);
 <a name="l00096"></a>00096         <span class="keywordflow">if</span> ( strstr($item_deb,<span class="stringliteral">"*"</span>) == <span class="keyword">true</span> ) {
 <a name="l00097"></a>00097           $item_deb=strtr($item_deb,<span class="stringliteral">"*"</span>,<span class="stringliteral">"%"</span>);
-<a name="l00098"></a>00098           <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=<span class="stringliteral">" pcm_val like '$item_deb' or"</span>;
+<a name="l00098"></a>00098           <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=<span class="stringliteral">" pcm_val like '$item_deb' or"</span>;
 <a name="l00099"></a>00099         } <span class="keywordflow">else</span> {
-<a name="l00100"></a>00100           <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=<span class="stringliteral">" pcm_val = '$item_deb' or"</span>;
+<a name="l00100"></a>00100           <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=<span class="stringliteral">" pcm_val = '$item_deb' or"</span>;
 <a name="l00101"></a>00101         }
 <a name="l00102"></a>00102         $SqlDeb=$SqlDeb.$Sql;
 <a name="l00103"></a>00103       }
@@ -934,9 +934,9 @@ Referenced by <a class="el" href="jrn_8php-source.html#l00436">CorrectRecord()</
 <a name="l00164"></a>00164         <a class="code" href="debug_8php.html#a0">echo_debug</a>('<a class="code" href="classjrn.html">jrn</a>.php',__LINE__,<span class="stringliteral">"l_line[jrn_def_class_cred] $l_line[jrn_def_class_cred] item_cred $item_cred"</span>);
 <a name="l00165"></a>00165         <span class="keywordflow">if</span> ( strstr($item_cred,<span class="stringliteral">"*"</span>) == <span class="keyword">true</span> ) {
 <a name="l00166"></a>00166           $item_cred=strtr($item_cred,<span class="stringliteral">"*"</span>,<span class="stringliteral">"%"</span>);
-<a name="l00167"></a>00167           <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=<span class="stringliteral">" pcm_val like '$item_cred' or"</span>;
+<a name="l00167"></a>00167           <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=<span class="stringliteral">" pcm_val like '$item_cred' or"</span>;
 <a name="l00168"></a>00168         } <span class="keywordflow">else</span> {
-<a name="l00169"></a>00169           <a class="code" href="argenta__be_8inc_8php.html#a10">$Sql</a>=<span class="stringliteral">" pcm_val = '$item_cred' or"</span>;
+<a name="l00169"></a>00169           <a class="code" href="eub__be_8inc_8php.html#a4">$Sql</a>=<span class="stringliteral">" pcm_val = '$item_cred' or"</span>;
 <a name="l00170"></a>00170         }
 <a name="l00171"></a>00171         $SqlCred=$SqlCred.$Sql;
 <a name="l00172"></a>00172       }
@@ -1092,9 +1092,9 @@ $p_grpt id in jr_grpt_id<ul>
 <p>
 Definition at line <a class="el" href="jrn_8php-source.html#l00949">949</a> of file <a class="el" href="jrn_8php-source.html">jrn.php</a>.
 <p>
-References <a class="el" href="jrn__add_8php-source.html#l00181">$num</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="jrn_8php-source.html#l00523">GetJrnProperty()</a>, and <a class="el" href="postgres_8php-source.html#l00251">NextSequence()</a>.
+References <a class="el" href="jrn__add_8php-source.html#l00172">$num</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="jrn_8php-source.html#l00523">GetJrnProperty()</a>, and <a class="el" href="postgres_8php-source.html#l00251">NextSequence()</a>.
 <p>
-Referenced by <a class="el" href="user__form__fin_8php-source.html#l00358">RecordFin()</a>, <a class="el" href="user__form__ven_8php-source.html#l00627">RecordInvoice()</a>, <a class="el" href="user__form__ach_8php-source.html#l00661">RecordSell()</a>, and <a class="el" href="import__inc_8php-source.html#l00108">TransferCSV()</a>.<div class="fragment"><pre class="fragment"><a name="l00950"></a>00950 {
+Referenced by <a class="el" href="user__form__fin_8php-source.html#l00358">RecordFin()</a>, <a class="el" href="user__form__ven_8php-source.html#l00628">RecordInvoice()</a>, <a class="el" href="user__form__ach_8php-source.html#l00662">RecordSell()</a>, and <a class="el" href="import__inc_8php-source.html#l00201">TransferCSV()</a>.<div class="fragment"><pre class="fragment"><a name="l00950"></a>00950 {
 <a name="l00951"></a>00951   <span class="comment">//$num=CountSql($p_cn,"select * from jrn where jr_def_id=$p_jrn and jr_internal != 'ANNULE'")+1;</span>
 <a name="l00952"></a>00952   <a class="code" href="jrn__add_8php.html#a17">$num</a> = <a class="code" href="postgres_8php.html#a13">NextSequence</a>($p_cn,'s_internal');
 <a name="l00953"></a>00953   <a class="code" href="jrn__add_8php.html#a17">$num</a>=strtoupper(hexdec($num));
@@ -1464,7 +1464,7 @@ p_user,<ul>
 <p>
 Definition at line <a class="el" href="jrn_8php-source.html#l00583">583</a> of file <a class="el" href="jrn_8php-source.html">jrn.php</a>.
 <p>
-References <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="jrn__search_8php-source.html#l00168">$col_vide</a>, <a class="el" href="setup_8php-source.html#l00387">$db</a>, <a class="el" href="admin__repo_8php-source.html#l00124">$l_id</a>, <a class="el" href="jrn__detail_8php-source.html#l00128">$l_line</a>, <a class="el" href="jrn__search_8php-source.html#l00147">$MaxLine</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="user__action__ach_8php-source.html#l00299">$sessid</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="ac__common_8php-source.html#l00206">FormatString()</a>, <a class="el" href="jrn_8php-source.html#l00549">GetJrnProp()</a>, and <a class="el" href="ac__common_8php-source.html#l00097">isDate()</a>.<div class="fragment"><pre class="fragment"><a name="l00583"></a>00583                                                                  {
+References <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="jrn__search_8php-source.html#l00168">$col_vide</a>, <a class="el" href="setup_8php-source.html#l00389">$db</a>, <a class="el" href="admin__repo_8php-source.html#l00124">$l_id</a>, <a class="el" href="jrn__detail_8php-source.html#l00124">$l_line</a>, <a class="el" href="jrn__search_8php-source.html#l00147">$MaxLine</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="user__action__ach_8php-source.html#l00299">$sessid</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="ac__common_8php-source.html#l00206">FormatString()</a>, <a class="el" href="jrn_8php-source.html#l00549">GetJrnProp()</a>, and <a class="el" href="ac__common_8php-source.html#l00097">isDate()</a>.<div class="fragment"><pre class="fragment"><a name="l00583"></a>00583                                                                  {
 <a name="l00584"></a>00584   <a class="code" href="debug_8php.html#a0">echo_debug</a>('<a class="code" href="classjrn.html">jrn</a>.php',__LINE__,<span class="stringliteral">"function ViewJrn($p_dossier,$p_user,$p_jrn,$p_array=null) "</span>);
 <a name="l00585"></a>00585   echo <a class="code" href="constant_8php.html#a81">JS_VIEW_JRN_DETAIL</a>;
 <a name="l00586"></a>00586   <a class="code" href="setup_8php.html#a10">$db</a>=sprintf(<span class="stringliteral">"dossier%d"</span>,$p_dossier);

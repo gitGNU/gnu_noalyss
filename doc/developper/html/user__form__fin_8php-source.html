@@ -143,15 +143,15 @@
 <a name="l00166"></a>00166     <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<a class="code" href="constant_8php.html#a86">JS_CONCERNED_OP</a>;
 <a name="l00167"></a>00167   }
 <a name="l00168"></a>00168   <span class="comment">// Compute href</span>
-<a name="l00169"></a>00169   $href=$_SERVER['SCRIPT_NAME'];
+<a name="l00169"></a>00169   $href=basename($_SERVER['SCRIPT_NAME']);
 <a name="l00170"></a>00170   <span class="keywordflow">switch</span> ($href)
 <a name="l00171"></a>00171     {
 <a name="l00172"></a>00172       <span class="comment">// user_jrn.php module "Comptable"</span>
-<a name="l00173"></a>00173     <span class="keywordflow">case</span> '/user_jrn.php':
+<a name="l00173"></a>00173     <span class="keywordflow">case</span> 'user_jrn.php':
 <a name="l00174"></a>00174       $href=<span class="stringliteral">"user_jrn.php?action=new&amp;p_jrn=$p_jrn"</span>;
 <a name="l00175"></a>00175       <span class="keywordflow">break</span>;
 <a name="l00176"></a>00176       <span class="comment">// commercial.php  module "Gestion"</span>
-<a name="l00177"></a>00177     <span class="keywordflow">case</span> '/commercial.php':
+<a name="l00177"></a>00177     <span class="keywordflow">case</span> 'commercial.php':
 <a name="l00178"></a>00178       $href=<span class="stringliteral">"commercial.php?p_action=bank&amp;p_jrn=$p_jrn"</span>;
 <a name="l00179"></a>00179       <span class="keywordflow">break</span>;
 <a name="l00180"></a>00180     <span class="keywordflow">default</span>:
