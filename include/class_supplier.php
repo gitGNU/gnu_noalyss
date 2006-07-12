@@ -130,7 +130,13 @@ class Supplier extends fiche{
 	  "</TD>";
 
 	$post=new poste($this->cn,$supplier->strAttribut(ATTR_DEF_ACCOUNT));
-	$a=$post->GetSoldeDetail();
+	/* Filter on the default year */
+	$User=new cl_user($this->cn);
+	$filter_year="  j_tech_per in (select p_id from parm_periode ".
+                     "where p_exercice='".$User->getExercice()."')";
+	$a=$post->GetSoldeDetail($filter_year);
+
+
 	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$a['solde']);
 
 
