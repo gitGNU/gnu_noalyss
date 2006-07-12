@@ -61,7 +61,18 @@ while (($data = fgetcsv($handle, 2000,'!@')) !== FALSE) {
 	  $compte_ordre=$row[6];
 	  $detail='virement du compte:'.$compte_ordre.trim($row[2]).' '.trim($row[7]).' '.trim($row[8]).' '.trim($row[9]);
 
-
+//----------------------------------------------------
+// Skip dubbel
+//----------------------------------------------------
+if ( CountSql($p_cn,"select * from import_tmp where code='$code' and num_compte='$num_compte' limit 2") != 0 )
+{
+	/* Skip it it already encoded */
+	echo "Doublon éliminé ".$detail;
+	echo "<br>";
+	continue;
+}
+echo "Ajout de $detail";
+echo "<br>";
 
 //-----------------------------------------------------
 // insert into import_tmp
