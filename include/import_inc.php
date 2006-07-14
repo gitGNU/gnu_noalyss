@@ -67,7 +67,7 @@ function UpdateCSV($p_cn){
   $code=$_POST['code'];
   $count=$_POST['count'];
   $poste=$_POST['poste'.$count];
-  $sql = "update import_tmp set poste_comptable='".$poste."' where code='".$code."'";
+  $sql = "update import_tmp set poste_comptable='".$poste."' ,status='w' where code='".$code."'";
   $Res=ExecSql($p_cn,$sql);
 }
 
@@ -78,10 +78,11 @@ function UpdateCSV($p_cn){
  *        are not included in the function and must set in the calling proc.
  * \param $p_val array (row from import_type)
  * \param $counter a counter used in the form
+ * \param $p_cn database connection
  * \param $p_form indicates if the button for the form is enable,
  *        modify the Quick Code or remove record poss.value are form, remove
  */
-function ShowBox($p_val,$counter,$p_form='form'){
+function ShowBox($p_val,$counter,$p_cn,$p_form='form'){
 
   $w=new widget('js_search_only');
   $w->name='poste'.$counter;
@@ -98,7 +99,7 @@ function ShowBox($p_val,$counter,$p_form='form'){
     {
       $w->value=$p_val['poste_comptable'];
       $cn=DbConnect($_SESSION['g_dossier']);
-      $f=new fiche($cn);
+      $f=new fiche($p_cn);
       $f->GetByQCode($p_val['poste_comptable']);
       $s->value=$f->strAttribut(ATTR_DEF_NAME);
   }
@@ -106,24 +107,27 @@ function ShowBox($p_val,$counter,$p_form='form'){
   echo '<input type="hidden" name="count" value="'.$counter.'">';
   echo '<table border="1" width="500">';
   echo '<tr><td width="200">'.$p_val['code'].'</td><td width="200">'.$p_val['date_exec'].'</td><td width="100">'.$p_val['montant'].' EUR</td><tr/>';
+  echo "<tr><td> Journal : ".GetJrnName($p_cn,$p_val['jrn'])."</TD><TD>poste comptable Destination : ".$p_val['bq_account']."</td><tr>";
   echo '<tr><td height="50" colspan="3">'.$p_val['detail'].'</td><tr/>';
   echo '<tr><td>'.$w->IOValue().' '.$s->IOValue('poste'.$counter.'_label').'</td>';
   echo "<td>n° compte : ".$p_val['num_compte']."</td>";
-  if ( $p_form == 'form')
-    echo '<td><input type="submit" value="modifier"></td><tr/>';
+  if ( $p_form == 'form') {
+    echo '<td><input type="submit" value="Modifier">';
+    echo '<input type="submit" name="trashit" value="Effacer.."></td><tr/>';
+  }
   if ($p_form == 'remove' )
-    echo '<td><input type="submit" value="enlever"></td><tr/>';
+    echo '<td><input type="submit" value="Enlever"></td><tr/>';
 
   echo '</table>';
   
 }
-/*!\brief Remove the record, the data are in $_POST
+/*!\brief Remove the record from the transfert list, the data are in $_POST
+ *        import_tmp.status is set to n for new
  *
  */
 function RemoveCSV($cn)
 {
-  var_dump($_POST);
-  $sql="update import_tmp set poste_comptable=null where code='".$_POST['code']."'";
+  $sql="update import_tmp set poste_comptable=null,status='n' where code='".$_POST['code']."'";
   ExecSql($cn,$sql);
 }
 
@@ -131,7 +135,8 @@ function RemoveCSV($cn)
  */
 
 function VerifImport($p_cn){
-	$sql = "select * from import_tmp where poste_comptable='' or poste_comptable is null order by date_exec,code";
+	$sql = "select * from import_tmp where status='n' ".
+	  " order by date_exec,code";
 	$Res=ExecSql($p_cn,$sql);
 	$Num=pg_NumRows($Res);
 	echo $Num." opérations à complèter.<br/><br/>";
@@ -140,7 +145,7 @@ function VerifImport($p_cn){
 	echo JS_SEARCH_CARD;
 	while($val = pg_fetch_array($Res)){
 	  echo '<form METHOD="POST" action="import.php?action=verif">'; 
-	  ShowBox($val,$i);
+	  ShowBox($val,$i,$p_cn,'form');
 	  echo '</form>';
 	  $i++;
 	}
@@ -168,21 +173,21 @@ function ConfirmTransfert($p_cn,$periode){
 
   $sql = "select code,to_char(date_exec,'DD.MM.YYYY') as date_exec, ".
     " montant,num_compte,poste_comptable,bq_account,jrn,detail ".
-    " from import_tmp where poste_comptable is not null and  poste_comptable <> '' 
-          and   ok <> TRUE AND date_exec BETWEEN ".$start." and ".$end;
+    " from import_tmp where 
+          status = 'w' AND date_exec BETWEEN ".$start." and ".$end;
   
 
 	
   $Res=ExecSql($p_cn,$sql);
   $Num=pg_NumRows($Res);
-  echo $Num." opérations à complèter.<br/><br/>";
+  echo $Num." opérations à transfèrer.<br/><br/>";
   if ( $Num == 0 ) return;
   $i=1;
   while($val = pg_fetch_array($Res)){
 
     echo '<form method="post" action="import.php">';
     echo '<input type="hidden" name="action" value="remove">';
-    ShowBox($val,$i,'remove');
+    ShowBox($val,$i,$p_cn,'remove');
     echo '</form>';
     $i++;
   }
@@ -194,6 +199,9 @@ function ConfirmTransfert($p_cn,$periode){
 }
 
 /*!\brief Transfert data into the ledger
+ *        set the column import_tmp.status to w (wait) if the account is not correct
+ *        otherwise transfert it to the ledger and set the column import_tmp.status
+ *        to t (transfert)
  * \param $p_cn connx
  * \param $periode periode 
  */
@@ -219,8 +227,8 @@ function TransferCSV($p_cn, $periode){
   // var_dump($val);
   $sql = "select code,to_char(date_exec,'DD.MM.YYYY') as date_exec, ".
     " montant,num_compte,poste_comptable,bq_account,jrn,detail ".
-    " from import_tmp where poste_comptable is not null and  poste_comptable <> '' 
-          and   ok <> TRUE AND date_exec BETWEEN ".$start." and ".$end;
+    " from import_tmp where ".
+         " status= 'w' AND date_exec BETWEEN ".$start." and ".$end;
   $Res=ExecSql($p_cn,$sql);
   //echo "boucle: ".sizeof($Res)."<br/>";
   //while($val = pg_fetch_array($Res)){
@@ -253,7 +261,7 @@ function TransferCSV($p_cn, $periode){
 
     // Test it
     if($test == 0) {
-      $sqlupdate = "update import_tmp set poste_comptable=null,  ok='f' WHERE code='".$code."' AND num_compte='".$num_compte."' or num_compte is null";
+      $sqlupdate = "update import_tmp set status='n' WHERE code='".$code."' AND num_compte='".$num_compte."' or num_compte is null";
       $Resupdate=ExecSql($p_cn,$sqlupdate);
       echo "Poste comptable erronné pour l'opération ".$num_compte."-".$code.", réinitialisation du poste comptable<br/>";
       continue;
@@ -284,7 +292,7 @@ function TransferCSV($p_cn, $periode){
       
       
       echo "Tranfer de l'opération ".$code." effectué<br/>";
-      $sql2 = "update import_tmp set ok=TRUE where code='".$code."'";
+      $sql2 = "update import_tmp set status='t' where code='".$code."'";
       $Res2=ExecSql($p_cn,$sql2);
       
     	
@@ -320,4 +328,15 @@ $w=new widget("select");
   echo '<INPUT TYPE="SUBMIT" Value="Import fiche">';
   echo '</FORM>';
 }
+
+/*!\brief RemoveRow put a flag delete on a row of the table import_tmp
+ *        (import_tmp.status)
+ * \param $p_cn database connection
+ * \param $p_code import_tmp.code must be unique
+ */
+function DropRecord($p_cn,$p_code)
+{
+  ExecSql($p_cn,"update import_tmp set status='d' where code='".$p_code."'");
+}
+
 ?>

@@ -87,7 +87,7 @@ echo "<br>";
 				detail,
 				bq_account ,
 				jrn,
-				ok)
+				status)
 			values ('$code',
 				to_date('$date_exec','DD-MM-YYYY'),
 				to_date('$date_exec','DD-MM-YYYY'),
@@ -98,7 +98,7 @@ echo "<br>";
 				'".addslashes($detail)."	',
 				'$p_bq_account',
 				$p_jrn,
-				false)";
+				'n')";
 			if ( ExecSql($p_cn,$Sql) == false )
 			  {
 			    Rollback($p_cn); break;

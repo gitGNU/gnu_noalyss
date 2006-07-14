@@ -98,7 +98,7 @@ while (($data = fgetcsv($handle, 2000,'!@')) !== FALSE) {
 				detail,
 				bq_account ,
 				jrn,
-				ok)
+				status)
 			values ('$code',
 				'$date_exec',
 				'$date_exec',
@@ -108,7 +108,7 @@ while (($data = fgetcsv($handle, 2000,'!@')) !== FALSE) {
 				'".addslashes($detail).$num_compte."	',
 				'$p_bq_account',
 				$p_jrn,
-				false)";
+				'n')";
 	echo $sql;
 			$Res=ExecSql($p_cn,$Sql);
 		}

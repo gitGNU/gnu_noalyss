@@ -69,7 +69,7 @@ while (($data = fgetcsv($handle, 2000,'!@')) !== FALSE) {
 				detail,
 				bq_account ,
 				jrn,
-				ok)
+				status)
 			values (nextval('s_cbc'),
 				to_date('$date_exec','YYYYMMDD'),
 				to_date('$date_exec','YYYYMMDD'),
@@ -79,7 +79,7 @@ while (($data = fgetcsv($handle, 2000,'!@')) !== FALSE) {
 				'".addslashes($detail).$num_compte."	',
 				'$p_bq_account',
 				$p_jrn,
-				false)";
+				'n')";
 			if ( ExecSql($p_cn,$Sql) == false )
 			  {
 			    Rollback($p_cn);

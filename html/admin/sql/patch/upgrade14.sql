@@ -1,6 +1,6 @@
 begin;
 alter table import_tmp add column status varchar(1);
-alter table import_tmp alter status set default 'w';
+alter table import_tmp alter status set default 'n';
 create or replace function trim_cvs_quote() returns trigger as $trim$
 declare
         modified import_tmp%ROWTYPE;
@@ -16,10 +16,10 @@ end;
 $trim$ language plpgsql;
 
 update import_tmp set status = 't' where ok=true;
-update import_tmp set status = 'w' where ok = false;
-update import_tmp set status = 'w' where ok is null;
+update import_tmp set status = 'n' where ok = false;
+update import_tmp set status = 'n' where ok is null;
 
-alter table import_tmp  add constraint chk_status check (status in ('w','d','t'));
+alter table import_tmp  add constraint chk_status check (status in ('n','w','d','t'));
 
 
 alter table import_tmp drop column ok ;

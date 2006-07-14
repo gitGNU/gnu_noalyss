@@ -377,7 +377,7 @@ CREATE TABLE import_tmp (
     detail text,
     num_compte text,
     poste_comptable text,
-    status char(1) default 'w' not null check (status in ('t','d','w')),
+    status varchar(1) default 'n' not null check (status in ('n','t','d','w')),
     bq_account integer NOT NULL,
     jrn integer NOT NULL
 
