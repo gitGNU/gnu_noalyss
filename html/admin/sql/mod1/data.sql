@@ -1643,7 +1643,7 @@ INSERT INTO user_local_pref (user_id, parameter_type, parameter_value) VALUES ('
 -- Data for Name: version; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
-INSERT INTO version (val) VALUES (14);
+INSERT INTO version (val) VALUES (15);
 
 
 --

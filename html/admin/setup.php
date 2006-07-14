@@ -319,23 +319,30 @@ if ($account == 0 ) {
   if ( DEBUG=='false') ob_start();  
   ExecSql($cn,"create database ".domaine."account_repository encoding='latin1'");
   $cn=DbConnect();
+  StartSql($cn);
   ExecuteScript($cn,"sql/account_repository/schema.sql");
   ExecuteScript($cn,"sql/account_repository/data.sql");
+  Commit($cn);
  if ( DEBUG=='false') ob_end_clean();
   echo "Creation of Démo";
   if ( DEBUG=='false') ob_start();  
   ExecSql($cn,"create database ".domaine."dossier1 encoding='latin1'");
   $cn=DbConnect(1,'dossier');
+  StartSql($cn);
   ExecuteScript($cn,'sql/dossier1/schema.sql');
   ExecuteScript($cn,'sql/dossier1/data.sql');
+  Commit($cn);
+
  if ( DEBUG=='false') ob_end_clean();
 
   echo "Creation of Modele1";
   if ( DEBUG=='false') ob_start();  
   ExecSql($cn,"create database ".domaine."mod1 encoding='latin1'");
   $cn=DbConnect(1,'mod');
+  StartSql($cn);
   ExecuteScript($cn,'sql/mod1/schema.sql');
   ExecuteScript($cn,'sql/mod1/data.sql');
+  Commit($cn);
  if ( DEBUG=='false') ob_end_clean();
  }// end if
 // Add a french accountancy model
@@ -453,6 +460,10 @@ if ( DEBUG=='false' ) ob_start();
     ExecuteScript($db,'sql/patch/upgrade13.sql');
   } // version 
 
+  if ( GetVersion($db) == 14 ) { 
+    ExecuteScript($db,'sql/patch/upgrade14.sql');
+  } // version 
+
 
 if ( DEBUG == 'false') ob_end_clean();
  }//for
@@ -526,6 +537,9 @@ if (DEBUG == 'false' ) ob_start();
   } // version 
   if ( GetVersion($db) == 13 ) { 
     ExecuteScript($db,'sql/patch/upgrade13.sql');
+  } // version 
+  if ( GetVersion($db) == 14 ) { 
+    ExecuteScript($db,'sql/patch/upgrade14.sql');
   } // version 
 
 if ( DEBUG == 'false') ob_end_clean();

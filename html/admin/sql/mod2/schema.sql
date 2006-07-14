@@ -151,7 +151,7 @@ CREATE TABLE import_tmp (
     detail text,
     num_compte text,
     poste_comptable text,
-    ok boolean DEFAULT false,
+    status char(1) default 'w' not null check (status in ('t','d','w')),
     bq_account integer NOT NULL,
     jrn integer NOT NULL
 );
@@ -954,18 +954,12 @@ CREATE FUNCTION trim_cvs_quote() RETURNS "trigger"
 declare
         modified import_tmp%ROWTYPE;
 begin
-		modified.code=new.code;
-		modified.montant=new.montant;
-		modified.date_exec=new.date_exec;
-		modified.date_valeur=new.date_valeur;
-		modified.devise=replace(new.devise,'"','');
-		modified.poste_comptable=replace(new.poste_comptable,'"','');
+	modified:=NEW;
+	modified.devise=replace(new.devise,'"','');
+	modified.poste_comptable=replace(new.poste_comptable,'"','');
         modified.compte_ordre=replace(NEW.COMPTE_ORDRE,'"','');
         modified.detail=replace(NEW.DETAIL,'"','');
         modified.num_compte=replace(NEW.NUM_COMPTE,'"','');
-		modified.bq_account=NEW.bq_account;
-		modified.jrn=NEW.jrn;
-		modified.ok=new.ok;
         return modified;
 end;
 $$

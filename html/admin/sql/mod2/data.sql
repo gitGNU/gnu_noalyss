@@ -1608,7 +1608,7 @@ INSERT INTO user_sec_jrn (uj_id, uj_login, uj_jrn_id, uj_priv) VALUES (4, 'phpco
 -- Data for Name: version; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
-INSERT INTO version (val) VALUES (14);
+INSERT INTO version (val) VALUES (15);
 
 
 --
