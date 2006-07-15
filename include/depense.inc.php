@@ -183,7 +183,7 @@ echo '</div>';
 // if we request to add an item 
 // the $_POST['add_item'] is set
 // or if we ask to correct the invoice
-if ( isset ($_POST['add_item']) || isset ($_POST["correct_new_invoice"])  ) 
+if ( isset ($_POST['add_item']) || isset ($_POST["correct"])  ) 
 {
  if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn) != 2 )    {
         NoAccess();
