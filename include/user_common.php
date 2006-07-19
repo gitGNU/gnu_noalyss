@@ -849,11 +849,11 @@ function isValid ($p_cn,$p_grpt_id) {
  *     Create a navigation_bar (pagesize)
  *        
  * \param $p_offset first record number  
- *	 
  * \param $p_line total of returned row
  * \param $p_size current g_pagesize user's preference
  * \param $p_page number of the page where the user is 
- * \return   string
+ *
+ * \return   string with the nav. bar
  */
 function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1)
 {
@@ -902,12 +902,12 @@ function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1)
   }
   //----------------------------------------------------------------------
   // Create a partial bar 
-  // if current page < 10 show 0 to 20 
+  // if current page < 11 show 1 to 20 
   // otherwise            show $p_page -10 to $p_page + 10
   //----------------------------------------------------------------------
   $start_bar=($p_page < 11 )?1:$p_page-10;
-  $end_bar  =($p_page < 10 )?20:$p_page+10;
-  $end_bar  =($end_bar > $nb_page )?$nb_page:$p_page;
+  $end_bar  =($p_page < 11 )?20:$p_page+10;
+  $end_bar  =($end_bar > $nb_page )?$nb_page:$end_bar;
 
   // Create the bar
   for ($e=$start_bar;$e<=$end_bar;$e++) {
