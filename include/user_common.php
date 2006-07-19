@@ -848,11 +848,11 @@ function isValid ($p_cn,$p_grpt_id) {
  *\brief  
  *     Create a navigation_bar (pagesize)
  *        
- * \param  
- *	- p_offset first record number
- *      - p_line total of returned row
- *      - p_size current g_pagesize
- *      - p_page number of the page
+ * \param $p_offset first record number  
+ *	 
+ * \param $p_line total of returned row
+ * \param $p_size current g_pagesize user's preference
+ * \param $p_page number of the page where the user is 
  * \return   string
  */
 function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1)
@@ -900,9 +900,17 @@ function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1)
     $r.="Pr&eacute;c&eacute;dent";
     $r.="</A>&nbsp;&nbsp;";
   }
+  //----------------------------------------------------------------------
+  // Create a partial bar 
+  // if current page < 10 show 0 to 20 
+  // otherwise            show $p_page -10 to $p_page + 10
+  //----------------------------------------------------------------------
+  $start_bar=($p_page < 11 )?1:$p_page-10;
+  $end_bar  =($p_page < 10 )?20:$p_page+10;
+  $end_bar  =($end_bar > $nb_page )?$nb_page:$p_page;
 
   // Create the bar
-  for ($e=1;$e<=$nb_page;$e++) {
+  for ($e=$start_bar;$e<=$end_bar;$e++) {
     // do not included current page
     if ( $e != $p_page ) {
     $step=$_SESSION['g_pagesize'];
@@ -912,13 +920,11 @@ function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1)
     } else {
       $r.="<b> $e </b>";
     } //else
-    // add a break if e > 80
-    if ( $e % 57 == 0 ) {
-      $r.="<br>";
-    }
   } //for
   // next
+  
   if ($p_page !=$nb_page) {
+    // If we are not at the last page show the button next
     $e=$p_page+1;
     $step=$_SESSION['g_pagesize'];
     $offset=($e-1)*$step;
