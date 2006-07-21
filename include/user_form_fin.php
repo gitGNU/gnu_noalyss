@@ -88,7 +88,6 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
     // Check if the card has a valid account
     if ( CheckPoste($p_cn,${"e_other".$i}) == null )
       return null;
-
   }
 // Verify the userperiode
 
@@ -346,6 +345,7 @@ return $r;
  *	  
  */
 function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
+  $internal_code="";
   echo_debug('user_form_fin.php',__LINE__,"RecordFin");
   foreach ( $p_array as $v => $e)
   {

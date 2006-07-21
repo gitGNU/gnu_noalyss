@@ -118,10 +118,10 @@ if ( $action == 'new' ) {
 	if ( isset($_POST['save'] )) {
 	  // Get number of  lines
 	  $nb_number=$_POST["nb_item"];
+	  list($internal,$comment)=RecordSell($cn,$HTTP_POST_VARS,$User,$_GET['p_jrn']);
 
 	  // submit button in the form
-	  $submit='<h2 class="info">Recorded</h2>';
-	  $r=RecordSell($cn,$HTTP_POST_VARS,$User,$_GET['p_jrn']);
+	  $submit='<h2 class="info">Opération '.$internal.' </h2>';
 	  $r=FormAchView($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,"",$nb_number,false);
 	  echo '<div class="u_redcontent">';
 	  echo $submit;
@@ -160,7 +160,10 @@ echo $hid->IOValue();
 
 $w=new widget("select");
 $w->name="p_periode";
-$periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode order by p_id");
+// filter on the current year
+$filter_year=" where p_exercice='".$User->getExercice()."'";
+
+$periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_id");
 $User=new cl_user($cn);
 $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->GetPeriode();
 $w->selected=$current;

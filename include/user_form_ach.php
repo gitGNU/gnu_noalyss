@@ -281,6 +281,7 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
       echo "<SCRIPT> alert('INVALID DATE $e_date !!!!');</SCRIPT>";
       return null;
     }
+  $tot=0;
 // Verify the quantity
   for ($o = 0;$o < $p_number; $o++) 
     {
@@ -307,8 +308,20 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
 	
 	}
       }
-    
+    if ( strlen(trim(${"e_march".$o."_sell"})) !=0 && isNumber(${"e_march".$o."_sell"}) == 0 )
+      {
+	  echo_debug('user_form_ach.php',__LINE__,"Prix invalide ".${"e_march$o"});
+	  echo_error("Prix n'est  pas un montant valide ".${"e_march$o"});
+	  echo "<SCRIPT> alert('Prix ".${"e_march".$o."_sell"}." de la fiche ".${"e_march$o"}." n\'est pas un montant valide !!!');</SCRIPT>";
+	  return null;
+	
+      }
+    $tot+=${"e_march".$o."_sell"}*${"e_quant$o"};
     }
+
+  // if total amount == 0 we don't go further
+  if ( $tot == 0 )
+    return null;
 
   // Verify the ech
  if (strlen($e_ech) != 0 and isNumber($e_ech)  == 0 and  isDate ($e_ech) == null ) 
@@ -672,7 +685,7 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
   // Compute vat with ded
   echo_debug('user_form_achat.php',__LINE__,"Call ComputeTotalVat");
   $a_vat=ComputeTotalVat($p_cn,$a_good,$a_quant,$a_price,$a_vat_good,false);
-	
+
   StartSql($p_cn);	
 
   // Compute the j_grpt

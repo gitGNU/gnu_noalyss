@@ -111,8 +111,10 @@ if ( $sub_action == "list")
 
 
   $w=new widget("select");
+  // filter on the current year
+  $filter_year=" where p_exercice='".$User->getExercice()."'";
 
-  $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode order by p_id",1);
+  $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_id",1);
   // User is already set User=new cl_user($cn);
   $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->GetPeriode();
   $w->selected=$current;
@@ -177,7 +179,10 @@ if ( $sub_action == "list")
 } 
 //-----------------------------------------------------
 echo '<div class="u_subtmenu">';
-echo ShowMenuJrnUser($_SESSION['g_dossier'],'ACH',$p_jrn,'<td class="cell"><A class="mtitle" HREF="commercial.php?liste&p_action=depense&sa=list">Liste</A></td>');
+echo ShowMenuJrnUser($_SESSION['g_dossier'],
+		     'ACH',
+		     $p_jrn,
+		     '<td class="cell"><A class="mtitle" HREF="commercial.php?liste&p_action=depense&sa=list">Liste</A></td>');
 echo '</div>';
 //-----------------------------------------------------
 // if we request to add an item 

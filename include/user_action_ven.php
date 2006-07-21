@@ -36,30 +36,30 @@ if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {
 
 if ( $action == 'insert_vente' ) {
    
-    // Add item
-        if (isset($_POST["add_item"]) ) {
-	  echo_debug('user_action_ven.php',__LINE__,"Add an item");
-	  $nb_number=$_POST["nb_item"];
-	  $nb_number++;
-	  
-	  $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,false,$nb_number);
-	  echo '<div class="u_redcontent">';
-	  echo   $form;
-	  echo '</div>';
+  // Add item
+  if (isset($_POST["add_item"]) ) {
+    echo_debug('user_action_ven.php',__LINE__,"Add an item");
+    $nb_number=$_POST["nb_item"];
+    $nb_number++;
+    
+    $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,false,$nb_number);
+    echo '<div class="u_redcontent">';
+    echo   $form;
+    echo '</div>';
 
-	} // add an item
-
+  } // add an item
+  
     // We want to see the encoded invoice 
-    if ( isset ($_POST["view_invoice"])) {
-      $nb_number=$_POST["nb_item"];
+  if ( isset ($_POST["view_invoice"])) {
+    $nb_number=$_POST["nb_item"];
       if ( form_verify_input($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,$nb_number) == true)
 	{
 	  $form=FormVenteView($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,$nb_number);
 	  // Check failed : invalid date or quantity
 	} else {
-	    echo_error("Cannot validate ");
-	    $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,false,$nb_number);
-	  }
+	  echo_error("Cannot validate ");
+	  $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,false,$nb_number);
+	}
       echo '<div class="u_redcontent">';
       echo         $form;
       echo '</div>';
@@ -166,7 +166,10 @@ echo $hid->IOValue();
 
 $w=new widget("select");
 
-$periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode order by p_id");
+// filter on the current year
+$filter_year=" where p_exercice='".$User->getExercice()."'";
+
+$periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_id");
 // User is already set User=new cl_user($cn);
 $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->GetPeriode();
 $w->selected=$current;

@@ -104,22 +104,23 @@ if ( $action == 'new' ) {
 	// View the charge and show a submit button to save it 
 	if ( isset ($_POST['view_invoice']) ) {
 	$nb_number=$_POST["nb_item"];
-	$submit='<INPUT TYPE="SUBMIT" name="save" value="Confirmer">';
-	$submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
 	$r=form_verify_input($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,$nb_number);
 	// if something goes wrong correct it
 	if ( $r == null ) 
-	{
-	  // submit button in the form
-	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
+	  {
+	    // submit button in the form
+	    $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver">';
-
-	  $r=FormFin($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$HTTP_POST_VARS,false,  $nb_number);
-	}
+	    
+	    $r=FormFin($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$HTTP_POST_VARS,false,  $nb_number);
+	  }
 	else 
-	{
-		$r=FormFin($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$HTTP_POST_VARS,true,$nb_number);
-	}
+	  {
+	    $submit='<INPUT TYPE="SUBMIT" name="save" value="Confirmer">';
+	    $submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
+	    
+	    $r=FormFin($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$HTTP_POST_VARS,true,$nb_number);
+	  }
 
 	echo '<div class="u_redcontent">';
 	echo $r;
@@ -176,8 +177,10 @@ echo $hid->IOValue();
 
 
 $w=new widget("select");
+// filter on the current year
+$filter_year=" where p_exercice='".$User->getExercice()."'";
 
-$periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode order by p_id");
+$periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_id");
 $User=new cl_user($cn);
 $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->GetPeriode();
 $w->selected=$current;
