@@ -80,15 +80,24 @@ if ( isset ($_GET["action"]) ) {
       echo "</DIV>";
     }
   }
+  if ( isset ($_POST['trashit'])) {
+    DropRecord($cn,$_POST['code']);
+    echo '<DIV class="u_redcontent">';
+    VerifImport($cn);
+    echo "</DIV>";
+    exit();
+  }
   if ($action == "verif" ) {
     if(isset($_POST['count'])) {
       UpdateCSV($cn);
     }
+
     echo '<DIV class="u_redcontent">';
     VerifImport($cn);
     echo "</DIV>";
   }
   if ($action == "transfer" ) {
+
     echo '<DIV class="u_redcontent">';
     //   TransferCSV($cn, 
     ConfirmTransfert($cn,$User->GetPeriode());
