@@ -938,3 +938,44 @@ function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1)
   return $r;
 }
 
+
+/*!\brief Verify that a fiche has a valid ledger. It must be verify before
+ *        entering data into jrnx. Called from the form_verify_input
+ * \param $p_cn database connx
+ * \param $qcode the quick_code
+ * \return null if an error occurs + a alert message in javascript
+ *         otherwise 1
+ */
+function CheckPoste($p_cn,$qcode)
+{
+    // check if the  ATTR_DEF_ACCOUNT is set
+    $poste=GetFicheAttribut($p_cn,$qcode,ATTR_DEF_ACCOUNT);
+    echo_debug('poste.php',__LINE__,"poste value = ".$poste."size = ".strlen(trim($poste)));
+    if ( $poste == null ) 
+      {	
+	$msg="La fiche ".$qcode." n\'a pas de poste comptable";
+	echo_error($msg); echo_debug('poste.php',__LINE__,$msg);	
+	echo "<SCRIPT>alert('$msg');</SCRIPT>";
+	return null;
+	
+      }
+    if ( strlen(trim($poste))==0 )
+      {
+	$msg="La fiche ".$qcode." n\'a pas de poste comptable";
+	echo_error($msg); echo_debug('poste.php',__LINE__,$msg);		
+	echo "<SCRIPT>alert('$msg');</SCRIPT>";
+	return null;
+      }
+    // Check that the account exists
+    if ( CountSql($p_cn,
+		  "select * from tmp_pcmn where pcm_val=$poste") == 0 )
+      {
+	$msg=" Le poste comptable $poste de la fiche ".$qcode." n\'existe pas";
+	echo_error($msg); echo_debug('poste.php',__LINE__,$msg);		
+	echo "<SCRIPT>alert('$msg');</SCRIPT>";
+	return null; 
+
+      }
+    return  1; 
+}
+?>

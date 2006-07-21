@@ -318,14 +318,6 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
      echo "<SCRIPT>alert('$msg');</SCRIPT>";
      return null;
    } 
- // Verify is a client is set
-//  if ( isNumber($e_client)    == 0) 
-//    {
-//      $msg="Client inexistant";
-//      echo_error($msg); echo_error($msg);	
-//      echo "<SCRIPT>alert('$msg');</SCRIPT>";
-//      return null;
-//    }
 
  // if ech is a number of days then compute date limit
  if ( strlen($e_ech) != 0 and isNumber($e_ech) == 1) 
@@ -337,7 +329,7 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
      $e_ech=$p_ech;
      $wHidden=new widget("hidden");
      $data.=$wHidden->IOValue("e_ech",$e_ech);
-# $data.=InputType("","HIDDEN","e_ech",$e_ech);
+
    }
 
  // Check if the fiche is in the jrn
@@ -348,22 +340,18 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
      echo "<SCRIPT>alert('$msg');</SCRIPT>";
      return null;
    }
+ // Check if the customer card has a valid account
+ if ( CheckPoste($p_cn,$e_client) == null )
+   return null;
 
  // check if all e_march are in fiche
   for ($i=0;$i<$p_number;$i++) 
     {
-      if ( trim(${"e_march$i"})  == "" ) {
+       if ( trim(${"e_march$i"})  == "" ) {
 	// no goods to sell 
 	continue;
     }
   
-//     // Check wether the f_id is a number
-//     if ( isNumber(${"e_march$i"}) == 0 ) {
-//       $msg="Fiche inexistante !!! ";
-//       echo_error($msg); echo_error($msg);	
-//       echo "<SCRIPT>alert('$msg');</SCRIPT>";
-//       return null;
-//     }
     // Check 
     if ( isFicheOfJrn($p_cn,$p_jrn,${"e_march$i"},'deb') == 0 ) {
       $msg="Fiche inexistante !!! ";
@@ -371,25 +359,9 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
       echo "<SCRIPT>alert('$msg');</SCRIPT>";
       return null;
     }
-    // check if the  ATTR_DEF_ACCOUNT is set
-    $poste=GetFicheAttribut($p_cn,${"e_march$i"},ATTR_DEF_ACCOUNT);
-    echo_debug('user_form_ach.php',__LINE__,"poste value = ".$poste."size = ".strlen(trim($poste)));
-    if ( $poste == null ) 
-      {	
-	$msg="La fiche ".${"e_march$i"}." n\'a pas de poste comptable";
-	echo_error($msg); echo_debug('user_form_ach.php',__LINE__,$msg);	
-	echo "<SCRIPT>alert('$msg');</SCRIPT>";
-	return null;
-	
-      }
-    if ( strlen(trim($poste))==0 )
-      {
-	$msg="La fiche ".${"e_march$i"}." n\'a pas de poste comptable";
-	echo_error($msg); echo_debug('user_form_ach.php',__LINE__,$msg);		
-	echo "<SCRIPT>alert('$msg');</SCRIPT>";
-	return null;
-      }
-    
+    if ( CheckPoste($p_cn,${"e_march".$i}) == null )
+      return null;
+
     // Check if the percentage indicated in this field is valid
     $non_dedu=GetFicheAttribut($p_cn,${"e_march$i"},ATTR_DEF_DEPENSE_NON_DEDUCTIBLE);
     if ( $non_dedu != null && strlen(trim($non_dedu)) != 0 )

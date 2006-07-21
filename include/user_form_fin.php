@@ -61,6 +61,9 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
      echo "<SCRIPT>alert('$msg');</SCRIPT>";
      return null;
    }
+ // Check if the card has a valid account
+ if ( CheckPoste($p_cn,$e_bank_account) == null )
+   return null;
 
  // check if all e_march are in fiche
   for ($i=0;$i<$p_number;$i++) {
@@ -82,22 +85,9 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
       echo "<SCRIPT>alert('$msg');</SCRIPT>";
       return null;
     }
-	// check if the  ATTR_DEF_ACCOUNT is set
-	$poste=GetFicheAttribut($p_cn,${"e_other$i"},ATTR_DEF_ACCOUNT);
-	if ( $poste == null ) 
-	{	
-		$msg="La fiche ".${"e_other$i"}." n\'a pas de poste comptable";
-		echo_error($msg); echo_debug('user_form_fin.php',__LINE__,$msg);	
-		echo "<SCRIPT>alert('$msg');</SCRIPT>";
-		return null;
-	
-	}
-  	if ( strlen(trim($poste))==0 )
-	{
-		$msg="La fiche ".${"e_other$i"}." n\'a pas de poste comptable";
-		echo_error($msg); echo_debug('user_form_fin.php',__LINE__,$msg);	
-		echo "<SCRIPT>alert('$msg');</SCRIPT>";
-	}
+    // Check if the card has a valid account
+    if ( CheckPoste($p_cn,${"e_other".$i}) == null )
+      return null;
 
   }
 // Verify the userperiode

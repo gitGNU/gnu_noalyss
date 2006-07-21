@@ -126,5 +126,4 @@ function GetSolde($p_cn,$p_account,$p_cond="") {
 
   return $r['sum_deb']-$r['sum_cred'];
 }
-
 ?>
