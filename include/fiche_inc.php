@@ -227,14 +227,32 @@ function EncodeFiche($p_cn,$p_type,$p_array=null) {
 
   $ch_col="</TD><TD>";
   $ch_li='</TR><TR>';
-  echo '<FORM action="fiche.php" method="post" name="fiche">';
+  $url="";
+  // compute url 
+  // Bug 15640 : add get variabe to see the list of card after insertng a new one
+  //             or retrieve the fd_id when updating
+  if ($p_array == null) {
+    $url="?action=vue&fiche=$p_type";
+  } else {
+    // find the modele of card (fd_id)
+    $a=GetArray($p_cn,'select fd_id from fiche where f_id='.$p_type);
+    if ( $a == null ) {
+      echo_error(__FILE__.":".__LINE__." Aucune fiche trouvée");
+      return;
+    }
+    $url="?action=vue&fiche=".$a[0]['fd_id'];
+  }
+
+
+  echo '<FORM action="fiche.php'.$url.'" method="post" name="fiche">';
   echo '<INPUT TYPE="HIDDEN" name="fiche" value="'.$p_type.'">';
   $l_sessid=$_REQUEST['PHPSESSID'];
-
+  $url="";
   echo JS_SHOW_TVA;
   echo JS_SEARCH_POSTE;
   echo "<TABLE>";
   if ($p_array == null) {
+   
     // Array is null so we display a blank form
     //    echo '<H2 class="info">'.getFicheName($p_cn,$p_type).'</H2>';
     echo '<H2 class="info">New </H2>';
