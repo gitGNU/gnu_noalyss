@@ -370,7 +370,7 @@ class fiche {
 	  if ($this->id==0) return '- ERROR -';
 	  // object is not in memory we need to look into the database
 	  $sql="select av_text from attr_value join jnt_fic_att_value using(jft_id)
-                where f_id=".$this->id." and ad_id=".$p_ad_id;
+                where f_id=".FormatString($this->id)." and ad_id=".$p_ad_id;
 	  $Res=ExecSql($this->cn,$sql);
 	  $row=pg_fetch_all($Res);
 	  // if not found return error
