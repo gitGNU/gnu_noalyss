@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+ <META NAME="GENERATOR" CONTENT="LinuxDoc-Tools 0.9.21">
+ <TITLE> PhpCompta Installation: Postgresql (version 8.0.1 minimum)</TITLE>
+ <LINK HREF="INSTALL-fr-3.html" REL=next>
+ <LINK HREF="INSTALL-fr-1.html" REL=previous>
+ <LINK HREF="INSTALL-fr.html#toc2" REL=contents>
+</HEAD>
+<BODY>
+<A HREF="INSTALL-fr-3.html">Next</A>
+<A HREF="INSTALL-fr-1.html">Previous</A>
+<A HREF="INSTALL-fr.html#toc2">Contents</A>
+<HR>
+<H2><A NAME="s2">2.</A> <A HREF="INSTALL-fr.html#toc2">Postgresql (version 8.0.1 minimum)</A></H2>
+
+<H2><A NAME="ss2.1">2.1</A> <A HREF="INSTALL-fr.html#toc2.1">Installation</A>
+</H2>
+
+<P>Soit avec des binaires pr&eacute;par&eacute;s, soit &agrave; partir du code source</P>
+<P> Le plus simple est d'utiliser les binaires de votre distribution, ne
+compiler ces programmes que si vraiment vous devez le faire ou que vous pr&eacute;f&egrave;rez
+avoir la derni&egrave;re version disponible.</P>
+<P>Si vous d&eacute;cidez de le compiler vous-m&ecirc;me, les
+options suivantes fonctionnent
+<PRE>
+./configure -with-tk --with-python --with-perl --prefix=/ou_vous_voulez
+</PRE>
+</P>
+<H2><A NAME="configuration"></A> <A NAME="ss2.2">2.2</A> <A HREF="INSTALL-fr.html#toc2.2">Configuration et d&eacute;marrage de PostgreSql </A>
+</H2>
+
+<P>Comme d'habitude pour postgres, il faut tout d'abord d&eacute;finir, cr&eacute;er
+l'utilisateur postgres puis initialiser l'endroit o&ugrave; seront stock&eacute; vos donn&eacute;es 
+(variable env. PGDATA),
+exemple
+<BLOCKQUOTE><CODE>
+<PRE>
+root#mkdir /data/psql
+root#chown postgres /data/psql
+root#su - postgres
+postgres#initdb -D /data/psql
+postgres#pg_ctl -D /data/psql -o '-i' start
+</PRE>
+</CODE></BLOCKQUOTE>
+</P>
+<P>Il est imp&eacute;ratif que dans le fichier postmaster.conf vous ayez les options 
+<PRE>
+tcpip_socket = true
+port=5432
+</PRE>
+
+D'autres options sont conseill&eacute;es pour l'optimisation de Postgresql</P>
+<P>ne pas oublier d'ajouter dans le PATH, l'endroit o&ugrave; se trouve les
+binaires de postgres
+<PRE>
+ex:
+export PATH=$PATH:/opt/psql732/bin
+</PRE>
+</P>
+<P>Il est imp&eacute;ratif d'avoir soit l'option -i soit la directive tcpip_socket=true 
+, sinon le server HTTP ne pourra pas contacter PostgreSql.</P>
+<P>Dans PGDATA,vous trouverez le fichier nomm&eacute; pg_hba.conf qui
+vous permettra de r&eacute;gler la s&eacute;curit&eacute;<BR></P>
+<P>Ce fichier doit au moins contenir la ligne:
+<PRE>
+# TYPE  DATABASE    USER        IP-ADDRESS        IP-MASK           METHOD
+host    all         phpcompta   172.16.30.0         255.255.255.0   local
+</PRE>
+
+Il vaut mieux remplacer 172.16.30.0 par l'adresse du server HTTP, dans
+le cas o&ugrave; vous utilisez un VirtualHost avec une adresse IP, c'est
+cette adresse qu'il vous faudra mettre</P>
+<H2><A NAME="ss2.3">2.3</A> <A HREF="INSTALL-fr.html#toc2.3">Optimisation</A>
+</H2>
+
+<P> Posgresql est une base de donn&eacute;es tr&egrave;s rapide, cependant, il vous faudra configurer
+pour pouvoir en b&eacute;n&eacute;ficier. Les param&egrave;tres par d&eacute;faut sont pr&eacute;vus pour une machine qui n'a
+que 16 Mb de RAM... Donc, aller voir la documentation sur Postgresql.org, chapitre 
+Run-time Configuration.</P>
+
+<P> Les param&egrave;tres que vous pouvez utiliser si vous avez une machine d'au moins 256 Mb:
+<UL>
+<LI> Augmenter la zone m&eacute;moire pour les tri (dans postgres.conf) sort_mem = 8192; cette
+zone m&eacute;moire est important car elle a trait &agrave; la m&eacute;moire utilis&eacute;e pour les tris et les
+jointures! attention ce param&egrave;tre donne la consommation m&eacute;moire par session !</LI>
+<LI> Faites tourner r&eacute;guli&egrave;rement vacumdb -a -z gr&acirc;ce au crontab(une fois par jour)</LI>
+<LI> Dans postgres.conf, les shared_buffers: calcul&eacute;es en page de 8Kb, 
+la valeur par d&eacute;faut
+est de seulement 64, ce qui correspond &agrave; 512Kb, une meilleure valeur est 640 </LI>
+</UL>
+</P>
+<H2><A NAME="ss2.4">2.4</A> <A HREF="INSTALL-fr.html#toc2.4">Pour la s&eacute;curit&eacute;</A>
+</H2>
+
+<P>Vous pouvez ajouter la s&eacute;curit&eacute; &agrave; votre server Postgresql en changeant
+dans pg_hba.conf. Mais avant de faire cela, ajoutez un mot de passe &agrave;
+vos utilisateurs avec la commande remplacer .1. par le nom de l'utilisateur
+et .2. par son mot de passe
+<PRE>
+changement mot de passe 
+alter user .1. password '.2.'
+</PRE>
+</P>
+<P>
+<PRE>
+S&eacute;curit&eacute;
+# TYPE  DATABASE    USER        IP-ADDRESS        IP-MASK           METHOD
+host    all         phpcompta   172.16.30.0         255.255.255.0   md5
+local    all         phpcompta   172.16.30.0         255.255.255.0   md5
+</PRE>
+
+Ensuite soit vous utilisez la variable d'environnement PGPASSWORD qui contient
+votre mot de passe soit avec le fichier .pgpass dont la syntaxe est
+<PRE>
+ host:port:database:username:password
+</PRE>
+
+N'oubliez pas de mettre ce fichier en mode 600 !!!! Pour executer sans demande
+de mot de passe host = localhost</P>
+
+<HR>
+<A HREF="INSTALL-fr-3.html">Next</A>
+<A HREF="INSTALL-fr-1.html">Previous</A>
+<A HREF="INSTALL-fr.html#toc2">Contents</A>
+</BODY>
+</HTML>
