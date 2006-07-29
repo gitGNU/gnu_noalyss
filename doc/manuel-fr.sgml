@@ -1226,9 +1226,16 @@ toujours mieux garder une trace de toute vos communications avec eux.
 <p>Comme le dit le titre, garde une trace de toutes les communications
 reçues ou envoyées. 
 
-<p> Après avoir encodé un document, vous pouvez soit directement le lier à un autre, 
-si vous connaissez la référence (vous pouvez faire une recherche dans une autre fenêtre)
-ou vous ouvrez un document existant et vous ajoutez un document qui lui sera lié.
+<p>Vous pouvez faire une recherche soit sur le quickcode, cela
+	sera celui du destinataire ou de l'expéditeur, soit sur une
+	partie du titre soit sur la référence. 
+
+<p>Les références sont créés automatiquement, c'est le style du document
+	puis un numéro de séquence
+		
+<p> Afin de lier deux actions ensemble, il faut rechercher la
+première, voir le détail 
+puis cliquer sur "Ajout action". Les deux documents seront alors liés.
 
 <p>Vous pouvez ici aussi générer un document ou ajouter une pièce justificative en 
 plus de la note interne. Cette note n'est jamais repris dans le document.
