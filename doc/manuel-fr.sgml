@@ -947,7 +947,7 @@ Poste
 Ce menu permet de demander des impressions.
 
 <sect2>Journaux
-Impression de journaux, les périodes que vous voyez sont celles de
+<p>Impression de journaux, les périodes que vous voyez sont celles de
 l'exercice de votre période par défaut (voir préférence). Vous pouvez soit les
 avoir comme un listing soit de manière détaillée c'est-à-dire en partie double. 
 
@@ -965,13 +965,15 @@ tableur et faire une autre présentation
 
 </sect2>
 <sect2>Poste <label id="impress_poste">
-Impression des postes comptables par période.
+<p>Impression des postes comptables par période. Il est possible de
+recherche  sur base soit du quickcode soit du poste comptable.
 
 L'export en PDF et CSV est prévu. Cela fonctionne exactement comme
 les journaux.
 
 </sect2>
 <sect2>Fiche
+<p>
 Impression des fiches, avec ou sans solde, par période. On peut
 exporter en PDF. On imprime des catégories de fiches, pour avoir le détail
 d'une fiche en particulier, il faut utiliser impression 
@@ -1006,6 +1008,10 @@ compte et donc avoir plusieurs intervalles pour un rapport, vous
 devez utiliser l'option FROM=MM.YYYY (voir exemple). Ce genre d'option est 
 très utile pour par exemple les déclarations de TVA.
 </itemize>
+
+<p>cas particulier : FROM=00.0000 pour indiquer le début de l'exercice
+comptable dans lequel vous êtes (voir préférence), utile si vous avez 
+avez plusieurs exercices comptable dans le même dossier.
 
 <p>
 Exemples de formule:
@@ -1173,9 +1179,9 @@ la colonne, vous pourrez modifier la fiche client.
 
 <p>Dans la 3ième colonne, vous avez les actions
 <itemize>
-<item> C pour avoir la liste des contacts
-<item> A pour accèder à toutes la correspondance avec ce client
-<item> F pour accèder à toutes les factures au nom de ce client
+<item> Contact pour avoir la liste des contacts
+<item> Courrier pour accèder à toutes la correspondance avec ce client
+<item> Facture pour accèder à toutes les factures au nom de ce client
 </itemize>
 
 <p>Ajout de client en cliquant sur le bouton ajout
@@ -1198,8 +1204,15 @@ Paramètre<ref id="parametre" name="Module Paramètre">.
 <p>A la dernière étape, PhpCompta vous permet de charger un fichier, si vous avez généré une 
 facture, celle-ci sera alors remplacée.
 
-</sect1>
+<p>Dans le cas où vous demandez la génération d'une facture, le numéro
+de facture sera incrémenté. Dans le module comptable, le numéro de
+facture n'est jamais incrémenté automatiqueme.
 
+</sect1>
+<sect1>Menu Fournisseur 
+<p> Comme menu client
+
+</sect1>
 <sect1>Menu Dépense
 <p> Exactement comme dans le module comptable, sauf qu'aucun document n'est
 généré cependant vous pouvez charger une pièce justificative.
