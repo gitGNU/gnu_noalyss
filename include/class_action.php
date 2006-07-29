@@ -158,7 +158,7 @@ class action
       $desc->heigh=250;
       $desc->name="ag_comment";
       $desc->readonly=$readonly;
-      $desc->value=urldecode($this->ag_comment);
+      $desc->value=FormatString(urldecode($this->ag_comment));
 
       // state
       // Retrieve the value
