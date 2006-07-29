@@ -168,6 +168,13 @@ div.u_content table {
 div.u_content table th {
 	      background-color:lightgrey;
 }
+div.u_redcontent table {
+	    border:solid blue 1px ;
+	    border-style:outset;  
+}
+div.u_redcontent table th {
+	      background-color:lightgrey;
+}
 
 table.mtitle {
 	border:0;
