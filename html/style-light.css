@@ -153,20 +153,14 @@ div.no span{
 	
 }
 
-div.u_content table {
-	    border:solid blue 3px ;
+table.document {
+	    border:solid blue 2px ;
 	    width:100%;
 	    border-style:outset;  
 }
-div.u_content table th {
+table.document th{
 	      background-color:lightgrey;
-}
-div.u_redcontent table {
-	    border:solid blue 1px ;
-	    border-style:outset;  
-}
-div.u_redcontent table th {
-	      background-color:lightgrey;
+	      color:darkblue;
 }
 
 table.mtitle {

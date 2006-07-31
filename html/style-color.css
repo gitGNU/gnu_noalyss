@@ -160,20 +160,14 @@ div.u_content span {
 	  float:left;
 	  margin-left:40px;	
 }
-div.u_content table {
-	    width:100%;
-	    border:solid blue 2px ;
-	    border-style:outset;  
+table.document {
+	border:solid blue 2px ;
+	width:100%;
+	border-style:outset;
 }
-div.u_content table th {
-	      background-color:lightgrey;
-}
-div.u_redcontent table {
-	    border:solid blue 1px ;
-	    border-style:outset;  
-}
-div.u_redcontent table th {
-	      background-color:lightgrey;
+table.document th{
+  background-color:lightgrey;
+   color:darkblue;
 }
 
 table.mtitle {

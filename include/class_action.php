@@ -205,7 +205,7 @@ class action
       // ag_ref
       // Always false for update
       $ag_ref=new widget("text");
-      $ag_ref->readonly=true;
+      $ag_ref->readonly=$upd;
       $ag_ref->name="ag_ref";
       $ag_ref->value=FormatString($this->ag_ref);
       $client_label=new widget("span");
@@ -243,7 +243,7 @@ class action
 	    $this->ag_ref_ag_id.'">'.
 	    getDbValue($this->db,"select ag_ref from action_gestion where ag_id=".$this->ag_ref_ag_id).
 	    "</A>";
-	}  
+	} 
       // sender
       $w=new widget('js_search_only');
       $w->readonly=$readonly;
@@ -696,8 +696,9 @@ class action
       echo_debug('class_action',__LINE__,'$_SESSION='.var_export($_SESSION,true));
       $r="";
       $r.=$bar;
-      $r.="<table>";
+      $r.='<table class="document">';
       $r.="<tr>";
+      /*!\todo add a sort on column
       $r.='<th><a href="?s=date&p_action=suivi_courrier&'.$query.'"> Date</a></th>';
       $r.='<th <a href="?s=dest&p_action=suivi_courrier&'.$query.'">Destinataire</A></th>';
       $r.='<th><a href="?s=exp&p_action=suivi_courrier&'.$query.'">Expéditeur</A></th>';
@@ -705,6 +706,17 @@ class action
       $r.='<th><a href="?s=type&p_action=suivi_courrier&'.$query.'">type</a></th>';
       $r.='<th><a href="?s=ref&p_action=suivi_courrier&'.$query.'">Référence</a></th>';
       $r.='<th><a href="?s=conc&p_action=suivi_courrier&'.$query.'">concerne</a></th>';
+      $r.='<th>Document</th>';
+      $r.="</tr>";
+*/
+      
+      $r.='<th> Date</th>';
+      $r.='<th>Destinataire</th>';
+      $r.='<th>Expéditeur</th>';
+      $r.='<th>Titre</th>';
+      $r.='<th>type</th>';
+      $r.='<th>Référence</th>';
+      $r.='<th>concerne</th>';
       $r.='<th>Document</th>';
       $r.="</tr>";
 
