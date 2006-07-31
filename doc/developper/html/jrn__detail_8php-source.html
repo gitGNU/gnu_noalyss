@@ -35,10 +35,10 @@
 <a name="l00030"></a>00030 }
 <a name="l00031"></a>00031 include_once (<span class="stringliteral">"postgres.php"</span>);
 <a name="l00032"></a>00032 <span class="comment">/* Admin. Dossier */</span>
-<a name="l00033"></a><a class="code" href="jrn__detail_8php.html#a0">00033</a> <a class="code" href="impress__poste_8php.html#a1">$rep</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
+<a name="l00033"></a><a class="code" href="jrn__detail_8php.html#a0">00033</a> <a class="code" href="impress__poste_8php.html#a3">$rep</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
 <a name="l00034"></a>00034 include_once (<span class="stringliteral">"class_user.php"</span>);
-<a name="l00035"></a><a class="code" href="jrn__detail_8php.html#a1">00035</a> <a class="code" href="user__action__ach_8php.html#a9">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>($rep);
-<a name="l00036"></a>00036 <a class="code" href="user__action__ach_8php.html#a9">$User</a>-&gt;Check();
+<a name="l00035"></a><a class="code" href="jrn__detail_8php.html#a1">00035</a> <a class="code" href="user__action__ach_8php.html#a11">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>($rep);
+<a name="l00036"></a>00036 <a class="code" href="user__action__ach_8php.html#a11">$User</a>-&gt;Check();
 <a name="l00037"></a>00037 
 <a name="l00038"></a>00038 <span class="comment">//include_once ("top_menu_compta.php");</span>
 <a name="l00039"></a>00039 include_once (<span class="stringliteral">"user_menu.php"</span>);
@@ -127,7 +127,7 @@
 <a name="l00122"></a>00122                  <span class="stringliteral">" from jrn_def where"</span>.
 <a name="l00123"></a>00123                  <span class="stringliteral">" jrn_def_id="</span>.$_GET['p_jrn']);
 <a name="l00124"></a><a class="code" href="jrn__detail_8php.html#a11">00124</a> <a class="code" href="jrn__detail_8php.html#a11">$l_line</a>=pg_fetch_array($Res,0);
-<a name="l00125"></a><a class="code" href="jrn__detail_8php.html#a12">00125</a> <a class="code" href="user__action__ach_8php.html#a21">$sessid</a> = $_REQUEST['PHPSESSID'];
+<a name="l00125"></a><a class="code" href="jrn__detail_8php.html#a12">00125</a> <a class="code" href="user__action__ach_8php.html#a23">$sessid</a> = $_REQUEST['PHPSESSID'];
 <a name="l00126"></a><a class="code" href="jrn__detail_8php.html#a13">00126</a> <a class="code" href="admin_8inc_8php.html#a8">$search</a>='&lt;INPUT TYPE=<span class="stringliteral">"BUTTON"</span> VALUE=<span class="stringliteral">"Cherche"</span> OnClick=<span class="stringliteral">"SearchPoste(\''.$sessid."</span><span class="charliteral">','</span>not<span class="charliteral">','</span><span class="stringliteral">".$_GET['p_jrn']."</span>')\<span class="stringliteral">"&gt;"</span>;
 <a name="l00127"></a>00127 echo '&lt;DIV CLASS=<span class="stringliteral">"u_redcontent"</span>&gt;';
 <a name="l00128"></a>00128 echo '&lt;H2 <span class="keyword">class</span>=<span class="stringliteral">"info"</span>&gt;'.$l_line['jrn_def_name'].'&lt;/H2&gt;';

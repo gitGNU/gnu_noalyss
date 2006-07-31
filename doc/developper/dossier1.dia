@@ -3253,7 +3253,7 @@
       </dia:attribute>
 
       <dia:attribute name="comment">
-        <dia:string>##</dia:string>
+        <dia:string>#Table temporaire pour l&#39;importation ... t CSV#</dia:string>
       </dia:attribute>
       <dia:attribute name="abstract">
         <dia:boolean val="false"/>
@@ -3532,29 +3532,6 @@
 
         <dia:composite type="umlattribute">
           <dia:attribute name="name">
-            <dia:string>#  ok#</dia:string>
-          </dia:attribute>
-          <dia:attribute name="type">
-            <dia:string>#boolean#</dia:string>
-          </dia:attribute>
-          <dia:attribute name="value">
-
-            <dia:string>#false#</dia:string>
-
-          </dia:attribute>
-          <dia:attribute name="visibility">
-            <dia:enum val="3"/>
-          </dia:attribute>
-          <dia:attribute name="abstract">
-            <dia:boolean val="false"/>
-          </dia:attribute>
-          <dia:attribute name="class_scope">
-            <dia:boolean val="false"/>
-          </dia:attribute>
-        </dia:composite>
-
-        <dia:composite type="umlattribute">
-          <dia:attribute name="name">
             <dia:string>#  bq_account#</dia:string>
           </dia:attribute>
           <dia:attribute name="type">
@@ -3599,12 +3576,68 @@
           </dia:attribute>
         </dia:composite>
 
+        <dia:composite type="umlattribute">
+          <dia:attribute name="name">
+            <dia:string>#  status#</dia:string>
+          </dia:attribute>
+          <dia:attribute name="type">
+            <dia:string>#character varying(1)#</dia:string>
+          </dia:attribute>
+          <dia:attribute name="value">
+
+            <dia:string>#&#39;n&#39;::character varying#</dia:string>
+
+          </dia:attribute>
+          <dia:attribute name="visibility">
+            <dia:enum val="3"/>
+          </dia:attribute>
+          <dia:attribute name="abstract">
+            <dia:boolean val="false"/>
+          </dia:attribute>
+          <dia:attribute name="class_scope">
+            <dia:boolean val="false"/>
+          </dia:attribute>
+        </dia:composite>
+
       </dia:attribute>
 
       <dia:attribute name="visible_operations">
-        <dia:boolean val="false"/>
+        <dia:boolean val="true"/>
       </dia:attribute>
-      <dia:attribute name="operations"/>
+      <dia:attribute name="operations">
+
+        <dia:composite type="umloperation">
+          <dia:attribute name="name">
+            <dia:string>#chk_status#</dia:string>
+          </dia:attribute>
+          <dia:attribute name="visibility">
+            <dia:enum val="3"/>
+          </dia:attribute>
+          <dia:attribute name="abstract">
+            <dia:boolean val="false"/>
+          </dia:attribute>
+          <dia:attribute name="class_scope">
+            <dia:boolean val="false"/>
+          </dia:attribute>
+          <dia:attribute name="parameters">
+            <dia:composite type="umlparameter">
+              <dia:attribute name="name">
+                <dia:string>#CHECK ((((((status)::text = &#39;n ... xt)))#</dia:string>
+              </dia:attribute>
+              <dia:attribute name="type">
+                <dia:string>##</dia:string>
+              </dia:attribute>
+              <dia:attribute name="value">
+                <dia:string/>
+              </dia:attribute>
+              <dia:attribute name="kind">
+                <dia:enum val="0"/>
+              </dia:attribute>
+            </dia:composite>
+          </dia:attribute>
+        </dia:composite>
+
+      </dia:attribute>
 
       <dia:attribute name="template">
         <dia:boolean val="false"/>

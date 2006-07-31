@@ -36,29 +36,31 @@
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="user__action__ven_8php.html#a10">$w</a> = new <a class="el" href="classwidget.html">widget</a>(&quot;select&quot;)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="user__action__ven_8php.html#a11">$periode_start</a> = make_array($cn,&quot;select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode order by p_id&quot;)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="user__action__ven_8php.html#a11">$filter_year</a> = &quot; where p_exercice='&quot;.$User-&gt;getExercice().&quot;'&quot;</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="user__action__ven_8php.html#a12">$current</a> = (isset($_GET['p_periode']))?$_GET['p_periode']:$User-&gt;GetPeriode()</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="user__action__ven_8php.html#a12">$periode_start</a> = make_array($cn,&quot;select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_id&quot;)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">$w&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="user__action__ven_8php.html#a13">selected</a> = $current</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="user__action__ven_8php.html#a13">$current</a> = (isset($_GET['p_periode']))?$_GET['p_periode']:$User-&gt;GetPeriode()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="user__action__ven_8php.html#a14">$sql</a> = &quot;update <a class="el" href="classjrn.html">jrn</a> set jr_rapt='' where jr_id=$ad&quot;</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">$w&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="user__action__ven_8php.html#a14">selected</a> = $current</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="user__action__ven_8php.html#a15">$Res</a> = ExecSql($cn,$sql)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="user__action__ven_8php.html#a15">$sql</a> = &quot;update <a class="el" href="classjrn.html">jrn</a> set jr_rapt='' where jr_id=$ad&quot;</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="user__action__ven_8php.html#a16">$paid</a> = ($paid=='on')?'paid':''</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="user__action__ven_8php.html#a16">$Res</a> = ExecSql($cn,$sql)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="user__action__ven_8php.html#a17">$step</a> = $_SESSION['g_pagesize']</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="user__action__ven_8php.html#a17">$paid</a> = ($paid=='on')?'paid':''</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="user__action__ven_8php.html#a18">$page</a> = (isset($_GET['offset']))?$_GET['page']:1</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="user__action__ven_8php.html#a18">$step</a> = $_SESSION['g_pagesize']</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="user__action__ven_8php.html#a19">$offset</a> = (isset($_GET['offset']))?$_GET['offset']:0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="user__action__ven_8php.html#a19">$page</a> = (isset($_GET['offset']))?$_GET['page']:1</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="user__action__ven_8php.html#a20">$bar</a> = jrn_navigation_bar($offset,$max_line,$step,$page)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="user__action__ven_8php.html#a20">$offset</a> = (isset($_GET['offset']))?$_GET['offset']:0</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="user__action__ven_8php.html#a21">$m</a> = ($max_line2&gt;$max_line)?$max_line2:$max_line</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="user__action__ven_8php.html#a21">$bar</a> = jrn_navigation_bar($offset,$max_line,$step,$page)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="user__action__ven_8php.html#a22">$bar2</a> = jrn_navigation_bar($offset,$m,$step,$page)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="user__action__ven_8php.html#a22">$m</a> = ($max_line2&gt;$max_line)?$max_line2:$max_line</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="user__action__ven_8php.html#a23">$bar2</a> = jrn_navigation_bar($offset,$m,$step,$page)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -67,7 +69,7 @@ Manage the ledger of type VEN.
 
 <p>
 Definition in file <a class="el" href="user__action__ven_8php-source.html">user_action_ven.php</a>.<hr><h2>Variable Documentation</h2>
-<a class="anchor" name="a20"></a><!-- doxytag: member="user_action_ven.php::$bar" ref="a20" args="" --><p>
+<a class="anchor" name="a21"></a><!-- doxytag: member="user_action_ven.php::$bar" ref="a21" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -89,10 +91,10 @@ Definition in file <a class="el" href="user__action__ven_8php-source.html">user_
 <p>
 
 <p>
-Definition at line <a class="el" href="user__action__ven_8php-source.html#l00212">212</a> of file <a class="el" href="user__action__ven_8php-source.html">user_action_ven.php</a>.    </td>
+Definition at line <a class="el" href="user__action__ven_8php-source.html#l00215">215</a> of file <a class="el" href="user__action__ven_8php-source.html">user_action_ven.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a22"></a><!-- doxytag: member="user_action_ven.php::$bar2" ref="a22" args="" --><p>
+<a class="anchor" name="a23"></a><!-- doxytag: member="user_action_ven.php::$bar2" ref="a23" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -114,7 +116,7 @@ Definition at line <a class="el" href="user__action__ven_8php-source.html#l00212
 <p>
 
 <p>
-Definition at line <a class="el" href="user__action__ven_8php-source.html#l00287">287</a> of file <a class="el" href="user__action__ven_8php-source.html">user_action_ven.php</a>.    </td>
+Definition at line <a class="el" href="user__action__ven_8php-source.html#l00290">290</a> of file <a class="el" href="user__action__ven_8php-source.html">user_action_ven.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a0"></a><!-- doxytag: member="user_action_ven.php::$cn" ref="a0" args="" --><p>
@@ -166,10 +168,10 @@ Definition at line <a class="el" href="user__action__ven_8php-source.html#l00028
 <p>
 Definition at line <a class="el" href="user__action__ven_8php-source.html#l00118">118</a> of file <a class="el" href="user__action__ven_8php-source.html">user_action_ven.php</a>.
 <p>
-Referenced by <a class="el" href="class__parm__code_8php-source.html#l00112">parm_code::Input()</a>, <a class="el" href="user__form__ven_8php-source.html#l00628">RecordInvoice()</a>, and <a class="el" href="user__form__ach_8php-source.html#l00662">RecordSell()</a>.    </td>
+Referenced by <a class="el" href="class__parm__code_8php-source.html#l00112">parm_code::Input()</a>, <a class="el" href="user__form__ven_8php-source.html#l00617">RecordInvoice()</a>, and <a class="el" href="user__form__ach_8php-source.html#l00647">RecordSell()</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a12"></a><!-- doxytag: member="user_action_ven.php::$current" ref="a12" args="" --><p>
+<a class="anchor" name="a13"></a><!-- doxytag: member="user_action_ven.php::$current" ref="a13" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -191,7 +193,7 @@ Referenced by <a class="el" href="class__parm__code_8php-source.html#l00112">par
 <p>
 
 <p>
-Definition at line <a class="el" href="user__action__ven_8php-source.html#l00171">171</a> of file <a class="el" href="user__action__ven_8php-source.html">user_action_ven.php</a>.    </td>
+Definition at line <a class="el" href="user__action__ven_8php-source.html#l00174">174</a> of file <a class="el" href="user__action__ven_8php-source.html">user_action_ven.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a6"></a><!-- doxytag: member="user_action_ven.php::$debut" ref="a6" args="" --><p>
@@ -217,6 +219,31 @@ Definition at line <a class="el" href="user__action__ven_8php-source.html#l00171
 
 <p>
 Definition at line <a class="el" href="user__action__ven_8php-source.html#l00141">141</a> of file <a class="el" href="user__action__ven_8php-source.html">user_action_ven.php</a>.    </td>
+  </tr>
+</table>
+<a class="anchor" name="a11"></a><!-- doxytag: member="user_action_ven.php::$filter_year" ref="a11" args="" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">$filter_year = &quot; where p_exercice='&quot;.$User-&gt;getExercice().&quot;'&quot;          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+
+<p>
+Definition at line <a class="el" href="user__action__ven_8php-source.html#l00170">170</a> of file <a class="el" href="user__action__ven_8php-source.html">user_action_ven.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a2"></a><!-- doxytag: member="user_action_ven.php::$form" ref="a2" args="" --><p>
@@ -269,7 +296,7 @@ Definition at line <a class="el" href="user__action__ven_8php-source.html#l00045
 Definition at line <a class="el" href="user__action__ven_8php-source.html#l00150">150</a> of file <a class="el" href="user__action__ven_8php-source.html">user_action_ven.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a21"></a><!-- doxytag: member="user_action_ven.php::$m" ref="a21" args="" --><p>
+<a class="anchor" name="a22"></a><!-- doxytag: member="user_action_ven.php::$m" ref="a22" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -291,7 +318,7 @@ Definition at line <a class="el" href="user__action__ven_8php-source.html#l00150
 <p>
 
 <p>
-Definition at line <a class="el" href="user__action__ven_8php-source.html#l00286">286</a> of file <a class="el" href="user__action__ven_8php-source.html">user_action_ven.php</a>.    </td>
+Definition at line <a class="el" href="user__action__ven_8php-source.html#l00289">289</a> of file <a class="el" href="user__action__ven_8php-source.html">user_action_ven.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a4"></a><!-- doxytag: member="user_action_ven.php::$nb" ref="a4" args="" --><p>
@@ -344,7 +371,7 @@ Definition at line <a class="el" href="user__action__ven_8php-source.html#l00102
 Definition at line <a class="el" href="user__action__ven_8php-source.html#l00042">42</a> of file <a class="el" href="user__action__ven_8php-source.html">user_action_ven.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a19"></a><!-- doxytag: member="user_action_ven.php::$offset" ref="a19" args="" --><p>
+<a class="anchor" name="a20"></a><!-- doxytag: member="user_action_ven.php::$offset" ref="a20" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -366,10 +393,10 @@ Definition at line <a class="el" href="user__action__ven_8php-source.html#l00042
 <p>
 
 <p>
-Definition at line <a class="el" href="user__action__ven_8php-source.html#l00209">209</a> of file <a class="el" href="user__action__ven_8php-source.html">user_action_ven.php</a>.    </td>
+Definition at line <a class="el" href="user__action__ven_8php-source.html#l00212">212</a> of file <a class="el" href="user__action__ven_8php-source.html">user_action_ven.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a18"></a><!-- doxytag: member="user_action_ven.php::$page" ref="a18" args="" --><p>
+<a class="anchor" name="a19"></a><!-- doxytag: member="user_action_ven.php::$page" ref="a19" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -391,10 +418,10 @@ Definition at line <a class="el" href="user__action__ven_8php-source.html#l00209
 <p>
 
 <p>
-Definition at line <a class="el" href="user__action__ven_8php-source.html#l00208">208</a> of file <a class="el" href="user__action__ven_8php-source.html">user_action_ven.php</a>.    </td>
+Definition at line <a class="el" href="user__action__ven_8php-source.html#l00211">211</a> of file <a class="el" href="user__action__ven_8php-source.html">user_action_ven.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a16"></a><!-- doxytag: member="user_action_ven.php::$paid" ref="a16" args="" --><p>
+<a class="anchor" name="a17"></a><!-- doxytag: member="user_action_ven.php::$paid" ref="a17" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -416,16 +443,16 @@ Definition at line <a class="el" href="user__action__ven_8php-source.html#l00208
 <p>
 
 <p>
-Definition at line <a class="el" href="user__action__ven_8php-source.html#l00198">198</a> of file <a class="el" href="user__action__ven_8php-source.html">user_action_ven.php</a>.    </td>
+Definition at line <a class="el" href="user__action__ven_8php-source.html#l00201">201</a> of file <a class="el" href="user__action__ven_8php-source.html">user_action_ven.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a11"></a><!-- doxytag: member="user_action_ven.php::$periode_start" ref="a11" args="" --><p>
+<a class="anchor" name="a12"></a><!-- doxytag: member="user_action_ven.php::$periode_start" ref="a12" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">$periode_start = make_array($cn,&quot;select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode order by p_id&quot;)          </td>
+          <td class="md" nowrap valign="top">$periode_start = make_array($cn,&quot;select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_id&quot;)          </td>
         </tr>
       </table>
     </td>
@@ -441,10 +468,10 @@ Definition at line <a class="el" href="user__action__ven_8php-source.html#l00198
 <p>
 
 <p>
-Definition at line <a class="el" href="user__action__ven_8php-source.html#l00169">169</a> of file <a class="el" href="user__action__ven_8php-source.html">user_action_ven.php</a>.    </td>
+Definition at line <a class="el" href="user__action__ven_8php-source.html#l00172">172</a> of file <a class="el" href="user__action__ven_8php-source.html">user_action_ven.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a15"></a><!-- doxytag: member="user_action_ven.php::$Res" ref="a15" args="" --><p>
+<a class="anchor" name="a16"></a><!-- doxytag: member="user_action_ven.php::$Res" ref="a16" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -466,10 +493,10 @@ Definition at line <a class="el" href="user__action__ven_8php-source.html#l00169
 <p>
 
 <p>
-Definition at line <a class="el" href="user__action__ven_8php-source.html#l00188">188</a> of file <a class="el" href="user__action__ven_8php-source.html">user_action_ven.php</a>.    </td>
+Definition at line <a class="el" href="user__action__ven_8php-source.html#l00191">191</a> of file <a class="el" href="user__action__ven_8php-source.html">user_action_ven.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a14"></a><!-- doxytag: member="user_action_ven.php::$sql" ref="a14" args="" --><p>
+<a class="anchor" name="a15"></a><!-- doxytag: member="user_action_ven.php::$sql" ref="a15" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -491,10 +518,10 @@ Definition at line <a class="el" href="user__action__ven_8php-source.html#l00188
 <p>
 
 <p>
-Definition at line <a class="el" href="user__action__ven_8php-source.html#l00187">187</a> of file <a class="el" href="user__action__ven_8php-source.html">user_action_ven.php</a>.    </td>
+Definition at line <a class="el" href="user__action__ven_8php-source.html#l00190">190</a> of file <a class="el" href="user__action__ven_8php-source.html">user_action_ven.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a17"></a><!-- doxytag: member="user_action_ven.php::$step" ref="a17" args="" --><p>
+<a class="anchor" name="a18"></a><!-- doxytag: member="user_action_ven.php::$step" ref="a18" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -516,7 +543,7 @@ Definition at line <a class="el" href="user__action__ven_8php-source.html#l00187
 <p>
 
 <p>
-Definition at line <a class="el" href="user__action__ven_8php-source.html#l00207">207</a> of file <a class="el" href="user__action__ven_8php-source.html">user_action_ven.php</a>.    </td>
+Definition at line <a class="el" href="user__action__ven_8php-source.html#l00210">210</a> of file <a class="el" href="user__action__ven_8php-source.html">user_action_ven.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a10"></a><!-- doxytag: member="user_action_ven.php::$w" ref="a10" args="" --><p>
@@ -594,13 +621,13 @@ Definition at line <a class="el" href="user__action__ven_8php-source.html#l00089
 Definition at line <a class="el" href="user__action__ven_8php-source.html#l00152">152</a> of file <a class="el" href="user__action__ven_8php-source.html">user_action_ven.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a13"></a><!-- doxytag: member="user_action_ven.php::selected" ref="a13" args="" --><p>
+<a class="anchor" name="a14"></a><!-- doxytag: member="user_action_ven.php::selected" ref="a14" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">$w <a class="el" href="user__action__ven_8php.html#a13">selected</a> = $current          </td>
+          <td class="md" nowrap valign="top">$w <a class="el" href="user__action__ven_8php.html#a14">selected</a> = $current          </td>
         </tr>
       </table>
     </td>
@@ -616,7 +643,7 @@ Definition at line <a class="el" href="user__action__ven_8php-source.html#l00152
 <p>
 
 <p>
-Definition at line <a class="el" href="user__action__ven_8php-source.html#l00172">172</a> of file <a class="el" href="user__action__ven_8php-source.html">user_action_ven.php</a>.    </td>
+Definition at line <a class="el" href="user__action__ven_8php-source.html#l00175">175</a> of file <a class="el" href="user__action__ven_8php-source.html">user_action_ven.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a9"></a><!-- doxytag: member="user_action_ven.php::value" ref="a9" args="" --><p>

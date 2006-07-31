@@ -32,43 +32,45 @@
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="depense_8inc_8php.html#a9">$w</a> = new <a class="el" href="classwidget.html">widget</a>(&quot;select&quot;)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="depense_8inc_8php.html#a10">$periode_start</a> = make_array($cn,&quot;select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode order by p_id&quot;,1)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="depense_8inc_8php.html#a10">$filter_year</a> = &quot; where p_exercice='&quot;.$User-&gt;getExercice().&quot;'&quot;</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="depense_8inc_8php.html#a11">$current</a> = (isset($_GET['p_periode']))?$_GET['p_periode']:$User-&gt;GetPeriode()</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="depense_8inc_8php.html#a11">$periode_start</a> = make_array($cn,&quot;select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_id&quot;,1)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">$w&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="depense_8inc_8php.html#a12">selected</a> = $current</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="depense_8inc_8php.html#a12">$current</a> = (isset($_GET['p_periode']))?$_GET['p_periode']:$User-&gt;GetPeriode()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="depense_8inc_8php.html#a13">$qcode</a> = (isset($_GET['qcode']))?$_GET['qcode']:&quot;&quot;</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">$w&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="depense_8inc_8php.html#a13">selected</a> = $current</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">$w&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="depense_8inc_8php.html#a14">label</a> = ''</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="depense_8inc_8php.html#a14">$qcode</a> = (isset($_GET['qcode']))?$_GET['qcode']:&quot;&quot;</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">$w&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="depense_8inc_8php.html#a15">extra</a> = '8'</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">$w&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="depense_8inc_8php.html#a15">label</a> = ''</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">$w&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="depense_8inc_8php.html#a16">table</a> = 0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">$w&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="depense_8inc_8php.html#a16">extra</a> = '8'</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="depense_8inc_8php.html#a17">$sp</a> = new <a class="el" href="classwidget.html">widget</a>(&quot;span&quot;)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">$w&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="depense_8inc_8php.html#a17">table</a> = 0</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="depense_8inc_8php.html#a18">$step</a> = $_SESSION['g_pagesize']</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="depense_8inc_8php.html#a18">$sp</a> = new <a class="el" href="classwidget.html">widget</a>(&quot;span&quot;)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="depense_8inc_8php.html#a19">$page</a> = (isset($_GET['offset']))?$_GET['page']:1</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="depense_8inc_8php.html#a19">$step</a> = $_SESSION['g_pagesize']</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="depense_8inc_8php.html#a20">$offset</a> = (isset($_GET['offset']))?$_GET['offset']:0</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="depense_8inc_8php.html#a20">$page</a> = (isset($_GET['offset']))?$_GET['page']:1</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="depense_8inc_8php.html#a21">$l</a> = &quot;&quot;</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="depense_8inc_8php.html#a21">$offset</a> = (isset($_GET['offset']))?$_GET['offset']:0</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="depense_8inc_8php.html#a22">$bar</a> = jrn_navigation_bar($offset,$max_line,$step,$page)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="depense_8inc_8php.html#a22">$l</a> = &quot;&quot;</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="depense_8inc_8php.html#a23">$nb_item</a> = $_POST['nb_item']</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="depense_8inc_8php.html#a23">$bar</a> = jrn_navigation_bar($offset,$max_line,$step,$page)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="depense_8inc_8php.html#a24">$submit</a></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="depense_8inc_8php.html#a24">$nb_item</a> = $_POST['nb_item']</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="depense_8inc_8php.html#a25">$form</a> = FormAchInput($cn,$p_jrn,$User-&gt;GetPeriode(),$_POST,$submit,false,$nb_item)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="depense_8inc_8php.html#a25">$submit</a></td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="depense_8inc_8php.html#a26">$nb_number</a> = $_POST[&quot;nb_item&quot;]</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="depense_8inc_8php.html#a26">$form</a> = FormAchInput($cn,$p_jrn,$User-&gt;GetPeriode(),$_POST,$submit,false,$nb_item)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="depense_8inc_8php.html#a27">$nb_number</a> = $_POST[&quot;nb_item&quot;]</td></tr>
 
 </table>
 <hr><h2>Variable Documentation</h2>
-<a class="anchor" name="a22"></a><!-- doxytag: member="depense.inc.php::$bar" ref="a22" args="" --><p>
+<a class="anchor" name="a23"></a><!-- doxytag: member="depense.inc.php::$bar" ref="a23" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -90,10 +92,10 @@
 <p>
 
 <p>
-Definition at line <a class="el" href="depense_8inc_8php-source.html#l00164">164</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
+Definition at line <a class="el" href="depense_8inc_8php-source.html#l00166">166</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a11"></a><!-- doxytag: member="depense.inc.php::$current" ref="a11" args="" --><p>
+<a class="anchor" name="a12"></a><!-- doxytag: member="depense.inc.php::$current" ref="a12" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -115,10 +117,35 @@ Definition at line <a class="el" href="depense_8inc_8php-source.html#l00164">164
 <p>
 
 <p>
-Definition at line <a class="el" href="depense_8inc_8php-source.html#l00117">117</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
+Definition at line <a class="el" href="depense_8inc_8php-source.html#l00119">119</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a25"></a><!-- doxytag: member="depense.inc.php::$form" ref="a25" args="" --><p>
+<a class="anchor" name="a10"></a><!-- doxytag: member="depense.inc.php::$filter_year" ref="a10" args="" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">$filter_year = &quot; where p_exercice='&quot;.$User-&gt;getExercice().&quot;'&quot;          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+
+<p>
+Definition at line <a class="el" href="depense_8inc_8php-source.html#l00115">115</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
+  </tr>
+</table>
+<a class="anchor" name="a26"></a><!-- doxytag: member="depense.inc.php::$form" ref="a26" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -140,7 +167,7 @@ Definition at line <a class="el" href="depense_8inc_8php-source.html#l00117">117
 <p>
 
 <p>
-Definition at line <a class="el" href="depense_8inc_8php-source.html#l00200">200</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
+Definition at line <a class="el" href="depense_8inc_8php-source.html#l00205">205</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a0"></a><!-- doxytag: member="depense.inc.php::$h_url" ref="a0" args="" --><p>
@@ -193,7 +220,7 @@ Definition at line <a class="el" href="depense_8inc_8php-source.html#l00045">45<
 Definition at line <a class="el" href="depense_8inc_8php-source.html#l00100">100</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a21"></a><!-- doxytag: member="depense.inc.php::$l" ref="a21" args="" --><p>
+<a class="anchor" name="a22"></a><!-- doxytag: member="depense.inc.php::$l" ref="a22" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -215,10 +242,10 @@ Definition at line <a class="el" href="depense_8inc_8php-source.html#l00100">100
 <p>
 
 <p>
-Definition at line <a class="el" href="depense_8inc_8php-source.html#l00154">154</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
+Definition at line <a class="el" href="depense_8inc_8php-source.html#l00156">156</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a23"></a><!-- doxytag: member="depense.inc.php::$nb_item" ref="a23" args="" --><p>
+<a class="anchor" name="a24"></a><!-- doxytag: member="depense.inc.php::$nb_item" ref="a24" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -240,10 +267,10 @@ Definition at line <a class="el" href="depense_8inc_8php-source.html#l00154">154
 <p>
 
 <p>
-Definition at line <a class="el" href="depense_8inc_8php-source.html#l00193">193</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
+Definition at line <a class="el" href="depense_8inc_8php-source.html#l00198">198</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a26"></a><!-- doxytag: member="depense.inc.php::$nb_number" ref="a26" args="" --><p>
+<a class="anchor" name="a27"></a><!-- doxytag: member="depense.inc.php::$nb_number" ref="a27" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -265,10 +292,10 @@ Definition at line <a class="el" href="depense_8inc_8php-source.html#l00193">193
 <p>
 
 <p>
-Definition at line <a class="el" href="depense_8inc_8php-source.html#l00243">243</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
+Definition at line <a class="el" href="depense_8inc_8php-source.html#l00248">248</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a20"></a><!-- doxytag: member="depense.inc.php::$offset" ref="a20" args="" --><p>
+<a class="anchor" name="a21"></a><!-- doxytag: member="depense.inc.php::$offset" ref="a21" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -290,10 +317,10 @@ Definition at line <a class="el" href="depense_8inc_8php-source.html#l00243">243
 <p>
 
 <p>
-Definition at line <a class="el" href="depense_8inc_8php-source.html#l00152">152</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
+Definition at line <a class="el" href="depense_8inc_8php-source.html#l00154">154</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a19"></a><!-- doxytag: member="depense.inc.php::$page" ref="a19" args="" --><p>
+<a class="anchor" name="a20"></a><!-- doxytag: member="depense.inc.php::$page" ref="a20" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -315,7 +342,7 @@ Definition at line <a class="el" href="depense_8inc_8php-source.html#l00152">152
 <p>
 
 <p>
-Definition at line <a class="el" href="depense_8inc_8php-source.html#l00151">151</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
+Definition at line <a class="el" href="depense_8inc_8php-source.html#l00153">153</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a5"></a><!-- doxytag: member="depense.inc.php::$paid" ref="a5" args="" --><p>
@@ -343,13 +370,13 @@ Definition at line <a class="el" href="depense_8inc_8php-source.html#l00151">151
 Definition at line <a class="el" href="depense_8inc_8php-source.html#l00087">87</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a10"></a><!-- doxytag: member="depense.inc.php::$periode_start" ref="a10" args="" --><p>
+<a class="anchor" name="a11"></a><!-- doxytag: member="depense.inc.php::$periode_start" ref="a11" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">$periode_start = make_array($cn,&quot;select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode order by p_id&quot;,1)          </td>
+          <td class="md" nowrap valign="top">$periode_start = make_array($cn,&quot;select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_id&quot;,1)          </td>
         </tr>
       </table>
     </td>
@@ -365,10 +392,10 @@ Definition at line <a class="el" href="depense_8inc_8php-source.html#l00087">87<
 <p>
 
 <p>
-Definition at line <a class="el" href="depense_8inc_8php-source.html#l00115">115</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
+Definition at line <a class="el" href="depense_8inc_8php-source.html#l00117">117</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a13"></a><!-- doxytag: member="depense.inc.php::$qcode" ref="a13" args="" --><p>
+<a class="anchor" name="a14"></a><!-- doxytag: member="depense.inc.php::$qcode" ref="a14" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -390,7 +417,7 @@ Definition at line <a class="el" href="depense_8inc_8php-source.html#l00115">115
 <p>
 
 <p>
-Definition at line <a class="el" href="depense_8inc_8php-source.html#l00121">121</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
+Definition at line <a class="el" href="depense_8inc_8php-source.html#l00123">123</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a4"></a><!-- doxytag: member="depense.inc.php::$Res" ref="a4" args="" --><p>
@@ -417,10 +444,10 @@ Definition at line <a class="el" href="depense_8inc_8php-source.html#l00121">121
 <p>
 Definition at line <a class="el" href="depense_8inc_8php-source.html#l00077">77</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.
 <p>
-Referenced by <a class="el" href="fiche__inc_8php-source.html#l00038">AddFiche()</a>, <a class="el" href="form__inc_8php-source.html#l00267">AddForm()</a>, <a class="el" href="fiche__inc_8php-source.html#l00761">AddModele()</a>, <a class="el" href="postgres_8php-source.html#l00269">AlterSequence()</a>, <a class="el" href="central__inc_8php-source.html#l00036">Centralise()</a>, <a class="el" href="class__user_8php-source.html#l00236">cl_user::CheckAction()</a>, <a class="el" href="check__priv_8php-source.html#l00146">CheckAction()</a>, <a class="el" href="check__priv_8php-source.html#l00046">CheckJrn()</a>, <a class="el" href="class__user_8php-source.html#l00040">cl_user::cl_user()</a>, <a class="el" href="postgres_8php-source.html#l00263">Commit()</a>, <a class="el" href="import__inc_8php-source.html#l00154">ConfirmTransfert()</a>, <a class="el" href="user__common_8php-source.html#l00727">DeleteRapt()</a>, <a class="el" href="fiche__inc_8php-source.html#l01390">DisplayDetailModele()</a>, <a class="el" href="fiche__inc_8php-source.html#l00225">EncodeFiche()</a>, <a class="el" href="postgres_8php-source.html#l00260">EndSql()</a>, <a class="el" href="postgres_8php-source.html#l00168">ExisteJnt()</a>, <a class="el" href="postgres_8php-source.html#l00179">ExistePriv()</a>, <a class="el" href="preference_8php-source.html#l00071">FormPeriode()</a>, <a class="el" href="preference_8php-source.html#l00037">FormPeriodeMult()</a>, <a class="el" href="class__document_8php-source.html#l00079">Document::Generate()</a>, <a class="el" href="class__parm__code_8php-source.html#l00141">parm_code::Get()</a>, <a class="el" href="class__fiche__def_8php-source.html#l00131">fiche_def_ref::Get()</a>, <a class="el" href="fiche__inc_8php-source.html#l01181">Get_attr_def()</a>, <a class="el" href="fiche__inc_8php-source.html#l01149">Get_attr_min()</a>, <a class="el" href="fiche__inc_8php-source.html#l01115">Get_fiche_def_ref()</a>, <a class="el" href="postgres_8php-source.html#l00117">GetAllUser()</a>, <a class="el" href="jrn_8php-source.html#l00814">GetAmount()</a>, <a class="el" href="user__menu_8php-source.html#l00090">GetAvailableFolder()</a>, <a class="el" href="fiche__inc_8php-source.html#l00352">GetBaseFiche()</a>, <a class="el" href="fiche__inc_8php-source.html#l00374">GetBaseFicheDefault()</a>, <a class="el" href="class__fiche_8php-source.html#l00167">fiche::GetByQCode()</a>, <a class="el" href="fiche__inc_8php-source.html#l01313">GetClass()</a>, <a class="el" href="user__common_8php-source.html#l00758">GetConcerned()</a>, <a class="el" href="fiche__inc_8php-source.html#l01214">GetCreateAccount()</a>, <a class="el" href="jrn_8php-source.html#l00711">GetData()</a>, <a class="el" href="form__inc_8php-source.html#l00149">GetDataForm()</a>, <a class="el" href="impress__inc_8php-source.html#l00582">GetDataGrpt()</a>, <a class="el" href="impress__inc_8php-source.html#l00308">GetDataJrn()</a>, <a class="el" href="jrn_8php-source.html#l00973">GetDataJrnJrId()</a>, <a class="el" href="impress__inc_8php-source.html#l00423">GetDataJrnPdf()</a>, <a class="el" href="fiche__inc_8php-source.html#l00895">GetDataModele()</a>, <a class="el" href="impress__inc_8php-source.html#l00267">GetDataPoste()</a>, <a class="el" href="class__jrn_8php-source.html#l00321">jrn::GetDefLine()</a>, <a class="el" href="preference_8php-source.html#l00168">GetExercice()</a>, <a class="el" href="fiche__inc_8php-source.html#l01474">getFicheAttribut()</a>, <a class="el" href="fiche__inc_8php-source.html#l01282">GetFicheDef()</a>, <a class="el" href="fiche__inc_8php-source.html#l01038">getFicheDefName()</a>, <a class="el" href="fiche__inc_8php-source.html#l01251">GetFicheDefRef()</a>, <a class="el" href="fiche__inc_8php-source.html#l01057">GetFicheJrn()</a>, <a class="el" href="fiche__inc_8php-source.html#l00988">getFicheName()</a>, <a class="el" href="fiche__inc_8php-source.html#l01010">getFicheNameById()</a>, <a class="el" href="stock__inc_8php-source.html#l00111">getFicheNameCode()</a>, <a class="el" href="form__inc_8php-source.html#l00195">GetFormName()</a>, <a class="el" href="impress__inc_8php-source.html#l00814">GetFormulaValue()</a>, <a class="el" href="class__supplier_8php-source.html#l00057">Supplier::GetFromPoste()</a>, <a class="el" href="class__customer_8php-source.html#l00057">Customer::GetFromPoste()</a>, <a class="el" href="class__user_8php-source.html#l00256">cl_user::GetGlobalPref()</a>, <a class="el" href="user__common_8php-source.html#l00789">GetGrpt()</a>, <a class="el" href="jrn_8php-source.html#l00793">GetInternal()</a>, <a class="el" href="postgres_8php-source.html#l00190">GetJnt()</a>, <a class="el" href="jrn_8php-source.html#l00907">GetJrnName()</a>, <a class="el" href="jrn_8php-source.html#l00549">GetJrnProp()</a>, <a class="el" href="jrn_8php-source.html#l00523">GetJrnProperty()</a>, <a class="el" href="postgres_8php-source.html#l00273">GetLogin()</a>, <a class="el" href="postgres_8php-source.html#l00340">GetModeleId()</a>, <a class="el" href="class__jrn_8php-source.html#l00034">jrn::GetName()</a>, <a class="el" href="class__fiche_8php-source.html#l00758">fiche::getName()</a>, <a class="el" href="fiche__inc_8php-source.html#l00462">GetNextFiche()</a>, <a class="el" href="form__inc_8php-source.html#l00180">GetNumberLine()</a>, <a class="el" href="preference_8php-source.html#l00125">GetPeriode()</a>, <a class="el" href="poste_8php-source.html#l00036">GetPosteLibelle()</a>, <a class="el" href="class__user_8php-source.html#l00204">cl_user::GetPreferences()</a>, <a class="el" href="postgres_8php-source.html#l00147">GetPriv()</a>, <a class="el" href="stock__inc_8php-source.html#l00276">GetQuantity()</a>, <a class="el" href="impress__inc_8php-source.html#l00616">GetRappel()</a>, <a class="el" href="class__rapport_8php-source.html#l00053">rapport::GetRow()</a>, <a class="el" href="class__poste_8php-source.html#l00048">poste::GetRow()</a>, <a class="el" href="class__jrn_8php-source.html#l00065">jrn::GetRow()</a>, <a class="el" href="class__balance_8php-source.html#l00053">Balance::GetRow()</a>, <a class="el" href="class__jrn_8php-source.html#l00243">jrn::GetRowSimple()</a>, <a class="el" href="postgres_8php-source.html#l00242">GetSequence()</a>, <a class="el" href="poste_8php-source.html#l00114">GetSolde()</a>, <a class="el" href="class__poste_8php-source.html#l00119">poste::GetSolde()</a>, <a class="el" href="class__poste_8php-source.html#l00141">poste::GetSoldeDetail()</a>, <a class="el" href="user__common_8php-source.html#l00211">GetTvaPoste()</a>, <a class="el" href="user__common_8php-source.html#l00040">GetTvaRate()</a>, <a class="el" href="postgres_8php-source.html#l00134">GetUid()</a>, <a class="el" href="setup_8php-source.html#l00087">GetVersion()</a>, <a class="el" href="ac__common_8php-source.html#l00133">html_page_start()</a>, <a class="el" href="impress__inc_8php-source.html#l00119">ImpHtml()</a>, <a class="el" href="user__common_8php-source.html#l00288">InsertJrn()</a>, <a class="el" href="user__common_8php-source.html#l00244">InsertJrnx()</a>, <a class="el" href="fiche__inc_8php-source.html#l01343">InsertModeleLine()</a>, <a class="el" href="user__common_8php-source.html#l00699">InsertRapt()</a>, <a class="el" href="user__common_8php-source.html#l00596">InsertStockGoods()</a>, <a class="el" href="central__inc_8php-source.html#l00159">isCentralize()</a>, <a class="el" href="fiche__inc_8php-source.html#l01514">IsFicheOfJrn()</a>, <a class="el" href="user__common_8php-source.html#l00831">isValid()</a>, <a class="el" href="user__common_8php-source.html#l00322">ListJrn()</a>, <a class="el" href="class__parm__code_8php-source.html#l00052">parm_code::LoadAll()</a>, <a class="el" href="class__fiche__def_8php-source.html#l00051">fiche_def_ref::LoadAll()</a>, <a class="el" href="class__document__modele_8php-source.html#l00049">Document_modele::myList()</a>, <a class="el" href="class__action_8php-source.html#l00638">action::myList()</a>, <a class="el" href="fiche__new_8php-source.html#l00060">new_fiche()</a>, <a class="el" href="postgres_8php-source.html#l00251">NextSequence()</a>, <a class="el" href="class__own_8php-source.html#l00031">Own::Own()</a>, <a class="el" href="preference_8php-source.html#l00146">PeriodeClosed()</a>, <a class="el" href="poste_8php-source.html#l00087">PosteForm()</a>, <a class="el" href="user__form__ven_8php-source.html#l00628">RecordInvoice()</a>, <a class="el" href="jrn_8php-source.html#l00038">RecordJrn()</a>, <a class="el" href="user__form__ach_8php-source.html#l00662">RecordSell()</a>, <a class="el" href="fiche__inc_8php-source.html#l00938">Remove()</a>, <a class="el" href="class__fiche_8php-source.html#l00738">fiche::remove()</a>, <a class="el" href="postgres_8php-source.html#l00266">Rollback()</a>, <a class="el" href="class__parm__code_8php-source.html#l00076">parm_code::Save()</a>, <a class="el" href="class__fiche__def_8php-source.html#l00117">fiche_def_ref::Save()</a>, <a class="el" href="fiche__inc_8php-source.html#l01364">SaveModeleName()</a>, <a class="el" href="jrn_8php-source.html#l00949">SetInternalCode()</a>, <a class="el" href="class__user_8php-source.html#l00178">cl_user::SetPeriode()</a>, <a class="el" href="preference_8php-source.html#l00185">ShowDevise()</a>, <a class="el" href="user__menu_8php-source.html#l00527">ShowMenuFiche()</a>, <a class="el" href="user__menu_8php-source.html#l00300">ShowMenuJrn()</a>, <a class="el" href="preference_8php-source.html#l00224">ShowPeriode()</a>, <a class="el" href="postgres_8php-source.html#l00257">StartSql()</a>, <a class="el" href="class__fiche_8php-source.html#l00366">fiche::strAttribut()</a>, <a class="el" href="postgres_8php-source.html#l00289">SyncRight()</a>, <a class="el" href="import__inc_8php-source.html#l00201">TransferCSV()</a>, <a class="el" href="user__common_8php-source.html#l00811">UpdateComment()</a>, <a class="el" href="import__inc_8php-source.html#l00066">UpdateCSV()</a>, <a class="el" href="fiche__inc_8php-source.html#l00530">UpdateFiche()</a>, <a class="el" href="form__inc_8php-source.html#l00208">UpdateForm()</a>, <a class="el" href="class__customer_8php-source.html#l00084">Customer::VatListing()</a>, <a class="el" href="import__inc_8php-source.html#l00133">VerifImport()</a>, <a class="el" href="stock__inc_8php-source.html#l00147">ViewDetailStock()</a>, <a class="el" href="fiche__inc_8php-source.html#l00394">ViewFiche()</a>, <a class="el" href="fiche__inc_8php-source.html#l00492">ViewFicheDetail()</a>, <a class="el" href="jrn_8php-source.html#l00583">ViewJrn()</a>, and <a class="el" href="stock__inc_8php-source.html#l00035">ViewStock()</a>.    </td>
+Referenced by <a class="el" href="fiche__inc_8php-source.html#l00038">AddFiche()</a>, <a class="el" href="form__inc_8php-source.html#l00267">AddForm()</a>, <a class="el" href="fiche__inc_8php-source.html#l00779">AddModele()</a>, <a class="el" href="postgres_8php-source.html#l00269">AlterSequence()</a>, <a class="el" href="central__inc_8php-source.html#l00036">Centralise()</a>, <a class="el" href="class__user_8php-source.html#l00236">cl_user::CheckAction()</a>, <a class="el" href="check__priv_8php-source.html#l00146">CheckAction()</a>, <a class="el" href="check__priv_8php-source.html#l00046">CheckJrn()</a>, <a class="el" href="class__user_8php-source.html#l00040">cl_user::cl_user()</a>, <a class="el" href="postgres_8php-source.html#l00263">Commit()</a>, <a class="el" href="import__inc_8php-source.html#l00159">ConfirmTransfert()</a>, <a class="el" href="user__common_8php-source.html#l00727">DeleteRapt()</a>, <a class="el" href="fiche__inc_8php-source.html#l01408">DisplayDetailModele()</a>, <a class="el" href="fiche__inc_8php-source.html#l00225">EncodeFiche()</a>, <a class="el" href="postgres_8php-source.html#l00260">EndSql()</a>, <a class="el" href="postgres_8php-source.html#l00168">ExisteJnt()</a>, <a class="el" href="postgres_8php-source.html#l00179">ExistePriv()</a>, <a class="el" href="preference_8php-source.html#l00071">FormPeriode()</a>, <a class="el" href="preference_8php-source.html#l00037">FormPeriodeMult()</a>, <a class="el" href="class__document_8php-source.html#l00079">Document::Generate()</a>, <a class="el" href="class__parm__code_8php-source.html#l00141">parm_code::Get()</a>, <a class="el" href="class__fiche__def_8php-source.html#l00131">fiche_def_ref::Get()</a>, <a class="el" href="fiche__inc_8php-source.html#l01199">Get_attr_def()</a>, <a class="el" href="fiche__inc_8php-source.html#l01167">Get_attr_min()</a>, <a class="el" href="fiche__inc_8php-source.html#l01133">Get_fiche_def_ref()</a>, <a class="el" href="postgres_8php-source.html#l00117">GetAllUser()</a>, <a class="el" href="jrn_8php-source.html#l00814">GetAmount()</a>, <a class="el" href="user__menu_8php-source.html#l00090">GetAvailableFolder()</a>, <a class="el" href="fiche__inc_8php-source.html#l00370">GetBaseFiche()</a>, <a class="el" href="fiche__inc_8php-source.html#l00392">GetBaseFicheDefault()</a>, <a class="el" href="class__fiche_8php-source.html#l00167">fiche::GetByQCode()</a>, <a class="el" href="fiche__inc_8php-source.html#l01331">GetClass()</a>, <a class="el" href="user__common_8php-source.html#l00758">GetConcerned()</a>, <a class="el" href="fiche__inc_8php-source.html#l01232">GetCreateAccount()</a>, <a class="el" href="jrn_8php-source.html#l00711">GetData()</a>, <a class="el" href="form__inc_8php-source.html#l00149">GetDataForm()</a>, <a class="el" href="impress__inc_8php-source.html#l00582">GetDataGrpt()</a>, <a class="el" href="impress__inc_8php-source.html#l00308">GetDataJrn()</a>, <a class="el" href="jrn_8php-source.html#l00973">GetDataJrnJrId()</a>, <a class="el" href="impress__inc_8php-source.html#l00423">GetDataJrnPdf()</a>, <a class="el" href="fiche__inc_8php-source.html#l00913">GetDataModele()</a>, <a class="el" href="impress__inc_8php-source.html#l00267">GetDataPoste()</a>, <a class="el" href="class__jrn_8php-source.html#l00321">jrn::GetDefLine()</a>, <a class="el" href="preference_8php-source.html#l00168">GetExercice()</a>, <a class="el" href="fiche__inc_8php-source.html#l01492">getFicheAttribut()</a>, <a class="el" href="fiche__inc_8php-source.html#l01300">GetFicheDef()</a>, <a class="el" href="fiche__inc_8php-source.html#l01056">getFicheDefName()</a>, <a class="el" href="fiche__inc_8php-source.html#l01269">GetFicheDefRef()</a>, <a class="el" href="fiche__inc_8php-source.html#l01075">GetFicheJrn()</a>, <a class="el" href="fiche__inc_8php-source.html#l01006">getFicheName()</a>, <a class="el" href="fiche__inc_8php-source.html#l01028">getFicheNameById()</a>, <a class="el" href="stock__inc_8php-source.html#l00111">getFicheNameCode()</a>, <a class="el" href="form__inc_8php-source.html#l00195">GetFormName()</a>, <a class="el" href="impress__inc_8php-source.html#l00814">GetFormulaValue()</a>, <a class="el" href="class__supplier_8php-source.html#l00057">Supplier::GetFromPoste()</a>, <a class="el" href="class__customer_8php-source.html#l00057">Customer::GetFromPoste()</a>, <a class="el" href="class__user_8php-source.html#l00256">cl_user::GetGlobalPref()</a>, <a class="el" href="user__common_8php-source.html#l00789">GetGrpt()</a>, <a class="el" href="jrn_8php-source.html#l00793">GetInternal()</a>, <a class="el" href="postgres_8php-source.html#l00190">GetJnt()</a>, <a class="el" href="jrn_8php-source.html#l00907">GetJrnName()</a>, <a class="el" href="jrn_8php-source.html#l00549">GetJrnProp()</a>, <a class="el" href="jrn_8php-source.html#l00523">GetJrnProperty()</a>, <a class="el" href="postgres_8php-source.html#l00273">GetLogin()</a>, <a class="el" href="postgres_8php-source.html#l00340">GetModeleId()</a>, <a class="el" href="class__jrn_8php-source.html#l00034">jrn::GetName()</a>, <a class="el" href="class__fiche_8php-source.html#l00758">fiche::getName()</a>, <a class="el" href="fiche__inc_8php-source.html#l00480">GetNextFiche()</a>, <a class="el" href="form__inc_8php-source.html#l00180">GetNumberLine()</a>, <a class="el" href="preference_8php-source.html#l00125">GetPeriode()</a>, <a class="el" href="poste_8php-source.html#l00036">GetPosteLibelle()</a>, <a class="el" href="class__user_8php-source.html#l00204">cl_user::GetPreferences()</a>, <a class="el" href="postgres_8php-source.html#l00147">GetPriv()</a>, <a class="el" href="stock__inc_8php-source.html#l00276">GetQuantity()</a>, <a class="el" href="impress__inc_8php-source.html#l00616">GetRappel()</a>, <a class="el" href="class__rapport_8php-source.html#l00053">rapport::GetRow()</a>, <a class="el" href="class__poste_8php-source.html#l00048">poste::GetRow()</a>, <a class="el" href="class__jrn_8php-source.html#l00065">jrn::GetRow()</a>, <a class="el" href="class__balance_8php-source.html#l00053">Balance::GetRow()</a>, <a class="el" href="class__jrn_8php-source.html#l00243">jrn::GetRowSimple()</a>, <a class="el" href="postgres_8php-source.html#l00242">GetSequence()</a>, <a class="el" href="poste_8php-source.html#l00114">GetSolde()</a>, <a class="el" href="class__poste_8php-source.html#l00119">poste::GetSolde()</a>, <a class="el" href="class__poste_8php-source.html#l00141">poste::GetSoldeDetail()</a>, <a class="el" href="user__common_8php-source.html#l00211">GetTvaPoste()</a>, <a class="el" href="user__common_8php-source.html#l00040">GetTvaRate()</a>, <a class="el" href="postgres_8php-source.html#l00134">GetUid()</a>, <a class="el" href="setup_8php-source.html#l00087">GetVersion()</a>, <a class="el" href="ac__common_8php-source.html#l00133">html_page_start()</a>, <a class="el" href="impress__inc_8php-source.html#l00119">ImpHtml()</a>, <a class="el" href="user__common_8php-source.html#l00288">InsertJrn()</a>, <a class="el" href="user__common_8php-source.html#l00244">InsertJrnx()</a>, <a class="el" href="fiche__inc_8php-source.html#l01361">InsertModeleLine()</a>, <a class="el" href="user__common_8php-source.html#l00699">InsertRapt()</a>, <a class="el" href="user__common_8php-source.html#l00596">InsertStockGoods()</a>, <a class="el" href="central__inc_8php-source.html#l00159">isCentralize()</a>, <a class="el" href="fiche__inc_8php-source.html#l01532">IsFicheOfJrn()</a>, <a class="el" href="user__common_8php-source.html#l00831">isValid()</a>, <a class="el" href="user__common_8php-source.html#l00322">ListJrn()</a>, <a class="el" href="class__parm__code_8php-source.html#l00052">parm_code::LoadAll()</a>, <a class="el" href="class__fiche__def_8php-source.html#l00051">fiche_def_ref::LoadAll()</a>, <a class="el" href="class__document__modele_8php-source.html#l00049">Document_modele::myList()</a>, <a class="el" href="class__action_8php-source.html#l00638">action::myList()</a>, <a class="el" href="fiche__new_8php-source.html#l00060">new_fiche()</a>, <a class="el" href="postgres_8php-source.html#l00251">NextSequence()</a>, <a class="el" href="class__own_8php-source.html#l00031">Own::Own()</a>, <a class="el" href="preference_8php-source.html#l00146">PeriodeClosed()</a>, <a class="el" href="poste_8php-source.html#l00087">PosteForm()</a>, <a class="el" href="user__form__ven_8php-source.html#l00617">RecordInvoice()</a>, <a class="el" href="jrn_8php-source.html#l00038">RecordJrn()</a>, <a class="el" href="user__form__ach_8php-source.html#l00647">RecordSell()</a>, <a class="el" href="fiche__inc_8php-source.html#l00956">Remove()</a>, <a class="el" href="class__fiche_8php-source.html#l00738">fiche::remove()</a>, <a class="el" href="postgres_8php-source.html#l00266">Rollback()</a>, <a class="el" href="class__parm__code_8php-source.html#l00076">parm_code::Save()</a>, <a class="el" href="class__fiche__def_8php-source.html#l00117">fiche_def_ref::Save()</a>, <a class="el" href="fiche__inc_8php-source.html#l01382">SaveModeleName()</a>, <a class="el" href="jrn_8php-source.html#l00949">SetInternalCode()</a>, <a class="el" href="class__user_8php-source.html#l00178">cl_user::SetPeriode()</a>, <a class="el" href="preference_8php-source.html#l00185">ShowDevise()</a>, <a class="el" href="user__menu_8php-source.html#l00527">ShowMenuFiche()</a>, <a class="el" href="user__menu_8php-source.html#l00300">ShowMenuJrn()</a>, <a class="el" href="preference_8php-source.html#l00224">ShowPeriode()</a>, <a class="el" href="postgres_8php-source.html#l00257">StartSql()</a>, <a class="el" href="class__fiche_8php-source.html#l00366">fiche::strAttribut()</a>, <a class="el" href="postgres_8php-source.html#l00289">SyncRight()</a>, <a class="el" href="import__inc_8php-source.html#l00209">TransferCSV()</a>, <a class="el" href="user__common_8php-source.html#l00811">UpdateComment()</a>, <a class="el" href="import__inc_8php-source.html#l00066">UpdateCSV()</a>, <a class="el" href="fiche__inc_8php-source.html#l00548">UpdateFiche()</a>, <a class="el" href="form__inc_8php-source.html#l00208">UpdateForm()</a>, <a class="el" href="class__customer_8php-source.html#l00084">Customer::VatListing()</a>, <a class="el" href="import__inc_8php-source.html#l00137">VerifImport()</a>, <a class="el" href="stock__inc_8php-source.html#l00147">ViewDetailStock()</a>, <a class="el" href="fiche__inc_8php-source.html#l00412">ViewFiche()</a>, <a class="el" href="fiche__inc_8php-source.html#l00510">ViewFicheDetail()</a>, <a class="el" href="jrn_8php-source.html#l00583">ViewJrn()</a>, and <a class="el" href="stock__inc_8php-source.html#l00035">ViewStock()</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a17"></a><!-- doxytag: member="depense.inc.php::$sp" ref="a17" args="" --><p>
+<a class="anchor" name="a18"></a><!-- doxytag: member="depense.inc.php::$sp" ref="a18" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -442,7 +469,7 @@ Referenced by <a class="el" href="fiche__inc_8php-source.html#l00038">AddFiche()
 <p>
 
 <p>
-Definition at line <a class="el" href="depense_8inc_8php-source.html#l00129">129</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
+Definition at line <a class="el" href="depense_8inc_8php-source.html#l00131">131</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a3"></a><!-- doxytag: member="depense.inc.php::$sql" ref="a3" args="" --><p>
@@ -470,7 +497,7 @@ Definition at line <a class="el" href="depense_8inc_8php-source.html#l00129">129
 Definition at line <a class="el" href="depense_8inc_8php-source.html#l00076">76</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a18"></a><!-- doxytag: member="depense.inc.php::$step" ref="a18" args="" --><p>
+<a class="anchor" name="a19"></a><!-- doxytag: member="depense.inc.php::$step" ref="a19" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -492,7 +519,7 @@ Definition at line <a class="el" href="depense_8inc_8php-source.html#l00076">76<
 <p>
 
 <p>
-Definition at line <a class="el" href="depense_8inc_8php-source.html#l00150">150</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
+Definition at line <a class="el" href="depense_8inc_8php-source.html#l00152">152</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a1"></a><!-- doxytag: member="depense.inc.php::$sub_action" ref="a1" args="" --><p>
@@ -520,7 +547,7 @@ Definition at line <a class="el" href="depense_8inc_8php-source.html#l00150">150
 Definition at line <a class="el" href="depense_8inc_8php-source.html#l00053">53</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a24"></a><!-- doxytag: member="depense.inc.php::$submit" ref="a24" args="" --><p>
+<a class="anchor" name="a25"></a><!-- doxytag: member="depense.inc.php::$submit" ref="a25" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -544,7 +571,7 @@ Definition at line <a class="el" href="depense_8inc_8php-source.html#l00053">53<
           &lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> NAME=<span class="stringliteral">"view_invoice"</span> VALUE=<span class="stringliteral">"Sauver"</span> ID=<span class="stringliteral">"SubmitButton"</span>&gt;'
 </pre></div>
 <p>
-Definition at line <a class="el" href="depense_8inc_8php-source.html#l00197">197</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
+Definition at line <a class="el" href="depense_8inc_8php-source.html#l00202">202</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a9"></a><!-- doxytag: member="depense.inc.php::$w" ref="a9" args="" --><p>
@@ -597,13 +624,13 @@ Definition at line <a class="el" href="depense_8inc_8php-source.html#l00113">113
 Definition at line <a class="el" href="depense_8inc_8php-source.html#l00061">61</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a15"></a><!-- doxytag: member="depense.inc.php::extra" ref="a15" args="" --><p>
+<a class="anchor" name="a16"></a><!-- doxytag: member="depense.inc.php::extra" ref="a16" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">$w <a class="el" href="facture_8inc_8php.html#a16">extra</a> = '8'          </td>
+          <td class="md" nowrap valign="top">$w <a class="el" href="impress__poste_8php.html#a12">extra</a> = '8'          </td>
         </tr>
       </table>
     </td>
@@ -619,10 +646,10 @@ Definition at line <a class="el" href="depense_8inc_8php-source.html#l00061">61<
 <p>
 
 <p>
-Definition at line <a class="el" href="depense_8inc_8php-source.html#l00127">127</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
+Definition at line <a class="el" href="depense_8inc_8php-source.html#l00129">129</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a14"></a><!-- doxytag: member="depense.inc.php::label" ref="a14" args="" --><p>
+<a class="anchor" name="a15"></a><!-- doxytag: member="depense.inc.php::label" ref="a15" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -644,7 +671,7 @@ Definition at line <a class="el" href="depense_8inc_8php-source.html#l00127">127
 <p>
 
 <p>
-Definition at line <a class="el" href="depense_8inc_8php-source.html#l00126">126</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
+Definition at line <a class="el" href="depense_8inc_8php-source.html#l00128">128</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a7"></a><!-- doxytag: member="depense.inc.php::name" ref="a7" args="" --><p>
@@ -672,13 +699,13 @@ Definition at line <a class="el" href="depense_8inc_8php-source.html#l00126">126
 Definition at line <a class="el" href="depense_8inc_8php-source.html#l00102">102</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a12"></a><!-- doxytag: member="depense.inc.php::selected" ref="a12" args="" --><p>
+<a class="anchor" name="a13"></a><!-- doxytag: member="depense.inc.php::selected" ref="a13" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
       <table cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td class="md" nowrap valign="top">$w <a class="el" href="user__action__ven_8php.html#a13">selected</a> = $current          </td>
+          <td class="md" nowrap valign="top">$w <a class="el" href="user__action__ven_8php.html#a14">selected</a> = $current          </td>
         </tr>
       </table>
     </td>
@@ -694,10 +721,10 @@ Definition at line <a class="el" href="depense_8inc_8php-source.html#l00102">102
 <p>
 
 <p>
-Definition at line <a class="el" href="depense_8inc_8php-source.html#l00118">118</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
+Definition at line <a class="el" href="depense_8inc_8php-source.html#l00120">120</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
   </tr>
 </table>
-<a class="anchor" name="a16"></a><!-- doxytag: member="depense.inc.php::table" ref="a16" args="" --><p>
+<a class="anchor" name="a17"></a><!-- doxytag: member="depense.inc.php::table" ref="a17" args="" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -719,7 +746,7 @@ Definition at line <a class="el" href="depense_8inc_8php-source.html#l00118">118
 <p>
 
 <p>
-Definition at line <a class="el" href="depense_8inc_8php-source.html#l00128">128</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
+Definition at line <a class="el" href="depense_8inc_8php-source.html#l00130">130</a> of file <a class="el" href="depense_8inc_8php-source.html">depense.inc.php</a>.    </td>
   </tr>
 </table>
 <a class="anchor" name="a8"></a><!-- doxytag: member="depense.inc.php::value" ref="a8" args="" --><p>

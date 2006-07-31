@@ -56,8 +56,8 @@
 <a name="l00051"></a><a class="code" href="user__action__gl_8php.html#a5">00051</a> <a class="code" href="admin_8inc_8php.html#a4">$w</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"select"</span>);
 <a name="l00052"></a>00052 
 <a name="l00053"></a><a class="code" href="user__action__gl_8php.html#a6">00053</a> <a class="code" href="balance_8php.html#a5">$periode_start</a>=<a class="code" href="ac__common_8php.html#a12">make_array</a>($cn,<span class="stringliteral">"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode order by p_id"</span>);
-<a name="l00054"></a><a class="code" href="user__action__gl_8php.html#a7">00054</a> <a class="code" href="user__action__ach_8php.html#a9">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>($cn);
-<a name="l00055"></a><a class="code" href="user__action__gl_8php.html#a8">00055</a> <a class="code" href="bank_8inc_8php.html#a14">$current</a>=(isset($_GET['p_periode']))?$_GET['p_periode']:<a class="code" href="user__action__ach_8php.html#a9">$User</a>-&gt;GetPeriode();
+<a name="l00054"></a><a class="code" href="user__action__gl_8php.html#a7">00054</a> <a class="code" href="user__action__ach_8php.html#a11">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>($cn);
+<a name="l00055"></a><a class="code" href="user__action__gl_8php.html#a8">00055</a> <a class="code" href="bank_8inc_8php.html#a14">$current</a>=(isset($_GET['p_periode']))?$_GET['p_periode']:<a class="code" href="user__action__ach_8php.html#a11">$User</a>-&gt;GetPeriode();
 <a name="l00056"></a><a class="code" href="user__action__gl_8php.html#a9">00056</a> <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;selected=<a class="code" href="bank_8inc_8php.html#a14">$current</a>;
 <a name="l00057"></a>00057 echo 'Période  '.$w-&gt;IOValue(<span class="stringliteral">"p_periode"</span>,$periode_start).$w-&gt;Submit('gl_submit<span class="charliteral">','</span>Valider');
 <a name="l00058"></a>00058 ?&gt;

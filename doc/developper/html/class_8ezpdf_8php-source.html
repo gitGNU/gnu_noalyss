@@ -754,14 +754,14 @@
 <a name="l00745"></a>00745     foreach($pos as $colName=&gt;$p){
 <a name="l00746"></a>00746       <span class="keywordflow">if</span> (!isset($options['cols'][$last]) || !isset($options['cols'][$last]['width']) || $options['cols'][$last]['width']&lt;=0){
 <a name="l00747"></a>00747         <span class="keywordflow">if</span> (strlen($last)){
-<a name="l00748"></a>00748           $cols0[$last]=<a class="code" href="line__update_8php.html#a10">$p</a>-$xq -<a class="code" href="classCpdf.html#o23">$options</a>['gap'];
-<a name="l00749"></a>00749           $presentWidth += (<a class="code" href="line__update_8php.html#a10">$p</a>-$xq - $options['gap']);
+<a name="l00748"></a>00748           $cols0[$last]=<a class="code" href="impress__poste_8php.html#a2">$p</a>-$xq -<a class="code" href="classCpdf.html#o23">$options</a>['gap'];
+<a name="l00749"></a>00749           $presentWidth += (<a class="code" href="impress__poste_8php.html#a2">$p</a>-$xq - $options['gap']);
 <a name="l00750"></a>00750         }
 <a name="l00751"></a>00751       } <span class="keywordflow">else</span> {
-<a name="l00752"></a>00752         $cols1[$last]=<a class="code" href="line__update_8php.html#a10">$p</a>-$xq;
+<a name="l00752"></a>00752         $cols1[$last]=<a class="code" href="impress__poste_8php.html#a2">$p</a>-$xq;
 <a name="l00753"></a>00753       }
 <a name="l00754"></a>00754       $last=$colName;
-<a name="l00755"></a>00755       $xq=<a class="code" href="line__update_8php.html#a10">$p</a>;
+<a name="l00755"></a>00755       $xq=<a class="code" href="impress__poste_8php.html#a2">$p</a>;
 <a name="l00756"></a>00756     }
 <a name="l00757"></a>00757     <span class="comment">// $cols0 contains the widths of all the columns which are not set</span>
 <a name="l00758"></a>00758     $neededWidth = <a class="code" href="classCpdf.html#o23">$options</a>['width']-$setWidth;

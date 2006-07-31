@@ -18,12 +18,12 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="import__inc_8php.html#a1">UpdateCSV</a> ($p_cn)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Update import_tmp with the bank account.  <a href="#a1"></a><br></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="import__inc_8php.html#a2">ShowBox</a> ($p_val, $counter, $p_form='form')</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="import__inc_8php.html#a2">ShowBox</a> ($p_val, $counter, $p_cn, $p_form='form')</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function show a record from the table import_tmp, the tag for the form are not included in the function and must set in the calling proc.  <a href="#a2"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="import__inc_8php.html#a3">RemoveCSV</a> ($cn)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove the record, the data are in $_POST.  <a href="#a3"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Remove the record from the transfert list, the data are in $_POST import_tmp.status is set to n for new.  <a href="#a3"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="import__inc_8php.html#a4">VerifImport</a> ($p_cn)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Verify the import.  <a href="#a4"></a><br></td></tr>
@@ -32,10 +32,13 @@
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">ConfirmCSV shows the operation which are going to be transfered.  <a href="#a5"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="import__inc_8php.html#a6">TransferCSV</a> ($p_cn, $periode)</td></tr>
 
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Transfert data into the ledger.  <a href="#a6"></a><br></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Transfert data into the ledger set the column import_tmp.status to w (wait) if the account is not correct otherwise transfert it to the ledger and set the column import_tmp.status to t (transfert).  <a href="#a6"></a><br></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="import__inc_8php.html#a7">ShowFormTransfert</a> ($p_cn)</td></tr>
 
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">ShowForm for getting data about the bank transfert in cvs.  <a href="#a7"></a><br></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="import__inc_8php.html#a8">DropRecord</a> ($p_cn, $p_code)</td></tr>
+
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">RemoveRow put a flag delete on a row of the table import_tmp (import_tmp.status).  <a href="#a8"></a><br></td></tr>
 </table>
 <hr><h2>Function Documentation</h2>
 <a class="anchor" name="a5"></a><!-- doxytag: member="import_inc.php::ConfirmTransfert" ref="a5" args="($p_cn, $periode)" --><p>
@@ -82,49 +85,103 @@ ConfirmCSV shows the operation which are going to be transfered.
 </dl>
 
 <p>
-Definition at line <a class="el" href="import__inc_8php-source.html#l00154">154</a> of file <a class="el" href="import__inc_8php-source.html">import_inc.php</a>.
+Definition at line <a class="el" href="import__inc_8php-source.html#l00159">159</a> of file <a class="el" href="import__inc_8php-source.html">import_inc.php</a>.
 <p>
-References <a class="el" href="bilan_8php-source.html#l00059">$end</a>, <a class="el" href="balance_8php-source.html#l00118">$i</a>, <a class="el" href="fortis__be_8inc_8php-source.html#l00076">$Num</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, <a class="el" href="bilan_8php-source.html#l00058">$start</a>, <a class="el" href="tva_8inc_8php-source.html#l00094">$val</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="balance_8php-source.html#l00036">exit</a>, <a class="el" href="action_8inc_8php-source.html#l00240">name</a>, <a class="el" href="import__inc_8php-source.html#l00084">ShowBox()</a>, and <a class="el" href="action_8inc_8php-source.html#l00241">value</a>.<div class="fragment"><pre class="fragment"><a name="l00154"></a>00154                                          {
-<a name="l00155"></a>00155   <a class="code" href="bank_8inc_8php.html#a20">$sql</a> = <span class="stringliteral">"select to_char(p_start,'DD-MM-YYYY') as p_start,to_char(p_end,'DD-MM-YYYY') as p_end"</span>.
-<a name="l00156"></a>00156     <span class="stringliteral">" from parm_periode where p_id = '"</span>.$periode.<span class="stringliteral">"'"</span>;
-<a name="l00157"></a>00157   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
-<a name="l00158"></a>00158   <a class="code" href="tva_8inc_8php.html#a10">$val</a> = pg_fetch_array($Res);
-<a name="l00159"></a>00159   <span class="keywordflow">if</span> ( $val == <span class="keyword">false</span> )
-<a name="l00160"></a>00160     {
-<a name="l00161"></a>00161       echo <span class="stringliteral">"&lt;script&gt;"</span>.
-<a name="l00162"></a>00162         <span class="stringliteral">"alert ('Vous devez selectionner votre période dans vos préférences');"</span>.
-<a name="l00163"></a>00163         <span class="stringliteral">"&lt;/script&gt;"</span>;
-<a name="l00164"></a>00164       <a class="code" href="balance_8php.html#a0">exit</a>();
-<a name="l00165"></a>00165     }
-<a name="l00166"></a>00166   <a class="code" href="bilan_8php.html#a2">$start</a> =<span class="stringliteral">"to_date('"</span>.$val['p_start'].<span class="stringliteral">"','DD-MM-YYYY')"</span>;   
-<a name="l00167"></a>00167   <a class="code" href="bilan_8php.html#a3">$end</a> = <span class="stringliteral">"to_date('"</span>.$val['p_end'].<span class="stringliteral">"','DD-MM-YYYY')"</span>;
-<a name="l00168"></a>00168 
-<a name="l00169"></a>00169   <a class="code" href="bank_8inc_8php.html#a20">$sql</a> = <span class="stringliteral">"select code,to_char(date_exec,'DD.MM.YYYY') as date_exec, "</span>.
-<a name="l00170"></a>00170     <span class="stringliteral">" montant,num_compte,poste_comptable,bq_account,jrn,detail "</span>.
-<a name="l00171"></a>00171     <span class="stringliteral">" from import_tmp where poste_comptable is not null and  poste_comptable &lt;&gt; '' </span>
-<a name="l00172"></a>00172 <span class="stringliteral">          and   ok &lt;&gt; TRUE AND date_exec BETWEEN "</span>.$start.<span class="stringliteral">" and "</span>.<a class="code" href="bilan_8php.html#a3">$end</a>;
-<a name="l00173"></a>00173   
-<a name="l00174"></a>00174 
-<a name="l00175"></a>00175         
-<a name="l00176"></a>00176   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
-<a name="l00177"></a>00177   <a class="code" href="fortis__be_8inc_8php.html#a9">$Num</a>=pg_NumRows($Res);
-<a name="l00178"></a>00178   echo <a class="code" href="fortis__be_8inc_8php.html#a9">$Num</a>.<span class="stringliteral">" opérations à complèter.&lt;br/&gt;&lt;br/&gt;"</span>;
-<a name="l00179"></a>00179   <span class="keywordflow">if</span> ( $Num == 0 ) <span class="keywordflow">return</span>;
-<a name="l00180"></a>00180   <a class="code" href="balance_8php.html#a12">$i</a>=1;
-<a name="l00181"></a>00181   <span class="keywordflow">while</span>(<a class="code" href="tva_8inc_8php.html#a10">$val</a> = pg_fetch_array($Res)){
-<a name="l00182"></a>00182 
-<a name="l00183"></a>00183     echo '&lt;form method=<span class="stringliteral">"post"</span> <a class="code" href="classaction.html">action</a>=<span class="stringliteral">"import.php"</span>&gt;';
-<a name="l00184"></a>00184     echo '&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"action"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"remove"</span>&gt;';
-<a name="l00185"></a>00185     <a class="code" href="import__inc_8php.html#a2">ShowBox</a>($val,$i,'remove');
-<a name="l00186"></a>00186     echo '&lt;/form&gt;';
-<a name="l00187"></a>00187     <a class="code" href="balance_8php.html#a12">$i</a>++;
-<a name="l00188"></a>00188   }
-<a name="l00189"></a>00189   echo '&lt;form method=<span class="stringliteral">"post"</span> <a class="code" href="classaction.html">action</a>=<span class="stringliteral">"import.php"</span>&gt;';
-<a name="l00190"></a>00190   echo '&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"action"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"transfer"</span>&gt;';
-<a name="l00191"></a>00191   echo '&lt;input type=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"sub"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"Commencer le transfert"</span>&gt;';
-<a name="l00192"></a>00192   echo '&lt;/form&gt;';
-<a name="l00193"></a>00193 
-<a name="l00194"></a>00194 }
+References <a class="el" href="bilan_8php-source.html#l00059">$end</a>, <a class="el" href="balance_8php-source.html#l00118">$i</a>, <a class="el" href="fortis__be_8inc_8php-source.html#l00076">$Num</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, <a class="el" href="bilan_8php-source.html#l00058">$start</a>, <a class="el" href="tva_8inc_8php-source.html#l00094">$val</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="balance_8php-source.html#l00036">exit</a>, <a class="el" href="action_8inc_8php-source.html#l00240">name</a>, <a class="el" href="import__inc_8php-source.html#l00085">ShowBox()</a>, and <a class="el" href="action_8inc_8php-source.html#l00241">value</a>.<div class="fragment"><pre class="fragment"><a name="l00159"></a>00159                                          {
+<a name="l00160"></a>00160   <a class="code" href="bank_8inc_8php.html#a20">$sql</a> = <span class="stringliteral">"select to_char(p_start,'DD-MM-YYYY') as p_start,to_char(p_end,'DD-MM-YYYY') as p_end"</span>.
+<a name="l00161"></a>00161     <span class="stringliteral">" from parm_periode where p_id = '"</span>.$periode.<span class="stringliteral">"'"</span>;
+<a name="l00162"></a>00162   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
+<a name="l00163"></a>00163   <a class="code" href="tva_8inc_8php.html#a10">$val</a> = pg_fetch_array($Res);
+<a name="l00164"></a>00164   <span class="keywordflow">if</span> ( $val == <span class="keyword">false</span> )
+<a name="l00165"></a>00165     {
+<a name="l00166"></a>00166       echo <span class="stringliteral">"&lt;script&gt;"</span>.
+<a name="l00167"></a>00167         <span class="stringliteral">"alert ('Vous devez selectionner votre période dans vos préférences');"</span>.
+<a name="l00168"></a>00168         <span class="stringliteral">"&lt;/script&gt;"</span>;
+<a name="l00169"></a>00169       <a class="code" href="balance_8php.html#a0">exit</a>();
+<a name="l00170"></a>00170     }
+<a name="l00171"></a>00171   <a class="code" href="bilan_8php.html#a2">$start</a> =<span class="stringliteral">"to_date('"</span>.$val['p_start'].<span class="stringliteral">"','DD-MM-YYYY')"</span>;   
+<a name="l00172"></a>00172   <a class="code" href="bilan_8php.html#a3">$end</a> = <span class="stringliteral">"to_date('"</span>.$val['p_end'].<span class="stringliteral">"','DD-MM-YYYY')"</span>;
+<a name="l00173"></a>00173 
+<a name="l00174"></a>00174   <a class="code" href="bank_8inc_8php.html#a20">$sql</a> = <span class="stringliteral">"select code,to_char(date_exec,'DD.MM.YYYY') as date_exec, "</span>.
+<a name="l00175"></a>00175     <span class="stringliteral">" montant,num_compte,poste_comptable,bq_account,jrn,detail "</span>.
+<a name="l00176"></a>00176     <span class="stringliteral">" from import_tmp where </span>
+<a name="l00177"></a>00177 <span class="stringliteral">          status = 'w' AND date_exec BETWEEN "</span>.$start.<span class="stringliteral">" and "</span>.<a class="code" href="bilan_8php.html#a3">$end</a>;
+<a name="l00178"></a>00178   
+<a name="l00179"></a>00179 
+<a name="l00180"></a>00180         
+<a name="l00181"></a>00181   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
+<a name="l00182"></a>00182   <a class="code" href="fortis__be_8inc_8php.html#a9">$Num</a>=pg_NumRows($Res);
+<a name="l00183"></a>00183   echo <a class="code" href="fortis__be_8inc_8php.html#a9">$Num</a>.<span class="stringliteral">" opérations à transfèrer.&lt;br/&gt;&lt;br/&gt;"</span>;
+<a name="l00184"></a>00184   <span class="keywordflow">if</span> ( $Num == 0 ) <span class="keywordflow">return</span>;
+<a name="l00185"></a>00185   <a class="code" href="balance_8php.html#a12">$i</a>=1;
+<a name="l00186"></a>00186   <span class="keywordflow">while</span>(<a class="code" href="tva_8inc_8php.html#a10">$val</a> = pg_fetch_array($Res)){
+<a name="l00187"></a>00187 
+<a name="l00188"></a>00188     echo '&lt;form method=<span class="stringliteral">"post"</span> <a class="code" href="classaction.html">action</a>=<span class="stringliteral">"import.php"</span>&gt;';
+<a name="l00189"></a>00189     echo '&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"action"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"remove"</span>&gt;';
+<a name="l00190"></a>00190     <a class="code" href="import__inc_8php.html#a2">ShowBox</a>($val,$i,$p_cn,'remove');
+<a name="l00191"></a>00191     echo '&lt;/form&gt;';
+<a name="l00192"></a>00192     <a class="code" href="balance_8php.html#a12">$i</a>++;
+<a name="l00193"></a>00193   }
+<a name="l00194"></a>00194   echo '&lt;form method=<span class="stringliteral">"post"</span> <a class="code" href="classaction.html">action</a>=<span class="stringliteral">"import.php"</span>&gt;';
+<a name="l00195"></a>00195   echo '&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"action"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"transfer"</span>&gt;';
+<a name="l00196"></a>00196   echo '&lt;input type=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"sub"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"Commencer le transfert"</span>&gt;';
+<a name="l00197"></a>00197   echo '&lt;/form&gt;';
+<a name="l00198"></a>00198 
+<a name="l00199"></a>00199 }
+</pre></div>
+<p>
+    </td>
+  </tr>
+</table>
+<a class="anchor" name="a8"></a><!-- doxytag: member="import_inc.php::DropRecord" ref="a8" args="($p_cn, $p_code)" --><p>
+<table class="mdTable" cellpadding="2" cellspacing="0">
+  <tr>
+    <td class="mdRow">
+      <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td class="md" nowrap valign="top">DropRecord           </td>
+          <td class="md" valign="top">(&nbsp;</td>
+          <td class="md" nowrap valign="top">$&nbsp;</td>
+          <td class="mdname" nowrap> <em>p_cn</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>$&nbsp;</td>
+          <td class="mdname" nowrap> <em>p_code</em></td>
+        </tr>
+        <tr>
+          <td class="md"></td>
+          <td class="md">)&nbsp;</td>
+          <td class="md" colspan="2"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<table cellspacing="5" cellpadding="0" border="0">
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+    <td>
+
+<p>
+RemoveRow put a flag delete on a row of the table import_tmp (import_tmp.status). 
+<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>$p_cn</em>&nbsp;</td><td>database connection </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>$p_code</em>&nbsp;</td><td>import_tmp.code must be unique</td></tr>
+  </table>
+</dl>
+
+<p>
+Definition at line <a class="el" href="import__inc_8php-source.html#l00337">337</a> of file <a class="el" href="import__inc_8php-source.html">import_inc.php</a>.
+<p>
+References <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00338"></a>00338 {
+<a name="l00339"></a>00339   <a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"update import_tmp set status='d' where code='"</span>.$p_code.<span class="stringliteral">"'"</span>);
+<a name="l00340"></a>00340 }
 </pre></div>
 <p>
     </td>
@@ -245,23 +302,22 @@ References <a class="el" href="postgres_8php-source.html#l00263">Commit()</a>, <
     <td>
 
 <p>
-Remove the record, the data are in $_POST. 
+Remove the record from the transfert list, the data are in $_POST import_tmp.status is set to n for new. 
 <p>
 
 <p>
-Definition at line <a class="el" href="import__inc_8php-source.html#l00123">123</a> of file <a class="el" href="import__inc_8php-source.html">import_inc.php</a>.
+Definition at line <a class="el" href="import__inc_8php-source.html#l00128">128</a> of file <a class="el" href="import__inc_8php-source.html">import_inc.php</a>.
 <p>
-References <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00124"></a>00124 {
-<a name="l00125"></a>00125   var_dump($_POST);
-<a name="l00126"></a>00126   <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">"update import_tmp set poste_comptable=null where code='"</span>.$_POST['code'].<span class="stringliteral">"'"</span>;
-<a name="l00127"></a>00127   <a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$sql);
-<a name="l00128"></a>00128 }
+References <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00129"></a>00129 {
+<a name="l00130"></a>00130   <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">"update import_tmp set poste_comptable=null,status='n' where code='"</span>.$_POST['code'].<span class="stringliteral">"'"</span>;
+<a name="l00131"></a>00131   <a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,$sql);
+<a name="l00132"></a>00132 }
 </pre></div>
 <p>
     </td>
   </tr>
 </table>
-<a class="anchor" name="a2"></a><!-- doxytag: member="import_inc.php::ShowBox" ref="a2" args="($p_val, $counter, $p_form='form')" --><p>
+<a class="anchor" name="a2"></a><!-- doxytag: member="import_inc.php::ShowBox" ref="a2" args="($p_val, $counter, $p_cn, $p_form='form')" --><p>
 <table class="mdTable" cellpadding="2" cellspacing="0">
   <tr>
     <td class="mdRow">
@@ -277,6 +333,12 @@ References <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, and 
           <td class="md"></td>
           <td class="md" nowrap>$&nbsp;</td>
           <td class="mdname" nowrap> <em>counter</em>, </td>
+        </tr>
+        <tr>
+          <td class="md" nowrap align="right"></td>
+          <td class="md"></td>
+          <td class="md" nowrap>$&nbsp;</td>
+          <td class="mdname" nowrap> <em>p_cn</em>, </td>
         </tr>
         <tr>
           <td class="md" nowrap align="right"></td>
@@ -307,51 +369,55 @@ This function show a record from the table import_tmp, the tag for the form are 
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>$p_val</em>&nbsp;</td><td>array (row from import_type) </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>$counter</em>&nbsp;</td><td>a counter used in the form </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>$p_cn</em>&nbsp;</td><td>database connection </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>$p_form</em>&nbsp;</td><td>indicates if the button for the form is enable, modify the Quick Code or remove record <a class="el" href="ecrit__ouv_8php.html#a7">poss.value</a> are form, remove</td></tr>
   </table>
 </dl>
 
 <p>
-Definition at line <a class="el" href="import__inc_8php-source.html#l00084">84</a> of file <a class="el" href="import__inc_8php-source.html">import_inc.php</a>.
+Definition at line <a class="el" href="import__inc_8php-source.html#l00085">85</a> of file <a class="el" href="import__inc_8php-source.html">import_inc.php</a>.
 <p>
 References <a class="el" href="impress__fiche_8php-source.html#l00026">$cn</a>, <a class="el" href="line__update_8php-source.html#l00055">$p_val</a>, <a class="el" href="admin_8inc_8php-source.html#l00116">$w</a>, <a class="el" href="postgres_8php-source.html#l00072">DbConnect()</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, <a class="el" href="action_8inc_8php-source.html#l00240">name</a>, <a class="el" href="balance_8php-source.html#l00071">table</a>, <a class="el" href="action_8inc_8php-source.html#l00241">value</a>, and <a class="el" href="tva_8inc_8php-source.html#l00215">width</a>.
 <p>
-Referenced by <a class="el" href="import__inc_8php-source.html#l00154">ConfirmTransfert()</a>, and <a class="el" href="import__inc_8php-source.html#l00133">VerifImport()</a>.<div class="fragment"><pre class="fragment"><a name="l00084"></a>00084                                                 {
-<a name="l00085"></a>00085 
-<a name="l00086"></a>00086   <a class="code" href="admin_8inc_8php.html#a4">$w</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>('js_search_only');
-<a name="l00087"></a>00087   <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;name='<a class="code" href="classposte.html">poste</a>'.$counter;
-<a name="l00088"></a>00088   <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;extra='cred';
-<a name="l00089"></a>00089   <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;extra2=<a class="code" href="line__update_8php.html#a4">$p_val</a>['<a class="code" href="classjrn.html">jrn</a>'];
-<a name="l00090"></a>00090   <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;label='';
-<a name="l00091"></a>00091   <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;table=0;
-<a name="l00092"></a>00092   <span class="keywordflow">if</span> ( $p_form == 'remove' )
-<a name="l00093"></a>00093     <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;readonly=<span class="keyword">true</span>;
-<a name="l00094"></a>00094 
-<a name="l00095"></a>00095   $s=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>('span');
-<a name="l00096"></a>00096   
-<a name="l00097"></a>00097   <span class="keywordflow">if</span> ( isset($p_val['poste_comptable']))
-<a name="l00098"></a>00098     {
-<a name="l00099"></a>00099       <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;value=<a class="code" href="line__update_8php.html#a4">$p_val</a>['poste_comptable'];
-<a name="l00100"></a>00100       <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>($_SESSION['g_dossier']);
-<a name="l00101"></a>00101       $f=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($cn);
-<a name="l00102"></a>00102       $f-&gt;GetByQCode($p_val['poste_comptable']);
-<a name="l00103"></a>00103       $s-&gt;value=$f-&gt;strAttribut(<a class="code" href="constant_8php.html#a56">ATTR_DEF_NAME</a>);
-<a name="l00104"></a>00104   }
-<a name="l00105"></a>00105   echo '&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"code"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"'.$p_val['code'].'"</span>&gt;';
-<a name="l00106"></a>00106   echo '&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"count"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"'.$counter.'"</span>&gt;';
-<a name="l00107"></a>00107   echo '&lt;<a class="code" href="balance_8php.html#a3">table</a> border=<span class="stringliteral">"1"</span> <a class="code" href="tva_8inc_8php.html#a17">width</a>=<span class="stringliteral">"500"</span>&gt;';
-<a name="l00108"></a>00108   echo '&lt;tr&gt;&lt;td <a class="code" href="tva_8inc_8php.html#a17">width</a>=<span class="stringliteral">"200"</span>&gt;'.$p_val['code'].'&lt;/td&gt;&lt;td width=<span class="stringliteral">"200"</span>&gt;'.$p_val['date_exec'].'&lt;/td&gt;&lt;td width=<span class="stringliteral">"100"</span>&gt;'.$p_val['montant'].' EUR&lt;/td&gt;&lt;tr/&gt;';
-<a name="l00109"></a>00109   echo '&lt;tr&gt;&lt;td height=<span class="stringliteral">"50"</span> colspan=<span class="stringliteral">"3"</span>&gt;'.$p_val['detail'].'&lt;/td&gt;&lt;tr/&gt;';
-<a name="l00110"></a>00110   echo '&lt;tr&gt;&lt;td&gt;'.$w-&gt;IOValue().<span class="charliteral">' '</span>.$s-&gt;IOValue('<a class="code" href="classposte.html">poste</a>'.$counter.'_label').'&lt;/td&gt;';
-<a name="l00111"></a>00111   echo <span class="stringliteral">"&lt;td&gt;n° compte : "</span>.$p_val['num_compte'].<span class="stringliteral">"&lt;/td&gt;"</span>;
-<a name="l00112"></a>00112   <span class="keywordflow">if</span> ( $p_form == 'form')
-<a name="l00113"></a>00113     echo '&lt;td&gt;&lt;input type=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"modifier"</span>&gt;&lt;/td&gt;&lt;tr/&gt;';
-<a name="l00114"></a>00114   <span class="keywordflow">if</span> ($p_form == 'remove' )
-<a name="l00115"></a>00115     echo '&lt;td&gt;&lt;input type=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"enlever"</span>&gt;&lt;/td&gt;&lt;tr/&gt;';
-<a name="l00116"></a>00116 
-<a name="l00117"></a>00117   echo '&lt;/<a class="code" href="balance_8php.html#a3">table</a>&gt;';
-<a name="l00118"></a>00118   
-<a name="l00119"></a>00119 }
+Referenced by <a class="el" href="import__inc_8php-source.html#l00159">ConfirmTransfert()</a>, and <a class="el" href="import__inc_8php-source.html#l00137">VerifImport()</a>.<div class="fragment"><pre class="fragment"><a name="l00085"></a>00085                                                       {
+<a name="l00086"></a>00086 
+<a name="l00087"></a>00087   <a class="code" href="admin_8inc_8php.html#a4">$w</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>('js_search_only');
+<a name="l00088"></a>00088   <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;name='<a class="code" href="classposte.html">poste</a>'.$counter;
+<a name="l00089"></a>00089   <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;extra='cred';
+<a name="l00090"></a>00090   <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;extra2=<a class="code" href="line__update_8php.html#a4">$p_val</a>['<a class="code" href="classjrn.html">jrn</a>'];
+<a name="l00091"></a>00091   <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;label='';
+<a name="l00092"></a>00092   <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;table=0;
+<a name="l00093"></a>00093   <span class="keywordflow">if</span> ( $p_form == 'remove' )
+<a name="l00094"></a>00094     <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;readonly=<span class="keyword">true</span>;
+<a name="l00095"></a>00095 
+<a name="l00096"></a>00096   $s=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>('span');
+<a name="l00097"></a>00097   
+<a name="l00098"></a>00098   <span class="keywordflow">if</span> ( isset($p_val['poste_comptable']))
+<a name="l00099"></a>00099     {
+<a name="l00100"></a>00100       <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;value=<a class="code" href="line__update_8php.html#a4">$p_val</a>['poste_comptable'];
+<a name="l00101"></a>00101       <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>($_SESSION['g_dossier']);
+<a name="l00102"></a>00102       $f=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($p_cn);
+<a name="l00103"></a>00103       $f-&gt;GetByQCode($p_val['poste_comptable']);
+<a name="l00104"></a>00104       $s-&gt;value=$f-&gt;strAttribut(<a class="code" href="constant_8php.html#a56">ATTR_DEF_NAME</a>);
+<a name="l00105"></a>00105   }
+<a name="l00106"></a>00106   echo '&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"code"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"'.$p_val['code'].'"</span>&gt;';
+<a name="l00107"></a>00107   echo '&lt;input type=<span class="stringliteral">"hidden"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"count"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"'.$counter.'"</span>&gt;';
+<a name="l00108"></a>00108   echo '&lt;<a class="code" href="balance_8php.html#a3">table</a> border=<span class="stringliteral">"1"</span> <a class="code" href="tva_8inc_8php.html#a17">width</a>=<span class="stringliteral">"500"</span>&gt;';
+<a name="l00109"></a>00109   echo '&lt;tr&gt;&lt;td <a class="code" href="tva_8inc_8php.html#a17">width</a>=<span class="stringliteral">"200"</span>&gt;'.$p_val['code'].'&lt;/td&gt;&lt;td width=<span class="stringliteral">"200"</span>&gt;'.$p_val['date_exec'].'&lt;/td&gt;&lt;td width=<span class="stringliteral">"100"</span>&gt;'.$p_val['montant'].' EUR&lt;/td&gt;&lt;tr/&gt;';
+<a name="l00110"></a>00110   echo <span class="stringliteral">"&lt;tr&gt;&lt;td&gt; Journal : "</span>.GetJrnName($p_cn,$p_val['<a class="code" href="classjrn.html">jrn</a>']).<span class="stringliteral">"&lt;/TD&gt;&lt;TD&gt;poste comptable Destination : "</span>.<a class="code" href="line__update_8php.html#a4">$p_val</a>['bq_account'].<span class="stringliteral">"&lt;/td&gt;&lt;tr&gt;"</span>;
+<a name="l00111"></a>00111   echo '&lt;tr&gt;&lt;td height=<span class="stringliteral">"50"</span> colspan=<span class="stringliteral">"3"</span>&gt;'.$p_val['detail'].'&lt;/td&gt;&lt;tr/&gt;';
+<a name="l00112"></a>00112   echo '&lt;tr&gt;&lt;td&gt;'.$w-&gt;IOValue().<span class="charliteral">' '</span>.$s-&gt;IOValue('<a class="code" href="classposte.html">poste</a>'.$counter.'_label').'&lt;/td&gt;';
+<a name="l00113"></a>00113   echo <span class="stringliteral">"&lt;td&gt;n° compte : "</span>.$p_val['num_compte'].<span class="stringliteral">"&lt;/td&gt;"</span>;
+<a name="l00114"></a>00114   <span class="keywordflow">if</span> ( $p_form == 'form') {
+<a name="l00115"></a>00115     echo '&lt;td&gt;&lt;input type=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"Modifier"</span>&gt;';
+<a name="l00116"></a>00116     echo '&lt;input type=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"trashit"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"Effacer.."</span>&gt;&lt;/td&gt;&lt;tr/&gt;';
+<a name="l00117"></a>00117   }
+<a name="l00118"></a>00118   <span class="keywordflow">if</span> ($p_form == 'remove' )
+<a name="l00119"></a>00119     echo '&lt;td&gt;&lt;input type=<span class="stringliteral">"submit"</span> <a class="code" href="action_8inc_8php.html#a19">value</a>=<span class="stringliteral">"Enlever"</span>&gt;&lt;/td&gt;&lt;tr/&gt;';
+<a name="l00120"></a>00120 
+<a name="l00121"></a>00121   echo '&lt;/<a class="code" href="balance_8php.html#a3">table</a>&gt;';
+<a name="l00122"></a>00122   
+<a name="l00123"></a>00123 }
 </pre></div>
 <p>
     </td>
@@ -392,26 +458,26 @@ ShowForm for getting data about the bank transfert in cvs.
 <dl compact><dt><b>Returns:</b></dt><dd>none</dd></dl>
 
 <p>
-Definition at line <a class="el" href="import__inc_8php-source.html#l00305">305</a> of file <a class="el" href="import__inc_8php-source.html">import_inc.php</a>.
+Definition at line <a class="el" href="import__inc_8php-source.html#l00313">313</a> of file <a class="el" href="import__inc_8php-source.html">import_inc.php</a>.
 <p>
-References <a class="el" href="show__pj_8php-source.html#l00046">$jrn</a>, <a class="el" href="admin_8inc_8php-source.html#l00116">$w</a>, <a class="el" href="ac__common_8php-source.html#l00280">make_array()</a>, <a class="el" href="pref_8inc_8php-source.html#l00048">METHOD</a>, <a class="el" href="action_8inc_8php-source.html#l00240">name</a>, and <a class="el" href="tva_8inc_8php-source.html#l00212">size</a>.<div class="fragment"><pre class="fragment"><a name="l00305"></a>00305                                  {
-<a name="l00306"></a>00306 <a class="code" href="admin_8inc_8php.html#a4">$w</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"select"</span>);
-<a name="l00307"></a>00307   echo '&lt;<a class="code" href="constant_8php.html#a7">FORM</a> <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"POST"</span> <a class="code" href="classaction.html">action</a>=<span class="stringliteral">"import.php?action=import"</span> enctype=<span class="stringliteral">"multipart/form-data"</span>&gt;';
-<a name="l00308"></a>00308   echo '&lt;INPUT TYPE=<span class="stringliteral">"file"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"fupload"</span> <a class="code" href="tva_8inc_8php.html#a15">size</a>=<span class="stringliteral">"20"</span>&gt;&lt;br&gt;';
-<a name="l00309"></a>00309   <span class="comment">// ask for the journal target </span>
-<a name="l00310"></a>00310   <a class="code" href="show__pj_8php.html#a6">$jrn</a>=<a class="code" href="ac__common_8php.html#a12">make_array</a> ($p_cn,<span class="stringliteral">"select jrn_def_id,jrn_def_name from jrn_def where jrn_def_type='FIN';"</span>);
-<a name="l00311"></a>00311   <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;label='Journal';
-<a name="l00312"></a>00312   echo <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;label.<span class="stringliteral">" :"</span>.<a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;IOValue('import_jrn',$<a class="code" href="classjrn.html">jrn</a>).<span class="stringliteral">"&lt;br&gt;"</span>;
-<a name="l00313"></a>00313   <span class="comment">// choose the bank account</span>
-<a name="l00314"></a>00314   $bq=<a class="code" href="ac__common_8php.html#a12">make_array</a>($p_cn,<span class="stringliteral">"select pcm_val,pcm_lib from tmp_pcmn where pcm_val like '550%'"</span>);
-<a name="l00315"></a>00315   <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;label='Banque';
-<a name="l00316"></a>00316   echo <span class="stringliteral">"Compte en banque :"</span>.$w-&gt;IOValue('import_bq',$bq).<span class="stringliteral">"&lt;br&gt;"</span>;
-<a name="l00317"></a>00317   $format_csv=<a class="code" href="ac__common_8php.html#a12">make_array</a>($p_cn,<span class="stringliteral">"select include_file,name from format_csv_banque;"</span>);
-<a name="l00318"></a>00318   <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;label=<span class="stringliteral">"Format import"</span>;
-<a name="l00319"></a>00319   echo <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;label.$w-&gt;IOValue('format_csv',$format_csv).'&lt;br&gt;';
-<a name="l00320"></a>00320   echo '&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> Value=<span class="stringliteral">"Import fiche"</span>&gt;';
-<a name="l00321"></a>00321   echo '&lt;/<a class="code" href="constant_8php.html#a7">FORM</a>&gt;';
-<a name="l00322"></a>00322 }
+References <a class="el" href="show__pj_8php-source.html#l00046">$jrn</a>, <a class="el" href="admin_8inc_8php-source.html#l00116">$w</a>, <a class="el" href="ac__common_8php-source.html#l00280">make_array()</a>, <a class="el" href="pref_8inc_8php-source.html#l00048">METHOD</a>, <a class="el" href="action_8inc_8php-source.html#l00240">name</a>, and <a class="el" href="tva_8inc_8php-source.html#l00212">size</a>.<div class="fragment"><pre class="fragment"><a name="l00313"></a>00313                                  {
+<a name="l00314"></a>00314 <a class="code" href="admin_8inc_8php.html#a4">$w</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"select"</span>);
+<a name="l00315"></a>00315   echo '&lt;<a class="code" href="constant_8php.html#a7">FORM</a> <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"POST"</span> <a class="code" href="classaction.html">action</a>=<span class="stringliteral">"import.php?action=import"</span> enctype=<span class="stringliteral">"multipart/form-data"</span>&gt;';
+<a name="l00316"></a>00316   echo '&lt;INPUT TYPE=<span class="stringliteral">"file"</span> <a class="code" href="action_8inc_8php.html#a18">name</a>=<span class="stringliteral">"fupload"</span> <a class="code" href="tva_8inc_8php.html#a15">size</a>=<span class="stringliteral">"20"</span>&gt;&lt;br&gt;';
+<a name="l00317"></a>00317   <span class="comment">// ask for the journal target </span>
+<a name="l00318"></a>00318   <a class="code" href="show__pj_8php.html#a6">$jrn</a>=<a class="code" href="ac__common_8php.html#a12">make_array</a> ($p_cn,<span class="stringliteral">"select jrn_def_id,jrn_def_name from jrn_def where jrn_def_type='FIN';"</span>);
+<a name="l00319"></a>00319   <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;label='Journal';
+<a name="l00320"></a>00320   echo <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;label.<span class="stringliteral">" :"</span>.<a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;IOValue('import_jrn',$<a class="code" href="classjrn.html">jrn</a>).<span class="stringliteral">"&lt;br&gt;"</span>;
+<a name="l00321"></a>00321   <span class="comment">// choose the bank account</span>
+<a name="l00322"></a>00322   $bq=<a class="code" href="ac__common_8php.html#a12">make_array</a>($p_cn,<span class="stringliteral">"select pcm_val,pcm_lib from tmp_pcmn where pcm_val like '550%'"</span>);
+<a name="l00323"></a>00323   <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;label='Banque';
+<a name="l00324"></a>00324   echo <span class="stringliteral">"Compte en banque :"</span>.$w-&gt;IOValue('import_bq',$bq).<span class="stringliteral">"&lt;br&gt;"</span>;
+<a name="l00325"></a>00325   $format_csv=<a class="code" href="ac__common_8php.html#a12">make_array</a>($p_cn,<span class="stringliteral">"select include_file,name from format_csv_banque;"</span>);
+<a name="l00326"></a>00326   <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;label=<span class="stringliteral">"Format import"</span>;
+<a name="l00327"></a>00327   echo <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;label.$w-&gt;IOValue('format_csv',$format_csv).'&lt;br&gt;';
+<a name="l00328"></a>00328   echo '&lt;INPUT TYPE=<span class="stringliteral">"SUBMIT"</span> Value=<span class="stringliteral">"Import fiche"</span>&gt;';
+<a name="l00329"></a>00329   echo '&lt;/<a class="code" href="constant_8php.html#a7">FORM</a>&gt;';
+<a name="l00330"></a>00330 }
 </pre></div>
 <p>
     </td>
@@ -451,7 +517,7 @@ References <a class="el" href="show__pj_8php-source.html#l00046">$jrn</a>, <a cl
     <td>
 
 <p>
-Transfert data into the ledger. 
+Transfert data into the ledger set the column import_tmp.status to w (wait) if the account is not correct otherwise transfert it to the ledger and set the column import_tmp.status to t (transfert). 
 <p>
 <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
@@ -461,102 +527,102 @@ Transfert data into the ledger.
 </dl>
 
 <p>
-Definition at line <a class="el" href="import__inc_8php-source.html#l00201">201</a> of file <a class="el" href="import__inc_8php-source.html">import_inc.php</a>.
+Definition at line <a class="el" href="import__inc_8php-source.html#l00209">209</a> of file <a class="el" href="import__inc_8php-source.html">import_inc.php</a>.
 <p>
-References <a class="el" href="commercial_8php-source.html#l00035">$_SESSION</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00053">$code</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00051">$date_exec</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00062">$detail</a>, <a class="el" href="bilan_8php-source.html#l00059">$end</a>, <a class="el" href="show__pj_8php-source.html#l00046">$jrn</a>, <a class="el" href="setup_8php-source.html#l00397">$Max</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00055">$montant</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00036">$num_compte</a>, <a class="el" href="fortis__be_8inc_8php-source.html#l00060">$poste_comptable</a>, <a class="el" href="bank_8inc_8php-source.html#l00237">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="setup_8php-source.html#l00426">$Res2</a>, <a class="el" href="annulation_8php-source.html#l00136">$seq</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, <a class="el" href="bilan_8php-source.html#l00058">$start</a>, <a class="el" href="user__action__ach_8php-source.html#l00164">$User</a>, <a class="el" href="tva_8inc_8php-source.html#l00094">$val</a>, <a class="el" href="postgres_8php-source.html#l00263">Commit()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="balance_8php-source.html#l00036">exit</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, <a class="el" href="user__common_8php-source.html#l00288">InsertJrn()</a>, <a class="el" href="user__common_8php-source.html#l00244">InsertJrnx()</a>, <a class="el" href="postgres_8php-source.html#l00251">NextSequence()</a>, <a class="el" href="postgres_8php-source.html#l00266">Rollback()</a>, <a class="el" href="jrn_8php-source.html#l00949">SetInternalCode()</a>, and <a class="el" href="postgres_8php-source.html#l00257">StartSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00201"></a>00201                                      {
-<a name="l00202"></a>00202         <span class="comment">//on obtient la période courante</span>
-<a name="l00203"></a>00203   <a class="code" href="user__action__ach_8php.html#a9">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>($p_cn);
-<a name="l00204"></a>00204   $periode = <a class="code" href="user__action__ach_8php.html#a9">$User</a>-&gt;GetPeriode();
-<a name="l00205"></a>00205   <span class="comment">// on trouve les dates frontières de cette période</span>
-<a name="l00206"></a>00206   <a class="code" href="bank_8inc_8php.html#a20">$sql</a> = <span class="stringliteral">"select to_char(p_start,'DD-MM-YYYY') as p_start,to_char(p_end,'DD-MM-YYYY') as p_end"</span>.
-<a name="l00207"></a>00207     <span class="stringliteral">" from parm_periode where p_id = '"</span>.$periode.<span class="stringliteral">"'"</span>;
-<a name="l00208"></a>00208   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
-<a name="l00209"></a>00209   <a class="code" href="tva_8inc_8php.html#a10">$val</a> = pg_fetch_array($Res);
-<a name="l00210"></a>00210   <span class="keywordflow">if</span> ( $val == <span class="keyword">false</span> )
-<a name="l00211"></a>00211     {
-<a name="l00212"></a>00212       echo <span class="stringliteral">"&lt;script&gt;"</span>.
-<a name="l00213"></a>00213         <span class="stringliteral">"alert ('Vous devez selectionner votre période dans vos préférences');"</span>.
-<a name="l00214"></a>00214         <span class="stringliteral">"&lt;/script&gt;"</span>;
-<a name="l00215"></a>00215       <a class="code" href="balance_8php.html#a0">exit</a>();
-<a name="l00216"></a>00216     }
-<a name="l00217"></a>00217   <a class="code" href="bilan_8php.html#a2">$start</a> =<span class="stringliteral">"to_date('"</span>.$val['p_start'].<span class="stringliteral">"','DD-MM-YYYY')"</span>;   
-<a name="l00218"></a>00218   <a class="code" href="bilan_8php.html#a3">$end</a> = <span class="stringliteral">"to_date('"</span>.$val['p_end'].<span class="stringliteral">"','DD-MM-YYYY')"</span>;
-<a name="l00219"></a>00219   <span class="comment">// var_dump($val);</span>
-<a name="l00220"></a>00220   <a class="code" href="bank_8inc_8php.html#a20">$sql</a> = <span class="stringliteral">"select code,to_char(date_exec,'DD.MM.YYYY') as date_exec, "</span>.
-<a name="l00221"></a>00221     <span class="stringliteral">" montant,num_compte,poste_comptable,bq_account,jrn,detail "</span>.
-<a name="l00222"></a>00222     <span class="stringliteral">" from import_tmp where poste_comptable is not null and  poste_comptable &lt;&gt; '' </span>
-<a name="l00223"></a>00223 <span class="stringliteral">          and   ok &lt;&gt; TRUE AND date_exec BETWEEN "</span>.$start.<span class="stringliteral">" and "</span>.<a class="code" href="bilan_8php.html#a3">$end</a>;
-<a name="l00224"></a>00224   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
-<a name="l00225"></a>00225   <span class="comment">//echo "boucle: ".sizeof($Res)."&lt;br/&gt;";</span>
-<a name="l00226"></a>00226   <span class="comment">//while($val = pg_fetch_array($Res)){</span>
-<a name="l00227"></a>00227   <a class="code" href="setup_8php.html#a11">$Max</a>=pg_NumRows($Res);
-<a name="l00228"></a>00228   echo <a class="code" href="setup_8php.html#a11">$Max</a>.<span class="stringliteral">" opérations à transférer.&lt;br/&gt;"</span>;
-<a name="l00229"></a>00229   <a class="code" href="postgres_8php.html#a14">StartSql</a>($p_cn);
-<a name="l00230"></a>00230 
-<a name="l00231"></a>00231   <span class="keywordflow">for</span> ($i = 0;$i &lt; $Max;$i++) {
-<a name="l00232"></a>00232     <a class="code" href="tva_8inc_8php.html#a10">$val</a>=pg_fetch_array($Res,$i);
-<a name="l00233"></a>00233     
-<a name="l00234"></a>00234     <a class="code" href="argenta__be_8inc_8php.html#a5">$code</a>=<a class="code" href="tva_8inc_8php.html#a10">$val</a>['code']; <a class="code" href="argenta__be_8inc_8php.html#a3">$date_exec</a>=<a class="code" href="tva_8inc_8php.html#a10">$val</a>['date_exec']; <a class="code" href="argenta__be_8inc_8php.html#a6">$montant</a>=<a class="code" href="tva_8inc_8php.html#a10">$val</a>['montant']; <a class="code" href="argenta__be_8inc_8php.html#a1">$num_compte</a>=<a class="code" href="tva_8inc_8php.html#a10">$val</a>['num_compte']; 
-<a name="l00235"></a>00235     <a class="code" href="fortis__be_8inc_8php.html#a3">$poste_comptable</a>=<a class="code" href="tva_8inc_8php.html#a10">$val</a>['poste_comptable'];$bq_account=<a class="code" href="tva_8inc_8php.html#a10">$val</a>['bq_account'];
-<a name="l00236"></a>00236     <a class="code" href="show__pj_8php.html#a6">$jrn</a>=<a class="code" href="tva_8inc_8php.html#a10">$val</a>['<a class="code" href="classjrn.html">jrn</a>']; <a class="code" href="argenta__be_8inc_8php.html#a9">$detail</a>=<a class="code" href="tva_8inc_8php.html#a10">$val</a>['detail'];
-<a name="l00237"></a>00237     
-<a name="l00238"></a>00238 <span class="comment">// Retrieve the account thx the quick code    </span>
-<a name="l00239"></a>00239     $f=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($p_cn);
-<a name="l00240"></a>00240     $f-&gt;GetByQCode($poste_comptable,<span class="keyword">false</span>);
-<a name="l00241"></a>00241     <a class="code" href="fortis__be_8inc_8php.html#a3">$poste_comptable</a>=$f-&gt;strAttribut(<a class="code" href="constant_8php.html#a55">ATTR_DEF_ACCOUNT</a>);
-<a name="l00242"></a>00242 
-<a name="l00243"></a>00243     <span class="comment">// Vérification que le poste comptable trouvé existe</span>
-<a name="l00244"></a>00244     <span class="keywordflow">if</span> ( $poste_comptable == '- <a class="code" href="constant_8php.html#a43">ERROR</a> -')
-<a name="l00245"></a>00245       $test=0;
-<a name="l00246"></a>00246       <span class="keywordflow">else</span>
-<a name="l00247"></a>00247         {
-<a name="l00248"></a>00248           $sqltest = <span class="stringliteral">"select * from tmp_pcmn WHERE pcm_val='"</span>.$poste_comptable.<span class="stringliteral">"'"</span>;
-<a name="l00249"></a>00249           
-<a name="l00250"></a>00250           $Restest=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sqltest);
-<a name="l00251"></a>00251           $test=pg_NumRows($Restest);
-<a name="l00252"></a>00252         }
-<a name="l00253"></a>00253 
-<a name="l00254"></a>00254     <span class="comment">// Test it</span>
-<a name="l00255"></a>00255     <span class="keywordflow">if</span>($test == 0) {
-<a name="l00256"></a>00256       $sqlupdate = <span class="stringliteral">"update import_tmp set poste_comptable=null,  ok='f' WHERE code='"</span>.$code.<span class="stringliteral">"' AND num_compte='"</span>.<a class="code" href="argenta__be_8inc_8php.html#a1">$num_compte</a>.<span class="stringliteral">"' or num_compte is null"</span>;
-<a name="l00257"></a>00257       $Resupdate=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sqlupdate);
-<a name="l00258"></a>00258       echo <span class="stringliteral">"Poste comptable erronné pour l'opération "</span>.$num_compte.<span class="stringliteral">"-"</span>.<a class="code" href="argenta__be_8inc_8php.html#a5">$code</a>.<span class="stringliteral">", réinitialisation du poste comptable&lt;br/&gt;"</span>;
-<a name="l00259"></a>00259       <span class="keywordflow">continue</span>;
-<a name="l00260"></a>00260     }
-<a name="l00261"></a>00261          
-<a name="l00262"></a>00262       
-<a name="l00263"></a>00263       <span class="comment">// Finances</span>
-<a name="l00264"></a>00264       
-<a name="l00265"></a>00265       <a class="code" href="annulation_8php.html#a4">$seq</a>=<a class="code" href="postgres_8php.html#a13">NextSequence</a>($p_cn,'s_grpt');
-<a name="l00266"></a>00266       $p_user = <a class="code" href="commercial_8php.html#a0">$_SESSION</a>['g_user'];
-<a name="l00267"></a>00267 
-<a name="l00268"></a>00268       <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<a class="code" href="user__common_8php.html#a4">InsertJrnx</a>($p_cn,<span class="stringliteral">"d"</span>,$p_user,$<a class="code" href="classjrn.html">jrn</a>,$bq_account,$date_exec,$montant,$seq,$periode);
-<a name="l00269"></a>00269       <span class="keywordflow">if</span> ( $r == <span class="keyword">false</span>) { $Rollback($p_cn);<a class="code" href="balance_8php.html#a0">exit</a>(<span class="stringliteral">"error 'import_inc.php' __LINE__"</span>);}
+References <a class="el" href="commercial_8php-source.html#l00035">$_SESSION</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00053">$code</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00051">$date_exec</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00062">$detail</a>, <a class="el" href="bilan_8php-source.html#l00059">$end</a>, <a class="el" href="show__pj_8php-source.html#l00046">$jrn</a>, <a class="el" href="setup_8php-source.html#l00404">$Max</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00055">$montant</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00036">$num_compte</a>, <a class="el" href="fortis__be_8inc_8php-source.html#l00060">$poste_comptable</a>, <a class="el" href="bank_8inc_8php-source.html#l00237">$r</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="setup_8php-source.html#l00433">$Res2</a>, <a class="el" href="annulation_8php-source.html#l00136">$seq</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, <a class="el" href="bilan_8php-source.html#l00058">$start</a>, <a class="el" href="user__action__ach_8php-source.html#l00167">$User</a>, <a class="el" href="tva_8inc_8php-source.html#l00094">$val</a>, <a class="el" href="postgres_8php-source.html#l00263">Commit()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="balance_8php-source.html#l00036">exit</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, <a class="el" href="user__common_8php-source.html#l00288">InsertJrn()</a>, <a class="el" href="user__common_8php-source.html#l00244">InsertJrnx()</a>, <a class="el" href="postgres_8php-source.html#l00251">NextSequence()</a>, <a class="el" href="postgres_8php-source.html#l00266">Rollback()</a>, <a class="el" href="jrn_8php-source.html#l00949">SetInternalCode()</a>, and <a class="el" href="postgres_8php-source.html#l00257">StartSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00209"></a>00209                                      {
+<a name="l00210"></a>00210         <span class="comment">//on obtient la période courante</span>
+<a name="l00211"></a>00211   <a class="code" href="user__action__ach_8php.html#a11">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>($p_cn);
+<a name="l00212"></a>00212   $periode = <a class="code" href="user__action__ach_8php.html#a11">$User</a>-&gt;GetPeriode();
+<a name="l00213"></a>00213   <span class="comment">// on trouve les dates frontières de cette période</span>
+<a name="l00214"></a>00214   <a class="code" href="bank_8inc_8php.html#a20">$sql</a> = <span class="stringliteral">"select to_char(p_start,'DD-MM-YYYY') as p_start,to_char(p_end,'DD-MM-YYYY') as p_end"</span>.
+<a name="l00215"></a>00215     <span class="stringliteral">" from parm_periode where p_id = '"</span>.$periode.<span class="stringliteral">"'"</span>;
+<a name="l00216"></a>00216   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
+<a name="l00217"></a>00217   <a class="code" href="tva_8inc_8php.html#a10">$val</a> = pg_fetch_array($Res);
+<a name="l00218"></a>00218   <span class="keywordflow">if</span> ( $val == <span class="keyword">false</span> )
+<a name="l00219"></a>00219     {
+<a name="l00220"></a>00220       echo <span class="stringliteral">"&lt;script&gt;"</span>.
+<a name="l00221"></a>00221         <span class="stringliteral">"alert ('Vous devez selectionner votre période dans vos préférences');"</span>.
+<a name="l00222"></a>00222         <span class="stringliteral">"&lt;/script&gt;"</span>;
+<a name="l00223"></a>00223       <a class="code" href="balance_8php.html#a0">exit</a>();
+<a name="l00224"></a>00224     }
+<a name="l00225"></a>00225   <a class="code" href="bilan_8php.html#a2">$start</a> =<span class="stringliteral">"to_date('"</span>.$val['p_start'].<span class="stringliteral">"','DD-MM-YYYY')"</span>;   
+<a name="l00226"></a>00226   <a class="code" href="bilan_8php.html#a3">$end</a> = <span class="stringliteral">"to_date('"</span>.$val['p_end'].<span class="stringliteral">"','DD-MM-YYYY')"</span>;
+<a name="l00227"></a>00227   <span class="comment">// var_dump($val);</span>
+<a name="l00228"></a>00228   <a class="code" href="bank_8inc_8php.html#a20">$sql</a> = <span class="stringliteral">"select code,to_char(date_exec,'DD.MM.YYYY') as date_exec, "</span>.
+<a name="l00229"></a>00229     <span class="stringliteral">" montant,num_compte,poste_comptable,bq_account,jrn,detail "</span>.
+<a name="l00230"></a>00230     <span class="stringliteral">" from import_tmp where "</span>.
+<a name="l00231"></a>00231          <span class="stringliteral">" status= 'w' AND date_exec BETWEEN "</span>.$start.<span class="stringliteral">" and "</span>.<a class="code" href="bilan_8php.html#a3">$end</a>;
+<a name="l00232"></a>00232   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
+<a name="l00233"></a>00233   <span class="comment">//echo "boucle: ".sizeof($Res)."&lt;br/&gt;";</span>
+<a name="l00234"></a>00234   <span class="comment">//while($val = pg_fetch_array($Res)){</span>
+<a name="l00235"></a>00235   <a class="code" href="setup_8php.html#a11">$Max</a>=pg_NumRows($Res);
+<a name="l00236"></a>00236   echo <a class="code" href="setup_8php.html#a11">$Max</a>.<span class="stringliteral">" opérations à transférer.&lt;br/&gt;"</span>;
+<a name="l00237"></a>00237   <a class="code" href="postgres_8php.html#a14">StartSql</a>($p_cn);
+<a name="l00238"></a>00238 
+<a name="l00239"></a>00239   <span class="keywordflow">for</span> ($i = 0;$i &lt; $Max;$i++) {
+<a name="l00240"></a>00240     <a class="code" href="tva_8inc_8php.html#a10">$val</a>=pg_fetch_array($Res,$i);
+<a name="l00241"></a>00241     
+<a name="l00242"></a>00242     <a class="code" href="argenta__be_8inc_8php.html#a5">$code</a>=<a class="code" href="tva_8inc_8php.html#a10">$val</a>['code']; <a class="code" href="argenta__be_8inc_8php.html#a3">$date_exec</a>=<a class="code" href="tva_8inc_8php.html#a10">$val</a>['date_exec']; <a class="code" href="argenta__be_8inc_8php.html#a6">$montant</a>=<a class="code" href="tva_8inc_8php.html#a10">$val</a>['montant']; <a class="code" href="argenta__be_8inc_8php.html#a1">$num_compte</a>=<a class="code" href="tva_8inc_8php.html#a10">$val</a>['num_compte']; 
+<a name="l00243"></a>00243     <a class="code" href="fortis__be_8inc_8php.html#a3">$poste_comptable</a>=<a class="code" href="tva_8inc_8php.html#a10">$val</a>['poste_comptable'];$bq_account=<a class="code" href="tva_8inc_8php.html#a10">$val</a>['bq_account'];
+<a name="l00244"></a>00244     <a class="code" href="show__pj_8php.html#a6">$jrn</a>=<a class="code" href="tva_8inc_8php.html#a10">$val</a>['<a class="code" href="classjrn.html">jrn</a>']; <a class="code" href="argenta__be_8inc_8php.html#a9">$detail</a>=<a class="code" href="tva_8inc_8php.html#a10">$val</a>['detail'];
+<a name="l00245"></a>00245     
+<a name="l00246"></a>00246 <span class="comment">// Retrieve the account thx the quick code    </span>
+<a name="l00247"></a>00247     $f=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($p_cn);
+<a name="l00248"></a>00248     $f-&gt;GetByQCode($poste_comptable,<span class="keyword">false</span>);
+<a name="l00249"></a>00249     <a class="code" href="fortis__be_8inc_8php.html#a3">$poste_comptable</a>=$f-&gt;strAttribut(<a class="code" href="constant_8php.html#a55">ATTR_DEF_ACCOUNT</a>);
+<a name="l00250"></a>00250 
+<a name="l00251"></a>00251     <span class="comment">// Vérification que le poste comptable trouvé existe</span>
+<a name="l00252"></a>00252     <span class="keywordflow">if</span> ( $poste_comptable == '- <a class="code" href="constant_8php.html#a43">ERROR</a> -')
+<a name="l00253"></a>00253       $test=0;
+<a name="l00254"></a>00254       <span class="keywordflow">else</span>
+<a name="l00255"></a>00255         {
+<a name="l00256"></a>00256           $sqltest = <span class="stringliteral">"select * from tmp_pcmn WHERE pcm_val='"</span>.$poste_comptable.<span class="stringliteral">"'"</span>;
+<a name="l00257"></a>00257           
+<a name="l00258"></a>00258           $Restest=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sqltest);
+<a name="l00259"></a>00259           $test=pg_NumRows($Restest);
+<a name="l00260"></a>00260         }
+<a name="l00261"></a>00261 
+<a name="l00262"></a>00262     <span class="comment">// Test it</span>
+<a name="l00263"></a>00263     <span class="keywordflow">if</span>($test == 0) {
+<a name="l00264"></a>00264       $sqlupdate = <span class="stringliteral">"update import_tmp set status='n' WHERE code='"</span>.$code.<span class="stringliteral">"' AND num_compte='"</span>.<a class="code" href="argenta__be_8inc_8php.html#a1">$num_compte</a>.<span class="stringliteral">"' or num_compte is null"</span>;
+<a name="l00265"></a>00265       $Resupdate=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sqlupdate);
+<a name="l00266"></a>00266       echo <span class="stringliteral">"Poste comptable erronné pour l'opération "</span>.$num_compte.<span class="stringliteral">"-"</span>.<a class="code" href="argenta__be_8inc_8php.html#a5">$code</a>.<span class="stringliteral">", réinitialisation du poste comptable&lt;br/&gt;"</span>;
+<a name="l00267"></a>00267       <span class="keywordflow">continue</span>;
+<a name="l00268"></a>00268     }
+<a name="l00269"></a>00269          
 <a name="l00270"></a>00270       
-<a name="l00271"></a>00271       <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<a class="code" href="user__common_8php.html#a4">InsertJrnx</a>($p_cn,<span class="stringliteral">"c"</span>,$p_user,$<a class="code" href="classjrn.html">jrn</a>,$poste_comptable,$date_exec,$montant,$seq,$periode);
-<a name="l00272"></a>00272       <span class="keywordflow">if</span> ( $r == <span class="keyword">false</span>) { $Rollback($p_cn);<a class="code" href="balance_8php.html#a0">exit</a>(<span class="stringliteral">"error 'import_inc.php' __LINE__"</span>);}
-<a name="l00273"></a>00273       
-<a name="l00274"></a>00274       <span class="comment">//remove annoying double-quote</span>
-<a name="l00275"></a>00275       <a class="code" href="argenta__be_8inc_8php.html#a1">$num_compte</a>=str_replace(<span class="charliteral">'"'</span>,'',$num_compte);
-<a name="l00276"></a>00276       <a class="code" href="argenta__be_8inc_8php.html#a5">$code</a>=str_replace(<span class="charliteral">'\"'</span>,'',$code);
-<a name="l00277"></a>00277       <span class="keywordflow">if</span> ( strlen(trim($num_compte)) == 0 )
-<a name="l00278"></a>00278         <a class="code" href="argenta__be_8inc_8php.html#a1">$num_compte</a>=<a class="code" href="tva_8inc_8php.html#a10">$val</a>['detail'];
-<a name="l00279"></a>00279 
-<a name="l00280"></a>00280       <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<a class="code" href="user__common_8php.html#a5">InsertJrn</a>($p_cn,$date_exec,NULL,$<a class="code" href="classjrn.html">jrn</a>,$detail.$num_compte.<span class="stringliteral">" "</span>.$code,$montant,$seq,$periode);
-<a name="l00281"></a>00281       <span class="keywordflow">if</span> ( $r == <span class="keyword">false</span> ) { <a class="code" href="postgres_8php.html#a17">Rollback</a>($p_cn); <a class="code" href="balance_8php.html#a0">exit</a>(<span class="stringliteral">" Error 'import_inc.php' __LINE__"</span>);}
-<a name="l00282"></a>00282       
-<a name="l00283"></a>00283       <a class="code" href="jrn_8php.html#a14">SetInternalCode</a>($p_cn,$seq,$<a class="code" href="classjrn.html">jrn</a>);
-<a name="l00284"></a>00284       
-<a name="l00285"></a>00285       
-<a name="l00286"></a>00286       echo <span class="stringliteral">"Tranfer de l'opération "</span>.$code.<span class="stringliteral">" effectué&lt;br/&gt;"</span>;
-<a name="l00287"></a>00287       $sql2 = <span class="stringliteral">"update import_tmp set ok=TRUE where code='"</span>.$code.<span class="stringliteral">"'"</span>;
-<a name="l00288"></a>00288       <a class="code" href="setup_8php.html#a12">$Res2</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql2);
-<a name="l00289"></a>00289       
-<a name="l00290"></a>00290         
-<a name="l00291"></a>00291   }
-<a name="l00292"></a>00292   <a class="code" href="postgres_8php.html#a16">Commit</a>($p_cn);
-<a name="l00293"></a>00293 
-<a name="l00294"></a>00294 }
+<a name="l00271"></a>00271       <span class="comment">// Finances</span>
+<a name="l00272"></a>00272       
+<a name="l00273"></a>00273       <a class="code" href="annulation_8php.html#a4">$seq</a>=<a class="code" href="postgres_8php.html#a13">NextSequence</a>($p_cn,'s_grpt');
+<a name="l00274"></a>00274       $p_user = <a class="code" href="commercial_8php.html#a0">$_SESSION</a>['g_user'];
+<a name="l00275"></a>00275 
+<a name="l00276"></a>00276       <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<a class="code" href="user__common_8php.html#a4">InsertJrnx</a>($p_cn,<span class="stringliteral">"d"</span>,$p_user,$<a class="code" href="classjrn.html">jrn</a>,$bq_account,$date_exec,$montant,$seq,$periode);
+<a name="l00277"></a>00277       <span class="keywordflow">if</span> ( $r == <span class="keyword">false</span>) { $Rollback($p_cn);<a class="code" href="balance_8php.html#a0">exit</a>(<span class="stringliteral">"error 'import_inc.php' __LINE__"</span>);}
+<a name="l00278"></a>00278       
+<a name="l00279"></a>00279       <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<a class="code" href="user__common_8php.html#a4">InsertJrnx</a>($p_cn,<span class="stringliteral">"c"</span>,$p_user,$<a class="code" href="classjrn.html">jrn</a>,$poste_comptable,$date_exec,$montant,$seq,$periode);
+<a name="l00280"></a>00280       <span class="keywordflow">if</span> ( $r == <span class="keyword">false</span>) { $Rollback($p_cn);<a class="code" href="balance_8php.html#a0">exit</a>(<span class="stringliteral">"error 'import_inc.php' __LINE__"</span>);}
+<a name="l00281"></a>00281       
+<a name="l00282"></a>00282       <span class="comment">//remove annoying double-quote</span>
+<a name="l00283"></a>00283       <a class="code" href="argenta__be_8inc_8php.html#a1">$num_compte</a>=str_replace(<span class="charliteral">'"'</span>,'',$num_compte);
+<a name="l00284"></a>00284       <a class="code" href="argenta__be_8inc_8php.html#a5">$code</a>=str_replace(<span class="charliteral">'\"'</span>,'',$code);
+<a name="l00285"></a>00285       <span class="keywordflow">if</span> ( strlen(trim($num_compte)) == 0 )
+<a name="l00286"></a>00286         <a class="code" href="argenta__be_8inc_8php.html#a1">$num_compte</a>=<a class="code" href="tva_8inc_8php.html#a10">$val</a>['detail'];
+<a name="l00287"></a>00287 
+<a name="l00288"></a>00288       <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<a class="code" href="user__common_8php.html#a5">InsertJrn</a>($p_cn,$date_exec,NULL,$<a class="code" href="classjrn.html">jrn</a>,$detail.$num_compte.<span class="stringliteral">" "</span>.$code,$montant,$seq,$periode);
+<a name="l00289"></a>00289       <span class="keywordflow">if</span> ( $r == <span class="keyword">false</span> ) { <a class="code" href="postgres_8php.html#a17">Rollback</a>($p_cn); <a class="code" href="balance_8php.html#a0">exit</a>(<span class="stringliteral">" Error 'import_inc.php' __LINE__"</span>);}
+<a name="l00290"></a>00290       
+<a name="l00291"></a>00291       <a class="code" href="jrn_8php.html#a14">SetInternalCode</a>($p_cn,$seq,$<a class="code" href="classjrn.html">jrn</a>);
+<a name="l00292"></a>00292       
+<a name="l00293"></a>00293       
+<a name="l00294"></a>00294       echo <span class="stringliteral">"Tranfer de l'opération "</span>.$code.<span class="stringliteral">" effectué&lt;br/&gt;"</span>;
+<a name="l00295"></a>00295       $sql2 = <span class="stringliteral">"update import_tmp set status='t' where code='"</span>.$code.<span class="stringliteral">"'"</span>;
+<a name="l00296"></a>00296       <a class="code" href="setup_8php.html#a12">$Res2</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql2);
+<a name="l00297"></a>00297       
+<a name="l00298"></a>00298         
+<a name="l00299"></a>00299   }
+<a name="l00300"></a>00300   <a class="code" href="postgres_8php.html#a16">Commit</a>($p_cn);
+<a name="l00301"></a>00301 
+<a name="l00302"></a>00302 }
 </pre></div>
 <p>
     </td>
@@ -597,7 +663,7 @@ References <a class="el" href="argenta__be_8inc_8php-source.html#l00053">$code</
 <a name="l00067"></a>00067   <a class="code" href="argenta__be_8inc_8php.html#a5">$code</a>=$_POST['code'];
 <a name="l00068"></a>00068   <a class="code" href="admin__repo_8php.html#a13">$count</a>=$_POST['count'];
 <a name="l00069"></a>00069   <a class="code" href="send__poste__pdf_8php.html#a2">$poste</a>=$_POST['<a class="code" href="classposte.html">poste</a>'.$count];
-<a name="l00070"></a>00070   <a class="code" href="bank_8inc_8php.html#a20">$sql</a> = <span class="stringliteral">"update import_tmp set poste_comptable='"</span>.$poste.<span class="stringliteral">"' where code='"</span>.<a class="code" href="argenta__be_8inc_8php.html#a5">$code</a>.<span class="stringliteral">"'"</span>;
+<a name="l00070"></a>00070   <a class="code" href="bank_8inc_8php.html#a20">$sql</a> = <span class="stringliteral">"update import_tmp set poste_comptable='"</span>.$poste.<span class="stringliteral">"' ,status='w' where code='"</span>.<a class="code" href="argenta__be_8inc_8php.html#a5">$code</a>.<span class="stringliteral">"'"</span>;
 <a name="l00071"></a>00071   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
 <a name="l00072"></a>00072 }
 </pre></div>
@@ -634,24 +700,25 @@ Verify the import.
 <p>
 
 <p>
-Definition at line <a class="el" href="import__inc_8php-source.html#l00133">133</a> of file <a class="el" href="import__inc_8php-source.html">import_inc.php</a>.
+Definition at line <a class="el" href="import__inc_8php-source.html#l00137">137</a> of file <a class="el" href="import__inc_8php-source.html">import_inc.php</a>.
 <p>
-References <a class="el" href="balance_8php-source.html#l00118">$i</a>, <a class="el" href="fortis__be_8inc_8php-source.html#l00076">$Num</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, <a class="el" href="tva_8inc_8php-source.html#l00094">$val</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="pref_8inc_8php-source.html#l00048">METHOD</a>, and <a class="el" href="import__inc_8php-source.html#l00084">ShowBox()</a>.<div class="fragment"><pre class="fragment"><a name="l00133"></a>00133                            {
-<a name="l00134"></a>00134         <a class="code" href="bank_8inc_8php.html#a20">$sql</a> = <span class="stringliteral">"select * from import_tmp where poste_comptable='' or poste_comptable is null order by date_exec,code"</span>;
-<a name="l00135"></a>00135         <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
-<a name="l00136"></a>00136         <a class="code" href="fortis__be_8inc_8php.html#a9">$Num</a>=pg_NumRows($Res);
-<a name="l00137"></a>00137         echo <a class="code" href="fortis__be_8inc_8php.html#a9">$Num</a>.<span class="stringliteral">" opérations à complèter.&lt;br/&gt;&lt;br/&gt;"</span>;
-<a name="l00138"></a>00138         <a class="code" href="balance_8php.html#a12">$i</a>=1;
-<a name="l00139"></a>00139         <span class="comment">// include javascript for popup </span>
-<a name="l00140"></a>00140         echo <a class="code" href="constant_8php.html#a85">JS_SEARCH_CARD</a>;
-<a name="l00141"></a>00141         <span class="keywordflow">while</span>(<a class="code" href="tva_8inc_8php.html#a10">$val</a> = pg_fetch_array($Res)){
-<a name="l00142"></a>00142           echo '&lt;form <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"POST"</span> <a class="code" href="classaction.html">action</a>=<span class="stringliteral">"import.php?action=verif"</span>&gt;'; 
-<a name="l00143"></a>00143           <a class="code" href="import__inc_8php.html#a2">ShowBox</a>($val,$i);
-<a name="l00144"></a>00144           echo '&lt;/form&gt;';
-<a name="l00145"></a>00145           <a class="code" href="balance_8php.html#a12">$i</a>++;
-<a name="l00146"></a>00146         }
-<a name="l00147"></a>00147 
-<a name="l00148"></a>00148 }
+References <a class="el" href="balance_8php-source.html#l00118">$i</a>, <a class="el" href="fortis__be_8inc_8php-source.html#l00076">$Num</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, <a class="el" href="tva_8inc_8php-source.html#l00094">$val</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, <a class="el" href="pref_8inc_8php-source.html#l00048">METHOD</a>, and <a class="el" href="import__inc_8php-source.html#l00085">ShowBox()</a>.<div class="fragment"><pre class="fragment"><a name="l00137"></a>00137                            {
+<a name="l00138"></a>00138         <a class="code" href="bank_8inc_8php.html#a20">$sql</a> = <span class="stringliteral">"select * from import_tmp where status='n' "</span>.
+<a name="l00139"></a>00139           <span class="stringliteral">" order by date_exec,code"</span>;
+<a name="l00140"></a>00140         <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$sql);
+<a name="l00141"></a>00141         <a class="code" href="fortis__be_8inc_8php.html#a9">$Num</a>=pg_NumRows($Res);
+<a name="l00142"></a>00142         echo <a class="code" href="fortis__be_8inc_8php.html#a9">$Num</a>.<span class="stringliteral">" opérations à complèter.&lt;br/&gt;&lt;br/&gt;"</span>;
+<a name="l00143"></a>00143         <a class="code" href="balance_8php.html#a12">$i</a>=1;
+<a name="l00144"></a>00144         <span class="comment">// include javascript for popup </span>
+<a name="l00145"></a>00145         echo <a class="code" href="constant_8php.html#a85">JS_SEARCH_CARD</a>;
+<a name="l00146"></a>00146         <span class="keywordflow">while</span>(<a class="code" href="tva_8inc_8php.html#a10">$val</a> = pg_fetch_array($Res)){
+<a name="l00147"></a>00147           echo '&lt;form <a class="code" href="pref_8inc_8php.html#a0">METHOD</a>=<span class="stringliteral">"POST"</span> <a class="code" href="classaction.html">action</a>=<span class="stringliteral">"import.php?action=verif"</span>&gt;'; 
+<a name="l00148"></a>00148           <a class="code" href="import__inc_8php.html#a2">ShowBox</a>($val,$i,$p_cn,'form');
+<a name="l00149"></a>00149           echo '&lt;/form&gt;';
+<a name="l00150"></a>00150           <a class="code" href="balance_8php.html#a12">$i</a>++;
+<a name="l00151"></a>00151         }
+<a name="l00152"></a>00152 
+<a name="l00153"></a>00153 }
 </pre></div>
 <p>
     </td>

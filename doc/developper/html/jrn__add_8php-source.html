@@ -37,10 +37,10 @@
 <a name="l00032"></a>00032 }
 <a name="l00033"></a>00033 include_once (<span class="stringliteral">"postgres.php"</span>);
 <a name="l00034"></a>00034 <span class="comment">/* Admin. Dossier */</span>
-<a name="l00035"></a><a class="code" href="jrn__add_8php.html#a0">00035</a> <a class="code" href="impress__poste_8php.html#a1">$rep</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
+<a name="l00035"></a><a class="code" href="jrn__add_8php.html#a0">00035</a> <a class="code" href="impress__poste_8php.html#a3">$rep</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
 <a name="l00036"></a>00036 include_once (<span class="stringliteral">"class_user.php"</span>);
-<a name="l00037"></a><a class="code" href="jrn__add_8php.html#a1">00037</a> <a class="code" href="user__action__ach_8php.html#a9">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>($rep);
-<a name="l00038"></a>00038 <a class="code" href="user__action__ach_8php.html#a9">$User</a>-&gt;Check();
+<a name="l00037"></a><a class="code" href="jrn__add_8php.html#a1">00037</a> <a class="code" href="user__action__ach_8php.html#a11">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>($rep);
+<a name="l00038"></a>00038 <a class="code" href="user__action__ach_8php.html#a11">$User</a>-&gt;Check();
 <a name="l00039"></a>00039 include_once(<span class="stringliteral">"check_priv.php"</span>);
 <a name="l00040"></a>00040 include_once (<span class="stringliteral">"user_menu.php"</span>);
 <a name="l00041"></a>00041 
@@ -114,7 +114,7 @@
 <a name="l00109"></a>00109 <a class="code" href="user__menu_8php.html#a14">MenuJrn</a>($_SESSION['g_dossier']);
 <a name="l00110"></a>00110 echo '&lt;/div&gt;';
 <a name="l00111"></a>00111 
-<a name="l00112"></a><a class="code" href="jrn__add_8php.html#a14">00112</a> <a class="code" href="user__action__ach_8php.html#a21">$sessid</a>=$_REQUEST['PHPSESSID'];
+<a name="l00112"></a><a class="code" href="jrn__add_8php.html#a14">00112</a> <a class="code" href="user__action__ach_8php.html#a23">$sessid</a>=$_REQUEST['PHPSESSID'];
 <a name="l00113"></a><a class="code" href="jrn__add_8php.html#a15">00113</a> <a class="code" href="admin_8inc_8php.html#a8">$search</a>='&lt;INPUT TYPE=<span class="stringliteral">"BUTTON"</span> VALUE=<span class="stringliteral">"Cherche"</span> OnClick=<span class="stringliteral">"SearchPoste(\''.$sessid."</span><span class="charliteral">','</span>not')\<span class="stringliteral">"&gt;"</span>;
 <a name="l00114"></a>00114 
 <a name="l00115"></a>00115 echo '&lt;DIV CLASS=<span class="stringliteral">"u_redcontent"</span>&gt;';

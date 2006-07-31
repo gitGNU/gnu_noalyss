@@ -421,7 +421,7 @@
 <a name="l00502"></a>00502           $tiers=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($this-&gt;db);
 <a name="l00503"></a>00503           <a class="code" href="bank_8inc_8php.html#a16">$qcode</a>=isset($_REQUEST['<a class="code" href="action_8inc_8php.html#a10">qcode_dest</a>'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
 <a name="l00504"></a>00504           $tiers-&gt;Getbyqcode($qcode,<span class="keyword">false</span>);
-<a name="l00505"></a>00505           <a class="code" href="line__update_8php.html#a10">$p</a>=$tiers-&gt;strAttribut(<a class="code" href="constant_8php.html#a55">ATTR_DEF_ACCOUNT</a>);
+<a name="l00505"></a>00505           <a class="code" href="impress__poste_8php.html#a2">$p</a>=$tiers-&gt;strAttribut(<a class="code" href="constant_8php.html#a55">ATTR_DEF_ACCOUNT</a>);
 <a name="l00506"></a>00506           <a class="code" href="send__poste__pdf_8php.html#a2">$poste</a>=<span class="keyword">new</span> Poste($this-&gt;db,$p);
 <a name="l00507"></a>00507           <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<a class="code" href="send__poste__pdf_8php.html#a2">$poste</a>-&gt;GetSolde(' <span class="keyword">true</span>' );
 <a name="l00508"></a>00508           <span class="keywordflow">break</span>;

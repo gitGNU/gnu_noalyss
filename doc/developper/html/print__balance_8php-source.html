@@ -37,10 +37,10 @@
 <a name="l00040"></a>00040 include_once(<span class="stringliteral">"preference.php"</span>);
 <a name="l00041"></a>00041 
 <a name="l00042"></a><a class="code" href="print__balance_8php.html#a0">00042</a> <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>($_SESSION['g_dossier']);
-<a name="l00043"></a><a class="code" href="print__balance_8php.html#a1">00043</a> <a class="code" href="impress__poste_8php.html#a1">$rep</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
+<a name="l00043"></a><a class="code" href="print__balance_8php.html#a1">00043</a> <a class="code" href="impress__poste_8php.html#a3">$rep</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
 <a name="l00044"></a>00044 include ('class_user.php');
-<a name="l00045"></a><a class="code" href="print__balance_8php.html#a2">00045</a> <a class="code" href="user__action__ach_8php.html#a9">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>($rep);
-<a name="l00046"></a>00046 <a class="code" href="user__action__ach_8php.html#a9">$User</a>-&gt;Check();
+<a name="l00045"></a><a class="code" href="print__balance_8php.html#a2">00045</a> <a class="code" href="user__action__ach_8php.html#a11">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>($rep);
+<a name="l00046"></a>00046 <a class="code" href="user__action__ach_8php.html#a11">$User</a>-&gt;Check();
 <a name="l00047"></a>00047 
 <a name="l00048"></a><a class="code" href="print__balance_8php.html#a3">00048</a> <a class="code" href="bal__csv_8php.html#a3">$bal</a>=<span class="keyword">new</span> <a class="code" href="classBalance.html">Balance</a>($cn);
 <a name="l00049"></a>00049 <span class="keywordflow">if</span> ( $User-&gt;CheckAction($cn,<a class="code" href="constant_8php.html#a14">BALANCE</a>) == 0)

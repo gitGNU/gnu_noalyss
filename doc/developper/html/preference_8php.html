@@ -103,7 +103,7 @@ Generate the form for the periode.
 <p>
 Definition at line <a class="el" href="preference_8php-source.html#l00071">71</a> of file <a class="el" href="preference_8php-source.html">preference.php</a>.
 <p>
-References <a class="el" href="jrn__detail_8php-source.html#l00124">$l_line</a>, <a class="el" href="setup_8php-source.html#l00397">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="impress__bilan_8php-source.html#l00032">$ret</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00072"></a>00072 {
+References <a class="el" href="jrn__detail_8php-source.html#l00124">$l_line</a>, <a class="el" href="setup_8php-source.html#l00404">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="impress__bilan_8php-source.html#l00032">$ret</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.<div class="fragment"><pre class="fragment"><a name="l00072"></a>00072 {
 <a name="l00073"></a>00073   <span class="keywordflow">switch</span> ($p_type) {
 <a name="l00074"></a>00074   <span class="keywordflow">case</span> <a class="code" href="constant_8php.html#a48">CLOSED</a>:
 <a name="l00075"></a>00075     $sql_closed=<span class="stringliteral">"where p_closed=true and p_central = false "</span>;
@@ -189,7 +189,7 @@ FormPeriodeMult<p>
 <p>
 Definition at line <a class="el" href="preference_8php-source.html#l00037">37</a> of file <a class="el" href="preference_8php-source.html">preference.php</a>.
 <p>
-References <a class="el" href="jrn__detail_8php-source.html#l00124">$l_line</a>, <a class="el" href="setup_8php-source.html#l00397">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="impress__bilan_8php-source.html#l00032">$ret</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
+References <a class="el" href="jrn__detail_8php-source.html#l00124">$l_line</a>, <a class="el" href="setup_8php-source.html#l00404">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="impress__bilan_8php-source.html#l00032">$ret</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
 <p>
 Referenced by <a class="el" href="impress__inc_8php-source.html#l00036">ViewImp()</a>.<div class="fragment"><pre class="fragment"><a name="l00038"></a>00038 {
 <a name="l00039"></a>00039   <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">"select p_id,to_char(p_start,'DD.MM.YYYY') as p_start,</span>
@@ -323,7 +323,7 @@ Definition at line <a class="el" href="preference_8php-source.html#l00125">125</
 <p>
 References <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="bank_8inc_8php-source.html#l00169">$sql</a>, and <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>.
 <p>
-Referenced by <a class="el" href="user__form__ach_8php-source.html#l00044">FormAchInput()</a>, <a class="el" href="user__form__fin_8php-source.html#l00146">FormFin()</a>, <a class="el" href="user__form__ods_8php-source.html#l00045">FormODS()</a>, <a class="el" href="user__form__ven_8php-source.html#l00043">FormVenInput()</a>, <a class="el" href="jrn_8php-source.html#l00038">RecordJrn()</a>, <a class="el" href="jrn_8php-source.html#l00834">VerifData()</a>, and <a class="el" href="user__common_8php-source.html#l00654">VerifyOperationDate()</a>.<div class="fragment"><pre class="fragment"><a name="l00126"></a>00126 {
+Referenced by <a class="el" href="user__form__ach_8php-source.html#l00044">FormAchInput()</a>, <a class="el" href="user__form__fin_8php-source.html#l00135">FormFin()</a>, <a class="el" href="user__form__ods_8php-source.html#l00045">FormODS()</a>, <a class="el" href="user__form__ven_8php-source.html#l00043">FormVenInput()</a>, <a class="el" href="jrn_8php-source.html#l00038">RecordJrn()</a>, <a class="el" href="jrn_8php-source.html#l00834">VerifData()</a>, and <a class="el" href="user__common_8php-source.html#l00654">VerifyOperationDate()</a>.<div class="fragment"><pre class="fragment"><a name="l00126"></a>00126 {
 <a name="l00127"></a>00127  <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">"select to_char(p_start,'DD.MM.YYYY') as p_start,</span>
 <a name="l00128"></a>00128 <span class="stringliteral">              to_char(p_end,'DD.MM.YYYY')   as p_end</span>
 <a name="l00129"></a>00129 <span class="stringliteral">       from parm_periode</span>
@@ -439,7 +439,7 @@ Show all the currency encoded.
 <p>
 Definition at line <a class="el" href="preference_8php-source.html#l00185">185</a> of file <a class="el" href="preference_8php-source.html">preference.php</a>.
 <p>
-References <a class="el" href="jrn__detail_8php-source.html#l00124">$l_line</a>, <a class="el" href="setup_8php-source.html#l00397">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="pref_8inc_8php-source.html#l00048">METHOD</a>.<div class="fragment"><pre class="fragment"><a name="l00186"></a>00186 {
+References <a class="el" href="jrn__detail_8php-source.html#l00124">$l_line</a>, <a class="el" href="setup_8php-source.html#l00404">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="pref_8inc_8php-source.html#l00048">METHOD</a>.<div class="fragment"><pre class="fragment"><a name="l00186"></a>00186 {
 <a name="l00187"></a>00187  echo <span class="stringliteral">"&lt;h2 class=\"info\"&gt; Devises &lt;/H2&gt;"</span>;
 <a name="l00188"></a>00188   echo '&lt;TABLE ALIGN=<span class="stringliteral">"CENTER"</span>&gt;';
 <a name="l00189"></a>00189   echo <span class="stringliteral">"&lt;TR&gt;"</span>;
@@ -510,7 +510,7 @@ Show all the periode and their status.
 <p>
 Definition at line <a class="el" href="preference_8php-source.html#l00224">224</a> of file <a class="el" href="preference_8php-source.html">preference.php</a>.
 <p>
-References <a class="el" href="jrn__detail_8php-source.html#l00124">$l_line</a>, <a class="el" href="setup_8php-source.html#l00397">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="pref_8inc_8php-source.html#l00048">METHOD</a>.<div class="fragment"><pre class="fragment"><a name="l00225"></a>00225 {
+References <a class="el" href="jrn__detail_8php-source.html#l00124">$l_line</a>, <a class="el" href="setup_8php-source.html#l00404">$Max</a>, <a class="el" href="depense_8inc_8php-source.html#l00077">$Res</a>, <a class="el" href="debug_8php-source.html#l00034">echo_debug()</a>, <a class="el" href="postgres_8php-source.html#l00099">ExecSql()</a>, and <a class="el" href="pref_8inc_8php-source.html#l00048">METHOD</a>.<div class="fragment"><pre class="fragment"><a name="l00225"></a>00225 {
 <a name="l00226"></a>00226   <span class="comment">//  echo "&lt;h2 class=\"info\"&gt; Période &lt;/H2&gt;";</span>
 <a name="l00227"></a>00227   <a class="code" href="depense_8inc_8php.html#a4">$Res</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,<span class="stringliteral">"select p_id,to_char(p_start,'DD.MM.YYYY') as date_start,to_char(p_end,'DD.MM.YYYY') as date_end,p_central,p_closed,p_exercice</span>
 <a name="l00228"></a>00228 <span class="stringliteral">  from parm_periode order by p_start"</span>);

@@ -35,13 +35,13 @@
 <a name="l00030"></a>00030 include_once(<span class="stringliteral">"check_priv.php"</span>);
 <a name="l00031"></a>00031 include(<span class="stringliteral">"class_jrn.php"</span>);
 <a name="l00032"></a><a class="code" href="jrn__csv_8php.html#a0">00032</a> <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>($_SESSION['g_dossier']);
-<a name="l00033"></a><a class="code" href="jrn__csv_8php.html#a1">00033</a> <a class="code" href="impress__poste_8php.html#a1">$rep</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
+<a name="l00033"></a><a class="code" href="jrn__csv_8php.html#a1">00033</a> <a class="code" href="impress__poste_8php.html#a3">$rep</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
 <a name="l00034"></a>00034 
 <a name="l00035"></a>00035 include ('class_user.php');
-<a name="l00036"></a><a class="code" href="jrn__csv_8php.html#a2">00036</a> <a class="code" href="user__action__ach_8php.html#a9">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>($rep);
-<a name="l00037"></a>00037 <a class="code" href="user__action__ach_8php.html#a9">$User</a>-&gt;Check();
+<a name="l00036"></a><a class="code" href="jrn__csv_8php.html#a2">00036</a> <a class="code" href="user__action__ach_8php.html#a11">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>($rep);
+<a name="l00037"></a>00037 <a class="code" href="user__action__ach_8php.html#a11">$User</a>-&gt;Check();
 <a name="l00038"></a>00038 <span class="keywordflow">if</span> ( $User-&gt;CheckAction($cn,<a class="code" href="constant_8php.html#a6">IMP</a>) == 0 ||
-<a name="l00039"></a>00039      <a class="code" href="user__action__ach_8php.html#a9">$User</a>-&gt;AccessJrn($cn,$_GET['jrn_id']) == <span class="keyword">false</span>){
+<a name="l00039"></a>00039      <a class="code" href="user__action__ach_8php.html#a11">$User</a>-&gt;AccessJrn($cn,$_GET['jrn_id']) == <span class="keyword">false</span>){
 <a name="l00040"></a>00040     <span class="comment">/* Cannot Access */</span>
 <a name="l00041"></a>00041     <a class="code" href="ac__common_8php.html#a8">NoAccess</a>();
 <a name="l00042"></a>00042   }

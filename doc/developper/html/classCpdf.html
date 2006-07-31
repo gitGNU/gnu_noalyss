@@ -1098,7 +1098,7 @@ Definition at line <a class="el" href="class_8pdf_8php-source.html#l02637">2637<
 <a name="l02662"></a>02662 
 <a name="l02663"></a>02663   <span class="keywordflow">if</span> (!$error){
 <a name="l02664"></a>02664     <span class="comment">// set pointer</span>
-<a name="l02665"></a>02665     <a class="code" href="line__update_8php.html#a10">$p</a> = 8;
+<a name="l02665"></a>02665     <a class="code" href="impress__poste_8php.html#a2">$p</a> = 8;
 <a name="l02666"></a>02666     $len = strlen($data);
 <a name="l02667"></a>02667     <span class="comment">// cycle through the file, identifying chunks</span>
 <a name="l02668"></a>02668     $haveHeader=0;
@@ -1186,7 +1186,7 @@ Definition at line <a class="el" href="class_8pdf_8php-source.html#l02637">2637<
 <a name="l02750"></a>02750           <span class="keywordflow">break</span>;
 <a name="l02751"></a>02751       }
 <a name="l02752"></a>02752     
-<a name="l02753"></a>02753       <a class="code" href="line__update_8php.html#a10">$p</a> += $chunkLen+12;
+<a name="l02753"></a>02753       <a class="code" href="impress__poste_8php.html#a2">$p</a> += $chunkLen+12;
 <a name="l02754"></a>02754     }
 <a name="l02755"></a>02755     
 <a name="l02756"></a>02756     <span class="keywordflow">if</span>(!$haveHeader){
@@ -5070,7 +5070,7 @@ Definition at line <a class="el" href="class_8pdf_8php-source.html#l02008">2008<
 <a name="l02021"></a>02021           <span class="keywordflow">case</span> <span class="charliteral">'i'</span>:
 <a name="l02022"></a>02022             $j++;
 <a name="l02023"></a>02023             <span class="keywordflow">if</span> ($text[$j]==<span class="charliteral">'&gt;'</span>){
-<a name="l02024"></a>02024               <a class="code" href="line__update_8php.html#a10">$p</a> = strrpos($this-&gt;currentTextState,$text[$j-1]);
+<a name="l02024"></a>02024               <a class="code" href="impress__poste_8php.html#a2">$p</a> = strrpos($this-&gt;currentTextState,$text[$j-1]);
 <a name="l02025"></a>02025               <span class="keywordflow">if</span> ($p !== <span class="keyword">false</span>){
 <a name="l02026"></a>02026                 <span class="comment">// then there is one to remove</span>
 <a name="l02027"></a>02027                 $this-&gt;currentTextState = substr($this-&gt;currentTextState,0,$p).substr($this-&gt;currentTextState,$p+1);
@@ -5871,8 +5871,8 @@ set the encryption of the document can be used to turn it on and/or set the pass
 <p>
 Definition at line <a class="el" href="class_8pdf_8php-source.html#l01184">1184</a> of file <a class="el" href="class_8pdf_8php-source.html">class.pdf.php</a>.
 <p>
-References <a class="el" href="line__update_8php-source.html#l00095">$p</a>, and <a class="el" href="impress__bilan_8php-source.html#l00041">print</a>.<div class="fragment"><pre class="fragment"><a name="l01184"></a>01184                                                               {
-<a name="l01185"></a>01185   <a class="code" href="line__update_8php.html#a10">$p</a>=bindec(11000000);
+References <a class="el" href="impress__poste_8php-source.html#l00054">$p</a>, and <a class="el" href="impress__bilan_8php-source.html#l00041">print</a>.<div class="fragment"><pre class="fragment"><a name="l01184"></a>01184                                                               {
+<a name="l01185"></a>01185   <a class="code" href="impress__poste_8php.html#a2">$p</a>=bindec(11000000);
 <a name="l01186"></a>01186 
 <a name="l01187"></a>01187   <a class="code" href="classCpdf.html#o23">$options</a> = array(
 <a name="l01188"></a>01188      '<a class="code" href="impress__bilan_8php.html#a3">print</a>'=&gt;4
@@ -5882,9 +5882,9 @@ References <a class="el" href="line__update_8php-source.html#l00095">$p</a>, and
 <a name="l01192"></a>01192   );
 <a name="l01193"></a>01193   foreach($pc as $k=&gt;$v){
 <a name="l01194"></a>01194     <span class="keywordflow">if</span> ($v &amp;&amp; isset($options[$k])){
-<a name="l01195"></a>01195       <a class="code" href="line__update_8php.html#a10">$p</a>+=<a class="code" href="classCpdf.html#o23">$options</a>[$k];
+<a name="l01195"></a>01195       <a class="code" href="impress__poste_8php.html#a2">$p</a>+=<a class="code" href="classCpdf.html#o23">$options</a>[$k];
 <a name="l01196"></a>01196     } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (isset($options[$v])){
-<a name="l01197"></a>01197       <a class="code" href="line__update_8php.html#a10">$p</a>+=<a class="code" href="classCpdf.html#o23">$options</a>[$v];
+<a name="l01197"></a>01197       <a class="code" href="impress__poste_8php.html#a2">$p</a>+=<a class="code" href="classCpdf.html#o23">$options</a>[$v];
 <a name="l01198"></a>01198     }
 <a name="l01199"></a>01199   }
 <a name="l01200"></a>01200   <span class="comment">// implement encryption on the document</span>

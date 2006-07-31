@@ -32,10 +32,10 @@
 <a name="l00028"></a>00028 include_once(<span class="stringliteral">"postgres.php"</span>);
 <a name="l00029"></a>00029 include_once(<span class="stringliteral">"debug.php"</span>);
 <a name="l00030"></a>00030 include_once(<span class="stringliteral">"user_menu.php"</span>);
-<a name="l00031"></a><a class="code" href="admin__repo_8php.html#a0">00031</a> <a class="code" href="impress__poste_8php.html#a1">$rep</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
+<a name="l00031"></a><a class="code" href="admin__repo_8php.html#a0">00031</a> <a class="code" href="impress__poste_8php.html#a3">$rep</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
 <a name="l00032"></a>00032 include_once (<span class="stringliteral">"class_user.php"</span>);
-<a name="l00033"></a><a class="code" href="admin__repo_8php.html#a1">00033</a> <a class="code" href="user__action__ach_8php.html#a9">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>($rep);
-<a name="l00034"></a>00034 <a class="code" href="user__action__ach_8php.html#a9">$User</a>-&gt;Check();
+<a name="l00033"></a><a class="code" href="admin__repo_8php.html#a1">00033</a> <a class="code" href="user__action__ach_8php.html#a11">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>($rep);
+<a name="l00034"></a>00034 <a class="code" href="user__action__ach_8php.html#a11">$User</a>-&gt;Check();
 <a name="l00035"></a>00035 
 <a name="l00036"></a>00036 
 <a name="l00037"></a>00037 <a class="code" href="ac__common_8php.html#a5">html_page_start</a>($User-&gt;theme);

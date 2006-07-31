@@ -43,8 +43,8 @@
 <a name="l00034"></a>00034 
 <a name="l00035"></a>00035 
 <a name="l00036"></a>00036 include ('class_user.php');
-<a name="l00037"></a><a class="code" href="show__pj_8php.html#a2">00037</a> <a class="code" href="user__action__ach_8php.html#a9">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>(<a class="code" href="postgres_8php.html#a1">DbConnect</a>());
-<a name="l00038"></a>00038 <a class="code" href="user__action__ach_8php.html#a9">$User</a>-&gt;Check();
+<a name="l00037"></a><a class="code" href="show__pj_8php.html#a2">00037</a> <a class="code" href="user__action__ach_8php.html#a11">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>(<a class="code" href="postgres_8php.html#a1">DbConnect</a>());
+<a name="l00038"></a>00038 <a class="code" href="user__action__ach_8php.html#a11">$User</a>-&gt;Check();
 <a name="l00039"></a>00039 <span class="comment">// retrieve the jrn</span>
 <a name="l00040"></a><a class="code" href="show__pj_8php.html#a3">00040</a> <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select jr_def_id from jrn where jr_grpt_id=$jr_grpt_id"</span>);
 <a name="l00041"></a>00041 <span class="keywordflow">if</span> ( pg_num_rows($r) == 0 ) {

@@ -37,10 +37,10 @@
 <a name="l00032"></a>00032 }
 <a name="l00033"></a>00033 include_once (<span class="stringliteral">"postgres.php"</span>);
 <a name="l00034"></a>00034 <span class="comment">/* Admin. Dossier */</span>
-<a name="l00035"></a><a class="code" href="export__ouv_8php.html#a0">00035</a> <a class="code" href="impress__poste_8php.html#a1">$rep</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
+<a name="l00035"></a><a class="code" href="export__ouv_8php.html#a0">00035</a> <a class="code" href="impress__poste_8php.html#a3">$rep</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
 <a name="l00036"></a>00036 include_once (<span class="stringliteral">"class_user.php"</span>);
-<a name="l00037"></a><a class="code" href="export__ouv_8php.html#a1">00037</a> <a class="code" href="user__action__ach_8php.html#a9">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>($rep);
-<a name="l00038"></a>00038 <a class="code" href="user__action__ach_8php.html#a9">$User</a>-&gt;Check();
+<a name="l00037"></a><a class="code" href="export__ouv_8php.html#a1">00037</a> <a class="code" href="user__action__ach_8php.html#a11">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>($rep);
+<a name="l00038"></a>00038 <a class="code" href="user__action__ach_8php.html#a11">$User</a>-&gt;Check();
 <a name="l00039"></a>00039 
 <a name="l00040"></a>00040 include_once (<span class="stringliteral">"check_priv.php"</span>);
 <a name="l00041"></a>00041 
@@ -74,13 +74,13 @@
 <a name="l00069"></a><a class="code" href="export__ouv_8php.html#a7">00069</a> <a class="code" href="export__ouv_8php.html#a7">$sum</a>=0;
 <a name="l00070"></a>00070 foreach ($ret as $poste_id) {
 <a name="l00071"></a>00071 
-<a name="l00072"></a>00072         <a class="code" href="impress__poste_8php.html#a0">$Poste</a>=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a6">poste</a>($cn,$poste_id['j_poste']);
+<a name="l00072"></a>00072         <a class="code" href="poste__csv_8php.html#a2">$Poste</a>=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a6">poste</a>($cn,$poste_id['j_poste']);
 <a name="l00073"></a>00073         <span class="comment">// fill the object</span>
-<a name="l00074"></a>00074         <a class="code" href="impress__poste_8php.html#a0">$Poste</a>-&gt;get();
+<a name="l00074"></a>00074         <a class="code" href="poste__csv_8php.html#a2">$Poste</a>-&gt;get();
 <a name="l00075"></a>00075         <span class="comment">// build sql stmt</span>
 <a name="l00076"></a><a class="code" href="export__ouv_8php.html#a8">00076</a>         <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=<span class="stringliteral">"j_tech_per &gt;="</span>. <a class="code" href="export__ouv_8php.html#a4">$sql_from</a>[0]['min'].<span class="stringliteral">" and j_tech_per &lt;="</span>.<a class="code" href="export__ouv_8php.html#a5">$sql_to</a>[0]['max'];
-<a name="l00077"></a><a class="code" href="export__ouv_8php.html#a9">00077</a>         <a class="code" href="export__ouv_8php.html#a9">$result</a>=<a class="code" href="impress__poste_8php.html#a0">$Poste</a>-&gt;GetSoldeDetail($sql );
-<a name="l00078"></a><a class="code" href="export__ouv_8php.html#a10">00078</a>         <a class="code" href="impress__poste_8php.html#a0">$Poste</a>-&gt;label=str_replace(<span class="charliteral">';'</span>,'',$Poste-&gt;label);
+<a name="l00077"></a><a class="code" href="export__ouv_8php.html#a9">00077</a>         <a class="code" href="export__ouv_8php.html#a9">$result</a>=<a class="code" href="poste__csv_8php.html#a2">$Poste</a>-&gt;GetSoldeDetail($sql );
+<a name="l00078"></a><a class="code" href="export__ouv_8php.html#a10">00078</a>         <a class="code" href="poste__csv_8php.html#a2">$Poste</a>-&gt;label=str_replace(<span class="charliteral">';'</span>,'',$Poste-&gt;label);
 <a name="l00079"></a>00079         
 <a name="l00080"></a>00080         <span class="keywordflow">if</span> ( $result['solde'] == 0 ) <span class="keywordflow">continue</span>;
 <a name="l00081"></a>00081         <span class="keywordflow">if</span> ( $result['debit'] &gt; $result ['credit'] ) {

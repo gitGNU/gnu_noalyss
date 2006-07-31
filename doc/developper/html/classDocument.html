@@ -246,7 +246,7 @@ Generate the document, Call $this-&gt;Replace to replace tag by value.
   </table>
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>an array : the url where the generated doc can be found, the name of the file and his mimetype</dd></dl>
-<dl compact><dt><b><a class="el" href="todo.html#_todo000006">Todo:</a></b></dt><dd>Carefull : the slash is not windows compliant </dd></dl>
+<dl compact><dt><b><a class="el" href="todo.html#_todo000007">Todo:</a></b></dt><dd>Carefull : the slash is not windows compliant </dd></dl>
 
 <p>
 Definition at line <a class="el" href="class__document_8php-source.html#l00079">79</a> of file <a class="el" href="class__document_8php-source.html">class_document.php</a>.
@@ -643,15 +643,15 @@ replace the TAG by the real value, this value can be into the database or in $_P
   </table>
 </dl>
 <dl compact><dt><b>Returns:</b></dt><dd>String which must replace the tag</dd></dl>
-<dl compact><dt><b><a class="el" href="todo.html#_todo000007">Todo:</a></b></dt><dd>verify that price and quant are numeric </dd></dl>
-<dl compact><dt><b><a class="el" href="todo.html#_todo000007">Todo:</a></b></dt><dd>carefull round problem ? </dd></dl>
-<dl compact><dt><b><a class="el" href="todo.html#_todo000007">Todo:</a></b></dt><dd>verify that price and quant are numeric </dd></dl>
-<dl compact><dt><b><a class="el" href="todo.html#_todo000007">Todo:</a></b></dt><dd>carefull round problem ? </dd></dl>
+<dl compact><dt><b><a class="el" href="todo.html#_todo000008">Todo:</a></b></dt><dd>verify that price and quant are numeric </dd></dl>
+<dl compact><dt><b><a class="el" href="todo.html#_todo000008">Todo:</a></b></dt><dd>carefull round problem ? </dd></dl>
+<dl compact><dt><b><a class="el" href="todo.html#_todo000008">Todo:</a></b></dt><dd>verify that price and quant are numeric </dd></dl>
+<dl compact><dt><b><a class="el" href="todo.html#_todo000008">Todo:</a></b></dt><dd>carefull round problem ? </dd></dl>
 
 <p>
 Definition at line <a class="el" href="class__document_8php-source.html#l00441">441</a> of file <a class="el" href="class__document_8php-source.html">class_document.php</a>.
 <p>
-References <a class="el" href="action_8inc_8php-source.html#l00157">$act</a>, <a class="el" href="parametre_8php-source.html#l00167">$my</a>, <a class="el" href="line__update_8php-source.html#l00095">$p</a>, <a class="el" href="send__poste__pdf_8php-source.html#l00044">$poste</a>, <a class="el" href="bank_8inc_8php-source.html#l00154">$qcode</a>, <a class="el" href="bank_8inc_8php-source.html#l00237">$r</a>, <a class="el" href="action_8inc_8php-source.html#l00159">ag_id</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00104">break</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, <a class="el" href="user__common_8php-source.html#l00040">GetTvaRate()</a>, <a class="el" href="parametre_8php-source.html#l00160">MY_COMMUNE</a>, <a class="el" href="parametre_8php-source.html#l00159">MY_CP</a>, <a class="el" href="parametre_8php-source.html#l00162">MY_FAX</a>, <a class="el" href="parametre_8php-source.html#l00155">MY_NAME</a>, <a class="el" href="parametre_8php-source.html#l00158">MY_NUMBER</a>, <a class="el" href="parametre_8php-source.html#l00163">MY_PAYS</a>, <a class="el" href="parametre_8php-source.html#l00157">MY_STREET</a>, <a class="el" href="parametre_8php-source.html#l00161">MY_TEL</a>, <a class="el" href="parametre_8php-source.html#l00156">MY_TVA</a>, and <a class="el" href="action_8inc_8php-source.html#l00165">qcode_dest</a>.
+References <a class="el" href="action_8inc_8php-source.html#l00157">$act</a>, <a class="el" href="parametre_8php-source.html#l00167">$my</a>, <a class="el" href="impress__poste_8php-source.html#l00054">$p</a>, <a class="el" href="send__poste__pdf_8php-source.html#l00044">$poste</a>, <a class="el" href="bank_8inc_8php-source.html#l00154">$qcode</a>, <a class="el" href="bank_8inc_8php-source.html#l00237">$r</a>, <a class="el" href="action_8inc_8php-source.html#l00159">ag_id</a>, <a class="el" href="argenta__be_8inc_8php-source.html#l00104">break</a>, <a class="el" href="user__impress_8php-source.html#l00095">fiche</a>, <a class="el" href="user__common_8php-source.html#l00040">GetTvaRate()</a>, <a class="el" href="parametre_8php-source.html#l00160">MY_COMMUNE</a>, <a class="el" href="parametre_8php-source.html#l00159">MY_CP</a>, <a class="el" href="parametre_8php-source.html#l00162">MY_FAX</a>, <a class="el" href="parametre_8php-source.html#l00155">MY_NAME</a>, <a class="el" href="parametre_8php-source.html#l00158">MY_NUMBER</a>, <a class="el" href="parametre_8php-source.html#l00163">MY_PAYS</a>, <a class="el" href="parametre_8php-source.html#l00157">MY_STREET</a>, <a class="el" href="parametre_8php-source.html#l00161">MY_TEL</a>, <a class="el" href="parametre_8php-source.html#l00156">MY_TVA</a>, and <a class="el" href="action_8inc_8php-source.html#l00165">qcode_dest</a>.
 <p>
 Referenced by <a class="el" href="class__document_8php-source.html#l00163">ParseDocument()</a>.<div class="fragment"><pre class="fragment"><a name="l00442"></a>00442     {
 <a name="l00443"></a>00443       <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<span class="stringliteral">"Tag inconnu"</span>;
@@ -716,7 +716,7 @@ Referenced by <a class="el" href="class__document_8php-source.html#l00163">Parse
 <a name="l00502"></a>00502           $tiers=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($this-&gt;db);
 <a name="l00503"></a>00503           <a class="code" href="bank_8inc_8php.html#a16">$qcode</a>=isset($_REQUEST['<a class="code" href="action_8inc_8php.html#a10">qcode_dest</a>'])?$_REQUEST['<a class="code" href="action_8inc_8php.html#a10">qcode_dest</a>']:$_REQUEST['e_client'];
 <a name="l00504"></a>00504           $tiers-&gt;Getbyqcode($qcode,<span class="keyword">false</span>);
-<a name="l00505"></a>00505           <a class="code" href="line__update_8php.html#a10">$p</a>=$tiers-&gt;strAttribut(<a class="code" href="constant_8php.html#a55">ATTR_DEF_ACCOUNT</a>);
+<a name="l00505"></a>00505           <a class="code" href="impress__poste_8php.html#a2">$p</a>=$tiers-&gt;strAttribut(<a class="code" href="constant_8php.html#a55">ATTR_DEF_ACCOUNT</a>);
 <a name="l00506"></a>00506           <a class="code" href="send__poste__pdf_8php.html#a2">$poste</a>=<span class="keyword">new</span> Poste($this-&gt;db,$p);
 <a name="l00507"></a>00507           <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<a class="code" href="send__poste__pdf_8php.html#a2">$poste</a>-&gt;GetSolde(' <span class="keyword">true</span>' );
 <a name="l00508"></a>00508           <span class="keywordflow">break</span>;

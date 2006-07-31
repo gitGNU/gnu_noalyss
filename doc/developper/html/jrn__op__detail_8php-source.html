@@ -38,10 +38,10 @@
 <a name="l00033"></a>00033 include_once (<span class="stringliteral">"postgres.php"</span>);
 <a name="l00034"></a>00034 include_once(<span class="stringliteral">"jrn.php"</span>);
 <a name="l00035"></a>00035 <span class="comment">/* Admin. Dossier */</span>
-<a name="l00036"></a><a class="code" href="jrn__op__detail_8php.html#a0">00036</a> <a class="code" href="impress__poste_8php.html#a1">$rep</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
+<a name="l00036"></a><a class="code" href="jrn__op__detail_8php.html#a0">00036</a> <a class="code" href="impress__poste_8php.html#a3">$rep</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
 <a name="l00037"></a>00037 include_once (<span class="stringliteral">"class_user.php"</span>);
-<a name="l00038"></a><a class="code" href="jrn__op__detail_8php.html#a1">00038</a> <a class="code" href="user__action__ach_8php.html#a9">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>($rep);
-<a name="l00039"></a>00039 <a class="code" href="user__action__ach_8php.html#a9">$User</a>-&gt;Check();
+<a name="l00038"></a><a class="code" href="jrn__op__detail_8php.html#a1">00038</a> <a class="code" href="user__action__ach_8php.html#a11">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>($rep);
+<a name="l00039"></a>00039 <a class="code" href="user__action__ach_8php.html#a11">$User</a>-&gt;Check();
 <a name="l00040"></a>00040 
 <a name="l00041"></a>00041 <span class="keywordflow">if</span> ( isset( $_GET['$p_jrn'] )) {
 <a name="l00042"></a>00042   <a class="code" href="modify__op_8php.html#a2">$p_jrn</a>=$_GE['p_jrn'];

@@ -57,8 +57,8 @@
 <a name="l00051"></a>00051 
 <a name="l00052"></a>00052 <span class="comment">//$rap_deb=0;$rap_cred=0;</span>
 <a name="l00053"></a>00053 <span class="comment">//for ( $i =0;$i&lt;count($poste);$i++) {</span>
-<a name="l00054"></a><a class="code" href="poste__pdf_8php.html#a1">00054</a> <a class="code" href="impress__poste_8php.html#a0">$Poste</a>=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a6">poste</a>($cn,$poste_id);
-<a name="l00055"></a>00055 list($array,$tot_deb,$tot_cred)=<a class="code" href="impress__poste_8php.html#a0">$Poste</a>-&gt;GetRow($from_periode,$to_periode);
+<a name="l00054"></a><a class="code" href="poste__pdf_8php.html#a1">00054</a> <a class="code" href="poste__csv_8php.html#a2">$Poste</a>=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a6">poste</a>($cn,$poste_id);
+<a name="l00055"></a>00055 list($array,$tot_deb,$tot_cred)=<a class="code" href="poste__csv_8php.html#a2">$Poste</a>-&gt;GetRow($from_periode,$to_periode);
 <a name="l00056"></a>00056     <span class="comment">// don't print empty account</span>
 <a name="l00057"></a>00057 <span class="comment">// if ( count($array) == 0 ) {</span>
 <a name="l00058"></a>00058 <span class="comment">//   continue;</span>

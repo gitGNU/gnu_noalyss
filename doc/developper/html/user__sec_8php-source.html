@@ -36,10 +36,10 @@
 <a name="l00031"></a>00031 }
 <a name="l00032"></a>00032 include_once (<span class="stringliteral">"postgres.php"</span>);
 <a name="l00033"></a>00033 <span class="comment">/* Admin. Dossier */</span>
-<a name="l00034"></a><a class="code" href="user__sec_8php.html#a0">00034</a> <a class="code" href="impress__poste_8php.html#a1">$rep</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
+<a name="l00034"></a><a class="code" href="user__sec_8php.html#a0">00034</a> <a class="code" href="impress__poste_8php.html#a3">$rep</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
 <a name="l00035"></a>00035 include_once (<span class="stringliteral">"class_user.php"</span>);
-<a name="l00036"></a><a class="code" href="user__sec_8php.html#a1">00036</a> <a class="code" href="user__action__ach_8php.html#a9">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>($rep);
-<a name="l00037"></a>00037 <a class="code" href="user__action__ach_8php.html#a9">$User</a>-&gt;Check();
+<a name="l00036"></a><a class="code" href="user__sec_8php.html#a1">00036</a> <a class="code" href="user__action__ach_8php.html#a11">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>($rep);
+<a name="l00037"></a>00037 <a class="code" href="user__action__ach_8php.html#a11">$User</a>-&gt;Check();
 <a name="l00038"></a>00038 
 <a name="l00039"></a>00039 include_once (<span class="stringliteral">"user_menu.php"</span>);
 <a name="l00040"></a>00040 
@@ -56,7 +56,7 @@
 <a name="l00051"></a>00051 
 <a name="l00052"></a>00052 
 <a name="l00053"></a><a class="code" href="user__sec_8php.html#a4">00053</a> <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
-<a name="l00054"></a>00054 <a class="code" href="user__action__ach_8php.html#a9">$User</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select  use_id,use_first_name,use_name,use_login from ac_users natural join jnt_use_dos where use_login != 'phpcompta' and dos_id="</span>.$_SESSION['g_dossier']);
+<a name="l00054"></a>00054 <a class="code" href="user__action__ach_8php.html#a11">$User</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,<span class="stringliteral">"select  use_id,use_first_name,use_name,use_login from ac_users natural join jnt_use_dos where use_login != 'phpcompta' and dos_id="</span>.$_SESSION['g_dossier']);
 <a name="l00055"></a><a class="code" href="user__sec_8php.html#a5">00055</a> <a class="code" href="user__sec_8php.html#a5">$MaxUser</a>=pg_NumRows($User);
 <a name="l00056"></a>00056 
 <a name="l00057"></a>00057 
@@ -138,7 +138,7 @@
 <a name="l00133"></a>00133   <a class="code" href="send__jrn__pdf_8php.html#a0">$l_Db</a>=sprintf(<span class="stringliteral">"dossier%d"</span>,$_SESSION['g_dossier']);
 <a name="l00134"></a>00134   <a class="code" href="user__sec_8php.html#a2">$cn_dossier</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>($_SESSION['g_dossier']);
 <a name="l00135"></a>00135   <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
-<a name="l00136"></a>00136   <a class="code" href="user__action__ach_8php.html#a9">$User</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,
+<a name="l00136"></a>00136   <a class="code" href="user__action__ach_8php.html#a11">$User</a>=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($cn,
 <a name="l00137"></a>00137                 <span class="stringliteral">"select  use_id,use_first_name,use_name,use_login</span>
 <a name="l00138"></a>00138 <span class="stringliteral">                from ac_users where use_id="</span>.$_GET['user_id']);
 <a name="l00139"></a>00139   <a class="code" href="user__sec_8php.html#a5">$MaxUser</a>=pg_NumRows($User);

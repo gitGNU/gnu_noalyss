@@ -74,7 +74,7 @@
 <a name="l00069"></a>00069 <span class="stringliteral">                                detail,</span>
 <a name="l00070"></a>00070 <span class="stringliteral">                                bq_account ,</span>
 <a name="l00071"></a>00071 <span class="stringliteral">                                jrn,</span>
-<a name="l00072"></a>00072 <span class="stringliteral">                                ok)</span>
+<a name="l00072"></a>00072 <span class="stringliteral">                                status)</span>
 <a name="l00073"></a>00073 <span class="stringliteral">                        values (nextval('s_cbc'),</span>
 <a name="l00074"></a>00074 <span class="stringliteral">                                to_date('$date_exec','YYYYMMDD'),</span>
 <a name="l00075"></a>00075 <span class="stringliteral">                                to_date('$date_exec','YYYYMMDD'),</span>
@@ -84,7 +84,7 @@
 <a name="l00079"></a>00079 <span class="stringliteral">                                '"</span>.addslashes($detail).$num_compte.<span class="stringliteral">"    ',</span>
 <a name="l00080"></a>00080 <span class="stringliteral">                                '$p_bq_account',</span>
 <a name="l00081"></a>00081 <span class="stringliteral">                                $p_jrn,</span>
-<a name="l00082"></a>00082 <span class="stringliteral">                                false)"</span>;
+<a name="l00082"></a>00082 <span class="stringliteral">                                'n')"</span>;
 <a name="l00083"></a>00083                         <span class="keywordflow">if</span> ( <a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$Sql) == <span class="keyword">false</span> )
 <a name="l00084"></a>00084                           {
 <a name="l00085"></a>00085                             <a class="code" href="postgres_8php.html#a17">Rollback</a>($p_cn);

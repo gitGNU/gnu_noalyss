@@ -107,9 +107,9 @@
 <a name="l00123"></a>00123   <a class="code" href="fortis__be_8inc_8php.html#a9">$Num</a>=pg_NumRows($Res);
 <a name="l00124"></a>00124   <span class="keywordflow">if</span> ( $Num == 0 ) <span class="keywordflow">return</span> null;
 <a name="l00125"></a>00125   <span class="keywordflow">for</span> ($i=0;$i &lt; $Num; $i++) {
-<a name="l00126"></a>00126     <a class="code" href="user__action__ach_8php.html#a9">$User</a>[]=pg_fetch_array($Res,$i);
+<a name="l00126"></a>00126     <a class="code" href="user__action__ach_8php.html#a11">$User</a>[]=pg_fetch_array($Res,$i);
 <a name="l00127"></a>00127   }
-<a name="l00128"></a>00128   <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a9">$User</a>;
+<a name="l00128"></a>00128   <span class="keywordflow">return</span> <a class="code" href="user__action__ach_8php.html#a11">$User</a>;
 <a name="l00129"></a>00129 }
 <a name="l00134"></a><a class="code" href="postgres_8php.html#a4">00134</a> function <a class="code" href="postgres_8php.html#a4">GetUid</a>($p_uid) {
 <a name="l00135"></a>00135   <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();

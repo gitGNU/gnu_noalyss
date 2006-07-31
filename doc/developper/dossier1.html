@@ -111,7 +111,7 @@
   <body>
 
     <!-- Primary Index -->
-	<p><br><br>Dumped on 2006-07-12</p>
+	<p><br><br>Dumped on 2006-07-31</p>
 <h1><a name="index">Index of database - dossier1</a></h1>
 <ul>
     
@@ -2105,6 +2105,8 @@
 			<a name="public.table.import-tmp">import_tmp</a>
 		</h2>
         
+         <p>Table temporaire pour l&#39;importation des banques en format CSV</p>
+        
 
 
         <table width="100%" cellspacing="0" cellpadding="3">
@@ -2264,22 +2266,6 @@
 				<td>
                 
                 </td>
-            	<td>ok</td>
-            	<td>boolean</td>
-                <td><i>
-				
-
-				
-				DEFAULT false
-				</i>
-				
-				</td>
-			 </tr>
-            
-            <tr class="tr0">
-				<td>
-                
-                </td>
             	<td>bq_account</td>
             	<td>integer</td>
                 <td><i>
@@ -2292,7 +2278,7 @@
 				</td>
 			 </tr>
             
-            <tr class="tr1">
+            <tr class="tr0">
 				<td>
                 
                 </td>
@@ -2308,6 +2294,22 @@
 				</td>
 			 </tr>
             
+            <tr class="tr1">
+				<td>
+                
+                </td>
+            	<td>status</td>
+            	<td>character varying(1)</td>
+                <td><i>
+				
+
+				
+				DEFAULT &#39;n&#39;::character varying
+				</i>
+				<br><br>Status doit être w pour en attente, t pour transfèrer ou d à effacer
+				</td>
+			 </tr>
+            
         </table>
 
 		
@@ -2315,6 +2317,21 @@
 		
 
         <!-- Constraint List -->
+		
+        <p>&nbsp;</p>
+		<table width="100%" cellspacing="0" cellpadding="3">
+            <caption>import_tmp Constraints</caption>
+            <tr>
+            	<th>Name</th>
+            	<th>Constraint</th>
+            </tr>
+			
+            <tr class="tr0">
+				<td>chk_status</td>
+                <td>CHECK ((((((status)::text = &#39;n&#39;::text) OR ((status)::text = &#39;w&#39;::text)) OR ((status)::text = &#39;d&#39;::text)) OR ((status)::text = &#39;t&#39;::text)))</td>
+            </tr>
+			
+		</table>
 		
 
         <!-- Foreign Key Discovery -->
@@ -7751,19 +7768,13 @@ raise notice &#39;Creating sequence s_jrn_%&#39;,NEW.jrn_def_id;
 declare
         modified import_tmp%ROWTYPE;
 begin
-		modified.code=new.code;
-		modified.montant=new.montant;
-		modified.date_exec=new.date_exec;
-		modified.date_valeur=new.date_valeur;
-		modified.devise=replace(new.devise,&#39;&quot;&#39;,&#39;&#39;);
-		modified.poste_comptable=replace(new.poste_comptable,&#39;&quot;&#39;,&#39;&#39;);
+	modified:=NEW;
+	modified.devise=replace(new.devise,&#39;&quot;&#39;,&#39;&#39;);
+	modified.poste_comptable=replace(new.poste_comptable,&#39;&quot;&#39;,&#39;&#39;);
         modified.compte_ordre=replace(NEW.COMPTE_ORDRE,&#39;&quot;&#39;,&#39;&#39;);
         modified.detail=replace(NEW.DETAIL,&#39;&quot;&#39;,&#39;&#39;);
         modified.num_compte=replace(NEW.NUM_COMPTE,&#39;&quot;&#39;,&#39;&#39;);
-		modified.bq_account=NEW.bq_account;
-		modified.jrn=NEW.jrn;
-		modified.ok=new.ok;
-        return modified;
+	return modified;
 end;
 </pre>
 	

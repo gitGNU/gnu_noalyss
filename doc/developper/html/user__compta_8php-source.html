@@ -30,10 +30,10 @@
 <a name="l00021"></a>00021 <span class="comment">/* $Revision$ */</span>
 <a name="l00022"></a>00022 include_once (<span class="stringliteral">"class_user.php"</span>);
 <a name="l00023"></a>00023 include_once (<span class="stringliteral">"postgres.php"</span>);
-<a name="l00028"></a><a class="code" href="user__compta_8php.html#a0">00028</a> <a class="code" href="impress__poste_8php.html#a1">$rep</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
+<a name="l00028"></a><a class="code" href="user__compta_8php.html#a0">00028</a> <a class="code" href="impress__poste_8php.html#a3">$rep</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
 <a name="l00029"></a>00029 
-<a name="l00030"></a><a class="code" href="user__compta_8php.html#a1">00030</a> <a class="code" href="user__action__ach_8php.html#a9">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>($rep);
-<a name="l00031"></a>00031 <a class="code" href="user__action__ach_8php.html#a9">$User</a>-&gt;Check();
+<a name="l00030"></a><a class="code" href="user__compta_8php.html#a1">00030</a> <a class="code" href="user__action__ach_8php.html#a11">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>($rep);
+<a name="l00031"></a>00031 <a class="code" href="user__action__ach_8php.html#a11">$User</a>-&gt;Check();
 <a name="l00032"></a>00032 
 <a name="l00033"></a>00033 <a class="code" href="ac__common_8php.html#a5">html_page_start</a>($User-&gt;theme);
 <a name="l00034"></a>00034 

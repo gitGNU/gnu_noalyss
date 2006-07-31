@@ -217,7 +217,7 @@
 <a name="l00243"></a>00243 
 <a name="l00244"></a>00244         $post=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a6">poste</a>($this-&gt;cn,$client-&gt;strAttribut(<a class="code" href="constant_8php.html#a55">ATTR_DEF_ACCOUNT</a>));
 <a name="l00245"></a>00245         <span class="comment">/* Filter on the default year */</span>
-<a name="l00246"></a>00246         <a class="code" href="user__action__ach_8php.html#a9">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>($this-&gt;cn);
+<a name="l00246"></a>00246         <a class="code" href="user__action__ach_8php.html#a11">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>($this-&gt;cn);
 <a name="l00247"></a>00247         <a class="code" href="balance_8php.html#a4">$filter_year</a>=<span class="stringliteral">"  j_tech_per in (select p_id from parm_periode "</span>.
 <a name="l00248"></a>00248                      <span class="stringliteral">"where p_exercice='"</span>.$User-&gt;getExercice().<span class="stringliteral">"')"</span>;
 <a name="l00249"></a>00249         <a class="code" href="balance_8php.html#a10">$a</a>=$post-&gt;GetSoldeDetail($filter_year);

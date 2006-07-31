@@ -42,22 +42,22 @@
 <a name="l00039"></a>00039 
 <a name="l00040"></a>00040 include_once (<span class="stringliteral">"postgres.php"</span>);
 <a name="l00041"></a>00041 <span class="comment">/* Admin. Dossier */</span>
-<a name="l00042"></a><a class="code" href="commercial_8php.html#a1">00042</a> <a class="code" href="impress__poste_8php.html#a1">$rep</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>($_SESSION['g_dossier']);
+<a name="l00042"></a><a class="code" href="commercial_8php.html#a1">00042</a> <a class="code" href="impress__poste_8php.html#a3">$rep</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>($_SESSION['g_dossier']);
 <a name="l00043"></a>00043 require_once (<span class="stringliteral">"class_user.php"</span>);
-<a name="l00044"></a><a class="code" href="commercial_8php.html#a2">00044</a> <a class="code" href="user__action__ach_8php.html#a9">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>($rep);
-<a name="l00045"></a>00045 <a class="code" href="user__action__ach_8php.html#a9">$User</a>-&gt;Check();
+<a name="l00044"></a><a class="code" href="commercial_8php.html#a2">00044</a> <a class="code" href="user__action__ach_8php.html#a11">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>($rep);
+<a name="l00045"></a>00045 <a class="code" href="user__action__ach_8php.html#a11">$User</a>-&gt;Check();
 <a name="l00046"></a>00046 
 <a name="l00047"></a>00047 <span class="comment">//-----------------------------------------------------</span>
 <a name="l00048"></a>00048 <span class="comment">// update preference</span>
 <a name="l00049"></a>00049 <span class="comment">//-----------------------------------------------------</span>
 <a name="l00050"></a>00050 <span class="keywordflow">if</span> ( isset ( $_POST['style_user']) ) {
-<a name="l00051"></a>00051         <a class="code" href="user__action__ach_8php.html#a9">$User</a>-&gt;update_global_pref('THEME',$_POST['style_user']);
+<a name="l00051"></a>00051         <a class="code" href="user__action__ach_8php.html#a11">$User</a>-&gt;update_global_pref('THEME',$_POST['style_user']);
 <a name="l00052"></a>00052       <a class="code" href="commercial_8php.html#a0">$_SESSION</a>['g_theme']=$_POST['style_user'];
 <a name="l00053"></a>00053 
 <a name="l00054"></a>00054 }
 <a name="l00055"></a>00055 <span class="comment">// Met a jour le pagesize</span>
 <a name="l00056"></a>00056 <span class="keywordflow">if</span> ( isset ( $_POST['p_size']) ) {
-<a name="l00057"></a>00057         <a class="code" href="user__action__ach_8php.html#a9">$User</a>-&gt;update_global_pref('PAGESIZE',$_POST['p_size']);
+<a name="l00057"></a>00057         <a class="code" href="user__action__ach_8php.html#a11">$User</a>-&gt;update_global_pref('PAGESIZE',$_POST['p_size']);
 <a name="l00058"></a>00058       <a class="code" href="commercial_8php.html#a0">$_SESSION</a>['g_pagesize']=$_POST['p_size'];
 <a name="l00059"></a>00059 
 <a name="l00060"></a>00060 }
@@ -98,7 +98,7 @@
 <a name="l00096"></a>00096 echo '&lt;/div&gt;';
 <a name="l00097"></a>00097 
 <a name="l00098"></a><a class="code" href="commercial_8php.html#a4">00098</a> <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>($_SESSION['g_dossier']);
-<a name="l00099"></a>00099 <a class="code" href="user__action__ach_8php.html#a9">$User</a>-&gt;AccessRequest($cn,<a class="code" href="constant_8php.html#a23">SEC_GESTION</a>);
+<a name="l00099"></a>00099 <a class="code" href="user__action__ach_8php.html#a11">$User</a>-&gt;AccessRequest($cn,<a class="code" href="constant_8php.html#a23">SEC_GESTION</a>);
 <a name="l00100"></a>00100 <span class="comment">//-----------------------------------------------------</span>
 <a name="l00101"></a>00101 <span class="comment">// p_action == pref</span>
 <a name="l00102"></a>00102 <span class="comment">//-----------------------------------------------------</span>

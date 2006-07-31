@@ -38,10 +38,10 @@
 <a name="l00032"></a>00032 include_once (<span class="stringliteral">"user_menu.php"</span>);
 <a name="l00033"></a>00033 
 <a name="l00034"></a>00034 
-<a name="l00035"></a><a class="code" href="fiche_8php.html#a0">00035</a> <a class="code" href="impress__poste_8php.html#a1">$rep</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
+<a name="l00035"></a><a class="code" href="fiche_8php.html#a0">00035</a> <a class="code" href="impress__poste_8php.html#a3">$rep</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
 <a name="l00036"></a>00036 include_once (<span class="stringliteral">"class_user.php"</span>);
-<a name="l00037"></a><a class="code" href="fiche_8php.html#a1">00037</a> <a class="code" href="user__action__ach_8php.html#a9">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>($rep);
-<a name="l00038"></a>00038 <a class="code" href="user__action__ach_8php.html#a9">$User</a>-&gt;Check();
+<a name="l00037"></a><a class="code" href="fiche_8php.html#a1">00037</a> <a class="code" href="user__action__ach_8php.html#a11">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>($rep);
+<a name="l00038"></a>00038 <a class="code" href="user__action__ach_8php.html#a11">$User</a>-&gt;Check();
 <a name="l00039"></a>00039 include (<span class="stringliteral">"check_priv.php"</span>);
 <a name="l00040"></a>00040 echo '&lt;div <span class="keyword">class</span>=<span class="stringliteral">"u_tmenu"</span>&gt;';
 <a name="l00041"></a>00041 echo <a class="code" href="user__menu_8php.html#a2">ShowMenuCompta</a>($_SESSION['g_dossier']);
@@ -50,7 +50,7 @@
 <a name="l00044"></a>00044 
 <a name="l00045"></a>00045 <span class="keywordflow">if</span> ( !isset($sessid)) 
 <a name="l00046"></a>00046 {
-<a name="l00047"></a>00047   <a class="code" href="user__action__ach_8php.html#a21">$sessid</a>=$_REQUEST[<span class="stringliteral">"PHPSESSID"</span>];
+<a name="l00047"></a>00047   <a class="code" href="user__action__ach_8php.html#a23">$sessid</a>=$_REQUEST[<span class="stringliteral">"PHPSESSID"</span>];
 <a name="l00048"></a>00048 } 
 <a name="l00049"></a>00049 <a class="code" href="admin_8inc_8php.html#a8">$search</a>='&lt;INPUT TYPE=<span class="stringliteral">"BUTTON"</span> VALUE=<span class="stringliteral">"Cherche"</span> OnClick=<span class="stringliteral">"SearchPoste(\''.$sessid."</span>')\<span class="stringliteral">"&gt;"</span>;
 <a name="l00050"></a>00050 
@@ -60,8 +60,8 @@
 <a name="l00054"></a>00054 <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>($_SESSION['g_dossier']);
 <a name="l00055"></a>00055 
 <a name="l00056"></a>00056 <span class="comment">// Security check</span>
-<a name="l00057"></a>00057 $read=<a class="code" href="user__action__ach_8php.html#a9">$User</a>-&gt;CheckAction($cn,<a class="code" href="constant_8php.html#a5">FICHE_READ</a>);
-<a name="l00058"></a>00058 $write=<a class="code" href="user__action__ach_8php.html#a9">$User</a>-&gt;CheckAction($cn,<a class="code" href="constant_8php.html#a24">FICHE_WRITE</a>);
+<a name="l00057"></a>00057 $read=<a class="code" href="user__action__ach_8php.html#a11">$User</a>-&gt;CheckAction($cn,<a class="code" href="constant_8php.html#a5">FICHE_READ</a>);
+<a name="l00058"></a>00058 $write=<a class="code" href="user__action__ach_8php.html#a11">$User</a>-&gt;CheckAction($cn,<a class="code" href="constant_8php.html#a24">FICHE_WRITE</a>);
 <a name="l00059"></a>00059 <span class="keywordflow">if</span> ($read+$write == 0 ){
 <a name="l00060"></a>00060   <span class="comment">/* Cannot Access */</span>
 <a name="l00061"></a>00061   <a class="code" href="ac__common_8php.html#a8">NoAccess</a>();

@@ -38,10 +38,10 @@
 <a name="l00032"></a>00032 }
 <a name="l00033"></a>00033 include_once (<span class="stringliteral">"postgres.php"</span>);
 <a name="l00034"></a>00034 <span class="comment">/* Admin. Dossier */</span>
-<a name="l00035"></a><a class="code" href="form_8php.html#a0">00035</a> <a class="code" href="impress__poste_8php.html#a1">$rep</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
+<a name="l00035"></a><a class="code" href="form_8php.html#a0">00035</a> <a class="code" href="impress__poste_8php.html#a3">$rep</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
 <a name="l00036"></a>00036 include_once (<span class="stringliteral">"class_user.php"</span>);
-<a name="l00037"></a><a class="code" href="form_8php.html#a1">00037</a> <a class="code" href="user__action__ach_8php.html#a9">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>($rep);
-<a name="l00038"></a>00038 <a class="code" href="user__action__ach_8php.html#a9">$User</a>-&gt;Check();
+<a name="l00037"></a><a class="code" href="form_8php.html#a1">00037</a> <a class="code" href="user__action__ach_8php.html#a11">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>($rep);
+<a name="l00038"></a>00038 <a class="code" href="user__action__ach_8php.html#a11">$User</a>-&gt;Check();
 <a name="l00039"></a>00039 
 <a name="l00040"></a>00040 include_once(<span class="stringliteral">"form_inc.php"</span>);
 <a name="l00041"></a>00041 
@@ -72,13 +72,13 @@
 <a name="l00066"></a>00066 <a class="code" href="user__menu_8php.html#a16">ShowMenuComptaForm</a>($_SESSION['g_dossier']);
 <a name="l00067"></a>00067 
 <a name="l00068"></a>00068 <span class="keywordflow">if</span> ( isset($_GET[<span class="stringliteral">"PHPSESSID"</span>] )) {
-<a name="l00069"></a>00069   <a class="code" href="user__action__ach_8php.html#a21">$sessid</a>=$_GET[<span class="stringliteral">"PHPSESSID"</span>];
+<a name="l00069"></a>00069   <a class="code" href="user__action__ach_8php.html#a23">$sessid</a>=$_GET[<span class="stringliteral">"PHPSESSID"</span>];
 <a name="l00070"></a>00070 } 
 <a name="l00071"></a>00071 <span class="keywordflow">if</span> ( isset($_POST[<span class="stringliteral">"PHPSESSID"</span>] )) {
-<a name="l00072"></a>00072   <a class="code" href="user__action__ach_8php.html#a21">$sessid</a>=$_POST[<span class="stringliteral">"PHPSESSID"</span>];
+<a name="l00072"></a>00072   <a class="code" href="user__action__ach_8php.html#a23">$sessid</a>=$_POST[<span class="stringliteral">"PHPSESSID"</span>];
 <a name="l00073"></a>00073 } 
 <a name="l00074"></a>00074 <span class="keywordflow">if</span> ( isset( $_REQUEST['PHPSESSID'])) {
-<a name="l00075"></a>00075         <a class="code" href="user__action__ach_8php.html#a21">$sessid</a> = $_REQUEST['PHPSESSID'];
+<a name="l00075"></a>00075         <a class="code" href="user__action__ach_8php.html#a23">$sessid</a> = $_REQUEST['PHPSESSID'];
 <a name="l00076"></a>00076 }
 <a name="l00077"></a>00077 
 <a name="l00078"></a>00078 

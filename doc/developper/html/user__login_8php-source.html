@@ -31,18 +31,18 @@
 <a name="l00026"></a>00026 <span class="comment">// $Revision$</span>
 <a name="l00027"></a>00027 include_once (<span class="stringliteral">"ac_common.php"</span>);
 <a name="l00028"></a>00028 include_once(<span class="stringliteral">"postgres.php"</span>);
-<a name="l00029"></a><a class="code" href="user__login_8php.html#a0">00029</a> <a class="code" href="impress__poste_8php.html#a1">$rep</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
+<a name="l00029"></a><a class="code" href="user__login_8php.html#a0">00029</a> <a class="code" href="impress__poste_8php.html#a3">$rep</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>();
 <a name="l00030"></a>00030 include_once (<span class="stringliteral">"class_user.php"</span>);
-<a name="l00031"></a><a class="code" href="user__login_8php.html#a1">00031</a> <a class="code" href="user__action__ach_8php.html#a9">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>($rep);
+<a name="l00031"></a><a class="code" href="user__login_8php.html#a1">00031</a> <a class="code" href="user__action__ach_8php.html#a11">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>($rep);
 <a name="l00032"></a>00032 
-<a name="l00033"></a>00033 <a class="code" href="user__action__ach_8php.html#a9">$User</a>-&gt;Check();
+<a name="l00033"></a>00033 <a class="code" href="user__action__ach_8php.html#a11">$User</a>-&gt;Check();
 <a name="l00034"></a>00034 <a class="code" href="ac__common_8php.html#a5">html_page_start</a>($_SESSION['g_theme']);
 <a name="l00035"></a>00035 include_once(<span class="stringliteral">"user_menu.php"</span>);
 <a name="l00036"></a>00036 
-<a name="l00037"></a><a class="code" href="user__login_8php.html#a2">00037</a> <a class="code" href="priv__user_8php.html#a13">$priv</a>=(<a class="code" href="user__action__ach_8php.html#a9">$User</a>-&gt;admin==1)?<span class="stringliteral">"Administrator"</span>:<span class="stringliteral">"User"</span>;
+<a name="l00037"></a><a class="code" href="user__login_8php.html#a2">00037</a> <a class="code" href="priv__user_8php.html#a13">$priv</a>=(<a class="code" href="user__action__ach_8php.html#a11">$User</a>-&gt;admin==1)?<span class="stringliteral">"Administrator"</span>:<span class="stringliteral">"User"</span>;
 <a name="l00038"></a>00038 
 <a name="l00039"></a>00039 echo '&lt;div <span class="keyword">class</span>=<span class="stringliteral">"info"</span>&gt; Welcome '.$User-&gt;first_name.'  '.
-<a name="l00040"></a>00040      <a class="code" href="user__action__ach_8php.html#a9">$User</a>-&gt;name.',&lt;h3 <span class="keyword">class</span>=<span class="stringliteral">"info"</span>&gt; your are an  '. <a class="code" href="priv__user_8php.html#a13">$priv</a>.' &lt;br&gt;Please Select your folder&lt;/h3&gt;&lt;/div&gt;';
+<a name="l00040"></a>00040      <a class="code" href="user__action__ach_8php.html#a11">$User</a>-&gt;name.',&lt;h3 <span class="keyword">class</span>=<span class="stringliteral">"info"</span>&gt; your are an  '. <a class="code" href="priv__user_8php.html#a13">$priv</a>.' &lt;br&gt;Please Select your folder&lt;/h3&gt;&lt;/div&gt;';
 <a name="l00041"></a>00041 <span class="comment">// Show default menu (preference,...)</span>
 <a name="l00042"></a>00042 
 <a name="l00043"></a>00043 <span class="comment">// If admin show everything otherwise only the available dossier</span>

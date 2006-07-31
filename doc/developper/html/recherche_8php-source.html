@@ -44,18 +44,18 @@
 <a name="l00039"></a>00039 
 <a name="l00040"></a><a class="code" href="recherche_8php.html#a0">00040</a> <a class="code" href="impress__fiche_8php.html#a0">$cn</a>=<a class="code" href="postgres_8php.html#a1">DbConnect</a>($_SESSION['g_dossier']);
 <a name="l00041"></a>00041 include ('class_user.php');
-<a name="l00042"></a><a class="code" href="recherche_8php.html#a1">00042</a> <a class="code" href="user__action__ach_8php.html#a9">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>($cn);
-<a name="l00043"></a>00043 <a class="code" href="user__action__ach_8php.html#a9">$User</a>-&gt;Check();
+<a name="l00042"></a><a class="code" href="recherche_8php.html#a1">00042</a> <a class="code" href="user__action__ach_8php.html#a11">$User</a>=<span class="keyword">new</span> <a class="code" href="classcl__user.html">cl_user</a>($cn);
+<a name="l00043"></a>00043 <a class="code" href="user__action__ach_8php.html#a11">$User</a>-&gt;Check();
 <a name="l00044"></a>00044 echo '&lt;div <span class="keyword">class</span>=<span class="stringliteral">"u_tmenu"</span>&gt;';
 <a name="l00045"></a>00045 echo <a class="code" href="user__menu_8php.html#a2">ShowMenuCompta</a>($_SESSION['g_dossier']);
 <a name="l00046"></a>00046 echo '&lt;/div&gt;';
 <a name="l00047"></a>00047    <span class="comment">// PhpSessid</span>
-<a name="l00048"></a><a class="code" href="recherche_8php.html#a2">00048</a>    <a class="code" href="user__action__ach_8php.html#a21">$sessid</a>=$_REQUEST['PHPSESSID'];
+<a name="l00048"></a><a class="code" href="recherche_8php.html#a2">00048</a>    <a class="code" href="user__action__ach_8php.html#a23">$sessid</a>=$_REQUEST['PHPSESSID'];
 <a name="l00049"></a>00049 
 <a name="l00050"></a>00050 <span class="comment">// display a search box</span>
-<a name="l00051"></a><a class="code" href="recherche_8php.html#a3">00051</a> <a class="code" href="user__action__ach_8php.html#a22">$search_box</a>=<a class="code" href="user__menu_8php.html#a7">u_ShowMenuRecherche</a>($cn,0,$sessid,$_GET);
+<a name="l00051"></a><a class="code" href="recherche_8php.html#a3">00051</a> <a class="code" href="user__action__ach_8php.html#a24">$search_box</a>=<a class="code" href="user__menu_8php.html#a7">u_ShowMenuRecherche</a>($cn,0,$sessid,$_GET);
 <a name="l00052"></a>00052 echo '&lt;DIV <span class="keyword">class</span>=<span class="stringliteral">"lextmenu"</span>&gt;'; <span class="comment">// class="recherche_form"&gt;';</span>
-<a name="l00053"></a>00053 echo <a class="code" href="user__action__ach_8php.html#a22">$search_box</a>;
+<a name="l00053"></a>00053 echo <a class="code" href="user__action__ach_8php.html#a24">$search_box</a>;
 <a name="l00054"></a>00054 echo <span class="stringliteral">"&lt;/div&gt;"</span>;
 <a name="l00055"></a>00055 <span class="comment">//-----------------------------------------------------</span>
 <a name="l00056"></a>00056 <span class="comment">// Display search result</span>

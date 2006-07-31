@@ -121,7 +121,7 @@
 <a name="l00119"></a><a class="code" href="facture_8inc_8php.html#a11">00119</a>   <a class="code" href="balance_8php.html#a5">$periode_start</a>=<a class="code" href="ac__common_8php.html#a12">make_array</a>($cn,<span class="stringliteral">"select p_id,to_char(p_start,'DD-MM-YYYY') "</span>.
 <a name="l00120"></a>00120                             <span class="stringliteral">" from parm_periode $filter_year order by p_id"</span>,1);
 <a name="l00121"></a>00121   <span class="comment">// User is already set User=new cl_user($cn);</span>
-<a name="l00122"></a><a class="code" href="facture_8inc_8php.html#a12">00122</a>   <a class="code" href="bank_8inc_8php.html#a14">$current</a>=(isset($_GET['p_periode']))?$_GET['p_periode']:<a class="code" href="user__action__ach_8php.html#a9">$User</a>-&gt;GetPeriode();
+<a name="l00122"></a><a class="code" href="facture_8inc_8php.html#a12">00122</a>   <a class="code" href="bank_8inc_8php.html#a14">$current</a>=(isset($_GET['p_periode']))?$_GET['p_periode']:<a class="code" href="user__action__ach_8php.html#a11">$User</a>-&gt;GetPeriode();
 <a name="l00123"></a><a class="code" href="facture_8inc_8php.html#a13">00123</a>   <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;selected=<a class="code" href="bank_8inc_8php.html#a14">$current</a>;
 <a name="l00124"></a>00124 
 <a name="l00125"></a>00125   echo 'Période  '.$w-&gt;IOValue(<span class="stringliteral">"p_periode"</span>,$periode_start);

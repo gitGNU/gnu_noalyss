@@ -92,7 +92,7 @@
 <a name="l00087"></a>00087 <span class="stringliteral">                                detail,</span>
 <a name="l00088"></a>00088 <span class="stringliteral">                                bq_account ,</span>
 <a name="l00089"></a>00089 <span class="stringliteral">                                jrn,</span>
-<a name="l00090"></a>00090 <span class="stringliteral">                                ok)</span>
+<a name="l00090"></a>00090 <span class="stringliteral">                                status)</span>
 <a name="l00091"></a>00091 <span class="stringliteral">                        values ('$code',</span>
 <a name="l00092"></a>00092 <span class="stringliteral">                                to_date('$date_exec','DD-MM-YYYY'),</span>
 <a name="l00093"></a>00093 <span class="stringliteral">                                to_date('$date_exec','DD-MM-YYYY'),</span>
@@ -103,7 +103,7 @@
 <a name="l00098"></a>00098 <span class="stringliteral">                                '"</span>.addslashes($detail).<span class="stringliteral">"        ',</span>
 <a name="l00099"></a>00099 <span class="stringliteral">                                '$p_bq_account',</span>
 <a name="l00100"></a>00100 <span class="stringliteral">                                $p_jrn,</span>
-<a name="l00101"></a>00101 <span class="stringliteral">                                false)"</span>;
+<a name="l00101"></a>00101 <span class="stringliteral">                                'n')"</span>;
 <a name="l00102"></a>00102                         <span class="keywordflow">if</span> ( <a class="code" href="postgres_8php.html#a2">ExecSql</a>($p_cn,$Sql) == <span class="keyword">false</span> )
 <a name="l00103"></a>00103                           {
 <a name="l00104"></a><a class="code" href="argenta__be_8inc_8php.html#a10">00104</a>                             <a class="code" href="postgres_8php.html#a17">Rollback</a>($p_cn); <span class="keywordflow">break</span>;

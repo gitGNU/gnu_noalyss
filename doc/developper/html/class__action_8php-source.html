@@ -112,7 +112,7 @@
 <a name="l00158"></a>00158       <a class="code" href="admin__repo_8php.html#a9">$desc</a>-&gt;heigh=250;
 <a name="l00159"></a>00159       <a class="code" href="admin__repo_8php.html#a9">$desc</a>-&gt;name=<span class="stringliteral">"ag_comment"</span>;
 <a name="l00160"></a>00160       <a class="code" href="admin__repo_8php.html#a9">$desc</a>-&gt;readonly=$readonly;
-<a name="l00161"></a>00161       <a class="code" href="admin__repo_8php.html#a9">$desc</a>-&gt;value=urldecode($this-&gt;ag_comment);
+<a name="l00161"></a>00161       <a class="code" href="admin__repo_8php.html#a9">$desc</a>-&gt;value=<a class="code" href="ac__common_8php.html#a9">FormatString</a>(urldecode($this-&gt;ag_comment));
 <a name="l00162"></a>00162 
 <a name="l00163"></a>00163       <span class="comment">// state</span>
 <a name="l00164"></a>00164       <span class="comment">// Retrieve the value</span>
@@ -159,7 +159,7 @@
 <a name="l00205"></a>00205       <span class="comment">// ag_ref</span>
 <a name="l00206"></a>00206       <span class="comment">// Always false for update</span>
 <a name="l00207"></a>00207       $ag_ref=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"text"</span>);
-<a name="l00208"></a>00208       $ag_ref-&gt;readonly=<span class="keyword">true</span>;
+<a name="l00208"></a>00208       $ag_ref-&gt;readonly=$upd;
 <a name="l00209"></a>00209       $ag_ref-&gt;name=<span class="stringliteral">"ag_ref"</span>;
 <a name="l00210"></a>00210       $ag_ref-&gt;value=<a class="code" href="ac__common_8php.html#a9">FormatString</a>($this-&gt;ag_ref);
 <a name="l00211"></a>00211       $client_label=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>(<span class="stringliteral">"span"</span>);
@@ -197,7 +197,7 @@
 <a name="l00243"></a>00243 <span class="stringliteral">            $this-&gt;ag_ref_ag_id.'"</span>&gt;'.
 <a name="l00244"></a>00244             <a class="code" href="postgres_8php.html#a25">getDbValue</a>($this-&gt;db,<span class="stringliteral">"select ag_ref from action_gestion where ag_id="</span>.$this-&gt;ag_ref_ag_id).
 <a name="l00245"></a>00245             <span class="stringliteral">"&lt;/A&gt;"</span>;
-<a name="l00246"></a>00246         }  
+<a name="l00246"></a>00246         } 
 <a name="l00247"></a>00247       <span class="comment">// sender</span>
 <a name="l00248"></a>00248       <a class="code" href="admin_8inc_8php.html#a4">$w</a>=<span class="keyword">new</span> <a class="code" href="classwidget.html">widget</a>('js_search_only');
 <a name="l00249"></a>00249       <a class="code" href="admin_8inc_8php.html#a4">$w</a>-&gt;readonly=$readonly;
@@ -617,198 +617,198 @@
 <a name="l00696"></a>00696       <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_action',__LINE__,'$_SESSION='.var_export($_SESSION,<span class="keyword">true</span>));
 <a name="l00697"></a>00697       <a class="code" href="bank_8inc_8php.html#a29">$r</a>=<span class="stringliteral">""</span>;
 <a name="l00698"></a>00698       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<a class="code" href="bank_8inc_8php.html#a25">$bar</a>;
-<a name="l00699"></a>00699       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;table&gt;"</span>;
+<a name="l00699"></a>00699       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;<a class="code" href="balance_8php.html#a3">table</a> <span class="keyword">class</span>=<span class="stringliteral">"document"</span>&gt;';
 <a name="l00700"></a>00700       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;tr&gt;"</span>;
-<a name="l00701"></a>00701       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;th&gt;&lt;a href=<span class="stringliteral">"?s=date&amp;p_action=suivi_courrier&amp;'.$query.'"</span>&gt; Date&lt;/a&gt;&lt;/th&gt;';
-<a name="l00702"></a>00702       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;th &lt;a href=<span class="stringliteral">"?s=dest&amp;p_action=suivi_courrier&amp;'.$query.'"</span>&gt;Destinataire&lt;/A&gt;&lt;/th&gt;';
-<a name="l00703"></a>00703       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;th&gt;&lt;a href=<span class="stringliteral">"?s=exp&amp;p_action=suivi_courrier&amp;'.$query.'"</span>&gt;Expéditeur&lt;/A&gt;&lt;/th&gt;';
-<a name="l00704"></a>00704       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;th&gt;&lt;a href=<span class="stringliteral">"?s=ti&amp;p_action=suivi_courrier&amp;'.$query.'"</span>&gt;Titre&lt;/a&gt;&lt;/th&gt;';
-<a name="l00705"></a>00705       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;th&gt;&lt;a href=<span class="stringliteral">"?s=type&amp;p_action=suivi_courrier&amp;'.$query.'"</span>&gt;type&lt;/a&gt;&lt;/th&gt;';
-<a name="l00706"></a>00706       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;th&gt;&lt;a href=<span class="stringliteral">"?s=ref&amp;p_action=suivi_courrier&amp;'.$query.'"</span>&gt;Référence&lt;/a&gt;&lt;/th&gt;';
-<a name="l00707"></a>00707       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;th&gt;&lt;a href=<span class="stringliteral">"?s=conc&amp;p_action=suivi_courrier&amp;'.$query.'"</span>&gt;concerne&lt;/a&gt;&lt;/th&gt;';
-<a name="l00708"></a>00708       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;th&gt;<a class="code" href="classDocument.html">Document</a>&lt;/th&gt;';
-<a name="l00709"></a>00709       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/tr&gt;"</span>;
-<a name="l00710"></a>00710 
-<a name="l00711"></a>00711       <span class="comment">// if there are no records return a message</span>
-<a name="l00712"></a>00712       <span class="keywordflow">if</span> ( <span class="keyword">sizeof</span> ($a_row) == 0 or $a_row == <span class="keyword">false</span> ) 
-<a name="l00713"></a>00713         {
-<a name="l00714"></a>00714           <a class="code" href="bank_8inc_8php.html#a29">$r</a>='&lt;div <span class="keyword">class</span>=<span class="stringliteral">"u_redcontent"</span>&gt;';
-<a name="l00715"></a>00715           <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;hr&gt;Aucun enregistrement trouvé';
-<a name="l00716"></a>00716           <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/div&gt;"</span>;
-<a name="l00717"></a>00717           <span class="keywordflow">return</span> <a class="code" href="bank_8inc_8php.html#a29">$r</a>;
-<a name="l00718"></a>00718 
-<a name="l00719"></a>00719         }
-<a name="l00720"></a>00720       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<a class="code" href="constant_8php.html#a85">JS_SEARCH_CARD</a>;
-<a name="l00721"></a>00721       foreach ($a_row as $row )
-<a name="l00722"></a>00722         {
-<a name="l00723"></a>00723 
-<a name="l00724"></a>00724           <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;tr&gt;"</span>;
-<a name="l00725"></a>00725           <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.$row['my_date'].<span class="stringliteral">"&lt;/td&gt;"</span>;
-<a name="l00726"></a>00726           <span class="comment">// Destinataire</span>
-<a name="l00727"></a>00727           $fdest=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($this-&gt;db);
-<a name="l00728"></a>00728           $fdest-&gt;id=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['<a class="code" href="action_8inc_8php.html#a14">f_id_dest</a>'];
-<a name="l00729"></a>00729           $qcode_dest=$fdest-&gt;strAttribut(<a class="code" href="constant_8php.html#a78">ATTR_DEF_QUICKCODE</a>);
+<a name="l00713"></a>00713       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;th&gt; Date&lt;/th&gt;';
+<a name="l00714"></a>00714       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;th&gt;Destinataire&lt;/th&gt;';
+<a name="l00715"></a>00715       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;th&gt;Expéditeur&lt;/th&gt;';
+<a name="l00716"></a>00716       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;th&gt;Titre&lt;/th&gt;';
+<a name="l00717"></a>00717       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;th&gt;type&lt;/th&gt;';
+<a name="l00718"></a>00718       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;th&gt;Référence&lt;/th&gt;';
+<a name="l00719"></a>00719       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;th&gt;concerne&lt;/th&gt;';
+<a name="l00720"></a>00720       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;th&gt;<a class="code" href="classDocument.html">Document</a>&lt;/th&gt;';
+<a name="l00721"></a>00721       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/tr&gt;"</span>;
+<a name="l00722"></a>00722 
+<a name="l00723"></a>00723       <span class="comment">// if there are no records return a message</span>
+<a name="l00724"></a>00724       <span class="keywordflow">if</span> ( <span class="keyword">sizeof</span> ($a_row) == 0 or $a_row == <span class="keyword">false</span> ) 
+<a name="l00725"></a>00725         {
+<a name="l00726"></a>00726           <a class="code" href="bank_8inc_8php.html#a29">$r</a>='&lt;div <span class="keyword">class</span>=<span class="stringliteral">"u_redcontent"</span>&gt;';
+<a name="l00727"></a>00727           <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;hr&gt;Aucun enregistrement trouvé';
+<a name="l00728"></a>00728           <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/div&gt;"</span>;
+<a name="l00729"></a>00729           <span class="keywordflow">return</span> <a class="code" href="bank_8inc_8php.html#a29">$r</a>;
 <a name="l00730"></a>00730 
-<a name="l00731"></a>00731           $qdest=($qcode_dest==<span class="stringliteral">"- ERROR -"</span>)?<span class="stringliteral">"Interne"</span>:$qcode_dest;
-<a name="l00732"></a>00732           $jsdest=sprintf(<span class="stringliteral">"javascript:showfiche('%s','%s')"</span>,
-<a name="l00733"></a>00733                       $_REQUEST['PHPSESSID'],$qdest);
-<a name="l00734"></a>00734           <span class="keywordflow">if</span> ( $qdest != 'Interne' )
-<a name="l00735"></a>00735             {
-<a name="l00736"></a>00736               <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.'&lt;A HREF=<span class="stringliteral">"'.$jsdest.'"</span>&gt;'.$qdest.<span class="stringliteral">" : "</span>.$fdest-&gt;getName().'&lt;/A&gt;&lt;/td&gt;';
-<a name="l00737"></a>00737             }
-<a name="l00738"></a>00738           <span class="keywordflow">else</span>
-<a name="l00739"></a>00739             <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;td&gt;Interne &lt;/td&gt;"</span>;
-<a name="l00740"></a>00740 
-<a name="l00741"></a>00741           <span class="comment">// Expediteur</span>
-<a name="l00742"></a>00742           $fexp=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($this-&gt;db);
-<a name="l00743"></a>00743           $fexp-&gt;id=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['<a class="code" href="action_8inc_8php.html#a15">f_id_exp</a>'];
-<a name="l00744"></a>00744           $qcode_exp=$fexp-&gt;strAttribut(<a class="code" href="constant_8php.html#a78">ATTR_DEF_QUICKCODE</a>);
-<a name="l00745"></a>00745 
-<a name="l00746"></a>00746           $qexp=($qcode_exp==<span class="stringliteral">"- ERROR -"</span>)?<span class="stringliteral">"Interne"</span>:$qcode_exp;
-<a name="l00747"></a>00747           $jsexp=sprintf(<span class="stringliteral">"javascript:showfiche('%s','%s')"</span>,
-<a name="l00748"></a>00748                       $_REQUEST['PHPSESSID'],$qexp);
-<a name="l00749"></a>00749           <span class="keywordflow">if</span> ( $qexp != 'Interne' )
-<a name="l00750"></a>00750             {
-<a name="l00751"></a>00751               <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.'&lt;A HREF=<span class="stringliteral">"'.$jsexp.'"</span>&gt;'.$qexp.<span class="stringliteral">" : "</span>.$fexp-&gt;getName().'&lt;/A&gt;&lt;/td&gt;';
-<a name="l00752"></a>00752             }
-<a name="l00753"></a>00753           <span class="keywordflow">else</span>
-<a name="l00754"></a>00754             <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;td&gt;Interne &lt;/td&gt;"</span>;
-<a name="l00755"></a>00755 
-<a name="l00756"></a>00756           $ref=<span class="stringliteral">""</span>;
+<a name="l00731"></a>00731         }
+<a name="l00732"></a>00732       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<a class="code" href="constant_8php.html#a85">JS_SEARCH_CARD</a>;
+<a name="l00733"></a>00733       foreach ($a_row as $row )
+<a name="l00734"></a>00734         {
+<a name="l00735"></a>00735 
+<a name="l00736"></a>00736           <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;tr&gt;"</span>;
+<a name="l00737"></a>00737           <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.$row['my_date'].<span class="stringliteral">"&lt;/td&gt;"</span>;
+<a name="l00738"></a>00738           <span class="comment">// Destinataire</span>
+<a name="l00739"></a>00739           $fdest=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($this-&gt;db);
+<a name="l00740"></a>00740           $fdest-&gt;id=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['<a class="code" href="action_8inc_8php.html#a14">f_id_dest</a>'];
+<a name="l00741"></a>00741           $qcode_dest=$fdest-&gt;strAttribut(<a class="code" href="constant_8php.html#a78">ATTR_DEF_QUICKCODE</a>);
+<a name="l00742"></a>00742 
+<a name="l00743"></a>00743           $qdest=($qcode_dest==<span class="stringliteral">"- ERROR -"</span>)?<span class="stringliteral">"Interne"</span>:$qcode_dest;
+<a name="l00744"></a>00744           $jsdest=sprintf(<span class="stringliteral">"javascript:showfiche('%s','%s')"</span>,
+<a name="l00745"></a>00745                       $_REQUEST['PHPSESSID'],$qdest);
+<a name="l00746"></a>00746           <span class="keywordflow">if</span> ( $qdest != 'Interne' )
+<a name="l00747"></a>00747             {
+<a name="l00748"></a>00748               <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.'&lt;A HREF=<span class="stringliteral">"'.$jsdest.'"</span>&gt;'.$qdest.<span class="stringliteral">" : "</span>.$fdest-&gt;getName().'&lt;/A&gt;&lt;/td&gt;';
+<a name="l00749"></a>00749             }
+<a name="l00750"></a>00750           <span class="keywordflow">else</span>
+<a name="l00751"></a>00751             <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;td&gt;Interne &lt;/td&gt;"</span>;
+<a name="l00752"></a>00752 
+<a name="l00753"></a>00753           <span class="comment">// Expediteur</span>
+<a name="l00754"></a>00754           $fexp=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($this-&gt;db);
+<a name="l00755"></a>00755           $fexp-&gt;id=<a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['<a class="code" href="action_8inc_8php.html#a15">f_id_exp</a>'];
+<a name="l00756"></a>00756           $qcode_exp=$fexp-&gt;strAttribut(<a class="code" href="constant_8php.html#a78">ATTR_DEF_QUICKCODE</a>);
 <a name="l00757"></a>00757 
-<a name="l00758"></a>00758           <span class="comment">// show reference</span>
-<a name="l00759"></a>00759           <span class="keywordflow">if</span> ( $row['<a class="code" href="action_8inc_8php.html#a13">ag_ref_ag_id</a>'] != 0 ) 
-<a name="l00760"></a>00760             {
-<a name="l00761"></a>00761               $retSqlStmt=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,
-<a name="l00762"></a>00762                                   <span class="stringliteral">"select ag_ref from action_gestion where ag_id="</span>.$row['<a class="code" href="action_8inc_8php.html#a13">ag_ref_ag_id</a>']);
-<a name="l00763"></a>00763               $retSql=pg_fetch_all($retSqlStmt);
-<a name="l00764"></a>00764               <span class="keywordflow">if</span> ( $retSql != null )
-<a name="l00765"></a>00765                 {
-<a name="l00766"></a>00766                   foreach ($retSql as $line) 
-<a name="l00767"></a>00767                     {
-<a name="l00768"></a>00768                       $ref.='&lt;A  href=<span class="stringliteral">"commercial.php?p_action=suivi_courrier&amp;query='.$line['ag_ref'].'"</span>&gt;'.
-<a name="l00769"></a>00769                         <a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>['<a class="code" href="action_8inc_8php.html#a16">ag_ref</a>'].<span class="stringliteral">"&lt;A&gt;"</span>;
-<a name="l00770"></a>00770                     }
-<a name="l00771"></a>00771                 }
-<a name="l00772"></a>00772             }
-<a name="l00773"></a>00773 
-<a name="l00774"></a>00774           <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;td&gt;&lt;A HREF=<span class="stringliteral">"commercial.php?p_action=suivi_courrier&amp;sa=detail&amp;ag_id='.$row['ag_id'].'"</span>&gt;'.
-<a name="l00775"></a>00775             <a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['<a class="code" href="action_8inc_8php.html#a11">ag_title</a>'].<span class="stringliteral">"&lt;/A&gt;&lt;/td&gt;"</span>;
-<a name="l00776"></a>00776           <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.$row['dt_value'].<span class="stringliteral">"&lt;/td&gt;"</span>;
-<a name="l00777"></a>00777           <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.$row['<a class="code" href="action_8inc_8php.html#a16">ag_ref</a>'].<span class="stringliteral">"&lt;/td&gt;"</span>;
-<a name="l00778"></a>00778           <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.$ref.<span class="stringliteral">"&lt;/td&gt;"</span>;
-<a name="l00779"></a>00779           <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>=<span class="keyword">new</span> <a class="code" href="classDocument.html">Document</a>($this-&gt;db,$row['<a class="code" href="action_8inc_8php.html#a12">d_id</a>']);
-<a name="l00780"></a>00780           <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.$doc-&gt;a_ref().<span class="stringliteral">"&lt;/td&gt;"</span>;
-<a name="l00781"></a>00781           <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/tr&gt;"</span>;
-<a name="l00782"></a>00782 
-<a name="l00783"></a>00783         }
-<a name="l00784"></a>00784       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/table&gt;"</span>;
+<a name="l00758"></a>00758           $qexp=($qcode_exp==<span class="stringliteral">"- ERROR -"</span>)?<span class="stringliteral">"Interne"</span>:$qcode_exp;
+<a name="l00759"></a>00759           $jsexp=sprintf(<span class="stringliteral">"javascript:showfiche('%s','%s')"</span>,
+<a name="l00760"></a>00760                       $_REQUEST['PHPSESSID'],$qexp);
+<a name="l00761"></a>00761           <span class="keywordflow">if</span> ( $qexp != 'Interne' )
+<a name="l00762"></a>00762             {
+<a name="l00763"></a>00763               <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.'&lt;A HREF=<span class="stringliteral">"'.$jsexp.'"</span>&gt;'.$qexp.<span class="stringliteral">" : "</span>.$fexp-&gt;getName().'&lt;/A&gt;&lt;/td&gt;';
+<a name="l00764"></a>00764             }
+<a name="l00765"></a>00765           <span class="keywordflow">else</span>
+<a name="l00766"></a>00766             <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;td&gt;Interne &lt;/td&gt;"</span>;
+<a name="l00767"></a>00767 
+<a name="l00768"></a>00768           $ref=<span class="stringliteral">""</span>;
+<a name="l00769"></a>00769 
+<a name="l00770"></a>00770           <span class="comment">// show reference</span>
+<a name="l00771"></a>00771           <span class="keywordflow">if</span> ( $row['<a class="code" href="action_8inc_8php.html#a13">ag_ref_ag_id</a>'] != 0 ) 
+<a name="l00772"></a>00772             {
+<a name="l00773"></a>00773               $retSqlStmt=<a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,
+<a name="l00774"></a>00774                                   <span class="stringliteral">"select ag_ref from action_gestion where ag_id="</span>.$row['<a class="code" href="action_8inc_8php.html#a13">ag_ref_ag_id</a>']);
+<a name="l00775"></a>00775               $retSql=pg_fetch_all($retSqlStmt);
+<a name="l00776"></a>00776               <span class="keywordflow">if</span> ( $retSql != null )
+<a name="l00777"></a>00777                 {
+<a name="l00778"></a>00778                   foreach ($retSql as $line) 
+<a name="l00779"></a>00779                     {
+<a name="l00780"></a>00780                       $ref.='&lt;A  href=<span class="stringliteral">"commercial.php?p_action=suivi_courrier&amp;query='.$line['ag_ref'].'"</span>&gt;'.
+<a name="l00781"></a>00781                         <a class="code" href="argenta__be_8inc_8php.html#a0">$line</a>['<a class="code" href="action_8inc_8php.html#a16">ag_ref</a>'].<span class="stringliteral">"&lt;A&gt;"</span>;
+<a name="l00782"></a>00782                     }
+<a name="l00783"></a>00783                 }
+<a name="l00784"></a>00784             }
 <a name="l00785"></a>00785 
-<a name="l00786"></a>00786       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<a class="code" href="bank_8inc_8php.html#a25">$bar</a>;
-<a name="l00787"></a>00787       <span class="comment">//$r.="&lt;/div&gt;";</span>
-<a name="l00788"></a>00788       <span class="keywordflow">return</span> <a class="code" href="bank_8inc_8php.html#a29">$r</a>;
-<a name="l00789"></a>00789     }
-<a name="l00790"></a>00790   <span class="comment">//----------------------------------------------------------------------</span>
-<a name="l00795"></a><a class="code" href="classaction.html#a7">00795</a> <span class="comment"></span>  function <a class="code" href="classaction.html#a7">Update</a>()
-<a name="l00796"></a>00796     {
-<a name="l00797"></a>00797       <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_action',__LINE__,'<a class="code" href="classaction.html#a7">Update</a>() $_POST()  :'.var_export($_POST,<span class="keyword">true</span>));
-<a name="l00798"></a>00798       <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_action',__LINE__,'<a class="code" href="classaction.html#a7">Update</a>()  $<span class="keyword">this</span>  :'.var_export($<span class="keyword">this</span>,<span class="keyword">true</span>));
-<a name="l00799"></a>00799 
-<a name="l00800"></a>00800       <span class="comment">// if ag_id == 0 nothing to do</span>
-<a name="l00801"></a>00801       <span class="keywordflow">if</span> ( $this-&gt;ag_id == 0 ) <a class="code" href="impress__listing__client_8php.html#a2">return</a> ;
-<a name="l00802"></a>00802 
-<a name="l00803"></a>00803 
-<a name="l00804"></a>00804       <span class="comment">// retrieve customer</span>
-<a name="l00805"></a>00805       <span class="comment">// f_id</span>
-<a name="l00806"></a>00806      
-<a name="l00807"></a>00807       <span class="keywordflow">if</span> ( trim($this-&gt;qcode_exp) ==<span class="stringliteral">""</span> )
-<a name="l00808"></a>00808         {
-<a name="l00809"></a>00809           <span class="comment">// internal document</span>
-<a name="l00810"></a>00810           $this-&gt;<a class="code" href="action_8inc_8php.html#a15">f_id_exp</a>=0; <span class="comment">// internal document</span>
-<a name="l00811"></a>00811         }
-<a name="l00812"></a>00812       <span class="keywordflow">else</span>
-<a name="l00813"></a>00813         {
-<a name="l00814"></a>00814           $tiers=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($this-&gt;db);
-<a name="l00815"></a>00815           <span class="keywordflow">if</span> ( $tiers-&gt;GetByQCode($this-&gt;qcode_exp) == -1 ) <span class="comment">// Error we cannot retrieve this qcode</span>
-<a name="l00816"></a>00816             <span class="keywordflow">return</span> <span class="keyword">false</span>; 
-<a name="l00817"></a>00817           <span class="keywordflow">else</span>
-<a name="l00818"></a>00818             $this-&gt;<a class="code" href="action_8inc_8php.html#a15">f_id_exp</a>=$tiers-&gt;id;
-<a name="l00819"></a>00819 
-<a name="l00820"></a>00820         }
-<a name="l00821"></a>00821       <span class="keywordflow">if</span> ( trim($this-&gt;qcode_dest) ==<span class="stringliteral">""</span> )
-<a name="l00822"></a>00822         {
-<a name="l00823"></a>00823           <span class="comment">// internal document</span>
-<a name="l00824"></a>00824           $this-&gt;<a class="code" href="action_8inc_8php.html#a14">f_id_dest</a>=0; <span class="comment">// internal document</span>
-<a name="l00825"></a>00825         }
-<a name="l00826"></a>00826       <span class="keywordflow">else</span>
-<a name="l00827"></a>00827         {
-<a name="l00828"></a>00828           $tiers=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($this-&gt;db);
-<a name="l00829"></a>00829           <span class="keywordflow">if</span> ( $tiers-&gt;GetByQCode($this-&gt;qcode_dest) == -1 ) <span class="comment">// Error we cannot retrieve this qcode</span>
-<a name="l00830"></a>00830             <span class="keywordflow">return</span> <span class="keyword">false</span>; 
-<a name="l00831"></a>00831           <span class="keywordflow">else</span>
-<a name="l00832"></a>00832             $this-&gt;<a class="code" href="action_8inc_8php.html#a14">f_id_dest</a>=$tiers-&gt;id;
-<a name="l00833"></a>00833 
-<a name="l00834"></a>00834         }
-<a name="l00835"></a>00835 
-<a name="l00836"></a>00836 
-<a name="l00837"></a>00837       <span class="comment">//remove newline from ag_comment</span>
-<a name="l00838"></a>00838       $this-&gt;<a class="code" href="action_8inc_8php.html#a5">ag_comment</a>=str_replace(<span class="stringliteral">"\n"</span>,<span class="stringliteral">""</span>,$this-&gt;ag_comment);
-<a name="l00839"></a>00839       $this-&gt;<a class="code" href="action_8inc_8php.html#a5">ag_comment</a>=str_replace(<span class="stringliteral">"\r"</span>,<span class="stringliteral">""</span>,$this-&gt;ag_comment);
-<a name="l00840"></a>00840 
-<a name="l00841"></a>00841       <span class="comment">// url encoded</span>
-<a name="l00842"></a>00842       $this-&gt;<a class="code" href="action_8inc_8php.html#a5">ag_comment</a>=urlencode($this-&gt;ag_comment);
-<a name="l00843"></a>00843 
-<a name="l00844"></a>00844       <span class="comment">// bug PHP : sometimes the newline remains</span>
-<a name="l00845"></a>00845       $this-&gt;<a class="code" href="action_8inc_8php.html#a5">ag_comment</a>=str_replace(<span class="stringliteral">"%A0"</span>,<span class="stringliteral">""</span>,$this-&gt;ag_comment);
-<a name="l00846"></a>00846       $this-&gt;<a class="code" href="action_8inc_8php.html#a5">ag_comment</a>=str_replace(<span class="stringliteral">"%0D"</span>,<span class="stringliteral">""</span>,$this-&gt;ag_comment);
-<a name="l00847"></a>00847       $this-&gt;<a class="code" href="action_8inc_8php.html#a5">ag_comment</a>=str_replace(<span class="stringliteral">"+%A0+"</span>,<span class="stringliteral">""</span>,$this-&gt;ag_comment);
-<a name="l00848"></a>00848       $this-&gt;<a class="code" href="action_8inc_8php.html#a5">ag_comment</a>=str_replace(<span class="stringliteral">"+%0D+"</span>,<span class="stringliteral">""</span>,$this-&gt;ag_comment);
-<a name="l00849"></a>00849 
-<a name="l00850"></a>00850 
-<a name="l00851"></a>00851       <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=sprintf(<span class="stringliteral">"update action_gestion set ag_comment='%s',"</span>.
-<a name="l00852"></a>00852                    <span class="stringliteral">" ag_timestamp=to_date('%s','DD.MM.YYYY'),"</span>.
-<a name="l00853"></a>00853                    <span class="stringliteral">" ag_title='%s',"</span>.
-<a name="l00854"></a>00854                    <span class="stringliteral">" ag_type=%d, "</span>.
-<a name="l00855"></a>00855                    <span class="stringliteral">" f_id_exp=%d, "</span>.
-<a name="l00856"></a>00856                    <span class="stringliteral">" f_id_dest=%d, "</span>.
-<a name="l00857"></a>00857                    <span class="stringliteral">" ag_ref_ag_id=%d"</span>.
-<a name="l00858"></a>00858                    <span class="stringliteral">" where ag_id = %d"</span>,
-<a name="l00859"></a>00859                    $this-&gt;ag_comment,
-<a name="l00860"></a>00860                    $this-&gt;ag_timestamp,
-<a name="l00861"></a>00861                    <a class="code" href="ac__common_8php.html#a9">FormatString</a>($this-&gt;ag_title),
-<a name="l00862"></a>00862                    $this-&gt;dt_id,
-<a name="l00863"></a>00863                    $this-&gt;f_id_exp,
-<a name="l00864"></a>00864                    $this-&gt;f_id_dest,
-<a name="l00865"></a>00865                    $this-&gt;ag_ref_ag_id,
-<a name="l00866"></a>00866                    $this-&gt;ag_id);
-<a name="l00867"></a>00867       <a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql);
-<a name="l00868"></a>00868       
-<a name="l00869"></a>00869       <span class="keywordflow">if</span> ( <span class="keyword">sizeof</span>($_FILES) !=0 ) 
-<a name="l00870"></a>00870         {
-<a name="l00871"></a>00871           <span class="comment">// Upload a new document</span>
-<a name="l00872"></a>00872           <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>=<span class="keyword">new</span> <a class="code" href="classDocument.html">Document</a>($this-&gt;db);
-<a name="l00873"></a>00873           <span class="keywordflow">if</span> ( $this-&gt;d_id !=0 )
-<a name="l00874"></a>00874             {
-<a name="l00875"></a>00875               <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;d_id=$this-&gt;<a class="code" href="action_8inc_8php.html#a12">d_id</a>;
-<a name="l00876"></a>00876             } <span class="keywordflow">else</span> {
-<a name="l00877"></a>00877               <span class="comment">// we need to increment the counter </span>
-<a name="l00878"></a>00878               <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;ag_id=$this-&gt;<a class="code" href="action_8inc_8php.html#a4">ag_id</a>;
-<a name="l00879"></a>00879               <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;md_type=$this-&gt;<a class="code" href="action_8inc_8php.html#a8">dt_id</a>;
-<a name="l00880"></a>00880               <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;blank();
-<a name="l00881"></a>00881             }
-<a name="l00882"></a>00882           <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;Upload($this-&gt;ag_id);
-<a name="l00883"></a>00883       
-<a name="l00884"></a>00884         }
-<a name="l00885"></a>00885       <span class="keywordflow">if</span> ( $this-&gt;d_id != 0 )
-<a name="l00886"></a>00886         {
-<a name="l00887"></a>00887           <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>=<span class="keyword">new</span> <a class="code" href="classDocument.html">Document</a>($this-&gt;db);
-<a name="l00888"></a>00888           <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;d_id=$this-&gt;<a class="code" href="action_8inc_8php.html#a12">d_id</a> ;
-<a name="l00889"></a>00889           <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;d_state=$this-&gt;<a class="code" href="action_8inc_8php.html#a7">d_state</a>;
-<a name="l00890"></a>00890           <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;save();
-<a name="l00891"></a>00891         }
-<a name="l00892"></a>00892       <span class="keywordflow">return</span> <span class="keyword">true</span>;
-<a name="l00893"></a>00893     }
-<a name="l00894"></a>00894 
-<a name="l00895"></a>00895 }
+<a name="l00786"></a>00786           <a class="code" href="bank_8inc_8php.html#a29">$r</a>.='&lt;td&gt;&lt;A HREF=<span class="stringliteral">"commercial.php?p_action=suivi_courrier&amp;sa=detail&amp;ag_id='.$row['ag_id'].'"</span>&gt;'.
+<a name="l00787"></a>00787             <a class="code" href="argenta__be_8inc_8php.html#a2">$row</a>['<a class="code" href="action_8inc_8php.html#a11">ag_title</a>'].<span class="stringliteral">"&lt;/A&gt;&lt;/td&gt;"</span>;
+<a name="l00788"></a>00788           <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.$row['dt_value'].<span class="stringliteral">"&lt;/td&gt;"</span>;
+<a name="l00789"></a>00789           <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.$row['<a class="code" href="action_8inc_8php.html#a16">ag_ref</a>'].<span class="stringliteral">"&lt;/td&gt;"</span>;
+<a name="l00790"></a>00790           <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.$ref.<span class="stringliteral">"&lt;/td&gt;"</span>;
+<a name="l00791"></a>00791           <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>=<span class="keyword">new</span> <a class="code" href="classDocument.html">Document</a>($this-&gt;db,$row['<a class="code" href="action_8inc_8php.html#a12">d_id</a>']);
+<a name="l00792"></a>00792           <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;td&gt;"</span>.$doc-&gt;a_ref().<span class="stringliteral">"&lt;/td&gt;"</span>;
+<a name="l00793"></a>00793           <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/tr&gt;"</span>;
+<a name="l00794"></a>00794 
+<a name="l00795"></a>00795         }
+<a name="l00796"></a>00796       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<span class="stringliteral">"&lt;/table&gt;"</span>;
+<a name="l00797"></a>00797 
+<a name="l00798"></a>00798       <a class="code" href="bank_8inc_8php.html#a29">$r</a>.=<a class="code" href="bank_8inc_8php.html#a25">$bar</a>;
+<a name="l00799"></a>00799       <span class="comment">//$r.="&lt;/div&gt;";</span>
+<a name="l00800"></a>00800       <span class="keywordflow">return</span> <a class="code" href="bank_8inc_8php.html#a29">$r</a>;
+<a name="l00801"></a>00801     }
+<a name="l00802"></a>00802   <span class="comment">//----------------------------------------------------------------------</span>
+<a name="l00807"></a><a class="code" href="classaction.html#a7">00807</a> <span class="comment"></span>  function <a class="code" href="classaction.html#a7">Update</a>()
+<a name="l00808"></a>00808     {
+<a name="l00809"></a>00809       <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_action',__LINE__,'<a class="code" href="classaction.html#a7">Update</a>() $_POST()  :'.var_export($_POST,<span class="keyword">true</span>));
+<a name="l00810"></a>00810       <a class="code" href="debug_8php.html#a0">echo_debug</a>('class_action',__LINE__,'<a class="code" href="classaction.html#a7">Update</a>()  $<span class="keyword">this</span>  :'.var_export($<span class="keyword">this</span>,<span class="keyword">true</span>));
+<a name="l00811"></a>00811 
+<a name="l00812"></a>00812       <span class="comment">// if ag_id == 0 nothing to do</span>
+<a name="l00813"></a>00813       <span class="keywordflow">if</span> ( $this-&gt;ag_id == 0 ) <a class="code" href="impress__listing__client_8php.html#a2">return</a> ;
+<a name="l00814"></a>00814 
+<a name="l00815"></a>00815 
+<a name="l00816"></a>00816       <span class="comment">// retrieve customer</span>
+<a name="l00817"></a>00817       <span class="comment">// f_id</span>
+<a name="l00818"></a>00818      
+<a name="l00819"></a>00819       <span class="keywordflow">if</span> ( trim($this-&gt;qcode_exp) ==<span class="stringliteral">""</span> )
+<a name="l00820"></a>00820         {
+<a name="l00821"></a>00821           <span class="comment">// internal document</span>
+<a name="l00822"></a>00822           $this-&gt;<a class="code" href="action_8inc_8php.html#a15">f_id_exp</a>=0; <span class="comment">// internal document</span>
+<a name="l00823"></a>00823         }
+<a name="l00824"></a>00824       <span class="keywordflow">else</span>
+<a name="l00825"></a>00825         {
+<a name="l00826"></a>00826           $tiers=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($this-&gt;db);
+<a name="l00827"></a>00827           <span class="keywordflow">if</span> ( $tiers-&gt;GetByQCode($this-&gt;qcode_exp) == -1 ) <span class="comment">// Error we cannot retrieve this qcode</span>
+<a name="l00828"></a>00828             <span class="keywordflow">return</span> <span class="keyword">false</span>; 
+<a name="l00829"></a>00829           <span class="keywordflow">else</span>
+<a name="l00830"></a>00830             $this-&gt;<a class="code" href="action_8inc_8php.html#a15">f_id_exp</a>=$tiers-&gt;id;
+<a name="l00831"></a>00831 
+<a name="l00832"></a>00832         }
+<a name="l00833"></a>00833       <span class="keywordflow">if</span> ( trim($this-&gt;qcode_dest) ==<span class="stringliteral">""</span> )
+<a name="l00834"></a>00834         {
+<a name="l00835"></a>00835           <span class="comment">// internal document</span>
+<a name="l00836"></a>00836           $this-&gt;<a class="code" href="action_8inc_8php.html#a14">f_id_dest</a>=0; <span class="comment">// internal document</span>
+<a name="l00837"></a>00837         }
+<a name="l00838"></a>00838       <span class="keywordflow">else</span>
+<a name="l00839"></a>00839         {
+<a name="l00840"></a>00840           $tiers=<span class="keyword">new</span> <a class="code" href="user__impress_8php.html#a10">fiche</a>($this-&gt;db);
+<a name="l00841"></a>00841           <span class="keywordflow">if</span> ( $tiers-&gt;GetByQCode($this-&gt;qcode_dest) == -1 ) <span class="comment">// Error we cannot retrieve this qcode</span>
+<a name="l00842"></a>00842             <span class="keywordflow">return</span> <span class="keyword">false</span>; 
+<a name="l00843"></a>00843           <span class="keywordflow">else</span>
+<a name="l00844"></a>00844             $this-&gt;<a class="code" href="action_8inc_8php.html#a14">f_id_dest</a>=$tiers-&gt;id;
+<a name="l00845"></a>00845 
+<a name="l00846"></a>00846         }
+<a name="l00847"></a>00847 
+<a name="l00848"></a>00848 
+<a name="l00849"></a>00849       <span class="comment">//remove newline from ag_comment</span>
+<a name="l00850"></a>00850       $this-&gt;<a class="code" href="action_8inc_8php.html#a5">ag_comment</a>=str_replace(<span class="stringliteral">"\n"</span>,<span class="stringliteral">""</span>,$this-&gt;ag_comment);
+<a name="l00851"></a>00851       $this-&gt;<a class="code" href="action_8inc_8php.html#a5">ag_comment</a>=str_replace(<span class="stringliteral">"\r"</span>,<span class="stringliteral">""</span>,$this-&gt;ag_comment);
+<a name="l00852"></a>00852 
+<a name="l00853"></a>00853       <span class="comment">// url encoded</span>
+<a name="l00854"></a>00854       $this-&gt;<a class="code" href="action_8inc_8php.html#a5">ag_comment</a>=urlencode($this-&gt;ag_comment);
+<a name="l00855"></a>00855 
+<a name="l00856"></a>00856       <span class="comment">// bug PHP : sometimes the newline remains</span>
+<a name="l00857"></a>00857       $this-&gt;<a class="code" href="action_8inc_8php.html#a5">ag_comment</a>=str_replace(<span class="stringliteral">"%A0"</span>,<span class="stringliteral">""</span>,$this-&gt;ag_comment);
+<a name="l00858"></a>00858       $this-&gt;<a class="code" href="action_8inc_8php.html#a5">ag_comment</a>=str_replace(<span class="stringliteral">"%0D"</span>,<span class="stringliteral">""</span>,$this-&gt;ag_comment);
+<a name="l00859"></a>00859       $this-&gt;<a class="code" href="action_8inc_8php.html#a5">ag_comment</a>=str_replace(<span class="stringliteral">"+%A0+"</span>,<span class="stringliteral">""</span>,$this-&gt;ag_comment);
+<a name="l00860"></a>00860       $this-&gt;<a class="code" href="action_8inc_8php.html#a5">ag_comment</a>=str_replace(<span class="stringliteral">"+%0D+"</span>,<span class="stringliteral">""</span>,$this-&gt;ag_comment);
+<a name="l00861"></a>00861 
+<a name="l00862"></a>00862 
+<a name="l00863"></a>00863       <a class="code" href="bank_8inc_8php.html#a20">$sql</a>=sprintf(<span class="stringliteral">"update action_gestion set ag_comment='%s',"</span>.
+<a name="l00864"></a>00864                    <span class="stringliteral">" ag_timestamp=to_date('%s','DD.MM.YYYY'),"</span>.
+<a name="l00865"></a>00865                    <span class="stringliteral">" ag_title='%s',"</span>.
+<a name="l00866"></a>00866                    <span class="stringliteral">" ag_type=%d, "</span>.
+<a name="l00867"></a>00867                    <span class="stringliteral">" f_id_exp=%d, "</span>.
+<a name="l00868"></a>00868                    <span class="stringliteral">" f_id_dest=%d, "</span>.
+<a name="l00869"></a>00869                    <span class="stringliteral">" ag_ref_ag_id=%d"</span>.
+<a name="l00870"></a>00870                    <span class="stringliteral">" where ag_id = %d"</span>,
+<a name="l00871"></a>00871                    $this-&gt;ag_comment,
+<a name="l00872"></a>00872                    $this-&gt;ag_timestamp,
+<a name="l00873"></a>00873                    <a class="code" href="ac__common_8php.html#a9">FormatString</a>($this-&gt;ag_title),
+<a name="l00874"></a>00874                    $this-&gt;dt_id,
+<a name="l00875"></a>00875                    $this-&gt;f_id_exp,
+<a name="l00876"></a>00876                    $this-&gt;f_id_dest,
+<a name="l00877"></a>00877                    $this-&gt;ag_ref_ag_id,
+<a name="l00878"></a>00878                    $this-&gt;ag_id);
+<a name="l00879"></a>00879       <a class="code" href="postgres_8php.html#a2">ExecSql</a>($this-&gt;db,$sql);
+<a name="l00880"></a>00880       
+<a name="l00881"></a>00881       <span class="keywordflow">if</span> ( <span class="keyword">sizeof</span>($_FILES) !=0 ) 
+<a name="l00882"></a>00882         {
+<a name="l00883"></a>00883           <span class="comment">// Upload a new document</span>
+<a name="l00884"></a>00884           <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>=<span class="keyword">new</span> <a class="code" href="classDocument.html">Document</a>($this-&gt;db);
+<a name="l00885"></a>00885           <span class="keywordflow">if</span> ( $this-&gt;d_id !=0 )
+<a name="l00886"></a>00886             {
+<a name="l00887"></a>00887               <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;d_id=$this-&gt;<a class="code" href="action_8inc_8php.html#a12">d_id</a>;
+<a name="l00888"></a>00888             } <span class="keywordflow">else</span> {
+<a name="l00889"></a>00889               <span class="comment">// we need to increment the counter </span>
+<a name="l00890"></a>00890               <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;ag_id=$this-&gt;<a class="code" href="action_8inc_8php.html#a4">ag_id</a>;
+<a name="l00891"></a>00891               <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;md_type=$this-&gt;<a class="code" href="action_8inc_8php.html#a8">dt_id</a>;
+<a name="l00892"></a>00892               <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;blank();
+<a name="l00893"></a>00893             }
+<a name="l00894"></a>00894           <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;Upload($this-&gt;ag_id);
+<a name="l00895"></a>00895       
+<a name="l00896"></a>00896         }
+<a name="l00897"></a>00897       <span class="keywordflow">if</span> ( $this-&gt;d_id != 0 )
+<a name="l00898"></a>00898         {
+<a name="l00899"></a>00899           <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>=<span class="keyword">new</span> <a class="code" href="classDocument.html">Document</a>($this-&gt;db);
+<a name="l00900"></a>00900           <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;d_id=$this-&gt;<a class="code" href="action_8inc_8php.html#a12">d_id</a> ;
+<a name="l00901"></a>00901           <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;d_state=$this-&gt;<a class="code" href="action_8inc_8php.html#a7">d_state</a>;
+<a name="l00902"></a>00902           <a class="code" href="document__modele_8inc_8php.html#a1">$doc</a>-&gt;save();
+<a name="l00903"></a>00903         }
+<a name="l00904"></a>00904       <span class="keywordflow">return</span> <span class="keyword">true</span>;
+<a name="l00905"></a>00905     }
+<a name="l00906"></a>00906 
+<a name="l00907"></a>00907 }
 </pre></div></BODY>
 </HTML>

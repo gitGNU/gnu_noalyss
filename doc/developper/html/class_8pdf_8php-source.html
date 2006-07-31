@@ -941,7 +941,7 @@
 <a name="l01177"></a>01177 }
 <a name="l01178"></a>01178 
 <a name="l01184"></a><a class="code" href="classCpdf.html#a23">01184</a> function setEncryption($userPass='',$ownerPass='',$pc=array()){
-<a name="l01185"></a>01185   <a class="code" href="line__update_8php.html#a10">$p</a>=bindec(11000000);
+<a name="l01185"></a>01185   <a class="code" href="impress__poste_8php.html#a2">$p</a>=bindec(11000000);
 <a name="l01186"></a>01186 
 <a name="l01187"></a>01187   $options = array(
 <a name="l01188"></a>01188      '<a class="code" href="impress__bilan_8php.html#a3">print</a>'=&gt;4
@@ -951,9 +951,9 @@
 <a name="l01192"></a>01192   );
 <a name="l01193"></a>01193   foreach($pc as $k=&gt;$v){
 <a name="l01194"></a>01194     <span class="keywordflow">if</span> ($v &amp;&amp; isset($options[$k])){
-<a name="l01195"></a>01195       <a class="code" href="line__update_8php.html#a10">$p</a>+=$options[$k];
+<a name="l01195"></a>01195       <a class="code" href="impress__poste_8php.html#a2">$p</a>+=$options[$k];
 <a name="l01196"></a>01196     } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (isset($options[$v])){
-<a name="l01197"></a>01197       <a class="code" href="line__update_8php.html#a10">$p</a>+=$options[$v];
+<a name="l01197"></a>01197       <a class="code" href="impress__poste_8php.html#a2">$p</a>+=$options[$v];
 <a name="l01198"></a>01198     }
 <a name="l01199"></a>01199   }
 <a name="l01200"></a>01200   <span class="comment">// implement encryption on the document</span>
