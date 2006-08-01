@@ -1289,6 +1289,15 @@ endroits du programme, vous pouvez les modifier mais assurez-vous
 qu'il existe déjà dans votre Plan Comptable
 </sect1>
 <sect1>Fiche
+<p>Qu'est qu'une fiche finalement, pour vous l'expliquer simplement,
+dites-vous qu'en comptabilité, il y a une série d'actions ou
+d'intervenants  tels que Achat, vente, Client, Fournisseurs, et que
+chaque action (ou intervenant) peut être subdivisée. Exemple: Vous
+créez une Action de type Dépense, puis dans cette nouvelle action,
+vous l'a subdivisée en Achat de carburant, restaurant, frais
+divers... La fiche correspond donc à la dernière subdivision
+c'est-à-dire dans ce cas-ci à restaurant ou frais divers.
+ 
 <p>Quand vous créez une nouvelle , ou vous demande sur quel
 modèle, vous voulez vous baser. Ce sont ces modèles qui peuvent être
 modifiées ici.
