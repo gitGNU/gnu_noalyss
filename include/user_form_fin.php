@@ -46,8 +46,7 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
   }
   // Verify the date
   if ( isDate($e_date) == null ) { 
-	  echo_error("Invalid date $e_date");
-	  echo_debug('user_form_fin.php',__LINE__,"Invalid date $e_date");
+	  echo_error('user_form_fin.php',__LINE__,"Invalid date $e_date");
 	  echo "<SCRIPT> alert('INVALID DATE $e_date !!!!');</SCRIPT>";
 	  return null;
 		}
@@ -57,7 +56,7 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
  if (IsFicheOfJrn($p_cn , $p_jrn, $e_bank_account,'deb') == 0 ) 
    {
      $msg="Mauvais compte en banque";
-     echo_error($msg);echo_debug('user_form_fin.php',__LINE__,$msg);	
+     echo_error('user_form_fin.php',__LINE__,$msg);	
      echo "<SCRIPT>alert('$msg');</SCRIPT>";
      return null;
    }
@@ -74,14 +73,14 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
 	// Check amount
     if ( isNumber(${"e_other".$i."_amount"}) == 0) {
 		$msg="Montant invalide !!! ";
-		echo_error($msg); echo_debug('user_form_fin.php',__LINE__,$msg);	
+		echo_error('user_form_fin.php',__LINE__,$msg);	
 		echo "<SCRIPT>alert('$msg');</SCRIPT>";
 		return null;
   	}
     // Check 
     if ( isFicheOfJrn($p_cn,$p_jrn,${"e_other$i"},'cred') == 0 ) {
       $msg="Fiche inexistante !!! ";
-      echo_error($msg);echo_debug('user_form_fin.php',__LINE__,$msg);	
+      echo_error('user_form_fin.php',__LINE__,$msg);
       echo "<SCRIPT>alert('$msg');</SCRIPT>";
       return null;
     }
@@ -100,7 +99,7 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
        cmpDate($e_date,$l_date_end)>0 )
     {
       $msg="Not in the active periode please change your preference";
-      echo_error($msg); echo_error($msg);	
+      echo_debug('user_form_fin.php',__LINE__,$msg);	
       echo "<SCRIPT>alert('$msg');</SCRIPT>";
       return null;
     }
@@ -108,7 +107,7 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
     if ( PeriodeClosed ($p_cn,$p_periode)=='t' )
       {
 		$msg="This periode is closed please change your preference";
-		echo_error($msg); echo_error($msg);	
+		echo_debug('user_form_fin.php',__LINE__,$msg);	
 		echo "<SCRIPT>alert('$msg');</SCRIPT>";
 		return null;
       }
