@@ -33,9 +33,9 @@ include_once("constant.php");
  * \return nothing
  *  
  */
-function echo_error      ($p_log) {
-	$fdebug=fopen("/tmp/phpcompta_error.log","a+");
-	fwrite($fdebug,date("Ymd H:i:s").$p_log."\n");
+function echo_error      ($p_log, $p_line="", $p_message="") {
+	$fdebug=fopen("phpcompta_error.log","a+");
+	fwrite($fdebug,date("Ymd H:i:s").$p_log." ".$p_line." ".$p_message."\n");
 	fclose($fdebug);
 	echo_debug($p_log);
 }
