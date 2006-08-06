@@ -75,7 +75,7 @@ function AddFiche($p_cn,$p_type,$p_array) {
 	  break;
 	}
       // if account already exist do nothing in tmp_pcmn otherwise add it
-      if (CountSql($p_cn,"select pcm_val from tmp_pcmn where pcm_val=".${"p_av_text$i"}) == 0 )
+      if (CountSql($p_cn,"select pcm_val from tmp_pcmn where pcm_val=".FormatString(${"p_av_text$i"})) == 0 )
 	{
 	  $len=strlen(${"p_av_text$i"})-1;
 	  // Mother account
@@ -567,7 +567,7 @@ function UpdateFiche($p_cn,$p_array) {
     if ( $key == 'ad_id'.ATTR_DEF_TVA ) {
       // is a valid rate ?
       if ( strlen(trim($element)) == 0 ) continue;
-      if ( CountSql($p_cn,"select * from tva_rate where tva_id='".$element."'") == 0 ) {
+      if ( CountSql($p_cn,"select * from tva_rate where tva_id='".FormatString($element)."'") == 0 ) {
 	// warning
 	echo_error('invalid rate') ;
 	echo '<script>
@@ -620,17 +620,19 @@ function UpdateFiche($p_cn,$p_array) {
     // Retrieve the name and the ad_id 5
     $f=pg_fetch_array($Res,0);
     $class_old=$f['av_text'];
-
-    // if the class changed
-    if ( $class != $class_old and $class != "" ) {
-      if ( CountSql($p_cn,"select * from jrnx where j_poste=$class") or 
-           CountSql($p_cn,"select * from jrnx where j_poste=$class_old" ))
-      {
-	// No change if the account is already used 
-	echo_error("Not possible to change the account, already used");
-      } else {
-	if ( CountSql($p_cn,"select * from tmp_pcmn where pcm_val=".$class) ==0)
-	  // we have to insert 
+    if (  isNumber($class)==1 && isNumber($class_old)==1) {
+      echo_debug('fiche_inc'," $class and $class_old are number");
+      // if the class changed
+      if ( $class != $class_old and $class != "" ) {
+	
+	if ( CountSql($p_cn,"select * from jrnx where j_poste=$class") or 
+	     CountSql($p_cn,"select * from jrnx where j_poste=$class_old" ))
+	  {
+	    // No change if the account is already used 
+	    echo_error("Not possible to change the account, already used");
+	  } else {
+	    if ( CountSql($p_cn,"select * from tmp_pcmn where pcm_val=".$class) ==0)
+	      // we have to insert 
 	  {
 	    // First we must use a parent
 	    $parent=GetParent($p_cn,$class);
@@ -638,28 +640,33 @@ function UpdateFiche($p_cn,$p_array) {
 			 "insert into tmp_pcmn (pcm_val,pcm_lib,pcm_val_parent) 
                          values ($class,'$f_label',$parent)");
 	  }
-      }
+	  }
 	$class=$class_old;
-    } else // $class=""
-      {
-
-	echo_debug('fiche_inc.php',__LINE__,"new account ");
-	$class=$class_old;
-	if ( CountSql($p_cn,"select * from tmp_pcmn where pcm_val=".$class) == 0 ) {
-	  // First we must use a parent
+      } else // $class=""
+	{
+	  
+	  echo_debug('fiche_inc.php',__LINE__,"new account ");
+	  $class=$class_old;
+	  if ( CountSql($p_cn,"select * from tmp_pcmn where pcm_val=".$class) == 0 ) {
+	    // First we must use a parent
 	  $parent=GetParent($p_cn,$class);
 	  $Res=ExecSql($p_cn,
 		       "insert into tmp_pcmn (pcm_val,pcm_lib,pcm_val_parent) 
                          values ($class,'$f_label',$parent)");
-	}
-      }
-    
-
+	  }
+	} 
     // Change the name in TMP_PCMN
     // Get the new name
     $f_label=FormatString($f_label);
-    ExecSql($p_cn,"update tmp_pcmn set pcm_lib='".$f_label."' where pcm_val=".$class);
 
+    ExecSql($p_cn,"update tmp_pcmn set pcm_lib='".$f_label."' where pcm_val=".$class);
+    
+
+    }
+
+      
+      
+    
 
   }
   // Update of TMP_PCMN if a class base is given (ad_id=5)

@@ -420,6 +420,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0,$p_paid=0)
     // Quick Code
     if ( $l_qcode != null ) 
       {
+	$l_qcode=FormatString($l_qcode);
 	$sql.=$l_and."  jr_grpt_id in ( select j_grpt from 
              jrnx where j_qcode = '$l_qcode')";
 	$l_and=" and ";

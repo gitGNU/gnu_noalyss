@@ -400,10 +400,10 @@ function save_upload_document ($cn,$seq) {
       }      else {
 	echo "<H1>Error</H1>";
 	Rollback($cn);
-	return null;
+
       }
     }
-
+  return 0;
  }
 /*!\brief return the value of the sql, the sql will return only one value
  *        with the value

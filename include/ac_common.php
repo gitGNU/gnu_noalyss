@@ -76,6 +76,7 @@ function cmpDate ($p_date,$p_date_oth) {
 function isNumber($p_int) {
   if ( strlen (trim($p_int)) == 0 ) return 0;
   $p_int=trim($p_int);
+  $p_int=FormatString($p_int);
   if (! ereg ("^-{0,1}[0-9]+.{0,1}[0-9]*$",$p_int) ) {
     return 0;
   } else {

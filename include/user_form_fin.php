@@ -345,6 +345,7 @@ return $r;
  */
 function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
   $internal_code="";
+  $oid=0;
   echo_debug('user_form_fin.php',__LINE__,"RecordFin");
   foreach ( $p_array as $v => $e)
   {
@@ -397,6 +398,8 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
       // Update comment if comment is blank
       $Res=ExecSql($p_cn,"update jrn set jr_comment='".$comment."' where jr_grpt_id=".$seq);
     }
+
+
     if ( $i == 0 )
       {
 	// first record we upload the files and
@@ -405,7 +408,7 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
 	  $oid=save_upload_document($p_cn,$seq);
 
       } else {
-	if ( sizeof($_FILES) != 0 ) 
+	if ( $oid  != 0 ) 
 	  {
 	    ExecSql($p_cn,"update jrn set jr_pj=".$oid.", jr_pj_name='".$_FILES['pj']['name']."', ".
                 "jr_pj_type='".$_FILES['pj']['type']."'  where jr_grpt_id=$seq");

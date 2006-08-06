@@ -134,7 +134,7 @@ if ( isset ($_GET["change_name"] )  ) {
       echo "<h2 class=\"error\"> Pas d'accès </h2>";
     else
       {
-	SaveModeleName($cn,$_GET["fd_id"],$_GET["label"]);
+	SaveModeleName($cn,$_GET["fd_id"],FormatString($_GET["label"]));
 	UpdateModele($cn,$_GET["fd_id"],$search);
       }
   echo '</DIV>';
@@ -172,7 +172,7 @@ if ( isset ($_POST["update_fiche"])  ) {
 	$a=UpdateFiche($cn,$HTTP_POST_VARS);
       }
       $fd_id=GetFicheDef($cn,$_POST["f_id"]);
-      ViewFiche($cn,$fd_id);
+
 
 
   echo '</DIV>';
