@@ -63,8 +63,8 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
     $r.=JS_SHOW_TVA;    
     $r.=JS_TVA;
     // Compute href
-    $href=basename($_SERVER['SCRIPT_NAME']);
-
+    //    $href=basename($_SERVER['SCRIPT_NAME']);
+    $href=basename($_SERVER['PHP_SELF']);
     switch ($href)
       {
 	// user_jrn.php
@@ -528,7 +528,8 @@ function FormVenteView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='form'
   $r.="</DIV>";
   if ( $p_doc == 'form' ) {
     // Compute href
-    $href=basename($_SERVER['SCRIPT_NAME']);
+    //    $href=basename($_SERVER['SCRIPT_NAME']);
+    $href=basename($_SERVER['PHP_SELF']);
     switch ($href)
       {
 	// user_jrn.php
@@ -557,7 +558,9 @@ function FormVenteView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='form'
 
 
     // if we were in the management module, appl. propose to generate an invoice
-    if ( $_SERVER['SCRIPT_NAME'] == '/commercial.php')
+    //    if ( $_SERVER['SCRIPT_NAME'] == '/commercial.php')
+    echo_debug('user_form_ven',__LINE__," _SERVER['PHP_SELF'] ".$_SERVER['PHP_SELF']);
+    if ( $_SERVER['PHP_SELF'] == '/commercial.php') 
       {
 	// if a template exists propose to choose an invoice template
 	if ( CountSql($p_cn,
