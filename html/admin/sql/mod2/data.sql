@@ -290,7 +290,7 @@ INSERT INTO attr_def (ad_id, ad_text) VALUES (11, 'Montant initial');
 INSERT INTO attr_def (ad_id, ad_text) VALUES (12, 'Personne de contact ');
 INSERT INTO attr_def (ad_id, ad_text) VALUES (13, 'numéro de tva ');
 INSERT INTO attr_def (ad_id, ad_text) VALUES (14, 'Adresse ');
-INSERT INTO attr_def (ad_id, ad_text) VALUES (15, 'code postale ');
+INSERT INTO attr_def (ad_id, ad_text) VALUES (15, 'code postal');
 INSERT INTO attr_def (ad_id, ad_text) VALUES (16, 'pays ');
 INSERT INTO attr_def (ad_id, ad_text) VALUES (17, 'téléphone ');
 INSERT INTO attr_def (ad_id, ad_text) VALUES (18, 'email ');
