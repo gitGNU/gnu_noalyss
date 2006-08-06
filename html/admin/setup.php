@@ -464,7 +464,7 @@ if ( DEBUG=='false' ) ob_start();
     ExecuteScript($db,'sql/patch/upgrade14.sql');
   } // version 
   if ( GetVersion($db) == 15 ) { 
-    ExecuteScript($db,'sql/patch/upgrade14.sql');
+    ExecuteScript($db,'sql/patch/upgrade15.sql');
   } // version 
 
 
