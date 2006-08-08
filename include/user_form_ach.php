@@ -63,7 +63,7 @@ echo_debug('user_form_ach.php',__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_peri
     $r.=JS_TVA;
     // Compute href
     //    $href=basename($_SERVER['SCRIPT_NAME']);
-    $href=basename($_SERVER['PHP_SELF']);
+    $href=basename($_SERVER['SCRIPT_NAME']);
     switch ($href)
       {
 	// user_jrn.php
@@ -575,7 +575,7 @@ function FormAchView ($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$p_number,$p_pi
   $r.="</DIV>";
   // Compute href
   //  $href=basename($_SERVER['SCRIPT_NAME']);
-  $href=basename($_SERVER['PHP_SELF']);
+  $href=basename($_SERVER['SCRIPT_NAME']);
   switch ($href)
     {
       // user_jrn.php
