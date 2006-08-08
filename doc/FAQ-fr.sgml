@@ -9,7 +9,7 @@
 <abstract>
 Ce document contient les réponses aux questions les plus fréquemment posées sur
 PhpCompta <url url="http://www.alchimerys.be/FR/phpcompta" name="PhpCompta">
-site savannah 
+site savannah
 <url url="http://savannah.nongnu.org/projects/phpcompta/" name="PhpCompta Savannah">
 </abstract>
 
@@ -19,12 +19,12 @@ site savannah
 <P>PhpCompta est un logiciel <url url="http://www.gnu.org/licenses/gpl.html" name="GPL">
 adapté à la législation
  belge en matière de comptabilité, il vous permet de tenir votre comptabilité de
- manière centralisée.Il a crée pour supporter d'autres comptabilité d'autres
- pays mais par manque de documentation, ce n'est pas encore implémenté, idem
+ manière centralisée.Il a été crée pour supporter diverses comptabilités d'autres
+ pays mais par manque de documentation, celle-ci ne sont pas encore implémentées, idem
  pour les traductions. </P>
- <P>Si vous voulez contribuez n'hésitez pas : 
+ <P>Si vous voulez contribuez n'hésitez pas :
  <url url="http://mail.nongnu.org/mailman/listinfo/phpcompta-contrib" name="Mailing List Contribution">
- <newline> Si vous avez besoin d'aide 
+ <newline> Si vous avez besoin d'aide
  <url url="http://mail.nongnu.org/mailman/listinfo/phpcompta-support"
  name="Mailing List support">.
  </p>
@@ -38,7 +38,7 @@ adapté à la législation
 
  </p>
  <p>
-En fait c'est phpcompta, au départ c'était wcompta, contraction de
+En fait c'est phpcompta, bien qu'au départ c'était wcompta, contraction de
  WebCompta mais malheureusement, c'est le nom d'un soft qui existait
  déjà, j'ai été obligé de changer vers phpcompta.
 </p>
@@ -103,7 +103,7 @@ lors de l'installation (admin/setup.php), on vérifie que toutes les paramètres d
 corrects.
 
 </sect>
-<sect>Quand on réinitialise le mot de passe, que vaut-il ?
+<sect>Quand  réinitialise t-on le mot de passe, que vaut-il ?
 <p>phpcompta</p>
 <sect>Quel est l'utilisateur et le mot de passe par défaut?
 <p>
@@ -114,8 +114,8 @@ l'utilisateur demo a aussi phpcompta comme mot de passe.
 <sect>J'ai trouvé un tit bug, comment faire un patchs ??<label id="bug">
 <p>
 Le plus simplement du monde : d'abord récupérez le projet ,
-corrigez le problème que vous avez détecté, vous vous placez à la
-racine du projet et vous tapez :  
+corrigez le problème que vous avez détecté, placez-vous à la
+racine du projet et vous tapez :
 <verb>
 cvs diff -rrelease -u > patch-date-email
 </verb>
@@ -127,7 +127,7 @@ le nom du tag que vous voulez)
 </p>
 <p> Pour tester les patch,
 <p>
-Pour le tester, faite un cvs co dans un autre répertoire que celui où vous
+Pour le tester, faites un cvs co dans un autre répertoire que celui où vous
 avez développé votre patch, puis essayer votre patch
 <verb>
 patch -p0 &lt; patch-(numéro de version)-votre-email </verb>si vous êtes dans le
@@ -147,7 +147,7 @@ urpmi linuxdoc-tools, pour les autres, je ne sais pas :(
 </p>
 <p>
 Une fois, les linuxdoc tools installés il peut être nécessaire
-d'installer d'autres outils comme jade, sgml,... 
+d'installer d'autres outils comme jade, sgml,...
 Il faudra en tout cas ajouter les tetex-dvips, textex-xdvi, latex2html
 
 <p>
@@ -162,17 +162,17 @@ pouvez imprimer le guide, pour le trouver faites :
 Ensuite, editez le fichier sgml,
 et surtout pensez à utilisez aspell -H --lang=fr_FR check FA-fr.sgml pour
 véifier l'orthographe. Pour le visionner, faites linuxdoc -B html FAQ.sgml
-soit linuxdoc -B rtf pour avoir un fichier rtf... Puis faites un patch :-) <ref id="bug" 
+soit linuxdoc -B rtf pour avoir un fichier rtf... Puis faites un patch :-) <ref id="bug"
 name="Comment faire un patch">
 </p>
 <sect>Comment contribuer ?
-<p>Sur le site de Savannah, j'ai décidé d'utilisé le Task Manager, 
-chacun s'organise comme il veut, soit il  m'envoie son travail par email soit il 
-se joint au projet. Je préfère qu'au début on travaille par email.
+<p>Sur le site de Savannah, j'ai décidé d'utilisé le Task Manager,
+chacun s'organise comme il veut, soit il  m'envoie son travail par email soit il
+se joint au projet. Je préfère que l'on travaille par email au début.
 </p>
 <p>
 L'intérêt de ce système est de pouvoir voir le suivi mais aussi d'ajouter des commentaires
-sur un sujet 
+sur un sujet
 <url url="http://savannah.nongnu.org/task/?group=phpcompta" name="PhpCompta Task Manager">.
 </p>
 <p>
@@ -214,9 +214,9 @@ Du à une commande drop sur un objet inexistant, n'y pretez pas attention
 <p>
 <sect1>Quel patch utiliser ?
 <p>
-Dans certains cas, le dernier patch ne reprend PAS les autres, 
+Dans certains cas, le dernier patch ne reprend PAS les autres,
 il faudra lire la release note du patch
-pour savoir ce qu'il faut appliquer avant. En règle générale, il 
+pour savoir ce qu'il faut appliquer avant. En règle générale, il
 faut appliquer les patch dans l'ordre : le premier, puis le second...
 
 Sinon, les patchs sont toujours nommés ainsi
@@ -229,7 +229,7 @@ path-r092-1.tgz, est le premier patch pour la release 0.9.2
 </sect1>
 <sect1> Comment appliquer le patch
 <p>
-Après l'avoir télécharger, allez dans le répertoire de PhpCompta, c'est-à-dire celui qui contient les sources
+Après l'avoir téléchargé, allez dans le répertoire de PhpCompta, c'est-à-dire celui qui contient les sources
 <enum>
 <item>Décompresser le patch (gzunip patch-...)
 <item>puis appliquez le patch -p0 &lt; patch...
@@ -240,8 +240,7 @@ Après l'avoir télécharger, allez dans le répertoire de PhpCompta, c'est-à-dire c
 </sect1>
 </sect>
 <sect>Les entêtes de facture
-<p> Pourquoi les coordonnées de la société faisant la facture n'apparraissent
-pas
+<p> Pourquoi les coordonnées de la société faisant la facture n'apparraissent-ils pas ?
 
 Simplement parce que je n'ai pas eu le temps de le coder, pour l'instant, vous
 devrez uniquement utiliser des factures préimprimées
@@ -264,14 +263,14 @@ devrez uniquement utiliser des factures préimprimées
 C'est normal, les sortie de déboggages sont envoyées dans une base de données, ce
 qui facilite la recherche, le tri,...
 
-<p> Vous avez deux possibilités, 
+<p> Vous avez deux possibilités,
   <itemize>
  <item>soit vous changez dans le fichier include/constant.php, define ("DEBUG","true"); par
  define ("DEBUG","false");
 
  <item> Se connecter en tant que postgres et taper les commandes
  <verb>
- createdb -h localhost -O phpcompta log 
+ createdb -h localhost -O phpcompta log
  psql -h localhost -U phpcompta -f sql/log/log.sql log
  </verb>
 </itemize>
@@ -279,7 +278,7 @@ qui facilite la recherche, le tri,...
 </sect>
 <sect>Après avoir installé la version 1.1.0, les périodes centralisées ne le sont plus
 <p> Oui, c'est tout-à-fait normal, la période 1.1.0 introduit plusieurs changements dont par exemple,
-les numéros d'opérations et de pièce justificatives.
+les numéros d'opérations et de pièces justificatives.
 
 <p>C'est à cause de cela, qu'il faut re-centraliser.
 
@@ -292,8 +291,8 @@ le fichier de configuration de PostgreSql.
 <sect>Mais où sont les rapports prédéfini
 <p>Parce que les rapports peuvent toujours être facilement adaptés,
 ils sont inclus dans le produit mais pas installé. Pour les trouver,
-allez simplement dans le répertoire contrib/rapport et éxécutez les
-scripts sql soit grâce à pgAdmin soit en commande en ligne soit avec
+allez simplement dans le répertoire contrib/rapport et exécutez les
+scripts sql soit grâce à pgAdmin soit en ligne de commande ou soit avec
 l'outil PhpPgAdmin.
 
 </sect>
