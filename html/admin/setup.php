@@ -467,6 +467,9 @@ if ( DEBUG=='false' ) ob_start();
     ExecuteScript($db,'sql/patch/upgrade15.sql');
   } // version 
 
+  if ( GetVersion($db) == 16 ) { 
+    ExecuteScript($db,'sql/patch/upgrade16.sql');
+  } // version 
 
 if ( DEBUG == 'false') ob_end_clean();
  }//for
@@ -546,6 +549,9 @@ if (DEBUG == 'false' ) ob_start();
   } // version 
   if ( GetVersion($db) == 15 ) { 
     ExecuteScript($db,'sql/patch/upgrade15.sql');
+  } // version 
+  if ( GetVersion($db) == 16 ) { 
+    ExecuteScript($db,'sql/patch/upgrade16.sql');
   } // version 
 
 if ( DEBUG == 'false') ob_end_clean();
