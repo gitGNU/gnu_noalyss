@@ -73,10 +73,11 @@ ShowMenuFiche($_SESSION['g_dossier']);
 if ( isset ( $_GET["action"]) ) {
   $action=$_GET["action"];
   // View the details of the selected cat. of cards
-  if ( isset ($_GET["fiche"]) && $action=="vue" ) {
+  if ( isset ($_GET["fiche"]) && $action=="vue" && ! isset ($_POST['add_fiche']) ) {
     echo '<DIV class="u_redcontent">';
     ViewFiche($cn,$_GET["fiche"]);
     echo '</DIV>';
+
   }// Display the detail of a card
   if ($action== "detail" ) {
     echo '<DIV class="u_redcontent">';
@@ -158,9 +159,11 @@ if ( isset ($_POST["add_fiche"]) ) {
   else
     {
       AddFiche($cn,$_POST["fiche"],$HTTP_POST_VARS);
-      ViewFiche($cn,$_POST["fiche"]);
+        ViewFiche($cn,$_POST["fiche"]);
+	
     }
   echo '</DIV>';
+  exit();
 }
 // Update a card
 if ( isset ($_POST["update_fiche"])  ) {
