@@ -134,7 +134,7 @@ echo "</TR>";
 echo '</TABLE>';
 echo '<INPUT TYPE="submit" name="search" value="cherche">';
 echo '</FORM>';
-
+echo '<div class="u_content">';
 // if a search is asked otherwise don't show all the rows
 if ( isset ($_GET["search"]) ) {
   $sql="select j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
@@ -167,7 +167,7 @@ if ( isset ($_GET["search"]) ) {
 
   $col_vide="<TD></TD>";
   echo $bar;
-  echo '<TABLE ALIGN="center" BORDER="0" CELLSPACING="O">';
+  echo '<TABLE ALIGN="center" BORDER="0" CELLSPACING="O" width="100%">';
   $l_id="";
 //   if ( $MaxLine > 250 ) {
 //     echo "Trop de lignes redéfinir la recherche";
@@ -179,7 +179,7 @@ if ( isset ($_GET["search"]) ) {
     if ( $l_id == $l_line['j_grpt'] ) {
       echo $col_vide.$col_vide;
     } else {
-      echo "<TR><TD>";
+      echo '<TR style="background-color:lightblue"><TD>';
       echo '<INPUT TYPE="CHECKBOX" onClick="GetIt(\''.$p_ctl.'\',\''.$l_line['jr_id']."')\" >";
       echo "</TD>";
 
@@ -227,6 +227,7 @@ if ( isset ($_GET["search"]) ) {
   
   echo '</TABLE>';
   echo $bar;
+  echo '</div>';
 }// if $_POST [search]
 ?>
 </div>
