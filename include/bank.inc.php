@@ -54,7 +54,7 @@ $h_url="";
 
 if ( isset ($_REQUEST['url'])) 
 {
-  $retour=sprintf('<A HREF="%s"><input type="button" value="Retour"></A>',urldecode($_REQUEST['url']));
+  $retour=sprintf('<A class="mtitle" HREF="%s"><input type="button" value="Retour"></A>',urldecode($_REQUEST['url']));
   $h_url=sprintf('<input type="hidden" name="url" value="%s">',urldecode($_REQUEST['url']));
 }
 
@@ -145,7 +145,7 @@ if ( $sub_action == "list")
 
   $w=new widget("select");
 
-  $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode order by p_id");
+  $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode order by p_id",1);
   // User is already set User=new cl_user($cn);
   $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->GetPeriode();
   $w->selected=$current;
@@ -166,7 +166,19 @@ echo $w->Submit('gl_submit','Rechercher');
   echo $retour;
   // Show list of sell
   // Date - date of payment - Customer - amount
-  $sql=SQL_LIST_ALL_INVOICE." and jr_tech_per=".$current." and jr_def_type='FIN'" ;
+  if ( $current != -1 )
+    {
+      $filter_per=" and jr_tech_per=".$current;
+    }
+  else 
+    {
+      $filter_per=" and jr_tech_per in (select p_id from parm_periode where p_exercice=".
+	$User->getExercice().")";
+    }
+
+  // Show list of sell
+  // Date - date of payment - Customer - amount
+  $sql=SQL_LIST_ALL_INVOICE.$filter_per." and jr_def_type='FIN'" ;
   $step=$_SESSION['g_pagesize'];
   $page=(isset($_GET['offset']))?$_GET['page']:1;
   $offset=(isset($_GET['offset']))?$_GET['offset']:0;
