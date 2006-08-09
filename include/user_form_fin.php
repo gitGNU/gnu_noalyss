@@ -154,8 +154,8 @@ function FormFin($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
     $r.=JS_CONCERNED_OP;
   }
   // Compute href
-  //  $href=basename($_SERVER['SCRIPT_NAME']);
-  $href=basename($_SERVER['SCRIPT_NAME']);
+  //  $href=basename($_SERVER['PHP_SELF']);
+  $href=basename($_SERVER['PHP_SELF']);
   switch ($href)
     {
       // user_jrn.php module "Comptable"

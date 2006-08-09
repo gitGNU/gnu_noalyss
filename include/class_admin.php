@@ -66,7 +66,7 @@ class Admin extends fiche{
     {
       $p_search=FormatString($p_search);
       $url=urlencode($_SERVER['REQUEST_URI']);
-      $script=$_SERVER['SCRIPT_NAME'];
+      $script=$_SERVER['PHP_SELF'];
       // Creation of the nav bar
       // Get the max numberRow
       $all_admin=$this->CountByDef($this->fiche_def_ref,$p_search); 
@@ -110,9 +110,11 @@ class Admin extends fiche{
 	  " ".$admin->strAttribut(ATTR_DEF_PAYS).
 	  "</TD>";
 	$r.="<td>";
-	$r.=sprintf('<A class="mtitle" HREF="%s?p_action=contact&qcode=%s&url=%s" title="Contact">C</A> - ',
+	$r.=sprintf('<A class="mtitle" HREF="%s?p_action=contact&qcode=%s&url=%s" title="Contact">Contact</A> - ',
 		    $script,$admin->strAttribut(ATTR_DEF_QUICKCODE),$url);
-	$r.=sprintf('<A class="mtitle" HREF="%s?p_action=suivi_courrier&sa=list&qcode=%s&url=%s" title="Action">A</A> - ',
+	$r.=sprintf('<A class="mtitle" HREF="%s?p_action=suivi_courrier&sa=list&qcode=%s&url=%s" title="Action">Action</A> - ',
+		    $script,$admin->strAttribut(ATTR_DEF_QUICKCODE) ,$url);
+	$r.=sprintf('<A class="mtitle" HREF="%s?liste&p_action=bank&sa=list&qcode=%s&url=%s&p_periode=-1" title="Financier">Financier</A> - ',
 		    $script,$admin->strAttribut(ATTR_DEF_QUICKCODE) ,$url);
 
 	$r.='</TD>';

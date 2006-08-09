@@ -62,8 +62,8 @@ echo_debug('user_form_ach.php',__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_peri
     $r.=JS_SHOW_TVA;    
     $r.=JS_TVA;
     // Compute href
-    //    $href=basename($_SERVER['SCRIPT_NAME']);
-    $href=basename($_SERVER['SCRIPT_NAME']);
+    //    $href=basename($_SERVER['PHP_SELF']);
+    $href=basename($_SERVER['PHP_SELF']);
     switch ($href)
       {
 	// user_jrn.php
@@ -74,7 +74,7 @@ echo_debug('user_form_ach.php',__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_peri
 	$href="commercial.php?p_action=depense&p_jrn=$p_jrn";
 	break;
       default:
-	echo_error('user_form_ach.php',__LINE__,'Erreur invalid request uri');
+	echo_error('user_form_ach.php',__LINE__,'Erreur invalid request uri '.$href);
 	exit (-1);
       }
       
@@ -574,8 +574,8 @@ function FormAchView ($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$p_number,$p_pi
  
   $r.="</DIV>";
   // Compute href
-  //  $href=basename($_SERVER['SCRIPT_NAME']);
-  $href=basename($_SERVER['SCRIPT_NAME']);
+  //  $href=basename($_SERVER['PHP_SELF']);
+  $href=basename($_SERVER['PHP_SELF']);
   switch ($href)
     {
       // user_jrn.php

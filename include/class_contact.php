@@ -57,7 +57,7 @@ class contact extends fiche
 attr_value using (jft_id) where av_text='".$this->company."' and ad_id=".ATTR_DEF_COMPANY.") ";
 	}
       $url=urlencode($_SERVER['REQUEST_URI']);
-      $script=$_SERVER['SCRIPT_NAME'];
+      $script=$_SERVER['PHP_SELF'];
       // Creation of the nav bar
       // Get the max numberRow
       $all_contact=$this->CountByDef($this->fiche_def_ref,$p_search,$extra_sql); 
@@ -82,13 +82,14 @@ attr_value using (jft_id) where av_text='".$this->company."' and ad_id=".ATTR_DE
       $r=$bar;
       $r.='<table border="0">
 <TR style="background-color:lightgrey;">
+<th>Quick Code</th>
 <th>Nom</th>
 <th>Téléphone</th>
 <th>email</th>
 <th>Fax</th>
 <th colspan="2">Société</th>
 </TR>';
-      $base=$_SERVER['SCRIPT_NAME'];
+      $base=$_SERVER['PHP_SELF'];
       // Compute the url
       $url="";
       $and="?";
@@ -122,7 +123,9 @@ attr_value using (jft_id) where av_text='".$this->company."' and ad_id=".ATTR_DE
 				    );
 	  }
 	$r.="<TR>";
-	$r.='<TD><A HREF="'.$url."&sa=detail&f_id=".$contact->id."\">".$contact->strAttribut(ATTR_DEF_NAME)."</A></TD>";
+	$r.='<TD><A HREF="'.$url."&sa=detail&f_id=".$contact->id."\">".$contact->strAttribut(ATTR_DEF_QUICKCODE).
+            "</A></TD>";
+	$r.="<TD>".$contact->strAttribut(ATTR_DEF_NAME)."</TD>";
 	$r.="<TD>".$contact->strAttribut(ATTR_DEF_TEL)."</TD>";
 	$r.="<TD>".$contact->strAttribut(ATTR_DEF_EMAIL)."</TD>".
             "<TD> ".$contact->strAttribut(ATTR_DEF_FAX)."</TD>".

@@ -897,7 +897,7 @@ function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1)
     $step=$_SESSION['g_pagesize'];
     $offset=($e-1)*$step;
 
-    $r='<A class="mtitle" href="'.$_SERVER['SCRIPT_NAME']."?".$url."&offset=$offset&step=$step&page=$e&size=$step".'">';
+    $r='<A class="mtitle" href="'.$_SERVER['PHP_SELF']."?".$url."&offset=$offset&step=$step&page=$e&size=$step".'">';
     $r.="Pr&eacute;c&eacute;dent";
     $r.="</A>&nbsp;&nbsp;";
   }
@@ -916,7 +916,7 @@ function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1)
     if ( $e != $p_page ) {
     $step=$_SESSION['g_pagesize'];
     $offset=($e-1)*$step;
-    $go=sprintf($_SERVER['SCRIPT_NAME']."?".$url."&offset=$offset&step=$step&page=$e&size=$step");
+    $go=sprintf($_SERVER['PHP_SELF']."?".$url."&offset=$offset&step=$step&page=$e&size=$step");
     $r.=sprintf('<A class="mtitle" HREF="%s" CLASS="one">%d</A>&nbsp;',$go,$e);
     } else {
       $r.="<b> $e </b>";
@@ -930,7 +930,7 @@ function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1)
     $step=$_SESSION['g_pagesize'];
     $offset=($e-1)*$step;
 
-    $r.='&nbsp;<A class="mtitle" href="'.$_SERVER['SCRIPT_NAME']."?".$url."&offset=$offset&step=$step&page=$e&size=$step".'">';
+    $r.='&nbsp;<A class="mtitle" href="'.$_SERVER['PHP_SELF']."?".$url."&offset=$offset&step=$step&page=$e&size=$step".'">';
     $r.="Suivant";
     $r.="</A>";
   }

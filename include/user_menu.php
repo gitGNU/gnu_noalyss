@@ -134,7 +134,7 @@ function ShowMenuCompta($p_dossier,$p_high="")
   include_once("postgres.php");
 
   // find our current menu
-  $default=basename($_SERVER['SCRIPT_NAME']);
+  $default=basename($_SERVER['PHP_SELF']);
   switch ($default) {
   case "user_jrn.php":
     $default.="?show";
@@ -205,7 +205,7 @@ function GetFirstJrnIdForJrnType($p_dossier,$p_type)
  * \param $p_jrn journal
  * \param $p_extra html code to add at the return (before the \</table\>)
  * \return string with table in HTML
- * \note we use the SCRIPT_NAME variable to build the href value but we need to add
+ * \note we use the PHP_SELF variable to build the href value but we need to add
  *       a parameter when the REQUEST_url is commercial.php
  *       
  *
@@ -258,9 +258,9 @@ function ShowMenuJrnUser($p_dossier,$p_type,$p_jrn,$p_extra="")
 	// Minimum Lecture 
 	echo_debug('user_menu.php',__LINE__,"p_jrn = $p_jrn ");
 	if ( $l_line['jrn_def_id'] != $p_jrn ) {
-	  $href=basename($_SERVER["SCRIPT_NAME"]);
+	  $href=basename($_SERVER["PHP_SELF"]);
 	  $add="";
-	  // if the SCRIPT_NAME == commercial.php, we need to add the parameter
+	  // if the PHP_SELF == commercial.php, we need to add the parameter
 	  // p_action=facture
 	  if ( $href=="commercial.php" ) 
 	    {

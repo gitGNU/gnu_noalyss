@@ -84,7 +84,7 @@ class Supplier extends fiche{
     {
       $p_search=FormatString($p_search);
       $url=urlencode($_SERVER['REQUEST_URI']);
-      $script=$_SERVER['SCRIPT_NAME'];
+      $script=$_SERVER['PHP_SELF'];
       // Creation of the nav bar
       // Get the max numberRow
       $all_supplier=$this->CountByDef($this->fiche_def_ref,$p_search); 
@@ -113,7 +113,7 @@ class Supplier extends fiche{
 <th>Nom</th>
 <th>Adresse</th>
 <th>Solde</th>
-<th colspan="3">Action </th>
+<th colspan="4">Action </th>
 </TR>';
       if ( sizeof ($step_supplier ) == 0 )
 	return $r;
@@ -148,6 +148,9 @@ class Supplier extends fiche{
 
 
 	$r.='<td><A HREF="commercial.php?p_action=depense&sa=list&p_periode=-1&qcode='.$supplier->strAttribut(ATTR_DEF_QUICKCODE).'&url='.$url.'" title="Historique Facture">Facture</A></td>';
+	$r.=sprintf('<td><A class="mtitle" HREF="%s?liste&p_action=bank&sa=list&qcode=%s&url=%s&p_periode=-1" title="Financier">Financier</A></td>',
+		    $script,$supplier->strAttribut(ATTR_DEF_QUICKCODE) ,$url);
+
 
 	$r.='</TD>';
 
