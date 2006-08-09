@@ -44,7 +44,7 @@ pg_restore -C --host=localhost --port=5432 -d template1 -v -Fc fichier_dezippe
 remarque: les lob seront sauvegardés.
 
 secundo)
-	passez Postgresql à la version 8.0.1 (bien lire la doc)
+	passez Postgresql à la version 8.0.3  ou supérieure (bien lire la doc)
 	n'oubliez pas le point primo pour sauver vos données
 
 tertio)

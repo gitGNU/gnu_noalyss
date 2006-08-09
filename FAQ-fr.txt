@@ -17,7 +17,7 @@
   3. Par où commence t'on et comment ?
   4. Ou trouvez les patches
   5. Comment adapter le fichier php.ini
-  6. Quand on réinitialise le mot de passe, que vaut-il ?
+  6. Quand  réinitialise t-on le mot de passe, que vaut-il ?
   7. Quel est l'utilisateur et le mot de passe par défaut?
   8. J'ai trouvé un tit bug, comment faire un patchs ??
   9. Comment faire de la doc
@@ -46,10 +46,10 @@
 
   PhpCompta est un logiciel GPL <http://www.gnu.org/licenses/gpl.html>
   adapté à la législation belge en matière de comptabilité, il vous
-  permet de tenir votre comptabilité de manière centralisée.Il a crée
-  pour supporter d'autres comptabilité d'autres pays mais par manque de
-  documentation, ce n'est pas encore implémenté, idem pour les
-  traductions.
+  permet de tenir votre comptabilité de manière centralisée.Il a été
+  crée pour supporter diverses comptabilités d'autres pays mais par
+  manque de documentation, celle-ci ne sont pas encore implémentées,
+  idem pour les traductions.
 
   Si vous voulez contribuez n'hésitez pas : Mailing List Contribution
   <http://mail.nongnu.org/mailman/listinfo/phpcompta-contrib>
@@ -64,9 +64,9 @@
    - webcompta
 
 
-  En fait c'est phpcompta, au départ c'était wcompta, contraction de
-  WebCompta mais malheureusement, c'est le nom d'un soft qui existait
-  déjà, j'ai été obligé de changer vers phpcompta.
+  En fait c'est phpcompta, bien qu'au départ c'était wcompta,
+  contraction de WebCompta mais malheureusement, c'est le nom d'un soft
+  qui existait déjà, j'ai été obligé de changer vers phpcompta.
 
   Cependant PhpCompta est un nom temporaire, il sera changé le jour où
   quelqu'un proposera mieux. Si ce nom doit être changé, c'est par
@@ -125,7 +125,7 @@
   paramètres d'initialisation sont corrects.
 
 
-  [1m6.  Quand on réinitialise le mot de passe, que vaut-il ?[0m
+  [1m6.  Quand  réinitialise t-on le mot de passe, que vaut-il ?[0m
 
   phpcompta
 
@@ -138,8 +138,8 @@
   [1m8.  J'ai trouvé un tit bug, comment faire un patchs ??[0m
 
   Le plus simplement du monde : d'abord récupérez le projet , corrigez
-  le problème que vous avez détecté, vous vous placez à la racine du
-  projet et vous tapez :
+  le problème que vous avez détecté, placez-vous à la racine du projet
+  et vous tapez :
 
   cvs diff -rrelease -u > patch-date-email
 
@@ -152,7 +152,7 @@
 
   Pour tester les patch,
 
-  Pour le tester, faite un cvs co dans un autre répertoire que celui où
+  Pour le tester, faites un cvs co dans un autre répertoire que celui où
   vous avez développé votre patch, puis essayer votre patch
 
   patch -p0 < patch-(numéro de version)-votre-email
@@ -200,7 +200,8 @@
 
   Sur le site de Savannah, j'ai décidé d'utilisé le Task Manager, chacun
   s'organise comme il veut, soit il  m'envoie son travail par email soit
-  il se joint au projet. Je préfère qu'au début on travaille par email.
+  il se joint au projet. Je préfère que l'on travaille par email au
+  début.
 
   L'intérêt de ce système est de pouvoir voir le suivi mais aussi
   d'ajouter des commentaires sur un sujet PhpCompta Task Manager
@@ -259,10 +260,9 @@
   exemple path-r092-1.tgz, est le premier patch pour la release 0.9.2
 
 
-
   [1m13.2.  Comment appliquer le patch[0m
 
-  Après l'avoir télécharger, allez dans le répertoire de PhpCompta,
+  Après l'avoir téléchargé, allez dans le répertoire de PhpCompta,
   c'est-à-dire celui qui contient les sources
 
   1. Décompresser le patch (gzunip patch-...)
@@ -274,7 +274,7 @@
   [1m14.  Les entêtes de facture[0m
 
   Pourquoi les coordonnées de la société faisant la facture
-  n'apparraissent pas
+  n'apparraissent-ils pas ?
 
   Simplement parce que je n'ai pas eu le temps de le coder, pour
   l'instant, vous devrez uniquement utiliser des factures préimprimées
@@ -317,7 +317,7 @@
   [1mne le sont plus[0m
 
   Oui, c'est tout-à-fait normal, la période 1.1.0 introduit plusieurs
-  changements dont par exemple, les numéros d'opérations et de pièce
+  changements dont par exemple, les numéros d'opérations et de pièces
   justificatives.
 
 
@@ -335,9 +335,9 @@
 
   Parce que les rapports peuvent toujours être facilement adaptés, ils
   sont inclus dans le produit mais pas installé. Pour les trouver, allez
-  simplement dans le répertoire contrib/rapport et éxécutez les scripts
-  sql soit grâce à pgAdmin soit en commande en ligne soit avec l'outil
-  PhpPgAdmin.
+  simplement dans le répertoire contrib/rapport et exécutez les scripts
+  sql soit grâce à pgAdmin soit en ligne de commande ou soit avec
+  l'outil PhpPgAdmin.
 
 
   [1m20.  Developpeur[0m
