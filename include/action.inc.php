@@ -257,7 +257,7 @@ if ( $sub_action == "list" )
 // Add an action
 if ( $sub_action == "add_action" ) 
 {
-  echo '<A class="mtitle" HREF="commercial.php?p_action=suivi_courrier"><input type="button" value="Retour"></A>';
+  echo '<A class="one" HREF="commercial.php?p_action=suivi_courrier"><input type="button" value="Retour"></A>';
   echo_debug('action',__LINE__,var_export($_POST,true));
   echo $retour;
   $act=new action($cn);
@@ -340,7 +340,7 @@ if  ( $sub_action == "save_action_st2" )
   $act->gen=isset($_POST['p_gen'])?'on':'off';
   // insert into action_gestion
   echo $act->SaveStage2();
-  echo '<A HREF="commercial.php?p_action=suivi_courrier"><INPUT TYPE="BUTTON" VALUE="Retour Liste"></A>';
+  echo '<A class="mtitle" HREF="commercial.php?p_action=suivi_courrier"><INPUT TYPE="BUTTON" VALUE="Retour Liste"></A>';
 }
 
 //--------------------------------------------------------------------------------

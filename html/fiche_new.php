@@ -96,7 +96,7 @@ function new_fiche($p_cn,$p_type) {
 	$but_search_poste='<INPUT TYPE="BUTTON" VALUE="Montre" OnClick="ShowTva(\''.$l_sessid.'\',\'av_text'.$i.'\')">';
       }
       // content of the attribute
-      $r.= sprintf('<TR><TD> %s </TD><TD><INPUT TYPE="TEXT" NAME="av_text%d">%s %s</TD></TR>',
+      $r.= sprintf('<TR><TD> %s </TD><TD><INPUT  style="border:solid 1px blue;"  TYPE="TEXT" NAME="av_text%d">%s %s</TD></TR>',
 	      $l_line['ad_text'], $i,$Hid,$but_search_poste);
    }  
     $r.="</TABLE>";
