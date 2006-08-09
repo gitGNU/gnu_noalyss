@@ -430,12 +430,10 @@ function ViewFiche($p_cn,$p_type) {
    
   // Get all name the cards of the select category
   // 1 for attr_def.ad_id is always the name
-    $Res=ExecSql($p_cn,"select f_id,av_text,j_qcode  from 
-                          fiche join jnt_fic_att_value using (f_id) 
-                                join attr_value using (jft_id)
-                                left outer join vw_poste_qcode using(f_id)
-                       where fd_id='".$p_type.
-                       "' and ad_id=".ATTR_DEF_NAME." order by f_id $sql_offset $sql_limit ");
+    $Res=ExecSql($p_cn,"select f_id,vw_name,quick_code  from ".
+                       " vw_fiche_attr ".
+                       " where fd_id='".$p_type.
+                       "' order by f_id $sql_offset $sql_limit ");
     $Max=pg_NumRows($Res);
     echo $bar;
 
@@ -447,12 +445,12 @@ function ViewFiche($p_cn,$p_type) {
       else
 	echo '<TR class="even">';
 
-      $span_mod='<TD><A href="fiche.php?action=detail&fiche_id='.$l_line['f_id'].'">'.$l_line['j_qcode'].'</A></TD>';
+      $span_mod='<TD><A href="fiche.php?action=detail&fiche_id='.$l_line['f_id'].'">'.$l_line['quick_code'].'</A></TD>';
       $span_del='<TD>'.
 	'<A  href="fiche.php?f_fd_id='.$p_type.'&action=delete&fiche_id='.$l_line['f_id'].
 	'"> delete</A></td>';
 
-      echo $span_del.$span_mod.'<TD>'.$l_line['av_text']."</TD>";
+      echo $span_del.$span_mod.'<TD>'.$l_line['vw_name']."</TD>";
       echo '</tr>';
     }
     echo '</table>';

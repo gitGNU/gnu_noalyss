@@ -470,6 +470,11 @@ if ( DEBUG=='false' ) ob_start();
   if ( GetVersion($db) == 16 ) { 
     ExecuteScript($db,'sql/patch/upgrade16.sql');
   } // version 
+  if ( GetVersion($db) == 17 ) { 
+    ExecuteScript($db,'sql/patch/upgrade17.sql');
+    $max=getDbValue($db,'select last_value from s_jnt_fic_att_value');
+    AlterSequence($db,'s_jnt_fic_att_value',$max+1);
+  } // version 
 
 if ( DEBUG == 'false') ob_end_clean();
  }//for
@@ -552,6 +557,11 @@ if (DEBUG == 'false' ) ob_start();
   } // version 
   if ( GetVersion($db) == 16 ) { 
     ExecuteScript($db,'sql/patch/upgrade16.sql');
+  } // version 
+  if ( GetVersion($db) == 17 ) { 
+    ExecuteScript($db,'sql/patch/upgrade17.sql');
+    $max=getDbValue($db,'select last_value from s_jnt_fic_att_value');
+    AlterSequence($db,'s_jnt_fic_att_value',$max+1);
   } // version 
 
 if ( DEBUG == 'false') ob_end_clean();
