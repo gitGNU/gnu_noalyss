@@ -219,7 +219,7 @@ where
       $step_client=$this->GetAll($offset,$search);
       if ( $all_client == 0 ) return "";
       $r=$bar;
-      $r.='<table>
+      $r.='<table  width="95%">
 <TR style="background-color:lightgrey;">
 <TH>Quick Code</TH>
 <th>Nom</th>

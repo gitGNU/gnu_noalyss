@@ -80,7 +80,7 @@ attr_value using (jft_id) where av_text='".$this->company."' and ad_id=".ATTR_DE
       $step_contact=$this->GetAll($offset,$search.$extra_sql);
       if ( $all_contact == 0 ) return "";
       $r=$bar;
-      $r.='<table border="0">
+      $r.='<table border="0"  width="95%">
 <TR style="background-color:lightgrey;">
 <th>Quick Code</th>
 <th>Nom</th>

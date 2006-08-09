@@ -89,7 +89,7 @@ class Admin extends fiche{
       $step_admin=$this->GetAll($offset,$search);
       if ( $all_admin == 0 ) return "";
       $r=$bar;
-      $r.='<table>
+      $r.='<table  width="95%">
 <TR style="background-color:lightgrey;">
 <TH>Quick Code</TH>
 <th>Nom</th>

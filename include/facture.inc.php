@@ -92,9 +92,9 @@ if ( $sub_action == "list")
 	}
       
       }
-  echo $retour;
-  echo '<div class="u_redcontent">';
 
+  echo '<div class="u_redcontent">';
+  echo $retour;
   
 
   echo '<form method= "GET" action="commercial.php">';
