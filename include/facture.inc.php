@@ -236,6 +236,9 @@ if ( isset($_POST['record_and_print_invoice']))
 	  echo $str_file;
     }
   echo '</form>';
+  // Button return 
+  printf ('<A class="mtitle" href="?jrn_type=VEN&p_jrn=%d&p_action=facture"><input type="Button" value="Autre Facture"></A>',
+	  $p_jrn);
   exit();
 }
 //-----------------------------------------------------

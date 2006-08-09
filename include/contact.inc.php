@@ -86,11 +86,11 @@ if ( $sub_action  == "" )
 //Display a blank card 
 if ( $sub_action=="blank") 
 {
-  $retour=sprintf('<A class="two" HREF="%s"><input type="button" value="Retour"></A>',
+  $retour_action=sprintf('<A class="two" HREF="%s"><input type="button" value="Retour"></A>',
 		  "commercial.php?p_action=contact");
   echo '<div class="u_redcontent">';
 
-  echo $retour;
+  echo $retour_action;
   $c=new contact($cn);
   echo '<form method="post" action="commercial.php"';
   echo '<input type="hidden" name="p_action" value="client">';
@@ -100,7 +100,7 @@ if ( $sub_action=="blank")
   echo $c->blank($_GET['fd_id']);
   echo '<input type="Submit" value="Sauve">';
   echo '</form>';
-  echo $retour;
+  echo $retour_action;
   echo '</div>';
 }
 //-----------------------------------------------------

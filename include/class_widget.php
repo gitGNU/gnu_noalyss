@@ -312,7 +312,7 @@ class widget {
     //file
     if (strtoupper($this->type)=="FILE") {
       if ( $this->readonly == false ) {
-	$r='<INPUT TYPE="file" name="'.$this->name.'" VALUE="'.$this->value.'">';
+	$r='<INPUT class="inp" TYPE="file" name="'.$this->name.'" VALUE="'.$this->value.'">';
 
       }
       if ( $this->table==1) $r="<TD>$this->label</TD><TD>$r</TD>"; 
@@ -326,7 +326,7 @@ class widget {
       // Do we need to filter ??
       if ( $this->extra2 == null ) {
       $r=sprintf('<TD>
-         <INPUT TYPE="button" onClick=SearchPoste(\'%s\',\'%s\',\'%s\') value="Search">
+         <INPUT class="inp" TYPE="button" onClick=SearchPoste(\'%s\',\'%s\',\'%s\') value="Search">
             %s</TD><TD> 
 
              <INPUT   TYPE="Text" NAME="%s" VALUE="%s" SIZE="8">
@@ -379,7 +379,7 @@ class widget {
          <INPUT TYPE="button" onClick=NewCard(\'%s\',\'%s\',\'%s\',\'%s\') value="New">
          </TD><TD>
          <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') value="Search">
-            %s <INPUT TYPE="Text"    NAME="%s" VALUE="%s" SIZE="8" TABINDEX="%s">
+            %s <INPUT  style="border:solid 1px blue;"  TYPE="Text"    NAME="%s" VALUE="%s" SIZE="8" TABINDEX="%s">
                  ',
 	       $l_sessid,
 	       $this->extra, // deb or cred
@@ -420,7 +420,8 @@ class widget {
 	{
 	  $r=sprintf('<TD>
          <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') value="QuickCode">
-            %s</TD><TD> <INPUT TYPE="Text" NAME="%s" VALUE="%s" SIZE="8" TABINDEX="%s">
+            %s</TD><TD> <INPUT style="border:solid 1px blue;"  TYPE="Text"  style="border:solid 1px blue;" '.
+		     ' NAME="%s" VALUE="%s" SIZE="8" TABINDEX="%s">
                  ',
 	       $l_sessid,
 	       $this->extra,
@@ -436,7 +437,8 @@ class widget {
 	{
 	  $r=sprintf('
          <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') value="QuickCode">
-            %s <INPUT TYPE="Text" NAME="%s" VALUE="%s" SIZE="8" TABINDEX="%s">           ',
+            %s <INPUT TYPE="Text"  style="border:solid 1px blue;" '.
+		     ' NAME="%s" VALUE="%s" SIZE="8" TABINDEX="%s">           ',
 	       $l_sessid,
 	       $this->extra,
 	       $this->name,
@@ -491,7 +493,8 @@ class widget {
    // input type == js_tva
    if ( strtolower($this->type)=="js_tva") {
      $id=sprintf("<span id=%s></span>",$this->label);
-        $r=sprintf('%s<TD> <INPUT TYPE="Text" NAME="%s" VALUE="%s" SIZE="3" onChange="ChangeTVA(\'%s\',\'%s\');">',
+        $r=sprintf('%s<TD> <INPUT TYPE="Text"  style="border:solid 1px blue;" '.
+		   ' NAME="%s" VALUE="%s" SIZE="3" onChange="ChangeTVA(\'%s\',\'%s\');">',
  		  $id,
  	       $this->name,
  	       $this->value,
@@ -513,7 +516,7 @@ class widget {
          <INPUT TYPE="button" onClick=SearchJrn(\'%s\',\'%s\') value="Search">
             %s</TD><TD> 
 
-             <INPUT TYPE="Text" NAME="%s" VALUE="%s" SIZE="8">
+             <INPUT TYPE="Text"  style="border:solid 1px blue;"  NAME="%s" VALUE="%s" SIZE="8">
                  </TD>',
 		 $l_sessid,
 		 $this->name,

@@ -46,7 +46,7 @@ $h_url="";
 
 if ( isset ($_REQUEST['url'])) 
 {
-  $retour=sprintf('<A HREF="%s"><input type="button" value="Retour"></A>',urldecode($_REQUEST['url']));
+  $retour=sprintf('<A class="mtitle" HREF="%s"><input type="button" value="Retour"></A>',urldecode($_REQUEST['url']));
   $h_url=sprintf('<input type="hidden" name="url" value="%s">',urldecode($_REQUEST['url']));
 }
 
@@ -133,7 +133,7 @@ if ( $sub_action == "list")
   echo $w->IOValue();
   echo $w->Submit('gl_submit','Rechercher');
 
-  echo $retour;
+  echo '<br>'.$retour;
 
   // Show list of sell
   // Date - date of payment - Customer - amount
@@ -231,8 +231,8 @@ if ( isset($_POST['save']))
   echo $form;
   echo '<hr>';
   echo '</form>';
-  echo '<A href="commercial.php?p_action=depense&p_jrn='.$p_jrn.'">
-    <input type="button" Value="Nouveau"></A>';
+  echo '<A class="mtitle" href="commercial.php?p_action=depense&p_jrn='.$p_jrn.'">
+    <input type="button" Value="Autre dépense"></A>';
   exit();
 }
 //-----------------------------------------------------
