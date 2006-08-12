@@ -123,8 +123,11 @@ if ( $action == "change_act" ) {
 		 "delete from user_sec_act where ua_login='".$_GET['login']."' and ua_act_id=$act");
   } else {
     echo_debug('user_sec.php',__LINE__,"insert right");
-    $Res=ExecSql($cn_dossier,
-		 "insert into  user_sec_act(ua_login,ua_act_id) values( '$login' ,$act)");
+	if ( CountSql($cn_dossier,"select * from user_sec_act where ua_login='$login' and ua_act_id=$act") < 1 )
+	{
+    	$Res=ExecSql($cn_dossier,
+			 "insert into  user_sec_act(ua_login,ua_act_id) values( '$login' ,$act)");
+	 }
   }
   $action="view";
 }
