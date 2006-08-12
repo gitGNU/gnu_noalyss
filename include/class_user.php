@@ -57,15 +57,17 @@ class cl_user {
     } 
     else // if p_id is set get data of another user
       {
+      echo_debug('class_user',__LINE__,"Info for use_id = $p_id");
       $this->id=$p_id;
       $this->db=$p_cn;
       $Sql="select use_first_name,
              use_name,
              use_login,
              use_active,
-             use_admin,
+             use_admin
                      from ac_users
              where use_id=$p_id";
+      echo_debug('class_user',__LINE__,'SQL = '.$Sql);
       $cn=DbConnect(); 
       $Res=pg_exec($cn,$Sql);
       if (($Max=pg_NumRows($Res)) == 0 ) return -1;
