@@ -87,12 +87,17 @@ echo ShowMenuJrnUser($_SESSION['g_dossier'],'FIN',0,'<td class="cell"><A class="
             order by pcm_val::text";
   $ResAccount=ExecSql($cn,$accountSql);
   echo '<div class="u_redcontent">';
+
   echo "<table>";
+  // Filter the saldo
+  //  on the current year
+  $filter_year=" and j_tech_per in (select p_id from parm_periode where  p_exercice='".$User->getExercice()."')";
+
   // for each account
   for ( $i = 0; $i < pg_NumRows($ResAccount);$i++) {
     // get the saldo
     $l=pg_fetch_array($ResAccount,$i);
-    $m=GetSolde($cn,$l['pcm_val']);
+    $m=GetSolde($cn,$l['pcm_val'],$filter_year);
     // print the result if the saldo is not equal to 0
     if ( $m != 0.0 ) {
       echo "<tr>";
@@ -144,24 +149,26 @@ if ( $sub_action == "list")
 
 
   $w=new widget("select");
+  // filter on the current year
+  $filter_year=" where p_exercice='".$User->getExercice()."'";
 
-  $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode order by p_id",1);
+  $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end",1);
   // User is already set User=new cl_user($cn);
   $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->GetPeriode();
   $w->selected=$current;
 
   echo 'Période  '.$w->IOValue("p_periode",$periode_start);
-   $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
- echo JS_SEARCH_CARD;
- $w=new widget('js_search_only');
- $w->name='qcode';
- $w->value=$qcode;
- $w->label='';
- $w->extra='4';
- $sp= new widget("span");
- echo $sp->IOValue("qcode_label",$qcode)."</TD></TR>";
- echo $w->IOValue();
-echo $w->Submit('gl_submit','Rechercher');
+  $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
+  echo JS_SEARCH_CARD;
+  $w=new widget('js_search_only');
+  $w->name='qcode';
+  $w->value=$qcode;
+  $w->label='';
+  $w->extra='4';
+  $sp= new widget("span");
+  echo $sp->IOValue("qcode_label",$qcode)."</TD></TR>";
+  echo $w->IOValue();
+  echo $w->Submit('gl_submit','Rechercher');
   echo '</form>';
   echo $retour;
   // Show list of sell
@@ -191,7 +198,7 @@ echo $w->Submit('gl_submit','Rechercher');
       $l=" and jr_grpt_id in (select j_grpt from jrnx where j_qcode='$qcode') ";
     }
 
-  list($max_line,$list)=ListJrn($cn,0,"where jrn_def_type='FIN' and jr_tech_per=$current $l "
+  list($max_line,$list)=ListJrn($cn,0,"where jrn_def_type='FIN' $filter_per $l "
 				,null,$offset,0);
   $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
 

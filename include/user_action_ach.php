@@ -163,7 +163,7 @@ $w->name="p_periode";
 // filter on the current year
 $filter_year=" where p_exercice='".$User->getExercice()."'";
 
-$periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_id");
+$periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by  p_start,p_end");
 $User=new cl_user($cn);
 $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->GetPeriode();
 $w->selected=$current;

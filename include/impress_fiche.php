@@ -61,11 +61,11 @@ if  ( isset ($_REQUEST['fd_id'])) {
     // filter on the current year
     $filter_year=" where p_exercice='".$User->getExercice()."'";
 
-    $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_id");
+    $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
     
     $w->selected=(isset($_POST['from_periode']))?$_POST['from_periode']:"";
     print "Depuis ".$w->IOValue('from_periode',$periode_start);
-    $periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode $filter_year order by p_id");
+    $periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
     $w->selected=(isset($_POST['to_periode']))?$_POST['to_periode']:"";
     print " Jusque ".$w->IOValue('to_periode',$periode_end);
     

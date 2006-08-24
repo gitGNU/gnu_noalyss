@@ -119,6 +119,7 @@ function GetSolde($p_cn,$p_account,$p_cond="") {
           from jrnx join tmp_pcmn on j_poste=pcm_val 
               where  
             j_poste=$p_account
+            $p_cond
           ) as m group by j_poste ");
   $Max=pg_NumRows($Res);
   if ($Max==0) return 0;

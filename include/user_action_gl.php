@@ -49,9 +49,10 @@ $hid->value="voir_jrn";
 echo $hid->IOValue();
 
 $w=new widget("select");
+// filter on the current year
+$filter_year=" where p_exercice='".$User->getExercice()."'";
 
-$periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode order by p_id");
-$User=new cl_user($cn);
+$periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
 $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->GetPeriode();
 $w->selected=$current;
 echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit','Valider');
