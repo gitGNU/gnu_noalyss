@@ -89,7 +89,8 @@ foreach ($ret as $poste_id) {
 // $sum must be equal to 0 
 // $sum > 0 then deb is too big
 // $sum < 0 then cred is too big
-if ( $sum != 0) 
+// rounded problem 
+if ( round($sum,4) != 0.0 ) 
 {
   printf("ATTENTION : COMPTE NON EQUILIBRE\n ");
   $msg = ($sum > 0)?" Debit plus grand de $sum":"Credit plus grand de $sum";
