@@ -475,6 +475,9 @@ if ( DEBUG=='false' ) ob_start();
     $max=getDbValue($db,'select last_value from s_jnt_fic_att_value');
     AlterSequence($db,'s_jnt_fic_att_value',$max+1);
   } // version 
+  if ( GetVersion($db) == 18 ) { 
+    ExecuteScript($db,'sql/patch/upgrade18.sql');
+  } // version 
 
 if ( DEBUG == 'false') ob_end_clean();
  }//for
@@ -562,6 +565,9 @@ if (DEBUG == 'false' ) ob_start();
     ExecuteScript($db,'sql/patch/upgrade17.sql');
     $max=getDbValue($db,'select last_value from s_jnt_fic_att_value');
     AlterSequence($db,'s_jnt_fic_att_value',$max+1);
+  } // version 
+  if ( GetVersion($db) == 18 ) { 
+    ExecuteScript($db,'sql/patch/upgrade18.sql');
   } // version 
 
 if ( DEBUG == 'false') ob_end_clean();
