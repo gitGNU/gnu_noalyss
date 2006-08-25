@@ -90,7 +90,7 @@ function FormPeriode($p_cn,$l_default=0,$p_type=OPEN,$p_suff="")
                     to_char(p_end,'DD.MM.YYYY') as p_end_string 
         from parm_periode  
          $sql_closed 
-          order by p_start";
+          order by p_start,p_end";
           
   $Res=ExecSql($p_cn,$sql);
   $Max=pg_NumRows($Res);
@@ -225,7 +225,7 @@ function ShowPeriode($p_cn)
 {
   //  echo "<h2 class=\"info\"> Période </H2>";
   $Res=ExecSql($p_cn,"select p_id,to_char(p_start,'DD.MM.YYYY') as date_start,to_char(p_end,'DD.MM.YYYY') as date_end,p_central,p_closed,p_exercice
-  from parm_periode order by p_start");
+  from parm_periode order by p_start,p_end");
   $Max=pg_NumRows($Res);
   echo '<TABLE ALIGN="CENTER">';
   echo "</TR>";
