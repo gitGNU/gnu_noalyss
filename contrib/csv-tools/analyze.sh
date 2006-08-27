@@ -11,7 +11,7 @@ Help () {
 
 Help
 
-FILE=argenta.csv
+FILE=file.csv
 
 if [ $# -eq 2 ]; then
 	START=$1

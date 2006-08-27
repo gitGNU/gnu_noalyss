@@ -578,7 +578,7 @@ class fiche {
 	  // account
 	  if ( $id == ATTR_DEF_ACCOUNT ) 
 	    {
-	      echo_debug("Modify ATTR_DEF_ACCOUNT");
+	      echo_debug("insert ATTR_DEF_ACCOUNT");
 	      $v=FormatString($value);
 	      if ( isNumber($v) == 1 )
 		{
