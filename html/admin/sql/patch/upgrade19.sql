@@ -34,6 +34,9 @@ begin
 	raise notice 'Last value of the sequence is %', last_sequence;
 
 	execute 'select max('||p_col||')  from '||p_table into max_sequence;
+	if  max_sequence is null then
+		max_sequence := 0;
+	end if;
 	raise notice 'Max value of the sequence is %', max_sequence;
 	max_sequence:= max_sequence +1;	
 	execute 'alter sequence '||p_sequence||' restart with '||max_sequence;
@@ -42,9 +45,9 @@ return 0;
 end;
 $body$ language plpgsql;
 
-comment on function correct_sequence (text,text,text) is ' Often the primary key is a sequence number and sometimes 
- the value of the sequence is not synchronized with the primary key ( p_sequence : sequence name, p_col : col of the pk,p_table : concerned table';
-
+comment on function correct_sequence (text,text,text) is ' Often the primary key is a sequence number and sometimes the value of the sequence is not synchronized with the primary key ( p_sequence : sequence name, p_col : col of the pk,p_table : concerned table';
+commit;
+begin;
 select correct_sequence('s_jnt_fic_att_value','jft_id','jnt_fic_att_value');
 
 -- bug 17544
