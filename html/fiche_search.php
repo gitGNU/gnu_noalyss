@@ -135,6 +135,7 @@ if ( isset ( $_POST['search']) )  {
   if (strlen(trim($e_fic_search) ) == 0 ) {
     $Res=ExecSql($cn,$sql); 
   } else {
+    $e_fic_search=FormatString($e_fic_search);
     $Res=ExecSql($cn,"$sql and upper(vw_name) like upper('%$e_fic_search%')"); 
   }
 
@@ -149,7 +150,7 @@ if ( isset ( $_POST['search']) )  {
   //set focus on first "Select" button.
    
   $row=pg_fetch_array($Res,$i);
-  // if quick code is empty pass ( it not used for the contact)
+  // if quick code is empty pass
   if (trim($row['quick_code']) == "")
     continue;
 

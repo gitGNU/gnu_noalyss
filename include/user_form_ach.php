@@ -77,14 +77,9 @@ echo_debug('user_form_ach.php',__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_peri
 	echo_error('user_form_ach.php',__LINE__,'Erreur invalid request uri '.$href);
 	exit (-1);
       }
-      
-
-    //    $r.="<FORM NAME=\"form_detail\"  enctype=\"multipart/form-data\" ACTION=\"user_jrn.php?action=new&p_jrn=$p_jrn\" METHOD=\"POST\">";
     $r.="<FORM NAME=\"form_detail\"  enctype=\"multipart/form-data\" ACTION=\"$href\" METHOD=\"POST\">";
   }
 
-  $sql="select jrn_def_id as value,jrn_def_name as label from jrn_def where jrn_def_type='VEN'";
-  $list=GetArray($p_cn,$sql);
   $r.='<TABLE>';
   // Date widget
   //--
@@ -122,18 +117,10 @@ echo_debug('user_form_ach.php',__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_peri
   $e_client_label="";  
 
   // retrieve e_client_label
-  if ( isNumber($e_client) == 1 ) {
-    if ( isFicheOfJrn($p_cn,$p_jrn,$e_client,'cred') == 0 ) {
-      $msg="Fiche inexistante !!! ";
-      echo_error($msg); echo_error($msg);	
-      //      echo "<SCRIPT>alert('$msg');</SCRIPT>";
-      $e_client="";
-    } else {
-      $a_client=GetFicheAttribut($p_cn,$e_client);
-      if ( $a_client != null)   
-	  $e_client_label=$a_client['vw_name']."  adresse ".$a_client['vw_addr']."  ".$a_client['vw_cp'];
-    }
-  }
+  $a_client=GetFicheAttribut($p_cn,$e_client);
+  if ( $a_client != null)   
+    $e_client_label=$a_client['vw_name']."  adresse ".$a_client['vw_addr']."  ".$a_client['vw_cp'];
+
   // widget search
   $W1=new widget("js_search");
   $W1->label="Fournisseur";

@@ -27,18 +27,17 @@ require_once("preference.php");
 require_once("fiche_inc.php");
 require_once("user_common.php");
 /*!   FormVenInput
- \brief  Display the form for a sell
+ * \brief  Display the form for a sell
  *           Used to show detail, encode a new invoice 
  *           or update one
  *        
- * \param  
- *	- p_array which can be empty
- *      - the "journal"
- *      - $p_periode = periode
- *      - view_only if we cannot change it (no right or centralized op)
- *      - $p_article number of article
+ *  
+ * \param p_array which can be empty
+ * \param the "journal"
+ * \param $p_periode = periode
+ * \param view_only if we cannot change it (no right or centralized op)
+ * \param $p_article number of article
  * \return string with the form
- * TODO Add in parameters the infos about the company for making the invoice
  */
 function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_article=1)
 { 
@@ -83,8 +82,7 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
 
     
   }
-  $sql="select jrn_def_id as value,jrn_def_name as label from jrn_def where jrn_def_type='VEN'";
-  $list=GetArray($p_cn,$sql);
+
   $r.='<TABLE>';
   //  Date
   //--
@@ -126,18 +124,10 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
 
   // retrieve e_client_label
   //--
-  if ( isNumber($e_client) == 1 ) {
-    if ( isFicheOfJrn($p_cn,$p_jrn,$e_client,'deb') == 0 ) {
-      $msg="Fiche inexistante !!! ";
-      echo_error($msg); echo_error($msg);	
-      echo "<SCRIPT>alert('$msg');</SCRIPT>";
-      $e_client="";
-    } else {
-      $a_client=GetFicheAttribut($p_cn,$e_client);
-      if ( $a_client != null)   
-	  $e_client_label=$a_client['vw_name']."  adresse ".$a_client['vw_addr']."  ".$a_client['vw_cp'];
-    }
-  }
+  $a_client=GetFicheAttribut($p_cn,$e_client);
+  if ( $a_client != null)   
+    $e_client_label=$a_client['vw_name']."  adresse ".$a_client['vw_addr']."  ".$a_client['vw_cp'];
+
 
   $W1=new widget("js_search");
   $W1->label="Client";
@@ -181,27 +171,18 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
     $march_tva_label="";
     $march_label="";
 
-    // If $march has a value
+    // retrieve the tva label and name
     //--
-    if ( isNumber($march) == 1 ) {
-      if ( isFicheOfJrn($p_cn,$p_jrn,$march,'cred') == 0 ) {
-	$msg="Fiche inexistante !!! ";
-	echo_error($msg); echo_error($msg);	
-	echo "<SCRIPT>alert('$msg');</SCRIPT>";
-	$march="";
-      } else {
-	// retrieve the tva label and name
-	//--
-	$a_fiche=GetFicheAttribut($p_cn, $march);
-	if ( $a_fiche != null ) {
-	  if ( $march_tva_id == "" ) {
-	    $march_tva_id=$a_fiche['tva_id'];
-	    $march_tva_label=$a_fiche['tva_label'];
-	  }
-	  $march_label=$a_fiche['vw_name'];
-	}
+    $a_fiche=GetFicheAttribut($p_cn, $march);
+    if ( $a_fiche != null ) {
+      if ( $march_tva_id == "" ) {
+	$march_tva_id=$a_fiche['tva_id'];
+	$march_tva_label=$a_fiche['tva_label'];
       }
+      $march_label=$a_fiche['vw_name'];
     }
+  
+
     // Show input
     //--
     $W1=new widget("js_search");

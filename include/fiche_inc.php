@@ -1488,7 +1488,8 @@ function GetParent($p_cn,$p_val)
  * \param p_id quick_code
  * \param attribut if attribut == "" then return a array
  *        taken from vw_fiche_attr
- * \return string avec nom fiche or array 
+ * \return string avec nom fiche is attr is not null 
+ *         or array is attr is empty
  *   
  */
 function getFicheAttribut($p_cn,$p_id,$p_attr="") {
@@ -1520,15 +1521,14 @@ function getFicheAttribut($p_cn,$p_id,$p_attr="") {
  * \brief   Check if a fiche is used by a jrn
  *  return 1 if the  fiche is in the range otherwise 0
  *        
- * parm : 
- *	- p_cn connextion
- *      - j_jrn journal_id
- *      - $p_type : deb or cred
- *      - $p_fiche : quick_code
- * gen :
- *	- none
+ * 
+ * \param  $p_cn connextion
+ * \param   $j_jrn journal_id
+ * \param   $p_fiche : quick_code
+ * \param   $p_type : deb or cred default empty
+ * 
  *
- * return 1 if the fiche is in the range otherwise 0
+ * \return 1 if the fiche is in the range otherwise 0
  * 
  */
 function IsFicheOfJrn($p_cn,$p_jrn,$p_fiche,$p_type="")
