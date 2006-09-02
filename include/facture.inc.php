@@ -153,8 +153,9 @@ echo $w->Submit('gl_submit','Rechercher');
   // check if qcode contains something
   if ( $qcode != "" )
     {
+      $qcode=Formatstring($qcode);
       // add a condition to filter on the quick code
-      $l=" and jr_grpt_id in (select j_grpt from jrnx where j_qcode='$qcode') ";
+      $l=" and jr_grpt_id in (select j_grpt from jrnx where j_qcode=upper('$qcode')) ";
     }
 
   list($max_line,$list)=ListJrn($cn,0,"where jrn_def_type='VEN' $cond $l "

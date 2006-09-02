@@ -131,7 +131,7 @@ if ( $sub_action == "list" )
 <?
    $client=new Customer($cn);
  $search=(isset($_GET['query']))?$_GET['query']:"";
- // echo '<div style="position:absolute;left:15%;width:67%;margin-top:20px;">';
+
  echo '<div class="u_redcontent">';
  echo $client->Summary($search);
  echo '</div>';

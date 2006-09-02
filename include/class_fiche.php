@@ -169,7 +169,7 @@ class fiche {
 
       $p_qcode=FormatString($p_qcode);
       $sql="select f_id from jnt_fic_att_value join attr_value 
-           using (jft_id)  where ad_id=23 and av_text='".$p_qcode."'";
+           using (jft_id)  where ad_id=23 and av_text=upper('".$p_qcode."')";
       $Res=ExecSql($this->cn,$sql);
       $r=pg_fetch_all($Res);
       echo_debug('fiche',__LINE__,'result:'.var_export($r,true).'size '.sizeof($r));

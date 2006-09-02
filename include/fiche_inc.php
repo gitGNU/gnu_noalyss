@@ -1011,9 +1011,9 @@ function Remove ($p_cn, $p_fid) {
 function getFicheName($p_cn,$p_id) {
   // Retrieve the attribute with the ad_id 1
   // 1 is always the name
-
+  $p_id=FormatString($p_id);
   $Res=ExecSql($p_cn,"select vw_name from 
-                        vw_fiche_attr where quick_code='$p_id'");
+                        vw_fiche_attr where quick_code=upper('$p_id')");
   if ( pg_NumRows($Res) == 0 ) return "Unknown";
   $st=pg_fetch_array($Res,0);
   return $st['vw_name'];
@@ -1484,20 +1484,17 @@ function GetParent($p_cn,$p_val)
  ***************************************************
  * \brief  retrun array of attribut or string
  *        
- * parm : 
- *	- p_cn connexion
- *      - p_id quick_code
- *      - attribut if attribut == "" then return a array
+ * \param p_cn connexion
+ * \param p_id quick_code
+ * \param attribut if attribut == "" then return a array
  *        taken from vw_fiche_attr
- * gen :
- *	- none
- * return:
- *     - string avec nom fiche or array 
+ * \return string avec nom fiche or array 
+ *   
  */
 function getFicheAttribut($p_cn,$p_id,$p_attr="") {
   // Retrieve the attribute with the ad_id 1
   // 1 is always the name
-
+  $p_id=FormatString($p_id);
   if ( $p_attr != "") {
     $Res=ExecSql($p_cn,"select av_text from 
                     attr_value
@@ -1505,13 +1502,13 @@ function getFicheAttribut($p_cn,$p_id,$p_attr="") {
                     natural join fiche 
                     where
                     ad_id=$p_attr 
-                    and f_id=(select f_id from vw_poste_qcode where j_qcode='$p_id') ");
+                    and f_id=(select f_id from vw_poste_qcode where j_qcode=upper('$p_id')) ");
     if ( pg_NumRows($Res) == 0 ) return NULL;
     $st=pg_fetch_array($Res,0);
     return $st['av_text'];
   } else {
     // Get attribut from the view
-    $Res=ExecSql($p_cn,"select * from vw_fiche_attr where quick_code='$p_id'");
+    $Res=ExecSql($p_cn,"select * from vw_fiche_attr where quick_code=upper('$p_id')");
     if ( pg_NumRows($Res) == 0 ) return null;
     $st=pg_fetch_array($Res,0);
     return $st;
@@ -1565,11 +1562,11 @@ function IsFicheOfJrn($p_cn,$p_jrn,$p_fiche,$p_type="")
     echo_warning("No fiche");
     return null;
   }
-  
- $sql="select *
+  $p_fiche=FormatString($p_fiche);  
+  $sql="select *
         from vw_fiche_attr
         where  
-           fd_id in (".$list['fiche'].") and quick_code='$p_fiche'"; 
+           fd_id in (".$list['fiche'].") and quick_code=upper('$p_fiche')"; 
 
   $Res=ExecSql($p_cn,$sql);
   $Max=pg_NumRows($Res);
