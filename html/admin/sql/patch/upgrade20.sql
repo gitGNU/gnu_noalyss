@@ -1,5 +1,5 @@
 begin;
-CREATE or replace  FUNCTION insert_quant_sold
+CREATE or replace FUNCTION insert_quant_sold
 	(p_internal text, 
 	p_fiche character varying, 
 	p_quant integer, 
@@ -8,7 +8,8 @@ CREATE or replace  FUNCTION insert_quant_sold
 	p_vat_code integer, 
 	p_client character varying) 
 RETURNS void
-    AS $$
+AS
+  $body$
 declare 
 	fid_client integer;
 	fid_good   integer;
@@ -26,8 +27,7 @@ begin
 		(p_internal,fid_good,p_quant,p_price,p_vat,p_vat_code,fid_client);
 	return;
 end;	
-$$
-    LANGUAGE plpgsql;
+ $body$  LANGUAGE plpgsql;
 
 -- add quick code for contact
 
@@ -45,7 +45,7 @@ insert into jnt_fic_attr (fd_id,ad_id)
 
 
 CREATE or replace FUNCTION update_quick_code(njft_id integer, tav_text text) RETURNS integer
-    AS $$
+    AS $body$
 	declare
 	ns integer;
 	nExist integer;
@@ -97,7 +97,7 @@ CREATE or replace FUNCTION update_quick_code(njft_id integer, tav_text text) RET
 	update jrnx set j_qcode=tText where j_qcode = old_qcode;
 	return ns;
 	end;
-$$
+$body$
     LANGUAGE plpgsql;
 update version set val=21;
 commit;
