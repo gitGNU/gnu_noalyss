@@ -1,4 +1,4 @@
-
+w
 <style type="text/css">
 <!--
 body {
@@ -481,6 +481,9 @@ if ( DEBUG=='false' ) ob_start();
   if ( GetVersion($db) == 19 ) { 
     ExecuteScript($db,'sql/patch/upgrade19.sql');
   } // version 
+  if ( GetVersion($db) == 20 ) { 
+    ExecuteScript($db,'sql/patch/upgrade20.sql');
+  } // version 
 
 if ( DEBUG == 'false') ob_end_clean();
  }//for
@@ -574,6 +577,9 @@ if (DEBUG == 'false' ) ob_start();
   } // version 
   if ( GetVersion($db) == 19 ) { 
     ExecuteScript($db,'sql/patch/upgrade19.sql');
+  } // version 
+  if ( GetVersion($db) == 20 ) { 
+    ExecuteScript($db,'sql/patch/upgrade20.sql');
   } // version 
 
 if ( DEBUG == 'false') ob_end_clean();
