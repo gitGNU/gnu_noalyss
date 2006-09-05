@@ -102,10 +102,15 @@ function isDate ( $p_date) {
     return null;
   } else {
     $l_date=explode(".",$p_date);
+
+    if ( sizeof ($p_date) != 3 )
+      return null;
+
     if ( $l_date[2] > 2020 ) {
       return null;
     }
     echo_debug('ac_common.php',__LINE__,' date = '.var_export($l_date,true));
+
     if ( checkdate ($l_date[1],$l_date[0],$l_date[2]) == false) {
       return null;
     }
