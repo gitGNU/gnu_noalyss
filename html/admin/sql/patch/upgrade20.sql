@@ -101,19 +101,21 @@ $body$
     LANGUAGE plpgsql;
 alter table parm_periode alter p_end set not null;
 
-create or replace function drop_it () returns void as 
+create or replace function drop_it (p_constraint varchar) 
+returns void as 
 $body$
 declare 
+-- drop a constraint if it exists
 	nCount integer;
 begin
-	select count(*) into nCount from pg_constraint where conname='parm_periode_p_start_key';
+	select count(*) into nCount from pg_constraint where conname=p_constraint;
 	if nCount = 1 then
-	alter table parm_periode drop constraint parm_periode_p_start_key; 
+	execute 'alter table parm_periode drop constraint '||p_constraint ;
 	end if;
 end;
 $body$ language plpgsql;
 
-
+select drop_it('parm_periode_p_start_key');
 create unique index x_periode on parm_periode (p_start,p_end);
 
 update version set val=21;
