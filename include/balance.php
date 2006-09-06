@@ -115,6 +115,13 @@ if ( isset($_POST['view'] ) ) {
     echo "<h2 class=\"info\"> période du ".$a['p_start']." au ".$b['p_end']."</h2>";
 
   echo '<table width="100%">';  
+  echo '<th>Poste Comptable</th>';
+  echo '<th>Libell&eacute;</th>';
+  echo '<th>D&eacute;bit</th>';
+  echo '<th>Cr&eacute;dit</th>';
+  echo '<th>Solde D&eacute;biteur </th>';
+  echo '<th>Solde Cr&eacute;diteur</th>';
+
   $i=0;
   foreach ($row as $r) {
     $i++;
