@@ -99,5 +99,22 @@ CREATE or replace FUNCTION update_quick_code(njft_id integer, tav_text text) RET
 	end;
 $body$
     LANGUAGE plpgsql;
+alter table parm_periode alter p_end set not null;
+
+create or replace function drop_it () returns void as 
+$body$
+declare 
+	nCount integer;
+begin
+	select count(*) into nCount from pg_constraint where conname='parm_periode_p_start_key';
+	if nCount = 1 then
+	alter table parm_periode drop constraint parm_periode_p_start_key; 
+	end if;
+end;
+$body$ language plpgsql;
+
+
+create unique index x_periode on parm_periode (p_start,p_end);
+
 update version set val=21;
 commit;
