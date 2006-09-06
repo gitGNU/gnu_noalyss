@@ -3253,7 +3253,7 @@
       </dia:attribute>
 
       <dia:attribute name="comment">
-        <dia:string>#Table temporaire pour l&#39;importation ... t CSV#</dia:string>
+        <dia:string>##</dia:string>
       </dia:attribute>
       <dia:attribute name="abstract">
         <dia:boolean val="false"/>
@@ -3397,7 +3397,7 @@
             <dia:string>#  montant#</dia:string>
           </dia:attribute>
           <dia:attribute name="type">
-            <dia:string>#numeric(20,4)#</dia:string>
+            <dia:string>#text#</dia:string>
           </dia:attribute>
           <dia:attribute name="value">
 
@@ -3532,6 +3532,29 @@
 
         <dia:composite type="umlattribute">
           <dia:attribute name="name">
+            <dia:string>#  status#</dia:string>
+          </dia:attribute>
+          <dia:attribute name="type">
+            <dia:string>#character varying(1)#</dia:string>
+          </dia:attribute>
+          <dia:attribute name="value">
+
+            <dia:string>#&#39;n&#39;::character varying#</dia:string>
+
+          </dia:attribute>
+          <dia:attribute name="visibility">
+            <dia:enum val="3"/>
+          </dia:attribute>
+          <dia:attribute name="abstract">
+            <dia:boolean val="false"/>
+          </dia:attribute>
+          <dia:attribute name="class_scope">
+            <dia:boolean val="false"/>
+          </dia:attribute>
+        </dia:composite>
+
+        <dia:composite type="umlattribute">
+          <dia:attribute name="name">
             <dia:string>#  bq_account#</dia:string>
           </dia:attribute>
           <dia:attribute name="type">
@@ -3576,29 +3599,6 @@
           </dia:attribute>
         </dia:composite>
 
-        <dia:composite type="umlattribute">
-          <dia:attribute name="name">
-            <dia:string>#  status#</dia:string>
-          </dia:attribute>
-          <dia:attribute name="type">
-            <dia:string>#character varying(1)#</dia:string>
-          </dia:attribute>
-          <dia:attribute name="value">
-
-            <dia:string>#&#39;n&#39;::character varying#</dia:string>
-
-          </dia:attribute>
-          <dia:attribute name="visibility">
-            <dia:enum val="3"/>
-          </dia:attribute>
-          <dia:attribute name="abstract">
-            <dia:boolean val="false"/>
-          </dia:attribute>
-          <dia:attribute name="class_scope">
-            <dia:boolean val="false"/>
-          </dia:attribute>
-        </dia:composite>
-
       </dia:attribute>
 
       <dia:attribute name="visible_operations">
@@ -3608,7 +3608,7 @@
 
         <dia:composite type="umloperation">
           <dia:attribute name="name">
-            <dia:string>#chk_status#</dia:string>
+            <dia:string>#import_tmp_status_check#</dia:string>
           </dia:attribute>
           <dia:attribute name="visibility">
             <dia:enum val="3"/>
@@ -3622,7 +3622,7 @@
           <dia:attribute name="parameters">
             <dia:composite type="umlparameter">
               <dia:attribute name="name">
-                <dia:string>#CHECK ((((((status)::text = &#39;n ... xt)))#</dia:string>
+                <dia:string>#CHECK ((((((status)::text = &#39;t ... xt)))#</dia:string>
               </dia:attribute>
               <dia:attribute name="type">
                 <dia:string>##</dia:string>
@@ -4115,6 +4115,29 @@
           <dia:attribute name="value">
 
             <dia:string/>
+
+          </dia:attribute>
+          <dia:attribute name="visibility">
+            <dia:enum val="3"/>
+          </dia:attribute>
+          <dia:attribute name="abstract">
+            <dia:boolean val="false"/>
+          </dia:attribute>
+          <dia:attribute name="class_scope">
+            <dia:boolean val="false"/>
+          </dia:attribute>
+        </dia:composite>
+
+        <dia:composite type="umlattribute">
+          <dia:attribute name="name">
+            <dia:string>#  jnt_id#</dia:string>
+          </dia:attribute>
+          <dia:attribute name="type">
+            <dia:string>#bigint#</dia:string>
+          </dia:attribute>
+          <dia:attribute name="value">
+
+            <dia:string>#nextval(&#39;s_jnt_id ... lass)#</dia:string>
 
           </dia:attribute>
           <dia:attribute name="visibility">
@@ -6810,7 +6833,7 @@
 
         <dia:composite type="umloperation">
           <dia:attribute name="name">
-            <dia:string>#$1#</dia:string>
+            <dia:string>#parm_periode_check#</dia:string>
           </dia:attribute>
           <dia:attribute name="visibility">
             <dia:enum val="3"/>

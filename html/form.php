@@ -53,9 +53,9 @@ if ( $User->CheckAction($cn,FORM)==0){
  }
 echo ShowMenuAdvanced("form.php");
 if ( isset ($_POST["record"] )) {
-  echo '<DIV class="u_redcontent">';
+  //  echo '<DIV class="u_redcontent">';
   AddForm($cn,$HTTP_POST_VARS);
-  echo "</DIV>";
+  //echo "</DIV>";
 }
 if ( isset ($_POST["del_form"]) ) {
   echo '<DIV class="u_redcontent">';

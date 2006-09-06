@@ -56,6 +56,19 @@ if ( isset ($_POST["update"] ) ) {
     $p_lib=FormatString($_POST["p_name"]);
     $p_parent=trim($_POST["p_val_parent"]);
     $old_line=trim($_POST["p_old"]);
+    // Check if p_parent and p_val are number
+    if ( ! is_numeric($p_val) || ! is_numeric($p_parent) ) {
+      // not number no update
+      echo '<script> alert(\' Valeurs invalides, pas de changement opéré;\'); 
+           </script>';
+      echo "<script> 
+        window.close();
+         self.opener.RefreshMe();
+
+        </script>";
+      exit();
+
+    }
     echo_debug('line_update.php',__LINE__,"Update old : $old_line News = $p_val $p_lib");
     if ( strlen ($p_val) != 0 && strlen ($p_lib) != 0 && strlen($old_line)!=0 ) {
       if (strlen ($p_val) == 1 ) {
