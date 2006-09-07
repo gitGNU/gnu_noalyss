@@ -103,7 +103,7 @@ function isDate ( $p_date) {
   } else {
     $l_date=explode(".",$p_date);
 
-    if ( sizeof ($p_date) != 3 )
+    if ( sizeof ($l_date) != 3 )
       return null;
 
     if ( $l_date[2] > 2020 ) {
