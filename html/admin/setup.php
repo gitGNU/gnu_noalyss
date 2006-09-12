@@ -1,4 +1,3 @@
-w
 <style type="text/css">
 <!--
 body {
