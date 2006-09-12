@@ -99,6 +99,9 @@ CREATE or replace FUNCTION update_quick_code(njft_id integer, tav_text text) RET
 	end;
 $body$
     LANGUAGE plpgsql;
+
+    
+update parm_periode set p_end = p_start where p_end is null;     
 alter table parm_periode alter p_end set not null;
 
 create or replace function drop_it (p_constraint varchar) 
