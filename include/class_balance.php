@@ -51,14 +51,20 @@ class Balance {
  *         - $a['solde_cred']
  */
   function GetRow($p_from_periode,$p_to_periode) {
-    // compute periode
-    if ( $p_from_periode==$p_to_periode ) {
-      $per_sql=" j_tech_per = $p_from_periode ";
-    } else {
-      $per_sql = "j_tech_per >=  $p_from_periode and j_tech_per <= $p_to_periode ";
-    }
 
+      if ( $p_from_periode == $p_to_periode ) 
+      {
+        $per_sql=" jr_tech_per = $p_from_periode ";
+      }
+      else
+      {
+//         $per_sql = "p_start >= (select p_start from parm_periode where p_id = $p_from_periode) ".
+//           "and p_end <= (select p_end from parm_periode where p_id = $p_to_periode)";        
+	$periode = "jr_tech_per in (select p_id from parm_periode ".
+	  " where p_start >= $p_from_periode and p_end <= $p_to_periode) ";
 
+      }
+    
     // if centralized
     $cent="";
 
@@ -69,7 +75,8 @@ class Balance {
           ( select j_poste,
              case when j_debit='t' then j_montant else 0 end as deb,
              case when j_debit='f' then j_montant else 0 end as cred
-          from jrnx join tmp_pcmn on j_poste=pcm_val
+             from jrnx join tmp_pcmn on j_poste=pcm_val
+                  left join parm_periode on j_tech_per = p_id
               where 
              $cent
             $per_sql ) as m group by j_poste order by j_poste::text";

@@ -736,7 +736,9 @@ function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true) {
   if ( $p_start == $p_end ) 
     $cond=" j_tech_per = $p_start ";
   else
-    $cond = "(j_tech_per >= $p_start and j_tech_per <= $p_end) ";
+    $cond = "jr_tech_per in (select p_id from parm_periode ".
+	      " where p_start >= $p_start and p_end <= $p_end) ";
+  //    $cond = "(j_tech_per >= $p_start and j_tech_per <= $p_end) ";
   
   while (ereg("(\[[0-9]*%*\])",$p_formula,$e) == true) {
     include_once("class_poste.php");
@@ -771,7 +773,10 @@ function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true) {
 	  if ( $from == $p_end ) 
 	    $cond=" j_tech_per = $from ";
 	  else
-	    $cond = "(j_tech_per >= $from and j_tech_per <= $p_end) ";
+
+            $cond = "jr_tech_per in (select p_id from parm_periode ".
+	      " where p_start >= $from and p_end <= $p_to) ";
+
 	}
       // We remove FROM out of the p_formula
       $p_formula=substr_replace($p_formula,"",strpos($p_formula,"FROM"));
