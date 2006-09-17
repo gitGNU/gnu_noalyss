@@ -110,6 +110,7 @@ if ( isset ($_GET['import'])) {
     if ( strlen ( $_FILES['import_file']['tmp_name']) != 0 ) {
       if ( move_uploaded_file($_FILES['import_file']['tmp_name'],$new_name) ) {
 	// upload succeed
+  //echo "Opening: " . $new_name . "\r";
 	$h_file=fopen($new_name,'r') ;
 	// test if the file is opened
 	if ( $h_file == false) { echo 'Je ne peux ouvrir pas ce fichier';exit(-1);}
@@ -120,7 +121,9 @@ if ( isset ($_GET['import'])) {
 
 	  $line=fgets($h_file);
 	  // check if the first line contains the signature
-	  if ( $valid  ) {
+    //echo "Testing line: [" . $line . "]</br>";
+    if ( $valid  ) 
+    {
 	    // skip blank line
 	    if (strlen (trim($line)) == 0 ) continue;
 	    // put the line into several array with the same index
@@ -128,9 +131,14 @@ if ( isset ($_GET['import'])) {
 	    $asign[$idx]=$sign; $aposte[$idx]=$poste;$aamount[$idx]=$amount;
 	    $alabel[$idx]=$label;
 	    $idx++;
-	    }
-	  $valid=(($line=="OUVERTURE\n" && $valid==false) || $valid)?true:false;
-	  
+	  }    
+    else
+    {
+      //$valid=(($line=="OUVERTURE\n" && $valid==false) || $valid)?true:false;
+      $valid = strpos($line, "OUVERTURE") !== false;	  
+      //echo "valid: [" . $valid . "]\r";
+      //echo "strpos: [" . strpos($line, "OUVERTURE") . "]\r";      
+    }
 	} // read the file
 	// if valid is still false then there is nothing to do
 	if ( ! $valid) { echo 'Aucun enregistrement valide'; return ;}
