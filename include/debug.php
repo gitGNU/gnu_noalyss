@@ -33,7 +33,7 @@ include_once("constant.php");
 
 function echo_debug      ($file,$line="",$msg="") {
   if ( DEBUG=='true' ) {
-    $f=fopen ("/tmp/phpcompta.log","a+");
+    $f=fopen ($_ENV['TMP'].DIRECTORY_SEPARATOR."phpcompta.log","a+");
     fwrite($f,"$file $line $msg\n");
     fclose ($f);
   }

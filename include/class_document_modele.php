@@ -135,7 +135,7 @@ class Document_modele {
 	  
 	}
       // Save the file
-      $new_name=tempnam('/tmp','document_');
+      $new_name=tempnam($_ENV['TMP'],'document_');
       echo_debug('class_document_modele.php',__LINE__,"new name=".$new_name);
       if ( strlen ($_FILES['doc']['tmp_name']) != 0 ) 
 	{
@@ -212,7 +212,7 @@ class Document_modele {
 	return;
       $row=pg_fetch_array($ret,0);
       //the template is saved into file $tmp
-      $tmp=tempnam('/tmp/','invoice_');
+      $tmp=tempnam($_ENV['TMP'],'invoice_');
       pg_lo_export($cn,$row['iv_file'],$tmp);
       // Parse the file 
       

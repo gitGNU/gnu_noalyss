@@ -79,7 +79,7 @@ class Document
   function Generate() 
     {
       // create a temp directory in /tmp to unpack file and to parse it
-      $dirname=tempnam('/tmp','doc_');
+      $dirname=tempnam($_ENV['TMP'],'doc_');
       
 
       unlink($dirname);
@@ -97,7 +97,7 @@ class Document
       $this->d_mimetype=$row['md_mimetype'];
 
       echo_debug('class_document',__LINE__,"OID is ".$row['md_lob']);
-      /*!\todo Carefull : the slash is not windows compliant */
+
       chdir($dirname);
       $filename=$row['md_filename'];
       pg_lo_export($this->db,$row['md_lob'],$filename);
@@ -140,13 +140,15 @@ class Document
 	  $file_to_parse=$filename;
 	}
       // Create a directory 
-      mkdir ($_SERVER['DOCUMENT_ROOT'].$dirname);
+      $l_dir=$_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR.$dirname;
+      echo_debug('class_document','',"l_dir   = $l_dir");
+      mkdir ($l_dir);
 
       // we need to rename the new generated file
-      rename($dirname."/".$file_to_parse,$_SERVER['DOCUMENT_ROOT'].$dirname.'/'.$file_to_parse);
+      rename($dirname.DIRECTORY_SEPARATOR.$file_to_parse,$_SERVER['DOCUMENT_ROOT'].$dirname.DIRECTORY_SEPARATOR.$file_to_parse);
       $ret=sprintf('<A HREF="%s">Document généré</A>',
-		   $dirname.'/'.$file_to_parse);
-      $this->SaveGenerated($_SERVER['DOCUMENT_ROOT'].$dirname."/".$file_to_parse);
+		   $dirname.DIRECTORY_SEPARATOR.$file_to_parse);
+      $this->SaveGenerated($_SERVER['DOCUMENT_ROOT'].$dirname.DIRECTORY_SEPARATOR.$file_to_parse);
       return $ret;
     }
     
@@ -172,10 +174,10 @@ class Document
        *  - e_* for the invoice in the $_POST 
        */ 
       // open the document
-      $infile_name=$p_dir."/".$p_file;
+      $infile_name=$p_dir.DIRECTORY_SEPARATOR.$p_file;
       echo_debug("class_document.php",__LINE__,"Open the document $p_dir/$p_file");
       $h=fopen($infile_name,"r");
-      $output_name=tempnam($_SERVER["DOCUMENT_ROOT"]."/tmp","gen_doc_");
+      $output_name=tempnam($_SERVER["DOCUMENT_ROOT"].DIRECTORY_SEPARATOR.'tmp',"gen_doc_");
       $output_file=fopen($output_name,"w+");
       // check if the opening is sucessfull
       if (  $h == false ) 
@@ -294,7 +296,7 @@ class Document
 
       // Start Transaction
       StartSql($this->db);
-      $new_name=tempnam('/tmp','doc_');
+      $new_name=tempnam($_ENV['TMP'],'doc_');
 
 
       // check if a file is submitted
@@ -362,7 +364,7 @@ class Document
 	return;
       $row=pg_fetch_array($ret,0);
       //the document  is saved into file $tmp
-      $tmp=tempnam('/tmp/','document_');
+      $tmp=tempnam($_ENV['TMP'],'document_');
       pg_lo_export($this->db,$row['d_lob'],$tmp);
       $this->d_mimetype=$row['d_mimetype'];
       $this->d_filename=$row['d_filename'];
