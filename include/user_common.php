@@ -382,6 +382,12 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0,$p_paid=0)
     $jrn_sql=($p_jrn =0)?"1=1":"jrn_def_id=$p_jrn ";
     $l_and=" where ";
     // amount
+    // remove space
+    $l_s_montant=trim($l_s_montant);
+    // replace comma by dot
+    $l_s_montant=str_replace(',','.',$l_s_montant);
+    echo_debug('user_common',__LINE__,"l_s_montant $l_s_montant");
+
     if ( ereg("^[0-9]+$", $l_s_montant) || ereg ("^[0-9]+\.[0-9]+$", $l_s_montant) ) 
     {
       $sql.=$l_and."  jr_montant $l_mont_sel $l_s_montant";
@@ -582,17 +588,15 @@ return array ($count,$r);
  **************************************************
  *\brief  Insert data into stock_goods,
  *        
- * parm : 
- *	- $p_cn database connection
- *      - $p_j_id the j_id
- *      - $p_goods the goods
- *      - $p_quant  quantity
- *      - $p_type c for credit or d for debit
- * gen :
- *	- none
- * return:
- *       none
- * TODO ADD A DATE !!!
+ * \param  $p_cn database connection
+ * 
+ * \param $p_j_id the j_id
+ * \param $p_goods the goods
+ * \param $p_quant  quantity
+ * \param $p_type c for credit or d for debit
+ *
+ * \return none
+ * \note Link to jrn gives the date
  */
 function InsertStockGoods($p_cn,$p_j_id,$p_good,$p_quant,$p_type)
 {
