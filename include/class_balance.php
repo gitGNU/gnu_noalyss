@@ -52,19 +52,7 @@ class Balance {
  */
   function GetRow($p_from_periode,$p_to_periode) {
 
-      if ( $p_from_periode == $p_to_periode ) 
-      {
-        $per_sql=" jr_tech_per = $p_from_periode ";
-      }
-      else
-      {
-//         $per_sql = "p_start >= (select p_start from parm_periode where p_id = $p_from_periode) ".
-//           "and p_end <= (select p_end from parm_periode where p_id = $p_to_periode)";        
-	$periode = "jr_tech_per in (select p_id from parm_periode ".
-	  " where p_start >= $p_from_periode and p_end <= $p_to_periode) ";
-
-      }
-    
+    $per_sql=sql_filter_per($p_from_periode,$p_to_periode,'j_tech_per');
     // if centralized
     $cent="";
 

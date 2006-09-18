@@ -1,15 +1,36 @@
 <?
-
+ini_set('include_path','.:../../include');
 require_once('ac_common.php');
+include_once('postgres.php');
+include_once('class_jrn.php');
+include_once('class_poste.php');
+include_once('class_balance.php');
+
 
 echo "<h1>check sql_filter_per</h1>";
-$a=sql_filter_per(1,1);
-$ra=($a==" jr_tech_per = 1 ")?'OK':'ERROR';
-echo $a." ".$ra."<br>";
-$b= FormatString(sql_filter_per('3','7'));
-$exp=FormatString('jr_tech_per in (select p_id from parm_periode  where p_start >= 3 and p_end <= 7)');
-$rb=(strcmp($b,$exp)==0)?'OK':'ERROR';
+$a=sql_filter_per('01.01.1999','01.01.1999');
+echo $a."<br>";
+$b= sql_filter_per('01.01.2000','01.11.2006');
 
-echo "Received $b <br> Expected $exp $rb<br>";
+echo "Received $b <br> ";
+
+echo '<h1>check getRow function</h1>';
+echo 'Check Jrn<br>';
+$cn=DbConnect(-2,'dossier1');
+$a=new jrn($cn,0); // grand livre
+$b=$a->GetRow('01.02.2000','01.01.2006','off');
+echo 'class_jrn il y a '.sizeof($b).' données trouvée<br>';
+
+$b=$a->GetRow('01.02.2000','01.01.2006','on');
+echo 'Class_jrn il y a '.sizeof($b).' données Centralisees trouvée<br>';
+
+$a=new poste($cn,4519); // grand livre
+$b=$a->GetRow('01.02.2000','01.01.2006');
+echo 'class_poste il y a '.sizeof($b).' données trouvée<br>';
+
+$a=new Balance($cn,4519); // grand livre
+$b=$a->GetRow('01.02.2000','01.01.2006');
+echo 'class_balance il y a '.sizeof($b).' données trouvée<br>';
+
 
 ?>

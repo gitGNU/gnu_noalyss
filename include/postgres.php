@@ -66,7 +66,17 @@ function ShowDossier($p_type,$p_first=0,$p_max=10,$p_Num=0) {
 
 /*! 
  * \brief connect to the database
- * \param : p_db : db_name
+ *  <br>example
+ *  <ul>
+ *    <li> DbConnect () connects to account_repository</li>
+ *    <li> DbConnect(1) connects to dossier1</li>
+ *    <li> DbConnect(1,'mod') connects to mod1</li>
+ *    <li> DbConnect(-2,'postgres') connects to the db postgres</li>
+ *</ul>
+ * 
+ * \param p_db : db_name id  (or -1 for account_repository or -2 if p_type contains the full name of a database
+ *       
+ * \param p_type = dossier, mod or the name of a datase
  * \return the connection
  */
 function DbConnect($p_db=-1,$p_type='dossier') {

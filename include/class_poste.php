@@ -47,13 +47,8 @@ class poste {
    */ 
   function GetRow($p_from,$p_to)
     {
-      if ( $p_from == $p_to ) 
-	$periode=" jr_tech_per = $p_from ";
-      else
-            $periode = "jr_tech_per in (select p_id from parm_periode ".
-	      " where p_start >= $p_from and p_end <= $p_to) ";
+      $periode=sql_filter_per($p_from,$p_to);
 
-// 	$periode = "(jr_tech_per >= $p_from and jr_tech_per <= $p_to) ";
       
       $Res=ExecSql($this->db,"select to_char(j_date,'DD.MM.YYYY') as j_date,".
 	       "case when j_debit='t' then j_montant else 0 end as deb_montant,".

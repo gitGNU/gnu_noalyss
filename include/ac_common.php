@@ -378,4 +378,23 @@ function Decode($p_html){
   $p_html=urldecode($p_html);
   return $p_html;
 }
+/*!\brief Create the condition to filter on the j_tech_per
+ *        thanks a from and to date.
+ * \param $p_from start date (date)
+ * \param $p_to  end date (date)
+ * \param $p_field column name 
+ * \return a string containg the query
+ */
+function sql_filter_per($p_from,$p_to,$p_field='jr_tech_per')
+{
+      if ( $p_from == $p_to ) 
+	$periode=" $p_field = to_date('$p_from','DD.MM.YYYY') ";
+      else
+	$periode = "$p_field in (select p_id from parm_periode ".
+	      " where p_start >= to_date('$p_from','DD.MM.YYYY') and p_end <= to_date('$p_to','DD.MM.YYYY')) ";
+
+      return $periode;
+}
+
+
 ?>

@@ -66,13 +66,9 @@ class jrn {
 
   echo_debug('class_jrn.php',__LINE__,"GetRow ( $p_from,$p_to,$cent,$p_limit,$p_offset)");
 
-    if ( $p_from == $p_to ) 
-      $periode=" jr_tech_per = $p_from ";
-    else
-            $periode = "jr_tech_per in (select p_id from parm_periode where p_start >= $p_from and p_end <= $p_to) ";
-      //      $periode = "(jr_tech_per >= $p_from and jr_tech_per <= $p_to) ";
+  $periode=sql_filter_per($p_from,$p_to);
 
-    $cond_limite=($p_limit!=-1)?" limit ".$p_limit." offset ".$p_offset:"";
+  $cond_limite=($p_limit!=-1)?" limit ".$p_limit." offset ".$p_offset:"";
 
     // Grand livre == 0
     if ( $this->id != 0 ) {

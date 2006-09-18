@@ -732,13 +732,7 @@ function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true) {
       return $p_formula;
     
   }
-
-  if ( $p_start == $p_end ) 
-    $cond=" j_tech_per = $p_start ";
-  else
-    $cond = "jr_tech_per in (select p_id from parm_periode ".
-	      " where p_start >= $p_start and p_end <= $p_end) ";
-  //    $cond = "(j_tech_per >= $p_start and j_tech_per <= $p_end) ";
+  $cond=sql_filter_per($p_start,$p_end);
   
   while (ereg("(\[[0-9]*%*\])",$p_formula,$e) == true) {
     include_once("class_poste.php");
