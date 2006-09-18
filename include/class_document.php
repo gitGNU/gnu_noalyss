@@ -226,6 +226,11 @@ class Document
 
 		// if the pattern if found we replace it
 		$value=$this->Replace($pattern);
+
+		// if the document is OOo, we need to transform accentuate letters
+		if ( $p_type=='OOo' )
+		  $value = utf8_encode($value);
+
 		// replace into the $buffer
 		// take the position in the buffer 
 		$pos=strpos($buffer,$to_remove);
