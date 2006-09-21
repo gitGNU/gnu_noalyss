@@ -114,7 +114,7 @@ class poste {
    *      balance of the account
    *
    */ 
-function GetSolde($p_cond="") {
+function GetSolde($p_cond=" true ") {
   $Res=ExecSql($this->db,"select sum(deb) as sum_deb, sum(cred) as sum_cred from 
           ( select j_poste, 
              case when j_debit='t' then j_montant else 0 end as deb, 
