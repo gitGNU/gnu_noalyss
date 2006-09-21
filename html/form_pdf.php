@@ -29,6 +29,7 @@ include_once("ac_common.php");
 include_once("postgres.php");
 include_once("class.ezpdf.php");
 include_once("impress_inc.php");
+require_once('class_user.php');
 
     $cn=DbConnect($_SESSION['g_dossier']);
 foreach ($HTTP_POST_VARS as $key=>$element) {
