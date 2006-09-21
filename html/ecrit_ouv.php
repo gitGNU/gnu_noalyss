@@ -115,16 +115,27 @@ if ( isset ($_GET['import'])) {
 	if ( $h_file == false) { echo 'Je ne peux ouvrir pas ce fichier';exit(-1);}
 	// Analyze the file and store result into array
 	$valid=false;
+	$end=false;
 	$idx=0;
 	while ( !feof($h_file) ) {
 
 	  $line=fgets($h_file);
+	  if ( strpos($line,'ATTENTION')===0 ) {
+	    echo $line.'<br>';
+	    $end=true;
+	    continue;
+	  }
+	  if ( $end ) {
+	    echo $line."<br>";
+	    continue;
+	  }
 	  // check if the first line contains the signature
 	  if ( $valid  ) 
 	    {
 	      // skip blank line
 	      if (strlen (trim($line)) == 0 ) continue;
 	      // put the line into several array with the same index
+	      echo_debug('ecrit_ouv',__LINE__," line $line");
 	      list($sign,$poste,$label,$amount)=explode(";",$line);
 	      $asign[$idx]=$sign; $aposte[$idx]=$poste;$aamount[$idx]=$amount;
 	      $alabel[$idx]=$label;
