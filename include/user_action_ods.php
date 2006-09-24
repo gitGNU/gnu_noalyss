@@ -175,7 +175,7 @@ $w=new widget("select");
 // filter on the current year
 $filter_year=" where p_exercice='".$User->getExercice()."'";
 
-$periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
+$periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end",1);
 $User=new cl_user($cn);
 $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->GetPeriode();
 $w->selected=$current;
@@ -184,7 +184,13 @@ echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit',
 ?>
 </form>
 <?
-	$sql=SQL_LIST_ALL_INVOICE." and jr_tech_per=".$current." and jr_def_id=".$_GET['p_jrn'] ;
+    if ( $current == -1) {
+      $cond=" and jr_tech_per in (select p_id from parm_periode where p_exercice='".$User->getExercice()."')";
+    } else {
+      $cond=" and jr_tech_per=".$current;
+    }
+ 
+	$sql=SQL_LIST_ALL_INVOICE.$cond." and jr_def_id=".$_GET['p_jrn'] ;
 	$step=$_SESSION['g_pagesize'];
 	$page=(isset($_GET['offset']))?$_GET['page']:1;
 	$offset=(isset($_GET['offset']))?$_GET['offset']:0;
