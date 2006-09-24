@@ -31,7 +31,7 @@ include_once ("class_widget.php");
 require_once("jrn.php");
 
 $cn=DbConnect($_SESSION['g_dossier']);
-include ('class_user.php');
+include_once ('class_user.php');
 $User=new cl_user($cn);
 $User->Check();
 
@@ -108,7 +108,7 @@ else
 {
   if ( $jrn_type=='NONE')
     {
-      include('user_action_gl.php');
+      include_once('user_action_gl.php');
 
     } else {
       // no journal are selected so we select the first one

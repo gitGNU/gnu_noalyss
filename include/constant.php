@@ -24,6 +24,7 @@
  */
 
 define ("phpcompta_password","dany");
+define ("phpcompta_psql_port","5432");
 define ("domaine","");
 
 define ("DEBUG","true");

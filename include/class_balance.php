@@ -38,8 +38,8 @@ class Balance {
 
 /*! 
  * \brief retrieve all the row from the ledger in the range of a periode
- * \param $p_from_periode start periode
- * \param $p_to_periode end periode
+ * \param $p_from_periode start periode (p_id)
+ * \param $p_to_periode end periode (p_id)
  *
  * \return a double array
  *     array of
@@ -52,7 +52,8 @@ class Balance {
  */
   function GetRow($p_from_periode,$p_to_periode) {
 
-    $per_sql=sql_filter_per($p_from_periode,$p_to_periode,'j_tech_per');
+    // filter on requested periode
+    $per_sql=sql_filter_per($this->db,$p_from_periode,$p_to_periode,'p_id','j_tech_per');
     // if centralized
     $cent="";
 

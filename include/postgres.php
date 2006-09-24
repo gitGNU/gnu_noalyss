@@ -96,7 +96,8 @@ function DbConnect($p_db=-1,$p_type='dossier') {
       }
   }
   $password=phpcompta_password;
-  $a=pg_connect("dbname=$l_dossier host=127.0.0.1 user='phpcompta' password='$password'");
+  $port=phpcompta_psql_port;
+  $a=pg_connect("dbname=$l_dossier host=127.0.0.1 user='phpcompta' password='$password' port=$port");
   echo_debug ('postgres.php',__LINE__,"connect to $p_db dbname $l_dossier");
   return $a;
 }

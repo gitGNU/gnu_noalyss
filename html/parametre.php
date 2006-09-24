@@ -46,7 +46,7 @@ include_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
 
-include("preference.php");
+include_once("preference.php");
 include_once("user_menu.php");
 
 echo "<H2 class=\"info\"> Param&egrave;tre ".$_SESSION['g_name']." </H2>";

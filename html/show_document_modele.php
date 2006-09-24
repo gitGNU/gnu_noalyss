@@ -30,7 +30,7 @@ require_once("ac_common.php");
 $cn=DbConnect($_SESSION['g_dossier']);
 
 
-include ('class_user.php');
+require_once ('class_user.php');
 $User=new cl_user(DbConnect());
 /*!\todo Add security here
  */

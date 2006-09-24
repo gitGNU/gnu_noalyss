@@ -76,9 +76,9 @@ if  ( isset ($_POST['fd_id'])) {
 	    if ( $dattribut->ad_id == ATTR_DEF_ACCOUNT 
 		 && isset ($_REQUEST['with_amount']))  {
 	      $account=new poste ($cn,$dattribut->av_text);
-	      $solde=$account->GetSoldeDetail("j_tech_per between ".$_REQUEST['from_periode'].
-					" and ".
-					$_REQUEST['to_periode']);
+	      $sql_periode=sql_filter_per($cn,$_REQUEST['from_periode'],$_REQUEST['to_periode'],'p_id','j_tech_per');
+	      $solde=  $account->GetSoldeDetail($sql_periode);
+
 	      
 	      printf(";% 10.2f;% 10.2f;% 10.2f",
 		     $solde['debit'],

@@ -7,30 +7,38 @@ include_once('class_poste.php');
 include_once('class_balance.php');
 
 
+$cn=DbConnect(1);
+
 echo "<h1>check sql_filter_per</h1>";
-$a=sql_filter_per('01.01.1999','01.01.1999');
+$a=sql_filter_per($cn,'01.01.1999','01.01.1999','date','jr_tech_per');
 echo $a."<br>";
-$b= sql_filter_per('01.01.2000','01.11.2006');
+$b= sql_filter_per($cn,'01.01.2000','01.11.2006','date','j_tech_per');
 
 echo "Received $b <br> ";
 
 echo '<h1>check getRow function</h1>';
 echo 'Check Jrn<br>';
-$cn=DbConnect(-2,'dossier1');
 $a=new jrn($cn,0); // grand livre
-$b=$a->GetRow('01.02.2000','01.01.2006','off');
-echo 'class_jrn il y a '.sizeof($b).' données trouvée<br>';
+$b=$a->GetRow('1','9999','off');
 
-$b=$a->GetRow('01.02.2000','01.01.2006','on');
-echo 'Class_jrn il y a '.sizeof($b).' données Centralisees trouvée<br>';
 
-$a=new poste($cn,4519); // grand livre
-$b=$a->GetRow('01.02.2000','01.01.2006');
-echo 'class_poste il y a '.sizeof($b).' données trouvée<br>';
+
+echo 'class_jrn il y a '.count($b[0]).' données trouvée<br>';
+
+$b=$a->GetRow('1','9999','on');
+echo 'Class_jrn il y a '.sizeof($b[0]).' données Centralisees trouvée<br>';
+
+$a=new poste($cn,4511); // grand livre
+$b=$a->GetRow('1','9999');
+
+echo 'class_poste il y a '.sizeof($b[0]).' données trouvée<br>';
 
 $a=new Balance($cn,4519); // grand livre
-$b=$a->GetRow('01.02.2000','01.01.2006');
+$b=$a->GetRow('1','9999');
 echo 'class_balance il y a '.sizeof($b).' données trouvée<br>';
+
+echo_debug('Testing echo_debug');
+echo_error('Testing echo_error');
 
 
 ?>

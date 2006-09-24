@@ -730,7 +730,7 @@ function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true) {
       return $p_formula;
     
   }
-  $cond=sql_filter_per($p_start,$p_end,'j_tech_per');
+  $cond=sql_filter_per($p_cn,$p_start,$p_end,'p_id','j_tech_per');
 
   include_once("class_poste.php");  
   while (ereg("(\[[0-9]*%*\])",$p_formula,$e) == true) {
@@ -768,7 +768,7 @@ function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true) {
 
 	  // the clause from is something else
 	  //  Compute the cond
-	  $cond=sql_filter_per($from,$p_end,'j_tech_per');
+	  $cond=sql_filter_per($p_cn,$from,$p_end,'p_id','j_tech_per');
 	}
       // We remove FROM out of the p_formula
       $p_formula=substr_replace($p_formula,"",strpos($p_formula,"FROM"));

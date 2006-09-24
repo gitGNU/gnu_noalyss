@@ -57,7 +57,7 @@ if  ( isset ($_REQUEST['fd_id'])) {
   // propose de calculer aussi le solde
   //--
   if ( $fiche_def->HasAttribute(ATTR_DEF_ACCOUNT) == true ) {
-    echo '<form method="POST" ACTION="user_impress.php">';
+    echo '<form method="POST" ACTION="user_impress.php?type=fiche">';
     // filter on the current year
     $filter_year=" where p_exercice='".$User->getExercice()."'";
 
@@ -110,9 +110,9 @@ if  ( isset ($_REQUEST['fd_id'])) {
 	     $with_amount) {
 
 	  $account=new poste ($cn,$dattribut->av_text);
-	  $solde=  $account->GetSoldeDetail("j_tech_per between ".$_REQUEST['from_periode'].
-					 " and ".
-				      $_REQUEST['to_periode']);
+	  $sql_periode=sql_filter_per($cn,$_REQUEST['from_periode'],$_REQUEST['to_periode'],'p_id','j_tech_per');
+	  $solde=  $account->GetSoldeDetail($sql_periode);
+
 	  printf ("<td align=\"right\">% 10.2f</td>",$solde['debit']);
 	  printf ("<td align=\"right\">% 10.2f</td>",$solde['credit']);
 	  printf ("<td align=\"right\">% 10.2f</td>",$solde['solde']);

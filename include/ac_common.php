@@ -25,6 +25,7 @@
 
 include_once("debug.php");
 include_once("constant.php");
+require_once('preference.php');
 /*! 
  * \brief  log error into the /tmp/phpcompta_error.log it doesn't work on windows
  *
@@ -37,7 +38,7 @@ function echo_error      ($p_log, $p_line="", $p_message="") {
 	$fdebug=fopen($_ENV['TMP'].DIRECTORY_SEPARATOR."phpcompta_error.log","a+");
 	fwrite($fdebug,date("Ymd H:i:s").$p_log." ".$p_line." ".$p_message."\n");
 	fclose($fdebug);
-	echo_debug($p_log);
+	echo_debug($p_log,$p_line,$p_message);
 }
 
 /*! 
@@ -382,18 +383,41 @@ function Decode($p_html){
  *        thanks a from and to date.
  * \param $p_from start date (date)
  * \param $p_to  end date (date)
+ * \param $p_form if the p_from and p_to are date or p_id
  * \param $p_field column name 
  * \return a string containg the query
  */
-function sql_filter_per($p_from,$p_to,$p_field='jr_tech_per')
+function sql_filter_per($p_cn,$p_from,$p_to,$p_form='p_id',$p_field='jr_tech_per')
 {
-      if ( $p_from == $p_to ) 
-	$periode=" $p_field = to_date('$p_from','DD.MM.YYYY') ";
-      else
-	$periode = "$p_field in (select p_id from parm_periode ".
-	      " where p_start >= to_date('$p_from','DD.MM.YYYY') and p_end <= to_date('$p_to','DD.MM.YYYY')) ";
+  echo_debug("sql_filter_per($p_cn,$p_from,$p_to,$p_form,$p_field)");
+  if ( $p_form != 'p_id' && 
+       $p_form != 'date' )
+    {
+      echo_error (__FILE__,__LINE__,'Mauvais parametres ');
+      exit(-1);
+    }
+  if ( $p_form == 'p_id' )
+    {
+      // retrieve the date
+      $a_start=GetPeriode($p_cn,$p_from);
+      $a_end=GetPeriode($p_cn,$p_to);
+      if ( $a_start == null or $a_end == null  )
+	{
+	  echo_debug(__FILE__,__LINE__,'Attention periode '.
+		       ' non trouvee periode p_from='.$p_from.
+		     'p_to_periode = '.$p_to);
+	}
 
-      return $periode;
+      $p_from=($a_start==null)?'01.01.1900':$a_start['p_start'];
+      $p_to=($a_end==null)?'01.01.2100':$a_end['p_end'];
+    }
+  if ( $p_from == $p_to ) 
+    $periode=" $p_field = to_date('$p_from','DD.MM.YYYY') ";
+  else
+    $periode = "$p_field in (select p_id from parm_periode ".
+      " where p_start >= to_date('$p_from','DD.MM.YYYY') and p_end <= to_date('$p_to','DD.MM.YYYY')) ";
+  
+  return $periode;
 }
 
 

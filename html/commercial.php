@@ -67,7 +67,7 @@ if ( ! isset ( $_SESSION['g_dossier'] ) ) {
   exit -2;
 }
 
-include("preference.php");
+include_once("preference.php");
 include_once("user_menu.php");
 echo '<div class="u_tmenu">';
 echo "<H2 class=\"info\">Commercial ".$_SESSION['g_name']." </H2>";

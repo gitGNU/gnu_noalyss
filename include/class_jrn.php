@@ -66,7 +66,7 @@ class jrn {
 
   echo_debug('class_jrn.php',__LINE__,"GetRow ( $p_from,$p_to,$cent,$p_limit,$p_offset)");
 
-  $periode=sql_filter_per($p_from,$p_to);
+  $periode=sql_filter_per($this->db,$p_from,$p_to,'p_id','jr_tech_per');
 
   $cond_limite=($p_limit!=-1)?" limit ".$p_limit." offset ".$p_offset:"";
 

@@ -33,11 +33,11 @@ include_once ("postgres.php");
 $cn=DbConnect($_SESSION['g_dossier']);
 
 
-include ('class_user.php');
+require_once ('class_user.php');
 $User=new cl_user($cn);
 $User->Check();
 
-include ("check_priv.php");
+require_once ("check_priv.php");
 include_once ("user_menu.php");
 echo '<div class="u_tmenu">';
 
@@ -76,26 +76,26 @@ if ( $User->admin == 0 ) {
 $default=( isset ($_REQUEST['type']))?$_REQUEST['type']:"";
   switch ($default) {
   case "jrn":
-    include ("impress_jrn.php");
+    require_once ("impress_jrn.php");
     break;
   case "poste":
-    include ("impress_poste.php");
+    require_once ("impress_poste.php");
     break;
   case "rapport":
-    include ("impress_rapport.php");
+    require_once ("impress_rapport.php");
     break;
   case "bilan":
-    include ("impress_bilan.php");
+    require_once ("impress_bilan.php");
     break;
 
   case "bal":
-    include ("balance.php");
+    require_once ("balance.php");
     break;
   case "fiche":
-    include ("impress_fiche.php");
+    require_once ("impress_fiche.php");
     break;
   case "list_client":
-    include ("impress_listing_client.php");
+    require_once ("impress_listing_client.php");
     break;
 
   }

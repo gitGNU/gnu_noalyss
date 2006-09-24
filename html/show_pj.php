@@ -33,7 +33,7 @@ $jr_grpt_id=$_GET['jr_grpt_id'];
 $cn=DbConnect($_SESSION['g_dossier']);
 
 
-include ('class_user.php');
+include_once ('class_user.php');
 $User=new cl_user(DbConnect());
 $User->Check();
 // retrieve the jrn

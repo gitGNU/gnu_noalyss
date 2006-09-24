@@ -47,7 +47,7 @@ class poste {
    */ 
   function GetRow($p_from,$p_to)
     {
-      $periode=sql_filter_per($p_from,$p_to);
+      $periode=sql_filter_per($this->db,$p_from,$p_to,'p_id','jr_tech_per');
 
       
       $Res=ExecSql($this->db,"select to_char(j_date,'DD.MM.YYYY') as j_date,".

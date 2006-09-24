@@ -583,6 +583,10 @@ requis, n'oubliez pas de mettre un mot de passe à vos
 superutilisateurs PostgreSql avant de changer, sinon vous ne pourrez
 plus vous connecter.
 
+Pour changer le port de postgresql, il suffit de changer dans
+constant.php, la valeur phpcompta_psql_port, n'oubliez pas de changer
+ le paramétrage de postgresql.
+
 Ensuite, changer les droits sur le répertoire où sont vos fichiers
 avec chmod 700, attention : le propriétaire des fichiers doit être le
 même que du propriétaire du process httpd, pour vérifier faite ps -ef|grep
