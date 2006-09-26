@@ -48,7 +48,8 @@
  *      - JS_SEARCH_ONLY like JS_SEARCH but without adding a quickcode
  *      - SPAN
  *      - JS_TVA        open a popup window for the VAT
- *      - JS_CONCERNED  open a popup window for search a operation
+ *      - JS_CONCERNED  open a popup window for search a operation, if extra == 0 then
+ *                      get the amount thx javascript
  *
  *    For JS_SEARCH_POST,JS_SEARCH or JS_SEARCH_ONLY
  *     - $extra contains 'cred', 'deb', 'all' or a list of fiche_def_ref (frd_id) 
@@ -510,24 +511,28 @@ class widget {
 
   // input type == js_concerned => button search for the concerned operations
   if ( strtolower($this->type)=="js_concerned") {
+    $td="";$etd="";
+    if ( $this->table == 1 ) { $td='<td>'; $etd='</td>';}
+
     if ( $this->readonly == false) {
       $l_sessid=$_REQUEST['PHPSESSID'];
-      $r=sprintf('<TD>
-         <INPUT TYPE="button" onClick=SearchJrn(\'%s\',\'%s\') value="Search">
-            %s</TD><TD> 
 
-             <INPUT TYPE="Text"  style="border:solid 1px blue;"  NAME="%s" VALUE="%s" SIZE="8">
-                 </TD>',
-		 $l_sessid,
+      $r=sprintf("$td
+     <INPUT TYPE=\"button\" onClick=SearchJrn('%s','%s',%s) value=\"Search\">
+       %s $etd  $td 
+      <INPUT TYPE=\"Text\"  style=\"border:solid 1px blue;\"  NAME=\"%s\" VALUE=\"%s\" SIZE=\"8\">
+                 $etd",
+		 $l_sessid, 
 		 $this->name,
-		 $this->label,
-		 $this->name,
+		 $this->extra, 
+		 $this->label, 
+		 $this->name, 
 		 $this->value 
 		 );
-    } else {
-      $r=sprintf("<TD><span>%s</span>",$this->value);
-      $r.=sprintf('<input type="hidden" name="%s" value="%s"></TD>', $this->name,$this->value);
-    }
+  } else {
+    $r=sprintf("$td<span>%s <b>%s</b></span>",$this->label,$this->value);
+    $r.=sprintf('<input type="hidden" name="%s" value="%s">'.$etd, $this->name,$this->value);
+  }
 
     return $r;
   }// end js_concerned

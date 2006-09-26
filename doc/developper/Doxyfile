@@ -121,6 +121,7 @@ FILE_PATTERNS          = *.c \
                          *.PHP3 \
                          *.M \
                          *.MM \
+			 *.js \
 			*.inc.php
 RECURSIVE              = YES
 EXCLUDE                = 

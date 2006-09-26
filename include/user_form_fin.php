@@ -277,6 +277,8 @@ function FormFin($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
     ${"e_concerned".$i}=(isset(${"e_concerned".$i}))?${"e_concerned".$i}:"";
     $wConcerned=new widget("js_concerned");
     $wConcerned->SetReadOnly($pview_only);
+    $wConcerned->extra=0;
+    $wConcerned->table=1;
     $r.=$wConcerned->IOValue("e_concerned".$i,${"e_concerned".$i});
     $r.='</TR>';
    // if not recorded the new amount must be recalculate

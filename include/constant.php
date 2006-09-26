@@ -317,34 +317,10 @@ function SetValue(p_ctl,p_value)
 
 ");
 // concerned operation
-define ("JS_CONCERNED_OP","
-<script  language=\"javascript\">
-
-function SearchJrn(p_sessid,p_ctl)
-{
-	var win=window.open('jrn_search.php?p_ctl='+p_ctl+'&PHPSESSID='+p_sessid,'Cherche','toolbar=no,width=600,height=600,scrollbars=yes');
-}
-function GetIt(p_ctl,p_value) {
-  self.opener.SetIt(p_value,p_ctl);
-	window.close();	
-}
-/* SetValue( p_ctl,p_value )
-/* p_ctl is the name of the control
-/* p_value is the value to set in
-*/
-function SetIt(p_value,p_ctl) {
-	
-	var f=document.getElementsByName(p_ctl);
-	for (var h=0; h < f.length; h++) {
-		f[h].value=p_value;
-		}
-	
-
-}
-
-
-</script>
-");
+define ("JS_CONCERNED_OP",'
+<script type="text/javascript" language="javascript"  src="js/jrn_concerned.js">
+alert("Include me");
+</script>');
 // One line calculator
 define ("JS_CALC_LINE",'
 <div style="border:outset black 3px; position:float; float:right;background-color:white;font-family:sans-serif;font-size:9pt;">

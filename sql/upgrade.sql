@@ -1,0 +1,1 @@
+alter table import_tmp add jr_rapt text;

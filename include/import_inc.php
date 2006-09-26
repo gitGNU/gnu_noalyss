@@ -64,10 +64,12 @@ Commit($p_cn);
  * 
  */
 function UpdateCSV($p_cn){
-  $code=$_POST['code'];
-  $count=$_POST['count'];
-  $poste=$_POST['poste'.$count];
-  $sql = "update import_tmp set poste_comptable='".$poste."' ,status='w' where code='".$code."'";
+  $code=FormatString($_POST['code']);
+  $count=FormatString($_POST['count']);
+  $poste=FormatString($_POST['poste'.$count]);
+  $concern=FormatString($_POST['e_concerned'.$count]);
+  $sql = "update import_tmp set poste_comptable='$poste' ,status='w',".
+    "jr_rapt='$concern' where code='$code'";
   $Res=ExecSql($p_cn,$sql);
 }
 
@@ -93,8 +95,19 @@ function ShowBox($p_val,$counter,$p_cn,$p_form='form'){
   if ( $p_form == 'remove' )
     $w->readonly=true;
 
+  // widget concerned
+  $wConcerned=new widget('js_concerned');
+  $wConcerned->extra=abs($p_val['montant']);
+  $wConcerned->label='op. concern&eacute;e';
+  $wConcerned->table=0;
   $s=new widget('span');
-  
+
+  // if in readonly retrieve the conc. ope
+  if ( $p_form== 'remove') {
+    $wConcerned->readonly=true;
+    $wConcerned->value=$p_val['jr_rapt'];
+  }
+
   if ( isset($p_val['poste_comptable']))
     {
       $w->value=$p_val['poste_comptable'];
@@ -108,8 +121,11 @@ function ShowBox($p_val,$counter,$p_cn,$p_form='form'){
   echo '<table border="1" width="500">';
   echo '<tr><td width="200">'.$p_val['code'].'</td><td width="200">'.$p_val['date_exec'].'</td><td width="100">'.$p_val['montant'].' EUR</td><tr/>';
   echo "<tr><td> Journal : ".GetJrnName($p_cn,$p_val['jrn'])."</TD><TD>poste comptable Destination : ".$p_val['bq_account']."</td><tr>";
-  echo '<tr><td height="50" colspan="3">'.$p_val['detail'].'</td><tr/>';
-  echo '<tr><td>'.$w->IOValue().' '.$s->IOValue('poste'.$counter.'_label').'</td>';
+  echo '<tr colspan="3"><td height="50" colspan="3">'.$p_val['detail'].'</td></tr>';
+  echo '<tr><td  colspan="3"> '.$wConcerned->IOValue("e_concerned".$counter).'</td></tr>';
+  echo '<tr><td>'.$w->IOValue().' '.$s->IOValue('poste'.$counter.'_label').
+   "</TD>";
+
   echo "<td>n° compte : ".$p_val['num_compte']."</td>";
   if ( $p_form == 'form') {
     echo '<td><input type="submit" value="Modifier">';
@@ -143,6 +159,7 @@ function VerifImport($p_cn){
 	$i=1;
 	// include javascript for popup 
 	echo JS_SEARCH_CARD;
+	echo JS_CONCERNED_OP;
 	while($val = pg_fetch_array($Res)){
 	  echo '<form METHOD="POST" action="import.php?action=verif">'; 
 	  ShowBox($val,$i,$p_cn,'form');
@@ -172,7 +189,7 @@ function ConfirmTransfert($p_cn,$periode){
   $end = "to_date('".$val['p_end']."','DD-MM-YYYY')";
 
   $sql = "select code,to_char(date_exec,'DD.MM.YYYY') as date_exec, ".
-    " montant,num_compte,poste_comptable,bq_account,jrn,detail ".
+    " montant,num_compte,poste_comptable,bq_account,jrn,detail,jr_rapt ".
     " from import_tmp where 
           status = 'w' AND date_exec BETWEEN ".$start." and ".$end;
   
@@ -207,12 +224,14 @@ function ConfirmTransfert($p_cn,$periode){
  */
 
 function TransferCSV($p_cn, $periode){
-	//on obtient la période courante
+  //on obtient la période courante
   $User=new cl_user($p_cn);
   $periode = $User->GetPeriode();
+
   // on trouve les dates frontières de cette période
   $sql = "select to_char(p_start,'DD-MM-YYYY') as p_start,to_char(p_end,'DD-MM-YYYY') as p_end".
     " from parm_periode where p_id = '".$periode."'";
+
   $Res=ExecSql($p_cn,$sql);
   $val = pg_fetch_array($Res);
   if ( $val == false )
@@ -222,16 +241,16 @@ function TransferCSV($p_cn, $periode){
 	"</script>";
       exit();
     }
+
   $start ="to_date('".$val['p_start']."','DD-MM-YYYY')";   
   $end = "to_date('".$val['p_end']."','DD-MM-YYYY')";
-  // var_dump($val);
+
   $sql = "select code,to_char(date_exec,'DD.MM.YYYY') as date_exec, ".
-    " montant,num_compte,poste_comptable,bq_account,jrn,detail ".
+    " montant,num_compte,poste_comptable,bq_account,jrn,detail,jr_rapt ".
     " from import_tmp where ".
          " status= 'w' AND date_exec BETWEEN ".$start." and ".$end;
   $Res=ExecSql($p_cn,$sql);
-  //echo "boucle: ".sizeof($Res)."<br/>";
-  //while($val = pg_fetch_array($Res)){
+
   $Max=pg_NumRows($Res);
   echo $Max." opérations à transférer.<br/>";
   StartSql($p_cn);
@@ -239,9 +258,15 @@ function TransferCSV($p_cn, $periode){
   for ($i = 0;$i < $Max;$i++) {
     $val=pg_fetch_array($Res,$i);
     
-    $code=$val['code']; $date_exec=$val['date_exec']; $montant=$val['montant']; $num_compte=$val['num_compte']; 
-    $poste_comptable=$val['poste_comptable'];$bq_account=$val['bq_account'];
-    $jrn=$val['jrn']; $detail=$val['detail'];
+    $code=$val['code']; 
+    $date_exec=$val['date_exec']; 
+    $montant=$val['montant']; 
+    $num_compte=$val['num_compte']; 
+    $poste_comptable=$val['poste_comptable'];
+    $bq_account=$val['bq_account'];
+    $jrn=$val['jrn']; 
+    $detail=$val['detail'];
+    $jr_rapt=$val['jr_rapt'];
     
 // Retrieve the account thx the quick code    
     $f=new fiche($p_cn);
@@ -283,9 +308,12 @@ function TransferCSV($p_cn, $periode){
       $num_compte=str_replace('"','',$num_compte);
       $code=str_replace('\"','',$code);
 
-      $r=InsertJrn($p_cn,$date_exec,NULL,$jrn,$detail.$num_compte." ".$code,$montant,$seq,$periode);
-      if ( $r == false ) { Rollback($p_cn); exit(" Error 'import_inc.php' __LINE__");}
+      $jr_id=InsertJrn($p_cn,$date_exec,NULL,$jrn,$detail.$num_compte." ".$code,$montant,$seq,$periode);
+      if ( $jr_id == false ) { Rollback($p_cn); exit(" Error 'import_inc.php' __LINE__");}
       
+      if ( isNumber($jr_rapt) == 1) 
+	InsertRapt($p_cn,$jr_id,$jr_rapt);
+
       SetInternalCode($p_cn,$seq,$jrn);
       
       

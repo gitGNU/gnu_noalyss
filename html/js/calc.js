@@ -27,7 +27,6 @@
  *        input id inp must exist see constant.php JS_CALC_LINE
  *
  */
-
 var str="";
 var val="";
 var counter=0;
