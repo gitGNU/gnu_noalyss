@@ -39,7 +39,6 @@
    num=p_ctl.replace("e_concerned","");
 
    /* Get the amount */
-   var p_montant=0;
    var ctl_montant_name="e_other"+num+"_amount";
    for ( i=0; i < document.forms[0].length; i++)
      {    
