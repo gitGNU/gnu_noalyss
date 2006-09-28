@@ -720,6 +720,11 @@ opérations (augmentation de bilan, amortissement,... )
 </itemize>
 Pour la création voir <ref id="avance_journal" name="avance_journal">
 
+<p> Dans tous les journaux, vous avez le menu "nouvelle" et "voir" au
+minimum, "nouvelle" pour nouvelle opération et voir pour voir les
+opérations de la période en cours ou de toutes les périodes. 
+
+
 <sect2>Grand Livre
 <p>Ce journal-ci est un peu spécial. En fait, il rassemble tous les
 journaux dans un seul, on ne peut pas y écrire directement mais on y
