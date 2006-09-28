@@ -178,7 +178,7 @@ $sql="select sg_code,
     }
   }// if ( $a_name
   // Add java script for detail
-  $r.=JS_VIEW_JRN_DETAIL;
+
 
  $r.='<H2 class="info">'.$p_sg_code."  Noms : ".$name.'</H2>';
   

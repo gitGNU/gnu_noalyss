@@ -27,7 +27,7 @@ define ("phpcompta_password","dany");
 define ("phpcompta_psql_port","5432");
 define ("domaine","");
 
-define ("DEBUG","false");
+define ("DEBUG","true");
 
 // securite correspond a la table 
 // action
@@ -188,12 +188,6 @@ function ShowTva(p_sessid,ctl)
 	</SCRIPT>"
 );
 
-define ("JS_VIEW_JRN_DETAIL","<script language=\"javascript\">function viewDetail(p_value,p_sessid)
-		{
-			var win=window.open('jrn_op_detail.php?jrn_op='+p_value+'&PHPSESSID='+p_sessid,'Cherche','toolbar=no,width=400,height=400,scrollbars=yes,resizable=yes');
-		}
-
-	</script>");
 define ("JS_VIEW_JRN_CANCEL","<script  language=\"javascript\" >function cancelOperation(p_value,p_sessid,p_jrn)
 		{
 			var win=window.open('annulation.php?p_jrn='+p_jrn+'&jrn_op='+p_value+'&PHPSESSID='+p_sessid,'Annule','toolbar=no,width=400,height=400,scrollbars=yes,resizable=yes');
@@ -202,6 +196,7 @@ function RefreshMe() {
 window.location.reload();
 }
 	</script>");
+
 define ("JS_VIEW_JRN_MODIFY","<script  language=\"javascript\">function modifyOperation(p_value,p_sessid,p_jrn)
 		{
 			var win=window.open('modify_op.php?action=update&p_jrn='+p_jrn+'&line='+p_value+'&PHPSESSID='+p_sessid,'Modifie','toolbar=no,width=500,height=400,scrollbars=yes,resizable=yes');

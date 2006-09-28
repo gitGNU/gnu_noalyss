@@ -455,7 +455,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0,$p_paid=0)
   //this function returns a tree structure.
   
   $r="";
-  $r.=JS_VIEW_JRN_DETAIL;
+
   $r.=JS_VIEW_JRN_CANCEL;
   $r.=JS_VIEW_JRN_MODIFY;
 
@@ -551,7 +551,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0,$p_paid=0)
       
       foreach ($a as $key => $element) 
       {      
-	      $r.= "<A class=\"detail\" HREF=\"javascript:viewDetail('".GetGrpt($p_cn,$element)."','$l_sessid')\" > ".GetInternal($p_cn,$element)."</A>";
+	      $r.= "<A class=\"detail\" HREF=\"javascript:modifyOperation('".$element."','".$l_sessid."')\" > ".GetInternal($p_cn,$element)."</A>";
       }//for
     }// if ( $a != null ) {
     $r.="</TD>";

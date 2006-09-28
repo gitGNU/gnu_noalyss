@@ -25,14 +25,12 @@
 /*! 
  * \brief  Record an entry in the selected journal
  * 
- * parm : 
- *	- p_dossier dossier id
- *      - p_user user id
- *      - p_jrn selected journal
- * gen :
- *	- none
- * return:
- *	- none
+ * \param  p_dossier dossier id 
+ * \param p_user user id
+ * \param p_jrn selected journal
+ *
+ * \return none
+ *     
  *
  */ 
 function RecordJrn($p_dossier,$p_user,$p_jrn,$p_MaxDeb,$p_MaxCred,$p_array = null,$p_update=0)
@@ -223,7 +221,7 @@ if ( $p_update == 0 )  echo "<TR><TD> <INPUT TYPE=\"SUBMIT\" VALUE=\"+ de line\"
     $sessid=$_POST["PHPSESSID"];
   }
 
-  $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchJrn(\''.$sessid."','rapt')\">";
+  $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchJrn(\''.$sessid."','rapt','$e_sum_cred')\">";
   echo_debug('jrn.php',__LINE__,"search $search");
   // To avoid problem with unknown variable
   if ( ! isset ($e_rapt) ) {
@@ -375,8 +373,10 @@ if ( $p_update == 0 )  echo "<TR><TD> <INPUT TYPE=\"SUBMIT\" VALUE=\"+ de line\"
 
     $r.= '<div style="margin-left:30px;">';
     foreach ($a as $key => $element) {
-      $r.=sprintf ('%s <INPUT TYPE="BUTTON" VALUE="Détail" onClick="viewDetail(\'%s\',\'%s\')">', 
-		   GetInternal($p_cn,$element),GetGrpt($p_cn,$element),$sessid);
+      $r.=sprintf ('%s <INPUT TYPE="BUTTON" VALUE="Détail" onClick="modifyOperation(\'%s\',\'%s\')">', 
+		   GetInternal($p_cn,$element),
+		   $element,
+		   $sessid);
       $r.=sprintf('<INPUT TYPE="button" value="Efface" onClick="dropLink(\'%s\',\'%s\',\'%s\')"><BR>',
 		  $content['jr_id'],$element,$sessid);
     }//for
@@ -390,7 +390,7 @@ if ( $p_update == 0 )  echo "<TR><TD> <INPUT TYPE=\"SUBMIT\" VALUE=\"+ de line\"
     $sessid=$_POST["PHPSESSID"];
   }
   
-  $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchJrn(\''.$sessid."','rapt')\">";
+  $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchJrn(\''.$sessid."','rapt','".$content['jr_montant']."')\">";
 
   $r.= '<H2 class="info">rapprochement </H2> 
        <INPUT TYPE="TEXT" name="rapt" value="">'.$search;
@@ -582,7 +582,7 @@ function GetJrnProp($p_dossier,$p_jrn,$is_connected=0)
  */ 
 function ViewJrn($p_dossier,$p_user,$p_jrn,$p_url,$p_array=null) {
   echo_debug('jrn.php',__LINE__,"function ViewJrn($p_dossier,$p_user,$p_jrn,$p_array=null) ");
-  echo JS_VIEW_JRN_DETAIL;
+
   $db=sprintf("dossier%d",$p_dossier);
   $l_prop=GetJrnProp($p_dossier,$p_jrn);
   echo "<H2 class=\"info\">".$l_prop['jrn_def_name']."( ".$l_prop['jrn_def_code'].")"."</H2>";
@@ -658,8 +658,8 @@ function ViewJrn($p_dossier,$p_user,$p_jrn,$p_url,$p_array=null) {
 	  }
 
 	  list($z_type,$z_num,$num_op)=split("-",$l_line['jr_internal']);
-	  printf ('<INPUT TYPE="BUTTON" VALUE="%s" onClick="viewDetail(\'%s\',\'%s\')">', 
-		  $num_op,$l_line['j_grpt'],$sessid);
+	  printf ('<INPUT TYPE="BUTTON" VALUE="%s" onClick="modifyOperation(\'%s\',\'%s\')">', 
+		  $num_op,$sessid,$l_line['jr_id']);
 	  //	  echo $num_op;
 	  echo "</TD>";
 
