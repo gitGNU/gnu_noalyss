@@ -19,10 +19,8 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
- */
-
-/* \brief Open a window to update the pcmn 
+/*! \file 
+ * \brief Open a window to update the pcmn 
  *
  */
 
