@@ -99,7 +99,7 @@ $e_fic_search=(isset ($_POST['fic_search']))?$_POST['fic_search']:"";
 $r.="<FORM METHOD=\"POST\" ACTION=\"".$_SERVER['REQUEST_URI']."\">";
 $r.="Recherche : ".'<INPUT TYPE="TEXT" NAME="fic_search" VALUE="'.$e_fic_search.'">';
 $r.='<INPUT TYPE="submit" name="search" value="Go">';
-//$r.="</FORM>";
+
 $r.="<div>";
 echo $r;
 $r="";

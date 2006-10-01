@@ -36,175 +36,7 @@
  *
  */ 
 function AddFiche($p_cn,$p_type,$p_array) {
-  // TODO ADD ROLLBACK !!!
-  echo_debug('fiche_inc.php',__LINE__," AddFiche($p_cn,$p_type,$p_array) ");
-  // Push the array in element starting with p
-  //
-  foreach ($p_array as $key=>$element){
-    ${"p_$key"}=$element;
-    echo_debug('fiche_inc.php',__LINE__,"p_$key=$element;");
-  }
-  // First verify that the name is not null
-  // av_text.ATTR_DEF_NAME
-  if ( strlen(trim($p_av_text0 )) ==0 )
-    return;
-
-  // First Get the attr of the fiche
-  $field=Get_attr_def($p_cn,$p_fd_id);
-
-  $flag=1;
-
-  // Create the Fiche
-  $Sql="insert into fiche (fd_id) values (".$p_fd_id.")";
-  $Res=ExecSql($p_cn,$Sql);
-
-  // Get is f_id (sequence)
-  $l_f_id=GetSequence($p_cn,'s_fiche');
-
-  // Should we Create accounts for each cards
-  $create=GetCreateAccount($p_cn,$p_fd_id);
-
-
-  // Is a account given ?
-  for ( $i = 0; $i < $p_inc;$i++) {
-    //Except for the class base
-    if ( ${"p_ad_id$i"} == ATTR_DEF_ACCOUNT ) {
-      if (strlen (trim(${"p_av_text$i"})) == 0 or
-	  isNumber(${"p_av_text$i"}) == 0 )
-	{
-	  break;
-	}
-      // if account already exist do nothing in tmp_pcmn otherwise add it
-      if (CountSql($p_cn,"select pcm_val from tmp_pcmn where pcm_val=".FormatString(${"p_av_text$i"})) == 0 )
-	{
-	  $len=strlen(${"p_av_text$i"})-1;
-	  // Mother account
-	  $p_parent=substr(${"p_av_text$i"},0,$len);
-	  while (CountSql($p_cn,"select pcm_val from tmp_pcmn where pcm_val=$p_parent") == 0 and
-		 $len > 0 ) {
-	    $len--;
-	    $p_parent=substr(${"p_av_text$i"},0,$len);
-	  }
-	  // If no parent found
-	  if ( $len <= 0 ) {
-	    echo_error ("No parent found");
-	    exit("No parent found for ".${"p_av_text$i"});
-
-	  } // if $len == 0
-	  $lib=FormatString($p_av_text0);
-	  $sql=sprintf("insert into tmp_pcmn (pcm_val,pcm_lib,pcm_val_parent) 
-                values (%s,'%s',%d)",
-		       ${"p_av_text$i"},
-		       $lib,
-		       $p_parent);
-
-	  // Add if into tmp_pcmn
-	  $Res=ExecSql($p_cn,$Sql);
-	}
-      // Add it the jnt table
-      // 5 is always for the account post
-      $Sql=sprintf("insert into jnt_fic_att_value (f_id,ad_id) values (%d,%d)",
-		   $l_f_id,ATTR_DEF_ACCOUNT);
-      $Res=ExecSql($p_cn,$Sql);
-      
-      // Get the jft_id sequence (s_jnt_fic_att_value)
-      $l_jft_id=GetSequence($p_cn,'s_jnt_fic_att_value');
-      
-      
-      // Add it the attr_value table
-      $Sql=sprintf("insert into attr_value(jft_id,av_text) values (%d,'%s')",
-		   $l_jft_id,${"p_av_text$i"});
-      $Res=ExecSql($p_cn,$Sql);
-      // If create == 0 we don't create automatically an account
-      $create=0;      
-    }
-
-  } // for $i...
-
-  echo_debug ( " create = $create ");
-  if ( $create == 1 ) {
-    // We create an account for each
-    // Get The Class Base
-    $base=GetBaseFiche($p_cn,$p_type);
-    
-    // If a specific post account is needed created it
-    
-    if ( $base !=null  ) {
-      // if the class base is not null, create it in the tmp_pcmn
-      $num=GetNextFiche($p_cn,$base);
-
-      $lib=FormatString($p_av_text0);
-      $sql=sprintf("insert into tmp_pcmn (pcm_val,pcm_lib,pcm_val_parent) 
-                values (%s,'%s',%d)",
-		   $num,
-		   $lib,
-		   $base);
-      echo_debug($sql);
-      $Res=ExecSql($p_cn,$sql);
-      // Add it the jnt table
-      // 5 is always for the account post
-      $Sql=sprintf("insert into jnt_fic_att_value (f_id,ad_id) values (%d,%d)",
-		   $l_f_id,ATTR_DEF_ACCOUNT);
-      $Res=ExecSql($p_cn,$Sql);
-      
-      // Get the jft_id sequence (s_jnt_fic_att_value)
-      $l_jft_id=GetSequence($p_cn,'s_jnt_fic_att_value');
-      
-      
-      // Add it the attr_value table
-      $Sql=sprintf("insert into attr_value(jft_id,av_text) values (%d,'%s')",
-		   $l_jft_id,$num);
-      $Res=ExecSql($p_cn,$Sql);
-    }
-  }// end create accounts for each cards
-
-
-  // Add the others attribut in jnt_fic_att_value and after in attr_value
-  for ( $i = 0; $i < $p_inc;$i++) {
-    //Except for the class base
-       if ( ${"p_ad_id$i"} == ATTR_DEF_ACCOUNT ) continue;
-
-    // Special treatment for QuickCode
-       if ( ${"p_ad_id$i"} == ATTR_DEF_QUICKCODE ) {
-	 $sql=sprintf("select insert_quick_code(%d,'%s')",
-		      $l_f_id,FormatString(${"p_av_text$i"}));
-	 $Res=ExecSql($p_cn,$sql);
-	 continue;
-       }
-    // Add it the jnt table
-    $Sql=sprintf("insert into jnt_fic_att_value (f_id,ad_id) values (%d,%d)",
-		 $l_f_id,${"p_ad_id$i"});
-    $Res=ExecSql($p_cn,$Sql);
-
-    // Get the jft_id sequence (s_jnt_fic_att_value)
-    $l_jft_id=GetSequence($p_cn,'s_jnt_fic_att_value');
-
-    // test the vat rate
-    if (  ${"p_ad_id$i"} == ATTR_DEF_TVA ) {
-      // is a rate given 
-      if ( strlen(trim(${"p_av_text$i"})) != 0 and 
-	   isNumber(${"p_av_text$i"}) == 1) {
-	// is a valid rate ?
-	if ( CountSql($p_cn,"select * from tva_rate where tva_id='".${"p_av_text$i"}."'") == 0 ) {
-	  // the rate doesn't exist
-	  ${"p_av_text$i"}=1;
-	  // warning
-	  echo_error('invalid rate') ;
-	  echo '<script>
-                alert("Attention tva invalid, valeur par défaut =1 ");
-              </script>';
-	  
-	}
-      }// if a rate is given
-    }
-    $text=FormatString(${"p_av_text$i"});
-    // Add it the attr_value table
-    $Sql=sprintf("insert into attr_value(jft_id,av_text) values (%d,'%s')",
-		 $l_jft_id,$text);
-    $Res=ExecSql($p_cn,$Sql);
-
-  }
-
+  echo '<h1>'.__FILE__.'#'.__line__.'AddFiche obsolete</h1>';
 }
 /*!   EncodeFiche
  ***************************************************
@@ -223,135 +55,7 @@ function AddFiche($p_cn,$p_type,$p_array) {
  *
  */ 
 function EncodeFiche($p_cn,$p_type,$p_array=null) {
-  echo_debug('fiche_inc.php',__LINE__,"function EncodeFiche($p_cn,$p_type) ");
-
-  $ch_col="</TD><TD>";
-  $ch_li='</TR><TR>';
-  $url="";
-  // compute url 
-  // Bug 15640 : add get variabe to see the list of card after insertng a new one
-  //             or retrieve the fd_id when updating
-  if ($p_array == null) {
-    $url="?action=vue&fiche=$p_type";
-  } else {
-    // find the modele of card (fd_id)
-    $a=GetArray($p_cn,'select fd_id from fiche where f_id='.$p_type);
-    if ( $a == null ) {
-      echo_error(__FILE__.":".__LINE__." Aucune fiche trouvée");
-      return;
-    }
-    $url="?action=vue&fiche=".$a[0]['fd_id'];
-  }
-
-
-  echo '<FORM action="fiche.php'.$url.'" method="post" name="fiche">';
-  echo '<INPUT TYPE="HIDDEN" name="fiche" value="'.$p_type.'">';
-  $l_sessid=$_REQUEST['PHPSESSID'];
-  $url="";
-  echo JS_SHOW_TVA;
-  echo JS_SEARCH_POSTE;
-  echo "<TABLE>";
-  if ($p_array == null) {
-   
-    // Array is null so we display a blank form
-    //    echo '<H2 class="info">'.getFicheName($p_cn,$p_type).'</H2>';
-    echo '<H2 class="info">New </H2>';
-    $p_f_id="";
-    echo_debug('fiche_inc.php',__LINE__,"Array is null");
-    // Find all the attribute of the existing cards
-    // --> Get_attr_def 
-    $sql="select frd_id,ad_id,ad_text from  fiche_def join jnt_fic_attr using (fd_id)
-           join attr_def using (ad_id) where fd_id=".$p_type." order by ad_id";
-
-    $Res=ExecSql($p_cn,$sql);
-    $Max=pg_NumRows($Res);
-    // Put the card modele id (fiche_def.fd_id)
-    echo '<INPUT TYPE="HIDDEN" name="fd_id" value="'.$p_type.'">';
-    for ($i=0;$i < $Max;$i++) {
-      $l_line=pg_fetch_array($Res,$i);
-
-      // The number of the attribute
-      $Hid=sprintf('<INPUT TYPE="HIDDEN" name="ad_id%d" value="%s">',
-		   $i,$l_line['ad_id']);
-
-      $but_search_poste="";
-      // Javascript for searching the account
-      if ( $l_line ['ad_id'] == ATTR_DEF_ACCOUNT ) {
-	$ctl_name="av_text$i";
-	$but_search_poste='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$l_sessid.'\',\''.$ctl_name.'\')">';
-      } 
-      // Javascript for showing the tva
-      if ( $l_line ['ad_id'] == ATTR_DEF_TVA ) {
-	$but_search_poste='<INPUT TYPE="BUTTON" VALUE="Montre" OnClick="ShowTva(\''.$l_sessid.'\', \'av_text'.$i.'\')">';
-      }
-      // content of the attribute
-      printf ('<TR><TD> %s </TD><TD><INPUT TYPE="TEXT" NAME="av_text%d">%s %s</TD></TR>',
-	      $l_line['ad_text'], $i,$Hid,$but_search_poste);
-   }
-    echo '</TR>';
-    echo '</TABLE>';
-    echo '<INPUT TYPE="HIDDEN" name="inc" value="'.$Max.'">';
-    echo '<INPUT TYPE="SUBMIT" name="add_fiche" value="ajoute">';
-    echo '</FORM>';
-  }else {
-    // Array is not null so we have to find the card's data from the database
-    // and display them
-
-    // Display the card name
-    $label=getFicheNameById($p_cn,$p_type);
-    echo '<H2 class="info">'.$label.'</H2>';
-
-    // Find all the data related to the card
-    $sql="select av_text,ad_id,ad_text,jft_id from attr_value
-        natural join attr_def 
-        natural join jnt_fic_att_value 
-        natural join fiche where f_id=$p_type order by ad_id";
-
-    $Res=ExecSql($p_cn,$sql);
-    $Max=pg_NumRows($Res);
-    echo_debug('fiche_inc.php',__LINE__,"Max ==== $Max");    
-
-    echo '<INPUT TYPE="HIDDEN" name="f_id" value="'.$p_type.'">';
-    echo '<INPUT TYPE="HIDDEN" name="f_label" value="'.$label.'">';
-    echo '<INPUT TYPE="HIDDEN" name="max" value="'.$Max.'">';
-
-    for ($i=0;$i < $Max;$i++) {
-      // fetch the data
-      $l_line=pg_fetch_array($Res,$i);
-
-      // Put also the class in a special variable
-      // useful when we want to update the PCMN
-
-      $but_search_poste="";
-      if ( $l_line['ad_id'] == ATTR_DEF_ACCOUNT ) {
-	printf('<INPUT TYPE="HIDDEN" name="class" value="%s">',
-	       $l_line['av_text']);
-      // Javascript for searching the account
-	$ctl_name="av_text$i";
-	$but_search_poste='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$l_sessid.'\',\''.$ctl_name.'\')">';
-      } 
-	
-      // Javascript for showing the tva
-      if ( $l_line ['ad_id'] == ATTR_DEF_TVA ) {
-	$but_search_poste='<INPUT TYPE="BUTTON" VALUE="Montre" OnClick="ShowTva(\''.$l_sessid.'\',\'av_text'.$i.'\')">';
-      }
-      
-      // hide ad_id
-      $ad=sprintf('<input type="hidden" name="ad_id%d" value="%s">',
-		  $l_line['ad_id'],$l_line['av_text']);
-      
-      // in hidden we put the jft_id
-      $Hid=sprintf('<INPUT TYPE="HIDDEN" name="jft_id%d" value="%s">',
-		   $i,$l_line['jft_id']);
-      printf ('<TR><TD> %s </TD><TD><INPUT TYPE="TEXT" NAME="av_text%d" VALUE="%s">%s %s %s</TD></TR>',
-	      $l_line['ad_text'], $i, $l_line['av_text'],$Hid,$but_search_poste,$ad);
-      
-    }
-    echo '</TR>';
-    echo '</TABLE>';
-    echo '<INPUT TYPE="SUBMIT" name="update_fiche" value="Mis à jour">';
-    echo '</FORM>';
-  }
+  echo '<h1>'.__FILE__.'#'.__line__.'EncodeFiche obsolete</h1>';
 }
 
 /*!   GetBaseFiche
@@ -410,56 +114,7 @@ function GetBaseFicheDefault($p_cn,$p_type) {
  *
  */ 
 function ViewFiche($p_cn,$p_type) {
-  require_once("user_common.php");
-  echo '<H2 class="info">'.getFicheDefName($p_cn,$p_type).'</H2>';
-
-   $step=$_SESSION['g_pagesize'];
-   $sql_limit="";
-   $sql_offset="";
-   if ( $step != -1 ) {
-     $page=(isset($_GET['page']))?$_GET['page']:1;
-     $offset=(isset($_GET['offset']))?$_GET['offset']:0;
-     $max_line=CountSql($p_cn,"select f_id,av_text  from 
-                          fiche join jnt_fic_att_value using (f_id) 
-                                join attr_value using (jft_id)
-                       where fd_id='".$p_type."' and ad_id=".ATTR_DEF_NAME." order by f_id");
-     $sql_limit=" limit ".$step;
-     $sql_offset=" offset ".$offset;
-     $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
-   }
-   
-  // Get all name the cards of the select category
-  // 1 for attr_def.ad_id is always the name
-    $Res=ExecSql($p_cn,"select f_id,vw_name,quick_code  from ".
-                       " vw_fiche_attr ".
-                       " where fd_id='".$p_type.
-                       "' order by f_id $sql_offset $sql_limit ");
-    $Max=pg_NumRows($Res);
-    echo $bar;
-
-    echo '<table>';
-    for ( $i = 0; $i < $Max; $i++) {
-      $l_line=pg_fetch_array($Res,$i);
-      if ( $i%2 == 0) 
-	echo '<TR class="odd">';
-      else
-	echo '<TR class="even">';
-
-      $span_mod='<TD><A href="fiche.php?action=detail&fiche_id='.$l_line['f_id'].'">'.$l_line['quick_code'].'</A></TD>';
-      $span_del='<TD>'.
-	'<A  href="fiche.php?f_fd_id='.$p_type.'&action=delete&fiche_id='.$l_line['f_id'].
-	'"> delete</A></td>';
-
-      echo $span_del.$span_mod.'<TD>'.$l_line['vw_name']."</TD>";
-      echo '</tr>';
-    }
-    echo '</table>';
-    echo '<FORM METHOD="POST" action="fiche.php">';
-    echo '<INPUT TYPE="HIDDEN" name="fiche" value="'.$p_type.'">';
-    echo '<INPUT TYPE="SUBMIT" name="add" Value="Ajout fiche">';
-    echo '</FORM>';
-    echo $bar;
-
+  echo "<h1>".__FILE__." # ".__LINE__." ViewFiche Obsolete please update</h1>";
 }
 /*!   GetNextFiche
  ***************************************************
@@ -506,27 +161,7 @@ function GetNextFiche($p_cn,$p_base) {
  *
  */ 
 function ViewFicheDetail($p_cn,$p_id) {
-  
-  // Retrieve the fiche_def.fd_id of the card
-  $fd_id=GetFicheDef($p_cn,$p_id);
-
-  //Update the default attribute of a card if is model has changed
-  $sql="insert into jnt_fic_att_value (f_id,ad_id) 
-        select $p_id, ad_id 
-              from jnt_fic_attr 
-        where fd_id=$fd_id and 
-        ad_id not in (select ad_id from jnt_fic_att_value where
-        f_id=$p_id)";
-
- $Res=ExecSql($p_cn,$sql);
-
- // add a empty string to attr_value
- $sql="insert into attr_value select jft_id,'' from jnt_fic_att_value
-         where f_id=$p_id and jft_id not in (select jft_id from attr_value natural join jnt_fic_att_value where 
-         f_id = $p_id)"; 
- $Res=ExecSql($p_cn,$sql);
-
-  EncodeFiche ($p_cn,$p_id,1);
+    echo "<h1>".__FILE__." # ".__LINE__." ViewFicheDetail Obsolete please update</h1>";
 }
 /*!   UpdateFiche
  ***************************************************
@@ -544,132 +179,7 @@ function ViewFicheDetail($p_cn,$p_id) {
  */ 
 
 function UpdateFiche($p_cn,$p_array) {
-
-  echo_debug ('fiche_inc.php',__LINE__,"UpdateFiche");
-  $tva_error=false;
-  foreach ( $p_array as $key=> $element) {
-    echo_debug('fiche_inc.php',__LINE__,"UF  $key => $element");
-    ${"$key"}=$element;
-    // Get the name
-    if ( $key == "ad_id".ATTR_DEF_NAME ) {
-      $label=$element;
-      if (strlen(trim($label))== 0  ) 
-	return;
-    }
-    // Get the class base
-    if ( $key=="ad_id".ATTR_DEF_ACCOUNT) {
-      $class=$element;
-    }
-    // Get the vat and
-    // test the vat rate
-    if ( $key == 'ad_id'.ATTR_DEF_TVA ) {
-      // is a valid rate ?
-      if ( strlen(trim($element)) == 0 ) continue;
-      if ( CountSql($p_cn,"select * from tva_rate where tva_id='".FormatString($element)."'") == 0 ) {
-	// warning
-	echo_error('invalid rate') ;
-	echo '<script>
-                alert("Attention tva invalid remis à sa valeur par défaut ");
-              </script>';
-	$tva_error=true;
-      }
-    }
-  }
-  // If each card has it own account must also update the tmp_pcm table
-  //
-  $fd_ref=GetFicheDefRef($p_cn,$fiche);
-  // Update all the others data
-  for ( $i =0 ; $i < $max ; $i++) {
-    // Format text
-    $text=FormatString( ${"av_text$i"});
-    // Check if we don't try to update a QUICK CODE
-    $Res=ExecSql($p_cn,"select ad_id from jnt_fic_att_value where jft_id=".${"jft_id$i"});
-    $a=pg_fetch_array($Res,0);
-    if ( $a['ad_id'] != ATTR_DEF_QUICKCODE) 
-      {
-	$sql=sprintf("update attr_value set av_text='%s' where jft_id=%d",
-		     $text,
-		     ${"jft_id$i"});
-      }
-    else
-      {
-	$sql=sprintf("select update_quick_code(%d,'%s')",
-		     ${"jft_id$i"},
-		     $text);
-      }
-    // Execute SQL
-    $Res=ExecSql($p_cn,$sql);
-  }
-    // Update tva to his default value
-  if ( $tva_error == true ) { 
-    $sql="update attr_value set av_text=1 where jft_id = ( select jft_id from jnt_fic_att_value 
-                    natural join fiche natural join attr_def 
-                 where ad_id=".ATTR_DEF_TVA." and f_id=$fiche)";
-    $Res=ExecSql($p_cn,$sql);
-  } 
-
-  // Update the PCMN if needed
-  $sql="select av_text from attr_value natural join jnt_fic_att_value
-        where f_id=$fiche and ad_id=".ATTR_DEF_ACCOUNT;
-  $Res=ExecSql($p_cn,$sql);
-
-  if ( pg_NumRows($Res) != 0 ) {
-    // it means that a account exists
-    // Retrieve the name and the ad_id 5
-    $f=pg_fetch_array($Res,0);
-    $class_old=$f['av_text'];
-    if (  isNumber($class)==1 && isNumber($class_old)==1) {
-      echo_debug('fiche_inc'," $class and $class_old are number");
-      // if the class changed
-      if ( $class != $class_old and $class != "" ) {
-	
-	if ( CountSql($p_cn,"select * from jrnx where j_poste=$class") or 
-	     CountSql($p_cn,"select * from jrnx where j_poste=$class_old" ))
-	  {
-	    // No change if the account is already used 
-	    echo_error("Not possible to change the account, already used");
-	  } else {
-	    if ( CountSql($p_cn,"select * from tmp_pcmn where pcm_val=".$class) ==0)
-	      // we have to insert 
-	  {
-	    // First we must use a parent
-	    $parent=GetParent($p_cn,$class);
-	    $Res=ExecSql($p_cn,
-			 "insert into tmp_pcmn (pcm_val,pcm_lib,pcm_val_parent) 
-                         values ($class,'$f_label',$parent)");
-	  }
-	  }
-	$class=$class_old;
-      } else // $class=""
-	{
-	  
-	  echo_debug('fiche_inc.php',__LINE__,"new account ");
-	  $class=$class_old;
-	  if ( CountSql($p_cn,"select * from tmp_pcmn where pcm_val=".$class) == 0 ) {
-	    // First we must use a parent
-	  $parent=GetParent($p_cn,$class);
-	  $Res=ExecSql($p_cn,
-		       "insert into tmp_pcmn (pcm_val,pcm_lib,pcm_val_parent) 
-                         values ($class,'$f_label',$parent)");
-	  }
-	} 
-    // Change the name in TMP_PCMN
-    // Get the new name
-    $f_label=FormatString($f_label);
-
-    ExecSql($p_cn,"update tmp_pcmn set pcm_lib='".$f_label."' where pcm_val=".$class);
-    
-
-    }
-
-      
-      
-    
-
-  }
-  // Update of TMP_PCMN if a class base is given (ad_id=5)
-
-
+  echo "<h1>".__FILE__." # ".__LINE__." UpdateFiche Obsolete please update</h1>";
 
 }
 /*!   EncodeModele
@@ -686,18 +196,11 @@ function UpdateFiche($p_cn,$p_array) {
  */ 
 function EncodeModele($p_js)
 {
-  echo '<H2 CLASS="info"> Ajout d\'un modèle</H2>';
-  echo '<FORM ACTION="fiche.php" METHOD="post">';
-  echo '<BR>Libellé <INPUT TYPE="TEXT" NAME="nom_mod">';
-  echo '<BR>Classe de base <INPUT TYPE="TEXT" NAME="class_base">';
-  echo $p_js;
-  echo '<INPUT TYPE="HIDDEN" NAME="inc" VALUE="1">';
-  echo '<BR><INPUT TYPE="SUBMIT" name="record_model" VALUE="Ajoute modèle">';
-  echo '</FORM>';
+  echo "<h1>".__FILE__." # ".__LINE__." EncodeModele Obsolete please update</h1>";
 }
 /*!   DefModele
  ***************************************************
- * \brief  Creation of a model of card or correction
+ * \brief  Creation of a Category of card or correction
  * 
  * 
  * \param $p_cn  database connection 
@@ -709,7 +212,7 @@ function EncodeModele($p_js)
  *	
  *
  */ 
-function DefModele ($p_cn,$p_js,$p_array=null,$p_ligne=1) 
+function CreateCategory ($p_cn,$p_js,$p_array=null,$p_ligne=1) 
 {
   echo_debug('fiche_inc.php',__LINE__,"DefModele ($p_array,$p_ligne=1) ");
 
@@ -782,97 +285,7 @@ function DefModele ($p_cn,$p_js,$p_array=null,$p_ligne=1)
  *
  */ 
 function AddModele($p_cn,$p_array) {
-  echo_debug('fiche_inc.php',__LINE__,"AddModele");
-  // Show what we receive for debug purpose only
-  //
-  foreach ( $p_array as $key=>$element ) {
-    echo_debug('fiche_inc.php',__LINE__,"p_$key $element");
-    ${"p_$key"}=$element;
-  }
-  // Format correctly the name of the cat. of card
-  $p_nom_mod=FormatString($p_nom_mod);
-  echo_debug('fiche_inc.php',__LINE__,"Adding $p_nom_mod");
-   // Format the p_class_base 
-  // must be an integer
-  if ( isNumber($p_class_base) == 0 && FormatString($p_class_base) != null ) {
-    echo_error ('p_class_base is NOT a number');
-  }
-  if ( strlen(trim($p_nom_mod)) == 0 ) 
-    return;
-
-  // $p_FICHE_REF cannot be null !!! (== fiche_def_ref.frd_id
-  if (! isset ($p_FICHE_REF) or strlen($p_FICHE_REF) == 0 ) {
-    echo_error ("AddModele : fiche_ref MUST NOT be null or empty");
-    return;
-  }
-  // build the sql request for fiche_def
-  // and insert into fiche_def
-  // if p_class_base is null get the default class base from
-  // fiche_def_ref
-  if ( FormatString($p_class_base) == null )
-    { // p_class is null
-      // So we take the default one
-      $p_class_base=GetBaseFicheDefault($p_cn,$p_FICHE_REF);
-    }
-  // Set the value of fiche_def.fd_create_account
-  if ( isset($p_create)) 
-    $p_create='true';
-  else
-    $p_create='false';
-
-  // Class is valid ?
-  if ( FormatString($p_class_base) != null) {
-
-    // p_class is a valid number
-    $sql=sprintf("insert into fiche_def(fd_label,fd_class_base,frd_id,fd_create_account) 
-                values ('%s',%s,%d,'%s')",
-		 $p_nom_mod,$p_class_base,$p_FICHE_REF,$p_create);
-    $Res=ExecSql($p_cn,$sql);
-
-    // p_class must be added to tmp_pcmn 
-    $sql=sprintf("select account_add(%d,'%s')",
-		 $p_class_base,$p_nom_mod);
-
-    $Res=ExecSql($p_cn,$sql);
-
-    // Get the fd_id
-    $fd_id=GetSequence($p_cn,'s_fdef');
-
-    // Add the class_base if needed
-
-    if ( $p_create=='true' ) {
-      $sql=sprintf("insert into jnt_fic_attr(fd_id,ad_id) 
-                     values (%d,%d)",$fd_id,ATTR_DEF_ACCOUNT);
-      $Res=ExecSql($p_cn,$sql);
-    }
-  } else {
-    //There is no class base not even as default
-    $sql=sprintf("insert into fiche_def(fd_label,frd_id,fd_create_account) values ('%s',%d,'%s')",
-		 $p_nom_mod,$p_FICHE_REF,$p_create);
-
-  $Res=ExecSql($p_cn,$sql);
-
-  // Get the fd_id
-  $fd_id=GetSequence($p_cn,'s_fdef');
-
-  }
-
-  // Get the default attr_def from attr_min
-  $def_attr=Get_attr_min($p_cn,$p_FICHE_REF);
-
-   //if defaut attr not null 
-  // build the sql insert for the table attr_def
-  if (sizeof($def_attr) != 0 ) {
-    // insert all the mandatory fields into jnt_fiche_attr
-    foreach ( $def_attr as $i=>$v) {
-      $sql=sprintf("insert into jnt_fic_Attr(fd_id,ad_id)
-                   values (%d,%s)",
-		   $fd_id,$v['ad_id']);
-      ExecSql($p_cn,$sql);
-    }
-  }
-  
-  
+  echo "<h1> AddModele Obsolete upgrade please </h1>";
 }
 /*!   UpdateModele
  ***************************************************
@@ -890,16 +303,7 @@ function AddModele($p_cn,$p_array) {
  *
  */ 
 function UpdateModele($p_cn,$p_fiche) {
-
-  $array=GetDataModele($p_cn,$p_fiche);
-  if ($array==null) {
-    echo_error ("fiche_inc:UpdateModele Fiche non trouvée");
-    return;
-  }
-  echo '<H2 class="info">'.getFicheDefName($p_cn,$p_fiche).'</H2>';
-  foreach ( $array as $key=>$element) echo_debug('fiche_inc.php',__LINE__,"$key => $element");
-  DisplayDetailModele($p_cn,$array,$array['ligne']);
-
+  echo '<h1>'.__FILE__.'#'.__line__.'UpdateModele obsolete</h1>';
 }
 /*!   GetDataModele
  ***************************************************
@@ -916,34 +320,7 @@ function UpdateModele($p_cn,$p_fiche) {
  *
  */ 
 function GetDataModele($p_cn,$p_fiche) {
-  $Res=ExecSql($p_cn,"select fd_class_base,ad_id,ad_text from 
-                          fiche_def
-                          natural join jnt_fic_attr
-                          natural join attr_def
-                          where
-                          fd_id=$p_fiche");
-  $Max=pg_NumRows($Res) ;
-  if ($Max==0) return null;
-
-  // store the data in an array
-  for ($i=0; $i < $Max;$i++) {
-    $line=pg_fetch_array($Res,$i);
-    if ($i == 0 ) {
-      $array['label']=GetFicheDefName($p_cn,$p_fiche);
-      $array['class_base']=$line['fd_class_base'];
-      $array['fd_id']=$p_fiche;
-    }//if $i == 0
-
-    //Label
-    $text=sprintf("ad_id%d",$i);
-    $array[$text]=$line['ad_id'];
-    //isd_id
-    $text=sprintf("ad_text%d",$i);
-    $array[$text]=$line['ad_text'];
-
-  }//for
-  $array['ligne']=$Max;
-  return $array;
+  echo '<h1>'.__FILE__.'#'.__line__.'GetDataModele obsolete</h1>';
 }
 /*!   Remove
  ***************************************************
@@ -959,41 +336,7 @@ function GetDataModele($p_cn,$p_fiche) {
  *      - none
  */
 function Remove ($p_cn, $p_fid) {
-  if ( ! isset ($p_cn) ||
-       ! isset ($p_fid) ) {
-    echo_error ("Remove Missing Parameter p_cn = $p_cn p_fid=$p_fid");
-    return;
-  }
-  // if the card has its own account in PCMN
-  // Get the fiche_def.fd_id from fiche.f_id
-  $fd_id=GetFicheDef($p_cn,$p_fid);
-  if ( GetCreateAccount($p_cn,$fd_id) == 1 ) {
-    // Retrieve the class 
-    $class=GetClass($p_cn,$p_fid);
-
-    // if class is not NULL and if we use it before, we can't remove it
-    if (FormatString($class) != null && 
-           CountSql($p_cn,"select * from jrnx where j_poste=$class") != 0 ) {
-      echo "<SCRIPT> alert('Impossible ce poste est utilisé dans un journal'); </SCRIPT>";
-      return;
-    } else {
-      // Remove in PCMN
-      if ( trim(strlen($class)) != 0 and isNumber($class) == 1)
-	   ExecSql($p_cn,"delete from tmp_pcmn where pcm_val=".$class);
-    }
-
-  }
-  // Remove from attr_value
-  $Res=ExecSql($p_cn,"delete from attr_value 
-                        where jft_id in (select jft_id 
-                                          from jnt_fic_att_value 
-                                                natural join fiche where f_id=$p_fid)");
-  // Remove from jnt_fic_att_value
-  $Res=ExecSql($p_cn,"delete from jnt_fic_att_value where f_id=$p_fid");
-  
-  // Remove from fiche
-  $Res=ExecSql($p_cn,"delete from fiche where f_id=$p_fid");
-    
+  echo '<h1>'.__FILE__." # ".__LINE__."Remove obsolete</h1>";    
 }
 /*!   getFicheName
  ***************************************************
@@ -1365,12 +708,7 @@ function GetClass($p_cn,$p_fid) {
  */
 function InsertModeleLine($p_cn,$p_fid,$p_adid) 
 {
-  // Insert a new attribute for the model
-  // it means insert a row in jnt_fic_attr
-  $sql=sprintf("insert into jnt_fic_attr (fd_id,ad_id) values (%d,%d)", 
-	       $p_fid,$p_adid);
-  $Res=ExecSql($p_cn,$sql);
-                       
+  echo '<h1>'.__FILE__.'#'.__line__.'InsertModeleLine obsolete</h1>';
 }
 /*!   SaveModeleName
  **************************************************
@@ -1386,13 +724,7 @@ function InsertModeleLine($p_cn,$p_fid,$p_adid)
  */
 function SaveModeleName($p_cn,$p_fid,$p_label) 
 {
-  // Insert a new attribute for the model
-  // it means insert a row in jnt_fic_attr
-  $sql=sprintf("update   fiche_def set fd_label='%s' where 
-                  fd_id=%d", 
-	       $p_label,$p_fid);
-  $Res=ExecSql($p_cn,$sql);
-                       
+  echo '<h1>'.__FILE__.'#'.__line__.'SaveModeleName obsolete</h1>';
 }
 
 /*!   DisplayDetailModele
@@ -1412,51 +744,7 @@ function SaveModeleName($p_cn,$p_fid,$p_label)
  */
 function DisplayDetailModele($p_cn,$p_array,$MaxLine)
 {
-  echo_debug('fiche_inc.php',__LINE__,"DisplayDetailModele");
-
-  foreach ($p_array as $v=>$i) { 
-    echo_debug('fiche_inc.php',__LINE__,"v == $v i==$i");
-    ${"$v"}=$i;
-  }
-  echo '<FORM action="fiche.php" method="get">';
-  echo '<INPUT TYPE="HIDDEN" NAME="fd_id" VALUE="'.$fd_id.'">';
-
-  printf("<TABLE>");
-  // Display each attribute
-  for ($i=0;$i<$MaxLine;$i++) {
-    echo '<TR><td>';
-    // Can change the name
-    if ( ${"ad_id$i"} == ATTR_DEF_NAME ) {
-      printf('Label</TD><TD><INPUT TYPE="TEXT" NAME="label" VALUE="%s">',
-	     $label);
-      printf('</td><TD><input type="submit" NAME="change_name" value="Change Nom">');
-    } else {
-      // The attr.
-      printf('%s ',
-	     ${"ad_text$i"});
-    }
-    echo '</td></tr>';
-  }
-
-  // Show the possible attribute which are not already attribute of the model
-  // of card
-  $Res=ExecSql($p_cn,"select ad_id,ad_text from attr_def 
-                       where ad_id not in (select ad_id from fiche_def natural join jnt_fic_attr
-                           where fd_id=$fd_id)");
-  $M=pg_NumRows($Res);
-
-  // Show the unused attribute
-  echo '<TR> <TD>';
-  echo '<SELECT NAME="ad_id">';
-  for ($i=0;$i<$M;$i++) {
-    $l=pg_fetch_array($Res,$i);
-    printf('<OPTION VALUE="%s"> %s',
-	   $l['ad_id'],$l['ad_text']);
-  }
-  echo '</SELECT>';
-  echo '</TD><TD> <INPUT TYPE="SUBMIT" Value="Add that line" NAME="add_ligne"></TD></TR>';
-  printf("</TABLE>");
-  echo '</FORM>';
+  echo '<h1>'.__FILE__."#".__LINE__."DisplayDetailModele obsolete</h1>";
 }
 /*!   GetParent
  **************************************************

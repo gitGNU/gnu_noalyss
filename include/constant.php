@@ -143,7 +143,7 @@ define ("JS_VIEW_JRN_CANCEL",
 "<script  language=\"javascript\" src=\"js/cancel_op.js\">	</script>");
 
 define ("JS_VIEW_JRN_MODIFY",
-"<script  language=\"javascript\"> src=\"js/modify_op.js\"	</script>");
+"<script  language=\"javascript\" src=\"js/modify_op.js\">	</script>");
 
 
 define ("JS_UPDATE_PCMN",

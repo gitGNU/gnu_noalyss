@@ -886,6 +886,10 @@ function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1)
       }// if
     }//foreach
   }// if
+
+  // action to clean
+  $url=str_replace('&p_action=delete','',$url);
+
   // compute max of page
   $nb_page=($p_line-($p_line%$p_size))/$p_size;
   echo_debug('user_common',__LINE__,"nb_page = $nb_page");

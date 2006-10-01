@@ -97,6 +97,7 @@ echo '</div>';
 
 $cn=DbConnect($_SESSION['g_dossier']);
 $User->AccessRequest($cn,SEC_GESTION);
+echo JS_VIEW_JRN_MODIFY;
 //-----------------------------------------------------
 // p_action == pref
 //-----------------------------------------------------

@@ -494,7 +494,7 @@ class widget {
    // input type == js_tva
    if ( strtolower($this->type)=="js_tva") {
      $id=sprintf("<span id=%s></span>",$this->label);
-        $r=sprintf('%s<TD> <INPUT TYPE="Text"  style="border:solid 1px blue;" '.
+     $r=sprintf('%s<TD>Tva</TD><TD> <INPUT TYPE="Text"  style="border:solid 1px blue;" '.
 		   ' NAME="%s" VALUE="%s" SIZE="3" onChange="ChangeTVA(\'%s\',\'%s\');">',
  		  $id,
  	       $this->name,

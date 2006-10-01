@@ -22,6 +22,8 @@
  * \brief module to manage the card (removing, listing, creating, modify attribut)
  */
 include_once ("ac_common.php");
+require_once('class_fiche.php');
+
 html_page_start($_SESSION['g_theme']);
 
 if ( ! isset ( $_SESSION['g_dossier'] ) ) {
@@ -60,36 +62,120 @@ if ($read+$write == 0 ){
   /* Cannot Access */
   NoAccess();
 }
-
+function ShowFicheDefInput($p_fiche_def)
+{
+  $r="";
+  // Save the label
+  
+  $p_fiche_def->SaveLabel($_REQUEST['label']);
+  $p_fiche_def->Get();
+  $p_fiche_def->GetAttribut();
+  $r.= '<H2 class="info">'.$p_fiche_def->label.'</H2>';
+  
+  $r.= '<FORM action="fiche.php" method="POST">';
+  $r.= '<INPUT TYPE="HIDDEN" NAME="fd_id" VALUE="'.$p_fiche_def->id.'">';
+  
+  $r.= $p_fiche_def->DisplayAttribut();
+  $r.= ' <INPUT TYPE="SUBMIT" Value="Ajoute cet &eacute;l&eacute;ment" NAME="add_line">';
+  $r.= "</form>";
+  return $r;
+}
 // Creation of a new model of card
 // in the database
 if ( isset($_POST['add_modele'])  and $write != 0) {
   // insert the model of card in database
-  AddModele($cn,$HTTP_POST_VARS);
+  $fiche_def=new fiche_def($cn);
+  $fiche_def->Add($HTTP_POST_VARS);
+}
+$r="";
+// Add a line in the card model
+if ( isset ($_POST["add_line"])  ) {
+  $r= '<DIV class="u_redcontent">';
+    if ( $write ==0)  
+      $r.= "<h2 class=\"error\"> Pas d'accès </h2>";
+    else
+      {
+	$fiche_def=new fiche_def($cn,$_REQUEST['fd_id']);
+	// Insert Line
+	$fiche_def->InsertAttribut($_REQUEST['ad_id']);
+
+	$r.=ShowFicheDefInput($fiche_def);
+
+      }
+  $r.= '</DIV>';
+}
+// Change the name of the card  model
+if ( isset ($_POST["change_name"] )  ) {
+  $r= '<DIV class="u_redcontent">';
+    if ( $write ==0)  
+      $r.= "<h2 class=\"error\"> Pas d'accès </h2>";
+    else
+      {
+	$fiche_def=new fiche_def($cn,$_REQUEST['fd_id']);
+	$r.=ShowFicheDefInput($fiche_def);
+      }
+  $r.= '</DIV>';
 }
 
-ShowMenuFiche($_SESSION['g_dossier']);
 
+ShowMenuFiche($_SESSION['g_dossier']);
+echo $r;
 if ( isset ( $_GET["action"]) ) {
   $action=$_GET["action"];
   // View the details of the selected cat. of cards
-  if ( isset ($_GET["fiche"]) && $action=="vue" && ! isset ($_POST['add_fiche']) ) {
+  if ( isset ($_GET["fiche"]) && $action=="vue" 
+       && ! isset ($_POST['add_fiche']) 
+       && ! isset ($_POST['update_fiche'])
+       && ! isset ($_POST['delete'])) {
     echo '<DIV class="u_redcontent">';
-    ViewFiche($cn,$_GET["fiche"]);
+    $fiche_def=new fiche_def($cn,$_GET['fiche']);
+    $fiche_def->myList();
+
     echo '</DIV>';
 
   }// Display the detail of a card
   if ($action== "detail" ) {
     echo '<DIV class="u_redcontent">';
-    if ( $write == 0) echo '<H2 class="info"> Vos changements ne seront pas sauvés</h2>';
-    ViewFicheDetail($cn,$_GET["fiche_id"]);
+    $t=false;
+    if ( $write == 0) 
+      { 
+	echo '<H2 class="info"> Vos changements ne seront pas sauvés</h2>';
+	$t=true;
+      }
+    $fiche=new fiche($cn,$_GET["fiche_id"]);
+    if ( $_SESSION['g_pagesize'] != -1 ){
+      // retrieve value
+      // with offet &offset=15&step=15&page=2&size=15
+	if ( $_SESSION['g_pagesize'] != -1) {
+	  $str=sprintf("&offset=%s&step=%s&page=%s&size=%s",
+		       $_GET['offset'],
+		       $_GET['step'],
+		       $_GET['page'],
+		       $_GET['size']);
+	}
+		       
+
+    }
+    if ( $write != 0)
+      echo '<form method="post" action="fiche.php?action=vue&fiche='.$_GET['fiche'].$str.'">';
+    echo $fiche->Display($t);
+    echo '<input type="hidden" name="f_id" value="'.$_GET['fiche_id'].'">';
+    if ( $write != 0 ) {
+      echo '<input type="submit" name="update_fiche" value="Mise &agrave; jour">';
+      echo '<input type="submit" name="delete" value="Effacer cette fiche">';
+    }
+    $str="";
+
+    echo '<a class="mtitle" href="fiche.php?action=vue&fiche='.$fiche->fiche_def.$str.
+      '"><input type="button" value="annuler"></A>';
+    if ( $write != 0 ) echo '</form>';
     echo '</DIV>';
   }
   // Display the form where you can enter
   // the property of the card model
   if ($action == "add_modele" and $write !=0) {
     echo '<DIV class="u_redcontent">';
-    DefModele($cn,$search);
+    CreateCategory($cn,$search);
     echo '</DIV>';
   }
   // Modify a card Model
@@ -98,58 +184,61 @@ if ( isset ( $_GET["action"]) ) {
     if ( $write ==0)  
       echo "<h2 class=\"error\"> Pas d'accès </h2>";
     else
-      UpdateModele($cn,$_GET["fiche"],$search);
+      {
+
+
+	$fiche_def=new fiche_def($cn,$_GET['fiche']);
+	$fiche_def->Get();
+	$fiche_def->GetAttribut();
+	echo '<H2 class="info">'.$fiche_def->label.'</H2>';
+
+	echo '<FORM action="fiche.php" method="POST">';
+	echo '<INPUT TYPE="HIDDEN" NAME="fd_id" VALUE="'.$fiche_def->id.'">';
+
+	echo $fiche_def->DisplayAttribut();
+	echo ' <INPUT TYPE="SUBMIT" Value="Ajoute cet &eacute;l&eacute;ment" NAME="add_line">';
+	echo "</form>";
+      }
     echo '</DIV>';
   }
-  // delete a card
-  if ($action== "delete"  ) {
-    echo '<DIV class="u_redcontent">';
-    if ( $write ==0)  
-      echo "<h2 class=\"error\"> Pas d'accès </h2>";
-    else
-      {
-	Remove($cn,$_GET["fiche_id"]);
-	
-	ViewFiche($cn,$_GET["f_fd_id"]);
-      }
-    echo "</DIV>";
-  }  
 }
-// Add a line in the card model
-if ( isset ($_GET["add_ligne"])  ) {
-  echo '<DIV class="u_redcontent">';
-    if ( $write ==0)  
-      echo "<h2 class=\"error\"> Pas d'accès </h2>";
-    else
-      {
-	SaveModeleName($cn,$_GET["fd_id"],$_GET["label"]);
-	InsertModeleLine($cn,$_GET["fd_id"],$_GET["ad_id"]);
-	UpdateModele($cn,$_GET["fd_id"],$search);
-      }
-  echo '</DIV>';
-}
-// Change the name of the card  model
-if ( isset ($_GET["change_name"] )  ) {
-  echo '<DIV class="u_redcontent">';
-    if ( $write ==0)  
-      echo "<h2 class=\"error\"> Pas d'accès </h2>";
-    else
-      {
-	SaveModeleName($cn,$_GET["fd_id"],FormatString($_GET["label"]));
-	UpdateModele($cn,$_GET["fd_id"],$search);
-      }
-  echo '</DIV>';
-}
-
 // Display a blank  card from the selected category
 if ( isset ($_POST["fiche"]) && isset ($_POST["add"] ) ) {
   echo '<DIV class="u_redcontent">';
     if ( $write ==0)  
       echo "<h2 class=\"error\"> Pas d'accès </h2>";
     else
-      EncodeFiche($cn,$_POST["fiche"]);
+      {
+	$url=$_SERVER['REQUEST_URI'];
+	$fiche=new fiche($cn,0);
+
+	echo '<form method="post" action="'.$url.'&fiche='.$_POST['fiche'].'">';
+	echo $fiche->blank($_POST['fiche']);
+	echo '<input type="submit" name="add_fiche" value="Ajout">';
+	echo '<a class="mtitle" href="'.$url.'&fiche='.$_POST['fiche'].'">'.
+	  '<input type="button" value="annuler"></A>';
+
+
+	echo '</form>';
+      }
   echo '</DIV>';
 }
+// delete a card
+if (isset($_POST['delete']) ) {
+    echo '<DIV class="u_redcontent">';
+    if ( $write ==0)  
+      echo "<h2 class=\"error\"> Pas d'accès </h2>";
+    else
+      {
+	$fiche=new fiche($cn,$_POST["f_id"]);
+	$fiche->remove();
+      }
+    $fiche_def=new fiche_def($cn,$_GET['fiche']);
+    $fiche_def->myList();
+
+    echo "</DIV>";
+  }  
+
 // Add the data (attribute) of the card
 if ( isset ($_POST["add_fiche"]) ) {
   echo '<DIV class="u_redcontent">';
@@ -158,8 +247,11 @@ if ( isset ($_POST["add_fiche"]) ) {
     echo "<h2 class=\"error\"> Pas d'accès </h2>";
   else
     {
-      AddFiche($cn,$_POST["fiche"],$HTTP_POST_VARS);
-        ViewFiche($cn,$_POST["fiche"]);
+      $fiche=new fiche($cn);
+      $fiche->Save($_REQUEST['fiche']);
+      $fiche_def=new fiche_def($cn,$_GET['fiche']);
+      $fiche_def->myList();
+
 	
     }
   echo '</DIV>';
@@ -172,9 +264,14 @@ if ( isset ($_POST["update_fiche"])  ) {
       echo "<h2 class=\"error\"> Pas d'accès </h2>";
     else
       {
-	$a=UpdateFiche($cn,$HTTP_POST_VARS);
+	$fiche=new fiche($cn,$_POST['f_id']);
+	$fiche->Save();
+
       }
-      $fd_id=GetFicheDef($cn,$_POST["f_id"]);
+    $fiche_def=new fiche_def($cn,$_GET['fiche']);
+    $fiche_def->myList();
+
+
 
 
 
