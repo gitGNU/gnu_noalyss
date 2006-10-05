@@ -144,7 +144,7 @@ echo_debug('user_common.php',__LINE__,"ComputeTotalVat $a_fiche $a_quant $a_pric
 	      {
 		// if tva amount is given we do not compute it
 		if ( $a_vat_amount != null && 
-		     $a_vat_amount[$idx] == 0 )
+		     $a_vat_amount[$idx] != 0 )
 		  $nd_amount2=round($a_price[$idx]*$a_quant[$idx]*$nd,2)+$a_vat_amount[$idx];
 		else
 		  $nd_amount2=round($a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx]*$nd,2);

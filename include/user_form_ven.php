@@ -202,6 +202,7 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
     $Price=new widget("text");
     $Price->SetReadOnly($pview_only);
     $Price->table=1;
+    $Price->size=9;
     $r.=$Price->IOValue("e_march".$i."_sell",$march_sell);
     // vat label
     //--
@@ -217,6 +218,7 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
     $Quantity=new widget("text");
     $Quantity->SetReadOnly($pview_only);
     $Quantity->table=1;
+    $Quantity->size=9;
     //$r.=InputType("","TEXT","e_quant".$i,$quant,$pview_only);
     $r.=$Quantity->IOValue("e_quant".$i,$quant);
     $r.='</TR>';
