@@ -21,9 +21,10 @@
 // $Revision$
 /*! \file
  * \brief Function for managing card, redundant with the class fiche
- * \todo remove this file but adapt first the pages which needs those 
- *       function and complete the class_fiche.php
+ *        but make sometimes the code more easy
  */
+require_once('class_fiche.php');
+
 /*!  
  ***************************************************
  * \brief  Creation of a Category of card or correction
@@ -40,7 +41,7 @@
  */ 
 function CreateCategory ($p_cn,$p_js,$p_array=null,$p_ligne=1) 
 {
-  echo_debug('fiche_inc.php',__LINE__,"DefModele ($p_array,$p_ligne=1) ");
+  echo_debug('fiche_inc.php',__LINE__,"CreateCategory ($p_array,$p_ligne=1) ");
 
   // Creating form
   $display='<FORM ACTION="fiche.php" METHOD="POST">';
@@ -100,23 +101,18 @@ function CreateCategory ($p_cn,$p_js,$p_array=null,$p_ligne=1)
  * \brief  retourne le nom de la fiche
  *           en fournissant le quick_code
  *        
- * parm : 
- *	- p_cn connexion
- *      - p_id quick_code
- * gen :
- *	- none
- * return:
- *     - string avec nom fiche
+ *  
+ * \param  p_cn connexion
+ * \param p_id quick_code
+ *
  */
 function getFicheName($p_cn,$p_id) {
   // Retrieve the attribute with the ad_id 1
   // 1 is always the name
   $p_id=FormatString($p_id);
-  $Res=ExecSql($p_cn,"select vw_name from 
-                        vw_fiche_attr where quick_code=upper('$p_id')");
-  if ( pg_NumRows($Res) == 0 ) return "Unknown";
-  $st=pg_fetch_array($Res,0);
-  return $st['vw_name'];
+  $fiche=new fiche($p_cn);
+  $fiche->GetByQCode($p_id);
+  return $fiche->strAttribut(ATTR_DEF_NAME);
 }
 
 /*!   Get_fiche_def_ref
@@ -198,8 +194,6 @@ function Get_attr_min($p_cn,$p_fiche_def_ref) {
  *   
  */
 function getFicheAttribut($p_cn,$p_id,$p_attr="") {
-  // Retrieve the attribute with the ad_id 1
-  // 1 is always the name
   $p_id=FormatString($p_id);
   if ( $p_attr != "") {
     $Res=ExecSql($p_cn,"select av_text from 
