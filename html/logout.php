@@ -20,8 +20,8 @@
 /*! \file
  * \brief Logout
  */
-include ("ac_common.php");
-include ("postgres.php");
+require_once ("ac_common.php");
+require_once ("postgres.php");
 
 html_page_start("classic");
 
