@@ -428,6 +428,7 @@ class fiche_def {
       $sql=sprintf("insert into jnt_fic_attr (fd_id,ad_id) values (%d,%d)", 
 		   $this->id,$p_ad_id);
       $Res=ExecSql($this->cn,$sql);
+      // update all the existing card
       
     }
 
