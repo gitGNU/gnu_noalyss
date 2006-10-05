@@ -344,7 +344,7 @@ for ($o = 0;$o < $p_number; $o++) {
     // Check 
     if ( isFicheOfJrn($p_cn,$p_jrn,${"e_march$i"},'cred') == 0 ) {
       $msg="Fiche inexistante !!! ";
-      echo_error($msg); echo_error($msg);	
+      echo_error(__FILE__.__LINE__.$msg);
       echo "<SCRIPT>alert('$msg');</SCRIPT>";
       return null;
     }
@@ -363,7 +363,6 @@ for ($o = 0;$o < $p_number; $o++) {
        cmpDate($e_date,$l_date_end)>0 )
     {
       $msg="Not in the active periode please change your preference";
-      echo_error($msg); echo_error($msg);	
       echo "<SCRIPT>alert('$msg');</SCRIPT>";
       return null;
     }

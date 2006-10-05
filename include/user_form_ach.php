@@ -34,6 +34,18 @@ require_once("class_parm_code.php");
  *        
  *  
  *\param $p_array which can be empty (normally = $_POST)
+ *        containing :
+ *        <ul>
+ *        <li> e_client (quickcode),
+ *        <li> e_marchX quickcode,
+ *        <li> e_march_sellX,
+ *        <li> e_march0_tva_id,
+ *        <li> e_quant0,nb_item,
+ *        <li> jrn_type,
+ *        <li> e_date,
+ *        <li> e_ech,
+ *        <li> e_comm
+ *        </ul>
  *\param $p_jrn the ledger
  *\param $p_periode = periode
  *\param $pview_only if we cannot change it (no right or centralized op)
@@ -62,7 +74,6 @@ echo_debug('user_form_ach.php',__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_peri
     $r.=JS_SHOW_TVA;    
     $r.=JS_TVA;
     // Compute href
-    //    $href=basename($_SERVER['PHP_SELF']);
     $href=basename($_SERVER['PHP_SELF']);
     switch ($href)
       {
@@ -171,8 +182,8 @@ echo_debug('user_form_ach.php',__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_peri
     $march_label="";
 
     // If $march has a value
-    if ( isFicheOfJrn($p_cn,$p_jrn,$march,'deb') == 0 ) {
-	$msg="Fiche inexistante !!! ";
+    if ( strlen(trim($march)) != 0 &&  isFicheOfJrn($p_cn,$p_jrn,$march,'deb') == 0 ) {
+	$msg="user_form_achat@".__LINE__."Fiche inexistante !!! ";
 	echo_error($msg); echo_error($msg);	
 	$march="";
     } else {
@@ -355,7 +366,7 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
     // Check 
     if ( isFicheOfJrn($p_cn,$p_jrn,${"e_march$i"},'deb') == 0 ) {
       $msg="Fiche inexistante !!! ";
-      echo_error($msg); echo_error($msg);	
+      echo_error(__FILE__.__LINE__.$msg); 
       echo "<SCRIPT>alert('$msg');</SCRIPT>";
       return null;
     }
