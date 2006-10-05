@@ -515,12 +515,23 @@ class fiche {
            $sql=" select jft_id from jnt_fic_att_value where ad_id=$id and f_id=$this->id";
            $Ret=ExecSql($this->cn,$sql);
            if ( pg_NumRows($Ret) != 1 ) {
-             echo_error ("class_fiche ".__LINE__." INVALID ID !!! ");
-             return;
-           }
-           $tmp=pg_fetch_array($Ret,0);
-           $jft_id=$tmp['jft_id'];
-           
+	     // we need to insert this new attribut
+             echo_debug ("class_fiche ".__LINE__." adding id !!! ");
+	     $jft_id=NextSequence($this->cn,'s_jnt_fic_att_value');
+
+	     $sql2=sprintf("insert into jnt_fic_att_value(jft_id,ad_id,f_id) values (%s,%s,%s)",
+			   $jft_id,$id,$this->id);
+
+	     $ret2=ExecSql($this->cn,$sql2);
+	     // insert a null value for this attribut
+	     $sql3=sprintf("insert into attr_value(jft_id,av_text) values (%s,null)",
+                        $jft_id);
+	     $ret3=ExecSql($this->cn,$sql3);
+           } else 
+	     {
+	       $tmp=pg_fetch_array($Ret,0);
+	       $jft_id=$tmp['jft_id'];
+	     }
            // Special traitement
            // quickcode
            if ( $id == ATTR_DEF_QUICKCODE) 
