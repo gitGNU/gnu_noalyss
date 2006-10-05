@@ -112,6 +112,8 @@ class Supplier extends fiche{
 <TH>Quick Code</TH>
 <th>Nom</th>
 <th>Adresse</th>
+<th>Total d&eacute;bit</th>
+<th>Total cr&eacute;dit</th>
 <th>Solde</th>
 <th colspan="4">Action </th>
 </TR>';
@@ -135,8 +137,8 @@ class Supplier extends fiche{
 	$filter_year="  j_tech_per in (select p_id from parm_periode ".
                      "where p_exercice='".$User->getExercice()."')";
 	$a=$post->GetSoldeDetail($filter_year);
-
-
+	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$a['debit']);
+	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$a['credit']);
 	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$a['solde']);
 
 

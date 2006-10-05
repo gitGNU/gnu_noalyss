@@ -26,6 +26,7 @@
 define ("phpcompta_password","dany");
 define ("phpcompta_psql_port","5432");
 define ("domaine","");
+$_ENV['tmp']='tmp';
 
 define ("DEBUG","false");
 

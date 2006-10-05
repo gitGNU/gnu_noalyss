@@ -182,15 +182,13 @@ where
     }
     return $a_Res;
   }
-/*! \function  Summary
+/*! Summary
  **************************************************
- \Brief  show the default screen
+ * \brief  show the default screen
  *        
- * parm : 
- *	- p_search (filter)
- * gen :
- *	-
- * return: string to display
+ * \param p_search (filter) 
+ *	 
+ * \return: string to display
  */
   function Summary($p_search) 
     {
@@ -224,6 +222,8 @@ where
 <TH>Quick Code</TH>
 <th>Nom</th>
 <th>Adresse</th>
+<th>Total d&eacute;bit</th>
+<th>Total cr&eacute;dit</th>
 <th>Solde</th>
 <th colspan="4">Action </th>
 </TR>';
@@ -247,6 +247,9 @@ where
 	$filter_year="  j_tech_per in (select p_id from parm_periode ".
                      "where p_exercice='".$User->getExercice()."')";
 	$a=$post->GetSoldeDetail($filter_year);
+
+	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$a['debit']);
+	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$a['credit']);
 	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$a['solde']);
 	$r.="<TD>";
 
