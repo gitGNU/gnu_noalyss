@@ -79,9 +79,7 @@ if  ( isset ($_REQUEST['fd_id'])) {
   }
   
   $fiche=new fiche($cn);
-  $e=$fiche->GetByType($fiche_def->id);
-  $l=var_export($e,true);
-  echo_debug('impress_fiche.php',__LINE__,$l);
+
   $old=-1;
   echo "<TABLE class=\"result\">";
   echo "<TR>";
@@ -99,6 +97,10 @@ if  ( isset ($_REQUEST['fd_id'])) {
   }
 
   echo "<TR></TR>";
+  $e=$fiche_def->GetByType($fiche_def->id);
+  $l=var_export($e,true);
+  echo_debug('impress_fiche.php',__LINE__,$l);
+
   if ( count($e) != 0 ) {
     foreach ($e as $detail) {
       echo "<TR>";

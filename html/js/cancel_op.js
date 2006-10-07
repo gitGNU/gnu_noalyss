@@ -1,4 +1,3 @@
-<?
 /*
  *   This file is part of PhpCompta.
  *
@@ -16,17 +15,20 @@
  *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+/* $Revision$ */
+
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-/*! \file
- * \brief Logout
+
+/*! \file 
+ * \brief
+ * open a windows to confirm and cancel an operation
  */
-require_once ("ac_common.php");
-require_once ("postgres.php");
 
-html_page_start("classic");
 
-session_unset();
-echo '<META HTTP-EQUIV="REFRESH" content="0;url=index.html">';
-
-html_page_stop();
-?>
+function cancelOperation(p_value,p_sessid,p_jrn)
+		{
+			var win=window.open('annulation.php?p_jrn='+p_jrn+'&jrn_op='+p_value+'&PHPSESSID='+p_sessid,'Annule','toolbar=no,width=400,height=400,scrollbars=yes,resizable=yes');
+		}
+function RefreshMe() {
+window.location.reload();
+}

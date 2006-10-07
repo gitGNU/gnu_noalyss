@@ -19,15 +19,12 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
- */
-
-/* \brief This file show a little online calculator, in the caller
+/*! \file 
+ * \brief This file show a little online calculator, in the caller
  *        the span id result, listing, the id form calc_line and the
  *        input id inp must exist see constant.php JS_CALC_LINE
  *
  */
-
 var str="";
 var val="";
 var counter=0;

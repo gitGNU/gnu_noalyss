@@ -45,7 +45,7 @@ if ($User->CheckAction($cn,FICHE_READ) == 0 )
 if  ( isset ($_POST['fd_id'])) {
   $fiche_def=new fiche_def($cn,$_POST['fd_id']);
   $fiche=new fiche($cn);
-  $e=$fiche->GetByType($fiche_def->id);
+  $e=$fiche_def->GetByType();
   $o=0;
   //  Heading
   $fiche_def->GetAttribut();

@@ -33,6 +33,7 @@ $User->Check();
 
 
 html_page_start($User->theme,"onLoad='window.focus();'");
+
 if ( ! isset ( $_SESSION['g_dossier'] ) ) {
   echo "You must choose a Dossier ";
   phpinfo();
@@ -68,24 +69,26 @@ if ( isset ($_GET["search"]) ) {
     echo_debug('jrn_search.php',__LINE__,"$key = $element");
     ${"$key"}=$element;
   }
-
-  if ( strlen(trim($p_comment)) != 0 ) {
+  $c_comment="";
+  if ( isset ($p_comment) && strlen(trim($p_comment)) != 0 ) {
     $c_comment=" $part upper(jr_comment) like upper('%$p_comment%')";
     $part=" and ";
   }
-  if ( strlen($p_montant) != 0 && (ereg ("^[0-9]*\.[0-9]*$",$p_montant) ||
+  $c_montant="";
+  if ( isset ($p_montant) && strlen($p_montant) != 0 && (ereg ("^[0-9]*\.[0-9]*$",$p_montant) ||
 				   ereg ("^[0-9]*$",$p_montant)) )
       { 
     $c_montant=sprintf(" $part jr_montant %s %s",$p_montant_sel,$p_montant);
     $opt_montant.='<OPTION VALUE="'.$p_montant_sel.'" SELECTED>'.$p_montant_sel;
     $part="  and ";
     }
-  if ( strlen(trim($p_date)) != 0 ) {
+  if ( isset ($p_date) && strlen(trim($p_date)) != 0 ) {
       $c_date=sprintf(" $part j_date %s to_date('%s','DD.MM.YYYY')",$p_date_sel,$p_date);
       $part=" and ";
       $opt_date.='<OPTION VALUE="'.$p_date_sel.'" SELECTED>'.$p_date_sel;
   }
-  if ( strlen(trim($p_internal)) != 0 ) {
+  $c_internal="";
+  if ( isset($p_internal) &&  strlen(trim($p_internal)) != 0 ) {
     $c_internal=$part." jr_internal like  ('%".$p_internal."%')";
     $part=" and ";
 

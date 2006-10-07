@@ -103,7 +103,7 @@ attr_value using (jft_id) where av_text='".$this->company."' and ad_id=".ATTR_DE
 	  }// if
 	}//foreach
       }// if
-
+$back_url=urlencode($_SERVER['REQUEST_URI']);
       if ( sizeof ($step_contact ) == 0 )
 	return $r;
       echo JS_SEARCH_CARD;
@@ -129,7 +129,8 @@ attr_value using (jft_id) where av_text='".$this->company."' and ad_id=".ATTR_DE
 	$r.="<TD>".$contact->strAttribut(ATTR_DEF_TEL)."</TD>";
 	$r.="<TD>".$contact->strAttribut(ATTR_DEF_EMAIL)."</TD>".
             "<TD> ".$contact->strAttribut(ATTR_DEF_FAX)."</TD>".
-            "<TD> ".$l_company_name. "</TD>";
+            "<TD> ".$l_company_name. "</TD>".
+            '<TD> <A href="?p_action=suivi_courrier&qcode_query='.$contact->strAttribut(ATTR_DEF_QUICKCODE).'&url='.$back_url.'">Courrier</A></TD>';
 
 	$r.="</TR>";
 

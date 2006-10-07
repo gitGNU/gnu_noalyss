@@ -1,4 +1,3 @@
-<?
 /*
  *   This file is part of PhpCompta.
  *
@@ -16,17 +15,22 @@
  *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+/* $Revision$ */
+
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-/*! \file
- * \brief Logout
+
+/*! \file 
+ * \brief
+ * open a windows for modifying a operation
  */
-require_once ("ac_common.php");
-require_once ("postgres.php");
 
-html_page_start("classic");
-
-session_unset();
-echo '<META HTTP-EQUIV="REFRESH" content="0;url=index.html">';
-
-html_page_stop();
-?>
+function modifyOperation(p_value,p_sessid,p_jrn)
+		{
+			var win=window.open('modify_op.php?action=update&p_jrn='+p_jrn+'&line='+p_value+'&PHPSESSID='+p_sessid,'Modifie','toolbar=no,width=500,height=400,scrollbars=yes,resizable=yes');
+		}
+function RefreshMe() {
+window.location.reload();
+}
+	function dropLink(p_value,p_value2,p_sessid) {
+	var win=window.open('modify_op.php?action=delete&line='+p_value+'&line2='+p_value2+'&PHPSESSID='+p_sessid,'Liaison','toolbar=no,width=500,height=400,scrollbars=yes,resizable=yes');
+		}

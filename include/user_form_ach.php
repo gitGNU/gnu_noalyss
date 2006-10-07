@@ -34,6 +34,18 @@ require_once("class_parm_code.php");
  *        
  *  
  *\param $p_array which can be empty (normally = $_POST)
+ *        containing :
+ *        <ul>
+ *        <li> e_client (quickcode),
+ *        <li> e_marchX quickcode,
+ *        <li> e_march_sellX,
+ *        <li> e_march0_tva_id,
+ *        <li> e_quant0,nb_item,
+ *        <li> jrn_type,
+ *        <li> e_date,
+ *        <li> e_ech,
+ *        <li> e_comm
+ *        </ul>
  *\param $p_jrn the ledger
  *\param $p_periode = periode
  *\param $pview_only if we cannot change it (no right or centralized op)
@@ -62,7 +74,6 @@ echo_debug('user_form_ach.php',__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_peri
     $r.=JS_SHOW_TVA;    
     $r.=JS_TVA;
     // Compute href
-    //    $href=basename($_SERVER['PHP_SELF']);
     $href=basename($_SERVER['PHP_SELF']);
     switch ($href)
       {
@@ -154,6 +165,7 @@ echo_debug('user_form_ach.php',__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_peri
   $r.="<th>Dénomination</th>";
   $r.="<th>prix</th>";
   $r.="<th>tva</th>";
+  $r.="<th>Montant TVA</th>";
   $r.="<th>quantité</th>";
   $r.='</TR>';
   // For each article
@@ -166,13 +178,13 @@ echo_debug('user_form_ach.php',__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_peri
     $march=(isset(${"e_march$i"}))?${"e_march$i"}:"";
     $march_sell=(isset(${"e_march".$i."_sell"}))?${"e_march".$i."_sell"}:"";
     $march_tva_id=(isset(${"e_march$i"."_tva_id"}))?${"e_march$i"."_tva_id"}:"";
-
+    $march_tva_amount=(isset(${"e_march$i"."_tva_amount"}))?${"e_march$i"."_tva_amount"}:"0";
     $march_tva_label="";
     $march_label="";
 
     // If $march has a value
-    if ( isFicheOfJrn($p_cn,$p_jrn,$march,'deb') == 0 ) {
-	$msg="Fiche inexistante !!! ";
+    if ( strlen(trim($march)) != 0 &&  isFicheOfJrn($p_cn,$p_jrn,$march,'deb') == 0 ) {
+	$msg="user_form_achat@".__LINE__."Fiche inexistante !!! ";
 	echo_error($msg); echo_error($msg);	
 	$march="";
     } else {
@@ -205,6 +217,7 @@ echo_debug('user_form_ach.php',__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_peri
     $Price=new widget("text");
     $Price->SetReadOnly($pview_only);
     $Price->table=1;
+    $Price->size=9;
     $r.=$Price->IOValue("e_march".$i."_sell",$march_sell);
     // vat label
     $select_tva=make_array($p_cn,"select tva_id,tva_label from tva_rate order by tva_id",1);
@@ -212,12 +225,19 @@ echo_debug('user_form_ach.php',__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_peri
     $Tva->table=1;
     $Tva->selected=$march_tva_id;
     $r.=$Tva->IOValue("e_march$i"."_tva_id",$select_tva);
+   // tva_amount
+    $Tva_amount=new widget("text");
+    $Tva_amount->SetReadOnly($pview_only);
+    $Tva_amount->table=1;
+    $Tva_amount->size=9;
+    $r.=$Tva_amount->IOValue("e_march".$i."_tva_amount",$march_tva_amount);
 
     // quantity
     $quant=(isset(${"e_quant$i"}))?${"e_quant$i"}:"1";
     $Quantity=new widget("text");
     $Quantity->SetReadOnly($pview_only);
     $Quantity->table=1;
+    $Quantity->size=9;
     $r.=$Quantity->IOValue("e_quant".$i,$quant);
     $r.='</TR>';
   }
@@ -295,6 +315,13 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
 	
 	}
       }
+    // if tva_amount is not a number than reset to 0
+    if ( strlen(trim(${"e_march".$o."_tva_amount"})) !=0 &&
+	 isNumber (${"e_march".$o."_tva_amount"}) == 0)
+      {
+	${"e_march".$o."_tva_amount"}=0;
+      }
+    // if amount is not empty and is not a number
     if ( strlen(trim(${"e_march".$o."_sell"})) !=0 && isNumber(${"e_march".$o."_sell"}) == 0 )
       {
 	  echo_debug('user_form_ach.php',__LINE__,"Prix invalide ".${"e_march$o"});
@@ -355,7 +382,7 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
     // Check 
     if ( isFicheOfJrn($p_cn,$p_jrn,${"e_march$i"},'deb') == 0 ) {
       $msg="Fiche inexistante !!! ";
-      echo_error($msg); echo_error($msg);	
+      echo_error(__FILE__.__LINE__.$msg); 
       echo "<SCRIPT>alert('$msg');</SCRIPT>";
       return null;
     }
@@ -509,8 +536,9 @@ function FormAchView ($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$p_number,$p_pi
       } else {
 	$fiche_price=${"e_march$i"."_sell"};
       }
-      
-    
+      // get TVA Amount
+      $tva_amount=${"e_march".$i."_tva_amount"};
+
       // VAT 
       $vat=(isNumber(${"e_march$i"."_tva_id"})==0 || ${"e_march$i"."_tva_id"}==-1 )?getFicheAttribut($p_cn,${"e_march$i"},ATTR_DEF_TVA):${"e_march$i"."_tva_id"};
       
@@ -533,11 +561,21 @@ function FormAchView ($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$p_number,$p_pi
       // Sum of invoice
       $sum_march+=$fiche_sum;
       // vat of the card
-      $fiche_amount_vat=$fiche_price*$fiche_quant*$vat_rate;
-      // value card + vat
-      $fiche_with_vat=$fiche_price*$fiche_quant*(1+$vat_rate);
+      if ( $tva_amount == 0) 
+	{
+	  $fiche_amount_vat=$fiche_price*$fiche_quant*$vat_rate;
+	  // value card + vat
+	  $fiche_with_vat=$fiche_price*$fiche_quant*(1+$vat_rate);
+	}
+      else
+	{
+	  $fiche_amount_vat=$tva_amount;
+	  // value card + vat
+	  $fiche_with_vat=$fiche_price*$fiche_quant+$tva_amount;
+	}
       // Sum of invoice vat 
       $sum_with_vat+=$fiche_with_vat;
+
       // Show the data
       $r.='<TR>';
       $r.='<TD>'.$fiche_name.'</TD>';
@@ -577,7 +615,6 @@ function FormAchView ($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$p_number,$p_pi
       exit (-1);
     }
 
-  //  $r.='<FORM METHOD="POST" enctype="multipart/form-data" ACTION="user_jrn.php?action=new&p_jrn='.$p_jrn.'">';
   $r.='<FORM METHOD="POST" enctype="multipart/form-data" ACTION="'.$href.'">';
   // check for upload piece
   // Set correctly the REQUEST param for jrn_type 
@@ -652,6 +689,8 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
     $a_quant[$i]=${"e_quant$i"};
     $a_price[$i]=0;
     $a_vat_good[$i]=${"e_march$i"."_tva_id"};
+    $a_vat_amount[$i]=${"e_march".$i."_tva_amount"};
+
     // check wether the price is set or no
     if ( isNumber(${"e_march$i"."_sell"}) == 0 ) {
       if ( $a_good[$i] !="" ) {
@@ -672,7 +711,7 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 
   // Compute vat with ded
   echo_debug('user_form_achat.php',__LINE__,"Call ComputeTotalVat");
-  $a_vat=ComputeTotalVat($p_cn,$a_good,$a_quant,$a_price,$a_vat_good,false);
+  $a_vat=ComputeTotalVat($p_cn,$a_good,$a_quant,$a_price,$a_vat_good,$a_vat_amount,false);
 
   StartSql($p_cn);	
 
@@ -710,7 +749,7 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
     if ( $non_dedu != null && strlen(trim($non_dedu)) != 0)
       {
 	$lvat=ComputeVat($p_cn,	$a_good[$i],$a_quant[$i],$a_price[$i],
-			    $a_vat_good[$i] );
+			    $a_vat_good[$i],$a_vat_amount[$i] );
 	$ded_vat=($lvat != null )?$lvat*$non_dedu:0;
 	$ded_vat=round($ded_vat,2);
 	$sum_tva_nd+=$ded_vat;
@@ -730,7 +769,7 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
     if ( $non_dedu != null && strlen(trim($non_dedu)) != 0 )
 	{
 	  $lvat=ComputeVat($p_cn,	$a_good[$i],$a_quant[$i],$a_price[$i],
-			   $a_vat_good[$i] );
+			   $a_vat_good[$i],$a_vat_amount[$i] );
 	  $ded_vat=($lvat != null )?$lvat*$non_dedu:0;
 	  
 	  $sum_tva_nd+=round($ded_vat,2);
@@ -762,19 +801,17 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
   // Insert Vat
   $sum_tva=0.0;
   if ( $a_vat  !=  null  ) // no vat
-
     {
-
       echo_debug('user_form_ach',__LINE__,'a_vat = '.var_export($a_vat,true));
-      foreach ($a_vat as $tva_id => $tva_amount ) 
+      foreach ($a_vat as $tva_id => $e_tva_amount ) 
 	{
-	  echo_debug('user_form_ach',__LINE__," tva_amount = $tva_amount tva_id=$tva_id");
+	  echo_debug('user_form_ach',__LINE__," tva_amount = $e_tva_amount tva_id=$tva_id");
 	  $poste=GetTvaPoste($p_cn,$tva_id,'d');
-	  if ($tva_amount == 0 ) continue;
-	  echo_debug('user_form_ach',__LINE__,"InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste,$e_date,round($tva_amount,2),$seq,$periode);");
-	  $r=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste,$e_date,round($tva_amount,2),$seq,$periode);
+	  if ($e_tva_amount == 0 ) continue;
+	  echo_debug('user_form_ach',__LINE__,"InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste,$e_date,round($e_tva_amount,2),$seq,$periode);");
+	  $r=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste,$e_date,round($e_tva_amount,2),$seq,$periode);
 	  if ( $r == false ) { Rollback($p_cn); exit(" Error 'user_form_ach.php' __LINE__");}
-	  $sum_tva+=round($tva_amount,2);
+	  $sum_tva+=round($e_tva_amount,2);
 	}
     }
   echo_debug('user_form_ach.php',__LINE__,"echeance = $e_ech");

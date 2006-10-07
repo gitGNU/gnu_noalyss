@@ -26,6 +26,7 @@
 include_once("debug.php");
 include_once("constant.php");
 require_once('preference.php');
+require_once ("postgres.php");
 /*! 
  * \brief  log error into the /tmp/phpcompta_error.log it doesn't work on windows
  *
@@ -139,7 +140,7 @@ function formatDate($p_date) {
  */
 function html_page_start($p_theme="",$p_script="",$p_script2="")
 {	
-  include_once ("postgres.php");
+
  ini_set('magic_quotes_gpc','Off');
 
  $cn=DbConnect();
@@ -419,6 +420,14 @@ function sql_filter_per($p_cn,$p_from,$p_to,$p_form='p_id',$p_field='jr_tech_per
   
   return $periode;
 }
-
+/* !\brief return the label of the tva_id
+ * \param $p_cn database connx
+ * \param $p_tva_id tva_id
+ */
+function tva_get_label($p_cn,$p_tva_id)
+{
+  $a=getDbValue($p_cn,"select tva_label from tva_rate where tva_id='".$p_tva_id."'");
+  return $a;
+}
 
 ?>

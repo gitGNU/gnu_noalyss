@@ -19,124 +19,12 @@
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 include_once("class_attribut.php");
+require_once('class_fiche_def.php');
+require_once('class_widget.php');
 /*! \file
- * \brief define Class fiche and fiche def, those class are using
+ * \brief define Class fiche, this class are using
  *        class attribut
  */
-/*!
- * \brief define Class fiche and fiche def, those class are using
- *        class attribut
- */
-class fiche_def {
-  var $cn;           // database connection
-  var $id;			// id (fiche_def.fd_id
-  var $label;			// fiche_def.fd_label
-  var $class_base;		// fiche_def.fd_class_base
-  var $fiche_def;		// fiche_def.frd_id = fiche_def_ref.frd_id
-  var $create_account;		// fd_create_account: flag
-  var $all;
-  var $attribut;		// get from attr_xxx tables
-  function fiche_def($p_cn,$p_id = 0) {
-    $this->cn=$p_cn;
-    $this->id=$p_id;
-  }
-
-/*!
- **************************************************
- *  \brief  Get attribut of a fiche_def
- *        
- * \return string value of the attribute
- * none
- */
-  function GetAttribut() {
-    $sql="select * from jnt_fic_attr ".
-      " natural join attr_def where fd_id=".$this->id.
-      " order by ad_id";
-
-    $Ret=ExecSql($this->cn,$sql);
-
-    if ( ($Max=pg_NumRows($Ret)) == 0 )
-      return ;
-    for ($i=0;$i < $Max;$i++) {
-      $row=pg_fetch_array($Ret,$i);
-      $t = new Attribut($row['ad_id']);
-      $t->ad_text=$row['ad_text'];
-      $this->attribut[$i]=$t;
-    }
-    return $this->attribut;
-  }
-
- /*!
- **************************************************
- * \brief  Get attribut of the fiche_def
- *        
- */
-  function Get() {
-    if ( $this->id == 0 ) 
-      return 0;
-    $sql="select * from fiche_def ".
-      " where fd_id=".$this->id;
-    $Ret=ExecSql($this->cn,$sql);
-    if ( ($Max=pg_NumRows($Ret)) == 0 )
-      return ;
-    $row=pg_fetch_array($Ret,0);
-    $this->label=$row['fd_label'];
-    $this->class_base=$row['fd_class_base'];
-    $this->fiche_def=$row['frd_id'];
-    $this->create_account=$row['fd_create_account'];
-  }
-/*!   
- **************************************************
- * \brief  Get all the fiche_def
- *        
- * \return an array of fiche_def object 
- */
- function GetAll() {
-   $sql="select * from fiche_def ";
-
-    $Ret=ExecSql($this->cn,$sql);
-    if ( ($Max=pg_NumRows($Ret)) == 0 )
-      return ;
-
-    for ( $i = 0; $i < $Max;$i++) {
-      $row=pg_fetch_array($Ret,$i);
-      $this->all[$i]=new fiche_def($this->cn,$row['fd_id']);
-      $this->all[$i]->label=$row['fd_label'];
-      $this->all[$i]->class_base=$row['fd_class_base'];
-      $this->all[$i]->fiche_def=$row['frd_id'];
-      $this->all[$i]->create_account=$row['fd_create_account'];
-    }
-  }
-/*!   
- **************************************************
- * \brief  Check in vw_fiche_def if a fiche has 
- *           a attribut X
- *        
- *  
- * \param  $p_attr attribut to check
- * \return  true or false
- */
- function HasAttribute($p_attr) {
-   return (CountSql($this->cn,"select * from vw_fiche_def where ad_id=$p_attr and fd_id=".$this->id)>0)?true:false;
-
- }
-/*!   
- **************************************************
- * \brief  Display a fiche_def object into a table
- *        
- * \return HTML row 
- */
- function Display() 
-   {
-
-     $r=sprintf("<TD>%s</TD>",$this->id);
-     $r.=sprintf("<TD>%s</TD>",$this->label);
-     $r.=sprintf("<TD>%s</TD>",$this->class_base);
-     $r.=sprintf("<TD>%s</TD>",$this->fiche_def);
-     return $r;
-   }
-
-}
 /*!
  * \brief define Class fiche and fiche def, those class are using
  *        class attribut
@@ -251,33 +139,6 @@ class fiche {
   }
 
 
-/*! 
- * \brief Get all the card where the fiche_def.fd_id is given in parameter
- * \param $p_fd_id = fiche_def.fd_id
- *
- * \return double array (f_id,fd_id)
- */
-  function GetByType($p_fd_id) {
-     $sql="select * 
-           from
-               fiche 
-            where fd_id=".$p_fd_id;
-
-
-    $Ret=ExecSql($this->cn,$sql);
-    if ( ($Max=pg_NumRows($Ret)) == 0 )
-      return ;
-    $all[0]=new fiche($this->cn);
-
-    for ($i=0;$i<$Max;$i++) {
-      $row=pg_fetch_array($Ret,$i);
-      $t=new fiche($this->cn,$row['f_id']);
-      $t->getAttribut();
-      $all[$i]=$t;
-
-    }
-    return $all;
-  }
 /*!  
  **************************************************
  * \brief  Return array of card from the frd family
@@ -420,8 +281,9 @@ class fiche {
 	     }
 	  elseif ( $attr->ad_id == ATTR_DEF_TVA) 
 	    {
-	      $r.=JS_TVA;
+	      $r.=JS_SHOW_TVA;
 	      $w=new widget("js_tva");
+
 	    }
 	  elseif ( $attr->ad_id == ATTR_DEF_COMPANY )
 	    {
@@ -653,12 +515,23 @@ class fiche {
            $sql=" select jft_id from jnt_fic_att_value where ad_id=$id and f_id=$this->id";
            $Ret=ExecSql($this->cn,$sql);
            if ( pg_NumRows($Ret) != 1 ) {
-             echo_error ("class_fiche ".__LINE__." INVALID ID !!! ");
-             return;
-           }
-           $tmp=pg_fetch_array($Ret,0);
-           $jft_id=$tmp['jft_id'];
-           
+	     // we need to insert this new attribut
+             echo_debug ("class_fiche ".__LINE__." adding id !!! ");
+	     $jft_id=NextSequence($this->cn,'s_jnt_fic_att_value');
+
+	     $sql2=sprintf("insert into jnt_fic_att_value(jft_id,ad_id,f_id) values (%s,%s,%s)",
+			   $jft_id,$id,$this->id);
+
+	     $ret2=ExecSql($this->cn,$sql2);
+	     // insert a null value for this attribut
+	     $sql3=sprintf("insert into attr_value(jft_id,av_text) values (%s,null)",
+                        $jft_id);
+	     $ret3=ExecSql($this->cn,$sql3);
+           } else 
+	     {
+	       $tmp=pg_fetch_array($Ret,0);
+	       $jft_id=$tmp['jft_id'];
+	     }
            // Special traitement
            // quickcode
            if ( $id == ATTR_DEF_QUICKCODE) 
@@ -739,20 +612,41 @@ class fiche {
      {
        if ( $this->id==0 ) return;
        // verify if that card has not been used is a ledger
-       $sql="select fiche_used(".$this->id.") as result";
-       $Res=ExecSql($this->cn,$sql);
+       // if the card has its own account in PCMN
+       // Get the fiche_def.fd_id from fiche.f_id
+       $this->Get();
+       $fiche_def=new fiche_def($this->cn,$this->fiche_def);
+       $fiche_def->Get();
+
+       if ( $fiche_def->create_account=='t' ) {
+	 // Retrieve the 'poste comptable'
+	 $class=$this->strAttribut(ATTR_DEF_ACCOUNT);
+	 
+	 // if class is not NULL and if we use it before, we can't remove it
+	 if (FormatString($class) != null && 
+	     CountSql($this->cn,"select * from jrnx where j_poste=$class") != 0 ) {
+	   echo "<SCRIPT> alert('Impossible ce poste est utilisé dans un journal'); </SCRIPT>";
+	   return;
+	 } else {
+	   // Remove in PCMN
+	   if ( trim(strlen($class)) != 0 and isNumber($class) == 1)
+	     ExecSql($this->cn,"delete from tmp_pcmn where pcm_val=".$class);
+	 }
+	 
+       }
+       // Remove from attr_value
+       $Res=ExecSql($this->cn,"delete from attr_value 
+                        where jft_id in (select jft_id 
+                                          from jnt_fic_att_value 
+                                                natural join fiche where f_id=".$this->id.")");
+       // Remove from jnt_fic_att_value
+       $Res=ExecSql($this->cn,"delete from jnt_fic_att_value where f_id=".$this->id);
        
-       // fetch the result
-       list($result)=pg_fetch_row($Res,0);
- 
-       if ( $result == 0 ) 
-         {
-           $sql="select fiche_delete (".$this->id.")";
-           $Res=ExecSql($this->cn,$sql);
-           return 0;
-         }
-       return 1;
+       // Remove from fiche
+       $Res=ExecSql($this->cn,"delete from fiche where f_id=".$this->id);
      }
+
+
    /*!\brief return the name of a card
     */
    function getName() 
@@ -781,5 +675,7 @@ class fiche {
      {
        return fiche::GetByDef($this->fiche_def_ref,$p_offset,$p_search);
     }
+   /*!\brief list all the cards from 
+    */
 }
 ?>

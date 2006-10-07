@@ -79,7 +79,7 @@ if ( $action == 'update' ) {
     // p_id is jrn.jr_id
     $p_id=$_GET["line"];
     echo_debug('modify_op.php',__LINE__," action = update p_id = $p_id");
-    echo JS_VIEW_JRN_DETAIL;
+
     echo JS_CONCERNED_OP;
     $r ='<FORM METHOD="POST" enctype="multipart/form-data" ACTION="modify_op.php">';
     $r.=UpdateJrn($cn,$p_id);
@@ -90,7 +90,7 @@ if ( $action == 'update' ) {
     $r.="<br>";
     $r.='<input type="SUBMIT" name="update_record" value="Enregistre">';
     $r.="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-    $r.='<input type="button" value="Fermer" onClick="window.close();">';
+    $r.='<input type="button" value="Fermer" onClick="window.close();  self.opener.RefreshMe();">';
     $r.='</FORM>';
 
 //    echo '<div class="redcontent">';

@@ -20,6 +20,9 @@
 include_once ("ac_common.php");
 include_once ("postgres.php");
 include_once ("check_priv.php");
+require_once("class_fiche.php");
+require_once("class_fiche_def.php");
+
 /*! \file
  * \brief Create a new card in a popup window
  */
@@ -58,59 +61,30 @@ foreach ($HTTP_GET_VARS as $key=>$element) {
 }
 
 function new_fiche($p_cn,$p_type) {
-  $ch_col="</TD><TD>";
-  $ch_li='</TR><TR>';
+  $fiche=new fiche($p_cn);
   $r='<FORM action="fiche_new.php" method="post">';
   $r.='<INPUT TYPE="HIDDEN" name="fiche" value="'.$p_type.'">';
   $l_sessid=(isset ($_POST["PHPSESSID"]))?$_POST["PHPSESSID"]:$_GET["PHPSESSID"];
 
-  $r.=JS_SHOW_TVA;
-  $r.=JS_SEARCH_POSTE;
-  $r.="<TABLE>";
-  echo '<H2 class="info">New </H2>';
-  $p_f_id="";
-  echo_debug('fiche_new.php',__LINE__,"Array is null");
-  // Find all the attribute of the existing cards
-  // --> Get_attr_def 
-    $sql="select frd_id,ad_id,ad_text from  fiche_def join jnt_fic_attr using (fd_id)
-           join attr_def using (ad_id) where fd_id=".$p_type." order by ad_id";
+  $fiche_def=new fiche_def($p_cn,$p_type);
+  $fiche_def->Get();
 
-    $Res=ExecSql($p_cn,$sql);
-    $Max=pg_NumRows($Res);
-    // Put the card modele id (fiche_def.fd_id)
-    $r.='<INPUT TYPE="HIDDEN" name="fd_id" value="'.$p_type.'">';
-    for ($i=0;$i < $Max;$i++) {
-      $l_line=pg_fetch_array($Res,$i);
-
-      // The number of the attribute
-      $Hid=sprintf('<INPUT TYPE="HIDDEN" name="ad_id%d" value="%s">',
-		   $i,$l_line['ad_id']);
-
-      $but_search_poste="";
-      // Javascript for searching the account
-      if ( $l_line ['ad_id'] == ATTR_DEF_ACCOUNT ) {
-	$but_search_poste='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$l_sessid.'\',\'av_text'.$i.'\')">';
-      } 
-      // Javascript for showing the tva
-      if ( $l_line ['ad_id'] == ATTR_DEF_TVA ) {
-	$but_search_poste='<INPUT TYPE="BUTTON" VALUE="Montre" OnClick="ShowTva(\''.$l_sessid.'\',\'av_text'.$i.'\')">';
-      }
-      // content of the attribute
-      $r.= sprintf('<TR><TD> %s </TD><TD><INPUT  style="border:solid 1px blue;"  TYPE="TEXT" NAME="av_text%d">%s %s</TD></TR>',
-	      $l_line['ad_text'], $i,$Hid,$but_search_poste);
-   }  
-    $r.="</TABLE>";
+  $r.= '<H2 class="info"> '.$fiche_def->label.'<br>Nouveau </H2>';
+  $r.= $fiche->blank($p_type);
     $r.='<INPUT TYPE="SUBMIT" name="add_fiche" value="Mis à jour">';
-    $r.= '<INPUT TYPE="HIDDEN" name="inc" value="'.$Max.'">';
+
     $r.='</FORM>';
     return $r;
 }
+
 if ( isset($_POST['add_fiche'])) {
-  AddFiche($cn,$_POST["fiche"],$HTTP_POST_VARS);
+  $fiche=new fiche($cn);
+  $fiche->Save($_POST['fiche']);
+
 ?>
 <SCRIPT>
 
-  window.close();
+    window.close();
 </SCRIPT>
 <?
     return;
@@ -187,8 +161,11 @@ if ( sizeof($a)>1 and !isset ($_POST['cat']))
     echo "Choix catégories fiche";
     echo '<FORM METHOD="POST" ACTION="'.$_SERVER['REQUEST_URI'].'">';
     foreach ($a as $element) {
+      $fiche_def=new fiche_def($cn,$element);
+      $fiche_def->Get();
+      $name=$fiche_def->label;
       printf('<INPUT TYPE="RADIO" NAME="cat" value="%s">%s<br>',
-	     $element,GetFicheDefName($cn,$element));
+	     $element,$name);
     
   }
     echo '<INPUT TYPE="SUBMIT" value="Choisir">';

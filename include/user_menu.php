@@ -537,13 +537,16 @@ function ShowMenuFiche($p_dossier)
      $Max=pg_NumRows($Res);
      for ( $i=0; $i < $Max;$i++) {
        $l_line=pg_fetch_array($Res,$i);
-       printf('<TR><TD class="cell">%s</TD><TD class="mshort"><A class="mtitle" HREF="fiche.php?action=vue&fiche=%d">Voir</A>
+       printf('<TR><TD class="cell">
+             <A class="mtitle" HREF="fiche.php?action=modifier&fiche=%d">%s</A></TD>
+               <TD class="mshort">
+               <A class="mtitle" HREF="fiche.php?action=vue&fiche=%d">Liste</A>
                </TD>
-               <TD class="mshort"><A class="mtitle" HREF="fiche.php?action=modifier&fiche=%d">Modifier</A></TD>
                </TR>',
-            $l_line['fd_label'],
             $l_line['fd_id'],
-            $l_line['fd_id']);
+            $l_line['fd_label'],
+            $l_line['fd_id']
+            );
      }
      echo "</TABLE>";
      echo '</div>';

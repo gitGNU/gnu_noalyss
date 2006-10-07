@@ -148,7 +148,12 @@ if ( $Res != null ) {
 	else
 	$cl='class="even"';
 
-    echo "<TR $cl><TD VALIGN=\"TOP\"> <B>$Dossier[dos_name]</B> </TD><TD><I>  $Dossier[dos_description]</I></TD></TR>";
+    echo "<TR $cl><TD VALIGN=\"TOP\"> 
+<B>$Dossier[dos_name]</B> </TD>
+<TD><I>  ".$Dossier['dos_description']."</I>
+</TD>
+</TR>";
+
     $compteur++;
     
   }
@@ -195,8 +200,13 @@ if ( $count == 0 ) {
 
   } // action = dossier_mgt
   if ( $_GET["action"] == "modele_mgt" ) {
-    $cn=DbConnect();
 
+    $cn=DbConnect();
+    if ( isset($_GET['rm']) && isset($_GET['mod_id'])) {
+      
+      /*! \todo add confirmation and remove the template
+       */
+    }
     // IF FMOD_NAME is posted then must add a template
     if ( isset ($_POST["FMOD_NAME"]) ) {
       $mod_name=FormatString($_POST["FMOD_NAME"]);
@@ -252,6 +262,7 @@ if ( $count == 0 ) {
       echo '<table width="100%" border="1">';
       echo "<TR><TH>Nom</TH>".
 	"<TH>Description</TH>".
+	"<th></th>".
 	"</TR>";
 
       for ($i=0;$i<$count;$i++) {
@@ -259,6 +270,11 @@ if ( $count == 0 ) {
 	printf('<TR>'.
                '<TD><b> %s</b> </TD>'.
 	       '<TD><I> %s </I></TD>'.
+	       '<td> '.
+	       '<a class="one" href="?action=modele_mgt&rm&mod_id='.$mod['mod_id'].
+	       '" <input type="button" name="Effacer" Value="Effacer">'.
+	       '</A></td>'.
+
 	       '</TR>',
 	       $mod['mod_name'],
 	       $mod['mod_desc']);
@@ -304,6 +320,7 @@ if ( $count == 0 ) {
 </TR>
 </TABLE>
 </form>
+
 <?
 
   }// action = modele_mgt

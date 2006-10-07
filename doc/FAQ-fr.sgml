@@ -143,7 +143,8 @@ Si cela ne marche pas ce n'est pas bon
 <sect> Comment faire de la doc
 <p>
 Sous Mandriva (anciennement mandrake), ajouter les linuxdocs-tools avec la commande
-urpmi linuxdoc-tools, pour les autres, je ne sais pas :(
+urpmi linuxdoc-tools, pour Ubuntu apt-get install linuxdoc-tools, tetex, tetex-extra
+les autres, je ne sais pas :(
 </p>
 <p>
 Une fois, les linuxdoc tools installés il peut être nécessaire

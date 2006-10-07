@@ -64,5 +64,10 @@ if ( ereg("\.\.\/include",ini_get('include_path')) == false )
    print 'include_path : ok ('.ini_get('include_path').')<br>';
 
 echo "<h2 class=\"info\"> Congratulation : Test successfull</h2>";
-
 ?>
+<script type="text/javascript" language="javascript"  src="js/jrn_concerned.js">
+alert("Include me");
+SearchJrn('a','b');
+</script>
+
+

@@ -1,4 +1,3 @@
-<?
 /*
  *   This file is part of PhpCompta.
  *
@@ -16,17 +15,22 @@
  *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+/* $Revision$ */
+
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-/*! \file
- * \brief Logout
+
+/*! \file 
+ * \brief Open a window to update the pcmn 
+ *
  */
-require_once ("ac_common.php");
-require_once ("postgres.php");
 
-html_page_start("classic");
+function PcmnUpdate(p_value,p_lib,p_parent,p_sessid)
+	{
+	var win=window.open('line_update.php?l='+p_value+'&n='+p_lib+'&p='+p_parent+'&PHPSESSID='+p_sessid,'Modifie','toolbar=no,width=500,height=400,scrollbars=yes,resizable=yes');
+	}
 
-session_unset();
-echo '<META HTTP-EQUIV="REFRESH" content="0;url=index.html">';
-
-html_page_stop();
-?>
+function RefreshMe() {
+	window.location.reload();
+}
+	
+	
