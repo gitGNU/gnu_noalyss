@@ -28,6 +28,7 @@ require_once("check_priv.php");
  *
  */
 
+$msg_tva='<i>Si le montant de TVA est &eacute;gal &agrave; 0, il sera automatiquement calcul&eacute;</i>';
 
 // First we show the menu
 // If nothing is asked the propose a blank form
@@ -205,6 +206,7 @@ if ( isset ($_POST['add_item']) || isset ($_POST["correct"])  )
   $form=FormAchInput($cn,$p_jrn,$User->GetPeriode(),$_POST,$submit,false,$nb_item);
   echo '<div class="u_redcontent">';
   echo $form;
+  echo $msg_tva;
   echo JS_CALC_LINE;
 
   echo '</div>';
@@ -285,6 +287,8 @@ if ( $p_jrn != -1 )
   $form=FormAchInput($cn,$p_jrn,$User->GetPeriode(),null,$submit,false,$jrn->getDefLine());
   echo '<div class="u_redcontent">';
   echo $form;
+  echo $msg_tva;
+
   echo JS_CALC_LINE;
   echo '</div>';
 
