@@ -245,11 +245,59 @@ if ( $sub_action=='detail' )
   echo $upload->Submit("save","Sauve");
   echo $upload->Submit("add_action_here","Ajoute une action à celle-ci");
   echo '</form>';
+  echo '<form action="commercial.php"  method="post"   >';
+
+  echo $upload->Submit("delete","Efface cette action");
+  echo '<input type="hidden" name="p_action" value="suivi_courrier">';
+  echo '<input type="hidden" name="sa" value="delete">';
+  echo '<input type="hidden" name="ag_id" value="'.$act->ag_id.'">';
+  echo '</form>';
 
   echo $retour;
 
   echo '</div>';
 }
+//-------------------------------------------------------------------------------
+// Delete an action
+if ( $sub_action == 'delete' ) 
+{
+  // first the confirmation
+  if ( ! isset ($_POST['confirm_delete'])) 
+    {
+      echo '<div class="u_redcontent">';
+      echo '<A class="mtitle" HREF="commercial.php?p_action=suivi_courrier"><input type="button" value="Retour"></A>';
+      $act=new action($cn);
+      $act->ag_id=$_REQUEST['ag_id'];
+      echo $act->get();
+      $act->ag_comment=Decode($act->ag_comment);
+
+      echo JS_SEARCH_CARD;
+      echo $act->display('READ',false);
+      // display the form
+      echo '<form action="commercial.php?p_action=suivi_courrier" method="post" >';
+      echo '<input type="hidden" name="p_action" value="suivi_courrier">';
+      echo '<input type="hidden" name="sa" value="delete">';
+      echo '<input type="hidden" name="ag_id" value="'.$act->ag_id.'">';
+      $upload=new widget("text");
+      echo $upload->Submit("confirm_delete","Confirmer l'effacement");
+      
+      echo '</form>';
+      
+
+      
+      echo '</div>';
+      
+    }
+  else 
+    {
+      // confirmed 
+      $act=new action($cn);
+      $act->ag_id=$_REQUEST['ag_id'];
+      $act->remove();      
+      $sub_action="list";
+    }
+}
+
 //--------------------------------------------------------------------------------
 // Show a list of the action
 if ( $sub_action == "list" )
@@ -372,3 +420,4 @@ if  ( $sub_action == "save_action_st3" )
 //---------------------------------------------------------------------
 
 echo "</div>";
+?>

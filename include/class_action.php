@@ -59,6 +59,7 @@ class action
   * \enum $f_id_dest fiche id (From field )
   * \enum $f_id_exp fiche id (to field)
   * \enum $ag_ref_ag_id concern previous action
+  * \enum $ag_id pk of the table action_gestion
 
   * \todo replace attribut from class document  document by an object document 
   */
@@ -174,9 +175,12 @@ class action
 	  $state->selected=$this->d_state;
 	  $str_state=$state->IOValue();
 	} else {
-	  $str_state=getDbValue($this->db,"select s_value from document_state where s_id=".$this->d_state);
-	  $g=new widget("hidden");
-	  $str_state.=$g->IOValue('d_state',$this->d_state);
+	  $str_state="";
+	  if ( strlen($this->d_state) != 0 )
+	    {	  $str_state=getDbValue($this->db,"select s_value from document_state where s_id=".$this->d_state);
+	    $g=new widget("hidden");
+	    $str_state.=$g->IOValue('d_state',$this->d_state);
+	    }
 	}
       // Retrieve the value if there is an attached doc
       $doc_ref="";
@@ -190,10 +194,14 @@ class action
 	{
 	  $h2->readonly=($p_view=='NEW')?false:true;
 	  $doc=new Document($this->db,$this->d_id);
-	  $d_id=new widget("hidden");
-	  $doc_ref="<p> Document ".$doc->a_ref().'</p>';
-	  $doc_ref.=$h2->IOValue().$d_id->IOValue('d_id',$this->d_id);
-	  
+	  $doc->get();
+	  if ( strlen(trim($doc->d_lob)) != 0 )
+	    {
+	      $d_id=new widget("hidden");
+	      $doc_ref="<p> Document ".$doc->a_ref().'</p>';
+	      $doc_ref.=$h2->IOValue().$d_id->IOValue('d_id',$this->d_id);
+	    }
+	      
 	}
 
 
@@ -643,6 +651,7 @@ class action
  */
   function myList($p_filter="",$p_search="")
     {
+      /*!\todo idea to add a sort */
       // for the sort
       $sort="";
       if ( isset($_GET['s'])){
@@ -794,8 +803,13 @@ class action
 	  $r.="<td>".$row['dt_value']."</td>";
 	  $r.="<td>".$row['ag_ref']."</td>";
 	  $r.="<td>".$ref."</td>";
-	  $doc=new Document($this->db,$row['d_id']);
-	  $r.="<td>".$doc->a_ref()."</td>";
+	  if ( $row['d_id'] != '')
+	    {
+	      $doc=new Document($this->db,$row['d_id']);
+	      $doc->get();
+	      if ( strlen(trim($doc->d_lob)) != 0 )
+		$r.="<td>".$doc->a_ref()."</td>";
+	    }
 	  $r.="</tr>";
 
 	}
@@ -909,5 +923,30 @@ class action
 	}
       return true;
     }
+  /*!\brief remove the action 
+   *
+   */
+  function remove()
+    {
+      $this->get();
+      // remove the key
+      $sql=sprintf("delete from action_gestion where ag_id=%d",$this->ag_id);
+      ExecSql($this->db,$sql);
 
+      // remove the ref
+       $sql=sprintf("update action_gestion set ag_ref_ag_id=0 where ag_ref_ag_id=%d",
+ 		   $this->ag_id);
+       ExecSql($this->db,$sql);
+
+      // if there is a document
+      if ( $this->dt_id != 0 )
+	{
+	  $doc=new Document($this->db,$this->dt_id);
+	  $doc->get();
+	  $doc->remove();
+	  if ( strlen(trim($doc->d_lob))!=0 ) 
+	    pg_lo_unlink($this->db,$doc->dt_lob);
+	}
+
+    } 
 }

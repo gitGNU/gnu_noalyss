@@ -400,7 +400,7 @@ class Document
   function get()
     {
       $sql="select * from document where d_id=".$this->d_id;
-      $ret=Exec($this->db,$sql);
+      $ret=ExecSql($this->db,$sql);
       if ( pg_num_rows($ret) == 0 )
 	return;
       $row=pg_fetch_array($ret,0);
@@ -408,7 +408,6 @@ class Document
       $this->d_mimetype=$row['d_mimetype'];
       $this->d_filename=$row['d_filename'];
       $this->d_lob=$row['d_lob'];
-      $this->d_number=$row[''];
       $this->d_state=$row['ag_id'];
       $this->d_number=$row['d_number'];
 
