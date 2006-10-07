@@ -26,20 +26,22 @@ require_once("user_common.php");
 /*!\file 
  * \brief class_action for manipulating actions
  * action can be :
- * - an invoice
- * - a meeting
- * - an order
- * - a letter
- *
+ * <ul>
+ * <li>an invoice
+ * <li>a meeting
+ * <li>an order
+ * <li>a letter
+ *</ul>
  * The table document_type are the possible actions
  */
 /*!
  * \brief class_action for manipulating actions
  * action can be :
- * - a meeting
- * - an order
- * - a letter
- *
+ * <ul>
+ * <li> a meeting
+ * <li>an order
+ * <li>a letter
+ * </ul>
  * The table document_type are the possible actions
  */
 
@@ -578,6 +580,9 @@ class action
       $r.='<input type="hidden" name="d_id" value="'.$this->d_id.'">'; 
       // ag_comment must be saved in urlcode
       $r.='<input type="hidden" name="ag_comment" value="'.urlencode($this->ag_comment).'">';
+      // add hidden code for qcode_exp, qcode_dest
+      $r.='<input type="hidden" name="qcode_dest" value="'.$this->qcode_dest.'">';
+      $r.='<input type="hidden" name="qcode_exp" value="'.$this->qcode_exp.'">';
       // Value for the generated document
       if ( $this->gen == 'on' ) 
 	{

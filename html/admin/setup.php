@@ -347,15 +347,16 @@ if ($account == 0 ) {
 // Add a french accountancy model
 //--
 $cn=DbConnect();
-$Res=CountSql($cn,"select * from modeledef where mod_id=2");
+
 // ----------------------------------------------------------------------
 // to be remove 
-if ( $Res == 1 )
- {
-  $cn=DbConnect();
-  ExecSql($cn,"drop database ".domaine."mod2;");
-  ExecSql($cn,"delete from modeledef where mod_id=2");
- }
+// $Res=CountSql($cn,"select * from modeledef where mod_id=2");
+// if ( $Res == 1 )
+//  {
+//   $cn=DbConnect();
+//   ExecSql($cn,"drop database ".domaine."mod2;");
+//   ExecSql($cn,"delete from modeledef where mod_id=2");
+//  }
 //----------------------------------------------------------------------
 $Res=CountSql($cn,"select * from modeledef where mod_id=2");
 if ( $Res == 0) {
@@ -483,6 +484,9 @@ if ( DEBUG=='false' ) ob_start();
   if ( GetVersion($db) == 20 ) { 
     ExecuteScript($db,'sql/patch/upgrade20.sql');
   } // version 
+  if ( GetVersion($db) == 21 ) { 
+    ExecuteScript($db,'sql/patch/upgrade21.sql');
+  } // version 
 
 if ( DEBUG == 'false') ob_end_clean();
  }//for
@@ -579,6 +583,9 @@ if (DEBUG == 'false' ) ob_start();
   } // version 
   if ( GetVersion($db) == 20 ) { 
     ExecuteScript($db,'sql/patch/upgrade20.sql');
+  } // version 
+  if ( GetVersion($db) == 21 ) { 
+    ExecuteScript($db,'sql/patch/upgrade21.sql');
   } // version 
 
 if ( DEBUG == 'false') ob_end_clean();

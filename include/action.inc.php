@@ -165,6 +165,8 @@ if ( $sub_action=="update" )
       $act->qcode_dest=$_POST['qcode_dest'];
       $act->ag_title=$_POST['ag_title'];
       $act->d_id=(isset($_POST['d_id']))?$_POST['d_id']:0;
+      $act->ag_ref_ag_id=(isset($_POST['ag_ref_ag_id']))?$_POST['ag_ref_ag_id']:0;
+
       if ( $act->Update() == false ) {
 	$sub_action="detail";
       } 

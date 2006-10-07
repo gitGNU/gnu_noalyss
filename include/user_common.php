@@ -110,7 +110,7 @@ echo_debug('user_common.php',__LINE__,"ComputeTotalVat $a_fiche $a_quant $a_pric
 	if ( $a_vat_amount != null && 
 	     $a_vat_amount[$idx] != 0 )
 	  $vat_amount= $a_vat_amount[$idx] ;
-	
+	echo_debug('user_common',__LINE__,"vat amount = $vat_amount");
 	// only the deductible vat
 	if ( $all == false ) 
 	  {
@@ -124,7 +124,7 @@ echo_debug('user_common.php',__LINE__,"ComputeTotalVat $a_fiche $a_quant $a_pric
 		// if tva amount is given we do not compute it
 		if ( $a_vat_amount != null && 
 		     $a_vat_amount[$idx] != 0 )
-		  $nd_amount=round($a_price[$idx]*$a_quant[$idx]*$nd,2)+$a_vat_amount[$idx];
+		  $nd_amount=round($vat_amount*$nd,2);
 		else
 		  $nd_amount=round($a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx]*$nd,2);
 
@@ -145,7 +145,7 @@ echo_debug('user_common.php',__LINE__,"ComputeTotalVat $a_fiche $a_quant $a_pric
 		// if tva amount is given we do not compute it
 		if ( $a_vat_amount != null && 
 		     $a_vat_amount[$idx] != 0 )
-		  $nd_amount2=round($a_price[$idx]*$a_quant[$idx]*$nd,2)+$a_vat_amount[$idx];
+		  $nd_amount2=round($a_vat_amount[$idx]*$nd,2);
 		else
 		  $nd_amount2=round($a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx]*$nd,2);
 		
@@ -446,7 +446,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0,$p_paid=0)
       {
 	$l_qcode=FormatString($l_qcode);
 	$sql.=$l_and."  jr_grpt_id in ( select j_grpt from 
-             jrnx where j_qcode = '$l_qcode')";
+             jrnx where trim(j_qcode) = upper(trim('$l_qcode')))";
 	$l_and=" and ";
       }
     // if not admin check filter 

@@ -487,7 +487,7 @@ class fiche {
 	  $value2=FormatString($value);
 
 	  $sql=sprintf("select attribut_insert(%d,%d,'%s')",
-		       $fiche_id,$id,$value2);
+		       $fiche_id,$id,trim($value2));
 	  ExecSql($this->cn,$sql);
 	}
       Commit($this->cn);
@@ -600,7 +600,7 @@ class fiche {
            // Normal traitement
            $value2=FormatString($value);
            $sql=sprintf("update attr_value set av_text='%s' where jft_id=%d",
-                        $value2,$jft_id);
+                        trim($value2),$jft_id);
            ExecSql($this->cn,$sql);
          }
        return;

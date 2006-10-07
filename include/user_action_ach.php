@@ -29,6 +29,8 @@ require_once("class_widget.php");
 require_once("class_jrn.php");
 $cn=DbConnect($_SESSION['g_dossier']);
 
+$msg_tva='<i>Si le montant de TVA est &eacute;gal &agrave; 0, il sera automatiquement calcul&eacute;</i>';
+
 if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {
   exit;
 
@@ -52,7 +54,8 @@ if ( $action == 'new' ) {
 	  $r=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,$submit,false,$jrn->getDefLine());
 	  echo '<div class="u_redcontent">';
 	  echo $r;
-	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."<div>";
+	  echo $msg_tva;
+	  echo "<div>".JS_CALC_LINE."<div>";
 	  echo "</div>";
 
 
@@ -72,7 +75,9 @@ if ( $action == 'new' ) {
 			  $nb_number);
 	  echo '<div class="u_redcontent">';
 	  echo $r;
-	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."<div>";
+	  echo $msg_tva;
+
+	  echo "<div>".JS_CALC_LINE."<div>";
 	  echo "</div>";
 	}
 	// Correct it
@@ -87,7 +92,9 @@ if ( $action == 'new' ) {
 	  $r=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,$submit,false,  $nb_number);
 	  echo '<div class="u_redcontent">';
 	  echo $r;
-	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."<div>";
+	  echo $msg_tva;
+
+	  echo "<div>".JS_CALC_LINE."<div>";
 	  echo "</div>";
 	  return;
 	}
@@ -111,7 +118,9 @@ if ( $action == 'new' ) {
 	}
 	echo '<div class="u_redcontent">';
 	echo $r;
-	echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."<div>";
+	echo $msg_tva;
+
+	echo "<div>".JS_CALC_LINE."<div>";
 	echo "</div>";
 	}
 	// Save the charge into database

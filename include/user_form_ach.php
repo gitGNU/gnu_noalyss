@@ -734,7 +734,8 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
     echo_debug('user_form_ach.php',__LINE__,"value non ded : $non_dedu");
     if ( $non_dedu != null && strlen(trim($non_dedu)) != 0)
       {
-	$nd_amount=round($a_quant[$i]*$a_price[$i]*$non_dedu,2);
+	// if vat if given we use it to compute ND
+	$nd_amount=($a_vat_amount[$i]==0)?round($a_quant[$i]*$a_price[$i]*$non_dedu,2):round($a_vat_amount*$non_dedu,2);
 
 	// save it
 	  echo_debug('user_form_ach.php',__LINE__,"InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,'6740',$e_date,round($nd_amount,2),$seq,$periode);");
@@ -748,8 +749,10 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
     echo_debug('user_form_ach.php',__LINE__,"TVA value non ded : $non_dedu");
     if ( $non_dedu != null && strlen(trim($non_dedu)) != 0)
       {
-	$lvat=ComputeVat($p_cn,	$a_good[$i],$a_quant[$i],$a_price[$i],
-			    $a_vat_good[$i],$a_vat_amount[$i] );
+	//We don't compute vat if it's given
+	$lvat=($a_vat_amount[$i]==0)?ComputeVat($p_cn,	$a_good[$i],$a_quant[$i],$a_price[$i],
+			    $a_vat_good[$i],$a_vat_amount[$i] ):$a_vat_amount[$i]
+;
 	$ded_vat=($lvat != null )?$lvat*$non_dedu:0;
 	$ded_vat=round($ded_vat,2);
 	$sum_tva_nd+=$ded_vat;
@@ -768,8 +771,9 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
     echo_debug('user_form_ach.php',__LINE__,"TVA value non ded : $non_dedu");
     if ( $non_dedu != null && strlen(trim($non_dedu)) != 0 )
 	{
-	  $lvat=ComputeVat($p_cn,	$a_good[$i],$a_quant[$i],$a_price[$i],
-			   $a_vat_good[$i],$a_vat_amount[$i] );
+	  //We don't compute vat if it's given
+	  $lvat=($a_vat_amount[$i]==0)?ComputeVat($p_cn,$a_good[$i],$a_quant[$i],$a_price[$i],  $a_vat_good[$i],$a_vat_amount[$i] ):$a_vat_amount[$i];
+
 	  $ded_vat=($lvat != null )?$lvat*$non_dedu:0;
 	  
 	  $sum_tva_nd+=round($ded_vat,2);
