@@ -244,19 +244,18 @@ function GetTvaPoste($p_cn,$p_tva_id,$p_cred) {
  **************************************************
  *\brief  Insert into the table Jrn
  *        
- * parm : 
- *	- $p_cn database connection
- *  - $p_type debit or credit
- *  - $p_user the current user
- *  - $p_jrn the current 'journal' (folder)
- *  - $p_poste the account
- *  - $p_date
- *  - $p_amount amount to insert
- *  - $p_periode the concerned periode
- * gen :
- *	- none
- * return:
- *   - nothing
+ *  
+ * \param $p_cn database connection
+ * \param $p_type debit or credit
+ * \param $p_user the current user
+ * \param $p_jrn the current 'journal' (folder)
+ * \param $p_poste the account
+ * \param $p_date
+ * \param $p_amount amount to insert
+ * \param $p_periode the concerned periode
+ *
+ * \return  nothing
+ *
  */
 
 function InsertJrnx($p_cn,$p_type,$p_user,$p_jrn,$p_poste,$p_date,$p_amount,$p_grpt,$p_periode,$p_qcode="")
@@ -276,7 +275,7 @@ function InsertJrnx($p_cn,$p_type,$p_user,$p_jrn,$p_poste,$p_date,$p_amount,$p_g
   }
 
   $sql=sprintf("select insert_jrnx
-		 ('%s',abs(%.2f),%d,%d,%d,%s,'%s',%d,'%s')",
+		 ('%s',abs(%.2f),%d,%d,%d,%s,'%s',%d,upper('%s'))",
 	          $p_date,round($p_amount,2),$p_poste,$p_grpt,$p_jrn,$debit,$p_user,$p_periode,$p_qcode);
 
   echo_debug('user_common.php',__LINE__,"InsertJrnx $sql");

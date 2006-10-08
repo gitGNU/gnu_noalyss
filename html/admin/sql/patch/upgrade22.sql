@@ -82,5 +82,7 @@ update jrnx set j_qcode = B.av_text from
                 where ad_id=23) as B  using(f_id) where j_poste=a.av_text;
 
 
+update jrnx set j_qcode = upper(j_qcode);
+
 update version set val=23;
 commit;
