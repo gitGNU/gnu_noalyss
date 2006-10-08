@@ -373,13 +373,14 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
     // Compute the j_grpt
     $seq=NextSequence($p_cn,'s_grpt');
 
-    if ( InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste_bq,$e_date,round(${"e_other$i"."_amount"},2),$seq,$periode) == false ) {
+    if ( InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste_bq,$e_date,round(${"e_other$i"."_amount"},2),
+		    $seq,$periode,$e_bank_account) == false ) {
       $Rollback($p_cn);exit("error 'user_form_fin.php' __LINE__");
     }
 
 
     // Record a line for the other account
-    if ( ($j_id=InsertJrnx($p_cn,'c',$p_user->id,$p_jrn,$poste,$e_date,round(${"e_other$i"."_amount"},2),$seq,$periode)) == false )
+    if ( ($j_id=InsertJrnx($p_cn,'c',$p_user->id,$p_jrn,$poste,$e_date,round(${"e_other$i"."_amount"},2),$seq,$periode,${"e_other$i"})) == false )
       { $Rollback($p_cn);exit("error 'user_form_fin.php' __LINE__");}
 
     echo_debug('user_form_fin.php',__LINE__,"   $j_id=InsertJrnx($p_cn,'d',$p_user,$p_jrn,$poste,$e_date,".${"e_other$i"}."_amount".",$seq,$periode);");

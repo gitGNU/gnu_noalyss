@@ -654,7 +654,7 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
   // Debit = client
   $poste=GetFicheAttribut($p_cn,$e_client,ATTR_DEF_ACCOUNT);
   StartSql($p_cn);	
-  $r=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste,$e_date,round($amount,2)+round($sum_vat,2),$seq,$periode);
+  $r=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste,$e_date,round($amount,2)+round($sum_vat,2),$seq,$periode,$e_client);
   if ( $r == false) { $Rollback($p_cn);exit("error 'user_form_ven.php' __LINE__");}
 
   // Credit = goods 
@@ -666,7 +666,7 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
     if ( $a_price[$i]*$a_quant[$i] == 0 ) continue;
 	  
     // record into jrnx
-    $j_id=InsertJrnx($p_cn,'c',$p_user->id,$p_jrn,$poste,$e_date,round($a_price[$i]*$a_quant[$i],2),$seq,$periode);
+    $j_id=InsertJrnx($p_cn,'c',$p_user->id,$p_jrn,$poste,$e_date,round($a_price[$i]*$a_quant[$i],2),$seq,$periode,$a_good[$i]);
     if ( $j_id == false) { $Rollback($p_cn);exit("error 'user_form_ven.php' __LINE__");}
     // always save quantity but in withStock we can find what card need a stock management
     if (  InsertStockGoods($p_cn,$j_id,$a_good[$i],$a_quant[$i],'c') == false ) {

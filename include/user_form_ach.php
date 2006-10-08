@@ -797,7 +797,7 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 
     // record into jrnx
     echo_debug('user_form_ach.php',__LINE__,"InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste,$e_date,round($amount,2),$seq,$periode);");
-    $j_id=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste,$e_date,round($amount,2),$seq,$periode);
+    $j_id=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste,$e_date,round($amount,2),$seq,$periode,$a_good[$i]);
     if ( $j_id == false) { Rollback($p_cn);exit("error 'user_form_ach.php' __LINE__");}
     // always save quantity but in withStock we can find what card need a stock management
     if (  InsertStockGoods($p_cn,$j_id,$a_good[$i],$a_quant[$i],'c') == false ) {
@@ -833,7 +833,9 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
   echo_debug('user_form_achat.php',__LINE__,"get e_client $e_client poste $poste");
   echo_debug('user_form_achat.php',__LINE__,"insert client");
 
-  $r=InsertJrnx($p_cn,'c',$p_user->id,$p_jrn,$poste,$e_date,round($amount_jrn+$sum_tva+$sum_tva_nd,2),$seq,$periode);
+  $r=InsertJrnx($p_cn,'c',$p_user->id,$p_jrn,$poste,$e_date,round($amount_jrn+$sum_tva+$sum_tva_nd,2),$seq,
+		$periode,$e_client);
+
   if ( $r == false) { $Rollback($p_cn);exit("error 'user_form_ach.php' __LINE__");}
 
   $r=InsertJrn($p_cn,$e_date,$e_ech,$p_jrn,"--",round($amount_jrn+$sum_tva+$sum_tva_nd,2),$seq,$periode);
