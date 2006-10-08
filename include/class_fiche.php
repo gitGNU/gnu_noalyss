@@ -350,7 +350,7 @@ class fiche {
 		}
 	      elseif ( $r->ad_id == ATTR_DEF_TVA) 
 		{
-		  $ret.=JS_TVA;
+		  $ret.=JS_SHOW_TVA;
 		  $w=new widget("js_tva");
 	    }
 	      elseif ( $r->ad_id == ATTR_DEF_COMPANY )

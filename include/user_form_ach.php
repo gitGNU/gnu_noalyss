@@ -536,8 +536,11 @@ function FormAchView ($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$p_number,$p_pi
       } else {
 	$fiche_price=${"e_march$i"."_sell"};
       }
+      // round it
+      $fiche_price=round($fiche_price,2);
+
       // get TVA Amount
-      $tva_amount=${"e_march".$i."_tva_amount"};
+      $tva_amount=round(${"e_march".$i."_tva_amount"},2);
 
       // VAT 
       $vat=(isNumber(${"e_march$i"."_tva_id"})==0 || ${"e_march$i"."_tva_id"}==-1 )?getFicheAttribut($p_cn,${"e_march$i"},ATTR_DEF_TVA):${"e_march$i"."_tva_id"};
@@ -689,7 +692,7 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
     $a_quant[$i]=${"e_quant$i"};
     $a_price[$i]=0;
     $a_vat_good[$i]=${"e_march$i"."_tva_id"};
-    $a_vat_amount[$i]=${"e_march".$i."_tva_amount"};
+    $a_vat_amount[$i]=round(${"e_march".$i."_tva_amount"},2);
 
     // check wether the price is set or no
     if ( isNumber(${"e_march$i"."_sell"}) == 0 ) {
@@ -701,6 +704,8 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
       // The price is valid
       $a_price[$i]=${"e_march$i"."_sell"};
     }
+    $a_price[$i]=round($a_price[$i],2);
+
     $cost=$a_price[$i]*$a_quant[$i];
     $amount+=$cost;
     $amount_jrn+=$cost;
