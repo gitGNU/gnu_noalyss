@@ -265,16 +265,11 @@ if ( $p_update == 0 )  echo "<TR><TD> <INPUT TYPE=\"SUBMIT\" VALUE=\"+ de line\"
 /*! 
  * \brief  Display the form to UPDATE account operation
  *          
- * parm : 
- *	- p_dossier
- *      - p_jrn
- *      - p_MaxDeb number of debit line
- *      - p_MaxCred "     "  credit "
- *"     - p_array array containing the others datas
- * gen :
- *	- none
- * return:
- *	- none
+ * \param $p_cn database connection
+ * \param $jr_id pk of jrn
+ *
+ * \return none
+ *
  *
  */ 
  function UpdateJrn($p_cn,$p_jr_id)
@@ -961,13 +956,12 @@ function SetInternalCode($p_cn,$p_grpt,$p_jrn)
 /*! 
  * \brief  Get data from jrn and jrnx thanks the jr_id
  * 
- * parm : 
- *	- connection
- *      - p_jr_id (jrn.jr_id)
- * gen :
- *	- none
- * return:
- *	- return array
+ *
+ *     \param connection
+ *     \param p_jr_id (jrn.jr_id)
+ *
+ *
+ * \return array
  *
  */ 
 function GetDataJrnJrId ($p_cn,$p_jr_id) {
@@ -976,7 +970,7 @@ function GetDataJrnJrId ($p_cn,$p_jr_id) {
                         j_text,
                         j_debit,
                         j_poste,
-                       pcm_lib as vw_name,
+                       pcm_lib,
                         j_montant,
                         jr_montant,
                         j_id,
@@ -985,12 +979,15 @@ function GetDataJrnJrId ($p_cn,$p_jr_id) {
                         jr_comment,
                         to_char(jr_ech,'DD.MM.YYYY') as jr_ech,
                         to_char(jr_date,'DD.MM.YYYY') as jr_date,
-                        jr_id,jr_internal, jr_rapt,jrn_def_type
+                        jr_id,jr_internal, jr_rapt,jrn_def_type,
+                        j_qcode,
+                        vw_name
                      from 
                           jrnx 
                         inner join jrn on j_grpt=jr_grpt_id 
                         inner join jrn_def on jrn_def.jrn_def_id=jrn.jr_def_id
                         left outer join tmp_pcmn on  j_poste=pcm_val
+                        left outer join vw_fiche_attr on quick_code=j_qcode
                       where 
                          jr_id=$p_jr_id 
                       order by j_debit desc");
@@ -1001,7 +998,15 @@ function GetDataJrnJrId ($p_cn,$p_jr_id) {
   for ( $i=0; $i < $MaxLine; $i++) {
     $line=pg_fetch_array($Res,$i);
     $array['j_debit']=$line['j_debit'];
-    $array['vw_name']=$line['vw_name'];
+    if ( strlen( $line['vw_name']) != 0 )
+      {
+	$array['vw_name']=$line['vw_name'];
+      }
+    else
+      {
+	$array['vw_name']=$line['pcm_lib'];
+      }
+      
     $array['jr_comment']=$line['jr_comment'];
     $array['j_montant']=$line['j_montant'];
     $array['jr_id']=$line['jr_id'];
