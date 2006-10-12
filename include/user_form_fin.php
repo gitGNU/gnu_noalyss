@@ -236,7 +236,7 @@ function FormFin($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
     for ($i=0; $i < $p_item; $i++) {
       $tiers=(isset(${"e_other".$i}))?${"e_other".$i}:"";
       $tiers_label="";
-      $tiers_amount=(isset(${"e_other$i"."_amount"}))?${"e_other$i"."_amount"}:0;
+      $tiers_amount=(isset(${"e_other$i"."_amount"}))?round(${"e_other$i"."_amount"},2):0;
   
       $tiers_comment=(isset (${"e_other$i"."_comment"}))?${"e_other$i"."_comment"}:"";
     // If $tiers has a value
@@ -367,6 +367,9 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
     // and quit the loop ?
     if ( ${"e_other$i"."_amount"} == 0 ) continue;
     $poste=GetFicheAttribut($p_cn,${"e_other$i"},ATTR_DEF_ACCOUNT);
+
+    // round it
+    ${"e_other$i"."_amount"}=round( ${"e_other$i"."_amount"},2);
 
     $amount+=${"e_other$i"."_amount"};
     // Record a line for the bank

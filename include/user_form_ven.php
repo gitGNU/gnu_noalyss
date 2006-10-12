@@ -475,9 +475,11 @@ function FormVenteView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='form'
       $vat_label=$a_vat['tva_label'];
       $vat_rate=$a_vat['tva_rate'];
     }		
-	
+    $fiche_price=round($fiche_price,2);
     // Total card without vat
     $fiche_sum=$fiche_price*$fiche_quant;
+    $fiche_sum=round($fiche_sum,2);	
+
     // Sum of invoice
     $sum_march+=$fiche_sum;
     // vat of the card
@@ -628,6 +630,7 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
       // The price is valid
       $a_price[$i]=${"e_march$i"."_sell"};
     }
+    $a_price[$i]=round($a_price[$i],2);
     $cost=$a_price[$i]*$a_quant[$i];
     $amount+=$cost;
     $amount_jrn+=$cost;
