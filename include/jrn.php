@@ -21,7 +21,7 @@
 /*! \file
  * \brief work with the ledger
  */
-
+require_once('class_fiche.php');
 /*! 
  * \brief  Record an entry in the selected journal
  * 
@@ -281,6 +281,7 @@ if ( $p_update == 0 )  echo "<TR><TD> <INPUT TYPE=\"SUBMIT\" VALUE=\"+ de line\"
     echo_error ("Not data found for UpdateJrn p_jr_id = $p_jr_id");
     return ;
   }
+  echo_debug('jrn.php',__LINE__,$l_array);
   // Javascript
   $r=JS_VIEW_JRN_MODIFY;
 
@@ -965,6 +966,7 @@ function SetInternalCode($p_cn,$p_grpt,$p_jrn)
  *
  */ 
 function GetDataJrnJrId ($p_cn,$p_jr_id) {
+
   echo_debug('jrn.php',__LINE__,"GetDataJrn $p_cn $p_jr_id");
   $Res=ExecSql($p_cn,"select 
                         j_text,
@@ -980,14 +982,12 @@ function GetDataJrnJrId ($p_cn,$p_jr_id) {
                         to_char(jr_ech,'DD.MM.YYYY') as jr_ech,
                         to_char(jr_date,'DD.MM.YYYY') as jr_date,
                         jr_id,jr_internal, jr_rapt,jrn_def_type,
-                        j_qcode,
-                        vw_name
+                        j_qcode
                      from 
                           jrnx 
                         inner join jrn on j_grpt=jr_grpt_id 
                         inner join jrn_def on jrn_def.jrn_def_id=jrn.jr_def_id
                         left outer join tmp_pcmn on  j_poste=pcm_val
-                        left outer join vw_fiche_attr on quick_code=j_qcode
                       where 
                          jr_id=$p_jr_id 
                       order by j_debit desc");
@@ -998,9 +998,14 @@ function GetDataJrnJrId ($p_cn,$p_jr_id) {
   for ( $i=0; $i < $MaxLine; $i++) {
     $line=pg_fetch_array($Res,$i);
     $array['j_debit']=$line['j_debit'];
-    if ( strlen( $line['vw_name']) != 0 )
+    // is there a name from this j_qcode
+    //
+    if ( strlen( $line['j_qcode']) != 0 )
       {
-	$array['vw_name']=$line['vw_name'];
+	$fiche=new fiche($p_cn);
+	$fiche->GetByQCode($line['j_qcode']);
+
+	$array['vw_name']=$fiche->getName();
       }
     else
       {
