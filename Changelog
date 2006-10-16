@@ -1,3 +1,39 @@
+2006-10-16 12:08  sparkyx
+
+	* doc/developper/Doxyfile, html/index.php, html/admin/setup.php,
+	  sql/upgrade.sql: Fix bug for rounded value and quantity is a
+	  decimal value
+
+2006-10-12 21:20  sparkyx
+
+	* include/: user_form_fin.php, user_form_ods.php,
+	  user_form_ven.php: Round all the amount to the 2nd decimal
+
+2006-10-08 19:16  sparkyx
+
+	* include/jrn.php: fiche qcode prob
+
+2006-10-08 18:53  sparkyx
+
+	* html/admin/sql/patch/upgrade22.sql, include/user_common.php:
+	  Problem with quickcode
+
+2006-10-08 18:44  sparkyx
+
+	* include/: user_form_ach.php, user_form_fin.php,
+	  user_form_ven.php: Update quickcode
+
+2006-10-08 18:19  sparkyx
+
+	* html/index.php, html/admin/setup.php,
+	  html/admin/sql/patch/upgrade22.sql, include/class_fiche.php,
+	  include/user_form_ach.php: Misc prob.
+
+2006-10-07 18:42  sparkyx
+
+	* Changelog: ChangelogChangelog
+
+
 2006-10-07 16:25  sparkyx
 
 	* include/depense.inc.php: Add message for vat
