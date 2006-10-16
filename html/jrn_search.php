@@ -78,7 +78,7 @@ if ( isset ($_GET["search"]) ) {
   if ( isset ($p_montant) && strlen($p_montant) != 0 && (ereg ("^[0-9]*\.[0-9]*$",$p_montant) ||
 				   ereg ("^[0-9]*$",$p_montant)) )
       { 
-    $c_montant=sprintf(" $part jr_montant %s %s",$p_montant_sel,$p_montant);
+    $c_montant=sprintf(" $part jr_montant %s abs(%s)",$p_montant_sel,$p_montant);
     $opt_montant.='<OPTION VALUE="'.$p_montant_sel.'" SELECTED>'.$p_montant_sel;
     $part="  and ";
     }
