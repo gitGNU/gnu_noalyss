@@ -58,9 +58,9 @@ if ( isset ($_POST["record"] )) {
   //echo "</DIV>";
 }
 if ( isset ($_POST["del_form"]) ) {
-  echo '<DIV class="u_redcontent">';
+  //  echo '<DIV class="u_redcontent">';
   DeleteForm($cn,$_POST['fr_id']);
-   echo "</DIV>";
+  // echo "</DIV>";
 }
 
 ShowMenuComptaForm($_SESSION['g_dossier']);
@@ -81,7 +81,7 @@ if ( isset ($_GET["action"]) ) {
   if ($action == "add" )
     {
       echo '<DIV class="u_redcontent">';
-      EncodeForm(1,$sessid);
+      EncodeForm(10,$sessid);
       echo "</DIV>";
     }
   if ($action=="view" ) {

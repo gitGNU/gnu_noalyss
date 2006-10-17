@@ -750,26 +750,23 @@ function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true) {
       /*! \note special value for the clause FROM=00.0000
        */
       if ( $from == '00.0000' ) {
+	// retrieve the first month of this periode
 	$User=new cl_user($p_cn);
 	$user_periode=$User->getPeriode();
 	$periode=getDbValue($p_cn,
 			    "select p_exercice from parm_periode where p_id=$user_periode");
-	$sql_per="select to_char(p_start,'DD.MM.YYYY') as start from parm_periode where ".
+	$sql_per="select to_char(p_start,'MM.YYYY') as start from parm_periode where ".
 	  " p_exercice='".$periode."' order by p_start";
 	$ret=getArray($p_cn,$sql_per);
-	$per=$ret[0]['start'];
+	$from=$ret[0]['start'];
 
-	$cond=" j_tech_per in (select p_id from parm_periode where p_start >= ".
-	  " to_date('$per','DD.MM.YYYY')) ";
       } 
-      else 
-	{
-	  $from=getPeriodeFromMonth($p_cn,$from);
+      $from=getPeriodeFromMonth($p_cn,$from);
 
-	  // the clause from is something else
-	  //  Compute the cond
-	  $cond=sql_filter_per($p_cn,$from,$p_end,'p_id','j_tech_per');
-	}
+      // the clause from is something else
+      //  Compute the cond
+      $cond=sql_filter_per($p_cn,$from,$p_end,'p_id','j_tech_per');
+
       // We remove FROM out of the p_formula
       $p_formula=substr_replace($p_formula,"",strpos($p_formula,"FROM"));
     }
