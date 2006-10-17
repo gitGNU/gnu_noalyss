@@ -230,6 +230,7 @@ if ( $count == 0 ) {
       $Res=ExecSql($cn_mod,"truncate table jrnx");
       $Res=ExecSql($cn_mod,"truncate table centralized");
       $Res=ExecSql($cn_mod,"truncate table stock_goods");
+      $Res=ExecSql($cn_mod,"truncate table jrn_rapt");
 //	Reset the closed periode
       $Res=ExecSql($cn_mod,"update parm_periode set p_closed='f'");
       // Reset Sequence
