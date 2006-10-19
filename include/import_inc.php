@@ -308,7 +308,7 @@ function TransferCSV($p_cn, $periode){
       $num_compte=str_replace('"','',$num_compte);
       $code=str_replace('\"','',$code);
 
-      $jr_id=InsertJrn($p_cn,$date_exec,NULL,$jrn,$detail.$num_compte." ".$code,$montant,$seq,$periode);
+      $jr_id=InsertJrn($p_cn,$date_exec,NULL,$jrn,$detail.$num_compte." ".$code,$seq,$periode);
       if ( $jr_id == false ) { Rollback($p_cn); exit(" Error 'import_inc.php' __LINE__");}
       
       if ( isNumber($jr_rapt) == 1) 

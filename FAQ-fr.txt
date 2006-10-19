@@ -169,8 +169,8 @@
   [1m9.  Comment faire de la doc[0m
 
   Sous Mandriva (anciennement mandrake), ajouter les linuxdocs-tools
-  avec la commande urpmi linuxdoc-tools, pour les autres, je ne sais pas
-  :(
+  avec la commande urpmi linuxdoc-tools, pour Ubuntu apt-get install
+  linuxdoc-tools, tetex, tetex-extra les autres, je ne sais pas :(
 
   Une fois, les linuxdoc tools installés il peut être nécessaire
   d'installer d'autres outils comme jade, sgml,...  Il faudra en tout

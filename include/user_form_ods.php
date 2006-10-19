@@ -129,7 +129,7 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
       }
     }
 
-    ${"e_account$i"."_amount"}=(isset(${"e_account$i"."_amount"}))?round(${"e_account$i"."_amount"},2):0;
+    ${"e_account$i"."_amount"}=(isset(${"e_account$i"."_amount"}))?abs(round(${"e_account$i"."_amount"},2)):0;
     if ( isNumber(${"e_account$i"."_amount"}) == 0 ) {
       if ( $pview_only==true) {
 	$msg="Montant invalide !!! ";
@@ -274,7 +274,7 @@ function RecordODS($p_cn,$p_array,$p_user,$p_jrn)
       $Rollback($p_cn);exit("error 'user_form_ods.php' __LINE__");}
   }
 
-  if ( InsertJrn($p_cn,$e_date,"",$p_jrn,$e_comm,$sum_deb,$seq,$periode) == false ) {
+  if ( InsertJrn($p_cn,$e_date,"",$p_jrn,$e_comm,$seq,$periode) == false ) {
     $Rollback($p_cn);exit("error 'user_form_ods.php' __LINE__");}
 
   // Set Internal code and Comment

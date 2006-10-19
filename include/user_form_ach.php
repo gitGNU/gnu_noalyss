@@ -838,8 +838,8 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 
   if ( $r == false) { $Rollback($p_cn);exit("error 'user_form_ach.php' __LINE__");}
 
-  $r=InsertJrn($p_cn,$e_date,$e_ech,$p_jrn,"--",round($amount_jrn+$sum_tva+$sum_tva_nd,2),$seq,$periode);
-  if ( $r == false ) { Rollback($p_cn); exit(" Error 'user_form_ach.php' __LINE__");}
+  $r=InsertJrn($p_cn,$e_date,$e_ech,$p_jrn,"--",$seq,$periode);
+  if ( $r == false ) { Rollback($p_cn); exit;}
   // Set Internal code and Comment
   $internal=SetInternalCode($p_cn,$seq,$p_jrn);
   $comment=(FormatString($e_comm) == null )?$internal." Fournisseur : ".GetFicheName($p_cn,$e_client):FormatString($e_comm);

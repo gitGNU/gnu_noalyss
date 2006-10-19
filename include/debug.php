@@ -34,7 +34,8 @@ include_once("constant.php");
 function echo_debug      ($file,$line="",$msg="") {
   if ( DEBUG=='true' ) {
     $f=fopen ($_ENV['TMP'].DIRECTORY_SEPARATOR."phpcompta.log","a+");
-    fwrite($f,"$file $line $msg\n");
+    $a=var_export($msg,true);
+    fwrite($f,"$file $line $a\n");
     fclose ($f);
   }
 }

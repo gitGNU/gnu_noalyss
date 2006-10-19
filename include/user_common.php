@@ -286,26 +286,24 @@ function InsertJrnx($p_cn,$p_type,$p_user,$p_jrn,$p_poste,$p_date,$p_amount,$p_g
 }
 /*!   InsertJrn($p_cn,$p_date,$p_jrn,$p_comment,$p_amount,$p_grpt,$p_periode
  **************************************************
- *\brief  Insert into the table Jrnx
+ *\brief  Insert into the table Jrn, the amount is computed from jrnx thanks the 
+ *        group id ($p_grpt)
  *        
- * parm : 
- *	- $p_cn database connection
- *  - $p_date date
- *  - $p_jrn the current 'journal' (folder)
- *  - $p_poste the account
- *  - $p_amount amount to insert
- *  - $p_periode the concerned periode
- *  - $p_comment comment
- * gen :
- *	- none
- * return:
- *   - nothing
+ * \param $p_cn database connection
+ * \param $p_date date
+ * \param $p_jrn the current 'journal' (folder)
+ * \param $p_poste the account
+ * \param $p_periode the concerned periode
+ * \param $p_comment comment
+ *
+ * \return  nothing
+ *  
  */
 
-function InsertJrn($p_cn,$p_date,$p_echeance,$p_jrn,$p_comment,$p_amount,$p_grpt,$p_periode)
+function InsertJrn($p_cn,$p_date,$p_echeance,$p_jrn,$p_comment,$p_grpt,$p_periode)
 {
 	echo_debug ('user_common.php',__LINE__,"InsertJrn param 
-	    p_date $p_date p_poste $p_comment p_amount $p_amount p_grpt = $p_grpt p_periode = $p_periode p_echeance = $p_echeance
+	    p_date $p_date p_poste $p_comment p_amount  p_grpt = $p_grpt p_periode = $p_periode p_echeance = $p_echeance
 comment = $p_comment");
 	$p_comment=FormatString($p_comment);
 
@@ -314,9 +312,26 @@ comment = $p_comment");
 	} else {
 		$p_echeance=sprintf("to_date('%s','DD.MM.YYYY')",$p_echeance);
 	}
+	// retrieve the value from jrnx
+	// 
+	$montant_deb=getDBValue($p_cn,"select sum(j_montant) from jrnx where j_debit='t' and j_grpt=$p_grpt");
+	$montant_cred=getDBValue($p_cn,"select sum(j_montant) from jrnx where j_debit='f' and j_grpt=$p_grpt");
+	echo_debug('InsertJrn',__LINE__,"debit = $montant_deb credit  = $montant_cred ");
+
+	$amount=-1.0000;
+	if ( $montant_deb == $montant_cred ) {
+	  $amount=$montant_deb;
+	} else {
+	  echo "Erreur : balance incorrecte : d&eacute;bit = $montant_deb cr&eacute;dit = $montant_cred";
+	  return false;
+	}
+	// if amount == -1then the triggers will throw an error
+	// 
 	$sql=sprintf("insert into jrn (jr_def_id,jr_montant,jr_comment,jr_date,jr_ech,jr_grpt_id,jr_tech_per)
 	         values ( %d,abs(%.2f),'%s',to_date('%s','DD.MM.YYYY'),%s,%d,%d)",
-		     $p_jrn, round($p_amount,2),$p_comment,$p_date,$p_echeance,$p_grpt,$p_periode);
+		     $p_jrn, $amount,$p_comment,$p_date,$p_echeance,$p_grpt,$p_periode);
+
+
 	echo_debug('user_common.php',__LINE__,"InsertJrn $sql");
 	$Res=ExecSql($p_cn,$sql);				 
 	if ( $Res == false)  return false;
@@ -770,13 +785,10 @@ function DeleteRapt($p_cn,$jr_id,$jr_id2) {
  **************************************************
  *\brief   Return an array of the concerned operation
  *        
- * parm : 
- *	- database connection
- *      - jrn.jr_id
- * gen : 
- *	- none
- * return:
- *      - array if something is found
+ *  
+ *\param database connection
+ *\param      jrn.jr_id
+ * \return array if something is found or null
  */
 function GetConcerned ($p_cn, $jr_id) {
 $sql=" select jr_id as cn from jrn_rapt where jra_concerned=$jr_id

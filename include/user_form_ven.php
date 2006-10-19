@@ -603,6 +603,8 @@ function FormVenteView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='form'
  */
 function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
 {
+  echo_debug('RecordInvoice',0,"p_array = $p_array");
+
   foreach ( $p_array as $v => $e)
   {
     ${"$v"}=$e;
@@ -611,7 +613,7 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
   // Get the default period
   $periode=$p_user->GetPeriode();
   $amount=0.0;
-  $amount_jrn=0.0;
+
   // Computing total customer
   //--
   for ($i=0;$i<$nb_item;$i++) {
@@ -633,7 +635,8 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
     $a_price[$i]=round($a_price[$i],2);
     $cost=$a_price[$i]*$a_quant[$i];
     $amount+=$cost;
-    $amount_jrn+=$cost;
+
+    echo_debug('RecordInvoice',__LINE__,"cost = $cost amount = $amount  ");
   }// for
 
   $comm=FormatString($e_comm);
@@ -690,8 +693,8 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
       }
     }
   echo_debug('user_form_ven.php',__LINE__,"echeance = $e_ech");
-  $r=InsertJrn($p_cn,$e_date,$e_ech,$p_jrn,"Invoice",round($amount_jrn,2)+round($sum_vat,2),$seq,$periode);
-  if ( $r == false ) { Rollback($p_cn); exit(" Error 'user_form_ven.php' __LINE__");}
+  $r=InsertJrn($p_cn,$e_date,$e_ech,$p_jrn,"Invoice",$seq,$periode);
+  if ( $r == false ) { Rollback($p_cn); exit;}
   // Set Internal code and Comment
   $internal=SetInternalCode($p_cn,$seq,$p_jrn);
   $comment=(FormatString($e_comm) == null )?$internal."  client : ".GetFicheName($p_cn,$e_client):FormatString($e_comm);
