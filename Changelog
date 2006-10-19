@@ -1,3 +1,36 @@
+2006-10-19 11:05  sparkyx
+
+	* FAQ-fr.txt, INSTALL-fr.txt, doc/FAQ-fr.txt, html/index.php,
+	  include/debug.php, include/import_inc.php,
+	  include/user_common.php, include/user_form_ach.php,
+	  include/user_form_fin.php, include/user_form_ods.php,
+	  include/user_form_ven.php: [bug #18056] DIfference quand on
+	  mélange montant négatif et positifs
+
+2006-10-17 19:04  sparkyx
+
+	* html/admin_repo.php: bug #18017, Double dans la fenêtre détail
+
+2006-10-17 19:03  sparkyx
+
+	* html/form.php, include/impress_inc.php: bug #18043, la cause FROM
+
+2006-10-16 19:15  sparkyx
+
+	* html/jrn_search.php: Amount is absolute when searching in the
+	  ledger
+
+2006-10-16 12:48  sparkyx
+
+	* include/jrn.php: bug #18017, Double dans la fenêtre détail
+
+2006-10-16 12:18  sparkyx
+
+	* html/admin/sql/patch/upgrade23.sql: Database update
+
+2006-10-16 12:16  sparkyx
+
+	* Changelog: rel212
 2006-10-16 12:08  sparkyx
 
 	* doc/developper/Doxyfile, html/index.php, html/admin/setup.php,
