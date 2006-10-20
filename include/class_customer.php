@@ -100,7 +100,7 @@ class Customer extends fiche{
     $TVA=$t->p_value;
     // Get all the sell operation
     //----
-    $sql="select  j_grpt 
+    $sql="select distinct j_grpt 
       from
 jrnx as A
  join jrnx as B using (j_grpt)
@@ -130,6 +130,7 @@ where
       for ($e=0;$e < pg_NumRows($Res2);$e++) {
 	$a_row[]=pg_fetch_array($Res2,$e);
       }
+      echo_debug('class_customer',__LINE__,$a_row);
       
       // Seek the customer
       //---
@@ -149,16 +150,16 @@ where
       foreach ($a_row as $e) {
 	$amount=0;
 	$tva=0;
-	if ( substr($e['j_poste'],0, strlen($SOLD))==$SOLD) {
+	if ( substr($e['j_poste'],0, strlen($SOLD))===$SOLD) {
 	  $amount=($e['j_debit']=='f')?$e['j_montant']:$e['j_montant']*-1;
 	}
-	if ( substr($e['j_poste'],0, strlen($TVA))==$TVA) {
+	if ( substr($e['j_poste'],0, strlen($TVA))===$TVA) {
 	  $tva=($e['j_debit']=='f')?$e['j_montant']:$e['j_montant']*-1;
 	}
 	// store sold
 	//---
 	$a_Res[$customer]['amount']=(isset($a_Res[$customer]['amount']))?$a_Res[$customer]['amount']:0;    	
-  $a_Res[$customer]['amount']+=$amount;
+	$a_Res[$customer]['amount']+=$amount;
 
 	// store vat
 	//---
@@ -168,10 +169,11 @@ where
 	// store customef info
 	//---
 	$a_Res[$customer]['customer']=$customer;
-
-  //if not submitted to VAT, remove from list:
-  //STAN: currently commented out because I don't know if it is really what we need.
-  //Dany : yes we need it because the decla. concerns only the registered customer at the VAT 
+	echo_debug ('class_customer',__line__,"adding amount $amount tva $tva");
+	echo_debug('class_customer',__line__,$a_Res[$customer]);
+	//if not submitted to VAT, remove from list:
+	//STAN: currently commented out because I don't know if it is really what we need.
+	//Dany : yes we need it because the decla. concerns only the registered customer at the VAT 
 	if (!isset($a_Res[$customer]['vat_number']) || strcmp($a_Res[$customer]['vat_number'], "") == 0)
 	  {
 	    unset($a_Res[$customer]);
