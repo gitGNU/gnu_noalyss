@@ -151,11 +151,9 @@ function ShowMenuCompta($p_dossier,$p_high="")
   echo_debug('user_menu.php',__LINE__,'defaut is '.$default);
 
   $p_array=array(array("user_jrn.php?show","Journaux","Les journaux permettent d'encoder toutes les opérations"),
-		 array("recherche.php?p_dossier=$p_dossier","Recherche","Pour retrouver une opération"),
 		 array("fiche.php?p_dossier=$p_dossier","Fiche","Ajouter, modifier ou effacer des fiches"),
 		 array("compta.php?p_action=impress","Impression","Impression"),
 		 array("user_advanced.php","Avancé","Opérations délicates"),
-
   		 array('user_pref.php','Preference',"Préférence de l'utilisateur"),
 		 array('parametre.php?dos='.$_SESSION['g_dossier'],"Paramètre"),
 		 array('commercial.php?dos='.$_SESSION['g_dossier'],"Gestion"),
@@ -165,7 +163,10 @@ function ShowMenuCompta($p_dossier,$p_high="")
 
   $result=ShowItem($p_array,'H',"mtitle","mtitle",$default,' width="100%"');
 
-  $r="<H2 class=\"info\">Comptabilit&eacute;  ".$_SESSION['g_name']." </H2>";
+  $r="<H2 class=\"info\">Comptabilit&eacute;  ".$_SESSION['g_name'];
+
+  $r.='<div align="right"><input type="IMAGE" src="image/search.png" onclick="openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.$p_dossier.');"></div> ';
+  $r.="</H2>";
   $r.=$result;
   return $r;
 
@@ -404,7 +405,7 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
 
   $r.=JS_SEARCH_POSTE;
   $r.=JS_SEARCH_CARD;
-  $r.= "<B>Recherche</B>";
+  $r.= "<h2>Recherche</h2>";
   $r.= '<FORM ACTION="recherche.php" METHOD="GET">';
   $r.="<table><tr><TD>";  
   $r.= '<TABLE>';
