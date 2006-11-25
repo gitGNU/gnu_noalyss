@@ -74,13 +74,14 @@ if ( isset( $_POST['bt_html'] ) ) {
      echo '<h2 class="info">'.$Poste->id." ".$Poste->name.'</h2>';
      echo "<table >";
      echo '<TR>';
-     echo '<TD><form method="GET" ACTION="user_impress.php">'.
+     echo '<TD><form method="GET" ACTION="">'.
        $submit->Submit('bt_other',"Autre poste").
-       $hid->IOValue("type","poste")."</form></TD>";
+       $hid->IOValue("type","poste").$hid->IOValue('p_action','impress')."</form></TD>";
      
      echo '<TD><form method="POST" ACTION="poste_pdf.php">'.
        $submit->Submit('bt_pdf',"Export PDF").
        $hid->IOValue("type","poste").
+       $hid->IOValue('p_action','impress').
        $hid->IOValue("poste_id",$Poste->id).
        $hid->IOValue("from_periode",$_POST['from_periode']).
        $hid->IOValue("to_periode",$_POST['to_periode']);
@@ -89,6 +90,7 @@ if ( isset( $_POST['bt_html'] ) ) {
      echo '<TD><form method="POST" ACTION="poste_csv.php">'.
        $submit->Submit('bt_csv',"Export CSV").
        $hid->IOValue("type","poste").
+       $hid->IOValue('p_action','impress').
        $hid->IOValue("poste_id",$Poste->id).
        $hid->IOValue("from_periode",$_POST['from_periode']).
        $hid->IOValue("to_periode",$_POST['to_periode']);
@@ -145,7 +147,7 @@ include_once("postgres.php");
 echo '<div class="u_content">';
 echo JS_SEARCH_POSTE;
 echo JS_SEARCH_CARD;
-echo '<FORM ACTION="?type=poste" METHOD="POST">';
+echo '<FORM ACTION="?p_action=impress&type=poste" METHOD="POST">';
 echo '<TABLE><TR>';
 $span=new widget("span");
 

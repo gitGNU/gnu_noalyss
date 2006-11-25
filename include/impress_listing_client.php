@@ -68,7 +68,7 @@ $w=new widget("select");
 $w->table=1;
 
 echo '<div class="u_redcontent">';
-echo '<FORM ACTION="user_impress.php?type=list_client" METHOD="POST">';
+echo '<FORM ACTION="?p_action=impress&type=list_client" METHOD="POST">';
 echo '<TABLE>';
 
 print '<TR>';

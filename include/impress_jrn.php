@@ -56,13 +56,14 @@ include("class_jrn.php");
   echo '<h2 class="info">'.$Jrn->name.'</h2>';
   echo "<table>";
   echo '<TR>';
-  echo '<TD><form method="GET" ACTION="user_impress.php">'.
+  echo '<TD><form method="GET" ACTION="?">'.
     $submit->Submit('bt_other',"Autre journal").
-    $hid->IOValue("type","jrn")."</form></TD>";
+    $hid->IOValue("type","jrn").$hid->IOValue('p_action','impress')."</form></TD>";
 
   echo '<TD><form method="GET" ACTION="jrn_pdf.php">'.
     $submit->Submit('bt_pdf',"Export PDF").
     $hid->IOValue("type","jrn").
+    $hid->IOValue("p_action","impress").
     $hid->IOValue("central",$p_cent).
     $hid->IOValue("jrn_id",$Jrn->id).
     $hid->IOValue("from_periode",$_POST['from_periode']).
@@ -73,6 +74,7 @@ include("class_jrn.php");
   echo '<TD><form method="GET" ACTION="jrn_csv.php">'.
     $submit->Submit('bt_csv',"Export CSV").
     $hid->IOValue("type","jrn").
+    $hid->IOValue("p_action","impress").
     $hid->IOValue("central",$p_cent).
     $hid->IOValue("jrn_id",$Jrn->id).
     $hid->IOValue("from_periode",$_POST['from_periode']).
@@ -197,7 +199,7 @@ if ( count($ret) < 1 )
 // Form
 //-----------------------------------------------------
 echo '<div class="u_content">';
-echo '<FORM ACTION="?type=jrn" METHOD="POST">';
+echo '<FORM ACTION="?p_action=impress&type=jrn" METHOD="POST">';
 echo '<TABLE width="90%" align="center"><TR>';
 $w=new widget("select");
 $w->table=1;

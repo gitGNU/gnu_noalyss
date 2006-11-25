@@ -66,13 +66,14 @@ if ( isset( $_POST['bt_html'] ) ) {
     '</h2>';
   echo '<table >';
   echo '<TR>';
-  echo '<TD><form method="GET" ACTION="user_impress.php">'.
+  echo '<TD><form method="GET" ACTION="?">'.
     $submit->Submit('bt_other',"Autre Rapport").
-    $hid->IOValue("type","rapport")."</form></TD>";
+    $hid->IOValue("type","rapport").$hid->IOValue("p_action","impress")."</form></TD>";
 
   echo '<TD><form method="POST" ACTION="form_pdf.php">'.
     $submit->Submit('bt_pdf',"Export PDF").
     $hid->IOValue("type","rapport").
+    $hid->IOValue("p_action","impress").
     $hid->IOValue("form_id",$Form->id).
     $hid->IOValue("from_periode",$_POST['from_periode']).
     $hid->IOValue("to_periode",$_POST['to_periode']).
@@ -83,6 +84,7 @@ if ( isset( $_POST['bt_html'] ) ) {
   echo '<TD><form method="POST" ACTION="form_csv.php">'.
     $submit->Submit('bt_csv',"Export CSV").
     $hid->IOValue("type","form").
+    $hid->IOValue("p_action","impress").
     $hid->IOValue("form_id",$Form->id).
     $hid->IOValue("from_periode",$_POST['from_periode']).
     $hid->IOValue("to_periode",$_POST['to_periode']).
@@ -130,7 +132,7 @@ if ( sizeof($ret) == 0 ) {
 // Form
 //-----------------------------------------------------
 echo '<div class="u_content">';
-echo '<FORM ACTION="?type=rapport" METHOD="POST">';
+echo '<FORM ACTION="?p_action=impress&type=rapport" METHOD="POST">';
 echo '<TABLE><TR>';
 $w=new widget("select");
 $w->table=1;

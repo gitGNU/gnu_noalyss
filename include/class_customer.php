@@ -130,6 +130,7 @@ where
       for ($e=0;$e < pg_NumRows($Res2);$e++) {
 	$a_row[]=pg_fetch_array($Res2,$e);
       }
+
       echo_debug('class_customer',__LINE__,$a_row);
       
       // Seek the customer

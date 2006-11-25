@@ -153,7 +153,7 @@ function ShowMenuCompta($p_dossier,$p_high="")
   $p_array=array(array("user_jrn.php?show","Journaux","Les journaux permettent d'encoder toutes les opérations"),
 		 array("recherche.php?p_dossier=$p_dossier","Recherche","Pour retrouver une opération"),
 		 array("fiche.php?p_dossier=$p_dossier","Fiche","Ajouter, modifier ou effacer des fiches"),
-		 array("user_impress.php","Impression","Impression"),
+		 array("compta.php?p_action=impress","Impression","Impression"),
 		 array("user_advanced.php","Avancé","Opérations délicates"),
 
   		 array('user_pref.php','Preference',"Préférence de l'utilisateur"),
