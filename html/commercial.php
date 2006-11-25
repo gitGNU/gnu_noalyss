@@ -71,6 +71,7 @@ include_once("preference.php");
 include_once("user_menu.php");
 echo '<div class="u_tmenu">';
 echo "<H2 class=\"info\">Commercial ".$_SESSION['g_name']." </H2>";
+echo '<div align="right"><input type="IMAGE" src="image/search.png" onclick="openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.$_SESSION['g_dossier'].');"></div> ';
 
 $p_action=(isset ($_REQUEST['p_action']))?$_REQUEST['p_action']:"";
 // TODO Menu with all the customer

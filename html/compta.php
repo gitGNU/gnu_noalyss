@@ -28,6 +28,7 @@ if ( ! isset ( $_SESSION['g_dossier'] ) ) {
   echo "You must choose a Dossier ";
   exit -2;
 }
+
 include_once ("postgres.php");
 /* Admin. Dossier */
 $cn=DbConnect($_SESSION['g_dossier']);

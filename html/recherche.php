@@ -41,11 +41,9 @@ $cn=DbConnect($_SESSION['g_dossier']);
 include ('class_user.php');
 $User=new cl_user($cn);
 $User->Check();
-echo '<div class="u_tmenu">';
-echo ShowMenuCompta($_SESSION['g_dossier']);
-echo '</div>';
+
    // PhpSessid
-   $sessid=$_REQUEST['PHPSESSID'];
+$sessid=$_REQUEST['PHPSESSID'];
 
 // display a search box
 $search_box=u_ShowMenuRecherche($cn,0,$sessid,$_GET);
