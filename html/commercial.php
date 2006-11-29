@@ -71,7 +71,16 @@ include_once("preference.php");
 include_once("user_menu.php");
 echo '<div class="u_tmenu">';
 echo "<H2 class=\"info\">Commercial ".$_SESSION['g_name']." ";
-echo '<div align="right"><input type="IMAGE" src="image/search.png" onclick="openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.$_SESSION['g_dossier'].');"></div> </h2>';
+echo '<div align="right" title="Recherche">
+<input type="IMAGE" src="image/search.png" width="36" onclick="openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.$_SESSION['g_dossier'].');">
+<A HREF="?p_action=impress" title="Impression"><INPUT TYPE="IMAGE" width="36" src="image/print.png"></A>
+<A HREF="?p_action=pref" title="Pr&eacute;f&eacute;rence"><INPUT TYPE="IMAGE" width="36" src="image/preference.png"></A>
+<A HREF="user_compta.php?dos='.$_SESSION['g_dossier'].'" title="Comptabilité"><INPUT TYPE="IMAGE" width="36" src="image/compta.png"></A>
+<A HREF="parametre.php?dos='.$_SESSION['g_dossier'].'" title="Paramètre"><input type="IMAGE" width="36" src="image/param.png"></A>
+<A HREF="login.php" title="Accueil"><INPUT TYPE="IMAGE" width="36" src="image/home.png" ></A>
+<A HREF="logout.php" title="Sortie"><input type="IMAGE" title="Logout" src="image/logout.png" width="36"></A>
+
+</div> </h2>';
 
 $p_action=(isset ($_REQUEST['p_action']))?$_REQUEST['p_action']:"";
 // TODO Menu with all the customer
@@ -80,16 +89,16 @@ echo ShowItem(array(
 		    array('?p_action=facture','Facture'),
 		    array('?p_action=fournisseur','Fournisseur'),
 		    array('?p_action=depense','D&eacute;pense'),
-		    array('?p_action=impress','Impression'),
+		    //array('?p_action=impress','Impression'),
 		    array('?p_action=bank','Banque'),
 		    array('?p_action=contact','Contact'),
 		    array('?p_action=admin','Administration'),
 		    array('?p_action=suivi_courrier','Document'),
-		    array('?p_action=pref','Préférence'),
-		    array('parametre.php?dos='.$_SESSION['g_dossier'],"Paramètre"),
-		    array('user_compta.php?dos='.$_SESSION['g_dossier'],"Comptabilité"),
-		    array('login.php','Accueil',"Accueil"),
-		    array('logout.php','logout',"Sortie")
+		    //		    array('?p_action=pref','Préférence'),
+		    //		    array('parametre.php?dos='.$_SESSION['g_dossier'],"Paramètre"),
+		    //		    array('user_compta.php?dos='.$_SESSION['g_dossier'],"Comptabilité"),
+		    //		    array('login.php','Accueil',"Accueil"),
+		    //array('logout.php','logout',"Sortie")
 		    ),
 	      'H',"mtitle","mtitle","?p_action=$p_action",' width="100%"');
 

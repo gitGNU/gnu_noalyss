@@ -154,18 +154,29 @@ function ShowMenuCompta($p_dossier,$p_high="")
 		 array("fiche.php?p_dossier=$p_dossier","Fiche","Ajouter, modifier ou effacer des fiches"),
 		 array("compta.php?p_action=impress","Impression","Impression"),
 		 array("user_advanced.php","Avancé","Opérations délicates"),
-  		 array('user_pref.php','Preference',"Préférence de l'utilisateur"),
-		 array('parametre.php?dos='.$_SESSION['g_dossier'],"Paramètre"),
-		 array('commercial.php?dos='.$_SESSION['g_dossier'],"Gestion"),
-		 array('login.php','Accueil',"Accueil"),
-		 array('logout.php','logout',"Sortie")
+  		 // array('user_pref.php','Preference',"Préférence de l'utilisateur"),
+		 // array('parametre.php?dos='.$_SESSION['g_dossier'],"Paramètre"),
+		 // array('commercial.php?dos='.$_SESSION['g_dossier'],"Gestion"),
+		 // array('login.php','Accueil',"Accueil"),
+		 //		 array('logout.php','logout',"Sortie")
 		 );
 
-  $result=ShowItem($p_array,'H',"mtitle","mtitle",$default,' width="100%"');
+  $result=ShowItem($p_array,'H',"mtitle","mtitle",$default,' width="50%"');
 
   $r="<H2 class=\"info\">Comptabilit&eacute;  ".$_SESSION['g_name'];
 
-  $r.='<div align="right"><input type="IMAGE" src="image/search.png" onclick="openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.$p_dossier.');"></div> ';
+  $r.='<div align="right">
+<input type="IMAGE" src="image/search.png" width="36" onclick="openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.$_SESSION['g_dossier'].');">
+<A HREF="compta.php?p_action=impress" title="Impression"><INPUT TYPE="IMAGE" width="36" src="image/print.png"></A>
+<A HREF="user_pref.php" title="Pr&eacute;f&eacute;rence"><INPUT TYPE="IMAGE" width="36" src="image/preference.png"></A>
+<A HREF="commercial.php?dos='.$_SESSION['g_dossier'].'" title="Gestion"><INPUT TYPE="IMAGE" width="36" src="image/compta.png"></A>
+<A HREF="parametre.php?dos='.$_SESSION['g_dossier'].'" title="Paramètre"><input type="IMAGE" width="36" src="image/param.png"></A>
+<A HREF="login.php" title="Accueil"><INPUT TYPE="IMAGE" width="36" src="image/home.png" ></A>
+<A HREF="logout.php" title="Sortie"><input type="IMAGE" title="Logout" src="image/logout.png" width="36"></A>
+
+
+
+</div> ';
   $r.="</H2>";
   $r.=$result;
   return $r;
@@ -405,7 +416,7 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
 
   $r.=JS_SEARCH_POSTE;
   $r.=JS_SEARCH_CARD;
-  $r.= "<h2>Recherche</h2>";
+  $r.= '<h2><INPUT TYPE="IMAGE" width="64" SRC="image/search.png"> Recherche</h2>';
   $r.= '<FORM ACTION="recherche.php" METHOD="GET">';
   $r.="<table><tr><TD>";  
   $r.= '<TABLE>';
@@ -612,8 +623,8 @@ function ShowMenuParam($p_action="")
 			  array('commercial.php?dos='.$_SESSION['g_dossier'],"Gestion"),
 			  array('user_compta.php?dos='.$_SESSION['g_dossier'],"Comptabilité"),
 
-			  array('login.php','Accueil',"Accueil"),
-			  array('logout.php','logout',"Sortie")
+			  //  array('login.php','Accueil',"Accueil"),
+			  //array('logout.php','logout',"Sortie")
 			  ),
 		    'H',"mtitle","mtitle",$p_action,' width="100%"');
     return $sub_menu;

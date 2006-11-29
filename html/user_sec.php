@@ -45,7 +45,12 @@ if ( $User->CheckAction($cn_dossier,SECU) == 0 ) {
   NoAccess();
   exit -1;
  }
-echo "<H2 class=\"info\">".$_SESSION['g_name']." </H2>";
+echo "<H2 class=\"info\">".$_SESSION['g_name'];
+echo '<div align="right">
+<A HREF="login.php" title="Accueil"><INPUT TYPE="IMAGE" width="36" src="image/home.png" ></A>
+<A HREF="logout.php" title="Sortie"><input type="IMAGE" title="Logout" src="image/logout.png" width="36"></A>
+</div></h2>';
+
 
 echo ShowMenuParam("user_sec.php");
 
