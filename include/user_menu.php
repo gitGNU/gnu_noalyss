@@ -150,10 +150,17 @@ function ShowMenuCompta($p_dossier,$p_high="")
 
   echo_debug('user_menu.php',__LINE__,'defaut is '.$default);
 
-  $p_array=array(array("user_jrn.php?show","Journaux","Les journaux permettent d'encoder toutes les opérations"),
+  $p_array=array(
+		 array("user_jrn.php?jrn_type=NONE" ,"Grand Livre"),
+		 array("user_jrn.php?jrn_type=VEN" ,"Entrée"),
+		 array("user_jrn.php?jrn_type=ACH","Dépense"),
+		 array("user_jrn.php?jrn_type=FIN","Financier"),
+		 array("user_jrn.php?jrn_type=OD","Op. Diverses"),
+		 //		 array("user_jrn.php?show","Journaux","Les journaux permettent d'encoder toutes les opérations"),
 		 array("fiche.php?p_dossier=$p_dossier","Fiche","Ajouter, modifier ou effacer des fiches"),
-		 array("compta.php?p_action=impress","Impression","Impression"),
+		 //		 array("compta.php?p_action=impress","Impression","Impression"),
 		 array("user_advanced.php","Avancé","Opérations délicates"),
+
   		 // array('user_pref.php','Preference',"Préférence de l'utilisateur"),
 		 // array('parametre.php?dos='.$_SESSION['g_dossier'],"Paramètre"),
 		 // array('commercial.php?dos='.$_SESSION['g_dossier'],"Gestion"),
@@ -161,7 +168,7 @@ function ShowMenuCompta($p_dossier,$p_high="")
 		 //		 array('logout.php','logout',"Sortie")
 		 );
 
-  $result=ShowItem($p_array,'H',"mtitle","mtitle",$default,' width="50%"');
+  $result=ShowItem($p_array,'H',"mtitle","mtitle",$default,' width="100%"');
 
   $r="<H2 class=\"info\">Comptabilit&eacute;  ".$_SESSION['g_name'];
 

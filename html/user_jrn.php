@@ -49,7 +49,7 @@ $jrn_type=(isset($_REQUEST['jrn_type']))?$_REQUEST['jrn_type']:-1;
 
 
 echo '<div class="u_tmenu">';
-echo ShowMenuCompta($_SESSION['g_dossier']);
+echo ShowMenuCompta($_SESSION['g_dossier'],"user_jrn.php?jrn_type=".$jrn_type);
 echo '</div>';
 
 if ( $User->admin == 0 ) {
@@ -70,10 +70,10 @@ if ( $User->admin == 0 ) {
 }
 
 // Show the available jrn
-$result=ShowJrn("user_jrn.php?jrn_type=".$jrn_type);
-echo "<div class=\"u_subtmenu\">";
-echo $result;
-echo "</div>";
+// $result=ShowJrn("user_jrn.php?jrn_type=".$jrn_type);
+// echo "<div class=\"u_subtmenu\">";
+// echo $result;
+// echo "</div>";
 
 
 
