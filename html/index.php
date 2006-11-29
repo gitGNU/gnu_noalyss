@@ -73,10 +73,10 @@ BODY {
 
 }
 </style>
-<script src="scripts.js" type="text/javascript"></script>
+<script src="js/scripts.js" type="text/javascript"></script>
 </head>
 <BODY onLoad="SetFocus(\'login\',0)">
-Version  2.1.3
+Version  CVS 2.2.0
 <div class="remark">
  <p class="gras">Il est conseill&eacute; de ne PAS utiliser Internet Explorer.
  </p><p>
