@@ -958,7 +958,7 @@ function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1)
     $go=sprintf($_SERVER['PHP_SELF']."?".$url."&offset=$offset&step=$step&page=$e&size=$step");
     $r.=sprintf('<A class="mtitle" HREF="%s" CLASS="one">%d</A>&nbsp;',$go,$e);
     } else {
-      $r.="<b> $e </b>";
+      $r.="<b> [ $e ] </b>";
     } //else
   } //for
   // next
