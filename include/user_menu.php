@@ -183,8 +183,8 @@ function ShowMenuCompta($p_dossier,$p_high="")
 
 
 
-</div> ';
-  $r.="</H2>";
+</div></h2> ';
+
   $r.=$result;
   return $r;
 
