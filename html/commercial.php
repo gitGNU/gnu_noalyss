@@ -73,7 +73,6 @@ echo '<div class="u_tmenu">';
 echo "<H2 class=\"info\">Commercial ".$_SESSION['g_name']." ";
 echo '<div align="right" title="Recherche">
 <input type="IMAGE" src="image/search.png" width="36" onclick="openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.$_SESSION['g_dossier'].');">
-<A HREF="?p_action=impress" title="Impression"><INPUT TYPE="IMAGE" width="36" src="image/print.png"></A>
 <A HREF="?p_action=pref" title="Pr&eacute;f&eacute;rence"><INPUT TYPE="IMAGE" width="36" src="image/preference.png"></A>
 <A HREF="user_compta.php?dos='.$_SESSION['g_dossier'].'" title="Comptabilité"><INPUT TYPE="IMAGE" width="36" src="image/compta.png"></A>
 <A HREF="parametre.php?dos='.$_SESSION['g_dossier'].'" title="Paramètre"><input type="IMAGE" width="36" src="image/param.png"></A>
@@ -89,7 +88,7 @@ echo ShowItem(array(
 		    array('?p_action=facture','Facture'),
 		    array('?p_action=fournisseur','Fournisseur'),
 		    array('?p_action=depense','D&eacute;pense'),
-		    //array('?p_action=impress','Impression'),
+		    array('?p_action=impress','Impression'),
 		    array('?p_action=bank','Banque'),
 		    array('?p_action=contact','Contact'),
 		    array('?p_action=admin','Administration'),

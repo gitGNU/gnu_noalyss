@@ -158,7 +158,7 @@ function ShowMenuCompta($p_dossier,$p_high="")
 		 array("user_jrn.php?jrn_type=OD","Op. Diverses"),
 		 //		 array("user_jrn.php?show","Journaux","Les journaux permettent d'encoder toutes les opérations"),
 		 array("fiche.php?p_dossier=$p_dossier","Fiche","Ajouter, modifier ou effacer des fiches"),
-		 //		 array("compta.php?p_action=impress","Impression","Impression"),
+	       	 array("compta.php?p_action=impress","Impression","Impression"),
 		 array("user_advanced.php","Avancé","Opérations délicates"),
 
   		 // array('user_pref.php','Preference',"Préférence de l'utilisateur"),
@@ -174,7 +174,6 @@ function ShowMenuCompta($p_dossier,$p_high="")
 
   $r.='<div align="right">
 <input type="IMAGE" src="image/search.png" width="36" onclick="openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.$_SESSION['g_dossier'].');">
-<A HREF="compta.php?p_action=impress" title="Impression"><INPUT TYPE="IMAGE" width="36" src="image/print.png"></A>
 <A HREF="user_pref.php" title="Pr&eacute;f&eacute;rence"><INPUT TYPE="IMAGE" width="36" src="image/preference.png"></A>
 <A HREF="commercial.php?dos='.$_SESSION['g_dossier'].'" title="Gestion"><INPUT TYPE="IMAGE" width="36" src="image/compta.png"></A>
 <A HREF="parametre.php?dos='.$_SESSION['g_dossier'].'" title="Paramètre"><input type="IMAGE" width="36" src="image/param.png"></A>
@@ -423,7 +422,7 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
 
   $r.=JS_SEARCH_POSTE;
   $r.=JS_SEARCH_CARD;
-  $r.= '<h2><INPUT TYPE="IMAGE" width="64" SRC="image/search.png"> Recherche</h2>';
+  $r.= '<h2><INPUT TYPE="IMAGE" width="48" SRC="image/search.png"> Recherche</h2>';
   $r.= '<FORM ACTION="recherche.php" METHOD="GET">';
   $r.="<table><tr><TD>";  
   $r.= '<TABLE>';
