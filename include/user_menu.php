@@ -41,11 +41,12 @@ function u_ShowDossier($p_user,$p_admin)
   $result="";
   $result.="<table border=\"0\">";
   $result.='<TR>';
-    if ( $p_admin == 1 ) {
-      $result.="<TD  class=\"mtitle\" ><A class=\"mtitle\" HREF=\"admin_repo.php\"> Administration  </A></TD>";
-    }
-    $result.='<TD  class="mtitle" ><A class="mtitle" HREF="logout.php" > Sortir</a></TD>';
-    $result.="</TR>";
+  if ( $p_admin == 1 ) {
+    $result.="<TD  class=\"mtitle\" ><A class=\"mtitle\" HREF=\"admin_repo.php\"> Administration  </A></TD>";
+  }
+  $result.='<TD  class="mtitle" ><A class="mtitle" HREF="manuel-fr.pdf" > Aide </a></TD>';
+  $result.='<TD  class="mtitle" ><A class="mtitle" HREF="logout.php" > Sortir</a></TD>';
+  $result.="</TR>";
   $result.="</table>";
   $result.="<TABLE>";
   for ($i=0;$i<sizeof($p_array);$i++) {

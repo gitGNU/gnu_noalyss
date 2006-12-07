@@ -14,6 +14,7 @@ FAQ-fr.pdf: FAQ-fr.sgml
 	linuxdoc -B latex --papersize=a4 --charset=latin --output=pdf FAQ-fr.sgml
 manuel-fr.pdf:manuel-fr.sgml
 	linuxdoc -B latex --papersize=a4 --charset=latin --output=pdf manuel-fr.sgml
+	cp manuel-fr.pdf ../html
 INSTALL-fr.pdf:INSTALL-fr.sgml
 	linuxdoc -B latex --papersize=a4 --charset=latin --output=pdf INSTALL-fr.sgml
 FAQ-fr.txt: FAQ-fr.sgml
