@@ -47,17 +47,17 @@ function ShowActionList($cn,$retour,$h_url)
    $a=(isset($_GET['query']))?$_GET['query']:"";
    printf ('<span>Titre ou référence: <input type="text" name="query" value="%s"></span>',
 	   $a);
-   $qcode=(isset($_GET['qcode_query']))?$_GET['qcode_query']:"";
+   $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
    echo JS_SEARCH_CARD;
    $w=new widget('js_search_only');
-   $w->name='qcode_query';
+   $w->name='qcode';
    $w->value=$qcode;
    $w->label='Quick Code';
    $w->extra='4,9,14,16,8';
    $w->table=0;
    $sp= new widget("span");
 
-   echo $sp->IOValue("qcode_query_label","",$qcode);
+   echo $sp->IOValue("qcode_label","",$qcode);
    echo $w->IOValue();
 ?>
 <input type="submit" name="submit_query" value="recherche">
@@ -98,15 +98,15 @@ function ShowActionList($cn,$retour,$h_url)
    }
  
    $str="";
-   if ( isset($_GET['qcode_query'] )) 
+   if ( isset($_GET['qcode'] )) 
      {
 
         // verify that qcode is not empty
-        if ( strlen(trim($_REQUEST['qcode_query'] )) != 0 )
+        if ( strlen(trim($_REQUEST['qcode'] )) != 0 )
 	 { 
 
 	   $fiche=new Fiche($cn);
-	   $fiche->GetByQCode($_REQUEST['qcode_query']);
+	   $fiche->GetByQCode($_REQUEST['qcode']);
 	   $str=" and (f_id_exp= ".$fiche->id." or ".
 	     "f_id_dest=".$fiche->id.")";
 
