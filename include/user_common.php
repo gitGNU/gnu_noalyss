@@ -357,8 +357,18 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0,$p_paid=0)
   include_once("central_inc.php");
   $limit=($_SESSION['g_pagesize']!=-1)?" LIMIT ".$_SESSION['g_pagesize']:"";
   $offset=($_SESSION['g_pagesize']!=-1)?" OFFSET ".$p_value:"";
-  if ( $p_array == null ) {
 
+  // set a filter for the FIN 
+  $a_parm_code=GetArray($p_cn,"select p_value from parm_code where p_code in ('BANQUE','VIREMENT_INTERNE','COMPTE_COURANT','CAISSE')");
+  $sql_fin="(";
+  $or="";
+  foreach ($a_parm_code as $code) {
+    $sql_fin.="$or j_poste like '".$code['p_value']."%'";
+    $or=" or ";
+  }
+  $sql_fin.=")";
+
+  if ( $p_array == null ) {
   //que fait cette requête??? 
     
    $sql="select jr_id	,
@@ -545,15 +555,14 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0,$p_paid=0)
     // Amount
     // If the ledger is financial :
     // the credit must be negative and written in red
-    // Get the jrn type
-    $jrn_prop=GetJrnProp($p_cn,$row['jrn_def_id'],1);  
     $positive=0;
 
-    // Check ledger type
-     if (  $jrn_prop['jrn_def_type'] == 'FIN' ) 
+    // Check ledger type : 
+    //! \todo le test pour ces journaux devaient être basés sur le contenu de PARM_CODE
+     if (  $row['jrn_def_type'] == 'FIN' ) 
      {
        $positive = CountSql($p_cn,"select * from jrn inner join jrnx on jr_grpt_id=j_grpt ".
- 			   " where jr_id=".$row['jr_id']." and (j_poste like '55%' or j_poste like '57%' )".
+ 			   " where jr_id=".$row['jr_id']." and $sql_fin ".
  			   " and j_debit='f'");
      }
     $r.="<TD align=\"right\">";
