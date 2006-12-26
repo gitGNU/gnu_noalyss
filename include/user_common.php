@@ -452,7 +452,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0,$p_paid=0)
     $l_poste=FormatString($l_poste);
     if ( $l_poste != null ) {
       $sql.=$l_and."  jr_grpt_id in (select j_grpt 
-             from jrnx where j_poste = $l_poste)  ";
+             from jrnx where j_poste like '$l_poste' )  ";
       $l_and=" and ";
     }
     // Quick Code
