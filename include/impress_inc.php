@@ -20,17 +20,13 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 // $Revision$
 
-/*! \function  ViewImp
- \Brief  Create the form where the period
+/*!
+ * \brief  Create the form where the period
  *           is asked
  * 
- * parm : 
- *	- array (type,action,central,filter...)
- *      - connection
- * gen :
- *	- none
- * return:
- *	- none
+ * \param  array (type,action,central,filter...)
+ * \param connection
+ * \return none
  *
  */ 
 function ViewImp($p_array,$p_cn) {
@@ -81,17 +77,11 @@ function ViewImp($p_array,$p_cn) {
   echo '</FORM>';
   echo "</DIV>";
 }
-/*! \function  Imp
- \Brief  Show the html printing result 
- *           
- * 
- * parm : 
- *	-  array
- *      -  db connection
- * gen :
- *	- none
- * return:
- *	- ImpHtml
+/*!
+ * \brief  Show the html printing result 
+ * \param  array
+ * \param  db connection
+ * \return  ImpHtml
  *
  */ 
 function Imp($p_array,$p_cn) {
@@ -103,16 +93,11 @@ function Imp($p_array,$p_cn) {
   }
   echo_error ("IMP no action specified"); return;
 }
-/*! \function  ImpHtml
- \Brief  Show the html result
- * 
- * parm : 
- *	- array (type,periode,
- *      - connection
- * gen :
- *	- none
- * return: 
- *	- error if something goes wrong or
+/*!
+ * \brief  Show the html result
+ * \param  array (type,periode,
+ * \param  connection
+ * \return  error if something goes wrong or
  *        the page result
  *
  */ 
@@ -251,17 +236,12 @@ function ImpHtml($p_array,$p_cn)
   }//jrn
 
 }
-/*! \function  GetDataPoste
- \Brief  Get dat for poste 
+/*!
+ * \brief  Get dat for poste 
  * 
- * parm : 
- *      - connection
- *	- condition
- *      -. position
- * gen :
- *	- none
- * return:
- *	- none
+ * \param connection
+ * \param condition
+ * \param position
  *
  */ 
 function GetDataPoste($p_cn,$p_poste,$p_condition)
@@ -291,17 +271,13 @@ function GetDataPoste($p_cn,$p_poste,$p_condition)
   }
   return array($array,$tot_deb,$tot_cred);
 }
-/*! \function  GetDataJrn
- \Brief  Get data from the jrn table
+/*!
+ * \brief  Get data from the jrn table
  * 
- * parm : 
- *	- connection
- *      - array periode
- *      - filter (default = YES)
- * gen :
- *	- none
- * return:
- *	- error code if something code wrong
+ * \param connection
+ * \param array periode
+ * \param filter (default = YES)
+ * \return error code if something code wrong
  *       otherwise the result
  *
  */ 
@@ -360,18 +336,15 @@ function GetDataJrn($p_cn,$p_array,$filter=YES)
   return $array;
 }
 /*! \function  CreatePeriodeCond
- \Brief  Create the sql query for the periode
+ * \brief  Create the sql query for the periode
  * 
- * parm : 
- *	- p_periode
- *      - p_field (default = j_tech_per)
- * gen :
- *	- none
- * return:
- *	- a string containing the query
+ * \param p_periode
+ * \param p_field (default = j_tech_per)
+ * \return a string containing the query
  *
  */ 
-function CreatePeriodeCond($p_periode,$p_field=" j_tech_per") {
+function CreatePeriodeCond($p_periode,$p_field=" j_tech_per") 
+{
   if ( count($p_periode) == 1) {
     return $p_field."=".$p_periode[0];
   }
@@ -405,19 +378,13 @@ function CreatePeriodeCond($p_periode,$p_field=" j_tech_per") {
   $cond_periode.=")";
   return $cond_periode;
 }
-/*! \function  GetDataJrnPdf
- \Brief  Get The data for the pdf printing
- * 
- * parm : 
- *	- connection
- *      - array
- *      - p_limit starting line
- *      - p_offset number of lines
- *
- * gen :
- *	- none
- * return:
- *	- Array with the asked data
+/*!
+ * \brief  Get The data for the pdf printing
+ * \param connection
+ * \param array
+ * \param p_limit starting line
+ * \param p_offset number of lines
+ * \return Array with the asked data
  *
  */ 
 function GetDataJrnPdf($p_cn,$p_array,$p_limit,$p_offset)
@@ -568,17 +535,13 @@ function GetDataJrnPdf($p_cn,$p_array,$p_limit,$p_offset)
   $a=array($array,$tot_deb,$tot_cred);
  return $a;
 }
-/*! \function  
- \Brief  
+/*!
+ * \brief  
  *        
- * parm : 
- *	-
- * gen :
- *	-
- * return:
+ * \param 
+ *	
+ *\return
  */
-
-
 function GetDataGrpt($p_cn,$p_array)
 {
   if ( !isset ($p_array['periode']) ) return NO_PERIOD_SELECTED;
@@ -596,23 +559,37 @@ function GetDataGrpt($p_cn,$p_array)
   }
   return $array;
 }
-
-/*! \function  GetRappel
- \Brief  Get the amount on each page
+/*! 
+ * \brief
+ * \param $p_cn database connection
+ * \param $p_jr_id jrn.jr_id not centralized 
+ *                 or jr_op_id normal ledger centralized or jr_c_op_id if GL and centralized
+ * \param $p_jrn_id id of the ledger (0 for GL)
+ * \param $p_exercice
+ * \param $p_which LAST or FIRST
+ * \param $p_type CENT for centralized otherwise empty
  * 
- * parm : 
- *	- $p_cn
- *      - $p_jrnx_id jrnx.j_id
- *      - $p_jrn_id jrn.jr_id
- *      - $which LAST or FIRST
- *      - $p_type valeur JRN GL-CENTRAL GL-NOCENTRAL
- * gen :
- *	-
- * return:
- *	- array sum (deb) sum(cred)
+ *
+ * \return array sum(HTVA) sum(TVAC) sum (each TVA)
+ */
+function GetRappelSimple ($p_cn,$p_jr_id,$p_jrn_id,$p_exercice,$which) 
+{
+  $result=array();
+
+
+  return $result;
+}
+/*!
+ * \brief  Get the amount on each page
+ *
+ * \param $p_cn
+ * \param $p_jrnx_id jrnx.j_id
+ * \param $p_jrn_id jr_def_id
+ * \param $which LAST or FIRST
+ * \param  $p_type valeur JRN GL-CENTRAL GL-NOCENTRAL
+ * \return array sum (deb) sum(cred)
  *
  */ 
-
 function GetRappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_central) 
 {
   include_once("preference.php");
@@ -707,10 +684,8 @@ function GetRappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_cent
   
 }
 
-/*! \brief  ParseFormula
- * Purpose Parse a formula
+/*! \brief   Purpose Parse a formula
  * 
- * parm : 
  * \param $p_cn connexion
  * \param $p_label
  * \param $p_formula
@@ -720,7 +695,8 @@ function GetRappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_cent
  *
  *
  */ 
-function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true) {
+function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true) 
+{
   echo_debug('impress_inc',__LINE__,'ParseFormula');
   if ( CheckFormula($p_formula) == false) {
     if ( $p_eval == true)
@@ -790,19 +766,14 @@ function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true) {
     return $p_formula;
   }
 }
-/*! \function  GetFormulaValue
- \Brief  Parse the formula contained in the fo_formula 
+/*!
+ * \brief  Parse the formula contained in the fo_formula 
  *           field and return a array containing all the columns
  * 
- * parm : 
- *	- $p_cn connexion
- *      - $p_label
- *      - $p_formula
- * gen :
- *	- none
- * return:
- *	- array
- * 
+ * \param $p_cn connexion
+ * \param $p_label
+ * \param $p_formula
+ * \return array
  *
  */ 
 function GetFormulaValue($p_cn,$p_label,$p_formula,$p_cond) 
@@ -849,16 +820,12 @@ function GetFormulaValue($p_cn,$p_label,$p_formula,$p_cond)
   }
   return $aret;
 }
-/*! \function  CheckFormula
- **************************************************
- \Brief  Check if formula doesn't contain
+/*!
+ * \brief  Check if formula doesn't contain
  *           php injection
- *        
- * parm : 
- *	- string
- * gen :
- *	- 
- * return: none : stop on error
+ * \param string
+ *
+ * \return true if the formula is good otherwise false
  */
 function CheckFormula($p_string) {
   // the ereg gets too complex if we want to add a test
