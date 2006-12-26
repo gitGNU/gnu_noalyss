@@ -26,7 +26,7 @@
 
 function modifyOperation(p_value,p_sessid,p_jrn)
 		{
-			var win=window.open('modify_op.php?action=update&p_jrn='+p_jrn+'&line='+p_value+'&PHPSESSID='+p_sessid,'Modifie','toolbar=no,width=500,height=400,scrollbars=yes,resizable=yes');
+			var win=window.open('modify_op.php?action=update&p_jrn='+p_jrn+'&line='+p_value+'&PHPSESSID='+p_sessid,'','toolbar=no,width=500,height=400,scrollbars=yes,resizable=yes');
 		}
 function RefreshMe() {
 window.location.reload();

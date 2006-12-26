@@ -26,7 +26,7 @@
 
 function showfiche(p_sessid,qcode)
 {
-  var a=window.open('show_fiche.php?PHPSESSID='+p_sessid+'&q='+qcode,'','toolbar=no,width=350,height=450,scrollbar=yes');
+  var a=window.open('show_fiche.php?PHPSESSID='+p_sessid+'&q='+qcode,'','toolbar=no,width=350,height=450,scrollbar=yes,statusbar=no');
   
 }
 
@@ -35,11 +35,11 @@ function showfiche(p_sessid,qcode)
 */
 function SearchCard(p_sessid,type,name,jrn)
 {
-   var a=window.open('fiche_search.php?p_jrn='+jrn+'&PHPSESSID='+p_sessid+'&type='+type+'&name='+name,'item','toolbar=no,width=350,height=450,scrollbars=yes');
+   var a=window.open('fiche_search.php?p_jrn='+jrn+'&PHPSESSID='+p_sessid+'&type='+type+'&name='+name,'item','toolbar=no,width=350,height=450,scrollbars=yes,statusbar=no');
 }
 	function NewCard(p_sessid,type,name,jrn)
 {
-   var a=window.open('fiche_new.php?p_jrn='+jrn+'&PHPSESSID='+p_sessid+'&type='+type+'&name='+name,'item','toolbar=no,width=350,height=450,scrollbars=yes');
+   var a=window.open('fiche_new.php?p_jrn='+jrn+'&PHPSESSID='+p_sessid+'&type='+type+'&name='+name,'item','toolbar=no,width=350,height=450,scrollbars=yes,statusbar=no');
 }
 /* SetValue( p_ctl,p_value )
 /* p_ctl is the name of the control
