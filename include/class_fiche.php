@@ -675,7 +675,17 @@ class fiche {
      {
        return fiche::GetByDef($this->fiche_def_ref,$p_offset,$p_search);
     }
-   /*!\brief list all the cards from 
+   /*!\brief retrieve the frd_id of the fiche 
+    *        (fiche_def_ref primary key)
     */
+  function get_fiche_def_ref_id() 
+    {
+      $result=GetArray($this->cn,"select frd_id from fiche join fiche_Def using (fd_id) where f_id=".$this->id);
+      if ( $result == null )
+	return null;
+      
+      return $result[0]['frd_id'];
+    }
+    
 }
 ?>
