@@ -158,8 +158,8 @@ function ShowMenuCompta($p_dossier,$p_high="")
 		 array("user_jrn.php?jrn_type=FIN","Financier"),
 		 array("user_jrn.php?jrn_type=OD","Op. Diverses"),
 		 //		 array("user_jrn.php?show","Journaux","Les journaux permettent d'encoder toutes les opérations"),
-		 array("fiche.php?p_dossier=$p_dossier","Fiche","Ajouter, modifier ou effacer des fiches"),
 	       	 array("compta.php?p_action=impress","Impression","Impression"),
+		 array("fiche.php?p_dossier=$p_dossier","Fiche","Ajouter, modifier ou effacer des fiches"),
 		 array("user_advanced.php","Avancé","Opérations délicates"),
 
   		 // array('user_pref.php','Preference',"Préférence de l'utilisateur"),
@@ -446,7 +446,7 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
   $r.= "</TR>";
   $r.= "<TR>";
   $W=new widget("js_search_poste");
-  $W->label="Numéro de poste";
+  $W->label="Numéro de poste<br> <i>Vous pouvez utilisez le %</i>";
   $W->name="poste";
   $W->value=$p_poste;
   $r.="<TR>".$W->IOValue();

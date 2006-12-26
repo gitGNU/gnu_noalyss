@@ -28,7 +28,7 @@ define ("phpcompta_psql_port","5432");
 define ("domaine","");
 
 
-define ("DEBUG","false");
+define ("DEBUG","true");
 
 // securite correspond a la table 
 // action
@@ -133,6 +133,11 @@ define ("FICHE_TYPE_FOURNISSEUR",8);
 define ("FICHE_TYPE_FIN",4);
 define ("FICHE_TYPE_CONTACT",16);
 define ("FICHE_TYPE_ADM_TAX",14);
+define ("FICHE_TYPE_ACH_MAR",2);
+define ("FICHE_TYPE_ACH_SER",3);
+
+
+
 define ("ATTR_DEF_DEPENSE_NON_DEDUCTIBLE",20);
 define ("ATTR_DEF_TVA_NON_DEDUCTIBLE",21);
 define ("ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP",22);

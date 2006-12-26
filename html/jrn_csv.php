@@ -47,6 +47,7 @@ if ( $User->CheckAction($cn,IMP) == 0 ||
 $Jrn=new jrn($cn,$_GET['jrn_id']);
 
 $Jrn->GetName();
+$jrn_type=$Jrn->GetType();
 // Detailled printing
 //---
 if  ( $_GET['p_simple'] == 0 ) 
@@ -83,41 +84,90 @@ if  ( $_GET['p_simple'] == 0 )
    {
      $Row=$Jrn->GetRowSimple($_GET['from_periode'],
 			     $_GET['to_periode'],
-			     $p_cent);
+			     $p_cent,
+			     0);
 //-----------------------------------------------------
-     printf ('" operation "'.
-	     '"Date"'.
-	     '"commentaire"'.
-	     '"internal"'.
-	     '"montant"');
+     if ( $jrn_type == 'ODS' || $jrn_type == 'FIN' || $jrn_type=='GL')
+       {
+	 printf ('" operation; "'.
+		 '"Date;"'.
+		 '"commentaire;"'.
+		 '"internal;"'.
+		 '"montant;"'.
+		 "\r\n");
 
-      foreach ($Row as $line)
-	{
-	  echo $line['num'].";";
-	  echo $line['date'].";";
-	  echo $line['comment'].";";
-	  echo $line['jr_internal'].";";
-	  //	  echo "<TD>".$line['pj'].";";
-	// If the ledger is financial :
-	// the credit must be negative and written in red
-  	// Get the jrn type
-	if ( $line['jrn_def_type'] == 'FIN' ) {
-	  $positive = CountSql($cn,"select * from jrn inner join jrnx on jr_grpt_id=j_grpt ".
-		   " where jr_id=".$line['jr_id']." and (j_poste like '55%' or j_poste like '57%' )".
+	 foreach ($Row as $line)
+	   {
+	     
+	     echo $line['num'].";";
+	     echo $line['date'].";";
+	     echo $line['comment'].";";
+	     echo $line['jr_internal'].";";
+	     //	  echo "<TD>".$line['pj'].";";
+	     // If the ledger is financial :
+	     // the credit must be negative and written in red
+	     // Get the jrn type
+	     if ( $line['jrn_def_type'] == 'FIN' ) {
+	       $positive = CountSql($cn,"select * from jrn inner join jrnx on jr_grpt_id=j_grpt ".
+				    " where jr_id=".$line['jr_id']." and (j_poste like '55%' or j_poste like '57%' )".
 			       " and j_debit='f'");
-	
+	       
 
-	echo ( $positive != 0 )?sprintf("-%8.2f",$line['montant']):sprintf("%8.2f",$line['montant']);
-	echo ";";
-	}
-	else 
-	  {
-	    printf("% 8.2f",$line['montant']).";";
-	  }
-
-	printf("\r\n");
-	}
-      
+	       echo ( $positive != 0 )?sprintf("-%8.2f",$line['montant']):sprintf("%8.2f",$line['montant']);
+	       echo ";";
+	     }
+	     else 
+	       {
+		 printf("% 8.2f",$line['montant']).";";
+	       }
+	     
+	     printf("\r\n");
+	   }
+       }  
 //-----------------------------------------------------
+     if ( $jrn_type=='ACH' || $jrn_type=='VEN')
+       {
+	 $a_Tva=GetArray($cn,"select tva_id,tva_label from tva_rate where tva_rate != 0.0000 order by tva_rate");
+	 $col_tva="";
+	 foreach($a_Tva as $line_tva)
+	   {
+	     $col_tva.='"Tva '.$line_tva['tva_label'].'";';
+	   } 
+	 echo '"Date";"operation";"Client/Fourn.";"Commentaire";"inter.";"HTVA";'.$col_tva.'"TVAC"'."\n\r";
+	 foreach ($Row as $line)
+	   {
+	     printf('"%s";"%s";"%s";"%s";"%s";% 10.2f;',
+		    $line['date'],
+		    $line['num'],
+		    $line['client'],
+		    $line['comment'],
+		    $line['jr_internal'],
+		    $line['HTVA']);
+	     $a_tva_amount=array();
+	     foreach ($line['TVA'] as $lineTVA)
+	       {
+		 foreach ($a_Tva as $idx=>$line_tva)
+		   {
+		     
+		     if ($line_tva['tva_id'] == $lineTVA[1][0])
+		       {
+			 $a=$line_tva['tva_id'];
+			 $a_tva_amount[$a]=$lineTVA[1][2];
+		       }
+		   } 
+	       }
+	   
+	     foreach ($a_Tva as $line_tva)
+	       {
+		 $a=$line_tva['tva_id'];
+		 if ( isset($a_tva_amount[$a]))
+		   printf("% 8.2f;",$a_tva_amount[$a]);
+		 else
+		   printf("0;");
+	       }
+
+	     printf("% 9.2f\r\n",$line['TVAC']);
+	   }
+       }
    }
 ?>

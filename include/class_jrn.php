@@ -18,6 +18,7 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+require_once('class_fiche.php');
 /*!\brief Class for jrn
  *
  */
@@ -31,6 +32,30 @@ class jrn {
     $this->db=$p_cn;
     $this->row=null;
   }
+/*! 
+ * \brief Return the type of a ledger (ACH,VEN,ODS or FIN) or GL 
+ * 
+ */
+  function GetType() {
+    if ( $this->id==0 ) {
+      $this->name=" Grand Livre ";
+      $this->type="GL";
+      return "GL";
+    }
+
+    $Res=ExecSql($this->db,"select jrn_def_type from ".
+	       " jrn_def where jrn_def_id=".
+	       $this->id);
+    $Max=pg_NumRows($Res);
+    if ($Max==0) return null;
+    $ret=pg_fetch_array($Res,0);
+    $this->type=$ret['jrn_def_type'];
+    return $ret['jrn_def_type'];
+  }
+/*! 
+ * \brief Return the name of a ledger 
+ * 
+ */
   function GetName() {
     if ( $this->id==0 ) {
       $this->name=" Grand Livre ";
@@ -47,14 +72,16 @@ class jrn {
     return $ret['jrn_def_name'];
   }
 
+
 /*! \function  GetRow
- \Brief  Get The data 
+ * \brief  Get The data 
  * 
- * \param : 
- *	- connection
- *      - an array
- *      - p_limit starting line
- *      - p_offset number of lines
+ *
+ * \param p_from from periode
+ * \param p_to to periode
+ * \param $p_cent (on or off)
+ * \param p_limit starting line
+ * \param p_offset number of lines
  *
  * gen :
  *	- none
@@ -221,109 +248,294 @@ class jrn {
   $a=array($array,$tot_deb,$tot_cred);
   return $a;
   }
- /*! \function  GetRowSimple
- **************************************************
- \Brief  Get simplified row
- *        
- * \param : 
- *	- connection
- *      - an array
- *      - p_limit starting line
- *      - p_offset number of lines
- *
- * gen :
- *	- none
- * return:
- *	- an Array with the asked data
- *
- */ 
+  /* \brief  Get simplified row from ledger 
+   *        
+   * \param from periode 
+   * \param to periode 
+   * \param centralized (on or off) 
+   * \param p_limit starting line 
+   * \param p_offset number of lines
+   * \param trunc if data must be truncated (pdf export)
+   *
+   * \return an Array with the asked data 
+   */
+  function GetRowSimple($p_from,$p_to,$cent='off',$trunc=0,$p_limit=-1,$p_offset=-1) 
+    {
 
-  function GetRowSimple($p_from,$p_to,$cent='off',$p_limit=-1,$p_offset=-1) 
-  {
-    
-    echo_debug('class_jrn.php',__LINE__,"GetRowSimple ( $p_from,$p_to,$cent,$p_limit,$p_offset)");
-    // Periode check
-    //---
-    if ( $p_from == $p_to ) 
-      $periode=" jr_tech_per = $p_from ";
-    else
-      $periode = "(jr_tech_per >= $p_from and jr_tech_per <= $p_to) ";
-    $cond_limite=($p_limit!=-1)?" limit ".$p_limit." offset ".$p_offset:"";
-    // Grand-livre : id= 0
-    //---
-    $jrn=($this->id == 0 )?"":"and jrn_def_id = ".$this->id;
-    // Non Centralise si cent=off
-    //--
-    if ($cent=='off') 
-      {// Non centralisé
-	//---
-	$sql=" 
-    SELECT jrn.jr_id as jr_id ,
-           jrn.jr_id as num , 
-           jrn.jr_def_id as jr_def_id, 
-           jrn.jr_montant as montant, 
-           jrn.jr_comment as comment, 
-           to_char(jrn.jr_date,'DD-MM-YYYY') as date, 
-           jr_internal,
-           jrn.jr_grpt_id as grpt_id, 
-           jrn.jr_pj_name as pj,
-            jrn_def_type
-   FROM jrn join jrn_def on (jrn_def_id=jr_def_id)
-where $periode $jrn order by jr_date";
+      $periode=sql_filter_per($this->db,$p_from,$p_to,'p_id','jr_tech_per');
+      
+      $cond_limite=($p_limit!=-1)?" limit ".$p_limit." offset ".$p_offset:"";
+      // Grand-livre : id= 0
+      //---
+      $jrn=($this->id == 0 )?"":"and jrn_def_id = ".$this->id;
+      // Non Centralise si cent=off
+      //--
+      if ($cent=='off') 
+	{// Non centralisé
+	  //---
+	  $sql=" 
+                  SELECT jrn.jr_id as jr_id ,
+                      jrn.jr_id as num , 
+                      jrn.jr_def_id as jr_def_id, 
+                      jrn.jr_montant as montant, 
+                      substr(jrn.jr_comment,1,30) as comment, 
+                      to_char(jrn.jr_date,'DD-MM-YYYY') as date, 
+                      jr_internal,
+                      jrn.jr_grpt_id as grpt_id, 
+                      jrn.jr_pj_name as pj,
+                      jrn_def_type,
+                       jrn.jr_tech_per
+                  FROM jrn join jrn_def on (jrn_def_id=jr_def_id)
+                  WHERE $periode $jrn order by jr_date $cond_limite";
+	} 
+      else 
+	{
+	  //Centralisé
+	  //---
+	  $id=($this->id == 0 ) ?"jr_c_opid as num":"jr_opid as num";
 
-
-	
-      } 
-    else 
-      {
-	//Centralisé
-	//---
-	$id=($this->id == 0 ) ?"jr_c_opid as num":"jr_opid as num";
-	$sql="
-    SELECT jrn.jr_id as jr_id ,
-           $id , 
-           jrn.jr_def_id as jr_def_id, 
-           jrn.jr_montant as montant, 
-           jrn.jr_comment as comment, 
-           to_char(jrn.jr_date,'DD-MM-YYYY') as date, 
-           jr_internal,
-           jrn.jr_grpt_id as grpt_id, 
-           jrn.jr_pj_name as pj,
-            jrn_def_type
-   FROM jrn join jrn_def on (jrn_def_id=jr_def_id)
-       where 
-         $periode $jrn and 
-         jr_opid is not null
-         order by jr_date";
+	  $sql="
+            SELECT jrn.jr_id as jr_id ,
+                   $id , 
+                   jrn.jr_def_id as jr_def_id, 
+                   jrn.jr_montant as montant, 
+                   substr(jrn.jr_comment,1,30) as comment, 
+                   to_char(jrn.jr_date,'DD-MM-YYYY') as date, 
+                   jr_internal,
+                   jrn.jr_grpt_id as grpt_id, 
+                   jrn.jr_pj_name as pj,
+                   jrn_def_type,
+                   jrn.jr_tech_per 
+           FROM jrn join jrn_def on (jrn_def_id=jr_def_id) 
+               where 
+                 $periode $jrn and 
+                 jr_opid is not null
+                 order by jr_date  $cond_limite";
       }// end else $cent=='off'
     //load all data into an array
     //---
-    $Res=ExecSql($this->db,$sql);
-    if ( pg_NumRows($Res) == 0 ) 
-      {
-	return null;
+      $Res=ExecSql($this->db,$sql);
+      $Max=pg_NumRows($Res);
+      if ( $Max == 0 ) 
+	{
+	  return null;
       } 
-
-
-    $array=pg_fetch_all($Res); 
-
+     $type=$this->GetType();
+     // for type ACH and Ven we take more info
+     if (  $type == 'ACH' ||  	  $type == 'VEN') 
+       {
+	 for ( $i=0;$i<$Max;$i++) 
+	   {
+	     $array[$i]=pg_fetch_array($Res); 
+	     $p=$this->get_detail(&$array[$i],$type,$trunc);
+	     
+	   }
+	 
+       }
+     else 
+       {
+	 $array=pg_fetch_all($Res);
+	 
+       }
+    
     return $array;  
-  }// end function GetRowSimple
+    }// end function GetRowSimple
 
-/*! \function GetDefLine
- * \Brief Get the number of lines of a journal
- * \param $p_cred deb or cred
+/*! 
+ * \brief get_detail gives the detail of row 
+ * this array must contains at least the field
+ *       <ul>
+ *       <li> montant</li>
+ *       <li> grpt_id
+ *       </ul>
+ * the following field will be added
+ *       <ul>
+ *       <li> HTVA  
+ *       <li> TVAC
+ *       <li> TVA array with
+ *          <ul>
+ *          <li> field 0 idx
+ *          <li> array containing tva_id,tva_label and tva_amount
+ *          </ul>
+ *       </ul> 
  *
- * \return an integer
+ * \param p_array the structure is set in GetRowSimple, this array is 
+ *        modified,  
+ * \param $trunc if the data must be truncated, usefull for pdf export
+ *\param p_jrn_type is the type of the ledger (ACH or VEN)
+ * \return p_array 
  */
-function GetDefLine() 
-{
-	$sql_cred='jrn_deb_max_line';
-	$sql="select jrn_deb_max_line as value from jrn_def where jrn_def_id=".$this->id;
-	$r=ExecSql($this->db,$sql);
-	$Res=pg_fetch_all($r);
-	echo_debug('class_jrn',__LINE__,$Res);
-	if ( sizeof($Res) == 0 ) return 1;
-	return $Res[0]['value'];
-}
+  function get_detail($p_array,$p_jrn_type,$trunc=0)
+    {
+      // Load TVA array
+      $a_TVA=GetArray($this->db,'select tva_id,tva_label,tva_poste 
+                                from tva_rate where tva_rate != 0 order by tva_id');
+      //Load Parm_code
+      $a_ParmCode=GetArray($this->db,'select p_code,p_value from parm_code');
+
+      // init
+      $p_array['client']="";
+      $p_array['TVAC']=0;
+      $p_array['TVA']=array();
+      $p_array['AMOUNT_TVA']=0.0;
+	//
+	// Retrieve data from jrnx
+	$sql="select j_poste,j_montant, j_debit,j_qcode from jrnx where ".
+	  " j_grpt=".$p_array['grpt_id'];
+	$Res2=ExecSql($this->db,$sql);
+	$data_jrnx=pg_fetch_all($Res2);
+	$c=0;
+
+	// Parse data from jrnx and fill diff. field
+	foreach ( $data_jrnx as $code ) {
+	  $idx_tva=0;
+	  echo_debug('class_jrn',__LINE__,'Code is');
+	  echo_debug('class_jrn',__LINE__,$code);
+	  $poste=new poste($this->db,$code['j_poste']);
+
+	  // if card retrieve name if the account is not a VAT account
+	  if ( strlen(trim($code['j_qcode'] )) != 0 && $poste->isTva() == 0 )
+	    {
+	      echo_debug('class_jrn',__LINE__,'fiche_def = '.$code['j_qcode']);
+	      $fiche=new fiche($this->db);
+	      $fiche->GetByQCode(trim($code['j_qcode']),false);
+	      $fiche_def_id=$fiche->get_fiche_def_ref_id();
+	      // Customer or supplier
+	      if ( $fiche_def_id == FICHE_TYPE_CLIENT ||
+		   $fiche_def_id == FICHE_TYPE_FOURNISSEUR ) 
+		{
+		  echo_debug('class_jrn',__LINE__,$code['j_qcode'].'est F ou C');
+		  $p_array['TVAC']=$code['j_montant'];
+
+		  $p_array['client']=($trunc==0)?$fiche->GetName():substr($fiche->GetName(),0,20);
+		  $p_array['reversed']=false;
+		  if (	$fiche_def_id == FICHE_TYPE_CLIENT && $code['j_debit']=='f')
+		    {
+		      $p_array['reversed']=true;
+		      $p_array['TVAC']*=-1;
+		      
+		    }
+		  if (	$fiche_def_id == FICHE_TYPE_FOURNISSEUR && $code['j_debit']=='t')
+		    {
+		      $p_array['reversed']=true;
+		      $p_array['TVAC']*=-1;
+		  }
+		  
+		  
+		} else {
+		  // if we use the ledger ven / ach for others card than supplier and customer
+		  if ( $fiche_def_id != FICHE_TYPE_VENTE &&
+		       $fiche_def_id != FICHE_TYPE_ACH_MAR && 
+		       $fiche_def_id != FICHE_TYPE_ACH_SER ) {
+		    echo_debug('class_jrn',__LINE__,$code['j_qcode']."n 'est PAS F ou C");
+		    $p_array['TVAC']=$code['j_montant'];
+		    
+		    $p_array['client']=	($trunc==0)?$fiche->GetName():substr($fiche->GetName(),0,20);
+		    $p_array['reversed']=false;
+		    if ($p_jrn_type == 'ACH' && $code['j_debit']=='t')
+		      {
+			$p_array['reversed']=true;
+			$p_array['TVAC']*=-1;
+			
+		      }
+		    if ($p_jrn_type == 'VEN'  && $code['j_debit']=='f')
+		      {
+			$p_array['reversed']=true;
+			$p_array['TVAC']*=-1;
+		      }
+		    
+		    
+		    
+		    
+		  }
+		}
+	    }
+	  echo_debug('class_jrn',__LINE__,$a_TVA);
+	  // if TVA, load amount, tva id and rate in array 
+	  foreach ( $a_TVA as $line_tva) 
+	    {	      
+	      echo_debug('class_jrn',__LINE__,'ICI');
+	      echo_debug('class_jrn',__LINE__,'Montant TVA = '.$p_array['AMOUNT_TVA']);
+	      list($tva_deb,$tva_cred)=split(',',$line_tva['tva_poste']);
+	      if ( $code['j_poste'] == $tva_deb ||
+		   $code['j_poste'] == $tva_cred )
+		{
+
+		  // For the reversed operation
+		  if ( $p_jrn_type == 'ACH' && $code['j_debit'] == 'f')
+		    {
+		      $code['j_montant']=-1*$code['j_montant'];
+		    }
+		  if ( $p_jrn_type == 'VEN' && $code['j_debit'] == 't')
+		    {
+		      $code['j_montant']=-1*$code['j_montant'];
+		    }
+
+		  $p_array['AMOUNT_TVA']+=$code['j_montant'];
+
+		  $p_array['TVA'][$c]=array($idx_tva,array($line_tva['tva_id'],$line_tva['tva_label'],$code['j_montant']));
+		  echo_debug('class_jrn',__LINE__,'Montant TVA = '.$p_array['AMOUNT_TVA']);
+		  $c++;
+
+		  $idx_tva++;
+		}
+	    }
+
+	  // isDNA
+	  // If operation is reversed then  amount are negatif
+
+	}
+	$p_array['TVAC']=sprintf('% 10.2f',$p_array['TVAC']);
+	$p_array['HTVA']=sprintf('% 10.2f',$p_array['TVAC']-$p_array['AMOUNT_TVA']);
+	$r="";
+	$a_tva_amount=array();
+	// inline TVA (used for the PDF)
+	foreach ($p_array['TVA'] as $linetva) 
+	  {
+	    foreach ($a_TVA as $tva)
+	      {
+		if ( $tva['tva_id'] == $linetva[1][0] )
+		  {
+		    $a=$tva['tva_id'];
+		    $a_tva_amount[$a]=$linetva[1][2];
+		  }
+	      }
+	  }
+	foreach ($a_TVA as $line_tva)
+	  {
+	    $a=$line_tva['tva_id'];
+	    if ( isset($a_tva_amount[$a])) 
+	      {
+		$tmp=sprintf("% 10.2f",$a_tva_amount[$a]);     
+		//		$r.=str_repeat("_",10-strlen($tmp)).$tmp." ";
+		// $r.=str_repeat(" ",10-strlen($tmp)).$tmp." ";
+		$r.="$tmp";
+	      }
+	    else
+	      $r.=sprintf("% 10.2f",0);
+	      //         $r.=str_repeat(" ",6)."0.00 ";
+	      //	            $r.=str_repeat("_",6)."0.00 ";
+	    //$r.="     0.00";
+	  }
+	$p_array['TVA_INLINE']=$r;
+
+	return $p_array;
+    }  // retrieve data from jrnx
+
+  /*! \function GetDefLine
+   * \brief Get the number of lines of a journal
+   * \param $p_cred deb or cred
+   *
+   * \return an integer
+   */
+  function GetDefLine() 
+    {
+      $sql_cred='jrn_deb_max_line';
+      $sql="select jrn_deb_max_line as value from jrn_def where jrn_def_id=".$this->id;
+      $r=ExecSql($this->db,$sql);
+      $Res=pg_fetch_all($r);
+      echo_debug('class_jrn',__LINE__,$Res);
+      if ( sizeof($Res) == 0 ) return 1;
+      return $Res[0]['value'];
+    }
 }
