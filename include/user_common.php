@@ -558,7 +558,6 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0,$p_paid=0)
     $positive=0;
 
     // Check ledger type : 
-    //! \todo le test pour ces journaux devaient être basés sur le contenu de PARM_CODE
      if (  $row['jrn_def_type'] == 'FIN' ) 
      {
        $positive = CountSql($p_cn,"select * from jrn inner join jrnx on jr_grpt_id=j_grpt ".
