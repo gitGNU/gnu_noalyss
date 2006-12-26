@@ -37,7 +37,7 @@ class poste {
   }
 
   /*! 
-   * \brief  Get dat for poste 
+   * \brief  Get data for poste 
    * 
    * \param  $p_from periode from
    * \param  $p_to   end periode
@@ -155,4 +155,29 @@ function GetSoldeDetail($p_cond="") {
 	       'credit'=>$r['sum_cred'],
 	       'solde'=>abs($r['sum_deb']-$r['sum_cred']));
 }
+/*! 
+ * \brief isTva tell is a poste is used for VAT
+ * \param none
+ * 
+ *
+ * \return 1 is Yes otherwise 0
+ */
+ function isTVA() 
+   {
+      // Load TVA array
+     $a_TVA=GetArray($this->db,'select tva_poste 
+                                from tva_rate');
+     foreach ( $a_TVA as $line_tva) 
+       {	      
+	 list($tva_deb,$tva_cred)=split(',',$line_tva['tva_poste']);
+	 if ( $this->id == $tva_deb ||
+	      $this->id == $tva_cred )
+	   {
+	     return 1;
+	   }
+       }
+     return 0;
+
+   }
+
 }
