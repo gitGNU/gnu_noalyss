@@ -23,7 +23,7 @@
  * \brief Administration of the repository : creation of user, folder, security, 
  *        templates... Accessible only by the administrator
  */
-
+require_once("user_common.php");
 include_once("ac_common.php");
 include_once("postgres.php");
 include_once("debug.php");
@@ -108,6 +108,7 @@ if ( isset ($_GET["action"]) ) {
 
   } // action=user_mgt
   if ( $_GET["action"]=="dossier_mgt") {
+    echo '<div class="u_redcontent">';
     // check and add an new folder
     if ( isset ($_POST["DATABASE"]) ) {
       $cn=DbConnect();
@@ -132,55 +133,64 @@ if ( isset ($_GET["action"]) ) {
 ?>
    <h2> Dossier Management</h2>
 
-<TABLE BORDER=1>
 <?
-$cn=DbConnect();
-$Res=ShowDossier('all');
-$compteur=1;
-$template="";
+      
+      $cn=DbConnect();
+    $offset=(isset($_REQUEST['offset']))?$_REQUEST['offset']:0;
+    $page=(isset($_REQUEST['page']))?$_REQUEST['page']:1;
+    $count=getDbValue($cn,"select count(*) from ac_dossier");
+    $size=10;
 
- // show all dossiers
-if ( $Res != null ) {
-  foreach ( $Res as $Dossier) {
-    
-    if ( $compteur%2 == 0 ) 
-    	$cl='class="odd"';
+    echo jrn_navigation_bar($offset,$count,$size,$page); 
+    $Res=ShowDossier('all',$offset,$size);
+    $compteur=1;
+    $template="";
+
+    echo '<TABLE BORDER=1>';
+
+    // show all dossiers
+    if ( $Res != null ) {
+      foreach ( $Res as $Dossier) {
+	
+	if ( $compteur%2 == 0 ) 
+	  $cl='class="odd"';
 	else
-	$cl='class="even"';
+	  $cl='class="even"';
 
-    echo "<TR $cl><TD VALIGN=\"TOP\"> 
+	echo "<TR $cl><TD VALIGN=\"TOP\"> 
 <B>$Dossier[dos_name]</B> </TD>
 <TD><I>  ".$Dossier['dos_description']."</I>
 </TD>
 </TR>";
 
-    $compteur++;
+	$compteur++;
+	
+      }
+
+      echo "</TR>";
+      
+    }
     
-  }
-
-  echo "</TR>";
-
-}
-
-  // Load the available Templates
-$Res=ExecSql($cn,"select mod_id,mod_name,mod_desc from 
+    // Load the available Templates
+    $Res=ExecSql($cn,"select mod_id,mod_name,mod_desc from 
                       modeledef order by mod_name");
-$count=pg_NumRows($Res);
-
+    $count=pg_NumRows($Res);
+    
 if ( $count == 0 ) {
-    echo "No template available";
-  } else {
-    $template='<SELECT NAME=FMOD_ID>';
-      for ($i=0;$i<$count;$i++) {
-	$mod=pg_fetch_array($Res,$i);
-	$template.='<OPTION VALUE="'.$mod['mod_id'].'"> '.$mod['mod_name']." - ".substr($mod['mod_desc'],0,30);
-      }// for
+  echo "No template available";
+} else {
+  $template='<SELECT NAME=FMOD_ID>';
+  for ($i=0;$i<$count;$i++) {
+    $mod=pg_fetch_array($Res,$i);
+    $template.='<OPTION VALUE="'.$mod['mod_id'].'"> '.$mod['mod_name']." - ".substr($mod['mod_desc'],0,30);
+  }// for
       $template.="</SELECT>";
-    }// if count = 0
-
+}// if count = 0
+ 
 // Add a new folder
 ?>
 </TABLE>
+    <? echo jrn_navigation_bar($offset,$count,$size,$page); ?>
  <FORM ACTION="admin_repo.php?action=dossier_mgt" METHOD="POST">
     <TABLE>
     <TR>
@@ -195,9 +205,9 @@ if ( $count == 0 ) {
     </TR>
     </TABLE>
  </FORM>
-
+    
 <?
-
+  echo "</div>";
   } // action = dossier_mgt
   if ( $_GET["action"] == "modele_mgt" ) {
 

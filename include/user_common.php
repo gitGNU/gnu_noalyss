@@ -535,6 +535,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0,$p_paid=0)
     //internal code
 	// button  modify
     $r.="<TD>";
+  // If url contains
     $r.=sprintf('<A class="detail" HREF="javascript:modifyOperation(\'%s\',\'%s\',\'%s\')" >%s</A>',
 		$row['jr_id'], $l_sessid, $p_jrn, $row['jr_internal']);
     $r.="</TD>";
@@ -940,7 +941,7 @@ function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1)
   // previous
   if ($p_page !=1) {
     $e=$p_page-1;
-    $step=$_SESSION['g_pagesize'];
+    $step=$p_size;
     $offset=($e-1)*$step;
 
     $r='<A class="mtitle" href="'.$_SERVER['PHP_SELF']."?".$url."&offset=$offset&step=$step&page=$e&size=$step".'">';
@@ -961,7 +962,7 @@ function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1)
   for ($e=$start_bar;$e<=$end_bar;$e++) {
     // do not included current page
     if ( $e != $p_page ) {
-    $step=$_SESSION['g_pagesize'];
+      $step=$p_size;
     $offset=($e-1)*$step;
     $go=sprintf($_SERVER['PHP_SELF']."?".$url."&offset=$offset&step=$step&page=$e&size=$step");
     $r.=sprintf('<A class="mtitle" HREF="%s" CLASS="one">%d</A>&nbsp;',$go,$e);
@@ -974,7 +975,7 @@ function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1)
   if ($p_page !=$nb_page) {
     // If we are not at the last page show the button next
     $e=$p_page+1;
-    $step=$_SESSION['g_pagesize'];
+    $step=$p_size;
     $offset=($e-1)*$step;
 
     $r.='&nbsp;<A class="mtitle" href="'.$_SERVER['PHP_SELF']."?".$url."&offset=$offset&step=$step&page=$e&size=$step".'">';
