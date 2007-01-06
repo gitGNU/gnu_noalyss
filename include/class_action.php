@@ -310,6 +310,7 @@ class action
       $r.=$hidden->IOValue('f_id_dest',$this->f_id_dest);
       $hidden2=new widget('hidden');
       $r.=$hidden2->IOValue('f_id_exp',$this->f_id_exp);
+
       $r.="</p>";
 
       // show the list of the concern operation
@@ -897,9 +898,12 @@ class action
 		   $this->ag_ref_ag_id,
 		   $this->ag_id);
       ExecSql($this->db,$sql);
-      
-      if ( sizeof($_FILES) !=0 ) 
+      echo_debug('class_action',__LINE__,$_FILES);
+      if ( strlen(trim($_FILES['file_upload']['name'])) !=0 ) 
 	{
+	  echo_debug('class_action',__LINE__,'sizeof($_FILES) = '.sizeof($_FILES));
+	  echo_debug('class_action',__LINE__,'$this->d_id = '.$this->d_id);
+
 	  // Upload a new document
 	  $doc=new Document($this->db);
 	  if ( $this->d_id !=0 )

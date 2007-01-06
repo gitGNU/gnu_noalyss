@@ -206,7 +206,8 @@ if ( isset ($_POST['add_action_here']) )
       // Add hidden tag
       echo '<form name="RTEDemo" action="commercial.php?p_action=suivi_courrier" method="post" onsubmit="return submitForm();">';
       
-      $act->ag_comment=(isset($_POST['ag_comment']))?Decode($_POST['ag_comment']):"";
+      //      $act->ag_comment=(isset($_POST['ag_comment']))?Decode($_POST['ag_comment']):"";
+      $act->ag_comment="";
       echo_debug("action.inc",__LINE__,"call display");
       echo $act->Display('NEW',false);
       
@@ -233,7 +234,7 @@ if ( $sub_action=='detail' )
   $act->ag_id=$_REQUEST['ag_id'];
   echo $act->get();
   $act->ag_comment=Decode($act->ag_comment);
-  echo '<form name="RTEDemo" action="commercial.php"  enctype="multipart/form-data"  method="post"  onsubmit="return submitForm();" >';
+  echo '<form name="RTEDemo" action="commercial.php?p_action=suivi_courrier"  enctype="multipart/form-data"  method="post"  onsubmit="return submitForm();" >';
   echo JS_SEARCH_CARD;
   echo $act->display('UPD',false);
   echo '<input type="hidden" name="p_action" value="suivi_courrier">';

@@ -130,7 +130,7 @@ $back_url=urlencode($_SERVER['REQUEST_URI']);
 	$r.="<TD>".$contact->strAttribut(ATTR_DEF_EMAIL)."</TD>".
             "<TD> ".$contact->strAttribut(ATTR_DEF_FAX)."</TD>".
             "<TD> ".$l_company_name. "</TD>".
-            '<TD> <A href="?p_action=suivi_courrier&qcode_query='.$contact->strAttribut(ATTR_DEF_QUICKCODE).'&url='.$back_url.'">Courrier</A></TD>';
+            '<TD> <A href="?p_action=suivi_courrier&qcode='.$contact->strAttribut(ATTR_DEF_QUICKCODE).'&url='.$back_url.'">Courrier</A></TD>';
 
 	$r.="</TR>";
 
