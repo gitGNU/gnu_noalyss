@@ -324,10 +324,13 @@ class jrn {
      // for type ACH and Ven we take more info
      if (  $type == 'ACH' ||  	  $type == 'VEN') 
        {
+        $a_ParmCode=GetArray($this->db,'select p_code,p_value from parm_code');
+       $a_TVA=GetArray($this->db,'select tva_id,tva_label,tva_poste 
+                                 from tva_rate where tva_rate != 0 order by tva_id');
 	 for ( $i=0;$i<$Max;$i++) 
 	   {
 	     $array[$i]=pg_fetch_array($Res); 
-	     $p=$this->get_detail(&$array[$i],$type,$trunc);
+	     $p=$this->get_detail(&$array[$i],$type,$trunc,$a_TVA,$a_ParmCode);
 	     
 	   }
 	 
@@ -362,18 +365,25 @@ class jrn {
  * \param p_array the structure is set in GetRowSimple, this array is 
  *        modified,  
  * \param $trunc if the data must be truncated, usefull for pdf export
- *\param p_jrn_type is the type of the ledger (ACH or VEN)
+ * \param p_jrn_type is the type of the ledger (ACH or VEN)
+ * \param $a_TVA TVA Array (default null)
+ * \param $a_ParmCode Array (default null)
  * \return p_array 
  */
-  function get_detail($p_array,$p_jrn_type,$trunc=0)
+  function get_detail($p_array,$p_jrn_type,$trunc=0,$a_TVA=null,$a_ParmCode=null)
     {
-      // Load TVA array
-      $a_TVA=GetArray($this->db,'select tva_id,tva_label,tva_poste 
-                                from tva_rate where tva_rate != 0 order by tva_id');
+      if ( $a_TVA == null ) 
+	{
+       //Load TVA array
+       $a_TVA=GetArray($this->db,'select tva_id,tva_label,tva_poste 
+                                 from tva_rate where tva_rate != 0 order by tva_id');
+	}
+      if ( $a_ParmCode == null )
+	{
       //Load Parm_code
-      $a_ParmCode=GetArray($this->db,'select p_code,p_value from parm_code');
-
-      // init
+        $a_ParmCode=GetArray($this->db,'select p_code,p_value from parm_code');
+	}
+       // init
       $p_array['client']="";
       $p_array['TVAC']=0;
       $p_array['TVA']=array();

@@ -182,7 +182,7 @@ if  ( ($jrn_type=='ACH' || $jrn_type=='VEN' ) && $_REQUEST['p_simple']== 1 )
   $pdf->selectFont('./addon/fonts/Courier.afm');
 
   $offset=0;$limit=30;$step=30;
-  $a_Tva=GetArray($cn,"select tva_id,tva_label from tva_rate where tva_rate != 0.0000 order by tva_id");
+  $a_Tva=GetArray($cn,"select tva_id,tva_label,tva_poste from tva_rate where tva_rate != 0.0000 order by tva_id");
   $col_tva="TVA ";
   $space=0;
   $total_HTVA=0.0;
@@ -199,16 +199,14 @@ if  ( ($jrn_type=='ACH' || $jrn_type=='VEN' ) && $_REQUEST['p_simple']== 1 )
       $space=9;
     } 
 
+  // if the period is centralized get the first amounts
+  if ( $l_centr==1) 
+    list($total_TVAC,$total_HTVA)=GetRappelSimple($cn,$Jrn->id,$jrn_type,$_GET['from_periode'],&$rap_tva);
 
-//     list($rap_deb,$rap_cred)=GetRappelSimple($cn,
-// 					     $first_id,$Jrn->id,
-// 					     $Exercice,
-// 					     FIRST,
-// 					     $filter,
-// 					     $l_centr
-// 					     );
+
 
   while (1) {
+
     $a=0;
     $a_jrn=$Jrn->GetRowSimple($_GET['from_periode'],
 			      $_GET['to_periode'],
@@ -218,11 +216,22 @@ if  ( ($jrn_type=='ACH' || $jrn_type=='VEN' ) && $_REQUEST['p_simple']== 1 )
 			      $offset);
     if ( $a_jrn == null ) break;
 
+    // page Header 
+    $t=sprintf("Rappel TVAC = %.2f HTVA= %.2f",$total_TVAC,$total_HTVA);
+    foreach($rap_tva as $idx=>$am) {
+      $t.=sprintf('[ %s = % .2f]',$idx,$am);
+    }
+    $pdf->ezText($t,9,array('justification'=>'left'));
+
     $offset+=$step;
-    $first_id=$a_jrn[0]['jr_id'];
-
-    $Exercice=GetExercice($cn,$a_jrn[0]['jr_tech_per']);
-
+    //total page
+    $total_htva_page=0.0;$total_tvac_page=0.0;
+    foreach($a_Tva as $line_tva)
+      {
+	//initialize Amount TVA
+	$tmp1=$line_tva['tva_label'];
+      $page_tva[$tmp1]=0.0;
+      }
     $str_tva="";
 
 
@@ -249,18 +258,28 @@ if  ( ($jrn_type=='ACH' || $jrn_type=='VEN' ) && $_REQUEST['p_simple']== 1 )
       {
 	$total_TVAC+=$row['TVAC'];
 	$total_HTVA+=$row['HTVA'];
+	$total_tvac_page+=$row['TVAC'];
+	$total_htva_page+=$row['HTVA'];
+
 	foreach ($row['TVA'] as $line)
 	  {
 	    $tva_id=$line[1][1];
 	    $rap_tva[$tva_id]+=$line[1][2];
+	    $page_tva[$tva_id]+=$line[1][2];
 	  }
       }
-
-    $t=sprintf("TVAC = %.2f HTVA= %.2f",$total_TVAC,$total_HTVA);
-    foreach($rap_tva as $idx=>$am) {
-      $t.=sprintf('[ %s ] % .2f',$idx,$am);
+    //total page
+    $t=sprintf("total page TVAC = %.2f HTVA= %.2f",$total_tvac_page,$total_htva_page);
+    foreach($page_tva as $idx=>$am) {
+      $t.=sprintf('[ %s = % .2f ]',$idx,$am);
     }
-    $pdf->ezText($t,12,array('justification'=>'right'));
+    $pdf->ezText($t,9,array('justification'=>'left'));
+
+    $t=sprintf("total à reporter TVAC = %.2f HTVA= %.2f",$total_TVAC,$total_HTVA);
+    foreach($rap_tva as $idx=>$am) {
+      $t.=sprintf('[ %s = % .2f ]',$idx,$am);
+    }
+    $pdf->ezText($t,9,array('justification'=>'left'));
 
     // New Page
     $pdf->ezNewPage();
