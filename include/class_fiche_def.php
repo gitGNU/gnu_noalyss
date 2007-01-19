@@ -338,13 +338,13 @@ class fiche_def {
 	else
 	  echo '<TR class="even">';
 
-	$span_mod='<TD><A href="fiche.php?action=detail&fiche_id='.$l_line['f_id'].$str.'&fiche='.$_GET['fiche'].'">'.$l_line['quick_code'].'</A></TD>';
+	$span_mod='<TD><A href="?p_action=fiche&action=detail&fiche_id='.$l_line['f_id'].$str.'&fiche='.$_GET['fiche'].'">'.$l_line['quick_code'].'</A></TD>';
 	
 	echo $span_mod.'<TD>'.$l_line['vw_name']."</TD>";
 	echo '</tr>';
       }
       echo '</table>';
-      echo '<FORM METHOD="POST" action="fiche.php?action=vue'.$str.'">';
+      echo '<FORM METHOD="POST" action="?p_action=fiche&action=vue'.$str.'">';
       echo '<INPUT TYPE="HIDDEN" name="fiche" value="'.$this->id.'">';
       echo '<INPUT TYPE="SUBMIT" name="add" Value="Ajout fiche">';
       echo '</FORM>';

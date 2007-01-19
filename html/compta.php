@@ -52,6 +52,8 @@ $action=$_REQUEST['p_action'];
 if ( $action == 'impress' ) {
   require_once('impress.inc.php');
 }
-
+if ( $action == 'fiche') {
+  require_once('fiche.inc.php');
+}
 html_page_stop();
 ?>

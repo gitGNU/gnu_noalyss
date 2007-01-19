@@ -44,7 +44,7 @@ function CreateCategory ($p_cn,$p_js,$p_array=null,$p_ligne=1)
   echo_debug('fiche_inc.php',__LINE__,"CreateCategory ($p_array,$p_ligne=1) ");
 
   // Creating form
-  $display='<FORM ACTION="fiche.php" METHOD="POST">';
+  $display='<FORM ACTION="?p_action=fiche" METHOD="POST">';
 
   // Number of line of the card
   $display.='<INPUT TYPE="HIDDEN" NAME="INC" VALUE="'.$p_ligne.'">';

@@ -157,9 +157,8 @@ function ShowMenuCompta($p_dossier,$p_high="")
 		 array("user_jrn.php?jrn_type=ACH","Dépense"),
 		 array("user_jrn.php?jrn_type=FIN","Financier"),
 		 array("user_jrn.php?jrn_type=OD","Op. Diverses"),
-		 //		 array("user_jrn.php?show","Journaux","Les journaux permettent d'encoder toutes les opérations"),
-	       	 array("compta.php?p_action=impress","Impression","Impression"),
-		 array("fiche.php?p_dossier=$p_dossier","Fiche","Ajouter, modifier ou effacer des fiches"),
+		 array("compta.php?p_action=impress","Impression","Impression"),
+		 array("compta.php?p_action=fiche","Fiche","Ajouter, modifier ou effacer des fiches"),
 		 array("user_advanced.php","Avancé","Opérations délicates"),
 
   		 // array('user_pref.php','Preference',"Préférence de l'utilisateur"),
@@ -550,16 +549,18 @@ function ShowMenuFiche($p_dossier)
      echo '<TABLE>';
      /*! \todo  Only for developper A test must be added
       */
-      echo '<TR><TD colspan="3" class="mtitle">
-          <A class="mtitle" HREF="fiche.php?action=add_modele&fiche=modele">Creation</A></TD></TR>';
+      echo '<TR><TD colspan="1" class="mtitle">
+          <A class="mtitle" HREF="?p_action=fiche&action=add_modele&fiche=modele">Creation</A></TD>
+          <TD><A class="mtitle" HREF="?p_action=fiche">Recherche</A></TD>
+           </TR>';
      $Res=ExecSql($cn,"select fd_id,fd_label from fiche_def order by fd_label");
      $Max=pg_NumRows($Res);
      for ( $i=0; $i < $Max;$i++) {
        $l_line=pg_fetch_array($Res,$i);
        printf('<TR><TD class="cell">
-             <A class="mtitle" HREF="fiche.php?action=modifier&fiche=%d">%s</A></TD>
+             <A class="mtitle" HREF="?p_action=fiche&action=modifier&fiche=%d">%s</A></TD>
                <TD class="mshort">
-               <A class="mtitle" HREF="fiche.php?action=vue&fiche=%d">Liste</A>
+               <A class="mtitle" HREF="?p_action=fiche&action=vue&fiche=%d">Liste</A>
                </TD>
                </TR>',
             $l_line['fd_id'],

@@ -21,6 +21,11 @@
 /*! \file
  * \brief module to manage the card (removing, listing, creating, modify attribut)
  */
+?>
+<h2> ERREUR MAUVAIS APPEL </H2>
+
+<?
+exit();
 include_once ("ac_common.php");
 require_once('class_fiche.php');
 
@@ -40,6 +45,8 @@ $User=new cl_user($rep);
 $User->Check();
 include ("check_priv.php");
 echo '<div class="u_tmenu">';
+var_dump($_SERVER);
+
 echo ShowMenuCompta($_SESSION['g_dossier']);
 echo '</div>';
 echo JS_SEARCH_POSTE;
@@ -117,9 +124,12 @@ if ( isset ($_POST["change_name"] )  ) {
   $r.= '</DIV>';
 }
 
-
+//var_dump($_GET);
 ShowMenuFiche($_SESSION['g_dossier']);
 echo $r;
+
+//------------------------------------------------------------------------------
+// Get action
 if ( isset ( $_GET["action"]) ) {
   $action=$_GET["action"];
   // View the details of the selected cat. of cards
@@ -133,7 +143,9 @@ if ( isset ( $_GET["action"]) ) {
 
     echo '</DIV>';
 
-  }// Display the detail of a card
+  }
+  //_________________________________________________________________________
+// Display the detail of a card
   if ($action== "detail" ) {
     echo '<DIV class="u_redcontent">';
     $t=false;
@@ -142,11 +154,12 @@ if ( isset ( $_GET["action"]) ) {
 	echo '<H2 class="info"> Vos changements ne seront pas sauvés</h2>';
 	$t=true;
       }
+    $str="";
     $fiche=new fiche($cn,$_GET["fiche_id"]);
     if ( $_SESSION['g_pagesize'] != -1 ){
       // retrieve value
       // with offet &offset=15&step=15&page=2&size=15
-	if ( $_SESSION['g_pagesize'] != -1) {
+	if ( isset($_GET['offset']) && $_SESSION['g_pagesize'] != -1) {
 	  $str=sprintf("&offset=%s&step=%s&page=%s&size=%s",
 		       $_GET['offset'],
 		       $_GET['step'],
@@ -156,7 +169,7 @@ if ( isset ( $_GET["action"]) ) {
 		       
 
     }
-    if ( $write != 0)
+    if ( $write != 0 )
       echo '<form method="post" action="fiche.php?action=vue&fiche='.$_GET['fiche'].$str.'">';
     echo $fiche->Display($t);
     echo '<input type="hidden" name="f_id" value="'.$_GET['fiche_id'].'">';
@@ -171,6 +184,7 @@ if ( isset ( $_GET["action"]) ) {
     if ( $write != 0 ) echo '</form>';
     echo '</DIV>';
   }
+  //_________________________________________________________________________
   // Display the form where you can enter
   // the property of the card model
   if ($action == "add_modele" and $write !=0) {
@@ -178,6 +192,7 @@ if ( isset ( $_GET["action"]) ) {
     CreateCategory($cn,$search);
     echo '</DIV>';
   }
+  //_________________________________________________________________________
   // Modify a card Model
   if ($action == "modifier" ) {
     echo '<DIV class="u_redcontent">';
@@ -201,6 +216,45 @@ if ( isset ( $_GET["action"]) ) {
       }
     echo '</DIV>';
   }
+  //_________________________________________________________________________
+  // Search a card
+  if ( $action == "search" ) 
+    {
+      $sql="select distinct f_id,fd_id,av_text from fiche join jnt_fic_att_value using (f_id) 
+            join attr_value using (jft_id) where
+            upper(av_text) like upper('%".FormatString($_GET["search_text"])."%') order by av_text,f_id";
+      $all=getArray($cn,$sql);
+      // test on the size
+      //
+      if ( sizeof($all) != 0 )
+	{
+	  echo '<DIV class="u_redcontent">';
+	  echo "Nombre de résultat : ".sizeof($all).'<br>';
+	  foreach ($all as $f_id){
+	    $fiche=new fiche($cn,$f_id['f_id']);
+	    echo '<A class="mtitle" href="?p_action=fiche&action=detail&fiche_id='.$f_id['f_id'].
+	      '&fiche='.$f_id['fd_id'].'">'.
+	      $fiche->getName().'</A><br>';
+	  }
+	  echo '</div>';
+	}
+      else 
+	{
+	  echo '<DIV class="u_redcontent">';
+	  echo '<form method="GET" action="?">';
+	  $w=new widget('text');
+	  $search_text=(isset($_REQUEST['search_text']))?$_REQUEST['search_text']:"";
+	  $h=new widget('hidden');
+	  echo $h->IOValue('action','search');
+	  echo "Recherche :".$w->IOValue('search_text',$search_text);
+	  echo $w->Submit('submit','Rechercher');
+	  echo '</form>';
+	  echo "Aucun résultat trouvé";
+
+	  echo '</div>';
+	  
+	}
+    }
 }
 // Display a blank  card from the selected category
 if ( isset ($_POST["fiche"]) && isset ($_POST["add"] ) ) {
@@ -222,7 +276,9 @@ if ( isset ($_POST["fiche"]) && isset ($_POST["add"] ) ) {
 	echo '</form>';
       }
   echo '</DIV>';
+  exit();
 }
+//------------------------------------------------------------------------------
 // delete a card
 if (isset($_POST['delete']) ) {
     echo '<DIV class="u_redcontent">';
@@ -237,8 +293,9 @@ if (isset($_POST['delete']) ) {
     $fiche_def->myList();
 
     echo "</DIV>";
+    exit();
   }  
-
+//------------------------------------------------------------------------------
 // Add the data (attribute) of the card
 if ( isset ($_POST["add_fiche"]) ) {
   echo '<DIV class="u_redcontent">';
@@ -257,6 +314,7 @@ if ( isset ($_POST["add_fiche"]) ) {
   echo '</DIV>';
   exit();
 }
+//------------------------------------------------------------------------------
 // Update a card
 if ( isset ($_POST["update_fiche"])  ) {
   echo '<DIV class="u_redcontent">';
@@ -277,5 +335,18 @@ if ( isset ($_POST["update_fiche"])  ) {
 
   echo '</DIV>';
 }
-html_page_stop();
+//--Search menu
+if ( ! isset($_REQUEST['action']) ){
+  echo '<DIV class="u_redcontent">';
+  echo '<form method="GET" action="?">';
+  $w=new widget('text');
+  $search_text=(isset($_REQUEST['search_text']))?$_REQUEST['search_text']:"";
+  $h=new widget('hidden');
+  echo $h->IOValue('action','search');
+  echo "Recherche :".$w->IOValue('search_text',$search_text);
+  echo $w->Submit('submit','Rechercher');
+  echo '</form>';
+  echo '</div>';
+}
+ html_page_stop();
 ?>
