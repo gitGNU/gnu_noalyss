@@ -343,13 +343,20 @@ function update_global_pref($p_type,$p_value="") {
  }//end function
 /*!\brief Return the year of current Periode
  *        it is the parm_periode.p_exercice col
+ *        if an error occurs return 0
  */
 function getExercice()
 {
   $sql="select p_exercice from parm_periode where p_id=".$this->GetPeriode();
   $Ret=ExecSql($this->db,$sql);
-  $r=pg_fetch_array($Ret,0);
-  return $r['p_exercice'];
+  if (pg_NumRows($Ret) == 1) 
+    {
+      $r=pg_fetch_array($Ret,0);
+      return $r['p_exercice'];
+    }
+  else 
+    return 0;
+
 }
 /*!\brief Check if the user can access 
  * otherwise warn and exit

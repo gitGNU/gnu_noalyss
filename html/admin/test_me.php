@@ -6,6 +6,18 @@ include_once('class_jrn.php');
 include_once('class_poste.php');
 include_once('class_balance.php');
 include_once('impress_inc.php');
+// date
+$nb_day=array(31,$fev,31,30,31,30,31,31,30,31,30,31);
+$m=1;
+$year=2007;
+foreach ($nb_day as $day) 
+{
+  $p_start=sprintf("01-%d-%s",$m,$year);
+  $p_end=sprintf("%d-%d-%s",$day,$m,$year);
+  $m++;
+  echo $p_start." - ".$p_end.'<br>';  
+}
+exit();
 
 $cn=DbConnect(1);
 echo '<h1> Test GetRappelSimple </h1>';

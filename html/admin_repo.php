@@ -124,10 +124,72 @@ if ( isset ($_GET["action"]) ) {
       // Database created
       $l_id=GetDbId($dos);
       if ( $l_id != 0) {
-	$Sql=sprintf("CREATE DATABASE %sDOSSIER%d encoding='ISO8859-1' TEMPLATE %sMOD%d",domaine,$l_id,domaine,$_POST["FMOD_ID"]);
-	echo_debug($Sql);
-	ExecSql($cn,$Sql);
-	$Res=ExecSql($cn,"insert into jnt_use_dos (use_id,dos_id) values (1,$l_id)");
+	//--
+	// setting the year
+	//--
+	$year=FormatString($_POST['YEAR']);
+	if ( strlen($year) != 4 || isNumber($year) == 0 || $year > 2100 || $year < 2000 || $year != round($year,0))
+	  {
+	    echo "$year est une année invalide";
+	    $Res=ExecSql($cn,"delete from ac_dossier where dos_id=$l_id");
+	  }
+	else 
+	  {
+	    $Sql=sprintf("CREATE DATABASE %sDOSSIER%d encoding='ISO8859-1' TEMPLATE %sMOD%d",
+			 domaine,
+			 $l_id,
+			 domaine,
+			 $_POST["FMOD_ID"]);
+	    echo_debug($Sql);
+	    ExecSql($cn,$Sql);
+	    $Res=ExecSql($cn,"insert into jnt_use_dos (use_id,dos_id) values (1,$l_id)");
+	    // Connect to the new database
+	    $cn=DbConnect($l_id);
+	    //---
+	    // Cleaning Action
+	    //-- 
+	    if ( isset($_POST['DOC'] ))
+	      {
+		$Res=ExecSql($cn,"delete from action_gestion");
+		$Res=ExecSql($cn,"delete from document");
+	      }
+	    if ( isset($_POST['CARD'])) 
+	      {
+		$Res=ExecSql($cn,"delete from  attr_value");
+		$Res=ExecSql($cn,"delete from  jnt_fic_att_value");
+		$Res=ExecSql($cn,"delete from   fiche");
+		$Res=ExecSql($cn,"delete from action_gestion");
+		$Res=ExecSql($cn,"delete from document");
+
+
+	      }
+	    //--year --
+	    $Res=ExecSql($cn,"delete from parm_periode");
+	    if ( ($year % 4 == 0 && $year % 100 != 0) || $year % 400 == 0 )  
+	      $fev=29;
+	    else
+	      $fev=28;
+
+	    $Res=ExecSql($cn,"delete from user_local_pref where parameter_type='PERIODE'");
+	    $nb_day=array(31,$fev,31,30,31,30,31,31,30,31,30,30);
+	    $m=1;
+	    foreach ($nb_day as $day) 
+	      {
+		$p_start=sprintf("01-%d-%s",$m,$year);
+		$p_end=sprintf("%d-%d-%s",$day,$m,$year);
+		$sql=sprintf("insert into parm_periode (p_start,p_end,p_exercice)
+                              values (to_date('%s','DD-MM-YYYY'),to_date('%s','DD-MM-YYYY'),'%s')",
+			     $p_start,$p_end,$year);
+		$Res=ExecSql($cn,$sql);
+		$m++;
+	      }
+	    $sql=sprintf("insert into parm_periode (p_start,p_end,p_exercice)
+                              values (to_date('31-12-%s','DD-MM-YYYY'),to_date('31-12-%s','DD-MM-YYYY'),'%s')",
+			     $year,$year,$year);
+	    $Res=ExecSql($cn,$sql);
+
+
+	  }
       } // if $l_id != 0
     } // $_POST[DATABASE]
 ?>
@@ -186,7 +248,7 @@ if ( $count == 0 ) {
   }// for
       $template.="</SELECT>";
 }// if count = 0
- 
+ $m_date=date('Y');
 // Add a new folder
 ?>
 </TABLE>
@@ -194,14 +256,16 @@ if ( $count == 0 ) {
  <FORM ACTION="admin_repo.php?action=dossier_mgt" METHOD="POST">
     <TABLE>
     <TR>
-    <TD> Name</td><td>  <INPUT TYPE="TEXT" NAME="DATABASE"> </TD>
+    <TD> Nom du dossier</td><td>  <INPUT TYPE="TEXT" NAME="DATABASE"> </TD>
     </TR><TR>
     <TD> Description</td><td>  <TEXTAREA COLS="60" ROWS="2" NAME="DESCRIPTION" ></TEXTAREA> </TD>
     </TR>
     <TR> <TD> Modèle</td><td>  <? echo $template; ?> </TD></TR>
-
+<TR><TD>Nettoyage des Documents et courriers (ce qui  n'effacera pas les modèles de documents)</TD><TD> <input type="checkbox" name="DOC"></TD></TR>
+<TR><TD>Nettoyage de toutes les fiches (ce qui effacera client, fournisseurs et documents)</TD><TD> <input type="checkbox" name="CARD"></TD></TR>
+<TR><TD>Année </TD><TD><input type="text" size=4 name="YEAR" value=<?echo '"'.$m_date.'"'; ?>></TD></TR>
     <TR>
-    <TD> <INPUT TYPE=SUBMIT VALUE="Create Folder"></TD>
+    <TD> <INPUT TYPE=SUBMIT VALUE="Creation Dossier"></TD>
     </TR>
     </TABLE>
  </FORM>

@@ -123,7 +123,7 @@ if ( isset( $_POST['bt_html'] ) ) {
     
      }
      $solde_type=($tot_deb>$tot_cred)?"solde débiteur":"solde créditeur";
-     $diff=abs($tot_deb-$tot_cred);
+     $diff=round(abs($tot_deb-$tot_cred),2);
      echo "<TR>".
        "<TD>$solde_type</TD>".
        "<TD>$diff</TD>".
