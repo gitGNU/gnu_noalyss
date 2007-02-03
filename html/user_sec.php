@@ -160,7 +160,7 @@ if ( $action == "view" ) {
   }
   // Print button
   printf ('<TD><A href="sec_pdf.php?user_id=%s">Imprime</A></TD>',
-	  $l_line['use_id']
+	  $l2_line['use_id']
 	  );
 
   // Show access for journal
