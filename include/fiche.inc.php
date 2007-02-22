@@ -52,6 +52,20 @@ if ($read+$write == 0 ){
   /* Cannot Access */
   NoAccess();
 }
+
+function ShowRecherche() {
+  echo '<DIV class="u_redcontent">';
+  echo '<form method="GET" action="?">';
+  $w=new widget('text');
+  $search_text=(isset($_REQUEST['search_text']))?$_REQUEST['search_text']:"";
+  $h=new widget('hidden');
+  echo $h->IOValue('p_action','fiche');
+  echo $h->IOValue('action','search');
+  echo "Recherche :".$w->IOValue('search_text',$search_text);
+  echo $w->Submit('submit','Rechercher');
+  echo '</form>';
+  echo '</div>';
+}
 function ShowFicheDefInput($p_fiche_def)
 {
   $r="";
@@ -70,6 +84,8 @@ function ShowFicheDefInput($p_fiche_def)
   $r.= "</form>";
   return $r;
 }
+
+$recherche=true;
 // Creation of a new model of card
 // in the database
 if ( isset($_POST['add_modele'])  and $write != 0) {
@@ -93,6 +109,7 @@ if ( isset ($_POST["add_line"])  ) {
 
       }
   $r.= '</DIV>';
+  $recherche=false;
 }
 // Change the name of the card  model
 if ( isset ($_POST["change_name"] )  ) {
@@ -105,6 +122,7 @@ if ( isset ($_POST["change_name"] )  ) {
 	$r.=ShowFicheDefInput($fiche_def);
       }
   $r.= '</DIV>';
+  $recherche=false;
 }
 
 //var_dump($_GET);
@@ -120,12 +138,14 @@ if ( isset ( $_GET["action"]) ) {
        && ! isset ($_POST['add_fiche']) 
        && ! isset ($_POST['update_fiche'])
        && ! isset ($_POST['delete'])) {
+    ShowRecherche();
     echo '<DIV class="u_redcontent">';
     $fiche_def=new fiche_def($cn,$_GET['fiche']);
     $fiche_def->myList();
 
     echo '</DIV>';
 
+  $recherche=false;
   }
   //_________________________________________________________________________
 // Display the detail of a card
@@ -166,6 +186,7 @@ if ( isset ( $_GET["action"]) ) {
       '"><input type="button" value="annuler"></A>';
     if ( $write != 0 ) echo '</form>';
     echo '</DIV>';
+  $recherche=false;
   }
   //_________________________________________________________________________
   // Display the form where you can enter
@@ -174,6 +195,7 @@ if ( isset ( $_GET["action"]) ) {
     echo '<DIV class="u_redcontent">';
     CreateCategory($cn,$search);
     echo '</DIV>';
+  $recherche=false;
   }
   //_________________________________________________________________________
   // Modify a card Model
@@ -198,11 +220,13 @@ if ( isset ( $_GET["action"]) ) {
 	echo "</form>";
       }
     echo '</DIV>';
+  $recherche=false;
   }
   //_________________________________________________________________________
   // Search a card
   if ( $action == "search" ) 
     {
+	    ShowRecherche();
       $sql="select distinct f_id,fd_id,av_text from fiche join jnt_fic_att_value using (f_id) 
             join attr_value using (jft_id) where
             upper(av_text) like upper('%".FormatString($_GET["search_text"])."%') order by av_text,f_id";
@@ -224,21 +248,13 @@ if ( isset ( $_GET["action"]) ) {
       else 
 	{
 	  echo '<DIV class="u_redcontent">';
-	  echo '<form method="GET" action="?">';
-	  $w=new widget('text');
-	  $search_text=(isset($_REQUEST['search_text']))?$_REQUEST['search_text']:"";
-	  $h=new widget('hidden');
-	  echo $h->IOValue('action','search');
-	  echo $h->IOValue('p_action','fiche');
-	  echo "Recherche :".$w->IOValue('search_text',$search_text);
-	  echo $w->Submit('submit','Rechercher');
-	  echo '</form>';
 	  echo "Aucun résultat trouvé";
 
 	  echo '</div>';
 	  
 	}
     }
+    $recherche=false;
 }
 // Display a blank  card from the selected category
 if ( isset ($_POST["fiche"]) && isset ($_POST["add"] ) ) {
@@ -260,11 +276,13 @@ if ( isset ($_POST["fiche"]) && isset ($_POST["add"] ) ) {
 	echo '</form>';
       }
   echo '</DIV>';
+  $recherche=false;
   exit();
 }
 //------------------------------------------------------------------------------
 // delete a card
 if (isset($_POST['delete']) ) {
+	ShowRecherche();
     echo '<DIV class="u_redcontent">';
     if ( $write ==0)  
       echo "<h2 class=\"error\"> Pas d'accès </h2>";
@@ -282,12 +300,15 @@ if (isset($_POST['delete']) ) {
 //------------------------------------------------------------------------------
 // Add the data (attribute) of the card
 if ( isset ($_POST["add_fiche"]) ) {
-  echo '<DIV class="u_redcontent">';
   
-  if ( $write ==0)  
+  if ( $write ==0)  {  
+	  echo '<DIV class="u_redcontent">';
     echo "<h2 class=\"error\"> Pas d'accès </h2>";
+    }
   else
     {
+      ShowRecherche();
+      echo '<DIV class="u_redcontent">';
       $fiche=new fiche($cn);
       $fiche->Save($_REQUEST['fiche']);
       $fiche_def=new fiche_def($cn,$_GET['fiche']);
@@ -296,11 +317,12 @@ if ( isset ($_POST["add_fiche"]) ) {
 	
     }
   echo '</DIV>';
-  exit();
+  $recherche=false;
 }
 //------------------------------------------------------------------------------
 // Update a card
 if ( isset ($_POST["update_fiche"])  ) {
+	ShowRecherche();
   echo '<DIV class="u_redcontent">';
       if ( $write ==0)  
       echo "<h2 class=\"error\"> Pas d'accès </h2>";
@@ -318,20 +340,11 @@ if ( isset ($_POST["update_fiche"])  ) {
 
 
   echo '</DIV>';
+  $recherche=false;
 }
 //--Search menu
-if ( ! isset($_REQUEST['action']) ){
-  echo '<DIV class="u_redcontent">';
-  echo '<form method="GET" action="?">';
-  $w=new widget('text');
-  $search_text=(isset($_REQUEST['search_text']))?$_REQUEST['search_text']:"";
-  $h=new widget('hidden');
-  echo $h->IOValue('p_action','fiche');
-  echo $h->IOValue('action','search');
-  echo "Recherche :".$w->IOValue('search_text',$search_text);
-  echo $w->Submit('submit','Rechercher');
-  echo '</form>';
-  echo '</div>';
+if ( $recherche==true) {
+	ShowRecherche();
 }
  html_page_stop();
 ?>

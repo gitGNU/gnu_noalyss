@@ -17,9 +17,9 @@
  * <li>Tant que possible réutiliser ce qui existe déjà, </li>
  * <li>Améliorer ce qui existe déjà et vérifier que cela fonctionne toujours</li>
  * <li>Documenter avec les tags doxygen votre nouveau code,</li>
- * <li>Les noms de fichiers sont *.inc.php pour les fichiers à éxécuter</li>
- * <li>Les noms de fichiers sont *.php pour les fichiers contenant des fonctions uniquement</li>
- * <li>Les noms de fichier sont  class_*.php pour les fichiers contenant des classes.</li>
+ * <li>Dans le répertoire include: Les noms de fichiers sont *.inc.php pour les fichiers à éxécuter</li>
+ * <li>Dans le répertoire include: Les noms de fichiers sont *.php pour les fichiers contenant des fonctions uniquement</li>
+ * <li>Dans le répertoire include: Les noms de fichier sont  class_*.php pour les fichiers contenant des classes.</li>
  * <li>Utiliser sql/upgrade.sql comme fichier temporaire pour modifier la base de données, en général
  *  ce fichier deviendra l'un des patch </li>
  * <li>Faire de la doc </li>
