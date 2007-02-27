@@ -21,30 +21,30 @@ Il  ne reprend pas ce qui a déjà été dit dans l'INSTALL-fr et la FAQ-fr.
 <item> Gestion : art de gérer une entreprise ou une activité d'indépendant
 <item> Comptabilité : tenue de journaux qui sont l'historique des opérations faites
 par une entreprise ou un indépendant
-<item> Catégorie de fiches : Ensemble de fiche qui ont un point en commun
+<item> Catégorie de fiches : Ensemble de ficheS qui ont un point en commun
 exemple : Fourniture bureau est un ensemble des fiches bic, papiers, téléphone, électricité...
-<item> Fiche : chaque fiche, correspond à un élément: un fournisseur, un client, un article
-<item> Journaux Comptables : Il existe 3 journaux minimum et  indispensables à la tenue de la
+<item> Fiche : chaque fiche correspond à un élément: un fournisseur, un client, un article
+<item> Journaux Comptables : Il existe au minimum 3 journaux indispensables à la tenue de la
 comptabilité, il s'agit du journal des ventes qui contient toutes les ventes effectuées, journal
 d'achat qui contient tous les achats effectués, journal financier qui contient toutes les opérations
 financières (banques, caisses)
-<item> Postes Comptables : afin de simplifier, chaque type d'opération à un poste comptable, c'est
-un chiffre dans un tableaux, exemple en Belgique 5500 représente les comptes bancaires, 600 les
+<item> Postes Comptables : afin de simplifier, chaque type d'opération a un poste comptable, c'est
+un chiffre dans un tableau. Exemple : en Belgique, 5500 représente les comptes bancaires, 600 les
 achats de fournitures... Ces postes comptables ne sont pas les mêmes dans tous les pays. Ils sont
 regroupés dans un plan comptable. En général, le plan comptable se subdivise en 6 grandes familles 
 <itemize>
 <item>1.  Les comptes de capital  (immobilisé)
-<item>2.  Les immobilisations corporelle (Actif a plus d'un an)
+<item>2.  Les immobilisations corporelles (Actif à plus d'un an)
 <item>3.  Les Stocks et commandes
 <item>4.  Les comptes de tiers (clients, fournisseurs,tva)
 <item>5.  Les comptes d'actifs (compte en banque,caisse...)
-<item>6.  Les charges d'exploitations
+<item>6.  Les charges d'exploitations.
 <item>7.  Les produits d'exploitations.
 </itemize>
 <item> Débit et crédit
-Les postes comptables sont en partie double, l'une est le débit l'autre est le crédit.
+Les postes comptables sont en partie double; l'une est le débit, l'autre est le crédit.
 Les actifs diminuent quand le crédit augmente, les comptes de passifs diminuent quand
-le débit augmente. Par exemple, si un compte en banque est débité il augmente, mais dans
+le débit augmente. Par exemple, si un compte en banque est débité, il augmente, mais dans
 la vie courante, votre compte en banque est une dette que votre banque a envers vous, donc
 quand sa dette augmente on dit que le compte est crédité mais dans votre comptabilité, cela
 correspond à l'inverse: de votre point de vue, votre compte en banque est une créance sur 
@@ -59,19 +59,19 @@ tout-à-fait normal.
 La comptabilité consiste, de la manière prévue par les lois sur la comptabilité,
  à enregistrer toutes les opérations  d'une activité commerciale, industrielle ou artisanale.
 
-La grande différence avec la gestion, est que la comptabilité est tenue
-en suivant des lois précises, qui malheureusement changent suivant le  pays.
+La grande différence avec la gestion est que la comptabilité est tenue
+en suivant des lois précises, qui, malheureusement, changent suivant le  pays.
 
 De plus, elle doit entre autre permettre les déclarations
 fiscales, permettre des analyses bilantaires et surtout être conforme à  la législation.
 
-Ce n'est pas le cas, de la gestion, la gestion consiste à gérer une entreprise ou une activité
+Ce n'est pas le cas de la gestion qui elle consiste à gérer une entreprise ou une activité
 d'indépendant, ce qui inclut aussi la gestion du courrier, du personnel...
 
-En bref, la comptabilité est guidé par la législation tandis que la
+En bref, la comptabilité est guidée par la législation tandis que la
 gestion par la pratique. Un programme de comptabilité peut rendre les
 services d'un programme de gestion et parfois les programmes de
-gestion peut rendre les services d'un programme de comptabilité. La
+gestion peuvent rendre les services d'un programme de comptabilité. La
 limite est floue et discutable.
 </sect2>
 </sect1>
@@ -88,23 +88,23 @@ devraient vous aider à commencer cette matière.
 
 </sect1>
 <sect1> Le Bilan
-<p> L'un des objectif de la comptabilité est de pouvoir établir un bilan qui
+<p> L'un des objectifs de la comptabilité est de pouvoir établir un bilan qui
 donnera une idée de la santé de la société. 
 
-<p>Le bilan correspond aussi à une obligation légale
+<p>Le bilan correspond aussi à une obligation légale.
 
-<p>Le bilan est en deux parties, la partie droite représente les comptes
+<p>Le bilan est en deux parties. La partie droite représente les comptes
 d'actifs tandis que la partie gauche représente le passif. Il faut que
 les deux colonnes aient le même total. Ce qui est normal puisque toute
-opération se passe entre par opération de débit - crédit.
+opération financière comprend une opération de débit - crédit.
 
 </sect1>
 
 <sect1> Les comptes actifs / passifs <label id="comptesap">
 <p>
 Il existe une première catégorie de compte (classe 1 à 5) qui est
-divisé en deux sortes de comptes : les comptes d'actif et les comptes
-de passif.
+divisée en deux sortes de comptes : les comptes d'actifs et les comptes
+de passifs.
 
 <p>
 Si un compte est débité alors forcément au moins un autre compte sera
@@ -144,7 +144,7 @@ Les comptes d'actifs sont les comptes comme les comptes en banque, les
 créances, le matériel que vous possédez. Ce sont les ressources.
 
 <p>
-Les comptes de passif sont les dettes, les emprunts,.... Ce sont les
+Les comptes de passifs sont les dettes, les emprunts,.... Ce sont les
 Emplois.
 
 </sect1>
@@ -204,30 +204,30 @@ se faire par le journal des opérations diverses
 
 <p>
 Utilisez toujours les comptes 67xxx pour toutes  les opérations
-fiscale non déductible de votre bénéfice par exemple :versement anticipé d'impôt,
+fiscales non déductibles de votre bénéfice par exemple :versement anticipé d'impôt,
 paiement de l'impôt, dépense non admise: partie non déductible de
 certains frais ( voiture, restaurant...).
 
 <sect2> Déclaration TVA
 
-<p> Pour faire votre déclaration tva, vous pouvez utilisez les
+<p> Pour faire votre déclaration tva, vous pouvez utiliser les
 balances des comptes ou  <ref id="rapport" name="les rapports"> .
 
 <p>
 Attention  NE PAS REPRENDRE LES
 MONTANTS AINSI !!!. Avant de faire votre déclaration, vous devez d'abord
-rectifier les montants. Par exemple, 50% de la tva sur la voiture ne
-sont pas récupérable par la tva mais par l'impôt des société.
-Il faut "déplacer" 50% de cette tva  dans un poste comptable tva non
-admises,
+rectifier les montants. Par exemple, 50% de la tva sur la voiture n'est 
+pas récupérable par la tva mais par l'impôt des société.
+Il faut "déplacer" 50% de cette tva  dans un poste comptable "tva non
+admises",
 cela devrait être un compte de la classe 6 (donc 6xxxx à 411xxx), les charges
 augmentent mais la tva à récupérer diminue, ce qui est logique puisque
 cette tva est à récupérer par l'impôt des sociétés.
 
 <p> Idem pour les frais de restaurant, ne pas oublier pendant les
 travaux de fin d'exercice,d'imputer 50% du total de vos frais de
-restaurant à un compte de dépense non admise. Il n'est pas dans le
-PCMN donc créer le poste vous-même (classe 67).
+restaurant à un compte de dépenses non admises. Il n'est pas dans le
+PCMN donc créez le poste vous-même (classe 67).
 
 <p> Ensuite, vous pouvez utiliser le rapport "déclaration de tva",
 pensez à l'adapter à vos besoins
@@ -320,7 +320,7 @@ que vous aurez à rembourser soit à payer.
 </sect3>
 </sect2>
 <sect2>L'année suivante
-<p>L'année suivante vous recevez votre extrait de rôle. 
+<p>L'année suivante, vous recevez votre extrait de rôle. 
 Suivant que vous ayez prévu d'avoir une dette et une créance d'impôt, il 
 y aura des écritures différentes.
 <sect3>Premier cas, vous pensez avoir une créance.
@@ -330,7 +330,7 @@ Dans ce cas, les écritures seront
 <verb>
 4121 Impôt à récupérer
 à
-     7710 Régularisation d'impôt dus ou versé
+     7710 Régularisation d'impôt dû ou versé
      4120 Impôt estimé à récupérer
 </verb>
 
@@ -340,7 +340,7 @@ Dans ce cas, les écritures seront
 <verb>
 4121 Impôt à récupérer
 à
-     6710 Supplément d'impôt dus ou versé
+     6710 Supplément d'impôt dû ou versé
      4120 Impôt estimé à récupérer
 </verb>
 
@@ -360,7 +360,7 @@ Et quand l'argent tombera sur votre compte
 </verb>
 Si vous décidez de le reporter en tant que versement anticipé d'impôt.
 <verb>
-6700	Impôt dus ou versé
+6700	Impôt dû ou versé
 à 
 	4121 Impôt à récupérer
 </verb>
@@ -374,7 +374,7 @@ moins d'impôt que prévu.
 <verb>
 4500 Dettes fiscales estimées
 à 
-     7710 Régularisation d'impôt dus ou versé
+     7710 Régularisation d'impôt dû ou versé
      4520 Impôt et taxes à payer
 </verb>
 
@@ -384,7 +384,7 @@ ce que vous allez vraiment payer.
 <p>Autrement dit, vous payez plus  d'impôt que prévu.
 <verb>
 4500 Dettes fiscales estimées
-6710 Supplément d'impôt dus
+6710 Supplément d'impôt dû
 à 
      4520 Impôt et taxes à payer
 
@@ -419,7 +419,7 @@ un mois mais la 13ième est toujours sur un seul jour : le 31
 décembre. 
 C'est cette période qui sera la période de clôture de l'année comptable.
 
-<p>Pour commencer, changer vos préférences pour avoir cette période
+<p>Pour commencer, changez vos préférences pour avoir cette période
 par défaut. 
 Normalement vous ne devrez utiliser que le journal des Opérations diverses et
 aucun autre.
@@ -433,21 +433,21 @@ dans le poste 24xxx,
 imprimez ces fiches et calculez l'amortissement pour
  l'année, ensuite en opération diverse, vous l'imputerez ainsi
 <verb>
-63xxx Dotation aux amortissement
+63xxx Dotation aux amortissements
 à
       2409xxxx Amortissement
 </verb>
 
 Evidemment les postes comptables peuvent un peu changer suivant la
 façon dont 
-vous avez adapté votre plan comptable. Faites toutes même attention à
+vous avez adapté votre plan comptable. Faites tout de même attention à
 ne pas  
 mélanger ce que vous avez acheté il y a deux ans et l'année passée.  
 Normalement, chaque élément faisant l'objet d'un amortissement  
 doit avoir un plan d'amortissement, c'est-à-dire un document qui
 décrit  
 ce qui est amorti, indique la valeur d'acquisition et quelle somme  
-sera amortie sur quelle années. 
+sera amortie sur quelle année. 
 Le document est de format libre, le mieux est d'utiliser 
 une feuille du tableur d'OpenOffice.org pour résumer tout ce qui doit
 être amorti.  
@@ -476,29 +476,29 @@ il s'agit entre autre de 50% des restaurants, 25% des frais de voiture
 des versements anticipés d'impôt et des paiements des impôts d'années
 antérieures. 
 
-Vous devez donc utilisez le compte 67xxx pour diminuer les charges de
+Vous devez donc utiliser le compte 67xxx pour diminuer les charges de
 leur partie non déductible 
 </sect2>
 <sect2>Reclassement des Charges, Produits et Dettes
-<p> Il faut tout d'abord retrouver toutes les fournisseurs non payés
+<p> Il faut tout d'abord retrouver tous les fournisseurs non payés
 au 31 décembre  
 et vérifier qu'ils n'ont pas été payés dans  le courant de janvier ou
 de février.  
 Si c'est le cas on aura un reclassement de dettes, sinon on devra
 penser  
-que la dette a été payé par le gérant ou que la dette est toujours
+que la dette a été payée par le gérant ou que la dette est toujours
 due.  
-Cela doit se règler au cas par cas.
+Cela doit se régler au cas par cas.
 
 Il faut aborder la régularisation des comptes de charges et des
 produits (comptes 490, 491, 492, ,493) , les dettes supérieures à un
 an échéant dans l'année... (doit être complèté).  </sect2>
 
 <sect2>Les variations de stocks
-<p>En fin d'année, il faut faire l'inventaire du stocks. Soit on a
-plus de marchandise que ce qu'il est  
+<p>En fin d'année, il faut faire l'inventaire du stock. Soit on a
+plus de marchandises que ce qu'il est  
 inscrit dans notre comptabilité, on aura alors une réduction de charge
-(340 à 6094) soit on aura moins de marchandise que 
+(340 à 6094) soit on aura moins de marchandises que 
 prévu, dans ce cas il y aura une augmentation des charges (6094 à
 340). (INCOMPLET) 
 
@@ -525,7 +525,7 @@ ou un bénéfice.
 <sect1>Salaire et Compte de gérant
 <p>Le gérant utilisera les comptes 4890 et 4160 pour gérer l'argent
 qu'il prélève ou  
-qu'il avance à sa société. Ces comptes peuvent aussi être utilisé lors
+qu'il avance à sa société. Ces comptes peuvent aussi être utilisés lors
 du 
  paiement des salaires. Il est important de rappeler qu'en Belgique,
 il est nécessaire 
@@ -540,11 +540,11 @@ il est nécessaire
 <p>
 PhpCompta a sa propre sécurité, cependant si vous voulez vraiment
 sécuriser votre comptabilité, vous devez prendre en compte qu'il ne
-suffit de sécuriser votre server et phpcompta mais aussi les
+suffit de sécuriser votre serveur et phpcompta mais aussi les
 programmes sur lequel le programme s'appuie. C'est-à-dire Apache,
 utilisation de https à la place de http, de PostGresql, de l'utilisation
 des odbc, de l'encryption des backups, de la traque des mots de passe
-trop facile à deviner,... La liste est longue et c'est l'ensemble des
+trop faciles à deviner,... La liste est longue et c'est l'ensemble des
 mesures qui déterminera la sécurité de vos données, il suffit d'une
 seule faiblesse pour que la sécurité soit insuffisante. Le sujet
 est très vaste, il englobe trop de choses. C'est pourquoi nous ne
@@ -558,7 +558,7 @@ pas d'utiliser install.sh quand la sécurité par mot de passe est
 activée !!! Ou alors mettez le mot de passe dans ~/.pgpass de
 l'utilisateur phpcompta
 
-Dans include/constant.php changer le mot de passe (ligne
+Dans include/constant.php changez le mot de passe (ligne
 phpcompta_password), il contient dany par défaut.
 
 
@@ -570,7 +570,7 @@ Ce mot de passe est évidemment celui dont on a parlé au paragraphe
 précédent.
 
 
-Ensuite changez le pg_hba.conf, et mettez les lignes suivantes
+Ensuite changez le pg_hba.conf et mettez les lignes suivantes.
 <verb>
 host   all         all        172.16.31.0  255.255.255.0           md5
 local   all         all                                             md5
@@ -587,10 +587,10 @@ Pour changer le port de postgresql, il suffit de changer dans
 constant.php, la valeur phpcompta_psql_port, n'oubliez pas de changer
  le paramétrage de postgresql.
 
-Ensuite, changer les droits sur le répertoire où sont vos fichiers
+Ensuite, changez les droits sur le répertoire où sont vos fichiers
 avec chmod 700, attention : le propriétaire des fichiers doit être le
-même que du propriétaire du process httpd, pour vérifier faite ps -ef|grep
-httpd, le propriétaire du processus ttpd se trouve dans la première
+même que celui du process httpd, pour vérifier faites ps -ef|grep
+httpd, le propriétaire du processus httpd se trouve dans la première
 colonne.
 Exemple chez moi, le propriétaire est apache
 <verb>
@@ -611,11 +611,11 @@ root     24555 23968  0 22:56 pts/0    00:00:00 grep httpd
 <p>
 Dans PhpCompta, le module de sécurité permet d'établir quel
 utilisateur peut accéder à quel dossier, ce qu'il peut y faire,
-les journaux qu'il peut accéder... Chaque fois qu'une page est chargée,
+les journaux auquels il peut accéder... Chaque fois qu'une page est chargée,
 le mot de passe et le login utilisateur sont vérifiés pour savoir si
-primo il a accès a ce qu'il demandé à faire et secundo  si son compte
+primo il a accès à ce qu'il a demandé et secundo  si son compte
 est actif et que le mot de passe fourni est valide. Ces valeurs sont
-stockées sur le server. Peu de système vérifie aussi souvent les
+stockées sur le serveur. Peu de système vérifie aussi souvent les
 permissions d'un utilisateur. Evidemment utiliser le cache de
 l'explorateur pour découvrir ces informations est une perte de
 temps,  utiliser son historique pour accéder à vos données ne
@@ -625,7 +625,7 @@ fonctionnera pas non plus.
 admin et créez l'utilisateur. A ce moment-là, il n'a accès à rien du
 tout. Il faut ensuite se connecter à un dossier sur lequel vous avez
 des droits admin et l'ajouter, par défaut il ne peut rien faire. A
-vous de spécifier ce qu'il peut accéder et son droits par défaut
+vous de spécifier ce à quoi il peut accéder et son droits par défaut
 (écriture ou lecture). De cette façon, un utilisateur (sauf avec des
 droits admin ) ne peut pas accéder à des nouveaux dossiers. Chaque
 accès doit être donné explicitement.
@@ -633,9 +633,9 @@ accès doit être donné explicitement.
 <p>Dans un dossier, un utilisateur a toujours un droit par défaut. Si par
 exemple, son droit par défaut est de lire il pourra lire tout 
 ce qu'il veut et écrire uniquement dans ce qui a été explicitement
-permis. Si son droit par défaut est d'écrire, c'est l'inverse, il
-pourra écrire partout sauf là ou est explicitement il ne peut
-qu'écrire. Le sens d'écrire dans ce contexte-ci doit se comprendre
+permis. Si son droit par défaut est d'écrire, c'est l'inverse : il
+pourra écrire partout sauf là où est c'explicitement défendu.
+Le sens d'écrire dans ce contexte-ci doit se comprendre
 comme la capacité à  pouvoir ajouter ou modifier des informations.
 
 </sect1>
@@ -650,7 +650,7 @@ même code de stock.
 
 <p>Bien faire attention à ce code, il doit être le même pour les fiches
 achats et ventes de la même marchandise, si vous utilisez ce code
-stock pour deux différentes marchandise, vous ne serez plus en mesure
+stock pour deux marchandises différentes, vous ne serez plus en mesure
 de faire la différence entre ces 2 marchandises dans le stock.
 
 <p>Les achats et les ventes vont
@@ -665,13 +665,13 @@ les journaux achats et ventes uniquement.
 
 <sect>Domaines
 <sect1>Définition
-<p> Ils est possible d'avoir phpcompta installé plusieurs  fois 
+<p> Il est possible d'avoir phpcompta installé plusieurs  fois 
 sur votre machine dans des "virtual host" différents; mais si vous 
 le faites, vous remarquerez que
-les différentes sites phpcompta (virtual host) accèdent les
+les différents sites phpcompta (virtual host) accèdent aux
 mêmes bases de données. 
 
-<p> Pour éviter cela on utilise les domaines. Les domaines sont
+<p> Pour éviter cela, on utilise les domaines. Les domaines sont
 donc l'ensemble des bases de données pour un virtual host donné,
 cela comprend non seulement le repository mais aussi les bases
 de données contenant les dossiers et les modèles.
@@ -740,7 +740,7 @@ ajouter le client, la date et évidemment les articles.
 <p>Les rabais et remises ne sont utilisables qu'avec les fiches, il
 faut cependant encore les calculer séparément.
 
-<p>La ligne du bas vous permet de faire des petits calculs rapide
+<p>La ligne du bas vous permet de faire des petits calculs rapides
 (exemple: 1+2*3.2)...
 
 <p> Pour ajouter une vente, cliquez sur nouvelle, puis utilisez les
@@ -752,7 +752,7 @@ négatives - attention : des quantités, pas des prix unitaires-. Le
 stock sera automatiquement réadapté pour tenir compte de ce retour de
 matériel. 
 
-<p> Pensez à utilisez le dossier "demo" pour faire tout vos tests et
+<p> Pensez à utilisez le dossier "demo" pour faire tous vos tests et
 découvrir PhpCompta.
 
 
@@ -769,11 +769,11 @@ de marchandises, de services ou de matériel.
 qui est financier (pas les prêts qui devraient être en opération
 diverses mais bien le paiement de ces prêts).
 
-<p> La date est important, il est important de vous rappelez: on vous
+<p> La date est importante, il est important de vous rappelez: on vous
 donne l'ancien solde et le nouveau, vérifiez sur vos extraits que
 cela correspond bien.
 
-<p> Le commentaire est optionnelle, c'est ce que vous verrez
+<p> Le commentaire est optionnel, c'est ce que vous verrez
 apparaître lorsque vous regarderez votre journal.
 
 <p>Introduisez un montants négatif si vous payez (le compte diminue)
