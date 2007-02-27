@@ -327,7 +327,7 @@ class widget {
       // Do we need to filter ??
       if ( $this->extra2 == null ) {
       $r=sprintf('<TD>
-         <INPUT class="inp" TYPE="button" onClick=SearchPoste(\'%s\',\'%s\',\'%s\') value="Search">
+         <INPUT class="inp" TYPE="button" onClick=SearchPoste(\'%s\',\'%s\',\'%s\') value="Recherche">
             %s</TD><TD> 
 
              <INPUT   TYPE="Text" NAME="%s" VALUE="%s" SIZE="8">
@@ -342,7 +342,7 @@ class widget {
 
     } else { // $p_list is not null, so we have a filter
       $r=sprintf('<TD>
-         <INPUT TYPE="button" onClick=SearchPosteFilter(\'%s\',\'%s\',\'%s\',\'%s\') value="Search">
+         <INPUT TYPE="button" onClick=SearchPosteFilter(\'%s\',\'%s\',\'%s\',\'%s\') value="Recherche">
             %s</TD><TD> 
 
              <INPUT TYPE="Text" NAME="%s" VALUE="%s" SIZE="8">
@@ -518,7 +518,7 @@ class widget {
       $l_sessid=$_REQUEST['PHPSESSID'];
 
       $r=sprintf("$td
-     <INPUT TYPE=\"button\" onClick=SearchJrn('%s','%s',%s) value=\"Search\">
+     <INPUT TYPE=\"button\" onClick=SearchJrn('%s','%s',%s) value=\"Recherche\">
        %s $etd  $td 
       <INPUT TYPE=\"Text\"  style=\"border:solid 1px blue;\"  NAME=\"%s\" VALUE=\"%s\" SIZE=\"8\">
                  $etd",
