@@ -346,7 +346,7 @@ class fiche {
 		  $ret_sql=ExecSql($this->cn,$sql);
 		  $a=pg_fetch_array($ret_sql,0);
 		  if ( $a['account_auto'] == 't' )
-		    $msg="<TD> <font color=\"red\">si vide le Poste sera créer automatiquement</font></TD> ";
+		    $msg="<TD> <font color=\"red\">si vide le Poste sera créé automatiquement</font></TD> ";
 		}
 	      elseif ( $r->ad_id == ATTR_DEF_TVA) 
 		{
