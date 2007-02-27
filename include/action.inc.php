@@ -60,6 +60,7 @@ function ShowActionList($cn,$retour,$h_url)
    echo $sp->IOValue("qcode_label","",$qcode);
    echo $w->IOValue();
 ?>
+<br>
 <input type="submit" name="submit_query" value="recherche">
 <input type="hidden" name="sa" value="list">
 <input type="hidden" name="p_action" value="suivi_courrier">
@@ -68,6 +69,7 @@ function ShowActionList($cn,$retour,$h_url)
 
 <?
 ?>
+<br>
 <form  style="position:float;float:left" method="get" action="commercial.php">
 <input type="submit" name="submit_query" value="Ajout Action">
 <input type="hidden" name="p_action" value="suivi_courrier">
