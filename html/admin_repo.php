@@ -141,7 +141,14 @@ if ( isset ($_GET["action"]) ) {
 			 domaine,
 			 $_POST["FMOD_ID"]);
 	    echo_debug($Sql);
-	    ExecSql($cn,$Sql);
+	    ob_start();
+	    if ( pg_query($cn,$Sql)==false) {
+		ob_clean();
+	    	ExecSql($cn,"delete from ac_dossier where dos_id=$l_id");
+		echo "<h2 class=\"error\"> Base de donnée mod".$_POST['FMOD_ID']."  est accèdée, déconnectez-vous d'abord</h2>";
+		exit;
+		}
+	     ob_flush();
 	    $Res=ExecSql($cn,"insert into jnt_use_dos (use_id,dos_id) values (1,$l_id)");
 	    // Connect to the new database
 	    $cn=DbConnect($l_id);
