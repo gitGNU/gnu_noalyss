@@ -634,7 +634,7 @@ accès doit être donné explicitement.
 exemple, son droit par défaut est de lire il pourra lire tout 
 ce qu'il veut et écrire uniquement dans ce qui a été explicitement
 permis. Si son droit par défaut est d'écrire, c'est l'inverse : il
-pourra écrire partout sauf là où est c'explicitement défendu.
+pourra écrire partout sauf là où c'est explicitement défendu.
 Le sens d'écrire dans ce contexte-ci doit se comprendre
 comme la capacité à  pouvoir ajouter ou modifier des informations.
 
