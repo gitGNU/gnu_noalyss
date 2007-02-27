@@ -153,13 +153,10 @@ function Get_fiche_def_ref($p_cn)
  ***************************************************
  * \brief  retrieve the mandatory field of the card model
  *        
- * parm : 
- *	- $p_cn  database connexion
- *      - $p_fiche_def_ref 
- * gen :
- *	-
- * return:
- *      array of ad_id  (attr_min.ad_id) and  labels (attr_def.ad_text)
+ * \param $p_cn  database connexion 
+ * \param $p_fiche_def_ref 
+ * \return array of ad_id  (attr_min.ad_id) and  labels (attr_def.ad_text)
+ *      
  */
 function Get_attr_min($p_cn,$p_fiche_def_ref) {
   // find the min attr for the fiche_def_ref

@@ -156,12 +156,12 @@ class fiche_def {
   //
 
      foreach ( $array as $key=>$element ) {
-       echo_debug('class_fiche',__LINE__,"p_$key $element");
+       echo_debug('class_fiche_def',__LINE__,"p_$key $element");
        ${"p_$key"}=$element;
      }
      // Format correctly the name of the cat. of card
      $p_nom_mod=FormatString($p_nom_mod);
-     echo_debug('class_fiche',__LINE__,"Adding $p_nom_mod");
+     echo_debug('class_fiche_def',__LINE__,"Adding $p_nom_mod");
      // Format the p_class_base 
      // must be an integer
      if ( isNumber($p_class_base) == 0 && FormatString($p_class_base) != null ) {
