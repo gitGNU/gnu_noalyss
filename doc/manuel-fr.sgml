@@ -885,6 +885,19 @@ type vente et achat.
 leur ajouter des attributs, un attribut est par exemple une adresse, une partie
 non déductible, une adresse...
 
+<sect2>Ajout ou suppression d'attribut
+<p>Il est possible d'ajouter des attributs et aussi d'en enlever mais
+seuls les attributs non définis de base peuvent être
+supprimés, autrement dit seuls attributs que vous avez ajouté peuvent
+être enlevés. Attention, cette opération n'est pas réversible et cela
+modifiera toutes les fiches existantes de cette catégorie de fiche,
+les valeurs de ces attributs seront définitivement perdues.
+
+Faites des tests dans la base de données "demo" si vous ne comprenez
+pas bien.
+
+
+
 <sect2>Création d'une catégorie de fiche
 <p>
 Les catégories de fiches sont en fait le rassemblement de fiche
@@ -907,33 +920,33 @@ que vous voulez.
 
 La classe de base est le poste comptable parent de vos fiche, ce poste
 doit exister, il faut alors 
-cliquer aussi sur "create account for each" qui permet de générer
+cliquer aussi sur "création automatique du poste comptable" qui permet de générer
 automatiquement le poste comptable voulu, ce poste sera
 automatiquement ajouté dans le Plan Comptable. Si cette option n'est
 pas cochée, vous devrez ajouter manuellement le poste comptable et le
 donner explicitement. Si vous ne souhaitez pas que chaque fiche aie
-son propre poste comptable, ne cochez pas l'option et n'ajoutez pas manuellement
-le poste comptable. Dans ce cas, ce sera le poste du modèle de fiche
-par défaut qui sera utilisé, si vous ne l'indiquez pas ce sera la
-classe par défaut de ce type de modèle. 
+son propre poste comptable, ne cochez pas l'option, dans ce cas, soit
+le modèle a un poste comptable de base qui deviendra alors le défaut,
+soit vous en fournissez un qui deviendra le poste comptable par défaut
+pour cette catégorie de fiche, soit
+le modèle n'a pas de poste comptable et dans ce cas, il n'y aura aucun
+poste comptable. (Exemple: les contacts)
 
 Pour simplifier :
 <itemize>
 <item>Vous voulez que chaque fiche aie son propre poste comptable et
 vous souhaitez que ce poste soit crée automatiquement : cochez la case
-'Create account for each' 
+'Création automatique du poste comptable'
 <item>Vous souhaitez qu'il n'y a pas de poste comptable attaché à
 chaque fiche: ne la cochez pas. Pour les contacts par exemple, il n'y a pas
 de postes comptables.
 
 <item>Vous souhaitez qu'il y aie un poste comptable attaché à chaque fiche 
-mais pas généré automatiquement: ne cochez pas. Par la suite,  ajoutez
- l'attribut 'Poste Comptable' si nécessaire, la plupart des fiches ont
-par défaut un attribut 'Poste Comptable,
-vous devrez mettre manuellement le poste comptable
- que vous souhaitez pour chaque fiche. Dans ce cas, toutes les
- fiches devront avoir un poste comptable. Sinon ce sera le poste comptable
- par défaut qui sera utilisé.
+mais pas généré automatiquement: ne cochez pas. Toutes les fiches auront
+le poste comptable donné dans 'Classe de base', si cette classe de
+base est vide, le poste comptable sera celui du modèle de base, si le
+modèle de base n'en a pas, alors il n'y aura pas de poste comptables
+de base.
 </itemize>
 
 <p>Cas spécial: la classe de base "Autre" permet de créer des fiches
