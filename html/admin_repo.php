@@ -145,7 +145,7 @@ if ( isset ($_GET["action"]) ) {
 	    if ( pg_query($cn,$Sql)==false) {
 		ob_clean();
 	    	ExecSql($cn,"delete from ac_dossier where dos_id=$l_id");
-		echo "<h2 class=\"error\"> Base de donnée mod".$_POST['FMOD_ID']."  est accèdée, déconnectez-vous d'abord</h2>";
+		echo "<h2 class=\"error\"> Base de donnée ".domaine."mod".$_POST['FMOD_ID']."  est accèdée, déconnectez-vous d'abord</h2>";
 		exit;
 		}
 	     ob_flush();
