@@ -71,17 +71,21 @@ function ShowFicheDefInput($p_fiche_def)
   $r="";
   // Save the label
   
-  $p_fiche_def->SaveLabel($_REQUEST['label']);
   $p_fiche_def->Get();
   $p_fiche_def->GetAttribut();
+  if (isset ($_REQUEST['label']) )
+        $p_fiche_def->SaveLabel($_REQUEST['label']);
   $r.= '<H2 class="info">'.$p_fiche_def->label.'</H2>';
   
   $r.= '<FORM action="?p_action=fiche" method="POST">';
   $r.= '<INPUT TYPE="HIDDEN" NAME="fd_id" VALUE="'.$p_fiche_def->id.'">';
   
-  $r.= $p_fiche_def->DisplayAttribut();
+  $r.= $p_fiche_def->DisplayAttribut("remove");
   $r.= ' <INPUT TYPE="SUBMIT" Value="Ajoute cet &eacute;l&eacute;ment" NAME="add_line">';
+  $r.=' <INPUT TYPE="SUBMIT" Value="Enleve les &eacute;l&eacute;ments coch&eacute;s" NAME="remove_line">';
   $r.= "</form>";
+  $r.=" <p> Attention : il n'y aura pas de demande de confirmation pour enlèver les 
+attributs sélectionnés. Il ne sera pas possible de revenir en arrière</p>";
   return $r;
 }
 
@@ -105,6 +109,25 @@ if ( isset ($_POST["add_line"])  ) {
 	// Insert Line
 	$fiche_def->InsertAttribut($_REQUEST['ad_id']);
 
+	$r.=ShowFicheDefInput($fiche_def);
+
+      }
+  $r.= '</DIV>';
+  $recherche=false;
+}
+// Remove lines from a card model
+if ( isset ($_POST['remove_line'])) 
+{
+  $r= '<DIV class="u_redcontent">';
+    if ( $write ==0)  
+      $r.= "<h2 class=\"error\"> Pas d'accès </h2>";
+    else
+      {
+	$fiche_def=new fiche_def($cn,$_REQUEST['fd_id']);
+	// Insert Line
+	// demander confirmation 
+
+	$fiche_def->RemoveAttribut($_REQUEST['chk_remove']);
 	$r.=ShowFicheDefInput($fiche_def);
 
       }
@@ -208,16 +231,8 @@ if ( isset ( $_GET["action"]) ) {
 
 
 	$fiche_def=new fiche_def($cn,$_GET['fiche']);
-	$fiche_def->Get();
-	$fiche_def->GetAttribut();
-	echo '<H2 class="info">'.$fiche_def->label.'</H2>';
 
-	echo '<FORM action="?p_action=fiche" method="POST">';
-	echo '<INPUT TYPE="HIDDEN" NAME="fd_id" VALUE="'.$fiche_def->id.'">';
-
-	echo $fiche_def->DisplayAttribut();
-	echo ' <INPUT TYPE="SUBMIT" Value="Ajoute cet &eacute;l&eacute;ment" NAME="add_line">';
-	echo "</form>";
+	echo ShowFicheDefInput($fiche_def);
       }
     echo '</DIV>';
   $recherche=false;
