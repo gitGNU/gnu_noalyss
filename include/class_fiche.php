@@ -261,6 +261,7 @@ class fiche {
     {
       // array = array of attribute object sorted on ad_id
       $f=new fiche_def($this->cn,$p_fiche_def);
+      $f->Get();
       $array=$f->getAttribut();
       $r='<table>';
       foreach ($array as $attr)
@@ -277,6 +278,18 @@ class fiche {
 	      $a=pg_fetch_array($ret_sql,0);
 	      if ( $a['account_auto'] == 't' )
 		$msg="<TD> <font color=\"red\">Rappel: Poste créé automatiquement !</font></TD> ";
+	      else 
+		{
+		  // if there is a class base in fiche_def_ref, this account will be the
+		  // the default one
+		  if ( strlen(trim($f->class_base)) != 0 ) 
+		    {
+		      $msg="<TD> <font color=\"red\">Rappel: Poste par défaut sera ".
+			$f->class_base.
+			" !</font></TD> ";
+		    }
+
+		}
 
 	     }
 	  elseif ( $attr->ad_id == ATTR_DEF_TVA) 
@@ -478,7 +491,7 @@ class fiche {
 			      " join jnt_fic_att_value using (f_id) join attr_value using (jft_id) ".
 			      " where frd_id in (8,9,14) and ad_id=".ATTR_DEF_QUICKCODE.
 			      " and av_text='".FormatString($value)."'");
-	      if ( $exist == 0 ) 
+	      if ( $exist == 0 && FormatString($value) != null ) 
 		{
 		  $value="Attention : pas de société  ";
 		}
@@ -591,7 +604,7 @@ class fiche {
                                " and av_text='".FormatString($value)."'");
  
  
-               if ( $exist == 0 ) 
+               if ( $exist == 0 && FormatString($value) != null ) 
                  {
                    $value="Attention : pas de société ";
                  }
