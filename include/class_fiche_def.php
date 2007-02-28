@@ -178,6 +178,7 @@ class fiche_def {
      }
      $fiche_Def_ref=new fiche_def_ref($this->cn,$p_FICHE_REF);
      $fiche_Def_ref->Get();
+     echo_debug('class_fiche_def',__LINE__,$fiche_Def_ref);
      // build the sql request for fiche_def
      // and insert into fiche_def
      // if p_class_base is null get the default class base from
@@ -186,6 +187,7 @@ class fiche_def {
        { // p_class is null
 	 // So we take the default one
 	 $p_class_base=$fiche_Def_ref->frd_class_base;
+	 echo_debug('class_fiche_def',__LINE__,'Found class base ='.$p_class_base);
        }
 
      // Set the value of fiche_def.fd_create_account
@@ -215,11 +217,10 @@ class fiche_def {
     
        // Add the class_base if needed
        
-       if ( $p_create=='true' ) {
-	 $sql=sprintf("insert into jnt_fic_attr(fd_id,ad_id) 
+       $sql=sprintf("insert into jnt_fic_attr(fd_id,ad_id) 
                      values (%d,%d)",$fd_id,ATTR_DEF_ACCOUNT);
-	 $Res=ExecSql($this->cn,$sql);
-       }
+       $Res=ExecSql($this->cn,$sql);
+
      } else {
        //There is no class base not even as default
        $sql=sprintf("insert into fiche_def(fd_label,frd_id,fd_create_account) values ('%s',%d,'%s')",
@@ -352,9 +353,9 @@ class fiche_def {
 
     }
   /*!\brief Display all the attribut of the fiche_def
-   *
+   *\param $str give the action possible values are remove, empty 
    */
-  function DisplayAttribut()
+  function DisplayAttribut($str="")
     {
       echo_debug("class_fiche_def",__LINE__,"DisplayAttribut");
       if ( $this->id == 0 )
@@ -363,8 +364,13 @@ class fiche_def {
       echo_debug("class_fiche_def",__LINE__,"MaxLine = ".$MaxLine);
       $r="<TABLE>";
       // Display each attribute
+      $add_action="";
       for ($i=0;$i<$MaxLine;$i++) {
-	$r.='<TR><td>';
+	$class="even";
+	if ( $i % 2 == 0 )
+		$class="odd";
+		
+	$r.='<TR class="'.$class.'"><td>';
 	// Can change the name
 	if ( $this->attribut[$i]->ad_id == ATTR_DEF_NAME ) {
 	  $a=sprintf('Label</TD><TD><INPUT TYPE="TEXT" NAME="label" VALUE="%s">',
@@ -372,9 +378,23 @@ class fiche_def {
 	  $r.=$a;
 	  $r.='</td><TD><input type="submit" NAME="change_name" value="Change Nom">';
 	} else {
-	  // The attr.
+		if ( $str == "remove" ) {
+		  //Only for the not mandatory attribute (not defined in attr_min)
+		  if ( CountSql($this->cn,"select * from attr_min where frd_id=".
+			   $this->fiche_def." and ad_id = ".$this->attribut[$i]->ad_id) == 0
+		       && $this->attribut[$i]->ad_id != ATTR_DEF_QUICKCODE
+		       && $this->attribut[$i]->ad_id != ATTR_DEF_ACCOUNT
+		       ) 
+		    {
+		       $add_action=sprintf( '</TD><TD> Supprimer <input type="checkbox" name="chk_remove[]" value="%d">',
+				$this->attribut[$i]->ad_id);
+			}
+		  else
+		    $add_action="";
+		}	
+	  // The attribut.
 	  $a=sprintf('%s ',  $this->attribut[$i]->ad_text);
-	  $r.=$a;
+	  $r.=$a.$add_action;
 	}
 	$r.= '</td></tr>';
       }
@@ -431,6 +451,37 @@ class fiche_def {
       // update all the existing card
       
     }
+    /*!\brief remove an attribut for this fiche_def
+     * \param array of ad_id to remove
+     * \remark you can't remove the attribut defined in attr_min
+     */
+     function RemoveAttribut($array) 
+     {
+       foreach ($array as $ch) 
+	 {
+	   StartSql($this->cn);
+	   $sql="delete from jnt_fic_attr where fd_id=".$this->id.
+	     "   and ad_id=".$ch;
+	   ExecSql($this->cn,$sql);
+
+	   $sql="delete from attr_value where jft_id in ( select ".
+	     " jft_id from attr_value join jnt_fic_att_value using (jft_id) ".
+	     " join fiche using(f_id) ".
+	     " where ".
+	     "fd_id = ".$this->id." and ".
+	     "ad_id=".$ch.")";
+	   ExecSql($this->cn,$sql);
+
+	   $sql="delete from jnt_fic_att_value where jft_id in (".
+	     " select jft_id from jnt_fic_att_value join fiche using (f_id) ".
+	     " where ".
+	     " fd_id = ".$this->id." and ".
+	     " ad_id = ".$ch.")";
+	   ExecSql($this->cn,$sql);
+	   Commit($this->cn);
+	 }
+     }
+
 
 }
 ?>
