@@ -88,10 +88,6 @@ class fiche_def_ref
  **************************************************
  * \brief  Input Data between <td> tag
  *        
- * parm : 
- *	- none
- * gen :
- *	-
  * \return string
  */
   function Input()
