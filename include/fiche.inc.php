@@ -82,7 +82,10 @@ function ShowFicheDefInput($p_fiche_def)
   
   $r.= $p_fiche_def->DisplayAttribut("remove");
   $r.= ' <INPUT TYPE="SUBMIT" Value="Ajoute cet &eacute;l&eacute;ment" NAME="add_line">';
-  $r.=' <INPUT TYPE="SUBMIT" Value="Enleve les &eacute;l&eacute;ments coch&eacute;s" NAME="remove_line">';
+  // if there is nothing to remove then hide the button
+  if ( strpos ($r,"chk_remove") != 0 ) {
+    $r.=' <INPUT TYPE="SUBMIT" Value="Enleve les &eacute;l&eacute;ments coch&eacute;s" NAME="remove_line">';
+  }
   $r.= "</form>";
   $r.=" <p> Attention : il n'y aura pas de demande de confirmation pour enlèver les 
 attributs sélectionnés. Il ne sera pas possible de revenir en arrière</p>";
