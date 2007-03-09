@@ -49,14 +49,14 @@ if ( $_POST['p_step'] == 0 )
     if ( count($Form->row ) == 0 ) 
       exit;
     
-    echo       "\"Mois,\"\t\"Description\"\t,".
+    echo       "\"Mois,\";\"Description\";".
       "\"Montant\"\t";
 
 
 
     foreach ( $Form->row as $op ) { 
-      echo '"'.$op['desc'].'"'."\t,".
-	sprintf("%8.2f",$op['montant'])."\t".
+      echo '"'.$op['desc'].'"'.";".
+	sprintf("%8.2f",$op['montant']).
 	"\n";
       
     }
@@ -75,6 +75,7 @@ if ( $_POST['p_step'] == 0 )
      // Display column heading
      //--
      $x="";
+     printf ("Mois;");
      foreach ($array[0] as $e) 
        {
 	 printf("%s%s",$x,$e['desc']);
