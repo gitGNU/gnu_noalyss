@@ -1020,7 +1020,7 @@ function CheckPoste($p_cn,$qcode)
     if ( CountSql($p_cn,
 		  "select * from tmp_pcmn where pcm_val=$poste") == 0 )
       {
-	$msg=" Le poste comptable $poste de la fiche ".$qcode." n\'existe pas";
+      $msg=" Le poste comptable $poste de la fiche ".$qcode." n\'existe pas, il faudra le créer manuellement dans le module comptabilité, menu : avancé->plan comptable";
 	echo_error($msg); echo_debug('poste.php',__LINE__,$msg);		
 	echo "<SCRIPT>alert('$msg');</SCRIPT>";
 	return null; 
