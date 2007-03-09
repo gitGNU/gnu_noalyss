@@ -631,20 +631,31 @@ class fiche {
        $fiche_def=new fiche_def($this->cn,$this->fiche_def);
        $fiche_def->Get();
 
+       // if the card is used do not removed it
+       $qcode=$this->strAttribut(ATTR_DEF_QUICKCODE);
+
+       if ( CountSql($this->cn,"select * from jrnx where j_qcode='$qcode'") != 0)
+	 {
+	   echo "<SCRIPT> alert('Impossible ce poste est utilisé dans un journal'); </SCRIPT>";
+	   return;
+	 }
+
        if ( $fiche_def->create_account=='t' ) {
 	 // Retrieve the 'poste comptable'
 	 $class=$this->strAttribut(ATTR_DEF_ACCOUNT);
-	 
+	 $is_used_jrnx= CountSql($this->cn,"select * from jrnx where j_poste=$class");
 	 // if class is not NULL and if we use it before, we can't remove it
-	 if (FormatString($class) != null && 
-	     CountSql($this->cn,"select * from jrnx where j_poste=$class") != 0 ) {
-	   echo "<SCRIPT> alert('Impossible ce poste est utilisé dans un journal'); </SCRIPT>";
-	   return;
-	 } else {
+	 if (FormatString($class) != null && $is_used_jrnx     != 0 ) 
+	   {
+	     echo "<SCRIPT> alert('Impossible cette fiche est utilisée dans un journal'); </SCRIPT>";
+	     return;
+	   }
+	 else
 	   // Remove in PCMN
-	   if ( trim(strlen($class)) != 0 and isNumber($class) == 1)
-	     ExecSql($this->cn,"delete from tmp_pcmn where pcm_val=".$class);
-	 }
+	   if ( trim(strlen($class)) != 0 && isNumber($class) == 1 && $is_used_jrnx == 0)
+	     {
+	       ExecSql($this->cn,"delete from tmp_pcmn where pcm_val=".$class);
+	     }
 	 
        }
        // Remove from attr_value
