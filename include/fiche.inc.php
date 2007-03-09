@@ -38,7 +38,7 @@ if ( !isset($sessid))
 {
   $sessid=$_REQUEST["PHPSESSID"];
 } 
-$search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$sessid."')\">";
+$search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$sessid."','class_base','')\">";
 
 
 include_once("fiche_inc.php");
