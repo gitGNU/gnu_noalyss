@@ -85,8 +85,7 @@ class jrn {
  *
  * gen :
  *	- none
- * return:
- *	- Array with the asked data
+ * \return Array with the asked data
  *
  */ 
   function GetRow($p_from,$p_to,$cent='off',$p_limit=-1,$p_offset=-1) {
@@ -108,7 +107,9 @@ class jrn {
                 case j_debit when 't' then j_montant::text else '   ' end as deb_montant,
                 case j_debit when 'f' then j_montant::text else '   ' end as cred_montant,
                 j_debit as debit,j_poste as poste,jr_montant , ".
-	       "pcm_lib as description,j_grpt as grp,jr_comment||' ('||jr_internal||')' as jr_comment ,
+	       "pcm_lib as description,j_grpt as grp,
+               jr_comment||' ('||jr_internal||')' as jr_comment ,
+               j_qcode,
                 jr_rapt as oc, j_tech_per as periode from jrnx left join jrn on ".
 		 "jr_grpt_id=j_grpt ".
 		 " left join tmp_pcmn on pcm_val=j_poste ".
@@ -127,6 +128,7 @@ class jrn {
             c_debit as j_debit,
             c_poste as poste,
             pcm_lib as description,
+            j_qcode,
             jr_comment||' ('||c_internal||')' as jr_comment,
             jr_montant,
             c_grp as grp,
@@ -153,6 +155,7 @@ class jrn {
 	       "pcm_lib as description,j_grpt as grp,
                 jr_comment||' ('||jr_internal||')' as jr_comment,
                 jr_montant,
+                j_qcode,
                 jr_rapt as oc, j_tech_per as periode from jrnx left join jrn on ".
 		 "jr_grpt_id=j_grpt left join tmp_pcmn on pcm_val=j_poste where ".
 	       "  ".$periode." order by j_date::date,j_grpt,j_debit desc   ".
@@ -177,6 +180,7 @@ class jrn {
             c_grp as grp,
             c_comment||' ('||c_internal||')' as comment,
             c_rapt as oc,
+            j_qcode,
             c_periode as periode 
             from centralized left join jrn on ".
 		"jr_grpt_id=c_grp left join tmp_pcmn on pcm_val=c_poste where ".
@@ -192,6 +196,7 @@ class jrn {
   $case="";
   $tot_deb=0;
   $tot_cred=0;
+  $fiche=new fiche($this->db);
   for ($i=0;$i<$Max;$i++) {
     $line=pg_fetch_array($Res,$i);
     $mont_deb=($line['deb_montant']!=0)?sprintf("% 8.2f",$line['deb_montant']):"";
@@ -201,7 +206,14 @@ class jrn {
     $tot_cred+=$line['cred_montant'];
     echo_debug('class_jrn.php',__LINE__," GetRow : mont_Deb ".$mont_deb);
     echo_debug('class_jrn.php',__LINE__," GetRow : mont_cred ".$mont_cred);
-
+    /* Check first if there is a quickcode */
+    if ( strlen(trim($line['j_qcode'])) != 0 ) 
+      {
+	if ( $fiche->GetByQCode($line['j_qcode'],false) == 0 ) 
+	  {
+	    $line['description']=$fiche->strAttribut(ATTR_DEF_NAME);
+	  }
+      }
     if ( $case != $line['grp'] ) {
       $case=$line['grp'];
       $array[]=array (
@@ -213,6 +225,7 @@ class jrn {
 		      'cred_montant'=>'<b><i>'.$jr_montant.'</i></b>',
 		      'description'=>'<b><i>'.$line['jr_comment'].'</i></b>',
 		      'poste' => $line['oc'],
+		      'qcode' => $line['j_qcode'],
 		      'periode' =>$line['periode'] );
 
       $array[]=array (
@@ -224,6 +237,7 @@ class jrn {
 		      'cred_montant'=>$mont_cred,
 		      'description'=>$line['description'],
 		      'poste' => $line['poste'],
+		      'qcode' => $line['j_qcode'],
 		      'periode' => $line['periode']
 		      );
     
@@ -237,6 +251,7 @@ class jrn {
 		      'cred_montant'=>$mont_cred,
 		      'description'=>$line['description'],
 		      'poste' => $line['poste'],
+		      'qcode' => $line['j_qcode'],
 		      'periode' => $line['periode']);
 
     }
