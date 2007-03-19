@@ -338,8 +338,8 @@ comment = $p_comment");
 	return GetSequence($p_cn,'s_jrn');
 }
 /*!   ListJrn($p_cn,$p_jrn,$p_wherel)
- **************************************************
- *\brief  show all the lines of the asked jrn
+ ************************************************************************************
+ *\brief  show all the lines of the asked jrn, uses also the $_GET['o'] for the sort
  *        
  * 
  * \param $p_cn database connection
@@ -357,7 +357,66 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0,$p_paid=0)
   include_once("central_inc.php");
   $limit=($_SESSION['g_pagesize']!=-1)?" LIMIT ".$_SESSION['g_pagesize']:"";
   $offset=($_SESSION['g_pagesize']!=-1)?" OFFSET ".$p_value:"";
+  $order="  order by jr_date_order asc,jr_internal asc";
+  // Sort
+  $url=CleanUrl();
+  $image_asc='<IMAGE SRC="image/down.png" border="0" >';
+  $image_desc='<IMAGE SRC="image/up.png" border="0">';
+  $image_sel_desc='<IMAGE SRC="image/select1.png">';
+  $image_sel_asc='<IMAGE SRC="image/select2.png">';
+  
+  $sort_date="<th>  <A class=\"mtitle\" HREF=\"?$url&o=da\">$image_asc</A>Date <A class=\"mtitle\" HREF=\"?$url&o=dd\">$image_desc</A></th>";
+  $sort_description="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ca\">$image_asc</A>Description <A class=\"mtitle\" HREF=\"?$url&o=cd\">$image_desc</A></th>";
+  $sort_amount="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ma\">$image_asc</A>Montant <A class=\"mtitle\" HREF=\"?$url&o=md\">$image_desc</A></th>";
+$sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Echéance <A class=\"mtitle\" HREF=\"?$url&o=ed\">$image_desc</A> </th>";
+  // if an order is asked
+  if ( isset ($_GET['o']) ) 
+    {
+      switch ($_GET['o'])
+	{
+	case 'da':
+	  // date asc
+	  $sort_date="<th>$image_sel_asc Date <A class=\"mtitle\" HREF=\"?$url&o=dd\">$image_desc</A></th>";
+	  $order=" order by jr_date_order asc ";
+	  break;
+	case 'dd':
+	  $sort_date="<th> <A class=\"mtitle\" HREF=\"?$url&o=da\">$image_asc</A> Date $image_sel_desc</th>";
+	  // date desc
+	  $order=" order by jr_date_order desc ";
+	  break;
+	case 'ma':
+	  // montant asc
+	  $sort_amount="<th> $image_sel_asc Montant <A class=\"mtitle\" HREF=\"?$url&o=md\">$image_desc</A></th>";
+	  $order=" order by jr_montant asc ";
+	  break;
+	case 'md':
+	  // montant desc
+	  $sort_amount="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ma\">$image_asc</A>Montant $image_sel_desc</th>";
+	  $order=" order by jr_montant desc ";
+	  break;
+	case 'ca':
+	  // jr_comment asc
+	  $sort_description="<th> $image_sel_asc Description <A class=\"mtitle\" HREF=\"?$url&o=cd\">$image_desc</A></th>";
+	  $order=" order by jr_comment asc ";
+	  break;
+	case 'cd':
+	  // jr_comment desc
+	  $sort_description="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ca\">$image_asc</A>Description $image_sel_desc</th>";
+	  $order=" order by jr_comment desc ";
+	  break;
+	case 'ea':
+	  // jr_comment asc
+	  $sort_echeance="<th> $image_sel_asc Echeance <A class=\"mtitle\" HREF=\"?$url&o=ed\">$image_desc</A></th>";
+	  $order=" order by jr_ech asc ";
+	  break;
+	case 'ed':
+	  // jr_comment desc
+	  $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A> Echeance $image_sel_desc</th>";
+	  $order=" order by jr_ech desc ";
+	  break;
 
+	}
+    }
   // set a filter for the FIN 
   $a_parm_code=GetArray($p_cn,"select p_value from parm_code where p_code in ('BANQUE','VIREMENT_INTERNE','COMPTE_COURANT','CAISSE')");
   $sql_fin="(";
@@ -369,8 +428,6 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0,$p_paid=0)
   $sql_fin.=")";
 
   if ( $p_array == null ) {
-  //que fait cette requête??? 
-    
    $sql="select jr_id	,
 			jr_montant,
 			jr_comment,
@@ -393,7 +450,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0,$p_paid=0)
                             join jrn_def on jrn_def_id=jr_def_id 
                             join parm_periode on p_id=jr_tech_per
                        $p_where 
-			 order by jr_date_order asc,jr_internal asc";
+	                 $order";
   }
   if ( $p_array != null ) {
     // Construction Query 
@@ -483,7 +540,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0,$p_paid=0)
 	" uj_login='".$_SESSION['g_user']."'".
 	" and uj_priv in ('R','W'))";
     }
-    $sql.=" order by jr_date_order asc";
+    $sql.=$order;
   }// p_array != null
   // Count 
   $count=CountSql($p_cn,$sql);
@@ -509,11 +566,11 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0,$p_paid=0)
   $r.='<table style="width:100%;border:solid blue 2px ;border-style:outset;">';
   $l_sessid=$_REQUEST['PHPSESSID'];
   $r.="<tr class=\"even\">";
- $r.="<th> Internal </th>";
-  $r.="<th> Date </th>";
-  $r.="<th> Echéance </th>";
-  $r.="<th> Description</th>";
-  $r.="<th> Montant </th>";
+  $r.="<th> Internal</th>";
+  $r.=$sort_date;
+  $r.=$sort_echeance;
+  $r.=$sort_description;
+  $r.=$sort_amount;
   // if $p_paid is not equal to 0 then we have a paid column
   if ( $p_paid != 0 ) 
     {
@@ -911,20 +968,8 @@ function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1)
   // if there is no row return an empty string
   if ( $p_line == 0 ) return "";
 
-  // Compute the url
-  $url="";
-  $and="";
-  $get=$_GET;
-  if ( isset ($get) ) {
-    foreach ($get as $name=>$value ) {
-      // we clean the parameter offset, step, page and size
-      if (  ! in_array($name,array('offset','step','page','size'))) {
-	$url.=$and.$name."=".$value;
-	$and="&";
-      }// if
-    }//foreach
-  }// if
-
+  // Clean url, cut away variable coming frm here
+  $url=cleanUrl();
   // action to clean
   $url=str_replace('&p_action=delete','',$url);
 
@@ -1027,5 +1072,29 @@ function CheckPoste($p_cn,$qcode)
 
       }
     return  1; 
+}
+/*! 
+ * \brief Clean the url, remove the $_GET offset,step, page and size
+ * \param none
+ *
+ * \return the cleaned url
+ */
+
+function CleanUrl()
+{
+  // Compute the url
+  $url="";
+  $and="";
+  $get=$_GET;
+  if ( isset ($get) ) {
+    foreach ($get as $name=>$value ) {
+      // we clean the parameter offset, step, page and size
+      if (  ! in_array($name,array('offset','step','page','size'))) {
+	$url.=$and.$name."=".$value;
+	$and="&";
+      }// if
+    }//foreach
+  }// if
+return $url;
 }
 ?>
