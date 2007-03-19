@@ -93,7 +93,7 @@ if ( $sub_action == "list")
       
       }
 
-  echo '<div class="u_redcontent">';
+  echo '<div class="u_content">';
   echo $retour;
   
 
@@ -130,7 +130,7 @@ if ( $sub_action == "list")
   $w->name='qcode';
   $w->value=$qcode;
   $w->label='';
-  $w->extra='9';
+  $w->extra='all';
   $w->table=0;
   $sp= new widget("span");
 

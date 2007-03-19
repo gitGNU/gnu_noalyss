@@ -92,7 +92,7 @@ if ( $sub_action == "list")
       
       }
 
-  echo '<div class="u_redcontent">';
+  echo '<div class="u_content">';
 
   
 
@@ -127,7 +127,7 @@ if ( $sub_action == "list")
   $w->name='qcode';
   $w->value=$qcode;
   $w->label='';
-  $w->extra='8';
+  $w->extra='all';
   $w->table=0;
   $sp= new widget("span");
   echo $sp->IOValue("qcode_label","",$qcode);
