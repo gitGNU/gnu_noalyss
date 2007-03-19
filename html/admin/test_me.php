@@ -6,6 +6,12 @@ include_once('class_jrn.php');
 include_once('class_poste.php');
 include_once('class_balance.php');
 include_once('impress_inc.php');
+echo "<h1>isNumber</h1>";
+echo "isNumber('40%')".isNumber('40%')."<br>";
+echo "isNumber('40')".isNumber('40')."<br>";
+echo "isNumber('A')".isNumber('A')."<br>";
+echo "isNumber('40.2')".isNumber('40.2')."<br>";
+exit();
 // date
 $nb_day=array(31,$fev,31,30,31,30,31,31,30,31,30,31);
 $m=1;
@@ -17,7 +23,7 @@ foreach ($nb_day as $day)
   $m++;
   echo $p_start." - ".$p_end.'<br>';  
 }
-exit();
+
 
 $cn=DbConnect(1);
 echo '<h1> Test GetRappelSimple </h1>';
