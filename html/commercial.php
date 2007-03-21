@@ -73,11 +73,11 @@ echo '<div class="u_tmenu">';
 echo "<H2 class=\"info\">Commercial ".$_SESSION['g_name']." ";
 echo '<div align="right" title="Recherche">
 <input type="IMAGE" src="image/search.png" width="36" onclick="openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.$_SESSION['g_dossier'].');">
-<A HREF="?p_action=pref" title="Pr&eacute;f&eacute;rence"><INPUT TYPE="IMAGE" width="36" src="image/preference.png"></A>
-<A HREF="user_compta.php?dos='.$_SESSION['g_dossier'].'" title="Comptabilité"><INPUT TYPE="IMAGE" width="36" src="image/compta.png"></A>
-<A HREF="parametre.php?dos='.$_SESSION['g_dossier'].'" title="Paramètre"><input type="IMAGE" width="36" src="image/param.png"></A>
-<A HREF="login.php" title="Accueil"><INPUT TYPE="IMAGE" width="36" src="image/home.png" ></A>
-<A HREF="logout.php" title="Sortie"><input type="IMAGE" title="Logout" src="image/logout.png" width="36"></A>
+<A HREF="?p_action=pref" title="Pr&eacute;f&eacute;rence"><IMG SRC="image/preference.png" width="36" border="0" ></A>
+<A HREF="user_compta.php?dos='.$_SESSION['g_dossier'].'" title="Comptabilité"><IMG SRC="image/compta.png" width="36"  border="0" ></A>
+<A HREF="parametre.php?dos='.$_SESSION['g_dossier'].'" title="Paramètre"><IMG SRC="image/param.png" width="36" border="0" ></A>
+<A HREF="login.php" title="Accueil"><IMG src="image/home.png" width="36" title="Accueil"  border="0"  ></A>
+<A HREF="logout.php" title="Sortie"><IMG src="image/logout.png" title="Logout"  width="36"  border="0"></A>
 
 </div> </h2>';
 

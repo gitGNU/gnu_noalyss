@@ -174,11 +174,11 @@ function ShowMenuCompta($p_dossier,$p_high="")
 
   $r.='<div align="right">
 <input type="IMAGE" src="image/search.png" width="36" onclick="openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.$_SESSION['g_dossier'].');">
-<A HREF="user_pref.php" title="Pr&eacute;f&eacute;rence"><IMG SRC="image/preference.png" width="36" ></A>
-<A HREF="commercial.php?dos='.$_SESSION['g_dossier'].'" title="Gestion"><IMG SRC="image/compta.png" width="36" ></A>
-<A HREF="parametre.php?dos='.$_SESSION['g_dossier'].'" title="Paramètre"><IMG SRC="image/param.png" width="36" ></A>
-<A HREF="login.php" title="Accueil"><IMG SRC="image/home.png" width="36" ></A>
-<A HREF="logout.php" title="Sortie"><IMG SRC="image/logout.png"  title="Logout"  width="36"></A>
+<A HREF="user_pref.php" title="Pr&eacute;f&eacute;rence"><IMG SRC="image/preference.png" width="36" border="0" ></A>
+<A HREF="commercial.php?dos='.$_SESSION['g_dossier'].'" title="Gestion"><IMG SRC="image/compta.png" width="36"  border="0" ></A>
+<A HREF="parametre.php?dos='.$_SESSION['g_dossier'].'" title="Paramètre"><IMG SRC="image/param.png" width="36"  border="0" ></A>
+<A HREF="login.php" title="Accueil"><IMG SRC="image/home.png" width="36"  border="0" ></A>
+<A HREF="logout.php" title="Sortie"><IMG SRC="image/logout.png"  title="Logout"  width="36"  border="0"></A>
 
 
 
@@ -422,7 +422,7 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
 
   $r.=JS_SEARCH_POSTE;
   $r.=JS_SEARCH_CARD;
-  $r.= '<h2><IMG SRC="image/search.png" width="48" > Recherche</h2>';
+  $r.= '<h2><IMG SRC="image/search.png" width="48" border="0" > Recherche</h2>';
   $r.= '<FORM ACTION="recherche.php" METHOD="GET">';
   $r.="<table><tr><TD>";  
   $r.= '<TABLE>';
