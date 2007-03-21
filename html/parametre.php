@@ -52,8 +52,8 @@ include_once("user_menu.php");
 echo "<H2 class=\"info\"> Param&egrave;tre ".$_SESSION['g_name'].
 '
 <div align="right">
-<A HREF="login.php" title="Accueil"><INPUT TYPE="IMAGE" width="36" src="image/home.png" ></A>
-<A HREF="logout.php" title="Sortie"><input type="IMAGE" title="Logout" src="image/logout.png" width="36"></A>
+<A HREF="login.php" title="Accueil"><IMG src="image/home.png" width="36"  ></A>
+<A HREF="logout.php" title="Sortie"><IMG src="image/logout.png" title="Logout"  width="36"></A>
 </div>
 </H2>';
 
