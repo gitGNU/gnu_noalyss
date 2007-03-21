@@ -1,7 +1,12 @@
 /* <style type="text/css"> */
 
 @page { margin: 2cm; } ;
+
 form { 
+  display:none;
+ }
+
+.noprint  {
   display:none;
  }
 div.recherche_form {
