@@ -179,5 +179,104 @@ function GetSoldeDetail($p_cond="") {
      return 0;
 
    }
+/*! 
+ * \brief HtmlTable, display a HTML of a poste for the asked period
+ * \param none
+ *
+ * \return none
+ */
 
+
+ function HtmlTable() 
+   {     
+     $this->GetName();
+
+     list($array,$tot_deb,$tot_cred)=$this->GetRow( $_POST['from_periode'],
+						     $_POST['to_periode']
+						     );
+
+     if ( count($this->row ) == 0 ) 
+       return;
+     
+     $rep="";
+ 
+     echo '<h2 class="info">'.$this->id." ".$this->name.'</h2>';
+     echo "<TABLE class=\"result\" width=\"100%\">";
+     echo "<TR>".
+       "<TH> Code interne </TH>".
+       "<TH> Date</TH>".
+       "<TH> Description </TH>".
+       "<TH> Débit  </TH>".
+	"<TH> Crédit </TH>".
+       "</TR>";
+     
+     foreach ( $this->row as $op ) { 
+       echo "<TR>".
+	 "<TD>".$op['jr_internal']."</TD>".
+	 "<TD>".$op['j_date']."</TD>".
+	 "<TD>".$op['description']."</TD>".
+	 "<TD>".$op['deb_montant']."</TD>".
+	 "<TD>".$op['cred_montant']."</TD>".
+	 "</TR>";
+    
+     }
+     $solde_type=($tot_deb>$tot_cred)?"solde débiteur":"solde créditeur";
+     $diff=round(abs($tot_deb-$tot_cred),2);
+     echo "<TR>".
+       "<TD>$solde_type</TD>".
+       "<TD>$diff</TD>".
+       "<TD></TD>".
+       "<TD>$tot_deb</TD>".
+       "<TD>$tot_cred</TD>".
+       "</TR>";
+
+     echo "</table>";
+ 
+     return;
+   }
 }
+/*! 
+ * \brief Display HTML Table Header (button)
+ * \param poste_id
+ *
+ * \return none
+ */
+function HtmlTableHeader($p_poste)
+{
+  $submit=new widget();
+  $hid=new widget("hidden");
+  echo '<div class="noprint">';
+  echo "<table >";
+  echo '<TR>';
+  
+  echo '<TD><form method="GET" ACTION="">'.
+    $submit->Submit('bt_other',"Autre poste").
+    $hid->IOValue("type","poste").$hid->IOValue('p_action','impress')."</form></TD>";
+     
+  echo '<TD><form method="POST" ACTION="poste_pdf.php">'.
+    $submit->Submit('bt_pdf',"Export PDF").
+    $hid->IOValue("type","poste").
+    $hid->IOValue('p_action','impress').
+    $hid->IOValue("poste_id",$p_poste).
+    $hid->IOValue("from_periode",$_POST['from_periode']).
+    $hid->IOValue("to_periode",$_POST['to_periode']);
+  if (isset($_POST['poste_fille']))
+    echo $hid->IOValue('poste_fille','on');
+  echo "</form></TD>";
+
+  echo '<TD><form method="POST" ACTION="poste_csv.php">'.
+    $submit->Submit('bt_csv',"Export CSV").
+    $hid->IOValue("type","poste").
+    $hid->IOValue('p_action','impress').
+    $hid->IOValue("poste_id",$p_poste).
+    $hid->IOValue("from_periode",$_POST['from_periode']).
+    $hid->IOValue("to_periode",$_POST['to_periode']);
+  if (isset($_POST['poste_fille']))
+    echo $hid->IOValue('poste_fille','on');
+  
+  echo "</form></TD>";
+  echo "</table>";
+  echo '</div>';
+  
+}
+
