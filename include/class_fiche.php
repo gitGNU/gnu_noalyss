@@ -636,7 +636,7 @@ class fiche {
 
        if ( CountSql($this->cn,"select * from jrnx where j_qcode='$qcode'") != 0)
 	 {
-	   echo "<SCRIPT> alert('Impossible ce poste est utilisé dans un journal'); </SCRIPT>";
+	   echo "<SCRIPT> alert('Impossible cette fiche est utilisée dans un journal'); </SCRIPT>";
 	   return;
 	 }
 
@@ -647,7 +647,7 @@ class fiche {
 	 // if class is not NULL and if we use it before, we can't remove it
 	 if (FormatString($class) != null && $is_used_jrnx     != 0 ) 
 	   {
-	     echo "<SCRIPT> alert('Impossible cette fiche est utilisée dans un journal'); </SCRIPT>";
+	     echo "<SCRIPT> alert('Impossible ce poste est utilisée dans un journal'); </SCRIPT>";
 	     return;
 	   }
 	 else
