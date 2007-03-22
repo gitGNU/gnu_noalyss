@@ -2,10 +2,12 @@
 # html, txt format
 # $Revision$
 
-.PHONY: all html .pdf clean .txt
+.PHONY: all html .pdf clean .txt devel
 
-all: manuel-fr.pdf html FAQ-fr.pdf INSTALL-fr.pdf INSTALL-fr.txt FAQ-fr.txt
+all: manuel-fr.pdf html FAQ-fr.pdf INSTALL-fr.pdf INSTALL-fr.txt FAQ-fr.txt devel
 
+devel:
+	cd developper && ./create_doc.sh
 html:
 	linuxdoc -B html --charset=latin FAQ-fr.sgml
 	linuxdoc -B html --charset=latin INSTALL-fr.sgml
