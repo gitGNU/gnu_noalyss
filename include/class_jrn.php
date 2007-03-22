@@ -196,8 +196,8 @@ class jrn {
   $case="";
   $tot_deb=0;
   $tot_cred=0;
-  $fiche=new fiche($this->db);
   for ($i=0;$i<$Max;$i++) {
+    $fiche=new fiche($this->db);
     $line=pg_fetch_array($Res,$i);
     $mont_deb=($line['deb_montant']!=0)?sprintf("% 8.2f",$line['deb_montant']):"";
     $mont_cred=($line['cred_montant']!=0)?sprintf("% 8.2f",$line['cred_montant']):"";
