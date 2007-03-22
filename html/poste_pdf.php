@@ -34,62 +34,62 @@ include("poste.php");
 foreach ($HTTP_POST_VARS as $key=>$element) {
   ${"$key"}=$element;
 }
-// if ( isset ( $all_poste) ){ //choisit de voir tous les postes
-//   $r_poste=ExecSql($cn,"select pcm_val from tmp_pcmn where pcm_val = any ".
-// 		   " (select j_poste from jrnx) order by pcm_val::text");
-//   $nPoste=pg_numRows($r_poste);
-//   for ( $i=0;$i<$nPoste;$i++) {
-//     $t_poste=pg_fetch_array($r_poste,$i);
-//     $poste[]=$t_poste['pcm_val'];
-//   } 
-// }      
+ if ( isset ( $poste_fille) ){ //choisit de voir tous les postes
+   $a_poste=getarray($cn,"select pcm_val from tmp_pcmn where pcm_val like '$poste_id%'");
+ } else 
+ $a_poste=getarray($cn,"select pcm_val from tmp_pcmn where pcm_val = '$poste_id'");
+      
 
+$ret="";
+$pdf=& new Cezpdf();
+$pdf->selectFont('./addon/fonts/Helvetica.afm');
+if ( count($a_poste) == 0 ) {
+  $pdf->ezStream();
+     return;
+}
 
-    $ret="";
-    $pdf=& new Cezpdf();
-    $pdf->selectFont('./addon/fonts/Helvetica.afm');
-
-//$rap_deb=0;$rap_cred=0;
-//for ( $i =0;$i<count($poste);$i++) {
-$Poste=new poste($cn,$poste_id);
-list($array,$tot_deb,$tot_cred)=$Poste->GetRow($from_periode,$to_periode);
-    // don't print empty account
-// if ( count($array) == 0 ) {
-//   continue;
-//  }
-$Libelle=sprintf("(%s) %s ",$Poste->id,$Poste->GetName());
+foreach ($a_poste as $poste) 
+{
+  echo_debug("poste_pdf",__LINE__,$poste);
+  $Poste=new poste($cn,$poste['pcm_val']);
+  list($array,$tot_deb,$tot_cred)=$Poste->GetRow($from_periode,$to_periode);
+  // don't print empty account
+  if ( count($array) == 0 ) {
+     continue;
+   }
+  $Libelle=sprintf("(%s) %s ",$Poste->id,$Poste->GetName());
     
     //  $pdf->ezText($Libelle,30);
-    $pdf->ezTable($array,
-		  array ('jr_internal'=>'Opération',
+  $pdf->ezTable($array,
+		array ('jr_internal'=>'Opération',
 		       'j_date' => 'Date',
 		       'jrn_name'=>'Journal',
-			 'description'=>'Description',
+		       'description'=>'Description',
 		       'deb_montant'=> 'Montant',
 		       'cred_montant'=> 'Montant'
 		       ),$Libelle,
 		array('shaded'=>0,'showHeadings'=>1,'width'=>500,
 		      'cols'=>array('montant'=> array('justification'=>'right'),
 				    )));
-$str_debit=sprintf("Débit  % 12.2f",$tot_deb);
-$str_cred=sprintf("Crédit % 12.2f",$tot_cred);
-$diff_solde=$tot_deb-$tot_cred;
-if ( $diff_solde < 0 ) {
-	$solde=" C ";
-	$diff_solde*=-1;
-	} else 
+  $str_debit=sprintf("Débit  % 12.2f",$tot_deb);
+  $str_cred=sprintf("Crédit % 12.2f",$tot_cred);
+ $diff_solde=$tot_deb-$tot_cred;
+ if ( $diff_solde < 0 ) {
+   $solde=" C ";
+   $diff_solde*=-1;
+ } else 
 	{
-	$solde=" D ";
+	  $solde=" D ";
 	}
-$str_solde=sprintf(" Solde %s %12.2f",$solde,$diff_solde);
-
+ $str_solde=sprintf(" Solde %s %12.2f",$solde,$diff_solde);
+ 
  $pdf->ezText($str_debit,10,array('justification'=>'right'));
  $pdf->ezText($str_cred,10,array('justification'=>'right'));
  $pdf->ezText($str_solde,14,array('justification'=>'right'));
-
-  //New page
-  //$pdf->ezNewPage();
-//}    
+ 
+ //New page
+ $pdf->ezNewPage();
+}    
 
 $pdf->ezStream();
 

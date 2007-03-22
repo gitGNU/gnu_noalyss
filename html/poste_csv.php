@@ -34,41 +34,54 @@ $cn=DbConnect($_SESSION['g_dossier']);
 
 $User=new cl_user($cn);
 $User->Check();
+if ( isset ( $_POST['poste_fille']) )
+{ //choisit de voir tous les postes
+  $a_poste=getarray($cn,"select pcm_val from tmp_pcmn where pcm_val like '".$_POST["poste_id"]."%'");
+} 
+else 
+{
+  $a_poste=getarray($cn,"select pcm_val from tmp_pcmn where pcm_val = '".$_POST['poste_id']."'");
+}
+if ( count($a_poste) == 0 )
+     exit;
 
-
-$Poste=new poste($cn,$_POST['poste_id']);
-$Poste->GetName();
-list($array,$tot_deb,$tot_cred)=$Poste->GetRow( $_POST['from_periode'],
-						$_POST['to_periode']
+foreach ($a_poste as $pos) 
+{
+  $Poste=new poste($cn,$pos['pcm_val']);
+  $Poste->GetName();
+  list($array,$tot_deb,$tot_cred)=$Poste->GetRow( $_POST['from_periode'],
+						  $_POST['to_periode']
 						);
-if ( count($Poste->row ) == 0 ) 
-  exit;
-
- echo "\"Code interne\";".
-     "\"Date\";".
-      "\"Description\";".
+  if ( count($Poste->row ) == 0 ) 
+    continue;
+  
+  echo '"Poste;"'.
+    "\"Code interne\";".
+    "\"Date\";".
+    "\"Description\";".
       "\"Débit\";".
       "\"Crédit\"";
-printf("\n");
-
-
+  printf("\n");
+  
+  
   foreach ( $Poste->row as $op ) { 
-      echo '"'.$op['jr_internal'].'"'.";".
-	'"'.$op['j_date'].'"'.";".
-	'"'.$op['description'].'"'.";".
-	sprintf("%8.4f",$op['deb_montant']).";".
-	sprintf("%8.4f",$op['cred_montant']);
-      printf("\n");
-
+    echo '"'.$pos['pcm_val'].'";'.
+     '"'.$op['jr_internal'].'"'.";".
+      '"'.$op['j_date'].'"'.";".
+      '"'.$op['description'].'"'.";".
+      sprintf("%8.4f",$op['deb_montant']).";".
+      sprintf("%8.4f",$op['cred_montant']);
+    printf("\n");
+    
     
   }
   $solde_type=($tot_deb>$tot_cred)?"solde débiteur":"solde créditeur";
   $diff=abs($tot_deb-$tot_cred);
-printf(
+  printf(
     '"'."$solde_type".'"'.";".
     sprintf("%8.4f",$diff).";".
     sprintf("%8.4f",$tot_deb).";".
-  sprintf("%8.4f",$tot_cred)."\n");
-
+    sprintf("%8.4f",$tot_cred)."\n");
+}
   exit;
 ?>
