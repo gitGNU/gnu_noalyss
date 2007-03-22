@@ -11,6 +11,8 @@ echo "isNumber('40%')".isNumber('40%')."<br>";
 echo "isNumber('40')".isNumber('40')."<br>";
 echo "isNumber('A')".isNumber('A')."<br>";
 echo "isNumber('40.2')".isNumber('40.2')."<br>";
+ $a_poste=array("pmc_val"=>"400");
+var_dump($a_poste);
 exit();
 // date
 $nb_day=array(31,$fev,31,30,31,30,31,31,30,31,30,31);
