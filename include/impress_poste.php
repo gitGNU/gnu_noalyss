@@ -36,11 +36,16 @@ if ( isset( $_POST['bt_html'] ) ) {
   include("class_poste.php");
   $go=0;
 // we ask a poste_id
-  if ( strlen(trim($_POST['poste_id'])) != 0 )
+  if ( strlen(trim($_POST['poste_id'])) != 0 && isNumber($_POST['poste_id']) )
     {
+      if ( isset ($_POST['poste_fille']) )
+      {
+	$parent=$_POST['poste_id'];
+	$a_poste=getarray($cn,"select pcm_val from tmp_pcmn where pcm_val like '$parent%'");
+	$go=2;
+      } 
       // Check if the post is numeric and exists
-      if ( isNumber($_POST['poste_id']) &&
-	  CountSql($cn,'select * from tmp_pcmn where pcm_val='.FormatString($_POST['poste_id'])) != 0 )
+      elseif (  CountSql($cn,'select * from tmp_pcmn where pcm_val='.FormatString($_POST['poste_id'])) != 0 )
 	{
 	  $Poste=new poste($cn,$_POST['poste_id']);$go=1;
 	}
@@ -61,81 +66,35 @@ if ( isset( $_POST['bt_html'] ) ) {
   // A account or a quick code is given
   if ( $go == 1) 
     {
-      
-     $Poste->GetName();
-     list($array,$tot_deb,$tot_cred)=$Poste->GetRow( $_POST['from_periode'],
-						     $_POST['to_periode']
-						     );
-     
-     $rep="";
-     $submit=new widget();
-     $hid=new widget("hidden");
-     echo '<div class="u_content">';
-     echo '<h2 class="info">'.$Poste->id." ".$Poste->name.'</h2>';
-     echo "<table >";
-     echo '<TR>';
-     echo '<TD><form method="GET" ACTION="">'.
-       $submit->Submit('bt_other',"Autre poste").
-       $hid->IOValue("type","poste").$hid->IOValue('p_action','impress')."</form></TD>";
-     
-     echo '<TD><form method="POST" ACTION="poste_pdf.php">'.
-       $submit->Submit('bt_pdf',"Export PDF").
-       $hid->IOValue("type","poste").
-       $hid->IOValue('p_action','impress').
-       $hid->IOValue("poste_id",$Poste->id).
-       $hid->IOValue("from_periode",$_POST['from_periode']).
-       $hid->IOValue("to_periode",$_POST['to_periode']);
-     
-     echo "</form></TD>";
-     echo '<TD><form method="POST" ACTION="poste_csv.php">'.
-       $submit->Submit('bt_csv',"Export CSV").
-       $hid->IOValue("type","poste").
-       $hid->IOValue('p_action','impress').
-       $hid->IOValue("poste_id",$Poste->id).
-       $hid->IOValue("from_periode",$_POST['from_periode']).
-       $hid->IOValue("to_periode",$_POST['to_periode']);
-
-     echo "</form></TD>";
-  
-     echo "</TR>";
-     
-     echo "</table>";
-     if ( count($Poste->row ) == 0 ) 
-       exit;
-
-     echo "<TABLE class=\"result\" width=\"100%\">";
-     echo "<TR>".
-       "<TH> Code interne </TH>".
-       "<TH> Date</TH>".
-       "<TH> Description </TH>".
-       "<TH> Débit  </TH>".
-	"<TH> Crédit </TH>".
-       "</TR>";
-     
-     foreach ( $Poste->row as $op ) { 
-       echo "<TR>".
-	 "<TD>".$op['jr_internal']."</TD>".
-	 "<TD>".$op['j_date']."</TD>".
-	 "<TD>".$op['description']."</TD>".
-	 "<TD>".$op['deb_montant']."</TD>".
-	 "<TD>".$op['cred_montant']."</TD>".
-	 "</TR>";
-    
-     }
-     $solde_type=($tot_deb>$tot_cred)?"solde débiteur":"solde créditeur";
-     $diff=round(abs($tot_deb-$tot_cred),2);
-     echo "<TR>".
-       "<TD>$solde_type</TD>".
-       "<TD>$diff</TD>".
-       "<TD></TD>".
-       "<TD>$tot_deb</TD>".
-       "<TD>$tot_cred</TD>".
-       "</TR>";
-
-     echo "</table>";
-     echo "</div>";
-     exit;
+      echo '<div class="u_content">';
+      HtmlTableHeader($_POST['poste_id']);
+      $Poste->HtmlTable();
+      HtmlTableHeader($_POST['poste_id']);
+      echo "</div>";
+      exit;
    }
+  // All the children account
+  if ( $go == 2 )
+    {
+
+      if ( sizeof($a_poste) == 0 ) 
+	exit;
+      echo '<div class="u_content">';
+      HtmlTableHeader($_POST['poste_id']);
+
+      $Poste=new poste($cn,$_POST['poste_id']);
+      $Poste->HtmlTable();
+
+      foreach ($a_poste as $poste_id ) 
+	{
+	  $Poste=new poste ($cn,$poste_id['pcm_val']);
+	  $Poste->HtmlTable();
+	}
+      HtmlTableHeader($_POST['poste_id']);
+      echo "</div>";
+      
+      exit;
+    }
 } 
 //-----------------------------------------------------
 // Show the jrn and date
@@ -177,9 +136,9 @@ print $select->IOValue('to_periode',$periode_end);
 print "</TR>";
 print "<TR><TD>";
 $all=new widget("checkbox");
-$all->label="Tous les postes";
-$all->disabled=true;
-echo $all->IOValue("all");
+$all->label="Tous les postes qui en dépendent";
+$all->disabled=false;
+echo $all->IOValue("poste_fille");
 echo '</TABLE>';
 print $w->Submit('bt_html','Impression');
 
