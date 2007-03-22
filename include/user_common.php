@@ -579,10 +579,10 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Eché
   $r.="<th>Op. Concernée</th>";
   $r.="<th>Document</th>";
   $r.="</tr>";
-
+  // Total Amount
+  $tot=0.0;
   for ($i=0; $i < $Max;$i++) {
 
-    //STAN the rows here must be stored in an array
     
     $row=pg_fetch_array($Res,$i);
     
@@ -623,6 +623,8 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Eché
  			   " and j_debit='f'");
      }
     $r.="<TD align=\"right\">";
+
+    $tot=($positive != 0)?$tot-$row['jr_montant']:$tot+$row['jr_montant'];
     //STAN $positive always == 0
      $r.=( $positive != 0 )?"<font color=\"red\">  - ".sprintf("%8.2f",$row['jr_montant'])."</font>":sprintf("%8.2f",$row['jr_montant']);
     $r.="</TD>";
@@ -666,15 +668,25 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Eché
       $r.="</TD>";
     } // else
     //document
-    $r.="<TD>".sprintf('<A class="detail" HREF="show_pj.php?jrn=%s&jr_grpt_id=%s">%s</A>',
-		       $p_jrn,
-		       $row['jr_grpt_id'],
-		       $row['jr_pj_name'])."</TD>";
-    
+    if ( $row['jr_pj_name'] != "") 
+      {
+	$image='<IMG SRC="images/insert_table.gif" title="'.$row['jr_pj_name'].'" border="0">';
+	$r.="<TD>".sprintf('<A class="detail" HREF="show_pj.php?jrn=%s&jr_grpt_id=%s">%s</A>',
+			   $p_jrn,
+			   $row['jr_grpt_id'],
+			   $image)
+			   ."</TD>";
+      }
+    else
+      $r.="<TD></TD>";
+
     // end row
     $r.="</tr>";
     
   }
+  $r.="<TR>";
+  $r.='<TD COLSPAN="4">Total</TD>';
+  $r.='<TD ALIGN="RIGHT">'.$tot."</TD>";
   $r.="</table>";
   
 return array ($count,$r);
@@ -1009,7 +1021,9 @@ function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1)
     if ( $e != $p_page ) {
       $step=$p_size;
     $offset=($e-1)*$step;
-    $go=sprintf($_SERVER['PHP_SELF']."?".$url."&offset=$offset&step=$step&page=$e&size=$step");
+
+    $go=$_SERVER['PHP_SELF']."?".$url."&offset=$offset&step=$step&page=$e&size=$step";
+
     $r.=sprintf('<A class="mtitle" HREF="%s" CLASS="one">%d</A>&nbsp;',$go,$e);
     } else {
       $r.="<b> [ $e ] </b>";
