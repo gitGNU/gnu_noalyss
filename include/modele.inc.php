@@ -29,11 +29,6 @@
 echo  JS_CONFIRM;
 
     $cn=DbConnect();
-    if ( isset($_GET['rm']) && isset($_GET['mod_id'])) {
-      
-      /*! \todo add confirmation and remove the template
-       */
-    }
     // IF FMOD_NAME is posted then must add a template
     if ( isset ($_POST["FMOD_NAME"]) ) {
       $mod_name=FormatString($_POST["FMOD_NAME"]);
@@ -47,7 +42,12 @@ echo  JS_CONFIRM;
 	$l_id=GetSequence($cn,'s_modid');
 	if ( $l_id != 0 ) {
 	   $Sql=sprintf("CREATE DATABASE %sMOD%d encoding='ISO8859-1' TEMPLATE %sDOSSIER%s",domaine,$l_id,domaine,$_POST["FMOD_DBID"]);
-	   ExecSql($cn,$Sql);
+	    ob_start();
+            if ( pg_query($cn,$Sql)==false) {
+		ob_clean()
+		echo "<h2 class=\"error\"> Base de donnée ".domaine."dossier".$_POST['FMOD_ID']."  est accèdée, déconnectez-vous en d'abord</h2>";
+		exit;
+		}
  	}
       }// if $mod_name != null
 
