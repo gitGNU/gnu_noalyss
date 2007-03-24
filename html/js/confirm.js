@@ -28,7 +28,6 @@
 
 // \brief Confirm the removal of a template
 function confirm_remove(p_phpsessid,p_obj_id,p_type) {
-	 alert ("Effacement demandé");			      
 	 var
 	 a=open('confirm_remove.php?PHPSESSID='+p_phpsessid+'&ob_id='+p_obj_id+'&p_type='+p_type,'Confirmez effacement','toolbar=no,width=500,height=400,scrollbars=yes,resizable=yes');
 
