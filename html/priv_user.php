@@ -112,14 +112,15 @@ if ( isset ($_POST['SAVE']) ){
 
     }
 } else {
-  if ( isset ($DELETE) ) {
+  if ( isset ($_POST["DELETE"]) ) {
     $cn=DbConnect();
     $Res=ExecSql($cn,"delete from priv_user where priv_jnt in ( select jnt_id from jnt_use_dos where use_id=".$uid.")");
     $Res=ExecSql($cn,"delete from jnt_use_dos where use_id=".$uid);
     $Res=ExecSql($cn,"delete from ac_users where use_id=".$uid);
 
-    echo "<center><H2 class=\"info\"> User $fname $lname ($login) is deleted </H2></CENTER>";
-    html_page_stop();
+    echo "<center><H2 class=\"info\"> User ".$_POST['fname']." ".$_POST['lname']." (".
+      $_POST['login'].") is deleted </H2></CENTER>";
+    require_once("user.inc.php");
     return;
   }
 }
