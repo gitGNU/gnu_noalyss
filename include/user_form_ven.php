@@ -565,7 +565,7 @@ function FormVenteView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='form'
     
     $r.=$data;
     if ( $sum_with_vat != 0 ) {
-      $r.='<INPUT TYPE="SUBMIT" name="record_and_print_invoice" value="Sauver" >';
+      $r.='<INPUT TYPE="SUBMIT" name="record_and_print_invoice" value="Enregistrer" >';
     }
     $r.='<INPUT TYPE="SUBMIT" name="correct_new_invoice" value="Corriger">';
     

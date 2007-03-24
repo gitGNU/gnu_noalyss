@@ -51,7 +51,7 @@ if ( $action == 'new' ) {
 	if ( isset($_GET['blank'] )) {
 	  // Submit button in the form
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
-                    <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver">';
+                    <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 	  // add a one-line calculator
 	  $p_jrn=$_GET['p_jrn'];
 	  $jrn=new jrn($cn,  $p_jrn);
@@ -74,7 +74,7 @@ if ( $action == 'new' ) {
 
 	  // submit button in the form
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
-                    <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver">';
+                    <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 
 	  $r=FormFin($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$HTTP_POST_VARS,false,  $nb_number);
 	  echo '<div class="u_redcontent">';
@@ -90,7 +90,7 @@ if ( $action == 'new' ) {
 
 	  // submit button in the form
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
-                    <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver">';
+                    <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 
 	  $r=FormFin($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$HTTP_POST_VARS,false,  $nb_number);
 	  echo '<div class="u_redcontent">';
@@ -110,7 +110,7 @@ if ( $action == 'new' ) {
 	  {
 	    // submit button in the form
 	    $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
-                    <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver">';
+                    <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 	    
 	    $r=FormFin($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$HTTP_POST_VARS,false,  $nb_number);
 	  }

@@ -232,7 +232,7 @@ if ( isset ($_POST['add_item']) || isset ($_POST['correct'])  )
     $nb_item++; 
  // Submit button in the form
   $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
-          <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver" ID="SubmitButton">';
+          <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer" ID="SubmitButton">';
   $form=FormFin($cn,$p_jrn,$User->GetPeriode(),$submit,$_POST,false,  $nb_item);
   //$form=FormFin($cn,$p_jrn,$User->GetPeriode(),$submit,$_POST,false,  $nb_number);
 
@@ -288,7 +288,7 @@ if ( isset ($_POST['view_invoice']) )
   } else {
     // if something goes wrong, correct it
     $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
-                    <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver">';
+                    <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
     $form=FormFin($cn,$p_jrn,$User->GetPeriode(),$submit,$_POST,false,  $nb_number);
 
   }
@@ -314,7 +314,7 @@ if ( $p_jrn != -1 )
   echo_debug('depense.inc.php',__LINE__,"Blank form");
  // Submit button in the form
   $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
-          <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver" ID="SubmitButton">';
+          <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer" ID="SubmitButton">';
   // Show an empty form of invoice
   $form=FormFin($cn,$p_jrn,$User->GetPeriode(),$submit,null,false,$jrn->GetDefLine('deb'));
   echo '<div class="u_redcontent">';

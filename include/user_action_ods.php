@@ -72,7 +72,7 @@ if ( $action == 'new' ) {
 
 	  // submit button in the form
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout Poste">
-                    <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver">';
+                    <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 
 	  $r=FormODS($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$HTTP_POST_VARS,false,  $nb_number);
 	  echo '<div class="u_redcontent">';
@@ -87,7 +87,7 @@ if ( $action == 'new' ) {
 
 	  // submit button in the form
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout Poste">
-                    <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver">';
+                    <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 
 	  $r=FormODS($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$HTTP_POST_VARS,false,  $nb_number);
 	  echo '<div class="u_redcontent">';
@@ -111,7 +111,7 @@ if ( $action == 'new' ) {
 	  if ( $r == null ) {
 	    // submit button in the form
 	    $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout Poste">
-                    <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver">';
+                    <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 	    
 	    $r=FormODS($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$HTTP_POST_VARS,false,  $nb_number);
 	  }

@@ -217,7 +217,7 @@ if ( isset ($_POST['add_action_here']) )
       echo '<input type="hidden" name="sa" value="save_action_st1">';
       
       echo $h_url;
-      echo '<input type="submit" name="save_action_st1" value="Sauver"></p>'.
+      echo '<input type="submit" name="save_action_st1" value="Enregistrer"></p>'.
 	'</form>'.
 	'</div>';
       
@@ -339,7 +339,7 @@ if ( $sub_action == "add_action" )
   echo '<input type="hidden" name="sa" value="save_action_st1">';
 
   echo $h_url;
-  echo '<input type="submit" name="save_action_st1" value="Sauver"></p>'.
+  echo '<input type="submit" name="save_action_st1" value="Enregistrer"></p>'.
     '</form>'.
     '</div>';
 
