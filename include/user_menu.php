@@ -37,7 +37,7 @@
 function u_ShowDossier($p_user,$p_admin)
 {
   $p_array=GetAvailableFolder($p_user,$p_admin);   
-  if ( $p_array == 0 ) return " * Aucun dossier *";
+
   $result="";
   $result.="<table border=\"0\">";
   $result.='<TR>';
@@ -48,6 +48,7 @@ function u_ShowDossier($p_user,$p_admin)
   $result.='<TD  class="mtitle" ><A class="mtitle" HREF="logout.php" > Sortir</a></TD>';
   $result.="</TR>";
   $result.="</table>";
+  if ( $p_array == 0 ) return $result." * Aucun dossier *";
   $result.="<TABLE>";
   for ($i=0;$i<sizeof($p_array);$i++) {
     $id=$p_array[$i]['dos_id'];
