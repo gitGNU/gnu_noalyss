@@ -133,7 +133,7 @@ if ( isset ($_POST["DATABASE"]) ) {
     $Res=ShowDossier('all',$offset,$size);
     $compteur=1;
     $template="";
-
+    echo JS_CONFIRM;
     echo '<TABLE BORDER=1>';
 
     // show all dossiers
@@ -149,9 +149,13 @@ if ( isset ($_POST["DATABASE"]) ) {
 <B>$Dossier[dos_name]</B> </TD>
 <TD><I>  ".$Dossier['dos_description']."</I>
 </TD>
-</TR>";
+<TD>
+<input type=\"button\" name=\"Effacer\"".
+'Value="Effacer" onClick="confirm_remove(\''.$_REQUEST['PHPSESSID'].'\',\''.$Dossier['dos_id'].'\',\'db\');" \>'.
+	       '</td>'.
+"</TD></TR>";
 
-	$compteur++;
+	$compteur++; 
 	
       }
 

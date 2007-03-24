@@ -26,7 +26,7 @@
 /* \brief concerne only the template
  *
  */
-
+echo  JS_CONFIRM;
 
     $cn=DbConnect();
     if ( isset($_GET['rm']) && isset($_GET['mod_id'])) {
@@ -58,7 +58,7 @@
       $Res=ExecSql($cn_mod,"truncate table centralized");
       $Res=ExecSql($cn_mod,"truncate table stock_goods");
       $Res=ExecSql($cn_mod,"truncate table jrn_rapt");
-//	Reset the closed periode
+      //	Reset the closed periode
       $Res=ExecSql($cn_mod,"update parm_periode set p_closed='f'");
       // Reset Sequence
       $a_seq=array('s_jrn','s_jrn_op','s_centralized','s_stock_goods');
@@ -99,9 +99,9 @@
                '<TD><b> %s</b> </TD>'.
 	       '<TD><I> %s </I></TD>'.
 	       '<td> '.
-	       '<a class="one" href="?action=modele_mgt&rm&mod_id='.$mod['mod_id'].
-	       '" <input type="button" name="Effacer" Value="Effacer">'.
-	       '</A></td>'.
+	       ' <input type="button" name="Effacer" '.
+	       ' Value="Effacer" onClick="confirm_remove(\''.$_REQUEST['PHPSESSID'].'\',\''.$mod['mod_id'].'\',\'mod\');" \>'.
+	       '</td>'.
 
 	       '</TR>',
 	       $mod['mod_name'],

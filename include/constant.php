@@ -142,6 +142,8 @@ define ("ATTR_DEF_DEPENSE_NON_DEDUCTIBLE",20);
 define ("ATTR_DEF_TVA_NON_DEDUCTIBLE",21);
 define ("ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP",22);
 define ("ATTR_DEF_QUICKCODE",23);
+define ("JS_CONFIRM",
+"<SCRIPT language=\"javascript\" src=\"js/confirm.js\">	</SCRIPT>");
 define ("JS_SEARCH_POSTE",
 "<SCRIPT language=\"javascript\" src=\"js/search_poste.js\">	</SCRIPT>");
 
