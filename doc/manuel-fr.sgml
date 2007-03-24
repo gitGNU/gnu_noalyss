@@ -11,7 +11,11 @@ Ce document est le manuel d'utilisation de PhpCompta.<url url="http://savannah.n
  Il aborde des thèmes
 comme la sécurité, l'utilisation de PhpCompta, les trucs et astuces, et
 de la documentation pour ceux qui aimeraient contribuer.
-Il  ne reprend pas ce qui a déjà été dit dans l'INSTALL-fr et la FAQ-fr.
+Il  ne reprend pas ce qui a déjà été dit dans l'INSTALL-fr et la
+FAQ-fr.
+Attention, ce progamme vous êtes donnés  sous license GNU
+GPL, il n'est accompagné d'aucune garantie, vous l'utilisez à vos
+risques et périls.
 <!-- Table of contents -->
 <toc>
 <sect>Vue Général
