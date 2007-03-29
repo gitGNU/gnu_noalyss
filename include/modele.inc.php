@@ -113,7 +113,7 @@ echo  JS_CONFIRM;
       echo "Si vous voulez récupérer toutes les adaptations d'un dossier ".
 	" dans un autre dossier, vous pouvez en faire un modèle.".
 	" Seules les fiches, la structure des journaux, les périodes,... seront reprises ".
-	"et aucune données du dossier sur lequel le dossier est basé.";
+	"et aucune donnée du dossier sur lequel le dossier est basé.";
 
     // Show All available folder
     $Res=ExecSql($cn,"select dos_id, dos_name,dos_description from ac_dossier
