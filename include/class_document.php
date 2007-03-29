@@ -111,11 +111,11 @@ class Document
 	  echo '<span id="gen_msg">';
 	  echo '<blink><font color="red">Un moment de patience, le document se prépare...</font></blink>';
 	  echo '</span>';
-	  ob_start();
+//	  ob_start();
 	  system("unzip ".$filename);
 	  // Remove the file we do  not need anymore
 	  unlink($filename);
-	  ob_end_clean();
+//	  ob_end_clean();
 	  $file_to_parse="content.xml";
 	  $type="OOo";
 	}

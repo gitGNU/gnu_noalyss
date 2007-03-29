@@ -253,14 +253,14 @@ if ( isset ($_POST['view_invoice']) )
         exit -1;
    }
   $nb_number=$_POST["nb_item"];
-  if ( form_verify_input($cn,$p_jrn,$User->GetPeriode(),$HTTP_POST_VARS,$nb_number) == true)
+  if ( form_verify_input($cn,$p_jrn,$User->GetPeriode(),$_POST,$nb_number) == true)
     {
-      $form=FormVenteView($cn,$p_jrn,$User->GetPeriode(),$HTTP_POST_VARS,$nb_number);
+      $form=FormVenteView($cn,$p_jrn,$User->GetPeriode(),$_POST,$nb_number);
 
     } else {
       // Check failed : invalid date or quantity
       echo_error("Cannot validate ");
-      $form=FormVenInput($cn,$p_jrn,$User->GetPeriode(),$HTTP_POST_VARS,false,$nb_number);
+      $form=FormVenInput($cn,$p_jrn,$User->GetPeriode(),$_POST,false,$nb_number);
     }
 
   echo '<div class="u_redcontent">';

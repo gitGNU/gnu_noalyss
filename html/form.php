@@ -54,7 +54,7 @@ if ( $User->CheckAction($cn,FORM)==0){
 echo ShowMenuAdvanced("form.php");
 if ( isset ($_POST["record"] )) {
   //  echo '<DIV class="u_redcontent">';
-  AddForm($cn,$HTTP_POST_VARS);
+  AddForm($cn,$_POST);
   //echo "</DIV>";
 }
 if ( isset ($_POST["del_form"]) ) {
@@ -97,12 +97,12 @@ if ( isset ($_GET["action"]) ) {
 if ( isset ($_POST["add_line"]) ) {
   echo '<DIV class="u_redcontent">';
   $line=$_POST["line"];
-  EncodeForm($line+1,$sessid,$HTTP_POST_VARS);
+  EncodeForm($line+1,$sessid,$_POST);
   echo "</DIV>";
 }
 if ( isset ($_POST["update"]) ) {
   echo '<DIV class="u_redcontent">';
-  UpdateForm($cn,$HTTP_POST_VARS);
+  UpdateForm($cn,$_POST);
     ViewForm($cn,$sessid,$_POST["fr_id"]);
 
   echo "</DIV>";

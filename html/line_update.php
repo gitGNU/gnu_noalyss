@@ -47,7 +47,7 @@ include ("user_menu.php");
 
 /* Modif d'une ligne */
 if ( isset ($_POST["update"] ) ) {
-  foreach ($HTTP_POST_VARS as $name => $element) {
+  foreach ($_POST as $name => $element) {
     echo_debug('line_update.php',__LINE__,"name $name $element");
   }
   echo JS_UPDATE_PCMN;

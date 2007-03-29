@@ -53,7 +53,7 @@ if ( $User->CheckAction($cn,FICHE_WRITE)== 0) {
 include_once("fiche_inc.php");
 
 
-foreach ($HTTP_GET_VARS as $key=>$element) {
+foreach ($_GET as $key=>$element) {
   // The value are e_name e_type e_PHPSESSID
   ${"e_$key"}=$element;
   echo_debug('fiche_new.php',__LINE__,"e_$key =$element<br>");

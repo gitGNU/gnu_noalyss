@@ -60,7 +60,7 @@ $offset=0;$limit=25;$step=25;
 $rap_deb=0;$rap_cred=0;
 while (1) {
   $a=0;
-  list ($a_jrn,$tot_deb,$tot_cred)=GetDataJrnPdf($cn,$HTTP_GET_VARS,$limit,$offset);
+  list ($a_jrn,$tot_deb,$tot_cred)=GetDataJrnPdf($cn,$_GET,$limit,$offset);
   echo_debug('send_jrn_pdf.php',__LINE__,"Total debit $tot_deb,credit $tot_cred");
 
   if ( $a_jrn==null) break;

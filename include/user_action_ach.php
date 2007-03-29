@@ -51,7 +51,7 @@ if ( $action == 'new' ) {
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer" ID="SubmitButton">';
           $jrn=new jrn($cn,  $_GET['p_jrn']);
-	  $r=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,$submit,false,$jrn->getDefLine());
+	  $r=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$submit,false,$jrn->getDefLine());
 	  echo '<div class="u_redcontent">';
 	  echo $r;
 	  echo $msg_tva;
@@ -71,7 +71,7 @@ if ( $action == 'new' ) {
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 
-	  $r=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,$submit,false,  
+	  $r=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$submit,false,  
 			  $nb_number);
 	  echo '<div class="u_redcontent">';
 	  echo $r;
@@ -89,7 +89,7 @@ if ( $action == 'new' ) {
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 
-	  $r=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,$submit,false,  $nb_number);
+	  $r=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$submit,false,  $nb_number);
 	  echo '<div class="u_redcontent">';
 	  echo $r;
 	  echo $msg_tva;
@@ -106,15 +106,15 @@ if ( $action == 'new' ) {
 	$nb_number=$_POST["nb_item"];
 	$submit='<INPUT TYPE="SUBMIT" name="save" value="Confirmer">';
 	$submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
-	if ( form_verify_input ($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,$nb_number) == true ) {
+	if ( form_verify_input ($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$nb_number) == true ) {
 	  // Should use a read only view instead of FormAch
 	  // where we can check
-	  $r=FormAchView($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,$submit,$nb_number);
+	  $r=FormAchView($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$submit,$nb_number);
 	} else {
 	  // if something goes wrong, correct it
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
-	  $r=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,$submit, false, $nb_number);
+	  $r=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$submit, false, $nb_number);
 	}
 	echo '<div class="u_redcontent">';
 	echo $r;
@@ -127,11 +127,11 @@ if ( $action == 'new' ) {
 	if ( isset($_POST['save'] )) {
 	  // Get number of  lines
 	  $nb_number=$_POST["nb_item"];
-	  list($internal,$comment)=RecordSell($cn,$HTTP_POST_VARS,$User,$_GET['p_jrn']);
+	  list($internal,$comment)=RecordSell($cn,$_POST,$User,$_GET['p_jrn']);
 
 	  // submit button in the form
 	  $submit='<h2 class="info">Opération '.$internal.' </h2>';
-	  $r=FormAchView($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,"",$nb_number,false);
+	  $r=FormAchView($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,"",$nb_number,false);
 	  echo '<div class="u_redcontent">';
 	  echo $submit;
 	  echo $r;

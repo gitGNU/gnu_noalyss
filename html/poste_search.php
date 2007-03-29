@@ -45,7 +45,7 @@ $condition="";
 $cn=DbConnect($_SESSION['g_dossier']);
 if ( isset($_POST['search']) ) {
   $c1=0;
-  foreach( $HTTP_POST_VARS as $key=>$element){
+  foreach( $_POST as $key=>$element){
     ${"$key"}=$element;
   }
   if ( strlen(trim($p_comment)) != 0 ) {

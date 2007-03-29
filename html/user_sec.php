@@ -86,7 +86,7 @@ if ( isset ($_GET["action"] )) {
 }
 
 // session_register set to off, so variable are undefined
-foreach ($HTTP_GET_VARS as $name=>$value) 
+foreach ($_GET as $name=>$value) 
   ${"$name"}=$value;
 
 if ( $action == "change_jrn" ) {

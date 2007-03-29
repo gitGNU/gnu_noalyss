@@ -88,9 +88,9 @@ if ( isset ($_POST['SAVE']) ){
          use_id=".$uid;
   $Res=ExecSql($cn,$Sql);
   // Update Priv on Folder
-  foreach ($HTTP_POST_VARS as $name=>$elem)
+  foreach ($_POST as $name=>$elem)
     { 
-      echo_debug('priv_user.php',__LINE__,"HTTP_POST_VARS $name $elem");
+      echo_debug('priv_user.php',__LINE__,"_POST $name $elem");
       if ( substr_count($name,'PRIV')!=0 )
       {
 	echo_debug('priv_user.php',__LINE__,"Found a priv");

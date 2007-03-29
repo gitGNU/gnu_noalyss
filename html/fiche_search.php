@@ -88,7 +88,7 @@ function SetData (name_ctl,value,value_2,value_3,value_4,value_5,value_6) {
 $cn=DbConnect($_SESSION['g_dossier']);
 $r="";
 
-foreach ($HTTP_GET_VARS as $key=>$element) {
+foreach ($_GET as $key=>$element) {
   // The value are e_name e_type e_PHPSESSID
   ${"e_$key"}=$element;
   echo_debug('fiche_search.php',__LINE__,"e_$key =$element<br>");

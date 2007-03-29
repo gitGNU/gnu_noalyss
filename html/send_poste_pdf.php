@@ -32,7 +32,7 @@
 include("poste.php");
     echo_debug('send_poste_pdf.php',__LINE__,"imp pdf journaux");
     $cn=DbConnect($g_dossier);
-foreach ($HTTP_POST_VARS as $key=>$element) {
+foreach ($_POST as $key=>$element) {
   ${"$key"}=$element;
 }
 if ( isset ( $all_poste) ){ //choisit de voir tous les postes

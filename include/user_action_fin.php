@@ -76,7 +76,7 @@ if ( $action == 'new' ) {
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 
-	  $r=FormFin($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$HTTP_POST_VARS,false,  $nb_number);
+	  $r=FormFin($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$_POST,false,  $nb_number);
 	  echo '<div class="u_redcontent">';
 	  echo $r;
 	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."</div>";
@@ -92,7 +92,7 @@ if ( $action == 'new' ) {
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 
-	  $r=FormFin($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$HTTP_POST_VARS,false,  $nb_number);
+	  $r=FormFin($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$_POST,false,  $nb_number);
 	  echo '<div class="u_redcontent">';
 	  echo $r;
 	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."</div>";
@@ -104,7 +104,7 @@ if ( $action == 'new' ) {
 	// View the charge and show a submit button to save it 
 	if ( isset ($_POST['view_invoice']) ) {
 	$nb_number=$_POST["nb_item"];
-	$r=form_verify_input($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,$nb_number);
+	$r=form_verify_input($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$nb_number);
 	// if something goes wrong correct it
 	if ( $r == null ) 
 	  {
@@ -112,14 +112,14 @@ if ( $action == 'new' ) {
 	    $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 	    
-	    $r=FormFin($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$HTTP_POST_VARS,false,  $nb_number);
+	    $r=FormFin($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$_POST,false,  $nb_number);
 	  }
 	else 
 	  {
 	    $submit='<INPUT TYPE="SUBMIT" name="save" value="Confirmer">';
 	    $submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
 	    
-	    $r=FormFin($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$HTTP_POST_VARS,true,$nb_number);
+	    $r=FormFin($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$_POST,true,$nb_number);
 	  }
 
 	echo '<div class="u_redcontent">';
@@ -129,14 +129,14 @@ if ( $action == 'new' ) {
 	}
 	// Save the charge into database
 	if ( isset($_POST['save'] )) {
-	  $r=RecordFin($cn,$HTTP_POST_VARS,$User,$_GET['p_jrn']);
+	  $r=RecordFin($cn,$_POST,$User,$_GET['p_jrn']);
 	  // Get number of  lines
 	  $nb_number=$_POST["nb_item"];
 
 	  // submit button in the form
 	  $submit='<h2 class="info">Recorded '.$r.'</h2>';
 
-	  $r.=FormFin($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$HTTP_POST_VARS,true,  $nb_number,true);
+	  $r.=FormFin($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$_POST,true,  $nb_number,true);
 	  echo '<div class="u_redcontent">';
 	  echo $r;
 	  echo "</div>";

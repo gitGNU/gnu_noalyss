@@ -31,7 +31,7 @@ include_once("impress_inc.php");
 include("poste.php");
 
     $cn=DbConnect($_SESSION['g_dossier']);
-foreach ($HTTP_POST_VARS as $key=>$element) {
+foreach ($_POST as $key=>$element) {
   ${"$key"}=$element;
 }
  if ( isset ( $poste_fille) ){ //choisit de voir tous les postes

@@ -42,7 +42,7 @@ if ( $action == 'insert_vente' ) {
     $nb_number=$_POST["nb_item"];
     $nb_number++;
     
-    $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,false,$nb_number);
+    $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,false,$nb_number);
     echo '<div class="u_redcontent">';
     echo   $form;
     echo '</div>';
@@ -52,13 +52,13 @@ if ( $action == 'insert_vente' ) {
     // We want to see the encoded invoice 
   if ( isset ($_POST["view_invoice"])) {
     $nb_number=$_POST["nb_item"];
-      if ( form_verify_input($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,$nb_number) == true)
+      if ( form_verify_input($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$nb_number) == true)
 	{
-	  $form=FormVenteView($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,$nb_number);
+	  $form=FormVenteView($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$nb_number);
 	  // Check failed : invalid date or quantity
 	} else {
 	  echo_error("Cannot validate ");
-	  $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,false,$nb_number);
+	  $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,false,$nb_number);
 	}
       echo '<div class="u_redcontent">';
       echo         $form;
@@ -90,7 +90,7 @@ if ( isset($_POST["record_invoice"])) {
   }
 
   // echo "RECORD INVOICE";
-   RecordInvoice($cn,$HTTP_POST_VARS,$User,$_GET['p_jrn']);
+   RecordInvoice($cn,$_POST,$User,$_GET['p_jrn']);
 }
 if (isset ($_POST['correct_new_invoice'])) {
   // Check privilege
@@ -100,7 +100,7 @@ if (isset ($_POST['correct_new_invoice'])) {
   }
   
   $nb=$_POST['nb_item'];
-  $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$HTTP_POST_VARS,false,$nb);
+  $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,false,$nb);
   echo '<div class="u_redcontent">';
   echo $form;
   echo '</div>';
@@ -115,14 +115,14 @@ if ( isset($_POST["record_and_print_invoice"])) {
   
   //  echo "RECORD AND PRINT INVOICE";
 
-  $comment=RecordInvoice($cn,$HTTP_POST_VARS,$User,$_GET['p_jrn']);
+  $comment=RecordInvoice($cn,$_POST,$User,$_GET['p_jrn']);
 
   $nb_number=$_POST["nb_item"];
-  if ( form_verify_input($cn,$p_jrn,$User->GetPeriode(),$HTTP_POST_VARS,$nb_number)== true) {
-    $form=FormVenteView($cn,$p_jrn,$User->GetPeriode(),$HTTP_POST_VARS,$nb_number,'noform',$comment);
+  if ( form_verify_input($cn,$p_jrn,$User->GetPeriode(),$_POST,$nb_number)== true) {
+    $form=FormVenteView($cn,$p_jrn,$User->GetPeriode(),$_POST,$nb_number,'noform',$comment);
   } else {
 	    echo_error("Cannot validate ");
-	    $form=FormVenInput($cn,$_GET['p_jrn'],$User,$HTTP_POST_VARS,false,$nb_number);
+	    $form=FormVenInput($cn,$_GET['p_jrn'],$User,$_POST,false,$nb_number);
   }
   
   echo '<div class="u_redcontent">';

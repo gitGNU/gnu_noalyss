@@ -74,7 +74,7 @@ if ( $action == 'new' ) {
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout Poste">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 
-	  $r=FormODS($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$HTTP_POST_VARS,false,  $nb_number);
+	  $r=FormODS($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$_POST,false,  $nb_number);
 	  echo '<div class="u_redcontent">';
 	  echo $r;
 	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."<div>";
@@ -89,7 +89,7 @@ if ( $action == 'new' ) {
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout Poste">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 
-	  $r=FormODS($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$HTTP_POST_VARS,false,  $nb_number);
+	  $r=FormODS($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$_POST,false,  $nb_number);
 	  echo '<div class="u_redcontent">';
 	  echo $r;
 	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."<div>";
@@ -105,7 +105,7 @@ if ( $action == 'new' ) {
 	  $submit='<INPUT TYPE="SUBMIT" name="save" value="Confirmer">';
 	  $submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
 
-	  $r=FormODS($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$HTTP_POST_VARS,true,$nb_number);
+	  $r=FormODS($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$_POST,true,$nb_number);
 
 	// if something goes wrong, correct it
 	  if ( $r == null ) {
@@ -113,7 +113,7 @@ if ( $action == 'new' ) {
 	    $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout Poste">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 	    
-	    $r=FormODS($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$HTTP_POST_VARS,false,  $nb_number);
+	    $r=FormODS($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$_POST,false,  $nb_number);
 	  }
 	  echo '<div class="u_redcontent">';
 	  echo $r;
@@ -122,14 +122,14 @@ if ( $action == 'new' ) {
 	}
 	// Save the change into database
 	if ( isset($_POST['save'] )) {
-	  $r=RecordODS($cn,$HTTP_POST_VARS,$User,$_GET['p_jrn']);
+	  $r=RecordODS($cn,$_POST,$User,$_GET['p_jrn']);
 	  // Get number of  lines
 	  $nb_number=$_POST["nb_item"];
 
 	  // submit button in the form
 	  $submit='<h2 class="info">Recorded</h2>';
 
-	  $r.=FormODS($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$HTTP_POST_VARS,true,  $nb_number,true);
+	  $r.=FormODS($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$_POST,true,  $nb_number,true);
 	  echo '<div class="u_redcontent">';
 	  echo $r;
 	  echo "</div>";
@@ -214,12 +214,12 @@ if ( $action == 'search' ) {
   $sessid=(isset ($_POST['PHPSESSID']))?$_POST['PHPSESSID']:$_GET['PHPSESSID'];
 
 // display a search box
-  $search_box=u_ShowMenuRecherche($cn,$_GET['p_jrn'],$sessid,$HTTP_POST_VARS);
+  $search_box=u_ShowMenuRecherche($cn,$_GET['p_jrn'],$sessid,$_POST);
   echo '<DIV class="u_redcontent">';
   echo $search_box; 
   // if nofirst is set then show result
   if ( isset ($_GET['nofirst'] ) )     {
-    list ($max_line,$a)=ListJrn($cn,$_GET['p_jrn'],"",$HTTP_POST_VARS);
+    list ($max_line,$a)=ListJrn($cn,$_GET['p_jrn'],"",$_POST);
     echo $a;
   }
   echo '</DIV>'; 

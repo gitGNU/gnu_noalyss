@@ -98,7 +98,7 @@ $recherche=true;
 if ( isset($_POST['add_modele'])  and $write != 0) {
   // insert the model of card in database
   $fiche_def=new fiche_def($cn);
-  $fiche_def->Add($HTTP_POST_VARS);
+  $fiche_def->Add($_POST);
 }
 $r="";
 // Add a line in the card model

@@ -44,7 +44,7 @@ echo  JS_CONFIRM;
 	   $Sql=sprintf("CREATE DATABASE %sMOD%d encoding='ISO8859-1' TEMPLATE %sDOSSIER%s",domaine,$l_id,domaine,$_POST["FMOD_DBID"]);
 	    ob_start();
             if ( pg_query($cn,$Sql)==false) {
-		ob_clean()
+		ob_clean();
 		echo "<h2 class=\"error\"> Base de donnée ".domaine."dossier".$_POST['FMOD_ID']."  est accèdée, déconnectez-vous en d'abord</h2>";
 		exit;
 		}

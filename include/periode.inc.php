@@ -33,7 +33,7 @@ if ( isset($_REQUEST['action']))
      $action=$_REQUEST['action'];
 
 if ( $action=="change_per") {
-  foreach($HTTP_GET_VARS as $key=>$element) 
+  foreach($_GET as $key=>$element) 
     ${"$key"}=$element;
   echo "<TABLE>";
   echo '<TR> <FORM ACTION="user_advanced.php?p_action=periode" METHOD="POST">';
@@ -47,7 +47,7 @@ if ( $action=="change_per") {
 
 }
 if ( isset ($_POST["conf_chg_per"] ) ) {
-  foreach($HTTP_POST_VARS as $key=>$element) 
+  foreach($_POST as $key=>$element) 
     ${"$key"}=$element;
   if (isDate($p_date_start) == null ||
       isDate($p_date_end) == null ||
@@ -68,7 +68,7 @@ if ( isset ($_POST["conf_chg_per"] ) ) {
 
 }
 if ( isset ($_POST["add_per"] )) {
-  foreach($HTTP_POST_VARS as $key=>$element) 
+  foreach($_POST as $key=>$element) 
     ${"$key"}=$element;
   if (isDate($p_date_start) == null ||
       isDate($p_date_end) == null ||

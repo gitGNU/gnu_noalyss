@@ -52,7 +52,7 @@ if ( $User->CheckAction($cn,BALANCE) == 0)
     exit;
   }
 echo_debug('print_balance.php',__LINE__,"imp pdf journaux");
-foreach ($HTTP_POST_VARS as $key=>$element) {
+foreach ($_POST as $key=>$element) {
   ${"$key"}=$element;
   echo_debug('print_balance.php',__LINE__,"key => $key element $element");
 }
