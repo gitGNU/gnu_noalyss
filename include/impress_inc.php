@@ -572,7 +572,7 @@ function GetDataGrpt($p_cn,$p_array)
  *
  * \return array sum(HTVA) sum(TVAC) sum (each TVA)
  */
-function GetRappelSimple ($p_cn,$p_jrn_id,$p_jrn_type,$p_from,$arap) 
+function GetRappelSimple ($p_cn,$p_jrn_id,$p_jrn_type,$p_from,&$arap) 
 {
   echo_debug("impress_inc",__LINE__,"function GetRappelSimple ($p_cn,$p_jrn_id,$p_jrn_type,$p_from,$arap) ");
   if ( $p_jrn_type !='VEN' && $p_jrn_type != "ACH")
@@ -614,27 +614,7 @@ function GetRappelSimple ($p_cn,$p_jrn_id,$p_jrn_type,$p_from,$arap)
       $ix=$line_tva['tva_label'];
       $arap[$ix]=($p_jrn_type=='ACH')?$sum_deb-$sum_cred:$sum_cred-$sum_deb;
     }
-//   $camount=($p_jrn_type == 'ACH')?"4%":"4%";
-//   $sum_htva_deb=getDbValue($p_cn,"select sum(j_montant) from (select distinct j_poste,c_internal,j_montant ".
-// 			    " from jrnx join centralized on (j_grpt=c_grp) ".
-// 			   " where c_id < $min and c_poste like '$camount' and j_debit='t' and ".
-// 			  " c_jrn_def=$p_jrn_id and j_tech_per in ".
-// 			  "    (select p_id from parm_periode where p_exercice='$Exercice') ) as w");
-
-
-//   echo $sum_htva_deb;
-
-//   $sum_htva_cred=getDbValue($p_cn,"select sum(j_montant) from (select distinct j_poste,c_internal,j_montant ".
-// 			    " from jrnx join centralized on (j_grpt=c_grp) ".
-// 			   " where c_id < $min and c_poste like '$camount' and j_debit='f' and ".
-// 			  " c_jrn_def=$p_jrn_id and j_tech_per in ".
-// 			  "    (select p_id from parm_periode where p_exercice='$Exercice') ) as w");
-//   echo $sum_htva_cred;
-//   if ( $p_jrn_type == 'ACH' )  
-//     return $sum_htva_deb-$sum_htva_cred; 
-//   else
-//       return $sum_htva_cred-$sum_htva_deb; 
-// Previous period
+  // Previous period
   $previous=getDbValue($p_cn,"select max(p_id) from parm_periode where ".
 		       "p_end < (select p_end from parm_periode where p_id=$p_from) ".
 		       " and p_start <= (select p_start from parm_periode where p_id=$p_from)");
