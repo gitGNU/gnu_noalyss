@@ -345,8 +345,8 @@ class jrn {
 	 for ( $i=0;$i<$Max;$i++) 
 	   {
 	     $array[$i]=pg_fetch_array($Res); 
-	     $p=$this->get_detail(&$array[$i],$type,$trunc,$a_TVA,$a_ParmCode);
-	     
+	     $p=$this->get_detail($array[$i],$type,$trunc,$a_TVA,$a_ParmCode);
+	 
 	   }
 	 
        }
@@ -385,7 +385,7 @@ class jrn {
  * \param $a_ParmCode Array (default null)
  * \return p_array 
  */
-  function get_detail($p_array,$p_jrn_type,$trunc=0,$a_TVA=null,$a_ParmCode=null)
+  function get_detail(&$p_array,$p_jrn_type,$trunc=0,$a_TVA=null,$a_ParmCode=null)
     {
       if ( $a_TVA == null ) 
 	{
