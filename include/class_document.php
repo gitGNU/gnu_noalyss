@@ -111,11 +111,11 @@ class Document
 	  echo '<span id="gen_msg">';
 	  echo '<blink><font color="red">Un moment de patience, le document se prépare...</font></blink>';
 	  echo '</span>';
-//	  ob_start();
+	  ob_start();
 	  system("unzip ".$filename);
 	  // Remove the file we do  not need anymore
 	  unlink($filename);
-//	  ob_end_clean();
+	  ob_end_clean();
 	  $file_to_parse="content.xml";
 	  $type="OOo";
 	}
@@ -177,7 +177,19 @@ class Document
       $infile_name=$p_dir.DIRECTORY_SEPARATOR.$p_file;
       echo_debug("class_document.php",__LINE__,"Open the document $p_dir/$p_file");
       $h=fopen($infile_name,"r");
-      $output_name=tempnam($_SERVER["DOCUMENT_ROOT"].DIRECTORY_SEPARATOR.'tmp',"gen_doc_");
+
+      // check if tmpdir exist otherwise create it
+      $temp_dir=$_SERVER["DOCUMENT_ROOT"].DIRECTORY_SEPARATOR.'tmp';
+      if ( is_dir($temp_dir) == false )
+	{
+	  if ( mkdir($temp_dir) == false )
+	    {
+	      echo "Ne peut pas créer le répertoire ".$temp_dir;
+	      exit();
+	    }
+	}
+      // Compute output_name
+      $output_name=tempnam($temp_dir,"gen_doc_");
       $output_file=fopen($output_name,"w+");
       // check if the opening is sucessfull
       if (  $h == false ) 
