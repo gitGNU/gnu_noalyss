@@ -1103,7 +1103,7 @@ function CleanUrl()
   if ( isset ($get) ) {
     foreach ($get as $name=>$value ) {
       // we clean the parameter offset, step, page and size
-      if (  ! in_array($name,array('offset','step','page','size'))) {
+      if (  ! in_array($name,array('offset','step','page','size','s'))) {
 	$url.=$and.$name."=".$value;
 	$and="&";
       }// if
