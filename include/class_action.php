@@ -655,32 +655,128 @@ class action
       /*!\todo idea to add a sort */
       // for the sort
       $sort="";
+      $image_asc='<IMAGE SRC="image/down.png" border="0" >';
+      $image_desc='<IMAGE SRC="image/up.png" border="0" >';
+      $image_sel_desc='<IMAGE SRC="image/select1.png" border="0" >';
+      $image_sel_asc='<IMAGE SRC="image/select2.png" border="0" >';
+
+      $url=CleanUrl();
+
+      $sort_date='<th><A class="mtitle" href="?'.$url.'&s=date_a">'.$image_asc.'</A>'.
+	'Date'.
+	'<A class="mtitle"  href="?'.$url.'&s=date_d">'.$image_desc.'</A></th>';
+      $sort_exp='<th><A  class="mtitle"  href="?'.$url.'&s=exp">'.$image_asc.'</A>'.
+	'Expéditeur'.
+	'<A  class="mtitle"  href="?'.$url.'&s=exp_d">'.$image_desc.'</A></th>';
+      $sort_dest='<th><A  class="mtitle" href="?'.$url.'&s=dest">'.$image_asc.'</A>'.
+	'Destinataire'.
+	'<A class="mtitle"  href="?'.$url.'&s=dest_d">'.$image_desc.'</A></th>';
+      $sort_titre='<th><A  class="mtitle"  href="?'.$url.'&s=ti">'.$image_asc.'</A>'.
+	'Titre'.
+	'<A  class="mtitle"  href="?'.$url.'&s=ti_d">'.$image_desc.'</A></th>';
+      $sort_concerne='<th><A  class="mtitle"  href="?'.$url.'&s=conc">'.$image_asc.'</A>'.
+	'Concerne'.
+	'<A class="mtitle"  href="?'.$url.'&s=conc_d">'.$image_desc.'</A></th>';
+      $sort_reference='<th><A class="mtitle"  href="?'.$url.'&s=ref">'.$image_asc.'</A>'.
+	'Référence'.
+	'<A  class="mtitle"  href="?'.$url.'&s=ref_d">'.$image_desc.'</A></th>';
+
       if ( isset($_GET['s'])){
 	{
 	  switch ($_GET['s']) {
-	  case "date":
-	    $sort=" ag_timestamp";
+	  case "date_a":
+	    $sort=" ag_timestamp asc";
+	    $sort_date='<th>'.$image_sel_asc.'</A>'.
+	      'Date'.
+	      '<A  class="mtitle"  href="?'.$url.'&s=date_d">'.$image_desc.'</A></th>';
 	    break;
+
+	  case "date_d":
+	    $sort=" ag_timestamp desc";
+	    $sort_date='<th><A class="mtitle"  href="?'.$url.'&s=date_a">'.$image_asc.'</A>'.
+	      'Date'.
+	      $image_sel_desc.'</th>';
+	    break;
+
 	  case "exp":
-	    $sort=" f_id_exp";
+	    $sort_exp='<th>'.$image_sel_asc.'</A>'.
+	      'Expéditeur'.
+	      '<A  class="mtitle"  href="?'.$url.'&s=exp_d">'.$image_asc.'</A></th>';
+	    $sort=" f_id_exp asc";
 	    break;
+
+	  case "exp_d":
+	    $sort_exp='<th><A  class="mtitle"  href="?'.$url.'&s=exp">'.$image_asc.'</A>'.
+	      'Expéditeur'.
+	      $image_sel_desc.'</th>';
+
+	    $sort=" f_id_exp desc";
+	    break;
+
 	  case "dest":
-	    $sort=" f_id_dest";
+	    $sort_dest='<th>'.$image_sel_asc.
+	      'Destinataire'.
+	      '<A class="mtitle"  href="?'.$url.'&s=dest_d">'.$image_desc.'</A></th>';
+
+	    $sort=" f_id_dest asc";
 	    break;
+	  case "dest_d":
+	    $sort_dest='<th><A  class="mtitle"  href="?'.$url.'&s=dest">'.$image_asc.'</A>'.
+	      'Destinataire'.
+	      $image_sel_desc.'</th>';
+	    
+	    $sort=" f_id_dest desc";
+	    break;
+
 	  case "ti":
-	    $sort=" ag_title";
+	    $sort_titre='<th>'.$image_sel_asc.
+	      'Titre'.
+	      '<A class="mtitle"  href="?'.$url.'&s=ti_d">'.$image_desc.'</A></th>';
+
+	    $sort=" ag_title  asc";
 	    break;
-	  case "type":
-	    $sort=" ag_type";
+	  case "ti_d":
+	    $sort_titre='<th><A  class="mtitle" href="?'.$url.'&s=ti">'.$image_asc.'</A>'.
+	      'Titre'.
+	      $image_sel_desc.'</th>';
+	    
+	    $sort=" ag_title desc";
 	    break;
-	  case "ref":
-	    $sort=" ag_ref";
-	    break;
+	    
 	  case "conc":
-	    $sort=" ag_ref_ag_id";
+	    $sort_concerne='<th>'.$image_sel_asc.
+	      'Concerne'.
+	      '<A  class="mtitle" href="?'.$url.'&s=conc_d">'.$image_desc.'</A></th>';
+
+	    $sort=" ag_ref_ag_id asc";
 	    break;
+	  case "conc_d":
+	    $sort_concerne='<th><A  class="mtitle"  href="?'.$url.'&s=conc">'.$image_asc.'</A>'.
+	      'Concerne'.
+	      $image_sel_desc.'</th>';
+
+	    $sort=" ag_ref_ag_id desc";
+	    break;
+
+	  case "ref":
+	    $sort_reference='<th>'.$image_sel_asc.
+	      'Référence'.
+	      '<A  class="mtitle"  href="?'.$url.'&s=ref_d">'.$image_desc.'</A></th>';
+
+	    $sort=" ag_ref ";
+	    break;
+
+	  case "ref_d":
+	    $sort_reference='<th><A class="mtitle"  href="?'.$url.'&s=ref">'.$image_asc.'</A>'.
+	      'Référence'.
+	      $image_sel_desc.'</th>';
+
+	    $sort=" ag_ref desc";
+	    break;
+
+
 	  }
-	  $sort=" order by ".$sort." desc ";
+	  $sort=" order by ".$sort;
 	}
       }
       $sql="
@@ -700,42 +796,22 @@ class action
 
       $Res=ExecSql($this->db,$sql.$limit);
       $a_row=pg_fetch_all($Res);
-      //      $r='<div class="u_redcontent">';
-      $query="";
-      if ( isset ($_GET['query'])) 
-	$query.="query=".$_GET['query'];
-      else 
-	$query="1";
 
-      if ( isset ($_GET['qcode_query'])) $query.='&qcode_query='.$_GET['qcode_query'];
-      echo_debug('class_action',__LINE__,"jrn bar = $bar");
-      echo_debug('class_action',__LINE__,'$_SESSION='.var_export($_SESSION,true));
       $r="";
       $r.=$bar;
       $r.='<table class="document">';
       $r.="<tr>";
-      /*!\todo add a sort on column
-      $r.='<th><a href="?s=date&p_action=suivi_courrier&'.$query.'"> Date</a></th>';
-      $r.='<th <a href="?s=dest&p_action=suivi_courrier&'.$query.'">Destinataire</A></th>';
-      $r.='<th><a href="?s=exp&p_action=suivi_courrier&'.$query.'">Expéditeur</A></th>';
-      $r.='<th><a href="?s=ti&p_action=suivi_courrier&'.$query.'">Titre</a></th>';
-      $r.='<th><a href="?s=type&p_action=suivi_courrier&'.$query.'">type</a></th>';
-      $r.='<th><a href="?s=ref&p_action=suivi_courrier&'.$query.'">Référence</a></th>';
-      $r.='<th><a href="?s=conc&p_action=suivi_courrier&'.$query.'">concerne</a></th>';
-      $r.='<th>Document</th>';
-      $r.="</tr>";
-*/
-      
-      $r.='<th> Date</th>';
-      $r.='<th>Destinataire</th>';
-      $r.='<th>Expéditeur</th>';
-      $r.='<th>Titre</th>';
+      $r.=$sort_date;
+      $r.=$sort_dest;
+      $r.=$sort_exp;
+      $r.=$sort_titre;
       $r.='<th>type</th>';
-      $r.='<th>Référence</th>';
-      $r.='<th>concerne</th>';
+      $r.=$sort_reference;
+      $r.=$sort_concerne;
       $r.='<th>Document</th>';
       $r.="</tr>";
 
+      
       // if there are no records return a message
       if ( sizeof ($a_row) == 0 or $a_row == false ) 
 	{
