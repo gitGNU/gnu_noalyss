@@ -329,6 +329,7 @@ class jrn {
       }// end else $cent=='off'
     //load all data into an array
     //---
+
       $Res=ExecSql($this->db,$sql);
       $Max=pg_NumRows($Res);
       if ( $Max == 0 ) 

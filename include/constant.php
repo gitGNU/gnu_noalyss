@@ -28,7 +28,7 @@ define ("phpcompta_psql_port","5432");
 define ("domaine","");
 
 
-define ("DEBUG","true");
+define ("DEBUG","false");
 
 // securite correspond a la table 
 // action

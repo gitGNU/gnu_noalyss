@@ -6,6 +6,11 @@ include_once('class_jrn.php');
 include_once('class_poste.php');
 include_once('class_balance.php');
 include_once('impress_inc.php');
+ $cn=DbConnect(13);
+ $a=new jrn($cn,3);
+echo $a->GetRowSimple(1,100,'on');
+ exit();
+
 echo "<h1>isNumber</h1>";
 echo "isNumber('40%')".isNumber('40%')."<br>";
 echo "isNumber('40')".isNumber('40')."<br>";
@@ -44,7 +49,7 @@ foreach($a_Tva as $line_tva)
   $space=9;
 } 
 
-$htva=GetRappelSimple($cn,$jrn,$type,$per_from,&$rap_tva);
+$htva=GetRappelSimple($cn,$jrn,$type,$per_from,$rap_tva);
 
 echo "HTVA = $htva <br>";
 var_dump($rap_tva);

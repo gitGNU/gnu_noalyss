@@ -201,7 +201,7 @@ if  ( ($jrn_type=='ACH' || $jrn_type=='VEN' ) && $_REQUEST['p_simple']== 1 )
 
   // if the period is centralized get the first amounts
   if ( $l_centr==1) 
-    list($total_TVAC,$total_HTVA)=GetRappelSimple($cn,$Jrn->id,$jrn_type,$_GET['from_periode'],&$rap_tva);
+    list($total_TVAC,$total_HTVA)=GetRappelSimple($cn,$Jrn->id,$jrn_type,$_GET['from_periode'],$rap_tva);
 
 
 
