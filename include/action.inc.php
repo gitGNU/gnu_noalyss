@@ -109,8 +109,12 @@ function ShowActionList($cn,$retour,$h_url)
 
 	   $fiche=new Fiche($cn);
 	   $fiche->GetByQCode($_REQUEST['qcode']);
-	   $str=" and (f_id_exp= ".$fiche->id." or ".
-	     "f_id_dest=".$fiche->id.")";
+	   // if quick code not found then nothing
+	   if ( $fiche->id == 0 ) 
+	     $str=' and false ';
+	   else
+	     $str=" and (f_id_exp= ".$fiche->id." or ".
+	       "f_id_dest=".$fiche->id.")";
 
 	 }
      }
