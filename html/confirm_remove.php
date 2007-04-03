@@ -49,7 +49,7 @@ if ( ! isset ($_REQUEST['p_type'] ) ||
   print '<H2 CLASS="error">';
   print "Désolé vous n'avez pas appelé cette fonction avec les bons paramètres";
   print '</H2>';
-  print '<INPUT TYPE="BUTTON" VALUE="Fermez la fenêtre" onclick="window.close();">';
+  print '<hr><INPUT TYPE="BUTTON" VALUE="Fermez la fenêtre" onclick="window.close();">';
   return;
 }
 $cn=DbConnect();
@@ -62,6 +62,7 @@ switch($_REQUEST['p_type'])
    if ( strlen(trim($name)) == 0 )
      {
        echo "<h2 class=\"error\"> $msg inexistant</h2>";
+       print '<hr><INPUT TYPE="BUTTON" VALUE="Fermez la fenêtre" onclick="window.close();">';
        return;
      }
 
@@ -72,10 +73,12 @@ switch($_REQUEST['p_type'])
    if ( strlen(trim($name)) == 0 )
      {
        echo "<h2 class=\"error\"> $msg inexistant</h2>";
+       print '<hr><INPUT TYPE="BUTTON" VALUE="Fermez la fenêtre" onclick="window.close();">';
        return;
      }
    if ( $_REQUEST['ob_id'] < 3 ) {
      echo "<h2 class=\"error\">Désolé mais vous ne pouvez pas effacer les modèles de base</H2>";
+     print '<hr><INPUT TYPE="BUTTON" VALUE="Fermez la fenêtre" onclick="window.close();">';
      return;
    }
    break;
@@ -83,6 +86,7 @@ switch($_REQUEST['p_type'])
   print '<H2 CLASS="error">';
   print "Désolé mais que voulez-vous effacer ? ";
   print '</H2>';
+  print '<hr><INPUT TYPE="BUTTON" VALUE="Fermez la fenêtre" onclick="window.close();">';
   return;
 
 }
@@ -103,7 +107,8 @@ if  ( isset($_POST['remove']) )
 		ob_clean();
 
 		echo "<h2 class=\"error\"> 
-                     Base de donnée ".domaine."mod".$_POST['ob_id']."  est accèdée, déconnectez-vous d'abord</h2>";
+                      Base de donnée ".domaine."mod".$_POST['ob_id']."  est accèdée, déconnectez-vous d'abord</h2>";
+  		print '<hr><INPUT TYPE="BUTTON" VALUE="Fermez la fenêtre" onclick="window.close();">';
 		exit;
 	  }
 	  ob_flush();
@@ -112,6 +117,7 @@ if  ( isset($_POST['remove']) )
 	  print '<h2 class="info">';
 	  print "Voilà le modèle $name est effacé";
 	  print "<h2>";
+  	  print '<hr><INPUT TYPE="BUTTON" VALUE="Fermez la fenêtre" onclick="window.close();">';
 	  break;
 	case 'db':
 	  $sql="drop database ".domaine."dossier".$_POST['ob_id'];
@@ -121,6 +127,7 @@ if  ( isset($_POST['remove']) )
 		
 		echo "<h2 class=\"error\"> 
                      Base de donnée ".domaine."mod".$_POST['ob_id']."  est accèdée, déconnectez-vous d'abord</h2>";
+  	  	print '<hr><INPUT TYPE="BUTTON" VALUE="Fermez la fenêtre" onclick="window.close();">';
 		exit;
 	  }
 	  ob_flush();
@@ -133,6 +140,7 @@ if  ( isset($_POST['remove']) )
 	  print '<h2 class="info">';
 	  print "Voilà le modèle $name est effacé";
 	  print "<h2>";
+  	  print '<hr><INPUT TYPE="BUTTON" VALUE="Fermez la fenêtre" onclick="window.close();">';
 
 	}
     } 
@@ -143,6 +151,7 @@ if  ( isset($_POST['remove']) )
       print '</h2>';
       print "<hr>";
       print "Vous n'avez pas coché la case";
+      print '<hr><INPUT TYPE="BUTTON" VALUE="Fermez la fenêtre" onclick="window.close();">';
 
     }
 } 
@@ -155,6 +164,7 @@ else
    <INPUT TYPE="HIDDEN" NAME="p_type" value="<?echo $_REQUEST['p_type'];?>" >
 <INPUT TYPE="CHECKBOX" NAME="confirm" VALUE="UNCHECKED"> Cochez cette case si vous voulez vraiment effacer <?echo $name;?>
    <INPUT TYPE="SUBMIT" NAME="remove" value="Oui">
+   <hr>
       <input type="button" name="close" value="Annuler" onclick="window.close();">
 </FORM>
 <?
