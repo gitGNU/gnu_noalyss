@@ -386,7 +386,7 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
     if ( ($j_id=InsertJrnx($p_cn,'c',$p_user->id,$p_jrn,$poste,$e_date,round(${"e_other$i"."_amount"},2),$seq,$periode,${"e_other$i"})) == false )
       { $Rollback($p_cn);exit("error 'user_form_fin.php' __LINE__");}
 
-    echo_debug('user_form_fin.php',__LINE__,"   $j_id=InsertJrnx($p_cn,'d',$p_user,$p_jrn,$poste,$e_date,".${"e_other$i"}."_amount".",$seq,$periode);");
+    echo_debug('user_form_fin.php',__LINE__,"   $j_id=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste,$e_date,".${"e_other$i"}."_amount".",$seq,$periode);");
 
     if ( ($jr_id=InsertJrn($p_cn,$e_date,'',$p_jrn,FormatString(${"e_other$i"."_comment"}),
 			   $seq,$periode))==false) {

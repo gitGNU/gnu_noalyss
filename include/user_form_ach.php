@@ -674,7 +674,7 @@ V : record_invoice => e : Sauver
  */
 function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 {
-  echo_debug('user_form_ach',__LINE__,"function RecordSell($p_cn,$p_array,$p_user,$p_jrn)");
+  echo_debug('user_form_ach',__LINE__,"function RecordSell($p_cn,$p_array,$p_user->id,$p_jrn)");
   foreach ( $p_array as $v => $e)
   {
     ${"$v"}=$e;
