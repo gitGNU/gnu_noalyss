@@ -1616,8 +1616,6 @@ INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUE
 INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (2, '12%', 0.1200, 'Tva ', '4112,4512');
 INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (3, '6%', 0.0600, 'Tva applicable aux journaux et livres', '4113,4513');
 INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (4, '0%', 0.0000, 'Tva applicable lors de vente/achat intracommunautaire', '4114,4514');
-INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (5, '0%', 0.0000, 'Pas soumis à la TVA', NULL);
-INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUES (5, '0%', 0.0000, 'Pas soumis à la TVA', NULL);
 
 
 --
