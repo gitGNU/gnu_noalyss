@@ -457,17 +457,16 @@ class fiche {
 	      $v=FormatString($value);
 	      if ( isNumber($v) == 1 )
 		{
-		  $sql=sprintf("select account_insert(%d,%d)",
+		  $sql=sprintf("select account_insert(%d,%f)",
 			       $this->id,$v);
-		  $Ret=ExecSql($this->cn,$sql);
 		}
-	      if ( strlen(trim($v))==0  )
+	      else 
 		{
 		  $sql=sprintf("select account_insert(%d,null)",
 			       $this->id);
-		  $Ret=ExecSql($this->cn,$sql);
 		}
-	      
+	      $Ret=ExecSql($this->cn,$sql);
+	      print "$sql $Ret";
 	      continue;
 	    }
 	// TVA
@@ -493,7 +492,7 @@ class fiche {
 			      " and av_text='".FormatString($value)."'");
 	      if ( $exist == 0 && FormatString($value) != null ) 
 		{
-		  $value="Attention : pas de société  ";
+		  $value="";
 		}
 	    }
 	  // Normal traitement
