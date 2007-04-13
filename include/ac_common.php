@@ -77,8 +77,8 @@ function cmpDate ($p_date,$p_date_oth) {
  */
 function isNumber($p_int) {
   if ( strlen (trim($p_int)) == 0 ) return 0;
-
-  if ( (string) $p_int === (string) (float) $p_int ) 
+  print $p_int;
+  if ( is_numeric($p_int) == true)
     return 1;
   else
     return 0;
