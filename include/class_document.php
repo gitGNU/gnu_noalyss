@@ -364,7 +364,7 @@ class Document
     {
       if ( $this->d_id == 0 )
 	return '';
-      $image='<IMG SRC="images/insert_table.gif" title="'.$this->d_filename.'" border="0">';
+      $image='<IMG SRC="image/insert_table.gif" title="'.$this->d_filename.'" border="0">';
       $r="";
       $r='<A class="mtitle" HREF="show_document.php?d_id='.$this->d_id.'">'.$image.'</A>';
       return $r;

@@ -670,7 +670,7 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Eché
     //document
     if ( $row['jr_pj_name'] != "") 
       {
-	$image='<IMG SRC="images/insert_table.gif" title="'.$row['jr_pj_name'].'" border="0">';
+	$image='<IMG SRC="image/insert_table.gif" title="'.$row['jr_pj_name'].'" border="0">';
 	$r.="<TD>".sprintf('<A class="detail" HREF="show_pj.php?jrn=%s&jr_grpt_id=%s">%s</A>',
 			   $p_jrn,
 			   $row['jr_grpt_id'],

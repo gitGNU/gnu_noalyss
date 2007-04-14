@@ -270,7 +270,7 @@ class widget {
 	      " updateRTE('".$this->name."');\n ".
 	      " return true; \n".
 	      "} \n".
-	      'initRTE("images/", "", "");'."\n".
+	      'initRTE("image/", "", "");'."\n".
 	      '//-->'."\n".
 	      '</script>'.
 	      '<noscript><p><b>Javascript must be enabled to use this form.</b></p></noscript>'.
