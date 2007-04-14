@@ -271,7 +271,6 @@ if ( $action == 'voir_jrn_non_paye' ) {
 	    list ($id) = sscanf ($name,"rd_paid%d");
 
 	    if ( $id == null ) continue;
-	    echo "Mise à jour $id";
 	    $paid=($paid=='on')?'paid':'';
 	    $sql="update jrn set jr_rapt='$paid' where jr_id=$id";
 	    $Res=ExecSql($cn,$sql);
