@@ -159,8 +159,8 @@ $sql="select sg_code,
       left outer join jrn on jr_grpt_id=j_grpt
            where 
       sg_code='$p_sg_code' and (
-          to_char(sg_date::timestamp,'YYYY') = '$p_year'
-       or to_char(j_date::timestamp,'YYYY') = '$p_year'
+          to_char(sg_date,'YYYY') = '$p_year'
+       or to_char(j_date,'YYYY') = '$p_year'
        )
       order by stock_date
  " ;
