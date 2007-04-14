@@ -37,8 +37,8 @@ function ViewStock($p_cn,$p_year) {
   // during the p_year
 $sql=" select distinct sg_code
       from stock_goods 
-      join jrnx on (stock_goods.j_id=jrnx.j_id)
-      join parm_periode on (parm_periode.p_id=jrnx.j_tech_per)
+       left outer join  jrnx on (stock_goods.j_id=jrnx.j_id)
+      right outer join parm_periode on (parm_periode.p_id=jrnx.j_tech_per)
     where
       p_exercice= '$p_year'
       and sg_code is not null and sg_code != '' and sg_code!='null'";
@@ -50,7 +50,7 @@ $sql=" select distinct sg_code
   
   if ( ( $M = pg_NumRows($Res)) == 0 ) return null;
   // store it in a HTLM table
-  $result="<table>";
+  $result='<table style="width:100%;border:solid blue 2px ;border-style:outset;">';
   $result.="<tr>";
   $result.='<th>Code</th>';
   $result.='<th>Noms</th>';
@@ -159,13 +159,11 @@ $sql="select sg_code,
       left outer join jrn on jr_grpt_id=j_grpt
            where 
       sg_code='$p_sg_code' and (
-          to_char(sg_date,'YYYY') = '$p_year'
-       or to_char(j_date,'YYYY') = '$p_year'
+          to_char(sg_date::timestamp,'YYYY') = '$p_year'
+       or to_char(j_date::timestamp,'YYYY') = '$p_year'
        )
       order by stock_date
  " ;
-// $r.=sprintf('<input TYPE="button" onClick="modifyOperation(\'%s\',\'%s\')" value="%s">',
-// 		    $row['jr_id'],$l_sessid,$row['jr_internal']);
     // name
 
 
@@ -184,7 +182,7 @@ $sql="select sg_code,
   
   $Res=ExecSql($p_cn,$sql);
   if ( ($M=pg_NumRows($Res)) == 0 ) return "no rows";
-  $r.="<table>";
+  $r.='<table style="width:100%;border:solid blue 2px ;border-style:outset;">';
   $r.="<TR>";
   $r.="<th>Date </th>";
   $r.="<th>Entrée / Sortie </th>";
@@ -233,7 +231,9 @@ $sql="select sg_code,
 
     // Unit Price
     $r.="<TD>";
-    $up=$l['j_montant']/$l['sg_quantity'];
+    $up="";
+    if ( $l['sg_quantity'] != 0 )
+      $up=$l['j_montant']/$l['sg_quantity'];
     $r.=$up;
     $r.="</TD>";
 
@@ -276,11 +276,11 @@ $r='
 function GetQuantity($p_cn,$p_sg_code,$p_year,$p_type) {
   $sql="select sum(sg_quantity) as result
         from stock_goods
-      join jrnx on (stock_goods.j_id=jrnx.j_id)
-      join parm_periode on (parm_periode.p_id=jrnx.j_tech_per)
+      left join jrnx on (stock_goods.j_id=jrnx.j_id)
+      left join parm_periode on (parm_periode.p_id=jrnx.j_tech_per)
         where
         sg_code='$p_sg_code' and 
-         p_exercice = '$p_year' and 
+         (p_exercice = '$p_year' or to_char(sg_date::timestamp,'YYYY')='$p_year') and 
          sg_type='$p_type'";
   $Res=ExecSql($p_cn,$sql);
   if ( pg_NumRows($Res)== 0) return null;

@@ -83,7 +83,7 @@ if ( isset ($_POST['sub_change'])) {
     echo_error($msg);
   } else {
     // Check if User Can change the stock 
-    if ( CheckAction($g_dossier,$g_user,STOCK_WRITE) == 0 ) {
+    if ( CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],STOCK_WRITE) == 0 ) {
       NoAccess();
       exit (-1);
     }
@@ -106,7 +106,7 @@ if ( isset ($_POST['sub_change'])) {
                         abs($change),
                         '$type',
                         to_date('$sg_date','DD.MM.YYYY'),
-                        '$g_user');
+                        '".$_SESSION['g_user']."');
                      ");
   // to update the view
   $action="detail";
@@ -136,13 +136,16 @@ if ( $action == 'detail' ) {
   $sg_code=(isset ($_GET['sg_code'] ))?$_GET['sg_code']:$_POST['sg_code'];
   $year=(isset($_GET['year']))?$_GET['year']:$_POST['year'];
   $a=ViewDetailStock($cn,$sg_code,$year);
+
   $b=ChangeStock($sg_code,$year);
     echo '<div class="u_redcontent">' ;
     echo $a;
-    echo 'Entrer la valeur qui doit augmenter ou diminuer le stock';
+    echo 'Entrer la valeur qui doit augmenter ou diminuer le stock, attention ne pas utiliser de d&eacute;cimales';
     echo '<form action="stock.php" method="POST">';
     echo $b;
     echo '<input type="submit" name="sub_change" value="Ok">';
+    echo '<A class="mtitle" HREF="?"><INPUT TYPE="BUTTON" value="Retour"</A>';
+
     echo '</form>';
     echo '</div>';
     exit();
@@ -154,7 +157,7 @@ $Res=ExecSql($cn,$sql);
 $r="";
 for ( $i = 0; $i < pg_NumRows($Res);$i++) {
   $l=pg_fetch_array($Res,$i);
-  $r.=sprintf('<A class="one" HREF="stock.php?year=%d">%d</a> - ',
+  $r.=sprintf('<A class="mtitle" HREF="stock.php?year=%d">%d</a> - ',
 	      $l['exercice'],
 	      $l['exercice']);
  

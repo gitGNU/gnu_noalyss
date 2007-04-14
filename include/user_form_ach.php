@@ -800,7 +800,7 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
     $j_id=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste,$e_date,round($amount,2),$seq,$periode,$a_good[$i]);
     if ( $j_id == false) { Rollback($p_cn);exit("error 'user_form_ach.php' __LINE__");}
     // always save quantity but in withStock we can find what card need a stock management
-    if (  InsertStockGoods($p_cn,$j_id,$a_good[$i],$a_quant[$i],'c') == false ) {
+    if (  InsertStockGoods($p_cn,$j_id,$a_good[$i],$a_quant[$i],'d') == false ) {
       $Rollback($p_cn);exit("error 'user_form_ach.php' __LINE__");}
 	echo_debug('user_form_ach.php',__LINE__,"value non ded : ".$a_good[$i]."is");		
 
