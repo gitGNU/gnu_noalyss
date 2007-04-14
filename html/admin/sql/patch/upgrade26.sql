@@ -89,5 +89,7 @@ end;
 $$
     LANGUAGE plpgsql;
 
+insert into format_csv_banque values ('Dexia','dexia_be.inc.php');
+
 update version set val=27;
 commit;
