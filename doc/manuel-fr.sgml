@@ -645,6 +645,19 @@ comme la capacité à  pouvoir ajouter ou modifier des informations.
 </sect1>
 </sect>
 <sect> Gestion de stock
+<p> PhpCompta vient avec un système minimum de gestion de stock,
+c'est-à-dire qu'il permet de suivre un stock grâce aux action de vente
+et d'achat, et de diminuer ou d'augmenter manuellement le stock; mais
+il ne gére pas les commandes. Pour commander des marchandises, il faut
+pour l'instant passer par gestion->action, et ajouter des documents de
+commandes.
+
+<p>Attention à la date, on ne tient compte pour le stock que de ceux
+de l'année et non ceux de l'exercice s'il est plus d'un  an.
+
+<p> Cela étant précisé, voyons ce qu'on peut faire avec ce module de
+stock.
+
 <p> Pour toutes les marchandises dont vous voulez gérer le stock, il
 faut ajouter l'attribut gestion de stock, vous devez y mettre un code,
 et exactement le même code dans sa contrepartie. Les mêmes
@@ -657,12 +670,101 @@ achats et ventes de la même marchandise, si vous utilisez ce code
 stock pour deux marchandises différentes, vous ne serez plus en mesure
 de faire la différence entre ces 2 marchandises dans le stock.
 
+<p>Il doit être bien clair, qu'il y a
+deux fiches pour cette marchandise, l'une à la vente et l'autre à
+l'achat. Il y a deux raisons à cet état de chose :
+<itemize>
+<item>La première, est que les postes comptables des marchandises à
+vendre et à acheter ne sont pas les mêmes.
+<item>La seconde est qu'ainsi vous pouvez faire correspondre plusieurs
+fiches avec le même code de gestion de stock, par exemple, au lieu d'avoir
+un stock par boisson, vous pouvez décider d'avoir le même code de
+stock pour toutes les boissons. Petite illustration: imaginons que
+quelqu'un qui vend du coca, du fanta et du sprite souhaite uniquement
+connaitre le total des différentes boissons. Et donc s'il vend du coca
+ou du fanta, son stock diminue; dans ce cas, il ne sera pas capable de
+savoir combien il a exactement de cannettes de chaque sorte, il ne
+connaitra que le total des cannettes.
+</itemize>
+
 <p>Les achats et les ventes vont
 automatiquement mettre le  stock à jour si on fait ces opérations dans
 les journaux achats et ventes uniquement.
 
-<sect1> Gestion de stock
-<p> A terminer
+
+
+<sect1>Configurer le système
+<p>Ajouter des fiches de marchandises (en achat et vente) et adapter
+votre journal d'achat  et de vente pour qu'ils tiennent compte de ces
+nouvelles fiches.
+
+<p>N'oubliez pas d'ajouter l'attribut "Gestion de stock" pour ces
+fiches, pour ce faire cliquez sur le nom de la famille de fiches (à
+côté de liste).
+
+
+N'oubliez pas qu'en fin d'année, on fait l'inventaire et on compare le
+stock du début de  l'année avec celui de la fin d'année, et cela donne
+lieu à une écriture comptable de variation de stock, normalement dans
+le journal des opérations diverses.
+
+</sect1>
+
+<sect1>Premier cas: une marchandise achetée=une marchandise vendue
+<p> Ceci est le cas le plus simple, admettons que vous vendiez la
+marchandises A et que quand vous la vendez, votre stock diminue.
+
+Dans le menu Fiche, dans les marchandises à vendre ajoutez un nom de
+gestion de stock ou un barre-code. Exemple MARCHA. Faites la même
+chose pour la marchandise à vendre. 
+
+Maintenant, après avoir adapté le journal de vente et d'achat pour que
+ces fiches soient utilisée (avancé->journaux). Vous constaterez que
+quand vous vendez votre stock diminue et qu'à l'achat, il augmente, ce
+qui est logique.
+
+Le menu Stock vous montre l'état de votre stock. Si certaines
+marchandises ou été volées, détruites ou retournées, vous pouvez
+manuellement modifier le stock; en cliquant sur MARCHA, vous voyez le
+détail du stock, vous avez une ligne pour modifier le stock, si vous
+entrez un nombre négatif, le stock va diminuer du nombre d'unité
+indiqué, avec un nombre positif, il augmentera.
+
+si vous êtes un cafetier et que quand vous
+achetez une bouteille de soda, vous le vendez par verre; si vous
+souhaitez suivre les stocks des vente, vous pourriez dire qu'une
+bouteille à l'achat vaut 5 unités, et à la vente une seule.
+
+</sect1>
+
+<sect1>Second cas: uniquement à l'achat
+<p>Dans ce cas-ci, vous ne voulez suivre que le nombre d'unité
+achetée, par exemple, si vous êtes un cafetier et que quand vous
+achetez une bouteille de soda, vous le vendez par verre; et vous ne
+souhaitez pas faire le suivi de chaque verre vendu. Les unités de
+stocks n'acceptent que 4 décimales maximum.
+
+<p>Il suffit simplement de mettre un code sur la marchandise à l'achat
+et c'est tout.
+
+<p>Dans ce cas-ci, il vous suffit de regarder la quantité achetée, et
+celle qu'il vous reste réellement, cela vous donne par simple
+soustraction, la quantité vendue. 
+
+<p>Il vous suffit maintenant de changer manuellement.
+
+
+</sect1>
+<sect1>Plusieurs fiches pour un même stock
+<p>Imaginons que pour une certaine marchandise (MARCHA), vous avez
+crééez une fiche quand vous l'achetez à un fournisseur et une autre
+fiche quand vous l'achetez à un autre fournisseur. Parce que par
+exemple, les prix sont différents, ou pour n'importe quelle autre
+raison qu'il vous plaira.
+
+<p>Dans ce cas, il suffit d'utiliser le même code de gestion pour
+toutes  ces fiches, automatiquement elles seront rassemblées dans la
+gestion de stock.
 
 </sect1>
 </sect>
