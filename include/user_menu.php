@@ -161,12 +161,6 @@ function ShowMenuCompta($p_dossier,$p_high="")
 		 array("compta.php?p_action=impress","Impression","Impression"),
 		 array("compta.php?p_action=fiche","Fiche","Ajouter, modifier ou effacer des fiches"),
 		 array("user_advanced.php","Avancé","Opérations délicates"),
-
-  		 // array('user_pref.php','Preference',"Préférence de l'utilisateur"),
-		 // array('parametre.php?dos='.$_SESSION['g_dossier'],"Paramètre"),
-		 // array('commercial.php?dos='.$_SESSION['g_dossier'],"Gestion"),
-		 // array('login.php','Accueil',"Accueil"),
-		 //		 array('logout.php','logout',"Sortie")
 		 );
 
   $result=ShowItem($p_array,'H',"mtitle","mtitle",$default,' width="100%"');
