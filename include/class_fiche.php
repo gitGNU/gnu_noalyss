@@ -466,7 +466,7 @@ class fiche {
 			       $this->id);
 		}
 	      $Ret=ExecSql($this->cn,$sql);
-	      print "$sql $Ret";
+
 	      continue;
 	    }
 	// TVA
