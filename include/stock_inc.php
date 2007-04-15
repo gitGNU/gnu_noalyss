@@ -66,7 +66,7 @@ $sql=" select distinct sg_code
 
     // sg_code  and link to details
     $result.="<td>".'<a class="one" 
-              HREF="stock.php?action=detail&sg_code='.$r['sg_code'].'&year='.$p_year.'">'. 
+              HREF="?p_action=stock&action=detail&sg_code='.$r['sg_code'].'&year='.$p_year.'">'. 
               $r['sg_code']."</A></td>";
 
     // name
