@@ -146,7 +146,7 @@ class Document
 
       // we need to rename the new generated file
       rename($dirname.DIRECTORY_SEPARATOR.$file_to_parse,$_SERVER['DOCUMENT_ROOT'].$dirname.DIRECTORY_SEPARATOR.$file_to_parse);
-      $ret=sprintf('<A HREF="%s">Document généré</A>',
+      $ret=sprintf('<A class="mtitle" HREF="%s">Document généré</A>',
 		   $dirname.DIRECTORY_SEPARATOR.$file_to_parse);
       $this->SaveGenerated($_SERVER['DOCUMENT_ROOT'].$dirname.DIRECTORY_SEPARATOR.$file_to_parse);
       return $ret;
