@@ -89,6 +89,7 @@ echo ShowItem(array(
 		    array('?p_action=fournisseur','Fournisseur'),
 		    array('?p_action=depense','D&eacute;pense'),
 		    array('?p_action=impress','Impression'),
+		    array('?p_action=stock','Stock'),
 		    array('?p_action=bank','Banque'),
 		    array('?p_action=fiche','Fiche'),
 		    array('?p_action=contact','Contact'),
@@ -169,4 +170,7 @@ if ( $p_action == 'impress')
 }
 if ( $p_action == 'fiche') {
   require_once('fiche.inc.php');
+}
+if ( $p_action == 'stock') {
+  require_once('stock.inc.php');
 }
