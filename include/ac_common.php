@@ -30,7 +30,9 @@ require_once ("postgres.php");
 /*! 
  * \brief  log error into the /tmp/phpcompta_error.log it doesn't work on windows
  *
- * \param log message
+ * \param p_log message
+ * \param p_line line number
+ * \param p_message is the message
  * 
  * \return nothing
  *  
@@ -44,8 +46,8 @@ function echo_error      ($p_log, $p_line="", $p_message="") {
 
 /*! 
  * \brief  Compare 2 dates
- * \param date 
- * \param date2
+ * \param p_date 
+ * \param p_date_oth
  * 
  * \return 
  *      - == 0 les dates sont identiques
@@ -120,7 +122,7 @@ function isDate ( $p_date) {
   return $p_date;
 }
 /*! 
- * \brief call cmpDate
+ * \brief call cmpDate & add quotes
  *        
  * \return the date or the quoted string null 
  */
@@ -131,7 +133,7 @@ function formatDate($p_date) {
 /*! 
  * \brief Default page header for each page
  *        
- * \param default theme
+ * \param p_theme default theme
  * \param $p_script
  * \param $p_script2  another js script
  *
@@ -264,8 +266,7 @@ function ShowItem($p_array,$p_dir='V',$class="mtitle",$class_ref="mtitle",$defau
 /*! 
  * \brief warns
  *        
- * \param : 
- *	- string
+ * \param p_string error message
  * gen :
  *	- none
  * \return:
@@ -279,8 +280,9 @@ function echo_warning($p_string)
  **************************************************
  * \brief make a array with the sql
  *        
- * \param  $cn dbatabase connection
- * \param $sql related sql 
+ * \param  $p_cn dbatabase connection
+ * \param $p_sql related sql 
+ *  \param $p_null if the array start with a null value
  *
  * \return: a double array [value,label]
  */
@@ -313,7 +315,7 @@ function make_array($p_cn,$p_sql,$p_null=0) {
  *        
  * \param  $p_cn database connection 
  * \param p_id
- * \param Start or end
+ * \param pos Start or end
  *
  * \return: string
  */
@@ -332,7 +334,7 @@ function getPeriodeName($p_cn,$p_id,$pos='p_start') {
  *           date
  *        
  * \param p_cn database connection
- * \param  the month + year 'MM.YYYY'
+ * \param p_date the month + year 'MM.YYYY'
  *
  * \return:
  *       parm_periode.p_id
@@ -351,11 +353,11 @@ function getPeriodeFromMonth($p_cn,$p_date) {
  * \brief Return the period corresponding to the 
  *           date
  *        
- * \param : 
- *	- p_cn database connection
- *      - the date 'DD.MM.YYYY'
- * \return:
- *       parm_periode.p_id
+ *
+ * \param  	p_cn database connection
+ *  \param      p_date the date 'DD.MM.YYYY'
+ * \return parm_periode.p_id
+ *       
  */
 function getPeriodeFromDate($p_cn,$p_date) {
   $R=ExecSql($p_cn,"select p_id from parm_periode where
