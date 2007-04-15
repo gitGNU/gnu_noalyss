@@ -55,5 +55,7 @@ if ( $action == 'impress' ) {
 if ( $action == 'fiche') {
   require_once('fiche.inc.php');
 }
+
+
 html_page_stop();
 ?>
