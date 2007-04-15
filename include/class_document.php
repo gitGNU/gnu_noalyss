@@ -27,8 +27,8 @@ require_once('class_poste.php');
  */
 class Document 
 {
-  var $db;          /*! \enum $db Database connexion
-  var $d_id;        /*! \enum $d_id Document id */
+  var $db;          /*! \enum $db Database connexion*/
+  var $d_id;        /*! \enum $d_id Document id */ 
   var $ag_id;       /*! \enum $ag_id action_gestion.ag_id (pk) */
   var $d_mimetype;  /*! \enum $d_mimetype  */
   var $d_filename;  /*! \enum $d_filename */
@@ -146,9 +146,9 @@ class Document
 
       // we need to rename the new generated file
       rename($dirname.DIRECTORY_SEPARATOR.$file_to_parse,$_SERVER['DOCUMENT_ROOT'].$dirname.DIRECTORY_SEPARATOR.$file_to_parse);
-      $ret=sprintf('<A class="mtitle" HREF="%s">Document généré</A>',
-		   $dirname.DIRECTORY_SEPARATOR.$file_to_parse);
       $this->SaveGenerated($_SERVER['DOCUMENT_ROOT'].$dirname.DIRECTORY_SEPARATOR.$file_to_parse);
+      // Invoice
+      $ret='<A class="mtitle" HREF="show_document.php?d_id='.$this->d_id.'">Document généré</A>';
       return $ret;
     }
     
@@ -295,6 +295,8 @@ class Document
       ExecSql($this->db,$sql);
       $this->d_id=GetSequence($this->db,"document_d_id_seq");
       echo_debug('class_document',__LINE__,'document sauvé : d_id'.$this->d_id);
+      // Clean the file
+      unlink ($p_file);
       Commit($this->db);
       return 0;
     }
@@ -774,7 +776,7 @@ class Document
 		   $this->d_lob,$this->d_filename,$this->d_mimetype,$p_internal);
       ExecSql($this->db,$sql);
       // clean the table document
-      $this->remove();
+      //$this->remove();
     }
 
 
