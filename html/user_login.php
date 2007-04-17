@@ -1,6 +1,6 @@
 
 
-<?
+<?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -47,6 +47,6 @@ echo $res;
 <P>
 
 </P>
-<?
+<?php
 html_page_stop();
 ?>

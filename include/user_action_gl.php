@@ -1,4 +1,4 @@
-<?
+<?php  
 /*
  *   This file is part of PhpCompta.
  *
@@ -36,7 +36,7 @@ if (CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],0)  < 1 )
 ?>
 <div class="u_redcontent">
 <form method="GET" action="user_jrn.php">
-<?
+<?php  
 
 $hid=new widget("hidden");
 
@@ -58,7 +58,7 @@ $w->selected=$current;
 echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit','Valider');
 ?>
 </form>
-<?
+<?php  
  if ( $current == -1) {
    $cond=" and jr_tech_per in (select p_id from parm_periode where p_exercice='".$User->getExercice()."')";
  } else {

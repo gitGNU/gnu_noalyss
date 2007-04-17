@@ -1,4 +1,4 @@
-<?
+<?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -44,7 +44,7 @@ function GetIt(ctl,tva_id) {
 	   window.close();	
 	} 
 </script>
-<?
+<?php
 
 $condition="";
 $cn=DbConnect($_SESSION['g_dossier']);
@@ -64,6 +64,6 @@ for ($i=0;$i<$Max;$i++) {
 echo '</TABLE>';
 ?>
 <input type='button' Value="fermer" onClick='window.close();'>
-<?
+<?php
 html_page_stop();
 ?>

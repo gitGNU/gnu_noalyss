@@ -1,4 +1,4 @@
-<?
+<?php
 
 /*
  *   This file is part of PhpCompta.
@@ -50,7 +50,7 @@ echo "<div>".MenuAdmin()."</div>";
 
 ?>
 <DIV >
-<?
+<?php
 if ( isset ($_GET["action"]) ) {
   if ( $_GET["action"]=="user_mgt" ) 
     {
@@ -78,7 +78,7 @@ if ( isset ($_GET["action"]) ) {
 
 ?>
 </DIV>
-<?
+<?php
 
 html_page_stop();
 ?>

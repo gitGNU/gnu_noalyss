@@ -1,4 +1,4 @@
-<? //$Revision$
+<?php   //$Revision$
 /*
  *   This file is part of PhpCompta.
  *

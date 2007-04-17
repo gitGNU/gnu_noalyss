@@ -1,4 +1,4 @@
-<?
+<?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -70,7 +70,7 @@ echo '<h2>Gestion Utilisateurs</h2>';
 
 
 
-<?
+<?php
 /* Parse the changes */
 if ( isset ( $_GET['reset_passwd']) ){
   $cn=DbConnect();
@@ -128,24 +128,24 @@ $r_UID=GetUid($uid);
 ?>
 <FORM ACTION="priv_user.php" METHOD="POST">
 
-<? printf('<INPUT TYPE=HIDDEN NAME=UID VALUE="%s">',$uid); ?>
+<?php printf('<INPUT TYPE=HIDDEN NAME=UID VALUE="%s">',$uid); ?>
 <TABLE BORDER=0>
 <TR><TD>
-<?printf('First name <INPUT type="text" NAME="fname" value="%s"> ',$r_UID[0]['use_first_name']); ?>
+<?php printf('First name <INPUT type="text" NAME="fname" value="%s"> ',$r_UID[0]['use_first_name']); ?>
 </TD><TD>
-<?printf('Name <INPUT type="text" NAME="lname" value="%s"> ',$r_UID[0]['use_name']); ?>
+<?php printf('Name <INPUT type="text" NAME="lname" value="%s"> ',$r_UID[0]['use_name']); ?>
 </TD>
 </TR><TR>
 <TD>
-<?printf('login <INPUT type="text" NAME="login" value="%s">',$r_UID[0]['use_login']); ?>
+<?php printf('login <INPUT type="text" NAME="login" value="%s">',$r_UID[0]['use_login']); ?>
 </TD>
 <TD class="mtitle"> 
-<?printf('<A class="mtitle" HREF="priv_user.php?reset_passwd&UID=%s">Reset Password</A>',$uid); ?>
+<?php printf('<A class="mtitle" HREF="priv_user.php?reset_passwd&UID=%s">Reset Password</A>',$uid); ?>
 </TD>
 </TR>
 <TR><TD>
 <TABLE>
-<?
+<?php
 if ( $r_UID[0]['use_active'] == 1 ) {
   $ACT="CHECKED";$NACT="UNCHECKED";
 } else {
@@ -161,7 +161,7 @@ echo "</TD></TR>";
 </TD>
 <TD>
 <TABLE>
-<?
+<?php
 if ( $r_UID[0]['use_admin'] == 1 ) {
   $ACT="CHECKED";$NACT="UNCHECKED";
 } else {
@@ -181,7 +181,7 @@ echo "</TD></TR>";
 <!-- Show all database and rights -->
 <H2 class="info"> Droit par défaut </H2>
 <TABLE>
-<? 
+<?php 
 $Dossier=ShowDossier('all',1,0);
 foreach ( $Dossier as $rDossier) {
   $NORIGHT="";$Write="";$Read="";
@@ -238,7 +238,7 @@ foreach ( $Dossier as $rDossier) {
 
 
 
-<?
+<?php
 html_page_stop();
 ?>
 

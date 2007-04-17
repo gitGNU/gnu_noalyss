@@ -1,4 +1,4 @@
-<?
+<?php  
 /*
  *   This file is part of PhpCompta.
  *
@@ -151,7 +151,7 @@ if ( $action == 'voir_jrn' ) {
 <div class="u_redcontent">
 <form method= "get" action="user_jrn.php">
 
-<?
+<?php  
 $hid=new widget("hidden");
 
 $hid->name="p_jrn";
@@ -180,7 +180,7 @@ $w->selected=$current;
 echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit','Valider');
 ?>
 </form>
-<?
+<?php  
     // Ask to update payment
     if ( isset ( $_POST['paid'])) 
       {

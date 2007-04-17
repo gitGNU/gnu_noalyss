@@ -1,4 +1,4 @@
-<?
+<?php  
 /*
  *   This file is part of PhpCompta.
  *
@@ -159,7 +159,7 @@ if ( $action == 'voir_jrn' ) {
 
 <form method= "get" action="user_jrn.php">
 
-<?
+<?php  
 $hid=new widget("hidden");
 
 $hid->name="p_jrn";
@@ -188,7 +188,7 @@ $w->selected=$current;
 echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit','Valider');
 ?>
 </form>
-<?
+<?php  
 
  // Show list of sell
   echo_debug ("user_action_jrn.php");

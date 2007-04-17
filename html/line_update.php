@@ -1,4 +1,4 @@
-<?
+<?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -103,7 +103,7 @@ if ( isset ($_POST["update"] ) ) {
 <FORM ACTION="line_update.php" METHOD="POST">
 <TABLE>
 <TR>
-<?
+<?php
 $l=$_GET['l'];
 $p=$_GET['p'];
 $n=$_GET['n'];
@@ -120,12 +120,12 @@ printf ('<TD>Classe Parent</TD><TD><INPUT TYPE="TEXT" name="p_val_parent" value=
 <TR>
 <TD><INPUT TYPE="Submit" VALUE="Sauve">
 <INPUT TYPE="HIDDEN" name="update">
-<? printf ('<INPUT TYPE="HIDDEN" name="p_old" value="%s">',$l); ?>
+<?php printf ('<INPUT TYPE="HIDDEN" name="p_old" value="%s">',$l); ?>
 </TD><TD><input type="button"  Value="Retour sans sauver" onClick='window.close();'></TD></TR>
 </TABLE>
 </FORM>
 
 
-<?
+<?php
 html_page_stop();
 ?>

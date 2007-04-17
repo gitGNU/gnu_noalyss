@@ -1,4 +1,4 @@
-<?
+<?php  
 /*
  *   This file is part of PhpCompta.
  *
@@ -90,7 +90,7 @@
 <th>Commentaire</th>
 <th>Poste</th>
 </tr>
-<?
+<?php  
   $val=pg_fetch_all($Res);
   echo_debug('parametre',__LINE__,$val);
   foreach ( $val as $row)
@@ -145,7 +145,7 @@
     }
 ?>
 </TABLE>
-    <? // if we add / remove or modify a vat we don't show this button
+    <?php   // if we add / remove or modify a vat we don't show this button
 if (   ! isset ($_POST['add'])
   &&   ! isset ($_POST['mod'])
   &&   ! isset ($_POST['rm'])
@@ -155,7 +155,7 @@ if (   ! isset ($_POST['add'])
     <input type="submit" name="add" value="Ajouter un taux de tva">
     <input type="hidden" name="p_action" value="tva">
      </form>
-<?
+<?php  
        } 
 
 
@@ -176,13 +176,13 @@ if (   ! isset ($_POST['add'])
    <th>Poste</th>
    </tr>
 <tr>
-   <td> <? echo $a[$index]['tva_label']; ?></td>
-   <td> <? echo $a[$index]['tva_rate']; ?></td>
-   <td> <? echo $a[$index]['tva_comment']; ?></td>
-   <td> <? echo $a[$index]['tva_poste']; ?></td>
+   <td> <?php   echo $a[$index]['tva_label']; ?></td>
+   <td> <?php   echo $a[$index]['tva_rate']; ?></td>
+   <td> <?php   echo $a[$index]['tva_comment']; ?></td>
+   <td> <?php   echo $a[$index]['tva_poste']; ?></td>
 </Tr>
 </table>
-<?
+<?php  
     echo '<FORM method="post">';
     echo '<input type="hidden" name="tva_id" value="'.$index.'">';
     echo '<input type="submit" name="confirm_rm" value="Confirme">';
@@ -209,18 +209,18 @@ if (   ! isset ($_POST['add'])
    <th>Poste</th>
    </tr>
 <tr valign="top">
-   <td> <? $w=new widget("text");$w->size=5; echo $w->IOValue('tva_id','') ?></td>
-   <td> <? $w=new widget("text");$w->size=20; echo $w->IOValue('tva_label','') ?></td>
-   <td> <? $w=new widget("text");$w->size=5; echo $w->IOValue('tva_rate','') ?></td>
-   <td> <? $w=new widget("textarea"); $w->heigh=2;$w->width=20;echo $w->IOValue('tva_comment','') ?></td>
-   <td> <? $w=new widget("text"); $w->size=10;echo $w->IOValue('tva_poste','') ?></td>
+   <td> <?php   $w=new widget("text");$w->size=5; echo $w->IOValue('tva_id','') ?></td>
+   <td> <?php   $w=new widget("text");$w->size=20; echo $w->IOValue('tva_label','') ?></td>
+   <td> <?php   $w=new widget("text");$w->size=5; echo $w->IOValue('tva_rate','') ?></td>
+   <td> <?php   $w=new widget("textarea"); $w->heigh=2;$w->width=20;echo $w->IOValue('tva_comment','') ?></td>
+   <td> <?php   $w=new widget("text"); $w->size=10;echo $w->IOValue('tva_poste','') ?></td>
 </Tr>
 </table>
 <input type="submit" value="Confirme" name="confirm_add">
 <input type="submit" value="Cancel" name="no">
 
  </FORM>
-<?  }
+<?php    }
 
   //-----------------------------------------------------
   // mod
@@ -242,17 +242,17 @@ if (   ! isset ($_POST['add'])
    <th>Poste</th>
    </tr>
 <tr valign="top">
-   <td> <? $w=new widget("text");$w->size=20; echo $w->IOValue('tva_label',$a[$index]['tva_label']) ?></td>
-   <td> <? $w=new widget("text");$w->size=5; echo $w->IOValue('tva_rate',$a[$index]['tva_rate']) ?></td>
-   <td> <? $w=new widget("textarea"); $w->heigh=2;$w->width=20;
+   <td> <?php   $w=new widget("text");$w->size=20; echo $w->IOValue('tva_label',$a[$index]['tva_label']) ?></td>
+   <td> <?php   $w=new widget("text");$w->size=5; echo $w->IOValue('tva_rate',$a[$index]['tva_rate']) ?></td>
+   <td> <?php   $w=new widget("textarea"); $w->heigh=2;$w->width=20;
    echo $w->IOValue('tva_comment',$a[$index]['tva_comment']) ?></td>
-   <td> <? $w=new widget("text");$w->size=5; echo $w->IOValue('tva_poste',$a[$index]['tva_poste']) ?></td>
+   <td> <?php   $w=new widget("text");$w->size=5; echo $w->IOValue('tva_poste',$a[$index]['tva_poste']) ?></td>
 </Tr>
 </table>
 <input type="submit" value="Confirme" name="confirm_mod">
 <input type="submit" value="Cancel" name="no">
  </FORM>
-<? 
+<?php   
     }
 
 ?>

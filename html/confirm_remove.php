@@ -1,4 +1,4 @@
-<?
+<?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -160,12 +160,12 @@ else
   print "<h2 class=\"info\"> Confirmer vous l'effacement du $msg $name ? <h2> ";
 ?>
 <FORM METHOD="POST" ACTION="confirm_remove.php">
-   <INPUT TYPE="HIDDEN" NAME="ob_id" value="<?echo $_REQUEST['ob_id'];?>"  >
-   <INPUT TYPE="HIDDEN" NAME="p_type" value="<?echo $_REQUEST['p_type'];?>" >
-<INPUT TYPE="CHECKBOX" NAME="confirm" VALUE="UNCHECKED"> Cochez cette case si vous voulez vraiment effacer <?echo $name;?>
+   <INPUT TYPE="HIDDEN" NAME="ob_id" value="<?php echo $_REQUEST['ob_id'];?>"  >
+   <INPUT TYPE="HIDDEN" NAME="p_type" value="<?php echo $_REQUEST['p_type'];?>" >
+<INPUT TYPE="CHECKBOX" NAME="confirm" VALUE="UNCHECKED"> Cochez cette case si vous voulez vraiment effacer <?php echo $name;?>
    <INPUT TYPE="SUBMIT" NAME="remove" value="Oui">
    <hr>
       <input type="button" name="close" value="Annuler" onclick="window.close();">
 </FORM>
-<?
+<?php
 }

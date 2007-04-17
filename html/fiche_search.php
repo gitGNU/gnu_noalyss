@@ -1,4 +1,4 @@
-<?
+<?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -84,7 +84,7 @@ function SetData (name_ctl,value,value_2,value_3,value_4,value_5,value_6) {
   window.close();
 }
 </script>
-<?
+<?php
 $cn=DbConnect($_SESSION['g_dossier']);
 $r="";
 
@@ -186,7 +186,7 @@ echo $r;
 
 ?>
 
-<?
+<?php
 
 html_page_stop();
 ?>

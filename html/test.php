@@ -11,7 +11,7 @@ h2.error {
 }
 -->
 </style>
-<?php
+<?phpphp
 /*
  *   This file is part of PhpCompta.
  *

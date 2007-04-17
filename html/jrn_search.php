@@ -1,4 +1,4 @@
-<?
+<?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -107,7 +107,7 @@ if ( $User->admin != 1 ) {
 }
 ?>
 <div style="font-size:11px;">
-<?
+<?php
 echo '<FORM ACTION="jrn_search.php" METHOD="GET">';
 echo '<TABLE>';
 echo '<TR>';
@@ -130,7 +130,7 @@ echo '<TD> <INPUT TYPE="text" name="p_comment" VALUE="'.$p_comment.'"></TD>';
 ?>
 </TR><TR>
 <TD> Code interne </TD><TD>comme </TD>
-<?
+<?php
 echo '<TD> <INPUT TYPE="text" name="p_internal" VALUE="'.$p_internal.'"></TD>';
 echo "</TR>";
 
@@ -234,6 +234,6 @@ if ( isset ($_GET["search"]) ) {
 }// if $_POST [search]
 ?>
 </div>
-<?
+<?php
 html_page_stop();
 ?>

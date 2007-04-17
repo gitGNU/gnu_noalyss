@@ -1,4 +1,4 @@
-<?
+<?php
 /*
  *   This file is part of PHPCOMPTA
  *
@@ -86,7 +86,7 @@ if ( isset($_POST['add_fiche'])) {
 
     window.close();
 </SCRIPT>
-<?
+<?php
     return;
 }
 // Prob : ajout de fiche mais si plusieur cat possible ???

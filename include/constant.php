@@ -1,4 +1,4 @@
-<?
+<?php  
 /*
  *   This file is part of PhpCompta.
  *
@@ -209,7 +209,7 @@ function ChangeTVA(p_ctl,p_value) {
 // Sql string
 define ("SQL_LIST_ALL_INVOICE","");
 
-define ("SQL_LIST_UNPAID_INVOICE"," where (jr_rapt is null or jr_rapt = '') and jr_valid = true "); 
+define ("SQL_LIST_UNPAID_INVOICE"," where (jr_rapt is null or jr_rapt = '') and jr_valid = true"); 
 
 
 define ("SQL_LIST_UNPAID_INVOICE_DATE_LIMIT" ," 

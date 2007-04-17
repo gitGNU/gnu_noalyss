@@ -1,4 +1,4 @@
-<?
+<?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -165,7 +165,7 @@ echo '</SELECT>';
 echo '</TD>';
 echo '</TR>';
 ?>
-<?
+<?php
 // Get all the fiches
 echo '<tr> <td colspan="2"><H2 class="info"> Fiches </H2></TD></TR>';
 $Res=ExecSql($cn,"select fd_id,fd_label from fiche_def order by fd_label");
@@ -188,7 +188,7 @@ for ($i=0;$i<$num;$i++) {
 }
 ?>
 <TR><TD><INPUT TYPE="SUBMIT" VALUE="Sauve"></TD><TD><INPUT TYPE="RESET" VALUE="Reset"></TD></TR>
-<?
+<?php
 echo '</TABLE>';
 echo '</FORM>';
 echo "</DIV>";

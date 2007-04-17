@@ -1,4 +1,4 @@
-<?
+<?php  
 /*
  *   This file is part of PhpCompta.
  *
@@ -121,7 +121,7 @@ if ( isset ($_POST["DATABASE"]) ) {
 ?>
    <h2> Dossier Management</h2>
 
-<?
+<?php  
       
       $cn=DbConnect();
     $offset=(isset($_REQUEST['offset']))?$_REQUEST['offset']:0;
@@ -182,7 +182,7 @@ if ( $count == 0 ) {
 // Add a new folder
 ?>
 </TABLE>
-    <? echo jrn_navigation_bar($offset,$count,$size,$page); ?>
+    <?php   echo jrn_navigation_bar($offset,$count,$size,$page); ?>
  <FORM ACTION="admin_repo.php?action=dossier_mgt" METHOD="POST">
     <TABLE>
     <TR>
@@ -190,10 +190,10 @@ if ( $count == 0 ) {
     </TR><TR>
     <TD> Description</td><td>  <TEXTAREA COLS="60" ROWS="2" NAME="DESCRIPTION" ></TEXTAREA> </TD>
     </TR>
-    <TR> <TD> Modèle</td><td>  <? echo $template; ?> </TD></TR>
+    <TR> <TD> Modèle</td><td>  <?php   echo $template; ?> </TD></TR>
 <TR><TD>Nettoyage des Documents et courriers (ce qui  n'effacera pas les modèles de documents)</TD><TD> <input type="checkbox" name="DOC"></TD></TR>
 <TR><TD>Nettoyage de toutes les fiches (ce qui effacera client, fournisseurs et documents)</TD><TD> <input type="checkbox" name="CARD"></TD></TR>
-<TR><TD>Année </TD><TD><input type="text" size=4 name="YEAR" value=<?echo '"'.$m_date.'"'; ?>></TD></TR>
+<TR><TD>Année </TD><TD><input type="text" size=4 name="YEAR" value=<?php  echo '"'.$m_date.'"'; ?>></TD></TR>
     <TR>
     <TD> <INPUT TYPE=SUBMIT VALUE="Creation Dossier"></TD>
     </TR>

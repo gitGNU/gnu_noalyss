@@ -1,4 +1,4 @@
-<?
+<?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -76,21 +76,21 @@ Voulez-vous vraiment annuler  cette information soit par une remise à z&eacute;r
 soit par son &eacute;criture inverse ?
 </p>
 <span>
-<FORM METHOD="POST" ACTION="annulation.php?p_jrn=<?echo $_GET['p_jrn'];?>&jrn_op=<?echo $_GET['jrn_op'];?>">
+<FORM METHOD="POST" ACTION="annulation.php?p_jrn=<?php echo $_GET['p_jrn'];?>&jrn_op=<?php echo $_GET['jrn_op'];?>">
 <INPUT TYPE="HIDDEN" NAME="annul">
-<INPUT TYPE="HIDDEN" NAME="p_id" value="<? echo $_POST['p_id']; ?>">
-<INPUT TYPE="HIDDEN" NAME="op_date" value="<? echo $_POST['op_date']; ?>">
+<INPUT TYPE="HIDDEN" NAME="p_id" value="<?php echo $_POST['p_id']; ?>">
+<INPUT TYPE="HIDDEN" NAME="op_date" value="<?php echo $_POST['op_date']; ?>">
 <INPUT TYPE="SUBMIT" NAME="confirm" value="Oui"> 
 </FORM>
 
 <FORM METHOD="GET" ACTION="annulation.php">
-<INPUT TYPE="HIDDEN" NAME="p_jrn" value="<? echo $_REQUEST['p_jrn']; ?>">
-<INPUT TYPE="HIDDEN" NAME="p_id" value="<? echo $_REQUEST['p_id']; ?>">
-<INPUT TYPE="HIDDEN" NAME="jrn_op" value="<? echo $_REQUEST['jrn_op']; ?>">
+<INPUT TYPE="HIDDEN" NAME="p_jrn" value="<?php echo $_REQUEST['p_jrn']; ?>">
+<INPUT TYPE="HIDDEN" NAME="p_id" value="<?php echo $_REQUEST['p_id']; ?>">
+<INPUT TYPE="HIDDEN" NAME="jrn_op" value="<?php echo $_REQUEST['jrn_op']; ?>">
 <INPUT TYPE="SUBMIT" NAME="not_confirm" value="non">
 </form>
 </span>
-<?
+<?php
 return;
 } // end confirm
 
@@ -194,7 +194,7 @@ if  ($p_id != -1 ) { // A
     window.close();
 self.opener.RefreshMe();
 </script>
-    <?
+    <?php
 	    
     } else {
 	// operation is not in a closed period
@@ -228,7 +228,7 @@ self.opener.RefreshMe();
 	     window.close();
 	self.opener.RefreshMe();
 	</script>
-	    <?
+	    <?php
 	    
 	    }// if isValid
     } // else if period is closed

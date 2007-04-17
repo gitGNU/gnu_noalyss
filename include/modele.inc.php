@@ -1,4 +1,4 @@
-<?
+<?php  
 /*
  *   This file is part of PhpCompta.
  *
@@ -141,7 +141,7 @@ echo  JS_CONFIRM;
 </TR>
 <TR>
     <TD> Basé sur </TD>
-    <TD> <? echo $available ?></TD>
+    <TD> <?php   echo $available ?></TD>
 </TR>
 <TR>
     <td colspan="2"> <INPUT TYPE="SUBMIT" VALUE="Add a template"></TD>

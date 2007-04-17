@@ -1,4 +1,4 @@
-<?
+<?php  
 /*
  *   This file is part of PhpCompta.
  *
@@ -153,7 +153,7 @@ if ( $action == 'voir_jrn' ) {
 
 <form method= "get" action="user_jrn.php">
 
-<?
+<?php  
 $hid=new widget("hidden");
 
 $hid->name="p_jrn";
@@ -183,7 +183,7 @@ $w->selected=$current;
 echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit','Valider');
 ?>
 </form>
-<?
+<?php  
     if ( $current == -1) {
       $cond=" and jr_tech_per in (select p_id from parm_periode where p_exercice='".$User->getExercice()."')";
     } else {

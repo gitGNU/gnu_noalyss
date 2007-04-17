@@ -1,4 +1,4 @@
-<?
+<?php  
 /*
  *   This file is part of PhpCompta.
  *
@@ -30,7 +30,7 @@ if ( isset ($_POST['spass']) ) {
 <script>
    alert("Les mots de passe ne correspondent pas. Mot de passe inchangé");
 </script>
-<?
+<?php  
     }
     else {
       $l_pass=md5($_POST['pass_1']);
@@ -45,14 +45,14 @@ $url=$_SERVER['REQUEST_URI'];
 ?>
 <H2 CLASS="info"> Password</H2>
 
-<FORM ACTION="<?echo $url;?>" METHOD="POST">
+<FORM ACTION="<?php  echo $url;?>" METHOD="POST">
 <TABLE ALIGN="CENTER">
 <TR><TD><input type="password" name="pass_1"></TD></TR>
 <TR><TD><input type="password" name="pass_2"></TD></TR>
 <TR><TD><input type="submit" name="spass" value="Change mot de passe"></TD></TR>
 </TABLE>
 </FORM>
-<?
+<?php  
 $Rep=DbConnect();
 
 // charge tous les styles
@@ -74,11 +74,11 @@ foreach ($style as $st){
 $disp_style.="</SELECT>";
 ?>
 <H2 class="info">Thème</H2>
-<FORM ACTION="<? echo $url; ?>" METHOD="post">
+<FORM ACTION="<?php   echo $url; ?>" METHOD="post">
 <TABLE ALIGN="center">
 <TR>
    <TD> Style </TD>
-   <TD> <? print $disp_style;?> </TD>
+   <TD> <?php   print $disp_style;?> </TD>
 </TR>
 <TR>
    <td colspan=2> <INPUT TYPE="submit" Value="Sauve"></TD>
@@ -86,7 +86,7 @@ $disp_style.="</SELECT>";
 </TABLE>
 </FORM>
 
-<?
+<?php  
 
 // Si utilise un dossier alors propose de changer
 // la periode par defaut
@@ -113,17 +113,17 @@ if ( isset ($_SESSION['g_dossier']) ) {
 
 ?>
 <H2 CLASS="info"> Période</H2>
-  <? echo $msg; ?>
-<FORM ACTION="<? echo $url;?>" METHOD="POST">
+  <?php   echo $msg; ?>
+<FORM ACTION="<?php   echo $url;?>" METHOD="POST">
 <TABLE ALIGN="CENTER">
 <TR><TD>PERIODE</TD>
-<?    printf('<TD> %s </TD></TR>',$l_form_per); ?>
+<?php      printf('<TD> %s </TD></TR>',$l_form_per); ?>
 <TR><TD><input type="submit" name="sub_periode" value="Sauve"></TD></TR>
 </TABLE>
 </FORM>
 
 <H2 CLASS="info"> Taille des pages</H2>
-<FORM ACTION="<? echo $url;?>" METHOD="POST">
+<FORM ACTION="<?php   echo $url;?>" METHOD="POST">
 <TABLE ALIGN="CENTER">
 <TR><TD>Taille des pages</TD>
 <TD>
@@ -135,7 +135,7 @@ if ( isset ($_SESSION['g_dossier']) ) {
 <option value="150">150
 <option value="200">200
 <option value="-1">Illimité
-<?
+<?php  
 	$label=($_SESSION['g_pagesize'] == -1)?'Illimité':$_SESSION['g_pagesize'];
 	echo '<option value="'.$_SESSION['g_pagesize'].'" selected>'.$label;
 ?>
@@ -146,7 +146,7 @@ if ( isset ($_SESSION['g_dossier']) ) {
 </FORM>
 
 
-<?
+<?php  
 }
      
 echo "</DIV>";

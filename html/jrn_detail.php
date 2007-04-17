@@ -1,4 +1,4 @@
-<?
+<?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -188,7 +188,7 @@ echo "<TR><TD> Code </TD><TD>".$l_line['jrn_def_code']."</TD></TR>";
 
 ?>
 
-<?
+<?php
 
 echo '</TABLE>';
 // Get all the fiches
@@ -234,7 +234,7 @@ for ($i=0;$i<$num;$i++) {
 ?>
 
 <TABLE><TR><TD><INPUT TYPE="SUBMIT" VALUE="Sauve"></TD><TD><INPUT TYPE="RESET" VALUE="Reset"></TD></TR></TABLE>
-<?
+<?php
 echo '</FORM>';
 echo "</DIV>";
 html_page_stop();

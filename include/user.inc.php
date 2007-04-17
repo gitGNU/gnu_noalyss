@@ -1,4 +1,4 @@
-<?
+<?php  
 /*
  *   This file is part of PhpCompta.
  *
@@ -42,7 +42,7 @@ $compteur=0;
 ?>
 <h2>Gestion Utilisateurs</h2>
 <TABLE><TR>
-<?
+<?php  
     if ( $cn != null ) {
       foreach ( $cn as $rUser) {
 	$compteur++;
@@ -66,7 +66,7 @@ $compteur=0;
 <TABLE> <TR> 
 <form action="admin_repo.php?action=user_mgt" method="POST">
 <TD><H3>Ajout d'utilisateur<H3></TD></TR>
-<? //'
+<?php   //'
     echo '<TR><TD> First Name </TD><TD><INPUT TYPE="TEXT" NAME="FNAME"></TD>';
     echo '<TD> Last Name </TD><TD><INPUT TYPE="TEXT" NAME="LNAME"></TD></TR>';
     echo '<TR><TD> login </TD><TD><INPUT TYPE="TEXT" NAME="LOGIN"></TD>';

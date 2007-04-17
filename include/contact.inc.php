@@ -1,4 +1,4 @@
-<?
+<?php  
 /*
  *   This file is part of PhpCompta.
  *
@@ -111,7 +111,7 @@ if ( $sub_action == "list" )
 <div class="u_content">
 <span>
 <form method="get" action="commercial.php">
-<?
+<?php  
    $a=(isset($_GET['query']))?$_GET['query']:"";
    printf ('<input type="text" name="query" value="%s">',
 	   $a);
@@ -122,10 +122,10 @@ if ( $sub_action == "list" )
 </span>
 <span>
 <form method="get" action="commercial.php">
-<input type="hidden" name="url" <?      $url=urlencode($_SERVER['REQUEST_URI']);echo 'value="'.$url.'"'; ?>
+<input type="hidden" name="url" <?php        $url=urlencode($_SERVER['REQUEST_URI']);echo 'value="'.$url.'"'; ?>
 <input type="hidden" name="p_action" value="contact">
 
-<?
+<?php  
  $w=new widget("select");
  $w->name="fd_id";
  $w->value= make_array($cn,"select fd_id,fd_label from fiche_def where ".
@@ -146,7 +146,7 @@ if ( $sub_action == "list" )
 </span>
 
 <form>
-<?
+<?php  
    $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
  echo JS_SEARCH_CARD;
  $w=new widget('js_search_only');
@@ -164,7 +164,7 @@ if ( $sub_action == "list" )
 <input type="hidden" name="p_action" value="contact">
 
 </FORM>
-<?
+<?php  
    $contact=new Contact($cn);
  $search=(isset($_GET['query']))?$_GET['query']:"";
  // check if a company is asked if yes, add a condition

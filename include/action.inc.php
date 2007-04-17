@@ -1,4 +1,4 @@
-<?
+<?php  
 /*
  *   This file is part of PhpCompta.
  *
@@ -43,7 +43,7 @@ function ShowActionList($cn,$retour,$h_url)
 <div>
 <span style="position:float;float:left">
 <form method="get" action="commercial.php">
-<?
+<?php  
    $a=(isset($_GET['query']))?$_GET['query']:"";
    printf ('<span>Titre ou référence: <input type="text" name="query" value="%s"></span>',
 	   $a);
@@ -67,22 +67,22 @@ function ShowActionList($cn,$retour,$h_url)
 </form>
 </span>
 
-<?
+<?php  
 ?>
 <br>
 <form  style="position:float;float:left" method="get" action="commercial.php">
 <input type="submit" name="submit_query" value="Ajout Action">
 <input type="hidden" name="p_action" value="suivi_courrier">
 <input type="hidden" name="sa" value="add_action">
-<!--    <input type="hidden" name="qcode_dest" value=<? echo '"'.$qcode_dest.'"';?> -->
-   <? // if called from another menu, url is set
+<!--    <input type="hidden" name="qcode_dest" value=<?php   echo '"'.$qcode_dest.'"';?> -->
+   <?php   // if called from another menu, url is set
    echo $h_url;
    echo $retour; ?>
 </form>
 </div>
 <div class="u_content">
 
-<?
+<?php  
     // show the  action in 
     $act=new action($cn);
    /*! \brief

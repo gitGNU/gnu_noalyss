@@ -31,7 +31,7 @@ h2.error {
 <p align="center">
   <IMG SRC="../image/logo7.jpg" alt="Logo">
 </p>
-<?
+<?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -171,9 +171,9 @@ function ExecuteScript($p_cn,$script) {
 
 ?>
 <h2>Info</h2>
-Vous utilisez le domaine <? echo domaine; ?>
+Vous utilisez le domaine <?php echo domaine; ?>
 <h2>Php setting</h2>
-<?
+<?php
 
 $flag_php=0;
 foreach (array('magic_quotes_gpc','magic_quotes_runtime') as $a) {
@@ -224,7 +224,7 @@ puis la base de données par défaut de phpcompta.</p>";
  }
 ?>
 <h2>Database version </h2>
-<?
+<?php
  // Verify Psql version
  //--
 $sql="select setting from pg_settings where name='server_version'";
@@ -240,12 +240,12 @@ if ( $version[0]  != '8' ) {
 offre pas, installez en une en la compilant. </p><p>Lisez attentivement la notice sur postgresql.org pour migrer
 vos bases de données en 8
 </p>
-<? exit(); //'
+<?php exit(); //'
 }
 
 ?>
 <h2>Database Setting</h2> 
-<?
+<?php
 // Language plsql is installed 
 //--
 $sql="select lanname from pg_language where lanname='plpgsql'";
@@ -256,7 +256,7 @@ if ( $Res==0) { ?>
 createlang plpgsql pour chaque base de données que vous possédez (y compris template0 et template1).
 </p>
 <p>Pour afficher toutes les bases de données, tapez sur la ligne de commande "psql -l"</p>
-<? exit(); }
+<?php exit(); }
 
 // Memory setting
 //--
@@ -303,7 +303,7 @@ if ( ! isset($_POST['go']) ) {
 <FORM action="setup.php" METHOD="post">
 <input type="submit" name="go" value="Prêt à commencer la mise à jour ou l'installation?">
 </form>
-<?
+<?php
 }
 if ( ! isset($_POST['go']) )
 	exit();

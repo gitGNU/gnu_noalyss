@@ -1,4 +1,4 @@
-<?
+<?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -159,7 +159,7 @@ $MaxRow=pg_NumRows($Ret);
 <INPUT TYPE="SUBMIT" Value="Add" Name="Add">
 </TD>
 </TR>
-<?
+<?php
 for ($i=0; $i <$MaxRow; $i++) {
   $A=pg_fetch_array($Ret,$i);
 

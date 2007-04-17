@@ -1,4 +1,4 @@
-<?
+<?php  
 /*
  *   This file is part of PhpCompta.
  *
@@ -28,7 +28,7 @@ $User->AccessRequest($cn,CLIENT);
 
 ?>
 
-<?
+<?php  
 // Menu
 // Remove a card
 if ( isset ($_POST['delete']) ) 
@@ -102,7 +102,7 @@ if ( $sub_action == "list" )
 <div class="u_content">
 <span>
 <form method="get" action="commercial.php">
-<?
+<?php  
    $a=(isset($_GET['query']))?$_GET['query']:"";
    printf ('<input type="text" name="query" value="%s">',
 	   $a);
@@ -113,10 +113,10 @@ if ( $sub_action == "list" )
 </span>
 <span>
 <form method="get" action="commercial.php">
-<input type="hidden" name="url" <?      $url=urlencode($_SERVER['REQUEST_URI']);echo 'value="'.$url.'"'; ?>
+<input type="hidden" name="url" <?php        $url=urlencode($_SERVER['REQUEST_URI']);echo 'value="'.$url.'"'; ?>
 <input type="hidden" name="p_action" value="client">
 
-<?
+<?php  
  $w=new widget("select");
  $w->name="fd_id";
  $w->value= make_array($cn,"select fd_id,fd_label from fiche_def where ".
@@ -128,7 +128,7 @@ if ( $sub_action == "list" )
 
 </form>
 </span>
-<?
+<?php  
    $client=new Customer($cn);
  $search=(isset($_GET['query']))?$_GET['query']:"";
 

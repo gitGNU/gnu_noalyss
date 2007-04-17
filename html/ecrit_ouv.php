@@ -1,4 +1,4 @@
-<?
+<?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -85,7 +85,7 @@ if ( isset ($_GET['import'])) {
   if ( ! isset ($_REQUEST['p_submit']) ) {
 ?>
 <FORM NAME="form_detail" enctype="multipart/form-data" ACTION="ecrit_ouv.php?import" METHOD="POST">
-<?
+<?php
   // TODO propose  ODS ledger 
   $ods=make_array($cn,"select jrn_def_id,jrn_def_name from jrn_def where jrn_def_type = 'OD'");
   $x=new widget("select");
@@ -100,7 +100,7 @@ if ( isset ($_GET['import'])) {
   echo $w->Submit('p_submit','Charger le fichier');
 ?>
 </FORM>
-<?
+<?php
 	exit(0);
   } else { 
     require_once("user_form_ods.php");

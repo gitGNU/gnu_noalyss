@@ -1,4 +1,4 @@
-<?
+<?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -24,7 +24,7 @@
 ?>
 <h2> ERREUR MAUVAIS APPEL </H2>
 
-<?
+<?php
 exit();
 include_once ("ac_common.php");
 require_once('class_fiche.php');
