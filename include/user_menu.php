@@ -495,7 +495,7 @@ $left_menu=ShowItem(array(
 			  array('user_advanced.php?p_action=periode','Periode'),
 			  array('central.php','Centralise'),
 			  array('pcmn_update.php?p_start=1','Plan Comptable'),
-			  array('stock.php','Stock'),
+			  array('compta.php?p_action=stock','Stock'),
 			  array('form.php','Rapport'),
 			  array('import.php','Import Banque'),
 			  array('ecrit_ouv.php','Ecriture ouverture')

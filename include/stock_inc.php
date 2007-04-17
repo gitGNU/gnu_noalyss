@@ -147,11 +147,12 @@ $sql="select distinct f_id,av_text
 function ViewDetailStock($p_cn,$p_sg_code,$p_year) {
 $sql="select sg_code,
              j_montant,
-             j_date,
+             coalesce(j_date,sg_date) as j_date,
              sg_quantity,
              sg_type,
-             jr_comment,
-             jr_internal,
+             jr_id,
+             coalesce(jr_comment,sg_comment) as comment,
+             coalesce(jr_internal,'Changement manuel') as jr_internal,
              jr_id,
         case when sg_date is not null then sg_date else j_date end as stock_date
       from stock_goods
@@ -159,8 +160,8 @@ $sql="select sg_code,
       left outer join jrn on jr_grpt_id=j_grpt
            where 
       sg_code='$p_sg_code' and (
-          to_char(sg_date,'YYYY') = '$p_year'
-       or to_char(j_date,'YYYY') = '$p_year'
+          sg_exercice = '$p_year'
+       or j_tech_per in (select p_id from parm_periode where p_exercice='$p_year')
        )
       order by stock_date
  " ;
@@ -188,6 +189,7 @@ $sql="select sg_code,
   $r.="<th>Entrée / Sortie </th>";
   $r.="<th></th>";
   $r.="<th>Description</th>";
+  $r.="<th>Op&eacute;ration</th>";
   $r.="<th>Montant</th>";
   $r.="<th>Quantité</th>";
   $r.="<th>Prix/Cout Unitaire</th>";
@@ -211,12 +213,17 @@ $sql="select sg_code,
 
     // jr_internal
     $r.="<TD>";
+    if ( $l['jr_id'] != "")
+      $r.= "<A class=\"detail\" HREF=\"javascript:modifyOperation('".$l['jr_id']."','".$_REQUEST['PHPSESSID']."')\" > ".$l['jr_internal']."</A>";
+    else 
+      $r.=$l['jr_internal'];
+
     $r.="</TD>";
 
 
     // comment
     $r.="<TD>";
-    $r.=$l['jr_comment'];
+    $r.=$l['comment'];
     $r.="</TD>";
 
     //amount
@@ -233,7 +240,7 @@ $sql="select sg_code,
     $r.="<TD>";
     $up="";
     if ( $l['sg_quantity'] != 0 )
-      $up=$l['j_montant']/$l['sg_quantity'];
+      $up=round($l['j_montant']/$l['sg_quantity'],4);
     $r.=$up;
     $r.="</TD>";
 
@@ -261,6 +268,7 @@ $sg_date=date("d.m.Y");
 $r='
 <input type="text" name="stock_change" value="0">
 <input type="hidden" name="sg_code" value="'.$p_sg_code.'">
+<input type="text" name="comment" value="">
 <input type="text" name="sg_date" value="'.$sg_date.'">
 <input type="hidden" name="year" value="'.$p_year.'">
 <br>

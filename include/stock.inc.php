@@ -57,37 +57,61 @@ if ( $User->admin == 0 ) {
 
 }
 
+$href=basename($_SERVER['PHP_SELF']);
+if ($href=='compta.php')
+{
+  //Show the top menu
+  include_once ("user_menu.php");
+  
+  //  echo ShowMenuCompta($_SESSION['g_dossier'],"user_advanced.php");
+  
+  // Show Menu Left
+  $left_menu=ShowMenuAdvanced("stock.php");
+  //echo '<div class="lmenu">';
+  echo $left_menu;
+}
 
 $action= ( isset ($_GET['action']))? $_GET['action']:"";
 include_once("stock_inc.php");
 
 // Adjust the stock
-if ( isset ($_POST['sub_change'])) {
+if ( isset ($_POST['sub_change'])) 
+{
   $change=$_POST['stock_change'];
   $sg_code=$_POST['sg_code'];
   $sg_date=$_POST['sg_date'];
+  $year=$_POST['year'];
+  $comment=$_POST['comment'];
+
   if ( isDate($sg_date) == null 
-       or isNumber($change) == 0 ) {
-    $msg="Stock données non conformes";
-    echo "<script> alert('$msg');</script>";
-    echo_error($msg);
-  } else {
-    // Check if User Can change the stock 
-    if ( CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],STOCK_WRITE) == 0 ) {
-      NoAccess();
-      exit (-1);
+       or isNumber($change) == 0 
+       or isNumber($year) == 0 ) 
+    {
+      $msg="Stock données non conformes";
+      echo "<script> alert('$msg');</script>";
+      echo_error($msg);
+    } else 
+      {
+	// Check if User Can change the stock 
+	if ( CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],STOCK_WRITE) == 0 ) {
+	  NoAccess();
+	  exit (-1);
     }
 
     // if neg the stock decrease => credit
     $type=( $change < 0 )?'c':'d';
     if ( $change != 0)
-      $Res=ExecSql($cn,"insert into stock_goods
+      {
+	$comment=FormatString($comment);
+	$Res=ExecSql($cn,"insert into stock_goods
                      (  j_id,
                         f_id, 
                         sg_code,
                         sg_quantity,
                         sg_type,
                         sg_date,
+                        sg_exercice,
+                        sg_comment,
                          sg_tech_user)
                     values (
                         null,
@@ -96,8 +120,11 @@ if ( isset ($_POST['sub_change'])) {
                         abs($change),
                         '$type',
                         to_date('$sg_date','DD.MM.YYYY'),
+                        '$year',
+                        '$comment',
                         '".$_SESSION['g_user']."');
                      ");
+      }
   // to update the view
   $action="detail";
   }
@@ -130,11 +157,11 @@ if ( $action == 'detail' ) {
   $b=ChangeStock($sg_code,$year);
     echo '<div class="u_redcontent">' ;
     echo $a;
-    echo 'Entrer la valeur qui doit augmenter ou diminuer le stock, attention ne pas utiliser de d&eacute;cimales';
-    echo '<form action="stock.php" method="POST">';
+    echo 'Entrer la valeur qui doit augmenter ou diminuer le stock';
+    echo '<form action="?p_action=stock" method="POST">';
     echo $b;
     echo '<input type="submit" name="sub_change" value="Ok">';
-    echo '<A class="mtitle" HREF="?"><INPUT TYPE="BUTTON" value="Retour"</A>';
+    echo '<A class="mtitle" HREF="?p_action=stock"><INPUT TYPE="BUTTON" value="Retour"</A>';
 
     echo '</form>';
     echo '</div>';

@@ -56,6 +56,9 @@ if ( $action == 'fiche') {
   require_once('fiche.inc.php');
 }
 
+if ( $action == 'stock') {
+  require_once('stock.inc.php');
+}
 
 html_page_stop();
 ?>
