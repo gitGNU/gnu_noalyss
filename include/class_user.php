@@ -107,11 +107,13 @@ class cl_user {
 	      $_SESSION['use_admin']=$r['use_admin'];
 	      $_SESSION['use_name']=$r['use_name'];
 	      $_SESSION['use_first_name']=$r['use_first_name'];
+	      $_SESSION['isValid']=1;
 	      
 	      $this->admin=$_SESSION['use_admin'];
 	      $this->name=$_SESSION['use_name'];
 	      $this->first_name=$_SESSION['use_first_name'];
 	      $this->GetGlobalPref();
+
 
 	    }
 	  }
