@@ -110,7 +110,7 @@ class Document
 	  echo_debug('class_document',__LINE__,'Unzip the OOo');
 	  echo '<span id="gen_msg">';
 	  echo '<blink><font color="red">Un moment de patience, le document se prépare...</font></blink>';
-	  echo '</span>';
+	  echo '</span><br>';
 	  ob_start();
 	  system("unzip ".$filename);
 	  // Remove the file we do  not need anymore
@@ -135,8 +135,13 @@ class Document
 	  ob_start();
 	  system ("zip -r ".$filename." *");
 	  ob_end_clean();
-	  echo "le document est prêt  ";
+	  echo "  ";
+?>
+<script language="javascript1.2">
+	this.document.getElementById('gen_msg').innerHTML='<font color="green">le document est prêt</color>';
+</script>
 
+<?php
 	  $file_to_parse=$filename;
 	}
       // Create a directory 
