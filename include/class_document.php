@@ -137,7 +137,7 @@ class Document
 	  ob_end_clean();
 	  echo "  ";
 ?>
-<script language="javascript1.2">
+<script language="javascript">
 	this.document.getElementById('gen_msg').innerHTML='<font color="green">le document est prêt</color>';
 </script>
 
