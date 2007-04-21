@@ -1,0 +1,6 @@
+for i in account_repository dossier1 mod1 mod2;do
+echo "In the folder $i"
+cd $i
+./make-sql
+cd ..
+done

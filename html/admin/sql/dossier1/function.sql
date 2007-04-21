@@ -30,21 +30,27 @@ $$
 CREATE FUNCTION account_compute(p_f_id integer) RETURNS poste_comptable
     AS $$
 declare
-	class_base poste_comptable;
-	maxcode int8;
+        class_base poste_comptable;
+        maxcode poste_comptable;
 begin
-	select fd_class_base into class_base 
-	from
-		fiche_def join fiche using (fd_id)
-	where 
-		f_id=p_f_id;
-	raise notice 'class base %',class_base;
-	select max(pcm_val) into maxcode from tmp_pcmn where pcm_val = class_base;
-	if maxcode = class_base then
-		maxcode=class_base*1000+1;
-	end if;
-	raise notice 'Max code %',maxcode;
-return maxcode+1;
+        select fd_class_base into class_base
+        from
+                fiche_def join fiche using (fd_id)
+        where
+                f_id=p_f_id;
+        raise notice 'account_compute class base %',class_base;
+        select count (pcm_val) into maxcode from tmp_pcmn where pcm_val_parent = class_base;
+        if maxcode = 0  then
+                maxcode:=class_base;
+        else
+                select max (pcm_val) into maxcode from tmp_pcmn where pcm_val_parent = class_base;
+        end if;
+        if maxcode = class_base then
+                maxcode:=class_base*1000;
+        end if;
+        maxcode:=maxcode+1;
+        raise notice 'account_compute Max code %',maxcode;
+        return maxcode;
 end;
 $$
     LANGUAGE plpgsql;
@@ -60,34 +66,45 @@ nCount integer;
 begin
 	
 	if length(trim(p_account)) != 0 then
+	raise notice 'p_account is not empty';
 		select *  into nCount from tmp_pcmn where pcm_val=p_account;
 		if nCount !=0  then
+			raise notice 'this account exists in tmp_pcmn ';
+			perform attribut_insert(p_f_id,5,to_char(p_account,'999999999999999999999999'));
+                   else 
 			select av_text into sName from 
 				attr_value join jnt_fic_att_value using (jft_id)
 			where	
 			ad_id=1 and f_id=p_f_id;
 			nParent:=account_parent(p_account);
-			insert into tmp_pcmn(pcm_val,pcm_lib,pcm_val_parent) 
-				values (p_account,sName,nParent);
-			attribut_insert(p_f_id,5,to_char(nNew,'999999999999'));
+			insert into tmp_pcmn(pcm_val,pcm_lib,pcm_val_parent) values (p_account,sName,nParent);
+			perform attribut_insert(p_f_id,5,to_char(p_account,'999999999999999999999999'));
 	
 		end if;		
 	else 
+	raise notice 'p_account is  empty';
 		select fd_id into nFd_id from fiche where f_id=p_f_id;
 		bAuto:= account_auto(nFd_id);
 		if bAuto = true then
+			raise notice 'account generated automatically';
 			nNew:=account_compute(p_f_id);
-raise debug 'nNew %', nNew;
+			raise notice 'nNew %', nNew;
 			select av_text into sName from 
 			attr_value join jnt_fic_att_value using (jft_id)
 			where
 			ad_id=1 and f_id=p_f_id;
 			nParent:=account_parent(nNew);
 			perform account_add  (nNew,sName);
-			perform attribut_insert(p_f_id,5,to_char(nNew,'999999999999'));
+			perform attribut_insert(p_f_id,5,to_char(nNew,'999999999999999999999999'));
 	
 		else 
-			 perform attribut_insert(p_f_id,5,null);
+ 	              select fd_class_base into nNew from fiche_def join fiche using (fd_id) where f_id=p_f_id;
+			if nNew is null or length(trim(nNew)) = 0 then	 
+				raise notice 'count is null';
+				 perform attribut_insert(p_f_id,5,null);
+			else
+				 perform attribut_insert(p_f_id,5,to_char(nNew,'999999999999999999999999'));
+			end if;
 		end if;
 	end if;
 		
@@ -118,6 +135,7 @@ begin
 			raise exception 'Impossible de trouver le compte parent pour %',p_account;
 		end if;
 	end loop;
+	raise notice 'account_parent : Parent is %',nParent;
 	return nParent;
 end;
 $$
@@ -157,7 +175,7 @@ declare
 begin
 	select nextval('s_jnt_fic_att_value') into n_jft_id;
 	 insert into jnt_fic_att_value (jft_id,f_id,ad_id) values (n_jft_id,p_f_id,p_ad_id);
-	 insert into attr_value (jft_id,av_text) values (n_jft_id,p_value);
+	 insert into attr_value (jft_id,av_text) values (n_jft_id,trim(p_value));
 return;
 end;
 $$
@@ -167,13 +185,14 @@ CREATE FUNCTION card_class_base(p_f_id integer) RETURNS poste_comptable
 declare
 	n_poste fiche_def.fd_class_base%type;
 begin
-	select fd_class_base into n_poste from fiche_def join fiche using (fd_id)
+	select fd_class_base into n_poste from fiche_def join fiche using
+(fd_id)
 	where f_id=p_f_id;
 	if not FOUND then 
 		raise exception 'Invalid fiche card_class_base(%)',p_f_id;
 	end if;
-return;
-end;
+return n_poste;
+end; 
 $$
     LANGUAGE plpgsql;
 CREATE FUNCTION check_balance(p_grpt integer) RETURNS numeric
@@ -206,6 +225,46 @@ begin
 		return -1*abs(amount_jrn - amount_jrnx_credit);
 		end if;
 	return 0;
+end;
+$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION correct_sequence(p_sequence text, p_col text, p_table text) RETURNS integer
+    AS $$
+declare
+last_sequence int8;
+max_sequence int8;
+n integer;
+begin
+	select count(*) into n from pg_class where relkind='S' and relname=lower(p_sequence);
+	if n = 0 then
+		raise exception  ' Unknow sequence  % ',p_sequence;
+	end if;
+	select count(*) into n from pg_class where relkind='r' and relname=lower(p_table);
+	if n = 0 then
+		raise exception ' Unknow table  % ',p_table;
+	end if;
+	execute 'select last_value   from '||p_sequence into last_sequence;
+	raise notice 'Last value of the sequence is %', last_sequence;
+	execute 'select max('||p_col||')  from '||p_table into max_sequence;
+	if  max_sequence is null then
+		max_sequence := 0;
+	end if;
+	raise notice 'Max value of the sequence is %', max_sequence;
+	max_sequence:= max_sequence +1;	
+	execute 'alter sequence '||p_sequence||' restart with '||max_sequence;
+return 0;
+end;
+$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION drop_it(p_constraint character varying) RETURNS void
+    AS $$
+declare 
+	nCount integer;
+begin
+	select count(*) into nCount from pg_constraint where conname=p_constraint;
+	if nCount = 1 then
+	execute 'alter table parm_periode drop constraint '||p_constraint ;
+	end if;
 end;
 $$
     LANGUAGE plpgsql;
@@ -270,23 +329,23 @@ return;
 end;
 $$
     LANGUAGE plpgsql;
-CREATE FUNCTION insert_quant_sold(p_internal text, p_fiche character varying, p_quant integer, p_price numeric, p_vat numeric, p_vat_code integer, p_client character varying) RETURNS void
+CREATE FUNCTION insert_quant_sold(p_internal text, p_fiche character varying, p_quant numeric, p_price numeric, p_vat numeric, p_vat_code integer, p_client character varying) RETURNS void
     AS $$
-declare 
-	fid_client integer;
-	fid_good   integer;
+declare
+        fid_client integer;
+        fid_good   integer;
 begin
-	select f_id into fid_client from 
-		attr_value join jnt_fic_att_value using (jft_id) where ad_id=23 and av_text=p_client;
-	select f_id into fid_good from 
-		attr_value join jnt_fic_att_value using (jft_id) where ad_id=23 and av_text=p_fiche;
-	insert into quant_sold
-		(qs_internal,qs_fiche,qs_quantite,qs_price,qs_vat,qs_vat_code,qs_client) 
-	values
-		(p_internal,fid_good,p_quant,p_price,p_vat,p_vat_code,fid_client);
-	return;
-end;	
-$$
+        select f_id into fid_client from
+                attr_value join jnt_fic_att_value using (jft_id) where ad_id=23 and av_text=upper(p_client);
+        select f_id into fid_good from
+                attr_value join jnt_fic_att_value using (jft_id) where ad_id=23 and av_text=upper(p_fiche);
+        insert into quant_sold
+                (qs_internal,qs_fiche,qs_quantite,qs_price,qs_vat,qs_vat_code,qs_client)
+        values
+                (p_internal,fid_good,p_quant,p_price,p_vat,p_vat_code,fid_client);
+        return;
+end;
+ $$
     LANGUAGE plpgsql;
 CREATE FUNCTION insert_quick_code(nf_id integer, tav_text text) RETURNS integer
     AS $$
@@ -337,18 +396,28 @@ $$
     LANGUAGE plpgsql;
 CREATE FUNCTION t_document_type_insert() RETURNS "trigger"
     AS $$
+declare
+nCounter integer;
     BEGIN
+select count(*) into nCounter from pg_class where relname='seq_doc_type_'||NEW.dt_id;
+if nCounter = 0 then
         execute  'create sequence seq_doc_type_'||NEW.dt_id;
 raise notice 'Creating sequence seq_doc_type_%',NEW.dt_id;
+end if;
         RETURN NEW;
     END;
 $$
     LANGUAGE plpgsql;
 CREATE FUNCTION t_jrn_def_sequence() RETURNS "trigger"
     AS $$
+declare
+nCounter integer;
     BEGIN
+select count(*) into nCounter from pg_class where relname='seq_doc_type_'||NEW.jrn_def_id;
+if nCounter = 0 then
         execute  'create sequence s_jrn_'||NEW.jrn_def_id;
-raise notice 'Creating sequence s_jrn_%',NEW.jrn_def_id;
+	raise notice 'Creating sequence s_jrn_%',NEW.jrn_def_id;
+end if;
         RETURN NEW;
     END;
 $$
@@ -358,19 +427,13 @@ CREATE FUNCTION trim_cvs_quote() RETURNS "trigger"
 declare
         modified import_tmp%ROWTYPE;
 begin
-		modified.code=new.code;
-		modified.montant=new.montant;
-		modified.date_exec=new.date_exec;
-		modified.date_valeur=new.date_valeur;
-		modified.devise=replace(new.devise,'"','');
-		modified.poste_comptable=replace(new.poste_comptable,'"','');
+	modified:=NEW;
+	modified.devise=replace(new.devise,'"','');
+	modified.poste_comptable=replace(new.poste_comptable,'"','');
         modified.compte_ordre=replace(NEW.COMPTE_ORDRE,'"','');
         modified.detail=replace(NEW.DETAIL,'"','');
         modified.num_compte=replace(NEW.NUM_COMPTE,'"','');
-		modified.bq_account=NEW.bq_account;
-		modified.jrn=NEW.jrn;
-		modified.ok=new.ok;
-        return modified;
+	return modified;
 end;
 $$
     LANGUAGE plpgsql;
@@ -496,7 +559,7 @@ CREATE FUNCTION update_quick_code(njft_id integer, tav_text text) RETURNS intege
 		select count(*) into nExist 
 			from jnt_fic_att_value join attr_value using (jft_id) 
 		where 
-			ad_id=23 and av_text=upper(tText);
+			ad_id=23 and av_text=tText;
 		if nExist = 0 then
 			exit;
 		end if;	
@@ -507,6 +570,11 @@ CREATE FUNCTION update_quick_code(njft_id integer, tav_text text) RETURNS intege
 		
 	end loop;
 	update attr_value set av_text = tText where jft_id=njft_id;
+	update attr_value set av_text = tText 
+		where jft_id in 
+			( select jft_id 
+				from jnt_fic_att_value join attr_value using (jft_id) 
+			where ad_id=25 and av_text=old_qcode);
 	update jrnx set j_qcode=tText where j_qcode = old_qcode;
 	return ns;
 	end;

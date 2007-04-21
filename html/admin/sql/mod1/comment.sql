@@ -1,5 +1,7 @@
 -- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: postgres
 COMMENT ON SCHEMA public IS 'Standard public schema';
+-- Name: FUNCTION correct_sequence(p_sequence text, p_col text, p_table text); Type: COMMENT; Schema: public; Owner: phpcompta
+COMMENT ON FUNCTION correct_sequence(p_sequence text, p_col text, p_table text) IS ' Often the primary key is a sequence number and sometimes the value of the sequence is not synchronized with the primary key ( p_sequence : sequence name, p_col : col of the pk,p_table : concerned table';
 -- Name: TABLE "action"; Type: COMMENT; Schema: public; Owner: phpcompta
 COMMENT ON TABLE "action" IS 'The different privileges';
 -- Name: TABLE action_gestion; Type: COMMENT; Schema: public; Owner: phpcompta

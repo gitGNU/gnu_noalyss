@@ -1,88 +1,7 @@
-ALTER TABLE public."action" OWNER TO phpcompta;
-ALTER TABLE public.action_gestion OWNER TO phpcompta;
-ALTER TABLE public.attr_def OWNER TO phpcompta;
-ALTER TABLE public.attr_min OWNER TO phpcompta;
-ALTER TABLE public.attr_value OWNER TO phpcompta;
-ALTER TABLE public.centralized OWNER TO phpcompta;
-ALTER TABLE public.document OWNER TO phpcompta;
-ALTER TABLE public.document_modele OWNER TO phpcompta;
-ALTER TABLE public.document_seq OWNER TO phpcompta;
-ALTER TABLE public.document_state OWNER TO phpcompta;
-ALTER TABLE public.document_type OWNER TO phpcompta;
-ALTER TABLE public.fiche OWNER TO phpcompta;
-ALTER TABLE public.fiche_def OWNER TO phpcompta;
-ALTER TABLE public.fiche_def_ref OWNER TO phpcompta;
-ALTER TABLE public.form OWNER TO phpcompta;
-ALTER TABLE public.format_csv_banque OWNER TO phpcompta;
-ALTER TABLE public.formdef OWNER TO phpcompta;
-ALTER TABLE public.import_tmp OWNER TO phpcompta;
-ALTER TABLE public.invoice OWNER TO phpcompta;
-ALTER TABLE public.jnt_fic_att_value OWNER TO phpcompta;
-ALTER TABLE public.jnt_fic_attr OWNER TO phpcompta;
-ALTER TABLE public.jrn OWNER TO phpcompta;
-ALTER TABLE public.jrn_action OWNER TO phpcompta;
-ALTER TABLE public.jrn_def OWNER TO phpcompta;
-ALTER TABLE public.jrn_rapt OWNER TO phpcompta;
-ALTER TABLE public.jrn_type OWNER TO phpcompta;
-ALTER TABLE public.jrnx OWNER TO phpcompta;
-ALTER TABLE public.parameter OWNER TO phpcompta;
-ALTER TABLE public.parm_code OWNER TO phpcompta;
-ALTER TABLE public.parm_money OWNER TO phpcompta;
-ALTER TABLE public.parm_periode OWNER TO phpcompta;
-ALTER TABLE public.quant_sold OWNER TO phpcompta;
-ALTER TABLE public.s_attr_def OWNER TO phpcompta;
-ALTER TABLE public.s_central OWNER TO phpcompta;
-ALTER TABLE public.s_central_order OWNER TO phpcompta;
-ALTER TABLE public.s_centralized OWNER TO phpcompta;
-ALTER TABLE public.s_currency OWNER TO phpcompta;
-ALTER TABLE public.s_fdef OWNER TO phpcompta;
-ALTER TABLE public.s_fiche OWNER TO phpcompta;
-ALTER TABLE public.s_fiche_def_ref OWNER TO phpcompta;
-ALTER TABLE public.s_form OWNER TO phpcompta;
-ALTER TABLE public.s_formdef OWNER TO phpcompta;
-ALTER TABLE public.s_grpt OWNER TO phpcompta;
-ALTER TABLE public.s_idef OWNER TO phpcompta;
-ALTER TABLE public.s_internal OWNER TO phpcompta;
-ALTER TABLE public.s_invoice OWNER TO phpcompta;
-ALTER TABLE public.s_isup OWNER TO phpcompta;
-ALTER TABLE public.s_jnt_fic_att_value OWNER TO phpcompta;
-ALTER TABLE public.s_jrn OWNER TO phpcompta;
-ALTER TABLE public.s_jrn_1 OWNER TO phpcompta;
-ALTER TABLE public.s_jrn_2 OWNER TO phpcompta;
-ALTER TABLE public.s_jrn_3 OWNER TO phpcompta;
-ALTER TABLE public.s_jrn_4 OWNER TO phpcompta;
-ALTER TABLE public.s_jrn_def OWNER TO phpcompta;
-ALTER TABLE public.s_jrn_op OWNER TO phpcompta;
-ALTER TABLE public.s_jrn_rapt OWNER TO phpcompta;
-ALTER TABLE public.s_jrnaction OWNER TO phpcompta;
-ALTER TABLE public.s_jrnx OWNER TO phpcompta;
-ALTER TABLE public.s_periode OWNER TO phpcompta;
-ALTER TABLE public.s_quantity OWNER TO phpcompta;
-ALTER TABLE public.s_stock_goods OWNER TO phpcompta;
-ALTER TABLE public.s_user_act OWNER TO phpcompta;
-ALTER TABLE public.s_user_jrn OWNER TO phpcompta;
-ALTER TABLE public.seq_doc_type_1 OWNER TO phpcompta;
-ALTER TABLE public.seq_doc_type_2 OWNER TO phpcompta;
-ALTER TABLE public.seq_doc_type_3 OWNER TO phpcompta;
-ALTER TABLE public.seq_doc_type_4 OWNER TO phpcompta;
-ALTER TABLE public.seq_doc_type_5 OWNER TO phpcompta;
-ALTER TABLE public.seq_doc_type_6 OWNER TO phpcompta;
-ALTER TABLE public.seq_doc_type_7 OWNER TO phpcompta;
-ALTER TABLE public.seq_doc_type_8 OWNER TO phpcompta;
-ALTER TABLE public.seq_doc_type_9 OWNER TO phpcompta;
-ALTER TABLE public.stock_goods OWNER TO phpcompta;
-ALTER TABLE public.tmp_pcmn OWNER TO phpcompta;
-ALTER TABLE public.tva_rate OWNER TO phpcompta;
-ALTER TABLE public.user_local_pref OWNER TO phpcompta;
-ALTER TABLE public.user_sec_act OWNER TO phpcompta;
-ALTER TABLE public.user_sec_jrn OWNER TO phpcompta;
-ALTER TABLE public.version OWNER TO phpcompta;
-ALTER TABLE public.vw_client OWNER TO phpcompta;
-ALTER TABLE public.vw_fiche_attr OWNER TO phpcompta;
-ALTER TABLE public.vw_fiche_def OWNER TO phpcompta;
-ALTER TABLE public.vw_fiche_min OWNER TO phpcompta;
-ALTER TABLE public.vw_poste_qcode OWNER TO phpcompta;
-ALTER TABLE public.vw_supplier OWNER TO phpcompta;
+ SET client_encoding = 'LATIN1';
+ SET check_function_bodies = false;
+ SET client_min_messages = warning;
+SET search_path = public, pg_catalog;
 ALTER TABLE ONLY action_gestion
     ADD CONSTRAINT action_gestion_pkey PRIMARY KEY (ag_id);
 ALTER TABLE ONLY "action"
@@ -136,9 +55,9 @@ ALTER TABLE ONLY parm_code
 ALTER TABLE ONLY parm_money
     ADD CONSTRAINT parm_money_pkey PRIMARY KEY (pm_code);
 ALTER TABLE ONLY parm_periode
-    ADD CONSTRAINT parm_periode_p_start_key UNIQUE (p_start);
-ALTER TABLE ONLY parm_periode
     ADD CONSTRAINT parm_periode_pkey PRIMARY KEY (p_id);
+ALTER TABLE ONLY jnt_fic_attr
+    ADD CONSTRAINT pk_jnt_fic_attr PRIMARY KEY (jnt_id);
 ALTER TABLE ONLY user_local_pref
     ADD CONSTRAINT pk_user_local_pref PRIMARY KEY (user_id, parameter_type);
 ALTER TABLE ONLY quant_sold

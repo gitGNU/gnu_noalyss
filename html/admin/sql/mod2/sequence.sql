@@ -5,7 +5,18 @@ CREATE SEQUENCE document_seq
     NO MINVALUE
     CACHE 1;
 COMMENT ON SEQUENCE document_seq IS 'Sequence for the sequence bound to the document modele';
+CREATE SEQUENCE s_jnt_id
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
 CREATE SEQUENCE s_attr_def
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+CREATE SEQUENCE s_cbc
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -90,6 +101,7 @@ CREATE SEQUENCE s_isup
     NO MINVALUE
     CACHE 1;
 CREATE SEQUENCE s_jnt_fic_att_value
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE

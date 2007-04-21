@@ -7,8 +7,21 @@ CREATE SEQUENCE document_seq
     CACHE 1;
 -- Name: SEQUENCE document_seq; Type: COMMENT; Schema: public; Owner: phpcompta
 COMMENT ON SEQUENCE document_seq IS 'Sequence for the sequence bound to the document modele';
+-- Name: s_jnt_id; Type: SEQUENCE; Schema: public; Owner: phpcompta
+CREATE SEQUENCE s_jnt_id
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
 -- Name: s_attr_def; Type: SEQUENCE; Schema: public; Owner: phpcompta
 CREATE SEQUENCE s_attr_def
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+-- Name: s_cbc; Type: SEQUENCE; Schema: public; Owner: phpcompta
+CREATE SEQUENCE s_cbc
+    START WITH 1
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE
@@ -108,6 +121,7 @@ CREATE SEQUENCE s_isup
     CACHE 1;
 -- Name: s_jnt_fic_att_value; Type: SEQUENCE; Schema: public; Owner: phpcompta
 CREATE SEQUENCE s_jnt_fic_att_value
+    START WITH 366
     INCREMENT BY 1
     NO MAXVALUE
     NO MINVALUE

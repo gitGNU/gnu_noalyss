@@ -1,3 +1,4 @@
+CREATE DOMAIN poste_comptable AS numeric(25,0);
 CREATE TABLE "action" (
     ac_id integer NOT NULL,
     ac_description text NOT NULL
@@ -15,7 +16,7 @@ CREATE TABLE action_gestion (
     ag_ref text
 );
 CREATE TABLE attr_def (
-    ad_id integer DEFAULT nextval('s_attr_def'::text) NOT NULL,
+    ad_id integer DEFAULT nextval(('s_attr_def'::text)::regclass) NOT NULL,
     ad_text text
 );
 CREATE TABLE attr_min (
@@ -27,7 +28,7 @@ CREATE TABLE attr_value (
     av_text text
 );
 CREATE TABLE centralized (
-    c_id integer DEFAULT nextval('s_centralized'::text) NOT NULL,
+    c_id integer DEFAULT nextval(('s_centralized'::text)::regclass) NOT NULL,
     c_j_id integer,
     c_date date NOT NULL,
     c_internal text NOT NULL,
@@ -68,23 +69,23 @@ CREATE TABLE document_type (
     dt_value character varying(80)
 );
 CREATE TABLE fiche (
-    f_id integer DEFAULT nextval('s_fiche'::text) NOT NULL,
+    f_id integer DEFAULT nextval(('s_fiche'::text)::regclass) NOT NULL,
     fd_id integer
 );
 CREATE TABLE fiche_def (
-    fd_id integer DEFAULT nextval('s_fdef'::text) NOT NULL,
+    fd_id integer DEFAULT nextval(('s_fdef'::text)::regclass) NOT NULL,
     fd_class_base poste_comptable,
     fd_label text NOT NULL,
     fd_create_account boolean DEFAULT false,
     frd_id integer NOT NULL
 );
 CREATE TABLE fiche_def_ref (
-    frd_id integer DEFAULT nextval('s_fiche_def_ref'::text) NOT NULL,
+    frd_id integer DEFAULT nextval(('s_fiche_def_ref'::text)::regclass) NOT NULL,
     frd_text text,
     frd_class_base integer
 );
 CREATE TABLE form (
-    fo_id integer DEFAULT nextval('s_form'::text) NOT NULL,
+    fo_id integer DEFAULT nextval(('s_form'::text)::regclass) NOT NULL,
     fo_fr_id integer,
     fo_pos integer,
     fo_label text,
@@ -95,7 +96,7 @@ CREATE TABLE format_csv_banque (
     include_file text NOT NULL
 );
 CREATE TABLE formdef (
-    fr_id integer DEFAULT nextval('s_formdef'::text) NOT NULL,
+    fr_id integer DEFAULT nextval(('s_formdef'::text)::regclass) NOT NULL,
     fr_label text
 );
 CREATE TABLE import_tmp (
@@ -108,26 +109,29 @@ CREATE TABLE import_tmp (
     detail text,
     num_compte text,
     poste_comptable text,
-    ok boolean DEFAULT false,
+    status character varying(1) DEFAULT 'n'::character varying NOT NULL,
     bq_account integer NOT NULL,
-    jrn integer NOT NULL
+    jrn integer NOT NULL,
+    jr_rapt text,
+    CONSTRAINT import_tmp_status_check CHECK ((((((status)::text = 't'::text) OR ((status)::text = 'd'::text)) OR ((status)::text = 'w'::text)) OR ((status)::text = 'n'::text)))
 );
 CREATE TABLE invoice (
-    iv_id integer DEFAULT nextval('s_invoice'::text) NOT NULL,
+    iv_id integer DEFAULT nextval(('s_invoice'::text)::regclass) NOT NULL,
     iv_name text NOT NULL,
     iv_file oid
 );
 CREATE TABLE jnt_fic_att_value (
-    jft_id integer DEFAULT nextval('s_jnt_fic_att_value'::text) NOT NULL,
+    jft_id integer DEFAULT nextval(('s_jnt_fic_att_value'::text)::regclass) NOT NULL,
     f_id integer,
     ad_id integer
 );
 CREATE TABLE jnt_fic_attr (
     fd_id integer,
-    ad_id integer
+    ad_id integer,
+    jnt_id bigint DEFAULT nextval('s_jnt_id'::regclass) NOT NULL
 );
 CREATE TABLE jrn (
-    jr_id integer DEFAULT nextval('s_jrn'::text) NOT NULL,
+    jr_id integer DEFAULT nextval(('s_jrn'::text)::regclass) NOT NULL,
     jr_def_id integer NOT NULL,
     jr_montant numeric(20,4) NOT NULL,
     jr_comment text,
@@ -147,7 +151,7 @@ CREATE TABLE jrn (
     jr_pj_type text
 );
 CREATE TABLE jrn_action (
-    ja_id integer DEFAULT nextval('s_jrnaction'::text) NOT NULL,
+    ja_id integer DEFAULT nextval(('s_jrnaction'::text)::regclass) NOT NULL,
     ja_name text NOT NULL,
     ja_desc text,
     ja_url text NOT NULL,
@@ -156,7 +160,7 @@ CREATE TABLE jrn_action (
     ja_jrn_type character(3)
 );
 CREATE TABLE jrn_def (
-    jrn_def_id integer DEFAULT nextval('s_jrn_def'::text) NOT NULL,
+    jrn_def_id integer DEFAULT nextval(('s_jrn_def'::text)::regclass) NOT NULL,
     jrn_def_name text NOT NULL,
     jrn_def_class_deb text,
     jrn_def_class_cred text,
@@ -170,7 +174,7 @@ CREATE TABLE jrn_def (
     jrn_def_code text NOT NULL
 );
 CREATE TABLE jrn_rapt (
-    jra_id integer DEFAULT nextval('s_jrn_rapt'::text) NOT NULL,
+    jra_id integer DEFAULT nextval(('s_jrn_rapt'::text)::regclass) NOT NULL,
     jr_id integer NOT NULL,
     jra_concerned integer NOT NULL
 );
@@ -179,7 +183,7 @@ CREATE TABLE jrn_type (
     jrn_desc text
 );
 CREATE TABLE jrnx (
-    j_id integer DEFAULT nextval('s_jrn_op'::text) NOT NULL,
+    j_id integer DEFAULT nextval(('s_jrn_op'::text)::regclass) NOT NULL,
     j_date date DEFAULT now(),
     j_montant numeric(20,4) DEFAULT 0,
     j_poste poste_comptable NOT NULL,
@@ -205,39 +209,41 @@ CREATE TABLE parm_code (
     p_comment text
 );
 CREATE TABLE parm_money (
-    pm_id integer DEFAULT nextval('s_currency'::text),
+    pm_id integer DEFAULT nextval(('s_currency'::text)::regclass),
     pm_code character(3) NOT NULL,
     pm_rate numeric(20,4)
 );
 CREATE TABLE parm_periode (
-    p_id integer DEFAULT nextval('s_periode'::text) NOT NULL,
+    p_id integer DEFAULT nextval(('s_periode'::text)::regclass) NOT NULL,
     p_start date NOT NULL,
-    p_end date,
+    p_end date NOT NULL,
     p_exercice text DEFAULT to_char(now(), 'YYYY'::text) NOT NULL,
     p_closed boolean DEFAULT false,
     p_central boolean DEFAULT false,
     CONSTRAINT parm_periode_check CHECK ((p_end >= p_start))
 );
 CREATE TABLE quant_sold (
-    qs_id integer DEFAULT nextval('s_quantity'::text) NOT NULL,
+    qs_id integer DEFAULT nextval(('s_quantity'::text)::regclass) NOT NULL,
     qs_internal text NOT NULL,
     qs_fiche integer NOT NULL,
-    qs_quantite integer NOT NULL,
+    qs_quantite numeric(20,4) NOT NULL,
     qs_price numeric(20,4),
     qs_vat numeric(20,4),
     qs_vat_code integer,
     qs_client integer NOT NULL
 );
 CREATE TABLE stock_goods (
-    sg_id integer DEFAULT nextval('s_stock_goods'::text) NOT NULL,
+    sg_id integer DEFAULT nextval(('s_stock_goods'::text)::regclass) NOT NULL,
     j_id integer,
     f_id integer NOT NULL,
     sg_code text,
-    sg_quantity integer DEFAULT 0,
+    sg_quantity numeric(8,4) DEFAULT 0,
     sg_type character(1) DEFAULT 'c'::bpchar NOT NULL,
     sg_date date,
     sg_tech_date date DEFAULT now(),
     sg_tech_user text,
+    sg_comment character varying(80),
+    sg_exercice character varying(4),
     CONSTRAINT stock_goods_sg_type CHECK (((sg_type = 'c'::bpchar) OR (sg_type = 'd'::bpchar)))
 );
 CREATE TABLE tmp_pcmn (
@@ -259,12 +265,12 @@ CREATE TABLE user_local_pref (
     parameter_value text
 );
 CREATE TABLE user_sec_act (
-    ua_id integer DEFAULT nextval('s_user_act'::text) NOT NULL,
+    ua_id integer DEFAULT nextval(('s_user_act'::text)::regclass) NOT NULL,
     ua_login text,
     ua_act_id integer
 );
 CREATE TABLE user_sec_jrn (
-    uj_id integer DEFAULT nextval('s_user_jrn'::text) NOT NULL,
+    uj_id integer DEFAULT nextval(('s_user_jrn'::text)::regclass) NOT NULL,
     uj_login text,
     uj_jrn_id integer,
     uj_priv text

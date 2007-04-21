@@ -26,7 +26,7 @@ SELECT pg_catalog.setval('s_modid', 6, false);
 -- Name: seq_jnt_use_dos; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('seq_jnt_use_dos', 23, true);
+SELECT pg_catalog.setval('seq_jnt_use_dos', 24, true);
 
 
 --
@@ -71,7 +71,7 @@ INSERT INTO jnt_use_dos (jnt_id, use_id, dos_id) VALUES (13, 4, 1);
 --
 
 INSERT INTO modeledef (mod_id, mod_name, mod_desc) VALUES (1, '(BE) Basique', 'Comptabilité Belge, tout doit être adaptée');
-
+INSERT INTO modeledef (mod_id, mod_name, mod_desc) VALUES (2, '(FR) Basique', 'Comptabilité Française, tout doit être adaptée');
 
 
 --

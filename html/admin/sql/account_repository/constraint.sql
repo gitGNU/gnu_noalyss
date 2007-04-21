@@ -1,16 +1,7 @@
-ALTER TABLE public.ac_dossier OWNER TO phpcompta;
-ALTER TABLE public.ac_users OWNER TO phpcompta;
-ALTER TABLE public.dossier_id OWNER TO phpcompta;
-ALTER TABLE public.jnt_use_dos OWNER TO phpcompta;
-ALTER TABLE public.modeledef OWNER TO phpcompta;
-ALTER TABLE public.priv_user OWNER TO phpcompta;
-ALTER TABLE public.s_modid OWNER TO phpcompta;
-ALTER TABLE public.seq_jnt_use_dos OWNER TO phpcompta;
-ALTER TABLE public.seq_priv_user OWNER TO phpcompta;
-ALTER TABLE public.theme OWNER TO phpcompta;
-ALTER TABLE public.user_global_pref OWNER TO phpcompta;
-ALTER TABLE public.users_id OWNER TO phpcompta;
-ALTER TABLE public.version OWNER TO phpcompta;
+ SET client_encoding = 'LATIN1';
+ SET check_function_bodies = false;
+ SET client_min_messages = warning;
+SET search_path = public, pg_catalog;
 ALTER TABLE ONLY ac_dossier
     ADD CONSTRAINT ac_dossier_dos_name_key UNIQUE (dos_name);
 ALTER TABLE ONLY ac_dossier

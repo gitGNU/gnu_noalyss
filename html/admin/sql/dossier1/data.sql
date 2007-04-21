@@ -12,28 +12,28 @@ SET search_path = public, pg_catalog;
 -- Name: action_gestion_ag_id_seq; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval(pg_catalog.pg_get_serial_sequence('action_gestion', 'ag_id'), 1, false);
+SELECT pg_catalog.setval(pg_catalog.pg_get_serial_sequence('action_gestion', 'ag_id'), 1, true);
 
 
 --
 -- Name: document_d_id_seq; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval(pg_catalog.pg_get_serial_sequence('document', 'd_id'), 1, false);
+SELECT pg_catalog.setval(pg_catalog.pg_get_serial_sequence('document', 'd_id'), 35, true);
 
 
 --
 -- Name: document_modele_md_id_seq; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval(pg_catalog.pg_get_serial_sequence('document_modele', 'md_id'), 1, false);
+SELECT pg_catalog.setval(pg_catalog.pg_get_serial_sequence('document_modele', 'md_id'), 1, true);
 
 
 --
 -- Name: document_seq; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('document_seq', 1, false);
+SELECT pg_catalog.setval('document_seq', 1, true);
 
 
 --
@@ -51,10 +51,24 @@ SELECT pg_catalog.setval(pg_catalog.pg_get_serial_sequence('document_type', 'dt_
 
 
 --
+-- Name: s_jnt_id; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval('s_jnt_id', 84, true);
+
+
+--
 -- Name: s_attr_def; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
 SELECT pg_catalog.setval('s_attr_def', 27, true);
+
+
+--
+-- Name: s_cbc; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval('s_cbc', 1, false);
 
 
 --
@@ -89,7 +103,7 @@ SELECT pg_catalog.setval('s_currency', 1, true);
 -- Name: s_fdef; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('s_fdef', 10, true);
+SELECT pg_catalog.setval('s_fdef', 11, true);
 
 
 --
@@ -124,7 +138,7 @@ SELECT pg_catalog.setval('s_formdef', 1, false);
 -- Name: s_grpt; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('s_grpt', 1, true);
+SELECT pg_catalog.setval('s_grpt', 62, true);
 
 
 --
@@ -138,7 +152,7 @@ SELECT pg_catalog.setval('s_idef', 2, true);
 -- Name: s_internal; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('s_internal', 1, false);
+SELECT pg_catalog.setval('s_internal', 61, true);
 
 
 --
@@ -152,14 +166,42 @@ SELECT pg_catalog.setval('s_invoice', 1, false);
 -- Name: s_jnt_fic_att_value; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('s_jnt_fic_att_value', 169, true);
+SELECT pg_catalog.setval('s_jnt_fic_att_value', 413, true);
 
 
 --
 -- Name: s_jrn; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('s_jrn', 139, true);
+SELECT pg_catalog.setval('s_jrn', 200, true);
+
+
+--
+-- Name: s_jrn_1; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval('s_jrn_1', 1, false);
+
+
+--
+-- Name: s_jrn_2; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval('s_jrn_2', 1, false);
+
+
+--
+-- Name: s_jrn_3; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval('s_jrn_3', 1, false);
+
+
+--
+-- Name: s_jrn_4; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval('s_jrn_4', 1, false);
 
 
 --
@@ -173,14 +215,14 @@ SELECT pg_catalog.setval('s_jrn_def', 5, false);
 -- Name: s_jrn_op; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('s_jrn_op', 461, true);
+SELECT pg_catalog.setval('s_jrn_op', 632, true);
 
 
 --
 -- Name: s_jrn_rapt; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('s_jrn_rapt', 13, true);
+SELECT pg_catalog.setval('s_jrn_rapt', 14, true);
 
 
 --
@@ -208,14 +250,14 @@ SELECT pg_catalog.setval('s_periode', 65, true);
 -- Name: s_quantity; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('s_quantity', 1, false);
+SELECT pg_catalog.setval('s_quantity', 56, true);
 
 
 --
 -- Name: s_stock_goods; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
 --
 
-SELECT pg_catalog.setval('s_stock_goods', 24, true);
+SELECT pg_catalog.setval('s_stock_goods', 99, true);
 
 
 --
@@ -230,6 +272,70 @@ SELECT pg_catalog.setval('s_user_act', 15, true);
 --
 
 SELECT pg_catalog.setval('s_user_jrn', 12, true);
+
+
+--
+-- Name: seq_doc_type_1; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval('seq_doc_type_1', 1, false);
+
+
+--
+-- Name: seq_doc_type_2; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval('seq_doc_type_2', 1, false);
+
+
+--
+-- Name: seq_doc_type_3; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval('seq_doc_type_3', 1, false);
+
+
+--
+-- Name: seq_doc_type_4; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval('seq_doc_type_4', 47, true);
+
+
+--
+-- Name: seq_doc_type_5; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval('seq_doc_type_5', 1, false);
+
+
+--
+-- Name: seq_doc_type_6; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval('seq_doc_type_6', 1, false);
+
+
+--
+-- Name: seq_doc_type_7; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval('seq_doc_type_7', 1, false);
+
+
+--
+-- Name: seq_doc_type_8; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval('seq_doc_type_8', 1, false);
+
+
+--
+-- Name: seq_doc_type_9; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval('seq_doc_type_9', 1, false);
+
 
 --
 -- Data for Name: action; Type: TABLE DATA; Schema: public; Owner: phpcompta
@@ -263,6 +369,7 @@ INSERT INTO "action" (ac_id, ac_description) VALUES (30, 'Module Gestion');
 -- Data for Name: action_gestion; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
+INSERT INTO action_gestion (ag_id, ag_type, f_id_dest, f_id_exp, ag_title, ag_timestamp, ag_cal, ag_ref_ag_id, ag_comment, ag_ref) VALUES (1, 1, 2, 0, 'Document Interne', '2007-04-14 00:00:00', 'C', 0, 'qsqsqsqsqsqsqsqsqs', '1/1');
 
 
 --
@@ -283,7 +390,6 @@ INSERT INTO attr_def (ad_id, ad_text) VALUES (11, 'Montant initial');
 INSERT INTO attr_def (ad_id, ad_text) VALUES (12, 'Personne de contact ');
 INSERT INTO attr_def (ad_id, ad_text) VALUES (13, 'numéro de tva ');
 INSERT INTO attr_def (ad_id, ad_text) VALUES (14, 'Adresse ');
-INSERT INTO attr_def (ad_id, ad_text) VALUES (15, 'code postal ');
 INSERT INTO attr_def (ad_id, ad_text) VALUES (16, 'pays ');
 INSERT INTO attr_def (ad_id, ad_text) VALUES (17, 'téléphone ');
 INSERT INTO attr_def (ad_id, ad_text) VALUES (18, 'email ');
@@ -296,29 +402,7 @@ INSERT INTO attr_def (ad_id, ad_text) VALUES (24, 'Ville');
 INSERT INTO attr_def (ad_id, ad_text) VALUES (25, 'Société');
 INSERT INTO attr_def (ad_id, ad_text) VALUES (26, 'Fax');
 INSERT INTO attr_def (ad_id, ad_text) VALUES (27, 'GSM');
-
-
---
--- Data for Name: fiche_def_ref; Type: TABLE DATA; Schema: public; Owner: phpcompta
---
-
-INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (1, 'Vente Service', 700);
-INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (2, 'Achat Marchandises', 604);
-INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (3, 'Achat Service et biens divers', 61);
-INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (4, 'Banque', 5500);
-INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (5, 'Prêt > a un an', 17);
-INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (6, 'Prêt < a un an', 430);
-INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (8, 'Fournisseurs', 440);
-INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (9, 'Clients', 400);
-INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (10, 'Salaire Administrateur', 6200);
-INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (11, 'Salaire Ouvrier', 6203);
-INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (12, 'Salaire Employé', 6202);
-INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (13, 'Dépenses non admises', 674);
-INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (14, 'Administration des Finances', NULL);
-INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (15, 'Autres fiches', NULL);
-INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (7, 'Matériel à amortir', 2400);
-INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (16, 'Contact', NULL);
-
+INSERT INTO attr_def (ad_id, ad_text) VALUES (15, 'code postal');
 
 
 --
@@ -366,31 +450,24 @@ INSERT INTO attr_min (frd_id, ad_id) VALUES (2, 19);
 INSERT INTO attr_min (frd_id, ad_id) VALUES (14, 1);
 INSERT INTO attr_min (frd_id, ad_id) VALUES (5, 1);
 INSERT INTO attr_min (frd_id, ad_id) VALUES (5, 4);
-INSERT INTO attr_min (frd_id, ad_id) VALUES (5, 5);
 INSERT INTO attr_min (frd_id, ad_id) VALUES (5, 10);
 INSERT INTO attr_min (frd_id, ad_id) VALUES (5, 12);
 INSERT INTO attr_min (frd_id, ad_id) VALUES (6, 1);
 INSERT INTO attr_min (frd_id, ad_id) VALUES (6, 4);
-INSERT INTO attr_min (frd_id, ad_id) VALUES (6, 5);
 INSERT INTO attr_min (frd_id, ad_id) VALUES (6, 10);
 INSERT INTO attr_min (frd_id, ad_id) VALUES (6, 12);
 INSERT INTO attr_min (frd_id, ad_id) VALUES (10, 1);
 INSERT INTO attr_min (frd_id, ad_id) VALUES (10, 12);
-INSERT INTO attr_min (frd_id, ad_id) VALUES (10, 5);
 INSERT INTO attr_min (frd_id, ad_id) VALUES (11, 1);
 INSERT INTO attr_min (frd_id, ad_id) VALUES (11, 12);
-INSERT INTO attr_min (frd_id, ad_id) VALUES (11, 5);
 INSERT INTO attr_min (frd_id, ad_id) VALUES (12, 1);
 INSERT INTO attr_min (frd_id, ad_id) VALUES (12, 12);
-INSERT INTO attr_min (frd_id, ad_id) VALUES (12, 5);
 INSERT INTO attr_min (frd_id, ad_id) VALUES (13, 1);
 INSERT INTO attr_min (frd_id, ad_id) VALUES (13, 9);
 INSERT INTO attr_min (frd_id, ad_id) VALUES (7, 1);
 INSERT INTO attr_min (frd_id, ad_id) VALUES (7, 8);
-INSERT INTO attr_min (frd_id, ad_id) VALUES (7, 5);
 INSERT INTO attr_min (frd_id, ad_id) VALUES (7, 9);
 INSERT INTO attr_min (frd_id, ad_id) VALUES (7, 10);
-INSERT INTO attr_min (frd_id, ad_id) VALUES (13, 5);
 INSERT INTO attr_min (frd_id, ad_id) VALUES (5, 11);
 INSERT INTO attr_min (frd_id, ad_id) VALUES (6, 11);
 INSERT INTO attr_min (frd_id, ad_id) VALUES (1, 15);
@@ -421,22 +498,236 @@ INSERT INTO attr_min (frd_id, ad_id) VALUES (16, 18);
 INSERT INTO attr_min (frd_id, ad_id) VALUES (16, 25);
 INSERT INTO attr_min (frd_id, ad_id) VALUES (16, 26);
 INSERT INTO attr_min (frd_id, ad_id) VALUES (16, 27);
+INSERT INTO attr_min (frd_id, ad_id) VALUES (16, 23);
+
+
+--
+-- Data for Name: attr_value; Type: TABLE DATA; Schema: public; Owner: phpcompta
+--
+
+INSERT INTO attr_value (jft_id, av_text) VALUES (12, '4000001');
+INSERT INTO attr_value (jft_id, av_text) VALUES (13, 'Client 1');
+INSERT INTO attr_value (jft_id, av_text) VALUES (14, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (15, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (16, 'Rue du Client 1');
+INSERT INTO attr_value (jft_id, av_text) VALUES (17, '99999');
+INSERT INTO attr_value (jft_id, av_text) VALUES (18, 'Belgique');
+INSERT INTO attr_value (jft_id, av_text) VALUES (19, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (20, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (21, '4000002');
+INSERT INTO attr_value (jft_id, av_text) VALUES (22, 'Client 2');
+INSERT INTO attr_value (jft_id, av_text) VALUES (23, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (24, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (25, 'Rue du client 2');
+INSERT INTO attr_value (jft_id, av_text) VALUES (26, '108000');
+INSERT INTO attr_value (jft_id, av_text) VALUES (27, 'Belgique');
+INSERT INTO attr_value (jft_id, av_text) VALUES (28, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (29, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (34, 'Marchandise B');
+INSERT INTO attr_value (jft_id, av_text) VALUES (35, '1');
+INSERT INTO attr_value (jft_id, av_text) VALUES (47, '70002');
+INSERT INTO attr_value (jft_id, av_text) VALUES (36, '150');
+INSERT INTO attr_value (jft_id, av_text) VALUES (37, '140');
+INSERT INTO attr_value (jft_id, av_text) VALUES (50, '4400001');
+INSERT INTO attr_value (jft_id, av_text) VALUES (51, 'Fournisseur A');
+INSERT INTO attr_value (jft_id, av_text) VALUES (52, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (53, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (54, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (55, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (56, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (57, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (58, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (59, '4400002');
+INSERT INTO attr_value (jft_id, av_text) VALUES (60, 'Fournisseur B');
+INSERT INTO attr_value (jft_id, av_text) VALUES (61, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (62, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (63, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (64, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (65, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (66, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (67, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (68, '610001');
+INSERT INTO attr_value (jft_id, av_text) VALUES (69, 'fourniture A');
+INSERT INTO attr_value (jft_id, av_text) VALUES (70, '1');
+INSERT INTO attr_value (jft_id, av_text) VALUES (71, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (76, '55000002');
+INSERT INTO attr_value (jft_id, av_text) VALUES (77, 'Argenta');
+INSERT INTO attr_value (jft_id, av_text) VALUES (78, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (79, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (80, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (81, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (82, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (83, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (84, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (85, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (86, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (87, '4000003');
+INSERT INTO attr_value (jft_id, av_text) VALUES (88, '4000004');
+INSERT INTO attr_value (jft_id, av_text) VALUES (89, 'Toto');
+INSERT INTO attr_value (jft_id, av_text) VALUES (90, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (91, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (92, 'Maison de toto');
+INSERT INTO attr_value (jft_id, av_text) VALUES (93, 'cp');
+INSERT INTO attr_value (jft_id, av_text) VALUES (94, 'pays');
+INSERT INTO attr_value (jft_id, av_text) VALUES (95, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (96, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (97, '4000005');
+INSERT INTO attr_value (jft_id, av_text) VALUES (98, 'NOUVEAU CLIENT');
+INSERT INTO attr_value (jft_id, av_text) VALUES (99, 'Toto');
+INSERT INTO attr_value (jft_id, av_text) VALUES (100, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (101, 'Adresse');
+INSERT INTO attr_value (jft_id, av_text) VALUES (102, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (103, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (104, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (105, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (42, 'Marchandise D');
+INSERT INTO attr_value (jft_id, av_text) VALUES (43, '15');
+INSERT INTO attr_value (jft_id, av_text) VALUES (49, '70004');
+INSERT INTO attr_value (jft_id, av_text) VALUES (44, '150');
+INSERT INTO attr_value (jft_id, av_text) VALUES (45, '75');
+INSERT INTO attr_value (jft_id, av_text) VALUES (38, 'Marchandise C');
+INSERT INTO attr_value (jft_id, av_text) VALUES (39, '20');
+INSERT INTO attr_value (jft_id, av_text) VALUES (48, '70003');
+INSERT INTO attr_value (jft_id, av_text) VALUES (40, '200');
+INSERT INTO attr_value (jft_id, av_text) VALUES (41, '100');
+INSERT INTO attr_value (jft_id, av_text) VALUES (107, 'Marchandise Ex');
+INSERT INTO attr_value (jft_id, av_text) VALUES (108, '10');
+INSERT INTO attr_value (jft_id, av_text) VALUES (111, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (109, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (110, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (112, '4400003');
+INSERT INTO attr_value (jft_id, av_text) VALUES (113, 'Fournisseur E');
+INSERT INTO attr_value (jft_id, av_text) VALUES (114, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (115, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (116, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (117, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (118, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (119, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (120, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (121, '4400004');
+INSERT INTO attr_value (jft_id, av_text) VALUES (122, 'Propriétaire bureau');
+INSERT INTO attr_value (jft_id, av_text) VALUES (123, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (124, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (125, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (126, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (127, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (128, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (129, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (73, 'Loyer');
+INSERT INTO attr_value (jft_id, av_text) VALUES (74, '4');
+INSERT INTO attr_value (jft_id, av_text) VALUES (72, '610002');
+INSERT INTO attr_value (jft_id, av_text) VALUES (75, '400');
+INSERT INTO attr_value (jft_id, av_text) VALUES (130, '4400005');
+INSERT INTO attr_value (jft_id, av_text) VALUES (131, 'Fournisseur Eau Gaz');
+INSERT INTO attr_value (jft_id, av_text) VALUES (132, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (133, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (134, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (135, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (136, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (137, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (138, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (140, 'eau, gaz electricité');
+INSERT INTO attr_value (jft_id, av_text) VALUES (141, '1');
+INSERT INTO attr_value (jft_id, av_text) VALUES (139, '610003');
+INSERT INTO attr_value (jft_id, av_text) VALUES (142, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (2, 'Banque 1');
+INSERT INTO attr_value (jft_id, av_text) VALUES (3, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (4, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (1, '550');
+INSERT INTO attr_value (jft_id, av_text) VALUES (5, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (6, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (7, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (8, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (9, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (10, 'a');
+INSERT INTO attr_value (jft_id, av_text) VALUES (11, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (106, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (349, 'FID1');
+INSERT INTO attr_value (jft_id, av_text) VALUES (350, 'FID2');
+INSERT INTO attr_value (jft_id, av_text) VALUES (351, 'FID3');
+INSERT INTO attr_value (jft_id, av_text) VALUES (352, 'FID4');
+INSERT INTO attr_value (jft_id, av_text) VALUES (353, 'FID5');
+INSERT INTO attr_value (jft_id, av_text) VALUES (354, 'FID6');
+INSERT INTO attr_value (jft_id, av_text) VALUES (355, 'FID7');
+INSERT INTO attr_value (jft_id, av_text) VALUES (356, 'FID8');
+INSERT INTO attr_value (jft_id, av_text) VALUES (357, 'FID9');
+INSERT INTO attr_value (jft_id, av_text) VALUES (358, 'FID10');
+INSERT INTO attr_value (jft_id, av_text) VALUES (359, 'FID11');
+INSERT INTO attr_value (jft_id, av_text) VALUES (360, 'FID12');
+INSERT INTO attr_value (jft_id, av_text) VALUES (361, 'FID13');
+INSERT INTO attr_value (jft_id, av_text) VALUES (362, 'FID14');
+INSERT INTO attr_value (jft_id, av_text) VALUES (363, 'FID15');
+INSERT INTO attr_value (jft_id, av_text) VALUES (364, 'FID16');
+INSERT INTO attr_value (jft_id, av_text) VALUES (365, 'FID17');
+INSERT INTO attr_value (jft_id, av_text) VALUES (366, 'FID18');
+INSERT INTO attr_value (jft_id, av_text) VALUES (367, 'FID19');
+INSERT INTO attr_value (jft_id, av_text) VALUES (368, 'FID20');
+INSERT INTO attr_value (jft_id, av_text) VALUES (369, 'FID21');
+INSERT INTO attr_value (jft_id, av_text) VALUES (371, 'Test1');
+INSERT INTO attr_value (jft_id, av_text) VALUES (372, '2400001');
+INSERT INTO attr_value (jft_id, av_text) VALUES (373, '2400002');
+INSERT INTO attr_value (jft_id, av_text) VALUES (406, '2400003');
+INSERT INTO attr_value (jft_id, av_text) VALUES (407, '2400004');
+INSERT INTO attr_value (jft_id, av_text) VALUES (408, '2400005');
+INSERT INTO attr_value (jft_id, av_text) VALUES (409, '2400006');
+INSERT INTO attr_value (jft_id, av_text) VALUES (410, '2400001');
+INSERT INTO attr_value (jft_id, av_text) VALUES (411, '2400001');
+INSERT INTO attr_value (jft_id, av_text) VALUES (412, '2400001');
+INSERT INTO attr_value (jft_id, av_text) VALUES (144, 'Achat Marchandise A');
+INSERT INTO attr_value (jft_id, av_text) VALUES (145, '3');
+INSERT INTO attr_value (jft_id, av_text) VALUES (143, '6040001');
+INSERT INTO attr_value (jft_id, av_text) VALUES (146, '350');
+INSERT INTO attr_value (jft_id, av_text) VALUES (147, '');
+INSERT INTO attr_value (jft_id, av_text) VALUES (148, 'MARCHA');
+INSERT INTO attr_value (jft_id, av_text) VALUES (30, 'Marchandise A');
+INSERT INTO attr_value (jft_id, av_text) VALUES (31, '1');
+INSERT INTO attr_value (jft_id, av_text) VALUES (46, '70001');
+INSERT INTO attr_value (jft_id, av_text) VALUES (32, '100');
+INSERT INTO attr_value (jft_id, av_text) VALUES (33, '120');
+INSERT INTO attr_value (jft_id, av_text) VALUES (413, 'MARCHA');
+
+
+--
+-- Data for Name: centralized; Type: TABLE DATA; Schema: public; Owner: phpcompta
+--
 
 
 
 --
--- Data for Name: fiche_def; Type: TABLE DATA; Schema: public; Owner: phpcompta
+-- Data for Name: document; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
-INSERT INTO fiche_def (fd_id, fd_class_base, fd_label, fd_create_account, frd_id) VALUES (1, 5500, 'Banque', true, 4);
-INSERT INTO fiche_def (fd_id, fd_class_base, fd_label, fd_create_account, frd_id) VALUES (2, 400, 'Client', true, 9);
-INSERT INTO fiche_def (fd_id, fd_class_base, fd_label, fd_create_account, frd_id) VALUES (3, 700, 'Vente', false, 1);
-INSERT INTO fiche_def (fd_id, fd_class_base, fd_label, fd_create_account, frd_id) VALUES (4, 440, 'Fournisseur', true, 8);
-INSERT INTO fiche_def (fd_id, fd_class_base, fd_label, fd_create_account, frd_id) VALUES (5, 61, 'Charges', true, 3);
-INSERT INTO fiche_def (fd_id, fd_class_base, fd_label, fd_create_account, frd_id) VALUES (6, 604, 'Marchandise', true, 2);
-INSERT INTO fiche_def (fd_id, fd_class_base, fd_label, fd_create_account, frd_id) VALUES (9, NULL, 'Taxes & impot', false, 14);
-INSERT INTO fiche_def (fd_id, fd_class_base, fd_label, fd_create_account, frd_id) VALUES (7, 604, 'March Cat A', true, 2);
-INSERT INTO fiche_def (fd_id, fd_class_base, fd_label, fd_create_account, frd_id) VALUES (8, 700, 'March Cat b', false, 1);
+
+
+--
+-- Data for Name: document_modele; Type: TABLE DATA; Schema: public; Owner: phpcompta
+--
+
+
+
+--
+-- Data for Name: document_state; Type: TABLE DATA; Schema: public; Owner: phpcompta
+--
+
+INSERT INTO document_state (s_id, s_value) VALUES (1, 'Envoyé');
+INSERT INTO document_state (s_id, s_value) VALUES (2, 'Brouillon');
+INSERT INTO document_state (s_id, s_value) VALUES (3, 'A envoyer');
+INSERT INTO document_state (s_id, s_value) VALUES (4, 'Reçu');
+
+
+--
+-- Data for Name: document_type; Type: TABLE DATA; Schema: public; Owner: phpcompta
+--
+
+INSERT INTO document_type (dt_id, dt_value) VALUES (1, 'Document Interne');
+INSERT INTO document_type (dt_id, dt_value) VALUES (2, 'Bons de commande client');
+INSERT INTO document_type (dt_id, dt_value) VALUES (3, 'Bon de commande Fournisseur');
+INSERT INTO document_type (dt_id, dt_value) VALUES (4, 'Facture');
+INSERT INTO document_type (dt_id, dt_value) VALUES (5, 'Lettre de rappel');
+INSERT INTO document_type (dt_id, dt_value) VALUES (6, 'Courrier');
+INSERT INTO document_type (dt_id, dt_value) VALUES (7, 'Proposition');
+INSERT INTO document_type (dt_id, dt_value) VALUES (8, 'Email');
+INSERT INTO document_type (dt_id, dt_value) VALUES (9, 'Divers');
 
 
 --
@@ -464,6 +755,112 @@ INSERT INTO fiche (f_id, fd_id) VALUES (18, 4);
 INSERT INTO fiche (f_id, fd_id) VALUES (19, 4);
 INSERT INTO fiche (f_id, fd_id) VALUES (20, 5);
 INSERT INTO fiche (f_id, fd_id) VALUES (21, 6);
+INSERT INTO fiche (f_id, fd_id) VALUES (23, 11);
+
+
+--
+-- Data for Name: fiche_def; Type: TABLE DATA; Schema: public; Owner: phpcompta
+--
+
+INSERT INTO fiche_def (fd_id, fd_class_base, fd_label, fd_create_account, frd_id) VALUES (1, 5500, 'Banque', true, 4);
+INSERT INTO fiche_def (fd_id, fd_class_base, fd_label, fd_create_account, frd_id) VALUES (2, 400, 'Client', true, 9);
+INSERT INTO fiche_def (fd_id, fd_class_base, fd_label, fd_create_account, frd_id) VALUES (4, 440, 'Fournisseur', true, 8);
+INSERT INTO fiche_def (fd_id, fd_class_base, fd_label, fd_create_account, frd_id) VALUES (5, 61, 'Charges', true, 3);
+INSERT INTO fiche_def (fd_id, fd_class_base, fd_label, fd_create_account, frd_id) VALUES (6, 604, 'Marchandise', true, 2);
+INSERT INTO fiche_def (fd_id, fd_class_base, fd_label, fd_create_account, frd_id) VALUES (9, NULL, 'Taxes & impot', false, 14);
+INSERT INTO fiche_def (fd_id, fd_class_base, fd_label, fd_create_account, frd_id) VALUES (7, 604, 'March Cat A', true, 2);
+INSERT INTO fiche_def (fd_id, fd_class_base, fd_label, fd_create_account, frd_id) VALUES (8, 700, 'March Cat b', false, 1);
+INSERT INTO fiche_def (fd_id, fd_class_base, fd_label, fd_create_account, frd_id) VALUES (3, 700, 'Vente', false, 1);
+INSERT INTO fiche_def (fd_id, fd_class_base, fd_label, fd_create_account, frd_id) VALUES (11, 2400, 'matos', true, 7);
+
+
+--
+-- Data for Name: fiche_def_ref; Type: TABLE DATA; Schema: public; Owner: phpcompta
+--
+
+INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (1, 'Vente Service', 700);
+INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (2, 'Achat Marchandises', 604);
+INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (3, 'Achat Service et biens divers', 61);
+INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (4, 'Banque', 5500);
+INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (5, 'Prêt > a un an', 17);
+INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (6, 'Prêt < a un an', 430);
+INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (8, 'Fournisseurs', 440);
+INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (9, 'Clients', 400);
+INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (10, 'Salaire Administrateur', 6200);
+INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (11, 'Salaire Ouvrier', 6203);
+INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (12, 'Salaire Employé', 6202);
+INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (13, 'Dépenses non admises', 674);
+INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (14, 'Administration des Finances', NULL);
+INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (15, 'Autres fiches', NULL);
+INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (7, 'Matériel à amortir', 2400);
+INSERT INTO fiche_def_ref (frd_id, frd_text, frd_class_base) VALUES (16, 'Contact', NULL);
+
+
+--
+-- Data for Name: form; Type: TABLE DATA; Schema: public; Owner: phpcompta
+--
+
+INSERT INTO form (fo_id, fo_fr_id, fo_pos, fo_label, fo_formula) VALUES (3000398, 3000000, 1, 'Prestation [ case 03 ]', '[700%]-[7000005]');
+INSERT INTO form (fo_id, fo_fr_id, fo_pos, fo_label, fo_formula) VALUES (3000399, 3000000, 2, 'Prestation intra [ case 47 ]', '[7000005]');
+INSERT INTO form (fo_id, fo_fr_id, fo_pos, fo_label, fo_formula) VALUES (3000400, 3000000, 3, 'Tva due   [case 54]', '[4513]+[4512]+[4511] FROM=01.2005');
+INSERT INTO form (fo_id, fo_fr_id, fo_pos, fo_label, fo_formula) VALUES (3000401, 3000000, 4, 'Marchandises, matière première et auxiliaire [case 81 ]', '[60%]');
+INSERT INTO form (fo_id, fo_fr_id, fo_pos, fo_label, fo_formula) VALUES (3000402, 3000000, 7, 'Service et bien divers [case 82]', '[61%]');
+INSERT INTO form (fo_id, fo_fr_id, fo_pos, fo_label, fo_formula) VALUES (3000403, 3000000, 8, 'bien d''invest [ case 83 ]', '[2400%]');
+INSERT INTO form (fo_id, fo_fr_id, fo_pos, fo_label, fo_formula) VALUES (3000404, 3000000, 9, 'TVA déductible [ case 59 ]', 'abs([4117]-[411%])');
+INSERT INTO form (fo_id, fo_fr_id, fo_pos, fo_label, fo_formula) VALUES (3000405, 3000000, 8, 'TVA non ded -> voiture', '[610022]*0.21/2');
+INSERT INTO form (fo_id, fo_fr_id, fo_pos, fo_label, fo_formula) VALUES (3000406, 3000000, 9, 'Acompte TVA', '[4117]');
+
+
+--
+-- Data for Name: format_csv_banque; Type: TABLE DATA; Schema: public; Owner: phpcompta
+--
+
+INSERT INTO format_csv_banque (name, include_file) VALUES ('Fortis', 'fortis_be.inc.php');
+INSERT INTO format_csv_banque (name, include_file) VALUES ('EUB', 'eub_be.inc.php');
+INSERT INTO format_csv_banque (name, include_file) VALUES ('ING', 'ing_be.inc.php');
+INSERT INTO format_csv_banque (name, include_file) VALUES ('CBC', 'cbc_be.inc.php');
+INSERT INTO format_csv_banque (name, include_file) VALUES ('Argenta Belgique', 'argenta_be.inc.php');
+INSERT INTO format_csv_banque (name, include_file) VALUES ('CBC Belgique', 'cbc_be.inc.php');
+INSERT INTO format_csv_banque (name, include_file) VALUES ('Dexia', 'dexia_be.inc.php');
+
+
+--
+-- Data for Name: formdef; Type: TABLE DATA; Schema: public; Owner: phpcompta
+--
+
+INSERT INTO formdef (fr_id, fr_label) VALUES (3000000, 'TVA déclaration Belge');
+
+
+--
+-- Data for Name: import_tmp; Type: TABLE DATA; Schema: public; Owner: phpcompta
+--
+
+INSERT INTO import_tmp (code, date_exec, date_valeur, montant, devise, compte_ordre, detail, num_compte, poste_comptable, status, bq_account, jrn, jr_rapt) VALUES ('00002/0038', '2007-01-11', '2007-01-11', '-200.00', 'EUR', '000-0000050-50', 'MEXICAN EXPRESS   VOTRE DOMICILIATION 053-2648377-37 POUR AMERICAN EXPRESS INTERNAT - ddr374188753761015 REF. : 008316635267', '000-0000050-50	', NULL, 'n', 55000001, 1, NULL);
+INSERT INTO import_tmp (code, date_exec, date_valeur, montant, devise, compte_ordre, detail, num_compte, poste_comptable, status, bq_account, jrn, jr_rapt) VALUES ('00002/0037', '2007-01-11', '2007-01-11', '150.00', 'EUR', '000-0000050-50', 'JEANNE TARZANNE STREET 1000 BXL LOYER MENSUEL', '000-0000051-51	', NULL, 'n', 55000001, 1, NULL);
+INSERT INTO import_tmp (code, date_exec, date_valeur, montant, devise, compte_ordre, detail, num_compte, poste_comptable, status, bq_account, jrn, jr_rapt) VALUES ('00001/0036', '2007-01-09', '2007-01-09', '200.00', 'EUR', '000-0000050-50', 'ZWARTE PIET STREET 1001 BXL LOYER MENSUEL', '000-0000052-52	', NULL, 'n', 55000001, 1, NULL);
+INSERT INTO import_tmp (code, date_exec, date_valeur, montant, devise, compte_ordre, detail, num_compte, poste_comptable, status, bq_account, jrn, jr_rapt) VALUES ('00001/0035', '2007-01-09', '2007-01-09', '250.00', 'EUR', '000-0000050-50', 'XMAS FATHER STREET 1002 BXL LOYER MENSUEL', '000-0000053-53	', NULL, 'n', 55000001, 1, NULL);
+INSERT INTO import_tmp (code, date_exec, date_valeur, montant, devise, compte_ordre, detail, num_compte, poste_comptable, status, bq_account, jrn, jr_rapt) VALUES ('00001/0034', '2007-01-09', '2007-01-09', '300.00', 'EUR', '000-0000050-50', 'ELVIS PRESSELAIT STREET 1003 BXL LOYER MENSUEL', '000-0000054-54	', NULL, 'n', 55000001, 1, NULL);
+INSERT INTO import_tmp (code, date_exec, date_valeur, montant, devise, compte_ordre, detail, num_compte, poste_comptable, status, bq_account, jrn, jr_rapt) VALUES ('00001/0033', '2007-01-09', '2007-01-01', '0.00', 'EUR', '000-0000050-50', '   PARTICIPATION AUX FRAIS DE TENUE DE VOTRE COMPTE A VUE POUR LE TRIMESTRE EN COURS', '	', NULL, 'n', 55000001, 1, NULL);
+INSERT INTO import_tmp (code, date_exec, date_valeur, montant, devise, compte_ordre, detail, num_compte, poste_comptable, status, bq_account, jrn, jr_rapt) VALUES ('00001/0032', '2007-01-09', '2007-01-02', '-5.00', 'EUR', '000-0000050-50', '   COUT GESTION CARTE DE DEBIT', '	', NULL, 'n', 55000001, 1, NULL);
+INSERT INTO import_tmp (code, date_exec, date_valeur, montant, devise, compte_ordre, detail, num_compte, poste_comptable, status, bq_account, jrn, jr_rapt) VALUES ('00001/0031', '2007-01-09', '2007-01-01', '-5.00', 'EUR', '000-0000050-50', '   COUT GESTION CARTE DE DEBIT', '	', NULL, 'n', 55000001, 1, NULL);
+INSERT INTO import_tmp (code, date_exec, date_valeur, montant, devise, compte_ordre, detail, num_compte, poste_comptable, status, bq_account, jrn, jr_rapt) VALUES ('00001/0030', '2007-01-09', '2007-01-02', '-14.00', 'EUR', '000-0000050-50', '   COUT SERVICE BANCONTACT/MISTER CASH', '	', NULL, 'n', 55000001, 1, NULL);
+INSERT INTO import_tmp (code, date_exec, date_valeur, montant, devise, compte_ordre, detail, num_compte, poste_comptable, status, bq_account, jrn, jr_rapt) VALUES ('00001/0029', '2007-01-09', '2007-01-01', '5.00', 'EUR', '000-0000050-50', '   INTERETS 01/10/2006 - 31/12/2006', '	', NULL, 'n', 55000001, 1, NULL);
+INSERT INTO import_tmp (code, date_exec, date_valeur, montant, devise, compte_ordre, detail, num_compte, poste_comptable, status, bq_account, jrn, jr_rapt) VALUES ('00001/0028', '2007-01-09', '2007-01-01', '-1.00', 'EUR', '000-0000050-50', '   FRAIS D''EXPEDITION DE VOS AVIS BANCAIRES', '	', NULL, 'n', 55000001, 1, NULL);
+INSERT INTO import_tmp (code, date_exec, date_valeur, montant, devise, compte_ordre, detail, num_compte, poste_comptable, status, bq_account, jrn, jr_rapt) VALUES ('00001/0027', '2007-01-08', '2007-01-08', '350.00', 'EUR', '000-0000050-50', 'MICHEL DUPOND STREET 1004 BXL LOYER MENSUEL', '000-0000055-55	', NULL, 'n', 55000001, 1, NULL);
+INSERT INTO import_tmp (code, date_exec, date_valeur, montant, devise, compte_ordre, detail, num_compte, poste_comptable, status, bq_account, jrn, jr_rapt) VALUES ('00001/0026', '2007-01-05', '2007-01-05', '400.00', 'EUR', '000-0000050-50', 'MARIE BASDELAINE STREET 1005 BXL LOYER MENSUEL', '000-0000055-56	', NULL, 'n', 55000001, 1, NULL);
+INSERT INTO import_tmp (code, date_exec, date_valeur, montant, devise, compte_ordre, detail, num_compte, poste_comptable, status, bq_account, jrn, jr_rapt) VALUES ('00001/0025', '2007-01-03', '2007-01-03', '450.00', 'EUR', '000-0000050-50', 'JOHN DOE STREET 1006 BXL ', '000-0000057-57	', NULL, 'n', 55000001, 1, NULL);
+INSERT INTO import_tmp (code, date_exec, date_valeur, montant, devise, compte_ordre, detail, num_compte, poste_comptable, status, bq_account, jrn, jr_rapt) VALUES ('00001/0024', '2007-01-03', '2007-01-03', '500.00', 'EUR', '000-0000050-50', 'JAY PLUSDIDEE STREET 1007 BXL LOYER MENSUEL', '000-0000058-58	', NULL, 'n', 55000001, 1, NULL);
+INSERT INTO import_tmp (code, date_exec, date_valeur, montant, devise, compte_ordre, detail, num_compte, poste_comptable, status, bq_account, jrn, jr_rapt) VALUES ('00001/0023', '2007-01-03', '2007-01-02', '-177.00', 'EUR', '000-0000050-50', 'MAKRAU   ACHAT MISTER CASH', '	', NULL, 'n', 55000001, 1, NULL);
+INSERT INTO import_tmp (code, date_exec, date_valeur, montant, devise, compte_ordre, detail, num_compte, poste_comptable, status, bq_account, jrn, jr_rapt) VALUES ('00001/0022', '2007-01-02', '2007-01-02', '-25.00', 'EUR', '000-0000050-50', 'BRIKOSHOP   ACHAT MISTER CASH', '	', NULL, 'n', 55000001, 1, NULL);
+INSERT INTO import_tmp (code, date_exec, date_valeur, montant, devise, compte_ordre, detail, num_compte, poste_comptable, status, bq_account, jrn, jr_rapt) VALUES ('00001/0021', '2007-01-02', '2007-01-02', '-20.00', 'EUR', '000-0000050-50', 'POST   CHARGEMENT PROTON', '	', NULL, 'n', 55000001, 1, NULL);
+INSERT INTO import_tmp (code, date_exec, date_valeur, montant, devise, compte_ordre, detail, num_compte, poste_comptable, status, bq_account, jrn, jr_rapt) VALUES ('00001/0020', '2007-01-02', '2007-01-02', '-100.00', 'EUR', '000-0000050-50', 'MAKRAU   ACHAT MISTER CASH', '	', NULL, 'n', 55000001, 1, NULL);
+INSERT INTO import_tmp (code, date_exec, date_valeur, montant, devise, compte_ordre, detail, num_compte, poste_comptable, status, bq_account, jrn, jr_rapt) VALUES ('00001/0019', '2007-01-02', '2006-12-31', '-1000.00', 'EUR', '000-0000050-50', '   CHARGES ECHUES', '	', NULL, 'n', 55000001, 1, NULL);
+
+
+--
+-- Data for Name: invoice; Type: TABLE DATA; Schema: public; Owner: phpcompta
+--
+
 
 
 --
@@ -639,350 +1036,105 @@ INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (366, 18, 23);
 INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (367, 19, 23);
 INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (368, 20, 23);
 INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (369, 21, 23);
-
-
---
--- Data for Name: attr_value; Type: TABLE DATA; Schema: public; Owner: phpcompta
---
-
-INSERT INTO attr_value (jft_id, av_text) VALUES (12, '4000001');
-INSERT INTO attr_value (jft_id, av_text) VALUES (13, 'Client 1');
-INSERT INTO attr_value (jft_id, av_text) VALUES (14, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (15, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (16, 'Rue du Client 1');
-INSERT INTO attr_value (jft_id, av_text) VALUES (17, '99999');
-INSERT INTO attr_value (jft_id, av_text) VALUES (18, 'Belgique');
-INSERT INTO attr_value (jft_id, av_text) VALUES (19, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (20, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (21, '4000002');
-INSERT INTO attr_value (jft_id, av_text) VALUES (22, 'Client 2');
-INSERT INTO attr_value (jft_id, av_text) VALUES (23, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (24, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (25, 'Rue du client 2');
-INSERT INTO attr_value (jft_id, av_text) VALUES (26, '108000');
-INSERT INTO attr_value (jft_id, av_text) VALUES (27, 'Belgique');
-INSERT INTO attr_value (jft_id, av_text) VALUES (28, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (29, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (34, 'Marchandise B');
-INSERT INTO attr_value (jft_id, av_text) VALUES (35, '1');
-INSERT INTO attr_value (jft_id, av_text) VALUES (47, '70002');
-INSERT INTO attr_value (jft_id, av_text) VALUES (36, '150');
-INSERT INTO attr_value (jft_id, av_text) VALUES (37, '140');
-INSERT INTO attr_value (jft_id, av_text) VALUES (50, '4400001');
-INSERT INTO attr_value (jft_id, av_text) VALUES (51, 'Fournisseur A');
-INSERT INTO attr_value (jft_id, av_text) VALUES (52, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (53, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (54, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (55, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (56, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (57, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (58, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (59, '4400002');
-INSERT INTO attr_value (jft_id, av_text) VALUES (60, 'Fournisseur B');
-INSERT INTO attr_value (jft_id, av_text) VALUES (61, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (62, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (63, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (64, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (65, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (66, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (67, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (68, '610001');
-INSERT INTO attr_value (jft_id, av_text) VALUES (69, 'fourniture A');
-INSERT INTO attr_value (jft_id, av_text) VALUES (70, '1');
-INSERT INTO attr_value (jft_id, av_text) VALUES (71, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (76, '55000002');
-INSERT INTO attr_value (jft_id, av_text) VALUES (77, 'Argenta');
-INSERT INTO attr_value (jft_id, av_text) VALUES (78, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (79, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (80, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (81, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (82, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (83, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (84, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (85, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (86, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (87, '4000003');
-INSERT INTO attr_value (jft_id, av_text) VALUES (88, '4000004');
-INSERT INTO attr_value (jft_id, av_text) VALUES (89, 'Toto');
-INSERT INTO attr_value (jft_id, av_text) VALUES (90, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (91, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (92, 'Maison de toto');
-INSERT INTO attr_value (jft_id, av_text) VALUES (93, 'cp');
-INSERT INTO attr_value (jft_id, av_text) VALUES (94, 'pays');
-INSERT INTO attr_value (jft_id, av_text) VALUES (95, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (96, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (97, '4000005');
-INSERT INTO attr_value (jft_id, av_text) VALUES (98, 'NOUVEAU CLIENT');
-INSERT INTO attr_value (jft_id, av_text) VALUES (99, 'Toto');
-INSERT INTO attr_value (jft_id, av_text) VALUES (100, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (101, 'Adresse');
-INSERT INTO attr_value (jft_id, av_text) VALUES (102, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (103, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (104, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (105, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (42, 'Marchandise D');
-INSERT INTO attr_value (jft_id, av_text) VALUES (43, '15');
-INSERT INTO attr_value (jft_id, av_text) VALUES (49, '70004');
-INSERT INTO attr_value (jft_id, av_text) VALUES (44, '150');
-INSERT INTO attr_value (jft_id, av_text) VALUES (45, '75');
-INSERT INTO attr_value (jft_id, av_text) VALUES (38, 'Marchandise C');
-INSERT INTO attr_value (jft_id, av_text) VALUES (39, '20');
-INSERT INTO attr_value (jft_id, av_text) VALUES (48, '70003');
-INSERT INTO attr_value (jft_id, av_text) VALUES (40, '200');
-INSERT INTO attr_value (jft_id, av_text) VALUES (41, '100');
-INSERT INTO attr_value (jft_id, av_text) VALUES (107, 'Marchandise Ex');
-INSERT INTO attr_value (jft_id, av_text) VALUES (108, '10');
-INSERT INTO attr_value (jft_id, av_text) VALUES (111, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (109, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (110, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (30, 'Marchandise A');
-INSERT INTO attr_value (jft_id, av_text) VALUES (46, '70001');
-INSERT INTO attr_value (jft_id, av_text) VALUES (32, '100');
-INSERT INTO attr_value (jft_id, av_text) VALUES (33, '120');
-INSERT INTO attr_value (jft_id, av_text) VALUES (31, '1');
-INSERT INTO attr_value (jft_id, av_text) VALUES (112, '4400003');
-INSERT INTO attr_value (jft_id, av_text) VALUES (113, 'Fournisseur E');
-INSERT INTO attr_value (jft_id, av_text) VALUES (114, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (115, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (116, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (117, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (118, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (119, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (120, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (121, '4400004');
-INSERT INTO attr_value (jft_id, av_text) VALUES (122, 'Propriétaire bureau');
-INSERT INTO attr_value (jft_id, av_text) VALUES (123, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (124, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (125, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (126, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (127, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (128, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (129, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (73, 'Loyer');
-INSERT INTO attr_value (jft_id, av_text) VALUES (74, '4');
-INSERT INTO attr_value (jft_id, av_text) VALUES (72, '610002');
-INSERT INTO attr_value (jft_id, av_text) VALUES (75, '400');
-INSERT INTO attr_value (jft_id, av_text) VALUES (130, '4400005');
-INSERT INTO attr_value (jft_id, av_text) VALUES (131, 'Fournisseur Eau Gaz');
-INSERT INTO attr_value (jft_id, av_text) VALUES (132, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (133, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (134, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (135, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (136, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (137, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (138, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (140, 'eau, gaz electricité');
-INSERT INTO attr_value (jft_id, av_text) VALUES (141, '1');
-INSERT INTO attr_value (jft_id, av_text) VALUES (139, '610003');
-INSERT INTO attr_value (jft_id, av_text) VALUES (142, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (2, 'Banque 1');
-INSERT INTO attr_value (jft_id, av_text) VALUES (3, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (4, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (1, '550');
-INSERT INTO attr_value (jft_id, av_text) VALUES (5, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (6, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (7, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (8, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (9, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (10, 'a');
-INSERT INTO attr_value (jft_id, av_text) VALUES (11, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (106, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (144, 'Achat Marchandise A');
-INSERT INTO attr_value (jft_id, av_text) VALUES (145, '3');
-INSERT INTO attr_value (jft_id, av_text) VALUES (143, '6040001');
-INSERT INTO attr_value (jft_id, av_text) VALUES (146, '350');
-INSERT INTO attr_value (jft_id, av_text) VALUES (147, '');
-INSERT INTO attr_value (jft_id, av_text) VALUES (148, '1');
-INSERT INTO attr_value (jft_id, av_text) VALUES (349, 'FID1');
-INSERT INTO attr_value (jft_id, av_text) VALUES (350, 'FID2');
-INSERT INTO attr_value (jft_id, av_text) VALUES (351, 'FID3');
-INSERT INTO attr_value (jft_id, av_text) VALUES (352, 'FID4');
-INSERT INTO attr_value (jft_id, av_text) VALUES (353, 'FID5');
-INSERT INTO attr_value (jft_id, av_text) VALUES (354, 'FID6');
-INSERT INTO attr_value (jft_id, av_text) VALUES (355, 'FID7');
-INSERT INTO attr_value (jft_id, av_text) VALUES (356, 'FID8');
-INSERT INTO attr_value (jft_id, av_text) VALUES (357, 'FID9');
-INSERT INTO attr_value (jft_id, av_text) VALUES (358, 'FID10');
-INSERT INTO attr_value (jft_id, av_text) VALUES (359, 'FID11');
-INSERT INTO attr_value (jft_id, av_text) VALUES (360, 'FID12');
-INSERT INTO attr_value (jft_id, av_text) VALUES (361, 'FID13');
-INSERT INTO attr_value (jft_id, av_text) VALUES (362, 'FID14');
-INSERT INTO attr_value (jft_id, av_text) VALUES (363, 'FID15');
-INSERT INTO attr_value (jft_id, av_text) VALUES (364, 'FID16');
-INSERT INTO attr_value (jft_id, av_text) VALUES (365, 'FID17');
-INSERT INTO attr_value (jft_id, av_text) VALUES (366, 'FID18');
-INSERT INTO attr_value (jft_id, av_text) VALUES (367, 'FID19');
-INSERT INTO attr_value (jft_id, av_text) VALUES (368, 'FID20');
-INSERT INTO attr_value (jft_id, av_text) VALUES (369, 'FID21');
-
-
---
--- Data for Name: centralized; Type: TABLE DATA; Schema: public; Owner: phpcompta
---
-
-
-
---
--- Data for Name: document; Type: TABLE DATA; Schema: public; Owner: phpcompta
---
-
-
-
---
--- Data for Name: document_modele; Type: TABLE DATA; Schema: public; Owner: phpcompta
---
-
-
-
---
--- Data for Name: document_state; Type: TABLE DATA; Schema: public; Owner: phpcompta
---
-
-INSERT INTO document_state (s_id, s_value) VALUES (1, 'Envoyé');
-INSERT INTO document_state (s_id, s_value) VALUES (2, 'Brouillon');
-INSERT INTO document_state (s_id, s_value) VALUES (3, 'A envoyer');
-INSERT INTO document_state (s_id, s_value) VALUES (4, 'Reçu');
-
-
---
--- Data for Name: document_type; Type: TABLE DATA; Schema: public; Owner: phpcompta
---
-
-INSERT INTO document_type (dt_id, dt_value) VALUES (1, 'Document Interne');
-INSERT INTO document_type (dt_id, dt_value) VALUES (2, 'Bons de commande client');
-INSERT INTO document_type (dt_id, dt_value) VALUES (3, 'Bon de commande Fournisseur');
-INSERT INTO document_type (dt_id, dt_value) VALUES (4, 'Facture');
-INSERT INTO document_type (dt_id, dt_value) VALUES (5, 'Lettre de rappel');
-INSERT INTO document_type (dt_id, dt_value) VALUES (6, 'Courrier');
-INSERT INTO document_type (dt_id, dt_value) VALUES (7, 'Proposition');
-INSERT INTO document_type (dt_id, dt_value) VALUES (8, 'Email');
-INSERT INTO document_type (dt_id, dt_value) VALUES (9, 'Divers');
-
-
---
--- Data for Name: formdef; Type: TABLE DATA; Schema: public; Owner: phpcompta
---
-
-INSERT INTO formdef (fr_id, fr_label) VALUES (3000000, 'TVA déclaration Belge');
-
-
---
--- Data for Name: form; Type: TABLE DATA; Schema: public; Owner: phpcompta
---
-
-INSERT INTO form (fo_id, fo_fr_id, fo_pos, fo_label, fo_formula) VALUES (3000398, 3000000, 1, 'Prestation [ case 03 ]', '[700%]-[7000005]');
-INSERT INTO form (fo_id, fo_fr_id, fo_pos, fo_label, fo_formula) VALUES (3000399, 3000000, 2, 'Prestation intra [ case 47 ]', '[7000005]');
-INSERT INTO form (fo_id, fo_fr_id, fo_pos, fo_label, fo_formula) VALUES (3000400, 3000000, 3, 'Tva due   [case 54]', '[4513]+[4512]+[4511] FROM=01.2005');
-INSERT INTO form (fo_id, fo_fr_id, fo_pos, fo_label, fo_formula) VALUES (3000401, 3000000, 4, 'Marchandises, matière première et auxiliaire [case 81 ]', '[60%]');
-INSERT INTO form (fo_id, fo_fr_id, fo_pos, fo_label, fo_formula) VALUES (3000402, 3000000, 7, 'Service et bien divers [case 82]', '[61%]');
-INSERT INTO form (fo_id, fo_fr_id, fo_pos, fo_label, fo_formula) VALUES (3000403, 3000000, 8, 'bien d''invest [ case 83 ]', '[2400%]');
-INSERT INTO form (fo_id, fo_fr_id, fo_pos, fo_label, fo_formula) VALUES (3000404, 3000000, 9, 'TVA déductible [ case 59 ]', 'abs([4117]-[411%])');
-INSERT INTO form (fo_id, fo_fr_id, fo_pos, fo_label, fo_formula) VALUES (3000405, 3000000, 8, 'TVA non ded -> voiture', '[610022]*0.21/2');
-INSERT INTO form (fo_id, fo_fr_id, fo_pos, fo_label, fo_formula) VALUES (3000406, 3000000, 9, 'Acompte TVA', '[4117]');
-
-
---
--- Data for Name: format_csv_banque; Type: TABLE DATA; Schema: public; Owner: phpcompta
---
-
-INSERT INTO format_csv_banque (name, include_file) VALUES ('Fortis', 'fortis_be.inc.php');
-INSERT INTO format_csv_banque (name, include_file) VALUES ('EUB', 'eub_be.inc.php');
-INSERT INTO format_csv_banque (name, include_file) VALUES ('ING', 'ing_be.inc.php');
-INSERT INTO format_csv_banque (name, include_file) VALUES ('CBC', 'cbc_be.inc.php');
-INSERT INTO format_csv_banque (name, include_file) VALUES ('Argenta Belgique', 'argenta_be.inc.php');
-INSERT INTO format_csv_banque (name, include_file) VALUES ('CBC Belgique', 'cbc_be.inc.php');
-
---
--- Data for Name: import_tmp; Type: TABLE DATA; Schema: public; Owner: phpcompta
---
-
-
-
---
--- Data for Name: invoice; Type: TABLE DATA; Schema: public; Owner: phpcompta
---
+INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (371, 23, 1);
+INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (372, 23, 5);
+INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (373, 23, 5);
+INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (406, 23, 5);
+INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (407, 23, 5);
+INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (408, 23, 5);
+INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (409, 23, 5);
+INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (410, 23, 5);
+INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (411, 23, 5);
+INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (412, 23, 5);
+INSERT INTO jnt_fic_att_value (jft_id, f_id, ad_id) VALUES (413, 4, 19);
 
 
 --
 -- Data for Name: jnt_fic_attr; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (1, 5);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (1, 1);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (1, 3);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (1, 4);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (1, 12);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (1, 13);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (1, 14);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (1, 15);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (1, 16);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (1, 17);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (1, 18);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (2, 5);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (2, 1);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (2, 12);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (2, 13);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (2, 14);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (2, 15);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (2, 16);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (2, 17);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (2, 18);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (3, 1);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (3, 2);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (3, 6);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (3, 7);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (3, 5);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (4, 5);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (4, 1);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (4, 12);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (4, 13);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (4, 14);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (4, 15);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (4, 16);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (4, 17);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (4, 18);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (5, 5);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (5, 1);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (5, 2);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (5, 7);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (6, 5);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (6, 1);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (6, 2);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (6, 6);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (6, 7);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (6, 19);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (7, 5);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (7, 1);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (7, 2);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (7, 6);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (7, 7);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (7, 19);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (8, 1);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (8, 2);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (8, 6);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (8, 7);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (8, 19);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (9, 1);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (9, 5);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (9, 9);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (9, 12);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (9, 14);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (9, 15);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (9, 17);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (9, 18);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (9, 16);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (1, 23);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (2, 23);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (3, 23);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (4, 23);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (5, 23);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (6, 23);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (9, 23);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (7, 23);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (8, 23);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (2, 24);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (4, 24);
-INSERT INTO jnt_fic_attr (fd_id, ad_id) VALUES (2, 24);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (1, 5, 1);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (1, 1, 2);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (1, 3, 3);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (1, 4, 4);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (1, 12, 5);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (1, 13, 6);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (1, 14, 7);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (1, 15, 8);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (1, 16, 9);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (1, 17, 10);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (1, 18, 11);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (2, 5, 12);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (2, 1, 13);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (2, 12, 14);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (2, 13, 15);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (2, 14, 16);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (2, 15, 17);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (2, 16, 18);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (2, 17, 19);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (2, 18, 20);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (3, 1, 21);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (3, 2, 22);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (3, 6, 23);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (3, 7, 24);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (3, 5, 25);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (4, 5, 26);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (4, 1, 27);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (4, 12, 28);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (4, 13, 29);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (4, 14, 30);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (4, 15, 31);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (4, 16, 32);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (4, 17, 33);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (4, 18, 34);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (5, 5, 35);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (5, 1, 36);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (5, 2, 37);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (5, 7, 38);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (6, 5, 39);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (6, 1, 40);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (6, 2, 41);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (6, 6, 42);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (6, 7, 43);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (6, 19, 44);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (7, 5, 45);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (7, 1, 46);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (7, 2, 47);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (7, 6, 48);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (7, 7, 49);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (7, 19, 50);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (8, 1, 51);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (8, 2, 52);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (8, 6, 53);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (8, 7, 54);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (8, 19, 55);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (9, 1, 56);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (9, 5, 57);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (9, 9, 58);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (9, 12, 59);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (9, 14, 60);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (9, 15, 61);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (9, 17, 62);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (9, 18, 63);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (9, 16, 64);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (1, 23, 65);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (2, 23, 66);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (3, 23, 67);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (4, 23, 68);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (5, 23, 69);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (6, 23, 70);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (9, 23, 71);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (7, 23, 72);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (8, 23, 73);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (2, 24, 74);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (4, 24, 75);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (11, 5, 77);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (11, 1, 78);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (11, 8, 79);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (11, 9, 80);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (11, 10, 81);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (11, 23, 82);
+INSERT INTO jnt_fic_attr (fd_id, ad_id, jnt_id) VALUES (3, 19, 83);
 
 
 --
@@ -1013,15 +1165,16 @@ INSERT INTO jrn_action (ja_id, ja_name, ja_desc, ja_url, ja_action, ja_lang, ja_
 --
 
 INSERT INTO jrn_def (jrn_def_id, jrn_def_name, jrn_def_class_deb, jrn_def_class_cred, jrn_def_fiche_deb, jrn_def_fiche_cred, jrn_deb_max_line, jrn_cred_max_line, jrn_def_ech, jrn_def_ech_lib, jrn_def_type, jrn_def_code) VALUES (4, 'Opération Diverses', NULL, NULL, NULL, NULL, 5, 5, false, NULL, 'OD ', 'OD-01');
-INSERT INTO jrn_def (jrn_def_id, jrn_def_name, jrn_def_class_deb, jrn_def_class_cred, jrn_def_fiche_deb, jrn_def_fiche_cred, jrn_deb_max_line, jrn_cred_max_line, jrn_def_ech, jrn_def_ech_lib, jrn_def_type, jrn_def_code) VALUES (3, 'Achat', '6*', '4*', '5', '4', 1, 3, true, 'échéance', 'ACH', 'ACH-01');
 INSERT INTO jrn_def (jrn_def_id, jrn_def_name, jrn_def_class_deb, jrn_def_class_cred, jrn_def_fiche_deb, jrn_def_fiche_cred, jrn_deb_max_line, jrn_cred_max_line, jrn_def_ech, jrn_def_ech_lib, jrn_def_type, jrn_def_code) VALUES (2, 'Vente', '7*', '4*', '2', '3', 1, 3, true, 'échéance', 'VEN', 'VEN-01');
 INSERT INTO jrn_def (jrn_def_id, jrn_def_name, jrn_def_class_deb, jrn_def_class_cred, jrn_def_fiche_deb, jrn_def_fiche_cred, jrn_deb_max_line, jrn_cred_max_line, jrn_def_ech, jrn_def_ech_lib, jrn_def_type, jrn_def_code) VALUES (1, 'Financier', '5* ', '5*', '1,2,4,9', '1,2,4,9', 5, 5, false, NULL, 'FIN', 'FIN-01');
+INSERT INTO jrn_def (jrn_def_id, jrn_def_name, jrn_def_class_deb, jrn_def_class_cred, jrn_def_fiche_deb, jrn_def_fiche_cred, jrn_deb_max_line, jrn_cred_max_line, jrn_def_ech, jrn_def_ech_lib, jrn_def_type, jrn_def_code) VALUES (3, 'Achat', '6*', '4*', '5,6', '4', 1, 1, true, 'échéance', 'ACH', 'ACH-01');
 
 
 --
 -- Data for Name: jrn_rapt; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
+INSERT INTO jrn_rapt (jra_id, jr_id, jra_concerned) VALUES (14, 189, 189);
 
 
 --
@@ -1067,7 +1220,7 @@ INSERT INTO parm_code (p_code, p_value, p_comment) VALUES ('VIREMENT_INTERNE', '
 INSERT INTO parm_code (p_code, p_value, p_comment) VALUES ('COMPTE_COURANT', '56', 'Poste comptable pour le compte courant');
 INSERT INTO parm_code (p_code, p_value, p_comment) VALUES ('CAISSE', '57', 'Poste comptable pour la caisse');
 INSERT INTO parm_code (p_code, p_value, p_comment) VALUES ('TVA_DNA', '6740', 'Tva non déductible s');
-INSERT INTO parm_code (p_code, p_value, p_comment) VALUES ('TVA_DED_IMPOT', '64012', 'Tva déductible par l''impôt');
+INSERT INTO parm_code (p_code, p_value, p_comment) VALUES ('TVA_DED_IMPOT', '619000', 'Tva déductible par l''impôt');
 INSERT INTO parm_code (p_code, p_value, p_comment) VALUES ('VENTE', '70', 'Poste comptable de base pour les ventes');
 
 
@@ -1114,12 +1267,88 @@ INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed, p_central)
 -- Data for Name: quant_sold; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (1, '1VEN-01-1', 5, 1.0000, 150.0000, 31.5000, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (2, '1VEN-01-2', 5, 1.0000, 150.0000, 31.5000, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (3, '1VEN-01-3', 5, 1.0000, 150.0000, 31.5000, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (4, '1VEN-01-4', 5, 1.0000, 150.0000, 31.5000, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (5, '1VEN-01-5', 5, 1.0000, 150.0000, 31.5000, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (6, '1VEN-01-6', 5, 1.0000, 150.0000, 31.5000, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (7, '1VEN-01-7', 5, 1.0000, 150.0000, 31.5000, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (8, '1VEN-01-8', 5, 1.0000, 150.0000, 31.5000, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (9, '1VEN-01-9', 5, 1.0000, 150.0000, 31.5000, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (10, '1VEN-01-16', 5, 1.0000, 150.0000, 31.5000, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (11, '1VEN-01-17', 5, 1.0000, 150.0000, 31.5000, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (12, '1VEN-01-18', 5, 1.0000, 150.0000, 31.5000, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (13, '1VEN-01-19', 5, 1.0000, 150.0000, 31.5000, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (14, '1VEN-01-20', 5, 1.0000, 150.0000, 31.5000, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (15, '1VEN-01-21', 5, 1.0000, 150.0000, 31.5000, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (16, '1VEN-01-22', 5, 1.0000, 150.0000, 31.5000, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (17, '1VEN-01-23', 5, 1.0000, 150.0000, 31.5000, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (18, '1VEN-01-24', 7, 1.0000, 150.0000, 0.0000, NULL, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (19, '1VEN-01-25', 7, 1.0000, 150.0000, 0.0000, NULL, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (20, '1VEN-01-34', 4, 10.0000, 1000.0000, 210.0000, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (21, '1VEN-01-35', 7, 1.0000, 150.0000, 0.0000, NULL, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (22, '1VEN-01-36', 7, 1.0000, 150.0000, 0.0000, NULL, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (23, '1VEN-01-37', 7, 1.0000, 150.0000, 0.0000, NULL, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (24, '1VEN-01-38', 7, 1.0000, 150.0000, 0.0000, NULL, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (25, '1VEN-01-39', 4, 10.0000, 1000.0000, 210.0000, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (26, '1VEN-01-40', 4, 10.0000, 1000.0000, 210.0000, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (27, '1VEN-01-41', 4, 10.0000, 1000.0000, 210.0000, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (28, '1VEN-01-48', 4, 10.0000, 1000.0000, 210.0000, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (29, '1VEN-01-49', 4, 10.0000, 1000.0000, 210.0000, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (30, '1VEN-01-50', 4, 10.0000, 1000.0000, 210.0000, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (31, '1VEN-01-51', 4, 10.0000, 1000.0000, 210.0000, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (32, '1VEN-01-52', 4, 10.0000, 1000.0000, 210.0000, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (33, '1VEN-01-53', 4, 10.0000, 1000.0000, 210.0000, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (34, '1VEN-01-54', 4, 10.0000, 1000.0000, 210.0000, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (35, '1VEN-01-55', 4, 10.0000, 1000.0000, 210.0000, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (36, '1VEN-01-56', 4, 10.0000, 1000.0000, 210.0000, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (37, '1VEN-01-57', 4, 10.0000, 1000.0000, 210.0000, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (38, '1VEN-01-64', 4, 10.0000, 1000.0000, 210.0000, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (39, '1VEN-01-65', 4, 10.0000, 1000.0000, 210.0000, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (40, '1VEN-01-66', 4, 95.5000, 9550.0000, 2005.5000, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (41, '1VEN-01-66', 4, 20.0000, 4000.0000, 840.0000, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (42, '1VEN-01-68', 4, 123.0000, 147.6000, 0.0000, NULL, 2);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (43, '1VEN-01-68', 4, 5.8000, 5.2200, 0.0000, NULL, 2);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (44, '1VEN-01-70', 4, 1.0000, 120.0000, 0.0000, NULL, 2);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (45, '1VEN-01-71', 4, 10.0000, 10.0000, 0.0000, NULL, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (46, '1VEN-01-80', 4, 10.2000, 1022.0400, 214.6300, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (47, '1VEN-01-80', 5, 1.0000, 150.0000, 31.5000, 1, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (48, '1VEN-01-82', 6, 1.0000, 200.0000, 0.0000, NULL, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (49, '1VEN-01-83', 6, 1.0000, 200.0000, 0.0000, NULL, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (50, '1VEN-01-84', 6, 1.0000, 200.0000, 0.0000, NULL, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (51, '1VEN-01-85', 6, 1.0000, 200.0000, 0.0000, NULL, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (52, '1VEN-01-86', 6, 1.0000, 200.0000, 0.0000, NULL, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (53, '1VEN-01-87', 6, 1.0000, 200.0000, 0.0000, NULL, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (54, '1VEN-01-88', 6, 1.0000, 200.0000, 0.0000, NULL, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (55, '1VEN-01-89', 6, 1.0000, 200.0000, 0.0000, NULL, 3);
+INSERT INTO quant_sold (qs_id, qs_internal, qs_fiche, qs_quantite, qs_price, qs_vat, qs_vat_code, qs_client) VALUES (56, '1VEN-01-96', 6, 1.0000, 200.0000, 0.0000, NULL, 3);
 
 
 --
 -- Data for Name: stock_goods; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
+INSERT INTO stock_goods (sg_id, j_id, f_id, sg_code, sg_quantity, sg_type, sg_date, sg_tech_date, sg_tech_user, sg_comment, sg_exercice) VALUES (79, 590, 21, 'MARCHA', 100.0000, 'd', NULL, '2007-04-17', NULL, NULL, NULL);
+INSERT INTO stock_goods (sg_id, j_id, f_id, sg_code, sg_quantity, sg_type, sg_date, sg_tech_date, sg_tech_user, sg_comment, sg_exercice) VALUES (80, 591, 21, 'MARCHA', 45.5000, 'd', NULL, '2007-04-17', NULL, NULL, NULL);
+INSERT INTO stock_goods (sg_id, j_id, f_id, sg_code, sg_quantity, sg_type, sg_date, sg_tech_date, sg_tech_user, sg_comment, sg_exercice) VALUES (81, 595, 4, 'MARCHA', 1.0000, 'c', NULL, '2007-04-17', NULL, NULL, NULL);
+INSERT INTO stock_goods (sg_id, j_id, f_id, sg_code, sg_quantity, sg_type, sg_date, sg_tech_date, sg_tech_user, sg_comment, sg_exercice) VALUES (82, NULL, 0, 'MARCHA', 2.0000, 'c', '2007-04-17', '2007-04-17', 'phpcompta', NULL, NULL);
+INSERT INTO stock_goods (sg_id, j_id, f_id, sg_code, sg_quantity, sg_type, sg_date, sg_tech_date, sg_tech_user, sg_comment, sg_exercice) VALUES (83, 598, 4, 'MARCHA', 10.0000, 'c', NULL, '2007-04-17', NULL, NULL, NULL);
+INSERT INTO stock_goods (sg_id, j_id, f_id, sg_code, sg_quantity, sg_type, sg_date, sg_tech_date, sg_tech_user, sg_comment, sg_exercice) VALUES (85, 603, 21, 'MARCHA', -5.0000, 'd', NULL, '2007-04-17', NULL, NULL, NULL);
+INSERT INTO stock_goods (sg_id, j_id, f_id, sg_code, sg_quantity, sg_type, sg_date, sg_tech_date, sg_tech_user, sg_comment, sg_exercice) VALUES (86, NULL, 0, 'MARCHA', 5.0000, 'd', '2007-04-17', '2007-04-17', 'phpcompta', NULL, NULL);
+INSERT INTO stock_goods (sg_id, j_id, f_id, sg_code, sg_quantity, sg_type, sg_date, sg_tech_date, sg_tech_user, sg_comment, sg_exercice) VALUES (87, NULL, 0, 'MARCHA', 5.0000, 'd', '2007-04-17', '2007-04-17', 'phpcompta', NULL, NULL);
+INSERT INTO stock_goods (sg_id, j_id, f_id, sg_code, sg_quantity, sg_type, sg_date, sg_tech_date, sg_tech_user, sg_comment, sg_exercice) VALUES (88, 607, 4, 'MARCHA', 10.2000, 'c', NULL, '2007-04-17', NULL, NULL, NULL);
+INSERT INTO stock_goods (sg_id, j_id, f_id, sg_code, sg_quantity, sg_type, sg_date, sg_tech_date, sg_tech_user, sg_comment, sg_exercice) VALUES (89, 608, 5, '', 1.0000, 'c', NULL, '2007-04-17', NULL, NULL, NULL);
+INSERT INTO stock_goods (sg_id, j_id, f_id, sg_code, sg_quantity, sg_type, sg_date, sg_tech_date, sg_tech_user, sg_comment, sg_exercice) VALUES (90, 610, 21, 'MARCHA', 1.0000, 'd', NULL, '2007-04-17', NULL, NULL, NULL);
+INSERT INTO stock_goods (sg_id, j_id, f_id, sg_code, sg_quantity, sg_type, sg_date, sg_tech_date, sg_tech_user, sg_comment, sg_exercice) VALUES (91, 614, 6, '', 1.0000, 'c', NULL, '2007-04-19', NULL, NULL, NULL);
+INSERT INTO stock_goods (sg_id, j_id, f_id, sg_code, sg_quantity, sg_type, sg_date, sg_tech_date, sg_tech_user, sg_comment, sg_exercice) VALUES (92, 616, 6, '', 1.0000, 'c', NULL, '2007-04-19', NULL, NULL, NULL);
+INSERT INTO stock_goods (sg_id, j_id, f_id, sg_code, sg_quantity, sg_type, sg_date, sg_tech_date, sg_tech_user, sg_comment, sg_exercice) VALUES (93, 618, 6, '', 1.0000, 'c', NULL, '2007-04-19', NULL, NULL, NULL);
+INSERT INTO stock_goods (sg_id, j_id, f_id, sg_code, sg_quantity, sg_type, sg_date, sg_tech_date, sg_tech_user, sg_comment, sg_exercice) VALUES (94, 620, 6, '', 1.0000, 'c', NULL, '2007-04-19', NULL, NULL, NULL);
+INSERT INTO stock_goods (sg_id, j_id, f_id, sg_code, sg_quantity, sg_type, sg_date, sg_tech_date, sg_tech_user, sg_comment, sg_exercice) VALUES (95, 622, 6, '', 1.0000, 'c', NULL, '2007-04-19', NULL, NULL, NULL);
+INSERT INTO stock_goods (sg_id, j_id, f_id, sg_code, sg_quantity, sg_type, sg_date, sg_tech_date, sg_tech_user, sg_comment, sg_exercice) VALUES (96, 624, 6, '', 1.0000, 'c', NULL, '2007-04-19', NULL, NULL, NULL);
+INSERT INTO stock_goods (sg_id, j_id, f_id, sg_code, sg_quantity, sg_type, sg_date, sg_tech_date, sg_tech_user, sg_comment, sg_exercice) VALUES (97, 626, 6, '', 1.0000, 'c', NULL, '2007-04-19', NULL, NULL, NULL);
+INSERT INTO stock_goods (sg_id, j_id, f_id, sg_code, sg_quantity, sg_type, sg_date, sg_tech_date, sg_tech_user, sg_comment, sg_exercice) VALUES (98, 628, 6, '', 1.0000, 'c', NULL, '2007-04-19', NULL, NULL, NULL);
+INSERT INTO stock_goods (sg_id, j_id, f_id, sg_code, sg_quantity, sg_type, sg_date, sg_tech_date, sg_tech_user, sg_comment, sg_exercice) VALUES (99, 630, 6, '', 1.0000, 'c', NULL, '2007-04-19', NULL, NULL, NULL);
 
 
 --
@@ -1629,8 +1858,10 @@ INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent, pcm_country) VALUES (440
 INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent, pcm_country) VALUES (610003, 'eau, gaz electricité', 61, 'BE');
 INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent, pcm_country) VALUES (550, 'Banque 1', 55, 'BE');
 INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent, pcm_country) VALUES (6040001, 'Marchandise A', 604, 'BE');
-INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent, pcm_country) VALUES (64012, 'TVA récupérable par l''impôt', 64, 'BE');
+INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent, pcm_country) VALUES (6190, 'TVA récupérable par l''impôt', 61, 'BE');
 INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent, pcm_country) VALUES (6740, 'Dépense non admise', 67, 'BE');
+INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent, pcm_country) VALUES (2400, 'matos', 24, 'BE');
+INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent, pcm_country) VALUES (2400001, 'Test1', 2400, 'BE');
 
 
 --
@@ -1649,7 +1880,7 @@ INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUE
 
 INSERT INTO user_local_pref (user_id, parameter_type, parameter_value) VALUES ('france', 'PERIODE', '1');
 INSERT INTO user_local_pref (user_id, parameter_type, parameter_value) VALUES ('dany', 'PERIODE', '30');
-INSERT INTO user_local_pref (user_id, parameter_type, parameter_value) VALUES ('phpcompta', 'PERIODE', '40');
+INSERT INTO user_local_pref (user_id, parameter_type, parameter_value) VALUES ('phpcompta', 'PERIODE', '57');
 
 
 --
@@ -1692,151 +1923,10 @@ INSERT INTO user_sec_jrn (uj_id, uj_login, uj_jrn_id, uj_priv) VALUES (8, 'dany'
 -- Data for Name: version; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
-INSERT INTO version (val) VALUES (15);
+INSERT INTO version (val) VALUES (28);
 
 
 --
--- Add constraint
+-- PostgreSQL database dump complete
 --
-ALTER TABLE ONLY action_gestion
-    ADD CONSTRAINT action_gestion_pkey PRIMARY KEY (ag_id);
-ALTER INDEX public.action_gestion_pkey OWNER TO phpcompta;
-ALTER TABLE ONLY "action"
-    ADD CONSTRAINT action_pkey PRIMARY KEY (ac_id);
-ALTER INDEX public.action_pkey OWNER TO phpcompta;
-ALTER TABLE ONLY attr_def
-    ADD CONSTRAINT attr_def_pkey PRIMARY KEY (ad_id);
-ALTER INDEX public.attr_def_pkey OWNER TO phpcompta;
-ALTER TABLE ONLY centralized
-    ADD CONSTRAINT centralized_pkey PRIMARY KEY (c_id);
-ALTER INDEX public.centralized_pkey OWNER TO phpcompta;
-ALTER TABLE ONLY document_modele
-    ADD CONSTRAINT document_modele_pkey PRIMARY KEY (md_id);
-ALTER INDEX public.document_modele_pkey OWNER TO phpcompta;
-ALTER TABLE ONLY document
-    ADD CONSTRAINT document_pkey PRIMARY KEY (d_id);
-ALTER INDEX public.document_pkey OWNER TO phpcompta;
-ALTER TABLE ONLY document_state
-    ADD CONSTRAINT document_state_pkey PRIMARY KEY (s_id);
-ALTER INDEX public.document_state_pkey OWNER TO phpcompta;
-ALTER TABLE ONLY document_type
-    ADD CONSTRAINT document_type_pkey PRIMARY KEY (dt_id);
-ALTER INDEX public.document_type_pkey OWNER TO phpcompta;
-ALTER TABLE ONLY fiche_def
-    ADD CONSTRAINT fiche_def_pkey PRIMARY KEY (fd_id);
-ALTER INDEX public.fiche_def_pkey OWNER TO phpcompta;
-ALTER TABLE ONLY fiche_def_ref
-    ADD CONSTRAINT fiche_def_ref_pkey PRIMARY KEY (frd_id);
-ALTER INDEX public.fiche_def_ref_pkey OWNER TO phpcompta;
-ALTER TABLE ONLY fiche
-    ADD CONSTRAINT fiche_pkey PRIMARY KEY (f_id);
-ALTER INDEX public.fiche_pkey OWNER TO phpcompta;
-ALTER TABLE ONLY form
-    ADD CONSTRAINT form_pkey PRIMARY KEY (fo_id);
-ALTER INDEX public.form_pkey OWNER TO phpcompta;
-ALTER TABLE ONLY format_csv_banque
-    ADD CONSTRAINT format_csv_banque_pkey PRIMARY KEY (name);
-ALTER INDEX public.format_csv_banque_pkey OWNER TO phpcompta;
-ALTER TABLE ONLY formdef
-    ADD CONSTRAINT formdef_pkey PRIMARY KEY (fr_id);
-ALTER INDEX public.formdef_pkey OWNER TO phpcompta;
-ALTER TABLE ONLY invoice
-    ADD CONSTRAINT invoice_pkey PRIMARY KEY (iv_id);
-ALTER INDEX public.invoice_pkey OWNER TO phpcompta;
-ALTER TABLE ONLY jnt_fic_att_value
-    ADD CONSTRAINT jnt_fic_att_value_pkey PRIMARY KEY (jft_id);
-ALTER INDEX public.jnt_fic_att_value_pkey OWNER TO phpcompta;
-ALTER TABLE ONLY jrn_action
-    ADD CONSTRAINT jrn_action_pkey PRIMARY KEY (ja_id);
-ALTER INDEX public.jrn_action_pkey OWNER TO phpcompta;
-ALTER TABLE ONLY jrn_def
-    ADD CONSTRAINT jrn_def_jrn_def_name_key UNIQUE (jrn_def_name);
-ALTER INDEX public.jrn_def_jrn_def_name_key OWNER TO phpcompta;
-ALTER TABLE ONLY jrn_def
-    ADD CONSTRAINT jrn_def_pkey PRIMARY KEY (jrn_def_id);
-ALTER INDEX public.jrn_def_pkey OWNER TO phpcompta;
-ALTER TABLE ONLY jrn
-    ADD CONSTRAINT jrn_pkey PRIMARY KEY (jr_id, jr_def_id);
-ALTER INDEX public.jrn_pkey OWNER TO phpcompta;
-ALTER TABLE ONLY jrn_rapt
-    ADD CONSTRAINT jrn_rapt_pkey PRIMARY KEY (jra_id);
-ALTER INDEX public.jrn_rapt_pkey OWNER TO phpcompta;
-ALTER TABLE ONLY jrn_type
-    ADD CONSTRAINT jrn_type_pkey PRIMARY KEY (jrn_type_id);
-ALTER INDEX public.jrn_type_pkey OWNER TO phpcompta;
-ALTER TABLE ONLY jrnx
-    ADD CONSTRAINT jrnx_pkey PRIMARY KEY (j_id);
-ALTER INDEX public.jrnx_pkey OWNER TO phpcompta;
-ALTER TABLE ONLY parameter
-    ADD CONSTRAINT parameter_pkey PRIMARY KEY (pr_id);
-ALTER INDEX public.parameter_pkey OWNER TO phpcompta;
-ALTER TABLE ONLY parm_code
-    ADD CONSTRAINT parm_code_pkey PRIMARY KEY (p_code);
-ALTER INDEX public.parm_code_pkey OWNER TO phpcompta;
-ALTER TABLE ONLY parm_money
-    ADD CONSTRAINT parm_money_pkey PRIMARY KEY (pm_code);
-ALTER INDEX public.parm_money_pkey OWNER TO phpcompta;
-ALTER TABLE ONLY parm_periode
-    ADD CONSTRAINT parm_periode_p_start_key UNIQUE (p_start);
-ALTER INDEX public.parm_periode_p_start_key OWNER TO phpcompta;
-ALTER TABLE ONLY parm_periode
-    ADD CONSTRAINT parm_periode_pkey PRIMARY KEY (p_id);
-ALTER INDEX public.parm_periode_pkey OWNER TO phpcompta;
-ALTER TABLE ONLY user_local_pref
-    ADD CONSTRAINT pk_user_local_pref PRIMARY KEY (user_id, parameter_type);
-ALTER INDEX public.pk_user_local_pref OWNER TO phpcompta;
-ALTER TABLE ONLY quant_sold
-    ADD CONSTRAINT qs_id_pk PRIMARY KEY (qs_id);
-ALTER INDEX public.qs_id_pk OWNER TO phpcompta;
-ALTER TABLE ONLY stock_goods
-    ADD CONSTRAINT stock_goods_pkey PRIMARY KEY (sg_id);
-ALTER INDEX public.stock_goods_pkey OWNER TO phpcompta;
-ALTER TABLE ONLY tmp_pcmn
-    ADD CONSTRAINT tmp_pcmn_pkey PRIMARY KEY (pcm_val);
-ALTER INDEX public.tmp_pcmn_pkey OWNER TO phpcompta;
-ALTER TABLE ONLY user_sec_act
-    ADD CONSTRAINT user_sec_act_pkey PRIMARY KEY (ua_id);
-ALTER INDEX public.user_sec_act_pkey OWNER TO phpcompta;
-ALTER TABLE ONLY user_sec_jrn
-    ADD CONSTRAINT user_sec_jrn_pkey PRIMARY KEY (uj_id);
 
-ALTER TABLE ONLY jrn_def
-    ADD CONSTRAINT "$1" FOREIGN KEY (jrn_def_type) REFERENCES jrn_type(jrn_type_id);
-ALTER TABLE ONLY form
-    ADD CONSTRAINT "$1" FOREIGN KEY (fo_fr_id) REFERENCES formdef(fr_id);
-ALTER TABLE ONLY centralized
-    ADD CONSTRAINT "$1" FOREIGN KEY (c_jrn_def) REFERENCES jrn_def(jrn_def_id);
-ALTER TABLE ONLY user_sec_jrn
-    ADD CONSTRAINT "$1" FOREIGN KEY (uj_jrn_id) REFERENCES jrn_def(jrn_def_id);
-ALTER TABLE ONLY user_sec_act
-    ADD CONSTRAINT "$1" FOREIGN KEY (ua_act_id) REFERENCES "action"(ac_id);
-ALTER TABLE ONLY jrn_action
-    ADD CONSTRAINT "$1" FOREIGN KEY (ja_jrn_type) REFERENCES jrn_type(jrn_type_id);
-ALTER TABLE ONLY fiche_def
-    ADD CONSTRAINT "$1" FOREIGN KEY (frd_id) REFERENCES fiche_def_ref(frd_id);
-ALTER TABLE ONLY fiche
-    ADD CONSTRAINT "$1" FOREIGN KEY (fd_id) REFERENCES fiche_def(fd_id);
-ALTER TABLE ONLY jnt_fic_att_value
-    ADD CONSTRAINT "$1" FOREIGN KEY (f_id) REFERENCES fiche(f_id);
-ALTER TABLE ONLY attr_value
-    ADD CONSTRAINT "$1" FOREIGN KEY (jft_id) REFERENCES jnt_fic_att_value(jft_id);
-ALTER TABLE ONLY jnt_fic_attr
-    ADD CONSTRAINT "$1" FOREIGN KEY (fd_id) REFERENCES fiche_def(fd_id);
-ALTER TABLE ONLY jrn
-    ADD CONSTRAINT "$1" FOREIGN KEY (jr_def_id) REFERENCES jrn_def(jrn_def_id);
-ALTER TABLE ONLY attr_min
-    ADD CONSTRAINT "$1" FOREIGN KEY (frd_id) REFERENCES fiche_def_ref(frd_id);
-ALTER TABLE ONLY jrnx
-    ADD CONSTRAINT "$1" FOREIGN KEY (j_poste) REFERENCES tmp_pcmn(pcm_val);
-ALTER TABLE ONLY jrnx
-    ADD CONSTRAINT "$2" FOREIGN KEY (j_jrn_def) REFERENCES jrn_def(jrn_def_id);
-ALTER TABLE ONLY jnt_fic_att_value
-    ADD CONSTRAINT "$2" FOREIGN KEY (ad_id) REFERENCES attr_def(ad_id);
-ALTER TABLE ONLY jnt_fic_attr
-    ADD CONSTRAINT "$2" FOREIGN KEY (ad_id) REFERENCES attr_def(ad_id);
-ALTER TABLE ONLY attr_min
-    ADD CONSTRAINT "$2" FOREIGN KEY (ad_id) REFERENCES attr_def(ad_id);
-ALTER TABLE ONLY centralized
-    ADD CONSTRAINT "$2" FOREIGN KEY (c_poste) REFERENCES tmp_pcmn(pcm_val);
-ALTER TABLE ONLY document_modele
-    ADD CONSTRAINT md_type FOREIGN KEY (md_type) REFERENCES document_type(dt_id);
