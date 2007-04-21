@@ -8,7 +8,7 @@
 <abstract>
 Ce document décrit l'installation complète de PhpCompta et explique comment 
 ont été installés les programmes dont PhpCompta dépend. 
-PhpCompta <url url="http://www.alchimerys.be/FR/phpcompta"  name="PhpCompta">, 
+PhpCompta <url url="http://www.phpcompta.org"  name="PhpCompta">, 
 site savannah 
 <url url="http://savannah.nongnu.org/projects/phpcompta/" name="PhpCompta Savannah">
 <!-- Table of contents -->
@@ -18,11 +18,16 @@ site savannah
 faire avec les "packages" standards 
 fournis; ces "packages" sont largement suffisants. Les explications
 données ici sur l'installation de ces produits sont destinées à ceux 
-préfèrant le faire manuellement.
+préfèrant le faire manuellement. En général vous pourrez l'installer assez facilement
+<url url= "http://www.phpcompta.org/pmwiki.php/Documentation/InstallationRapide" name="Installation Rapide">
+Il existe aussi un manuel d'installation exhaustif pour Debian, pleins d'informations utiles
+<url url="http://www.blanchin.eu/?p=12" Name="Manuel pour Debian">.
+
 
 <p>Si vous installez sous Windows, il est assez compliqué de recompiler. 
-Il est préférable d'utiliser les programmes fournis sur <url url="http://www.postgresql.org" 
-name="Postgres"> et <url url="http://www.easyphp.org/" name="EasyPhp">.
+Il est préférable d'utiliser les programmes fournis sur 
+<url url="http://www.postgresql.org" name="Postgres"> et 
+<url url="http://www.easyphp.org/" name="EasyPhp">.
 
 
 <p> Cependant, les configurations des différents produits sont importantes
@@ -72,8 +77,7 @@ D'autres options sont conseillées pour l'optimisation de Postgresql
 ne pas oublier d'ajouter dans le PATH, l'endroit où se trouve les
 binaires de postgres
 <verb>
-ex:
-export PATH=$PATH:/opt/psql732/bin
+export PATH=$PATH:/opt/psql/bin
 </verb>
 </p>
 <p>
@@ -166,27 +170,25 @@ AddType application/x-httpd-php	.php4 .php3 .php .phtml
 </verb>
 Et si vous décidez d'avoir la même configuration que moi, mais ce
 n'est pas obligatoire
+Il est possible d'utiliser les virtuals hosts ainsi
 <verb>
-&lt; VirtualHost 172.16.30.150 &gt;
-	ServerName site
-	ErrorLog phpcompta-error.log
-	TransferLog phpcompta-debug.log
-	DocumentRoot /home/httpd/compta/html
-&lt;/VirtualHost &gt;
-</verb>
-
-<p> Note certains ont fait ceci pour configurer Apache
-<verb>
-&lt;VirtualHost localhost&gt;
-   ServerAdmin webmaster@dummy-host.example.com
-   DocumentRoot /www/phpcompta/html/
-   ServerName phpcompta
-   php_flag session.auto_start 1
-   php_flag magic_quotes_gpc 0
-   php_flag session.use_trans_sid 1
-   php_value include_path ".:../include:../addon"
+&lt;VirtualHost *&gt;
+	Servername ...
+	DocumentRoot /var/www/acapulco/htdocs
+        &lt;Directory /var/www/acapulco/htdocs/phpcompta/html/&gt;
+                AddDefaultCharset iso-8859-1
+                php_value include_path .:../../include:../include:addon
+                php_flag  magic_quotes_gpc off
+                php_flag session.auto_start on
+                php_value session.save_path /tmp
+                php_value max_execution_time 120
+                php_flag short_open_tag on
+                php_flag session.use_trans_sid on
+        &lt;/Directory&gt;
 &lt;/VirtualHost&gt;
 </verb>
+
+<p> 
 Actuellement, le répertoire html, contient un fichier .htaccess
 qui contient le nécessaire pour que les variables php soient
 correctes  (voir <ref id="htaccess" name="configuration de .htaccess">).

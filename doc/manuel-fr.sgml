@@ -2,12 +2,12 @@
 <article>
 <title> PhpCompta Manuel d'utilisation</title>
 <author>
- <name>originally written by Dany De Bontridder
- </name>
+ <name>originally written by Dany De Bontridder </name>
 </author>
 <date>$Revision$</date>
 <abstract>
-Ce document est le manuel d'utilisation de PhpCompta.<url url="http://savannah.nongnu.org/projects/phpcompta/" name="Ph pCompta Savannah">.
+Ce document est le manuel d'utilisation de PhpCompta.
+<url url="http://savannah.nongnu.org/projects/phpcompta/" name="PhpCompta Savannah">.
  Il aborde des thèmes
 comme la sécurité, l'utilisation de PhpCompta, les trucs et astuces, et
 de la documentation pour ceux qui aimeraient contribuer.
@@ -175,9 +175,9 @@ notre dette envers le fournisseur d'électricité et pas du tout le
 paiement! Ce paiement se fera dans le journal financier
  par l'écriture Fournisseur à 
 banque: la créance de votre fournisseur diminue notre compte en banque
-diminue. voir les explications de la section  <ref id="comptesap"
- name="comptes actifs passifs">, tandis que la reconnaissance de dette
-se fera dans un journal d'achat.
+diminue. voir les explications de la section  
+<ref id="comptesap" name="comptes actifs passifs">, tandis que 
+la reconnaissance de dette se fera dans un journal d'achat.
 
 </sect2>
 <sect2> Les produits
@@ -1225,8 +1225,8 @@ pour les besoins d'une entreprise.
 
 <p>Remarque générale: En mode utilisateur, il faut cocher les fiches que l'on souhaite utiliser
 dans ce journal mais avec une exception : les journaux d'opérations diverses
-n'utilisent jamais les fiches voir <ref id="journal_od" name="Journaux
-des Opérations diverses">. 
+n'utilisent jamais les fiches voir 
+<ref id="journal_od" name="Journaux des Opérations diverses">. 
 
 <p> Voir aussi Journaux <ref id="journaux" name="journaux">
 </sect2>
@@ -1400,7 +1400,7 @@ plus de la note interne. Cette note n'est jamais repris dans le document.
 <sect1>Société
 <p>Ici vous indiquez les paramètres de votre société, nom,
 adresse... Cela sera réutilisé dans divers endroits. Entre autre, dans les
-documents générés.
+documents générés dont les factures.
 
 </sect1>
 

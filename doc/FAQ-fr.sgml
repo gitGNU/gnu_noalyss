@@ -25,8 +25,7 @@ adapté à la législation
  <P>Si vous voulez contribuez n'hésitez pas :
  <url url="http://mail.nongnu.org/mailman/listinfo/phpcompta-contrib" name="Mailing List Contribution">
  <newline> Si vous avez besoin d'aide
- <url url="http://mail.nongnu.org/mailman/listinfo/phpcompta-support"
- name="Mailing List support">.
+ <url url="http://mail.nongnu.org/mailman/listinfo/phpcompta-support" name="Mailing List support">.
  </p>
 <sect> Quel le nom du soft ??
 <p>
@@ -72,9 +71,8 @@ applications.
 </sect>
 <sect>Ou trouvez les patches
 <p>
-Sur  la page d'origine, malheureusement, il n'est pas encore possible de téléchargez des fichiers sur Savannah
-
-On peut y arriver à partir de la page de savannah (Homepage)
+Sur  <url url="http://www.phpcompta.org/" name="Site phpcompta"> la page d'origine,
+ malheureusement, il n'est pas encore possible de télécharger des fichiers sur Savannah
 </p>
 </sect>
 <sect>Comment adapter le fichier php.ini <label id="php-setting">
@@ -86,10 +84,11 @@ Avec PHP 4.3.1 :
 	voir la variable register_globale = off dans le php.ini
 </quote>
 
-php.ini doit contenir pour phpcompta
+php.ini doit contenir pour phpcompta, cependant il n'est pas certain qu'il faille changer 
+ces paramètres, vous devez aller sur admin/setup.php pour voir ce qui doit être fait
  <verb>
 [PHP]
-include_path=".:../include:addon"
+include_path=".:../include:../../include:addon"
 [Session]
 session.name              = PHPSESSID
                                     ; name of the session
@@ -163,8 +162,8 @@ pouvez imprimer le guide, pour le trouver faites :
 Ensuite, editez le fichier sgml,
 et surtout pensez à utilisez aspell -H --lang=fr_FR check FA-fr.sgml pour
 véifier l'orthographe. Pour le visionner, faites linuxdoc -B html FAQ.sgml
-soit linuxdoc -B rtf pour avoir un fichier rtf... Puis faites un patch :-) <ref id="bug"
-name="Comment faire un patch">
+soit linuxdoc -B rtf pour avoir un fichier rtf... Puis faites un patch :-) 
+<ref id="bug" name="Comment faire un patch">
 </p>
 <sect>Comment contribuer ?
 <p>Sur le site de Savannah, j'ai décidé d'utilisé le Task Manager,
@@ -181,35 +180,6 @@ Cela m'évite de devoir chaque fois changer sur le site de phpcompta
 </p>
 </sect>
 
-<sect> recevoir des erreurs de création
-<p>
-<tscreen><verb>
-ERROR:  column "jrn_deb_max_line" is of type 'integer' but expression is
-of type 'boolean'	You will need to rewrite or cast the expression
-ERROR:  column "jrn_deb_max_line" is of type 'integer' but expression is
-of type 'boolean'	You will need to rewrite or cast the expression
-ERROR:  column "jrn_deb_max_line" is of type 'integer' but expression is
-of type 'boolean'	You will need to rewrite or cast the expression
-ERROR:  column "jrn_deb_max_line" is of type 'integer' but expression is
-of type 'boolean'	You will need to rewrite or cast the expression
-</verb></tscreen>
-Vous avez utilisé une version instable ! Cela a été corrigé reprenez les fichiers du CVS
-</p>
-</sect>
-
-<sect> Erreur objet n'existe pas
-<p>
-<tscreen><verb>
-ERROR:  sequence "s_isup" does not exist
-ERROR:  sequence "s_fdef" does not exist
-ERROR:  sequence "s_idef" does not exist
-ERROR:  table "isupp" does not exist
-ERROR:  table "fiche" does not exist
-ERROR:  table "isupp_def" does not exist
-ERROR:  table "fichedef" does not exist
-</verb></tscreen>
-Du à une commande drop sur un objet inexistant, n'y pretez pas attention
-</p>
 </sect>
 <sect> Comment appliquer un patch ?
 <p>
@@ -243,8 +213,8 @@ Après l'avoir téléchargé, allez dans le répertoire de PhpCompta, c'est-à-dire ce
 <sect>Les entêtes de facture
 <p> Pourquoi les coordonnées de la société faisant la facture n'apparraissent-ils pas ?
 
-Simplement parce que je n'ai pas eu le temps de le coder, pour l'instant, vous
-devrez uniquement utiliser des factures préimprimées
+Parce que vous n'avez pas rempli les coordonnées de votre société dans les paramètres ou 
+parce que votre modèle n'en contenait pas.
 
 </sect>
 <sect> Problèmes fréquents
@@ -261,7 +231,7 @@ devrez uniquement utiliser des factures préimprimées
 </sect>
 <sect> Je reçois une erreur postgresql à propos d'une table log qui n'existe pas
 <p>
-C'est normal, les sortie de déboggages sont envoyées dans une base de données, ce
+C'est normal, les sortie de déboggage sont envoyées dans une base de données, ce
 qui facilite la recherche, le tri,...
 
 <p> Vous avez deux possibilités,
@@ -286,7 +256,9 @@ les numéros d'opérations et de pièces justificatives.
 </sect>
 <sect>J'ai toujours des timeouts
 <p>Soit vous augmentez le timeout de votre server http soit vous mettez l'option fsync=N dans
-le fichier de configuration de PostgreSql.
+le fichier de configuration de PostgreSql ou encore changer dans votre php.ini le paramètre 
+max_execution_time soit dans le fichier .htaccess, soit dans le fichier php.ini soit dans la 
+définition de votre virtual host dans la configuration d'apache.
 
 </sect>
 <sect>Mais où sont les rapports prédéfini
