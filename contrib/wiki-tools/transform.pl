@@ -38,6 +38,17 @@ while (my $line=<>) {
 	if ( $block eq 0 ) {
 		$line=~s/^ *//;
 	}
-
+	$line=~s/<url url=\"(.+)\" *name=\"(.+)\">/[[$1|$2]]/;
+	$line=~s/<!doctype linuxdoc system>//;
+	$line=~s/<article>//;
+	$line=~s/<title>(.*)<\/title>/[++$1 ++]/;
+	$line=~s/<author>//;
+	$line=~s/<name>(.*)<\/name>/''$1''/;
+	$line=~s/<\/author>//;
+	$line=~s/<date>(.*)<\/date>/$1/;
+	$line=~s/<abstract>//;
+	$line=~s/<\/article>//;
+	$line=~s/<tscreen>//;
+	$line=~s/<\/tscreen>//;
 	print "$line"; 
 }
