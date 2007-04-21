@@ -642,7 +642,9 @@ class fiche {
        if ( $fiche_def->create_account=='t' ) {
 	 // Retrieve the 'poste comptable'
 	 $class=$this->strAttribut(ATTR_DEF_ACCOUNT);
-	 $is_used_jrnx= CountSql($this->cn,"select * from jrnx where j_poste=$class");
+	 $is_used_jrnx=0;
+	 if ( trim(strlen($class)) != 0 && isNumber($class) == 1 )
+	 	$is_used_jrnx= CountSql($this->cn,"select * from jrnx where j_poste=$class");
 	 // if class is not NULL and if we use it before, we can't remove it
 	 if (FormatString($class) != null && $is_used_jrnx     != 0 ) 
 	   {
@@ -653,7 +655,7 @@ class fiche {
 	   // Remove in PCMN
 	   if ( trim(strlen($class)) != 0 && isNumber($class) == 1 && $is_used_jrnx == 0)
 	     {
-	       ExecSql($this->cn,"delete from tmp_pcmn where pcm_val=".$class);
+	       ExecSql($this->cn,"delete from tmp_pcmn where pcm_val=.$class.");
 	     }
 	 
        }
