@@ -56,8 +56,6 @@ h2.error {
  *        used and immediately delete after an upgrade.
  *        This file is included in each release  for a new upgrade
  * 
- * \todo remove the rebuild of mod2 (drop / create) for the next version
- *        the mod2 from the version < 2.0 are full of bugs
  */
 $inc_path=get_include_path();
 if ( strpos($inc_path,";") != 0 ) {
@@ -342,7 +340,19 @@ if ($account == 0 ) {
   ExecuteScript($cn,'sql/mod1/schema.sql');
   ExecuteScript($cn,'sql/mod1/data.sql');
   Commit($cn);
+  if ( DEBUG=='false') ob_end_clean();
+
+  echo "Creation of Modele2";
+  ExecSql($cn,"create database ".domaine."mod2 encoding='latin1'");
+  $cn=DbConnect(2,'mod');
+  StartSql($cn);
+  if ( DEBUG=='false') { ob_start();  }
+  ExecuteScript($cn,'sql/mod2/schema.sql');
+  ExecuteScript($cn,'sql/mod2/data.sql');
+  Commit($cn);
+
  if ( DEBUG=='false') ob_end_clean();
+
  }// end if
 // Add a french accountancy model
 //--
@@ -358,19 +368,6 @@ $cn=DbConnect();
 //   ExecSql($cn,"delete from modeledef where mod_id=2");
 //  }
 //----------------------------------------------------------------------
-$Res=CountSql($cn,"select * from modeledef where mod_id=2");
-if ( $Res == 0) {
-  echo "Creation of Modele2";
-  ExecSql($cn,"create database ".domaine."mod2 encoding='latin1'");
-  $cn=DbConnect(2,'mod');
-  if ( DEBUG=='false') { ob_start();  }
-  ExecuteScript($cn,'sql/mod2/schema.sql');
-  ExecuteScript($cn,'sql/mod2/data.sql');
-  $sql="INSERT INTO modeledef VALUES (2, '(FR) Basique', 'Comptabilité Française, tout doit être adaptée');";
-  $cn=DbConnect();
-  ExecSql($cn,$sql);
- if ( DEBUG=='false') ob_end_clean();
-}
 // 
 // Test the connection
 //--

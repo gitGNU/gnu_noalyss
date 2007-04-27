@@ -393,7 +393,6 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
   }
 
   // Find the journal property
-  //  $JrnProperty=GetJrnProperty($p_cn,$p_jrn);
 
   $opt='<OPTION VALUE="="> =';
   $opt.='<OPTION VALUE="<="> <=';
