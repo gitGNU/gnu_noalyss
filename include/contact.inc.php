@@ -86,7 +86,7 @@ if ( $sub_action  == "" )
 //Display a blank card 
 if ( $sub_action=="blank") 
 {
-  $retour_action=sprintf('<A class="two" HREF="%s"><input type="button" value="Retour"></A>',
+  $retour_action=sprintf('<A class="mtitle" HREF="%s"><input type="button" value="Retour"></A>',
 		  "commercial.php?p_action=contact");
   echo '<div class="u_redcontent">';
 

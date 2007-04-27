@@ -21,6 +21,7 @@
 /*! \file
  * \brief Main page for the printing
  */
+require_once("check_priv.php");
 
 // show sub menu
 
