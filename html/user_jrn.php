@@ -65,7 +65,6 @@ if ( $User->admin == 0 ) {
 	    NoAccess();
 	    exit -1;
 	  }
-    } // if isset p_jrn
 
 }
 
