@@ -49,7 +49,7 @@ SyncRight($_SESSION['g_dossier'],$_SESSION['g_user']);
 // Get The priv on the selected folder
 if ( $User->admin == 0 ) {
   
-  $r=GetPriv($_SESSION['g_dossier'],$_SESSION['g_user']);
+  $r=CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],STOCK_READ);
   if ($r == 0 ){
     /* Cannot Access */
     NoAccess();
@@ -77,6 +77,12 @@ include_once("stock_inc.php");
 // Adjust the stock
 if ( isset ($_POST['sub_change'])) 
 {
+  if ( CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],STOCK_WRITE) == 0 )
+    {
+      /* Cannot Access */
+      NoAccess();
+    }
+
   $change=$_POST['stock_change'];
   $sg_code=$_POST['sg_code'];
   $sg_date=$_POST['sg_date'];
@@ -153,19 +159,26 @@ if ( $action == 'detail' ) {
   $sg_code=(isset ($_GET['sg_code'] ))?$_GET['sg_code']:$_POST['sg_code'];
   $year=(isset($_GET['year']))?$_GET['year']:$_POST['year'];
   $a=ViewDetailStock($cn,$sg_code,$year);
+  $write=CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],STOCK_WRITE);
 
-  $b=ChangeStock($sg_code,$year);
-    echo '<div class="u_redcontent">' ;
-    echo $a;
-    echo 'Entrer la valeur qui doit augmenter ou diminuer le stock';
-    echo '<form action="?p_action=stock" method="POST">';
-    echo $b;
-    echo '<input type="submit" name="sub_change" value="Ok">';
-    echo '<A class="mtitle" HREF="?p_action=stock"><INPUT TYPE="BUTTON" value="Retour"</A>';
+  $b="";
 
-    echo '</form>';
-    echo '</div>';
-    exit();
+   
+  echo '<div class="u_redcontent">' ;
+  echo $a;
+  if ( $write != 0) 
+    {
+      echo 'Entrer la valeur qui doit augmenter ou diminuer le stock';
+      echo '<form action="?p_action=stock" method="POST">';
+      echo ChangeStock($sg_code,$year);
+      echo '<input type="submit" name="sub_change" value="Ok">';
+      echo '</form>';
+    }
+  echo '<A class="mtitle" HREF="?p_action=stock"><INPUT TYPE="BUTTON" value="Retour"</A>';
+  
+  
+  echo '</div>';
+  exit();
 }
 
 // Show the possible years

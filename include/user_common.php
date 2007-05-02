@@ -303,7 +303,8 @@ function InsertJrnx($p_cn,$p_type,$p_user,$p_jrn,$p_poste,$p_date,$p_amount,$p_g
 function InsertJrn($p_cn,$p_date,$p_echeance,$p_jrn,$p_comment,$p_grpt,$p_periode)
 {
 	echo_debug ('user_common.php',__LINE__,"InsertJrn param 
-	    p_date $p_date p_poste $p_comment p_amount  p_grpt = $p_grpt p_periode = $p_periode p_echeance = $p_echeance
+	    p_date $p_date p_poste $p_comment p_amount  
+p_grpt = $p_grpt p_periode = $p_periode p_echeance = $p_echeance
 comment = $p_comment");
 	$p_comment=FormatString($p_comment);
 

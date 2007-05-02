@@ -44,7 +44,7 @@ if ( isset ($_POST['delete']) )
 // Add card
 if ( $sub_action=="insert" )
 {
-  $retour=sprintf('<A class="two" HREF="%s"><input type="button" value="Retour"></A>',
+  $retour=sprintf('<A class="mtitle" HREF="%s"><input type="button" value="Retour"></A>',
 		  urldecode($_REQUEST['url']));
 
   $admin=new Admin($cn);
@@ -73,7 +73,7 @@ if ( $sub_action  == "" )
 //Display a blank card 
 if ( $sub_action=="blank") 
 {
-  $retour=sprintf('<A class="two" HREF="%s"><input type="button" value="Retour"></A>',
+  $retour=sprintf('<A class="mtitle" HREF="%s"><input type="button" value="Retour"></A>',
 		  "commercial.php?p_action=admin");
   echo '<div class="u_redcontent">';
 
@@ -141,7 +141,7 @@ if ( $sub_action == 'detail' )
   $f_id=$_REQUEST['f_id'];
   echo '<div class="u_redcontent">';
   $sup=new Admin($cn,$f_id);
-  $retour=sprintf('<A class="two" HREF="%s"><input type="button" value="Retour"></A>',
+  $retour=sprintf('<A class="mtitle" HREF="%s"><input type="button" value="Retour"></A>',
 		  urldecode($_REQUEST['url']));
   echo $retour;
   echo '<form action="'.$_REQUEST['url'].'" method="post">'; 

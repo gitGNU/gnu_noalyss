@@ -166,6 +166,12 @@ if ( $p_action == 'bank')
 // Impression
 if ( $p_action == 'impress') 
 {
+  if ( $User->CheckAction($cn,IMP) == 0)
+    {
+      NoAccess();
+      exit;
+    }
+
   require_once("impress.inc.php");
 }
 if ( $p_action == 'fiche') {

@@ -540,7 +540,7 @@ il est nécessaire
 
 
 <sect>Sécurité
-<sect1> Remarques
+<sect1> Introduction
 <p>
 PhpCompta a sa propre sécurité, cependant si vous voulez vraiment
 sécuriser votre comptabilité, vous devez prendre en compte qu'il ne
@@ -641,6 +641,38 @@ permis. Si son droit par défaut est d'écrire, c'est l'inverse : il
 pourra écrire partout sauf là où c'est explicitement défendu.
 Le sens d'écrire dans ce contexte-ci doit se comprendre
 comme la capacité à  pouvoir ajouter ou modifier des informations.
+
+<p>Dans chaque dossier, vous devez donner les droits des
+utilisateurs. Il y a les journaux et les actions. Les journaux sont
+les journaux auquels vous avez ou non accès. 
+
+<p>
+Les actions
+<itemize>
+<item> Accès au Grand Livre : vous permet d'accèder au GrandLivre et
+donc de voir toutes les opérations.
+<item> Impression : accès aux impressions
+<item> Formulaire : menu avancé, vous permet de créer vos propres
+formulaires 
+<item> Mise à jour Plan Comptable
+<item> Gestion Journaux : dans le menu avancé, configuration des journaux
+<item> Paramètres : gestion des taux TVA, paramètre société, ...
+<item> Centralise
+<item> Fiche Read : pour rechercher une fiche
+<item> Voir le stock
+<item> Modifie le stock: permet de modifier manuellement le stock,
+celui-ci sera de toute façon modifié par les actions d'achat et de vente.
+<item> Fiche ajout : pour pouvoir ajouter une fiche
+<item> Voir la balance des comptes : pour voir la balance des comptes,
+nécessaire d'avoir aussi l'accès Impression
+<item> Import et export des écritures d'ouverture
+<item> Module Suivi Document : module gestion
+<item> Module Client : module gestion
+<item> Module Fournisseur : module gestion
+<item> Module Administration : module gestion
+<item> Module Gestion:  module gestion
+</itemize>
+
 
 </sect1>
 </sect>
