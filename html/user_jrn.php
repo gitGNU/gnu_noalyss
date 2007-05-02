@@ -21,7 +21,6 @@
 /*! \file
  * \brief Main page for encoding in the ledger
  */
-
 include_once("ac_common.php");
 include_once("user_menu.php");
 include_once ("constant.php");
@@ -65,7 +64,6 @@ if ( $User->admin == 0 ) {
 	    NoAccess();
 	    exit -1;
 	  }
-    } // if isset p_jrn
 
 }
 

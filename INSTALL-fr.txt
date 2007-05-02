@@ -1,6 +1,5 @@
   PhpCompta Installation
   originally written by Dany De Bontridder
-  $Revision$   $Date$
 
   Ce document décrit l'installation complète de PhpCompta et explique
   comment ont été installés les programmes dont PhpCompta dépend. Php-

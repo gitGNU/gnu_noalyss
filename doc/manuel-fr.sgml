@@ -8,7 +8,7 @@
 <abstract>
 Ce document est le manuel d'utilisation de PhpCompta.
 <url url="http://savannah.nongnu.org/projects/phpcompta/" name="PhpCompta Savannah">.
- Il aborde des thèmes
+Il aborde des thèmes
 comme la sécurité, l'utilisation de PhpCompta, les trucs et astuces, et
 de la documentation pour ceux qui aimeraient contribuer.
 Il  ne reprend pas ce qui a déjà été dit dans l'INSTALL-fr et la

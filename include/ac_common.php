@@ -77,7 +77,7 @@ function cmpDate ($p_date,$p_date_oth) {
  *        - 1 it's a number
  *        - 0 it is not
  */
-function isNumber($p_int) {
+function isNumber(&$p_int) {
   if ( strlen (trim($p_int)) == 0 ) return 0;
   if ( is_numeric($p_int) == true)
     return 1;

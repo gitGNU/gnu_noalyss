@@ -380,7 +380,7 @@ class widget {
          <INPUT TYPE="button" onClick=NewCard(\'%s\',\'%s\',\'%s\',\'%s\') value="Nouveau">
          </TD><TD>
          <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') value="Recherche">
-            %s <INPUT  style="border:solid 1px blue;"  TYPE="Text"    NAME="%s" VALUE="%s" SIZE="8" TABINDEX="%s">
+            %s <INPUT  style="border:solid 1px blue;"  TYPE="Text"    NAME="%s" VALUE="%s" SIZE="8" TABINDEX="%s" onChange="alert(\'change\');">
                  ',
 	       $l_sessid,
 	       $this->extra, // deb or cred
