@@ -25,10 +25,10 @@
 $_ENV['TMP']="/tmp";
 define ("phpcompta_password","dany");
 define ("phpcompta_psql_port","5432");
-define ("domaine","v232_");
+define ("domaine","");
 
 
-define ("DEBUG","true");
+define ("DEBUG","false");
 
 // securite correspond a la table 
 // action
@@ -48,12 +48,6 @@ define ("MPCMN",6);
 define ("GJRN",7);
 // Gestion des paramètres globaux
 define ("PARM",8);
-// Gestion de la sécurité
-// define ("SECU",9);
-// gestion devise
-// define ("DEVISE",18);
-// gestion Période
-// define ("PERIODE",19);
 // Voir la balance des compte
 define ("BALANCE",20);
 // Access à la centralisation
