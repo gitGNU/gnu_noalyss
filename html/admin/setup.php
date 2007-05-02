@@ -503,6 +503,9 @@ if ( DEBUG=='false' ) ob_start();
   if ( GetVersion($db) == 27 ) { 
     ExecuteScript($db,'sql/patch/upgrade27.sql');
   } // version 
+  if ( GetVersion($db) == 28 ) { 
+    ExecuteScript($db,'sql/patch/upgrade28.sql');
+  } // version 
 
 if ( DEBUG == 'false') ob_end_clean();
  }//for
@@ -621,6 +624,9 @@ if (DEBUG == 'false' ) ob_start();
   } // version 
   if ( GetVersion($db) == 27 ) { 
     ExecuteScript($db,'sql/patch/upgrade27.sql');
+  } // version 
+  if ( GetVersion($db) == 28 ) { 
+    ExecuteScript($db,'sql/patch/upgrade28.sql');
   } // version 
 
 if ( DEBUG == 'false') ob_end_clean();

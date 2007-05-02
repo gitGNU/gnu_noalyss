@@ -35,7 +35,7 @@ define ("DEBUG","true");
 // access aux journaux
 define ("ENCJRN",1);
 // création facture
-define("FACT",2);
+// define("FACT",2);
 // lecture aux fiche
 define ("FICHE_READ",3);
 // Impression
@@ -49,11 +49,11 @@ define ("GJRN",7);
 // Gestion des paramètres globaux
 define ("PARM",8);
 // Gestion de la sécurité
-define ("SECU",9);
+// define ("SECU",9);
 // gestion devise
-define ("DEVISE",18);
+// define ("DEVISE",18);
 // gestion Période
-define ("PERIODE",19);
+// define ("PERIODE",19);
 // Voir la balance des compte
 define ("BALANCE",20);
 // Access à la centralisation
@@ -70,8 +70,8 @@ define("ADMIN",26); //  Module Administration
 define("SEC_GESTION",30); //  Module Gestion
 
 define ("FICHE_WRITE",15);
-define ("STOCK_WRITE",16);
-define ("STOCK_READ",17);
+define ("STOCK_WRITE",17);
+define ("STOCK_READ",16);
 define ("EXP_IMP_ECR",21);
 define ("IMP_BQE",22);
 // Erreur

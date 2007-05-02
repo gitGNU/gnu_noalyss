@@ -170,6 +170,7 @@ require_once('class_fiche.php');
  */ 
 function GetJrnProp($p_dossier,$p_jrn,$is_connected=0) 
 {
+  echo_debug("jrn.php",__LINE__,"GetJrnProp");
   if ( $is_connected == 0 ) 
     $cn=DbConnect($p_dossier);
   else
@@ -573,11 +574,12 @@ function SetInternalCode($p_cn,$p_grpt,$p_jrn)
   //$num=CountSql($p_cn,"select * from jrn where jr_def_id=$p_jrn and jr_internal != 'ANNULE'")+1;
   $num = NextSequence($p_cn,'s_internal');
   $num=strtoupper(hexdec($num));
-  $atype=GetJrnProp($p_cn,$p_jrn);
+  $atype=GetJrnProp($_SESSION['g_dossier'],$p_jrn);
   $type=$atype['jrn_def_code'];
   $internal_code=sprintf("%d%s-%s",$_SESSION['g_dossier'],$type,$num);
   $Res=ExecSql($p_cn,"update jrn set jr_internal='".$internal_code."' where ".
 	       " jr_grpt_id = ".$p_grpt);
+  echo_debug ("jrn.php",__LINE__,"internal_code = $internal_code");
   return $internal_code;
 }
 /*! 

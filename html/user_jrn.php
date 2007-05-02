@@ -54,13 +54,13 @@ echo '</div>';
 
 if ( $User->admin == 0 ) {
   // check if user can access
-  if (CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],ENCJRN) == 0 ){
+  // Acces Grand livre
+  if ($p_jrn == -1 && CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],ENCJRN) == 0 ){
     /* Cannot Access */
     NoAccess();
   }
   // if a jrn is asked
-  if ( $p_jrn != -1 ) {
-	  if (CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn) == 0 ){
+  if ( $p_jrn != -1 && CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn) == 0 ){
 	    /* Cannot Access */
 	    NoAccess();
 	    exit -1;
