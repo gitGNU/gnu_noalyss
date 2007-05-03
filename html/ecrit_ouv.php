@@ -44,11 +44,7 @@ echo '<div class="u_tmenu">';
 echo ShowMenuCompta($_SESSION['g_dossier'],"user_advanced.php");
 echo '</div>';
 // \todo add a check for permission
-if ( $User->CheckAction($cn,EXP_IMP_ECR) == 0 ) {
-  /* Cannot Access */
-  NoAccess();
-  exit -1;			
- }
+$User->AccessRequest($cn,EXP_IMP_ECR) ;
 
 echo ShowMenuAdvanced("ecrit_ouv.php");
 echo '<div class="lmenu">';

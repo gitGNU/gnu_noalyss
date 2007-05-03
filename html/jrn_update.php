@@ -44,11 +44,8 @@ echo '</div>';
 
 
 $cn=DbConnect($_SESSION['g_dossier']);
-if ( $User->CheckAction($cn,GJRN) == 0 ) {
-  /* Cannot Access */
-  NoAccess();
-  exit -1;			
- }
+$User->AccessRequest($cn,GJRN) ;
+
 
 echo '<div class="u_subtmenu">';
 echo ShowMenuAdvanced("jrn_update.php");

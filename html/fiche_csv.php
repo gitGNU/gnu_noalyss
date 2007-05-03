@@ -36,11 +36,8 @@ include ('class_user.php');
 $User=new cl_user($rep);
 $User->Check();
 
-if ($User->CheckAction($cn,FICHE_READ) == 0 )
-  {
-    /* Cannot Access */
-    NoAccess();
-  }
+$User->AccessRequest($cn,FICHE_READ);
+
 
 if  ( isset ($_POST['fd_id'])) {
   $fiche_def=new fiche_def($cn,$_POST['fd_id']);

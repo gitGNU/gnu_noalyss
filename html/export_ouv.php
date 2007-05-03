@@ -42,12 +42,9 @@ include_once ("check_priv.php");
 include_once ("user_menu.php");
 
 $cn=DbConnect($_SESSION['g_dossier']);
-// TODO : add a check for permission
-if ( $User->CheckAction($cn,EXP_IMP_ECR) == 0 ) {
-  /* Cannot Access */
-  NoAccess();
-  exit -1;			
- }
+
+$User->AccessRequest($cn,EXP_IMP_ECR);
+
 if ( !isset ($_GET['p_periode'])) {
 	echo 'Erreur : aucune periode demandée';
 	exit(0);

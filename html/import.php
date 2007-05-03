@@ -50,10 +50,8 @@ echo '<div class="u_tmenu">';
 echo ShowMenuCompta($_SESSION['g_dossier'],"user_advanced.php");
 echo '</div>';
 $cn=DbConnect($_SESSION['g_dossier']);
-if ( $User->CheckAction($cn,IMP_BQE)==0){
-  /* Cannot Access */
-  NoAccess();
- }
+$User->AccessRequest($cn,IMP_BQE);
+
 echo ShowMenuAdvanced("import.php");
 
 echo '<div class="lmenu">';

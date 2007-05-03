@@ -680,7 +680,8 @@ lettre de rappel, courrier...
 <item> Module Client 
 <item> Module Fournisseur : module gestion
 <item> Module Administration : module gestion
-<item> Module Gestion:  module gestion
+<item> Module Gestion:  module gestion, sans ceci vous ne pouvez pas
+du tout accèder à la gestion.
 </itemize>
 
 

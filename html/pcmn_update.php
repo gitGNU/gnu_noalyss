@@ -43,11 +43,8 @@ include_once ("check_priv.php");
 echo ShowMenuCompta($_SESSION['g_dossier'],"user_advanced.php");
 
 $cn=DbConnect($_SESSION['g_dossier']);
-if ( $User->CheckAction($cn,MPCMN) == 0 ) {
-  /* Cannot Access */
-  NoAccess();
-  exit -1;			
- }
+$User->AccessRequest($cn,MPCMN);
+
 echo JS_UPDATE_PCMN;
 /* Store the p_start parameter */
 if ( ! isset ( $_SESSION['g_start']) ) {
