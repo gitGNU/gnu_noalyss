@@ -43,7 +43,7 @@ include_once ("check_priv.php");
 echo ShowMenuCompta($_SESSION['g_dossier'],"user_advanced.php");
 
 $cn=DbConnect($_SESSION['g_dossier']);
-$User->AccessRequest($cn,MPCMN);
+
 
 echo JS_UPDATE_PCMN;
 /* Store the p_start parameter */
@@ -60,6 +60,9 @@ if ( isset ($_GET['p_start'])) {
 echo '<div class="u_subtmenu">';
 echo ShowMenuAdvanced("pcmn_update.php?p_start=1");
 echo '</div>';
+$User->AccessRequest($cn,MPCMN);
+
+
 echo '<div class="lmenu">';
 ShowMenuPcmn($_SESSION['g_start']);
 echo '</div>';

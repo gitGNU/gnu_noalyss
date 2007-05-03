@@ -47,9 +47,13 @@ echo '</div>';
 include ("check_priv.php");
 
 $cn=DbConnect($_SESSION['g_dossier']);
+echo ShowMenuAdvanced("form.php");
+// Get The priv on the selected folder
 $User->AccessRequest($cn,FORM);
 
-echo ShowMenuAdvanced("form.php");
+
+
+
 if ( isset ($_POST["record"] )) {
   //  echo '<DIV class="u_redcontent">';
   AddForm($cn,$_POST);

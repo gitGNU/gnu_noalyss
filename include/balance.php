@@ -32,6 +32,7 @@ include_once ("class_widget.php");
 include_once("class_balance.php");
 $User->AccessRequest($cn,BALANCE);
 
+
 echo '<div class="u_content">';
 
 //-----------------------------------------------------

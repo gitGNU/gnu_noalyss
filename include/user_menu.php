@@ -256,6 +256,10 @@ function ShowMenuJrnUser($p_dossier,$p_type,$p_jrn,$p_extra="")
 
     } 
     $Max=pg_NumRows($Ret);
+    // If you can't access any ledger, so you don't have access
+    if ( $Max == 0 )
+      NoAccess();
+
     include_once("check_priv.php");
 
     for ($i=0;$i<$Max;$i++) {

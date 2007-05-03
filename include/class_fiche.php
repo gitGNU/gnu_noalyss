@@ -655,7 +655,7 @@ class fiche {
 	   // Remove in PCMN
 	   if ( trim(strlen($class)) != 0 && isNumber($class) == 1 && $is_used_jrnx == 0)
 	     {
-	       ExecSql($this->cn,"delete from tmp_pcmn where pcm_val=.$class.");
+	       ExecSql($this->cn,"delete from tmp_pcmn where pcm_val=$class");
 	     }
 	 
        }

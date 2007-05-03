@@ -46,16 +46,6 @@ $User->Check();
 // Synchronize rights
 SyncRight($_SESSION['g_dossier'],$_SESSION['g_user']);
 
-// Get The priv on the selected folder
-if ( $User->admin == 0 ) {
-  
-  $r=CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],STOCK_READ);
-  if ($r == 0 ){
-    /* Cannot Access */
-    NoAccess();
-  }
-
-}
 
 $href=basename($_SERVER['PHP_SELF']);
 if ($href=='compta.php')
@@ -70,6 +60,9 @@ if ($href=='compta.php')
   //echo '<div class="lmenu">';
   echo $left_menu;
 }
+// Get The priv on the selected folder
+$User->AccessRequest($cn,STOCK_READ);
+
 
 $action= ( isset ($_GET['action']))? $_GET['action']:"";
 include_once("stock_inc.php");
