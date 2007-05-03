@@ -644,13 +644,19 @@ comme la capacité à  pouvoir ajouter ou modifier des informations.
 <sect2>Sécurité au sein d'un dossier
 <p>Dans chaque dossier, vous devez donner les droits des
 utilisateurs. Il y a les journaux et les actions. Les journaux sont
-les journaux auquels vous avez ou non accès. 
+les journaux auquels vous avez ou non accès. Avoir accès en ajout à un
+journal de vente permet automatiquement de générer des factures et de
+les imprimer.
 <p>
 Les actions
 <itemize>
 <item> Accès au Grand Livre : vous permet d'accèder au GrandLivre et
 donc de voir toutes les opérations.
-<item> Impression : accès aux impressions
+<item> Impression : accès aux impressions, attention, cela permet à
+ceux qui ont cet accès de pouvoir imprimer et exporter, les fiches
+(banques, clients...) !!! Dans le cas, où vous souhaitez que
+l'utilisateur puisse générer et imprimer des pièces (facture, lettre
+de rappel) ce droit-ci n'est pas nécessaire.
 <item> Création et modification des rapports : menu avancé, vous
 permet de créer vos propres rapports 
 <item> Mise à jour Plan Comptable
@@ -668,8 +674,10 @@ modifier une fiche
 <item> Voir la balance des comptes : pour voir la balance des comptes,
 nécessaire d'avoir aussi l'accès Impression
 <item> Import et export des écritures d'ouverture
-<item> Module Suivi Document : module gestion
-<item> Module Client : module gestion
+<item> Module Suivi Document : module gestion, permet de lire et
+d'ajouter des actions ainsi que de générer certains documents tels que
+lettre de rappel, courrier...
+<item> Module Client 
 <item> Module Fournisseur : module gestion
 <item> Module Administration : module gestion
 <item> Module Gestion:  module gestion
