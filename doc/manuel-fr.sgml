@@ -651,17 +651,20 @@ Les actions
 <item> Accès au Grand Livre : vous permet d'accèder au GrandLivre et
 donc de voir toutes les opérations.
 <item> Impression : accès aux impressions
-<item> Formulaire : menu avancé, vous permet de créer vos propres
-formulaires 
+<item> Création et modification des rapports : menu avancé, vous
+permet de créer vos propres rapports 
 <item> Mise à jour Plan Comptable
 <item> Gestion Journaux : dans le menu avancé, configuration des journaux
 <item> Paramètres : gestion des taux TVA, paramètre société, ...
 <item> Centralise
-<item> Fiche Read : pour rechercher une fiche
+<item> Lecture des fiches : pour rechercher une fiche, cette action est
+nécessaire pour ceux qui doivent encoder dans les journaux ou dans les
+modules de gestion
 <item> Voir le stock
 <item> Modifie le stock: permet de modifier manuellement le stock,
 celui-ci sera de toute façon modifié par les actions d'achat et de vente.
-<item> Fiche ajout : pour pouvoir ajouter une fiche
+<item> Fiche ajout et modification : pour pouvoir ajouter  ou
+modifier une fiche
 <item> Voir la balance des comptes : pour voir la balance des comptes,
 nécessaire d'avoir aussi l'accès Impression
 <item> Import et export des écritures d'ouverture

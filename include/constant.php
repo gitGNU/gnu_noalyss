@@ -25,7 +25,7 @@
 $_ENV['TMP']="/tmp";
 define ("phpcompta_password","dany");
 define ("phpcompta_psql_port","5432");
-define ("domaine","");
+define ("domaine","v232_");
 
 
 define ("DEBUG","false");
@@ -55,6 +55,8 @@ define ("CENTRALIZE",10);
 define ("VEN",11);
 define ("BQE",12);
 define ("ODS",13);
+// Access gestion periode comptable
+define ("GESTION_PERIODE",31);
 
 //!\enum Security 
 define("SEC_ACTION", 28); // Module Suivi Document
