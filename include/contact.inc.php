@@ -133,7 +133,7 @@ if ( $sub_action == "list" )
  // if array is empty show an warning and stops
  if ( sizeof ($w->value) == 0 ) {
    echo '<p style="color:red">Aucune fiche de catégories contact</p>';
-   echo '<p>allez dans comptabilité -> fiche creation et choississez contact comme sorte</p>';
+   echo '<p>allez dans fiche creation et choississez contact comme sorte</p>';
    exit();
  }
  echo $w->IOValue();
