@@ -348,7 +348,7 @@ if ( isset ($_POST["add_fiche"]) ) {
 //------------------------------------------------------------------------------
 // Update a card
 if ( isset ($_POST["update_fiche"])  ) {
-	ShowRecherche();
+
   echo '<DIV class="u_redcontent">';
       if ( $write ==0)  
       echo "<h2 class=\"error\"> Pas d'accès </h2>";
