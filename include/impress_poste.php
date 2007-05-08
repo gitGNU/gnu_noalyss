@@ -91,9 +91,10 @@ if ( isset( $_POST['bt_html'] ) ) {
       if ( sizeof($a_poste) == 0 ) 
 	exit;
       echo '<div class="u_content">';
-      HtmlTableHeader($_POST['poste_id']);
+
 
       $Poste=new poste($cn,$_POST['poste_id']);
+      $Poste->HtmlTableHeader($_POST['poste_id']);
       $Poste->HtmlTable();
 
       foreach ($a_poste as $poste_id ) 
@@ -101,7 +102,7 @@ if ( isset( $_POST['bt_html'] ) ) {
 	  $Poste=new poste ($cn,$poste_id['pcm_val']);
 	  $Poste->HtmlTable();
 	}
-      HtmlTableHeader($_POST['poste_id']);
+      $Poste->HtmlTableHeader($_POST['poste_id']);
       echo "</div>";
       
       exit;
