@@ -128,7 +128,7 @@ if ( isset ($_POST['sub_change']))
   $action="detail";
   }
 }
-
+echo JS_VIEW_JRN_MODIFY;
 // View the summary
 
 // if year is not set then use the year of the user's periode
