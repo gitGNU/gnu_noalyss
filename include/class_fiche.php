@@ -853,6 +853,50 @@ class fiche {
      echo '</div>';
      
    }
+  /*! 
+   * \brief   give the balance of an card
+   * \return
+   *      balance of the card
+   *
+   */ 
+function GetSoldeDetail($p_cond="") {
+  if ( $this->id == 0 ) exit('fiche->id est nul');
+  $qcode=$this->strAttribut(ATTR_DEF_QUICKCODE);
+
+	if ( $p_cond != "") $p_cond=" and ".$p_cond;
+  $Res=ExecSql($this->cn,"select sum(deb) as sum_deb, sum(cred) as sum_cred from 
+          ( select j_poste, 
+             case when j_debit='t' then j_montant else 0 end as deb, 
+             case when j_debit='f' then j_montant else 0 end as cred 
+          from jrnx 
+              where  
+            j_qcode = ('$qcode'::text)
+            $p_cond
+          ) as m  ");
+  $Max=pg_NumRows($Res);
+  if ($Max==0) return 0;
+  $r=pg_fetch_array($Res,0);
+  
+  return array('debit'=>$r['sum_deb'],
+	       'credit'=>$r['sum_cred'],
+	       'solde'=>abs($r['sum_deb']-$r['sum_cred']));
+}
+/*! 
+ * \brief get the fd_id of the card : fd_id
+ * \param none
+ *
+ * \return none
+ */
+ function get_categorie() 
+   {
+     if ( $this->id == 0 ) exit('class_fiche : f_id = 0 ');
+     $sql='select fd_id from fiche where f_id='.$this->id;
+     $R=getDbValue($this->cn,$sql);
+     if ( $R == "" )
+       $this->fd_id=0;
+     else
+       $this->fd_id=$R;
+   }
 
 }    
 
