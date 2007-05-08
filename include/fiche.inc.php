@@ -164,7 +164,7 @@ if ( isset ( $_GET["action"]) ) {
        && ! isset ($_POST['add_fiche']) 
        && ! isset ($_POST['update_fiche'])
        && ! isset ($_POST['delete'])) {
-    ShowRecherche();
+    //    ShowRecherche();
     echo '<DIV class="u_redcontent">';
     $fiche_def=new fiche_def($cn,$_GET['fiche']);
     $fiche_def->myList();
