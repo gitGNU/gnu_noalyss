@@ -55,7 +55,7 @@ echo '</div>';
 if ( $User->admin == 0 ) {
   // check if user can access
   // Acces Grand livre
-  if ($jrn_type == 'NONE' && CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],ENCJRN) == 0 ){
+  if ($jrn_type== 'NONE' && CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],ENCJRN) == 0 ){
     /* Cannot Access */
     NoAccess();
   }
