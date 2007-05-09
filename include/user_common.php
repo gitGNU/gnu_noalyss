@@ -995,6 +995,10 @@ function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1)
   // if max page == 1 then return a empty string
   if ( $nb_page == 1) return "";
 
+  // restore the sort
+  if ( isset($_GET['o']))
+       $url=$url.'&o='.$_GET['o'];
+
   $r="";
   // previous
   if ($p_page !=1) {
