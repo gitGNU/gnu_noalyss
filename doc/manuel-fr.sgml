@@ -195,7 +195,7 @@ passe pas par des comptes débiteurs mais directement en faisant banque
 <p>Toutes les pièces justificatives (extrait de compte en banque, factures,
 ...) doivent être numérotées.
 
-<p> Le numéro de la pj doit être soit celui de l'opération dans le grand livre,
+<p> Le numéro de la pj doit être soit celui de l'opération dans le grand-livre,
  soit celui du livre centralisé où l'opération a été inscrite. Il est important 
 que ce numéro vienne du livre centralisé puisque lors de la centralisation, les
 opérations sont réordonnées par date.
@@ -276,7 +276,7 @@ recevrez ou paierez la TVA
 <p>Vous pouvez directement faire votre déclaration assujetti. 
 
 <p> Vous devez pour cela aller dans le menu "impression", puis "Liste
-Client Assujetti". Vous donnez l'année, cliquer sur "Impression". A ce
+Client Assujetti". Vous donnez l'année, cliquez sur "Impression". A ce
 moment-là, vous n'avez que la totalité des clients, vous pouvez le
 recopier à la main sur le formulaire ad-hoc (doc/fr_BE_listing-client.pdf).
 
@@ -496,7 +496,8 @@ Cela doit se régler au cas par cas.
 
 Il faut aborder la régularisation des comptes de charges et des
 produits (comptes 490, 491, 492, ,493) , les dettes supérieures à un
-an échéant dans l'année... (doit être complèté).  </sect2>
+an échéant dans l'année... (doit être complèté).  
+</sect2>
 
 <sect2>Les variations de stocks
 <p>En fin d'année, il faut faire l'inventaire du stock. Soit on a
@@ -1276,17 +1277,17 @@ n'utilisent jamais les fiches voir
 <p> Voir aussi Journaux <ref id="journaux" name="journaux">
 </sect2>
 <sect2>Période
-<p>C'est l'endroit ou les périodes sont créées, ou fermer, il faut toujours fermer
+<p>C'est l'endroit ou les périodes sont créées, ou fermées. Il faut toujours fermer
 les périodes en particulier après les déclarations TVA, afin d'éviter que les montants
 déjà déclarés ne correspondent plus, plus personne ne doit pouvoir encoder dans ces
 périodes-là.
 
-<p>Après la fermeture des périodes on peut les centraliser
+<p>Après la fermeture des périodes, on peut les centraliser
 
 </sect2>
 <sect2>Centralise
 <p> La centralisation est l'opération comptable qui consiste à
-regrouper les différents journaux comptables dans le grand livre.
+regrouper les différents journaux comptables dans le grand-livre.
 <sect3>Méthode
 <p> Cette opération n'est pas réversible. 
 
