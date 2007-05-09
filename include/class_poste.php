@@ -256,7 +256,7 @@ function GetSoldeDetail($p_cond="") {
        $submit->Submit('bt_pdf',"Export PDF").
        $hid->IOValue("type","poste").
        $hid->IOValue('p_action','impress').
-       $hid->IOValue("poste_id",$this->id).
+       $hid->IOValue("poste_id",$_POST['poste_id']).
        $hid->IOValue("from_periode",$_POST['from_periode']).
        $hid->IOValue("to_periode",$_POST['to_periode']);
      if (isset($_POST['poste_fille']))
@@ -267,7 +267,7 @@ function GetSoldeDetail($p_cond="") {
        $submit->Submit('bt_csv',"Export CSV").
        $hid->IOValue("type","poste").
        $hid->IOValue('p_action','impress').
-       $hid->IOValue("poste_id",$this->id).
+       $hid->IOValue("poste_id",$_POST['poste_id']).
        $hid->IOValue("from_periode",$_POST['from_periode']).
        $hid->IOValue("to_periode",$_POST['to_periode']);
      if (isset($_POST['poste_fille']))
