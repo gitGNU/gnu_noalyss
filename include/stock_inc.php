@@ -28,7 +28,8 @@
  * \brief  show the listing of all goods 
  *        
  *
- *\param	- database connection
+ *\param  $cn  database connection
+ * \param $p_year exercice
  *	-
  * \return string containing the table
  */
@@ -187,7 +188,6 @@ $sql="select sg_code,
   $r.="<TR>";
   $r.="<th>Date </th>";
   $r.="<th>Entrée / Sortie </th>";
-  $r.="<th></th>";
   $r.="<th>Description</th>";
   $r.="<th>Op&eacute;ration</th>";
   $r.="<th>Montant</th>";
@@ -211,6 +211,12 @@ $sql="select sg_code,
     $r.=($l['sg_type']=='c')?'OUT':'IN';
     $r.="</TD>";
 
+
+    // comment
+    $r.="<TD>";
+    $r.=$l['comment'];
+    $r.="</TD>";
+
     // jr_internal
     $r.="<TD>";
     if ( $l['jr_id'] != "")
@@ -221,27 +227,22 @@ $sql="select sg_code,
     $r.="</TD>";
 
 
-    // comment
-    $r.="<TD>";
-    $r.=$l['comment'];
-    $r.="</TD>";
 
     //amount
-    $r.="<TD>";
+    $r.='<TD align="right">';
     $r.=$l['j_montant'];
     $r.="</TD>";
-
     //quantity
-    $r.="<TD>";
+    $r.='<TD align="right">';
     $r.=$l['sg_quantity'];
     $r.="</TD>";
 
     // Unit Price
-    $r.="<TD>";
+    $r.='<TD align="right">';
     $up="";
     if ( $l['sg_quantity'] != 0 )
       $up=round($l['j_montant']/$l['sg_quantity'],4);
-    $r.=$up;
+    $r.=sprintf("%.4f",$up);
     $r.="</TD>";
 
     $r.="</TR>";

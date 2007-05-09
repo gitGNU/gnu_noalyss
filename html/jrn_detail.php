@@ -46,11 +46,8 @@ echo '</div>';
 include_once("check_priv.php");
 
 $cn=DbConnect($_SESSION['g_dossier']);
-if ( $User->CheckAction($cn,GJRN) == 0 ){
-  /* Cannot Access */
-  NoAccess();
-  exit -1;			
-}
+$User->AccessRequest($cn,GJRN);
+
 // Javascript
 echo JS_SEARCH_POSTE;
 if ( isset( $_GET['p_jrn'] )) {

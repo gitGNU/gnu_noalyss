@@ -50,6 +50,7 @@ $action=$_REQUEST['p_action'];
 
 // call impress sub-menu
 if ( $action == 'impress' ) {
+  $User->AccessRequest($cn,IMP) ;
   require_once('impress.inc.php');
 }
 if ( $action == 'fiche') {

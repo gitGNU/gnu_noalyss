@@ -198,12 +198,21 @@ function html_button_logout() {
  */
 
 
-function NoAccess() 
+function NoAccess($js=0) 
 {
-  echo "<script>";
-  echo "alert ('Cette action ne vous est pas autorisée Contactez votre responsable');";
-  echo "</script>";
-  exit -1;
+  if ( $js == 1 ) 
+    {
+      echo "<script>";
+      echo "alert ('Cette action ne vous est pas autorisée Contactez votre responsable');";
+      echo "</script>";
+    }
+  else 
+    {
+      echo '<div class="u_redcontent">';
+      echo '<h2 class="error"> Cette action ne vous est pas autorisée Contactez votre responsable</h2>';
+      echo '</div>';
+    }
+      exit -1;
 }
 /*! 
  * \brief Fix the problem with the quote char for the database

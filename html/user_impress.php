@@ -65,12 +65,8 @@ echo "</DIV>";
 
 include_once("impress_inc.php");
 
-if ( $User->admin == 0 ) {
-  if (CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],IMP) == 0 ){
-    /* Cannot Access */
-    NoAccess();
-  }
-}
+$User->AccessRequest(DbConnect($_SESSION['g_dossier']),IMP);
+
 
 // something is choosen
 $default=( isset ($_REQUEST['type']))?$_REQUEST['type']:"";

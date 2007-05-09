@@ -234,49 +234,49 @@ function GetSoldeDetail($p_cond="") {
  
      return;
    }
-}
-/*! 
- * \brief Display HTML Table Header (button)
- * \param poste_id
- *
- * \return none
- */
-function HtmlTableHeader($p_poste)
-{
-  $submit=new widget();
-  $hid=new widget("hidden");
-  echo '<div class="noprint">';
-  echo "<table >";
-  echo '<TR>';
-  
-  echo '<TD><form method="GET" ACTION="">'.
-    $submit->Submit('bt_other',"Autre poste").
-    $hid->IOValue("type","poste").$hid->IOValue('p_action','impress')."</form></TD>";
+
+ /*! 
+  * \brief Display HTML Table Header (button)
+  *
+  * \return none
+  */
+ function HtmlTableHeader()
+   {
+     $submit=new widget();
+     $hid=new widget("hidden");
+     echo '<div class="noprint">';
+     echo "<table >";
+     echo '<TR>';
      
-  echo '<TD><form method="POST" ACTION="poste_pdf.php">'.
-    $submit->Submit('bt_pdf',"Export PDF").
-    $hid->IOValue("type","poste").
-    $hid->IOValue('p_action','impress').
-    $hid->IOValue("poste_id",$p_poste).
-    $hid->IOValue("from_periode",$_POST['from_periode']).
-    $hid->IOValue("to_periode",$_POST['to_periode']);
-  if (isset($_POST['poste_fille']))
-    echo $hid->IOValue('poste_fille','on');
-  echo "</form></TD>";
+     echo '<TD><form method="GET" ACTION="">'.
+       $submit->Submit('bt_other',"Autre poste").
+       $hid->IOValue("type","poste").$hid->IOValue('p_action','impress')."</form></TD>";
+     
+     echo '<TD><form method="POST" ACTION="poste_pdf.php">'.
+       $submit->Submit('bt_pdf',"Export PDF").
+       $hid->IOValue("type","poste").
+       $hid->IOValue('p_action','impress').
+       $hid->IOValue("poste_id",$_POST['poste_id']).
+       $hid->IOValue("from_periode",$_POST['from_periode']).
+       $hid->IOValue("to_periode",$_POST['to_periode']);
+     if (isset($_POST['poste_fille']))
+       echo $hid->IOValue('poste_fille','on');
+     echo "</form></TD>";
+     
+     echo '<TD><form method="POST" ACTION="poste_csv.php">'.
+       $submit->Submit('bt_csv',"Export CSV").
+       $hid->IOValue("type","poste").
+       $hid->IOValue('p_action','impress').
+       $hid->IOValue("poste_id",$_POST['poste_id']).
+       $hid->IOValue("from_periode",$_POST['from_periode']).
+       $hid->IOValue("to_periode",$_POST['to_periode']);
+     if (isset($_POST['poste_fille']))
+       echo $hid->IOValue('poste_fille','on');
+     
+     echo "</form></TD>";
+     echo "</table>";
+     echo '</div>';
+     
+   }
 
-  echo '<TD><form method="POST" ACTION="poste_csv.php">'.
-    $submit->Submit('bt_csv',"Export CSV").
-    $hid->IOValue("type","poste").
-    $hid->IOValue('p_action','impress').
-    $hid->IOValue("poste_id",$p_poste).
-    $hid->IOValue("from_periode",$_POST['from_periode']).
-    $hid->IOValue("to_periode",$_POST['to_periode']);
-  if (isset($_POST['poste_fille']))
-    echo $hid->IOValue('poste_fille','on');
-  
-  echo "</form></TD>";
-  echo "</table>";
-  echo '</div>';
-  
 }
-

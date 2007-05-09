@@ -98,7 +98,6 @@ class widget {
     $this->table=0;
     $this->label="";
     $this->disabled=false;
-    $this->tabindex=32767;
   }
   function SetReadOnly($p_read) {
     $this->readonly=$p_read;
@@ -123,7 +122,7 @@ class widget {
     $disabled = $this->disabled ? "DISABLED" : "";
     if (strtoupper($this->type)=="TEXT") {
       if ( $this->readonly==false) {
-	$r="<INPUT style=\"border:solid 1px blue;\" TYPE=\"TEXT\" NAME=\"$this->name\" VALUE=\"$this->value\" TABINDEX=\"$this->tabindex\" SIZE=\"$this->size\" ".$disabled.">";} else {
+	$r="<INPUT style=\"border:solid 1px blue;\" TYPE=\"TEXT\" NAME=\"$this->name\" VALUE=\"$this->value\"  SIZE=\"$this->size\" ".$disabled.">";} else {
 	    $r=sprintf('<span>%s</span><input type="hidden" name="%s" value="%s">', $this->value,$this->name,$this->value);
 	}
 	
@@ -380,7 +379,7 @@ class widget {
          <INPUT TYPE="button" onClick=NewCard(\'%s\',\'%s\',\'%s\',\'%s\') value="Nouveau">
          </TD><TD>
          <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') value="Recherche">
-            %s <INPUT  style="border:solid 1px blue;"  TYPE="Text"    NAME="%s" VALUE="%s" SIZE="8" TABINDEX="%s">
+            %s <INPUT  style="border:solid 1px blue;"  TYPE="Text"    NAME="%s" VALUE="%s" SIZE="8" >
                  ',
 	       $l_sessid,
 	       $this->extra, // deb or cred
@@ -392,8 +391,7 @@ class widget {
 	       $this->extra2,
 	       $this->label,
 	       $this->name,
-	       $this->value, 
-         $this->tabindex
+	       $this->value
 	       );
     } else {
       // readonly == true
@@ -422,7 +420,7 @@ class widget {
 	  $r=sprintf('<TD>
          <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') value="QuickCode">
             %s</TD><TD> <INPUT style="border:solid 1px blue;"  TYPE="Text"  style="border:solid 1px blue;" '.
-		     ' NAME="%s" VALUE="%s" SIZE="8" TABINDEX="%s">
+		     ' NAME="%s" VALUE="%s" SIZE="8" >
                  ',
 	       $l_sessid,
 	       $this->extra,
@@ -430,8 +428,7 @@ class widget {
 	       $this->extra2,
 	       $this->label,
 	       $this->name,
-	       $this->value, 
-         $this->tabindex
+	       $this->value
 	       );
 	}
       else
@@ -439,15 +436,14 @@ class widget {
 	  $r=sprintf('
          <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') value="QuickCode">
             %s <INPUT TYPE="Text"  style="border:solid 1px blue;" '.
-		     ' NAME="%s" VALUE="%s" SIZE="8" TABINDEX="%s">           ',
+		     ' NAME="%s" VALUE="%s" SIZE="8" >           ',
 	       $l_sessid,
 	       $this->extra,
 	       $this->name,
 	       $this->extra2,
 	       $this->label,
 	       $this->name,
-	       $this->value, 
-	       $this->tabindex
+	       $this->value
 	       );
 	}
     } else {

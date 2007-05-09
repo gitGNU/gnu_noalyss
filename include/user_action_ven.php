@@ -26,6 +26,7 @@ require_once("user_form_ven.php");
 include_once("class_widget.php");
 require_once("class_jrn.php");
 $cn=DbConnect($_SESSION['g_dossier']);
+
 // default action is insert_vente
 if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {
   exit;
@@ -35,6 +36,10 @@ if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {
 }
 
 if ( $action == 'insert_vente' ) {
+  if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_GET['p_jrn']) != 2 )    {
+       NoAccess();
+       exit -1;
+  }
    
   // Add item
   if (isset($_POST["add_item"]) ) {
