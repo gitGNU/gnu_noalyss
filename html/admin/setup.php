@@ -317,21 +317,20 @@ if ($account == 0 ) {
   ExecSql($cn,"create database ".domaine."account_repository encoding='latin1'");
   $cn=DbConnect();
   StartSql($cn);
-   ExecuteScript($cn,'sql/account_repository/schema.sql');
-   ExecuteScript($cn,'sql/account_repository/data.sql');
-   ExecuteScript($cn,'sql/account_repository/constraint.sql');
-
+  ExecuteScript($cn,"sql/account_repository/schema.sql");
+  ExecuteScript($cn,"sql/account_repository/data.sql");
+  ExecuteScript($cn,"sql/account_repository/constraint.sql");
   Commit($cn);
  if ( DEBUG=='false') ob_end_clean();
   echo "Creation of Démo";
   if ( DEBUG=='false') ob_start();  
   ExecSql($cn,"create database ".domaine."dossier1 encoding='latin1'");
   $cn=DbConnect(1,'dossier');
-  //  StartSql($cn);
-   ExecuteScript($cn,'sql/dossier1/schema.sql');
-   ExecuteScript($cn,'sql/dossier1/data.sql');
-   ExecuteScript($cn,'sql/dossier1/constraint.sql');
-   //Commit($cn);
+  StartSql($cn);
+  ExecuteScript($cn,'sql/dossier1/schema.sql');
+  ExecuteScript($cn,'sql/dossier1/data.sql');
+  ExecuteScript($cn,'sql/dossier1/constraint.sql');
+  Commit($cn);
 
  if ( DEBUG=='false') ob_end_clean();
 
@@ -340,10 +339,9 @@ if ($account == 0 ) {
   ExecSql($cn,"create database ".domaine."mod1 encoding='latin1'");
   $cn=DbConnect(1,'mod');
   StartSql($cn);
-
-   ExecuteScript($cn,'sql/mod1/schema.sql');
-   ExecuteScript($cn,'sql/mod1/data.sql');
-   ExecuteScript($cn,'sql/mod1/constraint.sql');
+  ExecuteScript($cn,'sql/mod1/schema.sql');
+  ExecuteScript($cn,'sql/mod1/data.sql');
+  ExecuteScript($cn,'sql/mod1/constraint.sql');
   Commit($cn);
   if ( DEBUG=='false') ob_end_clean();
 
@@ -354,6 +352,7 @@ if ($account == 0 ) {
   if ( DEBUG=='false') { ob_start();  }
   ExecuteScript($cn,'sql/mod2/schema.sql');
   ExecuteScript($cn,'sql/mod2/data.sql');
+  ExecuteScript($cn,'sql/mod2/constraint.sql');
   Commit($cn);
 
  if ( DEBUG=='false') ob_end_clean();
@@ -363,17 +362,17 @@ if ($account == 0 ) {
 //--
 $cn=DbConnect();
 
-<<<<<<< setup.php
-echo "Creation of Modele2";
-ExecSql($cn,"create database ".domaine."mod2 encoding='latin1'");
-$cn=DbConnect(2,'mod');
-if ( DEBUG=='false') { ob_start();  }
-
-ExecuteScript($cn,'sql/mod2/schema.sql');
-ExecuteScript($cn,'sql/mod2/data.sql');
-ExecuteScript($cn,'sql/mod2/constraint.sql');
-if ( DEBUG=='false') ob_end_clean();
-
+// ----------------------------------------------------------------------
+// to be remove 
+// $Res=CountSql($cn,"select * from modeledef where mod_id=2");
+// if ( $Res == 1 )
+//  {
+//   $cn=DbConnect();
+//   ExecSql($cn,"drop database ".domaine."mod2;");
+//   ExecSql($cn,"delete from modeledef where mod_id=2");
+//  }
+//----------------------------------------------------------------------
+// 
 // Test the connection
 //--
 $a=DbConnect();

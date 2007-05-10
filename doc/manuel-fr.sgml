@@ -195,7 +195,7 @@ passe pas par des comptes débiteurs mais directement en faisant banque
 <p>Toutes les pièces justificatives (extrait de compte en banque, factures,
 ...) doivent être numérotées.
 
-<p> Le numéro de la pj doit être soit celui de l'opération dans le grand livre,
+<p> Le numéro de la pj doit être soit celui de l'opération dans le grand-livre,
  soit celui du livre centralisé où l'opération a été inscrite. Il est important 
 que ce numéro vienne du livre centralisé puisque lors de la centralisation, les
 opérations sont réordonnées par date.
@@ -276,7 +276,7 @@ recevrez ou paierez la TVA
 <p>Vous pouvez directement faire votre déclaration assujetti. 
 
 <p> Vous devez pour cela aller dans le menu "impression", puis "Liste
-Client Assujetti". Vous donnez l'année, cliquer sur "Impression". A ce
+Client Assujetti". Vous donnez l'année, cliquez sur "Impression". A ce
 moment-là, vous n'avez que la totalité des clients, vous pouvez le
 recopier à la main sur le formulaire ad-hoc (doc/fr_BE_listing-client.pdf).
 
@@ -496,7 +496,8 @@ Cela doit se régler au cas par cas.
 
 Il faut aborder la régularisation des comptes de charges et des
 produits (comptes 490, 491, 492, ,493) , les dettes supérieures à un
-an échéant dans l'année... (doit être complèté).  </sect2>
+an échéant dans l'année... (doit être complèté).  
+</sect2>
 
 <sect2>Les variations de stocks
 <p>En fin d'année, il faut faire l'inventaire du stock. Soit on a
@@ -641,6 +642,51 @@ permis. Si son droit par défaut est d'écrire, c'est l'inverse : il
 pourra écrire partout sauf là où c'est explicitement défendu.
 Le sens d'écrire dans ce contexte-ci doit se comprendre
 comme la capacité à  pouvoir ajouter ou modifier des informations.
+<sect2>Sécurité au sein d'un dossier
+<p>Dans chaque dossier, vous devez donner les droits des
+utilisateurs. Il y a les journaux et les actions. Les journaux sont
+les journaux auquels vous avez ou non accès. Avoir accès en ajout à un
+journal de vente permet automatiquement de générer des factures et de
+les imprimer.
+<p>
+Les actions
+<itemize>
+<item> Accès au Grand Livre : vous permet d'accèder au GrandLivre et
+donc de voir toutes les opérations.
+<item> Impression : accès aux impressions, attention, cela permet à
+ceux qui ont cet accès de pouvoir imprimer et exporter, les fiches
+(banques, clients...) !!! Dans le cas, où vous souhaitez que
+l'utilisateur puisse générer et imprimer des pièces (facture, lettre
+de rappel) ce droit-ci n'est pas nécessaire.
+<item> Création et modification des rapports : menu avancé, vous
+permet de créer vos propres rapports 
+<item> Mise à jour Plan Comptable
+<item> Gestion Journaux : dans le menu avancé, configuration des journaux
+<item> Paramètres : gestion des taux TVA, paramètre société, ...
+<item> Centralise
+<item> Lecture des fiches : pour rechercher une fiche, cette action est
+nécessaire pour ceux qui doivent encoder dans les journaux ou dans les
+modules de gestion
+<item> Voir le stock
+<item> Modifie le stock: permet de modifier manuellement le stock,
+celui-ci sera de toute façon modifié par les actions d'achat et de vente.
+<item> Fiche ajout et modification : pour pouvoir ajouter  ou
+modifier une fiche
+<item> Voir la balance des comptes : pour voir la balance des comptes,
+nécessaire d'avoir aussi l'accès Impression
+<item> Import et export des écritures d'ouverture
+<item> Module Suivi Document : module gestion, permet de lire et
+d'ajouter des actions ainsi que de générer certains documents tels que
+lettre de rappel, courrier...
+<item> Module Client 
+<item> Module Fournisseur : module gestion
+<item> Module Administration : module gestion
+<item> Module Gestion:  module gestion, sans ceci vous ne pouvez pas
+du tout accèder à la gestion.
+</itemize>
+
+
+</sect2>
 
 <p>Dans chaque dossier, vous devez donner les droits des
 utilisateurs. Il y a les journaux et les actions. Les journaux sont
@@ -1052,7 +1098,7 @@ divers'... La fiche correspond donc à la dernière subdivision
 c'est-à-dire dans ce cas-ci à 'restaurant' ou 'frais divers'.
  
 
-Pour créer une catégorie, cliquer sur Fiche et à droite sur
+Pour créer une catégorie, cliquez sur Fiche et à droite sur
 création. Vous devez donner le nom de la catégorie et le type de fiche
 que vous voulez.  
 
@@ -1263,17 +1309,17 @@ n'utilisent jamais les fiches voir
 <p> Voir aussi Journaux <ref id="journaux" name="journaux">
 </sect2>
 <sect2>Période
-<p>C'est l'endroit ou les périodes sont créées, ou fermer, il faut toujours fermer
+<p>C'est l'endroit ou les périodes sont créées, ou fermées. Il faut toujours fermer
 les périodes en particulier après les déclarations TVA, afin d'éviter que les montants
 déjà déclarés ne correspondent plus, plus personne ne doit pouvoir encoder dans ces
 périodes-là.
 
-<p>Après la fermeture des périodes on peut les centraliser
+<p>Après la fermeture des périodes, on peut les centraliser
 
 </sect2>
 <sect2>Centralise
 <p> La centralisation est l'opération comptable qui consiste à
-regrouper les différents journaux comptables dans le grand livre.
+regrouper les différents journaux comptables dans le grand-livre.
 <sect3>Méthode
 <p> Cette opération n'est pas réversible. 
 
@@ -1296,8 +1342,6 @@ ou enlever ceux qui n'ont jamais été utilisé.
 
 </sect2>
 
-<sect2>Stock
-</sect2>
 
 <sect2>Rapport
 <p>Création des rapport voir impression des rapports <ref id="rapport" name="les rapports"> 
@@ -1418,7 +1462,7 @@ reçues ou envoyées.
 		
 <p> Afin de lier deux actions ensemble, il faut rechercher la
 première, voir le détail 
-puis cliquer sur "Ajout action". Les deux documents seront alors liés.
+puis cliquez sur "Ajout action". Les deux documents seront alors liés.
 
 <p>Vous pouvez ici aussi générer un document ou ajouter une pièce justificative en 
 plus de la note interne. Cette note n'est jamais repris dans le document.
