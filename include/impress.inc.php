@@ -17,7 +17,9 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+
 /* $Revision$ */
+
 /*! \file
  * \brief Main page for the printing
  */
@@ -43,14 +45,9 @@ $result=ShowItem($p_array,'H',"cell","mtitle",$default);
 echo $result;
 
 echo "</DIV>";
+$cn=DbConnect($_SESSION['g_dossier']);
+$User->AccessRequest($cn,IMP);
 
-
-if ( $User->admin == 0 ) {
-  if (CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],IMP) == 0 ){
-    /* Cannot Access */
-    NoAccess();
-  }
-}
 
 include_once("impress_inc.php");
 

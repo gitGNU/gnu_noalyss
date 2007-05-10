@@ -16,7 +16,9 @@
  *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
 /* $Revision$ */
+
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /*! \file
  * \brief Base of the module "Gestion", the p_action indicates what
@@ -85,9 +87,9 @@ $p_action=(isset ($_REQUEST['p_action']))?$_REQUEST['p_action']:"";
 // TODO Menu with all the customer
 echo ShowItem(array(
 		    array('?p_action=client','Client'),
-		    array('?p_action=facture','Facture'),
+		    array('?p_action=facture','Vente/Facture'),
 		    array('?p_action=fournisseur','Fournisseur'),
-		    array('?p_action=depense','D&eacute;pense'),
+		    array('?p_action=depense','Achat/D&eacute;pense'),
 		    array('?p_action=impress','Impression'),
 		    array('?p_action=stock','Stock'),
 		    array('?p_action=bank','Banque'),

@@ -18,6 +18,7 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
+
 /*! \file
  * \brief Search a account in a popup window
  */

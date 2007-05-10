@@ -16,7 +16,9 @@
  *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
 /* $Revision$ */
+
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 //!\brief File for adding contact, contact is a kind of fiche
 require_once('class_contact.php');
@@ -133,7 +135,7 @@ if ( $sub_action == "list" )
  // if array is empty show an warning and stops
  if ( sizeof ($w->value) == 0 ) {
    echo '<p style="color:red">Aucune fiche de catégories contact</p>';
-   echo '<p>allez dans comptabilité -> fiche creation et choississez contact comme sorte</p>';
+   echo '<p>allez dans fiche creation et choississez contact comme sorte</p>';
    exit();
  }
  echo $w->IOValue();

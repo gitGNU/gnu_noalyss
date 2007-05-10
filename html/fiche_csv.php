@@ -36,11 +36,8 @@ include ('class_user.php');
 $User=new cl_user($rep);
 $User->Check();
 
-if ($User->CheckAction($cn,FICHE_READ) == 0 )
-  {
-    /* Cannot Access */
-    NoAccess();
-  }
+$User->AccessRequest($cn,FICHE_READ);
+
 
 if  ( isset ($_POST['fd_id'])) {
   $fiche_def=new fiche_def($cn,$_POST['fd_id']);
@@ -75,9 +72,9 @@ if  ( isset ($_POST['fd_id'])) {
 	    //--
 	    if ( $dattribut->ad_id == ATTR_DEF_ACCOUNT 
 		 && isset ($_REQUEST['with_amount']))  {
-	      $account=new poste ($cn,$dattribut->av_text);
+
 	      $sql_periode=sql_filter_per($cn,$_REQUEST['from_periode'],$_REQUEST['to_periode'],'p_id','j_tech_per');
-	      $solde=  $account->GetSoldeDetail($sql_periode);
+	      $solde=  $detail->GetSoldeDetail($sql_periode);
 
 	      
 	      printf(";% 10.2f;% 10.2f;% 10.2f",

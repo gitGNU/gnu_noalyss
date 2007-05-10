@@ -18,6 +18,7 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 // $Revision$
+
 /*! \file
  * \brief Contains all the variable + the javascript
  * and some parameter 
@@ -55,6 +56,8 @@ define ("CENTRALIZE",10);
 define ("VEN",11);
 define ("BQE",12);
 define ("ODS",13);
+// Access gestion periode comptable
+define ("GESTION_PERIODE",31);
 
 //!\enum Security 
 define("SEC_ACTION", 28); // Module Suivi Document

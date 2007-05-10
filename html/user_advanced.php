@@ -18,6 +18,8 @@
 */
 // Auteur Dany De Bontridder ddebontridder@yahoo.fr
 include_once ("ac_common.php");
+require_once("check_priv.php");
+
 /* $Revision$ */
 /*! \file
  * \brief Obsolete
@@ -38,10 +40,7 @@ $User->Check();
 
 include_once ("postgres.php");
 echo_debug('user_advanced.php',__LINE__,"user is ".$_SESSION['g_user']);
-$rep=DbConnect();
-include_once ("class_user.php");
-$User=new cl_user($rep);
-$User->Check();
+
 
 // We don't check permissions here in fact, permission are tested in the
 // functions 
@@ -57,6 +56,9 @@ echo ShowMenuAdvanced();
 
 
 if ( isset($_REQUEST['p_action']) && $_REQUEST['p_action'] == "periode" ) {
+  if ( $User->admin == 0 && CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],GESTION_PERIODE) == 0 )
+	NoAccess();
+    
   $p_action=$_REQUEST['p_action'];
   include_once("periode.inc.php");
 }

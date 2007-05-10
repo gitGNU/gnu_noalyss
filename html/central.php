@@ -44,16 +44,14 @@ include_once ("user_menu.php");
 echo ShowMenuCompta($_SESSION['g_dossier'],"user_advanced.php");
 
 $cn=DbConnect($_SESSION['g_dossier']);
-if ( $User->CheckAction($cn,CENTRALIZE)==0 ) {
-    /* Cannot Access */
-    NoAccess();
-}
 
 include_once("central_inc.php");
 
 echo '<div class="u_subtmenu">';
 echo ShowMenuAdvanced("central.php");
 echo '</div>';
+$User->AccessRequest($cn,CENTRALIZE);
+
 
 
 echo '<DIV CLASS="u_redcontent">';

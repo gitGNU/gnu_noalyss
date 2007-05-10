@@ -16,7 +16,9 @@
  *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
 /* $Revision$ */
+
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 require_once("class_admin.php");
 $sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
@@ -117,10 +119,21 @@ if ( $sub_action == "list" )
  $w->name="fd_id";
  $w->value= make_array($cn,"select fd_id,fd_label from fiche_def where ".
 	     " frd_id=".FICHE_TYPE_ADM_TAX);
- echo $w->IOValue();
+ if ( count($w->value) != 0 ) 
+   {
 ?>
 <input type="hidden" name="sa" value="blank">
 <input type="submit" name="submit_query" value="Ajout Sup">
+
+<?
+   echo $w->IOValue();
+   }
+ else
+   {
+     echo '<p style="color:red">Aucune fiche de catégories Administration</p>';
+     echo 'allez dans fiche -> creation et choississez Administration comme cat&eacute;gorie';
+   }
+?>
 
 </form>
 </span>

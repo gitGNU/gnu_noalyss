@@ -18,7 +18,9 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 // Auteur Dany De Bontridder ddebontridder@yahoo.fr
+
 /* $Revision$ */
+
 /*!\file 
  * \brief Manage the stock by year
  */
@@ -46,16 +48,6 @@ $User->Check();
 // Synchronize rights
 SyncRight($_SESSION['g_dossier'],$_SESSION['g_user']);
 
-// Get The priv on the selected folder
-if ( $User->admin == 0 ) {
-  
-  $r=CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],STOCK_READ);
-  if ($r == 0 ){
-    /* Cannot Access */
-    NoAccess();
-  }
-
-}
 
 $href=basename($_SERVER['PHP_SELF']);
 if ($href=='compta.php')
@@ -70,6 +62,9 @@ if ($href=='compta.php')
   //echo '<div class="lmenu">';
   echo $left_menu;
 }
+// Get The priv on the selected folder
+$User->AccessRequest($cn,STOCK_READ);
+
 
 $action= ( isset ($_GET['action']))? $_GET['action']:"";
 include_once("stock_inc.php");
@@ -135,7 +130,7 @@ if ( isset ($_POST['sub_change']))
   $action="detail";
   }
 }
-
+echo JS_VIEW_JRN_MODIFY;
 // View the summary
 
 // if year is not set then use the year of the user's periode

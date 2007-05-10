@@ -17,7 +17,9 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+
 /* $Revision$ */
+
 /*! \file
  * \brief Main page for the printing
  */
@@ -50,11 +52,8 @@ $action=$_REQUEST['p_action'];
 
 // call impress sub-menu
 if ( $action == 'impress' ) {
-  if ( $User->CheckAction($cn,IMP) == 0)
-    {
-      NoAccess();
-      exit;
-    }
+
+  $User->AccessRequest($cn,IMP) ;
 
   require_once('impress.inc.php');
 }

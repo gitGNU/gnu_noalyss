@@ -136,7 +136,8 @@ if ( isset ( $_POST['search']) )  {
     $Res=ExecSql($cn,$sql); 
   } else {
     $e_fic_search=FormatString($e_fic_search);
-    $Res=ExecSql($cn,"$sql and upper(vw_name) like upper('%$e_fic_search%')"); 
+    $Res=ExecSql($cn,"$sql and ( upper(vw_name) like upper('%$e_fic_search%') or ".
+               "upper(quick_code) like upper('%$e_fic_search%'))" ); 
   }
 
   // Test whether rows are returned

@@ -37,11 +37,8 @@ $User=new cl_user($rep);
 $User->Check();
 html_page_start($User->theme,"onLoad='window.focus();'");
 
-if ( $User->CheckAction(DbConnect($_SESSION['g_dossier']),MPCMN) == 0 ) {
-  /* Cannot Access */
-  NoAccess();
-  exit -1;			
- }
+$User->AccessRequest(DbConnect($_SESSION['g_dossier']),MPCMN);
+
 
 include ("user_menu.php");
 

@@ -164,7 +164,7 @@ if ( isset ( $_GET["action"]) ) {
        && ! isset ($_POST['add_fiche']) 
        && ! isset ($_POST['update_fiche'])
        && ! isset ($_POST['delete'])) {
-    ShowRecherche();
+
     echo '<DIV class="u_redcontent">';
     $fiche_def=new fiche_def($cn,$_GET['fiche']);
     $fiche_def->myList();
@@ -185,6 +185,11 @@ if ( isset ( $_GET["action"]) ) {
       }
     $str="";
     $fiche=new fiche($cn,$_GET["fiche_id"]);
+    $fiche->get_categorie();
+    $fiche_def=new fiche_def($cn,$fiche->fd_id);
+    $fiche_def->Get();
+    echo '<h2 class="info">'.$fiche_def->label.'</h2>';
+
     if ( $_SESSION['g_pagesize'] != -1 ){
       // retrieve value
       // with offet &offset=15&step=15&page=2&size=15
@@ -281,6 +286,9 @@ if ( isset ($_POST["fiche"]) && isset ($_POST["add"] ) ) {
       echo "<h2 class=\"error\"> Pas d'accès </h2>";
     else
       {
+	$fiche_def=new fiche_def($cn,$_POST['fiche']);
+	$fiche_def->Get();
+	echo '<h2 class="info">'.$fiche_def->label.'</h2>';
 	$url=$_SERVER['REQUEST_URI'];
 	$fiche=new fiche($cn,0);
 
@@ -340,7 +348,7 @@ if ( isset ($_POST["add_fiche"]) ) {
 //------------------------------------------------------------------------------
 // Update a card
 if ( isset ($_POST["update_fiche"])  ) {
-	ShowRecherche();
+
   echo '<DIV class="u_redcontent">';
       if ( $write ==0)  
       echo "<h2 class=\"error\"> Pas d'accès </h2>";

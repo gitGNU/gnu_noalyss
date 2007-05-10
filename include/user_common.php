@@ -16,7 +16,9 @@
  *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
 /* $Revision$ */
+
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 include_once("postgres.php");
@@ -994,6 +996,10 @@ function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1)
 
   // if max page == 1 then return a empty string
   if ( $nb_page == 1) return "";
+
+  // restore the sort
+  if ( isset($_GET['o']))
+       $url=$url.'&o='.$_GET['o'];
 
   $r="";
   // previous

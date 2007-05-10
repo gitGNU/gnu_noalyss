@@ -25,6 +25,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
 
+
 /*!
  * \brief   Show all the available folder  for the users
  *          at the login page
@@ -256,6 +257,10 @@ function ShowMenuJrnUser($p_dossier,$p_type,$p_jrn,$p_extra="")
 
     } 
     $Max=pg_NumRows($Ret);
+    // If you can't access any ledger, so you don't have access
+    if ( $Max == 0 )
+      NoAccess();
+
     include_once("check_priv.php");
 
     for ($i=0;$i<$Max;$i++) {
@@ -424,15 +429,17 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
   $r.= '<TD COLSPAN="3">  Date compris entre</TD> ';
   $r.= "</TR> <TR>";
   $r.= '<TD> <INPUT TYPE="TEXT" NAME="date_start" SIZE="10" VALUE="'.$p_date_start.'"></TD>';
-  $r.= '<TD> <INPUT TYPE="TEXT" NAME="date_end" size="10" Value="'.$p_date_end.'"></TD>';
+  $r.= '<TD>et <INPUT TYPE="TEXT" NAME="date_end" size="10" Value="'.$p_date_end.'"></TD>';
   $r.= '</TD><TD>';
   $r.= "</TR> <TR>";
   $r.= "<TD> Montant ";
   $r.= ' <SELECT NAME="mont_sel">'.$opt.' </SELECT></TD><TD>';
   $r.= ' <INPUT TYPE="TEXT" NAME="s_montant" SIZE="10" VALUE="'.$p_s_montant.'"></TD>';
-  $r.= "</TR><TR>";
-  $r.="<TD> Internal code</td>";
-  $r.='<TD><input type="text" name="s_internal" value="'.$p_s_internal.'"></td>';
+  $r.= '</TR><TR valigne="top">';
+  $r.='<TD > Internal code </td>';
+  $r.='<TD ><input type="text" name="s_internal" value="'.$p_s_internal.'"></td>'; 
+  $r.='</TR><TR><TD colspan="2"><i>vous pouvez spécifier uniquement <br>une partie (VEN, num&eacute;ro d\'op&eacute;ration...)</i></td>';
+
 
   $r.="</TD></TR></TABLE></td><TD><table>";
 
