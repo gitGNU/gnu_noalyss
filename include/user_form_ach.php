@@ -566,15 +566,15 @@ function FormAchView ($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$p_number,$p_pi
       // vat of the card
       if ( $tva_amount == 0) 
 	{
-	  $fiche_amount_vat=$fiche_price*$fiche_quant*$vat_rate;
+	  $fiche_amount_vat=round($fiche_price*$fiche_quant*$vat_rate,2);
 	  // value card + vat
-	  $fiche_with_vat=$fiche_price*$fiche_quant*(1+$vat_rate);
+	  $fiche_with_vat=round($fiche_price*$fiche_quant,2)+$fiche_amount_vat;
 	}
       else
 	{
 	  $fiche_amount_vat=$tva_amount;
 	  // value card + vat
-	  $fiche_with_vat=$fiche_price*$fiche_quant+$tva_amount;
+	  $fiche_with_vat=round($fiche_price*$fiche_quant,2)+$tva_amount_vat;
 	}
       // Sum of invoice vat 
       $sum_with_vat+=$fiche_with_vat;
