@@ -54,28 +54,19 @@ echo '</div>';
 
 if ( $User->admin == 0 ) {
   // check if user can access
-  if (CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],ENCJRN) == 0 ){
+  // Acces Grand livre
+  if ($jrn_type== 'NONE' && CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],ENCJRN) == 0 ){
     /* Cannot Access */
     NoAccess();
   }
   // if a jrn is asked
-  if ( $p_jrn != -1 ) {
-	  if (CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn) == 0 ){
+  if ( $jrn_type != 'NONE' && CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn) == 0 ){
 	    /* Cannot Access */
 	    NoAccess();
 	    exit -1;
 	  }
-    } // if isset p_jrn
 
 }
-
-// Show the available jrn
-// $result=ShowJrn("user_jrn.php?jrn_type=".$jrn_type);
-// echo "<div class=\"u_subtmenu\">";
-// echo $result;
-// echo "</div>";
-
-
 
 // if a journal is selected show the journal's menu
 if ( $p_jrn != -1 ) 

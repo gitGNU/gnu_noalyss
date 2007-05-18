@@ -46,11 +46,8 @@ $User=new cl_user($rep);
 $User->Check();
 
 $bal=new Balance($cn);
-if ( $User->CheckAction($cn,BALANCE) == 0)
-  {
-    NoAccess();
-    exit;
-  }
+$User->AccessRequest($cn,BALANCE);
+
 echo_debug('print_balance.php',__LINE__,"imp pdf journaux");
 foreach ($_POST as $key=>$element) {
   ${"$key"}=$element;

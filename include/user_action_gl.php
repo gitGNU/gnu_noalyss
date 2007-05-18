@@ -30,8 +30,6 @@ include_once("class_user.php");
 require_once("jrn.php");
 
 $cn=DbConnect($_SESSION['g_dossier']);
-if (CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],0)  < 1 )
-  {NoAccess();exit -1;}
 
 ?>
 <div class="u_redcontent">

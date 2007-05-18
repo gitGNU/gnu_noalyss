@@ -40,7 +40,7 @@ include_once ("user_menu.php");
 
 $cn_dossier=DbConnect($_SESSION['g_dossier']);
 
-if ( $User->CheckAction($cn_dossier,SECU) == 0 ) {
+if ( $User->CheckAction($cn_dossier,GJRN) == 0 ) {
   /* Cannot Access */
   NoAccess();
   exit -1;
@@ -92,7 +92,7 @@ foreach ($_GET as $name=>$value)
 if ( $action == "change_jrn" ) {
   // Check if the user can access that folder
   if ( CheckDossier($_GET['login'],$_SESSION['g_dossier']) == 0 ) {
-    echo "<H2 class=\"error\">he cannot access this folder</H2>";
+    echo "<H2 class=\"error\">Cet utilisateur ne peut pas acc&eacute;der ce dossier</H2>";
     $action="";
     return;
   }

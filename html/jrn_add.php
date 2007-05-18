@@ -46,12 +46,8 @@ echo '</div>';
 
 
 $cn=DbConnect($_SESSION['g_dossier']);
-if ($User->CheckAction($cn,GJRN) == 0 ){
-  /* Cannot Access */
-  NoAccess();
-  exit -1;			
-  
- }
+$User->AccessRequest($cn,GJRN);
+
 
 echo JS_SEARCH_POSTE;
 

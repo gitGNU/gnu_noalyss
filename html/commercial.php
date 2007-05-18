@@ -85,9 +85,9 @@ $p_action=(isset ($_REQUEST['p_action']))?$_REQUEST['p_action']:"";
 // TODO Menu with all the customer
 echo ShowItem(array(
 		    array('?p_action=client','Client'),
-		    array('?p_action=facture','Facture'),
+		    array('?p_action=facture','Vente/Facture'),
 		    array('?p_action=fournisseur','Fournisseur'),
-		    array('?p_action=depense','D&eacute;pense'),
+		    array('?p_action=depense','Achat/D&eacute;pense'),
 		    array('?p_action=impress','Impression'),
 		    array('?p_action=stock','Stock'),
 		    array('?p_action=bank','Banque'),
@@ -166,6 +166,12 @@ if ( $p_action == 'bank')
 // Impression
 if ( $p_action == 'impress') 
 {
+  if ( $User->CheckAction($cn,IMP) == 0)
+    {
+      NoAccess();
+      exit;
+    }
+
   require_once("impress.inc.php");
 }
 if ( $p_action == 'fiche') {
