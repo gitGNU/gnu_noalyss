@@ -16,7 +16,9 @@
  *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
 /* $Revision$ */
+
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 require_once("constant.php");
 require_once("class_widget.php");
@@ -141,7 +143,7 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
     }
     // code
     // Do we need a filter ?
-    $l_line=GetJrnProp($p_cn,$p_jrn);
+    $l_line=GetJrnProp($_SESSION['g_dossier'],$p_jrn);
     if(  strlen(trim ($l_line['jrn_def_class_cred']) ) > 0 or
 	 strlen(trim ($l_line['jrn_def_class_deb']) ) > 0 ) {
       $filter=1;
