@@ -54,14 +54,15 @@ if ( $action == 'new' ) {
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Confirmer">';
     // add a one-line calculator
 
-    
-    $r=FormODS($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,null,false);
+    $prop=GetJrnProp($_SESSION['g_dossier'],$_GET['p_jrn']);
+    $line=$prop['jrn_deb_max_line'];
+    $r=FormODS($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,null,false,$line);
     echo '<div class="u_redcontent">';
     echo $r;
     echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."<div>";
     echo "</div>";
 	  
-    
+
   }
 
 	// Add an item
