@@ -315,11 +315,15 @@ $r.="</FORM>";
    // if not recorded the new amount must be recalculate
    if ( $p_save == false) {
      $r.=" <b> Ancien Solde = ".$solde." </b><br>";
+     $op=$new_solde-$solde;
+     $r.="<b> Montant op&eacute;ration =".$op."</b><br>";
      $r.=" <b> Nouveau Solde = ".$new_solde." </b><br>";
    }
    // if recorded the old amount is recalculated
    if ($p_save == true ) {
+     $op=$solde-$new_solde;
      $r.=" <b> Ancien Solde = ".$new_solde." </b><br>";
+     $r.="<b> Montant op&eacute;ration =".$op."</b><br>";
      $r.=" <b> Nouveau Solde = ".$solde." </b><br>";
    }
  }
