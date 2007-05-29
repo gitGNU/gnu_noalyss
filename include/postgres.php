@@ -97,7 +97,23 @@ function DbConnect($p_db=-1,$p_type='dossier') {
   }
   $password=phpcompta_password;
   $port=phpcompta_psql_port;
-  $a=pg_connect("dbname=$l_dossier host=127.0.0.1 user='phpcompta' password='$password' port=$port");
+ ob_start();
+  $a=pg_connect("dbname=$l_dossier host=127.0.0.1 user='phpcompta'
+password='$password' port=$port");
+  if ( $a == false )
+  {
+  	ob_clean();
+  	echo "Vos param&egrave;tres sont incorrectes : <br>";
+  	echo "<br>";
+  	echo "base de donn&eacute;e : $l_dossier<br>";
+  	echo "Port $port <br>";
+  	echo "Utilisateur : phpcompta <br>";
+
+  	exit ("Connection impossible : v&eacute;rifiez vos param&egrave;tres de base
+de donn&eacute;es");
+	
+  }
+  ob_clean();
   echo_debug ('postgres.php',__LINE__,"connect to $p_db dbname $l_dossier");
   return $a;
 }
@@ -291,7 +307,7 @@ function GetLogin($p_uid)
 }
 
 /*!   SyncRight
- * \brief  Synchronize les droits par défaut
+ * \brief  Synchronize les droits par dï¿½faut
  *           avec  les journaux existants
  *\param $p_dossier dossier id
  * \param $p_user user id

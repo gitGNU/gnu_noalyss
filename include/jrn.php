@@ -172,7 +172,7 @@ require_once('class_fiche.php');
  */ 
 function GetJrnProp($p_dossier,$p_jrn,$is_connected=0) 
 {
-  echo_debug("jrn.php",__LINE__,"GetJrnProp");
+  echo_debug("jrn.php",__LINE__,"GetJrnProp $p_dossier");
   if ( $is_connected == 0 ) 
     $cn=DbConnect($p_dossier);
   else
