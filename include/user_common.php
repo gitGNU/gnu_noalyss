@@ -209,7 +209,7 @@ function ComputeVat($p_cn,	$p_fiche,$p_quant,$p_price,$p_vat )
       $a=$a_vat['tva_id'];
       $vat_amount=$p_price*$a_vat['tva_rate']*$p_quant;
     } 
-  echo_debug('user_common',__LINE__,'return '.round($vat_amount,2));
+  echo_debug('user_common',__LINE__,'return tva'.round($vat_amount,2));
   return round($vat_amount,2);
   
   

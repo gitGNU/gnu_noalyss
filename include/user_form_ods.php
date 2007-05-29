@@ -143,7 +143,7 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
     }
     // code
     // Do we need a filter ?
-    $l_line=GetJrnProp($p_cn,$p_jrn);
+    $l_line=GetJrnProp($_SESSION['g_dossier'],$p_jrn);
     if(  strlen(trim ($l_line['jrn_def_class_cred']) ) > 0 or
 	 strlen(trim ($l_line['jrn_def_class_deb']) ) > 0 ) {
       $filter=1;
