@@ -75,7 +75,7 @@ function SetValue(p_ctl,p_value)
 	// Compute name of label ctl
 	var a=i+'_label';
 	document.getElementById(a).innerHTML=p_label;
-	
+	document.getElementById(a).style.color='black';
 	// Compute name of  sell  ctl 
  	var a=i+'_sell';
 	// if the object exist
