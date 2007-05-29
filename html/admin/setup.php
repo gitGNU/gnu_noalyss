@@ -183,6 +183,13 @@ foreach (array('magic_quotes_gpc','magic_quotes_runtime') as $a) {
   }
 
 }
+$module=get_loaded_extensions();
+if ( in_array('pgsql',$module) == false ) 
+{
+  print '<h2 class="error">D&eacute;sol&eacute; mais soit vous n\'avez pas install&eacute; le package  pour postgresql soit php n\'a pas pas &eacute;t&eacute; compil&eacute; avec les bonnes options </h2>';
+  $flag_php++;
+}
+
 if ( ini_get("max_execution_time") < 60 )  {
 	print '<h2 class="info"> max_execution_time should be set to 60 minimum</h2>';
 }
@@ -216,8 +223,8 @@ $cn=DbConnect(-2,'phpcompta');
 if ($cn == false ) {
   print "<p> Vous devez absolument taper dans une console la commande 'createuser -A -d -P  phpcompta et vous donnez dany comme mot de passe (voir la documentation)'
   puis  la commande 'createdb -O phpcompta phpcompta'. </p>
-<p>Ces commandes créeront l'utilisateur phpcompta
-puis la base de données par défaut de phpcompta.</p>";
+<p>Ces commandes cr&eacute;eront l'utilisateur phpcompta
+puis la base de donn&eacute;es par d&eacute;faut de phpcompta.</p>";
   exit();
  }
 ?>
@@ -236,7 +243,7 @@ if ( $version[0]  != '8' ) {
 ?>
   <p> Vous devez absolument utiliser au minimum une version 8 de PostGresql, si votre distribution n'en
 offre pas, installez en une en la compilant. </p><p>Lisez attentivement la notice sur postgresql.org pour migrer
-vos bases de données en 8
+vos bases de donn&eacute;es en 8
 </p>
 <?php exit(); //'
 }
