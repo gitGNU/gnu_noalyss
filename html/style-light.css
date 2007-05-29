@@ -199,7 +199,10 @@ span.even {
   background-color:#DDE6FF;
   display:block;
  }
-
+span.error {
+  background-color:white;
+  font-color:red;
+}
 tr.odd {
 	background-color:#DDE6FF;
 	font-size:10px;

@@ -35,7 +35,7 @@ define ("DEBUG","true");
 // action
 // access aux journaux
 define ("ENCJRN",1);
-// cr�ation facture
+// crï¿½ation facture
 // define("FACT",2);
 // lecture aux fiche
 define ("FICHE_READ",3);
@@ -47,11 +47,11 @@ define("FORM",5);
 define ("MPCMN",6);
 // Gestion des journaux
 define ("GJRN",7);
-// Gestion des param�tres globaux
+// Gestion des paramï¿½tres globaux
 define ("PARM",8);
 // Voir la balance des compte
 define ("BALANCE",20);
-// Access � la centralisation
+// Access ï¿½ la centralisation
 define ("CENTRALIZE",10);
 define ("VEN",11);
 define ("BQE",12);
@@ -156,8 +156,6 @@ define ("JS_UPDATE_PCMN",
 
 define ("JS_SEARCH_CARD","
 <script  language=\"javascript\" src=\"js/search_card.js\"></script>
-
-
 ");
 // concerned operation
 define ("JS_CONCERNED_OP",'
@@ -203,6 +201,7 @@ function ChangeTVA(p_ctl,p_value) {
 }
 
 </script>");
+define ("JS_AJAX_FICHE",'<script language="javascript" src="js/ajax_fiche.js"></script>');
 // Sql string
 define ("SQL_LIST_ALL_INVOICE","");
 

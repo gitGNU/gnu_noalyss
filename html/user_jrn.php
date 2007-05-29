@@ -90,7 +90,7 @@ if ( $p_jrn != -1 )
 
   $g_dossier=$_SESSION['g_dossier'];
   $g_user=$_SESSION['g_user'];
-      
+echo JS_AJAX_FICHE;    
   // Execute Action for p_jrn
   if ( $jrn_type=='VEN' )     require('user_action_ven.php');
   if ( $jrn_type=='ACH' )     require('user_action_ach.php');

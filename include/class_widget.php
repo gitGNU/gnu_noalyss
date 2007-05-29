@@ -124,8 +124,9 @@ class widget {
     $disabled = $this->disabled ? "DISABLED" : "";
     if (strtoupper($this->type)=="TEXT") {
       if ( $this->readonly==false) {
-	$r="<INPUT style=\"border:solid 1px blue;\" TYPE=\"TEXT\" NAME=\"$this->name\" VALUE=\"$this->value\"  SIZE=\"$this->size\" ".$disabled.">";} else {
-	    $r=sprintf('<span>%s</span><input type="hidden" name="%s" value="%s">', $this->value,$this->name,$this->value);
+	$r="<INPUT style=\"border:solid 1px blue;\" TYPE=\"TEXT\" id=\"$this->name\" NAME=\"$this->name\" VALUE=\"$this->value\"  SIZE=\"$this->size\" ".$disabled.">";
+      } else {
+	    $r=sprintf('<span>%s</span><input type="hidden" id="%s" name="%s" value="%s">', $this->value,$this->name,$this->name,$this->value);
 	}
 	
       if ($this->table==1) {
@@ -148,7 +149,7 @@ class widget {
       if ($this->readonly==false )
 	{
 	  //echo "<b>Selected <b>".$this->selected;
-	  $r="<SELECT  NAME=\"$this->name\">";
+	  $r="<SELECT  id=\"$this->name\" NAME=\"$this->name\">";
 	  for ( $i=0;$i<sizeof($this->value);$i++) 
 	    {
 	      $checked=($this->selected==$this->value[$i]['value'])?"SELECTED":"";
@@ -381,8 +382,8 @@ class widget {
          <INPUT TYPE="button" onClick=NewCard(\'%s\',\'%s\',\'%s\',\'%s\') value="Nouveau">
          </TD><TD>
          <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') value="Recherche">
-
-            %s <INPUT  style="border:solid 1px blue;"  TYPE="Text"    NAME="%s" VALUE="%s" SIZE="8" >
+         %s 
+         <INPUT  style="border:solid 1px blue;"  TYPE="Text"  ID="%s"  NAME="%s" VALUE="%s" SIZE="8" onChange="ajaxFid(\'%s\',\'%s\',\'%s\')">
 
                  ',
 	       $l_sessid,
@@ -395,7 +396,11 @@ class widget {
 	       $this->extra2,
 	       $this->label,
 	       $this->name,
-	       $this->value
+	       $this->name,
+	       $this->value,
+	       $this->name,
+	       $this->extra, //deb or cred
+	       $this->extra2 //jrn
 	       );
     } else {
       // readonly == true

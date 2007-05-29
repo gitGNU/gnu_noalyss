@@ -76,8 +76,8 @@ echo "<H2 class=\"info\">Commercial ".$_SESSION['g_name']." ";
 echo '<div align="right" title="Recherche">
 <input type="IMAGE" src="image/search.png" width="36" onclick="openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.$_SESSION['g_dossier'].');">
 <A HREF="?p_action=pref" title="Pr&eacute;f&eacute;rence"><IMG SRC="image/preference.png" width="36" border="0" ></A>
-<A HREF="user_compta.php?dos='.$_SESSION['g_dossier'].'" title="Comptabilité"><IMG SRC="image/compta.png" width="36"  border="0" ></A>
-<A HREF="parametre.php?dos='.$_SESSION['g_dossier'].'" title="Paramètre"><IMG SRC="image/param.png" width="36" border="0" ></A>
+<A HREF="user_compta.php?dos='.$_SESSION['g_dossier'].'" title="ComptabilitÃ©"><IMG SRC="image/compta.png" width="36"  border="0" ></A>
+<A HREF="parametre.php?dos='.$_SESSION['g_dossier'].'" title="ParamÃ¨tre"><IMG SRC="image/param.png" width="36" border="0" ></A>
 <A HREF="login.php" title="Accueil"><IMG src="image/home.png" width="36" title="Accueil"  border="0"  ></A>
 <A HREF="logout.php" title="Sortie"><IMG src="image/logout.png" title="Logout"  width="36"  border="0"></A>
 
@@ -138,6 +138,7 @@ if ( $p_action == 'suivi_courrier')
 //-----------------------------------------------------
 if ( $p_action == "facture" ) 
 {
+  echo JS_AJAX_FICHE;
   require_once("facture.inc.php");
 }
 //-----------------------------------------------------
@@ -150,6 +151,7 @@ if ( $p_action == 'contact')
 // Expense
 if ( $p_action == 'depense') 
 {
+	echo JS_AJAX_FICHE;
   require_once("depense.inc.php");
 }
 //-----------------------------------------------------
@@ -162,6 +164,7 @@ if ( $p_action == 'admin')
 // Banque
 if ( $p_action == 'bank') 
 {
+	echo JS_AJAX_FICHE;
   require_once("bank.inc.php");
 }
 //-----------------------------------------------------
