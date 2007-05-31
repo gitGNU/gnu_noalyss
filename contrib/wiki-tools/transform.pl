@@ -25,6 +25,7 @@ while (my $line=<>) {
 	$line=~s/<item>[1-9]\./#/;
 	$line=~s/<item>/\*/;
 	$line=~s/<toc>/(:toc:) (:num:)/;
+	$line=~s/<!-- Table of contents -->//;
 	if ( $line =~ /<verb>/ ) {
 		$line=~s/<verb>/[@/;	
 		$block=1;

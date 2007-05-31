@@ -1,4 +1,5 @@
-pg_dump -O -U phpcompta -s mod2  | awk '!/--/ {if ( ! /^$/) print $0;}' > schema.sql
+pg_dump -O -U phpcompta -s mod2  | awk '!/--/ {if ( ! /^$/) print
+$0;}'|grep -v "COMMENT ON SCHEMA public IS 'Standard public schema';" > schema.sql
 awk '/SEQUENCE/,/;/ { print $0;}' < schema.sql > sequence.sql
 awk '/CREATE DOMAIN/,/;/ { print $0;}' < schema.sql > table.sql
 awk '/CREATE TABLE/,/;/ { print $0;}' < schema.sql >> table.sql

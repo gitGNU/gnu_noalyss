@@ -1,7 +1,7 @@
 SET client_encoding = 'LATIN1';
 SET check_function_bodies = false;
 SET client_min_messages = warning;
-COMMENT ON SCHEMA public IS 'Standard public schema';
+
 SET search_path = public, pg_catalog;
 SET default_tablespace = '';
 SET default_with_oids = false;

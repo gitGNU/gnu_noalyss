@@ -97,7 +97,23 @@ function DbConnect($p_db=-1,$p_type='dossier') {
   }
   $password=phpcompta_password;
   $port=phpcompta_psql_port;
-  $a=pg_connect("dbname=$l_dossier host=127.0.0.1 user='phpcompta' password='$password' port=$port");
+ ob_start();
+  $a=pg_connect("dbname=$l_dossier host=127.0.0.1 user='phpcompta'
+password='$password' port=$port");
+  if ( $a == false )
+  {
+  	ob_clean();
+  	echo "Vos param&egrave;tres sont incorrectes : <br>";
+  	echo "<br>";
+  	echo "base de donn&eacute;e : $l_dossier<br>";
+  	echo "Port $port <br>";
+  	echo "Utilisateur : phpcompta <br>";
+
+  	exit ("Connection impossible : v&eacute;rifiez vos param&egrave;tres de base
+de donn&eacute;es");
+	
+  }
+  ob_clean();
   echo_debug ('postgres.php',__LINE__,"connect to $p_db dbname $l_dossier");
   return $a;
 }
@@ -105,15 +121,16 @@ function DbConnect($p_db=-1,$p_type='dossier') {
  * \brief send a sql string to the database
  * \param $p_connection db connection 
  * \param $p_string     sql string
+ * \param $p_exit if true exits in case of error otherwise returns false
  * \return false if error otherwise true
  */
-function ExecSql($p_connection, $p_string) {
+function ExecSql($p_connection, $p_string,$p_exit=true) {
   echo_debug('postgres.php',__LINE__,"SQL = $p_string");
   // probl. with Ubuntu & UTF8
   //----
   pg_set_client_encoding($p_connection,'latin1');
   $ret=pg_query($p_connection,$p_string);
-  if ( $ret == false ) { 
+  if ( $ret == false && $p_exit ) { 
     echo_error ("SQL ERROR ::: $p_string");
     exit(" Operation cancelled due to error : $p_string");
   }
@@ -291,7 +308,7 @@ function GetLogin($p_uid)
 }
 
 /*!   SyncRight
- * \brief  Synchronize les droits par défaut
+ * \brief  Synchronize les droits par dï¿½faut
  *           avec  les journaux existants
  *\param $p_dossier dossier id
  * \param $p_user user id
