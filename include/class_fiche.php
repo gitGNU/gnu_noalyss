@@ -570,11 +570,9 @@ class fiche {
            if ( $id == ATTR_DEF_NAME ) 
              {
                echo_debug("Modify ATTR_DEF_NAME");
-	       echo_debug("Value = $v");
                if ( strlen(trim($value)) == 0 )
                  continue;
 
-	       echo_debug("Value = $v");
                
              }
 

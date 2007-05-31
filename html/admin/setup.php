@@ -148,7 +148,7 @@ function ExecuteScript($p_cn,$script) {
 	    $buffer=str_replace (';','',$buffer);
 	    }
     $sql.=$buffer;
-    if ( ExecSql($p_cn,$sql) == false ) {
+    if ( ExecSql($p_cn,$sql,false) == false ) {
 	    Rollback($p_cn);
 	    if ( DEBUG=='false' ) ob_end_flush();
 	    print "ERROR : $sql";
@@ -183,6 +183,13 @@ foreach (array('magic_quotes_gpc','magic_quotes_runtime') as $a) {
   }
 
 }
+$module=get_loaded_extensions();
+if ( in_array('pgsql',$module) == false ) 
+{
+  print '<h2 class="error">D&eacute;sol&eacute; mais soit vous n\'avez pas install&eacute; le package  pour postgresql soit php n\'a pas pas &eacute;t&eacute; compil&eacute; avec les bonnes options </h2>';
+  $flag_php++;
+}
+
 if ( ini_get("max_execution_time") < 60 )  {
 	print '<h2 class="info"> max_execution_time should be set to 60 minimum</h2>';
 }
@@ -211,13 +218,11 @@ if ( $flag_php==0 ) {
 	echo '<p class="error"> php mal configuré</p>';
 	exit -1;
 }
-$cn=DbConnect(-2,'phpcompta');
+$cn=DbConnect(-2,'template1');
 
 if ($cn == false ) {
-  print "<p> Vous devez absolument taper dans une console la commande 'createuser -A -d -P  phpcompta et vous donnez dany comme mot de passe (voir la documentation)'
-  puis  la commande 'createdb -O phpcompta phpcompta'. </p>
-<p>Ces commandes créeront l'utilisateur phpcompta
-puis la base de données par défaut de phpcompta.</p>";
+  print "<p> Vous devez absolument taper dans une console la commande 'createuser -A -d -P  phpcompta et vous donnez dany comme mot de passe (voir la documentation)' </p>
+<p>Ces commandes cr&eacute;eront l'utilisateur phpcompta avec le droit de cr&eacute;er des bases de donn&eacute;.</p>";
   exit();
  }
 ?>
@@ -236,7 +241,7 @@ if ( $version[0]  != '8' ) {
 ?>
   <p> Vous devez absolument utiliser au minimum une version 8 de PostGresql, si votre distribution n'en
 offre pas, installez en une en la compilant. </p><p>Lisez attentivement la notice sur postgresql.org pour migrer
-vos bases de données en 8
+vos bases de donn&eacute;es en 8
 </p>
 <?php exit(); //'
 }
@@ -319,15 +324,17 @@ if ($account == 0 ) {
   StartSql($cn);
   ExecuteScript($cn,"sql/account_repository/schema.sql");
   ExecuteScript($cn,"sql/account_repository/data.sql");
+  ExecuteScript($cn,"sql/account_repository/constraint.sql");
   Commit($cn);
  if ( DEBUG=='false') ob_end_clean();
-  echo "Creation of Démo";
+  echo "Creation of D&eacute;mo";
   if ( DEBUG=='false') ob_start();  
   ExecSql($cn,"create database ".domaine."dossier1 encoding='latin1'");
   $cn=DbConnect(1,'dossier');
   StartSql($cn);
   ExecuteScript($cn,'sql/dossier1/schema.sql');
   ExecuteScript($cn,'sql/dossier1/data.sql');
+  ExecuteScript($cn,'sql/dossier1/constraint.sql');
   Commit($cn);
 
  if ( DEBUG=='false') ob_end_clean();
@@ -339,6 +346,7 @@ if ($account == 0 ) {
   StartSql($cn);
   ExecuteScript($cn,'sql/mod1/schema.sql');
   ExecuteScript($cn,'sql/mod1/data.sql');
+  ExecuteScript($cn,'sql/mod1/constraint.sql');
   Commit($cn);
   if ( DEBUG=='false') ob_end_clean();
 
@@ -349,6 +357,7 @@ if ($account == 0 ) {
   if ( DEBUG=='false') { ob_start();  }
   ExecuteScript($cn,'sql/mod2/schema.sql');
   ExecuteScript($cn,'sql/mod2/data.sql');
+  ExecuteScript($cn,'sql/mod2/constraint.sql');
   Commit($cn);
 
  if ( DEBUG=='false') ob_end_clean();
@@ -506,6 +515,9 @@ if ( DEBUG=='false' ) ob_start();
   if ( GetVersion($db) == 28 ) { 
     ExecuteScript($db,'sql/patch/upgrade28.sql');
   } // version 
+  if ( GetVersion($db) == 29 ) { 
+    ExecuteScript($db,'sql/patch/upgrade29.sql');
+  } // version 
 
 if ( DEBUG == 'false') ob_end_clean();
  }//for
@@ -628,6 +640,9 @@ if (DEBUG == 'false' ) ob_start();
   if ( GetVersion($db) == 28 ) { 
     ExecuteScript($db,'sql/patch/upgrade28.sql');
   } // version 
+  if ( GetVersion($db) == 29 ) { 
+    ExecuteScript($db,'sql/patch/upgrade29.sql');
+  } // version 
 
 if ( DEBUG == 'false') ob_end_clean();
  }
@@ -649,4 +664,4 @@ if ( GetVersion($cn) == 7 ) {
  }
 
 if (DEBUG=='false') ob_end_clean();
-echo "<h2 class=\"info\">Voilà tout est installé ;-)</h2>";
+echo "<h2 class=\"info\">Voilà tout est install&eacute; ;-)</h2>";

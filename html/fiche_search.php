@@ -94,7 +94,7 @@ foreach ($_GET as $key=>$element) {
   echo_debug('fiche_search.php',__LINE__,"e_$key =$element<br>");
 
 }
-$e_fic_search=(isset ($_POST['fic_search']))?$_POST['fic_search']:"";
+$e_fic_search=(isset ($_REQUEST['fic_search']))?$_REQUEST['fic_search']:"";
 
 $r.="<FORM METHOD=\"POST\" ACTION=\"".$_SERVER['REQUEST_URI']."\">";
 $r.="Recherche : ".'<INPUT TYPE="TEXT" NAME="fic_search" VALUE="'.$e_fic_search.'">';
