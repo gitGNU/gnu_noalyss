@@ -148,7 +148,7 @@ function ExecuteScript($p_cn,$script) {
 	    $buffer=str_replace (';','',$buffer);
 	    }
     $sql.=$buffer;
-    if ( ExecSql($p_cn,$sql) == false ) {
+    if ( ExecSql($p_cn,$sql,false) == false ) {
 	    Rollback($p_cn);
 	    if ( DEBUG=='false' ) ob_end_flush();
 	    print "ERROR : $sql";
@@ -218,13 +218,11 @@ if ( $flag_php==0 ) {
 	echo '<p class="error"> php mal configuré</p>';
 	exit -1;
 }
-$cn=DbConnect(-2,'phpcompta');
+$cn=DbConnect(-2,'template1');
 
 if ($cn == false ) {
-  print "<p> Vous devez absolument taper dans une console la commande 'createuser -A -d -P  phpcompta et vous donnez dany comme mot de passe (voir la documentation)'
-  puis  la commande 'createdb -O phpcompta phpcompta'. </p>
-<p>Ces commandes cr&eacute;eront l'utilisateur phpcompta
-puis la base de donn&eacute;es par d&eacute;faut de phpcompta.</p>";
+  print "<p> Vous devez absolument taper dans une console la commande 'createuser -A -d -P  phpcompta et vous donnez dany comme mot de passe (voir la documentation)' </p>
+<p>Ces commandes cr&eacute;eront l'utilisateur phpcompta avec le droit de cr&eacute;er des bases de donn&eacute;.</p>";
   exit();
  }
 ?>
@@ -329,7 +327,7 @@ if ($account == 0 ) {
   ExecuteScript($cn,"sql/account_repository/constraint.sql");
   Commit($cn);
  if ( DEBUG=='false') ob_end_clean();
-  echo "Creation of Démo";
+  echo "Creation of D&eacute;mo";
   if ( DEBUG=='false') ob_start();  
   ExecSql($cn,"create database ".domaine."dossier1 encoding='latin1'");
   $cn=DbConnect(1,'dossier');
@@ -517,6 +515,9 @@ if ( DEBUG=='false' ) ob_start();
   if ( GetVersion($db) == 28 ) { 
     ExecuteScript($db,'sql/patch/upgrade28.sql');
   } // version 
+  if ( GetVersion($db) == 29 ) { 
+    ExecuteScript($db,'sql/patch/upgrade29.sql');
+  } // version 
 
 if ( DEBUG == 'false') ob_end_clean();
  }//for
@@ -639,6 +640,9 @@ if (DEBUG == 'false' ) ob_start();
   if ( GetVersion($db) == 28 ) { 
     ExecuteScript($db,'sql/patch/upgrade28.sql');
   } // version 
+  if ( GetVersion($db) == 29 ) { 
+    ExecuteScript($db,'sql/patch/upgrade29.sql');
+  } // version 
 
 if ( DEBUG == 'false') ob_end_clean();
  }
@@ -660,4 +664,4 @@ if ( GetVersion($cn) == 7 ) {
  }
 
 if (DEBUG=='false') ob_end_clean();
-echo "<h2 class=\"info\">Voilà tout est installé ;-)</h2>";
+echo "<h2 class=\"info\">Voilà tout est install&eacute; ;-)</h2>";

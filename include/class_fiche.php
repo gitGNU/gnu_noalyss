@@ -456,9 +456,9 @@ class fiche {
 	    {
 	      echo_debug("insert ATTR_DEF_ACCOUNT");
 	      $v=FormatString($value);
+	      ob_start();
 	      if ( 
-		  isNumber($v) == 1 && 
-		  CountSql($this->cn,"select * from tmp_pcmn where pcm_val=$v") 
+		  isNumber($v) == 1 
 		  )
 		{
 		  $sql=sprintf("select account_insert(%d,%f)",
@@ -469,8 +469,14 @@ class fiche {
 		  $sql=sprintf("select account_insert(%d,null)",
 			       $this->id);
 		}
-	      ExecSql($this->cn,$sql);
-	      
+	      $ret=ExecSql($this->cn,$sql,false);
+	      ob_end_clean();
+	      if ( $ret == false ) {
+		echo "<span class=\"error\"Erreur : ce compte [$v] n'a pas de compte parent.".
+		  "L'op&eacute;ration est annul&eacute;</span>";
+		Rollback($this->cn);
+		return;
+	      }
 	      continue;
 	    }
 	// TVA
@@ -571,11 +577,23 @@ class fiche {
              {
                echo_debug("Modify ATTR_DEF_ACCOUNT");
                $v=FormatString($value);
+	       echo_debug("Value = $v");
                if ( isNumber($v) == 1 )
                  {
+		   ob_start();
+
                    $sql=sprintf("select account_update(%d,%d)",
                                 $this->id,$v);
-                   $Ret=ExecSql($this->cn,$sql);
+                   $Ret=ExecSql($this->cn,$sql,false);
+
+		   ob_end_clean();
+		   if ( $Ret == false ) {
+		     echo "<span class=\"error\">Erreur : ce compte [$v] n'a pas de compte parent.".
+		       "L'op&eacute;ration est annul&eacute;e</span>";
+		     Rollback($this->cn);
+		     return;
+		   }
+		   continue;		   
                  }
                if ( strlen (trim($v)) == 0 ) 
                  {
