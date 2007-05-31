@@ -61,16 +61,22 @@ function ajaxFid(p_ctl,p_deb,p_jrn){
 				var ctl_toSet=document.getElementById(toSet);
 				ctl_toSet.style.color='black';
 				ctl_toSet.innerHTML=a_resp[0];
-				nPrice=p_ctl+"_sell";	
+				nSell=p_ctl+"_sell";	
+				nBuy=p_ctl+"_buy";	
 				nTva_id=p_ctl+"_tva_id";
 
-				if ( document.getElementById(nPrice) != null ) { 
+				if ( document.getElementById(nSell) != null ) { 
 				   
-				   document.getElementById(nPrice).value=a_resp[1];
+				   document.getElementById(nSell).value=a_resp[1];
 				   }
+				if ( document.getElementById(nBuy) != null ) { 
+				   
+				   document.getElementById(nBuy).value=a_resp[2];
+				   }
+
 				if ( document.getElementById(nTva_id) != null ) { 
 				   
-				    document.getElementById(nTva_id).value=a_resp[2];
+				    document.getElementById(nTva_id).value=a_resp[3];
 				    }
 			}
 		}

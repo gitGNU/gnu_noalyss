@@ -38,7 +38,7 @@ require_once("class_parm_code.php");
  *        <ul>
  *        <li> e_client (quickcode),
  *        <li> e_marchX quickcode,
- *        <li> e_march_sellX,
+ *        <li> e_march_buyX,
  *        <li> e_march0_tva_id,
  *        <li> e_quant0,nb_item,
  *        <li> jrn_type,
@@ -176,7 +176,7 @@ echo_debug('user_form_ach.php',__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_peri
   for ($i=0;$i< $p_article;$i++) {
     // Code id
     $march=(isset(${"e_march$i"}))?${"e_march$i"}:"";
-    $march_sell=(isset(${"e_march".$i."_sell"}))?${"e_march".$i."_sell"}:"";
+    $march_buy=(isset(${"e_march".$i."_buy"}))?${"e_march".$i."_buy"}:"";
     $march_tva_id=(isset(${"e_march$i"."_tva_id"}))?${"e_march$i"."_tva_id"}:"";
     $march_tva_amount=(isset(${"e_march$i"."_tva_amount"}))?${"e_march$i"."_tva_amount"}:"0";
     $march_tva_label="";
@@ -218,7 +218,7 @@ echo_debug('user_form_ach.php',__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_peri
     $Price->SetReadOnly($pview_only);
     $Price->table=1;
     $Price->size=9;
-    $r.=$Price->IOValue("e_march".$i."_sell",$march_sell);
+    $r.=$Price->IOValue("e_march".$i."_buy",$march_buy);
     // vat label
     $select_tva=make_array($p_cn,"select tva_id,tva_label from tva_rate order by tva_id",1);
     $Tva=new widget("select");
@@ -322,15 +322,15 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
 	${"e_march".$o."_tva_amount"}=0;
       }
     // if amount is not empty and is not a number
-    if ( strlen(trim(${"e_march".$o."_sell"})) !=0 && isNumber(${"e_march".$o."_sell"}) == 0 )
+    if ( strlen(trim(${"e_march".$o."_buy"})) !=0 && isNumber(${"e_march".$o."_buy"}) == 0 )
       {
 	  echo_debug('user_form_ach.php',__LINE__,"Prix invalide ".${"e_march$o"});
 	  echo_error("Prix n'est  pas un montant valide ".${"e_march$o"});
-	  echo "<SCRIPT> alert('Prix ".${"e_march".$o."_sell"}." de la fiche ".${"e_march$o"}." n\'est pas un montant valide !!!');</SCRIPT>";
+	  echo "<SCRIPT> alert('Prix ".${"e_march".$o."_buy"}." de la fiche ".${"e_march$o"}." n\'est pas un montant valide !!!');</SCRIPT>";
 	  return null;
 	
       }
-    $tot+=${"e_march".$o."_sell"}*${"e_quant$o"};
+    $tot+=${"e_march".$o."_buy"}*${"e_quant$o"};
     }
 
   // if total amount == 0 we don't go further
@@ -531,10 +531,10 @@ function FormAchView ($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$p_number,$p_pi
       
 
       // If the price is not a number, retrieve the price from the database
-      if ( isNumber(${"e_march$i"."_sell"}) == 0 ) {
+      if ( isNumber(${"e_march$i"."_buy"}) == 0 ) {
 	$fiche_price=getFicheAttribut($p_cn,${"e_march$i"},ATTR_DEF_PRIX_VENTE);
       } else {
-	$fiche_price=${"e_march$i"."_sell"};
+	$fiche_price=${"e_march$i"."_buy"};
       }
       // round it
       $fiche_price=round($fiche_price,2);
@@ -656,13 +656,13 @@ function FormAchView ($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$p_number,$p_pi
  * nb_item => e : 3
  * e_march0 => e : 6
  * e_quant0 => e : 0
- * e_march0_sell=>e:1
+ * e_march0_buy=>e:1
  * e_march1 => e : 6
  * e_quant1 => e : 2
- * e_march1_sell=>e:1
+ * e_march1_buy=>e:1
  * e_march2 => e : 7
  * e_quant2 => e : 3
- * e_march2_sell=>e:1
+ * e_march2_buy=>e:1
 V : view_invoice => e : Voir cette facture
 V : record_invoice => e : Sauver 
  *  - $p_periode periode
@@ -695,14 +695,14 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
     $a_vat_amount[$i]=round(${"e_march".$i."_tva_amount"},2);
 
     // check wether the price is set or no
-    if ( isNumber(${"e_march$i"."_sell"}) == 0 ) {
+    if ( isNumber(${"e_march$i"."_buy"}) == 0 ) {
       if ( $a_good[$i] !="" ) {
 	     // If the price is not set we have to find it from the database
 	     $a_price[$i]=GetFicheAttribut($p_cn,$a_good[$i],ATTR_DEF_PRIX_VENTE);
 	   } 
     } else {
       // The price is valid
-      $a_price[$i]=${"e_march$i"."_sell"};
+      $a_price[$i]=${"e_march$i"."_buy"};
     }
     $a_price[$i]=round($a_price[$i],2);
 
