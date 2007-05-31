@@ -21,6 +21,15 @@
 /*! \file
  * \brief Search a card in a popup window
  */
+// \todo remove those debug info
+// if (DEBUG) {
+//   echo "_GET";
+//   var_dump($_GET);
+//   echo "<hr>";
+//   echo "_POST";
+//  var_dump($_POST);
+// }
+
 include_once ("ac_common.php");
 include_once ("poste.php");
 include_once ("postgres.php");
@@ -109,7 +118,11 @@ foreach ($_GET as $k=>$h)
       $k.'" value="'.$h.'">';
 }
 // Show result of the search 
-if ( isset ( $_GET['search']) && ! isset($_GET['first']) )  {
+if ( 
+    (isset($_GET['first']) && strlen(trim($_GET['fic_search'])) != 0) 
+    || ! isset($_GET['first'] )
+    )
+  {
 
   // Get the field from database
   if ( $e_type == 'deb' ) {
