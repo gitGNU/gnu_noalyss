@@ -17,6 +17,9 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 /* $Revision$ */
+
+
+
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 include_once("class_attribut.php");
 require_once('class_fiche_def.php');
@@ -455,9 +458,9 @@ class fiche {
 	    {
 	      echo_debug("insert ATTR_DEF_ACCOUNT");
 	      $v=FormatString($value);
+	      ob_start();
 	      if ( 
-		  isNumber($v) == 1 && 
-		  CountSql($this->cn,"select * from tmp_pcmn where pcm_val=$v") 
+		  isNumber($v) == 1 
 		  )
 		{
 		  $sql=sprintf("select account_insert(%d,%f)",
@@ -468,8 +471,14 @@ class fiche {
 		  $sql=sprintf("select account_insert(%d,null)",
 			       $this->id);
 		}
-	      ExecSql($this->cn,$sql);
-	      
+	      $ret=ExecSql($this->cn,$sql,false);
+	      ob_end_clean();
+	      if ( $ret == false ) {
+		echo "<span class=\"error\"Erreur : ce compte [$v] n'a pas de compte parent.".
+		  "L'op&eacute;ration est annul&eacute;</span>";
+		Rollback($this->cn);
+		return;
+	      }
 	      continue;
 	    }
 	// TVA
@@ -561,26 +570,51 @@ class fiche {
            if ( $id == ATTR_DEF_NAME ) 
              {
                echo_debug("Modify ATTR_DEF_NAME");
+	       echo_debug("Value = $v");
                if ( strlen(trim($value)) == 0 )
                  continue;
+
+	       echo_debug("Value = $v");
                
              }
+
            // account
            if ( $id == ATTR_DEF_ACCOUNT ) 
              {
                echo_debug("Modify ATTR_DEF_ACCOUNT");
                $v=FormatString($value);
+	       echo_debug("Value = $v");
                if ( isNumber($v) == 1 )
                  {
+		   ob_start();
+
                    $sql=sprintf("select account_update(%d,%d)",
                                 $this->id,$v);
-                   $Ret=ExecSql($this->cn,$sql);
+                   $Ret=ExecSql($this->cn,$sql,false);
+
+		   ob_end_clean();
+		   if ( $Ret == false ) {
+		     echo "<span class=\"error\">Erreur : ce compte [$v] n'a pas de compte parent.".
+		       "L'op&eacute;ration est annul&eacute;e</span>";
+		     Rollback($this->cn);
+		     return;
+		   }
+		   continue;		   
                  }
                if ( strlen (trim($v)) == 0 ) 
                  {
                    $sql=sprintf("select account_update(%d,null)",
                                 $this->id);
-                   $Ret=ExecSql($this->cn,$sql);
+                   $Ret=ExecSql($this->cn,$sql,false);
+
+		   ob_end_clean();
+		   if ( $Ret == false ) {
+		     echo "<span class=\"error\">Erreur : ce compte [$v] n'a pas de compte parent.".
+		       "L'op&eacute;ration est annul&eacute;e</span>";
+		     Rollback($this->cn);
+		     return;
+		   }
+		   continue;		   
                    continue;
                  }
              }
