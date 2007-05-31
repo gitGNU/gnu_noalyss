@@ -162,7 +162,11 @@ table.document th{
 	      background-color:lightgrey;
 	      color:darkblue;
 }
-
+span.error {
+color:black;  
+background-color:red;
+font-size:120%;
+}
 table.mtitle {
 	border:0;
 	text-align:center
@@ -184,7 +188,6 @@ td.mtitle {
 //  padding:3px;
     background-color:#DDE6FF;
 }
-
 span.mtitle {
 	color:gray;
 	background-color:blue;
@@ -199,11 +202,6 @@ span.even {
   background-color:#DDE6FF;
   display:block;
  }
-span.error {
-color:black;  
-background-color:red;
-font-size:120%;
-}
 tr.odd {
 	background-color:#DDE6FF;
 	font-size:10px;
