@@ -46,7 +46,6 @@ if ( $action == 'new' ) {
        NoAccess();
        exit -1;
   }
-
 // We request a new form
   if ( isset($_GET['blank'] )) {
     // Submit button in the form
@@ -56,7 +55,6 @@ if ( $action == 'new' ) {
     $prop=GetJrnProp($_SESSION['g_dossier'],$_GET['p_jrn']);
     $line=$prop['jrn_deb_max_line'];
     $r=FormODS($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,null,false,$line);
-
      echo '<div class="u_redcontent">';
     echo $r;
     echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."<div>";

@@ -21,12 +21,14 @@
 /*! \file
  * \brief Functions for the ledger of expenses
  */
+
 require_once("constant.php");
 require_once("class_widget.php");
 require_once("preference.php");
 require_once("fiche_inc.php");
 require_once("user_common.php");
 require_once("class_parm_code.php");
+
 /*! 
  * \brief  Display the form for a sell
  *           Used to show detail, encode a new invoice 

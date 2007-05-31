@@ -18,6 +18,8 @@
 */
 /* $Revision$ */
 
+
+
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 include_once("class_attribut.php");
 require_once('class_fiche_def.php');
@@ -568,10 +570,14 @@ class fiche {
            if ( $id == ATTR_DEF_NAME ) 
              {
                echo_debug("Modify ATTR_DEF_NAME");
+	       echo_debug("Value = $v");
                if ( strlen(trim($value)) == 0 )
                  continue;
+
+	       echo_debug("Value = $v");
                
              }
+
            // account
            if ( $id == ATTR_DEF_ACCOUNT ) 
              {
@@ -599,7 +605,16 @@ class fiche {
                  {
                    $sql=sprintf("select account_update(%d,null)",
                                 $this->id);
-                   $Ret=ExecSql($this->cn,$sql);
+                   $Ret=ExecSql($this->cn,$sql,false);
+
+		   ob_end_clean();
+		   if ( $Ret == false ) {
+		     echo "<span class=\"error\">Erreur : ce compte [$v] n'a pas de compte parent.".
+		       "L'op&eacute;ration est annul&eacute;e</span>";
+		     Rollback($this->cn);
+		     return;
+		   }
+		   continue;		   
                    continue;
                  }
              }
