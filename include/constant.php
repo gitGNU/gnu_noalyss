@@ -18,6 +18,7 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 // $Revision$
+
 /*! \file
  * \brief Contains all the variable + the javascript
  * and some parameter 
@@ -25,10 +26,10 @@
 $_ENV['TMP']="/tmp";
 define ("phpcompta_password","dany");
 define ("phpcompta_psql_port","5432");
-define ("domaine","v232_");
+define ("domaine","");
 
 
-define ("DEBUG","false");
+define ("DEBUG","true");
 
 // securite correspond a la table 
 // action
@@ -155,8 +156,6 @@ define ("JS_UPDATE_PCMN",
 
 define ("JS_SEARCH_CARD","
 <script  language=\"javascript\" src=\"js/search_card.js\"></script>
-
-
 ");
 // concerned operation
 define ("JS_CONCERNED_OP",'
@@ -202,6 +201,7 @@ function ChangeTVA(p_ctl,p_value) {
 }
 
 </script>");
+define ("JS_AJAX_FICHE",'<script language="javascript" src="js/ajax_fiche.js"></script>');
 // Sql string
 define ("SQL_LIST_ALL_INVOICE","");
 
