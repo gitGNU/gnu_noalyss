@@ -17,11 +17,12 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+
 /* $Revision$ */
+
 /*! \file
  * \brief Main page for encoding in the ledger
  */
-
 include_once("ac_common.php");
 include_once("user_menu.php");
 include_once ("constant.php");
@@ -56,11 +57,13 @@ if ( $User->admin == 0 ) {
   // check if user can access
   // Acces Grand livre
   if ($jrn_type== 'NONE' && CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],ENCJRN) == 0 ){
+
     /* Cannot Access */
     NoAccess();
   }
-  // if a jrn is asked
+
   if ( $jrn_type != 'NONE' && CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn) == 0 ){
+
 	    /* Cannot Access */
 	    NoAccess();
 	    exit -1;
@@ -87,7 +90,7 @@ if ( $p_jrn != -1 )
 
   $g_dossier=$_SESSION['g_dossier'];
   $g_user=$_SESSION['g_user'];
-      
+echo JS_AJAX_FICHE;    
   // Execute Action for p_jrn
   if ( $jrn_type=='VEN' )     require('user_action_ven.php');
   if ( $jrn_type=='ACH' )     require('user_action_ach.php');
