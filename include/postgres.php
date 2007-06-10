@@ -1,4 +1,4 @@
-<?php   //$Revision$
+<?php  
 /*
  *   This file is part of PhpCompta.
  *
@@ -98,8 +98,9 @@ function DbConnect($p_db=-1,$p_type='dossier') {
   $password=phpcompta_password;
   $port=phpcompta_psql_port;
  ob_start();
-  $a=pg_connect("dbname=$l_dossier host=127.0.0.1 user='phpcompta'
+ $a=pg_connect("dbname=$l_dossier host=127.0.0.1 user='$phpcompta_user'
 password='$password' port=$port");
+
   if ( $a == false )
   {
   	ob_clean();

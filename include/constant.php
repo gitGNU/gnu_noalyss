@@ -26,6 +26,7 @@
 $_ENV['TMP']="/tmp";
 define ("phpcompta_password","dany");
 define ("phpcompta_psql_port","5432");
+define ("phpcompta_user","phpcompta");
 define ("domaine","");
 
 
@@ -35,7 +36,7 @@ define ("DEBUG","true");
 // action
 // access aux journaux
 define ("ENCJRN",1);
-// crï¿½ation facture
+// cr�ation facture
 // define("FACT",2);
 // lecture aux fiche
 define ("FICHE_READ",3);
