@@ -330,10 +330,10 @@ class fiche_def {
       }
       
 
-/*       echo '<FORM METHOD="POST" action="?p_action=fiche&action=vue'.$str.'">'; */
-/*       echo '<INPUT TYPE="HIDDEN" name="fiche" value="'.$this->id.'">'; */
-/*       echo '<INPUT TYPE="SUBMIT" name="add" Value="Ajout fiche">'; */
-/*       echo '</FORM>'; */
+       echo '<FORM METHOD="POST" action="?p_action=fiche&action=vue'.$str.'">';
+       echo '<INPUT TYPE="HIDDEN" name="fiche" value="'.$this->id.'">';
+       echo '<INPUT TYPE="SUBMIT" name="add" Value="Ajout fiche">'; 
+       echo '</FORM>'; 
 
       echo '<table>';
       for ( $i = 0; $i < $Max; $i++) {
