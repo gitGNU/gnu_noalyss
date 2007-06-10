@@ -108,7 +108,7 @@ password='$password' port=$port");
   	echo "<br>";
   	echo "base de donn&eacute;e : $l_dossier<br>";
   	echo "Port $port <br>";
-  	echo "Utilisateur : phpcompta <br>";
+  	echo "Utilisateur : $phpcompta_user <br>";
 
   	exit ("Connection impossible : v&eacute;rifiez vos param&egrave;tres de base
 de donn&eacute;es");
