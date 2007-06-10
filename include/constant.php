@@ -24,9 +24,10 @@
  * and some parameter 
  */
 $_ENV['TMP']="/tmp";
+define ("phpcompta_user","phpcompta");
 define ("phpcompta_password","dany");
 define ("phpcompta_psql_port","5432");
-define ("domaine","");
+define ("domaine","rel233");
 
 
 define ("DEBUG","false");
