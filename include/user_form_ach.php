@@ -472,6 +472,7 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
 
 function FormAchView ($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$p_number,$p_piece=true)
 {
+  echo_debug(__FILE__.':'.__LINE__.'- FormAchView');
   $r="";
   $data="";
   // Keep all the data if hidden
@@ -517,10 +518,10 @@ function FormAchView ($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$p_number,$p_pi
   for ($i=0;$i<$p_number;$i++) 
     {
       if ( trim(${"e_march$i"})  == "" ) 
-	{
-	  // no goods to sell 
-	  continue;
-	}
+		{
+		  // no goods to sell 
+		  continue;
+		}
       
       // Get the name
       $fiche_name=getFicheName($p_cn,${"e_march$i"});
@@ -533,11 +534,13 @@ function FormAchView ($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$p_number,$p_pi
       
 
       // If the price is not a number, retrieve the price from the database
-      if ( isNumber(${"e_march$i"."_buy"}) == 0 ) {
-	$fiche_price=getFicheAttribut($p_cn,${"e_march$i"},ATTR_DEF_PRIX_VENTE);
-      } else {
-	$fiche_price=${"e_march$i"."_buy"};
-      }
+      if ( isNumber(${"e_march$i"."_buy"}) == 0 ) 
+		{
+		  $fiche_price=getFicheAttribut($p_cn,${"e_march$i"},ATTR_DEF_PRIX_VENTE);
+		} else 
+		{
+		  $fiche_price=${"e_march$i"."_buy"};
+		}
       // round it
       $fiche_price=round($fiche_price,2);
 
@@ -551,15 +554,15 @@ function FormAchView ($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$p_number,$p_pi
     // vat rate
       $a_vat=GetTvaRate($p_cn,$vat);
       if ( $a_vat == null ) 
-	{
-	  $vat_label="";
-	  $vat_rate=0.0;
-	} 
+		{
+		  $vat_label="";
+		  $vat_rate=0.0;
+		} 
       else 
-	{ 
-	  $vat_label=$a_vat['tva_label'];
-	  $vat_rate=$a_vat['tva_rate'];
-	}		
+		{ 
+		  $vat_label=$a_vat['tva_label'];
+		  $vat_rate=$a_vat['tva_rate'];
+		}		
       
       // Total card without vat
       $fiche_sum=$fiche_price*$fiche_quant;
@@ -567,20 +570,23 @@ function FormAchView ($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$p_number,$p_pi
       $sum_march+=$fiche_sum;
       // vat of the card
       if ( $tva_amount == 0) 
-	{
-	  $fiche_amount_vat=round($fiche_price*$fiche_quant*$vat_rate,2);
-	  // value card + vat
-	  $fiche_with_vat=round($fiche_price*$fiche_quant,2)+$fiche_amount_vat;
-	}
+		{
+		  $fiche_amount_vat=round($fiche_price*$fiche_quant*$vat_rate,2);
+		  echo_debug(__FILE__.':'.__LINE__.'- Tva Amount is computed '.$fiche_amount_vat);
+
+		  // value card + vat
+		  $fiche_with_vat=round($fiche_price*$fiche_quant,2)+$fiche_amount_vat;
+		}
       else
-	{
-	  $fiche_amount_vat=$tva_amount;
-	  // value card + vat
-	  $fiche_with_vat=round($fiche_price*$fiche_quant,2)+$tva_amount_vat;
-	}
+		{
+		  echo_debug(__FILE__.':'.__LINE__.'- Tva Amount is given '.$tva_amount);
+		  $fiche_amount_vat=$tva_amount;
+		  // value card + vat
+		  $fiche_with_vat=round($fiche_price*$fiche_quant,2)+$tva_amount;
+		}
       // Sum of invoice vat 
       $sum_with_vat+=$fiche_with_vat;
-
+	  echo_debug(__FILE__.':'.__LINE__.'- Sum_with_vat='.$fiche_with_vat);
       // Show the data
       $r.='<TR>';
       $r.='<TD>'.$fiche_name.'</TD>';

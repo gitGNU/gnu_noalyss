@@ -67,104 +67,109 @@ function GetTvaRate($p_cn,$p_tva_id) {
  * \return: array
  *       a[tva_id] =  amount vat
  */
-function ComputeTotalVat($p_cn,	$a_fiche,$a_quant,$a_price,$ap_vat,$a_vat_amount=null,$all=false ) {
-echo_debug('user_common.php',__LINE__,"ComputeTotalVat $a_fiche $a_quant $a_price");
- foreach ( $a_fiche as $t=>$el) {
-   echo_debug('user_common.php',__LINE__,"t $t e $el");
- }
- $r=null;
-// foreach goods 
-//--
- foreach ( $a_fiche as $idx=>$element) {
-   echo_debug ('user_common.php',__LINE__,"idx $idx element $element");
-  // if the card id is null or empty 
+function ComputeTotalVat($p_cn,	$a_fiche,$a_quant,$a_price,$ap_vat,$a_vat_amount=null,$all=false ) 
+{
+  echo_debug('user_common.php',__LINE__,"ComputeTotalVat $a_fiche $a_quant $a_price");
+  foreach ( $a_fiche as $t=>$el) {
+	echo_debug('user_common.php',__LINE__,"t $t e $el");
+  }
+  $r=null;
+  // foreach goods 
+  //--
+  foreach ( $a_fiche as $idx=>$element) {
+	echo_debug ('user_common.php',__LINE__,"idx $idx element $element");
+	// if the card id is null or empty 
     if (  strlen(trim($element))==0) continue;
-
+	
     // Get the tva_id
     if ( $ap_vat != null and
 	 isNumber($ap_vat[$idx])== 1 and $ap_vat[$idx] != -1 ) 
       {
-	$tva_id=$ap_vat[$idx];
-	echo_debug('user_common',__LINE__,' tva_id is given');
-	echo_debug('user_common',__LINE__,$ap_vat);
+		$tva_id=$ap_vat[$idx];
+		echo_debug('user_common',__LINE__,' tva_id is given');
+		echo_debug('user_common',__LINE__,$ap_vat);
       }
     else
       {
-	$tva_id=GetFicheAttribut($p_cn,$element,ATTR_DEF_TVA);
-	echo_debug('user_common',__LINE__,'retrieve tva_id');
+		$tva_id=GetFicheAttribut($p_cn,$element,ATTR_DEF_TVA);
+		echo_debug('user_common',__LINE__,'retrieve tva_id');
       }
     echo_debug('user_common',__LINE__,"tva id $tva_id");
     if ( $tva_id == null ) continue;
     // for each fiche find the tva_rate and tva_id
     $a_vat=GetTvaRate($p_cn,$tva_id);
-   
+	
 	// Get the attribut price of the card(fiche)
     if ( $a_vat != null  and  $a_vat['tva_id'] != "" ) 
       {  
-	$flag=true;
-	$a=$a_vat['tva_id'];
-	// Compute vat for this item
-	$vat_amount=round($a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx],2);
-
-	// if a vat amount is given
-	if ( $a_vat_amount != null && 
-	     $a_vat_amount[$idx] != 0 )
-	  $vat_amount= $a_vat_amount[$idx] ;
-	echo_debug('user_common',__LINE__,"vat amount = $vat_amount");
-	// only the deductible vat
-	if ( $all == false ) 
-	  {
-	    //variable containing the nd part 
-	    // used when a card has both special rule for vat 
-	    $nd1=0;
-	    // if a part is not deductible then reduce vat_amount
-	    $nd=GetFicheAttribut($p_cn,$a_fiche[$idx],ATTR_DEF_TVA_NON_DEDUCTIBLE);
-	    if ( $nd != null && strlen(trim($nd)) != 0 && $nd != 0 )
-	      {
-		// if tva amount is given we do not compute it
+		$flag=true;
+		$a=$a_vat['tva_id'];
+		// Compute vat for this item
+		$vat_amount=round($a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx],2);
+		
+		// if a vat amount is given
 		if ( $a_vat_amount != null && 
-		     $a_vat_amount[$idx] != 0 )
-		  $nd_amount=round($vat_amount*$nd,2);
-		else
-		  $nd_amount=round($a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx]*$nd,2);
+			 $a_vat_amount[$idx] != 0 )
+		  {
+			$vat_amount= $a_vat_amount[$idx] ;
+			echo_debug(__FILE__.':'.__LINE__.'- VAT_AMOUNT IS GIVEN '.$vat_amount);
 
-
-		// problem with round
-		$vat_amount=$vat_amount-$nd_amount;
-		echo_debug('user_common.php',__LINE__,
-			   "A - TVA Attr fiche [$nd] nd amount [ $nd_amount ]".
-			   "vat amount [ $vat_amount]");
-		$flag=false;
+		  }
+		echo_debug('user_common',__LINE__,"vat amount = $vat_amount");
+		// only the deductible vat
+		if ( $all == false ) 
+		  {
+			//variable containing the nd part 
+			// used when a card has both special rule for vat 
+			$nd1=0;
+			// if a part is not deductible then reduce vat_amount
+			$nd=GetFicheAttribut($p_cn,$a_fiche[$idx],ATTR_DEF_TVA_NON_DEDUCTIBLE);
+			if ( $nd != null && strlen(trim($nd)) != 0 && $nd != 0 )
+			  {
+				// if tva amount is given we do not compute it
+				if ( $a_vat_amount != null && 
+					 $a_vat_amount[$idx] != 0 )
+				  $nd_amount=round($vat_amount*$nd,2);
+				else
+				  $nd_amount=round($a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx]*$nd,2);
+				
+				
+				// problem with round
+				$vat_amount=$vat_amount-$nd_amount;
+				echo_debug('user_common.php',__LINE__,
+						   "A - TVA Attr fiche [$nd] nd amount [ $nd_amount ]".
+						   "vat amount [ $vat_amount]");
+				$flag=false;
 		// save nd into nd1
-		$nd1=$nd;
-	      }	
-	    // if a part is not deductible then reduce vat_amount
+				$nd1=$nd;
+			  }	
+			// if a part is not deductible then reduce vat_amount
 	    $nd=GetFicheAttribut($p_cn,$a_fiche[$idx],ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP);
 	    if ( $nd != null && strlen(trim($nd)) != 0 && $nd != 0 )
 	      {
-		// if tva amount is given we do not compute it
-		if ( $a_vat_amount != null && 
-		     $a_vat_amount[$idx] != 0 )
-		  $nd_amount2=round($a_vat_amount[$idx]*$nd,2);
-		else
-		  $nd_amount2=round($a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx]*$nd,2);
-		
-		$vat_amount=$vat_amount-$nd_amount2;
-		// when using both vat, their sum cannot exceed 1, if = 1 then vat = 0
-		if ( ($nd+$nd1) == 1)
-		  $vat_amount=0;
-		echo_debug('user_common.php',__LINE__,
-			   "B - TVA Attr fiche [$nd] nd amount [ $nd_amount2 ]".
-			   "vat amount [ $vat_amount]");
-		
-		$flag=false;
+			// if tva amount is given we do not compute it
+			if ( $a_vat_amount != null && 
+				 $a_vat_amount[$idx] != 0 )
+			  $nd_amount2=round($a_vat_amount[$idx]*$nd,2);
+			else
+			  $nd_amount2=round($a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx]*$nd,2);
+			
+			$vat_amount=$vat_amount-$nd_amount2;
+			// when using both vat, their sum cannot exceed 1, if = 1 then vat = 0
+			if ( ($nd+$nd1) == 1)
+			  $vat_amount=0;
+			echo_debug('user_common.php',__LINE__,
+					   "B - TVA Attr fiche [$nd] nd amount [ $nd_amount2 ]".
+					   "vat amount [ $vat_amount]");
+			
+			$flag=false;
 	      }	
-	  }
-	
-	$r[$a]=isset ( $r[$a] )?$r[$a]+$vat_amount:$vat_amount; 
+		  }
+		
+		$r[$a]=isset ( $r[$a] )?$r[$a]+$vat_amount:$vat_amount; 
       }
     
- }
+  }
  echo_debug('user_common.php',__LINE__," return ".var_export($r,true));
  return $r;
  
