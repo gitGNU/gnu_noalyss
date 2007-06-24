@@ -71,10 +71,15 @@ if ( isset ($_POST['annul']) ) {
 <p>
 <h2 class="info">Confirmation</h2>
 <br>
+
+<p><span class="error">Attention: l'effacement d'une op&eacute;ration peut rompre la s&eacute;quence de la num&eacute;rotation des factures surtout celles g&eacute;n&eacute;r&eacute;es automatiquement, soyez tr&egrave;s prudent quand vous effacez
+</span>
+</p> 
 <p>
-Voulez-vous vraiment annuler  cette information soit par une remise à z&eacute;ro des montants 
+Voulez-vous vraiment annuler  cette information soit par effacement  
 soit par son &eacute;criture inverse ?
 </p>
+
 <span>
 <FORM METHOD="POST" ACTION="annulation.php?p_jrn=<?php echo $_GET['p_jrn'];?>&jrn_op=<?php echo $_GET['jrn_op'];?>">
 <INPUT TYPE="HIDDEN" NAME="annul">
@@ -360,7 +365,7 @@ if ( $a != null ) {
 echo '
 
 <input type="hidden" name="p_id" value="'.$_GET['jrn_op'].'">
-<input type="submit" name="annul"  value="Mise à zéro">
+<input type="submit" name="annul"  value="Mise à zéro ou effacement">
 <input type="button" name="cancel" value="Retour" onClick="window.close();">
 </form>';
 
