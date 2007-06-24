@@ -213,9 +213,9 @@ if ( ereg("..\/include",$inc_path) == 0 and ereg("..\\include",$inc_path) == 0)
    print 'include_path : ok ('.$inc_path.')<br>';
 
 if ( $flag_php==0 ) {
-	echo '<p class="info">php.ini est bien configuré</p>';
+	echo '<p class="info">php.ini est bien configur&eacute;</p>';
 } else {
-	echo '<p class="error"> php mal configuré</p>';
+	echo '<p class="error"> php mal configur&eacute;</p>';
 	exit -1;
 }
 $cn=DbConnect(-2,'template1');
@@ -255,10 +255,9 @@ $sql="select lanname from pg_language where lanname='plpgsql'";
 $Res=CountSql($cn,$sql);
 if ( $Res==0) { ?>
 <p> Vous devez installer le langage plpgsql pour permettre aux fonctions SQL de fonctionner.</p>
-<p>Pour cela, sur la ligne de commande, faites 
-createlang plpgsql pour chaque base de données que vous possédez (y compris template0 et template1).
+<p>Pour cela, sur la ligne de commande, faites createlang plpgsql template1
 </p>
-<p>Pour afficher toutes les bases de données, tapez sur la ligne de commande "psql -l"</p>
+
 <?php exit(); }
 
 // Memory setting
@@ -274,21 +273,21 @@ for ($e=0;$e<pg_NumRows($Res);$e++) {
   switch ($a['name']){
   case 'effective_cache_size':
     if ( $a['setting'] < 1000 ){
-      print '<p class="warning">Attention le paramètre effective_cache_size est de '.
+      print '<p class="warning">Attention le param&egrave;tre effective_cache_size est de '.
 	$a['setting']." au lieu de 1000 </p>";
       $flag++;
     }
     break;
   case 'shared_buffers':
     if ( $a['setting'] < 640 ){
-      print '<p class="warning">Attention le paramètre shared_buffer est de '.
+      print '<p class="warning">Attention le param&egrave;tre shared_buffer est de '.
 	$a['setting']."au lieu de 640</p>";
       $flag++;
     }
     break;
   case 'work_mem':
     if ( $a['setting'] < 8192 ){
-      print '<p class="warning">Attention le paramètre work_mem est de '.
+      print '<p class="warning">Attention le param&egrave;tre work_mem est de '.
 	$a['setting']." au lieu de 8192 </p>";
     $flag++;
     }
@@ -297,14 +296,14 @@ for ($e=0;$e<pg_NumRows($Res);$e++) {
   }
  }
 if ( $flag == 0 ) {
-  echo '<p class="info">La base de données est bien configurée</p>';
+  echo '<p class="info">La base de donn&eacute;es est bien configur&eacute;e</p>';
  } else {
-  echo '<p class="warning">Il y a '.$flag.' paramètre qui sont trop bas</p>';
+  echo '<p class="warning">Il y a '.$flag.' param&egrave;tre qui sont trop bas</p>';
  }
 if ( ! isset($_POST['go']) ) {
 ?>
 <FORM action="setup.php" METHOD="post">
-<input type="submit" name="go" value="Prêt à commencer la mise à jour ou l'installation?">
+<input type="submit" name="go" value="Pr&ecirc;t &agrave; commencer la mise &agrave; jour ou l'installation?">
 </form>
 <?php
 }
@@ -664,4 +663,4 @@ if ( GetVersion($cn) == 7 ) {
  }
 
 if (DEBUG=='false') ob_end_clean();
-echo "<h2 class=\"info\">Voilà tout est install&eacute; ;-)</h2>";
+echo "<h2 class=\"info\">Voil&agrave; tout est install&eacute; ;-)</h2>";
