@@ -45,6 +45,7 @@ function u_ShowDossier($p_user,$p_admin)
     $result.="<TD  class=\"mtitle\" ><A class=\"mtitle\" HREF=\"admin_repo.php\"> Administration  </A></TD>";
   }
   $result.='<TD  class="mtitle" ><A class="mtitle" HREF="manuel-fr.pdf" > Aide </a></TD>';
+  $result.='<TD class="mtitle"><A class="mtitle" HREF="user_pref.php">Pr&eacute;f&eacute;rence</a></TD>';
   $result.='<TD  class="mtitle" ><A class="mtitle" HREF="logout.php" > Sortir</a></TD>';
   $result.="</TR>";
   $result.="</table>";
