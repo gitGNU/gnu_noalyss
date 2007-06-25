@@ -55,7 +55,7 @@ $cn=DbConnect($_SESSION['g_dossier']);
 echo ShowMenuAdvanced("import.php");
 $User->AccessRequest($cn,IMP_BQE);
 
-
+echo JS_AJAX_FICHE;
 echo '<div class="lmenu">';
 ShowMenuImport();
 echo '</div>';

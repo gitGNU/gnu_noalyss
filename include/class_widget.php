@@ -427,9 +427,9 @@ class widget {
       if ( $this->table==1)
 	{
 	  $r=sprintf('<TD>
-         <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') value="QuickCode">
+         <INPUT TYPE="button" onClick="SearchCard(\'%s\',\'%s\',\'%s\',\'%s\')" value="QuickCode">
             %s</TD><TD> <INPUT style="border:solid 1px blue;"  TYPE="Text"  style="border:solid 1px blue;" '.
-		     ' NAME="%s" VALUE="%s" SIZE="8" >
+		     ' NAME="%s" id="%s" VALUE="%s" SIZE="8" onChange="ajaxFid(\'%s\',\'%s\',\'%s\')" >
                  ',
 	       $l_sessid,
 	       $this->extra,
@@ -437,22 +437,32 @@ class widget {
 	       $this->extra2,
 	       $this->label,
 	       $this->name,
-	       $this->value
+	       $this->name,
+		   $this->value,
+		   $this->name,
+	       $this->extra, //deb or cred
+	       $this->extra2 //jrn
+
 	       );
 	}
       else
 	{
 	  $r=sprintf('
-         <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') value="QuickCode">
+         <INPUT TYPE="button" onClick="SearchCard(\'%s\',\'%s\',\'%s\',\'%s\')" value="QuickCode">
             %s <INPUT TYPE="Text"  style="border:solid 1px blue;" '.
-		     ' NAME="%s" VALUE="%s" SIZE="8" >           ',
+		     ' NAME="%s" ID="%s" VALUE="%s" SIZE="8"  onChange="ajaxFid(\'%s\',\'%s\',\'%s\')">           ',
 	       $l_sessid,
 	       $this->extra,
 	       $this->name,
 	       $this->extra2,
 	       $this->label,
 	       $this->name,
-	       $this->value
+	       $this->name,
+				 $this->value,
+		   $this->name,
+	       $this->extra, //deb or cred
+	       $this->extra2 //jrn
+
 	       );
 	}
     } else {
