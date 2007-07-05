@@ -24,9 +24,9 @@
  * and some parameter 
  */
 $_ENV['TMP']="/tmp";
-define ("phpcompta_user","phpcompta");
 define ("phpcompta_password","dany");
 define ("phpcompta_psql_port","5432");
+define ("phpcompta_user","phpcompta");
 define ("domaine","");
 
 
@@ -48,11 +48,11 @@ define("FORM",5);
 define ("MPCMN",6);
 // Gestion des journaux
 define ("GJRN",7);
-// Gestion des param�tres globaux
+// Gestion des paramï¿½tres globaux
 define ("PARM",8);
 // Voir la balance des compte
 define ("BALANCE",20);
-// Access � la centralisation
+// Access ï¿½ la centralisation
 define ("CENTRALIZE",10);
 define ("VEN",11);
 define ("BQE",12);
@@ -179,6 +179,9 @@ define ("JS_CALC_LINE",'
 </div>
 '
 );
+define ("JS_COMPUTE_ODS",
+"<SCRIPT language=\"javascript\" src=\"js/compute.js\">	</SCRIPT>");
+
  define ("JS_SHOW_TVA","<SCRIPT language=\"javascript\">
  function ShowTva(p_sessid,ctl)
       {

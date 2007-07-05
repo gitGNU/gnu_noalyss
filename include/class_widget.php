@@ -73,6 +73,7 @@ class widget {
    * \enum   $disabled to disable the type
    * \enum   $extra depends of the input type
    * \enum   $extra2 depends of the input type
+   * \enum   $javascript javascript code
    * \enum   $tabindex the tabindex
    * \brief
    */
@@ -87,7 +88,10 @@ class widget {
   var $label;                     /*! \enum $label the question before the input */
   var $disabled;                  /*! \enum $disabled poss. value == true or nothing, to disable INPUT*/
   var $extra;                     /*! \enum $extra different usage, it depends of the $type */
-  var $extra2;                    /*! \enum $extra2 different usage, it depends of the $type */
+  var $extra2;                    /*! \enum $extra2 different usage,
+				   it depends of the $type */
+  var $javascript;
+
   var $tabindex; 
   function widget($p_type="") {
     $this->type=$p_type;
@@ -100,6 +104,7 @@ class widget {
     $this->table=0;
     $this->label="";
     $this->disabled=false;
+    $this->javascript="";
   }
   function SetReadOnly($p_read) {
     $this->readonly=$p_read;
@@ -124,7 +129,8 @@ class widget {
     $disabled = $this->disabled ? "DISABLED" : "";
     if (strtoupper($this->type)=="TEXT") {
       if ( $this->readonly==false) {
-	$r="<INPUT style=\"border:solid 1px blue;\" TYPE=\"TEXT\" id=\"$this->name\" NAME=\"$this->name\" VALUE=\"$this->value\"  SIZE=\"$this->size\" ".$disabled.">";
+	$r="<INPUT style=\"border:solid 1px blue;\" TYPE=\"TEXT\" id=\"$this->name\" ".
+            " NAME=\"$this->name\" VALUE=\"$this->value\"  SIZE=\"$this->size\" ".$this->javascript." ".$disabled.">";
       } else {
 	    $r=sprintf('<span>%s</span><input type="hidden" id="%s" name="%s" value="%s">', $this->value,$this->name,$this->name,$this->value);
 	}
@@ -321,7 +327,8 @@ class widget {
       if ( $this->table==1) $r="<TD>$this->label</TD><TD>$r</TD>"; 
       return $r;
     }
-  // input type == js_search_poste => button search for the account
+    //----------------------------------------------------------------------
+    // input type == js_search_poste => button search for the account
     if ( strtolower($this->type)=="js_search_poste") {
      
       $l_sessid=$_REQUEST['PHPSESSID'];
@@ -332,12 +339,13 @@ class widget {
          <INPUT class="inp" TYPE="button" onClick=SearchPoste(\'%s\',\'%s\',\'%s\') value="Recherche">
             %s</TD><TD> 
 
-             <INPUT   TYPE="Text" NAME="%s" VALUE="%s" SIZE="8">
+             <INPUT   TYPE="Text" NAME="%s" ID="%s" VALUE="%s" SIZE="8">
                  </TD>',
 		 $l_sessid,
 		 $this->name,
 		 $this->extra,
 		 $this->label,
+		 $this->name,
 		 $this->name,
 		 $this->value 
 		 );
@@ -429,39 +437,38 @@ class widget {
 	  $r=sprintf('<TD>
          <INPUT TYPE="button" onClick="SearchCard(\'%s\',\'%s\',\'%s\',\'%s\')" value="QuickCode">
             %s</TD><TD> <INPUT style="border:solid 1px blue;"  TYPE="Text"  style="border:solid 1px blue;" '.
-		     ' NAME="%s" id="%s" VALUE="%s" SIZE="8" onChange="ajaxFid(\'%s\',\'%s\',\'%s\')" >
-                 ',
-	       $l_sessid,
-	       $this->extra,
-	       $this->name,
-	       $this->extra2,
-	       $this->label,
-	       $this->name,
-	       $this->name,
-		   $this->value,
-		   $this->name,
-	       $this->extra, //deb or cred
-	       $this->extra2 //jrn
+		     ' NAME="%s" ID="%s" VALUE="%s" SIZE="8" onChange="ajaxFid(\'%s\',\'%s\',\'%s\')">',
+		     $l_sessid,
+		     $this->extra,
+		     $this->name,
+		     $this->extra2,
+		     $this->label,
+		     $this->name,
+		     $this->name,
+		     $this->value,
+		     $this->name,
+		     $this->extra, //deb or cred
+		     $this->extra2 //jrn
 
-	       );
+		     );
 	}
       else
 	{
 	  $r=sprintf('
          <INPUT TYPE="button" onClick="SearchCard(\'%s\',\'%s\',\'%s\',\'%s\')" value="QuickCode">
             %s <INPUT TYPE="Text"  style="border:solid 1px blue;" '.
-		     ' NAME="%s" ID="%s" VALUE="%s" SIZE="8"  onChange="ajaxFid(\'%s\',\'%s\',\'%s\')">           ',
-	       $l_sessid,
-	       $this->extra,
-	       $this->name,
-	       $this->extra2,
-	       $this->label,
-	       $this->name,
-	       $this->name,
-				 $this->value,
-		   $this->name,
-	       $this->extra, //deb or cred
-	       $this->extra2 //jrn
+		     ' NAME="%s" ID="%s" VALUE="%s" SIZE="8"  onChange="ajaxFid(\'%s\',\'%s\',\'%s\')">',
+		     $l_sessid,
+		     $this->extra,
+		     $this->name,
+		     $this->extra2,
+		     $this->label,
+		     $this->name,
+		     $this->name,
+		     $this->value,
+		     $this->name,
+		     $this->extra, //deb or cred
+		     $this->extra2 //jrn
 
 	       );
 	}
