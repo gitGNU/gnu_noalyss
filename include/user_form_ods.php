@@ -299,7 +299,8 @@ function RecordODS($p_cn,$p_array,$p_user,$p_jrn)
       }
       if ( isset ($_FILES))
 	save_upload_document($p_cn,$seq);
-    }
+	  }
+	}
   catch (Exception $e)
     {
       echo '<span class="error">'.
