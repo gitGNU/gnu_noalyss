@@ -43,6 +43,7 @@ $c_class="";
 
 $condition="";
 $cn=DbConnect($_SESSION['g_dossier']);
+
 if ( isset($_POST['search']) ) {
   $c1=0;
   foreach( $_POST as $key=>$element){
@@ -73,7 +74,7 @@ if ( isset($_GET['filter'])) {
   // have to find what account are available
   $SqlCred="";
   // Load the property
-  $l_line=GetJrnProp($cn,$_GET['p_jrn']);
+  $l_line=GetJrnProp($_SESSION['g_dossier'],$_GET['p_jrn']);
   if ( strlen(trim ($l_line['jrn_def_class_cred']) ) > 0 ) {
     $valid_cred=split(" ",$l_line['jrn_def_class_cred']);
 
