@@ -56,8 +56,6 @@ h2.error {
  *        used and immediately delete after an upgrade.
  *        This file is included in each release  for a new upgrade
  * 
- * \todo remove the rebuild of mod2 (drop / create) for the next version
- *        the mod2 from the version < 2.0 are full of bugs
  */
 $inc_path=get_include_path();
 if ( strpos($inc_path,";") != 0 ) {
@@ -150,7 +148,7 @@ function ExecuteScript($p_cn,$script) {
 	    $buffer=str_replace (';','',$buffer);
 	    }
     $sql.=$buffer;
-    if ( ExecSql($p_cn,$sql) == false ) {
+    if ( ExecSql($p_cn,$sql,false) == false ) {
 	    Rollback($p_cn);
 	    if ( DEBUG=='false' ) ob_end_flush();
 	    print "ERROR : $sql";
@@ -185,6 +183,13 @@ foreach (array('magic_quotes_gpc','magic_quotes_runtime') as $a) {
   }
 
 }
+$module=get_loaded_extensions();
+if ( in_array('pgsql',$module) == false ) 
+{
+  print '<h2 class="error">D&eacute;sol&eacute; mais soit vous n\'avez pas install&eacute; le package  pour postgresql soit php n\'a pas pas &eacute;t&eacute; compil&eacute; avec les bonnes options </h2>';
+  $flag_php++;
+}
+
 if ( ini_get("max_execution_time") < 60 )  {
 	print '<h2 class="info"> max_execution_time should be set to 60 minimum</h2>';
 }
@@ -208,18 +213,16 @@ if ( ereg("..\/include",$inc_path) == 0 and ereg("..\\include",$inc_path) == 0)
    print 'include_path : ok ('.$inc_path.')<br>';
 
 if ( $flag_php==0 ) {
-	echo '<p class="info">php.ini est bien configuré</p>';
+	echo '<p class="info">php.ini est bien configur&eacute;</p>';
 } else {
-	echo '<p class="error"> php mal configuré</p>';
+	echo '<p class="error"> php mal configur&eacute;</p>';
 	exit -1;
 }
-$cn=DbConnect(-2,'phpcompta');
+$cn=DbConnect(-2,'template1');
 
 if ($cn == false ) {
-  print "<p> Vous devez absolument taper dans une console la commande 'createuser -A -d -P  phpcompta et vous donnez dany comme mot de passe (voir la documentation)'
-  puis  la commande 'createdb -O phpcompta phpcompta'. </p>
-<p>Ces commandes créeront l'utilisateur phpcompta
-puis la base de données par défaut de phpcompta.</p>";
+  print "<p> Vous devez absolument taper dans une console la commande 'createuser -A -d -P  phpcompta et vous donnez dany comme mot de passe (voir la documentation)' </p>
+<p>Ces commandes cr&eacute;eront l'utilisateur phpcompta avec le droit de cr&eacute;er des bases de donn&eacute;.</p>";
   exit();
  }
 ?>
@@ -238,7 +241,7 @@ if ( $version[0]  != '8' ) {
 ?>
   <p> Vous devez absolument utiliser au minimum une version 8 de PostGresql, si votre distribution n'en
 offre pas, installez en une en la compilant. </p><p>Lisez attentivement la notice sur postgresql.org pour migrer
-vos bases de données en 8
+vos bases de donn&eacute;es en 8
 </p>
 <?php exit(); //'
 }
@@ -252,10 +255,9 @@ $sql="select lanname from pg_language where lanname='plpgsql'";
 $Res=CountSql($cn,$sql);
 if ( $Res==0) { ?>
 <p> Vous devez installer le langage plpgsql pour permettre aux fonctions SQL de fonctionner.</p>
-<p>Pour cela, sur la ligne de commande, faites 
-createlang plpgsql pour chaque base de données que vous possédez (y compris template0 et template1).
+<p>Pour cela, sur la ligne de commande, faites createlang plpgsql template1
 </p>
-<p>Pour afficher toutes les bases de données, tapez sur la ligne de commande "psql -l"</p>
+
 <?php exit(); }
 
 // Memory setting
@@ -271,21 +273,21 @@ for ($e=0;$e<pg_NumRows($Res);$e++) {
   switch ($a['name']){
   case 'effective_cache_size':
     if ( $a['setting'] < 1000 ){
-      print '<p class="warning">Attention le paramètre effective_cache_size est de '.
+      print '<p class="warning">Attention le param&egrave;tre effective_cache_size est de '.
 	$a['setting']." au lieu de 1000 </p>";
       $flag++;
     }
     break;
   case 'shared_buffers':
     if ( $a['setting'] < 640 ){
-      print '<p class="warning">Attention le paramètre shared_buffer est de '.
+      print '<p class="warning">Attention le param&egrave;tre shared_buffer est de '.
 	$a['setting']."au lieu de 640</p>";
       $flag++;
     }
     break;
   case 'work_mem':
     if ( $a['setting'] < 8192 ){
-      print '<p class="warning">Attention le paramètre work_mem est de '.
+      print '<p class="warning">Attention le param&egrave;tre work_mem est de '.
 	$a['setting']." au lieu de 8192 </p>";
     $flag++;
     }
@@ -294,14 +296,14 @@ for ($e=0;$e<pg_NumRows($Res);$e++) {
   }
  }
 if ( $flag == 0 ) {
-  echo '<p class="info">La base de données est bien configurée</p>';
+  echo '<p class="info">La base de donn&eacute;es est bien configur&eacute;e</p>';
  } else {
-  echo '<p class="warning">Il y a '.$flag.' paramètre qui sont trop bas</p>';
+  echo '<p class="warning">Il y a '.$flag.' param&egrave;tre qui sont trop bas</p>';
  }
 if ( ! isset($_POST['go']) ) {
 ?>
 <FORM action="setup.php" METHOD="post">
-<input type="submit" name="go" value="Prêt à commencer la mise à jour ou l'installation?">
+<input type="submit" name="go" value="Pr&ecirc;t &agrave; commencer la mise &agrave; jour ou l'installation?">
 </form>
 <?php
 }
@@ -321,15 +323,17 @@ if ($account == 0 ) {
   StartSql($cn);
   ExecuteScript($cn,"sql/account_repository/schema.sql");
   ExecuteScript($cn,"sql/account_repository/data.sql");
+  ExecuteScript($cn,"sql/account_repository/constraint.sql");
   Commit($cn);
  if ( DEBUG=='false') ob_end_clean();
-  echo "Creation of Démo";
+  echo "Creation of D&eacute;mo";
   if ( DEBUG=='false') ob_start();  
   ExecSql($cn,"create database ".domaine."dossier1 encoding='latin1'");
   $cn=DbConnect(1,'dossier');
   StartSql($cn);
   ExecuteScript($cn,'sql/dossier1/schema.sql');
   ExecuteScript($cn,'sql/dossier1/data.sql');
+  ExecuteScript($cn,'sql/dossier1/constraint.sql');
   Commit($cn);
 
  if ( DEBUG=='false') ob_end_clean();
@@ -341,8 +345,22 @@ if ($account == 0 ) {
   StartSql($cn);
   ExecuteScript($cn,'sql/mod1/schema.sql');
   ExecuteScript($cn,'sql/mod1/data.sql');
+  ExecuteScript($cn,'sql/mod1/constraint.sql');
   Commit($cn);
+  if ( DEBUG=='false') ob_end_clean();
+
+  echo "Creation of Modele2";
+  ExecSql($cn,"create database ".domaine."mod2 encoding='latin1'");
+  $cn=DbConnect(2,'mod');
+  StartSql($cn);
+  if ( DEBUG=='false') { ob_start();  }
+  ExecuteScript($cn,'sql/mod2/schema.sql');
+  ExecuteScript($cn,'sql/mod2/data.sql');
+  ExecuteScript($cn,'sql/mod2/constraint.sql');
+  Commit($cn);
+
  if ( DEBUG=='false') ob_end_clean();
+
  }// end if
 // Add a french accountancy model
 //--
@@ -358,19 +376,6 @@ $cn=DbConnect();
 //   ExecSql($cn,"delete from modeledef where mod_id=2");
 //  }
 //----------------------------------------------------------------------
-$Res=CountSql($cn,"select * from modeledef where mod_id=2");
-if ( $Res == 0) {
-  echo "Creation of Modele2";
-  ExecSql($cn,"create database ".domaine."mod2 encoding='latin1'");
-  $cn=DbConnect(2,'mod');
-  if ( DEBUG=='false') { ob_start();  }
-  ExecuteScript($cn,'sql/mod2/schema.sql');
-  ExecuteScript($cn,'sql/mod2/data.sql');
-  $sql="INSERT INTO modeledef VALUES (2, '(FR) Basique', 'Comptabilité Française, tout doit être adaptée');";
-  $cn=DbConnect();
-  ExecSql($cn,$sql);
- if ( DEBUG=='false') ob_end_clean();
-}
 // 
 // Test the connection
 //--
@@ -506,6 +511,12 @@ if ( DEBUG=='false' ) ob_start();
   if ( GetVersion($db) == 27 ) { 
     ExecuteScript($db,'sql/patch/upgrade27.sql');
   } // version 
+  if ( GetVersion($db) == 28 ) { 
+    ExecuteScript($db,'sql/patch/upgrade28.sql');
+  } // version 
+  if ( GetVersion($db) == 29 ) { 
+    ExecuteScript($db,'sql/patch/upgrade29.sql');
+  } // version 
 
 if ( DEBUG == 'false') ob_end_clean();
  }//for
@@ -625,6 +636,12 @@ if (DEBUG == 'false' ) ob_start();
   if ( GetVersion($db) == 27 ) { 
     ExecuteScript($db,'sql/patch/upgrade27.sql');
   } // version 
+  if ( GetVersion($db) == 28 ) { 
+    ExecuteScript($db,'sql/patch/upgrade28.sql');
+  } // version 
+  if ( GetVersion($db) == 29 ) { 
+    ExecuteScript($db,'sql/patch/upgrade29.sql');
+  } // version 
 
 if ( DEBUG == 'false') ob_end_clean();
  }
@@ -646,4 +663,4 @@ if ( GetVersion($cn) == 7 ) {
  }
 
 if (DEBUG=='false') ob_end_clean();
-echo "<h2 class=\"info\">Voilà tout est installé ;-)</h2>";
+echo "<h2 class=\"info\">Voil&agrave; tout est install&eacute; ;-)</h2>";

@@ -296,7 +296,7 @@ class fiche_def {
       $step=$_SESSION['g_pagesize'];
       $sql_limit="";
       $sql_offset="";
-
+      $max_line=0;
       if ( $step != -1 ) {
 
 	$page=(isset($_GET['page']))?$_GET['page']:1;
@@ -329,8 +329,12 @@ class fiche_def {
 		     $max_line);
       }
       
-		       
-      
+
+       echo '<FORM METHOD="POST" action="?p_action=fiche&action=vue'.$str.'">';
+       echo '<INPUT TYPE="HIDDEN" name="fiche" value="'.$this->id.'">';
+       echo '<INPUT TYPE="SUBMIT" name="add" Value="Ajout fiche">'; 
+       echo '</FORM>'; 
+
       echo '<table>';
       for ( $i = 0; $i < $Max; $i++) {
 	$l_line=pg_fetch_array($Res,$i);

@@ -17,7 +17,9 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+
 // $Revision$
+
 /*! \file
  * \brief Contains all the variable + the javascript
  * and some parameter 
@@ -25,6 +27,7 @@
 $_ENV['TMP']="/tmp";
 define ("phpcompta_password","dany");
 define ("phpcompta_psql_port","5432");
+define ("phpcompta_user","phpcompta");
 define ("domaine","");
 
 
@@ -35,7 +38,7 @@ define ("DEBUG","false");
 // access aux journaux
 define ("ENCJRN",1);
 // création facture
-define("FACT",2);
+// define("FACT",2);
 // lecture aux fiche
 define ("FICHE_READ",3);
 // Impression
@@ -46,21 +49,17 @@ define("FORM",5);
 define ("MPCMN",6);
 // Gestion des journaux
 define ("GJRN",7);
-// Gestion des paramètres globaux
+// Gestion des paramÃ¯Â¿Â½tres globaux
 define ("PARM",8);
-// Gestion de la sécurité
-define ("SECU",9);
-// gestion devise
-define ("DEVISE",18);
-// gestion Période
-define ("PERIODE",19);
 // Voir la balance des compte
 define ("BALANCE",20);
-// Access à la centralisation
+// Access Ã¯Â¿Â½ la centralisation
 define ("CENTRALIZE",10);
 define ("VEN",11);
 define ("BQE",12);
 define ("ODS",13);
+// Access gestion periode comptable
+define ("GESTION_PERIODE",31);
 
 //!\enum Security 
 define("SEC_ACTION", 28); // Module Suivi Document
@@ -70,8 +69,8 @@ define("ADMIN",26); //  Module Administration
 define("SEC_GESTION",30); //  Module Gestion
 
 define ("FICHE_WRITE",15);
-define ("STOCK_WRITE",16);
-define ("STOCK_READ",17);
+define ("STOCK_WRITE",17);
+define ("STOCK_READ",16);
 define ("EXP_IMP_ECR",21);
 define ("IMP_BQE",22);
 // Erreur
@@ -159,8 +158,6 @@ define ("JS_UPDATE_PCMN",
 
 define ("JS_SEARCH_CARD","
 <script  language=\"javascript\" src=\"js/search_card.js\"></script>
-
-
 ");
 // concerned operation
 define ("JS_CONCERNED_OP",'
@@ -183,6 +180,9 @@ define ("JS_CALC_LINE",'
 </div>
 '
 );
+define ("JS_COMPUTE_ODS",
+"<SCRIPT language=\"javascript\" src=\"js/compute.js\">	</SCRIPT>");
+
  define ("JS_SHOW_TVA","<SCRIPT language=\"javascript\">
  function ShowTva(p_sessid,ctl)
       {
@@ -206,6 +206,7 @@ function ChangeTVA(p_ctl,p_value) {
 }
 
 </script>");
+define ("JS_AJAX_FICHE",'<script language="javascript" src="js/ajax_fiche.js"></script>');
 // Sql string
 define ("SQL_LIST_ALL_INVOICE","");
 

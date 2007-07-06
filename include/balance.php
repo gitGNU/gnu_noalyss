@@ -30,11 +30,9 @@ include_once ("ac_common.php");
 include_once("preference.php");
 include_once ("class_widget.php");
 include_once("class_balance.php");
-if ( $User->CheckAction($cn,BALANCE) == 0)
-  {
-    NoAccess();
-    exit;
-  }
+$User->AccessRequest($cn,BALANCE);
+
+
 echo '<div class="u_content">';
 
 //-----------------------------------------------------

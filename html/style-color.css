@@ -206,6 +206,11 @@ span.even {
   background-color:#DDE6FF;
   display:block;
  }
+span.error {
+	   color:black;  
+	   background-color:red;
+	   font-size:120%;
+}
 
 tr.odd {
 	background-color:#DDE6FF;

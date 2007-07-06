@@ -1,7 +1,6 @@
 SET client_encoding = 'LATIN1';
 SET check_function_bodies = false;
 SET client_min_messages = warning;
-COMMENT ON SCHEMA public IS 'Standard public schema';
 SET search_path = public, pg_catalog;
 CREATE DOMAIN poste_comptable AS numeric(25,0);
 CREATE FUNCTION account_add(p_id poste_comptable, p_name character varying) RETURNS void

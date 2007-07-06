@@ -22,22 +22,20 @@
   8. J'ai trouvé un tit bug, comment faire un patchs ??
   9. Comment faire de la doc
   10. Comment contribuer ?
-  11. recevoir des erreurs de création
-  12. Erreur objet n'existe pas
-  13. Comment appliquer un patch ?
-     13.1 Quel patch utiliser ?
-     13.2 Comment appliquer le patch
+  11. Comment appliquer un patch ?
+     11.1 Quel patch utiliser ?
+     11.2 Comment appliquer le patch
 
-  14. Les entêtes de facture
-  15. Problèmes fréquents
-     15.1 Impossible de se logguer
-     15.2 J'ai le message d'erreur 'cannot find file ....'
+  12. Les entêtes de facture
+  13. Problèmes fréquents
+     13.1 Impossible de se logguer
+     13.2 J'ai le message d'erreur 'cannot find file ....'
 
-  16. Je reçois une erreur postgresql à propos d'une table log qui n'existe pas
-  17. Après avoir installé la version 1.1.0, les périodes centralisées ne le sont plus
-  18. J'ai toujours des timeouts
-  19. Mais où sont les rapports prédéfini
-  20. Developpeur
+  14. Je reçois une erreur postgresql à propos d'une table log qui n'existe pas
+  15. Après avoir installé la version 1.1.0, les périodes centralisées ne le sont plus
+  16. J'ai toujours des timeouts
+  17. Mais où sont les rapports prédéfini
+  18. Developpeur
 
 
   ______________________________________________________________________
@@ -62,6 +60,7 @@
    - phpcompta,
    - wcompta,
    - webcompta
+
 
 
   En fait c'est phpcompta, bien qu'au départ c'était wcompta,
@@ -93,10 +92,9 @@
 
   [1m4.  Ou trouvez les patches[0m
 
-  Sur  la page d'origine, malheureusement, il n'est pas encore possible
-  de téléchargez des fichiers sur Savannah
-
-  On peut y arriver à partir de la page de savannah (Homepage)
+  Sur  Site phpcompta <http://www.phpcompta.org/> la page d'origine,
+  malheureusement, il n'est pas encore possible de télécharger des
+  fichiers sur Savannah
 
   [1m5.  Comment adapter le fichier php.ini[0m
 
@@ -107,10 +105,12 @@
        variable register_globale = off dans le php.ini
 
 
-  php.ini doit contenir pour phpcompta
+  php.ini doit contenir pour phpcompta, cependant il n'est pas certain
+  qu'il faille changer ces paramètres, vous devez aller sur
+  admin/setup.php pour voir ce qui doit être fait
 
   [PHP]
-  include_path=".:../include:addon"
+  include_path=".:../include:../../include:addon"
   [Session]
   session.name              = PHPSESSID
                                       ; name of the session
@@ -128,7 +128,6 @@
   [1m6.  Quand  réinitialise t-on le mot de passe, que vaut-il ?[0m
 
   phpcompta
-
 
   [1m7.  Quel est l'utilisateur et le mot de passe par défaut?[0m
 
@@ -209,45 +208,10 @@
 
   Cela m'évite de devoir chaque fois changer sur le site de phpcompta
 
-  [1m11.  recevoir des erreurs de création[0m
+  [1m11.  Comment appliquer un patch ?[0m
 
 
-
-       ERROR:  column "jrn_deb_max_line" is of type 'integer' but expression is
-       of type 'boolean'       You will need to rewrite or cast the expression
-       ERROR:  column "jrn_deb_max_line" is of type 'integer' but expression is
-       of type 'boolean'       You will need to rewrite or cast the expression
-       ERROR:  column "jrn_deb_max_line" is of type 'integer' but expression is
-       of type 'boolean'       You will need to rewrite or cast the expression
-       ERROR:  column "jrn_deb_max_line" is of type 'integer' but expression is
-       of type 'boolean'       You will need to rewrite or cast the expression
-
-
-
-  Vous avez utilisé une version instable ! Cela a été corrigé reprenez
-  les fichiers du CVS
-
-  [1m12.  Erreur objet n'existe pas[0m
-
-
-
-       ERROR:  sequence "s_isup" does not exist
-       ERROR:  sequence "s_fdef" does not exist
-       ERROR:  sequence "s_idef" does not exist
-       ERROR:  table "isupp" does not exist
-       ERROR:  table "fiche" does not exist
-       ERROR:  table "isupp_def" does not exist
-       ERROR:  table "fichedef" does not exist
-
-
-
-  Du à une commande drop sur un objet inexistant, n'y pretez pas atten-
-  tion
-
-  [1m13.  Comment appliquer un patch ?[0m
-
-
-  [1m13.1.  Quel patch utiliser ?[0m
+  [1m11.1.  Quel patch utiliser ?[0m
 
   Dans certains cas, le dernier patch ne reprend PAS les autres, il
   faudra lire la release note du patch pour savoir ce qu'il faut
@@ -260,7 +224,7 @@
   exemple path-r092-1.tgz, est le premier patch pour la release 0.9.2
 
 
-  [1m13.2.  Comment appliquer le patch[0m
+  [1m11.2.  Comment appliquer le patch[0m
 
   Après l'avoir téléchargé, allez dans le répertoire de PhpCompta,
   c'est-à-dire celui qui contient les sources
@@ -271,33 +235,33 @@
 
 
 
-  [1m14.  Les entêtes de facture[0m
+  [1m12.  Les entêtes de facture[0m
 
   Pourquoi les coordonnées de la société faisant la facture
   n'apparraissent-ils pas ?
 
-  Simplement parce que je n'ai pas eu le temps de le coder, pour
-  l'instant, vous devrez uniquement utiliser des factures préimprimées
+  Parce que vous n'avez pas rempli les coordonnées de votre société dans
+  les paramètres ou parce que votre modèle n'en contenait pas.
 
 
-  [1m15.  Problèmes fréquents[0m
+  [1m13.  Problèmes fréquents[0m
 
-  [1m15.1.  Impossible de se logguer[0m
+  [1m13.1.  Impossible de se logguer[0m
 
   Il faut contrôler le fichier log d'Apache
 
 
-  [1m15.2.  J'ai le message d'erreur 'cannot find file ....'[0m
+  [1m13.2.  J'ai le message d'erreur 'cannot find file ....'[0m
 
   Dans votre php.ini, n'oubliez pas de mettre correctement le
   include_patch voir php-setting ``Php''
 
 
 
-  [1m16.  Je reçois une erreur postgresql à propos d'une table log qui[0m
+  [1m14.  Je reçois une erreur postgresql à propos d'une table log qui[0m
   [1mn'existe pas[0m
 
-  C'est normal, les sortie de déboggages sont envoyées dans une base de
+  C'est normal, les sortie de déboggage sont envoyées dans une base de
   données, ce qui facilite la recherche, le tri,...
 
 
@@ -313,7 +277,7 @@
 
 
 
-  [1m17.  Après avoir installé la version 1.1.0, les périodes centralisées[0m
+  [1m15.  Après avoir installé la version 1.1.0, les périodes centralisées[0m
   [1mne le sont plus[0m
 
   Oui, c'est tout-à-fait normal, la période 1.1.0 introduit plusieurs
@@ -324,14 +288,16 @@
   C'est à cause de cela, qu'il faut re-centraliser.
 
 
-
-  [1m18.  J'ai toujours des timeouts[0m
+  [1m16.  J'ai toujours des timeouts[0m
 
   Soit vous augmentez le timeout de votre server http soit vous mettez
-  l'option fsync=N dans le fichier de configuration de PostgreSql.
+  l'option fsync=N dans le fichier de configuration de PostgreSql ou
+  encore changer dans votre php.ini le paramètre max_execution_time soit
+  dans le fichier .htaccess, soit dans le fichier php.ini soit dans la
+  définition de votre virtual host dans la configuration d'apache.
 
 
-  [1m19.  Mais où sont les rapports prédéfini[0m
+  [1m17.  Mais où sont les rapports prédéfini[0m
 
   Parce que les rapports peuvent toujours être facilement adaptés, ils
   sont inclus dans le produit mais pas installé. Pour les trouver, allez
@@ -340,7 +306,7 @@
   l'outil PhpPgAdmin.
 
 
-  [1m20.  Developpeur[0m
+  [1m18.  Developpeur[0m
 
   Les développeurs trouveront toutes la documentation dans
   doc/developper.  Pour la base de données, j'utilise postgresql_autodoc

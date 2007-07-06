@@ -75,7 +75,9 @@ if  ( isset ($_REQUEST['fd_id'])) {
     $hid->IOValue("type","fiche").
     $fiche_id->IOValue("fd_id",$_REQUEST['fd_id']).
       $hid->IOValue("with_amount");
-  
+    echo '<p><i> Attention: les soldes ne tiennent pas compte des journaux OD qui '.
+      'n\'utilisent pas les quick codes, les soldes des postes sont dans impression->poste</i></p>';
+         
   echo "</form>";
   }
   
@@ -112,9 +114,9 @@ if  ( isset ($_REQUEST['fd_id'])) {
 	if ( $dattribut->ad_id == ATTR_DEF_ACCOUNT && 
 	     $with_amount) {
 
-	  $account=new poste ($cn,$dattribut->av_text);
+
 	  $sql_periode=sql_filter_per($cn,$_REQUEST['from_periode'],$_REQUEST['to_periode'],'p_id','j_tech_per');
-	  $solde=  $account->GetSoldeDetail($sql_periode);
+	  $solde=  $detail->GetSoldeDetail($sql_periode);
 
 	  printf ("<td align=\"right\">% 10.2f</td>",$solde['debit']);
 	  printf ("<td align=\"right\">% 10.2f</td>",$solde['credit']);

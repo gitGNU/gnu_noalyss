@@ -1,5 +1,3 @@
-
-
 <?php
 /*
  *   This file is part of PhpCompta.
@@ -34,10 +32,13 @@ $User->Check();
 html_page_start($_SESSION['g_theme']);
 include_once("user_menu.php");
 
-$priv=($User->admin==1)?"Administrator":"User";
+if ( isset ($_SESSION['g_dossier'])) 
+  unset ($_SESSION['g_dossier']);
 
-echo '<div class="info"> Welcome '.$User->first_name.'  '.
-     $User->name.',<h3 class="info"> your are an  '. $priv.' <br>Please Select your folder</h3></div>';
+$priv=($User->admin==1)?"Administrateur":"Utilisateur";
+
+echo '<div class="info"> Bienvenue  '.$User->first_name.'  '.
+     $User->name.',<h3 class="info"> Vous &ecirc;tes un  '. $priv.' <br>Selectionnez votre dossier</h3></div>';
 // Show default menu (preference,...)
 
 // If admin show everything otherwise only the available dossier
