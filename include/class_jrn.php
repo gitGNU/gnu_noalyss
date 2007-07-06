@@ -128,7 +128,7 @@ class jrn {
             c_debit as j_debit,
             c_poste as poste,
             pcm_lib as description,
-            j_qcode,
+
             jr_comment||' ('||c_internal||')' as jr_comment,
             jr_montant,
             c_grp as grp,
