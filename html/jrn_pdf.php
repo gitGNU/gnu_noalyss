@@ -71,7 +71,7 @@ echo_debug('jrn_pdf',__LINE__,'p_simple = '.$_REQUEST['p_simple']);
 //----------------------------------------------------------------------
 // Detailled Printing
 //---------------------------------------------------------------------
-if ( $Jrn->id==0  || $jrn_type=='FIN' || $jrn_type=='ODS' || $_REQUEST['p_simple']== 0 ) 
+if ( $Jrn->id==0  || $jrn_type=='FIN' || $jrn_type=='OD ' || $_REQUEST['p_simple']== 0 ) 
 {
   $pdf=& new Cezpdf("A4");
   $pdf->selectFont('./addon/fonts/Helvetica.afm');
