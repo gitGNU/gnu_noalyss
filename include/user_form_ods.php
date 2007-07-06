@@ -280,33 +280,33 @@ function RecordODS($p_cn,$p_array,$p_user,$p_jrn)
       StartSql($p_cn);
       // store into the database
       for ( $i = 0; $i < $nb_item;$i++) {
-	if ( isNumber(${"e_account$i"}) == 0 ) continue;
-	$sum_deb+=(${"e_account$i"."_type"}=='d')?round(${"e_account$i"."_amount"},2):0;
-	$sum_cred+=(${"e_account$i"."_type"}=='c')?round(${"e_account$i"."_amount"},2):0;
+		if ( isNumber(${"e_account$i"}) == 0 ) continue;
+		$sum_deb+=(${"e_account$i"."_type"}=='d')?round(${"e_account$i"."_amount"},2):0;
+		$sum_cred+=(${"e_account$i"."_type"}=='c')?round(${"e_account$i"."_amount"},2):0;
+		
+		if ( ${"e_account$i"."_amount"} == 0 ) continue;
+		${"e_account$i"."_amount"}=round(${"e_account$i"."_amount"},2);
+		$j_id=InsertJrnx($p_cn,${"e_account$i"."_type"},$p_user->id,$p_jrn,${"e_account$i"},$e_date,${"e_account$i"."_amount"},$seq,$periode);
+	  }
 
-	if ( ${"e_account$i"."_amount"} == 0 ) continue;
-	${"e_account$i"."_amount"}=round(${"e_account$i"."_amount"},2);
-	$j_id=InsertJrnx($p_cn,${"e_account$i"."_type"},$p_user->id,$p_jrn,${"e_account$i"},$e_date,${"e_account$i"."_amount"},$seq,$periode);
-
-
-	InsertJrn($p_cn,$e_date,"",$p_jrn,$e_comm,$seq,$periode) ;
-
+	  InsertJrn($p_cn,$e_date,"",$p_jrn,$e_comm,$seq,$periode) ;
+	  
       // Set Internal code and Comment
       $internal_code=SetInternalCode($p_cn,$seq,$p_jrn);
       if ( $e_comm=="" ) {
-	// Update comment if comment is blank
+		// Update comment if comment is blank
 	$Res=ExecSql($p_cn,"update jrn set jr_comment='".$internal_code."' where jr_grpt_id=".$seq);
       }
       if ( isset ($_FILES))
-	save_upload_document($p_cn,$seq);
-	  }
-	}
-  catch (Exception $e)
+		save_upload_document($p_cn,$seq);
+	
+}
+catch (Exception $e)
     {
       echo '<span class="error">'.
-	'Erreur dans l\'enregistrement '.
-	__FILE__.':'.__LINE__.' '.
-	$e->getMessage();
+		'Erreur dans l\'enregistrement '.
+		__FILE__.':'.__LINE__.' '.
+		$e->getMessage();
       Rollback($p_cn);
       exit();
     }
