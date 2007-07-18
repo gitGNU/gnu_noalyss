@@ -70,33 +70,27 @@ include_once('constant.php');
 include_once('postgres.php');
 include_once('debug.php');
 include_once('ac_common.php');
-/* function GetVersion
+/*!
  **************************************************
- * Purpose : Get version of a database
+ * \brief Get version of a database, the content of the
+ *        table version
  *        
- * parm : 
- *	- $p_cn database connection
- * gen :
- *	- none
- * return:
- *        none
+ * \param  $p_cn database connection
+ *
+ * \return version number
+ *      
  */
 function GetVersion($p_cn) {
 	$Res=ExecSql($p_cn,"select val from version");
 	$a=pg_fetch_array($Res,0);
 	return $a['val'];
 }
-/* function ExecuteScript
+/*!  ExecuteScript
  **************************************************
- * Purpose : Execute a sql script
+ * \brief Execute a sql script
  *        
- * parm : 
- *	- $p_cn database connection
- *      - $script script name
- * gen :
- *	- none
- * return:
- *        none
+ * \param $p_cn database 
+ * \param $script script name
  */
 function ExecuteScript($p_cn,$script) {
   $hf=fopen($script,'r');
@@ -160,6 +154,67 @@ function ExecuteScript($p_cn,$script) {
   } // while (feof)
   fclose($hf);
 }
+/*! \brief loop to apply all the path to a folder or 
+ *         a template
+ * \param $p_cn database connexion
+ * \param $p_name database name
+ *
+ */
+function apply_patch($p_cn,$p_name)
+{
+  $MaxVersion=29;
+  for ( $i = 4;$i <= $MaxVersion;$i++)
+	{
+	  if ( DEBUG=='false' ) ob_start();
+	  if ( GetVersion($p_cn) <= $i ) { 
+	  echo "Patching ".$p_name.
+		" from the version $i to the version ".GetVersion($p_cn)." <hr>";
+
+		ExecuteScript($p_cn,'sql/patch/upgrade'.$i.'.sql');
+		// specific for version 4
+		if ( $i == 4 )
+		  {      
+			$sql="select jrn_def_id from jrn_def ";
+			$Res=ExecSql($p_cn,$sql);
+			$Max=pg_NumRows($Res);
+			for ($seq=0;$seq<$Max;$seq++) {
+			  $row=pg_fetch_array($Res,$seq);
+			  $sql=sprintf ("create sequence s_jrn_%d",$row['jrn_def_id']);
+			  ExecSql($p_cn,$sql);
+			}
+		  }
+		// specific to version 7
+		if ( $i == 7 )
+		  {
+			// now we use sequence instead of computing a max
+			// 
+			$Res2=ExecSql($p_cn,'select coalesce(max(jr_grpt_id),1) as l from jrn');
+			$Max2= pg_NumRows($Res2) ;
+			if ( $Max2 == 1) {
+			  $Row=pg_fetch_array($Res2,0);
+			  var_dump($Row);
+			  $M=$Row['l'];
+			  ExecSql($p_cn,"select setval('s_grpt',$M,true)");
+			}
+		  }
+		// specific to version 17
+		if ( $i == 17 ) 
+		  { 
+			ExecuteScript($p_cn,'sql/patch/upgrade17.sql');
+			$max=getDbValue($p_cn,'select last_value from s_jnt_fic_att_value');
+			AlterSequence($p_cn,'s_jnt_fic_att_value',$max+1);
+		  } // version 
+		
+		
+	  } 
+
+	  if ( DEBUG == 'false') ob_end_clean();
+	}
+}
+//----------------------------------------------------------------------
+// End functions
+//
+//----------------------------------------------------------------------
 
 // Verify some PHP parameters
 // magic_quotes_gpc = Off
@@ -213,9 +268,9 @@ if ( ereg("..\/include",$inc_path) == 0 and ereg("..\\include",$inc_path) == 0)
    print 'include_path : ok ('.$inc_path.')<br>';
 
 if ( $flag_php==0 ) {
-	echo '<p class="info">php.ini est bien configuré</p>';
+	echo '<p class="info">php.ini est bien configur&eacute;</p>';
 } else {
-	echo '<p class="error"> php mal configuré</p>';
+	echo '<p class="error"> php mal configur&eacute;</p>';
 	exit -1;
 }
 $cn=DbConnect(-2,'template1');
@@ -255,10 +310,9 @@ $sql="select lanname from pg_language where lanname='plpgsql'";
 $Res=CountSql($cn,$sql);
 if ( $Res==0) { ?>
 <p> Vous devez installer le langage plpgsql pour permettre aux fonctions SQL de fonctionner.</p>
-<p>Pour cela, sur la ligne de commande, faites 
-createlang plpgsql pour chaque base de données que vous possédez (y compris template0 et template1).
+<p>Pour cela, sur la ligne de commande, faites createlang plpgsql template1
 </p>
-<p>Pour afficher toutes les bases de données, tapez sur la ligne de commande "psql -l"</p>
+
 <?php exit(); }
 
 // Memory setting
@@ -274,21 +328,21 @@ for ($e=0;$e<pg_NumRows($Res);$e++) {
   switch ($a['name']){
   case 'effective_cache_size':
     if ( $a['setting'] < 1000 ){
-      print '<p class="warning">Attention le paramètre effective_cache_size est de '.
+      print '<p class="warning">Attention le param&egrave;tre effective_cache_size est de '.
 	$a['setting']." au lieu de 1000 </p>";
       $flag++;
     }
     break;
   case 'shared_buffers':
     if ( $a['setting'] < 640 ){
-      print '<p class="warning">Attention le paramètre shared_buffer est de '.
+      print '<p class="warning">Attention le param&egrave;tre shared_buffer est de '.
 	$a['setting']."au lieu de 640</p>";
       $flag++;
     }
     break;
   case 'work_mem':
     if ( $a['setting'] < 8192 ){
-      print '<p class="warning">Attention le paramètre work_mem est de '.
+      print '<p class="warning">Attention le param&egrave;tre work_mem est de '.
 	$a['setting']." au lieu de 8192 </p>";
     $flag++;
     }
@@ -297,14 +351,14 @@ for ($e=0;$e<pg_NumRows($Res);$e++) {
   }
  }
 if ( $flag == 0 ) {
-  echo '<p class="info">La base de données est bien configurée</p>';
+  echo '<p class="info">La base de donn&eacute;es est bien configur&eacute;e</p>';
  } else {
-  echo '<p class="warning">Il y a '.$flag.' paramètre qui sont trop bas</p>';
+  echo '<p class="warning">Il y a '.$flag.' param&egrave;tre qui sont trop bas</p>';
  }
 if ( ! isset($_POST['go']) ) {
 ?>
 <FORM action="setup.php" METHOD="post">
-<input type="submit" name="go" value="Prêt à commencer la mise à jour ou l'installation?">
+<input type="submit" name="go" value="Pr&ecirc;t &agrave; commencer la mise &agrave; jour ou l'installation?">
 </form>
 <?php
 }
@@ -325,16 +379,6 @@ if ($account == 0 ) {
   ExecuteScript($cn,"sql/account_repository/schema.sql");
   ExecuteScript($cn,"sql/account_repository/data.sql");
   ExecuteScript($cn,"sql/account_repository/constraint.sql");
-  Commit($cn);
- if ( DEBUG=='false') ob_end_clean();
-  echo "Creation of D&eacute;mo";
-  if ( DEBUG=='false') ob_start();  
-  ExecSql($cn,"create database ".domaine."dossier1 encoding='latin1'");
-  $cn=DbConnect(1,'dossier');
-  StartSql($cn);
-  ExecuteScript($cn,'sql/dossier1/schema.sql');
-  ExecuteScript($cn,'sql/dossier1/data.sql');
-  ExecuteScript($cn,'sql/dossier1/constraint.sql');
   Commit($cn);
 
  if ( DEBUG=='false') ob_end_clean();
@@ -367,17 +411,6 @@ if ($account == 0 ) {
 //--
 $cn=DbConnect();
 
-// ----------------------------------------------------------------------
-// to be remove 
-// $Res=CountSql($cn,"select * from modeledef where mod_id=2");
-// if ( $Res == 1 )
-//  {
-//   $cn=DbConnect();
-//   ExecSql($cn,"drop database ".domaine."mod2;");
-//   ExecSql($cn,"delete from modeledef where mod_id=2");
-//  }
-//----------------------------------------------------------------------
-// 
 // Test the connection
 //--
 $a=DbConnect();
@@ -397,271 +430,42 @@ $cn=DbConnect();
 $Resdossier=ExecSql($cn,"select dos_id, dos_name from ac_dossier");
 $MaxDossier=pg_NumRows($Resdossier);
 
+//----------------------------------------------------------------------
+// Upgrade the folders
+//----------------------------------------------------------------------
 for ($e=0;$e < $MaxDossier;$e++) {
   $db_row=pg_fetch_array($Resdossier,$e);
   $db=DbConnect($db_row['dos_id'],'dossier');
-  echo "Patching ".$db_row['dos_name']." from the version ".GetVersion($db)."<hr>";
-if ( DEBUG=='false' ) ob_start();
-  if ( GetVersion($db) <= 4 ) { 
-    ExecuteScript($db,'sql/patch/upgrade4.sql');
-      
-    $sql="select jrn_def_id from jrn_def ";
-    $Res=ExecSql($db,$sql);
-    $Max=pg_NumRows($Res);
-    for ($seq=0;$seq<$Max;$seq++) {
-	    $row=pg_fetch_array($Res,$seq);
-	    $sql=sprintf ("create sequence s_jrn_%d",$row['jrn_def_id']);
-	    ExecSql($db,$sql);
-    }
-  } // version == 4
-  //--
-  // update to the version 5
-  //--
-  if ( GetVersion($db) == 5 ) { 
-    ExecuteScript($db,'sql/patch/upgrade5.sql');
-  } // version == 5
+  apply_patch($db,$db_row['dos_name']);
+ }
 
-
-  //--
-  // update to the version 7
-  //--
-  if ( GetVersion($db) == 6 ) { 
-    ExecuteScript($db,'sql/patch/upgrade6.sql');
-  } // version == 6
-
-  //--
-  // update to the version 8
-  //--
-  if ( GetVersion($db) == 7 ) { 
-    ExecuteScript($db,'sql/patch/upgrade7.sql');
-    // now we use sequence instead of computing a max
-    // 
-    $Res2=ExecSql($db,'select coalesce(max(jr_grpt_id),1) as l from jrn');
-    $Max2= pg_NumRows($Res2) ;
-    if ( $Max2 == 1) {
-      $Row=pg_fetch_array($Res2,0);
-      var_dump($Row);
-      $M=$Row['l'];
-      ExecSql($db,"select setval('s_grpt',$M,true)");
-    }
-  } // version == 7
-  // version 8 -> 9
-  if ( GetVersion($db) == 8 ) { 
-    ExecuteScript($db,'sql/patch/upgrade8.sql');
-  } // version == 9->10
-  if ( GetVersion($db) == 9 ) { 
-    ExecuteScript($db,'sql/patch/upgrade9.sql');
-  } // version == 10->11
-  if ( GetVersion($db) == 10 ) { 
-    ExecuteScript($db,'sql/patch/upgrade10.sql');
-  } // version 
-  if ( GetVersion($db) == 11 ) { 
-    ExecuteScript($db,'sql/patch/upgrade11.sql');
-  } // version 
-  if ( GetVersion($db) == 12 ) { 
-    ExecuteScript($db,'sql/patch/upgrade12.sql');
-  } // version 
-
-  if ( GetVersion($db) == 13 ) { 
-    ExecuteScript($db,'sql/patch/upgrade13.sql');
-  } // version 
-
-  if ( GetVersion($db) == 14 ) { 
-    ExecuteScript($db,'sql/patch/upgrade14.sql');
-  } // version 
-  if ( GetVersion($db) == 15 ) { 
-    ExecuteScript($db,'sql/patch/upgrade15.sql');
-  } // version 
-
-  if ( GetVersion($db) == 16 ) { 
-    ExecuteScript($db,'sql/patch/upgrade16.sql');
-  } // version 
-  if ( GetVersion($db) == 17 ) { 
-    ExecuteScript($db,'sql/patch/upgrade17.sql');
-    $max=getDbValue($db,'select last_value from s_jnt_fic_att_value');
-    AlterSequence($db,'s_jnt_fic_att_value',$max+1);
-  } // version 
-  if ( GetVersion($db) == 18 ) { 
-    ExecuteScript($db,'sql/patch/upgrade18.sql');
-  } // version 
-  if ( GetVersion($db) == 19 ) { 
-    ExecuteScript($db,'sql/patch/upgrade19.sql');
-  } // version 
-  if ( GetVersion($db) == 20 ) { 
-    ExecuteScript($db,'sql/patch/upgrade20.sql');
-  } // version 
-  if ( GetVersion($db) == 21 ) { 
-    ExecuteScript($db,'sql/patch/upgrade21.sql');
-  } // version 
-  if ( GetVersion($db) == 22 ) { 
-    ExecuteScript($db,'sql/patch/upgrade22.sql');
-  } // version 
-  if ( GetVersion($db) == 23 ) { 
-    ExecuteScript($db,'sql/patch/upgrade23.sql');
-  } // version 
-  if ( GetVersion($db) == 24 ) { 
-    ExecuteScript($db,'sql/patch/upgrade24.sql');
-  } // version 
-  if ( GetVersion($db) == 25 ) { 
-    ExecuteScript($db,'sql/patch/upgrade25.sql');
-  } // version 
-
-  if ( GetVersion($db) == 26 ) { 
-    ExecuteScript($db,'sql/patch/upgrade26.sql');
-  } // version 
-  if ( GetVersion($db) == 27 ) { 
-    ExecuteScript($db,'sql/patch/upgrade27.sql');
-  } // version 
-  if ( GetVersion($db) == 28 ) { 
-    ExecuteScript($db,'sql/patch/upgrade28.sql');
-  } // version 
-  if ( GetVersion($db) == 29 ) { 
-    ExecuteScript($db,'sql/patch/upgrade29.sql');
-  } // version 
-
-if ( DEBUG == 'false') ob_end_clean();
- }//for
-
+//----------------------------------------------------------------------
+// Upgrade the template
+//----------------------------------------------------------------------
 $Resdossier=ExecSql($cn,"select mod_id, mod_name from modeledef");
 $MaxDossier=pg_NumRows($Resdossier);
-echo "Upgrading Dossier";
+echo "Upgrading template";
 for ($e=0;$e < $MaxDossier;$e++) {
   $db_row=pg_fetch_array($Resdossier,$e);
   echo "Patching ".$db_row['mod_name']."<hr>";
   $db=DbConnect($db_row['mod_id'],'mod');
-if (DEBUG == 'false' ) ob_start();
-  if ( GetVersion($db) <= 4 ) { 
-    ExecuteScript($db,'sql/patch/upgrade4.sql');
-      
-    $sql="select jrn_def_id from jrn_def ";
-    $Res=ExecSql($db,$sql);
-    $Max=pg_NumRows($Res);
-    for ($seq=0;$seq<$Max;$seq++) {
-	    $row=pg_fetch_array($Res,$seq);
-	    $sql=sprintf ("create sequence s_jrn_%d",$row['jrn_def_id']);
-	    ExecSql($db,$sql);
-    }
- } // version == 4
-  if ( GetVersion($db) == 5 ) { 
-    ExecuteScript($db,'sql/patch/upgrade5.sql');
-  } // version == 5
-
-
-  //--
-  // update to the version 7
-  //--
-  if ( GetVersion($db) == 6 ) { 
-    ExecuteScript($db,'sql/patch/upgrade6.sql');
-  } // version == 6
-
-  //--
-  // update to the version 8
-  //--
-  if ( GetVersion($db) == 7 ) { 
-    ExecuteScript($db,'sql/patch/upgrade7.sql');
-    // now we use sequence instead of computing a max
-    // 
-    $Res2=ExecSql($db,'select coalesce(max(jr_grpt_id),1) as l from jrn');
-    $Max2= pg_NumRows($Res2) ;
-    if ( $Max2 == 1) {
-      $Row=pg_fetch_array($Res2,0);
-      $M=$Row['l'];
-      ExecSql($db,"select setval('s_grpt',$M,true)");
-    }
-  } // version == 8
-  //--
-  // update to the version 9
-  //--
-  if ( GetVersion($db) == 8 ) { 
-    ExecuteScript($db,'sql/patch/upgrade8.sql');
-  } // version == 9
-  // update to the version 10
-  //--
-  if ( GetVersion($db) == 9 ) { 
-    ExecuteScript($db,'sql/patch/upgrade9.sql');
-  } // version == 9
-  if ( GetVersion($db) == 10 ) { 
-    ExecuteScript($db,'sql/patch/upgrade10.sql');
-  } // version 
-  if ( GetVersion($db) == 11 ) { 
-    ExecuteScript($db,'sql/patch/upgrade11.sql');
-  } // version 
-  if ( GetVersion($db) == 12 ) { 
-    ExecuteScript($db,'sql/patch/upgrade12.sql');
-  } // version 
-  if ( GetVersion($db) == 13 ) { 
-    ExecuteScript($db,'sql/patch/upgrade13.sql');
-  } // version 
-  if ( GetVersion($db) == 14 ) { 
-    ExecuteScript($db,'sql/patch/upgrade14.sql');
-  } // version 
-  if ( GetVersion($db) == 15 ) { 
-    ExecuteScript($db,'sql/patch/upgrade15.sql');
-  } // version 
-  if ( GetVersion($db) == 16 ) { 
-    ExecuteScript($db,'sql/patch/upgrade16.sql');
-  } // version 
-  if ( GetVersion($db) == 17 ) { 
-    ExecuteScript($db,'sql/patch/upgrade17.sql');
-    $max=getDbValue($db,'select last_value from s_jnt_fic_att_value');
-    AlterSequence($db,'s_jnt_fic_att_value',$max+1);
-  } // version 
-  if ( GetVersion($db) == 18 ) { 
-    ExecuteScript($db,'sql/patch/upgrade18.sql');
-  } // version 
-  if ( GetVersion($db) == 19 ) { 
-    ExecuteScript($db,'sql/patch/upgrade19.sql');
-  } // version 
-  if ( GetVersion($db) == 20 ) { 
-    ExecuteScript($db,'sql/patch/upgrade20.sql');
-  } // version 
-  if ( GetVersion($db) == 21 ) { 
-    ExecuteScript($db,'sql/patch/upgrade21.sql');
-  } // version 
-  if ( GetVersion($db) == 22 ) { 
-    ExecuteScript($db,'sql/patch/upgrade22.sql');
-  } // version 
-  if ( GetVersion($db) == 23 ) { 
-    ExecuteScript($db,'sql/patch/upgrade23.sql');
-  } // version 
-  if ( GetVersion($db) == 24 ) { 
-    ExecuteScript($db,'sql/patch/upgrade24.sql');
-  } // version 
-  if ( GetVersion($db) == 25 ) { 
-    ExecuteScript($db,'sql/patch/upgrade25.sql');
-  } // version 
-
-  if ( GetVersion($db) == 26 ) { 
-    ExecuteScript($db,'sql/patch/upgrade26.sql');
-  } // version 
-  if ( GetVersion($db) == 27 ) { 
-    ExecuteScript($db,'sql/patch/upgrade27.sql');
-  } // version 
-  if ( GetVersion($db) == 28 ) { 
-    ExecuteScript($db,'sql/patch/upgrade28.sql');
-  } // version 
-  if ( GetVersion($db) == 29 ) { 
-    ExecuteScript($db,'sql/patch/upgrade29.sql');
-  } // version 
-
-if ( DEBUG == 'false') ob_end_clean();
+  apply_patch($db,$db_row['mod_name']);
  }
 
-echo "Upgrading Repository";
-$cn=DbConnect();
-if ( DEBUG == 'false') ob_start();
-if ( GetVersion($cn) <= 4 ) {
-  ExecuteScript($cn,'sql/patch/ac-upgrade4.sql');
- }
-if ( GetVersion($cn) == 5 ) {
-  ExecuteScript($cn,'sql/patch/ac-upgrade5.sql');
- }
-if ( GetVersion($cn) == 6 ) {
-  ExecuteScript($cn,'sql/patch/ac-upgrade6.sql');
- }
-if ( GetVersion($cn) == 7 ) {
-  ExecuteScript($cn,'sql/patch/ac-upgrade7.sql');
- }
+//----------------------------------------------------------------------
+// Upgrade the account_repository
+//----------------------------------------------------------------------
 
-if (DEBUG=='false') ob_end_clean();
-echo "<h2 class=\"info\">Voilà tout est install&eacute; ;-)</h2>";
+ echo "Upgrading Repository"; 
+ $cn=DbConnect(); 
+ if ( DEBUG == 'false') ob_start(); 
+ $MaxVersion=7; 
+ for ($i=4;$i<= $MaxVersion;$i++) 
+   { 
+ 	if ( GetVersion($cn) <= $i ) { 
+ 	  ExecuteScript($cn,'sql/patch/ac-upgrade'.$i.'.sql'); 
+ 	} 
+   } 
+
+ if (DEBUG=='false') ob_end_clean(); 
+ echo "<h2 class=\"info\">Voil&agrave; tout est install&eacute; ;-)</h2>"; 
