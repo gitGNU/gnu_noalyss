@@ -93,6 +93,8 @@ function GetVersion($p_cn) {
  * \param $script script name
  */
 function ExecuteScript($p_cn,$script) {
+
+  if ( DEBUG=='false' ) ob_start();
   $hf=fopen($script,'r');
   if ( $hf == false ) {
 	  echo 'Ne peut ouvrir '.$script;
@@ -144,7 +146,7 @@ function ExecuteScript($p_cn,$script) {
     $sql.=$buffer;
     if ( ExecSql($p_cn,$sql,false) == false ) {
 	    Rollback($p_cn);
-	    if ( DEBUG=='false' ) ob_end_flush();
+	    if ( DEBUG=='false' ) ob_flush();
 	    print "ERROR : $sql";
             exit();
 	    }
@@ -153,6 +155,7 @@ function ExecuteScript($p_cn,$script) {
     print "<hr>";
   } // while (feof)
   fclose($hf);
+  if ( DEBUG=='false' ) ob_clean();
 }
 /*! \brief loop to apply all the path to a folder or 
  *         a template
@@ -165,12 +168,12 @@ function apply_patch($p_cn,$p_name)
   $MaxVersion=30;
   for ( $i = 4;$i <= $MaxVersion;$i++)
 	{
-	  if ( DEBUG=='false' ) ob_start();
 	  if ( GetVersion($p_cn) <= $i ) { 
 	  echo "Patching ".$p_name.
 		" from the version $i to the version ".GetVersion($p_cn)." <hr>";
 
 		ExecuteScript($p_cn,'sql/patch/upgrade'.$i.'.sql');
+	  if ( DEBUG=='false' ) ob_start();
 		// specific for version 4
 		if ( $i == 4 )
 		  {      
