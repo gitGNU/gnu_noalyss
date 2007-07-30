@@ -100,7 +100,6 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
   $r.='<INPUT TYPE="HIDDEN" ID="nb_item" name="nb_item" value="'.$p_article.'">';
   $e_comment=(isset($e_comment))?$e_comment:"";
 
-
   // Start the div for item to encode
   $r.="<DIV>";
   $r.='<H2 class="info">Op&eacute;rations Diverses</H2>';
@@ -235,7 +234,14 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
     echo "<script> alert('$msg'); </script>";
     return null;
   }
-  
+  /* if not view only then a javascript will compute and check the
+	 total  */
+  if ( ! $pview_only ) {
+	// Start compute
+	$r.='<script language=javascript>'.
+	  'window.onload=checkTotal();'.
+	  '</script>';
+  }
   return $r;
 
 
