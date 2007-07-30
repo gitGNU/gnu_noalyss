@@ -488,3 +488,4 @@ for ($e=0;$e < $MaxDossier;$e++) {
 
  if (DEBUG=='false') ob_end_clean(); 
  echo "<h2 class=\"info\">Voil&agrave; tout est install&eacute; ;-)</h2>"; 
+?>
