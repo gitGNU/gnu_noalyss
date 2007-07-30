@@ -28,10 +28,10 @@ $_ENV['TMP']="/tmp";
 define ("phpcompta_password","dany");
 define ("phpcompta_psql_port","5432");
 define ("phpcompta_user","phpcompta");
-define ("domaine","");
+define ("domaine","rel240_");
 
 
-define ("DEBUG","false");
+define ("DEBUG","true");
 
 // securite correspond a la table 
 // action

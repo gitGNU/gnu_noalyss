@@ -212,7 +212,7 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
   // Set correctly the REQUEST param for jrn_type 
   $h=new widget('hidden');
   $h->name='jrn_type';
-  $h->value='OD';
+  $h->value='ODS';
   $r.=$h->IOValue();
 
   $r.=$p_submit;

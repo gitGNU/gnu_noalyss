@@ -158,7 +158,7 @@ function ShowMenuCompta($p_dossier,$p_high="")
 		 array("user_jrn.php?jrn_type=VEN" ,"Entrée"),
 		 array("user_jrn.php?jrn_type=ACH","Dépense"),
 		 array("user_jrn.php?jrn_type=FIN","Financier"),
-		 array("user_jrn.php?jrn_type=OD","Op. Diverses"),
+		 array("user_jrn.php?jrn_type=ODS","Op. Diverses"),
 		 array("compta.php?p_action=impress","Impression","Impression"),
 		 array("compta.php?p_action=fiche","Fiche","Ajouter, modifier ou effacer des fiches"),
 		 array("user_advanced.php","Avancé","Opérations délicates"),
@@ -527,7 +527,7 @@ function ShowJrn($p_menu="")
  		array("user_jrn.php?jrn_type=VEN" ,"Entrée"),
                 array("user_jrn.php?jrn_type=ACH","Dépense"),
                 array("user_jrn.php?jrn_type=FIN","Financier"),
-                array("user_jrn.php?jrn_type=OD","Op. Diverses")
+                array("user_jrn.php?jrn_type=ODS","Op. Diverses")
                  );
  $result=ShowItem($p_array,'H',"cell","mtitle",$p_menu);
  return $result;

@@ -391,7 +391,7 @@ class widget {
          </TD><TD>
          <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') value="Recherche">
          %s 
-         <INPUT  style="border:solid 1px blue;"  TYPE="Text"  ID="%s"  NAME="%s" VALUE="%s" SIZE="8" onChange="ajaxFid(\'%s\',\'%s\',\'%s\')">
+         <INPUT  style="border:solid 1px blue;"  TYPE="Text"  ID="%s"  NAME="%s" VALUE="%s" SIZE="8" onBlur="ajaxFid(\'%s\',\'%s\',\'%s\')">
 
                  ',
 	       $l_sessid,
@@ -437,7 +437,7 @@ class widget {
 	  $r=sprintf('<TD>
          <INPUT TYPE="button" onClick="SearchCard(\'%s\',\'%s\',\'%s\',\'%s\')" value="QuickCode">
             %s</TD><TD> <INPUT style="border:solid 1px blue;"  TYPE="Text"  style="border:solid 1px blue;" '.
-		     ' NAME="%s" ID="%s" VALUE="%s" SIZE="8" onChange="ajaxFid(\'%s\',\'%s\',\'%s\')">',
+		     ' NAME="%s" ID="%s" VALUE="%s" SIZE="8" onBlur="ajaxFid(\'%s\',\'%s\',\'%s\')">',
 		     $l_sessid,
 		     $this->extra,
 		     $this->name,
@@ -457,7 +457,7 @@ class widget {
 	  $r=sprintf('
          <INPUT TYPE="button" onClick="SearchCard(\'%s\',\'%s\',\'%s\',\'%s\')" value="QuickCode">
             %s <INPUT TYPE="Text"  style="border:solid 1px blue;" '.
-		     ' NAME="%s" ID="%s" VALUE="%s" SIZE="8"  onChange="ajaxFid(\'%s\',\'%s\',\'%s\')">',
+		     ' NAME="%s" ID="%s" VALUE="%s" SIZE="8"  onBlur="ajaxFid(\'%s\',\'%s\',\'%s\')">',
 		     $l_sessid,
 		     $this->extra,
 		     $this->name,
