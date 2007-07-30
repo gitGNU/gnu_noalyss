@@ -28,22 +28,28 @@ if ( isset ($_POST['spass']) ) {
   if ( $_POST['pass_1'] != $_POST['pass_2'] ) {
 ?>
 <script>
-   alert("Les mots de passe ne correspondent pas. Mot de passe inchangé");
+   alert("Les mots de passe ne correspondent pas. Mot de passe inchang&eacute;");
 </script>
 <?php  
     }
     else {
       $l_pass=md5($_POST['pass_1']);
+      $Rep=DbConnect();
       $Res=ExecSql($Rep,"update ac_users set use_pass='$l_pass' where use_login='".$_SESSION['g_user']."'");
       $pass=$_POST['pass_1'];
       $_SESSION['g_pass']=$_POST['pass_1'];
       $g_pass=$_POST['pass_1'];
+      echo "<span><i>Mot de passe est modifi&eacute;</i></span>";
     }
   }
 $url=$_SERVER['REQUEST_URI'];
+if ( ! isset ($_SESSION['g_dossier']) ) 
+  {
+    echo '<A class="mtitle" href="user_login.php"><input type="button" value="Retour"></a>';
+  }
 
 ?>
-<H2 CLASS="info"> Password</H2>
+<H2 CLASS="info"> Mot de passe</H2>
 
 <FORM ACTION="<?php  echo $url;?>" METHOD="POST">
 <TABLE ALIGN="CENTER">
@@ -73,7 +79,7 @@ foreach ($style as $st){
 }
 $disp_style.="</SELECT>";
 ?>
-<H2 class="info">Thème</H2>
+<H2 class="info">Th&egrave;me</H2>
 <FORM ACTION="<?php   echo $url; ?>" METHOD="post">
 <TABLE ALIGN="center">
 <TR>
@@ -90,29 +96,36 @@ $disp_style.="</SELECT>";
 
 // Si utilise un dossier alors propose de changer
 // la periode par defaut
-if ( isset ($_SESSION['g_dossier']) ) {
-
-  include_once("preference.php");
-  $msg=""; 
-
-  if ( isset ($_POST["sub_periode"] ) ) {
-    $periode=$_POST["periode"];
-    $User->SetPeriode($periode);
-    echo_debug('pref.inc',__LINE__,"Periode returns ".PeriodeClosed($cn,$periode));
-  }
-
-  $l_user_per=$User->GetPeriode();
-  // if periode is closed then warns the users
-  if ( PeriodeClosed($cn,$l_user_per)=='t')
+if ( ! isset ($_SESSION['g_dossier']) ) 
   {
-    $msg= '<h2 class="error">Attention cette période est fermée, vous ne pourrez rien modifier dans le module comptable</h2>';
+    echo '<A class="mtitle" href="user_login.php"><input type="button" value="Retour"></a>';
   }
+else
+  {
 
+    include_once("preference.php");
+    $msg=""; 
+    $cn=DbConnect($_SESSION['g_dossier']);
 
-  $l_form_per=FormPeriode($cn,$l_user_per,ALL);
+    if ( isset ($_POST["sub_periode"] ) ) 
+      {
+	$periode=$_POST["periode"];
+	$User->SetPeriode($periode);
+	echo_debug('pref.inc',__LINE__,"Periode returns ".PeriodeClosed($cn,$periode));
+      }
 
-?>
-<H2 CLASS="info"> Période</H2>
+    $l_user_per=$User->GetPeriode();
+    // if periode is closed then warns the users
+    if ( PeriodeClosed($cn,$l_user_per)=='t')
+      {
+	$msg= '<h2 class="error">Attention cette p&eacute;riode est ferm&eacute;e, vous ne pourrez rien modifier dans le module comptable</h2>';
+      }
+    
+
+    $l_form_per=FormPeriode($cn,$l_user_per,ALL);
+    
+    ?>
+      <H2 CLASS="info"> P&eacute;riode</H2>
   <?php   echo $msg; ?>
 <FORM ACTION="<?php   echo $url;?>" METHOD="POST">
 <TABLE ALIGN="CENTER">
@@ -134,9 +147,9 @@ if ( isset ($_SESSION['g_dossier']) ) {
 <option value="100">100
 <option value="150">150
 <option value="200">200
-<option value="-1">Illimité
+<option value="-1">Illimit&eacute;
 <?php  
-	$label=($_SESSION['g_pagesize'] == -1)?'Illimité':$_SESSION['g_pagesize'];
+	$label=($_SESSION['g_pagesize'] == -1)?'Illimit&eacute;':$_SESSION['g_pagesize'];
 	echo '<option value="'.$_SESSION['g_pagesize'].'" selected>'.$label;
 ?>
 </SELECT>

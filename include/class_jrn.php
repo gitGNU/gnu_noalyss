@@ -118,7 +118,7 @@ class jrn {
 		 $cond_limite);
     }else {
       // Journaux centralisés
-      echo_debug('class_jrn.php',__LINE__,"journaux centralisé");
+	//      echo'class_jrn.php',__LINE__,"journaux centralisé";
       $Sql="select jr_opid as j_id,
                     c_order as int_j_id,
             to_char (c_date,'DD.MM.YYYY') as j_date ,
@@ -128,15 +128,17 @@ class jrn {
             c_debit as j_debit,
             c_poste as poste,
             pcm_lib as description,
-            j_qcode,
+
             jr_comment||' ('||c_internal||')' as jr_comment,
             jr_montant,
             c_grp as grp,
             c_comment as comment,
             c_rapt as oc,
             c_periode as periode 
-            from centralized left join jrn on ".
-		"jr_grpt_id=c_grp left join tmp_pcmn on pcm_val=c_poste where ".
+            from centralized left join jrn on 
+	jr_grpt_id=c_grp 
+	 left join tmp_pcmn on pcm_val=c_poste 
+           where ".
 	        " c_jrn_def=".$this->id." and ".
                 $periode." order by c_order ";
       $Res=ExecSql($this->db,$Sql.$cond_limite);
@@ -183,7 +185,10 @@ class jrn {
             j_qcode,
             c_periode as periode 
             from centralized left join jrn on ".
-		"jr_grpt_id=c_grp left join tmp_pcmn on pcm_val=c_poste where ".
+		"jr_grpt_id=c_grp left join tmp_pcmn ".
+	        " on (pcm_val=c_poste)  ".
+	        "            join jrnx on (j_id=c_j_id)".
+	        " where ".
                 $periode." order by c_order ";
     $Res=ExecSql($this->db,$Sql.$cond_limite);
     } // Grand Livre

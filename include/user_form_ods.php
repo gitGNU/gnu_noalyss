@@ -16,7 +16,9 @@
  *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
 /* $Revision$ */
+
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 require_once("constant.php");
 require_once("class_widget.php");
@@ -44,13 +46,14 @@ require_once("user_common.php");
  */
 function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=true,$p_article=6,$p_saved=false)
 { 
-   include_once("poste.php");
+  include_once("poste.php");
   if ( $p_array != null ) {
     // array contains old value
     foreach ( $p_array as $a=>$v) {
       ${"$a"}=$v;
     }
   }
+
   // The date
    list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$p_periode);
    $flag=(isset($e_date))?1:0;
@@ -68,9 +71,12 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
   // Save old value and set a new one
 
   $r="";
+
   if ( $pview_only == false) {
     $r.=JS_SEARCH_POSTE;
+    $r.=JS_COMPUTE_ODS;
   }
+
   $r.="<FORM NAME=\"form_detail\" enctype=\"multipart/form-data\" ACTION=\"user_jrn.php?action=new&p_jrn=$p_jrn\" METHOD=\"POST\">";
   $r.='<TABLE>';
   // Date
@@ -91,7 +97,7 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
   include_once("fiche_inc.php");
 
   // Record the current number of article
-  $r.='<INPUT TYPE="HIDDEN" name="nb_item" value="'.$p_article.'">';
+  $r.='<INPUT TYPE="HIDDEN" ID="nb_item" name="nb_item" value="'.$p_article.'">';
   $e_comment=(isset($e_comment))?$e_comment:"";
 
 
@@ -114,7 +120,7 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
 
     $account=(isset(${"e_account$i"}))?${"e_account$i"}:"";
 
-    $lib="";
+    $lib='<span id="e_account'.$i.'_label"></span>';
     // If $account has a value
     if ( isNumber($account) == 1 ) {
       if ( CountSql($p_cn,"select * from tmp_pcmn where pcm_val=$account") == 0 ) {
@@ -125,7 +131,7 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
 	if ( $pview_only == true ) return null;
       } else {
 	// retrieve the tva label and name
-	$lib=GetPosteLibelle($p_cn, $account,1);
+	$lib='<span id="e_account'.$i.'_label">'.GetPosteLibelle($p_cn, $account,1).'</span>';
       }
     }
 
@@ -141,7 +147,7 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
     }
     // code
     // Do we need a filter ?
-    $l_line=GetJrnProperty($p_cn,$p_jrn);
+    $l_line=GetJrnProp($_SESSION['g_dossier'],$p_jrn);
     if(  strlen(trim ($l_line['jrn_def_class_cred']) ) > 0 or
 	 strlen(trim ($l_line['jrn_def_class_deb']) ) > 0 ) {
       $filter=1;
@@ -161,6 +167,8 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
     $wAmount=new widget("text");
     $wAmount->table=1;
     $wAmount->SetReadOnly($pview_only);
+    $wAmount->javascript=' onChange="checkTotal()"';
+
     $r.=$wAmount->IOValue("e_account".$i."_amount",${"e_account$i"."_amount"});
 
 
@@ -170,8 +178,8 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
     $d_check=( ${"e_account$i"."_type"} == 'd' )?"CHECKED":"";
     $r.='<td>';
     if ( $pview_only == false ) {
-      $r.='  <input type="radio" name="'."e_account"."$i"."_type".'" value="d" '.$d_check.'> D&eacute;bit ou ';
-      $r.='  <input type="radio" name="'."e_account"."$i"."_type".'" value="c" '.$c_check.'> Cr&eacute;dit ';
+      $r.='  <input type="radio" id="'."e_account"."$i"."_type".'" name="'."e_account"."$i"."_type".'" value="d" '.$d_check.' onChange="checkTotal()">D&eacute;bit ou ';
+      $r.='  <input type="radio" id="'."e_account"."$i"."_type".'" name="'."e_account"."$i"."_type".'" value="c" '.$c_check.'  onChange="checkTotal()"> Cr&eacute;dit ';
     }else {
       $r.=(${"e_account$i"."_type"} == 'c' )?"Cr&eacute;dit":"D&eacute;dit";
       $r.='<input type="hidden" name="e_account'.$i.'_type" value="'.${"e_account$i"."_type"}.'">';
@@ -193,11 +201,18 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
    $r.="<TR>".$file->IOValue("pj","","Pi&egrave;ce justificative")."</TR>";
    $r.="</table>";
    $r.="<hr>";
+ } else {
+  $r.= '<div class="info">
+    D&eacute;bit = <span id="totalDeb"></span>
+    Cr&eacute;dit = <span id="totalCred"></span>
+    Difference = <span id="totalDiff"></span>
+</div>
+    ';
  }
   // Set correctly the REQUEST param for jrn_type 
   $h=new widget('hidden');
   $h->name='jrn_type';
-  $h->value='OD';
+  $h->value='ODS';
   $r.=$h->IOValue();
 
   $r.=$p_submit;
@@ -260,32 +275,41 @@ function RecordODS($p_cn,$p_array,$p_user,$p_jrn)
 
 	// Compute the j_grpt
   $seq=NextSequence($p_cn,'s_grpt');
+  try 
+    {
+      StartSql($p_cn);
+      // store into the database
+      for ( $i = 0; $i < $nb_item;$i++) {
+		if ( isNumber(${"e_account$i"}) == 0 ) continue;
+		$sum_deb+=(${"e_account$i"."_type"}=='d')?round(${"e_account$i"."_amount"},2):0;
+		$sum_cred+=(${"e_account$i"."_type"}=='c')?round(${"e_account$i"."_amount"},2):0;
+		
+		if ( ${"e_account$i"."_amount"} == 0 ) continue;
+		${"e_account$i"."_amount"}=round(${"e_account$i"."_amount"},2);
+		$j_id=InsertJrnx($p_cn,${"e_account$i"."_type"},$p_user->id,$p_jrn,${"e_account$i"},$e_date,${"e_account$i"."_amount"},$seq,$periode);
+	  }
 
-  StartSql($p_cn);
-  // store into the database
-  for ( $i = 0; $i < $nb_item;$i++) {
-    if ( isNumber(${"e_account$i"}) == 0 ) continue;
-    $sum_deb+=(${"e_account$i"."_type"}=='d')?round(${"e_account$i"."_amount"},2):0;
-    $sum_cred+=(${"e_account$i"."_type"}=='c')?round(${"e_account$i"."_amount"},2):0;
-
-    if ( ${"e_account$i"."_amount"} == 0 ) continue;
-    ${"e_account$i"."_amount"}=round(${"e_account$i"."_amount"},2);
-    if ( ($j_id=InsertJrnx($p_cn,${"e_account$i"."_type"},$p_user->id,$p_jrn,${"e_account$i"},$e_date,${"e_account$i"."_amount"},$seq,$periode)) == false ) {
-      $Rollback($p_cn);exit("error 'user_form_ods.php' __LINE__");}
-  }
-
-  if ( InsertJrn($p_cn,$e_date,"",$p_jrn,$e_comm,$seq,$periode) == false ) {
-    $Rollback($p_cn);exit("error 'user_form_ods.php' __LINE__");}
-
-  // Set Internal code and Comment
-  $internal_code=SetInternalCode($p_cn,$seq,$p_jrn);
-  if ( $e_comm=="" ) {
-    // Update comment if comment is blank
-    $Res=ExecSql($p_cn,"update jrn set jr_comment='".$internal_code."' where jr_grpt_id=".$seq);
-  }
-  if ( isset ($_FILES))
-    save_upload_document($p_cn,$seq);
-
+	  InsertJrn($p_cn,$e_date,"",$p_jrn,$e_comm,$seq,$periode) ;
+	  
+      // Set Internal code and Comment
+      $internal_code=SetInternalCode($p_cn,$seq,$p_jrn);
+      if ( $e_comm=="" ) {
+		// Update comment if comment is blank
+	$Res=ExecSql($p_cn,"update jrn set jr_comment='".$internal_code."' where jr_grpt_id=".$seq);
+      }
+      if ( isset ($_FILES))
+		save_upload_document($p_cn,$seq);
+	
+}
+catch (Exception $e)
+    {
+      echo '<span class="error">'.
+		'Erreur dans l\'enregistrement '.
+		__FILE__.':'.__LINE__.' '.
+		$e->getMessage();
+      Rollback($p_cn);
+      exit();
+    }
   Commit($p_cn);
   return $internal_code;
 }
