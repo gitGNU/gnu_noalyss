@@ -20,6 +20,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 require_once('class_own.php');
 require_once('class_poste.php');
+require_once('class_action.php');
 /*! \file 
  * \brief Class Document corresponds to the table document
  */
@@ -210,13 +211,13 @@ class Document
       // compute the regex
       if ( $p_type=='OOo')
 	{
-	  $regex="&lt;&lt;[A-Z]+_*[A-Z]*_*[A-Z]*_*[0-9]*&gt;&gt;";
+	  $regex="&lt;&lt;[A-Z]+_*[A-Z]*_*[A-Z]*_*[A-Z]*_*[0-9]*&gt;&gt;";
 	  $lt="&lt;";
 	  $gt="&gt;";
 	}
       else
 	{
-	  $regex="<<[A-Z]+_*[A-Z]*_*[A-Z]*_*[0-9]*>>";
+	  $regex="<<[A-Z]+_*[A-Z]*_*[A-Z]*_*[A-Z]*_*[0-9]*>>";
 	  $lt="<";
 	  $gt=">";
 	}

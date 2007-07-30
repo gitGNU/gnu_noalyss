@@ -1,4 +1,3 @@
-COMMENT ON SCHEMA public IS 'Standard public schema';
 COMMENT ON FUNCTION correct_sequence(p_sequence text, p_col text, p_table text) IS ' Often the primary key is a sequence number and sometimes the value of the sequence is not synchronized with the primary key ( p_sequence : sequence name, p_col : col of the pk,p_table : concerned table';
 COMMENT ON TABLE attr_def IS 'The available attributs for the cards';
 COMMENT ON TABLE attr_min IS 'The value of  attributs for the cards';

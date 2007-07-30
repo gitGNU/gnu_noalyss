@@ -73,8 +73,9 @@ if  ( $_GET['p_simple'] == 0 )
 	     $op['j_date'],
 	     $op['poste'],
 	     $desc,
-	     $op['cred_montant'],
-	     $op['deb_montant']
+	     $op['deb_montant'],
+	     $op['cred_montant']
+
 	     );
 	
     }

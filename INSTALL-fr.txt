@@ -4,9 +4,8 @@
 
   Ce document décrit l'installation complète de PhpCompta et explique
   comment ont été installés les programmes dont PhpCompta dépend. Php-
-  Compta PhpCompta <http://www.alchimerys.be/FR/phpcompta>, site savan-
-  nah PhpCompta Savannah <http://savannah.nongnu.org/projects/php-
-  compta/>
+  Compta PhpCompta <http://www.phpcompta.org>, site savannah PhpCompta
+  Savannah <http://savannah.nongnu.org/projects/phpcompta/>
   ______________________________________________________________________
 
   Table of Contents
@@ -43,7 +42,13 @@
   peut se faire avec les "packages" standards fournis; ces "packages"
   sont largement suffisants. Les explications données ici sur
   l'installation de ces produits sont destinées à ceux préfèrant le
-  faire manuellement.
+  faire manuellement. En général vous pourrez l'installer assez
+  facilement Installation Rapide
+  <http://www.phpcompta.org/pmwiki.php/Documentation/InstallationRapide>
+  Il existe aussi un manuel d'installation exhaustif pour Debian, pleins
+  d'informations utiles Manuel pour Debian
+  <http://www.blanchin.eu/?p=12>.
+
 
 
   Si vous installez sous Windows, il est assez compliqué de recompiler.
@@ -57,6 +62,8 @@
 
   [1m2.  Postgresql (version 8.0.1 minimum)[0m
 
+
+
   [1m2.1.  Installation[0m
 
   Soit avec des binaires préparés, soit à partir du code source
@@ -64,6 +71,7 @@
   Le plus simple est d'utiliser les binaires de votre distribution, ne
   compiler ces programmes que si vraiment vous devez le faire ou que
   vous préfèrez avoir la dernière version disponible.
+
   Si vous décidez de le compiler vous-même, les options suivantes
   fonctionnent
 
@@ -98,8 +106,7 @@
   ne pas oublier d'ajouter dans le PATH, l'endroit où se trouve les
   binaires de postgres
 
-  ex:
-  export PATH=$PATH:/opt/psql732/bin
+  export PATH=$PATH:/opt/psql/bin
 
 
 
@@ -119,6 +126,8 @@
   Il vaut mieux remplacer 172.16.30.0 par l'adresse du server HTTP, dans
   le cas où vous utilisez un VirtualHost avec une adresse IP, c'est
   cette adresse qu'il vous faudra mettre
+
+
 
   [1m2.3.  Optimisation[0m
 
@@ -180,6 +189,8 @@
   Si vous décidez de le compiler vous-même, les options suivantes
   fonctionnent
 
+
+
   ./configure --prefix=/opt/http2/ \
               --enable-ssl \
               --enable-http \
@@ -200,28 +211,24 @@
 
 
   Et si vous décidez d'avoir la même configuration que moi, mais ce
-  n'est pas obligatoire
+  n'est pas obligatoire Il est possible d'utiliser les virtuals hosts
+  ainsi
 
-  < VirtualHost 172.16.30.150 >
-          ServerName site
-          ErrorLog phpcompta-error.log
-          TransferLog phpcompta-debug.log
-          DocumentRoot /home/httpd/compta/html
-  </VirtualHost >
-
-
-
-  Note certains ont fait ceci pour configurer Apache
-
-  <VirtualHost localhost>
-     ServerAdmin webmaster@dummy-host.example.com
-     DocumentRoot /www/phpcompta/html/
-     ServerName phpcompta
-     php_flag session.auto_start 1
-     php_flag magic_quotes_gpc 0
-     php_flag session.use_trans_sid 1
-     php_value include_path ".:../include:../addon"
+  <VirtualHost *>
+          Servername ...
+          DocumentRoot /var/www/acapulco/htdocs
+          <Directory /var/www/acapulco/htdocs/phpcompta/html/>
+                  AddDefaultCharset iso-8859-1
+                  php_value include_path .:../../include:../include:addon
+                  php_flag  magic_quotes_gpc off
+                  php_flag session.auto_start on
+                  php_value session.save_path /tmp
+                  php_value max_execution_time 120
+                  php_flag short_open_tag on
+                  php_flag session.use_trans_sid on
+          </Directory>
   </VirtualHost>
+
 
 
   Actuellement, le répertoire html, contient un fichier .htaccess qui
@@ -242,13 +249,14 @@
   vous-même, les options suivantes fonctionnent
 
 
-       ./configure --prefix=/opt/php431 \
-           --with-apxs2=/opt/http2/bin/apxs \
-           --with-fastcgi \
-           --with-zlib \
-           --with-pgsql=/usr/local/psql \
-           --with-mysql \
-           --with-apache2=/software/httpd-2.0.44
+
+  ./configure --prefix=/opt/php431 \
+      --with-apxs2=/opt/http2/bin/apxs \
+      --with-fastcgi \
+      --with-zlib \
+      --with-pgsql=/usr/local/psql \
+      --with-mysql \
+      --with-apache2=/software/httpd-2.0.44
 
 
 
@@ -319,7 +327,6 @@
 
 
   Etape
-
 
   ·  Se connecter en tant que postgres et taper les commandes
 

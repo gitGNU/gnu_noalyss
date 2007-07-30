@@ -43,11 +43,8 @@ include_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
 // Check Priv
-if ( $User->CheckAction($cn,SECU) == 0 ) {
-  /* Cannot Access */
-  NoAccess();
-  exit -1;
- }
+$User->AccessRequest($cn,SECU);
+
 //-----------------------------------------------------
 // Get User's info
 if ( ! isset($_GET['user_id']) ) 

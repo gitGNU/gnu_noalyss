@@ -21,6 +21,14 @@
 /*! \file
  * \brief Search a card in a popup window
  */
+// \todo remove those debug info
+// if (DEBUG) {
+//   echo "_GET";
+//   var_dump($_GET);
+//   echo "<hr>";
+//   echo "_POST";
+//  var_dump($_POST);
+// }
 
 include_once ("ac_common.php");
 include_once ("poste.php");
@@ -33,7 +41,7 @@ $User=new cl_user($rep);
 $User->Check();
 
 //determine focus:
-if ( isset ( $_POST['search']) )
+if ( isset ( $_GET['search']) )
 {
   html_page_start($User->theme,"onLoad=\"window.focus();SetFocus('select0',0)\"");
 } else
@@ -94,18 +102,27 @@ foreach ($_GET as $key=>$element) {
   echo_debug('fiche_search.php',__LINE__,"e_$key =$element<br>");
 
 }
-$e_fic_search=(isset ($_POST['fic_search']))?$_POST['fic_search']:"";
+$e_fic_search=(isset ($_REQUEST['fic_search']))?$_REQUEST['fic_search']:"";
 
-$r.="<FORM METHOD=\"POST\" ACTION=\"".$_SERVER['REQUEST_URI']."\">";
+$r.="<FORM METHOD=\"GET\" >";
 $r.="Recherche : ".'<INPUT TYPE="TEXT" NAME="fic_search" VALUE="'.$e_fic_search.'">';
 $r.='<INPUT TYPE="submit" name="search" value="Go">';
 
 $r.="<div>";
 echo $r;
 $r="";
-
+foreach ($_GET as $k=>$h)
+{
+  if ( $k != "fic_search" && $k != "first" )
+    echo '<input type="HIDDEN" name="'.
+      $k.'" value="'.$h.'">';
+}
 // Show result of the search 
-if ( isset ( $_POST['search']) )  {
+if ( 
+    (isset($_GET['first']) && strlen(trim($_GET['fic_search'])) != 0) 
+    || ! isset($_GET['first'] )
+    )
+  {
 
   // Get the field from database
   if ( $e_type == 'deb' ) {
@@ -136,7 +153,8 @@ if ( isset ( $_POST['search']) )  {
     $Res=ExecSql($cn,$sql); 
   } else {
     $e_fic_search=FormatString($e_fic_search);
-    $Res=ExecSql($cn,"$sql and upper(vw_name) like upper('%$e_fic_search%')"); 
+    $Res=ExecSql($cn,"$sql and ( upper(vw_name) like upper('%$e_fic_search%') or ".
+               "upper(quick_code) like upper('%$e_fic_search%'))" ); 
   }
 
   // Test whether rows are returned
