@@ -66,8 +66,9 @@ if  ( $_GET['p_simple'] == 0 )
       $desc=str_replace("<i>","",$desc);
       $desc=str_replace("</i>","",$desc);
       $desc=str_replace('"',"'",$desc);
+      $desc=str_replace(';',',',$desc);
 
-      printf("\"%s\"\t\"%s\"\t\"%s\"\t\"%s\"\t\"%s\"\t%8.4f\t%8.4f\n",
+      printf("\"%s\";\"%s\";\"%s\";\"%s\";\"%s\";%8.4f;%8.4f\n",
 	     $op['j_id'],
 	     $op['internal'],
 	     $op['j_date'],
