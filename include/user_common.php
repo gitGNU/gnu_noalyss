@@ -359,7 +359,8 @@ comment = $p_comment");
  */
 function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0,$p_paid=0)
 {
-
+  $amount_paid=0.0;
+  $amount_unpaid=0.0;
   include_once("central_inc.php");
   $limit=($_SESSION['g_pagesize']!=-1)?" LIMIT ".$_SESSION['g_pagesize']:"";
   $offset=($_SESSION['g_pagesize']!=-1)?" OFFSET ".$p_value:"";
@@ -639,14 +640,19 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Eché
     // Show the paid column if p_paid is not null
     if ( $p_paid !=0 )
       {
-	$w=new widget("checkbox");
-	$w->name="rd_paid".$row['jr_id'];
-	$w->selected=($row['jr_rapt']=='paid')?true:false;
-	// if p_paid == 2 then readonly
-	$w->readonly=( $p_paid == 2)?true:false;
-	$h=new widget("hidden");
-	$h->name="set_jr_id".$row['jr_id'];
-	$r.='<TD>'.$w->IOValue().$h->IOValue().'</TD>';
+		$w=new widget("checkbox");
+		$w->name="rd_paid".$row['jr_id'];
+		$w->selected=($row['jr_rapt']=='paid')?true:false;
+		// if p_paid == 2 then readonly
+		$w->readonly=( $p_paid == 2)?true:false;
+		$h=new widget("hidden");
+		$h->name="set_jr_id".$row['jr_id'];
+		$r.='<TD>'.$w->IOValue().$h->IOValue().'</TD>';
+		if ( $row['jr_rapt']=='paid') 
+		  $amount_paid+=$row['jr_montant'];
+		else
+		  $amount_unpaid+=$row['jr_montant'];
+
       }
     
     // Rapprochement
@@ -696,6 +702,18 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Eché
   $r.="<TR>";
   $r.='<TD COLSPAN="4">Total</TD>';
   $r.='<TD ALIGN="RIGHT">'.$tot."</TD>";
+  $r.="</tr>";
+  if ( $p_paid != 0 ) {
+	$r.="<TR>";
+	$r.='<TD COLSPAN="4">Pay&eacute;</TD>';
+	$r.='<TD ALIGN="RIGHT">'.$amount_paid."</TD>";
+	$r.="</tr>";
+	$r.="<TR>";
+	$r.='<TD COLSPAN="4">Non pay&eacute;</TD>';
+	$r.='<TD ALIGN="RIGHT">'.$amount_unpaid."</TD>";
+	$r.="</tr>";
+  }
+
   $r.="</table>";
   
 return array ($count,$r);
