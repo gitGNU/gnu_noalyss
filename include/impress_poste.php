@@ -40,15 +40,15 @@ if ( isset( $_POST['bt_html'] ) ) {
     {
       if ( isset ($_POST['poste_fille']) )
       {
-	$parent=$_POST['poste_id'];
-	$a_poste=getarray($cn,"select pcm_val from tmp_pcmn where pcm_val like '$parent%'");
-	$go=3;
+		$parent=$_POST['poste_id'];
+		$a_poste=getarray($cn,"select pcm_val from tmp_pcmn where pcm_val like '$parent%'");
+		$go=3;
       } 
       // Check if the post is numeric and exists
       elseif (  CountSql($cn,'select * from tmp_pcmn where pcm_val='.FormatString($_POST['poste_id'])) != 0 )
-	{
-	  $Poste=new poste($cn,$_POST['poste_id']);$go=1;
-	}
+		{
+		  $Poste=new poste($cn,$_POST['poste_id']);$go=1;
+		}
     }
   if ( strlen(trim($_POST['f_id'])) != 0 )
     {

@@ -105,6 +105,7 @@ class widget {
     $this->label="";
     $this->disabled=false;
     $this->javascript="";
+	$this->extra2="all";
   }
   function SetReadOnly($p_read) {
     $this->readonly=$p_read;
@@ -540,16 +541,17 @@ class widget {
       $l_sessid=$_REQUEST['PHPSESSID'];
 
       $r=sprintf("$td
-     <INPUT TYPE=\"button\" onClick=SearchJrn('%s','%s',%s) value=\"Recherche\">
+     <INPUT TYPE=\"button\" onClick=SearchJrn('%s','%s',%s,'%s') value=\"Recherche\">
        %s $etd  $td 
       <INPUT TYPE=\"Text\"  style=\"border:solid 1px blue;\"  NAME=\"%s\" VALUE=\"%s\" SIZE=\"8\">
                  $etd",
-		 $l_sessid, 
-		 $this->name,
-		 $this->extra, 
-		 $this->label, 
-		 $this->name, 
-		 $this->value 
+				 $l_sessid, 
+				 $this->name,
+				 $this->extra, 
+				 $this->extra2,
+				 $this->label, 
+				 $this->name, 
+				 $this->value 
 		 );
   } else {
     $r=sprintf("$td<span>%s <b>%s</b></span>",$this->label,$this->value);

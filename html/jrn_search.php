@@ -93,10 +93,14 @@ if ( isset ($_GET["search"]) ) {
     $part=" and ";
 
   }
-
-$condition=$c_comment.$c_montant.$c_date.$c_internal;
-echo_debug('jrn_search.php',__LINE__,"condition = $condition");
-}
+  $c_paid="";
+  if (isset($paid)) {
+	$c_paid=$part."  jr_rapt != 'paid' ";
+	$part=" and ";
+  }
+  $condition=$c_comment.$c_montant.$c_date.$c_internal.$c_paid;
+  echo_debug('jrn_search.php',__LINE__,"condition = $condition");
+ }
 $condition=$condition." ".$part;
 
 // If the usr is admin he has all right
@@ -109,6 +113,8 @@ if ( $User->admin != 1 ) {
 <div style="font-size:11px;">
 <?php
 echo '<FORM ACTION="jrn_search.php" METHOD="GET">';
+if (isset($paid))
+  echo 'uniquement les non payés<input type="hidden" name="paid" value="paid">';
 echo '<TABLE>';
 echo '<TR>';
 if ( ! isset ($p_date)) $p_date="";
