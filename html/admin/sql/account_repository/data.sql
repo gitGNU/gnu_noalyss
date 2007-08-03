@@ -47,23 +47,12 @@ SELECT pg_catalog.setval('users_id', 5, true);
 -- Data for Name: ac_dossier; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
-INSERT INTO ac_dossier (dos_id, dos_name, dos_description, dos_jnt_user) VALUES (1, 'Demo', 'Base de données pour développement & démo', 0);
-
-
 --
 -- Data for Name: ac_users; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
 INSERT INTO ac_users (use_id, use_first_name, use_name, use_login, use_active, use_pass, use_admin) VALUES (4, 'demo', 'demo', 'demo', 1, 'fe01ce2a7fbac8fafaed7c982a04e229', 0);
 INSERT INTO ac_users (use_id, use_first_name, use_name, use_login, use_active, use_pass, use_admin) VALUES (1, NULL, NULL, 'phpcompta', 1, 'b1cc88e1907cde80cb2595fa793b3da9', 1);
-
-
---
--- Data for Name: jnt_use_dos; Type: TABLE DATA; Schema: public; Owner: phpcompta
---
-
-INSERT INTO jnt_use_dos (jnt_id, use_id, dos_id) VALUES (1, 1, 1);
-INSERT INTO jnt_use_dos (jnt_id, use_id, dos_id) VALUES (13, 4, 1);
 
 
 --
