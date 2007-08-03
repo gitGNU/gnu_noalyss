@@ -654,7 +654,7 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Eché
     $r.="<TD>";
     if ( $a != null ) {
       // $r.="operation concernée ";
-      var_dump($a);
+
       foreach ($a as $key => $element) 
 		{   
 		  // get the amount 
