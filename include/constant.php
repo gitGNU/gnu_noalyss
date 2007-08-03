@@ -28,7 +28,7 @@ $_ENV['TMP']="/tmp";
 define ("phpcompta_password","dany");
 define ("phpcompta_psql_port","5432");
 define ("phpcompta_user","phpcompta");
-define ("domaine","rel240_");
+define ("domaine","");
 
 
 define ("DEBUG","true");
