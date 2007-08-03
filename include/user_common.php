@@ -654,10 +654,13 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Eché
     $r.="<TD>";
     if ( $a != null ) {
       // $r.="operation concernée ";
-      
+      var_dump($a);
       foreach ($a as $key => $element) 
-      {      
-	      $r.= "<A class=\"detail\" HREF=\"javascript:modifyOperation('".$element."','".$l_sessid."')\" > ".GetInternal($p_cn,$element)."</A>";
+		{   
+		  // get the amount 
+		  $l_amount=getDbValue($p_cn,"select jr_montant from jrn ".
+							  " where jr_id=$element");
+	      $r.= "<A class=\"detail\" HREF=\"javascript:modifyOperation('".$element."','".$l_sessid."')\" > ".GetInternal($p_cn,$element)." [ $l_amount &euro; ]</A>";
       }//for
     }// if ( $a != null ) {
     $r.="</TD>";
