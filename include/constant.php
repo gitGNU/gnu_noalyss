@@ -31,7 +31,7 @@ define ("phpcompta_user","phpcompta");
 define ("domaine","");
 
 
-define ("DEBUG","true");
+define ("DEBUG","false");
 
 // securite correspond a la table 
 // action
