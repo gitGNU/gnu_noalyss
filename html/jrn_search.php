@@ -114,7 +114,7 @@ if ( $User->admin != 1 ) {
 <?php
 echo '<FORM ACTION="jrn_search.php" METHOD="GET">';
 if (isset($paid))
-  echo 'uniquement les non payés<input type="hidden" name="paid" value="paid">';
+  echo '<div class="info"> uniquement les non op&eacute;rations non pay&eacute;es<input type="hidden" name="paid" value="paid"></div>';
 echo '<TABLE>';
 echo '<TR>';
 if ( ! isset ($p_date)) $p_date="";

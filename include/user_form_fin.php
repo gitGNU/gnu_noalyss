@@ -279,6 +279,7 @@ function FormFin($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
     $wConcerned->SetReadOnly($pview_only);
     $wConcerned->extra=0;
     $wConcerned->table=1;
+	$wConcerned->extra2='paid';
     $r.=$wConcerned->IOValue("e_concerned".$i,${"e_concerned".$i});
     $r.='</TR>';
    // if not recorded the new amount must be recalculate
