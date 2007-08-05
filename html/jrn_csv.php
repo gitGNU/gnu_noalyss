@@ -91,7 +91,7 @@ if  ( $_GET['p_simple'] == 0 )
 //-----------------------------------------------------
      if ( $jrn_type == 'ODS' || $jrn_type == 'FIN' || $jrn_type=='GL')
        {
-	 printf ('" operation; "'.
+	 printf ('" operation ";'.
 		 '"Date;"'.
 		 '"commentaire;"'.
 		 '"internal;"'.
