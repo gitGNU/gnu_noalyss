@@ -28,16 +28,31 @@ include_once ("postgres.php");
 /* Admin. Dossier */
 $Rep=DbConnect();
 include_once ("class_user.php");
-$cn=DbConnect($_SESSION['g_dossier']);
+
+/* if the dossier is not set then we have to connect to the
+ * account_repository database
+ */
+
+if ( isset ($_SESSION['g_dossier'])) 
+  {
+    $cn=DbConnect($_SESSION['g_dossier']);
+  } 
+ else
+   {
+     $cn=DbConnect();
+   }
+ 
 $User=new cl_user($cn);
 $User->Check();
+
 // Met a jour le theme utilisateur (style)
-if ( isset ( $_POST['style_user']) ) {
-	$User->update_global_pref('THEME',$_POST['style_user']);
-      $_SESSION['g_theme']=$_POST['style_user'];
-
-}
-
+if ( isset ( $_POST['style_user']) ) 
+  {
+    $User->update_global_pref('THEME',$_POST['style_user']);
+    $_SESSION['g_theme']=$_POST['style_user'];
+    
+  }
+    
 html_page_start($_SESSION['g_theme']);
 
 // Met a jour le pagesize
@@ -51,12 +66,18 @@ if ( isset ( $_POST['p_size']) ) {
 // comta style
 
 include_once ("user_menu.php");
-if ( isset ($_SESSION['g_dossier']) ) {
-  if ( $_SESSION['g_dossier'] != 0 )  
-echo '<div class="u_tmenu">';
-
-echo    ShowMenuCompta($_SESSION['g_dossier']);
- echo "</div>";
+if ( isset ($_SESSION['g_dossier']) ) 
+  {
+    if ( $_SESSION['g_dossier'] != 0 )  
+      {
+	echo '<div class="u_tmenu">';
+	echo    ShowMenuCompta($_SESSION['g_dossier']);
+	echo "</div>";
+      }
+  }
+ else
+  {
+    echo "<h2 class=\"info\"> Pr&eacute;f&eacute;rences</h2>";
   }
 require_once("pref.inc.php");
 html_page_stop();

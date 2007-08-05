@@ -17,6 +17,9 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 /* $Revision$ */
+
+
+
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 include_once("class_attribut.php");
 require_once('class_fiche_def.php');
@@ -39,7 +42,7 @@ class fiche {
   var $fiche_def;    /*! \enum $fiche_def fd_id */
   var $attribut;     /*! \enum $attribut array of attribut object */
   var $fiche_def_ref; /*!\enum $fiche_def_ref Type of the card here always FICHE_TYPE_CONTACT */
-
+  var $row;           /*! \enum All the row from the ledgers */
   function fiche($p_cn,$p_id=0) {
     $this->cn=$p_cn;
     $this->id=$p_id;
@@ -455,7 +458,10 @@ class fiche {
 	    {
 	      echo_debug("insert ATTR_DEF_ACCOUNT");
 	      $v=FormatString($value);
-	      if ( isNumber($v) == 1 )
+	      ob_start();
+	      if ( 
+		  isNumber($v) == 1 
+		  )
 		{
 		  $sql=sprintf("select account_insert(%d,%f)",
 			       $this->id,$v);
@@ -465,8 +471,14 @@ class fiche {
 		  $sql=sprintf("select account_insert(%d,null)",
 			       $this->id);
 		}
-	      $Ret=ExecSql($this->cn,$sql);
-
+	      $ret=ExecSql($this->cn,$sql,false);
+	      ob_end_clean();
+	      if ( $ret == false ) {
+		echo "<span class=\"error\"Erreur : ce compte [$v] n'a pas de compte parent.".
+		  "L'op&eacute;ration est annul&eacute;</span>";
+		Rollback($this->cn);
+		return;
+	      }
 	      continue;
 	    }
 	// TVA
@@ -560,24 +572,47 @@ class fiche {
                echo_debug("Modify ATTR_DEF_NAME");
                if ( strlen(trim($value)) == 0 )
                  continue;
+
                
              }
+
            // account
            if ( $id == ATTR_DEF_ACCOUNT ) 
              {
                echo_debug("Modify ATTR_DEF_ACCOUNT");
                $v=FormatString($value);
+	       echo_debug("Value = $v");
                if ( isNumber($v) == 1 )
                  {
+		   ob_start();
+
                    $sql=sprintf("select account_update(%d,%d)",
                                 $this->id,$v);
-                   $Ret=ExecSql($this->cn,$sql);
+                   $Ret=ExecSql($this->cn,$sql,false);
+
+		   ob_end_clean();
+		   if ( $Ret == false ) {
+		     echo "<span class=\"error\">Erreur : ce compte [$v] n'a pas de compte parent.".
+		       "L'op&eacute;ration est annul&eacute;e</span>";
+		     Rollback($this->cn);
+		     return;
+		   }
+		   continue;		   
                  }
                if ( strlen (trim($v)) == 0 ) 
                  {
                    $sql=sprintf("select account_update(%d,null)",
                                 $this->id);
-                   $Ret=ExecSql($this->cn,$sql);
+                   $Ret=ExecSql($this->cn,$sql,false);
+
+		   ob_end_clean();
+		   if ( $Ret == false ) {
+		     echo "<span class=\"error\">Erreur : ce compte [$v] n'a pas de compte parent.".
+		       "L'op&eacute;ration est annul&eacute;e</span>";
+		     Rollback($this->cn);
+		     return;
+		   }
+		   continue;		   
                    continue;
                  }
              }
@@ -642,7 +677,9 @@ class fiche {
        if ( $fiche_def->create_account=='t' ) {
 	 // Retrieve the 'poste comptable'
 	 $class=$this->strAttribut(ATTR_DEF_ACCOUNT);
-	 $is_used_jrnx= CountSql($this->cn,"select * from jrnx where j_poste=$class");
+	 $is_used_jrnx=0;
+	 if ( trim(strlen($class)) != 0 && isNumber($class) == 1 )
+	 	$is_used_jrnx= CountSql($this->cn,"select * from jrnx where j_poste=$class");
 	 // if class is not NULL and if we use it before, we can't remove it
 	 if (FormatString($class) != null && $is_used_jrnx     != 0 ) 
 	   {
@@ -653,7 +690,7 @@ class fiche {
 	   // Remove in PCMN
 	   if ( trim(strlen($class)) != 0 && isNumber($class) == 1 && $is_used_jrnx == 0)
 	     {
-	       ExecSql($this->cn,"delete from tmp_pcmn where pcm_val=".$class);
+	       ExecSql($this->cn,"delete from tmp_pcmn where pcm_val=$class");
 	     }
 	 
        }
@@ -709,6 +746,190 @@ class fiche {
       
       return $result[0]['frd_id'];
     }
-    
+
+  /*! 
+   * \brief  Get data for poste 
+   * 
+   * \param  $p_from periode from
+   * \param  $p_to   end periode
+   * \param  $p_qcode quick_code of the card
+   * \return double array (j_date,deb_montant,cred_montant,description,jrn_name,j_debit,jr_internal)
+   *         (tot_deb,tot_credit
+   *
+   */ 
+  function GetRow($p_from,$p_to)
+    {
+      if ( $this->id == 0 ) 
+	{
+	  echo_error("class_fiche",__LINE__,"id is 0");
+	  return;
+	}
+      $qcode=$this->strAttribut(ATTR_DEF_QUICKCODE);
+      $periode=sql_filter_per($this->cn,$p_from,$p_to,'p_id','jr_tech_per');
+
+      $Res=ExecSql($this->cn,"select to_char(j_date,'DD.MM.YYYY') as j_date,j_qcode,".
+	       "case when j_debit='t' then j_montant else 0 end as deb_montant,".
+	       "case when j_debit='f' then j_montant else 0 end as cred_montant,".
+	       " jr_comment as description,jrn_def_name as jrn_name,".
+	       "j_debit, jr_internal ".
+	       " from jrnx left join jrn_def on jrn_def_id=j_jrn_def ".
+	       " left join jrn on jr_grpt_id=j_grpt".
+	       " where j_qcode='".$qcode."' and ".$periode.
+	       " order by j_date::date");
+      $array=array();
+      $tot_cred=0.0;
+      $tot_deb=0.0;
+      $Max=pg_NumRows($Res);
+      if ( $Max == 0 ) return null;
+      for ($i=0;$i<$Max;$i++) {
+	$array[]=pg_fetch_array($Res,$i);
+	if ($array[$i]['j_debit']=='t') {
+	  $tot_deb+=$array[$i]['deb_montant'] ;
+	} else {
+	  $tot_cred+=$array[$i]['cred_montant'] ;
+	}
+      }
+      $this->row=$array;
+      return array($array,$tot_deb,$tot_cred);
+    }
+
+  /*! 
+   * \brief HtmlTable, display a HTML of a card for the asked period
+   * \param none
+   *
+   * \return none
+   */
+  function HtmlTable() 
+    {     
+      $name=$this->getName();
+      
+      list($array,$tot_deb,$tot_cred)=$this->GetRow( $_POST['from_periode'],
+						     $_POST['to_periode']
+						     );
+      
+      if ( count($this->row ) == 0 ) 
+	return;
+      
+      $rep="";
+      
+      echo '<h2 class="info">'.$this->id." ".$name.'</h2>';
+      echo "<TABLE class=\"result\" width=\"100%\">";
+      echo "<TR>".
+	"<TH> Code interne </TH>".
+	"<TH> Date</TH>".
+	"<TH> Description </TH>".
+	"<TH> Débit  </TH>".
+	"<TH> Crédit </TH>".
+	"</TR>";
+     
+      foreach ( $this->row as $op ) { 
+	echo "<TR>".
+	  "<TD>".$op['jr_internal']."</TD>".
+	  "<TD>".$op['j_date']."</TD>".
+	  "<TD>".$op['description']."</TD>".
+	  "<TD>".$op['deb_montant']."</TD>".
+	  "<TD>".$op['cred_montant']."</TD>".
+	  "</TR>";
+	
+      }
+      $solde_type=($tot_deb>$tot_cred)?"solde débiteur":"solde créditeur";
+      $diff=round(abs($tot_deb-$tot_cred),2);
+      echo "<TR>".
+	"<TD>$solde_type</TD>".
+	"<TD>$diff</TD>".
+	"<TD></TD>".
+	"<TD>$tot_deb</TD>".
+	"<TD>$tot_cred</TD>".
+	"</TR>";
+      
+      echo "</table>";
+      
+      return;
+    }
+ /*! 
+  * \brief Display HTML Table Header (button)
+  *
+  * \return none
+  */
+ function HtmlTableHeader()
+   {
+     $submit=new widget();
+     $hid=new widget("hidden");
+     echo '<div class="noprint">';
+     echo "<table >";
+     echo '<TR>';
+     
+     echo '<TD><form method="GET" ACTION="">'.
+       $submit->Submit('bt_other',"Autre poste").
+       $hid->IOValue("type","poste").$hid->IOValue('p_action','impress')."</form></TD>";
+     
+     echo '<TD><form method="POST" ACTION="quick_code_pdf.php">'.
+       $submit->Submit('bt_pdf',"Export PDF").
+       $hid->IOValue("type","poste").
+       $hid->IOValue('p_action','impress').
+       $hid->IOValue("f_id",$this->id).
+       $hid->IOValue("from_periode",$_POST['from_periode']).
+       $hid->IOValue("to_periode",$_POST['to_periode']);
+     echo "</form></TD>";
+     
+     echo '<TD><form method="POST" ACTION="quick_code_csv.php">'.
+       $submit->Submit('bt_csv',"Export CSV").
+       $hid->IOValue("type","poste").
+       $hid->IOValue('p_action','impress').
+       $hid->IOValue("f_id",$this->id).
+       $hid->IOValue("from_periode",$_POST['from_periode']).
+       $hid->IOValue("to_periode",$_POST['to_periode']);
+     
+     echo "</form></TD>";
+     echo "</table>";
+     echo '</div>';
+     
+   }
+  /*! 
+   * \brief   give the balance of an card
+   * \return
+   *      balance of the card
+   *
+   */ 
+function GetSoldeDetail($p_cond="") {
+  if ( $this->id == 0 ) exit('fiche->id est nul');
+  $qcode=$this->strAttribut(ATTR_DEF_QUICKCODE);
+
+	if ( $p_cond != "") $p_cond=" and ".$p_cond;
+  $Res=ExecSql($this->cn,"select sum(deb) as sum_deb, sum(cred) as sum_cred from 
+          ( select j_poste, 
+             case when j_debit='t' then j_montant else 0 end as deb, 
+             case when j_debit='f' then j_montant else 0 end as cred 
+          from jrnx 
+              where  
+            j_qcode = ('$qcode'::text)
+            $p_cond
+          ) as m  ");
+  $Max=pg_NumRows($Res);
+  if ($Max==0) return 0;
+  $r=pg_fetch_array($Res,0);
+  
+  return array('debit'=>$r['sum_deb'],
+	       'credit'=>$r['sum_cred'],
+	       'solde'=>abs($r['sum_deb']-$r['sum_cred']));
 }
+/*! 
+ * \brief get the fd_id of the card : fd_id
+ * \param none
+ *
+ * \return none
+ */
+ function get_categorie() 
+   {
+     if ( $this->id == 0 ) exit('class_fiche : f_id = 0 ');
+     $sql='select fd_id from fiche where f_id='.$this->id;
+     $R=getDbValue($this->cn,$sql);
+     if ( $R == "" )
+       $this->fd_id=0;
+     else
+       $this->fd_id=$R;
+   }
+
+}    
+
 ?>

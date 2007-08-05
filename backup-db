@@ -1,1 +1,0 @@
-/opt/psql732/bin/pg_dump -Z 9 -O account_repository > backup_db/db-`date '+%y%m%d-%H%M%S'`

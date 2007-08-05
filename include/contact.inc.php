@@ -86,7 +86,7 @@ if ( $sub_action  == "" )
 //Display a blank card 
 if ( $sub_action=="blank") 
 {
-  $retour_action=sprintf('<A class="two" HREF="%s"><input type="button" value="Retour"></A>',
+  $retour_action=sprintf('<A class="mtitle" HREF="%s"><input type="button" value="Retour"></A>',
 		  "commercial.php?p_action=contact");
   echo '<div class="u_redcontent">';
 
@@ -133,7 +133,7 @@ if ( $sub_action == "list" )
  // if array is empty show an warning and stops
  if ( sizeof ($w->value) == 0 ) {
    echo '<p style="color:red">Aucune fiche de catégories contact</p>';
-   echo '<p>allez dans comptabilité -> fiche creation et choississez contact comme sorte</p>';
+   echo '<p>allez dans fiche creation et choississez contact comme sorte</p>';
    exit();
  }
  echo $w->IOValue();

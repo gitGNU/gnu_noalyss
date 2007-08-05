@@ -98,6 +98,7 @@ function ShowBox($p_val,$counter,$p_cn,$p_form='form'){
   // widget concerned
   $wConcerned=new widget('js_concerned');
   $wConcerned->extra=abs($p_val['montant']);
+  $wConcerned->extra2='paid';
   $wConcerned->label='op. concern&eacute;e';
   $wConcerned->table=0;
   $s=new widget('span');

@@ -40,49 +40,61 @@ if ( isset( $_POST['bt_html'] ) ) {
     {
       if ( isset ($_POST['poste_fille']) )
       {
-	$parent=$_POST['poste_id'];
-	$a_poste=getarray($cn,"select pcm_val from tmp_pcmn where pcm_val like '$parent%'");
-	$go=2;
+		$parent=$_POST['poste_id'];
+		$a_poste=getarray($cn,"select pcm_val from tmp_pcmn where pcm_val like '$parent%'");
+		$go=3;
       } 
       // Check if the post is numeric and exists
       elseif (  CountSql($cn,'select * from tmp_pcmn where pcm_val='.FormatString($_POST['poste_id'])) != 0 )
-	{
-	  $Poste=new poste($cn,$_POST['poste_id']);$go=1;
-	}
+		{
+		  $Poste=new poste($cn,$_POST['poste_id']);$go=1;
+		}
     }
   if ( strlen(trim($_POST['f_id'])) != 0 )
     {
       require_once("class_fiche.php");
       // thanks the qcode we found the poste account
-      $fiche=new fiche($cn,$_POST['f_id']);
-      $fiche->GetByQCode($_POST['f_id']);
+      $fiche=new fiche($cn);
+      $qcode=$fiche->GetByQCode($_POST['f_id']);
       $p=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
       if ( $p != "- ERROR -") {
-	$Poste=new poste($cn,$p);
-	$go=1;  
+	$go=2;  
       }
    }
   
-  // A account or a quick code is given
+  // A account  is given
   if ( $go == 1) 
     {
       echo '<div class="u_content">';
-      HtmlTableHeader($_POST['poste_id']);
+      $Poste->HtmlTableHeader();
       $Poste->HtmlTable();
-      HtmlTableHeader($_POST['poste_id']);
+      $Poste->HtmlTableHeader();
       echo "</div>";
       exit;
    }
+  
+  // A QuickCode  is given
+  if ( $go == 2) 
+    {
+      echo '<div class="u_content">';
+      $fiche->HtmlTableHeader();
+      $fiche->HtmlTable($qcode);
+      $fiche->HtmlTableHeader();
+      echo "</div>";
+      exit;
+   }
+
   // All the children account
-  if ( $go == 2 )
+  if ( $go == 3 )
     {
 
       if ( sizeof($a_poste) == 0 ) 
 	exit;
       echo '<div class="u_content">';
-      HtmlTableHeader($_POST['poste_id']);
+
 
       $Poste=new poste($cn,$_POST['poste_id']);
+      $Poste->HtmlTableHeader($_POST['poste_id']);
       $Poste->HtmlTable();
 
       foreach ($a_poste as $poste_id ) 
@@ -90,7 +102,7 @@ if ( isset( $_POST['bt_html'] ) ) {
 	  $Poste=new poste ($cn,$poste_id['pcm_val']);
 	  $Poste->HtmlTable();
 	}
-      HtmlTableHeader($_POST['poste_id']);
+      $Poste->HtmlTableHeader($_POST['poste_id']);
       echo "</div>";
       
       exit;

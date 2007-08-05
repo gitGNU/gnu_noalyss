@@ -16,7 +16,9 @@
  *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
 /* $Revision$ */
+
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*! \file
@@ -71,6 +73,7 @@ class widget {
    * \enum   $disabled to disable the type
    * \enum   $extra depends of the input type
    * \enum   $extra2 depends of the input type
+   * \enum   $javascript javascript code
    * \enum   $tabindex the tabindex
    * \brief
    */
@@ -85,7 +88,10 @@ class widget {
   var $label;                     /*! \enum $label the question before the input */
   var $disabled;                  /*! \enum $disabled poss. value == true or nothing, to disable INPUT*/
   var $extra;                     /*! \enum $extra different usage, it depends of the $type */
-  var $extra2;                    /*! \enum $extra2 different usage, it depends of the $type */
+  var $extra2;                    /*! \enum $extra2 different usage,
+				   it depends of the $type */
+  var $javascript;
+
   var $tabindex; 
   function widget($p_type="") {
     $this->type=$p_type;
@@ -98,7 +104,8 @@ class widget {
     $this->table=0;
     $this->label="";
     $this->disabled=false;
-    $this->tabindex=32767;
+    $this->javascript="";
+	$this->extra2="all";
   }
   function SetReadOnly($p_read) {
     $this->readonly=$p_read;
@@ -123,8 +130,10 @@ class widget {
     $disabled = $this->disabled ? "DISABLED" : "";
     if (strtoupper($this->type)=="TEXT") {
       if ( $this->readonly==false) {
-	$r="<INPUT style=\"border:solid 1px blue;\" TYPE=\"TEXT\" NAME=\"$this->name\" VALUE=\"$this->value\" TABINDEX=\"$this->tabindex\" SIZE=\"$this->size\" ".$disabled.">";} else {
-	    $r=sprintf('<span>%s</span><input type="hidden" name="%s" value="%s">', $this->value,$this->name,$this->value);
+	$r="<INPUT style=\"border:solid 1px blue;\" TYPE=\"TEXT\" id=\"$this->name\" ".
+            " NAME=\"$this->name\" VALUE=\"$this->value\"  SIZE=\"$this->size\" ".$this->javascript." ".$disabled.">";
+      } else {
+	    $r=sprintf('<span>%s</span><input type="hidden" id="%s" name="%s" value="%s">', $this->value,$this->name,$this->name,$this->value);
 	}
 	
       if ($this->table==1) {
@@ -147,7 +156,7 @@ class widget {
       if ($this->readonly==false )
 	{
 	  //echo "<b>Selected <b>".$this->selected;
-	  $r="<SELECT  NAME=\"$this->name\">";
+	  $r="<SELECT  id=\"$this->name\" NAME=\"$this->name\">";
 	  for ( $i=0;$i<sizeof($this->value);$i++) 
 	    {
 	      $checked=($this->selected==$this->value[$i]['value'])?"SELECTED":"";
@@ -319,7 +328,8 @@ class widget {
       if ( $this->table==1) $r="<TD>$this->label</TD><TD>$r</TD>"; 
       return $r;
     }
-  // input type == js_search_poste => button search for the account
+    //----------------------------------------------------------------------
+    // input type == js_search_poste => button search for the account
     if ( strtolower($this->type)=="js_search_poste") {
      
       $l_sessid=$_REQUEST['PHPSESSID'];
@@ -330,12 +340,13 @@ class widget {
          <INPUT class="inp" TYPE="button" onClick=SearchPoste(\'%s\',\'%s\',\'%s\') value="Recherche">
             %s</TD><TD> 
 
-             <INPUT   TYPE="Text" NAME="%s" VALUE="%s" SIZE="8">
+             <INPUT   TYPE="Text" NAME="%s" ID="%s" VALUE="%s" SIZE="8">
                  </TD>',
 		 $l_sessid,
 		 $this->name,
 		 $this->extra,
 		 $this->label,
+		 $this->name,
 		 $this->name,
 		 $this->value 
 		 );
@@ -380,7 +391,9 @@ class widget {
          <INPUT TYPE="button" onClick=NewCard(\'%s\',\'%s\',\'%s\',\'%s\') value="Nouveau">
          </TD><TD>
          <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') value="Recherche">
-            %s <INPUT  style="border:solid 1px blue;"  TYPE="Text"    NAME="%s" VALUE="%s" SIZE="8" TABINDEX="%s">
+         %s 
+         <INPUT  style="border:solid 1px blue;"  TYPE="Text"  ID="%s"  NAME="%s" VALUE="%s" SIZE="8" onBlur="ajaxFid(\'%s\',\'%s\',\'%s\')">
+
                  ',
 	       $l_sessid,
 	       $this->extra, // deb or cred
@@ -392,8 +405,11 @@ class widget {
 	       $this->extra2,
 	       $this->label,
 	       $this->name,
-	       $this->value, 
-         $this->tabindex
+	       $this->name,
+	       $this->value,
+	       $this->name,
+	       $this->extra, //deb or cred
+	       $this->extra2 //jrn
 	       );
     } else {
       // readonly == true
@@ -420,34 +436,41 @@ class widget {
       if ( $this->table==1)
 	{
 	  $r=sprintf('<TD>
-         <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') value="QuickCode">
+         <INPUT TYPE="button" onClick="SearchCard(\'%s\',\'%s\',\'%s\',\'%s\')" value="QuickCode">
             %s</TD><TD> <INPUT style="border:solid 1px blue;"  TYPE="Text"  style="border:solid 1px blue;" '.
-		     ' NAME="%s" VALUE="%s" SIZE="8" TABINDEX="%s">
-                 ',
-	       $l_sessid,
-	       $this->extra,
-	       $this->name,
-	       $this->extra2,
-	       $this->label,
-	       $this->name,
-	       $this->value, 
-         $this->tabindex
-	       );
+		     ' NAME="%s" ID="%s" VALUE="%s" SIZE="8" onBlur="ajaxFid(\'%s\',\'%s\',\'%s\')">',
+		     $l_sessid,
+		     $this->extra,
+		     $this->name,
+		     $this->extra2,
+		     $this->label,
+		     $this->name,
+		     $this->name,
+		     $this->value,
+		     $this->name,
+		     $this->extra, //deb or cred
+		     $this->extra2 //jrn
+
+		     );
 	}
       else
 	{
 	  $r=sprintf('
-         <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') value="QuickCode">
+         <INPUT TYPE="button" onClick="SearchCard(\'%s\',\'%s\',\'%s\',\'%s\')" value="QuickCode">
             %s <INPUT TYPE="Text"  style="border:solid 1px blue;" '.
-		     ' NAME="%s" VALUE="%s" SIZE="8" TABINDEX="%s">           ',
-	       $l_sessid,
-	       $this->extra,
-	       $this->name,
-	       $this->extra2,
-	       $this->label,
-	       $this->name,
-	       $this->value, 
-	       $this->tabindex
+		     ' NAME="%s" ID="%s" VALUE="%s" SIZE="8"  onBlur="ajaxFid(\'%s\',\'%s\',\'%s\')">',
+		     $l_sessid,
+		     $this->extra,
+		     $this->name,
+		     $this->extra2,
+		     $this->label,
+		     $this->name,
+		     $this->name,
+		     $this->value,
+		     $this->name,
+		     $this->extra, //deb or cred
+		     $this->extra2 //jrn
+
 	       );
 	}
     } else {
@@ -518,16 +541,17 @@ class widget {
       $l_sessid=$_REQUEST['PHPSESSID'];
 
       $r=sprintf("$td
-     <INPUT TYPE=\"button\" onClick=SearchJrn('%s','%s',%s) value=\"Recherche\">
+     <INPUT TYPE=\"button\" onClick=SearchJrn('%s','%s',%s,'%s') value=\"Recherche\">
        %s $etd  $td 
       <INPUT TYPE=\"Text\"  style=\"border:solid 1px blue;\"  NAME=\"%s\" VALUE=\"%s\" SIZE=\"8\">
                  $etd",
-		 $l_sessid, 
-		 $this->name,
-		 $this->extra, 
-		 $this->label, 
-		 $this->name, 
-		 $this->value 
+				 $l_sessid, 
+				 $this->name,
+				 $this->extra, 
+				 $this->extra2,
+				 $this->label, 
+				 $this->name, 
+				 $this->value 
 		 );
   } else {
     $r=sprintf("$td<span>%s <b>%s</b></span>",$this->label,$this->value);

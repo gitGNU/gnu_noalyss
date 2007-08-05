@@ -34,10 +34,7 @@ $User->Check();
 
 // TODO a specific level of security for the "bilan" ???
 // Change must be done here
-if ($User->CheckAction($cn,IMP) == 0 ){
-    /* Cannot Access */
-    NoAccess();
-  }
+$User->AccessRequest($cn,IMP);
 
 header('Content-type: application/bin');
 header('Content-Disposition: attachment;filename="declaration.bin"',FALSE);

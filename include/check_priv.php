@@ -132,7 +132,10 @@ function CheckJrn($p_dossier,$p_user,$p_jrn,$p_detail=False)
 
 }
 /*! 
- * \brief  Check if an user is allowed to do an action
+ * \brief  Check if an user is allowed to do an action, 
+ *         this function is only used by the user_sec.php, 
+ *         otherwise you have to use cl_user->CheckAction 
+ *         or $cl_user->AccessRequest
  * 
  * \param p_dossier dossier id
  * \param p_login   user's login
@@ -153,6 +156,7 @@ function CheckAction ( $p_dossier,$p_login,$p_action_id)
   if ( $Count == 1 ) return 1;
   echo "<H2 class=\"error\"> Invalid action !!! $Count select * from user_sec_act where ua_login='$p_login' and ua_act_id=$p_action_id </H2>";
 }
+
 /*! 
  * \brief  Check if an user is an administrator
  * 

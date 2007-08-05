@@ -75,9 +75,9 @@ if ( isset ($_GET["search"]) ) {
     $part=" and ";
   }
   $c_montant="";
-  if ( isset ($p_montant) && strlen($p_montant) != 0 && (ereg ("^[0-9]*\.[0-9]*$",$p_montant) ||
-				   ereg ("^[0-9]*$",$p_montant)) )
+  if ( isset ($p_montant) && strlen($p_montant) != 0 && isNumber($p_montant) )
       { 
+	      $p_montant=abs($p_montant);
     $c_montant=sprintf(" $part jr_montant %s abs(%s)",$p_montant_sel,$p_montant);
     $opt_montant.='<OPTION VALUE="'.$p_montant_sel.'" SELECTED>'.$p_montant_sel;
     $part="  and ";
@@ -93,10 +93,14 @@ if ( isset ($_GET["search"]) ) {
     $part=" and ";
 
   }
-
-$condition=$c_comment.$c_montant.$c_date.$c_internal;
-echo_debug('jrn_search.php',__LINE__,"condition = $condition");
-}
+  $c_paid="";
+  if (isset($paid)) {
+	$c_paid=$part."  jr_rapt != 'paid' ";
+	$part=" and ";
+  }
+  $condition=$c_comment.$c_montant.$c_date.$c_internal.$c_paid;
+  echo_debug('jrn_search.php',__LINE__,"condition = $condition");
+ }
 $condition=$condition." ".$part;
 
 // If the usr is admin he has all right
@@ -109,6 +113,10 @@ if ( $User->admin != 1 ) {
 <div style="font-size:11px;">
 <?php
 echo '<FORM ACTION="jrn_search.php" METHOD="GET">';
+if (isset($paid))
+  echo '<div class="info"> Uniquement les non op&eacute;rations non pay&eacute;es<input type="hidden" name="paid" value="paid"></div>';
+ else
+  echo '<div class="info"> Toutes les op&eacute;rations </div>';
 echo '<TABLE>';
 echo '<TR>';
 if ( ! isset ($p_date)) $p_date="";
@@ -141,7 +149,7 @@ echo '<div class="u_content">';
 // if a search is asked otherwise don't show all the rows
 if ( isset ($_GET["search"]) ) {
   $sql="select j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
-                 j_montant,j_poste,j_debit,j_tech_per,jr_id,jr_comment,j_grpt,pcm_lib,jr_internal from jrnx inner join 
+                 j_montant,j_poste,j_debit,j_tech_per,jr_id,jr_comment,j_grpt,pcm_lib,jr_internal,jr_rapt from jrnx inner join 
                  jrn on jr_grpt_id=j_grpt inner join tmp_pcmn on j_poste=pcm_val ".
     " inner join user_sec_jrn on uj_jrn_id=j_jrn_def".
     $condition." order by jr_date,jr_id,j_debit desc";
@@ -194,7 +202,12 @@ if ( isset ($_GET["search"]) ) {
       echo $l_line['jr_internal'];
       echo "</TD>";
       $l_id=$l_line['j_grpt'];
-      echo '<TD COLSPAN="4">'.$l_line['jr_comment'].'</TD></TR>';
+	  if ( $l_line['jr_rapt'] == 'paid')
+		$lpay="  (Pay&eacute;) ";
+	  else
+		$lpay="";
+
+      echo '<TD COLSPAN="4">'.$l_line['jr_comment'].$lpay.'</TD></TR>';
     }
     if ( $l_line['j_debit'] == 't' ) {
       echo '<TR style="background-color:#E7FBFF;">';

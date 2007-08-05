@@ -247,6 +247,7 @@ function GetPreferences ()
   if ( $Count == 0 ) return 0;
   if ( $Count == 1 ) return 1;
   echo "<H2 class=\"error\"> Invalid action !!! $Count select * from user_sec_act where ua_login='$p_login' and ua_act_id=$p_action_id </H2>";
+  exit();
 }
 /*! 
  **************************************************
@@ -364,16 +365,29 @@ function getExercice()
  * otherwise warn and exit
  * \param $p_cn database connx
  * \param $action_id
+ * \param $p_js = 1 javascript, or 0 just a text
  * \return nothing the program exits automatically
  */
-function AccessRequest($p_cn,$p_action)
+function AccessRequest($p_cn,$p_action,$p_js=0)
 {
   if ( $this->CheckAction($p_cn,$p_action)==0 )
     {
-      echo "<script>";
-      echo "alert ('Cette action ne vous est pas autorisée. Contactez votre responsable');";
-      echo "</script>";
-      exit(-1);
+      if ( $p_js == 1 )
+	{
+	  echo "<script>";
+	  echo "alert ('Cette action ne vous est pas autorisée. Contactez votre responsable');";
+	  echo "</script>";
+	 
+	}
+      else
+	{
+	  echo '<div class="u_redcontent">';
+	  echo '<h2 class="error"> Cette action ne vous est pas autorisée Contactez votre responsable</h2>';
+	  echo '</div>';
+
+	}
+       exit(-1);
+
     }
 }
 }

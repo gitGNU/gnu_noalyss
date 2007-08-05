@@ -279,6 +279,7 @@ function FormFin($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
     $wConcerned->SetReadOnly($pview_only);
     $wConcerned->extra=0;
     $wConcerned->table=1;
+	$wConcerned->extra2='paid';
     $r.=$wConcerned->IOValue("e_concerned".$i,${"e_concerned".$i});
     $r.='</TR>';
    // if not recorded the new amount must be recalculate
@@ -315,11 +316,15 @@ $r.="</FORM>";
    // if not recorded the new amount must be recalculate
    if ( $p_save == false) {
      $r.=" <b> Ancien Solde = ".$solde." </b><br>";
+     $op=$new_solde-$solde;
+     $r.="<b> Montant op&eacute;ration =".$op."</b><br>";
      $r.=" <b> Nouveau Solde = ".$new_solde." </b><br>";
    }
    // if recorded the old amount is recalculated
    if ($p_save == true ) {
+     $op=$solde-$new_solde;
      $r.=" <b> Ancien Solde = ".$new_solde." </b><br>";
+     $r.="<b> Montant op&eacute;ration =".$op."</b><br>";
      $r.=" <b> Nouveau Solde = ".$solde." </b><br>";
    }
  }

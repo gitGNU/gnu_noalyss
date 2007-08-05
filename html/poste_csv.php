@@ -55,7 +55,7 @@ foreach ($a_poste as $pos)
   if ( count($Poste->row ) == 0 ) 
     continue;
   
-  echo '"Poste;"'.
+  echo '"Poste";'.
     "\"Code interne\";".
     "\"Date\";".
     "\"Description\";".

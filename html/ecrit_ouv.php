@@ -44,13 +44,13 @@ echo '<div class="u_tmenu">';
 echo ShowMenuCompta($_SESSION['g_dossier'],"user_advanced.php");
 echo '</div>';
 // \todo add a check for permission
-if ( $User->CheckAction($cn,EXP_IMP_ECR) == 0 ) {
-  /* Cannot Access */
-  NoAccess();
-  exit -1;			
- }
+
 
 echo ShowMenuAdvanced("ecrit_ouv.php");
+
+$User->AccessRequest($cn,EXP_IMP_ECR);
+
+
 echo '<div class="lmenu">';
 
 echo ShowItem ( array (
@@ -87,7 +87,7 @@ if ( isset ($_GET['import'])) {
 <FORM NAME="form_detail" enctype="multipart/form-data" ACTION="ecrit_ouv.php?import" METHOD="POST">
 <?php
   // TODO propose  ODS ledger 
-  $ods=make_array($cn,"select jrn_def_id,jrn_def_name from jrn_def where jrn_def_type = 'OD'");
+  $ods=make_array($cn,"select jrn_def_id,jrn_def_name from jrn_def where jrn_def_type = 'ODS'");
   $x=new widget("select");
   $x->name='p_jrn';
   $x->value=$ods;

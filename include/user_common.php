@@ -67,104 +67,109 @@ function GetTvaRate($p_cn,$p_tva_id) {
  * \return: array
  *       a[tva_id] =  amount vat
  */
-function ComputeTotalVat($p_cn,	$a_fiche,$a_quant,$a_price,$ap_vat,$a_vat_amount=null,$all=false ) {
-echo_debug('user_common.php',__LINE__,"ComputeTotalVat $a_fiche $a_quant $a_price");
- foreach ( $a_fiche as $t=>$el) {
-   echo_debug('user_common.php',__LINE__,"t $t e $el");
- }
- $r=null;
-// foreach goods 
-//--
- foreach ( $a_fiche as $idx=>$element) {
-   echo_debug ('user_common.php',__LINE__,"idx $idx element $element");
-  // if the card id is null or empty 
+function ComputeTotalVat($p_cn,	$a_fiche,$a_quant,$a_price,$ap_vat,$a_vat_amount=null,$all=false ) 
+{
+  echo_debug('user_common.php',__LINE__,"ComputeTotalVat $a_fiche $a_quant $a_price");
+  foreach ( $a_fiche as $t=>$el) {
+	echo_debug('user_common.php',__LINE__,"t $t e $el");
+  }
+  $r=null;
+  // foreach goods 
+  //--
+  foreach ( $a_fiche as $idx=>$element) {
+	echo_debug ('user_common.php',__LINE__,"idx $idx element $element");
+	// if the card id is null or empty 
     if (  strlen(trim($element))==0) continue;
-
+	
     // Get the tva_id
     if ( $ap_vat != null and
 	 isNumber($ap_vat[$idx])== 1 and $ap_vat[$idx] != -1 ) 
       {
-	$tva_id=$ap_vat[$idx];
-	echo_debug('user_common',__LINE__,' tva_id is given');
-	echo_debug('user_common',__LINE__,$ap_vat);
+		$tva_id=$ap_vat[$idx];
+		echo_debug('user_common',__LINE__,' tva_id is given');
+		echo_debug('user_common',__LINE__,$ap_vat);
       }
     else
       {
-	$tva_id=GetFicheAttribut($p_cn,$element,ATTR_DEF_TVA);
-	echo_debug('user_common',__LINE__,'retrieve tva_id');
+		$tva_id=GetFicheAttribut($p_cn,$element,ATTR_DEF_TVA);
+		echo_debug('user_common',__LINE__,'retrieve tva_id');
       }
     echo_debug('user_common',__LINE__,"tva id $tva_id");
     if ( $tva_id == null ) continue;
     // for each fiche find the tva_rate and tva_id
     $a_vat=GetTvaRate($p_cn,$tva_id);
-   
+	
 	// Get the attribut price of the card(fiche)
     if ( $a_vat != null  and  $a_vat['tva_id'] != "" ) 
       {  
-	$flag=true;
-	$a=$a_vat['tva_id'];
-	// Compute vat for this item
-	$vat_amount=round($a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx],2);
-
-	// if a vat amount is given
-	if ( $a_vat_amount != null && 
-	     $a_vat_amount[$idx] != 0 )
-	  $vat_amount= $a_vat_amount[$idx] ;
-	echo_debug('user_common',__LINE__,"vat amount = $vat_amount");
-	// only the deductible vat
-	if ( $all == false ) 
-	  {
-	    //variable containing the nd part 
-	    // used when a card has both special rule for vat 
-	    $nd1=0;
-	    // if a part is not deductible then reduce vat_amount
-	    $nd=GetFicheAttribut($p_cn,$a_fiche[$idx],ATTR_DEF_TVA_NON_DEDUCTIBLE);
-	    if ( $nd != null && strlen(trim($nd)) != 0 && $nd != 0 )
-	      {
-		// if tva amount is given we do not compute it
+		$flag=true;
+		$a=$a_vat['tva_id'];
+		// Compute vat for this item
+		$vat_amount=round($a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx],2);
+		
+		// if a vat amount is given
 		if ( $a_vat_amount != null && 
-		     $a_vat_amount[$idx] != 0 )
-		  $nd_amount=round($vat_amount*$nd,2);
-		else
-		  $nd_amount=round($a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx]*$nd,2);
+			 $a_vat_amount[$idx] != 0 )
+		  {
+			$vat_amount= $a_vat_amount[$idx] ;
+			echo_debug(__FILE__.':'.__LINE__.'- VAT_AMOUNT IS GIVEN '.$vat_amount);
 
-
-		// problem with round
-		$vat_amount=$vat_amount-$nd_amount;
-		echo_debug('user_common.php',__LINE__,
-			   "A - TVA Attr fiche [$nd] nd amount [ $nd_amount ]".
-			   "vat amount [ $vat_amount]");
-		$flag=false;
+		  }
+		echo_debug('user_common',__LINE__,"vat amount = $vat_amount");
+		// only the deductible vat
+		if ( $all == false ) 
+		  {
+			//variable containing the nd part 
+			// used when a card has both special rule for vat 
+			$nd1=0;
+			// if a part is not deductible then reduce vat_amount
+			$nd=GetFicheAttribut($p_cn,$a_fiche[$idx],ATTR_DEF_TVA_NON_DEDUCTIBLE);
+			if ( $nd != null && strlen(trim($nd)) != 0 && $nd != 0 )
+			  {
+				// if tva amount is given we do not compute it
+				if ( $a_vat_amount != null && 
+					 $a_vat_amount[$idx] != 0 )
+				  $nd_amount=round($vat_amount*$nd,2);
+				else
+				  $nd_amount=round($a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx]*$nd,2);
+				
+				
+				// problem with round
+				$vat_amount=$vat_amount-$nd_amount;
+				echo_debug('user_common.php',__LINE__,
+						   "A - TVA Attr fiche [$nd] nd amount [ $nd_amount ]".
+						   "vat amount [ $vat_amount]");
+				$flag=false;
 		// save nd into nd1
-		$nd1=$nd;
-	      }	
-	    // if a part is not deductible then reduce vat_amount
+				$nd1=$nd;
+			  }	
+			// if a part is not deductible then reduce vat_amount
 	    $nd=GetFicheAttribut($p_cn,$a_fiche[$idx],ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP);
 	    if ( $nd != null && strlen(trim($nd)) != 0 && $nd != 0 )
 	      {
-		// if tva amount is given we do not compute it
-		if ( $a_vat_amount != null && 
-		     $a_vat_amount[$idx] != 0 )
-		  $nd_amount2=round($a_vat_amount[$idx]*$nd,2);
-		else
-		  $nd_amount2=round($a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx]*$nd,2);
-		
-		$vat_amount=$vat_amount-$nd_amount2;
-		// when using both vat, their sum cannot exceed 1, if = 1 then vat = 0
-		if ( ($nd+$nd1) == 1)
-		  $vat_amount=0;
-		echo_debug('user_common.php',__LINE__,
-			   "B - TVA Attr fiche [$nd] nd amount [ $nd_amount2 ]".
-			   "vat amount [ $vat_amount]");
-		
-		$flag=false;
+			// if tva amount is given we do not compute it
+			if ( $a_vat_amount != null && 
+				 $a_vat_amount[$idx] != 0 )
+			  $nd_amount2=round($a_vat_amount[$idx]*$nd,2);
+			else
+			  $nd_amount2=round($a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx]*$nd,2);
+			
+			$vat_amount=$vat_amount-$nd_amount2;
+			// when using both vat, their sum cannot exceed 1, if = 1 then vat = 0
+			if ( ($nd+$nd1) == 1)
+			  $vat_amount=0;
+			echo_debug('user_common.php',__LINE__,
+					   "B - TVA Attr fiche [$nd] nd amount [ $nd_amount2 ]".
+					   "vat amount [ $vat_amount]");
+			
+			$flag=false;
 	      }	
-	  }
-	
-	$r[$a]=isset ( $r[$a] )?$r[$a]+$vat_amount:$vat_amount; 
+		  }
+		
+		$r[$a]=isset ( $r[$a] )?$r[$a]+$vat_amount:$vat_amount; 
       }
     
- }
+  }
  echo_debug('user_common.php',__LINE__," return ".var_export($r,true));
  return $r;
  
@@ -303,7 +308,8 @@ function InsertJrnx($p_cn,$p_type,$p_user,$p_jrn,$p_poste,$p_date,$p_amount,$p_g
 function InsertJrn($p_cn,$p_date,$p_echeance,$p_jrn,$p_comment,$p_grpt,$p_periode)
 {
 	echo_debug ('user_common.php',__LINE__,"InsertJrn param 
-	    p_date $p_date p_poste $p_comment p_amount  p_grpt = $p_grpt p_periode = $p_periode p_echeance = $p_echeance
+	    p_date $p_date p_poste $p_comment p_amount  
+p_grpt = $p_grpt p_periode = $p_periode p_echeance = $p_echeance
 comment = $p_comment");
 	$p_comment=FormatString($p_comment);
 
@@ -353,7 +359,8 @@ comment = $p_comment");
  */
 function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0,$p_paid=0)
 {
-
+  $amount_paid=0.0;
+  $amount_unpaid=0.0;
   include_once("central_inc.php");
   $limit=($_SESSION['g_pagesize']!=-1)?" LIMIT ".$_SESSION['g_pagesize']:"";
   $offset=($_SESSION['g_pagesize']!=-1)?" OFFSET ".$p_value:"";
@@ -633,14 +640,19 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Eché
     // Show the paid column if p_paid is not null
     if ( $p_paid !=0 )
       {
-	$w=new widget("checkbox");
-	$w->name="rd_paid".$row['jr_id'];
-	$w->selected=($row['jr_rapt']=='paid')?true:false;
-	// if p_paid == 2 then readonly
-	$w->readonly=( $p_paid == 2)?true:false;
-	$h=new widget("hidden");
-	$h->name="set_jr_id".$row['jr_id'];
-	$r.='<TD>'.$w->IOValue().$h->IOValue().'</TD>';
+		$w=new widget("checkbox");
+		$w->name="rd_paid".$row['jr_id'];
+		$w->selected=($row['jr_rapt']=='paid')?true:false;
+		// if p_paid == 2 then readonly
+		$w->readonly=( $p_paid == 2)?true:false;
+		$h=new widget("hidden");
+		$h->name="set_jr_id".$row['jr_id'];
+		$r.='<TD>'.$w->IOValue().$h->IOValue().'</TD>';
+		if ( $row['jr_rapt']=='paid') 
+		  $amount_paid+=$row['jr_montant'];
+		else
+		  $amount_unpaid+=$row['jr_montant'];
+
       }
     
     // Rapprochement
@@ -648,10 +660,13 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Eché
     $r.="<TD>";
     if ( $a != null ) {
       // $r.="operation concernée ";
-      
+
       foreach ($a as $key => $element) 
-      {      
-	      $r.= "<A class=\"detail\" HREF=\"javascript:modifyOperation('".$element."','".$l_sessid."')\" > ".GetInternal($p_cn,$element)."</A>";
+		{   
+		  // get the amount 
+		  $l_amount=getDbValue($p_cn,"select jr_montant from jrn ".
+							  " where jr_id=$element");
+	      $r.= "<A class=\"detail\" HREF=\"javascript:modifyOperation('".$element."','".$l_sessid."')\" > ".GetInternal($p_cn,$element)." [ $l_amount &euro; ]</A>";
       }//for
     }// if ( $a != null ) {
     $r.="</TD>";
@@ -687,6 +702,18 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Eché
   $r.="<TR>";
   $r.='<TD COLSPAN="4">Total</TD>';
   $r.='<TD ALIGN="RIGHT">'.$tot."</TD>";
+  $r.="</tr>";
+  if ( $p_paid != 0 ) {
+	$r.="<TR>";
+	$r.='<TD COLSPAN="4">Pay&eacute;</TD>';
+	$r.='<TD ALIGN="RIGHT">'.$amount_paid."</TD>";
+	$r.="</tr>";
+	$r.="<TR>";
+	$r.='<TD COLSPAN="4">Non pay&eacute;</TD>';
+	$r.='<TD ALIGN="RIGHT">'.$amount_unpaid."</TD>";
+	$r.="</tr>";
+  }
+
   $r.="</table>";
   
 return array ($count,$r);
@@ -993,6 +1020,10 @@ function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1)
 
   // if max page == 1 then return a empty string
   if ( $nb_page == 1) return "";
+
+  // restore the sort
+  if ( isset($_GET['o']))
+       $url=$url.'&o='.$_GET['o'];
 
   $r="";
   // previous

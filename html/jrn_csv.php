@@ -66,15 +66,17 @@ if  ( $_GET['p_simple'] == 0 )
       $desc=str_replace("<i>","",$desc);
       $desc=str_replace("</i>","",$desc);
       $desc=str_replace('"',"'",$desc);
+      $desc=str_replace(';',',',$desc);
 
-      printf("\"%s\"\t\"%s\"\t\"%s\"\t\"%s\"\t\"%s\"\t%8.4f\t%8.4f\n",
+      printf("\"%s\";\"%s\";\"%s\";\"%s\";\"%s\";%8.4f;%8.4f\n",
 	     $op['j_id'],
 	     $op['internal'],
 	     $op['j_date'],
 	     $op['poste'],
 	     $desc,
-	     $op['cred_montant'],
-	     $op['deb_montant']
+	     $op['deb_montant'],
+	     $op['cred_montant']
+
 	     );
 	
     }
@@ -89,7 +91,7 @@ if  ( $_GET['p_simple'] == 0 )
 //-----------------------------------------------------
      if ( $jrn_type == 'ODS' || $jrn_type == 'FIN' || $jrn_type=='GL')
        {
-	 printf ('" operation; "'.
+	 printf ('" operation ";'.
 		 '"Date;"'.
 		 '"commentaire;"'.
 		 '"internal;"'.
