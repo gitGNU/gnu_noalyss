@@ -313,6 +313,8 @@ $r.="</FORM>";
 // if view_only is true
 //Put the new saldo here (old saldo - operation)
  if ( $pview_only==true)  {
+   $solde=round($solde,2);
+   $new_solde=round($new_solde,2);
    // if not recorded the new amount must be recalculate
    if ( $p_save == false) {
      $r.=" <b> Ancien Solde = ".$solde." </b><br>";
