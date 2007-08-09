@@ -68,7 +68,7 @@ if ( isset($_POST['search']) ) {
 }
 $url="";
 // Filter ???
-if ( isset($_GET['filter'])) {
+if ( isset($_GET['filter']) && $_GET['filter']!='all') {
   $url="?filter=1";
   // There is a filter, the value of the filter is the journal id, we
   // have to find what account are available
@@ -163,7 +163,7 @@ if ( isset($_POST['search']) or isset($_GET['filter']) ) {
     $l_line=pg_fetch_array($Res,$i);
     echo "<TR>";
     // if p_ctl is set we need to be able to return the value
-    if (isset($p_ctl) and $p_ctl != 'not' ){
+    if (isset($p_ctl) && $p_ctl != 'not' ){
       echo '<TD>';
       echo '<input type="checkbox" onClick="SetItChild(\''.$p_ctl.'\',\''.$l_line['pcm_val'].'\')">';
       echo '</td>';
