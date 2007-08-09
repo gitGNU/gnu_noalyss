@@ -154,6 +154,13 @@ include("class_jrn.php");
       
     } //else
   echo "</table>";
+  // show the saldo
+
+  $solde=$Jrn->get_solde( $_POST['from_periode'],
+		    $_POST['to_periode'],
+		    $p_cent);
+  echo "solde d&eacute;biteur:".$solde[0]."<br>";
+  echo "solde cr&eacute;diteur:".$solde[1];
 
   echo "</div>";
   exit;

@@ -569,4 +569,42 @@ class jrn {
       if ( sizeof($Res) == 0 ) return 1;
       return $Res[0]['value'];
     }
+  /*!\brief get the saldo of a ledger for a specific period
+   * \param $p_from start period
+   * \param $p_to end period
+   * \param $p_cent 1 for a centralized period otherwise 0
+  */
+  function get_solde($p_from,$p_to,$p_cent) {
+	$periode=sql_filter_per($this->db,$p_from,$p_to,'p_id','j_tech_per');
+
+	if ( $this->id != 0 && $p_cent=='off') {
+	  $ledger=" and j_jrn_def = ".$this->id;
+	}
+
+	if ( $this->id != 0 && $p_cent=='on') {
+	  $ledger=" and c_jrn_def = ".$this->id;
+	}
+
+	  // we ask for a specific ledger
+	if ( $p_cent == 'off') {
+		$sql='select j_montant as montant,j_debit as deb from jrnx where '
+		  .$periode.$ledger;
+	  }else {
+		$sql='select c_montant as montant,c_debit as deb from centralized where '
+		  .$periode.$ledger;
+	  }
+	  $ret=ExecSql($this->db,$sql);
+	  $array=pg_fetch_all($ret);
+	  $deb=0.0;
+	  $cred=0.0;
+	  foreach ($array as $line) {
+
+		if ( $line['deb']=='t' )
+		  $deb+=$line['montant'];
+		else
+		  $cred+=$line['montant'];
+	  }
+	  $response=array($deb,$cred);
+	  return $response;
+  }
 }
