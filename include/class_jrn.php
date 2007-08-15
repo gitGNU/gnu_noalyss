@@ -598,7 +598,7 @@ class jrn {
    */
    function get_solde($p_from,$p_to,$p_cent) {
  	$periode=sql_filter_per($this->db,$p_from,$p_to,'p_id','j_tech_per');
- 
+	$ledger=""; 
  	if ( $this->id != 0 && $p_cent=='off') {
  	  $ledger=" and j_jrn_def = ".$this->id;
  	}
