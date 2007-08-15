@@ -69,7 +69,7 @@ class operation
 
 	  
 	// we don't save null operations
-	if ( $this->oa_amount == 0 ) 
+	if ( $this->oa_amount == 0 || $this->po_id==-1) 
 	  return;
 	$sql='insert into operation_analytique (
            po_id,
@@ -84,7 +84,7 @@ class operation
 	  $this->po_id.",".
 	  $this->pa_id.",".
 	  $this->oa_amount.",".
-	  "'".FormatString($this->description)."',".
+	  "' ".pg_escape_string($this->oa_description)."',".
 	  "'".$this->oa_debit."',".
 	  $this->oa_group.",".
 	  $this->j_id.",".
@@ -107,7 +107,9 @@ class operation
    * \todo update
    */
   function update() {
-	$sql="update operation_analytique set po_id=".$this->po_id." where oa_id=".$this->oa_id;
+	if ( $this->po_id == -1) { $this->delete();return;}
+	
+	  $sql="update operation_analytique set po_id=".$this->po_id." where oa_id=".$this->oa_id;
 	ExecSql($this->db,$sql);
   }
 
@@ -130,25 +132,38 @@ class operation
 	$array=pg_fetch_all($RetSql);
 
 	$ret.="";
+	$ret.=JS_VIEW_JRN_MODIFY;
 	$count=0;
 	$group=0;
 	$oldgroup=0;
+	$oldjrid=0;
 	foreach ($array as $row) {
 	  $group=$row['oa_group'];
 	  if ( $group !=$oldgroup ) {
 		if ( $oldgroup!=0 ) 
 		  {
-			$ret.='<tr><td>'.$row['j_id'].'</td></tr>';
-			//! \todo add a delete and a detail button
-			// result must be displayed thanks ajax
+
+			$efface=new widget('button');
+			$efface->js="op_remove('".$_REQUEST['PHPSESSID']."',".$oldgroup.")";
+			$efface->name="Efface";
+			$efface->label="Efface";
+			$ret.="<td>".$efface->IOValue()."</td>";
+
+			$this->oa_group=$oldgroup;
+			$jr_id=$this->get_jrid();
+
+			if ( $jr_id != 0) {
+			  // get the old jr_id
+			  $detail=new widget('button');
+			  $detail->js="viewOperation($jr_id,'".$_REQUEST['PHPSESSID']."')";
+			  $detail->name="Detail";
+			  $detail->label="Detail";
+			  $ret.="<td>".$detail->IOValue()."</td>";
+			}
 			$ret.='</table>';
 
 		  }
 		$ret.='<table id="'.$row['oa_group'].'" style="border: 2px outset blue; width: 70%;">';
-		//		$ret.='<tr><td colspan="4"><hr></td></tr>';
-		$ret.="<td>".
-		  "Groupe id : ".$row['oa_group'].
-		  "</td>";
 
 		$ret.="<td>".
 		  $row['oa_date'].
@@ -157,17 +172,21 @@ class operation
 		  $row['oa_description'].
 		  "</td>";
 
+		$ret.="<td>".
+		  "Groupe id : ".$row['oa_group'].
+		  "</td>";
+
+
 		$oldgroup=$group;
+		
 	  }
+
 	  $class=($count%2==0)?"odd":"";
 	  $count++;
 	  $cred= ( $row['oa_debit'] == 'f')?"CREDIT":"DEBIT";
 	  $ret.="<tr class=\"$class\">";
 	  $ret.= "<td>".
 		$row['po_name'].
-		"</td>".
-		"<td>".
-		$row['oa_description'].
 		"</td>".
 		"<td>".
 		$row['oa_amount'].
@@ -178,7 +197,23 @@ class operation
 
 		"</tr>";
 		}
-	$ret.="</table>";
+
+	$efface=new widget('button');
+	$efface->js="op_remove('".$_REQUEST['PHPSESSID']."',".$oldgroup.")";
+	$efface->name="Efface";
+	$efface->label="Efface";
+	$ret.="<td>".$efface->IOValue()."</td>";
+	// get the old jr_id
+	$this->oa_group=$oldgroup;
+	$jr_id=$this->get_jrid();
+	if ( $jr_id != 0 ){
+	  $detail=new widget('button');
+	  $detail->js="viewOperation($jr_id,'".$_REQUEST['PHPSESSID']."')";
+	  $detail->name="Detail";
+	  $detail->label="Detail";
+	  $ret.="<td>".$detail->IOValue()."</td>";
+	}
+	$ret.='</table>';
 	return $ret;
   }
   /*!\brief retrieve an operation thanks a jrnx.j_id 
@@ -221,8 +256,8 @@ class operation
 	$a=$this->get_operation_by_jid($this->j_id);
 	if ( $a == null ) {
 	  // retrieve data from jrnx
-	  $sql="select jr_date,j_amount,j_debit from jrnx ".
-		" join jrn using (jr_grpt_id = j_grpt) ".
+	  $sql="select jr_date,j_montant,j_debit from jrnx ".
+		" join jrn on (jr_grpt_id = j_grpt) ".
 		"where j_id=".$this->j_id;
 	  $res=ExecSql($this->db,$sql);
 	  if (pg_NumRows($res) == 0 ) return;
@@ -230,6 +265,7 @@ class operation
 	  $this->oa_amount=$row['j_amount'];
 	  $this->oa_date=$row['jr_date'];
 	  $this->oa_debit=$row['j_debit'];
+	  $this->oa_description=$row['jr_comment'];
 	  $this->add();
 	} else {
 	  foreach ($a as $row ) {
@@ -240,4 +276,13 @@ class operation
 	  }
 	}
   }
+  /*!\brief retrieve the jr_id thanks the oa_group */
+  function get_jrid() {
+	$sql="select distinct jr_id from jrn join jrnx on (j_grpt=jr_grpt_id) join operation_analytique using (j_id) where j_id is not null and oa_group=".$this->oa_group;
+	$res=ExecSql($this->db,$sql);
+	if ( pg_NumRows($res) == 0 ) return 0;
+	$ret=pg_fetch_all($res);
+	return $ret[0]['jr_id'];
+  }
+
 }
