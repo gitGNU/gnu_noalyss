@@ -29,6 +29,7 @@ include_once("postgres.php");
 include_once("class.ezpdf.php");
 include_once("impress_inc.php");
 require_once("class_fiche.php");
+require_once ('header_pdf.php');
 
 $cn=DbConnect($_SESSION['g_dossier']);
 foreach ($_POST as $key=>$element) {
@@ -36,7 +37,7 @@ foreach ($_POST as $key=>$element) {
 }
 
 $ret="";
-$pdf=& new Cezpdf();
+$pdf= new Cezpdf();
 $pdf->selectFont('./addon/fonts/Helvetica.afm');
 
 
@@ -50,7 +51,7 @@ if ( count($array) == 0 ) {
   continue;
 }
 $Libelle=sprintf("(%s) %s ",$Fiche->id,$Fiche->getName());
-
+header_pdf($cn,$pdf);
 //  $pdf->ezText($Libelle,30);
 $pdf->ezTable($array,
 	      array ('jr_internal'=>'Opération',
@@ -81,6 +82,7 @@ $pdf->ezText($str_solde,14,array('justification'=>'right'));
 
 //New page
 $pdf->ezNewPage();
+header_pdf($cn,$pdf);
   
 
 $pdf->ezStream();

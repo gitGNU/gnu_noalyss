@@ -29,8 +29,9 @@ include_once("postgres.php");
 include_once("class.ezpdf.php");
 include_once("impress_inc.php");
 include("poste.php");
+require_once ('header_pdf.php');
 
-    $cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($_SESSION['g_dossier']);
 foreach ($_POST as $key=>$element) {
   ${"$key"}=$element;
 }
@@ -41,8 +42,10 @@ foreach ($_POST as $key=>$element) {
       
 
 $ret="";
-$pdf=& new Cezpdf();
+$pdf=new Cezpdf();
 $pdf->selectFont('./addon/fonts/Helvetica.afm');
+header_pdf($cn,$pdf);
+
 if ( count($a_poste) == 0 ) {
   $pdf->ezStream();
      return;
@@ -89,6 +92,7 @@ foreach ($a_poste as $poste)
  
  //New page
  $pdf->ezNewPage();
+ header_pdf($cn,$pdf);
 }    
 
 $pdf->ezStream();
