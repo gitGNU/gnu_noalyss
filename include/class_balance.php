@@ -27,12 +27,19 @@ include_once("poste.php");
  */
 
 class Balance {
-  var $db;       /*! \enum database connection */
-  var $central; /*! \enum from centralized ledger if equal to Y */
-  var $row;     /*! \enum row for ledger*/
+  var $db;       /*! < database connection */
+  var $central; /*! < from centralized ledger if equal to Y */
+  var $row;     /*! < row for ledger*/
+  var $jrn;						/*!< jrn_def.jr_id or -1 for all of
+								  them */
+  var $from_poste;				/*!< from_poste  filter on the post */
+  var $to_poste;				/*!< to_poste filter on the post*/
   function Balance($p_cn) {
     $this->db=$p_cn;
     $this->central='N';
+	$this->jrn=-1;
+	$from_poste="";
+	$to_poste="";
   }
 
 
@@ -55,9 +62,17 @@ class Balance {
     // filter on requested periode
     $per_sql=sql_filter_per($this->db,$p_from_periode,$p_to_periode,'p_id','j_tech_per');
     // if centralized
-    $cent="";
+    $cent="";	$and=""; $jrn="";
+	$from_poste="";$to_poste="";
 
-    if ( $this->central=='Y' ) { $cent="j_centralized = true and "; }
+    if ( $this->central=='Y' ) { $cent="j_centralized = true";$and=" and "; }
+	if ($this->jrn!= -1){	  $jrn=" $and  j_jrn_def=".$this->jrn;$and=" and ";}
+	if ( strlen(trim($this->from_poste)) != 0 ) {
+	  $from_poste=" $and j_poste::text >= '".$this->from_poste."'"; $and=" and ";
+	}
+	if ( strlen(trim($this->to_poste)) != 0 ) {
+	  $to_poste=" $and j_poste::text <= '".$this->to_poste."'"; $and=" and ";
+	}
 
     // build query
     $sql="select j_poste,sum(deb) as sum_deb, sum(cred) as sum_cred from 
@@ -67,7 +82,8 @@ class Balance {
              from jrnx join tmp_pcmn on j_poste=pcm_val
                   left join parm_periode on j_tech_per = p_id
               where 
-             $cent
+             $cent  $jrn $from_poste $to_poste
+             $and
             $per_sql ) as m group by j_poste order by j_poste::text";
 
     $Res=ExecSql($this->db,$sql);

@@ -49,6 +49,9 @@ if ( isset($_POST['central']) ) {
   }
   else
   $bal->central='N';
+  $bal->jrn=$_POST['p_jrn'];
+  $bal->from_poste=$_POST['from_poste'];
+  $bal->to_poste=$_POST['to_poste'];
 
   $row=$bal->GetRow($_POST['from_periode'],
 		  $_POST['to_periode']);
