@@ -38,6 +38,7 @@ include_once("impress_inc.php");
 include_once("preference.php");
 include_once("class_jrn.php");
 include_once("check_priv.php");
+require_once ('header_pdf.php');
 
 echo_debug('jrn_pdf.php',__LINE__,"imp pdf journaux");
 $cn=DbConnect($_SESSION['g_dossier']);
@@ -73,9 +74,9 @@ echo_debug('jrn_pdf',__LINE__,'p_simple = '.$_REQUEST['p_simple']);
 //---------------------------------------------------------------------
 if ( $Jrn->id==0  || $jrn_type=='FIN' || $jrn_type=='ODS' || $_REQUEST['p_simple']== 0 ) 
 {
-  $pdf=& new Cezpdf("A4");
+  $pdf= new Cezpdf("A4");
   $pdf->selectFont('./addon/fonts/Helvetica.afm');
-
+  header_pdf($cn,$pdf);
   // detailled printing
   $offset=0;$limit=22;$step=22;
   $rap_deb=0;$rap_cred=0;
@@ -145,6 +146,8 @@ if ( $Jrn->id==0  || $jrn_type=='FIN' || $jrn_type=='ODS' || $_REQUEST['p_simple
     }
     //New page
     $pdf->ezNewPage();
+	header_pdf($cn,$pdf);
+
   }    
   if ( $a == 1 )   {
     $apage=array('deb'=>$tot_deb,'cred'=>$tot_cred);
@@ -177,9 +180,10 @@ if  ( ($jrn_type=='ACH' || $jrn_type=='VEN' ) && $_REQUEST['p_simple']== 1 )
 
   echo_debug ('jrn_pdf',__LINE__,'here');
   echo_debug('jrn_pdf',__LINE__,$Jrn);
-  $pdf=& new Cezpdf("A4",'landscape');
+  $pdf= new Cezpdf("A4",'landscape');
   //  $pdf->selectFont('./addon/fonts/Helvetica.afm');
   $pdf->selectFont('./addon/fonts/Courier.afm');
+  header_pdf($cn,$pdf);
 
   $offset=0;$limit=30;$step=30;
   $a_Tva=GetArray($cn,"select tva_id,tva_label,tva_poste from tva_rate where tva_rate != 0.0000 order by tva_id");
@@ -283,6 +287,8 @@ if  ( ($jrn_type=='ACH' || $jrn_type=='VEN' ) && $_REQUEST['p_simple']== 1 )
 
     // New Page
     $pdf->ezNewPage();
+	header_pdf($cn,$pdf);
+
 
 
 

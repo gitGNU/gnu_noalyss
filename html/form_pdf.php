@@ -30,15 +30,17 @@ include_once("postgres.php");
 include_once("class.ezpdf.php");
 include_once("impress_inc.php");
 require_once('class_user.php');
+require_once ('header_pdf.php');
 
-    $cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($_SESSION['g_dossier']);
 foreach ($_POST as $key=>$element) {
   ${"$key"}=$element;
 }
 
 $ret="";
-$pdf=& new Cezpdf();
+$pdf=new Cezpdf();
 $pdf->selectFont('./addon/fonts/Helvetica.afm');
+header_pdf($cn,$pdf);
 
 $Form=new rapport($cn,$form_id);
 // Step ??
