@@ -22,6 +22,9 @@
 /*! \file 
  * \brief
  * open a windows for modifying a operation
+ */
+
+/*!\brief
  * \param p_value jrn.jr_id
  * \param p_sessid PHPSESSID
  * \param p_jrn ledger number
@@ -33,6 +36,18 @@ function modifyOperation(p_value,p_sessid,p_jrn,p_vue)
 			var win=window.open('modify_op.php?action=update&p_jrn='+p_jrn+'&line='+p_value+'&PHPSESSID='+p_sessid+'&p_view='+p_vue,'','toolbar=no,width=690,height=410,scrollbars=yes,resizable=yes');
 			win.focus();
 		}
+
+/*!\brief
+ * \param p_value jrn.jr_id
+ * \param p_sessid PHPSESSID
+ */
+
+function viewOperation(p_value,p_sessid)
+		{
+			var win=window.open('modify_op.php?action=view_ca&line='+p_value+'&PHPSESSID='+p_sessid,'','toolbar=no,width=690,height=410,scrollbars=yes,resizable=yes');
+			win.focus();
+		}
+
 function RefreshMe() {
 window.location.reload();
 }
