@@ -33,12 +33,13 @@ require_once ('class_operation.php');
  *          
  * \param $p_cn database connection
  * \param $jr_id pk of jrn
+ * \param mode 1 editable, 0 for CA
  *
  * \return none
  *
  *
  */ 
- function ShowOperationExpert($p_cn,$p_jr_id)
+function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 {
   echo_debug('jrn.php',__LINE__,"function UpdateJrn");
   // own
@@ -55,6 +56,8 @@ require_once ('class_operation.php');
 
   // Build the form
   $col_vide="<TD></TD>";
+  $disable=($p_mode==0)?"disabled":"";
+
   for ( $i =0 ; $i < sizeof($l_array); $i++) {
     $content=$l_array[$i] ;
 
@@ -71,9 +74,13 @@ require_once ('class_operation.php');
 		
 		// comment can be changed
 		$r.="<TD>";
-		$r.='<INPUT TYPE="TEXT" name="comment" value="';
-		$r.=$content['jr_comment'];
-		$r.='" SIZE="40">';
+		$comment=new widget("text");
+		$comment->table=0;
+		$comment->name="comment";
+		$comment->readonly=($p_mode==0)?true:false;
+		$comment->value=$content['jr_comment'];
+		$comment->size=40;
+		$r.=$comment->IOValue();
 		$r.="</TD>";
 		
 	// Internal
@@ -87,11 +94,30 @@ require_once ('class_operation.php');
 			// Is Paid
 			$r.="<TD>";
 			$check=( $content['jr_rapt'] != null )?"CHECKED":"UNCHECKED";
-			$r.='<TD>Payé <INPUT TYPE="CHECKBOX" name="is_paid" '.$check.'></TD>';
+			$r.='<TD>Payé <INPUT TYPE="CHECKBOX"'.$disable.' name="is_paid" '.$check.'></TD>';
 		  }
 		$r.="</TR>";
 		$r.="</TABLE>";
 		$r.="<TABLE>";
+		$r.="<tr>";
+		$r.='<th colspan="2">Postes</th>';
+		$r.='<th>Description</th>';
+		$r.='<th>D&eacute;bit</th>';
+		$r.='<th>Cr&eacute;dit</th>';
+		$head_ca="";
+		$own = new Own($p_cn);
+		if ( $own->MY_ANALYTIC != "un" )
+		  {
+			$plan=new PlanAnalytic($p_cn);
+			$a_plan=$plan->get_list();
+			foreach ($a_plan as $r_plan)
+			  {
+				$head_ca.="<th>".$r_plan['name']."</th>";
+			  }
+			
+		  }
+		$r.=$head_ca;
+		$r.="</tr>";
       }
       $r.="<TR>";
       if ( $content['j_debit'] == 'f' ) $r.=$col_vide;
@@ -133,6 +159,7 @@ require_once ('class_operation.php');
  				} 
 			  $select->table=1;
 			  echo_debug(__FILE__.":".__LINE__,"select ",$select);
+			  $select->readonly=($p_mode==0)?true:false;
 			  $r.=$select->IOValue();
 
 			}
@@ -142,35 +169,36 @@ require_once ('class_operation.php');
 
       //    }//     foreach ($l_array[$i]  as $value=>$content) 
   }// for ( $i =0 ; $i < sizeof($l_array); $i++) 
+  if ( $p_mode == 1) {
     $file=new widget("file");
     $file->table=1;
-	//document
-    $r.='<TD>A effacer <INPUT TYPE="CHECKBOX" name="to_remove" ></TD>';
-    $r.="<TD>".sprintf('<A class="detail" HREF="show_pj.php?jrn=%s&jr_grpt_id=%s">%s</A>',
+	//doc
+	if ( $content['jr_pj_name'] != "")
+	  $r.='<TD>Effacer PJ <INPUT TYPE="CHECKBOX" name="to_remove" ></TD>';
+  }
+  $r.="<TD>".sprintf('<A class="detail" HREF="show_pj.php?jrn=%s&jr_grpt_id=%s">%s</A>',
 		$content['jr_id'],
 		$content['jr_grpt_id'],
 		$content['jr_pj_name'])."</TD>";
     $r.="</TR></TABLE>";
-    $r.="<hr>";
-    $r.= "<table>"; 
-    $r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
-    $r.="</table>";
-    $r.="<hr>";
 
-  $r.="</table>";
-  $r.="Total ".$content['jr_montant']."<br>";
-  // show all the related operation
-  $a=GetConcerned($p_cn,$content['jr_id']);
-  
-  if ( $a != null ) {
+	if ( $p_mode == 1 ) {
+	  $r.="<hr>";
+	  $r.= "<table>"; 
+	  $r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
+	  $r.="</table>";
+	}
+	$r.="<hr>";
+	
+	$r.="</table>";
+	$r.="Total ".$content['jr_montant']."<br>";
+	if ( $p_mode==1) {
+	// show all the related operation
+	$a=GetConcerned($p_cn,$content['jr_id']);
+	$sessid=$_REQUEST["PHPSESSID"];	  
+	if ( $a != null ) {
       $r.="<b>Operation concernée</b> <br>";
-      if ( isset ($_GET["PHPSESSID"]) ) {
-		$sessid=$_GET["PHPSESSID"];
-      }
-      else {
-		$sessid=$_POST["PHPSESSID"];
-      }
-	  
+
 	  $r.= '<div style="margin-left:30px;">';
 	  foreach ($a as $key => $element) {
 		$r.=sprintf ('%s <INPUT TYPE="BUTTON" VALUE="Détail" onClick="modifyOperation(\'%s\',\'%s\')">', 
@@ -181,22 +209,15 @@ require_once ('class_operation.php');
 					$content['jr_id'],$element,$sessid);
 	  }//for
 	  $r.= "</div>";
-  }// if ( $a != null ) {
+	}// if ( $a != null ) {
   
-  if ( isset ($_GET["PHPSESSID"]) ) {
-    $sessid=$_GET["PHPSESSID"];
-  }
-  else {
-    $sessid=$_POST["PHPSESSID"];
-  }
-  
-  $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchJrn(\''.$sessid."','rapt','".$content['jr_montant']."')\">";
-
-  $r.= '<H2 class="info">rapprochement </H2> 
+	$search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchJrn(\''.$sessid."','rapt','".$content['jr_montant']."')\">";
+	
+	$r.= '<H2 class="info">rapprochement </H2> 
        <INPUT TYPE="TEXT" name="rapt" value="">'.$search;
-  $r.='<input type="hidden" name="jr_id" value="'.$content['jr_id'].'">';
-
-  //  echo $r;
+	$r.='<input type="hidden" name="jr_id" value="'.$content['jr_id'].'">';
+	
+	} // if mode == 1
   return $r;
 }
 
@@ -205,12 +226,12 @@ require_once ('class_operation.php');
  *          
  * \param $p_cn database connection
  * \param $jr_id pk of jrn
- *
+ * \param mode 1 editable, 0 for CA
  * \return none
  *
  *
  */ 
-function ShowOperationUser($p_cn,$p_jr_id)
+function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 {
   echo_debug('jrn.php',__LINE__,"function UpdateJrn");
   
@@ -223,7 +244,7 @@ function ShowOperationUser($p_cn,$p_jr_id)
   if ( $l_array == null ) {
     // If the  operation is not in quant_sold or quant_purchase 
     // because those tables comes later
-    $r=ShowOperationExpert($p_cn,$p_jr_id);
+    $r=ShowOperationExpert($p_cn,$p_jr_id,$p_mode);
     return $r;
   }
   // own
@@ -240,21 +261,26 @@ function ShowOperationUser($p_cn,$p_jr_id)
   $content=$l_array[0] ;
   // for the first line
   $internal=$content['jr_internal'];
-  
+
   $r.='<TABLE>';
   $r.="<TR>";
   // Date
-  $r.="<TD>";
+  $r.='<TD colspan="4">';
   $r.=$content['jr_date'];
+  $disable=($p_mode==0)?"disabled":"";
 
   // for upload document we need the grpt_id   
   $r.='<Input type="hidden" name="jr_grpt_id" value="'.$content['jr_grpt_id'].'">';
   
   // comment can be changed
-
-  $r.='<INPUT TYPE="TEXT" name="comment" value="';
-  $r.=$content['jr_comment'];
-  $r.='" SIZE="40">';
+  $comment=new widget("text");
+  $comment->table=0;
+  $comment->name="comment";
+  $comment->readonly=($p_mode==0)?true:false;
+  $comment->value=$content['jr_comment'];
+  $comment->size=40;
+  $r.=$comment->IOValue();
+  
 
   
   // Internal
@@ -265,7 +291,7 @@ function ShowOperationUser($p_cn,$p_jr_id)
   // Is Paid
   $r.="<TD>";
   $check=( $content['jr_rapt'] != null )?"CHECKED":"UNCHECKED";
-  $r.='<TD>Payé <INPUT TYPE="CHECKBOX" name="is_paid" '.$check.'></TD>';
+  $r.='<TD>Payé <INPUT TYPE="CHECKBOX" '.$disable.' name="is_paid" '.$check.'></TD>';
   
   $r.="</TR>";
   
@@ -292,6 +318,20 @@ function ShowOperationUser($p_cn,$p_jr_id)
 	  $r.='<th>tva nd</th>';
 	  $r.='<th>tva d impot</th>';
 	  $r.='<th>prix</th>';
+	  $head_ca="";
+	  $own = new Own($p_cn);
+	  if ( $own->MY_ANALYTIC != "un" )
+		{
+		  $plan=new PlanAnalytic($p_cn);
+		  $a_plan=$plan->get_list();
+		  foreach ($a_plan as $r_plan)
+			{
+				$head_ca.="<th>".$r_plan['name']."</th>";
+			}
+		  
+		}
+	  $r.=$head_ca;
+
 	  $r.='</tr>';
 	  $object=new gestion_purchase($p_cn);
 	  $object->qp_internal=$internal;
@@ -303,6 +343,7 @@ function ShowOperationUser($p_cn,$p_jr_id)
 	  $tot_tva_nd_recup=0.0;
 	  $i=0;
 	  foreach ($array as $row) {
+
 		$fiche=new fiche($p_cn,$row->qp_fiche);
 		// compute sum
 		$tot_tva+=$row->qp_vat;
@@ -324,6 +365,9 @@ function ShowOperationUser($p_cn,$p_jr_id)
 		$r.='<td align="right">'.$row->qp_price.'</td>';
 		//-- add ca 
 		//
+
+		$content['j_poste']=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
+		//		echo "j_poste= ".$content['j_poste'];
 		if ( $own->MY_ANALYTIC != "un" && ereg("^[6,7]+",$content['j_poste']))
 		  {
 			echo_debug(__FILE__.":".__LINE__,"Content is ",$content);
@@ -351,6 +395,8 @@ function ShowOperationUser($p_cn,$p_jr_id)
 					} 
 				  } 
 				$select->table=1;
+				$select->readonly=($p_mode==0)?true:false;
+
 				echo_debug(__FILE__.":".__LINE__,"select ",$select);
 				$r.=$select->IOValue();
 			}
@@ -387,7 +433,7 @@ function ShowOperationUser($p_cn,$p_jr_id)
 		'<td style="font-size:13px;color:green;">'.sprintf('%12.2f',$tot_amount+$tot_tva)."</td>".
 		"</tr>";
 
-		echo '</table></td></tr>';
+	  $r.= '</table></td></tr>';
 
 	  
 	}
@@ -408,6 +454,20 @@ function ShowOperationUser($p_cn,$p_jr_id)
 	  $r.='<th>tva</th>';
 	  $r.='<th>code tva</th>';
 	  $r.='<th>prix</th>';
+	  $head_ca="";
+	  $own = new Own($p_cn);
+	  if ( $own->MY_ANALYTIC != "un" )
+		{
+		  $plan=new PlanAnalytic($p_cn);
+		  $a_plan=$plan->get_list();
+		  foreach ($a_plan as $r_plan)
+			{
+				$head_ca.="<th>".$r_plan['name']."</th>";
+			}
+		  
+		}
+	  $r.=$head_ca;
+
 	  $r.='</tr>';
 	  $object=new gestion_sold($p_cn);
 	  $object->qs_internal=$internal;
@@ -430,6 +490,44 @@ function ShowOperationUser($p_cn,$p_jr_id)
 		$r.='<td align="right">'.$row->qs_vat.'</td>';
 		$r.='<td>'.$row->qs_vat_code.'</td>';
 		$r.='<td align="right">'.$row->qs_price.'</td>';
+		//-- add ca 
+		//
+
+		$content['j_poste']=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
+		//		echo "j_poste= ".$content['j_poste'];
+		if ( $own->MY_ANALYTIC != "un" && ereg("^[6,7]+",$content['j_poste']))
+		  {
+			echo_debug(__FILE__.":".__LINE__,"Content is ",$content);
+			$plan=new PlanAnalytic($p_cn);
+			$a_plan=$plan->get_list();
+			$null=($own->MY_ANALYTIC=='op')?1:0;
+			
+			foreach ($a_plan as $r_plan) 
+			  {
+				echo_debug(__FILE__.":".__LINE__,"CA Content is ",$array);
+				$array=make_array($p_cn,
+								  "select po_id as value,".
+								  " po_name as label from poste_analytique ".
+								  " where pa_id = ".$r_plan['id'].
+								  " order by po_name",$null);
+				$op=new operation($p_cn);
+				$op_array=$op->get_operation_by_jid($content['j_id']);
+				$select = new widget("select","","plan_".$r_plan['id']."_".$row->j_id,$array);
+				
+				if ( $op_array != null)  
+				  foreach ($op_array as $row) { 
+					echo_debug(__FILE__.":".__LINE__,"row is ",$row);
+					if ( $r_plan['id'] == $row->pa_id ) { 
+					  $select->selected=$row->po_id; 
+					} 
+				  } 
+				$select->table=1;
+				$select->readonly=($p_mode==0)?true:false;
+
+				echo_debug(__FILE__.":".__LINE__,"select ",$select);
+				$r.=$select->IOValue();
+			}
+		}
 
 		$r.="</tr>";
 	  }
@@ -461,32 +559,30 @@ function ShowOperationUser($p_cn,$p_jr_id)
       
   $file=new widget("file");
   $file->table=1;
-  //document
-  $r.='<tr><TD>A effacer <INPUT TYPE="CHECKBOX" name="to_remove" ></TD>';
+  //doc
+  if ( $p_mode ==1 && $content['jr_pj_name'] != "") 
+	  $r.='<tr><TD>Effacer Pj <INPUT TYPE="CHECKBOX" name="to_remove" ></TD>';
   $r.="<TD>".sprintf('<A class="detail" HREF="show_pj.php?jrn=%s&jr_grpt_id=%s">%s</A>',
 		     $content['jr_id'],
 		     $content['jr_grpt_id'],
 		     $content['jr_pj_name'])."</TD>";
   $r.="</TR></TABLE>";
   $r.="<hr>";
-  $r.= "<table>"; 
-  $r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
-  $r.="</table>";
-  $r.="<hr>";
+  if ( $p_mode == 1 ) {
+	$r.= "<table>"; 
 
-  $r.="</table>";
-  $r.="Total ".$content['jr_montant']."<br>";
-  // show all the related operation
-  $a=GetConcerned($p_cn,$content['jr_id']);
+	$r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
+	$r.="</table>";
+	$r.="<hr>";
+	
+	$r.="</table>";
+	$r.="Total ".$content['jr_montant']."<br>";
+	// show all the related operation
+	$a=GetConcerned($p_cn,$content['jr_id']);
+	$sessid=$_REQUEST["PHPSESSID"];	  
   
-  if ( $a != null ) {
+	if ( $a != null ) {
       $r.="<b>Operation concernée</b> <br>";
-      if ( isset ($_GET["PHPSESSID"]) ) {
-		$sessid=$_GET["PHPSESSID"];
-      }
-      else {
-		$sessid=$_POST["PHPSESSID"];
-      }
       
       $r.= '<div style="margin-left:30px;">';
       foreach ($a as $key => $element) {
@@ -500,19 +596,12 @@ function ShowOperationUser($p_cn,$p_jr_id)
 	  $r.= "</div>";
   }// if ( $a != null ) {
   
-  if ( isset ($_GET["PHPSESSID"]) ) {
-    $sessid=$_GET["PHPSESSID"];
-  }
-  else {
-    $sessid=$_POST["PHPSESSID"];
-  }
-  
   $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchJrn(\''.$sessid."','rapt','".$content['jr_montant']."')\">";
 
   $r.= '<H2 class="info">rapprochement </H2> 
        <INPUT TYPE="TEXT" name="rapt" value="">'.$search;
   $r.='<input type="hidden" name="jr_id" value="'.$content['jr_id'].'">';
-
+  } // if p_mode==1
   //  echo $r;
   return $r;
 }
@@ -1095,6 +1184,7 @@ function GetDataJrnJrIdUser ($p_cn,$p_jr_id) {
     $array['jr_comment']=$line['jr_comment'];
     $array['j_montant']=$line['j_montant'];
     $array['jr_id']=$line['jr_id'];
+    $array['j_id']=$line['j_id'];
     $array['jr_date']=$line['jr_date'];
     $array['jr_internal']=$line['jr_internal'];
     $array['j_poste']=$line['j_poste'];

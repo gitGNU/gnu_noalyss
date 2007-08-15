@@ -62,8 +62,8 @@ $_SESSION["p_jrn"]=$p_jrn;
 
 $p_view=(isset($_REQUEST['p_view']))?$_REQUEST['p_view']:"error";
 
-if ( isset ( $_POST['action'] ) ) {
-  $action=$_POST['action'];
+if ( isset ( $_REQUEST['action'] ) ) {
+  $action=$_REQUEST['action'];
 }
 if ( ! isset ( $action )) {
   echo_error("modify_op.php No action asked ");
@@ -91,6 +91,7 @@ function hide (p_div) {
 }
 </script>
 <?php
+echo_debug(__FILE__,__LINE__,"action is $action");
 //-----------------------------------------------------
 if ( $action == 'update' ) {
   if ( ($priv=CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_GET['p_jrn'],true)) < 1 ) {
@@ -119,7 +120,7 @@ if ( $action == 'update' ) {
 	$view.='<h2 class="info">Vue simple</h2>';
 	$view.='<FORM METHOD="POST" enctype="multipart/form-data" ACTION="modify_op.php">';
 	$view.=ShowOperationUser($cn,$p_id);
-	$view.='<input type="button" onclick="hide(\'simple\');show(\'expert\');" value="autre vue">';
+	$view.='<input type="button" onclick="hide(\'simple\');show(\'expert\');" value="Vue expert">';
 	$view.='<INPUT TYPE="Hidden" name="action" value="update_record">';
 	$view.="<br>";
 	$view.="<br>";
@@ -138,7 +139,7 @@ if ( $action == 'update' ) {
 	$view.='<h2 class="info">Vue expert</h2>';
 	$view.='<FORM METHOD="POST" enctype="multipart/form-data" ACTION="modify_op.php">';
 	$view.=ShowOperationExpert($cn,$p_id);
-	$view.='<input type="button" onclick="hide(\'expert\');show(\'simple\')"  value="autre vue">';
+	$view.='<input type="button" onclick="hide(\'expert\');show(\'simple\')"  value="Vue simple">';
 	$view.='<INPUT TYPE="Hidden" name="action" value="update_record">';
 	$view.="<br>";
 	$view.="<br>";
@@ -152,6 +153,35 @@ if ( $action == 'update' ) {
     echo $view;
 
  }  
+//---------------------------------------------------------------------
+// action = vue ca
+//---------------------------------------------------------------------
+if ( $action=="view_ca") {
+
+  /*!\todo add security here */
+  $p_id=$_GET["line"];
+
+  $view='<div id="simple">';
+  $view.='<h2 class="info">Vue simple</h2>';
+  $view.=ShowOperationUser($cn,$p_id,0);
+  $view.='<input type="button" onclick="hide(\'simple\');show(\'expert\');" value="Vue Expert">';
+  $view.='<input type="button" value="Fermer" onClick="window.close(); ">';
+  $view.='</div>';
+  
+
+  
+  $view.='<div id="expert" style="display:none">';
+
+  $view.='<h2 class="info">Vue expert</h2>';
+
+  $view.=ShowOperationExpert($cn,$p_id,0);
+  $view.='<input type="button" onclick="hide(\'expert\');show(\'simple\')"  value="Vue Simple">';
+  $view.='<input type="button" value="Fermer" onClick="window.close(); ">';
+  $view.='</div>';
+  echo $view;
+  exit();
+
+ }
 
 //----------------------------------------------------------------------
 // update the record and upload files
@@ -230,6 +260,7 @@ if ( isset($_POST['update_record']) ) {
       'Erreur dans l\'enregistrement '.
       __FILE__.':'.__LINE__.' '.
       $e->getMessage();
+	echo_debug(__FILE__,__LINE__,$e->getMessage());
     Rollback($cn);
 
   }
