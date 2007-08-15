@@ -63,6 +63,10 @@ if ( isset($central) ) {
  else 
   $bal->central='N';
 
+$bal->jrn=$_POST['p_jrn'];
+$bal->from_poste=$_POST['from_poste'];
+$bal->to_poste=$_POST['to_poste'];
+
 $array=$bal->GetRow($from_periode,$to_periode);
 
 if ( sizeof($array)  == 0 ) {
