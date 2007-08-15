@@ -38,6 +38,7 @@ include_once("class.ezpdf.php");
 include_once("poste.php");
 include_once("class_balance.php");
 include_once("preference.php");
+require_once ('header_pdf.php');
 
 $cn=DbConnect($_SESSION['g_dossier']);
 $rep=DbConnect();
@@ -70,7 +71,7 @@ $bal->to_poste=$_POST['to_poste'];
 $array=$bal->GetRow($from_periode,$to_periode);
 
 if ( sizeof($array)  == 0 ) {
-  $pdf=& new Cezpdf('a4');
+  $pdf= new Cezpdf('a4');
   $pdf->selectFont('./addon/fonts/Helvetica.afm');
   $pdf->ezSetCmMargins(2,2,2,2);
   $pdf->ezText("Balance compte -- vide");
@@ -81,9 +82,10 @@ if ( sizeof($array)  == 0 ) {
 $a=GetPeriode($cn,$from_periode);
 $b=GetPeriode($cn,$to_periode);
 $per_text=" période du ".$a['p_start']." au ".$b['p_end'];
-$pdf=& new Cezpdf('a4');
+$pdf=new Cezpdf('a4');
 $pdf->selectFont('./addon/fonts/Helvetica.afm');
 $pdf->ezSetCmMargins(2,2,2,2);
+header_pdf($cn,$pdf);
 $pdf->ezTable($array,array('poste'=>'Poste','label'=>'Libellé','sum_deb'=>'Total Débit',
 			   'sum_cred'=>'Total crédit','solde_deb'=>'Solde débiteur',
 			   'solde_cred'=>'Solde créditeur'),'Balance des comptes '.$t_cent.$per_text);
