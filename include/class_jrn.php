@@ -210,7 +210,7 @@ class jrn {
     $jr_montant=($line['jr_montant']!=0)?sprintf("% 8.2f",$line['jr_montant']):"";
     $tot_deb+=$line['deb_montant'];
     $tot_cred+=$line['cred_montant'];
-	$tot_op=$line['jr_amount'];
+	$tot_op=$line['jr_montant'];
     echo_debug('class_jrn.php',__LINE__," GetRow : mont_Deb ".$mont_deb);
     echo_debug('class_jrn.php',__LINE__," GetRow : mont_cred ".$mont_cred);
 
