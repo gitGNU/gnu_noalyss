@@ -558,7 +558,7 @@ class widget {
 	$r='<input type="BUTTON" name="'.$this->name.'"'.
 	  ' id="'.$this->name.'"'.
 	  ' value="'.$this->label.'"'.
-	  ' onClick="'.$this->js."'>";
+	  ' onClick="'.$this->js.'">';
 	return $r;
   }
   return "INVALID WIDGET $this->type ";
