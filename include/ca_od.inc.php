@@ -85,6 +85,7 @@ if ( isset($_GET['see'])) {
   // Show the list for the period
   // and exit
   //-----------------------------
+  echo JS_AJAX_OP;
   $a=new operation($cn);
   $a->pa_id=$_REQUEST['pa_id'];
   echo '<div class="u_redcontent">';
