@@ -47,7 +47,7 @@ if ( $User->CheckAction($cn,IMP) == 0 ||
 $Jrn=new jrn($cn,$_GET['jrn_id']);
 
 $Jrn->GetName();
-$jrn_type=$Jrn->GetType();
+$jrn_type=$Jrn->get_type();
 // Detailled printing
 //---
 if  ( $_GET['p_simple'] == 0 ) 
@@ -66,8 +66,9 @@ if  ( $_GET['p_simple'] == 0 )
       $desc=str_replace("<i>","",$desc);
       $desc=str_replace("</i>","",$desc);
       $desc=str_replace('"',"'",$desc);
+      $desc=str_replace(";",",",$desc);
 
-      printf("\"%s\"\t\"%s\"\t\"%s\"\t\"%s\"\t\"%s\"\t%8.4f\t%8.4f\n",
+      printf("\"%s\";\"%s\";\"%s\";\"%s\";\"%s\";%8.4f;%8.4f\n",
 	     $op['j_id'],
 	     $op['internal'],
 	     $op['j_date'],
@@ -89,11 +90,11 @@ if  ( $_GET['p_simple'] == 0 )
 //-----------------------------------------------------
      if ( $jrn_type == 'ODS' || $jrn_type == 'FIN' || $jrn_type=='GL')
        {
-	 printf ('" operation; "'.
-		 '"Date;"'.
-		 '"commentaire;"'.
-		 '"internal;"'.
-		 '"montant;"'.
+	 printf ('" operation";'.
+		 '"Date";'.
+		 '"commentaire";'.
+		 '"internal";'.
+		 '"montant";'.
 		 "\r\n");
 
 	 foreach ($Row as $line)

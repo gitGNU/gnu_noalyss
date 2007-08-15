@@ -85,7 +85,7 @@ function UpdateCSV($p_cn){
  *        modify the Quick Code or remove record poss.value are form, remove
  */
 function ShowBox($p_val,$counter,$p_cn,$p_form='form'){
-
+  echo JS_AJAX_FICHE;
   $w=new widget('js_search_only');
   $w->name='poste'.$counter;
   $w->extra='cred';
@@ -98,6 +98,7 @@ function ShowBox($p_val,$counter,$p_cn,$p_form='form'){
   // widget concerned
   $wConcerned=new widget('js_concerned');
   $wConcerned->extra=abs($p_val['montant']);
+  $wConcerned->extra2='paid';
   $wConcerned->label='op. concern&eacute;e';
   $wConcerned->table=0;
   $s=new widget('span');
@@ -253,78 +254,84 @@ function TransferCSV($p_cn, $periode){
 
   $Max=pg_NumRows($Res);
   echo $Max." opérations à transférer.<br/>";
-  StartSql($p_cn);
-
-  for ($i = 0;$i < $Max;$i++) {
-    $val=pg_fetch_array($Res,$i);
+  try 
+    {
+      StartSql($p_cn);
+  
+      for ($i = 0;$i < $Max;$i++) {
+	$val=pg_fetch_array($Res,$i);
+	
+	$code=$val['code']; 
+	$date_exec=$val['date_exec']; 
+	$montant=$val['montant']; 
+	$num_compte=$val['num_compte']; 
+	$poste_comptable=$val['poste_comptable'];
+	$bq_account=$val['bq_account'];
+	$jrn=$val['jrn']; 
+	$detail=$val['detail'];
+	$jr_rapt=$val['jr_rapt'];
     
-    $code=$val['code']; 
-    $date_exec=$val['date_exec']; 
-    $montant=$val['montant']; 
-    $num_compte=$val['num_compte']; 
-    $poste_comptable=$val['poste_comptable'];
-    $bq_account=$val['bq_account'];
-    $jrn=$val['jrn']; 
-    $detail=$val['detail'];
-    $jr_rapt=$val['jr_rapt'];
-    
-// Retrieve the account thx the quick code    
-    $f=new fiche($p_cn);
-    $f->GetByQCode($poste_comptable,false);
-    $poste_comptable=$f->strAttribut(ATTR_DEF_ACCOUNT);
+	// Retrieve the account thx the quick code    
+	$f=new fiche($p_cn);
+	$f->GetByQCode($poste_comptable,false);
+	$poste_comptable=$f->strAttribut(ATTR_DEF_ACCOUNT);
 
-    // Vérification que le poste comptable trouvé existe
-    if ( $poste_comptable == '- ERROR -')
-      $test=0;
-      else
-	{
-	  $sqltest = "select * from tmp_pcmn WHERE pcm_val='".$poste_comptable."'";
+	// Vérification que le poste comptable trouvé existe
+	if ( $poste_comptable == '- ERROR -')
+	  $test=0;
+	else
+	  {
+	    $sqltest = "select * from tmp_pcmn WHERE pcm_val='".$poste_comptable."'";
 	  
-	  $Restest=ExecSql($p_cn,$sqltest);
-	  $test=pg_NumRows($Restest);
-	}
+	    $Restest=ExecSql($p_cn,$sqltest);
+	    $test=pg_NumRows($Restest);
+	  }
 
-    // Test it
-    if($test == 0) {
-      $sqlupdate = "update import_tmp set status='n' WHERE code='".$code."' AND num_compte='".$num_compte."' or num_compte is null";
-      $Resupdate=ExecSql($p_cn,$sqlupdate);
-      echo "Poste comptable erronné pour l'opération ".$num_compte."-".$code.", réinitialisation du poste comptable<br/>";
-      continue;
-    }
+	// Test it
+	if($test == 0) {
+	  $sqlupdate = "update import_tmp set status='n' WHERE code='".$code."' AND num_compte='".$num_compte."' or num_compte is null";
+	  $Resupdate=ExecSql($p_cn,$sqlupdate);
+	  echo "Poste comptable erronné pour l'opération ".$num_compte."-".$code.", réinitialisation du poste comptable<br/>";
+	  continue;
+	}
 	 
       
-      // Finances
+	// Finances
       
-      $seq=NextSequence($p_cn,'s_grpt');
-      $p_user = $_SESSION['g_user'];
+	$seq=NextSequence($p_cn,'s_grpt');
+	$p_user = $_SESSION['g_user'];
 
-      $r=InsertJrnx($p_cn,"d",$p_user,$jrn,$bq_account,$date_exec,$montant,$seq,$periode);
-      if ( $r == false) { $Rollback($p_cn);exit("error 'import_inc.php' __LINE__");}
-      
-      $r=InsertJrnx($p_cn,"c",$p_user,$jrn,$poste_comptable,$date_exec,$montant,$seq,$periode);
-      if ( $r == false) { $Rollback($p_cn);exit("error 'import_inc.php' __LINE__");}
-      
-      //remove annoying double-quote
-      $num_compte=str_replace('"','',$num_compte);
-      $code=str_replace('\"','',$code);
+	$r=InsertJrnx($p_cn,"d",$p_user,$jrn,$bq_account,$date_exec,$montant,$seq,$periode);
 
-      $jr_id=InsertJrn($p_cn,$date_exec,NULL,$jrn,$detail.$num_compte." ".$code,$seq,$periode);
-      if ( $jr_id == false ) { Rollback($p_cn); exit(" Error 'import_inc.php' __LINE__");}
+      
+	$r=InsertJrnx($p_cn,"c",$p_user,$jrn,$poste_comptable,$date_exec,$montant,$seq,$periode);
+
+      
+	//remove annoying double-quote
+	$num_compte=str_replace('"','',$num_compte);
+	$code=str_replace('\"','',$code);
+
+	$jr_id=InsertJrn($p_cn,$date_exec,NULL,$jrn,$detail.$num_compte." ".$code,$seq,$periode);
+      }
       
       if ( isNumber($jr_rapt) == 1) 
 	InsertRapt($p_cn,$jr_id,$jr_rapt);
 
       SetInternalCode($p_cn,$seq,$jrn);
       
-      
       echo "Tranfer de l'opération ".$code." effectué<br/>";
       $sql2 = "update import_tmp set status='t' where code='".$code."'";
       $Res2=ExecSql($p_cn,$sql2);
-      
-    	
+    } catch (Exception $e) {
+    Rollback($p_cn);
+    echo '<span class="error">'.
+      'Erreur dans '.__FILE__.':'.__LINE__.
+      ' Message = '.$e->getMessage().
+      '</span>';
   }
+  
   Commit($p_cn);
-
+  
 }
 /*! 
  **************************************************

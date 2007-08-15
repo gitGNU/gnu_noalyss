@@ -76,7 +76,8 @@ if ( isset ($_GET['export'])) {
   echo "</form>";
   exit(0);
 }
-//----------------------------------------------------- IMPORT ////////////////////////////////////////////
+//----------------------------------------------------- IMPORT 
+////////////////////////////////////////////
 if ( isset ($_GET['import'])) {
 	// show a form to upload the file
 	// that form will parse the file, create an ods operation
@@ -87,7 +88,7 @@ if ( isset ($_GET['import'])) {
 <FORM NAME="form_detail" enctype="multipart/form-data" ACTION="ecrit_ouv.php?import" METHOD="POST">
 <?php
   // TODO propose  ODS ledger 
-  $ods=make_array($cn,"select jrn_def_id,jrn_def_name from jrn_def where jrn_def_type = 'OD'");
+  $ods=make_array($cn,"select jrn_def_id,jrn_def_name from jrn_def where jrn_def_type = 'ODS'");
   $x=new widget("select");
   $x->name='p_jrn';
   $x->value=$ods;

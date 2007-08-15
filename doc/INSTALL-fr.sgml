@@ -14,11 +14,11 @@ site savannah
 <!-- Table of contents -->
 <toc>
 <sect>Avertissement 
-<p> Si vous installez sur Linux, l'installation d'apache, postgres et php peut se
+<p> Si vous installez sur Linux, l'installation d'apache, postgres et php doit se
 faire avec les "packages" standards 
 fournis; ces "packages" sont largement suffisants. Les explications
-données ici sur l'installation de ces produits sont destinées à ceux 
-préfèrant le faire manuellement. En général vous pourrez l'installer assez facilement
+données ici sur l'installation de ces produits sont destinées à des
+utilisateurs avancés. En général vous pourrez l'installer assez facilement
 <url url= "http://www.phpcompta.org/pmwiki.php/Documentation/InstallationRapide" name="Installation Rapide">
 Il existe aussi un manuel d'installation exhaustif pour Debian, pleins d'informations utiles
 <url url="http://www.blanchin.eu/?p=12" Name="Manuel pour Debian">.
@@ -32,6 +32,7 @@ Il est préférable d'utiliser les programmes fournis sur
 
 <p> Cependant, les configurations des différents produits sont importantes
 et devraient être lues avant d'appeler à l'aide.
+
 </sect>
 
 <sect>Postgresql (version 8.0.1 minimum)
@@ -106,7 +107,7 @@ Run-time Configuration.
 
 <p> Les paramètres que vous pouvez utiliser si vous avez une machine d'au moins 256 Mb:
 <itemize>
-<item> Augmenter la zone mémoire pour les tri (dans postgres.conf) sort_mem = 8192; cette
+<item> Augmenter la zone mémoire pour les tri (dans postgres.conf) work_mem = 8192; cette
 zone mémoire est important car elle a trait à la mémoire utilisée pour les tris et les
 jointures! attention ce paramètre donne la consommation mémoire par session !
  </item>
@@ -289,7 +290,6 @@ On suppose que postgresql est installé correctement
 <item> Se connecter en tant que postgres et taper les commandes
 <verb> 
 createuser -h localhost -d  -P postgres phpcompta
-createdb -h localhost -O phpcompta phpcompta
 </verb>
 
 <item>Décompacter le package dans le répertoire de votre choix, et configurer Apache pour qu'il

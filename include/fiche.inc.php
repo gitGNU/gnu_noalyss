@@ -27,12 +27,9 @@ include_once ("postgres.php");
 include_once ("user_menu.php");
 require_once ("check_priv.php");
 
-// echo '<div class="u_tmenu">';
-// var_dump($_SERVER);
-
-// echo ShowMenuCompta($_SESSION['g_dossier']);
-// echo '</div>';
 echo JS_SEARCH_POSTE;
+echo JS_AJAX_FICHE;
+
 
 if ( !isset($sessid)) 
 {

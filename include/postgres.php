@@ -95,6 +95,7 @@ function DbConnect($p_db=-1,$p_type='dossier') {
 	break;
       }
   }
+  $phpcompta_user=phpcompta_user;
   $password=phpcompta_password;
   $port=phpcompta_psql_port;
  ob_start();
@@ -104,9 +105,11 @@ password='$password' port=$port");
   if ( $a == false )
   {
   	ob_clean();
+	echo '<h2 class="error">Impossible de se connecter &agrave; postgreSql !</h2>';
   	echo "Vos param&egrave;tres sont incorrectes : <br>";
   	echo "<br>";
   	echo "base de donn&eacute;e : $l_dossier<br>";
+	echo "Domaine : ".domaine."<br>";
   	echo "Port $port <br>";
   	echo "Utilisateur : $phpcompta_user <br>";
 
@@ -125,15 +128,14 @@ de donn&eacute;es");
  * \param $p_exit if true exits in case of error otherwise returns false
  * \return false if error otherwise true
  */
-function ExecSql($p_connection, $p_string,$p_exit=true) {
+function ExecSql($p_connection, $p_string) {
   echo_debug('postgres.php',__LINE__,"SQL = $p_string");
   // probl. with Ubuntu & UTF8
   //----
   pg_set_client_encoding($p_connection,'latin1');
   $ret=pg_query($p_connection,$p_string);
-  if ( $ret == false && $p_exit ) { 
-    echo_error ("SQL ERROR ::: $p_string");
-    exit(" Operation cancelled due to error : $p_string");
+  if ( $ret == false  ) { 
+    throw new Exception ("SQL ERROR ::: $p_string",1);
   }
 
   return $ret;
@@ -401,11 +403,17 @@ function save_upload_document ($cn,$seq) {
 
   $new_name=tempnam('/tmp','pj');
   echo_debug('postgres.php',__LINE__,"new name=".$new_name);
+  echo_debug(__FILE__.":".__LINE__.$_FILES);
+  if ($_FILES["pj"]["error"] > 0)
+	{
+	  echo_error(__FILE__.":".__LINE__."Error: " . $_FILES["pj"]["error"] );
+	}
   if ( strlen ($_FILES['pj']['tmp_name']) != 0 ) {
+	echo_debug(__FILE__.":".__LINE__.'_FILE is'.$_FILES['pj']['tmp_name']);
       if (move_uploaded_file($_FILES['pj']['tmp_name'],
 			     $new_name)) {
 	// echo "Image saved";
-
+		echo_debug(__FILE__.":".__LINE__."Doc saved");
 	$oid= pg_lo_import($cn,$new_name);
 	if ( $oid == false ) {
 	  echo_error('postgres.php',__LINE__,"cannot upload document");

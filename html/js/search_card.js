@@ -35,7 +35,8 @@ function showfiche(p_sessid,qcode)
 */
 function SearchCard(p_sessid,type,name,jrn)
 {
-var search=document.getElementById(name).value;
+  
+  var search=document.getElementById(name).value;
    var a=window.open('fiche_search.php?first&search&fic_search='+search+'&p_jrn='+jrn+'&PHPSESSID='+p_sessid+'&type='+type+'&name='+name,'item','toolbar=no,width=350,height=450,scrollbars=yes,statusbar=no');
 }
 	function NewCard(p_sessid,type,name,jrn)

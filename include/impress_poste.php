@@ -40,8 +40,8 @@ if ( isset( $_POST['bt_html'] ) ) {
     {
       if ( isset ($_POST['poste_fille']) )
       {
-	$parent=$_POST['poste_id'];
-	$a_poste=getarray($cn,"select pcm_val from tmp_pcmn where pcm_val like '$parent%'");
+		$parent=$_POST['poste_id'];
+		$a_poste=getarray($cn,"select pcm_val from tmp_pcmn where pcm_val like '$parent%'");
 	$go=3;
       } 
       // Check if the post is numeric and exists

@@ -37,12 +37,12 @@ require_once('class_widget.php');
 // class fiche
 //-----------------------------------------------------
 class fiche {
-  var $cn;           /*! \enum $cn database connection */
-  var $id;           /*! \enum $id fiche.f_id */
-  var $fiche_def;    /*! \enum $fiche_def fd_id */
-  var $attribut;     /*! \enum $attribut array of attribut object */
-  var $fiche_def_ref; /*!\enum $fiche_def_ref Type of the card here always FICHE_TYPE_CONTACT */
-  var $row;           /*! \enum All the row from the ledgers */
+  var $cn;           /*! < $cn database connection */
+  var $id;           /*! < $id fiche.f_id */
+  var $fiche_def;    /*! < $fiche_def fd_id */
+  var $attribut;     /*! < $attribut array of attribut object */
+  var $fiche_def_ref; /*!< $fiche_def_ref Type */
+  var $row;           /*! < All the row from the ledgers */
   function fiche($p_cn,$p_id=0) {
     $this->cn=$p_cn;
     $this->id=$p_id;
@@ -51,7 +51,8 @@ class fiche {
  * \brief Retrieve a card thx his quick_code
  *        complete the object
  * \param $p_qcode quick_code (ad_id=23)
- * \param $p_all retrieve all the attribut of the card, possible value are true false
+ * \param $p_all retrieve all the attribut of the card, possible value
+ * are true, false retrieve only the f_id
  * \return 0 success 1 error not found
  */
 
@@ -423,101 +424,107 @@ class fiche {
       $this->id=$fiche_id;
       // first we create the card
       StartSql($this->cn);
-      $sql=sprintf("insert into fiche(f_id,fd_id)". 
-		   " values (%d,%d)",
-		   $fiche_id,$p_fiche_def);
-      $Ret=ExecSql($this->cn,$sql);
-      // parse the $_POST array
-      foreach ($_POST as $name=>$value ) 
+      try 
 	{
-	  echo_debug ("class_fiche",__LINE__,"Name = $name value $value") ;
-	  list ($id) = sscanf ($name,"av_text%d");
-	  if ( $id == null ) continue;
-	  echo_debug("class_fiche",__LINE__,"add $id");
-	  
-	  // Special traitement
-	  // quickcode
-	  if ( $id == ATTR_DEF_QUICKCODE) 
+	  $sql=sprintf("insert into fiche(f_id,fd_id)". 
+		       " values (%d,%d)",
+		       $fiche_id,$p_fiche_def);
+	  $Ret=ExecSql($this->cn,$sql);
+	  // parse the $_POST array
+	  foreach ($_POST as $name=>$value ) 
 	    {
-	      echo_debug("Modify ATTR_DEF_QUICKCODE");
-	      $sql=sprintf("select insert_quick_code(%d,'%s')",
-			   $fiche_id,FormatString($value));
-	      ExecSql($this->cn,$sql);
-	      continue;
-	    }
-	  // name
-	  if ( $id == ATTR_DEF_NAME ) 
-	    {
-	      echo_debug("Modify ATTR_DEF_NAME");
-	      if ( strlen(trim($value)) == 0 )
-		$value="pas de nom";
+	      echo_debug ("class_fiche",__LINE__,"Name = $name value $value") ;
+	      list ($id) = sscanf ($name,"av_text%d");
+	      if ( $id == null ) continue;
+	      echo_debug("class_fiche",__LINE__,"add $id");
 	      
-	    }
-	  // account
-	  if ( $id == ATTR_DEF_ACCOUNT ) 
-	    {
-	      echo_debug("insert ATTR_DEF_ACCOUNT");
-	      $v=FormatString($value);
-	      ob_start();
-	      if ( 
-		  isNumber($v) == 1 
-		  )
+	      // Special traitement
+	      // quickcode
+	      if ( $id == ATTR_DEF_QUICKCODE) 
 		{
-		  $sql=sprintf("select account_insert(%d,%f)",
-			       $this->id,$v);
+		  echo_debug("Modify ATTR_DEF_QUICKCODE");
+		  $sql=sprintf("select insert_quick_code(%d,'%s')",
+			       $fiche_id,FormatString($value));
+		  ExecSql($this->cn,$sql);
+		  continue;
 		}
-	      else 
+	      // name
+	      if ( $id == ATTR_DEF_NAME ) 
 		{
-		  $sql=sprintf("select account_insert(%d,null)",
-			       $this->id);
+		  echo_debug("Modify ATTR_DEF_NAME");
+		  if ( strlen(trim($value)) == 0 )
+		$value="pas de nom";
+		  
 		}
-	      $ret=ExecSql($this->cn,$sql,false);
-	      ob_end_clean();
-	      if ( $ret == false ) {
-		echo "<span class=\"error\"Erreur : ce compte [$v] n'a pas de compte parent.".
-		  "L'op&eacute;ration est annul&eacute;</span>";
-		Rollback($this->cn);
-		return;
-	      }
-	      continue;
-	    }
-	// TVA
-	  if ( $id == ATTR_DEF_TVA ) 
-	    {
-	      echo_debug("Modify ATTR_DEF_TVA");
-	      // Verify if the rate exists, if not then do not update
-	      if ( strlen(trim($value)) != 0 ) 
+	      // account
+	      if ( $id == ATTR_DEF_ACCOUNT ) 
 		{
-		  if ( CountSql($this->cn,"select * from tva_rate where tva_id=".$value) == 0) 
+		  echo_debug("insert ATTR_DEF_ACCOUNT");
+		  $v=FormatString($value);
+		  try {
+		    if ( 
+			isNumber($v) == 1 
+			 )
+		      {
+			$sql=sprintf("select account_insert(%d,%f)",
+				     $this->id,$v);
+		      }
+		    else 
+		      {
+			$sql=sprintf("select account_insert(%d,null)",
+				     $this->id);
+		      }
+		    ExecSql($this->cn,$sql,false);
+		  } catch (Exception $e) {
+		    throw new Exception ("Erreur : ce compte [$v] n'a pas de compte parent.".
+					 "L'op&eacute;ration est annul&eacute;e",
+					 1);
+		  }
+		  continue;
+		}
+	      // TVA
+	      if ( $id == ATTR_DEF_TVA ) 
+		{
+		  echo_debug("Modify ATTR_DEF_TVA");
+		  // Verify if the rate exists, if not then do not update
+		  if ( strlen(trim($value)) != 0 ) 
 		    {
-		      echo_debug("class_fiche",__LINE__,"Tva invalide $value");
-		      continue;
+		      if ( CountSql($this->cn,"select * from tva_rate where tva_id=".$value) == 0) 
+			{
+			  echo_debug("class_fiche",__LINE__,"Tva invalide $value");
+			  continue;
+			}
 		    }
 		}
-	    }
-	  // The contact has a company attribut
-	  if ( $id == ATTR_DEF_COMPANY ) 
-	    {
-	      $exist=CountSql($this->cn,"select f_id from fiche join fiche_def using (fd_id) ".
-			      " join jnt_fic_att_value using (f_id) join attr_value using (jft_id) ".
-			      " where frd_id in (8,9,14) and ad_id=".ATTR_DEF_QUICKCODE.
-			      " and av_text='".FormatString($value)."'");
-	      if ( $exist == 0 && FormatString($value) != null ) 
+	      // The contact has a company attribut
+	      if ( $id == ATTR_DEF_COMPANY ) 
 		{
-		  $value="";
+		  $exist=CountSql($this->cn,"select f_id from fiche join fiche_def using (fd_id) ".
+				  " join jnt_fic_att_value using (f_id) join attr_value using (jft_id) ".
+				  " where frd_id in (8,9,14) and ad_id=".ATTR_DEF_QUICKCODE.
+				  " and av_text='".FormatString($value)."'");
+		  if ( $exist == 0 && FormatString($value) != null ) 
+		    {
+		      $value="";
+		    }
 		}
+	      // Normal traitement
+	      $value2=FormatString($value);
+	      
+	      $sql=sprintf("select attribut_insert(%d,%d,'%s')",
+			   $fiche_id,$id,trim($value2));
+	      ExecSql($this->cn,$sql);
 	    }
-	  // Normal traitement
-	  $value2=FormatString($value);
-
-	  $sql=sprintf("select attribut_insert(%d,%d,'%s')",
-		       $fiche_id,$id,trim($value2));
-	  ExecSql($this->cn,$sql);
-	}
+	}  catch (Exception $e) 
+	     {
+	       echo '<span class="error">'.
+		 $e->getMessage().
+		 '</span>';
+	       Rollback($this->cn);
+	       return;
+	     }
       Commit($this->cn);
       return;
-      
-
     }
 
    
@@ -527,136 +534,137 @@ class fiche {
    */
  function update() 
      {
-       // parse the $_POST array
-       foreach ($_POST as $name=>$value ) 
-         {
-           echo_debug ("class_fiche",__LINE__,"Name = $name value $value") ;
-           list ($id) = sscanf ($name,"av_text%d");
-           if ( $id == null ) continue;
-           echo_debug("class_fiche",__LINE__,"modify $id");
-           
-           // retrieve jft_id to update table attr_value
-           $sql=" select jft_id from jnt_fic_att_value where ad_id=$id and f_id=$this->id";
-           $Ret=ExecSql($this->cn,$sql);
-           if ( pg_NumRows($Ret) != 1 ) {
-	     // we need to insert this new attribut
-             echo_debug ("class_fiche ".__LINE__." adding id !!! ");
-	     $jft_id=NextSequence($this->cn,'s_jnt_fic_att_value');
-
-	     $sql2=sprintf("insert into jnt_fic_att_value(jft_id,ad_id,f_id) values (%s,%s,%s)",
-			   $jft_id,$id,$this->id);
-
-	     $ret2=ExecSql($this->cn,$sql2);
-	     // insert a null value for this attribut
-	     $sql3=sprintf("insert into attr_value(jft_id,av_text) values (%s,null)",
-                        $jft_id);
-	     $ret3=ExecSql($this->cn,$sql3);
-           } else 
-	     {
+       try {
+	 StartSql($this->cn);
+	 // parse the $_POST array
+	 foreach ($_POST as $name=>$value ) 
+	   {
+	     echo_debug ("class_fiche",__LINE__,"Name = $name value $value") ;
+	     list ($id) = sscanf ($name,"av_text%d");
+	     if ( $id == null ) continue;
+	     echo_debug("class_fiche",__LINE__,"modify $id");
+	     
+	     // retrieve jft_id to update table attr_value
+	     $sql=" select jft_id from jnt_fic_att_value where ad_id=$id and f_id=$this->id";
+	     $Ret=ExecSql($this->cn,$sql);
+	     if ( pg_NumRows($Ret) != 1 ) {
+	       // we need to insert this new attribut
+	       echo_debug ("class_fiche ".__LINE__." adding id !!! ");
+	       $jft_id=NextSequence($this->cn,'s_jnt_fic_att_value');
+	       
+	       $sql2=sprintf("insert into jnt_fic_att_value(jft_id,ad_id,f_id) values (%s,%s,%s)",
+			     $jft_id,$id,$this->id);
+	       
+	       $ret2=ExecSql($this->cn,$sql2);
+	       // insert a null value for this attribut
+	       $sql3=sprintf("insert into attr_value(jft_id,av_text) values (%s,null)",
+			     $jft_id);
+	       $ret3=ExecSql($this->cn,$sql3);
+	     } else 
+	       {
 	       $tmp=pg_fetch_array($Ret,0);
 	       $jft_id=$tmp['jft_id'];
-	     }
-           // Special traitement
-           // quickcode
-           if ( $id == ATTR_DEF_QUICKCODE) 
-             {
-               echo_debug("Modify ATTR_DEF_QUICKCODE");
-               $sql=sprintf("select update_quick_code(%d,'%s')",
-                            $jft_id,FormatString($value));
-               ExecSql($this->cn,$sql);
-               continue;
+	       }
+	     // Special traitement
+	     // quickcode
+	     if ( $id == ATTR_DEF_QUICKCODE) 
+	       {
+		 echo_debug("Modify ATTR_DEF_QUICKCODE");
+		 $sql=sprintf("select update_quick_code(%d,'%s')",
+			      $jft_id,FormatString($value));
+		 ExecSql($this->cn,$sql);
+		 continue;
              }
-           // name
-           if ( $id == ATTR_DEF_NAME ) 
-             {
-               echo_debug("Modify ATTR_DEF_NAME");
-	       echo_debug("Value = $v");
-               if ( strlen(trim($value)) == 0 )
-                 continue;
-
-	       echo_debug("Value = $v");
+	     // name
+	     if ( $id == ATTR_DEF_NAME ) 
+	       {
+		 echo_debug("Modify ATTR_DEF_NAME");
+		 if ( strlen(trim($value)) == 0 )
+		   continue;
+		 
                
-             }
-
-           // account
-           if ( $id == ATTR_DEF_ACCOUNT ) 
-             {
-               echo_debug("Modify ATTR_DEF_ACCOUNT");
-               $v=FormatString($value);
-	       echo_debug("Value = $v");
-               if ( isNumber($v) == 1 )
-                 {
-		   ob_start();
-
-                   $sql=sprintf("select account_update(%d,%d)",
-                                $this->id,$v);
-                   $Ret=ExecSql($this->cn,$sql,false);
-
-		   ob_end_clean();
-		   if ( $Ret == false ) {
-		     echo "<span class=\"error\">Erreur : ce compte [$v] n'a pas de compte parent.".
-		       "L'op&eacute;ration est annul&eacute;e</span>";
-		     Rollback($this->cn);
-		     return;
+	       }
+	     
+	     // account
+	     if ( $id == ATTR_DEF_ACCOUNT ) 
+	       {
+		 echo_debug("Modify ATTR_DEF_ACCOUNT");
+		 $v=FormatString($value);
+		 echo_debug("Value = $v");
+		 if ( isNumber($v) == 1 )
+		   {
+		     $sql=sprintf("select account_update(%d,%d)",
+				  $this->id,$v);
+		     try {
+		       ExecSql($this->cn,$sql,false);
+		     } catch (Exception $e) {
+		       throw new Exception(__LINE__."Erreur : ce compte [$v] n'a pas de compte parent.".
+					   "L'op&eacute;ration est annul&eacute;e");
+		     }
+		     
+		     continue;		   
 		   }
-		   continue;		   
-                 }
-               if ( strlen (trim($v)) == 0 ) 
+		 if ( strlen (trim($v)) == 0 ) 
                  {
+
                    $sql=sprintf("select account_update(%d,null)",
                                 $this->id);
-                   $Ret=ExecSql($this->cn,$sql,false);
-
-		   ob_end_clean();
-		   if ( $Ret == false ) {
-		     echo "<span class=\"error\">Erreur : ce compte [$v] n'a pas de compte parent.".
-		       "L'op&eacute;ration est annul&eacute;e</span>";
-		     Rollback($this->cn);
-		     return;
+		   try {
+		     $Ret=ExecSql($this->cn,$sql,false);
+		   } catch (Exception $e) {
+		       throw new Exception(__LINE__."Erreur : ce compte [$v] n'a pas de compte parent.".
+					   "L'op&eacute;ration est annul&eacute;e");
 		   }
-		   continue;		   
                    continue;
                  }
              }
-         // TVA
-           if ( $id == ATTR_DEF_TVA ) 
-             {
-               echo_debug("Modify ATTR_DEF_TVA");
-               // Verify if the rate exists, if not then do not update
-               if ( strlen(trim($value)) != 0 ) 
-                 {
-                   if ( CountSql($this->cn,"select * from tva_rate where tva_id=".$value) == 0) 
-                     {
-                       echo_debug("class_fiche",__LINE__,"Tva invalide $value");
-                       continue;
-                     }
-                 }
-             }
-           if ( $id == ATTR_DEF_COMPANY ) 
-             {
-               $exist=CountSql($this->cn,"select f_id from fiche join fiche_def using (fd_id) ".
-                               " join jnt_fic_att_value using (f_id) join attr_value using (jft_id) ".
+	     // TVA
+	     if ( $id == ATTR_DEF_TVA ) 
+	       {
+		 echo_debug("Modify ATTR_DEF_TVA");
+		 // Verify if the rate exists, if not then do not update
+		 if ( strlen(trim($value)) != 0 ) 
+		   {
+		     if ( CountSql($this->cn,"select * from tva_rate where tva_id=".$value) == 0) 
+		       {
+			 echo_debug("class_fiche",__LINE__,"Tva invalide $value");
+			 continue;
+		       }
+		   }
+	       }
+	     if ( $id == ATTR_DEF_COMPANY ) 
+	       {
+		 $exist=CountSql($this->cn,"select f_id from fiche join fiche_def using (fd_id) ".
+				 " join jnt_fic_att_value using (f_id) join attr_value using (jft_id) ".
                                " where frd_id in (8,9,14) and ad_id=".ATTR_DEF_QUICKCODE.
-                               " and av_text='".FormatString($value)."'");
- 
- 
-               if ( $exist == 0 && FormatString($value) != null ) 
-                 {
-                   $value="Attention : pas de société ";
-                 }
-             }
-           
-           // Normal traitement
-           $value2=FormatString($value);
-           $sql=sprintf("update attr_value set av_text='%s' where jft_id=%d",
-                        trim($value2),$jft_id);
-           ExecSql($this->cn,$sql);
-         }
+				 " and av_text='".FormatString($value)."'");
+		 
+		 
+		 if ( $exist == 0 && FormatString($value) != null ) 
+		   {
+		     $value="Attention : pas de société ";
+		   }
+	       }
+	     
+	     // Normal traitement
+	     $value2=FormatString($value);
+	     $sql=sprintf("update attr_value set av_text='%s' where jft_id=%d",
+			  trim($value2),$jft_id);
+	     ExecSql($this->cn,$sql);
+	   }
+       } catch (Exception $e ) {
+	 echo '<span class="error">'.
+	   $e->getMessage().
+	   '</span>';
+	 Rollback($this->cn);
+	 return;
+       }
+       Commit($this->cn);
        return;
        
      }
- /*!\brief  remove a card
-  */
+       /*!\brief  remove a card
+	*/
    function remove() 
      {
        if ( $this->id==0 ) return;
@@ -737,7 +745,8 @@ class fiche {
      {
        return fiche::GetByDef($this->fiche_def_ref,$p_offset,$p_search);
     }
-   /*!\brief retrieve the frd_id of the fiche 
+   /*!\brief retrieve the frd_id of the fiche it is the type of the
+    *        card (bank, purchase...)
     *        (fiche_def_ref primary key)
     */
   function get_fiche_def_ref_id() 
@@ -931,7 +940,5 @@ function GetSoldeDetail($p_cond="") {
      else
        $this->fd_id=$R;
    }
-
-}    
-
+}
 ?>

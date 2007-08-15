@@ -279,6 +279,7 @@ function FormFin($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
     $wConcerned->SetReadOnly($pview_only);
     $wConcerned->extra=0;
     $wConcerned->table=1;
+	$wConcerned->extra2='paid';
     $r.=$wConcerned->IOValue("e_concerned".$i,${"e_concerned".$i});
     $r.='</TR>';
    // if not recorded the new amount must be recalculate
@@ -312,6 +313,9 @@ $r.="</FORM>";
 // if view_only is true
 //Put the new saldo here (old saldo - operation)
  if ( $pview_only==true)  {
+   $solde=round($solde,2);
+   $new_solde=round($new_solde,2);
+
    // if not recorded the new amount must be recalculate
    if ( $p_save == false) {
      $r.=" <b> Ancien Solde = ".$solde." </b><br>";
@@ -363,71 +367,85 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
   
   // Debit = banque
   $poste_bq=GetFicheAttribut($p_cn,$e_bank_account,ATTR_DEF_ACCOUNT);
-  StartSql($p_cn);
-  $amount=0.0;  
-  // Credit = goods 
-  for ( $i = 0; $i < $nb_item;$i++) {
-    // if tiers is set and amount != 0 insert it into the database 
-    // and quit the loop ?
-    if ( ${"e_other$i"."_amount"} == 0 ) continue;
-    $poste=GetFicheAttribut($p_cn,${"e_other$i"},ATTR_DEF_ACCOUNT);
+  try 
+    {
+      StartSql($p_cn);
+      $amount=0.0;  
+      // Credit = goods 
+      for ( $i = 0; $i < $nb_item;$i++) {
+	// if tiers is set and amount != 0 insert it into the database 
+	// and quit the loop ?
+	if ( ${"e_other$i"."_amount"} == 0 ) continue;
+	$poste=GetFicheAttribut($p_cn,${"e_other$i"},ATTR_DEF_ACCOUNT);
 
-    // round it
-    ${"e_other$i"."_amount"}=round( ${"e_other$i"."_amount"},2);
+	// round it
+	${"e_other$i"."_amount"}=round( ${"e_other$i"."_amount"},2);
 
-    $amount+=${"e_other$i"."_amount"};
-    // Record a line for the bank
-    // Compute the j_grpt
-    $seq=NextSequence($p_cn,'s_grpt');
-
-    if ( InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste_bq,$e_date,round(${"e_other$i"."_amount"},2),
-		    $seq,$periode,$e_bank_account) == false ) {
-      $Rollback($p_cn);exit("error 'user_form_fin.php' __LINE__");
-    }
+	$amount+=${"e_other$i"."_amount"};
+	// Record a line for the bank
+	// Compute the j_grpt
+	$seq=NextSequence($p_cn,'s_grpt');
+	// Set Internal code and Comment
+	$internal=SetInternalCode($p_cn,$seq,$p_jrn);
 
 
-    // Record a line for the other account
-    if ( ($j_id=InsertJrnx($p_cn,'c',$p_user->id,$p_jrn,$poste,$e_date,round(${"e_other$i"."_amount"},2),$seq,$periode,${"e_other$i"})) == false )
-      { $Rollback($p_cn);exit("error 'user_form_fin.php' __LINE__");}
+	InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste_bq,$e_date,round(${"e_other$i"."_amount"},2),
+		   $seq,$periode,$e_bank_account) ;
 
-    echo_debug('user_form_fin.php',__LINE__,"   $j_id=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste,$e_date,".${"e_other$i"}."_amount".",$seq,$periode);");
 
-    if ( ($jr_id=InsertJrn($p_cn,$e_date,'',$p_jrn,FormatString(${"e_other$i"."_comment"}),
-			   $seq,$periode))==false) {
-      $Rollback($p_cn);exit("error 'user_form_fin.php' __LINE__");}
+	// Record a line for the other account
+	$j_id=InsertJrnx($p_cn,'c',$p_user->id,$p_jrn,$poste,$e_date,
+			 round(${"e_other$i"."_amount"},2),$seq,$periode,${"e_other$i"});
+	
+	echo_debug('user_form_fin.php',__LINE__,"   $j_id=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste,$e_date,".${"e_other$i"}."_amount".",$seq,$periode);");
+
+	$jr_id=InsertJrn($p_cn,$e_date,'',$p_jrn,FormatString(${"e_other$i"."_comment"}),
+			 $seq,$periode);
   
-    if ( isNumber(${"e_concerned".$i}) == 1 ) {
+	if ( isNumber(${"e_concerned".$i}) == 1 ) {
 
-      InsertRapt($p_cn,$jr_id,${"e_concerned$i"});
-    }
-
-
-  // Set Internal code and Comment
-    $internal_code=SetInternalCode($p_cn,$seq,$p_jrn);
-    $comment=$internal_code."  compte : ".GetFicheName($p_cn,$e_bank_account);
-    if ( FormatString(${"e_other$i"."_comment"}) == null ) {
-      // Update comment if comment is blank
-      $Res=ExecSql($p_cn,"update jrn set jr_comment='".$comment."' where jr_grpt_id=".$seq);
-    }
+	  InsertRapt($p_cn,$jr_id,${"e_concerned$i"});
+	}
 
 
-    if ( $i == 0 )
-      {
-	// first record we upload the files and
-	// keep variable to update other row of jrn
-	if ( isset ($_FILES))
-	  $oid=save_upload_document($p_cn,$seq);
+    // Set Internal code and Comment
+	$Res=ExecSql($p_cn,"update jrn set jr_internal='".$internal."' where ".
+	       " jr_grpt_id = ".$seq);
 
-      } else {
-	if ( $oid  != 0 ) 
+	$comment=$internal_code."  compte : ".GetFicheName($p_cn,$e_bank_account);
+	if ( FormatString(${"e_other$i"."_comment"}) == null ) {
+	  // Update comment if comment is blank
+	  $Res=ExecSql($p_cn,"update jrn set jr_comment='".$comment."' where jr_grpt_id=".$seq);
+	}
+
+
+	if ( $i == 0 )
 	  {
-	    ExecSql($p_cn,"update jrn set jr_pj=".$oid.", jr_pj_name='".$_FILES['pj']['name']."', ".
-                "jr_pj_type='".$_FILES['pj']['type']."'  where jr_grpt_id=$seq");
-	  }
-      }
-    
-  } // for nbitem
+	    // first record we upload the files and
+	    // keep variable to update other row of jrn
+	    if ( isset ($_FILES))
+	      $oid=save_upload_document($p_cn,$seq);
 
+	  } else {
+	  if ( $oid  != 0 ) 
+	    {
+	      ExecSql($p_cn,"update jrn set jr_pj=".$oid.", jr_pj_name='".$_FILES['pj']['name']."', ".
+		      "jr_pj_type='".$_FILES['pj']['type']."'  where jr_grpt_id=$seq");
+	    }
+	}
+    
+      } // for nbitem
+    } 
+  catch (Exception $e)
+    {
+       echo '<span class="error">'.
+	'Erreur dans l\'enregistrement '.
+	__FILE__.':'.__LINE__.' '.
+	$e->getMessage();
+      Rollback($p_cn);
+      exit();
+ 
+    }
   Commit($p_cn);
   return $internal_code;
 }

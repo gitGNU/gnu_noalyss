@@ -23,7 +23,7 @@
  * \brief Search a account in a popup window
  */
 include_once ("ac_common.php");
-html_page_start($_SESSION['g_theme'],"onLoad='window.focus();'");
+html_page_start($_SESSION['g_theme'],'onLoad="window.focus();"');
 include_once ("postgres.php");
 include_once("jrn.php");
 /* Admin. Dossier */
@@ -44,37 +44,31 @@ $c_class="";
 
 $condition="";
 $cn=DbConnect($_SESSION['g_dossier']);
-if ( isset($_POST['search']) ) {
+if ( isset($_GET['search']) ) {
   $c1=0;
-  foreach( $_POST as $key=>$element){
+  foreach( $_GET as $key=>$element){
     ${"$key"}=$element;
   }
+  $condition="";
   if ( strlen(trim($p_comment)) != 0 ) {
-    $c_comment=" where upper(pcm_lib) like upper('%$p_comment%')";
-    $c1=1;
+    $condition=" where (upper(pcm_lib) like upper('%$p_comment%') or ".
+      " pcm_val::text like '$p_comment%') ";
   }
-  if ( strlen(trim($p_class)) != 0 &&
-       (string) $p_class == (int)(string) $p_class) {
-    if ($c1==1) 
-      $clause=" and ";
-    else
-      $clause = " where ";
-    $c_class=sprintf(" %s pcm_val::text like '%s%%'",$clause,$p_class);
 
-    }
-  
-
-  $condition=$c_comment.$c_class;
 }
 $url="";
-// Filter ???
-if ( isset($_GET['filter'])) {
+
+//--------------------------------------------------
+// Filter defined in the ledger's parameter
+// 
+if ( isset($_GET['filter']) && $_GET['filter'] != 'all') {
   $url="?filter=1";
   // There is a filter, the value of the filter is the journal id, we
   // have to find what account are available
   $SqlCred="";
+
   // Load the property
-  $l_line=GetJrnProp($cn,$_GET['p_jrn']);
+  $l_line=GetJrnProp($_SESSION['g_dossier'],$_GET['p_jrn']);
   if ( strlen(trim ($l_line['jrn_def_class_cred']) ) > 0 ) {
     $valid_cred=split(" ",$l_line['jrn_def_class_cred']);
 
@@ -117,29 +111,29 @@ if ( isset($_GET['filter'])) {
     $condition .= ($SqlCred=="")?"":" and (  ".substr($SqlCred,0,strlen($SqlCred)-2)." ) ";
   }
 }// if (isset($_GET['filter']))
+
+
+// Control to update in the calling doc.
 if ( isset($_GET['p_ctl'])) {
   $p_ctl=$_GET['p_ctl'];
 }
-if ( isset($_POST['p_ctl'])) {
-  $p_ctl=$_POST['p_ctl'];
-}
+
 
 echo_debug('poste_search.php',__LINE__,"condition = $condition");
 
-echo '<FORM ACTION="poste_search.php'.$url.'" METHOD="POST">';
+echo '<FORM ACTION="poste_search.php'.$url.'" METHOD="GET">';
 if ( isset($p_ctl) ) {
   if ($p_ctl != 'not')   echo '<INPUT TYPE="hidden" name="p_ctl" value="'.$p_ctl.'">';
 }
 echo '<TABLE>';
 echo '<TR>';
 
-echo '<TD>Poste Comptable Commence par  </TD>';
+/* echo '<TD>Poste Comptable Commence par  </TD>'; */
+/* if ( ! isset ($p_class) ) $p_class=""; */
+/* $opt=" <INPUT TYPE=\"text\" value=\"$p_class\" name=\"st_with\">"; */
+/* echo '<TD> <INPUT TYPE="text" name="p_class" VALUE="'.$p_class.'"></TD>'; */
 
-if ( ! isset ($p_class) ) $p_class="";
-$opt=" <INPUT TYPE=\"text\" value=\"$p_class\" name=\"st_with\">";
-echo '<TD> <INPUT TYPE="text" name="p_class" VALUE="'.$p_class.'"></TD>';
-
-echo '<TD> Libellé </TD>';
+echo '<TD> Libellé ou poste comptable</TD>';
 echo '<TD> contient </TD>';
 if ( ! isset ($p_comment) ) $p_comment="";
 echo '<TD> <INPUT TYPE="text" name="p_comment" VALUE="'.$p_comment.'"></TD></TR>';
@@ -148,8 +142,8 @@ echo '<INPUT TYPE="submit" name="search" value="cherche">';
 echo '</FORM>';
 
 // if request search
-if ( isset($_POST['search']) or isset($_GET['filter']) ) {
-  $Res=ExecSql($cn,"select * from tmp_pcmn $condition order by pcm_val::text");
+if ( isset($_GET['search']) or isset($_GET['filter']) ) {
+  $Res=ExecSql($cn,"select pcm_val,pcm_lib from tmp_pcmn $condition order by pcm_val::text");
   
   $MaxLine=pg_NumRows($Res);
   if ( $MaxLine==0) { 
@@ -163,9 +157,11 @@ if ( isset($_POST['search']) or isset($_GET['filter']) ) {
     $l_line=pg_fetch_array($Res,$i);
     echo "<TR>";
     // if p_ctl is set we need to be able to return the value
-    if (isset($p_ctl) and $p_ctl != 'not' ){
+    if (isset($p_ctl) && $p_ctl != 'not' ){
       echo '<TD>';
-      echo '<input type="checkbox" onClick="SetItChild(\''.$p_ctl.'\',\''.$l_line['pcm_val'].'\')">';
+      $slabel=FormatString($l_line['pcm_lib']);
+      echo '<input type="checkbox" onClick="SetItChild(\''.$p_ctl.'\',\''.$l_line['pcm_val'].'\',\''.
+	$slabel.'\')">';
       echo '</td>';
     }
     echo '<TD>';

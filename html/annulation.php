@@ -71,6 +71,10 @@ if ( isset ($_POST['annul']) ) {
 <p>
 <h2 class="info">Confirmation</h2>
 <br>
+		<p><span class="error">Attention: l'effacement d'une op&eacute;ration peut rompre la s&eacute;quence de la num&eacute;rotation des factures surtout celles g&eacute;n&eacute;r&eacute;es automatiquement, soyez tr&egrave;s prudent quand vous effacez. La pi&egrave;ce jointe sera elle aussi effac&eacute;e.
+</span>
+</p> 
+
 <p>
 Voulez-vous vraiment annuler  cette information soit par une remise à z&eacute;ro des montants 
 soit par son &eacute;criture inverse ?
@@ -104,7 +108,7 @@ return;
 
    // Test if date is valid
    if ( isDate ($e_op_date) == null ) {
-     $msg='Invalid Date';
+     $msg=' Date non valide';
      echo "<script> alert('$msg');</script>";
      // set an incorrect pid to get out from here
      $p_id=-1;
@@ -117,18 +121,23 @@ if  ($p_id != -1 ) { // A
     // Periode fermée 
     if ( PeriodeClosed ($cn,$userPref)=='t' )
       {
-	$msg="Votre periode par defaut est fermee, changez vos preferences";
+	$msg="Votre periode par defaut est fermee, changez vos préférences";
 		echo_error($msg); 
 		echo "<SCRIPT>alert('$msg');</SCRIPT>";
 		// set an incorrect pid to get out from here
 		$p_id=-1;
       }
+
  if ( $p_id != -1 ) { //B
     // Test whether date of the operation is in a closed periode
     // get the period_id
     $period_id=getPeriodeFromDate($cn,$e_op_date);
       // Check the period_id
-    if ( PeriodeClosed($cn,$period_id) == 't' ){
+    if ( PeriodeClosed($cn,$period_id) == 't' )
+	  {
+		try 
+		  {
+
       // if the operation is in a closed or centralized period
       // the operation is voided thanks the opposite operation
    StartSql($cn);
@@ -146,49 +155,98 @@ if  ($p_id != -1 ) { // A
           from
 	  jrn
 	  where   jr_grpt_id=".$_POST['p_id'];
-   $Res=ExecSql($cn,$sql);
+   $Res=ExecSql($cn,$sql,false);
    // Check return code
-   if ( $Res == false ) { Rollback($cn);exit(-1);}
+   if ( $Res == false) 
+	 throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
+
  
   // Make also the change into jrnx
    $sql= "insert into jrnx (
   	        j_date,j_montant,j_poste,j_grpt,               
-                j_jrn_def,j_debit,j_text,j_internal,j_tech_user,j_tech_per
+                j_jrn_def,j_debit,j_text,j_internal,j_tech_user,j_tech_per,j_qcode
   		) select now(),j_montant,j_poste,$grp_new,
                   j_jrn_def,not (j_debit),j_text,'$p_internal','".$User->id."',
-		  $userPref
+		  $userPref,j_qcode
 	  from
 	  jrnx
 	  where   j_grpt=".$_POST['p_id'];
-   $Res=ExecSql($cn,$sql);
+   $Res=ExecSql($cn,$sql,false);
    // Check return code
-   if ( $Res == false ) { Rollback($cn);exit(-1);}
+   if ( $Res == false) 
+	 throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
+
    
     // Mark the operation invalid into the ledger
     // to avoid to nullify twice the same op.
     $sql="update jrn set jr_comment='Annule : '||jr_comment where jr_grpt_id=".$_POST['p_id'];
-    $Res=ExecSql($cn,$sql);
+    $Res=ExecSql($cn,$sql,false);
     // Check return code
-    if ( $Res == false ) { Rollback($cn);exit(-1);}
+	if ( $Res == false) 
+	  throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
+	
+
+   // Set the record to A (annulate) in quant_sold and quand_purchase
+   
+
+   $Res=ExecSql($cn,"update quant_sold set ".
+				" qs_valid='A' where qs_internal='".$l_array['jr_internal']."'",
+				false);
+
+   if ( $Res == false) 
+	 throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
+
+
+   $Res=ExecSql($cn,"update quant_purchase set ".
+				" qp_valid='A' where qp_internal='".$l_array['jr_internal']."'",
+				false);
+   if ( $Res == false) 
+	 throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
+
+
+
+
+
 
     // Add a "concerned operation to bound these op.together
     //
     $Res=InsertRapt($cn,$seq,$l_array['jr_id']);
    // Check return code
-   if ( $Res == false ) { Rollback($cn);exit(-1);}
+	if ( $Res == false ) { throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));}
     
 
    // the table stock must updated
    // also in the stock table
    $sql="delete from stock_goods where sg_id = any ( select sg_id
   from stock_goods natural join jrnx  where j_grpt=".$_POST['p_id'].")";
-   $Res=ExecSql($cn,$sql);
+   $Res=ExecSql($cn,$sql,false);
    // Check return code
-   if ( $Res == false ) { Rollback($cn);exit(-1);}
+   if ( $Res == false) 
+	 throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
+		  } 
+		catch (Exception $e) 
+		  {
+			Rollback($cn);
+			$msg="Désolé mais il n a pas été possible d'annuler ".
+			  "cette opération";
 
+			echo "<SCRIPT>alert('$msg');</SCRIPT>";
+
+			echo '<span class="error">'.
+			  'Erreur : '.
+			  __FILE__.':'.__LINE__.' '.
+			  $e->getMessage();
+			echo '<p>';
+			echo 'Postez ce message sur '.
+			  '<A HREF="http://www.phpcompta.org/pmwiki.php/Forum/Forum">'.
+			  'le forum de www.phpcompta.org</A> '.
+			  '</p>';
+			$p_id=-1;
+			exit(-1);
+		  }
    Commit($cn);
    // close the window
-   echo '<h2 class="info"> Opération Annulée</h2>';
+   echo '<h2 class="info"> Opération Annul&eacute;e</h2>';
     ?>
  <script>
     window.close();
@@ -200,27 +258,89 @@ self.opener.RefreshMe();
 	// operation is not in a closed period
       // Check only if a line is valid or not
       if ( isValid($cn,$p_id) ==  1 ) {
-	// Start Sql
-	StartSql($cn);
+		try  
+		  {
+			// Start Sql
+			StartSql($cn);
+			// Set the record to A (annulate) in quant_sold and quand_purchase
+			// delete from the rapt table
+			$sql="delete from jrn_rapt where jr_id = any (select jr_id from jrn ".
+			  " where jr_grpt_id = ".$_POST['p_id'].")";
+			$Res=ExecSql($cn,$sql,false);
+			
+			if ( $Res == false) 
+			  throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
 
-	// delete from the stock table
-	$sql="delete from stock_goods where sg_id = any ( select sg_id
+			
+			
+			$Res=ExecSql($cn,"delete from  quant_sold  ".
+						 " where qs_internal='".$l_array['jr_internal']."'",
+						 false);
+			
+			if ( $Res == false) 
+			  throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
+
+	
+			$Res=ExecSql($cn,"delete from quant_purchase  ".
+						 " where qp_internal='".$l_array['jr_internal']."'",
+						 false);
+	
+			if ( $Res == false) 
+			  throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
+			
+			if ( $l_array['jr_pj'] != "") 
+			  {
+				$Res=pg_lo_unlink($cn,$l_array['jr_pj']);
+				if ( $Res == false) 
+				  throw (new Exception(__FILE__.__LINE__.
+									   "Echec Effacement lob  [ $sql ]"));
+
+			  }
+
+			// delete from the stock table
+			$sql="delete from stock_goods where sg_id = any ( select sg_id
  from stock_goods natural join jrnx  where j_grpt=".$_POST['p_id'].")";
-	$Res=ExecSql($cn,$sql);
+			$Res=ExecSql($cn,$sql,false);
 	
-   if ( $Res == false ) { Rollback($cn);exit(-1);}
-	// delete from jrnx & jrn
-	$sql="update jrnx set j_montant = 0 where j_grpt=".$_POST['p_id'];
+			if ( $Res == false) 
+			  throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
+
+
+			// delete from jrnx & jrn
+			$sql="delete from jrnx  where j_grpt=".$_POST['p_id'];
 	
-	$Res=ExecSql($cn,$sql);
+			$Res=ExecSql($cn,$sql,false);
+			if ( $Res == false) 
+			  throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
 	
-   if ( $Res == false ) { Rollback($cn);exit(-1);}
+			// build the sql stmt for jrn
+			$sql= "delete from jrn    where   jr_grpt_id=".$_POST['p_id'];
+			$Res=ExecSql($cn,$sql,false);
 	
-	// build the sql stmt for jrn
-	$sql= "update  jrn  set jr_montant=0,jr_valid='f',jr_comment='Erreur:'||jr_comment  where   jr_grpt_id=".$_POST['p_id'];
-	$Res=ExecSql($cn,$sql);
-	
-   if ( $Res == false ) { Rollback($cn);exit(-1);}
+			if ( $Res == false) 
+			  throw (new Exception(__FILE__.__LINE__." sql a echoue [ $sql ]"));
+
+		  } 
+		catch (Exception $e) 
+		  {
+			Rollback($cn);
+			$msg="Désolé mais il n a pas été possible d'annuler ".
+			  "cette opération";
+			echo "<SCRIPT>alert('$msg');</SCRIPT>";
+			
+			echo '<span class="error">'.
+			  'Erreur : '.
+			  __FILE__.':'.__LINE__.' '.
+			  $e->getMessage();
+			echo '<p>';
+			echo 'Postez ce message sur '.
+			  '<A HREF="http://www.phpcompta.org/pmwiki.php/Forum/Forum">'.
+			  'le forum de www.phpcompta.org</A> '.
+			  '</p>';
+			$p_id=-1;
+			exit(-1);
+		  }
+
 	Commit($cn);
 	echo '<h2 class="info"> Opération Annulée</h2>';
 	  ?>
@@ -282,7 +402,7 @@ if ( $a != null ) {
 echo '
 
 <input type="hidden" name="p_id" value="'.$_GET['jrn_op'].'">
-<input type="submit" name="annul"  value="Mise à zéro">
+<input type="submit" name="annul"  value="Mise à zéro ou effacement">
 <input type="button" name="cancel" value="Retour" onClick="window.close();">
 </form>';
 

@@ -48,6 +48,7 @@ function u_ShowDossier($p_user,$p_admin)
     $result.="<TD  class=\"mtitle\" ><A class=\"mtitle\" HREF=\"admin_repo.php\"> Administration  </A></TD>";
   }
   $result.='<TD  class="mtitle" ><A class="mtitle" HREF="manuel-fr.pdf" > Aide </a></TD>';
+  $result.='<TD class="mtitle"><A class="mtitle" HREF="user_pref.php">Pr&eacute;f&eacute;rence</a></TD>';
   $result.='<TD  class="mtitle" ><A class="mtitle" HREF="logout.php" > Sortir</a></TD>';
   $result.="</TR>";
   $result.="</table>";
@@ -73,6 +74,12 @@ function u_ShowDossier($p_user,$p_admin)
     $result.="</TD>";
     $result.="<TD class=\"mtitle\">";
     $result.="<A class=\"mtitle\" HREF=\"parametre.php?dos=$id\">Paramètres</A>";
+    $result.="</TD>";
+    $result.="<TD class=\"mtitle\">";
+    $result.="<A class=\"mtitle\" HREF=\"comptanalytic.php?dos=$id\">Comptabilité analytique</A>";
+    $result.="</TD>";
+    $result.="<TD class=\"mtitle\">";
+    $result.="<A class=\"mtitle\" HREF=\"caisse.php?dos=$id\">Caisse Enregistreuse</A>";
     $result.="</TD>";
 
     $result.="</TR>";
@@ -154,15 +161,21 @@ function ShowMenuCompta($p_dossier,$p_high="")
   if ( $p_high !== "" ) $default=$p_high;
 
   echo_debug('user_menu.php',__LINE__,'defaut is '.$default);
-
+  if  ( isset($_REQUEST['p_action']))
+	{
+	  if ( $_REQUEST['p_action']=='impress')
+		$default=5;
+	  if ( $_REQUEST['p_action']=='fiche')
+		$default=6;
+	}
   $p_array=array(
 		 array("user_jrn.php?jrn_type=NONE" ,"Grand Livre"),
 		 array("user_jrn.php?jrn_type=VEN" ,"Entrée"),
 		 array("user_jrn.php?jrn_type=ACH","Dépense"),
 		 array("user_jrn.php?jrn_type=FIN","Financier"),
-		 array("user_jrn.php?jrn_type=OD","Op. Diverses"),
-		 array("compta.php?p_action=impress","Impression","Impression"),
-		 array("compta.php?p_action=fiche","Fiche","Ajouter, modifier ou effacer des fiches"),
+		 array("user_jrn.php?jrn_type=ODS","Op. Diverses"),
+		 array("compta.php?p_action=impress","Impression","Impression",5),
+		 array("compta.php?p_action=fiche","Fiche","Ajouter, modifier ou effacer des fiches",6),
 		 array("user_advanced.php","Avancé","Opérations délicates"),
 		 );
 
@@ -171,9 +184,11 @@ function ShowMenuCompta($p_dossier,$p_high="")
   $r="<H2 class=\"info\">Comptabilit&eacute;  ".$_SESSION['g_name'];
 
   $r.='<div align="right">
-<input type="IMAGE" src="image/search.png" width="36" onclick="openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.$_SESSION['g_dossier'].');">
+<input type="IMAGE" src="image/search.png" width="36" onclick="openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.$_SESSION['g_dossier'].',\'E\');">
 <A HREF="user_pref.php" title="Pr&eacute;f&eacute;rence"><IMG SRC="image/preference.png" width="36" border="0" ></A>
 <A HREF="commercial.php?dos='.$_SESSION['g_dossier'].'" title="Gestion"><IMG SRC="image/compta.png" width="36"  border="0" ></A>
+<A HREF="comptanalytic.php?dos='.$_SESSION['g_dossier'].'" title="CA"><IMG SRC="image/undefined.png" width="36"  border="0" ></A>
+
 <A HREF="parametre.php?dos='.$_SESSION['g_dossier'].'" title="Paramètre"><IMG SRC="image/param.png" width="36"  border="0" ></A>
 <A HREF="login.php" title="Accueil"><IMG SRC="image/home.png" width="36"  border="0" ></A>
 <A HREF="logout.php" title="Sortie"><IMG SRC="image/logout.png"  title="Logout"  width="36"  border="0"></A>
@@ -481,6 +496,8 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
   $r.= "</TR>";
   $r.= "</TABLE>";
   $r.="</TR></TABLE>";
+  if ( isset($p_expert)) 
+	$r.='<input type="hidden" name="expert" value="on">';
   $r.= "</FORM>";
 
 
@@ -529,7 +546,7 @@ function ShowJrn($p_menu="")
  		array("user_jrn.php?jrn_type=VEN" ,"Entrée"),
                 array("user_jrn.php?jrn_type=ACH","Dépense"),
                 array("user_jrn.php?jrn_type=FIN","Financier"),
-                array("user_jrn.php?jrn_type=OD","Op. Diverses")
+                array("user_jrn.php?jrn_type=ODS","Op. Diverses")
                  );
  $result=ShowItem($p_array,'H',"cell","mtitle",$p_menu);
  return $result;
@@ -582,14 +599,30 @@ function ShowMenuFiche($p_dossier)
 
 function MenuAdmin()
 {
-  $item=array (array("admin_repo.php?action=user_mgt","Utilisateurs"),
-	       array("admin_repo.php?action=dossier_mgt","Dossiers"),
-	       array("admin_repo.php?action=modele_mgt","Modèles"),
+  $def=-1;
+  if (isset($_REQUEST['UID']))
+	$def=0;
+  if ( isset ($_REQUEST['action'])){
+	switch ($_REQUEST['action']) {
+	case 'user_mgt':
+	  $def=0;
+	  break;
+	case 'dossier_mgt':
+	  $def=1;
+	  break;
+	case 'modele_mgt':
+	  $def=2;
+	  break;
+	}
+  }
+  $item=array (array("admin_repo.php?action=user_mgt","Utilisateurs",'Gestion des utilisateurs',0),
+			   array("admin_repo.php?action=dossier_mgt","Dossiers",'Gestion des dossiers',1),
+			   array("admin_repo.php?action=modele_mgt","Modèles",'Gestion des modèles',2),
 	       array("login.php","Accueil"),
 	       array("logout.php","Logout")
 	       );
 
-  $menu=ShowItem($item,'H');
+  $menu=ShowItem($item,'H',"mtitle","mtitle",$def);
   return $menu;
 }
 /*!  
@@ -693,6 +726,8 @@ function ShowMenuPcmn($p_start=1)
     echo '<TR><TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=5">5 Actif</A></TD></TR>';
     echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="pcmn_update.php?p_start=6">6 Charges</A></TD></TR>';
     echo '<TR><TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=7">7 Produits</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=8">8 Hors Comptabilit&eacute;</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=9">9 Hors Comptabilit&eacute;</A></TD></TR>';
     echo "</TABLE>";
 }
 /*!  

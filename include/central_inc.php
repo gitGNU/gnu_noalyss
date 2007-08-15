@@ -61,21 +61,22 @@ $sql="insert into centralized( c_j_id,
             where  
             j_tech_per =".$p_periode." 
             order by j_date,j_grpt,j_debit desc ";
- $Res=StartSql($p_cn);
- $Res=ExecSql($p_cn,$sql);
- if ($Res==false) { rollback($p_cn); EndSql($p_cn); return ERROR;}
- $Res=ExecSql($p_cn,"update jrnx set j_centralized='t' where j_tech_per=".$p_periode);
- if ($Res==false) { rollback($p_cn); EndSql($p_cn); return ERROR;}
-// Set correctly the number of operation id (jr_opid) for each journal
-// get the existing jrn_def_id 
-//--
- $Res = ExecSql($p_cn,"select jrn_def_id from jrn_def");
- $MaxJrn=pg_NumRows($Res);
- // for each jrn_def_id
- for ( $i=0; $i < $MaxJrn;$i++) {
-   $row=pg_fetch_array($Res,$i);
-   // get the op related to that jrn_def_id
-   $sql=sprintf("select jr_id from jrn 
+ try
+   {
+     $Res=StartSql($p_cn);
+     $Res=ExecSql($p_cn,$sql);
+     $Res=ExecSql($p_cn,"update jrnx set j_centralized='t' where j_tech_per=".$p_periode);
+     
+     // Set correctly the number of operation id (jr_opid) for each journal
+     // get the existing jrn_def_id 
+     //--
+     $Res = ExecSql($p_cn,"select jrn_def_id from jrn_def");
+     $MaxJrn=pg_NumRows($Res);
+     // for each jrn_def_id
+     for ( $i=0; $i < $MaxJrn;$i++) {
+       $row=pg_fetch_array($Res,$i);
+       // get the op related to that jrn_def_id
+       $sql=sprintf("select jr_id from jrn 
          where
          jr_tech_per=%d
          and jr_def_id = %d
@@ -84,60 +85,64 @@ $sql="insert into centralized( c_j_id,
 		$row['jrn_def_id']
 		);
 
-   $Res2=ExecSql($p_cn,$sql);
-   $MaxLine=pg_NumRows($Res2);
-   for ($e=0;$e < $MaxLine;$e++) {
-     // each line is updated with a sequence
-     $line=pg_fetch_array($Res2,$e);
-     $jr_id=$line['jr_id'];
-     $sql=sprintf ("update jrn set 
+       $Res2=ExecSql($p_cn,$sql);
+       $MaxLine=pg_NumRows($Res2);
+       for ($e=0;$e < $MaxLine;$e++) {
+		 // each line is updated with a sequence
+		 $line=pg_fetch_array($Res2,$e);
+		 $jr_id=$line['jr_id'];
+		 $sql=sprintf ("update jrn set 
                  jr_opid = (select nextval('s_jrn_%d'))
                  where jr_id =%d",
-		   $row['jrn_def_id'],
-		   $jr_id); 
-     $Ret=ExecSql($p_cn,$sql);
-     if ($Res==false) { rollback($p_cn); EndSql($p_cn); return ERROR;}
-   }
- }
-   // Put jr_c_opid in centralized                 
-   // for each jrn_def_id
-   // get the op related to that jrn_def_id
-   $sql=sprintf("select jr_id from jrn 
+					   $row['jrn_def_id'],
+					   $jr_id); 
+		 $Ret=ExecSql($p_cn,$sql);
+     
+       }
+     }
+     // Put jr_c_opid in centralized                 
+     // for each jrn_def_id
+     // get the op related to that jrn_def_id
+     $sql=sprintf("select jr_id from jrn 
          where
          jr_tech_per=%d
             order by jr_date,jr_grpt_id desc",
-		$p_periode
-		);
-
-   $Res2=ExecSql($p_cn,$sql);
-   $MaxLine=pg_NumRows($Res2);
-   for ($e=0;$e < $MaxLine;$e++) {
-     // each line is updated with a sequence
-     $line=pg_fetch_array($Res2,$e);
-     $jr_id=$line['jr_id'];
-     $sql=sprintf ("update jrn set 
+		  $p_periode
+		  );
+     
+     $Res2=ExecSql($p_cn,$sql);
+     $MaxLine=pg_NumRows($Res2);
+     for ($e=0;$e < $MaxLine;$e++) {
+       // each line is updated with a sequence
+       $line=pg_fetch_array($Res2,$e);
+       $jr_id=$line['jr_id'];
+       $sql=sprintf ("update jrn set 
                  jr_c_opid = (select nextval('s_central'))
                  where jr_id =%d",
-		   $jr_id); 
-     $Ret=ExecSql($p_cn,$sql);
-     if ($Ret==false) { rollback($p_cn); EndSql($p_cn); return ERROR;}
-   }
-   // Set the order of the jrn
-   $Res=ExecSql($p_cn,"select c_id from centralized 
+		     $jr_id); 
+       $Ret=ExecSql($p_cn,$sql);
+     }
+     // Set the order of the jrn
+     $Res=ExecSql($p_cn,"select c_id from centralized 
                  inner join jrn on c_grp = jr_grpt_id
                  order by jr_c_opid, c_debit desc");
-   for ( $e=0;$e < pg_NumRows($Res);$e++) {
-     $row=pg_fetch_array($Res,$e);
-     $sql=sprintf ("update centralized set  
+     for ( $e=0;$e < pg_NumRows($Res);$e++) {
+       $row=pg_fetch_array($Res,$e);
+       $sql=sprintf ("update centralized set  
                  c_order = (select nextval('s_central_order'))
                  where c_id = %d",$row['c_id']);
-     $Res2=ExecSql($p_cn,$sql); 
-      if ($Res2==false) { rollback($p_cn); EndSql($p_cn); return ERROR;}
+       $Res2=ExecSql($p_cn,$sql); 
 
+     }
+     ExecSql($p_cn,"update parm_periode set p_central=true where p_id=$p_periode");
    }
-   if ( ExecSql($p_cn,"update parm_periode set p_central=true where p_id=$p_periode") == false)
-     { rollback($p_cn); EndSql($p_cn); return ERROR;}
-
+ catch(Exception $e)
+   { 
+     echo_debug(__FILE__.":".__LINE__." Erreur : ".$e->getCode." msg ".$e->getMessage);
+     rollback($p_cn); 
+     return ERROR;
+   }
+ 
  
  
  

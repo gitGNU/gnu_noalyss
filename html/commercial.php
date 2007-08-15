@@ -29,7 +29,7 @@
 include_once ("ac_common.php");
 require_once("constant.php");
 include_once ("postgres.php");
-
+echo JS_AJAX_FICHE;
 
 if ( isset ($_REQUEST['dos'] ) ) {
   $_SESSION['g_dossier']=$_REQUEST['dos'];
@@ -65,7 +65,7 @@ if ( isset ( $_POST['p_size']) ) {
 html_page_start($_SESSION['g_theme'],"","richtext.js");
 
 if ( ! isset ( $_SESSION['g_dossier'] ) ) {
-  echo "You must choose a Dossier ";
+  echo "Vous devez choisir un dossier ";
   exit -2;
 }
 
@@ -77,6 +77,8 @@ echo '<div align="right" title="Recherche">
 <input type="IMAGE" src="image/search.png" width="36" onclick="openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.$_SESSION['g_dossier'].');">
 <A HREF="?p_action=pref" title="Pr&eacute;f&eacute;rence"><IMG SRC="image/preference.png" width="36" border="0" ></A>
 <A HREF="user_compta.php?dos='.$_SESSION['g_dossier'].'" title="Comptabilit&eacute;"><IMG SRC="image/compta.png" width="36"  border="0" ></A>
+<A HREF="comptanalytic.php?dos='.$_SESSION['g_dossier'].'" title="CA"><IMG SRC="image/undefined.png" width="36"  border="0" ></A>
+
 <A HREF="parametre.php?dos='.$_SESSION['g_dossier'].'" title="Param&egrave;tre"><IMG SRC="image/param.png" width="36" border="0" ></A>
 <A HREF="login.php" title="Accueil"><IMG src="image/home.png" width="36" title="Accueil"  border="0"  ></A>
 <A HREF="logout.php" title="Sortie"><IMG src="image/logout.png" title="Logout"  width="36"  border="0"></A>
@@ -107,6 +109,8 @@ echo '</div>';
 $cn=DbConnect($_SESSION['g_dossier']);
 $User->AccessRequest($cn,SEC_GESTION);
 echo JS_VIEW_JRN_MODIFY;
+echo JS_AJAX_FICHE;
+
 //-----------------------------------------------------
 // p_action == pref
 //-----------------------------------------------------
@@ -138,7 +142,6 @@ if ( $p_action == 'suivi_courrier')
 //-----------------------------------------------------
 if ( $p_action == "facture" ) 
 {
-  echo JS_AJAX_FICHE;
   require_once("facture.inc.php");
 }
 //-----------------------------------------------------
@@ -151,7 +154,6 @@ if ( $p_action == 'contact')
 // Expense
 if ( $p_action == 'depense') 
 {
-	echo JS_AJAX_FICHE;
   require_once("depense.inc.php");
 }
 //-----------------------------------------------------
@@ -164,7 +166,6 @@ if ( $p_action == 'admin')
 // Banque
 if ( $p_action == 'bank') 
 {
-	echo JS_AJAX_FICHE;
   require_once("bank.inc.php");
 }
 //-----------------------------------------------------

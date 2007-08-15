@@ -71,24 +71,6 @@ if ( isset ($_POST["DATABASE"]) ) {
 	    $Res=ExecSql($cn,"insert into jnt_use_dos (use_id,dos_id) values (1,$l_id)");
 	    // Connect to the new database
 	    $cn=DbConnect($l_id);
-	    //---
-	    // Cleaning Action
-	    //-- 
-	    if ( isset($_POST['DOC'] ))
-	      {
-		$Res=ExecSql($cn,"delete from action_gestion");
-		$Res=ExecSql($cn,"delete from document");
-	      }
-	    if ( isset($_POST['CARD'])) 
-	      {
-		$Res=ExecSql($cn,"delete from  attr_value");
-		$Res=ExecSql($cn,"delete from  jnt_fic_att_value");
-		$Res=ExecSql($cn,"delete from   fiche");
-		$Res=ExecSql($cn,"delete from action_gestion");
-		$Res=ExecSql($cn,"delete from document");
-
-
-	      }
 	    //--year --
 	    $Res=ExecSql($cn,"delete from parm_periode");
 	    if ( ($year % 4 == 0 && $year % 100 != 0) || $year % 400 == 0 )  
@@ -101,19 +83,19 @@ if ( isset ($_POST["DATABASE"]) ) {
 	    $m=1;
 	    foreach ($nb_day as $day) 
 	      {
-		$p_start=sprintf("01-%d-%s",$m,$year);
-		$p_end=sprintf("%d-%d-%s",$day,$m,$year);
-		$sql=sprintf("insert into parm_periode (p_start,p_end,p_exercice)
+			$p_start=sprintf("01-%d-%s",$m,$year);
+			$p_end=sprintf("%d-%d-%s",$day,$m,$year);
+			$sql=sprintf("insert into parm_periode (p_start,p_end,p_exercice)
                               values (to_date('%s','DD-MM-YYYY'),to_date('%s','DD-MM-YYYY'),'%s')",
 			     $p_start,$p_end,$year);
-		$Res=ExecSql($cn,$sql);
-		$m++;
+			$Res=ExecSql($cn,$sql);
+			$m++;
 	      }
 	    $sql=sprintf("insert into parm_periode (p_start,p_end,p_exercice)
                               values (to_date('31-12-%s','DD-MM-YYYY'),to_date('31-12-%s','DD-MM-YYYY'),'%s')",
-			     $year,$year,$year);
+					 $year,$year,$year);
 	    $Res=ExecSql($cn,$sql);
-
+		
 
 	  }
       } // if $l_id != 0
@@ -123,11 +105,11 @@ if ( isset ($_POST["DATABASE"]) ) {
 
 <?php  
       
-      $cn=DbConnect();
+    $cn=DbConnect();
     $offset=(isset($_REQUEST['offset']))?$_REQUEST['offset']:0;
     $page=(isset($_REQUEST['page']))?$_REQUEST['page']:1;
     $count=getDbValue($cn,"select count(*) from ac_dossier");
-    $size=10;
+    $size=10; 
 
     echo jrn_navigation_bar($offset,$count,$size,$page); 
     $Res=ShowDossier('all',$offset,$size);
@@ -191,8 +173,6 @@ if ( $count == 0 ) {
     <TD> Description</td><td>  <TEXTAREA COLS="60" ROWS="2" NAME="DESCRIPTION" ></TEXTAREA> </TD>
     </TR>
     <TR> <TD> Modèle</td><td>  <?php   echo $template; ?> </TD></TR>
-<TR><TD>Nettoyage des Documents et courriers (ce qui  n'effacera pas les modèles de documents)</TD><TD> <input type="checkbox" name="DOC"></TD></TR>
-<TR><TD>Nettoyage de toutes les fiches (ce qui effacera client, fournisseurs et documents)</TD><TD> <input type="checkbox" name="CARD"></TD></TR>
 <TR><TD>Année </TD><TD><input type="text" size=4 name="YEAR" value=<?php  echo '"'.$m_date.'"'; ?>></TD></TR>
     <TR>
     <TD> <INPUT TYPE=SUBMIT VALUE="Creation Dossier"></TD>

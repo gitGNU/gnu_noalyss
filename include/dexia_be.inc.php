@@ -112,12 +112,14 @@ while (($data = fgetcsv($handle, 2000,'!@')) !== FALSE) {
 //-----------------------------------------------------
 // Check if no need to rollback when executing the SQL
 //-----------------------------------------------------
-			if ( ExecSql($p_cn,$Sql) == false )	  {
-			   	Rollback($p_cn);
-				echo "Rollbacking    : $ref_extrait $detail <BR>";
-				$LinesSkipped++;
-			   	break;
-				}
+			try {
+			  ExecSql($p_cn,$Sql) ;
+			} catch (Exception $e) {
+			  Rollback($p_cn);
+			  echo "Rollbacking    : $ref_extrait $detail <BR>";
+			  $LinesSkipped++;
+			  break;
+			}
 //-----------------------------------------------------
 // The import is OK
 //-----------------------------------------------------

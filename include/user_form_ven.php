@@ -26,6 +26,9 @@ require_once("class_widget.php");
 require_once("preference.php");
 require_once("fiche_inc.php");
 require_once("user_common.php");
+require_once ("class_own.php");
+require_once ("class_plananalytic.php");
+require_once ('class_operation.php');
 /*!   FormVenInput
  * \brief  Display the form for a sell
  *           Used to show detail, encode a new invoice 
@@ -41,6 +44,7 @@ require_once("user_common.php");
  */
 function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_article=1)
 { 
+
   if ( $p_array != null ) {
     // array contains old value
     foreach ( $p_array as $a=>$v) {
@@ -221,7 +225,7 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
     $Quantity->size=9;
     //$r.=InputType("","TEXT","e_quant".$i,$quant,$pview_only);
     $r.=$Quantity->IOValue("e_quant".$i,$quant);
-    $r.='</TR>';
+	
   }
 
 
@@ -396,8 +400,10 @@ for ($o = 0;$o < $p_number; $o++) {
 
 function FormVenteView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='form',$p_comment='') 
 {
+
   $r="";
   $data="";
+  $head_ca="";
   // Keep all the data if hidden
   // and store the array in variables
   $hidden=new widget("hidden");
@@ -405,7 +411,39 @@ function FormVenteView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='form'
     $data.=$hidden->IOValue($name,$content);
     ${"$name"}=$content;
   }
-  
+  // Compute href
+  //    $href=basename($_SERVER['PHP_SELF']);
+  $href=basename($_SERVER['PHP_SELF']);
+  switch ($href)
+	{
+	  // user_jrn.php
+	case 'user_jrn.php':
+	  $href="user_jrn.php?action=record&p_jrn=$p_jrn";
+	  break;
+	case 'commercial.php':
+	  $href="commercial.php?p_action=facture&sa=record&p_jrn=$p_jrn";
+	  break;
+	default:
+	  echo_error('user_form_ven.php',__LINE__,'Erreur invalid request uri');
+	  exit (-1);
+	}
+  //----------------------------------------------------------------------
+  // Compute the col head for CA
+  $head_ca="";
+  $own = new Own($p_cn);
+  if ( $own->MY_ANALYTIC != "un" )
+	{
+	  $plan=new PlanAnalytic($p_cn);
+	  $a_plan=$plan->get_list();
+	  foreach ($a_plan as $r_plan)
+		{
+		  $head_ca.="<th>".$r_plan['name']."</th>";
+		}
+		  
+	}
+  //----------------------------------------------------------------------
+
+  $r.='<FORM METHOD="POST" enctype="multipart/form-data" ACTION="'.$href.'">';  
   // start table
   $r.='<TABLE>';
   // Show the Date
@@ -437,6 +475,7 @@ function FormVenteView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='form'
     $r.="<TH>Montant HTVA</TH>";
     $r.="<TH>Montant TVA</TH>";
     $r.="<TH>Total</TH>";
+	$r.=$head_ca;
     $r.="</TR>";
   for ($i=0;$i<$p_number;$i++) {
     if ( trim(${"e_march$i"})  == "" ) {
@@ -498,7 +537,40 @@ function FormVenteView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='form'
     $r.='<TD ALIGN="RIGHT">'.round($fiche_amount_vat,2).'</TD>';
 
     $r.='<TD>'.round($fiche_with_vat,2).'</TD>';
+	
+	// to show a select list for the analytic
+	// if analytic is op (optionnel) there is a blank line
+	$own = new Own($p_cn);
+	// encode the pa
+	if ( $own->MY_ANALYTIC!='un') // use of AA
+	  {
+		// for each plan
+		$plan=new PlanAnalytic($p_cn);
+		$a_plan=$plan->get_list();
+		$null=($own->MY_ANALYTIC=='op')?1:0;
+		foreach ($a_plan as $r_plan)
+		  {
+			$array=make_array($p_cn,
+							  "select po_id as value,".
+							  " po_name as label from poste_analytique ".
+							  " where pa_id = ".$r_plan['id'].
+							  " order by po_name",$null);
+			$select = new widget("select","","p_".$r_plan['id']."_".$i,$array);
+			$select->table=1;
+			// view only or editable
+			if (  $p_doc=="form" ) {
+			  // editable
+			  $select->readonly=false;
+			} else {
+			  // view only
+			  $select->readonly=true;
+			  $select->selected=${"p_".$r_plan['id']."_".$i};
+			}
+			$r.=$select->IOValue();
 
+		  }
+	  }
+		
     $r.="</TR>";
   }
   
@@ -511,25 +583,9 @@ function FormVenteView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='form'
  
   $r.="</DIV>";
   if ( $p_doc == 'form' ) {
-    // Compute href
-    //    $href=basename($_SERVER['PHP_SELF']);
-    $href=basename($_SERVER['PHP_SELF']);
-    switch ($href)
-      {
-	// user_jrn.php
-      case 'user_jrn.php':
-	$href="user_jrn.php?action=record&p_jrn=$p_jrn";
-	break;
-      case 'commercial.php':
-	$href="commercial.php?p_action=facture&sa=record&p_jrn=$p_jrn";
-	break;
-      default:
-	echo_error('user_form_ven.php',__LINE__,'Erreur invalid request uri');
-	exit (-1);
-      }
       
 
-    $r.='<FORM METHOD="POST" enctype="multipart/form-data" ACTION="'.$href.'">';
+
 
     // check for upload piece
     $file=new widget("file");
@@ -613,6 +669,8 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
   // Get the default period
   $periode=$p_user->GetPeriode();
   $amount=0.0;
+  $own=new own($p_cn);
+  $group=NextSequence($p_cn,"s_oa_group");
 
   // Computing total customer
   //--
@@ -655,80 +713,125 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
 	
   // Compute the j_grpt
   $seq=NextSequence($p_cn,'s_grpt');
+  $internal=SetInternalCode($p_cn,$seq,$p_jrn);
 
 
   // Debit = client
   $poste=GetFicheAttribut($p_cn,$e_client,ATTR_DEF_ACCOUNT);
-  StartSql($p_cn);	
-  $r=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste,$e_date,round($amount,2)+round($sum_vat,2),$seq,$periode,$e_client);
-  if ( $r == false) { $Rollback($p_cn);exit("error 'user_form_ven.php' __LINE__");}
-
-  // Credit = goods 
-  for ( $i = 0; $i < $nb_item;$i++) {
-    if ( $a_good[$i] == ""  ) continue;
-    $poste=GetFicheAttribut($p_cn,$a_good[$i],ATTR_DEF_ACCOUNT);
-	  
-    // don't record operation of 0
-    if ( $a_price[$i]*$a_quant[$i] == 0 ) continue;
-	  
-    // record into jrnx
-    $j_id=InsertJrnx($p_cn,'c',$p_user->id,$p_jrn,$poste,$e_date,round($a_price[$i]*$a_quant[$i],2),$seq,$periode,$a_good[$i]);
-    if ( $j_id == false) { $Rollback($p_cn);exit("error 'user_form_ven.php' __LINE__");}
-    // always save quantity but in withStock we can find what card need a stock management
-    if (  InsertStockGoods($p_cn,$j_id,$a_good[$i],$a_quant[$i],'c') == false ) {
-      $Rollback($p_cn);exit("error 'user_form_ven.php' __LINE__");}
-    } // end loop
-  
-  // Insert Vat
-
-  if ( $a_vat_new  !=  null  ) // no vat
-
+  try
     {
-      foreach ($a_vat_new as $tva_id => $tva_amount ) {
-	$poste=GetTvaPoste($p_cn,$tva_id,'c');
-	if ($tva_amount == 0 ) continue;
-	$r=InsertJrnx($p_cn,'c',$p_user->id,$p_jrn,$poste,$e_date,round($tva_amount,2),$seq,$periode);
-	if ( $r == false ) { Rollback($p_cn); exit(" Error 'user_form_ven.php' __LINE__");}
-      
-      }
-    }
-  echo_debug('user_form_ven.php',__LINE__,"echeance = $e_ech");
-  $r=InsertJrn($p_cn,$e_date,$e_ech,$p_jrn,"Invoice",$seq,$periode);
-  if ( $r == false ) { Rollback($p_cn); exit;}
-  // Set Internal code and Comment
-  $internal=SetInternalCode($p_cn,$seq,$p_jrn);
-  $comment=(FormatString($e_comm) == null )?$internal."  client : ".GetFicheName($p_cn,$e_client):FormatString($e_comm);
+      StartSql($p_cn);	
+      $r=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste,$e_date,round($amount,2)+round($sum_vat,2),$seq,$periode,$e_client);
 
-  // Update and set the invoice's comment 
-  $Res=ExecSql($p_cn,"update jrn set jr_comment='".$comment."' where jr_grpt_id=".$seq);
-  if ( $Res == false ) { Rollback($p_cn); exit(" Error 'user_form_ven.php' __LINE__"); };
 
-  if ( isset ($_FILES)) {
-    if ( sizeof($_FILES) != 0 )
-    save_upload_document($p_cn,$seq);
-  }
-
-// save the quantity, then we can make an invoice
-  for ( $i=0;$i < $nb_item;$i++) 
-	{
-	// don't record operation of 0
-    	if ( $a_price[$i]*$a_quant[$i] == 0 ) continue;
+      // Credit = goods 
+      for ( $i = 0; $i < $nb_item;$i++) {
+		if ( $a_good[$i] == ""  ) continue;
+		$poste=GetFicheAttribut($p_cn,$a_good[$i],ATTR_DEF_ACCOUNT);
+		
+		// don't record operation of 0
+		if ( $a_price[$i]*$a_quant[$i] == 0 ) continue;
+		
+		// record into jrnx
+		$j_id=InsertJrnx($p_cn,'c',$p_user->id,$p_jrn,$poste,$e_date,round($a_price[$i]*$a_quant[$i],2),$seq,$periode,$a_good[$i]);
 	
-	// insert into the table quant_sold
-	// Note that negative value are also saved but not the vat !
-	if (  $a_vat[$i] == -1) {
-		$computed_vat=0;
-		$vat_code="null";
-	} else {
+		/* \brief if the quantity is < 0 then the stock increase (return of
+		 *  material)
+		 */
+		$nNeg=($a_quant[$i]<0)?-1:1;
+		
+		// always save quantity but in withStock we can find 
+		// what card need a stock management
+		
+		InsertStockGoods($p_cn,$j_id,$a_good[$i],$nNeg*$a_quant[$i],'c') ;
+		if ( $own->MY_ANALYTIC != "un" )
+		  {
+			// for each item, insert into operation_analytique
+			$plan=new PlanAnalytic($p_cn);
+			$a_plan=$plan->get_list();
+			foreach ($a_plan as $r_plan) 
+			  {
+			   
+				if ( isset(${"p_".$r_plan['id']."_".$i})&& ${"p_".$r_plan['id']."_".$i} != -1) 
+				  {
+
+					$op=new operation($p_cn);
+					$op->po_id=${"p_".$r_plan['id']."_".$i};
+					$op->oa_group=$group;
+					$op->j_id=$j_id;
+					$op->pa_id=$r_plan['id'];
+					$op->oa_amount=round($a_price[$i]*$a_quant[$i],2);
+					$op->oa_debit=($op->oa_amount < 0 )?'t':'f';
+					$op->oa_date=$e_date;
+					$op->add();
+				  }
+			  }
+		  }
 		$computed_vat=ComputeVat($p_cn,$a_good[$i],$a_quant[$i],$a_price[$i],$a_vat[$i]);
-		$vat_code=$a_vat[$i];
-	}
-	 $r=ExecSql($p_cn,"select insert_quant_sold ".
-		    "('".$internal."','".$a_good[$i]."',".$a_quant[$i].",".$a_price[$i]*$a_quant[$i].
-		    ",".$computed_vat.
-		    ",".$vat_code.",'".$e_client."')");
-	 if ( $r == false ) { Rollback($p_cn); exit(" Error 'user_form_ven.php' __LINE__"); };
-	}
+
+		$r=ExecSql($p_cn,"select insert_quant_sold ".
+				   "('".$internal."',".$j_id.",'".$a_good[$i]
+				   ."',".$a_quant[$i].",".$a_price[$i]*$a_quant[$i].
+				   ",".$computed_vat.
+				   ",".$a_vat[$i].",'".$e_client."')");
+		
+
+      } // end loop
+  
+      // Insert Vat
+
+      if ( $a_vat_new  !=  null  ) // no vat
+
+		{
+		  foreach ($a_vat_new as $tva_id => $tva_amount ) {
+			$poste=GetTvaPoste($p_cn,$tva_id,'c');
+			if ($tva_amount == 0 ) continue;
+			$r=InsertJrnx($p_cn,'c',$p_user->id,$p_jrn,$poste,$e_date,round($tva_amount,2),$seq,$periode);
+		  }
+		}
+      echo_debug('user_form_ven.php',__LINE__,"echeance = $e_ech");
+      $r=InsertJrn($p_cn,$e_date,$e_ech,$p_jrn,"Invoice",$seq,$periode);
+	  
+    // Set Internal code and Comment
+	$Res=ExecSql($p_cn,"update jrn set jr_internal='".$internal."' where ".
+	       " jr_grpt_id = ".$seq);
+
+      $comment=(FormatString($e_comm) == null )?$internal."  client : ".GetFicheName($p_cn,$e_client):FormatString($e_comm);
+
+      // Update and set the invoice's comment 
+      $Res=ExecSql($p_cn,"update jrn set jr_comment='".$comment."' where jr_grpt_id=".$seq);
+
+      if ( isset ($_FILES)) {
+		if ( sizeof($_FILES) != 0 )
+		  save_upload_document($p_cn,$seq);
+      }
+
+      // save the quantity, then we can make an invoice
+      for ( $i=0;$i < $nb_item;$i++) 
+		{
+		  // don't record operation of 0
+		  if ( $a_price[$i]*$a_quant[$i] == 0 ) continue;
+		  
+		  // insert into the table quant_sold
+		  // Note that negative value are also saved but not the vat !
+		  if (  $a_vat[$i] == -1) {
+			$computed_vat=0;
+			$vat_code="null";
+		  } else {
+			$computed_vat=ComputeVat($p_cn,$a_good[$i],$a_quant[$i],$a_price[$i],$a_vat[$i]);
+			$vat_code=$a_vat[$i];
+		  }
+		}
+	}//try
+  catch (Exception $e)
+    {
+      echo '<span class="error">'.
+	'Erreur dans l\'enregistrement '.
+	__FILE__.':'.__LINE__.' '.
+	$e->getMessage();
+      Rollback($p_cn);
+      exit();
+    }
   Commit($p_cn);
   return array($internal,$comment);
 }

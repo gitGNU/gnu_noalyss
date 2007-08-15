@@ -80,8 +80,13 @@ while (($data = fgetcsv($handle, 2000,'!@')) !== FALSE) {
 				'$p_bq_account',
 				$p_jrn,
 				'n')";
-			if ( ExecSql($p_cn,$Sql) == false )
+			try 
 			  {
+			    ExecSql($p_cn,$Sql) ;
+			  }
+			catch(Exception $e)
+			  {
+			    echo_debug(__FILE__.":".__LINE__." Erreur : ".$e->getCode." msg ".$e->getMessage);
 			    Rollback($p_cn);
 			    break;
 			  }

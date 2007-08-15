@@ -25,6 +25,9 @@ require_once("class_widget.php");
 require_once("preference.php");
 require_once("fiche_inc.php");
 require_once("user_common.php");
+require_once ('class_plananalytic.php');
+require_once ('class_own.php');
+require_once ('class_operation.php');
 /*! \file
  * \brief Functions for the ledger of misc. operation
  */
@@ -46,13 +49,14 @@ require_once("user_common.php");
  */
 function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=true,$p_article=6,$p_saved=false)
 { 
-   include_once("poste.php");
+  include_once("poste.php");
   if ( $p_array != null ) {
     // array contains old value
     foreach ( $p_array as $a=>$v) {
       ${"$a"}=$v;
     }
   }
+
   // The date
    list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$p_periode);
    $flag=(isset($e_date))?1:0;
@@ -70,9 +74,12 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
   // Save old value and set a new one
 
   $r="";
+
   if ( $pview_only == false) {
     $r.=JS_SEARCH_POSTE;
+    $r.=JS_COMPUTE_ODS;
   }
+
   $r.="<FORM NAME=\"form_detail\" enctype=\"multipart/form-data\" ACTION=\"user_jrn.php?action=new&p_jrn=$p_jrn\" METHOD=\"POST\">";
   $r.='<TABLE>';
   // Date
@@ -93,20 +100,29 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
   include_once("fiche_inc.php");
 
   // Record the current number of article
-  $r.='<INPUT TYPE="HIDDEN" name="nb_item" value="'.$p_article.'">';
+  $r.='<INPUT TYPE="HIDDEN" ID="nb_item" name="nb_item" value="'.$p_article.'">';
   $e_comment=(isset($e_comment))?$e_comment:"";
-
 
   // Start the div for item to encode
   $r.="<DIV>";
   $r.='<H2 class="info">Op&eacute;rations Diverses</H2>';
   $r.='<TABLE border="0">';
   $r.="<tr>";
-  $r.="<th></th>";
+  if ( $pview_only == false)  $r.="<th></th>";
   $r.="<th>Compte</th>";
   $r.="<th>Poste</th>";
   $r.="<th>Montant</th>";
-  $r.="<th>Cr&eacute;dit ou d&eacute;dit</th>";
+  $r.="<th>Cr&eacute;dit ou d&eacute;bit</th>";
+  if ( $own->MY_ANALYTIC != "un" )
+	{
+	  $plan=new PlanAnalytic($p_cn);
+	  $a_plan=$plan->get_list();
+	  foreach ($a_plan as $r_plan)
+		{
+		  $r.="<th>".$r_plan['name']."</th>";
+		}
+		  
+	}
   $r.="</tr>";
   $sum_deb=0.0;
   $sum_cred=0.0;
@@ -116,7 +132,7 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
 
     $account=(isset(${"e_account$i"}))?${"e_account$i"}:"";
 
-    $lib="";
+    $lib='<span id="e_account'.$i.'_label"></span>';
     // If $account has a value
     if ( isNumber($account) == 1 ) {
       if ( CountSql($p_cn,"select * from tmp_pcmn where pcm_val=$account") == 0 ) {
@@ -127,25 +143,25 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
 	if ( $pview_only == true ) return null;
       } else {
 	// retrieve the tva label and name
-	$lib=GetPosteLibelle($p_cn, $account,1);
+	$lib='<span id="e_account'.$i.'_label">'.GetPosteLibelle($p_cn, $account,1).'</span>';
       }
     }
 
     ${"e_account$i"."_amount"}=(isset(${"e_account$i"."_amount"}))?abs(round(${"e_account$i"."_amount"},2)):0;
     if ( isNumber(${"e_account$i"."_amount"}) == 0 ) {
       if ( $pview_only==true) {
-	$msg="Montant invalide !!! ";
-	echo_error($msg); echo_error($msg);
-	echo "<SCRIPT>alert('$msg');</SCRIPT>";
-	return null;
+		$msg="Montant invalide !!! ";
+		echo_error($msg); 
+		echo "<SCRIPT>alert('$msg');</SCRIPT>";
+		return null;
       }
-	${"e_account$i"."_amount"}=0;
+	  ${"e_account$i"."_amount"}=0;
     }
     // code
     // Do we need a filter ?
     $l_line=GetJrnProp($_SESSION['g_dossier'],$p_jrn);
-    if(  strlen(trim ($l_line['jrn_def_class_cred']) ) > 0 or
-	 strlen(trim ($l_line['jrn_def_class_deb']) ) > 0 ) {
+    if(  strlen(trim ($l_line['jrn_def_class_cred']) ) > 0 ||
+		 strlen(trim ($l_line['jrn_def_class_deb']) ) > 0 ) {
       $filter=1;
     }
     else
@@ -163,6 +179,8 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
     $wAmount=new widget("text");
     $wAmount->table=1;
     $wAmount->SetReadOnly($pview_only);
+    $wAmount->javascript=' onChange="checkTotal()"';
+
     $r.=$wAmount->IOValue("e_account".$i."_amount",${"e_account$i"."_amount"});
 
 
@@ -172,14 +190,45 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
     $d_check=( ${"e_account$i"."_type"} == 'd' )?"CHECKED":"";
     $r.='<td>';
     if ( $pview_only == false ) {
-      $r.='  <input type="radio" name="'."e_account"."$i"."_type".'" value="d" '.$d_check.'> D&eacute;bit ou ';
-      $r.='  <input type="radio" name="'."e_account"."$i"."_type".'" value="c" '.$c_check.'> Cr&eacute;dit ';
+      $r.='  <input type="radio" id="'."e_account"."$i"."_type".'" name="'."e_account"."$i"."_type".'" value="d" '.$d_check.' onChange="checkTotal()">D&eacute;bit ou ';
+      $r.='  <input type="radio" id="'."e_account"."$i"."_type".'" name="'."e_account"."$i"."_type".'" value="c" '.$c_check.'  onChange="checkTotal()"> Cr&eacute;dit ';
     }else {
-      $r.=(${"e_account$i"."_type"} == 'c' )?"Cr&eacute;dit":"D&eacute;dit";
+      $r.=(${"e_account$i"."_type"} == 'c' )?"Cr&eacute;dit":"D&eacute;bit";
       $r.='<input type="hidden" name="e_account'.$i.'_type" value="'.${"e_account$i"."_type"}.'">';
-    }
-    $r.='</td>';
-    $r.='</TR>';
+	  // Add CA
+	  //--------------------------------------------------
+	  if ( ereg("^7+",${"e_account$i"}) ||
+		   ereg("^6+",${"e_account$i"})) 
+		{
+
+		  if (  $own->MY_ANALYTIC!='un') // use of AA
+			{
+			  // for each plan
+			  $plan=new PlanAnalytic($p_cn);
+			  $a_plan=$plan->get_list();
+			  $null=($own->MY_ANALYTIC=='op')?1:0;
+			  foreach ($a_plan as $r_plan)
+				{
+				  $array=make_array($p_cn,
+									"select po_id as value,".
+									" po_name as label from poste_analytique ".
+									" where pa_id = ".$r_plan['id'].
+									" order by po_name",$null);
+				  $select = new widget("select","","p_".$r_plan['id']."_".$i,$array);
+				  $select->table=1;
+				  if ( $p_saved ) { 
+					$select->readonly=true;
+					$select->selected= ${"p_".$r_plan['id']."_".$i};
+				  }
+				  $r.=$select->IOValue();
+				  
+				}
+
+			}
+		}
+	}
+	$r.='</td>';
+	$r.='</TR>';
     $sum_deb+=(${"e_account$i"."_type"}=='d')?${"e_account$i"."_amount"}:0;
     $sum_cred+=(${"e_account$i"."_type"}=='c')?${"e_account$i"."_amount"}:0;
   } // End for 
@@ -195,11 +244,18 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
    $r.="<TR>".$file->IOValue("pj","","Pi&egrave;ce justificative")."</TR>";
    $r.="</table>";
    $r.="<hr>";
+ } else {
+  $r.= '<div class="info">
+    D&eacute;bit = <span id="totalDeb"></span>
+    Cr&eacute;dit = <span id="totalCred"></span>
+    Difference = <span id="totalDiff"></span>
+</div>
+    ';
  }
   // Set correctly the REQUEST param for jrn_type 
   $h=new widget('hidden');
   $h->name='jrn_type';
-  $h->value='OD';
+  $h->value='ODS';
   $r.=$h->IOValue();
 
   $r.=$p_submit;
@@ -222,7 +278,14 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
     echo "<script> alert('$msg'); </script>";
     return null;
   }
-  
+  /* if not view only then a javascript will compute and check the
+	 total  */
+  if ( ! $pview_only ) {
+	// Start compute
+	$r.='<script language=javascript>'.
+	  'window.onload=checkTotal();'.
+	  '</script>';
+  }
   return $r;
 
 
@@ -259,35 +322,77 @@ function RecordODS($p_cn,$p_array,$p_user,$p_jrn)
 
   $sum_deb=0.0;
   $sum_cred=0.0;
+  $own=new own($p_cn);
 
 	// Compute the j_grpt
   $seq=NextSequence($p_cn,'s_grpt');
-
-  StartSql($p_cn);
-  // store into the database
-  for ( $i = 0; $i < $nb_item;$i++) {
-    if ( isNumber(${"e_account$i"}) == 0 ) continue;
-    $sum_deb+=(${"e_account$i"."_type"}=='d')?round(${"e_account$i"."_amount"},2):0;
-    $sum_cred+=(${"e_account$i"."_type"}=='c')?round(${"e_account$i"."_amount"},2):0;
-
-    if ( ${"e_account$i"."_amount"} == 0 ) continue;
-    ${"e_account$i"."_amount"}=round(${"e_account$i"."_amount"},2);
-    if ( ($j_id=InsertJrnx($p_cn,${"e_account$i"."_type"},$p_user->id,$p_jrn,${"e_account$i"},$e_date,${"e_account$i"."_amount"},$seq,$periode)) == false ) {
-      $Rollback($p_cn);exit("error 'user_form_ods.php' __LINE__");}
-  }
-
-  if ( InsertJrn($p_cn,$e_date,"",$p_jrn,$e_comm,$seq,$periode) == false ) {
-    $Rollback($p_cn);exit("error 'user_form_ods.php' __LINE__");}
-
   // Set Internal code and Comment
-  $internal_code=SetInternalCode($p_cn,$seq,$p_jrn);
-  if ( $e_comm=="" ) {
-    // Update comment if comment is blank
-    $Res=ExecSql($p_cn,"update jrn set jr_comment='".$internal_code."' where jr_grpt_id=".$seq);
-  }
-  if ( isset ($_FILES))
-    save_upload_document($p_cn,$seq);
+  $internal=SetInternalCode($p_cn,$seq,$p_jrn);
 
+  try 
+    {
+      StartSql($p_cn);
+      // store into the database
+      for ( $i = 0; $i < $nb_item;$i++) {
+		if ( isNumber(${"e_account$i"}) == 0 ) continue;
+		$sum_deb+=(${"e_account$i"."_type"}=='d')?round(${"e_account$i"."_amount"},2):0;
+		$sum_cred+=(${"e_account$i"."_type"}=='c')?round(${"e_account$i"."_amount"},2):0;
+		
+		if ( ${"e_account$i"."_amount"} == 0 ) continue;
+		${"e_account$i"."_amount"}=round(${"e_account$i"."_amount"},2);
+		$j_id=InsertJrnx($p_cn,${"e_account$i"."_type"},$p_user->id,$p_jrn,${"e_account$i"},$e_date,${"e_account$i"."_amount"},$seq,$periode);
+		// insert into ca
+		if ( $own->MY_ANALYTIC != "un" )
+		  {
+			// for each item, insert into operation_analytique
+			$plan=new PlanAnalytic($p_cn);
+			$a_plan=$plan->get_list();
+			foreach ($a_plan as $r_plan) 
+			  {
+				
+				if ( isset(${"p_".$r_plan['id']."_".$i})&& ${"p_".$r_plan['id']."_".$i} != -1) 
+				{
+				  
+				  $op=new operation($p_cn);
+				  $op->po_id=${"p_".$r_plan['id']."_".$i};
+				  $op->oa_group=$group;
+				  $op->j_id=$j_id;
+				  $op->pa_id=$r_plan['id'];
+				  $op->oa_amount=${"e_account$i"."_amount"};
+				  $op->oa_debit=($op->oa_amount < 0 )?'f':'t';
+				  $op->oa_date=$e_date;
+				  echo_debug(__FILE__.":".__LINE__,"saving ca ",$op);
+				  $op->add();
+				}
+			}
+		}
+	  
+
+		
+	  }
+	  InsertJrn($p_cn,$e_date,"",$p_jrn,$e_comm,$seq,$periode) ;
+
+      // Set Internal code and Comment
+    // Set Internal code and Comment
+	$Res=ExecSql($p_cn,"update jrn set jr_internal='".$internal."' where ".
+	       " jr_grpt_id = ".$seq);
+
+      if ( $e_comm=="" ) {
+	// Update comment if comment is blank
+	$Res=ExecSql($p_cn,"update jrn set jr_comment='".$internal_code."' where jr_grpt_id=".$seq);
+      }
+      if ( isset ($_FILES))
+	save_upload_document($p_cn,$seq);
+	}
+  catch (Exception $e)
+    {
+      echo '<span class="error">'.
+	'Erreur dans l\'enregistrement '.
+	__FILE__.':'.__LINE__.' '.
+	$e->getMessage();
+      Rollback($p_cn);
+      exit();
+    }
   Commit($p_cn);
   return $internal_code;
 }

@@ -93,6 +93,8 @@ function GetVersion($p_cn) {
  * \param $script script name
  */
 function ExecuteScript($p_cn,$script) {
+
+  if ( DEBUG=='false' ) ob_start();
   $hf=fopen($script,'r');
   if ( $hf == false ) {
 	  echo 'Ne peut ouvrir '.$script;
@@ -144,7 +146,7 @@ function ExecuteScript($p_cn,$script) {
     $sql.=$buffer;
     if ( ExecSql($p_cn,$sql,false) == false ) {
 	    Rollback($p_cn);
-	    if ( DEBUG=='false' ) ob_end_flush();
+	    if ( DEBUG=='false' ) ob_clean();
 	    print "ERROR : $sql";
             exit();
 	    }
@@ -153,6 +155,7 @@ function ExecuteScript($p_cn,$script) {
     print "<hr>";
   } // while (feof)
   fclose($hf);
+  if ( DEBUG=='false' ) ob_clean();
 }
 /*! \brief loop to apply all the path to a folder or 
  *         a template
@@ -162,15 +165,15 @@ function ExecuteScript($p_cn,$script) {
  */
 function apply_patch($p_cn,$p_name)
 {
-  $MaxVersion=29;
+  $MaxVersion=30;
   for ( $i = 4;$i <= $MaxVersion;$i++)
 	{
-	  if ( DEBUG=='false' ) ob_start();
 	  if ( GetVersion($p_cn) <= $i ) { 
 	  echo "Patching ".$p_name.
 		" from the version $i to the version ".GetVersion($p_cn)." <hr>";
 
 		ExecuteScript($p_cn,'sql/patch/upgrade'.$i.'.sql');
+	  if ( DEBUG=='false' ) ob_start();
 		// specific for version 4
 		if ( $i == 4 )
 		  {      
@@ -205,10 +208,29 @@ function apply_patch($p_cn,$p_name)
 			AlterSequence($p_cn,'s_jnt_fic_att_value',$max+1);
 		  } // version 
 		
-		
-	  } 
+		// reset sequence in the modele
+		//--
+		if ( $i == 30 && $p_name=="mod" ) 
+		  {
+			$a_seq=array('s_jrn','s_jrn_op','s_centralized',
+						 's_stock_goods','c_order','s_central');
+			foreach ($a_seq as $seq ) {
+			  $sql=sprintf("select setval('%s',1,false)",$seq);
+			  $Res=ExecSql($p_cn,$sql);
+			}
+			$sql="select jrn_def_id from jrn_def ";
+			$Res=ExecSql($p_cn,$sql);
+			$Max=pg_NumRows($Res);
+			for ($seq=0;$seq<$Max;$seq++) {
+			  $row=pg_fetch_array($Res,$seq);
+			  $sql=sprintf ("select setval('s_jrn_%d',1,false)",$row['jrn_def_id']);
+			  ExecSql($p_cn,$sql);
+			}
+			
+		  }
 
-	  if ( DEBUG == 'false') ob_end_clean();
+	  if ( DEBUG == 'false') ob_clean();
+	}
 	}
 }
 //----------------------------------------------------------------------
@@ -381,7 +403,7 @@ if ($account == 0 ) {
   ExecuteScript($cn,"sql/account_repository/constraint.sql");
   Commit($cn);
 
- if ( DEBUG=='false') ob_end_clean();
+ if ( DEBUG=='false') ob_clean();
 
   echo "Creation of Modele1";
   if ( DEBUG=='false') ob_start();  
@@ -392,7 +414,7 @@ if ($account == 0 ) {
   ExecuteScript($cn,'sql/mod1/data.sql');
   ExecuteScript($cn,'sql/mod1/constraint.sql');
   Commit($cn);
-  if ( DEBUG=='false') ob_end_clean();
+  if ( DEBUG=='false') ob_clean();
 
   echo "Creation of Modele2";
   ExecSql($cn,"create database ".domaine."mod2 encoding='latin1'");
@@ -404,7 +426,7 @@ if ($account == 0 ) {
   ExecuteScript($cn,'sql/mod2/constraint.sql');
   Commit($cn);
 
- if ( DEBUG=='false') ob_end_clean();
+ if ( DEBUG=='false') ob_clean();
 
  }// end if
 // Add a french accountancy model
@@ -467,5 +489,6 @@ for ($e=0;$e < $MaxDossier;$e++) {
  	} 
    } 
 
- if (DEBUG=='false') ob_end_clean(); 
+ if (DEBUG=='false') ob_clean(); 
  echo "<h2 class=\"info\">Voil&agrave; tout est install&eacute; ;-)</h2>"; 
+?>

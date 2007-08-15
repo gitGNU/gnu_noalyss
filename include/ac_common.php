@@ -43,7 +43,7 @@ function echo_error      ($p_log, $p_line="", $p_message="") {
 	fclose($fdebug);
 	echo_debug($p_log,$p_line,$p_message);
 }
-
+ 
 /*! 
  * \brief  Compare 2 dates
  * \param p_date 
@@ -218,7 +218,7 @@ function NoAccess($js=0)
  * \brief Fix the problem with the quote char for the database
  *        
  * \param $p_string 
- *
+ * \todo replace par pg_escape_string !!!
  * \return a string which won't let strange char for the database
  */
 function FormatString($p_string) 
@@ -249,23 +249,32 @@ function ShowItem($p_array,$p_dir='V',$class="mtitle",$class_ref="mtitle",$defau
     foreach ($p_array as $all=>$href){
       $title="";
       if ( isset ($href[2] )) 
-	$title=$href[2];
+		$title=$href[2];
       $ret.='<TR><TD CLASS="'.$class.'"><A class="'.$class_ref.'" HREF="'.$href[0].'" title="'.$title.'">'.$href[1].'</A></TD></TR>';
     }
   }
       //direction Horizontal
   else if ( $p_dir == 'H' ) {
+
     $ret.="<TR>";
     foreach ($p_array as $all=>$href){
       $title="";
+
+	  $set="A";
       if ( isset ($href[2] )) 
-	$title=$href[2];
-      if ( $default== $href[0]) {
-      $ret.='<TD CLASS="selectedcell">'.$href[1].'</TD>';
+		$title=$href[2];
+
+	  if ( isset($href[3]))
+		$set=$href[3];
+
+      if ( $default=== $href[0]||$set===$default ) {
+
+		$ret.='<TD CLASS="selectedcell">'.$href[1].'</TD>';
 
       } else {
-      $ret.='<TD CLASS="'.$class.'"><A class="'.$class_ref.'" HREF="'.$href[0].'" title="'.$title.'">'.$href[1].'</A></TD>';
+		$ret.='<TD CLASS="'.$class.'"><A class="'.$class_ref.'" HREF="'.$href[0].'" title="'.$title.'">'.$href[1].'</A></TD>';
       }
+
     }
     $ret.="</TR>";
   }

@@ -52,13 +52,16 @@ function ShowActionList($cn,$retour,$h_url)
    $w=new widget('js_search_only');
    $w->name='qcode';
    $w->value=$qcode;
-   $w->label='Quick Code';
+   $w->label='Quick Code1';
    $w->extra='4,9,14,16,8';
    $w->table=0;
-   $sp= new widget("span");
-
-   echo $sp->IOValue("qcode_label","",$qcode);
    echo $w->IOValue();
+
+
+   $sp= new widget("span");
+   echo $sp->IOValue("qcode_label","",$qcode);
+
+
 ?>
 <br>
 <input type="submit" name="submit_query" value="recherche">
@@ -67,8 +70,6 @@ function ShowActionList($cn,$retour,$h_url)
 </form>
 </span>
 
-<?php  
-?>
 <br>
 <form  style="position:float;float:left" method="get" action="commercial.php">
 <input type="submit" name="submit_query" value="Ajout Action">

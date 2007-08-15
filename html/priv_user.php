@@ -222,7 +222,9 @@ foreach ( $Dossier as $rDossier) {
 
 
 <TR><TD><input type="Submit" NAME="SAVE" VALUE="Save changes"></TD>
-<TD><input type="RESET" NAME="Reset" VALUE="Cancel Change"></TD>
+<TD>
+<A class="mtitle" HREF="admin_repo.php?action=user_mgt"><input type="button" value="Retour"></A>
+</TD>
 <TD><input type="Submit" NAME="DELETE" VALUE="Delete User"></TD>
 </TR>
 </FORM>

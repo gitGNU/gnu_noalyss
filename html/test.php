@@ -11,7 +11,7 @@ h2.error {
 }
 -->
 </style>
-<?phpphp
+<?php
 /*
  *   This file is part of PhpCompta.
  *
@@ -34,40 +34,83 @@ h2.error {
 include_once("ac_common.php");
 include_once("postgres.php");
 // Test the connection
-$a=DbConnect();
-if ( $a==false) {
-   exit ("<h2 class=\"error\">__LINE__ test has failed !!!</h2>");
+echo __FILE__.":".__LINE__;
 
-}
-if ( ($Res=ExecSql($a,"select  * from ac_users") ) == false ) {
-	exit ("<h2 class=\"error\">__LINE__ test has failed !!!</h2>");
-} else 
-	print "Connect to database success <br>";
+require_once('class_plananalytic.php');
+$cn=DbConnect(14);
+echo "<h1>Plan analytique : test</h1>";
+echo "clean";
+ExecSql($cn,"delete from plan_analytique");
 
-// Verify some PHP parameters
-// magic_quotes_gpc = Off
-// magic_quotes_runtime = Off
-// magic_quotes_sybase = Off
-// include_path
-// register_global
-foreach (array('magic_quotes_gpc','magic_quotes_runtime') as $a) {
-
-  if ( ini_get($a) == false ) print $a.': Ok  <br>';
-  else {
-	print ("<h2 class=\"error\">$a has a bad value  !!!</h2>");
-  }
-
-}
-if ( ereg("\.\.\/include",ini_get('include_path')) == false )
-  print ("<h2 class=\"error\">include_path incorrect  !!!".ini_get('include_path')."</h2>");
- else
-   print 'include_path : ok ('.ini_get('include_path').')<br>';
-
-echo "<h2 class=\"info\"> Congratulation : Test successfull</h2>";
-?>
-<script type="text/javascript" language="javascript"  src="js/jrn_concerned.js">
-alert("Include me");
-SearchJrn('a','b');
-</script>
+$p=new PlanAnalytic($cn);
+echo "<h2>Add</h2>";
+$p->name="Nouveau 1";
+$p->description="C'est un test";
+echo "Add<hr>";
+$p->add();
+$p->name="Nouveau 2";
+$p->add();
+$pa_id=$p->id;
+echo $p->id."/";
+$p->name="Nouveau 3";
+$p->add();
+echo $p->id."/";
 
 
+$p->name="Nouveau 4";
+$p->add();
+echo $p->id;
+
+echo "<h2>get</h2>";
+$p->get();
+var_dump($p);
+echo "<h2>Update</h2> ";
+$p->name="Update ";
+$p->description="c'est changé";
+$p->update();
+$p->get;
+var_dump($p);
+echo "<h2>get_list</h2>";
+$a=$p->get_list();
+var_dump($a);
+echo "<h2>delete </h2>";
+$p->delete();
+
+//--------------------------------------------------------------------------------
+require_once("class_poste_analytic.php");
+$o=new Poste_Analytique($cn);
+echo "<h1>Poste_Analytique</h1>";
+echo "<h2>get_list</h2>";
+$ee=$o->get_list();
+
+//var_dump($ee);
+echo "<h2>Add some </h2>";
+$o->pa_id=$pa_id;
+$o->name="test1";
+$o->add();
+
+
+$o->name="test2";
+$o->add();
+
+$o->name="test3";
+$o->add();
+
+$o->name="test4";
+$o->add();
+
+$o->name="test5";
+$o->add();
+
+echo "<h2> remove test1</h2>";
+$o->get_by_name("test1");
+$o->delete();
+$o->display_list();
+
+$o->get_by_name("test4");
+echo "<hr>".$o->id."<hr>";
+$o->name="Test Four";
+$o->update();
+$o->display_list();
+$o->delete();
+$o->display_list();

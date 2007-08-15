@@ -26,7 +26,9 @@
 
 function SearchPoste(p_sessid,p_ctl,p_jrn)
      {
-       var win=window.open('poste_search.php?p_jrn='+p_jrn+'&p_ctl='+p_ctl+'&PHPSESSID='+p_sessid,'Cherche','toolbar=no,width=600,height=600,scrollbars=yes,resizable=yes');
+       var comment=document.getElementById(p_ctl).value;
+
+       var win=window.open('poste_search.php?p_jrn='+p_jrn+'&p_ctl='+p_ctl+'&PHPSESSID='+p_sessid+"&p_comment="+comment+"&search",'Cherche','toolbar=no,width=600,height=600,scrollbars=yes,resizable=yes');
     } 
 function SearchPosteFilter(p_sessid,p_ctl,p_filter,jrn)
      {
@@ -35,16 +37,17 @@ function SearchPosteFilter(p_sessid,p_ctl,p_filter,jrn)
 	 function GetIt() {
 	   window.close();	
 	} 
-function SetItChild(p_ctl,p_value) {
-	self.opener.SetItParent(p_ctl,p_value);
+function SetItChild(p_ctl,p_value,p_label) {
+
+  self.opener.SetItParent(p_ctl,p_value,p_label);
 	window.close();
 }
-function SetItParent(p_ctl,p_value) {
+function SetItParent(p_ctl,p_value,p_label) {
 
-	var f=document.getElementsByName(p_ctl);
-	for (var h=0; h < f.length; h++) {
-		f[h].value=p_value;
-		}
+	var f=document.getElementById(p_ctl);
+	f.value=p_value;
+	var f1=document.getElementById(p_ctl+"_label");
+	f1.innerHTML=p_label;
 	
 }
 /* SetValue( p_ctl,p_value )

@@ -67,6 +67,7 @@ function HandleSubmit(e) {
 /*
  * Open the search screen
  */
-function openRecherche(p_sessid,p_dossier) {
-	 var w=window.open("recherche.php?p_dossier="+p_dossier+"&PHPSESSID="+p_sessid,'','statusbar=no,scrollbars=yes,toolbar=no');
+function openRecherche(p_sessid,p_dossier,p_style) {
+  if ( p_style == 'E' ) { p_style="expert";}
+	 var w=window.open("recherche.php?p_dossier="+p_dossier+"&PHPSESSID="+p_sessid+'&'+p_style,'','statusbar=no,scrollbars=yes,toolbar=no');
 }

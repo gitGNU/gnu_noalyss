@@ -20,6 +20,7 @@
 /* $Revision$ */
 /*! \file
  * \brief Check if still used
+ * \todo this file should be removed, and also the include in user_form_xxx 
  */
 
 if ( $action == 'update' ) {

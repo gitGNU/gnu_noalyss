@@ -73,7 +73,8 @@ function GetTvaRate($p_cn,$p_tva_id) {
  * \return: array
  *       a[tva_id] =  amount vat
  */
-function ComputeTotalVat($p_cn,	$a_fiche,$a_quant,$a_price,$ap_vat,$a_vat_amount=null,$all=false ) {
+function ComputeTotalVat($p_cn,	$a_fiche,$a_quant,$a_price,$ap_vat,$a_vat_amount=null,$all=false ) 
+{
 echo_debug('user_common.php',__LINE__,"ComputeTotalVat $a_fiche $a_quant $a_price");
  foreach ( $a_fiche as $t=>$el) {
    echo_debug('user_common.php',__LINE__,"t $t e $el");
@@ -115,7 +116,11 @@ echo_debug('user_common.php',__LINE__,"ComputeTotalVat $a_fiche $a_quant $a_pric
 	// if a vat amount is given
 	if ( $a_vat_amount != null && 
 	     $a_vat_amount[$idx] != 0 )
+		  {
 	  $vat_amount= $a_vat_amount[$idx] ;
+			echo_debug(__FILE__.':'.__LINE__.'- VAT_AMOUNT IS GIVEN '.$vat_amount);
+
+		  }
 	echo_debug('user_common',__LINE__,"vat amount = $vat_amount");
 	// only the deductible vat
 	if ( $all == false ) 
@@ -360,7 +365,9 @@ comment = $p_comment");
  */
 function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0,$p_paid=0)
 {
-
+  echo_debug(__FILE__,__LINE__,"Entering into function ListJrn($p_cn,$p_jrn,$p_where='',$p_array=null,$p_value=0,$p_paid=0)");
+  $amount_paid=0.0;
+  $amount_unpaid=0.0;
   include_once("central_inc.php");
   $limit=($_SESSION['g_pagesize']!=-1)?" LIMIT ".$_SESSION['g_pagesize']:"";
   $offset=($_SESSION['g_pagesize']!=-1)?" OFFSET ".$p_value:"";
@@ -599,9 +606,30 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Eché
     //internal code
 	// button  modify
     $r.="<TD>";
-  // If url contains
-    $r.=sprintf('<A class="detail" HREF="javascript:modifyOperation(\'%s\',\'%s\',\'%s\')" >%s</A>',
-		$row['jr_id'], $l_sessid, $p_jrn, $row['jr_internal']);
+    // If url contains
+    //   
+
+    $href=basename($_SERVER['PHP_SELF']);
+	echo_debug(__FILE__,__LINE__,"href = $href");
+    switch ($href)
+      {
+		// user_jrn.php
+      case 'user_jrn.php':
+		$vue="E"; //Expert View
+		break;
+      case 'commercial.php':
+		$vue="S"; //Simple View
+		break;
+	  case 'recherche.php':
+		$vue=(isset($_GET['expert']))?'E':'S';
+		break;
+      default:
+		echo_error('user_form_ach.php',__LINE__,'Erreur invalid request uri');
+		exit (-1);
+      }
+    
+    $r.=sprintf('<A class="detail" HREF="javascript:modifyOperation(\'%s\',\'%s\',\'%s\',\'%s\')" >%s</A>',
+		$row['jr_id'], $l_sessid, $p_jrn,$vue, $row['jr_internal']);
     $r.="</TD>";
     // date
     $r.="<TD>";
@@ -640,14 +668,18 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Eché
     // Show the paid column if p_paid is not null
     if ( $p_paid !=0 )
       {
-	$w=new widget("checkbox");
-	$w->name="rd_paid".$row['jr_id'];
-	$w->selected=($row['jr_rapt']=='paid')?true:false;
-	// if p_paid == 2 then readonly
-	$w->readonly=( $p_paid == 2)?true:false;
-	$h=new widget("hidden");
-	$h->name="set_jr_id".$row['jr_id'];
-	$r.='<TD>'.$w->IOValue().$h->IOValue().'</TD>';
+		$w=new widget("checkbox");
+		$w->name="rd_paid".$row['jr_id'];
+		$w->selected=($row['jr_rapt']=='paid')?true:false;
+		// if p_paid == 2 then readonly
+		$w->readonly=( $p_paid == 2)?true:false;
+		$h=new widget("hidden");
+		$h->name="set_jr_id".$row['jr_id'];
+		$r.='<TD>'.$w->IOValue().$h->IOValue().'</TD>';
+		if ( $row['jr_rapt']=='paid') 
+		  $amount_paid+=$row['jr_montant'];
+		else
+		  $amount_unpaid+=$row['jr_montant'];
       }
     
     // Rapprochement
@@ -658,7 +690,9 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Eché
       
       foreach ($a as $key => $element) 
       {      
-	      $r.= "<A class=\"detail\" HREF=\"javascript:modifyOperation('".$element."','".$l_sessid."')\" > ".GetInternal($p_cn,$element)."</A>";
+		$l_amount=getDbValue($p_cn,"select jr_montant from jrn ".
+							 " where jr_id=$element");
+		$r.= "<A class=\"detail\" HREF=\"javascript:modifyOperation('".$element."','".$l_sessid."')\" > ".GetInternal($p_cn,$element)." [ $l_amount &euro; ]</A>";
       }//for
     }// if ( $a != null ) {
     $r.="</TD>";
@@ -694,9 +728,20 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Eché
   $r.="<TR>";
   $r.='<TD COLSPAN="4">Total</TD>';
   $r.='<TD ALIGN="RIGHT">'.$tot."</TD>";
+  $r.="</tr>";
+  if ( $p_paid != 0 ) {
+	$r.="<TR>";
+	$r.='<TD COLSPAN="4">Pay&eacute;</TD>';
+	$r.='<TD ALIGN="RIGHT">'.$amount_paid."</TD>";
+	$r.="</tr>";
+	$r.="<TR>";
+	$r.='<TD COLSPAN="4">Non pay&eacute;</TD>';
+	$r.='<TD ALIGN="RIGHT">'.$amount_unpaid."</TD>";
+	$r.="</tr>";
+  }
   $r.="</table>";
   
-return array ($count,$r);
+  return array ($count,$r);
 }
 
 
@@ -876,7 +921,8 @@ function DeleteRapt($p_cn,$jr_id,$jr_id2) {
  * \return array if something is found or null
  */
 function GetConcerned ($p_cn, $jr_id) {
-$sql=" select jr_id as cn from jrn_rapt where jra_concerned=$jr_id
+  echo_debug(__FILE__.":".__LINE__."Get Concerned");
+  $sql=" select jr_id as cn from jrn_rapt where jra_concerned=$jr_id
       union
        select jra_concerned as cn from jrn_rapt where jr_id=$jr_id";
  $Res=ExecSql($p_cn,$sql);

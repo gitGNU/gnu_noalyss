@@ -65,13 +65,13 @@ $ret="";
 
 // filter : 0 for Grand Livre otherwise 1
 $filter=( $Jrn->id == 0)?0:1;
-$jrn_type=$Jrn->GetType();
+$jrn_type=$Jrn->get_type();
 echo_debug('jrn_pdf',__LINE__,'Jrn type '.$jrn_type);
 echo_debug('jrn_pdf',__LINE__,'p_simple = '.$_REQUEST['p_simple']);
 //----------------------------------------------------------------------
 // Detailled Printing
 //---------------------------------------------------------------------
-if ( $Jrn->id==0  || $jrn_type=='FIN' || $jrn_type=='OD ' || $_REQUEST['p_simple']== 0 ) 
+if ( $Jrn->id==0  || $jrn_type=='FIN' || $jrn_type=='ODS' || $_REQUEST['p_simple']== 0 ) 
 {
   $pdf=& new Cezpdf("A4");
   $pdf->selectFont('./addon/fonts/Helvetica.afm');

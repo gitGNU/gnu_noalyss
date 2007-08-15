@@ -27,7 +27,7 @@ $_ENV['TMP']="/tmp";
 define ("phpcompta_password","dany");
 define ("phpcompta_psql_port","5432");
 define ("phpcompta_user","phpcompta");
-define ("domaine","");
+define ("domaine","rel240_");
 
 
 define ("DEBUG","true");
@@ -179,6 +179,9 @@ define ("JS_CALC_LINE",'
 </div>
 '
 );
+define ("JS_COMPUTE_ODS",
+"<SCRIPT language=\"javascript\" src=\"js/compute.js\">	</SCRIPT>");
+
  define ("JS_SHOW_TVA","<SCRIPT language=\"javascript\">
  function ShowTva(p_sessid,ctl)
       {

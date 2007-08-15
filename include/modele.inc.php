@@ -52,12 +52,24 @@ echo  JS_CONFIRM;
       }// if $mod_name != null
 
       $cn_mod=dbconnect($l_id,'mod');
+
       // Clean some tables 
       $Res=ExecSql($cn_mod,"truncate table jrn");
+	  $Res=ExecSql($cn_mod,"select distinct jr_pj from jrn where jr_pj is not null ");
+	  if ( pg_NumRows($Res) != 0 )
+		{
+		  $a_lob=pg_fetch_all($Res);
+		  foreach ($a_lob as $lob) 
+			pg_lo_unlink($cn_mod,$lob['loid']);
+		}
+
       $Res=ExecSql($cn_mod,"truncate table jrnx");
       $Res=ExecSql($cn_mod,"truncate table centralized");
       $Res=ExecSql($cn_mod,"truncate table stock_goods");
+	  // TODO 
+	  // Nettoyage table quant_*
       $Res=ExecSql($cn_mod,"truncate table jrn_rapt");
+	  $Res=ExecSql($cn_mod,"truncate table import_tmp");
       //	Reset the closed periode
       $Res=ExecSql($cn_mod,"update parm_periode set p_closed='f'");
       // Reset Sequence
@@ -73,7 +85,46 @@ echo  JS_CONFIRM;
 	    $row=pg_fetch_array($Res,$seq);
 	    $sql=sprintf ("select setval('s_jrn_%d',1,false)",$row['jrn_def_id']);
 	    ExecSql($cn_mod,$sql);
+	    $sql=sprintf ("select setval('s_jrn_pj_%d',1,false)",$row['jrn_def_id']);
+	    ExecSql($cn_mod,$sql);
+
     	}
+	    //---
+	    // Cleaning Action
+	    //-- 
+	    if ( isset($_POST['DOC'] ))
+	      {
+			$Res=ExecSql($cn_mod,"delete from action_gestion");
+			$Res=ExecSql($cn_mod,"delete from document");
+			// Remove lob file
+			$Res=ExecSql($cn_mod,"select distinct loid from pg_largeobject");
+			if ( pg_NumRows($Res) != 0 )
+			  {
+				$a_lob=pg_fetch_all($Res);
+				//var_dump($a_lob);
+				foreach ($a_lob as $lob) {
+				  pg_lo_unlink($cn_mod,$lob['loid']);
+				}
+			  }
+	      }
+	    if ( isset($_POST['CARD'])) 
+	      {
+			$Res=ExecSql($cn_mod,"delete from  attr_value");
+			$Res=ExecSql($cn_mod,"delete from  jnt_fic_att_value");
+			$Res=ExecSql($cn_mod,"delete from   fiche");
+			$Res=ExecSql($cn_mod,"delete from action_gestion");
+			$Res=ExecSql($cn_mod,"delete from document");
+			// Remove lob file
+			$Res=ExecSql($cn_mod,"select distinct loid from pg_largeobject");
+			if ( pg_NumRows($Res) != 0 )
+			  {
+				$a_lob=pg_fetch_all($Res);
+				foreach ($a_lob as $lob) 
+				  pg_lo_unlink($cn_mod,$lob['loid']);
+			  }
+		    
+
+	      }
       
       
     }
@@ -143,6 +194,11 @@ echo  JS_CONFIRM;
     <TD> Basé sur </TD>
     <TD> <?php   echo $available ?></TD>
 </TR>
+<TR><TD>Nettoyage des Documents et courriers (ce qui  n'effacera pas les modèles de documents)</TD><TD> <input type="checkbox" name="DOC"></TD></TR>
+<TR><TD>Nettoyage de toutes les fiches (ce qui effacera client, fournisseurs et documents)</TD><TD> <input type="checkbox" name="CARD"></TD></TR>
+
+    
+
 <TR>
     <td colspan="2"> <INPUT TYPE="SUBMIT" VALUE="Add a template"></TD>
 </TR>

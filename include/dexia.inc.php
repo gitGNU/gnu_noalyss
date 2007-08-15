@@ -33,71 +33,72 @@ $LinesImported=0;
 $LinesDup=0;
 $row=1;
 StartSql($p_cn);
-while (($data = fgetcsv($handle, 2000,'!@')) !== FALSE) {
- $num = count($data);
- echo_debug('dexia_be',__LINE__,$num);
- echo_debug('dexia_be',__LINE__,var_export($data,true));
-
-//-----------------------------------------------------
-// Parsing CSV comes here
-//-----------------------------------------------------
-
- echo_debug('dexia_be',__LINE__,'$row = '.var_export($row,true));
- echo_debug('dexia_be',__LINE__,'sizeof($row)'.sizeof($row));
- $row=split(';',$data[0]);
- //to avoid a level of if
- if (!(isset($row[2]))) $row[2]='';
-
-
- // Skipping all the lines whith a blank operation reference ('numéro extrait')
- if ( $row[2] == '' ||
-!(ereg('[0-9]{3}-[0-9]{7}-[0-9]{2}',$row[0],$r)))
- {
- $LinesSkipped++;
- continue; 
- }
- // Alternative filter : import all the operations even without a reference 
- // !! Disable check of doubles as all the unreferenced operations have hte smae
-//NULL' reference
- // Just use the following test : if (
-//!(ereg('[0-9]{3}-[0-9]{7}-[0-9]{2}',$row[0],$r)))
-
- // Parsing the remaining lines
- $num_compte=$row[3]; // Third party bank account
- $date_exec=$row[1]; // Execution date of the operation
- $date_val=$row[8]; // Effective date of the operation
- // remove the thousand sep. ** UNUSED by DEXIA
- //$montant=str_replace('.','',$row[9]);
- // remove the sign ** UNUSED by DEXIA
- //$montant=str_replace('+','',$montant); 
- // replace the coma by a period 
- $montant=str_replace(',','.',$row[9]); // Amount of the operation
- $ref_extrait=$row[2]; // Operation reference
- $devise=$row[10]; // Curency used
- $compte_ordre=$row[0]; // Your own bank account
- $detail=trim($row[4]).' '.trim($row[5]).' '.trim($row[6]).'
+while (($data = fgetcsv($handle, 2000,'!@')) !== FALSE) 
+{
+  $num = count($data);
+  echo_debug('dexia_be',__LINE__,$num);
+  echo_debug('dexia_be',__LINE__,var_export($data,true));
+  
+  //-----------------------------------------------------
+  // Parsing CSV comes here
+  //-----------------------------------------------------
+  
+  echo_debug('dexia_be',__LINE__,'$row = '.var_export($row,true));
+  echo_debug('dexia_be',__LINE__,'sizeof($row)'.sizeof($row));
+  $row=split(';',$data[0]);
+  //to avoid a level of if
+  if (!(isset($row[2]))) $row[2]='';
+  
+  
+  // Skipping all the lines whith a blank operation reference ('numéro extrait')
+  if ( $row[2] == '' ||
+       !(ereg('[0-9]{3}-[0-9]{7}-[0-9]{2}',$row[0],$r)))
+    {
+      $LinesSkipped++;
+      continue; 
+    }
+  // Alternative filter : import all the operations even without a reference 
+  // !! Disable check of doubles as all the unreferenced operations have hte smae
+  //NULL' reference
+  // Just use the following test : if (
+  //!(ereg('[0-9]{3}-[0-9]{7}-[0-9]{2}',$row[0],$r)))
+  
+  // Parsing the remaining lines
+  $num_compte=$row[3]; // Third party bank account
+  $date_exec=$row[1]; // Execution date of the operation
+  $date_val=$row[8]; // Effective date of the operation
+  // remove the thousand sep. ** UNUSED by DEXIA
+  //$montant=str_replace('.','',$row[9]);
+  // remove the sign ** UNUSED by DEXIA
+  //$montant=str_replace('+','',$montant); 
+  // replace the coma by a period 
+  $montant=str_replace(',','.',$row[9]); // Amount of the operation
+  $ref_extrait=$row[2]; // Operation reference
+  $devise=$row[10]; // Curency used
+  $compte_ordre=$row[0]; // Your own bank account
+  $detail=trim($row[4]).' '.trim($row[5]).' '.trim($row[6]).'
 '.trim($row[7]); 
- //Details-Communicaion
+  //Details-Communicaion
 
-//----------------------------------------------------
-// Skip dubbel
-//----------------------------------------------------
- $Sql="select * from import_tmp where code='$ref_extrait' and
+  //----------------------------------------------------
+  // Skip dubbel
+  //----------------------------------------------------
+  $Sql="select * from import_tmp where code='$ref_extrait' and
 compte_ordre='$compte_ordre' limit 2"; 
- if ( CountSql($p_cn,$Sql) > 0)
- {
- /* Skip it it already encoded */
- echo "Double skipped : $ref_extrait $detail <BR>";
- $LinesDup++;
- continue;
- }
- 
- 
-//--------------------------------------------------------------------
-// SQL request to insert into import_tmp 
-// Adapt the format of the import's date in the ** to_date ** function
-//--------------------------------------------------------------------
- $Sql="insert into import_tmp (code,
+  if ( CountSql($p_cn,$Sql) > 0)
+    {
+      /* Skip it it already encoded */
+      echo "Double skipped : $ref_extrait $detail <BR>";
+      $LinesDup++;
+      continue;
+    }
+  
+  
+  //--------------------------------------------------------------------
+  // SQL request to insert into import_tmp 
+  // Adapt the format of the import's date in the ** to_date ** function
+  //--------------------------------------------------------------------
+  $Sql="insert into import_tmp (code,
  date_exec ,
  date_valeur,
  montant,
@@ -122,21 +123,22 @@ compte_ordre='$compte_ordre' limit 2";
 //-----------------------------------------------------
 // Check if no need to rollback when executing the SQL
 //-----------------------------------------------------
- if ( ExecSql($p_cn,$Sql) == false ) {
- Rollback($p_cn);
- echo "Rollbacking : $ref_extrait $detail <BR>";
- $LinesSkipped++;
- break;
+ try {
+   ExecSql($p_cn,$Sql);
+ }
+ catch (Exception $e) {
+   Rollback($p_cn);
+   echo "Rollbacking : $ref_extrait $detail <BR>";
+   $LinesSkipped++;
+   continue;
  }
 //-----------------------------------------------------
 // The import is OK
 //-----------------------------------------------------
-
- else {
+ 
  $LinesImported++;
  $row++;
  echo "Record imported: $ref_extrait $detail <BR>";
- }
 
 } 
 //-----------------------------------------------------

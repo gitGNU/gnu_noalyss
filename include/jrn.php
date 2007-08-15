@@ -24,8 +24,12 @@
  * \brief work with the ledger
  */
 require_once('class_fiche.php');
+require_once ('class_gestion_sold.php');
+require_once ('class_gestion_purchase.php');
+require_once ('class_plananalytic.php');
+require_once ('class_operation.php');
 /*! 
- * \brief  Display the form to UPDATE account operation
+ * \brief  Display the form to UPDATE account operation in the expert view
  *          
  * \param $p_cn database connection
  * \param $jr_id pk of jrn
@@ -34,9 +38,11 @@ require_once('class_fiche.php');
  *
  *
  */ 
- function UpdateJrn($p_cn,$p_jr_id)
+ function ShowOperationExpert($p_cn,$p_jr_id)
 {
   echo_debug('jrn.php',__LINE__,"function UpdateJrn");
+  // own
+  $own=new own($p_cn);
 
   $l_array=GetDataJrnJrId($p_cn,$p_jr_id);
   if ( $l_array == null ) {
@@ -54,38 +60,38 @@ require_once('class_fiche.php');
 
       // for the first line
       if ( $i == 0 ) {
-	$r.="<TABLE>";
-	$r.="<TR>";
-	// Date
-	$r.="<TD>";
-	$r.=$content['jr_date'];
-	$r.="</TD>";
-	// for upload document we need the grpt_id   
-	$r.='<Input type="hidden" name="jr_grpt_id" value="'.$content['jr_grpt_id'].'">';
-
-	// comment can be changed
-	$r.="<TD>";
-	$r.='<INPUT TYPE="TEXT" name="comment" value="';
-	$r.=$content['jr_comment'];
-	$r.='" SIZE="25">';
-	$r.="</TD>";
-
+		$r.="<TABLE>";
+		$r.="<TR>";
+		// Date
+		$r.="<TD>";
+		$r.=$content['jr_date'];
+		$r.="</TD>";
+		// for upload document we need the grpt_id   
+		$r.='<Input type="hidden" name="jr_grpt_id" value="'.$content['jr_grpt_id'].'">';
+		
+		// comment can be changed
+		$r.="<TD>";
+		$r.='<INPUT TYPE="TEXT" name="comment" value="';
+		$r.=$content['jr_comment'];
+		$r.='" SIZE="40">';
+		$r.="</TD>";
+		
 	// Internal
-	$r.="<TD>";
-	$r.=$content['jr_internal'];
-	$r.="</TD>";
+		$r.="<TD>";
+		$r.=$content['jr_internal'];
+		$r.="</TD>";
 
-	if ( $content['jrn_def_type'] == 'ACH' or 
-	     $content['jrn_def_type'] == 'VEN' )
-	  {
-	    // Is Paid
-	    $r.="<TD>";
-	    $check=( $content['jr_rapt'] != null )?"CHECKED":"UNCHECKED";
-	    $r.='<TD>Payé <INPUT TYPE="CHECKBOX" name="is_paid" '.$check.'></TD>';
-	  }
-	$r.="</TR>";
-	$r.="</TABLE>";
-	$r.="<TABLE>";
+		if ( $content['jrn_def_type'] == 'ACH' or 
+			 $content['jrn_def_type'] == 'VEN' )
+		  {
+			// Is Paid
+			$r.="<TD>";
+			$check=( $content['jr_rapt'] != null )?"CHECKED":"UNCHECKED";
+			$r.='<TD>Payé <INPUT TYPE="CHECKBOX" name="is_paid" '.$check.'></TD>';
+		  }
+		$r.="</TR>";
+		$r.="</TABLE>";
+		$r.="<TABLE>";
       }
       $r.="<TR>";
       if ( $content['j_debit'] == 'f' ) $r.=$col_vide;
@@ -96,6 +102,42 @@ require_once('class_fiche.php');
       $r.="<TD>".$content['vw_name']."</td>";
       if ( $content['j_debit'] == 'f' ) $r.=$col_vide;
       $r.="<TD>".$content['j_montant']."</td>";
+      if ( $content['j_debit'] == 't' ) $r.=$col_vide;
+	  //-- add ca 
+	  //
+	  if ( $own->MY_ANALYTIC != "un" && ereg("^[6,7]+",$content['j_poste']))
+		{
+		  echo_debug(__FILE__.":".__LINE__,"Content is ",$content);
+		  $plan=new PlanAnalytic($p_cn);
+		  $a_plan=$plan->get_list();
+		  $null=($own->MY_ANALYTIC=='op')?1:0;
+
+		  foreach ($a_plan as $r_plan) 
+			{
+			  echo_debug(__FILE__.":".__LINE__,"CA Content is ",$array);
+			  $array=make_array($p_cn,
+								"select po_id as value,".
+								" po_name as label from poste_analytique ".
+								" where pa_id = ".$r_plan['id'].
+								" order by po_name",$null);
+			  $op=new operation($p_cn);
+			  $op_array=$op->get_operation_by_jid($content['j_id']);
+			  $select = new widget("select","","plan_".$r_plan['id']."_".$content['j_id'],$array);
+			  
+ 			  if ( $op_array != null)  
+ 				foreach ($op_array as $row) { 
+				  echo_debug(__FILE__.":".__LINE__,"row is ",$row);
+ 				  if ( $r_plan['id'] == $row->pa_id ) { 
+ 					$select->selected=$row->po_id; 
+ 				  } 
+ 				} 
+			  $select->table=1;
+			  echo_debug(__FILE__.":".__LINE__,"select ",$select);
+			  $r.=$select->IOValue();
+
+			}
+		}
+
       $r.="</TR>";
 
       //    }//     foreach ($l_array[$i]  as $value=>$content) 
@@ -123,24 +165,24 @@ require_once('class_fiche.php');
   if ( $a != null ) {
       $r.="<b>Operation concernée</b> <br>";
       if ( isset ($_GET["PHPSESSID"]) ) {
-	$sessid=$_GET["PHPSESSID"];
+		$sessid=$_GET["PHPSESSID"];
       }
       else {
-	$sessid=$_POST["PHPSESSID"];
+		$sessid=$_POST["PHPSESSID"];
       }
-
-    $r.= '<div style="margin-left:30px;">';
-    foreach ($a as $key => $element) {
-      $r.=sprintf ('%s <INPUT TYPE="BUTTON" VALUE="Détail" onClick="modifyOperation(\'%s\',\'%s\')">', 
-		   GetInternal($p_cn,$element),
-		   $element,
-		   $sessid);
-      $r.=sprintf('<INPUT TYPE="button" value="Efface" onClick="dropLink(\'%s\',\'%s\',\'%s\')"><BR>',
-		  $content['jr_id'],$element,$sessid);
-    }//for
-    $r.= "</div>";
+	  
+	  $r.= '<div style="margin-left:30px;">';
+	  foreach ($a as $key => $element) {
+		$r.=sprintf ('%s <INPUT TYPE="BUTTON" VALUE="Détail" onClick="modifyOperation(\'%s\',\'%s\')">', 
+					 GetInternal($p_cn,$element),
+					 $element,
+					 $sessid);
+		$r.=sprintf('<INPUT TYPE="button" value="Efface" onClick="dropLink(\'%s\',\'%s\',\'%s\')"><BR>',
+					$content['jr_id'],$element,$sessid);
+	  }//for
+	  $r.= "</div>";
   }// if ( $a != null ) {
-
+  
   if ( isset ($_GET["PHPSESSID"]) ) {
     $sessid=$_GET["PHPSESSID"];
   }
@@ -157,6 +199,324 @@ require_once('class_fiche.php');
   //  echo $r;
   return $r;
 }
+
+/*! 
+ * \brief  Display the form to UPDATE account operation in the user view
+ *          
+ * \param $p_cn database connection
+ * \param $jr_id pk of jrn
+ *
+ * \return none
+ *
+ *
+ */ 
+function ShowOperationUser($p_cn,$p_jr_id)
+{
+  echo_debug('jrn.php',__LINE__,"function UpdateJrn");
+  
+  $l_array=GetDataJrnJrIdUser($p_cn,$p_jr_id);
+
+  /* if the operation doesn't exist in the quant_xxx table then we
+   *  show the expert view
+   */
+
+  if ( $l_array == null ) {
+    // If the  operation is not in quant_sold or quant_purchase 
+    // because those tables comes later
+    $r=ShowOperationExpert($p_cn,$p_jr_id);
+    return $r;
+  }
+  // own
+  $own=new own($p_cn);
+
+  echo_debug('jrn.php',__LINE__,$l_array);
+  // Javascript
+  $r=JS_VIEW_JRN_MODIFY;
+
+  // Build the form
+  $col_vide="<TD></TD>";
+  
+
+  $content=$l_array[0] ;
+  // for the first line
+  $internal=$content['jr_internal'];
+  
+  $r.='<TABLE>';
+  $r.="<TR>";
+  // Date
+  $r.="<TD>";
+  $r.=$content['jr_date'];
+
+  // for upload document we need the grpt_id   
+  $r.='<Input type="hidden" name="jr_grpt_id" value="'.$content['jr_grpt_id'].'">';
+  
+  // comment can be changed
+
+  $r.='<INPUT TYPE="TEXT" name="comment" value="';
+  $r.=$content['jr_comment'];
+  $r.='" SIZE="40">';
+
+  
+  // Internal
+
+  $r.=$content['jr_internal'];
+  $r.="</TD>";
+		
+  // Is Paid
+  $r.="<TD>";
+  $check=( $content['jr_rapt'] != null )?"CHECKED":"UNCHECKED";
+  $r.='<TD>Payé <INPUT TYPE="CHECKBOX" name="is_paid" '.$check.'></TD>';
+  
+  $r.="</TR>";
+  
+  echo_debug(__FILE__.":".__LINE__."jrn_Def_type =  ".$content['jrn_def_type']);
+  // for others lines
+  
+  // for purchase ledger
+  if ( $content['jrn_def_type'] == 'ACH' )
+	{
+	  $r.='<tr><td><table>';
+	  echo_debug(__FILE__.":".__LINE__." content['qp_supplier'] ".$content['qp_supplier']);
+	  $client=new fiche($p_cn,$content['qp_supplier']);
+	  $r.="Client : ".$client->getName();
+	  echo_debug(__FILE__,__LINE__,$content);	  
+	  
+	  /* now we get the different lines for this operation thanks */
+	  /* the qp_internal == jr_internal */
+	  $r.='<tr>';
+	  $r.='<th>Nom</th>';
+	  $r.='<th>Quantit&eacute;</th>';
+	  $r.='<th>tva</th>';
+	  $r.='<th>code tva</th>';
+	  $r.='<th>Non Ded.</th>';
+	  $r.='<th>tva nd</th>';
+	  $r.='<th>tva d impot</th>';
+	  $r.='<th>prix</th>';
+	  $r.='</tr>';
+	  $object=new gestion_purchase($p_cn);
+	  $object->qp_internal=$internal;
+	  $array=$object->get_list();
+	  $tot_tva=0.0;
+	  $tot_amount=0.0;
+	  $tot_nd=0.0;
+	  $tot_tva_nd=0.0;
+	  $tot_tva_nd_recup=0.0;
+	  $i=0;
+	  foreach ($array as $row) {
+		$fiche=new fiche($p_cn,$row->qp_fiche);
+		// compute sum
+		$tot_tva+=$row->qp_vat;
+		$tot_nd+=$row->qp_nd_amount;
+		$tot_tva_nd+=$row->qp_nd_tva;
+		$tot_tva_nd_recup+=$row->qp_nd_tva_recup;
+		$tot_amount+=$row->qp_price;
+
+		//		$hid_jid=new widget("hidden","","p_jid_".$row->j_id,$row->j_id);
+		$r.=($i%2==0)?"<tr class=\"odd\">":'<tr>';		$i++;
+
+		$r.='<td> '.$fiche->strAttribut(ATTR_DEF_NAME).'</td>';
+		$r.='<td align="right">'.$row->qp_quantite.'</td>';
+		$r.='<td align="right">'.$row->qp_vat.'</td>';
+		$r.='<td>'.$row->qp_vat_code.'</td>';
+		$r.='<td>'.$row->qp_nd_amount.'</td>';
+		$r.='<td>'.$row->qp_nd_tva.'</td>';
+		$r.='<td>'.$row->qp_nd_tva_recup.'</td>';
+		$r.='<td align="right">'.$row->qp_price.'</td>';
+		//-- add ca 
+		//
+		if ( $own->MY_ANALYTIC != "un" && ereg("^[6,7]+",$content['j_poste']))
+		  {
+			echo_debug(__FILE__.":".__LINE__,"Content is ",$content);
+			$plan=new PlanAnalytic($p_cn);
+			$a_plan=$plan->get_list();
+			$null=($own->MY_ANALYTIC=='op')?1:0;
+			
+			foreach ($a_plan as $r_plan) 
+			  {
+				echo_debug(__FILE__.":".__LINE__,"CA Content is ",$array);
+				$array=make_array($p_cn,
+								  "select po_id as value,".
+								  " po_name as label from poste_analytique ".
+								  " where pa_id = ".$r_plan['id'].
+								  " order by po_name",$null);
+				$op=new operation($p_cn);
+				$op_array=$op->get_operation_by_jid($content['j_id']);
+				$select = new widget("select","","plan_".$r_plan['id']."_".$row->j_id,$array);
+				
+				if ( $op_array != null)  
+				  foreach ($op_array as $row) { 
+					echo_debug(__FILE__.":".__LINE__,"row is ",$row);
+					if ( $r_plan['id'] == $row->pa_id ) { 
+					  $select->selected=$row->po_id; 
+					} 
+				  } 
+				$select->table=1;
+				echo_debug(__FILE__.":".__LINE__,"select ",$select);
+				$r.=$select->IOValue();
+			}
+		}
+
+		$r.="</tr>";
+
+	  }
+	  // display sum
+	  $r.='<tr><td colspan="8"><hr style="color:blue;"></td></tr>';
+	  $r.='<tr  style="font-size:13px;color:green;">'.
+		'<td colspan="7">Total HTVA</td>'.
+		'<td>'.sprintf('% 12.2f',$tot_amount)."</td>".
+		"</tr>";
+	  $r.='<tr  style="font-size:13px;color:green;">'.
+		'<td colspan="7">Total TVA</td>'.
+		'<td>'.sprintf('%12.2f',$tot_tva)
+		."</td>".
+		"</tr>";
+	  $r.='<tr  style="font-size:13px;color:green;">'.
+		'<td colspan="7">Total nd </td>'.
+		'<td style="font-size:13px;color:green;">'.sprintf('%12.2f',$tot_nd)."</td>".
+		"</tr>";
+	  $r.='<tr  style="font-size:13px;color:green;">'.
+		'<td colspan="7">Total tva nd</td>'.
+		'<td style="font-size:13px;color:green;">'.sprintf('%12.2f',$tot_tva_nd)."</td>".
+		"</tr>";
+	  $r.='<tr  style="font-size:13px;color:green;">'.
+		'<td colspan="7">Total tva nd recup. par impot</td>'.
+		'<td style="font-size:13px;color:green;">'.sprintf('%12.2f',$tot_tva_nd_recup)."</td>".
+		"</tr>";
+	  $r.='<tr  style="font-size:13px;color:green;">'.
+		'<td colspan="7">Total </td>'.
+		'<td style="font-size:13px;color:green;">'.sprintf('%12.2f',$tot_amount+$tot_tva)."</td>".
+		"</tr>";
+
+		echo '</table></td></tr>';
+
+	  
+	}
+  
+  // for selling ledger
+  if ( $content['jrn_def_type'] == 'VEN' )
+	{
+	  echo_debug(__FILE__.":".__LINE__." content['qs_client'] ".$content['qs_client']);
+	  $client=new fiche($p_cn,$content['qs_client']);
+	  $r.="Client : ".$client->getName();
+	  echo_debug(__FILE__,__LINE__,$content);	  
+	  
+	  /* now we get the different lines for this operation thanks */
+	  /* the qs_internal == jr_internal */
+	  $r.='<tr>';
+	  $r.='<th>Nom</th>';
+	  $r.='<th>Quantit&eacute;</th>';
+	  $r.='<th>tva</th>';
+	  $r.='<th>code tva</th>';
+	  $r.='<th>prix</th>';
+	  $r.='</tr>';
+	  $object=new gestion_sold($p_cn);
+	  $object->qs_internal=$internal;
+	  $array=$object->get_list();
+	  $tot_tva=0.0;
+	  $tot_amount=0.0;
+	  $i=0;
+	  foreach ($array as $row) {
+		$fiche=new fiche($p_cn,$row->qs_fiche);
+		$tot_tva+=$row->qs_vat;
+		$tot_amount+=$row->qs_price;
+		$r.=($i%2==0)?"<tr class=\"odd\">":'<tr>';		$i++;
+
+/* 		$hid_jid=new widget("hidden","","p_jid_".$row->j_id,$row->j_id); */
+/* 		$r.=$hid_jid->IOValue(); */
+
+		$r.=($i%2==0)?"<tr class=\"odd\">":'<tr>';		$i++;
+		$r.='<td> '.$fiche->strAttribut(ATTR_DEF_NAME).'</td>';
+		$r.='<td align="right">'.$row->qs_quantite.'</td>';
+		$r.='<td align="right">'.$row->qs_vat.'</td>';
+		$r.='<td>'.$row->qs_vat_code.'</td>';
+		$r.='<td align="right">'.$row->qs_price.'</td>';
+
+		$r.="</tr>";
+	  }
+	  $r.="<tr>".
+		"<td>"."</td>".
+		"<td>"."</td>".
+		"<td>"."</td>".
+		"<td>Total HTVA</td>".
+		'<td style="font-size:13px;color:green;">'.sprintf('% 12.2f',$tot_amount)."</td>".
+		"</tr>";
+	  $r.="<tr>".
+		"<td>"."</td>".
+		"<td>"."</td>".
+		"<td>"."</td>".
+		"<td>Total TVA</td>".
+		'<td style="text-justify:right;font-size:13px;color:green;">'.sprintf('%12.2f',$tot_tva)
+		."</td>".
+		"</tr>";
+	  $r.="<tr>".
+		"<td>"."</td>".
+		"<td>"."</td>".
+		"<td>"."</td>".
+		"<td>Total </td>".
+		'<td style="font-size:13px;color:green;">'.sprintf('%12.2f',$tot_amount+$tot_tva)."</td>".
+		"</tr>";
+
+	}
+  $r.="</TABLE>";
+      
+  $file=new widget("file");
+  $file->table=1;
+  //document
+  $r.='<tr><TD>A effacer <INPUT TYPE="CHECKBOX" name="to_remove" ></TD>';
+  $r.="<TD>".sprintf('<A class="detail" HREF="show_pj.php?jrn=%s&jr_grpt_id=%s">%s</A>',
+		     $content['jr_id'],
+		     $content['jr_grpt_id'],
+		     $content['jr_pj_name'])."</TD>";
+  $r.="</TR></TABLE>";
+  $r.="<hr>";
+  $r.= "<table>"; 
+  $r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
+  $r.="</table>";
+  $r.="<hr>";
+
+  $r.="</table>";
+  $r.="Total ".$content['jr_montant']."<br>";
+  // show all the related operation
+  $a=GetConcerned($p_cn,$content['jr_id']);
+  
+  if ( $a != null ) {
+      $r.="<b>Operation concernée</b> <br>";
+      if ( isset ($_GET["PHPSESSID"]) ) {
+		$sessid=$_GET["PHPSESSID"];
+      }
+      else {
+		$sessid=$_POST["PHPSESSID"];
+      }
+      
+      $r.= '<div style="margin-left:30px;">';
+      foreach ($a as $key => $element) {
+		$r.=sprintf ('%s <INPUT TYPE="BUTTON" VALUE="Détail" onClick="modifyOperation(\'%s\',\'%s\')">', 
+					 GetInternal($p_cn,$element),
+					 $element,
+					 $sessid);
+		$r.=sprintf('<INPUT TYPE="button" value="Efface" onClick="dropLink(\'%s\',\'%s\',\'%s\')"><BR>',
+					$content['jr_id'],$element,$sessid);
+	  }//for
+	  $r.= "</div>";
+  }// if ( $a != null ) {
+  
+  if ( isset ($_GET["PHPSESSID"]) ) {
+    $sessid=$_GET["PHPSESSID"];
+  }
+  else {
+    $sessid=$_POST["PHPSESSID"];
+  }
+  
+  $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchJrn(\''.$sessid."','rapt','".$content['jr_montant']."')\">";
+
+  $r.= '<H2 class="info">rapprochement </H2> 
+       <INPUT TYPE="TEXT" name="rapt" value="">'.$search;
+  $r.='<input type="hidden" name="jr_id" value="'.$content['jr_id'].'">';
+
+  //  echo $r;
+  return $r;
+}
+
 
 /*! 
  * \brief  Get the properties of a journal
@@ -345,7 +705,7 @@ function GetData ($p_cn,$p_grpt) {
                         jr_comment,
 			to_char(jr_ech,'DD.MM.YYYY') as jr_ech,
                         to_char(jr_date,'DD.MM.YYYY') as jr_date,
-                        jr_id,jr_internal,jr_def_id
+                        jr_id,jr_internal,jr_def_id,jr_pj
                      from jrnx inner join jrn on j_grpt=jr_grpt_id where j_grpt=$p_grpt");
   $MaxLine=pg_NumRows($Res);
   if ( $MaxLine == 0 ) return null;
@@ -579,8 +939,6 @@ function SetInternalCode($p_cn,$p_grpt,$p_jrn)
   $atype=GetJrnProp($_SESSION['g_dossier'],$p_jrn);
   $type=$atype['jrn_def_code'];
   $internal_code=sprintf("%d%s-%s",$_SESSION['g_dossier'],$type,$num);
-  $Res=ExecSql($p_cn,"update jrn set jr_internal='".$internal_code."' where ".
-	       " jr_grpt_id = ".$p_grpt);
   echo_debug ("jrn.php",__LINE__,"internal_code = $internal_code");
   return $internal_code;
 }
@@ -632,6 +990,86 @@ function GetDataJrnJrId ($p_cn,$p_jr_id) {
     //
     if ( strlen( $line['j_qcode']) != 0 )
       {
+		$fiche=new fiche($p_cn);
+		$fiche->GetByQCode($line['j_qcode']);
+		
+		$array['vw_name']=$fiche->getName();
+      }
+    else
+      {
+		$array['vw_name']=$line['pcm_lib'];
+      }
+      
+    $array['jr_comment']=$line['jr_comment'];
+    $array['j_montant']=$line['j_montant'];
+    $array['jr_id']=$line['jr_id'];
+    $array['j_id']=$line['j_id'];
+    $array['jr_date']=$line['jr_date'];
+    $array['jr_internal']=$line['jr_internal'];
+    $array['j_poste']=$line['j_poste'];
+    $array['jr_montant']=$line['jr_montant'];
+    $array['jr_rapt']=$line['jr_rapt'];
+    $array['jrn_def_type']=$line['jrn_def_type'];
+    $array['jr_grpt_id']=$line['jr_grpt_id'];
+    $array['jr_pj_name']=$line['jr_pj_name'];
+    //    $array['']=$line[''];
+
+    $ret_array[$i]=$array;
+    }
+  return $ret_array;
+}
+/*! 
+ * \brief  Get data from quant_sold or quand_purchase for the user
+ * view mode
+ * 
+ *
+ * \param connection
+ * \param p_jr_id (jrn.jr_id)
+ *
+ *
+ * \return array or  null if there is no value
+ *
+ */ 
+function GetDataJrnJrIdUser ($p_cn,$p_jr_id) {
+
+  echo_debug(__FILE__.":".__LINE__."GetDataJrnJrIdUser");
+
+  $Res=ExecSql($p_cn,"select ".
+	       "*".
+	       "  from quant_sold join jrn on (qs_internal=jr_internal) ". 
+	       "       join jrn_def on (jr_def_id=jrn_def_id) ".
+	       " where jr_id=$p_jr_id");
+
+
+  $MaxLine=pg_NumRows($Res);
+  echo_debug('jrn.php',__LINE__,"Found $MaxLine lines");
+
+
+  // if no info found in quant_sold try in quant_purchase 
+  if ( $MaxLine == 0 ) 
+    {
+      $Res=ExecSql($p_cn,"select ".
+		   "*".
+		   "  from quant_purchase join jrn on (qp_internal=jr_internal)".
+		   "       join jrn_def on (jr_def_id=jrn_def_id) ".
+		   " where jr_id=$p_jr_id");
+      $MaxLine=pg_NumRows($Res);
+      if ( $MaxLine == 0 ) 	  return null;
+      
+      
+      
+    }
+
+
+  for ( $i=0; $i < $MaxLine; $i++) {
+    $line=pg_fetch_array($Res,$i);
+
+
+    $array['j_debit']=$line['j_debit'];
+    // is there a name from this j_qcode
+    //
+    if ( strlen( $line['j_qcode']) != 0 )
+      {
 	$fiche=new fiche($p_cn);
 	$fiche->GetByQCode($line['j_qcode']);
 
@@ -641,7 +1079,19 @@ function GetDataJrnJrId ($p_cn,$p_jr_id) {
       {
 	$array['vw_name']=$line['pcm_lib'];
       }
-      
+
+    if ( isset ($line['qs_client'])) 
+      {
+	/* It is an invoice */
+	$array['qs_client']=$line['qs_client'];
+      }
+    else
+      {
+	/* it a purchase */
+	$array['qp_supplier']=$line['qp_supplier'];
+
+      }
+
     $array['jr_comment']=$line['jr_comment'];
     $array['j_montant']=$line['j_montant'];
     $array['jr_id']=$line['jr_id'];
@@ -659,4 +1109,5 @@ function GetDataJrnJrId ($p_cn,$p_jr_id) {
     }
   return $ret_array;
 }
+
 ?>

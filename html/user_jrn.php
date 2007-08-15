@@ -37,7 +37,8 @@ $User=new cl_user($cn);
 $User->Check();
 
 html_page_start($User->theme, 
-	 "OnLoad=\"SetFocus('e_date',0); AttachEvent(document, 'keydown', HandleSubmit, true);\" ");
+		"OnLoad=\"SetFocus('e_date',0);checkTotal();\" ",
+		"js/compute.js");
 
 // Check if dossier set
 if ( ! isset ( $_SESSION['g_dossier'] ) ) {
@@ -95,7 +96,7 @@ echo JS_AJAX_FICHE;
   if ( $jrn_type=='VEN' )     require('user_action_ven.php');
   if ( $jrn_type=='ACH' )     require('user_action_ach.php');
   if ( $jrn_type=='FIN' )     require('user_action_fin.php');
-  if ( $jrn_type=='OD' )     require('user_action_ods.php');
+  if ( $jrn_type=='ODS' )     require('user_action_ods.php');
   
 }
 else 

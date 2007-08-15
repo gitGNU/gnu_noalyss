@@ -121,6 +121,30 @@ if ( $sub_action == "list" )
 <input type="submit" name="submit_query" value="recherche">
 <input type="hidden" name="p_action" value="contact">
 </form>
+
+
+<form>
+<?php  
+   $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
+ echo JS_SEARCH_CARD;
+ $w=new widget('js_search_only');
+ $w->name='qcode';
+ $w->value=$qcode;
+ $w->label='qcode';
+ $w->table=0;
+ $w->extra='4,8,9,14';
+ echo $w->IOValue();
+
+
+ $sp= new widget("span");
+ echo $sp->IOValue("qcode_label",$qcode)."</TD></TR>";
+
+
+?>
+<input type="submit" name="submit_query" value="recherche">
+<input type="hidden" name="p_action" value="contact">
+
+</FORM>
 </span>
 <span>
 <form method="get" action="commercial.php">
@@ -146,26 +170,6 @@ if ( $sub_action == "list" )
 
 </form>
 </span>
-
-<form>
-<?php  
-   $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
- echo JS_SEARCH_CARD;
- $w=new widget('js_search_only');
- $w->name='qcode';
- $w->value=$qcode;
- $w->label='qcode';
- $w->extra='4,8,9,14';
- $sp= new widget("span");
- echo $sp->IOValue("qcode_label",$qcode)."</TD></TR>";
-
- echo $w->IOValue();
-
-?>
-<input type="submit" name="submit_query" value="recherche">
-<input type="hidden" name="p_action" value="contact">
-
-</FORM>
 <?php  
    $contact=new Contact($cn);
  $search=(isset($_GET['query']))?$_GET['query']:"";

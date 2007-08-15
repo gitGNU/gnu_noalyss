@@ -105,71 +105,80 @@ class Document_modele {
       // if name is empty return immediately
       if ( trim(strlen($this->md_name))==0) 
 	return;
-      // Start transaction
-      StartSql($this->cn);
-      // Save data into the table invoice
-      // if $this->md_id == -1 it means it is a new document model
-      // so first we have to insert it
-      // the name and the type must be set before calling save
-      if ( $this->md_id == -1) 
+      try 
 	{
-
-	  // insert into the table document_modele
-	  $this->name=FormatString($this->md_name);
-	  $this->md_id=NextSequence($this->cn,'document_modele_md_id_seq');
-	  $sql=sprintf("insert into document_modele(md_id,md_name,md_type) 
+	  // Start transaction
+	  StartSql($this->cn);
+	  // Save data into the table invoice
+	  // if $this->md_id == -1 it means it is a new document model
+	  // so first we have to insert it
+	  // the name and the type must be set before calling save
+	  if ( $this->md_id == -1) 
+	    {
+	      
+	      // insert into the table document_modele
+	      $this->name=FormatString($this->md_name);
+	      $this->md_id=NextSequence($this->cn,'document_modele_md_id_seq');
+	      $sql=sprintf("insert into document_modele(md_id,md_name,md_type) 
                               values (%d,'%s',%d)",
-			     $this->md_id,$this->name,$this->md_type);
-	  $Ret=ExecSql($this->cn,$sql);
-	  // create the sequence for this modele of document
-	  $this->md_sequence="document_".NextSequence($this->cn,"document_seq");
-	  // if start is not equal to 0 and he's a number than the user
-	  // request a number change
-	  echo_debug('class_document_modele',__LINE__, "this->start ".$this->start." a number ".isNumber($this->start));
-
-	  if ( $this->start != 0 && isNumber($this->start) == 1 )
-	    {
-	      $sql="alter sequence seq_doc_type_".$this->md_type." restart ".$this->start;
-	      ExecSql($this->cn,$sql);
+			   $this->md_id,$this->name,$this->md_type);
+	      $Ret=ExecSql($this->cn,$sql);
+	      // create the sequence for this modele of document
+	      $this->md_sequence="document_".NextSequence($this->cn,"document_seq");
+	      // if start is not equal to 0 and he's a number than the user
+	      // request a number change
+	      echo_debug('class_document_modele',__LINE__, "this->start ".$this->start." a number ".isNumber($this->start));
+	      
+	      if ( $this->start != 0 && isNumber($this->start) == 1 )
+		{
+		  $sql="alter sequence seq_doc_type_".$this->md_type." restart ".$this->start;
+		  ExecSql($this->cn,$sql);
+		}
+	      
 	    }
-	  
+	  // Save the file
+	  $new_name=tempnam($_ENV['TMP'],'document_');
+	  echo_debug('class_document_modele.php',__LINE__,"new name=".$new_name);
+	  if ( strlen ($_FILES['doc']['tmp_name']) != 0 ) 
+	    {
+	      if (move_uploaded_file($_FILES['doc']['tmp_name'],
+				     $new_name)) 
+		{
+		  // echo "Image saved";
+		  $oid= pg_lo_import($this->cn,$new_name);
+		  if ( $oid == false ) 
+		    {
+		      echo_error('class_document_modele.php',__LINE__,"cannot upload document");
+		      Rollback($cn);
+		      return;
+		    }
+		  echo_debug('class_document_modele.php',__LINE__,"Loading document");
+		  // Remove old document
+		  $ret=ExecSql($this->cn,"select md_lob from document_modele where md_id=".$this->md_id);
+		  if (pg_num_rows($ret) != 0) 
+		    {
+		      $r=pg_fetch_array($ret,0);
+		      $old_oid=$r['md_lob'];
+		      if (strlen($old_oid) != 0) 
+			pg_lo_unlink($this->cn,$old_oid);
+		    }
+		  // Load new document
+		  ExecSql($this->cn,"update document_modele set md_lob=".$oid.", md_mimetype='".$_FILES['doc']['type']."' ,md_filename='".$_FILES['doc']['name']."' where md_id=".$this->md_id);
+		  Commit($this->cn);
+		}
+	      else 
+		{
+		  echo "<H1>Error</H1>";
+		  Rollback($this->cn);
+		  exit;
+		}
+	    }
 	}
-      // Save the file
-      $new_name=tempnam($_ENV['TMP'],'document_');
-      echo_debug('class_document_modele.php',__LINE__,"new name=".$new_name);
-      if ( strlen ($_FILES['doc']['tmp_name']) != 0 ) 
+      catch (Exception $e)
 	{
-	  if (move_uploaded_file($_FILES['doc']['tmp_name'],
-				 $new_name)) 
-	    {
-		    // echo "Image saved";
-	      $oid= pg_lo_import($this->cn,$new_name);
-	      if ( $oid == false ) 
-		{
-		  echo_error('class_document_modele.php',__LINE__,"cannot upload document");
-		  Rollback($cn);
-		  return;
-		}
-	      echo_debug('class_document_modele.php',__LINE__,"Loading document");
-	      // Remove old document
-	      $ret=ExecSql($this->cn,"select md_lob from document_modele where md_id=".$this->md_id);
-	      if (pg_num_rows($ret) != 0) 
-		{
-		  $r=pg_fetch_array($ret,0);
-		  $old_oid=$r['md_lob'];
-		  if (strlen($old_oid) != 0) 
-		    pg_lo_unlink($this->cn,$old_oid);
-		}
-	      // Load new document
-	      ExecSql($this->cn,"update document_modele set md_lob=".$oid.", md_mimetype='".$_FILES['doc']['type']."' ,md_filename='".$_FILES['doc']['name']."' where md_id=".$this->md_id);
-	      Commit($this->cn);
-	    }
-	  else 
-	    {
-	      echo "<H1>Error</H1>";
-	      Rollback($this->cn);
-	      exit;
-	    }
+	  echo_debug(__FILE__.":".__LINE__." Erreur : ".$e->getCode." msg ".$e->getMessage);
+	  rollback($p_cn); 
+	  return ;
 	}
     }
   /*!

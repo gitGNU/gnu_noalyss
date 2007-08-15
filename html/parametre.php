@@ -162,10 +162,21 @@ if ( $p_action=='company') {
     $m->MY_TEL=$p_tel;
     $m->MY_FAX=$p_fax;
     $m->MY_PAYS=$p_pays;
+	$m->MY_ANALYTIC=$p_compta;
     $m->Save();
   }
 
   $my=new Own($cn);
+  ///// Compta analytic
+  $array=array (
+				array("value"=>"ob",label=>"obligatoire"),
+				array("value"=>"op",label=>"optionnel"),
+				array("value"=>"nu",label=>"non utilisé")
+				);
+  $compta=new widget("select");
+  $compta->table=1;
+  $compta->selected=$my->MY_ANALYTIC;
+  // other parameters
   $all=new widget("text");
   $all->table=1;
   echo '<form method="post" action="?p_action=company">';
@@ -179,7 +190,7 @@ if ( $p_action=='company') {
   echo "<tr>".$all->IOValue("p_Commune",$my->MY_COMMUNE,"Commune")."</tr>";
   echo "<tr>".$all->IOValue("p_pays",$my->MY_PAYS,"Pays")."</tr>";
   echo "<tr>".$all->IOValue("p_tva",$my->MY_TVA,"Numéro de Tva")."</tr>";
-
+  echo "<tr>".$compta->IOValue("p_compta",$array,"Utilisation de la compta. analytique")."</tr>";
   echo "</table>";
   $submit=new widget("submit");
   echo $submit->Submit("record_company","Enregistre");

@@ -46,7 +46,7 @@ if ( count($Fiche->row ) == 0 )
   echo "Aucune donnée";
   return;
 }
-echo '"Qcode;"'.
+echo '"Qcode";'.
 "\"Code interne\";".
 "\"Date\";".
 "\"Description\";".

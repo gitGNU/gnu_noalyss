@@ -33,6 +33,7 @@ if ( ! isset ( $_SESSION['g_dossier'] ) ) {
   echo "You must choose a Dossier ";
   exit -2;
 }
+
 include_once ("postgres.php");
 include_once ("check_priv.php");
 /* Admin. Dossier */
@@ -54,6 +55,7 @@ echo "</div>";
 // Display search result
 //-----------------------------------------------------
 if ( isset ($_GET['viewsearch'])) {
+
   // Navigation bar
   $step=$_SESSION['g_pagesize'];
   $page=(isset($_GET['offset']))?$_GET['page']:1;
@@ -62,11 +64,15 @@ if ( isset ($_GET['viewsearch'])) {
     $array=null;
   else
      $array=$_GET;
-  
+
   list($max_line,$a)=ListJrn($cn,0,"",$array,$offset,2);
+
   $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
 
+
   echo '<div class="u_redcontent">';
+
+
   echo $bar;
   echo $a;
   echo $bar;

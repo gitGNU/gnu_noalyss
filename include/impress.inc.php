@@ -28,7 +28,7 @@ require_once("check_priv.php");
 // show sub menu
 
 echo "<DIV class=\"u_subtmenu\">";
-
+echo JS_AJAX_FICHE;
 
 $p_array=array(array ("?p_action=impress&type=jrn","Journaux"),
 	       array("?p_action=impress&type=poste","Poste"),

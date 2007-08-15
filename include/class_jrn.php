@@ -27,6 +27,7 @@ class jrn {
   var $name;
   var $db;
   var $row;
+  var $type;
   function jrn ($p_cn,$p_id){
     $this->id=$p_id;
     $this->db=$p_cn;
@@ -36,7 +37,7 @@ class jrn {
  * \brief Return the type of a ledger (ACH,VEN,ODS or FIN) or GL 
  * 
  */
-  function GetType() {
+  function get_type() {
     if ( $this->id==0 ) {
       $this->name=" Grand Livre ";
       $this->type="GL";
@@ -95,14 +96,15 @@ class jrn {
   $periode=sql_filter_per($this->db,$p_from,$p_to,'p_id','jr_tech_per');
 
   $cond_limite=($p_limit!=-1)?" limit ".$p_limit." offset ".$p_offset:"";
-
-    // Grand livre == 0
-    if ( $this->id != 0 ) {
-
-      if ( $cent=='off' ) {
-	echo_debug('class_jrn.php',__LINE__,"journaux non  centralisé");
-	// Journaux non centralisés
-	$Res=ExecSql($this->db,"select j_id,j_id as int_j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
+  // retrieve the type
+  $this->get_type();
+  // Grand livre == 0
+  if ( $this->id != 0 ) {
+	
+	if ( $cent=='off' ) {
+	  echo_debug('class_jrn.php',__LINE__,"journaux non  centralisé");
+	  // Journaux non centralisés
+	  $Res=ExecSql($this->db,"select j_id,j_id as int_j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
                       jr_internal,
                 case j_debit when 't' then j_montant::text else '   ' end as deb_montant,
                 case j_debit when 'f' then j_montant::text else '   ' end as cred_montant,
@@ -168,7 +170,6 @@ class jrn {
       // Centralisé
       $Sql="select jr_c_opid as j_id,
                    c_order as int_j_id,
-
             c_j_id,
             to_char (c_date,'DD.MM.YYYY') as j_date ,
             c_internal as jr_internal,
@@ -177,10 +178,10 @@ class jrn {
             c_debit as j_debit,
             c_poste as poste,
             pcm_lib as description,
-            jr_comment||' ('||c_internal||')' as jr_comment,
+            jr_comment||' ('||c_internal||'/ PJ :'||jr_opid||')' as jr_comment,
             jr_montant,
             c_grp as grp,
-            c_comment||' ('||c_internal||')' as comment,
+            c_comment||' ('||c_internal||' '||jr_opid||')' as comment,
             c_rapt as oc,
             c_periode as periode 
             from centralized left join jrn on ".
@@ -200,16 +201,19 @@ class jrn {
   $case="";
   $tot_deb=0;
   $tot_cred=0;
+  $row=pg_fetch_all($Res);
   for ($i=0;$i<$Max;$i++) {
     $fiche=new fiche($this->db);
-    $line=pg_fetch_array($Res,$i);
+	$line=$row[$i];
     $mont_deb=($line['deb_montant']!=0)?sprintf("% 8.2f",$line['deb_montant']):"";
     $mont_cred=($line['cred_montant']!=0)?sprintf("% 8.2f",$line['cred_montant']):"";
     $jr_montant=($line['jr_montant']!=0)?sprintf("% 8.2f",$line['jr_montant']):"";
     $tot_deb+=$line['deb_montant'];
     $tot_cred+=$line['cred_montant'];
+	$tot_op=$line['jr_amount'];
     echo_debug('class_jrn.php',__LINE__," GetRow : mont_Deb ".$mont_deb);
     echo_debug('class_jrn.php',__LINE__," GetRow : mont_cred ".$mont_cred);
+
     /* Check first if there is a quickcode */
     if ( strlen(trim($line['j_qcode'])) != 0 ) 
       {
@@ -220,13 +224,32 @@ class jrn {
       }
     if ( $case != $line['grp'] ) {
       $case=$line['grp'];
+	  // for financial, we show if the amount is or not in negative
+	  if ( $this->type=='FIN') {
+		echo_debug(__FILE__,__LINE__,"Journal FIN");
+		$eMax=(($i+50) < $Max)?$i+50:$Max;
+		// check in $row if the BQE is in deb or cred
+		for ($e=$i;$e<$Max;$e++) {
+		  echo_debug(__FILE__,__LINE__,$row[$e]);
+		  if ( $row[$e]['grp'] != $case ) continue;
+		  if ( strlen(trim($row[$e]['j_qcode'])) == 0 ) continue;
+		
+		  $f=new fiche($this->db);
+		  $f->GetByQCode($row[$e]['j_qcode'],false);
+		  echo_debug(__FILE__,__LINE__,$f);
+		  if ( $f->get_fiche_def_ref_id() == FICHE_TYPE_FIN ) {
+			$tot_op=($row[$e]['debit'] == 't')?$jr_montant:" - ".$jr_montant;
+			break;
+		  }
+		}
+	  }
       $array[]=array (
 		      'int_j_id' => $line['int_j_id'],
 		      'j_id'=>$line['j_id'],
 		      'j_date' => $line['j_date'],
 		      'internal'=>$line['jr_internal'],
 		      'deb_montant'=>'',
-		      'cred_montant'=>'<b><i>'.$jr_montant.'</i></b>',
+		      'cred_montant'=>'<b><i>'.$tot_op.'</i></b>',
 		      'description'=>'<b><i>'.$line['jr_comment'].'</i></b>',
 		      'poste' => $line['oc'],
 		      'qcode' => $line['j_qcode'],
@@ -340,7 +363,7 @@ class jrn {
 	{
 	  return null;
       } 
-     $type=$this->GetType();
+     $type=$this->get_type();
      // for type ACH and Ven we take more info
      if (  $type == 'ACH' ||  	  $type == 'VEN') 
        {
@@ -489,28 +512,28 @@ class jrn {
 	      list($tva_deb,$tva_cred)=split(',',$line_tva['tva_poste']);
 	      if ( $code['j_poste'] == $tva_deb ||
 		   $code['j_poste'] == $tva_cred )
-		{
-
-		  // For the reversed operation
-		  if ( $p_jrn_type == 'ACH' && $code['j_debit'] == 'f')
-		    {
-		      $code['j_montant']=-1*$code['j_montant'];
-		    }
-		  if ( $p_jrn_type == 'VEN' && $code['j_debit'] == 't')
-		    {
-		      $code['j_montant']=-1*$code['j_montant'];
-		    }
-
-		  $p_array['AMOUNT_TVA']+=$code['j_montant'];
-
-		  $p_array['TVA'][$c]=array($idx_tva,array($line_tva['tva_id'],$line_tva['tva_label'],$code['j_montant']));
-		  echo_debug('class_jrn',__LINE__,'Montant TVA = '.$p_array['AMOUNT_TVA']);
-		  $c++;
-
-		  $idx_tva++;
-		}
+			{
+			  
+			  // For the reversed operation
+			  if ( $p_jrn_type == 'ACH' && $code['j_debit'] == 'f')
+				{
+				  $code['j_montant']=-1*$code['j_montant'];
+				}
+			  if ( $p_jrn_type == 'VEN' && $code['j_debit'] == 't')
+				{
+				  $code['j_montant']=-1*$code['j_montant'];
+				}
+			  
+			  $p_array['AMOUNT_TVA']+=$code['j_montant'];
+			  
+			  $p_array['TVA'][$c]=array($idx_tva,array($line_tva['tva_id'],$line_tva['tva_label'],$code['j_montant']));
+			  echo_debug('class_jrn',__LINE__,'Montant TVA = '.$p_array['AMOUNT_TVA']);
+			  $c++;
+			  
+			  $idx_tva++;
+			}
 	    }
-
+	  
 	  // isDNA
 	  // If operation is reversed then  amount are negatif
 
@@ -524,11 +547,11 @@ class jrn {
 	  {
 	    foreach ($a_TVA as $tva)
 	      {
-		if ( $tva['tva_id'] == $linetva[1][0] )
-		  {
-		    $a=$tva['tva_id'];
-		    $a_tva_amount[$a]=$linetva[1][2];
-		  }
+			if ( $tva['tva_id'] == $linetva[1][0] )
+			  {
+				$a=$tva['tva_id'];
+				$a_tva_amount[$a]=$linetva[1][2];
+			  }
 	      }
 	  }
 	foreach ($a_TVA as $line_tva)
@@ -568,4 +591,43 @@ class jrn {
       if ( sizeof($Res) == 0 ) return 1;
       return $Res[0]['value'];
     }
+   /*!\brief get the saldo of a ledger for a specific period
+    * \param $p_from start period
+    * \param $p_to end period
+    * \param $p_cent 1 for a centralized period otherwise 0
+   */
+   function get_solde($p_from,$p_to,$p_cent) {
+ 	$periode=sql_filter_per($this->db,$p_from,$p_to,'p_id','j_tech_per');
+ 
+ 	if ( $this->id != 0 && $p_cent=='off') {
+ 	  $ledger=" and j_jrn_def = ".$this->id;
+ 	}
+ 
+ 	if ( $this->id != 0 && $p_cent=='on') {
+ 	  $ledger=" and c_jrn_def = ".$this->id;
+ 	}
+ 
+ 	  // we ask for a specific ledger
+ 	if ( $p_cent == 'off') {
+ 		$sql='select j_montant as montant,j_debit as deb from jrnx where '
+ 		  .$periode.$ledger;
+ 	  }else {
+ 		$sql='select c_montant as montant,c_debit as deb from centralized where '
+ 		  .$periode.$ledger;
+ 	  }
+ 	  $ret=ExecSql($this->db,$sql);
+ 	  $array=pg_fetch_all($ret);
+ 	  $deb=0.0;
+ 	  $cred=0.0;
+ 	  foreach ($array as $line) {
+ 
+ 		if ( $line['deb']=='t' )
+ 		  $deb+=$line['montant'];
+ 		else
+ 		  $cred+=$line['montant'];
+ 	  }
+ 	  $response=array($deb,$cred);
+ 	  return $response;
+   }
+
 }

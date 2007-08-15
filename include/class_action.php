@@ -93,9 +93,8 @@ class action
    *        it is a new document
    *
    * \param $p_view if set to true the form will be in readonly mode 
-   * \\param $p_gen true we show the tag for generating a doc
-   * \todo change this parameter by UPD : ag_ref and document type are read only,
-   *  the other are writable, NEW: everything is writable, READ readonly mode
+   * \param $p_gen true we show the tag for generating a doc
+   *
    * \note  update the reference number or the document type is not allowed
    *       
    *
@@ -108,25 +107,25 @@ class action
 
 
       if ( $p_view=='UPD')
-	{
-	  $upd=true;	
-	  $readonly=false;
-	}
+		{
+		  $upd=true;	
+		  $readonly=false;
+		}
       elseif ($p_view=="NEW")
-	{
-	  $upd=false;
-	  $readonly=false;
-	}
+		{
+		  $upd=false;
+		  $readonly=false;
+		}
       elseif ($p_view=='READ')
-	{
-	  $upd=true;
-	  $readonly=true;
-	}
+		{
+		  $upd=true;
+		  $readonly=true;
+		}
       else
-	{
-	  exit('class_action'.__LINE__.'Action::Display error unknown parameter'.$p_view);
-
-	}
+		{
+		  exit('class_action'.__LINE__.'Action::Display error unknown parameter'.$p_view);
+		  
+		}
       // Compute the widget
       // Date 
       $date=new widget("text");
@@ -161,6 +160,7 @@ class action
       $desc->heigh=250;
       $desc->name="ag_comment";
       $desc->readonly=$readonly;
+	  /*!\todo Formatstring and urldecode ?? */
       $desc->value=FormatString(urldecode($this->ag_comment));
 
       // state
@@ -209,7 +209,8 @@ class action
       $title=new widget("text");
       $title->readonly=$readonly;
       $title->name="ag_title";
-      $title->value=FormatString($this->ag_title);
+	  //      $title->value=FormatString($this->ag_title);
+      $title->value=$this->ag_title;
       $title->size=80;
 
       // ag_ref
@@ -376,12 +377,12 @@ class action
     {
       echo_debug('class_action',__LINE__,'confirm()  :'.var_export($_POST,true));
       echo_debug('class_action',__LINE__,'confirm $this  :'.var_export($this,true));
-      /*! \todo add the hour */
+
       if ( isDate($this->ag_timestamp) == null )
-	{
-	  // if the date is invalid, default date is today
-	  $this->ag_timestamp=date("d.m.Y");
-	}
+		{
+		  // if the date is invalid, default date is today
+		  $this->ag_timestamp=date("d.m.Y");
+		}
       // Compute the widget
       // Date 
       $date=new widget("text");
@@ -652,7 +653,6 @@ class action
  */
   function myList($p_filter="",$p_search="")
     {
-      /*!\todo idea to add a sort */
       // for the sort
       $sort="";
       $image_asc='<IMAGE SRC="image/down.png" border="0" >';

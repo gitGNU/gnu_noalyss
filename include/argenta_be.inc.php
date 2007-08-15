@@ -99,10 +99,19 @@ echo "<br>";
 				'$p_bq_account',
 				$p_jrn,
 				'n')";
-			if ( ExecSql($p_cn,$Sql) == false )
+			try 
 			  {
-			    Rollback($p_cn); break;
+			    ExecSql($p_cn,$Sql);
 			  }
+
+
+			catch(Exception $e)
+			  { 
+			    echo_debug(__FILE__.":".__LINE__." Erreur : ".$e->getCode." msg ".$e->getMessage);
+			    rollback($p_cn); 
+			    break;
+			  }
+
 		} // for ($c=0;$c<$num;$c++)
 	       $line++;
 } // file is read

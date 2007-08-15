@@ -69,6 +69,7 @@ class Own {
     $this->UpdateRow('MY_PAYS');
     $this->UpdateRow('MY_COMMUNE');
     $this->UpdateRow('MY_FAX');
+    $this->UpdateRow('MY_ANALYTIC');
 
   }
 
