@@ -50,15 +50,31 @@ $User->AccessRequest($cn,GJRN);
 
 // Javascript
 echo JS_SEARCH_POSTE;
-if ( isset( $_GET['p_jrn'] )) {
-  $p_jrn=$_GET['p_jrn'];
+if ( isset( $_REQUEST['p_jrn'] )) {
+  $p_jrn=$_REQUEST['p_jrn'];
  } else {
   echo '<h2 class="error">Journal inexistant</h2>';
   exit();
  }
+//--------------------------------------------------
+// remove ledger
+//--------------------------------------------------
+if ( isset($_POST["efface"])) {
+	if ( CountSql($cn,"select * from jrn where jr_def_id=".$_POST['p_jrn']." limit 3") == 0 )
+	  {
+		ExecSql($cn,"delete from jrn_def where jrn_def_id=".$_POST['p_jrn']);
+	  } else {
+?>
+<script language="javascript">
+		alert("Impossible d'effacer ce journal.\n Il est utilisé\n");
+</script>
+<?php
+	}
+  }
 
 
-
+//--------------------------------------------------
+// Update ledger
 If ( isset ($_POST["JRN_UPD"] )) {
   if (  !isset($_POST["p_jrn_name"])  ) {
     echo '<H2 CLASS="error"> Un paramètre manque</H2>';
@@ -112,12 +128,20 @@ echo ShowMenuAdvanced();
 echo '<div class="lmenu">';
 MenuJrn($_SESSION['g_dossier']);
 echo '</div>';
+?>
+<script language="javascript">
+  function m_confirm() {
+  return confirm ("Etes-vous sur de vouloir effacer ce journal ?");
+}
+</script>
 
+<?
 $Res=ExecSql($cn,"select jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,".
 	     "jrn_deb_max_line,jrn_cred_max_line,jrn_def_code".
                  ",jrn_def_type,jrn_def_ech, jrn_def_ech_lib,jrn_def_fiche_deb,jrn_def_fiche_cred".
                  " from jrn_def where".
-                 " jrn_def_id=".$_GET['p_jrn']);
+                 " jrn_def_id=".$_REQUEST['p_jrn']);
+if ( pg_NumRows($Res) == 0 ) exit();
 $l_line=pg_fetch_array($Res,0);
 $sessid = $_REQUEST['PHPSESSID'];
 $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$sessid."','not','".$_GET['p_jrn']."')\">";
@@ -229,8 +253,15 @@ for ($i=0;$i<$num;$i++) {
 
 
 ?>
-
-<TABLE><TR><TD><INPUT TYPE="SUBMIT" VALUE="Sauve"></TD><TD><INPUT TYPE="RESET" VALUE="Reset"></TD></TR></TABLE>
+<hr>
+<TABLE><TR>
+<TD><INPUT TYPE="SUBMIT" VALUE="Sauve"></TD>
+<TD><INPUT TYPE="RESET" VALUE="Reset"></TD>
+<TD><form method="post">
+<INPUT TYPE="submit" name="efface" value="Efface" onClick="return m_confirm();">
+<input type="hidden" name="p_jrn" value="<? echo $_GET['p_jrn'];?>">
+</form>
+</TD></TR></TABLE>
 <?php
 echo '</FORM>';
 echo "</DIV>";
