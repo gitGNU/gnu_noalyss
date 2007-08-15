@@ -206,6 +206,9 @@ function ChangeTVA(p_ctl,p_value) {
 
 </script>");
 define ("JS_AJAX_FICHE",'<script language="javascript" src="js/ajax_fiche.js"></script>');
+
+define ("JS_AJAX_OP",'<script language="javascript" src="js/ajax_op.js"></script>');
+
 // Sql string
 define ("SQL_LIST_ALL_INVOICE","");
 
