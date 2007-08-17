@@ -79,11 +79,17 @@ CREATE TABLE quant_purchase (
 ALTER TABLE ONLY quant_purchase
     ADD CONSTRAINT qp_id_pk PRIMARY KEY (qp_id);
 
+ALTER TABLE ONLY quant_purchase
+    ADD CONSTRAINT quant_purchase_j_id_fkey FOREIGN KEY (j_id) REFERENCES jrnx(j_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
 ---
 truncate quant_sold;
 alter table quant_sold ADD qs_valid char(1) ;
 alter table quant_sold add j_id integer;
 alter table quant_sold alter j_id set not null;
+
+ALTER TABLE ONLY quant_sold
+    ADD CONSTRAINT quant_sold_j_id_fkey FOREIGN KEY (j_id) REFERENCES jrnx(j_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 update  quant_sold set qs_valid='Y';
 alter table quant_sold alter qs_valid set default 'Y';
@@ -283,6 +289,7 @@ create sequence s_oa_group;
 CREATE TABLE operation_analytique (
     oa_id integer NOT NULL,
     po_id integer NOT NULL,
+    pa_id integer not null,
     oa_amount numeric(20,4) NOT NULL,
     oa_description text,
     oa_debit boolean DEFAULT true NOT NULL,
@@ -356,7 +363,8 @@ INSERT INTO parameter VALUES ('MY_ANALYTIC', null);
 
 alter table jrn add constraint ux_internal unique (jr_internal);
 
-alter table quant_sold add constraint fk_internal foreign key (qs_internal) references jrn (jr_internal) on delete cascade on update cascade;
+/*alter table quant_sold add constraint fk_internal foreign key (qs_internal) references jrn (jr_internal) on delete cascade on update cascade;
 
 alter table quant_purchase add constraint fk_internal foreign key (qp_internal) references jrn (jr_internal) on delete cascade on update cascade;
+*/
 commit;
