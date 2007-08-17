@@ -38,7 +38,7 @@ include_once("class.ezpdf.php");
 include_once("poste.php");
 include_once("class_balance.php");
 include_once("preference.php");
-require_once ('header_pdf.php');
+require_once ('header_print.php');
 
 $cn=DbConnect($_SESSION['g_dossier']);
 $rep=DbConnect();

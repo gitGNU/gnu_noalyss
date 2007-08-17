@@ -30,7 +30,7 @@ class dossier {
   var $id;
 
   function dossier() {
-	if ( ! isset ($_REQUEST['gDossier'])){
+	if ( ! isset ($_REQUEST['gDossier']) ){
 	  echo_error ('Dossier Invalide');
 	  exit;
 	}
@@ -40,7 +40,12 @@ class dossier {
   function get() {
 	return $this->id;
   }
-  function hidden {
+  static function hidden {
 	return '<input type="hidden" name="gDossier" value="'.$this->id.'">';
+  }
+  function get_name() {
+	$cn=DbConnect();
+	$name=getDbValue($cn,"select dos_name from ac_dossier where dos_id=".$this->id);
+	return $name;
   }
 }

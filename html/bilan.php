@@ -24,7 +24,7 @@
 include_once("ac_common.php");
 include_once("impress_inc.php");
 include_once("postgres.php");
-
+require_once ('header_print.php');
 
 include ('class_user.php');
 /* Admin. Dossier */
@@ -85,11 +85,12 @@ while (! feof ($bnb_form)) {
   //ereg("\\$[a-zA-Z]+[0-9]*=",$buffer,$e);
   //  echo $e[0];
   //echo "<br>".$form;
-  $a=ParseFormula($cn,"$buffer",$buffer,$start,$end,false);
-  $b=str_replace("$","\$",$a);
+	$a=ParseFormula($cn,"$buffer",$buffer,$start,$end,false);
+	$b=str_replace("$","\$",$a);
 
-  // echo "Formule to eval".$b.'<hr>';
-  eval("$b;");
+	// echo "Formule to eval".$b.'<hr>';
+	eval("$b;");
+  
   // var_dump($b);
   
  }// end read form line per line
@@ -109,6 +110,13 @@ $bnb_rtf=fopen('document/fr_be/bnb.rtf','r');
 // Read it until the end
 while ( !feof($bnb_rtf) ) {
   $line_rtf=fgets($bnb_rtf);
+  if ( ereg('<<header>>',$line_rtf) ) {
+	// Create the header
+	$line_rtf=str_replace('<<header>>',header_txt($cn),$line_rtf);
+	echo $line_rtf;
+	continue;
+  }
+
   // the line contains the magic <<
   if (ereg("<<\\$[a-zA-Z]*[0-9]*>>",$line_rtf,$f2) == true) {
     // DEBUG

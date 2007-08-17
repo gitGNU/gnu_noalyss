@@ -30,7 +30,7 @@ include_once("postgres.php");
 include_once("class.ezpdf.php");
 include_once("impress_inc.php");
 require_once('class_user.php');
-require_once ('header_pdf.php');
+require_once ('header_print.php');
 
 $cn=DbConnect($_SESSION['g_dossier']);
 foreach ($_POST as $key=>$element) {

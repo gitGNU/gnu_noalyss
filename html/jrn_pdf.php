@@ -38,7 +38,7 @@ include_once("impress_inc.php");
 include_once("preference.php");
 include_once("class_jrn.php");
 include_once("check_priv.php");
-require_once ('header_pdf.php');
+require_once ('header_print.php');
 
 echo_debug('jrn_pdf.php',__LINE__,"imp pdf journaux");
 $cn=DbConnect($_SESSION['g_dossier']);
