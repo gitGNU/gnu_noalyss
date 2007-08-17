@@ -1,15 +1,18 @@
 #!/bin/bash
 # clean all phpcompta related DB.
-DOMAIN="rel2331"
-dropdb -U phpcompta -h localhost ${DOMAIN}account_repository
-dropdb -U phpcompta -h localhost ${DOMAIN}dossier1
-dropdb -U phpcompta -h localhost ${DOMAIN}dossier3
-dropdb -U phpcompta -h localhost ${DOMAIN}dossier4
-dropdb -U phpcompta -h localhost ${DOMAIN}dossier5
-dropdb -U phpcompta -h localhost ${DOMAIN}dossier13
+DOMAIN="rel300_"
+export PGPASSWORD="dany"
+export PGUSER="phpcompta"
+export PGHOST=localhost
+dropdb  ${DOMAIN}account_repository
+dropdb  ${DOMAIN}dossier1
+dropdb   ${DOMAIN}dossier3
+dropdb   ${DOMAIN}dossier4
+dropdb   ${DOMAIN}dossier5
+dropdb   ${DOMAIN}dossier13
 
-dropdb -U phpcompta -h localhost ${DOMAIN}mod1
-dropdb -U phpcompta -h localhost ${DOMAIN}mod2
-dropdb -U phpcompta -h localhost ${DOMAIN}mod3
-dropdb -U phpcompta -h localhost ${DOMAIN}mod7
+dropdb   ${DOMAIN}mod1
+dropdb   ${DOMAIN}mod2
+dropdb   ${DOMAIN}mod3
+dropdb   ${DOMAIN}mod7
 

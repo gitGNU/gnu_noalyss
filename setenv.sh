@@ -1,7 +1,10 @@
-export PGDATA=/opt/database
-export PATH=/opt/psql732/bin:$PATH
-export MANPATH=/opt/psql732/man
+#if needed
+#export PGDATA=/opt/database
+#export PATH=/opt/psql732/bin:$PATH
 #
 # Owner of the database
 #
 export OWNER=phpcompta
+export PGUSER=phpcompta
+export PGPASSWORD=dany
+export DOMAIN=testing

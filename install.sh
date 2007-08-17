@@ -50,25 +50,23 @@ REPO=`echo $DB|grep account_repository|wc -l`
 ON_ERROR_STOP="True"
 if [ $REPO -eq 0 ]; then
 	echo "Creation de la base de donnee"
-	createdb -h localhost -U $OWNER $OWNER
-	createdb -h localhost -E latin1 -U $OWNER account_repository
+	createdb -h localhost -E latin1 -U $OWNER ${DOMAINE}account_repository
 
 	# Create the repository
-	PSQL="psql -h localhost -U $OWNER account_repository" 
+	PSQL="psql -h localhost -U $OWNER ${DOMAINE}account_repository" 
 	$PSQL  -f html/admin/sql/account_repository/schema.sql || exit 1
-  $PSQL  -f html/admin/sql/account_repository/data.sql || exit 1
+  	$PSQL  -f html/admin/sql/account_repository/data.sql || exit 1
 	
 	#create the template for Belgian accountancy
-  createdb -h localhost -E latin1 -U $OWNER mod1
-	PSQL="psql -h localhost -U $OWNER mod1 "
+	  createdb -h localhost -E latin1 -U $OWNER ${DOMAINE}mod1
+	PSQL="psql -h localhost -U $OWNER ${DOMAINE}mod1 "
 	$PSQL  -f html/admin/sql/mod1/schema.sql || exit 1
   $PSQL  -f html/admin/sql/mod1/data.sql || exit 1
 
-	# Create the demo database
-	createdb -h localhost -E latin1 -U $OWNER dossier1
-	PSQL="psql -h localhost -U $OWNER dossier1 "
-  $PSQL  -f html/admin/sql/dossier1/schema.sql || exit 1
-  $PSQL  -f html/admin/sql/dossier1/data.sql || exit 1
+	# Create the mod2 database
+	createdb -h localhost -E latin1 -U $OWNER ${DOMAINE}mod2
+  $PSQL  -f html/admin/sql/mod1/schema.sql || exit 1
+  $PSQL  -f html/admin/sql/mod2/data.sql || exit 1
 fi
 
 echo "***************"
