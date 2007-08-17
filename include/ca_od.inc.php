@@ -34,6 +34,7 @@ require_once ("class_groupop.php");
 
 $pa=new PlanAnalytic($cn);
 $m=$pa->get_list();
+if ( ! $m )  { echo '<h2 class="info"> Aucun plan analytique d&eacute;fini</h2>';exit();}
 echo '<div class="u_subt2menu">';
 echo '<table>';
 echo '<tr>';
