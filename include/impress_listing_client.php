@@ -36,7 +36,8 @@ if ( isset($_POST['bt_html'] )) {
 
 echo "
 <div class=\"u_redcontent\"
-<form method=\"post\" action=\"listing_client.php\">
+<form method=\"post\" action=\"listing_client.php\"> ".
+  dossier::hidden()."
 <input type=\"submit\" name=\"bt_disk\" value=\"expérimental !! déclaration magnétique\" disable>
 <input type=\"hidden\" name=\"year\" value=\"".$_POST['year']."\">
 </form>
@@ -69,6 +70,7 @@ $w->table=1;
 
 echo '<div class="u_redcontent">';
 echo '<FORM ACTION="?p_action=impress&type=list_client" METHOD="POST">';
+echo dossier::hidden();
 echo '<TABLE>';
 
 print '<TR>';

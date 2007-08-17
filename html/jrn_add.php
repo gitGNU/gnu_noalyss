@@ -26,10 +26,9 @@
 include_once ("ac_common.php");
 include_once("jrn.php");
 html_page_start($_SESSION['g_theme']);
-if ( ! isset ( $_SESSION['g_dossier'] ) ) {
-  echo "You must choose a Dossier ";
-  exit -2;
-}
+require_once('class_dossier.php');
+$gDossier=dossier::id();
+
 include_once ("postgres.php");
 /* Admin. Dossier */
 $rep=DbConnect();
@@ -40,12 +39,12 @@ include_once("check_priv.php");
 include_once ("user_menu.php");
 
 echo '<div class="u_tmenu">';
-echo ShowMenuCompta($_SESSION['g_dossier']);
+echo ShowMenuCompta();
 echo '</div>';
 
 
 
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 $User->AccessRequest($cn,GJRN);
 
 
@@ -102,7 +101,7 @@ echo_debug('jrn_add.php',__LINE__,"nom journal $p_jrn_name");
 }
 echo ShowMenuAdvanced();
 echo '<div class="lmenu">';
-MenuJrn($_SESSION['g_dossier']);
+MenuJrn();
 echo '</div>';
 
 $sessid=$_REQUEST['PHPSESSID'];
@@ -110,6 +109,7 @@ $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$sessid."
 
 echo '<DIV CLASS="u_redcontent">';
 echo '<FORM ACTION="jrn_add.php" METHOD="POST">';
+echo dossier::hidden();
 echo '<INPUT TYPE="HIDDEN" NAME="JRN_ADD">';
 echo '<TABLE>';
 

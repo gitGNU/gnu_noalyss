@@ -473,6 +473,7 @@ class action
 
       // Preparing the return string
       $r=$retour."<form method=\"post\">";
+	  $r.=dossier::hidden();
       $r.="<p>Date : ".$date->IOValue()."</p>";
       $r.="<p>Etat $str_state".$state->IOValue()."</p>";
       $r.="<p>Type du document $str_type".$doc_type->IOValue()."</p>";
@@ -581,6 +582,7 @@ class action
       // readonly and upload of a file
       $r.="<hr>";
       $r.='<form enctype="multipart/form-data" method="post">';
+	  $r.=dossier::hidden();
       echo_debug("class_action",__LINE__,"call display");
       $r.=$this->Display('READ',false);
       // Add the hidden tag
@@ -653,6 +655,7 @@ class action
  */
   function myList($p_filter="",$p_search="")
     {
+	  $str_dossier=dossier::get();
       // for the sort
       $sort="";
       $image_asc='<IMAGE SRC="image/down.png" border="0" >';
@@ -664,22 +667,22 @@ class action
 
       $sort_date='<th><A class="mtitle" href="?'.$url.'&s=date_a">'.$image_asc.'</A>'.
 	'Date'.
-	'<A class="mtitle"  href="?'.$url.'&s=date_d">'.$image_desc.'</A></th>';
-      $sort_exp='<th><A  class="mtitle"  href="?'.$url.'&s=exp">'.$image_asc.'</A>'.
+	'<A class="mtitle"  href="?'.$url.'&s=date_d&'.$str_dossier.'">'.$image_desc.'</A></th>';
+      $sort_exp='<th><A  class="mtitle"  href="?'.$url.'&s=exp&'.$str_dossier.'">'.$image_asc.'</A>'.
 	'Expéditeur'.
-	'<A  class="mtitle"  href="?'.$url.'&s=exp_d">'.$image_desc.'</A></th>';
-      $sort_dest='<th><A  class="mtitle" href="?'.$url.'&s=dest">'.$image_asc.'</A>'.
+	'<A  class="mtitle"  href="?'.$url.'&s=exp_d&'.$str_dossier.'">'.$image_desc.'</A></th>';
+      $sort_dest='<th><A  class="mtitle" href="?'.$url.'&s=dest&'.$str_dossier.'">'.$image_asc.'</A>'.
 	'Destinataire'.
-	'<A class="mtitle"  href="?'.$url.'&s=dest_d">'.$image_desc.'</A></th>';
-      $sort_titre='<th><A  class="mtitle"  href="?'.$url.'&s=ti">'.$image_asc.'</A>'.
+	'<A class="mtitle"  href="?'.$url.'&s=dest_d&'.$str_dossier.'">'.$image_desc.'</A></th>';
+      $sort_titre='<th><A  class="mtitle"  href="?'.$url.'&s=ti&'.$str_dossier.'">'.$image_asc.'</A>'.
 	'Titre'.
-	'<A  class="mtitle"  href="?'.$url.'&s=ti_d">'.$image_desc.'</A></th>';
-      $sort_concerne='<th><A  class="mtitle"  href="?'.$url.'&s=conc">'.$image_asc.'</A>'.
+	'<A  class="mtitle"  href="?'.$url.'&s=ti_d&'.$str_dossier.'">'.$image_desc.'</A></th>';
+      $sort_concerne='<th><A  class="mtitle"  href="?'.$url.'&s=conc&'.$str_dossier.'">'.$image_asc.'</A>'.
 	'Concerne'.
-	'<A class="mtitle"  href="?'.$url.'&s=conc_d">'.$image_desc.'</A></th>';
-      $sort_reference='<th><A class="mtitle"  href="?'.$url.'&s=ref">'.$image_asc.'</A>'.
+	'<A class="mtitle"  href="?'.$url.'&s=conc_d&'.$str_dossier.'">'.$image_desc.'</A></th>';
+      $sort_reference='<th><A class="mtitle"  href="?'.$url.'&s=ref&'.$str_dossier.'">'.$image_asc.'</A>'.
 	'Référence'.
-	'<A  class="mtitle"  href="?'.$url.'&s=ref_d">'.$image_desc.'</A></th>';
+	'<A  class="mtitle"  href="?'.$url.'&s=ref_d&'.$str_dossier.'">'.$image_desc.'</A></th>';
 
       if ( isset($_GET['s'])){
 	{
@@ -837,7 +840,7 @@ class action
 		      $_REQUEST['PHPSESSID'],$qdest);
 	  if ( $qdest != 'Interne' )
 	    {
-	      $r.="<td>".'<A HREF="'.$jsdest.'">'.$qdest." : ".$fdest->getName().'</A></td>';
+	      $r.="<td>".'<A HREF="'.$jsdest.'&'.$str_dossier.'">'.$qdest." : ".$fdest->getName().'</A></td>';
 	    }
 	  else
 	    $r.="<td>Interne </td>";
@@ -852,7 +855,7 @@ class action
 		      $_REQUEST['PHPSESSID'],$qexp);
 	  if ( $qexp != 'Interne' )
 	    {
-	      $r.="<td>".'<A HREF="'.$jsexp.'">'.$qexp." : ".$fexp->getName().'</A></td>';
+	      $r.="<td>".'<A HREF="'.$jsexp.'&'.$str_dossier.'">'.$qexp." : ".$fexp->getName().'</A></td>';
 	    }
 	  else
 	    $r.="<td>Interne </td>";
@@ -869,13 +872,13 @@ class action
 		{
 		  foreach ($retSql as $line) 
 		    {
-		      $ref.='<A  href="commercial.php?p_action=suivi_courrier&query='.$line['ag_ref'].'">'.
+		      $ref.='<A  href="commercial.php?p_action=suivi_courrier&query='.$line['ag_ref'].'&'.$str_dossier.'">'.
 			$line['ag_ref']."<A>";
 		    }
 		}
 	    }
 
-	  $r.='<td><A HREF="commercial.php?p_action=suivi_courrier&sa=detail&ag_id='.$row['ag_id'].'">'.
+	  $r.='<td><A HREF="commercial.php?p_action=suivi_courrier&sa=detail&ag_id='.$row['ag_id'].'&'.$str_dossier.'">'.
 	    $row['ag_title']."</A></td>";
 	  $r.="<td>".$row['dt_value']."</td>";
 	  $r.="<td>".$row['ag_ref']."</td>";

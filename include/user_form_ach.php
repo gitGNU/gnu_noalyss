@@ -93,6 +93,7 @@ echo_debug('user_form_ach.php',__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_peri
 	exit (-1);
       }
     $r.="<FORM NAME=\"form_detail\"  enctype=\"multipart/form-data\" ACTION=\"$href\" METHOD=\"POST\">";
+	$r.=dossier::hidden();
   }
 
   $r.='<TABLE>';
@@ -517,6 +518,7 @@ function FormAchView ($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$p_number,$p_pi
   //----------------------------------------------------------------------
 
   $r.='<FORM METHOD="POST" enctype="multipart/form-data" ACTION="'.$href.'">'; 
+  $r.=dossier::hidden();
   // start table
   $r.='<TABLE>';
   // Show the Date

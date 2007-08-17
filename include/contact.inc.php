@@ -89,12 +89,13 @@ if ( $sub_action  == "" )
 if ( $sub_action=="blank") 
 {
   $retour_action=sprintf('<A class="mtitle" HREF="%s"><input type="button" value="Retour"></A>',
-		  "commercial.php?p_action=contact");
+		  "commercial.php?p_action=contact&$str_dossier");
   echo '<div class="u_redcontent">';
 
   echo $retour_action;
   $c=new contact($cn);
   echo '<form method="post" action="commercial.php"';
+  echo dossier::hidden();
   echo '<input type="hidden" name="p_action" value="client">';
   echo '<input type="hidden" name="sa" value="insert">';
   echo '<input type="hidden" name="fd_id" value="'.$_GET['fd_id'].'">';
@@ -113,7 +114,8 @@ if ( $sub_action == "list" )
 <div class="u_content">
 <span>
 <form method="get" action="commercial.php">
-<?php  
+<?php
+	echo dossier::hidden();  
    $a=(isset($_GET['query']))?$_GET['query']:"";
    printf ('<input type="text" name="query" value="%s">',
 	   $a);
@@ -124,7 +126,8 @@ if ( $sub_action == "list" )
 
 
 <form>
-<?php  
+<?php
+   echo dossier::hidden();  
    $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
  echo JS_SEARCH_CARD;
  $w=new widget('js_search_only');
@@ -148,6 +151,7 @@ if ( $sub_action == "list" )
 </span>
 <span>
 <form method="get" action="commercial.php">
+   <? echo dossier::hidden(); ?>
 <input type="hidden" name="url" <?php        $url=urlencode($_SERVER['REQUEST_URI']);echo 'value="'.$url.'"'; ?>
 <input type="hidden" name="p_action" value="contact">
 
@@ -195,6 +199,7 @@ if ( $sub_action == 'detail' )
   $contact=new contact($cn,$f_id);
   echo $retour;
   echo '<form action="'.$_SERVER['REQUEST_URI'].'" method="post">'; 
+  echo dossier::hidden();
   echo $contact->Display(false);
   $w=new widget("hidden");
   $w->name="p_action";
@@ -205,7 +210,7 @@ if ( $sub_action == 'detail' )
   echo $w->IOValue();
 
   echo $w->Submit('mod','Sauver les modifications');
-  echo '<A HREF="commercial.php?p_action=contact"><INPUT TYPE="button" value="Retour"></A>';
+  echo '<A HREF="commercial.php?p_action=contact&'.$str_dossier.'"><INPUT TYPE="button" value="Retour"></A>';
   echo $w->Submit('delete','Effacer cette fiche');
   echo '</form>';
   echo $retour;

@@ -195,6 +195,7 @@ where
  */
   function Summary($p_search) 
     {
+	  $str_dossier=dossier::get();
       $p_search=FormatString($p_search);
       $url=urlencode($_SERVER['REQUEST_URI']);
       $script=$_SERVER['PHP_SELF'];
@@ -230,12 +231,13 @@ where
 <th>Solde</th>
 <th colspan="4">Action </th>
 </TR>';
+	  echo_debug(__FILE__,__LINE__,$step_client);
       if ( sizeof ($step_client ) == 0 )
 	return $r;
       foreach ($step_client as $client ) {
 	$r.="<TR>";
-	$e=sprintf('<A HREF="%s?p_action=client&sa=detail&f_id=%d&url=%s" title="Détail"> ',
-		    $script,$client->id,$url);
+	$e=sprintf('<A HREF="%s?p_action=client&sa=detail&f_id=%d&%s&url=%s" title="Détail"> ',
+			   $script,$client->id,$str_dossier,$url);
 
 	$r.="<TD> $e".$client->strAttribut(ATTR_DEF_QUICKCODE)."</A></TD>";
 	$r.="<TD>".$client->strAttribut(ATTR_DEF_NAME)."</TD>";
@@ -256,16 +258,16 @@ where
 	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$a['solde']);
 	$r.="<TD>";
 
-	$r.=sprintf('<A HREF="%s?p_action=contact&qcode=%s&url=%s" title="Contact">Contact</A></td>',
-		    $script,$client->strAttribut(ATTR_DEF_QUICKCODE),$url);
-	$r.=sprintf('<td><A HREF="%s?p_action=suivi_courrier&sa=list&qcode=%s&url=%s" title="Action">Courrier</A></td> ',
-		    $script,$client->strAttribut(ATTR_DEF_QUICKCODE) ,$url);
+	$r.=sprintf('<A HREF="%s?p_action=contact&qcode=%s&%s&url=%s" title="Contact">Contact</A></td>',
+				$script,$client->strAttribut(ATTR_DEF_QUICKCODE),$str_dossier,$url);
+	$r.=sprintf('<td><A HREF="%s?p_action=suivi_courrier&sa=list&qcode=%s&%s&url=%s" title="Action">Courrier</A></td> ',
+				$script,$client->strAttribut(ATTR_DEF_QUICKCODE) ,$str_dossier,$url);
 
 
 
-	$r.='<td><A HREF="commercial.php?p_action=facture&sa=list&p_periode=-1&qcode='.$client->strAttribut(ATTR_DEF_QUICKCODE).'&url='.$url.'" title="Historique Facture">Facture</A></td>';
-	$r.=sprintf('<td><A class="mtitle" HREF="%s?liste&p_action=bank&sa=list&qcode=%s&url=%s&p_periode=-1" title="Financier">Financier</A></td>',
-		    $script,$client->strAttribut(ATTR_DEF_QUICKCODE) ,$url);
+	$r.='<td><A HREF="commercial.php?p_action=facture&sa=list&p_periode=-1&'.$str_dossier.'&qcode='.$client->strAttribut(ATTR_DEF_QUICKCODE).'&url='.$url.'" title="Historique Facture">Facture</A></td>';
+	$r.=sprintf('<td><A class="mtitle" HREF="%s?liste&p_action=bank&sa=list&qcode=%s&%s&url=%s&p_periode=-1" title="Financier">Financier</A></td>',
+				$script,$client->strAttribut(ATTR_DEF_QUICKCODE) ,$str_dossier,$url);
 
 	$r.='</TD>';
 

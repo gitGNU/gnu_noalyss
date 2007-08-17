@@ -26,9 +26,11 @@ header('Content-Disposition: attachment;filename="balance.csv"',FALSE);
 include_once ("ac_common.php");
 include_once("class_balance.php");
 include_once ("postgres.php");
+require_once('class_dossier.php');
+$gDossier=dossier::id();
 
 include("class_jrn.php");
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 
 
 include ('class_user.php');

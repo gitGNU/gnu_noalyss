@@ -27,7 +27,10 @@ echo_debug('user_action_ven.php',__LINE__,"include user_action_ven.php");
 require_once("user_form_ven.php");
 include_once("class_widget.php");
 require_once("class_jrn.php");
-$cn=DbConnect($_SESSION['g_dossier']);
+require_once('class_dossier.php');
+$gDossier=dossier::id();
+
+$cn=DbConnect($gDossier);
 
 // default action is insert_vente
 if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {
@@ -38,7 +41,7 @@ if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {
 }
 
 if ( $action == 'insert_vente' ) {
-  if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_GET['p_jrn']) != 2 )    {
+  if ( CheckJrn($gDossier,$_SESSION['g_user'],$_GET['p_jrn']) != 2 )    {
        NoAccess();
        exit -1;
   }
@@ -77,12 +80,12 @@ if ( $action == 'insert_vente' ) {
     if ( $blank==1)
       {
        $jrn=new jrn($cn,  $_GET['p_jrn']);
-      echo_debug('user_action_ven.php',__LINE__,"Blank form");
-      // Show an empty form of invoice
-      $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),null,false,$jrn->GetDefLine());
-      echo '<div class="u_redcontent">';
-      echo $form;
-      echo '</div>';
+	   echo_debug('user_action_ven.php',__LINE__,"Blank form");
+	   // Show an empty form of invoice
+	   $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),null,false,$jrn->GetDefLine());
+	   echo '<div class="u_redcontent">';
+	   echo $form;
+	   echo '</div>';
     }
 
 }
@@ -91,7 +94,7 @@ if ( $action == 'insert_vente' ) {
     // Save the invoice 
 if ( isset($_POST["record_invoice"])) {
   // Check privilege
-  if ( CheckJrn($_SESSION['g_dossier'],$User,$_GET['p_jrn']) != 2 )    {
+  if ( CheckJrn($gDossier,$User,$_GET['p_jrn']) != 2 )    {
     NoAccess();
     exit -1;
   }
@@ -101,7 +104,7 @@ if ( isset($_POST["record_invoice"])) {
 }
 if (isset ($_POST['correct_new_invoice'])) {
   // Check privilege
-  if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_GET['p_jrn']) != 2 )    {
+  if ( CheckJrn($gDossier,$_SESSION['g_user'],$_GET['p_jrn']) != 2 )    {
     NoAccess();
     exit -1;
   }
@@ -115,7 +118,7 @@ if (isset ($_POST['correct_new_invoice'])) {
 // Save and print the invoice
 if ( isset($_POST["record_and_print_invoice"])) {
   // Check privilege
-  if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_GET['p_jrn']) != 2 )    {
+  if ( CheckJrn($gDossier,$_SESSION['g_user'],$_GET['p_jrn']) != 2 )    {
     NoAccess();
     exit -1;
   }
@@ -140,7 +143,7 @@ if ( isset($_POST["record_and_print_invoice"])) {
 
  if ( $action == 'voir_jrn' ) {
    // Check privilege
-   if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_GET['p_jrn']) < 1 )    {
+   if ( CheckJrn($gDossier,$_SESSION['g_user'],$_GET['p_jrn']) < 1 )    {
      NoAccess();
      exit -1;
    }
@@ -153,7 +156,8 @@ if ( isset($_POST["record_and_print_invoice"])) {
 
 <form method= "get" action="user_jrn.php">
 
-<?php  
+<?php
+   echo dossier::hidden();  
 $hid=new widget("hidden");
 
 $hid->name="p_jrn";
@@ -229,6 +233,7 @@ echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit',
 
    echo "<hr>$bar";
    echo '<form method="POST">';
+   echo dossier::hidden();  
    $hid=new widget("hidden");
 
    $hid->name="p_jrn";
@@ -255,7 +260,7 @@ echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit',
 }
 if ( $action == 'voir_jrn_non_paye' ) {
    // Check privilege
-   if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_GET['p_jrn']) < 1 )    {
+   if ( CheckJrn($gDossier,$_SESSION['g_user'],$_GET['p_jrn']) < 1 )    {
      NoAccess();
      exit -1;
    }
@@ -303,6 +308,7 @@ if ( $action == 'voir_jrn_non_paye' ) {
    
     echo '<div class="u_redcontent">';
     echo '<FORM METHOD="POST">';
+	echo dossier::hidden();  
     echo $bar2;
     echo '<h2 class="info"> Echeance dépassée </h2>';
     echo $list;

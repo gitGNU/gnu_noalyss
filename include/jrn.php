@@ -44,7 +44,7 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
   echo_debug('jrn.php',__LINE__,"function UpdateJrn");
   // own
   $own=new own($p_cn);
-
+  $gDossier=dossier::id();
   $l_array=GetDataJrnJrId($p_cn,$p_jr_id);
   if ( $l_array == null ) {
     echo_error ("Not data found for UpdateJrn p_jr_id = $p_jr_id");
@@ -57,6 +57,7 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
   // Build the form
   $col_vide="<TD></TD>";
   $disable=($p_mode==0)?"disabled":"";
+  $str_dossier=dossier::get();
 
   for ( $i =0 ; $i < sizeof($l_array); $i++) {
     $content=$l_array[$i] ;
@@ -176,10 +177,11 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 	if ( $content['jr_pj_name'] != "")
 	  $r.='<TD>Effacer PJ <INPUT TYPE="CHECKBOX" name="to_remove" ></TD>';
   }
-  $r.="<TD>".sprintf('<A class="detail" HREF="show_pj.php?jrn=%s&jr_grpt_id=%s">%s</A>',
-		$content['jr_id'],
-		$content['jr_grpt_id'],
-		$content['jr_pj_name'])."</TD>";
+  $r.="<TD>".sprintf('<A class="detail" HREF="show_pj.php?jrn=%s&jr_grpt_id=%s&%s">%s</A>',
+					 $content['jr_id'],
+					 $content['jr_grpt_id'],
+					 $str_dossier,
+					 $content['jr_pj_name'])."</TD>";
     $r.="</TR></TABLE>";
 
 	if ( $p_mode == 1 ) {
@@ -201,17 +203,18 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 
 	  $r.= '<div style="margin-left:30px;">';
 	  foreach ($a as $key => $element) {
-		$r.=sprintf ('%s <INPUT TYPE="BUTTON" VALUE="Détail" onClick="modifyOperation(\'%s\',\'%s\')">', 
+		$r.=sprintf ('%s <INPUT TYPE="BUTTON" VALUE="Détail" onClick="modifyOperation(\'%s\',\'%s\',%d)">', 
 					 GetInternal($p_cn,$element),
 					 $element,
-					 $sessid);
-		$r.=sprintf('<INPUT TYPE="button" value="Efface" onClick="dropLink(\'%s\',\'%s\',\'%s\')"><BR>',
-					$content['jr_id'],$element,$sessid);
+					 $sessid,
+					 $gDossier);
+		$r.=sprintf('<INPUT TYPE="button" value="Efface" onClick="dropLink(\'%s\',\'%s\',\'%s\',%d)"><BR>',
+					$content['jr_id'],$element,$sessid,$gDossier);
 	  }//for
 	  $r.= "</div>";
 	}// if ( $a != null ) {
   
-	$search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchJrn(\''.$sessid."','rapt','".$content['jr_montant']."')\">";
+	$search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchJrn(\''.$sessid."',".$gDossier.",'rapt','".$content['jr_montant']."')\">";
 	
 	$r.= '<H2 class="info">rapprochement </H2> 
        <INPUT TYPE="TEXT" name="rapt" value="">'.$search;
@@ -234,9 +237,9 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 {
   echo_debug('jrn.php',__LINE__,"function UpdateJrn");
-  
+  $gDossier=dossier::id();  
   $l_array=GetDataJrnJrIdUser($p_cn,$p_jr_id);
-
+  $str_dossier=dossier::get();
   /* if the operation doesn't exist in the quant_xxx table then we
    *  show the expert view
    */
@@ -562,7 +565,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
   //doc
   if ( $p_mode ==1 && $content['jr_pj_name'] != "") 
 	  $r.='<tr><TD>Effacer Pj <INPUT TYPE="CHECKBOX" name="to_remove" ></TD>';
-  $r.="<TD>".sprintf('<A class="detail" HREF="show_pj.php?jrn=%s&jr_grpt_id=%s">%s</A>',
+  $r.="<TD>".sprintf('<A class="detail" HREF="show_pj.php?jrn=%s&jr_grpt_id=%s&'.$str_dossier.'">%s</A>',
 		     $content['jr_id'],
 		     $content['jr_grpt_id'],
 		     $content['jr_pj_name'])."</TD>";
@@ -586,17 +589,18 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
       
       $r.= '<div style="margin-left:30px;">';
       foreach ($a as $key => $element) {
-		$r.=sprintf ('%s <INPUT TYPE="BUTTON" VALUE="Détail" onClick="modifyOperation(\'%s\',\'%s\')">', 
+		$r.=sprintf ('%s <INPUT TYPE="BUTTON" VALUE="Détail" onClick="modifyOperation(\'%s\',\'%s\',%d)">', 
 					 GetInternal($p_cn,$element),
 					 $element,
-					 $sessid);
-		$r.=sprintf('<INPUT TYPE="button" value="Efface" onClick="dropLink(\'%s\',\'%s\',\'%s\')"><BR>',
-					$content['jr_id'],$element,$sessid);
+					 $sessid,
+					 $gDossier);
+		$r.=sprintf('<INPUT TYPE="button" value="Efface" onClick="dropLink(\'%s\',\'%s\',\'%s\',%d)"><BR>',
+					$content['jr_id'],$element,$sessid,$gDossier);
 	  }//for
 	  $r.= "</div>";
   }// if ( $a != null ) {
   
-  $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchJrn(\''.$sessid."','rapt','".$content['jr_montant']."')\">";
+  $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchJrn(\''.$sessid."',".$gDossier.",'rapt','".$content['jr_montant']."')\">";
 
   $r.= '<H2 class="info">rapprochement </H2> 
        <INPUT TYPE="TEXT" name="rapt" value="">'.$search;
@@ -1025,9 +1029,9 @@ function SetInternalCode($p_cn,$p_grpt,$p_jrn)
   //$num=CountSql($p_cn,"select * from jrn where jr_def_id=$p_jrn and jr_internal != 'ANNULE'")+1;
   $num = NextSequence($p_cn,'s_internal');
   $num=strtoupper(hexdec($num));
-  $atype=GetJrnProp($_SESSION['g_dossier'],$p_jrn);
+  $atype=GetJrnProp(dossier::id(),$p_jrn);
   $type=$atype['jrn_def_code'];
-  $internal_code=sprintf("%d%s-%s",$_SESSION['g_dossier'],$type,$num);
+  $internal_code=sprintf("%d%s-%s",dossier::id(),$type,$num);
   echo_debug ("jrn.php",__LINE__,"internal_code = $internal_code");
   return $internal_code;
 }

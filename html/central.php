@@ -26,10 +26,9 @@ include_once ("ac_common.php");
 
 html_page_start($_SESSION['g_theme']);
 
-if ( ! isset ( $_SESSION['g_dossier'] ) ) {
-  echo "You must choose a Dossier ";
-  exit -2;
-}
+require_once('class_dossier.php');
+$gDossier=dossier::id();
+
 include_once ("postgres.php");
 /* Admin. Dossier */
 $rep=DbConnect();
@@ -41,14 +40,14 @@ include_once("preference.php");
 
 
 include_once ("user_menu.php");
-echo ShowMenuCompta($_SESSION['g_dossier'],"user_advanced.php");
+echo ShowMenuCompta("user_advanced.php?".dossier::get());
 
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 
 include_once("central_inc.php");
 
 echo '<div class="u_subtmenu">';
-echo ShowMenuAdvanced("central.php");
+echo ShowMenuAdvanced("central.php?".dossier::get());
 echo '</div>';
 $User->AccessRequest($cn,CENTRALIZE);
 
@@ -72,6 +71,7 @@ if ( $_POST["periode"] != "" ) {
 $ret=FormPeriode($cn,0,NOTCENTRALIZED);
 if ( $ret != null) {
   echo '<FORM METHOD="POST" action="central.php">';
+  echo dossier::hidden();
   echo $ret;
   echo '<INPUT TYPE="SUBMIT" name="central" VALUE="Centralise">';
   echo '</FORM>';

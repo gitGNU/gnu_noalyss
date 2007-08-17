@@ -24,11 +24,9 @@
 include_once ("ac_common.php");
 html_page_start($_SESSION['g_theme']);
 require_once("constant.php");
+require_once('class_dossier.php');
+$gDossier=dossier::id();
 
-if ( ! isset ( $_SESSION['g_dossier'] ) ) {
-  echo "You must choose a Dossier ";
-  exit -2;
-}
 include_once ("postgres.php");
 /* Admin. Dossier */
 $rep=DbConnect();
@@ -40,9 +38,9 @@ $User->Check();
 include_once ("user_menu.php");
 include_once ("check_priv.php");
 
-echo ShowMenuCompta($_SESSION['g_dossier'],"user_advanced.php");
+echo ShowMenuCompta("user_advanced.php");
 
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 
 
 echo JS_UPDATE_PCMN;
@@ -58,7 +56,7 @@ if ( isset ($_GET['p_start'])) {
 }
 
 echo '<div class="u_subtmenu">';
-echo ShowMenuAdvanced("pcmn_update.php?p_start=1");
+echo ShowMenuAdvanced("pcmn_update.php?p_start=1&".dossier::get());
 echo '</div>';
 $User->AccessRequest($cn,MPCMN);
 
@@ -139,6 +137,9 @@ $MaxRow=pg_NumRows($Ret);
 ?>
 
 <FORM ACTION="pcmn_update.php" METHOD="POST">
+<?php
+  echo dossier::hidden();
+?>
 <TABLE ALIGN="center" BORDER=0 CELLPADDING=0 CELLSPACING=0> 
 <TR>
 <TH> Classe </TH>
@@ -160,6 +161,7 @@ $MaxRow=pg_NumRows($Ret);
 </TD>
 </TR>
 <?php
+  $str_dossier=dossier::get();
 for ($i=0; $i <$MaxRow; $i++) {
   $A=pg_fetch_array($Ret,$i);
 
@@ -187,7 +189,7 @@ for ($i=0; $i <$MaxRow; $i++) {
   echo '</TD>';
 
   echo $td;
-  printf ('<A href="pcmn_update.php?l=%d&action=del">Delete</A>',$A['pcm_val']);
+  printf ('<A href="pcmn_update.php?l=%d&action=del&%s">Delete</A>',$A['pcm_val'],$str_dossier);
   echo "</TD>";
   
   echo "</TR>";

@@ -20,6 +20,9 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 // Verify parameters
 include_once ("ac_common.php");
+require_once('class_dossier.php');
+$gDossier=dossier::id();
+
 if ( !isset ($_GET['jrn'] ) ||
      !isset($_GET['jr_grpt_id'])) {
 	echo_error("Missing parameters");
@@ -30,7 +33,7 @@ include_once ("postgres.php");
 
 $jr_grpt_id=$_GET['jr_grpt_id'];
 
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 
 
 include_once ('class_user.php');

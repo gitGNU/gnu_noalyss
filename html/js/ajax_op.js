@@ -24,7 +24,7 @@
  *        info from fiche
  *
  */
-function op_remove(p_sessid,p_oa_group) {
+function op_remove(p_sessid,p_dossier,p_oa_group) {
   var a=confirm("Etes-vous sur de vouloir effacer cette operation ?\n");
   if ( a == false ) return;
   var ajaxRequest;  // The variable that makes Ajax possible!
@@ -46,7 +46,7 @@ function op_remove(p_sessid,p_oa_group) {
 			}
 	}
   }
-  queryString="?PHPSESSID"+p_sessid+"&oa="+p_oa_group;
+  queryString="?PHPSESSID"+p_sessid+"&oa="+p_oa_group+"&gDossier="+p_dossier;
 
   ajaxRequest.open("GET", "remove_op.php"+queryString, true);
   ajaxRequest.send(null); 

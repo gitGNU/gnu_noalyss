@@ -367,4 +367,6 @@ alter table jrn add constraint ux_internal unique (jr_internal);
 
 alter table quant_purchase add constraint fk_internal foreign key (qp_internal) references jrn (jr_internal) on delete cascade on update cascade;
 */
+alter table user_sec_jrn add constraint uj_priv_id_fkey foreign key(uj_jrn_id) references jrn_def(jrn_def_id) on update cascade on delete cascade;
+alter table user_sec_jrn drop constraint "$1";
 commit;

@@ -39,8 +39,10 @@ include_once("poste.php");
 include_once("class_balance.php");
 include_once("preference.php");
 require_once ('header_print.php');
+require_once('class_dossier.php');
+$gDossier=dossier::id();
 
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 $rep=DbConnect();
 include ('class_user.php');
 $User=new cl_user($rep);

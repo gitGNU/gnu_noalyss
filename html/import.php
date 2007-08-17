@@ -29,11 +29,11 @@ include_once ("constant.php");
 include_once ("postgres.php");
 include_once ("check_priv.php");
 include_once ("class_widget.php");
-if ( ! isset ( $_SESSION['g_dossier'] ) ) {
-  echo "You must choose a Dossier ";
-  exit -2;
-}
-$cn=DbConnect($_SESSION['g_dossier']);
+
+require_once('class_dossier.php');
+$gDossier=dossier::id();
+
+$cn=DbConnect();
 include ('class_user.php');
 $User=new cl_user($cn);
 $User->Check();
@@ -47,12 +47,12 @@ include_once("import_inc.php");
 
 include_once ("user_menu.php");
 echo '<div class="u_tmenu">';
-echo ShowMenuCompta($_SESSION['g_dossier'],"user_advanced.php");
+echo ShowMenuCompta("user_advanced.php?".dossier::get());
 echo '</div>';
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 
 
-echo ShowMenuAdvanced("import.php");
+echo ShowMenuAdvanced(7);
 $User->AccessRequest($cn,IMP_BQE);
 
 echo JS_AJAX_FICHE;

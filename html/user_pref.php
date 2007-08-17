@@ -28,6 +28,7 @@ include_once ("postgres.php");
 /* Admin. Dossier */
 $Rep=DbConnect();
 include_once ("class_user.php");
+require_once('class_dossier.php');
 
 $cn=DbConnect();
 
@@ -35,9 +36,9 @@ $cn=DbConnect();
  * account_repository database
  */
 
-if ( isset ($_SESSION['g_dossier'])) 
+if ( isset ($_REQUEST['gDossier'])) 
   {
-	$cn=DbConnect($_SESSION['g_dossier']);
+	$cn=DbConnect($_REQUEST['gDossier']);
   } 
 else
   {
@@ -69,12 +70,12 @@ if ( isset ( $_POST['p_size']) ) {
 // comta style
 
 include_once ("user_menu.php");
-if ( isset ($_SESSION['g_dossier']) ) 
+if ( isset ($_REQUEST['gDossier']) ) 
   {
-    if ( $_SESSION['g_dossier'] != 0 )  
+    if ( $_REQUEST['gDossier'] != 0 )  
       {
 	echo '<div class="u_tmenu">';
-	echo    ShowMenuCompta($_SESSION['g_dossier']);
+	echo    ShowMenuCompta();
 	echo "</div>";
       }
   }

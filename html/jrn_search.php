@@ -34,11 +34,9 @@ $User->Check();
 
 html_page_start($User->theme,"onLoad='window.focus();'");
 
-if ( ! isset ( $_SESSION['g_dossier'] ) ) {
-  echo "You must choose a Dossier ";
-  phpinfo();
-  exit -2;
-}
+require_once('class_dossier.php');
+$gDossier=dossier::id();
+
 // Javascript
 echo JS_CONCERNED_OP;
 if ( isset( $p_jrn )) {
@@ -61,7 +59,7 @@ $c_internal="";
 $c_date="";
 $condition="";
 $part=" where ";
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 // if search then build the condition
 if ( isset ($_GET["search"]) ) {
   $c1=0;
@@ -113,6 +111,7 @@ if ( $User->admin != 1 ) {
 <div style="font-size:11px;">
 <?php
 echo '<FORM ACTION="jrn_search.php" METHOD="GET">';
+echo dossier::hidden();
 if (isset($paid))
   echo '<div class="info"> Uniquement les non op&eacute;rations non pay&eacute;es<input type="hidden" name="paid" value="paid"></div>';
  else

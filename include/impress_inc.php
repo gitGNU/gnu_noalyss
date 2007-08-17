@@ -27,8 +27,9 @@
  * \param  array (type,action,central,filter...)
  * \param connection
  * \return none
- *
+ *\todo it seems not to be used ==> to clean
  */ 
+  /*
 function ViewImp($p_array,$p_cn) {
   include_once("preference.php");
   require_once("class_user.php");
@@ -77,13 +78,14 @@ function ViewImp($p_array,$p_cn) {
   echo '</FORM>';
   echo "</DIV>";
 }
+*/
 /*!
  * \brief  Show the html printing result 
  * \param  array
  * \param  db connection
  * \return  ImpHtml
  *
- */ 
+ * \todo not used ==> to clean
 function Imp($p_array,$p_cn) {
   if ( ! isset($p_array['action'])) {
     echo_error ("IMP no action specified"); return;
@@ -93,14 +95,16 @@ function Imp($p_array,$p_cn) {
   }
   echo_error ("IMP no action specified"); return;
 }
+*/
 /*!
  * \brief  Show the html result
  * \param  array (type,periode,
  * \param  connection
  * \return  error if something goes wrong or
  *        the page result
+ * \todo not used ==> to clean
  *
- */ 
+ *
 function ImpHtml($p_array,$p_cn) 
 {
   foreach($p_array as $key=>$element) {
@@ -236,6 +240,8 @@ function ImpHtml($p_array,$p_cn)
   }//jrn
 
 }
+*/
+
 /*!
  * \brief  Get dat for poste 
  * 

@@ -43,7 +43,7 @@ if ( isset ($_POST['spass']) ) {
     }
   }
 $url=$_SERVER['REQUEST_URI'];
-if ( ! isset ($_SESSION['g_dossier']) ) 
+if ( ! isset ($_REQUEST['gDossier']) ) 
   {
     echo '<A class="mtitle" href="user_login.php"><input type="button" value="Retour"></a>';
   }
@@ -95,7 +95,7 @@ $disp_style.="</SELECT>";
 
 // Si utilise un dossier alors propose de changer
 // la periode par defaut
-if ( ! isset ($_SESSION['g_dossier']) ) 
+if ( ! isset ($_REQUEST['gDossier']) ) 
   {
     echo '<A href="user_login.php"><input type="button" value="Retour"></a>';
   }
@@ -104,7 +104,7 @@ else
 
     include_once("preference.php");
     $msg=""; 
-    $cn=DbConnect($_SESSION['g_dossier']);
+    $cn=DbConnect($_REQUEST['gDossier']);
     if ( isset ($_POST["sub_periode"] ) ) 
       {
 	$periode=$_POST["periode"];

@@ -182,19 +182,19 @@ class fiche {
   function GetByDef($p_frd_id,$p_offset=-1,$p_search="") {
     if ( $p_offset == -1 ) 
       {
-	$sql="select * 
+		$sql="select * 
            from
                fiche join fiche_Def using (fd_id)
             where frd_id=".$p_frd_id." $p_search order by f_id";
       } 
     else 
       {
-	$limit=$_SESSION['g_pagesize'];
-	$sql="select * 
+		$limit=($_SESSION['g_pagesize']!=-1)?"limit ".$_SESSION['g_pagesize']:"";
+		$sql="select * 
            from
                fiche join fiche_Def using (fd_id)
-            where frd_id=".$p_frd_id." $p_search order by f_id
-           limit ".$limit." offset ".$p_offset;
+            where frd_id=".$p_frd_id." $p_search order by f_id "
+		  .$limit." offset ".$p_offset;
 
       }
 
@@ -210,6 +210,7 @@ class fiche {
       $all[$i]=$t;
 
     }
+	echo_debug(__FILE__,__LINE__,$all);
     return $all;
   }
   function ShowTable() {
@@ -269,31 +270,35 @@ class fiche {
       $array=$f->getAttribut();
       $r='<table>';
       foreach ($array as $attr)
-	{
-	  $msg="";
-	  if ( $attr->ad_id == ATTR_DEF_ACCOUNT) 
-	    {
-	      $r.=JS_SEARCH_POSTE;
-	      $w=new widget("js_search_poste");
-	      //  account created automatically
-	      $sql="select account_auto($p_fiche_def)";
-	      echo_debug("class_fiche",__LINE__,$sql);
-	      $ret_sql=ExecSql($this->cn,$sql);
-	      $a=pg_fetch_array($ret_sql,0);
-	      if ( $a['account_auto'] == 't' )
-		$msg="<TD> <font color=\"red\">Rappel: Poste créé automatiquement !</font></TD> ";
-	      else 
 		{
-		  // if there is a class base in fiche_def_ref, this account will be the
-		  // the default one
-		  if ( strlen(trim($f->class_base)) != 0 ) 
-		    {
-		      $msg="<TD> <font color=\"red\">Rappel: Poste par défaut sera ".
-			$f->class_base.
-			" !</font></TD> ";
-		    }
+		  $msg="";
+		  if ( $attr->ad_id == ATTR_DEF_ACCOUNT) 
+			{
+			  $r.=JS_SEARCH_POSTE;
+			  $w=new widget("js_search_poste");
+			  //  account created automatically
+			  $sql="select account_auto($p_fiche_def)";
+			  echo_debug("class_fiche",__LINE__,$sql);
+			  $ret_sql=ExecSql($this->cn,$sql);
+			  $a=pg_fetch_array($ret_sql,0);
+			  $label=new widget("span");
+			  $label->name="av_text".$attr->ad_id."_label";
+			  
+			  if ( $a['account_auto'] == 't' )
+				$msg.="<TD>".$label->IOValue()."<br> <font color=\"red\">Rappel: Poste créé automatiquement !</font></TD> ";
+			  else 
+				{
+				  // if there is a class base in fiche_def_ref, this account will be the
+				  // the default one
+				  if ( strlen(trim($f->class_base)) != 0 ) 
+					{
+					  $msg.="<TD>".$label->IOValue()."<br> <font color=\"red\">Rappel: Poste par défaut sera ".
+						$f->class_base.
+						" !</font></TD> ";
+					}
+				  
+				}
 
-		}
 
 	     }
 	  elseif ( $attr->ad_id == ATTR_DEF_TVA) 

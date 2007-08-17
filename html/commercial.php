@@ -30,18 +30,15 @@ include_once ("ac_common.php");
 require_once("constant.php");
 include_once ("postgres.php");
 echo JS_AJAX_FICHE;
+require_once('class_dossier.php');
+$gDossier=dossier::id();
 
-if ( isset ($_REQUEST['dos'] ) ) {
-  $_SESSION['g_dossier']=$_REQUEST['dos'];
-  $g_name=GetDossierName($_SESSION['g_dossier']);
-  $_SESSION["g_name"]=$g_name;
-
-}
+$g_name=dossier::name();
 
 
 include_once ("postgres.php");
 /* Admin. Dossier */
-$rep=DbConnect($_SESSION['g_dossier']);
+$rep=DbConnect($gDossier);
 require_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
@@ -64,22 +61,23 @@ if ( isset ( $_POST['p_size']) ) {
 ///
 html_page_start($_SESSION['g_theme'],"","richtext.js");
 
-if ( ! isset ( $_SESSION['g_dossier'] ) ) {
+if ( ! isset ( $gDossier ) ) {
   echo "Vous devez choisir un dossier ";
   exit -2;
 }
 
 include_once("preference.php");
 include_once("user_menu.php");
+$str_dossier=dossier::get();
 echo '<div class="u_tmenu">';
-echo "<H2 class=\"info\">Commercial ".$_SESSION['g_name']." ";
+echo "<H2 class=\"info\">Commercial ".dossier::name()." ";
 echo '<div align="right" title="Recherche">
-<input type="IMAGE" src="image/search.png" width="36" onclick="openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.$_SESSION['g_dossier'].');">
-<A HREF="?p_action=pref" title="Pr&eacute;f&eacute;rence"><IMG SRC="image/preference.png" width="36" border="0" ></A>
-<A HREF="user_compta.php?dos='.$_SESSION['g_dossier'].'" title="Comptabilit&eacute;"><IMG SRC="image/compta.png" width="36"  border="0" ></A>
-<A HREF="comptanalytic.php?dos='.$_SESSION['g_dossier'].'" title="CA"><IMG SRC="image/undefined.png" width="36"  border="0" ></A>
+<input type="IMAGE" src="image/search.png" width="36" onclick="openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.$gDossier.');">
+<A HREF="?p_action=pref&'.$str_dossier.'" title="Pr&eacute;f&eacute;rence"><IMG SRC="image/preference.png" width="36" border="0" ></A>
+<A HREF="user_compta.php?gDossier='.$gDossier.'" title="Comptabilit&eacute;"><IMG SRC="image/compta.png" width="36"  border="0" ></A>
+<A HREF="comptanalytic.php?gDossier='.$gDossier.'" title="CA"><IMG SRC="image/undefined.png" width="36"  border="0" ></A>
 
-<A HREF="parametre.php?dos='.$_SESSION['g_dossier'].'" title="Param&egrave;tre"><IMG SRC="image/param.png" width="36" border="0" ></A>
+<A HREF="parametre.php?gDossier='.$gDossier.'" title="Param&egrave;tre"><IMG SRC="image/param.png" width="36" border="0" ></A>
 <A HREF="login.php" title="Accueil"><IMG src="image/home.png" width="36" title="Accueil"  border="0"  ></A>
 <A HREF="logout.php" title="Sortie"><IMG src="image/logout.png" title="Logout"  width="36"  border="0"></A>
 
@@ -87,26 +85,27 @@ echo '<div align="right" title="Recherche">
 
 $p_action=(isset ($_REQUEST['p_action']))?$_REQUEST['p_action']:"";
 // TODO Menu with all the customer
+
 echo ShowItem(array(
-		    array('?p_action=client','Client'),
-		    array('?p_action=facture','Vente/Facture'),
-		    array('?p_action=fournisseur','Fournisseur'),
-		    array('?p_action=depense','Achat/D&eacute;pense'),
-		    array('?p_action=impress','Impression'),
-		    array('?p_action=stock','Stock'),
-		    array('?p_action=bank','Banque'),
-		    array('?p_action=fiche','Fiche'),
-		    array('?p_action=contact','Contact'),
-		    array('?p_action=admin','Administration'),
-		    array('?p_action=suivi_courrier','Document'),
+		    array('?p_action=client&'.$str_dossier,'Client'),
+		    array('?p_action=facture&'.$str_dossier,'Vente/Facture'),
+		    array('?p_action=fournisseur&'.$str_dossier,'Fournisseur'),
+		    array('?p_action=depense&'.$str_dossier,'Achat/D&eacute;pense'),
+		    array('?p_action=impress&'.$str_dossier,'Impression'),
+		    array('?p_action=stock&'.$str_dossier,'Stock'),
+		    array('?p_action=bank&'.$str_dossier,'Banque'),
+		    array('?p_action=fiche&'.$str_dossier,'Fiche'),
+		    array('?p_action=contact&'.$str_dossier,'Contact'),
+		    array('?p_action=admin&'.$str_dossier,'Administration'),
+		    array('?p_action=suivi_courrier&'.$str_dossier,'Document'),
 		    ),
-	      'H',"mtitle","mtitle","?p_action=$p_action",' width="100%"');
+	      'H',"mtitle","mtitle","?p_action=$p_action&".$str_dossier,' width="100%"');
 
 
 		    //
 echo '</div>';
 
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 $User->AccessRequest($cn,SEC_GESTION);
 echo JS_VIEW_JRN_MODIFY;
 echo JS_AJAX_FICHE;

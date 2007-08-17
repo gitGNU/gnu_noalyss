@@ -47,11 +47,13 @@ class Document_modele {
    * \return table in HTML Code
    */
   function myList() { 
+	$s=dossier::get();
     $sql="select md_id,md_name,dt_value from document_modele join document_type on(dt_id=md_type)";
     $Res=ExecSql($this->cn,$sql);
     $all=pg_fetch_all($Res);
     if ( pg_NumRows($Res) == 0 ) return "";
     $r='<p><form method="post">';
+	$r.=dossier::hidden();
     $r.="<table>";
     $r.="<tr> <th> Nom </th> <th>Type</Th><th>Fichier</th><th> Effacer</th>"; 
     $r.="</tr>";
@@ -64,7 +66,7 @@ class Document_modele {
       $r.=$row['dt_value'];
       $r.="</td>";
       $r.="<td>";
-      $r.='<A HREF="show_document_modele.php?md_id='.$row['md_id'].'">Document</a>';
+      $r.='<A HREF="show_document_modele.php?md_id='.$row['md_id'].'&'.$s.'">Document</a>';
       $r.="</td>";
       $r.="<TD>";
       $c=new widget("checkbox");
@@ -262,6 +264,7 @@ class Document_modele {
     {
       $r="<p>";
       $r.='<form enctype="multipart/form-data"  action="'.$p_action.'" method="post">';
+	  $r.=dossier::hidden();
       $t=new widget("text");
       $t->name="md_name";
       $r.=" Nom ".$t->IOValue()."";

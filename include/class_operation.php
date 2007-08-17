@@ -128,7 +128,7 @@ class operation
 
 	if ( pg_NumRows($RetSql) == 0 )
 	  return "Pas d'enregistrement trouv&eacute;";
-
+	$gDossier=dossier::id();
 	$array=pg_fetch_all($RetSql);
 
 	$ret.="";
@@ -144,7 +144,7 @@ class operation
 		  {
 
 			$efface=new widget('button');
-			$efface->js="op_remove('".$_REQUEST['PHPSESSID']."',".$oldgroup.")";
+			$efface->js="op_remove('".$_REQUEST['PHPSESSID']."',".$gDossier.",".$oldgroup.")";
 			$efface->name="Efface";
 			$efface->label="Efface";
 			$ret.="<td>".$efface->IOValue()."</td>";
@@ -155,7 +155,7 @@ class operation
 			if ( $jr_id != 0) {
 			  // get the old jr_id
 			  $detail=new widget('button');
-			  $detail->js="viewOperation($jr_id,'".$_REQUEST['PHPSESSID']."')";
+			  $detail->js="viewOperation($jr_id,'".$_REQUEST['PHPSESSID']."',$gDossier)";
 			  $detail->name="Detail";
 			  $detail->label="Detail";
 			  $ret.="<td>".$detail->IOValue()."</td>";
@@ -199,7 +199,7 @@ class operation
 		}
 
 	$efface=new widget('button');
-	$efface->js="op_remove('".$_REQUEST['PHPSESSID']."',".$oldgroup.")";
+	$efface->js="op_remove('".$_REQUEST['PHPSESSID']."',$gDossier,".$oldgroup.")";
 	$efface->name="Efface";
 	$efface->label="Efface";
 	$ret.="<td>".$efface->IOValue()."</td>";
@@ -208,7 +208,7 @@ class operation
 	$jr_id=$this->get_jrid();
 	if ( $jr_id != 0 ){
 	  $detail=new widget('button');
-	  $detail->js="viewOperation($jr_id,'".$_REQUEST['PHPSESSID']."')";
+	  $detail->js="viewOperation($jr_id,'".$_REQUEST['PHPSESSID'].",$gDossier')";
 	  $detail->name="Detail";
 	  $detail->label="Detail";
 	  $ret.="<td>".$detail->IOValue()."</td>";

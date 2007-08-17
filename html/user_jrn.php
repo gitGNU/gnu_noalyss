@@ -23,6 +23,7 @@
 /*! \file
  * \brief Main page for encoding in the ledger
  */
+require_once('class_dossier.php');
 include_once("ac_common.php");
 include_once("user_menu.php");
 include_once ("constant.php");
@@ -31,7 +32,10 @@ include_once ("check_priv.php");
 include_once ("class_widget.php");
 require_once("jrn.php");
 
-$cn=DbConnect($_SESSION['g_dossier']);
+// Check if dossier set
+$gDossier=dossier::id();
+
+$cn=DbConnect($gDossier);
 include_once ('class_user.php');
 $User=new cl_user($cn);
 $User->Check();
@@ -40,30 +44,26 @@ html_page_start($User->theme,
 		"OnLoad=\"SetFocus('e_date',0);checkTotal();\" ",
 		"js/compute.js");
 
-// Check if dossier set
-if ( ! isset ( $_SESSION['g_dossier'] ) ) {
-  echo "You must choose a Dossier ";
-  exit -2;
-}
+
 /* Get the _REQUEST value for p_jrn (jrn_def.jrn_def_id) and jrn_type (jrn_def.jrn_def_code) */
 $p_jrn=(isset($_REQUEST['p_jrn']))?$_REQUEST['p_jrn']:-1;
 $jrn_type=(isset($_REQUEST['jrn_type']))?$_REQUEST['jrn_type']:-1;
 
 
 echo '<div class="u_tmenu">';
-echo ShowMenuCompta($_SESSION['g_dossier'],"user_jrn.php?jrn_type=".$jrn_type);
+echo ShowMenuCompta("user_jrn.php?jrn_type=".$jrn_type."&".dossier::get());
 echo '</div>';
 
 if ( $User->admin == 0 ) {
   // check if user can access
   // Acces Grand livre
-  if ($jrn_type== 'NONE' && CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],ENCJRN) == 0 ){
+  if ($jrn_type== 'NONE' && CheckAction($gDossier,$_SESSION['g_user'],ENCJRN) == 0 ){
 
     /* Cannot Access */
     NoAccess();
   }
 
-  if ( $jrn_type != 'NONE' && CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn) == 0 ){
+  if ( $jrn_type != 'NONE' && CheckJrn($gDossier,$_SESSION['g_user'],$p_jrn) == 0 ){
 
 	    /* Cannot Access */
 	    NoAccess();
@@ -80,7 +80,7 @@ if ( $p_jrn != -1 )
   //   echo '</DIV>';
   echo '<div class="u_subt2menu">';      
   // show the available ledger of the type jrn_type
-  ShowMenuJrnUser($_SESSION['g_dossier'],$jrn_type,$p_jrn);
+  ShowMenuJrnUser($gDossier,$jrn_type,$p_jrn);
   echo '</div>';
   echo '<div class="lmenu">';      
   // show the menu for this journal (Nouveau, voir,...)
@@ -89,7 +89,7 @@ if ( $p_jrn != -1 )
 
   echo '</div>';
 
-  $g_dossier=$_SESSION['g_dossier'];
+
   $g_user=$_SESSION['g_user'];
 echo JS_AJAX_FICHE;    
   // Execute Action for p_jrn
@@ -107,12 +107,12 @@ else
 
     } else {
       // no journal are selected so we select the first one
-      $p_jrn=GetFirstJrnIdForJrnType($_SESSION['g_dossier'],$jrn_type); 
+      $p_jrn=GetFirstJrnIdForJrnType($gDossier,$jrn_type); 
       // display jrn's menu
       
   //   echo '</DIV>';
       echo '<div class="u_subt2menu">';      
-      ShowMenuJrnUser($_SESSION['g_dossier'],$jrn_type,$p_jrn);
+      ShowMenuJrnUser($gDossier,$jrn_type,$p_jrn);
       echo '</div>';
       echo '<div class="lmenu">';      
       $menu_jrn=ShowMenuJrn($cn,$jrn_type, $p_jrn);

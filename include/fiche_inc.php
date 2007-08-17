@@ -45,7 +45,7 @@ function CreateCategory ($p_cn,$p_js,$p_array=null,$p_ligne=1)
 
   // Creating form
   $display='<FORM ACTION="?p_action=fiche" METHOD="POST">';
-
+  $display.=dossier::hidden();
   // Number of line of the card
   $display.='<INPUT TYPE="HIDDEN" NAME="INC" VALUE="'.$p_ligne.'">';
 

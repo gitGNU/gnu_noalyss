@@ -67,20 +67,20 @@ function u_ShowDossier($p_user,$p_admin)
     $result.="</TD><TD class=\"$tr\">";
     $result.=$desc;
     $result.="</TD><TD class=\"mtitle\">";
-    $result.="<A class=\"mtitle\" HREF=\"user_compta.php?dos=$id\">Comptabilité</A>";
+    $result.="<A class=\"mtitle\" HREF=\"user_compta.php?gDossier=$id\">Comptabilité</A>";
     $result.="</TD>";
     $result.="<TD class=\"mtitle\">";
-    $result.="<A class=\"mtitle\" HREF=\"commercial.php?dos=$id\">Gestion</A>";
+    $result.="<A class=\"mtitle\" HREF=\"commercial.php?gDossier=$id\">Gestion</A>";
     $result.="</TD>";
     $result.="<TD class=\"mtitle\">";
-    $result.="<A class=\"mtitle\" HREF=\"parametre.php?dos=$id\">Paramètres</A>";
+    $result.="<A class=\"mtitle\" HREF=\"parametre.php?gDossier=$id\">Paramètres</A>";
     $result.="</TD>";
     $result.="<TD class=\"mtitle\">";
-    $result.="<A class=\"mtitle\" HREF=\"comptanalytic.php?dos=$id\">Comptabilité analytique</A>";
+    $result.="<A class=\"mtitle\" HREF=\"comptanalytic.php?gDossier=$id\">Comptabilité analytique</A>";
     $result.="</TD>";
-    $result.="<TD class=\"mtitle\">";
-    $result.="<A class=\"mtitle\" HREF=\"caisse.php?dos=$id\">Caisse Enregistreuse</A>";
-    $result.="</TD>";
+/*     $result.="<TD class=\"mtitle\">"; */
+/*     $result.="<A class=\"mtitle\" HREF=\"caisse.php?dos=$id\">Caisse Enregistreuse</A>"; */
+/*     $result.="</TD>"; */
 
     $result.="</TR>";
   }
@@ -133,7 +133,6 @@ function GetAvailableFolder($p_user,$p_admin)
 /*!   
  * \brief show the top menu for the user profile
  *        and highight the selected one
- * \param  p_dossier $_SESSION['g_dossier']
  * \param  p_high what to hightlight, by default it is autodetected
  *         but sometimes it must be given. Default value=""
  * \todo clean param p_dossier
@@ -141,7 +140,7 @@ function GetAvailableFolder($p_user,$p_admin)
  * \return none
  *
  */
-function ShowMenuCompta($p_dossier,$p_high="")
+function ShowMenuCompta($p_high="")
 {
   include_once("postgres.php");
 
@@ -149,13 +148,13 @@ function ShowMenuCompta($p_dossier,$p_high="")
   $default=basename($_SERVER['PHP_SELF']);
   switch ($default) {
   case "user_jrn.php":
-    $default.="?show";
+    $default.="?show&".dossier::get();
     break;
   case "recherche.php":
-    $default.="?p_dossier=$p_dossier";
+    $default.="?".dossier::get();
     break;
   case "fiche.php":
-    $default.="?p_dossier=$p_dossier";
+    $default.="?".dossier::get();
     break;
   }
   if ( $p_high !== "" ) $default=$p_high;
@@ -168,28 +167,30 @@ function ShowMenuCompta($p_dossier,$p_high="")
 	  if ( $_REQUEST['p_action']=='fiche')
 		$default=6;
 	}
+  $str_dossier=dossier::get();
   $p_array=array(
-		 array("user_jrn.php?jrn_type=NONE" ,"Grand Livre"),
-		 array("user_jrn.php?jrn_type=VEN" ,"Entrée"),
-		 array("user_jrn.php?jrn_type=ACH","Dépense"),
-		 array("user_jrn.php?jrn_type=FIN","Financier"),
-		 array("user_jrn.php?jrn_type=ODS","Op. Diverses"),
-		 array("compta.php?p_action=impress","Impression","Impression",5),
-		 array("compta.php?p_action=fiche","Fiche","Ajouter, modifier ou effacer des fiches",6),
-		 array("user_advanced.php","Avancé","Opérations délicates"),
+				 array("user_jrn.php?jrn_type=NONE&".$str_dossier ,"Grand Livre"),
+				 array("user_jrn.php?jrn_type=VEN&".$str_dossier ,"Entrée"),
+				 array("user_jrn.php?jrn_type=ACH&".$str_dossier,"Dépense"),
+				 array("user_jrn.php?jrn_type=FIN&".$str_dossier,"Financier"),
+				 array("user_jrn.php?jrn_type=ODS&".$str_dossier,"Op. Diverses"),
+				 array("compta.php?p_action=impress&".$str_dossier,"Impression","Impression",5),
+				 array("compta.php?p_action=fiche&".$str_dossier,"Fiche","Ajouter, modifier ou effacer des fiches",6),
+				 array("user_advanced.php?".$str_dossier,"Avancé","Opérations délicates"),
 		 );
 
   $result=ShowItem($p_array,'H',"mtitle","mtitle",$default,' width="100%"');
+  $str_dossier=dossier::get();
 
-  $r="<H2 class=\"info\">Comptabilit&eacute;  ".$_SESSION['g_name'];
+  $r="<H2 class=\"info\">Comptabilit&eacute;  ".dossier::name()."</h2>";
 
   $r.='<div align="right">
-<input type="IMAGE" src="image/search.png" width="36" onclick="openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.$_SESSION['g_dossier'].',\'E\');">
-<A HREF="user_pref.php" title="Pr&eacute;f&eacute;rence"><IMG SRC="image/preference.png" width="36" border="0" ></A>
-<A HREF="commercial.php?dos='.$_SESSION['g_dossier'].'" title="Gestion"><IMG SRC="image/compta.png" width="36"  border="0" ></A>
-<A HREF="comptanalytic.php?dos='.$_SESSION['g_dossier'].'" title="CA"><IMG SRC="image/undefined.png" width="36"  border="0" ></A>
+<input type="IMAGE" src="image/search.png" width="36" onclick="openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.dossier::id().',\'E\');">
+<A HREF="user_pref.php?'.$str_dossier.'" title="Pr&eacute;f&eacute;rence"><IMG SRC="image/preference.png" width="36" border="0" ></A>
+<A HREF="commercial.php?'.$str_dossier.'" title="Gestion"><IMG SRC="image/compta.png" width="36"  border="0" ></A>
+<A HREF="comptanalytic.php?dos='.$str_dossier.'" title="CA"><IMG SRC="image/undefined.png" width="36"  border="0" ></A>
 
-<A HREF="parametre.php?dos='.$_SESSION['g_dossier'].'" title="Paramètre"><IMG SRC="image/param.png" width="36"  border="0" ></A>
+<A HREF="parametre.php?dos='.$str_dossier.'" title="Paramètre"><IMG SRC="image/param.png" width="36"  border="0" ></A>
 <A HREF="login.php" title="Accueil"><IMG SRC="image/home.png" width="36"  border="0" ></A>
 <A HREF="logout.php" title="Sortie"><IMG SRC="image/logout.png"  title="Logout"  width="36"  border="0"></A>
 
@@ -206,7 +207,7 @@ function ShowMenuCompta($p_dossier,$p_high="")
 }
 /*! 
  * \brief Open the first legder automaticaly
- * \param $p_dossier ($_SESSION['g_dossier'])
+ * \param $p_dossier dossier::id
  * \param $p_type type of the ledger (VEN,ACH,FIN,ODS)
  * 
  * 
@@ -250,7 +251,7 @@ function ShowMenuJrnUser($p_dossier,$p_type,$p_jrn,$p_extra="")
 
   echo '<TABLE><TR>';
   include_once("postgres.php");
-  
+  $str_dossier=dossier::get();
   
   $Cn=DbConnect($p_dossier);
   
@@ -284,35 +285,35 @@ function ShowMenuJrnUser($p_dossier,$p_type,$p_jrn,$p_extra="")
       $l_line=pg_fetch_array($Ret,$i);
       // Admin have always rights
       if ( $User->Admin() == 0 ){
-	$right=CheckJrn($p_dossier,$_SESSION['g_user'],$l_line['jrn_def_id']);
+		$right=CheckJrn($p_dossier,$_SESSION['g_user'],$l_line['jrn_def_id']);
       }else {
-	$right=3;
+		$right=3;
       }
-
+	  
       if ( $right > 0 ) {
-	// Minimum Lecture 
-	echo_debug('user_menu.php',__LINE__,"p_jrn = $p_jrn ");
-	if ( $l_line['jrn_def_id'] != $p_jrn ) {
-	  $href=basename($_SERVER["PHP_SELF"]);
-	  $add="";
-	  // if the PHP_SELF == commercial.php, we need to add the parameter
-	  // p_action=facture
+		// Minimum Lecture 
+		echo_debug('user_menu.php',__LINE__,"p_jrn = $p_jrn ");
+		if ( $l_line['jrn_def_id'] != $p_jrn ) {
+		  $href=basename($_SERVER["PHP_SELF"]);
+		  $add="";
+		  // if the PHP_SELF == commercial.php, we need to add the parameter
+		  // p_action=facture
 	  if ( $href=="commercial.php" ) 
 	    {
 	      $add='&p_action='.$_REQUEST['p_action'];
 	    }
 	  echo '<TD class="cell">';
-	  printf ('<A class="mtitle" HREF="%s?jrn_type=%s&p_jrn=%s%s">%s</A></TD>',
-		  $href,
-		  $l_line['jrn_def_type'],
-		  $l_line['jrn_def_id'],
-		  $add,
-		  $l_line['jrn_def_name']
+	  printf ('<A class="mtitle" HREF="%s?'.$str_dossier.'&jrn_type=%s&p_jrn=%s%s">%s</A></TD>',
+			  $href,
+			  $l_line['jrn_def_type'],
+			  $l_line['jrn_def_id'],
+			  $add,
+			  $l_line['jrn_def_name']
 		  );
-	} else
-	  {
-	    echo '<TD class="selectedcell">'. $l_line['jrn_def_name'].'</TD>';
-	  }
+		} else
+		  {
+			echo '<TD class="selectedcell">'. $l_line['jrn_def_name'].'</TD>';
+		  }
       }// if right
     }// for
     if ( $p_extra !="" ) echo $p_extra;
@@ -348,7 +349,7 @@ function ShowMenuJrn($p_cn,$p_jrn_type,$p_jrn)
     $lib=str_replace($access_key,'<u>'.$access_key.'</u>',$action['ja_name']);
 
     $ret.=sprintf('<TR><TD class="cell"><A class="mtitle" accesskey="%s" title="%s" '.
-		  'HREF="%s?%s&p_jrn=%s&jrn_type=%s">%s</A></td></tR>',
+				  'HREF="%s?%s&p_jrn=%s&jrn_type=%s&'.dossier::get().'">%s</A></td></tR>',
 		  $access_key, 
 		  $action['ja_desc'], 
 		  $action['ja_url'],
@@ -440,6 +441,7 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
   $r.=JS_SEARCH_CARD;
   $r.= '<h2><IMG SRC="image/search.png" width="48" border="0" > Recherche</h2>';
   $r.= '<FORM ACTION="recherche.php" METHOD="GET">';
+  $r.=dossier::hidden();
   $r.="<table><tr><TD>";  
   $r.= '<TABLE>';
   $r.= "<TR>";
@@ -513,22 +515,23 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
  * \return the menu
  */
 function ShowMenuAdvanced($default="") {
-// Show the left menu
-$left_menu=ShowItem(array(
-			  //('rapprt.php','Rapprochement'),
-			  array('jrn_update.php','Journaux'),
-			  array('user_advanced.php?p_action=periode','Periode'),
-			  array('central.php','Centralise'),
-			  array('pcmn_update.php?p_start=1','Plan Comptable'),
-			  array('compta.php?p_action=stock','Stock'),
-			  array('form.php','Rapport'),
-			  array('import.php','Import Banque'),
-			  array('ecrit_ouv.php','Ecriture ouverture')
-			
-			  ),
-		    'H',"cell","mtitle",$default);
+  $str_dossier=dossier::get();
+  // Show the left menu
+  $left_menu=ShowItem(array(
+							//('rapprt.php','Rapprochement'),
+							array('jrn_update.php?'.$str_dossier,'Journaux',"Gestion des journaux",1),
+							array('user_advanced.php?p_action=periode&'.$str_dossier,'Periode',"Gestion des periodes",2),
+							array('central.php?'.$str_dossier,'Centralise',"Centralisation",3),
+							array('pcmn_update.php?p_start=1&'.$str_dossier,'Plan Comptable',"Gestion Plan Comptable",4),
+							array('compta.php?p_action=stock&'.$str_dossier,'Stock',"Gestion des stocks",5),
+							array('form.php?'.$str_dossier,'Rapport',"Rapport",6),
+							array('import.php?'.$str_dossier,'Import Banque',"Banque",7),
+							array('ecrit_ouv.php?'.$str_dossier,'Ecriture ouverture',"",8)
+							
+							),
+					  'H',"cell","mtitle",$default);
  $r='<div class="u_subtmenu">'.$left_menu."</div>";
-return $r;
+ return $r;
 }
 /*!  
  **************************************************
@@ -565,27 +568,31 @@ function ShowJrn($p_menu="")
 function ShowMenuFiche($p_dossier)
 {
      $cn=DbConnect($p_dossier);
+	 $str_dossier=dossier::get();
      echo '<div class="lmenu">';
      echo '<TABLE>';
      /*! \todo  Only for developper A test must be added
       */
       echo '<TR><TD colspan="1" class="mtitle">
-          <A class="mtitle" HREF="?p_action=fiche&action=add_modele&fiche=modele">Creation</A></TD>
-          <TD><A class="mtitle" HREF="?p_action=fiche">Recherche</A></TD>
+          <A class="mtitle" HREF="?p_action=fiche&action=add_modele&fiche=modele&'.$str_dossier.'">Creation</A></TD>
+          <TD><A class="mtitle" HREF="?p_action=fiche&'.$str_dossier.'">Recherche</A></TD>
            </TR>';
      $Res=ExecSql($cn,"select fd_id,fd_label from fiche_def order by fd_label");
      $Max=pg_NumRows($Res);
      for ( $i=0; $i < $Max;$i++) {
        $l_line=pg_fetch_array($Res,$i);
        printf('<TR><TD class="cell">
-             <A class="mtitle" HREF="?p_action=fiche&action=modifier&fiche=%d">%s</A></TD>
+             <A class="mtitle" HREF="?p_action=fiche&action=modifier&fiche=%d&%s">%s</A></TD>
                <TD class="mshort">
-               <A class="mtitle" HREF="?p_action=fiche&action=vue&fiche=%d">Liste</A>
+               <A class="mtitle" HREF="?p_action=fiche&action=vue&fiche=%d&%s">Liste</A>
                </TD>
                </TR>',
             $l_line['fd_id'],
+			  $str_dossier,
             $l_line['fd_label'],
-            $l_line['fd_id']
+			  $l_line['fd_id'],
+			  $str_dossier
+
             );
      }
      echo "</TABLE>";
@@ -655,17 +662,18 @@ function ShowMenuDocument()
  */ 
 function ShowMenuParam($p_action="")
 {
-    $sub_menu=ShowItem(array(
+  $s=dossier::get();
+  $sub_menu=ShowItem(array(
 			  
-			  array('parametre.php?p_action=company','Sociétés'),
-			  array('parametre.php?p_action=devise','Devises'),
-			  array('parametre.php?p_action=tva','Tva'),
-			  array('parametre.php?p_action=poste','Poste Comptable'),
-			  array('parametre.php?p_action=fiche','Fiche'),
-			  array('user_sec.php','Sécurité'),
-			  array('parametre.php?p_action=document','Document'),
-			  array('commercial.php?dos='.$_SESSION['g_dossier'],"Gestion"),
-			  array('user_compta.php?dos='.$_SESSION['g_dossier'],"Comptabilité"),
+			  array('parametre.php?p_action=company&'.$s,'Sociétés'),
+			  array('parametre.php?p_action=devise&'.$s,'Devises'),
+			  array('parametre.php?p_action=tva&'.$s,'Tva'),
+			  array('parametre.php?p_action=poste&'.$s,'Poste Comptable'),
+			  array('parametre.php?p_action=fiche&'.$s,'Fiche'),
+			  array('user_sec.php?'.$s,'Sécurité'),
+			  array('parametre.php?p_action=document&'.$s,'Document'),
+			  array('commercial.php?'.$s,"Gestion"),
+			  array('user_compta.php?'.$s,"Comptabilité"),
 
 			  //  array('login.php','Accueil',"Accueil"),
 			  //array('logout.php','logout',"Sortie")
@@ -686,19 +694,21 @@ function ShowMenuParam($p_action="")
  *
  */ 
 
-function MenuJrn($p_dossier)
+function MenuJrn()
 {
+	$str_dossier=dossier::get();
     echo '<TABLE>';
-    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="jrn_add.php">Création </A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="jrn_add.php?'.$str_dossier.'">Création </A></TD></TR>';
     include_once("postgres.php");
-    $Cn=DbConnect($p_dossier);
+    $Cn=DbConnect(dossier::id());
     $Ret=ExecSql($Cn,"select jrn_def_id,jrn_def_name,
                              jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc 
                              from jrn_def join jrn_type on jrn_def_type=jrn_type_id");
     $Max=pg_NumRows($Ret);
+
     for ($i=0;$i<$Max;$i++) {
       $l_line=pg_fetch_array($Ret,$i);
-      printf ('<TR><TD class="mtitle"><A class="mtitle" HREF="jrn_detail.php?p_jrn=%s">%s</A></TD></TR>',
+      printf ('<TR><TD class="mtitle"><A class="mtitle" HREF="jrn_detail.php?p_jrn=%s&'.$str_dossier.'">%s</A></TD></TR>',
 	      $l_line['jrn_def_id'],$l_line['jrn_def_name']);
 
     }
@@ -718,16 +728,17 @@ function MenuJrn($p_dossier)
 
 function ShowMenuPcmn($p_start=1)
 {
+  $str_dossier="&".dossier::get();
     echo '<TABLE>';
-    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="pcmn_update.php?p_start=1">1 Immobilisé </A></TD></TR>';
-    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="pcmn_update.php?p_start=2">2 Actif a un an au plus</A></TD></TR>';
-    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="pcmn_update.php?p_start=3">3 Stock et commande</A></TD></TR>';
-    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="pcmn_update.php?p_start=4">4 Compte tiers</A></TD></TR>';
-    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=5">5 Actif</A></TD></TR>';
-    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="pcmn_update.php?p_start=6">6 Charges</A></TD></TR>';
-    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=7">7 Produits</A></TD></TR>';
-    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=8">8 Hors Comptabilit&eacute;</A></TD></TR>';
-    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=9">9 Hors Comptabilit&eacute;</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="pcmn_update.php?p_start=1'.$str_dossier.'">1 Immobilisé </A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="pcmn_update.php?p_start=2'.$str_dossier.'">2 Actif a un an au plus</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="pcmn_update.php?p_start=3'.$str_dossier.'">3 Stock et commande</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="pcmn_update.php?p_start=4'.$str_dossier.'">4 Compte tiers</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=5'.$str_dossier.'">5 Actif</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="pcmn_update.php?p_start=6'.$str_dossier.'">6 Charges</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=7'.$str_dossier.'">7 Produits</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=8'.$str_dossier.'">8 Hors Comptabilit&eacute;</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=9'.$str_dossier.'">9 Hors Comptabilit&eacute;</A></TD></TR>';
     echo "</TABLE>";
 }
 /*!  
@@ -741,18 +752,19 @@ function ShowMenuPcmn($p_start=1)
  *
  *
  */ 
-function ShowMenuComptaForm($p_dossier) {
-     $cn=DbConnect($p_dossier);
-    echo '<div class="lmenu">';
-    echo '<TABLE>';
-    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="form.php?action=add">Ajout</A></TD></TR>';
-    $Ret=ExecSql($cn,"select fr_id, fr_label 
+function ShowMenuComptaForm() {
+  $cn=DbConnect(dossier::id());
+  $str_dossier=dossier::get();
+  echo '<div class="lmenu">';
+  echo '<TABLE>';
+  echo '<TR><TD class="mtitle"><A class="mtitle" HREF="form.php?action=add&'.$str_dossier.'">Ajout</A></TD></TR>';
+  $Ret=ExecSql($cn,"select fr_id, fr_label 
                              from formdef order by fr_label");
-    $Max=pg_NumRows($Ret);
+  $Max=pg_NumRows($Ret);
     for ($i=0;$i<$Max;$i++) {
       $l_line=pg_fetch_array($Ret,$i);
-      printf ('<TR><TD class="mtitle"><A class="mtitle" HREF="form.php?action=view&fr_id=%s">%s</A></TD></TR>',
-	      $l_line['fr_id'],$l_line['fr_label']);
+      printf ('<TR><TD class="mtitle"><A class="mtitle" HREF="form.php?action=view&fr_id=%s&%s">%s</A></TD></TR>',
+			  $l_line['fr_id'],$str_dossier,$l_line['fr_label']);
 
     }
     echo "</TABLE>";
@@ -765,12 +777,14 @@ function ShowMenuComptaForm($p_dossier) {
  * \return nothing
  */
 function ShowMenuImport(){
-    echo '<TABLE>';
-    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="import.php?action=import">Importer CSV</A></TD></TR>';
-    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="import.php?action=verif">Verif CSV</A></TD></TR>';
-    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="import.php?action=transfer">Transfert CSV</A></TD></TR>';
+  $str_dossier=dossier::get();
+  
+  echo '<TABLE>';
+  echo '<TR><TD class="mtitle"><A class="mtitle" HREF="import.php?action=import&'.$str_dossier.'">Importer CSV</A></TD></TR>';
+  echo '<TR><TD class="mtitle"><A class="mtitle" HREF="import.php?action=verif&'.$str_dossier.'">Verif CSV</A></TD></TR>';
+  echo '<TR><TD class="mtitle"><A class="mtitle" HREF="import.php?action=transfer&'.$str_dossier.'">Transfert CSV</A></TD></TR>';
     
-    echo "</TABLE>";
+  echo "</TABLE>";
 }
 
 ?>

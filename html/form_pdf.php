@@ -31,8 +31,11 @@ include_once("class.ezpdf.php");
 include_once("impress_inc.php");
 require_once('class_user.php');
 require_once ('header_print.php');
+require_once('class_dossier.php');
+$gDossier=dossier::id();
 
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
+
 foreach ($_POST as $key=>$element) {
   ${"$key"}=$element;
 }

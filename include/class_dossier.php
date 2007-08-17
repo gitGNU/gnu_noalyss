@@ -20,32 +20,62 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file the class for the dossier
+/* !\file 
+ * \brief the class for the dossier, everywhere we need to know to
+ * which folder we are connected, because we can't use $_SESSION, we
+ * need to pass the dossier_id via a _GET or a POST variable
  */
 
-/* \brief manage the current dossier
+/* \brief manage the current dossier, everywhere we need to know to
+ * which folder we are connected, because we can't use $_SESSION, we
+ * need to pass the dossier_id via a _GET or a POST variable
  *
  */
-class dossier {
-  var $id;
+require_once('postgres.php');
+include_once('debug.php');
+require_once('ac_common.php');
 
-  function dossier() {
+class dossier {
+
+  /*!\brief return the $_REQUEST['gDossier'] after a check */
+  static function id() {
+	echo_debug(__FILE__,__LINE__,"id");
+	echo_debug(__FILE__,__LINE__,$_REQUEST);
+	self::check();
+	return $_REQUEST['gDossier'];
+  }
+  /*!\brief check if gDossier is set */
+  static function check() {
 	if ( ! isset ($_REQUEST['gDossier']) ){
-	  echo_error ('Dossier Invalide');
-	  exit;
+	  echo_error ('Dossier inconnu ');
+	  exit('Dossier invalide');
 	}
 			  
-	$this->id=$_REQUEST['gDossier'];
   }
-  function get() {
-	return $this->id;
+  /*!\brief return a string to put to gDossier into a GET */
+  static function get() {
+	echo_debug(__FILE__,__LINE__,"get");
+	echo_debug(__FILE__,__LINE__,$_REQUEST);
+	self::check();
+    return "gDossier=".$_REQUEST['gDossier'];
+
   }
-  static function hidden {
-	return '<input type="hidden" name="gDossier" value="'.$this->id.'">';
+
+  /*!\brief return a string to set gDossier into a FORM */
+  static function hidden() {
+	echo_debug(__FILE__,__LINE__,"hidden");
+	echo_debug(__FILE__,__LINE__,$_REQUEST);
+	self::check();
+	return '<input type="hidden" id="gDossier" name="gDossier" value="'.$_REQUEST['gDossier'].'">';
   }
-  function get_name() {
+  /*!\brief retrieve the name of the current dossier */
+  static function name() {
+	echo_debug(__FILE__,__LINE__,"get_name");
+	echo_debug(__FILE__,__LINE__,$_REQUEST);
+	self::check();
+
 	$cn=DbConnect();
-	$name=getDbValue($cn,"select dos_name from ac_dossier where dos_id=".$this->id);
+	$name=getDbValue($cn,"select dos_name from ac_dossier where dos_id=".$_REQUEST['gDossier']);
 	return $name;
   }
 }

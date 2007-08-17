@@ -26,14 +26,13 @@ include_once ("ac_common.php");
 require_once('class_widget.php');
 require_once('class_poste.php');
 html_page_start($_SESSION['g_theme']);
-if ( ! isset ( $_SESSION['g_dossier'] ) ) {
-  echo "You must choose a Dossier ";
-  exit -2;
-}
+require_once('class_dossier.php');
+$gDossier=dossier::id();
+
 include_once ("postgres.php");
 /* Admin. Dossier */
 include_once ("class_user.php");
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 $User=new cl_user($cn);
 $User->Check();
 
@@ -41,21 +40,21 @@ include_once ("check_priv.php");
 
 include_once ("user_menu.php");
 echo '<div class="u_tmenu">';
-echo ShowMenuCompta($_SESSION['g_dossier'],"user_advanced.php");
+echo ShowMenuCompta("user_advanced.php?".dossier::get());
 echo '</div>';
 // \todo add a check for permission
 
 
-echo ShowMenuAdvanced("ecrit_ouv.php");
+echo ShowMenuAdvanced(8);
 
 $User->AccessRequest($cn,EXP_IMP_ECR);
 
 
 echo '<div class="lmenu">';
-
+$str_dossier=dossier::get();
 echo ShowItem ( array (
-			array ("ecrit_ouv.php?export","Export"),
-			array ("ecrit_ouv.php?import","Import")
+			array ("ecrit_ouv.php?export&".$str_dossier,"Export"),
+			array ("ecrit_ouv.php?import&".$str_dossier,"Import")
 			),'V');
 echo '</div>';
 echo '<div class="redcontent">';

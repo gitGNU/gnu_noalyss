@@ -5,9 +5,11 @@ include ("constant.php");
 include ("postgres.php");
 include("user_common.php");
 include("debug.php");
+require_once('class_dossier.php');
+$gDossier=dossier::id();
 
 echo_debug('fid.php',__LINE__,"Recherche fid.php".$_GET["FID"]);
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
 { 
   $d=$_GET['d'];

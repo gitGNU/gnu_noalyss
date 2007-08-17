@@ -32,12 +32,10 @@ include_once("jrn.php");
 require_once("class_widget.php");
 /* Admin. Dossier */
 include_once ("class_user.php");
+require_once('class_dossier.php');
+$gDossier=dossier::id();
 
-if ( ! isset ( $_SESSION['g_dossier'] ) ) {
-  echo "You must choose a Dossier ";
-  exit -2;
-}
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 $User=new cl_user($cn);
 $User->Check();
 
@@ -50,7 +48,7 @@ if ( isset( $_GET['p_jrn'] )) {
  // Check privilege
  // CheckJrn verify that the user is not an admin
  // an admin has all right
-  if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_GET['p_jrn']) != 2 )    {
+  if ( CheckJrn($gDossier,$_SESSION['g_user'],$_GET['p_jrn']) != 2 )    {
        NoAccess();
        exit -1;
   }
@@ -81,6 +79,7 @@ soit par son &eacute;criture inverse ?
 </p>
 <span>
 <FORM METHOD="POST" ACTION="annulation.php?p_jrn=<?php echo $_GET['p_jrn'];?>&jrn_op=<?php echo $_GET['jrn_op'];?>">
+					   <?php echo dossier::hidden(); ?>
 <INPUT TYPE="HIDDEN" NAME="annul">
 <INPUT TYPE="HIDDEN" NAME="p_id" value="<?php echo $_POST['p_id']; ?>">
 <INPUT TYPE="HIDDEN" NAME="op_date" value="<?php echo $_POST['op_date']; ?>">
@@ -88,6 +87,7 @@ soit par son &eacute;criture inverse ?
 </FORM>
 
 <FORM METHOD="GET" ACTION="annulation.php">
+					   <?php echo dossier::hidden(); ?>
 <INPUT TYPE="HIDDEN" NAME="p_jrn" value="<?php echo $_REQUEST['p_jrn']; ?>">
 <INPUT TYPE="HIDDEN" NAME="p_id" value="<?php echo $_REQUEST['p_id']; ?>">
 <INPUT TYPE="HIDDEN" NAME="jrn_op" value="<?php echo $_REQUEST['jrn_op']; ?>">
@@ -376,13 +376,13 @@ if ( isset ($e_ech) ) {
   echo "<DIV> Echeance $e_ech </DIV>";
 }
 for ( $i = 0; $i < $max_deb;$i++) {
-  $lib=GetPosteLibelle($_SESSION['g_dossier'],${"e_class_deb$i"}); 
+  $lib=GetPosteLibelle($gDossier,${"e_class_deb$i"}); 
   echo '<div style="background-color:#BFC2D5;">';
   echo ${"e_class_deb$i"}." $lib    "."<B>".${"e_mont_deb$i"}."</B>";
   echo "</div>";
 }
 for ( $i = 0; $i < $max_cred;$i++) {
-  $lib=GetPosteLibelle($_SESSION['g_dossier'],${"e_class_cred$i"});
+  $lib=GetPosteLibelle($gDossier,${"e_class_cred$i"});
   echo '<div style="background-color:#E8F4FF;">';
   echo ${"e_class_cred$i"}."  $lib   "."<B>".${"e_mont_cred$i"}."</B>";
   echo '</div>';
@@ -399,8 +399,8 @@ if ( $a != null ) {
   }//for
 }// if ( $a != null ) {
 
-echo '
-
+echo dossier::hidden().
+'
 <input type="hidden" name="p_id" value="'.$_GET['jrn_op'].'">
 <input type="submit" name="annul"  value="Mise à zéro ou effacement">
 <input type="button" name="cancel" value="Retour" onClick="window.close();">

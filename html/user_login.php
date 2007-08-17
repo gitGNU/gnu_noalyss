@@ -32,9 +32,6 @@ $User->Check();
 html_page_start($_SESSION['g_theme']);
 include_once("user_menu.php");
 
-if ( isset ($_SESSION['g_dossier'])) 
-  unset ($_SESSION['g_dossier']);
-
 $priv=($User->admin==1)?"Administrateur":"Utilisateur";
 
 echo '<div class="info"> Bienvenue  '.$User->first_name.'  '.

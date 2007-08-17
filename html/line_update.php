@@ -22,11 +22,9 @@
  * \brief Modify the "Plan Comptable"
  */
 include_once ("ac_common.php");
+require_once('class_dossier.php');
+$gDossier=dossier::id();
 
-if ( !isset ($_SESSION['g_dossier'])) {
-    echo "You must choose a Dossier ";
-   exit -2;
-}
 include_once ("postgres.php");
 include_once("check_priv.php");
 
@@ -37,7 +35,7 @@ $User=new cl_user($rep);
 $User->Check();
 html_page_start($User->theme,"onLoad='window.focus();'");
 
-$User->AccessRequest(DbConnect($_SESSION['g_dossier']),MPCMN);
+$User->AccessRequest(DbConnect($gDossier),MPCMN);
 
 
 include ("user_menu.php");
@@ -48,7 +46,7 @@ if ( isset ($_POST["update"] ) ) {
     echo_debug('line_update.php',__LINE__,"name $name $element");
   }
   echo JS_UPDATE_PCMN;
-  $cn=DbConnect($_SESSION['g_dossier']);
+  $cn=DbConnect($gDossier);
     $p_val=trim($_POST["p_val"]);
     $p_lib=FormatString($_POST["p_name"]);
     $p_parent=trim($_POST["p_val_parent"]);

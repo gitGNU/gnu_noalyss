@@ -27,8 +27,11 @@ include_once("postgres.php");
 require_once ('header_print.php');
 
 include ('class_user.php');
+require_once('class_dossier.php');
+$gDossier=dossier::id();
+
 /* Admin. Dossier */
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 
 $User=new cl_user($cn);
 $User->Check();

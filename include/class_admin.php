@@ -64,6 +64,7 @@ class Admin extends fiche{
  */
   function Summary($p_search) 
     {
+	  $str_dossier=dossier::get();
       $p_search=FormatString($p_search);
       $url=urlencode($_SERVER['REQUEST_URI']);
       $script=$_SERVER['PHP_SELF'];
@@ -100,8 +101,8 @@ class Admin extends fiche{
 	return $r;
       foreach ($step_admin as $admin ) {
 	$r.="<TR>";
-	$e=sprintf('<A HREF="%s?p_action=admin&sa=detail&f_id=%d&url=%s" title="Détail"> ',
-		    $script,$admin->id,$url);
+	$e=sprintf('<A HREF="%s?p_action=admin&sa=detail&f_id=%d&%s&url=%s" title="DÃ©tail"> ',
+			   $script,$admin->id,$str_dossier,$url);
 
 	$r.="<TD> $e".$admin->strAttribut(ATTR_DEF_QUICKCODE)."</A></TD>";
 	$r.="<TD>".$admin->strAttribut(ATTR_DEF_NAME)."</TD>";
@@ -110,12 +111,12 @@ class Admin extends fiche{
 	  " ".$admin->strAttribut(ATTR_DEF_PAYS).
 	  "</TD>";
 	$r.="<td>";
-	$r.=sprintf('<A class="mtitle" HREF="%s?p_action=contact&qcode=%s&url=%s" title="Contact">Contact</A> - ',
-		    $script,$admin->strAttribut(ATTR_DEF_QUICKCODE),$url);
-	$r.=sprintf('<A class="mtitle" HREF="%s?p_action=suivi_courrier&sa=list&qcode=%s&url=%s" title="Action">Action</A> - ',
-		    $script,$admin->strAttribut(ATTR_DEF_QUICKCODE) ,$url);
-	$r.=sprintf('<A class="mtitle" HREF="%s?liste&p_action=bank&sa=list&qcode=%s&url=%s&p_periode=-1" title="Financier">Financier</A> - ',
-		    $script,$admin->strAttribut(ATTR_DEF_QUICKCODE) ,$url);
+	$r.=sprintf('<A class="mtitle" HREF="%s?p_action=contact&qcode=%s&%s&url=%s" title="Contact">Contact</A> - ',
+				$script,$admin->strAttribut(ATTR_DEF_QUICKCODE),$str_dossier,$url);
+	$r.=sprintf('<A class="mtitle" HREF="%s?p_action=suivi_courrier&sa=list&qcode=%s&%s&url=%s" title="Action">Action</A> - ',
+				$script,$admin->strAttribut(ATTR_DEF_QUICKCODE) ,$str_dossier,$url);
+	$r.=sprintf('<A class="mtitle" HREF="%s?liste&p_action=bank&sa=list&qcode=%s&%s&url=%s&p_periode=-1" title="Financier">Financier</A> - ',
+				$script,$admin->strAttribut(ATTR_DEF_QUICKCODE) ,$str_dossier,$url);
 
 	$r.='</TD>';
 

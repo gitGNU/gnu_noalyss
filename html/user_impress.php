@@ -24,13 +24,12 @@
 
 include_once ("ac_common.php");
 html_page_start($_SESSION['g_theme']);
-if ( ! isset ( $_SESSION['g_dossier'] ) ) {
-  echo "You must choose a Dossier ";
-  exit -2;
-}
+require_once('class_dossier.php');
+$gDossier=dossier::id();
+
 include_once ("postgres.php");
 /* Admin. Dossier */
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 
 
 require_once ('class_user.php');
@@ -41,7 +40,7 @@ require_once ("check_priv.php");
 include_once ("user_menu.php");
 echo '<div class="u_tmenu">';
 
-echo ShowMenuCompta($_SESSION['g_dossier']);
+echo ShowMenuCompta($gDossier);
 echo '</div>';
 // show sub menu
 
@@ -65,7 +64,7 @@ echo "</DIV>";
 
 include_once("impress_inc.php");
 
-$User->AccessRequest(DbConnect($_SESSION['g_dossier']),IMP);
+$User->AccessRequest(DbConnect($gDossier),IMP);
 
 
 // something is choosen

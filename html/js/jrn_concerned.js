@@ -29,9 +29,9 @@
  *  \param p_ctl ctl name
  *  \param p_montant amount to search (if 0 get it from the e_other_amount 
  */
-function SearchJrn(p_sessid,p_ctl,p_montant,p_paid)
+function SearchJrn(p_sessid,p_dossier,p_ctl,p_montant,p_paid)
  {
- var url='jrn_search.php?p_ctl='+p_ctl+'&PHPSESSID='+p_sessid+'&'+p_paid;
+ var url='jrn_search.php?p_ctl='+p_ctl+'&PHPSESSID='+p_sessid+'&gDossier='+p_dossier+'&'+p_paid;
 
 
  if ( p_montant == 0 ) {

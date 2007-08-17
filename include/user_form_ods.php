@@ -81,6 +81,7 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
   }
 
   $r.="<FORM NAME=\"form_detail\" enctype=\"multipart/form-data\" ACTION=\"user_jrn.php?action=new&p_jrn=$p_jrn\" METHOD=\"POST\">";
+  $r.=dossier::hidden();
   $r.='<TABLE>';
   // Date
   $wDate=new widget('text');
@@ -159,7 +160,7 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
     }
     // code
     // Do we need a filter ?
-    $l_line=GetJrnProp($_SESSION['g_dossier'],$p_jrn);
+	$l_line=GetJrnProp($p_cn,$p_jrn,1);
     if(  strlen(trim ($l_line['jrn_def_class_cred']) ) > 0 ||
 		 strlen(trim ($l_line['jrn_def_class_deb']) ) > 0 ) {
       $filter=1;

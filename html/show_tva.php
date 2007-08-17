@@ -29,14 +29,10 @@ $rep=DbConnect();
 include_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
+require_once('class_dossier.php');
+$gDossier=dossier::id();
 
 html_page_start($User->theme,"onLoad='window.focus();'");
-
-if ( ! isset ( $_SESSION['g_dossier'] ) ) {
-  echo "You must choose a Dossier ";
-  phpinfo();
-  exit -2;
-}
 ?>
 <script>
 function GetIt(ctl,tva_id) {
@@ -47,7 +43,7 @@ function GetIt(ctl,tva_id) {
 <?php
 
 $condition="";
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 $Res=ExecSql($cn,"select * from tva_rate order by tva_rate desc");
 $Max=pg_NumRows($Res);
 echo "<TABLE BORDER=\"1\">";

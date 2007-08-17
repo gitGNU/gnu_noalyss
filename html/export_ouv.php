@@ -26,10 +26,9 @@ include_once ("ac_common.php");
 require_once("class_poste.php");
 header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="export_ouv.csv"',FALSE);
-if ( ! isset ( $_SESSION['g_dossier'] ) ) {
-  echo "You must choose a Dossier ";
-  exit -2;
-}
+require_once('class_dossier.php');
+$gDossier=dossier::id();
+
 include_once ("postgres.php");
 /* Admin. Dossier */
 $rep=DbConnect();
@@ -41,7 +40,7 @@ include_once ("check_priv.php");
 
 include_once ("user_menu.php");
 
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 
 $User->AccessRequest($cn,EXP_IMP_ECR);
 

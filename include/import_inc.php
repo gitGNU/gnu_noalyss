@@ -112,7 +112,7 @@ function ShowBox($p_val,$counter,$p_cn,$p_form='form'){
   if ( isset($p_val['poste_comptable']))
     {
       $w->value=$p_val['poste_comptable'];
-      $cn=DbConnect($_SESSION['g_dossier']);
+      $cn=DbConnect(dossier::id());
       $f=new fiche($p_cn);
       $f->GetByQCode($p_val['poste_comptable']);
       $s->value=$f->strAttribut(ATTR_DEF_NAME);
@@ -163,6 +163,7 @@ function VerifImport($p_cn){
 	echo JS_CONCERNED_OP;
 	while($val = pg_fetch_array($Res)){
 	  echo '<form METHOD="POST" action="import.php?action=verif">'; 
+	  echo dossier::hidden();
 	  ShowBox($val,$i,$p_cn,'form');
 	  echo '</form>';
 	  $i++;
@@ -204,12 +205,14 @@ function ConfirmTransfert($p_cn,$periode){
   while($val = pg_fetch_array($Res)){
 
     echo '<form method="post" action="import.php">';
+	echo dossier::hidden();
     echo '<input type="hidden" name="action" value="remove">';
     ShowBox($val,$i,$p_cn,'remove');
     echo '</form>';
     $i++;
   }
   echo '<form method="post" action="import.php">';
+  echo dossier::hidden();
   echo '<input type="hidden" name="action" value="transfer">';
   echo '<input type="submit" name="sub" value="Commencer le transfert">';
   echo '</form>';
@@ -346,6 +349,7 @@ function TransferCSV($p_cn, $periode){
 function ShowFormTransfert($p_cn){
 $w=new widget("select");
   echo '<FORM METHOD="POST" action="import.php?action=import" enctype="multipart/form-data">';
+  echo dossier::hidden();
   echo '<INPUT TYPE="file" name="fupload" size="20"><br>';
   // ask for the journal target 
   $jrn=make_array ($p_cn,"select jrn_def_id,jrn_def_name from jrn_def where jrn_def_type='FIN';");

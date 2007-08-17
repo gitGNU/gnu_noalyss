@@ -135,8 +135,9 @@ function ajaxFid(p_ctl,p_deb,p_jrn){
 	   clean_Fid(p_ctl);
 	
 	} else {
+	  var gDossier=document.getElementById('gDossier').value;
 	  queryString="?FID="+document.getElementById(p_ctl).value;
-	  queryString=queryString+"&d="+p_deb+"&j="+p_jrn;
+	  queryString=queryString+"&d="+p_deb+"&j="+p_jrn+'&gDossier='+gDossier;
 
 	  ajaxRequest.open("GET", "fid.php"+queryString, true);
 	  ajaxRequest.send(null); 

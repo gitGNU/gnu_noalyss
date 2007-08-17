@@ -25,8 +25,10 @@
 echo_debug('user_action_ods.php',__LINE__,"include user_action_ods.php");
 include_once("user_form_ods.php");
 include_once("class_widget.php");
+require_once('class_dossier.php');
+$gDossier=dossier::id();
 
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 
 if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {
   exit;
@@ -42,7 +44,7 @@ $action=(isset($_GET['action']))?$_GET['action']:$_POST['action'];
 if ( $action == 'new' ) {
 
   // Check privilege
-  if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_GET['p_jrn']) != 2 )    {
+  if ( CheckJrn($gDossier,$_SESSION['g_user'],$_GET['p_jrn']) != 2 )    {
        NoAccess();
        exit -1;
   }
@@ -52,7 +54,7 @@ if ( $action == 'new' ) {
     $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout poste">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Confirmer">';
     // add a one-line calculator
-    $prop=GetJrnProp($_SESSION['g_dossier'],$_GET['p_jrn']);
+    $prop=GetJrnProp($gDossier,$_GET['p_jrn']);
     $line=$prop['jrn_deb_max_line'];
     $r=FormODS($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,null,false,$line);
      echo '<div class="u_redcontent">';
@@ -139,7 +141,7 @@ if ( $action == 'new' ) {
 }
 if ( $action == 'voir_jrn' ) {
   // Check privilege
-  if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_GET['p_jrn']) < 1 )    {
+  if ( CheckJrn($gDossier,$_SESSION['g_user'],$_GET['p_jrn']) < 1 )    {
        NoAccess();
        exit -1;
   }
@@ -152,7 +154,8 @@ if ( $action == 'voir_jrn' ) {
 
 <form method= "get" action="user_jrn.php">
 
-<?php  
+<?php
+   echo dossier::hidden();    
 $hid=new widget("hidden");
 
 $hid->name="p_jrn";
@@ -204,7 +207,7 @@ echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit',
 //Search
 if ( $action == 'search' ) {
   // Check privilege
-  if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_GET['p_jrn']) <1 )    {
+  if ( CheckJrn($gDossier,$_SESSION['g_user'],$_GET['p_jrn']) <1 )    {
        NoAccess();
        exit -1;
   }

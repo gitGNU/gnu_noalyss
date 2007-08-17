@@ -50,7 +50,7 @@ foreach ($m as $line)
 
   } else {
 	echo '<td class="mtitle">'.
-	  '<a class="mtitle" href="?p_action=ca_od&sa=pa&pa_id='.$line['id'].'&new"> '.
+	  '<a class="mtitle" href="?p_action=ca_od&sa=pa&pa_id='.$line['id'].'&new&'.$str_dossier.'"> '.
 	  $line['name'].
 	  '</a>'.'</td>';
   }
@@ -68,12 +68,12 @@ echo '
 <table>
 <tr>
     <td  class="mtitle" >
-     <A class="mtitle" HREF="?p_action=ca_od&pa_id='.$_REQUEST['pa_id'].'&new"> Nouveau </A>
+     <A class="mtitle" HREF="?p_action=ca_od&pa_id='.$_REQUEST['pa_id'].'&new&'.$str_dossier.'"> Nouveau </A>
  </td>
 </tr>
 <tr>
     <td  class="mtitle" >
-     <A class="mtitle" HREF="?p_action=ca_od&pa_id='.$_REQUEST['pa_id'].'&see"> Liste op&eacute;rations </A
+     <A class="mtitle" HREF="?p_action=ca_od&pa_id='.$_REQUEST['pa_id'].'&see&'.$str_dossier.'"> Liste op&eacute;rations </A
  </td>
 </tr>
 </table>
@@ -118,6 +118,7 @@ if ( isset($_GET['new'])) {
   $wSubmit->table=0;
   echo '<div class="u_redcontent">';
   echo '<form method="post">';
+  echo dossier::hidden();
   echo $wSubmit->IOValue();
   echo $a->form();
   echo $wSubmit->Submit("save","Sauver");

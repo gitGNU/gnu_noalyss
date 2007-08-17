@@ -24,9 +24,10 @@
  * open a windows for searching a card
  */
 
-function showfiche(p_sessid,qcode)
+function showfiche(p_sessid,p_qcode)
 {
-  var a=window.open('show_fiche.php?PHPSESSID='+p_sessid+'&q='+qcode,'','toolbar=no,width=350,height=450,scrollbar=yes,statusbar=no');
+  p_dossier=document.getElementById("gDossier").value;
+  var a=window.open('show_fiche.php?PHPSESSID='+p_sessid+'&gDossier='+p_dossier+'&q='+qcode,'','toolbar=no,width=350,height=450,scrollbar=yes,statusbar=no');
   
 }
 
@@ -37,11 +38,15 @@ function SearchCard(p_sessid,type,name,jrn)
 {
   
   var search=document.getElementById(name).value;
-   var a=window.open('fiche_search.php?first&search&fic_search='+search+'&p_jrn='+jrn+'&PHPSESSID='+p_sessid+'&type='+type+'&name='+name,'item','toolbar=no,width=350,height=450,scrollbars=yes,statusbar=no');
+  var gDossier=document.getElementById('gDossier').value;
+   var a=window.open('fiche_search.php?first&search&fic_search='+search+'&p_jrn='+jrn+'&PHPSESSID='+p_sessid+'&type='+type+'&name='+name+'&gDossier='+gDossier,'item','toolbar=no,width=350,height=450,scrollbars=yes,statusbar=no');
 }
 	function NewCard(p_sessid,type,name,jrn)
 {
-   var a=window.open('fiche_new.php?p_jrn='+jrn+'&PHPSESSID='+p_sessid+'&type='+type+'&name='+name,'item','toolbar=no,width=350,height=450,scrollbars=yes,statusbar=no');
+  var search=document.getElementById(name).value;
+  var gDossier=document.getElementById('gDossier').value;
+
+  var a=window.open('fiche_new.php?p_jrn='+jrn+'&PHPSESSID='+p_sessid+'&type='+type+'&name='+name+'&gDossier='+gDossier,'item','toolbar=no,width=350,height=450,scrollbars=yes,statusbar=no');
 }
 /* SetValue( p_ctl,p_value )
 /* p_ctl is the name of the control

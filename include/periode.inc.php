@@ -24,7 +24,7 @@
  */
 
 require_once("preference.php");
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 //-----------------------------------------------------
 // Periode
 //-----------------------------------------------------
@@ -37,6 +37,7 @@ if ( $action=="change_per") {
     ${"$key"}=$element;
   echo "<TABLE>";
   echo '<TR> <FORM ACTION="user_advanced.php?p_action=periode" METHOD="POST">';
+  echo dossier::hidden();
   echo ' <INPUT TYPE="HIDDEN" NAME="p_per" VALUE="'.$p_per.'">';
   echo '<TD> <INPUT TYPE="text" NAME="p_date_start" VALUE="'.$p_date_start.'"></TD>';
   echo '<TD> <INPUT TYPE="text" NAME="p_date_end" VALUE="'.$p_date_end.'"></TD>';

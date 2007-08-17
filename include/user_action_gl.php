@@ -29,13 +29,13 @@ include_once ("class_widget.php");
 include_once("class_user.php");
 require_once("jrn.php");
 
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 
 ?>
 <div class="u_redcontent">
 <form method="GET" action="user_jrn.php">
 <?php  
-
+  echo dossier::hidden();
 $hid=new widget("hidden");
 
 $hid->name="jrn_type";

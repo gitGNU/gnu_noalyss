@@ -27,10 +27,10 @@
 include_once ("ac_common.php");
 include_once("check_priv.php");
 html_page_start($_SESSION['g_theme']);
-if ( ! isset ( $_SESSION['g_dossier'] ) ) {
-  echo "You must choose a Dossier ";
-  exit -2;
-}
+require_once('class_dossier.php');
+$gDossier=dossier::id();
+$str_dossier=dossier::get();
+
 include_once ("postgres.php");
 /* Admin. Dossier */
 $rep=DbConnect();
@@ -40,14 +40,14 @@ $User->Check();
 
 include_once ("user_menu.php");
 
-$cn_dossier=DbConnect($_SESSION['g_dossier']);
+$cn_dossier=DbConnect($gDossier);
 
 if ( $User->CheckAction($cn_dossier,GJRN) == 0 ) {
   /* Cannot Access */
   NoAccess();
   exit -1;
  }
-echo "<H2 class=\"info\">".$_SESSION['g_name'];
+echo "<H2 class=\"info\">".dossier::name();
 echo '<div align="right">
 <A HREF="login.php" title="Accueil"><INPUT TYPE="IMAGE" width="36" src="image/home.png" ></A>
 <A HREF="logout.php" title="Sortie"><input type="IMAGE" title="Logout" src="image/logout.png" width="36"></A>
@@ -58,7 +58,7 @@ echo ShowMenuParam("user_sec.php");
 
 
 $cn=DbConnect();
-$User=ExecSql($cn,"select  use_id,use_first_name,use_name,use_login from ac_users natural join jnt_use_dos where use_login != 'phpcompta' and dos_id=".$_SESSION['g_dossier']);
+$User=ExecSql($cn,"select  use_id,use_first_name,use_name,use_login from ac_users natural join jnt_use_dos where use_login != 'phpcompta' and dos_id=".$gDossier);
 $MaxUser=pg_NumRows($User);
 
 
@@ -71,7 +71,7 @@ for ($i = 0;$i < $MaxUser;$i++) {
   if ( $i % 3 == 0 && $i != 0)
     echo "</TR><TR>";
 
-  printf ('<TD><A href="user_sec.php?action=view&user_id=%s">%s %s ( %s )</A></TD>',
+  printf ('<TD><A href="user_sec.php?action=view&user_id=%s&'.$str_dossier.'">%s %s ( %s )</A></TD>',
 	  $l_line['use_id'],
 	  $l_line['use_first_name'],
 	  $l_line['use_name'],
@@ -93,7 +93,7 @@ foreach ($_GET as $name=>$value)
 
 if ( $action == "change_jrn" ) {
   // Check if the user can access that folder
-  if ( CheckDossier($_GET['login'],$_SESSION['g_dossier']) == 0 ) {
+  if ( CheckDossier($_GET['login'],$gDossier) == 0 ) {
     echo "<H2 class=\"error\">Cet utilisateur ne peut pas acc&eacute;der ce dossier</H2>";
     $action="";
     return;
@@ -101,9 +101,9 @@ if ( $action == "change_jrn" ) {
   $login=$_GET['login'];
   $jrn=$_GET['jrn'];
   $access=$_GET['access'];
-  $l_Db=sprintf("dossier%d",$_SESSION['g_dossier']);
+  $l_Db=sprintf("dossier%d",$gDossier);
   echo_debug('user_sec.php',__LINE__,"select * from user_sec_jrn where uj_login='$login' and uj_jrn_id=$jrn");
-  $cn_dossier=DbConnect($_SESSION['g_dossier']);
+  $cn_dossier=DbConnect($gDossier);
   $l2_Res=ExecSql($cn_dossier,
 		  "select * from user_sec_jrn where uj_login='$login' and uj_jrn_id=$jrn");
   $l2_count=pg_NumRows($l2_Res);
@@ -117,13 +117,13 @@ if ( $action == "change_jrn" ) {
 }
 if ( $action == "change_act" ) {
   // Check if the user can access that folder
-  if ( CheckDossier($_GET['login'],$_SESSION['g_dossier']) == 0 ) {
+  if ( CheckDossier($_GET['login'],$gDossier) == 0 ) {
     echo "<H2 class=\"error\">he cannot access this folder</H2>";
     $action="";
     return;
   }
-  $l_Db=sprintf("dossier%d",$_SESSION['g_dossier']);
-  $cn_dossier=DbConnect($_SESSION['g_dossier']);
+  $l_Db=sprintf("dossier%d",$gDossier);
+  $cn_dossier=DbConnect($gDossier);
   if ( $_GET['access']==0) {
     echo_debug('user_sec.php',__LINE__,"delete right");
     $Res=ExecSql($cn_dossier,
@@ -140,8 +140,8 @@ if ( $action == "change_act" ) {
 }
 // Action == View detail for users 
 if ( $action == "view" ) {
-  $l_Db=sprintf("dossier%d",$_SESSION['g_dossier']);
-  $cn_dossier=DbConnect($_SESSION['g_dossier']);
+  $l_Db=sprintf("dossier%d",$gDossier);
+  $cn_dossier=DbConnect($gDossier);
   $cn=DbConnect();
   $User=ExecSql($cn,
 		"select  use_id,use_first_name,use_name,use_login
@@ -155,13 +155,13 @@ if ( $action == "view" ) {
 	  $l2_line['use_name'],
 	  $l2_line['use_login']);
   // Check if the user can access that folder
-  if ( CheckDossier($l2_line['use_login'],$_SESSION['g_dossier']) == 0 ) {
+  if ( CheckDossier($l2_line['use_login'],$gDossier) == 0 ) {
     echo "<H2 class=\"error\">he cannot access this folder</H2>";
     $action="";
     return;
   }
   // Print button
-  printf ('<TD><A href="sec_pdf.php?user_id=%s">Imprime</A></TD>',
+  printf ('<TD><A href="sec_pdf.php?user_id=%s&'.$str_dossier.'">Imprime</A></TD>',
 	  $l2_line['use_id']
 	  );
 
@@ -180,27 +180,27 @@ if ( $action == "view" ) {
     $l_change="action=change_jrn&jrn=$l_line[jrn_def_id]&login=$l2_line[use_login]&user_id=$l2_line[use_id]";
 
     if ( $admin == 0) {
-      $right=    CheckJrn($_SESSION['g_dossier'],$l2_line['use_login'],$l_line['jrn_def_id'] );
+      $right=    CheckJrn($gDossier,$l2_line['use_login'],$l_line['jrn_def_id'] );
       echo_debug('user_sec.php',__LINE__,"Privilege is $right");
     } else $right = 3;
     if ( $right == 0 ) {
       echo "<TD BGCOLOR=RED>";
       echo "Pas d'accès";
       echo "</TD>";
-      echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="user_sec.php?'.$l_change.'&access=R"> Lecture</A></TD>';
-      echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="user_sec.php?'.$l_change.'&access=W"> Ecriture</A></TD>';
+      echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="user_sec.php?'.$l_change.'&access=R&'.$str_dossier.'"> Lecture</A></TD>';
+      echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="user_sec.php?'.$l_change.'&access=W&'.$str_dossier.'"> Ecriture</A></TD>';
 
       }
     if ( $right == 1 ) {
-      echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="user_sec.php?'.$l_change.'&access=X"> Pas d\'accès</A></TD>';
+      echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="user_sec.php?'.$l_change.'&access=X&'.$str_dossier.'"> Pas d\'accès</A></TD>';
       echo "<TD BGCOLOR=\"#3BCD27\">";
       echo "Lecture ";
       echo "</TD>";
-      echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="user_sec.php?'.$l_change.'&access=W"> Ecriture</A></TD>';
+      echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="user_sec.php?'.$l_change.'&access=W&'.$str_dossier.'"> Ecriture</A></TD>';
     }
     if ( $right == 2 ) {
-      echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="user_sec.php?'.$l_change.'&access=X"> Pas d\'accès</A></TD>';
-      echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="user_sec.php?'.$l_change.'&access=R"> Lecture</A></TD>';
+      echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="user_sec.php?'.$l_change.'&access=X&'.$str_dossier.'"> Pas d\'accès</A></TD>';
+      echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="user_sec.php?'.$l_change.'&access=R&'.$str_dossier.'"> Lecture</A></TD>';
 
       echo "<TD BGCOLOR=\"#3BCD27\">";
       echo "Ecriture ";
@@ -236,7 +236,7 @@ if ( $action == "view" ) {
 
       $l_change="action=change_act&act=".$l_line['ac_id']."&login=".$l2_line['use_login']."&user_id=".$l2_line['use_id'];
       if ( $admin ==0 ) {
-	$right=CheckAction($_SESSION['g_dossier'],$l2_line['use_login'],$l_line['ac_id']);
+	$right=CheckAction($gDossier,$l2_line['use_login'],$l_line['ac_id']);
       } else {
 	$right = 2;
       }
@@ -245,11 +245,11 @@ if ( $action == "view" ) {
       echo "Pas d'accès";
       echo "</TD>";
       $l_change=$l_change."&access=1";
-      echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="user_sec.php?'.$l_change.'"> Accès </A></TD>';
+      echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="user_sec.php?'.$l_change.'&'.$str_dossier.'"> Accès </A></TD>';
     }   
     if ( $right == 1) {
       $l_change=$l_change."&access=0";
-      echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="user_sec.php?'.$l_change.'"> Pas d\'accès </A></TD>';
+      echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="user_sec.php?'.$l_change.'&'.$str_dossier.'"> Pas d\'accès </A></TD>';
       echo "<TD BGCOLOR=\"#3BCD27\">";
       echo "Accès ";
       echo "</TD>";

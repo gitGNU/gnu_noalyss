@@ -83,6 +83,7 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
       }
 
     $r.="<FORM NAME=\"form_detail\" ACTION=\"$href\" METHOD=\"POST\">";
+	$r.=dossier::hidden();
 
     
   }
@@ -444,6 +445,7 @@ function FormVenteView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='form'
   //----------------------------------------------------------------------
 
   $r.='<FORM METHOD="POST" enctype="multipart/form-data" ACTION="'.$href.'">';  
+  $r.=dossier::hidden();
   // start table
   $r.='<TABLE>';
   // Show the Date
@@ -696,12 +698,15 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
 
     echo_debug('RecordInvoice',__LINE__,"cost = $cost amount = $amount  ");
   }// for
+  echo_debug(__FILE__,__LINE__,"Dossier is ".dossier::id());
 
   $comm=FormatString($e_comm);
   // Compute VAT
   //--
   $a_vat_new=ComputeTotalVat($p_cn,$a_good,$a_quant,$a_price,$a_vat);
   $sum_vat=0.0;
+  echo_debug(__FILE__,__LINE__,"Dossier is ".dossier::id());
+
   if ( $a_vat_new != null ){
     foreach ( $a_vat_new as $element => $t) {
       echo_debug('user_form_ven.php',__LINE__," a_vat element $element t $t");
@@ -715,9 +720,10 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
   $seq=NextSequence($p_cn,'s_grpt');
   $internal=SetInternalCode($p_cn,$seq,$p_jrn);
 
-
+  echo_debug(__FILE__,__LINE__,"Dossier is ".dossier::id());
   // Debit = client
   $poste=GetFicheAttribut($p_cn,$e_client,ATTR_DEF_ACCOUNT);
+  echo_debug(__FILE__,__LINE__,"Dossier is ".dossier::id());
   try
     {
       StartSql($p_cn);	

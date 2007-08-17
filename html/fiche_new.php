@@ -35,13 +35,10 @@ $User=new cl_user($rep);
 $User->Check();
 
 html_page_start($User->theme,"onLoad='window.focus();'");
+require_once('class_dossier.php');
+$gDossier=dossier::id();
 
-if ( ! isset ( $_SESSION['g_dossier'] ) ) {
-  echo "You must choose a Dossier ";
-  exit -2;
-}
-
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 // TODO add security here
 // Get The priv on the selected folder
 if ( $User->CheckAction($cn,FICHE_WRITE)== 0) {
@@ -63,6 +60,7 @@ foreach ($_GET as $key=>$element) {
 function new_fiche($p_cn,$p_type) {
   $fiche=new fiche($p_cn);
   $r='<FORM action="fiche_new.php" method="post">';
+  $r.=dossier::hidden();
   $r.='<INPUT TYPE="HIDDEN" name="fiche" value="'.$p_type.'">';
   $l_sessid=(isset ($_POST["PHPSESSID"]))?$_POST["PHPSESSID"]:$_GET["PHPSESSID"];
 
@@ -160,6 +158,7 @@ if ( sizeof($a)>1 and !isset ($_POST['cat']))
   {
     echo "Choix catégories fiche";
     echo '<FORM METHOD="POST" ACTION="'.$_SERVER['REQUEST_URI'].'">';
+	echo dossier::hidden();
     foreach ($a as $element) {
       $fiche_def=new fiche_def($cn,$element);
       $fiche_def->Get();
@@ -169,6 +168,6 @@ if ( sizeof($a)>1 and !isset ($_POST['cat']))
     
   }
     echo '<INPUT TYPE="SUBMIT" value="Choisir">';
-    echo "<FORM>";
+    echo "</FORM>";
   }
 ?>

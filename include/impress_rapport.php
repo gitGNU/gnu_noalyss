@@ -67,11 +67,13 @@ if ( isset( $_POST['bt_html'] ) ) {
   echo '<table >';
   echo '<TR>';
   echo '<TD><form method="GET" ACTION="?">'.
+	dossier::hidden().
     $submit->Submit('bt_other',"Autre Rapport").
     $hid->IOValue("type","rapport").$hid->IOValue("p_action","impress")."</form></TD>";
 
   echo '<TD><form method="POST" ACTION="form_pdf.php">'.
     $submit->Submit('bt_pdf',"Export PDF").
+	dossier::hidden().
     $hid->IOValue("type","rapport").
     $hid->IOValue("p_action","impress").
     $hid->IOValue("form_id",$Form->id).
@@ -83,6 +85,7 @@ if ( isset( $_POST['bt_html'] ) ) {
   echo "</form></TD>";
   echo '<TD><form method="POST" ACTION="form_csv.php">'.
     $submit->Submit('bt_csv',"Export CSV").
+	dossier::hidden().
     $hid->IOValue("type","form").
     $hid->IOValue("p_action","impress").
     $hid->IOValue("form_id",$Form->id).
@@ -133,6 +136,8 @@ if ( sizeof($ret) == 0 ) {
 //-----------------------------------------------------
 echo '<div class="u_content">';
 echo '<FORM ACTION="?p_action=impress&type=rapport" METHOD="POST">';
+echo 	dossier::hidden();
+
 echo '<TABLE><TR>';
 $w=new widget("select");
 $w->table=1;

@@ -18,6 +18,7 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+require_once('class_dossier.php');
 include_once("ac_common.php");
 include("user_menu.php");
 include_once ("constant.php");
@@ -29,16 +30,13 @@ include_once("class_widget.php");
  */
 
 html_page_start($_SESSION['g_theme']);
-if ( ! isset ( $_SESSION['g_dossier'] ) ) {
-  echo "You must choose a Dossier ";
-  exit -2;
-}
+$gDossier=dossier::id();
 
 include_once ("postgres.php");
 include_once ("check_priv.php");
 /* Admin. Dossier */
 
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 include ('class_user.php');
 $User=new cl_user($cn);
 $User->Check();

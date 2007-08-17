@@ -327,7 +327,7 @@ class widget {
       // Do we need to filter ??
       if ( $this->extra2 == null ) {
       $r=sprintf('<TD>
-         <INPUT class="inp" TYPE="button" onClick=SearchPoste(\'%s\',\'%s\',\'%s\') value="Recherche">
+         <INPUT class="inp" TYPE="button" onClick=SearchPoste(\'%s\','.dossier::id().',\'%s\',\'%s\') value="Recherche">
             %s</TD><TD> 
 
              <INPUT   TYPE="Text" NAME="%s" ID="%s" VALUE="%s" SIZE="8">
@@ -343,16 +343,17 @@ class widget {
 
     } else { // $p_list is not null, so we have a filter
       $r=sprintf('<TD>
-         <INPUT TYPE="button" onClick=SearchPosteFilter(\'%s\',\'%s\',\'%s\',\'%s\') value="Recherche">
+         <INPUT TYPE="button" onClick=SearchPosteFilter(\'%s\','.dossier::id().',\'%s\',\'%s\',\'%s\') value="Recherche">
             %s</TD><TD> 
 
-             <INPUT TYPE="Text" NAME="%s" VALUE="%s" SIZE="8">
+             <INPUT TYPE="Text" NAME="%s" id="%s" VALUE="%s" SIZE="8">
                  </TD>',
 		 $l_sessid,
 		 $this->name,
 		 $this->extra2,
 		 $this->extra,
 		 $this->label,
+		 $this->name,
 		 $this->name,
 		 $this->value 
 		 );
@@ -496,7 +497,7 @@ class widget {
 
   // type=span
   if ( strtolower($this->type)=="span") {
-    $r=sprintf('<span id="%s"  >%s </span>',
+    $r=sprintf('<span style="inline" id="%s"  >%s </span>',
 	       $this->name,
 	       $this->value
 	       );
@@ -517,8 +518,8 @@ class widget {
      $l_sessid=$_REQUEST['PHPSESSID'];
      $r.=sprintf("<input type=\"button\" value=\"Tva\" 
      	onClick=\"
-        	           ShowTva('%s','%s');\"></TD>",
- 		$l_sessid,$this->name);
+        	           ShowTva('%s',%d,'%s');\"></TD>",
+				 $l_sessid,dossier::id(),$this->name);
      return $r;
    }
 
@@ -531,7 +532,7 @@ class widget {
       $l_sessid=$_REQUEST['PHPSESSID'];
 
       $r=sprintf("$td
-     <INPUT TYPE=\"button\" onClick=SearchJrn('%s','%s',%s,'%s') value=\"Recherche\">
+     <INPUT TYPE=\"button\" onClick=SearchJrn('%s',".dossier::id().",'%s',%s,'%s') value=\"Recherche\">
        %s $etd  $td 
       <INPUT TYPE=\"Text\"  style=\"border:solid 1px blue;\"  NAME=\"%s\" VALUE=\"%s\" SIZE=\"8\">
                  $etd",

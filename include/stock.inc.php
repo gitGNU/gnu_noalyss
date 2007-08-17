@@ -24,29 +24,28 @@
 /*!\file 
  * \brief Manage the stock by year
  */
-
+require_once('class_dossier.php');
 include_once("preference.php");
 include_once ("ac_common.php");
 include_once("postgres.php");
 include_once("stock_inc.php");
 include_once("check_priv.php");
+require_once('class_dossier.php');
+$gDossier=dossier::id();
 
 html_page_start($_SESSION['g_theme']);
 
-if ( ! isset ( $_SESSION['g_dossier'] ) ) {
-  echo "You must choose a Dossier ";
-  exit -2;
-}
 include_once ("postgres.php");
 /* Admin. Dossier */
+$gDossier=dossier::id();
 
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 include_once ("class_user.php");
 $User=new cl_user($cn);
 $User->Check();
 
 // Synchronize rights
-SyncRight($_SESSION['g_dossier'],$_SESSION['g_user']);
+SyncRight($gDossier,$_SESSION['g_user']);
 
 
 $href=basename($_SERVER['PHP_SELF']);
@@ -55,10 +54,8 @@ if ($href=='compta.php')
   //Show the top menu
   include_once ("user_menu.php");
   
-  //  echo ShowMenuCompta($_SESSION['g_dossier'],"user_advanced.php");
-  
   // Show Menu Left
-  $left_menu=ShowMenuAdvanced("stock.php");
+  $left_menu=ShowMenuAdvanced(5);
   //echo '<div class="lmenu">';
   echo $left_menu;
 }
@@ -72,7 +69,7 @@ include_once("stock_inc.php");
 // Adjust the stock
 if ( isset ($_POST['sub_change'])) 
 {
-  if ( CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],STOCK_WRITE) == 0 )
+  if ( CheckAction($gDossier,$_SESSION['g_user'],STOCK_WRITE) == 0 )
     {
       /* Cannot Access */
       NoAccess();
@@ -94,7 +91,7 @@ if ( isset ($_POST['sub_change']))
     } else 
       {
 	// Check if User Can change the stock 
-	if ( CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],STOCK_WRITE) == 0 ) {
+	if ( CheckAction($gDossier,$_SESSION['g_user'],STOCK_WRITE) == 0 ) {
 	  NoAccess();
 	  exit (-1);
     }
@@ -147,14 +144,14 @@ if ( ! isset ($_GET['year']) ) {
 // View details
 if ( $action == 'detail' ) {
   // Check if User Can see the stock 
-  if ( CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],STOCK_READ) == 0 ) {
+  if ( CheckAction($gDossier,$_SESSION['g_user'],STOCK_READ) == 0 ) {
     NoAccess();
     exit (-1);
   }
   $sg_code=(isset ($_GET['sg_code'] ))?$_GET['sg_code']:$_POST['sg_code'];
   $year=(isset($_GET['year']))?$_GET['year']:$_POST['year'];
   $a=ViewDetailStock($cn,$sg_code,$year);
-  $write=CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],STOCK_WRITE);
+  $write=CheckAction($gDossier,$_SESSION['g_user'],STOCK_WRITE);
 
   $b="";
 
@@ -167,9 +164,10 @@ if ( $action == 'detail' ) {
       echo '<form action="?p_action=stock" method="POST">';
       echo ChangeStock($sg_code,$year);
       echo '<input type="submit" name="sub_change" value="Ok">';
+	  echo dossier::hidden();
       echo '</form>';
     }
-  echo '<A class="mtitle" HREF="?p_action=stock"><INPUT TYPE="BUTTON" value="Retour"</A>';
+  echo '<A class="mtitle" HREF="?p_action=stock&"'.dossier::get().'><INPUT TYPE="BUTTON" value="Retour"</A>';
   
   
   echo '</div>';
@@ -182,13 +180,13 @@ $Res=ExecSql($cn,$sql);
 $r="";
 for ( $i = 0; $i < pg_NumRows($Res);$i++) {
   $l=pg_fetch_array($Res,$i);
-  $r.=sprintf('<A class="mtitle" HREF="?p_action=stock&year=%d">%d</a> - ',
+  $r.=sprintf('<A class="mtitle" HREF="?p_action=stock&year=%d&'.dossier::get().'">%d</a> - ',
 	      $l['exercice'],
 	      $l['exercice']);
  
 }
 // Check if User Can see the stock 
-if ( CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],STOCK_READ) == 0 ) {
+if ( CheckAction($gDossier,$_SESSION['g_user'],STOCK_READ) == 0 ) {
   NoAccess();
   exit (-1);
 }

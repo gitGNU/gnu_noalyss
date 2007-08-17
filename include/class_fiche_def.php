@@ -331,25 +331,27 @@ class fiche_def {
       
 		       
       echo '<FORM METHOD="POST" action="?p_action=fiche&action=vue'.$str.'">';
+	  echo dossier::hidden();
       echo '<INPUT TYPE="HIDDEN" name="fiche" value="'.$this->id.'">';
       echo '<INPUT TYPE="SUBMIT" name="add" Value="Ajout fiche">';
       echo '</FORM>';
-      
+      $str_dossier=dossier::get();
       echo '<table>';
       for ( $i = 0; $i < $Max; $i++) {
-	$l_line=pg_fetch_array($Res,$i);
-	if ( $i%2 == 0) 
-	  echo '<TR class="odd">';
-	else
-	  echo '<TR class="even">';
+		$l_line=pg_fetch_array($Res,$i);
+		if ( $i%2 == 0) 
+		  echo '<TR class="odd">';
+		else
+		  echo '<TR class="even">';
 
-	$span_mod='<TD><A href="?p_action=fiche&action=detail&fiche_id='.$l_line['f_id'].$str.'&fiche='.$_GET['fiche'].'">'.$l_line['quick_code'].'</A></TD>';
+		$span_mod='<TD><A href="?p_action=fiche&'.$str_dossier.'&action=detail&fiche_id='.$l_line['f_id'].$str.'&fiche='.$_GET['fiche'].'">'.$l_line['quick_code'].'</A></TD>';
 	
 	echo $span_mod.'<TD>'.$l_line['vw_name']."</TD>";
 	echo '</tr>';
       }
       echo '</table>';
       echo '<FORM METHOD="POST" action="?p_action=fiche&action=vue'.$str.'">';
+	  echo dossier::hidden();
       echo '<INPUT TYPE="HIDDEN" name="fiche" value="'.$this->id.'">';
       echo '<INPUT TYPE="SUBMIT" name="add" Value="Ajout fiche">';
       echo '</FORM>';

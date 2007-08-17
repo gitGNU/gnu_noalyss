@@ -34,16 +34,14 @@ $User->Check();
 
 echo JS_SEARCH_POSTE;
 
-if ( ! isset ( $_SESSION['g_dossier'] ) ) {
-  echo "You must choose a Dossier ";
-  exit -2;
-}
+require_once('class_dossier.php');
+$gDossier=dossier::id();
 
 $c_comment="";
 $c_class="";
 
 $condition="";
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 if ( isset($_GET['search']) ) {
   $c1=0;
   foreach( $_GET as $key=>$element){
@@ -68,7 +66,7 @@ if ( isset($_GET['filter']) && $_GET['filter'] != 'all') {
   $SqlCred="";
 
   // Load the property
-  $l_line=GetJrnProp($_SESSION['g_dossier'],$_GET['p_jrn']);
+  $l_line=GetJrnProp($gDossier,$_GET['p_jrn']);
   if ( strlen(trim ($l_line['jrn_def_class_cred']) ) > 0 ) {
     $valid_cred=split(" ",$l_line['jrn_def_class_cred']);
 
@@ -122,6 +120,7 @@ if ( isset($_GET['p_ctl'])) {
 echo_debug('poste_search.php',__LINE__,"condition = $condition");
 
 echo '<FORM ACTION="poste_search.php'.$url.'" METHOD="GET">';
+echo dossier::hidden();
 if ( isset($p_ctl) ) {
   if ($p_ctl != 'not')   echo '<INPUT TYPE="hidden" name="p_ctl" value="'.$p_ctl.'">';
 }

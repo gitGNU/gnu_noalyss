@@ -31,9 +31,10 @@
  * \param p_vue easy or expert view of the operation
  */
 
-function modifyOperation(p_value,p_sessid,p_jrn,p_vue)
+function modifyOperation(p_value,p_sessid,p_dossier,p_jrn,p_vue)
 		{
-			var win=window.open('modify_op.php?action=update&p_jrn='+p_jrn+'&line='+p_value+'&PHPSESSID='+p_sessid+'&p_view='+p_vue,'','toolbar=no,width=690,height=410,scrollbars=yes,resizable=yes');
+
+			var win=window.open('modify_op.php?action=update&p_jrn='+p_jrn+'&line='+p_value+'&PHPSESSID='+p_sessid+'&p_view='+p_vue+'&gDossier='+p_dossier,'','toolbar=no,width=690,height=410,scrollbars=yes,resizable=yes');
 			win.focus();
 		}
 
@@ -42,15 +43,15 @@ function modifyOperation(p_value,p_sessid,p_jrn,p_vue)
  * \param p_sessid PHPSESSID
  */
 
-function viewOperation(p_value,p_sessid)
+function viewOperation(p_value,p_sessid,p_dossier)
 		{
-			var win=window.open('modify_op.php?action=view_ca&line='+p_value+'&PHPSESSID='+p_sessid,'','toolbar=no,width=690,height=410,scrollbars=yes,resizable=yes');
+			var win=window.open('modify_op.php?action=view_ca&line='+p_value+'&PHPSESSID='+p_sessid+'&gDossier='+p_dossier,'','toolbar=no,width=690,height=410,scrollbars=yes,resizable=yes');
 			win.focus();
 		}
 
 function RefreshMe() {
 window.location.reload();
 }
-	function dropLink(p_value,p_value2,p_sessid) {
-	var win=window.open('modify_op.php?action=delete&line='+p_value+'&line2='+p_value2+'&PHPSESSID='+p_sessid,'Liaison','toolbar=no,width=500,height=400,scrollbars=yes,resizable=yes');
+function dropLink(p_value,p_value2,p_sessid,p_dossier) {
+	var win=window.open('modify_op.php?action=delete&line='+p_value+'&line2='+p_value2+'&PHPSESSID='+p_sessid+'&gDossier='+p_dossier,'Liaison','toolbar=no,width=500,height=400,scrollbars=yes,resizable=yes');
 		}

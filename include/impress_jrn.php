@@ -23,6 +23,9 @@
  */
 
 include_once("class_widget.php");
+require_once('class_dossier.php');
+$gDossier=dossier::id();
+
 //-----------------------------------------------------
 // If print is asked
 // First time in html
@@ -56,11 +59,11 @@ include("class_jrn.php");
   echo '<h2 class="info">'.$Jrn->name.'</h2>';
   echo "<table>";
   echo '<TR>';
-  echo '<TD><form method="GET" ACTION="?">'.
+  echo '<TD><form method="GET" ACTION="?">'.dossier::hidden().
     $submit->Submit('bt_other',"Autre journal").
     $hid->IOValue("type","jrn").$hid->IOValue('p_action','impress')."</form></TD>";
 
-  echo '<TD><form method="GET" ACTION="jrn_pdf.php">'.
+  echo '<TD><form method="GET" ACTION="jrn_pdf.php">'.dossier::hidden().
     $submit->Submit('bt_pdf',"Export PDF").
     $hid->IOValue("type","jrn").
     $hid->IOValue("p_action","impress").
@@ -71,7 +74,7 @@ include("class_jrn.php");
   echo $hid->IOValue("p_simple",$_POST['p_simple']);
 
   echo "</form></TD>";
-  echo '<TD><form method="GET" ACTION="jrn_csv.php">'.
+  echo '<TD><form method="GET" ACTION="jrn_csv.php">'.dossier::hidden().
     $submit->Submit('bt_csv',"Export CSV").
     $hid->IOValue("type","jrn").
     $hid->IOValue("p_action","impress").
@@ -206,7 +209,7 @@ if ( count($ret) < 1 )
 // Form
 //-----------------------------------------------------
 echo '<div class="u_content">';
-echo '<FORM ACTION="?p_action=impress&type=jrn" METHOD="POST">';
+echo '<FORM ACTION="?p_action=impress&type=jrn" METHOD="POST">'.dossier::hidden();
 echo '<TABLE width="90%" align="center"><TR>';
 $w=new widget("select");
 $w->table=1;

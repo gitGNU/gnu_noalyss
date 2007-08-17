@@ -172,6 +172,7 @@ function FormFin($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
     }
 
   $r.="<FORM NAME=\"form_detail\" enctype=\"multipart/form-data\" ACTION=\"$href\" METHOD=\"POST\">";
+  $r.=dossier::hidden();
   $r.='<TABLE>';
   $Date=new widget("text");
   $Date->SetReadOnly($pview_only);
@@ -193,7 +194,7 @@ function FormFin($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
   if ( $e_bank_account != ""  ) {
       $a_client=GetFicheAttribut($p_cn,$e_bank_account);
       if ( $a_client != null)   
-	$e_bank_account_label=$a_client['vw_name']."  adresse ".$a_client['vw_addr']."  ".$a_client['vw_cp'];
+		$e_bank_account_label=$a_client['vw_name']."  adresse ".$a_client['vw_addr']."  ".$a_client['vw_cp'];
 	  }  
   //  search widget
     $W1=new widget("js_search");
@@ -204,12 +205,12 @@ function FormFin($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
     $W1->extra=FICHE_TYPE_FIN;  // credits
     $W1->extra2=$p_jrn;
     $r.="<TR>".$W1->IOValue()."</TD>";
-
-    $r.="</TABLE>";
-  
     $Span=new widget ("span");
     $Span->SetReadOnly($pview_only);
     $r.="<TD>".$Span->IOValue("e_bank_account_label",$e_bank_account_label)."</TD>";
+
+    $r.="</TABLE>";
+  
 
   
   // ComputeBanqueSaldo

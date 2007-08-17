@@ -26,10 +26,13 @@ header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="jrn.csv"',FALSE);
 include_once ("ac_common.php");
 
+require_once('class_dossier.php');
+$gDossier=dossier::id();
+
 include_once ("postgres.php");
 include_once("check_priv.php");
 include("class_jrn.php");
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 $rep=DbConnect();
 
 include ('class_user.php');

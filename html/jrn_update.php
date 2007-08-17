@@ -21,12 +21,12 @@
 /*! \file
  * \brief create, modify parameter ledger
  */
+require_once('class_dossier.php');
+$gDossier=dossier::id();
+
 include_once ("ac_common.php");
 html_page_start($_SESSION['g_theme']);
-if ( ! isset ( $_SESSION['g_dossier'] ) ) {
-  echo "You must choose a Dossier ";
-  exit -2;
-}
+
 include_once ("postgres.php");
 /* Admin. Dossier */
 $rep=DbConnect();
@@ -39,22 +39,22 @@ include_once ("check_priv.php");
 include_once ("user_menu.php");
 
 echo '<div class="u_tmenu">';
-echo ShowMenuCompta($_SESSION['g_dossier'],"user_advanced.php");
+echo ShowMenuCompta("user_advanced.php?".dossier::get());
 echo '</div>';
 
 
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 
 
 
 echo '<div class="u_subtmenu">';
-echo ShowMenuAdvanced("jrn_update.php");
+echo ShowMenuAdvanced("jrn_update.php?".dossier::get());
 echo '</div>';
 $User->AccessRequest($cn,GJRN);
 
 
 echo '<div class="lmenu">';
-MenuJrn($_SESSION['g_dossier']);
+MenuJrn($gDossier);
 echo '</div>';
 html_page_stop();
 ?>

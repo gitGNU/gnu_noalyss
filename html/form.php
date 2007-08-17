@@ -26,10 +26,9 @@ include_once ("user_menu.php");
 
 html_page_start($_SESSION['g_theme']);
 
-if ( ! isset ( $_SESSION['g_dossier'] ) ) {
-  echo "You must choose a Dossier ";
-  exit -2;
-}
+require_once('class_dossier.php');
+$gDossier=dossier::id();
+
 include_once ("postgres.php");
 /* Admin. Dossier */
 $rep=DbConnect();
@@ -41,13 +40,13 @@ include_once("form_inc.php");
 
 include_once ("user_menu.php");
 echo '<div class="u_tmenu">';
-echo ShowMenuCompta($_SESSION['g_dossier'],"user_advanced.php");
+echo ShowMenuCompta("user_advanced.php?".dossier::get());
 echo '</div>';
 
 include ("check_priv.php");
 
-$cn=DbConnect($_SESSION['g_dossier']);
-echo ShowMenuAdvanced("form.php");
+$cn=DbConnect($gDossier);
+echo ShowMenuAdvanced(6);
 // Get The priv on the selected folder
 $User->AccessRequest($cn,FORM);
 
@@ -65,14 +64,8 @@ if ( isset ($_POST["del_form"]) ) {
   // echo "</DIV>";
 }
 
-ShowMenuComptaForm($_SESSION['g_dossier']);
+ShowMenuComptaForm();
 
-if ( isset($_GET["PHPSESSID"] )) {
-  $sessid=$_GET["PHPSESSID"];
-} 
-if ( isset($_POST["PHPSESSID"] )) {
-  $sessid=$_POST["PHPSESSID"];
-} 
 if ( isset( $_REQUEST['PHPSESSID'])) {
 	$sessid = $_REQUEST['PHPSESSID'];
 }

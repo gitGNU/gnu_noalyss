@@ -54,6 +54,7 @@ function EncodeForm($p_line,$p_sessid,$p_array=null) {
     $form0="";
   }
   echo "<FORM ACTION=\"form.php\" METHOD=\"POST\">";
+  echo dossier::hidden();
   printf ("Nom du rapport : <INPUT TYPE=\"TEXT\" NAME=\"form_nom\" VALUE=\"%s\">",
 	  $form_nom);
   printf ('<INPUT TYPE="HIDDEN" NAME="line" value="%s"',

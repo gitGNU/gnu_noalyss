@@ -27,9 +27,11 @@ include ('class_user.php');
 include("class_fiche.php");
 header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="poste.csv"',FALSE);
+require_once('class_dossier.php');
+$gDossier=dossier::id();
 
 /* Admin. Dossier */
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 
 
 $User=new cl_user($cn);

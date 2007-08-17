@@ -26,7 +26,9 @@ require_once('class_fiche.php');
 include_once ("postgres.php");
 include_once ("user_menu.php");
 require_once ("check_priv.php");
-
+require_once('class_dossier.php');
+$gDossier=dossier::id();
+$str_dossier=dossier::get();
 echo JS_SEARCH_POSTE;
 echo JS_AJAX_FICHE;
 
@@ -35,13 +37,13 @@ if ( !isset($sessid))
 {
   $sessid=$_REQUEST["PHPSESSID"];
 } 
-$search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$sessid."','class_base','')\">";
+$search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$sessid."',".dossier::id().",'class_base','')\">";
 
 
 include_once("fiche_inc.php");
 
-$cn=DbConnect($_SESSION['g_dossier']);
-
+$cn=DbConnect($gDossier);
+echo_debug(__FILE__,__LINE__,"Connected");
 // Security check
 $read=$User->CheckAction($cn,FICHE_READ);
 $write=$User->CheckAction($cn,FICHE_WRITE);
@@ -53,6 +55,7 @@ if ($read+$write == 0 ){
 function ShowRecherche() {
   echo '<DIV class="u_redcontent">';
   echo '<form method="GET" action="?">';
+  echo dossier::hidden();
   $w=new widget('text');
   $search_text=(isset($_REQUEST['search_text']))?$_REQUEST['search_text']:"";
   $h=new widget('hidden');
@@ -75,6 +78,7 @@ function ShowFicheDefInput($p_fiche_def)
   $r.= '<H2 class="info">'.$p_fiche_def->label.'</H2>';
   
   $r.= '<FORM action="?p_action=fiche" method="POST">';
+  $r.=dossier::hidden();
   $r.= '<INPUT TYPE="HIDDEN" NAME="fd_id" VALUE="'.$p_fiche_def->id.'">';
   
   $r.= $p_fiche_def->DisplayAttribut("remove");
@@ -105,11 +109,11 @@ if ( isset ($_POST["add_line"])  ) {
       $r.= "<h2 class=\"error\"> Pas d'accès </h2>";
     else
       {
-	$fiche_def=new fiche_def($cn,$_REQUEST['fd_id']);
-	// Insert Line
-	$fiche_def->InsertAttribut($_REQUEST['ad_id']);
-
-	$r.=ShowFicheDefInput($fiche_def);
+		$fiche_def=new fiche_def($cn,$_REQUEST['fd_id']);
+		// Insert Line
+		$fiche_def->InsertAttribut($_REQUEST['ad_id']);
+		
+		$r.=ShowFicheDefInput($fiche_def);
 
       }
   $r.= '</DIV>';
@@ -137,19 +141,19 @@ if ( isset ($_POST['remove_line']))
 // Change the name of the card  model
 if ( isset ($_POST["change_name"] )  ) {
   $r= '<DIV class="u_redcontent">';
-    if ( $write ==0)  
-      $r.= "<h2 class=\"error\"> Pas d'accès </h2>";
-    else
-      {
-	$fiche_def=new fiche_def($cn,$_REQUEST['fd_id']);
-	$r.=ShowFicheDefInput($fiche_def);
-      }
+  if ( $write ==0)  
+	$r.= "<h2 class=\"error\"> Pas d'accès </h2>";
+  else
+	{
+	  $fiche_def=new fiche_def($cn,$_REQUEST['fd_id']);
+	  $r.=ShowFicheDefInput($fiche_def);
+	}
   $r.= '</DIV>';
   $recherche=false;
 }
 
 //var_dump($_GET);
-ShowMenuFiche($_SESSION['g_dossier']);
+ShowMenuFiche($gDossier);
 echo $r;
 
 //------------------------------------------------------------------------------
@@ -180,7 +184,7 @@ if ( isset ( $_GET["action"]) ) {
 	echo '<H2 class="info"> Vos changements ne seront pas sauvés</h2>';
 	$t=true;
       }
-    $str="";
+    $str="&".dossier::get();
     $fiche=new fiche($cn,$_GET["fiche_id"]);
     $fiche->get_categorie();
     $fiche_def=new fiche_def($cn,$fiche->fd_id);
@@ -202,6 +206,7 @@ if ( isset ( $_GET["action"]) ) {
     }
     if ( $write != 0 )
       echo '<form method="post" action="?p_action=fiche&action=vue&fiche='.$_GET['fiche'].$str.'">';
+	echo dossier::hidden();
     echo $fiche->Display($t);
     echo '<input type="hidden" name="f_id" value="'.$_GET['fiche_id'].'">';
     if ( $write != 0 ) {
@@ -210,7 +215,7 @@ if ( isset ( $_GET["action"]) ) {
     }
     $str="";
 
-    echo '<a class="mtitle" href="?p_action=fiche&action=vue&fiche='.$fiche->fiche_def.$str.
+    echo '<a class="mtitle" href="?p_action=fiche&action=vue&'.$str_dossier.'&fiche='.$fiche->fiche_def.$str.
       '"><input type="button" value="annuler"></A>';
     if ( $write != 0 ) echo '</form>';
     echo '</DIV>';
@@ -235,9 +240,9 @@ if ( isset ( $_GET["action"]) ) {
       {
 
 
-	$fiche_def=new fiche_def($cn,$_GET['fiche']);
-
-	echo ShowFicheDefInput($fiche_def);
+		$fiche_def=new fiche_def($cn,$_GET['fiche']);
+		
+		echo ShowFicheDefInput($fiche_def);
       }
     echo '</DIV>';
   $recherche=false;
@@ -246,7 +251,7 @@ if ( isset ( $_GET["action"]) ) {
   // Search a card
   if ( $action == "search" ) 
     {
-	    ShowRecherche();
+	  ShowRecherche();
       $sql="select distinct f_id,fd_id,av_text from fiche join jnt_fic_att_value using (f_id) 
             join attr_value using (jft_id) where
             upper(av_text) like upper('%".FormatString($_GET["search_text"])."%') order by av_text,f_id";
@@ -254,24 +259,24 @@ if ( isset ( $_GET["action"]) ) {
       // test on the size
       //
       if ( sizeof($all) != 0 )
-	{
-	  echo '<DIV class="u_redcontent">';
-	  echo "Nombre de résultat : ".sizeof($all).'<br>';
-	  foreach ($all as $f_id){
-	    $fiche=new fiche($cn,$f_id['f_id']);
-	    echo '<A class="mtitle" href="?p_action=fiche&action=detail&fiche_id='.$f_id['f_id'].
-	      '&fiche='.$f_id['fd_id'].'">'.
-	      $fiche->getName().'</A><br>';
-	  }
-	  echo '</div>';
-	}
+		{
+		  echo '<DIV class="u_redcontent">';
+		  echo "Nombre de résultat : ".sizeof($all).'<br>';
+		  foreach ($all as $f_id){
+			$fiche=new fiche($cn,$f_id['f_id']);
+			echo '<A class="mtitle" href="?p_action=fiche&'.$str_dossier.'&action=detail&fiche_id='.$f_id['f_id'].
+			  '&fiche='.$f_id['fd_id'].'">'.
+			  $fiche->getName().'</A><br>';
+		  }
+		  echo '</div>';
+		}
       else 
-	{
-	  echo '<DIV class="u_redcontent">';
-	  echo "Aucun résultat trouvé";
-
-	  echo '</div>';
-	  
+		{
+		  echo '<DIV class="u_redcontent">';
+		  echo "Aucun résultat trouvé";
+		  
+		  echo '</div>';
+		  
 	}
     }
     $recherche=false;
@@ -283,20 +288,21 @@ if ( isset ($_POST["fiche"]) && isset ($_POST["add"] ) ) {
       echo "<h2 class=\"error\"> Pas d'accès </h2>";
     else
       {
-	$fiche_def=new fiche_def($cn,$_POST['fiche']);
-	$fiche_def->Get();
-	echo '<h2 class="info">'.$fiche_def->label.'</h2>';
-	$url=$_SERVER['REQUEST_URI'];
-	$fiche=new fiche($cn,0);
+		$fiche_def=new fiche_def($cn,$_POST['fiche']);
+		$fiche_def->Get();
+		echo '<h2 class="info">'.$fiche_def->label.'</h2>';
+		$url=$_SERVER['REQUEST_URI'];
+		$fiche=new fiche($cn,0);
+		
+		echo '<form method="post" action="'.$url.'&fiche='.$_POST['fiche'].'">';
+		echo dossier::hidden();
+		echo $fiche->blank($_POST['fiche']);
+		echo '<input type="submit" name="add_fiche" value="Ajout">';
+		echo '<a class="mtitle" href="'.$url.'&fiche='.$_POST['fiche'].'">'.
+		  '<input type="button" value="annuler"></A>';
+		
 
-	echo '<form method="post" action="'.$url.'&fiche='.$_POST['fiche'].'">';
-	echo $fiche->blank($_POST['fiche']);
-	echo '<input type="submit" name="add_fiche" value="Ajout">';
-	echo '<a class="mtitle" href="'.$url.'&fiche='.$_POST['fiche'].'">'.
-	  '<input type="button" value="annuler"></A>';
-
-
-	echo '</form>';
+		echo '</form>';
       }
   echo '</DIV>';
   $recherche=false;
@@ -311,8 +317,8 @@ if (isset($_POST['delete']) ) {
       echo "<h2 class=\"error\"> Pas d'accès </h2>";
     else
       {
-	$fiche=new fiche($cn,$_POST["f_id"]);
-	$fiche->remove();
+		$fiche=new fiche($cn,$_POST["f_id"]);
+		$fiche->remove();
       }
     $fiche_def=new fiche_def($cn,$_GET['fiche']);
     $fiche_def->myList();
@@ -351,12 +357,12 @@ if ( isset ($_POST["update_fiche"])  ) {
       echo "<h2 class=\"error\"> Pas d'accès </h2>";
     else
       {
-	$fiche=new fiche($cn,$_POST['f_id']);
-	$fiche->Save();
+		$fiche=new fiche($cn,$_POST['f_id']);
+		$fiche->Save();
 
       }
-    $fiche_def=new fiche_def($cn,$_GET['fiche']);
-    $fiche_def->myList();
+	  $fiche_def=new fiche_def($cn,$_GET['fiche']);
+	  $fiche_def->myList();
 
 
 

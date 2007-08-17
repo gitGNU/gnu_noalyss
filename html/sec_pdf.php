@@ -24,16 +24,14 @@
  * \brief Print the user security in pdf
  */
 
-if ( ! isset($_SESSION['g_dossier']) ) {
-  echo "INVALID G_DOSSIER UNKNOWN !!! ";
-  exit();
-}
+require_once('class_dossier.php');
+$gDossier=dossier::id();
 include_once("ac_common.php");
 include_once("postgres.php");
 include_once("class.ezpdf.php");
 require_once("check_priv.php");
 echo_debug('sec_pdf.php',__LINE__,"imp pdf securité");
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 //-----------------------------------------------------
 // Security 
 
@@ -77,7 +75,7 @@ $Res=ExecSql($cn,"select jrn_def_id,jrn_def_name  from jrn_def ");
 for ($e=0;$e < pg_NumRows($Res);$e++) {
   $row=pg_fetch_array($Res,$e);
   $a_jrn[$e]['jrn_name']=$row['jrn_def_name'];
-  $priv=CheckJrn($_SESSION['g_dossier'],$SecUser->login,$row['jrn_def_id']);
+  $priv=CheckJrn($gDossier,$SecUser->login,$row['jrn_def_id']);
   switch($priv) {
   case 0:
     $a_jrn[$e]['priv']="pas d'accès";
@@ -107,7 +105,7 @@ $Max=pg_NumRows($Res);
 for ( $i =0 ; $i < $Max; $i++ ) {
    $l_line=pg_fetch_array($Res,$i);
    $action['lib']=$l_line['ac_description'];
-   $right=CheckAction($_SESSION['g_dossier'],$SecUser->login,$l_line['ac_id']);
+   $right=CheckAction($gDossier,$SecUser->login,$l_line['ac_id']);
    switch ($right) {
    case 0:
      $action['priv']="Pas d'accès";

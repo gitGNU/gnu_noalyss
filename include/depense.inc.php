@@ -35,7 +35,7 @@ $msg_tva='<i>Si le montant de TVA est &eacute;gal &agrave; 0, il sera automatiqu
 // to enter a new invoice
 if ( ! isset ($_REQUEST['p_jrn'])) {
   // no journal are selected so we select the first one
-  $p_jrn=GetFirstJrnIdForJrnType($_SESSION['g_dossier'],'ACH'); 
+  $p_jrn=GetFirstJrnIdForJrnType(dossier::id(),'ACH'); 
 
 } else
 {
@@ -57,13 +57,13 @@ $sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
 // 
 if ( $sub_action == "list") 
 {
-  if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn) < 1 )    {
+  if ( CheckJrn($gDossier,$_SESSION['g_user'],$p_jrn) < 1 )    {
         NoAccess();
         exit -1;
    }
   // show the menu with the list item selected
   echo '<div class="u_subtmenu">';
-  echo ShowMenuJrnUser($_SESSION['g_dossier'],'ACH',0,'<td class="selectedcell">Liste</td>');
+  echo ShowMenuJrnUser($gDossier,'ACH',0,'<td class="selectedcell">Liste</td>');
   echo '</div>';
   // Ask to update payment
   if ( isset ( $_GET['paid'])) 
@@ -97,7 +97,7 @@ if ( $sub_action == "list")
   
 
   echo '<form method= "GET" action="commercial.php">';
-
+  echo dossier::hidden();
   $hid=new widget("hidden");
   
   $hid->name="p_action";
@@ -130,8 +130,9 @@ if ( $sub_action == "list")
   $w->extra='all';
   $w->table=0;
   $sp= new widget("span");
-  echo $sp->IOValue("qcode_label","",$qcode);
   echo $w->IOValue();
+  echo $sp->IOValue("qcode_label","QuickCode",$qcode);
+
   echo $w->Submit('gl_submit','Rechercher');
 
   echo '<br>'.$retour;
@@ -180,10 +181,10 @@ if ( $sub_action == "list")
 } 
 //-----------------------------------------------------
 echo '<div class="u_subtmenu">';
-echo ShowMenuJrnUser($_SESSION['g_dossier'],
+echo ShowMenuJrnUser($gDossier,
 		     'ACH',
 		     $p_jrn,
-		     '<td class="cell"><A class="mtitle" HREF="commercial.php?liste&p_action=depense&sa=list">Liste</A></td>');
+					 '<td class="cell"><A class="mtitle" HREF="commercial.php?liste&p_action=depense&sa=list&'.$str_dossier.'">Liste</A></td>');
 echo '</div>';
 //-----------------------------------------------------
 // if we request to add an item 
@@ -191,7 +192,7 @@ echo '</div>';
 // or if we ask to correct the invoice
 if ( isset ($_POST['add_item']) || isset ($_POST["correct"])  ) 
 {
- if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn) != 2 )    {
+ if ( CheckJrn($gDossier,$_SESSION['g_user'],$p_jrn) != 2 )    {
         NoAccess();
         exit -1;
    }
@@ -217,7 +218,7 @@ if ( isset ($_POST['add_item']) || isset ($_POST["correct"])  )
 //
 if ( isset($_POST['save'])) 
 {
- if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn) != 2 )    {
+ if ( CheckJrn($gDossier,$_SESSION['g_user'],$p_jrn) != 2 )    {
         NoAccess();
         exit -1;
    }
@@ -243,7 +244,7 @@ if ( isset($_POST['save']))
 if ( isset ($_POST['view_invoice']) ) 
 {
    // Check privilege
-   if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn) < 1 )    {
+   if ( CheckJrn($gDossier,$_SESSION['g_user'],$p_jrn) < 1 )    {
         NoAccess();
         exit -1;
    }
@@ -274,7 +275,7 @@ if ( isset ($_POST['view_invoice']) )
 // By default we add a new invoice
 if ( $p_jrn != -1 ) 
 {
- if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn) != 2 )    {
+ if ( CheckJrn($gDossier,$_SESSION['g_user'],$p_jrn) != 2 )    {
         exit -1;
    }
 

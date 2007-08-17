@@ -23,17 +23,15 @@
 /*! \file
  * \brief Main page for the printing
  */
-
+require_once('class_dossier.php');
+$gDossier=dossier::id();
 include_once ("ac_common.php");
 html_page_start($_SESSION['g_theme']);
-if ( ! isset ( $_SESSION['g_dossier'] ) ) {
-  echo "You must choose a Dossier ";
-  exit -2;
-}
+
 
 include_once ("postgres.php");
 /* Admin. Dossier */
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 
 
 require_once ('class_user.php');
@@ -43,11 +41,11 @@ $User->Check();
 require_once ("check_priv.php");
 include_once ("user_menu.php");
 echo '<div class="u_tmenu">';
-
-echo ShowMenuCompta($_SESSION['g_dossier']);
+$action=$_REQUEST['p_action'];
+echo ShowMenuCompta("user_advanced.php?".dossier::get());
 echo '</div>';
 // Get action
-$action=$_REQUEST['p_action'];
+
 
 
 // call impress sub-menu
@@ -58,6 +56,7 @@ if ( $action == 'impress' ) {
   require_once('impress.inc.php');
 }
 if ( $action == 'fiche') {
+
   require_once('fiche.inc.php');
 }
 

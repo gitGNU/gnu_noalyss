@@ -28,8 +28,11 @@ include_once ("ac_common.php");
 include_once('class_fiche.php');
 include_once ("postgres.php");
 include_once("check_priv.php");
+require_once('class_dossier.php');
+$gDossier=dossier::id();
+
 if (  isset ($_REQUEST['with_amount']))  include_once("class_poste.php");
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 
 $rep=DbConnect();
 include ('class_user.php');

@@ -40,6 +40,7 @@ $w->table=1;
 
 echo '<div class="u_redcontent">';
 echo '<FORM ACTION="bilan.php" METHOD="POST">';
+echo dossier::hidden();
 echo '<TABLE>';
 
 print '<TR>';

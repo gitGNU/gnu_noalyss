@@ -19,18 +19,16 @@
 // Auteur Dany De Bontridder ddebontridder@yahoo.fr
 include_once ("ac_common.php");
 require_once("check_priv.php");
+require_once('class_dossier.php');
 
 /* $Revision$ */
 /*! \file
  * \brief Obsolete
- * \todo Obsolete ?
  */
+$gDossier=dossier::id();
 
 html_page_start($_SESSION['g_theme']);
-if ( ! isset ( $_SESSION['g_dossier'] ) ) {
-  echo "You must choose a Dossier ";
-  exit -2;
-}
+
 include_once ("postgres.php");
 /* Admin. Dossier */
 $rep=DbConnect();
@@ -49,14 +47,18 @@ echo_debug('user_advanced.php',__LINE__,"user is ".$_SESSION['g_user']);
 include_once ("user_menu.php");
 echo '<div class="u_tmenu">';
 
-echo ShowMenuCompta($_SESSION['g_dossier']);
+echo ShowMenuCompta("user_advanced.php?".dossier::get());
 echo '</div>';
+$p_action="";
+if ( isset($_REQUEST['p_action'] )) {
+  $p_action="?p_action=".$_REQUEST['p_action']."&".dossier::get();
+ }
 
-echo ShowMenuAdvanced();
+echo ShowMenuAdvanced("user_advanced.php".$p_action);
 
 
 if ( isset($_REQUEST['p_action']) && $_REQUEST['p_action'] == "periode" ) {
-  if ( $User->admin == 0 && CheckAction($_SESSION['g_dossier'],$_SESSION['g_user'],GESTION_PERIODE) == 0 )
+  if ( $User->admin == 0 && CheckAction($gDossier,$_SESSION['g_user'],GESTION_PERIODE) == 0 )
 	NoAccess();
     
   $p_action=$_REQUEST['p_action'];

@@ -25,10 +25,9 @@
  * \brief Send a ledger in a pdf format
  */
 
-if ( ! isset($_SESSION['g_dossier']) ) {
-  echo "INVALID G_DOSSIER UNKNOWN !!! ";
-  exit();
-}
+require_once('class_dossier.php');
+$gDossier=dossier::id();
+
 include_once('class_user.php');
 include_once("jrn.php");
 include_once("ac_common.php");
@@ -41,7 +40,7 @@ include_once("check_priv.php");
 require_once ('header_print.php');
 
 echo_debug('jrn_pdf.php',__LINE__,"imp pdf journaux");
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 $l_type="JRN";
 $centr=" Non centralisé";
 $l_centr=0;

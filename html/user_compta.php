@@ -17,6 +17,8 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 // Auteur Dany De Bontridder ddebontridder@yahoo.fr
+require_once('class_dossier.php');
+
 include_once ("ac_common.php");
 /* $Revision$ */
 include_once ("class_user.php");
@@ -31,27 +33,17 @@ $User=new cl_user($rep);
 $User->Check();
 
 html_page_start($User->theme);
+$gDossier=dossier::id();
 
-if ( isset ( $_GET['dos'] ) ) {
-  $g_dossier=$_GET['dos'];
-  $_SESSION[ "g_dossier"]=$g_dossier;
-  echo_debug('user_compta.php',__LINE__,"admin_dossier = $g_dossier ");
-  $g_name=GetDossierName($g_dossier);
-  $_SESSION["g_name"]=$g_name;
-
-} else {
-  echo "You must choose a Dossier ";
-  exit -2;
-}
 echo_debug('user_compta.php',__LINE__,"user is ".$_SESSION['g_user']);
 
 // Synchronize rights
-SyncRight($_SESSION['g_dossier'],$_SESSION['g_user']);
+SyncRight($gDossier,$_SESSION['g_user']);
 
 // Get The priv on the selected folder
 if ( $User->admin == 0 ) {
   
-  $r=GetPriv($_SESSION['g_dossier'],$_SESSION['g_user']);
+  $r=GetPriv($gDossier,$_SESSION['g_user']);
   if ($r == 0 ){
     /* Cannot Access */
     NoAccess();
@@ -64,7 +56,7 @@ if ( $User->admin == 0 ) {
 include_once ("user_menu.php");
 echo '<div class="u_tmenu">';
 
-echo ShowMenuCompta($g_dossier);
+echo ShowMenuCompta();
 echo '</div>';
 html_page_stop();
 

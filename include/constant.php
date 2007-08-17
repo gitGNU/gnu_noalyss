@@ -27,7 +27,7 @@ $_ENV['TMP']="/tmp";
 define ("phpcompta_password","dany");
 define ("phpcompta_psql_port","5432");
 define ("phpcompta_user","phpcompta");
-define ("domaine","rel240_");
+define ("domaine","rel300_");
 
 
 define ("DEBUG","true");
@@ -183,9 +183,9 @@ define ("JS_COMPUTE_ODS",
 "<SCRIPT language=\"javascript\" src=\"js/compute.js\">	</SCRIPT>");
 
  define ("JS_SHOW_TVA","<SCRIPT language=\"javascript\">
- function ShowTva(p_sessid,ctl)
+ function ShowTva(p_sessid,p_dossier,ctl)
       {
-        var win=window.open('show_tva.php?ctl='+ctl+'&PHPSESSID='+p_sessid,'Montre','scrollbar,toolbar=no,width=300,height=300,resizable=yes');
+        var win=window.open('show_tva.php?ctl='+ctl+'&PHPSESSID='+p_sessid+'&gDossier='+p_dossier,'Montre','scrollbar,toolbar=no,width=300,height=300,resizable=yes');
      } 
   function GetIt(ctl,tva_id) {
     self.opener.SetValue(ctl,tva_id)

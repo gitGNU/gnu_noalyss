@@ -46,6 +46,7 @@ if ( isset ($_POST['view']  ) ) {
   echo "<table>";
   echo '<TR>';
   echo '<TD><form method="POST" ACTION="print_balance.php">'.
+	dossier::hidden().
     $submit->Submit('bt_pdf',"Export PDF").
     $hid->IOValue("p_action","impress").
     $hid->IOValue("from_periode",$_POST['from_periode']).
@@ -56,6 +57,7 @@ if ( isset ($_POST['view']  ) ) {
   echo "</form></TD>";
   echo '<TD><form method="POST" ACTION="bal_csv.php">'.
     $submit->Submit('bt_csv',"Export CSV").
+	dossier::hidden().
     $hid->IOValue("p_action","impress").
     $hid->IOValue("from_periode",$_POST['from_periode']).
     $hid->IOValue("to_periode",$_POST['to_periode']).
@@ -72,6 +74,7 @@ if ( isset ($_POST['view']  ) ) {
 
 // Show the form for period
 echo '<FORM action="?p_action=impress&type=bal" method="post">';
+echo dossier::hidden();
 $w=new widget("select");
 $w->table=1;
 // filter on the current year

@@ -43,13 +43,11 @@ if ( isset ( $_GET['search']) )
 
 
 
-if ( ! isset ( $_SESSION['g_dossier'] ) ) {
-  echo "You must choose a Dossier ";
-  exit -2;
-}
+require_once('class_dossier.php');
+$gDossier=dossier::id();
 
 include_once ("check_priv.php");
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 // Get The priv on the selected folder
 if ( $User->CheckAction($cn,FICHE_READ) == 0 ){
     /* Cannot Access */
@@ -85,7 +83,7 @@ function SetData (name_ctl,value,value_2,value_3,value_4,value_5,value_6) {
 }
 </script>
 <?php
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 $r="";
 
 foreach ($_GET as $key=>$element) {

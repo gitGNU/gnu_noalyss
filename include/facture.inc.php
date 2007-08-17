@@ -36,7 +36,7 @@ require_once("check_priv.php");
 // to enter a new invoice
 if ( ! isset ($_REQUEST['p_jrn'])) {
   // no journal are selected so we select the first one
-  $p_jrn=GetFirstJrnIdForJrnType($_SESSION['g_dossier'],'VEN'); 
+  $p_jrn=GetFirstJrnIdForJrnType($gDossier,'VEN'); 
 } else
 {
   $p_jrn=$_REQUEST['p_jrn'];
@@ -58,13 +58,13 @@ $sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
 if ( $sub_action == "list") 
 {
    // Check privilege
-   if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn) < 1 )    {
+   if ( CheckJrn($gDossier,$_SESSION['g_user'],$p_jrn) < 1 )    {
         NoAccess();
         exit -1;
    }
   // show the menu with the list item selected
   echo '<div class="u_subtmenu">';
-  echo ShowMenuJrnUser($_SESSION['g_dossier'],'VEN',0,'<td class="selectedcell">Liste</td>');
+  echo ShowMenuJrnUser($gDossier,'VEN',0,'<td class="selectedcell">Liste</td>');
   echo '</div>';
   // Ask to update payment
   if ( isset ( $_GET['paid'])) 
@@ -98,6 +98,7 @@ if ( $sub_action == "list")
   
 
   echo '<form method= "GET" action="commercial.php">';
+  echo dossier::hidden();
 
   $hid=new widget("hidden");
   
@@ -176,7 +177,7 @@ echo $w->Submit('gl_submit','Rechercher');
 } 
 //-----------------------------------------------------
 echo '<div class="u_subtmenu">';
-echo ShowMenuJrnUser($_SESSION['g_dossier'],'VEN',$p_jrn,'<td class="cell"><A class="mtitle" HREF="commercial.php?liste&p_action=facture&sa=list">Liste</A></td>');
+echo ShowMenuJrnUser($gDossier,'VEN',$p_jrn,'<td class="cell"><A class="mtitle" HREF="commercial.php?liste&p_action=facture&sa=list&'.$str_dossier.'">Liste</A></td>');
 echo '</div>';
 //-----------------------------------------------------
 // if we request to add an item 
@@ -184,7 +185,7 @@ echo '</div>';
 // or if we ask to correct the invoice
 if ( isset ($_POST['add_item']) || isset ($_POST["correct_new_invoice"])  ) 
 {
- if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn) != 2 )    {
+ if ( CheckJrn($gDossier,$_SESSION['g_user'],$p_jrn) != 2 )    {
         NoAccess();
         exit -1;
    }
@@ -203,7 +204,7 @@ if ( isset ($_POST['add_item']) || isset ($_POST["correct_new_invoice"])  )
 //
 if ( isset($_POST['record_and_print_invoice'])) 
 {
- if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn) != 2 )    {
+ if ( CheckJrn($gDossier,$_SESSION['g_user'],$p_jrn) != 2 )    {
         NoAccess();
         exit -1;
    }
@@ -248,7 +249,7 @@ if ( isset($_POST['record_and_print_invoice']))
 if ( isset ($_POST['view_invoice']) ) 
 {
    // Check privilege
-   if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn) < 1 )    {
+   if ( CheckJrn($gDossier,$_SESSION['g_user'],$p_jrn) < 1 )    {
         NoAccess();
         exit -1;
    }
@@ -276,7 +277,7 @@ if ( isset ($_POST['view_invoice']) )
 // By default we add a new invoice
 if ( $p_jrn != -1 ) 
 {
- if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn) != 2 )    {
+ if ( CheckJrn($gDossier,$_SESSION['g_user'],$p_jrn) != 2 )    {
         exit -1;
    }
 

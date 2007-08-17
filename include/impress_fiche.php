@@ -22,8 +22,8 @@
 include_once('postgres.php');
 include_once('class_fiche.php');
 include_once("class_widget.php");
-
-$cn=DbConnect($_SESSION['g_dossier']);
+$gDossier=dossier::id();
+$cn=DbConnect($gDossier);
 
 //-----------------------------------------------------
 if  ( isset ($_REQUEST['fd_id'])) {
@@ -39,7 +39,7 @@ if  ( isset ($_REQUEST['fd_id'])) {
   $w=new widget("select");
   $fiche_def=new fiche_def($cn);
 
-  echo '<form method="POST" ACTION="fiche_csv.php">'.
+  echo '<form method="POST" ACTION="fiche_csv.php">'.dossier::hidden().
     $submit->Submit('bt_csv',"Export CSV").
     $hid->IOValue("type","fiche").
     $hid->IOValue("p_action","impress").
@@ -50,7 +50,7 @@ if  ( isset ($_REQUEST['fd_id'])) {
     echo $hid->IOValue("to_periode",$_REQUEST['to_periode']);
   }
   echo "</form>";
-  echo '<form method="Post" action="?p_action=impress&type=fiche">'.$submit->Submit("bt_submit","Autres fiches")."</form>";
+  echo '<form method="Post" action="?p_action=impress&type=fiche">'.$submit->Submit("bt_submit","Autres fiches").dossier::hidden()."</form>";
   
   $fiche_def->id=$_REQUEST['fd_id'];
 
@@ -58,7 +58,7 @@ if  ( isset ($_REQUEST['fd_id'])) {
   // propose de calculer aussi le solde
   //--
   if ( $fiche_def->HasAttribute(ATTR_DEF_ACCOUNT) == true ) {
-    echo '<form method="POST" ACTION="?p_action=impress&type=fiche">';
+    echo '<form method="POST" ACTION="?p_action=impress&type=fiche">'.dossier::hidden();
     // filter on the current year
     $filter_year=" where p_exercice='".$User->getExercice()."'";
 
@@ -140,7 +140,7 @@ if  ( isset ($_REQUEST['fd_id'])) {
 
    $i=0;
    foreach ($fiche_def->all as $l_fiche) {
-     $a[$i]=array("?p_action=impress&type=fiche&fd_id=".$l_fiche->id,$l_fiche->label);
+     $a[$i]=array("?".dossier::get()."&p_action=impress&type=fiche&fd_id=".$l_fiche->id,$l_fiche->label);
      $i++;
    }
    echo ShowItem($a,'V');

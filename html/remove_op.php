@@ -30,8 +30,10 @@
 require_once ("postgres.php");
 require_once ("debug.php");
 require_once ("class_user.php");
+require_once('class_dossier.php');
+$gDossier=dossier::id();
 /*!\todo Add the security here */
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 ExecSql($cn,"delete from operation_analytique where oa_group=".$_GET['oa']);
 echo_debug(__FILE__,__LINE__,$_GET);
 ?>

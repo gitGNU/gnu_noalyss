@@ -22,9 +22,10 @@
  * \brief Check if still used
  * \todo this file should be removed, and also the include in user_form_xxx 
  */
-
+require_once('class_dossier.php');
+$gDossier=dossier::id();
 if ( $action == 'update' ) {
-    if ( CheckJrn($g_dossier,$g_user,$p_jrn) < 2 ) {
+    if ( CheckJrn($gDossier,$g_user,$p_jrn) < 2 ) {
       NoAccess();
       exit -1;
     
@@ -35,6 +36,7 @@ if ( $action == 'update' ) {
 
     echo JS_CONCERNED_OP;
     $r ='<FORM METHOD="POST" ACTION="user_jrn.php">';
+	$r.=dossier::hidden();
     $r.=UpdateJrn($cn,$p_id);
     $r.='<INPUT TYPE="Hidden" name="action" value="update_record">';
     $r.='<input type="SUBMIT" name="update_record" value="Enregistre">';

@@ -366,6 +366,7 @@ comment = $p_comment");
 function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0,$p_paid=0)
 {
   echo_debug(__FILE__,__LINE__,"Entering into function ListJrn($p_cn,$p_jrn,$p_where='',$p_array=null,$p_value=0,$p_paid=0)");
+  $gDossier=dossier::id();
   $amount_paid=0.0;
   $amount_unpaid=0.0;
   include_once("central_inc.php");
@@ -374,6 +375,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0,$p_paid=0)
   $order="  order by jr_date_order asc,jr_internal asc";
   // Sort
   $url=CleanUrl();
+  $str_dossier=dossier::get();
   $image_asc='<IMAGE SRC="image/down.png" border="0" >';
   $image_desc='<IMAGE SRC="image/up.png" border="0">';
   $image_sel_desc='<IMAGE SRC="image/select1.png">';
@@ -595,6 +597,7 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Eché
   $r.="</tr>";
   // Total Amount
   $tot=0.0;
+  $gDossier=dossier::id();
   for ($i=0; $i < $Max;$i++) {
 
     
@@ -628,8 +631,8 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Eché
 		exit (-1);
       }
     
-    $r.=sprintf('<A class="detail" HREF="javascript:modifyOperation(\'%s\',\'%s\',\'%s\',\'%s\')" >%s</A>',
-		$row['jr_id'], $l_sessid, $p_jrn,$vue, $row['jr_internal']);
+    $r.=sprintf('<A class="detail" HREF="javascript:modifyOperation(\'%s\',%d,\'%s\',\'%s\',\'%s\')" >%s</A>',
+				$row['jr_id'], $l_sessid,$gDossier, $p_jrn,$vue, $row['jr_internal']);
     $r.="</TD>";
     // date
     $r.="<TD>";
@@ -692,7 +695,7 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Eché
       {      
 		$l_amount=getDbValue($p_cn,"select jr_montant from jrn ".
 							 " where jr_id=$element");
-		$r.= "<A class=\"detail\" HREF=\"javascript:modifyOperation('".$element."','".$l_sessid."')\" > ".GetInternal($p_cn,$element)." [ $l_amount &euro; ]</A>";
+		$r.= "<A class=\"detail\" HREF=\"javascript:modifyOperation('".$element."','".$l_sessid."',".$gDossier.")\" > ".GetInternal($p_cn,$element)." [ $l_amount &euro; ]</A>";
       }//for
     }// if ( $a != null ) {
     $r.="</TD>";
@@ -704,17 +707,18 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Eché
       // or by writing the opposite operation if the period is closed
       $r.="<TD>";
       // cancel operation
-      $r.=sprintf('<input TYPE="BUTTON" VALUE="%s" onClick="cancelOperation(\'%s\',\'%s\',\'%s\')">',
-		  "Annuler",$row['jr_grpt_id'],$l_sessid,$p_jrn);
+      $r.=sprintf('<input TYPE="BUTTON" VALUE="%s" onClick="cancelOperation(\'%s\',\'%s\',%d,\'%s\')">',
+				  "Annuler",$row['jr_grpt_id'],$l_sessid,$gDossier,$p_jrn);
       $r.="</TD>";
     } // else
     //document
     if ( $row['jr_pj_name'] != "") 
       {
 	$image='<IMG SRC="image/insert_table.gif" title="'.$row['jr_pj_name'].'" border="0">';
-	$r.="<TD>".sprintf('<A class="detail" HREF="show_pj.php?jrn=%s&jr_grpt_id=%s">%s</A>',
+	$r.="<TD>".sprintf('<A class="detail" HREF="show_pj.php?jrn=%s&jr_grpt_id=%s&%s">%s</A>',
 			   $p_jrn,
 			   $row['jr_grpt_id'],
+					   $str_dossier,
 			   $image)
 			   ."</TD>";
       }

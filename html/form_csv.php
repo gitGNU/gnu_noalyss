@@ -28,9 +28,11 @@ include("class_rapport.php");
 include("impress_inc.php");
 header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="rapport.csv"',FALSE);
+require_once('class_dossier.php');
+$gDossier=dossier::id();
 
 /* Admin. Dossier */
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 
 
 $User=new cl_user($cn);

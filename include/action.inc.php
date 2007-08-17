@@ -44,6 +44,7 @@ function ShowActionList($cn,$retour,$h_url)
 <span style="position:float;float:left">
 <form method="get" action="commercial.php">
 <?php  
+	echo dossier::hidden();
    $a=(isset($_GET['query']))?$_GET['query']:"";
    printf ('<span>Titre ou référence: <input type="text" name="query" value="%s"></span>',
 	   $a);
@@ -72,6 +73,7 @@ function ShowActionList($cn,$retour,$h_url)
 
 <br>
 <form  style="position:float;float:left" method="get" action="commercial.php">
+   <?php echo dossier::hidden(); ?>
 <input type="submit" name="submit_query" value="Ajout Action">
 <input type="hidden" name="p_action" value="suivi_courrier">
 <input type="hidden" name="sa" value="add_action">
@@ -214,6 +216,7 @@ if ( isset ($_POST['add_action_here']) )
       echo '<form name="RTEDemo" action="commercial.php?p_action=suivi_courrier" method="post" onsubmit="return submitForm();">';
       
       //      $act->ag_comment=(isset($_POST['ag_comment']))?Decode($_POST['ag_comment']):"";
+	  echo dossier::hidden();
       $act->ag_comment="";
       echo_debug("action.inc",__LINE__,"call display");
       echo $act->Display('NEW',false);
@@ -236,12 +239,13 @@ if ( isset ($_POST['add_action_here']) )
 if ( $sub_action=='detail' )
 {
   echo '<div class="u_redcontent">';
-  echo '<A class="mtitle" HREF="commercial.php?p_action=suivi_courrier"><input type="button" value="Retour"></A>';
+  echo '<A class="mtitle" HREF="commercial.php?p_action=suivi_courrier&'.$str_dossier.'"><input type="button" value="Retour"></A>';
   $act=new action($cn);
   $act->ag_id=$_REQUEST['ag_id'];
   echo $act->get();
   $act->ag_comment=Decode($act->ag_comment);
   echo '<form name="RTEDemo" action="commercial.php?p_action=suivi_courrier"  enctype="multipart/form-data"  method="post"  onsubmit="return submitForm();" >';
+  echo dossier::hidden();
   echo JS_SEARCH_CARD;
   echo $act->display('UPD',false);
   echo '<input type="hidden" name="p_action" value="suivi_courrier">';
@@ -254,6 +258,7 @@ if ( $sub_action=='detail' )
   echo $upload->Submit("add_action_here","Ajoute une action à celle-ci");
   echo '</form>';
   echo '<form action="commercial.php"  method="post"   >';
+  echo dossier::hidden();
 
   echo $upload->Submit("delete","Efface cette action");
   echo '<input type="hidden" name="p_action" value="suivi_courrier">';
@@ -273,7 +278,7 @@ if ( $sub_action == 'delete' )
   if ( ! isset ($_POST['confirm_delete'])) 
     {
       echo '<div class="u_redcontent">';
-      echo '<A class="mtitle" HREF="commercial.php?p_action=suivi_courrier"><input type="button" value="Retour"></A>';
+      echo '<A class="mtitle" HREF="commercial.php?p_action=suivi_courrier&'.$str_dossier.'"><input type="button" value="Retour"></A>';
       $act=new action($cn);
       $act->ag_id=$_REQUEST['ag_id'];
       echo $act->get();
@@ -283,6 +288,8 @@ if ( $sub_action == 'delete' )
       echo $act->display('READ',false);
       // display the form
       echo '<form action="commercial.php?p_action=suivi_courrier" method="post" >';
+	  echo dossier::hidden();
+
       echo '<input type="hidden" name="p_action" value="suivi_courrier">';
       echo '<input type="hidden" name="sa" value="delete">';
       echo '<input type="hidden" name="ag_id" value="'.$act->ag_id.'">';
@@ -315,7 +322,7 @@ if ( $sub_action == "list" )
 // Add an action
 if ( $sub_action == "add_action" ) 
 {
-  echo '<A class="one" HREF="commercial.php?p_action=suivi_courrier"><input type="button" value="Retour"></A>';
+  echo '<A class="one" HREF="commercial.php?p_action=suivi_courrier&'.$str_dossier.'"><input type="button" value="Retour"></A>';
   echo_debug('action',__LINE__,var_export($_POST,true));
   echo $retour;
   $act=new action($cn);
@@ -335,6 +342,8 @@ if ( $sub_action == "add_action" )
   echo JS_SEARCH_CARD;
   // Add hidden tag
   echo '<form name="RTEDemo" action="commercial.php?p_action=suivi_courrier" method="post" onsubmit="return submitForm();">';
+  echo dossier::hidden();
+
 
   $act->ag_comment=(isset($_POST['ag_comment']))?Decode($_POST['ag_comment']):"";
   echo_debug("action.inc",__LINE__,"call display");
@@ -398,7 +407,7 @@ if  ( $sub_action == "save_action_st2" )
   $act->gen=isset($_POST['p_gen'])?'on':'off';
   // insert into action_gestion
   echo $act->SaveStage2();
-  echo '<A class="one" HREF="commercial.php?p_action=suivi_courrier"><INPUT TYPE="BUTTON" VALUE="Retour Liste"></A>';
+  echo '<A class="one" HREF="commercial.php?p_action=suivi_courrier&'.$str_dossier.'"><INPUT TYPE="BUTTON" VALUE="Retour Liste"></A>';
 }
 
 //--------------------------------------------------------------------------------

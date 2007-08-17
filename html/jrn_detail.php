@@ -21,13 +21,11 @@
 /*! \file
  * \brief Show and let modify ledger parameter
  */
+require_once('class_dossier.php');
+$gDossier=dossier::id();
 
 include_once ("ac_common.php");
 html_page_start($_SESSION['g_theme']);
-if ( ! isset ( $_SESSION['g_dossier'] ) ) {
-  echo "You must choose a Dossier ";
-  exit -2;
-}
 include_once ("postgres.php");
 /* Admin. Dossier */
 $rep=DbConnect();
@@ -40,12 +38,12 @@ include_once ("user_menu.php");
 
 
 echo '<div class="u_tmenu">';
-echo ShowMenuCompta($_SESSION['g_dossier']);
+echo ShowMenuCompta();
 echo '</div>';
 
 include_once("check_priv.php");
 
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 $User->AccessRequest($cn,GJRN);
 
 // Javascript
@@ -126,7 +124,7 @@ If ( isset ($_POST["JRN_UPD"] )) {
 }
 echo ShowMenuAdvanced();
 echo '<div class="lmenu">';
-MenuJrn($_SESSION['g_dossier']);
+MenuJrn();
 echo '</div>';
 ?>
 <script language="javascript">
@@ -148,6 +146,7 @@ $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$sessid."
 echo '<DIV CLASS="u_redcontent">';
 echo '<H2 class="info">'.$l_line['jrn_def_name'].'</H2>';
 echo '<FORM ACTION="jrn_detail.php?p_jrn='.$_GET['p_jrn'].'" METHOD="POST">';
+echo dossier::hidden();
 echo '<INPUT TYPE="HIDDEN" NAME="JRN_UPD">';
 echo '<TABLE>';
 
@@ -258,6 +257,7 @@ for ($i=0;$i<$num;$i++) {
 <TD><INPUT TYPE="SUBMIT" VALUE="Sauve"></TD>
 <TD><INPUT TYPE="RESET" VALUE="Reset"></TD>
 <TD><form method="post">
+  <?php echo dossier::hidden(); ?>
 <INPUT TYPE="submit" name="efface" value="Efface" onClick="return m_confirm();">
 <input type="hidden" name="p_jrn" value="<? echo $_GET['p_jrn'];?>">
 </form>

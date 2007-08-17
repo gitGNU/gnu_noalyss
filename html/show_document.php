@@ -26,8 +26,9 @@
 include_once ("postgres.php");
 require_once("ac_common.php");
 require_once( "class_document.php");
-
-$cn=DbConnect($_SESSION['g_dossier']);
+require_once('class_dossier.php');
+$gDossier=dossier::id();
+$cn=DbConnect($gDossier);
 
 
 require_once ('class_user.php');

@@ -78,12 +78,13 @@ if ( $sub_action=="blank")
 {
 
   $retour=sprintf('<A class="mtitle" HREF="%s"><input type="button" value="Retour"></A>',
-		  "commercial.php?p_action=client");
+		  "commercial.php?p_action=client&$str_dossier");
   echo '<div class="u_redcontent">';
 
   echo $retour;
   $c=new Customer($cn);
   echo '<form method="post" action="commercial.php"';
+  echo dossier::hidden();
   echo '<input type="hidden" name="p_action" value="client">';
   echo '<input type="hidden" name="sa" value="insert">';
   echo '<input type="hidden" name="fd_id" value="'.$_GET['fd_id'].'">';
@@ -100,9 +101,10 @@ if ( $sub_action == "list" )
 {
 ?>
 <div class="u_content">
-<span>
+<span  style="position:float;float:left">
 <form method="get" action="commercial.php">
-<?php  
+<?php
+	echo dossier::hidden();  
    $a=(isset($_GET['query']))?$_GET['query']:"";
    printf ('<input type="text" name="query" value="%s">',
 	   $a);
@@ -111,8 +113,9 @@ if ( $sub_action == "list" )
 <input type="hidden" name="p_action" value="client">
 </form>
 </span>
-<span>
+<span  style="position:float;float:left">
 <form method="get" action="commercial.php">
+   <?php echo dossier::hidden(); ?>
 <input type="hidden" name="url" <?php        $url=urlencode($_SERVER['REQUEST_URI']);echo 'value="'.$url.'"'; ?>
 <input type="hidden" name="p_action" value="client">
 
@@ -149,6 +152,7 @@ if ( $sub_action == 'detail' )
 		  urldecode($_REQUEST['url']));
   echo $retour;
   echo '<form action="'.$_REQUEST['url'].'" method="post">'; 
+  echo dossier::hidden();
   echo $client->Display(false);
   $w=new widget("hidden");
   $w->name="p_action";

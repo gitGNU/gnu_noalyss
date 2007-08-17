@@ -27,18 +27,9 @@ include_once ("ac_common.php");
 html_page_start($_SESSION['g_theme']);
 include_once ("postgres.php");
 require_once("class_widget.php");
+require_once('class_dossier.php');
+$gDossier=dossier::id();
 
-if ( isset ($_REQUEST['dos'] ) ) {
-  $_SESSION['g_dossier']=$_REQUEST['dos'];
-  $g_name=GetDossierName($_SESSION['g_dossier']);
-  $_SESSION["g_name"]=$g_name;
-
-}
-
-if ( ! isset ( $_SESSION['g_dossier'] ) ) {
-  echo "You must choose a Dossier ";
-  exit -2;
-}
 include_once ("postgres.php");
 /* Admin. Dossier */
 $rep=DbConnect();
@@ -49,7 +40,7 @@ $User->Check();
 include_once("preference.php");
 include_once("user_menu.php");
 
-echo "<H2 class=\"info\"> Param&egrave;tre ".$_SESSION['g_name'].
+echo "<H2 class=\"info\"> Param&egrave;tre ".dossier::name().
 '
 <div align="right">
 <A HREF="login.php" title="Accueil"><IMG src="image/home.png" width="36"  border="0"  ></A>
@@ -59,7 +50,7 @@ echo "<H2 class=\"info\"> Param&egrave;tre ".$_SESSION['g_name'].
 
 include_once ("check_priv.php");
 
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 
 $User->AccessRequest($cn,PARM);
 
@@ -111,6 +102,7 @@ if ( $p_action == "change" ) {
   $p_code=$_GET['p_code'];
 
   echo '<TR> <FORM ACTION="parametre.php" METHOD="POST">';
+  echo dossier::hidden();
   echo '<INPUT TYPE="HIDDEN" VALUE="'.$p_mid.'" NAME="p_id">';
   echo '<TD> <INPUT TYPE="text" NAME="p_devise" VALUE="'.$p_code.'"></TD>';
   echo '<TD> <INPUT TYPE="text" NAME="p_rate" VALUE="'.$p_rate.'"></TD>';
@@ -180,6 +172,7 @@ if ( $p_action=='company') {
   $all=new widget("text");
   $all->table=1;
   echo '<form method="post" action="?p_action=company">';
+  echo dossier::hidden();
   echo "<table class=\"result\">";
   echo "<tr>".$all->IOValue("p_name",$my->MY_NAME,"Nom société")."</tr>";
   echo "<tr>".$all->IOValue("p_tel",$my->MY_TEL,"Téléphone")."</tr>";

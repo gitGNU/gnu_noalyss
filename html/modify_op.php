@@ -40,12 +40,10 @@ $User=new cl_user($rep);
 $User->Check();
 
 html_page_start($User->theme,"onLoad='window.focus();'");
-if ( ! isset ( $_SESSION['g_dossier'] ) ) {
-  echo "You must choose a Dossier ";
-  exit -2;
-}
+require_once('class_dossier.php');
+$gDossier=dossier::id();
 
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 
 if ( isset( $_GET['p_jrn'] )) {
   $p_jrn=$_GET['p_jrn'];
@@ -94,7 +92,7 @@ function hide (p_div) {
 echo_debug(__FILE__,__LINE__,"action is $action");
 //-----------------------------------------------------
 if ( $action == 'update' ) {
-  if ( ($priv=CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_GET['p_jrn'],true)) < 1 ) {
+  if ( ($priv=CheckJrn($gDossier,$_SESSION['g_user'],$_GET['p_jrn'],true)) < 1 ) {
       NoAccess();
       exit -1;
     
@@ -119,6 +117,7 @@ if ( $action == 'update' ) {
 
 	$view.='<h2 class="info">Vue simple</h2>';
 	$view.='<FORM METHOD="POST" enctype="multipart/form-data" ACTION="modify_op.php">';
+	$view.=dossier::hidden();
 	$view.=ShowOperationUser($cn,$p_id);
 	$view.='<input type="button" onclick="hide(\'simple\');show(\'expert\');" value="Vue expert">';
 	$view.='<INPUT TYPE="Hidden" name="action" value="update_record">';
@@ -138,6 +137,7 @@ if ( $action == 'update' ) {
 
 	$view.='<h2 class="info">Vue expert</h2>';
 	$view.='<FORM METHOD="POST" enctype="multipart/form-data" ACTION="modify_op.php">';
+	$view.=dossier::hidden();
 	$view.=ShowOperationExpert($cn,$p_id);
 	$view.='<input type="button" onclick="hide(\'expert\');show(\'simple\')"  value="Vue simple">';
 	$view.='<INPUT TYPE="Hidden" name="action" value="update_record">';
@@ -187,7 +187,7 @@ if ( $action=="view_ca") {
 // update the record and upload files
 //----------------------------------------------------------------------
 if ( isset($_POST['update_record']) ) {
-  if ( ($priv=CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$p_jrn,true)) !=2 ) {
+  if ( ($priv=CheckJrn($gDossier,$_SESSION['g_user'],$p_jrn,true)) !=2 ) {
       NoAccess();
       exit -1;
     

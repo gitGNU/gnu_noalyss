@@ -98,7 +98,7 @@ if ( $sub_action == "list" )
 {
 ?>
 <div class="u_content">
-<span>
+<span style="position:float;float:left">
 <form method="get" action="commercial.php">
 <?php  
    $a=(isset($_GET['query']))?$_GET['query']:"";
@@ -109,7 +109,7 @@ if ( $sub_action == "list" )
 <input type="hidden" name="p_action" value="fournisseur">
 </form>
 </span>
-<span>
+<span  style="position:float;float:left">
 <form method="get" action="commercial.php">
 <input type="hidden" name="url" <?php        $url=urlencode($_SERVER['REQUEST_URI']);echo 'value="'.$url.'"'; ?>
 <input type="hidden" name="p_action" value="fournisseur">

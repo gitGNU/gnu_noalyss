@@ -119,6 +119,7 @@ echo '<div class="u_content">';
 echo JS_SEARCH_POSTE;
 echo JS_SEARCH_CARD;
 echo '<FORM ACTION="?p_action=impress&type=poste" METHOD="POST">';
+echo dossier::hidden();
 echo '<TABLE><TR>';
 $span=new widget("span");
 

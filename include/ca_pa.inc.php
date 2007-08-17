@@ -47,6 +47,7 @@ if ( isset($_REQUEST['sa']))
 			$ret.= '<div class="u_redcontent">';
 			$ret.= '<h2 class="info">Nouveau plan</h2>';
 			$ret.= '<form method="post">';
+			$ret.=dossier::hidden();
 			$ret.= $new->form();
 			$wSa=new widget("HIDDEN","","sa","pa_write");
 			$wSa->value="pa_write";
@@ -96,13 +97,15 @@ if ( isset($_REQUEST['sa']))
 		$ret.= '<div class="u_redcontent">';
 		$ret.= '<h2 class="info">Mise &agrave; jour</h2>';
 		$ret.= '<form method="post">';
+		$ret.=dossier::hidden();
+
 		$ret.= $new->form();
 		$ret.= $wSa->IOValue();
 		$ret.= $wAction->IOValue();
 		$ret.= $wSa->Submit("submit","Enregistre");
 		$ret.=sprintf('<A class="mtitle" HREF="%s">'.
 					  '<input type="button" value="Efface"></A>',
-					  "?p_action=ca_pa&pa_id=".$_GET['pa_id']."&sa=pa_delete");
+					  "?p_action=ca_pa&pa_id=".$_GET['pa_id']."&sa=pa_delete&$str_dossier");
 
 		$ret.= '</form>';
 		$ret.= '</div>';
@@ -127,6 +130,7 @@ if ( isset($_REQUEST['sa']))
 		$wSa=new widget("hidden","sa","sa","po_write");
 		$ret.='<div class="u_redcontent">';
 		$ret.='<form method="post">';
+		$ret.=dossier::hidden();
 		$ret.=$po->form();
 		$ret.=$wSa->IOValue();
 		$ret.=$wSa->Submit("add","Ajout");
@@ -158,11 +162,13 @@ if ( isset($_REQUEST['sa']))
 		$po->get_by_id();
 		$ret.='<div class="u_redcontent">';
 		$ret.='<form method="post">';
+		$ret.=dossier::hidden();
+
 		$ret.=$po->form();
 		$ret.=$wHidden->IOValue();
 		$ret.='<input type="submit" value="Correction">';
-		$ret.=sprintf('<A class="mtitle" HREF="?p_action=ca_pa&sa=po_delete&po_id=%s&pa_id=%s">'.
-					 '<input type="button" value="Efface"></A>',
+		$ret.=sprintf('<A class="mtitle" HREF="?p_action=ca_pa&sa=po_delete&po_id=%s&pa_id=%s&'.$str_dossier.'">'.
+					  '<input type="button" value="Efface" onClick="return confirm(\' Voulez-vous vraiment effacer ce poste\');"></A>',
 					  $po->id,
 					  $_REQUEST['pa_id']
 					 );
@@ -210,7 +216,8 @@ if ( isset($_REQUEST['sa']))
 
 			$ret.="<TR class=\"$class\">";
 			$ret.="<TD>".
-			  '<a class="mtitle" href="?p_action=ca_pa&sa=po_detail&po_id='.$obj->id.'&pa_id='.$_REQUEST['pa_id'].'">'.
+			  '<a class="mtitle" href="?p_action=ca_pa&sa=po_detail&po_id='.$obj->id.'&pa_id='.$_REQUEST['pa_id'].'&'.
+			  $str_dossier.'">'.
 			  $obj->name.
 			  '</a>';
 			  "</td>";
@@ -221,7 +228,7 @@ if ( isset($_REQUEST['sa']))
 
 		  }
 		$ret.="</table>";
-		$ret.=sprintf('<A class="mtitle" HREF="?p_action=ca_pa&sa=po_add&pa_id=%s">'.
+		$ret.=sprintf('<A class="mtitle" HREF="?p_action=ca_pa&sa=po_add&pa_id=%s&'.$str_dossier.'">'.
 					 '<input type="button" value="Ajout"></A>',
 					 $_GET['pa_id']
 					 );
@@ -247,7 +254,7 @@ if ( empty($list)  )
 	echo '<div class="lmenu">';
 	echo '<TABLE>';
 	echo '<TR><TD class="mtitle">';
-	echo '<a class="mtitle" href="?p_action=ca_pa&sa=add_pa">Ajout d\'un plan comptable</a>';
+	echo '<a class="mtitle" href="?p_action=ca_pa&sa=add_pa'.$str_dossier.'">Ajout d\'un plan comptable</a>';
 	echo '</TD></TR>';
 	echo '</TABLE>';
 	
@@ -267,11 +274,11 @@ if ( empty($list)  )
 	   {
 		 echo '<TR>';
 		 echo '<TD >'.
-		   '<a class="mtitle" href="?p_action=ca_pa&sa=pa_detail&pa_id='.$line['id'].'">'.
+		   '<a class="mtitle" href="?p_action=ca_pa&sa=pa_detail&pa_id='.$line['id'].'&'.$str_dossier.'">'.
 		   $line['name'].
 		   '</TD>';
 		 echo '<td class="mtitle">'.
-		   '<a class="mtitle" href="?p_action=ca_pa&sa=list&pa_id='.$line['id'].'">'.
+		   '<a class="mtitle" href="?p_action=ca_pa&sa=list&pa_id='.$line['id'].'&'.$str_dossier.'">'.
 		   "Postes".
 		   "</a>";
 
@@ -282,7 +289,7 @@ if ( empty($list)  )
 	   {
 		 echo '<TABLE>';
 		 echo '<TR><TD class="mtitle">';
-		 echo '<a class="mtitle" href="?p_action=ca_pa&sa=add_pa">Ajout d\'un plan comptable</a>';
+		 echo '<a class="mtitle" href="?p_action=ca_pa&sa=add_pa&'.$str_dossier.'">Ajout d\'un plan comptable</a>';
 		 echo '</TD></TR>';
 		 echo '</TABLE>';
 	   }

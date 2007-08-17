@@ -34,6 +34,8 @@ require_once ('postgres.php');
 require_once ('debug.php');
 require_once ('ac_common.php');
 require_once('class_widget.php');
+require_once('class_dossier.php');
+$gDossier=dossier::id();
 
 $User=new cl_user(DbConnect());
 $User->Check();
@@ -45,7 +47,7 @@ if ( ! isset ($_REQUEST['q'])) {
   exit();
 }
 // connect to the database
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 if ( $User->CheckAction($cn,FICHE_READ) == 0 ){
     /* Cannot Access */
     echo '<h2 class="error"> Vous n\' avez pas accès</h2>';

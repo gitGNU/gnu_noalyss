@@ -24,11 +24,8 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 // $Revision$
-
-if ( ! isset($g_dossier) ) {
-  echo "INVALID G_DOSSIER UNKNOWN !!! ";
-  exit();
-}
+require_once('class_dossier.php');
+$gDossier=dossier::id();
 
 include_once("jrn.php");
 include_once("ac_common.php");
@@ -37,8 +34,8 @@ include_once("class.ezpdf.php");
 include_once("impress_inc.php");
 include_once("preference.php");
 echo_debug('send_jrn_pdf.php',__LINE__,"imp pdf journaux");
-$l_Db=sprintf("dossier%d",$g_dossier);
-$cn=DbConnect($g_dossier);
+$l_Db=sprintf("dossier%d",$gDossier);
+$cn=DbConnect($gDossier);
 $l_type="JRN";
 $centr=" Non centralisé";
 $l_centr=0;

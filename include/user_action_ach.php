@@ -27,7 +27,7 @@ require_once ("preference.php");
 require_once ("user_common.php");
 require_once("class_widget.php");
 require_once("class_jrn.php");
-$cn=DbConnect($_SESSION['g_dossier']);
+$cn=DbConnect($gDossier);
 
 $msg_tva='<i>Si le montant de TVA est &eacute;gal &agrave; 0, il sera automatiquement calcul&eacute;</i>';
 
@@ -41,7 +41,7 @@ $action=(isset($_GET['action']))?$_GET['action']:$_POST['action'];
 if ( $action == 'new' ) {
 // We request a new form
   // Check privilege
-  if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_GET['p_jrn']) != 2 )    {
+  if ( CheckJrn($gDossier,$_SESSION['g_user'],$_GET['p_jrn']) != 2 )    {
        NoAccess();
        exit -1;
   }
@@ -143,7 +143,7 @@ if ( $action == 'new' ) {
 }
 if ( $action == 'voir_jrn' ) {
   // Check privilege
-  if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_GET['p_jrn']) < 1  )    {
+  if ( CheckJrn($gDossier,$_SESSION['g_user'],$_GET['p_jrn']) < 1  )    {
        NoAccess();
        exit -1;
   }
@@ -152,6 +152,7 @@ if ( $action == 'voir_jrn' ) {
 <form method= "get" action="user_jrn.php">
 
 <?php  
+   echo dossier::hidden();
 $hid=new widget("hidden");
 
 $hid->name="p_jrn";
@@ -226,6 +227,7 @@ echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit',
    list ($max_ligne,$list)=ListJrn($cn,$_GET['p_jrn'],$sql,null,$offset,1);
    $bar=jrn_navigation_bar($offset,$max_ligne,$step,$page);
    echo '<form method="POST">';
+   echo dossier::hidden();
 
    echo "<hr> $bar";
    echo $list;
@@ -238,7 +240,7 @@ echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit',
 }
 if ( $action == 'voir_jrn_non_paye' ) {
   // Check privilege
-  if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_GET['p_jrn']) < 1 )    {
+  if ( CheckJrn($gDossier,$_SESSION['g_user'],$_GET['p_jrn']) < 1 )    {
        NoAccess();
        exit -1;
   }
@@ -289,6 +291,7 @@ if ( $action == 'voir_jrn_non_paye' ) {
     echo '<div class="u_redcontent">';
     echo '<h2 class="info"> Echeance dépassée </h2>';
     echo '<FORM METHOD="POST">';
+	echo dossier::hidden();
     echo $bar2;
     echo $list;
 
@@ -307,7 +310,7 @@ if ( $action == 'voir_jrn_non_paye' ) {
 //Search
 if ( $action == 'search' ) {
   // Check privilege
-  if ( CheckJrn($_SESSION['g_dossier'],$_SESSION['g_user'],$_GET['p_jrn']) < 1 )    {
+  if ( CheckJrn($gDossier,$_SESSION['g_user'],$_GET['p_jrn']) < 1 )    {
        NoAccess();
        exit -1;
   }
