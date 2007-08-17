@@ -421,9 +421,9 @@ if ($account == 0 ) {
   $cn=DbConnect(2,'mod');
   StartSql($cn);
   if ( DEBUG=='false') { ob_start();  }
-  ExecuteScript($cn,'sql/mod2/schema.sql');
+  ExecuteScript($cn,'sql/mod1/schema.sql');
   ExecuteScript($cn,'sql/mod2/data.sql');
-  ExecuteScript($cn,'sql/mod2/constraint.sql');
+  ExecuteScript($cn,'sql/mod1/constraint.sql');
   Commit($cn);
 
  if ( DEBUG=='false') ob_clean();
