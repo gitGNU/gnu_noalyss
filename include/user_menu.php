@@ -188,7 +188,7 @@ function ShowMenuCompta($p_high="")
 <input type="IMAGE" src="image/search.png" width="36" onclick="openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.dossier::id().',\'E\');">
 <A HREF="user_pref.php?'.$str_dossier.'" title="Pr&eacute;f&eacute;rence"><IMG SRC="image/preference.png" width="36" border="0" ></A>
 <A HREF="commercial.php?'.$str_dossier.'" title="Gestion"><IMG SRC="image/compta.png" width="36"  border="0" ></A>
-<A HREF="comptanalytic.php?dos='.$str_dossier.'" title="CA"><IMG SRC="image/undefined.png" width="36"  border="0" ></A>
+<A HREF="comptanalytic.php?'.$str_dossier.'" title="CA"><IMG SRC="image/undefined.png" width="36"  border="0" ></A>
 
 <A HREF="parametre.php?dos='.$str_dossier.'" title="Paramètre"><IMG SRC="image/param.png" width="36"  border="0" ></A>
 <A HREF="login.php" title="Accueil"><IMG SRC="image/home.png" width="36"  border="0" ></A>
