@@ -31,26 +31,27 @@ include_once("class_widget.php");
 // First time in html
 // after in pdf or cvs
 //-----------------------------------------------------
-if ( isset( $_POST['bt_html'] ) ) {
+if ( isset( $_GET['bt_html'] ) ) {
   include("class_rapport.php");
-  $Form=new rapport($cn,$_POST['form_id']);
+  $Form=new rapport($cn,$_GET['form_id']);
   $Form->GetName();
   // step asked ?
   //--
-  if ($_POST['p_step'] == 0 ) {
-    $array=$Form->GetRow( $_POST['from_periode'],
-			  $_POST['to_periode']
-			  );
+  if ($_GET['p_step'] == 0 ) {
+	if ( $_GET ['type_periode'] == 0 )
+	  $array=$Form->GetRow( $_GET['from_periode'],$_GET['to_periode'], $_GET['type_periode']);
+	else 
+	  $array=$Form->GetRow( $_GET['from_date'],$_GET['to_date'], $_GET['type_periode']);
   } else {
     // step are asked
     //--
-    for ($e=$_POST['from_periode'];$e<=$_POST['to_periode'];$e+=$_POST['p_step'])
+    for ($e=$_GET['from_periode'];$e<=$_GET['to_periode'];$e+=$_GET['p_step'])
       {
 
-	$periode=getPeriodeName($cn,$e);
-	if ( $periode == null ) continue;
-	$array[]=$Form->GetRow($e,$e);
-	$periode_name[]=$periode;
+		$periode=getPeriodeName($cn,$e);
+		if ( $periode == null ) continue;
+		$array[]=$Form->GetRow($e,$e,$_GET['type_periode']);
+		$periode_name[]=$periode;
       }
   }
 
@@ -59,39 +60,55 @@ if ( isset( $_POST['bt_html'] ) ) {
   $submit=new widget();
   $hid=new widget("hidden");
   echo '<div class="u_content">';
-  $t=($_POST['from_periode']==$_POST['to_periode'])?"":" -> ".getPeriodeName($cn,$_POST['to_periode'],'p_end');
-  echo '<h2 class="info">'.$Form->id." ".$Form->name.
-    " - ".getPeriodeName($cn,$_POST['from_periode'],'p_start').
-    " ".$t.
-    '</h2>';
-  echo '<table >';
+  if ( $_GET['type_periode'] == 0) {
+	$t=($_GET['from_periode']==$_GET['to_periode'])?"":" -> ".getPeriodeName($cn,$_GET['to_periode'],'p_end');
+	echo '<h2 class="info">'.$Form->id." ".$Form->name.
+	  " - ".getPeriodeName($cn,$_GET['from_periode'],'p_start').
+	  " ".$t.
+	  '</h2>';
+  } else {
+	echo '<h2 class="info">'.$Form->id." ".$Form->name.
+	  ' Date :'.
+	  $_GET['from_date'].
+	  " au ".
+	  $_GET['to_date'].
+	  '</h2>';
+  }
+	echo '<table >';
   echo '<TR>';
   echo '<TD><form method="GET" ACTION="?">'.
 	dossier::hidden().
     $submit->Submit('bt_other',"Autre Rapport").
     $hid->IOValue("type","rapport").$hid->IOValue("p_action","impress")."</form></TD>";
 
-  echo '<TD><form method="POST" ACTION="form_pdf.php">'.
+  echo '<TD><form method="GET" ACTION="form_pdf.php">'.
     $submit->Submit('bt_pdf',"Export PDF").
 	dossier::hidden().
     $hid->IOValue("type","rapport").
     $hid->IOValue("p_action","impress").
     $hid->IOValue("form_id",$Form->id).
-    $hid->IOValue("from_periode",$_POST['from_periode']).
-    $hid->IOValue("to_periode",$_POST['to_periode']).
-    $hid->IOValue("p_step",$_POST['p_step']);
+    $hid->IOValue("from_periode",$_GET['from_periode']).
+    $hid->IOValue("to_periode",$_GET['to_periode']).
+    $hid->IOValue("p_step",$_GET['p_step']).
+    $hid->IOValue("from_date",$_GET['from_date']).
+	$hid->IOValue("to_date",$_GET['to_date']).
+	$hid->IOValue("type_periode",$_GET['type_periode']);
+
 
 
   echo "</form></TD>";
-  echo '<TD><form method="POST" ACTION="form_csv.php">'.
+  echo '<TD><form method="GET" ACTION="form_csv.php">'.
     $submit->Submit('bt_csv',"Export CSV").
 	dossier::hidden().
     $hid->IOValue("type","form").
     $hid->IOValue("p_action","impress").
     $hid->IOValue("form_id",$Form->id).
-    $hid->IOValue("from_periode",$_POST['from_periode']).
-    $hid->IOValue("to_periode",$_POST['to_periode']).
-    $hid->IOValue("p_step",$_POST['p_step']);
+    $hid->IOValue("from_periode",$_GET['from_periode']).
+    $hid->IOValue("to_periode",$_GET['to_periode']).
+    $hid->IOValue("p_step",$_GET['p_step']).
+    $hid->IOValue("from_date",$_GET['from_date']).
+    $hid->IOValue("to_date",$_GET['to_date']).
+	$hid->IOValue("type_periode",$_GET['type_periode']);
 
   echo "</form></TD>";
 
@@ -101,7 +118,7 @@ if ( isset( $_POST['bt_html'] ) ) {
   if ( count($Form->row ) == 0 ) 
   	exit;
 
-      if ( $_POST['p_step'] == 0) 
+      if ( $_GET['p_step'] == 0) 
 	{ // check the step
 	  // show tables
 	  ShowReportResult($Form->row);
@@ -135,10 +152,13 @@ if ( sizeof($ret) == 0 ) {
 // Form
 //-----------------------------------------------------
 echo '<div class="u_content">';
-echo '<FORM ACTION="?p_action=impress&type=rapport" METHOD="POST">';
+echo '<FORM METHOD="GET">';
+$hidden=new widget("hidden");
+echo $hidden->IOValue("p_action","impress");
+echo $hidden->IOValue("type","rapport");
 echo 	dossier::hidden();
 
-echo '<TABLE><TR>';
+echo '<TABLE border="2"><TR>';
 $w=new widget("select");
 $w->table=1;
 $w->label="Choississez le rapport";
@@ -149,12 +169,28 @@ print '<TR>';
 $filter_year=" where p_exercice='".$User->getExercice()."'";
 
 $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
-$w->label="Depuis";
+$w->label="P&eacute;riode comptable : Depuis";
 print $w->IOValue('from_periode',$periode_start);
 $w->label=" jusqu'à ";
 $periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode  $filter_year order by p_start,p_end");
 print $w->IOValue('to_periode',$periode_end);
 print "</TR>";
+//--- by date
+$date=new widget('text');
+$date->table=1;
+$date->label="Calendrier depuis :";
+echo $date->IOValue('from_date');
+$date->label="jusque";
+echo $date->IOValue('to_date');
+//-- calendrier ou periode comptable
+$aCal=array(
+			   array('value'=>0,'label'=>'P&eacute;riode comptable'),
+			   array('value'=>1,'label'=>'Calendrier')
+			   );
+$w->label='Type de date : ';
+echo '<tr>';
+echo $w->IOValue('type_periode',$aCal);
+echo '</Tr>';
 $aStep=array(
 	     array('value'=>0,'label'=>'Pas d\'étape'),
 	     array('value'=>1,'label'=>'1 mois')
@@ -164,6 +200,10 @@ echo '<TR> '.$w->IOValue('p_step',$aStep);
 echo '</TR>';
 
 echo '</TABLE>';
+echo '<span class="notice"> Attention : vous ne pouvez pas utiliser les &eacute;tapes avec les dates calendriers.</span>';
+echo '<br>';
+echo '<span class="notice"> Les clauses FROM sont ignorés avec les dates calendriers</span>';
+echo '<br>';
 print $w->Submit('bt_html','Impression');
 
 echo '</FORM>';
