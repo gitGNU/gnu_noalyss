@@ -5,7 +5,11 @@ BODY {
   font-size:10px;
   font-family:sans-serif;
 }
+.notice {
+		color:red;
+        font-weight:bold;
 
+}
 table.result {
   font-size:10px;
   color:blue;
@@ -407,4 +411,5 @@ div.u_content input:focus {
 div.u_redcontent textarea:focus{
 background-color: orange;
 }
+
 /* </style> */

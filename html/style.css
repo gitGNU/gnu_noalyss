@@ -5,6 +5,11 @@ BODY {
  font-size:0.7em;
  font-family:Arial, Helvetica, sans-serif;
 }
+.notice {
+		color:red;
+        font-weight:bold;
+
+}
 
 table.result {
  font-size:10px;
