@@ -75,7 +75,7 @@ echo '<div align="right" title="Recherche">
 <input type="IMAGE" src="image/search.png" width="36" onclick="openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.$gDossier.');">
 <A HREF="?p_action=pref&'.$str_dossier.'" title="Pr&eacute;f&eacute;rence"><IMG SRC="image/preference.png" width="36" border="0" ></A>
 <A HREF="user_compta.php?gDossier='.$gDossier.'" title="Comptabilit&eacute;"><IMG SRC="image/compta.png" width="36"  border="0" ></A>
-<A HREF="comptanalytic.php?gDossier='.$gDossier.'" title="CA"><IMG SRC="image/undefined.png" width="36"  border="0" ></A>
+<A HREF="comptanalytic.php?gDossier='.$gDossier.'" title="CA"><IMG SRC="image/comptaanal.png" width="36"  border="0" ></A>
 
 <A HREF="parametre.php?gDossier='.$gDossier.'" title="Param&egrave;tre"><IMG SRC="image/param.png" width="36" border="0" ></A>
 <A HREF="login.php" title="Accueil"><IMG src="image/home.png" width="36" title="Accueil"  border="0"  ></A>
