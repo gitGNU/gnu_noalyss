@@ -36,7 +36,7 @@ $gDossier=dossier::id();
 
 $cn=DbConnect($gDossier);
 
-foreach ($_POST as $key=>$element) {
+foreach ($_GET as $key=>$element) {
   ${"$key"}=$element;
 }
 
@@ -48,39 +48,46 @@ header_pdf($cn,$pdf);
 $Form=new rapport($cn,$form_id);
 // Step ??
 //--
-if ( $_POST['p_step'] == 0 ) 
+if ( $_GET['p_step'] == 0 ) 
   {
     // No step asked
     //--
-    $array=$Form->GetRow($from_periode,$to_periode);
+	if ( $_GET ['type_periode'] == 0 )
+	  $array=$Form->GetRow( $_GET['from_periode'],$_GET['to_periode'], $_GET['type_periode']);
+	else 
+	  $array=$Form->GetRow( $_GET['from_date'],$_GET['to_date'], $_GET['type_periode']);
+
   }
  else 
    {
      // yes with step
      //--
-     for ($e=$_POST['from_periode'];$e<=$_POST['to_periode'];$e+=$_POST['p_step'])
+     for ($e=$_GET['from_periode'];$e<=$_GET['to_periode'];$e+=$_GET['p_step'])
        {
-	$periode=getPeriodeName($cn,$e);
-	if ( $periode == null ) continue;
-	$array[]=$Form->GetRow($e,$e);
-	$periode_name[]=$periode;
+		 $periode=getPeriodeName($cn,$e);
+		 if ( $periode == null ) continue;
+		 $array[]=$Form->GetRow($e,$e);
+		 $periode_name[]=$periode;
        }
 
    }
 
 $Libelle=sprintf("(%s) %s ",$Form->id,$Form->GetName());
     
-    $pdf->ezText($Libelle,30);
+$pdf->ezText($Libelle,30);
 // without step 
-if ( $_POST['p_step'] == 0 ) 
+if ( $_GET['p_step'] == 0 ) 
   {
-    $q=getPeriodeName($cn,$from_periode);
-    if ( $from_periode != $to_periode){
-      $periode=sprintf("Période %s à %s",$q,getPeriodeName($cn,$to_periode));
+	if ( $_GET['type_periode'] == 0 ) {
+	  $q=getPeriodeName($cn,$from_periode);
+	  if ( $from_periode != $to_periode){
+		$periode=sprintf("Période %s à %s",$q,getPeriodeName($cn,$to_periode));
+	  } else {
+		$periode=sprintf("Période %s",$q);
+	  }
     } else {
-      $periode=sprintf("Période %s",$q);
-    }
-    
+	  $periode=sprintf("Date %s jusque %s",$_GET['from_date'],$_GET['to_date']);
+  }
     $pdf->ezText($periode,25);
     $pdf->ezTable($array,
 		  array ('desc'=>'Description',
@@ -98,15 +105,15 @@ if ( $_POST['p_step'] == 0 )
      $a=0;
      foreach ($array as $e) 
        {
-	 $pdf->ezText($periode_name[$a],25);
-	 $a++;
-	 $pdf->ezTable($e,
-		       array ('desc'=>'Description',
-			      'montant' => 'Montant'
-			      ),$Libelle,
-		       array('shaded'=>0,'showHeadings'=>1,'width'=>500,
-			     'cols'=>array('montant'=> array('justification'=>'right'),
-					   )));
+		 $pdf->ezText($periode_name[$a],25);
+		 $a++;
+		 $pdf->ezTable($e,
+					   array ('desc'=>'Description',
+							  'montant' => 'Montant'
+							  ),$Libelle,
+					   array('shaded'=>0,'showHeadings'=>1,'width'=>500,
+							 'cols'=>array('montant'=> array('justification'=>'right'),
+										   )));
        }
    }
 $pdf->ezStream();

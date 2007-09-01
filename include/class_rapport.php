@@ -48,9 +48,10 @@ class rapport {
    *        from a report
    * \param $p_start start periode
    * \param $p_end end periode
+   * \param $p_type_date type of the date : periode or calendar
    */
  
-   function GetRow($p_start,$p_end) {
+  function GetRow($p_start,$p_end,$p_type_date) {
 
    $Res=ExecSql($this->db,"select fo_id ,
                      fo_fr_id,
@@ -66,11 +67,13 @@ class rapport {
     $col=array();
     for ($i=0;$i<$Max;$i++) {
       $l_line=pg_fetch_array($Res,$i);
-	$col[]=ParseFormula($this->db,
-			    $l_line['fo_label'],
-			    $l_line['fo_formula'],
-			    $p_start,
-			    $p_end
+	  $col[]=ParseFormula($this->db,
+						  $l_line['fo_label'],
+						  $l_line['fo_formula'],
+						  $p_start,
+						  $p_end,
+						  true,
+						  $p_type_date
 			    );
      
     } //for ($i

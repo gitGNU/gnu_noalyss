@@ -747,11 +747,13 @@ function GetRappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_cent
  * \param $p_formula
  * \param $p_eval  true if we eval here otherwise the function returns
  *                 a string which must be evaluated
+ * \param $p_type_date : type of the date 0 for accountant period or 1
+ * for calendar
  * \return array
  *
  *
  */ 
-function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true) 
+function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true,$p_type_date=0) 
 {
   echo_debug('impress_inc',__LINE__,'ParseFormula');
   if ( CheckFormula($p_formula) == false) {
@@ -762,7 +764,10 @@ function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true)
       return $p_formula;
     
   }
-  $cond=sql_filter_per($p_cn,$p_start,$p_end,'p_id','j_tech_per');
+  if ( $p_type_date == 0 )
+	$cond=sql_filter_per($p_cn,$p_start,$p_end,'p_id','j_tech_per');
+  else
+	$cond="( j_date >= to_date('$p_start','DD.MM.YYYY') and j_date <= to_date('$p_end','DD.MM.YYYY'))";
 
   include_once("class_poste.php");  
   while (ereg("(\[[0-9]*%*\])",$p_formula,$e) == true) {
@@ -774,7 +779,7 @@ function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true)
     echo_debug('impress_inc',__LINE__,"p_formula is $p_formula");
     // If there is a FROM clause we must recompute 
     // the time cond
-    if ( ereg ("FROM=[0-9]+\.[0-9]+", $p_formula,$afrom) == true ){
+    if ($p_type_date == 0 && ereg ("FROM=[0-9]+\.[0-9]+", $p_formula,$afrom) == true ){
       // There is a FROM clause 
       // then we must modify the cond for the periode
       $from=str_replace("FROM=","",$afrom[0]);
@@ -782,28 +787,32 @@ function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true)
       /*! \note special value for the clause FROM=00.0000
        */
       if ( $from == '00.0000' ) {
-	// retrieve the first month of this periode
-	$User=new cl_user($p_cn);
-	$user_periode=$User->getPeriode();
-	$periode=getDbValue($p_cn,
-			    "select p_exercice from parm_periode where p_id=$user_periode");
-	$sql_per="select to_char(p_start,'MM.YYYY') as start from parm_periode where ".
-	  " p_exercice='".$periode."' order by p_start";
-	$ret=getArray($p_cn,$sql_per);
-	$from=$ret[0]['start'];
+		// retrieve the first month of this periode
+		$User=new cl_user($p_cn);
+		$user_periode=$User->getPeriode();
+		$periode=getDbValue($p_cn,
+							"select p_exercice from parm_periode where p_id=$user_periode");
+		$sql_per="select to_char(p_start,'MM.YYYY') as start from parm_periode where ".
+		  " p_exercice='".$periode."' order by p_start";
+		$ret=getArray($p_cn,$sql_per);
+		$from=$ret[0]['start'];
 
       } 
       $from=getPeriodeFromMonth($p_cn,$from);
 
       // the clause from is something else
       //  Compute the cond
-      $cond=sql_filter_per($p_cn,$from,$p_end,'p_id','j_tech_per');
+		$cond=sql_filter_per($p_cn,$p_start,$p_end,'p_id','j_tech_per');
 
-      // We remove FROM out of the p_formula
-      $p_formula=substr_replace($p_formula,"",strpos($p_formula,"FROM"));
-    }
+	}
+
+	if ( strpos($p_formula,"FROM") != 0) {
+	  // We remove FROM out of the p_formula
+	  $p_formula=substr_replace($p_formula,"",strpos($p_formula,"FROM"));
+	}
       // Get sum of account
     $P=new poste($p_cn,$e[0]);
+	echo_debug(__FILE__.":".__LINE__."  condition is $cond");
     $i=$P->GetSolde($cond);
     $p_formula=str_replace($x,$i,$p_formula);
   }

@@ -39,20 +39,23 @@ $User=new cl_user($cn);
 $User->Check();
 
 
-$Form=new rapport($cn,$_POST['form_id']);
+$Form=new rapport($cn,$_GET['form_id']);
 $Form->GetName();
 // Step ?
 //--
-if ( $_POST['p_step'] == 0 )
+if ( $_GET['p_step'] == 0 )
   {
-    $array=$Form->GetRow( $_POST['from_periode'],
-			  $_POST['to_periode']
-			  );
+	if ( $_GET ['type_periode'] == 0 )
+	  $array=$Form->GetRow( $_GET['from_periode'],$_GET['to_periode'], $_GET['type_periode']);
+	else 
+	  $array=$Form->GetRow( $_GET['from_date'],$_GET['to_date'], $_GET['type_periode']);
+
+
     if ( count($Form->row ) == 0 ) 
       exit;
     
-    echo       "\"Mois,\";\"Description\";".
-      "\"Montant\"\t";
+    echo       "\"Description\";".
+      "\"Montant\"\n";
 
 
 
@@ -67,12 +70,12 @@ if ( $_POST['p_step'] == 0 )
    {
      // Gather all the data
      //---
-     for ($e=$_POST['from_periode'];$e<=$_POST['to_periode'];$e+=$_POST['p_step'])
+     for ($e=$_GET['from_periode'];$e<=$_GET['to_periode'];$e+=$_GET['p_step'])
        {
-	$periode=getPeriodeName($cn,$e);
-	if ( $periode == null ) continue;
-	$array[]=$Form->GetRow($e,$e);
-	$periode_name[]=$periode;
+		 $periode=getPeriodeName($cn,$e);
+		 if ( $periode == null ) continue;
+		 $array[]=$Form->GetRow($e,$e);
+		 $periode_name[]=$periode;
        }
      // Display column heading
      //--
