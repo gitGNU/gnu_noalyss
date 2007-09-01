@@ -227,7 +227,7 @@ class jrn {
 	  // for financial, we show if the amount is or not in negative
 	  if ( $this->type=='FIN') {
 		echo_debug(__FILE__,__LINE__,"Journal FIN");
-		$eMax=(($i+50) < $Max)?$i+50:$Max;
+		$eMax=(($i+20) < $Max)?$i+20:$Max;
 		// check in $row if the BQE is in deb or cred
 		for ($e=$i;$e<$Max;$e++) {
 		  echo_debug(__FILE__,__LINE__,$row[$e]);
@@ -249,8 +249,8 @@ class jrn {
 		      'j_date' => $line['j_date'],
 		      'internal'=>$line['jr_internal'],
 		      'deb_montant'=>'',
-		      'cred_montant'=>'<b><i>'.$tot_op.'</i></b>',
-		      'description'=>'<b><i>'.$line['jr_comment'].'</i></b>',
+		      'cred_montant'=>' ',
+		      'description'=>'<b><i>'.$line['jr_comment'].' ['.$tot_op.'] </i></b>',
 		      'poste' => $line['oc'],
 		      'qcode' => $line['j_qcode'],
 		      'periode' =>$line['periode'] );
