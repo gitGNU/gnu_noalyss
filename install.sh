@@ -42,29 +42,30 @@ VerifOutil "createdb"
 DB=`psql -h localhost -l -U $OWNER `
 if [ $? -ne 0 ]; then
 	echo "problem avec Postgres" 
+	echo "Connection non possible en tant que $OWNER";
 	exit
 fi
 
 # Repository exist ?
-REPO=`echo $DB|grep account_repository|wc -l`
+REPO=`echo $DB|grep ${DOMAIN}account_repository|wc -l`
 ON_ERROR_STOP="True"
 if [ $REPO -eq 0 ]; then
 	echo "Creation de la base de donnee"
-	createdb -h localhost -E latin1 -U $OWNER ${DOMAINE}account_repository
+	createdb -h localhost -E latin1 -U $OWNER ${DOMAIN}account_repository
 
 	# Create the repository
-	PSQL="psql -h localhost -U $OWNER ${DOMAINE}account_repository" 
+	PSQL="psql -h localhost -U $OWNER ${DOMAIN}account_repository" 
 	$PSQL  -f html/admin/sql/account_repository/schema.sql || exit 1
   	$PSQL  -f html/admin/sql/account_repository/data.sql || exit 1
 	
 	#create the template for Belgian accountancy
-	  createdb -h localhost -E latin1 -U $OWNER ${DOMAINE}mod1
-	PSQL="psql -h localhost -U $OWNER ${DOMAINE}mod1 "
+	  createdb -h localhost -E latin1 -U $OWNER ${DOMAIN}mod1
+	PSQL="psql -h localhost -U $OWNER ${DOMAIN}mod1 "
 	$PSQL  -f html/admin/sql/mod1/schema.sql || exit 1
   $PSQL  -f html/admin/sql/mod1/data.sql || exit 1
 
 	# Create the mod2 database
-	createdb -h localhost -E latin1 -U $OWNER ${DOMAINE}mod2
+	createdb -h localhost -E latin1 -U $OWNER ${DOMAIN}mod2
   $PSQL  -f html/admin/sql/mod1/schema.sql || exit 1
   $PSQL  -f html/admin/sql/mod2/data.sql || exit 1
 fi
