@@ -116,42 +116,61 @@ class operation
   /*!\brief get a list of row from a certain periode
    * \todo to be done
    */
-  function get_list($p_range="") {
+  function get_list($p_from,$p_to) {
+	$cond="";
+	if ($p_from!="")
+	  $cond="and oa_date >= to_date('$p_from','DD.MM.YYYY') and oa_date <=to_date('$p_to','DD.MM.YYYY')";
 
 	$sql="select oa_id,po_name,oa_description,".
-	  "oa_debit,oa_date,oa_amount,oa_group,j_id ".
+	  "oa_debit,to_char(oa_date,'DD.MM.YYYY') as oa_date,oa_amount,oa_group,j_id ".
 	  " from operation_analytique as B".
 	  " join poste_analytique using(po_id) ".
-	  "where B.pa_id=".$this->pa_id." and oa_amount <> 0.0 ".
+	  "where B.pa_id=".$this->pa_id." and oa_amount <> 0.0 $cond".
 	  " order by oa_date ,oa_group,oa_debit,oa_id";
 	$RetSql=ExecSql($this->db,$sql);
 
-	if ( pg_NumRows($RetSql) == 0 )
-	  return "Pas d'enregistrement trouv&eacute;";
-	$gDossier=dossier::id();
+
 	$array=pg_fetch_all($RetSql);
+	return $array;
+  }
 
-	$ret.="";
-	$ret.=JS_VIEW_JRN_MODIFY;
-	$count=0;
-	$group=0;
-	$oldgroup=0;
-	$oldjrid=0;
-	foreach ($array as $row) {
-	  $group=$row['oa_group'];
-	  if ( $group !=$oldgroup ) {
-		if ( $oldgroup!=0 ) 
-		  {
+  /*\brief show the HTML table for the operation
+   */
+  function html_table($p_from){
 
-			$efface=new widget('button');
-			$efface->js="op_remove('".$_REQUEST['PHPSESSID']."',".$gDossier.",".$oldgroup.")";
-			$efface->name="Efface";
-			$efface->label="Efface";
-			$ret.="<td>".$efface->IOValue()."</td>";
 
+	if ($p_from=="")
+	  { $from="";$to="";}
+	else
+	  list($from,$to)=GetPeriode($this->db,$p_from);
+
+
+	$array=$this->get_list($from,$to);
+	if ( empty($array)  )
+	  return "Pas d'enregistrement trouv&eacute;";
+	
+	  $gDossier=dossier::id();
+	  $ret.="";
+	  $ret.=JS_VIEW_JRN_MODIFY;
+	  $count=0;
+	  $group=0;
+	  $oldgroup=0;
+	  $oldjrid=0;
+	  foreach ($array as $row) {
+		$group=$row['oa_group'];
+		if ( $group !=$oldgroup ) {
+		  if ( $oldgroup!=0 ) 
+			{
+
+			  $efface=new widget('button');
+			  $efface->js="op_remove('".$_REQUEST['PHPSESSID']."',".$gDossier.",".$oldgroup.")";
+			  $efface->name="Efface";
+			  $efface->label="Efface";
+			  $ret.="<td>".$efface->IOValue()."</td>";
+			  
 			$this->oa_group=$oldgroup;
 			$jr_id=$this->get_jrid();
-
+			
 			if ( $jr_id != 0) {
 			  // get the old jr_id
 			  $detail=new widget('button');
@@ -208,7 +227,7 @@ class operation
 	$jr_id=$this->get_jrid();
 	if ( $jr_id != 0 ){
 	  $detail=new widget('button');
-	  $detail->js="viewOperation($jr_id,'".$_REQUEST['PHPSESSID'].",$gDossier')";
+	  $detail->js="viewOperation($jr_id,'".$_REQUEST['PHPSESSID']."',$gDossier)";
 	  $detail->name="Detail";
 	  $detail->label="Detail";
 	  $ret.="<td>".$detail->IOValue()."</td>";
@@ -284,5 +303,33 @@ class operation
 	$ret=pg_fetch_all($res);
 	return $ret[0]['jr_id'];
   }
+  /*\brief this function get the balance for a certain period
+   *\param $p_from from date (accountancy period)
+   *\param $p_to to dat  (accountancy period)
+   *\param  $p_plan_id the plan id
+   */
+function get_balance($p_from,$p_to,$p_plan_id)
+  {
+	// for the operation connected to jrnx
+	$cond=sql_filter_per($this->db,$p_from,$p_to,'p_id','j_date');
+	$sql="select oa_id, po_id, oa_amount, oa_debit, j_date from jrnx join operation_analytique using (j_id) 
+         join poste_analytique using (pa_id)
+          where 
+          $cond and j_id is not null and pa_id=$p_plan_id";
 
+	// OD 
+	$cond=sql_filter_per($this->db,$p_from,$p_to,'p_id','oa_date');
+	$sql="union select oa_id, po_id, oa_amount, oa_debit,oa_date from 
+               operation_analytique 
+               join poste_analytique using (pa_id)
+          where j_id is null and 
+      $cond and pa_id=$p_plan_id ";
+	try { 
+	  $res=ExecSql($this->db,$sql);
+	  $array=pg_fetch_all($res);
+	  echo_debug(__FILE__.":".__LINE__," array =",$array);
+	} catch (Exception $e) {
+	  var_dump($e);
+	}
+  }
 }

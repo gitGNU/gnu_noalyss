@@ -89,8 +89,41 @@ if ( isset($_GET['see'])) {
   echo JS_AJAX_OP;
   $a=new operation($cn);
   $a->pa_id=$_REQUEST['pa_id'];
+echo '
+<div class="u_redcontent">
+<form method= "get">
+';
+
+ echo dossier::hidden();
+ $hid=new widget("hidden");
+ 
+ $hid->name="p_action";
+ $hid->value="ca_od";
+ echo $hid->IOValue();
+ 
+ $hid->name="see";
+ $hid->value="";
+ echo $hid->IOValue();
+
+ $hid->name="pa_id";
+ $hid->value=$_GET['pa_id'];
+ echo $hid->IOValue();
+ 
+
+ $w=new widget("select");
+ $w->name="p_periode";
+ // filter on the current year
+ $filter_year=" where p_exercice='".$User->getExercice()."'";
+ 
+ $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by  p_start,p_end",1);
+ $User=new cl_user($cn);
+ $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->GetPeriode();
+ $w->selected=$current;
+ 
+ echo 'P&eacute;riode  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit','Valider').'</form>';
+
   echo '<div class="u_redcontent">';
-   echo $a->get_list();
+   echo $a->html_table($_GET['p_periode']);
    echo '</div>';
   exit();
  }
