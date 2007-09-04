@@ -190,7 +190,7 @@ function ShowMenuCompta($p_high="")
 <A HREF="commercial.php?'.$str_dossier.'" title="Gestion"><IMG SRC="image/compta.png" width="36"  border="0" ></A>
 <A HREF="comptanalytic.php?'.$str_dossier.'" title="CA"><IMG SRC="image/comptaanal.png" width="36"  border="0" ></A>
 
-<A HREF="parametre.php?dos='.$str_dossier.'" title="Paramètre"><IMG SRC="image/param.png" width="36"  border="0" ></A>
+<A HREF="parametre.php?'.$str_dossier.'" title="Paramètre"><IMG SRC="image/param.png" width="36"  border="0" ></A>
 <A HREF="login.php" title="Accueil"><IMG SRC="image/home.png" width="36"  border="0" ></A>
 <A HREF="logout.php" title="Sortie"><IMG SRC="image/logout.png"  title="Logout"  width="36"  border="0"></A>
 
