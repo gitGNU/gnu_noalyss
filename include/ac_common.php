@@ -236,10 +236,16 @@ function FormatString($p_string)
 }
 
 /*! 
-/* \brief store the string which print */
-/*           the content of p_array in a table */
-/*           used to display the menu */
-/* \param  array */
+/* \brief store the string which print 
+ *           the content of p_array in a table 
+ *           used to display the menu 
+ * \param  $p_array array like ( HREF reference, visible item (name),Help(opt),
+ * selected (opt)
+ * \param $p_dir direction of the menu (H Horizontal  V vertical)
+ * \param $class CSS for TD tag
+ * \param $class_ref CSS for the A tag
+ * \param $default selected item
+ * \param $p_extra extra code for the table tag (CSS or javascript)
 /* \return : string */
 function ShowItem($p_array,$p_dir='V',$class="mtitle",$class_ref="mtitle",$default="",$p_extra="")
 {
@@ -422,11 +428,11 @@ function sql_filter_per($p_cn,$p_from,$p_to,$p_form='p_id',$p_field='jr_tech_per
       $a_start=GetPeriode($p_cn,$p_from);
       $a_end=GetPeriode($p_cn,$p_to);
       if ( $a_start == null or $a_end == null  )
-	{
-	  echo_debug(__FILE__,__LINE__,'Attention periode '.
-		       ' non trouvee periode p_from='.$p_from.
-		     'p_to_periode = '.$p_to);
-	}
+		{
+		  echo_debug(__FILE__,__LINE__,'Attention periode '.
+					 ' non trouvee periode p_from='.$p_from.
+					 'p_to_periode = '.$p_to);
+		}
 
       $p_from=($a_start==null)?'01.01.1900':$a_start['p_start'];
       $p_to=($a_end==null)?'01.01.2100':$a_end['p_end'];
@@ -439,6 +445,7 @@ function sql_filter_per($p_cn,$p_from,$p_to,$p_form='p_id',$p_field='jr_tech_per
   
   return $periode;
 }
+
 /* !\brief return the label of the tva_id
  * \param $p_cn database connx
  * \param $p_tva_id tva_id
