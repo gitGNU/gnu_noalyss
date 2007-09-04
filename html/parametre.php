@@ -161,9 +161,9 @@ if ( $p_action=='company') {
   $my=new Own($cn);
   ///// Compta analytic
   $array=array (
-				array("value"=>"ob",label=>"obligatoire"),
-				array("value"=>"op",label=>"optionnel"),
-				array("value"=>"nu",label=>"non utilisé")
+				array("value"=>"ob",'label'=>"obligatoire"),
+				array("value"=>"op",'label'=>"optionnel"),
+				array("value"=>"nu",'label'=>"non utilisé")
 				);
   $compta=new widget("select");
   $compta->table=1;
