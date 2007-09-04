@@ -432,7 +432,7 @@ function FormVenteView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='form'
   // Compute the col head for CA
   $head_ca="";
   $own = new Own($p_cn);
-  if ( $own->MY_ANALYTIC != "un" )
+  if ( $own->MY_ANALYTIC != "nu" )
 	{
 	  $plan=new PlanAnalytic($p_cn);
 	  $a_plan=$plan->get_list();
@@ -544,7 +544,7 @@ function FormVenteView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='form'
 	// if analytic is op (optionnel) there is a blank line
 	$own = new Own($p_cn);
 	// encode the pa
-	if ( $own->MY_ANALYTIC!='un') // use of AA
+	if ( $own->MY_ANALYTIC!='nu') // use of AA
 	  {
 		// for each plan
 		$plan=new PlanAnalytic($p_cn);
@@ -750,7 +750,7 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
 		// what card need a stock management
 		
 		InsertStockGoods($p_cn,$j_id,$a_good[$i],$nNeg*$a_quant[$i],'c') ;
-		if ( $own->MY_ANALYTIC != "un" )
+		if ( $own->MY_ANALYTIC != "nu" )
 		  {
 			// for each item, insert into operation_analytique
 			$plan=new PlanAnalytic($p_cn);

@@ -505,8 +505,9 @@ function FormAchView ($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$p_number,$p_pi
   // Compute the col head for CA
   $head_ca="";
   $own = new Own($p_cn);
-  if ( $own->MY_ANALYTIC != "un" )
+  if ( $own->MY_ANALYTIC != "nu" )
 	{
+	  echo_debug(__FILE__.":".__LINE__."  own is","",$own);
 	  $plan=new PlanAnalytic($p_cn);
 	  $a_plan=$plan->get_list();
 	  foreach ($a_plan as $r_plan)
@@ -643,7 +644,7 @@ function FormAchView ($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$p_number,$p_pi
 
 	  // encode the pa
 
-	  if (  $own->MY_ANALYTIC!='un') // use of AA
+	  if (  $own->MY_ANALYTIC!='nu') // use of AA
 		{
 		  // for each plan
 		  $plan=new PlanAnalytic($p_cn);
@@ -886,7 +887,7 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
       // always save quantity but in withStock we can find what card need a stock management
       InsertStockGoods($p_cn,$j_id,$a_good[$i],$nNeg*$a_quant[$i],'d');
       echo_debug('user_form_ach.php',__LINE__,"value non ded : ".$a_good[$i]."is");		
-	  if ( $own->MY_ANALYTIC != "un" )
+	  if ( $own->MY_ANALYTIC != "nu" )
 		{
 		  // for each item, insert into operation_analytique
 		  $plan=new PlanAnalytic($p_cn);

@@ -114,7 +114,7 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
   $r.="<th>Poste</th>";
   $r.="<th>Montant</th>";
   $r.="<th>Cr&eacute;dit ou d&eacute;bit</th>";
-  if ( $own->MY_ANALYTIC != "un" )
+  if ( $own->MY_ANALYTIC != "nu" )
 	{
 	  $plan=new PlanAnalytic($p_cn);
 	  $a_plan=$plan->get_list();
@@ -202,7 +202,7 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
 		   ereg("^6+",${"e_account$i"})) 
 		{
 
-		  if (  $own->MY_ANALYTIC!='un') // use of AA
+		  if (  $own->MY_ANALYTIC!='nu') // use of AA
 			{
 			  // for each plan
 			  $plan=new PlanAnalytic($p_cn);
