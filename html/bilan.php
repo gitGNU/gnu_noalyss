@@ -77,6 +77,7 @@ $col=array();
 // read forms line per line
 while (! feof ($bnb_form)) {
   $buffer=trim(fgets($bnb_form));
+  echo_debug(__FILE__.":".__LINE__." get buffer = ",$buffer);
   // $a=(CheckFormula($buffer)  == true)?"$buffer ok<br>":'<font color="red">'.'Pas ok '.$buffer."</font><br>";
   // echo $a;
   // blank line are skipped
@@ -90,11 +91,9 @@ while (! feof ($bnb_form)) {
   //echo "<br>".$form;
 	$a=ParseFormula($cn,"$buffer",$buffer,$start,$end,false);
 	$b=str_replace("$","\$",$a);
+	echo_debug(__FILE__.":".__LINE__."  evaluate ",$b);
 
-	// echo "Formule to eval".$b.'<hr>';
 	eval("$b;");
-  
-  // var_dump($b);
   
  }// end read form line per line
 // echo "<hr>";
