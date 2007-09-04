@@ -100,7 +100,7 @@ class PlanAnalytic
 	$name=FormatString($this->name);
 	if ( strlen($name) == 0)
 	  return;
-	if ( $this->isAppend == false) return;
+	if ( $this->isAppend() == false) return;
 	$description=FormatString($this->description);
 	ExecSql($this->db,"insert into plan_analytique(pa_name,pa_description)".
 			" values (".
