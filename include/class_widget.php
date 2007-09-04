@@ -137,7 +137,7 @@ class widget {
     }
     // Hidden field
     if (strtoupper($this->type)=="HIDDEN") {
-      $r='<INPUT TYPE="HIDDEN" name="'.$this->name.'" value="'.$this->value.'">';
+      $r='<INPUT TYPE="HIDDEN" id="'.$this->name.'" name="'.$this->name.'" value="'.$this->value.'">';
       if ( $this->readonly==true) return "";
       return $r;
     }
