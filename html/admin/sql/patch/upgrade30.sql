@@ -10,6 +10,5 @@ alter table jrn_action add constraint "$1" foreign key (ja_jrn_type) references 
 
 alter table jrn_def add constraint "$1" FOREIGN KEY (jrn_def_type) REFERENCES jrn_type(jrn_type_id);
 update version set val=31;
-commit;
 
 commit;
