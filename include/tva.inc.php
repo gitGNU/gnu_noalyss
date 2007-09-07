@@ -38,6 +38,8 @@
       $tva_rate=FormatString($tva_rate);
       $tva_comment=FormatString($tva_comment);
       $tva_poste=FormatString($tva_poste);
+	  // remove space
+	  $tva_poste=str_replace (" ","",$tva_poste);
       $err=0; // Error code
       if ( isNumber($tva_id) == 0 ) {
 	$err=1;
