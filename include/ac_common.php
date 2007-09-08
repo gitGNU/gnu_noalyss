@@ -55,6 +55,8 @@ function echo_error      ($p_log, $p_line="", $p_message="") {
  *      - < 0 date1 < date2
  */
 function cmpDate ($p_date,$p_date_oth) {
+  date_default_timezone_set ('Europe/Brussels');
+
   $l_date=isDate($p_date);
   $l2_date=isDate($p_date_oth);
   if ($l_date == null || $l2_date == null ) {

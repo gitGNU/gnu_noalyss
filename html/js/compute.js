@@ -24,13 +24,16 @@ function checkTotal() {
   var total_cred=0.0;
 
 
-  var nb_item=document.getElementById('nb_item').value;
+  var nb_item_id=document.getElementById('nb_item');
+  if ( ! nb_item_id ) 
+	{return; }
+  var nb_item=nb_item_id.value;
   
   for (var i=0;i <nb_item ;i++) {
     var doc_amount=document.getElementById("e_account"+i+"_amount");
-
+	if ( ! doc_amount ) { return;}
     var side=document.getElementsByName("e_account"+i+"_type");
-
+	if ( ! side ) { return;}
     var amount=parseFloat(doc_amount.value);
   
     if ( isNaN(amount) == true)  {

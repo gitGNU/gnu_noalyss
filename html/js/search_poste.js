@@ -28,11 +28,11 @@ function SearchPoste(p_sessid,p_dossier,p_ctl,p_jrn)
      {
        var comment=document.getElementById(p_ctl).value;
 
-       var win=window.open('poste_search.php?gDossier='+p_dossier+'p_jrn='+p_jrn+'&p_ctl='+p_ctl+'&PHPSESSID='+p_sessid+"&p_comment="+comment+"&search",'Cherche','toolbar=no,width=600,height=600,scrollbars=yes,resizable=yes');
+       var win=window.open('poste_search.php?gDossier='+p_dossier+'&p_jrn='+p_jrn+'&p_ctl='+p_ctl+'&PHPSESSID='+p_sessid+"&p_comment="+comment+"&search",'Cherche','toolbar=no,width=600,height=600,scrollbars=yes,resizable=yes');
     } 
 function SearchPosteFilter(p_sessid,p_dossier,p_ctl,p_filter,jrn)
      {
-       var win=window.open('poste_search.php?gDossier='+p_dossier+'p_jrn='+jrn+'&p_ctl='+p_ctl+'&PHPSESSID='+p_sessid+'&filter='+p_filter,'Cherche','toolbar=no,width=600,height=600,scrollbars=yes,resizable=yes');
+       var win=window.open('poste_search.php?gDossier='+p_dossier+'&p_jrn='+jrn+'&p_ctl='+p_ctl+'&PHPSESSID='+p_sessid+'&filter='+p_filter,'Cherche','toolbar=no,width=600,height=600,scrollbars=yes,resizable=yes');
     } 
 	 function GetIt() {
 	   window.close();	

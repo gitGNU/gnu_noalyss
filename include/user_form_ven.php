@@ -258,38 +258,42 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
 }
 /*!   form_verify_input
  **************************************************
- \brief  verify if the data to insert are valid
+ * \brief  verify if the data to insert are valid
  *        
- * parm : 
- *	- p_cn database connection
- *      - p_jrn concerned ledger
- *      - User periode
- *      - array with the post data
- *      - p_number number of items
- * gen :
- *	-
- * return:
+ * 
+ *	\param $p_cn database connection
+ *      \param $p_jrn concerned ledger
+ *      \param $User periode
+ *      \param $array with the post data
+ *      \param $p_number number of items
+ *
+ * \return null if error or true if everything is correct
  */
 function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
 {
   foreach ($p_array as $name=>$content) {
     ${"$name"}=$content;
   }
+  // Verify the amount for each 
+  //
+  // Check for CA
+  $own = new Own($p_cn);
+
   // Verify the date
   if ( isDate($e_date) == null ) { 
-	  echo_error("Invalid date $e_date");
-	  echo_debug('user_form_ven.php',__LINE__,"Invalid date $e_date");
-	  echo "<SCRIPT> alert('INVALID DATE $e_date !!!!');</SCRIPT>";
-	  return null;
-		}
+	echo_error("Invalid date $e_date");
+	echo_debug('user_form_ven.php',__LINE__,"Invalid date $e_date");
+	echo "<SCRIPT> alert('INVALID DATE $e_date !!!!');</SCRIPT>";
+	return null;
+  }
 // Verify the quantity
-for ($o = 0;$o < $p_number; $o++) {
-	if ( isNumber(${"e_quant$o"}) == 0 ) {
-		echo_debug('user_form_ven.php',__LINE__,"invalid quantity ".${"e_quant$o"});
-		echo_error("invalid quantity ".${"e_quant$o"});
-		echo "<SCRIPT> alert('INVALID QUANTITY !!!');</SCRIPT>";
-		return null;
-	}	
+  for ($o = 0;$o < $p_number; $o++) {
+    if ( isNumber(${"e_quant$o"}) == 0 ) {
+      echo_debug('user_form_ven.php',__LINE__,"invalid quantity ".${"e_quant$o"});
+      echo_error("invalid quantity ".${"e_quant$o"});
+      echo "<SCRIPT> alert('INVALID QUANTITY !!!');</SCRIPT>";
+      return null;
+    }	
     // check if vat is correct
     if ( strlen(trim(${"e_march$o"."_tva_id"})) !=0 
 	 and 
@@ -300,13 +304,41 @@ for ($o = 0;$o < $p_number; $o++) {
 	       or CountSql($p_cn,"select tva_id from tva_rate where tva_id=".${"e_march$o"."_tva_id"}) ==0)
 	{
 	  $msg="Invalid TVA !!! e_march".$o."_tva_id = ".${"e_march".$o."_tva_id"};
-	  echo_error($msg); echo_error($msg);	
+	  echo_error($msg); 
 	  echo "<SCRIPT>alert('$msg');</SCRIPT>";
 	  return null;
 	
       }
     }
-    
+
+    // encode the pa Check only for mandatory CA
+    if ( $own->MY_ANALYTIC!="un") // use of AA
+      {
+
+	if ( isset (${"amount_t".$o})){
+
+	  $hidden_amount=${"amount_t".$o};
+	  $ca_amount=0;
+	  // first we get the number of row for each item
+	  for ($line=1;$line <=${"nb_t".$o};$line++) {
+	    $ca_amount+=${"val".$o."l".$line};
+	  }
+	  
+		  // compare hidden value and computed
+		  if ( round($ca_amount-$hidden_amount,2) != 0 ) {
+			
+		    $msg="Montant CA est différent total marchandise";
+		    $msg.="montant encodé $ca_amount marchandise $hidden_amount";
+		    echo "<SCRIPT>alert('$msg');</SCRIPT>";
+			
+		    return null;
+			
+		  }
+		
+		}
+	  }
+	
+	
  }
 
 // Verify the ech
@@ -409,7 +441,11 @@ function FormVenteView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='form'
   // and store the array in variables
   $hidden=new widget("hidden");
   foreach ($p_array as $name=>$content) {
-    $data.=$hidden->IOValue($name,$content);
+    // not the CA data
+    if ( strpos( $name,"ta_")===false && 
+	 strpos( $name,"nb_t")===false &&
+	 strpos( $name,"val")===false )
+      $data.=$hidden->IOValue($name,$content);
     ${"$name"}=$content;
   }
   // Compute href
@@ -429,22 +465,8 @@ function FormVenteView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='form'
 	  exit (-1);
 	}
   //----------------------------------------------------------------------
-  // Compute the col head for CA
-  $head_ca="";
-  $own = new Own($p_cn);
-  if ( $own->MY_ANALYTIC != "nu" )
-	{
-	  $plan=new PlanAnalytic($p_cn);
-	  $a_plan=$plan->get_list();
-	  foreach ($a_plan as $r_plan)
-		{
-		  $head_ca.="<th>".$r_plan['name']."</th>";
-		}
-		  
-	}
-  //----------------------------------------------------------------------
 
-  $r.='<FORM METHOD="POST" enctype="multipart/form-data" ACTION="'.$href.'">';  
+  $r.='<FORM METHOD="POST" enctype="multipart/form-data"  ACTION="'.$href.'">';  
   $r.=dossier::hidden();
   // start table
   $r.='<TABLE>';
@@ -477,7 +499,6 @@ function FormVenteView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='form'
     $r.="<TH>Montant HTVA</TH>";
     $r.="<TH>Montant TVA</TH>";
     $r.="<TH>Total</TH>";
-	$r.=$head_ca;
     $r.="</TR>";
   for ($i=0;$i<$p_number;$i++) {
     if ( trim(${"e_march$i"})  == "" ) {
@@ -546,31 +567,13 @@ function FormVenteView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='form'
 	// encode the pa
 	if ( $own->MY_ANALYTIC!='nu') // use of AA
 	  {
-		// for each plan
-		$plan=new PlanAnalytic($p_cn);
-		$a_plan=$plan->get_list();
+		// show form
+		$op=new operation($p_cn);
 		$null=($own->MY_ANALYTIC=='op')?1:0;
-		foreach ($a_plan as $r_plan)
-		  {
-			$array=make_array($p_cn,
-							  "select po_id as value,".
-							  " po_name as label from poste_analytique ".
-							  " where pa_id = ".$r_plan['id'].
-							  " order by po_name",$null);
-			$select = new widget("select","","p_".$r_plan['id']."_".$i,$array);
-			$select->table=1;
-			// view only or editable
-			if (  $p_doc=="form" ) {
-			  // editable
-			  $select->readonly=false;
-			} else {
-			  // view only
-			  $select->readonly=true;
-			  $select->selected=${"p_".$r_plan['id']."_".$i};
-			}
-			$r.=$select->IOValue();
-
-		  }
+		$r.='<td>';
+		$p_mode=($p_doc=="form")?1:0;
+		$r.=$op->display_form_plan($_POST,$null,$p_mode,$i,round($fiche_sum,2));
+		$r.='</td>';
 	  }
 		
     $r.="</TR>";
@@ -623,7 +626,8 @@ function FormVenteView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='form'
     
     $r.=$data;
     if ( $sum_with_vat != 0 ) {
-      $r.='<INPUT TYPE="SUBMIT" name="record_and_print_invoice" value="Enregistrer" >';
+      $r.='<INPUT TYPE="SUBMIT" name="record_and_print_invoice" value="Enregistrer" onClick="return verify_ca(\'error\');">';
+      $r.='<input type="button" value="verifie CA" onClick="verify_ca(\'ok\');">';
     }
     $r.='<INPUT TYPE="SUBMIT" name="correct_new_invoice" value="Corriger">';
     
@@ -752,33 +756,22 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
 		InsertStockGoods($p_cn,$j_id,$a_good[$i],$nNeg*$a_quant[$i],'c') ;
 		if ( $own->MY_ANALYTIC != "nu" )
 		  {
-			// for each item, insert into operation_analytique
-			$plan=new PlanAnalytic($p_cn);
-			$a_plan=$plan->get_list();
-			foreach ($a_plan as $r_plan) 
-			  {
-			   
-				if ( isset(${"p_".$r_plan['id']."_".$i})&& ${"p_".$r_plan['id']."_".$i} != -1) 
-				  {
-
-					$op=new operation($p_cn);
-					$op->po_id=${"p_".$r_plan['id']."_".$i};
-					$op->oa_group=$group;
-					$op->j_id=$j_id;
-					$op->pa_id=$r_plan['id'];
-					$op->oa_amount=round($a_price[$i]*$a_quant[$i],2);
-					$op->oa_debit=($op->oa_amount < 0 )?'t':'f';
-					$op->oa_date=$e_date;
-					$op->add();
-				  }
-			  }
+ 			// for each item, insert into operation_analytique */
+ 			$op=new operation($p_cn); 
+			$op->oa_group=$group;
+			$op->j_id=$j_id;
+			$op->oa_date=$e_date;
+			$op->oa_debit=($op->oa_amount < 0 )?'t':'f';
+			echo_debug(__FILE__.':'.__LINE__,"Description is $e_comm");
+			$op->oa_description=FormatString($e_comm);
+			$op->save_form_plan($_POST,$i);
 		  }
 		$computed_vat=ComputeVat($p_cn,$a_good[$i],$a_quant[$i],$a_price[$i],$a_vat[$i]);
-
+		$qs_vat=($a_vat[$i]==-1)?0:$computed_vat;
 		$r=ExecSql($p_cn,"select insert_quant_sold ".
 				   "('".$internal."',".$j_id.",'".$a_good[$i]
 				   ."',".$a_quant[$i].",".$a_price[$i]*$a_quant[$i].
-				   ",".$computed_vat.
+				   ",".$qs_vat.
 				   ",".$a_vat[$i].",'".$e_client."')");
 		
 

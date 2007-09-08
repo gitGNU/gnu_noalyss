@@ -285,6 +285,12 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
   foreach ($p_array as $name=>$content) {
     ${"$name"}=$content;
   }
+  // Verify the amount for each 
+  //
+  // Check for CA
+  $own = new Own($p_cn);
+
+
   // Verify the date
   if ( isDate($e_date) == null ) 
     { 
@@ -319,6 +325,7 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
 	  return null;
 	
 	}
+
       }
     // if tva_amount is not a number than reset to 0
     if ( strlen(trim(${"e_march".$o."_tva_amount"})) !=0 &&
@@ -335,6 +342,30 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
 	  return null;
 	
       }
+	if ( $own->MY_ANALYTIC!='nu') // use of AA
+	  {
+		if ( isset (${"amount_t".$o})){
+		  $hidden_amount=${"amount_t".$o};
+		  $ca_amount=0;
+		  // first we get the number of row for each item
+		  for ($line=1;$line <=${"nb_t".$o};$line++) {
+			$ca_amount+=${"val".$o."l".$line};
+		  }
+		  
+		  // compare hidden value and computed
+		  if ( round($ca_amount-$hidden_amount,2) != 0 ) {
+			
+		    $msg="Montant CA est différent total marchandise";
+		    
+		    echo "<SCRIPT>alert('$msg');</SCRIPT>";
+			
+		    return null;
+			
+		  }
+		
+		}
+	  }
+
     $tot+=${"e_march".$o."_buy"}*${"e_quant$o"};
     }
 
@@ -478,11 +509,17 @@ function FormAchView ($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$p_number,$p_pi
   echo_debug(__FILE__.':'.__LINE__.'- FormAchView');
   $r="";
   $data="";
+  $own=new own($p_cn);
   // Keep all the data if hidden
   // and store the array in variables
   $hidden=new widget("hidden");
   foreach ($p_array as $name=>$content) {
-    $data.=$hidden->IOValue($name,$content);
+    // not the CA data
+    if ( strpos( $name,"ta_")===false && 
+	 strpos( $name,"nb_t")===false &&
+	 strpos( $name,"val")===false )
+      $data.=$hidden->IOValue($name,$content);
+
     ${"$name"}=$content;
   }
   // Compute href
@@ -501,22 +538,6 @@ function FormAchView ($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$p_number,$p_pi
       echo_error('user_form_ach.php',__LINE__,'Erreur invalid request uri');
       exit (-1);
     }
-  //----------------------------------------------------------------------
-  // Compute the col head for CA
-  $head_ca="";
-  $own = new Own($p_cn);
-  if ( $own->MY_ANALYTIC != "nu" )
-	{
-	  echo_debug(__FILE__.":".__LINE__."  own is","",$own);
-	  $plan=new PlanAnalytic($p_cn);
-	  $a_plan=$plan->get_list();
-	  foreach ($a_plan as $r_plan)
-		{
-		  $head_ca.="<th>".$r_plan['name']."</th>";
-		}
-		  
-	}
-  //----------------------------------------------------------------------
 
   $r.='<FORM METHOD="POST" enctype="multipart/form-data" ACTION="'.$href.'">'; 
   $r.=dossier::hidden();
@@ -552,7 +573,6 @@ function FormAchView ($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$p_number,$p_pi
   $r.="<TH>Montant HTVA</TH>";
   $r.="<TH>Montant TVA</TH>";
   $r.="<TH>Total</TH>";
-  $r.=$head_ca;
   $r.="</TR>";
   for ($i=0;$i<$p_number;$i++) 
     {
@@ -645,33 +665,16 @@ function FormAchView ($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$p_number,$p_pi
 	  // encode the pa
 
 	  if (  $own->MY_ANALYTIC!='nu') // use of AA
-		{
-		  // for each plan
-		  $plan=new PlanAnalytic($p_cn);
-		  $a_plan=$plan->get_list();
-		  $null=($own->MY_ANALYTIC=='op')?1:0;
-		  foreach ($a_plan as $r_plan)
-			{
-			  $array=make_array($p_cn,
-								"select po_id as value,".
-								" po_name as label from poste_analytique ".
-								" where pa_id = ".$r_plan['id'].
-								" order by po_name",$null);
-			  $select = new widget("select","","p_".$r_plan['id']."_".$i,$array);
-			  $select->table=1;
+	    {
+	      // show form
+	      $op=new operation($p_cn);
+	      $null=($own->MY_ANALYTIC=='op')?1:0;
+	      $p_mode=($p_piece)?1:0;
+	      $r.='<td>';
+	      $r.=$op->display_form_plan($_POST,$null,$p_mode,$i,round($fiche_sum,2));
+	      $r.='</td>';
 
-			  // view only or editable
-			  if ( $p_piece ) {
-				$select->readonly=false;
-			  } else {
-				$select->readonly=true;
-				$select->selected=${"p_".$r_plan['id']."_".$i}; 
-			  }
-
-			  $r.=$select->IOValue();
-			  
-			}
-	  }
+	    }
 	  
 	  //----------------------------------------------------------------------
       $r.="</TR>";
@@ -754,6 +757,8 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
   $sum_tva_nd=0.0;
   // own
   $own=new own($p_cn);
+  $group=NextSequence($p_cn,"s_oa_group");
+
   // Computing total customer
   for ($i=0;$i<$nb_item;$i++) {
     // store quantity & goods in array
@@ -887,29 +892,17 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
       // always save quantity but in withStock we can find what card need a stock management
       InsertStockGoods($p_cn,$j_id,$a_good[$i],$nNeg*$a_quant[$i],'d');
       echo_debug('user_form_ach.php',__LINE__,"value non ded : ".$a_good[$i]."is");		
-	  if ( $own->MY_ANALYTIC != "nu" )
-		{
-		  // for each item, insert into operation_analytique
-		  $plan=new PlanAnalytic($p_cn);
-		  $a_plan=$plan->get_list();
-		  foreach ($a_plan as $r_plan) 
-			{
-			  
-			  if ( isset(${"p_".$r_plan['id']."_".$i})&& ${"p_".$r_plan['id']."_".$i} != -1) 
-				{
-				  
-				  $op=new operation($p_cn);
-				  $op->po_id=${"p_".$r_plan['id']."_".$i};
-				  $op->oa_group=$group;
-				  $op->j_id=$j_id;
-				  $op->pa_id=$r_plan['id'];
-				  $op->oa_amount=round($a_price[$i]*$a_quant[$i],2);
-				  $op->oa_debit=($op->oa_amount < 0 )?'f':'t';
-				  $op->oa_date=$e_date;
-				  $op->add();
-				}
-			}
-		}
+      if ( $own->MY_ANALYTIC != "nu" )
+	{
+	  // for each item, insert into operation_analytique */
+	  $op=new operation($p_cn); 
+	  $op->oa_group=$group;
+	  $op->j_id=$j_id;
+	  $op->oa_date=$e_date;
+	  $op->oa_debit=($op->oa_amount < 0 )?'t':'f';
+	  $op->oa_description=$comm;
+	  $op->save_form_plan($_POST,$i);
+	}
 	  //---------------------------------------------------------
 	  // insert into quant_purchase
 	  //---------------------------------------------------------
@@ -921,7 +914,8 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 	  // $a_vat_amount[$i] contains the amount of vat
 	  $vat_code=$a_vat_good[$i];
 	  $computed_vat=$lvat-$aNd_amount[$i]-$aTva_ded_impot[$i]-$aTva_ded_impot_recup[$i];
-	  
+	  $qp_vat=($vat_code==-1)?0:$computed_vat;
+
 	  echo_debug('form_ach',__LINE__,"Insert into insert_quant_purchase");
 	  $r=ExecSql($p_cn,"select insert_quant_purchase ".
 				 "('".$internal."'".
@@ -929,7 +923,7 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 				 ",'".$a_good[$i]."'".
 				 ",".$a_quant[$i].",".
 				 round($amount,2).
-				 ",".$computed_vat.
+				 ",".$qp_vat.
 				   ",".$vat_code.
 				 ",".$aNd_amount[$i].
 				   ",".$aTva_ded_impot[$i].

@@ -63,13 +63,13 @@ if ( $action == 'insert_vente' ) {
   if ( isset ($_POST["view_invoice"])) {
     $nb_number=$_POST["nb_item"];
       if ( form_verify_input($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$nb_number) == true)
-		{
-		  $form=FormVenteView($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$nb_number);
-		  // Check failed : invalid date or quantity
-		} else {
-		echo_error("Cannot validate ");
-		$form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,false,$nb_number);
-	  }
+	{
+	  $form=FormVenteView($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$nb_number);
+	  // Check failed : invalid date or quantity
+	} else {
+	echo_debug(__FILE__.':'.__LINE__," Impossible d'accepter le formulaire");
+	$form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,false,$nb_number);
+      }
       echo '<div class="u_redcontent">';
       echo         $form;
       echo '</div>';
@@ -123,16 +123,16 @@ if ( isset($_POST["record_and_print_invoice"])) {
     exit -1;
   }
   
-  //  echo "RECORD AND PRINT INVOICE";
-
-  $comment=RecordInvoice($cn,$_POST,$User,$_GET['p_jrn']);
-
   $nb_number=$_POST["nb_item"];
+
   if ( form_verify_input($cn,$p_jrn,$User->GetPeriode(),$_POST,$nb_number)== true) {
+    $comment=RecordInvoice($cn,$_POST,$User,$_GET['p_jrn']);
+    
     $form=FormVenteView($cn,$p_jrn,$User->GetPeriode(),$_POST,$nb_number,'noform',$comment);
   } else {
-	    echo_error("Cannot validate ");
-	    $form=FormVenInput($cn,$_GET['p_jrn'],$User,$_POST,false,$nb_number);
+    
+    echo("A cause d'erreur la facture ne peut-&egrave;tre valid&eacute; ");
+    $form=FormVenteView($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$nb_number,"form");
   }
   
   echo '<div class="u_redcontent">';

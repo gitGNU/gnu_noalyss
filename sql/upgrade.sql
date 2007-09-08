@@ -15,6 +15,7 @@ declare
         fid_client integer;
         fid_good   integer;
 begin
+
         select f_id into fid_client from
                 attr_value join jnt_fic_att_value using (jft_id) where ad_id=23 and av_text=upper(p_client);
         select f_id into fid_good from
@@ -359,7 +360,7 @@ ALTER TABLE ONLY operation_analytique
 ALTER TABLE ONLY operation_analytique
     ADD CONSTRAINT operation_analytique_po_id_fkey FOREIGN KEY (po_id) REFERENCES poste_analytique(po_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
-INSERT INTO parameter VALUES ('MY_ANALYTIC', null);
+INSERT INTO parameter VALUES ('MY_ANALYTIC', 'nu');
 
 alter table jrn add constraint ux_internal unique (jr_internal);
 
@@ -369,4 +370,6 @@ alter table quant_purchase add constraint fk_internal foreign key (qp_internal) 
 */
 alter table user_sec_jrn add constraint uj_priv_id_fkey foreign key(uj_jrn_id) references jrn_def(jrn_def_id) on update cascade on delete cascade;
 alter table user_sec_jrn drop constraint "$1";
+alter table operation_analytique add oa_row int4;
+
 commit;

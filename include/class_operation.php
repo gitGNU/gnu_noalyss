@@ -22,6 +22,8 @@
 
 /* !\file 
  */
+require_once("class_plananalytic.php");
+require_once("class_widget.php");
 
 /*! \brief this class is used to show the form for entering an
  *   operation
@@ -71,6 +73,8 @@ class operation
 	// we don't save null operations
 	if ( $this->oa_amount == 0 || $this->po_id==-1) 
 	  return;
+
+	$oa_row=(isset($this->oa_row))?$this->oa_row:"NULL";
 	$sql='insert into operation_analytique (
            po_id,
            pa_id,
@@ -79,7 +83,8 @@ class operation
            oa_debit,
            oa_group,
            j_id,
-           oa_date
+           oa_date,
+           oa_row
            ) values ('.
 	  $this->po_id.",".
 	  $this->pa_id.",".
@@ -88,7 +93,7 @@ class operation
 	  "'".$this->oa_debit."',".
 	  $this->oa_group.",".
 	  $this->j_id.",".
-	  "to_date('".$this->oa_date."','DD.MM.YYYY'))";
+	  "to_date('".$this->oa_date."','DD.MM.YYYY'),".$oa_row.")";
 
 
 	  ExecSql($this->db,$sql);
@@ -150,7 +155,7 @@ class operation
 	  return "Pas d'enregistrement trouv&eacute;";
 	
 	  $gDossier=dossier::id();
-	  $ret.="";
+	  $ret="";
 	  $ret.=JS_VIEW_JRN_MODIFY;
 	  $count=0;
 	  $group=0;
@@ -163,7 +168,7 @@ class operation
 			{
 
 			  $efface=new widget('button');
-			  $efface->js="op_remove('".$_REQUEST['PHPSESSID']."',".$gDossier.",".$oldgroup.")";
+			  $efface->javascript="op_remove('".$_REQUEST['PHPSESSID']."',".$gDossier.",".$oldgroup.")";
 			  $efface->name="Efface";
 			  $efface->label="Efface";
 			  $ret.="<td>".$efface->IOValue()."</td>";
@@ -174,7 +179,7 @@ class operation
 			if ( $jr_id != 0) {
 			  // get the old jr_id
 			  $detail=new widget('button');
-			  $detail->js="viewOperation($jr_id,'".$_REQUEST['PHPSESSID']."',$gDossier)";
+			  $detail->javascript="viewOperation($jr_id,'".$_REQUEST['PHPSESSID']."',$gDossier)";
 			  $detail->name="Detail";
 			  $detail->label="Detail";
 			  $ret.="<td>".$detail->IOValue()."</td>";
@@ -218,7 +223,7 @@ class operation
 		}
 
 	$efface=new widget('button');
-	$efface->js="op_remove('".$_REQUEST['PHPSESSID']."',$gDossier,".$oldgroup.")";
+	$efface->javascript="op_remove('".$_REQUEST['PHPSESSID']."',$gDossier,".$oldgroup.")";
 	$efface->name="Efface";
 	$efface->label="Efface";
 	$ret.="<td>".$efface->IOValue()."</td>";
@@ -227,7 +232,7 @@ class operation
 	$jr_id=$this->get_jrid();
 	if ( $jr_id != 0 ){
 	  $detail=new widget('button');
-	  $detail->js="viewOperation($jr_id,'".$_REQUEST['PHPSESSID']."',$gDossier)";
+	  $detail->javascript="viewOperation($jr_id,'".$_REQUEST['PHPSESSID']."',$gDossier)";
 	  $detail->name="Detail";
 	  $detail->label="Detail";
 	  $ret.="<td>".$detail->IOValue()."</td>";
@@ -239,8 +244,8 @@ class operation
    * \param the jrnx.j_id
    * \return false if nothing is found other true
    */
-  function get_operation_by_jid($p_jid) {
-	$sql="select  oa_id,
+  function get_by_jid($p_jid) {
+	$sql="select distinct oa_id,
                   po_id,
                   oa_amount,
                   oa_description,
@@ -248,10 +253,11 @@ class operation
                   j_id,
                   oa_group,
                   oa_date,
-                  pa_id
+                  pa_id,
+                  oa_row
           from operation_analytique 
           where 
-          j_id=$p_jid";
+          j_id=$p_jid order by j_id,oa_row";
 	$ret=ExecSql($this->db,$sql);
 	$res=pg_fetch_all($ret);
 	echo_debug(__FILE__.":".__LINE__."count res is ",count($res));
@@ -272,7 +278,7 @@ class operation
    *
    */
   function update_from_jrnx($p_po_id){
-	$a=$this->get_operation_by_jid($this->j_id);
+	$a=$this->get_by_jid($this->j_id);
 	if ( $a == null ) {
 	  // retrieve data from jrnx
 	  $sql="select jr_date,j_montant,j_debit from jrnx ".
@@ -332,4 +338,211 @@ function get_balance($p_from,$p_to,$p_plan_id)
 	  var_dump($e);
 	}
   }
+  /*!\brief display the form for PA
+   * \param $p_null = 1 if PA optional otherwise 0 mandatory 
+   * \param $p_mode == form 1 ==> read/write otherwise 0==>readonly
+   * \param $p_seq number of the row
+   * \param $p_amount amount 
+   * \see save_form_plan
+   */
+ function display_form_plan($p_array,$p_null,$p_mode,$p_seq,$p_amount) {
+   echo_debug(__FILE__.':'.__LINE__,' display_form_plan($p_array,$p_null,$p_doc,$p_seq,$p_amount) '," $p_array,$p_null,$p_mode,$p_seq,$p_amount) ");
+   if ( $p_array != null)
+     extract ($p_array);
+   $result="";
+   $plan=new PlanAnalytic($this->db);
+   $a_plan=$plan->get_list();
+
+   $table_id="t".$p_seq;
+
+   $hidden=new widget("hidden");
+
+
+   $result.=$hidden->IOValue('amount_'.$table_id,$p_amount);
+   if ( $p_mode==1 )
+     $result.='<table id="'.$table_id.'">';
+   else 
+        $result.='<table>';
+   $result.="<tr>".$plan->header()."<th>montant</th></tr>";
+
+
+
+   $nb_row=(!isset(${'nb_'.$table_id}))?1:${'nb_'.$table_id};
+   $result.=$hidden->IOValue('nb_'.$table_id,$nb_row);
+
+   for ( $i=1; $i <= $nb_row;$i++) {
+	 $result.='<tr>';
+	 $count=0;
+	 foreach ($a_plan as $r_plan)
+	   {
+		 $count++;
+	 
+		 $array=make_array($this->db,
+						   "select pa_id||'_'||po_id as value,".
+						   " po_name as label from poste_analytique ".
+						   " where pa_id = ".$r_plan['id'].
+						   " order by po_name",$p_null);
+		 $select = new widget("select","","ta_".$p_seq."o".$count."row_".$i,$array);
+		 $select->table=0;
+		 // view only or editable
+		 if (  $p_mode==1 ) {
+		   // editable
+		   $select->readonly=false;
+	           $select->selected=(isset(${"ta_".$p_seq."o".$count."row_".$i}))?${"ta_".$p_seq."o".$count."row_".$i}:0;
+		 } else {
+		   // view only
+		   $select->readonly=true;
+		   $select->selected=(isset(${"ta_".$p_seq."o".$count."row_".$i}))?${"ta_".$p_seq."o".$count."row_".$i}:0;
+		 }
+		 if ($p_mode==1)
+		   $result.='<td id="'.$table_id.'td'.$count.'c'.$i.'">'.$select->IOValue().'</td>';
+		 else
+		   $result.='<td>'.$select->IOValue().'</td>';
+	   
+
+	   }
+	 $value=new widget("text");
+	 $value->name="val".$p_seq."l$i";
+	 $value->size=6;
+	 $value->value=(isset(${"val".$p_seq."l$i"}))?round(${"val".$p_seq."l$i"},2):$p_amount;
+	 //	 $value->value=($p_doc=="form")?$p_amount:round(${"val".$p_seq."l$i"},2);
+	 $value->readonly=($p_mode==1)?false:true;
+	 
+	 $result.='<td>'.$value->IOValue().'</td>';
+
+	 $result.="</tr>";
+   }
+
+   $result.="</table>";
+   // add a button to add a row
+   $button=new widget("button");
+   $button->javascript="onChange=add_row('$table_id',$p_seq,$count);";
+   $button->name="js".$p_seq;
+   $button->label="Nouvelle ligne";
+   if ( $p_mode == 1 )
+	 $result.=$button->IOValue();
+   return $result;
+ }
+ /*!\brief it called for each item, the data are taken from $p_array
+  *  data and set before in this. 
+  * \param $p_item if the item nb for each item (purchase or selling
+  *  merchandise)
+  * \param $p_array structure 
+  * \verbatim
+   nb_tA A is the number of the item contains the number of
+           rows of CA for this card 
+   valAlR amount for the CA (item A row R)
+   ta_AoCrow_R contains the value of the pa_id and po_id for this
+               row with the form pa_id_po_id %d_%d
+  *\endverbatim
+  * \attention The idea is one j_id matches several oa_id, 
+  *  serveral data are set before the call :
+  *   -j_id
+  *   -oa_debit
+  *   -oa_group
+  *   -oa_date      
+  *   -oa_description
+  *       
+  */
+ function save_form_plan($p_array,$p_item) {
+   echo_debug(__FILE__.':'.__LINE__,"p_array is ",$p_array);
+   extract($p_array);
+   $max=${"nb_t".$p_item};
+   echo_debug(__FILE__.':'.__LINE__.'- ', "max of row for CA = ".$max);
+   // get all the PA
+   $plan=new PlanAnalytic($this->db);
+   $cplan=$plan->count(); 
+   echo_debug(__FILE__.':'.__LINE__," nb of PA $cplan");
+   // foreach row 
+   for ($i=1;$i<=$max;$i++) {
+	 echo_debug(__FILE__.':'.__LINE__." loop i $i");
+	 // foreach col PA			
+	 for ($e=1;$e<=$cplan+1;$e++)
+	   { 
+		 echo_debug(__FILE__.':'.__LINE__."loop e $e");
+		 echo_debug(__FILE__.':'.__LINE__," Checking ta_".$p_item."o".$e."row_".$i);
+		 if ( isset(${"ta_".$p_item."o".$e."row_".$i}) && ${"ta_".$p_item."o".$e."row_".$i}!=-1)
+		   { 
+			 echo_debug(__FILE__.':'.__LINE__,"Value is ".${"ta_".$p_item."o".$e."row_".$i});			 
+			 $op=new operation($this->db); 
+			 $val=${"ta_".$p_item."o".$e."row_".$i};
+			 list($op->pa_id,$op->po_id)=sscanf($val,"%d_%d");
+			 $op->oa_group=$this->oa_group;
+			 $op->j_id=$this->j_id; 
+			 $op->oa_amount=${"val".$p_item."l".$i};
+			 $op->oa_debit=$this->oa_debit;
+			 $op->oa_date=$this->oa_date;
+
+			 $op->oa_description=$this->oa_description;
+			 $op->oa_row=$i;
+			 $op->add(); 
+		   } 	 
+	   }
+   }
+   
+ }
+ /*\brief transform a array of operation into a array usage by
+  *display_form_plan & save_form_plan
+  *\param $p_array array of operation
+  *\param $p_line line 
+  *\return an array complying with \see save_form_plan
+  */
+ function to_request ($p_array,$p_line){
+   if ( count($p_array) == 0 ) {
+	 echo_debug(__FILE__.':'.__LINE__,"p_array est vide",$p_array);
+	 return null;
+   }
+   $result=array();
+   $table="nb_t".$p_line;
+
+   $col=1;
+   $line=1;
+   $first=true;
+   $last_pa_id=0;
+   foreach ( $p_array as $row) {
+     $val="val".$p_line."l".$row->oa_row;
+     $result[$val]=$row->oa_amount;
+     if ( $first ) {
+       $first_pa_id=$row->pa_id;
+       $first=false;
+     }
+
+     if ( $first_pa_id != $row->pa_id )
+       $col++;
+     else {
+       $col=1;
+       $line++;
+     }
+     $po="ta_".$p_line."o".$col."row_".$row->oa_row;
+     $result[$po]=$row->pa_id."_".$row->po_id;
+     //     $last_pa_id=$row->pa_id;
+   }
+   $result[$table]=$line-1;
+   return $result;
+ }
+/*! 
+ * \brief delete from operation_analytique
+ * \param $p_jid the operation_analytique.j_id field
+ *
+ * \return none
+ */
+ function delete_by_jid($p_jid) {
+   $sql="delete from operation_analytique where j_id=$p_jid";
+   ExecSql($this->db,$sql);
+ }
+
+ /*\brief test the class
+  *\param
+  *\param
+  *\return
+  */
+ function test_me() {
+   $array=$this->get_by_jid(442);
+   echo_debug(__FILE__.':'.__LINE__,"resultat get_by_jid",$array);
+
+   $a=$this->to_request($array,1);   
+   echo_debug(__FILE__.':'.__LINE__,"resultat to_request ligne 1",$a);
+
+
+ }
 }

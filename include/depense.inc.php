@@ -214,7 +214,7 @@ if ( isset ($_POST['add_item']) || isset ($_POST["correct"])  )
   exit();
 }
 //-----------------------------------------------------
-// we want to save the invoice and to generate a invoice
+// we want to save the invoice 
 //
 if ( isset($_POST['save'])) 
 {
@@ -222,21 +222,32 @@ if ( isset($_POST['save']))
         NoAccess();
         exit -1;
    }
-
-  // we save the expense
-  list ($internal,$c)=RecordSell($cn,$_POST,$User,$p_jrn);
-
-  
-  $form=FormAchView($cn,$p_jrn,$User->GetPeriode(),$_POST,"",$_POST['nb_item'],false);
-
-  echo '<div class="u_redcontent">';
-  echo '<h2 class="info"> Op&eacute;ration '.$internal.' enregistr&eacute;</h2>';
-  echo $form;
-  echo '<hr>';
-  echo '</form>';
-  echo '<A class="mtitle" href="commercial.php?p_action=depense&p_jrn='.$p_jrn.'">
+  $nb_number=$_POST["nb_item"];
+  if ( form_verify_input ($cn,$p_jrn,$User->GetPeriode(),$_POST,$nb_number) == true ) {
+    // we save the expense
+    list ($internal,$c)=RecordSell($cn,$_POST,$User,$p_jrn);
+    $form=FormAchView($cn,$p_jrn,$User->GetPeriode(),$_POST,"",$_POST['nb_item'],false);
+    echo '<div class="u_redcontent">';
+    echo '<h2 class="info"> Op&eacute;ration '.$internal.' enregistr&eacute;</h2>';
+    echo $form;
+    echo '<hr>';
+    echo '</form>';
+    echo '<A class="mtitle" href="commercial.php?p_action=depense&p_jrn='.$p_jrn.'">
     <input type="button" Value="Autre dépense"></A>';
-  exit();
+    exit();
+  }
+  else 
+    {
+      $submit='<INPUT TYPE="SUBMIT" name="save" value="Confirmer" onClick="return verify_ca(\'error\');" >';
+      $submit.='<input type="button" value="verifie CA" onClick="verify_ca(\'ok\');">';
+      $submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
+      $form=FormAchView($cn,$p_jrn,$User->GetPeriode(),$_POST,$submit,$nb_number,true);
+      echo '<div class="u_redcontent">';
+      echo $form;
+      echo '<hr>';
+      echo '</form>';
+      return;
+    }
 }
 //-----------------------------------------------------
 // we show the confirmation screen

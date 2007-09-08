@@ -254,7 +254,7 @@ if ( empty($list)  )
 	echo '<div class="lmenu">';
 	echo '<TABLE>';
 	echo '<TR><TD class="mtitle">';
-	echo '<a class="mtitle" href="?p_action=ca_pa&sa=add_pa'.$str_dossier.'">Ajout d\'un plan comptable</a>';
+	echo '<a class="mtitle" href="?p_action=ca_pa&sa=add_pa&'.$str_dossier.'">Ajout d\'un plan comptable</a>';
 	echo '</TD></TR>';
 	echo '</TABLE>';
 	

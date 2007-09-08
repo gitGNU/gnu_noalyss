@@ -69,7 +69,7 @@ class groupop
 	$wDate->size=10;
 	$wDate->readonly=$p_readonly;
 
-	$wDescription=new widget("text","Description","pdesc".$i);
+	$wDescription=new widget("text","Description","pdesc");
 	$wDescription->table=0;
 	$wDescription->size=80;
 	$wDescription->readonly=$p_readonly;
@@ -182,4 +182,5 @@ class groupop
   function show() {
 	return $this->form(1);
   }
+
 }

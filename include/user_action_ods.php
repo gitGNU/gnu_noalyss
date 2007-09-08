@@ -103,7 +103,8 @@ if ( $action == 'new' ) {
   // 'submit_od', no? 
 	if ( isset ($_POST['view_invoice']) ) {
 	  $nb_number=$_POST["nb_item"];
-	  $submit='<INPUT TYPE="SUBMIT" name="save" value="Confirmer">';
+	  $submit='<INPUT TYPE="SUBMIT" name="save" value="Confirmer"  onClick="return verify_ca(\'error\');">';
+	  $submit.='<input type="button" value="verifie CA" onClick="verify_ca(\'ok\');">';
 	  $submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
 
 	  $r=FormODS($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$_POST,true,$nb_number);
@@ -115,6 +116,11 @@ if ( $action == 'new' ) {
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 	    
 	    $r=FormODS($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$_POST,false,  $nb_number);
+	  }else {
+	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout Poste">
+                    <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
+
+
 	  }
 	  echo '<div class="u_redcontent">';
 	  echo $r;
@@ -126,11 +132,20 @@ if ( $action == 'new' ) {
 	  $r=RecordODS($cn,$_POST,$User,$_GET['p_jrn']);
 	  // Get number of  lines
 	  $nb_number=$_POST["nb_item"];
+	  if ( $r != null ) {
+	    // submit button in the form
+	    $submit='<h2 class="info">Recorded'.$r.'</h2>';
+	    
+	    $r.=FormODS($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$_POST,true,  $nb_number,true);
+	  }else {
+	    // CA incorrecte
+	    $submit='<INPUT TYPE="SUBMIT" name="save" value="Confirmer"  onClick="return verify_ca(\'error\');">';
+	    $submit.='<input type="button" value="verifie CA" onClick="verify_ca(\'ok\');">';
+	    $submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
+	    
+	    $r=FormODS($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$_POST,true,$nb_number);
 
-	  // submit button in the form
-	  $submit='<h2 class="info">Recorded</h2>';
-
-	  $r.=FormODS($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$_POST,true,  $nb_number,true);
+	  }
 	  echo '<div class="u_redcontent">';
 	  echo $r;
 	  echo "</div>";

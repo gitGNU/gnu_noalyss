@@ -154,5 +154,21 @@ class PlanAnalytic
 	  }
 	return $ret;
   }
+  /*!\brief show the header for a table for PA
+   * \return string like <th>name</th>...
+   */
+  function header() {
+	$res="";
+	$a_plan=$this->get_list();
+	  foreach ($a_plan as $r_plan)
+		{
+		  $res.="<th>".$r_plan['name']."</th>";
+		}
+	  return $res;
+  }
+  function count() {
+	$a=CountSql($this->db,"select pa_id from plan_analytique");
+	return $a;
+  }
 }
 ?>

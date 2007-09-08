@@ -154,20 +154,21 @@ class widget {
 	      $r.=$this->value[$i]['label'];
 	    }
 	  $r.="</SELECT>";
-	} else 
-	  {
-	    $r="";
-	    echo_debug('class_widget.php',__LINE__,"this->selected = ".$this->selected); 
-	    for ( $i=0;$i<sizeof($this->value);$i++) 
-	      {
-		echo_debug('class_widget.php',__LINE__,"check for ".$this->value[$i]['value']);
-		if ($this->selected==$this->value[$i]['value'] ) 
-		  {
-		    $r=$this->value[$i]['label'];
+	} 
+      if ( $this->readonly==true) 
+	{
+	  $r="";
+	  echo_debug('class_widget.php',__LINE__,"this->selected = ".$this->selected); 
+	  for ( $i=0;$i<sizeof($this->value);$i++) 
+	    {
+	      echo_debug('class_widget.php',__LINE__,"check for ".$this->value[$i]['value']);
+	      if ($this->selected==$this->value[$i]['value'] ) 
+		{
+		  $r=$this->value[$i]['label'];
  	
-		  }
-	      }
-	  }
+		}
+	    }
+	}
       if ( $this->table==1) {
 	$r="<TD> $r </TD>";
 	if ( $this->label != "") $r="<TD style=\"border: 1px groove blue;\"> $this->label</TD>".$r;
@@ -559,7 +560,7 @@ class widget {
 	$r='<input type="BUTTON" name="'.$this->name.'"'.
 	  ' id="'.$this->name.'"'.
 	  ' value="'.$this->label.'"'.
-	  ' onClick="'.$this->js.'">';
+	  ' onClick="'.$this->javascript.'">';
 	return $r;
   }
   return "INVALID WIDGET $this->type ";

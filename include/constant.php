@@ -23,11 +23,14 @@
  * \brief Contains all the variable + the javascript
  * and some parameter 
  */
+date_default_timezone_set ('Europe/Brussels');
+
 $_ENV['TMP']="/tmp";
 define ("phpcompta_password","dany");
 define ("phpcompta_psql_port","5432");
 define ("phpcompta_user","phpcompta");
-define ("domaine","rel300_");
+define ("domaine","rel240_");
+define ("MAX_COMPTE",4);
 
 
 define ("DEBUG","true");

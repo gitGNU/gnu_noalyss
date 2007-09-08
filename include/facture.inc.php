@@ -211,11 +211,10 @@ if ( isset($_POST['record_and_print_invoice']))
 
   // First we save the invoice, the internal code will be used to change the description
   // and upload the file
-  list ($internal,$e)=RecordInvoice($cn,$_POST,$User,$p_jrn);
-
+  if ( form_verify_input($cn,$p_jrn,$User->GetPeriode(),$_POST,$nb_number)== true) {
+    list ($internal,$e)=RecordInvoice($cn,$_POST,$User,$p_jrn);
+    $form=FormVenteView($cn,$p_jrn,$User->GetPeriode(),$_POST,$_POST['nb_item'],'noform','');
   
-  $form=FormVenteView($cn,$p_jrn,$User->GetPeriode(),$_POST,$_POST['nb_item'],'noform','');
-
   echo '<div class="u_redcontent">';
   echo '<h2 class="info"> Op&eacute;ration '.$internal.' enregistr&eacute;</h2>';
   echo $form;
@@ -237,6 +236,13 @@ if ( isset($_POST['record_and_print_invoice']))
 	  ExecSql($cn,$sql);
 	  echo $str_file;
     }
+  } else {
+    
+    echo("A cause d'erreur la facture ne peut-&egrave;tre valid&eacute; ");
+    $form=FormVenteView($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$nb_number,"form");
+    
+  }
+
   echo '</form>';
   // Button return 
   printf ('<A class="mtitle" href="?jrn_type=VEN&p_jrn=%d&p_action=facture"><input type="Button" value="Autre Facture"></A>',

@@ -104,7 +104,8 @@ if ( $action == 'new' ) {
 	if ( isset ($_POST['view_invoice']) and 
 	     ! isset ($_POST['save'])) {
 	$nb_number=$_POST["nb_item"];
-	$submit='<INPUT TYPE="SUBMIT" name="save" value="Confirmer">';
+	$submit='<INPUT TYPE="SUBMIT" name="save" value="Confirmer" onClick="verify_ca(\'error\');">';
+	$submit.='<input type="button" value="verifie CA" onClick="verify_ca(\'ok\');">';
 	$submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
 	if ( form_verify_input ($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$nb_number) == true ) {
 	  // Should use a read only view instead of FormAch
@@ -127,16 +128,30 @@ if ( $action == 'new' ) {
 	if ( isset($_POST['save'] )) {
 	  // Get number of  lines
 	  $nb_number=$_POST["nb_item"];
-	  list($internal,$comment)=RecordSell($cn,$_POST,$User,$_GET['p_jrn']);
+	  if (form_verify_input ($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$nb_number) 
+	      == true ) {
+	    list($internal,$comment)=RecordSell($cn,$_POST,$User,$_GET['p_jrn']);
+	    
+	    // submit button in the form
+	    $submit='<h2 class="info">Opération '.$internal.' </h2>';
+	    $r=FormAchView($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,"",$nb_number,false);
+	    echo '<div class="u_redcontent">';
+	    echo $submit;
+	    echo $r;
+	    echo "</div>";
+	  }else  {
+	    $submit='<INPUT TYPE="SUBMIT" name="save" value="Confirmer" onClick="return verify_ca(\'error\');">';
+	    $submit.='<input type="button" value="verifie CA" onClick="verify_ca(\'ok\');">';
 
-	  // submit button in the form
-	  $submit='<h2 class="info">Opération '.$internal.' </h2>';
-	  $r=FormAchView($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,"",$nb_number,false);
-	  echo '<div class="u_redcontent">';
-	  echo $submit;
-	  echo $r;
-	  echo "</div>";
-	  
+	    $submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
+	    
+	    $r=FormAchView($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$submit,$nb_number);
+	    echo '<div class="u_redcontent">';
+	    //	    echo $submit;
+	    echo $r;
+	    echo "</div>";
+
+	  }
 	}
 	
 

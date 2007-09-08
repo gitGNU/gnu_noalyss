@@ -41,6 +41,7 @@ require_once ('class_operation.php');
  */ 
 function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 {
+
   echo_debug('jrn.php',__LINE__,"function UpdateJrn");
   // own
   $own=new own($p_cn);
@@ -105,19 +106,8 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 		$r.='<th>Description</th>';
 		$r.='<th>D&eacute;bit</th>';
 		$r.='<th>Cr&eacute;dit</th>';
-		$head_ca="";
+
 		$own = new Own($p_cn);
-		if ( $own->MY_ANALYTIC != "un" )
-		  {
-			$plan=new PlanAnalytic($p_cn);
-			$a_plan=$plan->get_list();
-			foreach ($a_plan as $r_plan)
-			  {
-				$head_ca.="<th>".$r_plan['name']."</th>";
-			  }
-			
-		  }
-		$r.=$head_ca;
 		$r.="</tr>";
       }
       $r.="<TR>";
@@ -133,40 +123,12 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 	  //-- add ca 
 	  //
 	  if ( $own->MY_ANALYTIC != "un" && ereg("^[6,7]+",$content['j_poste']))
-		{
-		  echo_debug(__FILE__.":".__LINE__,"Content is ",$content);
-		  $plan=new PlanAnalytic($p_cn);
-		  $a_plan=$plan->get_list();
-		  $null=($own->MY_ANALYTIC=='op')?1:0;
-
-		  foreach ($a_plan as $r_plan) 
-			{
-			  echo_debug(__FILE__.":".__LINE__,"CA Content is ",$array);
-			  $array=make_array($p_cn,
-								"select po_id as value,".
-								" po_name as label from poste_analytique ".
-								" where pa_id = ".$r_plan['id'].
-								" order by po_name",$null);
-			  $op=new operation($p_cn);
-			  $op_array=$op->get_operation_by_jid($content['j_id']);
-			  $select = new widget("select","","plan_".$r_plan['id']."_".$content['j_id'],$array);
-			  
- 			  if ( $op_array != null)  
- 				foreach ($op_array as $row) { 
-				  echo_debug(__FILE__.":".__LINE__,"row is ",$row);
- 				  if ( $r_plan['id'] == $row->pa_id ) { 
- 					$select->selected=$row->po_id; 
- 				  } 
- 				} 
-			  $select->table=1;
-			  echo_debug(__FILE__.":".__LINE__,"select ",$select);
-			  $select->readonly=($p_mode==0)?true:false;
-			  $r.=$select->IOValue();
-
-			}
-		}
-
-      $r.="</TR>";
+	    {
+	      
+	      $r.=display_table_ca($p_cn,$i,$content['j_id'],$own,$p_mode,$content['j_montant']);
+	    }
+	  
+	  $r.="</TR>";
 
       //    }//     foreach ($l_array[$i]  as $value=>$content) 
   }// for ( $i =0 ; $i < sizeof($l_array); $i++) 
@@ -221,6 +183,7 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 	$r.='<input type="hidden" name="jr_id" value="'.$content['jr_id'].'">';
 	
 	} // if mode == 1
+	
   return $r;
 }
 
@@ -236,7 +199,8 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
  */ 
 function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 {
-  echo_debug('jrn.php',__LINE__,"function UpdateJrn");
+
+  echo_debug('jrn.php',__LINE__,"function ShowOperationUser($p_cn,$p_jr_id,$p_mode) ");
   $gDossier=dossier::id();  
   $l_array=GetDataJrnJrIdUser($p_cn,$p_jr_id);
   $str_dossier=dossier::get();
@@ -250,6 +214,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
     $r=ShowOperationExpert($p_cn,$p_jr_id,$p_mode);
     return $r;
   }
+
   // own
   $own=new own($p_cn);
 
@@ -321,19 +286,6 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 	  $r.='<th>tva nd</th>';
 	  $r.='<th>tva d impot</th>';
 	  $r.='<th>prix</th>';
-	  $head_ca="";
-	  $own = new Own($p_cn);
-	  if ( $own->MY_ANALYTIC != "un" )
-		{
-		  $plan=new PlanAnalytic($p_cn);
-		  $a_plan=$plan->get_list();
-		  foreach ($a_plan as $r_plan)
-			{
-				$head_ca.="<th>".$r_plan['name']."</th>";
-			}
-		  
-		}
-	  $r.=$head_ca;
 
 	  $r.='</tr>';
 	  $object=new gestion_purchase($p_cn);
@@ -345,6 +297,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 	  $tot_tva_nd=0.0;
 	  $tot_tva_nd_recup=0.0;
 	  $i=0;
+	  $i_march=0;
 	  foreach ($array as $row) {
 
 		$fiche=new fiche($p_cn,$row->qp_fiche);
@@ -373,39 +326,10 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 		//		echo "j_poste= ".$content['j_poste'];
 		if ( $own->MY_ANALYTIC != "un" && ereg("^[6,7]+",$content['j_poste']))
 		  {
-			echo_debug(__FILE__.":".__LINE__,"Content is ",$content);
-			$plan=new PlanAnalytic($p_cn);
-			$a_plan=$plan->get_list();
-			$null=($own->MY_ANALYTIC=='op')?1:0;
-			
-			foreach ($a_plan as $r_plan) 
-			  {
-				echo_debug(__FILE__.":".__LINE__,"CA Content is ",$array);
-				$array=make_array($p_cn,
-								  "select po_id as value,".
-								  " po_name as label from poste_analytique ".
-								  " where pa_id = ".$r_plan['id'].
-								  " order by po_name",$null);
-				$op=new operation($p_cn);
-				$op_array=$op->get_operation_by_jid($content['j_id']);
-				$select = new widget("select","","plan_".$r_plan['id']."_".$row->j_id,$array);
-				
-				if ( $op_array != null)  
-				  foreach ($op_array as $row) { 
-					echo_debug(__FILE__.":".__LINE__,"row is ",$row);
-					if ( $r_plan['id'] == $row->pa_id ) { 
-					  $select->selected=$row->po_id; 
-					} 
-				  } 
-				$select->table=1;
-				$select->readonly=($p_mode==0)?true:false;
+		    $r.=display_table_ca($p_cn,$i_march,$row->j_id,$own,$p_mode,$tot_tva);
+		  }
+		$i_march++;
 
-				echo_debug(__FILE__.":".__LINE__,"select ",$select);
-				$r.=$select->IOValue();
-			}
-		}
-
-		$r.="</tr>";
 
 	  }
 	  // display sum
@@ -457,19 +381,8 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 	  $r.='<th>tva</th>';
 	  $r.='<th>code tva</th>';
 	  $r.='<th>prix</th>';
-	  $head_ca="";
+
 	  $own = new Own($p_cn);
-	  if ( $own->MY_ANALYTIC != "un" )
-		{
-		  $plan=new PlanAnalytic($p_cn);
-		  $a_plan=$plan->get_list();
-		  foreach ($a_plan as $r_plan)
-			{
-				$head_ca.="<th>".$r_plan['name']."</th>";
-			}
-		  
-		}
-	  $r.=$head_ca;
 
 	  $r.='</tr>';
 	  $object=new gestion_sold($p_cn);
@@ -478,61 +391,35 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 	  $tot_tva=0.0;
 	  $tot_amount=0.0;
 	  $i=0;
+	  $i_march=0;
 	  foreach ($array as $row) {
-		$fiche=new fiche($p_cn,$row->qs_fiche);
-		$tot_tva+=$row->qs_vat;
-		$tot_amount+=$row->qs_price;
-		$r.=($i%2==0)?"<tr class=\"odd\">":'<tr>';		$i++;
+	    $fiche=new fiche($p_cn,$row->qs_fiche);
+	    $tot_tva+=$row->qs_vat;
+	    $tot_amount+=$row->qs_price;
+	    $r.=($i%2==0)?"<tr class=\"odd\">":'<tr>';		$i++;
+	    
+	    $r.=($i%2==0)?"<tr class=\"odd\">":'<tr>';		$i++;
+	    $r.='<td> '.$fiche->strAttribut(ATTR_DEF_NAME).'</td>';
+	    $r.='<td align="right">'.$row->qs_quantite.'</td>';
+	    $r.='<td align="right">'.$row->qs_vat.'</td>';
+	    $r.='<td>'.$row->qs_vat_code.'</td>';
+	    $r.='<td align="right">'.$row->qs_price.'</td>';
+	    //-- add ca 
+	    //
+	    
+	    $content['j_poste']=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
+	    echo_debug(__FILE__.':'.__LINE__,'$content["j_poste"]',$content['j_poste']);
+	    
+	    //		echo "j_poste= ".$content['j_poste'];
+	    if ( $own->MY_ANALYTIC != "un" && ereg("^[6,7]+",$content['j_poste']))
+	      {
+		echo_debug(__FILE__.':'.__LINE__,'showUser VEN $content',$content);
+		echo_debug(__FILE__.':'.__LINE__,'showUser VEN $row ',$row);
+		$r.=display_table_ca($p_cn,$i_march,$row->j_id,$own,$p_mode,$tot_amount);
+	      }
+	    $i_march++;
 
-/* 		$hid_jid=new widget("hidden","","p_jid_".$row->j_id,$row->j_id); */
-/* 		$r.=$hid_jid->IOValue(); */
 
-		$r.=($i%2==0)?"<tr class=\"odd\">":'<tr>';		$i++;
-		$r.='<td> '.$fiche->strAttribut(ATTR_DEF_NAME).'</td>';
-		$r.='<td align="right">'.$row->qs_quantite.'</td>';
-		$r.='<td align="right">'.$row->qs_vat.'</td>';
-		$r.='<td>'.$row->qs_vat_code.'</td>';
-		$r.='<td align="right">'.$row->qs_price.'</td>';
-		//-- add ca 
-		//
-
-		$content['j_poste']=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
-		//		echo "j_poste= ".$content['j_poste'];
-		if ( $own->MY_ANALYTIC != "un" && ereg("^[6,7]+",$content['j_poste']))
-		  {
-			echo_debug(__FILE__.":".__LINE__,"Content is ",$content);
-			$plan=new PlanAnalytic($p_cn);
-			$a_plan=$plan->get_list();
-			$null=($own->MY_ANALYTIC=='op')?1:0;
-			
-			foreach ($a_plan as $r_plan) 
-			  {
-				echo_debug(__FILE__.":".__LINE__,"CA Content is ",$array);
-				$array=make_array($p_cn,
-								  "select po_id as value,".
-								  " po_name as label from poste_analytique ".
-								  " where pa_id = ".$r_plan['id'].
-								  " order by po_name",$null);
-				$op=new operation($p_cn);
-				$op_array=$op->get_operation_by_jid($content['j_id']);
-				$select = new widget("select","","plan_".$r_plan['id']."_".$row->j_id,$array);
-				
-				if ( $op_array != null)  
-				  foreach ($op_array as $row) { 
-					echo_debug(__FILE__.":".__LINE__,"row is ",$row);
-					if ( $r_plan['id'] == $row->pa_id ) { 
-					  $select->selected=$row->po_id; 
-					} 
-				  } 
-				$select->table=1;
-				$select->readonly=($p_mode==0)?true:false;
-
-				echo_debug(__FILE__.":".__LINE__,"select ",$select);
-				$r.=$select->IOValue();
-			}
-		}
-
-		$r.="</tr>";
 	  }
 	  $r.="<tr>".
 		"<td>"."</td>".
@@ -1013,14 +900,13 @@ function NextJrn($p_cn,$p_type)
 /*! 
  * \brief 
  * 
- * parm : 
- *	- $p_cn connection
- *      - $p_grpt id in jr_grpt_id
- *      - $p_jrn jrn id jrn_def_id
- *      - $p_dossier dossier id
- * gen :
- *	-
- * return:
+ * \param 
+ * \param $p_cn 
+ * \param $p_grpt id in jr_grpt_
+ * \param $p_jrn jrn id jrn_def_
+ * \param $p_dossier dossier id
+ *	
+ * \return string internal_code
  *	-
  *
  */ 
@@ -1071,7 +957,7 @@ function GetDataJrnJrId ($p_cn,$p_jr_id) {
                         left outer join tmp_pcmn on  j_poste=pcm_val
                       where 
                          jr_id=$p_jr_id 
-                      order by j_debit desc");
+                      order by j_debit desc,j_id asc");
   $MaxLine=pg_NumRows($Res);
   echo_debug('jrn.php',__LINE__,"Found $MaxLine lines");
   if ( $MaxLine == 0 ) return null;
@@ -1131,7 +1017,9 @@ function GetDataJrnJrIdUser ($p_cn,$p_jr_id) {
 	       "*".
 	       "  from quant_sold join jrn on (qs_internal=jr_internal) ". 
 	       "       join jrn_def on (jr_def_id=jrn_def_id) ".
-	       " where jr_id=$p_jr_id");
+		   "   inner join jrnx on (j_grpt=jr_grpt_id )".
+			   " join tmp_pcmn on (pcm_val=j_poste)".
+	       " where jr_id=$p_jr_id order by jrnx.j_id");
 
 
   $MaxLine=pg_NumRows($Res);
@@ -1145,6 +1033,8 @@ function GetDataJrnJrIdUser ($p_cn,$p_jr_id) {
 		   "*".
 		   "  from quant_purchase join jrn on (qp_internal=jr_internal)".
 		   "       join jrn_def on (jr_def_id=jrn_def_id) ".
+		   "   inner join jrnx on (j_grpt=jr_grpt_id) ".
+				   " join tmp_pcmn on (pcm_val=j_poste)".
 		   " where jr_id=$p_jr_id");
       $MaxLine=pg_NumRows($Res);
       if ( $MaxLine == 0 ) 	  return null;
@@ -1163,25 +1053,25 @@ function GetDataJrnJrIdUser ($p_cn,$p_jr_id) {
     //
     if ( strlen( $line['j_qcode']) != 0 )
       {
-	$fiche=new fiche($p_cn);
-	$fiche->GetByQCode($line['j_qcode']);
-
-	$array['vw_name']=$fiche->getName();
+		$fiche=new fiche($p_cn);
+		$fiche->GetByQCode($line['j_qcode']);
+		
+		$array['vw_name']=$fiche->getName();
       }
     else
       {
-	$array['vw_name']=$line['pcm_lib'];
+		$array['vw_name']=$line['pcm_lib'];
       }
-
+	
     if ( isset ($line['qs_client'])) 
       {
-	/* It is an invoice */
-	$array['qs_client']=$line['qs_client'];
+		/* It is an invoice */
+		$array['qs_client']=$line['qs_client'];
       }
     else
       {
-	/* it a purchase */
-	$array['qp_supplier']=$line['qp_supplier'];
+		/* it a purchase */
+		$array['qp_supplier']=$line['qp_supplier'];
 
       }
 
@@ -1198,10 +1088,97 @@ function GetDataJrnJrIdUser ($p_cn,$p_jr_id) {
     $array['jr_grpt_id']=$line['jr_grpt_id'];
     $array['jr_pj_name']=$line['jr_pj_name'];
     //    $array['']=$line[''];
-
+    echo_debug(__FILE__.':'.__LINE__," GetDataJrnjrIdUser ",$array);
     $ret_array[$i]=$array;
     }
   return $ret_array;
 }
+/*\brief
+ *\param
+ *\param
+ *\param
+ *\param
+ *\param
+ *\return
+ */
+function display_table_ca($p_cn,$p_seq,$p_jid,$p_own,$p_mode,$p_amount) {
+  echo_debug(__FILE__.':'.__LINE__,'parameter $p_cn,$p_seq,$p_jid,$p_own,$p_mode',"$p_cn,$p_seq,$p_jid,p_own,$p_mode");
+  $op=new operation($p_cn);
+  $array=$op->get_by_jid($p_jid) ;
+  echo_debug(__FILE__.':'.__LINE__,"display_table_ca \$p_jid",$p_jid);
+  echo_debug(__FILE__.':'.__LINE__,"display_table_ca \$array",$array);
+  if ( $array != null ) {
+    $request=$op->to_request($array,$p_seq);
+    echo_debug(__FILE__.':'.__LINE__,"request =",$request);
+    return "<td>".$op->display_form_plan($request,1,$p_mode,$p_seq,$p_amount)."</td>";
+  } else {
+    return '<td>'.$op->display_form_plan(null,1,$p_mode,$p_seq,$p_amount)."</TD>";
+  }
+  return "";
+  
+}
+/*
+function display_table_ca2($p_cn,$p_jid,$p_own,$p_mode) {
+  $r="";
+  $head_ca="</td><td><table><tr>";
+  $plan=new PlanAnalytic($p_cn);
+  $a_plan=$plan->get_list();
+  foreach ($a_plan as $r_plan)
+	{
+	  $head_ca.="<th>".$r_plan['name']."</th>";
+	}
+  $head_ca.="<th>Montant</th>";
+  
+  
+  $r.=$head_ca.'</tr>';
 
+  // show form
+  $op=new operation($p_cn);
+  $null=($p_own->MY_ANALYTIC=='op')?1:0;
+  
+  //		  $r.=$op->display_form_plan($null,"form",$i,round($fiche_with_vat,2));
+  
+  $plan=new PlanAnalytic($p_cn);
+  $a_plan=$plan->get_list();
+  $max_plan=$plan->count();
+  // Get all the operation
+  $op=new operation($p_cn);
+  $op_array=$op->get_by_jid($p_jid);
+  echo_debug(__FILE__.':'.__LINE__, "array is ",$op_array);
+  $count_plan=0;
+  $r.="<tr>";
+  foreach ($op_array as $row) 
+	{
+	  
+	  
+	  $array=make_array($p_cn,
+						"select po_id as value,".
+						" po_name as label from poste_analytique ".
+						" where pa_id = ".$row->pa_id.
+						" order by po_name",$null);
+	  
+	  
+	  $select = new widget("select","","plan_".$row->pa_id."_".$p_jid,$array);
+			  
+	  $select->selected=$row->po_id; 
+	  
+	  $select->table=0;
+	  echo_debug(__FILE__.":".__LINE__,"select ",$select);
+	  $select->readonly=($p_mode==0)?true:false;
+	  $r.='<td>'.$select->IOValue().'</tD>';
+	  $count_plan++;
+	  if ( $count_plan == $max_plan) {	  
+		$ca_amount=new widget("text");
+		$r.="<td>".$ca_amount->IOValue("amount",$row->oa_amount);
+		$r.="</tr>";
+		$r.="<tr>";
+		$count_plan=0;
+	  }
+	  
+	}
+  $r.="</tr></table></td><tr>";
+
+  return $r;
+}
+*/
 ?>

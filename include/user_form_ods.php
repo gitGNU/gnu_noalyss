@@ -56,6 +56,7 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
       ${"$a"}=$v;
     }
   }
+  $own = new Own($p_cn);
 
   // The date
    list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$p_periode);
@@ -114,20 +115,10 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
   $r.="<th>Poste</th>";
   $r.="<th>Montant</th>";
   $r.="<th>Cr&eacute;dit ou d&eacute;bit</th>";
-  if ( $own->MY_ANALYTIC != "nu" )
-	{
-	  $plan=new PlanAnalytic($p_cn);
-	  $a_plan=$plan->get_list();
-	  foreach ($a_plan as $r_plan)
-		{
-		  $r.="<th>".$r_plan['name']."</th>";
-		}
-		  
-	}
   $r.="</tr>";
   $sum_deb=0.0;
   $sum_cred=0.0;
-
+  $count=0;
   // for each good
   for ($i=0;$i< $p_article;$i++) {
 
@@ -196,45 +187,32 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
     }else {
       $r.=(${"e_account$i"."_type"} == 'c' )?"Cr&eacute;dit":"D&eacute;bit";
       $r.='<input type="hidden" name="e_account'.$i.'_type" value="'.${"e_account$i"."_type"}.'">';
-	  // Add CA
-	  //--------------------------------------------------
-	  if ( ereg("^7+",${"e_account$i"}) ||
-		   ereg("^6+",${"e_account$i"})) 
-		{
+      // Add CA
+      //--------------------------------------------------
+      if ( ereg("^7+",${"e_account$i"}) ||
+	   ereg("^6+",${"e_account$i"})) 
+	{
 
-		  if (  $own->MY_ANALYTIC!='nu') // use of AA
-			{
-			  // for each plan
-			  $plan=new PlanAnalytic($p_cn);
-			  $a_plan=$plan->get_list();
-			  $null=($own->MY_ANALYTIC=='op')?1:0;
-			  foreach ($a_plan as $r_plan)
-				{
-				  $array=make_array($p_cn,
-									"select po_id as value,".
-									" po_name as label from poste_analytique ".
-									" where pa_id = ".$r_plan['id'].
-									" order by po_name",$null);
-				  $select = new widget("select","","p_".$r_plan['id']."_".$i,$array);
-				  $select->table=1;
-				  if ( $p_saved ) { 
-					$select->readonly=true;
-					$select->selected= ${"p_".$r_plan['id']."_".$i};
-				  }
-				  $r.=$select->IOValue();
-				  
-				}
-
-			}
-		}
+	  if (  $own->MY_ANALYTIC!='nu') // use of AA
+	    {
+	      // show form
+	      $op=new operation($p_cn);
+	      $null=($own->MY_ANALYTIC=='op')?1:0;
+	      $r.='<td>';
+	      $p_mode=($p_saved)?0:1;
+	      $r.=$op->display_form_plan($_POST,$null,$p_mode,$count,${"e_account$i"."_amount"});
+	      $r.='</td>';
+	      $count++;
+	    }
+	  
 	}
-	$r.='</td>';
-	$r.='</TR>';
-    $sum_deb+=(${"e_account$i"."_type"}=='d')?${"e_account$i"."_amount"}:0;
-    $sum_cred+=(${"e_account$i"."_type"}=='c')?${"e_account$i"."_amount"}:0;
-  } // End for 
-
-  $r.="</TABLE>";
+      $r.='</td>';
+      $r.='</TR>';
+      $sum_deb+=(${"e_account$i"."_type"}=='d')?${"e_account$i"."_amount"}:0;
+      $sum_cred+=(${"e_account$i"."_type"}=='c')?${"e_account$i"."_amount"}:0;
+    } 
+  }   // End for 
+    $r.="</TABLE>";
 
  if ( $pview_only==true && $p_saved==false) {
 // check for upload piece
@@ -265,19 +243,22 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
   //TODO if view only show total
   $tmp= abs($sum_deb-$sum_cred);
   echo_debug('user_form_ods.php',__LINE__,"Diff = ".$tmp);
-  if ( abs($sum_deb-$sum_cred) > 0.0001  and $pview_only==true) {
-    $msg=sprintf("Montant non correspondant credit = %.5f debit = %.5f diff = %.5f",
-		 $sum_cred,$sum_deb,$sum_cred-$sum_deb);
-    echo "<script> alert('$msg'); </script>";
+  if ( $pview_only==true) {
+
+    if ( abs($sum_deb-$sum_cred) > 0.0001  ) {
+      $msg=sprintf("Montant non correspondant credit = %.5f debit = %.5f diff = %.5f",
+		   $sum_cred,$sum_deb,$sum_cred-$sum_deb);
+      echo "<script> alert('$msg'); </script>";
     return null;
   }
 
   // Verify that we have a non-null operation
-  if ($pview_only==true and $sum_cred == 0)
+  if ($sum_cred == 0)
   {
     $msg=sprintf("Montant null");
     echo "<script> alert('$msg'); </script>";
     return null;
+  }
   }
   /* if not view only then a javascript will compute and check the
 	 total  */
@@ -312,6 +293,7 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
  */
 function RecordODS($p_cn,$p_array,$p_user,$p_jrn)
 {
+
   foreach ( $p_array as $v => $e)
   {
     ${"$v"}=$e;
@@ -324,7 +306,40 @@ function RecordODS($p_cn,$p_array,$p_user,$p_jrn)
   $sum_deb=0.0;
   $sum_cred=0.0;
   $own=new own($p_cn);
+  // verify first the CA
+  ///
+  if ( $own->MY_ANALYTIC != "un" )
+    {
+      // Check the total only for mandatory
+      //
+      if ( $own->MY_ANALYTIC == "ob") {
+	$tab=0;	   	    $row=1;
+	while (1) {
+	  if ( !isset ($_POST['nb_t'.$tab])) 
+	    break;
+	  $tot_tab=0;
+	  for ($i_row=1;$i_row <= MAX_COMPTE;$i_row++) {
+	    if ( ! isset($_POST['val'.$tab.'l'.$i_row]))
+	      break;
+	    $tot_tab+=$_POST['val'.$tab.'l'.$i_row];
+	  }
+	  if ( $tot_tab != $_POST['amount_t'.$tab]) {
+	    echo '<div class="error">';
+	    echo "Erreur dans les CA, les montants ne correspondent pas<br>";
+	    echo "ligne".$tab."<br>";;
+	    echo "Total poste ".$_POST['amount_t'.$tab]."<br>";
+	    echo "Total CA encod&eacute; = $tot_tab<br>";
 
+	    echo "Op&eacute;ration annul&eacute;e";
+	    echo '</div>';
+	    return null;
+	  }
+	  $tot_tab=0;
+	  $tab++;
+	}
+      }
+    }
+      
 	// Compute the j_grpt
   $seq=NextSequence($p_cn,'s_grpt');
   // Set Internal code and Comment
@@ -333,6 +348,8 @@ function RecordODS($p_cn,$p_array,$p_user,$p_jrn)
   try 
     {
       StartSql($p_cn);
+      $group=NextSequence($p_cn,"s_oa_group");
+      $count=0;
       // store into the database
       for ( $i = 0; $i < $nb_item;$i++) {
 		if ( isNumber(${"e_account$i"}) == 0 ) continue;
@@ -342,36 +359,28 @@ function RecordODS($p_cn,$p_array,$p_user,$p_jrn)
 		if ( ${"e_account$i"."_amount"} == 0 ) continue;
 		${"e_account$i"."_amount"}=round(${"e_account$i"."_amount"},2);
 		$j_id=InsertJrnx($p_cn,${"e_account$i"."_type"},$p_user->id,$p_jrn,${"e_account$i"},$e_date,${"e_account$i"."_amount"},$seq,$periode);
-		// insert into ca
-		if ( $own->MY_ANALYTIC != "un" )
+		if ( ereg("^7+",${"e_account$i"}) ||
+		     ereg("^6+",${"e_account$i"})) 
 		  {
-			// for each item, insert into operation_analytique
-			$plan=new PlanAnalytic($p_cn);
-			$a_plan=$plan->get_list();
-			foreach ($a_plan as $r_plan) 
-			  {
-				
-				if ( isset(${"p_".$r_plan['id']."_".$i})&& ${"p_".$r_plan['id']."_".$i} != -1) 
-				{
-				  
-				  $op=new operation($p_cn);
-				  $op->po_id=${"p_".$r_plan['id']."_".$i};
-				  $op->oa_group=$group;
-				  $op->j_id=$j_id;
-				  $op->pa_id=$r_plan['id'];
-				  $op->oa_amount=${"e_account$i"."_amount"};
-				  $op->oa_debit=($op->oa_amount < 0 )?'f':'t';
-				  $op->oa_date=$e_date;
-				  echo_debug(__FILE__.":".__LINE__,"saving ca ",$op);
-				  $op->add();
-				}
-			}
-		}
-	  
+		    
+		    // insert into ca
+		    if ( $own->MY_ANALYTIC != "un" )
+		      {
+			// for each item, insert into operation_analytique */
+			$op=new operation($p_cn); 
+			$op->oa_group=$group;
+			$op->j_id=$j_id;
+			$op->oa_date=$e_date;
+			$op->oa_debit=($op->oa_amount < 0 )?'t':'f';
+			$op->oa_description=$e_comm;
+			$op->save_form_plan($_POST,$count);
+			$count++;
+		      }
+		  }
 
 		
-	  }
-	  InsertJrn($p_cn,$e_date,"",$p_jrn,$e_comm,$seq,$periode) ;
+      }
+      InsertJrn($p_cn,$e_date,"",$p_jrn,$e_comm,$seq,$periode) ;
 
       // Set Internal code and Comment
     // Set Internal code and Comment
@@ -380,7 +389,7 @@ function RecordODS($p_cn,$p_array,$p_user,$p_jrn)
 
       if ( $e_comm=="" ) {
 	// Update comment if comment is blank
-	$Res=ExecSql($p_cn,"update jrn set jr_comment='".$internal_code."' where jr_grpt_id=".$seq);
+	$Res=ExecSql($p_cn,"update jrn set jr_comment='".$internal."' where jr_grpt_id=".$seq);
       }
       if ( isset ($_FILES))
 	save_upload_document($p_cn,$seq);
@@ -395,7 +404,7 @@ function RecordODS($p_cn,$p_array,$p_user,$p_jrn)
       exit();
     }
   Commit($p_cn);
-  return $internal_code;
+  return $internal;
 }
 
 

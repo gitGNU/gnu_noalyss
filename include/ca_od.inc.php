@@ -123,7 +123,7 @@ echo '
  echo 'P&eacute;riode  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit','Valider').'</form>';
 
   echo '<div class="u_redcontent">';
-   echo $a->html_table($_GET['p_periode']);
+  echo $a->html_table($current);
    echo '</div>';
   exit();
  }

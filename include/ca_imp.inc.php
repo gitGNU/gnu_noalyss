@@ -37,7 +37,7 @@ $menu=array(array("?p_action=ca_imp&sub=listing&$str_dossier","Listing","Listing
 			array("?p_action=ca_imp&sub=bs&$str_dossier","Balance simple","Balance simple d'un plan analytique","bs"),
 			array("?p_action=ca_imp&sub=bc2&$str_dossier","Balance crois&eacute;","Balance crois&eacute; de 2 plans analytiques","bc2")
 			);
-$sub=(isset($_GET['sub']))?$_GET['sub']:0;
+$sub=(isset($_GET['sub']))?$_GET['sub']:'no';
 echo ShowItem($menu,"H","mtitle","mtitle",$sub);
 
 $hidden=new widget("hidden");
@@ -82,10 +82,16 @@ if ( $sub=='listing') {
 	echo '<form method="GET" action="ca_list_pdf.php" style="display:inline">';
 	echo $str_hidden;
 	echo dossier::hidden();
+	echo $hidden->IOValue("to",$_GET['to']);
+	echo $hidden->IOValue("to",$_GET['from']);
+	echo $hidden->IOValue("to",$_GET['pa_id']);
 	echo $submit->Submit('bt_pdf',"Export en PDF");
 	echo '</form>';
 
 	echo '<form method="GET" action="ca_list_csv.php"  style="display:inline">';
+	echo $hidden->IOValue("to",$_GET['to']);
+	echo $hidden->IOValue("to",$_GET['from']);
+	echo $hidden->IOValue("to",$_GET['pa_id']);
 	echo $str_hidden;
 	echo dossier::hidden();
 	echo $submit->Submit('bt_csv',"Export en CSV");
@@ -109,7 +115,7 @@ if ( $sub=='listing') {
 	  echo 
 		'<td>'.$row['oa_date'].'</td>'.
 		'<td>'.$row['po_name'].'</td>'.
-		'<td>'.$row['po_description'].'</td>'.
+		'<td>'.$row['oa_description'].'</td>'.
 		'<td>'.$row['oa_amount'].'</td>'.
 		'<td>'.(($row['oa_debit']=='f')?'CREDIT':'DEBIT').'</td>';
 	  echo '</tr>';

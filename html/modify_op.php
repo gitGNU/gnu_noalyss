@@ -32,6 +32,7 @@ include_once("user_common.php");
 include_once ("postgres.php");
 include_once("jrn.php");
 include_once("class_widget.php");
+require_once ("constant.php");
 
 /* Admin. Dossier */
 $rep=DbConnect();
@@ -44,15 +45,8 @@ require_once('class_dossier.php');
 $gDossier=dossier::id();
 
 $cn=DbConnect($gDossier);
+$p_jrn=(isset($_REQUEST['p_jrn']))?$_REQUEST['p_jrn']:0;
 
-if ( isset( $_GET['p_jrn'] )) {
-  $p_jrn=$_GET['p_jrn'];
- } else {
-  if ( ! isset ( $_GET['p_jrn'])  ) 
-    $p_jrn=0;
-  else 
-    $p_jrn=$_GET['p_jrn'];
- }
 if ( isset ( $_GET['action'] ) ) {
   $action=$_GET['action'];
 }
@@ -104,7 +98,7 @@ if ( $action == 'update' ) {
     echo JS_CONCERNED_OP;
 
 
-    echo_debug(__FILE__.":".__LINE__."Selected view is $view");
+
 
 
     $view='<h2 class="error">Erreur vue inconnue</h2>';
@@ -118,7 +112,8 @@ if ( $action == 'update' ) {
 	$view.='<h2 class="info">Vue simple</h2>';
 	$view.='<FORM METHOD="POST" enctype="multipart/form-data" ACTION="modify_op.php">';
 	$view.=dossier::hidden();
-	$view.=ShowOperationUser($cn,$p_id);
+	$readonly=($p_view=='E')?0:1;
+	$view.=ShowOperationUser($cn,$p_id,$readonly);
 	$view.='<input type="button" onclick="hide(\'simple\');show(\'expert\');" value="Vue expert">';
 	$view.='<INPUT TYPE="Hidden" name="action" value="update_record">';
 	$view.="<br>";
@@ -138,7 +133,8 @@ if ( $action == 'update' ) {
 	$view.='<h2 class="info">Vue expert</h2>';
 	$view.='<FORM METHOD="POST" enctype="multipart/form-data" ACTION="modify_op.php">';
 	$view.=dossier::hidden();
-	$view.=ShowOperationExpert($cn,$p_id);
+	$readonly=($p_view=='S')?0:1;
+	$view.=ShowOperationExpert($cn,$p_id,$readonly);
 	$view.='<input type="button" onclick="hide(\'expert\');show(\'simple\')"  value="Vue simple">';
 	$view.='<INPUT TYPE="Hidden" name="action" value="update_record">';
 	$view.="<br>";
@@ -228,32 +224,60 @@ if ( isset($_POST['update_record']) ) {
 	//-------------------------------------
 	// CA
 	//------------------------------------
+	$own = new Own($cn);
+
 	if ( $own->MY_ANALYTIC != "un" )
 	  {
-		// for each item, insert into operation_analytique
-		$plan=new PlanAnalytic($cn);
-		$a_plan=$plan->get_list();
-		foreach ($a_plan as $r_plan) 
-		  {
-			foreach ($_POST as $post_name=>$post_value) {
-			  $a="plan_".$r_plan['id']."_";
-			  $po=sscanf($post_name,$a."%d");
-			  echo_debug(__FILE__.":".__LINE__,"post ",$post_name);
-			  echo_debug(__FILE__.":".__LINE__,"post ",$post_value);
-			  echo_debug(__FILE__.":".__LINE__,"a = ",$a);
-			  echo_debug(__FILE__.":".__LINE__,"po = ".var_export($po,true));
+	    // Check the total only for mandatory
+	    //
+	    if ( $own->MY_ANALYTIC == "ob") {
+	      $tab=0;	   	    $row=1;
+	      while (1) {
+		if ( !isset ($_POST['nb_t'.$tab])) 
+		  break;
+		$tot_tab=0;
+		for ($i_row=0;$i_row <= MAX_COMPTE;$i_row++) {
+		  if ( ! isset($_POST['val'.$tab.'l'.$i_row]))
+		    break;
+		  $tot_tab+=$_POST['val'.$tab.'l'.$i_row];
+		}
+		if ( $tot_tab != $_POST['amount_t'.$tab]) {
+		  echo "Error montant CA";
+		  echo "Op&eacute;ration annul&eacute;e";
+		return;
+		}
+		$tot_tab=0;
+		$tab++;
+	      }
+	    }
 
-			  if ( $po[0] != null  ) {
+	    // we need first old the j_id and j_poste
+	    // so we fetch them all from the db
+	    $sql="select j_id,j_poste,to_char(j_date,'DD.MM.YYYY') as j_date,j_debit ".
+	      "from jrn join jrnx on (j_grpt=jr_grpt_id) ".
+	      "where jr_id=".$_POST['jr_id'];
+	    $res=ExecSql($cn,$sql);
 
-				$op=new operation($cn);
-				$op->j_id=$po[0];
-				$op->pa_id=$r_plan['id'];
-				$op->po_id=$post_value;
-				$op->update_from_jrnx($post_value);
-			  }
-			} // foreach ($_POST
-		  }// foreach ($a_plan
+	    $array_jid=pg_fetch_all($res);
+	    // if j_poste match 6 or 7 we insert them
+	    $count=0;
+	    $group=NextSequence($cn,"s_oa_group");
 
+	    foreach( $array_jid as $row_ca) {
+	      echo_debug(__FILE__.':'.__LINE__,"array is ",$row_ca);
+	      if ( ereg("^[6,7]+",$row_ca['j_poste'])) {
+		echo_debug(__FILE__.':'.__LINE__,"count is ",$count);
+		$op=new operation($cn);
+		$op->delete_by_jid($row_ca['j_id']);
+		$op->j_id=$row_ca['j_id'];
+		$op->oa_debit=$row_ca['j_debit'];
+		$op->oa_date=$row_ca['j_date'];
+		$op->oa_group=$group;
+		$op->oa_description=$_POST['comment'];
+		$op->save_form_plan($_POST,$count);
+		$count++;
+	      } //if ereg
+	    }//foreach
 	  }//	if ( $own->MY_ANALYTIC != "un" ) 
   } catch (Exception $e) {
     echo '<span class="error">'.
@@ -262,15 +286,15 @@ if ( isset($_POST['update_record']) ) {
       $e->getMessage();
 	echo_debug(__FILE__,__LINE__,$e->getMessage());
     Rollback($cn);
-
+    exit();
   }
 
   Commit($cn);
-
-  echo ' <script> 
+  /*!\todo REMOVE DEBUG HERE */
+  /*  echo ' <script> 
  window.close();
  self.opener.RefreshMe();
- </script>';
+ </script>';*/
 } // if update_record
 //-----------------------------------------------------
 if (  $action  == 'delete' ) {
