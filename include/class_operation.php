@@ -24,6 +24,7 @@
  */
 require_once("class_plananalytic.php");
 require_once("class_widget.php");
+require_once ("user_common.php");
 
 /*! \brief this class is used to show the form for entering an
  *   operation
@@ -121,16 +122,25 @@ class operation
   /*!\brief get a list of row from a certain periode
    * \todo to be done
    */
-  function get_list($p_from,$p_to) {
+  function get_list($p_from,$p_to,$p_from_poste="",$p_to_poste="") {
 	$cond="";
+	$cond_poste="";
+
 	if ($p_from!="")
-	  $cond="and oa_date >= to_date('$p_from','DD.MM.YYYY') and oa_date <=to_date('$p_to','DD.MM.YYYY')";
+	  $cond="and oa_date >= to_date('$p_from','DD.MM.YYYY') ";
+	if ( $p_to!="" )
+	  $cond.="and oa_date <=to_date('$p_to','DD.MM.YYYY')";
+
+	if ($p_from_poste != "" )
+	  $cond_poste=" and upper(po_name) >= upper('".$p_from_poste."')";
+	if ($p_to_poste != "" )
+	  $cond_poste.=" and upper(po_name) <= upper('".$p_to_poste."')";
 
 	$sql="select oa_id,po_name,oa_description,".
 	  "oa_debit,to_char(oa_date,'DD.MM.YYYY') as oa_date,oa_amount,oa_group,j_id ".
 	  " from operation_analytique as B".
 	  " join poste_analytique using(po_id) ".
-	  "where B.pa_id=".$this->pa_id." and oa_amount <> 0.0 $cond".
+	  "where B.pa_id=".$this->pa_id." and oa_amount <> 0.0 $cond $cond_poste".
 	  " order by oa_date ,oa_group,oa_debit,oa_id";
 	$RetSql=ExecSql($this->db,$sql);
 
@@ -153,20 +163,28 @@ class operation
 	$array=$this->get_list($from,$to);
 	if ( empty($array)  )
 	  return "Pas d'enregistrement trouv&eacute;";
-	
-	  $gDossier=dossier::id();
-	  $ret="";
-	  $ret.=JS_VIEW_JRN_MODIFY;
-	  $count=0;
-	  $group=0;
-	  $oldgroup=0;
-	  $oldjrid=0;
-	  foreach ($array as $row) {
-		$group=$row['oa_group'];
-		if ( $group !=$oldgroup ) {
-		  if ( $oldgroup!=0 ) 
-			{
 
+	// jrn_navigation_bar
+	$step=$_SESSION['g_pagesize'];
+	$page=(isset($_GET['offset']))?$_GET['page']:1;
+	$offset=(isset($_GET['offset']))?$_GET['offset']:0;	
+	$bar=jrn_navigation_bar($offset+1,count($array),$step,$page);
+
+	$view=array_splice($array,$offset,$step);
+	$gDossier=dossier::id();
+	$ret="";
+	$ret.=$bar;
+	$ret.=JS_VIEW_JRN_MODIFY;
+	$count=0;
+	$group=0;
+	$oldgroup=0;
+	$oldjrid=0;
+	foreach ($view as $row) {
+	  $group=$row['oa_group'];
+	  if ( $group !=$oldgroup ) {
+		if ( $oldgroup!=0 ) 
+		  {
+			
 			  $efface=new widget('button');
 			  $efface->javascript="op_remove('".$_REQUEST['PHPSESSID']."',".$gDossier.",".$oldgroup.")";
 			  $efface->name="Efface";
@@ -238,6 +256,7 @@ class operation
 	  $ret.="<td>".$detail->IOValue()."</td>";
 	}
 	$ret.='</table>';
+	$ret.=$bar;
 	return $ret;
   }
   /*!\brief retrieve an operation thanks a jrnx.j_id 
@@ -447,6 +466,10 @@ function get_balance($p_from,$p_to,$p_plan_id)
  function save_form_plan($p_array,$p_item) {
    echo_debug(__FILE__.':'.__LINE__,"p_array is ",$p_array);
    extract($p_array);
+   if ( !isset (${"nb_t".$p_item}) ) {
+	 echo __FILE__.':'.__LINE."nb_t".$p_item." n'est pas defini !!!";
+	 exit();
+   }
    $max=${"nb_t".$p_item};
    echo_debug(__FILE__.':'.__LINE__.'- ', "max of row for CA = ".$max);
    // get all the PA
