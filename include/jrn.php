@@ -59,7 +59,7 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
   $col_vide="<TD></TD>";
   $disable=($p_mode==0)?"disabled":"";
   $str_dossier=dossier::get();
-
+  $count=0;
   for ( $i =0 ; $i < sizeof($l_array); $i++) {
     $content=$l_array[$i] ;
 
@@ -125,7 +125,8 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 	  if ( $own->MY_ANALYTIC != "un" && ereg("^[6,7]+",$content['j_poste']))
 	    {
 	      
-	      $r.=display_table_ca($p_cn,$i,$content['j_id'],$own,$p_mode,$content['j_montant']);
+	      $r.=display_table_ca($p_cn,$count,$content['j_id'],$own,$p_mode,$content['j_montant']);
+		  $count++;
 	    }
 	  
 	  $r.="</TR>";
@@ -327,8 +328,8 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 		if ( $own->MY_ANALYTIC != "un" && ereg("^[6,7]+",$content['j_poste']))
 		  {
 		    $r.=display_table_ca($p_cn,$i_march,$row->j_id,$own,$p_mode,$tot_tva);
+			$i_march++;
 		  }
-		$i_march++;
 
 
 	  }

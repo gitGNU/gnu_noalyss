@@ -266,16 +266,16 @@ if ( isset($_POST['update_record']) ) {
 	    foreach( $array_jid as $row_ca) {
 	      echo_debug(__FILE__.':'.__LINE__,"array is ",$row_ca);
 	      if ( ereg("^[6,7]+",$row_ca['j_poste'])) {
-		echo_debug(__FILE__.':'.__LINE__,"count is ",$count);
-		$op=new operation($cn);
-		$op->delete_by_jid($row_ca['j_id']);
-		$op->j_id=$row_ca['j_id'];
-		$op->oa_debit=$row_ca['j_debit'];
-		$op->oa_date=$row_ca['j_date'];
-		$op->oa_group=$group;
-		$op->oa_description=$_POST['comment'];
-		$op->save_form_plan($_POST,$count);
-		$count++;
+			echo_debug(__FILE__.':'.__LINE__,"count is ",$count);
+			$op=new operation($cn);
+			$op->delete_by_jid($row_ca['j_id']);
+			$op->j_id=$row_ca['j_id'];
+			$op->oa_debit=$row_ca['j_debit'];
+			$op->oa_date=$row_ca['j_date'];
+			$op->oa_group=$group;
+			$op->oa_description=$_POST['comment'];
+			$op->save_form_plan($_POST,$count);
+			$count++;
 	      } //if ereg
 	    }//foreach
 	  }//	if ( $own->MY_ANALYTIC != "un" ) 
