@@ -48,6 +48,7 @@ $str_hidden.=$hidden->IOValue("sub",$sub);
 //------------------------------------------------------------------------------
 // listing
 if ( $sub=='listing') {
+  /*
   $from=new widget  ('text','from','from');
   $from->size=10;
   $from->value=(isset($_GET['from']))?$_GET['from']:"";
@@ -71,56 +72,21 @@ if ( $sub=='listing') {
   echo $plan_id->Submit("recherche","recherche");
   echo '</form>';
   echo '<span class="notice"> Les dates sont en format DD.MM.YYYY</span>';
+  */
+  require_once ('class_list_ca.php');
+  $list=new list_ca($cn);
+  $list->get_request();
+
+  echo $list->display_form($str_hidden);
   //---- result
   if ( isset($_GET['result']) ){
 	echo '<div class="u_redcontent">';
-	$submit=new widget();
-	$submit->table=0;
+
 	//--------------------------------
 	// export Buttons 
 	//---------------------------------
-	echo '<form method="GET" action="ca_list_pdf.php" style="display:inline">';
-	echo $str_hidden;
-	echo dossier::hidden();
-	echo $hidden->IOValue("to",$_GET['to']);
-	echo $hidden->IOValue("to",$_GET['from']);
-	echo $hidden->IOValue("to",$_GET['pa_id']);
-	echo $submit->Submit('bt_pdf',"Export en PDF");
-	echo '</form>';
-
-	echo '<form method="GET" action="ca_list_csv.php"  style="display:inline">';
-	echo $hidden->IOValue("to",$_GET['to']);
-	echo $hidden->IOValue("to",$_GET['from']);
-	echo $hidden->IOValue("to",$_GET['pa_id']);
-	echo $str_hidden;
-	echo dossier::hidden();
-	echo $submit->Submit('bt_csv',"Export en CSV");
-	echo '</form>';
-
-	//---Html
-	$op=new operation ($cn);
-	$op->pa_id=$_GET['pa_id'];
-	$array=$op->get_list($_GET['from'],$_GET['to']);
-	if ( empty($array) ) { echo "aucune donn&eacute;e"; return;}
-	echo '<table>';
-	echo '<tr>'.
-	  '<th>Date</th>'.
-	  '<th>Nom</th>'.
-	  '<th>Description</th>'.
-	  '<th>Montant</th>'.
-	  '<th>D/C</th>'.
-	  '</tr>';
-	foreach ( $array as $row ) {
-	  echo '<tr>';
-	  echo 
-		'<td>'.$row['oa_date'].'</td>'.
-		'<td>'.$row['po_name'].'</td>'.
-		'<td>'.$row['oa_description'].'</td>'.
-		'<td>'.$row['oa_amount'].'</td>'.
-		'<td>'.(($row['oa_debit']=='f')?'CREDIT':'DEBIT').'</td>';
-	  echo '</tr>';
-	}
-	echo '</table>';
+	echo $list->show_button($str_hidden);
+	echo $list->display_html();
 	echo '</div>';
   }
  }
@@ -128,6 +94,16 @@ if ( $sub=='listing') {
 //------------------------------------------------------------------------------
 // Simple balance 
 if ($sub == 'bs') {
+  require_once ('class_balance_ca_bs.php');
+  $bs=new balance_ca_bs($cn);
+  $bs->get_request();
+  echo '<form method="get">';
+  echo $bs->display_form($str_hidden);
+  echo '</form>';
+  if ( isset($_GET['result'])) {
+	echo $bs->show_button('ca_bs_csv.php','ca_bs_pdf.php',$str_hidden);
+	echo $bs->display_html();
+  }
  }
 
 //------------------------------------------------------------------------------
