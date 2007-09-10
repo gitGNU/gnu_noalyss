@@ -1022,7 +1022,15 @@ function isValid ($p_cn,$p_grpt_id) {
  * \param $p_line total of returned row
  * \param $p_size current g_pagesize user's preference
  * \param $p_page number of the page where the user is 
- *
+ * \note example :     
+\verbatim
+   $step=$_SESSION['g_pagesize'];
+   $page=(isset($_GET['offset']))?$_GET['page']:1;
+   $offset=(isset($_GET['offset']))?$_GET['offset']:0;
+
+   list ($max_ligne,$list)=ListJrn($cn,$_GET['p_jrn'],$sql,null,$offset,1);
+   $bar=jrn_navigation_bar($offset,$max_ligne,$step,$page);
+\endverbatim
  * \return   string with the nav. bar
  */
 function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1)
