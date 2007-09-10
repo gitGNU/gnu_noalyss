@@ -73,7 +73,7 @@ foreach ($a_poste as $poste)
 		       'deb_montant'=> 'Montant',
 		       'cred_montant'=> 'Montant'
 		       ),$Libelle,
-		array('shaded'=>0,'showHeadings'=>1,'width'=>500,
+		array('shaded'=>1,'showHeadings'=>1,'width'=>500,
 		      'cols'=>array('montant'=> array('justification'=>'right'),
 				    )));
   $str_debit=sprintf("Débit  % 12.2f",$tot_deb);
