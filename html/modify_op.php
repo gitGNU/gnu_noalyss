@@ -233,21 +233,23 @@ if ( isset($_POST['update_record']) ) {
 	    if ( $own->MY_ANALYTIC == "ob") {
 	      $tab=0;	   	    $row=1;
 	      while (1) {
-		if ( !isset ($_POST['nb_t'.$tab])) 
-		  break;
-		$tot_tab=0;
-		for ($i_row=0;$i_row <= MAX_COMPTE;$i_row++) {
-		  if ( ! isset($_POST['val'.$tab.'l'.$i_row]))
-		    break;
-		  $tot_tab+=$_POST['val'.$tab.'l'.$i_row];
-		}
-		if ( $tot_tab != $_POST['amount_t'.$tab]) {
-		  echo "Error montant CA";
-		  echo "Op&eacute;ration annul&eacute;e";
-		return;
-		}
-		$tot_tab=0;
-		$tab++;
+			if ( !isset ($_POST['nb_t'.$tab])) 
+			  break;
+			$tot_tab=0;
+
+			for ($i_row=0;$i_row <= MAX_COMPTE;$i_row++) {
+			  if ( ! isset($_POST['val'.$tab.'l'.$i_row]))
+				continue;
+			  $tot_tab+=$_POST['val'.$tab.'l'.$i_row];
+			}
+			print_r ( "\$tot_tab  $tot_tab \$_POST['amount_t'.$tab ".$_POST['amount_t'.$tab]);
+			if ( $tot_tab != $_POST['amount_t'.$tab]) {
+			  echo "Erreur montant CA";
+			  echo "Op&eacute;ration annul&eacute;e";
+			  return;
+			}
+			$tot_tab=0;
+			$tab++;
 	      }
 	    }
 

@@ -48,31 +48,6 @@ $str_hidden.=$hidden->IOValue("sub",$sub);
 //------------------------------------------------------------------------------
 // listing
 if ( $sub=='listing') {
-  /*
-  $from=new widget  ('text','from','from');
-  $from->size=10;
-  $from->value=(isset($_GET['from']))?$_GET['from']:"";
-
-  $to=new widget('text','to','to');
-  $to->value=(isset($_GET['to']))?$_GET['to']:"";
-  $to->size=10;
-
-  $plan_id=new widget("select","pa_id","pa_id");
-  $plan_id->selected=(isset($_GET['pa_id']))?$_GET['pa_id']:"Plan 2";
-
-  echo '<form method="get">';
-  echo dossier::hidden();
-  echo $hidden->IOValue("result","1");
-  echo $str_hidden;
-  echo "Depuis : ".$from->IOValue();
-  echo "jusque : ".$to->IOValue();
-  $plan=new PlanAnalytic($cn);
-  $plan_id->value=make_array($cn,"select pa_id, pa_name from plan_analytique order by pa_name");
-  echo "Plan Analytique :".$plan_id->IOValue();
-  echo $plan_id->Submit("recherche","recherche");
-  echo '</form>';
-  echo '<span class="notice"> Les dates sont en format DD.MM.YYYY</span>';
-  */
   require_once ('class_list_ca.php');
   $list=new list_ca($cn);
   $list->get_request();
@@ -109,5 +84,15 @@ if ($sub == 'bs') {
 //------------------------------------------------------------------------------
 // crossed balance
 if ( $sub == 'bc2') {
+  require_once ('class_balance_ca_bc.php');
+  $bc=new balance_ca_bc($cn);
+  $bc->get_request ();
+  echo '<form method="get">';
+  echo $bc->display_form($str_hidden);
+  echo '</form>';
+  if ( isset($_GET['result'])) {
+	echo $bc->show_button('ca_bc_csv.php','ca_bc_pdf.php',$str_hidden);
+	echo $bc->display_html();
+  }
  }
 

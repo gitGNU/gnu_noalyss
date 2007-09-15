@@ -128,7 +128,7 @@ class action
 		}
       // Compute the widget
       // Date 
-      $date=new widget("text");
+      $date=new widget("js_date");
       $date->readonly=$readonly;
       $date->name="ag_timestamp";
       $date->value=$this->ag_timestamp;

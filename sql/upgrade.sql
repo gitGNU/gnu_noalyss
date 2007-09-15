@@ -372,4 +372,41 @@ alter table user_sec_jrn add constraint uj_priv_id_fkey foreign key(uj_jrn_id) r
 alter table user_sec_jrn drop constraint "$1";
 alter table operation_analytique add oa_row int4;
 
+create or replace function upper_po_name() returns trigger as $$
+declare
+   name text;
+begin
+   name:=upper(NEW.po_name);
+   name:=trim(name);
+   name:=replace(name,' ','');		
+   NEW.po_name:=name;
+
+return NEW;
+end;
+$$ LANGUAGE plpgsql;
+
+create or replace function upper_pa_name() returns trigger as $$
+declare
+   name text;
+begin
+   name:=upper(NEW.pa_name);
+   name:=trim(name);
+   name:=replace(name,' ','');
+   NEW.pa_name:=name;
+return NEW;
+end;
+$$ LANGUAGE plpgsql;
+
+
+CREATE TRIGGER t_upper_po_name BEFORE INSERT OR UPDATE  ON poste_analytique
+    FOR EACH ROW EXECUTE PROCEDURE upper_po_name();
+
+CREATE TRIGGER t_upper_pa_name before INSERT OR UPDATE on plan_analytique
+    FOR EACH ROW EXECUTE PROCEDURE upper_pa_name();
+
+create unique index ux_po_name on poste_analytique (po_name);
+
+insert into parameter (pr_id,pr_value) select distinct 'MY_COUNTRY',pcm_country from tmp_pcmn limit 1;
+
+alter table tmp_pcmn drop pcm_country;
 commit;

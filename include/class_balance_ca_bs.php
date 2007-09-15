@@ -33,19 +33,6 @@ include_once("class.ezpdf.php");
 require_once ('header_print.php');
 
 class balance_ca_bs extends print_ca {
-/*! 
- * \brief
- * \param
- * \param
- * \param
- * 
- *
- * \return
- */
-  function get_request(){
-	parent::get_request();
-	$this->pa_id=(isset($_REQUEST['pa_id']))?$_REQUEST['pa_id']:"";
-  }
 
 /*! 
  * \brief
@@ -166,31 +153,16 @@ class balance_ca_bs extends print_ca {
  */
   function display_form($p_string="") {
 	$r=parent::display_form($p_string);
-	$poste=new widget("text");
-	$poste->size=10;
-	$r.="Entre le poste ".$poste->IOValue("from_poste",$this->from_poste);
-	$r.=" et le poste ".$poste->IOValue("to_poste",$this->to_poste);
 
-	$plan=new PlanAnalytic($this->db);
-	$plan_id=new widget("select","","pa_id");
- 	$plan_id->value=make_array($this->db,"select pa_id, pa_name from plan_analytique order by pa_name");
-	$plan_id->selected=$this->pa_id;
-	$r.= "Plan Analytique :".$plan_id->IOValue();
-	$r.= $plan_id->Submit("recherche","recherche");
-	$r.= '</form>';
-	$r.= '<span class="notice"> Les dates sont en format DD.MM.YYYY</span>';
+	$r.= '<input type="submit" value="Afficher">';
 
 	return $r;
   }
 
 /*! 
- * \brief
- * \param
- * \param
- * \param
- * 
+ * \brief Display the result in pdf
  *
- * \return array to display
+ * \return none
  */
   function display_pdf()
   {

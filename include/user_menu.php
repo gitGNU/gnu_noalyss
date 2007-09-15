@@ -416,23 +416,25 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
   }
 
   // Find the journal property
-
+  /*
   $opt='<OPTION VALUE="="> =';
   $opt.='<OPTION VALUE="<="> <=';
   $opt.='<OPTION VALUE="<"> <';
   $opt.='<OPTION VALUE=">"> >';
   $opt.='<OPTION VALUE=">="> >=';
+  */
   if ( ! isset ($p_date_start)) $p_date_start="";
   if ( ! isset ($p_date_end))   $p_date_end="";
   if ( ! isset ($p_mont_sel))$p_mont_sel="";
   if ( ! isset ($p_s_comment))$p_s_comment="";
   if ( ! isset ($p_s_montant)) $p_s_montant="";
+  if ( ! isset ($p_st_montant)) $p_st_montant="";
   if ( ! isset ($p_s_internal)) $p_s_internal="";
   if ( ! isset ($p_poste)) $p_poste="";
   if ( ! isset ($p_qcode)) $p_qcode="";
 
 
-  if ( $p_mont_sel != "" )  $opt.='<OPTION value="'.$p_mont_sel.'" SELECTED> '.$p_mont_sel;
+  //  if ( $p_mont_sel != "" )  $opt.='<OPTION value="'.$p_mont_sel.'" SELECTED> '.$p_mont_sel;
   $r="";
  
   //  $r.= '<div style="border-style:outset;border-width:1pt;">';
@@ -445,18 +447,34 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
   $r.="<table><tr><TD>";  
   $r.= '<TABLE>';
   $r.= "<TR>";
-  $r.= '<TD COLSPAN="3">  Date compris entre</TD> ';
+  $r.= '<TD COLSPAN="3">  Date comprise entre</TD> ';
   $r.= "</TR> <TR>";
-  $r.= '<TD> <INPUT TYPE="TEXT" NAME="date_start" SIZE="10" VALUE="'.$p_date_start.'"></TD>';
-  $r.= '<TD>et <INPUT TYPE="TEXT" NAME="date_end" size="10" Value="'.$p_date_end.'"></TD>';
+  $date_start=new widget('js_date');
+  $date_start->name="date_start";
+  $date_start->value=$p_date_start;
+  $date_start->table=0;
+
+  $date_end=new widget('js_date');
+  $date_end->name="date_end";
+  $date_end->value=$p_date_end;
+  $date_end->table=0;
+
+  //  $r.= '<TD> <INPUT TYPE="TEXT" NAME="date_start" SIZE="10" VALUE="'.$p_date_start.'"></TD>';
+  //$r.= '<TD>et <INPUT TYPE="TEXT" NAME="date_end" size="10"
+  //Value="'.$p_date_end.'"></TD>';
+  $r.='<td>'.$date_start->IOValue();
+  $r.="  et ";
+  $r.=$date_end->IOValue().'</td>';
   $r.= '</TD><TD>';
   $r.= "</TR> <TR>";
-  $r.= "<TD> Montant ";
-  $r.= ' <SELECT NAME="mont_sel">'.$opt.' </SELECT></TD><TD>';
-  $r.= ' <INPUT TYPE="TEXT" NAME="s_montant" SIZE="10" VALUE="'.$p_s_montant.'"></TD>';
+  $r.= "<TD> Montant compris entre ";
+  //  $r.= ' <SELECT NAME="mont_sel">'.$opt.' </SELECT></TD><TD>';
+  $r.= ' <INPUT TYPE="TEXT" style="border:groove 1px blue;" NAME="s_montant" SIZE="10" VALUE="'.$p_s_montant.'">';
+  $r.= ' et <INPUT TYPE="TEXT" style="border:groove 1px blue;" NAME="st_montant" SIZE="10" VALUE="'.$p_st_montant.'"></TD>';
+
   $r.= '</TR><TR valigne="top">';
-  $r.='<TD > Internal code </td>';
-  $r.='<TD ><input type="text" name="s_internal" value="'.$p_s_internal.'"></td>'; 
+  $r.='<TD > Internal code ';
+  $r.='<input type="text" style="border:groove 1px blue;"name="s_internal" value="'.$p_s_internal.'"></td>'; 
   $r.='</TR><TR><TD colspan="2"><i>vous pouvez spécifier uniquement <br>une partie (VEN, num&eacute;ro d\'op&eacute;ration...)</i></td>';
 
 
@@ -492,7 +510,7 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
 
   $r.= '<TD colspan="3"> Le commentaire contient </TD>';
   $r.= "</TR><TR>";
-  $r.= '<TD COLSPAN="3"> <INPUT TYPE="TEXT" NAME="s_comment" VALUE="'.$p_s_comment.'"></TD>';
+  $r.= '<TD COLSPAN="3"> <INPUT TYPE="TEXT" style="border:groove 1px blue;" NAME="s_comment" VALUE="'.$p_s_comment.'"></TD>';
   $r.= "</TR><TR>";
   $r.= '<TD COLSPAN="3"><INPUT TYPE="SUBMIT" VALUE="Recherche" NAME="viewsearch"></TD>';
   $r.= "</TR>";

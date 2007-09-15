@@ -55,7 +55,7 @@
  *      - JS_TVA        open a popup window for the VAT
  *      - JS_CONCERNED  open a popup window for search a operation, if extra == 0 then
  *                      get the amount thx javascript
-
+ *      - js_DATE show a calendar
  *
  *    For JS_SEARCH_POST,JS_SEARCH or JS_SEARCH_ONLY
  *     - $extra contains 'cred', 'deb', 'all' or a list of fiche_def_ref (frd_id) 
@@ -331,7 +331,7 @@ class widget {
          <INPUT class="inp" TYPE="button" onClick=SearchPoste(\'%s\','.dossier::id().',\'%s\',\'%s\') value="Recherche">
             %s</TD><TD> 
 
-             <INPUT   TYPE="Text" NAME="%s" ID="%s" VALUE="%s" SIZE="8">
+             <INPUT style="border:groove 1px blue;"  TYPE="Text" NAME="%s" ID="%s" VALUE="%s" SIZE="8">
                  </TD>',
 		 $l_sessid,
 		 $this->name,
@@ -347,7 +347,7 @@ class widget {
          <INPUT TYPE="button" onClick=SearchPosteFilter(\'%s\','.dossier::id().',\'%s\',\'%s\',\'%s\') value="Recherche">
             %s</TD><TD> 
 
-             <INPUT TYPE="Text" NAME="%s" id="%s" VALUE="%s" SIZE="8">
+             <INPUT style="border:groove 1px blue;" TYPE="Text" NAME="%s" id="%s" VALUE="%s" SIZE="8">
                  </TD>',
 		 $l_sessid,
 		 $this->name,
@@ -562,6 +562,48 @@ class widget {
 	  ' value="'.$this->label.'"'.
 	  ' onClick="'.$this->javascript.'">';
 	return $r;
+  }
+
+  //------------------------------------------------------------------------
+  // JS_DATE
+  //------------------------------------------------------------------------
+  if ( strtolower($this->type)=="js_date") {
+	if ( $this->readonly) {
+	  $r="<span> Date : ".$this->value;
+	  $r='<input type="hidden" name="'.$this->name.'"'.
+		'id="'.$this->name.'"'.
+		' value = "'.$this->value.'"></span>';
+	} else {
+	  $r='<input type="text" name="'.$this->name.'" id="'.$this->name.'"'.
+		'style="border:solid 1px blue;"'.
+		'size="10"'.
+		' value ="'.$this->value.'"'.
+		'/>'.
+		'<img src="image/x-office-calendar.png" id="'.$this->name.'_trigger"'.
+		' style="cursor: pointer; border: 1px solid red;" '.
+		'onmouseover="this.style.background=\'red\';" onmouseout="this.style.background=\'\'" />';
+	  $r.='<script type="text/javascript">'.
+		'Calendar.setup({'.
+		//	'date : "'.$this->value.'",
+        'inputField     :    "'.$this->name.'",     // id of the input field
+        ifFormat       :    "%d.%m.%Y",      // format of the input field
+        button         :    "'.$this->name.'_trigger",  // trigger for the calendar (button ID)
+        align          :    "Bl",           // alignment (defaults to "Bl")
+        singleClick    :    true
+    });
+</script>
+'; 
+	}
+	if ($this->table==1) {
+	  if ( $this->label != "") {
+		$r="<TD  style=\"border:groove 1px blue;\">".$this->label."</TD><TD>".$r."</TD>";
+	  }else {
+		$r="<TD>".$r."</TD>";
+	  }
+	}
+	  
+	return $r;
+	
   }
   return "INVALID WIDGET $this->type ";
   } //end function

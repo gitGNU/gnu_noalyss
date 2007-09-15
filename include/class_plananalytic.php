@@ -170,5 +170,13 @@ class PlanAnalytic
 	$a=CountSql($this->db,"select pa_id from plan_analytique");
 	return $a;
   }
+  function exist() {
+	$a=CountSql($this->db,"select pa_id from plan_analytique where pa_id=".
+				pg_escape_string($this->pa_id));
+
+	return ($a==0)?false:true;
+
+  }
 }
+
 ?>

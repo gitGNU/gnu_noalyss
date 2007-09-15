@@ -66,7 +66,9 @@ echo_debug('user_form_ach.php',__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_peri
   }
   // The date
   list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$p_periode);
-  $op_date=( ! isset($e_date) ) ?substr($l_date_start,2,8):$e_date;
+  //  $op_date=( ! isset($e_date) )
+  //  ?substr($l_date_start,2,8):$e_date;
+  $op_date=( ! isset($e_date) ) ?$l_date_start:$e_date;
   $e_ech=(isset($e_ech))?$e_ech:"";
   $e_comm=(isset($e_comm))?$e_comm:"";
 
@@ -99,7 +101,7 @@ echo_debug('user_form_ach.php',__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_peri
   $r.='<TABLE>';
   // Date widget
   //--
-  $Date=new widget("text");
+  $Date=new widget("js_date");
   $Date->SetReadOnly($pview_only);
   $Date->table=1;
   $r.="<tr>";

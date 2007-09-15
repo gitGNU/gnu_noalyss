@@ -172,6 +172,12 @@ function html_page_start($p_theme="",$p_script="",$p_script2="")
       <link rel=\"stylesheet\" type=\"text/css\" href=\"style-print.css\" media=\"print\">".
    $p_script2. "
 	</HEAD><script src=\"js/scripts.js\" type=\"text/javascript\"></script>";
+ echo '<script language="javascript" src="js/calendar.js"></script>
+<script type="text/javascript" src="js/lang/calendar-en.js"></script>
+<script language="javascript" src="js/calendar-setup.js"></script>
+<LINK REL="stylesheet" type="text/css" href="calendar-blue.css" media="screen">
+';
+
  echo "<BODY $p_script>";
 }
 /*! 

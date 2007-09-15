@@ -61,7 +61,9 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
   // The date
    list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$p_periode);
    $flag=(isset($e_date))?1:0;
-   $e_date=( ! isset($e_date) ) ? substr($l_date_start,2,8):$e_date;
+   //   $e_date=( ! isset($e_date) ) ?
+   //   substr($l_date_start,2,8):$e_date;
+   $e_date=( ! isset($e_date) ) ? $l_date_start:$e_date;
 
   // Verify if valid date
   if (  $flag==1 and VerifyOperationDate($p_cn,$p_periode,$e_date)   == null) {
@@ -85,7 +87,7 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
   $r.=dossier::hidden();
   $r.='<TABLE>';
   // Date
-  $wDate=new widget('text');
+  $wDate=new widget('js_date');
   $wDate->SetReadOnly($pview_only);
   $wDate->table=1;
   $r.="<TR>".$wDate->IOValue("e_date",$e_date,'Date')."</TR>";

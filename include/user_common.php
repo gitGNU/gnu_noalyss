@@ -501,13 +501,23 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Eché
     $l_s_montant=trim($l_s_montant);
     // replace comma by dot
     $l_s_montant=str_replace(',','.',$l_s_montant);
+    $l_st_montant=trim($l_st_montant);
+    // replace comma by dot
+    $l_st_montant=str_replace(',','.',$l_st_montant);
+
     echo_debug('user_common',__LINE__,"l_s_montant $l_s_montant");
 
     if ( ereg("^[0-9]+$", $l_s_montant) || ereg ("^[0-9]+\.[0-9]+$", $l_s_montant) ) 
     {
-      $sql.=$l_and."  jr_montant $l_mont_sel $l_s_montant";
+      $sql.=$l_and."  jr_montant >= $l_s_montant";
       $l_and=" and ";
     }
+    if ( ereg("^[0-9]+$", $l_st_montant) || ereg ("^[0-9]+\.[0-9]+$", $l_st_montant) ) 
+    {
+      $sql.=$l_and."  jr_montant <= $l_st_montant";
+      $l_and=" and ";
+    }
+
     // date
     if ( isDate($l_date_start) != null ) 
     {

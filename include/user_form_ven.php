@@ -53,7 +53,9 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
   }
   // The date
   list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$p_periode);
-  $op_date=( ! isset($e_date) ) ?substr($l_date_start,2,8):$e_date;
+  //  $op_date=( ! isset($e_date) )
+  //  ?substr($l_date_start,2,8):$e_date;
+  $op_date=( ! isset($e_date) ) ?$l_date_start:$e_date;
   $e_ech=(isset($e_ech))?$e_ech:"";
   $e_comm=(isset($e_comm))?$e_comm:"";
   //  $e_jrn=(isset($e_jrn))?$e_jrn:"";
@@ -91,7 +93,7 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
   $r.='<TABLE>';
   //  Date
   //--
-  $Date=new widget("text");
+  $Date=new widget("js_date");
   $Date->SetReadOnly($pview_only);
   $Date->table=1;
   $Date->tabindex=1;

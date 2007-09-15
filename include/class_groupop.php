@@ -64,7 +64,7 @@ class groupop
    *
    */
   function form($p_readonly=0){
-	$wDate=new widget("text","Date : ","pdate",$this->date);
+	$wDate=new widget("js_date","Date : ","pdate",$this->date);
 	$wDate->table=1;
 	$wDate->size=10;
 	$wDate->readonly=$p_readonly;

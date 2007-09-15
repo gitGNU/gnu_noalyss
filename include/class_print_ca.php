@@ -71,7 +71,8 @@ class print_ca {
 	  $this->to_poste=$_REQUEST['to_poste'];
 	if ( isset($_REQUEST['pa_id']))
 	  $this->pa_id=$_REQUEST['pa_id'];
-
+	else
+	  $this->pa_id="";
 
   }
 /*! 
@@ -84,11 +85,11 @@ class print_ca {
  * \return
  */
   function display_form($p_hidden="") {
-	$from=new widget  ('text','from','from');
+	$from=new widget  ('js_date','from','from');
 	$from->size=10;
 	$from->value=$this->from;
 	
-	$to=new widget('text','to','to');
+	$to=new widget('js_date','to','to');
 	$to->value=$this->to;
 	$to->size=10;
 
@@ -105,7 +106,31 @@ class print_ca {
 	$r.=$hidden->IOValue("result","1");
 	$r.="Depuis : ".$from->IOValue();
 	$r.= "jusque : ".$to->IOValue();
+	$r.= '<span class="notice"> Les dates sont en format DD.MM.YYYY</span>';
+
 	$r.=$p_hidden;
+	$r.='<span style="padding:5px;margin:5px;border:2px double  blue;display:block;">';
+	$plan=new PlanAnalytic($this->db);
+	$plan_id=new widget("select","","pa_id");
+ 	$plan_id->value=make_array($this->db,"select pa_id, pa_name from plan_analytique order by pa_name");
+	$plan_id->selected=$this->pa_id;
+	$r.= "Plan Analytique :".$plan_id->IOValue();
+
+	$poste=new widget("text");
+	$poste->size=10;
+	$r.="Entre le poste ".$poste->IOValue("from_poste",$this->from_poste);
+	$choose=new widget("button");
+	$choose->name="Choix Poste";
+	$choose->label="Recherche";
+	$choose->javascript="onClick=search_ca('".$_REQUEST['PHPSESSID']."',".dossier::id().",'from_poste','pa_id')";
+	$r.=$choose->IOValue();
+
+	$r.=" et le poste ".$poste->IOValue("to_poste",$this->to_poste);
+	$choose->javascript="onClick=search_ca('".$_REQUEST['PHPSESSID']."',".dossier::id().",'to_poste','pa_id')";
+	$r.=$choose->IOValue();
+	$r.='<span class="notice" style="display:block">Selectionnez le plan qui vous int&eacute;resse avant de cliquer sur Recherche</span>';
+
+	$r.='</span>';
 	return $r;	
   }
 }

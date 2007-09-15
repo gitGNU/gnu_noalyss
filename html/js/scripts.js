@@ -1,3 +1,31 @@
+/*
+ *   This file is part of PhpCompta.
+ *
+ *   PhpCompta is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 2 of the License, or
+ *   (at your option) any later version.
+ *
+ *   PhpCompta is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with PhpCompta; if not, write to the Free Software
+ *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
+/* $Revision$ */
+
+// Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+
+/* !\file 
+ */
+
+/* \brief javascript script, always added to every page
+ *
+ */
+
 //scripts library.
 
 // Set the focus to the specified field,
@@ -152,4 +180,51 @@ function verify_ca(p_style) {
 	}
   }
   return true;
+}
+/*! 
+ * \brief open a window for searching a CA account, 
+ * \param p_sessid PHPSESSID
+ * \param p_dossier dossier id
+ * \param p_target ctrl to update
+ * \param p_source ctrl containing the pa_id
+ * 
+ *
+ * \return
+ */
+function search_ca (p_sessid,p_dossier,p_target,p_source)
+{
+  var pa_id=document.getElementById(p_source).value;
+
+  var url="?PHPSESSID="+p_sessid+"&gDossier="+p_dossier+"&c1="+p_target+"&c2="+pa_id;
+  var a=window.open("search_ca.php"+url,"CA recherche",'statusbar=no,scrollbars=yes,toolbar=no');
+  a.focus();
+}
+
+/*! 
+ * \brief set a ctrl is the caller windows
+ * \param p_ctrl the control to change
+ * \param p_value the value the control will contains
+ * \param
+ * 
+ *
+ * \return none
+ */
+
+function ca_set_child(p_ctl,p_value) {
+
+  self.opener.ca_set_parent(p_ctl,p_value);
+	window.close();
+}
+/*! 
+ * \brief this script is in the parent windows and it is called by SetItChild
+ * \param \see ca_set_child
+ *
+ * \return none
+ */
+
+function ca_set_parent(p_ctl,p_value) {
+
+	var f=document.getElementById(p_ctl);
+	f.value=p_value;
+	
 }

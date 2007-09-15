@@ -41,22 +41,10 @@ require_once ('class_operation.php');
 
 class list_ca extends print_ca {
   function display_form($p_string="") {
-	$plan_id=new widget("select","pa_id","pa_id");
-	$plan_id->selected=$this->pa_id;
-	
-	$r= '<form method="get">';
-	$r.=$p_string;
-	$r.=parent::display_form();
-	$poste=new widget("text");
-	$r.="Entre le poste ".$poste->IOValue("from_poste",$this->from_poste);
-	$r.=" et le poste ".$poste->IOValue("to_poste",$this->to_poste);
-
-	$plan=new PlanAnalytic($this->db);
-	$plan_id->value=make_array($this->db,"select pa_id, pa_name from plan_analytique order by pa_name");
-	$r.= "Plan Analytique :".$plan_id->IOValue();
-	$r.= $plan_id->Submit("recherche","recherche");
+	echo '<form method="get">';
+	$r=parent::display_form($p_string);
+	$r.='<input type="submit" name="result" value="Afficher">';
 	$r.= '</form>';
-	$r.= '<span class="notice"> Les dates sont en format DD.MM.YYYY</span>';
 	return $r;
 
   }

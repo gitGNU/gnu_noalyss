@@ -108,6 +108,7 @@ echo "</TR><TR>";
 printf('<TD>Libellé </TD><TD><INPUT TYPE="TEXT" size="70" NAME="p_name" value="%s"></TD>',urldecode($n));
 echo "</TR><TR>";
 printf ('<TD>Classe Parent</TD><TD><INPUT TYPE="TEXT" name="p_val_parent" value="%s"></TD>',$p);
+echo dossier::hidden();
 ?>
 </TR>
 </TABLE>

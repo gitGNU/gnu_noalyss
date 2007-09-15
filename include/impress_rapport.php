@@ -176,7 +176,7 @@ $periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_p
 print $w->IOValue('to_periode',$periode_end);
 print "</TR>";
 //--- by date
-$date=new widget('text');
+$date=new widget('js_date');
 $date->table=1;
 $date->label="Calendrier depuis :";
 echo $date->IOValue('from_date');

@@ -93,7 +93,9 @@ if (isset ($_GET['action'])) {
 /* Ajout d'une ligne */
 if ( isset ( $_POST["Add"] ) ) {
 	extract ($_POST);
-  if ( isset ( $p_val) && isset ( $p_lib ) && isNumber(trim($p_val)) && isNumber(trim($p_parent)) ) {
+	$p_val=trim($p_val);
+	$p_parent=trim($p_parent);
+  if ( isset ( $p_val) && isset ( $p_lib ) && isNumber($p_val) && isNumber($p_parent) ) {
     $p_val=trim($p_val);
     $p_lib=FormatString(trim($p_lib));
     $p_parent=$_POST["p_parent"];
@@ -175,11 +177,12 @@ for ($i=0; $i <$MaxRow; $i++) {
 
   echo "</td> $td";
   //  printf ("<A HREF=line_update.php?l=%d&n=%s&p=%s>",$A['pcm_val'],urlencode($A['pcm_lib']),$A['pcm_val_parent']);
-  printf ("<A HREF=\"javascript:PcmnUpdate(%d,'%s','%s','%s')\">",
-	  $A['pcm_val'],
-	  FormatString($A['pcm_lib']),
-	  $A['pcm_val_parent'],
-	  $_REQUEST['PHPSESSID']);
+  printf ("<A HREF=\"javascript:PcmnUpdate(%d,'%s','%s','%s',%d)\">",
+		  $A['pcm_val'],
+		  FormatString($A['pcm_lib']),
+		  $A['pcm_val_parent'],
+		  $_REQUEST['PHPSESSID'],
+		  dossier::id());
   echo $A['pcm_lib'];
   echo '</A>';
   echo "</TD>";
