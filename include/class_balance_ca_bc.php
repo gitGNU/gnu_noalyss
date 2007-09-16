@@ -33,14 +33,12 @@ require_once ('class_plananalytic.php');
 class balance_ca_bc extends print_ca 
 {
 /*! 
- * \brief
- * \param
- * \param
- * \param
+ * \brief compute the html display
  * 
  *
- * \return
+ * \return string
  */
+
   function display_html ()
   {
 	$r="";
@@ -188,13 +186,8 @@ class balance_ca_bc extends print_ca
 
 
 /*! 
- * \brief
- * \param
- * \param
- * \param
- * 
- *
- * \return
+ * \brief Compute the csv export
+ * \return string with the csv
  */
   function display_csv()
   {
@@ -229,13 +222,11 @@ class balance_ca_bc extends print_ca
 
   }
 /*! 
- * \brief
- * \param
- * \param
- * \param
- * 
+ * \brief Compute  the form to display
+ * \param $p_hidden hidden tag to be included (gDossier,...)
  *
- * \return
+ *
+ * \return string containing the data
  */
   function display_form($p_string='')
   {
@@ -267,15 +258,14 @@ class balance_ca_bc extends print_ca
 	return $r;
   }
 /*! 
- * \brief
- * \param
- * \param
- * \param
+ * \brief Show the button to export in PDF or CSV
+ * \param $url_csv url of the csv
+ * \param $url_pdf url of the pdf
+ * \param $p_string hidden data to include in the form 
  * 
  *
- * \return
+ * \return string with the button
  */
-
   function show_button($url_csv,$url_pdf,$p_string="") 
   {
 	$r="";
@@ -313,13 +303,7 @@ class balance_ca_bc extends print_ca
 
 }
 /*! 
- * \brief
- * \param
- * \param
- * \param
- * 
- *
- * \return
+ * \brief complete the object with the data in $_REQUEST 
  */
   function get_request()
   {
@@ -330,13 +314,9 @@ class balance_ca_bc extends print_ca
 
   }
 /*! 
- * \brief
- * \param
- * \param
- * \param
- * 
+ * \brief load the data from the database 
  *
- * \return
+ * \return array
  */
   function get_data()
   {
@@ -360,6 +340,8 @@ class balance_ca_bc extends print_ca
 	  $filter_poste.=" $and upper(pb.po_name)<= upper('".pg_escape_string($this->to_poste2)."')";
 	  $and=" and ";
 	}
+	if ( $filter_poste != "")
+	  $filter_poste.=" where ".$filter_poste;
 
 	$sql="
 select  a_po_id ,
@@ -380,7 +362,7 @@ $this->pa_id."
  and b.pa_id=".$this->pa_id2."  ".$this->set_sql_filter()."
 ) as m join poste_analytique as pa on ( a_po_id=pa.po_id) 
 join poste_analytique as pb on (b_po_id=pb.po_id)
-where 
+
 $filter_poste
 
  group by a_po_id,b_po_id,pa.po_name,pb.po_name 
@@ -413,23 +395,20 @@ order by 1;
 
   }
 /*! 
- * \brief
- * \param
- * \param
- * \param
- * 
+ * \brief Set the filter (account_date) 
  *
- * \return
+ * \return return the string to add to get_data
  */
+
   function set_sql_filter()
   {
 	$sql="";
 	$and=" and ";
 	if ( $this->from != "" ){
-	  $sql.="$and oa_date >= to_date('".$this->from."','DD.MM.YYYY')";
+	  $sql.="$and a.oa_date >= to_date('".$this->from."','DD.MM.YYYY')";
 	}
 	if ( $this->to != "" ){
-	  $sql.=" $and oa_date <= to_date('".$this->to."','DD.MM.YYYY')";
+	  $sql.=" $and a.oa_date <= to_date('".$this->to."','DD.MM.YYYY')";
 	}
 
 	return $sql;
@@ -437,13 +416,9 @@ order by 1;
   }
   
 /*! 
- * \brief add 
- * \param
- * \param
- * \param
- * 
- *
- * \return
+ * \brief add extra lines to PDF with sum of each account
+ * \param $pdf pdf object
+ * \param $p_array array returned by get_data()
  */
   function show_pdf_sum (&$pdf,$p_array)
 {
@@ -492,13 +467,15 @@ order by 1;
 
 }
 /*! 
- * \brief
+ * \brief for testing and debuggind the class
+ *        it must never be called from production system, it is
+ *        intended only for developpers
  * \param
  * \param
  * \param
  * 
  *
- * \return
+ * \return none
  */
  static function test_me()
   {
