@@ -52,6 +52,10 @@ class Pre_operation
 	// common value
 	}
   }
+  function delete () {
+	$sql="delete from op_predef where od_id=".$this->od_id;
+	ExecSql($this->db,$sql);
+  }
   /*!\brief save the predef check first is the name is unique
    * \return true op.success otherwise false
    */
@@ -79,7 +83,7 @@ class Pre_operation
    */
   function load() {
 	$sql="select od_id,jrn_def_id,od_name,od_item,od_jrn_type".
-	  " from op_predef where od_id=".$this->od_id;
+	  " from op_predef where od_id=".$this->od_id." order by od_name";
 	$res=ExecSql($this->db,$sql);
 	$array=pg_fetch_all($res);
 	echo_debug(__FILE__.':'.__LINE__.'- ','load pre_op',$array);
@@ -108,6 +112,20 @@ class Pre_operation
 	$r=$select->IOValue("pre_def");
 	return $r;
   }
+  /*!\brief get the list of the predef. operation of a ledger
+   * \return string
+   */
+  function get_list_ledger() {
+  $sql="select od_id,od_name from op_predef ".
+	" where jrn_def_id=".$this->p_jrn.
+	" order by od_name";
+  $res=ExecSql($this->db,$sql);
+  $all=pg_fetch_all($res);
+  return $all;
+  }
+  function set_jrn($p_jrn) {
+	$this->p_jrn=$p_jrn;
+  }
 }
 class Pre_operation_detail {
   var $operation;
@@ -119,4 +137,5 @@ class Pre_operation_detail {
   function get_post() {
 	$this->operation->get_post();
   }
+
 }
