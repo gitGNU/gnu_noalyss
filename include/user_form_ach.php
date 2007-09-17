@@ -31,6 +31,8 @@ require_once("class_parm_code.php");
 require_once ('class_plananalytic.php');
 require_once ('class_own.php');
 require_once ('class_operation.php');
+require_once ('class_pre_op_ach.php');
+
 /*! 
  * \brief  Display the form for a sell
  *           Used to show detail, encode a new invoice 
@@ -703,6 +705,14 @@ function FormAchView ($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$p_number,$p_pi
   $r.="<hr>";
   $r.= "<table>"; 
   if ( $p_piece) $r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
+  // propose to save the pre_operation
+  if ( $p_piece ) {
+	$chk=new widget('checkbox');
+	$chk->selected=true;
+	$r.="Sauvez l'op&eacute;ration ?";
+	$r.=$chk->IOValue('opd_save');
+
+  }
   $r.="</table>";
   $r.="<hr>";
   
@@ -910,7 +920,7 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 	  //---------------------------------------------------------
 	  
 	  echo_debug(__FILE__.":".__LINE__,"a_vat = ",$a_vat);
-	  echo_debug(__FILE__.":".__LINE__."a_vat[$i] =",$a_vat[$i]);
+	  //	  echo_debug(__FILE__.":".__LINE__."a_vat[$i] =",$a_vat[$i]);
 	  //!\note
 	  // $a_vat_good[$i] contains the tva_id
 	  // $a_vat_amount[$i] contains the amount of vat
@@ -980,7 +990,14 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 
     if ( isset ($_FILES))
       save_upload_document($p_cn,$seq);
-
+	  // Save the operation
+	if ( isset($_POST['opd_save']) && $_POST['opd_save']=='on' ){
+	  echo_debug(__FILE__.':'.__LINE__.'- ','save opd');
+	  $opd=new Pre_op_ach($p_cn);
+	  $opd->get_post();
+	  $opd->save();
+	  echo_debug(__FILE__.':'.__LINE__.'- ',"opd = ",$opd);
+	}
   } catch (Exception $e) {
     echo '<span class="error">'.
       'Erreur dans l\'enregistrement '.
