@@ -122,7 +122,7 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
       if ( $content['j_debit'] == 't' ) $r.=$col_vide;
 	  //-- add ca 
 	  //
-	  if ( $own->MY_ANALYTIC != "un" && ereg("^[6,7]+",$content['j_poste']))
+	  if ( $own->MY_ANALYTIC != "nu" && ereg("^[6,7]+",$content['j_poste']))
 	    {
 	      
 	      $r.=display_table_ca($p_cn,$count,$content['j_id'],$own,$p_mode,$content['j_montant']);
@@ -325,7 +325,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 
 		$content['j_poste']=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
 		//		echo "j_poste= ".$content['j_poste'];
-		if ( $own->MY_ANALYTIC != "un" && ereg("^[6,7]+",$content['j_poste']))
+		if ( $own->MY_ANALYTIC != "nu" && ereg("^[6,7]+",$content['j_poste']))
 		  {
 		    $r.=display_table_ca($p_cn,$i_march,$row->j_id,$own,$p_mode,$tot_tva);
 			$i_march++;
@@ -412,7 +412,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 	    echo_debug(__FILE__.':'.__LINE__,'$content["j_poste"]',$content['j_poste']);
 	    
 	    //		echo "j_poste= ".$content['j_poste'];
-	    if ( $own->MY_ANALYTIC != "un" && ereg("^[6,7]+",$content['j_poste']))
+	    if ( $own->MY_ANALYTIC != "nu" && ereg("^[6,7]+",$content['j_poste']))
 	      {
 		echo_debug(__FILE__.':'.__LINE__,'showUser VEN $content',$content);
 		echo_debug(__FILE__.':'.__LINE__,'showUser VEN $row ',$row);
@@ -1094,16 +1094,19 @@ function GetDataJrnJrIdUser ($p_cn,$p_jr_id) {
     }
   return $ret_array;
 }
-/*\brief
- *\param
- *\param
- *\param
- *\param
- *\param
- *\return
+/*\brief Display a table with analytic accounting in modify_op.php
+ *       (detail of operation )
+ *\param $p_cn database cnx
+ *\param $p_seq sequence (nb item)
+ *\param $p_jid the concerned j_id 
+ *\param $p_own object own
+ *\param $p_mode readonly or writable
+ *\param $p_amount amount 
+ *\return string to display
  */
 function display_table_ca($p_cn,$p_seq,$p_jid,$p_own,$p_mode,$p_amount) {
   echo_debug(__FILE__.':'.__LINE__,'parameter $p_cn,$p_seq,$p_jid,$p_own,$p_mode',"$p_cn,$p_seq,$p_jid,p_own,$p_mode");
+
   $op=new operation($p_cn);
   $array=$op->get_by_jid($p_jid) ;
   echo_debug(__FILE__.':'.__LINE__,"display_table_ca \$p_jid",$p_jid);
