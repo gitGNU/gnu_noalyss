@@ -27,6 +27,8 @@ if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
   case 'all':
     $filter_card="";
     break;
+  default:
+    $filter_card="and frd_id in ($d)";
   }
 
 
