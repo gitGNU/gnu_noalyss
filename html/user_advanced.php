@@ -20,7 +20,8 @@
 include_once ("ac_common.php");
 require_once("check_priv.php");
 require_once('class_dossier.php');
-
+require_once ('class_widget.php');
+require_once ('class_pre_operation.php');
 /* $Revision$ */
 /*! \file
  * \brief Obsolete
@@ -35,7 +36,7 @@ $rep=DbConnect();
 include_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
-
+$cn=DbConnect(dossier::id());
 include_once ("postgres.php");
 echo_debug('user_advanced.php',__LINE__,"user is ".$_SESSION['g_user']);
 
@@ -56,14 +57,89 @@ if ( isset($_REQUEST['p_action'] )) {
 
 echo ShowMenuAdvanced("user_advanced.php".$p_action);
 
-
-if ( isset($_REQUEST['p_action']) && $_REQUEST['p_action'] == "periode" ) {
+$p_action=(isset($_REQUEST['p_action']))?$_REQUEST['p_action']:"";
+if ($p_action == "periode" ) {
   if ( $User->admin == 0 && CheckAction($gDossier,$_SESSION['g_user'],GESTION_PERIODE) == 0 )
 	NoAccess();
     
   $p_action=$_REQUEST['p_action'];
   include_once("periode.inc.php");
 }
+//--------------------------------------------------
+// Predefined operation
+//--------------------------------------------------
+
+if ($p_action=="preod") {
+
+  echo '<form method="GET">';
+  $sel=new widget('select');
+  $sel->name="jrn";
+  $sel->value=make_array($cn,"select jrn_def_id,jrn_def_name from ".
+						 " jrn_def order by jrn_def_name");
+  // Show a list of ledger
+  $sa=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
+  $sel->selected=$sa;
+  echo 'Choississez un journal '.$sel->IOValue();
+  echo widget::submit_button('Accepter','Accepter');
+  echo dossier::hidden();
+  $hid=new widget("hidden");
+  echo $hid->IOValue("sa","jrn");
+  echo $hid->IOValue("p_action","preod");
+
+  echo '</form>';
+
+  // if $_REQUEST[sa] == del delete the predefined operation
+  if ( $sa == 'del') {
+	$op=new Pre_operation($cn);
+	$op->od_id=$_REQUEST['od_id'];
+	$op->delete();
+	$sa='jrn';
+  }
+
+  // if $_REQUEST[sa] == jrn show the  predefined operation for this
+  // ledger
+  if ( $sa == 'jrn' ) {
+	$op=new Pre_operation($cn);
+	$op->set_jrn($_GET['jrn']);
+	$array=$op->get_list_ledger();
+	if ( empty($array) == true ) {
+	  echo "Aucun enregistrement";
+	  exit();
+	}
+
+	echo '<table>';
+	$count=0;
+	foreach ($array as $row ) {
+
+	  if ( $count %2 == 0 )
+		echo '<tr class="even">';
+	  else 
+		echo '<tr>';
+	  echo '<td>'.$row['od_name'].'</td>';
+	  echo '<td>';
+	  echo '<form method="POST">';
+	  echo dossier::hidden();
+	  echo $hid->IOValue("sa","del");
+	  echo $hid->IOValue("p_action","preod");
+	  echo $hid->IOValue("del","");
+	  echo $hid->IOValue("od_id",$row['od_id']);
+	  echo $hid->IOValue("jrn",$_GET['jrn']);
+
+	  $b='<input type="submit" value="Effacer" '.
+		' onClick="return confirm(\'Voulez-vous vraiment effacer cette operation ?\');" >';
+	  echo $b;
+	  echo '</form>';
+
+	  echo '</td>';
+	  echo '</tr>';
+
+	}
+	echo '</table>';
+  }
+
+ }
+
+
 
 html_page_stop();
 ?>
