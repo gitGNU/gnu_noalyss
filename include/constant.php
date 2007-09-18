@@ -75,6 +75,11 @@ define ("STOCK_WRITE",17);
 define ("STOCK_READ",16);
 define ("EXP_IMP_ECR",21);
 define ("IMP_BQE",22);
+
+define ("CA_ACCESS",50);
+define ("CA_IMPRESSION",51);
+define ("CA_ODS",52);
+
 // Erreur
 define ("NOERROR",0);
 define ("BADPARM",1);
