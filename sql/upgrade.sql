@@ -409,4 +409,258 @@ create unique index ux_po_name on poste_analytique (po_name);
 insert into parameter (pr_id,pr_value) select distinct 'MY_COUNTRY',pcm_country from tmp_pcmn limit 1;
 
 alter table tmp_pcmn drop pcm_country;
+
+
+CREATE TABLE bilan (
+    b_id integer NOT NULL,
+    b_name text NOT NULL,
+    b_file_template text NOT NULL,
+    b_file_form text,
+    b_type text NOT NULL
+);
+
+
+ALTER TABLE public.bilan OWNER TO phpcompta;
+
+--
+-- Name: TABLE bilan; Type: COMMENT; Schema: public; Owner: phpcompta
+--
+
+COMMENT ON TABLE bilan IS 'contains the template and the data for generating different documents  ';
+
+
+--
+-- Name: COLUMN bilan.b_id; Type: COMMENT; Schema: public; Owner: phpcompta
+--
+
+COMMENT ON COLUMN bilan.b_id IS 'primary key';
+
+
+--
+-- Name: COLUMN bilan.b_name; Type: COMMENT; Schema: public; Owner: phpcompta
+--
+
+COMMENT ON COLUMN bilan.b_name IS 'Name of the document';
+
+
+--
+-- Name: COLUMN bilan.b_file_template; Type: COMMENT; Schema: public; Owner: phpcompta
+--
+
+COMMENT ON COLUMN bilan.b_file_template IS 'path of the template (document/...)';
+
+
+--
+-- Name: COLUMN bilan.b_file_form; Type: COMMENT; Schema: public; Owner: phpcompta
+--
+
+COMMENT ON COLUMN bilan.b_file_form IS 'path of the file with forms';
+
+
+--
+-- Name: COLUMN bilan.b_type; Type: COMMENT; Schema: public; Owner: phpcompta
+--
+
+COMMENT ON COLUMN bilan.b_type IS 'type = ODS, RTF...';
+
+
+--
+-- Name: bilan_b_id_seq; Type: SEQUENCE; Schema: public; Owner: phpcompta
+--
+
+CREATE SEQUENCE bilan_b_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.bilan_b_id_seq OWNER TO phpcompta;
+
+--
+-- Name: bilan_b_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: phpcompta
+--
+
+ALTER SEQUENCE bilan_b_id_seq OWNED BY bilan.b_id;
+
+
+--
+-- Name: bilan_b_id_seq; Type: SEQUENCE SET; Schema: public; Owner: phpcompta
+--
+
+SELECT pg_catalog.setval('bilan_b_id_seq', 4, true);
+
+
+--
+-- Name: b_id; Type: DEFAULT; Schema: public; Owner: phpcompta
+--
+
+ALTER TABLE bilan ALTER COLUMN b_id SET DEFAULT nextval('bilan_b_id_seq'::regclass);
+
+
+--
+-- Data for Name: bilan; Type: TABLE DATA; Schema: public; Owner: phpcompta
+--
+
+INSERT INTO bilan VALUES (1, 'Bilan Belge complet', 'document/fr_be/bnb.rtf', 'document/fr_be/bnb.form', 'RTF');
+
+
+--
+-- Name: bilan_b_name_key; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
+--
+
+ALTER TABLE ONLY bilan
+    ADD CONSTRAINT bilan_b_name_key UNIQUE (b_name);
+
+
+--
+-- Name: bilan_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
+--
+
+ALTER TABLE ONLY bilan
+    ADD CONSTRAINT bilan_pkey PRIMARY KEY (b_id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+CREATE TABLE op_predef (
+    od_id integer NOT NULL,
+    jrn_def_id integer NOT NULL,
+    od_name text NOT NULL,
+    od_item integer NOT NULL,
+    od_jrn_type text NOT NULL
+);
+
+
+ALTER TABLE public.op_predef OWNER TO phpcompta;
+
+--
+-- Name: TABLE op_predef; Type: COMMENT; Schema: public; Owner: phpcompta
+--
+
+COMMENT ON TABLE op_predef IS 'predefined operation';
+
+
+--
+-- Name: COLUMN op_predef.jrn_def_id; Type: COMMENT; Schema: public; Owner: phpcompta
+--
+
+COMMENT ON COLUMN op_predef.jrn_def_id IS 'jrn_id';
+
+
+--
+-- Name: COLUMN op_predef.od_name; Type: COMMENT; Schema: public; Owner: phpcompta
+--
+
+COMMENT ON COLUMN op_predef.od_name IS 'name of the operation';
+
+
+--
+-- Name: op_def_op_seq; Type: SEQUENCE; Schema: public; Owner: phpcompta
+--
+
+CREATE SEQUENCE op_def_op_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.op_def_op_seq OWNER TO phpcompta;
+
+--
+-- Name: op_def_op_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: phpcompta
+--
+
+ALTER SEQUENCE op_def_op_seq OWNED BY op_predef.od_id;
+
+
+--
+-- Name: od_id; Type: DEFAULT; Schema: public; Owner: phpcompta
+--
+
+ALTER TABLE op_predef ALTER COLUMN od_id SET DEFAULT nextval('op_def_op_seq'::regclass);
+
+
+--
+-- Name: op_def_op_name_key; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
+--
+
+ALTER TABLE ONLY op_predef
+    ADD CONSTRAINT op_def_op_name_key UNIQUE (od_name,jrn_def_id);
+
+
+--
+-- Name: op_def_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
+--
+
+ALTER TABLE ONLY op_predef
+    ADD CONSTRAINT op_def_pkey PRIMARY KEY (od_id);
+
+
+--
+-- Name: jrn_def_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
+--
+
+ALTER TABLE ONLY op_predef
+    ADD CONSTRAINT jrn_def_id_fk FOREIGN KEY (jrn_def_id) REFERENCES jrn_def(jrn_def_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+CREATE TABLE op_predef_detail (
+    opd_id integer NOT NULL,
+    od_id integer NOT NULL,
+    opd_poste text NOT NULL,
+    opd_amount numeric(20,4),
+    opd_tva_id integer,
+    opd_quantity numeric(20,4),
+    opd_debit boolean NOT NULL,
+    opd_tva_amount numeric(20,4),
+    opd_comment text
+);
+
+
+ALTER TABLE public.op_predef_detail OWNER TO phpcompta;
+
+--
+-- Name: TABLE op_predef_detail; Type: COMMENT; Schema: public; Owner: phpcompta
+--
+
+COMMENT ON TABLE op_predef_detail IS 'contains the detail of predefined operations';
+
+
+--
+-- Name: op_predef_detail_opd_id_seq; Type: SEQUENCE; Schema: public; Owner: phpcompta
+--
+
+CREATE SEQUENCE op_predef_detail_opd_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.op_predef_detail_opd_id_seq OWNER TO phpcompta;
+
+--
+-- Name: op_predef_detail_opd_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: phpcompta
+--
+
+ALTER SEQUENCE op_predef_detail_opd_id_seq OWNED BY op_predef_detail.opd_id;
+
+
+--
+-- Name: opd_id; Type: DEFAULT; Schema: public; Owner: phpcompta
+--
+
+ALTER TABLE op_predef_detail ALTER COLUMN opd_id SET DEFAULT nextval('op_predef_detail_opd_id_seq'::regclass);
+
+
+--
+-- Name: op_predef_detail_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
+--
+
+ALTER TABLE ONLY op_predef_detail
+    ADD CONSTRAINT op_predef_detail_pkey PRIMARY KEY (opd_id);
+
+
 commit;
