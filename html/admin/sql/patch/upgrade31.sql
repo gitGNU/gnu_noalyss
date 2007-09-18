@@ -662,7 +662,9 @@ ALTER TABLE op_predef_detail ALTER COLUMN opd_id SET DEFAULT nextval('op_predef_
 ALTER TABLE ONLY op_predef_detail
     ADD CONSTRAINT op_predef_detail_pkey PRIMARY KEY (opd_id);
 
-
+INSERT INTO "action" VALUES (50, 'Definir les Plans Analytiques et les postes');
+INSERT INTO "action" VALUES (51, 'Impression CA');
+INSERT INTO "action" VALUES (52, 'Operations Diverses CA');
 update version set val=32;
 
 commit;
