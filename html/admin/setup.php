@@ -165,7 +165,7 @@ function ExecuteScript($p_cn,$script) {
  */
 function apply_patch($p_cn,$p_name)
 {
-  $MaxVersion=30;
+  $MaxVersion=31;
   for ( $i = 4;$i <= $MaxVersion;$i++)
 	{
 	  if ( GetVersion($p_cn) <= $i ) { 
