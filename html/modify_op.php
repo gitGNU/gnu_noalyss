@@ -50,7 +50,7 @@ $p_jrn=(isset($_REQUEST['p_jrn']))?$_REQUEST['p_jrn']:0;
 if ( isset ( $_GET['action'] ) ) {
   $action=$_GET['action'];
 }
-$_SESSION["p_jrn"]=$p_jrn;
+//$_SESSION["p_jrn"]=$p_jrn;
 
 $p_view=(isset($_REQUEST['p_view']))?$_REQUEST['p_view']:"error";
 
