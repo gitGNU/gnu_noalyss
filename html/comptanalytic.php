@@ -61,12 +61,15 @@ if ( isset ($_REQUEST['p_action']))
 	switch ($_REQUEST['p_action'])
 	  {
 	  case 'ca_pa':
+		$User->AccessRequest($cn,CA_ACCESS);
 		$def=0;
 		break;
 	  case 'ca_od':
+		$User->AccessRequest($cn,CA_ODS);
 		$def=1;
 		break;
 	  case 'ca_imp':
+		$User->AccessRequest($cn,CA_IMPRESSION);
 		$def=2;
 		break;
 	  }
