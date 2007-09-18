@@ -224,22 +224,26 @@ if ( $action == "view" ) {
 
   // Priv. for actions
   $Res=ExecSql($cn_dossier,
-	       "select ac_id, ac_description from action   order by ac_description ");
+	       "select ac_id, ac_description from action   order by ac_id ");
 
   $MaxJrn=pg_NumRows($Res);
 
   for ( $i =0 ; $i < $MaxJrn; $i++ ) {
     $l_line=pg_fetch_array($Res,$i);
     echo '<TR> ';
-    if ( $i == 0 ) echo '<TD> <B> Action <B></TD>';else echo "<TD></TD>";
+    if ( $i == 0 ) echo '<TD> <B> Action <B></TD>';
+	if  ($i != 0 &&  $l_line['ac_id'] != 50)  echo "<TD></TD>";
+    if ( $l_line['ac_id'] == 50 ) 
+	  echo '<TD colspan="3"> <B> Compta. Analytique <B></TD><tr><td></td>';
+	
     echo "<TD>". $l_line['ac_description']." </TD>";
-
-      $l_change="action=change_act&act=".$l_line['ac_id']."&login=".$l2_line['use_login']."&user_id=".$l2_line['use_id'];
-      if ( $admin ==0 ) {
-	$right=CheckAction($gDossier,$l2_line['use_login'],$l_line['ac_id']);
-      } else {
-	$right = 2;
-      }
+	
+	$l_change="action=change_act&act=".$l_line['ac_id']."&login=".$l2_line['use_login']."&user_id=".$l2_line['use_id'];
+	if ( $admin ==0 ) {
+	  $right=CheckAction($gDossier,$l2_line['use_login'],$l_line['ac_id']);
+	} else {
+	  $right = 2;
+	}
     if ( $right == 0 ) {
       echo "<TD BGCOLOR=RED>";
       echo "Pas d'accès";
