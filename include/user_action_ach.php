@@ -31,11 +31,28 @@ $cn=DbConnect($gDossier);
 
 $msg_tva='<i>Si le montant de TVA est &eacute;gal &agrave; 0, il sera automatiquement calcul&eacute;</i>';
 
-if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {
+if ( ! isset ($_REQUEST['action'])){
   exit;
-
 }
-$action=(isset($_GET['action']))?$_GET['action']:$_POST['action'];
+$action=$_REQUEST['action'];
+
+//--------------------------------------------------------------------------------
+// use a predefined operation
+//--------------------------------------------------------------------------------
+if ( $action=="use_opd" ) {
+  $op=new Pre_op_ach($cn);
+  $op->set_od_id($_REQUEST['pre_def']);
+  $p_post=$op->compute_array();
+  echo_debug(__FILE__.':'.__LINE__.'- ','p_post = ',$p_post);
+  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
+                    <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer" ID="SubmitButton">';
+
+  $form=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$p_post,$submit,false,$p_post['nb_item']);
+  echo '<div class="u_redcontent">';
+  echo   $form;
+  echo '</div>';
+  exit();
+ }
 
 // action = new
 if ( $action == 'new' ) {
@@ -46,18 +63,39 @@ if ( $action == 'new' ) {
        exit -1;
   }
 
-	if ( isset($_GET['blank'] )) {
-	  // Submit button in the form
-	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
+ if ( isset($_GET['blank'] )) {
+   // Submit button in the form
+   $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer" ID="SubmitButton">';
-          $jrn=new jrn($cn,  $_GET['p_jrn']);
-	  $r=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$submit,false,$jrn->getDefLine());
-	  echo '<div class="u_redcontent">';
-	  echo $r;
-	  echo $msg_tva;
-	  echo "<div>".JS_CALC_LINE."<div>";
-	  echo "</div>";
+   $jrn=new jrn($cn,  $_GET['p_jrn']);
+   $r=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$submit,false,$jrn->getDefLine());
+   //--------------------
+   // predef op.
+   $op=new Pre_operation($cn);
+   $op->p_jrn=$_GET['p_jrn'];
+   
+   echo '<div class="u_redcontent">';
+   echo $r;
+   echo $msg_tva;
+   //--------------------
+   // predef op.
+   echo '<form method="GET">';
+   $op=new Pre_operation($cn);
+   $op->p_jrn=$_GET['p_jrn'];
+   $hid=new widget("hidden");
+   echo $hid->IOValue("action","use_opd");
+   echo dossier::hidden();
+   echo $hid->IOValue("p_jrn",$_GET['p_jrn']);
+   echo $hid->IOValue("jrn_type","ACH");
+   
+   echo widget::submit_button('use_opd','Utilisez une op.prédéfinie');
+   echo $op->show_button();
+   
+   echo '</form>';
 
+   echo "<div>".JS_CALC_LINE."</div>";
+   echo "</div>";
+   
 
 	}
 

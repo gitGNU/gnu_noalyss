@@ -23,6 +23,8 @@ require_once("constant.php");
 require_once("preference.php");
 require_once("fiche_inc.php");
 require_once("user_common.php");
+require_once ('class_pre_operation.php');
+
 /*! \file
  * \brief Functions for the financial ledger
  */
@@ -173,6 +175,9 @@ function FormFin($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
 
   $r.="<FORM NAME=\"form_detail\" enctype=\"multipart/form-data\" ACTION=\"$href\" METHOD=\"POST\">";
   $r.=dossier::hidden();
+  $hid=new widget('hidden');
+  $r.=$hid->IOValue('p_jrn',$p_jrn);
+
   $r.='<TABLE>';
   $Date=new widget("js_date");
   $Date->SetReadOnly($pview_only);
@@ -300,6 +305,11 @@ $r.="</TABLE>";
    $r.="<TR>".$file->IOValue("pj","","Pi&egrave;ce justificative")."</TR>";
    $r.="</table>";
    $r.="<hr>";
+   $chk=new widget('checkbox');
+   $chk->selected=true;
+   $r.="Sauvez l'op&eacute;ration ?";
+   $r.=$chk->IOValue('opd_save');
+
  }
  // Set correctly the REQUEST param for jrn_type 
  $h=new widget('hidden');
@@ -434,8 +444,18 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
 		      "jr_pj_type='".$_FILES['pj']['type']."'  where jr_grpt_id=$seq");
 	    }
 	}
-    
+	
       } // for nbitem
+	  // Save pre_operatoin
+	  // Save the operation
+	  if ( isset($_POST['opd_save']) && $_POST['opd_save']=='on' ){
+		echo_debug(__FILE__.':'.__LINE__.'- ','save opd');
+		$opd=new Pre_op_fin($p_cn);
+		$opd->get_post();
+		$opd->save();
+		echo_debug(__FILE__.':'.__LINE__.'- ',"opd = ",$opd);
+	  }
+
     } 
   catch (Exception $e)
     {

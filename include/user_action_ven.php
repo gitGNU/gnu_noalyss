@@ -29,22 +29,35 @@ include_once("class_widget.php");
 require_once("class_jrn.php");
 require_once('class_dossier.php');
 $gDossier=dossier::id();
+if ( CheckJrn($gDossier,$_SESSION['g_user'],$_GET['p_jrn']) != 2 )    {
+  NoAccess();
+  exit -1;
+ }
 
 $cn=DbConnect($gDossier);
 
 // default action is insert_vente
-if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {
+if ( ! isset ($_REQUEST['action'])) {
   exit;
    } else {
-  $action=(isset($_GET['action']))?$_GET['action']:$_POST['action'];
+  $action=$_REQUEST['action'];
   $blank=(isset($_GET["blank"]))?1:0;
 }
-
+//--------------------------------------------------------------------------------
+// use a predefined operation
+//--------------------------------------------------------------------------------
+if ( $action=="use_opd" ) {
+  $op=new Pre_op_ven($cn);
+  $op->set_od_id($_REQUEST['pre_def']);
+  $p_post=$op->compute_array();
+  echo_debug(__FILE__.':'.__LINE__.'- ','p_post = ',$p_post);
+  $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$p_post,false,$p_post['nb_item']);
+  echo '<div class="u_redcontent">';
+  echo   $form;
+  echo '</div>';
+  exit();
+ }
 if ( $action == 'insert_vente' ) {
-  if ( CheckJrn($gDossier,$_SESSION['g_user'],$_GET['p_jrn']) != 2 )    {
-       NoAccess();
-       exit -1;
-  }
    
   // Add item
   if (isset($_POST["add_item"]) ) {
@@ -85,6 +98,21 @@ if ( $action == 'insert_vente' ) {
 	   $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),null,false,$jrn->GetDefLine());
 	   echo '<div class="u_redcontent">';
 	   echo $form;
+	   //--------------------
+	   // predef op.
+	   echo '<form method="GET">';
+	   $op=new Pre_operation($cn);
+	   $op->p_jrn=$_GET['p_jrn'];
+	   $hid=new widget("hidden");
+	   echo $hid->IOValue("action","use_opd");
+	   echo dossier::hidden();
+	   echo $hid->IOValue("p_jrn",$_GET['p_jrn']);
+	   echo $hid->IOValue("jrn_type","VEN");
+
+	   echo widget::submit_button('use_opd','Utilisez une op.prédéfinie');
+	   echo $op->show_button();
+
+	   echo '</form>';
 	   echo '</div>';
     }
 
@@ -124,7 +152,7 @@ if ( isset($_POST["record_and_print_invoice"])) {
   }
   
   $nb_number=$_POST["nb_item"];
-
+  echo_debug(__FILE__.':'.__LINE__.'- record_and_print_invoice');
   if ( form_verify_input($cn,$p_jrn,$User->GetPeriode(),$_POST,$nb_number)== true) {
     $comment=RecordInvoice($cn,$_POST,$User,$_GET['p_jrn']);
     

@@ -25,6 +25,8 @@ require_once("class_document.php");
 require_once("class_fiche.php");
 require_once("class_parm_code.php");
 require_once("check_priv.php");
+require_once ('class_pre_op_fin.php');
+
 /*!\file
  * \brief the purpose off this file encode expense and  to record them
  *
@@ -59,6 +61,7 @@ if ( isset ($_REQUEST['url']))
 }
 
 $sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
+
 //----------------------------------------------------------------------
 // ask the saldo of the bank
 if ( $sub_action == "solde" )
@@ -218,6 +221,26 @@ echo ShowMenuJrnUser($gDossier,'FIN',$p_jrn,
 					 '<td class="cell"><A class="mtitle" HREF="commercial.php?liste&p_action=bank&sa=list&'.dossier::get().'">Liste</A></td>'.
 					 '<td class="cell"><A class="mtitle" HREF="commercial.php?liste&p_action=bank&sa=solde&'.dossier::get().'">Solde</A></td>');
 echo '</div>';
+//--------------------------------------------------------------------------------
+// use a predefined operation
+//--------------------------------------------------------------------------------
+if ( $sub_action=="use_opd" ) {
+  $op=new Pre_op_fin($cn);
+  $op->set_od_id($_REQUEST['pre_def']);
+  $p_post=$op->compute_array();
+  echo_debug(__FILE__.':'.__LINE__.'- ','p_post = ',$p_post);
+  // submit button in the form
+  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">'.
+	'<INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
+
+  $form=FormFin($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$p_post,false,$p_post['nb_item']);
+  echo '<div class="u_redcontent">';
+  echo   $form;
+  echo '</div>';
+  exit();
+ }
+
+
 //-----------------------------------------------------
 // if we request to add an item 
 // the $_POST['add_item'] is set
@@ -321,6 +344,21 @@ if ( $p_jrn != -1 )
   $form=FormFin($cn,$p_jrn,$User->GetPeriode(),$submit,null,false,$jrn->GetDefLine('deb'));
   echo '<div class="u_redcontent">';
   echo $form;
+  echo '<form method="GET">';
+  $op=new Pre_operation($cn);
+  $op->p_jrn=$p_jrn;
+  $hid=new widget("hidden");
+  echo $hid->IOValue("p_action","bank");
+  echo $hid->IOValue("sa","use_opd");
+  echo dossier::hidden();
+  echo $hid->IOValue("p_jrn",$p_jrn);
+  echo $hid->IOValue("jrn_type","FIN");
+  
+  echo widget::submit_button('use_opd','Utilisez une op.prédéfinie');
+  echo $op->show_button();
+  
+  echo '</form>';
+
   echo JS_CALC_LINE;
   echo '</div>';
 }

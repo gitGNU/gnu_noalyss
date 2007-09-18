@@ -26,6 +26,9 @@ echo_debug('user_action_ods.php',__LINE__,"include user_action_ods.php");
 include_once("user_form_ods.php");
 include_once("class_widget.php");
 require_once('class_dossier.php');
+require_once ('class_pre_operation.php');
+require_once ('class_pre_op_ods.php');
+
 $gDossier=dossier::id();
 
 $cn=DbConnect($gDossier);
@@ -39,12 +42,31 @@ include_once ("user_common.php");
 
 
 $action=(isset($_GET['action']))?$_GET['action']:$_POST['action'];
+//--------------------------------------------------------------------------------
+// use a predefined operation
+//--------------------------------------------------------------------------------
+if ( $action=="use_opd" ) {
+  $op=new Pre_op_ods($cn);
+  $op->set_od_id($_REQUEST['pre_def']);
+  $p_post=$op->compute_array();
+  echo_debug(__FILE__.':'.__LINE__.'- ','p_post = ',$p_post);
+  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout poste">'.
+	'<INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Confirmer">';
+
+  //  $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$p_post,false,$p_post['nb_item']);
+  $form=FormODS($cn,$_REQUEST['p_jrn'],$User->GetPeriode(),$submit,$p_post,false,$p_post['nb_item']);
+
+  echo '<div class="u_redcontent">';
+  echo   $form;
+  echo '</div>';
+  exit();
+ }
 
 // action = new
 if ( $action == 'new' ) {
 
   // Check privilege
-  if ( CheckJrn($gDossier,$_SESSION['g_user'],$_GET['p_jrn']) != 2 )    {
+  if ( CheckJrn($gDossier,$_SESSION['g_user'],$_REQUEST['p_jrn']) != 2 )    {
        NoAccess();
        exit -1;
   }
@@ -56,12 +78,29 @@ if ( $action == 'new' ) {
     // add a one-line calculator
     $prop=GetJrnProp($gDossier,$_GET['p_jrn']);
     $line=$prop['jrn_deb_max_line'];
-    $r=FormODS($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,null,false,$line);
+    $r=FormODS($cn,$_REQUEST['p_jrn'],$User->GetPeriode(),$submit,null,false,$line);
      echo '<div class="u_redcontent">';
     echo $r;
-    echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."<div>";
+    echo "<div>";
+	//--------------------
+	// predef op.
+	echo '<form method="GET">';
+	$op=new Pre_operation($cn);
+	$op->p_jrn=$_GET['p_jrn'];
+	$hid=new widget("hidden");
+	echo $hid->IOValue("action","use_opd");
+	echo dossier::hidden();
+	echo $hid->IOValue("p_jrn",$_GET['p_jrn']);
+	echo $hid->IOValue("jrn_type","ODS");
+	
+	echo widget::submit_button('use_opd','Utilisez une op.prédéfinie');
+	echo $op->show_button();
+	
+	echo '</form>';
+	
+	echo "<h4>On-line calculator</h4>".JS_CALC_LINE."<div>";
     echo "</div>";
-	  
+	
 
   }
 
@@ -75,7 +114,7 @@ if ( $action == 'new' ) {
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout Poste">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 
-	  $r=FormODS($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$_POST,false,  $nb_number);
+	  $r=FormODS($cn,$_POST['p_jrn'],$User->GetPeriode(),$submit,$_POST,false,  $nb_number);
 	  echo '<div class="u_redcontent">';
 	  echo $r;
 	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."<div>";
@@ -90,7 +129,7 @@ if ( $action == 'new' ) {
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout Poste">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 
-	  $r=FormODS($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$_POST,false,  $nb_number);
+	  $r=FormODS($cn,$_POST['p_jrn'],$User->GetPeriode(),$submit,$_POST,false,  $nb_number);
 	  echo '<div class="u_redcontent">';
 	  echo $r;
 	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."<div>";
@@ -107,7 +146,7 @@ if ( $action == 'new' ) {
 	  $submit.='<input type="button" value="verifie CA" onClick="verify_ca(\'ok\');">';
 	  $submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
 
-	  $r=FormODS($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$_POST,true,$nb_number);
+	  $r=FormODS($cn,$_POST['p_jrn'],$User->GetPeriode(),$submit,$_POST,true,$nb_number);
 
 	// if something goes wrong, correct it
 	  if ( $r == null ) {
@@ -115,7 +154,7 @@ if ( $action == 'new' ) {
 	    $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout Poste">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 	    
-	    $r=FormODS($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$_POST,false,  $nb_number);
+	    $r=FormODS($cn,$_POST['p_jrn'],$User->GetPeriode(),$submit,$_POST,false,  $nb_number);
 	  }else {
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout Poste">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
@@ -129,21 +168,21 @@ if ( $action == 'new' ) {
 	}
 	// Save the change into database
 	if ( isset($_POST['save'] )) {
-	  $r=RecordODS($cn,$_POST,$User,$_GET['p_jrn']);
+	  $r=RecordODS($cn,$_POST,$User,$_POST['p_jrn']);
 	  // Get number of  lines
 	  $nb_number=$_POST["nb_item"];
 	  if ( $r != null ) {
 	    // submit button in the form
 	    $submit='<h2 class="info">Recorded'.$r.'</h2>';
 	    
-	    $r.=FormODS($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$_POST,true,  $nb_number,true);
+	    $r.=FormODS($cn,$_POST['p_jrn'],$User->GetPeriode(),$submit,$_POST,true,  $nb_number,true);
 	  }else {
 	    // CA incorrecte
 	    $submit='<INPUT TYPE="SUBMIT" name="save" value="Confirmer"  onClick="return verify_ca(\'error\');">';
 	    $submit.='<input type="button" value="verifie CA" onClick="verify_ca(\'ok\');">';
 	    $submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
 	    
-	    $r=FormODS($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$_POST,true,$nb_number);
+	    $r=FormODS($cn,$_POST['p_jrn'],$User->GetPeriode(),$submit,$_POST,true,$nb_number);
 
 	  }
 	  echo '<div class="u_redcontent">';
@@ -156,7 +195,7 @@ if ( $action == 'new' ) {
 }
 if ( $action == 'voir_jrn' ) {
   // Check privilege
-  if ( CheckJrn($gDossier,$_SESSION['g_user'],$_GET['p_jrn']) < 1 )    {
+  if ( CheckJrn($gDossier,$_SESSION['g_user'],$_POST['p_jrn']) < 1 )    {
        NoAccess();
        exit -1;
   }

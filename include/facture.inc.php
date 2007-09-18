@@ -179,6 +179,21 @@ echo $w->Submit('gl_submit','Rechercher');
 echo '<div class="u_subtmenu">';
 echo ShowMenuJrnUser($gDossier,'VEN',$p_jrn,'<td class="cell"><A class="mtitle" HREF="commercial.php?liste&p_action=facture&sa=list&'.$str_dossier.'">Liste</A></td>');
 echo '</div>';
+//--------------------------------------------------------------------------------
+// use a predefined operation
+//--------------------------------------------------------------------------------
+if ( $sub_action=="use_opd" ) {
+  $op=new Pre_op_ven($cn);
+  $op->set_od_id($_REQUEST['pre_def']);
+  $p_post=$op->compute_array();
+  echo_debug(__FILE__.':'.__LINE__.'- ','p_post = ',$p_post);
+  $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$p_post,false,$p_post['nb_item']);
+  echo '<div class="u_redcontent">';
+  echo   $form;
+  echo '</div>';
+  exit();
+ }
+
 //-----------------------------------------------------
 // if we request to add an item 
 // the $_POST['add_item'] is set
@@ -208,7 +223,7 @@ if ( isset($_POST['record_and_print_invoice']))
         NoAccess();
         exit -1;
    }
-
+ $nb_number=$_POST['nb_item'];
   // First we save the invoice, the internal code will be used to change the description
   // and upload the file
   if ( form_verify_input($cn,$p_jrn,$User->GetPeriode(),$_POST,$nb_number)== true) {
@@ -245,8 +260,8 @@ if ( isset($_POST['record_and_print_invoice']))
 
   echo '</form>';
   // Button return 
-  printf ('<A class="mtitle" href="?jrn_type=VEN&p_jrn=%d&p_action=facture"><input type="Button" value="Autre Facture"></A>',
-	  $p_jrn);
+  printf ('<A class="mtitle" href="?jrn_type=VEN&p_jrn=%d&p_action=facture&%s"><input type="Button" value="Autre Facture"></A>',
+		  $p_jrn,dossier::get());
   exit();
 }
 //-----------------------------------------------------
@@ -294,4 +309,21 @@ if ( $p_jrn != -1 )
   echo '<div class="u_redcontent">';
   echo $form;
   echo '</div>';
+  //--------------------
+  // predef op.
+  echo '<form method="GET">';
+  $op=new Pre_operation($cn);
+  $op->p_jrn=$p_jrn;
+  $hid=new widget("hidden");
+  echo $hid->IOValue("p_action","facture");
+  echo dossier::hidden();
+  echo $hid->IOValue("p_jrn",$p_jrn);
+  echo $hid->IOValue("jrn_type","VEN");
+  echo $hid->IOValue("sa","use_opd");
+  
+  echo widget::submit_button('use_opd','Utilisez une op.prédéfinie');
+  echo $op->show_button();
+
+  echo '</form>';
+
 }

@@ -29,6 +29,7 @@ require_once("user_common.php");
 require_once ("class_own.php");
 require_once ("class_plananalytic.php");
 require_once ('class_operation.php');
+require_once ('class_pre_op_ven.php');
 /*!   FormVenInput
  * \brief  Display the form for a sell
  *           Used to show detail, encode a new invoice 
@@ -428,7 +429,7 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
  * \param p_periode
  * \param array of value
  * \param nb of item
- * \param p_doc type pdf or html
+ * \param p_doc type form for a form
  * \return string
  * 
  */
@@ -590,8 +591,11 @@ function FormVenteView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='form'
  
   $r.="</DIV>";
   if ( $p_doc == 'form' ) {
-      
-
+	// Propose to save
+	$chk=new widget('checkbox');
+	$chk->selected=true;
+	$r.="Sauvez l'op&eacute;ration ?";
+	$r.=$chk->IOValue('opd_save');
 
 
     // check for upload piece
@@ -610,21 +614,21 @@ function FormVenteView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='form'
     if ( basename($_SERVER['PHP_SELF']) == 'commercial.php') 
       {
 	// if a template exists propose to choose an invoice template
-	if ( CountSql($p_cn,
-		      "select md_id,md_name from document_modele where md_type=4") > 0 )
-	  {
-	    $r.='G&eacute;n&eacute;rer une facture <input type="checkbox" name="gen_invoice" CHECKED>';
-	    // We propose to generate  the invoice and some template
-	    $doc_gen=new widget("select");
-	    $doc_gen->name="gen_doc";
-	    $doc_gen->value=make_array($p_cn,
-				       "select md_id,md_name from document_modele where md_type=4");
-	    $r.=$doc_gen->IOValue();  
-
-	    $r.="<hr>";
+		if ( CountSql($p_cn,
+					  "select md_id,md_name from document_modele where md_type=4") > 0 )
+		  {
+			$r.='G&eacute;n&eacute;rer une facture <input type="checkbox" name="gen_invoice" CHECKED>';
+			// We propose to generate  the invoice and some template
+			$doc_gen=new widget("select");
+			$doc_gen->name="gen_doc";
+			$doc_gen->value=make_array($p_cn,
+									   "select md_id,md_name from document_modele where md_type=4");
+			$r.=$doc_gen->IOValue();  
+			
+			$r.="<hr>";
+		  }
 	  }
-      }
-
+	
     
     $r.=$data;
     if ( $sum_with_vat != 0 ) {
@@ -823,6 +827,14 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
 			$vat_code=$a_vat[$i];
 		  }
 		}
+	  // Save the operation
+	  if ( isset($_POST['opd_save']) && $_POST['opd_save']=='on' ){
+		echo_debug(__FILE__.':'.__LINE__.'- ','save opd');
+		$opd=new Pre_op_ven($p_cn);
+		$opd->get_post();
+		$opd->save();
+		echo_debug(__FILE__.':'.__LINE__.'- ',"opd = ",$opd);
+	  }
 	}//try
   catch (Exception $e)
     {

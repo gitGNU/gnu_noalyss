@@ -30,11 +30,7 @@ require_once ('class_plananalytic.php');
 require_once ('class_print_ca.php');
 require_once ('class_operation.php');
 /*! 
- * \brief
- * \param
- * \param
- * \param
- * 
+ * \brief manage the CA listing
  *
  * \return
  */
@@ -48,10 +44,21 @@ class list_ca extends print_ca {
 	return $r;
 
   }
+/*! 
+ * \brief complete the object with the data in $_REQUEST 
+ */
+
   function get_request() {
 	parent::get_request();
 	$this->pa_id=(isset($_REQUEST['pa_id']))?$_REQUEST['pa_id']:"";
   }
+/*! 
+ * \brief compute the html display
+ * 
+ *
+ * \return string
+ */
+
   function display_html() {
 	$r="";
 	//---Html
@@ -84,13 +91,9 @@ class list_ca extends print_ca {
 	return $r;
   }
 /*! 
- * \brief
- * \param
- * \param
- * \param
- * 
+ * \brief load the data from the database 
  *
- * \return
+ * \return array
  */
   function get_data()
   {
@@ -99,6 +102,11 @@ class list_ca extends print_ca {
 	$array=$op->get_list($this->from,$this->to,$this->from_poste,$this->to_poste);
 	return $array;
   }
+/*! 
+ * \brief Compute the csv export
+ * \return string with the csv
+ */
+
   function display_csv()
   {
 	$array=$this->get_data($this->from,$this->to,$this->from_poste,$this->to_poste);	

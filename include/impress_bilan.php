@@ -17,7 +17,7 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 /* $Revision$ */
-include_once("class_widget.php");
+require_once ('class_bilan.php');
 /*! \file
  * \brief form who call the printing of the bilan in RTF
  *        file included by user_impress
@@ -29,34 +29,18 @@ include_once("class_widget.php");
 // Show the jrn and date
 //-----------------------------------------------------
 include_once("postgres.php");
-$ret=make_array($cn,"select fr_id,fr_label
+/*$ret=make_array($cn,"select fr_id,fr_label
                  from formdef
                  order by fr_label");
+*/
 //-----------------------------------------------------
 // Form
 //-----------------------------------------------------
-$w=new widget("select");
-$w->table=1;
-
-echo '<div class="u_redcontent">';
-echo '<FORM ACTION="bilan.php" METHOD="POST">';
-echo dossier::hidden();
-echo '<TABLE>';
-
-print '<TR>';
-// filter on the current year
 $filter_year=" where p_exercice='".$User->getExercice()."'";
-
-$periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
-$w->label="Depuis";
-print $w->IOValue('from_periode',$periode_start);
-$w->label=" jusqu'à ";
-$periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
-print $w->IOValue('to_periode',$periode_end);
-print "</TR>";
-echo '</TABLE>';
-print $w->Submit('bt_rtf','Impression');
-
+$bilan=new Bilan($cn);
+echo '<div class="u_redcontent">';
+echo '<FORM ACTION="bilan.php" METHOD="GET">';
+echo $bilan->display_form ($filter_year);
 echo '</FORM>';
 echo '</div>';
 ?>

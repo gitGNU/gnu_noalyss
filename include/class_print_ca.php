@@ -49,13 +49,7 @@ class print_ca {
 
   }
 /*! 
- * \brief
- * \param
- * \param
- * \param
- * 
- *
- * \return
+ * \brief complete the object with the data in $_REQUEST 
  */
   function get_request() {
 	if ( isset($_REQUEST['from']))
@@ -76,13 +70,11 @@ class print_ca {
 
   }
 /*! 
- * \brief
- * \param
- * \param
- * \param
- * 
+ * \brief Compute  the form to display
+ * \param $p_hidden hidden tag to be included (gDossier,...)
  *
- * \return
+ *
+ * \return string containing the data
  */
   function display_form($p_hidden="") {
 	$from=new widget  ('js_date','from','from');

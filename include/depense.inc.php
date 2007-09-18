@@ -24,6 +24,7 @@ require_once('jrn.php');
 require_once("class_document.php");
 require_once("class_fiche.php");
 require_once("check_priv.php");
+require_once ('class_pre_op_ach.php');
 /*!\brief the purpose off this file encode expense and  to record them
  *
  */
@@ -52,6 +53,27 @@ if ( isset ($_REQUEST['url']))
 }
 
 $sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
+//--------------------------------------------------------------------------------
+// use a predefined operation
+//--------------------------------------------------------------------------------
+if ( $sub_action=="use_opd" ) {
+  $op=new Pre_op_ach($cn);
+  $op->set_od_id($_REQUEST['pre_def']);
+  $p_post=$op->compute_array();
+  echo_debug(__FILE__.':'.__LINE__.'- ','p_post = ',$p_post);
+ // Submit button in the form
+  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
+          <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer" ID="SubmitButton">';
+
+  $form=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$p_post,$submit,false,$p_post['nb_item']);
+  //  $form=FormAchInput($cn,$p_jrn,$User->GetPeriode(),$_POST,$submit,false,$nb_item);
+
+  echo '<div class="u_redcontent">';
+  echo   $form;
+  echo '</div>';
+  exit();
+ }
+
 //-----------------------------------------------------
 // If a list of depense is asked
 // 
@@ -232,7 +254,7 @@ if ( isset($_POST['save']))
     echo $form;
     echo '<hr>';
     echo '</form>';
-    echo '<A class="mtitle" href="commercial.php?p_action=depense&p_jrn='.$p_jrn.'">
+    echo '<A class="mtitle" href="commercial.php?p_action=depense&p_jrn='.$p_jrn.'&'.dossier::get().'">
     <input type="button" Value="Autre dépense"></A>';
     exit();
   }
@@ -300,6 +322,22 @@ if ( $p_jrn != -1 )
   echo '<div class="u_redcontent">';
   echo $form;
   echo $msg_tva;
+  //--------------------
+  // predef op.
+  echo '<form method="GET">';
+  $op=new Pre_operation($cn);
+  $op->p_jrn=$p_jrn;
+  $hid=new widget("hidden");
+  echo $hid->IOValue("p_action","depense");
+  echo dossier::hidden();
+  echo $hid->IOValue("p_jrn",$p_jrn);
+  echo $hid->IOValue("jrn_type","ACH");
+  echo $hid->IOValue("sa","use_opd");
+  
+  echo widget::submit_button('use_opd','Utilisez une op.prédéfinie');
+  echo $op->show_button();
+
+  echo '</form>';
 
   echo JS_CALC_LINE;
   echo '</div>';

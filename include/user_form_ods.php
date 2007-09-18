@@ -28,6 +28,7 @@ require_once("user_common.php");
 require_once ('class_plananalytic.php');
 require_once ('class_own.php');
 require_once ('class_operation.php');
+require_once ('class_pre_op_ods.php');
 /*! \file
  * \brief Functions for the ledger of misc. operation
  */
@@ -83,7 +84,15 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
     $r.=JS_COMPUTE_ODS;
   }
 
-  $r.="<FORM NAME=\"form_detail\" enctype=\"multipart/form-data\" ACTION=\"user_jrn.php?action=new&p_jrn=$p_jrn\" METHOD=\"POST\">";
+  //$r.="<FORM NAME=\"form_detail\" enctype=\"multipart/form-data\"
+  //ACTION=\"user_jrn.php\"?action=new&p_jrn=$p_jrn\"
+  //METHOD=\"POST\">";
+$r.="<FORM NAME=\"form_detail\" enctype=\"multipart/form-data\"".
+" ACTION=\"user_jrn.php\" METHOD=\"POST\">";
+  $hid=new widget('hidden');
+  $r.=$hid->IOValue('p_jrn',$p_jrn);
+  $r.=$hid->IOValue('action','new');
+
   $r.=dossier::hidden();
   $r.='<TABLE>';
   // Date
@@ -217,6 +226,12 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
     $r.="</TABLE>";
 
  if ( $pview_only==true && $p_saved==false) {
+   // pre_operation
+   $chk=new widget('checkbox');
+   $chk->selected=true;
+   $r.="Sauvez l'op&eacute;ration ?";
+   $r.=$chk->IOValue('opd_save');
+
 // check for upload piece
    $file=new widget("file");
    $file->table=1;
@@ -394,7 +409,16 @@ function RecordODS($p_cn,$p_array,$p_user,$p_jrn)
 	$Res=ExecSql($p_cn,"update jrn set jr_comment='".$internal."' where jr_grpt_id=".$seq);
       }
       if ( isset ($_FILES))
-	save_upload_document($p_cn,$seq);
+		save_upload_document($p_cn,$seq);
+	  // Save the operation
+	  if ( isset($_POST['opd_save']) && $_POST['opd_save']=='on' ){
+		echo_debug(__FILE__.':'.__LINE__.'- ','save opd');
+		$opd=new Pre_op_ods($p_cn);
+		$opd->get_post();
+		$opd->save();
+		echo_debug(__FILE__.':'.__LINE__.'- ',"opd = ",$opd);
+	  }
+
 	}
   catch (Exception $e)
     {

@@ -28,6 +28,8 @@ require_once("user_form_fin.php");
 include_once("class_widget.php");
 require_once("class_parm_code.php");
 require_once("class_jrn.php");
+require_once ('class_pre_op_fin.php');
+
 $cn=DbConnect($gDossier);
 
 if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {  
@@ -37,6 +39,25 @@ include_once ("preference.php");
 include_once ("user_common.php");
 
 $action=(isset($_GET['action']))?$_GET['action']:$_POST['action'];
+//--------------------------------------------------------------------------------
+// use a predefined operation
+//--------------------------------------------------------------------------------
+if ( $action=="use_opd" ) {
+  $op=new Pre_op_fin($cn);
+  $op->set_od_id($_REQUEST['pre_def']);
+  $p_post=$op->compute_array();
+  echo_debug(__FILE__.':'.__LINE__.'- ','p_post = ',$p_post);
+  // submit button in the form
+  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">'.
+	'<INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
+
+  $form=FormFin($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$p_post,false,$p_post['nb_item']);
+  echo '<div class="u_redcontent">';
+  echo   $form;
+  echo '</div>';
+  exit();
+ }
+
 //-----------------------------------------------------
 // action = new
 //-----------------------------------------------------
@@ -59,7 +80,24 @@ if ( $action == 'new' ) {
 	  $r=FormFin($cn,$p_jrn,$User->GetPeriode(),$submit,null,false,$jrn->GetDefLine());
 	  echo '<div class="u_redcontent">';
 	  echo $r;
-	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."</div>";
+	  echo "<div>";
+	     //--------------------
+	  // predef op.
+	  echo '<form method="GET">';
+	  $op=new Pre_operation($cn);
+	  $op->p_jrn=$_GET['p_jrn'];
+	  $hid=new widget("hidden");
+	  echo $hid->IOValue("action","use_opd");
+	  echo dossier::hidden();
+	  echo $hid->IOValue("p_jrn",$_GET['p_jrn']);
+	  echo $hid->IOValue("jrn_type","FIN");
+	  
+	  echo widget::submit_button('use_opd','Utilisez une op.prédéfinie');
+	  echo $op->show_button();
+   
+	  echo '</form>';
+
+	  echo "<h4>On-line calculator</h4>".JS_CALC_LINE."</div>";
 	
 	  echo "</div>";
 

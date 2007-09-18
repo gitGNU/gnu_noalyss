@@ -35,13 +35,9 @@ require_once ('header_print.php');
 class balance_ca_bs extends print_ca {
 
 /*! 
- * \brief
- * \param
- * \param
- * \param
- * 
+ * \brief load the data from the database 
  *
- * \return
+ * \return array
  */
   function get_data()
   {
@@ -80,6 +76,13 @@ class balance_ca_bs extends print_ca {
 
  
   }
+/*! 
+ * \brief Set the filter (account_date) 
+ *
+ * \return return the string to add to get_data
+ */
+
+
   function set_sql_filter() {
 	$sql="";
 	$and="";
@@ -103,10 +106,7 @@ class balance_ca_bs extends print_ca {
 	  
   }
 /*! 
- * \brief
- * \param
- * \param
- * \param
+ * \brief compute the html display
  * 
  *
  * \return string
@@ -143,13 +143,11 @@ class balance_ca_bs extends print_ca {
 	return $r;
   }
 /*! 
- * \brief
- * \param
- * \param
- * \param
- * 
+ * \brief Compute  the form to display
+ * \param $p_hidden hidden tag to be included (gDossier,...)
  *
- * \return
+ *
+ * \return string containing the data
  */
   function display_form($p_string="") {
 	$r=parent::display_form($p_string);
@@ -206,13 +204,8 @@ class balance_ca_bs extends print_ca {
 	$pdf->ezStream();
   }
 /*! 
- * \brief
- * \param
- * \param
- * \param
- * 
- *
- * \return
+ * \brief Compute the csv export
+ * \return string with the csv
  */
   function display_csv()
   {
@@ -238,13 +231,13 @@ class balance_ca_bs extends print_ca {
 
   }
 /*! 
- * \brief
- * \param
- * \param
- * \param
+ * \brief Show the button to export in PDF or CSV
+ * \param $url_csv url of the csv
+ * \param $url_pdf url of the pdf
+ * \param $p_string hidden data to include in the form 
  * 
  *
- * \return
+ * \return string with the button
  */
   function show_button($url_csv,$url_pdf,$p_string="") 
   {
