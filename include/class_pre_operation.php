@@ -64,9 +64,13 @@ class Pre_operation
 			 "where upper(od_name)=upper('".pg_escape_string($this->name)."')")
 			!= 0 )
 	  {
-		echo "Cette op&eacute;ration a d&eacute;j&agrave; &eacute;t&eacute; sauv&eacute;";
+		echo "Cette op&eacute;ration a d&eacute;j&agrave; &eacute;t&eacute; sauv&eacute;e";
 		return false;
 	  }
+	if ( $this->count()  > 20 ){
+	  echo '<h2 class="info">Vous avez atteint le max. d\'op&eacute;ration pr&eacute;d&eacute;finie, d&eacute;sol&eacute;</h2>';
+	  return false;
+	}
 	$sql=sprintf('insert into op_predef (jrn_def_id,od_name,od_item,od_jrn_type)'.
 				 'values'.
 				 "(%d,'%s',%d,'%s')",
@@ -104,13 +108,22 @@ class Pre_operation
   
   /*!\brief show the button for selecting a predefined operation */
   function show_button() {
+
 	$select=new widget("select");
 	$value=make_array($this->db,"select od_id,od_name from op_predef ".
 					  " where jrn_def_id=".$this->p_jrn.
 					  " order by od_name");
+	if ( empty($value)==true) return "";
 	$select->value=$value;
 	$r=$select->IOValue("pre_def");
 	return $r;
+  }
+  /*!\brief count the number of pred operation for a ledger */
+  function count() {
+	$a=CountSql($this->db,"select od_id,od_name from op_predef ".
+					  " where jrn_def_id=".$this->p_jrn.
+					  " order by od_name");
+	return $a;
   }
   /*!\brief get the list of the predef. operation of a ledger
    * \return string
