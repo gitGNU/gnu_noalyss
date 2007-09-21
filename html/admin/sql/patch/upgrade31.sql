@@ -181,15 +181,6 @@ CREATE SEQUENCE plan_analytique_pa_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.plan_analytique_pa_id_seq OWNER TO phpcompta;
-
---
--- Name: plan_analytique_pa_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: phpcompta
---
-
-ALTER SEQUENCE plan_analytique_pa_id_seq OWNED BY plan_analytique.pa_id;
-
-
 --
 -- Name: pa_id; Type: DEFAULT; Schema: public; Owner: phpcompta
 --
@@ -250,13 +241,8 @@ CREATE SEQUENCE poste_analytique_po_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.poste_analytique_po_id_seq OWNER TO phpcompta;
 
---
--- Name: poste_analytique_po_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: phpcompta
---
 
-ALTER SEQUENCE poste_analytique_po_id_seq OWNED BY poste_analytique.po_id;
 
 
 --
@@ -319,15 +305,6 @@ CREATE SEQUENCE historique_analytique_ha_id_seq
     NO MAXVALUE
     NO MINVALUE
     CACHE 1;
-
-
-ALTER TABLE public.historique_analytique_ha_id_seq OWNER TO phpcompta;
-
---
--- Name: historique_analytique_ha_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: phpcompta
---
-
-ALTER SEQUENCE historique_analytique_ha_id_seq OWNED BY operation_analytique.oa_id;
 
 
 --
@@ -471,13 +448,6 @@ CREATE SEQUENCE bilan_b_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.bilan_b_id_seq OWNER TO phpcompta;
-
---
--- Name: bilan_b_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: phpcompta
---
-
-ALTER SEQUENCE bilan_b_id_seq OWNED BY bilan.b_id;
 
 
 --
@@ -563,14 +533,6 @@ CREATE SEQUENCE op_def_op_seq
     CACHE 1;
 
 
-ALTER TABLE public.op_def_op_seq OWNER TO phpcompta;
-
---
--- Name: op_def_op_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: phpcompta
---
-
-ALTER SEQUENCE op_def_op_seq OWNED BY op_predef.od_id;
-
 
 --
 -- Name: od_id; Type: DEFAULT; Schema: public; Owner: phpcompta
@@ -633,15 +595,6 @@ CREATE SEQUENCE op_predef_detail_opd_id_seq
     NO MAXVALUE
     NO MINVALUE
     CACHE 1;
-
-
-ALTER TABLE public.op_predef_detail_opd_id_seq OWNER TO phpcompta;
-
---
--- Name: op_predef_detail_opd_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: phpcompta
---
-
-ALTER SEQUENCE op_predef_detail_opd_id_seq OWNED BY op_predef_detail.opd_id;
 
 
 --
