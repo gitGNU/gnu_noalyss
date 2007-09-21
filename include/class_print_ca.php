@@ -32,6 +32,7 @@ require_once('debug.php');
 require_once('constant.php');
 require_once ('class_widget.php');
 require_once('class_dossier.php');
+require_once ('class_plananalytic.php');
 
 class print_ca {
   var $db;						/*!< $db database connection */
@@ -77,6 +78,13 @@ class print_ca {
  * \return string containing the data
  */
   function display_form($p_hidden="") {
+	/* if there is no analytic plan return */
+	$pa=new PlanAnalytic($this->db);
+	if ( $pa->count() == 0 ) {
+	  echo '<h2 class="info"> Aucun plan d&eacute;fini</h2>';
+	  exit();
+	}
+
 	$from=new widget  ('js_date','from','from');
 	$from->size=10;
 	$from->value=$this->from;
