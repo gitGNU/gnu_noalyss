@@ -109,7 +109,8 @@ if ( $action == 'insert_vente' ) {
 	   echo $hid->IOValue("p_jrn",$_GET['p_jrn']);
 	   echo $hid->IOValue("jrn_type","VEN");
 
-	   echo widget::submit_button('use_opd','Utilisez une op.prédéfinie');
+	   if ($op->count() != 0 )
+		 echo widget::submit_button('use_opd','Utilisez une op.prédéfinie');
 	   echo $op->show_button();
 
 	   echo '</form>';

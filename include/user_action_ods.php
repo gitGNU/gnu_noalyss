@@ -28,11 +28,12 @@ include_once("class_widget.php");
 require_once('class_dossier.php');
 require_once ('class_pre_operation.php');
 require_once ('class_pre_op_ods.php');
+require_once ('class_own.php');
 
 $gDossier=dossier::id();
 
 $cn=DbConnect($gDossier);
-
+$own=new own($cn);
 if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {
   exit;
 
@@ -93,7 +94,8 @@ if ( $action == 'new' ) {
 	echo $hid->IOValue("p_jrn",$_GET['p_jrn']);
 	echo $hid->IOValue("jrn_type","ODS");
 	
-	echo widget::submit_button('use_opd','Utilisez une op.prédéfinie');
+	if ($op->count() != 0 )
+	  echo widget::submit_button('use_opd','Utilisez une op.prédéfinie');
 	echo $op->show_button();
 	
 	echo '</form>';
@@ -143,7 +145,8 @@ if ( $action == 'new' ) {
 	if ( isset ($_POST['view_invoice']) ) {
 	  $nb_number=$_POST["nb_item"];
 	  $submit='<INPUT TYPE="SUBMIT" name="save" value="Confirmer"  onClick="return verify_ca(\'error\');">';
-	  $submit.='<input type="button" value="verifie CA" onClick="verify_ca(\'ok\');">';
+	  if ( $own->MY_ANALYTIC != "nu" )
+		$submit.='<input type="button" value="verifie CA" onClick="verify_ca(\'ok\');">';
 	  $submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
 
 	  $r=FormODS($cn,$_POST['p_jrn'],$User->GetPeriode(),$submit,$_POST,true,$nb_number);
@@ -179,7 +182,8 @@ if ( $action == 'new' ) {
 	  }else {
 	    // CA incorrecte
 	    $submit='<INPUT TYPE="SUBMIT" name="save" value="Confirmer"  onClick="return verify_ca(\'error\');">';
-	    $submit.='<input type="button" value="verifie CA" onClick="verify_ca(\'ok\');">';
+		if ( $own->MY_ANALYTIC != "nu" )
+		  $submit.='<input type="button" value="verifie CA" onClick="verify_ca(\'ok\');">';
 	    $submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
 	    
 	    $r=FormODS($cn,$_POST['p_jrn'],$User->GetPeriode(),$submit,$_POST,true,$nb_number);

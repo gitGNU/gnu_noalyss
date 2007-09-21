@@ -310,6 +310,9 @@ $r.="</TABLE>";
    $r.="Sauvez l'op&eacute;ration ?";
    $r.=$chk->IOValue('opd_save');
 
+   $name=new widget('text');
+   $r.='nom de l\' op&eacute;ration ?'.$name->IOValue('predef'); 
+
  }
  // Set correctly the REQUEST param for jrn_type 
  $h=new widget('hidden');
@@ -452,6 +455,8 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
 		echo_debug(__FILE__.':'.__LINE__.'- ','save opd');
 		$opd=new Pre_op_fin($p_cn);
 		$opd->get_post();
+		$opd->operation->name=$_POST['predef'];
+
 		$opd->save();
 		echo_debug(__FILE__.':'.__LINE__.'- ',"opd = ",$opd);
 	  }

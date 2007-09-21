@@ -226,7 +226,7 @@ if ( isset($_POST['update_record']) ) {
 	//------------------------------------
 	$own = new Own($cn);
 
-	if ( $own->MY_ANALYTIC != "un" )
+	if ( $own->MY_ANALYTIC != "nu" )
 	  {
 	    // Check the total only for mandatory
 	    //
@@ -280,7 +280,7 @@ if ( isset($_POST['update_record']) ) {
 			$count++;
 	      } //if ereg
 	    }//foreach
-	  }//	if ( $own->MY_ANALYTIC != "un" ) 
+	  }//	if ( $own->MY_ANALYTIC != "nu" ) 
   } catch (Exception $e) {
     echo '<span class="error">'.
       'Erreur dans l\'enregistrement '.

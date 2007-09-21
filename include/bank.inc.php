@@ -354,7 +354,8 @@ if ( $p_jrn != -1 )
   echo $hid->IOValue("p_jrn",$p_jrn);
   echo $hid->IOValue("jrn_type","FIN");
   
-  echo widget::submit_button('use_opd','Utilisez une op.prédéfinie');
+  if ($op->count() != 0 )
+	echo widget::submit_button('use_opd','Utilisez une op.prédéfinie');
   echo $op->show_button();
   
   echo '</form>';

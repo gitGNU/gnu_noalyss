@@ -30,6 +30,8 @@ require_once ("class_own.php");
 require_once ("class_plananalytic.php");
 require_once ('class_operation.php');
 require_once ('class_pre_op_ven.php');
+require_once ('class_own.php');
+
 /*!   FormVenInput
  * \brief  Display the form for a sell
  *           Used to show detail, encode a new invoice 
@@ -315,7 +317,7 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
     }
 
     // encode the pa Check only for mandatory CA
-    if ( $own->MY_ANALYTIC!="un") // use of AA
+    if ( $own->MY_ANALYTIC!="nu") // use of AA
       {
 
 	if ( isset (${"amount_t".$o})){
@@ -436,6 +438,7 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
 
 function FormVenteView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='form',$p_comment='') 
 {
+  $own=new own($p_cn);
 
   $r="";
   $data="";
@@ -633,7 +636,8 @@ function FormVenteView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='form'
     $r.=$data;
     if ( $sum_with_vat != 0 ) {
       $r.='<INPUT TYPE="SUBMIT" name="record_and_print_invoice" value="Enregistrer" onClick="return verify_ca(\'error\');">';
-      $r.='<input type="button" value="verifie CA" onClick="verify_ca(\'ok\');">';
+	  if ( $own->MY_ANALYTIC != "nu" )
+		$r.='<input type="button" value="verifie CA" onClick="verify_ca(\'ok\');">';
     }
     $r.='<INPUT TYPE="SUBMIT" name="correct_new_invoice" value="Corriger">';
     

@@ -61,7 +61,8 @@ class Pre_operation
    */
   function save() {
 	if (	CountSql($this->db,"select * from op_predef ".
-			 "where upper(od_name)=upper('".pg_escape_string($this->name)."')")
+			 "where upper(od_name)=upper('".pg_escape_string($this->name)."')".
+					 "and jrn_def_id=".$this->p_jrn)
 			!= 0 )
 	  {
 		echo "Cette op&eacute;ration a d&eacute;j&agrave; &eacute;t&eacute; sauv&eacute;e";

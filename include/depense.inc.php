@@ -261,7 +261,8 @@ if ( isset($_POST['save']))
   else 
     {
       $submit='<INPUT TYPE="SUBMIT" name="save" value="Confirmer" onClick="return verify_ca(\'error\');" >';
-      $submit.='<input type="button" value="verifie CA" onClick="verify_ca(\'ok\');">';
+	  if ( $own->MY_ANALYTIC != "nu" )
+		$submit.='<input type="button" value="verifie CA" onClick="verify_ca(\'ok\');">';
       $submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
       $form=FormAchView($cn,$p_jrn,$User->GetPeriode(),$_POST,$submit,$nb_number,true);
       echo '<div class="u_redcontent">';
@@ -334,7 +335,8 @@ if ( $p_jrn != -1 )
   echo $hid->IOValue("jrn_type","ACH");
   echo $hid->IOValue("sa","use_opd");
   
-  echo widget::submit_button('use_opd','Utilisez une op.prédéfinie');
+  if ($op->count() != 0 )
+	echo widget::submit_button('use_opd','Utilisez une op.prédéfinie');
   echo $op->show_button();
 
   echo '</form>';

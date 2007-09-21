@@ -27,6 +27,10 @@ require_once ("preference.php");
 require_once ("user_common.php");
 require_once("class_widget.php");
 require_once("class_jrn.php");
+require_once ('class_own.php');
+
+$own=new own($cn);
+
 $cn=DbConnect($gDossier);
 
 $msg_tva='<i>Si le montant de TVA est &eacute;gal &agrave; 0, il sera automatiquement calcul&eacute;</i>';
@@ -88,7 +92,8 @@ if ( $action == 'new' ) {
    echo $hid->IOValue("p_jrn",$_GET['p_jrn']);
    echo $hid->IOValue("jrn_type","ACH");
    
-   echo widget::submit_button('use_opd','Utilisez une op.prédéfinie');
+  if ($op->count() != 0 )
+	echo widget::submit_button('use_opd','Utilisez une op.prédéfinie');
    echo $op->show_button();
    
    echo '</form>';
@@ -143,7 +148,8 @@ if ( $action == 'new' ) {
 	     ! isset ($_POST['save'])) {
 	$nb_number=$_POST["nb_item"];
 	$submit='<INPUT TYPE="SUBMIT" name="save" value="Confirmer" onClick="verify_ca(\'error\');">';
-	$submit.='<input type="button" value="verifie CA" onClick="verify_ca(\'ok\');">';
+	if ( $own->MY_ANALYTIC != "nu" )
+		   $submit.='<input type="button" value="verifie CA" onClick="verify_ca(\'ok\');">';
 	$submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
 	if ( form_verify_input ($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$nb_number) == true ) {
 	  // Should use a read only view instead of FormAch
@@ -179,7 +185,8 @@ if ( $action == 'new' ) {
 	    echo "</div>";
 	  }else  {
 	    $submit='<INPUT TYPE="SUBMIT" name="save" value="Confirmer" onClick="return verify_ca(\'error\');">';
-	    $submit.='<input type="button" value="verifie CA" onClick="verify_ca(\'ok\');">';
+		if ( $own->MY_ANALYTIC != "nu" )
+		  $submit.='<input type="button" value="verifie CA" onClick="verify_ca(\'ok\');">';
 
 	    $submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
 	    
