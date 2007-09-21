@@ -74,7 +74,7 @@ echo_debug('jrn_add.php',__LINE__,"nom journal $p_jrn_name");
      $p_jrn_class_deb=FormatString($_POST["p_jrn_class_deb"]);
      if (strlen(trim($p_jrn_name))==0) return;
      $p_jrn_name=FormatString($p_jrn_name);
-     $p_jrn_class_cred=FormatString($_POST["p_jrn_class_cred"]);
+     $p_jrn_class_cred=FormatString($_POST["p_jrn_class_deb"]);
      // compute the jrn_def.jrn_def_code
      $p_code=sprintf("%s-%02d",trim($_POST['p_jrn_type']),NextJrn($cn,$_POST['p_jrn_type']));
        $p_jrn_fiche_deb="";
@@ -83,8 +83,8 @@ echo_debug('jrn_add.php',__LINE__,"nom journal $p_jrn_name");
      if ( isset    ($_POST["FICHEDEB"])) {
        $p_jrn_fiche_deb=join(",",$_POST["FICHEDEB"]);
      }
-      if ( isset    ($_POST["FICHECRED"])) {
-       $p_jrn_fiche_cred=join(",",$_POST["FICHECRED"]);
+      if ( isset    ($_POST["FICHEDEB"])) {
+       $p_jrn_fiche_cred=join(",",$_POST["FICHEDEB"]);
       }
       $l_cred_max_line=$l_deb_max_line;
     $Sql=sprintf("insert into jrn_def(jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_deb_max_line,jrn_cred_max_line,
@@ -105,7 +105,7 @@ MenuJrn();
 echo '</div>';
 
 $sessid=$_REQUEST['PHPSESSID'];
-$search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$sessid."','not')\">";
+$search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$sessid."',".$gDossier.",'not')\">";
 
 echo '<DIV CLASS="u_redcontent">';
 echo '<FORM ACTION="jrn_add.php" METHOD="POST">';
@@ -119,7 +119,7 @@ echo '<TD> <INPUT TYPE="text" NAME="p_jrn_name"></TD>';
 echo '</TR>';
 
 echo '<TR>'; 
-echo '<TD> Postes utilisables journal (débit) </TD>';
+echo '<TD> Postes utilisables journal (débit/crédit) </TD>';
 echo '<TD> <INPUT TYPE="text" NAME="p_jrn_class_deb">'.$search.'</TD>';
 echo '</TR>';
 
@@ -127,12 +127,12 @@ echo '<TR>';
 echo '<TD> Nombre de lignes par défaut  </TD>';
 echo '<TD> <INPUT TYPE="text" NAME="p_jrn_deb_max_line" ></TD>';
 echo '</TR>';
-
+/*
 echo '<TR>'; 
 echo '<TD> Postes utilisables journal (crédit) </TD>';
 echo '<TD> <INPUT TYPE="text" NAME="p_jrn_class_cred">'.$search.'</TD>';
 echo '</TR>';
-
+*/
 
 echo '<TR>'; 
 echo '<TD> Date d\'échéance </TD>';

@@ -112,7 +112,7 @@ If ( isset ($_POST["JRN_UPD"] )) {
                  jrn_deb_max_line=%s,jrn_cred_max_line=%s,jrn_def_ech=%s,jrn_def_ech_lib=%s,jrn_def_fiche_deb='%s',
                   jrn_def_fiche_cred='%s'
                  where jrn_def_id=%s",
-		 $p_jrn_name,$_POST['p_jrn_class_deb'],$_POST['p_jrn_class_cred'],
+		 $p_jrn_name,$_POST['p_jrn_class_deb'],$_POST['p_jrn_class_deb'],
 		 $l_deb_max_line,$l_cred_max_line,
 		 $p_ech,$p_ech_lib,
 		 $p_jrn_fiche_deb,$p_jrn_fiche_cred,
@@ -142,7 +142,7 @@ $Res=ExecSql($cn,"select jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,".
 if ( pg_NumRows($Res) == 0 ) exit();
 $l_line=pg_fetch_array($Res,0);
 $sessid = $_REQUEST['PHPSESSID'];
-$search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$sessid."','not','".$_GET['p_jrn']."')\">";
+$search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$sessid."',".dossier::id().",'not','".$_GET['p_jrn']."')\">";
 echo '<DIV CLASS="u_redcontent">';
 echo '<H2 class="info">'.$l_line['jrn_def_name'].'</H2>';
 echo '<FORM ACTION="jrn_detail.php?p_jrn='.$_GET['p_jrn'].'" METHOD="POST">';
@@ -156,7 +156,7 @@ echo '<TD> <INPUT TYPE="text" NAME="p_jrn_name" VALUE="'.$l_line['jrn_def_name']
 echo '</TR>';
 
 echo '<TR>'; 
-echo '<TD> Postes utilisables journal (débit) </TD>';
+echo '<TD> Postes utilisables journal (d&eacute;bit/cr&eacute;dit) </TD>';
 echo '<TD> <INPUT TYPE="text" NAME="p_jrn_class_deb" VALUE="'.$l_line['jrn_def_class_deb'].'">'.$search.'</TD>';
 echo '</TR>';
 
@@ -165,11 +165,11 @@ echo '<TD> Nombre de lignes par défaut  </TD>';
 echo '<TD> <INPUT TYPE="text" NAME="p_jrn_deb_max_line" VALUE="'.$l_line['jrn_deb_max_line'].'"></TD>';
 echo '</TR>';
 
-echo '<TR>'; 
+/*echo '<TR>'; 
 echo '<TD> Postes utilisables journal (crédit) </TD>';
 echo '<TD> <INPUT TYPE="text" NAME="p_jrn_class_cred" VALUE="'.$l_line['jrn_def_class_cred'].'">'.$search.'</TD>';
 echo '</TR>';
-
+*/
 
 echo '<TR>'; 
 echo '<TD> Date d\'échéance </TD>';
