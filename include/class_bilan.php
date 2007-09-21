@@ -154,7 +154,9 @@ class Bilan {
 	  // blank line are skipped
 	  if (strlen(trim($buffer))==0) 
 		continue;
-	  
+	  // skip comment
+	   if ( strpos($buffer,'#') === true )  
+		 continue; 
 	  // buffer contains a formula A$=....
 	  // We need to eval it 
 	  //ereg("\\$[a-zA-Z]+[0-9]*=",$buffer,$e);
