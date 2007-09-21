@@ -147,7 +147,6 @@ begin
 end;
  $$
     LANGUAGE plpgsql;
-insert into tmp_pcmn(pcm_val,pcm_lib,pcm_val_parent) values(8,'Comptes hors Compta',0);
 insert into tmp_pcmn(pcm_val,pcm_lib,pcm_val_parent) values(9,'Comptes hors Compta',0);
 
 COMMENT ON TABLE parameter IS 'parameter of the company';

@@ -457,6 +457,7 @@ $MaxDossier=pg_NumRows($Resdossier);
 //----------------------------------------------------------------------
 for ($e=0;$e < $MaxDossier;$e++) {
   $db_row=pg_fetch_array($Resdossier,$e);
+  echo "Patching ".$db_row['dos_name'].'<br>';
   $db=DbConnect($db_row['dos_id'],'dossier');
   apply_patch($db,$db_row['dos_name']);
  }
