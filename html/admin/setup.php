@@ -168,9 +168,10 @@ function apply_patch($p_cn,$p_name)
   $MaxVersion=31;
   for ( $i = 4;$i <= $MaxVersion;$i++)
 	{
+	$to=$i+1;
 	  if ( GetVersion($p_cn) <= $i ) { 
 	  echo "Patching ".$p_name.
-		" from the version $i to the version ".GetVersion($p_cn)." <hr>";
+		" from the version ".GetVersion($p_cn)." to $to <hr>";
 
 		ExecuteScript($p_cn,'sql/patch/upgrade'.$i.'.sql');
 	  if ( DEBUG=='false' ) ob_start();
