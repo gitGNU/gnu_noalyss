@@ -325,7 +325,7 @@ function RecordODS($p_cn,$p_array,$p_user,$p_jrn)
   $own=new own($p_cn);
   // verify first the CA
   ///
-  if ( $own->MY_ANALYTIC != "un" )
+  if ( $own->MY_ANALYTIC != "nu" )
     {
       // Check the total only for mandatory
       //
@@ -381,7 +381,7 @@ function RecordODS($p_cn,$p_array,$p_user,$p_jrn)
 		  {
 		    
 		    // insert into ca
-		    if ( $own->MY_ANALYTIC != "un" )
+		    if ( $own->MY_ANALYTIC != "nu" )
 		      {
 			// for each item, insert into operation_analytique */
 			$op=new operation($p_cn); 
