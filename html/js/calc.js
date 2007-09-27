@@ -25,10 +25,8 @@
  *        input id inp must exist see constant.php JS_CALC_LINE
  *
  */
-var str="";
-var val="";
-var counter=0;
-
+var p_history="";
+var p_variable="";
 // add input 
 function cal()
 {
@@ -36,64 +34,24 @@ function cal()
 	if (p_variable.search(/^\s*$/) !=-1) {
 		return;
 		}
-if ( counter==0)
-{
-	this.document.getElementById('result').innerHTML="";
-}
-// if both parenthesis are not found we increase the counter 
-// --> bug if ( p_variable.search(/\)+/) == -1 && p_variable.search(/\(+/) ==-1) {
-	if ( counter%2 == 0)
-	{
-		// number only
-		var regex=/^[0-9]*\.*[0-9]*$/;
-	
-		if (  p_variable.search(regex) ==-1)
-		{
-			alert ('Nombre uniquement');
-			return;
-		}	
-	} else
-	{
-		var regex=/^\/?\+?-?\*?=?$/;
-		// signs
-		if (  p_variable.search(regex) ==-1)
-		{
-			alert ('Signe + - * / = uniquement');
-			return;
-		}
-		
-	}
-	counter++;	
-// --> PARENTHESIS}
-	
-if ( p_variable == "=" ) {
+	try {
 	Compute();
-	str="";
-	val="";
-	counter=0;
-	return;
+	sub=eval(p_variable);
+	} catch(exception) {
+	alert("Mauvaise formule\n"+p_variable);
+	return false;
 	}
-  str=str+p_variable;
-  val=val+p_variable;
-var str_sub="";
-if ( counter%2 != 0 )
-{
-	sub=eval(val);
-	str_sub="<hr><b><i> Total :"+val+" = "+sub+"<I></b>";
+	p_history=p_history+'<hr>'+p_variable;
+	p_history+="="+sub;
+	var str_sub="<hr><b><i> Total :"+p_variable+" = "+sub+"<I></b>";
 	this.document.getElementById("sub_total").innerHTML=str_sub;
-
-}
-  //alert ('value is '+p_variable+'Global :'+str);
-  this.document.getElementById("listing").innerHTML=str;
+  this.document.getElementById("listing").innerHTML=p_history;
   this.document.getElementById('inp').value="";
 }
 // Clean 
 // 
 function Clean() 
 {
-	str="";
-	counter=0;
-	val="";
 	this.document.getElementById('listing').innerHTML="";
 	this.document.getElementById('result').innerHTML="";
 	this.document.getElementById('sub_total').innerHTML="";
@@ -106,10 +64,10 @@ function Compute()
 {
 	var tot=0;
 	var ret="";
-	tot=eval(val);
+	tot=eval(p_variable);
 	ret+="<hr>";
 	ret+="<b>Total   =  "+tot+'</b>';
 	this.document.getElementById('inp').value="";
-	this.document.getElementById('result').innerHTML=ret;
+	//this.document.getElementById('result').innerHTML=ret;
 	this.document.getElementById('inp').focus();
 }
