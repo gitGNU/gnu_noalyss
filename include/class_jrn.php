@@ -303,10 +303,6 @@ class jrn {
    */
   function GetRowSimple($p_from,$p_to,$cent='off',$trunc=0,$p_limit=-1,$p_offset=-1) 
     {
-
-      $periode=sql_filter_per($this->db,$p_from,$p_to,'p_id','jr_tech_per');
-      
-      $cond_limite=($p_limit!=-1)?" limit ".$p_limit." offset ".$p_offset:"";
       // Grand-livre : id= 0
       //---
       $jrn=($this->id == 0 )?"":"and jrn_def_id = ".$this->id;
@@ -314,6 +310,10 @@ class jrn {
       //--
       if ($cent=='off') 
 	{// Non centralisé
+
+	 $periode=sql_filter_per($this->db,$p_from,$p_to,'p_id','jr_tech_per');
+      
+     	 $cond_limite=($p_limit!=-1)?" limit ".$p_limit." offset ".$p_offset:"";
 	  //---
 	  $sql=" 
                   SELECT jrn.jr_id as jr_id ,
@@ -332,6 +332,10 @@ class jrn {
 	} 
       else 
 	{
+
+     	 $periode=sql_filter_per($this->db,$p_from,$p_to,'p_id','jr_tech_per');
+      
+      	$cond_limite=($p_limit!=-1)?" limit ".$p_limit." offset ".$p_offset:"";
 	  //Centralisé
 	  //---
 	  $id=($this->id == 0 ) ?"jr_c_opid as num":"jr_opid as num";
@@ -597,7 +601,6 @@ class jrn {
     * \param $p_cent 1 for a centralized period otherwise 0
    */
    function get_solde($p_from,$p_to,$p_cent) {
- 	$periode=sql_filter_per($this->db,$p_from,$p_to,'p_id','j_tech_per');
 	$ledger=""; 
  	if ( $this->id != 0 && $p_cent=='off') {
  	  $ledger=" and j_jrn_def = ".$this->id;
@@ -609,9 +612,11 @@ class jrn {
  
  	  // we ask for a specific ledger
  	if ( $p_cent == 'off') {
+ 		$periode=sql_filter_per($this->db,$p_from,$p_to,'p_id','j_tech_per');
  		$sql='select j_montant as montant,j_debit as deb from jrnx where '
  		  .$periode.$ledger;
  	  }else {
+ 		$periode=sql_filter_per($this->db,$p_from,$p_to,'p_id','c_periode');
  		$sql='select c_montant as montant,c_debit as deb from centralized where '
  		  .$periode.$ledger;
  	  }
