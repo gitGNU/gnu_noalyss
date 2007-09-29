@@ -292,11 +292,10 @@ if ( isset($_POST['update_record']) ) {
   }
 
   Commit($cn);
-  /*!\todo REMOVE DEBUG HERE */
-  /*  echo ' <script> 
+  echo ' <script> 
  window.close();
  self.opener.RefreshMe();
- </script>';*/
+ </script>';
 } // if update_record
 //-----------------------------------------------------
 if (  $action  == 'delete' ) {
