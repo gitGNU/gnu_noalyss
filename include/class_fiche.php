@@ -881,6 +881,7 @@ class fiche {
      
      echo '<TD><form method="POST" ACTION="quick_code_pdf.php">'.
        $submit->Submit('bt_pdf',"Export PDF").
+	dossier::hidden().
        $hid->IOValue("type","poste").
        $hid->IOValue('p_action','impress').
        $hid->IOValue("f_id",$this->id).
@@ -890,6 +891,7 @@ class fiche {
      
      echo '<TD><form method="POST" ACTION="quick_code_csv.php">'.
        $submit->Submit('bt_csv',"Export CSV").
+	dossier::hidden().
        $hid->IOValue("type","poste").
        $hid->IOValue('p_action','impress').
        $hid->IOValue("f_id",$this->id).
