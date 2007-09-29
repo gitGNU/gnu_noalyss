@@ -308,7 +308,7 @@ if ( $p_jrn != -1 )
   $form=FormVenInput($cn,$p_jrn,$User->GetPeriode(),null,false,$jrn->GetDefLine());
   echo '<div class="u_redcontent">';
   echo $form;
-  echo '</div>';
+
   //--------------------
   // predef op.
   echo '<form method="GET">';
@@ -326,5 +326,5 @@ if ( $p_jrn != -1 )
   echo $op->show_button();
 
   echo '</form>';
-
+  echo '</div>';
 }
