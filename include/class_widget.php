@@ -120,8 +120,11 @@ class widget {
     $disabled = $this->disabled ? "DISABLED" : "";
     if (strtoupper($this->type)=="TEXT") {
       if ( $this->readonly==false) {
-	$r="<INPUT style=\"border:solid 1px blue;\" TYPE=\"TEXT\" id=\"$this->name\" ".
-            " NAME=\"$this->name\" VALUE=\"$this->value\"  SIZE=\"$this->size\" ".$this->javascript." ".$disabled.">";
+		$this->value=str_replace('"','',$this->value);
+		$r='<INPUT style="border:solid 1px blue;" TYPE="TEXT" id="'.
+		  $this->name.'"'.
+          'NAME="'.$this->name.'" VALUE="'.$this->value.'"  '.
+		  'SIZE="'.$this->size.'" "'.$this->javascript." ".$disabled.">";
       } else {
 	    $r=sprintf('<span>%s</span><input type="hidden" id="%s" name="%s" value="%s">', $this->value,$this->name,$this->name,$this->value);
 	}
