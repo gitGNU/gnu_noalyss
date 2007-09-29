@@ -181,7 +181,7 @@ define ("JS_CALC_LINE",'
 <input type="button" value="Efface tout" onClick="Clean();return false;" >
 </form>
 <span id="result">  </span><br>
-<span id="sub_total">  Taper un montant puis enter puis le signe et terminer par = </span><br>
+<span id="sub_total">  Taper une formule (ex 20*5.1) puis enter  </span><br>
 <span id="listing"> </span>
 <br>
 </div>
