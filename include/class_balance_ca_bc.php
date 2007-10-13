@@ -109,6 +109,19 @@ class balance_ca_bc extends print_ca
 	}
 
 	$r.="</table>";
+	$r.='<table>';
+	$sum=$this->show_sum($array);
+	foreach ($sum as $row) {
+	  $r.='<tr>';
+	  $r.='<td>'.$row['poste'].'</td>';
+	  $r.='<td>'.$row['desc'].'</td>';
+	  $r.='<td>'.$row['debit'].'</td>';
+	  $r.='<td>'.$row['credit'].'</td>';
+	  $r.='<td>'.$row['dc'].'</td>';
+	  $r.='</tr>';
+	}
+	$r.='</table>';
+
 	return $r;
   }
 /*! 
@@ -144,15 +157,15 @@ class balance_ca_bc extends print_ca
 					  $this->to);
 	if ( $this->from_poste !="" ||$this->to_poste !="")
 	  $filtre_pa=sprintf("Filtre poste plan1  %s %s",
-						 ($this->from_poste!="")?"de ".$this->from_poste:" ",
-						 ($this->to_poste!="")?"jusque ".$this->to_poste:"");
-
+			     ($this->from_poste!="")?"de ".$this->from_poste:" ",
+			     ($this->to_poste!="")?"jusque ".$this->to_poste:"");
+	
 	if ( $this->from_poste2 !="" ||$this->to_poste2 !="")
 	  $filtre_pb=sprintf("Filtre poste plan2   %s  %s",
-						 ($this->from_poste2!="")?"de ".$this->from_poste2:" ",
-						 ($this->to_poste2!="")?"jusque ".$this->to_poste2:"");
-
-
+			     ($this->from_poste2!="")?"de ".$this->from_poste2:" ",
+			     ($this->to_poste2!="")?"jusque ".$this->to_poste2:"");
+	
+	
 	for ($i_loop=0;$i_loop<=$count;$i_loop++) {	
 
 	  $view=$array;
@@ -163,24 +176,38 @@ class balance_ca_bc extends print_ca
 	  $pdf->ezText($filtre_pb,'8');
 
 	  $pdf->ezTable($view,
-					array("a_po_name"=>"id",
-						  "b_po_name"=>"Poste Comptable",
-						  "a_d"=>"Debit",
-						  "a_c"=>"Credit",
-						  "a_solde"=>"Solde",
-						  "a_debit"=>"Debit/Credit"),
-				  $titre,
-				    array('shaded'=>1,'showHeadings'=>1,'width'=>500,
-						  'cols'=>array('a_d'=> array('justification'=>'right'),
-										'a_solde'=> array('justification'=>'right'),
-										'a_c'=> array('justification'=>'right'))));
+			array("a_po_name"=>"id",
+			      "b_po_name"=>"Poste Comptable",
+			      "a_d"=>"Debit",
+			      "a_c"=>"Credit",
+			      "a_solde"=>"Solde",
+			      "a_debit"=>"Debit/Credit"),
+			$titre,
+			array('shaded'=>1,'showHeadings'=>1,'width'=>500,
+			      'cols'=>array('a_d'=> array('justification'=>'right'),
+					    'a_solde'=> array('justification'=>'right'),
+					    'a_c'=> array('justification'=>'right'))));
 	  
 	  $page++;
 	  $pdf->ezNewPage();					
 	  
 	  $offset+=$pagesize;
 	}
-	$this->show_pdf_sum($pdf,$array);
+	$sum=$this->show_sum($array);
+	$pdf->ezTable($sum,
+		      array("poste"=>'Poste',
+			    'desc'=>'Description',
+			    'debit'=>'Debit',
+			    'credit'=>'Credit',
+			    'solde'=>'Solde',
+			    'dc'=>'D/C'),
+		      'Totaux',
+		      array('shaded'=>1,'showHeadings'=>1,cols=>array
+			    ('debit'=>array('justification'=>'right'),
+			     'credit'=>array('justification'=>'right'),
+			     'solde'=>array('justification'=>'right'),					    )
+			    )
+		      );
 	$pdf->ezStream();
   }
 
@@ -346,6 +373,7 @@ class balance_ca_bc extends print_ca
 	$sql="
 select  a_po_id ,
 pa.po_name as a_po_name,
+pa.po_description as a_po_description,
 b_po_id,
 pb.po_name as b_po_name,
 sum(a_oa_amount_c) as a_c,
@@ -365,7 +393,7 @@ join poste_analytique as pb on (b_po_id=pb.po_id)
 
 $filter_poste
 
- group by a_po_id,b_po_id,pa.po_name,pb.po_name 
+ group by a_po_id,b_po_id,pa.po_name,pa.po_description,pb.po_name 
 order by 1;
 ";
 
@@ -384,6 +412,7 @@ order by 1;
 	  $a[$count]['b_po_id']=$row['b_po_id'];
 
 	  $a[$count]['a_po_name']=$row['a_po_name'];
+	  $a[$count]['a_po_description']=$row['a_po_description'];
 	  $a[$count]['b_po_name']=$row['b_po_name'];
 	  $a[$count]['a_solde']=abs($row['a_d']-$row['a_c']);
 	  $a[$count]['a_debit']=($row['a_d']>$row['a_c'])?"debit":"credit";
@@ -416,16 +445,16 @@ order by 1;
   }
   
 /*! 
- * \brief add extra lines to PDF with sum of each account
- * \param $pdf pdf object
+ * \brief add extra lines  with sum of each account
  * \param $p_array array returned by get_data()
  */
-  function show_pdf_sum (&$pdf,$p_array)
+  function show_sum ($p_array)
 {
   $tot_deb=0;
   $tot_cred=0;
   $old="";
   $first=true;
+  $array=array();
 	foreach ( $p_array as $row) {
 
 	  if ( $old != $row['a_po_name'] && $first==false ) 
@@ -433,21 +462,27 @@ order by 1;
 		{
 		  $s=abs($tot_deb-$tot_cred);
 		  $d=($tot_deb>$tot_cred)?'debit':'credit';
-		  $r=sprintf(" $old Debit %12.2f Credit 12.2f solde %12.2f %s",
+		  $array[]=array('poste'=>$old,'desc'=>$old_desc
+			    ,'debit'=>$tot_deb,'credit'=>$tot_cred,
+			    'solde'=>$s,'dc'=>$d);
+		  /*	     $r=sprintf(" $old $old_desc Debit %12.2f Credit %12.2f solde %12.2f %s",
 					 $tot_deb,
 					 $tot_cred,
 					 $s,
 					 $d);
 		  $pdf->ezText($r,9);
+		  */
 		  $tot_deb=0;
 		  $tot_cred=0;
 		  
 		  $old=$row['a_po_name'];
+		  $old_desc=$row['a_po_description'];
 	  }
 
 	  if ( $first ) {
 		$first=false;
 		$old=$row['a_po_name'];
+		$old_desc=$row['a_po_description'];
 	  }
 
 	  $tot_deb+=$row['a_d'];
@@ -457,13 +492,20 @@ order by 1;
 	}
 	$s=abs($tot_deb-$tot_cred);
 	$d=($tot_deb>$tot_cred)?'debit':'credit';
-	$r=sprintf(" %s Debit %12.2f Credit %12.2f solde %12.2f %s",
-			   $old,
-			   $tot_deb,
-			   $tot_cred,
-			   $s,
-			   $d);
-	$pdf->ezText($r,9);
+	$array[]=array('poste'=>$old,'desc'=>$old_desc
+		  ,'debit'=>$tot_deb,'credit'=>$tot_cred,
+
+		  'solde'=>$s,'dc'=>$d);
+	
+	/*	$r=sprintf(" %s Debit %12.2f Credit %12.2f solde %12.2f %s",
+		$old,
+		$tot_deb,
+		$tot_cred,
+		$s,
+		$d);
+		$pdf->ezText($r,9);
+		  */
+	return $array;
 
 }
 /*! 

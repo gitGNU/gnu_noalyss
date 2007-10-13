@@ -135,13 +135,16 @@ class operation
 	  $cond_poste=" and upper(po_name) >= upper('".$p_from_poste."')";
 	if ($p_to_poste != "" )
 	  $cond_poste.=" and upper(po_name) <= upper('".$p_to_poste."')";
+	$pa_id_cond="";
+	if ( isset ( $this->pa_id) && $this->pa_id !='')
+	  $pa_id_cond= "B.pa_id=".$this->pa_id." and";
 
 	$sql="select oa_id,po_name,oa_description,".
 	  "oa_debit,to_char(oa_date,'DD.MM.YYYY') as oa_date,oa_amount,oa_group,j_id ".
 	  " from operation_analytique as B".
 	  " join poste_analytique using(po_id) ".
-	  "where B.pa_id=".$this->pa_id." and oa_amount <> 0.0 $cond $cond_poste".
-	  " order by oa_date ,oa_group,oa_debit,oa_id";
+	  "where $pa_id_cond oa_amount <> 0.0 $cond $cond_poste".
+	  " order by oa_date ,oa_group,oa_debit desc,oa_id";
 	$RetSql=ExecSql($this->db,$sql);
 
 
@@ -227,11 +230,15 @@ class operation
 	  $count++;
 	  $cred= ( $row['oa_debit'] == 'f')?"CREDIT":"DEBIT";
 	  $ret.="<tr class=\"$class\">";
+	  if ( $cred=='CREDIT')
+	    $ret.='<td></td>';
 	  $ret.= "<td>".
 		$row['po_name'].
-		"</td>".
-		"<td>".
-		$row['oa_amount'].
+	    "</td>";
+	  if ( $cred=='DEBIT')
+	    $ret.='<td></td>';
+	  
+	  $ret.='<td>'.	$row['oa_amount'].
 		"</td>".
 		"<td>".
 		$cred.
@@ -239,6 +246,7 @@ class operation
 
 		"</tr>";
 		}
+
 
 	$efface=new widget('button');
 	$efface->javascript="op_remove('".$_REQUEST['PHPSESSID']."',$gDossier,".$oldgroup.")";

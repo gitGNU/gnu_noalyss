@@ -48,7 +48,7 @@ class balance_ca_bs extends print_ca {
 	$sql.=" po_name||'  '||po_description as po_name";
 	$sql.=" from ";
 	$sql.=" (select po_id,case when oa_debit='t' then oa_amount else 0 end as deb,";
-	$sql.="case when oa_debit='t' then oa_amount else 0 end as cred ";
+	$sql.="case when oa_debit='f' then oa_amount else 0 end as cred ";
 	$sql.=" from operation_analytique join poste_analytique using(po_id)";
 	$sql.=(empty($filter) == false)?" where ".$filter:"";
 	$sql.=" ) as m join poste_analytique using (po_id)";
@@ -133,7 +133,7 @@ class balance_ca_bs extends print_ca {
 	  $r.=($odd%2==0)?'<tr class="odd">':'</tr>';
 	  // the name and po_id
 	  //	  $r.=sprintf("<td>%s</td>",$row['po_id']);
-	  $r.=sprintf("<td>%s</td>",$row['po_name']);
+	  $r.=sprintf("<td align=\"left\">%s</td>",$row['po_name']);
 	  $r.=sprintf("<td>%12.2f</td>",$row['sum_deb']);
 	  $r.=sprintf("<td>%12.2f</td>",$row['sum_cred']);
 	  $r.=sprintf("<td>%12.2f</td>",$row['solde']);
@@ -168,7 +168,7 @@ class balance_ca_bs extends print_ca {
 	$offset=0;
 	$page=1;
 	$pagesize=50;
-	print_r($array);
+
 	$count=ceil(count($array)/$pagesize);
 	$pdf= new Cezpdf("A4");
 	$pdf->selectFont('./addon/fonts/Helvetica.afm');
@@ -198,7 +198,7 @@ class balance_ca_bs extends print_ca {
 	  $page++;
 	  $pdf->ezNewPage();					
 
-	  if ( DEBUG) print_r($view);
+
 	  $offset+=$pagesize;
 	}
 	$pdf->ezStream();

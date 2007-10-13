@@ -38,28 +38,8 @@ if ( ! $m )  { echo '<h2 class="info"> Aucun plan analytique d&eacute;fini</h2>'
 echo '<div class="u_subt2menu">';
 echo '<table>';
 echo '<tr>';
-if ( isset ($_REQUEST['pa_id'])){
-  $pa_id=$_REQUEST['pa_id'];
- } else $pa_id=-1;
-foreach ($m as $line)
-{
-  if ( $line['id'] == $pa_id ) {
-	echo '<td class="selectedcell">'.
-	  $line['name'].
-	  '</td>';
-
-  } else {
-	echo '<td class="mtitle">'.
-	  '<a class="mtitle" href="?p_action=ca_od&sa=pa&pa_id='.$line['id'].'&new&'.$str_dossier.'"> '.
-	  $line['name'].
-	  '</a>'.'</td>';
-  }
-}
-echo '</tr>';
-echo '</table>';
 echo '</div>';
-if ( ! isset($_REQUEST['pa_id']) )
-  exit();
+
 //----------------------------------------------------------------------
 // show the left menu
 //----------------------------------------------------------------------
@@ -68,12 +48,10 @@ echo '
 <table>
 <tr>
     <td  class="mtitle" >
-     <A class="mtitle" HREF="?p_action=ca_od&pa_id='.$_REQUEST['pa_id'].'&new&'.$str_dossier.'"> Nouveau </A>
+     <A class="mtitle" HREF="?p_action=ca_od&new&'.$str_dossier.'"> Nouveau </A>
  </td>
-</tr>
-<tr>
     <td  class="mtitle" >
-     <A class="mtitle" HREF="?p_action=ca_od&pa_id='.$_REQUEST['pa_id'].'&see&'.$str_dossier.'"> Liste op&eacute;rations </A
+     <A class="mtitle" HREF="?p_action=ca_od&see&'.$str_dossier.'"> Liste op&eacute;rations </A
  </td>
 </tr>
 </table>
@@ -83,12 +61,13 @@ echo '
 //
 //----------------------------------------------------------------------
 if ( isset($_GET['see'])) {
+
   // Show the list for the period
   // and exit
   //-----------------------------
   echo JS_AJAX_OP;
   $a=new operation($cn);
-  $a->pa_id=$_REQUEST['pa_id'];
+
 echo '
 <div class="u_redcontent">
 <form method= "get">
@@ -104,11 +83,6 @@ echo '
  $hid->name="see";
  $hid->value="";
  echo $hid->IOValue();
-
- $hid->name="pa_id";
- $hid->value=$_GET['pa_id'];
- echo $hid->IOValue();
- 
 
  $w=new widget("select");
  $w->name="p_periode";
@@ -134,8 +108,10 @@ if ( isset($_POST['save'])) {
   echo '<div class="u_redcontent">'.
 	'Op&eacute;ration sauv&eacute;e';
   $a=new groupop($cn);
-  $a->pa_id=$_POST['pa_id'];
+
   $a->from_POST();
+  print_r($a);
+
   $a->save();
   echo $a->show();
   echo '</div>';
@@ -146,7 +122,7 @@ if ( isset($_GET['new'])) {
 	//show the form for entering a new operation
 	//------------------------------------------
   $a=new groupop($cn);
-  $a->pa_id=$_GET['pa_id'];
+
   $wSubmit=new widget('hidden',"p_action","ca_od");
   $wSubmit->table=0;
   echo '<div class="u_redcontent">';

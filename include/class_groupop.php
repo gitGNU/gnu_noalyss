@@ -29,14 +29,16 @@
 require_once ("class_operation.php");
 require_once ("postgres.php");
 require_once ("class_widget.php");
+require_once ('class_plananalytic.php');
+require_once ('class_dossier.php');
 
 class groupop
 {
-  var $db;						/*!< database connection */
-  var  $id;						/*!< oa_group, a group contains
-                                   several rows of
-                                   operation_analytique linked by the
-                                   group id */
+  var $db;	/*!< database connection */
+  var  $id;	/*!< oa_group, a group contains
+                  several rows of
+                  operation_analytique linked by the
+                  group id */
 
   var $a_operation;						/*!< array of operations */
   var $date;							/*!< date of the operations */
@@ -80,81 +82,106 @@ class groupop
 		  $wDescription->value=$this->a_operation[0]->oa_description;
 	}
 
-	$wPa_id=new widget("hidden","","pa_id",$this->pa_id);
 	$ret="";
-	$ret.=$wPa_id->IOValue();
+
 	$ret.='<table style="border: 2px outset blue; width: 100%;"	>';
-	//	$ret.="<table border=1>";
+
 	$ret.="<TR>".$wDate->IOValue()."</tr>";
 	$ret.='<tr><td style="border:1px groove blue">Description</td>'.
 	  '<td colspan="3">'.
 	  $wDescription->IOValue()."</td></tr>";
-
-	/* array of possible value for the select */
-	$aPoste=make_array($this->db,"select po_id as value,po_name||':'||po_description as label".
+	$Plan=new PlanAnalytic($this->db);
+	$aPlan=$Plan->get_list();
+	$ret.='</table><table  style="border: 2px outset blue; width: 100%;">';
+	/* show 10 rows */
+	$ret.="<tr>";
+	foreach ($aPlan as $d) 
+	  {
+	    print_r($d);
+	    $idx=$d['id'];
+	    /* array of possible value for the select */
+	    $aPoste[$idx]=make_array($this->db,"select po_id as value,po_name||':'||po_description as label".
 					" from poste_analytique ".
-					" where pa_id = ".$this->pa_id.
+					" where pa_id = ".$idx.
 					" order by po_name ");
 
-	/* show 10 rows */
-	$ret.="<tr>".
-	  "<th> Poste </th>".
-	  "<th></th>".
+	    $ret.="<th> Poste </th>";
+	  }
+	$ret.="<th></th>".
 	  "<th> Montant</th>".
 	  "<th>D&eacute;bit</th>".
 	  "</tr>";
 
 	for ($i = 0;$i < $this->nMaxRow;$i++) 
 	  {
+	    $ret.="<tr>";
+
+	    foreach ($aPlan as $d) 
+	      {
+		$idx=$d['id'];
 		// init variable
-		$wSelect=new widget("select","","pop".$i);
-		$wSelect->value=$aPoste;
+		$wSelect=new widget("select","","pop".$i."plan".$idx);
+		$wSelect->value=$aPoste[$idx];
 		$wSelect->table=1;
 		$wSelect->size=12;
 		$wSelect->readonly=$p_readonly;
+		if ( isset($this->a_operation[$i])) {
 
-		$wAmount=new widget("text","","pamount$i",0.0);
-		$wAmount->size=12;
-		$wAmount->table=1;
-		$wAmount->readonly=$p_readonly;
-
-		$wDebit=new widget("checkbox","","pdeb$i");
-		$wDebit->table=1;
-		$wDebit->readonly=$p_readonly;
-		if ( isset ($this->a_operation[$i])) {
 		  $wSelect->selected=$this->a_operation[$i]->po_id;
-		  $wAmount->value=$this->a_operation[$i]->oa_amount;
-		  $wDebit->value=$this->a_operation[$i]->oa_debit;
-		  if ( $wDebit->value=='t') { $wDebit->selected=true;}
 		}
-
-		// build the table
-		$ret.="<tr>";
 		$ret.=$wSelect->IOValue();
-		$ret.="<TD></TD>";
-		$ret.=$wAmount->IOValue();
-		$ret.=$wDebit->IOValue();
-		$ret.="</tr>";
+	      }
+	    $wAmount=new widget("text","","pamount$i",0.0);
+	    $wAmount->size=12;
+	    $wAmount->table=1;
+	    $wAmount->readonly=$p_readonly;
+	    
+	    $wDebit=new widget("checkbox","","pdeb$i");
+	    $wDebit->table=1;
+	    $wDebit->readonly=$p_readonly;
+	    if ( isset ($this->a_operation[$i])) {
+	      $wSelect->selected=$this->a_operation[$i]->po_id;
+	      $wAmount->value=$this->a_operation[$i]->oa_amount;
+	      $wDebit->value=$this->a_operation[$i]->oa_debit;
+	      if ( $wDebit->value=='t') { $wDebit->selected=true;}
+	    }
+	    
+		// build the table
+	    
+	    $ret.="<TD></TD>";
+	    $ret.=$wAmount->IOValue();
+	    $ret.=$wDebit->IOValue();
+	      
+	    $ret.="</tr>";
 	  }
-	$ret.="</table>";
-	return $ret;
-  }
+	    $ret.="</table>";
+	    return $ret;
+	  }
   /*!\brief fill row from $_POST data
    *
    */
   function from_POST() {
-	for ( $i = 0;$i <$this->nMaxRow;$i++) {
-	  $p=new operation($this->db);
-	  $p->po_id=$_POST["pop$i"];
-	  $p->oa_amount=$_POST["pamount$i"];
+	$Plan=new PlanAnalytic($this->db);
+	$aPlan=$Plan->get_list();
 
-	  $p->oa_description=$_POST["pdesc"];
-	  $p->oa_date=$_POST['pdate'];
-	  $p->j_id=0;
-	  $p->oa_debit=(isset ($_POST["pdeb$i"]))?'t':'f';
-	  $p->oa_group=0;
-	  $p->pa_id=$_POST['pa_id'];
-	  $this->a_operation[]=clone $p;
+
+	for ( $i = 0;$i <$this->nMaxRow;$i++) {
+	  foreach ($aPlan as $d) 
+	    {
+	      $idx=$d['id'];
+	      $p=new operation($this->db);
+	      $p->oa_amount=$_POST["pamount$i"];
+	      
+	      $p->oa_description=$_POST["pdesc"];
+	      $p->oa_date=$_POST['pdate'];
+	      $p->j_id=0;
+	      $p->oa_debit=(isset ($_POST["pdeb$i"]))?'t':'f';
+	      $p->oa_group=0;
+
+	      $p->po_id=$_POST["pop$i"."plan".$idx];
+	      $p->pa_id=$idx;
+	      $this->a_operation[]=clone $p;
+	    }
 	}
   }
   /*!\brief save the group of operation but only if the amount is
@@ -163,7 +190,7 @@ class groupop
 	StartSql($this->db);
 	try  {
 	  $oa_group=NextSequence($this->db,'s_oa_group');
-	  for ($i=0;$i<$this->nMaxRow;$i++) {
+	  for ($i=0;$i<count($this->a_operation);$i++) {
 		$this->a_operation[$i]->oa_group=$oa_group;
 		$this->a_operation[$i]->add();
 	  }
@@ -181,6 +208,27 @@ class groupop
   /*!\brief show the form */
   function show() {
 	return $this->form(1);
+  }
+  static function test_me() 
+  {
+    $dossier=dossier::id();
+    $cn=DbConnect($dossier);
+
+    if ( isset($_POST['go'])) {
+      print_r ($_POST);
+      $b=new groupop($cn);
+      $b->from_POST();
+      print_r($b);
+      exit();
+    }
+
+    $a=new groupop($cn);
+    echo '<form method="post">';
+    echo $a->form();
+    echo dossier::hidden();
+    echo '<input type="submit" name="go">';
+    echo '</form>';
+
   }
 
 }

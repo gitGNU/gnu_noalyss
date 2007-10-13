@@ -33,7 +33,8 @@ include_once ("class_widget.php");
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 
-$cn=DbConnect();
+$cn=DbConnect($gDossier);
+
 include ('class_user.php');
 $User=new cl_user($cn);
 $User->Check();
@@ -49,7 +50,6 @@ include_once ("user_menu.php");
 echo '<div class="u_tmenu">';
 echo ShowMenuCompta("user_advanced.php?".dossier::get());
 echo '</div>';
-$cn=DbConnect($gDossier);
 
 
 echo ShowMenuAdvanced(7);
