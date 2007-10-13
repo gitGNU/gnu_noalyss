@@ -1217,12 +1217,12 @@ répertoire contrib/rapport soit vous allez sur le site de phpcompta.
 <item>les postes sont toujours écrits entre crochets;
 <item>pour avoir la somme du poste et des sous-poste, 
 il faut utiliser le %;
-<item>Les soldes sont toujours positifs et vous ne savez pas 
-s'ils sont au débit ou au crédit.
 <item>Si vous souhaitez commencer à une autre période pour certains
 compte et donc avoir plusieurs intervalles pour un rapport, vous
 devez utiliser l'option FROM=MM.YYYY (voir exemple). Ce genre d'option est 
 très utile pour par exemple les déclarations de TVA.
+<item>Si vous souhaitez n'avoir que le crédit ou le débit, utilisez le
+  D ou le C avant la fermeture du crochet 
 </itemize>
 
 <p>cas particulier : FROM=00.0000 pour indiquer le début de l'exercice

@@ -20,227 +20,6 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 // $Revision$
 
-/*!
- * \brief  Create the form where the period
- *           is asked
- * 
- * \param  array (type,action,central,filter...)
- * \param connection
- * \return none
- *\todo it seems not to be used ==> to clean
- */ 
-  /*
-function ViewImp($p_array,$p_cn) {
-  include_once("preference.php");
-  require_once("class_user.php");
-
-  $periode=FormPeriodeMult($p_cn);
-  foreach ( $p_array as $key=>$element) {
-    echo_debug('impress_inc.php',__LINE__,"VIEWIMP $key $element");
-    ${"$key"}=$element;
-  }
-  if ( ! isset($type) ) return;
-  $centr="";
-  if ( $action=="viewhtml")  {
-    echo '<FORM ACTION=impress.php METHOD="GET">';
-    if ( $type=="jrn")
-          $centr='<BR>Centralisé : 
-             <INPUT TYPE="CHECKBOX" NAME="central" unchecked><BR>'; 
-  }
-  else {
-    if ( $type=="jrn") {
-      echo '<FORM ACTION=send_jrn_pdf.php METHOD="GET">';
-          $centr='<BR>Centralisé : 
-             <INPUT TYPE="CHECKBOX" NAME="central" unchecked><BR>'; 
-    }
-    if ( $type=="poste")
-      echo '<FORM ACTION=send_poste_pdf.php METHOD="GET">';
-  }
-  echo $periode;
-  echo '<INPUT TYPE="HIDDEN" NAME="type" value="'.$type.'">';
-  echo '<INPUT TYPE="HIDDEN" NAME="action" value="'.$action.'">';
-
-  echo $centr;
-
-  if ( isset($filter))
-    echo '<INPUT TYPE="HIDDEN" NAME="filter" value="'.$filter.'">';
-  if ( isset ($p_id)) {
-    echo '<INPUT TYPE="HIDDEN" NAME="p_id" value="'.$p_id.'">';
-  } else {
-    include_once("poste.php");
-    echo "<BR>";
-    echo PosteForm($p_cn);
-    echo ' <BR>Tous les postes ';
-    echo '<INPUT TYPE="checkbox" NAME="all_poste"><BR>';
-  }
-  echo '<INPUT TYPE="SUBMIT" name="print" Value="Executer">';
-
-  echo '</FORM>';
-  echo "</DIV>";
-}
-*/
-/*!
- * \brief  Show the html printing result 
- * \param  array
- * \param  db connection
- * \return  ImpHtml
- *
- * \todo not used ==> to clean
-function Imp($p_array,$p_cn) {
-  if ( ! isset($p_array['action'])) {
-    echo_error ("IMP no action specified"); return;
-  }
-  if ( $p_array['action']=="viewhtml") {
-    return ImpHtml($p_array,$p_cn);
-  }
-  echo_error ("IMP no action specified"); return;
-}
-*/
-/*!
- * \brief  Show the html result
- * \param  array (type,periode,
- * \param  connection
- * \return  error if something goes wrong or
- *        the page result
- * \todo not used ==> to clean
- *
- *
-function ImpHtml($p_array,$p_cn) 
-{
-  foreach($p_array as $key=>$element) {
-    ${"$key"}=$element;
-    echo_debug('impress_inc.php',__LINE__,"ImpHtml $key => $element");
-  }
-
-
-  $colvide="<TD></TD>";
-  // formulaire
-  if ( $type == "form" ) {
-    if ( !isset ($periode)) return NO_PERIOD_SELECTED;
-    $cond=CreatePeriodeCond($periode);
-    $Res=ExecSql($p_cn,"select fo_id , 
-                     fo_fr_id, 
-                     fo_pos, 
-                     fo_label, 
-                     fo_formula,
-                     fr_label from form 
-                      inner join formdef on fr_id=fo_fr_id
-                     where fo_fr_id=$p_id
-                     order by fo_pos");
-    $Max=pg_NumRows($Res);
-    if ($Max==0) return $ret="";
-    for ($i=0;$i<$Max;$i++) {
-      $l_line=pg_fetch_array($Res,$i);
-      $col=GetFormulaValue($p_cn,
-		   $l_line['fo_label'],
-		   $l_line['fo_formula'],$cond);
-      echo "<div>";
-      foreach ($col as $key=> $element) {
-	echo "$element ";
-      }
-      echo "</div>";
-    } //for ($i
-
-  }//form
-  if ($type=="poste") { 
-    if ( ! isset ( $all_poste) && ! isset ( $poste )) return NO_POST_SELECTED;
-    if ( !isset ($periode)) return NO_PERIOD_SELECTED;
-    include_once("poste.php");
-    $cond=CreatePeriodeCond($periode);
-    $ret="" ;
-    if ( isset ( $all_poste) ){ //choisit de voir tous les postes
-      $r_poste=ExecSql($p_cn,"select pcm_val from tmp_pcmn");
-      $nPoste=pg_numRows($r_poste);
-      for ( $i=0;$i<$nPoste;$i++) {
-	$t_poste=pg_fetch_array($r_poste,$i);
-	$poste[]=$t_poste['pcm_val'];
-      } 
-    }      
-    for ( $i =0;$i<count($poste);$i++) {
-      list ($array,$tot_deb,$tot_cred)=GetDataPoste($p_cn,$poste[$i],$cond);
-      if ( count($array) == 0) continue;
-      $ret.=sprintf("<H2 class=\"info\">%d %s</H2>",
-		    $poste[$i],GetPosteLibelle($p_cn,$poste[$i],1));
-      $ret.="<TABLE style=\"border-bottom-style:solid; border-width:2px\" >";
-      $i=0;
-      foreach ($array as $col=>$element) {
-	$i++;
-	if ( $i %2 == 0) 
-	  $ret.="<tr class=\"even\">";
-	else
-	  $ret.="<TR class=\"odd\">";
-	$ret.=sprintf("<TD>%s</TD>",$element['j_date']);
-	$ret.=sprintf("<TD>%s</TD>",$element['jr_internal']);
-	//	$ret.=sprintf("<TD>jrn:%s</TD>",$element['jrn_name']);
-	$ret.=sprintf("<TD>%s</TD>",$element['description']);
-	if ( $element['j_debit']=='t') {
-	  $ret.=sprintf("<TD> debit</TD><TD ALIGN=\"right\">   % 8.2f</TD> $colvide",
-			$element['deb_montant']);
-	} else {
-	  $ret.=sprintf("<TD>credit</TD> $colvide <TD ALIGN=\"right\">  % 8.2f</TD>",
-			$element['cred_montant']);
-	  
-	}
-	$ret.="</TR>";
-      }//foreach
-      
-      $ret.=sprintf("$colvide $colvide $colvide $colvide ".
-		    "<TD ALIGN=\"right\">% 8.2f</TD>".
-		    "<TD ALIGN=\"right\">% 8.2f</TD>",
-		    $tot_deb,
-		    $tot_cred);
-      $ret.="</TABLE>";
-      $ret.="<p>Total débit :".$tot_deb."   Total Crédit:".$tot_cred."</p>";     
-      if ( $tot_deb > $tot_cred ) {
-      	$solde_t="D"; 
-	$solde=$tot_deb-$tot_cred;
-	}else {
-      	$solde_t="C";
-	$solde=$tot_cred-$tot_deb;
-	}
-      $ret.=" <p><B> Solde  $solde_t = ".$solde."</B></p>";
-    }// for i
-    return $ret;
-  }//poste
-  if ($type=="jrn") {
-    if ( !isset ($periode)) return NO_PERIOD_SELECTED;
-
-    echo_debug('impress_inc.php',__LINE__,"imp html journaux");
-    $ret="";
-    if (isset($filter)) {
-      $array=GetDataJrn($p_cn,$p_array,$filter);
-    }
-    $cass="";
-    $c=0;
-
-    foreach ($array as $a=>$e2) {
-      //      echo_debug($ret);
-      
-      //cassure entre op
-      if ( $cass!=$e2['grp'] ) {
-	$cass=$e2['grp'];
-	$ret.='<TR style="background-color:#89BEFF"><TD>'.$e2['j_date']."</TD>";
-	$ret.="<TD>".$e2['jr_internal']."</TD><TD COLSPAN=4> ".$e2['comment']."</TD></TR>";	
-      }
-      $ret.="<TR>";
-      $ret.=$colvide;
-      
-      if ($e2['debit']=='f') $ret.=$colvide;
-      $ret.="<TD>".$e2['poste']."</TD>";
-      if ($e2['debit']=='t') $ret.=$colvide;
-      $ret.="<TD>".$e2['description']."</TD>";
-      if ($e2['debit']=='f') $ret.=$colvide;
-      $ret.="<TD>".$e2['montant']."</TD>";
-      if ($e2['debit']=='t') $ret.=$colvide;
-      $ret.="</TR>";
-    }
-    echo_debug($ret);
-
-    return $ret ;
-  }//jrn
-
-}
-*/
 
 /*!
  * \brief  Get dat for poste 
@@ -770,12 +549,20 @@ function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true,$p_
 	$cond="( j_date >= to_date('$p_start','DD.MM.YYYY') and j_date <= to_date('$p_end','DD.MM.YYYY'))";
 
   include_once("class_poste.php");  
-  while (ereg("(\[[0-9]*%*\])",$p_formula,$e) == true) {
+  while (ereg("(\[[0-9]*%*D*C*\])",$p_formula,$e) == true) {
 
     // remove the [ ] 
     $x=$e;
+    $compute='all';
+    if ( strpos($e[0],'D') != 0 )
+      $compute='deb';
+    if ( strpos($e[0],'C') != 0 )
+      $compute='cred';
+    echo_debug(__FILE__,__LINE__,' $e = '.$e[0]);
     $e[0]=str_replace ("[","",$e[0]);
     $e[0]=str_replace ("]","",$e[0]);
+    $e[0]=str_replace ("D","",$e[0]);
+    $e[0]=str_replace ("C","",$e[0]);
     echo_debug('impress_inc',__LINE__,"p_formula is $p_formula");
     // If there is a FROM clause we must recompute 
     // the time cond
@@ -813,7 +600,15 @@ function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true,$p_
       // Get sum of account
     $P=new poste($p_cn,$e[0]);
 	echo_debug(__FILE__.":".__LINE__."  condition is $cond");
-    $i=$P->GetSolde($cond);
+
+    $detail=$P->GetSoldeDetail($cond);
+    if ( $compute=='all')
+      $i=$detail['solde'];
+    if ( $compute=='deb')
+      $i=$detail['debit'];
+    if ( $compute=='cred')
+      $i=$detail['credit'];
+
     $p_formula=str_replace($x,$i,$p_formula);
   }
 
@@ -909,7 +704,9 @@ function CheckFormula($p_string) {
   $p_string=str_replace("<","+",$p_string);
   // eat Space 
   $p_string=str_replace(" ","",$p_string);
-
+  // Remove D/C 
+  $p_string=str_replace("C","",$p_string);
+  $p_string=str_replace("D","",$p_string);
   if ( ereg ("^(\\$[a-zA-Z]*[0-9]*=){0,1}((\[{0,1}[0-9]+\.*[0-9]*%{0,1}\]{0,1})+ *([+-\*/])* *(\[{0,1}[0-9]+\.*[0-9]*%{0,1}\]{0,1})*)*(([+-\*/])*\\$([a-zA-Z])+[0-9]*([+-\*/])*)* *( *FROM=[0-9][0-0].20[0-9][0-9]){0,1}$",$p_string) == false)
     {
       return false;
