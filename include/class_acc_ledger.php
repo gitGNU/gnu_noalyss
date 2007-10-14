@@ -91,7 +91,7 @@ class jrn {
  */ 
   function GetRow($p_from,$p_to,$cent='off',$p_limit=-1,$p_offset=-1) {
 
-  echo_debug('class_jrn.php',__LINE__,"GetRow ( $p_from,$p_to,$cent,$p_limit,$p_offset)");
+  echo_debug('class_acc_ledger.php',__LINE__,"GetRow ( $p_from,$p_to,$cent,$p_limit,$p_offset)");
 
   $periode=sql_filter_per($this->db,$p_from,$p_to,'p_id','jr_tech_per');
 
@@ -102,7 +102,7 @@ class jrn {
   if ( $this->id != 0 ) {
 	
 	if ( $cent=='off' ) {
-	  echo_debug('class_jrn.php',__LINE__,"journaux non  centralisé");
+	  echo_debug('class_acc_ledger.php',__LINE__,"journaux non  centralisé");
 	  // Journaux non centralisés
 	  $Res=ExecSql($this->db,"select j_id,j_id as int_j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
                       jr_internal,
@@ -120,7 +120,7 @@ class jrn {
 		 $cond_limite);
     }else {
       // Journaux centralisés
-	//      echo'class_jrn.php',__LINE__,"journaux centralisé";
+	//      echo'class_acc_ledger.php',__LINE__,"journaux centralisé";
       $Sql="select jr_opid as j_id,
                     c_order as int_j_id,
             to_char (c_date,'DD.MM.YYYY') as j_date ,
@@ -149,7 +149,7 @@ class jrn {
   } else {
     // Grand Livre
     if ( $cent == 'off') {
-      echo_debug('class_jrn.php',__LINE__,"Grand livre non centralisé");
+      echo_debug('class_acc_ledger.php',__LINE__,"Grand livre non centralisé");
       // Non centralisé
       $Res=ExecSql($this->db,"select j_id,j_id as int_j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
                       jr_internal,
@@ -166,7 +166,7 @@ class jrn {
 	       $cond_limite);
 
     } else {
-      echo_debug('class_jrn.php',__LINE__,"Grand livre  centralisé");
+      echo_debug('class_acc_ledger.php',__LINE__,"Grand livre  centralisé");
       // Centralisé
       $Sql="select jr_c_opid as j_id,
                    c_order as int_j_id,
@@ -211,8 +211,8 @@ class jrn {
     $tot_deb+=$line['deb_montant'];
     $tot_cred+=$line['cred_montant'];
 	$tot_op=$line['jr_montant'];
-    echo_debug('class_jrn.php',__LINE__," GetRow : mont_Deb ".$mont_deb);
-    echo_debug('class_jrn.php',__LINE__," GetRow : mont_cred ".$mont_cred);
+    echo_debug('class_acc_ledger.php',__LINE__," GetRow : mont_Deb ".$mont_deb);
+    echo_debug('class_acc_ledger.php',__LINE__," GetRow : mont_cred ".$mont_cred);
 
     /* Check first if there is a quickcode */
     if ( strlen(trim($line['j_qcode'])) != 0 ) 
@@ -285,7 +285,7 @@ class jrn {
       
 
   }
-  echo_debug('class_jrn.php',__LINE__,"Total debit $tot_deb,credit $tot_cred");
+  echo_debug('class_acc_ledger.php',__LINE__,"Total debit $tot_deb,credit $tot_cred");
   $this->row=$array;
   $a=array($array,$tot_deb,$tot_cred);
   return $a;
@@ -446,14 +446,14 @@ class jrn {
 	// Parse data from jrnx and fill diff. field
 	foreach ( $data_jrnx as $code ) {
 	  $idx_tva=0;
-	  echo_debug('class_jrn',__LINE__,'Code is');
-	  echo_debug('class_jrn',__LINE__,$code);
+	  echo_debug('class_acc_ledger',__LINE__,'Code is');
+	  echo_debug('class_acc_ledger',__LINE__,$code);
 	  $poste=new poste($this->db,$code['j_poste']);
 
 	  // if card retrieve name if the account is not a VAT account
 	  if ( strlen(trim($code['j_qcode'] )) != 0 && $poste->isTva() == 0 )
 	    {
-	      echo_debug('class_jrn',__LINE__,'fiche_def = '.$code['j_qcode']);
+	      echo_debug('class_acc_ledger',__LINE__,'fiche_def = '.$code['j_qcode']);
 	      $fiche=new fiche($this->db);
 	      $fiche->GetByQCode(trim($code['j_qcode']),false);
 	      $fiche_def_id=$fiche->get_fiche_def_ref_id();
@@ -461,7 +461,7 @@ class jrn {
 	      if ( $fiche_def_id == FICHE_TYPE_CLIENT ||
 		   $fiche_def_id == FICHE_TYPE_FOURNISSEUR ) 
 		{
-		  echo_debug('class_jrn',__LINE__,$code['j_qcode'].'est F ou C');
+		  echo_debug('class_acc_ledger',__LINE__,$code['j_qcode'].'est F ou C');
 		  $p_array['TVAC']=$code['j_montant'];
 
 		  $p_array['client']=($trunc==0)?$fiche->GetName():substr($fiche->GetName(),0,20);
@@ -484,7 +484,7 @@ class jrn {
 		  if ( $fiche_def_id != FICHE_TYPE_VENTE &&
 		       $fiche_def_id != FICHE_TYPE_ACH_MAR && 
 		       $fiche_def_id != FICHE_TYPE_ACH_SER ) {
-		    echo_debug('class_jrn',__LINE__,$code['j_qcode']."n 'est PAS F ou C");
+		    echo_debug('class_acc_ledger',__LINE__,$code['j_qcode']."n 'est PAS F ou C");
 		    $p_array['TVAC']=$code['j_montant'];
 		    
 		    $p_array['client']=	($trunc==0)?$fiche->GetName():substr($fiche->GetName(),0,20);
@@ -507,12 +507,12 @@ class jrn {
 		  }
 		}
 	    }
-	  echo_debug('class_jrn',__LINE__,$a_TVA);
+	  echo_debug('class_acc_ledger',__LINE__,$a_TVA);
 	  // if TVA, load amount, tva id and rate in array 
 	  foreach ( $a_TVA as $line_tva) 
 	    {	      
-	      echo_debug('class_jrn',__LINE__,'ICI');
-	      echo_debug('class_jrn',__LINE__,'Montant TVA = '.$p_array['AMOUNT_TVA']);
+	      echo_debug('class_acc_ledger',__LINE__,'ICI');
+	      echo_debug('class_acc_ledger',__LINE__,'Montant TVA = '.$p_array['AMOUNT_TVA']);
 	      list($tva_deb,$tva_cred)=split(',',$line_tva['tva_poste']);
 	      if ( $code['j_poste'] == $tva_deb ||
 		   $code['j_poste'] == $tva_cred )
@@ -531,7 +531,7 @@ class jrn {
 			  $p_array['AMOUNT_TVA']+=$code['j_montant'];
 			  
 			  $p_array['TVA'][$c]=array($idx_tva,array($line_tva['tva_id'],$line_tva['tva_label'],$code['j_montant']));
-			  echo_debug('class_jrn',__LINE__,'Montant TVA = '.$p_array['AMOUNT_TVA']);
+			  echo_debug('class_acc_ledger',__LINE__,'Montant TVA = '.$p_array['AMOUNT_TVA']);
 			  $c++;
 			  
 			  $idx_tva++;
@@ -591,7 +591,7 @@ class jrn {
       $sql="select jrn_deb_max_line as value from jrn_def where jrn_def_id=".$this->id;
       $r=ExecSql($this->db,$sql);
       $Res=pg_fetch_all($r);
-      echo_debug('class_jrn',__LINE__,$Res);
+      echo_debug('class_acc_ledger',__LINE__,$Res);
       if ( sizeof($Res) == 0 ) return 1;
       return $Res[0]['value'];
     }
