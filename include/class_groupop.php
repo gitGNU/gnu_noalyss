@@ -26,7 +26,7 @@
 /*! \brief group of object operations, used for misc operation
  *
  */
-require_once ("class_operation.php");
+require_once ("class_anc_operation.php");
 require_once ("postgres.php");
 require_once ("class_widget.php");
 require_once ('class_plananalytic.php');
@@ -97,7 +97,6 @@ class groupop
 	$ret.="<tr>";
 	foreach ($aPlan as $d) 
 	  {
-	    print_r($d);
 	    $idx=$d['id'];
 	    /* array of possible value for the select */
 	    $aPoste[$idx]=make_array($this->db,"select po_id as value,po_name||':'||po_description as label".
@@ -169,7 +168,7 @@ class groupop
 	  foreach ($aPlan as $d) 
 	    {
 	      $idx=$d['id'];
-	      $p=new operation($this->db);
+	      $p=new Anc_Operation($this->db);
 	      $p->oa_amount=$_POST["pamount$i"];
 	      
 	      $p->oa_description=$_POST["pdesc"];
@@ -215,10 +214,8 @@ class groupop
     $cn=DbConnect($dossier);
 
     if ( isset($_POST['go'])) {
-      print_r ($_POST);
       $b=new groupop($cn);
       $b->from_POST();
-      print_r($b);
       exit();
     }
 

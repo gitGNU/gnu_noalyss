@@ -57,7 +57,6 @@ echo '</form>';
 //------------- FORM ----------------------------------
 if ( isset($_REQUEST['go'])) {
   $cn=DbConnect(dossier::id());
-  print_r($_REQUEST['c2']);
   $plan=new PlanAnalytic($cn,$_REQUEST['c2']);
   $plan->pa_id=$_REQUEST['c2'];
   if ( $plan->exist()==false)
@@ -66,7 +65,6 @@ if ( isset($_REQUEST['go'])) {
   $sql="select po_name , po_description from poste_analytique ".
 	"where pa_id=".$_REQUEST['c2']." and ".
 	" upper (po_name) like upper('%".pg_escape_string($_REQUEST['label'])."%') order by po_name";
-  print_r($sql);
   $res=ExecSql($cn,$sql);
   $array=pg_fetch_all($res);
   if (empty($array) == true)

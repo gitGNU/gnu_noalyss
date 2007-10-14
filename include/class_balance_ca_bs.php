@@ -293,7 +293,6 @@ static  function test_me () {
   echo $bal->display_form();
   echo '</form>';
   if ( isset($_GET['result'])) {
-	print_r($bal);
 	echo $bal->show_button("","");
 	echo "<h1>HTML</h1>";
 	echo $bal->display_html();
