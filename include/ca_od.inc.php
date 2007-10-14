@@ -110,7 +110,6 @@ if ( isset($_POST['save'])) {
   $a=new groupop($cn);
 
   $a->from_POST();
-  print_r($a);
 
   $a->save();
   echo $a->show();
