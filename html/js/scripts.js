@@ -115,11 +115,16 @@ function add_row(p_table,p_seq,p_count) {
   var old_value=elt.value;
   var new_value=1*elt.value+1;
   if ( new_value > 4 ) { 
-	alert("Maximum 4 lignes désolé");
+	alert("Maximum 4 lignes ");
 	return;
   }
   elt.value=new_value;
-
+  // For the detail view (modify_op) there is several form and then several time the 
+  // element
+  var all_elt=document.getElementsByName("nb_"+p_table);
+  for (var e=0;e<all_elt.length;e++) {
+    all_elt[e].value=new_value;
+  }
   var tbody=document.getElementById(p_table).getElementsByTagName("tbody")[0];
   var row=document.createElement("TR");
   for ( i=1;i<=p_count;i++) {
