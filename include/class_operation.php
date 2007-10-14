@@ -27,7 +27,7 @@ require_once("class_widget.php");
 require_once ("user_common.php");
 
 /*! \brief this class is used to show the form for entering an
- *   operation
+ *   operation only FOR analytic operation 
  *   to save it, to display or to get a list from a certain period
  *
  */
