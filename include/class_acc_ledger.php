@@ -894,12 +894,13 @@ class Acc_Ledger {
        $amount->name='amount'.$i;
        $amount->value=(isset(${'amount'.$i}))?${"amount".$i}:'';
        $amount->readonly=$p_readonly;
-
+       $amount->javascript=' onChange="checkTotalDirect()"';
        // D/C
        $deb=new widget('checkbox');
        $deb->name='ck'.$i;
        $deb->selected=(isset(${'ck'.$i}))?true:false;
        $deb->readonly=$p_readonly;
+       $deb->javascript=' onChange="checkTotalDirect()"';
 
        $ret.='<tr>';
        $ret.='<td>'.$quick_code->IOValue().'</td>';

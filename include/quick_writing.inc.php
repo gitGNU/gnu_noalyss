@@ -34,6 +34,7 @@ $id=(isset ($_REQUEST['p_jrn']))?$_REQUEST['p_jrn']:-1;
 
 function show_direct_form($cn,$ledger,$p_array) {
   $id=(isset ($_REQUEST['p_jrn']))?$_REQUEST['p_jrn']:-1;
+  echo JS_COMPUTE_DIRECT;
 
   // Show the predef operation
   // Don't forget the p_jrn 
@@ -57,9 +58,16 @@ function show_direct_form($cn,$ledger,$p_array) {
   echo $ledger->show_form($p_array);
 
   echo widget::submit_button('summary','Sauvez');
+  echo '<div class="info">
+    D&eacute;bit = <span id="totalDeb"></span>
+    Cr&eacute;dit = <span id="totalCred"></span>
+    Difference = <span id="totalDiff"></span>
+</div>
+    ';
 
 
   echo '</form>';
+   echo "<div>".JS_CALC_LINE."</div>";
 
   echo '</div>';
 }

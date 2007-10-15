@@ -174,6 +174,11 @@ define ('JS_CALENDAR','
 <script type="text/javascript" language="javascript"  src="js/jrn_concerned.js">
 </script>');
 
+define ('JS_COMPUTE_DIRECT','
+<script type="text/javascript" language="javascript"  src="js/compute_direct.js">
+</script>');
+
+
 // One line calculator
 define ("JS_CALC_LINE",'
 <div style="border:outset black 3px; position:float; float:right;background-color:white;font-family:sans-serif;font-size:9pt;">

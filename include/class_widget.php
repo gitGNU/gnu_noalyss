@@ -201,7 +201,7 @@ class widget {
 	$check=( $this->selected==true )?"checked":"unchecked";
 	$r='<input type="CHECKBOX" name="'.$this->name.'"';
 	$r.="  $check";
-	$r.=' '.$disabled.'>';
+	$r.=' '.$disabled."  ".$this->javascript.'>';
       }
       if ($this->table==1) {
 	$r="<TD> $this->label </TD><TD> $r </TD>";
