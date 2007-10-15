@@ -160,6 +160,7 @@ class PlanAnalytic
   function header() {
 	$res="";
 	$a_plan=$this->get_list();
+	if ( empty($a_plan)) return "";
 	  foreach ($a_plan as $r_plan)
 		{
 		  $res.="<th>".$r_plan['name']."</th>";

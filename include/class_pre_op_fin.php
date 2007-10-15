@@ -29,10 +29,15 @@ require_once ('class_pre_operation.php');
 /*---------------------------------------------------------------------- */
 class Pre_op_fin extends Pre_operation_detail {
   var $op;
+  function __construct($cn) {
+    parent::__construct($cn);
+    $this->operation->od_direct='f';
+  }
 
   function get_post() {
 	echo_debug(__FILE__.':'.__LINE__.'- ','get_post');
 	parent::get_post();
+	$this->operation->od_direct='f';
 	$this->e_bank_account=$_POST['e_bank_account'];
 	for ($i=0;$i<$this->operation->nb_item;$i++) {
 	  $this->{"e_other".$i}=$_POST['e_other'.$i];

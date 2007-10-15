@@ -49,6 +49,8 @@ if ( ! isset ($_REQUEST['action'])) {
 if ( $action=="use_opd" ) {
   $op=new Pre_op_ven($cn);
   $op->set_od_id($_REQUEST['pre_def']);
+   $op->od_direct='f';
+
   $p_post=$op->compute_array();
   echo_debug(__FILE__.':'.__LINE__.'- ','p_post = ',$p_post);
   $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$p_post,false,$p_post['nb_item']);
@@ -103,6 +105,8 @@ if ( $action == 'insert_vente' ) {
 	   echo '<form method="GET">';
 	   $op=new Pre_operation($cn);
 	   $op->p_jrn=$_GET['p_jrn'];
+	   $op->od_direct='f';
+
 	   $hid=new widget("hidden");
 	   echo $hid->IOValue("action","use_opd");
 	   echo dossier::hidden();

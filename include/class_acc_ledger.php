@@ -28,6 +28,8 @@ require_once ('class_acc_operation.php');
 require_once ('class_poste.php');
 require_once ('class_pre_op_advanced.php');
 require_once ('jrn.php');
+require_once ('class_acexception.php');
+
 /*!\brief Class for jrn
  *
  */
@@ -114,8 +116,8 @@ class Acc_Ledger {
   if ( $this->id != 0 ) {
 	
 	if ( $cent=='off' ) {
-	  echo_debug('class_acc_ledger.php',__LINE__,"journaux non  centralisé");
-	  // Journaux non centralisés
+	  echo_debug('class_acc_ledger.php',__LINE__,"journaux non  centralisÃ©");
+	  // Journaux non centralisÃ©s
 	  $Res=ExecSql($this->db,"select j_id,j_id as int_j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
                       jr_internal,
                 case j_debit when 't' then j_montant::text else '   ' end as deb_montant,
@@ -131,8 +133,8 @@ class Acc_Ledger {
 	       " and ".$periode." order by j_date::date asc,jr_internal,j_debit desc ".
 		 $cond_limite);
     }else {
-      // Journaux centralisés
-	//      echo'class_acc_ledger.php',__LINE__,"journaux centralisé";
+      // Journaux centralisÃ©s
+	//      echo'class_acc_ledger.php',__LINE__,"journaux centralisÃ©";
       $Sql="select jr_opid as j_id,
                     c_order as int_j_id,
             to_char (c_date,'DD.MM.YYYY') as j_date ,
@@ -161,8 +163,8 @@ class Acc_Ledger {
   } else {
     // Grand Livre
     if ( $cent == 'off') {
-      echo_debug('class_acc_ledger.php',__LINE__,"Grand livre non centralisé");
-      // Non centralisé
+      echo_debug('class_acc_ledger.php',__LINE__,"Grand livre non centralisÃ©");
+      // Non centralisÃ©
       $Res=ExecSql($this->db,"select j_id,j_id as int_j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
                       jr_internal,
                 case j_debit when 't' then j_montant::text else '   ' end as deb_montant,
@@ -178,8 +180,8 @@ class Acc_Ledger {
 	       $cond_limite);
 
     } else {
-      echo_debug('class_acc_ledger.php',__LINE__,"Grand livre  centralisé");
-      // Centralisé
+      echo_debug('class_acc_ledger.php',__LINE__,"Grand livre  centralisÃ©");
+      // CentralisÃ©
       $Sql="select jr_c_opid as j_id,
                    c_order as int_j_id,
             c_j_id,
@@ -321,7 +323,7 @@ class Acc_Ledger {
       // Non Centralise si cent=off
       //--
       if ($cent=='off') 
-	{// Non centralisé
+	{// Non centralisÃ©
 
 	 $periode=sql_filter_per($this->db,$p_from,$p_to,'p_id','jr_tech_per');
       
@@ -348,7 +350,7 @@ class Acc_Ledger {
      	 $periode=sql_filter_per($this->db,$p_from,$p_to,'p_id','jr_tech_per');
       
       	$cond_limite=($p_limit!=-1)?" limit ".$p_limit." offset ".$p_offset:"";
-	  //Centralisé
+	  //CentralisÃ©
 	  //---
 	  $id=($this->id == 0 ) ?"jr_c_opid as num":"jr_opid as num";
 
@@ -694,7 +696,7 @@ class Acc_Ledger {
 
    $res=pg_fetch_all($r);
    if ( empty($res) ) return null;
-   print_r($res);
+
    return $res[0];
    }
 /*! 
@@ -711,11 +713,11 @@ class Acc_Ledger {
    $sql="select jrn_def_class_cred  ".
      " from jrn_def where ".
      " jrn_def_id = ".$this->id;
-   print_r($sql);
+
    $r=ExecSql($this->db,$sql);
 
    $res=pg_fetch_all($r);
-   print_r($res);
+
    if ( empty($res) ) return null;
    return $res[0];
    }
@@ -755,11 +757,13 @@ class Acc_Ledger {
      $ret.=$hidden->IOValue('p_jrn',$this->id);
      $ret.=$hidden->IOValue('nb_item',$this->nb);
      $ret.=dossier::hidden();
+     $count=0;
      for ($i=0;$i<$this->nb;$i++) {
        $ret.="<tr>";
        if ( trim(${'qc_'.$i})!="") {
 	 $oqc=new fiche($this->db);
 	 $oqc->GetByQCode(${'qc_'.$i},false);
+	 $strPoste=$oqc->strAttribut(ATTR_DEF_ACCOUNT);
 	 $ret.="<td>".${'qc_'.$i}.' - '.
 	    $oqc->strAttribut(ATTR_DEF_NAME).$hidden->IOValue('qc_'.$i,${'qc_'.$i}).
 	   '</td>';
@@ -767,6 +771,7 @@ class Acc_Ledger {
 
        if ( trim(${'qc_'.$i})=="" && trim(${'poste'.$i}) != "") {
 	 $oposte=new poste($this->db,${'poste'.$i});
+	 $strPoste=$oposte->id;
 	 $ret.="<td>".${"poste".$i}." - ".
 	       $oposte->GetName().$hidden->IOValue('poste'.$i,${'poste'.$i}).
 	       '</td>';
@@ -784,12 +789,15 @@ class Acc_Ledger {
 
        if (  $own->MY_ANALYTIC!='nu') // use of AA
 	 {
-	   // show form
-	   $op=new Anc_Operation($this->db);
-	   $null=($own->MY_ANALYTIC=='op')?1:0;
-	   $ret.='<td>';
-	   $ret.=$op->display_form_plan(null,$null,1,$i,round(${'amount'.$i},2));
-	   $ret.='</td>';
+	   if ( ereg("^[6,7]+",$strPoste)) {
+	     // show form
+	     $op=new Anc_Operation($this->db);
+	     $null=($own->MY_ANALYTIC=='op')?1:0;
+	     $ret.='<td>';
+	     $ret.=$op->display_form_plan(null,$null,1,$count,round(${'amount'.$i},2));
+	     $ret.='</td>';
+	     $count++;
+	   }
 	   
 	 }
 
@@ -877,8 +885,8 @@ class Acc_Ledger {
        $poste->readonly=$p_readonly;
        $poste->extra=$this->id;
        $poste->extra2=$this->get_class_def();
-       echo "get_class_Def returns";
-       print_r($poste->extra2);
+
+
        $poste_span=new widget('span','','poste'.$i.'_label');
 
        // Amount
@@ -890,7 +898,7 @@ class Acc_Ledger {
        // D/C
        $deb=new widget('checkbox');
        $deb->name='ck'.$i;
-       $deb->value=(isset(${'ck'.$i}))?${"ck".$i}:'';
+       $deb->selected=(isset(${'ck'.$i}))?true:false;
        $deb->readonly=$p_readonly;
 
        $ret.='<tr>';
@@ -906,20 +914,92 @@ class Acc_Ledger {
      $ret.='</table>';
      return $ret;
    }
+/*! 
+ * \brief verify that the operation can be saved
+ * \param $p_array array of data same layout that the $_POST from show_form
+ * 
+ *
+ * \return the return value are  0 ok,1 incorrect balance,  2 date
+ * invalid, 3 invalid amount,  4 the card is not in the range of
+ * permitted card, 5 not in the user's period, 6 closed period
+ * 
+ */
+   function verify($p_array)
+   {
+     extract ($p_array);
+     $user=new cl_user($this->db);
+
+     $tot_cred=0;$tot_deb=0;
+     // Check the periode and the date
+     if ( isDate($date) == null ) { 
+       throw new AcException('Date invalide', 2);
+     }
+     list ($l_date_start,$l_date_end)=GetPeriode($this->db,$user->GetPeriode());
+  
+     // Date dans la periode active
+     if ( cmpDate($date,$l_date_start)<0 || 
+	  cmpDate($date,$l_date_end)>0 )
+       {
+	 throw new AcException('Pas dans la periode active',5);
+       }
+    // Periode fermï¿½ 
+     if ( PeriodeClosed ($this->db,$user->GetPeriode())=='t' )
+      {
+	return new AcException('Periode fermee',6);
+      }
+
+     for ($i=0;$i<$this->nb;$i++) 
+       {
+	 $err=0;
+
+	 // Check the balance
+	 if ( ! isset (${'amount'.$i}))
+	   continue;
+
+	 if ( isNumber(${'amount'.$i} ) == 0 )
+	   throw new AcException('Montant invalide',3);
+
+	 $amount=round(${'amount'.$i},2);
+	 $tot_deb+=(isset(${'ck'.$i}))?$amount:0;
+	 $tot_cred+=(! isset(${'ck'.$i}))?$amount:0;
+
+	 // Check if the card is permitted
+	 if ( isset (${'qc_'.$i}) && trim(${'qc_'.$i}) !="") {
+	   $f=new fiche($this->db);
+	   $f->quick_code=${'qc_'.$i};
+
+	   if ( $f->belong_ledger($p_jrn) < 0 )
+	     throw new AcException("La fiche quick_code = ".
+				   $f->quick_code." n\'est pas dans ce journal",4);
+	 }
+
+	 // Check if the account is permitted
+	 if ( isset (${'poste'.$i})) {
+	   $p=new poste($this->db,${'poste'.$i});
+	   if ( $p->belong_ledger ($p_jrn) < 0 )
+	     throw new AcException("Le poste ".$p->id." n\'est pas dans ce journal",5);
+	 }
+
+
+       }
+     if ( $tot_deb != $tot_cred )
+       throw new AcException("Balance incorrecte debit = $tot_deb credit=$tot_cred ",1);
+       
+   }
+
    /*! 
     * \brief save the operation into the jrnx,jrn, ,
     *  CA and pre_def
-    * \param
-    * \param
-    * \param
-    * 
+    * \param $p_array 
     *
-    * \return
+    * \return array with [0] = false if failed otherwise true, [1] error
+    * code
     */
    function save ($p_array) {
      extract ($p_array);
-
      try {
+       $this->verify($p_array);
+     
        StartSql($this->db) ;
        
        $seq=NextSequence($this->db,'s_grpt');
@@ -928,6 +1008,8 @@ class Acc_Ledger {
        $group=NextSequence($this->db,"s_oa_group");       
        $own=new own($this->db);
        $tot_amount=0;
+
+       $count=0;
        for ($i=0;$i<$this->nb;$i++) 
 	 {
 	   if ( ! isset (${'qc_'.$i}) && ! isset(${'poste'.$i}))
@@ -946,7 +1028,7 @@ class Acc_Ledger {
 	   }
 	   $acc_op->date=$date;
 	   $acc_op->desc=$desc;
-	   $acc_op->amount=${'amount'.$i};
+	   $acc_op->amount=round(${'amount'.$i},2);
 	   $acc_op->grpt=$seq;
 	   $acc_op->poste=$poste;
 	   $acc_op->jrn=$this->id;
@@ -957,14 +1039,18 @@ class Acc_Ledger {
 	   
 	   if ( $own->MY_ANALYTIC != "nu" )
 	   {
-	     // for each item, insert into operation_analytique */
-	     $op=new Anc_Operation($this->db); 
-	     $op->oa_group=$group;
-	     $op->j_id=$j_id;
-	     $op->oa_date=$date;
-	     $op->oa_debit=($acc_op->type=='d' )?'t':'f';
-	     $op->oa_description=$desc;
-	     $op->save_form_plan($p_array,$i);
+	     if ( ereg("^[6,7]+",$poste)) {
+	   
+	       // for each item, insert into operation_analytique */
+	       $op=new Anc_Operation($this->db); 
+	       $op->oa_group=$group;
+	       $op->j_id=$j_id;
+	       $op->oa_date=$date;
+	       $op->oa_debit=($acc_op->type=='d' )?'t':'f';
+	       $op->oa_description=$desc;
+	       $op->save_form_plan($p_array,$count);
+	       $count++;
+	     }
 	   }
        }
      $acc_end=new Acc_Operation($this->db);
@@ -986,7 +1072,11 @@ class Acc_Ledger {
        $opd->get_post();
        $opd->save();
        }
-     } catch (Exception $e) {
+     }
+     catch (AcException $a) {
+       throw $a;
+     } 
+     catch (Exception $e) {
        Rollback($this->db);
        echo 'OPERATION ANNULEE ';
        echo '<hr>';
@@ -994,6 +1084,7 @@ class Acc_Ledger {
        exit();
      }
      Commit($this->db);
+     return true;
    }
 
    /*! 
@@ -1025,8 +1116,10 @@ class Acc_Ledger {
      $cn=DbConnect(dossier::id());
      $_SESSION['g_user']='phpcompta';
      $_SESSION['g_pass']='phpcompta';
-     $id=(isset ($_POST['p_jrn']))?$_POST['p_jrn']:-1;
+
+     $id=(isset ($_REQUEST['p_jrn']))?$_REQUEST['p_jrn']:-1;
      $a=new Acc_Ledger($cn,$id);
+     // Vide
      echo '<FORM method="post">';
      echo $a->select_ledger()->IOValue();
      echo widget::submit_button('go','Test it');
@@ -1037,17 +1130,61 @@ class Acc_Ledger {
        echo $a->show_form();
        echo widget::submit_button('post_id','Try me');
        echo '</form>';
+       // Show the predef operation
+       // Don't forget the p_jrn 
+       echo '<form>';
+       echo dossier::hidden();
+       echo '<input type="hidden" value="'.$id.'" name="p_jrn">';
+       $op=new Pre_operation($cn);
+       $op->p_jrn=$id;
+       $op->od_direct='t';
+       if ($op->count() != 0 )
+	 echo widget::submit_button('use_opd','Utilisez une op.prÃ©dÃ©finie');
+       echo $op->show_button();
+       echo '</form>';
+       exit();
      }
+ 
      if ( isset($_POST['post_id' ])) {
        echo '<form method="post">';
        echo $a->show_form($_POST,1);
        echo widget::submit_button('save_it',"Sauver");
        echo '</form>';
+       exit();
      }
      if ( isset($_POST['save_it' ])) {
+       print 'saving';
        $array=$_POST;
        $array['save_opd']=1;
-       $a->save($array);
+       try {
+	 $a->save($array);
+       } catch (AcException $e) {
+	 echo '<script>alert (\''.$e->getMessage()."'); </script>";
+	 echo '<form method="post">';
+
+	 echo $a->show_form($_POST);
+	 echo widget::submit_button('post_id','Try me');
+	 echo '</form>';
+	 
+       }
+       exit();
+     }
+     // The GET at the end because automatically repost when you don't
+     // specify the url in the METHOD field
+    if ( isset ($_GET['use_opd'])) {
+	 $op=new Pre_op_advanced($cn);
+	 $op->set_od_id($_REQUEST['pre_def']);
+	 //$op->p_jrn=$id;
+
+	 $p_post=$op->compute_array();
+
+	 echo '<FORM method="post">';
+
+	 echo $a->show_form($p_post);
+	 echo widget::submit_button('post_id','Use predefined operation');
+	 echo '</form>';
+	 exit();
+
      }
 
    }

@@ -567,6 +567,7 @@ class widget {
 	return $r;
   }
 
+
   //------------------------------------------------------------------------
   // JS_DATE
   //------------------------------------------------------------------------
@@ -628,6 +629,14 @@ class widget {
 
   function Reset ($p_value) {
     return '<INPUT TYPE="SUBMIT"  VALUE="'.$p_value.'">';
+  }
+  static function hidden($p_name,$p_value) {
+    return '<INPUT TYPE="hidden" id="'.$p_name.'" NAME="'.$p_name.'" VALUE="'.$p_value.'">';
+  }
+  static function button_href($p_name,$p_value) {
+    return sprintf('<A class="mtitle" HREF="%s"><input type="button" value="%s"></A>',
+		   $p_value,
+		   $p_name);
   }
 
 }

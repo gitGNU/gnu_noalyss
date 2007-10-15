@@ -347,6 +347,8 @@ if ( $p_jrn != -1 )
   echo '<form method="GET">';
   $op=new Pre_operation($cn);
   $op->p_jrn=$p_jrn;
+  $op->od_direct='f';
+
   $hid=new widget("hidden");
   echo $hid->IOValue("p_action","bank");
   echo $hid->IOValue("sa","use_opd");

@@ -43,6 +43,7 @@ include_once ("user_menu.php");
 echo '<div class="u_tmenu">';
 $action=$_REQUEST['p_action'];
 echo ShowMenuCompta("user_advanced.php?".dossier::get());
+
 echo '</div>';
 // Get action
 

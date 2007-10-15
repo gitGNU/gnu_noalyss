@@ -379,7 +379,7 @@ function get_balance($p_from,$p_to,$p_plan_id)
    $result="";
    $plan=new PlanAnalytic($this->db);
    $a_plan=$plan->get_list();
-
+   if ( empty ($a_plan) ) return "";
    $table_id="t".$p_seq;
 
    $hidden=new widget("hidden");
@@ -400,6 +400,7 @@ function get_balance($p_from,$p_to,$p_plan_id)
    for ( $i=1; $i <= $nb_row;$i++) {
 	 $result.='<tr>';
 	 $count=0;
+
 	 foreach ($a_plan as $r_plan)
 	   {
 		 $count++;
@@ -475,8 +476,8 @@ function get_balance($p_from,$p_to,$p_plan_id)
    echo_debug(__FILE__.':'.__LINE__,"p_array is ",$p_array);
    extract($p_array);
    if ( !isset (${"nb_t".$p_item}) ) {
-	 echo __FILE__.':'.__LINE."nb_t".$p_item." n'est pas defini !!!";
-	 exit();
+     //	 echo __FILE__.':'.__LINE."nb_t".$p_item." n'est pas defini !!!";
+     return;
    }
    $max=${"nb_t".$p_item};
    echo_debug(__FILE__.':'.__LINE__.'- ', "max of row for CA = ".$max);

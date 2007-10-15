@@ -53,7 +53,8 @@ class Pre_operation
 	}
   }
   function delete () {
-	$sql="delete from op_predef where od_id=".$this->od_id;
+	$sql="delete from op_predef where od_id=".$this->od_id.
+	  			  " and od_direct ='".$this->od_direct."'";
 	ExecSql($this->db,$sql);
   }
   /*!\brief save the predef check first is the name is unique
@@ -72,13 +73,14 @@ class Pre_operation
 	  echo '<h2 class="info">Vous avez atteint le max. d\'op&eacute;ration pr&eacute;d&eacute;finie, d&eacute;sol&eacute;</h2>';
 	  return false;
 	}
-	$sql=sprintf('insert into op_predef (jrn_def_id,od_name,od_item,od_jrn_type)'.
+	$sql=sprintf('insert into op_predef (jrn_def_id,od_name,od_item,od_jrn_type,od_direct)'.
 				 'values'.
-				 "(%d,'%s',%d,'%s')",
+				 "(%d,'%s',%d,'%s','%s')",
 				 $this->p_jrn,
 				 pg_escape_string($this->name),
 				 $this->nb_item,
-				 $this->jrn_type);
+		     $this->jrn_type,
+		     $this->od_direct);
 	ExecSql($this->db,$sql);
 	$this->od_id=GetSequence($this->db,'op_def_op_seq');
 	return true;
@@ -88,7 +90,9 @@ class Pre_operation
    */
   function load() {
 	$sql="select od_id,jrn_def_id,od_name,od_item,od_jrn_type".
-	  " from op_predef where od_id=".$this->od_id." order by od_name";
+	  " from op_predef where od_id=".$this->od_id.
+	  " and od_direct='".$this->od_direct."'".
+	  " order by od_name";
 	$res=ExecSql($this->db,$sql);
 	$array=pg_fetch_all($res);
 	echo_debug(__FILE__.':'.__LINE__.'- ','load pre_op',$array);
@@ -112,8 +116,10 @@ class Pre_operation
 
 	$select=new widget("select");
 	$value=make_array($this->db,"select od_id,od_name from op_predef ".
-					  " where jrn_def_id=".$this->p_jrn.
-					  " order by od_name");
+			  " where jrn_def_id=".$this->p_jrn.
+			  " and od_direct ='".$this->od_direct."'".
+			  " order by od_name");
+
 	if ( empty($value)==true) return "";
 	$select->value=$value;
 	$r=$select->IOValue("pre_def");
@@ -122,17 +128,19 @@ class Pre_operation
   /*!\brief count the number of pred operation for a ledger */
   function count() {
 	$a=CountSql($this->db,"select od_id,od_name from op_predef ".
-					  " where jrn_def_id=".$this->p_jrn.
-					  " order by od_name");
+		    " where jrn_def_id=".$this->p_jrn.
+		    " and od_direct ='".$this->od_direct."'".
+		    " order by od_name");
 	return $a;
   }
   /*!\brief get the list of the predef. operation of a ledger
    * \return string
    */
   function get_list_ledger() {
-  $sql="select od_id,od_name from op_predef ".
-	" where jrn_def_id=".$this->p_jrn.
-	" order by od_name";
+    $sql="select od_id,od_name from op_predef ".
+      " where jrn_def_id=".$this->p_jrn.
+      " and od_direct ='".$this->od_direct."'".
+      " order by od_name";
   $res=ExecSql($this->db,$sql);
   $all=pg_fetch_all($res);
   return $all;
@@ -143,11 +151,12 @@ class Pre_operation
 }
 class Pre_operation_detail {
   var $operation;
-  function Pre_operation_detail($p_cn) {
+  function __construct($p_cn) {
 	$this->db=$p_cn;
 	$this->operation=new Pre_operation($this->db);
 
   }
+
   function get_post() {
 	$this->operation->get_post();
   }

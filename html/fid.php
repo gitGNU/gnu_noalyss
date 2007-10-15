@@ -1,10 +1,10 @@
 <?
 header("Content-type: text/xml charset=\"ISO8859-1\"",true);
 
-include ("constant.php");
-include ("postgres.php");
-include("user_common.php");
-include("debug.php");
+require_once  ("constant.php");
+require_once  ("postgres.php");
+require_once ("user_common.php");
+require_once ("debug.php");
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 

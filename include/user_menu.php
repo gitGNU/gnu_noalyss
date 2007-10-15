@@ -166,6 +166,9 @@ function ShowMenuCompta($p_high="")
 		$default=5;
 	  if ( $_REQUEST['p_action']=='fiche')
 		$default=6;
+	  if ( $_REQUEST['p_action']=='quick_writing')
+		$default=4;
+
 	}
   $str_dossier=dossier::get();
   $p_array=array(
@@ -174,11 +177,11 @@ function ShowMenuCompta($p_high="")
 				 array("user_jrn.php?jrn_type=ACH&".$str_dossier,"Dépense"),
 				 array("user_jrn.php?jrn_type=FIN&".$str_dossier,"Financier"),
 				 array("user_jrn.php?jrn_type=ODS&".$str_dossier,"Op. Diverses"),
-				 array('compta.php?p_action=quick_writing&'.$str_dossier,'Ecriture rapide'),
+				 array('compta.php?p_action=quick_writing&'.$str_dossier,'Ecriture rapide','Ecriture directe dans les journaux',4),
 
 				 array("compta.php?p_action=impress&".$str_dossier,"Impression","Impression",5),
 				 array("compta.php?p_action=fiche&".$str_dossier,"Fiche","Ajouter, modifier ou effacer des fiches",6),
-				 array("user_advanced.php?".$str_dossier,"Avancé","Opérations délicates"),
+				 array("user_advanced.php?".$str_dossier,"Avancé","Opérations délicates",7),
 		 );
 
   $result=ShowItem($p_array,'H',"mtitle","mtitle",$default,' width="100%"');

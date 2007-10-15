@@ -70,19 +70,16 @@ class Supplier extends fiche{
 
   }
 
-/*! \function  Summary
+/*! 
  **************************************************
- \Brief  show the default screen
+ * \brief  show the default screen
  *        
- * parm : 
- *	- p_search (filter)
- * gen :
- *	-
- * return: string to display
+ * \param p_search (filter)
+ * \return string to display
  */
   function Summary($p_search) 
     {
-	  $str_dossier=dossier::get();
+      $str_dossier=dossier::get();
       $p_search=FormatString($p_search);
       $url=urlencode($_SERVER['REQUEST_URI']);
       $script=$_SERVER['PHP_SELF'];
@@ -143,14 +140,14 @@ class Supplier extends fiche{
 	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$a['solde']);
 
 
-	$r.=sprintf('<td><A HREF="%s?p_action=contact&qcode=%s&url=%s" title="Contact">Contact</A></td>',
-		    $script,$supplier->strAttribut(ATTR_DEF_QUICKCODE),$url);
-	$r.=sprintf('<td><A HREF="%s?p_action=suivi_courrier&sa=list&qcode=%s&url=%s" title="Action">Courrier</A></td> ',
-		    $script,$supplier->strAttribut(ATTR_DEF_QUICKCODE) ,$url);
+	$r.=sprintf('<td><A HREF="%s?p_action=contact&qcode=%s&%s&url=%s" title="Contact">Contact</A></td>',
+		    $script,$supplier->strAttribut(ATTR_DEF_QUICKCODE),$str_dossier,$url);
+	$r.=sprintf('<td><A HREF="%s?p_action=suivi_courrier&sa=list&qcode=%s&%s&url=%s" title="Action">Courrier</A></td> ',
+		    $script,$supplier->strAttribut(ATTR_DEF_QUICKCODE) ,$str_dossier,$url);
 
 
 
-	$r.='<td><A HREF="commercial.php?p_action=depense&sa=list&'.$str_dossier.'&p_periode=-1&qcode='.$supplier->strAttribut(ATTR_DEF_QUICKCODE).'&url='.$url.'" title="Historique Facture">Facture</A></td>';
+	$r.='<td><A HREF="commercial.php?p_action=depense&sa=list&'.$str_dossier.'&p_periode=-1&qcode='.$supplier->strAttribut(ATTR_DEF_QUICKCODE).'&'.$str_dossier.'&url='.$url.'" title="Historique Facture">Facture</A></td>';
 	$r.=sprintf('<td><A class="mtitle" HREF="%s?liste&p_action=bank&sa=list&'.$str_dossier.'&qcode=%s&url=%s&p_periode=-1" title="Financier">Financier</A></td>',
 		    $script,$supplier->strAttribut(ATTR_DEF_QUICKCODE) ,$url);
 

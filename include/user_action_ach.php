@@ -77,6 +77,7 @@ if ( $action == 'new' ) {
    // predef op.
    $op=new Pre_operation($cn);
    $op->p_jrn=$_GET['p_jrn'];
+   $op->od_direct='f';
    
    echo '<div class="u_redcontent">';
    echo $r;
@@ -86,6 +87,8 @@ if ( $action == 'new' ) {
    echo '<form method="GET">';
    $op=new Pre_operation($cn);
    $op->p_jrn=$_GET['p_jrn'];
+   $op->od_direct='f';
+
    $hid=new widget("hidden");
    echo $hid->IOValue("action","use_opd");
    echo dossier::hidden();

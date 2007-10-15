@@ -286,7 +286,7 @@ function GetSoldeDetail($p_cond="") {
 /*! 
  * \brief verify that the poste belong to a ledger
  *
- * \return 0 ok,  -1 no, -2 account doesn't exist
+ * \return 0 ok,  -1 no
  */
  function belong_ledger($p_jrn) {
    $filter=getDbValue($this->db,"select jrn_def_class_cred from jrn_def where jrn_def_id=$p_jrn");
@@ -317,7 +317,7 @@ function GetSoldeDetail($p_cond="") {
     if ($max > 0 ) 
       return 0;
     else
-      return 1;
+      return -1;
  }
  static function test_me() {
      $cn=DbConnect(dossier::id());

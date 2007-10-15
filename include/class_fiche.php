@@ -43,21 +43,25 @@ class fiche {
   var $attribut;     /*! < $attribut array of attribut object */
   var $fiche_def_ref; /*!< $fiche_def_ref Type */
   var $row;           /*! < All the row from the ledgers */
+  var $quick_code;		/*!< quick_code of the card */
   function fiche($p_cn,$p_id=0) {
     $this->cn=$p_cn;
     $this->id=$p_id;
+    $this->quick_code='';
   }
 /*!   GetByQCode($p_qcode)
  * \brief Retrieve a card thx his quick_code
- *        complete the object
+ *        complete the object,, set the id member of the object
  * \param $p_qcode quick_code (ad_id=23)
  * \param $p_all retrieve all the attribut of the card, possible value
  * are true, false retrieve only the f_id
  * \return 0 success 1 error not found
  */
 
-  function GetByQCode($p_qcode,$p_all=true)
+  function GetByQCode($p_qcode=null,$p_all=true)
     {
+      if ( $p_qcode == null )
+	$p_qcode=$this->quick_code;
 
       $p_qcode=FormatString($p_qcode);
       $sql="select f_id from jnt_fic_att_value join attr_value 
@@ -65,6 +69,7 @@ class fiche {
       $Res=ExecSql($this->cn,$sql);
       $r=pg_fetch_all($Res);
       echo_debug('fiche',__LINE__,'result:'.var_export($r,true).'size '.sizeof($r));
+
       if ( $r == null  ) 
 	return 1;
       $this->id=$r[0]['f_id'];
@@ -734,6 +739,21 @@ class fiche {
          return 1;
        return $r[0]['av_text'];
      }
+
+   /*!\brief return the quick_code of a card
+    * \return null if not quick_code is found
+    */
+   function get_quick_code() 
+     {
+       $sql="select av_text from jnt_fic_att_value join attr_value 
+            using (jft_id)  where ad_id=23 and f_id=".$this->id;
+       $Res=ExecSql($this->cn,$sql);
+       $r=pg_fetch_all($Res);
+       if ( sizeof($r) == 0 ) 
+         return null;
+       return $r[0]['av_text'];
+     }
+
    /*!\brief Synonum of fiche::getAttribut
     */
    function Get() 
@@ -947,5 +967,85 @@ function GetSoldeDetail($p_cond="") {
      else
        $this->fd_id=$R;
    }
+/*!  
+ ***************************************************
+ * \brief   Check if a fiche is used by a jrn
+ *  return 1 if the  fiche is in the range otherwise 0, the quick_code
+ *  or the id  must be set
+ *        
+ * 
+ * \param   $j_jrn journal_id
+ * \param   $p_type : deb or cred default empty
+ * 
+ *\todo  fiche::belong_ledger this function will replace fiche_inc.php
+ *function isFicheOfJrn , it should be replaced everywhere in the code
+ *
+ * \return 1 if the fiche is in the range otherwise < 1
+ *        -1 the card doesn't exist
+ *        -2 the ledger has no card to check
+ * 
+ */
+function belong_ledger($p_jrn,$p_type="")
+{
+  // check if we have a quick_code or a f_id
+  if (($this->quick_code==null || $this->quick_code == "" ) 
+      && $this->id == 0 ) {
+    echo 'erreur ni quick_code ni f_id ne sont donnes';
+    exit();
+  }
+
+  //retrieve the quick_code
+  if ( $this->quick_code=="") 
+    $this->quick_code=$this->get_quick_code();
+
+
+  if ( $this->quick_code==null) 
+    return -1;
+
+  if ( $this->id == 0 ) 
+    if ( $this->GetByQCode(null,false) == 1)
+      return -1;
+
+  $get="";
+  if ( $p_type == 'deb' ) {
+    $get='jrn_def_fiche_deb';
+  }
+  if ( $p_type == 'cred' ) {
+    $get='jrn_def_fiche_cred';
+  }
+  if ( $get != "" ) {
+    $Res=ExecSql($this->cn,"select $get as fiche from jrn_def where jrn_def_id=$p_jrn");
+  } else {
+    // Get all the fiche type (deb and cred)
+    $Res=ExecSql($this->cn," select jrn_def_fiche_cred as fiche  
+                         from jrn_def where jrn_def_id=$p_jrn
+                        union
+                         select jrn_def_fiche_deb 
+                         from jrn_def where jrn_def_id=$p_jrn"
+		 );
+  }
+  $Max=pg_NumRows($Res);
+  if ( $Max==0) {
+    return -2;
+  }
+  // Normally Max must be == 1
+  $list=pg_fetch_array($Res,0);
+  if ( $list['fiche']=="") {
+    return -3;
+  }
+
+  $sql="select *
+        from fiche
+        where  
+           fd_id in (".$list['fiche'].") and f_id= ".$this->id;
+
+  $Res=ExecSql($this->cn,$sql);
+  $Max=pg_NumRows($Res);
+  if ($Max==0 ) 
+    return 0;
+  else
+    return 1;
+}
+
 }
 ?>

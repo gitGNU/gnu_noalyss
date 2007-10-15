@@ -223,6 +223,9 @@ function getFicheAttribut($p_cn,$p_id,$p_attr="") {
  * \param   $p_fiche : quick_code
  * \param   $p_type : deb or cred default empty
  * 
+ *\todo fiche_inc.php function isFicheOfJrn this function is now in
+ * class_fiche with the name belong_ledger, it should be replace
+ * everywhere in the code 
  *
  * \return 1 if the fiche is in the range otherwise 0
  * 
