@@ -76,7 +76,7 @@ BODY {
 <script src="js/scripts.js" type="text/javascript"></script>
 </head>
 <BODY onLoad="SetFocus(\'login\',0)">
-Version  3.0-beta
+Version  3.0-beta3
 <div class="remark">
  <p class="gras">Il est conseill&eacute; de ne PAS utiliser Internet Explorer.
  </p><p>
