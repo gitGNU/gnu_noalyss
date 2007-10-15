@@ -62,7 +62,7 @@ function SearchJrn(p_sessid,p_dossier,p_ctl,p_montant,p_paid)
 
  function GetIt(p_ctl,p_value) {
    self.opener.SetIt(p_value,p_ctl);
-         window.close(); 
+        window.close(); 
  }
 
 
@@ -71,10 +71,17 @@ function SearchJrn(p_sessid,p_dossier,p_ctl,p_montant,p_paid)
  /* p_value is the value to set in
  */
  function SetIt(p_value,p_ctl) {       
+
          var f=document.getElementsByName(p_ctl);
          for (var h=0; h < f.length; h++) {
-                 f[h].value=p_value;
-                 }
+	   var old_value=f[h].value;
+	   // if f[h] is not empty add a comma
+	   if (old_value == "") {
+	     f[h].value=p_value;
+	   } else {
+	     f[h].value=old_value+','+p_value;
+	   }
+	 }
  
  }
  

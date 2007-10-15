@@ -27,7 +27,7 @@
 //-----------------------------------------------------
 $line=1;
 
-while (($data = fgetcsv($handle, 2000,'!@')) !== FALSE) {
+while (($data = fgetcsv($handle, 2000,';')) !== FALSE) {
 	$num = count($data);
 
 	for ($c=0; $c < $num; $c++) {

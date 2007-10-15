@@ -316,13 +316,32 @@ function TransferCSV($p_cn, $periode){
 
 	$jr_id=InsertJrn($p_cn,$date_exec,NULL,$jrn,$detail.$num_compte." ".$code,$seq,$periode);
       	$internal=SetInternalCode($p_cn,$seq,$jrn);
+	print_r("jr_id".$jr_id);
+	print_r("internal :".$internal);
 	$Res=ExecSql($p_cn,"update jrn set jr_internal='".$internal."' where ".
-               " jr_grpt_id = ".$jr_id);
+               " jr_id = ".$jr_id);
       }
+      // insert rapt
+      if ( trim($jr_rapt) != "" ) {
+	if ( strpos($jr_rapt,',') !== 0 )
+	  {
+	    $aRapt=split(',',$jr_rapt);
+	    foreach ($aRapt as $rRapt) {
+	      if ( isNumber($rRapt) == 1 ) 
+		{
+		  InsertRapt($p_cn,$jr_id,$rRapt);
+		}
+	    }
+	  } 
+	elseif ( isNumber($jr_rapt) == 1 ) 
+	    {
+	      InsertRapt($p_cn,$jr_id,$jr_rapt);
+	    }
+	}
       
-      if ( isNumber($jr_rapt) == 1) 
+      /*      if ( isNumber($jr_rapt) == 1) 
 	InsertRapt($p_cn,$jr_id,$jr_rapt);
-
+      */
       
       echo "Tranfer de l'opération ".$code." effectué<br/>";
       $sql2 = "update import_tmp set status='t' where code='".$code."'";

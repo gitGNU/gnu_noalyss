@@ -415,12 +415,22 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
 
 	$jr_id=InsertJrn($p_cn,$e_date,'',$p_jrn,FormatString(${"e_other$i"."_comment"}),
 			 $seq,$periode);
-  
-	if ( isNumber(${"e_concerned".$i}) == 1 ) {
-
-	  InsertRapt($p_cn,$jr_id,${"e_concerned$i"});
+	if ( trim(${"e_concerned".$i}) != "" ) {
+	  if ( strpos(${"e_concerned".$i},',') !== 0 )
+	    {
+	      $aRapt=split(',',${"e_concerned".$i});
+	      foreach ($aRapt as $rRapt) {
+		if ( isNumber($rRapt) == 1 ) 
+		  {
+		    InsertRapt($p_cn,$jr_id,$rRapt);
+		  }
+	      }
+	    } else 
+	    if ( isNumber(${"e_concerned".$i}) == 1 ) 
+	      {
+		InsertRapt($p_cn,$jr_id,${"e_concerned$i"});
+	      }
 	}
-
 
     // Set Internal code and Comment
 	$Res=ExecSql($p_cn,"update jrn set jr_internal='".$internal."' where ".
