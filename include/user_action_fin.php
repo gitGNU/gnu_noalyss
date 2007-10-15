@@ -27,7 +27,7 @@ echo_debug('user_action_fin.php',__LINE__,"include user_action_fin.php");
 require_once("user_form_fin.php");
 include_once("class_widget.php");
 require_once("class_parm_code.php");
-require_once("class_jrn.php");
+require_once("class_acc_ledger.php");
 require_once ('class_pre_op_fin.php');
 
 $cn=DbConnect($gDossier);
@@ -75,7 +75,7 @@ if ( $action == 'new' ) {
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 	  // add a one-line calculator
 	  $p_jrn=$_GET['p_jrn'];
-	  $jrn=new jrn($cn,  $p_jrn);
+	  $jrn=new Acc_Ledger($cn,  $p_jrn);
 
 	  $r=FormFin($cn,$p_jrn,$User->GetPeriode(),$submit,null,false,$jrn->GetDefLine());
 	  echo '<div class="u_redcontent">';

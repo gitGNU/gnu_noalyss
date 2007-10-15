@@ -32,12 +32,12 @@ $gDossier=dossier::id();
 // after in pdf or cvs
 //-----------------------------------------------------
 if ( isset( $_POST['bt_html'] ) ) {
-include("class_jrn.php");
+include("class_acc_ledger.php");
  $p_cent=( isset ( $_POST['cent']) )?'on':'off';
   // $POST=from_periode, to_periode, jrn_id, cent
  $d=var_export($_POST,true);
  echo_debug('impress_jrn.php',__LINE__,$d);
-  $Jrn=new jrn($cn,$_POST['jrn_id']);
+  $Jrn=new Acc_Ledger($cn,$_POST['jrn_id']);
   $Jrn->GetName();
   if ( $_POST['p_simple']==0 ) 
     {

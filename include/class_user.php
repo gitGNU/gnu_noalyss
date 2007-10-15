@@ -135,8 +135,35 @@ class cl_user {
 	return $ret;
 	
   }
-
-  function getJrn() {
+/*! 
+ * \brief get all the available ledgers for the current user
+ * \param none
+ * \param
+ * \param
+ * 
+ *
+ * \return an array
+ */
+  function get_ledger() {
+    if ( $this->admin != 1) {
+      $sql="select jrn_def_id,jrn_def_type,
+jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
+                               jrn_deb_max_line,jrn_cred_max_line
+                             from jrn_def join jrn_type on jrn_def_type=jrn_type_id
+                             join user_sec_jrn on uj_jrn_id=jrn_def_id 
+                             where
+                             uj_login='".$this->id."'
+                             and uj_priv !='X'
+                             order by jrn_Def_id";
+    }else {
+      $sql="select jrn_def_id,jrn_def_type,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_deb_max_line,jrn_cred_max_line,
+                            jrn_type_id,jrn_desc,'W' as uj_priv
+                             from jrn_def join jrn_type on jrn_def_type=jrn_type_id 
+                             order by jrn_Def_id";
+    }
+    $res=ExecSql($this->db,$sql);
+    $array=pg_fetch_all($res);
+    return $array;
   }
 /*! 
  **************************************************

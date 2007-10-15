@@ -27,6 +27,15 @@ if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
   case 'all':
     $filter_card="";
     break;
+  case 'filter':
+    $get_cred='jrn_def_fiche_cred';
+
+    $get_deb='jrn_def_fiche_deb';
+
+    $filter_jrn=Getdbvalue($cn,"select $get_cred||','||$get_deb as fiche from jrn_def where jrn_def_id=$jrn");
+
+    $filter_card="and fd_id in ($filter_jrn)";
+    break;
   default:
     $filter_card="and frd_id in ($d)";
   }

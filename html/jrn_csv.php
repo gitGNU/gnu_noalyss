@@ -31,7 +31,7 @@ $gDossier=dossier::id();
 
 include_once ("postgres.php");
 include_once("check_priv.php");
-include("class_jrn.php");
+include("class_acc_ledger.php");
 $cn=DbConnect($gDossier);
 $rep=DbConnect();
 
@@ -47,7 +47,7 @@ if ( $User->CheckAction($cn,IMP) == 0 ||
 
  $p_cent=( isset ( $_GET['central']) )?$_GET['central']:'off';
 
-$Jrn=new jrn($cn,$_GET['jrn_id']);
+$Jrn=new Acc_Ledger($cn,$_GET['jrn_id']);
 
 $Jrn->GetName();
 $jrn_type=$Jrn->get_type();

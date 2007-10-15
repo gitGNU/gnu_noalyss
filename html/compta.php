@@ -63,6 +63,8 @@ if ( $action == 'fiche') {
 if ( $action == 'stock') {
   require_once('stock.inc.php');
 }
-
+if ( $action=='quick_writing') {
+  require_once ('quick_writing.inc.php');
+ }
 html_page_stop();
 ?>

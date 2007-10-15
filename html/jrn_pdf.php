@@ -35,7 +35,7 @@ include_once("postgres.php");
 include_once("class.ezpdf.php");
 include_once("impress_inc.php");
 include_once("preference.php");
-include_once("class_jrn.php");
+include_once("class_acc_ledger.php");
 include_once("check_priv.php");
 require_once ('header_print.php');
 
@@ -48,7 +48,7 @@ if ($_GET['central'] == 'on' ) {
   $centr=" centralisé ";
   $l_centr=1;
 }
-$Jrn=new jrn($cn,$_GET['jrn_id']);
+$Jrn=new Acc_Ledger($cn,$_GET['jrn_id']);
 
 $Jrn->GetName();
 $User=new cl_user(DbConnect());

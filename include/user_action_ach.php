@@ -26,7 +26,7 @@ require_once("user_form_ach.php");
 require_once ("preference.php");
 require_once ("user_common.php");
 require_once("class_widget.php");
-require_once("class_jrn.php");
+require_once("class_acc_ledger.php");
 require_once ('class_own.php');
 
 $own=new own($cn);
@@ -71,7 +71,7 @@ if ( $action == 'new' ) {
    // Submit button in the form
    $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer" ID="SubmitButton">';
-   $jrn=new jrn($cn,  $_GET['p_jrn']);
+   $jrn=new Acc_Ledger($cn,  $_GET['p_jrn']);
    $r=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$submit,false,$jrn->getDefLine());
    //--------------------
    // predef op.

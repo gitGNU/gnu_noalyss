@@ -27,7 +27,7 @@ require_once("fiche_inc.php");
 require_once("user_common.php");
 require_once ('class_plananalytic.php');
 require_once ('class_own.php');
-require_once ('class_operation.php');
+require_once ('class_anc_operation.php');
 require_once ('class_pre_op_ods.php');
 /*! \file
  * \brief Functions for the ledger of misc. operation
@@ -207,7 +207,7 @@ $r.="<FORM NAME=\"form_detail\" enctype=\"multipart/form-data\"".
 	  if (  $own->MY_ANALYTIC!='nu') // use of AA
 	    {
 	      // show form
-	      $op=new operation($p_cn);
+	      $op=new Anc_Operation($p_cn);
 	      $null=($own->MY_ANALYTIC=='op')?1:0;
 	      $r.='<td>';
 	      $p_mode=($p_saved)?0:1;
@@ -384,7 +384,7 @@ function RecordODS($p_cn,$p_array,$p_user,$p_jrn)
 		    if ( $own->MY_ANALYTIC != "nu" )
 		      {
 			// for each item, insert into operation_analytique */
-			$op=new operation($p_cn); 
+			$op=new Anc_Operation($p_cn); 
 			$op->oa_group=$group;
 			$op->j_id=$j_id;
 			$op->oa_date=$e_date;

@@ -28,7 +28,7 @@
  */
 require_once ('class_plananalytic.php');
 require_once ('class_print_ca.php');
-require_once ('class_operation.php');
+require_once ('class_anc_operation.php');
 /*! 
  * \brief manage the CA listing
  *
@@ -97,7 +97,7 @@ class list_ca extends print_ca {
  */
   function get_data()
   {
-	$op=new operation ($this->db);
+	$op=new Anc_Operation ($this->db);
 	$op->pa_id=$this->pa_id;
 	$array=$op->get_list($this->from,$this->to,$this->from_poste,$this->to_poste);
 	return $array;

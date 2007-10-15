@@ -26,7 +26,7 @@
 echo_debug('user_action_ven.php',__LINE__,"include user_action_ven.php");
 require_once("user_form_ven.php");
 include_once("class_widget.php");
-require_once("class_jrn.php");
+require_once("class_acc_ledger.php");
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 if ( CheckJrn($gDossier,$_SESSION['g_user'],$_GET['p_jrn']) != 2 )    {
@@ -92,7 +92,7 @@ if ( $action == 'insert_vente' ) {
     // We want a blank form
     if ( $blank==1)
       {
-       $jrn=new jrn($cn,  $_GET['p_jrn']);
+       $jrn=new Acc_Ledger($cn,  $_GET['p_jrn']);
 	   echo_debug('user_action_ven.php',__LINE__,"Blank form");
 	   // Show an empty form of invoice
 	   $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),null,false,$jrn->GetDefLine());

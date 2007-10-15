@@ -19,19 +19,31 @@
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 require_once('class_fiche.php');
+require_once('class_user.php');
+require_once ('class_widget.php');
+require_once ('class_dossier.php');
+require_once ('class_own.php');
+require_once ('class_anc_operation.php');
+require_once ('class_acc_operation.php');
+require_once ('class_poste.php');
+require_once ('class_pre_op_advanced.php');
+require_once ('jrn.php');
 /*!\brief Class for jrn
  *
  */
-class jrn {
+class Acc_Ledger {
   var $id;
   var $name;
   var $db;
   var $row;
   var $type;
-  function jrn ($p_cn,$p_id){
+  var $nb;			/*!< default number of rows by
+                                   default 10 */
+  function Acc_Ledger ($p_cn,$p_id){
     $this->id=$p_id;
     $this->db=$p_cn;
     $this->row=null;
+    $this->nb=10;
   }
 /*! 
  * \brief Return the type of a ledger (ACH,VEN,ODS or FIN) or GL 
@@ -633,6 +645,411 @@ class jrn {
  	  }
  	  $response=array($deb,$cred);
  	  return $response;
+   }
+   /*! 
+    * \brief Show a select list of the ledger you can access in
+    * writing, the security is taken in care but show the readable AND
+    * writable ledger 
+    * \param
+    * \param
+    * \param
+    * 
+    *
+    * \return object widget select
+    */
+   function select_ledger() {
+     $user=new cl_user($this->db);
+     $array=$user->get_ledger();
+     $idx=0;
+     $ret=array();
+
+     foreach ( $array as $value) {
+       $ret[$idx]['value']=$value['jrn_def_id'];
+       $ret[$idx]['label']=$value['jrn_def_name'];
+       $idx++;
+     }
+
+     $select=new widget("select");
+     $select->name='p_jrn';
+     $select->value=$ret;
+     $select->selected=$this->id;
+     return $select;
+   }
+/*! 
+ * \brief retrieve the jrn_def_fiche and return them into a array
+ *        index deb, cred
+ * \param
+ * \param
+ * \param
+ * 
+ *
+ * \return return an array ('deb'=> ,'cred'=>)
+ */
+   function get_fiche_def() {
+   $sql="select jrn_def_fiche_deb as deb,jrn_def_fiche_cred as cred ".
+     " from jrn_def where ".
+     " jrn_def_id = ".$this->id;
+
+   $r=ExecSql($this->db,$sql);
+
+   $res=pg_fetch_all($r);
+   if ( empty($res) ) return null;
+   print_r($res);
+   return $res[0];
+   }
+/*! 
+ * \brief retrieve the jrn_def_class_deb and return it
+ *
+ * \param
+ * \param
+ * \param
+ * 
+ *
+ * \return return an string 
+ */
+   function get_class_def() {
+   $sql="select jrn_def_class_cred  ".
+     " from jrn_def where ".
+     " jrn_def_id = ".$this->id;
+   print_r($sql);
+   $r=ExecSql($this->db,$sql);
+
+   $res=pg_fetch_all($r);
+   print_r($res);
+   if ( empty($res) ) return null;
+   return $res[0];
+   }
+
+/*! 
+ * \brief show the result of the array
+ * \param $p_array array from the form
+ * \param
+ * \param
+ * 
+ *
+ * \return string
+ */
+   function show_summary($p_array) {
+     $this->id=$p_array['p_jrn'];
+     if ( empty($p_array)) return 'Aucun r&eacute;sultat';
+     extract($p_array);
+     $ret="";
+     $ret.="<table>";
+     $ret.="<tr><td>Date : </td><td>$date</td></tr>";
+     $ret.="<tr><td>Description </td><td>$desc</td></tr>";
+     $ret.='</table>';
+     $ret.="<table>";
+     $ret.="<tr>";
+     $ret.="<th> Quick Code ou ";
+     $ret.="Poste </th>";
+     $ret.="<th> Montant </th>";
+     $ret.="<th> D&eacute;bit</th>";
+     $ret.="</tr>";
+     $own=new own($this->db);
+     $hidden=new widget('hidden');
+     $ret.=$hidden->IOValue('date',$date);
+     $ret.=$hidden->IOValue('desc',$desc);
+     // For predefined operation
+     $ret.=$hidden->IOValue('e_comm',$desc);
+     $ret.=$hidden->IOValue('jrn_type',$this->get_type());
+     $ret.=$hidden->IOValue('p_jrn',$this->id);
+     $ret.=$hidden->IOValue('nb_item',$this->nb);
+     $ret.=dossier::hidden();
+     for ($i=0;$i<$this->nb;$i++) {
+       $ret.="<tr>";
+       if ( trim(${'qc_'.$i})!="") {
+	 $oqc=new fiche($this->db);
+	 $oqc->GetByQCode(${'qc_'.$i},false);
+	 $ret.="<td>".${'qc_'.$i}.' - '.
+	    $oqc->strAttribut(ATTR_DEF_NAME).$hidden->IOValue('qc_'.$i,${'qc_'.$i}).
+	   '</td>';
+       }
+
+       if ( trim(${'qc_'.$i})=="" && trim(${'poste'.$i}) != "") {
+	 $oposte=new poste($this->db,${'poste'.$i});
+	 $ret.="<td>".${"poste".$i}." - ".
+	       $oposte->GetName().$hidden->IOValue('poste'.$i,${'poste'.$i}).
+	       '</td>';
+       }
+
+       if ( trim(${'qc_'.$i})=="" && trim(${'poste'.$i}) == "") 
+	 continue;
+
+       $ret.="<td>".${"amount".$i}.$hidden->IOValue('amount'.$i,${'amount'.$i})."</td>";
+       $ret.="<td>";
+       $ret.=(isset(${"ck$i"}))?"D":"C";
+       $ret.=(isset(${"ck$i"}))?$hidden->IOValue('ck'.$i,${'ck'.$i}):"";
+       $ret.="</td>";
+       // CA 
+
+       if (  $own->MY_ANALYTIC!='nu') // use of AA
+	 {
+	   // show form
+	   $op=new Anc_Operation($this->db);
+	   $null=($own->MY_ANALYTIC=='op')?1:0;
+	   $ret.='<td>';
+	   $ret.=$op->display_form_plan(null,$null,1,$i,round(${'amount'.$i},2));
+	   $ret.='</td>';
+	   
+	 }
+
+
+
+       $ret.="</tr>";
+     }
+     $ret.="</table>";
+     return $ret;
+   }
+
+   /*! 
+    * \brief Show the form to encode your operation
+    * \param $p_array if you correct or use a predef operation
+    * \param $p_readonly 1 for readonly 0 for writable
+    * \param
+    * 
+    *
+    * \return a string containing the form
+    */
+   function show_form($p_array=null,$p_readonly=0)
+   {
+     if ( $p_readonly == 1 )
+       return $this->show_summary($p_array);
+
+     if ( $p_array != null )
+       extract($p_array);
+
+     $ret="";
+     // Load the javascript
+     $ret.=JS_SEARCH_CARD;
+     $ret.=JS_SEARCH_POSTE;
+     $ret.=JS_AJAX_FICHE;
+     // 
+     $ret.="<table>";
+     $ret.= '<tr><td>';
+     $wDate=new widget('js_date','Date','date');
+     $wDate->table=1;
+     $wDate->readonly=$p_readonly;
+     $wDate->value=(isset($date))?$date:'';
+
+     $ret.=$wDate->IOValue();
+     $ret.= '</td></tr>';
+
+     $ret.= '<tr><td>';
+     $wDescription=new widget('text',"Description",'desc');
+     $wDescription->readonly=$p_readonly;
+     $wDescription->table=1;
+     $wDescription->value=(isset($desc))?$desc:'';
+     $ret.=$wDescription->IOValue();
+     $ret.= '</td></tr>';
+
+     $ret.= '</table>';
+
+     //     $nb_row=(isset($nb))?$nb:$this->GetDefLine();
+     $nb_row=$this->nb;
+     $hidden=new widget('hidden','nb','nb');
+     $hidden->value=$nb_row;
+     $ret.=$hidden->IOValue();
+     $ret.=dossier::hidden();
+     $ret.=$hidden->IOValue('p_jrn',$this->id);
+     $ret.=$hidden->IOValue('jrn_type',$this->get_type());
+     $ret.='<table border="2">';
+     $ret.='<tr>'.
+       '<th colspan="5">Quickcode</th>'.
+       '<th colspan="3">Poste</th>'.
+       '<th> Montant</th>'.
+       '<th>D&eacute;bit</th>'.
+       '</tr>';
+
+     for ($i = 0 ;$i<$nb_row;$i++){
+       // Quick Code
+       $quick_code=new widget('js_search');
+       $quick_code->name='qc_'.$i;
+       $quick_code->value=(isset(${'qc_'.$i}))?${'qc_'.$i}:"";
+       $quick_code->readonly=$p_readonly;
+       $quick_code->extra2=$this->id;
+       $quick_code->extra='filter';
+       $qc_span=new widget('span','','qc_'.$i.'_label');
+
+       // Account 
+       $poste=new widget('js_search_poste');
+       $poste->name='poste'.$i;
+       $poste->value=(isset(${'poste'.$i}))?${"poste".$i}:'';
+       $poste->readonly=$p_readonly;
+       $poste->extra=$this->id;
+       $poste->extra2=$this->get_class_def();
+       echo "get_class_Def returns";
+       print_r($poste->extra2);
+       $poste_span=new widget('span','','poste'.$i.'_label');
+
+       // Amount
+       $amount=new widget('text');
+       $amount->name='amount'.$i;
+       $amount->value=(isset(${'amount'.$i}))?${"amount".$i}:'';
+       $amount->readonly=$p_readonly;
+
+       // D/C
+       $deb=new widget('checkbox');
+       $deb->name='ck'.$i;
+       $deb->value=(isset(${'ck'.$i}))?${"ck".$i}:'';
+       $deb->readonly=$p_readonly;
+
+       $ret.='<tr>';
+       $ret.='<td>'.$quick_code->IOValue().'</td>';
+       $ret.='<td>'.$qc_span->IOValue().'</td>';
+       $ret.='<td>'.$poste->IOValue().'</td>';
+       $ret.='<td>'.$poste_span->IOValue().'</td>';
+       $ret.='<td>'.$amount->IOValue().'</td>';
+       $ret.='<td>'.$deb->IOValue().'</td>';
+       $ret.='</tr>';
+       // If readonly == 1 then show CA
+     }     
+     $ret.='</table>';
+     return $ret;
+   }
+   /*! 
+    * \brief save the operation into the jrnx,jrn, ,
+    *  CA and pre_def
+    * \param
+    * \param
+    * \param
+    * 
+    *
+    * \return
+    */
+   function save ($p_array) {
+     extract ($p_array);
+
+     try {
+       StartSql($this->db) ;
+       
+       $seq=NextSequence($this->db,'s_grpt');
+       $internal=SetInternalCode($this->db,$seq,$this->id);
+       
+       $group=NextSequence($this->db,"s_oa_group");       
+       $own=new own($this->db);
+       $tot_amount=0;
+       for ($i=0;$i<$this->nb;$i++) 
+	 {
+	   if ( ! isset (${'qc_'.$i}) && ! isset(${'poste'.$i}))
+	     continue;
+	   $acc_op=new Acc_Operation($this->db);
+	   $quick_code="";
+	   // First we save the jrnx
+	   if ( isset(${'qc_'.$i})) {
+	     $qc=new fiche($this->db);
+	     $qc->GetByQCode(${'qc_'.$i},false);
+	     $poste=$qc->strAttribut(ATTR_DEF_ACCOUNT);
+	     $quick_code=${'qc_'.$i};
+	   }
+	   else {
+	     $poste=${'poste'.$i};
+	   }
+	   $acc_op->date=$date;
+	   $acc_op->desc=$desc;
+	   $acc_op->amount=${'amount'.$i};
+	   $acc_op->grpt=$seq;
+	   $acc_op->poste=$poste;
+	   $acc_op->jrn=$this->id;
+	   $acc_op->type=(isset (${'ck'.$i}))?'d':'c';
+	   $acc_op->qcode=$quick_code;
+	   $j_id=$acc_op->insert_jrnx();
+	   $tot_amount+=round($acc_op->amount,2);
+	   
+	   if ( $own->MY_ANALYTIC != "nu" )
+	   {
+	     // for each item, insert into operation_analytique */
+	     $op=new Anc_Operation($this->db); 
+	     $op->oa_group=$group;
+	     $op->j_id=$j_id;
+	     $op->oa_date=$date;
+	     $op->oa_debit=($acc_op->type=='d' )?'t':'f';
+	     $op->oa_description=$desc;
+	     $op->save_form_plan($p_array,$i);
+	   }
+       }
+     $acc_end=new Acc_Operation($this->db);
+     $acc_end->date=$date;
+     $acc_end->desc=$desc;
+     $acc_end->grpt=$seq;
+     $acc_end->jrn=$this->id;
+     if ( $acc_end->insert_jrn() == false )
+       throw new Exception('Balance incorrecte');     
+
+     ExecSql($this->db,"update jrn set jr_internal='".$internal."' where ".
+                " jr_grpt_id = ".$seq);
+
+     // Save now the predef op 
+     //------------------------
+     if ( isset($save_opd)) {
+       $opd=new Pre_Op_Advanced($this->db);
+       $opd->name=(trim($desc)=='')?$internal:$desc;
+       $opd->get_post();
+       $opd->save();
+       }
+     } catch (Exception $e) {
+       Rollback($this->db);
+       echo 'OPERATION ANNULEE ';
+       echo '<hr>';
+       echo __FILE__.__LINE__.$e->getMessage();
+       exit();
+     }
+     Commit($this->db);
+   }
+
+   /*! 
+    * \brief get all the data from request and build the object 
+    * \param
+    * \param
+    * \param
+    * 
+    *
+    * \return
+    */
+   function get_request() 
+   {
+     $this->id=$_REQUEST['p_jrn'];
+
+   }
+   /*! 
+    * \brief this function is intended to test this class
+    * \param
+    * \param
+    * \param
+    * 
+    *
+    * \return
+    */
+   static function test_me() 
+   {
+     html_page_start();
+     $cn=DbConnect(dossier::id());
+     $_SESSION['g_user']='phpcompta';
+     $_SESSION['g_pass']='phpcompta';
+     $id=(isset ($_POST['p_jrn']))?$_POST['p_jrn']:-1;
+     $a=new Acc_Ledger($cn,$id);
+     echo '<FORM method="post">';
+     echo $a->select_ledger()->IOValue();
+     echo widget::submit_button('go','Test it');
+     echo '</form>';
+     if ( isset($_POST['go'])) {
+       echo "Ok ";
+       echo '<form method="post">';
+       echo $a->show_form();
+       echo widget::submit_button('post_id','Try me');
+       echo '</form>';
+     }
+     if ( isset($_POST['post_id' ])) {
+       echo '<form method="post">';
+       echo $a->show_form($_POST,1);
+       echo widget::submit_button('save_it',"Sauver");
+       echo '</form>';
+     }
+     if ( isset($_POST['save_it' ])) {
+       $array=$_POST;
+       $array['save_opd']=1;
+       $a->save($array);
+     }
+
    }
 
 }

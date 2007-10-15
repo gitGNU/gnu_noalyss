@@ -27,7 +27,7 @@ require_once('class_fiche.php');
 require_once ('class_gestion_sold.php');
 require_once ('class_gestion_purchase.php');
 require_once ('class_plananalytic.php');
-require_once ('class_operation.php');
+require_once ('class_anc_operation.php');
 /*! 
  * \brief  Display the form to UPDATE account operation in the expert view
  *          
@@ -1107,7 +1107,7 @@ function GetDataJrnJrIdUser ($p_cn,$p_jr_id) {
 function display_table_ca($p_cn,$p_seq,$p_jid,$p_own,$p_mode,$p_amount) {
   echo_debug(__FILE__.':'.__LINE__,'parameter $p_cn,$p_seq,$p_jid,$p_own,$p_mode',"$p_cn,$p_seq,$p_jid,p_own,$p_mode");
 
-  $op=new operation($p_cn);
+  $op=new Anc_Operation($p_cn);
   $array=$op->get_by_jid($p_jid) ;
   echo_debug(__FILE__.':'.__LINE__,"display_table_ca \$p_jid",$p_jid);
   echo_debug(__FILE__.':'.__LINE__,"display_table_ca \$array",$array);

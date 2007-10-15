@@ -90,7 +90,7 @@ if ( isset($_POST['add_fiche'])) {
 // Prob : ajout de fiche mais si plusieur cat possible ???
  // Get the field from database
   // if e_type contains a list of value
-  if ( $e_type != 'cred' and $e_type != 'deb')     {
+  if ( $e_type != 'cred' and $e_type != 'deb' && $e_type!='filter')     {
     //    $list['fiche']=$e_type;
     $sql="select fd_id from fiche_def where frd_id in ($e_type)";
     $Res=ExecSql($cn,$sql);
@@ -115,7 +115,16 @@ if ( isset($_POST['add_fiche'])) {
       $get='jrn_def_fiche_cred';
     $sql="select $get as fiche from jrn_def where jrn_def_id=".$_GET['p_jrn'];
     }
+    if ($e_type=='filter') {
     
+    $get_cred='jrn_def_fiche_cred';
+
+    $get_deb='jrn_def_fiche_deb';
+
+    $sql="select $get_cred||','||$get_deb as fiche from jrn_def where jrn_def_id=".$_GET['p_jrn'];
+    
+  }
+
     
 
     $Res=ExecSql($cn,$sql);

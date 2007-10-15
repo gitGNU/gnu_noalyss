@@ -28,7 +28,7 @@
  */
 require_once("class_poste_analytic.php");
 require_once ("class_widget.php");
-require_once ("class_operation.php");
+require_once ("class_anc_operation.php");
 require_once ("class_groupop.php");
 
 
@@ -66,7 +66,7 @@ if ( isset($_GET['see'])) {
   // and exit
   //-----------------------------
   echo JS_AJAX_OP;
-  $a=new operation($cn);
+  $a=new Anc_Operation($cn);
 
 echo '
 <div class="u_redcontent">
@@ -118,7 +118,7 @@ if ( isset($_POST['save'])) {
  }
 
 if ( isset($_GET['new'])) {
-	//show the form for entering a new operation
+	//show the form for entering a new Anc_Operation
 	//------------------------------------------
   $a=new groupop($cn);
 

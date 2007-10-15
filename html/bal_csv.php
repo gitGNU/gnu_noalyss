@@ -29,7 +29,7 @@ include_once ("postgres.php");
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 
-include("class_jrn.php");
+include("class_acc_ledger.php");
 $cn=DbConnect($gDossier);
 
 

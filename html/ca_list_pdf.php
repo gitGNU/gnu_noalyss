@@ -28,10 +28,10 @@
  */
 require_once('constant.php');
 require_once('postgres.php');
-require_once('class_operation.php');
+require_once('class_anc_operation.php');
 
 $cn=DbConnect(dossier::id);
-$op=new operation($cn);
+$op=new Anc_Operation($cn);
 $op->pa_id=$_GET['pa_id'];
 $array=$op->get_list($_GET['from'],$_GET['to']);
 $length=count($array);

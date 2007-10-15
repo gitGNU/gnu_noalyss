@@ -404,7 +404,7 @@ function GetRappelSimple ($p_cn,$p_jrn_id,$p_jrn_type,$p_from,&$arap)
 		       "p_end < (select p_end from parm_periode where p_id=$p_from) ".
 		       " and p_start <= (select p_start from parm_periode where p_id=$p_from)");
 
-  $j=new jrn($p_cn,$p_jrn_id);
+  $j=new Acc_Ledger($p_cn,$p_jrn_id);
   $a=$j->GetRowSimple($previous,$previous,$cent='on');
   $total_tvac=0.0;
   $total_htva=0.0;

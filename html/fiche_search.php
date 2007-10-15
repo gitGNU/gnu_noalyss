@@ -131,12 +131,29 @@ if (
   elseif ( $e_type == 'all' ) {
     $sql="select * from vw_fiche_attr where true";
   }
+  elseif ($e_type=='filter') {
+    
+    $get='jrn_def_fiche_cred';
+    $list_cred=get_list_fiche($cn,$get,$_GET['p_jrn']);
+
+
+    $get='jrn_def_fiche_deb';
+    $list_deb=get_list_fiche($cn,$get,$_GET['p_jrn']);
+    $list_fiche=$list_cred.','.$list_deb;
+
+    if ( $list_fiche == ',' ) 
+      exit("Vous n'avez pas bien configure ce journal, vous devez aller dans Avance->Journal et indiquez les fiches utilisables");
+
+    $sql="select * from vw_fiche_attr where fd_id in ( $list_fiche )";
+    
+  }
   // if e_type contains a list of value for filtering on fiche_def_ref.frd_id
   else{
     $list_fiche=$e_type;
     $sql="select * from vw_fiche_attr where frd_id in ( $list_fiche )";
     //    $sql="select * from vw_fiche_attr ";
   }
+
 // e_fic_search contains the pattern
 
   if (strlen(trim($e_fic_search) ) == 0 ) {

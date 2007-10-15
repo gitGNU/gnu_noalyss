@@ -33,7 +33,7 @@ define ("domaine","rel3");
 define ("MAX_COMPTE",4);
 
 
-define ("DEBUG","false");
+define ("DEBUG","true");
 
 // securite correspond a la table 
 // action
@@ -170,6 +170,10 @@ define ("JS_SEARCH_CARD","
 define ("JS_CONCERNED_OP",'
 <script type="text/javascript" language="javascript"  src="js/jrn_concerned.js">
 </script>');
+define ('JS_CALENDAR','
+<script type="text/javascript" language="javascript"  src="js/jrn_concerned.js">
+</script>');
+
 // One line calculator
 define ("JS_CALC_LINE",'
 <div style="border:outset black 3px; position:float; float:right;background-color:white;font-family:sans-serif;font-size:9pt;">

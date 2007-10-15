@@ -18,7 +18,7 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-require_once('class_jrn.php');
+require_once('class_acc_ledger.php');
 require_once('user_form_ach.php');
 require_once('jrn.php');
 require_once("class_document.php");
@@ -313,7 +313,7 @@ if ( $p_jrn != -1 )
         exit -1;
    }
 
-  $jrn=new jrn($cn,  $p_jrn);
+  $jrn=new Acc_Ledger($cn,  $p_jrn);
   echo_debug('depense.inc.php',__LINE__,"Blank form");
  // Submit button in the form
   $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
