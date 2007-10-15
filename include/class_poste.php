@@ -139,8 +139,9 @@ function GetSolde($p_cond=" true ") {
    *
    */ 
 function GetSoldeDetail($p_cond="") {
-	if ( $p_cond != "") $p_cond=" and ".$p_cond;
-  $Res=ExecSql($this->db,"select sum(deb) as sum_deb, sum(cred) as sum_cred from 
+
+  if ( $p_cond != "") $p_cond=" and ".$p_cond;
+ $sql="select sum(deb) as sum_deb, sum(cred) as sum_cred from 
           ( select j_poste, 
              case when j_debit='t' then j_montant else 0 end as deb, 
              case when j_debit='f' then j_montant else 0 end as cred 
@@ -148,11 +149,19 @@ function GetSoldeDetail($p_cond="") {
               where  
             j_poste like ('$this->id'::text)
             $p_cond
-          ) as m  ");
-  $Max=pg_NumRows($Res);
-  if ($Max==0) return 0;
-  $r=pg_fetch_array($Res,0);
-  
+          ) as m  ";
+
+ $Res=ExecSql($this->db,$sql);
+ $Max=pg_NumRows($Res);
+ if ($Max==0) return 0;
+ $r=pg_fetch_array($Res,0);
+ // if p_start is < p_end the query returns null to avoid any problem
+ // we set it to 0
+ if ($r['sum_deb']=='') 
+   $r['sum_deb']=0.0;
+ if ($r['sum_cred']=='') 
+   $r['sum_cred']=0.0;
+
   return array('debit'=>$r['sum_deb'],
 	       'credit'=>$r['sum_cred'],
 	       'solde'=>abs($r['sum_deb']-$r['sum_cred']));
@@ -312,7 +321,6 @@ function GetSoldeDetail($p_cond="") {
       }
     }//foreach
     $sql.=$SqlFilter.' and pcm_val='.$this->id;
-    echo $sql;
     $max=getDbValue($this->db,$sql);
     if ($max > 0 ) 
       return 0;

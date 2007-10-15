@@ -316,8 +316,6 @@ function TransferCSV($p_cn, $periode){
 
 	$jr_id=InsertJrn($p_cn,$date_exec,NULL,$jrn,$detail.$num_compte." ".$code,$seq,$periode);
       	$internal=SetInternalCode($p_cn,$seq,$jrn);
-	print_r("jr_id".$jr_id);
-	print_r("internal :".$internal);
 	$Res=ExecSql($p_cn,"update jrn set jr_internal='".$internal."' where ".
                " jr_id = ".$jr_id);
       }

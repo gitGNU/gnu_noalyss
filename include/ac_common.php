@@ -423,7 +423,7 @@ function Decode($p_html){
  */
 function sql_filter_per($p_cn,$p_from,$p_to,$p_form='p_id',$p_field='jr_tech_per')
 {
-  echo_debug("sql_filter_per($p_cn,$p_from,$p_to,$p_form,$p_field)");
+
   if ( $p_form != 'p_id' && 
        $p_form != 'date' )
     {
