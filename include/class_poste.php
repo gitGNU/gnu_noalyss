@@ -24,10 +24,12 @@
 /*!
  * \brief Manage the account 
  */
+require_once ('postgres.php');
+require_once ('class_dossier.php');
 
 class poste {
   var $db;          /*! \enum $db database connection */
-  var $id;          /*! \enum $id poste_id */
+  var $id;          /*! \enum $id poste_id (pcm_val)*/
   var $label;       /*! \enum $label label of the poste */
   var $parent;      /*! \enum $parent parent account */
   var $row;         /*! \enum $row double array see GetRow */
@@ -281,5 +283,46 @@ function GetSoldeDetail($p_cond="") {
      echo '</div>';
      
    }
+/*! 
+ * \brief verify that the poste belong to a ledger
+ *
+ * \return 0 ok,  -1 no, -2 account doesn't exist
+ */
+ function belong_ledger($p_jrn) {
+   $filter=getDbValue($this->db,"select jrn_def_class_cred from jrn_def where jrn_def_id=$p_jrn");
+   if ( trim ($filter) == '') 
+     return 0;
 
+    $valid_cred=split(" ",$filter);
+    $sql="select count(*) as poste from tmp_pcmn where ";
+    // Creation query
+    $or="";
+    $SqlFilter="";
+    foreach ( $valid_cred as $item_cred) {
+      if ( strlen (trim($item_cred))) {
+	if ( strstr($item_cred,"*") == true ) {
+	  $item_cred=strtr($item_cred,"*","%");
+	  $SqlItem="$or pcm_val like '$item_cred'";
+	  $or="  or ";
+	} else {
+	  $SqlItem="$or pcm_val = '$item_cred' ";
+	  $or="  or ";
+	}
+	$SqlFilter=$SqlFilter.$SqlItem;
+      }
+    }//foreach
+    $sql.=$SqlFilter.' and pcm_val='.$this->id;
+    echo $sql;
+    $max=getDbValue($this->db,$sql);
+    if ($max > 0 ) 
+      return 0;
+    else
+      return 1;
+ }
+ static function test_me() {
+     $cn=DbConnect(dossier::id());
+     $a=new poste($cn,550);
+     echo ' Journal 4 '.$a->belong_ledger(4);
+
+ }
 }
