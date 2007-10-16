@@ -119,9 +119,13 @@ class widget {
     // Input text type
     $disabled = $this->disabled ? "readonly" : "";
     if (strtoupper($this->type)=="TEXT") {
-	$readonly=($this->readonly==false)?" readonly ":"";
+      if ( $this->readonly==true ){
+	$readonly=" readonly ";$style="border:solid 1px grey;color:black;background:lightblue;";
+      } else {
+	$readonly="  ";$style="border:solid 1px blue;";
+      }
 	$this->value=str_replace('"','',$this->value);
-	$r='<INPUT style="border:solid 1px blue;" TYPE="TEXT" id="'.
+	$r='<INPUT style="'.$style.'" TYPE="TEXT" id="'.
 	  $this->name.'"'.
   'NAME="'.$this->name.'" VALUE="'.$this->value.'"  '.
 		  'SIZE="'.$this->size.'" "'.$this->javascript." ".$disabled." $readonly >";

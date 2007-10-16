@@ -28,6 +28,7 @@
  *
  */
 require_once ('class_acc_ledger.php');
+require_once ('class_acc_reconciliation.php');
 
 $cn=DbConnect(dossier::id());
 $id=(isset ($_REQUEST['p_jrn']))?$_REQUEST['p_jrn']:-1;
@@ -35,6 +36,7 @@ $id=(isset ($_REQUEST['p_jrn']))?$_REQUEST['p_jrn']:-1;
 function show_direct_form($cn,$ledger,$p_array) {
   $id=(isset ($_REQUEST['p_jrn']))?$_REQUEST['p_jrn']:-1;
   echo JS_COMPUTE_DIRECT;
+  echo Acc_Reconciliation::$javascript;
 
   // Show the predef operation
   // Don't forget the p_jrn 
@@ -73,6 +75,7 @@ function show_direct_form($cn,$ledger,$p_array) {
 }
 
 $ledger=new Acc_Ledger($cn,$id);
+$ledger->with_concerned=true;
 // no ledger selected, propose one
 if ($id == -1 )
   {
@@ -131,6 +134,8 @@ if ( isset($_POST['save_it' ])) {
 
   try {
     $ledger->save($array);
+    echo '<h2> Op&eacute;ration enregistr&eacute;e</h2>';
+    //    echo $ledger->show_form($array,true);
   } catch (AcException $e) {
     echo '<script>alert (\''.$e->getMessage()."'); </script>";
     show_direct_form($cn,$ledger,$_POST);

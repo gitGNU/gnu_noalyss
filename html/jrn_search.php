@@ -166,7 +166,7 @@ if ( isset ($_GET["search"]) ) {
     $page=(isset($_GET['page']))?$_GET['page']:0;
     $sql_limit=" LIMIT $limit ";
     $sql_offset=" OFFSET $offset ";
-    $bar=jrn_navigation_bar($offset,$MaxLine,$limit,$page);
+    $bar=jrn_navigation_bar($offset,$MaxLine,$limit,$page,'onClick="return go_next_concerned();"');
 
   }
   $sql.=$sql_limit.$sql_offset;

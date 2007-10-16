@@ -29,18 +29,23 @@ require_once ('class_poste.php');
 require_once ('class_pre_op_advanced.php');
 require_once ('jrn.php');
 require_once ('class_acexception.php');
+require_once ('class_acc_reconciliation.php');
+/*!\file class acc_ledger for manipulating the ledger
+ */
 
 /*!\brief Class for jrn
  *
  */
 class Acc_Ledger {
-  var $id;
-  var $name;
-  var $db;
-  var $row;
-  var $type;
+  var $id;			/*!< jrn_def.jrn_def_id */
+  var $name;			/*!< jrn_def.jrn_def_name */
+  var $db;			/*!< database connextion */
+  var $row;			/*!< row of the ledger */
+  var $type;			/*!< type of the ledger ACH ODS FIN
+                                   VEN or GL */
   var $nb;			/*!< default number of rows by
                                    default 10 */
+
   function Acc_Ledger ($p_cn,$p_id){
     $this->id=$p_id;
     $this->db=$p_cn;
@@ -756,6 +761,9 @@ class Acc_Ledger {
      $ret.=$hidden->IOValue('jrn_type',$this->get_type());
      $ret.=$hidden->IOValue('p_jrn',$this->id);
      $ret.=$hidden->IOValue('nb_item',$this->nb);
+     if ( $this->with_concerned==true) {
+       $ret.=$hidden->IOValue('jrn_concerned',$jrn_concerned);
+     }
      $ret.=dossier::hidden();
      $count=0;
      for ($i=0;$i<$this->nb;$i++) {
@@ -822,7 +830,7 @@ class Acc_Ledger {
    {
      if ( $p_readonly == 1 )
        return $this->show_summary($p_array);
-
+     
      if ( $p_array != null )
        extract($p_array);
 
@@ -913,6 +921,13 @@ class Acc_Ledger {
        // If readonly == 1 then show CA
      }     
      $ret.='</table>';
+     if ( isset ($this->with_concerned) && $this->with_concerned==true) {
+       $oRapt=new Acc_Reconciliation($this->db);
+       $w=$oRapt->widget();
+       $w->name='jrn_concerned';
+       $w->value=(isset($jrn_concerned))?$jrn_concerned:"";
+       $ret.=$w->IOValue();
+     }
      return $ret;
    }
 /*! 
@@ -1059,7 +1074,8 @@ class Acc_Ledger {
      $acc_end->desc=$desc;
      $acc_end->grpt=$seq;
      $acc_end->jrn=$this->id;
-     if ( $acc_end->insert_jrn() == false )
+     $jr_id= $acc_end->insert_jrn();
+     if ($jr_id == false )
        throw new Exception('Balance incorrecte');     
 
      ExecSql($this->db,"update jrn set jr_internal='".$internal."' where ".
@@ -1073,7 +1089,15 @@ class Acc_Ledger {
        $opd->get_post();
        $opd->save();
        }
+
+     if ( isset($this->with_concerned) && $this->with_concerned==true) {
+       $orap=new acc_reconciliation($this->db);
+       $orap->jr_id=$jr_id;
+       $orap->insert($jrn_concerned);
      }
+     
+     }
+
      catch (AcException $a) {
        throw $a;
      } 
@@ -1113,6 +1137,7 @@ class Acc_Ledger {
     */
    static function test_me() 
    {
+     echo Acc_Reconciliation::$javascript;
      html_page_start();
      $cn=DbConnect(dossier::id());
      $_SESSION['g_user']='phpcompta';
@@ -1120,6 +1145,7 @@ class Acc_Ledger {
 
      $id=(isset ($_REQUEST['p_jrn']))?$_REQUEST['p_jrn']:-1;
      $a=new Acc_Ledger($cn,$id);
+     $a->with_concerned=true;
      // Vide
      echo '<FORM method="post">';
      echo $a->select_ledger()->IOValue();

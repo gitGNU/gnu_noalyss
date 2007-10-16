@@ -40,14 +40,18 @@ function SearchJrn(p_sessid,p_dossier,p_ctl,p_montant,p_paid)
 
    /* Get the amount */
    var ctl_montant_name="e_other"+num+"_amount";
-   for ( i=0; i < document.forms[0].length; i++)
-     {    
-       var e=document.forms[0].elements[i];
-	  if ( e.name == ctl_montant_name ) {
-	    p_montant=e.value;
-	    break;
+
+   if ( document.forms[0]) { 
+
+     for ( i=0; i < document.forms[0].length; i++)
+       {    
+	 var e=document.forms[0].elements[i];
+	 if ( e.name == ctl_montant_name ) {
+	   p_montant=e.value;
+	   break;
 	  }
-     }
+       }
+   }
  }	
 
 
@@ -73,13 +77,25 @@ function updateJrn(p_ctl) {
       }
     }
   }
+  window.close();
 }
  function GetIt(p_ctl,p_value) {
    self.opener.SetIt(p_value,p_ctl);
         window.close(); 
  }
 
+function go_next_concerned() {
+ var form=document.forms[1];
 
+  for (var e=0;e<form.elements.length;e++) {
+    var elmt=form.elements[e];
+    if ( elmt.type == "checkbox") {
+      if (elmt.checked==true ) {
+	return confirm("Si vous changez de page vous perdez les reconciliation, continuez ?");
+      }
+    }
+  }
+}
  /* SetValue( p_ctl,p_value )
  /* p_ctl is the name of the control
  /* p_value is the value to set in

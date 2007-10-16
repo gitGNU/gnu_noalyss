@@ -259,7 +259,7 @@ if ( isset($_POST['update_record']) ) {
 		    continue;
 		  $tot_tab+=$_POST['val'.$tab.'l'.$i_row];
 		}
-		print_r ( "\$tot_tab  $tot_tab \$_POST['amount_t'.$tab ".$_POST['amount_t'.$tab]);
+
 		if ( $tot_tab != $_POST['amount_t'.$tab]) {
 		  echo "Erreur montant CA";
 		  echo "Op&eacute;ration annul&eacute;e";

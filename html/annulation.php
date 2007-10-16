@@ -40,7 +40,7 @@ $User=new cl_user($cn);
 $User->Check();
 
 html_page_start($User->theme,"onLoad='window.focus();'");
-
+echo JS_VIEW_JRN_MODIFY;
 if ( isset( $_GET['p_jrn'] )) {
   $p_jrn=$_GET['p_jrn'];
   }
@@ -397,10 +397,18 @@ for ( $i = 0; $i < $max_cred;$i++) {
 $a=GetConcerned($cn,$e_jr_id);
 
 if ( $a != null ) {
+
   foreach ($a as $key => $element) {
     echo "operation concernée <br>";
 
-    echo "<A HREF=\"jrn_op_detail.php?jrn_op=".GetGrpt($cn,$element)."\"> ".GetInternal($cn,$element)."</A><br>";
+    //    echo "<A
+    //    HREF=\"jrn_op_detail.php?jrn_op=".GetGrpt($cn,$element)."\">
+    //    ".GetInternal($cn,$element)."</A><br>";
+    $w=new widget("button");
+    $w->label=GetInternal($cn,$element);
+    $w->javascript="modifyOperation('".$element."','".$_REQUEST['PHPSESSID']."',".dossier::id().
+      ','.$_REQUEST['p_jrn'].",'S')";
+    echo $w->IOValue().'<br>';
   }//for
 }// if ( $a != null ) {
 

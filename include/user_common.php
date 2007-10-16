@@ -1032,6 +1032,7 @@ function isValid ($p_cn,$p_grpt_id) {
  * \param $p_line total of returned row
  * \param $p_size current g_pagesize user's preference
  * \param $p_page number of the page where the user is 
+ * \param $p_javascript javascript code to add
  * \note example :     
 \verbatim
    $step=$_SESSION['g_pagesize'];
@@ -1043,7 +1044,7 @@ function isValid ($p_cn,$p_grpt_id) {
 \endverbatim
  * \return   string with the nav. bar
  */
-function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1)
+function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1,$p_javascript="")
 {
   echo_debug('user_common',__LINE__,"function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1)");
   // if the pagesize is unlimited return ""
@@ -1080,7 +1081,7 @@ function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1)
     $step=$p_size;
     $offset=($e-1)*$step;
 
-    $r='<A class="mtitle" href="'.$_SERVER['PHP_SELF']."?".$url."&offset=$offset&step=$step&page=$e&size=$step".'">';
+    $r='<A class="mtitle" href="'.$_SERVER['PHP_SELF']."?".$url."&offset=$offset&step=$step&page=$e&size=$step".'" '.$p_javascript.'>';
     //$r.="Pr&eacute;c&eacute;dent";
     $r.='<INPUT TYPE="IMAGE" width="12" SRC="image/go-previous.png">';
     $r.="</A>&nbsp;&nbsp;";
@@ -1103,7 +1104,7 @@ function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1)
 
     $go=$_SERVER['PHP_SELF']."?".$url."&offset=$offset&step=$step&page=$e&size=$step";
 
-    $r.=sprintf('<A class="mtitle" HREF="%s" CLASS="one">%d</A>&nbsp;',$go,$e);
+    $r.=sprintf('<A class="mtitle" HREF="%s" CLASS="one" %s >%d</A>&nbsp;',$go,$p_javascript,$e);
     } else {
       $r.="<b> [ $e ] </b>";
     } //else
@@ -1116,7 +1117,7 @@ function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1)
     $step=$p_size;
     $offset=($e-1)*$step;
 
-    $r.='&nbsp;<A class="mtitle" href="'.$_SERVER['PHP_SELF']."?".$url."&offset=$offset&step=$step&page=$e&size=$step".'">';
+    $r.='&nbsp;<A class="mtitle" href="'.$_SERVER['PHP_SELF']."?".$url."&offset=$offset&step=$step&page=$e&size=$step".'" '.$p_javascript.' >';
     //$r.="Suivant";
     $r.='<INPUT TYPE="IMAGE" width="12" SRC="image/go-next.png">';
     $r.="</A>";
