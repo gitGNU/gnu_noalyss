@@ -117,17 +117,14 @@ class widget {
     $this->label=($p_label == "")?$this->label:$p_label;
     
     // Input text type
-    $disabled = $this->disabled ? "DISABLED" : "";
+    $disabled = $this->disabled ? "readonly" : "";
     if (strtoupper($this->type)=="TEXT") {
-      if ( $this->readonly==false) {
-		$this->value=str_replace('"','',$this->value);
-		$r='<INPUT style="border:solid 1px blue;" TYPE="TEXT" id="'.
-		  $this->name.'"'.
-          'NAME="'.$this->name.'" VALUE="'.$this->value.'"  '.
-		  'SIZE="'.$this->size.'" "'.$this->javascript." ".$disabled.">";
-      } else {
-	    $r=sprintf('<span>%s</span><input type="hidden" id="%s" name="%s" value="%s">', $this->value,$this->name,$this->name,$this->value);
-	}
+	$readonly=($this->readonly==false)?" readonly ":"";
+	$this->value=str_replace('"','',$this->value);
+	$r='<INPUT style="border:solid 1px blue;" TYPE="TEXT" id="'.
+	  $this->name.'"'.
+  'NAME="'.$this->name.'" VALUE="'.$this->value.'"  '.
+		  'SIZE="'.$this->size.'" "'.$this->javascript." ".$disabled." $readonly >";
 	
       if ($this->table==1) {
 	if ( $this->label != "") {
