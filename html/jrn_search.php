@@ -144,6 +144,7 @@ echo "</TR>";
 
 echo '</TABLE>';
 echo '<INPUT TYPE="submit" name="search" value="cherche">';
+echo '<input type="button" name="update_concerned" value="Mise à jour des réconciliation" onClick="updateJrn(\''.$p_ctl.'\')">';
 echo '</FORM>';
 echo '<div class="u_content">';
 // if a search is asked otherwise don't show all the rows
@@ -177,6 +178,8 @@ if ( isset ($_GET["search"]) ) {
   $MaxLine=pg_NumRows($Res);
 
   $col_vide="<TD></TD>";
+echo '<form id="form_jrn_concerned">';
+  echo widget::hidden('nb_item',$MaxLine);
   echo $bar;
   echo '<TABLE ALIGN="center" BORDER="0" CELLSPACING="O" width="100%">';
   $l_id="";
@@ -191,7 +194,7 @@ if ( isset ($_GET["search"]) ) {
       echo $col_vide.$col_vide;
     } else {
       echo '<TR style="background-color:lightblue"><TD>';
-      echo '<INPUT TYPE="CHECKBOX" onClick="GetIt(\''.$p_ctl.'\',\''.$l_line['jr_id']."')\" >";
+      echo '<INPUT TYPE="CHECKBOX" name="jr_concerned'.$l_line['jr_id'].'" ID="jr_concerned'.$l_line['jr_id'].'"> '.$l_line['jr_id'];
       echo "</TD>";
 
       echo "<TD>";
@@ -243,6 +246,7 @@ if ( isset ($_GET["search"]) ) {
   
   echo '</TABLE>';
   echo $bar;
+echo '</form>';
   echo '</div>';
 }// if $_POST [search]
 ?>

@@ -59,7 +59,21 @@ function SearchJrn(p_sessid,p_dossier,p_ctl,p_montant,p_paid)
  }
 }
 
+function updateJrn(p_ctl) {
+  var form=document.forms[1];
 
+  for (var e=0;e<form.elements.length;e++) {
+    var elmt=form.elements[e];
+    if ( elmt.type == "checkbox") {
+      if (elmt.checked==true ) {
+	var str_name=elmt.name;
+	var nValue=str_name.replace("jr_concerned","");
+
+	self.opener.SetIt(nValue,p_ctl);
+      }
+    }
+  }
+}
  function GetIt(p_ctl,p_value) {
    self.opener.SetIt(p_value,p_ctl);
         window.close(); 

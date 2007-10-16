@@ -415,6 +415,7 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
 
 	$jr_id=InsertJrn($p_cn,$e_date,'',$p_jrn,FormatString(${"e_other$i"."_comment"}),
 			 $seq,$periode);
+print_r('e_concerned'.$i.${"e_concerned".$i});
 	if ( trim(${"e_concerned".$i}) != "" ) {
 	  if ( strpos(${"e_concerned".$i},',') !== 0 )
 	    {
