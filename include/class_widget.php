@@ -538,7 +538,7 @@ class widget {
       $r=sprintf("$td
      <INPUT TYPE=\"button\" onClick=SearchJrn('%s',".dossier::id().",'%s',%s,'%s') value=\"Recherche\">
        %s $etd  $td 
-      <INPUT TYPE=\"Text\"  style=\"border:solid 1px blue;\"  NAME=\"%s\" VALUE=\"%s\" SIZE=\"8\">
+      <INPUT TYPE=\"text\"  style=\"color:black;background:lightyellow;border:solid 1px grey;\"  NAME=\"%s\" VALUE=\"%s\" SIZE=\"8\" readonly>
                  $etd",
 				 $l_sessid, 
 				 $this->name,
