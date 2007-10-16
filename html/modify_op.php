@@ -193,7 +193,24 @@ if ( isset($_POST['update_record']) ) {
 	StartSql($cn);
 
 	UpdateComment($cn,$_POST['jr_id'],$_POST['comment']);
-	InsertRapt($cn,$_POST['jr_id'],$_POST['rapt']);
+	if ( trim($_POST['rapt']) != "" ) {
+	  if ( strpos($_POST['rapt'],',') !== 0 )
+	    {
+	      $aRapt=split(',',$_POST['rapt']);
+	      foreach ($aRapt as $rRapt) {
+		if ( isNumber($rRapt) == 1 ) 
+		  {
+		    InsertRapt($cn,$_POST['jr_id'],$rRapt);
+		  }
+	      }
+	    } else 
+	    if ( isNumber($_POST['rapt']) == 1 ) 
+	      {
+		InsertRapt($cn,$_POST['jr_id'],$_POST['rapt']);
+	      }
+	}
+
+  //	InsertRapt($cn,$_POST['jr_id'],$_POST['rapt']);
 	if ( isset ($_FILES)) {
 	  echo_debug("modify_op.php",__LINE__, "start upload doc.");
 	  save_upload_document($cn,$_POST['jr_grpt_id']);
