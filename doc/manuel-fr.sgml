@@ -23,19 +23,29 @@ risques et périls.
 <p>
 <itemize>
 <item> Gestion : art de gérer une entreprise ou une activité d'indépendant
-<item> Comptabilité : tenue de journaux qui sont l'historique des opérations faites
-par une entreprise ou un indépendant
+<item> Comptabilité : tenue de journaux qui sont l'historique des
+  opérations faites 
+par une entreprise ou un indépendant 
 <item> Catégorie de fiches : Ensemble de ficheS qui ont un point en commun
-exemple : Fourniture bureau est un ensemble des fiches bic, papiers, téléphone, électricité...
-<item> Fiche : chaque fiche correspond à un élément: un fournisseur, un client, un article
-<item> Journaux Comptables : Il existe au minimum 3 journaux indispensables à la tenue de la
-comptabilité, il s'agit du journal des ventes qui contient toutes les ventes effectuées, journal
-d'achat qui contient tous les achats effectués, journal financier qui contient toutes les opérations
+exemple : Fourniture bureau est un ensemble des fiches bic, papiers,
+  téléphone, électricité... 
+<item> Fiche : chaque fiche correspond à un élément: un fournisseur,
+  un client, un article 
+<item> Journaux Comptables : Il existe au minimum 3 journaux
+  indispensables à la tenue de la 
+comptabilité, il s'agit du journal des ventes qui contient toutes les
+  ventes effectuées, journal 
+d'achat qui contient tous les achats effectués, journal financier qui
+  contient toutes les opérations 
 financières (banques, caisses)
-<item> Postes Comptables : afin de simplifier, chaque type d'opération a un poste comptable, c'est
-un chiffre dans un tableau. Exemple : en Belgique, 5500 représente les comptes bancaires, 600 les
-achats de fournitures... Ces postes comptables ne sont pas les mêmes dans tous les pays. Ils sont
-regroupés dans un plan comptable. En général, le plan comptable se subdivise en 6 grandes familles 
+<item> Postes Comptables : afin de simplifier, chaque type d'opération
+  a un poste comptable, c'est 
+un chiffre dans un tableau. Exemple : en Belgique, 5500 représente les
+  comptes bancaires, 600 les 
+achats de fournitures... Ces postes comptables ne sont pas les mêmes
+  dans tous les pays. Ils sont 
+regroupés dans un plan comptable. En général, le plan comptable se
+  subdivise en 6 grandes familles  
 <itemize>
 <item>1.  Les comptes de capital  (immobilisé)
 <item>2.  Les immobilisations corporelles (Actif à plus d'un an)
@@ -539,7 +549,6 @@ il est nécessaire
 </sect1>
 </sect>
 
-
 <sect>Sécurité
 <sect1> Introduction
 <p>
@@ -553,7 +562,9 @@ trop faciles à deviner,... La liste est longue et c'est l'ensemble des
 mesures qui déterminera la sécurité de vos données, il suffit d'une
 seule faiblesse pour que la sécurité soit insuffisante. Le sujet
 est très vaste, il englobe trop de choses. C'est pourquoi nous ne
-traiterons que de PhpCompta uniquement et un tout petit peu de PostgreSql.
+traiterons que de PhpCompta uniquement et un tout petit peu de
+PostgreSql.
+<p>
 </sect1>
 <sect1> Base de données
 <p> 
@@ -684,13 +695,10 @@ lettre de rappel, courrier...
 <item> Module Gestion:  module gestion, sans ceci vous ne pouvez pas
 du tout accèder à la gestion.
 </itemize>
-
-
-</sect2>
-
 <p>Dans chaque dossier, vous devez donner les droits des
 utilisateurs. Il y a les journaux et les actions. Les journaux sont
 les journaux auquels vous avez ou non accès. 
+ 
 
 <p>
 Les actions
@@ -718,6 +726,7 @@ nécessaire d'avoir aussi l'accès Impression
 <item> Module Administration : module gestion
 <item> Module Gestion:  module gestion
 </itemize>
+</sect2>
 
 
 </sect1>
@@ -1471,7 +1480,180 @@ plus de la note interne. Cette note n'est jamais repris dans le document.
 
 
 
+<sect>Le module de comptabilité analytique
+
+<sect1>introduction
+
+<p>
+La comptabilité analytique pour faire "simple", c'est une analyse
+  détaillée de la comptabilité générale. La comptabilité analytique va
+  se baser sur le compte de résultat et répartir tous les montants
+  d'une autre manière que la comptabilité générale. 
+Avec la comptabilité générale il est impossible de vérifier ce que 
+  coûte un projet, un client ou un produit. La comptabilité analytique
+  va permettre de créer des plans comptables analytiques en rapport
+  directe avec votre propre fonctionnement. 
+</p>
+<p>
+Seul la comptabilité générale est le document officiel pour les 
+  contributions et la TVA. La comptabilité analytique est une aide à
+  la gestion ce qui permet de l'adapter scrupuleusement à son
+  fonctionnement et ses attentes. Ce qui veut dire qu'un comptabilité
+  analytique pourra être totalement différente pour un même entreprise
+  en fonction d'un dirigeant ou un autre et de leur objectifs et
+  priorités respectives alors que la comptabilité générale restera la
+  même dans les deux cas. 
+</p>
+<p>
+Exemple simple : 
+Vous avez un client, Monsieur Bidulle, qui vous demande un devis pour
+changer toutes les fenêtres de sa maison. Vous lui remettez un devis
+en tenant compte du pris des fenêtres , du travail de main d'oeuvre et
+en plus votre marges bénéficiaires.  
+Vous achetez les fenêtres au prix convenu que vous imputez dans le
+compte « marchandises » de votre comptabilité. Dans ce compte se
+trouvent aussi toutes les autres marchandises que vous achetez. 
+Vous envoyez un devis par la poste qui vous imputez dans le compte
+« poste » de votre comptabilité. Dans ce compte se trouvent aussi tous
+les autres envois postaux. 
+</p>
+<p>La comptabilité analytique va permettre d'imputer l'achat des
+  fenêtres et de l'envoi postale dans la compte « bidulle » du plan
+  analytique « clients ». 
+</p>
+<p>
+Je peux ainsi connaître exactement le prix de revient du-dit client. 
+</p>
+<p>
+Nous pouvons allez plus loin dans notre travail de gestion. La
+Comptabilité Analytique permet de réaliser des opérations diverses qui
+ne sont pas reprise dans la comptabilité générale.  
+</p>
+<p>
+Vous pouvez encoder dans la comptabilité analytique les heures de
+travail pour ce client au prix de revient salarial.  Quand le travail
+est terminé vous pouvez en sortir les résultats.
+</p>
+<p>
+Est ce que vous êtes en bénéfice pour le travail chez monsieur Bidulle ?  
+La comptabilité analytique va prendre le prix de la facture et y
+soustraire les fenêtres, le ou les envois postaux, les heures de
+travail sur le chantier, les heures de travail dans les bureau, ... et
+y donner le résultat. En fonction du résultat vous pourrez ajuster les
+prix la prochaine fois. 
+</p>
+</sect1>
+
+<sect1>Activation de la comptabilité analytique
+<p>
+Vous devez allez dans le menu « société » du module paramètre de votre
+comptabilité. 
+Tout en bas de la page, un petit menu déroulant indique par défaut
+« non utilisé ». 
+Vous pouvez modifier le menu en  
+obligatoire et tous les montants de la compta générale qui est imputé
+dans la compte d'exploitation (charge « 6 » et produit « 7 ») seront
+obligatoirement imputer dans tous les plans analytiques. 
+optionnel et tous les montants de la compta générale qui est imputé
+dans la compte d'exploitation (charge « 6 » et produit « 7 ») seront,
+à votre appréciation, imputer dans tous les plans analytiques. 
+</p>
+<p>
+Ensuite vous enregistrer les modifications
+<p>
+</sect1>
+
+<sect1>Plan analytique
+
+<sect2>Ajout d'un plan
+<p>
+Cliquez sur « Ajout un plan comptable » et remplissez le « nom » et la
+« description » puis enregistrer. 
+Si vous mettez plusieurs plan, sachez qu'il sont se mettre dans
+l'ordre alphanumérique de la première mettre du « nom ». 
+</p>
+</sect2>
+<sect2>Ajout de postes
+<p>
+Vous n'êtes pas limité dans les postes pour un même plan comptable. 
+Cliquez sur le bouton « ajout » pour créer un nouveau poste et
+remplissez les champs proposés 
+Le champs montant n'est pas encore fonctionnel pour l'instant.
+</p>
+<sect1>Opération diverses
+<p>Ce menu vous permet d'encoder des opérations entre différents
+  comptes analytiques.
+</p>
+</sect1>
+
+<sect1>Impression
+<sect2>Listing
+<p>
+Vous pouvez avoir le listing des opérations qui ont été imputées dans
+un plan analytique préci entre deux date et/ou entre deux postes. 
+Vous pouvez visualiser les résultats sur la page et ensuite, si
+désiré, importer les éléments en format CSV. 
+</p>
+</sect2>
+<sect2>Balance simple
+<p>
+Entre deux dates et/ou entre deux postes, vous pouvez obtenir les
+montants des débits, crédits et soldes de tous les postes d'un plan
+analytique. 
+Vous pouvez les exporter en PDF ou CSV
+</p>
+<sect2>Balance croisé
+<p>
+Permet de sortir une balance croisée entre deux plan
+analytique. Choisissez les deux dates entre lesquelles la balance doit
+être faites, choisissez le plan analytique primaire et le secondaire
+(avec un choix entre les postes possible) et lancer la balance par le
+bouton « afficher ». 
+Vous pouvez les exporter en PDF ou CSV
+</p>
+</sect2>
+<sect1>Liaison avec la compta générale
+<sect2>Introduction
+<p>
+Petit rappel, le comptabilité analytique ne fonctionne qu'avec les
+comptes de résultats, c'est à dire les comptes de charges « 6 » et les
+comptes de produits « 7 ». 
+</p>
+<sect2>Journal de ventes et d'achats
+<p>
+Après l'encodage de votre facture de vente ou d'achat, vous
+enregistrez pour vérifier si tous les montants correspondent. Vous
+trouvez à droite de chaque ligne d'article un menu déroulant par plan
+comptable. Vous choisissez dans le menu de chaque plan, les postes qui
+correspondent à l'imputation. 
+</p>
+<p>
+Ensuite vous devez indiquer le montant. 
+</p>
+<p>
+Chaque montant de la comptabilité générale peut être imputé dans des
+postes analytiques différents. Pour ce faire, vous avez un bouton en
+dessous montant qui vous permet d'ajouter un ligne d'imputation. 
+</p>
+<p>
+Dans ce cas, vous pouvez, avant l'enregistrement définitif, contrôler
+si les montants de la comptabilité analytique correspondent avec les
+montants de la comptabilité générale. 
+</p>
+</sect2>
+</sect1>
 </sect>
+
+
+
+
+
+
+
+
+
+
+
 <sect>Le module Paramètre <label id="parametre">
 <sect1>Société
 <p>Ici vous indiquez les paramètres de votre société, nom,
