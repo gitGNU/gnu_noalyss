@@ -150,7 +150,7 @@ echo '<div class="u_content">';
 // if a search is asked otherwise don't show all the rows
 if ( isset ($_GET["search"]) ) {
   $sql="select j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
-                 j_montant,j_poste,j_debit,j_tech_per,jr_id,jr_comment,j_grpt,pcm_lib,jr_internal,jr_rapt from jrnx inner join 
+                 j_montant,jr_montant,j_poste,j_debit,j_tech_per,jr_id,jr_comment,j_grpt,pcm_lib,jr_internal,jr_rapt,j_qcode from jrnx inner join 
                  jrn on jr_grpt_id=j_grpt inner join tmp_pcmn on j_poste=pcm_val ".
     " inner join user_sec_jrn on uj_jrn_id=j_jrn_def".
     $condition." order by jr_date,jr_id,j_debit desc";
@@ -210,7 +210,9 @@ echo '<form id="form_jrn_concerned">';
 	  else
 		$lpay="";
 
-      echo '<TD COLSPAN="4">'.$l_line['jr_comment'].$lpay.'</TD></TR>';
+      echo '<TD COLSPAN="3">'.$l_line['jr_comment'].$lpay.'</TD>';
+      echo '<td>'.$l_line['jr_montant'].'</td>';
+      echo '</tr>';
     }
     if ( $l_line['j_debit'] == 't' ) {
       echo '<TR style="background-color:#E7FBFF;">';
@@ -230,7 +232,13 @@ echo '<form id="form_jrn_concerned">';
       echo $col_vide;
 
     echo '<TD>';
-    echo $l_line['pcm_lib'];
+    if ( $l_line ['j_qcode'] != "" ) {
+      $o=new fiche($cn);
+      $o->GetByQCode($l_line['j_qcode'],false);
+      echo "[ ".$l_line['j_qcode']." ]".
+	$o->strAttribut(ATTR_DEF_NAME);
+    } else
+      echo $l_line['pcm_lib'];
     echo '</TD>';
 
     if ( $l_line['j_debit']=='f')
