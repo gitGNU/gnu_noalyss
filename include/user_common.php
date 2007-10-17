@@ -349,8 +349,7 @@ comment = $p_comment");
 	if ( $Res == false)  return false;
 	return GetSequence($p_cn,'s_jrn');
 }
-/*!   ListJrn($p_cn,$p_jrn,$p_wherel)
- ************************************************************************************
+/*!   
  *\brief  show all the lines of the asked jrn, uses also the $_GET['o'] for the sort
  *        
  * 
