@@ -154,7 +154,7 @@ class Document
       rename($dirname.DIRECTORY_SEPARATOR.$file_to_parse,$_SERVER['DOCUMENT_ROOT'].$dirname.DIRECTORY_SEPARATOR.$file_to_parse);
       $this->SaveGenerated($_SERVER['DOCUMENT_ROOT'].$dirname.DIRECTORY_SEPARATOR.$file_to_parse);
       // Invoice
-      $ret='<A class="mtitle" HREF="show_document.php?d_id='.$this->d_id.'">Document généré</A>';
+      $ret='<A class="mtitle" HREF="show_document.php?d_id='.$this->d_id.'&'.dossier::get().'">Document généré</A>';
       return $ret;
     }
     
@@ -441,6 +441,7 @@ class Document
  *  - [CUST_ADDR_1] customer's address line 1
  *  - [CUST_CP] customer's ZIP code
  *  - [CUST_CO] customer's country
+ *  - [CUST_COUNTRY]
  *  - [CUST_VAT] customer's VAT
  *  - [MARCH_NEXT]   end this item and increment the counter $i
  *  - [VEN_ART_NAME]
@@ -559,12 +560,6 @@ class Document
 	  $tiers->getByQcode($qcode,false);
 	  $r=$tiers->strAttribut(ATTR_DEF_PAYS);
 
-	  break; 
-	case 'CUST_COUNTRY':
-	  $tiers=new fiche($this->db);
-	  $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
-	  $tiers->getByQcode($qcode,false);
-	  $r=$tiers->strAttribut(ATTR_DEF_PAYS);
 	  break; 
 	  // Marchandise in $_POST['e_march*']
 	  // \see user_form_achat.php or user_form_ven.php
