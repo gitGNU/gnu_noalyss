@@ -106,7 +106,6 @@ div.lmenu {
 	 position: float;
 	 float:left;
 	left:20px;
-	width:15em;
 	font-size:9px;
 	background-color:grey;
 }
@@ -236,7 +235,7 @@ td.cell{
 //	  border:1px solid blue;
 	    height:32px;
 	     padding: 1px;
-	     width:120px;
+//	     width:120px;
 }
 td.selectedcell{
 	border-style:inset;
@@ -328,6 +327,7 @@ div.u_redcontent a {
   text-decoration: none;
   display: block;
   color: darkblue;
+width:90%;
 
 }
 
