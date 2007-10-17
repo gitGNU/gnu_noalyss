@@ -560,6 +560,14 @@ class Document
 	  $r=$tiers->strAttribut(ATTR_DEF_PAYS);
 
 	  break; 
+	case 'CUST_COUNTRY':
+	  $tiers=new fiche($this->db);
+	  $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
+	  $tiers->getByQcode($qcode,false);
+	  $r=$tiers->strAttribut(ATTR_DEF_PAYS);
+	  break; 
+	  // Marchandise in $_POST['e_march*']
+	  // \see user_form_achat.php or user_form_ven.php
 	case 'CUST_VAT':
 	  $tiers=new fiche($this->db);
 	  $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
