@@ -91,7 +91,7 @@ function go_next_concerned() {
     var elmt=form.elements[e];
     if ( elmt.type == "checkbox") {
       if (elmt.checked==true ) {
-	return confirm("Si vous changez de page vous perdez les reconciliation, continuez ?");
+	return confirm("Si vous changez de page vous perdez les reconciliations, continuez ?");
       }
     }
   }

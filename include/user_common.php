@@ -1023,7 +1023,7 @@ function isValid ($p_cn,$p_grpt_id) {
 
 }
 
-/*!    jrn_navigation_bar
+/*!    
  **************************************************
  *\brief  
  *     Create a navigation_bar (pagesize)
