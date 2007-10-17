@@ -89,6 +89,13 @@ if ($id == -1 )
      echo '</form>';
      exit();
   }
+if ( $User->AccessJrn($cn,$id) == false ) {
+  echo "
+<script> alert(\"L'acces a ce journal est interdit, contactez votre responsable\");</script>";
+  exit();
+ }
+
+  
 echo '<div class="u_content">';
 echo '<h2 class="info"> Journal : '.$ledger->GetName().'</h2>';
 echo widget::button_href('Autre journal','?p_action='.$_REQUEST['p_action'].'&'.dossier::get());
