@@ -91,7 +91,7 @@ echo ShowItem(array(
 		    array('?p_action=facture&'.$str_dossier,'Vente/Facture'),
 		    array('?p_action=fournisseur&'.$str_dossier,'Fournisseur'),
 		    array('?p_action=depense&'.$str_dossier,'Achat/D&eacute;pense'),
-		    array('?p_action=quick_writing&'.$str_dossier,'Ecriture rapide'),
+		    array('?p_action=quick_writing&'.$str_dossier,'Ecriture directe'),
 		    array('?p_action=impress&'.$str_dossier,'Impression'),
 		    array('?p_action=stock&'.$str_dossier,'Stock'),
 		    array('?p_action=bank&'.$str_dossier,'Banque'),

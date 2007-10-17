@@ -177,7 +177,7 @@ function ShowMenuCompta($p_high="")
 				 array("user_jrn.php?jrn_type=ACH&".$str_dossier,"Dépense"),
 				 array("user_jrn.php?jrn_type=FIN&".$str_dossier,"Financier"),
 				 array("user_jrn.php?jrn_type=ODS&".$str_dossier,"Op. Diverses"),
-				 array('compta.php?p_action=quick_writing&'.$str_dossier,'Ecriture rapide','Ecriture directe dans les journaux',4),
+				 array('compta.php?p_action=quick_writing&'.$str_dossier,'Ecriture directe','Ecriture directe dans les journaux',4),
 
 				 array("compta.php?p_action=impress&".$str_dossier,"Impression","Impression",5),
 				 array("compta.php?p_action=fiche&".$str_dossier,"Fiche","Ajouter, modifier ou effacer des fiches",6),
