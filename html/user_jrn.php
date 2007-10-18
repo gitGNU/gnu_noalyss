@@ -78,7 +78,7 @@ if ( $p_jrn != -1 )
   // display jrn's menu
 
   //   echo '</DIV>';
-  echo '<div class="u_subt2menu">';      
+  echo '<div class="u_subtmenu">';      
   // show the available ledger of the type jrn_type
   ShowMenuJrnUser($gDossier,$jrn_type,$p_jrn);
   echo '</div>';
@@ -111,7 +111,7 @@ else
       // display jrn's menu
       
   //   echo '</DIV>';
-      echo '<div class="u_subt2menu">';      
+      echo '<div class="u_subtmenu">';      
       ShowMenuJrnUser($gDossier,$jrn_type,$p_jrn);
       echo '</div>';
       echo '<div class="lmenu">';      

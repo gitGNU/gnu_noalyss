@@ -308,7 +308,7 @@ function ShowMenuJrnUser($p_dossier,$p_type,$p_jrn,$p_extra="")
 	      $add='&p_action='.$_REQUEST['p_action'];
 	    }
 	  echo '<TD class="mtitle">';
-	  printf ('<A class="mtitle" HREF="%s?'.$str_dossier.'&jrn_type=%s&p_jrn=%s%s">ici %s</A></TD>',
+	  printf ('<A class="mtitle" HREF="%s?'.$str_dossier.'&jrn_type=%s&p_jrn=%s%s">%s</A></TD>',
 			  $href,
 			  $l_line['jrn_def_type'],
 			  $l_line['jrn_def_id'],
