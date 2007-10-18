@@ -542,19 +542,18 @@ function ShowMenuAdvanced($default="") {
   $str_dossier=dossier::get();
   // Show the left menu
   $left_menu=ShowItem(array(
-							//('rapprt.php','Rapprochement'),
-							array('jrn_update.php?'.$str_dossier,'Journaux',"Gestion des journaux",1),
-							array('user_advanced.php?'.$str_dossier.'&p_action=preod','Ecritures sauvees',"",9),
-							
-							array('user_advanced.php?p_action=periode&'.$str_dossier,'Periode',"Gestion des periodes",2),
-							array('central.php?'.$str_dossier,'Centralise',"Centralisation",3),
-							array('pcmn_update.php?p_start=1&'.$str_dossier,'Plan Comptable',"Gestion Plan Comptable",4),
-							array('compta.php?p_action=stock&'.$str_dossier,'Stock',"Gestion des stocks",5),
-							array('form.php?'.$str_dossier,'Rapport',"Rapport",6),
-							array('import.php?'.$str_dossier,'Import Banque',"Banque",7),
-							array('ecrit_ouv.php?'.$str_dossier,'Ecriture ouverture',"",8)
-							),
-					  'H',"cell","mtitle",$default);
+		//('rapprt.php','Rapprochement'),
+		array('jrn_update.php?'.$str_dossier,'Journaux',"Gestion des journaux",1),
+		array('user_advanced.php?'.$str_dossier.'&p_action=preod','Ecritures sauvees',"",9),
+		array('user_advanced.php?p_action=periode&'.$str_dossier,'Periode',"Gestion des periodes",2),
+		array('central.php?'.$str_dossier,'Centralise',"Centralisation",3),
+		array('pcmn_update.php?p_start=1&'.$str_dossier,'Plan Comptable',"Gestion Plan Comptable",4),
+		array('compta.php?p_action=stock&'.$str_dossier,'Stock',"Gestion des stocks",5),
+		array('form.php?'.$str_dossier,'Rapport',"Rapport",6),
+		array('import.php?'.$str_dossier,'Import Banque',"Banque",7),
+		array('ecrit_ouv.php?'.$str_dossier,'Ecriture ouverture',"",8)
+	),
+					  'H',"mtitle","mtitle",$default);
  $r='<div class="u_subtmenu">'.$left_menu."</div>";
  return $r;
 }
