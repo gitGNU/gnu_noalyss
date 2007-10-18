@@ -715,7 +715,7 @@ class Acc_Ledger {
  * \return return an string 
  */
    function get_class_def() {
-   $sql="select jrn_def_class_cred  ".
+   $sql="select jrn_def_class_deb  ".
      " from jrn_def where ".
      " jrn_def_id = ".$this->id;
 

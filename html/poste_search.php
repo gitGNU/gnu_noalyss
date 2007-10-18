@@ -67,13 +67,12 @@ if ( isset($_GET['filter']) && $_GET['filter'] != 'all') {
 
   // Load the property
   $l_line=GetJrnProp($gDossier,$_GET['p_jrn']);
-  if ( strlen(trim ($l_line['jrn_def_class_cred']) ) > 0 ) {
-    $valid_cred=split(" ",$l_line['jrn_def_class_cred']);
+  if ( strlen(trim ($l_line['jrn_def_class_deb']) ) > 0 ) {
+    $valid_cred=split(" ",$l_line['jrn_def_class_deb']);
 
     // Creation query
     foreach ( $valid_cred as $item_cred) {
       if ( strlen (trim($item_cred))) {
-	echo_debug('poste_search.php',__LINE__,"l_line[jrn_def_class_cred] $l_line[jrn_def_class_cred] item_cred $item_cred");
 	if ( strstr($item_cred,"*") == true ) {
 	  $item_cred=strtr($item_cred,"*","%");
 	  $Sql=" pcm_val like '$item_cred' or";
