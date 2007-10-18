@@ -341,30 +341,31 @@ function ShowMenuJrnUser($p_dossier,$p_type,$p_jrn,$p_extra="")
 function ShowMenuJrn($p_cn,$p_jrn_type,$p_jrn) 
 {
 
-  $Res=ExecSql($p_cn,"select ja_name,ja_url,ja_action,ja_desc from jrn_action  where ja_jrn_type='$p_jrn_type'
+  $Res=ExecSql($p_cn,"select ja_name,ja_url,ja_action,ja_desc from jrn_action  ".
+	       " where ja_jrn_type='$p_jrn_type'
                       order by ja_id");
   $num=pg_NumRows($Res);
   if ($num==0)    return "";
+
+
   // Retrieve in the database the menu
-  $ret="<TABLE>";
+
   $access_key_list = array();
+  $array_item=array();
   for ($i=0;$i<$num;$i++) {
     $action=pg_fetch_array($Res,$i);
     $access_key=get_quick_key($action['ja_name'],$access_key_list);
     $lib=str_replace($access_key,'<u>'.$access_key.'</u>',$action['ja_name']);
-
-    $ret.=sprintf('<TR><TD class="cell"><A class="mtitle" accesskey="%s" title="%s" '.
-				  'HREF="%s?%s&p_jrn=%s&jrn_type=%s&'.dossier::get().'">%s</A></td></tR>',
-		  $access_key, 
-		  $action['ja_desc'], 
-		  $action['ja_url'],
-		  $action['ja_action'], 
-		  $p_jrn, 
-		  $_REQUEST['jrn_type'],
-		  $lib);
-
+    $str_url=sprintf('?%s&p_jrn=%s&jrn_type=%s&'.dossier::get(),
+			$action['ja_action'], 
+			$p_jrn, 
+			$_REQUEST['jrn_type']);
+		       
+    $str_lib=$action['ja_name'];
+    $array_item[]=array($str_url,$str_lib);
   }
-  $ret.='</TABLE>';
+  $dir=($p_jrn_type=='FIN')?'H':'V';
+  $ret=ShowItem($array_item,$dir);
   return $ret;
 
 }

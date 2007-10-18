@@ -23,7 +23,6 @@
  */
 
 echo_debug('user_action_fin.php',__LINE__,"include user_action_fin.php");
-// include_once("form_input.php");
 require_once("user_form_fin.php");
 include_once("class_widget.php");
 require_once("class_parm_code.php");
@@ -37,8 +36,12 @@ if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {
 }
 include_once ("preference.php");
 include_once ("user_common.php");
+if ( ! isset($_REQUEST['action'])) {
+  echo "Aucune Action demandée";
+  exit();
+ }
 
-$action=(isset($_GET['action']))?$_GET['action']:$_POST['action'];
+$action=$_REQUEST['action'];
 //--------------------------------------------------------------------------------
 // use a predefined operation
 //--------------------------------------------------------------------------------
@@ -52,7 +55,7 @@ if ( $action=="use_opd" ) {
 	'<INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 
   $form=FormFin($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$p_post,false,$p_post['nb_item']);
-  echo '<div class="u_redcontent">';
+  echo '<div class="u_content">';
   echo   $form;
   echo '</div>';
   exit();
@@ -78,7 +81,7 @@ if ( $action == 'new' ) {
 	  $jrn=new Acc_Ledger($cn,  $p_jrn);
 
 	  $r=FormFin($cn,$p_jrn,$User->GetPeriode(),$submit,null,false,$jrn->GetDefLine());
-	  echo '<div class="u_redcontent">';
+	  echo '<div class="u_content">';
 	  echo $r;
 	  echo "<div>";
 	     //--------------------
@@ -118,7 +121,7 @@ if ( $action == 'new' ) {
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 
 	  $r=FormFin($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$_POST,false,  $nb_number);
-	  echo '<div class="u_redcontent">';
+	  echo '<div class="u_content">';
 	  echo $r;
 	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."</div>";
 
@@ -196,7 +199,7 @@ if ( $action == 'voir_jrn' ) {
        exit -1;
   }
 ?>
-<div class="u_redcontent">
+<div class="u_content">
 
 <form method= "get" action="user_jrn.php">
 
