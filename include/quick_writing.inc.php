@@ -101,7 +101,11 @@ echo '<h2 class="info"> Journal : '.$ledger->GetName().'</h2>';
 echo widget::button_href('Autre journal','?p_action='.$_REQUEST['p_action'].'&'.dossier::get());
 
 if ( isset($_GET['show_form']) || isset($_POST['correct_it']) ) {
-  show_direct_form($cn,$ledger,$_POST);
+$array=$_POST;
+$default_periode=$User->GetPeriode();
+list($date,$devnull)=GetPeriode($cn,$default_periode);
+$array['date']=$date;
+  show_direct_form($cn,$ledger,$array);
   exit();
  }
 
