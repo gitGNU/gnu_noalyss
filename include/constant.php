@@ -33,7 +33,7 @@ define ("domaine","");
 define ("MAX_COMPTE",4);
 
 
-define ("DEBUG","true");
+define ("DEBUG","false");
 
 // securite correspond a la table 
 // action
