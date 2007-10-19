@@ -35,7 +35,7 @@ function echo_debug      ($file,$line="",$msg="") {
   if ( DEBUG=='true' ) {
     $f=fopen ($_ENV['TMP'].DIRECTORY_SEPARATOR."phpcompta.log","a+");
     $a=var_export($msg,true);
-	$e=basename($file);
+    $e=basename($file);
     fwrite($f,"$e : $line $a\n");
     fclose ($f);
   }

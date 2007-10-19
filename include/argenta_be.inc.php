@@ -25,28 +25,27 @@
 //-----------------------------------------------------
 // Bank Argenta 
 //-----------------------------------------------------
-$line=1;
+$line=0;
 
-while (($data = fgetcsv($handle, 2000,';')) !== FALSE) {
+while (($data = fgetcsv($handle, 2000,"!")) !== FALSE) {
 	$num = count($data);
-
 	for ($c=0; $c < $num; $c++) {
 	  if ( $line==1) {
 	    $row=split(';',$data[$c]);
 	    $num_compte=$row[1];
 	  }
-	  
-	  if ( $line == 2 )
+	  if ( $line < 2 )
 	    continue;
 //-----------------------------------------------------
 // Parsing CSV comes here
 //-----------------------------------------------------
 	  $row=split(';',$data[$c]);
+	  echo 'ici sizeof $row = '.sizeof($row);
 	  echo_debug('argenta',__LINE__,'$row = '.var_export($row,true));
 	  echo_debug('argenta',__LINE__,'sizeof($row)'.sizeof($row));
 	  if ( sizeof ($row) < 9 )
 	    continue;
-
+	  
 
 	  $date_exec=$row[5];
 	  $date_val=$row[5];
@@ -64,7 +63,9 @@ while (($data = fgetcsv($handle, 2000,';')) !== FALSE) {
 //----------------------------------------------------
 // Skip dubbel
 //----------------------------------------------------
-if ( CountSql($p_cn,"select * from import_tmp where code='$code' and num_compte='$num_compte' limit 2") != 0 )
+	  $code=FormatString($code);
+	  $num_compte=FormatString($num_compte);
+	  if ( CountSql($p_cn,"select * from import_tmp where code='$code' and num_compte='$num_compte' limit 2") != 0 )
 {
 	/* Skip it it already encoded */
 	echo "Doublon éliminé ".$detail;
@@ -107,15 +108,16 @@ echo "<br>";
 
 			catch(Exception $e)
 			  { 
-			    echo_debug(__FILE__.":".__LINE__." Erreur : ".$e->getCode." msg ".$e->getMessage);
+			    echo(__FILE__.":".__LINE__." Erreur : ".$e->getCode." msg ".$e->getMessage);
 			    rollback($p_cn); 
 			    break;
 			  }
 
 		} // for ($c=0;$c<$num;$c++)
-	       $line++;
+	$line++;
+
 } // file is read
 
 fclose($handle);
-
+commit($p_cn);
 ?>

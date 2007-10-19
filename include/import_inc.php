@@ -85,7 +85,7 @@ function UpdateCSV($p_cn){
  *        modify the Quick Code or remove record poss.value are form, remove
  */
 function ShowBox($p_val,$counter,$p_cn,$p_form='form'){
-  echo JS_AJAX_FICHE;
+
   $w=new widget('js_search_only');
   $w->name='poste'.$counter;
   $w->extra='cred';
@@ -97,6 +97,7 @@ function ShowBox($p_val,$counter,$p_cn,$p_form='form'){
 
   // widget concerned
   $wConcerned=new widget('js_concerned');
+  $wConcerned->name="e_concerned"+$counter;
   $wConcerned->extra=abs($p_val['montant']);
   $wConcerned->extra2='paid';
   $wConcerned->label='op. concern&eacute;e';
@@ -117,7 +118,7 @@ function ShowBox($p_val,$counter,$p_cn,$p_form='form'){
       $f->GetByQCode($p_val['poste_comptable']);
       $s->value=$f->strAttribut(ATTR_DEF_NAME);
   }
-  echo '<input type="hidden" name="code" value="'.$p_val['code'].'">';
+  echo '<input type="hidden" id="code'.$counter.'" value="'.$p_val['code'].'">';
   echo '<input type="hidden" name="count" value="'.$counter.'">';
   echo '<table border="1" width="500">';
   echo '<tr><td width="200">'.$p_val['code'].'</td><td width="200">'.$p_val['date_exec'].'</td><td width="100">'.$p_val['montant'].' EUR</td><tr/>';
@@ -129,25 +130,33 @@ function ShowBox($p_val,$counter,$p_cn,$p_form='form'){
 
   echo "<td>n° compte : ".$p_val['num_compte']."</td>";
   if ( $p_form == 'form') {
-    echo '<td><input type="submit" value="Modifier">';
-    echo '<input type="submit" name="trashit" value="Effacer.."></td><tr/>';
+    $str_update=sprintf("import_update('%s','%s','%s');",
+		 $_REQUEST['PHPSESSID'],
+		 dossier::id(),
+		 $counter);
+    $str_remove=sprintf("import_remove('%s','%s','%s');",
+		 $_REQUEST['PHPSESSID'],
+		 dossier::id(),
+		 $counter);
+		 
+    echo '<td><input type="button" value="Modifier" onClick="'.$str_update.'">';
+    echo '<input type="button" name="trashit" value="Effacer.."'.
+      ' onClick="'.$str_remove.'" >'.
+      '</td><tr/>';
   }
-  if ($p_form == 'remove' )
-    echo '<td><input type="submit" value="Enlever"></td><tr/>';
+  if ($p_form == 'remove' ) {
+    $str_notconfi=sprintf("import_not_confirmed('%s','%s','%s');",
+		 $_REQUEST['PHPSESSID'],
+		 dossier::id(),
+		 $counter);
+
+    echo '<td><input type="button" value="Enlever" onClick="'.$str_notconfi.'"'.
+      '></td><tr/>';
+  }
 
   echo '</table>';
   
 }
-/*!\brief Remove the record from the transfert list, the data are in $_POST
- *        import_tmp.status is set to n for new
- *
- */
-function RemoveCSV($cn)
-{
-  $sql="update import_tmp set poste_comptable=null,status='n' where code='".$_POST['code']."'";
-  ExecSql($cn,$sql);
-}
-
 /*!\brief Verify the import
  */
 
@@ -161,8 +170,10 @@ function VerifImport($p_cn){
 	// include javascript for popup 
 	echo JS_SEARCH_CARD;
 	echo JS_CONCERNED_OP;
+	echo JS_AJAX_FICHE;
+	echo JS_PROTOTYPE_JS;
 	while($val = pg_fetch_array($Res)){
-	  echo '<form METHOD="POST" action="import.php?action=verif">'; 
+	  echo '<form METHOD="POST" id="form_'.$i.'"action="import.php?action=verif">'; 
 	  echo dossier::hidden();
 	  ShowBox($val,$i,$p_cn,'form');
 	  echo '</form>';
@@ -176,6 +187,7 @@ function VerifImport($p_cn){
  * \param $periode user's periode
  */
 function ConfirmTransfert($p_cn,$periode){
+
   $sql = "select to_char(p_start,'DD-MM-YYYY') as p_start,to_char(p_end,'DD-MM-YYYY') as p_end".
     " from parm_periode where p_id = '".$periode."'";
   $Res=ExecSql($p_cn,$sql);
@@ -204,14 +216,14 @@ function ConfirmTransfert($p_cn,$periode){
   $i=1;
   while($val = pg_fetch_array($Res)){
 
-    echo '<form method="post" action="import.php">';
+    echo '<form method="post" id="form_'.$i.'" action="import.php">';
 	echo dossier::hidden();
     echo '<input type="hidden" name="action" value="remove">';
     ShowBox($val,$i,$p_cn,'remove');
     echo '</form>';
     $i++;
   }
-  echo '<form method="post" action="import.php">';
+  echo '<form method="post" id="form_'.$i.'" action="import.php">';
   echo dossier::hidden();
   echo '<input type="hidden" name="action" value="transfer">';
   echo '<input type="submit" name="sub" value="Commencer le transfert">';

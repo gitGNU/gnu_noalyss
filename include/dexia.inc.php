@@ -33,7 +33,7 @@ $LinesImported=0;
 $LinesDup=0;
 $row=1;
 StartSql($p_cn);
-while (($data = fgetcsv($handle, 2000,'!@')) !== FALSE) 
+while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) 
 {
   $num = count($data);
   echo_debug('dexia_be',__LINE__,$num);

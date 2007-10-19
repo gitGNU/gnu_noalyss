@@ -27,7 +27,7 @@
 //-----------------------------------------------------
 $row=1;
 StartSql($p_cn);
-while (($data = fgetcsv($handle, 2000,'!@')) !== FALSE) {
+while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 	$num = count($data);
 	echo_debug('cbc_be',__LINE__,$num);
 	echo_debug('cbc_be',__LINE__,var_export($data,true));

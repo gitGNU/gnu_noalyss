@@ -539,13 +539,14 @@ class widget {
       $r=sprintf("$td
      <INPUT TYPE=\"button\" onClick=SearchJrn('%s',".dossier::id().",'%s',%s,'%s') value=\"Recherche\">
        %s $etd  $td 
-      <INPUT TYPE=\"text\"  style=\"color:black;background:lightyellow;border:solid 1px grey;\"  NAME=\"%s\" VALUE=\"%s\" SIZE=\"8\" readonly>
+      <INPUT TYPE=\"text\"  style=\"color:black;background:lightyellow;border:solid 1px grey;\"  NAME=\"%s\" ID=\"%s\" VALUE=\"%s\" SIZE=\"8\" readonly>
                  $etd",
 				 $l_sessid, 
 				 $this->name,
 				 $this->extra, 
 				 $this->extra2,
 				 $this->label, 
+				 $this->name, 
 				 $this->name, 
 				 $this->value 
 		 );

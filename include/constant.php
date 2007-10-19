@@ -33,7 +33,7 @@ define ("domaine","");
 define ("MAX_COMPTE",4);
 
 
-define ("DEBUG","false");
+define ("DEBUG","true");
 
 // securite correspond a la table 
 // action
@@ -225,7 +225,7 @@ function ChangeTVA(p_ctl,p_value) {
 define ("JS_AJAX_FICHE",'<script language="javascript" src="js/ajax_fiche.js"></script>');
 
 define ("JS_AJAX_OP",'<script language="javascript" src="js/ajax_op.js"></script>');
-
+define ("JS_PROTOTYPE_JS",'<script language="javascript" src="js/prototype.js"></script>');
 // Sql string
 define ("SQL_LIST_ALL_INVOICE","");
 
