@@ -79,6 +79,7 @@ $ledger->with_concerned=true;
 // no ledger selected, propose one
 if ($id == -1 )
   {
+    echo '<div class="u_content">';
 
      // Vide
      echo '<FORM method="get" action="?">';
@@ -87,6 +88,7 @@ if ($id == -1 )
      echo $ledger->select_ledger()->IOValue();
      echo widget::submit_button('show_form','Choix du journal');
      echo '</form>';
+     echo '</div>';
      exit();
   }
 if ( $User->AccessJrn($cn,$id) == false ) {

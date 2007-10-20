@@ -38,6 +38,7 @@ class Pre_operation
 
   function Pre_operation($cn) {
 	$this->db=$cn;
+	$this->od_direct='false';
   }
   /*!\brief fill the object with the $_POST variable */
   function get_post() {

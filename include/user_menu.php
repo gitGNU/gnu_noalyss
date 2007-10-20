@@ -172,25 +172,26 @@ function ShowMenuCompta($p_high="")
 	}
   $str_dossier=dossier::get();
   $p_array=array(
-				 array("user_jrn.php?jrn_type=NONE&".$str_dossier ,"Grand Livre"),
-				 array("user_jrn.php?jrn_type=VEN&".$str_dossier ,"Entrée"),
-				 array("user_jrn.php?jrn_type=ACH&".$str_dossier,"Dépense"),
-				 array("user_jrn.php?jrn_type=FIN&".$str_dossier,"Financier"),
-				 array("user_jrn.php?jrn_type=ODS&".$str_dossier,"Op. Diverses"),
-				 array('compta.php?p_action=quick_writing&'.$str_dossier,'Ecriture directe','Ecriture directe dans les journaux',4),
-
-				 array("compta.php?p_action=impress&".$str_dossier,"Impression","Impression",5),
+		 array("user_jrn.php?jrn_type=NONE&".$str_dossier ,"Grand Livre"),
+		 array("user_jrn.php?jrn_type=VEN&".$str_dossier ,"Entrée"),
+		 array("user_jrn.php?jrn_type=ACH&".$str_dossier,"Dépense"),
+		 array("user_jrn.php?jrn_type=FIN&".$str_dossier,"Financier"),
+		 array("user_jrn.php?jrn_type=ODS&".$str_dossier,"Op. Diverses"),
+		 array('compta.php?p_action=quick_writing&'.$str_dossier,'Ecriture directe','Ecriture directe dans les journaux',4),
+		 
+		 array("compta.php?p_action=impress&".$str_dossier,"Impression","Impression",5),
 				 array("compta.php?p_action=fiche&".$str_dossier,"Fiche","Ajouter, modifier ou effacer des fiches",6),
-				 array("user_advanced.php?".$str_dossier,"Avancé","Opérations délicates",7),
+		 array("user_advanced.php?".$str_dossier,"Avancé","Opérations délicates",7),
 		 );
 
   $result=ShowItem($p_array,'H',"mtitle","mtitle",$default,' width="100%"');
   $str_dossier=dossier::get();
-
-  $r="<H2 class=\"info\">Comptabilit&eacute;  ".dossier::name()."</h2>";
-
-  $r.='<div align="right">
-<input type="IMAGE" src="image/search.png" width="36" onclick="openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.dossier::id().',\'E\');">
+  $r="";
+  $r.='<div style="float:left";>';
+  $r.="<H2 class=\"info\">Comptabilit&eacute;  ".dossier::name()."</h2>";
+  $r.='</div>';
+  $r.='<div style="float:right;">';
+  $r.='<input type="IMAGE" src="image/search.png" width="36" onclick="openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.dossier::id().',\'E\');">
 <A HREF="user_pref.php?'.$str_dossier.'" title="Pr&eacute;f&eacute;rence"><IMG SRC="image/preference.png" width="36" border="0" ></A>
 <A HREF="commercial.php?'.$str_dossier.'" title="Gestion"><IMG SRC="image/compta.png" width="36"  border="0" ></A>
 <A HREF="comptanalytic.php?'.$str_dossier.'" title="CA"><IMG SRC="image/comptaanal.png" width="36"  border="0" ></A>
@@ -201,9 +202,10 @@ function ShowMenuCompta($p_high="")
 
 
 
-</div></h2> ';
-
+</div> ';
+  $r.='<div style="float:left;clear:both;">';
   $r.=$result;
+  $r.='</div>';
   return $r;
 
 

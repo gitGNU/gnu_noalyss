@@ -132,6 +132,7 @@ if  ( isset ($_REQUEST['fd_id'])) {
   echo "</div>";
  }
  else {
+   echo '<div class="lmenu">';
    // only the menu
    $fiche_def=new fiche_def($cn);
 
@@ -144,6 +145,7 @@ if  ( isset ($_REQUEST['fd_id'])) {
      $i++;
    }
    echo ShowItem($a,'V');
+   echo '</div>';
  }
 
 ?>

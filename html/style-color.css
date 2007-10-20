@@ -95,16 +95,18 @@ div.u_tmenu {
   
 }
 div.u_subtmenu {
-  left:10px;
+  float:left;
+  clear:both;
   background-color:pink;
+
 }
 div.u_subt2menu {
   left:1%;	
   background-color:orange;
 }
 div.lmenu {
-	 position: float;
 	 float:left;
+	 clear:left;
 	left:20px;
 	font-size:9px;
 	background-color:grey;

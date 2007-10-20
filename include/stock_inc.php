@@ -67,7 +67,8 @@ $sql=" select distinct sg_code
 
     // sg_code  and link to details
     $result.="<td>".'<a class="one" 
-              HREF="?p_action=stock&action=detail&sg_code='.$r['sg_code'].'&year='.$p_year.'">'. 
+              HREF="?p_action=stock&action=detail&sg_code='.$r['sg_code'].'&year='.$p_year.
+      '&'.dossier::get().'">'. 
               $r['sg_code']."</A></td>";
 
     // name
@@ -220,7 +221,7 @@ $sql="select sg_code,
     // jr_internal
     $r.="<TD>";
     if ( $l['jr_id'] != "")
-      $r.= "<A class=\"detail\" HREF=\"javascript:modifyOperation('".$l['jr_id']."','".$_REQUEST['PHPSESSID']."')\" > ".$l['jr_internal']."</A>";
+      $r.= "<A class=\"detail\" HREF=\"javascript:modifyOperation('".$l['jr_id']."','".$_REQUEST['PHPSESSID']."',".dossier::id().",0,'S')\" > ".$l['jr_internal']."</A>";
     else 
       $r.=$l['jr_internal'];
 

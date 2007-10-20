@@ -89,6 +89,8 @@ background-color:blue;
 }
 div.u_subtmenu {
   background-color:lightblue	;
+  float:left;
+clear:both;
   left:10px;
 
 }
@@ -98,9 +100,8 @@ background-color:lightgrey;
 
 }
 div.lmenu {
-	 position: float;
 	 float:left;
-	left:20px;
+	 clear:left;
 	font-size:9px;
 
 }

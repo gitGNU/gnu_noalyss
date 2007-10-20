@@ -57,8 +57,10 @@ echo ShowItem ( array (
 			array ("ecrit_ouv.php?import&".$str_dossier,"Import")
 			),'V');
 echo '</div>';
-echo '<div class="redcontent">';
-//----------------------------------------------------- EXPORT ////////////////////////////////////////////
+echo '<div class="u_redcontent">';
+//----------------------------------------------------- 
+//EXPORT 
+////////////////////////////////////////////
 if ( isset ($_GET['export'])) {
   // if the year is not set, ask it
   // ask the exercice and do the export

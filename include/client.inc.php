@@ -79,7 +79,7 @@ if ( $sub_action=="blank")
 
   $retour=sprintf('<A class="mtitle" HREF="%s"><input type="button" value="Retour"></A>',
 		  "commercial.php?p_action=client&$str_dossier");
-  echo '<div class="u_redcontent">';
+  echo '<div class="u_content">';
 
   echo $retour;
   $c=new Customer($cn);
@@ -135,7 +135,7 @@ if ( $sub_action == "list" )
    $client=new Customer($cn);
  $search=(isset($_GET['query']))?$_GET['query']:"";
 
- echo '<div class="u_redcontent">';
+ echo '<div class="u_content">';
  echo $client->Summary($search);
  echo '</div>';
  echo '</div>';
@@ -146,7 +146,7 @@ if ( $sub_action == "list" )
 if ( $sub_action == 'detail' )
 {
   $f_id=$_REQUEST['f_id'];
-  echo '<div class="u_redcontent">';
+  echo '<div class="u_content">';
   $client=new Customer($cn,$f_id);
   $retour=sprintf('<A class="mtitle" HREF="%s"><input type="button" value="Retour"></A>',
 		  urldecode($_REQUEST['url']));

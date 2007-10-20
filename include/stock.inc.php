@@ -167,7 +167,7 @@ if ( $action == 'detail' ) {
 	  echo dossier::hidden();
       echo '</form>';
     }
-  echo '<A class="mtitle" HREF="?p_action=stock&"'.dossier::get().'><INPUT TYPE="BUTTON" value="Retour"</A>';
+  echo '<A class="mtitle" HREF="?p_action=stock&'.dossier::get().'"><INPUT TYPE="BUTTON" value="Retour"</A>';
   
   
   echo '</div>';

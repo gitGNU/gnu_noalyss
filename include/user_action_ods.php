@@ -201,7 +201,7 @@ if ( $action == 'new' ) {
 }
 if ( $action == 'voir_jrn' ) {
   // Check privilege
-  if ( CheckJrn($gDossier,$_SESSION['g_user'],$_POST['p_jrn']) < 1 )    {
+  if ( CheckJrn($gDossier,$_SESSION['g_user'],$_REQUEST['p_jrn']) < 1 )    {
        NoAccess();
        exit -1;
   }

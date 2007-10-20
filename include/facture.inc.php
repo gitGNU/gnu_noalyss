@@ -188,7 +188,7 @@ if ( $sub_action=="use_opd" ) {
   $p_post=$op->compute_array();
   echo_debug(__FILE__.':'.__LINE__.'- ','p_post = ',$p_post);
   $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$p_post,false,$p_post['nb_item']);
-  echo '<div class="u_redcontent">';
+  echo '<div class="u_content">';
   echo   $form;
   echo '</div>';
   exit();
@@ -209,7 +209,7 @@ if ( isset ($_POST['add_item']) || isset ($_POST["correct_new_invoice"])  )
   if ( isset ($_POST['add_item']))
     $nb_item++;
   $form=FormVenInput($cn,$p_jrn,$User->GetPeriode(),$_POST,false,$nb_item);
-  echo '<div class="u_redcontent">';
+  echo '<div class="u_content">';
   echo $form;
   echo '</div>';
   exit();
@@ -230,7 +230,7 @@ if ( isset($_POST['record_and_print_invoice']))
     list ($internal,$e)=RecordInvoice($cn,$_POST,$User,$p_jrn);
     $form=FormVenteView($cn,$p_jrn,$User->GetPeriode(),$_POST,$_POST['nb_item'],'noform','');
   
-  echo '<div class="u_redcontent">';
+  echo '<div class="u_content">';
   echo '<h2 class="info"> Op&eacute;ration '.$internal.' enregistr&eacute;</h2>';
   echo $form;
   echo '<hr>';
@@ -285,7 +285,7 @@ if ( isset ($_POST['view_invoice']) )
       $form=FormVenInput($cn,$p_jrn,$User->GetPeriode(),$_POST,false,$nb_number);
     }
 
-  echo '<div class="u_redcontent">';
+  echo '<div class="u_content">';
   echo         $form;
   echo '</div>';
   exit();
@@ -306,7 +306,7 @@ if ( $p_jrn != -1 )
   echo_debug('facture.inc.php.php',__LINE__,"Blank form");
   // Show an empty form of invoice
   $form=FormVenInput($cn,$p_jrn,$User->GetPeriode(),null,false,$jrn->GetDefLine());
-  echo '<div class="u_redcontent">';
+  echo '<div class="u_content">';
   echo $form;
 
   //--------------------

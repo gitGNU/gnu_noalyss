@@ -96,7 +96,8 @@ width:100%;
 background-color:#36559b;
 }
 div.u_subtmenu {
-left:10px;
+float:left;
+clear:both;
 background-color:#C0E6E9;
 }
 div.u_subt2menu {
@@ -104,8 +105,8 @@ div.u_subt2menu {
  background-color:#36559b;
 }
 div.lmenu {
-position: float;
 float:left;
+clear:left;
 left:20px;
 font-size:9px;
 background-color:#EDF3FF;
@@ -140,9 +141,9 @@ border-width:1px;
 div.u_redcontent{
 position: float;
 float:left;
-width:80%;
 padding-top:7px;
 padding-left:8px;
+width:80%;
 font-size:9px;
 font-family:sans-serif;
 background-color:#BBBBEE;

@@ -68,7 +68,7 @@ if ( $sub_action=="use_opd" ) {
   $form=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$p_post,$submit,false,$p_post['nb_item']);
   //  $form=FormAchInput($cn,$p_jrn,$User->GetPeriode(),$_POST,$submit,false,$nb_item);
 
-  echo '<div class="u_redcontent">';
+  echo '<div class="u_content">';
   echo   $form;
   echo '</div>';
   exit();
@@ -227,7 +227,7 @@ if ( isset ($_POST['add_item']) || isset ($_POST["correct"])  )
           <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer" ID="SubmitButton">';
 
   $form=FormAchInput($cn,$p_jrn,$User->GetPeriode(),$_POST,$submit,false,$nb_item);
-  echo '<div class="u_redcontent">';
+  echo '<div class="u_content">';
   echo $form;
   echo $msg_tva;
   echo JS_CALC_LINE;
@@ -249,7 +249,7 @@ if ( isset($_POST['save']))
     // we save the expense
     list ($internal,$c)=RecordSell($cn,$_POST,$User,$p_jrn);
     $form=FormAchView($cn,$p_jrn,$User->GetPeriode(),$_POST,"",$_POST['nb_item'],false);
-    echo '<div class="u_redcontent">';
+    echo '<div class="u_content">';
     echo '<h2 class="info"> Op&eacute;ration '.$internal.' enregistr&eacute;</h2>';
     echo $form;
     echo '<hr>';
@@ -265,7 +265,7 @@ if ( isset($_POST['save']))
 		$submit.='<input type="button" value="verifie CA" onClick="verify_ca(\'ok\');">';
       $submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
       $form=FormAchView($cn,$p_jrn,$User->GetPeriode(),$_POST,$submit,$nb_number,true);
-      echo '<div class="u_redcontent">';
+      echo '<div class="u_content">';
       echo $form;
       echo '<hr>';
       echo '</form>';
@@ -296,7 +296,7 @@ if ( isset ($_POST['view_invoice']) )
     $form=FormAchInput($cn,$p_jrn,$User->GetPeriode(),$_POST,$submit, false, $nb_number);
   }
   
-  echo '<div class="u_redcontent">';
+  echo '<div class="u_content">';
   echo         $form;
   echo '</div>';
   exit();
@@ -320,7 +320,7 @@ if ( $p_jrn != -1 )
           <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer" ID="SubmitButton">';
   // Show an empty form of invoice
   $form=FormAchInput($cn,$p_jrn,$User->GetPeriode(),null,$submit,false,$jrn->getDefLine());
-  echo '<div class="u_redcontent">';
+  echo '<div class="u_content">';
   echo $form;
   echo $msg_tva;
   //--------------------

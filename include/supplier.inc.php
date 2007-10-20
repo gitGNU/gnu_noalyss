@@ -77,7 +77,7 @@ if ( $sub_action=="blank")
 {
   $retour=sprintf('<A class="mtitle" HREF="%s"><input type="button" value="Retour"></A>',
 		  "commercial.php?p_action=fournisseur");
-  echo '<div class="u_redcontent">';
+  echo '<div class="u_content">';
 
   echo $retour;
   $c=new Supplier($cn);
@@ -130,7 +130,7 @@ if ( $sub_action == "list" )
    $sup=new Supplier($cn);
  $search=(isset($_GET['query']))?$_GET['query']:"";
  // echo '<div style="position:absolute;left:15%;width:67%;margin-top:20px;">';
- echo '<div class="u_redcontent">';
+ echo '<div class="u_content">';
  echo $sup->Summary($search);
  echo '</div>';
  echo '</div>';
@@ -141,7 +141,7 @@ if ( $sub_action == "list" )
 if ( $sub_action == 'detail' )
 {
   $f_id=$_REQUEST['f_id'];
-  echo '<div class="u_redcontent">';
+  echo '<div class="u_content">';
   $sup=new Supplier($cn,$f_id);
   $retour=sprintf('<A class="mtitle" HREF="%s"><input type="button" value="Retour"></A>',
 		  urldecode($_REQUEST['url']));

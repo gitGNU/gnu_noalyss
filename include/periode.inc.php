@@ -23,7 +23,9 @@
  * \todo check if obsolete
  */
 
+
 require_once("preference.php");
+echo '<div class="u_content">';
 $cn=DbConnect($gDossier);
 //-----------------------------------------------------
 // Periode
@@ -109,5 +111,5 @@ if ( $action== "delete_per" ) {
 
 
 ShowPeriode($cn);
-
+echo '</div>';
 ?>

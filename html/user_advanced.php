@@ -70,7 +70,7 @@ if ($p_action == "periode" ) {
 //--------------------------------------------------
 
 if ($p_action=="preod") {
-
+  echo '<div class="u_content">';
   echo '<form method="GET">';
   $sel=new widget('select');
   $sel->name="jrn";
@@ -80,12 +80,18 @@ if ($p_action=="preod") {
   $sa=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
   $sel->selected=$sa;
   echo 'Choississez un journal '.$sel->IOValue();
-  echo widget::submit_button('Accepter','Accepter');
+  $wCheck=new widget("checkbox");
+  if ( isset($_REQUEST['direct'])) {
+    $wCheck->selected=true;
+  }
+  echo 'Ecriture directe'.$wCheck->IOValue('direct');
+
   echo dossier::hidden();
   $hid=new widget("hidden");
   echo $hid->IOValue("sa","jrn");
   echo $hid->IOValue("p_action","preod");
-
+  echo '<hr>';
+  echo widget::submit_button('Accepter','Accepter');
   echo '</form>';
 
   // if $_REQUEST[sa] == del delete the predefined operation
@@ -101,6 +107,11 @@ if ($p_action=="preod") {
   if ( $sa == 'jrn' ) {
 	$op=new Pre_operation($cn);
 	$op->set_jrn($_GET['jrn']);
+	if ( isset($_GET['direct'])) {
+	  $op->od_direct='true';
+	} else {
+	  $op->od_direct='false';
+	}
 	$array=$op->get_list_ledger();
 	if ( empty($array) == true ) {
 	  echo "Aucun enregistrement";
@@ -136,7 +147,7 @@ if ($p_action=="preod") {
 	}
 	echo '</table>';
   }
-
+  echo '</div>';
  }
 
 
