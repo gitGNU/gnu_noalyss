@@ -84,7 +84,8 @@ div.u_tmenu {
   position: float;
   margin-top:1px;
   width:100%;	
-background-color:blue;
+//background-color:blue;
+  background-color:#879ED4
   
 }
 div.u_subtmenu {
