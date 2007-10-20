@@ -229,7 +229,7 @@ echo_debug('user_form_ach.php',__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_peri
     $Price->size=9;
     $r.=$Price->IOValue("e_march".$i."_buy",$march_buy);
     // vat label
-    $select_tva=make_array($p_cn,"select tva_id,tva_label from tva_rate order by tva_id",1);
+    $select_tva=make_array($p_cn,"select tva_id,tva_label from tva_rate order by tva_rate desc",1);
     $Tva=new widget("select");
     $Tva->table=1;
     $Tva->selected=$march_tva_id;

@@ -216,7 +216,7 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
     $r.=$Price->IOValue("e_march".$i."_sell",$march_sell);
     // vat label
     //--
-    $select_tva=make_array($p_cn,"select tva_id,tva_label from tva_rate order by tva_id",1);
+    $select_tva=make_array($p_cn,"select tva_id,tva_label from tva_rate order by tva_rate desc",1);
     $Tva=new widget("select");
     $Tva->table=1;
     $Tva->selected=$march_tva_id;
