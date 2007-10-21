@@ -31,11 +31,11 @@ $gDossier=dossier::id();
 
 include_once ("postgres.php");
 include_once("check_priv.php");
-include("class_acc_ledger.php");
+require_once("class_acc_ledger.php");
 $cn=DbConnect($gDossier);
 $rep=DbConnect();
 
-include ('class_user.php');
+require_once ('class_user.php');
 $User=new cl_user($rep);
 $User->Check();
 if ( $User->CheckAction($cn,IMP) == 0 ||
