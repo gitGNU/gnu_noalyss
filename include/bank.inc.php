@@ -289,7 +289,7 @@ if ( isset($_POST['save']))
   echo $form;
   echo '<hr>';
   echo '</form>';
-  echo '<A href="commercial.php?p_action=bank&p_jrn='.$p_jrn.'">
+  echo '<A href="commercial.php?p_action=bank&p_jrn='.$p_jrn.'&'.dossier::get().'">
     <input type="button" Value="Nouveau"></A>';
   exit();
 }

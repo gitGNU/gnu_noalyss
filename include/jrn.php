@@ -281,6 +281,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 	  /* the qp_internal == jr_internal */
 	  $r.='<tr>';
 	  $r.='<th>Nom</th>';
+	  $r.='<th>PU</th>';
 	  $r.='<th>Quantit&eacute;</th>';
 	  $r.='<th>tva</th>';
 	  $r.='<th>code tva</th>';
@@ -312,8 +313,10 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 
 		//		$hid_jid=new widget("hidden","","p_jid_".$row->j_id,$row->j_id);
 		$r.=($i%2==0)?"<tr class=\"odd\">":'<tr>';		$i++;
-
+		$pu=0.0;
+		if ( $row->qp_price != 0.0 && $row->qp_price != 0 ) $pu=round($row->qp_price/$row->qp_quantite,2);
 		$r.='<td> '.$fiche->strAttribut(ATTR_DEF_NAME).'</td>';
+		$r.='<tD>'.$pu.'</td>';
 		$r.='<td align="right">'.$row->qp_quantite.'</td>';
 		$r.='<td align="right">'.$row->qp_vat.'</td>';
 		$r.='<td>'.$row->qp_vat_code.'</td>';
@@ -379,6 +382,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 	  /* the qs_internal == jr_internal */
 	  $r.='<tr>';
 	  $r.='<th>Nom</th>';
+	  $r.='<th>PU</th>';
 	  $r.='<th>Quantit&eacute;</th>';
 	  $r.='<th>tva</th>';
 	  $r.='<th>code tva</th>';
@@ -399,12 +403,14 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 	    $tot_tva+=$row->qs_vat;
 	    $tot_amount+=$row->qs_price;
 	    $r.=($i%2==0)?"<tr class=\"odd\">":'<tr>';		$i++;
-	    
+	     $pu=0.0;
+                if ( $row->qs_price != 0.0 && $row->qs_price != 0 ) $pu=round($row->qs_price/$row->qs_quantite,2);
 	    $r.=($i%2==0)?"<tr class=\"odd\">":'<tr>';		$i++;
 	    $r.='<td> '.$fiche->strAttribut(ATTR_DEF_NAME).'</td>';
+	    $r.='<td align="right">'.$pu.'</td>';
 	    $r.='<td align="right">'.$row->qs_quantite.'</td>';
 	    $r.='<td align="right">'.$row->qs_vat.'</td>';
-	    $r.='<td>'.$row->qs_vat_code.'</td>';
+	    $r.='<td align="center">'.$row->qs_vat_code.'</td>';
 	    $r.='<td align="right">'.$row->qs_price.'</td>';
 	    //-- add ca 
 	    //
