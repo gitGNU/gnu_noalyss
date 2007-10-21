@@ -190,7 +190,7 @@ function ShowMenuCompta($p_high="")
   $r.='<div style="float:left;background-color:#879ED4;">';
   $r.="<H2 class=\"info\">Comptabilit&eacute;  ".dossier::name()."</h2>";
   $r.='</div>';
-  $r.='<div style="float:right;background-color:#879ED4;">';
+  $r.='<div style="text-align:right;">';
   $r.='<input type="IMAGE" src="image/search.png" width="36" onclick="openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.dossier::id().',\'E\');">
 <A HREF="user_pref.php?'.$str_dossier.'" title="Pr&eacute;f&eacute;rence"><IMG SRC="image/preference.png" width="36" border="0" ></A>
 <A HREF="commercial.php?'.$str_dossier.'" title="Gestion"><IMG SRC="image/compta.png" width="36"  border="0" ></A>

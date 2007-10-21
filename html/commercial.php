@@ -70,8 +70,10 @@ include_once("preference.php");
 include_once("user_menu.php");
 $str_dossier=dossier::get();
 echo '<div class="u_tmenu">';
-echo "<H2 class=\"info\">Commercial ".dossier::name()." ";
-echo '<div align="right" title="Recherche">
+echo '<div style="float:left">';
+echo "<H2 class=\"info\">Commercial ".dossier::name()."<h2> ";
+echo '</div>';
+echo '<div style="text-align:right" title="Recherche">
 <input type="IMAGE" src="image/search.png" width="36" onclick="openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.$gDossier.');">
 <A HREF="?p_action=pref&'.$str_dossier.'" title="Pr&eacute;f&eacute;rence"><IMG SRC="image/preference.png" width="36" border="0" ></A>
 <A HREF="user_compta.php?gDossier='.$gDossier.'" title="Comptabilit&eacute;"><IMG SRC="image/compta.png" width="36"  border="0" ></A>
