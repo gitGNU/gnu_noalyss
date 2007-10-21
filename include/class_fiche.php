@@ -353,7 +353,9 @@ class fiche {
       $attr=$this->attribut;
 
       $ret="<table>";
-
+	if ( empty ($attr) ) {
+		return "Fiche non trouvée";
+	}
       foreach ( $attr as $r) 
 	{
 	  $msg="";
