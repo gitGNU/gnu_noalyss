@@ -49,7 +49,6 @@ else
 // Remove a card
 if ( isset ($_POST['delete']) ) 
 {
-  echo 'delete';
   $f_id=$_REQUEST['f_id'];
 
   $fiche=new contact($cn,$f_id);

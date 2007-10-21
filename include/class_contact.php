@@ -54,7 +54,7 @@ class contact extends fiche
       if ( $this->company != "") 
 	{
 	  $extra_sql="and f_id in (select f_id from jnt_fic_att_value join 
-attr_value using (jft_id) where av_text='".$this->company."' and ad_id=".ATTR_DEF_COMPANY.") ";
+attr_value using (jft_id) where av_text=upper('".$this->company."') and ad_id=".ATTR_DEF_COMPANY.") ";
 	}
       $url=urlencode($_SERVER['REQUEST_URI']);
       $script=$_SERVER['PHP_SELF'];
@@ -130,7 +130,7 @@ $back_url=urlencode($_SERVER['REQUEST_URI']);
 	$r.="<TD>".$contact->strAttribut(ATTR_DEF_EMAIL)."</TD>".
             "<TD> ".$contact->strAttribut(ATTR_DEF_FAX)."</TD>".
             "<TD> ".$l_company_name. "</TD>".
-            '<TD> <A href="?p_action=suivi_courrier&qcode='.$contact->strAttribut(ATTR_DEF_QUICKCODE).'&url='.$back_url.'">Courrier</A></TD>';
+            '<TD> <A href="?'.dossier::get().'&p_action=suivi_courrier&qcode='.$contact->strAttribut(ATTR_DEF_QUICKCODE).'&url='.$back_url.'">Courrier</A></TD>';
 
 	$r.="</TR>";
 

@@ -24,7 +24,6 @@
  * \brief This file show in a popup window the detail a of card in read only mode
  * the parameter are q (for qcode) & PHPSESSID
  */
-
 /*! \brief 
  *
  */

@@ -27,7 +27,7 @@
 function showfiche(p_sessid,p_qcode)
 {
   p_dossier=document.getElementById("gDossier").value;
-  var a=window.open('show_fiche.php?PHPSESSID='+p_sessid+'&gDossier='+p_dossier+'&q='+qcode,'','toolbar=no,width=350,height=450,scrollbar=yes,statusbar=no');
+  var a=window.open('show_fiche.php?PHPSESSID='+p_sessid+'&gDossier='+p_dossier+'&q='+p_qcode,'','toolbar=no,width=350,height=450,scrollbar=yes,statusbar=no');
   
 }
 
