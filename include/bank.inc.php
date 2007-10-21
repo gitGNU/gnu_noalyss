@@ -73,7 +73,7 @@ if ( $sub_action == "solde" )
    }
   echo '<div class="u_subtmenu">';
 
-  echo ShowMenuJrnUser($gDossier,'FIN',0,'<td class="cell"><A class="mtitle" HREF="commercial.php?liste&'.dossier::get().'&p_action=bank&sa=list">Liste</A></td>'.
+  echo ShowMenuJrnUser($gDossier,'FIN',0,'<td class="mtitle"><A class="mtitle" HREF="commercial.php?liste&'.dossier::get().'&p_action=bank&sa=list">Liste</A></td>'.
 '<td class="selectedcell">Solde</td>');
  echo '</div>';
     require_once("poste.php");
@@ -131,7 +131,7 @@ if ( $sub_action == "list")
   // show the menu with the list item selected
   echo '<div class="u_subtmenu">';
   echo ShowMenuJrnUser($gDossier,'FIN',0,'<td class="selectedcell">Liste</td>'.
-		       '<td class="cell"><A class="mtitle" HREF="commercial.php?liste&p_action=bank&sa=solde">Solde</A></td>');
+		       '<td class="mtitle"><A class="mtitle" HREF="commercial.php?liste&p_action=bank&sa=solde&'.dossier::get().'">Solde</A></td>');
   echo '</div>';
 
   echo '<div class="u_content">';
@@ -218,8 +218,8 @@ if ( $sub_action == "list")
 //-----------------------------------------------------
 echo '<div class="u_subtmenu">';
 echo ShowMenuJrnUser($gDossier,'FIN',$p_jrn,
-					 '<td class="cell"><A class="mtitle" HREF="commercial.php?liste&p_action=bank&sa=list&'.dossier::get().'">Liste</A></td>'.
-					 '<td class="cell"><A class="mtitle" HREF="commercial.php?liste&p_action=bank&sa=solde&'.dossier::get().'">Solde</A></td>');
+					 '<td class="mtitle"><A class="mtitle" HREF="commercial.php?liste&p_action=bank&sa=list&'.dossier::get().'">Liste</A></td>'.
+					 '<td class="mtitle"><A class="mtitle" HREF="commercial.php?liste&p_action=bank&sa=solde&'.dossier::get().'">Solde</A></td>');
 echo '</div>';
 //--------------------------------------------------------------------------------
 // use a predefined operation
