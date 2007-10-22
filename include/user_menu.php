@@ -546,7 +546,7 @@ function ShowMenuAdvanced($default="") {
   $left_menu=ShowItem(array(
 		//('rapprt.php','Rapprochement'),
 		array('jrn_update.php?'.$str_dossier,'Journaux',"Gestion des journaux",1),
-		array('user_advanced.php?'.$str_dossier.'&p_action=preod','Ecritures sauvees',"",9),
+		array('user_advanced.php?'.$str_dossier.'&p_action=preod','Ecritures definies',"",9),
 		array('user_advanced.php?p_action=periode&'.$str_dossier,'Periode',"Gestion des periodes",2),
 		array('central.php?'.$str_dossier,'Centralise',"Centralisation",3),
 		array('pcmn_update.php?p_start=1&'.$str_dossier,'Plan Comptable',"Gestion Plan Comptable",4),

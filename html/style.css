@@ -41,9 +41,9 @@ background-color: #879ed4;
 }
 
 h2.info {
-background-color:#879ed4;
+background-color:#36559b;
 color:white;
-font-size:12pt;
+font-size:16pt;
  text-align:center;
  padding:0px;
  margin:0px;
@@ -66,6 +66,7 @@ background-color: #879ed4;
 }
 
 h2.info2 {
+background-color:#36559b;
  color:blue;
  font-size:20px;
  text-align:center;

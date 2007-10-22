@@ -16,17 +16,32 @@ FAQ-fr.
 Attention, ce progamme vous êtes donnés  sous license GNU
 GPL, il n'est accompagné d'aucune garantie, vous l'utilisez à vos
 risques et périls.
+
+
 <!-- Table of contents -->
 <toc>
+<sect>Introduction
+<p>Merci d'utiliser PhpCompta, vous verrez que ce programme est très
+utile et très efficace. Cependant, beaucoup de personnes ne lisent pas
+la documentation et le trouve peu intuitif. Peu intuitif ?
+Probablement parce qu'il ne ressemble pas assez aux programmes qu'il
+connaisse déjà. En voulant  faire simple, j'ai fait
+différent. J'espère que vous vous y habituerez ;)
+
+<p>Lisez ce manuel, il vous permettra de mieux utiliser ce produit.
+
+</sect>
 <sect>Vue Général
 <sect1>Définition des termes
 <p>
 <itemize>
-<item> Gestion : art de gérer une entreprise ou une activité d'indépendant
+<item> Gestion : art de gérer une entreprise ou une activité
+d'indépendant 
 <item> Comptabilité : tenue de journaux qui sont l'historique des
   opérations faites 
 par une entreprise ou un indépendant 
-<item> Catégorie de fiches : Ensemble de ficheS qui ont un point en commun
+<item> Catégorie de fiches : Ensemble de ficheS qui ont un point en
+commun 
 exemple : Fourniture bureau est un ensemble des fiches bic, papiers,
   téléphone, électricité... 
 <item> Fiche : chaque fiche correspond à un élément: un fournisseur,
@@ -349,8 +364,10 @@ Dans ce cas, les écritures seront
 </verb>
 
 </sect4>
-<sect4>la créance estimée est supérieure à ce que vous allez vraiment recevoir,
-<p>c'est-à-dire, surestimation de la créance. vous recevrez moins que prévu.
+<sect4>la créance estimée est supérieure à ce que vous allez vraiment
+recevoir, 
+<p>c'est-à-dire, surestimation de la créance. vous recevrez moins que
+prévu. 
 <verb>
 4121 Impôt à récupérer
 à
@@ -372,7 +389,8 @@ Et quand l'argent tombera sur votre compte
 à
 	4121 Impôt à récupérer
 </verb>
-Si vous décidez de le reporter en tant que versement anticipé d'impôt.
+Si vous décidez de le reporter en tant que versement anticipé
+d'impôt. 
 <verb>
 6700	Impôt dû ou versé
 à 
@@ -731,6 +749,7 @@ nécessaire d'avoir aussi l'accès Impression
 
 </sect1>
 </sect>
+
 <sect> Gestion de stock
 <p> PhpCompta vient avec un système minimum de gestion de stock,
 c'est-à-dire qu'il permet de suivre un stock grâce aux action de vente
@@ -994,10 +1013,10 @@ id="journal_comptable"  name="définition journal">
 Pour le profil comptable, vous devez mettre un filtre pour les comptes
 visibles au débit ou au crédit.
 
-exemple :
+exemple : Le journal n'utilisera que les comptes commençant par 60 ou
+411 et le poste 550
 <verb>
- Postes utilisables journal (débit)        60*
- Postes utilisables journal (crébit)       411* 4000001
+ Postes utilisables journal (débit crédit)        60* 411* 550
 </verb>
 
 Ceux qui terminent par une étoile reprennent les comptes qui commence
@@ -1044,7 +1063,8 @@ cliquez sur Confirmer soyez sûr de ce que vous faites.
 </sect1>
 
 <sect1>Recherche
-<p>Ce menu permet de rechercher par date, montant, poste comptable, code
+<p>Ce menu permet de rechercher par date, montant, poste comptable,
+code 
 interne, quick code ou grâce à une partie de la description.
 
 <p>La sécurité s'applique dans les recherches, il n'est pas possible
@@ -1052,8 +1072,22 @@ de voir les opérations des journaux auquels vous n'avez pas accès.
 
 </sect1>
 
+<sect1>Ecriture Directe <label id="ecriture_directe">
+<p>
+Ecriture Directe vous permet d'encoder une opération directement dans
+un journal, en mélangeant les quick codes et les postes. Ce mode
+d'écriture ne doit être utilisé uniquement dans le cas où il n'est pas
+possible d'encoder la dépense de manière classique via les journaux
+d'achat, vente ou financier. 
 
-<sect1> Rapprochement
+<p> Les quick codes et les postes comptables utilisables sont
+paramétrables dans "Avancé->journaux->journal concerné". Le
+paramètrage des postes comptables fonctionnent comme pour les journaux
+d'OD <ref id="journal_od" name="paramètre des journaux">
+</p>
+
+</sect1>
+<sect1> Rapprochement - réconciliation
 <p>Vous pouvez lier des opérations entre elles,
 en général ce seront des paiements qui correspondent à des
 factures. Ce n'est pas obligatoire, c'est là uniquement pour vous
@@ -1066,7 +1100,7 @@ d'achat).
 
 <p> Le point important est que dans la petite fenêtre montrant les
 détails, vous pouvez spécifier si la facture est ou non payée, cela
-vous permettra de savoir en temps réelle, ce qui est déjà payé et ce
+vous permettra de savoir en temps réel, ce qui est déjà payé et ce
 qui ne l'est pas, cette possibilité n'existe que pour les journaux de
 type vente et achat.
 
@@ -1075,8 +1109,8 @@ type vente et achat.
 
 <sect1>Fiche <label id="avance_fiche">
 <p>Ce menu vous permet d'ajouter et de modifier des fiches mais aussi de
-leur ajouter des attributs, un attribut est par exemple une adresse, une partie
-non déductible, une adresse...
+leur ajouter des attributs, un attribut est par exemple une adresse,
+une partie non déductible, une adresse...
 
 <sect2>Ajout ou suppression d'attribut
 <p>Il est possible d'ajouter des attributs et aussi d'en enlever mais
@@ -1318,12 +1352,25 @@ n'utilisent jamais les fiches voir
 <p> Voir aussi Journaux <ref id="journaux" name="journaux">
 </sect2>
 <sect2>Période
-<p>C'est l'endroit ou les périodes sont créées, ou fermées. Il faut toujours fermer
-les périodes en particulier après les déclarations TVA, afin d'éviter que les montants
-déjà déclarés ne correspondent plus, plus personne ne doit pouvoir encoder dans ces
+<p>C'est l'endroit ou les périodes sont créées, ou fermées. Il faut
+toujours fermer 
+les périodes en particulier après les déclarations TVA, afin d'éviter
+que les montants 
+déjà déclarés ne correspondent plus, plus personne ne doit pouvoir
+encoder dans ces 
 périodes-là.
 
 <p>Après la fermeture des périodes, on peut les centraliser
+
+</sect2>
+<sect2>Ecritures definies
+<p>Après avoir encodé une opération, vous pouvez la sauver en tant que
+modèle afin de la réutiliser par la suite pour pouvoir encoder plus
+rapidement,  ce menu-ci vous permet d'effacer les modèles d'opération
+dont vous n'avez plus besoin. Remarquez la case "Ecriture Directe" qui
+vous permet d'accèder aux modèles d'opérations sauvées dans ce mode.
+
+</p>
 
 </sect2>
 <sect2>Centralise
@@ -1478,6 +1525,14 @@ plus de la note interne. Cette note n'est jamais repris dans le document.
 
 </sect1>
 
+<sect1>Ecriture Directe
+<p>
+Voir <ref id="ecriture_directe" name="Module de comptabilité Ecriture
+Directe">
+</p>
+
+
+</sect1>
 
 
 <sect>Le module de comptabilité analytique
@@ -1816,8 +1871,10 @@ du code avec Doxygen. Le manuel avec DocBook (voir la FAQ pour contribuer)
 <p>Si vous souhaitez envoyez un patch, regarder dans la FAQ "Comment contribuer"
 
 <sect1>Attributs des Fiches
-<p>Pour étendre la liste des attributs possibles, insérer simplement une ligne supplémentaire
-dans la table attr_def puis avec le menu fiche <ref id="avance_fiche" name="fiche"> ajoutez
+<p>Pour étendre la liste des attributs possibles, insérer simplement
+une ligne supplémentaire 
+dans la table attr_def puis avec le menu fiche <ref id="avance_fiche"
+name="fiche"> ajoutez 
 cette attribut à la catégorie de fiche voulue.
 
 </sect1>
@@ -1825,12 +1882,36 @@ cette attribut à la catégorie de fiche voulue.
 <p>Si votre banque ne se trouve pas dans le menu, vous pouvez l'ajouter très simplement.
 <p> Etape 1 : ajouter une ligne dans format_cvs_doc
 
-<p>Utilisez le fichier argenta_be.inc.be et cbc_be.inc.be comme modèle pour voir comment on importe. 
-Il y a aussi des outils dans contrib/cvs-tools pour vous aider, cela ne prend qu'une petite heure pour
+<p>Utilisez le fichier argenta_be.inc.be et cbc_be.inc.be comme modèle
+pour voir comment on importe.  
+Il y a aussi des outils dans contrib/cvs-tools pour vous aider, cela
+ne prend qu'une petite heure pour 
 ajouter un format de banque.
 
 </sect1>
+<sect1>Bilan adapté
+<p> Chaque dossier possède une table nommée "Bilan" qui a 5 champs
+<itemize>
+<item>b_id : juste un identifiant numérique unique</item>
+<item>b_name : le nom que vous verrez apparaître dans
+"Impression->Bilan"</item> 
+<item>b_file_template : le fichier contenant la mise en page</item>
+<item>b_file_form: le fichier contenant les formules</item>
+<item>b_type: le type de document, aussi les valeurs acceptées sont
+TXT, HTML, ODS et RTF</item>
+</itemize>
+</p>
+<p>Pour ajouter un bilan que vous avez remanié vous n'aurez qu'à
+ajouter un enregistrement dans cette table qui utilisera vos fichiers.
 
+
+</sect1>
+<sect1> Lien
+<p> Vous trouverez de la documentation sur les API à utiliser dans
+votre répertoire phpcompta/doc/html/developper mais surtout sur le
+site http://www.phpcompta.org/pmwiki.php/Site/DocumentationDevelopper
+
+</sect1>
 </sect>
 
 </article>

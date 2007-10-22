@@ -30,6 +30,9 @@
 require_once ('class_acc_ledger.php');
 require_once ('class_acc_reconciliation.php');
 
+require_once('check_priv.php');
+
+
 $cn=DbConnect(dossier::id());
 $id=(isset ($_REQUEST['p_jrn']))?$_REQUEST['p_jrn']:-1;
 
@@ -96,11 +99,16 @@ if ( $User->AccessJrn($cn,$id) == false ) {
 <script> alert(\"L'acces a ce journal est interdit, contactez votre responsable\");</script>";
   exit();
  }
-
-  
 echo '<div class="u_content">';
 echo '<h2 class="info"> Journal : '.$ledger->GetName().'</h2>';
 echo widget::button_href('Autre journal','?p_action='.$_REQUEST['p_action'].'&'.dossier::get());
+// User can write ?
+if ( CheckJrn(dossier::id(),$_SESSION['g_user'],$id) != 2 )    {
+  echo "
+<script> alert(\"Vous ne pouvez pas ecrire dans ce journal, contactez votre responsable\");</script>";
+       exit -1;
+}
+ 
 
 if ( isset($_GET['show_form']) || isset($_POST['correct_it']) ) {
 $array=$_POST;

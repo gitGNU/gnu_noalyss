@@ -49,7 +49,7 @@ if ( ! isset ($_REQUEST['gDossier']) )
   }
 
 ?>
-<H2 CLASS="info"> Mot de passe</H2>
+<H3 CLASS="info"> Mot de passe</H3>
 
 <FORM ACTION="<?php  echo $url;?>" METHOD="POST">
 <TABLE ALIGN="CENTER">
@@ -78,7 +78,7 @@ foreach ($style as $st){
 }
 $disp_style.="</SELECT>";
 ?>
-<H2 class="info">Th&egrave;me</H2>
+<H3 class="info">Th&egrave;me</H3>
 <FORM ACTION="<?php   echo $url; ?>" METHOD="post">
 <TABLE ALIGN="center">
 <TR>
@@ -123,7 +123,7 @@ else
     $l_form_per=FormPeriode($cn,$l_user_per,ALL);
     
     ?>
-      <H2 CLASS="info"> P&eacute;riode</H2>
+      <H3 CLASS="info"> P&eacute;riode</H3>
   <?php   echo $msg; ?>
 <FORM ACTION="<?php   echo $url;?>" METHOD="POST">
 <TABLE ALIGN="CENTER">
@@ -133,7 +133,7 @@ else
 </TABLE>
 </FORM>
 
-<H2 CLASS="info"> Taille des pages</H2>
+<H3 CLASS="info"> Taille des pages</H3>
 <FORM ACTION="<?php   echo $url;?>" METHOD="POST">
 <TABLE ALIGN="CENTER">
 <TR><TD>Taille des pages</TD>
