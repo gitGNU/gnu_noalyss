@@ -113,7 +113,7 @@ class Document
 	  echo '<blink><font color="red">Un moment de patience, le document se prépare...</font></blink>';
 	  echo '</span><br>';
 	  ob_start();
-	  system("unzip ".$filename);
+	  system("unzip '".$filename."'");
 	  // Remove the file we do  not need anymore
 	  unlink($filename);
 	  ob_end_clean();
@@ -374,7 +374,7 @@ class Document
 	return '';
       $image='<IMG SRC="image/insert_table.gif" title="'.$this->d_filename.'" border="0">';
       $r="";
-      $r='<A class="mtitle" HREF="show_document.php?d_id='.$this->d_id.'">'.$image.'</A>';
+      $r='<A class="mtitle" HREF="show_document.php?d_id='.$this->d_id.'&'.dossier::get().'">'.$image.'</A>';
       return $r;
     }
   /* ! Get
