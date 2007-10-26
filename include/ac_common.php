@@ -257,6 +257,7 @@ function FormatString($p_string)
 /* \return : string */
 function ShowItem($p_array,$p_dir='V',$class="mtitle",$class_ref="mtitle",$default="",$p_extra="")
 {
+
   $ret="<TABLE $p_extra>";
   // direction Vertical
   if ( $p_dir == 'V') {

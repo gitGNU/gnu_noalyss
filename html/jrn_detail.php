@@ -38,7 +38,7 @@ include_once ("user_menu.php");
 
 
 echo '<div class="u_tmenu">';
-echo ShowMenuCompta();
+echo ShowMenuCompta(7);
 echo '</div>';
 
 include_once("check_priv.php");
@@ -122,7 +122,7 @@ If ( isset ($_POST["JRN_UPD"] )) {
     $Res=ExecSql($cn,$Sql);
   }
 }
-echo ShowMenuAdvanced();
+echo ShowMenuAdvanced(1);
 echo '<div class="lmenu">';
 MenuJrn();
 echo '</div>';

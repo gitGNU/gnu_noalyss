@@ -38,7 +38,8 @@ $User->Check();
 include_once ("user_menu.php");
 include_once ("check_priv.php");
 
-echo ShowMenuCompta("user_advanced.php");
+//echo ShowMenuCompta("user_advanced.php");
+echo ShowMenuCompta(7);
 
 $cn=DbConnect($gDossier);
 
@@ -56,7 +57,8 @@ if ( isset ($_GET['p_start'])) {
 }
 
 echo '<div class="u_subtmenu">';
-echo ShowMenuAdvanced("pcmn_update.php?p_start=1&".dossier::get());
+
+echo ShowMenuAdvanced(4);
 echo '</div>';
 $User->AccessRequest($cn,MPCMN);
 

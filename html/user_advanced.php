@@ -48,14 +48,15 @@ echo_debug('user_advanced.php',__LINE__,"user is ".$_SESSION['g_user']);
 include_once ("user_menu.php");
 echo '<div class="u_tmenu">';
 
-echo ShowMenuCompta("user_advanced.php?".dossier::get());
+//echo ShowMenuCompta("user_advanced.php?".dossier::get());
+echo ShowMenuCompta(7);
 echo '</div>';
 $p_action="";
 if ( isset($_REQUEST['p_action'] )) {
   $p_action="?p_action=".$_REQUEST['p_action']."&".dossier::get();
  }
 
-echo ShowMenuAdvanced("user_advanced.php".$p_action);
+echo ShowMenuAdvanced(9);
 
 $p_action=(isset($_REQUEST['p_action']))?$_REQUEST['p_action']:"";
 if ($p_action == "periode" ) {
