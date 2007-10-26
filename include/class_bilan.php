@@ -170,7 +170,7 @@ class Bilan {
 	  eval("$b;");
 	  
 	}// end read form line per line
-	
+	echo_debug(__FILE__.':'.__LINE__," End of reading form");
   }
   /*!\brief generate the ods document 
   * \param the handle to the template file 
@@ -344,6 +344,7 @@ class Bilan {
 
 	  break;
 	case 'odt':
+	case 'ods':
 	  $result=$this->generate_odt($templ);
 	  
 	  $this->send($result);
@@ -379,6 +380,7 @@ class Bilan {
 	  echo $p_result;
 	  break;
 	case 'odt':
+	case 'ods':
 	  /*	  header("Pragma: public");
       header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
       header("Cache-Control: must-revalidate");
@@ -426,16 +428,16 @@ class Bilan {
 		exit();
 	  }
 	  // repack
-	  system ('zip -r "'.$this->b_name.'.odt" *');
+	  system ('zip -r "'.$this->b_name.'.'.$this->b_type.'" *');
 	  ob_clean();
 	  fclose($p_file);
 	  echo_debug(__FILE__.':'.__LINE__.'- ','Send the file');
-	  $fdoc=fopen($dirname.DIRECTORY_SEPARATOR.$this->b_name.'.odt','r');
+	  $fdoc=fopen($dirname.DIRECTORY_SEPARATOR.$this->b_name.'.'.$this->b_type,'r');
 	  if ( $fdoc == false ){
 		echo_debug(__FILE__.':'.__LINE__.'- Je ne peux pas ouvrir ce document');
 		exit('Je ne peux pas ouvrir ce document');
 	  }
-	  $buffer=fread ($fdoc,filesize($dirname.DIRECTORY_SEPARATOR.$this->b_name.'.odt'));
+	  $buffer=fread ($fdoc,filesize($dirname.DIRECTORY_SEPARATOR.$this->b_name.'.'.$this->b_type));
 	  echo $buffer;
 
 	  break;
