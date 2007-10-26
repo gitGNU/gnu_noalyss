@@ -66,6 +66,7 @@ if [ $REPO -eq 0 ]; then
 
 	# Create the mod2 database
 	createdb -h localhost -E latin1 -U $OWNER ${DOMAIN}mod2
+	PSQL="psql -h localhost -U $OWNER ${DOMAIN}mod2 "
   $PSQL  -f html/admin/sql/mod1/schema.sql || exit 1
   $PSQL  -f html/admin/sql/mod2/data.sql || exit 1
 fi
