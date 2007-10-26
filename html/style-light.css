@@ -10,6 +10,7 @@ BODY {
         font-weight:bold;
 
 }
+
 table.result {
   font-size:10px;
   color:blue;
@@ -395,7 +396,7 @@ div.u_redcontent input.text {
   font-weight:normal;
   border-color:336699;
   border-style:solid;
-  background-color:white;  
+  background-color:orange;  
   border-width:1px;
   color:blue; 
 }
@@ -405,17 +406,17 @@ div.u_content input.text {
   border-color:336699;
   border-style:solid;
   border-width:1px;
-  background-color:white;
+  background-color:orange;
   color:blue; 
 }
 
 
 
 div.u_redcontent input:focus {
-  background-color:fff6aa;
+  background-color:orange;
 }
 div.u_content input:focus {
-  background-color:fff6aa;
+  background-color:orange;
 }
 div.u_redcontent textarea:focus{
 background-color: orange;

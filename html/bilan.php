@@ -64,5 +64,15 @@ if ( $bilan->b_type=='odt')
 	header("Accept-Ranges: bytes");
 
   }
+if ( $bilan->b_type=='ods')
+  {
+	header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+	header("Cache-Control: must-revalidate");
+	header('Content-type: "application/vnd.oasis.opendocument.spreadsheet"');
+	header('Content-Disposition: attachment;filename="'.$bilan->b_name.'.ods"',FALSE);
+	header("Accept-Ranges: bytes");
+
+  }
+
 $bilan->generate();
 ?>
