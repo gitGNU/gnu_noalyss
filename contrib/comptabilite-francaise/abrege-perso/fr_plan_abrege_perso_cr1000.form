@@ -44,17 +44,28 @@ $C79=round([79%],2)
 
 # --- CHARGES ---
 ## Charges d'exploitation
-$S10001=$C607 ### Achats marchandises 
-$S10002=$C6037 ### Variation stocks marchandises
-$S10003=$C60 ### Achats approvisionnements sauf 607
-$S10004=$C6031+$C6032 ### Variation stocks approvisionnements
-$S10005=$C61+$C62 ### Autres charges externes
-$S10006=$C63 ### Impôts et taxes assimilés
-$S10007=$C641+$C644 ### Rémunérations du personnel
-$S10008=$C645+$C646 ### Charges sociales
-$S10009=$C6811 ### Dotation amortissements
-$S10010=$C6815+$C6816+$C6817 ### Dotation provisions
-$S10011=$C65 ### Autres charges
+### Achats marchandises 
+$S10001=$C607
+### Variation stocks marchandises
+$S10002=$C6037 
+### Achats approvisionnements sauf 607
+$S10003=$C60 
+### Variation stocks approvisionnements
+$S10004=$C6031+$C6032 
+### Autres charges externes
+$S10005=$C61+$C62 
+### Impôts et taxes assimilés
+$S10006=$C63 
+### Rémunérations du personnel
+$S10007=$C641+$C644 
+### Charges sociales
+$S10008=$C645+$C646 
+### Dotation amortissements
+$S10009=$C6811 
+### Dotation provisions
+$S10010=$C6815+$C6816+$C6817 
+### Autres charges
+$S10011=$C65 
 ## Charges financières
 $S10012=$C66+$C686
 ## Charges exceptionnelles
@@ -68,7 +79,8 @@ $S10152=0 # N-1
 
 ## Total I
 $S10111=$S10001+$S10002+$S10003+$S10004+$S10005+$S10006+$S10007+$S10008+$S10009+$S10010+$S10011+$S10012
-$S10112=0 # N-1
+# N-1
+$S10112=0
 ## Total II
 $S10121=$S10021
 ## Total III
@@ -77,16 +89,23 @@ $S10131=$S10031
 $S10141=$S10111+$S10121+$S10131
 ## Total
 $S10991=$S10141+$S10151
-$S10992=0 # N-1
+# N-1
+$S10992=0 
 
 # --- PRODUITS ---
 ## Produits d'exploitation
-$S11001=$C707-$C709 ### Vente marchandises
-$S11002=$C701+$C706+$C708 ### Production vendue
-$S11003=$C713 ### Production stockée
-$S11004=$C72 ### Production immobilisée
-$S11005=$C74 ### Subventions
-$S11006=$C75+$C781 ###Autres produits
+### Vente marchandises
+$S11001=$C707-$C709
+### Production vendue
+$S11002=$C701+$C706+$C708 
+### Production stockée
+$S11003=$C713
+### Production immobilisée 
+$S11004=$C72 
+### Subventions
+$S11005=$C74
+###Autres produits
+$S11006=$C75+$C781 
 ## Produits financiers
 $S11007=$C76+$C786
 ## Produits exceptionnels
@@ -98,11 +117,13 @@ $S11142=0 # N-1
 
 ## Total I
 $S11111=$S11001+$S11002+$C11003+$C11004+$C11005+$S11006+$S11007
-$S11112=0 # N-1
+# N-1
+$S11112=0 
 ## Total II
 $S11121=$S11021
 ## Total I+II
 $S11131=$S11111+$S11121
 ## Total
 $S11991=$S11131+$S11141
-$S11992=0 # N-1
+# N-1
+$S11992=0 
