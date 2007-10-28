@@ -54,7 +54,7 @@ $SecUser=new cl_user($rep,$_GET['user_id']);
 //-----------------------------------------------------
 // Print result
 
-$pdf=& new Cezpdf("A4");
+$pdf=new Cezpdf("A4");
 $pdf->selectFont('./addon/fonts/Helvetica.afm');
 $str_user=sprintf("( %d ) %s %s [ %s ]",
 		  $SecUser->id,
