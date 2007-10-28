@@ -180,6 +180,8 @@ function GetSoldeDetail($p_cond="") {
                                 from tva_rate');
      foreach ( $a_TVA as $line_tva) 
        {	      
+	 if ( $line_tva['tva_poste']  == '' ) 
+	   continue;
 	 list($tva_deb,$tva_cred)=split(',',$line_tva['tva_poste']);
 	 if ( $this->id == $tva_deb ||
 	      $this->id == $tva_cred )
