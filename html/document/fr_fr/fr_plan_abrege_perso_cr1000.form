@@ -1,5 +1,5 @@
 # Compte de résultat (Système abrégé personnalisé)
-# version 2007/10/23 14:00 (en compte)
+# version 2007/10/28 10:08 (en compte)
 
 # Liste des comptes utilisés
 $C60=round([60],2)
@@ -42,6 +42,7 @@ $C786=round([786%],2)
 $C787=round([787%],2)
 $C79=round([79%],2)
 
+
 # --- CHARGES ---
 ## Charges d'exploitation
 ### Achats marchandises 
@@ -72,25 +73,6 @@ $S10012=$C66+$C686
 $S10021=$C67+$C687+$C691
 ## Impôts sur les bénéfices
 $S10031=$C695+$C697
-### Bénéfice
-$F1001=$S11131-$S10141
-$S10151=($F1001>=0)?$F1001:0
-$S10152=0 # N-1
-
-## Total I
-$S10111=$S10001+$S10002+$S10003+$S10004+$S10005+$S10006+$S10007+$S10008+$S10009+$S10010+$S10011+$S10012
-# N-1
-$S10112=0
-## Total II
-$S10121=$S10021
-## Total III
-$S10131=$S10031
-## Total I+II+III
-$S10141=$S10111+$S10121+$S10131
-## Total
-$S10991=$S10141+$S10151
-# N-1
-$S10992=0 
 
 # --- PRODUITS ---
 ## Produits d'exploitation
@@ -110,20 +92,51 @@ $S11006=$C75+$C781
 $S11007=$C76+$C786
 ## Produits exceptionnels
 $S11021=$C77+$C787+$C79
-### Perte
-$F1002=$S10141-$S11131
-$S11141=($F1002>=0)?$F1002:0
-$S11142=0 # N-1
 
+# --- CHARGES ---
 ## Total I
-$S11111=$S11001+$S11002+$C11003+$C11004+$C11005+$S11006+$S11007
-# N-1
+$S10111=$S10001+$S10002+$S10003+$S10004+$S10005+$S10006+$S10007+$S10008+$S10009+$S10010+$S10011+$S10012
+## Total I N-1
+$S10112=0
+## Total II
+$S10121=$S10021
+## Total III
+$S10131=$S10031
+## Total I+II+III
+$S10141=$S10111+$S10121+$S10131
+
+# --- PRODUITS ---
+## Total I
+$S11111=$S11001+$S11002+$S11003+$S11004+$S11005+$S11006+$S11007
+## Total I N-1
 $S11112=0 
 ## Total II
 $S11121=$S11021
 ## Total I+II
 $S11131=$S11111+$S11121
+
+# --- CHARGES ---
+### Bénéfice
+$F1001=$S11131-$S10141
+$S10151=($F1001>=0)?$F1001:0
+### Bénéfice N-1
+$S10152=0
+
+# --- PRODUITS ---
+### Perte
+$F1002=$S10141-$S11131
+$S11141=($F1002>=0)?$F1002:0
+### Perte N-1 
+$S11142=0
+
+# --- CHARGES ---
+## Total
+$S10991=$S10141+$S10151
+## Total N-1
+$S10992=0 
+
+# --- PRODUITS ---
 ## Total
 $S11991=$S11131+$S11141
-# N-1
+## Total N-1
 $S11992=0 

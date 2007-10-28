@@ -45,7 +45,7 @@ echo  JS_CONFIRM;
 	    ob_start();
             if ( pg_query($cn,$Sql)==false) {
 		ob_clean();
-		echo "<h2 class=\"error\"> Base de donnée ".domaine."dossier".$_POST['FMOD_ID']."  est accèdée, déconnectez-vous en d'abord</h2>";
+		echo "<h2 class=\"error\"> Base de donnée ".domaine."dossier".$_POST['FMOD_DBID']."  est accèdée, déconnectez-vous en d'abord</h2>";
 		exit;
 		}
  	}
@@ -63,7 +63,8 @@ echo  JS_CONFIRM;
 			pg_lo_unlink($cn_mod,$lob['loid']);
 		}
 
-      $Res=ExecSql($cn_mod,"truncate table jrnx");
+      $Res=ExecSql($cn_mod,"truncate table quant_sold");
+      $Res=ExecSql($cn_mod,"truncate table quant_purchase");
       $Res=ExecSql($cn_mod,"truncate table centralized");
       $Res=ExecSql($cn_mod,"truncate table stock_goods");
 	  // TODO 
@@ -85,8 +86,10 @@ echo  JS_CONFIRM;
 	    $row=pg_fetch_array($Res,$seq);
 	    $sql=sprintf ("select setval('s_jrn_%d',1,false)",$row['jrn_def_id']);
 	    ExecSql($cn_mod,$sql);
-	    $sql=sprintf ("select setval('s_jrn_pj_%d',1,false)",$row['jrn_def_id']);
+	    /* 	    
+	     $sql=sprintf ("select setval('s_jrn_pj_%d',1,false)",$row['jrn_def_id']);
 	    ExecSql($cn_mod,$sql);
+	    */
 
     	}
 	    //---
