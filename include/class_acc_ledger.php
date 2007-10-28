@@ -131,7 +131,8 @@ class Acc_Ledger {
 	       "pcm_lib as description,j_grpt as grp,
                jr_comment||' ('||jr_internal||')' as jr_comment ,
                j_qcode,
-                jr_rapt as oc, j_tech_per as periode from jrnx left join jrn on ".
+                jr_rapt as oc, j_tech_per as periode 
+              from jrnx left join jrn on ".
 		 "jr_grpt_id=j_grpt ".
 		 " left join tmp_pcmn on pcm_val=j_poste ".
 		 " where j_jrn_def=".$this->id.
@@ -156,9 +157,11 @@ class Acc_Ledger {
             c_comment as comment,
             c_rapt as oc,
             c_periode as periode 
-            from centralized left join jrn on 
-	jr_grpt_id=c_grp 
+            from 
+          
+          centralized left join jrnx on j_grpt=c_grp 
 	 left join tmp_pcmn on pcm_val=c_poste 
+         left join jrn on jr_grpt_id=c_grp
            where ".
 	        " c_jrn_def=".$this->id." and ".
                 $periode." order by c_order ";
