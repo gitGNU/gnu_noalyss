@@ -4,7 +4,7 @@ CREATE TABLE "action" (
     ac_description text NOT NULL
 );
 CREATE TABLE action_gestion (
-    ag_id serial NOT NULL,
+    ag_id integer NOT NULL,
     ag_type integer,
     f_id_dest integer NOT NULL,
     f_id_exp integer NOT NULL,
@@ -27,6 +27,13 @@ CREATE TABLE attr_value (
     jft_id integer,
     av_text text
 );
+CREATE TABLE bilan (
+    b_id integer DEFAULT nextval('bilan_b_id_seq'::regclass) NOT NULL,
+    b_name text NOT NULL,
+    b_file_template text NOT NULL,
+    b_file_form text,
+    b_type text NOT NULL
+);
 CREATE TABLE centralized (
     c_id integer DEFAULT nextval(('s_centralized'::text)::regclass) NOT NULL,
     c_j_id integer,
@@ -44,7 +51,7 @@ CREATE TABLE centralized (
     c_order integer
 );
 CREATE TABLE document (
-    d_id serial NOT NULL,
+    d_id integer NOT NULL,
     ag_id integer NOT NULL,
     d_lob oid,
     d_number bigint NOT NULL,
@@ -53,7 +60,7 @@ CREATE TABLE document (
     d_state integer
 );
 CREATE TABLE document_modele (
-    md_id serial NOT NULL,
+    md_id integer NOT NULL,
     md_name text NOT NULL,
     md_lob oid,
     md_type integer NOT NULL,
@@ -61,11 +68,11 @@ CREATE TABLE document_modele (
     md_mimetype text
 );
 CREATE TABLE document_state (
-    s_id serial NOT NULL,
+    s_id integer NOT NULL,
     s_value character varying(50) NOT NULL
 );
 CREATE TABLE document_type (
-    dt_id serial NOT NULL,
+    dt_id integer NOT NULL,
     dt_value character varying(80)
 );
 CREATE TABLE fiche (
@@ -199,6 +206,38 @@ CREATE TABLE jrnx (
     j_tech_per integer NOT NULL,
     j_qcode text
 );
+CREATE TABLE op_predef (
+    od_id integer DEFAULT nextval('op_def_op_seq'::regclass) NOT NULL,
+    jrn_def_id integer NOT NULL,
+    od_name text NOT NULL,
+    od_item integer NOT NULL,
+    od_jrn_type text NOT NULL,
+    od_direct boolean NOT NULL
+);
+CREATE TABLE op_predef_detail (
+    opd_id integer DEFAULT nextval('op_predef_detail_opd_id_seq'::regclass) NOT NULL,
+    od_id integer NOT NULL,
+    opd_poste text NOT NULL,
+    opd_amount numeric(20,4),
+    opd_tva_id integer,
+    opd_quantity numeric(20,4),
+    opd_debit boolean NOT NULL,
+    opd_tva_amount numeric(20,4),
+    opd_comment text,
+    opd_qc boolean
+);
+CREATE TABLE operation_analytique (
+    oa_id integer DEFAULT nextval('historique_analytique_ha_id_seq'::regclass) NOT NULL,
+    po_id integer NOT NULL,
+    pa_id integer NOT NULL,
+    oa_amount numeric(20,4) NOT NULL,
+    oa_description text,
+    oa_debit boolean DEFAULT true NOT NULL,
+    j_id integer,
+    oa_group integer DEFAULT nextval('s_oa_group'::regclass) NOT NULL,
+    oa_date date NOT NULL,
+    oa_row integer
+);
 CREATE TABLE parameter (
     pr_id text NOT NULL,
     pr_value text
@@ -222,6 +261,33 @@ CREATE TABLE parm_periode (
     p_central boolean DEFAULT false,
     CONSTRAINT parm_periode_check CHECK ((p_end >= p_start))
 );
+CREATE TABLE plan_analytique (
+    pa_id integer DEFAULT nextval('plan_analytique_pa_id_seq'::regclass) NOT NULL,
+    pa_name text DEFAULT 'Sans Nom'::text NOT NULL,
+    pa_description text
+);
+CREATE TABLE poste_analytique (
+    po_id integer DEFAULT nextval('poste_analytique_po_id_seq'::regclass) NOT NULL,
+    po_name text NOT NULL,
+    pa_id integer NOT NULL,
+    po_amount numeric(20,4) DEFAULT 0.0 NOT NULL,
+    po_description text
+);
+CREATE TABLE quant_purchase (
+    qp_id integer DEFAULT nextval(('s_quantity'::text)::regclass) NOT NULL,
+    qp_internal text NOT NULL,
+    j_id integer NOT NULL,
+    qp_fiche integer NOT NULL,
+    qp_quantite numeric(20,4) NOT NULL,
+    qp_price numeric(20,4),
+    qp_vat numeric(20,4) DEFAULT 0.0,
+    qp_vat_code integer,
+    qp_nd_amount numeric(20,4) DEFAULT 0.0,
+    qp_nd_tva numeric(20,4) DEFAULT 0.0,
+    qp_nd_tva_recup numeric(20,4) DEFAULT 0.0,
+    qp_supplier integer NOT NULL,
+    qp_valid character(1) DEFAULT 'Y'::bpchar NOT NULL
+);
 CREATE TABLE quant_sold (
     qs_id integer DEFAULT nextval(('s_quantity'::text)::regclass) NOT NULL,
     qs_internal text NOT NULL,
@@ -230,7 +296,9 @@ CREATE TABLE quant_sold (
     qs_price numeric(20,4),
     qs_vat numeric(20,4),
     qs_vat_code integer,
-    qs_client integer NOT NULL
+    qs_client integer NOT NULL,
+    qs_valid character(1) DEFAULT 'Y'::bpchar NOT NULL,
+    j_id integer NOT NULL
 );
 CREATE TABLE stock_goods (
     sg_id integer DEFAULT nextval(('s_stock_goods'::text)::regclass) NOT NULL,
@@ -249,8 +317,7 @@ CREATE TABLE stock_goods (
 CREATE TABLE tmp_pcmn (
     pcm_val poste_comptable NOT NULL,
     pcm_lib text,
-    pcm_val_parent poste_comptable DEFAULT 0,
-    pcm_country character(2) DEFAULT 'BE'::bpchar NOT NULL
+    pcm_val_parent poste_comptable DEFAULT 0
 );
 CREATE TABLE tva_rate (
     tva_id integer NOT NULL,

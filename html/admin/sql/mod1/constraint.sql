@@ -2,12 +2,21 @@
  SET check_function_bodies = false;
  SET client_min_messages = warning;
 SET search_path = public, pg_catalog;
+ALTER TABLE action_gestion ALTER COLUMN ag_id SET DEFAULT nextval('action_gestion_ag_id_seq'::regclass);
+ALTER TABLE document ALTER COLUMN d_id SET DEFAULT nextval('document_d_id_seq'::regclass);
+ALTER TABLE document_modele ALTER COLUMN md_id SET DEFAULT nextval('document_modele_md_id_seq'::regclass);
+ALTER TABLE document_state ALTER COLUMN s_id SET DEFAULT nextval('document_state_s_id_seq'::regclass);
+ALTER TABLE document_type ALTER COLUMN dt_id SET DEFAULT nextval('document_type_dt_id_seq'::regclass);
 ALTER TABLE ONLY action_gestion
     ADD CONSTRAINT action_gestion_pkey PRIMARY KEY (ag_id);
 ALTER TABLE ONLY "action"
     ADD CONSTRAINT action_pkey PRIMARY KEY (ac_id);
 ALTER TABLE ONLY attr_def
     ADD CONSTRAINT attr_def_pkey PRIMARY KEY (ad_id);
+ALTER TABLE ONLY bilan
+    ADD CONSTRAINT bilan_b_name_key UNIQUE (b_name);
+ALTER TABLE ONLY bilan
+    ADD CONSTRAINT bilan_pkey PRIMARY KEY (b_id);
 ALTER TABLE ONLY centralized
     ADD CONSTRAINT centralized_pkey PRIMARY KEY (c_id);
 ALTER TABLE ONLY document_modele
@@ -30,6 +39,8 @@ ALTER TABLE ONLY format_csv_banque
     ADD CONSTRAINT format_csv_banque_pkey PRIMARY KEY (name);
 ALTER TABLE ONLY formdef
     ADD CONSTRAINT formdef_pkey PRIMARY KEY (fr_id);
+ALTER TABLE ONLY operation_analytique
+    ADD CONSTRAINT historique_analytique_pkey PRIMARY KEY (oa_id);
 ALTER TABLE ONLY invoice
     ADD CONSTRAINT invoice_pkey PRIMARY KEY (iv_id);
 ALTER TABLE ONLY jnt_fic_att_value
@@ -48,6 +59,12 @@ ALTER TABLE ONLY jrn_type
     ADD CONSTRAINT jrn_type_pkey PRIMARY KEY (jrn_type_id);
 ALTER TABLE ONLY jrnx
     ADD CONSTRAINT jrnx_pkey PRIMARY KEY (j_id);
+ALTER TABLE ONLY op_predef
+    ADD CONSTRAINT op_def_op_name_key UNIQUE (od_name, jrn_def_id);
+ALTER TABLE ONLY op_predef
+    ADD CONSTRAINT op_def_pkey PRIMARY KEY (od_id);
+ALTER TABLE ONLY op_predef_detail
+    ADD CONSTRAINT op_predef_detail_pkey PRIMARY KEY (opd_id);
 ALTER TABLE ONLY parameter
     ADD CONSTRAINT parameter_pkey PRIMARY KEY (pr_id);
 ALTER TABLE ONLY parm_code
@@ -60,6 +77,14 @@ ALTER TABLE ONLY jnt_fic_attr
     ADD CONSTRAINT pk_jnt_fic_attr PRIMARY KEY (jnt_id);
 ALTER TABLE ONLY user_local_pref
     ADD CONSTRAINT pk_user_local_pref PRIMARY KEY (user_id, parameter_type);
+ALTER TABLE ONLY plan_analytique
+    ADD CONSTRAINT plan_analytique_pa_name_key UNIQUE (pa_name);
+ALTER TABLE ONLY plan_analytique
+    ADD CONSTRAINT plan_analytique_pkey PRIMARY KEY (pa_id);
+ALTER TABLE ONLY poste_analytique
+    ADD CONSTRAINT poste_analytique_pkey PRIMARY KEY (po_id);
+ALTER TABLE ONLY quant_purchase
+    ADD CONSTRAINT qp_id_pk PRIMARY KEY (qp_id);
 ALTER TABLE ONLY quant_sold
     ADD CONSTRAINT qs_id_pk PRIMARY KEY (qs_id);
 ALTER TABLE ONLY stock_goods
@@ -70,18 +95,14 @@ ALTER TABLE ONLY user_sec_act
     ADD CONSTRAINT user_sec_act_pkey PRIMARY KEY (ua_id);
 ALTER TABLE ONLY user_sec_jrn
     ADD CONSTRAINT user_sec_jrn_pkey PRIMARY KEY (uj_id);
-ALTER TABLE ONLY jrn_def
-    ADD CONSTRAINT "$1" FOREIGN KEY (jrn_def_type) REFERENCES jrn_type(jrn_type_id);
+ALTER TABLE ONLY jrn
+    ADD CONSTRAINT ux_internal UNIQUE (jr_internal);
 ALTER TABLE ONLY form
     ADD CONSTRAINT "$1" FOREIGN KEY (fo_fr_id) REFERENCES formdef(fr_id);
 ALTER TABLE ONLY centralized
     ADD CONSTRAINT "$1" FOREIGN KEY (c_jrn_def) REFERENCES jrn_def(jrn_def_id);
-ALTER TABLE ONLY user_sec_jrn
-    ADD CONSTRAINT "$1" FOREIGN KEY (uj_jrn_id) REFERENCES jrn_def(jrn_def_id);
 ALTER TABLE ONLY user_sec_act
     ADD CONSTRAINT "$1" FOREIGN KEY (ua_act_id) REFERENCES "action"(ac_id);
-ALTER TABLE ONLY jrn_action
-    ADD CONSTRAINT "$1" FOREIGN KEY (ja_jrn_type) REFERENCES jrn_type(jrn_type_id);
 ALTER TABLE ONLY fiche_def
     ADD CONSTRAINT "$1" FOREIGN KEY (frd_id) REFERENCES fiche_def_ref(frd_id);
 ALTER TABLE ONLY attr_min
@@ -98,6 +119,10 @@ ALTER TABLE ONLY jrn
     ADD CONSTRAINT "$1" FOREIGN KEY (jr_def_id) REFERENCES jrn_def(jrn_def_id);
 ALTER TABLE ONLY jrnx
     ADD CONSTRAINT "$1" FOREIGN KEY (j_poste) REFERENCES tmp_pcmn(pcm_val);
+ALTER TABLE ONLY jrn_action
+    ADD CONSTRAINT "$1" FOREIGN KEY (ja_jrn_type) REFERENCES jrn_type(jrn_type_id);
+ALTER TABLE ONLY jrn_def
+    ADD CONSTRAINT "$1" FOREIGN KEY (jrn_def_type) REFERENCES jrn_type(jrn_type_id);
 ALTER TABLE ONLY jrnx
     ADD CONSTRAINT "$2" FOREIGN KEY (j_jrn_def) REFERENCES jrn_def(jrn_def_id);
 ALTER TABLE ONLY attr_min
@@ -108,5 +133,19 @@ ALTER TABLE ONLY jnt_fic_attr
     ADD CONSTRAINT "$2" FOREIGN KEY (ad_id) REFERENCES attr_def(ad_id);
 ALTER TABLE ONLY centralized
     ADD CONSTRAINT "$2" FOREIGN KEY (c_poste) REFERENCES tmp_pcmn(pcm_val);
+ALTER TABLE ONLY op_predef
+    ADD CONSTRAINT jrn_def_id_fk FOREIGN KEY (jrn_def_id) REFERENCES jrn_def(jrn_def_id) ON UPDATE CASCADE ON DELETE CASCADE;
 ALTER TABLE ONLY document_modele
     ADD CONSTRAINT md_type FOREIGN KEY (md_type) REFERENCES document_type(dt_id);
+ALTER TABLE ONLY operation_analytique
+    ADD CONSTRAINT operation_analytique_j_id_fkey FOREIGN KEY (j_id) REFERENCES jrnx(j_id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY operation_analytique
+    ADD CONSTRAINT operation_analytique_po_id_fkey FOREIGN KEY (po_id) REFERENCES poste_analytique(po_id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY poste_analytique
+    ADD CONSTRAINT poste_analytique_pa_id_fkey FOREIGN KEY (pa_id) REFERENCES plan_analytique(pa_id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY quant_purchase
+    ADD CONSTRAINT quant_purchase_j_id_fkey FOREIGN KEY (j_id) REFERENCES jrnx(j_id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY quant_sold
+    ADD CONSTRAINT quant_sold_j_id_fkey FOREIGN KEY (j_id) REFERENCES jrnx(j_id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY user_sec_jrn
+    ADD CONSTRAINT uj_priv_id_fkey FOREIGN KEY (uj_jrn_id) REFERENCES jrn_def(jrn_def_id) ON UPDATE CASCADE ON DELETE CASCADE;

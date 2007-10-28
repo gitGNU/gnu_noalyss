@@ -154,25 +154,18 @@ sName varchar;
 nJft_id attr_value.jft_id%type;
 begin
 	
-	-- if p_value empty
 	if length(trim(p_account)) != 0 then
-	-- does the account exist ?
 		select count(*) into nCount from tmp_pcmn where pcm_val=p_account;
 		if nCount = 0 then
-		-- retrieve name
 		select av_text into sName from 
 			attr_value join jnt_fic_att_value using (jft_id)
 			where
 			ad_id=1 and f_id=p_f_id;
-		-- get parent
-		nParent:=fiche_account_parent(p_f_id);
-		-- account doesn't exist we need to add id
+		nParent:=account_parent(p_account);
 		insert into tmp_pcmn(pcm_val,pcm_lib,pcm_val_parent) values (p_account,sName,nParent);
 		end if;		
 	end if;
-	-- we retrieve jft_id
 	select jft_id into njft_id from jnt_fic_att_value where f_id=p_f_id and ad_id=5;
-	-- we update the account
 	update attr_value set av_text=p_account where jft_id=njft_id;
 		
 return njft_id;
@@ -353,6 +346,44 @@ return;
 end;
 $$
     LANGUAGE plpgsql;
+CREATE FUNCTION insert_quant_purchase(p_internal text, p_j_id numeric, p_fiche character varying, p_quant numeric, p_price numeric, p_vat numeric, p_vat_code integer, p_nd_amount numeric, p_nd_tva numeric, p_nd_tva_recup numeric, p_client character varying) RETURNS void
+    AS $$
+declare
+        fid_client integer;
+        fid_good   integer;
+begin
+        select f_id into fid_client from
+                attr_value join jnt_fic_att_value using (jft_id) where ad_id=23 and av_text=upper(p_client);
+        select f_id into fid_good from
+                attr_value join jnt_fic_att_value using (jft_id) where ad_id=23 and av_text=upper(p_fiche);
+        insert into quant_purchase
+                (qp_internal,
+				j_id,
+		qp_fiche,
+		qp_quantite,
+		qp_price,
+		qp_vat,
+		qp_vat_code,
+		qp_nd_amount,
+		qp_nd_tva,
+		qp_nd_tva_recup,
+		qp_supplier)
+        values
+                (p_internal,
+				p_j_id,
+		fid_good,
+		p_quant,
+		p_price,
+		p_vat,
+		p_vat_code,
+		p_nd_amount,
+		p_nd_tva,
+		p_nd_tva_recup,
+		fid_client);
+        return;
+end;
+ $$
+    LANGUAGE plpgsql;
 CREATE FUNCTION insert_quant_sold(p_internal text, p_fiche character varying, p_quant numeric, p_price numeric, p_vat numeric, p_vat_code integer, p_client character varying) RETURNS void
     AS $$
 declare
@@ -370,6 +401,25 @@ begin
                 (qs_internal,qs_fiche,qs_quantite,qs_price,qs_vat,qs_vat_code,qs_client)
         values
                 (p_internal,fid_good,p_quant,p_price,p_vat,p_vat_code,fid_client);
+        return;
+end;
+ $$
+    LANGUAGE plpgsql;
+CREATE FUNCTION insert_quant_sold(p_internal text, p_jid numeric, p_fiche character varying, p_quant numeric, p_price numeric, p_vat numeric, p_vat_code integer, p_client character varying) RETURNS void
+    AS $$
+declare
+        fid_client integer;
+        fid_good   integer;
+begin
+
+        select f_id into fid_client from
+                attr_value join jnt_fic_att_value using (jft_id) where ad_id=23 and av_text=upper(p_client);
+        select f_id into fid_good from
+                attr_value join jnt_fic_att_value using (jft_id) where ad_id=23 and av_text=upper(p_fiche);
+        insert into quant_sold
+                (qs_internal,j_id,qs_fiche,qs_quantite,qs_price,qs_vat,qs_vat_code,qs_client,qs_valid)
+        values
+                (p_internal,p_jid,fid_good,p_quant,p_price,p_vat,p_vat_code,fid_client,'Y');
         return;
 end;
  $$
@@ -623,5 +673,32 @@ CREATE FUNCTION update_quick_code(njft_id integer, tav_text text) RETURNS intege
 	update jrnx set j_qcode=tText where j_qcode = old_qcode;
 	return ns;
 	end;
+$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION upper_pa_name() RETURNS "trigger"
+    AS $$
+declare
+   name text;
+begin
+   name:=upper(NEW.pa_name);
+   name:=trim(name);
+   name:=replace(name,' ','');
+   NEW.pa_name:=name;
+return NEW;
+end;
+$$
+    LANGUAGE plpgsql;
+CREATE FUNCTION upper_po_name() RETURNS "trigger"
+    AS $$
+declare
+   name text;
+begin
+   name:=upper(NEW.po_name);
+   name:=trim(name);
+   name:=replace(name,' ','');		
+   NEW.po_name:=name;
+
+return NEW;
+end;
 $$
     LANGUAGE plpgsql;

@@ -1,35 +1,22 @@
---
--- PostgreSQL database dump
---
 
 SET client_encoding = 'LATIN1';
+SET standard_conforming_strings = off;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
-
---
--- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: postgres
---
+SET escape_string_warning = off;
 
 
 
---
--- Name: plpgsql; Type: PROCEDURAL LANGUAGE; Schema: -; Owner: 
---
+
 
 
 
 SET search_path = public, pg_catalog;
 
---
--- Name: poste_comptable; Type: DOMAIN; Schema: public; Owner: phpcompta
---
 
 CREATE DOMAIN poste_comptable AS numeric(25,0);
 
 
---
--- Name: account_add(poste_comptable, character varying); Type: FUNCTION; Schema: public; Owner: phpcompta
---
 
 CREATE FUNCTION account_add(p_id poste_comptable, p_name character varying) RETURNS void
     AS $$
@@ -49,9 +36,6 @@ $$
     LANGUAGE plpgsql;
 
 
---
--- Name: account_auto(integer); Type: FUNCTION; Schema: public; Owner: phpcompta
---
 
 CREATE FUNCTION account_auto(p_fd_id integer) RETURNS boolean
     AS $$
@@ -69,9 +53,6 @@ $$
     LANGUAGE plpgsql;
 
 
---
--- Name: account_compute(integer); Type: FUNCTION; Schema: public; Owner: phpcompta
---
 
 CREATE FUNCTION account_compute(p_f_id integer) RETURNS poste_comptable
     AS $$
@@ -102,9 +83,6 @@ $$
     LANGUAGE plpgsql;
 
 
---
--- Name: account_insert(integer, poste_comptable); Type: FUNCTION; Schema: public; Owner: phpcompta
---
 
 CREATE FUNCTION account_insert(p_f_id integer, p_account poste_comptable) RETURNS integer
     AS $$
@@ -169,9 +147,6 @@ $$
     LANGUAGE plpgsql;
 
 
---
--- Name: account_parent(poste_comptable); Type: FUNCTION; Schema: public; Owner: phpcompta
---
 
 CREATE FUNCTION account_parent(p_account poste_comptable) RETURNS poste_comptable
     AS $$
@@ -203,9 +178,6 @@ $$
     LANGUAGE plpgsql;
 
 
---
--- Name: account_update(integer, poste_comptable); Type: FUNCTION; Schema: public; Owner: phpcompta
---
 
 CREATE FUNCTION account_update(p_f_id integer, p_account poste_comptable) RETURNS integer
     AS $$
@@ -217,25 +189,18 @@ sName varchar;
 nJft_id attr_value.jft_id%type;
 begin
 	
-	-- if p_value empty
 	if length(trim(p_account)) != 0 then
-	-- does the account exist ?
 		select count(*) into nCount from tmp_pcmn where pcm_val=p_account;
 		if nCount = 0 then
-		-- retrieve name
 		select av_text into sName from 
 			attr_value join jnt_fic_att_value using (jft_id)
 			where
 			ad_id=1 and f_id=p_f_id;
-		-- get parent
-		nParent:=fiche_account_parent(p_f_id);
-		-- account doesn't exist we need to add id
+		nParent:=account_parent(p_account);
 		insert into tmp_pcmn(pcm_val,pcm_lib,pcm_val_parent) values (p_account,sName,nParent);
 		end if;		
 	end if;
-	-- we retrieve jft_id
 	select jft_id into njft_id from jnt_fic_att_value where f_id=p_f_id and ad_id=5;
-	-- we update the account
 	update attr_value set av_text=p_account where jft_id=njft_id;
 		
 return njft_id;
@@ -244,9 +209,6 @@ $$
     LANGUAGE plpgsql;
 
 
---
--- Name: attribut_insert(integer, integer, character varying); Type: FUNCTION; Schema: public; Owner: phpcompta
---
 
 CREATE FUNCTION attribut_insert(p_f_id integer, p_ad_id integer, p_value character varying) RETURNS void
     AS $$
@@ -262,9 +224,6 @@ $$
     LANGUAGE plpgsql;
 
 
---
--- Name: card_class_base(integer); Type: FUNCTION; Schema: public; Owner: phpcompta
---
 
 CREATE FUNCTION card_class_base(p_f_id integer) RETURNS poste_comptable
     AS $$
@@ -284,9 +243,6 @@ $$
     LANGUAGE plpgsql;
 
 
---
--- Name: check_balance(integer); Type: FUNCTION; Schema: public; Owner: phpcompta
---
 
 CREATE FUNCTION check_balance(p_grpt integer) RETURNS numeric
     AS $$
@@ -326,9 +282,6 @@ $$
     LANGUAGE plpgsql;
 
 
---
--- Name: correct_sequence(text, text, text); Type: FUNCTION; Schema: public; Owner: phpcompta
---
 
 CREATE FUNCTION correct_sequence(p_sequence text, p_col text, p_table text) RETURNS integer
     AS $$
@@ -363,16 +316,10 @@ $$
     LANGUAGE plpgsql;
 
 
---
--- Name: FUNCTION correct_sequence(p_sequence text, p_col text, p_table text); Type: COMMENT; Schema: public; Owner: phpcompta
---
 
 COMMENT ON FUNCTION correct_sequence(p_sequence text, p_col text, p_table text) IS ' Often the primary key is a sequence number and sometimes the value of the sequence is not synchronized with the primary key ( p_sequence : sequence name, p_col : col of the pk,p_table : concerned table';
 
 
---
--- Name: drop_it(character varying); Type: FUNCTION; Schema: public; Owner: phpcompta
---
 
 CREATE FUNCTION drop_it(p_constraint character varying) RETURNS void
     AS $$
@@ -388,9 +335,6 @@ $$
     LANGUAGE plpgsql;
 
 
---
--- Name: fiche_account_parent(integer); Type: FUNCTION; Schema: public; Owner: phpcompta
---
 
 CREATE FUNCTION fiche_account_parent(p_f_id integer) RETURNS poste_comptable
     AS $$
@@ -407,9 +351,6 @@ $$
     LANGUAGE plpgsql;
 
 
---
--- Name: insert_jrnx(character varying, numeric, integer, integer, integer, boolean, text, integer, text); Type: FUNCTION; Schema: public; Owner: phpcompta
---
 
 CREATE FUNCTION insert_jrnx(p_date character varying, p_montant numeric, p_poste integer, p_grpt integer, p_jrn_def integer, p_debit boolean, p_tech_user text, p_tech_per integer, p_qcode text) RETURNS void
     AS $$
@@ -467,9 +408,47 @@ $$
     LANGUAGE plpgsql;
 
 
---
--- Name: insert_quant_sold(text, character varying, numeric, numeric, numeric, integer, character varying); Type: FUNCTION; Schema: public; Owner: phpcompta
---
+
+CREATE FUNCTION insert_quant_purchase(p_internal text, p_j_id numeric, p_fiche character varying, p_quant numeric, p_price numeric, p_vat numeric, p_vat_code integer, p_nd_amount numeric, p_nd_tva numeric, p_nd_tva_recup numeric, p_client character varying) RETURNS void
+    AS $$
+declare
+        fid_client integer;
+        fid_good   integer;
+begin
+        select f_id into fid_client from
+                attr_value join jnt_fic_att_value using (jft_id) where ad_id=23 and av_text=upper(p_client);
+        select f_id into fid_good from
+                attr_value join jnt_fic_att_value using (jft_id) where ad_id=23 and av_text=upper(p_fiche);
+        insert into quant_purchase
+                (qp_internal,
+				j_id,
+		qp_fiche,
+		qp_quantite,
+		qp_price,
+		qp_vat,
+		qp_vat_code,
+		qp_nd_amount,
+		qp_nd_tva,
+		qp_nd_tva_recup,
+		qp_supplier)
+        values
+                (p_internal,
+				p_j_id,
+		fid_good,
+		p_quant,
+		p_price,
+		p_vat,
+		p_vat_code,
+		p_nd_amount,
+		p_nd_tva,
+		p_nd_tva_recup,
+		fid_client);
+        return;
+end;
+ $$
+    LANGUAGE plpgsql;
+
+
 
 CREATE FUNCTION insert_quant_sold(p_internal text, p_fiche character varying, p_quant numeric, p_price numeric, p_vat numeric, p_vat_code integer, p_client character varying) RETURNS void
     AS $$
@@ -494,9 +473,28 @@ end;
     LANGUAGE plpgsql;
 
 
---
--- Name: insert_quick_code(integer, text); Type: FUNCTION; Schema: public; Owner: phpcompta
---
+
+CREATE FUNCTION insert_quant_sold(p_internal text, p_jid numeric, p_fiche character varying, p_quant numeric, p_price numeric, p_vat numeric, p_vat_code integer, p_client character varying) RETURNS void
+    AS $$
+declare
+        fid_client integer;
+        fid_good   integer;
+begin
+
+        select f_id into fid_client from
+                attr_value join jnt_fic_att_value using (jft_id) where ad_id=23 and av_text=upper(p_client);
+        select f_id into fid_good from
+                attr_value join jnt_fic_att_value using (jft_id) where ad_id=23 and av_text=upper(p_fiche);
+        insert into quant_sold
+                (qs_internal,j_id,qs_fiche,qs_quantite,qs_price,qs_vat,qs_vat_code,qs_client,qs_valid)
+        values
+                (p_internal,p_jid,fid_good,p_quant,p_price,p_vat,p_vat_code,fid_client,'Y');
+        return;
+end;
+ $$
+    LANGUAGE plpgsql;
+
+
 
 CREATE FUNCTION insert_quick_code(nf_id integer, tav_text text) RETURNS integer
     AS $$
@@ -535,9 +533,6 @@ $$
     LANGUAGE plpgsql;
 
 
---
--- Name: proc_check_balance(); Type: FUNCTION; Schema: public; Owner: phpcompta
---
 
 CREATE FUNCTION proc_check_balance() RETURNS "trigger"
     AS $$
@@ -558,9 +553,6 @@ $$
     LANGUAGE plpgsql;
 
 
---
--- Name: t_document_type_insert(); Type: FUNCTION; Schema: public; Owner: phpcompta
---
 
 CREATE FUNCTION t_document_type_insert() RETURNS "trigger"
     AS $$
@@ -578,9 +570,6 @@ $$
     LANGUAGE plpgsql;
 
 
---
--- Name: t_jrn_def_sequence(); Type: FUNCTION; Schema: public; Owner: phpcompta
---
 
 CREATE FUNCTION t_jrn_def_sequence() RETURNS "trigger"
     AS $$
@@ -599,9 +588,6 @@ $$
     LANGUAGE plpgsql;
 
 
---
--- Name: trim_cvs_quote(); Type: FUNCTION; Schema: public; Owner: phpcompta
---
 
 CREATE FUNCTION trim_cvs_quote() RETURNS "trigger"
     AS $$
@@ -620,9 +606,6 @@ $$
     LANGUAGE plpgsql;
 
 
---
--- Name: trim_space_format_csv_banque(); Type: FUNCTION; Schema: public; Owner: phpcompta
---
 
 CREATE FUNCTION trim_space_format_csv_banque() RETURNS "trigger"
     AS $$
@@ -644,9 +627,6 @@ $$
     LANGUAGE plpgsql;
 
 
---
--- Name: tva_delete(integer); Type: FUNCTION; Schema: public; Owner: phpcompta
---
 
 CREATE FUNCTION tva_delete(integer) RETURNS void
     AS $_$ 
@@ -665,9 +645,6 @@ $_$
     LANGUAGE plpgsql;
 
 
---
--- Name: tva_insert(integer, text, numeric, text, text); Type: FUNCTION; Schema: public; Owner: phpcompta
---
 
 CREATE FUNCTION tva_insert(integer, text, numeric, text, text) RETURNS integer
     AS $_$
@@ -707,9 +684,6 @@ $_$
     LANGUAGE plpgsql;
 
 
---
--- Name: tva_modify(integer, text, numeric, text, text); Type: FUNCTION; Schema: public; Owner: phpcompta
---
 
 CREATE FUNCTION tva_modify(integer, text, numeric, text, text) RETURNS integer
     AS $_$declare
@@ -744,9 +718,6 @@ $_$
     LANGUAGE plpgsql;
 
 
---
--- Name: update_quick_code(integer, text); Type: FUNCTION; Schema: public; Owner: phpcompta
---
 
 CREATE FUNCTION update_quick_code(njft_id integer, tav_text text) RETURNS integer
     AS $$
@@ -805,13 +776,43 @@ $$
     LANGUAGE plpgsql;
 
 
+
+CREATE FUNCTION upper_pa_name() RETURNS "trigger"
+    AS $$
+declare
+   name text;
+begin
+   name:=upper(NEW.pa_name);
+   name:=trim(name);
+   name:=replace(name,' ','');
+   NEW.pa_name:=name;
+return NEW;
+end;
+$$
+    LANGUAGE plpgsql;
+
+
+
+CREATE FUNCTION upper_po_name() RETURNS "trigger"
+    AS $$
+declare
+   name text;
+begin
+   name:=upper(NEW.po_name);
+   name:=trim(name);
+   name:=replace(name,' ','');		
+   NEW.po_name:=name;
+
+return NEW;
+end;
+$$
+    LANGUAGE plpgsql;
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = true;
 
---
--- Name: action; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE TABLE "action" (
     ac_id integer NOT NULL,
@@ -819,19 +820,13 @@ CREATE TABLE "action" (
 );
 
 
---
--- Name: TABLE "action"; Type: COMMENT; Schema: public; Owner: phpcompta
---
 
 COMMENT ON TABLE "action" IS 'The different privileges';
 
 
---
--- Name: action_gestion; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE TABLE action_gestion (
-    ag_id serial NOT NULL,
+    ag_id integer NOT NULL,
     ag_type integer,
     f_id_dest integer NOT NULL,
     f_id_exp integer NOT NULL,
@@ -844,16 +839,23 @@ CREATE TABLE action_gestion (
 );
 
 
---
--- Name: TABLE action_gestion; Type: COMMENT; Schema: public; Owner: phpcompta
---
 
 COMMENT ON TABLE action_gestion IS 'Action for Managing';
 
 
---
--- Name: attr_def; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
+
+CREATE SEQUENCE action_gestion_ag_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+
+ALTER SEQUENCE action_gestion_ag_id_seq OWNED BY action_gestion.ag_id;
+
+
 
 CREATE TABLE attr_def (
     ad_id integer DEFAULT nextval(('s_attr_def'::text)::regclass) NOT NULL,
@@ -861,16 +863,10 @@ CREATE TABLE attr_def (
 );
 
 
---
--- Name: TABLE attr_def; Type: COMMENT; Schema: public; Owner: phpcompta
---
 
 COMMENT ON TABLE attr_def IS 'The available attributs for the cards';
 
 
---
--- Name: attr_min; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE TABLE attr_min (
     frd_id integer,
@@ -878,16 +874,10 @@ CREATE TABLE attr_min (
 );
 
 
---
--- Name: TABLE attr_min; Type: COMMENT; Schema: public; Owner: phpcompta
---
 
 COMMENT ON TABLE attr_min IS 'The value of  attributs for the cards';
 
 
---
--- Name: attr_value; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE TABLE attr_value (
     jft_id integer,
@@ -895,9 +885,52 @@ CREATE TABLE attr_value (
 );
 
 
---
--- Name: centralized; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
+
+CREATE SEQUENCE bilan_b_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+SET default_with_oids = false;
+
+
+CREATE TABLE bilan (
+    b_id integer DEFAULT nextval('bilan_b_id_seq'::regclass) NOT NULL,
+    b_name text NOT NULL,
+    b_file_template text NOT NULL,
+    b_file_form text,
+    b_type text NOT NULL
+);
+
+
+
+COMMENT ON TABLE bilan IS 'contains the template and the data for generating different documents  ';
+
+
+
+COMMENT ON COLUMN bilan.b_id IS 'primary key';
+
+
+
+COMMENT ON COLUMN bilan.b_name IS 'Name of the document';
+
+
+
+COMMENT ON COLUMN bilan.b_file_template IS 'path of the template (document/...)';
+
+
+
+COMMENT ON COLUMN bilan.b_file_form IS 'path of the file with forms';
+
+
+
+COMMENT ON COLUMN bilan.b_type IS 'type = ODS, RTF...';
+
+
+SET default_with_oids = true;
+
 
 CREATE TABLE centralized (
     c_id integer DEFAULT nextval(('s_centralized'::text)::regclass) NOT NULL,
@@ -917,19 +950,13 @@ CREATE TABLE centralized (
 );
 
 
---
--- Name: TABLE centralized; Type: COMMENT; Schema: public; Owner: phpcompta
---
 
 COMMENT ON TABLE centralized IS 'The centralized journal';
 
 
---
--- Name: document; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE TABLE document (
-    d_id serial NOT NULL,
+    d_id integer NOT NULL,
     ag_id integer NOT NULL,
     d_lob oid,
     d_number bigint NOT NULL,
@@ -939,19 +966,26 @@ CREATE TABLE document (
 );
 
 
---
--- Name: TABLE document; Type: COMMENT; Schema: public; Owner: phpcompta
---
 
 COMMENT ON TABLE document IS 'This table contains all the documents : summary and lob files';
 
 
---
--- Name: document_modele; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
+
+CREATE SEQUENCE document_d_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+
+ALTER SEQUENCE document_d_id_seq OWNED BY document.d_id;
+
+
 
 CREATE TABLE document_modele (
-    md_id serial NOT NULL,
+    md_id integer NOT NULL,
     md_name text NOT NULL,
     md_lob oid,
     md_type integer NOT NULL,
@@ -960,16 +994,23 @@ CREATE TABLE document_modele (
 );
 
 
---
--- Name: TABLE document_modele; Type: COMMENT; Schema: public; Owner: phpcompta
---
 
 COMMENT ON TABLE document_modele IS ' contains all the template for the  documents';
 
 
---
--- Name: document_seq; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
+
+CREATE SEQUENCE document_modele_md_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+
+ALTER SEQUENCE document_modele_md_id_seq OWNED BY document_modele.md_id;
+
+
 
 CREATE SEQUENCE document_seq
     START WITH 1
@@ -979,50 +1020,57 @@ CREATE SEQUENCE document_seq
     CACHE 1;
 
 
---
--- Name: SEQUENCE document_seq; Type: COMMENT; Schema: public; Owner: phpcompta
---
 
 COMMENT ON SEQUENCE document_seq IS 'Sequence for the sequence bound to the document modele';
 
 
---
--- Name: document_state; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE TABLE document_state (
-    s_id serial NOT NULL,
+    s_id integer NOT NULL,
     s_value character varying(50) NOT NULL
 );
 
 
---
--- Name: TABLE document_state; Type: COMMENT; Schema: public; Owner: phpcompta
---
 
 COMMENT ON TABLE document_state IS 'State of the document';
 
 
---
--- Name: document_type; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
+
+CREATE SEQUENCE document_state_s_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+
+ALTER SEQUENCE document_state_s_id_seq OWNED BY document_state.s_id;
+
+
 
 CREATE TABLE document_type (
-    dt_id serial NOT NULL,
+    dt_id integer NOT NULL,
     dt_value character varying(80)
 );
 
 
---
--- Name: TABLE document_type; Type: COMMENT; Schema: public; Owner: phpcompta
---
 
 COMMENT ON TABLE document_type IS 'Type of document : meeting, invoice,...';
 
 
---
--- Name: fiche; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
+
+CREATE SEQUENCE document_type_dt_id_seq
+    START WITH 10
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+
+ALTER SEQUENCE document_type_dt_id_seq OWNED BY document_type.dt_id;
+
+
 
 CREATE TABLE fiche (
     f_id integer DEFAULT nextval(('s_fiche'::text)::regclass) NOT NULL,
@@ -1030,16 +1078,10 @@ CREATE TABLE fiche (
 );
 
 
---
--- Name: TABLE fiche; Type: COMMENT; Schema: public; Owner: phpcompta
---
 
 COMMENT ON TABLE fiche IS 'Cards';
 
 
---
--- Name: fiche_def; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE TABLE fiche_def (
     fd_id integer DEFAULT nextval(('s_fdef'::text)::regclass) NOT NULL,
@@ -1050,16 +1092,10 @@ CREATE TABLE fiche_def (
 );
 
 
---
--- Name: TABLE fiche_def; Type: COMMENT; Schema: public; Owner: phpcompta
---
 
 COMMENT ON TABLE fiche_def IS 'Cards definition';
 
 
---
--- Name: fiche_def_ref; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE TABLE fiche_def_ref (
     frd_id integer DEFAULT nextval(('s_fiche_def_ref'::text)::regclass) NOT NULL,
@@ -1068,16 +1104,10 @@ CREATE TABLE fiche_def_ref (
 );
 
 
---
--- Name: TABLE fiche_def_ref; Type: COMMENT; Schema: public; Owner: phpcompta
---
 
 COMMENT ON TABLE fiche_def_ref IS 'Family Cards definition';
 
 
---
--- Name: form; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE TABLE form (
     fo_id integer DEFAULT nextval(('s_form'::text)::regclass) NOT NULL,
@@ -1088,16 +1118,10 @@ CREATE TABLE form (
 );
 
 
---
--- Name: TABLE form; Type: COMMENT; Schema: public; Owner: phpcompta
---
 
 COMMENT ON TABLE form IS 'Forms content';
 
 
---
--- Name: format_csv_banque; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE TABLE format_csv_banque (
     name text NOT NULL,
@@ -1105,9 +1129,6 @@ CREATE TABLE format_csv_banque (
 );
 
 
---
--- Name: formdef; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE TABLE formdef (
     fr_id integer DEFAULT nextval(('s_formdef'::text)::regclass) NOT NULL,
@@ -1115,9 +1136,15 @@ CREATE TABLE formdef (
 );
 
 
---
--- Name: import_tmp; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
+
+CREATE SEQUENCE historique_analytique_ha_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
 
 CREATE TABLE import_tmp (
     code text,
@@ -1137,9 +1164,6 @@ CREATE TABLE import_tmp (
 );
 
 
---
--- Name: invoice; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE TABLE invoice (
     iv_id integer DEFAULT nextval(('s_invoice'::text)::regclass) NOT NULL,
@@ -1148,9 +1172,6 @@ CREATE TABLE invoice (
 );
 
 
---
--- Name: jnt_fic_att_value; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE TABLE jnt_fic_att_value (
     jft_id integer DEFAULT nextval(('s_jnt_fic_att_value'::text)::regclass) NOT NULL,
@@ -1159,16 +1180,10 @@ CREATE TABLE jnt_fic_att_value (
 );
 
 
---
--- Name: TABLE jnt_fic_att_value; Type: COMMENT; Schema: public; Owner: phpcompta
---
 
 COMMENT ON TABLE jnt_fic_att_value IS 'join between the card and the attribut definition';
 
 
---
--- Name: s_jnt_id; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE s_jnt_id
     INCREMENT BY 1
@@ -1177,9 +1192,6 @@ CREATE SEQUENCE s_jnt_id
     CACHE 1;
 
 
---
--- Name: jnt_fic_attr; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE TABLE jnt_fic_attr (
     fd_id integer,
@@ -1188,16 +1200,10 @@ CREATE TABLE jnt_fic_attr (
 );
 
 
---
--- Name: TABLE jnt_fic_attr; Type: COMMENT; Schema: public; Owner: phpcompta
---
 
 COMMENT ON TABLE jnt_fic_attr IS 'join between the family card and the attribut definition';
 
 
---
--- Name: jrn; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE TABLE jrn (
     jr_id integer DEFAULT nextval(('s_jrn'::text)::regclass) NOT NULL,
@@ -1221,16 +1227,10 @@ CREATE TABLE jrn (
 );
 
 
---
--- Name: TABLE jrn; Type: COMMENT; Schema: public; Owner: phpcompta
---
 
 COMMENT ON TABLE jrn IS 'Journal: content one line for a group of accountancy writing';
 
 
---
--- Name: jrn_action; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE TABLE jrn_action (
     ja_id integer DEFAULT nextval(('s_jrnaction'::text)::regclass) NOT NULL,
@@ -1243,16 +1243,10 @@ CREATE TABLE jrn_action (
 );
 
 
---
--- Name: TABLE jrn_action; Type: COMMENT; Schema: public; Owner: phpcompta
---
 
 COMMENT ON TABLE jrn_action IS 'Possible action when we are in journal (menu)';
 
 
---
--- Name: jrn_def; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE TABLE jrn_def (
     jrn_def_id integer DEFAULT nextval(('s_jrn_def'::text)::regclass) NOT NULL,
@@ -1270,16 +1264,10 @@ CREATE TABLE jrn_def (
 );
 
 
---
--- Name: TABLE jrn_def; Type: COMMENT; Schema: public; Owner: phpcompta
---
 
 COMMENT ON TABLE jrn_def IS 'Definition of a journal, his properties';
 
 
---
--- Name: jrn_rapt; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE TABLE jrn_rapt (
     jra_id integer DEFAULT nextval(('s_jrn_rapt'::text)::regclass) NOT NULL,
@@ -1288,16 +1276,10 @@ CREATE TABLE jrn_rapt (
 );
 
 
---
--- Name: TABLE jrn_rapt; Type: COMMENT; Schema: public; Owner: phpcompta
---
 
 COMMENT ON TABLE jrn_rapt IS 'Rapprochement between operation';
 
 
---
--- Name: jrn_type; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE TABLE jrn_type (
     jrn_type_id character(3) NOT NULL,
@@ -1305,16 +1287,10 @@ CREATE TABLE jrn_type (
 );
 
 
---
--- Name: TABLE jrn_type; Type: COMMENT; Schema: public; Owner: phpcompta
---
 
 COMMENT ON TABLE jrn_type IS 'Type of journal (Sell, Buy, Financial...)';
 
 
---
--- Name: jrnx; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE TABLE jrnx (
     j_id integer DEFAULT nextval(('s_jrn_op'::text)::regclass) NOT NULL,
@@ -1335,16 +1311,102 @@ CREATE TABLE jrnx (
 );
 
 
---
--- Name: TABLE jrnx; Type: COMMENT; Schema: public; Owner: phpcompta
---
 
 COMMENT ON TABLE jrnx IS 'Journal: content one line for each accountancy writing';
 
 
---
--- Name: parameter; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
+
+CREATE SEQUENCE op_def_op_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+SET default_with_oids = false;
+
+
+CREATE TABLE op_predef (
+    od_id integer DEFAULT nextval('op_def_op_seq'::regclass) NOT NULL,
+    jrn_def_id integer NOT NULL,
+    od_name text NOT NULL,
+    od_item integer NOT NULL,
+    od_jrn_type text NOT NULL,
+    od_direct boolean NOT NULL
+);
+
+
+
+COMMENT ON TABLE op_predef IS 'predefined operation';
+
+
+
+COMMENT ON COLUMN op_predef.jrn_def_id IS 'jrn_id';
+
+
+
+COMMENT ON COLUMN op_predef.od_name IS 'name of the operation';
+
+
+
+CREATE SEQUENCE op_predef_detail_opd_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+
+CREATE TABLE op_predef_detail (
+    opd_id integer DEFAULT nextval('op_predef_detail_opd_id_seq'::regclass) NOT NULL,
+    od_id integer NOT NULL,
+    opd_poste text NOT NULL,
+    opd_amount numeric(20,4),
+    opd_tva_id integer,
+    opd_quantity numeric(20,4),
+    opd_debit boolean NOT NULL,
+    opd_tva_amount numeric(20,4),
+    opd_comment text,
+    opd_qc boolean
+);
+
+
+
+COMMENT ON TABLE op_predef_detail IS 'contains the detail of predefined operations';
+
+
+
+CREATE SEQUENCE s_oa_group
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+
+CREATE TABLE operation_analytique (
+    oa_id integer DEFAULT nextval('historique_analytique_ha_id_seq'::regclass) NOT NULL,
+    po_id integer NOT NULL,
+    pa_id integer NOT NULL,
+    oa_amount numeric(20,4) NOT NULL,
+    oa_description text,
+    oa_debit boolean DEFAULT true NOT NULL,
+    j_id integer,
+    oa_group integer DEFAULT nextval('s_oa_group'::regclass) NOT NULL,
+    oa_date date NOT NULL,
+    oa_row integer
+);
+
+
+
+COMMENT ON TABLE operation_analytique IS 'History of the analytic account';
+
+
+SET default_with_oids = true;
+
 
 CREATE TABLE parameter (
     pr_id text NOT NULL,
@@ -1352,9 +1414,10 @@ CREATE TABLE parameter (
 );
 
 
---
--- Name: parm_code; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
+
+COMMENT ON TABLE parameter IS 'parameter of the company';
+
+
 
 CREATE TABLE parm_code (
     p_code text NOT NULL,
@@ -1363,9 +1426,6 @@ CREATE TABLE parm_code (
 );
 
 
---
--- Name: parm_money; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE TABLE parm_money (
     pm_id integer DEFAULT nextval(('s_currency'::text)::regclass),
@@ -1374,16 +1434,10 @@ CREATE TABLE parm_money (
 );
 
 
---
--- Name: TABLE parm_money; Type: COMMENT; Schema: public; Owner: phpcompta
---
 
 COMMENT ON TABLE parm_money IS 'Currency conversion';
 
 
---
--- Name: parm_periode; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE TABLE parm_periode (
     p_id integer DEFAULT nextval(('s_periode'::text)::regclass) NOT NULL,
@@ -1396,16 +1450,76 @@ CREATE TABLE parm_periode (
 );
 
 
---
--- Name: TABLE parm_periode; Type: COMMENT; Schema: public; Owner: phpcompta
---
 
 COMMENT ON TABLE parm_periode IS 'Periode definition';
 
 
---
--- Name: quant_sold; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
+
+CREATE SEQUENCE plan_analytique_pa_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+SET default_with_oids = false;
+
+
+CREATE TABLE plan_analytique (
+    pa_id integer DEFAULT nextval('plan_analytique_pa_id_seq'::regclass) NOT NULL,
+    pa_name text DEFAULT 'Sans Nom'::text NOT NULL,
+    pa_description text
+);
+
+
+
+COMMENT ON TABLE plan_analytique IS 'Plan Analytique (max 5)';
+
+
+
+CREATE SEQUENCE poste_analytique_po_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+
+CREATE TABLE poste_analytique (
+    po_id integer DEFAULT nextval('poste_analytique_po_id_seq'::regclass) NOT NULL,
+    po_name text NOT NULL,
+    pa_id integer NOT NULL,
+    po_amount numeric(20,4) DEFAULT 0.0 NOT NULL,
+    po_description text
+);
+
+
+
+COMMENT ON TABLE poste_analytique IS 'Poste Analytique';
+
+
+
+CREATE TABLE quant_purchase (
+    qp_id integer DEFAULT nextval(('s_quantity'::text)::regclass) NOT NULL,
+    qp_internal text NOT NULL,
+    j_id integer NOT NULL,
+    qp_fiche integer NOT NULL,
+    qp_quantite numeric(20,4) NOT NULL,
+    qp_price numeric(20,4),
+    qp_vat numeric(20,4) DEFAULT 0.0,
+    qp_vat_code integer,
+    qp_nd_amount numeric(20,4) DEFAULT 0.0,
+    qp_nd_tva numeric(20,4) DEFAULT 0.0,
+    qp_nd_tva_recup numeric(20,4) DEFAULT 0.0,
+    qp_supplier integer NOT NULL,
+    qp_valid character(1) DEFAULT 'Y'::bpchar NOT NULL
+);
+
+
+SET default_with_oids = true;
+
 
 CREATE TABLE quant_sold (
     qs_id integer DEFAULT nextval(('s_quantity'::text)::regclass) NOT NULL,
@@ -1415,20 +1529,16 @@ CREATE TABLE quant_sold (
     qs_price numeric(20,4),
     qs_vat numeric(20,4),
     qs_vat_code integer,
-    qs_client integer NOT NULL
+    qs_client integer NOT NULL,
+    qs_valid character(1) DEFAULT 'Y'::bpchar NOT NULL,
+    j_id integer NOT NULL
 );
 
 
---
--- Name: TABLE quant_sold; Type: COMMENT; Schema: public; Owner: phpcompta
---
 
 COMMENT ON TABLE quant_sold IS 'Contains about invoice for customer';
 
 
---
--- Name: s_attr_def; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE s_attr_def
     INCREMENT BY 1
@@ -1437,9 +1547,6 @@ CREATE SEQUENCE s_attr_def
     CACHE 1;
 
 
---
--- Name: s_cbc; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE s_cbc
     START WITH 1
@@ -1449,9 +1556,6 @@ CREATE SEQUENCE s_cbc
     CACHE 1;
 
 
---
--- Name: s_central; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE s_central
     START WITH 1
@@ -1461,9 +1565,6 @@ CREATE SEQUENCE s_central
     CACHE 1;
 
 
---
--- Name: s_central_order; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE s_central_order
     START WITH 1
@@ -1473,9 +1574,6 @@ CREATE SEQUENCE s_central_order
     CACHE 1;
 
 
---
--- Name: s_centralized; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE s_centralized
     START WITH 1
@@ -1485,9 +1583,6 @@ CREATE SEQUENCE s_centralized
     CACHE 1;
 
 
---
--- Name: s_currency; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE s_currency
     INCREMENT BY 1
@@ -1496,9 +1591,6 @@ CREATE SEQUENCE s_currency
     CACHE 1;
 
 
---
--- Name: s_fdef; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE s_fdef
     INCREMENT BY 1
@@ -1507,9 +1599,6 @@ CREATE SEQUENCE s_fdef
     CACHE 1;
 
 
---
--- Name: s_fiche; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE s_fiche
     INCREMENT BY 1
@@ -1518,9 +1607,6 @@ CREATE SEQUENCE s_fiche
     CACHE 1;
 
 
---
--- Name: s_fiche_def_ref; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE s_fiche_def_ref
     INCREMENT BY 1
@@ -1529,9 +1615,6 @@ CREATE SEQUENCE s_fiche_def_ref
     CACHE 1;
 
 
---
--- Name: s_form; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE s_form
     START WITH 1
@@ -1541,9 +1624,6 @@ CREATE SEQUENCE s_form
     CACHE 1;
 
 
---
--- Name: s_formdef; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE s_formdef
     START WITH 1
@@ -1553,9 +1633,6 @@ CREATE SEQUENCE s_formdef
     CACHE 1;
 
 
---
--- Name: s_grpt; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE s_grpt
     INCREMENT BY 1
@@ -1564,9 +1641,6 @@ CREATE SEQUENCE s_grpt
     CACHE 1;
 
 
---
--- Name: s_idef; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE s_idef
     START WITH 1
@@ -1576,9 +1650,6 @@ CREATE SEQUENCE s_idef
     CACHE 1;
 
 
---
--- Name: s_internal; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE s_internal
     START WITH 1
@@ -1588,9 +1659,6 @@ CREATE SEQUENCE s_internal
     CACHE 1;
 
 
---
--- Name: s_invoice; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE s_invoice
     START WITH 1
@@ -1600,9 +1668,6 @@ CREATE SEQUENCE s_invoice
     CACHE 1;
 
 
---
--- Name: s_isup; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE s_isup
     START WITH 1
@@ -1612,9 +1677,6 @@ CREATE SEQUENCE s_isup
     CACHE 1;
 
 
---
--- Name: s_jnt_fic_att_value; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE s_jnt_fic_att_value
     START WITH 366
@@ -1624,9 +1686,6 @@ CREATE SEQUENCE s_jnt_fic_att_value
     CACHE 1;
 
 
---
--- Name: s_jrn; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE s_jrn
     START WITH 1
@@ -1636,9 +1695,6 @@ CREATE SEQUENCE s_jrn
     CACHE 1;
 
 
---
--- Name: s_jrn_1; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE s_jrn_1
     START WITH 1
@@ -1648,9 +1704,6 @@ CREATE SEQUENCE s_jrn_1
     CACHE 1;
 
 
---
--- Name: s_jrn_2; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE s_jrn_2
     START WITH 1
@@ -1660,9 +1713,6 @@ CREATE SEQUENCE s_jrn_2
     CACHE 1;
 
 
---
--- Name: s_jrn_3; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE s_jrn_3
     START WITH 1
@@ -1672,9 +1722,6 @@ CREATE SEQUENCE s_jrn_3
     CACHE 1;
 
 
---
--- Name: s_jrn_4; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE s_jrn_4
     START WITH 1
@@ -1684,9 +1731,6 @@ CREATE SEQUENCE s_jrn_4
     CACHE 1;
 
 
---
--- Name: s_jrn_def; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE s_jrn_def
     START WITH 5
@@ -1696,9 +1740,6 @@ CREATE SEQUENCE s_jrn_def
     CACHE 1;
 
 
---
--- Name: s_jrn_op; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE s_jrn_op
     START WITH 1
@@ -1708,9 +1749,6 @@ CREATE SEQUENCE s_jrn_op
     CACHE 1;
 
 
---
--- Name: s_jrn_rapt; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE s_jrn_rapt
     START WITH 1
@@ -1720,9 +1758,6 @@ CREATE SEQUENCE s_jrn_rapt
     CACHE 1;
 
 
---
--- Name: s_jrnaction; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE s_jrnaction
     INCREMENT BY 1
@@ -1731,9 +1766,6 @@ CREATE SEQUENCE s_jrnaction
     CACHE 1;
 
 
---
--- Name: s_jrnx; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE s_jrnx
     START WITH 1
@@ -1743,9 +1775,6 @@ CREATE SEQUENCE s_jrnx
     CACHE 1;
 
 
---
--- Name: s_periode; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE s_periode
     INCREMENT BY 1
@@ -1754,9 +1783,6 @@ CREATE SEQUENCE s_periode
     CACHE 1;
 
 
---
--- Name: s_quantity; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE s_quantity
     START WITH 1
@@ -1766,9 +1792,6 @@ CREATE SEQUENCE s_quantity
     CACHE 1;
 
 
---
--- Name: s_stock_goods; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE s_stock_goods
     START WITH 1
@@ -1778,9 +1801,6 @@ CREATE SEQUENCE s_stock_goods
     CACHE 1;
 
 
---
--- Name: s_user_act; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE s_user_act
     START WITH 1
@@ -1790,9 +1810,6 @@ CREATE SEQUENCE s_user_act
     CACHE 1;
 
 
---
--- Name: s_user_jrn; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE s_user_jrn
     START WITH 1
@@ -1802,9 +1819,6 @@ CREATE SEQUENCE s_user_jrn
     CACHE 1;
 
 
---
--- Name: seq_doc_type_1; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE seq_doc_type_1
     START WITH 1
@@ -1814,9 +1828,6 @@ CREATE SEQUENCE seq_doc_type_1
     CACHE 1;
 
 
---
--- Name: seq_doc_type_2; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE seq_doc_type_2
     START WITH 1
@@ -1826,9 +1837,6 @@ CREATE SEQUENCE seq_doc_type_2
     CACHE 1;
 
 
---
--- Name: seq_doc_type_3; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE seq_doc_type_3
     START WITH 1
@@ -1838,9 +1846,6 @@ CREATE SEQUENCE seq_doc_type_3
     CACHE 1;
 
 
---
--- Name: seq_doc_type_4; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE seq_doc_type_4
     START WITH 1
@@ -1850,9 +1855,6 @@ CREATE SEQUENCE seq_doc_type_4
     CACHE 1;
 
 
---
--- Name: seq_doc_type_5; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE seq_doc_type_5
     START WITH 1
@@ -1862,9 +1864,6 @@ CREATE SEQUENCE seq_doc_type_5
     CACHE 1;
 
 
---
--- Name: seq_doc_type_6; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE seq_doc_type_6
     START WITH 1
@@ -1874,9 +1873,6 @@ CREATE SEQUENCE seq_doc_type_6
     CACHE 1;
 
 
---
--- Name: seq_doc_type_7; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE seq_doc_type_7
     START WITH 1
@@ -1886,9 +1882,6 @@ CREATE SEQUENCE seq_doc_type_7
     CACHE 1;
 
 
---
--- Name: seq_doc_type_8; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE seq_doc_type_8
     START WITH 1
@@ -1898,9 +1891,6 @@ CREATE SEQUENCE seq_doc_type_8
     CACHE 1;
 
 
---
--- Name: seq_doc_type_9; Type: SEQUENCE; Schema: public; Owner: phpcompta
---
 
 CREATE SEQUENCE seq_doc_type_9
     START WITH 1
@@ -1910,9 +1900,6 @@ CREATE SEQUENCE seq_doc_type_9
     CACHE 1;
 
 
---
--- Name: stock_goods; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE TABLE stock_goods (
     sg_id integer DEFAULT nextval(('s_stock_goods'::text)::regclass) NOT NULL,
@@ -1930,35 +1917,22 @@ CREATE TABLE stock_goods (
 );
 
 
---
--- Name: TABLE stock_goods; Type: COMMENT; Schema: public; Owner: phpcompta
---
 
 COMMENT ON TABLE stock_goods IS 'About the goods';
 
 
---
--- Name: tmp_pcmn; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE TABLE tmp_pcmn (
     pcm_val poste_comptable NOT NULL,
     pcm_lib text,
-    pcm_val_parent poste_comptable DEFAULT 0,
-    pcm_country character(2) DEFAULT 'BE'::bpchar NOT NULL
+    pcm_val_parent poste_comptable DEFAULT 0
 );
 
 
---
--- Name: TABLE tmp_pcmn; Type: COMMENT; Schema: public; Owner: phpcompta
---
 
 COMMENT ON TABLE tmp_pcmn IS 'Plan comptable minimum normalisé';
 
 
---
--- Name: tva_rate; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE TABLE tva_rate (
     tva_id integer NOT NULL,
@@ -1969,16 +1943,10 @@ CREATE TABLE tva_rate (
 );
 
 
---
--- Name: TABLE tva_rate; Type: COMMENT; Schema: public; Owner: phpcompta
---
 
 COMMENT ON TABLE tva_rate IS 'Rate of vat';
 
 
---
--- Name: user_local_pref; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE TABLE user_local_pref (
     user_id text NOT NULL,
@@ -1987,37 +1955,22 @@ CREATE TABLE user_local_pref (
 );
 
 
---
--- Name: TABLE user_local_pref; Type: COMMENT; Schema: public; Owner: phpcompta
---
 
 COMMENT ON TABLE user_local_pref IS 'The user''s local parameter ';
 
 
---
--- Name: COLUMN user_local_pref.user_id; Type: COMMENT; Schema: public; Owner: phpcompta
---
 
 COMMENT ON COLUMN user_local_pref.user_id IS 'user''s login ';
 
 
---
--- Name: COLUMN user_local_pref.parameter_type; Type: COMMENT; Schema: public; Owner: phpcompta
---
 
 COMMENT ON COLUMN user_local_pref.parameter_type IS 'the type of parameter ';
 
 
---
--- Name: COLUMN user_local_pref.parameter_value; Type: COMMENT; Schema: public; Owner: phpcompta
---
 
 COMMENT ON COLUMN user_local_pref.parameter_value IS 'the value of parameter ';
 
 
---
--- Name: user_sec_act; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE TABLE user_sec_act (
     ua_id integer DEFAULT nextval(('s_user_act'::text)::regclass) NOT NULL,
@@ -2026,9 +1979,6 @@ CREATE TABLE user_sec_act (
 );
 
 
---
--- Name: user_sec_jrn; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE TABLE user_sec_jrn (
     uj_id integer DEFAULT nextval(('s_user_jrn'::text)::regclass) NOT NULL,
@@ -2038,361 +1988,262 @@ CREATE TABLE user_sec_jrn (
 );
 
 
---
--- Name: version; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE TABLE version (
     val integer
 );
 
 
---
--- Name: vw_client; Type: VIEW; Schema: public; Owner: phpcompta
---
 
 CREATE VIEW vw_client AS
     SELECT a.f_id, a.av_text AS name, a1.av_text AS quick_code, b.av_text AS tva_num, c.av_text AS poste_comptable, d.av_text AS rue, e.av_text AS code_postal, f.av_text AS pays, g.av_text AS telephone, h.av_text AS email FROM (((((((((SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 1)) a JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 13)) b USING (f_id)) JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 23)) a1 USING (f_id)) JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 5)) c USING (f_id)) JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 14)) d USING (f_id)) JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 15)) e USING (f_id)) JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 16)) f USING (f_id)) JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 17)) g USING (f_id)) LEFT JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 18)) h USING (f_id)) WHERE (a.frd_id = 9);
 
 
---
--- Name: vw_fiche_attr; Type: VIEW; Schema: public; Owner: phpcompta
---
 
 CREATE VIEW vw_fiche_attr AS
     SELECT a.f_id, a.fd_id, a.av_text AS vw_name, b.av_text AS vw_sell, c.av_text AS vw_buy, d.av_text AS tva_code, tva_rate.tva_id, tva_rate.tva_rate, tva_rate.tva_label, e.av_text AS vw_addr, f.av_text AS vw_cp, j.av_text AS quick_code, fiche_def.frd_id FROM (((((((((SELECT fiche.f_id, fiche.fd_id, attr_value.av_text FROM (((fiche JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) JOIN attr_def USING (ad_id)) WHERE (jnt_fic_att_value.ad_id = 1)) a LEFT JOIN (SELECT fiche.f_id, attr_value.av_text FROM (((fiche JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) JOIN attr_def USING (ad_id)) WHERE (jnt_fic_att_value.ad_id = 6)) b ON ((a.f_id = b.f_id))) LEFT JOIN (SELECT fiche.f_id, attr_value.av_text FROM (((fiche JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) JOIN attr_def USING (ad_id)) WHERE (jnt_fic_att_value.ad_id = 7)) c ON ((a.f_id = c.f_id))) LEFT JOIN (SELECT fiche.f_id, attr_value.av_text FROM (((fiche JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) JOIN attr_def USING (ad_id)) WHERE (jnt_fic_att_value.ad_id = 2)) d ON ((a.f_id = d.f_id))) LEFT JOIN (SELECT fiche.f_id, attr_value.av_text FROM (((fiche JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) JOIN attr_def USING (ad_id)) WHERE (jnt_fic_att_value.ad_id = 14)) e ON ((a.f_id = e.f_id))) LEFT JOIN (SELECT fiche.f_id, attr_value.av_text FROM (((fiche JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) JOIN attr_def USING (ad_id)) WHERE (jnt_fic_att_value.ad_id = 15)) f ON ((a.f_id = f.f_id))) LEFT JOIN (SELECT fiche.f_id, attr_value.av_text FROM (((fiche JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) JOIN attr_def USING (ad_id)) WHERE (jnt_fic_att_value.ad_id = 23)) j ON ((a.f_id = j.f_id))) LEFT JOIN tva_rate ON ((d.av_text = (tva_rate.tva_id)::text))) JOIN fiche_def USING (fd_id));
 
 
---
--- Name: vw_fiche_def; Type: VIEW; Schema: public; Owner: phpcompta
---
 
 CREATE VIEW vw_fiche_def AS
     SELECT jnt_fic_attr.fd_id, jnt_fic_attr.ad_id, attr_def.ad_text, attr_value.av_text, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def.frd_id FROM (((((jnt_fic_att_value JOIN attr_value USING (jft_id)) JOIN fiche USING (f_id)) JOIN jnt_fic_attr USING (fd_id)) JOIN attr_def ON ((attr_def.ad_id = jnt_fic_attr.ad_id))) JOIN fiche_def USING (fd_id));
 
 
---
--- Name: VIEW vw_fiche_def; Type: COMMENT; Schema: public; Owner: phpcompta
---
 
 COMMENT ON VIEW vw_fiche_def IS 'all the attributs for  card family';
 
 
---
--- Name: vw_fiche_min; Type: VIEW; Schema: public; Owner: phpcompta
---
 
 CREATE VIEW vw_fiche_min AS
     SELECT attr_min.frd_id, attr_min.ad_id, attr_def.ad_text, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base FROM ((attr_min JOIN attr_def USING (ad_id)) JOIN fiche_def_ref USING (frd_id));
 
 
---
--- Name: VIEW vw_fiche_min; Type: COMMENT; Schema: public; Owner: phpcompta
---
 
 COMMENT ON VIEW vw_fiche_min IS 'minimum attribut for reference card';
 
 
---
--- Name: vw_poste_qcode; Type: VIEW; Schema: public; Owner: phpcompta
---
 
 CREATE VIEW vw_poste_qcode AS
     SELECT a.f_id, a.av_text AS j_poste, b.av_text AS j_qcode FROM ((SELECT jnt_fic_att_value.f_id, attr_value.av_text FROM (attr_value JOIN jnt_fic_att_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 5)) a JOIN (SELECT jnt_fic_att_value.f_id, attr_value.av_text FROM (attr_value JOIN jnt_fic_att_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 23)) b USING (f_id));
 
 
---
--- Name: vw_supplier; Type: VIEW; Schema: public; Owner: phpcompta
---
 
 CREATE VIEW vw_supplier AS
     SELECT a.f_id, a.av_text AS name, a1.av_text AS quick_code, b.av_text AS tva_num, c.av_text AS poste_comptable, d.av_text AS rue, e.av_text AS code_postal, f.av_text AS pays, g.av_text AS telephone, h.av_text AS email FROM (((((((((SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 1)) a JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 13)) b USING (f_id)) JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 23)) a1 USING (f_id)) JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 5)) c USING (f_id)) JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 14)) d USING (f_id)) JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 15)) e USING (f_id)) JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 16)) f USING (f_id)) JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 17)) g USING (f_id)) LEFT JOIN (SELECT jnt_fic_att_value.jft_id, fiche.f_id, fiche_def.frd_id, fiche.fd_id, fiche_def.fd_class_base, fiche_def.fd_label, fiche_def.fd_create_account, fiche_def_ref.frd_text, fiche_def_ref.frd_class_base, jnt_fic_att_value.ad_id, attr_value.av_text FROM ((((fiche JOIN fiche_def USING (fd_id)) JOIN fiche_def_ref USING (frd_id)) JOIN jnt_fic_att_value USING (f_id)) JOIN attr_value USING (jft_id)) WHERE (jnt_fic_att_value.ad_id = 18)) h USING (f_id)) WHERE (a.frd_id = 8);
 
 
---
--- Name: action_gestion_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 
 
---
--- Name: action_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 
 
---
--- Name: attr_def_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 
 
---
--- Name: centralized_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 
 
---
--- Name: document_modele_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 
 
---
--- Name: document_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 
 
---
--- Name: document_state_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 
 
---
--- Name: document_type_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 
 
---
--- Name: fiche_def_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 
 
---
--- Name: fiche_def_ref_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 
 
---
--- Name: fiche_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 
 
---
--- Name: form_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 
 
---
--- Name: format_csv_banque_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 
 
---
--- Name: formdef_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 
 
---
--- Name: invoice_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 
 
---
--- Name: jnt_fic_att_value_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 
 
---
--- Name: jrn_action_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 
 
---
--- Name: jrn_def_jrn_def_name_key; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 
 
---
--- Name: jrn_def_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 
 
---
--- Name: jrn_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 
 
---
--- Name: jrn_rapt_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 
 
---
--- Name: jrn_type_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 
 
---
--- Name: jrnx_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 
 
---
--- Name: parameter_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 
 
---
--- Name: parm_code_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 
 
---
--- Name: parm_money_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 
 
---
--- Name: parm_periode_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 
 
---
--- Name: pk_jnt_fic_attr; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 
 
---
--- Name: pk_user_local_pref; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 
 
---
--- Name: qs_id_pk; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 
 
---
--- Name: stock_goods_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 
 
---
--- Name: tmp_pcmn_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 
 
---
--- Name: user_sec_act_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 
 
---
--- Name: user_sec_jrn_pkey; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 
 
---
--- Name: attr_value_jft_id; Type: INDEX; Schema: public; Owner: phpcompta; Tablespace: 
---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 CREATE UNIQUE INDEX attr_value_jft_id ON attr_value USING btree (jft_id);
 
 
---
--- Name: fd_id_ad_id_x; Type: INDEX; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE UNIQUE INDEX fd_id_ad_id_x ON jnt_fic_attr USING btree (fd_id, ad_id);
 
 
---
--- Name: fk_stock_goods_f_id; Type: INDEX; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE INDEX fk_stock_goods_f_id ON stock_goods USING btree (f_id);
 
 
---
--- Name: fk_stock_goods_j_id; Type: INDEX; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE INDEX fk_stock_goods_j_id ON stock_goods USING btree (j_id);
 
 
---
--- Name: idx_case; Type: INDEX; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE UNIQUE INDEX idx_case ON format_csv_banque USING btree (upper(name));
 
 
---
--- Name: idx_qs_internal; Type: INDEX; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE INDEX idx_qs_internal ON quant_sold USING btree (qs_internal);
 
 
---
--- Name: ix_iv_name; Type: INDEX; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE UNIQUE INDEX ix_iv_name ON invoice USING btree (upper(iv_name));
 
 
---
--- Name: k_ag_ref; Type: INDEX; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE UNIQUE INDEX k_ag_ref ON action_gestion USING btree (ag_ref);
 
 
---
--- Name: x_jrn_jr_id; Type: INDEX; Schema: public; Owner: phpcompta; Tablespace: 
---
+
+CREATE UNIQUE INDEX ux_po_name ON poste_analytique USING btree (po_name);
+
+
 
 CREATE UNIQUE INDEX x_jrn_jr_id ON jrn USING btree (jr_id);
 
 
---
--- Name: x_periode; Type: INDEX; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE UNIQUE INDEX x_periode ON parm_periode USING btree (p_start, p_end);
 
 
---
--- Name: x_poste; Type: INDEX; Schema: public; Owner: phpcompta; Tablespace: 
---
 
 CREATE INDEX x_poste ON jrnx USING btree (j_poste);
 
 
---
--- Name: tr_jrn_check_balance; Type: TRIGGER; Schema: public; Owner: phpcompta
---
+
+CREATE TRIGGER t_upper_pa_name
+    BEFORE INSERT OR UPDATE ON plan_analytique
+    FOR EACH ROW
+    EXECUTE PROCEDURE upper_pa_name();
+
+
+
+CREATE TRIGGER t_upper_po_name
+    BEFORE INSERT OR UPDATE ON poste_analytique
+    FOR EACH ROW
+    EXECUTE PROCEDURE upper_po_name();
+
+
 
 CREATE TRIGGER tr_jrn_check_balance
     AFTER INSERT ON jrn
@@ -2400,9 +2251,6 @@ CREATE TRIGGER tr_jrn_check_balance
     EXECUTE PROCEDURE proc_check_balance();
 
 
---
--- Name: trigger_document_type_i; Type: TRIGGER; Schema: public; Owner: phpcompta
---
 
 CREATE TRIGGER trigger_document_type_i
     AFTER INSERT ON document_type
@@ -2410,9 +2258,6 @@ CREATE TRIGGER trigger_document_type_i
     EXECUTE PROCEDURE t_document_type_insert();
 
 
---
--- Name: trigger_jrn_def_sequence_i; Type: TRIGGER; Schema: public; Owner: phpcompta
---
 
 CREATE TRIGGER trigger_jrn_def_sequence_i
     AFTER INSERT ON jrn_def
@@ -2420,9 +2265,6 @@ CREATE TRIGGER trigger_jrn_def_sequence_i
     EXECUTE PROCEDURE t_jrn_def_sequence();
 
 
---
--- Name: trim_quote; Type: TRIGGER; Schema: public; Owner: phpcompta
---
 
 CREATE TRIGGER trim_quote
     BEFORE INSERT OR UPDATE ON import_tmp
@@ -2430,9 +2272,6 @@ CREATE TRIGGER trim_quote
     EXECUTE PROCEDURE trim_cvs_quote();
 
 
---
--- Name: trim_space; Type: TRIGGER; Schema: public; Owner: phpcompta
---
 
 CREATE TRIGGER trim_space
     BEFORE INSERT OR UPDATE ON format_csv_banque
@@ -2440,129 +2279,84 @@ CREATE TRIGGER trim_space
     EXECUTE PROCEDURE trim_space_format_csv_banque();
 
 
---
--- Name: $1; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
 
 
 
---
--- Name: $1; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
 
 
 
---
--- Name: $1; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
 
 
 
---
--- Name: $1; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
 
 
 
---
--- Name: $1; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
 
 
 
---
--- Name: $1; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
 
 
 
---
--- Name: $1; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
 
 
 
---
--- Name: $1; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
 
 
 
---
--- Name: $1; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
 
 
 
---
--- Name: $1; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
 
 
 
---
--- Name: $1; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
 
 
 
---
--- Name: $1; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
 
 
 
---
--- Name: $1; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
 
 
 
---
--- Name: $1; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
 
 
 
---
--- Name: $2; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
 
 
 
---
--- Name: $2; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
 
 
 
---
--- Name: $2; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
 
 
 
---
--- Name: $2; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
 
 
 
---
--- Name: $2; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
 
 
 
---
--- Name: md_type; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
 
 
 
---
--- Name: public; Type: ACL; Schema: -; Owner: postgres
---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
 REVOKE ALL ON SCHEMA public FROM postgres;
@@ -2570,7 +2364,4 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
---
--- PostgreSQL database dump complete
---
 
