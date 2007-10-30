@@ -87,6 +87,12 @@ $sql="insert into centralized( c_j_id,
 
        $Res2=ExecSql($p_cn,$sql);
        $MaxLine=pg_NumRows($Res2);
+	$jrn_def_id=$row['jrn_def_id'];
+	 /* if seq doesn't exist create it */
+	 if ( exist_sequence($p_cn,'s_jrn_'.$jr_def_id) == false ) {
+	   create_sequence($p_cn,'s_jrn_'.$jr_def_id);
+	 }
+		 
        for ($e=0;$e < $MaxLine;$e++) {
 		 // each line is updated with a sequence
 		 $line=pg_fetch_array($Res2,$e);
@@ -94,7 +100,7 @@ $sql="insert into centralized( c_j_id,
 		 $sql=sprintf ("update jrn set 
                  jr_opid = (select nextval('s_jrn_%d'))
                  where jr_id =%d",
-					   $row['jrn_def_id'],
+					   $jr_def_id,
 					   $jr_id); 
 		 $Ret=ExecSql($p_cn,$sql);
      

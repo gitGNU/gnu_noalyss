@@ -455,5 +455,17 @@ function getDbValue($p_cn,$sql)
   $r=pg_fetch_row($ret,0);
   return $r[0];
 }
-
+/*!\brief test if a sequence exist */
+/* \return true if the seq. exist otherwise false
+ */
+function exist_sequence($p_cn,$p_name) {
+  $r=CountSql($p_cn,"select relname from pg_class where relname=lower('".$p_name."')");
+  if ( $r==0)
+    return false;
+  return true;
+}
+function create_sequence($p_cn,$p_name) {
+  $sql="create sequence ".$p_name;
+  ExecSql($p_cn,$sql);
+}
 ?>

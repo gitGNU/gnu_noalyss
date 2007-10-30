@@ -84,6 +84,12 @@ echo  JS_CONFIRM;
     	$Max=pg_NumRows($Res);
     	for ($seq=0;$seq<$Max;$seq++) {
 	    $row=pg_fetch_array($Res,$seq);
+	    /* if seq doesn't exist create it */
+	    if ( exist_sequence($cn_mod,'s_jrn_'.$row['jrn_def_id']) == false ) {
+	      create_sequence($cn_mod,'s_jrn_'.$row['jrn_def_id']);
+	    }
+
+
 	    $sql=sprintf ("select setval('s_jrn_%d',1,false)",$row['jrn_def_id']);
 	    ExecSql($cn_mod,$sql);
 	    /* 	    

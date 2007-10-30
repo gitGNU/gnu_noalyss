@@ -61,9 +61,9 @@ if ( isset ($_POST["central"] )) {
 if ( $_POST["periode"] != "" ) {
     $ret=Centralise($cn,$_POST["periode"]);
     if ($ret==NOERROR) {
-      echo '<H2 class="info">La période '.$_POST["periode"].' est centralisée</H2>';
+      echo '<H2 class="info">La p&eacute;riode '.$_POST["periode"].' est centralis&eacute;e</H2>';
     } else {
-      echo '<H2 class="error">La période '.$_POST["periode"].' n\' a pu être centralisée</H2>';
+      echo '<H2 class="error">La p&eacute;riode '.$_POST["periode"].' n\' a pu être centralis&eacute;e</H2>';
     }
   } 
 }// if ( isset ($_POST["central"] ))
