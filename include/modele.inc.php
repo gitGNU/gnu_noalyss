@@ -26,6 +26,8 @@
 /* \brief concerne only the template
  *
  */
+require_once ('class_widget.php');
+
 echo  JS_CONFIRM;
 
 $cn=DbConnect();
@@ -142,11 +144,13 @@ if ( isset ($_POST["FMOD_NAME"]) ) {
 $Res=ExecSql($cn,"select mod_id,mod_name,mod_desc from 
                       modeledef order by mod_name");
 $count=pg_NumRows($Res);
+
 if ( $count == 0 ) {
   echo "No template available";
  } else {
   echo "<H2>Modèles</H2>";
-
+  echo '<div class="u_content">';
+  echo widget::button_href('Rafra&icirc;chir','admin_repo.php?action=modele_mgt');
   echo '<table width="100%" border="1">';
   echo "<TR><TH>Nom</TH>".
     "<TH>Description</TH>".
@@ -214,6 +218,6 @@ if ( $count != 0 ) {
 </TABLE>
 </form>
 
-
+</div>
 
 
