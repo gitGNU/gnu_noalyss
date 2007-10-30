@@ -28,166 +28,169 @@
  */
 echo  JS_CONFIRM;
 
-    $cn=DbConnect();
-    // IF FMOD_NAME is posted then must add a template
-    if ( isset ($_POST["FMOD_NAME"]) ) {
-      $mod_name=FormatString($_POST["FMOD_NAME"]);
-      $mod_desc=FormatString($_POST["FMOD_DESC"]);
-      if ( $mod_name != null) {
-	$Res=ExecSql($cn,"insert into modeledef(mod_name,mod_desc)
+$cn=DbConnect();
+// IF FMOD_NAME is posted then must add a template
+if ( isset ($_POST["FMOD_NAME"]) ) {
+  $mod_name=FormatString($_POST["FMOD_NAME"]);
+  $mod_desc=FormatString($_POST["FMOD_DESC"]);
+  if ( $mod_name != null) {
+    $Res=ExecSql($cn,"insert into modeledef(mod_name,mod_desc)
                         values ('".$mod_name."',".
-		     "'".$mod_desc."')");
-	
-	// get the mod_id
-	$l_id=GetSequence($cn,'s_modid');
-	if ( $l_id != 0 ) {
-	   $Sql=sprintf("CREATE DATABASE %sMOD%d encoding='ISO8859-1' TEMPLATE %sDOSSIER%s",domaine,$l_id,domaine,$_POST["FMOD_DBID"]);
-	    ob_start();
-            if ( pg_query($cn,$Sql)==false) {
-		ob_clean();
-		echo "<h2 class=\"error\"> Base de donnée ".domaine."dossier".$_POST['FMOD_DBID']."  est accèdée, déconnectez-vous en d'abord</h2>";
-		exit;
-		}
- 	}
-      }// if $mod_name != null
+		 "'".$mod_desc."')");
+    
+    // get the mod_id
+    $l_id=GetSequence($cn,'s_modid');
+    if ( $l_id != 0 ) {
+      $Sql=sprintf("CREATE DATABASE %sMOD%d encoding='ISO8859-1' TEMPLATE %sDOSSIER%s",domaine,$l_id,domaine,$_POST["FMOD_DBID"]);
+      ob_start();
+      if ( pg_query($cn,$Sql)==false) {
+	ob_clean();
+	echo "<h2 class=\"error\"> Base de donnée ".domaine."dossier".$_POST['FMOD_DBID']."  est accèdée, déconnectez-vous en d'abord</h2>";
+	exit;
+      }
+    }
+  }// if $mod_name != null
+  
+  $cn_mod=dbconnect($l_id,'mod');
+  
+  // Clean some tables 
 
-      $cn_mod=dbconnect($l_id,'mod');
+  $Res=ExecSql($cn_mod,"select distinct jr_pj from jrn where jr_pj is not null ");
+  if ( pg_NumRows($Res) != 0 )
+    {
+      $a_lob=pg_fetch_all($Res);
+      foreach ($a_lob as $lob) 
+	pg_lo_unlink($cn_mod,$lob['loid']);
+    }
+  
+  $Res=ExecSql($cn_mod,"truncate table quant_sold");
+  $Res=ExecSql($cn_mod,"truncate table quant_purchase");
+  $Res=ExecSql($cn_mod,"truncate table centralized");
+  $Res=ExecSql($cn_mod,"truncate table stock_goods");
+  $Res=ExecSql($cn_mod,"truncate table jrn");
+  $Res=ExecSql($cn_mod,"truncate table jrnx");
 
-      // Clean some tables 
-      $Res=ExecSql($cn_mod,"truncate table jrn");
-	  $Res=ExecSql($cn_mod,"select distinct jr_pj from jrn where jr_pj is not null ");
-	  if ( pg_NumRows($Res) != 0 )
-		{
-		  $a_lob=pg_fetch_all($Res);
-		  foreach ($a_lob as $lob) 
-			pg_lo_unlink($cn_mod,$lob['loid']);
-		}
+  // TODO 
+  // Nettoyage table quant_*
+  $Res=ExecSql($cn_mod,"truncate table jrn_rapt");
+  $Res=ExecSql($cn_mod,"truncate table import_tmp");
+  //	Reset the closed periode
+  $Res=ExecSql($cn_mod,"update parm_periode set p_closed='f'");
+  // Reset Sequence
+  $a_seq=array('s_jrn','s_jrn_op','s_centralized','s_stock_goods');
+  foreach ($a_seq as $seq ) {
+    $sql=sprintf("select setval('%s',1,false)",$seq);
+    $Res=ExecSql($cn_mod,$sql);
+  }
+  $sql="select jrn_def_id from jrn_def ";
+  $Res=ExecSql($cn_mod,$sql);
+  $Max=pg_NumRows($Res);
+  for ($seq=0;$seq<$Max;$seq++) {
+    $row=pg_fetch_array($Res,$seq);
+    /* if seq doesn't exist create it */
+    if ( exist_sequence($cn_mod,'s_jrn_'.$row['jrn_def_id']) == false ) {
+      create_sequence($cn_mod,'s_jrn_'.$row['jrn_def_id']);
+    }
 
-      $Res=ExecSql($cn_mod,"truncate table quant_sold");
-      $Res=ExecSql($cn_mod,"truncate table quant_purchase");
-      $Res=ExecSql($cn_mod,"truncate table centralized");
-      $Res=ExecSql($cn_mod,"truncate table stock_goods");
-	  // TODO 
-	  // Nettoyage table quant_*
-      $Res=ExecSql($cn_mod,"truncate table jrn_rapt");
-	  $Res=ExecSql($cn_mod,"truncate table import_tmp");
-      //	Reset the closed periode
-      $Res=ExecSql($cn_mod,"update parm_periode set p_closed='f'");
-      // Reset Sequence
-      $a_seq=array('s_jrn','s_jrn_op','s_centralized','s_stock_goods');
-      foreach ($a_seq as $seq ) {
-      	$sql=sprintf("select setval('%s',1,false)",$seq);
-      	$Res=ExecSql($cn_mod,$sql);
+    
+    $sql=sprintf ("select setval('s_jrn_%d',1,false)",$row['jrn_def_id']);
+    ExecSql($cn_mod,$sql);
+    /* 	    
+	    $sql=sprintf ("select setval('s_jrn_pj_%d',1,false)",$row['jrn_def_id']);
+	    ExecSql($cn_mod,$sql);
+    */
+
+  }
+  //---
+  // Cleaning Action
+  //-- 
+  if ( isset($_POST['DOC'] ))
+    {
+      $Res=ExecSql($cn_mod,"delete from action_gestion");
+      $Res=ExecSql($cn_mod,"delete from document");
+      // Remove lob file
+      $Res=ExecSql($cn_mod,"select distinct loid from pg_largeobject");
+      if ( pg_NumRows($Res) != 0 )
+	{
+	  $a_lob=pg_fetch_all($Res);
+	  //var_dump($a_lob);
+	  foreach ($a_lob as $lob) {
+	    pg_lo_unlink($cn_mod,$lob['loid']);
+	  }
 	}
-   	$sql="select jrn_def_id from jrn_def ";
-   	$Res=ExecSql($cn_mod,$sql);
-    	$Max=pg_NumRows($Res);
-    	for ($seq=0;$seq<$Max;$seq++) {
-	    $row=pg_fetch_array($Res,$seq);
-	    /* if seq doesn't exist create it */
-	    if ( exist_sequence($cn_mod,'s_jrn_'.$row['jrn_def_id']) == false ) {
-	      create_sequence($cn_mod,'s_jrn_'.$row['jrn_def_id']);
-	    }
-
-
-	    $sql=sprintf ("select setval('s_jrn_%d',1,false)",$row['jrn_def_id']);
-	    ExecSql($cn_mod,$sql);
-	    /* 	    
-	     $sql=sprintf ("select setval('s_jrn_pj_%d',1,false)",$row['jrn_def_id']);
-	    ExecSql($cn_mod,$sql);
-	    */
-
-    	}
-	    //---
-	    // Cleaning Action
-	    //-- 
-	    if ( isset($_POST['DOC'] ))
-	      {
-			$Res=ExecSql($cn_mod,"delete from action_gestion");
-			$Res=ExecSql($cn_mod,"delete from document");
-			// Remove lob file
-			$Res=ExecSql($cn_mod,"select distinct loid from pg_largeobject");
-			if ( pg_NumRows($Res) != 0 )
+    }
+  if ( isset($_POST['CARD'])) 
+    {
+      $Res=ExecSql($cn_mod,"delete from  attr_value");
+      $Res=ExecSql($cn_mod,"delete from  jnt_fic_att_value");
+      $Res=ExecSql($cn_mod,"delete from   fiche");
+      $Res=ExecSql($cn_mod,"delete from action_gestion");
+      $Res=ExecSql($cn_mod,"delete from document");
+      // Remove lob file
+      $Res=ExecSql($cn_mod,"select distinct loid from pg_largeobject");
+      if ( pg_NumRows($Res) != 0 )
 			  {
-				$a_lob=pg_fetch_all($Res);
-				//var_dump($a_lob);
-				foreach ($a_lob as $lob) {
-				  pg_lo_unlink($cn_mod,$lob['loid']);
-				}
+			    $a_lob=pg_fetch_all($Res);
+			    foreach ($a_lob as $lob) 
+			      pg_lo_unlink($cn_mod,$lob['loid']);
 			  }
-	      }
-	    if ( isset($_POST['CARD'])) 
-	      {
-			$Res=ExecSql($cn_mod,"delete from  attr_value");
-			$Res=ExecSql($cn_mod,"delete from  jnt_fic_att_value");
-			$Res=ExecSql($cn_mod,"delete from   fiche");
-			$Res=ExecSql($cn_mod,"delete from action_gestion");
-			$Res=ExecSql($cn_mod,"delete from document");
-			// Remove lob file
-			$Res=ExecSql($cn_mod,"select distinct loid from pg_largeobject");
-			if ( pg_NumRows($Res) != 0 )
-			  {
-				$a_lob=pg_fetch_all($Res);
-				foreach ($a_lob as $lob) 
-				  pg_lo_unlink($cn_mod,$lob['loid']);
-			  }
-		    
-
-	      }
       
       
     }
-    // Show all available templates
+  
+  
+ }
+// Show all available templates
 
-    $Res=ExecSql($cn,"select mod_id,mod_name,mod_desc from 
+$Res=ExecSql($cn,"select mod_id,mod_name,mod_desc from 
                       modeledef order by mod_name");
-    $count=pg_NumRows($Res);
-    if ( $count == 0 ) {
-      echo "No template available";
-    } else {
-      echo "<H2>Modèles</H2>";
+$count=pg_NumRows($Res);
+if ( $count == 0 ) {
+  echo "No template available";
+ } else {
+  echo "<H2>Modèles</H2>";
 
-      echo '<table width="100%" border="1">';
-      echo "<TR><TH>Nom</TH>".
-	"<TH>Description</TH>".
-	"<th></th>".
-	"</TR>";
+  echo '<table width="100%" border="1">';
+  echo "<TR><TH>Nom</TH>".
+    "<TH>Description</TH>".
+    "<th></th>".
+    "</TR>";
+  
+  for ($i=0;$i<$count;$i++) {
+    $mod=pg_fetch_array($Res,$i);
+    printf('<TR>'.
+	   '<TD><b> %s</b> </TD>'.
+	   '<TD><I> %s </I></TD>'.
+	   '<td> '.
+	   ' <input type="button" name="Effacer" '.
+	   ' Value="Effacer" onClick="confirm_remove(\''.$_REQUEST['PHPSESSID'].'\',\''.$mod['mod_id'].'\',\'mod\');" \>'.
+	   '</td>'.
+	   
+	   '</TR>',
+	   $mod['mod_name'],
+	   $mod['mod_desc']);
+    
+  }// for
+  echo "</table>";
+ }// if count = 0
+echo "Si vous voulez récupérer toutes les adaptations d'un dossier ".
+" dans un autre dossier, vous pouvez en faire un modèle.".
+" Seules les fiches, la structure des journaux, les périodes,... seront reprises ".
+"et aucune donnée du dossier sur lequel le dossier est basé.";
 
-      for ($i=0;$i<$count;$i++) {
-	$mod=pg_fetch_array($Res,$i);
-	printf('<TR>'.
-               '<TD><b> %s</b> </TD>'.
-	       '<TD><I> %s </I></TD>'.
-	       '<td> '.
-	       ' <input type="button" name="Effacer" '.
-	       ' Value="Effacer" onClick="confirm_remove(\''.$_REQUEST['PHPSESSID'].'\',\''.$mod['mod_id'].'\',\'mod\');" \>'.
-	       '</td>'.
-
-	       '</TR>',
-	       $mod['mod_name'],
-	       $mod['mod_desc']);
-
-      }// for
-      echo "</table>";
-    }// if count = 0
-      echo "Si vous voulez récupérer toutes les adaptations d'un dossier ".
-	" dans un autre dossier, vous pouvez en faire un modèle.".
-	" Seules les fiches, la structure des journaux, les périodes,... seront reprises ".
-	"et aucune donnée du dossier sur lequel le dossier est basé.";
-
-    // Show All available folder
-    $Res=ExecSql($cn,"select dos_id, dos_name,dos_description from ac_dossier
+// Show All available folder
+$Res=ExecSql($cn,"select dos_id, dos_name,dos_description from ac_dossier
                       order by dos_name");
-    $count=pg_NumRows($Res);
-    $available="";
-    if ( $count != 0 ) {
-      $available='<SELECT NAME="FMOD_DBID">';
-      for ($i=0;$i<$count;$i++) {
-	$db=pg_fetch_array($Res,$i);
-	$available.='<OPTION VALUE="'.$db['dos_id'].'">'.$db['dos_name'].':'.$db['dos_description'];
-      }//for i
-      $available.='</SELECT>';
-    }//if count !=0
+$count=pg_NumRows($Res);
+$available="";
+if ( $count != 0 ) {
+  $available='<SELECT NAME="FMOD_DBID">';
+  for ($i=0;$i<$count;$i++) {
+    $db=pg_fetch_array($Res,$i);
+    $available.='<OPTION VALUE="'.$db['dos_id'].'">'.$db['dos_name'].':'.$db['dos_description'];
+  }//for i
+  $available.='</SELECT>';
+ }//if count !=0
 ?>
 <form action="admin_repo.php?action=modele_mgt" METHOD="post">
 <TABLE>
