@@ -68,7 +68,7 @@ if ( isset ($_POST["FMOD_NAME"]) ) {
   $Res=ExecSql($cn_mod,"truncate table centralized");
   $Res=ExecSql($cn_mod,"truncate table stock_goods");
   $Res=ExecSql($cn_mod,"truncate table jrn");
-  $Res=ExecSql($cn_mod,"truncate table jrnx");
+  $Res=ExecSql($cn_mod,"delete from jrnx");
 
   // TODO 
   // Nettoyage table quant_*
@@ -95,10 +95,7 @@ if ( isset ($_POST["FMOD_NAME"]) ) {
     
     $sql=sprintf ("select setval('s_jrn_%d',1,false)",$row['jrn_def_id']);
     ExecSql($cn_mod,$sql);
-    /* 	    
-	    $sql=sprintf ("select setval('s_jrn_pj_%d',1,false)",$row['jrn_def_id']);
-	    ExecSql($cn_mod,$sql);
-    */
+
 
   }
   //---
