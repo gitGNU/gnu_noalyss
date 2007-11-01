@@ -1,6 +1,6 @@
 #!/bin/bash -xv
 # clean all phpcompta related DB.
-DOMAIN=""
+DOMAIN="testing"
 export PGPASSWORD="dany"
 export PGUSER="phpcompta"
 export PGHOST=localhost
