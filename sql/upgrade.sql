@@ -38,4 +38,6 @@ end;
 $$
 	LANGUAGE plpgsql;
 select correct_sequence_jrn();
+
+drop function correct_sequence_jrn();
 commit;
