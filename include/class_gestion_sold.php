@@ -56,10 +56,12 @@ class gestion_sold extends gestion_table
                   qs_quantite,
                   qs_price,
                   qs_vat,
+                  tva_label,
+                  tva_rate,
                   qs_vat_code,
                   qs_client,
                   j_id
-          from quant_sold 
+          from quant_sold join tva_rate on (qs_vat_code=tva_id)
           where qs_internal='".$this->qs_internal."'";
 	$ret=ExecSql($this->db,$sql);
 	// $res contains all the line
