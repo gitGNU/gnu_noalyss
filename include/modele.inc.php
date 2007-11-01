@@ -47,7 +47,7 @@ if ( isset ($_POST["FMOD_NAME"]) ) {
       ob_start();
       if ( pg_query($cn,$Sql)==false) {
 	ob_clean();
-	echo "<h2 class=\"error\"> Base de donnée ".domaine."dossier".$_POST['FMOD_DBID']."  est accèdée, déconnectez-vous en d'abord</h2>";
+	echo "<h2 class=\"error\"> Base de donn&eacute;e ".domaine."dossier".$_POST['FMOD_DBID']."  est accèd&eacute;e, d&eacute;connectez-vous en d'abord</h2>";
 	$Res=ExecSql($cn,"delete from modeledef where mod_id=".$l_id);
 
 	exit;
@@ -176,10 +176,10 @@ if ( $count == 0 ) {
   }// for
   echo "</table>";
  }// if count = 0
-echo "Si vous voulez récupérer toutes les adaptations d'un dossier ".
+echo "Si vous voulez r&eacute;cup&eacute;rer toutes les adaptations d'un dossier ".
 " dans un autre dossier, vous pouvez en faire un modèle.".
-" Seules les fiches, la structure des journaux, les périodes,... seront reprises ".
-"et aucune donnée du dossier sur lequel le dossier est basé.";
+" Seules les fiches, la structure des journaux, les p&eacute;riodes,... seront reprises ".
+"et aucune donn&eacute;e du dossier sur lequel le dossier est bas&eacute;.";
 
 // Show All available folder
 $Res=ExecSql($cn,"select dos_id, dos_name,dos_description from ac_dossier
@@ -206,7 +206,7 @@ if ( $count != 0 ) {
     <TD><TEXTAREA ROWS="2" COLS="60" NAME="FMOD_DESC"></Textarea></TD>
 </TR>
 <TR>
-    <TD> Basé sur </TD>
+    <TD> Bas&eacute; sur </TD>
     <TD> <?php   echo $available ?></TD>
 </TR>
 <TR><TD>Nettoyage des Documents et courriers (ce qui  n'effacera pas les modèles de documents)</TD><TD> <input type="checkbox" name="DOC"></TD></TR>
