@@ -52,13 +52,22 @@ echo '<div class="u_tmenu">';
 echo ShowMenuCompta(7);
 echo '</div>';
 $p_action="";
-if ( isset($_REQUEST['p_action'] )) {
-  $p_action="?p_action=".$_REQUEST['p_action']."&".dossier::get();
- }
 
-echo ShowMenuAdvanced(9);
 
 $p_action=(isset($_REQUEST['p_action']))?$_REQUEST['p_action']:"";
+switch ($p_action) {
+ case 'preod':
+   $high=9;
+   break;
+ case 'periode';
+ $high=2;
+ break;
+ default:
+   $high=0;
+   
+ }
+echo ShowMenuAdvanced($high);
+
 if ($p_action == "periode" ) {
   if ( $User->admin == 0 && CheckAction($gDossier,$_SESSION['g_user'],GESTION_PERIODE) == 0 )
 	NoAccess();
