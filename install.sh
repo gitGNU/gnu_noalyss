@@ -56,18 +56,21 @@ if [ $REPO -eq 0 ]; then
 	# Create the repository
 	PSQL="psql -h localhost -U $OWNER ${DOMAIN}account_repository" 
 	$PSQL  -f html/admin/sql/account_repository/schema.sql || exit 1
+	$PSQL  -f html/admin/sql/account_repository/constraint.sql || exit 1
   	$PSQL  -f html/admin/sql/account_repository/data.sql || exit 1
 	
 	#create the template for Belgian accountancy
 	  createdb -h localhost -E latin1 -U $OWNER ${DOMAIN}mod1
 	PSQL="psql -h localhost -U $OWNER ${DOMAIN}mod1 "
 	$PSQL  -f html/admin/sql/mod1/schema.sql || exit 1
+	$PSQL  -f html/admin/sql/mod1/constraint.sql || exit 1
   $PSQL  -f html/admin/sql/mod1/data.sql || exit 1
 
 	# Create the mod2 database
 	createdb -h localhost -E latin1 -U $OWNER ${DOMAIN}mod2
 	PSQL="psql -h localhost -U $OWNER ${DOMAIN}mod2 "
   $PSQL  -f html/admin/sql/mod1/schema.sql || exit 1
+	$PSQL  -f html/admin/sql/mod1/constraint.sql || exit 1
   $PSQL  -f html/admin/sql/mod2/data.sql || exit 1
 fi
 
