@@ -29,6 +29,8 @@ $_ENV['TMP']="/tmp";
 define ("phpcompta_password","dany");
 define ("phpcompta_psql_port","5432");
 define ("phpcompta_user","phpcompta");
+//
+// the domain can't start by a number !!!
 define ("domaine","");
 define ("MAX_COMPTE",4);
 
