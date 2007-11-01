@@ -321,7 +321,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 		$r.='<td align="right">'.$row->qp_vat.'</td>';
 		$r.='<td>'.$row->qp_vat_code.'</td>';
 		$r.='<td>'.$row->qp_nd_amount.'</td>';
-		$r.='<td>'.$row->qp_nd_tva.'</td>';
+		$r.='<td>'.$row->tva_label.'</td>';
 		$r.='<td>'.$row->qp_nd_tva_recup.'</td>';
 		$r.='<td align="right">'.$row->qp_price.'</td>';
 		//-- add ca 
@@ -410,7 +410,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 	    $r.='<td align="right">'.$pu.'</td>';
 	    $r.='<td align="right">'.$row->qs_quantite.'</td>';
 	    $r.='<td align="right">'.$row->qs_vat.'</td>';
-	    $r.='<td align="center">'.$row->qs_vat_code.'</td>';
+	    $r.='<td align="center">'.$row->tva_label.'</td>';
 	    $r.='<td align="right">'.$row->qs_price.'</td>';
 	    //-- add ca 
 	    //
