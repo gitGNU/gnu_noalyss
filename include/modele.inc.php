@@ -48,6 +48,8 @@ if ( isset ($_POST["FMOD_NAME"]) ) {
       if ( pg_query($cn,$Sql)==false) {
 	ob_clean();
 	echo "<h2 class=\"error\"> Base de donnée ".domaine."dossier".$_POST['FMOD_DBID']."  est accèdée, déconnectez-vous en d'abord</h2>";
+	$Res=ExecSql($cn,"delete from modeledef where mod_id=".$l_id);
+
 	exit;
       }
     }
