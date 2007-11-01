@@ -26,6 +26,7 @@
 /* \brief Management of the folder
  *
  */
+require_once ('class_widget.php');
 
 echo '<div class="u_redcontent">';
 // check and add an new folder
@@ -104,6 +105,7 @@ if ( isset ($_POST["DATABASE"]) ) {
    <h2> Dossier Management</h2>
 
 <?php  
+  echo widget::button_href('Rafra&icirc;chir','admin_repo.php?action=dossier_mgt');
       
     $cn=DbConnect();
     $offset=(isset($_REQUEST['offset']))?$_REQUEST['offset']:0;
