@@ -590,6 +590,7 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Eché
 
   $r.='<table style="width:100%;border:solid blue 2px ;border-style:outset;">';
   $l_sessid=$_REQUEST['PHPSESSID'];
+
   $r.="<tr class=\"even\">";
   $r.="<th> Internal</th>";
   $r.=$sort_date;
@@ -639,8 +640,9 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Eché
 		echo_error('user_form_ach.php',__LINE__,'Erreur invalid request uri');
 		exit (-1);
       }
-    
-    $r.=sprintf('<A class="detail" HREF="javascript:modifyOperation(\'%s\',%d,\'%s\',\'%s\',\'%s\')" >%s</A>',
+    //DEBUG
+    //    $r.=$l_sessid;
+    $r.=sprintf('<A class="detail" HREF="javascript:modifyOperation(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')" >%s</A>',
 				$row['jr_id'], $l_sessid,$gDossier, $p_jrn,$vue, $row['jr_internal']);
     $r.="</TD>";
     // date
