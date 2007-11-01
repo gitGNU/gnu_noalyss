@@ -127,6 +127,8 @@ if ( isset ($_POST["FMOD_NAME"]) ) {
       $Res=ExecSql($cn_mod,"delete from   fiche");
       $Res=ExecSql($cn_mod,"delete from action_gestion");
       $Res=ExecSql($cn_mod,"delete from document");
+      $Res=ExecSql($cn_mod,"delete from op_predef");
+
       // Remove lob file
       $Res=ExecSql($cn_mod,"select distinct loid from pg_largeobject");
       if ( pg_NumRows($Res) != 0 )
@@ -210,7 +212,7 @@ if ( $count != 0 ) {
     <TD> <?php   echo $available ?></TD>
 </TR>
 <TR><TD>Nettoyage des Documents et courriers (ce qui  n'effacera pas les modèles de documents)</TD><TD> <input type="checkbox" name="DOC"></TD></TR>
-<TR><TD>Nettoyage de toutes les fiches (ce qui effacera client, fournisseurs et documents)</TD><TD> <input type="checkbox" name="CARD"></TD></TR>
+<TR><TD>Nettoyage de toutes les fiches (ce qui effacera client, op&eacute;rations pr&eacute;d&eacute;finies fournisseurs et documents)</TD><TD> <input type="checkbox" name="CARD"></TD></TR>
 
     
 
