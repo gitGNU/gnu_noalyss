@@ -57,12 +57,14 @@ class gestion_purchase extends gestion_table
                   qp_price,
                   qp_vat,
                   qp_vat_code,
+                  tva_rate,
+                  tva_label,
                   qp_nd_amount,
                   qp_nd_tva,
                   qp_nd_tva_recup,
                   qp_supplier,
                   j_id
-                 from quant_purchase
+                 from quant_purchase join tva_rate on (qp_vat_code=tva_id)
           where qp_internal='".$this->qp_internal."'";
 	$ret=ExecSql($this->db,$sql);
 	// $res contains all the line
