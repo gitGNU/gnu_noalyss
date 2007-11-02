@@ -1,5 +1,6 @@
 
 SET client_encoding = 'LATIN1';
+SET check_function_bodies = false;
 SET client_min_messages = warning;
 
 SET search_path = public, pg_catalog;
@@ -1004,12 +1005,15 @@ INSERT INTO parm_periode (p_id, p_start, p_end, p_exercice, p_closed, p_central)
 
 
 INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent) VALUES (10, 'Capital ', 1);
+INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent) VALUES (6040003, 'Petit matériel', 604);
 INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent) VALUES (11, 'Prime d''émission ', 1);
 INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent) VALUES (12, 'Plus Value de réévaluation ', 1);
 INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent) VALUES (13, 'Réserve ', 1);
 INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent) VALUES (130, 'Réserve légale', 13);
 INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent) VALUES (131, 'Réserve indisponible', 13);
 INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent) VALUES (1310, 'Réserve pour actions propres', 131);
+INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent) VALUES (6040004, 'Assurance', 604);
+INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent) VALUES (55000001, 'Caisse', 5500);
 INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent) VALUES (133, 'Réserves disponibles', 13);
 INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent) VALUES (14, 'Bénéfice ou perte reportée', 1);
 INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent) VALUES (140, 'Bénéfice reporté', 14);
@@ -1082,6 +1086,7 @@ INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent) VALUES (2829, 'Réduction
 INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent) VALUES (283, 'Créances sur des entreprises avec lesquelles existe un lien de participation', 28);
 INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent) VALUES (2830, 'Créance en compte', 283);
 INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent) VALUES (2831, 'Effets à recevoir', 283);
+INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent) VALUES (57, 'Caisse', 5);
 INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent) VALUES (2832, 'Titre à revenu fixe', 283);
 INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent) VALUES (2837, 'Créances douteuses', 283);
 INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent) VALUES (2839, 'Réduction de valeurs actées', 283);
@@ -1486,10 +1491,6 @@ INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent) VALUES (4000002, 'Client
 INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent) VALUES (4000003, 'Client 3', 400);
 INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent) VALUES (6040001, 'Electricité', 604);
 INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent) VALUES (6040002, 'Loyer', 604);
-INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent) VALUES (6040003, 'Petit matériel', 604);
-INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent) VALUES (6040004, 'Assurance', 604);
-INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent) VALUES (55000001, 'Caisse', 5500);
-INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent) VALUES (57, 'Caisse', 5);
 INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent) VALUES (55000002, 'Banque 1', 5500);
 INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent) VALUES (55000003, 'Banque 2', 5500);
 INSERT INTO tmp_pcmn (pcm_val, pcm_lib, pcm_val_parent) VALUES (4400001, 'Fournisseur 1', 440);
@@ -1529,7 +1530,7 @@ INSERT INTO user_local_pref (user_id, parameter_type, parameter_value) VALUES ('
 
 
 
-INSERT INTO version (val) VALUES (34);
+INSERT INTO version (val) VALUES (35);
 
 
 

@@ -40,4 +40,33 @@ $$
 select correct_sequence_jrn();
 
 drop function correct_sequence_jrn();
+
+
+
+CREATE OR REPLACE FUNCTION tva_delete(int4)
+  RETURNS void AS
+$BODY$ 
+declare
+	p_tva_id alias for $1;
+	nCount integer;
+begin
+	nCount=0;
+	select count(*) into nCount from quant_sold where qs_vat_code=p_tva_id;
+	if nCount != 0 then
+                 return;
+		
+	end if;
+	select count(*) into nCount from quant_purchase where qp_vat_code=p_tva_id;
+	if nCount != 0 then
+                 return;
+		
+	end if;
+
+delete from tva_rate where tva_id=p_tva_id;
+	return;
+end;
+$BODY$
+  LANGUAGE 'plpgsql' VOLATILE;
+
+
 commit;

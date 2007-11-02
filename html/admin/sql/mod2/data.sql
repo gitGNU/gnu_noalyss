@@ -1,6 +1,7 @@
 
 SET client_encoding = 'LATIN1';
 SET check_function_bodies = false;
+SET client_min_messages = warning;
 
 SET search_path = public, pg_catalog;
 
@@ -1839,7 +1840,7 @@ INSERT INTO tva_rate (tva_id, tva_label, tva_rate, tva_comment, tva_poste) VALUE
 
 
 
-INSERT INTO version (val) VALUES (34);
+INSERT INTO version (val) VALUES (35);
 
 
 

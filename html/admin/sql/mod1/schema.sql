@@ -1,9 +1,7 @@
 
 SET client_encoding = 'LATIN1';
-SET standard_conforming_strings = off;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
-SET escape_string_warning = off;
 
 
 
@@ -577,11 +575,13 @@ declare
 nCounter integer;
 
     BEGIN
-select count(*) into nCounter from pg_class where relname='seq_doc_type_'||NEW.jrn_def_id;
-if nCounter = 0 then
-        execute  'create sequence s_jrn_'||NEW.jrn_def_id;
-	raise notice 'Creating sequence s_jrn_%',NEW.jrn_def_id;
-end if;
+    select count(*) into nCounter 
+       from pg_class where relname='s_jrn_'||NEW.jrn_def_id;
+       if nCounter = 0 then
+       	   execute  'create sequence s_jrn_'||NEW.jrn_def_id;
+	   raise notice 'Creating sequence s_jrn_%',NEW.jrn_def_id;
+	 end if;
+
         RETURN NEW;
     END;
 $$
@@ -636,9 +636,17 @@ declare
 begin
 	nCount=0;
 	select count(*) into nCount from quant_sold where qs_vat_code=p_tva_id;
-	if nCount = 0 then
-		delete from tva_rate where tva_id=p_tva_id;
+	if nCount != 0 then
+                 return;
+		
 	end if;
+	select count(*) into nCount from quant_purchase where qp_vat_code=p_tva_id;
+	if nCount != 0 then
+                 return;
+		
+	end if;
+
+delete from tva_rate where tva_id=p_tva_id;
 	return;
 end;
 $_$
@@ -2358,10 +2366,6 @@ CREATE TRIGGER trim_space
 
 
 
-REVOKE ALL ON SCHEMA public FROM PUBLIC;
-REVOKE ALL ON SCHEMA public FROM postgres;
-GRANT ALL ON SCHEMA public TO postgres;
-GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
 

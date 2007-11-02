@@ -496,11 +496,13 @@ declare
 nCounter integer;
 
     BEGIN
-select count(*) into nCounter from pg_class where relname='seq_doc_type_'||NEW.jrn_def_id;
-if nCounter = 0 then
-        execute  'create sequence s_jrn_'||NEW.jrn_def_id;
-	raise notice 'Creating sequence s_jrn_%',NEW.jrn_def_id;
-end if;
+    select count(*) into nCounter 
+       from pg_class where relname='s_jrn_'||NEW.jrn_def_id;
+       if nCounter = 0 then
+       	   execute  'create sequence s_jrn_'||NEW.jrn_def_id;
+	   raise notice 'Creating sequence s_jrn_%',NEW.jrn_def_id;
+	 end if;
+
         RETURN NEW;
     END;
 $$
@@ -546,9 +548,17 @@ declare
 begin
 	nCount=0;
 	select count(*) into nCount from quant_sold where qs_vat_code=p_tva_id;
-	if nCount = 0 then
-		delete from tva_rate where tva_id=p_tva_id;
+	if nCount != 0 then
+                 return;
+		
 	end if;
+	select count(*) into nCount from quant_purchase where qp_vat_code=p_tva_id;
+	if nCount != 0 then
+                 return;
+		
+	end if;
+
+delete from tva_rate where tva_id=p_tva_id;
 	return;
 end;
 $_$
