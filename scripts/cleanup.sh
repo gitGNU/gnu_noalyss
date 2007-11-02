@@ -4,7 +4,7 @@ DOMAIN="testing"
 export PGPASSWORD="dany"
 export PGUSER="phpcompta"
 export PGHOST=localhost
-echo "Etes vous sur de vouloir effacer les db du domaine $DOMAINE Y/N ?"
+echo "Etes vous sur de vouloir effacer les db du domaine $DOMAIN Y/N ?"
 read A
 if [ "$A" == 'Y' ];then
     dropdb  ${DOMAIN}account_repository

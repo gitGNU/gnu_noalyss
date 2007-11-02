@@ -135,6 +135,7 @@ if ( $action == 'update' ) {
 	$view.=dossier::hidden();
 	$readonly=($p_view=='S')?0:1;
 	$view.=ShowOperationExpert($cn,$p_id,$readonly);
+	$view.='<hr>';
 	$view.='<input type="button" onclick="hide(\'expert\');show(\'simple\')"  value="Vue simple">';
 	$view.='<INPUT TYPE="Hidden" name="action" value="update_record">';
 	$view.="<br>";
@@ -160,6 +161,7 @@ if ( $action=="view_ca") {
   $view='<div id="simple">';
   $view.='<h2 class="info">Vue simple</h2>';
   $view.=ShowOperationUser($cn,$p_id,0);
+  $view.='<hr>';
   $view.='<input type="button" onclick="hide(\'simple\');show(\'expert\');" value="Vue Expert">';
   $view.='<input type="button" value="Fermer" onClick="window.close(); ">';
   $view.='</div>';
@@ -171,6 +173,7 @@ if ( $action=="view_ca") {
   $view.='<h2 class="info">Vue expert</h2>';
 
   $view.=ShowOperationExpert($cn,$p_id,0);
+  $view.='<hr>';
   $view.='<input type="button" onclick="hide(\'expert\');show(\'simple\')"  value="Vue Simple">';
   $view.='<input type="button" value="Fermer" onClick="window.close(); ">';
   $view.='</div>';
