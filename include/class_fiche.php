@@ -899,6 +899,7 @@ class fiche {
      
      echo '<TD><form method="GET" ACTION="">'.
        $submit->Submit('bt_other',"Autre poste").
+	dossier::hidden().
        $hid->IOValue("type","poste").$hid->IOValue('p_action','impress')."</form></TD>";
      
      echo '<TD><form method="POST" ACTION="quick_code_pdf.php">'.
@@ -907,6 +908,7 @@ class fiche {
        $hid->IOValue("type","poste").
        $hid->IOValue('p_action','impress').
        $hid->IOValue("f_id",$this->id).
+	dossier::hidden().
        $hid->IOValue("from_periode",$_POST['from_periode']).
        $hid->IOValue("to_periode",$_POST['to_periode']);
      echo "</form></TD>";
