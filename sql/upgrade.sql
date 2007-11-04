@@ -1,72 +1,41 @@
-begin;
+CREATE or replace FUNCTION t_document_modele_validate() RETURNS "trigger"
+    AS $$declare 
+    lText text;
+    modified document_modele%ROWTYPE;
+begin
+    modified=NEW;
 
-CREATE or replace FUNCTION t_jrn_def_sequence() RETURNS "trigger"
-    AS $$
-declare
-nCounter integer;
-
-    BEGIN
-    select count(*) into nCounter 
-       from pg_class where relname='s_jrn_'||NEW.jrn_def_id;
-       if nCounter = 0 then
-       	   execute  'create sequence s_jrn_'||NEW.jrn_def_id;
-	   raise notice 'Creating sequence s_jrn_%',NEW.jrn_def_id;
-	 end if;
-
-        RETURN NEW;
-    END;
-$$
+    if length(trim(modified.md_filename)) = 0 or modified.md_filename is NULL then
+	raise EXCEPTION 'Erreur nom de fichier invalide';
+    end if;
+modified.md_filename=replace(NEW.md_filename,' ','');
+return modified;
+end;$$
     LANGUAGE plpgsql;
 
-create or replace function correct_sequence_jrn () returns void
-as $$
-declare
-	nCounter integer;
-	nJrn_id record;
+
+
+CREATE  or replace FUNCTION t_document_validate() RETURNS "trigger"
+    AS $$declare
+  lText text;
+    modified document%ROWTYPE;
 begin
-	for nJrn_id in select jrn_Def_id from jrn_def loop
-	    select count(*) into nCounter 
-       	    	   from pg_class where relname='s_jrn_'||nJrn_id.jrn_def_id;
-            if nCounter = 0 then
-         	   execute  'create sequence s_jrn_'||nJrn_id.jrn_def_id;
-	          raise notice 'Creating sequence s_jrn_%',nJrn_id.jrn_def_id;
-	     end if;
+    modified=NEW;
+    if length(trim(modified.d_filename)) = 0 or modified.d_filename is NULL then
+	raise EXCEPTION 'Erreur nom de fichier invalide';
+    end if;
+modified.d_filename=replace(NEW.d_filename,' ','');
+return modified;
+end;$$
+    LANGUAGE plpgsql;
 
 
-	end loop;
-end;
-$$
-	LANGUAGE plpgsql;
-select correct_sequence_jrn();
+CREATE TRIGGER document_validate
+    BEFORE INSERT OR UPDATE ON document
+    FOR EACH ROW
+    EXECUTE PROCEDURE t_document_validate();
 
-drop function correct_sequence_jrn();
-
-
-
-CREATE OR REPLACE FUNCTION tva_delete(int4)
-  RETURNS void AS
-$BODY$ 
-declare
-	p_tva_id alias for $1;
-	nCount integer;
-begin
-	nCount=0;
-	select count(*) into nCount from quant_sold where qs_vat_code=p_tva_id;
-	if nCount != 0 then
-                 return;
-		
-	end if;
-	select count(*) into nCount from quant_purchase where qp_vat_code=p_tva_id;
-	if nCount != 0 then
-                 return;
-		
-	end if;
-
-delete from tva_rate where tva_id=p_tva_id;
-	return;
-end;
-$BODY$
-  LANGUAGE 'plpgsql' VOLATILE;
-
-
-commit;
+CREATE TRIGGER document_modele_validate
+    BEFORE INSERT OR UPDATE ON document_modele
+    FOR EACH ROW
+    EXECUTE PROCEDURE t_document_modele_validate();
