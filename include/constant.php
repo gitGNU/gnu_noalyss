@@ -132,6 +132,7 @@ define ("ATTR_DEF_PAYS",16);
 define ("ATTR_DEF_STOCK",19);
 define ("ATTR_DEF_TEL",17);
 define ("ATTR_DEF_EMAIL",18);
+define ("ATTR_DEF_CITY",24);
 define ("ATTR_DEF_COMPANY",25);
 define ("ATTR_DEF_FAX",26);
 

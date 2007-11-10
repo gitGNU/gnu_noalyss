@@ -441,9 +441,11 @@ class Document
  *  - [CUST_ADDR_1] customer's address line 1
  *  - [CUST_CP] customer's ZIP code
  *  - [CUST_CO] customer's country
+ *  - [CUST_CITY] customer's city
  *  - [CUST_COUNTRY]
  *  - [CUST_VAT] customer's VAT
  *  - [MARCH_NEXT]   end this item and increment the counter $i
+ *  - [DATE_LIMIT] 
  *  - [VEN_ART_NAME]
  *  - [VEN_ART_PRICE]
  *  - [VEN_ART_QUANT]
@@ -554,6 +556,14 @@ class Document
 	  $r=$tiers->strAttribut(ATTR_DEF_CP);
 
 	  break;
+	case 'CUST_CITY':
+	  $tiers=new fiche($this->db);
+	  $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
+	  $tiers->getByQcode($qcode,false);
+	  $r=$tiers->strAttribut(ATTR_DEF_CITY);
+
+	  break;
+
 	case 'CUST_CO':
 	  $tiers=new fiche($this->db);
 	  $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
@@ -574,6 +584,8 @@ class Document
 	case 'NUMBER':
 	  $r=$this->d_number;
 	  break;
+
+
 	case 'REFERENCE':
 	  $act=new action($this->db);
 	  $act->ag_id=$this->ag_id;
@@ -592,7 +604,15 @@ class Document
 	   *  - [VEN_TVAC]
 	   *  - [VEN_TVA]
 	   *  - [TOTAL_VEN_HTVA]
+	   *  - [DATE_LIMIT]
 	   */
+	case 'DATE_LIMIT':
+	  extract ($_POST);
+	  $id='e_ech' ;
+	  if ( !isset (${$id}) ) return "";
+	  $r=${$id};
+	  break;
+
 	case 'MARCH_NEXT':
 	  $counter++;
 	  $r='';
@@ -737,6 +757,8 @@ class Document
 		   ${$qt}==0 || ${$sell}==0)
 		continue;
 	      $sum+=${$sell}*${$qt};
+	      $sum=round($sum,2);
+
 	      echo_debug('class_document',__LINE__,'sum :'.$sum);
 
 	    }
@@ -755,9 +777,27 @@ class Document
 	      echo_debug('class_document',__LINE__,'sell :'.$sell.' qt = '.$qt);
 
 	      $sum+=$sell*$qt*(1+$tva_rate);
-	      //	      $sum+=${'e_march'.$i.'_sell'}*${'e_quant'.$i}*(1+$tva_rate);
+	      $sum=round($sum,2);
 	    }
 	  $r=round($sum,2);
+
+	  break;
+	case 'TOTAL_TVA':
+	  extract($_POST);
+	  $sum=0.0;
+	  for ($i=0;$i<$nb_item;$i++)
+	    {
+	      $tva=GetTvaRate($this->db,${'e_march'.$i.'_tva_id'});
+	      $tva_rate=( $tva == null || $tva == 0 )?0.0:$tva['tva_rate'];
+	      echo_debug('class_document',__LINE__,' :'.$i.' sur '.$nb_item);
+	      $sell=${'e_march'.$i.'_sell'};
+	      $qt=${'e_quant'.$i};
+	      echo_debug('class_document',__LINE__,'sell :'.$sell.' qt = '.$qt);
+
+	      $sum+=$sell*$qt*$tva_rate;
+	      $sum=round($sum,2);
+	    }
+	  $r=$sum;
 
 	  break;
 

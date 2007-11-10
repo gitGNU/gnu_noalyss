@@ -1770,8 +1770,10 @@ vous êtes sûr de vous. Le numéro 0, signifie qu'il n'y aura pas de changement de
 <item> CUST_NAME customer's name </item>
 <item> CUST_ADDR_1 customer's address line 1</item>
 <item> CUST_CP customer's ZIP code</item>
+<item> CUST_CITY customer's city </item>
 <item> CUST_CO customer's country</item>
 <item> CUST_VAT customer's VAT</item>
+<item> DATE_LIMIT Echéeance </item>
 <item> MARCH_NEXT end this item and increment the counter $i </item>
 <item> VEN_ART_NAME Nom de l'article</item>
 <item> VEN_ART_PRICE Prix de l'article</item>
@@ -1784,6 +1786,7 @@ vous êtes sûr de vous. Le numéro 0, signifie qu'il n'y aura pas de changement de
 <item> VEN_TVA le total de la tva de l'article</item>
 <item> TOTAL_VEN_HTVA le total HTVA</item>
 <item> TOTAL_VEN_TVAC le total TVAC</item>
+<item> TOTAL_TVA le total TVA</item>
 <item> TVA_LABEL Montre le % de tva</item>
 <item> TVA_AMOUNT Tva de l'article</item>
 <item> REFERENCE Référence</item>
