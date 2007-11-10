@@ -1,3 +1,4 @@
+
 php_value include_path .:../../include:../include:addon
 php_flag  magic_quotes_gpc off
 php_flag session.auto_start on
