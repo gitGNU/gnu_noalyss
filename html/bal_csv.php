@@ -29,11 +29,11 @@ include_once ("postgres.php");
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 
-include("class_acc_ledger.php");
+require_once("class_acc_ledger.php");
 $cn=DbConnect($gDossier);
 
 
-include ('class_user.php');
+require_once ('class_user.php');
 $User=new cl_user(DbConnect());
 $User->Check();
 if ( $User->CheckAction($cn,BALANCE) == 0)
