@@ -433,7 +433,7 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Eché
 	}
     }
   // set a filter for the FIN 
-  $a_parm_code=GetArray($p_cn,"select p_value from parm_code where p_code in ('BANQUE','VIREMENT_INTERNE','COMPTE_COURANT','CAISSE')");
+  $a_parm_code=GetArray($p_cn,"select p_value from parm_code where p_code in ('BANQUE','COMPTE_COURANT','CAISSE')");
   $sql_fin="(";
   $or="";
   foreach ($a_parm_code as $code) {
