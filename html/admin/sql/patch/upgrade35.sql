@@ -1,6 +1,10 @@
 begin;
+
+
+
 CREATE or replace FUNCTION t_document_modele_validate() RETURNS "trigger"
-    AS $$declare 
+    AS $$
+declare 
     lText text;
     modified document_modele%ROWTYPE;
 begin
@@ -8,21 +12,22 @@ begin
 
 	modified.md_filename=replace(NEW.md_filename,' ','_');
 	return modified;
-end;$$
-    LANGUAGE plpgsql;
+end;
+$$ LANGUAGE plpgsql;
 
 
 
-CREATE  or replace FUNCTION t_document_validate() RETURNS "trigger"
-    AS $$declare
+CREATE or replace FUNCTION t_document_validate() RETURNS "trigger"
+    AS $$
+declare
   lText text;
-    modified document%ROWTYPE;
+  modified document%ROWTYPE;
 begin
     	modified=NEW;
 	modified.d_filename=replace(NEW.d_filename,' ','_');
 	return modified;
-end;$$
-    LANGUAGE plpgsql;
+end;
+$$ LANGUAGE plpgsql;
 
 
 CREATE TRIGGER document_validate
