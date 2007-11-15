@@ -210,7 +210,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
    *  show the expert view
    */
 
-  if ( $l_array == null ) {
+  if ( $l_array == null || empty($l_array) == true) {
     // If the  operation is not in quant_sold or quant_purchase 
     // because those tables comes later
     $r=ShowOperationExpert($p_cn,$p_jr_id,$p_mode);
