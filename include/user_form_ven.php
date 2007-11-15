@@ -551,9 +551,16 @@ function FormVenteView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='form'
     // Sum of invoice
     $sum_march+=$fiche_sum;
     // vat of the card
-    $fiche_amount_vat=$fiche_price*$fiche_quant*$vat_rate;
+    $fiche_amount_vat=round($fiche_price*$fiche_quant*$vat_rate,2);
     // value card + vat
-    $fiche_with_vat=$fiche_price*$fiche_quant*(1+$vat_rate);
+    $fiche_with_vat=$fiche_price*$fiche_quant+$fiche_amount_vat;
+    // store in array 
+    if ( $vat_label != "") {
+      if ( ! isset($a_sum_tva_cat[$vat_label])) {
+	$a_sum_tva_cat[$vat_label]=0.0;
+      }
+      $a_sum_tva_cat[$vat_label]+=$fiche_amount_vat;
+    }
     // Sum of invoice vat 
     $sum_with_vat+=$fiche_with_vat;
     // Show the data
@@ -587,9 +594,17 @@ function FormVenteView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='form'
   
   // end table
   $r.='</TABLE> ';
+  $total_vat=0.0;
   $r.='<DIV style="padding:30px;font-size:14px">';
-  $r.="Total HTVA =".round( $sum_march,2)." <br>";
-  $r.="Total = ".round($sum_with_vat,2);
+  $r.="HTVA =".round( $sum_march,2)." <br>";
+  if ( isset($a_sum_tva_cat) && empty ($a_sum_tva_cat) != true) {
+    foreach ($a_sum_tva_cat as $tva_cat=>$tva_amount) {
+      $r.="Tva ".$tva_cat." =".$tva_amount."<br>";
+      $total_vat+=$tva_amount;
+    }
+  }
+  $r.="TVA =".$total_vat.'<br>';
+  $r.="TTC = ".round($sum_with_vat,2);
 
  
   $r.="</DIV>";

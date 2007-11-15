@@ -144,6 +144,7 @@ function ExecuteScript($p_cn,$script) {
 	    $buffer=str_replace (';','',$buffer);
 	    }
     $sql.=$buffer;
+echo_debug('setup.php',__LINE__,"Execute sql $sql");
     if ( ExecSql($p_cn,$sql,false) == false ) {
 	    Rollback($p_cn);
 	    if ( DEBUG=='false' ) ob_clean();
