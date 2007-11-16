@@ -86,6 +86,7 @@ if ( $sub_action=="blank")
   echo '<input type="hidden" name="sa" value="insert">';
   echo '<input type="hidden" name="fd_id" value="'.$_GET['fd_id'].'">';
   echo '<input type="hidden" name="url" value="'.$_GET['url'].'">';
+  echo dossier::hidden();
   echo $c->blank($_GET['fd_id']);
   echo '<input type="Submit" value="Sauve">';
   echo '</form>';
@@ -100,7 +101,9 @@ if ( $sub_action == "list" )
 <div class="u_content">
 <span style="position:float;float:left">
 <form method="get" action="commercial.php">
-<?php  
+<?php 
+    echo dossier::hidden();
+ 
    $a=(isset($_GET['query']))?$_GET['query']:"";
    printf ('<input type="text" name="query" value="%s">',
 	   $a);
@@ -120,6 +123,8 @@ if ( $sub_action == "list" )
  $w->value= make_array($cn,"select fd_id,fd_label from fiche_def where ".
 	     " frd_id=".FICHE_TYPE_FOURNISSEUR);
  echo $w->IOValue();
+  echo dossier::hidden();
+
 ?>
 <input type="hidden" name="sa" value="blank">
 <input type="submit" name="submit_query" value="Ajout Sup">

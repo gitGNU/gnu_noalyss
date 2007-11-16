@@ -39,5 +39,7 @@ CREATE TRIGGER document_modele_validate
     BEFORE INSERT OR UPDATE ON document_modele
     FOR EACH ROW
     EXECUTE PROCEDURE t_document_modele_validate();
+
+update operation_analytique set oa_debit=j_debit from jrnx where jrnx.j_id=operation_analytique.j_id ;
 update version set val=36;
 commit;

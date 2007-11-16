@@ -911,7 +911,7 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 	  $op->oa_group=$group;
 	  $op->j_id=$j_id;
 	  $op->oa_date=$e_date;
-	  $op->oa_debit=($op->oa_amount < 0 )?'t':'f';
+	  $op->oa_debit=($op->oa_amount < 0 )?'f':'t';
 	  $op->oa_description=$comm;
 	  $op->save_form_plan($_POST,$i);
 	}

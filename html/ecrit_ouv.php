@@ -74,6 +74,7 @@ if ( isset ($_GET['export'])) {
   $w->name="p_periode";
   echo 'P&eacute;riode : '.$w->IOValue();
   echo $w->Submit('export','Export');
+  echo dossier::hidden();
   echo "</form>";
   exit(0);
 }
@@ -88,6 +89,8 @@ if ( isset ($_GET['import'])) {
 ?>
 <FORM NAME="form_detail" enctype="multipart/form-data" ACTION="ecrit_ouv.php?import" METHOD="POST">
 <?php
+  echo dossier::hidden();
+
   // TODO propose  ODS ledger 
   $ods=make_array($cn,"select jrn_def_id,jrn_def_name from jrn_def where jrn_def_type = 'ODS'");
   $x=new widget("select");
