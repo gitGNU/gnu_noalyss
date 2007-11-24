@@ -73,10 +73,10 @@ function u_ShowDossier($p_user,$p_admin)
     $result.="<A class=\"mtitle\" HREF=\"commercial.php?gDossier=$id\">Gestion</A>";
     $result.="</TD>";
     $result.="<TD class=\"mtitle\">";
-    $result.="<A class=\"mtitle\" HREF=\"parametre.php?gDossier=$id\">Paramètres</A>";
+    $result.="<A class=\"mtitle\" HREF=\"comptanalytic.php?gDossier=$id\"> Analytique</A>";
     $result.="</TD>";
     $result.="<TD class=\"mtitle\">";
-    $result.="<A class=\"mtitle\" HREF=\"comptanalytic.php?gDossier=$id\">Comptabilité analytique</A>";
+    $result.="<A class=\"mtitle\" HREF=\"parametre.php?gDossier=$id\">Paramètres</A>";
     $result.="</TD>";
 /*     $result.="<TD class=\"mtitle\">"; */
 /*     $result.="<A class=\"mtitle\" HREF=\"caisse.php?dos=$id\">Caisse Enregistreuse</A>"; */
