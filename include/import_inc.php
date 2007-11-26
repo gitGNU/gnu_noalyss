@@ -265,17 +265,16 @@ function TransferCSV($p_cn, $periode){
     " montant,num_compte,poste_comptable,bq_account,jrn,detail,jr_rapt ".
     " from import_tmp where ".
          " status= 'w' AND date_exec BETWEEN ".$start." and ".$end;
-  $Res=ExecSql($p_cn,$sql);
 
-  $Max=pg_NumRows($Res);
-  echo $Max." opérations à transférer.<br/>";
   try 
     {
       StartSql($p_cn);
-  
+      $ResAll=ExecSql($p_cn,$sql);
+      $Max=pg_NumRows($ResAll);
+      echo $Max." opérations à transférer.<br/>";
       for ($i = 0;$i < $Max;$i++) {
-	$val=pg_fetch_array($Res,$i);
-	
+	$val=pg_fetch_array($ResAll,$i);
+
 	$code=$val['code']; 
 	$date_exec=$val['date_exec']; 
 	$montant=$val['montant']; 
@@ -330,7 +329,6 @@ function TransferCSV($p_cn, $periode){
       	$internal=SetInternalCode($p_cn,$seq,$jrn);
 	$Res=ExecSql($p_cn,"update jrn set jr_internal='".$internal."' where ".
                " jr_id = ".$jr_id);
-      }
       // insert rapt
       if ( trim($jr_rapt) != "" ) {
 	if ( strpos($jr_rapt,',') !== 0 )
@@ -356,7 +354,8 @@ function TransferCSV($p_cn, $periode){
       echo "Tranfer de l'opération ".$code." effectué<br/>";
       $sql2 = "update import_tmp set status='t' where code='".$code."'";
       $Res2=ExecSql($p_cn,$sql2);
-    } catch (Exception $e) {
+    } 
+}	catch (Exception $e) {
     Rollback($p_cn);
     echo '<span class="error">'.
       'Erreur dans '.__FILE__.':'.__LINE__.
