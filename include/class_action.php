@@ -840,7 +840,7 @@ class action
 		      $_REQUEST['PHPSESSID'],$qdest);
 	  if ( $qdest != 'Interne' )
 	    {
-	      $r.="<td>".'<A HREF="'.$jsdest.'&'.$str_dossier.'">'.$qdest." : ".$fdest->getName().'</A></td>';
+	      $r.="<td>".'<A HREF="'.$jsdest.'">'.$qdest." : ".$fdest->getName().'</A></td>';
 	    }
 	  else
 	    $r.="<td>Interne </td>";
@@ -855,7 +855,7 @@ class action
 		      $_REQUEST['PHPSESSID'],$qexp);
 	  if ( $qexp != 'Interne' )
 	    {
-	      $r.="<td>".'<A HREF="'.$jsexp.'&'.$str_dossier.'">'.$qexp." : ".$fexp->getName().'</A></td>';
+	      $r.="<td>".'<A HREF="'.$jsexp.'">'.$qexp." : ".$fexp->getName().'</A></td>';
 	    }
 	  else
 	    $r.="<td>Interne </td>";
