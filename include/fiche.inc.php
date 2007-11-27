@@ -216,7 +216,7 @@ if ( isset ( $_GET["action"]) ) {
     $str="";
 
     echo '<a class="mtitle" href="?p_action=fiche&action=vue&'.$str_dossier.'&fiche='.$fiche->fiche_def.$str.
-      '"><input type="button" value="annuler"></A>';
+      '"><input type="button" value="Annuler"></A>';
     if ( $write != 0 ) echo '</form>';
     echo '</DIV>';
   $recherche=false;
@@ -298,8 +298,8 @@ if ( isset ($_POST["fiche"]) && isset ($_POST["add"] ) ) {
 		echo dossier::hidden();
 		echo $fiche->blank($_POST['fiche']);
 		echo '<input type="submit" name="add_fiche" value="Ajout">';
-		echo '<a class="mtitle" href="'.$url.'&fiche='.$_POST['fiche'].'">'.
-		  '<input type="button" value="annuler"></A>';
+		echo '<a class="mtitle" href="'.$url.'&fiche='.$_POST['fiche'].'&'.$str_dossier.'">'.
+		  '<input type="button" value="Annuler"></A>';
 		
 
 		echo '</form>';
