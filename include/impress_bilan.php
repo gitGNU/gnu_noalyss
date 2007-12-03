@@ -42,5 +42,12 @@ echo '<div class="u_redcontent">';
 echo '<FORM ACTION="bilan.php" METHOD="GET">';
 echo $bilan->display_form ($filter_year);
 echo '</FORM>';
+echo '<span class="notice"> Attention : si le bilan n\'est pas &eacute;quilibr&eacute;.<br> V&eacute;rifiez <ul>
+<li>L\'affectation du r&eacute;sultat est fait</li>
+<li>Vos comptes actifs ont  un solde d&eacute;biteur (sauf les comptes dit invers&eacute;s)</li> 
+<li> les comptes passifs ont un solde cr&eacute;diteur (sauf les comptes dit invers&eacute;s) </li>
+</ul> 
+Utilisez la balance des comptes pour v&eacute;rifier. </span>';
+
 echo '</div>';
 ?>

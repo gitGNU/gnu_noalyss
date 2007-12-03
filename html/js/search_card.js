@@ -28,7 +28,7 @@ function showfiche(p_sessid,p_qcode)
 {
   p_dossier=document.getElementById("gDossier").value;
   var a=window.open('show_fiche.php?PHPSESSID='+p_sessid+'&gDossier='+p_dossier+'&q='+p_qcode,'','toolbar=no,width=350,height=450,scrollbar=yes,statusbar=no');
-  
+  return false;
 }
 
 /* type must be cred or deb and name is
@@ -40,6 +40,7 @@ function SearchCard(p_sessid,type,name,jrn)
   var search=document.getElementById(name).value;
   var gDossier=document.getElementById('gDossier').value;
    var a=window.open('fiche_search.php?first&search&fic_search='+search+'&p_jrn='+jrn+'&PHPSESSID='+p_sessid+'&type='+type+'&name='+name+'&gDossier='+gDossier,'item','toolbar=no,width=350,height=450,scrollbars=yes,statusbar=no');
+   return false;
 }
 	function NewCard(p_sessid,type,name,jrn)
 {
@@ -47,6 +48,8 @@ function SearchCard(p_sessid,type,name,jrn)
   var gDossier=document.getElementById('gDossier').value;
 
   var a=window.open('fiche_new.php?p_jrn='+jrn+'&PHPSESSID='+p_sessid+'&type='+type+'&name='+name+'&gDossier='+gDossier,'item','toolbar=no,width=350,height=450,scrollbars=yes,statusbar=no');
+   return false;
+
 }
 /* SetValue( p_ctl,p_value )
 /* p_ctl is the name of the control

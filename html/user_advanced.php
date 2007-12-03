@@ -62,6 +62,10 @@ switch ($p_action) {
  case 'periode';
  $high=2;
  break;
+ case 'verif';
+ $high=10;
+ break;
+
  default:
    $high=0;
    
@@ -158,8 +162,77 @@ if ($p_action=="preod") {
 	echo '</table>';
   }
   echo '</div>';
+  exit();
  }
+//----------------------------------------------------------------------
+// Verification solde
+//----------------------------------------------------------------------
+if ( $p_action=='verif' ) {
+  echo '<div class="u_content">';
+  $User->db=$cn;
+  $sql_year=" and c_periode in (select p_id from parm_periode where p_exercice='".$User->GetExercice()."')";
 
+  echo '<ol>';
+  $deb=getDbValue($cn,"select sum (c_montant) from centralized where c_debit='t' $sql_year ");
+  $cred=getDbValue($cn,"select sum (c_montant) from centralized where c_debit='f' $sql_year ");
+
+  if ( $cred == $deb ) { 
+    $result ='<span style="color:green;font-size:120%;font-weight:bold;"> OK </span>';}
+  else  { 
+    $result ='<span style="color:red;font-size:120%;font-weight:bold;"> NON OK </span>';}
+
+  printf ('<li> Solde Grand Livre centralis&eacute;: debit %f credit %f %s</li>',$deb,$cred,$result);
+
+  $sql="select jrn_def_id,jrn_def_name from jrn_def";
+  $res=ExecSql($cn,$sql);
+  $jrn=pg_fetch_all($res);
+  foreach ($jrn as $l) {
+    $id=$l['jrn_def_id'];
+    $name=$l['jrn_def_name'];
+    $deb=getDbValue($cn,"select sum (c_montant) from centralized where c_debit='t' and c_jrn_def=$id $sql_year ");
+    $cred=getDbValue($cn,"select sum (c_montant) from centralized where c_debit='f' and c_jrn_def=$id  $sql_year ");
+
+  if ( $cred == $deb ) { 
+    $result ='<span style="color:green;font-size:120%;font-weight:bold;"> OK </span>';}
+  else  { 
+    $result ='<span style="color:red;font-size:120%;font-weight:bold;"> NON OK </span>';}
+
+  printf ('<li> Journal %s Solde   centralis&eacute;: debit %f credit %f %s</li>',$name,$deb,$cred,$result);
+    
+  }
+  echo '</ol>';
+  echo '<ol>';
+  $sql_year=" and j_tech_per in (select p_id from parm_periode where p_exercice='".$User->GetExercice()."')";
+
+  $deb=getDbValue($cn,"select sum (j_montant) from jrnx where j_debit='t' $sql_year ");
+  $cred=getDbValue($cn,"select sum (j_montant) from jrnx where j_debit='f' $sql_year ");
+
+  if ( $cred == $deb ) { 
+    $result ='<span style="color:green;font-size:120%;font-weight:bold;"> OK </span>';}
+  else  { 
+    $result ='<span style="color:red;font-size:120%;font-weight:bold;"> NON OK </span>';}
+
+  printf ('<li> Solde Grand Livre non centralis&eacute;: debit %f credit %f %s</li>',$deb,$cred,$result);
+  $sql="select jrn_def_id,jrn_def_name from jrn_def";
+  $res=ExecSql($cn,$sql);
+  $jrn=pg_fetch_all($res);
+  foreach ($jrn as $l) {
+    $id=$l['jrn_def_id'];
+    $name=$l['jrn_def_name'];
+    $deb=getDbValue($cn,"select sum (j_montant) from jrnx where j_debit='t' and j_jrn_def=$id $sql_year ");
+    $cred=getDbValue($cn,"select sum (j_montant) from jrnx where j_debit='f' and j_jrn_def=$id  $sql_year ");
+
+  if ( $cred == $deb ) { 
+    $result ='<span style="color:green;font-size:120%;font-weight:bold;"> OK </span>';}
+  else  { 
+    $result ='<span style="color:red;font-size:120%;font-weight:bold;"> NON OK </span>';}
+
+  printf ('<li> Journal %s Solde  non centralis&eacute;: debit %f credit %f %s</li>',$name,$deb,$cred,$result);
+    
+  }
+
+  echo '</div>';
+ }
 
 
 html_page_stop();

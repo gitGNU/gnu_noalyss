@@ -553,7 +553,8 @@ function ShowMenuAdvanced($default="") {
 		array('compta.php?p_action=stock&'.$str_dossier,'Stock',"Gestion des stocks",5),
 		array('form.php?'.$str_dossier,'Rapport',"Rapport",6),
 		array('import.php?'.$str_dossier,'Import Banque',"Banque",7),
-		array('ecrit_ouv.php?'.$str_dossier,'Ecriture ouverture',"",8)
+		array('ecrit_ouv.php?'.$str_dossier,'Ecriture ouverture',"",8),
+		array('user_advanced.php?p_action=verif&'.$str_dossier,'V&eacute;rification',"",10)
 	),
 					  'H',"mtitle","mtitle",$default);
  $r='<div class="u_subtmenu">'.$left_menu."</div>";

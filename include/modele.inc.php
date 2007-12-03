@@ -73,6 +73,7 @@ if ( isset ($_POST["FMOD_NAME"]) ) {
   $Res=ExecSql($cn_mod,"truncate table stock_goods");
   $Res=ExecSql($cn_mod,"truncate table jrn");
   $Res=ExecSql($cn_mod,"delete from jrnx");
+  $Res=ExecSql($cn_mod,'delete from operation_analytique');
 
   // TODO 
   // Nettoyage table quant_*
@@ -140,7 +141,10 @@ if ( isset ($_POST["FMOD_NAME"]) ) {
       
       
     }
-  
+  if ( isset($_POST['CANAL'])) {
+    $Res=ExecSql($cn_mod,'delete from poste_analytique');
+    $Res=ExecSql($cn_mod,'delete from plan_analytique');
+  }  
   
  }
 // Show all available templates
@@ -213,6 +217,8 @@ if ( $count != 0 ) {
 </TR>
 <TR><TD>Nettoyage des Documents et courriers (ce qui  n'effacera pas les modèles de documents)</TD><TD> <input type="checkbox" name="DOC"></TD></TR>
 <TR><TD>Nettoyage de toutes les fiches (ce qui effacera client, op&eacute;rations pr&eacute;d&eacute;finies fournisseurs et documents)</TD><TD> <input type="checkbox" name="CARD"></TD></TR>
+
+<TR><TD>Nettoyage de la comptabilit&eacute; analytique : effacement des plans et des postes, les op&eacute;rations sont de toute fa&ccedil;on effac&eacute;es </TD><TD> <input type="checkbox" name="CANAL"></TD></TR>
 
     
 
