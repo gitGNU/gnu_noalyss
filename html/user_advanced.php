@@ -212,7 +212,7 @@ if ( $p_action=='verif' ) {
   else  { 
     $result ='<span style="color:red;font-size:120%;font-weight:bold;"> NON OK </span>';}
 
-  printf ('<li> Solde Grand Livre non centralis&eacute;: debit %f credit %f %s</li>',$deb,$cred,$result);
+  printf ('<li> Total solde Grand Livre : debit %f credit %f %s</li>',$deb,$cred,$result);
   $sql="select jrn_def_id,jrn_def_name from jrn_def";
   $res=ExecSql($cn,$sql);
   $jrn=pg_fetch_all($res);
@@ -227,7 +227,7 @@ if ( $p_action=='verif' ) {
   else  { 
     $result ='<span style="color:red;font-size:120%;font-weight:bold;"> NON OK </span>';}
 
-  printf ('<li> Journal %s Solde  non centralis&eacute;: debit %f credit %f %s</li>',$name,$deb,$cred,$result);
+  printf ('<li> Journal %s total : debit %f credit %f %s</li>',$name,$deb,$cred,$result);
     
   }
 
