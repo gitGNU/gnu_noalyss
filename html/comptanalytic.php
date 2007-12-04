@@ -44,15 +44,18 @@ html_page_start($_SESSION['g_theme']);
 //-----------------------------------------------------------------
 //Header
 echo '<div class="u_tmenu">';
-echo "<H2 class=\"info\">Analytique ".dossier::name()." ";
-echo '<div align="right" title="Recherche">
+echo '<div style="float:left">';
+echo "<H2 class=\"info\">Analytique ".dossier::name()."</h2> ";
+echo '</div>';
+echo '<div style="float:none;text-align:right;" title="Recherche">
 <input type="IMAGE" src="image/search.png" width="36" onclick="openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.dossier::id().');">
 <A HREF="?p_action=pref&'.$str_dossier.'" title="Pr&eacute;f&eacute;rence"><IMG SRC="image/preference.png" width="36" border="0" ></A>
 <A HREF="user_compta.php?'.$str_dossier.'" title="Comptabilit&eacute;"><IMG SRC="image/compta.png" width="36"  border="0" ></A>
 <A HREF="parametre.php?'.$str_dossier.'" title="Param&egrave;tre"><IMG SRC="image/param.png" width="36" border="0" ></A>
 <A HREF="login.php" title="Accueil"><IMG src="image/home.png" width="36" title="Accueil"  border="0"  ></A>
 <A HREF="logout.php" title="Sortie"><IMG src="image/logout.png" title="Logout"  width="36"  border="0"></A>
-</div> </h2>';
+</div>';
+
 //-----------------------------------------------------------------
 
 $def=-1;
@@ -75,9 +78,10 @@ if ( isset ($_REQUEST['p_action']))
 	  }
   }
 echo ShowItem(array(
-					array('?p_action=ca_pa&'.$str_dossier,'Plan Analytique',"Plan Analytique",0),
-					array('?p_action=ca_od&'.$str_dossier,'Op&eacute;rations Diverses',"Permet d'enregistrer des opérations sur la compta analytique",1),
-					array('?p_action=ca_imp&'.$str_dossier,'Impression',"impression de rapport",2)
+	array('?p_action=ca_pa&'.$str_dossier,'Plan Analytique',"Plan Analytique",0),
+	array('?p_action=ca_od&'.$str_dossier,'Op&eacute;rations Diverses',"Permet d'enregistrer des opérations sur la compta analytique",1),
+	array('?p_action=ca_groupe&'.$str_dossier,'Groupe','Regroupe les postes analytiques',3),
+	array('?p_action=ca_imp&'.$str_dossier,'Impression',"impression de rapport",2)
 		    ),
 	      'H',"mtitle","mtitle",$def,' width="100%"');
 echo '</div>';
@@ -108,6 +112,12 @@ if ($_REQUEST['p_action'] == 'ca_pa' )
 if ($_REQUEST['p_action'] == 'ca_od' )
   {
 	require_once('ca_od.inc.php');
+	exit();
+  }
+// Impression
+if ($_REQUEST['p_action'] == 'ca_groupe' )
+  {
+	require_once('ca_groupe.inc.php');
 	exit();
   }
 

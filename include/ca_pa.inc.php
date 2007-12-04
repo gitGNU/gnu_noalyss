@@ -203,6 +203,7 @@ if ( isset($_REQUEST['sa']))
 		$ret.="<th> Nom </td>";
 		$ret.="<th> Montant </td>";
 		$ret.="<th> Description </td>";
+		$ret.="<th>Groupe</th>";
 		$ret.="<th> Plan A </td>";
 		$ret.="</tr>";
 		$class="";
@@ -223,6 +224,7 @@ if ( isset($_REQUEST['sa']))
 			  "</td>";
 			$ret.="<TD align=\"right\">".$obj->amount."</td>";
 			$ret.="<TD>".$obj->description."</td>";
+			$ret.="<td>".$obj->ga_id."</td>";
 			$ret.="<TD>".$new->name."</td>";
 			$ret.="</tr>";
 

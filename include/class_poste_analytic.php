@@ -33,13 +33,12 @@ require_once("class_plananalytic.php");
 class Poste_analytique
 {
   var $id; /*!<  $id is po_id */
-  var $name;					/*!< po_name */
-  var $pa_id;					/*!< pa_id fk to the plan_analytique(pa_id) */
-  var $amount;					/*!< po_amount just an amount  */
-  var $description;				/*!< po_description description of
-                                   the post */
-  var $db;						/*!< database connection */
-
+  var $name;		/*!< po_name */
+  var $pa_id;		/*!< pa_id fk to the plan_analytique(pa_id) */
+  var $amount;		/*!< po_amount just an amount  */
+  var $description;       /*!< po_description description of the post */
+  var $db;	/*!< database	  connection*/
+  var $ga_id;		/*!< FK to the table groupe analytique */
   function Poste_analytique($p_db,$p_id=0)
   {
 	$this->db=$p_db;
@@ -55,7 +54,8 @@ class Poste_analytique
                  po_name ,
                  pa_id,
                  po_amount,
-                 po_description 
+                 po_description,
+                 ga_id
          from poste_analytique
           where ".
 	  $p_where;
@@ -69,7 +69,7 @@ class Poste_analytique
 	$this->pa_id=$line['pa_id'];
 	$this->amount=$line['po_amount'];
 	$this->description=$line['po_description'];
-
+	$this->ga_id=$line['ga_id'];
 
 
   }
@@ -96,24 +96,29 @@ class Poste_analytique
 	$this->format_data();
 	if ( strlen($this->name) == 0)
 	  return;
-
 	$sql="insert into poste_analytique (
                  po_name ,
                  pa_id,
                  po_amount,
-                 po_description 
+                 po_description,
+                 ga_id
                  ) values (".
 	  "'".$this->name."',".
 	  $this->pa_id.",".
 	  $this->amount.",".
-	  "'".$this->description."')";
+	  "'".$this->description."',".
+	  "'".$this->ga_id."')";
+	try {
+	  ExecSql($this->db,$sql);
 
-	ExecSql($this->db,$sql);
+	} catch (Exception $e) {
+	  echo_debug(__FILE__,__LINE__,$e);
+	  echo "<p class=\"notice\">Doublon : l'enregistrement n'est pas sauve</p>";
+	}
             
   }
   function update()
   {
-
 	$this->format_data();
 	if ( strlen($this->name) == 0)
 	  return;
@@ -121,9 +126,15 @@ class Poste_analytique
 	  " set po_name='".$this->name."',".
 	  " pa_id=".$this->pa_id.",".
 	  " po_amount=".$this->amount.",".
-	  " po_description='".$this->description."'".
+	  " po_description='".$this->description."',".
+	  " ga_id='".$this->ga_id."'".
 	  " where po_id=".$this->id;
-	ExecSql($this->db,$sql);
+	try { 
+	  ExecSql($this->db,$sql);
+	} catch (Exception $e) {
+	  echo_debug(__FILE__,__LINE__,$e);
+	  echo "<p class=\"notice\">Doublon : l'enregistrement n'est pas sauve</p>";
+	}
 	  
   }
   private function format_data()
@@ -150,7 +161,8 @@ class Poste_analytique
                  po_name ,
                  pa_id,
                  po_amount,
-                 po_description 
+                 po_description,
+                 ga_id
          from poste_analytique ".
 	  "   order by po_name";
 
@@ -169,6 +181,7 @@ class Poste_analytique
 		$object->pa_id=$line['pa_id'];
 		$object->amount=$line['po_amount'];
 		$object->description=$line['po_description'];
+		$object->ga_id=$line['ga_id'];
 		$array[]=clone $object;
 	  }
 
@@ -191,6 +204,7 @@ class Poste_analytique
 	echo "pa_id ".$this->pa_id."<br>";
 	echo "amount ".$this->amount."<br>";
 	echo "description ".$this->description."<br>";
+	echo "ga_id ".$this->ga_id."<br>";
   }
   function form()
   {
@@ -199,7 +213,10 @@ class Poste_analytique
 	$wPa_id=new widget("hidden","pa_id","pa_id",$this->pa_id);
 	$wAmount=new widget("text","Montant","po_amount",$this->amount);
 	$wDescription=new widget("text","Description","po_description",$this->description);
-
+	$wGa_id=new widget("select","Groupe","ga_id");
+	$wGa_id->value=make_array($this->db,"select ga_id,ga_id from groupe_analytique",1);
+	$wGa_id->selected=$this->ga_id;
+	$wGa_id->table=1;
 	$pa=new PlanAnalytic($this->db,$this->pa_id);
 	$pa->get();
 	$wPaName=new widget("text","Plan A.","",$pa->name);
@@ -233,6 +250,10 @@ class Poste_analytique
 	$r.=$wPaName->IOValue();
 	$r.="</tr>";
 
+	$r.="<tr>";
+	$r.=$wGa_id->IOValue();
+	$r.="</tr>";
+
 	$r.="</table>";
 	return $r;
 
@@ -244,6 +265,7 @@ class Poste_analytique
 	$this->pa_id=$_POST['pa_id'];
 	$this->amount=$_POST['po_amount'];
 	$this->id=$_POST['po_id'];
+	$this->ga_id=($_POST['ga_id'] == "-1" )?"":$_POST['ga_id'];
   }
 }
 ?>

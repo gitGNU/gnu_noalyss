@@ -1,35 +1,109 @@
-CREATE or replace FUNCTION t_document_modele_validate() RETURNS "trigger"
-    AS $$declare 
-    lText text;
-    modified document_modele%ROWTYPE;
+begin;
+CREATE TABLE groupe_analytique
+(
+  ga_id varchar(10) NOT NULL,
+  ga_description text,
+  CONSTRAINT pk_ga_id PRIMARY KEY (ga_id)
+) ;
+
+
+CREATE OR REPLACE FUNCTION group_analytic_ins_upd()
+  RETURNS "trigger" AS
+$BODY$declare 
+name text;
 begin
-    modified=NEW;
+raise notice 'poste_analytique_write';
+name:=upper(NEW.ga_id);
+name:=trim(name);
+name:=replace(name,' ','');
+NEW.ga_id:=name;
+return NEW;
+end;$BODY$
+  LANGUAGE 'plpgsql' VOLATILE;
+ALTER FUNCTION group_analytic_ins_upd() OWNER TO postgres;
 
-modified.md_filename=replace(NEW.md_filename,' ','_');
-return modified;
-end;$$
-    LANGUAGE plpgsql;
+CREATE OR REPLACE FUNCTION group_analytique_del()
+  RETURNS "trigger" AS
+$BODY$begin
+update poste_analytique set ga_id=null
+where ga_id=OLD.ga_id;
+return OLD;
+end;$BODY$
+  LANGUAGE 'plpgsql' VOLATILE;
+ALTER FUNCTION group_analytique_del() OWNER TO postgres;
 
+CREATE OR REPLACE FUNCTION poste_analytique_ins_upd()
+  RETURNS "trigger" AS
+$BODY$declare
+name text;
+rCount record;
 
-
-CREATE  or replace FUNCTION t_document_validate() RETURNS "trigger"
-    AS $$declare
-  lText text;
-    modified document%ROWTYPE;
 begin
-    modified=NEW;
-modified.d_filename=replace(NEW.d_filename,' ','_');
-return modified;
-end;$$
-    LANGUAGE plpgsql;
+name:=upper(NEW.po_name);
+name:=trim(name);
+name:=replace(name,' ','');		
+NEW.po_name:=name;
+
+if NEW.ga_id is NULL then
+return NEW;
+end if;
+
+if length(trim(NEW.ga_id)) = 0 then
+  NEW.ga_id:=NULL;
+  return NEW;
+end if;
+select into rCount * from groupe_analytique where ga_id=NEW.ga_id;
+if NOT FOUND then
+   raise exception' Inexistent Group Analytic %',NEW.ga_id;
+end if;
+return NEW;
+end;$BODY$
+  LANGUAGE 'plpgsql' VOLATILE;
+
+CREATE OR REPLACE FUNCTION plan_analytic_ins_upd()
+  RETURNS "trigger" AS
+$BODY$
+declare
+   name text;
+begin
+   name:=upper(NEW.pa_name);
+   name:=trim(name);
+   name:=replace(name,' ','');
+   NEW.pa_name:=name;
+return NEW;
+end;
+$BODY$
+  LANGUAGE 'plpgsql' VOLATILE;
+
+CREATE TRIGGER t_poste_analytique_ins_upd
+  BEFORE INSERT OR UPDATE
+  ON poste_analytique
+  FOR EACH ROW
+  EXECUTE PROCEDURE poste_analytique_ins_upd();
+
+CREATE TRIGGER t_plan_analytique_ins_upd
+  BEFORE INSERT OR UPDATE
+  ON plan_analytique
+  FOR EACH ROW
+  EXECUTE PROCEDURE plan_analytic_ins_upd();
+
+CREATE TRIGGER t_group_analytic_del
+  AFTER DELETE
+  ON groupe_analytique
+  FOR EACH ROW
+  EXECUTE PROCEDURE group_analytique_del();
+
+CREATE TRIGGER t_group_analytic_ins_upd
+  BEFORE INSERT OR UPDATE
+  ON groupe_analytique
+  FOR EACH ROW
+  EXECUTE PROCEDURE group_analytic_ins_upd();
 
 
-CREATE TRIGGER document_validate
-    BEFORE INSERT OR UPDATE ON document
-    FOR EACH ROW
-    EXECUTE PROCEDURE t_document_validate();
+drop TRIGGER t_upper_pa_name on plan_analytique;
+drop TRIGGER t_upper_po_name on poste_analytique;
+drop function upper_pa_name();
+drop function upper_po_name();
 
-CREATE TRIGGER document_modele_validate
-    BEFORE INSERT OR UPDATE ON document_modele
-    FOR EACH ROW
-    EXECUTE PROCEDURE t_document_modele_validate();
+
+commit;
