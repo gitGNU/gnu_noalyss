@@ -63,7 +63,7 @@ class Anc_Group {
     $this->ga_id=str_replace(' ','',$this->ga_id);
     $this->ga_id=strtoupper($this->ga_id);
     $sql=" delete from groupe_analytique where ga_id='".pg_escape_string($this->ga_id)."'";
-    print_r($sql);
+
     ExecSql($this->db,$sql);
   }
 

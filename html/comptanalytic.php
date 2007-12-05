@@ -75,6 +75,9 @@ if ( isset ($_REQUEST['p_action']))
 		$User->AccessRequest($cn,CA_IMPRESSION);
 		$def=2;
 		break;
+	  case 'ca_groupe':
+	    $def=3;
+	    break;
 	  }
   }
 echo ShowItem(array(
@@ -117,7 +120,7 @@ if ($_REQUEST['p_action'] == 'ca_od' )
 // Impression
 if ($_REQUEST['p_action'] == 'ca_groupe' )
   {
-	require_once('ca_groupe.inc.php');
+	require_once('ca_group.inc.php');
 	exit();
   }
 
