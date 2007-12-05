@@ -20,7 +20,8 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file class acc_reconciliation, this class is new and the code
+  /* !\file */
+   /*!\brief class acc_reconciliation, this class is new and the code
     must use it (remove the function insertRapt) 
    
  */
