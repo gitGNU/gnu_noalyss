@@ -33,20 +33,19 @@ require_once ("user_common.php");
  */
 class Anc_Operation
 {
-  var $db; 						/*!< database connection */
-  var $row;						/*!< array of row for one operation*/
-  var $list;					/*!< array of all operation */
-  var $id;						/*!< = oa_id (one row) */
-  var $po_id;					/*!< poste analytique */
-  var $oa_amount;				/*!< amount for one row */
-  var $oa_description;			/*!< comment for one row */
-  var $oa_debit;				/*!< true for debit or false */
-  var $j_id;					/*!< foreign key to a jrnx operation
-                                   (or null if none */
-  var $oa_group;				/*!< group of operation  */
-  var $oa_date;					/*!< equal to j_date if j_id is not
-								  null */
-  var $pa_id;					/*!< the plan analytique id */
+  var $db; 	/*!< database connection */
+  var $row;	/*!< array of row for one operation*/
+  var $list;	/*!< array of all operation */
+  var $id;	/*!< = oa_id (one row) */
+  var $po_id;	/*!< poste analytique */
+  var $oa_amount;	/*!< amount for one row */
+  var $oa_description;	/*!< comment for one row */
+  var $oa_debit;	/*!< true for debit or false */
+  var $j_id;		/*!< foreign key to a jrnx operation
+                              (or null if none */
+  var $oa_group;   /*!< group of operation  */
+  var $oa_date;	   /*!< equal to j_date if j_id is not	  null */
+  var $pa_id;	/*!< the plan analytique id */
 
   /*!\brief constructor
    * 
