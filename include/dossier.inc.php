@@ -33,6 +33,7 @@ echo '<div class="u_redcontent">';
 if ( isset ($_POST["DATABASE"]) ) {
   $cn=DbConnect();
   $dos=trim($_POST["DATABASE"]);
+$dos=FormatString($dos);
       if (strlen($dos)==0) {
 	echo ("Dataname name is empty");
 	exit -1;
