@@ -9,7 +9,8 @@ CREATE TABLE groupe_analytique
 
 CREATE OR REPLACE FUNCTION group_analytic_ins_upd()
   RETURNS "trigger" AS
-$BODY$declare 
+$BODY$
+declare 
 name text;
 begin
 raise notice 'poste_analytique_write';
@@ -20,17 +21,16 @@ NEW.ga_id:=name;
 return NEW;
 end;$BODY$
   LANGUAGE 'plpgsql' VOLATILE;
-ALTER FUNCTION group_analytic_ins_upd() OWNER TO postgres;
 
 CREATE OR REPLACE FUNCTION group_analytique_del()
   RETURNS "trigger" AS
-$BODY$begin
+$BODY$
+begin
 update poste_analytique set ga_id=null
 where ga_id=OLD.ga_id;
 return OLD;
 end;$BODY$
   LANGUAGE 'plpgsql' VOLATILE;
-ALTER FUNCTION group_analytique_del() OWNER TO postgres;
 
 CREATE OR REPLACE FUNCTION poste_analytique_ins_upd()
   RETURNS "trigger" AS
@@ -52,7 +52,7 @@ if length(trim(NEW.ga_id)) = 0 then
   NEW.ga_id:=NULL;
   return NEW;
 end if;
-select into rCount * from groupe_analytique where ga_id=NEW.ga_id;
+select ga_id from groupe_analytique where ga_id=NEW.ga_id;
 if NOT FOUND then
    raise exception' Inexistent Group Analytic %',NEW.ga_id;
 end if;
@@ -105,5 +105,18 @@ drop TRIGGER t_upper_po_name on poste_analytique;
 drop function upper_pa_name();
 drop function upper_po_name();
 
+CREATE TABLE bud_hypothese
+(
+  bh_id int4 NOT NULL,
+  bh_name text NOT NULL,
+  bh_saldo numeric(20,4) DEFAULT 0,
+  bh_description text,
+  pa_id int4,
+  CONSTRAINT pk_bud_hypo PRIMARY KEY (bh_id),
+  CONSTRAINT fk_bud_hypo_pa_id FOREIGN KEY (pa_id)
+      REFERENCES plan_analytique (pa_id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE
+) 
+WITHOUT OIDS;
 
-commit;
+commit;	
