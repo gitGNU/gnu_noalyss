@@ -211,13 +211,13 @@ class Document
       // compute the regex
       if ( $p_type=='OOo')
 	{
-	  $regex="&lt;&lt;[A-Z]+_*[A-Z]*_*[A-Z]*_*[A-Z]*_*[0-9]*&gt;&gt;";
+	  $regex="=*&lt;&lt;[A-Z]+_*[A-Z]*_*[A-Z]*_*[A-Z]*_*[0-9]*&gt;&gt;";
 	  $lt="&lt;";
 	  $gt="&gt;";
 	}
       else
 	{
-	  $regex="<<[A-Z]+_*[A-Z]*_*[A-Z]*_*[A-Z]*_*[0-9]*>>";
+	  $regex="=*<<[A-Z]+_*[A-Z]*_*[A-Z]*_*[A-Z]*_*[0-9]*>>";
 	  $lt="<";
 	  $gt=">";
 	}
@@ -471,6 +471,7 @@ class Document
   function Replace($p_tag)
     {
 	$p_tag=strtoupper($p_tag);
+	$p_tag=str_replace('=','',$p_tag);
       $r="Tag inconnu";
       static $counter=0;
       switch ($p_tag)
