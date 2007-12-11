@@ -228,7 +228,7 @@ class Document
 	  $buffer=fgets($h);
 	  // search in the buffer the magic << and >>
 	  // while ereg finds something to replace
-	  while ( ereg ($regex,$buffer,$f) )
+	  while ( eregi ($regex,$buffer,$f) )
 	    {
 
 	    echo_debug('class_document',__LINE__,'var_export '.var_export( $f,true));
@@ -470,6 +470,7 @@ class Document
  */
   function Replace($p_tag)
     {
+	$p_tag=strtoupper($p_tag);
       $r="Tag inconnu";
       static $counter=0;
       switch ($p_tag)
@@ -665,6 +666,7 @@ class Document
 
 
 	case 'TVA_AMOUNT':
+	case 'VEN_TVA':
 	  extract ($_POST);
 	  $qt='e_quant'.$counter;
 	  $price='e_march'.$counter.'_sell' ;
