@@ -36,10 +36,10 @@ if (  isset ($_POST["p_user"] ) ) {
 
   // Verif if User and Pass match DB
   // if no, then redirect to the login page
-$rep=DbConnect();
-include_once ("class_user.php");
-$User=new cl_user($rep);
-$User->Check();
+  $rep=DbConnect();
+  include_once ("class_user.php");
+  $User=new cl_user($rep);
+  $User->Check();
 
   echo "<META HTTP-EQUIV=\"REFRESH\" content=\"0;url=user_login.php?PHPSESSID=" . $_REQUEST["PHPSESSID"] . "\">";
 
