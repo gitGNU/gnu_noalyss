@@ -43,6 +43,7 @@ class Poste_analytique
   {
 	$this->db=$p_db;
 	$this->id=$p_id;
+	$this->ga_id=null;
   }
   /*! \brief retrieve data from the database and
    *        fill the object 
@@ -96,6 +97,10 @@ class Poste_analytique
 	$this->format_data();
 	if ( strlen($this->name) == 0)
 	  return;
+	if ( $this->ga_id == null || strlen(trim($this->ga_id)) == 0 ) 
+	  $ga_id="NULL"; 
+	else 
+	  $ga_id="'".$this->ga_id."'";
 	$sql="insert into poste_analytique (
                  po_name ,
                  pa_id,
@@ -107,7 +112,7 @@ class Poste_analytique
 	  $this->pa_id.",".
 	  $this->amount.",".
 	  "'".$this->description."',".
-	  "'".$this->ga_id."')";
+	  $ga_id.")";
 	try {
 	  ExecSql($this->db,$sql);
 
@@ -190,7 +195,7 @@ class Poste_analytique
   function display_list()
   {
 	$array=$this->get_list();
-
+	if ( empty($array) ) { echo "Vide"; return;}
 	foreach ($array as $line)
 	  {
 		echo $line->id." / ".$line->name." / ".$line->description."/".
@@ -266,6 +271,46 @@ class Poste_analytique
 	$this->amount=$_POST['po_amount'];
 	$this->id=$_POST['po_id'];
 	$this->ga_id=($_POST['ga_id'] == "-1" )?"":$_POST['ga_id'];
+  }
+  static function testme() {
+    $cn=DbConnect(dossier::id());
+    $o=new Poste_Analytique($cn);
+    echo "<h1>Poste_Analytique</h1>";
+    echo "<h2>get_list</h2>";
+    $ee=$o->get_list();
+    print_r($ee);
+    //var_dump($ee);
+    $pa_id=26;
+    echo "<h2>Add some </h2>";
+    $o->pa_id=$pa_id;
+    $o->name="test1";
+    $o->add();
+
+
+    $o->name="test2";
+    $o->add();
+
+    $o->name="test3";
+    $o->add();
+
+    $o->name="test4";
+    $o->add();
+
+    $o->name="test5";
+    $o->add();
+
+    echo "<h2> remove test1</h2>";
+    $o->get_by_name("test1");
+    $o->delete();
+    $o->display_list();
+
+    $o->get_by_name("test4");
+    echo "<hr>".$o->id."<hr>";
+    $o->name="Test Four";
+    $o->update();
+    $o->display_list();
+    $o->delete();
+    $o->display_list();
   }
 }
 ?>
