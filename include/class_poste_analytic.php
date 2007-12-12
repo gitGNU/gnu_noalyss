@@ -118,6 +118,7 @@ class Poste_analytique
 
 	} catch (Exception $e) {
 	  echo_debug(__FILE__,__LINE__,$e);
+	  if ( DEBUG ) print_r($e);
 	  echo "<p class=\"notice\">Doublon : l'enregistrement n'est pas sauve</p>";
 	}
             
@@ -199,7 +200,7 @@ class Poste_analytique
 	foreach ($array as $line)
 	  {
 		echo $line->id." / ".$line->name." / ".$line->description."/".
-		  $line->amount." / ".$line->pa_id."<br>";
+		  $line->amount." / ".$line->pa_id."/".$line->ga_id."<br>";
 	  }
   }
   function debug()
@@ -274,13 +275,14 @@ class Poste_analytique
   }
   static function testme() {
     $cn=DbConnect(dossier::id());
+    $pa_id=getDBValue($cn,"select max(pa_id) from plan_analytique");
     $o=new Poste_Analytique($cn);
     echo "<h1>Poste_Analytique</h1>";
     echo "<h2>get_list</h2>";
     $ee=$o->get_list();
     print_r($ee);
     //var_dump($ee);
-    $pa_id=26;
+
     echo "<h2>Add some </h2>";
     $o->pa_id=$pa_id;
     $o->name="test1";

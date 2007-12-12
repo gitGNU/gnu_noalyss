@@ -30,6 +30,7 @@ require_once("constant.php");
 require_once("postgres.php");
 require_once("class_widget.php");
 require_once("class_poste_analytic.php");
+require_once ('class_dossier.php');
 
 class PlanAnalytic
 {
@@ -176,6 +177,48 @@ class PlanAnalytic
 				pg_escape_string($this->pa_id));
 
 	return ($a==0)?false:true;
+
+  }
+  static function testme() {
+    $cn=DbConnect(dossier::id());
+    echo "<h1>Plan analytique : test</h1>";
+    echo "clean";
+    ExecSql($cn,"delete from plan_analytique");
+
+    $p=new PlanAnalytic($cn);
+    echo "<h2>Add</h2>";
+    $p->name="Nouveau 1";
+    $p->description="C'est un test";
+    echo "Add<hr>";
+    $p->add();
+    $p->name="Nouveau 2";
+    $p->add();
+    $pa_id=$p->id;
+    echo $p->id."/";
+    $p->name="Nouveau 3";
+    $p->add();
+    echo $p->id."/";
+
+
+    $p->name="Nouveau 4";
+    $p->add();
+    echo $p->id;
+
+    echo "<h2>get</h2>";
+    $p->get();
+    var_dump($p);
+    echo "<h2>Update</h2> ";
+    $p->name="Update ";
+    $p->description="c'est changé";
+    $p->update();
+    $p->get();
+    var_dump($p);
+    echo "<h2>get_list</h2>";
+    $a=$p->get_list();
+    var_dump($a);
+    echo "<h2>delete </h2>";
+    $p->delete();
+
 
   }
 }
