@@ -43,7 +43,7 @@ exit();
 }
 // Test the connection
 echo __FILE__.":".__LINE__;
-if ( ! $_REQUEST['gDossier']) {
+if ( ! isset($_REQUEST['gDossier'])) {
   echo "Vous avez oublie de specifier le gDossier ;)";
   exit();
  }
