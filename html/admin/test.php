@@ -59,7 +59,11 @@ PlanAnalytic::testme();
 require_once("class_poste_analytic.php");
 Poste_analytique::testme();
 
-*/
+
 
 require_once('class_bud_hypo.php');
 Bud_Hypo::testme();
+*/
+
+require_once ('class_bud_detail.php');
+Bud_Detail::testme();
