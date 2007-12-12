@@ -20,10 +20,11 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/*!\file ajax file called by the import screen
+/*!\file 
+ * \brief ajax file called by the import screen
  */
 
-/* \brief update , delete or remove a record from the confirmed list
+/*! \brief update , delete or remove a record from the confirmed list
  *
  */
 include_once ("constant.php");
