@@ -70,6 +70,25 @@ class Bud_Detail {
   function delete() {
     ExecSql($this->db,"delete from bud_detail where bd_id=".$this->bd_id);
   }
+  function load()
+  {
+    if ( $this->bd_id == 0 ) return ;
+    $sql="select * ".
+      " from bud_detail ".
+      " where  ".
+      " bd_id =".$this->bd_id;
+    $res=ExecSql($this->db,$sql);
+
+    if ( pg_NumRows($res) == 0 ) return;
+
+    $a=pg_fetch_array($res,0);
+    foreach ( array('bc_id','po_id','pcm_val') as $key) {
+      $this->{"$key"}=$a[$key];
+    }
+
+  
+  }
+
   static function testme() {
     $cn=DbConnect(dossier::id());
     $a=new Bud_Detail($cn);
@@ -81,6 +100,12 @@ class Bud_Detail {
     $a->pcm_val='55';
     $a->update();
     print_r($a);
+    echo "<h2>Load </h2>";
+    $b=new Bud_Detail($cn);
+    $b->bd_id=$a->bd_id;
+    $b->load();
+    print_r($b);
+
     echo "<h2>Effacement</h2>";
     $a->delete();
   }
