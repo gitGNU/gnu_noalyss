@@ -63,7 +63,11 @@ Poste_analytique::testme();
 
 require_once('class_bud_hypo.php');
 Bud_Hypo::testme();
-*/
+
 
 require_once ('class_bud_detail.php');
 Bud_Detail::testme();
+*/
+
+require_once ('class_bud_card.php');
+Bud_Card::testme();
