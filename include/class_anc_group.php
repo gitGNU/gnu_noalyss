@@ -20,7 +20,9 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
+/*!\file 
+ * \brief class for the group of the analytic account
+ *
  */
 require_once ('postgres.php');
 require_once ('constant.php');

@@ -20,19 +20,19 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-  /* !\file */
-   /*!\brief class acc_reconciliation, this class is new and the code
-    must use it (remove the function insertRapt) 
-   
+/*!\file 
+ *   \brief class acc_reconciliation, this class is new and the code
+ *   must use it (remove the function insertRapt) 
+ *  
  */
-  /*!\todo replace all the use of the reconciliation by this class
+/*!\todo replace all the use of the reconciliation by this class
    */
 
 require_once ('postgres.php');
 require_once ('class_dossier.php');
 require_once ('class_widget.php');
 
-/* \brief new class for managing the reconciliation it must be used
+/*! \brief new class for managing the reconciliation it must be used
  * instead of the function InsertRapt, ...
  *
  */

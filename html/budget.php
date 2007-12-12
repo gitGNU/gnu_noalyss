@@ -47,7 +47,7 @@ $User->Check();
 
 echo '<div class="u_tmenu">';
 echo '<div style="float:left">';
-echo "<H2 class=\"info\">Commercial ".dossier::name()."<h2> ";
+echo "<H2 class=\"info\">Budget : ".dossier::name()."<h2> ";
 echo '</div>';
 echo '<div style="clear:both">';
 

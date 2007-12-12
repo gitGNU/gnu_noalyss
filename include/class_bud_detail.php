@@ -20,11 +20,17 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
- */
-/*! \brief this class manage the table bud_detail
+/*!\file 
+ *
+ * \brief this class manage the table bud_detail
  *
  */
+
+  /*!
+   * \brief this class manage the table bud_detail
+   *
+   */
+
 require_once ('constant.php');
 require_once ('postgres.php');
 require_once ('class_dossier.php');

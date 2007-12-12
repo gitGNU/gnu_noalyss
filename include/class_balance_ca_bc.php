@@ -20,7 +20,9 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
+/*!\file 
+ * \brief
+ *  Print the crossed balance between 2 plan 
  */
 
 /* \brief

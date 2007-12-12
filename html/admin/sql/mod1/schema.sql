@@ -861,7 +861,6 @@ CREATE SEQUENCE action_gestion_ag_id_seq
 
 
 
-ALTER SEQUENCE action_gestion_ag_id_seq OWNED BY action_gestion.ag_id;
 
 
 
@@ -988,7 +987,6 @@ CREATE SEQUENCE document_d_id_seq
 
 
 
-ALTER SEQUENCE document_d_id_seq OWNED BY document.d_id;
 
 
 
@@ -1016,7 +1014,6 @@ CREATE SEQUENCE document_modele_md_id_seq
 
 
 
-ALTER SEQUENCE document_modele_md_id_seq OWNED BY document_modele.md_id;
 
 
 
@@ -1052,7 +1049,6 @@ CREATE SEQUENCE document_state_s_id_seq
 
 
 
-ALTER SEQUENCE document_state_s_id_seq OWNED BY document_state.s_id;
 
 
 
@@ -1076,7 +1072,6 @@ CREATE SEQUENCE document_type_dt_id_seq
 
 
 
-ALTER SEQUENCE document_type_dt_id_seq OWNED BY document_type.dt_id;
 
 
 

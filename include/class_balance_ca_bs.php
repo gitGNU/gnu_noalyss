@@ -20,17 +20,18 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
+/*!\file 
+  \brief manage the simple balance for CA, inherit from balance_ca
  */
 
-/* \brief manage the simple balance for CA, inherit from balance_ca
- *
- */
 require_once ('class_print_ca.php');
 require_once ('class_plananalytic.php');
 require_once ('ac_common.php');
 include_once("class.ezpdf.php");
 require_once ('header_print.php');
+/*! \brief manage the simple balance for CA, inherit from balance_ca
+ *
+ */
 
 class balance_ca_bs extends print_ca {
 

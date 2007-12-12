@@ -124,7 +124,7 @@ FILE_PATTERNS          = *.c \
 			 *.js \
 			*.inc.php
 RECURSIVE              = YES
-EXCLUDE                = 
+EXCLUDE                = addon
 EXCLUDE_SYMLINKS       = NO
 EXCLUDE_PATTERNS       = a?.php b?.php ?.php test*.php
 EXAMPLE_PATH           = 

@@ -20,7 +20,7 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file
+/*!\file
  */
 
 /* \brief  acException extends Exception

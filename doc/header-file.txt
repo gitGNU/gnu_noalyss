@@ -20,9 +20,6 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
- */
-
-/*! \brief
- *
+/*! \file 
+ * \brief Manage the hypothese for the budget module
  */

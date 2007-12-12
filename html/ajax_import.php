@@ -20,7 +20,7 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file ajax file called by the import screen
+/*!\file ajax file called by the import screen
  */
 
 /* \brief update , delete or remove a record from the confirmed list
