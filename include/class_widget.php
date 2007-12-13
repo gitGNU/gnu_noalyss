@@ -625,8 +625,9 @@ class widget {
   function Submit ($p_name,$p_value) {
     return '<INPUT TYPE="SUBMIT" NAME="'.$p_name.'" VALUE="'.$p_value.'">';
   }
-  static   function submit_button ($p_name,$p_value) {
-    return '<INPUT TYPE="SUBMIT" NAME="'.$p_name.'" VALUE="'.$p_value.'">';
+  static   function submit_button ($p_name,$p_value,$p_javascript="") {
+    
+    return '<INPUT TYPE="SUBMIT" NAME="'.$p_name.'" VALUE="'.$p_value.'" '.$p_javascript.'>';
   }
 
   function Reset ($p_value) {
