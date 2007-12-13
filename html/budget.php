@@ -20,7 +20,7 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
+/*! \file 
  */
 
 /*! \brief module budget
@@ -84,7 +84,7 @@ $cn=DbConnect($gDossier);
 //-----------------------------------------------------
 if ( $p_action == "hypo" ) 
 {
-  require_once("hypo.inc.php");
+  require_once("bud_hypo.inc.php");
 }
 //-----------------------------------------------------
 // p_action == 
