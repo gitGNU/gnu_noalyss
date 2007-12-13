@@ -52,7 +52,7 @@ if length(trim(NEW.ga_id)) = 0 then
   NEW.ga_id:=NULL;
   return NEW;
 end if;
-select ga_id from groupe_analytique where ga_id=NEW.ga_id;
+perform 'select ga_id from groupe_analytique where ga_id='||NEW.ga_id;
 if NOT FOUND then
    raise exception' Inexistent Group Analytic %',NEW.ga_id;
 end if;

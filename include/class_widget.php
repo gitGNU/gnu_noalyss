@@ -194,13 +194,13 @@ class widget {
     if (strtoupper($this->type)=="CHECKBOX") {
       if ( $this->readonly == true) {
 	$check=( $this->selected==true )?"checked":"unchecked";
-	$r='<input type="CHECKBOX" name="'.$this->name.'"';
+	$r='<input type="CHECKBOX" id="'.$this->name.'" name="'.$this->name.'"';
 	$r.="  $check";
 	$r.=' disabled>';
 
       } else {
 	$check=( $this->selected==true )?"checked":"unchecked";
-	$r='<input type="CHECKBOX" name="'.$this->name.'"';
+	$r='<input type="CHECKBOX" id="'.$this->name.'" name="'.$this->name.'"';
 	$r.="  $check";
 	$r.=' '.$disabled."  ".$this->javascript.'>';
       }
