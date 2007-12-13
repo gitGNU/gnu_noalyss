@@ -31,8 +31,17 @@
 if ( isset ($_POST["LOGIN"]) ) {
   $cn=DbConnect();
   $pass5=md5($_POST['PASS']);
+
+  $first_name=pg_escape_string($_POST['FNAME']);
+  $last_name=pg_escape_string($_POST['LNAME']);
+  $login=$_POST['LOGIN'];
+  $login=str_replace("'","",$login);
+  $login=str_replace('"',"",$login);
+  $login=str_replace(" ","",$login);
+  $login=strtolower($login);
+
   $Res=ExecSql($cn,"insert into ac_users(use_first_name,use_name,use_login,use_active,use_pass)
-                    values ('".$_POST["FNAME"]."','".$_POST["LNAME"]."','".$_POST["LOGIN"]."',1,'$pass5')");
+                    values ('".$first_name."','".$last_name."','".$login."',1,'$pass5')");
 } //SET login
 
 // Show all the existing user on 7 columns

@@ -83,8 +83,16 @@ if ( isset ($_POST['SAVE']) ){
   echo_debug('priv_user.php',__LINE__,"SAVE is set");
   // Update User 
   $cn=DbConnect();
-  $Sql="update ac_users set use_first_name='".$_POST['fname']."', use_name='".$_POST['lname']."'
-        ,use_login='".$_POST['login']."',use_active=".$_POST['Actif'].",use_admin=".$_POST['Admin']." where
+  $first_name=pg_escape_string($_POST['fname']);
+  $last_name=pg_escape_string($_POST['lname']);
+  $login=$_POST['login'];
+  $login=str_replace("'","",$login);
+  $login=str_replace('"',"",$login);
+  $login=str_replace(" ","",$login);
+  $login=strtolower($login);
+
+  $Sql="update ac_users set use_first_name='".$first_name."', use_name='".$last_name."'
+        ,use_login='".$login."',use_active=".$_POST['Actif'].",use_admin=".$_POST['Admin']." where
          use_id=".$uid;
   $Res=ExecSql($cn,$Sql);
   // Update Priv on Folder
