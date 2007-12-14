@@ -76,7 +76,20 @@ class Bud_Card {
     ExecSqlParam($this->db,$sql,$array);
 
   }
-
+	/*!
+	*\brief convert an array to an object, if a idx is not set then the
+	* corresponding property will be null
+	* \param $p_array array to convert
+	*/
+  function from_array($p_array) {
+	if ( empty($p_array) ) return;
+	foreach (array ('bc_id','bc_code','bc_description','bc_price_unit','bc_unit')
+		as	$key ){
+		$this->$key=(isset($p_array[$key]))?$p_array[$key]:null;
+	}
+	if ( $this->bc_id == null )
+		throw new Exception(__FILE__.":".__LINE__." bc ne peut pas etre nul");
+  }
   function delete() {
     ExecSql($this->db,"delete from bud_card where bc_id=".$this->bc_id);
   }
@@ -84,22 +97,37 @@ class Bud_Card {
   function load()
   {
     if ( $this->bc_id == 0 ) return ;
-    $sql="select bc_code,bc_description, bc_price_unit,bc_unit ".
+    $sql="select bc_id,bc_code,bc_description, bc_price_unit,bc_unit ".
       " from bud_card ".
       " where  ".
-      " bh_id =".$this->bc_id;
+      " bc_id =".$this->bc_id;
     $res=ExecSql($this->db,$sql);
 
-    if ( pg_NumRows($res) == 0 ) return;
+    if ( pg_NumRows($res) == 0 ) return null;
 
     $a=pg_fetch_array($res,0);
-    foreach ( array('bc_code','bc_description','bc_price','bc_price_unit') as $key) {
-      $this->{"$key"}=$a[$key];
-    }
-  
+	$this->from_array($a);  
   }
 
+	static function get_list($p_cn,$p_bh_id) {	
+		$sql="select * from bud_card where bh_id";
+		$r=ExecSql($p_cn,$sql);
+		$result=array();
+		$get=pg_fetch_all($res);
+		
+		if (empty ($get))
+			return array();
+			
+		foreach ($get as $row ) {
+			$obj=new Bud_Card($p_cn);
+			$obj->from_array($row);
+			$result[]=clone $obj;
+		}
+		return result;
+	}
+  function form() {
   
+  }
   static function testme() {
     $cn=DbConnect(dossier::id());
     $a=new Bud_Card($cn);
