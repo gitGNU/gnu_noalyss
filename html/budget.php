@@ -60,10 +60,13 @@ switch($p_action) {
  case 'hypo':
    $def=1;
    break;
-  case 'fiche':
-	$def=2;
-	break;
-
+ case 'fiche':
+   $def=2;
+   break;
+ case 'detail':
+   $def=3;
+   break;
+   
 
  }
 
@@ -97,6 +100,14 @@ if ( $p_action == "hypo" )
 if ( $p_action == "fiche" ) 
 {
   require_once("bud_card.inc.php");
+}
+
+//-----------------------------------------------------
+// p_action == 
+//-----------------------------------------------------
+if ( $p_action == "detail" ) 
+{
+  require_once("bud_detail.inc.php");
 }
 
 
