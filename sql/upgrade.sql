@@ -119,4 +119,302 @@ CREATE TABLE bud_hypothese
 ) 
 WITHOUT OIDS;
 
+create sequence seq_bud_hypothese_bh_id;
+
+alter table bud_hypothese alter bh_id default nextval('seq_bud_hypothese_bh_id');
+
+--
+-- Name: bud_card; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
+--
+
+CREATE TABLE bud_card (
+    bc_id integer NOT NULL,
+    bc_code character varying(10) NOT NULL,
+    bc_description text,
+    bc_price_unit numeric(20,4) DEFAULT 0.0 NOT NULL,
+    bc_unit character varying(20),
+    bh_id integer
+);
+--
+-- Name: TABLE bud_card; Type: COMMENT; Schema: public; Owner: phpcompta
+--
+
+COMMENT ON TABLE bud_card IS 'card for budget module';
+
+
+--
+-- Name: COLUMN bud_card.bh_id; Type: COMMENT; Schema: public; Owner: phpcompta
+--
+
+COMMENT ON COLUMN bud_card.bh_id IS 'fk to  bud_hypothese';
+
+
+--
+-- Name: bud_card_bc_id_seq; Type: SEQUENCE; Schema: public; Owner: phpcompta
+--
+
+CREATE SEQUENCE bud_card_bc_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.bud_card_bc_id_seq OWNER TO phpcompta;
+
+--
+-- Name: bud_card_bc_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: phpcompta
+--
+
+ALTER SEQUENCE bud_card_bc_id_seq OWNED BY bud_card.bc_id;
+
+
+--
+-- Name: bc_id; Type: DEFAULT; Schema: public; Owner: phpcompta
+--
+
+ALTER TABLE bud_card ALTER COLUMN bc_id SET DEFAULT nextval('bud_card_bc_id_seq'::regclass);
+
+
+--
+-- Name: pk_bud_card_bc_id; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
+--
+
+ALTER TABLE ONLY bud_card
+    ADD CONSTRAINT pk_bud_card_bc_id PRIMARY KEY (bc_id);
+
+
+--
+-- Name: uq_bud_card_bc_code; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
+--
+
+ALTER TABLE ONLY bud_card
+    ADD CONSTRAINT uq_bud_card_bc_code_bh_id UNIQUE (bc_code,bh_id);
+
+ALTER TABLE bud_card ADD CONSTRAINT fk_bud_hypo_bh_id FOREIGN KEY (bh_id) REFERENCES bud_hypothese (bh_id)
+   ON UPDATE CASCADE ON DELETE CASCADE;
+CREATE INDEX fki_bud_hypo_bh_id ON bud_card(bh_id);
+ALTER TABLE bud_card ALTER COLUMN bh_id SET NOT NULL;
+
+
+
+--
+-- Name: t_bud_card_ins_up; Type: TRIGGER; Schema: public; Owner: phpcompta
+--
+
+CREATE TRIGGER t_bud_card_ins_up
+    BEFORE INSERT OR UPDATE ON bud_card
+    FOR EACH ROW
+    EXECUTE PROCEDURE bud_card_ins_upd();
+
+
+--
+-- Name: bud_hypothese_bh_id; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
+--
+
+ALTER TABLE ONLY bud_card
+    ADD CONSTRAINT bud_hypothese_bh_id FOREIGN KEY (bh_id) REFERENCES bud_hypothese(bh_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+--
+-- Name: bud_detail; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
+--
+
+CREATE TABLE bud_detail (
+    bd_id integer NOT NULL,
+    po_id integer,
+    bc_id integer,
+    pcm_val poste_comptable
+);
+
+
+ALTER TABLE public.bud_detail OWNER TO phpcompta;
+
+--
+-- Name: TABLE bud_detail; Type: COMMENT; Schema: public; Owner: phpcompta
+--
+
+COMMENT ON TABLE bud_detail IS 'Detail for card ';
+
+
+--
+-- Name: COLUMN bud_detail.bd_id; Type: COMMENT; Schema: public; Owner: phpcompta
+--
+
+COMMENT ON COLUMN bud_detail.bd_id IS 'primary key';
+
+
+--
+-- Name: COLUMN bud_detail.po_id; Type: COMMENT; Schema: public; Owner: phpcompta
+--
+
+COMMENT ON COLUMN bud_detail.po_id IS 'FK to poste_analytique';
+
+
+--
+-- Name: COLUMN bud_detail.bc_id; Type: COMMENT; Schema: public; Owner: phpcompta
+--
+
+COMMENT ON COLUMN bud_detail.bc_id IS 'fk to bud_card';
+
+
+--
+-- Name: COLUMN bud_detail.pcm_val; Type: COMMENT; Schema: public; Owner: phpcompta
+--
+
+COMMENT ON COLUMN bud_detail.pcm_val IS 'fk to tmp_pcmn';
+
+
+--
+-- Name: bud_detail_bd_id_seq; Type: SEQUENCE; Schema: public; Owner: phpcompta
+--
+
+CREATE SEQUENCE bud_detail_bd_id_seq
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.bud_detail_bd_id_seq OWNER TO phpcompta;
+
+--
+-- Name: bud_detail_bd_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: phpcompta
+--
+
+ALTER SEQUENCE bud_detail_bd_id_seq OWNED BY bud_detail.bd_id;
+
+
+--
+-- Name: bd_id; Type: DEFAULT; Schema: public; Owner: phpcompta
+--
+
+ALTER TABLE bud_detail ALTER COLUMN bd_id SET DEFAULT nextval('bud_detail_bd_id_seq'::regclass);
+
+
+--
+-- Name: pk_bud_detail; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
+--
+
+ALTER TABLE ONLY bud_detail
+    ADD CONSTRAINT pk_bud_detail PRIMARY KEY (bd_id);
+
+
+--
+-- Name: fki_bud_card; Type: INDEX; Schema: public; Owner: phpcompta; Tablespace: 
+--
+
+CREATE INDEX fki_bud_card ON bud_detail USING btree (bc_id);
+
+
+--
+-- Name: fki_tmp_pcmn; Type: INDEX; Schema: public; Owner: phpcompta; Tablespace: 
+--
+
+CREATE INDEX fki_tmp_pcmn ON bud_detail USING btree (pcm_val);
+
+
+--
+-- Name: fk_bud_card; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
+--
+
+ALTER TABLE ONLY bud_detail
+    ADD CONSTRAINT fk_bud_card FOREIGN KEY (bc_id) REFERENCES bud_card(bc_id);
+
+
+--
+-- Name: fk_tmp_pcmn; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
+--
+
+ALTER TABLE ONLY bud_detail
+    ADD CONSTRAINT fk_tmp_pcmn FOREIGN KEY (pcm_val) REFERENCES tmp_pcmn(pcm_val) ON UPDATE CASCADE ON DELETE CASCADE;
+--
+-- Name: bud_detail_periode; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
+--
+
+CREATE TABLE bud_detail_periode (
+    bdp_id integer NOT NULL,
+    bdp_amount numeric(20,4) DEFAULT 0.0,
+    p_id integer NOT NULL,
+    bd_id integer
+);
+
+
+ALTER TABLE public.bud_detail_periode OWNER TO phpcompta;
+
+--
+-- Name: TABLE bud_detail_periode; Type: COMMENT; Schema: public; Owner: phpcompta
+--
+
+COMMENT ON TABLE bud_detail_periode IS 'Module budget detail by periode';
+
+
+--
+-- Name: COLUMN bud_detail_periode.p_id; Type: COMMENT; Schema: public; Owner: phpcompta
+--
+
+COMMENT ON COLUMN bud_detail_periode.p_id IS 'fk to parm_periode';
+
+
+--
+-- Name: COLUMN bud_detail_periode.bd_id; Type: COMMENT; Schema: public; Owner: phpcompta
+--
+
+COMMENT ON COLUMN bud_detail_periode.bd_id IS 'fk to bud_detail';
+
+
+--
+-- Name: bud_detail_periode_bdp_id_seq; Type: SEQUENCE; Schema: public; Owner: phpcompta
+--
+
+CREATE SEQUENCE bud_detail_periode_bdp_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.bud_detail_periode_bdp_id_seq OWNER TO phpcompta;
+
+--
+-- Name: bud_detail_periode_bdp_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: phpcompta
+--
+
+ALTER SEQUENCE bud_detail_periode_bdp_id_seq OWNED BY bud_detail_periode.bdp_id;
+
+
+--
+-- Name: bdp_id; Type: DEFAULT; Schema: public; Owner: phpcompta
+--
+
+ALTER TABLE bud_detail_periode ALTER COLUMN bdp_id SET DEFAULT nextval('bud_detail_periode_bdp_id_seq'::regclass);
+
+
+--
+-- Name: pk_budget_detail_period; Type: CONSTRAINT; Schema: public; Owner: phpcompta; Tablespace: 
+--
+
+ALTER TABLE ONLY bud_detail_periode
+    ADD CONSTRAINT pk_budget_detail_period PRIMARY KEY (bdp_id);
+
+
+--
+-- Name: fk_bud_detail_bd_id; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
+--
+
+ALTER TABLE ONLY bud_detail_periode
+    ADD CONSTRAINT fk_bud_detail_bd_id FOREIGN KEY (bd_id) REFERENCES bud_detail(bd_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: fk_parm_periode; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
+--
+
+ALTER TABLE ONLY bud_detail_periode
+    ADD CONSTRAINT fk_parm_periode FOREIGN KEY (p_id) REFERENCES parm_periode(p_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+
+
+
 commit;	

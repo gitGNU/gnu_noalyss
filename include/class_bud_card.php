@@ -40,18 +40,23 @@ class Bud_Card {
   var $bh_id;			/*!< Bud_Hypo id */
 
   function __construct( $p_cn,$id = 0 ) {
-    $this->bc_id=0;
+    $this->bc_id=$id;
     $this->db=$p_cn;
   }
   function add () {
+    if ( isNumber($this->bc_price_unit) == false )
+      $this->bc_price_unit=0;
+
+
     $array=array(
 		 $this->bc_code,
 		 $this->bc_description,
 		 $this->bc_price_unit,
-		 $this->bc_unit
+		 $this->bc_unit,
+		 $this->bh_id
 		 );
-    $sql="insert into bud_card (bc_code,bc_description,bc_price_unit,bc_unit) ".
-      " values (substr($1,1,10),$2,$3,substr($4,1,20)) returning bc_id ";
+    $sql="insert into bud_card (bc_code,bc_description,bc_price_unit,bc_unit,bh_id) ".
+      " values (substr($1,1,10),$2,$3,substr($4,1,20),$5) returning bc_id ";
 
     $a=ExecSqlParam($this->db,$sql,$array);
     $x=pg_fetch_array($a,0);
@@ -59,12 +64,16 @@ class Bud_Card {
   }
 
   function update() {
-    if ( $this->bd_id == 0) return;
+    if ( $this->bc_id == 0) return;
+
+    if ( isNumber($this->bc_price_unit) == false )
+      $this->bc_price_unit=0;
+
     $sql="update bud_card set bc_code=substr($1,1,10),".
       "bc_description=$2,".
       "bc_price_unit=$3, ".
       "bc_unit=substr($4,1,20) ".
-      " where bd_id=$5";
+      " where bc_id=$5";
     $array=array(
 		 $this->bc_code,
 		 $this->bc_description,
@@ -83,12 +92,12 @@ class Bud_Card {
 	*/
   function from_array($p_array) {
 	if ( empty($p_array) ) return;
-	foreach (array ('bc_id','bc_code','bc_description','bc_price_unit','bc_unit')
+	foreach (array ('bh_id','bc_id','bc_code','bc_description','bc_price_unit','bc_unit')
 		as	$key ){
 		$this->$key=(isset($p_array[$key]))?$p_array[$key]:null;
 	}
-	if ( $this->bc_id == null )
-		throw new Exception(__FILE__.":".__LINE__." bc ne peut pas etre nul");
+/* 	if ( $this->bc_id == null ) */
+/* 		throw new Exception(__FILE__.":".__LINE__." bc ne peut pas etre nul"); */
   }
   function delete() {
     ExecSql($this->db,"delete from bud_card where bc_id=".$this->bc_id);
@@ -97,7 +106,7 @@ class Bud_Card {
   function load()
   {
     if ( $this->bc_id == 0 ) return ;
-    $sql="select bc_id,bc_code,bc_description, bc_price_unit,bc_unit ".
+    $sql="select bc_id,bc_code,bc_description, bc_price_unit,bc_unit,bh_id ".
       " from bud_card ".
       " where  ".
       " bc_id =".$this->bc_id;
@@ -109,24 +118,58 @@ class Bud_Card {
 	$this->from_array($a);  
   }
 
-	static function get_list($p_cn,$p_bh_id) {	
-		$sql="select * from bud_card where bh_id";
-		$r=ExecSql($p_cn,$sql);
-		$result=array();
-		$get=pg_fetch_all($res);
-		
-		if (empty ($get))
-			return array();
-			
-		foreach ($get as $row ) {
-			$obj=new Bud_Card($p_cn);
-			$obj->from_array($row);
-			$result[]=clone $obj;
-		}
-		return result;
-	}
+  static function get_list($p_cn,$p_bh_id) {	
+    $sql="select * from bud_card where bh_id = $p_bh_id";
+    $r=ExecSql($p_cn,$sql);
+    $get=pg_fetch_all($r);
+    
+    if (empty ($get))
+      return array();
+
+    $result=array();
+    
+    foreach ($get as $row ) {
+      $obj=new Bud_Card($p_cn);
+      $obj->from_array($row);
+      $result[]=clone $obj;
+    }
+    return $result;
+  }
   function form() {
-  
+
+    $wCode=new widget("text","Code","bc_code",$this->bc_code);
+    $wDescription=new widget("text","Description","bc_description",$this->bc_description);
+    $wPriceUnit=new widget("text","Prix/unit","bc_price_unit",$this->bc_price_unit);
+    $wUnit=new widget("text","Unit","bc_unit",$this->bc_unit);
+
+    $wCode->table=1;
+    $wDescription->table=1;
+    $wPriceUnit->table=1;
+    $wUnit->table=1;
+
+
+    $r="";
+    $r.="<table>";
+    $r.=widget::hidden('bc_id',$this->bc_id);
+    $r.=widget::hidden('bh_id',$this->bh_id);
+    $r.="<tr>";
+    $r.=$wCode->IOValue('bc_code',$this->bc_code);
+    $r.="</tr>";
+    $r.="<tr>";
+    $r.=$wDescription->IOValue();
+    $r.="</tr>";
+    $r.="<tr>";
+
+    $r.=$wPriceUnit->IOValue();
+    $r.="</tr>";
+    $r.="<tr>";
+
+    $r.=$wUnit->IOValue();
+    $r.="</tr>";
+    $r.="</table>";
+
+
+    return $r;
   }
   static function testme() {
     $cn=DbConnect(dossier::id());

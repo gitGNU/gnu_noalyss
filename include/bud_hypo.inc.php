@@ -31,6 +31,7 @@ if ( isset($_POST['remove'])){
   $obj=new Bud_Hypo($cn);
   $obj->from_array($_POST);
   $obj->delete();
+
  }
 
 if ( isset($_POST['add'])){ 
