@@ -57,10 +57,16 @@ class Bud_Card {
 		 );
     $sql="insert into bud_card (bc_code,bc_description,bc_price_unit,bc_unit,bh_id) ".
       " values (substr($1,1,10),$2,$3,substr($4,1,20),$5) returning bc_id ";
+    try {
+      $a=ExecSqlParam($this->db,$sql,$array);
+      $x=pg_fetch_array($a,0);
+      $this->bc_id=$x['bc_id'];
+    } catch (Exception $e) {
+      if ( DEBUG===true ) print_r($e);
+      return '<span class="notice">Impossible de sauver</span>';
 
-    $a=ExecSqlParam($this->db,$sql,$array);
-    $x=pg_fetch_array($a,0);
-    $this->bc_id=$x['bc_id'];
+    }
+    return 'Sauve';
   }
 
   function update() {
@@ -81,26 +87,31 @@ class Bud_Card {
 		 $this->bc_unit,
 		 $this->bc_id
 		 );
-
-    ExecSqlParam($this->db,$sql,$array);
-
+    try {
+      ExecSqlParam($this->db,$sql,$array);
+    }catch (Exception $e) {
+      if ( DEBUG === true ) print_r($e);
+      return '<span class="notice">Impossible de sauver</span>';
+    }
+    return 'Sauve';
   }
-	/*!
-	*\brief convert an array to an object, if a idx is not set then the
-	* corresponding property will be null
-	* \param $p_array array to convert
-	*/
+  /*!
+   *\brief convert an array to an object, if a idx is not set then the
+   * corresponding property will be null
+   * \param $p_array array to convert
+   */
   function from_array($p_array) {
-	if ( empty($p_array) ) return;
-	foreach (array ('bh_id','bc_id','bc_code','bc_description','bc_price_unit','bc_unit')
-		as	$key ){
-		$this->$key=(isset($p_array[$key]))?$p_array[$key]:null;
-	}
-/* 	if ( $this->bc_id == null ) */
-/* 		throw new Exception(__FILE__.":".__LINE__." bc ne peut pas etre nul"); */
+    if ( empty($p_array) ) return;
+    foreach (array ('bh_id','bc_id','bc_code','bc_description','bc_price_unit','bc_unit')
+	     as	$key ){
+      $this->$key=(isset($p_array[$key]))?$p_array[$key]:null;
+    }
+    /* 	if ( $this->bc_id == null ) */
+    /* 		throw new Exception(__FILE__.":".__LINE__." bc ne peut pas etre nul"); */
   }
   function delete() {
     ExecSql($this->db,"delete from bud_card where bc_id=".$this->bc_id);
+    return 'Efface';
   }
 
   function load()
