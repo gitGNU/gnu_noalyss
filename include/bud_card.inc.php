@@ -45,22 +45,22 @@ $msg="";
 if ( isset($_POST['remove'])){ 
   $obj=new Bud_Card($cn);
   $obj->from_array($_POST);
-  $obj->delete();
-  $msg="Effac&eacute;";
+  
+  $msg=$obj->delete();
  }
 
 if ( isset($_POST['add'])){ 
   $obj=new Bud_Card($cn);
   $obj->from_array($_POST);
-  $obj->add();
-  $msg="Ajout&eacute;";
+  
+  $msg=$obj->add();
  }
 
 if ( isset($_POST['update'])){ 
   $obj=new Bud_Card($cn);
   $obj->from_array($_POST);
-  $obj->update();
-  $msg="Modifi&eacute;";
+
+  $msg=  $obj->update();
 
  }
 $list=Bud_Card::get_list($cn,$_REQUEST['bh_id']);
