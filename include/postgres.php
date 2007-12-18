@@ -159,14 +159,14 @@ function ExecSqlParam($p_connection, $p_string,$p_array) {
   //----
 
   pg_set_client_encoding($p_connection,'latin1');
-  if (!DEBUG ) ob_start();
+  ob_start();
   $ret=pg_query_params($p_connection,$p_string,$p_array);
   if ( ! $ret )   {
-     if (!DEBUG )ob_clean();
-    $r=$p_string."array ".var_export($p_array,TRUE);
-    throw new Exception (" SQL ERROR $r",1);
+    ob_clean();
+      $r=$p_string."array ".var_export($p_array,TRUE);
+      throw new Exception (" SQL ERROR $r",1);
   }
-   if (!DEBUG ) ob_flush();
+  ob_flush();
   return $ret;
 
 }

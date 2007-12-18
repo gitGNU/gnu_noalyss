@@ -94,7 +94,12 @@ class Bud_Detail {
 
   
   }
-
+  static function get_list($p_cn,$p_bh_id,$pa_id=0) {
+    $pa_filter=($pa_id)?" and pa_id = $pa_id ":"";
+    $sql="select * from bud_detail  join bud_detail_periode using(bd_id) ".
+      " right join parm_periode using (p_id) ".
+      " where bh_id= $bh_id $pa_filter "
+  }
   static function testme() {
     $cn=DbConnect(dossier::id());
     $a=new Bud_Detail($cn);

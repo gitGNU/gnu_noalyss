@@ -150,7 +150,7 @@ class widget {
       if ($this->readonly==false )
 	{
 	  //echo "<b>Selected <b>".$this->selected;
-	  $r="<SELECT  id=\"$this->name\" NAME=\"$this->name\">";
+	  $r="<SELECT  id=\"$this->name\" NAME=\"$this->name\" $this->javascript>";
 	  for ( $i=0;$i<sizeof($this->value);$i++) 
 	    {
 	      $checked=($this->selected==$this->value[$i]['value'])?"SELECTED":"";
