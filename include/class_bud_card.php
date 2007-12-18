@@ -62,7 +62,8 @@ class Bud_Card {
       $x=pg_fetch_array($a,0);
       $this->bc_id=$x['bc_id'];
     } catch (Exception $e) {
-      if ( DEBUG===true ) print_r($e);
+
+      if ( DEBUG == 'true' ) print_r($e);
       return '<span class="notice">Impossible de sauver</span>';
 
     }
@@ -89,8 +90,9 @@ class Bud_Card {
 		 );
     try {
       ExecSqlParam($this->db,$sql,$array);
+      print_r(DEBUG);
     }catch (Exception $e) {
-      if ( DEBUG === true ) print_r($e);
+      if ( DEBUG == 'true' ) print_r($e);
       return '<span class="notice">Impossible de sauver</span>';
     }
     return 'Sauve';
