@@ -31,6 +31,7 @@ echo '<form method="get">';
 $wHypo=new widget("select","","bh_id");
 $wHypo->value=make_array($cn,"select bh_id,bh_name from bud_hypothese");
 $wHypo->selected=(isset($_REQUEST['bh_id']))?$_REQUEST['bh_id']:"";
+$wHypo->javascript='onChange="this.form.submit();"';
 echo $wHypo->IOValue();
 echo widget::submit_button('recherche','recherche');
 echo dossier::hidden();
