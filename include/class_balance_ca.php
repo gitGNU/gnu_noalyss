@@ -21,6 +21,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /* !\file 
+ * \brief this class is the mother class for the CA balance 
  */
 
 /* \brief this class is the mother class for the CA balance 
@@ -43,19 +44,13 @@ class print_ca {
 	$this->db=$p_cn;
   }
 /*! 
- * \brief
- * \param
- * \param
- * \param
- * 
- *
- * \return
+ * \brief fill a object with request
  */
   function get_request() {
-	$this->to=(isset($_REQUEST['from']))?$_REQUEST['from']:"";
+	$this->from=(isset($_REQUEST['from']))?$_REQUEST['from']:"";
 	$this->to=(isset($_REQUEST['to']))?$_REQUEST['to']:"";
-	$this->to=(isset($_REQUEST['from_poste']))?$_REQUEST['from_poste']:"";
-	$this->to=(isset($_REQUEST['to_poste']))?$_REQUEST['to_poste']:"";
+	$this->from_poste=(isset($_REQUEST['from_poste']))?$_REQUEST['from_poste']:"";
+	$this->to_poste=(isset($_REQUEST['to_poste']))?$_REQUEST['to_poste']:"";
 
   }
 /*! 
