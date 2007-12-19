@@ -707,43 +707,6 @@ function GetData ($p_cn,$p_grpt) {
    }
   return array($l_array,$deb,$cred);
 }
-/*! 
- * \brief 
- * 
- * parm : 
- *	- 
- * gen :
- *	-
- * return:
- *	-  -1 si aucune valeur de trouvée
- *
- */ 
-// function GetRapt($p_cn,$p_rappt) {
-
-//   $Res=ExecSql($p_cn,"select jr_id from jrn where jr_rapt='$p_rappt'");
-//   if ( pg_NumRows($Res) == 0 ) return -1;
-//   $l_line=pg_fetch_array($Res);
-//   return $l_line['jr_id'];
-// }
-/*! 
- * \brief  Return the internal value
- * 
- * parm : 
- *	- p_cn database connection
- *      - p_id : jrn.jr_id
- * gen :
- *	- none
- * return:
- *	-  null si aucune valeur de trouvée
- *
- */ 
-function get_internal($p_cn,$p_id) {
-
-  $Res=ExecSql($p_cn,"select jr_internal from jrn where jr_id=$p_id");
-  if ( pg_NumRows($Res) == 0 ) return null;
-  $l_line=pg_fetch_array($Res);
-  return $l_line['jr_internal'];
-}
 
 /*! 
  * \brief 
