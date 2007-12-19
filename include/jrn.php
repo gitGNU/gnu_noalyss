@@ -505,39 +505,6 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
   return $r;
 }
 
-
-/*! 
- * \brief  Get the properties of a journal
- * 
- * parm : 
- *	- p_dossier the folder id
- *      - p_jrn the jrn id
- * gen :
- *	- none
- * return:
- *	- an array containing properties
- *
- */ 
-function GetJrnProp($p_dossier,$p_jrn,$is_connected=0) 
-{
-  echo_debug("jrn.php",__LINE__,"GetJrnProp $p_dossier");
-  if ( $is_connected == 0 ) 
-    $cn=DbConnect($p_dossier);
-  else
-    $cn=$p_dossier;
-
-  $Res=ExecSql($cn,"select jrn_Def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_def_type, 
-                   jrn_deb_max_line,jrn_cred_max_line,jrn_def_ech,jrn_def_ech_lib,jrn_def_code,
-                   jrn_def_fiche_deb,jrn_def_fiche_deb
-                   from jrn_Def 
-                      where jrn_def_id=$p_jrn");
-  $Count=pg_NumRows($Res);
-  if ( $Count == 0 ) {
-    echo '<DIV="redcontent"><H2 class="error"> Paramètres journaux non trouvés</H2> </DIV>';
-    return null;
-  }
-  return pg_fetch_array($Res,0);
-}
 /*! 
  * \brief  Vue des écritures comptables
  * 

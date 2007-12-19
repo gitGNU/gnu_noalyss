@@ -29,6 +29,8 @@ require_once ('class_plananalytic.php');
 require_once ('class_own.php');
 require_once ('class_anc_operation.php');
 require_once ('class_pre_op_ods.php');
+require_once ('class_acc_ledger.php');
+
 /*! \file
  * \brief Functions for the ledger of misc. operation
  */
@@ -162,7 +164,8 @@ $r.="<FORM NAME=\"form_detail\" enctype=\"multipart/form-data\"".
     }
     // code
     // Do we need a filter ?
-	$l_line=GetJrnProp($p_cn,$p_jrn,1);
+	$jrn=new Acc_Ledger($p_cn,$p_jrn);
+	$l_line=$jrn->get_propertie();
     if(  strlen(trim ($l_line['jrn_def_class_cred']) ) > 0 ||
 		 strlen(trim ($l_line['jrn_def_class_deb']) ) > 0 ) {
       $filter=1;

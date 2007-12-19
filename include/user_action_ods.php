@@ -29,6 +29,7 @@ require_once('class_dossier.php');
 require_once ('class_pre_operation.php');
 require_once ('class_pre_op_ods.php');
 require_once ('class_own.php');
+require_once ('class_acc_ledger.php');
 
 $gDossier=dossier::id();
 
@@ -77,7 +78,8 @@ if ( $action == 'new' ) {
     $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout poste">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Confirmer">';
     // add a one-line calculator
-    $prop=GetJrnProp($gDossier,$_GET['p_jrn']);
+    $jrn=new Acc_Ledger($cn,$_GET['p_jrn']);
+    $prop=$jrn->get_propertie();
     $line=$prop['jrn_deb_max_line'];
     $r=FormODS($cn,$_REQUEST['p_jrn'],$User->GetPeriode(),$submit,null,false,$line);
      echo '<div class="u_redcontent">';

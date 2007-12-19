@@ -23,6 +23,8 @@
  * \brief Search a account in a popup window
  */
 include_once ("ac_common.php");
+require_once('class_acc_ledger.php');
+
 html_page_start($_SESSION['g_theme'],'onLoad="window.focus();"');
 include_once ("postgres.php");
 include_once("jrn.php");
@@ -66,7 +68,10 @@ if ( isset($_GET['filter']) && $_GET['filter'] != 'all') {
   $SqlCred="";
 
   // Load the property
-  $l_line=GetJrnProp($gDossier,$_GET['p_jrn']);
+   
+  $jrn=new Acc_Ledger($cn,$_GET['jrn']);
+  $l_line=$jrn->get_propertie();
+
   if ( strlen(trim ($l_line['jrn_def_class_deb']) ) > 0 ) {
     $valid_cred=split(" ",$l_line['jrn_def_class_deb']);
 
