@@ -263,8 +263,15 @@ function ShowItem($p_array,$p_dir='V',$class="mtitle",$class_ref="mtitle",$defau
   if ( $p_dir == 'V') {
     foreach ($p_array as $all=>$href){
       $title="";
+      $set="";
       if ( isset ($href[2] )) 
 		$title=$href[2];
+      if ( isset($href[3] )) 
+	$set=$href[3];
+
+      if ( $set == $default )
+	$ret.='<tr><TD CLASS="selectedcell">'.$href[1].'</TD></tr>';
+      else
       $ret.='<TR><TD CLASS="'.$class.'"><A class="'.$class_ref.'" HREF="'.$href[0].'" title="'.$title.'">'.$href[1].'</A></TD></TR>';
     }
   }
