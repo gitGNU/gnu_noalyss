@@ -133,11 +133,13 @@ class groupop
 	    $wAmount=new widget("text","","pamount$i",0.0);
 	    $wAmount->size=12;
 	    $wAmount->table=1;
+	    $wAmount->javascript=" onChange=caod_checkTotal()";
 	    $wAmount->readonly=$p_readonly;
 	    
 	    $wDebit=new widget("checkbox","","pdeb$i");
 	    $wDebit->table=1;
 	    $wDebit->readonly=$p_readonly;
+	    $wDebit->javascript=" onChange=caod_checkTotal()";
 	    if ( isset ($this->a_operation[$i])) {
 	      $wSelect->selected=$this->a_operation[$i]->po_id;
 	      $wAmount->value=$this->a_operation[$i]->oa_amount;
