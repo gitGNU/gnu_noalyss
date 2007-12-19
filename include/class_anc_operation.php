@@ -44,8 +44,7 @@ class Anc_Operation
   var $j_id;					/*!< foreign key to a jrnx operation
                                    (or null if none */
   var $oa_group;				/*!< group of operation  */
-  var $oa_date;					/*!< equal to j_date if j_id is not
-								  null */
+  var $oa_date;	   /*!< equal to j_date if j_id is not	  null */
   var $pa_id;					/*!< the plan analytique id */
 
   /*!\brief constructor
