@@ -29,6 +29,7 @@ require_once ('class_gestion_purchase.php');
 require_once ('class_plananalytic.php');
 require_once ('class_anc_operation.php');
 require_once ('class_acc_ledger.php');
+require_once ('class_acc_operation.php');
 /*! 
  * \brief  Display the form to UPDATE account operation in the expert view
  *          
@@ -168,8 +169,10 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 
 	  $r.= '<div style="margin-left:30px;">';
 	  foreach ($a as $key => $element) {
+		$operation=new Acc_operation($p_cn);
+		$operation->jr_id=$element;
 		$r.=sprintf ('%s <INPUT TYPE="BUTTON" VALUE="Détail" onClick="modifyOperation(\'%s\',\'%s\',%d)">', 
-					 GetInternal($p_cn,$element),
+					 $operation->get_internal($p_cn,$element),
 					 $element,
 					 $sessid,
 					 $gDossier);
@@ -485,8 +488,10 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
       
       $r.= '<div style="margin-left:30px;">';
       foreach ($a as $key => $element) {
+		$operation=new Acc_operation($p_cn);
+		$operation->jr_id=$element;
 		$r.=sprintf ('%s <INPUT TYPE="BUTTON" VALUE="Détail" onClick="modifyOperation(\'%s\',\'%s\',%d)">', 
-					 GetInternal($p_cn,$element),
+					 $operation->get_internal(),
 					 $element,
 					 $sessid,
 					 $gDossier);
@@ -732,7 +737,7 @@ function GetData ($p_cn,$p_grpt) {
  *	-  null si aucune valeur de trouvée
  *
  */ 
-function GetInternal($p_cn,$p_id) {
+function get_internal($p_cn,$p_id) {
 
   $Res=ExecSql($p_cn,"select jr_internal from jrn where jr_id=$p_id");
   if ( pg_NumRows($Res) == 0 ) return null;

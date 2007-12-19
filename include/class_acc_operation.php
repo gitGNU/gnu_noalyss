@@ -26,12 +26,13 @@
  */
 require_once ('class_user.php');
 /*! \brief  this file match the tables jrn & jrnx the purpose is to
-    remove or save accountant writing to these table. 
+ *   remove or save accountant writing to these table. 
  *
  */
 class Acc_Operation 
 {
   var $db; 				/*!< database connx */
+var $jr_id;	/*!< pk of jrn */
   var $jrn_id;			/*!< jrn_def_id */
   var $debit;			/*!< debit or credit */
   var $user;			/*!< current user */
@@ -45,7 +46,7 @@ class Acc_Operation
  * \brief constructor set automatically the attributes user and periode
  * \param $p_cn the databse connection
  */
-  function Acc_operation($p_cn) {
+  function __construct($p_cn) {
     $this->db=$p_cn;
     $this->qcode="";
     $this->user=$_SESSION['g_user'];
@@ -83,7 +84,7 @@ class Acc_Operation
  *\brief  Insert into the table Jrn, the amount is computed from jrnx thanks the 
  *        group id ($p_grpt)
  *        
- * \return  nothing
+ * \return  sequence
  *  
  */
 
@@ -114,7 +115,23 @@ class Acc_Operation
 
 	$Res=ExecSql($this->db,$sql);				 
 	if ( $Res == false)  return false;
-	return GetSequence($this->db,'s_jrn');
+	$this->jr_id=GetSequence($this->db,'s_jrn');
+	return $this->jr_id;
+}
+/*!
+ * \brief  Return the internal value, the property jr_id must be set before
+ *
+ * \return  null si aucune valeur de trouv
+ *
+ */
+function get_internal() {
+ if ( ! isset($this->jr_id) ) 
+		throw new Exception('jr_id is not set',1);
+  $Res=ExecSql($this->db,"select jr_internal from jrn where jr_id=".$this->jr_id);
+  if ( pg_NumRows($Res) == 0 ) return null;
+  $l_line=pg_fetch_array($Res);
+  $this->jr_internal= $l_line['jr_internal'];
+  return $this->jr_internal;
 }
 
 }

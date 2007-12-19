@@ -27,6 +27,7 @@
 
 include_once("postgres.php");
 require_once("class_document.php");
+require_once("class_acc_operation.php");
 /*! \file
  * \brief Common functions 
  */
@@ -704,9 +705,11 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Eché
       
       foreach ($a as $key => $element) 
       {      
-		$l_amount=getDbValue($p_cn,"select jr_montant from jrn ".
-							 " where jr_id=$element");
-		$r.= "<A class=\"detail\" HREF=\"javascript:modifyOperation('".$element."','".$l_sessid."',".$gDossier.")\" > ".GetInternal($p_cn,$element)." [ $l_amount &euro; ]</A>";
+	$operation=new Acc_Operation($p_cn);
+	$operation->jr_id=$element;
+	$l_amount=getDbValue($p_cn,"select jr_montant from jrn ".
+					 " where jr_id=$element");
+	$r.= "<A class=\"detail\" HREF=\"javascript:modifyOperation('".$element."','".$l_sessid."',".$gDossier.")\" > ".$operation->get_internal()." [ $l_amount &euro; ]</A>";
       }//for
     }// if ( $a != null ) {
     $r.="</TD>";

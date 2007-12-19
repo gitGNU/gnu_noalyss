@@ -31,6 +31,7 @@ include_once ("postgres.php");
 include_once("jrn.php");
 require_once("class_widget.php");
 require_once("class_acc_ledger.php");
+require_once("class_acc_operation.php");
 /* Admin. Dossier */
 include_once ("class_user.php");
 require_once('class_dossier.php');
@@ -402,12 +403,11 @@ if ( $a != null ) {
 
   foreach ($a as $key => $element) {
     echo "operation concernée <br>";
+$operation=new Acc_Operation($cn);
+$operation->jr_id=$element;
 
-    //    echo "<A
-    //    HREF=\"jrn_op_detail.php?jrn_op=".GetGrpt($cn,$element)."\">
-    //    ".GetInternal($cn,$element)."</A><br>";
     $w=new widget("button");
-    $w->label=GetInternal($cn,$element);
+    $w->label=$operation->get_internal();
     $w->javascript="modifyOperation('".$element."','".$_REQUEST['PHPSESSID']."',".dossier::id().
       ','.$_REQUEST['p_jrn'].",'S')";
     echo $w->IOValue().'<br>';
