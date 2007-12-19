@@ -21,16 +21,17 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /* !\file 
+  \brief manage the simple balance for CA, inherit from balance_ca
  */
 
-/* \brief manage the simple balance for CA, inherit from balance_ca
- *
- */
 require_once ('class_print_ca.php');
 require_once ('class_plananalytic.php');
 require_once ('ac_common.php');
 include_once("class.ezpdf.php");
 require_once ('header_print.php');
+/*! \brief manage the simple balance for CA, inherit from balance_ca
+ *
+ */
 
 class balance_ca_bs extends print_ca {
 
@@ -119,6 +120,7 @@ class balance_ca_bs extends print_ca {
 	$r.="<th>D&eacute;bit</th>";
 	$r.="<th>Cr&eacute;dit</th>";
 	$r.="<th>Solde</th>";
+	$r.="<th>D/C</th>";
 	$r.="</tr>";
 
 	$array=$this->get_data();
@@ -137,6 +139,9 @@ class balance_ca_bs extends print_ca {
 	  $r.=sprintf("<td>%12.2f</td>",$row['sum_deb']);
 	  $r.=sprintf("<td>%12.2f</td>",$row['sum_cred']);
 	  $r.=sprintf("<td>%12.2f</td>",$row['solde']);
+	  $deb=($row['sum_deb'] > $row['sum_cred')?"D":"C";
+	  $deb=($row['solde'] == 0 )?'':$deb;
+	  $r.=sprintf("<td>%s</td>",$deb);
 	  $r.="</tr>";	  
 	}	
 	$r.="</table>";
