@@ -30,10 +30,11 @@ require_once ('class_pre_op_advanced.php');
 require_once ('jrn.php');
 require_once ('class_acexception.php');
 require_once ('class_acc_reconciliation.php');
-/*!\file class acc_ledger for manipulating the ledger
+/*!\file
+ * \brief Class for jrn,  class acc_ledger for manipulating the ledger
  */
 
-/*!\brief Class for jrn
+/*!\brief Class for jrn,  class acc_ledger for manipulating the ledger
  *
  */
 class Acc_Ledger {

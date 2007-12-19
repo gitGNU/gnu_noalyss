@@ -20,11 +20,13 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file this file match the tables jrn & jrnx the purpose is to
-    remove or save accountant writing to these table. 
+/*!\file
+ * \brief  this file match the tables jrn & jrnx the purpose is to
+ *   remove or save accountant writing to these table. 
  */
 require_once ('class_user.php');
-/* \brief
+/*! \brief  this file match the tables jrn & jrnx the purpose is to
+    remove or save accountant writing to these table. 
  *
  */
 class Acc_Operation 
