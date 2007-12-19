@@ -24,48 +24,83 @@
  * \brief Manage the detail for each hypo by analytic account
  */
 require_once ('class_widget.php');
+require_once ('class_bud_hypo.php');
+require_once ('class_poste_analytic.php');
 
-echo '<form method="get">';
+echo '<div class="u_content">';
 
-$post_anc="";
+/* 1st first a possibilite is not defined */
+if ( ! isset ($_REQUEST['bh_id'])) {
+  $wHypo=new widget("select","","bh_id");
+  $wHypo->value=make_array($cn,"select bh_id,bh_name from bud_hypothese");
+  $wHypo->selected=(isset($_REQUEST['bh_id']))?$_REQUEST['bh_id']:"";
+  $wHypo->javascript='onChange="this.form.submit();"';
 
-$wHypo=new widget("select","","bh_id");
-$wHypo->value=make_array($cn,"select bh_id,bh_name from bud_hypothese");
-$wHypo->selected=(isset($_REQUEST['bh_id']))?$_REQUEST['bh_id']:"";
-$wHypo->javascript='onChange="this.form.submit();"';
+  echo '<form method="get">';
+  echo dossier::hidden();
+  echo $wHypo->IOValue();
+  echo widget::submit_button('recherche','recherche');
+  echo widget::hidden('p_action','detail');
 
-if (  isset($_REQUEST['bh_id']) ) {
-  /* if bh_id is set it means that the hypothese has been choosed */
-  $wPost_Analytic=new widget("select","","po_id");
-  $wPost_Analytic->value=make_array($cn,"select po_id,po_name from poste_analytique join ".
-				    " bud_hypothese as a using (pa_id) ".
-				    " where a.bh_id=".$_REQUEST['bh_id']);
-  if ( empty ($wPost_Analytic->value) )
-    $post_anc="";
-  else {
-    $wPost_Analytic->selected=(isset($_REQUEST['po_id']))?$_REQUEST['po_id']:"";
-    $post_anc=$wPost_Analytic->IOValue();
-  }
-  echo widget::hidden('bh_id',$_REQUEST['bh_id']);
-  $wHypo->readonly=true;
- } else {
-  /* if bh_id the first step is to select an hypothese */
+  echo '</form>';
 
+  echo '<hr>';
+  exit;
+ }
+$button_other=widget::button_href('Autre detail','?gDossier='.dossier::id().
+				  '&p_action=detail');
+
+/* 2nd Step BH_ID is defined
+ *   if $wPost_Analytic->value is not empty then there is an analytic
+ *  plan, a analytic account must be choosen otherwise go directly to
+ *  the detail  
+ */
+$wPost_Analytic=new widget("select","","po_id");
+$wPost_Analytic->value=make_array($cn,"select po_id,po_name from poste_analytique join ".
+				  " bud_hypothese as a using (pa_id) ".
+				  " where a.bh_id=".$_REQUEST['bh_id']);
+
+$po_id=(isset($_REQUEST['po_id']))?$_REQUEST['po_id']:-2;
+
+if (  empty ($wPost_Analytic->value) ) {
+  $po_id=-1;
  }
 
+$Hyp=new Bud_Hypo($cn,$_REQUEST['bh_id']);
+$Hyp->load();
+
+if ( ! empty ($wPost_Analytic->value) && $po_id==-2  ) {
+  $wHypo=new widget("text","","bh_id",$Hyp->bh_name);
+  $wHypo->readonly=true;
+  $wPost_Analytic->javascript='onChange="this.form.submit();"';
+
+  echo '<form method="get">';
+  echo $wHypo->IOValue();
+  echo widget::hidden('bh_id',$_REQUEST['bh_id']);
+  echo widget::hidden('p_action','detail');
+  echo dossier::hidden();
+  echo $wPost_Analytic->IOValue();
+  echo widget::submit_button('recherche','recherche');
+  echo '</form>';
+  echo $button_other;
+
+  echo '<hr>';
+  exit();
+ }
+
+/* 3rd Step 
+ * po_id is set now we can add/update/delete details
+ */
+$wHypo=new widget("text","","bh_id",$Hyp->bh_name);
+$wHypo->readonly=true;
 echo $wHypo->IOValue();
-
-
-echo $post_anc;
-echo widget::submit_button('recherche','recherche');
-echo dossier::hidden();
-echo widget::hidden("p_action","detail");
-echo '</form>';
-
-
-if ( ! isset($_REQUEST['bh_id']) || ! isset ($_REQUEST['po_id'])) {
-	exit();
-}
-
+if ( $po_id !== -1 ) {
+  $oPo_id=new Poste_analytique($cn,$po_id);
+  $oPo_id->get_by_id();
+  $wPo_id=new widget("text","","po_id",$oPo_id->name);
+  $wPo_id->readonly=true;
+  echo $wPo_id->IOValue();
+ }
+echo $button_other;
 
 echo '<hr>';
