@@ -709,25 +709,6 @@ function GetData ($p_cn,$p_grpt) {
 }
 
 /*! 
- * \brief 
- *         Get the number of the next jrn
- *         from the jrn_def.jrn_code
- * 
- * parm : 
- *	- $p_cn connection
- *      - $p_type jrn type
- * gen :
- *	- none
- * return:
- *	- string containing the next code
- *
- */ 
-function NextJrn($p_cn,$p_type)
-{
-  $Ret=CountSql($p_cn,"select * from jrn_def where jrn_def_type='".$p_type."'");
-  return $Ret+1; 
-}
-/*! 
  * \brief  Get data from jrn and jrnx thanks the jr_id
  * 
  *

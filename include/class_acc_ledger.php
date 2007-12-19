@@ -1268,4 +1268,22 @@ if ( $this->id==0) return;
 
    }
 
+/*!
+ * \brief retrieve the next number for this type of ledger
+ * \param p_cn connx
+ * \param p_type ledger type
+ *
+ * \return the number
+ *      
+ * \todo this function show be a part of the acc_ledger_type class
+ *       as soon as this class is created
+ *
+ */
+static function next_number($p_cn,$p_type)
+{
+  
+  $Ret=CountSql($p_cn,"select * from jrn_def where jrn_def_type='".$p_type."'");
+  return $Ret+1;
+}
+
 }

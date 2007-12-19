@@ -25,6 +25,8 @@
 
 include_once ("ac_common.php");
 include_once("jrn.php");
+require_once ('class_acc_ledger.php');
+
 html_page_start($_SESSION['g_theme']);
 require_once('class_dossier.php');
 $gDossier=dossier::id();
@@ -76,7 +78,7 @@ echo_debug('jrn_add.php',__LINE__,"nom journal $p_jrn_name");
      $p_jrn_name=FormatString($p_jrn_name);
      $p_jrn_class_cred=FormatString($_POST["p_jrn_class_deb"]);
      // compute the jrn_def.jrn_def_code
-     $p_code=sprintf("%s-%02d",trim($_POST['p_jrn_type']),NextJrn($cn,$_POST['p_jrn_type']));
+     $p_code=sprintf("%s-%02d",trim($_POST['p_jrn_type']),Acc_Ledger::next_number($cn,$_POST['p_jrn_type']));
        $p_jrn_fiche_deb="";
        $p_jrn_fiche_cred="";
 
