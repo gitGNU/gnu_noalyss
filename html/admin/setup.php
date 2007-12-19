@@ -171,8 +171,8 @@ function apply_patch($p_cn,$p_name)
 	{
 	$to=$i+1;
 	  if ( GetVersion($p_cn) <= $i ) { 
-	  echo "Patching ".$p_name.
-		" from the version ".GetVersion($p_cn)." to $to <hr>";
+	  echo "<h2>Patching ".$p_name.
+		" from the version ".GetVersion($p_cn)." to $to</h2> <hr>";
 
 		ExecuteScript($p_cn,'sql/patch/upgrade'.$i.'.sql');
 	  if ( DEBUG=='false' ) ob_start();
@@ -448,7 +448,9 @@ if ( ($Res=ExecSql($a,"select  * from ac_users") ) == false ) {
 	print "Connect to database success <br>";
 echo "<h2 class=\"info\"> Congratulation : Test successfull</h2>";
 
-echo "<h2 class=\"info\"> Patching databases</h2>";
+echo '<hr>';
+echo "<h1>Mise a jour du systeme</h1>";
+echo "<h2 > Mise &agrave; jour dossier</h2>";
 
 $cn=DbConnect();
 $Resdossier=ExecSql($cn,"select dos_id, dos_name from ac_dossier");
@@ -457,31 +459,34 @@ $MaxDossier=pg_NumRows($Resdossier);
 //----------------------------------------------------------------------
 // Upgrade the folders
 //----------------------------------------------------------------------
+echo '<ul>';
 for ($e=0;$e < $MaxDossier;$e++) {
   $db_row=pg_fetch_array($Resdossier,$e);
-  echo "Patching ".$db_row['dos_name'].'<br>';
+  echo "<li>Patching ".$db_row['dos_name'].'</li>';
   $db=DbConnect($db_row['dos_id'],'dossier');
   apply_patch($db,$db_row['dos_name']);
  }
-
+echo '</ul>';
 //----------------------------------------------------------------------
 // Upgrade the template
 //----------------------------------------------------------------------
 $Resdossier=ExecSql($cn,"select mod_id, mod_name from modeledef");
 $MaxDossier=pg_NumRows($Resdossier);
-echo "Upgrading template";
+echo '<hr>';
+echo "<h2>Mise &agrave; jour mod&egrave;le</h2>";
+echo '<ul>';
 for ($e=0;$e < $MaxDossier;$e++) {
   $db_row=pg_fetch_array($Resdossier,$e);
-  echo "Patching ".$db_row['mod_name']."<hr>";
+  echo "<li>Patching ".$db_row['mod_name']."</li>";
   $db=DbConnect($db_row['mod_id'],'mod');
   apply_patch($db,$db_row['mod_name']);
  }
-
+echo '</ul>';
 //----------------------------------------------------------------------
 // Upgrade the account_repository
 //----------------------------------------------------------------------
-
- echo "Upgrading Repository"; 
+echo '<hr>';
+ echo "<h2>Mise &agrave; jour Repository</h2>"; 
  $cn=DbConnect(); 
  if ( DEBUG == 'false') ob_start(); 
  $MaxVersion=7; 
