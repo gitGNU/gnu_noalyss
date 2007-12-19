@@ -121,7 +121,7 @@ if ( isset($_GET['new'])) {
 	//show the form for entering a new Anc_Operation
 	//------------------------------------------
   $a=new groupop($cn);
-
+  echo JS_CAOD_COMPUTE;
   $wSubmit=new widget('hidden',"p_action","ca_od");
   $wSubmit->table=0;
   echo '<div class="u_redcontent">';
@@ -131,6 +131,12 @@ if ( isset($_GET['new'])) {
   echo $a->form();
   echo $wSubmit->Submit("save","Sauver");
   echo '</form>';
+  echo '<div class="info">
+    D&eacute;bit = <span id="totalDeb"></span>
+    Cr&eacute;dit = <span id="totalCred"></span>
+    Difference = <span id="totalDiff"></span>
+  </div>
+    ';
 
   echo '</div>';
   exit();
