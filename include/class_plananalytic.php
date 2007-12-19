@@ -29,7 +29,7 @@
 require_once("constant.php");
 require_once("postgres.php");
 require_once("class_widget.php");
-require_once("class_poste_analytic.php");
+require_once("class_anc_account.php");
 require_once ('class_dossier.php');
 
 class PlanAnalytic
@@ -149,7 +149,7 @@ class PlanAnalytic
 	$all=pg_fetch_all($r);
 	foreach ($all as $line)
 	  {
-		$obj=new Poste_analytique($this->db,$line['po_id']);
+		$obj=new Anc_Account($this->db,$line['po_id']);
 		$obj->get_by_id();
 		$ret[]=clone $obj;
 	  }

@@ -25,7 +25,7 @@
  */
 require_once ('class_widget.php');
 require_once ('class_bud_hypo.php');
-require_once ('class_poste_analytic.php');
+require_once ('class_anc_account.php');
 
 echo '<div class="u_content">';
 
@@ -95,7 +95,7 @@ $wHypo=new widget("text","","bh_id",$Hyp->bh_name);
 $wHypo->readonly=true;
 echo $wHypo->IOValue();
 if ( $po_id !== -1 ) {
-  $oPo_id=new Poste_analytique($cn,$po_id);
+  $oPo_id=new Anc_Account($cn,$po_id);
   $oPo_id->get_by_id();
   $wPo_id=new widget("text","","po_id",$oPo_id->name);
   $wPo_id->readonly=true;

@@ -27,7 +27,7 @@
  *
  */
 require_once("class_plananalytic.php");
-require_once("class_poste_analytic.php");
+require_once("class_anc_account.php");
 $ret="";
 //---------------------------------------------------------------------------
 // action 
@@ -125,7 +125,7 @@ if ( isset($_REQUEST['sa']))
 	// show the form for add a poste
 	if ( $sa=='po_add')
 	  {
-		$po=new Poste_analytique($cn);
+		$po=new Anc_Account($cn);
 		$po->pa_id=$_REQUEST['pa_id'];
 		$wSa=new widget("hidden","sa","sa","po_write");
 		$ret.='<div class="u_redcontent">';
@@ -140,7 +140,7 @@ if ( isset($_REQUEST['sa']))
 	if ( $sa=="po_write")
 	  {
 		//		var_dump($_POST);
-		$po=new Poste_analytique($cn);
+		$po=new Anc_Account($cn);
 		$po->fill_from_POST();
 		$po->add();
 		$sa="list";
@@ -158,7 +158,7 @@ if ( isset($_REQUEST['sa']))
 	if ( $sa=="po_detail")
 	  {
 		$wHidden=new widget('hidden','','sa','po_update');
-		$po=new Poste_analytique($cn,$_GET['po_id']);
+		$po=new Anc_Account($cn,$_GET['po_id']);
 		$po->get_by_id();
 		$ret.='<div class="u_redcontent">';
 		$ret.='<form method="post">';
@@ -178,14 +178,14 @@ if ( isset($_REQUEST['sa']))
 	  }
 	if ( $sa=="po_update")
 	  {
-		$po=new Poste_analytique($cn);
+		$po=new Anc_Account($cn);
 		$po->fill_from_POST();
 		$po->update();
 		$sa="list";
 	  }
 	if ( $sa=="po_delete")
 	  {
-		$po=new Poste_analytique($cn,$_REQUEST['po_id']);
+		$po=new Anc_Account($cn,$_REQUEST['po_id']);
 		$po->delete();
 		$sa="list";
 	  }
