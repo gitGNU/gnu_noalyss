@@ -28,11 +28,13 @@ require_once ('class_bud_hypo.php');
 require_once ('class_anc_account.php');
 
 echo '<div class="u_content">';
+/*!\todo Check if there is Hypothesis */
 
-/* 1st first a possibilite is not defined */
+
+/* 1st  possibility is not defined */
 if ( ! isset ($_REQUEST['bh_id'])) {
   $wHypo=new widget("select","","bh_id");
-  $wHypo->value=make_array($cn,"select bh_id,bh_name from bud_hypothese");
+  $wHypo->value=make_array($cn,"select bh_id,bh_name from bud_hypothese",1);
   $wHypo->selected=(isset($_REQUEST['bh_id']))?$_REQUEST['bh_id']:"";
   $wHypo->javascript='onChange="this.form.submit();"';
 
