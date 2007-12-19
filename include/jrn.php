@@ -28,6 +28,7 @@ require_once ('class_gestion_sold.php');
 require_once ('class_gestion_purchase.php');
 require_once ('class_plananalytic.php');
 require_once ('class_anc_operation.php');
+require_once ('class_acc_ledger.php');
 /*! 
  * \brief  Display the form to UPDATE account operation in the expert view
  *          
@@ -524,9 +525,10 @@ function ViewJrn($p_dossier,$p_user,$p_jrn,$p_url,$p_array=null) {
   echo_debug('jrn.php',__LINE__,"function ViewJrn($p_dossier,$p_user,$p_jrn,$p_array=null) ");
 
   $db=sprintf("dossier%d",$p_dossier);
-  $l_prop=GetJrnProp($p_dossier,$p_jrn);
-  echo "<H2 class=\"info\">".$l_prop['jrn_def_name']."( ".$l_prop['jrn_def_code'].")"."</H2>";
   $cn=DbConnect($p_dossier);
+  $oJrn=new Acc_Ledger($cn,$p_jrn);
+  $l_prop=$oJrn->get_propertie();
+  echo "<H2 class=\"info\">".$l_prop['jrn_def_name']."( ".$l_prop['jrn_def_code'].")"."</H2>";
   if ( $p_array == null) {
     include_once("preference.php");
     $l_periode=GetUserPeriode($cn,$p_user);
@@ -890,7 +892,8 @@ function SetInternalCode($p_cn,$p_grpt,$p_jrn)
   //$num=CountSql($p_cn,"select * from jrn where jr_def_id=$p_jrn and jr_internal != 'ANNULE'")+1;
   $num = NextSequence($p_cn,'s_internal');
   $num=strtoupper(hexdec($num));
-  $atype=GetJrnProp(dossier::id(),$p_jrn);
+  $oJrn=new Acc_Ledger($p_cn,$p_jrn);
+  $atype=$oJrn->get_propertie();
   $type=$atype['jrn_def_code'];
   $internal_code=sprintf("%d%s-%s",dossier::id(),$type,$num);
   echo_debug ("jrn.php",__LINE__,"internal_code = $internal_code");
