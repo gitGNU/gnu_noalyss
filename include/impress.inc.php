@@ -56,26 +56,26 @@ include_once("impress_inc.php");
 $default=( isset ($_REQUEST['type']))?$_REQUEST['type']:"";
   switch ($default) {
   case "jrn":
-    require_once ("impress_jrn.php");
+    require_once ("impress_jrn.inc.php");
     break;
   case "poste":
-    require_once ("impress_poste.php");
+    require_once ("impress_poste.inc.php");
     break;
   case "rapport":
-    require_once ("impress_rapport.php");
+    require_once ("impress_rapport.inc.php");
     break;
   case "bilan":
-    require_once ("impress_bilan.php");
+    require_once ("impress_bilan.inc.php");
     break;
 
   case "bal":
-    require_once ("balance.php");
+    require_once ("balance.inc.php");
     break;
   case "fiche":
-    require_once ("impress_fiche.php");
+    require_once ("impress_fiche.inc.php");
     break;
   case "list_client":
-    require_once ("impress_listing_client.php");
+    require_once ("impress_listing_client.inc.php");
     break;
 
   }
