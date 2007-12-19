@@ -150,7 +150,7 @@ class widget {
       if ($this->readonly==false )
 	{
 	  //echo "<b>Selected <b>".$this->selected;
-	  $r="<SELECT  id=\"$this->name\" NAME=\"$this->name\">";
+	  $r="<SELECT  id=\"$this->name\" NAME=\"$this->name\" $this->javascript>";
 	  for ( $i=0;$i<sizeof($this->value);$i++) 
 	    {
 	      $checked=($this->selected==$this->value[$i]['value'])?"SELECTED":"";
@@ -194,13 +194,13 @@ class widget {
     if (strtoupper($this->type)=="CHECKBOX") {
       if ( $this->readonly == true) {
 	$check=( $this->selected==true )?"checked":"unchecked";
-	$r='<input type="CHECKBOX" name="'.$this->name.'"';
+	$r='<input type="CHECKBOX" id="'.$this->name.'" name="'.$this->name.'"';
 	$r.="  $check";
 	$r.=' disabled>';
 
       } else {
 	$check=( $this->selected==true )?"checked":"unchecked";
-	$r='<input type="CHECKBOX" name="'.$this->name.'"';
+	$r='<input type="CHECKBOX" id="'.$this->name.'" name="'.$this->name.'"';
 	$r.="  $check";
 	$r.=' '.$disabled."  ".$this->javascript.'>';
       }
@@ -625,8 +625,9 @@ class widget {
   function Submit ($p_name,$p_value) {
     return '<INPUT TYPE="SUBMIT" NAME="'.$p_name.'" VALUE="'.$p_value.'">';
   }
-  static   function submit_button ($p_name,$p_value) {
-    return '<INPUT TYPE="SUBMIT" NAME="'.$p_name.'" VALUE="'.$p_value.'">';
+  static   function submit_button ($p_name,$p_value,$p_javascript="") {
+    
+    return '<INPUT TYPE="SUBMIT" NAME="'.$p_name.'" VALUE="'.$p_value.'" '.$p_javascript.'>';
   }
 
   function Reset ($p_value) {
