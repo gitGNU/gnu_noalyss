@@ -31,7 +31,7 @@ require_once ("class_plananalytic.php");
 require_once ('class_anc_operation.php');
 require_once ('class_pre_op_ven.php');
 require_once ('class_own.php');
-
+require_once ('class_acc_ledger.php');
 /*!   FormVenInput
  * \brief  Display the form for a sell
  *           Used to show detail, encode a new invoice 
@@ -747,7 +747,8 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
 	
   // Compute the j_grpt
   $seq=NextSequence($p_cn,'s_grpt');
-  $internal=SetInternalCode($p_cn,$seq,$p_jrn);
+$oJrn=new Acc_Ledger($p_cn,$p_jrn);
+  $internal=$oJrn->compute_internal_code($seq);
 
   echo_debug(__FILE__,__LINE__,"Dossier is ".dossier::id());
   // Debit = client

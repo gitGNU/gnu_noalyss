@@ -24,6 +24,7 @@ require_once("preference.php");
 require_once("fiche_inc.php");
 require_once("user_common.php");
 require_once ('class_pre_operation.php');
+require_once ('class_acc_ledger.php');
 
 /*! \file
  * \brief Functions for the financial ledger
@@ -400,7 +401,8 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
 	// Compute the j_grpt
 	$seq=NextSequence($p_cn,'s_grpt');
 	// Set Internal code and Comment
-	$internal=SetInternalCode($p_cn,$seq,$p_jrn);
+	$oJrn=new Acc_Ledger($p_cn,$p_jrn);
+	$internal=$oJrn->compute_internal_code($seq);
 
 
 	InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste_bq,$e_date,round(${"e_other$i"."_amount"},2),

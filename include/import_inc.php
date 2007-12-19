@@ -26,6 +26,8 @@ include_once("user_common.php");
 require_once('class_user.php');
 require_once('class_widget.php');
 require_once('class_fiche.php');
+require_once('class_acc_ledger.php');
+
 /*! 
  **************************************************
  * \brief  Parse the file and insert the record
@@ -243,7 +245,7 @@ function TransferCSV($p_cn, $periode){
   //on obtient la période courante
   $User=new cl_user($p_cn);
   $periode = $User->GetPeriode();
-
+	
   // on trouve les dates frontières de cette période
   $sql = "select to_char(p_start,'DD-MM-YYYY') as p_start,to_char(p_end,'DD-MM-YYYY') as p_end".
     " from parm_periode where p_id = '".$periode."'";
@@ -260,7 +262,6 @@ function TransferCSV($p_cn, $periode){
 
   $start ="to_date('".$val['p_start']."','DD-MM-YYYY')";   
   $end = "to_date('".$val['p_end']."','DD-MM-YYYY')";
-
   $sql = "select code,to_char(date_exec,'DD.MM.YYYY') as date_exec, ".
     " montant,num_compte,poste_comptable,bq_account,jrn,detail,jr_rapt ".
     " from import_tmp where ".
@@ -282,6 +283,7 @@ function TransferCSV($p_cn, $periode){
 	$poste_comptable=$val['poste_comptable'];
 	$bq_account=$val['bq_account'];
 	$jrn=$val['jrn']; 
+  	$oJrn=new Acc_Ledger($p_cn,$jrn);
 	$detail=$val['detail'];
 	$jr_rapt=$val['jr_rapt'];
     
@@ -326,7 +328,8 @@ function TransferCSV($p_cn, $periode){
 	$code=str_replace('\"','',$code);
 
 	$jr_id=InsertJrn($p_cn,$date_exec,NULL,$jrn,$detail.$num_compte." ".$code,$seq,$periode);
-      	$internal=SetInternalCode($p_cn,$seq,$jrn);
+      	$internal=$oJrn->compute_internal_code($seq);
+
 	$Res=ExecSql($p_cn,"update jrn set jr_internal='".$internal."' where ".
                " jr_id = ".$jr_id);
       // insert rapt

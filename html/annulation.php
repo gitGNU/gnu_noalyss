@@ -30,6 +30,7 @@ include_once("check_priv.php");
 include_once ("postgres.php");
 include_once("jrn.php");
 require_once("class_widget.php");
+require_once("class_acc_ledger.php");
 /* Admin. Dossier */
 include_once ("class_user.php");
 require_once('class_dossier.php');
@@ -143,7 +144,8 @@ if  ($p_id != -1 ) { // A
    StartSql($cn);
    $grp_new=NextSequence($cn,'s_grpt');
    $seq=NextSequence($cn,"s_jrn");
-   $p_internal=SetInternalCode($cn,$seq,$l_array['jr_def_id']);
+$oJrn=new Acc_Ledger($cn,$l_array['jr_def_id']);
+   $p_internal=$oJrn->compute_internal_code($seq);
 
    $sql= "insert into jrn (
   		jr_id,jr_def_id,jr_montant,jr_comment,               

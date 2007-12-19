@@ -1034,6 +1034,26 @@ function get_propertie()
        throw new AcException("Balance incorrecte debit = $tot_deb credit=$tot_cred ",1);
        
    }
+/*!
+ * \brief
+ *
+ * \param $p_grpt id in jr_grpt_
+ *
+ * \return string internal_code
+ *      -
+ *
+ */
+function compute_internal_code($p_grpt)
+{
+if ( $this->id==0) return;
+  $num = NextSequence($this->db,'s_internal');
+  $num=strtoupper(hexdec($num));
+  $atype=$this->get_propertie();
+  $type=$atype['jrn_def_code'];
+  $internal_code=sprintf("%d%s-%s",dossier::id(),$type,$num);
+  echo_debug (__FILE__,__LINE__,"internal_code = $internal_code");
+  return $internal_code;
+}
 
    /*! 
     * \brief save the operation into the jrnx,jrn, ,
@@ -1051,7 +1071,7 @@ function get_propertie()
        StartSql($this->db) ;
        
        $seq=NextSequence($this->db,'s_grpt');
-       $internal=SetInternalCode($this->db,$seq,$this->id);
+       $internal=$this->compute_internal_code($seq);
        
        $group=NextSequence($this->db,"s_oa_group");       
        $own=new own($this->db);

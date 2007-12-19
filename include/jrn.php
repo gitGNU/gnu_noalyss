@@ -741,100 +741,6 @@ function GetInternal($p_cn,$p_id) {
 }
 
 /*! 
- * \brief  return the sum of jrn where
- *            the internal_code is the p_id
- * 
- * parm : 
- *	- $p_cn database connection
- *  - p_id = jrn.jr_internal
- * gen :
- *	-
- * return:
- *	- number
- *
- */ 
-function GetAmount($p_cn,$p_id) {
-  $Res=ExecSql($p_cn,"select jr_montant from jrn where jr_internal='$p_id'");
-  if (pg_NumRows($Res)==0) return -1;
-  $l_line=pg_fetch_array($Res,0);
-  return $l_line['jr_montant'];
-}
-/*! 
- * \brief  Verify the data before inserting or
- *           updating
- * 
- * parm : 
- *	- p_cn connection
- *      - p_array array with all the values
- *      - p_user
- * gen :
- *	- none
- * return:
- *	- errorcode or ok
- *
- */ 
-function VerifData($p_cn,$p_array,$p_user)
-{
-  if ( ! isset ($p_cn) ||
-       ! isset ($p_array)||
-       ! isset ($p_user)||
-       $p_array == null ){
-    echo_error("JRN.PHP VerifData missing parameter");
-    return BADPARM;
-  }
-  // Montre ce qu'on a encodé et demande vérif
-  $next="";
-  foreach ( $p_array as $name=>$element ) {
-      echo_debug('jrn.php',__LINE__,"element $name -> $element ");
-      // Sauve les données dans des variables
-      ${"p_$name"}=$element;
-    }
-    // Verif Date
-    if ( isDate($p_op_date) == null) {
-      return BADDATE;
-    }
-    // userPref contient la periode par default
-    $userPref=$p_user->GetPeriode();
-    list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$userPref);
-
-    // Date dans la periode active
-    echo_debug ("date start periode $l_date_start date fin periode $l_date_end date demandée $p_op_date");
-    if ( cmpDate($p_op_date,$l_date_start)<0 || 
-	 cmpDate($p_op_date,$l_date_end)>0 )
-      {
-	return NOTPERIODE;
-      }
-    // Periode fermée 
-    if ( PeriodeClosed ($p_cn,$userPref)=='t' )
-      {
-	return PERIODCLOSED;
-      }
-    $l_mont=0;
-    if ( ! isset ($p_ech) ) $p_ech="";
-
-    if ($p_ech!='' && isDate ( $p_ech) == null ){
-      return INVALID_ECH;
-    }
-
-    $tot_deb= 0;
-    $tot_cred= 0;
-    for ( $i = 0; $i < $p_MaxCred; $i++) {
-      if ( isset ( ${"p_mont_cred$i"} ))
-	$tot_cred+=${"p_mont_cred$i"};
-    }
-    for ( $i = 0; $i < $p_MaxDeb; $i++) {
-      if ( isset ( ${"p_mont_deb$i"} ))
-	$tot_deb+=${"p_mont_deb$i"};
-    }
-    echo_debug('jrn.php',__LINE__,"Amont = 	$tot_deb $tot_cred");
-    if ( round($tot_deb,2) != round($tot_cred,2) ) { 
-      return DIFF_AMOUNT;
-    }
-
-    return NOERROR;
-
-}
-/*! 
  * \brief  Return the name of the jrn
  * 
  * parm : 
@@ -873,31 +779,6 @@ function NextJrn($p_cn,$p_type)
 {
   $Ret=CountSql($p_cn,"select * from jrn_def where jrn_def_type='".$p_type."'");
   return $Ret+1; 
-}
-/*! 
- * \brief 
- * 
- * \param 
- * \param $p_cn 
- * \param $p_grpt id in jr_grpt_
- * \param $p_jrn jrn id jrn_def_
- * \param $p_dossier dossier id
- *	
- * \return string internal_code
- *	-
- *
- */ 
-function SetInternalCode($p_cn,$p_grpt,$p_jrn)
-{
-  //$num=CountSql($p_cn,"select * from jrn where jr_def_id=$p_jrn and jr_internal != 'ANNULE'")+1;
-  $num = NextSequence($p_cn,'s_internal');
-  $num=strtoupper(hexdec($num));
-  $oJrn=new Acc_Ledger($p_cn,$p_jrn);
-  $atype=$oJrn->get_propertie();
-  $type=$atype['jrn_def_code'];
-  $internal_code=sprintf("%d%s-%s",dossier::id(),$type,$num);
-  echo_debug ("jrn.php",__LINE__,"internal_code = $internal_code");
-  return $internal_code;
 }
 /*! 
  * \brief  Get data from jrn and jrnx thanks the jr_id
