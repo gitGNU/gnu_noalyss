@@ -40,7 +40,7 @@ $User->Check();
 
 
 $Form=new rapport($cn,$_GET['form_id']);
-$Form->GetName();
+$Form->get_name();
 // Step ?
 //--
 if ( $_GET['p_step'] == 0 )

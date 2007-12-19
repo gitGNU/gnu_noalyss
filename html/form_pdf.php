@@ -72,7 +72,7 @@ if ( $_GET['p_step'] == 0 )
 
    }
 
-$Libelle=sprintf("(%s) %s ",$Form->id,$Form->GetName());
+$Libelle=sprintf("(%s) %s ",$Form->id,$Form->get_name());
     
 $pdf->ezText($Libelle,30);
 // without step 

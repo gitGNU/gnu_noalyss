@@ -62,7 +62,7 @@ foreach ($a_poste as $poste)
   if ( count($array) == 0 ) {
      continue;
    }
-  $Libelle=sprintf("(%s) %s ",$Poste->id,$Poste->GetName());
+  $Libelle=sprintf("(%s) %s ",$Poste->id,$Poste->get_name());
     
     //  $pdf->ezText($Libelle,30);
   $pdf->ezTable($array,

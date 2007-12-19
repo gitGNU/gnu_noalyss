@@ -37,7 +37,7 @@ class rapport {
   }
   /*!\brief Return the report's name
    */
-  function GetName() {
+  function get_name() {
     $ret=execSql($this->db,"select fr_label from formdef where fr_id=".$this->id);
     if (pg_NumRows($ret) == 0) return $this->name;
     $a=pg_fetch_array($ret,0);

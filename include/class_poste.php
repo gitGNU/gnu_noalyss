@@ -81,7 +81,7 @@ class poste {
    *        it doesn't change any data member
    * \return string with the pcm_lib
    */
-  function GetName() {
+  function get_name() {
     $ret=pg_exec($this->db,
 		 "select pcm_lib from tmp_pcmn where
                   pcm_val=".$this->id);
@@ -202,7 +202,7 @@ function GetSoldeDetail($p_cond="") {
 
  function HtmlTable() 
    {     
-     $this->GetName();
+     $this->get_name();
 
      list($array,$tot_deb,$tot_cred)=$this->GetRow( $_POST['from_periode'],
 						     $_POST['to_periode']

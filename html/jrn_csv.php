@@ -49,7 +49,7 @@ if ( $User->CheckAction($cn,IMP) == 0 ||
 
 $Jrn=new Acc_Ledger($cn,$_GET['jrn_id']);
 
-$Jrn->GetName();
+$Jrn->get_name();
 $jrn_type=$Jrn->get_type();
 // Detailled printing
 //---

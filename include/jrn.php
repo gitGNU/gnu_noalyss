@@ -741,27 +741,6 @@ function GetInternal($p_cn,$p_id) {
 }
 
 /*! 
- * \brief  Return the name of the jrn
- * 
- * parm : 
- *	- p_cn connexion resource
- *      - jrn id
- * gen :
- *	- none
- * return:
- *	- string or null if not found
- *
- */ 
-function GetJrnName($p_cn,$p_id) {
-  $Res=ExecSql($p_cn,"select jrn_def_name from ".
-	       " jrn_def where jrn_def_id=".
-	       $p_id);
-  $Max=pg_NumRows($Res);
-  if ($Max==0) return null;
-  $ret=pg_fetch_array($Res,0);
-  return $ret['jrn_def_name'];
-}
-/*! 
  * \brief 
  *         Get the number of the next jrn
  *         from the jrn_def.jrn_code

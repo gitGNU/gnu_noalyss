@@ -33,6 +33,8 @@ include_once("postgres.php");
 include_once("class.ezpdf.php");
 include_once("impress_inc.php");
 include_once("preference.php");
+require_once('class_acc_ledger.php');
+
 echo_debug('send_jrn_pdf.php',__LINE__,"imp pdf journaux");
 $l_Db=sprintf("dossier%d",$gDossier);
 $cn=DbConnect($gDossier);
@@ -43,12 +45,8 @@ if ( isset ($_POST['central']) ) {
   $centr=" centralisé ";
   $l_centr=1;
 }
-
-if ( $_GET["filter"] == YES) {
-  $name_jrn=GetJrnName($cn,$_GET["p_id"]).$centr;
-} else {
-  $name_jrn="Grand livre ".$centr;
-}
+$oJrn=new Acc_Ledger($cn,$_GET['p_id']);
+$name=$oJrn->get_name().$centr;
     $ret="";
     $pdf=& new Cezpdf("A4");
     $pdf->selectFont('./addon/fonts/Helvetica.afm');

@@ -34,7 +34,7 @@ include_once("class_widget.php");
 if ( isset( $_GET['bt_html'] ) ) {
   include("class_rapport.php");
   $Form=new rapport($cn,$_GET['form_id']);
-  $Form->GetName();
+  $Form->get_name();
   // step asked ?
   //--
   if ($_GET['p_step'] == 0 ) {

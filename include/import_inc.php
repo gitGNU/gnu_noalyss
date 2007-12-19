@@ -87,7 +87,6 @@ function UpdateCSV($p_cn){
  *        modify the Quick Code or remove record poss.value are form, remove
  */
 function ShowBox($p_val,$counter,$p_cn,$p_form='form'){
-
   $w=new widget('js_search_only');
   $w->name='poste'.$counter;
   $w->extra='cred';
@@ -97,6 +96,7 @@ function ShowBox($p_val,$counter,$p_cn,$p_form='form'){
   if ( $p_form == 'remove' )
     $w->readonly=true;
 
+$oJrn=new Acc_Ledger($p_cn,$p_val['jrn']);
   // widget concerned
   $wConcerned=new widget('js_concerned');
   $wConcerned->name="e_concerned"+$counter;
@@ -124,7 +124,7 @@ function ShowBox($p_val,$counter,$p_cn,$p_form='form'){
   echo '<input type="hidden" name="count" value="'.$counter.'">';
   echo '<table border="1" width="500">';
   echo '<tr><td width="200">'.$p_val['code'].'</td><td width="200">'.$p_val['date_exec'].'</td><td width="100">'.$p_val['montant'].' EUR</td><tr/>';
-  echo "<tr><td> Journal : ".GetJrnName($p_cn,$p_val['jrn'])."</TD><TD>poste comptable Destination : ".$p_val['bq_account']."</td><tr>";
+  echo "<tr><td> Journal : ".$oJrn->get_name()."</TD><TD>poste comptable Destination : ".$p_val['bq_account']."</td><tr>";
   echo '<tr colspan="3"><td height="50" colspan="3">'.$p_val['detail'].'</td></tr>';
   echo '<tr><td  colspan="3"> '.$wConcerned->IOValue("e_concerned".$counter).'</td></tr>';
   echo '<tr><td>'.$w->IOValue().' '.$s->IOValue('poste'.$counter.'_label').

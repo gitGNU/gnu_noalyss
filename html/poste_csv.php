@@ -50,7 +50,7 @@ if ( count($a_poste) == 0 )
 foreach ($a_poste as $pos) 
 {
   $Poste=new poste($cn,$pos['pcm_val']);
-  $Poste->GetName();
+  $Poste->get_name();
   list($array,$tot_deb,$tot_cred)=$Poste->GetRow( $_POST['from_periode'],
 						  $_POST['to_periode']
 						);

@@ -77,7 +77,7 @@ return $ret['jrn_def_type'];
 * \brief Return the name of a ledger 
 * 
 */
-function GetName() {
+function get_name() {
 if ( $this->id==0 ) {
 $this->name=" Grand Livre ";
 return $this->name;
@@ -487,7 +487,7 @@ foreach ( $data_jrnx as $code ) {
 	  echo_debug('class_acc_ledger',__LINE__,$code['j_qcode'].'est F ou C');
 	  $p_array['TVAC']=$code['j_montant'];
 
-	  $p_array['client']=($trunc==0)?$fiche->GetName():substr($fiche->GetName(),0,20);
+	  $p_array['client']=($trunc==0)?$fiche->get_name():substr($fiche->get_name(),0,20);
 	  $p_array['reversed']=false;
 	  if (	$fiche_def_id == FICHE_TYPE_CLIENT && $code['j_debit']=='f')
 	    {
@@ -510,7 +510,7 @@ foreach ( $data_jrnx as $code ) {
 	    echo_debug('class_acc_ledger',__LINE__,$code['j_qcode']."n 'est PAS F ou C");
 	    $p_array['TVAC']=$code['j_montant'];
 	    
-	    $p_array['client']=	($trunc==0)?$fiche->GetName():substr($fiche->GetName(),0,20);
+	    $p_array['client']=	($trunc==0)?$fiche->get_name():substr($fiche->get_name(),0,20);
 	    $p_array['reversed']=false;
 	    if ($p_jrn_type == 'ACH' && $code['j_debit']=='t')
 	      {
@@ -813,7 +813,7 @@ function get_propertie()
 	 $oposte=new poste($this->db,${'poste'.$i});
 	 $strPoste=$oposte->id;
 	 $ret.="<td>".${"poste".$i}." - ".
-	       $oposte->GetName().$hidden->IOValue('poste'.$i,${'poste'.$i}).
+	       $oposte->get_name().$hidden->IOValue('poste'.$i,${'poste'.$i}).
 	       '</td>';
        }
 

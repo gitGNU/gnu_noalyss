@@ -38,7 +38,7 @@ include("class_acc_ledger.php");
  $d=var_export($_POST,true);
  echo_debug('impress_jrn.php',__LINE__,$d);
   $Jrn=new Acc_Ledger($cn,$_POST['jrn_id']);
-  $Jrn->GetName();
+  $Jrn->get_name();
   if ( $_POST['p_simple']==0 ) 
     {
       $Jrn->GetRow( $_POST['from_periode'],

@@ -100,7 +100,7 @@ if ( $User->AccessJrn($cn,$id) == false ) {
   exit();
  }
 echo '<div class="u_content">';
-echo '<h2 class="info"> Journal : '.$ledger->GetName().'</h2>';
+echo '<h2 class="info"> Journal : '.$ledger->get_name().'</h2>';
 echo widget::button_href('Autre journal','?p_action='.$_REQUEST['p_action'].'&'.dossier::get());
 // User can write ?
 if ( CheckJrn(dossier::id(),$_SESSION['g_user'],$id) != 2 )    {
