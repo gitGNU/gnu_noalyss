@@ -125,20 +125,50 @@ de donn&eacute;es");
  * \brief send a sql string to the database
  * \param $p_connection db connection 
  * \param $p_string     sql string
- * \param $p_exit if true exits in case of error otherwise returns false
  * \return false if error otherwise true
  */
 function ExecSql($p_connection, $p_string) {
   echo_debug('postgres.php',__LINE__,"SQL = $p_string");
   // probl. with Ubuntu & UTF8
   //----
-  pg_set_client_encoding($p_connection,'latin1');
-  $ret=pg_query($p_connection,$p_string);
-  if ( $ret == false  ) { 
-    throw new Exception ("SQL ERROR ::: $p_string",1);
-  }
 
+  pg_set_client_encoding($p_connection,'latin1');
+  ob_start();
+  $ret=pg_query($p_connection,$p_string);
+  if ( ! $ret )   {
+    ob_clean();
+    throw new Exception (" SQL ERROR $p_string ",1);
+  }
+  ob_flush();
   return $ret;
+
+}
+/*! 
+ * \brief send a sql string to the database using the function
+ * pg_query_params. Useful for avoiding the problem with the quotes
+ * and to execute several times the same command 
+ * \param $p_connection db connection 
+ * \param $p_string     sql string
+ * \param $p_array array containing the value
+ * \return false if error otherwise true
+ */
+function ExecSqlParam($p_connection, $p_string,$p_array) {
+  echo_debug('postgres.php',__LINE__,"SQL = $p_string");
+  echo_debug('postgres.php',__LINE__,$p_array);
+  // probl. with Ubuntu & UTF8
+  //----
+
+  pg_set_client_encoding($p_connection,'latin1');
+  ob_start();
+  $ret=pg_query_params($p_connection,$p_string,$p_array);
+  if ( ! $ret )   {
+    ob_clean();
+      $r=$p_string."array ".var_export($p_array,TRUE);
+      throw new Exception (" SQL ERROR $r",1);
+  }
+  ob_flush();
+  return $ret;
+
 }
 
 /*! 
