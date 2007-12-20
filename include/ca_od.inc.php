@@ -30,7 +30,7 @@ require_once("class_anc_account.php");
 require_once ("class_widget.php");
 require_once ("class_anc_operation.php");
 require_once ("class_anc_plan.php");
-require_once ("class_groupop.php");
+require_once ("class_anc_group_operation.php");
 
 
 $pa=new Anc_Plan($cn);
@@ -108,7 +108,7 @@ if ( isset($_POST['save'])) {
   //-----------------------------
   echo '<div class="u_redcontent">'.
 	'Op&eacute;ration sauv&eacute;e';
-  $a=new groupop($cn);
+  $a=new Anc_Group_Operation($cn);
 
   $a->from_POST();
 
@@ -121,7 +121,7 @@ if ( isset($_POST['save'])) {
 if ( isset($_GET['new'])) {
 	//show the form for entering a new Anc_Operation
 	//------------------------------------------
-  $a=new groupop($cn);
+  $a=new Anc_Group_Operation($cn);
   echo JS_CAOD_COMPUTE;
   $wSubmit=new widget('hidden',"p_action","ca_od");
   $wSubmit->table=0;

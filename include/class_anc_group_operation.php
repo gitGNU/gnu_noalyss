@@ -32,7 +32,7 @@ require_once ("class_widget.php");
 require_once ('class_anc_plan.php');
 require_once ('class_dossier.php');
 
-class groupop
+class Anc_Group_Operation
 {
   var $db;	/*!< database connection */
   var  $id;	/*!< oa_group, a group contains
@@ -45,7 +45,7 @@ class groupop
   var $pa_id;							/*!< the concerned pa_id */
 
   /*!\brief constructor */
-  function  groupop($p_cn,$p_id=0)
+  function  Anc_Group_Operation($p_cn,$p_id=0)
   {
 	$this->db=$p_cn;
 	$this->id=$p_id;
@@ -216,12 +216,12 @@ class groupop
     $cn=DbConnect($dossier);
 
     if ( isset($_POST['go'])) {
-      $b=new groupop($cn);
+      $b=new Anc_Group_Operation($cn);
       $b->from_POST();
       exit();
     }
 
-    $a=new groupop($cn);
+    $a=new Anc_Group_Operation($cn);
     echo '<form method="post">';
     echo $a->form();
     echo dossier::hidden();
