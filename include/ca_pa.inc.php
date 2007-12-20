@@ -26,7 +26,7 @@
 /* \brief Plan Analytique
  *
  */
-require_once("class_plananalytic.php");
+require_once("class_anc_plan.php");
 require_once("class_anc_account.php");
 $ret="";
 //---------------------------------------------------------------------------
@@ -41,7 +41,7 @@ if ( isset($_REQUEST['sa']))
 	if ( $sa == "add_pa")
 	  {
 		$wAction=new widget("hidden","","p_action","ca_pa");
-		$new=new PlanAnalytic($cn);
+		$new=new Anc_Plan($cn);
 		if ( $new->isAppend() == true)
 		  {
 			$ret.= '<div class="u_redcontent">';
@@ -68,7 +68,7 @@ if ( isset($_REQUEST['sa']))
 	// Add 
 	if ( $sa == "pa_write")
 	  {
-		$new=new PlanAnalytic($cn);
+		$new=new Anc_Plan($cn);
 
 
 		if ( $new->isAppend() == false)
@@ -79,7 +79,7 @@ if ( isset($_REQUEST['sa']))
 		  }
 		else 
 		  {
-			$new=new PlanAnalytic($cn);
+			$new=new Anc_Plan($cn);
 			$new->name=$_POST['pa_name'];
 			$new->description=$_POST['pa_description'];
 			$new->add();
@@ -88,7 +88,7 @@ if ( isset($_REQUEST['sa']))
 	// show the detail
 	if ( $sa == "pa_detail" )
 	  {
-		$new=new PlanAnalytic($cn,$_GET['pa_id']);
+		$new=new Anc_Plan($cn,$_GET['pa_id']);
 		$wAction=new widget("hidden","","p_action","ca_pa");
 		$wSa=new widget("HIDDEN","","sa","pa_update");
 
@@ -114,7 +114,7 @@ if ( isset($_REQUEST['sa']))
 	// Update the PA
 	if ( $sa == "pa_update" )
 	  {
-		$new=new PlanAnalytic($cn,$_GET['pa_id']);
+		$new=new Anc_Plan($cn,$_GET['pa_id']);
 		$new->name=$_POST['pa_name'];
 		$new->description=$_POST['pa_description'];
 		$new->update();
@@ -149,7 +149,7 @@ if ( isset($_REQUEST['sa']))
 	/* delete pa */
 	if ( $sa == "pa_delete")
 	  {
-		$delete=new PlanAnalytic($cn,$_GET['pa_id']);
+		$delete=new Anc_Plan($cn,$_GET['pa_id']);
 		$delete->delete();
 	  }
 	/* po detail
@@ -194,7 +194,7 @@ if ( isset($_REQUEST['sa']))
 	  {
 		$count=0;
 
-		$new=new PlanAnalytic($cn,$_REQUEST['pa_id']);
+		$new=new Anc_Plan($cn,$_REQUEST['pa_id']);
 		$new->get();
 		$array=$new->get_poste_analytique();
 		$ret.='<div class="u_redcontent">';
@@ -245,7 +245,7 @@ if ( isset($_REQUEST['sa']))
 // Show lmenu
 //
 //---------------------------------------------------------------------------
-$obj=new PlanAnalytic($cn);
+$obj=new Anc_Plan($cn);
 $list=$obj->get_list();
 
 

@@ -30,7 +30,7 @@
  *
  */
 require_once ('class_anc_print.php');
-require_once ('class_plananalytic.php');
+require_once ('class_anc_plan.php');
 
 class Anc_Balance_Double extends Anc_Print 
 {
@@ -141,9 +141,9 @@ class Anc_Balance_Double extends Anc_Print
 	$count=ceil(count($array)/$pagesize);
 	$pdf= new Cezpdf("A4");
 	$pdf->selectFont('./addon/fonts/Helvetica.afm');
-	$pa=new PlanAnalytic($this->db,$this->pa_id);
+	$pa=new Anc_Plan($this->db,$this->pa_id);
 	$pa->get();
-	$pb=new PlanAnalytic($this->db,$this->pa_id2);
+	$pb=new Anc_Plan($this->db,$this->pa_id2);
 	$pb->get();
 
 	$titre=sprintf("Balance croise plan %s %s ",
@@ -262,7 +262,7 @@ class Anc_Balance_Double extends Anc_Print
 	$r=parent::display_form($p_string);
 	// show the second plan
 	$r.='<span style="padding:5px;margin:5px;border:2px double  blue;display:block;">';
-	$plan=new PlanAnalytic($this->db);
+	$plan=new Anc_Plan($this->db);
 	$plan_id=new widget("select","","pa_id2");
  	$plan_id->value=make_array($this->db,"select pa_id, pa_name from plan_analytique order by pa_name");
 	$plan_id->selected=$this->pa_id2;

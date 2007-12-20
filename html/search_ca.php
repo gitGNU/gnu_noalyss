@@ -34,7 +34,7 @@ require_once ('class_widget.php');
 require_once ("ac_common.php");
 require_once ('class_dossier.php');
 require_once ('class_anc_account.php');
-require_once ('class_plananalytic.php');
+require_once ('class_anc_plan.php');
 
 /*!\todo add security here : check user and access to CA
  */
@@ -57,7 +57,7 @@ echo '</form>';
 //------------- FORM ----------------------------------
 if ( isset($_REQUEST['go'])) {
   $cn=DbConnect(dossier::id());
-  $plan=new PlanAnalytic($cn,$_REQUEST['c2']);
+  $plan=new Anc_Plan($cn,$_REQUEST['c2']);
   $plan->pa_id=$_REQUEST['c2'];
   if ( $plan->exist()==false)
 	exit("Ce plan n'existe pas");

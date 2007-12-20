@@ -28,7 +28,7 @@
  */
 require_once("class_widget.php");
 require_once("postgres.php");
-require_once("class_plananalytic.php");
+require_once("class_anc_plan.php");
 
 class Anc_Account
 {
@@ -223,7 +223,7 @@ class Anc_Account
 	$wGa_id->value=make_array($this->db,"select ga_id,ga_id from groupe_analytique",1);
 	$wGa_id->selected=$this->ga_id;
 	$wGa_id->table=1;
-	$pa=new PlanAnalytic($this->db,$this->pa_id);
+	$pa=new Anc_Plan($this->db,$this->pa_id);
 	$pa->get();
 	$wPaName=new widget("text","Plan A.","",$pa->name);
 	$wPaName->table=1;

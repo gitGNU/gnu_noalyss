@@ -32,7 +32,7 @@ require_once('debug.php');
 require_once('constant.php');
 require_once ('class_widget.php');
 require_once('class_dossier.php');
-require_once ('class_plananalytic.php');
+require_once ('class_anc_plan.php');
 
 class Anc_Print {
   var $db;						/*!< $db database connection */
@@ -79,7 +79,7 @@ class Anc_Print {
  */
   function display_form($p_hidden="") {
 	/* if there is no analytic plan return */
-	$pa=new PlanAnalytic($this->db);
+	$pa=new Anc_Plan($this->db);
 	if ( $pa->count() == 0 ) {
 	  echo '<h2 class="info"> Aucun plan d&eacute;fini</h2>';
 	  exit();
@@ -110,7 +110,7 @@ class Anc_Print {
 
 	$r.=$p_hidden;
 	$r.='<span style="padding:5px;margin:5px;border:2px double  blue;display:block;">';
-	$plan=new PlanAnalytic($this->db);
+	$plan=new Anc_Plan($this->db);
 	$plan_id=new widget("select","","pa_id");
  	$plan_id->value=make_array($this->db,"select pa_id, pa_name from plan_analytique order by pa_name");
 	$plan_id->selected=$this->pa_id;

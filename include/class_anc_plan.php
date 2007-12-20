@@ -32,14 +32,14 @@ require_once("class_widget.php");
 require_once("class_anc_account.php");
 require_once ('class_dossier.php');
 
-class PlanAnalytic
+class Anc_Plan
 {
   var $db; /*!<database connection */
   var $name; 					/*!< name plan_analytique.pa_name */
   var $description;				/*!< description of the PA plan_analytique.pa_description*/
   var $id;						/*!< id = plan_analytique.pa_id */
 
-  function PlanAnalytic($p_cn,$p_id=0)
+  function Anc_Plan($p_cn,$p_id=0)
   {
 	$this->db=$p_cn;
 	$this->id=$p_id;
@@ -185,7 +185,7 @@ class PlanAnalytic
     echo "clean";
     ExecSql($cn,"delete from plan_analytique");
 
-    $p=new PlanAnalytic($cn);
+    $p=new Anc_Plan($cn);
     echo "<h2>Add</h2>";
     $p->name="Nouveau 1";
     $p->description="C'est un test";

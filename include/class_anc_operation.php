@@ -22,7 +22,7 @@
 
 /* !\file 
  */
-require_once("class_plananalytic.php");
+require_once("class_anc_plan.php");
 require_once("class_widget.php");
 require_once ("user_common.php");
 
@@ -376,7 +376,7 @@ function get_balance($p_from,$p_to,$p_plan_id)
    if ( $p_array != null)
      extract ($p_array);
    $result="";
-   $plan=new PlanAnalytic($this->db);
+   $plan=new Anc_Plan($this->db);
    $a_plan=$plan->get_list();
    if ( empty ($a_plan) ) return "";
    $table_id="t".$p_seq;
@@ -481,7 +481,7 @@ function get_balance($p_from,$p_to,$p_plan_id)
    $max=${"nb_t".$p_item};
    echo_debug(__FILE__.':'.__LINE__.'- ', "max of row for CA = ".$max);
    // get all the PA
-   $plan=new PlanAnalytic($this->db);
+   $plan=new Anc_Plan($this->db);
    $cplan=$plan->count(); 
    echo_debug(__FILE__.':'.__LINE__," nb of PA $cplan");
    // foreach row 

@@ -29,10 +29,11 @@
 require_once("class_anc_account.php");
 require_once ("class_widget.php");
 require_once ("class_anc_operation.php");
+require_once ("class_anc_plan.php");
 require_once ("class_groupop.php");
 
 
-$pa=new PlanAnalytic($cn);
+$pa=new Anc_Plan($cn);
 $m=$pa->get_list();
 if ( ! $m )  { echo '<h2 class="info"> Aucun plan analytique d&eacute;fini</h2>';exit();}
 echo '<div class="u_subt2menu">';

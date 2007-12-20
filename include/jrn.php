@@ -26,7 +26,7 @@
 require_once('class_fiche.php');
 require_once ('class_gestion_sold.php');
 require_once ('class_gestion_purchase.php');
-require_once ('class_plananalytic.php');
+require_once ('class_anc_plan.php');
 require_once ('class_anc_operation.php');
 require_once ('class_acc_ledger.php');
 require_once ('class_acc_operation.php');

@@ -25,7 +25,7 @@ require_once("class_widget.php");
 require_once("preference.php");
 require_once("fiche_inc.php");
 require_once("user_common.php");
-require_once ('class_plananalytic.php');
+require_once ('class_anc_plan.php');
 require_once ('class_own.php');
 require_once ('class_anc_operation.php');
 require_once ('class_pre_op_ods.php');

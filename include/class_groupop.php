@@ -29,7 +29,7 @@
 require_once ("class_anc_operation.php");
 require_once ("postgres.php");
 require_once ("class_widget.php");
-require_once ('class_plananalytic.php');
+require_once ('class_anc_plan.php');
 require_once ('class_dossier.php');
 
 class groupop
@@ -90,7 +90,7 @@ class groupop
 	$ret.='<tr><td style="border:1px groove blue">Description</td>'.
 	  '<td colspan="3">'.
 	  $wDescription->IOValue()."</td></tr>";
-	$Plan=new PlanAnalytic($this->db);
+	$Plan=new Anc_Plan($this->db);
 	$aPlan=$Plan->get_list();
 	$ret.='</table><table  style="border: 2px outset blue; width: 100%;">';
 	/* show 10 rows */
@@ -162,7 +162,7 @@ class groupop
    *
    */
   function from_POST() {
-	$Plan=new PlanAnalytic($this->db);
+	$Plan=new Anc_Plan($this->db);
 	$aPlan=$Plan->get_list();
 
 

@@ -35,7 +35,7 @@ class Bud_Hypo {
   var $bh_id;			/*!< Primary key bud_hypo */
   var $bh_saldo;		/*!< saldo */
   var $bh_description;		/*!< Description */
-  var $pa_id;			/*!< Foreign key to PlanAnalytic */
+  var $pa_id;			/*!< Foreign key to Anc_Plan */
 
 
   function __construct($p_cn,$p_id=0)
