@@ -25,7 +25,7 @@ include_once("ac_common.php");
 include_once("impress_inc.php");
 include_once("postgres.php");
 require_once ('header_print.php');
-require_once ('class_bilan.php');
+require_once ('class_acc_bilan.php');
 
 include ('class_user.php');
 require_once('class_dossier.php');
@@ -50,7 +50,7 @@ if ( $User->admin == 0 ) {
 
 }
 
-$bilan=new Bilan($cn);
+$bilan=new Acc_Bilan($cn);
 $bilan->get_request_get();
 $bilan->load();
 /*\!bug the headers shouldn't be sent here, but it doesn't work

@@ -32,13 +32,13 @@ require_once ('class_dossier.php');
 require_once ('impress_inc.php');
 require_once ('header_print.php');
 
-class Bilan {
+class Acc_Bilan {
   var $db;						/*!< database connection */
   var $b_id;					/*!< id of the bilan (bilan.b_id) */
   var $from;					/*!< from periode */
   var $to;					/*!< end periode */
 
-  function Bilan($p_cn) {
+  function Acc_Bilan($p_cn) {
 	$this->db=$p_cn;
   }
 /*! 
@@ -450,7 +450,7 @@ class Bilan {
 	if ( isset($_GET['result'])) {
 	  ob_start();
 	  $cn=DbConnect(dossier::id());
-	  $a=new Bilan($cn);
+	  $a=new Acc_Bilan($cn);
 	  $a->get_request_get();
 
 	  $a->load();
@@ -468,7 +468,7 @@ class Bilan {
 	}
 	else {
 	$cn=DbConnect(dossier::id());
-	$a=new Bilan($cn);
+	$a=new Acc_Bilan($cn);
 	$a->get_request_get();
 
 	echo '<form method="get">';

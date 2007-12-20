@@ -17,7 +17,7 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 /* $Revision$ */
-require_once ('class_bilan.php');
+require_once ('class_acc_bilan.php');
 /*! \file
  * \brief form who call the printing of the bilan in RTF
  *        file included by user_impress
@@ -37,7 +37,7 @@ include_once("postgres.php");
 // Form
 //-----------------------------------------------------
 $filter_year=" where p_exercice='".$User->getExercice()."'";
-$bilan=new Bilan($cn);
+$bilan=new Acc_Bilan($cn);
 echo '<div class="u_redcontent">';
 echo '<FORM ACTION="bilan.php" METHOD="GET">';
 echo $bilan->display_form ($filter_year);
