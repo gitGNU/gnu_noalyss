@@ -29,7 +29,7 @@
 include_once ("ac_common.php");
 include_once("preference.php");
 include_once ("class_widget.php");
-include_once("class_balance.php");
+include_once("class_acc_balance.php");
 $User->AccessRequest($cn,BALANCE);
 
 
@@ -130,7 +130,7 @@ echo '<input type="submit" name="view" value="ok">';
 // Display result
 //-----------------------------------------------------
 if ( isset($_POST['view'] ) ) {
-  $bal=new Balance($cn);
+  $bal=new Acc_Balance($cn);
   $bal->jrn=$_POST['p_jrn'];  
   $bal->from_poste=$_POST['from_poste'];
   $bal->to_poste=$_POST['to_poste'];

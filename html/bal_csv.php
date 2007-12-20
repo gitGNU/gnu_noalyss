@@ -24,7 +24,7 @@
 header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="balance.csv"',FALSE);
 include_once ("ac_common.php");
-include_once("class_balance.php");
+include_once("class_acc_balance.php");
 include_once ("postgres.php");
 require_once('class_dossier.php');
 $gDossier=dossier::id();
@@ -41,7 +41,7 @@ if ( $User->CheckAction($cn,BALANCE) == 0)
     NoAccess();
     exit;
   }
-$bal=new Balance($cn);
+$bal=new Acc_Balance($cn);
   
 $t_cent="";
   //$per=join(',',$periode);

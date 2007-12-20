@@ -36,7 +36,7 @@ include_once("ac_common.php");
 include_once("postgres.php");
 include_once("class.ezpdf.php");
 include_once("poste.php");
-include_once("class_balance.php");
+include_once("class_acc_balance.php");
 include_once("preference.php");
 require_once ('header_print.php');
 require_once('class_dossier.php');
@@ -48,7 +48,7 @@ include ('class_user.php');
 $User=new cl_user($rep);
 $User->Check();
 
-$bal=new Balance($cn);
+$bal=new Acc_Balance($cn);
 $User->AccessRequest($cn,BALANCE);
 
 echo_debug('print_balance.php',__LINE__,"imp pdf journaux");
