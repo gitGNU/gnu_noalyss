@@ -33,7 +33,7 @@ require_once ('header_print.php');
  *
  */
 
-class balance_ca_bs extends print_ca {
+class anc_balance_simple extends print_ca {
 
 /*! 
  * \brief load the data from the database 
@@ -290,7 +290,7 @@ static  function test_me () {
   // call the page with ?gDossier=14
   $a=DbConnect(dossier::id());
   
-  $bal=new balance_ca_bs($a);
+  $bal=new Anc_Balance_Simple($a);
   $bal->get_request();	
 
   echo '<form method="GET">';

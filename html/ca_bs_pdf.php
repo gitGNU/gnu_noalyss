@@ -26,13 +26,13 @@
 /* \brief export the operation in pdf
  *
  */
-require_once ('class_balance_ca_bs.php');
+require_once ('class_anc_balance_simple.php');
 require_once ('header_print.php');
 
 $cn=DbConnect(dossier::id());
 
 
-$balance=new balance_ca_bs($cn);
+$balance=new Anc_Balance_Simple($cn);
 
 
 

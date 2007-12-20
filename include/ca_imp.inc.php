@@ -69,8 +69,8 @@ if ( $sub=='listing') {
 //------------------------------------------------------------------------------
 // Simple balance 
 if ($sub == 'bs') {
-  require_once ('class_balance_ca_bs.php');
-  $bs=new balance_ca_bs($cn);
+  require_once ('class_anc_balance_simple.php');
+  $bs=new Anc_Balance_Simple($cn);
   $bs->get_request();
   echo '<form method="get">';
   echo $bs->display_form($str_hidden);
@@ -84,8 +84,8 @@ if ($sub == 'bs') {
 //------------------------------------------------------------------------------
 // crossed balance
 if ( $sub == 'bc2') {
-  require_once ('class_balance_ca_bc.php');
-  $bc=new balance_ca_bc($cn);
+  require_once ('class_anc_balance_double.php');
+  $bc=new Anc_Balance_Double($cn);
   $bc->get_request ();
   echo '<form method="get">';
   echo $bc->display_form($str_hidden);

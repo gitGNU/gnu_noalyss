@@ -29,10 +29,10 @@
 header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="ca_bal_croise.csv"',FALSE);
 
-require_once ('class_balance_ca_bc.php');
+require_once ('class_anc_balance_double.php');
 
 $cn=DbConnect(dossier::id());
 
-$bal=new balance_ca_bc($cn);
+$bal=new Anc_Balance_Double($cn);
 $bal->get_request();
 echo $bal->display_csv();
