@@ -20,14 +20,14 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
+/*!\file 
  */
 
-/* \brief
+/*! \brief
  *
  */
 require_once ('class_plananalytic.php');
-require_once ('class_print_ca.php');
+require_once ('class_anc_print.php');
 require_once ('class_anc_operation.php');
 /*! 
  * \brief manage the CA listing
@@ -35,7 +35,7 @@ require_once ('class_anc_operation.php');
  * \return
  */
 
-class list_ca extends print_ca {
+class Anc_Listing extends Anc_Print {
   function display_form($p_string="") {
 	echo '<form method="get">';
 	$r=parent::display_form($p_string);

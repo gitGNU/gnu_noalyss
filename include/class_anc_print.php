@@ -34,14 +34,14 @@ require_once ('class_widget.php');
 require_once('class_dossier.php');
 require_once ('class_plananalytic.php');
 
-class print_ca {
+class Anc_Print {
   var $db;						/*!< $db database connection */
   var $to;						/*!< $to start date */
   var $from; 					/*!< $from end date */
   var $from_poste;				/*!< $from_poste from poste  */
   var $to_poste;				/*!< $to_poste to the poste */
   
-  function print_ca($p_cn) {
+  function Anc_Print($p_cn) {
 	$this->db=$p_cn;
 	$this->from="";
 	$this->to="";

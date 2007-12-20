@@ -48,8 +48,8 @@ $str_hidden.=$hidden->IOValue("sub",$sub);
 //------------------------------------------------------------------------------
 // listing
 if ( $sub=='listing') {
-  require_once ('class_list_ca.php');
-  $list=new list_ca($cn);
+  require_once ('class_anc_listing.php');
+  $list=new Anc_Listing($cn);
   $list->get_request();
 
   echo $list->display_form($str_hidden);

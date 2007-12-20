@@ -29,10 +29,10 @@
 header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="jrn.csv"',FALSE);
 
-require_once ('class_list_ca.php');
+require_once ('class_anc_listing.php');
 
 $cn=DbConnect(dossier::id());
 
-$bal=new list_ca($cn);
+$bal=new Anc_Listing($cn);
 $bal->get_request();
 echo $bal->display_csv();

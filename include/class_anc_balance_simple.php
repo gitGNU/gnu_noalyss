@@ -24,7 +24,7 @@
   \brief manage the simple balance for CA, inherit from balance_ca
  */
 
-require_once ('class_print_ca.php');
+require_once ('class_anc_print.php');
 require_once ('class_plananalytic.php');
 require_once ('ac_common.php');
 include_once("class.ezpdf.php");
@@ -33,7 +33,7 @@ require_once ('header_print.php');
  *
  */
 
-class anc_balance_simple extends print_ca {
+class Anc_Balance_Simple extends Anc_Print {
 
 /*! 
  * \brief load the data from the database 

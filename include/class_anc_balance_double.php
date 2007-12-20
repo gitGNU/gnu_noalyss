@@ -29,10 +29,10 @@
  *  Print the crossed balance between 2 plan 
  *
  */
-require_once ('class_print_ca.php');
+require_once ('class_anc_print.php');
 require_once ('class_plananalytic.php');
 
-class anc_balance_double extends print_ca 
+class Anc_Balance_Double extends Anc_Print 
 {
 /*! 
  * \brief compute the html display
