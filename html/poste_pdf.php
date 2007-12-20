@@ -23,7 +23,7 @@
 /*! \file
  * \brief send the account list in PDF
  */
-include_once("class_poste.php");
+include_once("class_acc_account.php");
 include_once("ac_common.php");
 include_once("postgres.php");
 include_once("class.ezpdf.php");
@@ -56,7 +56,7 @@ if ( count($a_poste) == 0 ) {
 foreach ($a_poste as $poste) 
 {
   echo_debug("poste_pdf",__LINE__,$poste);
-  $Poste=new poste($cn,$poste['pcm_val']);
+  $Poste=new Acc_Account($cn,$poste['pcm_val']);
   list($array,$tot_deb,$tot_cred)=$Poste->GetRow($from_periode,$to_periode);
   // don't print empty account
   if ( count($array) == 0 ) {

@@ -25,7 +25,7 @@ require_once ('class_dossier.php');
 require_once ('class_own.php');
 require_once ('class_anc_operation.php');
 require_once ('class_acc_operation.php');
-require_once ('class_poste.php');
+require_once ('class_acc_account.php');
 require_once ('class_pre_op_advanced.php');
 require_once ('jrn.php');
 require_once ('class_acexception.php');
@@ -471,7 +471,7 @@ foreach ( $data_jrnx as $code ) {
   $idx_tva=0;
   echo_debug('class_acc_ledger',__LINE__,'Code is');
   echo_debug('class_acc_ledger',__LINE__,$code);
-  $poste=new poste($this->db,$code['j_poste']);
+  $poste=new Acc_Account($this->db,$code['j_poste']);
 
   // if card retrieve name if the account is not a VAT account
   if ( strlen(trim($code['j_qcode'] )) != 0 && $poste->isTva() == 0 )
@@ -810,7 +810,7 @@ function get_propertie()
        }
 
        if ( trim(${'qc_'.$i})=="" && trim(${'poste'.$i}) != "") {
-	 $oposte=new poste($this->db,${'poste'.$i});
+	 $oposte=new Acc_Account($this->db,${'poste'.$i});
 	 $strPoste=$oposte->id;
 	 $ret.="<td>".${"poste".$i}." - ".
 	       $oposte->get_name().$hidden->IOValue('poste'.$i,${'poste'.$i}).
@@ -1023,7 +1023,7 @@ function get_propertie()
 
 	 // Check if the account is permitted
 	 if ( isset (${'poste'.$i})) {
-	   $p=new poste($this->db,${'poste'.$i});
+	   $p=new Acc_Account($this->db,${'poste'.$i});
 	   if ( $p->belong_ledger ($p_jrn) < 0 )
 	     throw new AcException("Le poste ".$p->id." n\'est pas dans ce journal",5);
 	 }

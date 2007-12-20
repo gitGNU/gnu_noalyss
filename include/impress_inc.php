@@ -549,7 +549,7 @@ function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true,$p_
   else
 	$cond="( j_date >= to_date('$p_start','DD.MM.YYYY') and j_date <= to_date('$p_end','DD.MM.YYYY'))";
 
-  include_once("class_poste.php");  
+  include_once("class_acc_account.php");  
   while (ereg("(\[[0-9]*%*D*C*\])",$p_formula,$e) == true) {
 
     // remove the [ ] 
@@ -602,7 +602,7 @@ function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true,$p_
     }
 
       // Get sum of account
-    $P=new poste($p_cn,$e[0]);
+    $P=new Acc_Account($p_cn,$e[0]);
     echo_debug(__FILE__.":".__LINE__."  condition is $cond");
 
     $detail=$P->GetSoldeDetail($cond);

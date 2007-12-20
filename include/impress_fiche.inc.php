@@ -30,7 +30,7 @@ if  ( isset ($_REQUEST['fd_id'])) {
   // if amount requested
   $with_amount= (isset($_REQUEST['with_amount']))?true:false;
   if ($with_amount) 
-    include_once("class_poste.php");
+    include_once("class_acc_account.php");
 
   echo '<div class="u_content">';
   $submit=new widget();

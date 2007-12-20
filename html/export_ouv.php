@@ -23,7 +23,7 @@
  */
 
 include_once ("ac_common.php");
-require_once("class_poste.php");
+require_once("class_acc_account.php");
 header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="export_ouv.csv"',FALSE);
 require_once('class_dossier.php');
@@ -65,7 +65,7 @@ printf ("OUVERTURE\n");
 $sum=0;
 foreach ($ret as $poste_id) {
 
-	$Poste=new poste($cn,$poste_id['j_poste']);
+	$Poste=new Acc_Account($cn,$poste_id['j_poste']);
 	// fill the object
 	$Poste->get();
 	// build sql stmt

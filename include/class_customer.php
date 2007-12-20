@@ -24,7 +24,7 @@ require_once("class_parm_code.php");
 require_once("class_widget.php");
 
 require_once('class_fiche.php');
-require_once('class_poste.php');
+require_once('class_acc_account.php');
 require_once('user_common.php');
 /*! \file
  * \brief Derived from class fiche Customer are a specific kind of card
@@ -246,7 +246,7 @@ where
 	  " ".$client->strAttribut(ATTR_DEF_PAYS).
 	  "</TD>";
 
-	$post=new poste($this->cn,$client->strAttribut(ATTR_DEF_ACCOUNT));
+	$post=new Acc_Account($this->cn,$client->strAttribut(ATTR_DEF_ACCOUNT));
 	/* Filter on the default year */
 	$User=new cl_user($this->cn);
 	$filter_year="  j_tech_per in (select p_id from parm_periode ".

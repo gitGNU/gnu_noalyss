@@ -331,7 +331,7 @@ function GetSoldeDetail($p_cond="") {
  }
  static function test_me() {
      $cn=DbConnect(dossier::id());
-     $a=new poste($cn,550);
+     $a=new Acc_Account($cn,550);
      echo ' Journal 4 '.$a->belong_ledger(4);
 
  }
