@@ -81,7 +81,7 @@ function cmpDate ($p_date,$p_date_oth) {
  */
 function isNumber(&$p_int) {
   if ( strlen (trim($p_int)) == 0 ) return 0;
-  if ( is_numeric($p_int) == true)
+  if ( is_numeric($p_int) === true)
     return 1;
   else
     return 0;
@@ -263,7 +263,7 @@ function ShowItem($p_array,$p_dir='V',$class="mtitle",$class_ref="mtitle",$defau
   if ( $p_dir == 'V') {
     foreach ($p_array as $all=>$href){
       $title="";
-      $set="";
+      $set="XX";
       if ( isset ($href[2] )) 
 		$title=$href[2];
       if ( isset($href[3] )) 
