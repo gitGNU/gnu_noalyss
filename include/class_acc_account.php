@@ -27,13 +27,13 @@
 require_once ('postgres.php');
 require_once ('class_dossier.php');
 
-class poste {
+class Acc_Account {
   var $db;          /*! \enum $db database connection */
   var $id;          /*! \enum $id poste_id (pcm_val)*/
   var $label;       /*! \enum $label label of the poste */
   var $parent;      /*! \enum $parent parent account */
   var $row;         /*! \enum $row double array see GetRow */
-  function poste($p_cn,$p_id) {
+  function __construct ($p_cn,$p_id) {
     $this->db=$p_cn;
     $this->id=$p_id;
   }
