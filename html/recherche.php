@@ -20,7 +20,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 require_once('class_dossier.php');
 include_once("ac_common.php");
-include("user_menu.php");
+require_once("user_menu.php");
 include_once ("constant.php");
 include_once("jrn.php");
 include_once("user_common.php");

@@ -24,8 +24,8 @@
 include_once("ac_common.php");
 include_once ("postgres.php");
 include ('class_user.php');
-include("class_rapport.php");
-include("impress_inc.php");
+require_once("class_rapport.php");
+require_once("impress_inc.php");
 header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="rapport.csv"',FALSE);
 require_once('class_dossier.php');

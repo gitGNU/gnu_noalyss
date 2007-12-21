@@ -33,7 +33,7 @@ include_once("class_widget.php");
 // after in pdf or cvs
 //-----------------------------------------------------
 if ( isset( $_POST['bt_html'] ) ) {
-  include("class_acc_account.php");
+  require_once("class_acc_account.php");
   $go=0;
 // we ask a poste_id
   if ( strlen(trim($_POST['poste_id'])) != 0 && isNumber($_POST['poste_id']) )

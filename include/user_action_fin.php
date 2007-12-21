@@ -301,7 +301,7 @@ if ( $action == 'solde' ) {
   echo "</div>";
  }
 //-----------------------------------------------------
-include("user_update.php");
+require_once("user_update.php");
 
 
 ?>

@@ -373,5 +373,5 @@ if ( $action == 'voir_jrn_non_paye' ) {
     echo '</div>';
 }
 
-include("user_update.php");
+require_once("user_update.php");
 ?>

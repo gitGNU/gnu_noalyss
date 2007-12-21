@@ -29,7 +29,7 @@
     include_once("postgres.php");
     include_once("class.ezpdf.php");
     include_once("impress_inc.php");
-include("poste.php");
+require_once("poste.php");
     echo_debug('send_poste_pdf.php',__LINE__,"imp pdf journaux");
     $cn=DbConnect($g_dossier);
 foreach ($_POST as $key=>$element) {

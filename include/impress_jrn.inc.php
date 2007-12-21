@@ -32,7 +32,7 @@ $gDossier=dossier::id();
 // after in pdf or cvs
 //-----------------------------------------------------
 if ( isset( $_POST['bt_html'] ) ) {
-include("class_acc_ledger.php");
+require_once("class_acc_ledger.php");
  $p_cent=( isset ( $_POST['cent']) )?'on':'off';
   // $POST=from_periode, to_periode, jrn_id, cent
  $d=var_export($_POST,true);

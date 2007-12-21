@@ -24,7 +24,7 @@
 include_once("ac_common.php");
 include_once ("postgres.php");
 include ('class_user.php');
-include("class_acc_account.php");
+require_once("class_acc_account.php");
 header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="poste.csv"',FALSE);
 require_once('class_dossier.php');

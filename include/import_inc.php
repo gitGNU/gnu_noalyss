@@ -53,7 +53,7 @@ StartSql($p_cn);
 
         
 // include the right format for CSV --> given by the <form
-		include($p_format_csv);
+		require_once($p_format_csv);
 
         
 	echo "Importation terminée.";

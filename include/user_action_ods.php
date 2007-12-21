@@ -288,5 +288,5 @@ if ( $action == 'search' ) {
   }
   echo '</DIV>'; 
 }
-include("user_update.php");
+require_once("user_update.php");
 ?>

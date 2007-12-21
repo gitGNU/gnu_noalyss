@@ -35,7 +35,7 @@ if (  isset ($_REQUEST['with_amount']))  include_once("class_acc_account.php");
 $cn=DbConnect($gDossier);
 
 $rep=DbConnect();
-include ('class_user.php');
+require_once ('class_user.php');
 $User=new cl_user($rep);
 $User->Check();
 
