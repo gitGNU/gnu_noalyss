@@ -97,16 +97,26 @@ class Acc_Account {
    *        the data member are set 
    * \return false if this account doesn't exist otherwise true
    */
+  function load()
+  {
+    $ret=ExecSql($this->db,"select pcm_lib,pcm_val_parent from 
+                              tmp_pcmn where pcm_val=".$this->id);
+    $r=pg_fetch_all($ret);
+    
+    if ( ! $r ) return false;
+    $this->label=$r[0]['pcm_lib'];
+    $this->parent=$r[0]['pcm_val_parent'];
+    return true;
+    
+  }
+  /*!\brief Get all the value for this object from the database
+   *        the data member are set 
+   * \return false if this account doesn't exist otherwise true
+   */
   function get()
     {
-      $ret=ExecSql($this->db,"select pcm_lib,pcm_val_parent from 
-                              tmp_pcmn where pcm_val=".$this->id);
-      $r=pg_fetch_all($ret);
-
-      if ( ! $r ) return false;
-      $this->label=$r[0]['pcm_lib'];
-      $this->parent=$r[0]['pcm_val_parent'];
-      return true;
+      echo "OBSOLETE Acc_Account->get(), a remplacer par Acc_Account->load()";
+      return $this->load();
     }
          
   /*! 
