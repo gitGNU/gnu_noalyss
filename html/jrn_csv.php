@@ -131,7 +131,7 @@ if  ( $_GET['p_simple'] == 0 )
 //-----------------------------------------------------
      if ( $jrn_type=='ACH' || $jrn_type=='VEN')
        {
-	 $a_Tva=GetArray($cn,"select tva_id,tva_label from tva_rate where tva_rate != 0.0000 order by tva_rate");
+	 $a_Tva=get_array($cn,"select tva_id,tva_label from tva_rate where tva_rate != 0.0000 order by tva_rate");
 	 $col_tva="";
 	 foreach($a_Tva as $line_tva)
 	   {

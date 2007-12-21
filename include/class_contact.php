@@ -109,7 +109,7 @@ $back_url=urlencode($_SERVER['REQUEST_URI']);
       echo JS_SEARCH_CARD;
       foreach ($step_contact as $contact ) {
 	$l_company=new fiche($this->cn);
-	$l_company->GetByQCode($contact->strAttribut(ATTR_DEF_COMPANY),false);
+	$l_company->get_by_qcode($contact->strAttribut(ATTR_DEF_COMPANY),false);
 	$l_company_name=$l_company->strAttribut(ATTR_DEF_NAME);
 	if ( $l_company_name == '- ERROR -' ) $l_company_name="";
 	// add popup for detail

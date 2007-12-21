@@ -90,15 +90,15 @@ if ( $Jrn->id==0  || $jrn_type=='FIN' || $jrn_type=='ODS' || $_REQUEST['p_simple
     if ( $a_jrn==null) break;
     $offset+=$step; 
     $first_id=$a_jrn[0]['int_j_id'];
-    $Exercice=GetExercice($cn,$a_jrn[0]['periode']);
+    $Exercice=get_exercice($cn,$a_jrn[0]['periode']);
     
 
-    list($rap_deb,$rap_cred)=GetRappel($cn,$first_id,$Jrn->id,$Exercice,FIRST,
+    list($rap_deb,$rap_cred)=get_rappel($cn,$first_id,$Jrn->id,$Exercice,FIRST,
 				     $filter,
 				     $l_centr
 				     );
     echo_debug('jrn_pdf.php',__LINE__,"MONTANT $rap_deb,$rap_cred");
-    echo_debug('jrn_pdf.php',__LINE__,"  list($rap_deb,$rap_cred)=GetRappel($cn,$first_id,".$Jrn->id.",$Exercice,FIRST)");
+    echo_debug('jrn_pdf.php',__LINE__,"  list($rap_deb,$rap_cred)=get_rappel($cn,$first_id,".$Jrn->id.",$Exercice,FIRST)");
     $pdf->ezText($Jrn->name,30);
     
     if (  $l_centr == 1 ) {
@@ -134,10 +134,10 @@ if ( $Jrn->id==0  || $jrn_type=='FIN' || $jrn_type=='ODS' || $_REQUEST['p_simple
 
     $count=count($a_jrn)-1;
     $last_id=$a_jrn[$count]['int_j_id'];
-    $Exercice=GetExercice($cn,$a_jrn[$count]['periode']);
+    $Exercice=get_exercice($cn,$a_jrn[$count]['periode']);
     if ( $l_centr == 1) {
       // Montant de rappel si centralisé
-      list($rap_deb,$rap_cred)=GetRappel($cn,$last_id,$Jrn->id,$Exercice,LAST,$filter,$l_centr);
+      list($rap_deb,$rap_cred)=get_rappel($cn,$last_id,$Jrn->id,$Exercice,LAST,$filter,$l_centr);
       $str_debit=sprintf( "à reporter Débit  % 10.2f",$rap_deb);
       $str_credit=sprintf("à reporter Crédit % 10.2f",$rap_cred);
       $pdf->ezText($str_debit,12,array('justification'=>'right'));
@@ -159,9 +159,9 @@ if ( $Jrn->id==0  || $jrn_type=='FIN' || $jrn_type=='ODS' || $_REQUEST['p_simple
 				      'cred'=> array('justification'=>'right'))));
     $count=count($a_jrn)-1;
     $last_id=$a_jrn[$count]['int_j_id'];
-    $Exercice=GetExercice($cn,$a_jrn[$count]['periode']);
+    $Exercice=get_exercice($cn,$a_jrn[$count]['periode']);
     
-    list($rap_deb,$rap_cred)=GetRappel($cn,$last_id,$Jrn->id,$Exercice,LAST,$filter,$l_centr);
+    list($rap_deb,$rap_cred)=get_rappel($cn,$last_id,$Jrn->id,$Exercice,LAST,$filter,$l_centr);
     $str_debit=sprintf( "à reporter  Débit % 10.2f",$rap_deb);
     $str_credit=sprintf("à reporter Crédit % 10.2f",$rap_cred);
     $pdf->ezText($str_debit,12,array('justification'=>'right'));
@@ -185,7 +185,7 @@ if  ( ($jrn_type=='ACH' || $jrn_type=='VEN' ) && $_REQUEST['p_simple']== 1 )
   header_pdf($cn,$pdf);
 
   $offset=0;$limit=30;$step=30;
-  $a_Tva=GetArray($cn,"select tva_id,tva_label,tva_poste from tva_rate where tva_rate != 0.0000 order by tva_id");
+  $a_Tva=get_array($cn,"select tva_id,tva_label,tva_poste from tva_rate where tva_rate != 0.0000 order by tva_id");
   $col_tva="TVA ";
   $space=0;
   $total_HTVA=0.0;
@@ -204,7 +204,7 @@ if  ( ($jrn_type=='ACH' || $jrn_type=='VEN' ) && $_REQUEST['p_simple']== 1 )
 
   // if the period is centralized get the first amounts
   if ( $l_centr==1) 
-    list($total_TVAC,$total_HTVA)=GetRappelSimple($cn,$Jrn->id,$jrn_type,$_GET['from_periode'],$rap_tva);
+    list($total_TVAC,$total_HTVA)=get_rappel_simple($cn,$Jrn->id,$jrn_type,$_GET['from_periode'],$rap_tva);
 
 
 

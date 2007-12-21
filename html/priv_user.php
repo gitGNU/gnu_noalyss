@@ -194,7 +194,7 @@ $Dossier=ShowDossier('all',1,0);
 foreach ( $Dossier as $rDossier) {
   $NORIGHT="";$Write="";$Read="";
   echo_debug('priv_user.php',__LINE__,"Dossier : ".$rDossier['dos_id']);
-  $login_name=GetLogin($uid);
+  $login_name=get_login($uid);
   $priv=GetPriv($rDossier['dos_id'],$login_name);
   printf("<TR><TD> Dossier : %s </TD>",$rDossier['dos_name']);
   if ( $priv==0 ) 

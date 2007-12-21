@@ -29,7 +29,7 @@
  * \param position
  *
  */ 
-function GetDataPoste($p_cn,$p_poste,$p_condition)
+function get_dataPoste($p_cn,$p_poste,$p_condition)
 {
   $Res=ExecSql($p_cn,"select to_char(j_date,'DD.MM.YYYY') as j_date,".
 	       "case when j_debit='t' then to_char(j_montant,'999999999.99') else ' ' end as deb_montant,".
@@ -66,7 +66,7 @@ function GetDataPoste($p_cn,$p_poste,$p_condition)
  *       otherwise the result
  *
  */ 
-function GetDataJrn($p_cn,$p_array,$filter=YES)
+function get_dataJrn($p_cn,$p_array,$filter=YES)
 {
   if ( !isset ($p_array['periode']) ) return NO_PERIOD_SELECTED;
 
@@ -172,9 +172,9 @@ function CreatePeriodeCond($p_periode,$p_field=" j_tech_per")
  * \return Array with the asked data
  *
  */ 
-function GetDataJrnPdf($p_cn,$p_array,$p_limit,$p_offset)
+function get_dataJrnPdf($p_cn,$p_array,$p_limit,$p_offset)
 {
-  echo_debug('impress_inc.php',__LINE__,"GetDataJrnPdf");
+  echo_debug('impress_inc.php',__LINE__,"get_dataJrnPdf");
 
   if ( !isset ($p_array['periode']) ) return NO_PERIOD_SELECTED;
 
@@ -327,7 +327,7 @@ function GetDataJrnPdf($p_cn,$p_array,$p_limit,$p_offset)
  *	
  *\return
  */
-function GetDataGrpt($p_cn,$p_array)
+function get_dataGrpt($p_cn,$p_array)
 {
   if ( !isset ($p_array['periode']) ) return NO_PERIOD_SELECTED;
   $cond=CreatePeriodeCond($p_array['periode']);
@@ -357,9 +357,9 @@ function GetDataGrpt($p_cn,$p_array)
  *
  * \return array sum(HTVA) sum(TVAC) sum (each TVA)
  */
-function GetRappelSimple ($p_cn,$p_jrn_id,$p_jrn_type,$p_from,&$arap) 
+function get_rappel_simple ($p_cn,$p_jrn_id,$p_jrn_type,$p_from,&$arap) 
 {
-  echo_debug("impress_inc",__LINE__,"function GetRappelSimple ($p_cn,$p_jrn_id,$p_jrn_type,$p_from,$arap) ");
+  echo_debug("impress_inc",__LINE__,"function get_rappel_simple ($p_cn,$p_jrn_id,$p_jrn_type,$p_from,$arap) ");
   if ( $p_jrn_type !='VEN' && $p_jrn_type != "ACH")
     {
       echo "ERREUR Journal invalide $p_jrn_type __FILE__ __LINE__";
@@ -370,9 +370,9 @@ function GetRappelSimple ($p_cn,$p_jrn_id,$p_jrn_type,$p_from,&$arap)
 		  " and c_date < (select p_start from parm_periode where p_id = $p_from)");
   if ($min == "" ) return 0;
   // Find Exercice
-  $Exercice=GetExercice($p_cn,$p_from);
+  $Exercice=get_exercice($p_cn,$p_from);
 
-  $a_Tva=GetArray($p_cn,"select tva_id,tva_label,tva_poste from tva_rate where tva_rate != 0.0000 order by tva_id");
+  $a_Tva=get_array($p_cn,"select tva_id,tva_label,tva_poste from tva_rate where tva_rate != 0.0000 order by tva_id");
   
   // Compute VAT
   foreach ($a_Tva as $line_tva)
@@ -425,7 +425,7 @@ function GetRappelSimple ($p_cn,$p_jrn_id,$p_jrn_type,$p_from,&$arap)
  * \return array sum (deb) sum(cred)
  *
  */ 
-function GetRappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_central) 
+function get_rappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_central) 
 {
   include_once("preference.php");
 

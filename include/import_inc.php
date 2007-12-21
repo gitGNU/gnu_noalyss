@@ -117,7 +117,7 @@ $oJrn=new Acc_Ledger($p_cn,$p_val['jrn']);
       $w->value=$p_val['poste_comptable'];
       $cn=DbConnect(dossier::id());
       $f=new fiche($p_cn);
-      $f->GetByQCode($p_val['poste_comptable']);
+      $f->get_by_qcode($p_val['poste_comptable']);
       $s->value=$f->strAttribut(ATTR_DEF_NAME);
   }
   echo '<input type="hidden" id="code'.$counter.'" value="'.$p_val['code'].'">';
@@ -289,7 +289,7 @@ function TransferCSV($p_cn, $periode){
     
 	// Retrieve the account thx the quick code    
 	$f=new fiche($p_cn);
-	$f->GetByQCode($poste_comptable,false);
+	$f->get_by_qcode($poste_comptable,false);
 	$poste_comptable=$f->strAttribut(ATTR_DEF_ACCOUNT);
 
 	// Vérification que le poste comptable trouvé existe

@@ -54,7 +54,7 @@ class Supplier extends fiche{
   /*! \brief  Get all info contains in the view
    *  thanks to the poste elt (account)
   */
-  function GetFromPoste($p_poste=0) {
+  function get_by_account($p_poste=0) {
     $this->poste=($p_poste==0)?$this->poste:$p_poste;
     $sql="select * from vw_supplier where poste_comptable=".$this->poste;
     $Res=ExecSql($this->cn,$sql);

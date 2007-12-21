@@ -72,7 +72,7 @@ if ( isset ($fr_id))   printf ('<INPUT TYPE="HIDDEN" NAME="fr_id" value="%s"',
   for ( $i =0 ; $i < $p_line;$i++) {
     echo "<TR>";
     // si fr_id != null alors les donnees viennent de 
-    // GetDataForm: ce n'est pas un nouvel enregistrement
+    // get_dataForm: ce n'est pas un nouvel enregistrement
     //
     if ( isset($fr_id)) {
       echo "<TD>";
@@ -116,7 +116,7 @@ if ( isset ($fr_id))   printf ('<INPUT TYPE="HIDDEN" NAME="fr_id" value="%s"',
  *
  */ 
 function ViewForm($p_cn,$p_sessid,$p_id) {
-  $array=GetDataForm($p_cn,$p_id);
+  $array=get_dataForm($p_cn,$p_id);
   $l_nom=GetFormName($p_cn,$p_id);
   $array['form_nom']=$l_nom;
 
@@ -147,7 +147,7 @@ function DeleteForm($p_cn,$p_id) {
  *         where X is the row number
  *
  */ 
-function GetDataForm($p_cn,$p_id) {
+function get_dataForm($p_cn,$p_id) {
   $Res=ExecSql($p_cn,"select fo_id,fo_fr_id,fo_pos,fo_label,fo_formula from form where fo_fr_id=$p_id
                       order by fo_pos");
   $Max=pg_NumRows($Res);

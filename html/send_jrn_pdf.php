@@ -55,7 +55,7 @@ $offset=0;$limit=25;$step=25;
 $rap_deb=0;$rap_cred=0;
 while (1) {
   $a=0;
-  list ($a_jrn,$tot_deb,$tot_cred)=GetDataJrnPdf($cn,$_GET,$limit,$offset);
+  list ($a_jrn,$tot_deb,$tot_cred)=get_dataJrnPdf($cn,$_GET,$limit,$offset);
   echo_debug('send_jrn_pdf.php',__LINE__,"Total debit $tot_deb,credit $tot_cred");
 
   if ( $a_jrn==null) break;
@@ -66,15 +66,15 @@ while (1) {
       echo_debug('send_jrn_pdf.php',__LINE__,"Array is $c1 => $c2");
   }
   $first_id=$a_jrn[0]['j_id'];
-   $Exercice=GetExercice($cn,$a_jrn[0]['periode']);
+   $Exercice=get_exercice($cn,$a_jrn[0]['periode']);
 
 
-  list($rap_deb,$rap_cred)=GetRappel($cn,$first_id,$_GET["p_id"],$Exercice,FIRST,
+  list($rap_deb,$rap_cred)=get_rappel($cn,$first_id,$_GET["p_id"],$Exercice,FIRST,
 				     $_GET['filter'],
 				     $l_centr
 				     );
   echo_debug('send_jrn_pdf.php',__LINE__,"MONTANT $rap_deb,$rap_cred");
-  echo_debug('send_jrn_pdf.php',__LINE__,"  list($rap_deb,$rap_cred)=GetRappel($cn,$first_id,".$_GET["p_id"].",$Exercice,FIRST)");
+  echo_debug('send_jrn_pdf.php',__LINE__,"  list($rap_deb,$rap_cred)=get_rappel($cn,$first_id,".$_GET["p_id"].",$Exercice,FIRST)");
   $pdf->ezText($name_jrn,30);
 
   if (  $l_centr == 1 ) {
@@ -110,10 +110,10 @@ while (1) {
 
   $count=count($a_jrn)-1;
   $last_id=$a_jrn[$count]['j_id'];
-  $Exercice=GetExercice($cn,$a_jrn[$count]['periode']);
+  $Exercice=get_exercice($cn,$a_jrn[$count]['periode']);
   if ( $l_centr == 1) {
     // Montant de rappel si centralisé
-    list($rap_deb,$rap_cred)=GetRappel($cn,$last_id,$_GET["p_id"],$Exercice,LAST,$_GET['filter'],$l_centr);
+    list($rap_deb,$rap_cred)=get_rappel($cn,$last_id,$_GET["p_id"],$Exercice,LAST,$_GET['filter'],$l_centr);
     $str_debit=sprintf( "à reporter Débit  % 10.2f",$rap_deb);
     $str_credit=sprintf("à reporter Crédit % 10.2f",$rap_cred);
     $pdf->ezText($str_debit,12,array('justification'=>'right'));
@@ -133,9 +133,9 @@ $pdf->ezTable($apage,
 		      'cred'=> array('justification'=>'right'))));
   $count=count($a_jrn)-1;
   $last_id=$a_jrn[$count]['j_id'];
-  $Exercice=GetExercice($cn,$a_jrn[$count]['periode']);
+  $Exercice=get_exercice($cn,$a_jrn[$count]['periode']);
 
-  list($rap_deb,$rap_cred)=GetRappel($cn,$last_id,$_GET["p_id"],$Exercice,LAST,$l_GET['filter'],$l_centr);
+  list($rap_deb,$rap_cred)=get_rappel($cn,$last_id,$_GET["p_id"],$Exercice,LAST,$l_GET['filter'],$l_centr);
   $str_debit=sprintf( "à reporter  Débit % 10.2f",$rap_deb);
   $str_credit=sprintf("à reporter Crédit % 10.2f",$rap_cred);
   $pdf->ezText($str_debit,12,array('justification'=>'right'));

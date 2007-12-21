@@ -54,7 +54,7 @@ class Customer extends fiche{
   /*! \brief  Get all info contains in the view
    *  thanks to the poste elt (account)
   */
-  function GetFromPoste($p_poste=0) {
+  function get_by_account($p_poste=0) {
     $this->poste=($p_poste==0)?$this->poste:$p_poste;
     $sql="select * from vw_client where poste_comptable=".$this->poste;
     $Res=ExecSql($this->cn,$sql);
@@ -139,7 +139,7 @@ where
 	if ( substr($e['j_poste'],0, strlen($CUSTOMER))==$CUSTOMER) {
 	  $customer=$e['j_poste'];
 	  // Retrieve name and vat number
-	  $this->GetFromPoste($customer);
+	  $this->get_by_account($customer);
 	  $a_Res[$customer]['name']=$this->name;
 	  $a_Res[$customer]['vat_number']=$this->vat_number;
 	  break;

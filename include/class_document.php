@@ -629,7 +629,7 @@ class Document
 	  if ( ${'e_march'.$counter.'_sell'} != 0 && ${'e_quant'.$counter} != 0 )
 	    {
 	      $f=new fiche($this->db);
-	      $f->GetByQCode(${$id},false);
+	      $f->get_by_qcode(${$id},false);
 	      $r=$f->strAttribut(ATTR_DEF_NAME);
 	    } else $r = "";
 	  break;

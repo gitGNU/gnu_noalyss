@@ -111,7 +111,7 @@ function getFicheName($p_cn,$p_id) {
   // 1 is always the name
   $p_id=FormatString($p_id);
   $fiche=new fiche($p_cn);
-  $fiche->GetByQCode($p_id);
+  $fiche->get_by_qcode($p_id);
   return $fiche->strAttribut(ATTR_DEF_NAME);
 }
 

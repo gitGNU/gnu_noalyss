@@ -170,7 +170,7 @@ if ($p_action=="preod") {
 if ( $p_action=='verif' ) {
   echo '<div class="u_content">';
   $User->db=$cn;
-  $sql_year=" and c_periode in (select p_id from parm_periode where p_exercice='".$User->GetExercice()."')";
+  $sql_year=" and c_periode in (select p_id from parm_periode where p_exercice='".$User->get_exercice()."')";
 
   echo '<ol>';
   $deb=getDbValue($cn,"select sum (c_montant) from centralized where c_debit='t' $sql_year ");
@@ -202,7 +202,7 @@ if ( $p_action=='verif' ) {
   }
   echo '</ol>';
   echo '<ol>';
-  $sql_year=" and j_tech_per in (select p_id from parm_periode where p_exercice='".$User->GetExercice()."')";
+  $sql_year=" and j_tech_per in (select p_id from parm_periode where p_exercice='".$User->get_exercice()."')";
 
   $deb=getDbValue($cn,"select sum (j_montant) from jrnx where j_debit='t' $sql_year ");
   $cred=getDbValue($cn,"select sum (j_montant) from jrnx where j_debit='f' $sql_year ");

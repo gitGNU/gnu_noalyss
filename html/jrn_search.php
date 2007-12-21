@@ -234,7 +234,7 @@ echo '<form id="form_jrn_concerned">';
     echo '<TD>';
     if ( $l_line ['j_qcode'] != "" ) {
       $o=new fiche($cn);
-      $o->GetByQCode($l_line['j_qcode'],false);
+      $o->get_by_qcode($l_line['j_qcode'],false);
       echo "[ ".$l_line['j_qcode']." ]".
 	$o->strAttribut(ATTR_DEF_NAME);
     } else

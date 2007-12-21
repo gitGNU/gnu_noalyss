@@ -225,7 +225,7 @@ class action
       if ( $this->qcode_dest != '- ERROR -' && strlen(trim($this->qcode_dest)) != 0)
 	{
 	  $tiers=new fiche($this->db);
-	  $tiers->GetByQCode($this->qcode_dest);
+	  $tiers->get_by_qcode($this->qcode_dest);
 	  $qcode_dest_label=$tiers->strAttribut(1);
 	} else {
 	  //	  echo "f_id $this->f_id";
@@ -236,7 +236,7 @@ class action
       if ( $this->qcode_exp != '- ERROR -' && strlen(trim($this->qcode_exp)) != 0)
 	{
 	  $tiers=new fiche($this->db);
-	  $tiers->GetByQCode($this->qcode_exp);
+	  $tiers->get_by_qcode($this->qcode_exp);
 	  $qcode_exp_label=$tiers->strAttribut(1);
 	} else {
 	  $qcode_exp_label=($this->f_id_exp==0 || trim($this->qcode_exp)=="")?'Interne ':'Error';
@@ -447,7 +447,7 @@ class action
        else // ( trim($this->qcode_dest) !=""  )
          {
            $tiers=new fiche($this->db);
-           $tiers->GetByQCode($this->qcode_dest);
+           $tiers->get_by_qcode($this->qcode_dest);
            $this->f_id_dest=$tiers->id;
            $namedest=$tiers->strAttribut(1);
 		if ( $namedest == '- ERROR  -') $this->f_id_dest=-1;	
@@ -463,7 +463,7 @@ class action
        else // ( trim($this->qcode_exp) !=""  )
          {
            $tiers=new fiche($this->db);
-           $tiers->GetByQCode($this->qcode_exp);
+           $tiers->get_by_qcode($this->qcode_exp);
            $this->f_id_exp=$tiers->id;
            $nameexp=$tiers->strAttribut(1);
 		if ( $nameexp == '- ERROR  -') $this->f_id_exp=-1;	
@@ -526,11 +526,11 @@ class action
       $add_file='';
       // f_id dest
       $tiers=new fiche($this->db);
-      $tiers->GetByQCode($this->qcode_dest);
+      $tiers->get_by_qcode($this->qcode_dest);
 
       // f_id exp
       $exp=new fiche($this->db);
-      $exp->GetByQCode($this->qcode_exp);
+      $exp->get_by_qcode($this->qcode_exp);
 
       if ( trim($this->ag_title) == "") 
 	{
@@ -924,7 +924,7 @@ class action
       else
 	{
 	  $tiers=new fiche($this->db);
-	  if ( $tiers->GetByQCode($this->qcode_exp) == -1 ) // Error we cannot retrieve this qcode
+	  if ( $tiers->get_by_qcode($this->qcode_exp) == -1 ) // Error we cannot retrieve this qcode
 	    return false; 
 	  else
 	    $this->f_id_exp=$tiers->id;
@@ -938,7 +938,7 @@ class action
       else
 	{
 	  $tiers=new fiche($this->db);
-	  if ( $tiers->GetByQCode($this->qcode_dest) == -1 ) // Error we cannot retrieve this qcode
+	  if ( $tiers->get_by_qcode($this->qcode_dest) == -1 ) // Error we cannot retrieve this qcode
 	    return false; 
 	  else
 	    $this->f_id_dest=$tiers->id;

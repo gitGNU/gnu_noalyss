@@ -165,7 +165,7 @@ function PeriodeClosed($p_cn,$p_periode)
  *	
  *
  */ 
-function GetExercice($p_cn,$p_periode)
+function get_exercice($p_cn,$p_periode)
 {
   $Res=ExecSql($p_cn,"select p_exercice from parm_periode".
 	       " where p_id=$p_periode");

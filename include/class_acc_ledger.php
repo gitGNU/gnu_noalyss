@@ -240,7 +240,7 @@ echo_debug('class_acc_ledger.php',__LINE__," get_row : mont_cred ".$mont_cred);
 /* Check first if there is a quickcode */
 if ( strlen(trim($line['j_qcode'])) != 0 ) 
 {
-if ( $fiche->GetByQCode($line['j_qcode'],false) == 0 ) 
+if ( $fiche->get_by_qcode($line['j_qcode'],false) == 0 ) 
   {
     $line['description']=$fiche->strAttribut(ATTR_DEF_NAME);
   }
@@ -258,7 +258,7 @@ $case=$line['grp'];
 	  if ( strlen(trim($row[$e]['j_qcode'])) == 0 ) continue;
 	
 	  $f=new fiche($this->db);
-	  $f->GetByQCode($row[$e]['j_qcode'],false);
+	  $f->get_by_qcode($row[$e]['j_qcode'],false);
 	  echo_debug(__FILE__,__LINE__,$f);
 	  if ( $f->get_fiche_def_ref_id() == FICHE_TYPE_FIN ) {
 		$tot_op=($row[$e]['debit'] == 't')?$jr_montant:" - ".$jr_montant;
@@ -394,8 +394,8 @@ $type=$this->get_type();
 // for type ACH and Ven we take more info
 if (  $type == 'ACH' ||  	  $type == 'VEN') 
 {
-$a_ParmCode=GetArray($this->db,'select p_code,p_value from parm_code');
-$a_TVA=GetArray($this->db,'select tva_id,tva_label,tva_poste 
+$a_ParmCode=get_array($this->db,'select p_code,p_value from parm_code');
+$a_TVA=get_array($this->db,'select tva_id,tva_label,tva_poste 
 			 from tva_rate where tva_rate != 0 order by tva_id');
  for ( $i=0;$i<$Max;$i++) 
    {
@@ -445,13 +445,13 @@ function get_detail(&$p_array,$p_jrn_type,$trunc=0,$a_TVA=null,$a_ParmCode=null)
 if ( $a_TVA == null ) 
 {
 //Load TVA array
-$a_TVA=GetArray($this->db,'select tva_id,tva_label,tva_poste 
+$a_TVA=get_array($this->db,'select tva_id,tva_label,tva_poste 
 			 from tva_rate where tva_rate != 0 order by tva_id');
 }
 if ( $a_ParmCode == null )
 {
 //Load Parm_code
-$a_ParmCode=GetArray($this->db,'select p_code,p_value from parm_code');
+$a_ParmCode=get_array($this->db,'select p_code,p_value from parm_code');
 }
 // init
 $p_array['client']="";
@@ -478,7 +478,7 @@ foreach ( $data_jrnx as $code ) {
     {
       echo_debug('class_acc_ledger',__LINE__,'fiche_def = '.$code['j_qcode']);
       $fiche=new fiche($this->db);
-      $fiche->GetByQCode(trim($code['j_qcode']),false);
+      $fiche->get_by_qcode(trim($code['j_qcode']),false);
       $fiche_def_id=$fiche->get_fiche_def_ref_id();
       // Customer or supplier
       if ( $fiche_def_id == FICHE_TYPE_CLIENT ||
@@ -802,7 +802,7 @@ function get_propertie()
        $ret.="<tr>";
        if ( trim(${'qc_'.$i})!="") {
 	 $oqc=new fiche($this->db);
-	 $oqc->GetByQCode(${'qc_'.$i},false);
+	 $oqc->get_by_qcode(${'qc_'.$i},false);
 	 $strPoste=$oqc->strAttribut(ATTR_DEF_ACCOUNT);
 	 $ret.="<td>".${'qc_'.$i}.' - '.
 	    $oqc->strAttribut(ATTR_DEF_NAME).$hidden->IOValue('qc_'.$i,${'qc_'.$i}).
@@ -1087,7 +1087,7 @@ if ( $this->id==0) return;
 	   // First we save the jrnx
 	   if ( isset(${'qc_'.$i})) {
 	     $qc=new fiche($this->db);
-	     $qc->GetByQCode(${'qc_'.$i},false);
+	     $qc->get_by_qcode(${'qc_'.$i},false);
 	     $poste=$qc->strAttribut(ATTR_DEF_ACCOUNT);
 	     $quick_code=${'qc_'.$i};
 	   }

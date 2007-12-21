@@ -331,7 +331,7 @@ function AlterSequence($p_cn,$p_name,$p_value) {
   
   $Res=ExecSql($p_cn,"alter sequence $p_name restart $p_value");
 }
-function GetLogin($p_uid)
+function get_login($p_uid)
 {
   $cn=DbConnect();
   $Res=ExecSql($cn,"select use_login from ac_users where use_id=$p_uid");
@@ -411,8 +411,8 @@ function GetModeleId($p_cn,$p_modname) {
  * \param $p_cn database connection
  * \param $p_sql sql query
  */
-function GetArray($p_cn,$p_sql) {
-  echo_debug('postgres.php',__LINE__,"GetArray");
+function get_array($p_cn,$p_sql) {
+  echo_debug('postgres.php',__LINE__,"get_array");
   $r=ExecSql($p_cn,$p_sql);
   if ( ($Max=  pg_NumRows($r)) == 0 ) return null;
   $array=pg_fetch_all($r);

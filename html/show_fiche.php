@@ -56,7 +56,7 @@ if ( $User->check_action($cn,FICHE_READ) == 0 ){
 // Create a object fiche
 
 $f=new fiche($cn);
-$f->GetByQCode($_REQUEST['q'],false);
+$f->get_by_qcode($_REQUEST['q'],false);
 
 echo $f->Display(true);
 ?>

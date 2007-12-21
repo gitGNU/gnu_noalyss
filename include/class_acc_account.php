@@ -186,7 +186,7 @@ function get_solde_detail($p_cond="") {
  function isTVA() 
    {
       // Load TVA array
-     $a_TVA=GetArray($this->db,'select tva_poste 
+     $a_TVA=get_array($this->db,'select tva_poste 
                                 from tva_rate');
      foreach ( $a_TVA as $line_tva) 
        {	      

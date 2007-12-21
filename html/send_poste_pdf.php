@@ -53,7 +53,7 @@ $cond=CreatePeriodeCond($periode);
 //$rap_deb=0;$rap_cred=0;
 for ( $i =0;$i<count($poste);$i++) {
   
-    list($array,$tot_deb,$tot_cred)=GetDataPoste($cn,$poste[$i],$cond);
+    list($array,$tot_deb,$tot_cred)=get_dataPoste($cn,$poste[$i],$cond);
     // don't print empty account
     if ( count($array) == 0 ) {
     continue;

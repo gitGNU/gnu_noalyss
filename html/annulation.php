@@ -57,7 +57,7 @@ if ( isset( $_GET['p_jrn'] )) {
 
 
 
-list ($l_array,$max_deb,$max_cred)=GetData($cn,$_GET['jrn_op']);
+list ($l_array,$max_deb,$max_cred)=get_data($cn,$_GET['jrn_op']);
 foreach ($l_array as $key=>$element) {
   ${"e_$key"}=$element;
   echo_debug('annulation.php',__LINE__,"e_$key =$element");

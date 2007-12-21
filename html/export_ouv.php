@@ -48,11 +48,11 @@ if ( !isset ($_GET['p_periode'])) {
 	echo 'Erreur : aucune periode demandée';
 	exit(0);
 }
-$sql_from=GetArray($cn,"select min(p_id) from parm_periode where p_exercice=".$_GET['p_periode']);
+$sql_from=get_array($cn,"select min(p_id) from parm_periode where p_exercice=".$_GET['p_periode']);
 
-$sql_to=GetArray($cn,"select max(p_id) from parm_periode where p_exercice=".$_GET['p_periode']);
+$sql_to=get_array($cn,"select max(p_id) from parm_periode where p_exercice=".$_GET['p_periode']);
 
-$ret=GetArray($cn,"select distinct j_poste::text 
+$ret=get_array($cn,"select distinct j_poste::text 
 		from jrnx inner join tmp_pcmn on (pcm_val=j_poste)
 		where 
 		j_tech_per >= ".$sql_from[0]['min']." and 

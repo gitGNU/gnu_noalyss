@@ -55,7 +55,7 @@ if ( isset( $_POST['bt_html'] ) ) {
       require_once("class_fiche.php");
       // thanks the qcode we found the poste account
       $fiche=new fiche($cn);
-      $qcode=$fiche->GetByQCode($_POST['f_id']);
+      $qcode=$fiche->get_by_qcode($_POST['f_id']);
       $p=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
       if ( $p != "- ERROR -") {
 	$go=2;  

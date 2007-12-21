@@ -135,7 +135,7 @@ if ( ! isset ($_GET['year']) ) {
   // get defaut periode
   $a=$User->get_periode();
   // get exercice of periode
-  $year=GetExercice($cn,$a);
+  $year=get_exercice($cn,$a);
   } else
   { 
     $year=$_GET['year'];

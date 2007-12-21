@@ -48,7 +48,7 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
   // own
   $own=new own($p_cn);
   $gDossier=dossier::id();
-  $l_array=GetDataJrnJrId($p_cn,$p_jr_id);
+  $l_array=get_dataJrnJrId($p_cn,$p_jr_id);
   if ( $l_array == null ) {
     echo_error ("Not data found for UpdateJrn p_jr_id = $p_jr_id");
     return ;
@@ -208,7 +208,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 
   echo_debug('jrn.php',__LINE__,"function ShowOperationUser($p_cn,$p_jr_id,$p_mode) ");
   $gDossier=dossier::id();  
-  $l_array=GetDataJrnJrIdUser($p_cn,$p_jr_id);
+  $l_array=get_dataJrnJrIdUser($p_cn,$p_jr_id);
   $str_dossier=dossier::get();
   /* if the operation doesn't exist in the quant_xxx table then we
    *  show the expert view
@@ -655,8 +655,8 @@ function ViewJrn($p_dossier,$p_user,$p_jrn,$p_url,$p_array=null) {
  *	- return array
  *
  */ 
-function GetData ($p_cn,$p_grpt) {
-  echo_debug('jrn.php',__LINE__,"GetData $p_cn $p_grpt");
+function get_data ($p_cn,$p_grpt) {
+  echo_debug('jrn.php',__LINE__,"get_data $p_cn $p_grpt");
   $Res=ExecSql($p_cn,"select 
                         to_char(j_date,'DD.MM.YYYY') as j_date,
                         j_text,
@@ -719,9 +719,9 @@ function GetData ($p_cn,$p_grpt) {
  * \return array
  *
  */ 
-function GetDataJrnJrId ($p_cn,$p_jr_id) {
+function get_dataJrnJrId ($p_cn,$p_jr_id) {
 
-  echo_debug('jrn.php',__LINE__,"GetDataJrn $p_cn $p_jr_id");
+  echo_debug('jrn.php',__LINE__,"get_dataJrn $p_cn $p_jr_id");
   $Res=ExecSql($p_cn,"select 
                         j_text,
                         j_debit,
@@ -757,7 +757,7 @@ function GetDataJrnJrId ($p_cn,$p_jr_id) {
     if ( strlen( $line['j_qcode']) != 0 )
       {
 		$fiche=new fiche($p_cn);
-		$fiche->GetByQCode($line['j_qcode']);
+		$fiche->get_by_qcode($line['j_qcode']);
 		
 		$array['vw_name']=$fiche->getName();
       }
@@ -797,9 +797,9 @@ function GetDataJrnJrId ($p_cn,$p_jr_id) {
  * \return array or  null if there is no value
  *
  */ 
-function GetDataJrnJrIdUser ($p_cn,$p_jr_id) {
+function get_dataJrnJrIdUser ($p_cn,$p_jr_id) {
 
-  echo_debug(__FILE__.":".__LINE__."GetDataJrnJrIdUser");
+  echo_debug(__FILE__.":".__LINE__."get_dataJrnJrIdUser");
 
   $Res=ExecSql($p_cn,"select ".
 	       "*".
@@ -842,7 +842,7 @@ function GetDataJrnJrIdUser ($p_cn,$p_jr_id) {
     if ( strlen( $line['j_qcode']) != 0 )
       {
 		$fiche=new fiche($p_cn);
-		$fiche->GetByQCode($line['j_qcode']);
+		$fiche->get_by_qcode($line['j_qcode']);
 		
 		$array['vw_name']=$fiche->getName();
       }
@@ -876,7 +876,7 @@ function GetDataJrnJrIdUser ($p_cn,$p_jr_id) {
     $array['jr_grpt_id']=$line['jr_grpt_id'];
     $array['jr_pj_name']=$line['jr_pj_name'];
     //    $array['']=$line[''];
-    echo_debug(__FILE__.':'.__LINE__," GetDataJrnjrIdUser ",$array);
+    echo_debug(__FILE__.':'.__LINE__," get_dataJrnjrIdUser ",$array);
     $ret_array[$i]=$array;
     }
   return $ret_array;

@@ -49,7 +49,7 @@ class fiche {
     $this->id=$p_id;
     $this->quick_code='';
   }
-/*!   GetByQCode($p_qcode)
+/*!   get_by_qcode($p_qcode)
  * \brief Retrieve a card thx his quick_code
  *        complete the object,, set the id member of the object
  * \param $p_qcode quick_code (ad_id=23)
@@ -58,7 +58,7 @@ class fiche {
  * \return 0 success 1 error not found
  */
 
-  function GetByQCode($p_qcode=null,$p_all=true)
+  function get_by_qcode($p_qcode=null,$p_all=true)
     {
       if ( $p_qcode == null )
 	$p_qcode=$this->quick_code;
@@ -780,7 +780,7 @@ class fiche {
     */
   function get_fiche_def_ref_id() 
     {
-      $result=GetArray($this->cn,"select frd_id from fiche join fiche_Def using (fd_id) where f_id=".$this->id);
+      $result=get_array($this->cn,"select frd_id from fiche join fiche_Def using (fd_id) where f_id=".$this->id);
       if ( $result == null )
 	return null;
       
@@ -1009,7 +1009,7 @@ function belong_ledger($p_jrn,$p_type="")
     return -1;
 
   if ( $this->id == 0 ) 
-    if ( $this->GetByQCode(null,false) == 1)
+    if ( $this->get_by_qcode(null,false) == 1)
       return -1;
 
   $get="";
