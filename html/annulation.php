@@ -117,8 +117,8 @@ return;
    }
 if  ($p_id != -1 ) { // A
    // userPref contient la periode par default
-   $userPref=$User->GetPeriode($cn);
-    list ($l_date_start,$l_date_end)=GetPeriode($cn,$userPref);
+   $userPref=$User->get_periode($cn);
+    list ($l_date_start,$l_date_end)=get_periode($cn,$userPref);
 
     // Periode fermée 
     if ( PeriodeClosed ($cn,$userPref)=='t' )

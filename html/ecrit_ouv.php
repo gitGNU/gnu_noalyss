@@ -47,7 +47,7 @@ echo '</div>';
 
 echo ShowMenuAdvanced(8);
 
-$User->AccessRequest($cn,EXP_IMP_ECR);
+$User->can_request($cn,EXP_IMP_ECR);
 
 
 echo '<div class="lmenu">';
@@ -183,7 +183,7 @@ if ( isset ($_GET['import'])) {
 	// submit button in the form	
 	$submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout Poste">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Sauver">';
-	 $r=FormODS($cn,$_POST['p_jrn'],$User->GetPeriode(),$submit,
+	 $r=FormODS($cn,$_POST['p_jrn'],$User->get_periode(),$submit,
 			$array_ods,false,$idx,$p_saved=false);
 	
 	  echo $r;

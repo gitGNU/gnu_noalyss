@@ -847,7 +847,7 @@ function VerifyOperationDate($p_cn,$p_periode,$p_date) {
 	  return null;
 		}
 // userPref contient la periode par default
-    list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$p_periode);
+    list ($l_date_start,$l_date_end)=get_periode($p_cn,$p_periode);
 
     // Date dans la periode active
     echo_debug ("date start periode $l_date_start date fin periode $l_date_end date demandée $p_date");

@@ -36,7 +36,7 @@ include_once("postgres.php");
 //-----------------------------------------------------
 // Form
 //-----------------------------------------------------
-$filter_year=" where p_exercice='".$User->getExercice()."'";
+$filter_year=" where p_exercice='".$User->get_exercice()."'";
 $bilan=new Acc_Bilan($cn);
 echo '<div class="u_redcontent">';
 echo '<FORM ACTION="bilan.php" METHOD="GET">';

@@ -22,7 +22,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 require_once("class_admin.php");
 $sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
-$User->AccessRequest($cn,ADMIN);
+$User->can_request($cn,ADMIN);
 
 /*! \file
  * \brief Called from the module "Gestion" to manage the customer

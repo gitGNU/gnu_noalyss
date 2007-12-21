@@ -60,7 +60,7 @@ echo '<div class="u_subtmenu">';
 
 echo ShowMenuAdvanced(4);
 echo '</div>';
-$User->AccessRequest($cn,MPCMN);
+$User->can_request($cn,MPCMN);
 
 
 echo '<div class="lmenu">';

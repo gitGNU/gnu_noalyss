@@ -49,7 +49,7 @@ $User=new cl_user($rep);
 $User->Check();
 
 $bal=new Acc_Balance($cn);
-$User->AccessRequest($cn,BALANCE);
+$User->can_request($cn,BALANCE);
 
 echo_debug('print_balance.php',__LINE__,"imp pdf journaux");
 foreach ($_POST as $key=>$element) {
@@ -81,8 +81,8 @@ if ( sizeof($array)  == 0 ) {
   exit();
   
  }
-$a=GetPeriode($cn,$from_periode);
-$b=GetPeriode($cn,$to_periode);
+$a=get_periode($cn,$from_periode);
+$b=get_periode($cn,$to_periode);
 $per_text=" période du ".$a['p_start']." au ".$b['p_end'];
 $pdf=new Cezpdf('a4');
 $pdf->selectFont('./addon/fonts/Helvetica.afm');

@@ -51,7 +51,7 @@ var $jr_id;	/*!< pk of jrn */
     $this->qcode="";
     $this->user=$_SESSION['g_user'];
     $user=new cl_user($this->db);
-    $this->periode=$user->GetPeriode();
+    $this->periode=$user->get_periode();
   }
   /* **************************************************
    *\brief  Insert into the table Jrn

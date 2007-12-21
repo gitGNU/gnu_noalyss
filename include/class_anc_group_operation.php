@@ -161,7 +161,7 @@ class Anc_Group_Operation
   /*!\brief fill row from $_POST data
    *
    */
-  function load_from_array($p_array) {
+  function get_from_array($p_array) {
 	$Plan=new Anc_Plan($this->db);
 	$aPlan=$Plan->get_list();
 
@@ -217,7 +217,7 @@ class Anc_Group_Operation
 
     if ( isset($_POST['go'])) {
       $b=new Anc_Group_Operation($cn);
-      $b->load_from_array($_POST);
+      $b->get_from_array($_POST);
       exit();
     }
 

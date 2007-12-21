@@ -39,7 +39,7 @@ require_once ('class_user.php');
 $User=new cl_user($rep);
 $User->Check();
 
-$User->AccessRequest($cn,FICHE_READ);
+$User->can_request($cn,FICHE_READ);
 
 
 if  ( isset ($_POST['fd_id'])) {

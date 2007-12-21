@@ -109,7 +109,7 @@ echo ShowItem(array(
 echo '</div>';
 
 $cn=DbConnect($gDossier);
-$User->AccessRequest($cn,SEC_GESTION);
+$User->can_request($cn,SEC_GESTION);
 echo JS_VIEW_JRN_MODIFY;
 echo JS_AJAX_FICHE;
 
@@ -178,7 +178,7 @@ if ( $p_action=='quick_writing') {
 // Impression
 if ( $p_action == 'impress') 
 {
-  if ( $User->CheckAction($cn,IMP) == 0)
+  if ( $User->check_action($cn,IMP) == 0)
     {
       NoAccess();
       exit;

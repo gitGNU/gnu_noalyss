@@ -51,7 +51,7 @@ if ( $action=="use_opd" ) {
   $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer" ID="SubmitButton">';
 
-  $form=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$p_post,$submit,false,$p_post['nb_item']);
+  $form=FormAchInput($cn,$_GET['p_jrn'],$User->get_periode(),$p_post,$submit,false,$p_post['nb_item']);
   echo '<div class="u_redcontent">';
   echo   $form;
   echo '</div>';
@@ -72,7 +72,7 @@ if ( $action == 'new' ) {
    $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer" ID="SubmitButton">';
    $jrn=new Acc_Ledger($cn,  $_GET['p_jrn']);
-   $r=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$submit,false,$jrn->getDefLine());
+   $r=FormAchInput($cn,$_GET['p_jrn'],$User->get_periode(),$_POST,$submit,false,$jrn->getDefLine());
    //--------------------
    // predef op.
    $op=new Pre_operation($cn);
@@ -117,7 +117,7 @@ if ( $action == 'new' ) {
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 
-	  $r=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$submit,false,  
+	  $r=FormAchInput($cn,$_GET['p_jrn'],$User->get_periode(),$_POST,$submit,false,  
 			  $nb_number);
 	  echo '<div class="u_redcontent">';
 	  echo $r;
@@ -135,7 +135,7 @@ if ( $action == 'new' ) {
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 
-	  $r=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$submit,false,  $nb_number);
+	  $r=FormAchInput($cn,$_GET['p_jrn'],$User->get_periode(),$_POST,$submit,false,  $nb_number);
 	  echo '<div class="u_redcontent">';
 	  echo $r;
 	  echo $msg_tva;
@@ -154,15 +154,15 @@ if ( $action == 'new' ) {
 	if ( $own->MY_ANALYTIC != "nu" )
 		   $submit.='<input type="button" value="verifie CA" onClick="verify_ca(\'ok\');">';
 	$submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
-	if ( form_verify_input ($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$nb_number) == true ) {
+	if ( form_verify_input ($cn,$_GET['p_jrn'],$User->get_periode(),$_POST,$nb_number) == true ) {
 	  // Should use a read only view instead of FormAch
 	  // where we can check
-	  $r=FormAchView($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$submit,$nb_number);
+	  $r=FormAchView($cn,$_GET['p_jrn'],$User->get_periode(),$_POST,$submit,$nb_number);
 	} else {
 	  // if something goes wrong, correct it
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
-	  $r=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$submit, false, $nb_number);
+	  $r=FormAchInput($cn,$_GET['p_jrn'],$User->get_periode(),$_POST,$submit, false, $nb_number);
 	}
 	echo '<div class="u_redcontent">';
 	echo $r;
@@ -175,13 +175,13 @@ if ( $action == 'new' ) {
 	if ( isset($_POST['save'] )) {
 	  // Get number of  lines
 	  $nb_number=$_POST["nb_item"];
-	  if (form_verify_input ($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$nb_number) 
+	  if (form_verify_input ($cn,$_GET['p_jrn'],$User->get_periode(),$_POST,$nb_number) 
 	      == true ) {
 	    list($internal,$comment)=RecordSell($cn,$_POST,$User,$_GET['p_jrn']);
 	    
 	    // submit button in the form
 	    $submit='<h2 class="info">Opération '.$internal.' </h2>';
-	    $r=FormAchView($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,"",$nb_number,false);
+	    $r=FormAchView($cn,$_GET['p_jrn'],$User->get_periode(),$_POST,"",$nb_number,false);
 	    echo '<div class="u_redcontent">';
 	    echo $submit;
 	    echo $r;
@@ -193,7 +193,7 @@ if ( $action == 'new' ) {
 
 	    $submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
 	    
-	    $r=FormAchView($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$submit,$nb_number);
+	    $r=FormAchView($cn,$_GET['p_jrn'],$User->get_periode(),$_POST,$submit,$nb_number);
 	    echo '<div class="u_redcontent">';
 	    //	    echo $submit;
 	    echo $r;
@@ -234,11 +234,11 @@ echo $hid->IOValue();
 $w=new widget("select");
 $w->name="p_periode";
 // filter on the current year
-$filter_year=" where p_exercice='".$User->getExercice()."'";
+$filter_year=" where p_exercice='".$User->get_exercice()."'";
 
 $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by  p_start,p_end",1);
 $User=new cl_user($cn);
-$current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->GetPeriode();
+$current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
 $w->selected=$current;
 
 echo 'P&eacute;riode  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit','Valider');
@@ -276,7 +276,7 @@ echo 'P&eacute;riode  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_s
   echo_debug ("user_action_ach.php");
  // Date - date of payment - Customer - amount
   if ( $current == -1) {
-    $cond=" and jr_tech_per in (select p_id from parm_periode where p_exercice='".$User->getExercice()."')";
+    $cond=" and jr_tech_per in (select p_id from parm_periode where p_exercice='".$User->get_exercice()."')";
   } else {
     $cond=" and jr_tech_per=".$current;
   }

@@ -44,7 +44,7 @@ echo '</div>';
 include_once("check_priv.php");
 
 $cn=DbConnect($gDossier);
-$User->AccessRequest($cn,GJRN);
+$User->can_request($cn,GJRN);
 
 // Javascript
 echo JS_SEARCH_POSTE;

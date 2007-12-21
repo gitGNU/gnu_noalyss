@@ -40,7 +40,7 @@ $User->Check();
 // TODO a specific level of security for the "bilan" ???
 // Change must be done here
 if ( $User->admin == 0 ) {
-  if ($User->CheckAction($cn,IMP) 
+  if ($User->check_action($cn,IMP) 
 								  ==0
      )
   {

@@ -441,8 +441,8 @@ function sql_filter_per($p_cn,$p_from,$p_to,$p_form='p_id',$p_field='jr_tech_per
   if ( $p_form == 'p_id' )
     {
       // retrieve the date
-      $a_start=GetPeriode($p_cn,$p_from);
-      $a_end=GetPeriode($p_cn,$p_to);
+      $a_start=get_periode($p_cn,$p_from);
+      $a_end=get_periode($p_cn,$p_to);
       if ( $a_start == null or $a_end == null  )
 		{
 		  echo_debug(__FILE__,__LINE__,'Attention periode '.

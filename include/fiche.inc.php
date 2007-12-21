@@ -45,8 +45,8 @@ include_once("fiche_inc.php");
 $cn=DbConnect($gDossier);
 echo_debug(__FILE__,__LINE__,"Connected");
 // Security check
-$read=$User->CheckAction($cn,FICHE_READ);
-$write=$User->CheckAction($cn,FICHE_WRITE);
+$read=$User->check_action($cn,FICHE_READ);
+$write=$User->check_action($cn,FICHE_WRITE);
 if ($read+$write == 0 ){
   /* Cannot Access */
   NoAccess();

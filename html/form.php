@@ -48,7 +48,7 @@ include ("check_priv.php");
 $cn=DbConnect($gDossier);
 echo ShowMenuAdvanced(6);
 // Get The priv on the selected folder
-$User->AccessRequest($cn,FORM);
+$User->can_request($cn,FORM);
 
 
 

@@ -53,7 +53,7 @@ if ( $action=="use_opd" ) {
 
   $p_post=$op->compute_array();
   echo_debug(__FILE__.':'.__LINE__.'- ','p_post = ',$p_post);
-  $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$p_post,false,$p_post['nb_item']);
+  $form=FormVenInput($cn,$_GET['p_jrn'],$User->get_periode(),$p_post,false,$p_post['nb_item']);
   echo '<div class="u_redcontent">';
   echo   $form;
   echo '</div>';
@@ -67,7 +67,7 @@ if ( $action == 'insert_vente' ) {
     $nb_number=$_POST["nb_item"];
     $nb_number++;
     
-    $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,false,$nb_number);
+    $form=FormVenInput($cn,$_GET['p_jrn'],$User->get_periode(),$_POST,false,$nb_number);
     echo '<div class="u_redcontent">';
     echo   $form;
     echo '</div>';
@@ -77,13 +77,13 @@ if ( $action == 'insert_vente' ) {
     // We want to see the encoded invoice 
   if ( isset ($_POST["view_invoice"])) {
     $nb_number=$_POST["nb_item"];
-      if ( form_verify_input($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$nb_number) == true)
+      if ( form_verify_input($cn,$_GET['p_jrn'],$User->get_periode(),$_POST,$nb_number) == true)
 	{
-	  $form=FormVenteView($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$nb_number);
+	  $form=FormVenteView($cn,$_GET['p_jrn'],$User->get_periode(),$_POST,$nb_number);
 	  // Check failed : invalid date or quantity
 	} else {
 	echo_debug(__FILE__.':'.__LINE__," Impossible d'accepter le formulaire");
-	$form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,false,$nb_number);
+	$form=FormVenInput($cn,$_GET['p_jrn'],$User->get_periode(),$_POST,false,$nb_number);
       }
       echo '<div class="u_redcontent">';
       echo         $form;
@@ -97,7 +97,7 @@ if ( $action == 'insert_vente' ) {
        $jrn=new Acc_Ledger($cn,  $_GET['p_jrn']);
 	   echo_debug('user_action_ven.php',__LINE__,"Blank form");
 	   // Show an empty form of invoice
-	   $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),null,false,$jrn->GetDefLine());
+	   $form=FormVenInput($cn,$_GET['p_jrn'],$User->get_periode(),null,false,$jrn->GetDefLine());
 	   echo '<div class="u_redcontent">';
 	   echo $form;
 	   //--------------------
@@ -143,7 +143,7 @@ if (isset ($_POST['correct_new_invoice'])) {
   }
   
   $nb=$_POST['nb_item'];
-  $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,false,$nb);
+  $form=FormVenInput($cn,$_GET['p_jrn'],$User->get_periode(),$_POST,false,$nb);
   echo '<div class="u_redcontent">';
   echo $form;
   echo '</div>';
@@ -158,14 +158,14 @@ if ( isset($_POST["record_and_print_invoice"])) {
   
   $nb_number=$_POST["nb_item"];
   echo_debug(__FILE__.':'.__LINE__.'- record_and_print_invoice');
-  if ( form_verify_input($cn,$p_jrn,$User->GetPeriode(),$_POST,$nb_number)== true) {
+  if ( form_verify_input($cn,$p_jrn,$User->get_periode(),$_POST,$nb_number)== true) {
     $comment=RecordInvoice($cn,$_POST,$User,$_GET['p_jrn']);
     
-    $form=FormVenteView($cn,$p_jrn,$User->GetPeriode(),$_POST,$nb_number,'noform',$comment);
+    $form=FormVenteView($cn,$p_jrn,$User->get_periode(),$_POST,$nb_number,'noform',$comment);
   } else {
     
     echo("A cause d'erreur la facture ne peut-&egrave;tre valid&eacute; ");
-    $form=FormVenteView($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$nb_number,"form");
+    $form=FormVenteView($cn,$_GET['p_jrn'],$User->get_periode(),$_POST,$nb_number,"form");
   }
   
   echo '<div class="u_redcontent">';
@@ -211,11 +211,11 @@ echo $hid->IOValue();
 $w=new widget("select");
 
 // filter on the current year
-$filter_year=" where p_exercice='".$User->getExercice()."'";
+$filter_year=" where p_exercice='".$User->get_exercice()."'";
 
 $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by  p_start,p_end",1);
 // User is already set User=new cl_user($cn);
-$current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->GetPeriode();
+$current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
 $w->selected=$current;
 
 echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit','Valider');
@@ -251,7 +251,7 @@ echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit',
  // Show list of sell
  // Date - date of payment - Customer - amount
  if ( $current == -1) {
-   $cond=" and jr_tech_per in (select p_id from parm_periode where p_exercice='".$User->getExercice()."')";
+   $cond=" and jr_tech_per in (select p_id from parm_periode where p_exercice='".$User->get_exercice()."')";
  } else {
    $cond=" and jr_tech_per=".$current;
  }

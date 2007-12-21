@@ -49,7 +49,7 @@ include_once("central_inc.php");
 echo '<div class="u_subtmenu">';
 echo ShowMenuAdvanced("central.php?".dossier::get());
 echo '</div>';
-$User->AccessRequest($cn,CENTRALIZE);
+$User->can_request($cn,CENTRALIZE);
 
 
 

@@ -55,8 +55,8 @@ if ( $action=="use_opd" ) {
   $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout poste">'.
 	'<INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Confirmer">';
 
-  //  $form=FormVenInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$p_post,false,$p_post['nb_item']);
-  $form=FormODS($cn,$_REQUEST['p_jrn'],$User->GetPeriode(),$submit,$p_post,false,$p_post['nb_item']);
+  //  $form=FormVenInput($cn,$_GET['p_jrn'],$User->get_periode(),$p_post,false,$p_post['nb_item']);
+  $form=FormODS($cn,$_REQUEST['p_jrn'],$User->get_periode(),$submit,$p_post,false,$p_post['nb_item']);
 
   echo '<div class="u_redcontent">';
   echo   $form;
@@ -81,7 +81,7 @@ if ( $action == 'new' ) {
     $jrn=new Acc_Ledger($cn,$_GET['p_jrn']);
     $prop=$jrn->get_propertie();
     $line=$prop['jrn_deb_max_line'];
-    $r=FormODS($cn,$_REQUEST['p_jrn'],$User->GetPeriode(),$submit,null,false,$line);
+    $r=FormODS($cn,$_REQUEST['p_jrn'],$User->get_periode(),$submit,null,false,$line);
      echo '<div class="u_redcontent">';
     echo $r;
     echo "<div>";
@@ -120,7 +120,7 @@ if ( $action == 'new' ) {
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout Poste">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 
-	  $r=FormODS($cn,$_POST['p_jrn'],$User->GetPeriode(),$submit,$_POST,false,  $nb_number);
+	  $r=FormODS($cn,$_POST['p_jrn'],$User->get_periode(),$submit,$_POST,false,  $nb_number);
 	  echo '<div class="u_redcontent">';
 	  echo $r;
 	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."<div>";
@@ -135,7 +135,7 @@ if ( $action == 'new' ) {
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout Poste">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 
-	  $r=FormODS($cn,$_POST['p_jrn'],$User->GetPeriode(),$submit,$_POST,false,  $nb_number);
+	  $r=FormODS($cn,$_POST['p_jrn'],$User->get_periode(),$submit,$_POST,false,  $nb_number);
 	  echo '<div class="u_redcontent">';
 	  echo $r;
 	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."<div>";
@@ -153,7 +153,7 @@ if ( $action == 'new' ) {
 		$submit.='<input type="button" value="verifie CA" onClick="verify_ca(\'ok\');">';
 	  $submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
 
-	  $r=FormODS($cn,$_POST['p_jrn'],$User->GetPeriode(),$submit,$_POST,true,$nb_number);
+	  $r=FormODS($cn,$_POST['p_jrn'],$User->get_periode(),$submit,$_POST,true,$nb_number);
 
 	// if something goes wrong, correct it
 	  if ( $r == null ) {
@@ -161,7 +161,7 @@ if ( $action == 'new' ) {
 	    $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout Poste">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 	    
-	    $r=FormODS($cn,$_POST['p_jrn'],$User->GetPeriode(),$submit,$_POST,false,  $nb_number);
+	    $r=FormODS($cn,$_POST['p_jrn'],$User->get_periode(),$submit,$_POST,false,  $nb_number);
 	  }else {
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout Poste">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
@@ -182,7 +182,7 @@ if ( $action == 'new' ) {
 	    // submit button in the form
 	    $submit='<h2 class="info">Recorded'.$r.'</h2>';
 	    
-	    $r.=FormODS($cn,$_POST['p_jrn'],$User->GetPeriode(),$submit,$_POST,true,  $nb_number,true);
+	    $r.=FormODS($cn,$_POST['p_jrn'],$User->get_periode(),$submit,$_POST,true,  $nb_number,true);
 	  }else {
 	    // CA incorrecte
 	    $submit='<INPUT TYPE="SUBMIT" name="save" value="Confirmer"  onClick="return verify_ca(\'error\');">';
@@ -190,7 +190,7 @@ if ( $action == 'new' ) {
 		  $submit.='<input type="button" value="verifie CA" onClick="verify_ca(\'ok\');">';
 	    $submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
 	    
-	    $r=FormODS($cn,$_POST['p_jrn'],$User->GetPeriode(),$submit,$_POST,true,$nb_number);
+	    $r=FormODS($cn,$_POST['p_jrn'],$User->get_periode(),$submit,$_POST,true,$nb_number);
 
 	  }
 	  echo '<div class="u_redcontent">';
@@ -237,11 +237,11 @@ echo $hid->IOValue();
 
 $w=new widget("select");
 // filter on the current year
-$filter_year=" where p_exercice='".$User->getExercice()."'";
+$filter_year=" where p_exercice='".$User->get_exercice()."'";
 
 $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end",1);
 $User=new cl_user($cn);
-$current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->GetPeriode();
+$current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
 $w->selected=$current;
 
 echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit','Valider');
@@ -249,7 +249,7 @@ echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit',
 </form>
 <?php  
     if ( $current == -1) {
-      $cond=" and jr_tech_per in (select p_id from parm_periode where p_exercice='".$User->getExercice()."')";
+      $cond=" and jr_tech_per in (select p_id from parm_periode where p_exercice='".$User->get_exercice()."')";
     } else {
       $cond=" and jr_tech_per=".$current;
     }

@@ -94,7 +94,7 @@ if ( $sub_action == "solde" )
   echo "<table>";
   // Filter the saldo
   //  on the current year
-  $filter_year=" and j_tech_per in (select p_id from parm_periode where  p_exercice='".$User->getExercice()."')";
+  $filter_year=" and j_tech_per in (select p_id from parm_periode where  p_exercice='".$User->get_exercice()."')";
 
   // for each account
   for ( $i = 0; $i < pg_NumRows($ResAccount);$i++) {
@@ -154,11 +154,11 @@ if ( $sub_action == "list")
 
   $w=new widget("select");
   // filter on the current year
-  $filter_year=" where p_exercice='".$User->getExercice()."'";
+  $filter_year=" where p_exercice='".$User->get_exercice()."'";
 
   $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end",1);
   // User is already set User=new cl_user($cn);
-  $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->GetPeriode();
+  $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
   $w->selected=$current;
 
   echo 'Période  '.$w->IOValue("p_periode",$periode_start);
@@ -184,7 +184,7 @@ if ( $sub_action == "list")
   else 
     {
       $filter_per=" and jr_tech_per in (select p_id from parm_periode where p_exercice=".
-	$User->getExercice().")";
+	$User->get_exercice().")";
     }
 
   // Show list of sell
@@ -233,7 +233,7 @@ if ( $sub_action=="use_opd" ) {
   $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">'.
 	'<INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 
-  $form=FormFin($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$p_post,false,$p_post['nb_item']);
+  $form=FormFin($cn,$_GET['p_jrn'],$User->get_periode(),$submit,$p_post,false,$p_post['nb_item']);
   echo '<div class="u_content">';
   echo   $form;
   echo '</div>';
@@ -258,8 +258,8 @@ if ( isset ($_POST['add_item']) || isset ($_POST['correct'])  )
  // Submit button in the form
   $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
           <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer" ID="SubmitButton">';
-  $form=FormFin($cn,$p_jrn,$User->GetPeriode(),$submit,$_POST,false,  $nb_item);
-  //$form=FormFin($cn,$p_jrn,$User->GetPeriode(),$submit,$_POST,false,  $nb_number);
+  $form=FormFin($cn,$p_jrn,$User->get_periode(),$submit,$_POST,false,  $nb_item);
+  //$form=FormFin($cn,$p_jrn,$User->get_periode(),$submit,$_POST,false,  $nb_number);
 
   echo '<div class="u_content">';
   echo $form;
@@ -283,7 +283,7 @@ if ( isset($_POST['save']))
   
   $submit='<h2 class="info"> Op&eacute;ration '.$r.' enregistr&eacute;</h2>';
 
-  $form=FormFin($cn,$p_jrn,$User->GetPeriode(),$submit,$_POST,true,$nb_number,true);
+  $form=FormFin($cn,$p_jrn,$User->get_periode(),$submit,$_POST,true,$nb_number,true);
 
   echo '<div class="u_content">';
   echo $form;
@@ -306,15 +306,15 @@ if ( isset ($_POST['view_invoice']) )
   $nb_number=$_POST["nb_item"];
   $submit='<INPUT TYPE="SUBMIT" name="save" value="Confirmer">';
   $submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
-  if ( form_verify_input ($cn,$p_jrn,$User->GetPeriode(),$_POST,$nb_number) != null ) {
+  if ( form_verify_input ($cn,$p_jrn,$User->get_periode(),$_POST,$nb_number) != null ) {
     // Should use a read only view instead of FormFin
     // where we can check
-    $form=FormFin($cn,$p_jrn,$User->GetPeriode(),$submit,$_POST,true,  $nb_number,false);
+    $form=FormFin($cn,$p_jrn,$User->get_periode(),$submit,$_POST,true,  $nb_number,false);
   } else {
     // if something goes wrong, correct it
     $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
-    $form=FormFin($cn,$p_jrn,$User->GetPeriode(),$submit,$_POST,false,  $nb_number);
+    $form=FormFin($cn,$p_jrn,$User->get_periode(),$submit,$_POST,false,  $nb_number);
 
   }
   
@@ -341,7 +341,7 @@ if ( $p_jrn != -1 )
   $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
           <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer" ID="SubmitButton">';
   // Show an empty form of invoice
-  $form=FormFin($cn,$p_jrn,$User->GetPeriode(),$submit,null,false,$jrn->GetDefLine('deb'));
+  $form=FormFin($cn,$p_jrn,$User->get_periode(),$submit,null,false,$jrn->GetDefLine('deb'));
   echo '<div class="u_content">';
   echo $form;
   echo '<form method="GET">';

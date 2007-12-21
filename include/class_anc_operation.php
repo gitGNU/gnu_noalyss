@@ -159,7 +159,7 @@ class Anc_Operation
 	if ($p_from=="")
 	  { $from="";$to="";}
 	else
-	  list($from,$to)=GetPeriode($this->db,$p_from);
+	  list($from,$to)=get_periode($this->db,$p_from);
 
 
 	$array=$this->get_list($from,$to);

@@ -38,7 +38,7 @@ $rep=DbConnect();
 require_once ('class_user.php');
 $User=new cl_user($rep);
 $User->Check();
-if ( $User->CheckAction($cn,IMP) == 0 ||
+if ( $User->check_action($cn,IMP) == 0 ||
      $User->AccessJrn($cn,$_GET['jrn_id']) == false){
     /* Cannot Access */
     NoAccess();

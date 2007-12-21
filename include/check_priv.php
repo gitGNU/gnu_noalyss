@@ -134,8 +134,8 @@ function CheckJrn($p_dossier,$p_user,$p_jrn,$p_detail=False)
 /*! 
  * \brief  Check if an user is allowed to do an action, 
  *         this function is only used by the user_sec.php, 
- *         otherwise you have to use cl_user->CheckAction 
- *         or $cl_user->AccessRequest
+ *         otherwise you have to use cl_user->check_action 
+ *         or $cl_user->can_request
  * 
  * \param p_dossier dossier id
  * \param p_login   user's login
@@ -146,7 +146,7 @@ function CheckJrn($p_dossier,$p_user,$p_jrn,$p_detail=False)
  *      - 1 priv granted
  *
  */ 
-function CheckAction ( $p_dossier,$p_login,$p_action_id)
+function check_action ( $p_dossier,$p_login,$p_action_id)
 {
   if ( CheckIsAdmin ($p_login) ) return 1;
   $cn=DbConnect($p_dossier);

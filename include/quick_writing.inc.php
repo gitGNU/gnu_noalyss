@@ -112,8 +112,8 @@ if ( CheckJrn(dossier::id(),$_SESSION['g_user'],$id) != 2 )    {
 
 if ( isset($_GET['show_form']) || isset($_POST['correct_it']) ) {
 $array=$_POST;
-$default_periode=$User->GetPeriode();
-list($date,$devnull)=GetPeriode($cn,$default_periode);
+$default_periode=$User->get_periode();
+list($date,$devnull)=get_periode($cn,$default_periode);
 $array['date']=$date;
   show_direct_form($cn,$ledger,$array);
   exit();

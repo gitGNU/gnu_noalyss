@@ -53,7 +53,7 @@ echo '</div>';
 
 
 echo ShowMenuAdvanced(7);
-$User->AccessRequest($cn,IMP_BQE);
+$User->can_request($cn,IMP_BQE);
 
 echo JS_AJAX_FICHE;
 echo '<div class="lmenu">';
@@ -90,7 +90,7 @@ if ( isset ($_GET["action"]) ) {
 
     echo '<DIV class="u_redcontent">';
     //   TransferCSV($cn, 
-    ConfirmTransfert($cn,$User->GetPeriode());
+    ConfirmTransfert($cn,$User->get_periode());
     echo "</DIV>";
   }
 } 
@@ -102,14 +102,14 @@ if ( isset ($_POST['action'])) {
   $action=$_POST['action'];
   if ($action == "transfer" ) {
     echo '<DIV class="u_redcontent">';
-    TransferCSV($cn, $User->GetPeriode());
+    TransferCSV($cn, $User->get_periode());
     echo "</DIV>";
   }
 
   if ($action == "remove" ) {
     echo '<DIV class="u_redcontent">';
     RemoveCSV($cn);
-    ConfirmTransfert($cn,$User->GetPeriode());
+    ConfirmTransfert($cn,$User->get_periode());
     echo "</DIV>";
   }
 

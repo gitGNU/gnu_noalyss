@@ -55,7 +55,7 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
     }
   }
   // The date
-  list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$p_periode);
+  list ($l_date_start,$l_date_end)=get_periode($p_cn,$p_periode);
   //  $op_date=( ! isset($e_date) )
   //  ?substr($l_date_start,2,8):$e_date;
   $op_date=( ! isset($e_date) ) ?$l_date_start:$e_date;
@@ -399,7 +399,7 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
 // Verify the userperiode
 
 // p_periode contient la periode par default
-  list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$p_periode);
+  list ($l_date_start,$l_date_end)=get_periode($p_cn,$p_periode);
   
   // Date dans la periode active
   echo_debug ('user_form_ven',__LINE__,"date start periode $l_date_start date fin periode $l_date_end date demande $e_date");
@@ -698,7 +698,7 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
   }
 
   // Get the default period
-  $periode=$p_user->GetPeriode();
+  $periode=$p_user->get_periode();
   $amount=0.0;
   $own=new own($p_cn);
   $group=NextSequence($p_cn,"s_oa_group");

@@ -982,7 +982,7 @@ function get_propertie()
      if ( isDate($date) == null ) { 
        throw new AcException('Date invalide', 2);
      }
-     list ($l_date_start,$l_date_end)=GetPeriode($this->db,$user->GetPeriode());
+     list ($l_date_start,$l_date_end)=get_periode($this->db,$user->get_periode());
   
      // Date dans la periode active
      if ( cmpDate($date,$l_date_start)<0 || 
@@ -991,7 +991,7 @@ function get_propertie()
 	 throw new AcException('Pas dans la periode active',5);
        }
     // Periode ferm� 
-     if ( PeriodeClosed ($this->db,$user->GetPeriode())=='t' )
+     if ( PeriodeClosed ($this->db,$user->get_periode())=='t' )
       {
 	return new AcException('Periode fermee',6);
       }

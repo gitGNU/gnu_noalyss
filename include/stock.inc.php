@@ -60,7 +60,7 @@ if ($href=='compta.php')
   echo $left_menu;
 }
 // Get The priv on the selected folder
-$User->AccessRequest($cn,STOCK_READ);
+$User->can_request($cn,STOCK_READ);
 
 
 $action= ( isset ($_GET['action']))? $_GET['action']:"";
@@ -69,7 +69,7 @@ include_once("stock_inc.php");
 // Adjust the stock
 if ( isset ($_POST['sub_change'])) 
 {
-  if ( CheckAction($gDossier,$_SESSION['g_user'],STOCK_WRITE) == 0 )
+  if ( check_action($gDossier,$_SESSION['g_user'],STOCK_WRITE) == 0 )
     {
       /* Cannot Access */
       NoAccess();
@@ -91,7 +91,7 @@ if ( isset ($_POST['sub_change']))
     } else 
       {
 	// Check if User Can change the stock 
-	if ( CheckAction($gDossier,$_SESSION['g_user'],STOCK_WRITE) == 0 ) {
+	if ( check_action($gDossier,$_SESSION['g_user'],STOCK_WRITE) == 0 ) {
 	  NoAccess();
 	  exit (-1);
     }
@@ -133,7 +133,7 @@ echo JS_VIEW_JRN_MODIFY;
 // if year is not set then use the year of the user's periode
 if ( ! isset ($_GET['year']) ) {
   // get defaut periode
-  $a=$User->GetPeriode();
+  $a=$User->get_periode();
   // get exercice of periode
   $year=GetExercice($cn,$a);
   } else
@@ -144,14 +144,14 @@ if ( ! isset ($_GET['year']) ) {
 // View details
 if ( $action == 'detail' ) {
   // Check if User Can see the stock 
-  if ( CheckAction($gDossier,$_SESSION['g_user'],STOCK_READ) == 0 ) {
+  if ( check_action($gDossier,$_SESSION['g_user'],STOCK_READ) == 0 ) {
     NoAccess();
     exit (-1);
   }
   $sg_code=(isset ($_GET['sg_code'] ))?$_GET['sg_code']:$_POST['sg_code'];
   $year=(isset($_GET['year']))?$_GET['year']:$_POST['year'];
   $a=ViewDetailStock($cn,$sg_code,$year);
-  $write=CheckAction($gDossier,$_SESSION['g_user'],STOCK_WRITE);
+  $write=check_action($gDossier,$_SESSION['g_user'],STOCK_WRITE);
 
   $b="";
 
@@ -186,7 +186,7 @@ for ( $i = 0; $i < pg_NumRows($Res);$i++) {
  
 }
 // Check if User Can see the stock 
-if ( CheckAction($gDossier,$_SESSION['g_user'],STOCK_READ) == 0 ) {
+if ( check_action($gDossier,$_SESSION['g_user'],STOCK_READ) == 0 ) {
   NoAccess();
   exit (-1);
 }

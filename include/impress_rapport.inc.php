@@ -166,7 +166,7 @@ print $w->IOValue("form_id",$ret);
 print '</TR>';
 print '<TR>';
 // filter on the current year
-$filter_year=" where p_exercice='".$User->getExercice()."'";
+$filter_year=" where p_exercice='".$User->get_exercice()."'";
 
 $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
 $w->label="P&eacute;riode comptable : Depuis";

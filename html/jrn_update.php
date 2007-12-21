@@ -50,7 +50,7 @@ $cn=DbConnect($gDossier);
 echo '<div class="u_subtmenu">';
 echo ShowMenuAdvanced("jrn_update.php?".dossier::get());
 echo '</div>';
-$User->AccessRequest($cn,GJRN);
+$User->can_request($cn,GJRN);
 
 
 echo '<div class="lmenu">';

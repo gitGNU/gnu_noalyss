@@ -46,7 +46,7 @@ echo $result;
 
 echo "</DIV>";
 $cn=DbConnect($gDossier);
-$User->AccessRequest($cn,IMP);
+$User->can_request($cn,IMP);
 
 
 include_once("impress_inc.php");

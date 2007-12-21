@@ -41,7 +41,7 @@ include_once ("class_user.php");
 $User=new cl_user($rep);
 $User->Check();
 // Check Priv
-$User->AccessRequest($cn,SECU);
+$User->can_request($cn,SECU);
 
 //-----------------------------------------------------
 // Get User's info
@@ -105,7 +105,7 @@ $Max=pg_NumRows($Res);
 for ( $i =0 ; $i < $Max; $i++ ) {
    $l_line=pg_fetch_array($Res,$i);
    $action['lib']=$l_line['ac_description'];
-   $right=CheckAction($gDossier,$SecUser->login,$l_line['ac_id']);
+   $right=check_action($gDossier,$SecUser->login,$l_line['ac_id']);
    switch ($right) {
    case 0:
      $action['priv']="Pas d'accès";

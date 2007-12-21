@@ -52,7 +52,7 @@ echo '</div>';
 // call impress sub-menu
 if ( $action == 'impress' ) {
 
-  $User->AccessRequest($cn,IMP) ;
+  $User->can_request($cn,IMP) ;
 
   require_once('impress.inc.php');
 }

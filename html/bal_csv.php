@@ -36,7 +36,7 @@ $cn=DbConnect($gDossier);
 require_once ('class_user.php');
 $User=new cl_user(DbConnect());
 $User->Check();
-if ( $User->CheckAction($cn,BALANCE) == 0)
+if ( $User->check_action($cn,BALANCE) == 0)
   {
     NoAccess();
     exit;

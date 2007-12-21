@@ -73,7 +73,7 @@ switch ($p_action) {
 echo ShowMenuAdvanced($high);
 
 if ($p_action == "periode" ) {
-  if ( $User->admin == 0 && CheckAction($gDossier,$_SESSION['g_user'],GESTION_PERIODE) == 0 )
+  if ( $User->admin == 0 && check_action($gDossier,$_SESSION['g_user'],GESTION_PERIODE) == 0 )
 	NoAccess();
     
   $p_action=$_REQUEST['p_action'];

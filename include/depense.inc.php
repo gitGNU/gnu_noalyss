@@ -65,8 +65,8 @@ if ( $sub_action=="use_opd" ) {
   $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
           <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer" ID="SubmitButton">';
 
-  $form=FormAchInput($cn,$_GET['p_jrn'],$User->GetPeriode(),$p_post,$submit,false,$p_post['nb_item']);
-  //  $form=FormAchInput($cn,$p_jrn,$User->GetPeriode(),$_POST,$submit,false,$nb_item);
+  $form=FormAchInput($cn,$_GET['p_jrn'],$User->get_periode(),$p_post,$submit,false,$p_post['nb_item']);
+  //  $form=FormAchInput($cn,$p_jrn,$User->get_periode(),$_POST,$submit,false,$nb_item);
 
   echo '<div class="u_content">';
   echo   $form;
@@ -135,11 +135,11 @@ if ( $sub_action == "list")
 
   $w=new widget("select");
   // filter on the current year
-  $filter_year=" where p_exercice='".$User->getExercice()."'";
+  $filter_year=" where p_exercice='".$User->get_exercice()."'";
 
   $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end",1);
   // User is already set User=new cl_user($cn);
-  $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->GetPeriode();
+  $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
   $w->selected=$current;
 
   echo 'Période  '.$w->IOValue("p_periode",$periode_start);
@@ -168,7 +168,7 @@ if ( $sub_action == "list")
   else 
     {
       $filter_per=" and jr_tech_per in (select p_id from parm_periode where p_exercice=".
-	$User->getExercice().")";
+	$User->get_exercice().")";
     }
 
   $sql=SQL_LIST_ALL_INVOICE." $filter_per  and jr_def_type='ACH'" ;
@@ -226,7 +226,7 @@ if ( isset ($_POST['add_item']) || isset ($_POST["correct"])  )
   $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
           <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer" ID="SubmitButton">';
 
-  $form=FormAchInput($cn,$p_jrn,$User->GetPeriode(),$_POST,$submit,false,$nb_item);
+  $form=FormAchInput($cn,$p_jrn,$User->get_periode(),$_POST,$submit,false,$nb_item);
   echo '<div class="u_content">';
   echo $form;
   echo $msg_tva;
@@ -245,10 +245,10 @@ if ( isset($_POST['save']))
         exit -1;
    }
   $nb_number=$_POST["nb_item"];
-  if ( form_verify_input ($cn,$p_jrn,$User->GetPeriode(),$_POST,$nb_number) == true ) {
+  if ( form_verify_input ($cn,$p_jrn,$User->get_periode(),$_POST,$nb_number) == true ) {
     // we save the expense
     list ($internal,$c)=RecordSell($cn,$_POST,$User,$p_jrn);
-    $form=FormAchView($cn,$p_jrn,$User->GetPeriode(),$_POST,"",$_POST['nb_item'],false);
+    $form=FormAchView($cn,$p_jrn,$User->get_periode(),$_POST,"",$_POST['nb_item'],false);
     echo '<div class="u_content">';
     echo '<h2 class="info"> Op&eacute;ration '.$internal.' enregistr&eacute;</h2>';
     echo $form;
@@ -264,7 +264,7 @@ if ( isset($_POST['save']))
 	  if ( $own->MY_ANALYTIC != "nu" )
 		$submit.='<input type="button" value="verifie CA" onClick="verify_ca(\'ok\');">';
       $submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
-      $form=FormAchView($cn,$p_jrn,$User->GetPeriode(),$_POST,$submit,$nb_number,true);
+      $form=FormAchView($cn,$p_jrn,$User->get_periode(),$_POST,$submit,$nb_number,true);
       echo '<div class="u_content">';
       echo $form;
       echo '<hr>';
@@ -285,15 +285,15 @@ if ( isset ($_POST['view_invoice']) )
   $nb_number=$_POST["nb_item"];
   $submit='<INPUT TYPE="SUBMIT" name="save" value="Confirmer">';
   $submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
-  if ( form_verify_input ($cn,$p_jrn,$User->GetPeriode(),$_POST,$nb_number) == true ) {
+  if ( form_verify_input ($cn,$p_jrn,$User->get_periode(),$_POST,$nb_number) == true ) {
     // Should use a read only view instead of FormAch
     // where we can check
-    $form=FormAchView($cn,$p_jrn,$User->GetPeriode(),$_POST,$submit,$nb_number);
+    $form=FormAchView($cn,$p_jrn,$User->get_periode(),$_POST,$submit,$nb_number);
   } else {
     // if something goes wrong, correct it
     $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
-    $form=FormAchInput($cn,$p_jrn,$User->GetPeriode(),$_POST,$submit, false, $nb_number);
+    $form=FormAchInput($cn,$p_jrn,$User->get_periode(),$_POST,$submit, false, $nb_number);
   }
   
   echo '<div class="u_content">';
@@ -319,7 +319,7 @@ if ( $p_jrn != -1 )
   $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
           <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer" ID="SubmitButton">';
   // Show an empty form of invoice
-  $form=FormAchInput($cn,$p_jrn,$User->GetPeriode(),null,$submit,false,$jrn->getDefLine());
+  $form=FormAchInput($cn,$p_jrn,$User->get_periode(),null,$submit,false,$jrn->getDefLine());
   echo '<div class="u_content">';
   echo $form;
   echo $msg_tva;

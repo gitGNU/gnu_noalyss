@@ -60,7 +60,7 @@ if  ( isset ($_REQUEST['fd_id'])) {
   if ( $fiche_def->HasAttribute(ATTR_DEF_ACCOUNT) == true ) {
     echo '<form method="POST" ACTION="?p_action=impress&type=fiche">'.dossier::hidden();
     // filter on the current year
-    $filter_year=" where p_exercice='".$User->getExercice()."'";
+    $filter_year=" where p_exercice='".$User->get_exercice()."'";
 
     $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
     

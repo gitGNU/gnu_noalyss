@@ -84,7 +84,7 @@ echo '</div>';
 
 $cn=DbConnect($gDossier);
 /*! \todo module budget add the security
- *$User->AccessRequest($cn,BUDGET);
+ *$User->can_request($cn,BUDGET);
 */ 
 //-----------------------------------------------------
 // p_action == hypo

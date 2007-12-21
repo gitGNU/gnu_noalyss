@@ -35,7 +35,7 @@ $User=new cl_user($rep);
 $User->Check();
 html_page_start($User->theme,"onLoad='window.focus();'");
 
-$User->AccessRequest(DbConnect($gDossier),MPCMN);
+$User->can_request(DbConnect($gDossier),MPCMN);
 
 
 include ("user_menu.php");

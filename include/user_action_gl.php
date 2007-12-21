@@ -48,17 +48,17 @@ echo $hid->IOValue();
 
 $w=new widget("select");
 // filter on the current year
-$filter_year=" where p_exercice='".$User->getExercice()."'";
+$filter_year=" where p_exercice='".$User->get_exercice()."'";
 
 $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end",1);
-$current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->GetPeriode();
+$current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
 $w->selected=$current;
 echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit','Valider');
 ?>
 </form>
 <?php  
  if ( $current == -1) {
-   $cond=" and jr_tech_per in (select p_id from parm_periode where p_exercice='".$User->getExercice()."')";
+   $cond=" and jr_tech_per in (select p_id from parm_periode where p_exercice='".$User->get_exercice()."')";
  } else {
    $cond=" and jr_tech_per=".$current;
  }

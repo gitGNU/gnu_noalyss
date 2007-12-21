@@ -108,11 +108,11 @@ else
     if ( isset ($_POST["sub_periode"] ) ) 
       {
 	$periode=$_POST["periode"];
-	$User->SetPeriode($periode);
+	$User->set_periode($periode);
 	echo_debug('pref.inc',__LINE__,"Periode returns ".PeriodeClosed($cn,$periode));
       }
 
-    $l_user_per=$User->GetPeriode();
+    $l_user_per=$User->get_periode();
     // if periode is closed then warns the users
     if ( PeriodeClosed($cn,$l_user_per)=='t')
       {

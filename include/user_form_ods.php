@@ -62,7 +62,7 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
   $own = new Own($p_cn);
 
   // The date
-   list ($l_date_start,$l_date_end)=GetPeriode($p_cn,$p_periode);
+   list ($l_date_start,$l_date_end)=get_periode($p_cn,$p_periode);
    $flag=(isset($e_date))?1:0;
    //   $e_date=( ! isset($e_date) ) ?
    //   substr($l_date_start,2,8):$e_date;
@@ -319,7 +319,7 @@ function RecordODS($p_cn,$p_array,$p_user,$p_jrn)
     ${"$v"}=$e;
   }
   // Get the default period
-  $periode=$p_user->GetPeriode();
+  $periode=$p_user->get_periode();
   $amount=0.0;
   // Computing total customer
 

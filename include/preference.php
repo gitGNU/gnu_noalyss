@@ -112,7 +112,7 @@ function FormPeriode($p_cn,$l_default=0,$p_type=OPEN,$p_suff="")
   $ret.="</SELECT>";
   return $ret;
 }
-/*!   GetPeriode
+/*!   get_periode
  * \brief Give the start & end date of a periode
  * 
  * \param  p_connection
@@ -122,7 +122,7 @@ function FormPeriode($p_cn,$l_default=0,$p_type=OPEN,$p_suff="")
  *     
  *
  */ 
-function GetPeriode($p_cn,$p_periode) 
+function get_periode($p_cn,$p_periode) 
 {
  $sql="select to_char(p_start,'DD.MM.YYYY') as p_start,
               to_char(p_end,'DD.MM.YYYY')   as p_end

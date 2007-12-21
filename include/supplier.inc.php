@@ -27,7 +27,7 @@ $sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
  * \brief Called from the module "Gestion" to manage the customer
  */
 
-$User->AccessRequest($cn,SUPPL);
+$User->can_request($cn,SUPPL);
 ?>
 
 <?php  

@@ -41,7 +41,7 @@ $gDossier=dossier::id();
 $cn=DbConnect($gDossier);
 // TODO add security here
 // Get The priv on the selected folder
-if ( $User->CheckAction($cn,FICHE_WRITE)== 0) {
+if ( $User->check_action($cn,FICHE_WRITE)== 0) {
     /* Cannot Access */
     echo '<h2 class="error"> Vous  ne pouvez pas ajouter de fiche</h2>';
     return;

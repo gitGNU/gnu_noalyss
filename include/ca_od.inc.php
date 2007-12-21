@@ -88,11 +88,11 @@ echo '
  $w=new widget("select");
  $w->name="p_periode";
  // filter on the current year
- $filter_year=" where p_exercice='".$User->getExercice()."'";
+ $filter_year=" where p_exercice='".$User->get_exercice()."'";
  
  $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by  p_start,p_end",1);
  $User=new cl_user($cn);
- $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->GetPeriode();
+ $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
  $w->selected=$current;
  
  echo 'P&eacute;riode  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit','Valider').'</form>';
@@ -110,7 +110,7 @@ if ( isset($_POST['save'])) {
 	'Op&eacute;ration sauv&eacute;e';
   $a=new Anc_Group_Operation($cn);
 
-  $a->load_from_array($_POST);
+  $a->get_from_array($_POST);
 
   $a->save();
   echo $a->show();

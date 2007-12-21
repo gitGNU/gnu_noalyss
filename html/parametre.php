@@ -52,7 +52,7 @@ include_once ("check_priv.php");
 
 $cn=DbConnect($gDossier);
 
-$User->AccessRequest($cn,PARM);
+$User->can_request($cn,PARM);
 
 // First action
 $p_action="";

@@ -30,7 +30,7 @@ include_once ("ac_common.php");
 include_once("preference.php");
 include_once ("class_widget.php");
 include_once("class_acc_balance.php");
-$User->AccessRequest($cn,BALANCE);
+$User->can_request($cn,BALANCE);
 
 
 echo '<div class="u_content">';
@@ -78,7 +78,7 @@ echo dossier::hidden();
 $w=new widget("select");
 $w->table=1;
 // filter on the current year
-$filter_year=" where p_exercice='".$User->getExercice()."'";
+$filter_year=" where p_exercice='".$User->get_exercice()."'";
 
 $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
 $w->label="Depuis";
@@ -146,8 +146,8 @@ if ( isset($_POST['view'] ) ) {
 
   $row=$bal->get_row($_POST['from_periode'],
 		  $_POST['to_periode']);
-    $a=GetPeriode($cn,$_POST['from_periode']);
-    $b=GetPeriode($cn,$_POST['to_periode']);
+    $a=get_periode($cn,$_POST['from_periode']);
+    $b=get_periode($cn,$_POST['to_periode']);
     echo "<h2 class=\"info\"> période du ".$a['p_start']." au ".$b['p_end']."</h2>";
 
   echo '<table width="100%">';  

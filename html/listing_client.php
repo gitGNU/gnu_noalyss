@@ -37,7 +37,7 @@ $User->Check();
 
 // TODO a specific level of security for the "bilan" ???
 // Change must be done here
-$User->AccessRequest($cn,IMP);
+$User->can_request($cn,IMP);
 
 header('Content-type: application/bin');
 header('Content-Disposition: attachment;filename="declaration.bin"',FALSE);

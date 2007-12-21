@@ -264,7 +264,7 @@ class Anc_Account
 	return $r;
 
   }
-  function load_from_array($p_array)
+  function get_from_array($p_array)
   {
     $this->name=(isset ($p_array['po_name']))?$p_array['po_name']:"";
     $this->description=(isset ($p_array['po_description']))?$p_array['po_description']:"";

@@ -112,7 +112,7 @@ class cl_user {
 	      $this->admin=$_SESSION['use_admin'];
 	      $this->name=$_SESSION['use_name'];
 	      $this->first_name=$_SESSION['use_first_name'];
-	      $this->GetGlobalPref();
+	      $this->load_global_pref();
 
 
 	    }
@@ -206,7 +206,7 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
  * \param     - $p_user
  *
  */ 
-function SetPeriode($p_periode) {
+function set_periode($p_periode) {
   $sql="update user_local_pref set parameter_value='$p_periode' where user_id='$this->id' and parameter_type='PERIODE'";
   $Res=ExecSql($this->db,$sql);
 }
@@ -220,8 +220,8 @@ function SetPeriode($p_periode) {
  *
  */ 
 
-function GetPeriode() {
-  $array=$this->GetPreferences();
+function get_periode() {
+  $array=$this->get_preference();
   return $array['PERIODE'];
 }
 /*! 
@@ -232,7 +232,7 @@ function GetPeriode() {
  * \param $p_user
  * \return array of (parameter_type => parameter_value)
  */ 
-function GetPreferences ()
+function get_preference ()
 {
   // si preference n'existe pas, les créer
   $sql="select parameter_type,parameter_value from user_local_pref where user_id='".$this->id."'";
@@ -244,7 +244,7 @@ function GetPreferences ()
 		 $this->id);
     $Res=ExecSql($this->db,$sql);
 
-    $l_array=$this->GetPreferences();
+    $l_array=$this->get_preference();
   } else {
     for ( $i =0;$i < pg_NumRows($Res);$i++) {
       $row= pg_fetch_array($Res,0);
@@ -264,7 +264,7 @@ function GetPreferences ()
  *      - 1 priv granted
  *
  */ 
- function CheckAction ( $p_cn,$p_action_id)
+ function check_action ( $p_cn,$p_action_id)
 {
 
   if ( $this->admin==1 ) return 1;
@@ -285,9 +285,9 @@ function GetPreferences ()
  */
 
 
-function GetGlobalPref() 
+function load_global_pref() 
 {
-	echo_debug('class_user.php',__LINE__,"function GetGlobalPref");
+	echo_debug('class_user.php',__LINE__,"function load_global_pref");
   $cn=Dbconnect();
   // Load everything in an array
   $Res=ExecSql ($cn,"select parameter_type,parameter_value from 
@@ -296,7 +296,7 @@ function GetGlobalPref()
   $Max=pg_NumRows($Res);
   if (  $Max == 0 ) {
 	  $this->insert_default_global_pref();
-	  $this->GetGlobalPref();
+	  $this->load_global_pref();
 	  return;
 	  }
   // Load value into array
@@ -312,7 +312,7 @@ function GetGlobalPref()
 	  if ( ! isset ($line[$parameter]) ) {
 		  echo_debug("Missing pref : ".$parameter);
 		  $this->insert_default_global_pref($parameter);
-		$this->GetGlobalPref();
+		$this->load_global_pref();
 		return;
 		}	
     $_SESSION[$name]=$line[$parameter];
@@ -375,9 +375,9 @@ function update_global_pref($p_type,$p_value="") {
  *        it is the parm_periode.p_exercice col
  *        if an error occurs return 0
  */
-function getExercice()
+function get_exercice()
 {
-  $sql="select p_exercice from parm_periode where p_id=".$this->GetPeriode();
+  $sql="select p_exercice from parm_periode where p_id=".$this->get_periode();
   $Ret=ExecSql($this->db,$sql);
   if (pg_NumRows($Ret) == 1) 
     {
@@ -395,9 +395,9 @@ function getExercice()
  * \param $p_js = 1 javascript, or 0 just a text
  * \return nothing the program exits automatically
  */
-function AccessRequest($p_cn,$p_action,$p_js=0)
+function can_request($p_cn,$p_action,$p_js=0)
 {
-  if ( $this->CheckAction($p_cn,$p_action)==0 )
+  if ( $this->check_action($p_cn,$p_action)==0 )
     {
       if ( $p_js == 1 )
 	{

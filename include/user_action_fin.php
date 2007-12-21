@@ -54,7 +54,7 @@ if ( $action=="use_opd" ) {
   $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">'.
 	'<INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 
-  $form=FormFin($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$p_post,false,$p_post['nb_item']);
+  $form=FormFin($cn,$_GET['p_jrn'],$User->get_periode(),$submit,$p_post,false,$p_post['nb_item']);
   echo '<div class="u_content">';
   echo   $form;
   echo '</div>';
@@ -80,7 +80,7 @@ if ( $action == 'new' ) {
 	  $p_jrn=$_GET['p_jrn'];
 	  $jrn=new Acc_Ledger($cn,  $p_jrn);
 
-	  $r=FormFin($cn,$p_jrn,$User->GetPeriode(),$submit,null,false,$jrn->GetDefLine());
+	  $r=FormFin($cn,$p_jrn,$User->get_periode(),$submit,null,false,$jrn->GetDefLine());
 	  echo '<div class="u_content">';
 	  echo $r;
 	  echo "<div>";
@@ -120,7 +120,7 @@ if ( $action == 'new' ) {
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 
-	  $r=FormFin($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$_POST,false,  $nb_number);
+	  $r=FormFin($cn,$_GET['p_jrn'],$User->get_periode(),$submit,$_POST,false,  $nb_number);
 	  echo '<div class="u_content">';
 	  echo $r;
 	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."</div>";
@@ -136,7 +136,7 @@ if ( $action == 'new' ) {
 	  $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 
-	  $r=FormFin($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$_POST,false,  $nb_number);
+	  $r=FormFin($cn,$_GET['p_jrn'],$User->get_periode(),$submit,$_POST,false,  $nb_number);
 	  echo '<div class="u_redcontent">';
 	  echo $r;
 	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."</div>";
@@ -148,7 +148,7 @@ if ( $action == 'new' ) {
 	// View the charge and show a submit button to save it 
 	if ( isset ($_POST['view_invoice']) ) {
 	$nb_number=$_POST["nb_item"];
-	$r=form_verify_input($cn,$_GET['p_jrn'],$User->GetPeriode(),$_POST,$nb_number);
+	$r=form_verify_input($cn,$_GET['p_jrn'],$User->get_periode(),$_POST,$nb_number);
 	// if something goes wrong correct it
 	if ( $r == null ) 
 	  {
@@ -156,14 +156,14 @@ if ( $action == 'new' ) {
 	    $submit='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article">
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 	    
-	    $r=FormFin($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$_POST,false,  $nb_number);
+	    $r=FormFin($cn,$_GET['p_jrn'],$User->get_periode(),$submit,$_POST,false,  $nb_number);
 	  }
 	else 
 	  {
 	    $submit='<INPUT TYPE="SUBMIT" name="save" value="Confirmer">';
 	    $submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
 	    
-	    $r=FormFin($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$_POST,true,$nb_number);
+	    $r=FormFin($cn,$_GET['p_jrn'],$User->get_periode(),$submit,$_POST,true,$nb_number);
 	  }
 
 	echo '<div class="u_redcontent">';
@@ -180,7 +180,7 @@ if ( $action == 'new' ) {
 	  // submit button in the form
 	  $submit='<h2 class="info">Recorded '.$r.'</h2>';
 
-	  $r.=FormFin($cn,$_GET['p_jrn'],$User->GetPeriode(),$submit,$_POST,true,  $nb_number,true);
+	  $r.=FormFin($cn,$_GET['p_jrn'],$User->get_periode(),$submit,$_POST,true,  $nb_number,true);
 	  echo '<div class="u_redcontent">';
 	  echo $r;
 	  echo "</div>";
@@ -223,11 +223,11 @@ echo $hid->IOValue();
 
 $w=new widget("select");
 // filter on the current year
-$filter_year=" where p_exercice='".$User->getExercice()."'";
+$filter_year=" where p_exercice='".$User->get_exercice()."'";
 
 $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by  p_start,p_end",1);
 $User=new cl_user($cn);
-$current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->GetPeriode();
+$current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
 $w->selected=$current;
 
 echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit','Valider');
@@ -238,7 +238,7 @@ echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit',
  // Show list of sell
   echo_debug ("user_action_jrn.php");
  if ( $current == -1) {
-   $cond=" and jr_tech_per in (select p_id from parm_periode where p_exercice='".$User->getExercice()."')";
+   $cond=" and jr_tech_per in (select p_id from parm_periode where p_exercice='".$User->get_exercice()."')";
  } else {
    $cond=" and jr_tech_per=".$current;
  }

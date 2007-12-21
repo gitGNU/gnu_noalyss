@@ -47,7 +47,7 @@ echo '</div>';
 
 
 $cn=DbConnect($gDossier);
-$User->AccessRequest($cn,GJRN);
+$User->can_request($cn,GJRN);
 
 
 echo JS_SEARCH_POSTE;

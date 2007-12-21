@@ -55,7 +55,7 @@ $User=new cl_user(DbConnect());
 $User->Check();
 
 // Security
-if ($User->CheckAction($cn,IMP) == 0 ||
+if ($User->check_action($cn,IMP) == 0 ||
     $User->AccessJrn($cn,$_GET['jrn_id']) == false){
     /* Cannot Access */
     NoAccess();

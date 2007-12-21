@@ -42,7 +42,7 @@ include_once ("user_menu.php");
 
 $cn_dossier=DbConnect($gDossier);
 
-if ( $User->CheckAction($cn_dossier,GJRN) == 0 ) {
+if ( $User->check_action($cn_dossier,GJRN) == 0 ) {
   /* Cannot Access */
   NoAccess();
   exit -1;
@@ -240,7 +240,7 @@ if ( $action == "view" ) {
 	
 	$l_change="action=change_act&act=".$l_line['ac_id']."&login=".$l2_line['use_login']."&user_id=".$l2_line['use_id'];
 	if ( $admin ==0 ) {
-	  $right=CheckAction($gDossier,$l2_line['use_login'],$l_line['ac_id']);
+	  $right=check_action($gDossier,$l2_line['use_login'],$l_line['ac_id']);
 	} else {
 	  $right = 2;
 	}

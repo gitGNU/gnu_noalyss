@@ -42,7 +42,7 @@ include_once ("user_menu.php");
 
 $cn=DbConnect($gDossier);
 
-$User->AccessRequest($cn,EXP_IMP_ECR);
+$User->can_request($cn,EXP_IMP_ECR);
 
 if ( !isset ($_GET['p_periode'])) {
 	echo 'Erreur : aucune periode demandée';
