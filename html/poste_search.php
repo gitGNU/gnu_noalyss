@@ -69,7 +69,7 @@ if ( isset($_GET['filter']) && $_GET['filter'] != 'all') {
 
   // Load the property
    
-  $jrn=new Acc_Ledger($cn,$_GET['jrn']);
+  $jrn=new Acc_Ledger($cn,$_GET['p_jrn']);
   $l_line=$jrn->get_propertie();
 
   if ( strlen(trim ($l_line['jrn_def_class_deb']) ) > 0 ) {
