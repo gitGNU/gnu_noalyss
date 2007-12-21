@@ -87,7 +87,7 @@ class Anc_Group {
    * \brief fill the object thanks an array
    * \param array
    */
-  function fill_from_array($p_array) {
+  function load_from_array($p_array) {
     $this->ga_id=$p_array['ga_id'];
     $this->ga_description=$p_array['ga_description'];
   }
@@ -98,7 +98,7 @@ class Anc_Group {
     if ( ! empty($array)) {
       foreach ($array as $m ) {
 	$obj= new Anc_Group($this->db);
-	$obj->fill_from_array($m);
+	$obj->load_from_array($m);
 	$res[]=clone $obj;
       }
     }

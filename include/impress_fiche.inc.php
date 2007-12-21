@@ -116,7 +116,7 @@ if  ( isset ($_REQUEST['fd_id'])) {
 
 
 	  $sql_periode=sql_filter_per($cn,$_REQUEST['from_periode'],$_REQUEST['to_periode'],'p_id','j_tech_per');
-	  $solde=  $detail->GetSoldeDetail($sql_periode);
+	  $solde=  $detail->get_solde_detail($sql_periode);
 
 	  printf ("<td align=\"right\">% 10.2f</td>",$solde['debit']);
 	  printf ("<td align=\"right\">% 10.2f</td>",$solde['credit']);

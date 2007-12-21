@@ -40,7 +40,7 @@ class Anc_Balance_Simple extends Anc_Print {
  *
  * \return array
  */
-  function get_data()
+  function load()
   {
 	$filter=$this->set_sql_filter();
 	// sum debit
@@ -80,7 +80,7 @@ class Anc_Balance_Simple extends Anc_Print {
 /*! 
  * \brief Set the filter (account_date) 
  *
- * \return return the string to add to get_data
+ * \return return the string to add to load
  */
 
 
@@ -123,7 +123,7 @@ class Anc_Balance_Simple extends Anc_Print {
 	$r.="<th>D/C</th>";
 	$r.="</tr>";
 
-	$array=$this->get_data();
+	$array=$this->load();
 	$odd=0;
 	if ( is_array($array) == false ){
 	  return $array;
@@ -169,7 +169,7 @@ class Anc_Balance_Simple extends Anc_Print {
  */
   function display_pdf()
   {
-	$array=$this->get_data();
+	$array=$this->load();
 	$offset=0;
 	$page=1;
 	$pagesize=50;
@@ -214,7 +214,7 @@ class Anc_Balance_Simple extends Anc_Print {
  */
   function display_csv()
   {
-	$array=$this->get_data();	
+	$array=$this->load();	
 	if ( is_array($array) == false ){
 	  return $array;
 

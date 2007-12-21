@@ -106,7 +106,7 @@ class Bud_Hypo {
     ExecSql($this->db,$sql);
   }
 
-  function from_array($p_array) {
+  function load_from_array($p_array) {
     $this->bh_id=(isset($p_array['bh_id']))?$p_array['bh_id']:0;
     $this->bh_saldo=(isset($p_array['bh_saldo']))?$p_array['bh_saldo']:0;
     $this->bh_description=(isset($p_array['bh_description']))?$p_array['bh_description']:0;

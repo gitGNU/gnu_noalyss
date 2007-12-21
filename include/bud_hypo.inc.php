@@ -29,21 +29,21 @@ require_once ('class_widget.php');
 
 if ( isset($_POST['remove'])){ 
   $obj=new Bud_Hypo($cn);
-  $obj->from_array($_POST);
+  $obj->load_from_array($_POST);
   $obj->delete();
 
  }
 
 if ( isset($_POST['add'])){ 
   $obj=new Bud_Hypo($cn);
-  $obj->from_array($_POST);
+  $obj->load_from_array($_POST);
   $obj->add();
 
  }
 
 if ( isset($_POST['update'])){ 
   $obj=new Bud_Hypo($cn);
-  $obj->from_array($_POST);
+  $obj->load_from_array($_POST);
   $obj->update();
 
  }

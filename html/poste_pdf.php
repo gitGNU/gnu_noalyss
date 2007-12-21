@@ -57,7 +57,7 @@ foreach ($a_poste as $poste)
 {
   echo_debug("poste_pdf",__LINE__,$poste);
   $Poste=new Acc_Account($cn,$poste['pcm_val']);
-  list($array,$tot_deb,$tot_cred)=$Poste->GetRow($from_periode,$to_periode);
+  list($array,$tot_deb,$tot_cred)=$Poste->get_row($from_periode,$to_periode);
   // don't print empty account
   if ( count($array) == 0 ) {
      continue;

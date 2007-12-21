@@ -141,7 +141,7 @@ if ( isset($_REQUEST['sa']))
 	  {
 		//		var_dump($_POST);
 		$po=new Anc_Account($cn);
-		$po->fill_from_POST();
+		$po->load_from_array($_POST);
 		$po->add();
 		$sa="list";
 
@@ -179,7 +179,7 @@ if ( isset($_REQUEST['sa']))
 	if ( $sa=="po_update")
 	  {
 		$po=new Anc_Account($cn);
-		$po->fill_from_POST();
+		$po->load_from_array($_POST);
 		$po->update();
 		$sa="list";
 	  }

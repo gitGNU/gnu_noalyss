@@ -41,13 +41,13 @@ require_once("class_acc_ledger.php");
   $Jrn->get_name();
   if ( $_POST['p_simple']==0 ) 
     {
-      $Jrn->GetRow( $_POST['from_periode'],
+      $Jrn->get_row( $_POST['from_periode'],
 		    $_POST['to_periode'],
 		    $p_cent);
     }
   else 
     {
-      $Row=$Jrn->GetRowSimple($_POST['from_periode'],
+      $Row=$Jrn->get_rowSimple($_POST['from_periode'],
 			 $_POST['to_periode'],
 			 $p_cent);
       //      var_dump($Row);

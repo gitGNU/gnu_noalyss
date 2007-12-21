@@ -536,7 +536,7 @@ class Document
 	  $tiers->Getbyqcode($qcode,false);
 	  $p=$tiers->strAttribut(ATTR_DEF_ACCOUNT);
 	  $poste=new Poste($this->db,$p);
-	  $r=$poste->GetSolde(' true' );
+	  $r=$poste->get_solde(' true' );
 	  break;
 	case 'CUST_NAME':
 	  $tiers=new fiche($this->db);

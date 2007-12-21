@@ -102,7 +102,7 @@ class Bud_Card {
    * corresponding property will be null
    * \param $p_array array to convert
    */
-  function from_array($p_array) {
+  function load_from_array($p_array) {
     if ( empty($p_array) ) return;
     foreach (array ('bh_id','bc_id','bc_code','bc_description','bc_price_unit','bc_unit')
 	     as	$key ){
@@ -128,7 +128,7 @@ class Bud_Card {
     if ( pg_NumRows($res) == 0 ) return null;
 
     $a=pg_fetch_array($res,0);
-	$this->from_array($a);  
+	$this->load_from_array($a);  
   }
 
   static function get_list($p_cn,$p_bh_id) {	
@@ -143,7 +143,7 @@ class Bud_Card {
     
     foreach ($get as $row ) {
       $obj=new Bud_Card($p_cn);
-      $obj->from_array($row);
+      $obj->load_from_array($row);
       $result[]=clone $obj;
     }
     return $result;

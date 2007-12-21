@@ -797,7 +797,7 @@ class fiche {
    *         (tot_deb,tot_credit
    *
    */ 
-  function GetRow($p_from,$p_to)
+  function get_row($p_from,$p_to)
     {
       if ( $this->id == 0 ) 
 	{
@@ -843,7 +843,7 @@ class fiche {
     {     
       $name=$this->getName();
       
-      list($array,$tot_deb,$tot_cred)=$this->GetRow( $_POST['from_periode'],
+      list($array,$tot_deb,$tot_cred)=$this->get_row( $_POST['from_periode'],
 						     $_POST['to_periode']
 						     );
       
@@ -935,7 +935,7 @@ class fiche {
    *      balance of the card
    *
    */ 
-function GetSoldeDetail($p_cond="") {
+function get_solde_detail($p_cond="") {
   if ( $this->id == 0 ) exit('fiche->id est nul');
   $qcode=$this->strAttribut(ATTR_DEF_QUICKCODE);
 

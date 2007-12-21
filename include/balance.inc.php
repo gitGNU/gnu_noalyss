@@ -144,7 +144,7 @@ if ( isset($_POST['view'] ) ) {
   else
   $bal->central='N';
 
-  $row=$bal->GetRow($_POST['from_periode'],
+  $row=$bal->get_row($_POST['from_periode'],
 		  $_POST['to_periode']);
     $a=GetPeriode($cn,$_POST['from_periode']);
     $b=GetPeriode($cn,$_POST['to_periode']);

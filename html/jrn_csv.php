@@ -55,7 +55,7 @@ $jrn_type=$Jrn->get_type();
 //---
 if  ( $_GET['p_simple'] == 0 ) 
   {
-    $Jrn->GetRow( $_GET['from_periode'],
+    $Jrn->get_row( $_GET['from_periode'],
 		  $_GET['to_periode'],
 		  $p_cent);
 
@@ -86,7 +86,7 @@ if  ( $_GET['p_simple'] == 0 )
   }
  else 
    {
-     $Row=$Jrn->GetRowSimple($_GET['from_periode'],
+     $Row=$Jrn->get_rowSimple($_GET['from_periode'],
 			     $_GET['to_periode'],
 			     $p_cent,
 			     0);

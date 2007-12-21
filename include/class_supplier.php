@@ -134,7 +134,7 @@ class Supplier extends fiche{
 	$User=new cl_user($this->cn);
 	$filter_year="  j_tech_per in (select p_id from parm_periode ".
                      "where p_exercice='".$User->getExercice()."')";
-	$a=$post->GetSoldeDetail($filter_year);
+	$a=$post->get_solde_detail($filter_year);
 	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$a['debit']);
 	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$a['credit']);
 	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$a['solde']);

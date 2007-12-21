@@ -81,7 +81,7 @@ if ( $Jrn->id==0  || $jrn_type=='FIN' || $jrn_type=='ODS' || $_REQUEST['p_simple
   $rap_deb=0;$rap_cred=0;
   while (1) {
     $a=0;
-    list ($a_jrn,$tot_deb,$tot_cred)=$Jrn->GetRow($_GET['from_periode'],
+    list ($a_jrn,$tot_deb,$tot_cred)=$Jrn->get_row($_GET['from_periode'],
 						  $_GET['to_periode'],
 						  $_GET['central'],
 						  $limit,$offset);
@@ -211,7 +211,7 @@ if  ( ($jrn_type=='ACH' || $jrn_type=='VEN' ) && $_REQUEST['p_simple']== 1 )
   while (1) {
 
     $a=0;
-    $a_jrn=$Jrn->GetRowSimple($_GET['from_periode'],
+    $a_jrn=$Jrn->get_rowSimple($_GET['from_periode'],
 			      $_GET['to_periode'],
 			      $_GET['central'],
 			      1,

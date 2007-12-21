@@ -405,7 +405,7 @@ function GetRappelSimple ($p_cn,$p_jrn_id,$p_jrn_type,$p_from,&$arap)
 		       " and p_start <= (select p_start from parm_periode where p_id=$p_from)");
 
   $j=new Acc_Ledger($p_cn,$p_jrn_id);
-  $a=$j->GetRowSimple($previous,$previous,$cent='on');
+  $a=$j->get_rowSimple($previous,$previous,$cent='on');
   $total_tvac=0.0;
   $total_htva=0.0;
   foreach ($a as $line) {
@@ -605,7 +605,7 @@ function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true,$p_
     $P=new Acc_Account($p_cn,$e[0]);
     echo_debug(__FILE__.":".__LINE__."  condition is $cond");
 
-    $detail=$P->GetSoldeDetail($cond);
+    $detail=$P->get_solde_detail($cond);
 
 
     if ( $compute=='all')

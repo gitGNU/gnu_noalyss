@@ -45,7 +45,7 @@ class Anc_Balance_Double extends Anc_Print
   {
 	$r="";
 
-	$array=$this->get_data();
+	$array=$this->load();
 	$odd=0;
 	if ( is_array($array) == false ){
 	  return $array;
@@ -133,7 +133,7 @@ class Anc_Balance_Double extends Anc_Print
  */
   function display_pdf()
   {
-	$array=$this->get_data();
+	$array=$this->load();
 	$offset=0;
 	$page=1;
 	$pagesize=50;
@@ -231,7 +231,7 @@ class Anc_Balance_Double extends Anc_Print
 
 	$r.="\r\n";
 
-	$array=$this->get_data();
+	$array=$this->load();
 	if ( is_array($array) == false ){
 	  return $array;
 
@@ -347,7 +347,7 @@ class Anc_Balance_Double extends Anc_Print
  *
  * \return array
  */
-  function get_data()
+  function load()
   {
 	$filter_poste="";
 	$and="";
@@ -428,7 +428,7 @@ order by 1;
 /*! 
  * \brief Set the filter (account_date) 
  *
- * \return return the string to add to get_data
+ * \return return the string to add to load
  */
 
   function set_sql_filter()
@@ -448,7 +448,7 @@ order by 1;
   
 /*! 
  * \brief add extra lines  with sum of each account
- * \param $p_array array returned by get_data()
+ * \param $p_array array returned by load()
  */
   function show_sum ($p_array)
 {

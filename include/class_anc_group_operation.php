@@ -161,7 +161,7 @@ class Anc_Group_Operation
   /*!\brief fill row from $_POST data
    *
    */
-  function from_POST() {
+  function load_from_array($p_array) {
 	$Plan=new Anc_Plan($this->db);
 	$aPlan=$Plan->get_list();
 
@@ -171,12 +171,12 @@ class Anc_Group_Operation
 	    {
 	      $idx=$d['id'];
 	      $p=new Anc_Operation($this->db);
-	      $p->oa_amount=$_POST["pamount$i"];
+	      $p->oa_amount=$_array["pamount$i"];
 	      
-	      $p->oa_description=$_POST["pdesc"];
+	      $p->oa_description=$p_array["pdesc"];
 	      $p->oa_date=$_POST['pdate'];
 	      $p->j_id=0;
-	      $p->oa_debit=(isset ($_POST["pdeb$i"]))?'t':'f';
+	      $p->oa_debit=(isset ($p_array["pdeb$i"]))?'t':'f';
 	      $p->oa_group=0;
 
 	      $p->po_id=$_POST["pop$i"."plan".$idx];
@@ -217,7 +217,7 @@ class Anc_Group_Operation
 
     if ( isset($_POST['go'])) {
       $b=new Anc_Group_Operation($cn);
-      $b->from_POST();
+      $b->load_from_array($_POST);
       exit();
     }
 

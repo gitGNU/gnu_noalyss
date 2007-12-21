@@ -67,10 +67,10 @@ foreach ($ret as $poste_id) {
 
 	$Poste=new Acc_Account($cn,$poste_id['j_poste']);
 	// fill the object
-	$Poste->get();
+	$Poste->load();
 	// build sql stmt
 	$sql="j_tech_per >=". $sql_from[0]['min']." and j_tech_per <=".$sql_to[0]['max'];
-	$result=$Poste->GetSoldeDetail($sql );
+	$result=$Poste->get_solde_detail($sql );
 	$Poste->label=str_replace(';','',$Poste->label);
 	
 	if ( $result['solde'] == 0 ) continue;

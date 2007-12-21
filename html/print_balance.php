@@ -70,7 +70,7 @@ $bal->jrn=$_POST['p_jrn'];
 $bal->from_poste=$_POST['from_poste'];
 $bal->to_poste=$_POST['to_poste'];
 
-$array=$bal->GetRow($from_periode,$to_periode);
+$array=$bal->get_row($from_periode,$to_periode);
 
 if ( sizeof($array)  == 0 ) {
   $pdf= new Cezpdf('a4');

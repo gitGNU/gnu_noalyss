@@ -110,7 +110,7 @@ if ( isset($_POST['save'])) {
 	'Op&eacute;ration sauv&eacute;e';
   $a=new Anc_Group_Operation($cn);
 
-  $a->from_POST();
+  $a->load_from_array($_POST);
 
   $a->save();
   echo $a->show();

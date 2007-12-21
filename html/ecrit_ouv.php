@@ -172,7 +172,7 @@ if ( isset ($_GET['import'])) {
 	    $p=new Acc_Account($cn,$aposte[$i]);
 
 	    // if the poste exists then check the next one
-	    if ( $p->get() == true ) continue;
+	    if ( $p->load() == true ) continue;
 	    echo 'Attention creation de '.$p->id.' '.$alabel[$i].'<br>';
 	    $sql=sprintf("select account_add(%d,'%s')",
 			$p->id,$alabel[$i]);

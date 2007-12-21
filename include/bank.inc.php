@@ -100,7 +100,7 @@ if ( $sub_action == "solde" )
   for ( $i = 0; $i < pg_NumRows($ResAccount);$i++) {
     // get the saldo
     $l=pg_fetch_array($ResAccount,$i);
-    $m=GetSolde($cn,$l['pcm_val'],$filter_year);
+    $m=get_solde($cn,$l['pcm_val'],$filter_year);
     // print the result if the saldo is not equal to 0
     if ( $m != 0.0 ) {
       echo "<tr>";

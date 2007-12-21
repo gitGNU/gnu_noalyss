@@ -62,7 +62,7 @@ class Anc_Listing extends Anc_Print {
   function display_html() {
 	$r="";
 	//---Html
-	$array=$this->get_data();
+	$array=$this->load();
 	if ( is_array($array) == false ){
 	  return $array;
 
@@ -95,7 +95,7 @@ class Anc_Listing extends Anc_Print {
  *
  * \return array
  */
-  function get_data()
+  function load()
   {
 	$op=new Anc_Operation ($this->db);
 	$op->pa_id=$this->pa_id;
@@ -109,7 +109,7 @@ class Anc_Listing extends Anc_Print {
 
   function display_csv()
   {
-	$array=$this->get_data($this->from,$this->to,$this->from_poste,$this->to_poste);	
+	$array=$this->load($this->from,$this->to,$this->from_poste,$this->to_poste);	
 	if ( empty($array) == true ){
 	  return $array;
 

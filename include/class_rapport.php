@@ -51,7 +51,7 @@ class rapport {
    * \param $p_type_date type of the date : periode or calendar
    */
  
-  function GetRow($p_start,$p_end,$p_type_date) {
+  function get_row($p_start,$p_end,$p_type_date) {
 
    $Res=ExecSql($this->db,"select fo_id ,
                      fo_fr_id,

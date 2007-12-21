@@ -77,7 +77,7 @@ if  ( isset ($_POST['fd_id'])) {
 		 && isset ($_REQUEST['with_amount']))  {
 
 	      $sql_periode=sql_filter_per($cn,$_REQUEST['from_periode'],$_REQUEST['to_periode'],'p_id','j_tech_per');
-	      $solde=  $detail->GetSoldeDetail($sql_periode);
+	      $solde=  $detail->get_solde_detail($sql_periode);
 
 	      
 	      printf(";% 10.2f;% 10.2f;% 10.2f",

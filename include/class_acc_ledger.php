@@ -94,7 +94,7 @@ return $ret['jrn_def_name'];
 }
 
 
-/*! \function  GetRow
+/*! \function  get_row
 * \brief  Get The data 
 * 
 *
@@ -109,9 +109,9 @@ return $ret['jrn_def_name'];
 * \return Array with the asked data
 *
 */ 
-function GetRow($p_from,$p_to,$cent='off',$p_limit=-1,$p_offset=-1) {
+function get_row($p_from,$p_to,$cent='off',$p_limit=-1,$p_offset=-1) {
 
-echo_debug('class_acc_ledger.php',__LINE__,"GetRow ( $p_from,$p_to,$cent,$p_limit,$p_offset)");
+echo_debug('class_acc_ledger.php',__LINE__,"get_row ( $p_from,$p_to,$cent,$p_limit,$p_offset)");
 
 $periode=sql_filter_per($this->db,$p_from,$p_to,'p_id','jr_tech_per');
 
@@ -234,8 +234,8 @@ $jr_montant=($line['jr_montant']!=0)?sprintf("% 8.2f",$line['jr_montant']):"";
 $tot_deb+=$line['deb_montant'];
 $tot_cred+=$line['cred_montant'];
 $tot_op=$line['jr_montant'];
-echo_debug('class_acc_ledger.php',__LINE__," GetRow : mont_Deb ".$mont_deb);
-echo_debug('class_acc_ledger.php',__LINE__," GetRow : mont_cred ".$mont_cred);
+echo_debug('class_acc_ledger.php',__LINE__," get_row : mont_Deb ".$mont_deb);
+echo_debug('class_acc_ledger.php',__LINE__," get_row : mont_cred ".$mont_cred);
 
 /* Check first if there is a quickcode */
 if ( strlen(trim($line['j_qcode'])) != 0 ) 
@@ -324,7 +324,7 @@ return $a;
 *
 * \return an Array with the asked data 
 */
-function GetRowSimple($p_from,$p_to,$cent='off',$trunc=0,$p_limit=-1,$p_offset=-1) 
+function get_rowSimple($p_from,$p_to,$cent='off',$trunc=0,$p_limit=-1,$p_offset=-1) 
 {
 // Grand-livre : id= 0
 //---
@@ -412,7 +412,7 @@ else
 }
 
 return $array;  
-}// end function GetRowSimple
+}// end function get_rowSimple
 
 /*! 
 * \brief get_detail gives the detail of row 
@@ -432,7 +432,7 @@ return $array;
 *          </ul>
 *       </ul> 
 *
-* \param p_array the structure is set in GetRowSimple, this array is 
+* \param p_array the structure is set in get_rowSimple, this array is 
 *        modified,  
 * \param $trunc if the data must be truncated, usefull for pdf export
 * \param p_jrn_type is the type of the ledger (ACH or VEN)

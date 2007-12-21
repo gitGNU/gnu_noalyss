@@ -57,7 +57,7 @@ class Acc_Balance {
  *         - $a['solde_deb']
  *         - $a['solde_cred']
  */
-  function GetRow($p_from_periode,$p_to_periode) {
+  function get_row($p_from_periode,$p_to_periode) {
 
     // filter on requested periode
     $per_sql=sql_filter_per($this->db,$p_from_periode,$p_to_periode,'p_id','j_tech_per');

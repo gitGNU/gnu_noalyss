@@ -264,14 +264,14 @@ class Anc_Account
 	return $r;
 
   }
-  function fill_from_POST()
+  function load_from_array($p_array)
   {
-	$this->name=$_POST['po_name'];
-	$this->description=$_POST['po_description'];
-	$this->pa_id=$_POST['pa_id'];
-	$this->amount=$_POST['po_amount'];
-	$this->id=$_POST['po_id'];
-	$this->ga_id=($_POST['ga_id'] == "-1" )?"":$_POST['ga_id'];
+    $this->name=(isset ($p_array['po_name']))?$p_array['po_name']:"";
+    $this->description=(isset ($p_array['po_description']))?$p_array['po_description']:"";
+    $this->pa_id=(isset ($p_array['pa_id']))?$p_array['pa_id']:"";
+    $this->amount=(isset ($p_array['po_amount']))?$p_array['po_amount']:0;
+    $this->id=(isset ($p_array['po_id']))?$p_array['po_id']:-1;
+    $this->ga_id=((isset ($p_array['ga_id'] == "-1" )?"":$p_array['ga_id'];
   }
   static function testme() {
     $cn=DbConnect(dossier::id());

@@ -55,7 +55,7 @@ if ( isset($_POST['central']) ) {
   $bal->from_poste=$_POST['from_poste'];
   $bal->to_poste=$_POST['to_poste'];
 
-  $row=$bal->GetRow($_POST['from_periode'],
+  $row=$bal->get_row($_POST['from_periode'],
 		  $_POST['to_periode']);
    foreach ($row as $r) {
  

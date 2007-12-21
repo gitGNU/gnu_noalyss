@@ -32,7 +32,7 @@ class Acc_Account {
   var $id;          /*! \enum $id poste_id (pcm_val)*/
   var $label;       /*! \enum $label label of the poste */
   var $parent;      /*! \enum $parent parent account */
-  var $row;         /*! \enum $row double array see GetRow */
+  var $row;         /*! \enum $row double array see get_row */
   function __construct ($p_cn,$p_id) {
     $this->db=$p_cn;
     $this->id=$p_id;
@@ -47,7 +47,7 @@ class Acc_Account {
    *         (tot_deb,tot_credit
    *
    */ 
-  function GetRow($p_from,$p_to)
+  function get_row($p_from,$p_to)
     {
       $periode=sql_filter_per($this->db,$p_from,$p_to,'p_id','jr_tech_per');
 
@@ -126,7 +126,7 @@ class Acc_Account {
    *      balance of the account
    *
    */ 
-function GetSolde($p_cond=" true ") {
+function get_solde($p_cond=" true ") {
   $Res=ExecSql($this->db,"select sum(deb) as sum_deb, sum(cred) as sum_cred from 
           ( select j_poste, 
              case when j_debit='t' then j_montant else 0 end as deb, 
@@ -148,7 +148,7 @@ function GetSolde($p_cond=" true ") {
    *      balance of the account
    *
    */ 
-function GetSoldeDetail($p_cond="") {
+function get_solde_detail($p_cond="") {
 
   if ( $p_cond != "") $p_cond=" and ".$p_cond;
  $sql="select sum(deb) as sum_deb, sum(cred) as sum_cred from 
@@ -214,7 +214,7 @@ function GetSoldeDetail($p_cond="") {
    {     
      $this->get_name();
 
-     list($array,$tot_deb,$tot_cred)=$this->GetRow( $_POST['from_periode'],
+     list($array,$tot_deb,$tot_cred)=$this->get_row( $_POST['from_periode'],
 						     $_POST['to_periode']
 						     );
 

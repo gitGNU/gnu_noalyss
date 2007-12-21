@@ -51,7 +51,7 @@ foreach ($a_poste as $pos)
 {
   $Poste=new Acc_Account($cn,$pos['pcm_val']);
   $Poste->get_name();
-  list($array,$tot_deb,$tot_cred)=$Poste->GetRow( $_POST['from_periode'],
+  list($array,$tot_deb,$tot_cred)=$Poste->get_row( $_POST['from_periode'],
 						  $_POST['to_periode']
 						);
   if ( count($Poste->row ) == 0 ) 

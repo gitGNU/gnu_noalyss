@@ -39,9 +39,9 @@ if ( isset( $_GET['bt_html'] ) ) {
   //--
   if ($_GET['p_step'] == 0 ) {
 	if ( $_GET ['type_periode'] == 0 )
-	  $array=$Form->GetRow( $_GET['from_periode'],$_GET['to_periode'], $_GET['type_periode']);
+	  $array=$Form->get_row( $_GET['from_periode'],$_GET['to_periode'], $_GET['type_periode']);
 	else 
-	  $array=$Form->GetRow( $_GET['from_date'],$_GET['to_date'], $_GET['type_periode']);
+	  $array=$Form->get_row( $_GET['from_date'],$_GET['to_date'], $_GET['type_periode']);
   } else {
     // step are asked
     //--
@@ -50,7 +50,7 @@ if ( isset( $_GET['bt_html'] ) ) {
 
 		$periode=getPeriodeName($cn,$e);
 		if ( $periode == null ) continue;
-		$array[]=$Form->GetRow($e,$e,$_GET['type_periode']);
+		$array[]=$Form->get_row($e,$e,$_GET['type_periode']);
 		$periode_name[]=$periode;
       }
   }

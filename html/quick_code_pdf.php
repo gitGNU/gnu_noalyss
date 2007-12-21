@@ -47,7 +47,7 @@ echo_debug("quick_code_pdf",__LINE__,$f_id);
 $Fiche=new fiche($cn,$f_id);
 
 
-list($array,$tot_deb,$tot_cred)=$Fiche->GetRow($from_periode,$to_periode);
+list($array,$tot_deb,$tot_cred)=$Fiche->get_row($from_periode,$to_periode);
 // don't print empty account
 if ( count($array) == 0 ) {
   continue;

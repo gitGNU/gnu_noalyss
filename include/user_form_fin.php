@@ -222,7 +222,7 @@ function FormFin($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
   // ComputeBanqueSaldo
   // 
   if ( $pview_only == true ) {
-    $solde=GetSolde($p_cn,GetFicheAttribut($p_cn,$e_bank_account,ATTR_DEF_ACCOUNT));
+    $solde=get_solde($p_cn,GetFicheAttribut($p_cn,$e_bank_account,ATTR_DEF_ACCOUNT));
     $r.=" <b> Solde = ".$solde." </b>";
     $new_solde=$solde;
   }
