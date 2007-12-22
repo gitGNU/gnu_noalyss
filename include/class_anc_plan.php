@@ -179,7 +179,7 @@ class Anc_Plan
 	return ($a==0)?false:true;
 
   }
-  static function testme() {
+  static function test_me() {
     $cn=DbConnect(dossier::id());
     echo "<h1>Plan analytique : test</h1>";
     echo "clean";

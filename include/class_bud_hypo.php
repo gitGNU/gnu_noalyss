@@ -165,7 +165,7 @@ class Bud_Hypo {
 
   }
 
-  static function testme() {
+  static function test_me() {
     $cn=DbConnect (dossier::id());
     ExecSql($cn,"delete from bud_hypothese");
     $a=new Bud_Hypo($cn);

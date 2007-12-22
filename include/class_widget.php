@@ -115,10 +115,11 @@ class widget {
       $this->name=$p_name;
     $this->value=($p_value===null)?$this->value:$p_value;
     $this->label=($p_label == "")?$this->label:$p_label;
-    
+
     // Input text type
     $disabled = $this->disabled ? "readonly" : "";
     if (strtoupper($this->type)=="TEXT") {
+      $extra=(isset($this->extra))?$this->extra:"";
       if ( $this->readonly==true ){
 	$readonly=" readonly ";$style='style="border:solid 1px grey;color:black;background:lightblue;"';
       } else {
@@ -127,8 +128,8 @@ class widget {
 	$this->value=str_replace('"','',$this->value);
 	$r='<INPUT '.$style.' TYPE="TEXT" id="'.
 	  $this->name.'"'.
-  'NAME="'.$this->name.'" VALUE="'.$this->value.'"  '.
-		  'SIZE="'.$this->size.'" "'.$this->javascript." ".$disabled." $readonly >";
+	  'NAME="'.$this->name.'" VALUE="'.$this->value.'"  '.
+	  'SIZE="'.$this->size.'" "'.$this->javascript." ".$disabled." $readonly $this->extra >";
 	
       if ($this->table==1) {
 	if ( $this->label != "") {
@@ -149,8 +150,9 @@ class widget {
     if ( strtoupper($this->type) == "SELECT") {
       if ($this->readonly==false )
 	{
+	  $disabled=($this->disabled==true)?"disabled":"";
 	  //echo "<b>Selected <b>".$this->selected;
-	  $r="<SELECT  id=\"$this->name\" NAME=\"$this->name\" $this->javascript>";
+	  $r="<SELECT  id=\"$this->name\" NAME=\"$this->name\" $this->javascript $disabled>";
 	  for ( $i=0;$i<sizeof($this->value);$i++) 
 	    {
 	      $checked=($this->selected==$this->value[$i]['value'])?"SELECTED":"";
@@ -332,7 +334,7 @@ class widget {
       // Do we need to filter ??
       if ( $this->extra2 == null ) {
       $r=sprintf('<TD>
-         <INPUT class="inp" TYPE="button" onClick=SearchPoste(\'%s\','.dossier::id().',\'%s\',\'%s\') value="Recherche">
+         <INPUT class="inp" TYPE="button" onClick=SearchPoste(\'%s\','.dossier::id().',\'%s\',\'%s\') value="?">
             %s</TD><TD> 
 
              <INPUT style="border:groove 1px blue;"  TYPE="Text" NAME="%s" ID="%s" VALUE="%s" SIZE="8">
@@ -348,7 +350,7 @@ class widget {
 
     } else { // $p_list is not null, so we have a filter
       $r=sprintf('<TD>
-         <INPUT TYPE="button" onClick=SearchPosteFilter(\'%s\','.dossier::id().',\'%s\',\'%s\',\'%s\') value="Recherche">
+         <INPUT TYPE="button" onClick=SearchPosteFilter(\'%s\','.dossier::id().',\'%s\',\'%s\',\'%s\') value="?">
             %s</TD><TD> 
 
              <INPUT style="border:groove 1px blue;" TYPE="Text" NAME="%s" id="%s" VALUE="%s" SIZE="8">
@@ -375,6 +377,10 @@ class widget {
 		 );
 
       } //else if readonly == true
+      if  ( $this->table==0) {
+	$r=str_replace ('<TD>','',$r);
+	$r=str_replace ('</TD>','',$r);
+      }
       return $r;
 
     } // end js_search_poste
@@ -384,9 +390,9 @@ class widget {
     $l_sessid=$_REQUEST['PHPSESSID'];
     if  ( $this->readonly == false ) {
       $r=sprintf('<TD>
-         <INPUT TYPE="button" onClick=NewCard(\'%s\',\'%s\',\'%s\',\'%s\') value="Nouveau">
+         <INPUT TYPE="button" onClick=NewCard(\'%s\',\'%s\',\'%s\',\'%s\') value="+">
          </TD><TD>
-         <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') value="Recherche">
+         <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') value="?">
          %s 
          <INPUT  style="border:solid 1px blue;"  TYPE="Text"  ID="%s"  NAME="%s" VALUE="%s" SIZE="8" onBlur="ajaxFid(\'%s\',\'%s\',\'%s\')">
 
@@ -537,7 +543,7 @@ class widget {
       $l_sessid=$_REQUEST['PHPSESSID'];
 
       $r=sprintf("$td
-     <INPUT TYPE=\"button\" onClick=SearchJrn('%s',".dossier::id().",'%s',%s,'%s') value=\"Recherche\">
+     <INPUT TYPE=\"button\" onClick=SearchJrn('%s',".dossier::id().",'%s',%s,'%s') value=\"?\">
        %s $etd  $td 
       <INPUT TYPE=\"text\"  style=\"color:black;background:lightyellow;border:solid 1px grey;\"  NAME=\"%s\" ID=\"%s\" VALUE=\"%s\" SIZE=\"8\" readonly>
                  $etd",
@@ -561,15 +567,32 @@ class widget {
   // BUTTON
   //----------------------------------------------------------------------
   if ( strtolower($this->type)=="button") {
+    $extra= ( isset($this->extra))?$this->extra:"";
 	if ( $this->readonly==true) return "";
 	$r='<input type="BUTTON" name="'.$this->name.'"'.
 	  ' id="'.$this->name.'"'.
 	  ' value="'.$this->label.'"'.
-	  ' onClick="'.$this->javascript.'">';
+	  ' onClick="'.$this->javascript.'"'.$extra.'>';
+	return $r;
+  }
+ //----------------------------------------------------------------------
+  // JS_BUD_SEARCH_POSTE
+  //----------------------------------------------------------------------
+  if ( strtolower($this->type)=="js_bud_search_poste") {
+	if ( $this->readonly==true) return "";
+	$dis= ( $this->disabled==true) ? "disabled":"";
+	  
+	$this->javascript="bud_search_poste('".$_REQUEST['PHPSESSID']."',".dossier::id().",'$this->name')";
+	$r='<input type="BUTTON" value="?"'.$dis.
+	  ' onClick="'.$this->javascript.'" style="display:line">';
+	$r.='<input type="text" readonly id="'.$this->name.'" name="'.
+	  $this->name.'" value ="'.$this->value.'" size="35">';
+
+	$r.='<input type="hidden" name="'.$this->name.'_hidden" id="'.$this->name.'_hidden" value="'.$this->value.'">';
 	return $r;
   }
 
-
+ 
   //------------------------------------------------------------------------
   // JS_DATE
   //------------------------------------------------------------------------

@@ -273,7 +273,7 @@ class Anc_Account
     $this->id=(isset ($p_array['po_id']))?$p_array['po_id']:-1;
     $this->ga_id=($p_array['ga_id']) == "-1" ?"":$p_array['ga_id'];
   }
-  static function testme() {
+  static function test_me() {
     $cn=DbConnect(dossier::id());
     $pa_id=getDBValue($cn,"select max(pa_id) from plan_analytique");
     $o=new Poste_Analytique($cn);

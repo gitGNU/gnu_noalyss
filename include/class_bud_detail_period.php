@@ -26,3 +26,8 @@
 /*! \brief
  *
  */
+class Bud_Detail_Period{
+  function __contruct ($p_cn,$bdp_id) {
+    $sql="delete from budget_detail
+  }
+  }

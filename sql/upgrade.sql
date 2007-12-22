@@ -223,6 +223,7 @@ CREATE TABLE bud_detail (
     bd_id integer NOT NULL,
     po_id integer,
     bc_id integer,
+    bh_id integer,
     pcm_val poste_comptable
 );
 
@@ -318,7 +319,10 @@ CREATE INDEX fki_tmp_pcmn ON bud_detail USING btree (pcm_val);
 --
 
 ALTER TABLE ONLY bud_detail
-    ADD CONSTRAINT fk_bud_card FOREIGN KEY (bc_id) REFERENCES bud_card(bc_id);
+    ADD CONSTRAINT fk_bud_card FOREIGN KEY (bc_id) REFERENCES bud_card(bc_id) ON UPDATE CASCADE ON DELETE CASCADE;;
+
+ALTER TABLE ONLY bud_detail
+    set fk_bud_hypothese_not_null FOREIGN KEY (bh_id) REFERENCES bud_hypothese(bh_id) ON UPDATE CASCADE ON DELETE CASCADE;;
 
 
 --

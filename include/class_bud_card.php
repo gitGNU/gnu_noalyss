@@ -184,7 +184,7 @@ class Bud_Card {
 
     return $r;
   }
-  static function testme() {
+  static function test_me() {
     $cn=DbConnect(dossier::id());
     $a=new Bud_Card($cn);
 

@@ -34,7 +34,7 @@ define ("phpcompta_user","phpcompta");
 // the domain can't start by a number !!!
 define ("domaine","");
 define ("MAX_COMPTE",4);
-
+define ('MAX_BUD_DETAIL',3);
 
 define ("DEBUG","false");
 
@@ -156,6 +156,9 @@ define ("JS_CONFIRM",
 "<SCRIPT language=\"javascript\" src=\"js/confirm.js\">	</SCRIPT>");
 define ("JS_SEARCH_POSTE",
 "<SCRIPT language=\"javascript\" src=\"js/search_poste.js\">	</SCRIPT>");
+
+define ("JS_BUD_SCRIPT",
+"<SCRIPT language=\"javascript\" src=\"js/bud_script.js\">	</SCRIPT>");
 
 define ("JS_VIEW_JRN_CANCEL",
 "<script  language=\"javascript\" src=\"js/cancel_op.js\">	</script>");

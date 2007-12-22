@@ -756,6 +756,7 @@ function get_propertie()
    $res=pg_fetch_all($r);
 
    if ( empty($res) ) return null;
+   print_r($res[0]);
    return $res[0];
    }
 

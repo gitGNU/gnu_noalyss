@@ -41,16 +41,19 @@ class Bud_Detail {
   var $po_id;			/*!< PosteAnalytic id */
   var $bc_id;			/*!< Budget Card id */
   var $pcm_val;			/*!< from the table tmp_pcmn */
+  var $bh_id;
   function __construct( $p_cn,$id = 0 ) {
     $this->db=$p_cn; $this->bd_id=$id;
     $this->po_id=null;$this->bc_id=null;$this->pcm_val=null;
+    $this->bh_id=null;
   }
   function add () {
     $array=array($this->po_id,
 		 $this->bc_id,
-		 $this->pcm_val);
-    $sql="insert into bud_detail (po_id,bc_id,pcm_val) ".
-      " values ($1,$2,$3) returning bd_id ";
+		 $this->pcm_val,
+		 $this->bh_id);
+    $sql="insert into bud_detail (po_id,bc_id,pcm_val,bh_id) ".
+      " values ($1,$2,$3,$4) returning bd_id ";
 
     $a=ExecSqlParam($this->db,$sql,$array);
     $x=pg_fetch_array($a,0);
@@ -98,12 +101,13 @@ class Bud_Detail {
     $pa_filter=($pa_id)?" and pa_id = $pa_id ":"";
     $sql="select * from bud_detail  join bud_detail_periode using(bd_id) ".
       " right join parm_periode using (p_id) ".
-      " where bh_id= $bh_id $pa_filter "
+      " where bh_id= $bh_id $pa_filter ";
   }
-  static function testme() {
+  static function test_me() {
     $cn=DbConnect(dossier::id());
     $a=new Bud_Detail($cn);
     $a->po_id=4;
+    $a->bh_id=4;
     echo "<h2> Ajout d'un bud_detail</h2>";
     $a->add();
     print_r($a);

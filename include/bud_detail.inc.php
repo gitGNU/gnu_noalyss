@@ -106,3 +106,10 @@ if ( $po_id !== -1 ) {
 echo $button_other;
 
 echo '<hr>';
+
+$hidden=dossier::hidden().widget::hidden('bh_id',$_REQUEST['bh_id']).
+  widget::hidden('po_id',$po_id).widget::hidden('p_action','detail');
+//----------------------------------------------------------------------
+// Show 20 lines by default
+//----------------------------------------------------------------------
+
