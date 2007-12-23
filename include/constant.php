@@ -34,7 +34,7 @@ define ("phpcompta_user","phpcompta");
 // the domain can't start by a number !!!
 define ("domaine","");
 define ("MAX_COMPTE",4);
-define ('MAX_BUD_DETAIL',3);
+define ('MAX_BUD_DETAIL',20);
 
 define ("DEBUG","true");
 

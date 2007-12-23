@@ -49,6 +49,13 @@ echo '<div class="u_tmenu">';
 echo '<div style="float:left">';
 echo "<H2 class=\"info\">Budget : ".dossier::name()."<h2> ";
 echo '</div>';
+echo '<div style="float:none;text-align:right;" title="Recherche">
+<A HREF="user_compta.php?'.$str_dossier.'" title="Comptabilit&eacute;"><IMG SRC="image/compta.png" width="36"  border="0" ></A>
+<A HREF="parametre.php?'.$str_dossier.'" title="Param&egrave;tre"><IMG SRC="image/param.png" width="36" border="0" ></A>
+<A HREF="login.php" title="Accueil"><IMG src="image/home.png" width="36" title="Accueil"  border="0"  ></A>
+<A HREF="logout.php" title="Sortie"><IMG src="image/logout.png" title="Logout"  width="36"  border="0"></A>
+</div>';
+
 echo '<div style="clear:both">';
 
 
@@ -65,6 +72,9 @@ switch($p_action) {
    break;
  case 'detail':
    $def=3;
+   break;
+ case 'synthese':
+   $def=4;
    break;
    
 
