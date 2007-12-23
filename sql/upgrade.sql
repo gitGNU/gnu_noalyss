@@ -419,6 +419,25 @@ ALTER TABLE ONLY bud_detail_periode
 
 
 
+CREATE OR REPLACE FUNCTION bud_detail_ins_upd()
+  RETURNS "trigger" AS
+$BODY$declare
+mline bud_detail%ROWTYPE;
+begin
+mline:=NEW;
+if mline.po_id = -1 then
+   mline.po_id:=NULL;
+end if;
+return mline;
+end;$BODY$
+  LANGUAGE 'plpgsql' VOLATILE;
+
+CREATE TRIGGER t_bud_detail_ins_upd
+  BEFORE INSERT OR UPDATE
+  ON bud_detail
+  FOR EACH ROW
+  EXECUTE PROCEDURE bud_detail_ins_upd();
+
 
 
 commit;	
