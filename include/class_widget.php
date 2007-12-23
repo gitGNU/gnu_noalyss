@@ -334,7 +334,7 @@ class widget {
       // Do we need to filter ??
       if ( $this->extra2 == null ) {
       $r=sprintf('<TD>
-         <INPUT class="inp" TYPE="button" onClick=SearchPoste(\'%s\','.dossier::id().',\'%s\',\'%s\') value="?">
+         <INPUT class="inp" TYPE="button" onClick=SearchPoste(\'%s\','.dossier::id().',\'%s\',\'%s\') value="Recherche">
             %s</TD><TD> 
 
              <INPUT style="border:groove 1px blue;"  TYPE="Text" NAME="%s" ID="%s" VALUE="%s" SIZE="8">
@@ -350,7 +350,7 @@ class widget {
 
     } else { // $p_list is not null, so we have a filter
       $r=sprintf('<TD>
-         <INPUT TYPE="button" onClick=SearchPosteFilter(\'%s\','.dossier::id().',\'%s\',\'%s\',\'%s\') value="?">
+         <INPUT TYPE="button" onClick=SearchPosteFilter(\'%s\','.dossier::id().',\'%s\',\'%s\',\'%s\') value="Recherche">
             %s</TD><TD> 
 
              <INPUT style="border:groove 1px blue;" TYPE="Text" NAME="%s" id="%s" VALUE="%s" SIZE="8">
@@ -392,7 +392,7 @@ class widget {
       $r=sprintf('<TD>
          <INPUT TYPE="button" onClick=NewCard(\'%s\',\'%s\',\'%s\',\'%s\') value="+">
          </TD><TD>
-         <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') value="?">
+         <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') value="Recherche">
          %s 
          <INPUT  style="border:solid 1px blue;"  TYPE="Text"  ID="%s"  NAME="%s" VALUE="%s" SIZE="8" onBlur="ajaxFid(\'%s\',\'%s\',\'%s\')">
 
