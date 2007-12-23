@@ -30,6 +30,9 @@ require_once ('postgres.php');
 require_once ('constant.php');
 require_once ('debug.php');
 require_once ('ac_common.php');
+require_once ('class_bud_detail.php');
+require_once ('class_bud_detail_periode.php');
+
 
 
 class Bud_Data {
@@ -37,29 +40,30 @@ class Bud_Data {
   var $bc_id;
   var $bd_id;
   var $pcm_val;
-  var $bdp_id;
+
   var $amount;
   var $cn;
-  function __construct($p_cn,$p_bh_id,$p_po_id) {
-    echo "constructor";
+  var $bud_detail_periode;
+
+  function __construct($p_cn,$p_bh_id=0,$p_po_id=0) {
     $this->cn=$p_cn;
     $this->bh_id=$p_bh_id;
     $this->po_id=$p_po_id;
-    /*
+   
 
-    pg_prepare($this->cn,"sql_periode",$sql_periode);
-    */
+   
+   
   }
   function load() {
     $sql=" select bd_id,bc_id,bc_code,bd.bh_id,bd.bh_name,".
-      " tmp_pcmn.pcm_val,pcm_lib,bud_detail_periode.bdp_id ".
-      " from bud_detail join bud_detail_periode  using (bd_id)".
+      " tmp_pcmn.pcm_val as pcm_val,pcm_lib ".
+      " from bud_detail ".
       " join bud_hypothese as bd using (bh_id) ".
       "  join bud_card using (bc_id) ".
       " join tmp_pcmn using (pcm_val) ".
       " where bd.bh_id=".$this->bh_id.
       " and po_id=".$this->po_id;
-
+    echo_debug(__FILE__.':'.__LINE__.'- load',' SQL ',$sql);
 
     $res1=ExecSql($this->cn,$sql);
     $array=pg_fetch_all($res1);
@@ -67,10 +71,8 @@ class Bud_Data {
     
     $sql_periode="select coalesce(bdp_amount,0) as bdp_amount,a.p_id as p_id ".
       " from bud_detail_periode left join parm_periode as a using (p_id)  ".
-      " where bdp_id=$1 order by p_start,p_end ";
+      " where bd_id=$1 order by p_start,p_end ";
        
-    print_r($sql_periode);
-
 
     $ret=array();
 
@@ -79,24 +81,36 @@ class Bud_Data {
       foreach ($array as $row) {
 	$obj=new Bud_Data($this->cn,$this->bh_id,$this->po_id);
 	$obj->load_from_array($row);
-	
-	$res2=ExecSqlParam($this->db,"sql_periode",array($row['bdp_id']));
-	$per=pg_fetch_all($r);
+	echo_debug(__FILE__,__LINE__," load ");
+	echo_debug(__FILE__,__LINE__,$obj);
+	try {
+	  $arg=array($obj->bd_id);
+	  $res2=ExecSqlParam($this->cn,$sql_periode,$arg);
+	  $per=pg_fetch_all($res2);
+	} catch (Exception $e) {
+	  echo __FILE__.__LINE__."Erreur lors du chargement ";
+	  echo_debug(__FILE__,__LINE__,$arg);
+	  echo_debug(__FILE__,__LINE__,$e);
+	  echo $e->getMessage();
+	  exit();
+	}
 	
 	foreach ($per as $row2) {
-	  $p_id=$row['p_id'];
-	  $obj->amount[$p_id]=$row['bdp_amount'];
+	  echo_debug(__FILE__.':'.__LINE__.'- row','',$row2);
+	  $p_id=$row2['p_id'];
+	  $obj->amount[$p_id]=$row2['bdp_amount'];
 	}
       }
-      $ret=clone $obj;
+      $ret[]=clone $obj;
     }
+    echo_debug(__FILE__.':'.__LINE__,'Return load',$ret);
     return $ret;
   }
 
   function create_empty_row() {
     $ret=new Bud_Data($this->cn,$this->bh_id,$this->po_id);
     $ret->bd_id=0;
-    $ret->bdp_id=0;
+    $ret->pcm_lib="";
     // populate the  periode with 0
     $res_empty=get_array($this->cn,
 			 "select 0,p_id from parm_periode order by p_start,p_end");
@@ -108,19 +122,21 @@ class Bud_Data {
   }
 
   private function load_from_array($p_array) {
-    foreach (array('bd_id','bh_id','bc_id','pcm_val','bdp_id','pcm_lib','bh_name','bc_code') as $key) {
+    foreach (array('bd_id','bh_id','bc_id','pcm_val','pcm_lib','bh_name','bc_code') as $key) {
       $this->{$key}=$p_array[$key];
     }
   }
   function form() {
     $r="";
     $array=$this->load();
+    echo_debug(__FILE__.':'.__LINE__,'form : $array',$array);
     $a=0;
     if ( ! empty ($array) ) {
       foreach ($array as $row) {
 	$a++;
 	$style=($a%2==0)?"even":"odd";
-	$r.=$this->create_row($style);
+	echo_debug(__FILE__.':'.__LINE__,'function form :row ',$row);
+	$r.=$row->create_row($style);
       }
     }
     for ($i=count($array);$i< MAX_BUD_DETAIL;$i++) {
@@ -137,6 +153,7 @@ class Bud_Data {
 
   private function create_row($p_style="odd") {
     static $p_number=0;
+    echo_debug(__FILE__.':'.__LINE__.'- create_row','',$this);
     $p_number++;
     $tot=0;
 
@@ -147,7 +164,7 @@ class Bud_Data {
     $wAccount=new widget('js_bud_search_poste');
     $wAccount->table=0;
     $wAccount->disabled=true;
-
+    $wAccount->value=$this->pcm_val.' - '.$this->pcm_lib;
     $wBudCard=new widget('select');
     $wBudCard->value=$this->load_bud_card();
     $wBudCard->selected=$this->bc_id;
@@ -161,18 +178,18 @@ class Bud_Data {
     $r.=widget::hidden('po_id',$this->po_id);
     $r.=widget::hidden('bh_id',$this->bh_id);
     $r.=widget::hidden('bd_id',$this->bd_id);
-    $r.=widget::hidden('bdp_id',$this->bdp_id);
     $r.=widget::hidden('form_id',$p_number);
     
 
     $r.="Compte d'exploitation ".$wAccount->IOValue('account_'.$p_number);
-    
+    //    $r.=widget::hidden('account_'.$p_number.'_hidden',$this->pcm_val);
     $r.="Fiche Budget ".$wBudCard->IOValue('bc_id'.$p_number);
     $r.='Total : <span id="form_'.$p_number.'"> '.$tot.' </span>';
     $r.='<table WIDTH="100%">';
     $r.=$this->header_table();
     $r.="<tr> ";
     foreach ($this->amount as $p_id=>$amount){
+      echo_debug(__FILE__.':'.__LINE__,' p_id '.$p_id.' - amount '.$amount);
       $tot+=$amount;
       $r.='<td >'.$wAmount->IOValue('amount_'.$p_id,sprintf("%08.2f",$amount))."</td>";
     }
@@ -184,6 +201,11 @@ class Bud_Data {
     $button_change=new widget('button','Change');
     $button_change->javascript='bud_form_enable('.$p_number.')';
     $r.=$button_change->IOValue('button_change'.$p_number);
+
+    $button_escape=new widget('button','Echapper');
+    $button_escape->javascript='bud_form_disable('.$p_number.')';
+    $button_escape->extra='style="display:none"';
+    $r.=$button_escape->IOValue('button_escape'.$p_number);
 
     $button_save=new widget('button','Sauve');
     $button_save->javascript='bud_form_save('.$p_number.')';
@@ -198,6 +220,7 @@ class Bud_Data {
     $r.="<hr>";
     return $r;
   }
+
   private function load_bud_card() {
     if ( !isset ($this->array_bud_card) )
       $this->array_bud_card=make_array($this->cn,
@@ -218,6 +241,70 @@ class Bud_Data {
       $this->header=$r;
     }
     return $this->header;
+  }
+
+  function get_from_array($p_array) {
+    foreach (array('bd_id','po_id','bc_id','pcm_val','bh_id') as $attr) {
+      if ( isset ($p_array[$attr])) {
+	$this->$attr=$p_array[$attr];
+      }
+    }
+
+    $this->get_form_detail_periode($p_array);
+    echo_debug(__FILE__.':'.__LINE__.'- get_from_array','',$this);
+  }
+  function add() {
+    $r=$this->extract_bud_detail();
+    $r->add();
+    $this->bd_id=$r->bd_id;
+
+    foreach ( $this->bud_detail_periode as $r ) {
+      $r->bd_id=$this->bd_id;
+      $r->add();
+    }
+   
+  }
+
+  function     extract_bud_detail() {
+   foreach ( array('bd_id','po_id','bc_id','pcm_val','bh_id') as $r1) {
+     $a[$r1]=$this->$r1;
+   }
+   $r=new Bud_Detail($this->cn);
+   
+   $r->get_from_array($a);
+   return $r;
+  }
+ 
+  function update() {
+    $r=$this->extract_bud_detail();
+    $r->update();
+    ExecSql($this->cn,"delete from bud_detail_periode where bd_id =".$this->bd_id);
+    echo_debug(__FILE__.':'.__LINE__.'- update ',$this->bud_detail_periode);
+    foreach ( $this->bud_detail_periode as $obj ) {
+      $obj->add();
+    }
+
+  }
+  function delete_by_bd_id() {
+    ExecSql($this->cn,'delete from bud_detail where bd_id='.$this->bd_id);
+  }
+  private function get_form_detail_periode($p_array){
+    echo_debug(__FILE__.':'.__LINE__.'- get_form_detail_periode arg:','',$p_array);
+    extract ($p_array);
+    $periode=get_array($this->cn,"select p_id from parm_periode");
+
+    foreach ($periode as $key=>$value ) {
+      $row=$value['p_id'];
+
+      if ( isset (${'amount_'.$row} )) {
+	$obj=new Bud_Detail_Periode($this->cn);
+	$obj->p_id=$row;
+	$obj->bd_id=$this->bd_id;
+	$obj->bdp_amount=${'amount_'.$row};
+	$this->bud_detail_periode[]=clone $obj;
+      }
+      
+    }
   }
   static function test_me() {
     echo JS_PROTOTYPE_JS;

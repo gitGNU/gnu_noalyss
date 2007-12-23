@@ -102,6 +102,11 @@ class Bud_Detail {
       " right join parm_periode using (p_id) ".
       " where bh_id= $bh_id $pa_filter ";
   }
+  function get_from_array($p_array) {
+    foreach (array('bd_id','po_id','bc_id','pcm_val','bh_id') as $attr) 
+      if ( isset ( $p_array[$attr] ))
+	$this->$attr=$p_array[$attr];
+  }
   static function test_me() {
     $cn=DbConnect(dossier::id());
     $a=new Bud_Detail($cn);

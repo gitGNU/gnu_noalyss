@@ -22,42 +22,49 @@
 
 /*!\file 
  * \brief Ajax action for budget remove or save record
+ *\todo the security must be added here
  *
  */
-  //print_r($_POST);
 extract ($_POST);
+require_once ('class_dossier.php');
+require_once ('class_bud_data.php');
+require_once ('debug.php');
 
-require_once ('class_bud_detail.php');
+echo_debug(__FILE__.':'.__LINE__,' $POST ',$_POST);
+
 
 $cn=DbConnect(dossier::id());
 
-if ( $action == 'delete') {
-  if ( $bd_id == 0 ) return;
-  $obj=new Bud_Detail($cn,$bd_id);
-  $obj->delete();
+if ( $_POST['action'] == 'delete') {
+  if ( $bd_id != 0 ) {
+  $obj=new Bud_Data($cn);
+  $obj->bd_id=$bd_id;
+  $obj->delete_by_bd_id();
+  }
+  header("Content-type: application/json charset=\"ISO8859-1\"",true);
+  echo '{"bd_id":"0","form_id":"'.$form_id.'"}';
+
+}
+
+if ( $_POST['action'] == 'save' ) {
+  $a=$_POST;
+  $a['bc_id']=${"bc_id".$form_id};
+  $a['pcm_val']=${"account_".$form_id."_hidden"};
+
+  $obj=new Bud_Data($cn);
+  $obj->get_from_array($a);
+
+  if ( $bd_id == 0 ) {
+    $obj->add();
+  } else {
+    $obj->update();
+
+  }
   header("Content-type: application/json charset=\"ISO8859-1\"",true);
   echo '{"bd_id":"'.$obj->bd_id.'","form_id":"'.$form_id.'"}';
 
- }
+}
 
-if ( $action == 'save' ) {
-  if ( $bd_id == 0 ) {
-    $obj=new Bud_Detail($cn);
-    $obj->po_id=$po_id;
-    $obj->bc_id=${"bc_id".$form_id};
-    $obj->pcm_val=${"account_".$form_id."_hidden"};
-    $obj->bh_id=$bh_id;
-    $obj->add();
-    header("Content-type: application/json charset=\"ISO8859-1\"",true);
-    echo '{"bd_id":"'.$obj->bd_id.'","form_id":"'.$form_id.'"}';
-    exit()
-  } else {
-    $obj=new Bud_Detail($cn);
-    $obj->po_id=$po_id;
-    $obj->bc_id=${"bc_id".$form_id};
-    $obj->pcm_val=${"account_".$form_id."_hidden"};
-    $obj->bh_id=$bh_id;
-    $obj->update();
-  }
-
- }
+  
+  
+ 
