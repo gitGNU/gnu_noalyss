@@ -56,8 +56,7 @@ class Bud_Detail {
       " values ($1,$2,$3,$4) returning bd_id ";
 
     $a=ExecSqlParam($this->db,$sql,$array);
-    $x=pg_fetch_array($a,0);
-    $this->bd_id=$x['bd_id'];
+    $this->bd_id=pg_fetch_result($a,0,0);
   }
 
   function update() {

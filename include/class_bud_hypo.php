@@ -84,8 +84,7 @@ class Bud_Hypo {
 		 $pa_id
 	      );
     $a=ExecSqlParam($this->db,$sql,$array);
-    $b=pg_fetch_array($a,0);
-    $this->bh_id=$b['bh_id'];
+    $this->bh_id=pg_fetch_result($a,0,0);
   }
   function update() {
     $bh_name=pg_escape_string($this->bh_name);
