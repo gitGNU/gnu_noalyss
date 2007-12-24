@@ -20,13 +20,13 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
+/*!\file 
  * \brief the class for the dossier, everywhere we need to know to
  * which folder we are connected, because we can't use $_SESSION, we
  * need to pass the dossier_id via a _GET or a POST variable
  */
 
-/* \brief manage the current dossier, everywhere we need to know to
+/*! \brief manage the current dossier, everywhere we need to know to
  * which folder we are connected, because we can't use $_SESSION, we
  * need to pass the dossier_id via a _GET or a POST variable
  *

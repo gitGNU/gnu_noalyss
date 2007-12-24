@@ -23,7 +23,7 @@
 /*!\file 
  */
 
-/*! \brief
+/*! \brief manage the table bud_detail_periode
  *
  */
 
@@ -43,12 +43,16 @@ class Bud_Detail_Periode{
     $this->p_id=0;
     $this->bdp_amount=0;
   }
-
+  /*!\brief delete
+   */
   function delete () {
     $sql="delete from bud_detail_periode where bdp_id=".$this->bdp_id;
     ExecSql($this->cn,$sql);
   }
-
+  /*!\brief add a row in the table bud_detail_periode and set the
+     this->bdp_id with the value in the row
+   *
+   */
   function add(){
     $sql="insert into bud_detail_periode(bdp_amount,p_id,bd_id) values ($1,$2,$3)".
       " returning bdp_id";
@@ -60,7 +64,9 @@ class Bud_Detail_Periode{
       echo "Erreur : ".$e->getMessage();
     }
   }
-
+  /*!\brief for developper
+   *
+   */
   static function  test_me() {
     $cn=DbConnect(dossier::id());
 

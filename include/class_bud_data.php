@@ -21,7 +21,9 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file 
- * \brief it is a object including the class bud_detail bud_card,and
+ */
+
+/*! \brief it is a object including the class bud_detail bud_card,and
  * bud_detail_periode, 
  * the purpose is to insert or save into bud_detail_periode
  */
@@ -41,7 +43,8 @@ class Bud_Data {
   var $bd_id;
   var $pcm_val;
 
-  var $amount;
+  var $amount;			/*!< array of amount, the key is the
+                                   p_id and the content is the amount */
   var $cn;
   var $bud_detail_periode;
 
@@ -54,6 +57,10 @@ class Bud_Data {
    
    
   }
+  /*!\brief Load Data from Database 
+   *
+   * \return an array of Bud_Data objects
+   */
   function load() {
     if ( $this->po_id == -1) 
       $sql_po_id="po_id is null";
@@ -88,6 +95,7 @@ class Bud_Data {
 	echo_debug(__FILE__,__LINE__," load ");
 	echo_debug(__FILE__,__LINE__,$obj);
 	try {
+	  // get the the bud_detail_periode for this bud_detail
 	  $arg=array($obj->bd_id);
 	  $res2=ExecSqlParam($this->cn,$sql_periode,$arg);
 	  $per=pg_fetch_all($res2);
@@ -104,14 +112,18 @@ class Bud_Data {
 	  $p_id=$row2['p_id'];
 	  $obj->amount[$p_id]=$row2['bdp_amount'];
 	}
+	$ret[]=clone $obj;
       }
-      $ret[]=clone $obj;
     }
     echo_debug(__FILE__.':'.__LINE__,'Return load',$ret);
     return $ret;
   }
+  /*!\brief  create a empty row (subform)
+   *
+   * \return a Bud_Data object
+   */
 
-  function create_empty_row() {
+  private function create_empty_row() {
     $ret=new Bud_Data($this->cn,$this->bh_id,$this->po_id);
     $ret->bd_id=0;
     $ret->pcm_lib="";
@@ -124,12 +136,22 @@ class Bud_Data {
     }
     return $ret;
   }
+  /*!\brief convert the array loaded from the database into data member
+   * \param array
+   *
+   */
 
   private function load_from_array($p_array) {
     foreach (array('bd_id','bh_id','bc_id','pcm_val','pcm_lib','bh_name','bc_code') as $key) {
       $this->{$key}=$p_array[$key];
     }
   }
+  /*!\brief  create all the row of the form, MAX_BUD_DETAIL is the
+   * maximum of sub form the form may contains (defined in constant.php)
+   *
+   * \return string with html code
+   */
+
   function form() {
     $r="";
     $array=$this->load();
@@ -154,6 +176,10 @@ class Bud_Data {
 
     return $r;
   }
+  /*!\brief Create one form 
+   * \param the style
+   * \return string
+   */
 
   private function create_row($p_style="odd") {
     static $p_number=0;
@@ -206,10 +232,6 @@ class Bud_Data {
     $button_change->javascript='bud_form_enable('.$p_number.')';
     $r.=$button_change->IOValue('button_change'.$p_number);
 
-    $button_escape=new widget('button','Echapper');
-    $button_escape->javascript='bud_form_disable('.$p_number.')';
-    $button_escape->extra='style="display:none"';
-    $r.=$button_escape->IOValue('button_escape'.$p_number);
 
     $button_save=new widget('button','Sauve');
     $button_save->javascript='bud_form_save('.$p_number.')';
@@ -220,10 +242,20 @@ class Bud_Data {
     $button_delete->javascript='bud_form_delete('.$p_number.')';
     $button_delete->extra='style="display:none"';
     $r.=$button_delete->IOValue('button_delete'.$p_number);
+
+    $button_escape=new widget('button','Echapper');
+    $button_escape->javascript='bud_form_disable('.$p_number.')';
+    $button_escape->extra='style="display:none"';
+    $r.=$button_escape->IOValue('button_escape'.$p_number);
+
     $r.='<span id="Result'.$p_number.'"></span>';
     $r.="<hr>";
     return $r;
   }
+  /*!\brief Load all the card of a Hypothese
+   *
+   * \return double array [0][bc_id, bc_code]
+   */
 
   private function load_bud_card() {
     if ( !isset ($this->array_bud_card) )
@@ -232,6 +264,11 @@ class Bud_Data {
 				       'where bh_id='.$this->bh_id);
     return $this->array_bud_card;
   }
+
+  /*!\brief create the heading line for the table ( of a form)
+   *
+   * \return String
+   */
 
   private function header_table() {
     if ( ! isset ($this->header ) ){
@@ -246,6 +283,12 @@ class Bud_Data {
     }
     return $this->header;
   }
+  /*!\brief convert an array into an object Bud_Detail_Periode the
+   * array must contains the keys bd_id, po_id,bc_id,pcm_val, bh_id
+   * and amount_xx where xx stands for the p_id (pk of parm_periode)
+   * \param array
+   *
+   */
 
   function get_from_array($p_array) {
     foreach (array('bd_id','po_id','bc_id','pcm_val','bh_id') as $attr) {
@@ -257,6 +300,11 @@ class Bud_Data {
     $this->get_form_detail_periode($p_array);
     echo_debug(__FILE__.':'.__LINE__.'- get_from_array','',$this);
   }
+
+  /*!\brief  Add in the table Bud_Detail and Bud_Detail_Periode
+   *
+   */
+
   function add() {
     $r=$this->extract_bud_detail();
     $r->add();
@@ -268,6 +316,9 @@ class Bud_Data {
     }
    
   }
+  /*!\brief create an object Bud_Detail thanks the attr. of an object Bud_Data
+   * \return an object Bud_Detail
+   */
 
   function     extract_bud_detail() {
    foreach ( array('bd_id','po_id','bc_id','pcm_val','bh_id') as $r1) {
@@ -278,8 +329,12 @@ class Bud_Data {
    $r->get_from_array($a);
    return $r;
   }
+  /*!\brief  update the table bud_detail and bud_detail_periode
+   *
+   */
  
   function update() {
+
     $r=$this->extract_bud_detail();
     $r->update();
     ExecSql($this->cn,"delete from bud_detail_periode where bd_id =".$this->bd_id);
@@ -289,9 +344,18 @@ class Bud_Data {
     }
 
   }
+  /*!\brief delete in bud_detail 
+   */
+
   function delete_by_bd_id() {
     ExecSql($this->cn,'delete from bud_detail where bd_id='.$this->bd_id);
   }
+  /*!\brief transform an array containing the word amount_xx where xx
+   * stand for the p_id ( parm_periode primary key) into the data
+   * member this->bud_detail_periode
+   * \param the array
+   */
+
   private function get_form_detail_periode($p_array){
     echo_debug(__FILE__.':'.__LINE__.'- get_form_detail_periode arg:','',$p_array);
     extract ($p_array);
@@ -310,6 +374,10 @@ class Bud_Data {
       
     }
   }
+
+  /*!\brief Test the class in debug mode
+   */
+
   static function test_me() {
     echo JS_PROTOTYPE_JS;
     echo JS_BUD_SCRIPT;

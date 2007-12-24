@@ -20,10 +20,10 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
+/*!\file 
  */
 
-/* \brief manage the predefined operation, link to the table op_def
+/*! \brief manage the predefined operation, link to the table op_def
  * and op_def_detail
  *
  */
@@ -150,6 +150,11 @@ class Pre_operation
 	$this->p_jrn=$p_jrn;
   }
 }
+
+/*!\brief mother of the pre_op_XXX, it contains only one data : an
+ * object Pre_Operation. The child class contains an array of
+ * Pre_Operation object
+ */
 class Pre_operation_detail {
   var $operation;
   function __construct($p_cn) {

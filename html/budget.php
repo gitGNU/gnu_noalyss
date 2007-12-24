@@ -91,6 +91,7 @@ echo ShowItem(array(
 
 		    //
 echo '</div>';
+echo '</div>';
 
 $cn=DbConnect($gDossier);
 /*! \todo module budget add the security

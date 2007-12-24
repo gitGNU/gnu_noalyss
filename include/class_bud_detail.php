@@ -47,6 +47,10 @@ class Bud_Detail {
     $this->po_id=null;$this->bc_id=null;$this->pcm_val=null;
     $this->bh_id=null;
   }
+  /*!\brief insert into the database and set the this->bd_id of the
+   * inserted row
+   * \return the bd_id 
+   */
   function add () {
     $array=array($this->po_id,
 		 $this->bc_id,
@@ -58,7 +62,9 @@ class Bud_Detail {
     $a=ExecSqlParam($this->db,$sql,$array);
     $this->bd_id=pg_fetch_result($a,0,0);
   }
-
+  /*!\brief update thanks the bd_id if bd_id == 0 returns directly
+   *
+   */
   function update() {
     if ( $this->bd_id == 0) return;
     $sql="update bud_detail set po_id=$1,".
@@ -74,10 +80,14 @@ class Bud_Detail {
     ExecSqlParam($this->db,$sql,$array);
 
   }
-
+  /*!\brief delete in bud_detail
+   */
   function delete() {
     ExecSql($this->db,"delete from bud_detail where bd_id=".$this->bd_id);
   }
+  /*!\brief load one row from the table Bud_Detail and makes an
+     object of it
+  */
   function load()
   {
     if ( $this->bd_id == 0 ) return ;
@@ -96,17 +106,19 @@ class Bud_Detail {
 
   
   }
-  static function get_list($p_cn,$p_bh_id,$pa_id=0) {
-    $pa_filter=($pa_id)?" and pa_id = $pa_id ":"";
-    $sql="select * from bud_detail  join bud_detail_periode using(bd_id) ".
-      " right join parm_periode using (p_id) ".
-      " where bh_id= $bh_id $pa_filter ";
-  }
+  /*!\brief convert an array into in data member
+   *
+   *
+   */
   function get_from_array($p_array) {
     foreach (array('bd_id','po_id','bc_id','pcm_val','bh_id') as $attr) 
       if ( isset ( $p_array[$attr] ))
 	$this->$attr=$p_array[$attr];
   }
+
+  /*!\brief test the object for developper
+   *
+   */
   static function test_me() {
     $cn=DbConnect(dossier::id());
     $a=new Bud_Detail($cn);

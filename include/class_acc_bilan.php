@@ -20,10 +20,10 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
+/*!\file 
  */
 
-/* \brief this class handle the different bilan, from the table bilan
+/*! \brief this class handle the different bilan, from the table bilan
  *
  */
 require_once ('postgres.php');

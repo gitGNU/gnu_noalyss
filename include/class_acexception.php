@@ -23,7 +23,7 @@
 /*!\file
  */
 
-/* \brief  acException extends Exception
+/*! \brief  acException extends Exception
  *
  */
 class AcException extends Exception {

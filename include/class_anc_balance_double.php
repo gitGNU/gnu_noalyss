@@ -25,7 +25,7 @@
  *  Print the crossed balance between 2 plan 
  */
 
-/* \brief
+/*! \brief
  *  Print the crossed balance between 2 plan 
  *
  */

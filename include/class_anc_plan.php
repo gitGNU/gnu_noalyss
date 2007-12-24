@@ -20,11 +20,11 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
+/*!\file 
  */
 
-/* \brief
- *  Concerns the Analytic class
+/*! \brief
+ *  Concerns the Analytic plan (table plan_analytique)
  */
 require_once("constant.php");
 require_once("postgres.php");
