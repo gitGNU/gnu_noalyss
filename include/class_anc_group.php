@@ -95,6 +95,7 @@ class Anc_Group {
     $sql=" select ga_id,ga_description from groupe_analytique";
     $r=ExecSql($this->db,$sql);
     $array=pg_fetch_all($r);
+    $res=array();
     if ( ! empty($array)) {
       foreach ($array as $m ) {
 	$obj= new Anc_Group($this->db);
