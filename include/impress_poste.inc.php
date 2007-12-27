@@ -26,6 +26,55 @@ include_once("class_widget.php");
  * some variable are already defined $cn, $User ...
  * 
  */
+//-----------------------------------------------------
+// Show the jrn and date
+//-----------------------------------------------------
+include_once("postgres.php");
+//-----------------------------------------------------
+// Form
+//-----------------------------------------------------
+echo '<div class="u_content">';
+echo JS_SEARCH_POSTE;
+echo JS_SEARCH_CARD;
+echo '<FORM ACTION="?p_action=impress&type=poste" METHOD="POST">';
+echo dossier::hidden();
+echo '<TABLE><TR>';
+$span=new widget("span");
+
+$w=new widget("js_search_poste");
+$w->table=1;
+$w->label="Choississez le poste";
+print $w->IOValue("poste_id");
+echo $span->IOValue('poste_id_label');
+$w_poste=new widget("js_search_only");
+$w_poste->table=1;
+$w_poste->label="Ou Choississez la fiche";
+$w_poste->extra='all';
+print $w_poste->IOValue("f_id");
+echo $span->IOValue('f_id_label');
+print '</TR>';
+print '<TR>';
+// filter on the current year
+$select=new widget("select");
+$select->table=1;
+$filter_year=" where p_exercice='".$User->get_exercice()."'";
+$periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
+$select->label="Depuis";
+print $select->IOValue('from_periode',$periode_start);
+$select->label=" jusqu'à ";
+$periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode  $filter_year order by p_start,p_end");
+print $select->IOValue('to_periode',$periode_end);
+print "</TR>";
+print "<TR><TD>";
+$all=new widget("checkbox");
+$all->label="Tous les postes qui en dépendent";
+$all->disabled=false;
+echo $all->IOValue("poste_fille");
+echo '</TABLE>';
+print $w->Submit('bt_html','Impression');
+
+echo '</FORM>';
+echo '</div>';
 
 //-----------------------------------------------------
 // If print is asked
@@ -108,53 +157,4 @@ if ( isset( $_POST['bt_html'] ) ) {
       exit;
     }
 } 
-//-----------------------------------------------------
-// Show the jrn and date
-//-----------------------------------------------------
-include_once("postgres.php");
-//-----------------------------------------------------
-// Form
-//-----------------------------------------------------
-echo '<div class="u_content">';
-echo JS_SEARCH_POSTE;
-echo JS_SEARCH_CARD;
-echo '<FORM ACTION="?p_action=impress&type=poste" METHOD="POST">';
-echo dossier::hidden();
-echo '<TABLE><TR>';
-$span=new widget("span");
-
-$w=new widget("js_search_poste");
-$w->table=1;
-$w->label="Choississez le poste";
-print $w->IOValue("poste_id");
-echo $span->IOValue('poste_id_label');
-$w_poste=new widget("js_search_only");
-$w_poste->table=1;
-$w_poste->label="Ou Choississez la fiche";
-$w_poste->extra='all';
-print $w_poste->IOValue("f_id");
-echo $span->IOValue('f_id_label');
-print '</TR>';
-print '<TR>';
-// filter on the current year
-$select=new widget("select");
-$select->table=1;
-$filter_year=" where p_exercice='".$User->get_exercice()."'";
-$periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
-$select->label="Depuis";
-print $select->IOValue('from_periode',$periode_start);
-$select->label=" jusqu'à ";
-$periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode  $filter_year order by p_start,p_end");
-print $select->IOValue('to_periode',$periode_end);
-print "</TR>";
-print "<TR><TD>";
-$all=new widget("checkbox");
-$all->label="Tous les postes qui en dépendent";
-$all->disabled=false;
-echo $all->IOValue("poste_fille");
-echo '</TABLE>';
-print $w->Submit('bt_html','Impression');
-
-echo '</FORM>';
-echo '</div>';
 ?>
