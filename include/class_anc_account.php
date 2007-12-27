@@ -266,12 +266,14 @@ class Anc_Account
   }
   function get_from_array($p_array)
   {
+    print_r($p_array);
     $this->name=(isset ($p_array['po_name']))?$p_array['po_name']:"";
     $this->description=(isset ($p_array['po_description']))?$p_array['po_description']:"";
     $this->pa_id=(isset ($p_array['pa_id']))?$p_array['pa_id']:"";
     $this->amount=(isset ($p_array['po_amount']))?$p_array['po_amount']:0;
     $this->id=(isset ($p_array['po_id']))?$p_array['po_id']:-1;
-    $this->ga_id=($p_array['ga_id']) == "-1" ?"":$p_array['ga_id'];
+    //    $this->ga_id=(isset($p_array['ga_id']) && $p_array['ga_id'] == "-1" )?null:2;
+    $this->ga_id=(isset($p_array['ga_id']) && $p_array['ga_id'] != "-1" )?$p_array['ga_id']:null;
   }
   static function test_me() {
     $cn=DbConnect(dossier::id());
