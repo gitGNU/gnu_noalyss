@@ -34,7 +34,7 @@ echo '<div class="u_content">';
 /* 1st  possibility is not defined */
 if ( ! isset ($_REQUEST['bh_id'])) {
   $wHypo=new widget("select","","bh_id");
-  $wHypo->value=make_array($cn,"select bh_id,bh_name from bud_hypothese",1);
+  $wHypo->value=make_array($cn,"select bh_id,bh_name from bud_hypothese",0);
   $wHypo->selected=(isset($_REQUEST['bh_id']))?$_REQUEST['bh_id']:"";
   $wHypo->javascript='onChange="this.form.submit();"';
 
