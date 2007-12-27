@@ -56,16 +56,22 @@ echo '<div class="u_content">';
 echo '<form method="post">';
 echo dossier::hidden();
 echo '<table style="border: 2px outset blue; width: 100%;"  >';
-echo '<tr> <th> Code </th><th>Description</th></tr>';
+echo '<tr> <th> Code </th><th>Plan </td><th>Description</th></tr>';
 foreach ($array as $idx=>$m) {
   echo '<tr>';
   echo '<td>'.$m->ga_id.'</td>';
+  echo '<td>'.$m->pa_name.'</td>';
   echo '<td>'.$m->ga_description.'</td>';
   echo '<td> Effacer <input type="Checkbox" name="ck[]" value="'.$m->ga_id.'">'.'</td>';
   echo '</tr>';
 }
 $w=new widget("text");
+$val_pa_id=make_array($cn,"select pa_id,pa_name from plan_analytique");
+$wPa_id=new widget ("select");
+$wPa_id->value=$val_pa_id;
+
 echo "<td>".$w->IOValue("ga_id")."</td>";
+echo "<td>".$wPa_id->IOValue("pa_id")."</td>";
 echo "<td>".$w->IOValue("ga_description").
 widget::submit_button('add','Ajouter').
 "</td>";;

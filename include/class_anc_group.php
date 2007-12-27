@@ -36,20 +36,23 @@ class Anc_Group {
   var $db;
   var $ga_id;
   var $ga_description;
+  var $pa_id;
 
   function __construct ( $p_cn ) {
     $this->db=$p_cn;
     $this->ga_id=null;
     $this->ga_description=null;
+    $this->pa_id=null;
   }
   /*! 
    * \brief insert into the database  an object
    */
   
   function insert() {
-    $sql=" insert into groupe_analytique values ('%s','%s')";
+    $sql=" insert into groupe_analytique (ga_id,ga_description,pa_id) values ('%s','%s',%d)";
     $sql=sprintf($sql,pg_escape_string($this->ga_id),
-		 pg_escape_string($this->ga_description));
+		 pg_escape_string($this->ga_description),
+		 $this->pa_id);
     try {
       ExecSql($this->db,$sql);
     } catch (Exception $a) {
@@ -73,13 +76,14 @@ class Anc_Group {
    * \brief load from the database and make an object
    */
   function load() {
-    $sql="select ga_id, ga_description from groupe_analytique where".
+    $sql="select ga_id, ga_description,pa_id from groupe_analytique where".
       " ga_id = ".$this->ga_id;
     $res=ExecSql($this->db,$sql);
     $array=pg_fetch_all($res);
     if ( ! empty($array) ) {
       $this->ga_id=$array['ga_id'];
       $this->ga_description=$array['ga_description'];
+      $this->pa_id=$array['pa_id'];
     }
   }
 
@@ -89,10 +93,13 @@ class Anc_Group {
    */
   function get_from_array($p_array) {
     $this->ga_id=$p_array['ga_id'];
+    $this->pa_id=$p_array['pa_id'];
     $this->ga_description=$p_array['ga_description'];
   }
   function myList() {
-    $sql=" select ga_id,ga_description from groupe_analytique";
+    $sql=" select ga_id,groupe_analytique.pa_id,pa_name,ga_description ".
+      " from groupe_analytique ".
+      " join plan_analytique using (pa_id)";
     $r=ExecSql($this->db,$sql);
     $array=pg_fetch_all($r);
     $res=array();
@@ -100,6 +107,7 @@ class Anc_Group {
       foreach ($array as $m ) {
 	$obj= new Anc_Group($this->db);
 	$obj->get_from_array($m);
+	$obj->pa_name=$m['pa_name'];
 	$res[]=clone $obj;
       }
     }

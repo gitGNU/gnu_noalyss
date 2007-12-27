@@ -97,12 +97,11 @@ class Bud_Hypo {
 
     $sql=sprintf(
       "update  bud_hypothese set bh_name='%s',".
-      " bh_saldo = %f ,bh_description='%s',pa_id=%s  ".
+      " bh_saldo = %f ,bh_description='%s'  ".
       " where bh_id= %d",
       $bh_name,
       $bh_saldo,
       $bh_description,
-      $pa_id,
       $this->bh_id
        	 );
     ExecSql($this->db,$sql);
@@ -139,7 +138,7 @@ class Bud_Hypo {
     return $result;
   }
 
-  function form() {
+  function form($p_update=0) {
 
     $wName=new widget("text","Nom","bh_name",$this->bh_name);
 
@@ -149,7 +148,7 @@ class Bud_Hypo {
     $array=make_array($this->db,"select pa_id,pa_name from plan_analytique",1);
     $wPa_id=new widget("select","Plan Analytique","pa_id",$array);
     $wPa_id->selected=$this->pa_id;
-
+    if ( $p_update != 0 ) $wPa_id->readonly=true;
     $wName->table=1;
     $wDescription->table=1;
     $wSaldo->table=1;

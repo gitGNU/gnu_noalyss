@@ -92,7 +92,7 @@ if ( $sa == "detail" ) {
   $obj->load();
   echo '<div class="u_redcontent">';
   echo '<form method="post">';
-  echo $obj->form();
+  echo $obj->form(1);
   echo widget::submit_button('remove','Effacer','onClick="return confirm(\'Vous confirmez cet effacement ?\')"');
   echo widget::submit_button('update','Mise &agrave jour');
 
