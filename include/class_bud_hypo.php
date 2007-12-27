@@ -76,7 +76,7 @@ class Bud_Hypo {
 
   function add() {
     $bh_saldo=(isNumber($this->bh_saldo) == 1 ) ?$this->bh_saldo:0;
-    $pa_id=($this->pa_id < 0 )?null:$this->pa_id;
+    $pa_id=($this->pa_id <= 0 )?null:$this->pa_id;
     
     $sql="insert into bud_hypothese( bh_name,bh_saldo,bh_description,pa_id)  ".
       " values ($1,$2,$3,$4) returning bh_id";
