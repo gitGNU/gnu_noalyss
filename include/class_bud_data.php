@@ -65,7 +65,7 @@ class Bud_Data {
     if ( $this->po_id == -1) 
       $sql_po_id="po_id is null";
     else 
-      $sql_po_id=".$this->po_id";
+      $sql_po_id="po_id = $this->po_id";
     $sql=" select bd_id,bc_id,bc_code,bd.bh_id,bd.bh_name,".
       " tmp_pcmn.pcm_val as pcm_val,pcm_lib ".
       " from bud_detail ".

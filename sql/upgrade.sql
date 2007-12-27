@@ -1,4 +1,61 @@
 begin;
+alter table import_tmp alter montant numeric (20,4);
+alter table import_tmp alter montant set default 0;
+alter table import_tmp alter montant set not null;
+alter table import_tmp alter code set not null;
+alter table import_tmp alter date_exec set not null;
+alter table import_tmp alter date_valeur set not null;
+
+COMMENT ON TABLE import_tmp IS 'Table temporaire pour l''importation des banques en format CSV';
+COMMENT ON COLUMN import_tmp.status IS 'Status w waiting, d delete t transfert'
+
+
+alter table poste_analytique add column ga_id varchar (10);
+
+CREATE or replace FUNCTION t_document_validate() RETURNS "trigger"
+    AS $$
+declare
+  lText text;
+  modified document%ROWTYPE;
+begin
+    	modified:=NEW;
+	modified.d_filename:=replace(NEW.d_filename,' ','_');
+	return modified;
+end;
+$$
+    LANGUAGE plpgsql;
+
+
+CREATE or replace FUNCTION t_document_type_insert() RETURNS "trigger"
+    AS $$
+declare
+nCounter integer;
+    BEGIN
+select count(*) into nCounter from pg_class where relname='seq_doc_type_'||NEW.dt_id;
+if nCounter = 0 then
+        execute  'create sequence seq_doc_type_'||NEW.dt_id;
+raise notice 'Creating sequence seq_doc_type_%',NEW.dt_id;
+end if;
+        RETURN NEW;
+    END;
+$$
+    LANGUAGE plpgsql;
+
+CREATE or replace FUNCTION t_document_modele_validate() RETURNS "trigger"
+    AS $$
+declare 
+    lText text;
+    modified document_modele%ROWTYPE;
+begin
+    modified:=NEW;
+
+	modified.md_filename:=replace(NEW.md_filename,' ','_');
+	return modified;
+end;
+$$
+    LANGUAGE plpgsql;
+
+
 CREATE TABLE groupe_analytique
 (
   ga_id varchar(10) NOT NULL,
@@ -88,7 +145,7 @@ CREATE TRIGGER t_plan_analytique_ins_upd
   EXECUTE PROCEDURE plan_analytic_ins_upd();
 
 CREATE TRIGGER t_group_analytic_del
-  AFTER DELETE
+  before DELETE
   ON groupe_analytique
   FOR EACH ROW
   EXECUTE PROCEDURE group_analytique_del();
@@ -121,7 +178,7 @@ WITHOUT OIDS;
 
 create sequence seq_bud_hypothese_bh_id;
 
-alter table bud_hypothese alter bh_id default nextval('seq_bud_hypothese_bh_id');
+alter table bud_hypothese alter bh_id set default nextval('seq_bud_hypothese_bh_id');
 
 --
 -- Name: bud_card; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
@@ -197,23 +254,6 @@ CREATE INDEX fki_bud_hypo_bh_id ON bud_card(bh_id);
 ALTER TABLE bud_card ALTER COLUMN bh_id SET NOT NULL;
 
 
-
---
--- Name: t_bud_card_ins_up; Type: TRIGGER; Schema: public; Owner: phpcompta
---
-
-CREATE TRIGGER t_bud_card_ins_up
-    BEFORE INSERT OR UPDATE ON bud_card
-    FOR EACH ROW
-    EXECUTE PROCEDURE bud_card_ins_upd();
-
-
---
--- Name: bud_hypothese_bh_id; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
---
-
-ALTER TABLE ONLY bud_card
-    ADD CONSTRAINT bud_hypothese_bh_id FOREIGN KEY (bh_id) REFERENCES bud_hypothese(bh_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 --
 -- Name: bud_detail; Type: TABLE; Schema: public; Owner: phpcompta; Tablespace: 
@@ -322,7 +362,7 @@ ALTER TABLE ONLY bud_detail
     ADD CONSTRAINT fk_bud_card FOREIGN KEY (bc_id) REFERENCES bud_card(bc_id) ON UPDATE CASCADE ON DELETE CASCADE;;
 
 ALTER TABLE ONLY bud_detail
-    set fk_bud_hypothese_not_null FOREIGN KEY (bh_id) REFERENCES bud_hypothese(bh_id) ON UPDATE CASCADE ON DELETE CASCADE;;
+    add constraint fk_bud_hypothese_not_null FOREIGN KEY (bh_id) REFERENCES bud_hypothese(bh_id) ON UPDATE CASCADE ON DELETE CASCADE;;
 
 
 --
@@ -431,6 +471,41 @@ end if;
 return mline;
 end;$BODY$
   LANGUAGE 'plpgsql' VOLATILE;
+
+
+CREATE OR REPLACE FUNCTION bud_card_ins_upd()
+  RETURNS "trigger" AS
+$BODY$declare
+ sCode text;
+begin
+
+sCode:=trim(upper(NEW.bc_code));
+sCode:=replace(sCode,' ','_');
+sCode:=substr(sCode,1,10);
+raise notice 'sCode is %',sCode;
+NEW.bc_code:=sCode;
+return NEW;
+end;$BODY$
+  LANGUAGE 'plpgsql' VOLATILE;
+ALTER FUNCTION bud_card_ins_upd() OWNER TO phpcompta;
+
+--
+-- Name: t_bud_card_ins_up; Type: TRIGGER; Schema: public; Owner: phpcompta
+--
+
+CREATE TRIGGER t_bud_card_ins_up
+    BEFORE INSERT OR UPDATE ON bud_card
+    FOR EACH ROW
+    EXECUTE PROCEDURE bud_card_ins_upd();
+
+
+--
+-- Name: bud_hypothese_bh_id; Type: FK CONSTRAINT; Schema: public; Owner: phpcompta
+--
+
+ALTER TABLE ONLY bud_card
+    ADD CONSTRAINT bud_hypothese_bh_id FOREIGN KEY (bh_id) REFERENCES bud_hypothese(bh_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
 
 CREATE TRIGGER t_bud_detail_ins_upd
   BEFORE INSERT OR UPDATE
