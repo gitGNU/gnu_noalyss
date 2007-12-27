@@ -190,6 +190,26 @@ if ( $sub_action=="use_opd" ) {
   $form=FormVenInput($cn,$_GET['p_jrn'],$User->get_periode(),$p_post,false,$p_post['nb_item']);
   echo '<div class="u_content">';
   echo   $form;
+
+  //--------------------
+  // predef op.
+  echo '<form method="GET">';
+  $op=new Pre_operation($cn);
+  $op->p_jrn=$p_jrn;
+  $op->od_direct='f';
+  $hid=new widget("hidden");
+  echo $hid->IOValue("p_action","facture");
+  echo dossier::hidden();
+  echo $hid->IOValue("p_jrn",$p_jrn);
+  echo $hid->IOValue("jrn_type","VEN");
+  echo $hid->IOValue("sa","use_opd");
+  
+  if ($op->count() != 0 )
+	echo widget::submit_button('use_opd','Utilisez une op.prédéfinie');
+  echo $op->show_button();
+
+  echo '</form>';
+
   echo '</div>';
   exit();
  }

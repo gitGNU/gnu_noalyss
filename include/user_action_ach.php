@@ -54,6 +54,28 @@ if ( $action=="use_opd" ) {
   $form=FormAchInput($cn,$_GET['p_jrn'],$User->get_periode(),$p_post,$submit,false,$p_post['nb_item']);
   echo '<div class="u_redcontent">';
   echo   $form;
+
+   //--------------------
+   // predef op.
+   echo '<form method="GET">';
+   $op=new Pre_operation($cn);
+   $op->p_jrn=$_GET['p_jrn'];
+   $op->od_direct='f';
+
+   $hid=new widget("hidden");
+   echo $hid->IOValue("action","use_opd");
+   echo dossier::hidden();
+   echo $hid->IOValue("p_jrn",$_GET['p_jrn']);
+   echo $hid->IOValue("jrn_type","ACH");
+   
+  if ($op->count() != 0 )
+	echo widget::submit_button('use_opd','Utilisez une op.prédéfinie');
+   echo $op->show_button();
+   
+   echo '</form>';
+
+   echo "<div>".JS_CALC_LINE."</div>";
+   echo "</div>";
   echo '</div>';
   exit();
  }

@@ -57,6 +57,13 @@ $sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
 // use a predefined operation
 //--------------------------------------------------------------------------------
 if ( $sub_action=="use_opd" ) {
+echo '<div class="u_subtmenu">';
+echo ShowMenuJrnUser($gDossier,
+		     'ACH',
+		     $p_jrn,
+		     '<td class="cell"><A class="mtitle" HREF="commercial.php?liste&p_action=depense&sa=list&'.$str_dossier.'">Liste</A></td>');
+echo '</div>';
+
   $op=new Pre_op_ach($cn);
   $op->set_od_id($_REQUEST['pre_def']);
   $p_post=$op->compute_array();
@@ -70,6 +77,26 @@ if ( $sub_action=="use_opd" ) {
 
   echo '<div class="u_content">';
   echo   $form;
+  //--------------------
+  // predef op.
+  echo '<form method="GET">';
+  $op=new Pre_operation($cn);
+  $op->p_jrn=$p_jrn;
+  $op->od_direct='f';
+
+  $hid=new widget("hidden");
+  echo $hid->IOValue("p_action","depense");
+  echo dossier::hidden();
+  echo $hid->IOValue("p_jrn",$p_jrn);
+  echo $hid->IOValue("jrn_type","ACH");
+  echo $hid->IOValue("sa","use_opd");
+  
+  if ($op->count() != 0 )
+	echo widget::submit_button('use_opd','Utilisez une op.prédéfinie');
+  echo $op->show_button();
+
+  echo '</form>';
+
   echo '</div>';
   exit();
  }
@@ -206,7 +233,7 @@ echo '<div class="u_subtmenu">';
 echo ShowMenuJrnUser($gDossier,
 		     'ACH',
 		     $p_jrn,
-					 '<td class="cell"><A class="mtitle" HREF="commercial.php?liste&p_action=depense&sa=list&'.$str_dossier.'">Liste</A></td>');
+		     '<td class="cell"><A class="mtitle" HREF="commercial.php?liste&p_action=depense&sa=list&'.$str_dossier.'">Liste</A></td>');
 echo '</div>';
 //-----------------------------------------------------
 // if we request to add an item 
