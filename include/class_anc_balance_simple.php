@@ -139,7 +139,7 @@ class Anc_Balance_Simple extends Anc_Print {
 	  $r.=sprintf("<td>%12.2f</td>",$row['sum_deb']);
 	  $r.=sprintf("<td>%12.2f</td>",$row['sum_cred']);
 	  $r.=sprintf("<td>%12.2f</td>",$row['solde']);
-	  $deb=($row['sum_deb'] > $row['sum_cred')?"D":"C";
+	  $deb=($row['sum_deb'] > $row['sum_cred'])?"D":"C";
 	  $deb=($row['solde'] == 0 )?'':$deb;
 	  $r.=sprintf("<td>%s</td>",$deb);
 	  $r.="</tr>";	  
