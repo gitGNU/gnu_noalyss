@@ -780,7 +780,7 @@ function get_propertie()
      $ret.='</table>';
      $ret.="<table>";
      $ret.="<tr>";
-     $ret.="<th> Quick Code ou ";
+     $ret.="<th> Quick Code  ou ";
      $ret.="Poste </th>";
      $ret.="<th> Montant </th>";
      $ret.="<th> D&eacute;bit</th>";
@@ -903,8 +903,8 @@ function get_propertie()
      $ret.=$hidden->IOValue('jrn_type',$this->get_type());
      $ret.='<table border="2">';
      $ret.='<tr>'.
-       '<th colspan="5">Quickcode</th>'.
-       '<th colspan="3">Poste</th>'.
+       '<th colspan="4">Quickcode</th>'.
+       '<th colspan="2">Poste</th>'.
        '<th> Montant</th>'.
        '<th>D&eacute;bit</th>'.
        '</tr>';
@@ -959,7 +959,7 @@ function get_propertie()
        $w=$oRapt->widget();
        $w->name='jrn_concerned';
        $w->value=(isset($jrn_concerned))?$jrn_concerned:"";
-       $ret.=$w->IOValue();
+       $ret.="R&eacute;conciliation/rapprochements : ".$w->IOValue();
      }
      return $ret;
    }
