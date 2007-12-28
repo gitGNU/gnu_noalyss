@@ -165,7 +165,11 @@ class Bud_Hypo {
 
 
   }
-
+  function has_plan() {
+    $this->load();
+    if ( isNumber($this->pa_id)==1) return 1;
+    else return 0;
+  }
   static function test_me() {
     $cn=DbConnect (dossier::id());
     ExecSql($cn,"delete from bud_hypothese");

@@ -72,8 +72,12 @@ Bud_Hypo::testme();
 require_once ('class_bud_detail_periode.php');
 Bud_Detail_Periode::test_me();
 
-*/
+
 
 require_once ('class_bud_data.php');
 Bud_Data::test_me();
+*/
 
+
+require_once ('class_bud_synthese_hypo.php');
+Bud_Synthese_Hypo::test_me();
