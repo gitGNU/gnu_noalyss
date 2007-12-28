@@ -37,7 +37,7 @@ include_once ("check_priv.php");
 /* Admin. Dossier */
 
 $cn=DbConnect($gDossier);
-include ('class_user.php');
+include_once ('class_user.php');
 $User=new cl_user($cn);
 $User->Check();
 
