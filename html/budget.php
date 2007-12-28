@@ -123,9 +123,9 @@ if ( $p_action == "detail" )
 
 
 //-----------------------------------------------------
-// p_action == 
+// p_action == synthese
 //-----------------------------------------------------
 if ( $p_action == "xxx" ) 
 {
-  require_once(".inc.php");
+  require_once("bud_synthese.inc.php");
 }

@@ -1,5 +1,9 @@
 begin;
-alter table import_tmp alter montant numeric (20,4);
+alter table import_tmp add n_montant numeric(20,4);
+update import_tmp set n_montant=to_number(montant,'999999999.99');
+alter table import_tmp drop montant;
+alter table import_tmp rename n_montant to montant;
+-- alter table import_tmp alter montant type numeric(20,4);
 alter table import_tmp alter montant set default 0;
 alter table import_tmp alter montant set not null;
 alter table import_tmp alter code set not null;
@@ -7,10 +11,10 @@ alter table import_tmp alter date_exec set not null;
 alter table import_tmp alter date_valeur set not null;
 
 COMMENT ON TABLE import_tmp IS 'Table temporaire pour l''importation des banques en format CSV';
-COMMENT ON COLUMN import_tmp.status IS 'Status w waiting, d delete t transfert'
+COMMENT ON COLUMN import_tmp.status IS 'Status w waiting, d delete t transfert';
 
 
-alter table poste_analytique add column ga_id varchar (10);
+alter table poste_analytique add ga_id varchar (10);
 
 CREATE or replace FUNCTION t_document_validate() RETURNS "trigger"
     AS $$
@@ -59,6 +63,7 @@ $$
 CREATE TABLE groupe_analytique
 (
   ga_id varchar(10) NOT NULL,
+  pa_id int,
   ga_description text,
   CONSTRAINT pk_ga_id PRIMARY KEY (ga_id)
 ) ;
