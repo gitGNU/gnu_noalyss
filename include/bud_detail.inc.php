@@ -40,7 +40,7 @@ if ( ! isset ($_REQUEST['bh_id'])) {
 
   echo '<form method="get">';
   echo dossier::hidden();
-  echo $wHypo->IOValue();
+  echo  "Hypoth&egrave;se ".$wHypo->IOValue();
   echo widget::submit_button('recherche','recherche');
   echo widget::hidden('p_action','detail');
 
@@ -77,11 +77,11 @@ if ( ! empty ($wPost_Analytic->value) && $po_id==-2  ) {
   $wPost_Analytic->javascript='onChange="this.form.submit();"';
 
   echo '<form method="get">';
-  echo $wHypo->IOValue();
+  echo  "Hypoth&egrave;se ".$wHypo->IOValue();
   echo widget::hidden('bh_id',$_REQUEST['bh_id']);
   echo widget::hidden('p_action','detail');
   echo dossier::hidden();
-  echo $wPost_Analytic->IOValue();
+  echo "Poste Analytique ".$wPost_Analytic->IOValue();
   echo widget::submit_button('recherche','recherche');
   echo '</form>';
   echo $button_other;
@@ -95,13 +95,13 @@ if ( ! empty ($wPost_Analytic->value) && $po_id==-2  ) {
  */
 $wHypo=new widget("text","","bh_id",$Hyp->bh_name);
 $wHypo->readonly=true;
-echo $wHypo->IOValue();
+echo "Hypoth&egrave;se ".$wHypo->IOValue();
 if ( $po_id !== -1 ) {
   $oPo_id=new Anc_Account($cn,$po_id);
   $oPo_id->get_by_id();
   $wPo_id=new widget("text","","po_id",$oPo_id->name);
   $wPo_id->readonly=true;
-  echo $wPo_id->IOValue();
+  echo "Poste Analytique ".$wPo_id->IOValue();
  }
 echo $button_other;
 //echo http://localhost/phpcompta-dev/phpcompta/html/budget.php?gDossier=21&bh_id=3&recherche=recherche&p_action=detail//
