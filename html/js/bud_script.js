@@ -113,3 +113,20 @@ function bud_action(p_query,p_ctl) {
 			
 			       );
 }
+
+function bud_compute_sum(p_ctl) {
+  var form=$('form_'+p_ctl);
+  var elt=form.getElements();
+  var sum=0;
+  for (i=0; i<elt.length;i++) {
+    if ( elt[i].name.search(/amount_/) != -1 ){ 
+      if ( isNaN(elt[i].value))  { 
+	alert(elt[i].value+" n'est pas un nombre");
+	elt[i].value=0;
+	continue; 
+      }
+      sum+=elt[i].value*1.0;
+    }
+  }
+  $('form_total_'+p_ctl).innerHTML=sum;
+}

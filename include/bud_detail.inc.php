@@ -104,7 +104,12 @@ if ( $po_id !== -1 ) {
   echo $wPo_id->IOValue();
  }
 echo $button_other;
-
+//echo http://localhost/phpcompta-dev/phpcompta/html/budget.php?gDossier=21&bh_id=3&recherche=recherche&p_action=detail//
+if ( isset ($_GET['po_id'] ) )
+  $str_po_id="&po_id=".$_REQUEST['po_id'];
+ else 
+   $str_po_id="";
+echo widget::button_href("Recharger","?".dossier::get()."&bh_id=".$_GET['bh_id']."&p_action=detail".$str_po_id);
 echo '<hr>';
 
 //----------------------------------------------------------------------

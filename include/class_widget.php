@@ -588,7 +588,7 @@ class widget {
 	$r.='<input type="text" readonly id="'.$this->name.'" name="'.
 	  $this->name.'" value ="'.$this->value.'" size="35">';
 
-	$r.='<input type="hidden" name="'.$this->name.'_hidden" id="'.$this->name.'_hidden" value="'.$this->value.'">';
+	$r.='<input type="hidden" name="'.$this->name.'_hidden" id="'.$this->name.'_hidden" value="'.$this->extra.'">';
 	return $r;
   }
 

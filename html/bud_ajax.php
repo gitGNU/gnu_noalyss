@@ -53,7 +53,7 @@ if ( $_POST['action'] == 'save' ) {
 
   $obj=new Bud_Data($cn);
   $obj->get_from_array($a);
-
+  $obj->verify();
   if ( $bd_id == 0 ) {
     $obj->add();
   } else {

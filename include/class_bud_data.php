@@ -195,6 +195,8 @@ class Bud_Data {
     $wAccount->table=0;
     $wAccount->disabled=true;
     $wAccount->value=$this->pcm_val.' - '.$this->pcm_lib;
+    $wAccount->extra=$this->pcm_val;
+
     $wBudCard=new widget('select');
     $wBudCard->value=$this->load_bud_card();
     $wBudCard->selected=$this->bc_id;
@@ -214,14 +216,15 @@ class Bud_Data {
     $r.="Compte d'exploitation ".$wAccount->IOValue('account_'.$p_number);
     //    $r.=widget::hidden('account_'.$p_number.'_hidden',$this->pcm_val);
     $r.="Fiche Budget ".$wBudCard->IOValue('bc_id'.$p_number);
-    $r.='Total : <span id="form_'.$p_number.'"> '.$tot.' </span>';
+    $r.='Total : <span id="form_total_'.$p_number.'"> '.$tot.' </span>';
     $r.='<table WIDTH="100%">';
     $r.=$this->header_table();
     $r.="<tr> ";
     foreach ($this->amount as $p_id=>$amount){
+      $wAmount->javascript="onChange='bud_compute_sum(".$p_number.");'";
       echo_debug(__FILE__.':'.__LINE__,' p_id '.$p_id.' - amount '.$amount);
       $tot+=$amount;
-      $r.='<td >'.$wAmount->IOValue('amount_'.$p_id,sprintf("%08.2f",$amount))."</td>";
+      $r.='<td >'.$wAmount->IOValue('amount_'.$p_id,sprintf("% 8.2f",$amount))."</td>";
     }
     $r.="</tr>";
     $r.="</table>";
@@ -343,6 +346,14 @@ class Bud_Data {
       $obj->add();
     }
 
+  }
+  /*!\brief verify that all the amount are numeric */
+  function verify() {
+    foreach ($this->bud_detail_periode as $obj) {
+      if ( isNumber($obj->bdp_amount) == 0 ) {
+	$obj->bdp_amount=0;
+      }
+    }
   }
   /*!\brief delete in bud_detail 
    */
