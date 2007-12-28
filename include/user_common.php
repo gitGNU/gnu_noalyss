@@ -447,7 +447,7 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Eché
    $sql="select jr_id	,
 			jr_montant,
 			jr_comment,
-			jr_ech,
+			to_char(jr_ech,'DD.MM.YYYY') as jr_ech,
 			to_char(jr_date,'DD.MM.YYYY') as jr_date,
                         jr_date as jr_date_order,
 			jr_grpt_id,

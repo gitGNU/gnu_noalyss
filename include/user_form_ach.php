@@ -112,7 +112,7 @@ echo_debug('user_form_ach.php',__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_peri
   $r.="</tr>";
   // Payment limit widget
   //--
-  $Echeance=new widget("text");
+  $Echeance=new widget("js_date");
   $Echeance->SetReadOnly($pview_only);
   $Echeance->table=1;
   $r.="<tr>";

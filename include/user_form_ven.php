@@ -105,7 +105,7 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
   $r.="</tr>";
   // Payment limit
   //--
-  $Echeance=new widget("text");
+  $Echeance=new widget("js_date");
   $Echeance->SetReadOnly($pview_only);
   $Echeance->table=1;
   $Echeance->tabindex=2;
