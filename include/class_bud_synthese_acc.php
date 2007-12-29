@@ -31,12 +31,6 @@ require_once ('class_bud_synthese.php');
 
 class Bud_Synthese_Acc extents Bud_Synthese {
 
-  static function make_array($p_cn) {
-    $a=make_array($p_cn,'select bh_id, bh_name from bud_hypothese '
-		  ' where pa_id is not null order by bh_name');
-    ret $a;
-  }
-
   function form() {
     $obj=new Bud_Hypo($this->cn);
     $obj->bh_id=$this->bh_id;
@@ -56,15 +50,7 @@ class Bud_Synthese_Acc extents Bud_Synthese {
 
   }
   function load() {
-    $per=sql_filter_per($this->cn,$this->from,$this->to,'p_id','p_id');
-    $sql="select sum(bdp_amount),ga_id,pcm_val,pcm_lib ".
-      " from bud_detail_periode join bud_detail using (bd_id) "
-      " join bud_hypothese using (bh_id) ".
-      " join tmp_pcmn using (pcm_val) ".
-      " join plan_analytique using (pa_id) ".
-      " join groupe_analytique using(pa_id) ".
-      " where bh_id= ".$this->bh_id.' and '.$per.
-      " group by ga_id,pcm_lib,pcm_val ";
+
 
   }
   function test_me() {

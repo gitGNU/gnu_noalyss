@@ -123,6 +123,12 @@ class Anc_Account
 	}
             
   }
+  static function make_array_name($cn,$pa_id) {
+    $a=make_array($cn,"select  po_name,po_name from poste_analytique ".
+		  " where ".
+		  " pa_id =".$pa_id." order by po_name ");
+    return $a;
+  }
   function update()
   {
 	$this->format_data();

@@ -88,13 +88,16 @@ class Bud_Synthese_Hypo extends Bud_Synthese {
     $aPoste=get_array($this->cn,$sql_poste);
 
     $cn=DbConnect(dossier::id());
-    $sql_prepare=pg_prepare($cn,"get_group","select sum(bdp_amount) as amount,ga_id from ".
+    $sql_prepare=pg_prepare($cn,"get_group","select sum(bdp_amount) as amount,ga_id,".
+			    "bc_price_unit".
+			    " from ".
 			    " bud_detail join bud_detail_periode using (bd_id) ".
+			    " join bud_card using (bc_id) ".
 			    " join poste_analytique using (po_id) ".
 			    " where $per ".
 			    " and pcm_val=$1 and ".
-			    " bh_id=$2 ".
-			    " group by ga_id ".
+			    " bud_detail.bh_id=$2 ".
+			    " group by ga_id,bc_price_unit ".
 			    " order by ga_id ");
     $array=array();
     // Now we put 0 if there is nothing for a group
@@ -116,7 +119,7 @@ class Bud_Synthese_Hypo extends Bud_Synthese {
       }
       foreach ($row as $col ) {
 	$groupe=$col['ga_id'];
-	$line[$groupe]=$col['amount'];
+	$line[$groupe]=$col['amount']*$col['bc_price_unit'];
       }
       $array[$pcm_val]=$line;
     }
@@ -134,8 +137,6 @@ class Bud_Synthese_Hypo extends Bud_Synthese {
     print_r($_GET);
     if ( isset ($_GET['recherche'])) {
       $obj->from_array($_GET);
-      $obj->from=79;
-      $obj->to=90;
       print_r( $obj->load());
     }
   }
