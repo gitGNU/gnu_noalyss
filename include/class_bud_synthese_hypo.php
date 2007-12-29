@@ -60,23 +60,67 @@ class Bud_Synthese_Hypo extends Bud_Synthese {
     $r.=dossier::hidden();
     return $r;
   }
+  /*!\brief load the data from the database and return the result an
+     array
+     \return Array
+     (
+     [6510] => Array
+     (
+     [GROUPE1] => 0
+     [GROUPE3] => 74.0000
+     )
+     
+     [6040001] => Array
+     (
+     [GROUPE1] => 83.7000
+     [GROUPE3] => 78.0000
+     )
+     
+     [6040002] => Array
+     (
+     [GROUPE1] => 48.0000
+     [GROUPE3] => 0
+     ) 
+*/
   function load() {
     $per=sql_filter_per($this->cn,$this->from,$this->to,'p_id','p_id');
-    /*        $sql="select sum(bdp_amount),ga_id,pcm_val,pcm_lib ".
-      " from bud_detail_periode join bud_detail using (bd_id) ".
-      " join bud_hypothese using (bh_id) ".
-      " join tmp_pcmn using (pcm_val) ".
-      " join plan_analytique using (pa_id) ".
-      " join groupe_analytique using(pa_id) ".
-      " where bh_id= ".$this->bh_id.' and '.$per.
-      " group by ga_id,pcm_lib,pcm_val ";
-    */
-    $sql="select bd_id, pcm_val,pcm_lib,po_id,ga_id ".
-      " from bud_detail join tmp_pcmn using (pcm_val) join poste_analytique using (po_id)".
-      " where bh_id = ".$this->bh_id.' order by pcm_val ';
-    $array=get_array($this->cn,$sql);
+    $sql_poste="select distinct pcm_val from bud_detail where bh_id=".$this->bh_id;
+    $aPoste=get_array($this->cn,$sql_poste);
+
+    $cn=DbConnect(dossier::id());
+    $sql_prepare=pg_prepare($cn,"get_group","select sum(bdp_amount) as amount,ga_id from ".
+			    " bud_detail join bud_detail_periode using (bd_id) ".
+			    " join poste_analytique using (po_id) ".
+			    " where $per ".
+			    " and pcm_val=$1 and ".
+			    " bh_id=$2 ".
+			    " group by ga_id ".
+			    " order by ga_id ");
+    $array=array();
+    // Now we put 0 if there is nothing for a group
+    $aGroup=get_array($this->cn,"select distinct ga_id from bud_detail join poste_analytique ".
+		      " using (po_id) where bh_id=".$this->bh_id." order by ga_id ");
 
 
+    // foreach poste get all the value of the group
+    foreach ($aPoste as $rPoste) {
+      $pcm_val=$rPoste['pcm_val'];
+      $line=array();
+      $res=pg_execute("get_group",array($pcm_val,$this->bh_id));
+      $row=pg_fetch_all($res);
+      if ( empty ($row) ) continue;
+      // initialize all groupe to 0
+      foreach ($aGroup as $rGroup) {
+	$sGroup=$rGroup['ga_id'];
+	$line[$sGroup]=0;
+      }
+      foreach ($row as $col ) {
+	$groupe=$col['ga_id'];
+	$line[$groupe]=$col['amount'];
+      }
+      $array[$pcm_val]=$line;
+    }
+    pg_close($cn);
 
     return $array;
   }
@@ -90,6 +134,8 @@ class Bud_Synthese_Hypo extends Bud_Synthese {
     print_r($_GET);
     if ( isset ($_GET['recherche'])) {
       $obj->from_array($_GET);
+      $obj->from=79;
+      $obj->to=90;
       print_r( $obj->load());
     }
   }
