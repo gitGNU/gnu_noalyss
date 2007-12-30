@@ -93,14 +93,17 @@ class Bud_Synthese_Anc extends Bud_Synthese {
   }
   /*!\brief return all the data (raw format) in a array
     \return  Array structure
+ICIArray
 (
     [0] => Array
         (
             [bc_id] => 4
             [price_unit] => 1.0000
+            [bc_code] => FICHE_1
+            [bc_description] => 
             [pcm_val] => 6040002
-            [unit] => 48
-            [amount] => 48
+            [unit] => 25
+            [amount] => 25
             [amount_unit] => Array
                 (
                     [79] => 1.0000
@@ -113,8 +116,6 @@ class Bud_Synthese_Anc extends Bud_Synthese {
                     [86] => 0.0000
                     [87] => 9.0000
                     [88] => 10.0000
-                    [89] => 11.0000
-                    [90] => 12.0000
                 )
 
             [acc_name] => Loyer
@@ -125,6 +126,8 @@ class Bud_Synthese_Anc extends Bud_Synthese {
         (
             [bc_id] => 7
             [price_unit] => 1.0000
+            [bc_code] => FICHE4
+            [bc_description] => 
             [pcm_val] => 6510
             [unit] => 74
             [amount] => 74
@@ -140,23 +143,21 @@ class Bud_Synthese_Anc extends Bud_Synthese {
                     [86] => 7.0000
                     [87] => 0.0000
                     [88] => 0.0000
-                    [89] => 0.0000
-                    [90] => 0.0000
                 )
 
             [acc_name] => Dotations
             [acc_amount] => 0
         )
 
-
-
+)
 */
   function load() {
     $per=sql_filter_per($this->cn,$this->from,$this->to,'p_id','p_id');
     $per_acc=sql_filter_per($this->cn,$this->from,$this->to,'p_id','j_tech_per');
 
     // get all the bud_card.bc_id
-    $sql="select distinct bc_id,bc_price_unit from bud_card join bud_detail using (bc_id) ".
+    $sql="select distinct bc_id,bc_price_unit,bc_code,bc_description ".
+    " from bud_card join bud_detail using (bc_id) ".
       "join poste_analytique using(po_id) where po_name >= $1 and ".
       "po_name <=$2 and bud_card.bh_id=$3";
     $res=ExecSqlParam($this->cn,$sql,array($this->po_from,$this->po_to,$this->bh_id));
@@ -176,6 +177,9 @@ class Bud_Synthese_Anc extends Bud_Synthese {
       $line=array();
       $line['bc_id']=$rBudCard['bc_id'];
       $line['price_unit']=$rBudCard['bc_price_unit'];
+      $line['bc_code']=$rBudCard['bc_code'];
+      $line['bc_description']=$rBudCard['bc_description'];
+
       $res=pg_execute("sql_detail",array($line['bc_id']));
       $row=pg_fetch_all($res);
       foreach ($row as $col) {
