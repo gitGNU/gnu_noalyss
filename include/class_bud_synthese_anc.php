@@ -39,12 +39,6 @@ class Bud_Synthese_Anc extends Bud_Synthese {
     foreach (array('po_from','po_to') as $r) {
       $this->$r=(isset($p_array[$r]))?$p_array[$r]:"";
     }
-    // swap po_from and po_to if po_from is > to
-    if  ( $this->po_from > $this->po_to ){ 
-      $swap=$this->po_to;
-      $this->po_to=$this->po_from;
-      $this->po_from=$swap;
-    }
   }
 
   function select_hypo() {
@@ -93,70 +87,56 @@ class Bud_Synthese_Anc extends Bud_Synthese {
   }
   /*!\brief return all the data (raw format) in a array
     \return  Array structure
-ICIArray
-(
+
     [0] => Array
         (
             [bc_id] => 4
             [price_unit] => 1.0000
             [bc_code] => FICHE_1
             [bc_description] => 
-            [pcm_val] => 6040002
-            [unit] => 25
-            [amount] => 25
-            [amount_unit] => Array
+            [detail] => Array
                 (
-                    [79] => 1.0000
-                    [80] => 2.0000
-                    [81] => 3.0000
-                    [82] => 0.0000
-                    [83] => 0.0000
-                    [84] => 0.0000
-                    [85] => 0.0000
-                    [86] => 0.0000
-                    [87] => 9.0000
-                    [88] => 10.0000
+                    [0] => Array
+                        (
+                            [pcm_val] => 6040001
+                            [unit] => 27
+                            [amount] => 27
+                            [amount_unit] => Array
+                                (
+                                    [79] => 13.0000
+                                    [80] => 14.0000
+                                )
+
+                            [acc_name] => Electricité
+                            [acc_amount] => 0
+                        )
+
+                    [1] => Array
+                        (
+                            [pcm_val] => 6040002
+                            [unit] => 317
+                            [amount] => 317
+                            [amount_unit] => Array
+                                (
+                                    [79] => 108.0000
+                                    [80] => 209.0000
+                                )
+
+                            [acc_name] => Loyer
+                            [acc_amount] => 0
+                        )
+
                 )
 
-            [acc_name] => Loyer
-            [acc_amount] => 0
         )
 
-    [1] => Array
-        (
-            [bc_id] => 7
-            [price_unit] => 1.0000
-            [bc_code] => FICHE4
-            [bc_description] => 
-            [pcm_val] => 6510
-            [unit] => 74
-            [amount] => 74
-            [amount_unit] => Array
-                (
-                    [79] => 2.0000
-                    [80] => 43.0000
-                    [81] => 4.0000
-                    [82] => 5.0000
-                    [83] => 0.0000
-                    [84] => 6.0000
-                    [85] => 7.0000
-                    [86] => 7.0000
-                    [87] => 0.0000
-                    [88] => 0.0000
-                )
-
-            [acc_name] => Dotations
-            [acc_amount] => 0
-        )
-
-)
 */
   function load() {
     $per=sql_filter_per($this->cn,$this->from,$this->to,'p_id','p_id');
     $per_acc=sql_filter_per($this->cn,$this->from,$this->to,'p_id','j_tech_per');
 
     // get all the bud_card.bc_id
-    $sql="select distinct bc_id,bc_price_unit,bc_code,bc_description ".
+    $sql="select distinct bc_id,bc_price_unit,bc_code,bc_description,bc_unit ".
     " from bud_card join bud_detail using (bc_id) ".
       "join poste_analytique using(po_id) where po_name >= $1 and ".
       "po_name <=$2 and bud_card.bh_id=$3";
@@ -179,34 +159,100 @@ ICIArray
       $line['price_unit']=$rBudCard['bc_price_unit'];
       $line['bc_code']=$rBudCard['bc_code'];
       $line['bc_description']=$rBudCard['bc_description'];
+      $line['bc_unit']=$rBudCard['bc_unit'];
 
       $res=pg_execute("sql_detail",array($line['bc_id']));
       $row=pg_fetch_all($res);
+      $idx=0;
       foreach ($row as $col) {
+	$sub=array();
 	$pcm_val=$col['pcm_val'];
-	$line['pcm_val']=$pcm_val;
+	$sub['pcm_val']=$pcm_val;
 	$periode=array();
 	$res2=pg_execute("sql_detail_periode",array($rBudCard['bc_id'],$pcm_val));
 	$col_per=pg_fetch_all($res2);
-	$line['unit']=0;
+	$sub['unit']=0;
 	foreach ($col_per as $cPer) {
 	  $p_id=$cPer['p_id'];
 	  $periode[$p_id]=$cPer['amount'];
-	  $line['unit']+=$cPer['amount'];
+	  $sub['unit']+=$cPer['amount'];
 	}
-	$line['amount']=$line['unit']*$line['price_unit'];
-	$line['amount_unit']=$periode;
+	$sub['amount']=$sub['unit']*$line['price_unit'];
+	$sub['amount_unit']=$periode;
 	$acc_account=new Acc_Account($this->cn,$pcm_val);
 	$acc_account->load();
-	$line['acc_name']=$acc_account->label;
-	$line['acc_amount']=$acc_account->get_solde($per_acc);
+	$sub['acc_name']=$acc_account->label;
+	$sub['acc_amount']=$acc_account->get_solde($per_acc);
+	$line['detail'][$idx]=$sub;
+	$idx++;
       }
       $array[]=$line;
     }
-    pg_close($cn);
+
     return $array;
   }
 
+  function display_csv ($p_array){
+    if (empty($p_array)) return;
+    $r="";
+    foreach ($p_array as $key=>$value) {
+      echo_debug(__FILE__.':'.__LINE__.'- display_csv','$key',$key);
+      echo_debug(__FILE__.':'.__LINE__.'- display_csv','$value',$value);
+      $r.=sprintf('"%s","%s"',$value['bc_code'],$value['bc_description']);
+      $r.=sprintf("\r\n");
+
+      foreach ($value['detail'] as $v) {
+	$r.=sprintf('"%s","%s",'
+		    ,$v['pcm_val'],
+		    $v['acc_name']);
+
+	foreach ($v['amount_unit'] as $a=>$v2 ){
+	  $r.=sprintf('%10.4f,',$v2);
+	}
+	$r.=sprintf('%10.4f,%10.4f,%10.4f',
+		    $v['unit'],$v['amount'],$v['acc_amount']);
+	$r.=sprintf("\r\n");
+      }
+    }
+    return $r;
+  }
+  function display_html($p_array) {
+    $r="";
+    if (empty($p_array)) return;
+    $per=get_array($this->cn,"select to_char(p_start,'MM.YYYY') as d".
+		   " from parm_periode ".
+		   " where p_id between ".$this->from.' and '.
+		   $this->to." order by p_start" );
+    $heading="<tr><th> CE </th>";
+    foreach( $per as $c) { $heading.='<th>'.$c['d'].'</th>';}
+    $heading.="<th>Total Unite</th>";
+    $heading.="<th>Total Prix</th>";
+    $heading.="<th>Total CE</th></tr>";
+
+    foreach ($p_array as $key=>$value) {
+      echo_debug(__FILE__.':'.__LINE__.'- display_html','$key',$key);
+      echo_debug(__FILE__.':'.__LINE__.'- display_html','$value',$value);
+      $r.=$value['bc_code'].'-'.$value['bc_description'].
+	' PU: '.$value['price_unit'].$value['bc_unit'];
+	
+	$r.="<table>";
+	$r.=$heading;
+	foreach ($value['detail'] as $v) {
+	  $r.='<tr>';
+	  $r.='<td>'.$v['pcm_val'].' '.$v['acc_name'].'</td>';
+	  foreach ($v['amount_unit'] as $a=>$v2) {
+	    $r.=sprintf('<td align="right">% 10.2f</td>',$v2);
+	  }
+	  $r.=sprintf('<td align="right">% 10.2f</td>',$v['unit']);
+	  $r.=sprintf('<td align="right">% 10.2f</td>',$v['amount']);
+	  $r.=sprintf('<td align="right">% 10.2f</td>',$v['acc_amount']);
+	  $r.='</tr>';
+	}
+      $r.="</table>";
+    }    
+
+    return $r;
+  }
 
   static function test_me() {
 
@@ -229,7 +275,12 @@ ICIArray
       $obj->from_array($_GET);
 
       echo 'ICI';
-      print_r($obj->load());
+      $res=$obj->load();
+      echo '<hr>';
+      echo $obj->display_csv($res);
+      echo '<hr>';
+
+      echo $obj->display_html($res);
     }
   }
 
