@@ -187,14 +187,43 @@ Array
       foreach ($aGroup as $rGroup ) {
 	$group_id=$rGroup['ga_id'];
 	$sub[$group_id]=(isset($sub[$group_id]))?$sub[$group_id]:0;
-	$sub[$group_id]=+$row[$group_id];
+	$sub[$group_id]+=$row[$group_id];
+	print_r("$key pcm_val :".$pcm_val."gr.".$group_id." ".$row[$group_id]."sub ".$sub[$group_id]);
 	$sub['total']=(isset($sub['total']))?$sub['total']:0;
 	$sub['total']+=$row[$group_id];
+	print_r('sub_total = '.$sub['total'].'<br>');
       }
-      if (isset( $array[$pcm_val]))
-	$array[$pcm_val]+=$sub;
+      if (isset( $array[$pcm_val])) {
+	$new_array=array();
+	foreach ($array[$pcm_val] as $key=>$value) {
+	  $new_array[$key]=$value+$sub[$key];
+	}
+	$array[$pcm_val]=$new_array;
+      }
       else 
 	$array[$pcm_val]=$sub;
+    }
+    return $array;
+  }
+  /*!\brief show the last line with the total of column 
+   * \param $p_array returned value from load()
+   * \return Array
+   */
+  function total_column($p_array) {
+    $array=array();
+    if ( empty ($p_array)) return $array ;
+    // Now we put 0 if there is nothing for a group
+    $aGroup=get_array($this->cn,"select distinct ga_id from bud_detail join poste_analytique ".
+		      " using (po_id) where bh_id=".$this->bh_id." order by ga_id ");
+
+
+
+    foreach ($p_array as $col) {
+      foreach ($aGroup as $rGroup) {
+	$ga_id=$rGroup['ga_id'];
+	$array[$ga_id]=(isset($array[$ga_id]))?$array[$ga_id]:0;
+	$array[$ga_id]+=$col[$ga_id];
+      }
     }
     return $array;
   }
@@ -212,6 +241,7 @@ Array
       print_r($res);
       $summary=$obj->summary($res);
       print_r($summary);
+      print_r($obj->total_column($res));
     }
   }
 }
