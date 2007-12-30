@@ -29,6 +29,8 @@
 require_once ('class_bud_synthese.php');
 require_once ('class_anc_account.php');
 require_once ('class_acc_account.php');
+require_once ("class.ezpdf.php");
+require_once ('header_print.php');
 
 
 class Bud_Synthese_Acc extends Bud_Synthese {

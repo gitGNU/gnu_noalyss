@@ -189,17 +189,17 @@ class Anc_Balance_Simple extends Anc_Print {
 	header_pdf($this->db,$pdf);
 	$pdf->ezTable($view,
 				  array("po_id"=>"id",
-						"po_name"=>"Poste Comptable",
-						"sum_deb"=>"Debit",
-						"sum_cred"=>"Credit",
-						"solde"=>"Solde",
-						"debit"=>"Debit/Credit"),
+					"po_name"=>"Poste Comptable",
+					"sum_deb"=>"Debit",
+					"sum_cred"=>"Credit",
+					"solde"=>"Solde",
+					"debit"=>"Debit/Credit"),
 				  $titre,
 				    array('shaded'=>1,'showHeadings'=>1,'width'=>500,
-						  'cols'=>array('sum_deb'=> array('justification'=>'right'),
-										'solde'=> array('justification'=>'right'),
-										'sum_cred'=> array('justification'=>'right'))));
-
+					  'cols'=>array('sum_deb'=> array('justification'=>'right'),
+							'solde'=> array('justification'=>'right'),
+							'sum_cred'=> array('justification'=>'right'))));
+	
 	  $page++;
 	  $pdf->ezNewPage();					
 
