@@ -28,6 +28,8 @@
 */
 require_once ('class_bud_synthese.php');
 require_once ('class_anc_account.php');
+require_once ('class_acc_account.php');
+
 
 class Bud_Synthese_Anc extends Bud_Synthese {
   var $po_from;
@@ -90,59 +92,71 @@ class Bud_Synthese_Anc extends Bud_Synthese {
     return $r;
   }
   /*!\brief return all the data (raw format) in a array
-\return  Array structure (
+    \return  Array structure
+(
     [0] => Array
         (
             [bc_id] => 4
+            [price_unit] => 1.0000
             [pcm_val] => 6040002
-            [amount] => Array
+            [unit] => 48
+            [amount] => 48
+            [amount_unit] => Array
                 (
                     [79] => 1.0000
-                    [91] => 0.0000
-                    [90] => 12.0000
-                    [81] => 3.0000
-                    [89] => 11.0000
                     [80] => 2.0000
-                    [88] => 10.0000
-                    [87] => 9.0000
-                    [86] => 0.0000
-                    [85] => 0.0000
-                    [84] => 0.0000
-                    [83] => 0.0000
+                    [81] => 3.0000
                     [82] => 0.0000
+                    [83] => 0.0000
+                    [84] => 0.0000
+                    [85] => 0.0000
+                    [86] => 0.0000
+                    [87] => 9.0000
+                    [88] => 10.0000
+                    [89] => 11.0000
+                    [90] => 12.0000
                 )
 
+            [acc_name] => Loyer
+            [acc_amount] => 0
         )
 
     [1] => Array
         (
             [bc_id] => 7
+            [price_unit] => 1.0000
             [pcm_val] => 6510
-            [amount] => Array
+            [unit] => 74
+            [amount] => 74
+            [amount_unit] => Array
                 (
                     [79] => 2.0000
-                    [91] => 0.0000
-                    [90] => 0.0000
-                    [81] => 4.0000
-                    [89] => 0.0000
                     [80] => 43.0000
-                    [88] => 0.0000
-                    [87] => 0.0000
-                    [86] => 7.0000
-                    [85] => 7.0000
-                    [84] => 6.0000
-                    [83] => 0.0000
+                    [81] => 4.0000
                     [82] => 5.0000
+                    [83] => 0.0000
+                    [84] => 6.0000
+                    [85] => 7.0000
+                    [86] => 7.0000
+                    [87] => 0.0000
+                    [88] => 0.0000
+                    [89] => 0.0000
+                    [90] => 0.0000
                 )
 
+            [acc_name] => Dotations
+            [acc_amount] => 0
         )
 
-) */
+
+
+*/
   function load() {
     $per=sql_filter_per($this->cn,$this->from,$this->to,'p_id','p_id');
+    $per_acc=sql_filter_per($this->cn,$this->from,$this->to,'p_id','j_tech_per');
 
     // get all the bud_card.bc_id
-    $sql="select distinct bc_id from bud_card join bud_detail using (bc_id) ".
+    $sql="select distinct bc_id,bc_price_unit from bud_card join bud_detail using (bc_id) ".
       "join poste_analytique using(po_id) where po_name >= $1 and ".
       "po_name <=$2 and bud_card.bh_id=$3";
     $res=ExecSqlParam($this->cn,$sql,array($this->po_from,$this->po_to,$this->bh_id));
@@ -161,6 +175,7 @@ class Bud_Synthese_Anc extends Bud_Synthese {
     foreach ($aBudCard as $rBudCard) {
       $line=array();
       $line['bc_id']=$rBudCard['bc_id'];
+      $line['price_unit']=$rBudCard['bc_price_unit'];
       $res=pg_execute("sql_detail",array($line['bc_id']));
       $row=pg_fetch_all($res);
       foreach ($row as $col) {
@@ -169,18 +184,26 @@ class Bud_Synthese_Anc extends Bud_Synthese {
 	$periode=array();
 	$res2=pg_execute("sql_detail_periode",array($rBudCard['bc_id'],$pcm_val));
 	$col_per=pg_fetch_all($res2);
-
+	$line['unit']=0;
 	foreach ($col_per as $cPer) {
 	  $p_id=$cPer['p_id'];
 	  $periode[$p_id]=$cPer['amount'];
+	  $line['unit']+=$cPer['amount'];
 	}
-	$line['amount']=$periode;
+	$line['amount']=$line['unit']*$line['price_unit'];
+	$line['amount_unit']=$periode;
+	$acc_account=new Acc_Account($this->cn,$pcm_val);
+	$acc_account->load();
+	$line['acc_name']=$acc_account->label;
+	$line['acc_amount']=$acc_account->get_solde($per_acc);
       }
       $array[]=$line;
     }
     pg_close($cn);
     return $array;
   }
+
+
   static function test_me() {
 
     $cn=DbConnect(dossier::id());
