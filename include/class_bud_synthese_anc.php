@@ -40,10 +40,10 @@ class Bud_Synthese_Anc extends Bud_Synthese {
       $this->$r=(isset($p_array[$r]))?$p_array[$r]:"";
     }
     // swap po_from and po_to if po_from is > to
-    if  ( $this->from > $this->po_to ){ 
+    if  ( $this->po_from > $this->po_to ){ 
       $swap=$this->po_to;
-      $this->po_to=$this->from;
-      $this->from=$swap;
+      $this->po_to=$this->po_from;
+      $this->po_from=$swap;
     }
   }
 
