@@ -28,6 +28,7 @@
  *  synthese
  */
 require_once ('class_bud_synthese.php');
+require_once ('class_acc_account.php');
 
 class Bud_Synthese_Hypo extends Bud_Synthese {
 /*   function __construct($p_cn) { */
@@ -62,28 +63,41 @@ class Bud_Synthese_Hypo extends Bud_Synthese {
   }
   /*!\brief load the data from the database and return the result an
      array
-     \return Array
-     (
-     [6510] => Array
-     (
-     [GROUPE1] => 0
-     [GROUPE3] => 74.0000
-     )
-     
-     [6040001] => Array
-     (
-     [GROUPE1] => 83.7000
-     [GROUPE3] => 78.0000
-     )
-     
-     [6040002] => Array
-     (
-     [GROUPE1] => 48.0000
-     [GROUPE3] => 0
-     ) 
+     \return 
+Array
+(
+    [6510] => Array
+        (
+            [GROUPE1] => 0
+            [GROUPE3] => 67
+            [total_row] => 67
+            [acc_name] => Dotations
+            [acc_amount] => 0
+        )
+
+    [6040001] => Array
+        (
+            [GROUPE1] => 81.7
+            [GROUPE3] => 28
+            [total_row] => 109.7
+            [acc_name] => Electricité
+            [acc_amount] => 0
+        )
+
+    [6040002] => Array
+        (
+            [GROUPE1] => 6
+            [GROUPE3] => 0
+            [total_row] => 6
+            [acc_name] => Loyer
+            [acc_amount] => 0
+        )
+
+)
 */
   function load() {
     $per=sql_filter_per($this->cn,$this->from,$this->to,'p_id','p_id');
+    $per_acc=sql_filter_per($this->cn,$this->from,$this->to,'p_id','j_tech_per');
     $sql_poste="select distinct pcm_val from bud_detail where bh_id=".$this->bh_id;
     $aPoste=get_array($this->cn,$sql_poste);
 
@@ -117,10 +131,17 @@ class Bud_Synthese_Hypo extends Bud_Synthese {
 	$sGroup=$rGroup['ga_id'];
 	$line[$sGroup]=0;
       }
+      $line['total_row']=0;
       foreach ($row as $col ) {
 	$groupe=$col['ga_id'];
 	$line[$groupe]=$col['amount']*$col['bc_price_unit'];
+	$line['total_row']+=$line[$groupe];
       }
+      // total CE
+      $acc_account=new Acc_Account($this->cn,$pcm_val);
+      $acc_account->load();
+      $line['acc_name']=$acc_account->label;
+      $line['acc_amount']=$acc_account->get_solde($per_acc);
       $array[$pcm_val]=$line;
     }
     pg_close($cn);
