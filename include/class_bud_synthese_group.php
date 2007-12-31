@@ -40,8 +40,7 @@ class Bud_Synthese_Group extends Bud_Synthese {
     }
   }
   function select_hypo() {
-    $hypo=make_array($this->cn,'select bh_id, bh_name from bud_hypothese '.
-		  ' where pa_id is not null order by bh_name');
+    $hypo=make_array($this->cn,'select bh_id, bh_name from bud_hypothese order by bh_name');
     $wSelect = new widget('select');
     $wSelect->name='bh_id';
     $wSelect->value=$hypo;
@@ -59,17 +58,18 @@ class Bud_Synthese_Group extends Bud_Synthese {
     $hypo=new Bud_Hypo($this->cn);
     $hypo->bh_id=$this->bh_id;
     $hypo->load();
-    $anc_value=make_array($this->cn,"select distinct ga_id, ".
-			  " ga_id||'-'||substr(ga_description,10) as ga_description ".
-			  "from groupe_analytique ".
-			  " join poste_analytique using (ga_id) ".
-			  " join bud_detail using (po_id) ".
-			  " where bh_id=".$this->bh_id);
+    if ($hypo->has_plan() == 1 ) {
+      $anc_value=make_array($this->cn,"select distinct ga_id, ".
+			    " ga_id||'-'||substr(ga_description,10) as ga_description ".
+			    "from groupe_analytique ".
+			    " join poste_analytique using (ga_id) ".
+			    " join bud_detail using (po_id) ".
+			    " where bh_id=".$this->bh_id);
 
-    $wGa_id=new widget("select");
-    $wGa_id->name="ga_id";
-    $wGa_id->value=$anc_value;
-
+      $wGa_id=new widget("select");
+      $wGa_id->name="ga_id";
+      $wGa_id->value=$anc_value;
+    }
     $per=make_array($this->cn,"select p_id,to_char(p_start,'MM.YYYY') ".
 		    " from parm_periode order by p_start,p_end");
 
@@ -82,7 +82,8 @@ class Bud_Synthese_Group extends Bud_Synthese {
     $wto->value=$per;
     $r="";
     $r.="Periode de ".$wFrom->IOValue()." &agrave; ".$wto->IOValue();
-    $r.="Groupe  ".$wGa_id->IOValue();
+    if ( $hypo->has_plan()==1) 
+      $r.="Groupe  ".$wGa_id->IOValue();
     $r.=dossier::hidden();
     return $r;
   }
@@ -158,15 +159,28 @@ class Bud_Synthese_Group extends Bud_Synthese {
  */
   function load() {
     $per=sql_filter_per($this->cn,$this->from,$this->to,'p_id','p_id');
-    $sql="select bc_price_unit,pcm_val,sum(bdp_amount) as amount,p_id ".
-      " from bud_detail join bud_detail_periode using (bd_id) ".
-      " join poste_analytique using (po_id) ".
-      " join bud_card using (bc_id) ".
-      " where ".
-      " ga_id ='".$this->ga_id."'".
-      " and bud_detail.bh_id=".$this->bh_id.
-      " and $per ".
-      " group by pcm_val,p_id,bc_price_unit order by pcm_val,p_id";
+    $hypo=new Bud_Hypo($this->cn);
+    $hypo->bh_id=$this->bh_id;
+    $hypo->load();
+    if ($hypo->has_plan() == 1)
+      $sql="select bc_price_unit,pcm_val,sum(bdp_amount) as amount,p_id ".
+	" from bud_detail join bud_detail_periode using (bd_id) ".
+	" join poste_analytique using (po_id) ".
+	" join bud_card using (bc_id) ".
+	" where ".
+	" ga_id ='".$this->ga_id."'".
+	" and bud_detail.bh_id=".$this->bh_id.
+	" and $per ".
+	" group by pcm_val,p_id,bc_price_unit order by pcm_val,p_id";
+    else 
+      $sql="select bc_price_unit,pcm_val,sum(bdp_amount) as amount,p_id ".
+	" from bud_detail join bud_detail_periode using (bd_id) ".
+	" join bud_card using (bc_id) ".
+	" where ".
+	" bud_detail.bh_id=".$this->bh_id.
+	" and $per ".
+	" group by pcm_val,p_id,bc_price_unit order by pcm_val,p_id";
+
     $res=get_array($this->cn,$sql);
     echo_debug(__FILE__.':'.__LINE__.'- load','$res',$res);
     $pcm_val="";
@@ -341,6 +355,12 @@ Array
       
     }
     $foot=$tmp;
+    /* remark the total include the initial value ???
+     *
+       $foot['total_bud']+=$initial;
+       $foot['total_acc']+=$initial_acc;
+    */
+
 
     echo_debug(__FILE__.':'.__LINE__.'- head_foot','after report $foot',$foot);
     return array($head,$foot);
