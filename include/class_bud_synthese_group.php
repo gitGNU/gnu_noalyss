@@ -168,6 +168,7 @@ class Bud_Synthese_Group extends Bud_Synthese {
       " and $per ".
       " group by pcm_val,p_id,bc_price_unit order by pcm_val,p_id";
     $res=get_array($this->cn,$sql);
+    echo_debug(__FILE__.':'.__LINE__.'- load','$res',$res);
     $pcm_val="";
     $old="XX";
     $sub=array();
@@ -180,15 +181,17 @@ class Bud_Synthese_Group extends Bud_Synthese {
       }
       if ( $pcm_val == $old ) {
 	$per='BD_'.$row['p_id'];
-	$sub[$per]=$row['amount']*$row['bc_price_unit'];
+	$sub[$per]=(isset($sub[$per]))?$sub[$per]:0;
+	$sub[$per]+=$row['amount']*$row['bc_price_unit'];
       } else {
 	// save the array
 	$array[$old]=$sub;
 	$old=$pcm_val;
-	$per=$row['p_id'];
+	$per='BD_'.$row['p_id'];
 	// reinitialize array
 	$sub=array();
-	$sub[$per]=$row['amount']*$row['bc_price_unit'];
+	$sub[$per]=(isset($sub[$per]))?$sub[$per]:0;
+	$sub[$per]+=$row['amount']*$row['bc_price_unit'];
 
       }
     }
@@ -292,32 +295,75 @@ Array
     $head=array();
     // get the initial value from anc_hypo
     $hypo=new Bud_Hypo($this->cn);
+    $hypo->bh_id=$this->bh_id;
     $hypo->load();
     $initial=$hypo->bh_saldo;
+    $per=get_array($this->cn,"select p_id,to_char(p_start,'MM.YYYY') as d".
+		   " from parm_periode ".
+		   " where p_id between ".$this->from.' and '.
+		   $this->to." order by p_start" );
+    echo_debug(__FILE__.':'.__LINE__.'- head_foot','hypo',$hypo);
     // the key is the pcm_val and the amount is an array
-    foreach ($p_array as $key=>$amount) {
-      $foot[$key]=$key;
-      $previous=$initial;
-      foreach ($amount as $periode=>$value) {
-	if ( strpos($periode,'BD_') !== 0 ) continue;
-	$head[$periode]=$previous;
-	$foot[$periode]=(isset($foot[$periode]))?$foot[$periode]:0;
-	$foot[$periode]+=$value;
-	$previous=$foot[$periode];
-      }
-      $previous=0;
-      foreach ($amount as $periode=>$value) {
-	if ( strpos($periode,'AC_') !== 0 ) continue;
-	$head[$periode]=$previous;
-	$foot[$periode]=(isset($foot[$periode]))?$foot[$periode]:0;
-	$foot[$periode]+=$value;
-	$previous=$foot[$periode];
-      }
-  
-    }
-
+    $bud_previous=$initial;
     return array($head,$foot);
   }
+
+
+  function display_html($p_array) {
+    $r="";
+    list ($head,$foot)=$this->head_foot($p_array);
+    $per=get_array($this->cn,"select p_id,to_char(p_start,'MM.YYYY') as d".
+		   " from parm_periode ".
+		   " where p_id between ".$this->from.' and '.
+		   $this->to." order by p_start" );
+    $r.='<table>';
+    $heading="<tr><th> CE </th>";
+    foreach( $per as $c) { 
+      $heading.='<th>'.$c['d'].'</th>';
+      $heading.='<th> CE'.$c['d'].'</th>';
+    }
+    $heading.="<th>Tot. Cout</th>";
+    $heading.="<th>Resultat</th></tr>";
+    $r.=$heading;
+    //show header
+    $r.='<td></td>';
+    foreach ($per as $c) {
+      $idx_bud='BD_'.$c['p_id'];
+      $idx_acc='AC_'.$c['p_id'];
+      $r.='<td align="right">'.sprintf('% 10.2f',$head[$idx_bud]).'</td>';
+      $r.='<td align="right">'.sprintf('% 10.2f',$head[$idx_acc]).'</td>';
+    }
+    $r.='<td></td>';
+    $r.='<td></td>';
+    $r.='</tr>';
+    // content
+
+    foreach ($p_array as $key => $value ){
+      $r.='<tr>';
+      $r.='<td>'.$key.'</td>';
+      foreach ( $per as $c) {
+	$ix_acc='AC_'.$c['p_id'];
+	$ix_bud='BD_'.$c['p_id'];
+	$r.=sprintf('<td align="right">% 10.2f</td>',$value[$ix_bud]);
+	$r.=sprintf('<td align="right">% 10.2f</td>',$value[$ix_acc]);
+      }
+      $r.=sprintf('<td align="right">% 10.2f</td>',$value['total_bud']);
+      $r.=sprintf('<td align="right">% 10.2f</td>',$value['total_acc']);
+      $r.='</tr>';
+    }
+    $r.='<tr>';
+    $r.='<td></td>';
+    foreach ($per as $c) {
+      $idx_bud='BD_'.$c['p_id'];
+      $idx_acc='AC_'.$c['p_id'];
+      $r.='<td align="right">'.sprintf('% 10.2f',$foot[$idx_bud]).'</td>';
+      $r.='<td align="right">'.sprintf('% 10.2f',$foot[$idx_acc]).'</td>';
+    }
+    $r.='</tr>';
+    $r.='</table>';
+    return $r;
+  }
+
   static function test_me() {
     $cn=DbConnect(dossier::id());
     $obj=new Bud_Synthese_Group($cn);
@@ -340,9 +386,13 @@ Array
       echo 'ICI';
       $res=$obj->load();
       print_r($res);
+      echo '<hr>';
       list($head_table,$foot_table)=$obj->head_foot($res);
+      echo '<hr>';
+
       print_r($head_table);
       print_r($foot_table);
+      echo $obj->display_html($res);
     }
   }
 
