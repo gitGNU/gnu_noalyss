@@ -304,7 +304,45 @@ Array
 		   $this->to." order by p_start" );
     echo_debug(__FILE__.':'.__LINE__.'- head_foot','hypo',$hypo);
     // the key is the pcm_val and the amount is an array
+    foreach ($p_array as $key=>$value) {
+      echo_debug(__FILE__.':'.__LINE__.'- head_foot','$key',$key);
+      echo_debug(__FILE__.':'.__LINE__.'- head_foot','$value',$value);
+      foreach($value as $per=>$amount) {
+	$foot[$per]=(isset($foot[$per]))?$foot[$per]:0;
+	$foot[$per]+=$amount;
+      }
+    }
+
+    echo_debug(__FILE__.':'.__LINE__.'- head_foot','$foot',$foot);
+
+    //-- now we have the total of each column in $foot
+    // we need to report the value
+    $tmp=array();
+    $acc_previous=0;
     $bud_previous=$initial;
+
+    foreach ($foot as $per=>$amount) {
+      $tmp[$per]=(isset($tmp[$per]))?$tmp[$per]:0;
+      $tmp[$per]+=$amount;
+      echo_debug(__FILE__.':'.__LINE__.'- head_foot','testing strpos BD_ $per',$per);
+      echo_debug(__FILE__.':'.__LINE__.'- head_foot','result of strpos',strpos($per,'BD_'));
+      if ( strpos($per,'BD_')===0) {
+	echo_debug(__FILE__.':'.__LINE__.'- head_foot','adding the previous ',$bud_previous);
+	$head[$per]=$bud_previous;
+	$tmp[$per]+=$bud_previous;
+	$bud_previous=$tmp[$per];
+      }
+      if ( strpos($per,'AC_')===0) {
+	$head[$per]=$acc_previous;
+	$tmp[$per]+=$acc_previous;
+	$anc_previous=$tmp[$per];
+      }
+
+      
+    }
+    $foot=$tmp;
+
+    echo_debug(__FILE__.':'.__LINE__.'- head_foot','after report $foot',$foot);
     return array($head,$foot);
   }
 
@@ -359,6 +397,9 @@ Array
       $r.='<td align="right">'.sprintf('% 10.2f',$foot[$idx_bud]).'</td>';
       $r.='<td align="right">'.sprintf('% 10.2f',$foot[$idx_acc]).'</td>';
     }
+    $r.=sprintf('<td align="right">% 10.2f</td>',$foot['total_bud']);
+    $r.=sprintf('<td align="right">% 10.2f</td>',$foot['total_acc']);
+
     $r.='</tr>';
     $r.='</table>';
     return $r;
