@@ -44,8 +44,8 @@ class Bud_Synthese_Acc extends Bud_Synthese {
   }
 
   function select_hypo() {
-    $hypo=make_array($this->cn,'select bh_id, bh_name from bud_hypothese '.
-		  ' where pa_id is not null order by bh_name');
+    $hypo=make_array($this->cn,'select bh_id, bh_name from bud_hypothese ');
+
     $wSelect = new widget('select');
     $wSelect->name='bh_id';
     $wSelect->value=$hypo;
@@ -140,7 +140,7 @@ class Bud_Synthese_Acc extends Bud_Synthese {
     // get all the bud_card.bc_id
     $sql="select distinct pcm_val ".
       " from bud_card join bud_detail using (bc_id) ".
-      "join poste_analytique using(po_id) where pcm_val::text >= $1 and ".
+      " where pcm_val::text >= $1 and ".
       "pcm_val::text <= $2 and bud_card.bh_id=$3";
 
     $res=ExecSqlParam($this->cn,$sql,array($this->acc_from,$this->acc_to,$this->bh_id));
