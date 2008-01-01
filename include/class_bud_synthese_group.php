@@ -44,8 +44,10 @@ class Bud_Synthese_Group extends Bud_Synthese {
     $wSelect = new widget('select');
     $wSelect->name='bh_id';
     $wSelect->value=$hypo;
+    $wSelect->selected=$this->bh_id;
+    $wSelect->javascript='onChange=this.form.submit()';
 
-    $r="Hypoth&egrave;se :".$wSelect->IOValue();
+    $r="Choississez l'hypoth&egrave;se :".$wSelect->IOValue();
     $r.=dossier::hidden();
     return $r;
   }
@@ -69,6 +71,7 @@ class Bud_Synthese_Group extends Bud_Synthese {
       $wGa_id=new widget("select");
       $wGa_id->name="ga_id";
       $wGa_id->value=$anc_value;
+      $wGa_id->selected=$this->ga_id;
     }
     $per=make_array($this->cn,"select p_id,to_char(p_start,'MM.YYYY') ".
 		    " from parm_periode order by p_start,p_end");
@@ -76,10 +79,13 @@ class Bud_Synthese_Group extends Bud_Synthese {
     $wFrom=new widget('select');
     $wFrom->name='from';
     $wFrom->value=$per;
+    $wFrom->selected=$this->from;
     
     $wto=new widget('select');
     $wto->name='to';
     $wto->value=$per;
+    $wto->selected=$this->to;
+
     $r="";
     $r.="Periode de ".$wFrom->IOValue()." &agrave; ".$wto->IOValue();
     if ( $hypo->has_plan()==1) 
@@ -332,7 +338,7 @@ Array
     //-- now we have the total of each column in $foot
     // we need to report the value
     $tmp=array();
-    $acc_previous=0;
+    $acc_previous=$initial;
     $bud_previous=$initial;
 
     foreach ($foot as $per=>$amount) {
@@ -402,8 +408,23 @@ Array
       foreach ( $per as $c) {
 	$ix_acc='AC_'.$c['p_id'];
 	$ix_bud='BD_'.$c['p_id'];
+	$color="";
+	if ( strpos($key,'6') === 0 ) {
+	  if ( $value[$ix_acc] > $value[$ix_bud] )
+	    $color="red";
+	  else 
+	    $color="lightgreen";
+	}
+	if ( strpos($key,'7') === 0 ) {
+	  if ( $value[$ix_acc] < $value[$ix_bud] )
+	    $color="red";
+	  else 
+	    $color="lightgreen";
+
+	}
 	$r.=sprintf('<td align="right">% 10.2f</td>',$value[$ix_bud]);
-	$r.=sprintf('<td align="right">% 10.2f</td>',$value[$ix_acc]);
+	$r.=sprintf('<td bgcolor="%s" align="right">% 10.2f</td>',$color,$value[$ix_acc]);
+
       }
       $r.=sprintf('<td align="right">% 10.2f</td>',$value['total_bud']);
       $r.=sprintf('<td align="right">% 10.2f</td>',$value['total_acc']);
@@ -422,6 +443,69 @@ Array
 
     $r.='</tr>';
     $r.='</table>';
+    return $r;
+  }
+  function display_csv($p_array) {
+    $r="";
+    list ($head,$foot)=$this->head_foot($p_array);
+    $per=get_array($this->cn,"select p_id,to_char(p_start,'MM.YYYY') as d".
+		   " from parm_periode ".
+		   " where p_id between ".$this->from.' and '.
+		   $this->to." order by p_start" );
+    $heading='"CE",';
+    foreach( $per as $c) { 
+      $heading.='"'.$c['d'].'",';
+      $heading.='"CE'.$c['d'].'",';
+    }
+    $heading.='"Tot. Cout",';
+    $heading.='"Resultat"';
+    $r.=$heading;
+    //show header
+    $r.="\r\n";
+    $r.='"",';
+    foreach ($per as $c) {
+      $idx_bud='BD_'.$c['p_id'];
+      $idx_acc='AC_'.$c['p_id'];
+      $r.=sprintf('% 10.2f,',$head[$idx_bud]);
+      $r.=sprintf('% 10.2f,',$head[$idx_acc]);
+    }
+    $r.='"",';
+    $r.='""';
+
+    // content
+
+    foreach ($p_array as $key => $value ){
+      $r.="\r\n";
+      $r.='"'.$key.'",';
+      foreach ( $per as $c) {
+	$ix_acc='AC_'.$c['p_id'];
+	$ix_bud='BD_'.$c['p_id'];
+	$r.=sprintf('% 10.2f,',$value[$ix_bud]);
+	$r.=sprintf('% 10.2f,',$value[$ix_acc]);
+      }
+      $r.=sprintf('% 10.2f,',$value['total_bud']);
+      $r.=sprintf('% 10.2f',$value['total_acc']);
+    }
+    $r.="\r\n";
+    $r.='"",';
+
+    foreach ($per as $c) {
+      $idx_bud='BD_'.$c['p_id'];
+      $idx_acc='AC_'.$c['p_id'];
+      $r.=sprintf('% 10.2f,',$foot[$idx_bud]);
+      $r.=sprintf('% 10.2f,',$foot[$idx_acc]);
+    }
+    $r.=sprintf('% 10.2f,',$foot['total_bud']);
+    $r.=sprintf('% 10.2f',$foot['total_acc']);
+
+    $r.="\r\n";
+    return $r;
+  }
+
+  function hidden() {
+    $r="";
+    foreach (array('bh_id','ga_id','from','to') as $e)
+      $r.=widget::hidden($e,$this->$e);
     return $r;
   }
 

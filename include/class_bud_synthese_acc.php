@@ -49,8 +49,9 @@ class Bud_Synthese_Acc extends Bud_Synthese {
     $wSelect = new widget('select');
     $wSelect->name='bh_id';
     $wSelect->value=$hypo;
-
-    $r="Hypoth&egrave;se :".$wSelect->IOValue();
+    $wSelect->javascript='onChange=this.form.submit()';
+    $wSelect->selected=(isset($this->bh_id))?$this->bh_id:'';
+    $r="Choississez l'hypoth&egrave;se :".$wSelect->IOValue();
     $r.=dossier::hidden();
     return $r;
   }
@@ -66,10 +67,12 @@ class Bud_Synthese_Acc extends Bud_Synthese {
     $wAcc_from=new widget("select");
     $wAcc_from->name="acc_from";
     $wAcc_from->value=$acc_value;
+    $wAcc_from->selected=$this->acc_from;
 
     $wAcc_to=new widget("select");
     $wAcc_to->name="acc_to";
     $wAcc_to->value=$acc_value;
+    $wAcc_to->selected=$this->acc_to;
 
     $per=make_array($this->cn,"select p_id,to_char(p_start,'MM.YYYY') ".
 		    " from parm_periode order by p_start,p_end");
@@ -77,10 +80,13 @@ class Bud_Synthese_Acc extends Bud_Synthese {
     $wFrom=new widget('select');
     $wFrom->name='from';
     $wFrom->value=$per;
+    $wFrom->selected=$this->from;
 
     $wto=new widget('select');
     $wto->name='to';
     $wto->value=$per;
+    $wto->selected=$this->to;
+
     $r="";
     $r.="Periode de ".$wFrom->IOValue()." &agrave; ".$wto->IOValue();
     $r.="Poste comptable de ".$wAcc_from->IOValue()." &agrave; ".$wAcc_to->IOValue();
@@ -258,6 +264,13 @@ class Bud_Synthese_Acc extends Bud_Synthese {
 
     return $r;
   }
+  function hidden() {
+    $r="";
+    foreach (array('bh_id','acc_from','acc_to','from','to') as $e)
+      $r.=widget::hidden($e,$this->$e);
+    return $r;
+  }
+
   static function test_me() {
 
     $cn=DbConnect(dossier::id());

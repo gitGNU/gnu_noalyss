@@ -77,12 +77,12 @@ Bud_Detail_Periode::test_me();
 require_once ('class_bud_data.php');
 Bud_Data::test_me();
 
+require_once ('class_bud_synthese_acc.php');
+Bud_Synthese_Acc::test_me();
 
 
 
 
-require_once ('class_bud_synthese_hypo.php');
-Bud_Synthese_Hypo::test_me();
 
 require_once ('class_bud_synthese_group.php');
 Bud_Synthese_Group::test_me();
@@ -92,5 +92,5 @@ require_once ('class_bud_synthese_anc.php');
 Bud_Synthese_Anc::test_me();
 
 */
-require_once ('class_bud_synthese_acc.php');
-Bud_Synthese_Acc::test_me();
+require_once ('class_bud_synthese_hypo.php');
+Bud_Synthese_Hypo::test_me();

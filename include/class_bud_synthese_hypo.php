@@ -44,8 +44,10 @@ class Bud_Synthese_Hypo extends Bud_Synthese {
     $wSelect = new widget('select');
     $wSelect->name='bh_id';
     $wSelect->value=Bud_Synthese_Hypo::make_array($this->cn);
+    $wSelect->selected=$this->bh_id;
+    $wSelect->javascript='onChange=this.form.submit()';
 
-    $r="Hypoth&egrave;se :".$wSelect->IOValue();
+    $r="Choississez l'hypoth&egrave;se :".$wSelect->IOValue();
 
     $per=make_array($this->cn,"select p_id,to_char(p_start,'MM.YYYY') ".
 		    " from parm_periode order by p_start,p_end");
@@ -53,10 +55,15 @@ class Bud_Synthese_Hypo extends Bud_Synthese {
     $wFrom=new widget('select');
     $wFrom->name='from';
     $wFrom->value=$per;
+    $wFrom->selected=$this->from;
+    $wFrom->selected=$this->from;
 
     $wto=new widget('select');
     $wto->name='to';
+    $wto->selected=$this->to;
     $wto->value=$per;
+    $wto->selected=$this->to;
+
     $r.="Periode de ".$wFrom->IOValue()." &agrave; ".$wto->IOValue();
     $r.=dossier::hidden();
     return $r;
@@ -225,8 +232,104 @@ Array
 	$array[$ga_id]+=$col[$ga_id];
       }
     }
+
+    // total for total_row and acc_amount
+    $tot_row=0;
+    $acc_amount=0;
+    foreach($p_array as $k=>$v) {
+      $tot_row+=$v['total_row'];
+      $acc_amount+=$v['acc_amount'];
+    }
+    $array['total_row']=$tot_row;
+    $array['acc_amount']=$acc_amount;
     return $array;
   }
+  function display_html($p_array){
+    if ( empty ($p_array)) return;
+    $heading="";
+    $r="";
+    $aGroup=get_array($this->cn,"select distinct ga_id from bud_detail join poste_analytique ".
+		      " using (po_id) where bh_id=".$this->bh_id." order by ga_id ");
+    $heading.='<tr>';
+    $heading.='<th>CE  </th>';
+    foreach ($aGroup as $rGroup ) 
+      $heading.='<th>'.$rGroup['ga_id'].'</td>';
+    $heading.='<th>Total Ligne</th><th>Result. CE</th>';
+    $heading.='</tr>';
+    $r.='<table>';
+    $r.=$heading;
+    foreach ( $p_array as $key=>$v) {
+      $r.='<tr>';
+      $r.='<td>'.$key.' - '.$v['acc_name'].'</td>';
+      foreach ($aGroup as $rGroup ) {
+	$gr=$rGroup['ga_id'];
+	$r.=sprintf('<td align="right">% 10.2f</td>',$v[$gr]);
+      }
+      $r.=sprintf('<td align="right">% 10.2f</td>',$v['total_row']);
+      $r.=sprintf('<td align="right">% 10.2f</td>',$v['acc_amount']);
+      $r.='</tr>';
+    }
+    $r.="<tr>";
+    // Show total by col
+    $array=$this->total_column($p_array);
+    $r.="<td> Total </td>";
+    foreach ($aGroup as $rGroup ) {
+      $gr=$rGroup['ga_id'];
+      $r.=sprintf('<td align="right">% 10.2f</td>',$array[$gr]);
+    }
+    $r.=sprintf('<td align="right">% 10.2f</td>',$array['total_row']);
+    $r.=sprintf('<td align="right">% 10.2f</td>',$array['acc_amount']);
+
+    $r.='</tr>';
+
+    $r.='</table>';
+    return $r;
+  }
+  function display_csv($p_array) {
+    if ( empty ($p_array)) return;
+    $heading="";
+    $r="";
+    $aGroup=get_array($this->cn,"select distinct ga_id from bud_detail join poste_analytique ".
+		      " using (po_id) where bh_id=".$this->bh_id." order by ga_id ");
+    $heading.='"CE",';
+    foreach ($aGroup as $rGroup ) 
+      $heading.='"'.$rGroup['ga_id'].'",';
+    $heading.='"Total Ligne","Result. CE",';
+    $heading.="\r\n";
+
+    $r.=$heading;
+    foreach ( $p_array as $key=>$v) {
+      $r.='"'.$key.' - '.$v['acc_name'].'",';
+      foreach ($aGroup as $rGroup ) {
+	$gr=$rGroup['ga_id'];
+	$r.=sprintf('% 10.2f,',$v[$gr]);
+      }
+      $r.=sprintf('% 10.2f,',$v['total_row']);
+      $r.=sprintf('% 10.2f',$v['acc_amount']);
+      $r.="\r\n";
+    }
+    // Show total by col
+    $array=$this->total_column($p_array);
+    $r.='" Total",';
+    foreach ($aGroup as $rGroup ) {
+      $gr=$rGroup['ga_id'];
+      $r.=sprintf('% 10.2f,',$array[$gr]);
+    }
+    $r.=sprintf('% 10.2f,',$array['total_row']);
+    $r.=sprintf('% 10.2f',$array['acc_amount']);
+    $r.="\r\n";
+
+    return $r;
+
+    
+  }
+  function hidden() {
+    $r="";
+    foreach (array('bh_id','from','to') as $e)
+      $r.=widget::hidden($e,$this->$e);
+    return $r;
+  }
+
   static function test_me() {
     $cn=DbConnect(dossier::id());
     $obj=new Bud_Synthese_Hypo($cn);
