@@ -16,6 +16,7 @@ COMMENT ON COLUMN import_tmp.status IS 'Status w waiting, d delete t transfert';
 
 alter table poste_analytique add ga_id varchar (10);
 
+
 CREATE or replace FUNCTION t_document_validate() RETURNS "trigger"
     AS $$
 declare
