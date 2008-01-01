@@ -47,8 +47,9 @@ class Bud_Synthese_Anc extends Bud_Synthese {
     $wSelect = new widget('select');
     $wSelect->name='bh_id';
     $wSelect->value=$hypo;
-
-    $r="Hypoth&egrave;se :".$wSelect->IOValue();
+    $wSelect->javascript='onChange=this.form.submit()';
+    $wSelect->selected=(isset($this->bh_id))?$this->bh_id:'';
+    $r="Choississez l'hypoth&egrave;se :".$wSelect->IOValue();
     $r.=dossier::hidden();
     return $r;
   }
@@ -64,10 +65,11 @@ class Bud_Synthese_Anc extends Bud_Synthese {
     $wPo_from=new widget("select");
     $wPo_from->name="po_from";
     $wPo_from->value=$po_value;
-
+    $wPo_from->selected=$this->po_from;
     $wPo_to=new widget("select");
     $wPo_to->name="po_to";
     $wPo_to->value=$po_value;
+    $wPo_to->selected=$this->po_to;
 
     $per=make_array($this->cn,"select p_id,to_char(p_start,'MM.YYYY') ".
 		    " from parm_periode order by p_start,p_end");
@@ -75,10 +77,13 @@ class Bud_Synthese_Anc extends Bud_Synthese {
     $wFrom=new widget('select');
     $wFrom->name='from';
     $wFrom->value=$per;
+    $wFrom->selected=$this->from;
 
     $wto=new widget('select');
     $wto->name='to';
     $wto->value=$per;
+    $wto->selected=$this->to;
+
     $r="";
     $r.="Periode de ".$wFrom->IOValue()." &agrave; ".$wto->IOValue();
     $r.="Poste analytique de ".$wPo_from->IOValue()." &agrave; ".$wPo_to->IOValue();
@@ -232,10 +237,10 @@ class Bud_Synthese_Anc extends Bud_Synthese {
     foreach ($p_array as $key=>$value) {
       echo_debug(__FILE__.':'.__LINE__.'- display_html','$key',$key);
       echo_debug(__FILE__.':'.__LINE__.'- display_html','$value',$value);
-      $r.=$value['bc_code'].'-'.$value['bc_description'].
-	' PU: '.$value['price_unit'].$value['bc_unit'];
-	
-	$r.="<table>";
+      $r.='<span style="margin-left:5px;display:block">'.$value['bc_code'].'-'.$value['bc_description'].
+	' PU: '.$value['price_unit'].$value['bc_unit'].'</span>';
+      $r.='<span style="display:block;margin-left:100px">';
+	$r.='<table style="border:solid 1px blue;">';
 	$r.=$heading;
 	foreach ($value['detail'] as $v) {
 	  $r.='<tr>';
@@ -249,11 +254,17 @@ class Bud_Synthese_Anc extends Bud_Synthese {
 	  $r.='</tr>';
 	}
       $r.="</table>";
+      $r.='</span>';
     }    
 
     return $r;
   }
-
+  function hidden() {
+    $r="";
+    foreach (array('bh_id','po_from','po_to','from','to') as $e)
+      $r.=widget::hidden($e,$this->$e);
+    return $r;
+  }
   static function test_me() {
 
     $cn=DbConnect(dossier::id());
