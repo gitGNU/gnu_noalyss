@@ -237,7 +237,7 @@ function FormFin($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
   $r.="<th>D&eacute;nomination</TH>";
   $r.="<th>Description</TH>";
   $r.="<th>Montant</TH>";
-  $r.='<th colspan="2"> Op. Concern&eacute;</th>';
+  $r.='<th colspan="2"> Op. Concern&eacute;e(s)</th>';
   $r.="</TR>";
   // Parse each " tiers" 
     for ($i=0; $i < $p_item; $i++) {

@@ -24,8 +24,6 @@
  */
 include_once ("ac_common.php");
 require_once('class_acc_ledger.php');
-print_r($_GET);
-
 
 include_once ("postgres.php");
 include_once("jrn.php");

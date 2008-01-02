@@ -212,10 +212,10 @@ class Bud_Data {
     $r.=widget::hidden('bd_id',$this->bd_id);
     $r.=widget::hidden('form_id',$p_number);
     
-
+    $r.="Fiche Budget ".$wBudCard->IOValue('bc_id'.$p_number);
     $r.="Compte d'exploitation ".$wAccount->IOValue('account_'.$p_number);
     //    $r.=widget::hidden('account_'.$p_number.'_hidden',$this->pcm_val);
-    $r.="Fiche Budget ".$wBudCard->IOValue('bc_id'.$p_number);
+
     $r.='Total : <span id="form_total_'.$p_number.'"> '.$tot.' </span>';
     $r.='<table WIDTH="100%">';
     $r.=$this->header_table();
