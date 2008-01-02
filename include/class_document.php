@@ -110,7 +110,7 @@ class Document
 	{
 	  echo_debug('class_document',__LINE__,'Unzip the OOo');
 	  echo '<span id="gen_msg">';
-	  echo '<blink><font color="red">Un moment de patience, le document se prépare...</font></blink>';
+	  echo '<blink><font color="red">Un moment de patience, le document se pr&eacute;pare...</font></blink>';
 	  echo '</span><br>';
 	  ob_start();
 	  system("unzip '".$filename."'");
@@ -139,7 +139,7 @@ class Document
 	  echo "  ";
 ?>
 <script language="javascript">
-	this.document.getElementById('gen_msg').innerHTML='<font color="green">le document est prêt</color>';
+	this.document.getElementById('gen_msg').innerHTML='<font color="green">le document est pr&ecirc;t</color>';
 </script>
 
 <?php
@@ -154,7 +154,7 @@ class Document
       rename($dirname.DIRECTORY_SEPARATOR.$file_to_parse,$_SERVER['DOCUMENT_ROOT'].$dirname.DIRECTORY_SEPARATOR.$file_to_parse);
       $this->SaveGenerated($_SERVER['DOCUMENT_ROOT'].$dirname.DIRECTORY_SEPARATOR.$file_to_parse);
       // Invoice
-      $ret='<A class="mtitle" HREF="show_document.php?d_id='.$this->d_id.'&'.dossier::get().'">Document généré</A>';
+      $ret='<A class="mtitle" HREF="show_document.php?d_id='.$this->d_id.'&'.dossier::get().'">Document g&eacute;n&eacute;r&eacute;</A>';
       return $ret;
     }
     
@@ -190,7 +190,7 @@ class Document
 	{
 	  if ( mkdir($temp_dir) == false )
 	    {
-	      echo "Ne peut pas créer le répertoire ".$temp_dir;
+	      echo "Ne peut pas crï¿½er le rï¿½pertoire ".$temp_dir;
 	      exit();
 	    }
 	}
@@ -300,7 +300,7 @@ class Document
 		   );
       ExecSql($this->db,$sql);
       $this->d_id=GetSequence($this->db,"document_d_id_seq");
-      echo_debug('class_document',__LINE__,'document sauvé : d_id'.$this->d_id);
+      echo_debug('class_document',__LINE__,'document sauvï¿½ : d_id'.$this->d_id);
       // Clean the file
       unlink ($p_file);
       Commit($this->db);
@@ -533,7 +533,7 @@ class Document
 	case 'SOLDE':
 	  $tiers=new fiche($this->db);
 	  $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
-	  $tiers->Getbyqcode($qcode,false);
+	  $tiers->get_by_qcode($qcode,false);
 	  $p=$tiers->strAttribut(ATTR_DEF_ACCOUNT);
 	  $poste=new Poste($this->db,$p);
 	  $r=$poste->get_solde(' true' );
@@ -541,35 +541,41 @@ class Document
 	case 'CUST_NAME':
 	  $tiers=new fiche($this->db);
 	  $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
-	  $tiers->getByQcode($qcode,false);
+	  $tiers->get_by_qcode($qcode,false);
 	  $r=$tiers->strAttribut(ATTR_DEF_NAME);
 	  break;
 	case 'CUST_ADDR_1':
 	  $tiers=new fiche($this->db);
 	  $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
-	  $tiers->getByQcode($qcode,false);
+	  $tiers->get_by_qcode($qcode,false);
 	  $r=$tiers->strAttribut(ATTR_DEF_ADRESS);
 	  
 	  break ;
 	case 'CUST_CP':
 	  $tiers=new fiche($this->db);
-	  $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
-	  $tiers->getByQcode($qcode,false);
+	 
+$qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST[
+'e_client'];
+	  $tiers->get_by_qcode($qcode,false);
 	  $r=$tiers->strAttribut(ATTR_DEF_CP);
 
 	  break;
 	case 'CUST_CITY':
 	  $tiers=new fiche($this->db);
-	  $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
-	  $tiers->getByQcode($qcode,false);
+	 
+$qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST[
+'e_client'];
+	  $tiers->get_by_qcode($qcode,false);
 	  $r=$tiers->strAttribut(ATTR_DEF_CITY);
 
 	  break;
 
 	case 'CUST_CO':
 	  $tiers=new fiche($this->db);
-	  $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
-	  $tiers->getByQcode($qcode,false);
+	 
+$qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST[
+'e_client'];
+	  $tiers->get_by_qcode($qcode,false);
 	  $r=$tiers->strAttribut(ATTR_DEF_PAYS);
 
 	  break; 
@@ -577,8 +583,10 @@ class Document
 	  // \see user_form_achat.php or user_form_ven.php
 	case 'CUST_VAT':
 	  $tiers=new fiche($this->db);
-	  $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
-	  $tiers->getByQcode($qcode,false);
+	 
+$qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST[
+'e_client'];
+	  $tiers->get_by_qcode($qcode,false);
 	  $r=$tiers->strAttribut(ATTR_DEF_NUMTVA);
 	  break; 
 	  // Marchandise in $_POST['e_march*']

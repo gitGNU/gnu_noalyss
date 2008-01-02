@@ -25,7 +25,7 @@
  */
 $do=(isset($_REQUEST['do']))?$_REQUEST['do']:'xx';
 $def=-1;
-echo '<div class="t_menu">';
+echo '<div class="u_subtmenu">';
 switch($do) {
  case 'po':
    $def=1;
