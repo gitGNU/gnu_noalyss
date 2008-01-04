@@ -33,17 +33,29 @@ echo '<div class="u_redcontent">';
 if ( isset ($_POST["DATABASE"]) ) {
   $cn=DbConnect();
   $dos=trim($_POST["DATABASE"]);
-$dos=FormatString($dos);
+  $dos=FormatString($dos);
       if (strlen($dos)==0) {
 	echo ("Dataname name is empty");
 	exit -1;
       }
       $desc=FormatString($_POST["DESCRIPTION"]);
+      try  {
+	StartSql($cn);
       $Res=ExecSql($cn,"insert into ac_dossier(dos_name,dos_description)
                     values ('".$dos."','$desc')");
+      $l_id=GetDbId($dos);
+      } catch (Exception $e) {
+	$msg="Desole la creation de ce dossier a echoue, la cause la plus probable est".
+	  ' deux fois le même nom de dossier';
+	echo '<script>alert("'.$msg.'");</script>';
+	echo_debug(__FILE__.':'.__LINE__.'- echec ','Echec creation ',$e);
+	$l_id=0;	
+	Rollback($cn);
+
+      }
       // If the id is not null, name successfully inserted
       // Database created
-      $l_id=GetDbId($dos);
+
       if ( $l_id != 0) {
 	//--
 	// setting the year
