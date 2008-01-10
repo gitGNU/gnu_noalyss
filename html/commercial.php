@@ -76,7 +76,7 @@ echo '</div>';
 echo '<div style="text-align:right" title="Recherche">
 <input type="IMAGE" src="image/search.png" width="36" onclick="openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.$gDossier.');">
 <A HREF="?p_action=pref&'.$str_dossier.'" title="Pr&eacute;f&eacute;rence"><IMG SRC="image/preference.png" width="36" border="0" ></A>
-<A HREF="user_compta.php?gDossier='.$gDossier.'" title="Comptabilit&eacute;"><IMG SRC="image/compta.png" width="36"  border="0" ></A>
+
 <A HREF="comptanalytic.php?gDossier='.$gDossier.'" title="CA"><IMG SRC="image/comptaanal.png" width="36"  border="0" ></A>
 
 <A HREF="parametre.php?gDossier='.$gDossier.'" title="Param&egrave;tre"><IMG SRC="image/param.png" width="36" border="0" ></A>
@@ -98,9 +98,9 @@ echo ShowItem(array(
 		    array('?p_action=stock&'.$str_dossier,'Stock'),
 		    array('?p_action=bank&'.$str_dossier,'Banque'),
 		    array('?p_action=fiche&'.$str_dossier,'Fiche'),
-		    array('?p_action=contact&'.$str_dossier,'Contact'),
-		    array('?p_action=admin&'.$str_dossier,'Administration'),
-		    array('?p_action=suivi_courrier&'.$str_dossier,'Document'),
+		    array('?p_action=periode&'.$str_dossier,'Ferm. Periode'),
+		    array('?p_action=central&'.$str_dossier,'Centralisation'),
+		    array('?p_action=suivi_courrier&'.$str_dossier,'Suivi Courrier'),
 		    ),
 	      'H',"mtitle","mtitle","?p_action=$p_action&".$str_dossier,' width="100%"');
 
@@ -192,3 +192,9 @@ if ( $p_action == 'fiche') {
 if ( $p_action == 'stock') {
   require_once('stock.inc.php');
 }
+if ( $p_action=='periode') {
+  require_once ('periode.inc.php');
+ }
+if ( $p_action=='central') {
+  require_once ('central.inc.php');
+ }
