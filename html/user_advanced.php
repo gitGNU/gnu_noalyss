@@ -65,6 +65,9 @@ switch ($p_action) {
  case 'verif';
  $high=10;
  break;
+ case 'central';
+ $high=3;
+ break;
 
  default:
    $high=0;
@@ -233,6 +236,8 @@ if ( $p_action=='verif' ) {
 
   echo '</div>';
  }
+if ( $p_action=='central') 
+  require_once ('central.inc.php');
 
 
 html_page_stop();
