@@ -39,14 +39,18 @@ $User->Check();
 
 include_once("preference.php");
 include_once("user_menu.php");
-
-echo "<H2 class=\"info\"> Param&egrave;tre ".dossier::name().
-'
+echo '<div class="u_tmenu">';
+echo '<div style="float:left">';
+echo "<H2 class=\"info\"> Param&egrave;tre ".dossier::name().'<h2>'.
+'</div>'.'
 <div align="right">
+<A HREF="user_compta.php?gDossier='.$gDossier.'" title="Comptabilit&eacute;"><IMG SRC="image/compta.png" width="36"  border="0" ></A>
+
 <A HREF="login.php" title="Accueil"><IMG src="image/home.png" width="36"  border="0"  ></A>
 <A HREF="logout.php" title="Sortie"><IMG src="image/logout.png" title="Logout"  width="36"  border="0"></A>
 </div>
-</H2>';
+</div>';
+
 
 include_once ("check_priv.php");
 
@@ -59,7 +63,43 @@ $p_action="";
 if ( isset($_REQUEST["p_action"]) ) {
   $p_action=$_REQUEST["p_action"];
 }
-echo ShowMenuParam("parametre.php?p_action=".$p_action);
+switch ($p_action) {
+ case 'jrn':
+   $default=10;
+   break;
+ case 'pcmn':
+   $default=11;
+   break;
+ case 'company':
+   $default=1;
+   break;
+ case 'devise':
+   $default=2;
+   break;
+ case 'tva':
+   $default=3;
+   break;
+ case 'poste':
+   $default=4;
+   break;
+ case 'fiche':
+   $default=5;
+   break;
+ case 'sec':
+   $default=8;
+   break;
+
+ case 'document':
+   $default=7;
+   break;
+ case 'company':
+   $default=1;
+   break;
+ default:
+   $default="parametre.php?p_action=".$p_action;
+ }
+
+echo ShowMenuParam($default);
 
 
 // sub action
@@ -198,6 +238,34 @@ if ( $p_action == 'document' ) {
   require_once('document_modele.inc.php');
   echo '</div>';
 }  
+//----------------------------------------------------------------------
+// Plan Comptable
+//----------------------------------------------------------------------
+if ( $p_action == 'pcmn' ) {
+  require_once('param_pcmn.inc.php');
+}  
+//----------------------------------------------------------------------
+// Security
+//----------------------------------------------------------------------
+if ( $p_action == 'sec' ) {
+  require_once('param_sec.inc.php');
+}  
+
+//----------------------------------------------------------------------
+// Ledger parameter
+//----------------------------------------------------------------------
+if ( $p_action == 'jrn' ) {
+  $sa=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
+  echo '<div class="u_content">';
+  if ( $sa == "add") 
+    require_once ('param_jrn_add.inc.php');
+  elseif ($sa=='detail') 
+    require_once ('param_jrn_detail.inc.php');
+  else
+    require_once('param_jrn.inc.php');
+  echo '</div>';
+}  
+
 
 
 html_page_stop();
