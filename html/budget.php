@@ -57,7 +57,7 @@ echo '<div style="float:none;text-align:right;" title="Recherche">
 </div>';
 
 echo '<div style="clear:both">';
-
+/* security */
 
 $p_action = ( isset($_REQUEST['p_action']))?$_REQUEST['p_action']:"";
 
@@ -92,11 +92,10 @@ echo ShowItem(array(
 		    //
 echo '</div>';
 echo '</div>';
+$User->can_request($rep,BUDGET);
 
 $cn=DbConnect($gDossier);
-/*! \todo module budget add the security
- *$User->can_request($cn,BUDGET);
-*/ 
+
 //-----------------------------------------------------
 // p_action == hypo
 //-----------------------------------------------------
