@@ -20,6 +20,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /*! \file
  */
+$gDossier=dossier::id();
 require_once ('class_widget.php');
 require_once("preference.php");
 require_once ('class_periode.php');
@@ -58,7 +59,7 @@ if ( isset ($_POST["conf_chg_per"] ) ) {
      (string) $p_exercice != (string)(int) $p_exercice)
     { 
       echo "<H2 class=\"error\"> Valeurs invalides</H2>";
-      ShowPeriode($cn);
+      //      ShowPeriode($cn);
       return;
     }
   $Res=ExecSql($cn," update parm_periode ".
@@ -72,24 +73,13 @@ if ( isset ($_POST["conf_chg_per"] ) ) {
 
 }
 if ( isset ($_POST["add_per"] )) {
-  foreach($_POST as $key=>$element) 
-    ${"$key"}=$element;
-  if (isDate($p_date_start) == null ||
-      isDate($p_date_end) == null ||
-      strlen (trim($p_exercice)) == 0 ||
-     (string) $p_exercice != (string)(int) $p_exercice)
-    { 
+  extract($_POST);
+  $obj=new Periode($cn);
+  if ( $obj->insert($p_date_start,$p_date_end,$p_exercice) == 1 ){
       echo "<H2 class=\"error\"> Valeurs invalides</H2>";
-      ShowPeriode($cn);
+      //      ShowPeriode($cn);
       return;
-    }
-  $Res=ExecSql($cn,sprintf(" insert into parm_periode(p_start,p_end,p_closed,p_exercice)".
-			   "values (to_date('%s','DD.MM.YYYY'),to_date('%s','DD.MM.YYYY')".
-			   ",'f','%s')",
-			   $p_date_start,
-			   $p_date_end,
-			   $p_exercice));
-
+  }
   $choose="yes";
 
 }

@@ -112,7 +112,11 @@ if ( isset ($_POST["DATABASE"]) ) {
                               values (to_date('31-12-%s','DD-MM-YYYY'),to_date('31-12-%s','DD-MM-YYYY'),'%s')",
 					 $year,$year,$year);
 	    $Res=ExecSql($cn,$sql);
-		
+	    $sql="	insert into jrn_periode(p_id,jrn_def_id,status) ".
+	      "select p_id,jrn_def_id, 'OP'".
+	      " from parm_periode cross join jrn_def";
+	    $Res=ExecSql($cn,$sql);
+	
 
 	  }
       } // if $l_id != 0

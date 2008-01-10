@@ -30,7 +30,7 @@
 require_once("constant.php");
 include_once ("postgres.php");
 require_once('class_dossier.php');
-html_page_start();
+html_page_start($_SESSION['g_theme']);
 
 $gDossier=dossier::id();
 

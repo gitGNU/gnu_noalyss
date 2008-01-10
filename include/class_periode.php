@@ -23,6 +23,9 @@
 /*!\file 
  * \brief For the periode table parm_periode and jrn_periode
  */
+require_once ('ac_common.php');
+require_once ('debug.php');
+require_once ('postgres.php');
 class Periode {
   var $cn;			/*!< database connection */
   var $jrn_def_id;		/*!< the jr, 0 means all the ledger*/
@@ -228,6 +231,36 @@ class Periode {
       echo '</TABLE>';
 
     }
+  }
+  function insert($p_date_start,$p_date_end,$p_exercice) {
+    if (isDate($p_date_start) == null ||
+	isDate($p_date_end) == null ||
+	strlen (trim($p_exercice)) == 0 ||
+	(string) $p_exercice != (string)(int) $p_exercice)
+      { 
+	return 1;
+      }
+    $p_id=NextSequence($this->cn,'s_periode');
+    $sql=sprintf(" insert into parm_periode(p_id,p_start,p_end,p_closed,p_exercice)".
+		 "values (%d,to_date('%s','DD.MM.YYYY'),to_date('%s','DD.MM.YYYY')".
+		 ",'f','%s')",   
+		 $p_id,
+		 $p_date_start,
+		 $p_date_end,
+		 $p_exercice);
+    try {
+      StartSql($this->cn);
+      $Res=ExecSql($this->cn,$sql);
+      $Res=ExecSql($this->cn,"insert into jrn_periode (jrn_def_id,p_id,status) ".
+		   "select jrn_def_id,$p_id,'OP' from jrn_def");
+      Commit($this->cn);
+    } catch (Exception $e) {
+      Rollback($this->cn);
+      echo_debug(__FILE__.':'.__LINE__.'- Periode insert','Exception ',$e);
+      echo_debug(__FILE__.':'.__LINE__.'- Periode insert','Exception ',$e->getMessage());
+      return 1;
+    }
+    return 0;
   }
   static function test_me() {
     $cn=DbConnect(dossier::id());
