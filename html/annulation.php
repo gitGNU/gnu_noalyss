@@ -32,6 +32,8 @@ include_once("jrn.php");
 require_once("class_widget.php");
 require_once("class_acc_ledger.php");
 require_once("class_acc_operation.php");
+require_once ('class_periode.php');
+
 /* Admin. Dossier */
 include_once ("class_user.php");
 require_once('class_dossier.php');
@@ -43,7 +45,7 @@ $User->Check();
 
 html_page_start($User->theme,"onLoad='window.focus();'");
 echo JS_VIEW_JRN_MODIFY;
-if ( isset( $_GET['p_jrn'] )) {
+if ( isset( $_REQUEST['p_jrn'] )) {
   $p_jrn=$_GET['p_jrn'];
   }
 
@@ -75,8 +77,7 @@ if ( isset ($_POST['annul']) ) {
 </span>
 </p> 
 
-<p>
-Voulez-vous vraiment annuler  cette information soit par une remise à z&eacute;ro des montants 
+<p> Voulez-vous vraiment annuler  cette information soit par une remise &agrave; z&eacute;ro des montants 
 soit par son &eacute;criture inverse ?
 </p>
 <span>
@@ -119,36 +120,46 @@ if  ($p_id != -1 ) { // A
    // userPref contient la periode par default
    $userPref=$User->get_periode($cn);
     list ($l_date_start,$l_date_end)=get_periode($cn,$userPref);
-
-    // Periode fermée 
-    if ( PeriodeClosed ($cn,$userPref)=='t' )
+    $per=new Periode($cn);
+    $per->set_jrn($p_jrn);
+    $per->set_periode($userPref);
+    
+    // Periode ferme
+    if ( $per->is_open()==0)
       {
-	$msg="Votre periode par defaut est fermee, changez vos préférences";
-		echo_error($msg); 
-		echo "<SCRIPT>alert('$msg');</SCRIPT>";
-		// set an incorrect pid to get out from here
-		$p_id=-1;
+	$msg="Votre periode par defaut est fermee, changez vos preferences";
+	echo_error($msg); 
+	echo "<SCRIPT>alert('$msg');</SCRIPT>";
+	$p_id=-1;
       }
-
+ 
  if ( $p_id != -1 ) { //B
     // Test whether date of the operation is in a closed periode
     // get the period_id
     $period_id=getPeriodeFromDate($cn,$e_op_date);
+    // thanks jrn_op  (jrn.jr_id) we find out the concerned ledger
+    $sql="select jr_def_id from jrn where jr_id=".$_REQUEST['jrn_op'];
+    $r=ExecSql($cn,$sql);
+    $nJrn=pg_fetch_result($r,0,0);
+    $per=new Periode($cn);
+    $per->set_jrn(nJrn);
+    $per->set_periode($period_id);
+
       // Check the period_id
-    if ( PeriodeClosed($cn,$period_id) == 't' )
+    if ( $per->is_open() == 0 )
 	  {
-		try 
-		  {
-
-      // if the operation is in a closed or centralized period
-      // the operation is voided thanks the opposite operation
-   StartSql($cn);
-   $grp_new=NextSequence($cn,'s_grpt');
-   $seq=NextSequence($cn,"s_jrn");
-$oJrn=new Acc_Ledger($cn,$l_array['jr_def_id']);
-   $p_internal=$oJrn->compute_internal_code($seq);
-
-   $sql= "insert into jrn (
+	    try 
+	      {
+		
+		// if the operation is in a closed or centralized period
+		// the operation is voided thanks the opposite operation
+		StartSql($cn);
+		$grp_new=NextSequence($cn,'s_grpt');
+		$seq=NextSequence($cn,"s_jrn");
+		$oJrn=new Acc_Ledger($cn,$l_array['jr_def_id']);
+		$p_internal=$oJrn->compute_internal_code($seq);
+		
+		$sql= "insert into jrn (
   		jr_id,jr_def_id,jr_montant,jr_comment,               
 		jr_date,jr_grpt_id,jr_internal                 
 		,jr_tech_per, jr_valid
@@ -230,8 +241,8 @@ $oJrn=new Acc_Ledger($cn,$l_array['jr_def_id']);
 		catch (Exception $e) 
 		  {
 			Rollback($cn);
-			$msg="Désolé mais il n a pas été possible d'annuler ".
-			  "cette opération";
+			$msg="D&eacute;sol&eacute; mais il n a pas &eacute;t&eacute; possible d'annuler ".
+			  "cette op&eacute;ration";
 
 			echo "<SCRIPT>alert('$msg');</SCRIPT>";
 
@@ -249,7 +260,7 @@ $oJrn=new Acc_Ledger($cn,$l_array['jr_def_id']);
 		  }
    Commit($cn);
    // close the window
-   echo '<h2 class="info"> Opération Annul&eacute;e</h2>';
+   echo '<h2 class="info"> Op&eacute;ration Annul&eacute;e</h2>';
     ?>
  <script>
     window.close();
@@ -332,8 +343,8 @@ self.opener.RefreshMe();
 		catch (Exception $e) 
 		  {
 			Rollback($cn);
-			$msg="Désolé mais il n a pas été possible d'annuler ".
-			  "cette opération";
+			$msg="Desole mais il n a pas ete possible d'annuler ".
+			  "cette operation";
 			echo "<SCRIPT>alert('$msg');</SCRIPT>";
 			
 			echo '<span class="error">'.
@@ -350,7 +361,7 @@ self.opener.RefreshMe();
 		  }
 
 	Commit($cn);
-	echo '<h2 class="info"> Opération Annulée</h2>';
+	echo '<h2 class="info"> Op&eacute;ration Annul&eacute;e</h2>';
 	  ?>
 	  <script>
 	     window.close();
@@ -364,7 +375,7 @@ self.opener.RefreshMe();
   }//A p_id == -1
   } // if Post['p_id']
 }// if annul
-echo '<div align="center"> Opération '.$l_array['jr_internal'].'</div> 
+echo '<div align="center"> Op&eacute;ration '.$l_array['jr_internal'].'</div> 
 <div>
 <form action="'.$_SERVER['REQUEST_URI'].'" method="post" >';
 
@@ -395,14 +406,14 @@ for ( $i = 0; $i < $max_cred;$i++) {
   echo ${"e_class_cred$i"}."  $lib   "."<B>".${"e_mont_cred$i"}."</B>";
   echo '</div>';
 }
-//echo "operation concernée $e_rapt<br><br>
+//echo "operation concern&eacute;e $e_rapt<br><br>
 //";
 $a=GetConcerned($cn,$e_jr_id);
 
 if ( $a != null ) {
 
   foreach ($a as $key => $element) {
-    echo "operation concernée <br>";
+    echo "operation concern&eacute;e <br>";
 $operation=new Acc_Operation($cn);
 $operation->jr_id=$element;
 
@@ -417,7 +428,7 @@ $operation->jr_id=$element;
 echo dossier::hidden().
 '
 <input type="hidden" name="p_id" value="'.$_GET['jrn_op'].'">
-<input type="submit" name="annul"  value="Mise à zéro ou effacement">
+<input type="submit" name="annul"  value="Mise &agrave; z&eacute;ro ou effacement">
 <input type="button" name="cancel" value="Retour" onClick="window.close();">
 </form>';
 
