@@ -25,7 +25,7 @@ require_once("fiche_inc.php");
 require_once("user_common.php");
 require_once ('class_pre_operation.php');
 require_once ('class_acc_ledger.php');
-
+require_once ('class_periode.php');
 /*! \file
  * \brief Functions for the financial ledger
  */
@@ -107,13 +107,16 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
       return null;
     }
     // Periode ferm� 
-    if ( PeriodeClosed ($p_cn,$p_periode)=='t' )
-      {
-		$msg="This periode is closed please change your preference";
-		echo_debug('user_form_fin.php',__LINE__,$msg);	
-		echo "<SCRIPT>alert('$msg');</SCRIPT>";
-		return null;
-      }
+  $per=new Periode($p_cn);
+  $per->set_jrn($p_jrn);
+  $per->set_periode($p_periode);
+  if ( $per->is_open()==0 )
+    {
+      $msg="Cette periode est fermee pour ce journal";
+      echo_debug('user_form_fin.php',__LINE__,$msg);	
+      echo "<SCRIPT>alert('$msg');</SCRIPT>";
+      return null;
+    }
     return true;
 }
 

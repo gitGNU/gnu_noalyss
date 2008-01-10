@@ -859,14 +859,6 @@ function VerifyOperationDate($p_cn,$p_periode,$p_date) {
 			echo "<SCRIPT>alert('$msg');</SCRIPT>";
 			return null;
       }
-    // Periode fermée 
-    if ( PeriodeClosed ($p_cn,$p_periode)=='t' )
-      {
-		$msg="This periode is closed please change your preference";
-		echo_error($msg); echo_error($msg);	
-		echo "<SCRIPT>alert('$msg');</SCRIPT>";
-		return null;
-      }
     return $p_date;
 }
 

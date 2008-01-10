@@ -30,7 +30,7 @@ require_once ('class_own.php');
 require_once ('class_anc_operation.php');
 require_once ('class_pre_op_ods.php');
 require_once ('class_acc_ledger.php');
-
+require_once ('class_periode.php');
 /*! \file
  * \brief Functions for the ledger of misc. operation
  */
@@ -67,7 +67,19 @@ function FormODS($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
    //   $e_date=( ! isset($e_date) ) ?
    //   substr($l_date_start,2,8):$e_date;
    $e_date=( ! isset($e_date) ) ? $l_date_start:$e_date;
-
+   $per=new Periode($p_cn);
+   $per->set_jrn($p_jrn);
+   $per->set_periode($p_periode);
+   
+   // Periode ferme
+   if ( $per->is_open()==0)
+     {
+       $msg="Cette periode est fermee pour ce journal";
+       echo_error($msg); echo_error($msg);	
+       echo "<SCRIPT>alert('$msg');</SCRIPT>";
+       return null;
+     }
+   
   // Verify if valid date
   if (  $flag==1 and VerifyOperationDate($p_cn,$p_periode,$e_date)   == null) {
     if ( $pview_only == true) 
@@ -178,7 +190,7 @@ $r.="<FORM NAME=\"form_detail\" enctype=\"multipart/form-data\"".
     $W->extra=$p_jrn;
     $W->extra2=$filter;
     //    $r.='<TR>'.InputType("","js_search_poste","e_account".$i,$account,$pview_only,$filter);
-    $r.="<TR>".$W->IOValue("e_account".$i, $account); 
+    $r.="<TR><td>".$W->IOValue("e_account".$i, $account).'<td>'; 
     //libelle
     $r.="<td> $lib </td>";
     //amount

@@ -48,7 +48,7 @@ if ( isset ($_POST['remove'])) {
 if ( isset($_POST['add'])) {
   $obj=new Anc_Group($cn);
   $obj->get_from_array($_POST);
-  $obj->insert();
+  echo $obj->insert();
  }
 $array=$r->myList();
 

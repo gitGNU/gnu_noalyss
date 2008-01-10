@@ -81,6 +81,12 @@ if ( isset ($_POST["FMOD_NAME"]) ) {
   $Res=ExecSql($cn_mod,"truncate table import_tmp");
   //	Reset the closed periode
   $Res=ExecSql($cn_mod,"update parm_periode set p_closed='f'");
+  $Res=ExecSql($cn_mod,'delete from jrn_periode');
+  $Res=ExecSql($cn_mod,' insert into jrn_periode(p_id,jrn_def_id,status) '.
+	    ' select p_id,jrn_def_id,\'OP\' '.
+	    ' from '.
+	    ' parm_periode cross join jrn_def');
+
   // Reset Sequence
   $a_seq=array('s_jrn','s_jrn_op','s_centralized','s_stock_goods');
   foreach ($a_seq as $seq ) {

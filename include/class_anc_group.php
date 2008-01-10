@@ -46,6 +46,7 @@ class Anc_Group {
   }
   /*! 
    * \brief insert into the database  an object
+   * \return message with error otherwise an empty string
    */
   
   function insert() {
@@ -56,9 +57,9 @@ class Anc_Group {
     try {
       ExecSql($this->db,$sql);
     } catch (Exception $a) {
-      echo '<span class="notice">Doublon !!</span>';
+      return '<span class="notice">Doublon !!</span>';
     }
-
+    return "";
   }
   /*! 
    * \brief remove from the database 

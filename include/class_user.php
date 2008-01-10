@@ -165,6 +165,20 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
     $array=pg_fetch_all($res);
     return $array;
   }
+
+  /*!\brief return an sql condition for filtering the permitted ledger
+   *
+   *\return string
+   */
+  function get_ledger_sql() {
+    $aLedger=$this->get_ledger();
+    $sql=" jrn_def_id in (";
+    foreach ($aLedger as $row) {
+      $sql.=$row['jrn_def_id'].',';
+    }
+    $sql.='-1)';
+    return $sql;
+  }
 /*! 
  **************************************************
  * \brief  Check if an user is an admin

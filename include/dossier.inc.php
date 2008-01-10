@@ -44,6 +44,7 @@ if ( isset ($_POST["DATABASE"]) ) {
       $Res=ExecSql($cn,"insert into ac_dossier(dos_name,dos_description)
                     values ('".$dos."','$desc')");
       $l_id=GetDbId($dos);
+      Commit($cn);
       } catch (Exception $e) {
 	$msg="Desole la creation de ce dossier a echoue, la cause la plus probable est".
 	  ' deux fois le même nom de dossier';

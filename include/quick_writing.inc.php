@@ -78,6 +78,7 @@ function show_direct_form($cn,$ledger,$p_array) {
 }
 
 $ledger=new Acc_Ledger($cn,$id);
+
 $ledger->with_concerned=true;
 // no ledger selected, propose one
 if ($id == -1 )
@@ -103,18 +104,23 @@ echo '<div class="u_content">';
 echo '<h2 class="info"> Journal : '.$ledger->get_name().'</h2>';
 echo widget::button_href('Autre journal','?p_action='.$_REQUEST['p_action'].'&'.dossier::get());
 // User can write ?
+
 if ( CheckJrn(dossier::id(),$_SESSION['g_user'],$id) != 2 )    {
   echo "
 <script> alert(\"Vous ne pouvez pas ecrire dans ce journal, contactez votre responsable\");</script>";
        exit -1;
 }
- 
 
 if ( isset($_GET['show_form']) || isset($_POST['correct_it']) ) {
-$array=$_POST;
-$default_periode=$User->get_periode();
-list($date,$devnull)=get_periode($cn,$default_periode);
-$array['date']=$date;
+  $array=$_POST;
+  $default_periode=$User->get_periode();
+  /* check if the ledger is closed */
+  if ( $ledger->is_closed($default_periode)==1) {
+    echo '<h2 class="error"> Desole mais cette periode est fermee pour ce journal</h2>';
+    exit();
+  }
+  list($date,$devnull)=get_periode($cn,$default_periode);
+  $array['date']=$date;
   show_direct_form($cn,$ledger,$array);
   exit();
  }

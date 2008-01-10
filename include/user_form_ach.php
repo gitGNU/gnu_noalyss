@@ -33,6 +33,7 @@ require_once ('class_own.php');
 require_once ('class_anc_operation.php');
 require_once ('class_pre_op_ach.php');
 require_once ('class_acc_ledger.php');
+require_once ('class_periode.php');
 
 /*! 
  * \brief  Display the form for a sell
@@ -172,11 +173,11 @@ echo_debug('user_form_ach.php',__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_peri
   $r.='<TR>';
   $r.="<th></th>";
   $r.="<th>Code</th>";
-  $r.="<th>Dénomination</th>";
+  $r.="<th>D&eacute;nomination</th>";
   $r.="<th>prix</th>";
   $r.="<th>tva</th>";
   $r.="<th>Montant TVA</th>";
-  $r.="<th>quantité</th>";
+  $r.="<th>quantit&eacute;</th>";
   $r.='</TR>';
   // For each article
   // compute amount
@@ -360,7 +361,7 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
 		  // compare hidden value and computed
 		  if ( round($ca_amount-$hidden_amount,2) != 0 ) {
 			
-		    $msg="Montant CA est différent total marchandise";
+		    $msg="Montant CA est diff&eacute;rent total marchandise";
 		    
 		    echo "<SCRIPT>alert('$msg');</SCRIPT>";
 			
@@ -436,7 +437,7 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
       {
 	if ( isNumber($non_dedu) == 0 || $non_dedu > 1.00 ) 
 	  {
-	    $msg="La fiche ".${"e_march$i"}." a un pourcentage invalide,il doit être compris entre 0 et 1";
+	    $msg="La fiche ".${"e_march$i"}." a un pourcentage invalide,il doit etre compris entre 0 et 1";
 			echo_error($msg); echo_debug('user_form_ach.php',__LINE__,$msg);	
 			echo "<SCRIPT>alert('$msg');</SCRIPT>";
 			return null;
@@ -449,7 +450,7 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
       {
 	if ( isNumber($non_dedu) == 0 || $non_dedu > 1.00 ) 
 	  {
-	    $msg="La fiche ".${"e_march$i"}." a un pourcentage invalide, il doit être compris entre 0 et 1";
+	    $msg="La fiche ".${"e_march$i"}." a un pourcentage invalide, il doit etre compris entre 0 et 1";
 	    echo_error($msg); echo_debug('user_form_ach.php',__LINE__,$msg);	
 	    echo "<SCRIPT>alert('$msg');</SCRIPT>";
 	    return null;
@@ -461,7 +462,7 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
 	{
 	  if ( isNumber($non_dedu) == 0 || $non_dedu > 1.00 ) 
 	    {
-	      $msg="La fiche ".${"e_march$i"}." a un pourcentage invalide, il doit être compris entre 0 et 1";
+	      $msg="La fiche ".${"e_march$i"}." a un pourcentage invalide, il doit etre compris entre 0 et 1";
 	      echo_error($msg); echo_debug('user_form_ach.php',__LINE__,$msg);	
 	      echo "<SCRIPT>alert('$msg');</SCRIPT>";
 	      return null;
@@ -485,14 +486,19 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
       echo "<SCRIPT>alert('$msg');</SCRIPT>";
       return null;
     }
-    // Periode fermé
-    if ( PeriodeClosed ($p_cn,$p_periode)=='t' )
-      {
-		$msg="This periode is closed please change your preference";
-		echo_error($msg); echo_error($msg);	
-		echo "<SCRIPT>alert('$msg');</SCRIPT>";
-		return null;
-      }
+    // Periode fermï¿½ 
+  $per=new Periode($p_cn);
+  $per->set_jrn($p_jrn);
+  $per->set_periode($p_periode);
+
+    // Periode fermÃ©
+  if ( $per->is_open() == 0)
+    {
+      $msg="Cette periode est fermee pour ce journal";
+      echo_error($msg); echo_error($msg);	
+      echo "<SCRIPT>alert('$msg');</SCRIPT>";
+      return null;
+    }
     return true;
 }
 /*! 
@@ -572,7 +578,7 @@ function FormAchView ($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$p_number,$p_pi
   // show all article, price vat and sum
   $r.="<TR>";
   $r.="<TH>Article</TH>";
-  $r.="<TH>quantité</TH>";
+  $r.="<TH>quantit&eacute;</TH>";
   $r.="<TH>prix unit.</TH>";
   $r.="<TH>taux tva</TH>";
   $r.="<TH>Montant HTVA</TH>";
@@ -705,7 +711,7 @@ function FormAchView ($p_cn,$p_jrn,$p_periode,$p_array,$p_submit,$p_number,$p_pi
   $file->table=1;
   $r.="<hr>";
   $r.= "<table>"; 
-  if ( $p_piece) $r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
+  if ( $p_piece) $r.="<TR>".$file->IOValue("pj","","Pi&egrave;ce justificative")."</TR>";
   // propose to save the pre_operation
   if ( $p_piece ) {
 	$chk=new widget('checkbox');

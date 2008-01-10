@@ -19,12 +19,10 @@
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /*! \file
- * \brief Still used ?
- * \todo check if obsolete
  */
-
-
+require_once ('class_widget.php');
 require_once("preference.php");
+require_once ('class_periode.php');
 echo '<div class="u_content">';
 $cn=DbConnect($gDossier);
 //-----------------------------------------------------
@@ -33,12 +31,13 @@ $cn=DbConnect($gDossier);
 $action="";
 if ( isset($_REQUEST['action'])) 
      $action=$_REQUEST['action'];
-
+$choose=(isset ($_GET['choose']))?$_GET['choose']:"no";
+if ($choose=='Valider') $choose='yes';
 if ( $action=="change_per") {
   foreach($_GET as $key=>$element) 
     ${"$key"}=$element;
   echo "<TABLE>";
-  echo '<TR> <FORM ACTION="user_advanced.php?p_action=periode" METHOD="POST">';
+  echo '<TR> <FORM ACTION="?p_action=periode" METHOD="POST">';
   echo dossier::hidden();
   echo ' <INPUT TYPE="HIDDEN" NAME="p_per" VALUE="'.$p_per.'">';
   echo '<TD> <INPUT TYPE="text" NAME="p_date_start" VALUE="'.$p_date_start.'"></TD>';
@@ -47,11 +46,12 @@ if ( $action=="change_per") {
   echo '<TD> <INPUT TYPE="SUBMIT" NAME="conf_chg_per" Value="Change"</TD>';
   echo '</FORM></TR>';
   echo "</TABLE>";
+  //  $choose="yes";
 
 }
 if ( isset ($_POST["conf_chg_per"] ) ) {
-  foreach($_POST as $key=>$element) 
-    ${"$key"}=$element;
+  extract($_POST);
+
   if (isDate($p_date_start) == null ||
       isDate($p_date_end) == null ||
       strlen (trim($p_exercice)) == 0 ||
@@ -68,6 +68,7 @@ if ( isset ($_POST["conf_chg_per"] ) ) {
 	       " where p_id=".$p_per);
 
 
+  $choose="yes";
 
 }
 if ( isset ($_POST["add_per"] )) {
@@ -89,13 +90,19 @@ if ( isset ($_POST["add_per"] )) {
 			   $p_date_end,
 			   $p_exercice));
 
+  $choose="yes";
 
 }
 
 echo_debug('periode.inc',__LINE__,"Action $p_action");
 if ( $action=="closed") {
   $p_per=$_GET['p_per'];
-  $Res=ExecSql($cn,"update parm_periode set p_closed=true where p_id=$p_per");
+  $per=new Periode($cn);
+  $jrn_def_id=(isset($_GET['jrn_def_id']))?$_GET['jrn_def_id']:0;
+  $per->set_jrn($jrn_def_id);
+  $per->set_periode($p_per);
+  $per->close();
+  $choose="yes";
 }
 
 if ( $action== "delete_per" ) {
@@ -107,9 +114,29 @@ if ( $action== "delete_per" ) {
   {
   $Res=ExecSql($cn,"delete from parm_periode where p_id=$p_per");
   }
+  $choose="yes";
 }
-
-
-ShowPeriode($cn);
+if ( $choose=="yes" ) {
+  echo widget::button_href('Autre Journal ?','?choose=no&p_action=periode&gDossier='.dossier::id());
+  $per=new Periode($cn);
+  $jrn=(isset($_GET['jrn_def_id']))?$_GET['jrn_def_id']:0;
+  $per->set_jrn($jrn);
+  
+  $per->display_form_periode();
+ }  else {
+  echo '<form method="GET" action="?">';
+  echo dossier::hidden();
+  $sel_jrn=make_array($cn,"select jrn_def_id, jrn_def_name from ".
+		      " jrn_def order by jrn_def_name");
+  $sel_jrn[]=array('value'=>0,'label'=>'Global : periode pour tous les journaux');
+  $wSel=new widget("select");
+  $wSel->value=$sel_jrn;
+  $wSel->name='jrn_def_id';
+  echo "Choississez global ou uniquement le journal à fermer".$wSel->IOValue();
+  echo   widget::submit_button('choose','Valider');
+  echo widget::hidden('p_action','periode');
+  echo "</form>";
+  echo '<p class="info"> Pour ajouter, effacer ou modifier une p&eacute;riode, il faut choisir global</p>';
+ }
 echo '</div>';
 ?>

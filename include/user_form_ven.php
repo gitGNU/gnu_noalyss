@@ -32,6 +32,8 @@ require_once ('class_anc_operation.php');
 require_once ('class_pre_op_ven.php');
 require_once ('class_own.php');
 require_once ('class_acc_ledger.php');
+require_once ('class_periode.php');
+
 /*!   FormVenInput
  * \brief  Display the form for a sell
  *           Used to show detail, encode a new invoice 
@@ -164,10 +166,10 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
   $r.='<TR>';
   $r.="<th></th>";
   $r.="<th>Code</th>";
-  $r.="<th>Dénomination</th>";
+  $r.="<th>D&eacute;nomination</th>";
   $r.="<th>prix</th>";
   $r.="<th>tva</th>";
-  $r.="<th>quantité</th>";
+  $r.="<th>quantit&eacute;</th>";
   $r.='</TR>';
   // For each article
   //--
@@ -332,8 +334,8 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
 		  // compare hidden value and computed
 		  if ( round($ca_amount-$hidden_amount,2) != 0 ) {
 			
-		    $msg="Montant CA est différent total marchandise";
-		    $msg.="montant encodé $ca_amount marchandise $hidden_amount";
+		    $msg="Montant CA est diffÃ©rent total marchandise";
+		    $msg.="montant encodÃ© $ca_amount marchandise $hidden_amount";
 		    echo "<SCRIPT>alert('$msg');</SCRIPT>";
 			
 		    return null;
@@ -410,15 +412,20 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
       echo "<SCRIPT>alert('$msg');</SCRIPT>";
       return null;
     }
+    // Periode fermï¿½ 
+  $per=new Periode($p_cn);
+  $per->set_jrn($p_jrn);
+  $per->set_periode($p_periode);
+
     // Periode ferme
-    if ( PeriodeClosed ($p_cn,$p_periode)=='t' )
-      {
-		$msg="This periode is closed please change your preference";
-		echo_error($msg); echo_error($msg);	
-		echo "<SCRIPT>alert('$msg');</SCRIPT>";
-		return null;
-      }
-    return true;
+  if ( $per->is_open()==0)
+    {
+      $msg="Cette periode est fermee pour ce journal";
+      echo_error($msg); echo_error($msg);	
+      echo "<SCRIPT>alert('$msg');</SCRIPT>";
+      return null;
+    }
+  return true;
 }
 /*!   FormVenteView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='html',$p_comment='') 
  **************************************************
@@ -499,7 +506,7 @@ function FormVenteView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='form'
   // show all article, price vat and sum
     $r.="<TR>";
     $r.="<TH>Article</TH>";
-    $r.="<TH>quantité</TH>";
+    $r.="<TH>quantit&eacute;</TH>";
     $r.="<TH>prix unit.</TH>";
     $r.="<TH>taux tva</TH>";
     $r.="<TH>Montant HTVA</TH>";
@@ -621,7 +628,7 @@ function FormVenteView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='form'
     $file->table=1;
     $r.="<hr>";
     $r.= "<table>"; 
-    $r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
+    $r.="<TR>".$file->IOValue("pj","","Pi&egrave;ce justificative")."</TR>";
     $r.="</table>";
     $r.="<hr>";
 

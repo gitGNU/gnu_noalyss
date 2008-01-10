@@ -385,6 +385,7 @@ if ( $action == 'voir_jrn_non_paye' ) {
     echo $list2;
     echo $bar2;
     $hid=new widget();
+    echo '<hr>';
    if ( $m != 0 )
      echo $hid->Submit('paid','Mise à jour paiement');
     echo '</form>';

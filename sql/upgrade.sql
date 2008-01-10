@@ -521,4 +521,130 @@ CREATE TRIGGER t_bud_detail_ins_upd
 
 
 
+CREATE TABLE jrn_periode
+(
+  jrn_def_id int4 NOT NULL,
+  p_id int4 NOT NULL,
+  status text,
+  CONSTRAINT jrn_periode_pk PRIMARY KEY (jrn_def_id, p_id),
+  CONSTRAINT jrn_per_jrn_def_id FOREIGN KEY (jrn_def_id)
+      REFERENCES jrn_def (jrn_def_id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT jrn_periode_p_id FOREIGN KEY (p_id)
+      REFERENCES parm_periode (p_id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+insert into jrn_periode(p_id,jrn_def_id,status) select p_id,jrn_def_id,
+	case when p_central='t' then 'CE'
+	      when p_closed='t' then 'CL'
+	else 'OP'
+	end
+from
+parm_periode cross join jrn_def;
+
+CREATE OR REPLACE FUNCTION jrn_def_add()
+  RETURNS "trigger" AS
+$BODY$begin
+execute 'insert into jrn_periode(p_id,jrn_def_id,status) select p_id,'||NEW.jrn_def_id||',
+	case when p_central=true then ''CE''
+	      when p_closed=true then ''CL''
+	else ''OP''
+	end
+from
+parm_periode ';
+return NEW;
+end;$BODY$
+  LANGUAGE 'plpgsql' VOLATILE;
+
+CREATE TRIGGER t_jrn_def_add_periode
+  AFTER INSERT
+  ON jrn_def
+  FOR EACH ROW
+  EXECUTE PROCEDURE jrn_def_add();
+
+CREATE OR REPLACE FUNCTION jrn_check_periode()
+  RETURNS "trigger" AS
+$BODY$
+declare 
+bClosed bool;
+str_status text;
+begin
+
+select p_closed into bClosed from parm_periode 
+       where p_id=NEW.jr_tech_per;
+
+if bClosed = true then
+	raise exception 'Periode fermee';
+end if;
+
+select status into str_status from jrn_periode 
+       where p_id =NEW.jr_tech_per and jrn_def_id=NEW.jr_def_id;
+
+if str_status <> 'OP' then
+	raise exception 'Periode fermee';
+end if;
+
+return NEW;
+end;$BODY$
+  LANGUAGE 'plpgsql' VOLATILE;
+
+
+CREATE TRIGGER t_check_jrn
+  BEFORE INSERT OR DELETE
+  ON jrn
+  FOR EACH ROW
+  EXECUTE PROCEDURE jrn_check_periode();
+
+drop TRIGGER tr_jrn_check_balance on jrn;
+
+CREATE OR REPLACE FUNCTION jrn_def_delete()
+  RETURNS "trigger" AS
+$BODY$
+declare 
+nb numeric;
+begin
+select count(*) into nb from jrn where jr_def_id=OLD.jrn_def_id;
+
+if nb <> 0 then
+	raise exception 'EFFACEMENT INTERDIT: JOURNAL UTILISE';
+end if;
+return OLD;
+end;$BODY$
+  LANGUAGE 'plpgsql' VOLATILE;
+
+
+CREATE TRIGGER t_jrn_def_delete
+  BEFORE DELETE
+  ON jrn_def
+  FOR EACH ROW
+  EXECUTE PROCEDURE jrn_def_delete();
+
+CREATE OR REPLACE FUNCTION proc_check_balance()
+  RETURNS "trigger" AS
+$BODY$
+declare 
+	diff numeric;
+	tt integer;
+begin
+	if TG_OP = 'INSERT' or TG_OP='UPDATE' then
+	tt=NEW.jr_grpt_id;
+	diff:=check_balance(tt);
+	if diff != 0 then
+		raise exception 'balance error %',diff ;
+	end if;
+	return NEW;
+	end if;
+end;
+$BODY$
+  LANGUAGE 'plpgsql' VOLATILE;
+
+CREATE TRIGGER t_check_balance
+  AFTER INSERT OR UPDATE
+  ON jrn
+  FOR EACH ROW
+  EXECUTE PROCEDURE proc_check_balance();
+
+INSERT INTO "action" (ac_id, ac_description) VALUES (60, 'Module Budget');
+
 commit;	

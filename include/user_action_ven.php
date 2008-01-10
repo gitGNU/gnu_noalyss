@@ -384,7 +384,7 @@ if ( $action == 'voir_jrn_non_paye' ) {
     $hid->value=$jrn_type;
     echo $hid->IOValue();
 
-
+    echo '<hr>';
 
     if ( $m != 0 )
       echo $hid->Submit('paid','Mise à jour paiement');

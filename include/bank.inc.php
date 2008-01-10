@@ -123,11 +123,6 @@ if ( $sub_action == "solde" )
 // 
 if ( $sub_action == "list") 
 {
-   // Check privilege
-   if ( CheckJrn($gDossier,$_SESSION['g_user'],$p_jrn) < 1 )    {
-        NoAccess();
-        exit -1;
-   }
   // show the menu with the list item selected
   echo '<div class="u_subtmenu">';
   echo ShowMenuJrnUser($gDossier,'FIN',0,'<td class="selectedcell">Liste</td>'.
@@ -186,10 +181,13 @@ if ( $sub_action == "list")
       $filter_per=" and jr_tech_per in (select p_id from parm_periode where p_exercice=".
 	$User->get_exercice().")";
     }
+  /* security  */
+  $available_ledger=" and ".$User->get_ledger_sql();
 
   // Show list of sell
   // Date - date of payment - Customer - amount
-  $sql=SQL_LIST_ALL_INVOICE.$filter_per." and jr_def_type='FIN'" ;
+  $sql=SQL_LIST_ALL_INVOICE.$filter_per." and jr_def_type='FIN'".
+    " $available_ledger" ;
   $step=$_SESSION['g_pagesize'];
   $page=(isset($_GET['offset']))?$_GET['page']:1;
   $offset=(isset($_GET['offset']))?$_GET['offset']:0;
@@ -202,7 +200,7 @@ if ( $sub_action == "list")
       $l=" and jr_grpt_id in (select j_grpt from jrnx where j_qcode='$qcode') ";
     }
 
-  list($max_line,$list)=ListJrn($cn,0,"where jrn_def_type='FIN' $filter_per $l "
+  list($max_line,$list)=ListJrn($cn,0,"where jrn_def_type='FIN' $filter_per $l $available_ledger "
 				,null,$offset,0);
   $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
 

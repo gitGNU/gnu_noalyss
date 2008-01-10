@@ -198,7 +198,7 @@ function ShowMenuCompta($p_high="")
   $r.='<div style="text-align:right;">';
   $r.='<input type="IMAGE" src="image/search.png" width="36" onclick="openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.dossier::id().',\'E\');">
 <A HREF="user_pref.php?'.$str_dossier.'" title="Pr&eacute;f&eacute;rence"><IMG SRC="image/preference.png" width="36" border="0" ></A>
-<A HREF="commercial.php?'.$str_dossier.'" title="Gestion"><IMG SRC="image/compta.png" width="36"  border="0" ></A>
+
 <A HREF="comptanalytic.php?'.$str_dossier.'" title="CA"><IMG SRC="image/comptaanal.png" width="36"  border="0" ></A>
 
 <A HREF="parametre.php?'.$str_dossier.'" title="Paramètre"><IMG SRC="image/param.png" width="36"  border="0" ></A>
@@ -550,11 +550,11 @@ function ShowMenuAdvanced($default="") {
   // Show the left menu
   $left_menu=ShowItem(array(
 		//('rapprt.php','Rapprochement'),
-		array('jrn_update.php?'.$str_dossier,'Journaux',"Gestion des journaux",1),
+
 		array('user_advanced.php?'.$str_dossier.'&p_action=preod','Ecritures definies',"",9),
 		array('user_advanced.php?p_action=periode&'.$str_dossier,'Periode',"Gestion des periodes",2),
-		array('central.php?'.$str_dossier,'Centralise',"Centralisation",3),
-		array('pcmn_update.php?p_start=1&'.$str_dossier,'Plan Comptable',"Gestion Plan Comptable",4),
+		array('user_advanced.php?p_action=central&'.$str_dossier,'Centralise',"Centralisation",3),
+
 		array('compta.php?p_action=stock&'.$str_dossier,'Stock',"Gestion des stocks",5),
 		array('form.php?'.$str_dossier,'Rapport',"Rapport",6),
 		array('import.php?'.$str_dossier,'Import Banque',"Banque",7),
@@ -697,18 +697,16 @@ function ShowMenuParam($p_action="")
   $s=dossier::get();
   $sub_menu=ShowItem(array(
 			  
-			  array('parametre.php?p_action=company&'.$s,'Sociétés'),
-			  array('parametre.php?p_action=devise&'.$s,'Devises'),
-			  array('parametre.php?p_action=tva&'.$s,'Tva'),
-			  array('parametre.php?p_action=poste&'.$s,'Poste Comptable'),
-			  array('parametre.php?p_action=fiche&'.$s,'Fiche'),
-			  array('user_sec.php?'.$s,'Sécurité'),
-			  array('parametre.php?p_action=document&'.$s,'Document'),
-			  array('commercial.php?'.$s,"Gestion"),
-			  array('user_compta.php?'.$s,"Comptabilité"),
-
-			  //  array('login.php','Accueil',"Accueil"),
-			  //array('logout.php','logout',"Sortie")
+			   array('parametre.php?p_action=company&'.$s,'Sociétés','Parametre societe',1),
+			   array('parametre.php?p_action=devise&'.$s,'Devises','Devise',2),
+			   array('parametre.php?p_action=tva&'.$s,'Tva','Taux & poste pour la TVA',3),
+			   array('parametre.php?p_action=poste&'.$s,'Poste Comptable','Poste comptable constant',4),
+			  array('parametre.php?p_action=pcmn&'.$s,'Plan Comptable','Modification du plan comptable',11),
+			   array('parametre.php?p_action=fiche&'.$s,'Fiche','Modifie les classe de base',5),
+			   array('parametre.php?p_action=sec&'.$s,'Sécurité','securite',8),
+			   array('parametre.php?p_action=document&'.$s,'Document','Facture, lettre de rappel, proposition...',7),
+			  array('parametre.php?p_action=jrn&'.$s,'Journaux','Creation et modification de journaux',10)
+			
 			  ),
 		    'H',"mtitle","mtitle",$p_action,' width="100%"');
     return $sub_menu;
@@ -730,7 +728,7 @@ function MenuJrn()
 {
 	$str_dossier=dossier::get();
     echo '<TABLE>';
-    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="jrn_add.php?'.$str_dossier.'">Création </A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="?p_action=jrn&sa=add&'.$str_dossier.'">Création </A></TD></TR>';
     include_once("postgres.php");
     $Cn=DbConnect(dossier::id());
     $Ret=ExecSql($Cn,"select jrn_def_id,jrn_def_name,
@@ -740,7 +738,7 @@ function MenuJrn()
 
     for ($i=0;$i<$Max;$i++) {
       $l_line=pg_fetch_array($Ret,$i);
-      printf ('<TR><TD class="mtitle"><A class="mtitle" HREF="jrn_detail.php?p_jrn=%s&'.$str_dossier.'">%s</A></TD></TR>',
+      printf ('<TR><TD class="mtitle"><A class="mtitle" HREF="?p_action=jrn&sa=detail&p_jrn=%s&'.$str_dossier.'">%s</A></TD></TR>',
 	      $l_line['jrn_def_id'],$l_line['jrn_def_name']);
 
     }
@@ -762,15 +760,15 @@ function ShowMenuPcmn($p_start=1)
 {
   $str_dossier="&".dossier::get();
     echo '<TABLE>';
-    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="pcmn_update.php?p_start=1'.$str_dossier.'">1 Immobilisé </A></TD></TR>';
-    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="pcmn_update.php?p_start=2'.$str_dossier.'">2 Actif a un an au plus</A></TD></TR>';
-    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="pcmn_update.php?p_start=3'.$str_dossier.'">3 Stock et commande</A></TD></TR>';
-    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="pcmn_update.php?p_start=4'.$str_dossier.'">4 Compte tiers</A></TD></TR>';
-    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=5'.$str_dossier.'">5 Actif</A></TD></TR>';
-    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="pcmn_update.php?p_start=6'.$str_dossier.'">6 Charges</A></TD></TR>';
-    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=7'.$str_dossier.'">7 Produits</A></TD></TR>';
-    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=8'.$str_dossier.'">8 Hors Comptabilit&eacute;</A></TD></TR>';
-    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="pcmn_update.php?p_start=9'.$str_dossier.'">9 Hors Comptabilit&eacute;</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="?p_action=pcmn&p_start=1'.$str_dossier.'">1 Immobilisé </A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="?p_action=pcmn&p_start=2'.$str_dossier.'">2 Actif a un an au plus</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="?p_action=pcmn&p_start=3'.$str_dossier.'">3 Stock et commande</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="?p_action=pcmn&p_start=4'.$str_dossier.'">4 Compte tiers</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="?p_action=pcmn&p_start=5'.$str_dossier.'">5 Actif</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="?p_action=pcmn&p_start=6'.$str_dossier.'">6 Charges</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="?p_action=pcmn&p_start=7'.$str_dossier.'">7 Produits</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="?p_action=pcmn&p_start=8'.$str_dossier.'">8 Hors Comptabilit&eacute;</A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="?p_action=pcmn&p_start=9'.$str_dossier.'">9 Hors Comptabilit&eacute;</A></TD></TR>';
     echo "</TABLE>";
 }
 /*!  

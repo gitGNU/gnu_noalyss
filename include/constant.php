@@ -72,6 +72,7 @@ define("CLIENT",22); // Module Client
 define("SUPPL",24); // Module Fournisseur 
 define("ADMIN",26); //  Module Administration	 
 define("SEC_GESTION",30); //  Module Gestion
+define ('BUDGET',60);
 
 define ("FICHE_WRITE",15);
 define ("STOCK_WRITE",17);
@@ -240,11 +241,12 @@ define ("JS_PROTOTYPE_JS",'<script language="javascript" src="js/prototype.js"><
 // Sql string
 define ("SQL_LIST_ALL_INVOICE","");
 
-define ("SQL_LIST_UNPAID_INVOICE"," where (jr_rapt is null or jr_rapt = '') and jr_valid = true"); 
+define ("SQL_LIST_UNPAID_INVOICE"," where (jr_rapt is null or jr_rapt = '') and jr_valid = true  and jr_ech is null"
+); 
 
 
 define ("SQL_LIST_UNPAID_INVOICE_DATE_LIMIT" ," 
    where (jr_rapt is null or jr_rapt = '') 
-       and to_date(to_char(jr_ech,'DD.MM.YYYY'),'DD.MM.YYYY') < to_date(to_char(now(),'DD.MM.YYYY'),'DD.MM.YYYY') 
+       and to_date(to_char(jr_ech,'DD.MM.YYYY'),'DD.MM.YYYY') < to_date(to_char(now(),'DD.MM.YYYY'),'DD.MM.YYYY') and jr_ech is not null
        and jr_valid = true" );
 ?>

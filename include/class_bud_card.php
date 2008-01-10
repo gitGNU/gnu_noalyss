@@ -45,6 +45,9 @@ class Bud_Card {
     $this->bc_id=$id;
     $this->db=$p_cn;
   }
+  /*!\brief insert a record into the table bud_card
+   *\return return the string Sauve or throw an exception
+   */
   function add () {
     if ( isNumber($this->bc_price_unit) == false )
       $this->bc_price_unit=0;
@@ -72,6 +75,9 @@ class Bud_Card {
     return 'Sauve';
   }
 
+  /*!\brief update the table bud_card
+   *\return return the string Sauve or throw an exception
+   */
   function update() {
     if ( $this->bc_id == 0) return;
 
@@ -113,11 +119,20 @@ class Bud_Card {
     /* 	if ( $this->bc_id == null ) */
     /* 		throw new Exception(__FILE__.":".__LINE__." bc ne peut pas etre nul"); */
   }
+
+  /*!\brief delete from bud_card the bc_id must be set
+   *
+   *\return Efface
+   */
   function delete() {
     ExecSql($this->db,"delete from bud_card where bc_id=".$this->bc_id);
     return 'Efface';
   }
 
+  /*!\brief load a bud_card from the database
+   *
+   *
+   */
   function load()
   {
     if ( $this->bc_id == 0 ) return ;
@@ -133,6 +148,11 @@ class Bud_Card {
 	$this->get_from_array($a);  
   }
 
+  /*!\brief return a list of all the record of all the budcard
+   *\param $p_cn connection 
+   *\param $p_bh_id the hypothese id
+   *\return an array of Bud_Card objects
+   */
   static function get_list($p_cn,$p_bh_id) {	
     $sql="select * from bud_card where bh_id = $p_bh_id";
     $r=ExecSql($p_cn,$sql);
@@ -150,6 +170,11 @@ class Bud_Card {
     }
     return $result;
   }
+
+  /*!\brief return a string with the form
+   *
+   *\return string
+   */
   function form() {
 
     $wCode=new widget("text","Code","bc_code",$this->bc_code);
