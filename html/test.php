@@ -91,6 +91,9 @@ Bud_Synthese_Group::test_me();
 require_once ('class_bud_synthese_anc.php');
 Bud_Synthese_Anc::test_me();
 
-*/
 require_once ('class_bud_synthese_hypo.php');
 Bud_Synthese_Hypo::test_me();
+
+*/
+require_once ('class_periode.php');
+Periode::test_me();
