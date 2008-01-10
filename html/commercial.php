@@ -100,6 +100,7 @@ echo ShowItem(array(
 		    array('?p_action=fiche&'.$str_dossier,'Fiche'),
 		    array('?p_action=periode&'.$str_dossier,'Ferm. Periode'),
 		    array('?p_action=central&'.$str_dossier,'Centralisation'),
+		    array('?p_action=contact&'.$str_dossier,'Contact'),
 		    array('?p_action=suivi_courrier&'.$str_dossier,'Suivi Courrier'),
 		    ),
 	      'H',"mtitle","mtitle","?p_action=$p_action&".$str_dossier,' width="100%"');
@@ -157,12 +158,6 @@ if ( $p_action == 'contact')
 if ( $p_action == 'depense') 
 {
   require_once("depense.inc.php");
-}
-//-----------------------------------------------------
-// Administration
-if ( $p_action == 'admin') 
-{
-  require_once("admin.inc.php");
 }
 //-----------------------------------------------------
 // Banque
