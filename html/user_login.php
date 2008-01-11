@@ -26,7 +26,7 @@ include_once ("ac_common.php");
 include_once("postgres.php");
 $rep=DbConnect();
 include_once ("class_user.php");
-$User=new cl_user($rep);
+$User=new User($rep);
 
 $User->Check();
 html_page_start($_SESSION['g_theme']);

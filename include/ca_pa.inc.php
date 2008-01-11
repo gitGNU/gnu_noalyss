@@ -29,6 +29,7 @@
 require_once("class_anc_plan.php");
 require_once("class_anc_account.php");
 $ret="";
+
 //---------------------------------------------------------------------------
 // action 
 // Compute the u_redcontent div

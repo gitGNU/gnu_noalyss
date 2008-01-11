@@ -243,7 +243,7 @@ function ConfirmTransfert($p_cn,$periode){
 
 function TransferCSV($p_cn, $periode){
   //on obtient la période courante
-  $User=new cl_user($p_cn);
+  $User=new User($p_cn);
   $periode = $User->get_periode();
 	
   // on trouve les dates frontières de cette période

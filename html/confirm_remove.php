@@ -32,7 +32,7 @@ include_once("ac_common.php");
 
 $rep=DbConnect();
 include_once ("class_user.php");
-$User=new cl_user($rep);
+$User=new User($rep);
 html_page_start($User->theme,'onLoad="window.focus();"');
 $User->Check();
 if ($User->admin != 1) {

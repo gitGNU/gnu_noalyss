@@ -409,13 +409,13 @@ Array
 	$ix_acc='AC_'.$c['p_id'];
 	$ix_bud='BD_'.$c['p_id'];
 	$color="";
-	if ( strpos($key,'6') === 0 || strpo($key,'5')===0) {
+	if ( strpos($key,'6') === 0 ) {
 	  if ( $value[$ix_acc] > $value[$ix_bud] )
 	    $color="red";
 	  else 
 	    $color="lightgreen";
 	}
-	if ( strpos($key,'7') === 0 ) {
+	if ( strpos($key,'7') === 0 || strpos($key,'5')===0 ) {
 	  if ( $value[$ix_acc] < $value[$ix_bud] )
 	    $color="red";
 	  else 

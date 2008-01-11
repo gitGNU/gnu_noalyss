@@ -41,7 +41,7 @@ $gDossier=dossier::id();
 
 $cn=DbConnect($gDossier);
 include_once ("class_user.php");
-$User=new cl_user($cn);
+$User=new User($cn);
 $User->Check();
 
 // Synchronize rights

@@ -30,7 +30,7 @@ include_once("debug.php");
 include_once("user_menu.php");
 $rep=DbConnect();
 include_once ("class_user.php");
-$User=new cl_user($rep);
+$User=new User($rep);
 $User->Check();
 
 

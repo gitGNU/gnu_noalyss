@@ -38,7 +38,7 @@ include_once ("check_priv.php");
 
 $cn=DbConnect($gDossier);
 include_once ('class_user.php');
-$User=new cl_user($cn);
+$User=new User($cn);
 $User->Check();
 
    // PhpSessid

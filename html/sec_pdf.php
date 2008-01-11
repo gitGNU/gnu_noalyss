@@ -38,7 +38,7 @@ $cn=DbConnect($gDossier);
 // Check User
 $rep=DbConnect();
 include_once ("class_user.php");
-$User=new cl_user($rep);
+$User=new User($rep);
 $User->Check();
 // Check Priv
 $User->can_request($cn,SECU);
@@ -48,7 +48,7 @@ $User->can_request($cn,SECU);
 if ( ! isset($_GET['user_id']) ) 
   return;
 
-$SecUser=new cl_user($rep,$_GET['user_id']);
+$SecUser=new User($rep,$_GET['user_id']);
 
 
 //-----------------------------------------------------

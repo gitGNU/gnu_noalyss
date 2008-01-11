@@ -36,7 +36,7 @@ require_once ('class_dossier.php');
 
 $cn=DbConnect(dossier::id());
 
-$User=new cl_user($cn);
+$User=new User($cn);
 $User->Check();
 if ( isset ($_GET['action']) &&
      $_GET['action']=='update'

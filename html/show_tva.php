@@ -27,7 +27,7 @@ include_once ("postgres.php");
 /* Admin. Dossier */
 $rep=DbConnect();
 include_once ("class_user.php");
-$User=new cl_user($rep);
+$User=new User($rep);
 $User->Check();
 require_once('class_dossier.php');
 $gDossier=dossier::id();

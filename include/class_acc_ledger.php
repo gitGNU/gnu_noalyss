@@ -698,7 +698,7 @@ class Acc_Ledger {
    * \return object widget select
    */
   function select_ledger() {
-    $user=new cl_user($this->db);
+    $user=new User($this->db);
     $array=$user->get_ledger();
     $idx=0;
     $ret=array();
@@ -992,7 +992,7 @@ class Acc_Ledger {
   function verify($p_array)
   {
     extract ($p_array);
-    $user=new cl_user($this->db);
+    $user=new User($this->db);
     $tot_cred=0;$tot_deb=0;
     // Check the periode and the date
     if ( isDate($date) == null ) { 

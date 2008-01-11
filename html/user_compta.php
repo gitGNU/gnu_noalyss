@@ -29,7 +29,7 @@ include_once ("postgres.php");
 
 $rep=DbConnect();
 
-$User=new cl_user($rep);
+$User=new User($rep);
 $User->Check();
 
 html_page_start($User->theme);

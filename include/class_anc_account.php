@@ -151,6 +151,7 @@ class Anc_Account
   }
   private function format_data()
   {
+
 	$this->name=FormatString($this->name);
 	$this->pa_id=FormatString($this->pa_id);
 	$this->amount=FormatString($this->amount);
@@ -272,7 +273,6 @@ class Anc_Account
   }
   function get_from_array($p_array)
   {
-    print_r($p_array);
     $this->name=(isset ($p_array['po_name']))?$p_array['po_name']:"";
     $this->description=(isset ($p_array['po_description']))?$p_array['po_description']:"";
     $this->pa_id=(isset ($p_array['pa_id']))?$p_array['pa_id']:"";

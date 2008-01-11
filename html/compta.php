@@ -35,7 +35,7 @@ $cn=DbConnect($gDossier);
 
 
 require_once ('class_user.php');
-$User=new cl_user($cn);
+$User=new User($cn);
 $User->Check();
 
 require_once ("check_priv.php");

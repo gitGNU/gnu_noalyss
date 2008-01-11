@@ -30,7 +30,7 @@ echo_debug('priv_user.php',__LINE__,"entering priv_users");
 
 $rep=DbConnect();
 include_once ("class_user.php");
-$User=new cl_user($rep);
+$User=new User($rep);
 $User->Check();
 
 if ($User->admin != 1) {

@@ -34,7 +34,7 @@ $cn=DbConnect($gDossier);
 
 
 require_once ('class_user.php');
-$User=new cl_user(DbConnect());
+$User=new User(DbConnect());
 $User->Check();
 if ( $User->check_action($cn,BALANCE) == 0)
   {

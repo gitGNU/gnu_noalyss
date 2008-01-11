@@ -36,7 +36,7 @@ $cn=DbConnect($gDossier);
 
 $rep=DbConnect();
 require_once ('class_user.php');
-$User=new cl_user($rep);
+$User=new User($rep);
 $User->Check();
 
 $User->can_request($cn,FICHE_READ);

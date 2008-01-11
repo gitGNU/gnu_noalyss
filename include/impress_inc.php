@@ -578,7 +578,7 @@ function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true,$p_
        */
       if ( $from == '00.0000' ) {
 		// retrieve the first month of this periode
-		$User=new cl_user($p_cn);
+		$User=new User($p_cn);
 		$user_periode=$User->getPeriode();
 		$periode=getDbValue($p_cn,
 				    "select p_exercice from parm_periode where p_id=$user_periode");

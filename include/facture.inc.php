@@ -125,7 +125,7 @@ if ( $sub_action == "list")
 
   $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') ".
 			    " from parm_periode $filter_year order by p_start,p_end",1);
-  // User is already set User=new cl_user($cn);
+  // User is already set User=new User($cn);
   $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
   $w->selected=$current;
 

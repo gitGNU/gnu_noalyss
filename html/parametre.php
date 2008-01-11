@@ -34,7 +34,7 @@ include_once ("postgres.php");
 /* Admin. Dossier */
 $rep=DbConnect();
 include_once ("class_user.php");
-$User=new cl_user($rep);
+$User=new User($rep);
 $User->Check();
 
 include_once("preference.php");

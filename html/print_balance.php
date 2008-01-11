@@ -45,7 +45,7 @@ $gDossier=dossier::id();
 $cn=DbConnect($gDossier);
 $rep=DbConnect();
 include ('class_user.php');
-$User=new cl_user($rep);
+$User=new User($rep);
 $User->Check();
 
 $bal=new Acc_Balance($cn);

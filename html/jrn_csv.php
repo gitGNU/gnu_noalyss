@@ -36,7 +36,7 @@ $cn=DbConnect($gDossier);
 $rep=DbConnect();
 
 require_once ('class_user.php');
-$User=new cl_user($rep);
+$User=new User($rep);
 $User->Check();
 if ( $User->check_action($cn,IMP) == 0 ||
      $User->AccessJrn($cn,$_GET['jrn_id']) == false){

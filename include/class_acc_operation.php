@@ -50,7 +50,7 @@ var $jr_id;	/*!< pk of jrn */
     $this->db=$p_cn;
     $this->qcode="";
     $this->user=$_SESSION['g_user'];
-    $user=new cl_user($this->db);
+    $user=new User($this->db);
     $this->periode=$user->get_periode();
   }
   /* **************************************************

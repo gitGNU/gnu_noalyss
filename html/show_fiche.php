@@ -36,7 +36,7 @@ require_once('class_widget.php');
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 
-$User=new cl_user(DbConnect());
+$User=new User(DbConnect());
 $User->Check();
 html_page_start($_SESSION['g_theme'],"onLoad='window.focus();'");
 

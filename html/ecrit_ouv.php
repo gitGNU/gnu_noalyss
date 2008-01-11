@@ -33,7 +33,7 @@ include_once ("postgres.php");
 /* Admin. Dossier */
 include_once ("class_user.php");
 $cn=DbConnect($gDossier);
-$User=new cl_user($cn);
+$User=new User($cn);
 $User->Check();
 
 include_once ("check_priv.php");

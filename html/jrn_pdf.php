@@ -51,7 +51,7 @@ if ($_GET['central'] == 'on' ) {
 $Jrn=new Acc_Ledger($cn,$_GET['jrn_id']);
 
 $Jrn->get_name();
-$User=new cl_user(DbConnect());
+$User=new User(DbConnect());
 $User->Check();
 
 // Security

@@ -38,7 +38,7 @@ if (  isset ($_POST["p_user"] ) ) {
   // if no, then redirect to the login page
   $rep=DbConnect();
   include_once ("class_user.php");
-  $User=new cl_user($rep);
+  $User=new User($rep);
   $User->Check();
 
   echo "<META HTTP-EQUIV=\"REFRESH\" content=\"0;url=user_login.php?PHPSESSID=" . $_REQUEST["PHPSESSID"] . "\">";
@@ -47,7 +47,7 @@ if (  isset ($_POST["p_user"] ) ) {
 {
   $rep=DbConnect();
   include_once ("class_user.php");
-  $User=new cl_user($rep);
+  $User=new User($rep);
   $User->Check();
   
   echo "<META HTTP-EQUIV=\"REFRESH\" content=\"0;url=user_login.php?PHPSESSID=" . $_REQUEST["PHPSESSID"] . "\">";  

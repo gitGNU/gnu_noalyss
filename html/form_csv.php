@@ -35,7 +35,7 @@ $gDossier=dossier::id();
 $cn=DbConnect($gDossier);
 
 
-$User=new cl_user($cn);
+$User=new User($cn);
 $User->Check();
 
 

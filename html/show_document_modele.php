@@ -32,7 +32,7 @@ $cn=DbConnect($gDossier);
 
 
 require_once ('class_user.php');
-$User=new cl_user(DbConnect());
+$User=new User(DbConnect());
 /*!\todo Add security here
  */
 $User->Check();

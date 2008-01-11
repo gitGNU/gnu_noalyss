@@ -267,7 +267,7 @@ function ShowMenuJrnUser($p_dossier,$p_type,$p_jrn,$p_extra="")
   
   $Cn=DbConnect($p_dossier);
   
-  $User=new cl_user($Cn);
+  $User=new User($Cn);
   $User->Check();
   if ( $User->Admin() ==0) {
     $Ret=ExecSql($Cn,"select jrn_def_id,jrn_def_type,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,

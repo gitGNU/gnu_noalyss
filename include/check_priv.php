@@ -134,8 +134,8 @@ function CheckJrn($p_dossier,$p_user,$p_jrn,$p_detail=False)
 /*! 
  * \brief  Check if an user is allowed to do an action, 
  *         this function is only used by the user_sec.php, 
- *         otherwise you have to use cl_user->check_action 
- *         or $cl_user->can_request
+ *         otherwise you have to use User->check_action 
+ *         or $User->can_request
  * 
  * \param p_dossier dossier id
  * \param p_login   user's login

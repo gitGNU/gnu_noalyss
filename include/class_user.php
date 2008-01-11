@@ -30,14 +30,14 @@
 
 include_once("constant.php");
 
-class cl_user {
+class User {
   var $id;
   var $pass;
   var $db;
   var $admin;
   var $valid;
 
-  function cl_user ($p_cn,$p_id=-1){
+  function User ($p_cn,$p_id=-1){
     // if p_id is not set then check the connected user
     if ( $p_id == -1 ) {
 	  echo_debug('class_user.php',__LINE__," g_user = ".$_SESSION['g_user']);

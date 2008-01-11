@@ -46,7 +46,7 @@ else
   }
 
 
-$User=new cl_user($cn);
+$User=new User($cn);
 $User->Check();
 
 // Met a jour le theme utilisateur (style)

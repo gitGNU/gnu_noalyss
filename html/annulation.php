@@ -40,7 +40,7 @@ require_once('class_dossier.php');
 $gDossier=dossier::id();
 
 $cn=DbConnect($gDossier);
-$User=new cl_user($cn);
+$User=new User($cn);
 $User->Check();
 
 html_page_start($User->theme,"onLoad='window.focus();'");

@@ -41,11 +41,10 @@ include_once ("user_menu.php");
 
 $rep=DbConnect();
 include_once ("class_user.php");
-$User=new cl_user($rep);
+$User=new User($rep);
 $User->Check();
 include ("check_priv.php");
 echo '<div class="u_tmenu">';
-var_dump($_SERVER);
 
 echo ShowMenuCompta($_SESSION['g_dossier']);
 echo '</div>';

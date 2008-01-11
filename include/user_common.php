@@ -557,7 +557,7 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Eché
 	$l_and=" and ";
       }
     // if not admin check filter 
-    $User=new cl_user(DbConnect());
+    $User=new User(DbConnect());
     $User->Check();
     if ( $User->admin == 0 ) 
     {

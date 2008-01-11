@@ -42,7 +42,7 @@ include_once ("postgres.php");
 /* Admin. Dossier */
 $rep=DbConnect($gDossier);
 require_once ("class_user.php");
-$User=new cl_user($rep);
+$User=new User($rep);
 $User->Check();
 
 echo '<div class="u_tmenu">';
