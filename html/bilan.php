@@ -27,7 +27,7 @@ include_once("postgres.php");
 require_once ('header_print.php');
 require_once ('class_acc_bilan.php');
 
-include ('class_user.php');
+require_once  ('class_user.php');
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 
