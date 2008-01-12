@@ -101,7 +101,8 @@ echo_debug('user_form_ach.php',__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_peri
     $r.="<FORM NAME=\"form_detail\"  enctype=\"multipart/form-data\" ACTION=\"$href\" METHOD=\"POST\">";
 	$r.=dossier::hidden();
   }
-
+  $r.='<fieldset>';
+  $r.='<legend>Detail Fournisseur</legend>';
   $r.='<TABLE>';
   // Date widget
   //--
@@ -164,11 +165,11 @@ echo_debug('user_form_ach.php',__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_peri
   $Hid=new widget('hidden');
   $r.=$Hid->IOValue("nb_item",$p_article);
   $e_comment=(isset($e_comment))?$e_comment:"";
-
+  $r.='</fieldset>';
 
   // Start the div for item to sell
   $r.="<DIV>";
-  $r.='<H2 class="info">Articles</H2>';
+  $r.='<H2 class="info">d&eacute;tail articles achet&eacute;s</H2>';
   $r.='<TABLE>';
   $r.='<TR>';
   $r.="<th></th>";

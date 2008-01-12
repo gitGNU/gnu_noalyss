@@ -181,7 +181,8 @@ function FormFin($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
   $r.=dossier::hidden();
   $hid=new widget('hidden');
   $r.=$hid->IOValue('p_jrn',$p_jrn);
-
+  $r.='<fieldset>';
+  $r.='<legend>Banque</legend>';
   $r.='<TABLE>';
   $Date=new widget("js_date");
   $Date->SetReadOnly($pview_only);
@@ -229,10 +230,10 @@ function FormFin($p_cn,$p_jrn,$p_periode,$p_submit,$p_array=null,$pview_only=tru
     $r.=" <b> Solde = ".$solde." </b>";
     $new_solde=$solde;
   }
-
+  $r.='</fieldset>';
   // Start the div for item to move money
   $r.="<DIV>";
-  $r.='<H2 class="info">Actions</H2>';
+  $r.='<H2 class="info">d&eacute;tails op&eacute;rations</H2>';
   $r.='<TABLE>';
   $r.="<TR>";
   $r.="<th></TH>";

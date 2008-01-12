@@ -94,6 +94,8 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
 
     
   }
+  $r.="<fieldset>";
+  $r.="<legend>Detail client </legend>";
 
   $r.='<TABLE>';
   //  Date
@@ -157,11 +159,11 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
   $Hid=new widget('hidden');
   $r.=$Hid->IOValue("nb_item",$p_article);
   $e_comment=(isset($e_comment))?$e_comment:"";
-
+  $r.="</fieldset>";
 
   // Start the div for item to sell
   $r.="<DIV>";
-  $r.='<H2 class="info">Articles</H2>';
+  $r.='<H2 class="info">D&eacute;tail articles vendus</H2>';
   $r.='<TABLE>';
   $r.='<TR>';
   $r.="<th></th>";
