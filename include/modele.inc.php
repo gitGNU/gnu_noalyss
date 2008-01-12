@@ -174,7 +174,7 @@ if ( $count == 0 ) {
   for ($i=0;$i<$count;$i++) {
     $mod=pg_fetch_array($Res,$i);
     printf('<TR>'.
-	   '<TD><b> %s</b> </TD>'.
+	   '<TD>%d <b> %s</b> </TD>'.
 	   '<TD><I> %s </I></TD>'.
 	   '<td> '.
 	   ' <input type="button" name="Effacer" '.
@@ -182,6 +182,7 @@ if ( $count == 0 ) {
 	   '</td>'.
 	   
 	   '</TR>',
+	   $mod['mod_id'],
 	   $mod['mod_name'],
 	   $mod['mod_desc']);
     

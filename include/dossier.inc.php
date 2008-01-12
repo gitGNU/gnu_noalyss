@@ -149,9 +149,9 @@ if ( isset ($_POST["DATABASE"]) ) {
 	else
 	  $cl='class="even"';
 
-	echo "<TR $cl><TD VALIGN=\"TOP\"> 
-<B>$Dossier[dos_name]</B> </TD>
-<TD><I>  ".$Dossier['dos_description']."</I>
+	echo "<TR $cl><TD VALIGN=\"TOP\"> ".
+	  $Dossier['dos_id']." <B>".$Dossier['dos_name']."</B> </TD>".
+	  "<TD><I>  ".$Dossier['dos_description']."</I>
 </TD>
 <TD>
 <input type=\"button\" name=\"Effacer\"".
