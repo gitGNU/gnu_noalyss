@@ -24,9 +24,9 @@
  *
  */
 
-function PcmnUpdate(p_value,p_lib,p_parent,p_sessid,p_dossier)
+function PcmnUpdate(p_value,p_lib,p_parent,p_type,p_sessid,p_dossier)
 	{
-	var win=window.open('line_update.php?l='+p_value+'&n='+p_lib+'&p='+p_parent+'&PHPSESSID='+p_sessid+'&gDossier='+p_dossier,'Modifie','toolbar=no,width=500,height=400,scrollbars=yes,resizable=yes');
+	var win=window.open('line_update.php?l='+p_value+'&n='+p_lib+'&p='+p_parent+'&m'+p_type+'&PHPSESSID='+p_sessid+'&gDossier='+p_dossier,'Modifie','toolbar=no,width=500,height=400,scrollbars=yes,resizable=yes');
 	}
 
 function RefreshMe() {

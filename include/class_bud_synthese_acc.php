@@ -28,7 +28,7 @@
 */
 require_once ('class_bud_synthese.php');
 require_once ('class_anc_account.php');
-require_once ('class_acc_account.php');
+require_once ('class_acc_account_ledger.php');
 require_once ("class.ezpdf.php");
 require_once ('header_print.php');
 
@@ -167,7 +167,7 @@ class Bud_Synthese_Acc extends Bud_Synthese {
     foreach ($aBudCard as $rBudCard) {
       $line=array();
       echo_debug(__FILE__.':'.__LINE__.'- load ','bud_card',$rBudCard);
-      $acc_account=new Acc_Account($this->cn,$rBudCard['pcm_val']);
+      $acc_account=new Acc_Account_Ledger($this->cn,$rBudCard['pcm_val']);
       $acc_account->load();
       $line['acc_name']=$acc_account->label;
       $line['acc_amount']=$acc_account->get_solde($per_acc);

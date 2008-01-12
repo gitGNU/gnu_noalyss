@@ -19,7 +19,7 @@
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 require_once('class_own.php');
-require_once('class_acc_account.php');
+require_once('class_acc_account_ledger.php');
 require_once('class_action.php');
 /*! \file 
  * \brief Class Document corresponds to the table document

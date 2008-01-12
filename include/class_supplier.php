@@ -24,7 +24,7 @@ require_once("class_parm_code.php");
 require_once("class_widget.php");
 
 require_once('class_fiche.php');
-require_once('class_acc_account.php');
+require_once('class_acc_account_ledger.php');
 require_once('user_common.php');
 /*! \file
  * \brief Derived from class fiche Supplier are a specific kind of card
@@ -129,7 +129,7 @@ class Supplier extends fiche{
 	  " ".$supplier->strAttribut(ATTR_DEF_PAYS).
 	  "</TD>";
 
-	$post=new Acc_Account($this->cn,$supplier->strAttribut(ATTR_DEF_ACCOUNT));
+	$post=new Acc_Account_Ledger($this->cn,$supplier->strAttribut(ATTR_DEF_ACCOUNT));
 	/* Filter on the default year */
 	$User=new User($this->cn);
 	$filter_year="  j_tech_per in (select p_id from parm_periode ".

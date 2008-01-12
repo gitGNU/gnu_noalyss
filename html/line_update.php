@@ -24,33 +24,30 @@
 include_once ("ac_common.php");
 require_once('class_dossier.php');
 $gDossier=dossier::id();
-
 include_once ("postgres.php");
 include_once("check_priv.php");
-
+require_once ('class_acc_account.php');
 /* Admin. Dossier */
 $rep=DbConnect();
 include_once ("class_user.php");
 $User=new User($rep);
 $User->Check();
 html_page_start($User->theme,"onLoad='window.focus();'");
-
-$User->can_request(DbConnect($gDossier),MPCMN);
+$cn=DbConnect($gDossier);
+$User->can_request($cn,MPCMN);
 
 
 include ("user_menu.php");
-
 /* Modif d'une ligne */
 if ( isset ($_POST["update"] ) ) {
-  foreach ($_POST as $name => $element) {
-    echo_debug('line_update.php',__LINE__,"name $name $element");
-  }
+
   echo JS_UPDATE_PCMN;
-  $cn=DbConnect($gDossier);
+
     $p_val=trim($_POST["p_val"]);
-    $p_lib=FormatString($_POST["p_name"]);
-    $p_parent=trim($_POST["p_val_parent"]);
+    $p_lib=FormatString($_POST["p_lib"]);
+    $p_parent=trim($_POST["p_parent"]);
     $old_line=trim($_POST["p_old"]);
+    $p_type=$_POST['p_type'];
     // Check if p_parent and p_val are number
     if ( ! is_numeric($p_val) || ! is_numeric($p_parent) ) {
       // not number no update
@@ -80,7 +77,7 @@ if ( isset ($_POST["update"] ) ) {
 	echo '<SCRIPT> alert(" Ne peut pas modifier; aucune poste parent"); </SCRIPT>';
       } else {
 	
-	$Ret=ExecSql($cn,"update tmp_pcmn set pcm_val=$p_val, pcm_lib='$p_lib',pcm_val_parent=$p_parent where pcm_val=$old_line");
+	$Ret=ExecSql($cn,"update tmp_pcmn set pcm_val=$p_val, pcm_lib='$p_lib',pcm_val_parent=$p_parent,pcm_type='$p_type' where pcm_val=$old_line");
       }
     } else {
       echo '<script> alert(\'Update Valeurs invalides\'); </script>';
@@ -96,27 +93,19 @@ if ( isset ($_POST["update"] ) ) {
 
 ?>
 <FORM ACTION="line_update.php" METHOD="POST">
-<TABLE>
-<TR>
-<?php
-$l=$_GET['l'];
-$p=$_GET['p'];
-$n=$_GET['n'];
-
-printf ('<TD>Numéro de classe </TD><TD><INPUT TYPE="TEXT" name="p_val" value="%s"></TD>',$l);
-echo "</TR><TR>";
-printf('<TD>Libellé </TD><TD><INPUT TYPE="TEXT" size="70" NAME="p_name" value="%s"></TD>',urldecode($n));
-echo "</TR><TR>";
-printf ('<TD>Classe Parent</TD><TD><INPUT TYPE="TEXT" name="p_val_parent" value="%s"></TD>',$p);
-echo dossier::hidden();
+<?
+  $acc=new Acc_Account($cn);
+  $acc->pcm_val=$_GET['l'];
+  $acc->pcm_val_parent=$_GET['p'];
+  $acc->pcm_lib=$_GET['n'];
+  $acc->pcm_type=(isset ($_GET['m']))?$_GET['m']:"";
+  echo $acc->form(true);
 ?>
-</TR>
-</TABLE>
 <TABLE>
 <TR>
 <TD><INPUT TYPE="Submit" VALUE="Sauve">
 <INPUT TYPE="HIDDEN" name="update">
-<?php printf ('<INPUT TYPE="HIDDEN" name="p_old" value="%s">',$l); ?>
+<?php printf ('<INPUT TYPE="HIDDEN" name="p_old" value="%s">',$acc->pcm_val); ?>
 </TD><TD><input type="button"  Value="Retour sans sauver" onClick='window.close();'></TD></TR>
 </TABLE>
 </FORM>

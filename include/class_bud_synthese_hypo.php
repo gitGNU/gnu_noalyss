@@ -28,7 +28,7 @@
  *  synthese
  */
 require_once ('class_bud_synthese.php');
-require_once ('class_acc_account.php');
+require_once ('class_acc_account_ledger.php');
 
 class Bud_Synthese_Hypo extends Bud_Synthese {
 /*   function __construct($p_cn) { */
@@ -145,7 +145,7 @@ Array
 	$line['total_row']+=$line[$groupe];
       }
       // total CE
-      $acc_account=new Acc_Account($this->cn,$pcm_val);
+      $acc_account=new Acc_Account_Ledger($this->cn,$pcm_val);
       $acc_account->load();
       $line['acc_name']=$acc_account->label;
       $line['acc_amount']=$acc_account->get_solde($per_acc);

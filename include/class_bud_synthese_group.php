@@ -29,7 +29,7 @@
  */
 require_once ('class_widget.php');
 require_once ('class_bud_synthese.php');
-require_once ('class_acc_account.php');
+require_once ('class_acc_account_ledger.php');
 require_once ('class_bud_hypo.php');
 
 class Bud_Synthese_Group extends Bud_Synthese {
@@ -220,7 +220,7 @@ class Bud_Synthese_Group extends Bud_Synthese {
 
     // Add amount from Accountancy
     $tmp=$array;
-    $acc=new Acc_Account($this->cn,0);
+    $acc=new Acc_Account_Ledger($this->cn,0);
     // $key is the pcm_val and the amount is an array of amount
     // (index = periode)
     foreach ($array as $key=>$amount) {

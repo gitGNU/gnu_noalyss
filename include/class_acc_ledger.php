@@ -25,7 +25,7 @@ require_once ('class_dossier.php');
 require_once ('class_own.php');
 require_once ('class_anc_operation.php');
 require_once ('class_acc_operation.php');
-require_once ('class_acc_account.php');
+require_once ('class_acc_account_ledger.php');
 require_once ('class_pre_op_advanced.php');
 require_once ('jrn.php');
 require_once ('class_acexception.php');
@@ -472,7 +472,7 @@ class Acc_Ledger {
       $idx_tva=0;
       echo_debug('class_acc_ledger',__LINE__,'Code is');
       echo_debug('class_acc_ledger',__LINE__,$code);
-      $poste=new Acc_Account($this->db,$code['j_poste']);
+      $poste=new Acc_Account_Ledger($this->db,$code['j_poste']);
 
       // if card retrieve name if the account is not a VAT account
       if ( strlen(trim($code['j_qcode'] )) != 0 && $poste->isTva() == 0 )
@@ -812,7 +812,7 @@ class Acc_Ledger {
       }
 
       if ( trim(${'qc_'.$i})=="" && trim(${'poste'.$i}) != "") {
-	$oposte=new Acc_Account($this->db,${'poste'.$i});
+	$oposte=new Acc_Account_Ledger($this->db,${'poste'.$i});
 	$strPoste=$oposte->id;
 	$ret.="<td>".${"poste".$i}." - ".
 				     $oposte->get_name().$hidden->IOValue('poste'.$i,${'poste'.$i}).
@@ -1040,7 +1040,7 @@ class Acc_Ledger {
 
 	// Check if the account is permitted
 	if ( isset (${'poste'.$i})) {
-	  $p=new Acc_Account($this->db,${'poste'.$i});
+	  $p=new Acc_Account_Ledger($this->db,${'poste'.$i});
 	  if ( $p->belong_ledger ($p_jrn) < 0 )
 	    throw new AcException("Le poste ".$p->id." n\'est pas dans ce journal",5);
 	}

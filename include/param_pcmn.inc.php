@@ -21,8 +21,8 @@
 /*! \file
  * \brief concerns the management of the "Plan Comptable"
  */
+require_once ('class_acc_account.php');
 include_once ("ac_common.php");
-html_page_start($_SESSION['g_theme']);
 require_once("constant.php");
 require_once('class_dossier.php');
 $gDossier=dossier::id();
@@ -90,10 +90,11 @@ if (isset ($_GET['action'])) {
 } // isset action
 //-----------------------------------------------------
 /* Ajout d'une ligne */
-if ( isset ( $_POST["Add"] ) ) {
+if ( isset ( $_POST["Ajout"] ) ) {
 	extract ($_POST);
 	$p_val=trim($p_val);
 	$p_parent=trim($p_parent);
+
   if ( isset ( $p_val) && isset ( $p_lib ) && isNumber($p_val) && isNumber($p_parent) ) {
     $p_val=trim($p_val);
     $p_lib=FormatString(trim($p_lib));
@@ -123,7 +124,7 @@ if ( isset ( $_POST["Add"] ) ) {
 
 	  } else 
 	    {
-	      $Ret=ExecSql($cn,"insert into tmp_pcmn (pcm_val,pcm_lib,pcm_val_parent) values ('$p_val','$p_lib',$p_parent)");
+	      $Ret=ExecSql($cn,"insert into tmp_pcmn (pcm_val,pcm_lib,pcm_val_parent,pcm_type) values ('$p_val','$p_lib',$p_parent,'$p_type')");
 	    }
       }
     } else {
@@ -132,7 +133,7 @@ if ( isset ( $_POST["Add"] ) ) {
   }
 }
 
-$Ret=ExecSql($cn,"select pcm_val,pcm_lib,pcm_val_parent from tmp_pcmn where substr(pcm_val::text,1,1)='".$_SESSION['g_start']."' order by pcm_val::text");
+$Ret=ExecSql($cn,"select pcm_val,pcm_lib,pcm_val_parent,pcm_type from tmp_pcmn where substr(pcm_val::text,1,1)='".$_SESSION['g_start']."' order by pcm_val::text");
 $MaxRow=pg_NumRows($Ret);
 
 ?>
@@ -148,19 +149,14 @@ echo dossier::hidden();
 <TH> Classe </TH>
 <TH> Libellé </TH>
 <TH> Parent </TH>
+<TH> Type </TH>
 </TR>
-<TR>
+<?php
+  $line=new Acc_Account($cn);
+  echo $line->form(false); 
+?>
 <TD>
-<INPUT TYPE="TEXT" NAME="p_val" SIZE=7>
-</TD>
-<TD>
-<INPUT TYPE="TEXT" NAME="p_lib" size=50>
-</TD>
-<TD>
-<INPUT TYPE="TEXT" NAME="p_parent" size=5>
-</TD>
-<TD>
-<INPUT TYPE="SUBMIT" Value="Add" Name="Add">
+<INPUT TYPE="SUBMIT" Value="Ajout" Name="Ajout">
 </TD>
 </TR>
 <?php
@@ -173,28 +169,32 @@ for ($i=0; $i <$MaxRow; $i++) {
   } else {
     $td='<TD class="even">';
   }
-  echo "<TR> $td";
+  echo "<TR> ";
+  echo "$td";
   echo $A['pcm_val'];
-
-  echo "</td> $td";
-  //  printf ("<A HREF=line_update.php?l=%d&n=%s&p=%s>",$A['pcm_val'],urlencode($A['pcm_lib']),$A['pcm_val_parent']);
-  printf ("<A HREF=\"javascript:PcmnUpdate(%d,'%s','%s','%s',%d)\">",
-		  $A['pcm_val'],
-		  FormatString($A['pcm_lib']),
-		  $A['pcm_val_parent'],
-		  $_REQUEST['PHPSESSID'],
-		  dossier::id());
+  echo '</td>';
+  echo "$td";
+  printf ("<A HREF=\"javascript:PcmnUpdate(%d,'%s','%s','%s','%s',%d)\">",
+	  $A['pcm_val'],
+	  FormatString($A['pcm_lib']),
+	  $A['pcm_val_parent'],
+	  $A['pcm_type'],
+	  $_REQUEST['PHPSESSID'],
+	  dossier::id());
   echo $A['pcm_lib'];
-  echo '</A>';
-  echo "</TD>";
 
   echo $td;
   echo $A['pcm_val_parent'];
   echo '</TD>';
+  echo "</td>$td";
+  echo $A['pcm_type'];
+  echo "</TD>";
+
 
   echo $td;
   printf ('<A href="?p_action=pcmn&l=%d&action=del&%s">Delete</A>',$A['pcm_val'],$str_dossier);
   echo "</TD>";
+
   
   echo "</TR>";
 }

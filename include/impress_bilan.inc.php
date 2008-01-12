@@ -38,10 +38,33 @@ include_once("postgres.php");
 //-----------------------------------------------------
 $filter_year=" where p_exercice='".$User->get_exercice()."'";
 $bilan=new Acc_Bilan($cn);
-echo '<div class="u_redcontent">';
-echo '<FORM ACTION="bilan.php" METHOD="GET">';
+echo '<div class="u_content">';
+
+echo '<FORM  METHOD="GET">';
+echo widget::hidden('p_action','impress');
+echo widget::hidden('type','bilan');
+echo dossier::hidden();
 echo $bilan->display_form ($filter_year);
+echo widget::submit_button('verif','Verification comptabilite');
 echo '</FORM>';
+
+
+
+if ( isset($_GET['verif'])) {
+  echo '<h2> Etape 2 :Impression </h2>';
+  $bilan->get_request_get();
+  $bilan->verify();
+  require_once ('verif_bilan.inc.php');
+  echo '<FORM METHOD="GET" ACTION="bilan.php">';
+  echo dossier::hidden();
+  echo widget::hidden('b_id',$bilan->id);
+
+  echo widget::hidden('from_periode',$bilan->from);
+  echo widget::hidden('to_periode',$bilan->to);
+  echo widget::submit_button('Impression','Impression');
+  echo '</form>';
+
+ }
 echo '<span class="notice"> Attention : si le bilan n\'est pas &eacute;quilibr&eacute;.<br> V&eacute;rifiez <ul>
 <li>L\'affectation du r&eacute;sultat est fait</li>
 <li>Vos comptes actifs ont  un solde d&eacute;biteur (sauf les comptes dit invers&eacute;s)</li> 

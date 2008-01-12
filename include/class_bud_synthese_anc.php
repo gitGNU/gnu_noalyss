@@ -28,7 +28,7 @@
 */
 require_once ('class_bud_synthese.php');
 require_once ('class_anc_account.php');
-require_once ('class_acc_account.php');
+require_once ('class_acc_account_ledger.php');
 
 
 class Bud_Synthese_Anc extends Bud_Synthese {
@@ -184,7 +184,7 @@ class Bud_Synthese_Anc extends Bud_Synthese {
 	}
 	$sub['amount']=$sub['unit']*$line['price_unit'];
 	$sub['amount_unit']=$periode;
-	$acc_account=new Acc_Account($this->cn,$pcm_val);
+	$acc_account=new Acc_Account_Ledger($this->cn,$pcm_val);
 	$acc_account->load();
 	$sub['acc_name']=$acc_account->label;
 	$sub['acc_amount']=$acc_account->get_solde($per_acc);

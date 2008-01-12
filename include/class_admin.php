@@ -24,7 +24,7 @@ require_once("class_parm_code.php");
 require_once("class_widget.php");
 
 require_once('class_fiche.php');
-require_once('class_acc_account.php');
+require_once('class_acc_account_ledger.php');
 require_once('user_common.php');
 /*! \file
  * \brief Derived from class fiche Administration are a specific kind of card

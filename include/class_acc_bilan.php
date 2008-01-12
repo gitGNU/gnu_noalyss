@@ -31,6 +31,7 @@ require_once ('class_widget.php');
 require_once ('class_dossier.php');
 require_once ('impress_inc.php');
 require_once ('header_print.php');
+require_once ('class_acc_account_ledger.php');
 
 class Acc_Bilan {
   var $db;						/*!< database connection */
@@ -79,8 +80,138 @@ class Acc_Bilan {
 	$r.=$mod->IOValue('b_id');
 	$r.="</tr>";
 	$r.= '</TABLE>';
-	$r.= $w->Submit('result','Impression');
 	return $r;
+  }
+  /*!\brief check and warn if an accound has the wrong saldo
+   * \param $p_message legend of the fieldset
+   * \param $p_type type of the Acccount ACT actif, ACTINV...
+   * \param $p_type the saldo must debit or credit
+   */
+  private function warning($p_message,$p_type,$p_deb) {
+    $sql="select pcm_val,pcm_lib from tmp_pcmn where pcm_type='$p_type'";
+    $res=ExecSql($this->db,$sql);
+    if ( pg_NumRows($res) ==0 ) 
+      return;
+    $count=0;
+    $aRows=pg_fetch_all($res);
+    $ret="";
+
+    foreach ($aRows as $line) {
+      /* set the periode filter */
+      $sql=sql_filter_per($this->db,$this->from,$this->to,'p_id','j_tech_per');
+
+      $obj=new Acc_Account_Ledger($this->db,$line['pcm_val']);
+      $solde=$obj->get_solde_detail($sql);
+      $solde_signed=$solde['debit']-$solde['credit'];
+      if ( 
+	  ($solde_signed < 0 && $p_deb == 'D' ) ||
+	  ($solde_signed > 0 && $p_deb == 'C' )
+	   ) {
+	$ret.= '<li>Erreur pour le compte '.$line['pcm_val'].
+	  $line['pcm_lib'].
+	  "  D: ".$solde['debit'].
+	  "  C: ".$solde['credit']." diff ".$solde['solde'];
+	$count++;
+      }
+	  
+    }
+
+    echo '<fieldset>';
+    echo '<legend>'.$p_message.'</legend>';
+    if ( $count <> 0 ) {
+      echo '<ol>'.$ret.'</ol>';
+      echo '<span class="error">Nbre erreur : '.$count.'</span>';
+    } else
+      echo " Pas d'anomalie d&eacute;tect&eacute;e";
+      echo '</fieldset>';
+    
+    
+  }
+  /*!\brief verify that the saldo is good for the type of account */
+  function verify() {
+    echo '<h3> Comptes normaux </h3>';
+    $this->warning('Actif avec un solde crediteur','ACT','D');
+    $this->warning('Passif avec un solde debiteur','PAS','C');
+    $this->warning('Compte de resultat : Charge avec un solde crediteur','CHA','D');
+    $this->warning('Compte de resultat : produit avec un solde debiteur','PRO','C');
+    echo '<hr>';
+    echo '<h3> Comptes inverses </h3>';
+    $this->warning('Compte inverse : actif avec un solde debiteur','ACTINV','C');
+    $this->warning('Compte inverse : passif avec un solde crediteur','PASINV','D');
+    $this->warning('Compte inverse : Charge avec un solde debiteur','CHAINV','C');
+    $this->warning('Compte inverse : produit avec un solde crediteur','PROINV','D');
+    echo '<h3>Solde </h3>';
+    /* set the periode filter */
+    $sql_periode=sql_filter_per($this->db,$this->from,$this->to,'p_id','j_tech_per');
+    /* debit Actif */
+    $sql="select sum(j_montant) from jrnx join tmp_pcmn on (j_poste=pcm_val)".
+      " where j_debit='t' and (pcm_type='ACT' or pcm_type='ACTINV')";
+    $sql.="and $sql_periode";
+    $debit_actif=getDbValue($this->db,$sql);
+
+    /* Credit Actif */
+    $sql="select sum(j_montant) from jrnx join tmp_pcmn on (j_poste=pcm_val)".
+      " where j_debit='f' and (pcm_type='ACT' or pcm_type='ACTINV')";
+
+    $sql.="and $sql_periode";
+
+    $credit_actif=getDbValue($this->db,$sql);
+    $total_actif=abs($debit_actif-$credit_actif);
+    echo 'Total actif '.$total_actif;
+    echo '<br>';
+    /* debit passif */
+    $sql="select sum(j_montant) from jrnx join tmp_pcmn on (j_poste=pcm_val)".
+      " where j_debit='t' and (pcm_type='PAS' or pcm_type='PASINV') ";
+    $sql.="and $sql_periode";
+
+    $debit_passif=getDbValue($this->db,$sql);
+
+    /* Credit Actif */
+    $sql="select sum(j_montant) from jrnx join tmp_pcmn on (j_poste=pcm_val)".
+      " where j_debit='f' and (pcm_type='PAS' or pcm_type='PASINV') ";
+    $sql.="and $sql_periode";
+    $credit_passif=getDbValue($this->db,$sql);
+    $total_passif=abs($debit_passif-$credit_passif);
+    echo 'Total passif '.$total_passif;
+    echo '<br>';
+    /* debit charge */
+    $sql="select sum(j_montant) from jrnx join tmp_pcmn on (j_poste=pcm_val)".
+      " where j_debit='t' and (pcm_type='CHA' or pcm_type='CHAINV')";
+    $sql.="and $sql_periode";
+    $debit_charge=getDbValue($this->db,$sql);
+
+    /* Credit charge */
+    $sql="select sum(j_montant) from jrnx join tmp_pcmn on (j_poste=pcm_val)".
+      " where j_debit='f' and (pcm_type='CHA' or pcm_type='CHAINV')";
+    $sql.="and $sql_periode";
+    $credit_charge=getDbValue($this->db,$sql);
+    $total_charge=abs($debit_charge-$credit_charge);
+    echo 'Total charge '.$total_charge;
+    echo '<br>';
+
+    /* debit prod */
+    $sql="select sum(j_montant) from jrnx join tmp_pcmn on (j_poste=pcm_val)".
+      " where j_debit='t' and (pcm_type='PRO' or pcm_type='PROINV')";
+    $sql.="and $sql_periode";
+    $debit_pro=getDbValue($this->db,$sql);
+
+    /* Credit prod */
+    $sql="select sum(j_montant) from jrnx join tmp_pcmn on (j_poste=pcm_val)".
+      " where j_debit='f' and (pcm_type='PRO' or pcm_type='PROINV')";
+    $sql.="and $sql_periode";
+    $credit_pro=getDbValue($this->db,$sql);
+    $total_pro=abs($debit_pro-$credit_pro);
+    echo 'Total produit '.$total_pro;
+    echo '<br>';
+    if ( $total_actif != $total_passif ) {
+      $diff=$total_actif-$total_passif;
+      echo '<span >Difference Actif - Passif = '.$diff.'</span>';
+      echo '<br>';
+    }
+    $diff=$total_pro-$total_charge;
+    echo '<span >';
+    echo "Difference Produit - Charge ".$diff;
+    echo '</span>';
   }
 /*! 
  * \brief get data from the $_GET
