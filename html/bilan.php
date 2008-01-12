@@ -31,6 +31,7 @@ require_once  ('class_user.php');
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 
+
 /* Admin. Dossier */
 $cn=DbConnect($gDossier);
 

@@ -166,7 +166,7 @@ echo_debug('setup.php',__LINE__,"Execute sql $sql");
  */
 function apply_patch($p_cn,$p_name)
 {
-  $MaxVersion=35;
+  $MaxVersion=36;
   for ( $i = 4;$i <= $MaxVersion;$i++)
 	{
 	$to=$i+1;
@@ -230,7 +230,13 @@ function apply_patch($p_cn,$p_name)
 			}
 			
 		  }
-
+		if ( $i == 36 ) {
+		  /* check the country and apply the path */
+		  $res=ExecSql($p_cn,"select pr_value from parameter where pr_id='MY_COUNTRY'");
+		  $country=pg_fetch_result($res,0,0);
+		  ExecuteScript($p_cn,"sql/patch/upgrade36.".$country.".sql");
+		  ExecSql($p_cn,'update tmp_pcmn set pcm_type=find_pcm_type(pcm_val)');
+		}
 	  if ( DEBUG == 'false') ob_clean();
 	}
 	}
@@ -253,6 +259,8 @@ Vous utilisez le domaine <?php echo domaine; ?>
 <?php
 
 $flag_php=0;
+
+ini_set("memory_limit","200M");
 foreach (array('magic_quotes_gpc','magic_quotes_runtime') as $a) {
 
   if ( ini_get($a) == false ) print $a.': Ok  <br>';

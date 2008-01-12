@@ -717,4 +717,5 @@ CREATE TRIGGER t_tmp_pcmn_ins
   EXECUTE PROCEDURE tmp_pcmn_ins();
 
 update tmp_pcmn set pcm_type=find_pcm_type(pcm_val);
+update version set val=37;
 commit;	

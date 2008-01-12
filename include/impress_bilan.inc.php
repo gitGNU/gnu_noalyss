@@ -18,6 +18,7 @@
 */
 /* $Revision$ */
 require_once ('class_acc_bilan.php');
+ini_set("memory_limit","50M");
 /*! \file
  * \brief form who call the printing of the bilan in RTF
  *        file included by user_impress
