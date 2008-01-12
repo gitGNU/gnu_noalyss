@@ -23,7 +23,7 @@
 /*! \file
  * \brief send the account list in PDF
  */
-include_once("class_acc_account.php");
+include_once("class_acc_account_ledger.php");
 include_once("ac_common.php");
 include_once("postgres.php");
 include_once("class.ezpdf.php");

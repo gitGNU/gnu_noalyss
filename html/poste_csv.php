@@ -24,7 +24,7 @@
 include_once("ac_common.php");
 include_once ("postgres.php");
 include ('class_user.php');
-require_once("class_acc_account.php");
+require_once("class_acc_account_ledger.php");
 header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="poste.csv"',FALSE);
 require_once('class_dossier.php');
@@ -49,7 +49,7 @@ if ( count($a_poste) == 0 )
 
 foreach ($a_poste as $pos) 
 {
-  $Poste=new Acc_Account($cn,$pos['pcm_val']);
+  $Poste=new Acc_Account_Ledger($cn,$pos['pcm_val']);
   $Poste->get_name();
   list($array,$tot_deb,$tot_cred)=$Poste->get_row( $_POST['from_periode'],
 						  $_POST['to_periode']

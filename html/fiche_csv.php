@@ -31,7 +31,7 @@ include_once("check_priv.php");
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 
-if (  isset ($_REQUEST['with_amount']))  include_once("class_acc_account.php");
+if (  isset ($_REQUEST['with_amount']))  include_once("class_acc_account_ledger.php");
 $cn=DbConnect($gDossier);
 
 $rep=DbConnect();

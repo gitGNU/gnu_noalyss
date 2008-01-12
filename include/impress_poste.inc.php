@@ -82,7 +82,7 @@ echo '</div>';
 // after in pdf or cvs
 //-----------------------------------------------------
 if ( isset( $_POST['bt_html'] ) ) {
-  require_once("class_acc_account.php");
+  require_once("class_acc_account_ledger.php");
   $go=0;
 // we ask a poste_id
   if ( strlen(trim($_POST['poste_id'])) != 0 && isNumber($_POST['poste_id']) )
@@ -96,7 +96,7 @@ if ( isset( $_POST['bt_html'] ) ) {
       // Check if the post is numeric and exists
       elseif (  CountSql($cn,'select * from tmp_pcmn where pcm_val='.FormatString($_POST['poste_id'])) != 0 )
 	{
-	  $Poste=new Acc_Account($cn,$_POST['poste_id']);$go=1;
+	  $Poste=new Acc_Account_Ledger($cn,$_POST['poste_id']);$go=1;
 	}
     }
   if ( strlen(trim($_POST['f_id'])) != 0 )
@@ -142,13 +142,13 @@ if ( isset( $_POST['bt_html'] ) ) {
       echo '<div class="u_content">';
 
 
-      $Poste=new Acc_Account($cn,$_POST['poste_id']);
+      $Poste=new Acc_Account_Ledger($cn,$_POST['poste_id']);
       $Poste->HtmlTableHeader($_POST['poste_id']);
       $Poste->HtmlTable();
 
       foreach ($a_poste as $poste_id ) 
 	{
-	  $Poste=new Acc_Account ($cn,$poste_id['pcm_val']);
+	  $Poste=new Acc_Account_Ledger ($cn,$poste_id['pcm_val']);
 	  $Poste->HtmlTable();
 	}
       $Poste->HtmlTableHeader($_POST['poste_id']);

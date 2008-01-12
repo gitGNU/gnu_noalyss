@@ -24,7 +24,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 include_once ("ac_common.php");
 require_once('class_widget.php');
-require_once('class_acc_account.php');
+require_once('class_acc_account_ledger.php');
 html_page_start($_SESSION['g_theme']);
 require_once('class_dossier.php');
 $gDossier=dossier::id();
@@ -169,7 +169,7 @@ if ( isset ($_GET['import'])) {
 	for ($i=0;$i<$idx;$i++)
 	  {
 	    
-	    $p=new Acc_Account($cn,$aposte[$i]);
+	    $p=new Acc_Account_Ledger($cn,$aposte[$i]);
 
 	    // if the poste exists then check the next one
 	    if ( $p->load() == true ) continue;
