@@ -38,7 +38,7 @@ date_default_timezone_set ('Europe/Brussels');
 function header_pdf($p_cn,&$p_pdf) {
   $own=new own($p_cn);
   $soc=$own->MY_NAME;
-  $date=date('d / m / Y');
+  $date=date('d / m / Y H:i ');
   $dossier=" Dossier : ".dossier::name();
   $p_pdf->ezText($dossier." ".$soc." ".$date,9);
   }
@@ -46,7 +46,7 @@ function header_txt($p_cn) {
   $own=new own($p_cn);
   $soc=$own->MY_NAME;
 
-  $date=date('d / m / Y');
+  $date=date('d / m / Y H:i ');
   $dossier=" Dossier : ".dossier::name();
   return $dossier." ".$soc." ".$date;
   }
