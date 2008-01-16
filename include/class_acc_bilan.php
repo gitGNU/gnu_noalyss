@@ -560,7 +560,7 @@ class Acc_Bilan {
 	  }
 	  // repack
 	  system ('zip -r "'.$this->b_name.'.'.$this->b_type.'" *');
-	  ob_clean();
+	  ob_end_clean();
 	  fclose($p_file);
 	  echo_debug(__FILE__.':'.__LINE__.'- ','Send the file');
 	  $fdoc=fopen($dirname.DIRECTORY_SEPARATOR.$this->b_name.'.'.$this->b_type,'r');
@@ -592,7 +592,7 @@ class Acc_Bilan {
 	  $templ=$a->file_open_template();
 	  $r=$a->generate_odt($templ);
 	  fclose($templ);
-	  ob_clean();
+	  ob_end_clean();
 
 	  //	  echo_debug(__FILE__.':'.__LINE__,"resutl ",$r);
 	  $a->send($r);

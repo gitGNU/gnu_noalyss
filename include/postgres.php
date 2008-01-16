@@ -104,7 +104,7 @@ password='$password' port=$port");
 
   if ( $a == false )
   {
-  	ob_clean();
+  	ob_end_clean();
 	echo '<h2 class="error">Impossible de se connecter &agrave; postgreSql !</h2>';
   	echo "Vos param&egrave;tres sont incorrectes : <br>";
   	echo "<br>";
@@ -117,7 +117,7 @@ password='$password' port=$port");
 de donn&eacute;es");
 	
   }
-  ob_clean();
+  ob_end_clean();
   echo_debug ('postgres.php',__LINE__,"connect to $p_db dbname $l_dossier");
   return $a;
 }
@@ -136,7 +136,7 @@ function ExecSql($p_connection, $p_string) {
   ob_start();
   $ret=pg_query($p_connection,$p_string);
   if ( ! $ret )   {
-    ob_clean();
+    ob_end_clean();
     throw new Exception (" SQL ERROR $p_string ",1);
   }
   ob_flush();
@@ -162,7 +162,7 @@ function ExecSqlParam($p_connection, $p_string,$p_array) {
   ob_start();
   $ret=pg_query_params($p_connection,$p_string,$p_array);
   if ( ! $ret )   {
-    ob_clean();
+    ob_end_clean();
       $r=$p_string."array ".var_export($p_array,TRUE);
       throw new Exception (" SQL ERROR $r",1);
   }

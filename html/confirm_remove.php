@@ -104,7 +104,7 @@ if  ( isset($_POST['remove']) )
 	  $sql="drop database ".domaine."mod".$_POST['ob_id'];
 	  ob_start();
 	  if ( pg_query($cn,$sql)==false) {
-		ob_clean();
+		ob_end_clean();
 
 		echo "<h2 class=\"error\"> 
                       Base de donnée ".domaine."mod".$_POST['ob_id']."  est accèdée, déconnectez-vous d'abord</h2>";
@@ -123,7 +123,7 @@ if  ( isset($_POST['remove']) )
 	  $sql="drop database ".domaine."dossier".$_POST['ob_id'];
 	  ob_start();
 	  if ( pg_query($cn,$sql)==false) {
-	  		ob_clean();
+	  		ob_end_clean();
 		
 		echo "<h2 class=\"error\"> 
                      Base de donnée ".domaine."mod".$_POST['ob_id']."  est accèdée, déconnectez-vous d'abord</h2>";

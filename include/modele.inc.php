@@ -46,7 +46,7 @@ if ( isset ($_POST["FMOD_NAME"]) ) {
       $Sql=sprintf("CREATE DATABASE %sMOD%d encoding='ISO8859-1' TEMPLATE %sDOSSIER%s",domaine,$l_id,domaine,$_POST["FMOD_DBID"]);
       ob_start();
       if ( pg_query($cn,$Sql)==false) {
-	ob_clean();
+	ob_end_clean();
 	echo "<h2 class=\"error\"> Base de donn&eacute;e ".domaine."dossier".$_POST['FMOD_DBID']."  est accèd&eacute;e, d&eacute;connectez-vous en d'abord</h2>";
 	$Res=ExecSql($cn,"delete from modeledef where mod_id=".$l_id);
 
