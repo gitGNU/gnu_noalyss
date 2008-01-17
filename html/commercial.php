@@ -71,7 +71,7 @@ include_once("user_menu.php");
 $str_dossier=dossier::get();
 echo '<div class="u_tmenu">';
 echo '<div style="float:left">';
-echo "<H2 class=\"info\">Commercial ".dossier::name()."<h2> ";
+echo "<H2 class=\"info\">Commercial ".dossier::name()."</h2> ";
 echo '</div>';
 echo '<div style="text-align:right" title="Recherche">
 <input type="IMAGE" src="image/search.png" width="36" onclick="openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.$gDossier.');">
@@ -83,7 +83,7 @@ echo '<div style="text-align:right" title="Recherche">
 <A HREF="login.php" title="Accueil"><IMG src="image/home.png" width="36" title="Accueil"  border="0"  ></A>
 <A HREF="logout.php" title="Sortie"><IMG src="image/logout.png" title="Logout"  width="36"  border="0"></A>
 
-</div> </h2>';
+</div> ';
 
 $p_action=(isset ($_REQUEST['p_action']))?$_REQUEST['p_action']:"";
 // TODO Menu with all the customer
