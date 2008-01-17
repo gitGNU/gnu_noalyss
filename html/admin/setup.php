@@ -167,12 +167,13 @@ echo_debug('setup.php',__LINE__,"Execute sql $sql");
 function apply_patch($p_cn,$p_name)
 {
   $MaxVersion=36;
+  echo '<ul>';
   for ( $i = 4;$i <= $MaxVersion;$i++)
 	{
 	$to=$i+1;
 	  if ( GetVersion($p_cn) <= $i ) { 
-	  echo "<h2>Patching ".$p_name.
-		" from the version ".GetVersion($p_cn)." to $to</h2> <hr>";
+	  echo "<li>Patching ".$p_name.
+		" from the version ".GetVersion($p_cn)." to $to</h3> </li>";
 
 		ExecuteScript($p_cn,'sql/patch/upgrade'.$i.'.sql');
 	  if ( DEBUG=='false' ) ob_start();
@@ -240,6 +241,7 @@ function apply_patch($p_cn,$p_name)
 	  if ( DEBUG == 'false') ob_clean();
 	}
 	}
+  echo '</ul>';
 }
 //----------------------------------------------------------------------
 // End functions
@@ -260,7 +262,7 @@ Vous utilisez le domaine <?php echo domaine; ?>
 
 $flag_php=0;
 
-ini_set("memory_limit","200M");
+//ini_set("memory_limit","200M");
 foreach (array('magic_quotes_gpc','magic_quotes_runtime') as $a) {
 
   if ( ini_get($a) == false ) print $a.': Ok  <br>';
@@ -467,14 +469,14 @@ $MaxDossier=pg_NumRows($Resdossier);
 //----------------------------------------------------------------------
 // Upgrade the folders
 //----------------------------------------------------------------------
-echo '<ul>';
+
 for ($e=0;$e < $MaxDossier;$e++) {
   $db_row=pg_fetch_array($Resdossier,$e);
-  echo "<li>Patching ".$db_row['dos_name'].'</li>';
+  echo "<h3>Patching ".$db_row['dos_name'].'</h3>';
   $db=DbConnect($db_row['dos_id'],'dossier');
   apply_patch($db,$db_row['dos_name']);
  }
-echo '</ul>';
+
 //----------------------------------------------------------------------
 // Upgrade the template
 //----------------------------------------------------------------------
@@ -482,10 +484,10 @@ $Resdossier=ExecSql($cn,"select mod_id, mod_name from modeledef");
 $MaxDossier=pg_NumRows($Resdossier);
 echo '<hr>';
 echo "<h2>Mise &agrave; jour mod&egrave;le</h2>";
-echo '<ul>';
+
 for ($e=0;$e < $MaxDossier;$e++) {
   $db_row=pg_fetch_array($Resdossier,$e);
-  echo "<li>Patching ".$db_row['mod_name']."</li>";
+  echo "<h3>Patching ".$db_row['mod_name']."</h3>";
   $db=DbConnect($db_row['mod_id'],'mod');
   apply_patch($db,$db_row['mod_name']);
  }

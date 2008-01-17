@@ -134,7 +134,7 @@ function ExecSql($p_connection, $p_string) {
 
   pg_set_client_encoding($p_connection,'latin1');
   ob_start();
-  $ret=pg_query($p_connection,$p_string);
+  $ret=@pg_query($p_connection,$p_string);
   if ( ! $ret )   {
     ob_end_clean();
     throw new Exception (" SQL ERROR $p_string ",1);

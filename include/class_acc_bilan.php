@@ -93,21 +93,23 @@ class Acc_Bilan {
     if ( pg_NumRows($res) ==0 ) 
       return;
     $count=0;
-    $aRows=pg_fetch_all($res);
+    $nRow=pg_NumRows($res);
     $ret="";
+    $obj=new Acc_Account_Ledger($this->db,0);
+    for ($i=0;$i<$nRow;$i++) {
 
-    foreach ($aRows as $line) {
+      $line=pg_fetch_array($res);
       /* set the periode filter */
       $sql=sql_filter_per($this->db,$this->from,$this->to,'p_id','j_tech_per');
+      $obj->id=$line['pcm_val'];
 
-      $obj=new Acc_Account_Ledger($this->db,$line['pcm_val']);
       $solde=$obj->get_solde_detail($sql);
       $solde_signed=$solde['debit']-$solde['credit'];
       if ( 
 	  ($solde_signed < 0 && $p_deb == 'D' ) ||
 	  ($solde_signed > 0 && $p_deb == 'C' )
 	   ) {
-	$ret.= '<li>Erreur pour le compte '.$line['pcm_val'].
+	$ret.= '<li>Anomalie pour le compte '.$line['pcm_val'].
 	  $line['pcm_lib'].
 	  "  D: ".$solde['debit'].
 	  "  C: ".$solde['credit']." diff ".$solde['solde'];
