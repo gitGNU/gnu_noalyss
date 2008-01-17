@@ -40,6 +40,7 @@ $User->Check();
 include_once("preference.php");
 include_once("user_menu.php");
 echo '<div class="u_tmenu">';
+/*
 echo '<div style="float:left">';
 echo "<H2 class=\"info\"> Param&egrave;tre ".dossier::name().'<h2>'.
 '</div>'.'
@@ -49,8 +50,10 @@ echo "<H2 class=\"info\"> Param&egrave;tre ".dossier::name().'<h2>'.
 <A HREF="login.php" title="Accueil"><IMG src="image/home.png" width="36"  border="0"  ></A>
 <A HREF="logout.php" title="Sortie"><IMG src="image/logout.png" title="Logout"  width="36"  border="0"></A>
 </div>
-</div>';
+*/
 
+echo menu_tool('param');
+echo '<div style="float:left">';
 
 include_once ("check_priv.php");
 
@@ -100,7 +103,8 @@ switch ($p_action) {
  }
 
 echo ShowMenuParam($default);
-
+echo '</div>';
+echo '</div>';
 
 // sub action
 $action="";
@@ -113,6 +117,7 @@ echo_debug("parametre",__LINE__,$_POST);
 //-----------------------------------------------------
 if ( $p_action == "tva" ) 
 {
+  echo '</div>';
   require_once("tva.inc.php");
   // 
 }
@@ -256,14 +261,14 @@ if ( $p_action == 'sec' ) {
 //----------------------------------------------------------------------
 if ( $p_action == 'jrn' ) {
   $sa=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
-  echo '<div class="u_content">';
+  //  echo '<div class="u_content">';
   if ( $sa == "add") 
     require_once ('param_jrn_add.inc.php');
   elseif ($sa=='detail') 
     require_once ('param_jrn_detail.inc.php');
   else
     require_once('param_jrn.inc.php');
-  echo '</div>';
+  //  echo '</div>';
 }  
 
 

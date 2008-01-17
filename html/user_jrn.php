@@ -51,6 +51,7 @@ $jrn_type=(isset($_REQUEST['jrn_type']))?$_REQUEST['jrn_type']:-1;
 
 
 echo '<div class="u_tmenu">';
+
 echo ShowMenuCompta("user_jrn.php?jrn_type=".$jrn_type."&".dossier::get());
 echo '</div>';
 

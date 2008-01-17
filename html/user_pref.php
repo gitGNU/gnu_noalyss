@@ -29,7 +29,7 @@ include_once ("postgres.php");
 $Rep=DbConnect();
 include_once ("class_user.php");
 require_once('class_dossier.php');
-
+require_once ('class_widget.php');
 $cn=DbConnect();
 
 /* if the dossier is not set then we have to connect to the
@@ -75,7 +75,8 @@ if ( isset ($_REQUEST['gDossier']) )
     if ( $_REQUEST['gDossier'] != 0 )  
       {
 	echo '<div class="u_tmenu">';
-	echo    ShowMenuCompta();
+	//	echo    ShowMenuCompta();
+	echo menu_tool('pref');
 	echo "</div>";
       }
   }

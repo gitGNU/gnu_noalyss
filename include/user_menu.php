@@ -25,7 +25,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
 
-
+require_once ('class_widget.php');
 
 
 /*!
@@ -192,6 +192,7 @@ function ShowMenuCompta($p_high="")
   $result=ShowItem($p_array,'H',"mtitle","mtitle",$default,' width="100%"');
   $str_dossier=dossier::get();
   $r="";
+  /*
   $r.='<div style="float:left;background-color:#879ED4;">';
   $r.="<H2 class=\"info\">Comptabilit&eacute;  ".dossier::name()."</h2>";
   $r.='</div>';
@@ -208,9 +209,14 @@ function ShowMenuCompta($p_high="")
 
 
 </div> ';
-  $r.='<div style="float:left;clear:both;">';
+  */
+  //  $r.='<div class="u_tmenu">';
+  $r.=menu_tool("");
+  $r.='<div style="float:left">';
   $r.=$result;
   $r.='</div>';
+  //  $r.='</div>';
+  
   return $r;
 
 
@@ -817,3 +823,39 @@ function ShowMenuImport(){
   echo "</TABLE>";
 }
 
+function menu_tool($p_from) {
+  $r="";
+  $r.= '<div class="u_tool">';
+  $r.= '<div class="name">';
+  $r.= "<H2 class=\"info\">Commercial ".dossier::name()."</h2> ";
+  $r.= '</div>';
+  $r.= '<div class="acces_direct">';
+
+
+  $amodule=array(
+		 array('value'=>'pref','label'=>'Preference'),
+		 array('value'=>'compta','label'=>'Comptabilite'),
+		 array('value'=>'gestion','label'=>'Gestion'),
+		 array('value'=>'analytic','label'=>'Compt. Analytique'),
+		 array('value'=>'budget','label'=>'Budget'),
+		 array('value'=>'param','label'=>'Parametre'),
+		 array('value'=>'home','label'=>'Accueil'),
+		 array('value'=>'logout','label'=>'Sortir')
+	       );
+
+ $gDossier=dossier::id();
+ $r.= '<form method="GET" action="control.php">';
+ $w=new widget('select');
+ $w->name='m';
+ $w->value=$amodule;
+ $r.=    '<table><tr><td class="mtitle">';
+ $r.= '<A class="mtitle" HREF="javascript:openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.$gDossier.')">'.
+   'Recheche</a></td>';
+ $r.= '<td>'.$w->IOValue().'</td>';
+ $r.= dossier::hidden();
+ $r.= '<td>'.widget::submit('','Acces Direct').'</td>';
+ $r.= '</table>';
+ $r.= '</form>';
+ $r.= '</div>';
+ return $r;
+}

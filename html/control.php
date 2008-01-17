@@ -27,12 +27,13 @@ extract ($_GET);
 /* m for requested module 
  * f from module
  */
-foreach (array('gDossier','m','f') as $i) {
-  if ( ! isset (${i}) ) {
+foreach (array('gDossier','m') as $i) {
+  if ( ! isset (${$i}) ) {
     echo "Erreur parametre manquant";
     exit();
   }
 }
+
 require_once('class_dossier.php');
 require_once('user_common.php');
 
@@ -55,10 +56,9 @@ switch ($m) {
  case 'param':
    get_redirect('parametre.php?'.dossier::get());
    break;
-/*  case 'search': */
-/*    echo '<script src="js/script.js">'. */
-/*      'openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.$dossier::id().');"'. */
-/*      '</script>'; */
+ case 'pref':
+   get_redirect('user_pref.php?'.dossier::get());
+   break;
 
  case 'logout':
    get_redirect('logout.php');

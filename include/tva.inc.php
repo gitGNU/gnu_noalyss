@@ -21,7 +21,7 @@
 /*! \file
  * \brief included file for customizing with the vat (account,rate...)
  */
-
+echo '<div class="u_content">';
   // Confirm remove
   if ( isset ($_POST['confirm_rm'])) 
   {
@@ -255,6 +255,6 @@ if (   ! isset ($_POST['add'])
 <input type="submit" value="Cancel" name="no">
  </FORM>
 <?php   
-    }
+						    echo '</div>';    }
 
 ?>

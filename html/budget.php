@@ -26,7 +26,7 @@
 /*! \brief module budget
  *
  */
-
+require_once ('user_menu.php');
 require_once("constant.php");
 include_once ("postgres.php");
 require_once('class_dossier.php');
@@ -46,6 +46,7 @@ $User=new User($rep);
 $User->Check();
 
 echo '<div class="u_tmenu">';
+/*
 echo '<div style="float:left">';
 echo "<H2 class=\"info\">Budget : ".dossier::name()."<h2> ";
 echo '</div>';
@@ -55,7 +56,8 @@ echo '<div style="float:none;text-align:right;" title="Recherche">
 <A HREF="login.php" title="Accueil"><IMG src="image/home.png" width="36" title="Accueil"  border="0"  ></A>
 <A HREF="logout.php" title="Sortie"><IMG src="image/logout.png" title="Logout"  width="36"  border="0"></A>
 </div>';
-
+*/
+echo menu_tool("budget");
 echo '<div style="clear:both">';
 /* security */
 

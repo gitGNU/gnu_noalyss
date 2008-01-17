@@ -91,11 +91,25 @@ background-color:yellow;
 }
 
 div.u_tmenu {
-position: float;
-margin-top:1px;
-width:100%;
-background-color:#36559b;
+	    position: float;
+	    margin-top:1px;
+	    width:100%;
+	    background-color:#36559b;
 }
+div.u_tmenu div.u_tool {
+	    background-color:#36559b;	
+	   float:left;
+}
+div.u_tool div.name {
+       float:left;
+       margin-left:10px;
+}
+div.u_tool div.acces_direct{
+        float:right;
+	margin-right:10px;
+	text-align:right
+}
+
 div.u_subtmenu {
 float:left;
 clear:both;

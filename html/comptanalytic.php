@@ -34,6 +34,7 @@ $gDossier=dossier::id();
 $str_dossier=dossier::get();
 $cn=DbConnect($gDossier);
 require_once ("class_user.php");
+require_once ('user_menu.php');
 $User=new User($cn);
 $User->Check();
 
@@ -44,7 +45,7 @@ html_page_start($_SESSION['g_theme']);
 //-----------------------------------------------------------------
 //Header
 echo '<div class="u_tmenu">';
-echo '<div style="float:left">';
+/*echo '<div style="float:left">';
 echo "<H2 class=\"info\">Analytique ".dossier::name()."</h2> ";
 echo '</div>';
 echo '<div style="float:none;text-align:right;" title="Recherche">
@@ -55,9 +56,9 @@ echo '<div style="float:none;text-align:right;" title="Recherche">
 <A HREF="login.php" title="Accueil"><IMG src="image/home.png" width="36" title="Accueil"  border="0"  ></A>
 <A HREF="logout.php" title="Sortie"><IMG src="image/logout.png" title="Logout"  width="36"  border="0"></A>
 </div>';
-
+*/
 //-----------------------------------------------------------------
-
+echo menu_tool('analytic');
 $def=-1;
 if ( isset ($_REQUEST['p_action']))
   {
@@ -80,6 +81,7 @@ if ( isset ($_REQUEST['p_action']))
 	    break;
 	  }
   }
+echo '<div style="float:left">';
 echo ShowItem(array(
 	array('?p_action=ca_pa&'.$str_dossier,'Plan Analytique',"Plan Analytique",0),
 	array('?p_action=ca_od&'.$str_dossier,'Op&eacute;rations Diverses',"Permet d'enregistrer des opérations sur la compta analytique",1),
@@ -87,6 +89,7 @@ echo ShowItem(array(
 	array('?p_action=ca_imp&'.$str_dossier,'Impression',"impression de rapport",2)
 		    ),
 	      'H',"mtitle","mtitle",$def,' width="100%"');
+echo '</div>';
 echo '</div>';
 
 if ( !isset($_REQUEST['p_action']))
