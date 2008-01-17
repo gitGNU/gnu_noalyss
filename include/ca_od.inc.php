@@ -95,7 +95,7 @@ echo '
  $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
  $w->selected=$current;
  
- echo 'P&eacute;riode  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit','Valider').'</form>';
+ echo 'P&eacute;riode  '.widget::submit('gl_submit','Valider').'</form>';
 
   echo '<div class="u_redcontent">';
   echo $a->html_table($current);
@@ -130,7 +130,7 @@ if ( isset($_GET['new'])) {
   echo dossier::hidden();
   echo $wSubmit->IOValue();
   echo $a->form();
-  echo $wSubmit->Submit("save","Sauver");
+  echo widget::submit("save","Sauver");
   echo '</form>';
   echo '<div class="info">
     D&eacute;bit = <span id="totalDeb"></span>

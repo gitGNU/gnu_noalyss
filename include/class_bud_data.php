@@ -400,7 +400,7 @@ class Bud_Data {
     echo dossier::hidden();
     $w->selected=(isset($_REQUEST['bh_po_id']))?$_REQUEST['bh_po_id']:"";
     echo $w->IOValue('bh_po_id',make_array($cn,$sql));
-    echo widget::submit_button('search','Recherche');
+    echo widget::submit('search','Recherche');
 
     echo '</form>';
     if ( isset($_REQUEST['search'])) {

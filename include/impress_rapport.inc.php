@@ -78,11 +78,11 @@ if ( isset( $_GET['bt_html'] ) ) {
   echo '<TR>';
   echo '<TD><form method="GET" ACTION="?">'.
 	dossier::hidden().
-    $submit->Submit('bt_other',"Autre Rapport").
+    widget::submit('bt_other',"Autre Rapport").
     $hid->IOValue("type","rapport").$hid->IOValue("p_action","impress")."</form></TD>";
 
   echo '<TD><form method="GET" ACTION="form_pdf.php">'.
-    $submit->Submit('bt_pdf',"Export PDF").
+    widget::submit('bt_pdf',"Export PDF").
 	dossier::hidden().
     $hid->IOValue("type","rapport").
     $hid->IOValue("p_action","impress").
@@ -98,7 +98,7 @@ if ( isset( $_GET['bt_html'] ) ) {
 
   echo "</form></TD>";
   echo '<TD><form method="GET" ACTION="form_csv.php">'.
-    $submit->Submit('bt_csv',"Export CSV").
+    widget::submit('bt_csv',"Export CSV").
 	dossier::hidden().
     $hid->IOValue("type","form").
     $hid->IOValue("p_action","impress").
@@ -204,7 +204,7 @@ echo '<span class="notice"> Attention : vous ne pouvez pas utiliser les &eacute;
 echo '<br>';
 echo '<span class="notice"> Les clauses FROM sont ignorés avec les dates calendriers</span>';
 echo '<br>';
-print $w->Submit('bt_html','Impression');
+print widget::submit('bt_html','Impression');
 
 echo '</FORM>';
 echo '</div>';

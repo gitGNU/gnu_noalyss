@@ -108,7 +108,7 @@ if ($p_action=="preod") {
   echo $hid->IOValue("sa","jrn");
   echo $hid->IOValue("p_action","preod");
   echo '<hr>';
-  echo widget::submit_button('Accepter','Accepter');
+  echo widget::submit('Accepter','Accepter');
   echo '</form>';
 
   // if $_REQUEST[sa] == del delete the predefined operation

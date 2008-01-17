@@ -277,12 +277,12 @@ function get_solde_detail($p_cond="") {
      
      echo '<TD><form method="GET" ACTION="">'.
 	   dossier::hidden().
-       $submit->Submit('bt_other',"Autre poste").
+       widget::submit('bt_other',"Autre poste").
        $hid->IOValue("type","poste").$hid->IOValue('p_action','impress')."</form></TD>";
      
      echo '<TD><form method="POST" ACTION="poste_pdf.php">'.
 	   dossier::hidden().
-       $submit->Submit('bt_pdf',"Export PDF").
+       widget::submit('bt_pdf',"Export PDF").
        $hid->IOValue("type","poste").
        $hid->IOValue('p_action','impress').
        $hid->IOValue("poste_id",$_POST['poste_id']).
@@ -294,7 +294,7 @@ function get_solde_detail($p_cond="") {
      
      echo '<TD><form method="POST" ACTION="poste_csv.php">'.
 	   dossier::hidden().
-       $submit->Submit('bt_csv',"Export CSV").
+       widget::submit('bt_csv',"Export CSV").
        $hid->IOValue("type","poste").
        $hid->IOValue('p_action','impress').
        $hid->IOValue("poste_id",$_POST['poste_id']).

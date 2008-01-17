@@ -96,7 +96,7 @@ echo '</div>';
   echo $hid->IOValue("sa","use_opd");
   
   if ($op->count() != 0 )
-	echo widget::submit_button('use_opd','Utilisez une op.prédéfinie');
+	echo widget::submit('use_opd','Utilisez une op.prédéfinie');
   echo $op->show_button();
 
   echo '</form>';
@@ -182,7 +182,7 @@ if ( $sub_action == "list")
   echo $w->IOValue();
   echo $sp->IOValue("qcode_label","QuickCode",$qcode);
 
-  echo $w->Submit('gl_submit','Rechercher');
+  echo widget::submit('gl_submit','Rechercher');
 
   echo '<br>'.$retour;
 
@@ -223,7 +223,7 @@ if ( $sub_action == "list")
   echo $list;
   echo "$bar <hr>";
   if ( $max_line !=0 )
-    echo $hid->Submit('paid','Mise à jour paiement');
+    echo widget::submit('paid','Mise à jour paiement');
   echo '</FORM>';
   echo $retour;
 
@@ -302,7 +302,7 @@ echo '</div>';
     $hid=new widget();
     echo '<hr>';
    if ( $m != 0 )
-     echo $hid->Submit('paid','Mise à jour paiement');
+     echo widget::submit('paid','Mise à jour paiement');
     echo '</form>';
 
     echo '</div>';
@@ -446,7 +446,7 @@ if ( $p_jrn != -1 )
   echo $hid->IOValue("sa","use_opd");
   
   if ($op->count() != 0 )
-	echo widget::submit_button('use_opd','Utilisez une op.prédéfinie');
+	echo widget::submit('use_opd','Utilisez une op.prédéfinie');
   echo $op->show_button();
 
   echo '</form>';

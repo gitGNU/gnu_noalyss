@@ -514,14 +514,14 @@ Array
     $obj=new Bud_Synthese_Group($cn);
     echo '<form method="GET">';
     echo $obj->select_hypo();
-    echo widget::submit_button('recherche','recherche');
+    echo widget::submit('recherche','recherche');
     echo '</form>';
     if ( isset($_GET['recherche'])) {
       $obj->from_array($_GET);
       echo '<form method="GET">';
       echo $obj->form();
       echo widget::hidden('bh_id',$obj->bh_id);
-      echo widget::submit_button('recherche2','recherche');
+      echo widget::submit('recherche2','recherche');
       echo '</form>';
     }
     if ( isset($_GET['recherche2'])){

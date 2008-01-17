@@ -502,8 +502,8 @@ class action
 
 
       if ( $this->f_id_dest != -1 && $this->f_id_exp !=-1 )
-	$r.=$desc->Submit("Save","Sauve");
-      $r.=$desc->Submit("corr","Corrige");
+	$r.=widget::submit("Save","Sauve");
+      $r.=widget::submit("corr","Corrige");
 
       $r.=$h_url."</form>";
       return $r;
@@ -610,7 +610,7 @@ class action
       $upload->name="file_upload";
       $upload->value="";
       $r.="Enregistrer le fichier ".$upload->IOValue();
-      $r.=$upload->Submit("save","Sauve le fichier");
+      $r.=widget::submit("save","Sauve le fichier");
       $r.="</form>";
       return $r;
     }

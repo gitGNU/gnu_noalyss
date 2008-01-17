@@ -152,7 +152,7 @@ class Anc_Listing extends Anc_Print {
 	$r.= $hidden->IOValue("pa_id",$this->pa_id);
 	$r.= $hidden->IOValue("from_poste",$this->from_poste);
 	$r.= $hidden->IOValue("to_poste",$this->to_poste);
-	$r.= $submit->Submit('bt_pdf',"Export en PDF");
+	$r.=widget::submit('bt_pdf',"Export en PDF");
 	$r.= '</form>';
 	*/
 
@@ -165,7 +165,7 @@ class Anc_Listing extends Anc_Print {
 
 	$r.= $p_string;
 	$r.= dossier::hidden();
-	$r.= $submit->Submit('bt_csv',"Export en CSV");
+	$r.=widget::submit('bt_csv',"Export en CSV");
 	$r.= '</form>';
 	return $r;
 

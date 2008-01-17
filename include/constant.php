@@ -32,11 +32,11 @@ define ("phpcompta_psql_port","5432");
 define ("phpcompta_user","phpcompta");
 //
 // the domain can't start by a number !!!
-define ("domaine","beta_");
+define ("domaine","selfreliance");
 define ("MAX_COMPTE",4);
 define ('MAX_BUD_DETAIL',20);
 
-define ("DEBUG","false");
+define ("DEBUG","true");
 
 // securite correspond a la table 
 // action

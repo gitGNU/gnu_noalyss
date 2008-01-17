@@ -82,7 +82,7 @@ class Document_modele {
     $a->name="sa";
     $a->value="rm_template";
     $r.=$a->IOValue();
-    $r.=$a->Submit("rm_template","Effacer la sélection");
+    $r.=widget::submit("rm_template","Effacer la sélection");
     $r.="</form></p>";
     return $r;
   }
@@ -287,7 +287,7 @@ class Document_modele {
       $start->size=9;
       $start->value="0";
       $r.=" Numerotation commence a ".$start->IOValue()."";
-      $r.=$w->Submit('add_document','Ajout');
+      $r.=widget::submit('add_document','Ajout');
       $r.="</form></p>";
       return $r;
     }

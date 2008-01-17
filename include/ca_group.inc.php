@@ -73,12 +73,12 @@ $wPa_id->value=$val_pa_id;
 echo "<td>".$w->IOValue("ga_id")."</td>";
 echo "<td>".$wPa_id->IOValue("pa_id")."</td>";
 echo "<td>".$w->IOValue("ga_description").
-widget::submit_button('add','Ajouter').
+widget::submit('add','Ajouter').
 "</td>";;
 
 echo '</table>';
 
 echo "<hr>";
-echo widget::submit_button('remove','Effacer');
+echo widget::submit('remove','Effacer');
 
 echo '</div>';

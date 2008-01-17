@@ -161,9 +161,9 @@ if ( $sub_action == 'detail' )
   $w->value=$f_id;
   echo $w->IOValue();
 
-  echo $w->Submit('mod','Sauver les modifications');
-  echo $w->Reset("Annuler");
-  echo $w->Submit('delete','Effacer cette fiche');
+  echo widget::submit('mod','Sauver les modifications');
+  echo widget::reset("Annuler");
+  echo widget::submit('delete','Effacer cette fiche');
   echo '</form>';
   echo $retour;
   echo '<div>';

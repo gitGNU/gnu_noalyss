@@ -167,7 +167,7 @@ if ( $sub_action == "list")
   $sp= new widget("span");
   echo $sp->IOValue("qcode_label",$qcode)."</TD></TR>";
   echo $w->IOValue();
-  echo $w->Submit('gl_submit','Rechercher');
+  echo widget::submit('gl_submit','Rechercher');
   echo '</form>';
   echo $retour;
   // Show list of sell
@@ -355,7 +355,7 @@ if ( $p_jrn != -1 )
   echo $hid->IOValue("jrn_type","FIN");
   
   if ($op->count() != 0 )
-	echo widget::submit_button('use_opd','Utilisez une op.prédéfinie');
+	echo widget::submit('use_opd','Utilisez une op.prédéfinie');
   echo $op->show_button();
   
   echo '</form>';

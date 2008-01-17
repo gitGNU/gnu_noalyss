@@ -33,7 +33,7 @@ $wHypo->value=make_array($cn,"select bh_id,bh_name from bud_hypothese");
 $wHypo->selected=(isset($_REQUEST['bh_id']))?$_REQUEST['bh_id']:"";
 $wHypo->javascript='onChange="this.form.submit();"';
 echo "Hypoth&egrave;se ".$wHypo->IOValue();
-echo widget::submit_button('recherche','recherche');
+echo widget::submit('recherche','recherche');
 echo dossier::hidden();
 echo widget::hidden("p_action","fiche");
 echo '</form>';
@@ -96,7 +96,7 @@ if ( $sa == "add" ) {
   $obj->bh_id=$_REQUEST['bh_id'];
   echo '<form method="post">';
   echo $obj->form();
-  echo widget::submit_button('add','Ajout');
+  echo widget::submit('add','Ajout');
   echo widget::hidden("p_action","fiche");
   echo dossier::hidden();
   echo '</form>';
@@ -115,8 +115,8 @@ if ( $sa == "detail" ) {
   echo dossier::hidden();
 
   echo $obj->form();
-  echo widget::submit_button('remove','Effacer','onClick="return confirm(\'Vous confirmez cet effacement ?\')"');
-  echo widget::submit_button('update','Mise &agrave jour');
+  echo widget::submit('remove','Effacer','onClick="return confirm(\'Vous confirmez cet effacement ?\')"');
+  echo widget::submit('update','Mise &agrave jour');
 
   echo '</div>';
  }

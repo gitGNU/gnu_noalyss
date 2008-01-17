@@ -84,7 +84,7 @@ $w->label="Année concernée";
 print $w->IOValue('year',$year);
 print "</TR>";
 echo '</TABLE>';
-print $w->Submit('bt_html','Impression');
+print widget::submit('bt_html','Impression');
 
 echo '</FORM>';
 

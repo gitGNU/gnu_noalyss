@@ -138,8 +138,8 @@ function ExecSql($p_connection, $p_string) {
   if ( ! $ret )   {
     ob_end_clean();
     throw new Exception (" SQL ERROR $p_string ",1);
-  }
-  ob_flush();
+  } 
+  ob_end_clean();
   return $ret;
 
 }

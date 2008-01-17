@@ -74,7 +74,7 @@ if ( $action=="use_opd" ) {
   echo $hid->IOValue("jrn_type","ODS");
   
   if ($op->count() != 0 )
-    echo widget::submit_button('use_opd','Utilisez une op.prédéfinie');
+    echo widget::submit('use_opd','Utilisez une op.prédéfinie');
   echo $op->show_button();
 	
   echo '</form>';
@@ -118,7 +118,7 @@ if ( $action == 'new' ) {
 	echo $hid->IOValue("jrn_type","ODS");
 	
 	if ($op->count() != 0 )
-	  echo widget::submit_button('use_opd','Utilisez une op.prédéfinie');
+	  echo widget::submit('use_opd','Utilisez une op.prédéfinie');
 	echo $op->show_button();
 	
 	echo '</form>';
@@ -263,7 +263,7 @@ $User=new User($cn);
 $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
 $w->selected=$current;
 
-echo 'Période  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit','Valider');
+echo 'Période  '.widget::submit('gl_submit','Valider');
 ?>
 </form>
 <?php  

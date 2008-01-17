@@ -47,7 +47,7 @@ for ($i=0;$i<sizeof($all);$i++)  {
   $w->name='id';
   $w->value=$i;
   echo $w->IOValue();
-  echo $w->Submit('mod','modifie');
+  echo widget::submit('mod','modifie');
   echo '</FORM>';
   echo '</TD>';
   echo "</TR>";
@@ -70,8 +70,8 @@ if ( isset ($_POST['mod'] ))
   $h->name='p_action';
   $h->value='poste';
   echo $h->IOValue();
-  echo $w->Submit('confirm_mod','Confirme');
-  echo $w->Submit('no','Cancel');
+  echo widget::submit('confirm_mod','Confirme');
+  echo widget::submit('no','Cancel');
   echo "</FORM>";
   echo "</div>";
 

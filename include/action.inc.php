@@ -254,13 +254,13 @@ if ( $sub_action=='detail' )
   $upload->name="file_upload";
   $upload->value="";
   echo "Enregistrer le fichier ".$upload->IOValue();
-  echo $upload->Submit("save","Sauve");
-  echo $upload->Submit("add_action_here","Ajoute une action à celle-ci");
+  echo widget::submit("save","Sauve");
+  echo widget::submit("add_action_here","Ajoute une action à celle-ci");
   echo '</form>';
   echo '<form action="commercial.php"  method="post"   >';
   echo dossier::hidden();
 
-  echo $upload->Submit("delete","Efface cette action");
+  echo widget::submit("delete","Efface cette action");
   echo '<input type="hidden" name="p_action" value="suivi_courrier">';
   echo '<input type="hidden" name="sa" value="delete">';
   echo '<input type="hidden" name="ag_id" value="'.$act->ag_id.'">';
@@ -294,7 +294,7 @@ if ( $sub_action == 'delete' )
       echo '<input type="hidden" name="sa" value="delete">';
       echo '<input type="hidden" name="ag_id" value="'.$act->ag_id.'">';
       $upload=new widget("text");
-      echo $upload->Submit("confirm_delete","Confirmer l'effacement");
+      echo widget::submit("confirm_delete","Confirmer l'effacement");
       
       echo '</form>';
       

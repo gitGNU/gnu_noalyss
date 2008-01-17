@@ -645,10 +645,7 @@ class widget {
     $readonly=($this->readonly==false)?"false":"true";
     echo "read only".$readonly."<br>";
   }
-  function Submit ($p_name,$p_value) {
-    return '<INPUT TYPE="SUBMIT" NAME="'.$p_name.'" VALUE="'.$p_value.'">';
-  }
-  static   function submit_button ($p_name,$p_value,$p_javascript="") {
+  static   function submit ($p_name,$p_value,$p_javascript="") {
     
     return '<INPUT TYPE="SUBMIT" NAME="'.$p_name.'" VALUE="'.$p_value.'" '.$p_javascript.'>';
   }

@@ -35,7 +35,7 @@ $bh_id=(isset($_REQUEST['bh_id']))?$_REQUEST['bh_id']:'';
 echo '<form METHOD="GET">';
 $obj->from_array($_GET);
 echo $obj->form();
-echo widget::submit_button('display','Afficher');
+echo widget::submit('display','Afficher');
 echo widget::hidden('do','ga');
 echo widget::hidden('p_action','synthese');
 echo '</form>';
@@ -50,7 +50,7 @@ if ( isset($_GET['display'])) {
   echo widget::hidden('p_action','synthese');
   echo widget::hidden('bh_id',$obj->bh_id);
   echo dossier::hidden();
-  echo widget::submit_button('display','Export CSV');
+  echo widget::submit('display','Export CSV');
   echo '</form>';
  }
 

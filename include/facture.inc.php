@@ -143,7 +143,7 @@ if ( $sub_action == "list")
 
   echo $sp->IOValue("qcode_label","",$qcode);
   echo $w->IOValue();
-echo $w->Submit('gl_submit','Rechercher');
+echo widget::submit('gl_submit','Rechercher');
   // Show list of sell
   // Date - date of payment - Customer - amount
  if ( $current == -1) {
@@ -176,7 +176,7 @@ echo $w->Submit('gl_submit','Rechercher');
   echo $list;
   echo "$bar <hr>";
   if ( $max_line !=0 )
-    echo $hid->Submit('paid','Mise à jour paiement');
+    echo widget::submit('paid','Mise à jour paiement');
   echo '</FORM>';
   echo $retour;
 
@@ -257,7 +257,7 @@ echo '</div>';
     echo '<hr>';
 
     if ( $m != 0 )
-      echo $hid->Submit('paid','Mise à jour paiement');
+      echo widget::submit('paid','Mise à jour paiement');
 
     echo '</FORM>';
     echo '</div>';
@@ -293,7 +293,7 @@ if ( $sub_action=="use_opd" ) {
   echo $hid->IOValue("sa","use_opd");
   
   if ($op->count() != 0 )
-	echo widget::submit_button('use_opd','Utilisez une op.prédéfinie');
+	echo widget::submit('use_opd','Utilisez une op.prédéfinie');
   echo $op->show_button();
 
   echo '</form>';
@@ -431,7 +431,7 @@ if ( $p_jrn != -1 )
   echo $hid->IOValue("sa","use_opd");
   
   if ($op->count() != 0 )
-	echo widget::submit_button('use_opd','Utilisez une op.prédéfinie');
+	echo widget::submit('use_opd','Utilisez une op.prédéfinie');
   echo $op->show_button();
 
   echo '</form>';

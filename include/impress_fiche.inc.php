@@ -40,7 +40,7 @@ if  ( isset ($_REQUEST['fd_id'])) {
   $fiche_def=new fiche_def($cn);
 
   echo '<form method="POST" ACTION="fiche_csv.php">'.dossier::hidden().
-    $submit->Submit('bt_csv',"Export CSV").
+    widget::submit('bt_csv',"Export CSV").
     $hid->IOValue("type","fiche").
     $hid->IOValue("p_action","impress").
     $fiche_id->IOValue("fd_id",$_REQUEST['fd_id']);
@@ -50,7 +50,7 @@ if  ( isset ($_REQUEST['fd_id'])) {
     echo $hid->IOValue("to_periode",$_REQUEST['to_periode']);
   }
   echo "</form>";
-  echo '<form method="Post" action="?p_action=impress&type=fiche">'.$submit->Submit("bt_submit","Autres fiches").dossier::hidden()."</form>";
+  echo '<form method="Post" action="?p_action=impress&type=fiche">'.widget::submit("bt_submit","Autres fiches").dossier::hidden()."</form>";
   
   $fiche_def->id=$_REQUEST['fd_id'];
 
@@ -71,7 +71,7 @@ if  ( isset ($_REQUEST['fd_id'])) {
     print " Jusque ".$w->IOValue('to_periode',$periode_end);
     
 
-    print $submit->Submit('bt_solde',"Avec solde").
+    print widget::submit('bt_solde',"Avec solde").
     $hid->IOValue("type","fiche").
     $fiche_id->IOValue("fd_id",$_REQUEST['fd_id']).
       $hid->IOValue("with_amount");

@@ -900,12 +900,12 @@ class fiche {
      echo '<TR>';
      
      echo '<TD><form method="GET" ACTION="">'.
-       $submit->Submit('bt_other',"Autre poste").
+       widget::submit('bt_other',"Autre poste").
 	dossier::hidden().
        $hid->IOValue("type","poste").$hid->IOValue('p_action','impress')."</form></TD>";
      
      echo '<TD><form method="POST" ACTION="quick_code_pdf.php">'.
-       $submit->Submit('bt_pdf',"Export PDF").
+       widget::submit('bt_pdf',"Export PDF").
 	dossier::hidden().
        $hid->IOValue("type","poste").
        $hid->IOValue('p_action','impress').
@@ -916,7 +916,7 @@ class fiche {
      echo "</form></TD>";
      
      echo '<TD><form method="POST" ACTION="quick_code_csv.php">'.
-       $submit->Submit('bt_csv',"Export CSV").
+       widget::submit('bt_csv',"Export CSV").
 	dossier::hidden().
        $hid->IOValue("type","poste").
        $hid->IOValue('p_action','impress').

@@ -33,7 +33,7 @@ $obj->from_array($_GET);
 // if ( ! isset ($_GET['detail']) && ! isset ($_GET['display'])) {
   echo '<form METHOD="GET">';
   echo $obj->select_hypo();
-  echo widget::submit_button('detail','Accepter');
+  echo widget::submit('detail','Accepter');
   echo widget::hidden('do','acc');
  echo widget::hidden('p_action','synthese');
  echo '</form>';
@@ -45,7 +45,7 @@ if ( isset( $_GET['bh_id'])) {
 
   $obj->bh_id=$_GET['bh_id'];
   echo $obj->form();
-  echo widget::submit_button('display','Afficher');
+  echo widget::submit('display','Afficher');
   echo widget::hidden('do','acc');
   echo widget::hidden('p_action','synthese');
   echo widget::hidden('bh_id',$obj->bh_id);
@@ -64,7 +64,7 @@ if ( isset($_GET['display'])) {
   echo widget::hidden('p_action','synthese');
   echo widget::hidden('bh_id',$obj->bh_id);
   echo dossier::hidden();
-  echo widget::submit_button('display','Export CSV');
+  echo widget::submit('display','Export CSV');
   echo '</form>';
  }
 

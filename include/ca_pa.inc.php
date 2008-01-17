@@ -54,7 +54,7 @@ if ( isset($_REQUEST['sa']))
 			$wSa->value="pa_write";
 			$ret.= $wSa->IOValue();
 			$ret.= $wAction->IOValue();
-			$ret.= $wSa->Submit("submit","Enregistre");
+			$ret.=widget::submit("submit","Enregistre");
 			$ret.= '</form>';
 			$ret.= '</div>';
 		  }
@@ -103,7 +103,7 @@ if ( isset($_REQUEST['sa']))
 		$ret.= $new->form();
 		$ret.= $wSa->IOValue();
 		$ret.= $wAction->IOValue();
-		$ret.= $wSa->Submit("submit","Enregistre");
+		$ret.=widget::submit("submit","Enregistre");
 		$ret.=sprintf('<A class="mtitle" HREF="%s">'.
 					  '<input type="button" value="Efface"></A>',
 					  "?p_action=ca_pa&pa_id=".$_GET['pa_id']."&sa=pa_delete&$str_dossier");
@@ -134,7 +134,7 @@ if ( isset($_REQUEST['sa']))
 		$ret.=dossier::hidden();
 		$ret.=$po->form();
 		$ret.=$wSa->IOValue();
-		$ret.=$wSa->Submit("add","Ajout");
+		$ret.=widget::submit("add","Ajout");
 		$ret.="</div>";
 	  }
 	// record the poste

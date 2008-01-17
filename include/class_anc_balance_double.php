@@ -312,7 +312,7 @@ class Anc_Balance_Double extends Anc_Print
 	$r.= $hidden->IOValue("pa_id2",$this->pa_id2);
 	$r.= $hidden->IOValue("from_poste2",$this->from_poste2);
 	$r.= $hidden->IOValue("to_poste2",$this->to_poste2);
-	$r.= $submit->Submit('bt_pdf',"Export en PDF");
+	$r.=widget::submit('bt_pdf',"Export en PDF");
 	$r.= '</form>';
 
 	$r.= '<form method="GET" action="'.$url_csv.'"  style="display:inline">';
@@ -326,7 +326,7 @@ class Anc_Balance_Double extends Anc_Print
 	$r.= $hidden->IOValue("to_poste2",$this->to_poste2);
 	$r.= $p_string;
 	$r.= dossier::hidden();
-	$r.= $submit->Submit('bt_csv',"Export en CSV");
+	$r.=widget::submit('bt_csv',"Export en CSV");
 	$r.= '</form>';
 	return $r;
 

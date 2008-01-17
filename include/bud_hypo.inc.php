@@ -78,7 +78,7 @@ if ( $sa == "add" ) {
   $obj=new Bud_Hypo($cn);
   echo '<form method="post">';
   echo $obj->form();
-  echo widget::submit_button('add','Ajout');
+  echo widget::submit('add','Ajout');
   echo '</form>';
   echo '</div>';
  }
@@ -93,8 +93,8 @@ if ( $sa == "detail" ) {
   echo '<div class="u_redcontent">';
   echo '<form method="post">';
   echo $obj->form(1);
-  echo widget::submit_button('remove','Effacer','onClick="return confirm(\'Vous confirmez cet effacement ?\')"');
-  echo widget::submit_button('update','Mise &agrave jour');
+  echo widget::submit('remove','Effacer','onClick="return confirm(\'Vous confirmez cet effacement ?\')"');
+  echo widget::submit('update','Mise &agrave jour');
 
   echo '</div>';
  }

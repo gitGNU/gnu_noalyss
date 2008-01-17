@@ -41,7 +41,7 @@ if ( ! isset ($_REQUEST['bh_id'])) {
   echo '<form method="get">';
   echo dossier::hidden();
   echo  "Hypoth&egrave;se ".$wHypo->IOValue();
-  echo widget::submit_button('recherche','recherche');
+  echo widget::submit('recherche','recherche');
   echo widget::hidden('p_action','detail');
 
   echo '</form>';
@@ -82,7 +82,7 @@ if ( ! empty ($wPost_Analytic->value) && $po_id==-2  ) {
   echo widget::hidden('p_action','detail');
   echo dossier::hidden();
   echo "Poste Analytique ".$wPost_Analytic->IOValue();
-  echo widget::submit_button('recherche','recherche');
+  echo widget::submit('recherche','recherche');
   echo '</form>';
   echo $button_other;
 

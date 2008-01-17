@@ -60,11 +60,11 @@ require_once("class_acc_ledger.php");
   echo "<table>";
   echo '<TR>';
   echo '<TD><form method="GET" ACTION="?">'.dossier::hidden().
-    $submit->Submit('bt_other',"Autre journal").
+    widget::submit('bt_other',"Autre journal").
     $hid->IOValue("type","jrn").$hid->IOValue('p_action','impress')."</form></TD>";
 
   echo '<TD><form method="GET" ACTION="jrn_pdf.php">'.dossier::hidden().
-    $submit->Submit('bt_pdf',"Export PDF").
+    widget::submit('bt_pdf',"Export PDF").
     $hid->IOValue("type","jrn").
     $hid->IOValue("p_action","impress").
     $hid->IOValue("central",$p_cent).
@@ -75,7 +75,7 @@ require_once("class_acc_ledger.php");
 
   echo "</form></TD>";
   echo '<TD><form method="GET" ACTION="jrn_csv.php">'.dossier::hidden().
-    $submit->Submit('bt_csv',"Export CSV").
+    widget::submit('bt_csv',"Export CSV").
     $hid->IOValue("type","jrn").
     $hid->IOValue("p_action","impress").
     $hid->IOValue("central",$p_cent).
@@ -239,7 +239,7 @@ $w->selected=1;
 echo $w->IOValue('p_simple',$a,'Style d\'impression');
 print "</TR>";
 echo '</TABLE>';
-print $w->Submit('bt_html','Impression');
+print widget::submit('bt_html','Impression');
 
 echo '</FORM>';
   echo '<span class="notice"> Attention : en-cas d\'impression de journaux centralis&eacute;s, dans le PDF, les montants d&eacute;bit et cr&eacute;dit calcul&eacute;s  par page sont la somme des montants de la page uniquement. Si une op&eacute;ration est sur 2 pages ces montants diff&egrave;reront évidemment. Ces montants doivent &ecirc;tre &eacute;gaux sur la derni&egrave;re page. Pour v&eacute;rifier la balance, utilisez la balance des comptes ou Avanc&eacute;->V&eacute;rification</span>';

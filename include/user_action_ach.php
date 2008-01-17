@@ -69,7 +69,7 @@ if ( $action=="use_opd" ) {
    echo $hid->IOValue("jrn_type","ACH");
    
   if ($op->count() != 0 )
-	echo widget::submit_button('use_opd','Utilisez une op.prédéfinie');
+	echo widget::submit('use_opd','Utilisez une op.prédéfinie');
    echo $op->show_button();
    
    echo '</form>';
@@ -118,7 +118,7 @@ if ( $action == 'new' ) {
    echo $hid->IOValue("jrn_type","ACH");
    
   if ($op->count() != 0 )
-	echo widget::submit_button('use_opd','Utilisez une op.prédéfinie');
+	echo widget::submit('use_opd','Utilisez une op.prédéfinie');
    echo $op->show_button();
    
    echo '</form>';
@@ -263,7 +263,7 @@ $User=new User($cn);
 $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
 $w->selected=$current;
 
-echo 'P&eacute;riode  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_submit','Valider');
+echo 'P&eacute;riode  '.widget::submit('gl_submit','Valider');
 ?>
 </form>
 <?php  
@@ -319,7 +319,7 @@ echo 'P&eacute;riode  '.$w->IOValue("p_periode",$periode_start).$w->Submit('gl_s
    echo "$bar <hr>";
    $hid=new widget();
    if ( $max_ligne != 0 )
-     echo $hid->Submit('paid','Mise à jour paiement');
+     echo widget::submit('paid','Mise à jour paiement');
    echo '</form>';
    echo '</div>';
 }
@@ -387,7 +387,7 @@ if ( $action == 'voir_jrn_non_paye' ) {
     $hid=new widget();
     echo '<hr>';
    if ( $m != 0 )
-     echo $hid->Submit('paid','Mise à jour paiement');
+     echo widget::submit('paid','Mise à jour paiement');
     echo '</form>';
 
     echo '</div>';

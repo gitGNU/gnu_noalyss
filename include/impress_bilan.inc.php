@@ -46,7 +46,7 @@ echo widget::hidden('p_action','impress');
 echo widget::hidden('type','bilan');
 echo dossier::hidden();
 echo $bilan->display_form ($filter_year);
-echo widget::submit_button('verif','Verification comptabilite');
+echo widget::submit('verif','Verification comptabilite');
 echo '</FORM>';
 
 
@@ -62,7 +62,7 @@ if ( isset($_GET['verif'])) {
 
   echo widget::hidden('from_periode',$bilan->from);
   echo widget::hidden('to_periode',$bilan->to);
-  echo widget::submit_button('Impression','Impression');
+  echo widget::submit('Impression','Impression');
   echo '</form>';
 
  }

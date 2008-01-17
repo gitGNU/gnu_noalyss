@@ -208,9 +208,9 @@ if ( $sub_action == 'detail' )
   $w->value=$f_id;
   echo $w->IOValue();
 
-  echo $w->Submit('mod','Sauver les modifications');
+  echo widget::submit('mod','Sauver les modifications');
   echo '<A HREF="commercial.php?p_action=contact&'.$str_dossier.'"><INPUT TYPE="button" value="Retour"></A>';
-  echo $w->Submit('delete','Effacer cette fiche');
+  echo widget::submit('delete','Effacer cette fiche');
   echo '</form>';
   echo $retour;
   echo '<div>';

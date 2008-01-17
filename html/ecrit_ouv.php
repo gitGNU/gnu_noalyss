@@ -73,7 +73,7 @@ if ( isset ($_GET['export'])) {
   $w->value=$periode;
   $w->name="p_periode";
   echo 'P&eacute;riode : '.$w->IOValue();
-  echo $w->Submit('export','Export');
+  echo widget::submit('export','Export');
   echo dossier::hidden();
   echo "</form>";
   exit(0);
@@ -102,7 +102,7 @@ if ( isset ($_GET['import'])) {
   $w->name='import_file';
   $w->label='p_file';
   echo $w->IOValue();
-  echo $w->Submit('p_submit','Charger le fichier');
+  echo widget::submit('p_submit','Charger le fichier');
 ?>
 </FORM>
 <?php

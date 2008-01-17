@@ -71,7 +71,7 @@ $all->label="Tous les postes qui en dépendent";
 $all->disabled=false;
 echo $all->IOValue("poste_fille");
 echo '</TABLE>';
-print $w->Submit('bt_html','Impression');
+print widget::submit('bt_html','Impression');
 
 echo '</FORM>';
 echo '</div>';

@@ -123,7 +123,7 @@ if ( $choose=="yes" ) {
   $wSel->value=$sel_jrn;
   $wSel->name='jrn_def_id';
   echo "Choississez global ou uniquement le journal à fermer".$wSel->IOValue();
-  echo   widget::submit_button('choose','Valider');
+  echo   widget::submit('choose','Valider');
   echo widget::hidden('p_action','periode');
   echo "</form>";
   echo '<p class="info"> Pour ajouter, effacer ou modifier une p&eacute;riode, il faut choisir global</p>';

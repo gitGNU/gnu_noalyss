@@ -52,7 +52,7 @@ $hid=new widget("hidden");
 echo $hid->IOValue("c1",$_REQUEST['c1']);
 echo $hid->IOValue("c2",$_REQUEST['c2']);
 echo $hid->IOValue("go");
-echo $hid->Submit("go","Recherche");
+echo widget::submit("go","Recherche");
 echo '</form>';
 //------------- FORM ----------------------------------
 if ( isset($_REQUEST['go'])) {

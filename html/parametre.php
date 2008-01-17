@@ -226,7 +226,7 @@ if ( $p_action=='company') {
   echo "<tr>".$compta->IOValue("p_compta",$array,"Utilisation de la compta. analytique")."</tr>";
   echo "</table>";
   $submit=new widget("submit");
-  echo $submit->Submit("record_company","Enregistre");
+  echo widget::submit("record_company","Enregistre");
   echo "</form>";
  }
 //-----------------------------------------------------

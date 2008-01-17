@@ -52,7 +52,7 @@ function show_direct_form($cn,$ledger,$p_array) {
   $op->p_jrn=$id;
   $op->od_direct='t';
   if ($op->count() != 0 )
-    echo widget::submit_button('use_opd','Utilisez une op.pr&eacute;d&eacute;finie');
+    echo widget::submit('use_opd','Utilisez une op.pr&eacute;d&eacute;finie');
   echo $op->show_button();
   echo '</form>';
 
@@ -62,7 +62,7 @@ function show_direct_form($cn,$ledger,$p_array) {
 
   echo $ledger->show_form($p_array);
 
-  echo widget::submit_button('summary','Sauvez');
+  echo widget::submit('summary','Sauvez');
   echo '<div class="info">
     D&eacute;bit = <span id="totalDeb"></span>
     Cr&eacute;dit = <span id="totalCred"></span>
@@ -90,7 +90,7 @@ if ($id == -1 )
      echo dossier::hidden();
      echo widget::hidden('p_action',$_REQUEST['p_action']);
      echo $ledger->select_ledger()->IOValue();
-     echo widget::submit_button('show_form','Choix du journal');
+     echo widget::submit('show_form','Choix du journal');
      echo '</form>';
      echo '</div>';
      exit();
@@ -144,8 +144,8 @@ if ( isset($_POST['summary'])) {
        echo dossier::hidden();
        echo widget::hidden('p_action',$_REQUEST['p_action']);
 
-       echo widget::submit_button('save_it',"Sauver");
-       echo widget::submit_button('correct_it','Corriger');
+       echo widget::submit('save_it',"Sauver");
+       echo widget::submit('correct_it','Corriger');
        
        $chk=new widget('checkbox');
        $chk->selected=false;

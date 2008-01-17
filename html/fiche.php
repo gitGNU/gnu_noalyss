@@ -246,7 +246,7 @@ if ( isset ( $_GET["action"]) ) {
 	  $h=new widget('hidden');
 	  echo $h->IOValue('action','search');
 	  echo "Recherche :".$w->IOValue('search_text',$search_text);
-	  echo $w->Submit('submit','Rechercher');
+	  echo widget::submit('submit','Rechercher');
 	  echo '</form>';
 	  echo "Aucun résultat trouvé";
 
@@ -343,7 +343,7 @@ if ( ! isset($_REQUEST['action']) ){
   $h=new widget('hidden');
   echo $h->IOValue('action','search');
   echo "Recherche :".$w->IOValue('search_text',$search_text);
-  echo $w->Submit('submit','Rechercher');
+  echo widget::submit('submit','Rechercher');
   echo '</form>';
   echo '</div>';
 }

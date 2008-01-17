@@ -1236,13 +1236,13 @@ class Acc_Ledger {
     // Vide
     echo '<FORM method="post">';
     echo $a->select_ledger()->IOValue();
-    echo widget::submit_button('go','Test it');
+    echo widget::submit('go','Test it');
     echo '</form>';
     if ( isset($_POST['go'])) {
       echo "Ok ";
       echo '<form method="post">';
       echo $a->show_form();
-      echo widget::submit_button('post_id','Try me');
+      echo widget::submit('post_id','Try me');
       echo '</form>';
       // Show the predef operation
       // Don't forget the p_jrn 
@@ -1253,7 +1253,7 @@ class Acc_Ledger {
       $op->p_jrn=$id;
       $op->od_direct='t';
       if ($op->count() != 0 )
-	echo widget::submit_button('use_opd','Utilisez une op.prédéfinie');
+	echo widget::submit('use_opd','Utilisez une op.prédéfinie');
       echo $op->show_button();
       echo '</form>';
       exit();
@@ -1262,7 +1262,7 @@ class Acc_Ledger {
     if ( isset($_POST['post_id' ])) {
       echo '<form method="post">';
       echo $a->show_form($_POST,1);
-      echo widget::submit_button('save_it',"Sauver");
+      echo widget::submit('save_it',"Sauver");
       echo '</form>';
       exit();
     }
@@ -1277,7 +1277,7 @@ class Acc_Ledger {
 	echo '<form method="post">';
 
 	echo $a->show_form($_POST);
-	echo widget::submit_button('post_id','Try me');
+	echo widget::submit('post_id','Try me');
 	echo '</form>';
 	 
       }
@@ -1295,7 +1295,7 @@ class Acc_Ledger {
       echo '<FORM method="post">';
 
       echo $a->show_form($p_post);
-      echo widget::submit_button('post_id','Use predefined operation');
+      echo widget::submit('post_id','Use predefined operation');
       echo '</form>';
       exit();
 

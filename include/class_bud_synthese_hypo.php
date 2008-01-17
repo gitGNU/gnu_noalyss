@@ -335,7 +335,7 @@ Array
     $obj=new Bud_Synthese_Hypo($cn);
     echo '<form method="GET">';
     echo $obj->form();
-    echo widget::submit_button('recherche','Recherche');
+    echo widget::submit('recherche','Recherche');
     echo '</form>';
     print_r($_GET);
     if ( isset ($_GET['recherche'])) {
