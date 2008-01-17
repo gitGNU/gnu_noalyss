@@ -65,18 +65,62 @@ if ( ! isset ( $gDossier ) ) {
   echo "Vous devez choisir un dossier ";
   exit -2;
 }
-
+require_once('class_widget.php');
 include_once("preference.php");
 include_once("user_menu.php");
 $str_dossier=dossier::get();
 echo '<div class="u_tmenu">';
-echo '<div style="float:left">';
+<<<<<<< commercial.php
+echo '<div style="float:left;background-color:#879ED4">';
+echo '<div style="float:left;margin-left:10px">';
 echo "<H2 class=\"info\">Commercial ".dossier::name()."</h2> ";
 echo '</div>';
-echo '<div style="text-align:right" title="Recherche">
-<input type="IMAGE" src="image/search.png" width="36" onclick="openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.$gDossier.');">
-<A HREF="?p_action=pref&'.$str_dossier.'" title="Pr&eacute;f&eacute;rence"><IMG SRC="image/preference.png" width="36" border="0" ></A>
+/* echo '<div style="text-align:right" title="Recherche"> */
+/* <input type="IMAGE" src="image/search.png" width="36" onclick="openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.$gDossier.');"> */
+/* <A HREF="?p_action=pref&'.$str_dossier.'" title="Pr&eacute;f&eacute;rence"><IMG SRC="image/preference.png" width="36" border="0" ></A> */
 
+/* <A HREF="comptanalytic.php?gDossier='.$gDossier.'" title="CA"><IMG SRC="image/comptaanal.png" width="36"  border="0" ></A> */
+
+/* <A HREF="parametre.php?gDossier='.$gDossier.'" title="Param&egrave;tre"><IMG SRC="image/param.png" width="36" border="0" ></A> */
+/* <A HREF="login.php" title="Accueil"><IMG src="image/home.png" width="36" title="Accueil"  border="0"  ></A> */
+/* <A HREF="logout.php" title="Sortie"><IMG src="image/logout.png" title="Logout"  width="36"  border="0"></A> */
+
+/* </div> '; */
+
+echo '<div style="float:right;margin-right:10px;text-align:right">';
+
+
+$amodule=array(
+	       array('value'=>'budget','label'=>'Budget'),
+	       array('value'=>'compta','label'=>'Comptabilite'),
+	       array('value'=>'analytic','label'=>'Compt. Analytique'),
+	       array('value'=>'home','label'=>'Accueil'),
+	       array('value'=>'param','label'=>'Parametre'),
+	       array('value'=>'logout','label'=>'Sortir')
+	       );
+    
+echo '<form method="GET" action="control.php">';
+$w=new widget('select');
+$w->name='m';
+$w->value=$amodule;
+echo    '<table><tr><td class="mtitle">';
+echo '<A class="mtitle" HREF="javascript:openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.$gDossier.')">'.
+'Recheche</a></td>';
+echo '<td>'.$w->IOValue().'</td>';
+echo dossier::hidden();
+echo '<td>'.widget::submit('','Acces Direct').'</td>';
+echo '</table>';
+echo '</form>';
+echo '</div>';
+=======
+echo '<div style="float:left">';
+echo "<H2 class=\"info\">Commercial ".dossier::name()."</h2> ";
+>>>>>>> 1.35
+echo '</div>';
+
+<<<<<<< commercial.php
+echo '</div>';
+=======
 <A HREF="comptanalytic.php?gDossier='.$gDossier.'" title="CA"><IMG SRC="image/comptaanal.png" width="36"  border="0" ></A>
 
 <A HREF="parametre.php?gDossier='.$gDossier.'" title="Param&egrave;tre"><IMG SRC="image/param.png" width="36" border="0" ></A>
@@ -84,10 +128,12 @@ echo '<div style="text-align:right" title="Recherche">
 <A HREF="logout.php" title="Sortie"><IMG src="image/logout.png" title="Logout"  width="36"  border="0"></A>
 
 </div> ';
+>>>>>>> 1.35
 
 $p_action=(isset ($_REQUEST['p_action']))?$_REQUEST['p_action']:"";
 // TODO Menu with all the customer
-
+//echo '<div class="u_tmenu">';
+echo '<div style="float:left">';
 echo ShowItem(array(
 		    array('?p_action=client&'.$str_dossier,'Client'),
 		    array('?p_action=facture&'.$str_dossier,'Vente/Facture'),
@@ -108,6 +154,7 @@ echo ShowItem(array(
 
 		    //
 echo '</div>';
+
 
 $cn=DbConnect($gDossier);
 $User->can_request($cn,SEC_GESTION);

@@ -1187,4 +1187,7 @@ function CleanUrl()
   }// if
 return $url;
 }
+function get_redirect($p_string) {
+  echo '<HTML><head><META HTTP-EQUIV="REFRESH" content="0;url='.$p_string.'"></head><body> Connecting... </body></html>';
+}
 ?>
