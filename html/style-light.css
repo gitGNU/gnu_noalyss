@@ -104,6 +104,20 @@ clear:both;
   left:10px;
 
 }
+div.u_tmenu div.u_tool {
+	    background-color:#879ED4;	
+	   float:left;
+}
+div.u_tool div.name {
+       float:left;
+       margin-left:10px;
+}
+div.u_tool div.acces_direct{
+        float:right;
+	margin-right:10px;
+	text-align:right
+}
+
 div.u_subt2menu {
 background-color:lightgrey;
   left:1%;	

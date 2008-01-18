@@ -100,6 +100,20 @@ div.u_subtmenu {
   background-color:pink;
 
 }
+div.u_tmenu div.u_tool {
+	    background-color:green;	
+	   float:left;
+}
+div.u_tool div.name {
+       float:left;
+       margin-left:10px;
+}
+div.u_tool div.acces_direct{
+        float:right;
+	margin-right:10px;
+	text-align:right
+}
+
 div.u_subt2menu {
   left:1%;	
   background-color:orange;
