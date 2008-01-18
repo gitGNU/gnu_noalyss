@@ -40,7 +40,10 @@ class User {
   function User ($p_cn,$p_id=-1){
     // if p_id is not set then check the connected user
     if ( $p_id == -1 ) {
-	  echo_debug('class_user.php',__LINE__," g_user = ".$_SESSION['g_user']);
+      if ( ! isset ($_SESSION['g_user'])) 
+	exit("Utilisateur inexistant");
+      echo_debug('class_user.php',__LINE__," g_user = ".$_SESSION['g_user']);
+
     $this->id=$_SESSION['g_user'];
     $this->pass=$_SESSION['g_pass'];
     $this->valid=(isset ($_SESSION['isValid']))?1:0;
