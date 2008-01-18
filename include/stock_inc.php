@@ -36,13 +36,19 @@
 function ViewStock($p_cn,$p_year) {
  // build sql -- get the different merchandise sold or bought
   // during the p_year
-$sql=" select distinct sg_code
+  /* $sql=" select distinct sg_code
       from stock_goods 
        left outer join  jrnx on (stock_goods.j_id=jrnx.j_id)
       right outer join parm_periode on (parm_periode.p_id=jrnx.j_tech_per)
     where
       p_exercice= '$p_year'
       and sg_code is not null and sg_code != '' and sg_code!='null'";
+  */
+$sql=" select distinct sg_code
+      from stock_goods 
+where
+      sg_code is not null and sg_code != '' and sg_code!='null'";
+
 
 
   // send the sql

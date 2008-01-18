@@ -462,6 +462,25 @@ class fiche {
 		  ExecSql($this->cn,$sql);
 		  continue;
 		}
+	      // stock 
+	      if ( $id == ATTR_DEF_STOCK ) {
+		$st=CountSql($this->cn,'select * from stock_goods where '.
+			     " upper(sg_code)=upper('$value')");
+		if ( $st == 0 ) {
+		  $user=new User($this->cn);
+		  $exercice=$user->get_exercice();
+		  if ( $exercice == 0 ) throw Exception ('Annee invalide erreur');
+
+		  $str_stock=sprintf('insert into stock_goods(f_id,sg_initial,sg_code,sg_type,sg_exercice) '.
+				     ' values (%d,upper(\'%s\'),\'c\',\'%s\')',
+				     $fiche_id,
+				     'initial',
+				     FormatString($value),
+				     $exercice);
+				     
+		  ExecSql($this->cn,$str_stock);
+		}
+	      }
 	      // name
 	      if ( $id == ATTR_DEF_NAME ) 
 		{
@@ -598,7 +617,25 @@ class fiche {
 		 
                
 	       }
-	     
+	     	      if ( $id == ATTR_DEF_STOCK ) {
+		$st=CountSql($this->cn,'select * from stock_goods where '.
+			     " upper(sg_code)=upper('$value')");
+		if ( $st == 0 ) {
+		  $user=new User($this->cn);
+		  $exercice=$user->get_exercice();
+		  if ( $exercice == 0 ) throw Exception ('Annee invalide erreur');
+
+		  $str_stock=sprintf('insert into stock_goods(f_id,sg_comment,sg_code,sg_type,sg_exercice) '.
+				     ' values (%d,upper(\'%s\'),\'d\',\'%s\')',
+				     $this->id,
+				     'initial',
+				     FormatString($value),
+				     $exercice);
+				     
+		  ExecSql($this->cn,$str_stock);
+		}
+	      }
+
 	     // account
 	     if ( $id == ATTR_DEF_ACCOUNT ) 
 	       {
