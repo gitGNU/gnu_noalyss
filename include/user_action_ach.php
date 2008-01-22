@@ -319,7 +319,7 @@ echo 'P&eacute;riode  '.$w->IOValue("p_periode",$periode_start).widget::submit('
    echo "$bar <hr>";
    $hid=new widget();
    if ( $max_ligne != 0 )
-     echo widget::submit('paid','Mise à jour paiement');
+     echo widget::submit('paid','Mise &agrave; jour paiement');
    echo '</form>';
    echo '</div>';
 }
@@ -387,7 +387,7 @@ if ( $action == 'voir_jrn_non_paye' ) {
     $hid=new widget();
     echo '<hr>';
    if ( $m != 0 )
-     echo widget::submit('paid','Mise à jour paiement');
+     echo widget::submit('paid','Mise &agrave; jour paiement');
     echo '</form>';
 
     echo '</div>';
