@@ -374,14 +374,14 @@ if ( $action == 'voir_jrn_non_paye' ) {
   $bar2=jrn_navigation_bar($offset,$m,$step,$page);
 
     echo '<div class="u_redcontent">';
-    echo '<h2 class="info"> Echeance dépassée </h2>';
+    echo '<h2 class="info"> Echeance d&eacute;pass&eacute;e </h2>';
     echo '<FORM METHOD="POST">';
 	echo dossier::hidden();
     echo $bar2;
     echo $list;
 
 
-    echo  '<h2 class="info"> Non Payée </h2>';
+    echo  '<h2 class="info"> Non Pay&eacute;e </h2>';
     echo $list2;
     echo $bar2;
     $hid=new widget();
