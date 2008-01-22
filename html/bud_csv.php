@@ -46,14 +46,15 @@ if ( $do == 'po') {
  }
 /* 2nd Synthese */
 if ( $do == 'ga') {
+  header('Content-type: application/csv');
+  header('Content-Disposition: attachment;filename="bud_groupe.csv"',FALSE);
   require_once ('class_bud_synthese_hypo.php');
+  
   $obj=new Bud_Synthese_Hypo($cn);
 
   $obj->from_array($_GET);
   $res=$obj->load();
-  header('Content-type: application/csv');
-  header('Content-Disposition: attachment;filename="bud_groupe.csv"',FALSE);
-
+  
   echo $obj->display_csv($res);
 
  }

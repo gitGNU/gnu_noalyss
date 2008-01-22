@@ -35,43 +35,6 @@ $User->can_request($cn,BALANCE);
 
 echo '<div class="u_content">';
 
-//-----------------------------------------------------
-// Form
-//-----------------------------------------------------
-// Show the export button
-if ( isset ($_POST['view']  ) ) {
-  $submit=new widget();
-  $hid=new widget("hidden");
-
-  echo "<table>";
-  echo '<TR>';
-  echo '<TD><form method="POST" ACTION="print_balance.php">'.
-	dossier::hidden().
-    widget::submit('bt_pdf',"Export PDF").
-    $hid->IOValue("p_action","impress").
-    $hid->IOValue("from_periode",$_POST['from_periode']).
-    $hid->IOValue("to_periode",$_POST['to_periode']).
-    $hid->IOValue("p_jrn",$_POST['p_jrn']).
-    $hid->IOValue("from_poste",$_POST['from_poste']).
-    $hid->IOValue("to_poste",$_POST['to_poste']);
-  echo "</form></TD>";
-  echo '<TD><form method="POST" ACTION="bal_csv.php">'.
-    widget::submit('bt_csv',"Export CSV").
-	dossier::hidden().
-    $hid->IOValue("p_action","impress").
-    $hid->IOValue("from_periode",$_POST['from_periode']).
-    $hid->IOValue("to_periode",$_POST['to_periode']).
-    $hid->IOValue("p_jrn",$_POST['p_jrn']).
-    $hid->IOValue("from_poste",$_POST['from_poste']).
-    $hid->IOValue("to_poste",$_POST['to_poste']);
-
-  echo "</form></TD>";
-
-  echo "</TR>";
-
-  echo "</table>";
-}
-
 // Show the form for period
 echo '<FORM action="?p_action=impress&type=bal" method="post">';
 echo dossier::hidden();
@@ -123,7 +86,45 @@ echo "</div>";
 //$a=FormPeriodeMult($cn);
 //echo $a;
 
-echo '<input type="submit" name="view" value="ok">';
+echo '<input type="submit" name="view" value="Impression">';
+echo '</form>';
+
+//-----------------------------------------------------
+// Form
+//-----------------------------------------------------
+// Show the export button
+if ( isset ($_POST['view']  ) ) {
+  $submit=new widget();
+  $hid=new widget("hidden");
+
+  echo "<table>";
+  echo '<TR>';
+  echo '<TD><form method="POST" ACTION="print_balance.php">'.
+	dossier::hidden().
+    widget::submit('bt_pdf',"Export PDF").
+    $hid->IOValue("p_action","impress").
+    $hid->IOValue("from_periode",$_POST['from_periode']).
+    $hid->IOValue("to_periode",$_POST['to_periode']).
+    $hid->IOValue("p_jrn",$_POST['p_jrn']).
+    $hid->IOValue("from_poste",$_POST['from_poste']).
+    $hid->IOValue("to_poste",$_POST['to_poste']);
+  echo "</form></TD>";
+  echo '<TD><form method="POST" ACTION="bal_csv.php">'.
+    widget::submit('bt_csv',"Export CSV").
+	dossier::hidden().
+    $hid->IOValue("p_action","impress").
+    $hid->IOValue("from_periode",$_POST['from_periode']).
+    $hid->IOValue("to_periode",$_POST['to_periode']).
+    $hid->IOValue("p_jrn",$_POST['p_jrn']).
+    $hid->IOValue("from_poste",$_POST['from_poste']).
+    $hid->IOValue("to_poste",$_POST['to_poste']);
+
+  echo "</form></TD>";
+
+  echo "</TR>";
+
+  echo "</table>";
+}
 
 
 //-----------------------------------------------------

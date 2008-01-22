@@ -626,7 +626,7 @@ class fiche {
 		  if ( $exercice == 0 ) throw Exception ('Annee invalide erreur');
 
 		  $str_stock=sprintf('insert into stock_goods(f_id,sg_comment,sg_code,sg_type,sg_exercice) '.
-				     ' values (%d,upper(\'%s\'),\'d\',\'%s\')',
+				     ' values (%d,upper(\'%s\'),upper(\'%s\'),\'d\',%s)',
 				     $this->id,
 				     'initial',
 				     FormatString($value),
@@ -729,7 +729,7 @@ class fiche {
        // if the card is used do not removed it
        $qcode=$this->strAttribut(ATTR_DEF_QUICKCODE);
 
-       if ( CountSql($this->cn,"select * from jrnx where j_qcode='$qcode'") != 0)
+       if ( CountSql($this->cn,"select * from jrnx where j_qcode='".pg_escape_string($qcode)."'") != 0)
 	 {
 	   echo "<SCRIPT> alert('Impossible cette fiche est utilisée dans un journal'); </SCRIPT>";
 	   return;

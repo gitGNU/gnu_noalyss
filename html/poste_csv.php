@@ -38,11 +38,11 @@ $User=new User($cn);
 $User->Check();
 if ( isset ( $_POST['poste_fille']) )
 { //choisit de voir tous les postes
-  $a_poste=getarray($cn,"select pcm_val from tmp_pcmn where pcm_val like '".$_POST["poste_id"]."%'");
+  $a_poste=get_array($cn,"select pcm_val from tmp_pcmn where pcm_val like '".$_POST["poste_id"]."%'");
 } 
 else 
 {
-  $a_poste=getarray($cn,"select pcm_val from tmp_pcmn where pcm_val = '".$_POST['poste_id']."'");
+  $a_poste=get_array($cn,"select pcm_val from tmp_pcmn where pcm_val = '".$_POST['poste_id']."'");
 }
 if ( count($a_poste) == 0 )
      exit;

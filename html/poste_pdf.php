@@ -38,9 +38,9 @@ foreach ($_POST as $key=>$element) {
   ${"$key"}=$element;
 }
  if ( isset ( $poste_fille) ){ //choisit de voir tous les postes
-   $a_poste=getarray($cn,"select pcm_val from tmp_pcmn where pcm_val like '$poste_id%'");
+   $a_poste=get_array($cn,"select pcm_val from tmp_pcmn where pcm_val like '$poste_id%'");
  } else 
- $a_poste=getarray($cn,"select pcm_val from tmp_pcmn where pcm_val = '$poste_id'");
+ $a_poste=get_array($cn,"select pcm_val from tmp_pcmn where pcm_val = '$poste_id'");
       
 
 $ret="";

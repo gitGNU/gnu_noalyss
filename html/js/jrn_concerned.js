@@ -52,6 +52,18 @@ function SearchJrn(p_sessid,p_dossier,p_ctl,p_montant,p_paid)
 	  }
        }
    }
+   if ( p_montant == 0 && document.forms[1]) { 
+
+     for ( i=0; i < document.forms[1].length; i++)
+       {    
+	 var e=document.forms[1].elements[i];
+	 if ( e.name == ctl_montant_name ) {
+	   p_montant=e.value;
+	   break;
+	  }
+       }
+   }
+
  }	
 
 

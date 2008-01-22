@@ -104,7 +104,7 @@ if ( $po_id !== -1 ) {
   echo "Poste Analytique ".$wPo_id->IOValue();
  }
 echo $button_other;
-//echo http://localhost/phpcompta-dev/phpcompta/html/budget.php?gDossier=21&bh_id=3&recherche=recherche&p_action=detail//
+
 if ( isset ($_GET['po_id'] ) )
   $str_po_id="&po_id=".$_REQUEST['po_id'];
  else 

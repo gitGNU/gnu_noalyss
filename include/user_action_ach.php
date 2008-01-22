@@ -69,7 +69,7 @@ if ( $action=="use_opd" ) {
    echo $hid->IOValue("jrn_type","ACH");
    
   if ($op->count() != 0 )
-	echo widget::submit('use_opd','Utilisez une op.prédéfinie');
+	echo widget::submit('use_opd','Utilisez une op.prÃ©dÃ©finie');
    echo $op->show_button();
    
    echo '</form>';
@@ -118,7 +118,7 @@ if ( $action == 'new' ) {
    echo $hid->IOValue("jrn_type","ACH");
    
   if ($op->count() != 0 )
-	echo widget::submit('use_opd','Utilisez une op.prédéfinie');
+	echo widget::submit('use_opd','Utilisez une op.prÃ©dÃ©finie');
    echo $op->show_button();
    
    echo '</form>';
@@ -202,7 +202,7 @@ if ( $action == 'new' ) {
 	    list($internal,$comment)=RecordSell($cn,$_POST,$User,$_GET['p_jrn']);
 	    
 	    // submit button in the form
-	    $submit='<h2 class="info">Opération '.$internal.' </h2>';
+	    $submit='<h2 class="info">OpÃ©ration '.$internal.' </h2>';
 	    $r=FormAchView($cn,$_GET['p_jrn'],$User->get_periode(),$_POST,"",$nb_number,false);
 	    echo '<div class="u_redcontent">';
 	    echo $submit;
@@ -319,7 +319,7 @@ echo 'P&eacute;riode  '.$w->IOValue("p_periode",$periode_start).widget::submit('
    echo "$bar <hr>";
    $hid=new widget();
    if ( $max_ligne != 0 )
-     echo widget::submit('paid','Mise à jour paiement');
+     echo widget::submit('paid','Mise Ã  jour paiement');
    echo '</form>';
    echo '</div>';
 }
@@ -374,20 +374,20 @@ if ( $action == 'voir_jrn_non_paye' ) {
   $bar2=jrn_navigation_bar($offset,$m,$step,$page);
 
     echo '<div class="u_redcontent">';
-    echo '<h2 class="info"> Echeance dépassée </h2>';
+    echo '<h2 class="info"> Echeance dÃ©passÃ©e </h2>';
     echo '<FORM METHOD="POST">';
 	echo dossier::hidden();
     echo $bar2;
     echo $list;
 
 
-    echo  '<h2 class="info"> Non Payée </h2>';
+    echo  '<h2 class="info"> Non PayÃ©e </h2>';
     echo $list2;
     echo $bar2;
     $hid=new widget();
     echo '<hr>';
    if ( $m != 0 )
-     echo widget::submit('paid','Mise à jour paiement');
+     echo widget::submit('paid','Mise Ã  jour paiement');
     echo '</form>';
 
     echo '</div>';

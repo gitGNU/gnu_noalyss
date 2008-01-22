@@ -43,6 +43,7 @@ $span=new widget("span");
 
 $w=new widget("js_search_poste");
 $w->table=1;
+$w->value=(isset($_REQUEST['poste_id']))?$_REQUEST['poste_id']:"";
 $w->label="Choississez le poste";
 print $w->IOValue("poste_id");
 echo $span->IOValue('poste_id_label');
@@ -50,6 +51,7 @@ $w_poste=new widget("js_search_only");
 $w_poste->table=1;
 $w_poste->label="Ou Choississez la fiche";
 $w_poste->extra='all';
+$w_poste->value=(isset($_REQUEST['f_id']))?$_REQUEST['f_id']:"";
 print $w_poste->IOValue("f_id");
 echo $span->IOValue('f_id_label');
 print '</TR>';
@@ -60,9 +62,11 @@ $select->table=1;
 $filter_year=" where p_exercice='".$User->get_exercice()."'";
 $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
 $select->label="Depuis";
+$select->selected=(isset($_REQUEST['from_periode']))?$_REQUEST['from_periode']:"";
 print $select->IOValue('from_periode',$periode_start);
 $select->label=" jusqu'à ";
 $periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode  $filter_year order by p_start,p_end");
+$select->selected=(isset($_REQUEST['to_periode']))?$_REQUEST['to_periode']:"";
 print $select->IOValue('to_periode',$periode_end);
 print "</TR>";
 print "<TR><TD>";
@@ -90,7 +94,7 @@ if ( isset( $_POST['bt_html'] ) ) {
       if ( isset ($_POST['poste_fille']) )
       {
 		$parent=$_POST['poste_id'];
-		$a_poste=getarray($cn,"select pcm_val from tmp_pcmn where pcm_val like '$parent%'");
+		$a_poste=get_array($cn,"select pcm_val from tmp_pcmn where pcm_val like '$parent%' order by pcm_val::text");
 	$go=3;
       } 
       // Check if the post is numeric and exists

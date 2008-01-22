@@ -303,7 +303,7 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
     { 
       echo_error("Invalid date $e_date");
       echo_debug('user_form_ach.php',__LINE__,"Invalid date $e_date");
-      echo "<SCRIPT> alert('INVALID DATE $e_date !!!!');</SCRIPT>";
+      echo "<SCRIPT> alert(' DATE INVALIDE $e_date !!!!');</SCRIPT>";
       return null;
     }
   $tot=0;
@@ -314,7 +314,7 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
 	{
 	  echo_debug('user_form_ach.php',__LINE__,"invalid quantity ".${"e_quant$o"});
 	  echo_error("invalid quantity ".${"e_quant$o"});
-	  echo "<SCRIPT> alert('INVALID QUANTITY !!!');</SCRIPT>";
+	  echo "<SCRIPT> alert('Quantite invalide !!!');</SCRIPT>";
 	  return null;
 	}	
     // check if vat is correct

@@ -166,7 +166,7 @@ function ExecSqlParam($p_connection, $p_string,$p_array) {
       $r=$p_string."array ".var_export($p_array,TRUE);
       throw new Exception (" SQL ERROR $r",1);
   }
-  ob_flush();
+  ob_end_clean();
   return $ret;
 
 }

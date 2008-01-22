@@ -36,15 +36,14 @@ require_once ("class_anc_group_operation.php");
 $pa=new Anc_Plan($cn);
 $m=$pa->get_list();
 if ( ! $m )  { echo '<h2 class="info"> Aucun plan analytique d&eacute;fini</h2>';exit();}
-echo '<div class="u_subt2menu">';
-echo '<table>';
-echo '<tr>';
-echo '</div>';
+
+
 
 //----------------------------------------------------------------------
 // show the left menu
 //----------------------------------------------------------------------
 echo '
+<div class="u_content">
 <div class="lmenu">
 <table>
 <tr>
@@ -56,7 +55,10 @@ echo '
  </td>
 </tr>
 </table>
-</div>';
+</div>
+</div>
+';
+
 //----------------------------------------------------------------------
 // the pa_id is set 
 //
@@ -93,8 +95,9 @@ echo '
  $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by  p_start,p_end",1);
  $User=new User($cn);
  $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
+ $w->value=$periode_start;
  $w->selected=$current;
- 
+ echo $w->IOValue(); 
  echo 'P&eacute;riode  '.widget::submit('gl_submit','Valider').'</form>';
 
   echo '<div class="u_redcontent">';

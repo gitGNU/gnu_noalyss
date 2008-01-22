@@ -98,7 +98,7 @@ class Bud_Card {
 		 );
     try {
       ExecSqlParam($this->db,$sql,$array);
-      print_r(DEBUG);
+
     }catch (Exception $e) {
       if ( DEBUG == 'true' ) print_r($e);
       return '<span class="notice">Impossible de sauver</span>';

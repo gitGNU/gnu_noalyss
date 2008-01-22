@@ -207,7 +207,8 @@ class Acc_Ledger {
     c_grp as grp,
     c_comment||' ('||c_internal||' '||jr_opid||')' as comment,
     c_rapt as oc,
-    c_periode as periode 
+    j_qcode,
+    c_periode as periode
     from centralized left join jrn on ".
 	  "jr_grpt_id=c_grp left join tmp_pcmn ".
 	  " on (pcm_val=c_poste)  ".
@@ -488,7 +489,7 @@ class Acc_Ledger {
 	      echo_debug('class_acc_ledger',__LINE__,$code['j_qcode'].'est F ou C');
 	      $p_array['TVAC']=$code['j_montant'];
 
-	      $p_array['client']=($trunc==0)?$fiche->get_name():substr($fiche->get_name(),0,20);
+	      $p_array['client']=($trunc==0)?$fiche->getName():substr($fiche->getName(),0,20);
 	      $p_array['reversed']=false;
 	      if (	$fiche_def_id == FICHE_TYPE_CLIENT && $code['j_debit']=='f')
 		{
@@ -511,7 +512,7 @@ class Acc_Ledger {
 	      echo_debug('class_acc_ledger',__LINE__,$code['j_qcode']."n 'est PAS F ou C");
 	      $p_array['TVAC']=$code['j_montant'];
 	    
-	      $p_array['client']=	($trunc==0)?$fiche->get_name():substr($fiche->get_name(),0,20);
+	      $p_array['client']=	($trunc==0)?$fiche->getName():substr($fiche->getName(),0,20);
 	      $p_array['reversed']=false;
 	      if ($p_jrn_type == 'ACH' && $code['j_debit']=='t')
 		{

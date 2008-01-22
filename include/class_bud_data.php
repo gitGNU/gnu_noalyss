@@ -134,6 +134,7 @@ class Bud_Data {
       $p_id=$r['p_id'];
       $ret->amount[$p_id]=0;
     }
+
     return $ret;
   }
   /*!\brief convert the array loaded from the database into data member
@@ -277,7 +278,7 @@ class Bud_Data {
     if ( ! isset ($this->header ) ){
       $r='<table style="border: 2px outset blue; width: 100%;">';
       $r.="<tr>";
-      $periode=get_array($this->cn,"select  to_char(p_start,'MM/YY')as d from parm_periode ");
+      $periode=get_array($this->cn,"select  to_char(p_start,'MM/YY')as d from parm_periode order by p_start,p_end ");
       foreach ($periode as $row)
 	$r.='<th >'.$row['d'].'</th>';
 

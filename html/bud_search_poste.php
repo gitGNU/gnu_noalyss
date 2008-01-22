@@ -57,9 +57,9 @@ if ( isset($_GET['search']) ) {
   if ( isset($p_comment) && strlen(trim($p_comment)) != 0 ) {
     $condition=" where (upper(pcm_lib) like upper('%$p_comment%') or ".
       " pcm_val::text like '$p_comment%') ".
-      " and (pcm_val::text like '7%' or pcm_val::text like '6%' or pcm_val::text like '5%') ";
+      " and (pcm_val::text like '7%' or pcm_val::text like '6%') ";
   } else {
-    $condition="where pcm_val::text like '7%' or pcm_val::text like '6%' or pcm_val::text like '5%' ";    
+    $condition="where pcm_val::text like '7%' or pcm_val::text like '6%'  ";    
   }
 
 }

@@ -195,10 +195,10 @@ Array
 	$group_id=$rGroup['ga_id'];
 	$sub[$group_id]=(isset($sub[$group_id]))?$sub[$group_id]:0;
 	$sub[$group_id]+=$row[$group_id];
-	print_r("$key pcm_val :".$pcm_val."gr.".$group_id." ".$row[$group_id]."sub ".$sub[$group_id]);
+	//	print_r("$key pcm_val :".$pcm_val."gr.".$group_id." ".$row[$group_id]."sub ".$sub[$group_id]);
 	$sub['total']=(isset($sub['total']))?$sub['total']:0;
 	$sub['total']+=$row[$group_id];
-	print_r('sub_total = '.$sub['total'].'<br>');
+	//print_r('sub_total = '.$sub['total'].'<br>');
       }
       if (isset( $array[$pcm_val])) {
 	$new_array=array();
@@ -329,7 +329,48 @@ Array
       $r.=widget::hidden($e,$this->$e);
     return $r;
   }
+  /*!\brief the same as summary but show it in html */
+  function summary_html($p_array) {
+    if ( empty ($p_array))return '';    
+    $summary_array=$this->summary($p_array);
+    arsort($summary_array);
+    $aGroup=get_array($this->cn,"select distinct ga_id from bud_detail join poste_analytique ".
+		      " using (po_id) where bh_id=".$this->bh_id." order by ga_id ");
+    $per_acc=sql_filter_per($this->cn,$this->from,$this->to,'p_id','j_tech_per');
 
+    $heading='<tr>';
+    $heading.='<th>CE  </th>';
+    foreach ($aGroup as $rGroup ) 
+      $heading.='<th>'.$rGroup['ga_id'].'</td>';
+    $heading.='<th>Total Ligne</th><th>Result. CE</th>';
+    $heading.='</tr>';
+    $r='<table>';
+    $r.=$heading;
+
+
+
+    foreach ($summary_array as $key=>$aRow) {
+      $amount_row=0;
+      $r.="<tr><td>";
+
+      $acc_account=new Acc_Account_Ledger($this->cn,$key);
+      $acc_account->load();
+      $r.=$key." - ".$acc_account->label.'</td>';
+
+
+      foreach ($aGroup as $gr) {
+	$idx=$gr['ga_id'];
+	$r.='<td>'.$aRow[$idx].'</td>';
+	$amount_row+=$aRow[$idx];
+      }
+      $r.="<td>".$amount_row.'</td>';
+      $acc_account->id=$acc_account->id."%";
+      $r.="<td>".$acc_account->get_solde($per_acc).'</td>';
+      $r.="</tr>";
+    }
+    $r.="</table>";
+    return $r;
+  }
   static function test_me() {
     $cn=DbConnect(dossier::id());
     $obj=new Bud_Synthese_Hypo($cn);

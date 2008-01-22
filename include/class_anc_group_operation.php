@@ -171,7 +171,7 @@ class Anc_Group_Operation
 	    {
 	      $idx=$d['id'];
 	      $p=new Anc_Operation($this->db);
-	      $p->oa_amount=$_array["pamount$i"];
+	      $p->oa_amount=$p_array["pamount$i"];
 	      
 	      $p->oa_description=$p_array["pdesc"];
 	      $p->oa_date=$_POST['pdate'];

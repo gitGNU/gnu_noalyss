@@ -44,6 +44,8 @@ if ( isset($_GET['display'])) {
   $obj->from_array($_GET);
   $res=$obj->load();
   echo $obj->display_html($res);
+  echo '<h2 class="info">Resume</h2>';
+  echo $obj->summary_html($res);
   echo '<form method="GET" action="bud_csv.php">';
   echo $obj->hidden();
   echo widget::hidden('do','ga');

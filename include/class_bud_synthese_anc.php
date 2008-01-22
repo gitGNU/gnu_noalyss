@@ -157,6 +157,7 @@ class Bud_Synthese_Anc extends Bud_Synthese {
 	       " join parm_periode using (p_id) ".
 	       " where bc_id=$1 and $per and pcm_val=$2 group by p_id,p_start order  by p_start");
 
+    if ( empty( $aBudCard) ) return array();
     // foreach card get the detail per pcm_val and periode
     foreach ($aBudCard as $rBudCard) {
       $line=array();

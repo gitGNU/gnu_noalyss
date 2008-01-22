@@ -76,7 +76,7 @@ if ( $sub_action  == "" )
 if ( $sub_action=="blank") 
 {
   $retour=sprintf('<A class="mtitle" HREF="%s"><input type="button" value="Retour"></A>',
-		  "commercial.php?p_action=fournisseur");
+		  "commercial.php?p_action=fournisseur&".dossier::get());
   echo '<div class="u_content">';
 
   echo $retour;

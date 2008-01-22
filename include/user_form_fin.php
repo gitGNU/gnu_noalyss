@@ -311,7 +311,7 @@ $r.="</TABLE>";
    $r.="</table>";
    $r.="<hr>";
    $chk=new widget('checkbox');
-   $chk->selected=true;
+   $chk->selected=false;
    $r.="Sauvez l'op&eacute;ration ?";
    $r.=$chk->IOValue('opd_save');
 
