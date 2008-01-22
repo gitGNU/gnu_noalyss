@@ -247,10 +247,10 @@ if ( isset($_POST['update_record']) ) {
 	$own = new Own($cn);
 
 	if ( $own->MY_ANALYTIC != "nu" )
-	  {
+	 {
 	    // Check the total only for mandatory
 	    //
-	    if ( $own->MY_ANALYTIC == "ob") {
+	   //    if ( $own->MY_ANALYTIC == "ob") {
 	      $tab=0;	   	    $row=1;
 	      while (1) {
 		if ( !isset ($_POST['nb_t'.$tab])) 
@@ -264,14 +264,14 @@ if ( isset($_POST['update_record']) ) {
 		}
 
 		if ( $tot_tab != $_POST['amount_t'.$tab]) {
-		  echo "Erreur montant CA";
-		  echo "Op&eacute;ration annul&eacute;e";
+		  echo '<script>alert ("Erreur montant CA Operation annulee")</script>';
+		  get_redirect($_SERVER['HTTP_REFERER']);
 		  return;
 		}
 		$tot_tab=0;
 		$tab++;
 	      }
-	    }
+	      //  }
 
 	    // we need first old the j_id and j_poste
 	    // so we fetch them all from the db
