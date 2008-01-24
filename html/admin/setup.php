@@ -456,7 +456,7 @@ if ( ($Res=ExecSql($a,"select  * from ac_users") ) == false ) {
 	exit ("<h2 class=\"error\">".__LINE__." test has failed !!!</h2>");
 } else 
 	print "Connect to database success <br>";
-echo "<h2 class=\"info\"> Congratulation : Test successfull</h2>";
+echo "<h2 class=\"info\"> Congratulation : Installation r&eacute;ssie</h2>";
 
 echo '<hr>';
 echo "<h1>Mise a jour du systeme</h1>";
