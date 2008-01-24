@@ -114,6 +114,7 @@ if ( $action == 'update' ) {
 	$view.=dossier::hidden();
 	$readonly=($p_view=='E')?0:1;
 	$view.=ShowOperationUser($cn,$p_id,$readonly);
+	$view.='<hr>';
 	$view.='<input type="button" onclick="hide(\'simple\');show(\'expert\');" value="Vue expert">';
 	$view.='<INPUT TYPE="Hidden" name="action" value="update_record">';
 	$view.="<br>";

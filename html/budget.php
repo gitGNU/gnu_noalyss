@@ -30,6 +30,7 @@ require_once ('user_menu.php');
 require_once("constant.php");
 include_once ("postgres.php");
 require_once('class_dossier.php');
+require_once ('class_bud_hypo.php');
 html_page_start($_SESSION['g_theme']);
 
 $gDossier=dossier::id();
@@ -46,17 +47,6 @@ $User=new User($rep);
 $User->Check();
 
 echo '<div class="u_tmenu">';
-/*
-echo '<div style="float:left">';
-echo "<H2 class=\"info\">Budget : ".dossier::name()."<h2> ";
-echo '</div>';
-echo '<div style="float:none;text-align:right;" title="Recherche">
-<A HREF="user_compta.php?'.$str_dossier.'" title="Comptabilit&eacute;"><IMG SRC="image/compta.png" width="36"  border="0" ></A>
-<A HREF="parametre.php?'.$str_dossier.'" title="Param&egrave;tre"><IMG SRC="image/param.png" width="36" border="0" ></A>
-<A HREF="login.php" title="Accueil"><IMG src="image/home.png" width="36" title="Accueil"  border="0"  ></A>
-<A HREF="logout.php" title="Sortie"><IMG src="image/logout.png" title="Logout"  width="36"  border="0"></A>
-</div>';
-*/
 echo menu_tool("budget");
 echo '<div style="clear:both">';
 /* security */
@@ -94,9 +84,11 @@ echo ShowItem(array(
 		    //
 echo '</div>';
 echo '</div>';
+echo '</div>';
 $User->can_request($rep,BUDGET);
 
 $cn=DbConnect($gDossier);
+$obj=new Bud_Hypo($cn);
 
 //-----------------------------------------------------
 // p_action == hypo
@@ -111,6 +103,10 @@ if ( $p_action == "hypo" )
 //-----------------------------------------------------
 if ( $p_action == "fiche" ) 
 {
+  if ( $obj->size()==0 ) {
+    echo '<h2 class="info">Desole pas d\'hypothese definie</h2>';
+    exit();
+  }
   require_once("bud_card.inc.php");
 }
 
@@ -119,6 +115,11 @@ if ( $p_action == "fiche" )
 //-----------------------------------------------------
 if ( $p_action == "detail" ) 
 {
+  if ( $obj->size()==0 ) {
+    echo '<h2 class="info">Desole pas d\'hypothese definie</h2>';
+    exit();
+  }
+
   require_once("bud_detail.inc.php");
 }
 
@@ -128,5 +129,10 @@ if ( $p_action == "detail" )
 //-----------------------------------------------------
 if ( $p_action == "synthese" ) 
 {
+  if ( $obj->size()==0 ) {
+    echo '<h2 class="info">Desole pas d\'hypothese definie</h2>';
+    exit();
+  }
+
   require_once("bud_synthese.inc.php");
 }

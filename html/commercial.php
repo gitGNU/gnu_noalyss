@@ -72,7 +72,7 @@ include_once("user_menu.php");
 $str_dossier=dossier::get();
 echo '<div class="u_tmenu">';
 echo menu_tool('gestion');
-
+echo '</div>';
 $p_action=(isset ($_REQUEST['p_action']))?$_REQUEST['p_action']:"";
 // TODO Menu with all the customer
 //echo '<div class="u_tmenu">';

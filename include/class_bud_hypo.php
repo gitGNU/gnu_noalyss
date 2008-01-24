@@ -170,6 +170,10 @@ class Bud_Hypo {
     if ( isNumber($this->pa_id)==1) return 1;
     else return 0;
   }
+  function size() {
+    $count=getDbValue($this->db,"select count(*) from bud_hypothese");
+    return $count;
+  }
   static function test_me() {
     $cn=DbConnect (dossier::id());
     ExecSql($cn,"delete from bud_hypothese");
