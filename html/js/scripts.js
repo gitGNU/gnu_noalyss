@@ -97,7 +97,8 @@ function HandleSubmit(e) {
  */
 function openRecherche(p_sessid,p_dossier,p_style) {
   if ( p_style == 'E' ) { p_style="expert";}
-	 var w=window.open("recherche.php?gDossier="+p_dossier+"&PHPSESSID="+p_sessid+'&'+p_style,'','statusbar=no,scrollbars=yes,toolbar=no');
+  var w=window.open("recherche.php?gDossier="+p_dossier+"&PHPSESSID="+p_sessid+'&'+p_style,'','statusbar=no,scrollbars=yes,toolbar=no');
+  w.focus();
 }
 
 /*!\brief add a row for the CA
