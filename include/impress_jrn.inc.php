@@ -126,6 +126,15 @@ require_once("class_acc_ledger.php");
 	/* "<th>Pièce justificative</th>". */
 	"<th> montant</th>".
 	"</TR>";
+  // set a filter for the FIN
+  $a_parm_code=get_array($cn,"select p_value from parm_code where p_code in ('BANQUE','COMPTE_COURANT','CAISSE')");
+  $sql_fin="(";
+  $or="";
+  foreach ($a_parm_code as $code) {
+    $sql_fin.="$or j_poste::text like '".$code['p_value']."%'";
+    $or=" or ";
+  }
+  $sql_fin.=")";
 
       foreach ($Row as $line)
 	{
@@ -140,7 +149,7 @@ require_once("class_acc_ledger.php");
   	// Get the jrn type
 	if ( $line['jrn_def_type'] == 'FIN' ) {
 	  $positive = CountSql($cn,"select * from jrn inner join jrnx on jr_grpt_id=j_grpt ".
-		   " where jr_id=".$line['jr_id']." and (j_poste like '55%' or j_poste like '57%' )".
+		   " where jr_id=".$line['jr_id']." and $sql_fin ".
 			       " and j_debit='f'");
 	
         echo "<TD align=\"right\">";

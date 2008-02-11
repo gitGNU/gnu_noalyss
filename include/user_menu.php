@@ -192,26 +192,7 @@ function ShowMenuCompta($p_high="")
   $result=ShowItem($p_array,'H',"mtitle","mtitle",$default,' width="100%"');
   $str_dossier=dossier::get();
   $r="";
-  /*
-  $r.='<div style="float:left;background-color:#879ED4;">';
-  $r.="<H2 class=\"info\">Comptabilit&eacute;  ".dossier::name()."</h2>";
-  $r.='</div>';
-  $r.='<div style="text-align:right;">';
-  $r.='<input type="IMAGE" src="image/search.png" width="36" onclick="openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.dossier::id().',\'E\');">
-<A HREF="user_pref.php?'.$str_dossier.'" title="Pr&eacute;f&eacute;rence"><IMG SRC="image/preference.png" width="36" border="0" ></A>
-
-<A HREF="comptanalytic.php?'.$str_dossier.'" title="CA"><IMG SRC="image/comptaanal.png" width="36"  border="0" ></A>
-
-<A HREF="parametre.php?'.$str_dossier.'" title="Paramètre"><IMG SRC="image/param.png" width="36"  border="0" ></A>
-<A HREF="login.php" title="Accueil"><IMG SRC="image/home.png" width="36"  border="0" ></A>
-<A HREF="logout.php" title="Sortie"><IMG SRC="image/logout.png"  title="Logout"  width="36"  border="0"></A>
-
-
-
-</div> ';
-  */
-  //  $r.='<div class="u_tmenu">';
-  $r.=menu_tool("");
+  $r.=menu_tool("compta");
   $r.='<div style="float:left">';
   $r.=$result;
   $r.='</div>';
@@ -822,15 +803,32 @@ function ShowMenuImport(){
     
   echo "</TABLE>";
 }
-
+/*!\brief show the top menu to access the different modules in top
+ * \param $p_from from which module this function is called
+ * \return string 
+*/
 function menu_tool($p_from) {
+
+  if ( ! isset ($_REQUEST['gDossier']))
+    return "" ;
   $r="";
+$r.='<script language="javascript"> 
+	function openRecherche(p_sessid,p_dossier,p_style) {
+  if ( p_style == \'E\' ) { p_style="expert";}
+  var w=window.open("recherche.php?gDossier="+p_dossier+"&PHPSESSID="+p_sessid+\'&\'+p_style,\'\',\'statusbar=no,scrollbars=yes,toolbar=no\');
+  w.focus();
+}
+</script>';
+
+
   $r.= '<div class="u_tool">';
   $r.= '<div class="name">';
   $r.= "<H2 class=\"info\">Commercial ".dossier::name()."</h2> ";
   $r.= '</div>';
   $r.= '<div class="acces_direct">';
-
+  if ( $from == 'compta') $view='E';
+	else $view='S';
+  $agent=$_SERVER['HTTP_USER_AGENT'];
 
   $amodule=array(
 		 array('value'=>'pref','label'=>'Preference'),
@@ -842,20 +840,47 @@ function menu_tool($p_from) {
 		 array('value'=>'home','label'=>'Accueil'),
 		 array('value'=>'logout','label'=>'Sortir')
 	       );
+  if ( $_SESSION['g_topmenu'] == 'SELECT' ) {
+    $gDossier=dossier::id();
+    $r.= '<form method="GET" action="control.php">';
+    $w=new widget('select');
+    $w->name='m';
+    $w->value=$amodule;
+    $r.=    '<table><tr><td class="mtitle">';
 
- $gDossier=dossier::id();
- $r.= '<form method="GET" action="control.php">';
- $w=new widget('select');
- $w->name='m';
- $w->value=$amodule;
- $r.=    '<table><tr><td class="mtitle">';
- $r.= '<A class="mtitle" HREF="javascript:openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.$gDossier.')">'.
-   'Recheche</a></td>';
- $r.= '<td>'.$w->IOValue().'</td>';
- $r.= dossier::hidden();
- $r.= '<td>'.widget::submit('','Acces Direct').'</td>';
- $r.= '</table>';
- $r.= '</form>';
- $r.= '</div>';
+    $search="openRecherche('".$_REQUEST['PHPSESSID']."','".$gDossier."','".$view."');";
+    $r.='<input type="BUTTON" onClick="'.$search.'" value="Recherche">';
+    $r.='</td>';
+    $r.= '<td>'.$w->IOValue().'</td>';
+    $r.= dossier::hidden();
+    $r.= '<td>'.widget::submit('','Acces Direct').'</td>';
+    $r.= '</table>';
+    $r.= '</form>';
+    $r.= '</div>';
+  }
+  if ( $_SESSION['g_topmenu'] == 'TEXT' ) {
+    $gDossier=dossier::id();
+    $r.=    '<table><tr><td class="mtitle2">';
+    $r.= '<A class="cell" HREF="javascript:openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.$gDossier.')">'.
+      'Recheche</a></td>';
+    foreach($amodule as $col ) {
+      $url="control.php?".dossier::get()."&m=".$col['value'];
+      if ( $p_from==$col['value']) {
+      $r.= '<td style="background-color:red">'.
+	'<a class="mtitle" href="'.$url.'" >'.$col['label'].'</a>'.
+	'</td>';
+
+      } else {
+      $r.= '<td>'.
+	'<a class="cell" href="'.$url.'" >'.$col['label'].'</a>'.
+	'</td>';
+      }
+
+    }
+    $r.='</tr>';
+    $r.= '</table>';
+    $r.= '</div>';
+  }
+  $r.= '</div>';
  return $r;
 }

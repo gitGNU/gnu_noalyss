@@ -398,8 +398,8 @@ class action
       $str_type=$v[0];
       if ( isset ($_REQUEST['url'])) 
 	{
-	  $retour=sprintf('<A class="one" HREF="%s"><input type="button" value="Retour"></A>',
-			  urldecode($_REQUEST['url']));
+	  $retour=widget::button_href('Retour',urldecode($_REQUEST['url']));
+				 
 	  $h_url=sprintf('<input type="hidden" name="url" value="%s">',urldecode($_REQUEST['url']));
 	}
       else 

@@ -235,7 +235,7 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
     $Quantity->size=9;
     //$r.=InputType("","TEXT","e_quant".$i,$quant,$pview_only);
     $r.=$Quantity->IOValue("e_quant".$i,$quant);
-	
+    $r.="</tr>";
   }
 
 
@@ -336,8 +336,8 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
 		  // compare hidden value and computed
 		  if ( round($ca_amount-$hidden_amount,2) != 0 ) {
 			
-		    $msg="Montant CA est différent total marchandise";
-		    $msg.="montant encodé $ca_amount marchandise $hidden_amount";
+		    $msg="Montant CA est different total marchandise";
+		    $msg.="montant encode $ca_amount marchandise $hidden_amount";
 		    echo "<SCRIPT>alert('$msg');</SCRIPT>";
 			
 		    return null;
@@ -644,15 +644,19 @@ function FormVenteView ($p_cn,$p_jrn,$p_periode,$p_array,$p_number,$p_doc='form'
 		if ( CountSql($p_cn,
 					  "select md_id,md_name from document_modele where md_type=4") > 0 )
 		  {
-			$r.='G&eacute;n&eacute;rer une facture <input type="checkbox" name="gen_invoice" CHECKED>';
-			// We propose to generate  the invoice and some template
-			$doc_gen=new widget("select");
-			$doc_gen->name="gen_doc";
-			$doc_gen->value=make_array($p_cn,
-									   "select md_id,md_name from document_modele where md_type=4");
-			$r.=$doc_gen->IOValue();  
-			
-			$r.="<hr>";
+		    $r.='<fieldset> <legend> G&eacute;n&eacute;ration de facture</legend>';
+		    $obj=new widget('TEXT');
+		    $r.='Numero de bon de commande : '.$obj->IOValue('bon_comm').'<br>';
+		    $r.='Autre information : '.$obj->IOValue('other_info').'<br>';
+		    
+		    $r.='G&eacute;n&eacute;rer une facture <input type="checkbox" name="gen_invoice" CHECKED>';
+		    // We propose to generate  the invoice and some template
+		    $doc_gen=new widget("select");
+		    $doc_gen->name="gen_doc";
+		    $doc_gen->value=make_array($p_cn,
+					       "select md_id,md_name from document_modele where md_type=4");
+		    $r.=$doc_gen->IOValue().'<br>';  
+		    $r.="</fieldset>";
 		  }
 	  }
 	
@@ -756,7 +760,7 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
 	
   // Compute the j_grpt
   $seq=NextSequence($p_cn,'s_grpt');
-$oJrn=new Acc_Ledger($p_cn,$p_jrn);
+  $oJrn=new Acc_Ledger($p_cn,$p_jrn);
   $internal=$oJrn->compute_internal_code($seq);
 
   echo_debug(__FILE__,__LINE__,"Dossier is ".dossier::id());

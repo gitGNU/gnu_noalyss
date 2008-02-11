@@ -209,7 +209,7 @@ class Anc_Plan
     var_dump($p);
     echo "<h2>Update</h2> ";
     $p->name="Update ";
-    $p->description="c'est changé";
+    $p->description="c'est change";
     $p->update();
     $p->get();
     var_dump($p);

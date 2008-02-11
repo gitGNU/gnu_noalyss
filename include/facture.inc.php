@@ -24,6 +24,8 @@ require_once('jrn.php');
 require_once("class_document.php");
 require_once("class_fiche.php");
 require_once("check_priv.php");
+require_once('class_acc_jrn_info.php');
+
 $tag_list='<td class="mtitle"><A class="mtitle" HREF="commercial.php?liste&p_action=facture&sa=list&'.$str_dossier.'">Liste</A>';
 $tag_list_sel='<td class="selectedcell">Liste</td>';
 $tag_unpaid='</td><td class="mtitle"><A class="mtitle" href="commercial.php?liste&p_action=facture&sa=unpaid&'.$str_dossier.'">Non paye</A></TD>';
@@ -52,7 +54,8 @@ $h_url="";
 
 if ( isset ($_REQUEST['url'])) 
 {
-  $retour=sprintf('<A class="mtitle" HREF="%s"><input type="button" value="Retour"></A>',urldecode($_REQUEST['url']));
+  $retour=widget::button_href('Retour',urldecode($_REQUEST['url']));
+
   $h_url=sprintf('<input type="hidden" name="url" value="%s">',urldecode($_REQUEST['url']));
 }
 
@@ -357,6 +360,19 @@ if ( isset($_POST['record_and_print_invoice']))
 	  // Update the comment with invoice number
 	  $sql="update jrn set jr_comment='Facture ".$doc->d_number."' where jr_internal='$internal'";
 	  ExecSql($cn,$sql);
+	  /* Save the additional information into jrn_info */
+	  $obj=new Acc_Jrn_Info($cn);
+	  $jr_id=$obj->search_id_internal($internal);
+	  if (strlen(trim($_POST['bon_comm'] )) != 0 ) {
+	    $obj->set_type('BON_COMMANDE');
+	    $obj->set_value($_POST['bon_comm']);
+	    $obj->insert();
+	  }
+	  if (strlen(trim($_POST['other_info'] )) != 0 ) {
+	  $obj->set_type('OTHER');
+	  $obj->set_value($_POST['other_info']);
+	  $obj->insert();
+	  }
 	  echo $str_file;
     }
   } else {

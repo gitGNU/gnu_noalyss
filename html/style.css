@@ -210,8 +210,6 @@ text-align:center;
 width:120px;
 height :30px;
 font-size:10px;
-//    border: 1px solid;
-// padding:3px;
 background-color:#DDE6FF;
 border: 5px;
 }
@@ -254,10 +252,8 @@ border:0px;
 font-size:10px;
 }
 td.cell{
-// border:1px solid blue;
   height:32px;
    padding: 1px;
-//   width:120px;
 }
 td.selectedcell{
 border-style:none;

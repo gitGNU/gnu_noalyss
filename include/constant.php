@@ -136,7 +136,8 @@ define ("ATTR_DEF_EMAIL",18);
 define ("ATTR_DEF_CITY",24);
 define ("ATTR_DEF_COMPANY",25);
 define ("ATTR_DEF_FAX",26);
-
+define ("ATTR_DEF_NUMBER_CUSTOMER",30);
+define ("ATTR_DEF_DEP_PRIV",31);
 
 define ("FICHE_TYPE_CLIENT",9);
 define ("FICHE_TYPE_VENTE",1);

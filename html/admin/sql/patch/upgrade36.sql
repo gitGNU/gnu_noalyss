@@ -224,13 +224,6 @@ CREATE SEQUENCE bud_card_bc_id_seq
 ALTER TABLE public.bud_card_bc_id_seq OWNER TO phpcompta;
 
 --
--- Name: bud_card_bc_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: phpcompta
---
-
-ALTER SEQUENCE bud_card_bc_id_seq OWNED BY bud_card.bc_id;
-
-
---
 -- Name: bc_id; Type: DEFAULT; Schema: public; Owner: phpcompta
 --
 
@@ -321,12 +314,6 @@ CREATE SEQUENCE bud_detail_bd_id_seq
 
 
 ALTER TABLE public.bud_detail_bd_id_seq OWNER TO phpcompta;
-
---
--- Name: bud_detail_bd_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: phpcompta
---
-
-ALTER SEQUENCE bud_detail_bd_id_seq OWNED BY bud_detail.bd_id;
 
 
 --
@@ -423,13 +410,6 @@ CREATE SEQUENCE bud_detail_periode_bdp_id_seq
 
 
 ALTER TABLE public.bud_detail_periode_bdp_id_seq OWNER TO phpcompta;
-
---
--- Name: bud_detail_periode_bdp_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: phpcompta
---
-
-ALTER SEQUENCE bud_detail_periode_bdp_id_seq OWNED BY bud_detail_periode.bdp_id;
-
 
 --
 -- Name: bdp_id; Type: DEFAULT; Schema: public; Owner: phpcompta
@@ -682,7 +662,7 @@ begin
         nLength:=length(str_value);
 	while nLength > 0 loop
 		n_value:=to_number(str_value,'99999999999999999999999999999');
-      		select into str_type p_type from parm_poste where p_value=n_value;
+      		select p_type into str_type from parm_poste where p_value=n_value;
 		if FOUND then
 			return str_type;
 		end if;

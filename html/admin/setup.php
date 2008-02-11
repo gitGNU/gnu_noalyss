@@ -147,7 +147,7 @@ function ExecuteScript($p_cn,$script) {
 echo_debug('setup.php',__LINE__,"Execute sql $sql");
     if ( ExecSql($p_cn,$sql,false) == false ) {
 	    Rollback($p_cn);
-	    if ( DEBUG=='false' ) ob_clean();
+	    if ( DEBUG=='false' ) ob_end_clean();
 	    print "ERROR : $sql";
             exit();
 	    }
@@ -156,7 +156,7 @@ echo_debug('setup.php',__LINE__,"Execute sql $sql");
     print "<hr>";
   } // while (feof)
   fclose($hf);
-  if ( DEBUG=='false' ) ob_clean();
+  if ( DEBUG=='false' ) ob_end_clean();
 }
 /*! \brief loop to apply all the path to a folder or 
  *         a template
@@ -166,7 +166,7 @@ echo_debug('setup.php',__LINE__,"Execute sql $sql");
  */
 function apply_patch($p_cn,$p_name)
 {
-  $MaxVersion=36;
+  $MaxVersion=40;
   echo '<ul>';
   for ( $i = 4;$i <= $MaxVersion;$i++)
 	{
@@ -238,7 +238,7 @@ function apply_patch($p_cn,$p_name)
 		  ExecuteScript($p_cn,"sql/patch/upgrade36.".$country.".sql");
 		  ExecSql($p_cn,'update tmp_pcmn set pcm_type=find_pcm_type(pcm_val)');
 		}
-	  if ( DEBUG == 'false') ob_clean();
+	  if ( DEBUG == 'false') ob_end_clean();
 	}
 	}
   echo '</ul>';
@@ -415,7 +415,7 @@ if ($account == 0 ) {
   ExecuteScript($cn,"sql/account_repository/constraint.sql");
   Commit($cn);
 
- if ( DEBUG=='false') ob_clean();
+ if ( DEBUG=='false') ob_end_clean();
 
   echo "Creation of Modele1";
   if ( DEBUG=='false') ob_start();  
@@ -426,7 +426,7 @@ if ($account == 0 ) {
   ExecuteScript($cn,'sql/mod1/data.sql');
   ExecuteScript($cn,'sql/mod1/constraint.sql');
   Commit($cn);
-  if ( DEBUG=='false') ob_clean();
+  if ( DEBUG=='false') ob_end_clean();
 
   echo "Creation of Modele2";
   ExecSql($cn,"create database ".domaine."mod2 encoding='latin1'");
@@ -438,7 +438,7 @@ if ($account == 0 ) {
   ExecuteScript($cn,'sql/mod1/constraint.sql');
   Commit($cn);
 
- if ( DEBUG=='false') ob_clean();
+ if ( DEBUG=='false') ob_end_clean();
 
  }// end if
 // Add a french accountancy model
@@ -507,6 +507,6 @@ echo '<hr>';
  	} 
    } 
 
- if (DEBUG=='false') ob_clean(); 
+ if (DEBUG=='false') ob_end_clean(); 
  echo "<h2 class=\"info\">Voil&agrave; tout est install&eacute; ;-)</h2>"; 
 ?>

@@ -37,7 +37,7 @@ if ( isset( $_POST['confirm_mod'] ) )
 $object=new parm_code($cn);
 
 $all=$object->LoadAll();
-echo '<div style="position:float;align:right; ">';
+echo '<div style="float:left; ">';
 echo '<table align="left">';
 for ($i=0;$i<sizeof($all);$i++)  {
   echo '<TR>';
@@ -58,7 +58,7 @@ echo "</div>";
 // modifie
 if ( isset ($_POST['mod'] ))
 {
-  echo '<div style="position:float;align:right;">';
+  echo '<div style="float:left;">';
   echo "Voulez-vous vraiment modifier ?";
   echo '<FORM METHOD="POST">';
 

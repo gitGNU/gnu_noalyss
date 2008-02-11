@@ -273,8 +273,8 @@ if ( $action == 'solde' ) {
   $vir_interne=new parm_code($cn,'VIREMENT_INTERNE');
   $accountSql="select distinct pcm_val::text,pcm_lib from 
             tmp_pcmn 
-            where pcm_val like '".$banque->p_value."%' or pcm_val like '".$vir_interne->p_value."%' 
-            or pcm_val like '".$caisse->p_value."%'
+            where pcm_val::text like '".$banque->p_value."%' or pcm_val::text like '".$vir_interne->p_value."%' 
+            or pcm_val::text like '".$caisse->p_value."%'
             order by pcm_val::text";
   $ResAccount=ExecSql($cn,$accountSql);
   echo '<div class="u_redcontent">';

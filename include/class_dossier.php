@@ -37,6 +37,7 @@ require_once('ac_common.php');
 
 class dossier {
 
+
   /*!\brief return the $_REQUEST['gDossier'] after a check */
   static function id() {
 	echo_debug(__FILE__,__LINE__,"id");

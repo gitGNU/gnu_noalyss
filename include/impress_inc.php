@@ -584,7 +584,7 @@ function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true,$p_
 				    "select p_exercice from parm_periode where p_id=$user_periode");
 		$sql_per="select to_char(p_start,'MM.YYYY') as start from parm_periode where ".
 		  " p_exercice='".$periode."' order by p_start";
-		$ret=getArray($p_cn,$sql_per);
+		$ret=get_array($p_cn,$sql_per);
 		$from=$ret[0]['start'];
 
       } 
@@ -650,7 +650,7 @@ function GetFormulaValue($p_cn,$p_label,$p_formula,$p_cond)
   $l_credit=0;
     // somme debit
   $Res=ExecSql($p_cn,"select sum (j_montant) as montant from
-                      jrnx where $p_cond and j_debit='t' and j_poste like '$p_formula'");
+                      jrnx where $p_cond and j_debit='t' and j_poste::text like '$p_formula'");
   if (pg_NumRows($Res)==0){
     $l_debit=0;                   
   } else {
@@ -659,7 +659,7 @@ function GetFormulaValue($p_cn,$p_label,$p_formula,$p_cond)
       }
   // somme credit
   $Res=ExecSql($p_cn,"select sum (j_montant) as montant from
-                      jrnx where $p_cond and j_debit='f' and j_poste like '$p_formula'");
+                      jrnx where $p_cond and j_debit='f' and j_poste::text like '$p_formula'");
   if (pg_NumRows($Res)==0) {
     $l_credit=0;                   
   } else {

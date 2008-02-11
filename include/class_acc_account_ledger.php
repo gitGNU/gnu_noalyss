@@ -133,7 +133,7 @@ function get_solde($p_cond=" true ") {
              case when j_debit='f' then j_montant else 0 end as cred 
           from jrnx join tmp_pcmn on j_poste=pcm_val 
               where  
-            j_poste like ('$this->id'::text) and
+            j_poste::text like ('$this->id'::text) and
             $p_cond
           ) as m  ");
   $Max=pg_NumRows($Res);
@@ -157,7 +157,7 @@ function get_solde_detail($p_cond="") {
              case when j_debit='f' then j_montant else 0 end as cred 
           from jrnx join tmp_pcmn on j_poste=pcm_val 
               where  
-            j_poste like ('$this->id'::text)
+            j_poste::text like ('$this->id'::text)
             $p_cond
           ) as m  ";
 
@@ -327,7 +327,7 @@ function get_solde_detail($p_cond="") {
       if ( strlen (trim($item_cred))) {
 	if ( strstr($item_cred,"*") == true ) {
 	  $item_cred=strtr($item_cred,"*","%");
-	  $SqlItem="$or pcm_val like '$item_cred'";
+	  $SqlItem="$or pcm_val::text like '$item_cred'";
 	  $or="  or ";
 	} else {
 	  $SqlItem="$or pcm_val = '$item_cred' ";

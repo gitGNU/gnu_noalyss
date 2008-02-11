@@ -255,6 +255,7 @@ if (   ! isset ($_POST['add'])
 <input type="submit" value="Cancel" name="no">
  </FORM>
 <?php   
-						    echo '</div>';    }
+}
+						    echo '</div>';    
 
 ?>

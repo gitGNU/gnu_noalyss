@@ -129,7 +129,7 @@ class widget {
 	$r='<INPUT '.$style.' TYPE="TEXT" id="'.
 	  $this->name.'"'.
 	  'NAME="'.$this->name.'" VALUE="'.$this->value.'"  '.
-	  'SIZE="'.$this->size.'" "'.$this->javascript." ".$disabled." $readonly $this->extra >";
+	  'SIZE="'.$this->size.'" '.$this->javascript." ".$disabled." $readonly $this->extra >";
 	
       if ($this->table==1) {
 	if ( $this->label != "") {
@@ -657,9 +657,19 @@ class widget {
     return '<INPUT TYPE="hidden" id="'.$p_name.'" NAME="'.$p_name.'" VALUE="'.$p_value.'">';
   }
   static function button_href($p_name,$p_value) {
-    return sprintf('<A class="mtitle" HREF="%s"><input type="button" value="%s"></A>',
-		   $p_value,
-		   $p_name);
+    $agent=$_SERVER['HTTP_USER_AGENT'];
+    
+    if (  strpos($agent,'MSIE') == 0 && 
+	 strpos ($agent,'Konqueror') ==0)
+      return sprintf('<A class="mtitle" HREF="%s"><input type="button" value="%s"></A>',
+		     $p_value,
+		     $p_name);
+    
+    return sprintf('<span style="border:1px solid blue;padding:5px;background-color:lightblue;"> '.
+		     ' <A class="mtitle" HREF="%s">%s</A></span>',
+		     $p_value,
+		     $p_name);
+
   }
 
 }

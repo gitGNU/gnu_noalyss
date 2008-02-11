@@ -21,6 +21,7 @@
 require_once('class_acc_ledger.php');
 require_once('user_form_fin.php');
 require_once('jrn.php');
+require_once('class_widget.php');
 require_once("class_document.php");
 require_once("class_fiche.php");
 require_once("class_parm_code.php");
@@ -56,7 +57,7 @@ $h_url="";
 
 if ( isset ($_REQUEST['url'])) 
 {
-  $retour=sprintf('<A class="mtitle" HREF="%s"><input type="button" value="Retour"></A>',urldecode($_REQUEST['url']));
+  $retour=widget::button_href('Retour',urldecode($_REQUEST['url']));
   $h_url=sprintf('<input type="hidden" name="url" value="%s">',urldecode($_REQUEST['url']));
 }
 
@@ -85,8 +86,8 @@ if ( $sub_action == "solde" )
   $vir_interne=new parm_code($cn,'VIREMENT_INTERNE');
   $accountSql="select distinct pcm_val::text,pcm_lib from 
             tmp_pcmn 
-            where pcm_val like '".$banque->p_value."%' or pcm_val like '".$vir_interne->p_value."%' 
-            or pcm_val like '".$caisse->p_value."%'
+            where pcm_val::text like '".$banque->p_value."%' or pcm_val::text like '".$vir_interne->p_value."%' 
+            or pcm_val::text like '".$caisse->p_value."%'
             order by pcm_val::text";
   $ResAccount=ExecSql($cn,$accountSql);
   echo '<div class="u_content">';

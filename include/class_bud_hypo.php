@@ -77,7 +77,7 @@ class Bud_Hypo {
   function add() {
     $bh_saldo=(isNumber($this->bh_saldo) == 1 ) ?$this->bh_saldo:0;
     $pa_id=($this->pa_id <= 0 )?null:$this->pa_id;
-    
+    if ( strlen(trim ($this->bh_name)) == 0 ) return; 
     $sql="insert into bud_hypothese( bh_name,bh_saldo,bh_description,pa_id)  ".
       " values ($1,$2,$3,$4) returning bh_id";
     $array=array(
@@ -90,6 +90,7 @@ class Bud_Hypo {
     $this->bh_id=pg_fetch_result($a,0,0);
   }
   function update() {
+    if ( strlen(trim ($this->bh_name)) == "" ) return; 
     $bh_name=pg_escape_string($this->bh_name);
     $bh_saldo=(isNumber($this->bh_saldo) == 1 ) ?$this->bh_saldo:0;
     $bh_description=pg_escape_string($this->bh_description);
@@ -174,6 +175,11 @@ class Bud_Hypo {
     $count=getDbValue($this->db,"select count(*) from bud_hypothese");
     return $count;
   }
+  function size_analytic() {
+    $count=getDbValue($this->db,"select count(*) from bud_hypothese where pa_id is not null");
+    return $count;
+  }
+
   static function test_me() {
     $cn=DbConnect (dossier::id());
     ExecSql($cn,"delete from bud_hypothese");

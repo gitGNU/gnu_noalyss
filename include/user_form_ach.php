@@ -492,7 +492,7 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
   $per->set_jrn($p_jrn);
   $per->set_periode($p_periode);
 
-    // Periode fermé
+    // Periode ferme
   if ( $per->is_open() == 0)
     {
       $msg="Cette periode est fermee pour ce journal";
@@ -833,6 +833,8 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
       $aNd_amount[$i]=0.0;
       $aTva_ded_impot[$i]=0.0;
       $aTva_ded_impot_recup[$i]=0.0;
+      $aDep_priv[$i]=0.0;
+
 
       $poste=GetFicheAttribut($p_cn,$a_good[$i],ATTR_DEF_ACCOUNT);
 	  
@@ -840,26 +842,51 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
       if ( $a_price[$i]*$a_quant[$i] == 0 ) continue;
 
       $amount=$a_price[$i]*$a_quant[$i];
-	  //We don't compute vat if it's given
-	  $lvat=($a_vat_amount[$i]==0)?ComputeVat($p_cn,$a_good[$i],$a_quant[$i],$a_price[$i],  $a_vat_good[$i],$a_vat_amount[$i] ):$a_vat_amount[$i];
-
+      //We don't compute vat if it's given
+      $lvat=($a_vat_amount[$i]==0)?ComputeVat($p_cn,$a_good[$i],$a_quant[$i],$a_price[$i],  $a_vat_good[$i],$a_vat_amount[$i] ):$a_vat_amount[$i];
+      //----------------------------------------------------------------------
       // Put the non deductible part into a special account
       $non_dedu=GetFicheAttribut($p_cn,$a_good[$i],ATTR_DEF_DEPENSE_NON_DEDUCTIBLE);
       echo_debug('user_form_ach.php',__LINE__,"value non ded : $non_dedu");
       if ( $non_dedu != null && strlen(trim($non_dedu)) != 0)
-		{
-		  // if vat if given we use it to compute ND
-		  $nd_amount=($a_vat_amount[$i]==0)?round($a_quant[$i]*$a_price[$i]*$non_dedu,2):round($a_vat_amount*$non_dedu,2);
-		  
-		  // save it
-		  echo_debug('user_form_ach.php',__LINE__,"InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,'6740',$e_date,round($nd_amount,2),$seq,$periode);");
-		  $dna=new parm_code($p_cn,'DNA');
-		  $j_id=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$dna->p_value,$e_date,round($nd_amount,2),$seq,$periode);
-		  $amount=$amount-$nd_amount;
-		  
-		  // save the ND in an array (for the easy view)
-		  $aNd_amount[$i]=$nd_amount;
-		}
+	{
+	  // this doens't concern the vat
+	  $nd_amount=round($a_quant[$i]*$a_price[$i]*$non_dedu,2);
+	  // save it
+	  echo_debug('user_form_ach.php',__LINE__,"InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,'6740',$e_date,round($nd_amount,2),$seq,$periode);");
+	  $dna=new parm_code($p_cn,'DNA');
+	  $j_id=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$dna->p_value,$e_date,round($nd_amount,2),$seq,$periode);
+	  $amount=$amount-$nd_amount;
+	  
+	  // save the ND in an array (for the easy view)
+	  $aNd_amount[$i]=$nd_amount;
+	}
+      //----------------------------------------------------------------------
+      // Put the non deductible part into a special account
+      $non_dedu=GetFicheAttribut($p_cn,$a_good[$i],ATTR_DEF_DEP_PRIV);
+      echo_debug('user_form_ach.php',__LINE__,"value non ded : $non_dedu");
+      if ( $non_dedu != null && strlen(trim($non_dedu)) != 0)
+	{
+	  // Remove also the vat
+	  $nd_amount=round($a_quant[$i]*$a_price[$i]*$non_dedu,2);
+	  $tva_nd=round($lvat*$non_dedu,2);
+	  $nd_amount+=$tva_nd;
+
+	  // save it
+	  $dna=new parm_code($p_cn,'DEP_PRIV');
+	  $j_id=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$dna->p_value,$e_date,round($nd_amount,2),$seq,$periode);
+
+	  // modify sum
+	  $amount=$amount-$nd_amount+$tva_nd;
+	  $lvat-=$tva_nd;
+
+	  $sum_tva_nd+=$tva_nd;
+
+	  // save the ND in an array (for the easy view)
+	  $aDep_priv[$i]=$nd_amount;
+	}
+
+      //----------------------------------------------------------------------
       // Put the non deductible part into a special account
       $non_dedu=GetFicheAttribut($p_cn,$a_good[$i],ATTR_DEF_TVA_NON_DEDUCTIBLE);
       echo_debug('user_form_ach.php',__LINE__,"TVA value non ded : $non_dedu");
@@ -877,27 +904,27 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 		  
 		  $j_id=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$tva_dna->p_value,$e_date,round($ded_vat,2),$seq,$periode);
 		}
-	  
+      //----------------------------------------------------------------------
       // Put the non deductible part into a special account
       $non_dedu=GetFicheAttribut($p_cn,$a_good[$i],ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP);
       echo_debug('user_form_ach.php',__LINE__,"TVA value non ded : $non_dedu");
 
       if ( $non_dedu != null && strlen(trim($non_dedu)) != 0 )
-		{
-		  		  
-		  $ded_vat=($lvat != null )?$lvat*$non_dedu:0;
-		  
-		  $sum_tva_nd+=round($ded_vat,2);
-		  $aTva_ded_impot_recup[$i]=round($ded_vat,2);
-		  
-		  // Save it 
-		  $tva_ded_impot=new parm_code($p_cn,'TVA_DED_IMPOT');
-		  echo_debug('user_form_ach.php',__LINE__,
-					 "InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,".$tva_ded_impot->p_value.",$e_date,round($ded_vat,2),$seq,$periode);");
-		  
-		  $j_id=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$tva_ded_impot->p_value,$e_date,round($ded_vat,2),$seq,$periode);
-		}
+	{
 	  
+	  $ded_vat=($lvat != null )?$lvat*$non_dedu:0;
+		  
+	  $sum_tva_nd+=round($ded_vat,2);
+	  $aTva_ded_impot_recup[$i]=round($ded_vat,2);
+	  
+	  // Save it 
+	  $tva_ded_impot=new parm_code($p_cn,'TVA_DED_IMPOT');
+	  echo_debug('user_form_ach.php',__LINE__,
+		     "InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,".$tva_ded_impot->p_value.",$e_date,round($ded_vat,2),$seq,$periode);");
+	  
+	  $j_id=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$tva_ded_impot->p_value,$e_date,round($ded_vat,2),$seq,$periode);
+	}
+      //----------------------------------------------------------------------
 
 	  
 	  
@@ -905,7 +932,7 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
       echo_debug('user_form_ach.php',__LINE__,"InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste,$e_date,round($amount,2),$seq,$periode);");
       $j_id=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste,$e_date,round($amount,2),$seq,$periode,$a_good[$i]);
 	  
-      /* \brief if the quantity is < 0 then the stock increase (return of
+      /*! \brief if the quantity is < 0 then the stock increase (return of
        *  material)
        */
       $nNeg=($a_quant[$i]<0)?-1:1;
@@ -924,53 +951,56 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 	  $op->oa_description=$comm;
 	  $op->save_form_plan($_POST,$i);
 	}
-	  //---------------------------------------------------------
-	  // insert into quant_purchase
-	  //---------------------------------------------------------
+      //---------------------------------------------------------
+      // insert into quant_purchase
+      //---------------------------------------------------------
+      
+      echo_debug(__FILE__.":".__LINE__,"a_vat = ",$a_vat);
+      //	  echo_debug(__FILE__.":".__LINE__."a_vat[$i] =",$a_vat[$i]);
+      //!\note
+      // $a_vat_good[$i] contains the tva_id
+      // $a_vat_amount[$i] contains the amount of vat
+      $vat_code=$a_vat_good[$i];
+      //	  $computed_vat=$lvat-$aNd_amount[$i]-$aTva_ded_impot[$i]-$aTva_ded_impot_recup[$i];
+      $computed_vat=$lvat-$aTva_ded_impot[$i]-$aTva_ded_impot_recup[$i];
+      $qp_vat=($vat_code==-1)?0:$computed_vat;
+      
+      echo_debug('form_ach',__LINE__,"Insert into insert_quant_purchase");
+      $r=ExecSql($p_cn,"select insert_quant_purchase ".
+		 "('".$internal."'".
+		 ",".$j_id.
+		 ",'".$a_good[$i]."'".
+		 ",".$a_quant[$i].",".
+		 round($amount,2).
+		 ",".$qp_vat.
+		 ",".$vat_code.
+		 ",".$aNd_amount[$i].
+		 ",".$aTva_ded_impot[$i].
+		 ",".$aTva_ded_impot_recup[$i].
+		 ",".$aDep_priv[$i].
+		 ",'".$e_client."')");
+      
 	  
-	  echo_debug(__FILE__.":".__LINE__,"a_vat = ",$a_vat);
-	  //	  echo_debug(__FILE__.":".__LINE__."a_vat[$i] =",$a_vat[$i]);
-	  //!\note
-	  // $a_vat_good[$i] contains the tva_id
-	  // $a_vat_amount[$i] contains the amount of vat
-	  $vat_code=$a_vat_good[$i];
-	  $computed_vat=$lvat-$aNd_amount[$i]-$aTva_ded_impot[$i]-$aTva_ded_impot_recup[$i];
-	  $qp_vat=($vat_code==-1)?0:$computed_vat;
-
-	  echo_debug('form_ach',__LINE__,"Insert into insert_quant_purchase");
-	  $r=ExecSql($p_cn,"select insert_quant_purchase ".
-				 "('".$internal."'".
-				 ",".$j_id.
-				 ",'".$a_good[$i]."'".
-				 ",".$a_quant[$i].",".
-				 round($amount,2).
-				 ",".$qp_vat.
-				   ",".$vat_code.
-				 ",".$aNd_amount[$i].
-				   ",".$aTva_ded_impot[$i].
-				 ",".$aTva_ded_impot_recup[$i].
-				 ",'".$e_client."')");
-	  
-	  
-	  
+      
     } // end loop
-	
-	// set up internal code for quant_purchase
-
+    
+    // set up internal code for quant_purchase
+    
     // Insert Vat
     $sum_tva=0.0;
     if ( $a_vat  !=  null  ) // no vat
       {
-		echo_debug('user_form_ach',__LINE__,'a_vat = '.var_export($a_vat,true));
-		foreach ($a_vat as $tva_id => $e_tva_amount ) 
-		  {
-			echo_debug('user_form_ach',__LINE__," tva_amount = $e_tva_amount tva_id=$tva_id");
-			$poste=GetTvaPoste($p_cn,$tva_id,'d');
-			if ($e_tva_amount == 0 ) continue;
-			echo_debug('user_form_ach',__LINE__,"InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste,$e_date,round($e_tva_amount,2),$seq,$periode);");
-			$r=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste,$e_date,round($e_tva_amount,2),$seq,$periode);
-			$sum_tva+=round($e_tva_amount,2);
-		  }
+	echo_debug('user_form_ach',__LINE__,'a_vat = '.var_export($a_vat,true));
+	foreach ($a_vat as $tva_id => $e_tva_amount ) 
+	  {
+	    echo_debug('user_form_ach',__LINE__," tva_amount = $e_tva_amount tva_id=$tva_id");
+	    if ($e_tva_amount == 0 ) continue;
+
+	    $poste=GetTvaPoste($p_cn,$tva_id,'d');
+
+	    $r=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$poste,$e_date,round($e_tva_amount,2),$seq,$periode);
+	    $sum_tva+=round($e_tva_amount,2);
+	  }
       }
     echo_debug('user_form_ach.php',__LINE__,"echeance = $e_ech");
     echo_debug('user_form_ach.php',__LINE__,"sum_tva = $sum_tva");
@@ -984,14 +1014,14 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 	
     $r=InsertJrnx($p_cn,'c',$p_user->id,$p_jrn,$poste,$e_date,round($amount_jrn+$sum_tva+$sum_tva_nd,2),$seq,
 		  $periode,$e_client);
-	
+    
 	
     $r=InsertJrn($p_cn,$e_date,$e_ech,$p_jrn,"--",$seq,$periode);
 	
     // Set Internal code and Comment
-	$Res=ExecSql($p_cn,"update jrn set jr_internal='".$internal."' where ".
+    $Res=ExecSql($p_cn,"update jrn set jr_internal='".$internal."' where ".
 	       " jr_grpt_id = ".$seq);
-
+    
     $comment=(FormatString($e_comm) == null )?$internal." Fournisseur : ".GetFicheName($p_cn,$e_client):FormatString($e_comm);
 
     // Update and set the invoice's comment 
@@ -999,14 +1029,14 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 
     if ( isset ($_FILES))
       save_upload_document($p_cn,$seq);
-	  // Save the operation
-	if ( isset($_POST['opd_save']) && $_POST['opd_save']=='on' ){
-	  echo_debug(__FILE__.':'.__LINE__.'- ','save opd');
-	  $opd=new Pre_op_ach($p_cn);
-	  $opd->get_post();
-	  $opd->save();
+    // Save the operation
+    if ( isset($_POST['opd_save']) && $_POST['opd_save']=='on' ){
+      echo_debug(__FILE__.':'.__LINE__.'- ','save opd');
+      $opd=new Pre_op_ach($p_cn);
+      $opd->get_post();
+      $opd->save();
 	  echo_debug(__FILE__.':'.__LINE__.'- ',"opd = ",$opd);
-	}
+    }
   } catch (Exception $e) {
     echo '<span class="error">'.
       'Erreur dans l\'enregistrement '.

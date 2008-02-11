@@ -123,8 +123,8 @@ class Acc_Ledger {
     if ( $this->id != 0 ) {
 
       if ( $cent=='off' ) {
-	echo_debug('class_acc_ledger.php',__LINE__,"journaux non  centralisé");
-	// Journaux non centralisés
+	echo_debug('class_acc_ledger.php',__LINE__,"journaux non  centralise");
+	// Journaux non centralises
 	$Res=ExecSql($this->db,"select j_id,j_id as int_j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
 	      jr_internal,
 	case j_debit when 't' then j_montant::text else '   ' end as deb_montant,
@@ -141,8 +141,8 @@ class Acc_Ledger {
 		     " and ".$periode." order by j_date::date asc,jr_internal,j_debit desc ".
 		     $cond_limite);
       }else {
-	// Journaux centralisés
-	//      echo'class_acc_ledger.php',__LINE__,"journaux centralisé";
+	// Journaux centralises
+	//      echo'class_acc_ledger.php',__LINE__,"journaux centralise";
 	$Sql="select jr_opid as j_id,
 	    c_order as int_j_id,
     to_char (c_date,'DD.MM.YYYY') as j_date ,
@@ -173,8 +173,8 @@ class Acc_Ledger {
     } else {
       // Grand Livre
       if ( $cent == 'off') {
-	echo_debug('class_acc_ledger.php',__LINE__,"Grand livre non centralisé");
-	// Non centralisé
+	echo_debug('class_acc_ledger.php',__LINE__,"Grand livre non centralise");
+	// Non centralise
 	$Res=ExecSql($this->db,"select j_id,j_id as int_j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
 	      jr_internal,
 	case j_debit when 't' then j_montant::text else '   ' end as deb_montant,
@@ -190,8 +190,8 @@ class Acc_Ledger {
 		     $cond_limite);
 
       } else {
-	echo_debug('class_acc_ledger.php',__LINE__,"Grand livre  centralisé");
-	// Centralisé
+	echo_debug('class_acc_ledger.php',__LINE__,"Grand livre  centralise");
+	// Centralise
 	$Sql="select jr_c_opid as j_id,
 	   c_order as int_j_id,
     c_j_id,
@@ -334,7 +334,7 @@ class Acc_Ledger {
     // Non Centralise si cent=off
     //--
     if ($cent=='off') 
-      {// Non centralisé
+      {// Non centralise
 
 	$periode=sql_filter_per($this->db,$p_from,$p_to,'p_id','jr_tech_per');
 
@@ -361,7 +361,7 @@ class Acc_Ledger {
 	$periode=sql_filter_per($this->db,$p_from,$p_to,'p_id','jr_tech_per');
 
 	$cond_limite=($p_limit!=-1)?" limit ".$p_limit." offset ".$p_offset:"";
-	//Centralisé
+	//Centralise
 	//---
 	$id=($this->id == 0 ) ?"jr_c_opid as num":"jr_opid as num";
 
@@ -1254,7 +1254,7 @@ class Acc_Ledger {
       $op->p_jrn=$id;
       $op->od_direct='t';
       if ($op->count() != 0 )
-	echo widget::submit('use_opd','Utilisez une op.prédéfinie');
+	echo widget::submit('use_opd','Utilisez une op.pr&eacute;d&eacute;finie');
       echo $op->show_button();
       echo '</form>';
       exit();

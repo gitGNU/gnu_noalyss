@@ -464,6 +464,9 @@ class Document
  *  - [MY_TVA]
  *  - [MY_STREET]
  *  - [MY_NUMBER]
+ *  - BON_COMMANDE
+ *  - OTHER_INFO
+ *  - CUST_NUM
  *
  * \param TAG
  * \return String which must replace the tag
@@ -554,8 +557,7 @@ class Document
 	case 'CUST_CP':
 	  $tiers=new fiche($this->db);
 	 
-$qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST[
-'e_client'];
+	  $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
 	  $tiers->get_by_qcode($qcode,false);
 	  $r=$tiers->strAttribut(ATTR_DEF_CP);
 
@@ -563,8 +565,7 @@ $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST[
 	case 'CUST_CITY':
 	  $tiers=new fiche($this->db);
 	 
-$qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST[
-'e_client'];
+	  $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
 	  $tiers->get_by_qcode($qcode,false);
 	  $r=$tiers->strAttribut(ATTR_DEF_CITY);
 
@@ -573,8 +574,7 @@ $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST[
 	case 'CUST_CO':
 	  $tiers=new fiche($this->db);
 	 
-$qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST[
-'e_client'];
+	  $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
 	  $tiers->get_by_qcode($qcode,false);
 	  $r=$tiers->strAttribut(ATTR_DEF_PAYS);
 
@@ -584,11 +584,17 @@ $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST[
 	case 'CUST_VAT':
 	  $tiers=new fiche($this->db);
 	 
-$qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST[
-'e_client'];
+	  $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
 	  $tiers->get_by_qcode($qcode,false);
 	  $r=$tiers->strAttribut(ATTR_DEF_NUMTVA);
 	  break; 
+	case 'CUST_NUM':
+	  $tiers=new fiche($this->db);
+	  $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
+	  $tiers->get_by_qcode($qcode,false);
+	  $r=$tiers->strAttribut(ATTR_DEF_NUMBER_CUSTOMER);
+	  break;
+
 	  // Marchandise in $_POST['e_march*']
 	  // \see user_form_achat.php or user_form_ven.php
 	case 'NUMBER':
@@ -811,6 +817,19 @@ $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST[
 	  $r=$sum;
 
 	  break;
+	case 'BON_COMMANDE':
+	  if ( isset($_REQUEST['bon_comm']))
+	    return $_REQUEST['bon_comm'];
+	  else 
+	    return "";
+	  break;
+	case 'OTHER_INFO':
+	  if ( isset($_REQUEST['other_info']))
+	    return $_REQUEST['other_info'];
+	  else 
+	    return "";
+	  break;
+
 
 	}
       return $r;

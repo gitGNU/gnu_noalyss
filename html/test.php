@@ -36,7 +36,7 @@ include_once("ac_common.php");
 include_once("postgres.php");
 require_once ('class_dossier.php');
 if ( ! file_exists('authorized_debug') ) { 
-echo "Pour pouvoir utiliser ce fichier vous devez créer un fichier nomme authorized_debug 
+echo "Pour pouvoir utiliser ce fichier vous devez creer un fichier nomme authorized_debug 
 dans le repertoire html du server";
 exit();
 
@@ -45,6 +45,7 @@ exit();
 echo __FILE__.":".__LINE__;
 if ( ! isset($_REQUEST['gDossier'])) {
   echo "Vous avez oublie de specifier le gDossier ;)";
+  echo "L'url aurait du etre test.php?gDossier=xx";
   exit();
  }
 
@@ -96,5 +97,7 @@ Bud_Synthese_Hypo::test_me();
 require_once ('class_periode.php');
 Periode::test_me();
 
-*/
 require_once ('verif.inc.php');
+*/
+require_once('class_acc_jrn_info.php');
+Acc_Jrn_Info::test_me();

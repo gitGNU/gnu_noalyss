@@ -226,10 +226,15 @@ class Anc_Account
 	$wPa_id=new widget("hidden","pa_id","pa_id",$this->pa_id);
 	$wAmount=new widget("text","Montant","po_amount",$this->amount);
 	$wDescription=new widget("text","Description","po_description",$this->description);
-	$wGa_id=new widget("select","Groupe","ga_id");
-	$wGa_id->value=make_array($this->db,"select ga_id,ga_id from groupe_analytique",1);
-	$wGa_id->selected=$this->ga_id;
-	$wGa_id->table=1;
+	$aGroup_analytic=make_array($this->db,"select ga_id,ga_id from groupe_analytique where pa_id=".$this->pa_id,1);
+	if ( count($aGroup_analytic) > 1 ) {
+	  $wGa_id=new widget("select","Groupe","ga_id");
+	  $wGa_id->value=$aGroup_analytic;
+	  $wGa_id->selected=$this->ga_id;
+	  $wGa_id->table=1;
+	} else {
+	  $wGa_id=new widget('span');
+	}
 	$pa=new Anc_Plan($this->db,$this->pa_id);
 	$pa->get();
 	$wPaName=new widget("text","Plan A.","",$pa->name);

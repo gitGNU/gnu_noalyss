@@ -101,7 +101,7 @@ class Admin extends fiche{
 	return $r;
       foreach ($step_admin as $admin ) {
 	$r.="<TR>";
-	$e=sprintf('<A HREF="%s?p_action=admin&sa=detail&f_id=%d&%s&url=%s" title="Détail"> ',
+	$e=sprintf('<A HREF="%s?p_action=admin&sa=detail&f_id=%d&%s&url=%s" title="Detail"> ',
 			   $script,$admin->id,$str_dossier,$url);
 
 	$r.="<TD> $e".$admin->strAttribut(ATTR_DEF_QUICKCODE)."</A></TD>";

@@ -36,7 +36,8 @@ $sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
 // TODO add function for generating url, hidden tags...
 if ( isset ($_REQUEST['url'])) 
 {
-     $retour=sprintf('<A class="mtitle" HREF="%s"><input type="button" value="Retour"></A>',urldecode($_REQUEST['url']));
+  $retour=widget::button_href('Retour',urldecode($_REQUEST['url']));
+
      $h_url=sprintf('<input type="hidden" name="url" value="%s">',urldecode($_REQUEST['url']));
 }
 else 
@@ -87,8 +88,8 @@ if ( $sub_action  == "" )
 //Display a blank card 
 if ( $sub_action=="blank") 
 {
-  $retour_action=sprintf('<A class="mtitle" HREF="%s"><input type="button" value="Retour"></A>',
-		  "commercial.php?p_action=contact&$str_dossier");
+  $retour_action=widget::button_href('Retour', "commercial.php?p_action=contact&$str_dossier");
+
   echo '<div class="u_redcontent">';
 
   echo $retour_action;

@@ -105,8 +105,8 @@ class Customer extends fiche{
 jrnx as A
  join jrnx as B using (j_grpt)
 where
-       A.j_poste like '".$CUSTOMER."%' and
-       B.j_poste like '".$SOLD."%' 
+       A.j_poste::text like '".$CUSTOMER."%' and
+       B.j_poste::text like '".$SOLD."%' 
       $cond_sql
 ";
 

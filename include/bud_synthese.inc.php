@@ -55,12 +55,24 @@ echo ShowItem(array(
 		    //
 echo '</div>';
 
-if ( $do=='po')
+if ( $do=='po') {
+  if ($obj->size_analytic() == 0 ) {
+    echo '<h2 class="info">Desole pas d\'hypothese definie avec un plan analytique</h2>';
+    exit();
+
+  }
   require_once ('bud_spo.inc.php');
+}
 
-if ( $do=='ga')
+if ( $do=='ga') {
+  if ($obj->size_analytic() == 0 ) {
+    echo '<h2 class="info">Desole pas d\'hypothese definie avec un plan analytique</h2>';
+    exit();
+
+  }
+
   require_once ('bud_sga.inc.php');
-
+}
 if ( $do=='vglobal')
   require_once ('bud_svglobal.inc.php');
 

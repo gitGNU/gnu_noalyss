@@ -46,8 +46,7 @@ if ( isset ($_POST['delete']) )
 if ( $sub_action=="insert" )
 {
 
-  $retour=sprintf('<A class="mtitle" HREF="%s"><input type="button" value="Retour"></A>',
-		  urldecode($_REQUEST['url']));
+  $retour=widget::button_href("Retour", urldecode($_REQUEST['url']));
 
   $customer=new Customer($cn);
   $customer->Save($_REQUEST['fd_id']);
@@ -77,8 +76,8 @@ if ( $sub_action  == "" )
 if ( $sub_action=="blank") 
 {
 
-  $retour=sprintf('<A class="mtitle" HREF="%s"><input type="button" value="Retour"></A>',
-		  "commercial.php?p_action=client&$str_dossier");
+  $retour=widget::button_href('Retour','commercial.php?p_action=fournisseur&'.dossier::get());
+
   echo '<div class="u_content">';
 
   echo $retour;
@@ -116,7 +115,6 @@ if ( $sub_action == "list" )
 <span  style="position:float;float:left">
 <form method="get" action="commercial.php">
    <?php echo dossier::hidden(); ?>
-<input type="hidden" name="url" <?php        $url=urlencode($_SERVER['REQUEST_URI']);echo 'value="'.$url.'"'; ?>
 <input type="hidden" name="p_action" value="client">
 
 <?php  
@@ -128,6 +126,7 @@ if ( $sub_action == "list" )
 ?>
 <input type="hidden" name="sa" value="blank">
 <input type="submit" name="submit_query" value="Ajout Client">
+<input type="hidden" name="url" <?php        $url=urlencode($_SERVER['REQUEST_URI']);echo 'value="'.$url.'"'; ?>
 
 </form>
 </span>
@@ -148,8 +147,8 @@ if ( $sub_action == 'detail' )
   $f_id=$_REQUEST['f_id'];
   echo '<div class="u_content">';
   $client=new Customer($cn,$f_id);
-  $retour=sprintf('<A class="mtitle" HREF="%s"><input type="button" value="Retour"></A>',
-		  urldecode($_REQUEST['url']));
+  $retour=widget::button_href("Retour", urldecode($_REQUEST['url']));
+
   echo $retour;
   echo '<form action="'.$_REQUEST['url'].'" method="post">'; 
   echo dossier::hidden();

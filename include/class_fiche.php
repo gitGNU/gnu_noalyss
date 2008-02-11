@@ -431,9 +431,13 @@ class fiche {
  * \brief  insert a new record
  *        
  * \param p_fiche_def fiche_def.fd_id
+ * \param p_array is the array containing the data
  */
-  function insert($p_fiche_def) 
+  function insert($p_fiche_def,$p_array=null) 
     {
+      if ( $p_array == null)
+	$p_array=$_POST;
+
       $fiche_id=NextSequence($this->cn,'s_fiche');
       $this->id=$fiche_id;
       // first we create the card
@@ -444,8 +448,8 @@ class fiche {
 		       " values (%d,%d)",
 		       $fiche_id,$p_fiche_def);
 	  $Ret=ExecSql($this->cn,$sql);
-	  // parse the $_POST array
-	  foreach ($_POST as $name=>$value ) 
+	  // parse the $p_array array
+	  foreach ($p_array as $name=>$value ) 
 	    {
 	      echo_debug ("class_fiche",__LINE__,"Name = $name value $value") ;
 	      list ($id) = sscanf ($name,"av_text%d");
@@ -471,8 +475,8 @@ class fiche {
 		  $exercice=$user->get_exercice();
 		  if ( $exercice == 0 ) throw Exception ('Annee invalide erreur');
 
-		  $str_stock=sprintf('insert into stock_goods(f_id,sg_initial,sg_code,sg_type,sg_exercice) '.
-				     ' values (%d,upper(\'%s\'),\'c\',\'%s\')',
+		  $str_stock=sprintf('insert into stock_goods(f_id,sg_quantity,sg_comment,sg_code,sg_type,sg_exercice) '.
+				     ' values (%d,0,\'%s\',upper(\'%s\'),\'d\',\'%s\')',
 				     $fiche_id,
 				     'initial',
 				     FormatString($value),
@@ -565,12 +569,15 @@ class fiche {
   /*!\brief update a card
    * \todo add a check to return an error and rollback operation
    */
- function update() 
+ function update($p_array=null) 
      {
+      if ( $p_array == null)
+	$p_array=$_POST;
+
        try {
 	 StartSql($this->cn);
-	 // parse the $_POST array
-	 foreach ($_POST as $name=>$value ) 
+	 // parse the $p_array array
+	 foreach ($p_array as $name=>$value ) 
 	   {
 	     echo_debug ("class_fiche",__LINE__,"Name = $name value $value") ;
 	     list ($id) = sscanf ($name,"av_text%d");
@@ -619,19 +626,24 @@ class fiche {
 	       }
 	     	      if ( $id == ATTR_DEF_STOCK ) {
 		$st=CountSql($this->cn,'select * from stock_goods where '.
-			     " upper(sg_code)=upper('$value')");
+			     " f_id=".$this->id);
 		if ( $st == 0 ) {
 		  $user=new User($this->cn);
 		  $exercice=$user->get_exercice();
 		  if ( $exercice == 0 ) throw Exception ('Annee invalide erreur');
 
-		  $str_stock=sprintf('insert into stock_goods(f_id,sg_comment,sg_code,sg_type,sg_exercice) '.
-				     ' values (%d,upper(\'%s\'),upper(\'%s\'),\'d\',%s)',
-				     $this->id,
-				     'initial',
-				     FormatString($value),
-				     $exercice);
-				     
+                  $str_stock=sprintf('insert into stock_goods(f_id,sg_quantity,sg_comment,sg_code,sg_type,sg_exercice) '.
+                                     ' values (%d,0,\'%s\',upper(\'%s\'),\'d\',\'%s\')',
+                                     $this->id,
+                                     'initial',
+                                     FormatString($value),
+                                     $exercice);
+
+		  ExecSql($this->cn,$str_stock);
+		}else {
+		$str_stock=sprintf("update stock_goods set sg_code=upper('%s') where f_id=%d",
+				FormatString($value),
+				$this->id);
 		  ExecSql($this->cn,$str_stock);
 		}
 	      }
@@ -876,12 +888,15 @@ class fiche {
    *
    * \return none
    */
-  function HtmlTable() 
+  function HtmlTable($p_array=null)
     {     
+      if ( $p_array == null)
+	$p_array=$_POST;
+
       $name=$this->getName();
       
-      list($array,$tot_deb,$tot_cred)=$this->get_row( $_POST['from_periode'],
-						     $_POST['to_periode']
+      list($array,$tot_deb,$tot_cred)=$this->get_row( $p_array['from_periode'],
+						     $p_array['to_periode']
 						     );
       
       if ( count($this->row ) == 0 ) 
@@ -928,8 +943,11 @@ class fiche {
   *
   * \return none
   */
- function HtmlTableHeader()
+ function HtmlTableHeader($p_array=null)
    {
+     if ( $p_array == null)
+       $p_array=$_POST;
+
      $submit=new widget();
      $hid=new widget("hidden");
      echo '<div class="noprint">';
@@ -948,8 +966,8 @@ class fiche {
        $hid->IOValue('p_action','impress').
        $hid->IOValue("f_id",$this->id).
 	dossier::hidden().
-       $hid->IOValue("from_periode",$_POST['from_periode']).
-       $hid->IOValue("to_periode",$_POST['to_periode']);
+       $hid->IOValue("from_periode",$p_array['from_periode']).
+       $hid->IOValue("to_periode",$p_array['to_periode']);
      echo "</form></TD>";
      
      echo '<TD><form method="POST" ACTION="quick_code_csv.php">'.
@@ -958,8 +976,8 @@ class fiche {
        $hid->IOValue("type","poste").
        $hid->IOValue('p_action','impress').
        $hid->IOValue("f_id",$this->id).
-       $hid->IOValue("from_periode",$_POST['from_periode']).
-       $hid->IOValue("to_periode",$_POST['to_periode']);
+       $hid->IOValue("from_periode",$p_array['from_periode']).
+       $hid->IOValue("to_periode",$p_array['to_periode']);
      
      echo "</form></TD>";
      echo "</table>";

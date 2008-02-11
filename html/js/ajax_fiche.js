@@ -41,107 +41,79 @@ function clean_Fid(p_ctl)
    	nSell=p_ctl+"_sell";	
 	nBuy=p_ctl+"_buy";	
 	nTva_id=p_ctl+"_tva_id";
-
-	if ( document.getElementById(nSell) != null ) { 
-			   document.getElementById(nSell).value="";
-   }
-	if ( document.getElementById(nBuy) != null ) { 
-	   document.getElementById(nBuy).value="";
-	}
-
-	if ( document.getElementById(nTva_id) != null ) { 			   
-	  document.getElementById(nTva_id).value="";
-    }
-
+	if ( $(nSell) ) {	  $(nSell).value="";	}
+	if ( $(nBuy) ) {	  $(nBuy).value="";}
+	if ( $(nTva_id) ) {  $(nTva_id).value="-1"; }
+	
 }
-
+function errorFid(request,json) {
+  alert('erreur : ajax fiche');
+}
 /*!\brief this function fills the data from fid.php, 
  * \param p_ctl the ctrl to fill
  * \param p_deb if debit of credit
  * \param p_jrn the ledger
  */
-function ajaxFid(p_ctl,p_deb,p_jrn){
-	var ajaxRequest;  // The variable that makes Ajax possible!
-;
-	try{
-		// Opera 8.0+, Firefox, Safari
-		ajaxRequest = new XMLHttpRequest();
-	} catch (e){
-		// Internet Explorer Browsers
-		try{
-			ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
-		} catch (e) {
-			try{
-				ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
-			} catch (e){
-				// Something went wrong
-				alert("Your browser broke!");
-				return false;
-			}
-		}
-	}
-	// Create a function that will receive data sent from the server
-	ajaxRequest.onreadystatechange = function(){
-		if(ajaxRequest.readyState == 4){
-		  if ( ajaxRequest.status == 200 ) {
-
-			xmldoc = ajaxRequest.responseXML.documentElement;
-			data   = xmldoc.getElementsByTagName('name');
-
-  			label  = data[0].firstChild.nodeValue;
-  			sell   = xmldoc.getElementsByTagName('sell')[0].firstChild.nodeValue;
-  			buy    = xmldoc.getElementsByTagName('buy')[0].firstChild.nodeValue;
-  			tva_id = xmldoc.getElementsByTagName('tva_id')[0].firstChild.nodeValue;
-
-			toSet=p_ctl+"_label";
-
-			if ( trim(label) == "" ) 
-			   {
-			   var ctl_toSet=document.getElementById(toSet);
-			   ctl_toSet.innerHTML="Fiche inconnue";
-			   ctl_toSet.style.color='red';
-			   clean_Fid(p_ctl);
-			   }
-			else {
-				var ctl_toSet=document.getElementById(toSet);
-				ctl_toSet.style.color='black';
-				ctl_toSet.innerHTML=label;
-				nSell=p_ctl+"_sell";	
-				nBuy=p_ctl+"_buy";	
-				nTva_id=p_ctl+"_tva_id";
-
-				if ( document.getElementById(nSell) != null ) { 
-				   
-				  document.getElementById(nSell).value=sell;
-				   }
-				if ( document.getElementById(nBuy) != null ) { 
-				   
-				  document.getElementById(nBuy).value=buy;
-				   }
-
-				if ( document.getElementById(nTva_id) != null ) { 
-				   
-				  document.getElementById(nTva_id).value=tva_id;
-				    }
-			}
-		  }
-		}
-	}
-	if (document.getElementById(p_ctl).value.length == 0 ) {
-	   var toSet=p_ctl+"_label";
-	   var ctl_toSet=document.getElementById(toSet);
-	   ctl_toSet.innerHTML="";
-	   // clean other fields
-	   clean_Fid(p_ctl);
-	
-	} else {
-	  var gDossier=document.getElementById('gDossier').value;
-	  queryString="?FID="+document.getElementById(p_ctl).value;
-	  queryString=queryString+"&d="+p_deb+"&j="+p_jrn+'&gDossier='+gDossier;
-
-	  ajaxRequest.open("GET", "fid.php"+queryString, true);
-	  ajaxRequest.send(null); 
-	}
+function ajaxFid(p_ctl,p_deb,p_jrn) 
+{
+  var gDossier=$('gDossier').value;
+  var ctl_value=$(p_ctl).value;
+  if ( trim(ctl_value)==0 ) {
+    nLabel=p_ctl+"_label";
+    $(nLabel).value="";
+    $(nLabel).innerHTML="";
+    clean_Fid(p_ctl);
+    return;
+  }
+  queryString="?FID="+ctl_value;
+  queryString=queryString+"&d="+p_deb+"&j="+p_jrn+'&gDossier='+gDossier;
+  queryString=queryString+'&ctl='+p_ctl;
+  /*  alert(queryString); */
+  var action=new Ajax.Request (
+			       "fid.php",
+			       {
+				 method:'get',
+				 parameters:queryString,
+				 onFailure:errorFid,
+				 onSuccess:successFid
+			       }
+			
+			       );
+  
 }
+/*!\brief callback function for ajax
+ * \param request : object request
+ * \param json : json answer */
+function successFid(request,json) {
+  var answer=request.responseText.evalJSON(true);
 
+  var data=answer.name;
+  var sell=answer.sell;
+  var buy=answer.buy;
+  var tva_id=answer.tva_id;
+  var ctl=answer.ctl;
+
+/*   alert('data:'+data+' sell:'+sell+' Tva id:'+tva_id); */
+
+  var toSet=ctl+'_label';
+  if (trim(data) == "" ) {
+    $(toSet).innerHTML="Fiche Inconnue";
+    $(toSet).style.color="red";
+    clean_Fid(ctl);
+  } else {
+    var nSell=ctl+"_sell";
+    var nBuy=ctl+"_buy";
+    var nTva_id=ctl+"_tva_id";
+    $(toSet).innerHTML=data;
+    $(toSet).style.color="black";
+    if ( $(nTva_id) ) {
+      $(nTva_id).value=tva_id;
+    }
+    if ( $(nSell ) ) {
+      $(nSell).value=sell;
+    }
+    $(nBuy).value=buy;
+    
+  }
+}
 //-->

@@ -72,7 +72,7 @@ if ( isset ($_REQUEST['p_action']))
 echo '<div style="float:left">';
 echo ShowItem(array(
 	array('?p_action=ca_pa&'.$str_dossier,'Plan Analytique',"Plan Analytique",0),
-	array('?p_action=ca_od&'.$str_dossier,'Op&eacute;rations Diverses',"Permet d'enregistrer des opérations sur la compta analytique",1),
+	array('?p_action=ca_od&'.$str_dossier,'Op&eacute;rations Diverses',"Permet d'enregistrer des operations sur la compta analytique",1),
 	array('?p_action=ca_groupe&'.$str_dossier,'Groupe','Regroupe les postes analytiques',3),
 	array('?p_action=ca_imp&'.$str_dossier,'Impression',"impression de rapport",2)
 		    ),

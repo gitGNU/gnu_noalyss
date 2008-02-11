@@ -28,7 +28,7 @@ require_once ('class_bud_hypo.php');
 require_once ('class_anc_account.php');
 
 echo '<div class="u_content">';
-/*!\todo Check if there is Hypothesis */
+
 
 
 /* 1st  possibility is not defined */

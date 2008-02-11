@@ -129,6 +129,30 @@ echo_debug('user_common.php',__LINE__,"ComputeTotalVat $a_fiche $a_quant $a_pric
 	    //variable containing the nd part 
 	    // used when a card has both special rule for vat 
 	    $nd1=0;
+
+	    $base=$a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx];
+	    $nd_amount3=0;
+	    // if a part is not deductible then reduce vat_amount
+	    $nd3=GetFicheAttribut($p_cn,$a_fiche[$idx],ATTR_DEF_DEP_PRIV);
+	    if ( $nd3 != null && strlen(trim($nd3)) != 0 && $nd3 != 0 )
+	      {
+		// if tva amount is given we do not compute it
+		if ( $a_vat_amount != null && 
+		     $a_vat_amount[$idx] != 0 ) {
+		  $nd_amount3=round($a_vat_amount[$idx]*$nd3,2);
+		  $a_vat_amount[$idx]-=$nd_amount3;
+		}
+		else
+		  $nd_amount3=round($a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx]*$nd3,2);
+		
+		$vat_amount=$vat_amount-$nd_amount3;
+
+		$base=$base*$nd3;
+		// when using both vat, their sum cannot exceed 1, if = 1 then vat = 0
+		$flag=false;
+	      }	
+
+
 	    // if a part is not deductible then reduce vat_amount
 	    $nd=GetFicheAttribut($p_cn,$a_fiche[$idx],ATTR_DEF_TVA_NON_DEDUCTIBLE);
 	    if ( $nd != null && strlen(trim($nd)) != 0 && $nd != 0 )
@@ -136,9 +160,9 @@ echo_debug('user_common.php',__LINE__,"ComputeTotalVat $a_fiche $a_quant $a_pric
 		// if tva amount is given we do not compute it
 		if ( $a_vat_amount != null && 
 		     $a_vat_amount[$idx] != 0 )
-		  $nd_amount=round($vat_amount*$nd,2);
+		  $nd_amount=round($a_vat_amount[$idx]*$nd,2);
 		else
-		  $nd_amount=round($a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx]*$nd,2);
+		  $nd_amount=round($base*$nd,2);
 
 
 		// problem with round
@@ -159,7 +183,7 @@ echo_debug('user_common.php',__LINE__,"ComputeTotalVat $a_fiche $a_quant $a_pric
 		     $a_vat_amount[$idx] != 0 )
 		  $nd_amount2=round($a_vat_amount[$idx]*$nd,2);
 		else
-		  $nd_amount2=round($a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx]*$nd,2);
+		  $nd_amount2=round($base*$nd,2);
 		
 		$vat_amount=$vat_amount-$nd_amount2;
 		// when using both vat, their sum cannot exceed 1, if = 1 then vat = 0
@@ -438,7 +462,7 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Eché
   $sql_fin="(";
   $or="";
   foreach ($a_parm_code as $code) {
-    $sql_fin.="$or j_poste like '".$code['p_value']."%'";
+    $sql_fin.="$or j_poste::text like '".$code['p_value']."%'";
     $or=" or ";
   }
   $sql_fin.=")";
@@ -545,7 +569,7 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Eché
     $l_poste=FormatString($l_poste);
     if ( $l_poste != null ) {
       $sql.=$l_and."  jr_grpt_id in (select j_grpt 
-             from jrnx where j_poste like '$l_poste' )  ";
+             from jrnx where j_poste::text like '$l_poste' )  ";
       $l_and=" and ";
     }
     // Quick Code
@@ -729,10 +753,11 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Eché
     if ( $row['jr_pj_name'] != "") 
       {
 	$image='<IMG SRC="image/insert_table.gif" title="'.$row['jr_pj_name'].'" border="0">';
-	$r.="<TD>".sprintf('<A class="detail" HREF="show_pj.php?jrn=%s&jr_grpt_id=%s&%s">%s</A>',
+	$r.="<TD>".sprintf('<A class="detail" HREF="show_pj.php?jrn=%s&jr_grpt_id=%s&%s&PHPSESSID=%s">%s</A>',
 			   $p_jrn,
 			   $row['jr_grpt_id'],
-					   $str_dossier,
+			   $str_dossier,
+			   $_REQUEST['PHPSESSID'],
 			   $image)
 			   ."</TD>";
       }

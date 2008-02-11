@@ -43,7 +43,9 @@ class gestion_purchase extends gestion_table
  var $qp_nd_tva_recup;			/*!< tva ded via taxe */
  var $qp_supplier;				/*!< supplier code (f_id) */
  var $qp_valid;
- var $j_id;						/*!< jrnx.j_id  */
+ var $j_id;						/*!< jrnx.j_id
+							  */
+ var $qp_dep_priv;		/*!< private purchase */
   /*!\brief return an array of gestion_table, the object are
    * retrieved thanks the qs_internal
    */
@@ -63,7 +65,8 @@ class gestion_purchase extends gestion_table
                   qp_nd_tva,
                   qp_nd_tva_recup,
                   qp_supplier,
-                  j_id
+                  j_id,
+                  qp_dep_priv
                  from quant_purchase left join tva_rate on (qp_vat_code=tva_id)
           where qp_internal='".$this->qp_internal."'";
 	$ret=ExecSql($this->db,$sql);

@@ -135,6 +135,7 @@ if ( isset($_REQUEST['sa']))
 		$ret.=$po->form();
 		$ret.=$wSa->IOValue();
 		$ret.=widget::submit("add","Ajout");
+		$ret.="</form>";
 		$ret.="</div>";
 	  }
 	// record the poste
@@ -231,10 +232,7 @@ if ( isset($_REQUEST['sa']))
 
 		  }
 		$ret.="</table>";
-		$ret.=sprintf('<A class="mtitle" HREF="?p_action=ca_pa&sa=po_add&pa_id=%s&'.$str_dossier.'">'.
-					 '<input type="button" value="Ajout"></A>',
-					 $_GET['pa_id']
-					 );
+		$ret.=widget::button_href('Ajout',"?p_action=ca_pa&sa=po_add&pa_id=".$_GET['pa_id']."&".$str_dossier);
 		$ret.='</div>';
 
 	  }

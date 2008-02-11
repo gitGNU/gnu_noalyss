@@ -21,6 +21,8 @@
 /*!\brief this file is always included and then executed
  *        it permits to change the user preferences
  */
+require_once('class_widget.php');
+require_once('class_user.php');
 
 echo '<DIV class="u_content">';
 
@@ -92,14 +94,30 @@ $disp_style.="</SELECT>";
 </FORM>
 
 <?php  
+   /* propose to use menu or icon for the top menu */
+if ( isset($_POST['sub_topmenu']) ){
+  $_SESSION['g_topmenu']=$_POST['topmenu'];
+  $User->update_global_pref('TOPMENU',$_POST['topmenu']);
+}
+$topmenu=new widget('select');
+$topmenu->name='topmenu';
+$topmenu->selected=$_SESSION['g_topmenu'];
+$array=array(
+	     array('value'=>'TEXT','label'=>'Texte'),
+	     array('value'=>'SELECT','label'=>'Menu deroulant')
+	     );
+$topmenu->value=$array;
+echo '<h3 class="info">Style de menu</h3>';
+echo '<span style="text-align:center;width:100%">';
+echo '<form method="post" action="'.$url.'">';
+echo $topmenu->IOValue();
+echo widget::submit('sub_topmenu','Sauver');
+echo '</form>';
+echo '</span>';
 
 // Si utilise un dossier alors propose de changer
 // la periode par defaut
-if ( ! isset ($_REQUEST['gDossier']) ) 
-  {
-    echo '<A href="user_login.php"><input type="button" value="Retour"></a>';
-  }
-else
+if (  isset ($_REQUEST['gDossier']) ) 
   {
 
     include_once("preference.php");
@@ -132,7 +150,10 @@ else
 <TR><TD><input type="submit" name="sub_periode" value="Sauve"></TD></TR>
 </TABLE>
 </FORM>
+<?php  
 
+}
+?>
 <H3 CLASS="info"> Taille des pages</H3>
 <FORM ACTION="<?php   echo $url;?>" METHOD="POST">
 <TABLE ALIGN="CENTER">
@@ -156,9 +177,13 @@ else
 </TABLE>
 </FORM>
 
+<?php
+if ( ! isset ($_REQUEST['gDossier']) ) 
+{
+    echo '<A class="mtitle" href="user_login.php"><input type="button" value="Retour"></a>';
+  }
 
-<?php  
-}
+
      
 echo "</DIV>";
 ?>

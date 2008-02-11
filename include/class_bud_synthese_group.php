@@ -1,4 +1,3 @@
-
 <?php
 /*
  *   This file is part of PhpCompta.
@@ -56,7 +55,7 @@ class Bud_Synthese_Group extends Bud_Synthese {
     */
     
     if  ( $this->bh_id == 0 ) 
-      throw new Exception ("bh_id n'est pas sélectionné");
+      throw new Exception ("bh_id n'est pas selectionne");
     $hypo=new Bud_Hypo($this->cn);
     $hypo->bh_id=$this->bh_id;
     $hypo->load();
@@ -192,6 +191,9 @@ class Bud_Synthese_Group extends Bud_Synthese {
     $pcm_val="";
     $old="XX";
     $sub=array();
+    if ( empty($res) )
+      return;
+
     foreach ($res as $row) {
       $pcm_val=$row['pcm_val'];
 
@@ -375,11 +377,11 @@ Array
 
   function display_html($p_array) {
     $r="";
+    $persql=sql_filter_per($this->cn,$this->from,$this->to,'p_id','p_id');
     list ($head,$foot)=$this->head_foot($p_array);
     $per=get_array($this->cn,"select p_id,to_char(p_start,'MM.YYYY') as d".
 		   " from parm_periode ".
-		   " where p_id between ".$this->from.' and '.
-		   $this->to." order by p_start" );
+		   " where $persql");
     $r.='<table>';
     $heading="<tr><th> CE </th>";
     foreach( $per as $c) { 
@@ -401,7 +403,8 @@ Array
     $r.='<td></td>';
     $r.='</tr>';
     // content
-
+    if ( empty($p_array))
+      return;
     foreach ($p_array as $key => $value ){
       $r.='<tr>';
       $r.='<td>'.$key.'</td>';

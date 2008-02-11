@@ -66,18 +66,18 @@ if ( ! isset ( $action )) {
 echo JS_VIEW_JRN_MODIFY;
 ?>
 <script language="javascript">
-  function show (p_div) {
+  function show_div (p_div) {
   // show the div
   // hide the div
-  if ( document.getElementById(p_div) ) {
-	var a=document.getElementById(p_div);
+  if ( $(p_div) ) {
+	var a=$(p_div);
 	a.style.display="block";
   }
 }
-function hide (p_div) {
+function hide_div (p_div) {
   // hide the div
-  if ( document.getElementById(p_div) ) {
-	var a=document.getElementById(p_div);
+  if ( $(p_div) ) {
+	var a=$(p_div);
 	a.style.display="none";
   }
 }
@@ -115,7 +115,7 @@ if ( $action == 'update' ) {
 	$readonly=($p_view=='E')?0:1;
 	$view.=ShowOperationUser($cn,$p_id,$readonly);
 	$view.='<hr>';
-	$view.='<input type="button" onclick="hide(\'simple\');show(\'expert\');" value="Vue expert">';
+	$view.='<input type="button" onclick="hide_div(\'simple\');show_div(\'expert\');" value="Vue expert">';
 	$view.='<INPUT TYPE="Hidden" name="action" value="update_record">';
 	$view.="<br>";
 	$view.="<br>";
@@ -137,7 +137,7 @@ if ( $action == 'update' ) {
 	$readonly=($p_view=='S')?0:1;
 	$view.=ShowOperationExpert($cn,$p_id,$readonly);
 	$view.='<hr>';
-	$view.='<input type="button" onclick="hide(\'expert\');show(\'simple\')"  value="Vue simple">';
+	$view.='<input type="button" onclick="hide_div(\'expert\');show_div(\'simple\')"  value="Vue simple">';
 	$view.='<INPUT TYPE="Hidden" name="action" value="update_record">';
 	$view.="<br>";
 	$view.="<br>";
@@ -163,7 +163,7 @@ if ( $action=="view_ca") {
   $view.='<h2 class="info">Vue simple</h2>';
   $view.=ShowOperationUser($cn,$p_id,0);
   $view.='<hr>';
-  $view.='<input type="button" onclick="hide(\'simple\');show(\'expert\');" value="Vue Expert">';
+  $view.='<input type="button" onclick="hide_div(\'simple\');show_div(\'expert\');" value="Vue Expert">';
   $view.='<input type="button" value="Fermer" onClick="window.close(); ">';
   $view.='</div>';
   
@@ -175,7 +175,7 @@ if ( $action=="view_ca") {
 
   $view.=ShowOperationExpert($cn,$p_id,0);
   $view.='<hr>';
-  $view.='<input type="button" onclick="hide(\'expert\');show(\'simple\')"  value="Vue Simple">';
+  $view.='<input type="button" onclick="hide_div(\'expert\');show_div(\'simple\')"  value="Vue Simple">';
   $view.='<input type="button" value="Fermer" onClick="window.close(); ">';
   $view.='</div>';
   echo $view;

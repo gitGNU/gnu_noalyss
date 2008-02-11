@@ -56,8 +56,8 @@ $ret=get_array($cn,"select distinct j_poste::text
 		from jrnx inner join tmp_pcmn on (pcm_val=j_poste)
 		where 
 		j_tech_per >= ".$sql_from[0]['min']." and 
-	 	j_tech_per <= ".$sql_to[0]['max']." and j_poste not like '7%'
-		and j_poste not like '6%'
+	 	j_tech_per <= ".$sql_to[0]['max']." and j_poste::text not like '7%'
+		and j_poste::text not like '6%'
                  order by j_poste::text");
 if ( $ret == null ) {echo 'Rien à exporter'; exit();}
 printf ("OUVERTURE\n");

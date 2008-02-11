@@ -57,7 +57,7 @@ class Bud_Synthese_Anc extends Bud_Synthese {
     /*    2nd Step
     */
     if  ( $this->bh_id == 0 ) 
-      throw new Exception ("bh_id n'est pas sélectionné");
+      throw new Exception ("bh_id n'est pas selectionne");
     $hypo=new Bud_Hypo($this->cn);
     $hypo->bh_id=$this->bh_id;
     $hypo->load();
@@ -112,7 +112,7 @@ class Bud_Synthese_Anc extends Bud_Synthese {
                                     [80] => 14.0000
                                 )
 
-                            [acc_name] => Electricité
+                            [acc_name] => Electricite
                             [acc_amount] => 0
                         )
 
@@ -225,10 +225,11 @@ class Bud_Synthese_Anc extends Bud_Synthese {
   function display_html($p_array) {
     $r="";
     if (empty($p_array)) return;
+    $persql=sql_filter_per($this->cn,$this->from,$this->to,'p_id','p_id');
     $per=get_array($this->cn,"select to_char(p_start,'MM.YYYY') as d".
 		   " from parm_periode ".
-		   " where p_id between ".$this->from.' and '.
-		   $this->to." order by p_start" );
+		   " where $persql");
+
     $heading="<tr><th> CE </th>";
     foreach( $per as $c) { $heading.='<th>'.$c['d'].'</th>';}
     $heading.="<th>Total Unite</th>";

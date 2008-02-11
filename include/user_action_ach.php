@@ -69,7 +69,7 @@ if ( $action=="use_opd" ) {
    echo $hid->IOValue("jrn_type","ACH");
    
   if ($op->count() != 0 )
-	echo widget::submit('use_opd','Utilisez une op.prédéfinie');
+	echo widget::submit('use_opd','Utilisez une op.pr&eacute;d&eacute;finie');
    echo $op->show_button();
    
    echo '</form>';
@@ -118,7 +118,7 @@ if ( $action == 'new' ) {
    echo $hid->IOValue("jrn_type","ACH");
    
   if ($op->count() != 0 )
-	echo widget::submit('use_opd','Utilisez une op.prédéfinie');
+	echo widget::submit('use_opd','Utilisez une op.pr&eacute;d&eacute;finie');
    echo $op->show_button();
    
    echo '</form>';
@@ -202,7 +202,7 @@ if ( $action == 'new' ) {
 	    list($internal,$comment)=RecordSell($cn,$_POST,$User,$_GET['p_jrn']);
 	    
 	    // submit button in the form
-	    $submit='<h2 class="info">Opération '.$internal.' </h2>';
+	    $submit='<h2 class="info">Op&eacute;ration '.$internal.' </h2>';
 	    $r=FormAchView($cn,$_GET['p_jrn'],$User->get_periode(),$_POST,"",$nb_number,false);
 	    echo '<div class="u_redcontent">';
 	    echo $submit;

@@ -27,7 +27,7 @@ require_once('class_user.php');
 require_once('class_widget.php');
 require_once('class_fiche.php');
 require_once('class_acc_ledger.php');
-
+require_once('class_parm_code.php');
 /*! 
  **************************************************
  * \brief  Parse the file and insert the record
@@ -389,7 +389,8 @@ $w=new widget("select");
   $w->label='Journal';
   echo $w->label." :".$w->IOValue('import_jrn',$jrn)."<br>";
   // choose the bank account
-  $bq=make_array($p_cn,"select pcm_val,pcm_lib from tmp_pcmn where pcm_val like '550%'");
+  $banque=new parm_code($p_cn,'BANQUE');
+  $bq=make_array($p_cn,"select pcm_val,pcm_lib from tmp_pcmn where pcm_val::text like '".$banque->p_value."%'");
   $w->label='Banque';
   echo "Compte en banque :".$w->IOValue('import_bq',$bq)."<br>";
   $format_csv=make_array($p_cn,"select include_file,name from format_csv_banque;");

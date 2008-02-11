@@ -217,7 +217,7 @@ class Periode {
 	echo '<TD  ALIGN="CENTER"> '.$l_line['p_exercice'].'</TD>';
 	
 	if ( $l_line['status'] != 'OP' )     { 
-	  $closed=($l_line['status']=='CE')?'<TD>Centralisée</TD>':'<TD>Ferm&eacute;e</TD>';
+	  $closed=($l_line['status']=='CE')?'<TD>Centralisee</TD>':'<TD>Ferm&eacute;e</TD>';
 	} else {
 	  $closed='<TD class="mtitle">'; 
 	  $closed.='<A class="mtitle" HREF="?p_action=periode&action=closed&p_per='.$l_line['p_id'].'&'.$str_dossier.'&jrn_def_id='.$this->jrn_def_id.'"> Cloturer</A>';

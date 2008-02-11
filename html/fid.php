@@ -24,7 +24,6 @@
  * \brief Fid for the ajax request for cards
  */
 
-header("Content-type: text/xml charset=\"ISO8859-1\"",true);
 
 require_once  ("constant.php");
 require_once  ("postgres.php");
@@ -77,23 +76,17 @@ if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
   $tva_id=$array[0]['tva_id'];
 
   // Check null
-  $name=($name==null)?" ":$name;
-  $sell=($sell==null)?" ":$sell;
-  $buy=($buy==null)?" ":$buy;
-  $tva_id=($tva_id==null)?" ":$tva_id;
+  $name=($name==null)?" ":str_replace('"','',$name);
+  $sell=($sell==null)?" ":str_replace('"','',$sell);
+  $buy=($buy==null)?" ":str_replace('"','',$buy);
+  $tva_id=($tva_id==null)?" ":str_replace('"','',$tva_id);
 
-  $a='<?xml version="1.0" encoding="iso8859-1" standalone="yes"?>';
-  $a.="<data>";
-  $a.="<name>".$name."</name>"; 
-  $a.="<sell>".$sell."</sell>";
-  $a.="<buy>".$buy."</buy>";
-  $a.="<tva_id>".$tva_id."</tva_id>";
-  $a.="</data>";
+  $a='{"answer":"ok","name":"'.$name.'","sell":"'.$sell.'","buy":"'.$buy.'","tva_id":"'.$tva_id.'","ctl":"'.$_GET['ctl'].'"}';
 
 }
      else
-     $a="not connected";
+     $a='{"answer":"nok"}';
 echo_debug("fid.php",__LINE__,"Answer is \n $a");
-
+header("Content-type: text/html; charset: ISO8859-1",true);
 print $a;
 ?>

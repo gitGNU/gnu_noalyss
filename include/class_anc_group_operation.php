@@ -174,12 +174,12 @@ class Anc_Group_Operation
 	      $p->oa_amount=$p_array["pamount$i"];
 	      
 	      $p->oa_description=$p_array["pdesc"];
-	      $p->oa_date=$_POST['pdate'];
+	      $p->oa_date=$p_array['pdate'];
 	      $p->j_id=0;
 	      $p->oa_debit=(isset ($p_array["pdeb$i"]))?'t':'f';
 	      $p->oa_group=0;
 
-	      $p->po_id=$_POST["pop$i"."plan".$idx];
+	      $p->po_id=$p_array["pop$i"."plan".$idx];
 	      $p->pa_id=$idx;
 	      $this->a_operation[]=clone $p;
 	    }

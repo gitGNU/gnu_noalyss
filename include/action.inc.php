@@ -1,3 +1,4 @@
+
 <?php  
 /*
  *   This file is part of PhpCompta.
@@ -143,14 +144,12 @@ if (isset($_POST['corr'] ))
 }
 // if this page is called from another menu (customer, supplier,...)
 // a button back is added
-// TODO add function for generating url, hidden tags...
-//$retour='<A class="mtitle" HREF="commercial.php?p_action=suivi_courrier"><input type="button" value="Retour"></A>';
 $retour="";
 $h_url="";
 
 if ( isset ($_REQUEST['url'])) 
 {
-     $retour=sprintf('<A class="mtitle" HREF="%s"><input type="button" value="Retour"></A>',urldecode($_REQUEST['url']));
+  $retour=widget::button_href('Retour',urldecode($_REQUEST['url']));
      $h_url=sprintf('<input type="hidden" name="url" value="%s">',urldecode($_REQUEST['url']));
 }
 //----------------------------------------------------------------------

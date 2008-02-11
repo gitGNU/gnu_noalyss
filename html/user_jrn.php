@@ -41,7 +41,7 @@ $User=new User($cn);
 $User->Check();
 
 html_page_start($User->theme, 
-		"OnLoad=\"SetFocus('e_date',0);checkTotal();\" ",
+		"onLoad=\"SetFocus('e_date',0);checkTotal();\" ",
 		"js/compute.js");
 
 

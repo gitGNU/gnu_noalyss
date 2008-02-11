@@ -46,8 +46,7 @@ if ( isset ($_POST['delete']) )
 // Add card
 if ( $sub_action=="insert" )
 {
-  $retour=sprintf('<A class="mtitle" HREF="%s"><input type="button" value="Retour"></A>',
-		  urldecode($_REQUEST['url']));
+  $retour=widget::button_href("Retour", urldecode($_REQUEST['url']));
 
   $supplier=new Supplier($cn);
   $supplier->Save($_REQUEST['fd_id']);
@@ -75,8 +74,7 @@ if ( $sub_action  == "" )
 //Display a blank card 
 if ( $sub_action=="blank") 
 {
-  $retour=sprintf('<A class="mtitle" HREF="%s"><input type="button" value="Retour"></A>',
-		  "commercial.php?p_action=fournisseur&".dossier::get());
+  $retour=widget::button_href('Retour','commercial.php?p_action=fournisseur&'.dossier::get());
   echo '<div class="u_content">';
 
   echo $retour;
@@ -85,10 +83,11 @@ if ( $sub_action=="blank")
   echo '<input type="hidden" name="p_action" value="fournisseur">';
   echo '<input type="hidden" name="sa" value="insert">';
   echo '<input type="hidden" name="fd_id" value="'.$_GET['fd_id'].'">';
-  echo '<input type="hidden" name="url" value="'.$_GET['url'].'">';
   echo dossier::hidden();
   echo $c->blank($_GET['fd_id']);
   echo '<input type="Submit" value="Sauve">';
+  echo '<input type="hidden" name="url" value="'.$_GET['url'].'">';
+
   echo '</form>';
   echo $retour;
   echo '</div>';
@@ -114,7 +113,6 @@ if ( $sub_action == "list" )
 </span>
 <span  style="position:float;float:left">
 <form method="get" action="commercial.php">
-<input type="hidden" name="url" <?php        $url=urlencode($_SERVER['REQUEST_URI']);echo 'value="'.$url.'"'; ?>
 <input type="hidden" name="p_action" value="fournisseur">
 
 <?php  
@@ -128,6 +126,7 @@ if ( $sub_action == "list" )
 ?>
 <input type="hidden" name="sa" value="blank">
 <input type="submit" name="submit_query" value="Ajout Sup">
+<input type="hidden" name="url" <?php        $url=urlencode($_SERVER['REQUEST_URI']);echo 'value="'.$url.'"'; ?>
 
 </form>
 </span>
@@ -148,8 +147,8 @@ if ( $sub_action == 'detail' )
   $f_id=$_REQUEST['f_id'];
   echo '<div class="u_content">';
   $sup=new Supplier($cn,$f_id);
-  $retour=sprintf('<A class="mtitle" HREF="%s"><input type="button" value="Retour"></A>',
-		  urldecode($_REQUEST['url']));
+  $retour=widget::button_href("Retour", urldecode($_REQUEST['url']));
+
   echo $retour;
   echo '<form action="'.$_REQUEST['url'].'" method="post">'; 
   echo $sup->Display(false);

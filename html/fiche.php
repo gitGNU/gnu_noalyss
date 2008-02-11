@@ -222,7 +222,7 @@ if ( isset ( $_GET["action"]) ) {
       $sql="select distinct f_id,fd_id,av_text from fiche join jnt_fic_att_value using (f_id) 
             join attr_value using (jft_id) where
             upper(av_text) like upper('%".FormatString($_GET["search_text"])."%') order by av_text,f_id";
-      $all=getArray($cn,$sql);
+      $all=get_array($cn,$sql);
       // test on the size
       //
       if ( sizeof($all) != 0 )

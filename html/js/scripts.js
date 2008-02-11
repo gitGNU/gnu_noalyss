@@ -30,7 +30,6 @@
 
 // Set the focus to the specified field,
 // and select it if requested by SelectIt
-
 function GetID(ID) {
   if (document.all) {
     return document.all[ID];
@@ -91,14 +90,6 @@ function HandleSubmit(e) {
     SubmitButton.click();    
     return true;
   }
-}
-/*
- * Open the search screen
- */
-function openRecherche(p_sessid,p_dossier,p_style) {
-  if ( p_style == 'E' ) { p_style="expert";}
-  var w=window.open("recherche.php?gDossier="+p_dossier+"&PHPSESSID="+p_sessid+'&'+p_style,'','statusbar=no,scrollbars=yes,toolbar=no');
-  w.focus();
 }
 
 /*!\brief add a row for the CA

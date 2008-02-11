@@ -204,7 +204,7 @@ class Anc_Balance_Double extends Anc_Print
 			    'solde'=>'Solde',
 			    'dc'=>'D/C'),
 		      'Totaux',
-		      array('shaded'=>1,'showHeadings'=>1,cols=>array
+		      array('shaded'=>1,'showHeadings'=>1,'cols'=>array
 			    ('debit'=>array('justification'=>'right'),
 			     'credit'=>array('justification'=>'right'),
 			     'solde'=>array('justification'=>'right'),					    )
@@ -274,7 +274,7 @@ class Anc_Balance_Double extends Anc_Print
 	$choose=new widget("button");
 	$choose->name="Choix Poste";
 	$choose->label="Recherche";
-	$choose->javascript="onClick=search_ca('".$_REQUEST['PHPSESSID']."',".dossier::id().",'from_poste2','pa_id')";
+	$choose->javascript="onClick=search_ca('".$_REQUEST['PHPSESSID']."',".dossier::id().",'from_poste2','pa_id2')";
 	$r.=$choose->IOValue();
 
 	$r.=" et le poste ".$poste->IOValue("to_poste2",$this->to_poste2);
@@ -370,7 +370,7 @@ class Anc_Balance_Double extends Anc_Print
 	  $and=" and ";
 	}
 	if ( $filter_poste != "")
-	  $filter_poste.=" where ".$filter_poste;
+	  $filter_poste=" where ".$filter_poste;
 
 	$sql="
 select  a_po_id ,
@@ -386,7 +386,7 @@ b.po_id as b_po_id,
 case when a.oa_debit='t' then a.oa_amount else 0 end as a_oa_amount_d,
 case when a.oa_debit='f' then a.oa_amount else 0 end as a_oa_amount_c
 from 
-operation_analytique as a join operation_analytique as b using (oa_group) 
+operation_analytique as a join operation_analytique as b using (j_id) 
 where a.pa_id=".
 $this->pa_id."
  and b.pa_id=".$this->pa_id2."  ".$this->set_sql_filter()."

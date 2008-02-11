@@ -21,7 +21,7 @@
 /*! \file
  * \brief Function for managing the stock
  */
-
+require_once('class_fiche.php');
 
 /*! 
  **************************************************
@@ -123,7 +123,7 @@ $sql="select distinct f_id,av_text
          join jnt_fic_att_value using (f_id )
          join attr_value using (jft_id)
          where 
-          ad_id=".ATTR_DEF_NAME." 
+          ad_id=".ATTR_DEF_STOCK." 
           and sg_code='$p_sg_code'
            ";
 // Execute
@@ -134,7 +134,8 @@ $sql="select distinct f_id,av_text
  for ( $i=0; $i<$M;$i++) {
    $r=pg_fetch_array($Res,$i);
    $a['f_id']=$r['f_id'];
-   $a['av_text']=$r['av_text'];
+   $fiche=new Fiche($p_cn,$r['f_id']);
+   $a['av_text']=$fiche->getName();
    $result[$i]=$a;
 
  }

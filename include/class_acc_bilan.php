@@ -229,7 +229,7 @@ class Acc_Bilan {
   function load(){
 	try {
 	  if ( $this->id=="") 
-		throw new Exception("le formulaire id n'est pas donnée");
+		throw new Exception("le formulaire id n'est pas donnee");
 	  
 	  $sql="select b_name,b_file_template,b_file_form,lower(b_type) as b_type from bilan where".
 		" b_id = ".$this->id;

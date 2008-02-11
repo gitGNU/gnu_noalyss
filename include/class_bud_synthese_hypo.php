@@ -87,7 +87,7 @@ Array
             [GROUPE1] => 81.7
             [GROUPE3] => 28
             [total_row] => 109.7
-            [acc_name] => Electricité
+            [acc_name] => Electricite
             [acc_amount] => 0
         )
 

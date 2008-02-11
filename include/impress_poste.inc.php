@@ -94,7 +94,7 @@ if ( isset( $_POST['bt_html'] ) ) {
       if ( isset ($_POST['poste_fille']) )
       {
 		$parent=$_POST['poste_id'];
-		$a_poste=get_array($cn,"select pcm_val from tmp_pcmn where pcm_val like '$parent%' order by pcm_val::text");
+		$a_poste=get_array($cn,"select pcm_val from tmp_pcmn where pcm_val::text like '$parent%' order by pcm_val::text");
 	$go=3;
       } 
       // Check if the post is numeric and exists

@@ -30,6 +30,8 @@ require_once ('class_anc_plan.php');
 require_once ('class_anc_operation.php');
 require_once ('class_acc_ledger.php');
 require_once ('class_acc_operation.php');
+require_once ('class_acc_jrn_info.php');
+
 /*! 
  * \brief  Display the form to UPDATE account operation in the expert view
  *          
@@ -143,11 +145,14 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 	if ( $content['jr_pj_name'] != "")
 	  $r.='<TD>Effacer PJ <INPUT TYPE="CHECKBOX" name="to_remove" ></TD>';
   }
-  $r.="<TD>".sprintf('<A class="detail" HREF="show_pj.php?jrn=%s&jr_grpt_id=%s&%s">%s</A>',
-					 $content['jr_id'],
-					 $content['jr_grpt_id'],
-					 $str_dossier,
-					 $content['jr_pj_name'])."</TD>";
+  $r.="<TD>".sprintf('<A class="detail" HREF="show_pj.php?jrn=%s&jr_grpt_id=%s&%s&PHPSESSID=%s">%s</A>',
+		     $content['jr_id'],
+		     $content['jr_grpt_id'],
+		     $str_dossier,
+		     $_REQUEST['PHPSESSID'],
+		     $content['jr_pj_name']
+
+		     )."</TD>";
     $r.="</TR></TABLE>";
 
 	if ( $p_mode == 1 ) {
@@ -287,12 +292,14 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 	  $r.='<th>Nom</th>';
 	  $r.='<th>PU</th>';
 	  $r.='<th>Quantit&eacute;</th>';
+	  $r.='<th> Dep. priv. </th>';
 	  $r.='<th>tva</th>';
-	  $r.='<th>code tva</th>';
-	  $r.='<th>Non Ded.</th>';
+	  $r.='<th>tva</th>';
+	  $r.='<th>non ded.</th>';
 	  $r.='<th>tva nd</th>';
 	  $r.='<th>tva d impot</th>';
-	  $r.='<th>prix</th>';
+	  $r.='<th>total htva</th>';
+	  $r.='<th>total tvac</th>';
 
 	  $r.='</tr>';
 	  $object=new gestion_purchase($p_cn);
@@ -303,6 +310,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 	  $tot_nd=0.0;
 	  $tot_tva_nd=0.0;
 	  $tot_tva_nd_recup=0.0;
+	  $tot_dep_priv=0.0;
 	  $i=0;
 	  $i_march=0;
 	  foreach ($array as $row) {
@@ -314,20 +322,24 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 		$tot_tva_nd+=$row->qp_nd_tva;
 		$tot_tva_nd_recup+=$row->qp_nd_tva_recup;
 		$tot_amount+=$row->qp_price;
+		$tot_dep_priv+=$row->qp_dep_priv;
 
 		//		$hid_jid=new widget("hidden","","p_jid_".$row->j_id,$row->j_id);
 		$r.=($i%2==0)?"<tr class=\"odd\">":'<tr>';		$i++;
 		$pu=0.0;
-		if ( $row->qp_price != 0.0 && $row->qp_price != 0 ) $pu=round($row->qp_price/$row->qp_quantite,2);
+		if ( $row->qp_price != 0.0 && $row->qp_price != 0 ) 
+		  $pu=round(($row->qp_nd_amount+$row->qp_price)/$row->qp_quantite,2);
 		$r.='<td> '.$fiche->strAttribut(ATTR_DEF_NAME).'</td>';
 		$r.='<tD>'.$pu.'</td>';
 		$r.='<td align="right">'.$row->qp_quantite.'</td>';
+		$r.='<td align="right">'.$row->qp_dep_priv.'</td>';
 		$r.='<td align="right">'.$row->qp_vat.'</td>';
-		$r.='<td>'.$row->qp_vat_code.'</td>';
-		$r.='<td>'.$row->qp_nd_amount.'</td>';
 		$r.='<td>'.$row->tva_label.'</td>';
+		$r.='<td>'.$row->qp_nd_amount.'</td>';
+		$r.='<td>'.$row->qp_nd_tva.'</td>';
 		$r.='<td>'.$row->qp_nd_tva_recup.'</td>';
-		$r.='<td align="right">'.$row->qp_price.'</td>';
+		$r.='<td align="right">'.sprintf("% 12.2f",$row->qp_price).'</td>';
+		$r.='<td align="right">'.sprintf("% 12.2f",$row->qp_vat+$row->qp_nd_amount+$row->qp_nd_tva+$row->qp_nd_tva_recup+$row->qp_price).'</td>';
 		//-- add ca 
 		//
 
@@ -347,26 +359,36 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 		'<td colspan="7">Total HTVA</td>'.
 		'<td>'.sprintf('% 12.2f',$tot_amount)."</td>".
 		"</tr>";
+	if ( $tot_tva != 0 ) 
 	  $r.='<tr  style="font-size:13px;color:green;">'.
 		'<td colspan="7">Total TVA</td>'.
 		'<td>'.sprintf('%12.2f',$tot_tva)
 		."</td>".
 		"</tr>";
+	if ( $tot_nd !=0 )
 	  $r.='<tr  style="font-size:13px;color:green;">'.
 		'<td colspan="7">Total nd </td>'.
 		'<td style="font-size:13px;color:green;">'.sprintf('%12.2f',$tot_nd)."</td>".
 		"</tr>";
+	if ( $tot_tva_nd !=0 )
 	  $r.='<tr  style="font-size:13px;color:green;">'.
 		'<td colspan="7">Total tva nd</td>'.
 		'<td style="font-size:13px;color:green;">'.sprintf('%12.2f',$tot_tva_nd)."</td>".
 		"</tr>";
+	if ( $tot_tva_nd_recup !=0 )
 	  $r.='<tr  style="font-size:13px;color:green;">'.
 		'<td colspan="7">Total tva nd recup. par impot</td>'.
 		'<td style="font-size:13px;color:green;">'.sprintf('%12.2f',$tot_tva_nd_recup)."</td>".
 		"</tr>";
+	if ( $tot_dep_priv !=0 )
+	  $r.='<tr  style="font-size:13px;color:green;">'.
+		'<td colspan="7">Total tva nd recup. par impot</td>'.
+		'<td style="font-size:13px;color:green;">'.sprintf('%12.2f',$tot_dep_priv)."</td>".
+		"</tr>";
+
 	  $r.='<tr  style="font-size:13px;color:green;">'.
 		'<td colspan="7">Total </td>'.
-		'<td style="font-size:13px;color:green;">'.sprintf('%12.2f',$tot_amount+$tot_tva)."</td>".
+		'<td style="font-size:13px;color:green;">'.sprintf('%12.2f',$tot_dep_priv+$tot_amount+$tot_tva+$tot_tva_nd_recup+$tot_nd+$tot_tva_nd)."</td>".
 		"</tr>";
 
 	  $r.= '</table></td></tr>';
@@ -464,11 +486,31 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
   //doc
   if ( $p_mode ==1 && $content['jr_pj_name'] != "") 
 	  $r.='<tr><TD>Effacer Pj <INPUT TYPE="CHECKBOX" name="to_remove" ></TD>';
-  $r.="<TD>".sprintf('<A class="detail" HREF="show_pj.php?jrn=%s&jr_grpt_id=%s&'.$str_dossier.'">%s</A>',
+  $r.="<TD>".sprintf('<A class="detail" HREF="show_pj.php?jrn=%s&jr_grpt_id=%s&'.$str_dossier.'&PHPSESSID=%s">%s</A>',
 		     $content['jr_id'],
 		     $content['jr_grpt_id'],
+		     $_REQUEST['PHPSESSID'],
 		     $content['jr_pj_name'])."</TD>";
   $r.="</TR></TABLE>";
+  if ( $content['jrn_def_type'] == 'VEN' ) {
+    /* count the number of additionnal info */
+    $acc_jrn_info=new Acc_Jrn_Info($p_cn);
+    $acc_jrn_info->set_jrn_id($p_jr_id);
+
+    /* if additional info > 0 show them */
+    if ( $acc_jrn_info->count() > 0 ) {
+      $array=$acc_jrn_info->load_all();
+      foreach ($array as $row) {
+	if ( strpos($row->id_type,'BON_COMMANDE') ===0) {
+	  $r.="Num bon de commande : ".$row->ji_value.'<br>';
+	}
+	if ( strpos($row->id_type,'OTHER') ===0) {
+	  $r.="Autre info : ".$row->ji_value.'<br>';
+	}
+
+      }
+    }
+  }
   $r.="<hr>";
   if ( $p_mode == 1 ) {
 	$r.= "<table>"; 
