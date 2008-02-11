@@ -1,4 +1,5 @@
 begin;
+
 CREATE TABLE del_action
 (
   del_id serial NOT NULL,
@@ -79,7 +80,6 @@ row:=OLD;
 insert into del_jrnx select * from jrnx where j_id=row.j_id;
 return row;
 end;
-
 $BODY$
   LANGUAGE 'plpgsql' VOLATILE;
 
@@ -89,10 +89,11 @@ CREATE TRIGGER t_jrnx_del
   FOR EACH ROW
   EXECUTE PROCEDURE jrnx_del();
 
-CREATE TRIGGER t_jrnx_del
+CREATE TRIGGER t_jrn_del
   BEFORE DELETE
-  ON jrnx
+  ON jrn
   FOR EACH ROW
-  EXECUTE PROCEDURE jrnx_del();
+  EXECUTE PROCEDURE jrn_del();
 
+update version set val=42;
 commit;

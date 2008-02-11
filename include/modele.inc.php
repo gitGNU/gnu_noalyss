@@ -64,15 +64,19 @@ if ( isset ($_POST["FMOD_NAME"]) ) {
     {
       $a_lob=pg_fetch_all($Res);
       foreach ($a_lob as $lob) 
-	pg_lo_unlink($cn_mod,$lob['loid']);
+	@pg_lo_unlink($cn_mod,$lob['loid']);
     }
   
   $Res=ExecSql($cn_mod,"truncate table quant_sold");
   $Res=ExecSql($cn_mod,"truncate table quant_purchase");
   $Res=ExecSql($cn_mod,"truncate table centralized");
   $Res=ExecSql($cn_mod,"truncate table stock_goods");
-  $Res=ExecSql($cn_mod,"truncate table jrn");
+  $Res=ExecSql($cn_mod,"truncate jrn cascade");
   $Res=ExecSql($cn_mod,"delete from jrnx");
+  $Res=ExecSql($cn_mod,"delete from del_jrn");
+  $Res=ExecSql($cn_mod,"delete from del_jrnx");
+  $Res=ExecSql($cn_mod,"delete from del_action");
+
   $Res=ExecSql($cn_mod,'delete from operation_analytique');
 
   // TODO 
