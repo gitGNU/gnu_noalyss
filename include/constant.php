@@ -36,7 +36,7 @@ define ("domaine","");
 define ("MAX_COMPTE",4);
 define ('MAX_BUD_DETAIL',20);
 
-define ("DEBUG","true");
+define ("DEBUG","false");
 
 // securite correspond a la table 
 // action
