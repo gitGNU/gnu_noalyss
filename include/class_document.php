@@ -655,6 +655,13 @@ class Document
 	  $r=${$id};
 	  break;
 
+	case 'VEN_ART_TVA':
+	  extract ($_POST);
+	  $id='e_march'.$counter.'_sell' ;
+	  if ( !isset (${$id}) ) return "";
+	  $r=${$id};
+	  break;
+
 	case 'TVA_CODE':
 	  extract ($_POST);
 	  $id='e_march'.$counter.'_tva_id';
@@ -679,9 +686,8 @@ class Document
 	  $r=$tva['tva_label'];
 	  break;
 
-
+	  /* total VAT for one sold */
 	case 'TVA_AMOUNT':
-	case 'VEN_TVA':
 	  extract ($_POST);
 	  $qt='e_quant'.$counter;
 	  $price='e_march'.$counter.'_sell' ;
@@ -698,6 +704,47 @@ class Document
 	  if ( sizeof($a_tva) == 0 ) return "";
 	  $r=round(${$price},2)*${$qt}*$a_tva['tva_rate'];
 	  $r=round($r,2);
+	  break;
+
+	case 'VEN_ART_TVA':
+	  extract ($_POST);
+	  $qt='e_quant'.$counter;
+	  $price='e_march'.$counter.'_sell' ;
+	  $tva='e_march'.$counter.'_tva_id';
+	  if ( !isset (${'e_march'.$counter}) ) return "";
+	  // check that something is sold
+	  if ( ${$price} == 0 || ${$qt} == 0 
+	       || strlen(trim( $price )) ==0 
+	       || strlen(trim($qt)) ==0)
+	    return "";
+	  $a_tva=GetTvaRate($this->db,${$tva});
+	  echo_debug('class_document',__LINE__,'Tva  :'.var_export($a_tva,true));
+	  // if no vat returns 0
+	  if ( sizeof($a_tva) == 0 ) return "";
+	  $r=round(${$price},2)*$a_tva['tva_rate'];
+	  $r=round($r,2);
+	  break;
+
+	case 'VEN_ART_TVAC':
+	  extract ($_POST);
+	  $qt='e_quant'.$counter;
+	  $price='e_march'.$counter.'_sell' ;
+	  $tva='e_march'.$counter.'_tva_id';
+	  if ( !isset (${'e_march'.$counter}) ) return "";
+	  // check that something is sold
+	  if ( ${$price} == 0 || ${$qt} == 0 
+	       || strlen(trim( $price )) ==0 
+	       || strlen(trim($qt)) ==0)
+	    return "";
+	  $a_tva=GetTvaRate($this->db,${$tva});
+	  echo_debug('class_document',__LINE__,'Tva  :'.var_export($a_tva,true));
+	  // if no vat returns 0
+	  if ( sizeof($a_tva) == 0 ) {
+	    $r=round(${$price},2);
+	  }else {
+	    $r=round(${$price}*$a_tva['tva_rate']+${$price},2);
+	  }
+
 	  break;
 
 	case 'VEN_ART_QUANT':
