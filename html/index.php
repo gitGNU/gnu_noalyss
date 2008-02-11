@@ -77,7 +77,7 @@ BODY {
 </head>
 <BODY onLoad="SetFocus(\'login\',0)">
 <span style="background-color:#879ed4;color:white;padding-left:4px;padding-right:4px;">
-version  3.1.0
+version  4.0
 </span>
 <BR>
 <BR>

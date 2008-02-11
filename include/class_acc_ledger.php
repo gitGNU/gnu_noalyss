@@ -31,6 +31,8 @@ require_once ('jrn.php');
 require_once ('class_acexception.php');
 require_once ('class_acc_reconciliation.php');
 require_once ('class_periode.php');
+require_once ('class_gestion_purchase.php');
+
 /*!\file
 * \brief Class for jrn,  class acc_ledger for manipulating the ledger
 */
@@ -403,7 +405,9 @@ class Acc_Ledger {
 	  {
 	    $array[$i]=pg_fetch_array($Res); 
 	    $p=$this->get_detail($array[$i],$type,$trunc,$a_TVA,$a_ParmCode);
- 
+	    if ( $array[$i]['dep_priv'] != 0.0) {
+	      $array[$i]['comment'].="(priv. ".$array[$i]['dep_priv'].")";
+	    } 
 	  }
  
       }
@@ -444,6 +448,7 @@ class Acc_Ledger {
    */
   function get_detail(&$p_array,$p_jrn_type,$trunc=0,$a_TVA=null,$a_ParmCode=null)
   {
+    echo_debug(__FILE__.':'.__LINE__.'- get_detail','$p_array',$p_array);
     if ( $a_TVA == null ) 
       {
 	//Load TVA array
@@ -460,9 +465,11 @@ class Acc_Ledger {
     $p_array['TVAC']=0;
     $p_array['TVA']=array();
     $p_array['AMOUNT_TVA']=0.0;
+    $p_array['dep_priv']=0;
+    $dep_priv=0.0;
     //
     // Retrieve data from jrnx
-    $sql="select j_poste,j_montant, j_debit,j_qcode from jrnx where ".
+    $sql="select j_id,j_poste,j_montant, j_debit,j_qcode from jrnx where ".
       " j_grpt=".$p_array['grpt_id'];
     $Res2=ExecSql($this->db,$sql);
     $data_jrnx=pg_fetch_all($Res2);
@@ -565,9 +572,18 @@ class Acc_Ledger {
   
       // isDNA
       // If operation is reversed then  amount are negatif
+    /* if ND */
+      if ( $p_array['jrn_def_type'] == 'ACH') {
+	$purchase=new Gestion_Purchase($this->db);
+	$purchase->search_by_jid($code['j_id']);
+	$purchase->load();
+	$dep_priv+=$purchase->qp_dep_priv;
+	echo_debug(__FILE__.':'.__LINE__.'- get_detail','$dep_priv',$dep_priv);
+	$p_array['dep_priv']=$dep_priv;
+      }
 
     }
-    $p_array['TVAC']=sprintf('% 10.2f',$p_array['TVAC']);
+    $p_array['TVAC']=sprintf('% 10.2f',$p_array['TVAC']-$dep_priv);
     $p_array['HTVA']=sprintf('% 10.2f',$p_array['TVAC']-$p_array['AMOUNT_TVA']);
     $r="";
     $a_tva_amount=array();

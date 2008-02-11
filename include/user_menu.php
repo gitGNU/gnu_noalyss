@@ -193,7 +193,7 @@ function ShowMenuCompta($p_high="")
   $str_dossier=dossier::get();
   $r="";
   $r.=menu_tool("compta");
-  $r.='<div style="float:left">';
+  $r.='<div style="float:left;background-color:#879ED4;">';
   $r.=$result;
   $r.='</div>';
   //  $r.='</div>';
@@ -826,7 +826,7 @@ $r.='<script language="javascript">
   $r.= "<H2 class=\"info\">Commercial ".dossier::name()."</h2> ";
   $r.= '</div>';
   $r.= '<div class="acces_direct">';
-  if ( $from == 'compta') $view='E';
+  if ( $p_from == 'compta') $view='E';
 	else $view='S';
   $agent=$_SERVER['HTTP_USER_AGENT'];
 
@@ -842,7 +842,7 @@ $r.='<script language="javascript">
 	       );
   if ( $_SESSION['g_topmenu'] == 'SELECT' ) {
     $gDossier=dossier::id();
-    $r.= '<form method="GET" action="control.php">';
+    $r.= '<form method="GET" action="control.php" >';
     $w=new widget('select');
     $w->name='m';
     $w->value=$amodule;
@@ -851,9 +851,9 @@ $r.='<script language="javascript">
     $search="openRecherche('".$_REQUEST['PHPSESSID']."','".$gDossier."','".$view."');";
     $r.='<input type="BUTTON" onClick="'.$search.'" value="Recherche">';
     $r.='</td>';
-    $r.= '<td>'.$w->IOValue().'</td>';
+    $r.= '<td style="border:2px solid blue;border-style:groove;">'.$w->IOValue();
     $r.= dossier::hidden();
-    $r.= '<td>'.widget::submit('','Acces Direct').'</td>';
+    $r.=widget::submit('','Acces Direct').'</td>';
     $r.= '</table>';
     $r.= '</form>';
     $r.= '</div>';

@@ -84,4 +84,39 @@ class gestion_purchase extends gestion_table
 	}
 	return $array;
   }
+  function search_by_jid($p_jid) {
+    $res=ExecSql($this->db,"select qp_id from quant_purchase where j_id=".$p_jid);
+
+    if ( pg_NumRows($res) == 1) 
+      $this->qp_id=pg_fetch_result($res,0,0);
+    else 
+      $this->qp_id=0;
+  }
+  function load() {
+    $sql="select  qp_id,
+                  qp_internal,
+                  qp_fiche,
+                  qp_quantite,
+                  qp_price,
+                  qp_vat,
+                  qp_vat_code,
+                  qp_nd_amount,
+                  qp_nd_tva,
+                  qp_nd_tva_recup,
+                  qp_supplier,
+                  j_id,
+                  qp_dep_priv
+                 from quant_purchase
+        where qp_id=".$this->qp_id;
+	$ret=ExecSql($this->db,$sql);
+	// $res contains all the line
+	$res=pg_fetch_all($ret);
+
+	if ( empty($res) ) return null;
+	foreach ($res[0] as $idx=>$value)
+	  $this->$idx=$value;
+	echo_debug(__FILE__.':'.__LINE__.'- gestion_purchase',	'load',$this);
+
+  }
+
 }
