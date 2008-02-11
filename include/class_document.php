@@ -655,12 +655,6 @@ class Document
 	  $r=${$id};
 	  break;
 
-	case 'VEN_ART_TVA':
-	  extract ($_POST);
-	  $id='e_march'.$counter.'_sell' ;
-	  if ( !isset (${$id}) ) return "";
-	  $r=${$id};
-	  break;
 
 	case 'TVA_CODE':
 	  extract ($_POST);
