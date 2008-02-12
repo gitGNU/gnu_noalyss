@@ -98,26 +98,26 @@ if ( $_REQUEST['p_action'] == "pref" )
 // Plan Analytique
 if ($_REQUEST['p_action'] == 'ca_pa' )
   {
-	require_once('ca_pa.inc.php');
+	require_once('anc_pa.inc.php');
 	exit();
   }
 
 // Operations Diverses
 if ($_REQUEST['p_action'] == 'ca_od' )
   {
-	require_once('ca_od.inc.php');
+	require_once('anc_od.inc.php');
 	exit();
   }
 // Impression
 if ($_REQUEST['p_action'] == 'ca_groupe' )
   {
-	require_once('ca_group.inc.php');
+	require_once('anc_group.inc.php');
 	exit();
   }
 
 // Impression
 if ($_REQUEST['p_action'] == 'ca_imp' )
   {
-	require_once('ca_imp.inc.php');
+	require_once('anc_imp.inc.php');
 	exit();
   }
