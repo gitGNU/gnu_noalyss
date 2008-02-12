@@ -233,8 +233,8 @@ function get_solde_detail($p_cond="") {
        "<TH> Code interne </TH>".
        "<TH> Date</TH>".
        "<TH> Description </TH>".
-       "<TH> Débit  </TH>".
-	"<TH> Crédit </TH>".
+       "<TH> D&eacute;bit  </TH>".
+	"<TH> Cr&eacute;dit </TH>".
        "</TR>";
      
      foreach ( $this->row as $op ) { 

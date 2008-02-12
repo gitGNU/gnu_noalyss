@@ -52,6 +52,7 @@ var $jr_id;	/*!< pk of jrn */
     $this->user=$_SESSION['g_user'];
     $user=new User($this->db);
     $this->periode=$user->get_periode();
+    $this->jr_id=0;
   }
   /* **************************************************
    *\brief  Insert into the table Jrn
@@ -133,5 +134,35 @@ function get_internal() {
   $this->jr_internal= $l_line['jr_internal'];
   return $this->jr_internal;
 }
-
+/*!\brief search an operation thankx it internal code
+ * \param internal code
+ * \return 0 ok -1 nok
+ */
+function seek_internal($p_internal) {
+	$res=ExecSqlParam($this->db,'select j_id from jrn where jr_internal=$1",
+			array($p_internal));
+	if ( pg_NumRows($Res) == 0 ) return -1;
+	$this->jr_id=pg_fetch_result($Res,0,0);
+	return 0;
+	}
+/*!\brief retrieve data from jrnx 
+ * \return an array
+ */
+function get_jrnx_detail() {
+	if ( $this->jr_id=0 ) return;
+	$sql=" select j_qcode,j_poste,j_montant,case when j_debit = 'f' then 'C' else 'D' end as debit,
+                vw_name,pcm_lib from jrnx join jrn on (jr_grpt_id=j_grpt)
+                join tmp_pcmn on (j_poste=pcm_val)
+                left join vw_fiche_attr on (j_qcode=quick_code)
+		where
+		jr_id=$1";
+	$res=ExecSqlParam($this->db,$sql,array($this->jr_id));
+	if ( pg_NumRows ($res) == 0 ) return array();
+	$all=pg_fetch_all($res);
+	$array=array();
+	foreach ($all as $idx=>$row ) {
+		$array[$idx]=$row;
+	}
+	return $array;
+}
 }
