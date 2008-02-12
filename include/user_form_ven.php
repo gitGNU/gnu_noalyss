@@ -220,7 +220,7 @@ function FormVenInput($p_cn,$p_jrn,$p_periode,$p_array=null,$pview_only=true,$p_
     $r.=$Price->IOValue("e_march".$i."_sell",$march_sell);
     // vat label
     //--
-    $select_tva=make_array($p_cn,"select tva_id,tva_label from tva_rate order by tva_rate desc",1);
+    $select_tva=make_array($p_cn,"select tva_id,tva_label from tva_rate order by tva_rate desc",0);
     $Tva=new widget("select");
     $Tva->table=1;
     $Tva->selected=$march_tva_id;
@@ -823,7 +823,7 @@ function RecordInvoice($p_cn,$p_array,$p_user,$p_jrn)
 		{
 		  foreach ($a_vat_new as $tva_id => $tva_amount ) {
 			$poste=GetTvaPoste($p_cn,$tva_id,'c');
-			if ($tva_amount == 0 ) continue;
+			// if ($tva_amount == 0 ) continue;
 			$r=InsertJrnx($p_cn,'c',$p_user->id,$p_jrn,$poste,$e_date,round($tva_amount,2),$seq,$periode);
 		  }
 		}
