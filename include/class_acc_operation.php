@@ -159,10 +159,6 @@ function get_jrnx_detail() {
 	$res=ExecSqlParam($this->db,$sql,array($this->jr_id));
 	if ( pg_NumRows ($res) == 0 ) return array();
 	$all=pg_fetch_all($res);
-	$array=array();
-	foreach ($all as $idx=>$row ) {
-		$array[$idx]=$row;
-	}
-	return $array;
+	return $all;
 }
 }
