@@ -19,6 +19,7 @@
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 include_once("class_widget.php");
+require_once('class_acc_operation.php');
 /*! \file
  * \brief Print account (html or pdf)
  *        file included from user_impress
@@ -73,11 +74,20 @@ print "<TR><TD>";
 $all=new widget("checkbox");
 $all->label="Tous les postes qui en dépendent";
 $all->disabled=false;
+$all->selected=(isset($_REQUEST['poste_fille']))?true:false;
 echo $all->IOValue("poste_fille");
+echo '</TD></TR><TR><TD>';
+$detail=new widget("checkbox");
+$detail->label="D&eacute;tail des op&eacute;rations";
+$detail->disabled=false;
+$detail->selected=(isset($_REQUEST['oper_detail']))?true:false;
+echo $detail->IOValue("oper_detail");
+echo '</td></tr>';
 echo '</TABLE>';
-print widget::submit('bt_html','Impression');
+print widget::submit('bt_html','Visualisation');
 
 echo '</FORM>';
+echo '<hr>';
 echo '</div>';
 
 //-----------------------------------------------------
@@ -119,9 +129,34 @@ if ( isset( $_POST['bt_html'] ) ) {
   if ( $go == 1) 
     {
       echo '<div class="u_content">';
-      $Poste->HtmlTableHeader();
-      $Poste->HtmlTable();
-      $Poste->HtmlTableHeader();
+      if ( ! isset($_REQUEST['oper_detail']) ) {
+	Acc_Account_Ledger::HtmlTableHeader();
+	$Poste->HtmlTable();
+	echo Acc_Account_Ledger::HtmlTableHeader();
+      } else {
+	//----------------------------------------------------------------------
+	// Detail 
+	//----------------------------------------------------------------------
+	Acc_Account_Ledger::HtmlTableHeader();
+	$Poste->get_row( $_POST['from_periode'], $_POST['to_periode']);
+	if ( empty($Poste->row)) exit();
+	$Poste->load();
+	echo '<table "width=70%">';
+	echo '<tr><td  class="mtitle" colspan="5"><h2 class="info">'. $_POST['poste_id'].' '.$Poste->label.'</h2></td></tr>';
+
+	foreach ($Poste->row as $a) {
+	  $detail=$a;
+	  
+	  echo '<tr><td class="mtitle" colspan="5">'.$detail['j_date'].' '.$detail['jr_internal'].$detail['description'].'</td></tr>';
+
+	  $op=new Acc_Operation($cn);
+	  $op->jr_id=$a['jr_id'];
+	  $op->poste=$_POST['poste_id'];
+	  echo $op->display_jrnx_detail(1);
+	}
+	echo '</table>';
+	echo Acc_Account_Ledger::HtmlTableHeader();
+      }
       echo "</div>";
       exit;
    }
@@ -146,17 +181,47 @@ if ( isset( $_POST['bt_html'] ) ) {
       echo '<div class="u_content">';
 
 
-      $Poste=new Acc_Account_Ledger($cn,$_POST['poste_id']);
-      $Poste->HtmlTableHeader($_POST['poste_id']);
-      $Poste->HtmlTable();
+      if ( ! isset ($_REQUEST['oper_detail'])) {
+	$Poste=new Acc_Account_Ledger($cn,$_POST['poste_id']);
+	echo Acc_Account_Ledger::HtmlTableHeader();
+		
+	foreach ($a_poste as $poste_id ) 
+	  {
+	    $Poste=new Acc_Account_Ledger ($cn,$poste_id['pcm_val']);
+	    $Poste->HtmlTable();
+	  }
+	echo Acc_Account_Ledger::HtmlTableHeader();
+	echo "</div>";
+      } else {
+	//----------------------------------------------------------------------
+	// Detail 
+	//----------------------------------------------------------------------
+	echo Acc_Account_Ledger::HtmlTableHeader();
+	echo '<table "width=70%">';	    
+	foreach ($a_poste as $poste_id ) 
+	  {
+	    $Poste=new Acc_Account_Ledger ($cn,$poste_id['pcm_val']);
+	    $Poste->load();
+	    $Poste->get_row( $_POST['from_periode'], $_POST['to_periode']);
+	    if ( empty($Poste->row)) continue;
+	    echo '<tr><td  class="mtitle"  colspan="5"><h2 class="info">'. $poste_id['pcm_val'].' '.$Poste->label.'</h2></td></tr>';
 
-      foreach ($a_poste as $poste_id ) 
-	{
-	  $Poste=new Acc_Account_Ledger ($cn,$poste_id['pcm_val']);
-	  $Poste->HtmlTable();
-	}
-      $Poste->HtmlTableHeader($_POST['poste_id']);
-      echo "</div>";
+	    $detail=$Poste->row[0];
+	    
+
+	    foreach ($Poste->row as $a) {
+	      echo '<tr><td class="mtitle" colspan="5">'. $detail['j_date'].' '.$detail['jr_internal'].$detail['description'].'</td></tr>';
+
+	      $op=new Acc_Operation($cn);
+	      $op->poste=$poste_id['pcm_val'];
+
+	      $op->jr_id=$a['jr_id'];
+	      echo $op->display_jrnx_detail(1);
+	    }
+	  }
+	echo '</table>';
+	echo Acc_Account_Ledger::HtmlTableHeader();
+      }
       
       exit;
     }

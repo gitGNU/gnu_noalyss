@@ -138,27 +138,95 @@ function get_internal() {
  * \param internal code
  * \return 0 ok -1 nok
  */
-function seek_internal($p_internal) {
-	$res=ExecSqlParam($this->db,'select j_id from jrn where jr_internal=$1",
-			array($p_internal));
-	if ( pg_NumRows($Res) == 0 ) return -1;
-	$this->jr_id=pg_fetch_result($Res,0,0);
-	return 0;
-	}
-/*!\brief retrieve data from jrnx 
- * \return an array
- */
-function get_jrnx_detail() {
-	if ( $this->jr_id=0 ) return;
-	$sql=" select j_qcode,j_poste,j_montant,case when j_debit = 'f' then 'C' else 'D' end as debit,
+ function seek_internal($p_internal) {
+   $res=ExecSqlParam($this->db,'select j_id from jrn where jr_internal=$1',
+		     array($p_internal));
+   if ( pg_NumRows($Res) == 0 ) return -1;
+   $this->jr_id=pg_fetch_result($Res,0,0);
+   return 0;
+ }
+ /*!\brief retrieve data from jrnx 
+  * \return an array
+  */
+ function get_jrnx_detail() {
+   if ( $this->jr_id==0 ) return;
+   $sql=" select j_date,j_qcode,j_poste,j_montant,jr_internal,case when j_debit = 'f' then 'C' else 'D' end as debit,
                 vw_name,pcm_lib from jrnx join jrn on (jr_grpt_id=j_grpt)
                 join tmp_pcmn on (j_poste=pcm_val)
                 left join vw_fiche_attr on (j_qcode=quick_code)
 		where
 		jr_id=$1";
-	$res=ExecSqlParam($this->db,$sql,array($this->jr_id));
-	if ( pg_NumRows ($res) == 0 ) return array();
-	$all=pg_fetch_all($res);
-	return $all;
-}
+   $res=ExecSqlParam($this->db,$sql,array($this->jr_id));
+   if ( pg_NumRows ($res) == 0 ) return array();
+   $all=pg_fetch_all($res);
+   return $all;
+ }
+ /*!\brief display_jrnx_detail : get the data from get_jrnx_data and
+    return a string with HTML code 
+  * \param table(=0 no code for table,1 code for table,2 code for CSV)
+
+ */
+ function display_jrnx_detail($p_table) {
+   $show=$this->get_jrnx_detail();
+
+   $r='';
+   $r_notable='';
+   $csv="";
+   foreach ($show as $l) {
+     if ( $l['j_poste'] == $this->poste)
+       $r.='<tr bgcolor="red">';
+     else
+       $r.='<tr>';
+
+       $r.='<td>';
+       $a=$l['j_qcode'];;
+       $r_notable.=$a;
+       $r.=$a;
+       $csv.='"'.$a.'";';
+       $r.='</td>';
+       
+       $r.='<td>';
+       $a=$l['j_poste'];
+       $r_notable.=$a;
+       $r.=$a;
+       $csv.='"'.$a.'";';
+       $r.='</td>';
+
+       $r.='<td>';
+       $a=($l['vw_name']=="")?$l['j_qcode']:$l['pcm_lib'];
+       $r_notable.=$a;
+       $r.=$a;
+       $csv.='"'.$a.'";';
+       $r.='</td>';
+       
+       $r.='<td>';
+       $a=$l['j_montant'];
+       $r_notable.=$a;
+       $r.=$a;
+       $csv.=$a.';';
+       $r.='</td>';
+       
+       $r.='<td>';
+       $a=$l['debit'];
+       $r_notable.=$a;
+       $r.=$a;
+       $csv.='"'.$a.'"';
+
+       $csv.="\n\r";
+       $r.='</td>';
+     
+       $r.='</tr>';
+   }
+   switch ($p_table) {
+   case 1:
+     return $r;
+     break;
+   case 0:
+     return $r_notable;
+     break;
+   case 2:
+     return $csv;
+   }
+   return "ERROR PARAMETRE";
+ }
 }

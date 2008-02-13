@@ -204,7 +204,7 @@ echo '<span class="notice"> Attention : vous ne pouvez pas utiliser les &eacute;
 echo '<br>';
 echo '<span class="notice"> Les clauses FROM sont ignorés avec les dates calendriers</span>';
 echo '<br>';
-print widget::submit('bt_html','Impression');
+print widget::submit('bt_html','Visualisation');
 
 echo '</FORM>';
 echo '</div>';

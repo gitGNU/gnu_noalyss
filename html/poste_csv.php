@@ -25,6 +25,8 @@ include_once("ac_common.php");
 include_once ("postgres.php");
 include ('class_user.php');
 require_once("class_acc_account_ledger.php");
+require_once ('class_acc_operation.php');
+
 header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="poste.csv"',FALSE);
 require_once('class_dossier.php');
@@ -38,42 +40,44 @@ $User=new User($cn);
 $User->Check();
 if ( isset ( $_POST['poste_fille']) )
 { //choisit de voir tous les postes
-  $a_poste=get_array($cn,"select pcm_val from tmp_pcmn where pcm_val like '".$_POST["poste_id"]."%'");
+  $a_poste=get_array($cn,"select pcm_val from tmp_pcmn where pcm_val::text like '".$_POST["poste_id"]."%'");
 } 
 else 
 {
   $a_poste=get_array($cn,"select pcm_val from tmp_pcmn where pcm_val = '".$_POST['poste_id']."'");
 }
-if ( count($a_poste) == 0 )
-     exit;
 
-foreach ($a_poste as $pos) 
-{
-  $Poste=new Acc_Account_Ledger($cn,$pos['pcm_val']);
-  $Poste->get_name();
-  list($array,$tot_deb,$tot_cred)=$Poste->get_row( $_POST['from_periode'],
-						  $_POST['to_periode']
-						);
-  if ( count($Poste->row ) == 0 ) 
-    continue;
+if ( ! isset ($_POST['oper_detail'])) {
+  if ( count($a_poste) == 0 )
+    exit;
   
-  echo '"Poste";'.
-    "\"Code interne\";".
-    "\"Date\";".
-    "\"Description\";".
-      "\"Débit\";".
-      "\"Crédit\"";
-  printf("\n");
+  foreach ($a_poste as $pos) 
+    {
+      $Poste=new Acc_Account_Ledger($cn,$pos['pcm_val']);
+      $Poste->get_name();
+      list($array,$tot_deb,$tot_cred)=$Poste->get_row( $_POST['from_periode'],
+						       $_POST['to_periode']
+						       );
+      if ( count($Poste->row ) == 0 ) 
+	continue;
+      
+      echo '"Poste";'.
+	"\"Code interne\";".
+	"\"Date\";".
+	"\"Description\";".
+	"\"Débit\";".
+	"\"Crédit\"";
+      printf("\n");
   
-  
-  foreach ( $Poste->row as $op ) { 
-    echo '"'.$pos['pcm_val'].'";'.
-     '"'.$op['jr_internal'].'"'.";".
-      '"'.$op['j_date'].'"'.";".
-      '"'.$op['description'].'"'.";".
-      sprintf("%8.4f",$op['deb_montant']).";".
-      sprintf("%8.4f",$op['cred_montant']);
-    printf("\n");
+      
+      foreach ( $Poste->row as $op ) { 
+	echo '"'.$pos['pcm_val'].'";'.
+	  '"'.$op['jr_internal'].'"'.";".
+	  '"'.$op['j_date'].'"'.";".
+	  '"'.$op['description'].'"'.";".
+	  sprintf("%8.4f",$op['deb_montant']).";".
+	  sprintf("%8.4f",$op['cred_montant']);
+	printf("\n");
     
     
   }
@@ -84,6 +88,53 @@ foreach ($a_poste as $pos)
     sprintf("%8.4f",$diff).";".
     sprintf("%8.4f",$tot_deb).";".
     sprintf("%8.4f",$tot_cred)."\n");
-}
+    }
+ } else {
+  /* detail of all operation */
+ if ( count($a_poste) == 0 )
+    exit;
+  
+  foreach ($a_poste as $pos) 
+    {
+      $Poste=new Acc_Account_Ledger($cn,$pos['pcm_val']);
+      $Poste->get_name();
+      list($array,$tot_deb,$tot_cred)=$Poste->get_row( $_POST['from_periode'],
+						       $_POST['to_periode']
+						       );
+      if ( count($Poste->row ) == 0 ) 
+	continue;
+      
+      echo '"Poste";'.
+	'"QuickCode";'.
+	"\"Code interne\";".
+	"\"Date\";".
+	"\"Description\";".
+	"\"Montant\";".
+	"\"D/C\"";
+      printf("\n");
+  
+      
+      foreach ( $Poste->row as $a ) { 
+	$op=new Acc_Operation($cn);
+	$op->jr_id=$a['jr_id'];
+	$result=$op->get_jrnx_detail();
+	foreach ( $result as $r) {
+	  printf('"%s";"%s";"%s";"%s";"%s";%12.2f;"%s"',
+		 $r['j_poste'],
+		 $r['j_qcode'],
+		 $r['jr_internal'],
+		 $r['j_date'],
+		 $a['description'],
+		 $r['j_montant'],
+		 $r['debit']);
+	  printf("\n");
+
+	}
+
+    
+    
+      }
+    }
   exit;
+ }
 ?>

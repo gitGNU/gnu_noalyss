@@ -153,7 +153,7 @@ if ( isset($_POST["record_invoice"])) {
   }
 
   // echo "RECORD INVOICE";
-   RecordInvoice($cn,$_POST,$User,$_GET['p_jrn']);
+  list($internal,$comment)=RecordInvoice($cn,$_POST,$User,$_GET['p_jrn']);
 }
 if (isset ($_POST['correct_new_invoice'])) {
   // Check privilege
@@ -179,9 +179,11 @@ if ( isset($_POST["record_and_print_invoice"])) {
   $nb_number=$_POST["nb_item"];
   echo_debug(__FILE__.':'.__LINE__.'- record_and_print_invoice');
   if ( form_verify_input($cn,$p_jrn,$User->get_periode(),$_POST,$nb_number)== true) {
-    $comment=RecordInvoice($cn,$_POST,$User,$_GET['p_jrn']);
-    
+    echo '<div class="u_redcontent">';
+    list($internal,$comment)=RecordInvoice($cn,$_POST,$User,$_GET['p_jrn']);
+    echo '<h2 class="info">Op&eacute;ration '.$internal.' </h2>';
     $form=FormVenteView($cn,$p_jrn,$User->get_periode(),$_POST,$nb_number,'noform',$comment);
+    echo '</div>';
   } else {
     
     echo("A cause d'erreur la facture ne peut-&egrave;tre valid&eacute; ");

@@ -173,15 +173,17 @@ if ( $action == 'new' ) {
 	}
 	// Save the charge into database
 	if ( isset($_POST['save'] )) {
-	  $r=RecordFin($cn,$_POST,$User,$_GET['p_jrn']);
+	  $internal=RecordFin($cn,$_POST,$User,$_GET['p_jrn']);
 	  // Get number of  lines
 	  $nb_number=$_POST["nb_item"];
 
 	  // submit button in the form
-	  $submit='<h2 class="info">Recorded '.$r.'</h2>';
-
-	  $r.=FormFin($cn,$_GET['p_jrn'],$User->get_periode(),$submit,$_POST,true,  $nb_number,true);
+	  //$submit='<h2 class="info">Enregistr&eacute; '.$r.'</h2>';
+	  $submit="";
+	  $r=FormFin($cn,$_GET['p_jrn'],$User->get_periode(),$submit,$_POST,true,  $nb_number,true);
 	  echo '<div class="u_redcontent">';
+	  echo '<h2 class="info">Enregistr&eacute; '.$internal.'</h2>';
+	  echo $submit;
 	  echo $r;
 	  echo "</div>";
 	  

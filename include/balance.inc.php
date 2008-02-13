@@ -86,9 +86,9 @@ echo "</div>";
 //$a=FormPeriodeMult($cn);
 //echo $a;
 
-echo '<input type="submit" name="view" value="Impression">';
+echo '<input type="submit" name="view" value="Visualisation">';
 echo '</form>';
-
+echo '<hr>';
 //-----------------------------------------------------
 // Form
 //-----------------------------------------------------

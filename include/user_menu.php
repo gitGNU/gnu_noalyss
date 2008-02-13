@@ -178,7 +178,7 @@ function ShowMenuCompta($p_high="")
   $str_dossier=dossier::get();
   $p_array=array(
 		 array("user_jrn.php?jrn_type=NONE&".$str_dossier ,"Grand Livre"),
-		 array("user_jrn.php?jrn_type=VEN&".$str_dossier ,"Entrée"),
+		 array("user_jrn.php?jrn_type=VEN&".$str_dossier ,"Vente"),
 		 array("user_jrn.php?jrn_type=ACH&".$str_dossier,"Dépense"),
 		 array("user_jrn.php?jrn_type=FIN&".$str_dossier,"Financier"),
 		 array("user_jrn.php?jrn_type=ODS&".$str_dossier,"Op. Diverses"),
@@ -841,6 +841,9 @@ $r.='<script language="javascript">
 		 array('value'=>'logout','label'=>'Sortir')
 	       );
   if ( $_SESSION['g_topmenu'] == 'SELECT' ) {
+    $lab="";
+    foreach ($amodule as $l) 
+      if ( $l['value'] == $p_from) {$lab=$l['label'];break;}
     $gDossier=dossier::id();
     $r.= '<form method="GET" action="control.php" >';
     $w=new widget('select');
@@ -856,13 +859,15 @@ $r.='<script language="javascript">
     $r.=widget::submit('','Acces Direct').'</td>';
     $r.= '</table>';
     $r.= '</form>';
+    echo '<span style="background-color:red;padding:3px;color:white">'.$lab.'</span>';
+
     $r.= '</div>';
   }
   if ( $_SESSION['g_topmenu'] == 'TEXT' ) {
     $gDossier=dossier::id();
     $r.=    '<table><tr><td class="mtitle2">';
     $r.= '<A class="cell" HREF="javascript:openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.$gDossier.')">'.
-      'Recheche</a></td>';
+      'Recherche</a></td>';
     foreach($amodule as $col ) {
       $url="control.php?".dossier::get()."&m=".$col['value'];
       if ( $p_from==$col['value']) {
