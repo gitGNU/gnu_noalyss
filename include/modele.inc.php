@@ -92,7 +92,7 @@ if ( isset ($_POST["FMOD_NAME"]) ) {
 	    ' parm_periode cross join jrn_def');
 
   // Reset Sequence
-  $a_seq=array('s_jrn','s_jrn_op','s_centralized','s_stock_goods');
+  $a_seq=array('s_jrn','s_jrn_op','s_centralized','s_stock_goods','s_internal');
   foreach ($a_seq as $seq ) {
     $sql=sprintf("select setval('%s',1,false)",$seq);
     $Res=ExecSql($cn_mod,$sql);
@@ -110,8 +110,6 @@ if ( isset ($_POST["FMOD_NAME"]) ) {
     
     $sql=sprintf ("select setval('s_jrn_%d',1,false)",$row['jrn_def_id']);
     ExecSql($cn_mod,$sql);
-
-
   }
   //---
   // Cleaning Action
