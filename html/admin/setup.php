@@ -166,7 +166,7 @@ echo_debug('setup.php',__LINE__,"Execute sql $sql");
  */
 function apply_patch($p_cn,$p_name)
 {
-  $MaxVersion=41;
+  $MaxVersion=42;
   echo '<ul>';
   for ( $i = 4;$i <= $MaxVersion;$i++)
 	{
