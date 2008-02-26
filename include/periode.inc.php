@@ -19,6 +19,7 @@
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /*! \file
+ * \brief add, modify, close or delete a period
  */
 $gDossier=dossier::id();
 require_once ('class_widget.php');

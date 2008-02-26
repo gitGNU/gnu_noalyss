@@ -26,9 +26,9 @@
  */
 
 class rapport {
-  var $db;    /*! \enum $db database connx */
-  var $id;    /*! \enum $id formdef.fr_id */
-  var $name;  /*! \enum $name report's name */
+  var $db;    /*!< $db database connx */
+  var $id;    /*!< $id formdef.fr_id */
+  var $name;  /*!< $name report's name */
   /*!\brief  Constructor */
   function rapport($p_cn,$p_id) {
     $this->db=$p_cn;

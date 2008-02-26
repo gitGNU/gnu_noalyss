@@ -431,7 +431,7 @@ function get_array($p_cn,$p_sql) {
  */
 function save_upload_document ($cn,$seq) {
 
-  $new_name=tempnam('/tmp','pj');
+  $new_name=tempnam($_ENV['TMP'],'pj');
   echo_debug('postgres.php',__LINE__,"new name=".$new_name);
   echo_debug(__FILE__.":".__LINE__.$_FILES);
   if ($_FILES["pj"]["error"] > 0)

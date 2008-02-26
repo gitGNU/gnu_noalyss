@@ -25,8 +25,14 @@
  */
 date_default_timezone_set ('Europe/Brussels');
 
+$inc_path=get_include_path();
+if ( strpos($inc_path,";") != 0 ) {
+  $_ENV['TMP']="c:\Temp";
+ } else {
+  $_ENV['TMP']="/tmp";
+ }
 
-$_ENV['TMP']="/tmp";
+
 define ("phpcompta_password","dany");
 define ("phpcompta_psql_port","5432");
 define ("phpcompta_user","phpcompta");
@@ -36,7 +42,7 @@ define ("domaine","");
 define ("MAX_COMPTE",4);
 define ('MAX_BUD_DETAIL',20);
 
-define ("DEBUG","true");
+define ("DEBUG","false");
 
 // securite correspond a la table 
 // action

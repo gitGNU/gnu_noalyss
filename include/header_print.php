@@ -20,10 +20,8 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
- */
-
-/* \brief
+/*!\file 
+ * \brief contains several function to replace the header in generated document
  *
  */
 

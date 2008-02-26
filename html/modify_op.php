@@ -120,7 +120,7 @@ if ( $action == 'update' ) {
 	$view.="<br>";
 	$view.="<br>";
 	$view.="<br>";
-	$view.='<input type="SUBMIT" name="update_record" value="Enregistre">';
+	$view.=($p_view == 'S')?'<input type="SUBMIT" name="update_record" value="Enregistre">':"";
 	$view.="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 	$view.='<input type="button" value="Fermer" onClick="window.close();  self.opener.RefreshMe();">';
 	$view.='</FORM>';
@@ -142,7 +142,7 @@ if ( $action == 'update' ) {
 	$view.="<br>";
 	$view.="<br>";
 	$view.="<br>";
-	$view.='<input type="SUBMIT" name="update_record" value="Enregistre">';
+	$view.=($p_view == 'E') ?'<input type="SUBMIT" name="update_record" value="Enregistre">':"";
 	$view.="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 	$view.='<input type="button" value="Fermer" onClick="window.close();  self.opener.RefreshMe();">';
 	$view.='</div>';

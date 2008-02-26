@@ -443,7 +443,7 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
 	$Res=ExecSql($p_cn,"update jrn set jr_internal='".$internal."' where ".
 	       " jr_grpt_id = ".$seq);
 
-	$comment=$internal_code."  compte : ".GetFicheName($p_cn,$e_bank_account);
+	$comment=$internal."  compte : ".GetFicheName($p_cn,$e_bank_account);
 	if ( FormatString(${"e_other$i"."_comment"}) == null ) {
 	  // Update comment if comment is blank
 	  $Res=ExecSql($p_cn,"update jrn set jr_comment='".$comment."' where jr_grpt_id=".$seq);
@@ -490,6 +490,6 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
  
     }
   Commit($p_cn);
-  return $internal_code;
+  return $internal;
 }
 ?>

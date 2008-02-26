@@ -232,7 +232,7 @@ echo_debug('user_form_ach.php',__LINE__,"Enter FormAchInput($p_cn,$p_jrn,$p_peri
     $Price->size=9;
     $r.=$Price->IOValue("e_march".$i."_buy",$march_buy);
     // vat label
-    $select_tva=make_array($p_cn,"select tva_id,tva_label from tva_rate order by tva_rate desc",1);
+    $select_tva=make_array($p_cn,"select tva_id,tva_label from tva_rate order by tva_rate desc",0);
     $Tva=new widget("select");
     $Tva->table=1;
     $Tva->selected=$march_tva_id;
@@ -994,7 +994,7 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 	foreach ($a_vat as $tva_id => $e_tva_amount ) 
 	  {
 	    echo_debug('user_form_ach',__LINE__," tva_amount = $e_tva_amount tva_id=$tva_id");
-	    if ($e_tva_amount == 0 ) continue;
+	    //if ($e_tva_amount == 0 ) continue;
 
 	    $poste=GetTvaPoste($p_cn,$tva_id,'d');
 

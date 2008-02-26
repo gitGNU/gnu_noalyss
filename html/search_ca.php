@@ -20,10 +20,9 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
- */
-
-/* \brief show a screen to search a ca account
+/*!\file 
+ *
+ * \brief show a screen to search a ca account
  *
  */
  

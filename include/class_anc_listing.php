@@ -21,11 +21,9 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file 
+ * \brief definition of Anc_Listing
  */
 
-/*! \brief
- *
- */
 require_once ('class_anc_plan.php');
 require_once ('class_anc_print.php');
 require_once ('class_anc_operation.php');

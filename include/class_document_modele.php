@@ -26,13 +26,13 @@
  */
 
 class Document_modele {
-  var $cn;         	/*! \enum $cn  database connection */
-  var $md_id;	        /*! \enum $md_id pk */
-  var $md_name;         /*! \enum $md_name template's name */
-  var $md_type;         /*! \enum $md_type template's type (letter, invoice, order...) */
-  var $md_lob;          /*! \enum $md_lob Document file */
-  var $md_sequence;     /*! \enum  $md_sequence sequence name (autogenerate) */
-  var $sequence;        /*! \enum $sequence sequence number used by the create sequence start with */
+  var $cn;         	/*!< $cn  database connection */
+  var $md_id;	        /*!< $md_id pk */
+  var $md_name;         /*!< $md_name template's name */
+  var $md_type;         /*!< $md_type template's type (letter, invoice, order...) */
+  var $md_lob;          /*!< $md_lob Document file */
+  var $md_sequence;     /*!<  $md_sequence sequence name (autogenerate) */
+  var $sequence;        /*!< $sequence sequence number used by the create sequence start with */
   //Constructor parameter = database connexion
   function Document_modele($p_cn,$p_id=-1) {
     $this->cn=$p_cn;	

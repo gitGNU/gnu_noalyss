@@ -21,6 +21,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file 
+ *  \brief this class is the mother class for the CA printing
  */
 
 /*! \brief this class is the mother class for the CA printing

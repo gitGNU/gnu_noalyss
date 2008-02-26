@@ -21,6 +21,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*! \file 
+ * \brief class to manage the table bud_detail
  */
 /*!
  * \brief class to manage the table bud_detail

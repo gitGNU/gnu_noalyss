@@ -10,7 +10,6 @@ INSERT INTO parm_poste (p_value, p_type) VALUES (47, 'PAS');
 INSERT INTO parm_poste (p_value, p_type) VALUES (48, 'PAS');
 INSERT INTO parm_poste (p_value, p_type) VALUES (492, 'PAS');
 INSERT INTO parm_poste (p_value, p_type) VALUES (493, 'PAS');
-INSERT INTO parm_poste (p_value, p_type) VALUES (2409, 'ACTINV');
 INSERT INTO parm_poste (p_value, p_type) VALUES (2, 'ACT');
 INSERT INTO parm_poste (p_value, p_type) VALUES (2409, 'ACTINV');
 INSERT INTO parm_poste (p_value, p_type) VALUES (3, 'ACT');

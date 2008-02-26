@@ -19,7 +19,10 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 // $Revision$
-
+/*!\file
+ * \brief contains function for the printing
+ * \todo the functions of impress_inc.php should be replaced in a OO way
+*/
 
 /*!
  * \brief  Get dat for poste 
@@ -36,7 +39,6 @@ function get_dataPoste($p_cn,$p_poste,$p_condition)
 	       "case when j_debit='f' then to_char(j_montant,'999999999.99') else ' ' end as cred_montant,".
 	       " jr_comment as description,jrn_def_name as jrn_name,".
 	       "j_debit, jr_internal ".
-// 	       " case when j_debit='t' then 'debit' else 'credit' end as debit".
 	       " from jrnx left join jrn_def on jrn_def_id=j_jrn_def ".
 	       " left join jrn on jr_grpt_id=j_grpt".
 	       " where j_poste=".$p_poste." and ".$p_condition.
@@ -548,9 +550,9 @@ function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true,$p_
 	$cond=sql_filter_per($p_cn,$p_start,$p_end,'p_id','j_tech_per');
   else
 	$cond="( j_date >= to_date('$p_start','DD.MM.YYYY') and j_date <= to_date('$p_end','DD.MM.YYYY'))";
-
+echo_debug(__FILE__,__LINE__,"receiving $p_formula");
   include_once("class_acc_account_ledger.php");  
-  while (ereg("(\[[0-9]*%*D*C*\])",$p_formula,$e) == true) {
+  while (ereg("(\[[0-9]*%*D*C*S*\])",$p_formula,$e) == true) {
 
     // remove the [ ] 
     $x=$e;
@@ -559,11 +561,15 @@ function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true,$p_
       $compute='deb';
     if ( strpos($e[0],'C') != 0 )
       $compute='cred';
+    if ( strpos($e[0],'S') != 0 )
+      $compute='signed';
+    echo_debug(__FILE__,__LINE__,' $e = '.$e[0]);
     echo_debug(__FILE__,__LINE__,' $e = '.$e[0]);
     $e[0]=str_replace ("[","",$e[0]);
     $e[0]=str_replace ("]","",$e[0]);
     $e[0]=str_replace ("D","",$e[0]);
     $e[0]=str_replace ("C","",$e[0]);
+    $e[0]=str_replace ("S","",$e[0]);
     echo_debug('impress_inc',__LINE__,"p_formula is $p_formula");
     // If there is a FROM clause we must recompute 
     // the time cond
@@ -579,7 +585,7 @@ function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true,$p_
       if ( $from == '00.0000' ) {
 		// retrieve the first month of this periode
 		$User=new User($p_cn);
-		$user_periode=$User->getPeriode();
+		$user_periode=$User->get_periode();
 		$periode=getDbValue($p_cn,
 				    "select p_exercice from parm_periode where p_id=$user_periode");
 		$sql_per="select to_char(p_start,'MM.YYYY') as start from parm_periode where ".
@@ -614,8 +620,11 @@ function ParseFormula($p_cn,$p_label,$p_formula,$p_start,$p_end,$p_eval=true,$p_
       $i=$detail['debit'];
     if ( $compute=='cred')
       $i=$detail['credit'];
-
+    if ( $compute=='signed')
+      $i=$detail['debit']-$detail['credit'];
+echo_debug(__FILE__,__LINE__,"Resultat = $i ");
     $p_formula=str_replace($x[0],$i,$p_formula);
+echo_debug(__FILE__,__LINE__,"p_formula = $p_formula ");
 
   }
 
@@ -711,9 +720,10 @@ function CheckFormula($p_string) {
   $p_string=str_replace("<","+",$p_string);
   // eat Space 
   $p_string=str_replace(" ","",$p_string);
-  // Remove D/C 
+  // Remove D/C/S
   $p_string=str_replace("C","",$p_string);
   $p_string=str_replace("D","",$p_string);
+  $p_string=str_replace("S","",$p_string);
   if ( ereg ("^(\\$[a-zA-Z]*[0-9]*=){0,1}((\[{0,1}[0-9]+\.*[0-9]*%{0,1}\]{0,1})+ *([+-\*/])* *(\[{0,1}[0-9]+\.*[0-9]*%{0,1}\]{0,1})*)*(([+-\*/])*\\$([a-zA-Z])+[0-9]*([+-\*/])*)* *( *FROM=[0-9][0-0].20[0-9][0-9]){0,1}$",$p_string) == false)
     {
       return false;

@@ -278,6 +278,8 @@ self.opener.RefreshMe();
 		  {
 			// Start Sql
 			StartSql($cn);
+			$sql="insert into del_action(del_name,del_time) values ($1,now());";
+			ExecSqlParam($cn,$sql,array($_SESSION['g_user']));
 			// Set the record to A (annulate) in quant_sold and quand_purchase
 			// delete from the rapt table
 			$sql="delete from jrn_rapt where jr_id = any (select jr_id from jrn ".
@@ -304,7 +306,7 @@ self.opener.RefreshMe();
 			if ( $Res == false) 
 			  throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
 			
-			if ( $l_array['jr_pj'] != "") 
+			if ( isset($l_array['jr_pj']) && $l_array['jr_pj'] != "") 
 			  {
 				$Res=pg_lo_unlink($cn,$l_array['jr_pj']);
 				if ( $Res == false) 

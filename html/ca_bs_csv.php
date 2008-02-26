@@ -20,12 +20,10 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
+/*!\file 
+* \brief  export the operation in pdf
  */
 
-/* \brief  export the operation in pdf
- *
- */
 header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="ca_bal_simple.csv"',FALSE);
 

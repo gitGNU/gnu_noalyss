@@ -28,11 +28,13 @@ require_once ('postgres.php');
 require_once ('class_dossier.php');
 
 class Acc_Account_Ledger {
-  var $db;          /*! \enum $db database connection */
-  var $id;          /*! \enum $id poste_id (pcm_val)*/
-  var $label;       /*! \enum $label label of the poste */
-  var $parent;      /*! \enum $parent parent account */
-  var $row;         /*! \enum $row double array see get_row */
+  var $db;          /*!< $db database connection */
+  var $id;          /*!< $id poste_id (pcm_val)*/
+  var $label;       /*!< $label label of the poste */
+  var $parent;      /*!< $parent parent account */
+  var $row;         /*!< $row double array see get_row */
+  var $tot_deb;    /*!< value set by  get_row */
+  var $tot_cred;    /*!< value by  get_row */
   function __construct ($p_cn,$p_id) {
     $this->db=$p_cn;
     $this->id=$p_id;
@@ -52,7 +54,7 @@ class Acc_Account_Ledger {
       $periode=sql_filter_per($this->db,$p_from,$p_to,'p_id','jr_tech_per');
 
       
-      $Res=ExecSql($this->db,"select to_char(j_date,'DD.MM.YYYY') as j_date,".
+      $Res=ExecSql($this->db,"select jr_id,to_char(j_date,'DD.MM.YYYY') as j_date,".
 	       "case when j_debit='t' then j_montant else 0 end as deb_montant,".
 	       "case when j_debit='f' then j_montant else 0 end as cred_montant,".
 	       " jr_comment as description,jrn_def_name as jrn_name,".
@@ -75,6 +77,8 @@ class Acc_Account_Ledger {
 	}
       }
       $this->row=$array;
+      $this->tot_deb=$tot_deb;
+      $this->tot_cred=$tot_cred;
   return array($array,$tot_deb,$tot_cred);
 }
   /*!\brief Return the name of a account
@@ -126,7 +130,7 @@ class Acc_Account_Ledger {
    *      balance of the account
    *
    */ 
-function get_solde($p_cond=" true ") {
+  function get_solde($p_cond=" true ") {
   $Res=ExecSql($this->db,"select sum(deb) as sum_deb, sum(cred) as sum_cred from 
           ( select j_poste, 
              case when j_debit='t' then j_montant else 0 end as deb, 
@@ -151,7 +155,7 @@ function get_solde($p_cond=" true ") {
 function get_solde_detail($p_cond="") {
 
   if ( $p_cond != "") $p_cond=" and ".$p_cond;
- $sql="select sum(deb) as sum_deb, sum(cred) as sum_cred from 
+  $sql="select sum(deb) as sum_deb, sum(cred) as sum_cred from 
           ( select j_poste, 
              case when j_debit='t' then j_montant else 0 end as deb, 
              case when j_debit='f' then j_montant else 0 end as cred 
@@ -233,8 +237,8 @@ function get_solde_detail($p_cond="") {
        "<TH> Code interne </TH>".
        "<TH> Date</TH>".
        "<TH> Description </TH>".
-       "<TH> Débit  </TH>".
-	"<TH> Crédit </TH>".
+       "<TH> D&eacute;bit  </TH>".
+	"<TH> Cr&eacute;dit </TH>".
        "</TR>";
      
      foreach ( $this->row as $op ) { 
@@ -267,7 +271,7 @@ function get_solde_detail($p_cond="") {
   *
   * \return none
   */
- function HtmlTableHeader()
+ static function HtmlTableHeader()
    {
      $submit=new widget();
      $hid=new widget("hidden");
@@ -290,6 +294,9 @@ function get_solde_detail($p_cond="") {
        $hid->IOValue("to_periode",$_POST['to_periode']);
      if (isset($_POST['poste_fille']))
        echo $hid->IOValue('poste_fille','on');
+     if (isset($_POST['oper_detail']))
+       echo $hid->IOValue('oper_detail','on');
+
      echo "</form></TD>";
      
      echo '<TD><form method="POST" ACTION="poste_csv.php">'.
@@ -302,6 +309,8 @@ function get_solde_detail($p_cond="") {
        $hid->IOValue("to_periode",$_POST['to_periode']);
      if (isset($_POST['poste_fille']))
        echo $hid->IOValue('poste_fille','on');
+     if (isset($_POST['oper_detail']))
+       echo $hid->IOValue('oper_detail','on');
      
      echo "</form></TD>";
      echo "</table>";

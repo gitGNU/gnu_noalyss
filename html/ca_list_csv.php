@@ -20,10 +20,8 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
- */
-
-/* \brief  export the operation in pdf
+/*!\file 
+* \brief  export the operation in pdf
  *
  */
 header('Content-type: application/csv');

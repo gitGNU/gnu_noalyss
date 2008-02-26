@@ -19,10 +19,8 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
- */
-
-/* \brief Manage the confirmation process
+/*!\file 
+ * \brief Manage the confirmation process for deleting a template 
  *
  */
 

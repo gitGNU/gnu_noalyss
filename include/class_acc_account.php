@@ -29,7 +29,7 @@ require_once ('class_dossier.php');
 require_once ('class_widget.php');
 
 class Acc_Account {
-  var $db;          /*! \enum $db database connection */
+  var $db;          /*!< $db database connection */
   var $pcm_val;
   var $pcm_type;
   var $pcm_parent;

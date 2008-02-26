@@ -21,9 +21,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file 
- */
-
-/*! \brief this class handle the different bilan, from the table bilan
+ * \brief this class handle the different bilan, from the table bilan
  *
  */
 require_once ('postgres.php');
@@ -33,6 +31,10 @@ require_once ('impress_inc.php');
 require_once ('header_print.php');
 require_once ('class_acc_account_ledger.php');
 
+/*!
+ * \brief this class handle the different bilan, from the table bilan, parse the form and replace
+ * in the template
+ */
 class Acc_Bilan {
   var $db;						/*!< database connection */
   var $b_id;					/*!< id of the bilan (bilan.b_id) */
@@ -122,7 +124,7 @@ class Acc_Bilan {
     echo '<legend>'.$p_message.'</legend>';
     if ( $count <> 0 ) {
       echo '<ol>'.$ret.'</ol>';
-      echo '<span class="error">Nbre erreur : '.$count.'</span>';
+      echo '<span class="error">Nbres anomalies : '.$count.'</span>';
     } else
       echo " Pas d'anomalie d&eacute;tect&eacute;e";
       echo '</fieldset>';
@@ -300,7 +302,8 @@ class Acc_Bilan {
 	  $b=str_replace("$","\$this->",$a);
 	  echo_debug(__FILE__.":".__LINE__."  evaluate \$b",$b);
 	  
-	  eval("$b;");
+	 if ( eval("$b;") === false ) 
+		echo_debug(__FILE__,__LINE__,"Code failed with $b");
 	  
 	}// end read form line per line
 	echo_debug(__FILE__.':'.__LINE__," End of reading form");
@@ -377,6 +380,9 @@ class Acc_Bilan {
 		  //echo "f2_value=$f2_value";
 		  //		  $a=${"$f2_value"};
 		  $a=$this->$f2_value;
+		  if ( $a=='-0' ) $a=0; 
+
+		  echo_debug(__FILE__.':'.__LINE__.'- $a =',$a);
 		  // DEBUG      echo " a = $a";
 		  $line_rtf=str_replace($f2_str,$a,$line_rtf);
 
@@ -435,6 +441,8 @@ class Acc_Bilan {
 		  //		  $a=${"$f2_value"};
 		  $a=$this->$f2_value;
 		  // DEBUG      echo " a = $a";
+		  echo_debug(__FILE__.':'.__LINE__.'- $a =',$a);
+		  if ( $a=='-0' ) $a=0; 
 		  $line_rtf=str_replace($f2_str,$a,$line_rtf);
 		  
 		}// foreach end

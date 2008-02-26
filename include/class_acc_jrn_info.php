@@ -23,7 +23,13 @@ require_once ('class_dossier.php');
 require_once ('postgres.php');
 
 /*!\file 
- * \brief Manage the additionnal info for operation (from jrn)
+ * \brief Manage additional info for Accountancy
+ */
+
+/*!
+ * \brief Manage the additionnal info for operation (from jrn), when an invoice is generated, 
+ * the order or other info are going to be stored and used in the detail.
+ * this class maps the table jrn_info
  */
 class Acc_Jrn_Info {
 	var $cn;    /*!< connection */

@@ -23,8 +23,8 @@
  */
 
 /*! \brief class for the table document_type
- * \enum dt_id pk document_type
- *  \enum dt_value value
+ *< dt_id pk document_type
+ *< dt_value value
  */
 class Document_type
 {

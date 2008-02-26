@@ -425,6 +425,7 @@ function Decode($p_html){
 }
 /*!\brief Create the condition to filter on the j_tech_per
  *        thanks a from and to date.
+ * \param $p_cn database conx
  * \param $p_from start date (date)
  * \param $p_to  end date (date)
  * \param $p_form if the p_from and p_to are date or p_id

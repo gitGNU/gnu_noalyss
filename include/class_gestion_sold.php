@@ -20,7 +20,8 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file concern the table quant_sold
+/*!\file 
+ * \brief definition of the class gestion_sold
  */
 
   /*! \brief this object handles the table quant_sold

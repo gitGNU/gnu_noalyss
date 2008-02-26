@@ -17,7 +17,11 @@
  *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-
+/*!\file
+ * \brief common function for report
+ */
+/*!\todo the function of this file form_inc.php should be rewrited in a OO way
+*/
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 //$Revision$
 include_once("impress_inc.php");

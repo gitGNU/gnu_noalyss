@@ -20,10 +20,9 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
- */
-
-/* \brief confirm the removal of a template , folder and remove it if confirmed
+/*!\file 
+ *
+ * \brief confirm the removal of a template , folder and remove it if confirmed
  *
  */
 include_once("postgres.php");

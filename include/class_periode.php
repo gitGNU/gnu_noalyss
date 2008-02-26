@@ -21,7 +21,10 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file 
- * \brief For the periode table parm_periode and jrn_periode
+ * \brief definition of the class periode
+ */
+/*! 
+ * \brief For the periode tables parm_periode and jrn_periode
  */
 require_once ('ac_common.php');
 require_once ('debug.php');

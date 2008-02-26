@@ -21,6 +21,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*! \file 
+ * \brief Main page for budget
  */
 
 /*! \brief module budget

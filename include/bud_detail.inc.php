@@ -22,6 +22,9 @@
 
 /*!\file 
  * \brief Manage the detail for each hypo by analytic account
+*/
+/*!
+ * \brief Manage the detail for each hypo by analytic account
  */
 require_once ('class_widget.php');
 require_once ('class_bud_hypo.php');

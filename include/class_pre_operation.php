@@ -21,6 +21,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file 
+ * \brief definition of Pre_operation
  */
 
 /*! \brief manage the predefined operation, link to the table op_def

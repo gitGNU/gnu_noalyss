@@ -1,4 +1,3 @@
-
 <?php
 /*
  *   This file is part of PhpCompta.
@@ -22,6 +21,8 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file 
+ * \brief Manage the hypothese for the budget module
+ *  synthese
  */
 /*!
  * \brief Manage the hypothese for the budget module
@@ -29,6 +30,7 @@
  */
 require_once ('class_bud_synthese.php');
 require_once ('class_acc_account_ledger.php');
+require_once ('class_bud_hypo.php');
 
 class Bud_Synthese_Hypo extends Bud_Synthese {
 /*   function __construct($p_cn) { */
@@ -36,7 +38,7 @@ class Bud_Synthese_Hypo extends Bud_Synthese {
 /*   } */
   static function make_array($p_cn) {
     $a=make_array($p_cn,'select bh_id, bh_name from bud_hypothese '.
-		  ' where pa_id is not null order by bh_name');
+		  ' order by bh_name');
     return $a;
   }
 
@@ -107,25 +109,39 @@ Array
     $per_acc=sql_filter_per($this->cn,$this->from,$this->to,'p_id','j_tech_per');
     $sql_poste="select distinct pcm_val from bud_detail where bh_id=".$this->bh_id;
     $aPoste=get_array($this->cn,$sql_poste);
-
+    $hypo=new Bud_Hypo($this->cn,$this->bh_id);
     $local_con=DbConnect(dossier::id());
-    $sql_prepare=pg_prepare($local_con,"get_group","select sum(bdp_amount) as amount,ga_id,".
-			    "bc_price_unit".
-			    " from ".
-			    " bud_detail join bud_detail_periode using (bd_id) ".
-			    " join bud_card using (bc_id) ".
-			    " join poste_analytique using (po_id) ".
-			    " where $per ".
-			    " and pcm_val=$1 and ".
-			    " bud_detail.bh_id=$2 ".
-			    " group by ga_id,bc_price_unit ".
-			    " order by ga_id ");
+    if ( $hypo->has_plan()  == 1 ) {
+      $sql_prepare=pg_prepare($local_con,"get_group","select sum(bdp_amount) as amount,ga_id,".
+			      "bc_price_unit".
+			      " from ".
+			      " bud_detail join bud_detail_periode using (bd_id) ".
+			      " join bud_card using (bc_id) ".
+			      " join poste_analytique using (po_id) ".
+			      " where $per ".
+			      " and pcm_val=$1 and ".
+			      " bud_detail.bh_id=$2 ".
+			      " group by ga_id,bc_price_unit ".
+			      " order by ga_id ");
+    } else {
+      $sql_prepare=pg_prepare($local_con,"get_group","select sum(bdp_amount) as amount,'Aucun groupe' as ga_id,".
+			      "bc_price_unit".
+			      " from ".
+			      " bud_detail join bud_detail_periode using (bd_id) ".
+			      " join bud_card using (bc_id) ".
+			      " where $per ".
+			      " and pcm_val=$1 and ".
+			      " bud_detail.bh_id=$2 ".
+			      " group by ga_id,bc_price_unit ".
+			      " order by ga_id ");
+
+    }
     $array=array();
     // Now we put 0 if there is nothing for a group
     $aGroup=get_array($this->cn,"select distinct ga_id from bud_detail join poste_analytique ".
 		      " using (po_id) where bh_id=".$this->bh_id." order by ga_id ");
 
-
+     if ( empty ($aPoste)) return array();
     // foreach poste get all the value of the group
     foreach ($aPoste as $rPoste) {
       $pcm_val=$rPoste['pcm_val'];
@@ -134,9 +150,11 @@ Array
       $row=pg_fetch_all($res);
       if ( empty ($row) ) continue;
       // initialize all groupe to 0
-      foreach ($aGroup as $rGroup) {
-	$sGroup=$rGroup['ga_id'];
-	$line[$sGroup]=0;
+      if ( ! empty($aGroup) ) {
+	foreach ($aGroup as $rGroup) {
+	  $sGroup=$rGroup['ga_id'];
+	  $line[$sGroup]=0;
+	}
       }
       $line['total_row']=0;
       foreach ($row as $col ) {
@@ -191,14 +209,16 @@ Array
     foreach ($p_array as $key=>$row) {
       $pcm_val=substr($key,0,2);
       $sub=array();
-      foreach ($aGroup as $rGroup ) {
-	$group_id=$rGroup['ga_id'];
-	$sub[$group_id]=(isset($sub[$group_id]))?$sub[$group_id]:0;
-	$sub[$group_id]+=$row[$group_id];
-	//	print_r("$key pcm_val :".$pcm_val."gr.".$group_id." ".$row[$group_id]."sub ".$sub[$group_id]);
-	$sub['total']=(isset($sub['total']))?$sub['total']:0;
-	$sub['total']+=$row[$group_id];
-	//print_r('sub_total = '.$sub['total'].'<br>');
+      if ( ! empty ($aGroup ) ) {
+	foreach ($aGroup as $rGroup ) {
+	  $group_id=$rGroup['ga_id'];
+	  $sub[$group_id]=(isset($sub[$group_id]))?$sub[$group_id]:0;
+	  $sub[$group_id]+=$row[$group_id];
+	  //	print_r("$key pcm_val :".$pcm_val."gr.".$group_id." ".$row[$group_id]."sub ".$sub[$group_id]);
+	  $sub['total']=(isset($sub['total']))?$sub['total']:0;
+	  $sub['total']+=$row[$group_id];
+	  //print_r('sub_total = '.$sub['total'].'<br>');
+	}
       }
       if (isset( $array[$pcm_val])) {
 	$new_array=array();
@@ -226,10 +246,12 @@ Array
 
 
     foreach ($p_array as $col) {
-      foreach ($aGroup as $rGroup) {
-	$ga_id=$rGroup['ga_id'];
-	$array[$ga_id]=(isset($array[$ga_id]))?$array[$ga_id]:0;
-	$array[$ga_id]+=$col[$ga_id];
+      if ( ! empty ($aGroup ) ) {
+	foreach ($aGroup as $rGroup) {
+	  $ga_id=$rGroup['ga_id'];
+	  $array[$ga_id]=(isset($array[$ga_id]))?$array[$ga_id]:0;
+	  $array[$ga_id]+=$col[$ga_id];
+	}
       }
     }
 
@@ -252,8 +274,10 @@ Array
 		      " using (po_id) where bh_id=".$this->bh_id." order by ga_id ");
     $heading.='<tr>';
     $heading.='<th>CE  </th>';
+    if ( ! empty ($aGroup ) ) {
     foreach ($aGroup as $rGroup ) 
       $heading.='<th>'.$rGroup['ga_id'].'</td>';
+    }
     $heading.='<th>Total Ligne</th><th>Result. CE</th>';
     $heading.='</tr>';
     $r.='<table>';
@@ -261,9 +285,11 @@ Array
     foreach ( $p_array as $key=>$v) {
       $r.='<tr>';
       $r.='<td>'.$key.' - '.$v['acc_name'].'</td>';
-      foreach ($aGroup as $rGroup ) {
-	$gr=$rGroup['ga_id'];
-	$r.=sprintf('<td align="right">% 10.2f</td>',$v[$gr]);
+      if ( ! empty ($aGroup ) ) {
+	foreach ($aGroup as $rGroup ) {
+	  $gr=$rGroup['ga_id'];
+	  $r.=sprintf('<td align="right">% 10.2f</td>',$v[$gr]);
+	}
       }
       $r.=sprintf('<td align="right">% 10.2f</td>',$v['total_row']);
       $r.=sprintf('<td align="right">% 10.2f</td>',$v['acc_amount']);
@@ -273,9 +299,11 @@ Array
     // Show total by col
     $array=$this->total_column($p_array);
     $r.="<td> Total </td>";
-    foreach ($aGroup as $rGroup ) {
-      $gr=$rGroup['ga_id'];
-      $r.=sprintf('<td align="right">% 10.2f</td>',$array[$gr]);
+    if ( ! empty ($aGroup ) ) {
+      foreach ($aGroup as $rGroup ) {
+	$gr=$rGroup['ga_id'];
+	$r.=sprintf('<td align="right">% 10.2f</td>',$array[$gr]);
+      }
     }
     $r.=sprintf('<td align="right">% 10.2f</td>',$array['total_row']);
     $r.=sprintf('<td align="right">% 10.2f</td>',$array['acc_amount']);
@@ -340,8 +368,10 @@ Array
 
     $heading='<tr>';
     $heading.='<th>CE  </th>';
-    foreach ($aGroup as $rGroup ) 
-      $heading.='<th>'.$rGroup['ga_id'].'</td>';
+    if ( ! empty ($aGroup ) ) {
+      foreach ($aGroup as $rGroup ) 
+	$heading.='<th>'.$rGroup['ga_id'].'</td>';
+    }
     $heading.='<th>Total Ligne</th><th>Result. CE</th>';
     $heading.='</tr>';
     $r='<table>';
@@ -357,11 +387,12 @@ Array
       $acc_account->load();
       $r.=$key." - ".$acc_account->label.'</td>';
 
-
-      foreach ($aGroup as $gr) {
-	$idx=$gr['ga_id'];
-	$r.='<td>'.$aRow[$idx].'</td>';
-	$amount_row+=$aRow[$idx];
+      if ( ! empty ($aGroup ) ) {
+	foreach ($aGroup as $gr) {
+	  $idx=$gr['ga_id'];
+	  $r.='<td>'.$aRow[$idx].'</td>';
+	  $amount_row+=$aRow[$idx];
+	}
       }
       $r.="<td>".$amount_row.'</td>';
       $acc_account->id=$acc_account->id."%";

@@ -20,10 +20,10 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
- */
-
-/* \brief concerne only the template
+/*!\file 
+ *
+ * 
+ * \brief concerne only the template
  *
  */
 require_once ('class_widget.php');
@@ -64,15 +64,19 @@ if ( isset ($_POST["FMOD_NAME"]) ) {
     {
       $a_lob=pg_fetch_all($Res);
       foreach ($a_lob as $lob) 
-	pg_lo_unlink($cn_mod,$lob['loid']);
+	@pg_lo_unlink($cn_mod,$lob['loid']);
     }
   
   $Res=ExecSql($cn_mod,"truncate table quant_sold");
   $Res=ExecSql($cn_mod,"truncate table quant_purchase");
   $Res=ExecSql($cn_mod,"truncate table centralized");
   $Res=ExecSql($cn_mod,"truncate table stock_goods");
-  $Res=ExecSql($cn_mod,"truncate table jrn");
+  $Res=ExecSql($cn_mod,"truncate jrn cascade");
   $Res=ExecSql($cn_mod,"delete from jrnx");
+  $Res=ExecSql($cn_mod,"delete from del_jrn");
+  $Res=ExecSql($cn_mod,"delete from del_jrnx");
+  $Res=ExecSql($cn_mod,"delete from del_action");
+
   $Res=ExecSql($cn_mod,'delete from operation_analytique');
 
   // TODO 
@@ -88,7 +92,7 @@ if ( isset ($_POST["FMOD_NAME"]) ) {
 	    ' parm_periode cross join jrn_def');
 
   // Reset Sequence
-  $a_seq=array('s_jrn','s_jrn_op','s_centralized','s_stock_goods');
+  $a_seq=array('s_jrn','s_jrn_op','s_centralized','s_stock_goods','s_internal');
   foreach ($a_seq as $seq ) {
     $sql=sprintf("select setval('%s',1,false)",$seq);
     $Res=ExecSql($cn_mod,$sql);
@@ -106,8 +110,6 @@ if ( isset ($_POST["FMOD_NAME"]) ) {
     
     $sql=sprintf ("select setval('s_jrn_%d',1,false)",$row['jrn_def_id']);
     ExecSql($cn_mod,$sql);
-
-
   }
   //---
   // Cleaning Action

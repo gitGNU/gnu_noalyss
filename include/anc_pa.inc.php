@@ -20,10 +20,9 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
- */
-
-/* \brief Plan Analytique
+/*!\file 
+ *
+ * \brief Plan Analytique
  *
  */
 require_once("class_anc_plan.php");

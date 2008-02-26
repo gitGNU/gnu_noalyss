@@ -20,13 +20,14 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
+/*!\file 
+ * \brief definition of the class Pre_op_fin
  */
 require_once ('class_pre_operation.php');
 
 /*---------------------------------------------------------------------- */
-/*!\brief concerns the operation for VEN ledger 
-/*---------------------------------------------------------------------- */
+/*!\brief concerns the predefined operation for FIN ledger 
+ */
 class Pre_op_fin extends Pre_operation_detail {
   var $op;
   function __construct($cn) {

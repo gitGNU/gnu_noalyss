@@ -17,6 +17,9 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 /* $Revision$ */
+/*!\file
+ *\brief this file is called by the main page of "gestion"
+ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 require_once('class_acc_ledger.php');
 require_once('user_form_ach.php');

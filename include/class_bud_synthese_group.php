@@ -21,6 +21,8 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file 
+ * \brief Manage the hypothese for the budget module
+ *  synthese
  */
 /*!
  * \brief Manage the hypothese for the budget module
@@ -59,18 +61,21 @@ class Bud_Synthese_Group extends Bud_Synthese {
     $hypo=new Bud_Hypo($this->cn);
     $hypo->bh_id=$this->bh_id;
     $hypo->load();
+    $fga_id=0;
     if ($hypo->has_plan() == 1 ) {
       $anc_value=make_array($this->cn,"select distinct ga_id, ".
 			    " ga_id||'-'||substr(ga_description,10) as ga_description ".
 			    "from groupe_analytique ".
 			    " join poste_analytique using (ga_id) ".
 			    " join bud_detail using (po_id) ".
-			    " where bh_id=".$this->bh_id);
-
-      $wGa_id=new widget("select");
-      $wGa_id->name="ga_id";
-      $wGa_id->value=$anc_value;
-      $wGa_id->selected=$this->ga_id;
+			    " where bh_id=".$this->bh_id,1);
+      if ( count($anc_value) > 0 ) {
+	$wGa_id=new widget("select");
+	$wGa_id->name="ga_id";
+	$wGa_id->value=$anc_value;
+	$wGa_id->selected=$this->ga_id;
+	$fga_id=1;
+      }
     }
     $per=make_array($this->cn,"select p_id,to_char(p_start,'MM.YYYY') ".
 		    " from parm_periode order by p_start,p_end");
@@ -87,7 +92,8 @@ class Bud_Synthese_Group extends Bud_Synthese {
 
     $r="";
     $r.="Periode de ".$wFrom->IOValue()." &agrave; ".$wto->IOValue();
-    if ( $hypo->has_plan()==1) 
+    /* if there a group analytic */
+    if ( $fga_id==1) 
       $r.="Groupe  ".$wGa_id->IOValue();
     $r.=dossier::hidden();
     return $r;
@@ -167,7 +173,7 @@ class Bud_Synthese_Group extends Bud_Synthese {
     $hypo=new Bud_Hypo($this->cn);
     $hypo->bh_id=$this->bh_id;
     $hypo->load();
-    if ($hypo->has_plan() == 1)
+    if ($hypo->has_plan() == 1 && $this->ga_id != "" )
       $sql="select bc_price_unit,pcm_val,sum(bdp_amount) as amount,p_id ".
 	" from bud_detail join bud_detail_periode using (bd_id) ".
 	" join poste_analytique using (po_id) ".

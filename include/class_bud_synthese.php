@@ -21,6 +21,8 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file 
+ * \brief Manage the synthese for the budget module
+ *  Mother class
  */
 /*!
  * \brief Manage the synthese for the budget module

@@ -21,6 +21,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file 
+*\brief contains the object for the poste_analytique (table poste_analytique)
  */
 
 /*!\brief contains the object for the poste_analytique (table poste_analytique)

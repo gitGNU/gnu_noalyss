@@ -20,10 +20,8 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
- */
-
-/* \brief manage the group
+/*!\file 
+ *\brief manage the group
  *
  */
 require_once ('class_anc_group.php');

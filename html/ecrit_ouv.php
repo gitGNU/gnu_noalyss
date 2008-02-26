@@ -111,7 +111,7 @@ if ( isset ($_GET['import'])) {
     require_once("user_form_ods.php");
     require_once("jrn.php");
     // a file is given, so we upload it
-    $new_name=tempnam('/tmp','import');
+    $new_name=tempnam($_ENV['TMP'],'import');
     if ( strlen ( $_FILES['import_file']['tmp_name']) != 0 ) {
       if ( move_uploaded_file($_FILES['import_file']['tmp_name'],$new_name) ) {
 	// upload succeed
