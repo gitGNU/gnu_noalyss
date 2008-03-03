@@ -229,6 +229,7 @@ span.even {
   background-color:#DDE6FF;
   display:block;
  }
+
 tr.odd {
 	background-color:#DDE6FF;
 	font-size:10px;
@@ -269,8 +270,20 @@ a.mtitle {
   display:block;
   color:blue;
 }
-
-a.mtitle:hover {
+tr.odd:hover td
+{
+  text-decoration:none;
+  background-color:darkblue;
+  color:white;
+}
+tr.even:hover td 
+{
+  text-decoration:none;
+  background-color:darkblue;
+  color:white;
+}
+a.mtitle:hover 
+{
   text-decoration:none;
   display:block;
   background-color:darkblue;
