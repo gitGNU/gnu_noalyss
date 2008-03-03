@@ -383,7 +383,7 @@ class Acc_Ledger {
        where 
 	 $periode $jrn and 
 	 jr_opid is not null
-	 order by jr_date  $cond_limite";
+	 order by num  $cond_limite";
       }// end else $cent=='off'
     //load all data into an array
     //---
