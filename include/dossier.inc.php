@@ -20,10 +20,8 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
- */
-
-/* \brief Management of the folder
+/*!\file 
+* \brief Management of the folder
  *
  */
 require_once ('class_widget.php');

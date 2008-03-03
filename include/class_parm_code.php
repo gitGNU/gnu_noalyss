@@ -28,10 +28,10 @@
  */
 
 class parm_code {
-  var $db;        /*! \enum $db  database connection */
-  var $p_code;    /*! \enum $p_code  parm_code.p_code primary key */
-  var $p_value;   /*! \enum $p_value  parm_code.p_value  */
-  var $p_comment; /*! \enum $p_comment parm_code.p_comment */
+  var $db;        /*!< $db  database connection */
+  var $p_code;    /*!< $p_code  parm_code.p_code primary key */
+  var $p_value;   /*!< $p_value  parm_code.p_value  */
+  var $p_comment; /*!< $p_comment parm_code.p_comment */
  // constructor
   function parm_code($p_cn,$p_id=-1) 
     {

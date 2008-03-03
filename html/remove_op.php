@@ -20,10 +20,10 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
- */
-
-/* \brief from ajax, remove op. CA
+/*!\file 
+ *
+ *
+ * \brief from ajax, remove op. CA
  *
  */
 

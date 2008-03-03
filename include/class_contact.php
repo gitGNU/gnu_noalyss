@@ -31,7 +31,7 @@ require_once("user_common.php");
 
 class contact extends fiche
 {
-  var $company; /*!\enum $company company of the contact (ad_id=ATTR_DEF_COMPANY)*/
+  var $company; /*!< $company company of the contact (ad_id=ATTR_DEF_COMPANY)*/
   /*!\brief constructor */
   function contact($p_cn,$p_id=0)
     {

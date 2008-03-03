@@ -18,8 +18,12 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-/*!\file OBSOLETE ?
+/*!\file 
+ * \brief EXPERIMENTAL : listing VAT in xml form
  */
+  /*!
+   * \brief OBSOLETE ?
+   */
 
 /*! 
  **************************************************

@@ -20,7 +20,8 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
+/*!\file 
+ *\brief definition of Anc_Operation
  */
 require_once("class_anc_plan.php");
 require_once("class_widget.php");

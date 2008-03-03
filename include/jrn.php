@@ -185,16 +185,16 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 					$content['jr_id'],$element,$sessid,$gDossier);
 	  }//for
 	  $r.= "</div>";
-	}// if ( $a != null ) {
+	}// if ( $a != null ) 
   
 	$search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchJrn(\''.$sessid."',".$gDossier.",'rapt','".$content['jr_montant']."')\">";
 	
 	$r.= '<H2 class="info">rapprochement </H2> 
        <INPUT TYPE="TEXT" name="rapt" value="">'.$search;
-	$r.='<input type="hidden" name="jr_id" value="'.$content['jr_id'].'">';
 	
 	} // if mode == 1
 	
+  $r.='<input type="hidden" name="jr_id" value="'.$content['jr_id'].'">';
   return $r;
 }
 
@@ -541,14 +541,14 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 					$content['jr_id'],$element,$sessid,$gDossier);
 	  }//for
 	  $r.= "</div>";
-  }// if ( $a != null ) {
+  }// if ( $a != null )
   
   $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchJrn(\''.$sessid."',".$gDossier.",'rapt','".$content['jr_montant']."')\">";
 
   $r.= '<H2 class="info">rapprochement </H2> 
        <INPUT TYPE="TEXT" name="rapt" value="">'.$search;
-  $r.='<input type="hidden" name="jr_id" value="'.$content['jr_id'].'">';
   } // if p_mode==1
+  $r.='<input type="hidden" name="jr_id" value="'.$content['jr_id'].'">';
   //  echo $r;
   return $r;
 }

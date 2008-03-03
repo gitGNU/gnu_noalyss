@@ -47,19 +47,19 @@ require_once("user_common.php");
 
 class action 
 {
- /*! \enum $db  database connexion   
-  * \enum $ag_comment description (ag_gestion.ag_comment)
-  * \enum $ag_timestamp document date (ag_gestion.ag_timestamp)
-  * \enum $dt_id type of the document (document_type.dt_id)
-  * \enum $d_state stage of the document (printed, send to client...)
-  * \enum $d_number number of the document
-  * \enum $d_filename filename's document
-  * \enum $d_mimetype document's filename
-  * \enum $ag_title title document
-  * \enum $f_id_dest fiche id (From field )
-  * \enum $f_id_exp fiche id (to field)
-  * \enum $ag_ref_ag_id concern previous action
-  * \enum $ag_id pk of the table action_gestion
+ /*!<  $db  database connexion   
+  *  $ag_comment description (ag_gestion.ag_comment)
+  *  $ag_timestamp document date (ag_gestion.ag_timestamp)
+  *  $dt_id type of the document (document_type.dt_id)
+  *  $d_state stage of the document (printed, send to client...)
+  *  $d_number number of the document
+  *  $d_filename filename's document
+  *  $d_mimetype document's filename
+  *  $ag_title title document
+  *  $f_id_dest fiche id (From field )
+  *  $f_id_exp fiche id (to field)
+  *  $ag_ref_ag_id concern previous action
+  *  $ag_id pk of the table action_gestion
 
   * \todo replace attribut from class document  document by an object document 
   */

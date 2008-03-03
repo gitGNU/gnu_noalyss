@@ -21,6 +21,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file 
+* \brief definition of class Bud_Detail_Periode
  */
 
 /*! \brief manage the table bud_detail_periode

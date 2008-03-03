@@ -26,10 +26,10 @@
  */
 
 class Attribut {
-  var $ad_id;			/*! \enum  pk for attribut */
-  var $ad_text;			/*! \enum  type of content */
-  var $av_text;			/*! \enum Description (content) */
-  var $cn;			/*! \enum  database connection */
+  var $ad_id;			/*!<  pk for attribut */
+  var $ad_text;			/*!<  type of content */
+  var $av_text;			/*!< Description (content) */
+  var $cn;			/*!<  database connection */
   function Attribut($p_ad_id) {
     $this->ad_id=$p_ad_id;
     $this->cn=-1;
@@ -42,7 +42,7 @@ class Attribut {
  * \brief  Sort an array of object attribut thx the
  *        ad_id
  * 
- *\param  array of Attribut objects
+ *\param  p_attribut array of Attribut objects
  * 
  *	
  * \return the ordered array

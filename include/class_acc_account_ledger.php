@@ -28,11 +28,11 @@ require_once ('postgres.php');
 require_once ('class_dossier.php');
 
 class Acc_Account_Ledger {
-  var $db;          /*! \enum $db database connection */
-  var $id;          /*! \enum $id poste_id (pcm_val)*/
-  var $label;       /*! \enum $label label of the poste */
-  var $parent;      /*! \enum $parent parent account */
-  var $row;         /*! \enum $row double array see get_row */
+  var $db;          /*!< $db database connection */
+  var $id;          /*!< $id poste_id (pcm_val)*/
+  var $label;       /*!< $label label of the poste */
+  var $parent;      /*!< $parent parent account */
+  var $row;         /*!< $row double array see get_row */
   var $tot_deb;    /*!< value set by  get_row */
   var $tot_cred;    /*!< value by  get_row */
   function __construct ($p_cn,$p_id) {

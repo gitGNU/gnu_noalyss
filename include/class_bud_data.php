@@ -21,6 +21,9 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file 
+ * \brief it is a object including the class bud_detail bud_card,and
+ * bud_detail_periode, 
+ * the purpose is to insert or save into bud_detail_periode
  */
 
 /*! \brief it is a object including the class bud_detail bud_card,and

@@ -20,10 +20,10 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
- */
-
-/* \brief to write directly into the ledgers,the stock and the tables
+/*!\file 
+ *
+ *
+ * \brief to write directly into the ledgers,the stock and the tables
  * quant_purchase and quant_sold are not changed by this
  *
  */

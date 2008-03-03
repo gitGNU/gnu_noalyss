@@ -20,7 +20,8 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
+/*!\file 
+ *  \brief group of object operations, used for misc operation
  */
 
 /*! \brief group of object operations, used for misc operation

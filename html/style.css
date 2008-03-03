@@ -242,20 +242,6 @@ font-size:10px;
 tr {
 font-size:10px;
 }
-tr.odd:hover td
-{
-   text-decoration:none;
-  background-color:blue;
-  color:white;
-}
-tr.even:hover td
-{
-  text-decoration:none;
-  background-color:blue;
-  color:white;
-}
-
-
 td.odd{
 background-color:#DDE6FF ;
 border-size:0px;

@@ -29,10 +29,10 @@
 
 class fiche_def_ref 
 {
-  var $frd_id;           /*! \enum $frd_id fiche_def_ref.frd_id */
-  var $frd_text;         /*! \enum $frd_text fiche_def_ref.frd_tex */
-  var $frd_class_base;   /*! \enum fiche_def_ref.frd_class_base */
-  var $attribut;         /*! \enum array which containing list of attr */
+  var $frd_id;           /*!< $frd_id fiche_def_ref.frd_id */
+  var $frd_text;         /*!< $frd_text fiche_def_ref.frd_tex */
+  var $frd_class_base;   /*!< fiche_def_ref.frd_class_base */
+  var $attribut;         /*!< array which containing list of attr */
                          /* it is used with dynamic variables */
 
   function fiche_def_ref($p_cn,$p_frd_id=-1)

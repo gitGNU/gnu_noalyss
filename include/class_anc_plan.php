@@ -21,6 +21,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file 
+ * \brief Concerns the Analytic plan (table plan_analytique)
  */
 
 /*! \brief

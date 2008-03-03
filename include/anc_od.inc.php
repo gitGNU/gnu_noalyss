@@ -20,10 +20,10 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
- */
-
-/* \brief Misc Operation for analytic accountancy
+/*!\file 
+ *
+ *
+ * \brief Misc Operation for analytic accountancy
  *
  */
 require_once("class_anc_account.php");

@@ -124,9 +124,9 @@ FILE_PATTERNS          = *.c \
 			 *.js \
 			*.inc.php
 RECURSIVE              = YES
-EXCLUDE                = addon
+EXCLUDE                = ../../html/addon 
 EXCLUDE_SYMLINKS       = NO
-EXCLUDE_PATTERNS       = a?.php b?.php ?.php test*.php
+EXCLUDE_PATTERNS       = a?.php b?.php ?.php test*.php calendar-*.js richtext.js
 EXAMPLE_PATH           = 
 EXAMPLE_PATTERNS       = *
 EXAMPLE_RECURSIVE      = NO

@@ -20,7 +20,8 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
+/*!\file 
+ * \brief  export the operation in pdf
  */
 
 /* \brief  export the operation in pdf

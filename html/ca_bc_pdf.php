@@ -20,12 +20,10 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
+/*!\file 
+ * \brief export the operation in pdf
  */
 
-/* \brief export the operation in pdf
- *
- */
 require_once ('class_anc_balance_double.php');
 require_once ('header_print.php');
 

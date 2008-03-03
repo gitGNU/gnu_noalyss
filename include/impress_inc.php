@@ -19,7 +19,10 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 // $Revision$
-
+/*!\file
+ * \brief contains function for the printing
+ * \todo the functions of impress_inc.php should be replaced in a OO way
+*/
 
 /*!
  * \brief  Get dat for poste 

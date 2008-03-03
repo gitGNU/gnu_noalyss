@@ -38,11 +38,11 @@ require_once('user_common.php');
 // 
 class Admin extends fiche{
 
-  var $name;        /*! \enum $name name of the company */
-  var $street;      /*! \enum $street Street */
-  var $country;     /*! \enum $country Country */
-  var $cp;          /*! \enum $cp Zip code */
-  var $vat_number;  /*! \enum $vat_number vat number */
+  var $name;        /*!< $name name of the company */
+  var $street;      /*!< $street Street */
+  var $country;     /*!< $country Country */
+  var $cp;          /*!< $cp Zip code */
+  var $vat_number;  /*!< $vat_number vat number */
 
   /*! \brief Constructor 
   /* only a db connection is needed */

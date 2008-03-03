@@ -20,10 +20,10 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
- */
-
-/* \brief this file is included for printing the analytic
+/*!\file 
+ *
+ *
+ * \brief this file is included for printing the analytic
  * accountancy. 
  *
  */

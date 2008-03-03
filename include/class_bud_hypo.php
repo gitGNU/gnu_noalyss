@@ -21,6 +21,8 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file 
+ * \brief manage the database bud_hypo concerning the hypothese for
+ *   different hyp.
  */
 
 /*!

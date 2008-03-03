@@ -18,7 +18,9 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-
+/*!\file
+ * \brief printing of card 
+ */
 include_once('postgres.php');
 include_once('class_fiche.php');
 include_once("class_widget.php");

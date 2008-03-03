@@ -20,7 +20,10 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
-
+/*!\file
+ * \brief contains several function for Account, will be removed
+ * \todo remove these files and move those function to class_acc_account
+*/
 /*! 
  * \brief  Return the label of a poste
  * 

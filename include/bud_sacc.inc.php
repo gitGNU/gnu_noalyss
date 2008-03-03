@@ -22,7 +22,7 @@
 
 /*!\file 
  * \brief Manage the hypothese for the budget module
- */
+*/
 require_once ('class_bud_synthese_acc.php');
 
 echo '<div class="u_content">';

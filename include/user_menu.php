@@ -53,7 +53,7 @@ function u_ShowDossier($p_user,$p_admin)
   $result.="</TR>";
   $result.="</table>";
   if ( $p_array == 0 ) return $result." * Aucun dossier *";
-  $result.="<TABLE style=\"border:collapse\">";
+  $result.="<TABLE>";
   for ($i=0;$i<sizeof($p_array);$i++) {
     $id=$p_array[$i]['dos_id'];
     $name= $p_array[$i]['dos_name'];
@@ -61,23 +61,33 @@ function u_ShowDossier($p_user,$p_admin)
     if ( $i%2 == 0) 
       $tr="odd";
     else $tr="even";
-    
 
-    $result.="<TR class=\"$tr\">";
-
-    $result.="<TD class=\"$tr\">";
-    $result.="<A class=\"mtitle\" HREF=\"access.php?gDossier=$id\">";
+    $result.="<TR class=\"$tr\"><TD class=\"$tr\">";
     $result.=$id."  <B>$name</B>";
-    $result.="</A>";
+    $result.="</TD><TD class=\"$tr\">";
+    $result.=$desc;
+    $result.="</TD><TD class=\"mtitle\">";
+    $result.="<A class=\"mtitle\" HREF=\"user_compta.php?gDossier=$id\">Comptabilité</A>";
     $result.="</TD>";
-    $result.="<TD class=\"$tr\">".$desc;
+    $result.="<TD class=\"mtitle\">";
+    $result.="<A class=\"mtitle\" HREF=\"commercial.php?gDossier=$id\">Gestion</A>";
+    $result.="</TD>";
+    $result.="<TD class=\"mtitle\">";
+    $result.="<A class=\"mtitle\" HREF=\"comptanalytic.php?gDossier=$id\">Analytique</A>";
+    $result.="</TD>";
+    $result.="<TD class=\"mtitle\">";
+    $result.="<A class=\"mtitle\" HREF=\"budget.php?gDossier=$id\">Budget</A>";
+    $result.="</TD>";
+
+    $result.="<TD class=\"mtitle\">";
+    $result.="<A class=\"mtitle\" HREF=\"parametre.php?gDossier=$id\">Paramètres</A>";
     $result.="</TD>";
 
 /*     $result.="<TD class=\"mtitle\">"; */
 /*     $result.="<A class=\"mtitle\" HREF=\"caisse.php?dos=$id\">Caisse Enregistreuse</A>"; */
 /*     $result.="</TD>"; */
-    $result.="</TR>";
 
+    $result.="</TR>";
   }
   $result.="</TABLE>";
   return $result;
@@ -827,15 +837,13 @@ $r.='<script language="javascript">
 		 array('value'=>'analytic','label'=>'Compt. Analytique'),
 		 array('value'=>'budget','label'=>'Budget'),
 		 array('value'=>'param','label'=>'Parametre'),
-		 array('value'=>'access','label'=>'Accueil'),
-		 array('value'=>'home','label'=>'Autre Dossier'),
+		 array('value'=>'home','label'=>'Accueil'),
 		 array('value'=>'logout','label'=>'Sortir')
 	       );
   if ( $_SESSION['g_topmenu'] == 'SELECT' ) {
     $lab="";
     foreach ($amodule as $l) 
       if ( $l['value'] == $p_from) {$lab=$l['label'];break;}
-    
     $gDossier=dossier::id();
     $r.= '<form method="GET" action="control.php" >';
     $w=new widget('select');
@@ -851,8 +859,7 @@ $r.='<script language="javascript">
     $r.=widget::submit('','Acces Direct').'</td>';
     $r.= '</table>';
     $r.= '</form>';
-    if ( $lab !="")
-      echo '<span style="background-color:red;padding:3px;color:white">'.$lab.'</span>';
+    echo '<span style="background-color:red;padding:3px;color:white">'.$lab.'</span>';
 
     $r.= '</div>';
   }

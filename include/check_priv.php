@@ -30,13 +30,11 @@ include_once("postgres.php");
  * \brief  Vérifie les acces d'un utilisateur
  * sur un journal
  * 
- * parm : 
- *	- $p_dossier le dossier
- *      - $p_user    le login user
- *      - $p_jrn     le journal
- * gen :
- *	- rien
- * return:
+ * \param $p_dossier le dossier
+ * \param $p_user    le login user
+ * \param $p_jrn     le journal
+
+ * \return
  *	- 0 pas d'acces
  *      - 1 Lecture
  *      - 2 écriture
@@ -186,7 +184,7 @@ function CheckIsAdmin($p_user)
  * \brief  Check if an user has acces to a folder
  *        
  *  
- * \param user
+ * \param p_user
  * \param p_dossier concerned folder
  * 
  * \return

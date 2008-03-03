@@ -20,10 +20,11 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
+/*!\file 
+ * \brief Main page for the analytic module
  */
 
-/* \brief Analytic accountancy
+/*! \brief Analytic accountancy
  *
  */
 require_once("constant.php");

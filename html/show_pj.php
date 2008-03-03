@@ -19,6 +19,9 @@
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 // Verify parameters
+/*!\file
+ * \brief show an attach of an operation
+ */
 include_once ("ac_common.php");
 require_once('class_dossier.php');
 $gDossier=dossier::id();
@@ -59,7 +62,7 @@ $ret=ExecSql($cn,"select jr_pj,jr_pj_name,jr_pj_type from jrn where jr_grpt_id=$
 if ( pg_num_rows ($ret) == 0 )
 	return;
 $row=pg_fetch_array($ret,0);
-$tmp=tempnam('/tmp/','document_');
+$tmp=tempnam($_ENV['TMP'],'document_');
 pg_lo_export($cn,$row['jr_pj'],$tmp);
 ini_set('zlib.output_compression','Off');
 header("Pragma: public");

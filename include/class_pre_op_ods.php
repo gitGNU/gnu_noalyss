@@ -20,13 +20,14 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
+/*!\file 
+ * \brief definition of the class Pre_op_ods
  */
 require_once ('class_pre_operation.php');
 
 /*---------------------------------------------------------------------- */
-/*!\brief concerns the operation for ODS ledger 
-/*---------------------------------------------------------------------- */
+/*!\brief concerns the predefined operation for ODS ledger 
+*/
 class Pre_op_ods extends Pre_operation_detail {
   var $op;
   function __construct($cn) {

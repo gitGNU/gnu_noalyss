@@ -15,7 +15,7 @@
  *   You should have received a copy of the GNU General Public License
  *   along with PhpCompta; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ */
 /* $Revision$ */
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
@@ -45,7 +45,7 @@ switch($do) {
 
 echo ShowItem(array(
 		    array('?p_action=synthese&do=po&'.$str_dossier,'D&eacute;tail Poste Analytique',"Donne le detail par poste analytique ",1),
-		    array('?p_action=synthese&do=ga&'.$str_dossier,' Groupe Analytique',"Synthese de l'utilisation des groupes analytiques dans une hypothese",2),
+		    array('?p_action=synthese&do=ga&'.$str_dossier,' Groupes & Totaux ',"Totaux dans une hypothese par groupe analytique s'il y en a ",2),
 		    array('?p_action=synthese&do=vglobal&'.$str_dossier,'Vue Globale',"Detail d'une hypothese",3),
 		    array('?p_action=synthese&do=acc&'.$str_dossier,'Detail CE',"Donne le d&eacute;tail par poste comptable",4)
 		    ),
@@ -65,11 +65,11 @@ if ( $do=='po') {
 }
 
 if ( $do=='ga') {
-  if ($obj->size_analytic() == 0 ) {
+  /*  if ($obj->size_analytic() == 0 ) {
     echo '<h2 class="info">Desole pas d\'hypothese definie avec un plan analytique</h2>';
     exit();
 
-  }
+    }*/
 
   require_once ('bud_sga.inc.php');
 }

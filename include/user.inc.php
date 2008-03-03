@@ -20,10 +20,10 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
- */
-
-/* \brief user managemnt
+/*!\file 
+ *
+ *
+ * \brief user managemnt
  *
  */
 

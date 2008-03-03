@@ -21,9 +21,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file 
- */
-
-/*! \brief this class handle the different bilan, from the table bilan
+ * \brief this class handle the different bilan, from the table bilan
  *
  */
 require_once ('postgres.php');
@@ -33,6 +31,10 @@ require_once ('impress_inc.php');
 require_once ('header_print.php');
 require_once ('class_acc_account_ledger.php');
 
+/*!
+ * \brief this class handle the different bilan, from the table bilan, parse the form and replace
+ * in the template
+ */
 class Acc_Bilan {
   var $db;						/*!< database connection */
   var $b_id;					/*!< id of the bilan (bilan.b_id) */

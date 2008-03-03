@@ -28,15 +28,15 @@ require_once('class_action.php');
  */
 class Document 
 {
-  var $db;          /*! \enum $db Database connexion*/
-  var $d_id;        /*! \enum $d_id Document id */ 
-  var $ag_id;       /*! \enum $ag_id action_gestion.ag_id (pk) */
-  var $d_mimetype;  /*! \enum $d_mimetype  */
-  var $d_filename;  /*! \enum $d_filename */
-  var $d_lob;       /*! \enum $d_lob the oid of the lob */
-  var $d_number;    /*! \enum $d_number number of the document */
-  var $md_id;       /*! \enum $md_id document's template */
-  var $d_state;     /*! \enum $d_state document.d_state status of the document */
+  var $db;          /*!< $db Database connexion*/
+  var $d_id;        /*!< $d_id Document id */ 
+  var $ag_id;       /*!< $ag_id action_gestion.ag_id (pk) */
+  var $d_mimetype;  /*!< $d_mimetype  */
+  var $d_filename;  /*!< $d_filename */
+  var $d_lob;       /*!< $d_lob the oid of the lob */
+  var $d_number;    /*!< $d_number number of the document */
+  var $md_id;       /*!< $md_id document's template */
+  var $d_state;     /*!< $d_state document.d_state status of the document */
   /* Constructor
    * \param $p_cn Database connection
    */

@@ -21,6 +21,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file 
+ * \brief definition of gestion_table
  */
 
 /*! \brief mother class for gestion 

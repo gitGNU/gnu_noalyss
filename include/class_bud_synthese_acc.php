@@ -21,6 +21,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file 
+\brief Manage the hypothese for the budget module
  * 
  */
 /*! 
@@ -186,9 +187,11 @@ class Bud_Synthese_Acc extends Bud_Synthese {
 	$sub['bc_description']=$col['bc_description'];
 	$sub['bc_price_unit']=$col['bc_price_unit'];
 	$periode=array();
+	$sub['unit']=0;
+
 	$res2=pg_execute("sql_detail_periode",array($bc_id,$rBudCard['pcm_val']));
 	$col_per=pg_fetch_all($res2);
-	$sub['unit']=0;
+	if ( empty ($col_per) ) continue;
 	// fill the periode array
 	foreach ($col_per as $cPer) {
 	  $p_id=$cPer['p_id'];

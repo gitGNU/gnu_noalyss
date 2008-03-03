@@ -18,7 +18,8 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-/*!\brief this file is always included and then executed
+/*!\file 
+ * \brief this file is always included and then executed
  *        it permits to change the user preferences
  */
 require_once('class_widget.php');

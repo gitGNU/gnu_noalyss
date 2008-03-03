@@ -48,7 +48,7 @@ $row=pg_fetch_array($r,0);
 
 StartSql($cn);
 
-$tmp=tempnam('/tmp/','document_');
+$tmp=tempnam($_ENV['TMP'],'document_');
 pg_lo_export($cn,$row['md_lob'],$tmp);
 ini_set('zlib.output_compression','Off');
 header("Pragma: public");

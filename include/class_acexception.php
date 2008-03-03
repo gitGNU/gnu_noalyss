@@ -21,6 +21,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file
+ * \brief  acException extends Exception
  */
 
 /*! \brief  acException extends Exception

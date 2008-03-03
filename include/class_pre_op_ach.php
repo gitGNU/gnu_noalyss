@@ -20,13 +20,14 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
+/*!\file 
+ * \brief definition of the class pre_op_ach
  */
 require_once ('class_pre_operation.php');
 
 /*---------------------------------------------------------------------- */
-/*!\brief concerns the operation for ACH ledger 
-/*---------------------------------------------------------------------- */
+/*!\brief concerns the predefined operation for ACH ledger 
+ */
 class Pre_op_ach extends Pre_operation_detail {
   var $op;
   function __construct($cn) {

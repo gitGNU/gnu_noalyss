@@ -20,10 +20,10 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
- */
-
-/* \brief concerne only the template
+/*!\file 
+ *
+ * 
+ * \brief concerne only the template
  *
  */
 require_once ('class_widget.php');
