@@ -163,7 +163,7 @@ class Acc_Ledger {
     c_periode as periode 
     from 
   
-  centralized left join jrnx on j_grpt=c_grp 
+  centralized left join jrnx on j_id=c_j_id 
  left join tmp_pcmn on pcm_val=c_poste 
  left join jrn on jr_grpt_id=c_grp
    where ".
@@ -383,7 +383,7 @@ class Acc_Ledger {
        where 
 	 $periode $jrn and 
 	 jr_opid is not null
-	 order by jr_date  $cond_limite";
+	 order by num  $cond_limite";
       }// end else $cent=='off'
     //load all data into an array
     //---
