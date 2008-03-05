@@ -63,19 +63,11 @@ if ( $action=="use_opd" ) {
   //--------------------
   // predef op.
   echo '<form method="GET">';
-  $op=new Pre_operation($cn);
-  $op->p_jrn=$_GET['p_jrn'];
-  $op->od_direct='f';
-  
-  $hid=new widget("hidden");
-  echo $hid->IOValue("action","use_opd");
-  echo dossier::hidden();
-  echo $hid->IOValue("p_jrn",$_GET['p_jrn']);
-  echo $hid->IOValue("jrn_type","ODS");
-  
-  if ($op->count() != 0 )
-    echo widget::submit('use_opd','Utilisez une op.prédéfinie');
-  echo $op->show_button();
+  $op=new Pre_operation_detail($cn);
+  $op->set('ledger',$_GET['p_jrn']);
+  $op->set('ledger_type',"ODS");
+  $op->set('direct','f');
+  echo $op->form_get();
 	
   echo '</form>';
   
@@ -107,21 +99,14 @@ if ( $action == 'new' ) {
 	//--------------------
 	// predef op.
 	echo '<form method="GET">';
-	$op=new Pre_operation($cn);
-	$op->p_jrn=$_GET['p_jrn'];
-	$op->od_direct='f';
-
-	$hid=new widget("hidden");
-	echo $hid->IOValue("action","use_opd");
-	echo dossier::hidden();
-	echo $hid->IOValue("p_jrn",$_GET['p_jrn']);
-	echo $hid->IOValue("jrn_type","ODS");
-	
-	if ($op->count() != 0 )
-	  echo widget::submit('use_opd','Utilisez une op.prédéfinie');
-	echo $op->show_button();
+	$op=new Pre_operation_detail($cn);
+	$op->set('ledger',$_GET['p_jrn']);
+	$op->set('ledger_type',"ODS");
+	$op->set('direct','f');
+	echo $op->form_get();
 	
 	echo '</form>';
+
 	
 	echo "<h4>On-line calculator</h4>".JS_CALC_LINE."<div>";
     echo "</div>";

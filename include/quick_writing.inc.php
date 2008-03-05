@@ -44,17 +44,14 @@ function show_direct_form($cn,$ledger,$p_array) {
   // Show the predef operation
   // Don't forget the p_jrn 
   echo '<form>';
-  echo dossier::hidden();
   echo widget::hidden('p_action',$_REQUEST['p_action']);
-  
-  echo '<input type="hidden" value="'.$id.'" name="p_jrn">';
-  $op=new Pre_operation($cn);
-  $op->p_jrn=$id;
-  $op->od_direct='t';
-  if ($op->count() != 0 )
-    echo widget::submit('use_opd','Utilisez une op.pr&eacute;d&eacute;finie');
-  echo $op->show_button();
+  $op=new Pre_operation_detail($cn);
+  $op->set('ledger',$_GET['p_jrn']);
+  $op->set('direct','t');
+  echo $op->form_get();
+	
   echo '</form>';
+
 
   echo '<form method="post" action="?">';
   echo dossier::hidden();

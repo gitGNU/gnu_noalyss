@@ -147,6 +147,9 @@ class Pre_operation
   $all=pg_fetch_all($res);
   return $all;
   }
+  /*!\brief set the ledger
+   * \param $p_jrn is the ledger (jrn_id)
+   */
   function set_jrn($p_jrn) {
 	$this->p_jrn=$p_jrn;
   }
@@ -161,7 +164,66 @@ class Pre_operation_detail {
   function __construct($p_cn) {
 	$this->db=$p_cn;
 	$this->operation=new Pre_operation($this->db);
+	$this->valid=array('ledger'=>'jrn_def_id','ledger_type'=>'jrn_type','direct'=>'od_direct');
 
+  }
+
+
+  /*!\brief show a form to use pre_op
+   */
+  function form_get () {
+  
+     $hid=new widget("hidden");
+     $r=$hid->IOValue("action","use_opd");
+     $r.=dossier::hidden();
+     $r.=$hid->IOValue("p_jrn",$this->get("ledger"));
+     $r.=$hid->IOValue("jrn_type",$this->get("ledger_type"));
+
+     if ($this->count() != 0 )
+       $r.= widget::submit('use_opd','Utilisez une op.pr&eacute;d&eacute;finie');
+     $r.= $this->show_button();
+     return $r;
+
+  }
+  /*!\brief count the number of pred operation for a ledger */
+  function count() {
+    $a=CountSql($this->db,"select od_id,od_name from op_predef ".
+		    " where jrn_def_id=".$this->jrn_def_id.
+		    " and od_direct ='".$this->od_direct."'".
+		    " order by od_name");
+    return $a;
+  }
+  /*!\brief show the button for selecting a predefined operation */
+  function show_button() {
+
+	$select=new widget("select");
+	$value=make_array($this->db,"select od_id,od_name from op_predef ".
+			  " where jrn_def_id=".$this->jrn_def_id.
+			  " and od_direct ='".$this->od_direct."'".
+			  " order by od_name");
+
+	if ( empty($value)==true) return "";
+	$select->value=$value;
+	$r=$select->IOValue("pre_def");
+	return $r;
+  }
+
+  function set($p_param,$value) {
+    if ( ! isset ($this->valid[$p_param] ) ) {
+      echo(" le parametre $p_param n'existe pas ".__FILE__.':'.__LINE__);
+      exit();
+    }
+    $attr=$this->valid[$p_param];
+    $this->$attr=$value;
+  }
+  function get($p_param) {
+
+    if ( ! isset ($this->valid[$p_param] ) ) {
+      echo(" le parametre $p_param n'existe pas ".__FILE__.':'.__LINE__);
+      exit();
+    }
+    $attr=$this->valid[$p_param];
+    return $this->$attr;
   }
 
   function get_post() {

@@ -148,6 +148,7 @@ class widget {
     }
     // Select value
     if ( strtoupper($this->type) == "SELECT") {
+
       if ($this->readonly==false )
 	{
 	  $disabled=($this->disabled==true)?"disabled":"";
