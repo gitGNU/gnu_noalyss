@@ -118,7 +118,7 @@ echo_debug('user_common.php',__LINE__,"ComputeTotalVat $a_fiche $a_quant $a_pric
 	if ( $a_vat_amount != null && 
 	     $a_vat_amount[$idx] != 0 )
 		  {
-	  $vat_amount= $a_vat_amount[$idx] ;
+	  		$vat_amount= $a_vat_amount[$idx] ;
 			echo_debug(__FILE__.':'.__LINE__.'- VAT_AMOUNT IS GIVEN '.$vat_amount);
 
 		  }
@@ -301,7 +301,7 @@ function InsertJrnx($p_cn,$p_type,$p_user,$p_jrn,$p_poste,$p_date,$p_amount,$p_g
             p_date $p_date p_poste $p_poste 
             p_amount $p_amount p_grpt = $p_grpt p_periode = $p_periode");
 
-  if ( $p_amount == 0) return true;
+  //if ( $p_amount == 0) return true;
 
   $debit=($p_type=='c')?'false':'true';
 
@@ -408,7 +408,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0,$p_paid=0)
   $sort_date="<th>  <A class=\"mtitle\" HREF=\"?$url&o=da\">$image_asc</A>Date <A class=\"mtitle\" HREF=\"?$url&o=dd\">$image_desc</A></th>";
   $sort_description="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ca\">$image_asc</A>Description <A class=\"mtitle\" HREF=\"?$url&o=cd\">$image_desc</A></th>";
   $sort_amount="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ma\">$image_asc</A>Montant <A class=\"mtitle\" HREF=\"?$url&o=md\">$image_desc</A></th>";
-$sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Echéance <A class=\"mtitle\" HREF=\"?$url&o=ed\">$image_desc</A> </th>";
+$sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Echï¿½ance <A class=\"mtitle\" HREF=\"?$url&o=ed\">$image_desc</A> </th>";
   // if an order is asked
   if ( isset ($_GET['o']) ) 
     {
@@ -611,7 +611,7 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Eché
   $Max=pg_NumRows($Res);
 
   //TODO: correct this message. 
-  if ($Max==0) return array(0,"Aucun enregistrement trouvé");
+  if ($Max==0) return array(0,"Aucun enregistrement trouv&eacute;");
 
   $r.='<table style="width:100%;border:solid blue 2px ;border-style:outset;">';
   $l_sessid=$_REQUEST['PHPSESSID'];
@@ -627,7 +627,7 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Eché
     {
       $r.="<th> Pay&eacute;</th>";
     }
-  $r.="<th>Op. Concernée</th>";
+  $r.="<th>Op. Concern&eacute;e</th>";
   $r.="<th>Document</th>";
   $r.="</tr>";
   // Total Amount
@@ -725,7 +725,6 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Eché
     $a=GetConcerned($p_cn,$row['jr_id']);
     $r.="<TD>";
     if ( $a != null ) {
-      // $r.="operation concernée ";
       
       foreach ($a as $key => $element) 
       {      
@@ -739,7 +738,7 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Eché
     $r.="</TD>";
 
     if ( $row['jr_valid'] == 'f'  ) {
-      $r.="<TD> Opération annulée</TD>";
+      $r.="<TD> Op&eacute;ration annul&eacute;e</TD>";
     }    else {
       // all operations can be removed either by setting to 0 the amount
       // or by writing the opposite operation if the period is closed
@@ -880,7 +879,7 @@ function VerifyOperationDate($p_cn,$p_periode,$p_date) {
     list ($l_date_start,$l_date_end)=get_periode($p_cn,$p_periode);
 
     // Date dans la periode active
-    echo_debug ("date start periode $l_date_start date fin periode $l_date_end date demandée $p_date");
+    echo_debug ("date start periode $l_date_start date fin periode $l_date_end date demandee $p_date");
     if ( cmpDate($p_date,$l_date_start)<0 || 
 	 cmpDate($p_date,$l_date_end)>0 )
       {
@@ -1185,7 +1184,7 @@ function CheckPoste($p_cn,$qcode)
     if ( CountSql($p_cn,
 		  "select * from tmp_pcmn where pcm_val=$poste") == 0 )
       {
-      $msg=" Le poste comptable $poste de la fiche ".$qcode." n\'existe pas, il faudra le créer manuellement dans le module comptabilité, menu : avancé->plan comptable";
+      $msg=" Le poste comptable $poste de la fiche ".$qcode." n\'existe pas, il faudra le creer manuellement dans le module comptabilite, menu : avance->plan comptable";
 	echo_error($msg); echo_debug('poste.php',__LINE__,$msg);		
 	echo "<SCRIPT>alert('$msg');</SCRIPT>";
 	return null; 
