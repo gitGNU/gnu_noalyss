@@ -44,6 +44,8 @@ define ('MAX_BUD_DETAIL',20);
 
 define ("DEBUG","false");
 
+define ("DBVERSION",45);
+
 // securite correspond a la table 
 // action
 // access aux journaux
