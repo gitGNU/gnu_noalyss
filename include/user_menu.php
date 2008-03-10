@@ -37,21 +37,11 @@ require_once ('class_widget.php');
  * \return table in HTML
  * 
  */  
-function u_ShowDossier($p_user,$p_admin)
+function u_ShowDossier($p_user,$p_admin,$p_filtre="")
 {
-  $p_array=GetAvailableFolder($p_user,$p_admin);   
+  $p_array=GetAvailableFolder($p_user,$p_admin,$p_filtre);   
 
   $result="";
-  $result.="<table border=\"0\">";
-  $result.='<TR>';
-  if ( $p_admin == 1 ) {
-    $result.="<TD  class=\"mtitle\" ><A class=\"mtitle\" HREF=\"admin_repo.php\"> Administration  </A></TD>";
-  }
-  $result.='<TD  class="mtitle" ><A class="mtitle" HREF="manuel-fr.pdf" > Aide </a></TD>';
-  $result.='<TD class="mtitle"><A class="mtitle" HREF="user_pref.php">Pr&eacute;f&eacute;rence</a></TD>';
-  $result.='<TD  class="mtitle" ><A class="mtitle" HREF="logout.php" > Sortir</a></TD>';
-  $result.="</TR>";
-  $result.="</table>";
   if ( $p_array == 0 ) return $result." * Aucun dossier *";
   $result.="<TABLE style=\"border:collapse\">";
   for ($i=0;$i<sizeof($p_array);$i++) {
@@ -70,12 +60,9 @@ function u_ShowDossier($p_user,$p_admin)
     $result.=$id."  <B>$name</B>";
     $result.="</A>";
     $result.="</TD>";
+    $desc=($desc=="")?"<i>Aucune description</i>":$desc;
     $result.="<TD class=\"$tr\">".$desc;
     $result.="</TD>";
-
-/*     $result.="<TD class=\"mtitle\">"; */
-/*     $result.="<A class=\"mtitle\" HREF=\"caisse.php?dos=$id\">Caisse Enregistreuse</A>"; */
-/*     $result.="</TD>"; */
     $result.="</TR>";
 
   }
@@ -94,7 +81,7 @@ function u_ShowDossier($p_user,$p_admin)
  *       - ac_dossier.dos_description
  *
  */ 
-function GetAvailableFolder($p_user,$p_admin)
+function GetAvailableFolder($p_user,$p_admin,$p_filter="")
 {
   $filter="";
   if ($p_admin==0) {
@@ -106,16 +93,17 @@ function GetAvailableFolder($p_user,$p_admin)
                   join  priv_user on ( priv_jnt=jnt_id)
           where use_active=1 
          and use_login='$p_user' 
-         and priv_priv != 'NO' ";
+         and priv_priv != 'NO' and dos_name like '%$p_filter%'";
 
   } else {
     $sql="select distinct dos_id,dos_name,dos_description from ac_users 
                   natural join jnt_use_dos 
                   natural join  ac_dossier 
-      where  use_active=1 ";
+      where  use_active=1 and dos_name like '%$p_filter%' ";
   }
   include_once("postgres.php");
   $cn=DbConnect();
+
   $Res=ExecSql($cn,$sql);
   $max=pg_numRows($Res);
   if ( $max == 0 ) return 0;

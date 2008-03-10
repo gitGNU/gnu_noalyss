@@ -144,8 +144,6 @@ function formatDate($p_date) {
 function html_page_start($p_theme="",$p_script="",$p_script2="")
 {	
 
- ini_set('magic_quotes_gpc','Off');
-
  $cn=DbConnect();
  if ( $p_theme != "") {
    $Res=ExecSql($cn,"select the_filestyle from theme
@@ -161,6 +159,7 @@ function html_page_start($p_theme="",$p_script="",$p_script2="")
  } // end if
  echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 FINAL//EN">';
  echo "<HTML>";
+
 
  if ( $p_script2 != "" )
    $p_script2='<script src="'.$p_script2.'" type="text/javascript"></script>';
@@ -181,6 +180,11 @@ function html_page_start($p_theme="",$p_script="",$p_script2="")
 ';
 
  echo "<BODY $p_script>";
+ /* If we are on the user_login page */
+ if ( basename($_SERVER['PHP_SELF']) == 'user_login.php') {
+  return;
+ }
+
 }
 /*! 
  * \brief end tag 

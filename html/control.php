@@ -59,6 +59,12 @@ switch ($m) {
  case 'pref':
    get_redirect('user_pref.php?'.dossier::get());
    break;
+ case 'home':
+   get_redirect('user_login.php');
+  break;
+ case 'access':
+   get_redirect('access.php?'.dossier::get());
+   break;
 
  case 'logout':
    get_redirect('logout.php');
