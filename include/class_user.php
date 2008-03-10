@@ -238,7 +238,9 @@ function set_periode($p_periode) {
  */ 
 
 function get_periode() {
+
   $array=$this->get_preference();
+
   return $array['PERIODE'];
 }
 /*! 
@@ -269,6 +271,7 @@ function get_preference ()
       $l_array[$type]=$row['parameter_value'];
     }
   }
+
   return $l_array;
 }
 /*! 

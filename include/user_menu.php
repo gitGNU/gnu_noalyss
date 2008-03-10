@@ -817,7 +817,7 @@ $r.='<script language="javascript">
 		 array('value'=>'param','label'=>'Parametre'),
 		 array('value'=>'access','label'=>'Accueil'),
 		 array('value'=>'home','label'=>'Autre Dossier'),
-		 array('value'=>'logout','label'=>'Sortir')
+		 array('value'=>'logout','label'=>'Deconnection')
 	       );
   if ( $_SESSION['g_topmenu'] == 'SELECT' ) {
     $lab="";

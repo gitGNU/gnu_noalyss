@@ -44,13 +44,13 @@ if ( $User->Admin()  == 1 ) {
 }
 $result.='<TD  class="cell" ><A class="cell" HREF="manuel-fr.pdf" > Aide </a></TD>';
 $result.='<TD class="cell"><A class="cell" HREF="user_pref.php">Pr&eacute;f&eacute;rence</a></TD>';
-$result.='<TD  class="cell" ><A class="cell" HREF="logout.php" > Se d&eacute;connecter</a></TD>';
+$result.='<TD  class="cell" ><A class="cell" HREF="logout.php" >Deconnexion</a></TD>';
 $result.="</TR>";
 $result.="</table>";
 
 echo '<h2 class="info">Bienvenue  '.$user->first_name.'  '.$User->name." dans PhpCompta </h2>";
 echo '<br>Choississez votre dossier';
-echo '<span style="position:absolute;right:10px;top:40px">'.$result.'</span>';
+echo '<span style="position:absolute;right:10px;top:30px">'.$result.'</span>';
 echo '</div>';
 ?>
 <form method="get" action="?">

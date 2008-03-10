@@ -26,17 +26,19 @@ require_once('class_widget.php');
 require_once('class_user.php');
 
 echo '<DIV class="u_content">';
+//----------------------------------------------------------------------
+// Change password
 
-if ( isset ($_POST['spass']) ) {
-  if ( $_POST['pass_1'] != $_POST['pass_2'] ) {
-?>
+if ( strlen(trim($_POST['pass_1'])) != 0 ) {
+  if ($_POST['pass_1'] != $_POST['pass_2'] ) {
+  ?>
 <script>
    alert("Les mots de passe ne correspondent pas. Mot de passe inchang&eacute;");
 </script>
 <?php  
     }
     else {
-	  $Rep=DbConnect();
+      $Rep=DbConnect();
       $l_pass=md5($_POST['pass_1']);
       $Res=ExecSql($Rep,"update ac_users set use_pass='$l_pass' where use_login='".$_SESSION['g_user']."'");
       $pass=$_POST['pass_1'];
@@ -45,22 +47,27 @@ if ( isset ($_POST['spass']) ) {
       echo "<i>Mot de passe est modifi&eacute;</i>";
     }
   }
+
 $url=$_SERVER['REQUEST_URI'];
 if ( ! isset ($_REQUEST['gDossier']) ) 
   {
     echo '<A class="mtitle" href="user_login.php"><input type="button" value="Retour"></a>';
+  } else {
+  echo '<h2 class="info">Changez vos pr&eacute;f&eacute;rences</h2>';
   }
 
 ?>
-<H3 CLASS="info"> Mot de passe</H3>
 
-<FORM ACTION="<?php  echo $url;?>" METHOD="POST">
-<TABLE ALIGN="CENTER">
-<TR><TD><input type="password" name="pass_1"></TD></TR>
-<TR><TD><input type="password" name="pass_2"></TD></TR>
-<TR><TD><input type="submit" name="spass" value="Change mot de passe"></TD></TR>
-</TABLE>
-</FORM>
+<div class="u_content">
+
+<FORM ACTION="<?php   echo $url;?>" METHOD="POST">
+<table>
+<tr><td>
+Mot de passe :
+<td><input type="password" name="pass_1">
+<input type="password" name="pass_2">
+</td>
+</tr>
 <?php  
 $Rep=DbConnect();
 // charge tous les styles
@@ -81,25 +88,17 @@ foreach ($style as $st){
 }
 $disp_style.="</SELECT>";
 ?>
-<H3 class="info">Th&egrave;me</H3>
-<FORM ACTION="<?php   echo $url; ?>" METHOD="post">
-<TABLE ALIGN="center">
-<TR>
-   <TD> Style </TD>
-   <TD> <?php   print $disp_style;?> </TD>
-</TR>
-<TR>
-   <td colspan=2> <INPUT TYPE="submit" Value="Sauve"></TD>
-</TR>
-</TABLE>
-</FORM>
+<p>
+<tr>
+<td>
+Th&egrave;me 
+</td>
+<td>
+<?php   print $disp_style;?> 
+</td>
+</tr>
 
 <?php  
-   /* propose to use menu or icon for the top menu */
-if ( isset($_POST['sub_topmenu']) ){
-  $_SESSION['g_topmenu']=$_POST['topmenu'];
-  $User->update_global_pref('TOPMENU',$_POST['topmenu']);
-}
 $topmenu=new widget('select');
 $topmenu->name='topmenu';
 $topmenu->selected=$_SESSION['g_topmenu'];
@@ -108,58 +107,61 @@ $array=array(
 	     array('value'=>'SELECT','label'=>'Menu deroulant')
 	     );
 $topmenu->value=$array;
-echo '<h3 class="info">Style de menu</h3>';
-echo '<span style="text-align:center;width:100%">';
-echo '<form method="post" action="'.$url.'">';
-echo $topmenu->IOValue();
-echo widget::submit('sub_topmenu','Sauver');
-echo '</form>';
-echo '</span>';
+?>
+<tr><td>
+Style de menu
+</td>
+<td>
+<?php echo $topmenu->IOValue();?>
+</td>
+</tr>
 
+<?php
 // Si utilise un dossier alors propose de changer
 // la periode par defaut
-if (  isset ($_REQUEST['gDossier']) ) 
+if (  isset ($_REQUEST['gDossier']))
   {
 
     include_once("preference.php");
     $msg=""; 
     $cn=DbConnect($_REQUEST['gDossier']);
-    if ( isset ($_POST["sub_periode"] ) ) 
-      {
+    $User->cn=$cn;    
+
+    if ( isset ($_POST['periode']))
+      {    
 	$periode=$_POST["periode"];
 	$User->set_periode($periode);
 	echo_debug('pref.inc',__LINE__,"Periode returns ".PeriodeClosed($cn,$periode));
+    
       }
 
     $l_user_per=$User->get_periode();
+    if ( $l_user_per=="") 
+      $l_user_per=getDbValue($cn,"select min(p_id) from parm_periode where p_closed='f'");
+
     // if periode is closed then warns the users
     if ( PeriodeClosed($cn,$l_user_per)=='t')
       {
-	$msg= '<h2 class="error">Attention cette p&eacute;riode est ferm&eacute;e, vous ne pourrez rien modifier dans le module comptable</h2>';
+	$msg= '<h2 class="notice">Attention cette p&eacute;riode est ferm&eacute;e, vous ne pourrez rien modifier dans le module comptable</h2>';
       }
     
 
     $l_form_per=FormPeriode($cn,$l_user_per,ALL);
     
     ?>
-      <H3 CLASS="info"> P&eacute;riode</H3>
-  <?php   echo $msg; ?>
-<FORM ACTION="<?php   echo $url;?>" METHOD="POST">
-<TABLE ALIGN="CENTER">
-<TR><TD>PERIODE</TD>
-<?php      printf('<TD> %s </TD></TR>',$l_form_per); ?>
-<TR><TD><input type="submit" name="sub_periode" value="Sauve"></TD></TR>
-</TABLE>
-</FORM>
+<tr><td> P&eacute;riode</td>
+<td>
+<?php      printf(' %s ',$l_form_per); ?>
+</td>
+<td>  <?php   echo $msg; ?></td>
 <?php  
 
 }
 ?>
-<H3 CLASS="info"> Taille des pages</H3>
-<FORM ACTION="<?php   echo $url;?>" METHOD="POST">
-<TABLE ALIGN="CENTER">
-<TR><TD>Taille des pages</TD>
-<TD>
+
+<tr>
+<td>Taille des pages</td>
+<td>
 <SELECT NAME="p_size">
 <option value="15">15
 <option value="25">25
@@ -173,16 +175,18 @@ if (  isset ($_REQUEST['gDossier']) )
 	echo '<option value="'.$_SESSION['g_pagesize'].'" selected>'.$label;
 ?>
 </SELECT>
-</TD></TR>
-<TR><TD><input type="submit" name="sub_taille" value="Sauve"></TD></TR>
-</TABLE>
-</FORM>
+
+</td>
+</tr>
+</table>
 
 <?php
+echo widget::submit("val","Valider");
+echo '</form>';
 if ( ! isset ($_REQUEST['gDossier']) ) 
 {
     echo '<A class="mtitle" href="user_login.php"><input type="button" value="Retour"></a>';
-  }
+}
 
 
      
