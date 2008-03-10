@@ -57,6 +57,7 @@ h2.error {
  *        This file is included in each release  for a new upgrade
  * 
  */
+
 $inc_path=get_include_path();
 if ( strpos($inc_path,";") != 0 ) {
   $new_path=$inc_path.';..\..\include;addon';
@@ -158,7 +159,7 @@ echo_debug('setup.php',__LINE__,"Execute sql $sql");
   fclose($hf);
   if ( DEBUG=='false' ) ob_end_clean();
 }
-/*! \brief loop to apply all the path to a folder or 
+/*!\brief loop to apply all the path to a folder or 
  *         a template
  * \param $p_cn database connexion
  * \param $p_name database name
