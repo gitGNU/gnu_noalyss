@@ -37,27 +37,28 @@ foreach (array('gDossier','m') as $i) {
 require_once('class_dossier.php');
 require_once('user_common.php');
 
+$phpsessid='&PHPSESSID='.$_REQUEST['PHPSESSID'];
 switch ($m) {
  case 'budget':
-   get_redirect('budget.php?'.dossier::get());
+   get_redirect('budget.php?'.dossier::get().$phpsessid);
    break;
  case 'compta':
-   get_redirect('user_compta.php?'.dossier::get());
+   get_redirect('user_compta.php?'.dossier::get().$phpsessid);
    break;
  case 'analytic':
-   get_redirect('comptanalytic.php?'.dossier::get());
+   get_redirect('comptanalytic.php?'.dossier::get().$phpsessid);
    break;
  case 'home':
-   get_redirect('user_login.php');
+   get_redirect('user_login.php?'.$phpsessid);
    break;
  case 'gestion':
-   get_redirect('commercial.php?'.dossier::get());
+   get_redirect('commercial.php?'.dossier::get().$phpsessid);
    break;
  case 'param':
-   get_redirect('parametre.php?'.dossier::get());
+   get_redirect('parametre.php?'.dossier::get().$phpsessid);
    break;
  case 'pref':
-   get_redirect('user_pref.php?'.dossier::get());
+   get_redirect('user_pref.php?'.dossier::get().$phpsessid);
    break;
  case 'home':
    get_redirect('user_login.php');
