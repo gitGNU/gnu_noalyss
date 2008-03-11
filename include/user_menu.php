@@ -736,35 +736,7 @@ function ShowMenuPcmn($p_start=1)
     echo '<TR><TD class="mtitle"><A class="mtitle" HREF="?p_action=pcmn&p_start=9'.$str_dossier.'">9 Hors Comptabilit&eacute;</A></TD></TR>';
     echo "</TABLE>";
 }
-/*!  
- * \brief Show the left menu for the report (add a report, view it)
- * 
- * \param $p_dossier dossier id
- *
- *
- *
- * \return nothing
- *
- *
- */ 
-function ShowMenuComptaForm() {
-  $cn=DbConnect(dossier::id());
-  $str_dossier=dossier::get();
-  echo '<div class="lmenu">';
-  echo '<TABLE>';
-  echo '<TR><TD class="mtitle"><A class="mtitle" HREF="form.php?action=add&'.$str_dossier.'">Ajout</A></TD></TR>';
-  $Ret=ExecSql($cn,"select fr_id, fr_label 
-                             from formdef order by fr_label");
-  $Max=pg_NumRows($Ret);
-    for ($i=0;$i<$Max;$i++) {
-      $l_line=pg_fetch_array($Ret,$i);
-      printf ('<TR><TD class="mtitle"><A class="mtitle" HREF="form.php?action=view&fr_id=%s&%s">%s</A></TD></TR>',
-			  $l_line['fr_id'],$str_dossier,$l_line['fr_label']);
 
-    }
-    echo "</TABLE>";
-    echo '</div>';
-}
 
 /*! 
  * \brief Show the menu for importing, verify and transfert Bank CSV

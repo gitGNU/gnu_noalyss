@@ -98,6 +98,10 @@ require_once ('class_periode.php');
 Periode::test_me();
 
 require_once ('verif.inc.php');
-*/
+
 require_once('class_acc_jrn_info.php');
 Acc_Jrn_Info::test_me();
+*/
+
+require_once('class_rapport.php');
+Rapport::test_me();
