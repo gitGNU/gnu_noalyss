@@ -307,3 +307,18 @@ function import_not_confirmed(p_sessid,p_dossier,p_count) {
   var form=$("form_"+p_count);
   form.hide();
 }
+
+function rapport_add_row(){
+  var line=$("line");
+  line.value=line.value*1+1;
+  var table=$("rap1");
+  style='style="border: 1px solid blue;"';
+  new_line='<tr><td><input type="text" '+style+' size="3" name="pos'+line.value+'" value="'+line.value+'"></td>';
+  new_line+='<td><input type="text" '+style+' size="50"  name="text'+line.value+'"></td>';
+  new_line+='<td><input type="text" '+style+' size="35" name="form'+line.value+'"></td>';
+  html=table.innerHTML;
+  html=html.replace(/<\/table>/,"");
+  html+=new_line;
+  html+="</table>";
+  table.innerHTML=html;
+}

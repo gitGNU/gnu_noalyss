@@ -105,3 +105,5 @@ Acc_Jrn_Info::test_me();
 
 require_once('class_rapport.php');
 Rapport::test_me();
+require_once('class_rapport_row.php');
+Rapport_Row::test_me();

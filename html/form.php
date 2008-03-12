@@ -29,11 +29,10 @@ include_once ("postgres.php");
 include_once ("class_user.php");
 include_once ("user_menu.php");
 
-html_page_start($_SESSION['g_theme']);
 
 
 $gDossier=dossier::id();
-
+$str_dossier=dossier::get();
 
 /* Admin. Dossier */
 $rep=DbConnect();
@@ -41,32 +40,41 @@ $rep=DbConnect();
 $User=new User($rep);
 $User->Check();
 
+$cn=DbConnect($gDossier);
+
+
+$rap=new Rapport($cn);
+if ( isset ($_POST["del_form"]) ) {
+  $rap->id=$_POST['fr_id'];
+  $rap->delete();
+  header('Location:form.php?'.$str_dossier);
+}
+if ( isset ($_POST["record"] )) {
+  $rap->from_array($_POST);
+  $rap->save();
+  header('Location:form.php?'.$str_dossier);
+}
+if ( isset($_POST['update'])) {
+    $rap->from_array($_POST);
+    $rap->save($_POST);
+
+  }
+
+
 echo '<div class="u_tmenu">';
 echo ShowMenuCompta("user_advanced.php?".dossier::get());
 echo '</div>';
-
+echo ShowMenuAdvanced(6);
 // Get The priv on the selected folder
 $User->can_request($cn,FORM);
 
 
 include ("check_priv.php");
 
-$cn=DbConnect($gDossier);
-echo ShowMenuAdvanced(6);
 
-$rap=new Rapport($cn);
+html_page_start($_SESSION['g_theme']);
 
 
-if ( isset ($_POST["record"] )) {
-
-  //  echo '<DIV class="u_redcontent">';
-  AddForm($cn,$_POST);
-  //echo "</DIV>";
-}
-if ( isset ($_POST["del_form"]) ) {
-  $rap->id=$$_POST['fr_id'];
-  $rap->delete();
-}
 
 
 
@@ -92,20 +100,28 @@ if ( isset ($_REQUEST["action"]) ) {
     {
 
       echo '<DIV class="u_redcontent">';
+      echo '<form method="post" >';
+      echo dossier::hidden();
+      echo $rap->id=0;
       echo $rap->form(15);
+      echo widget::submit("record","Sauve");
+      echo '</form>';
       echo "</DIV>";
     }
   if ($action=="view" ) {
     echo '<DIV class="u_redcontent">';
-    $rap->view();
+    $rap->id=$_GET['fr_id'];
+    echo '<form method="post" action="form.php">';
+    $rap->load();
+    echo $rap->form();
+    echo widget::hidden("action","update");
+    echo widget::submit("update","Mise a jour");
+    echo widget::submit("del_form","Effacement");
+    echo '</form>';
+
     echo "</DIV>";
   }
-  if ( $action == "update" ) {
-    echo '<DIV class="u_redcontent">';
-    $rap->update($_POST);
-    echo $rap->view();
-    echo "</DIV>";
-  }
+
 }
 
 html_page_stop();
