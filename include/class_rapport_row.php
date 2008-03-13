@@ -72,15 +72,24 @@ class  Rapport_Row
     extract ($p_array);
     $ret=array();
     $ix=0;
+    $found=1;
     foreach ( $p_array as $r) {
+
       if ( isset(${'form'.$ix}) && isset ( ${'text'.$ix} )) {
 	$obj=new Rapport_Row( ${'text'.$ix},${'form'.$ix});
+	if ( isset(${'pos'.$ix}) &&  isNumber(${'pos'.$ix})==1 )
+	  $obj->set_parameter("position",$ix);
+	else {
+	  $obj->set_parameter("position",$found);
+	  $found++;
+	}
 	$obj->fo_id=0;
 	$obj->fo_fr_id=$this->fo_fr_id;
 	$obj->db=$this->db;
 	$ret[]=clone $obj;
-	$ix++;
       } 
+      $ix++;
+
     }
     return $ret;
   }

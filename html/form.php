@@ -103,9 +103,10 @@ if ( isset ($_REQUEST["action"]) ) {
       echo '<form method="post" >';
       echo dossier::hidden();
       echo $rap->id=0;
-      echo $rap->form(15);
+      echo $rap->form(2);
       echo widget::submit("record","Sauve");
       echo '</form>';
+      echo '<span class="notice">Les lignes vides seront effac&eacute;es</span>';
       echo "</DIV>";
     }
   if ($action=="view" ) {
@@ -118,7 +119,7 @@ if ( isset ($_REQUEST["action"]) ) {
     echo widget::submit("update","Mise a jour");
     echo widget::submit("del_form","Effacement");
     echo '</form>';
-
+    echo '<span class="notice">Les lignes vides seront effac&eacute;es</span>';
     echo "</DIV>";
   }
 

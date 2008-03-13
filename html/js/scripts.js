@@ -309,16 +309,22 @@ function import_not_confirmed(p_sessid,p_dossier,p_count) {
 }
 
 function rapport_add_row(){
-  var line=$("line");
-  line.value=line.value*1+1;
-  var table=$("rap1");
-  style='style="border: 1px solid blue;"';
-  new_line='<tr><td><input type="text" '+style+' size="3" name="pos'+line.value+'" value="'+line.value+'"></td>';
-  new_line+='<td><input type="text" '+style+' size="50"  name="text'+line.value+'"></td>';
-  new_line+='<td><input type="text" '+style+' size="35" name="form'+line.value+'"></td>';
-  html=table.innerHTML;
-  html=html.replace(/<\/table>/,"");
-  html+=new_line;
-  html+="</table>";
-  table.innerHTML=html;
+   style='style="border: 1px solid blue;"';
+   var table=$("rap1");
+   var line=table.rows.length;
+
+   var row=table.insertRow(line);
+   // left cell
+  var cellPos = row.insertCell(0);
+  cellPos.innerHTML='<input type="text" '+style+' size="3" id="pos'+line+'" name="pos'+line+'" value="'+line+'">';
+
+  // right cell
+  var cellName = row.insertCell(1);
+  cellName.innerHTML='<input type="text" '+style+' size="50" id="text'+line+'" name="text'+line+'">';
+
+  // Formula
+  var cellFormula = row.insertCell(2);
+  cellFormula.innerHTML='<input type="text" '+style+' size="35" id="form'+line+'"  name="form'+line+'">';
+
 }
+

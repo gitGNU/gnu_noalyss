@@ -253,6 +253,7 @@ function form($p_line=0) {
     $sql=ExecSqlParam($this->db,
 		      "select fr_label from formdef where fr_id=$1",
 		      array($this->id));
+    if ( pg_NumRows($sql) == 0 ) return;
     $this->name=pg_fetch_result($sql,0,0);
     $sql=ExecSqlParam($this->db,
 		      "select fo_id,fo_pos,fo_label,fo_formula ".
