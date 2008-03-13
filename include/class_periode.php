@@ -44,6 +44,18 @@ class Periode {
   function set_periode($pp_id){
     $this->p_id=$pp_id;
   }
+  /*!\brief return the p_id of the start and the end of the exercice
+   *into an array
+   *\param $p_exercice 
+   *\return array [start]=>,[end]=>
+   */
+  function limit_year($p_exercice) {
+    $sql_start="select p_id from parm_periode where p_exercice=$1 order by p_start  ASC";
+    $start=getDbValue($this->cn,$sql_start,array($p_exercice));
+    $sql_end="select p_id from parm_periode where p_exercice=$1 order by p_start  ASC";
+    $end=getDbValue($this->cn,$sql_end,array($p_exercice));
+    return array("start"=>$start,"end"=>$end);
+  }
   function is_closed() {
     if ( $this->jrn_def_id != 0 )
     $sql="select status from jrn_periode ".

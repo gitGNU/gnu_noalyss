@@ -24,7 +24,7 @@
  */
 require_once('class_widget.php');
 require_once('class_user.php');
-
+require_once('class_rapport.php');
 echo '<DIV class="u_content">';
 //----------------------------------------------------------------------
 // Change password
@@ -61,6 +61,7 @@ if ( ! isset ($_REQUEST['gDossier']) )
 <div class="u_content">
 
 <FORM ACTION="<?php   echo $url;?>" METHOD="POST">
+<fieldset><legend> Options G&eacute;n&eacute;rales</legend>
 <table>
 <tr><td>
 Mot de passe :
@@ -117,11 +118,12 @@ Style de menu
 </tr>
 
 <?php
+$inside_dossier=false;
 // Si utilise un dossier alors propose de changer
 // la periode par defaut
 if (  isset ($_REQUEST['gDossier']))
   {
-
+    $inside_dossier=true;
     include_once("preference.php");
     $msg=""; 
     $cn=DbConnect($_REQUEST['gDossier']);
@@ -179,11 +181,30 @@ if (  isset ($_REQUEST['gDossier']))
 </td>
 </tr>
 </table>
-
+</fieldset>
 <?php
+if ( $inside_dossier ) {
+  /* Pref for welcome page */
+  echo '<fieldset>';
+  echo '<legend> Options pour la page d\'accueil</legend>';
+  echo 'Mini-Rapport : ';
+  $rapport=new Rapport($cn);
+  $aRapport=$rapport->make_array();
+  $aRapport[]=array("value"=>0,"label"=>'Aucun mini rapport');
+  $wRapport=new widget("select");
+  $wRapport->name="minirap";
+  $wRapport->selected=$User->get_mini_report();
+  $wRapport->value=$aRapport;
+  echo $wRapport->IOValue();
+  echo '<span class="notice">Le mini rapport est un rapport qui s\'affiche  sur votre page d\'accueil</span>';
+  echo '</fieldset>';
+}
+
+
+
 echo widget::submit("val","Valider");
 echo '</form>';
-if ( ! isset ($_REQUEST['gDossier']) ) 
+if ( $inside_dossier ) 
 {
     echo '<A class="mtitle" href="user_login.php"><input type="button" value="Retour"></a>';
 }

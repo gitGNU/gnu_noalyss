@@ -26,11 +26,53 @@
 require_once ('constant.php');
 require_once ('ac_common.php');
 require_once ('class_user.php');
-$user=new User(DbConnect());
-
-html_page_start($_SESSION['g_theme']);
+require_once('class_rapport.php');
+require_once('class_periode.php');
 require_once ('user_menu.php');
 require_once ('class_dossier.php');
+
+
+
+$cn=DbConnect(dossier::id());
+$user=new User($cn);
+
+html_page_start($_SESSION['g_theme']);
 echo '<div class="u_tmenu">';
 echo menu_tool('access');
+echo '</div>';
+echo '<div class="u_content">';
+
+
+
+
+$report=$user->get_mini_report();
+if ( $report != 0 ) {
+  $rapport=new Rapport($cn);
+  $rapport->id=$report;
+  echo '<div style="float:right">';
+  echo '<fieldset style="background-color:white"><legend>'.$rapport->get_name().'</legend>';
+  $exercice=$user->get_exercice();
+  if ( $exercice == 0 ) {
+    echo "<script>alert('Aucune periode par defaut');</script>";
+  } else {
+    $periode=new Periode($cn);
+    $limit=$periode->limit_year($exercice);
+    
+    $result=$rapport->get_row($limit['start'],$limit['end'],'periode');
+    $ix=0;
+    echo '<table border="0">';
+    foreach ($result as $row) {
+      $ix++;
+      $bgcolor=($ix%2==0)?' style="background-color:lightgrey"':'';
+      echo '<tr'.$bgcolor.'">';
+
+      echo '<td> '.$row['desc'].'</td>'.
+	'<td>'.sprintf("% 10.2f",$row['montant'])." &euro;</td>";
+      echo '</tr>';
+    }
+    echo '</table>';
+  }
+  echo '</fieldset>';
+  echo '</div>';
+}
 echo '</div>';

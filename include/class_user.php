@@ -227,11 +227,10 @@ function set_periode($p_periode) {
   $sql="update user_local_pref set parameter_value='$p_periode' where user_id='$this->id' and parameter_type='PERIODE'";
   $Res=ExecSql($this->db,$sql);
 }
+
 /*! 
  * \brief  Get the default periode from the user's preferences
  * 
- * \param $p_cn connexion 
- * \param  $p_user
  * \return the default periode
  *	
  *
@@ -240,15 +239,38 @@ function set_periode($p_periode) {
 function get_periode() {
 
   $array=$this->get_preference();
-
   return $array['PERIODE'];
 }
+  /*!\brief return the mini rapport to display on the welcome page
+   *\return 0 if nothing if found or the report to display (formdef.fr_id)
+   */
+  function get_mini_report() {
+    $array=$this->get_preference();
+    $fr_id=(isset($array['MINIREPORT']))?$array['MINIREPORT']:0;
+    return $fr_id;
+    
+  }
+
+  /*!\brief set the mini rapport to display on the welcome page
+   */
+  function set_mini_report($p_id) {
+    $count=getDbValue($this->db,"select count(*) from user_local_pref where user_id=$1 and parameter_type=$2",
+		      array($this->id,'MINIREPORT'));
+    if ( $count == 1 ) {
+      $sql="update user_local_pref set parameter_value=$1 where user_id=$2 and parameter_type='MINIREPORT'";
+      $Res=ExecSqlParam($this->db,$sql,array($p_id,$this->id));
+    } else {
+      $sql="insert into user_local_pref (user_id,parameter_type,parameter_value)".
+	"values($1,'MINIREPORT',$2)";
+      $Res=ExecSqlParam($this->db,$sql,array($this->id,$p_id));
+    }
+
+
+  }
+
+
 /*! 
  * \brief  Get the default user's preferences
- * 
- *  
- * \param $p_cn connexion 
- * \param $p_user
  * \return array of (parameter_type => parameter_value)
  */ 
 function get_preference ()
@@ -266,7 +288,7 @@ function get_preference ()
     $l_array=$this->get_preference();
   } else {
     for ( $i =0;$i < pg_NumRows($Res);$i++) {
-      $row= pg_fetch_array($Res,0);
+      $row= pg_fetch_array($Res,$i);
       $type=$row['parameter_type'];
       $l_array[$type]=$row['parameter_value'];
     }

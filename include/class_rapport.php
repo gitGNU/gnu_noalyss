@@ -24,6 +24,7 @@
 
 require_once('class_rapport_row.php');
 require_once('class_widget.php');
+require_once('impress_inc.php');
 
 /*! 
  * \brief Class rapport  Create, view, modify and parse report
@@ -303,6 +304,15 @@ function form($p_line=0) {
     }
     return $obj;
   }
+  /*!\brief To make a SELECT button with the needed value, it is used
+   *by the SELECT widget
+   *\return string with html code 
+   */
+  function make_array() {
+    $sql=make_array($this->db,"select fr_id,fr_label from formdef order by fr_label");
+    return $sql;
+  }
+
   function test_me() {
     $cn=DbConnect(dossier::id());
     $a=new Rapport($cn);

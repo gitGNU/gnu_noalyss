@@ -475,15 +475,23 @@ function save_upload_document ($cn,$seq) {
 /*!\brief return the value of the sql, the sql will return only one value
  *        with the value
  * \param $p_cn database connection
- * \param $p_sql the sql stmt example :select s_value from document_state where s_id=2
- * \return only the first value
+ * \param $p_sql the sql stmt example :select s_value from
+    document_state where s_id=2
+ *\param $p_array if array is not null we use the ExecSqlParm (safer)
+ *\see ExecSqlParm
+ * \return only the first value or an empty string if nothing is found
  */ 
-function getDbValue($p_cn,$sql)
+function getDbValue($p_cn,$p_sql,$p_array=null)
 {
-  $ret=ExecSql($p_cn,$sql);
+  if ( $p_array == null) {
+    $ret=ExecSql($p_cn,$p_sql);
+  } else {
+    $ret=ExecSqlParam($p_cn,$p_sql,$p_array);
+  }
   if ( pg_NumRows($ret) == 0 ) return "";
   $r=pg_fetch_row($ret,0);
   return $r[0];
+    
 }
 /*!\brief test if a sequence exist */
 /* \return true if the seq. exist otherwise false
