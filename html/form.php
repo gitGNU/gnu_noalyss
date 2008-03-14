@@ -42,17 +42,17 @@ $User->Check();
 
 $cn=DbConnect($gDossier);
 
-
+$nocookie='?PHPSESSID='.$_REQUEST['PHPSESSID'];
 $rap=new Rapport($cn);
 if ( isset ($_POST["del_form"]) ) {
   $rap->id=$_POST['fr_id'];
   $rap->delete();
-  header('Location:form.php?'.$str_dossier);
+  header('Location:form.php?'.$str_dossier.$nocookie);
 }
 if ( isset ($_POST["record"] )) {
   $rap->from_array($_POST);
   $rap->save();
-  header('Location:form.php?'.$str_dossier);
+  header('Location:form.php?'.$str_dossier.$nocookie);
 }
 if ( isset($_POST['update'])) {
     $rap->from_array($_POST);
