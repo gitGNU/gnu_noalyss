@@ -71,8 +71,6 @@ class Document
  * \brief Generate the document, Call $this-\>Replace to replace
  *        tag by value
  *        
- * \param none
- * 
  *
  * \return an array : the url where the generated doc can be found, the name
  * of the file and his mimetype
@@ -468,7 +466,7 @@ class Document
  *  - OTHER_INFO
  *  - CUST_NUM
  *
- * \param TAG
+ * \param $p_tag TAG
  * \return String which must replace the tag
  */
   function Replace($p_tag)

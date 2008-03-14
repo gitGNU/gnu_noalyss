@@ -45,7 +45,7 @@ class Own {
  * \brief  Update a row
  *        
  *  
- * \param give the attribut name
+ * \param $p_attr give the attribut name
  * 
  */
   function UpdateRow($p_attr) {

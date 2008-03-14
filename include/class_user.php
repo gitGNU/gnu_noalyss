@@ -140,9 +140,6 @@ class User {
   }
 /*! 
  * \brief get all the available ledgers for the current user
- * \param none
- * \param
- * \param
  * 
  *
  * \return an array
@@ -323,7 +320,7 @@ function get_preference ()
  * \brief  Get the global preferences from user_global_pref
  *        in the account_repository db
  *
- * \param set g_variable
+ * \note set $SESSION[g_variable]
  */
 
 
@@ -366,7 +363,8 @@ function load_global_pref()
  * \brief  insert default pref
  *        if no parameter are given insert all the existing 
  *        parameter otherwise only the requested
- * \param parameter's type or nothing
+ * \param $p_type parameter's type or nothing
+ * \param $p_value parameter value
  *
  */
 function insert_default_global_pref($p_type="",$p_value="") {
@@ -398,8 +396,8 @@ function insert_default_global_pref($p_type="",$p_value="") {
  * \brief  update default pref
  *           if value is not given then use the default value
  *
- * \param parameter's type 
- * \param parameter's value value of the type
+ * \param $p_type parameter's type 
+ * \param $p_value parameter's value value of the type
  */
 function update_global_pref($p_type,$p_value="") {
 	$default_parameter= array("THEME"=>"Light",
@@ -433,7 +431,7 @@ function get_exercice()
 /*!\brief Check if the user can access 
  * otherwise warn and exit
  * \param $p_cn database connx
- * \param $action_id
+ * \param $p_action requested action
  * \param $p_js = 1 javascript, or 0 just a text
  * \return nothing the program exits automatically
  */

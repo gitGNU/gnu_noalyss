@@ -152,9 +152,9 @@ class fiche {
  **************************************************
  * \brief  Return array of card from the frd family
  *        
- * \param the fiche_def_ref.frd_id
- * \param p_search is a filter on the name
- * \param p_sql extra sql condition
+ * \param $p_frd_id the fiche_def_ref.frd_id
+ * \param $p_search p_search is a filter on the name
+ * \param $p_sql extra sql condition
  *
  * \return array of fiche object
  */
@@ -179,8 +179,9 @@ class fiche {
  * \brief  Return array of card from the frd family
  *        
  * 
- * \param the fiche_def_ref.frd_id
- * \param  p_search is an optional filter
+ * \param  $p_frd_id the fiche_def_ref.frd_id
+ * \param  $p_offset
+ * \param  $p_search is an optional filter
  *
  * \return array of fiche object
  */
@@ -230,7 +231,7 @@ class fiche {
  **************************************************
  * \brief  return the string of the given attribute
  *        (attr_def.ad_id) 
- * \param the AD_ID from attr_def.ad_id
+ * \param $p_ad_id the AD_ID from attr_def.ad_id
  * \see constant.php
  * \return string
  */
@@ -841,7 +842,6 @@ class fiche {
    * 
    * \param  $p_from periode from
    * \param  $p_to   end periode
-   * \param  $p_qcode quick_code of the card
    * \return double array (j_date,deb_montant,cred_montant,description,jrn_name,j_debit,jr_internal)
    *         (tot_deb,tot_credit
    *
@@ -884,9 +884,7 @@ class fiche {
 
   /*! 
    * \brief HtmlTable, display a HTML of a card for the asked period
-   * \param none
-   *
-   * \return none
+   * \param $p_array default = null keys = from_periode, to_periode 
    */
   function HtmlTable($p_array=null)
     {     
@@ -1013,10 +1011,7 @@ function get_solde_detail($p_cond="") {
 	       'solde'=>abs($r['sum_deb']-$r['sum_cred']));
 }
 /*! 
- * \brief get the fd_id of the card : fd_id
- * \param none
- *
- * \return none
+ * \brief get the fd_id of the card : fd_id, it set the attribute fd_id
  */
  function get_categorie() 
    {
@@ -1035,7 +1030,7 @@ function get_solde_detail($p_cond="") {
  *  or the id  must be set
  *        
  * 
- * \param   $j_jrn journal_id
+ * \param   $p_jrn journal_id
  * \param   $p_type : deb or cred default empty
  * 
  *\todo  fiche::belong_ledger this function will replace fiche_inc.php

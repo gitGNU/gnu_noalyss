@@ -795,7 +795,7 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Echï
  * \param  $p_cn database connection
  * 
  * \param $p_j_id the j_id
- * \param $p_goods the goods
+ * \param $p_good the goods
  * \param $p_quant  quantity
  * \param $p_type c for credit or d for debit
  *
@@ -1024,14 +1024,11 @@ function UpdateComment ($p_cn,$p_jr_id,$p_comment) {
  **************************************************
  *\brief   test if a jrn op is valid
  *        
- * parm : 
- *	- db connection 
- *      - p_grpt_id
- * gen :
- *	- none
- * return:
- *        1 is valid
- *        0 is not valid
+ * \param $p_cn db 
+ * \param $p_grpt_id
+ * \return:
+ *        - 1 is valid
+ *        - 0 is not valid
  */
 function isValid ($p_cn,$p_grpt_id) {
   $Res=ExecSql($p_cn,"select jr_valid from jrn where jr_grpt_id=$p_grpt_id");

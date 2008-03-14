@@ -141,12 +141,7 @@ class Periode {
   
   }
 /*!   
- * \brief Show all the periode and their status
- * 
- * \param $p_cn database connection
- *
- * \return nothing
- *     
+ * \brief Display all the periode and their status
  *
  */ 
 

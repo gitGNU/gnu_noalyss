@@ -231,7 +231,8 @@ function form($p_line=0) {
     Commit($this->db);
   }
   /*!\brief fill a form thanks an array, usually it is $_POST
-   *\param $array
+   *\param $p_array keys = fr_id, form_nom,textXX, formXX, posXX where
+      XX is an number
    */
   function from_array($p_array) {
     $this->id=(isset($p_array['fr_id']))?$p_array['fr_id']:0;
