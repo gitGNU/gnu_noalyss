@@ -271,13 +271,13 @@ a.mtitle {
 tr.odd:hover td
 {
   text-decoration:none;
-  background-color:darkblue;
+  background-color: #a9d6e4;
   color:white;
 }
 tr.even:hover td 
 {
   text-decoration:none;
-  background-color:darkblue;
+  background-color: #a9d6e4;
   color:white;
 }
 a.mtitle:hover 
