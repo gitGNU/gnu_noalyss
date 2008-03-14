@@ -29,7 +29,8 @@ echo '<DIV class="u_content">';
 //----------------------------------------------------------------------
 // Change password
 
-if ( strlen(trim($_POST['pass_1'])) != 0 ) {
+if ( isset($_POST['pass_1'])
+     && strlen(trim($_POST['pass_1'])) != 0 ) {
   if ($_POST['pass_1'] != $_POST['pass_2'] ) {
   ?>
 <script>
@@ -204,7 +205,7 @@ if ( $inside_dossier ) {
 
 echo widget::submit("val","Valider");
 echo '</form>';
-if ( $inside_dossier ) 
+if ( ! $inside_dossier ) 
 {
     echo '<A class="mtitle" href="user_login.php"><input type="button" value="Retour"></a>';
 }
