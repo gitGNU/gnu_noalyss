@@ -521,7 +521,7 @@ function ShowMenuAdvanced($default="") {
 		array('user_advanced.php?p_action=central&'.$str_dossier,'Centralise',"Centralisation",3),
 
 		array('compta.php?p_action=stock&'.$str_dossier,'Stock',"Gestion des stocks",5),
-		array('form.php?'.$str_dossier,'Rapport',"Rapport",6),
+		array('user_advanced.php?p_action=defreport&'.$str_dossier,'Rapport',"Rapport",6),
 		array('import.php?'.$str_dossier,'Import Banque',"Banque",7),
 		array('ecrit_ouv.php?'.$str_dossier,'Ecriture ouverture',"",8),
 		array('user_advanced.php?p_action=verif&'.$str_dossier,'V&eacute;rification',"",10)
@@ -659,7 +659,9 @@ function ShowMenuDocument()
  */ 
 function ShowMenuParam($p_action="")
 {
-  $s=dossier::get();
+  // The phpsessid is set manually to avoid problem when the server is
+  // misconfigured and the cookies are not sent (or accepted)
+  $s=dossier::get().'?PHPSESSID='.$_REQUEST['PHPSESSID'];
   $sub_menu=ShowItem(array(
 			  
 			   array('parametre.php?p_action=company&'.$s,'Sociétés','Parametre societe',1),
@@ -670,7 +672,7 @@ function ShowMenuParam($p_action="")
 			   array('parametre.php?p_action=fiche&'.$s,'Fiche','Modifie les classe de base',5),
 			   array('parametre.php?p_action=sec&'.$s,'Sécurité','securite',8),
 			   array('parametre.php?p_action=document&'.$s,'Document','Facture, lettre de rappel, proposition...',7),
-			  array('parametre.php?p_action=jrn&'.$s,'Journaux','Creation et modification de journaux',10)
+			   array('parametre.php?p_action=jrn&'.$s,'Journaux','Creation et modification de journaux',10)
 			
 			  ),
 		    'H',"mtitle","mtitle",$p_action,' width="100%"');

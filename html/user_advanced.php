@@ -68,7 +68,9 @@ switch ($p_action) {
  case 'central';
  $high=3;
  break;
-
+case 'defreport':
+  $high=6;
+  break;
  default:
    $high=0;
    
@@ -177,6 +179,10 @@ if ( $p_action=='verif' ) {
 if ( $p_action=='central') 
   require_once ('central.inc.php');
 
+
+if ($p_action=='defreport') {
+  require_once('report.inc.php');
+}
 
 html_page_stop();
 ?>

@@ -40,17 +40,6 @@ $User->Check();
 include_once("preference.php");
 include_once("user_menu.php");
 echo '<div class="u_tmenu">';
-/*
-echo '<div style="float:left">';
-echo "<H2 class=\"info\"> Param&egrave;tre ".dossier::name().'<h2>'.
-'</div>'.'
-<div align="right">
-<A HREF="user_compta.php?gDossier='.$gDossier.'" title="Comptabilit&eacute;"><IMG SRC="image/compta.png" width="36"  border="0" ></A>
-
-<A HREF="login.php" title="Accueil"><IMG src="image/home.png" width="36"  border="0"  ></A>
-<A HREF="logout.php" title="Sortie"><IMG src="image/logout.png" title="Logout"  width="36"  border="0"></A>
-</div>
-*/
 
 echo menu_tool('param');
 echo '<div style="float:left">';
@@ -255,7 +244,12 @@ if ( $p_action == 'pcmn' ) {
 if ( $p_action == 'sec' ) {
   require_once('param_sec.inc.php');
 }  
-
+//---------------------------------------------------------------------------
+// Definition of report
+//---------------------------------------------------------------------------
+if ( $p_action == 'defrapport' ) {
+  require_once('report.inc.php');
+}
 //----------------------------------------------------------------------
 // Ledger parameter
 //----------------------------------------------------------------------

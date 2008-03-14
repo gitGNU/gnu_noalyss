@@ -37,8 +37,6 @@ echo '<div class="info"> ';
 
 $result="<table border=\"0\">";
 $result.='<TR>';
-$user=new User($cn);
-$user->Check();
 if ( $User->Admin()  == 1 ) {
   $result.="<TD  class=\"cell\" ><A class=\"cell\" HREF=\"admin_repo.php\"> Administration  </A></TD>";
 }
@@ -48,7 +46,7 @@ $result.='<TD  class="cell" ><A class="cell" HREF="logout.php" >Deconnexion</a><
 $result.="</TR>";
 $result.="</table>";
 
-echo '<h2 class="info">Bienvenue  '.$user->first_name.'  '.$User->name." dans PhpCompta </h2>";
+echo '<h2 class="info">Bienvenue  '.$User->first_name.'  '.$User->name." dans PhpCompta </h2>";
 echo '<br>Choississez votre dossier';
 echo '<span style="position:absolute;right:10px;top:30px">'.$result.'</span>';
 echo '</div>';

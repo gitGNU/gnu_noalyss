@@ -72,7 +72,7 @@ class  Rapport_Row
     extract ($p_array);
     $ret=array();
     $ix=0;
-    $found=1;
+    $found=0;
     foreach ( $p_array as $r) {
 
       if ( isset(${'form'.$ix}) && isset ( ${'text'.$ix} )) {
@@ -86,6 +86,7 @@ class  Rapport_Row
 	$obj->fo_id=0;
 	$obj->fo_fr_id=$this->fo_fr_id;
 	$obj->db=$this->db;
+
 	$ret[]=clone $obj;
       } 
       $ix++;

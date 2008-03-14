@@ -56,6 +56,7 @@ if ( $action == 'impress' ) {
 
   require_once('impress.inc.php');
 }
+
 if ( $action == 'fiche') {
 
   require_once('fiche.inc.php');
@@ -67,5 +68,6 @@ if ( $action == 'stock') {
 if ( $action=='quick_writing') {
   require_once ('quick_writing.inc.php');
  }
+
 html_page_stop();
 ?>

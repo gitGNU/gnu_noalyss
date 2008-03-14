@@ -206,10 +206,13 @@ function form($p_line=0) {
       $ret_sql=ExecSqlParam($this->db,
 			    "delete from form where fo_fr_id=$1",
 			    array($this->id));
+      $ix=0;
+      
       foreach ( $this->aRapport_row as $row) {
 	if ( strlen(trim($row->get_parameter("name"))) != 0 && 
 	     strlen(trim($row->get_parameter("formula"))) != 0 ) 
 	{
+	
 	  $ix=($row->get_parameter("position")!="")?$row->get_parameter("position"):$ix;
 	  $row->set_parameter("position",$ix);
 	  $ret_sql=ExecSqlParam($this->db,
