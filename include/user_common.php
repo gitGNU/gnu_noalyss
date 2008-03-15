@@ -767,6 +767,9 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Echï
     $r.="</tr>";
     
   }
+  $amount_paid=round($amount_paid,4);
+  $amount_unpaid=round($amount_unpaid,4);
+  $tot=round($tot,4);
   $r.="<TR>";
   $r.='<TD COLSPAN="4">Total</TD>';
   $r.='<TD ALIGN="RIGHT">'.$tot."</TD>";

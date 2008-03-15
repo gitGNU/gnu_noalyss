@@ -66,11 +66,12 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
  // Check if the card has a valid account
  if ( CheckPoste($p_cn,$e_bank_account) == null )
    return null;
-
+ $empty=0;
  // check if all e_march are in fiche
   for ($i=0;$i<$p_number;$i++) {
     if ( trim(${"e_other$i"})  == "" ) {
       // nothing to do
+      $empty++;
       continue;
     }
 	// Check amount
@@ -90,6 +91,11 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
     // Check if the card has a valid account
     if ( CheckPoste($p_cn,${"e_other".$i}) == null )
       return null;
+  }
+  if ( $empty == $p_number) {
+    $msg="Aucune fiche n'est donnee ";
+    echo "<SCRIPT>alert('$msg');</SCRIPT>";
+    return null;
   }
 // Verify the userperiode
 
@@ -394,7 +400,7 @@ function RecordFin($p_cn,$p_array,$p_user,$p_jrn) {
       for ( $i = 0; $i < $nb_item;$i++) {
 	// if tiers is set and amount != 0 insert it into the database 
 	// and quit the loop ?
-	if ( ${"e_other$i"."_amount"} == 0 ) continue;
+	if ( ${"e_other$i"."_amount"} == 0 || strlen(trim(${"e_other$i"}))==0 ) continue;
 	$poste=GetFicheAttribut($p_cn,${"e_other$i"},ATTR_DEF_ACCOUNT);
 
 	// round it
