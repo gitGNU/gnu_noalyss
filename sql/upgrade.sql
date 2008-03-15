@@ -1,4 +1,6 @@
-CREATE FUNCTION insert_jrnx(p_date character varying, p_montant numeric, p_poste poste_comptable, p_grpt integer, p_jrn_def integer, p_debit boolean, p_tech_user text, p_tech_per integer, p_qcode text) RETURNS void
+drop function insert_jrnx(varchar,numeric,integer,integer,integer,boolean,text,integer,text);
+
+CREATE or replace FUNCTION insert_jrnx(p_date character varying, p_montant numeric, p_poste poste_comptable, p_grpt integer, p_jrn_def integer, p_debit boolean, p_tech_user text, p_tech_per integer, p_qcode text) RETURNS void
     AS $$
 declare
 	sCode varchar;
@@ -10,7 +12,7 @@ begin
 	if length(sCode) = 0 or p_qcode is null then
 
 		select count(*) into nCount_qcode 	
-			from vw_poste_qcode where j_poste=p_poste;
+			from vw_poste_qcode where j_poste=p_poste::text;
 	-- if we find only one q_code for a accountancy account
 	-- then retrieve it
 		if nCount_qcode = 1 then
