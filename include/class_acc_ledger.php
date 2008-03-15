@@ -1064,8 +1064,13 @@ class Acc_Ledger {
 
 
       }
-    if ( $tot_deb != $tot_cred )
+    $tot_deb=round($tot_deb,4);
+    $tot_cred=round($tot_cred,4);
+    if ( $tot_deb != $tot_cred ) {
+      print_r('$tot_deb'.$tot_deb);
+      print_r('$tot_cred'.$tot_cred);
       throw new AcException("Balance incorrecte debit = $tot_deb credit=$tot_cred ",1);
+    }
        
   }
   /*!
