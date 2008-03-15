@@ -1,4 +1,3 @@
-
 <?php
 /*! \file
  * \brief default page where user access
