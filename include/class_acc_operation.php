@@ -65,9 +65,12 @@ var $jr_id;	/*!< pk of jrn */
   function insert_jrnx()
   {
     if ( $this->poste == "") return true;
+    /* for negative amount the operation is reversed */
+    if ( $this->amount < 0 ) {
+      $this->type=($this->type=='d')?'c':'d';
+    }
 
     $debit=($this->type=='c')?'false':'true';
-    
     $Res=ExecSqlParam($this->db,"select insert_jrnx
 		 ($1,abs($2),$3,$4,$5,$6,$7,$8,upper($9)",
 		      array(
@@ -95,28 +98,31 @@ var $jr_id;	/*!< pk of jrn */
  */
 
   function insert_jrn()
-{
-	$p_comment=FormatString($this->desc);
+  {
+    $p_comment=FormatString($this->desc);
+    
+    $diff=getDbValue($this->db,"select check_balance ($1)",$this->grpt);
+    if ( $diff != 0 ) {
+      
+      echo "Erreur : balance incorrecte : d&eacute;bit = $montant_deb cr&eacute;dit = $montant_cred";
+      return false;
+    }
 
-	$diff=getDbValue($this->db,"select check_balance ($1)",$this->grpt);
+    $echeance=( isset( $this->echeance))?$this->echeance:"";
 
-	if ( $diff != 0 ) {
-
-	  echo "Erreur : balance incorrecte : d&eacute;bit = $montant_deb cr&eacute;dit = $montant_cred";
-	  return false;
-	}
-	  // if amount == -1then the triggers will throw an error
-	  // 
-	  $Res=ExecSqlParam($this->db,"insert into jrn (jr_def_id,jr_montant,jr_comment,".
-			    "jr_date,jr_ech,jr_grpt_id,jr_tech_per)   values (".
-			    "$1,$2,$3,".
-			    "to_date($4,'DD.MM.YYYY'),null,$5,$6)",
-			    array ($this->jrn, $amount,$p_comment,$this->date,$this->grpt,$this->periode)
+    // if amount == -1then the triggers will throw an error
+    // 
+    $Res=ExecSqlParam($this->db,"insert into jrn (jr_def_id,jr_montant,jr_comment,".
+		      "jr_date,jr_ech,jr_grpt_id,jr_tech_per)   values (".
+		      "$1,$2,$3,".
+		      "to_date($4,'DD.MM.YYYY'),$5,$6,$7)",
+		      array ($this->jrn, $amount,$p_comment,
+			     $this->date,$echeance,$this->grpt,$this->periode)
 			    );
-	if ( $Res == false)  return false;
- 	$this->jr_id=GetSequence($this->db,'s_jrn');
-	return $this->jr_id;
-}
+    if ( $Res == false)  return false;
+    $this->jr_id=GetSequence($this->db,'s_jrn');
+    return $this->jr_id;
+  }
 /*!
  * \brief  Return the internal value, the property jr_id must be set before
  *

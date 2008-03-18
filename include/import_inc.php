@@ -30,6 +30,7 @@ require_once('class_widget.php');
 require_once('class_fiche.php');
 require_once('class_acc_ledger.php');
 require_once('class_parm_code.php');
+require_once('class_acc_operation.php');
 /*! 
  **************************************************
  * \brief  Parse the file and insert the record
@@ -309,7 +310,7 @@ function TransferCSV($p_cn, $periode){
 	if($test == 0) {
 	  $sqlupdate = "update import_tmp set status='n' WHERE code='".$code."' AND num_compte='".$num_compte."' or num_compte is null";
 	  $Resupdate=ExecSql($p_cn,$sqlupdate);
-	  echo "Poste comptable erronné pour l'opération ".$num_compte."-".$code.", réinitialisation du poste comptable<br/>";
+	  echo "Poste comptable erronn&eacute; pour l'op&eacute;ration ".$num_compte."-".$code.", r&eacute;initialisation du poste comptable<br/>";
 	  continue;
 	}
 	 
@@ -319,67 +320,65 @@ function TransferCSV($p_cn, $periode){
 	$seq=NextSequence($p_cn,'s_grpt');
 	$p_user = $_SESSION['g_user'];
 
-	$r=InsertJrnx($p_cn,"d",$p_user,$jrn,$bq_account,$date_exec,$montant,$seq,$periode);
+	$acc_op=Acc_Operation($p_cn);
+	$acc_op->type="d";
+	$acc_op->date=$date_exec;
+	$acc_op->user=$p_user;
+	$acc_op->poste=$bq_account;
+	$acc_op->grpt=$seq;
+	$acc_op->jrn=$jrn;
+	$acc_op->periode=$periode;
+	$acc_op->qcode="";
+	$r=$acc_op->insert_jrnx();
 
       
-	$r=InsertJrnx($p_cn,"c",$p_user,$jrn,$poste_comptable,$date_exec,$montant,$seq,$periode);
+	$acc_op->type="c";
+	$acc_op->poste=$poste_comptable;
+	$r=$acc_op->insert_jrnx();
+
 
       
 	//remove annoying double-quote
 	$num_compte=str_replace('"','',$num_compte);
 	$code=str_replace('\"','',$code);
+	$acc_op->comment=$detail.$num_compte." ".$code;
 
-	$jr_id=InsertJrn($p_cn,$date_exec,NULL,$jrn,$detail.$num_compte." ".$code,$seq,$periode);
+	$acc_op->insert_jrn();
+
       	$internal=$oJrn->compute_internal_code($seq);
 
 	$Res=ExecSql($p_cn,"update jrn set jr_internal='".$internal."' where ".
                " jr_id = ".$jr_id);
       // insert rapt
-      if ( trim($jr_rapt) != "" ) {
-	if ( strpos($jr_rapt,',') !== 0 )
-	  {
-	    $aRapt=split(',',$jr_rapt);
-	    foreach ($aRapt as $rRapt) {
-	      if ( isNumber($rRapt) == 1 ) 
-		{
-		  InsertRapt($p_cn,$jr_id,$rRapt);
-		}
-	    }
-	  } 
-	elseif ( isNumber($jr_rapt) == 1 ) 
-	    {
-	      InsertRapt($p_cn,$jr_id,$jr_rapt);
-	    }
-	}
-      
-      /*      if ( isNumber($jr_rapt) == 1) 
-	InsertRapt($p_cn,$jr_id,$jr_rapt);
-      */
-      
-      echo "Tranfer de l'opération ".$code." effectué<br/>";
-      $sql2 = "update import_tmp set status='t' where code='".$code."'";
-      $Res2=ExecSql($p_cn,$sql2);
-    } 
-}	catch (Exception $e) {
-    Rollback($p_cn);
-    echo '<span class="error">'.
-      'Erreur dans '.__FILE__.':'.__LINE__.
-      ' Message = '.$e->getMessage().
-      '</span>';
-  }
+
+	$acc_reconc=new Acc_Reconciliation($p_cn);
+	$acc_reconc->set_jr_id=$jr_id;
+	$acc_reconc->insert($jr_rapt);
+	
+	echo "Tranfert de l'opération ".$code." effectué<br/>";
+	$sql2 = "update import_tmp set status='t' where code='".$code."'";
+	$Res2=ExecSql($p_cn,$sql2);
+      } 
+    }	catch (Exception $e) {
+      Rollback($p_cn);
+      echo '<span class="error">'.
+	'Erreur dans '.__FILE__.':'.__LINE__.
+	' Message = '.$e->getMessage().
+	'</span>';
+    }
   
   Commit($p_cn);
   
 }
 /*! 
- **************************************************
- * \brief  ShowForm for getting data about 
- *           the bank transfert in cvs
- *        
- * \param  $p_cn  database connection
- *	
- * \return none
- */
+**************************************************
+* \brief  ShowForm for getting data about 
+*           the bank transfert in cvs
+*        
+* \param  $p_cn  database connection
+*	
+* \return none
+*/
 
 function ShowFormTransfert($p_cn){
 $w=new widget("select");
