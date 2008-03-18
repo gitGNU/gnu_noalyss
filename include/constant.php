@@ -24,7 +24,7 @@
  * and some parameter 
  */
 date_default_timezone_set ('Europe/Brussels');
-define ("DBVERSION",46);
+define ("DBVERSION",48);
 
 $inc_path=get_include_path();
 if ( strpos($inc_path,";") != 0 ) {
