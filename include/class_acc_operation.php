@@ -68,13 +68,18 @@ var $jr_id;	/*!< pk of jrn */
 
     $debit=($this->type=='c')?'false':'true';
     
-    $sql=sprintf("select insert_jrnx
-		 ('%s',abs(%.2f),%d,%d,%d,%s,'%s',%d,upper('%s'))",
-		 $this->date,round($this->amount,2),
-		 $this->poste,$this->grpt,$this->jrn,
-		 $debit,$this->user,$this->periode,$this->qcode);
-    
-    $Res=ExecSql($this->db,$sql);
+    $Res=ExecSqlParam($this->db,"select insert_jrnx
+		 ($1,abs($2),$3,$4,$5,$6,$7,$8,upper($9)",
+		      array(
+			    $this->date,
+			    round($this->amount,2),
+			    $this->poste,
+			    $this->grpt,
+			    $this->jrn,
+			    $debit,
+			    $this->user,
+			    $this->periode,
+			    $this->qcode));
     if ( $Res==false) return $Res;
     $this->jrnx_id=GetSequence($this->db,'s_jrn_op');
     return $this->jrnx_id;
@@ -93,30 +98,23 @@ var $jr_id;	/*!< pk of jrn */
 {
 	$p_comment=FormatString($this->desc);
 
+	$diff=getDbValue($this->db,"select check_balance ($1)",$this->grpt);
 
-	// retrieve the value from jrnx
-	// 
-	$montant_deb=getDBValue($this->db,"select sum(j_montant) from jrnx where j_debit='t' and j_grpt=".$this->grpt);
-	$montant_cred=getDBValue($this->db,"select sum(j_montant) from jrnx where j_debit='f' and j_grpt=".$this->grpt);
-	echo_debug('InsertJrn',__LINE__,"debit = $montant_deb credit  = $montant_cred ");
+	if ( $diff != 0 ) {
 
-	$amount=-1.0000;
-	if ( $montant_deb == $montant_cred ) {
-	  $amount=$montant_deb;
-	} else {
 	  echo "Erreur : balance incorrecte : d&eacute;bit = $montant_deb cr&eacute;dit = $montant_cred";
 	  return false;
 	}
-	// if amount == -1then the triggers will throw an error
-	// 
-	$sql=sprintf("insert into jrn (jr_def_id,jr_montant,jr_comment,jr_date,jr_ech,jr_grpt_id,jr_tech_per)
-	         values ( %d,abs(%.2f),'%s',to_date('%s','DD.MM.YYYY'),null,%d,%d)",
-		     $this->jrn, $amount,$p_comment,$this->date,$this->grpt,$this->periode);
-
-
-	$Res=ExecSql($this->db,$sql);				 
+	  // if amount == -1then the triggers will throw an error
+	  // 
+	  $Res=ExecSqlParam($this->db,"insert into jrn (jr_def_id,jr_montant,jr_comment,".
+			    "jr_date,jr_ech,jr_grpt_id,jr_tech_per)   values (".
+			    "$1,$2,$3,".
+			    "to_date($4,'DD.MM.YYYY'),null,$5,$6)",
+			    array ($this->jrn, $amount,$p_comment,$this->date,$this->grpt,$this->periode)
+			    );
 	if ( $Res == false)  return false;
-	$this->jr_id=GetSequence($this->db,'s_jrn');
+ 	$this->jr_id=GetSequence($this->db,'s_jrn');
 	return $this->jr_id;
 }
 /*!
