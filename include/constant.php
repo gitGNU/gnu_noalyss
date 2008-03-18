@@ -35,11 +35,11 @@ if ( strpos($inc_path,";") != 0 ) {
 
 
 define ("phpcompta_password","dany");
-define ("phpcompta_psql_port","5433");
+define ("phpcompta_psql_port","5432");
 define ("phpcompta_user","phpcompta");
 //
 // the domain can't start by a number !!!
-define ("domaine","psql83_");
+define ("domaine","");
 define ("MAX_COMPTE",4);
 define ('MAX_BUD_DETAIL',20);
 
