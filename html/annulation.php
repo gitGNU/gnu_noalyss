@@ -136,7 +136,7 @@ if  ($p_id != -1 ) { // A
  if ( $p_id != -1 ) { //B
     // Test whether date of the operation is in a closed periode
     // get the period_id
-     $p=ExecSql($cn,"select jr_tech_per from jrn where jr_grpt_id=".$_REQUEST['jrn_op']);
+   $p=ExecSqlParam($cn,"select jr_tech_per from jrn where jr_grpt_id=$1",array($_REQUEST['jrn_op']));
     $period_id=pg_fetch_result($p,0,0);
     // thanks jrn_op  (jrn.jr_id) we find out the concerned ledger
 	

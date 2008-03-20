@@ -220,13 +220,13 @@ if ( isset($_POST['update_record']) ) {
 	  save_upload_document($cn,$_POST['jr_grpt_id']);
 	}
 	if ( isset ($_POST['is_paid'] )) 
-	  $Res=ExecSql($cn,"update jrn set jr_rapt='paid' where jr_id=".$_POST['jr_id']);
+	  $Res=ExecSqlParam($cn,"update jrn set jr_rapt='paid' where jr_id=$1",array($_POST['jr_id']));
 	
 	if ( isset ($_POST['to_remove'] )) {
 	  /*! \note we don't remove the document file if another
 	   * operation needs it.
 	   */
-	  $ret=ExecSql($cn,"select jr_pj from jrn where jr_id=".$_POST['jr_id']);
+	  $ret=ExecSqlParam($cn,"select jr_pj from jrn where jr_id=$1",array($_POST['jr_id']));
 	  if (pg_num_rows($ret) != 0) {
 		$r=pg_fetch_array($ret,0);
 		$old_oid=$r['jr_pj'];
@@ -237,8 +237,8 @@ if ( isset($_POST['update_record']) ) {
 			if ( $c == 1 )
 			  pg_lo_unlink($cn,$old_oid);
 		  }
-		ExecSql($cn,"update jrn set jr_pj=null, jr_pj_name=null, ".
-		"jr_pj_type=null  where jr_id=".$_POST['jr_id']);
+		ExecSqlParam($cn,"update jrn set jr_pj=null, jr_pj_name=null, ".
+			"jr_pj_type=null  where jr_id=$1",array($_POST['jr_id']));
 	  }
 
 	}
@@ -278,8 +278,8 @@ if ( isset($_POST['update_record']) ) {
 	    // so we fetch them all from the db
 	    $sql="select j_id,j_poste,to_char(j_date,'DD.MM.YYYY') as j_date,j_debit ".
 	      "from jrn join jrnx on (j_grpt=jr_grpt_id) ".
-	      "where jr_id=".$_POST['jr_id'];
-	    $res=ExecSql($cn,$sql);
+	      "where jr_id=$1";
+	    $res=ExecSqlParam($cn,$sql,array($_POST['jr_id']));
 
 	    $array_jid=pg_fetch_all($res);
 	    // if j_poste match 6 or 7 we insert them

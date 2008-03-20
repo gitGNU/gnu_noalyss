@@ -140,7 +140,7 @@ class Acc_Tva
     $a->load();
     print_r($a);
 
-    //    $a->delete();
+    $a->delete();
   }
   
 }

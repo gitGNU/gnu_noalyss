@@ -52,7 +52,7 @@ if ( isset( $_REQUEST['p_jrn'] )) {
 if ( isset($_POST["efface"])) {
 	if ( CountSql($cn,"select * from jrn where jr_def_id=".$_POST['p_jrn']." limit 3") == 0 )
 	  {
-		ExecSql($cn,"delete from jrn_def where jrn_def_id=".$_POST['p_jrn']);
+	    ExecSqlParam($cn,"delete from jrn_def where jrn_def_id=$1",array($_POST['p_jrn']));
 	  } else {
 ?>
 <script language="javascript">

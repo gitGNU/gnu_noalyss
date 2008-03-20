@@ -25,7 +25,7 @@ echo '<div class="u_content">';
   // Confirm remove
   if ( isset ($_POST['confirm_rm'])) 
   {
-    ExecSql($cn,'select tva_delete('.$_POST['tva_id'].')');
+    ExecSqlParam($cn,'select tva_delete('.pg_escape_string($_POST['tva_id']).')');
   }
 //-----------------------------------------------------
 // Record Change
