@@ -43,7 +43,7 @@ function u_ShowDossier($p_user,$p_admin,$p_filtre="")
 
   $result="";
   if ( $p_array == 0 ) return $result." * Aucun dossier *";
-  $result.="<TABLE style=\"border:collapse\">";
+  $result.="<TABLE style=\"width:75%;border-width:0px;border-collapse:collapse;\">";
   for ($i=0;$i<sizeof($p_array);$i++) {
     $id=$p_array[$i]['dos_id'];
     $name= $p_array[$i]['dos_name'];
@@ -61,6 +61,7 @@ function u_ShowDossier($p_user,$p_admin,$p_filtre="")
     $result.="</A>";
     $result.="</TD>";
     $desc=($desc=="")?"<i>Aucune description</i>":$desc;
+    $desc="<A  class=\"mtitle\" HREF=\"access.php?gDossier=$id\">".$desc."</a>";
     $result.="<TD class=\"$tr\">".$desc;
     $result.="</TD>";
     $result.="</TR>";
