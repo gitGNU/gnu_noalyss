@@ -326,6 +326,17 @@ class widget {
       if ( $this->table==1) $r="<TD>$this->label</TD><TD>$r</TD>"; 
       return $r;
     }
+    if ( strtolower($this->type == 'js_search_poste_only')) {
+      $r=sprintf('
+         <INPUT class="inp" TYPE="button" onClick=SearchPoste(\'%s\','.dossier::id().',\'not\',\%s\') value="Recherche Poste">
+            %s
+                 ',
+		 $_REQUEST['PHPSESSID'],
+		 $this->name,
+		 $this->label
+		 );
+      return $r;
+      }
     //----------------------------------------------------------------------
     // input type == js_search_poste => button search for the account
     if ( strtolower($this->type)=="js_search_poste") {

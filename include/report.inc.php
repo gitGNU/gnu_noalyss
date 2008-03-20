@@ -23,7 +23,7 @@
  */
 include_once ("ac_common.php");
 include_once ("user_menu.php");
-require_once('class_rapport.php');
+require_once('class_acc_report.php');
 require_once('class_dossier.php');
 include_once ("postgres.php");
 include_once ("class_user.php");
@@ -45,7 +45,7 @@ $User->can_request($cn,FORM);
 $cn=DbConnect($gDossier);
 
 $nocookie='&PHPSESSID='.$_REQUEST['PHPSESSID'];
-$rap=new Rapport($cn);
+$rap=new Acc_Report($cn);
 
 if ( isset ($_POST["del_form"]) ) {
   $rap->id=$_POST['fr_id'];
@@ -78,17 +78,19 @@ echo "</TABLE>";
 echo '</div>';
 
 if ( isset ($_REQUEST["action"]) ) {
+  echo JS_SEARCH_POSTE;
   $action=$_REQUEST ["action"];
   $rap->id=(isset($_REQUEST ['fr_id']))?$_REQUEST['fr_id']:0;
+
   if ($action == "add" && ! isset($_REQUEST['fr_id']))
     {
 
       echo '<DIV class="u_redcontent">';
       echo '<form method="post" >';
       echo dossier::hidden();
-      echo $rap->id=0;
-
+       $rap->id=0;
       echo $rap->form(15);
+      
       echo widget::submit("record","Sauve");
       echo '</form>';
       echo '<span class="notice">Les lignes vides seront effac&eacute;es</span>';

@@ -25,7 +25,7 @@
  */
 
 /*!\brief  manipulate the form_def's child table (form) */
-class  Rapport_Row
+class  Acc_Report_Row
 {
   private static $variable=array(
 			  "name"=>"fo_label",
@@ -66,7 +66,7 @@ class  Rapport_Row
    *        the fo_id is 0, position = 0, the fo_frd_id (form_id) is
    *  the one of the current object, the db is also the current one
    *\param $p_array contains the value
-   *\return an array of Rapport_Row object
+   *\return an array of Acc_Report_Row object
    */
   public function from_array($p_array) {
     extract ($p_array);
@@ -76,7 +76,7 @@ class  Rapport_Row
     foreach ( $p_array as $r) {
 
       if ( isset(${'form'.$ix}) && isset ( ${'text'.$ix} )) {
-	$obj=new Rapport_Row( ${'text'.$ix},${'form'.$ix});
+	$obj=new Acc_Report_Row( ${'text'.$ix},${'form'.$ix});
 	if ( isset(${'pos'.$ix}) &&  isNumber(${'pos'.$ix})==1 )
 	  $obj->set_parameter("position",$ix);
 	else {
@@ -97,7 +97,7 @@ class  Rapport_Row
   function test_me()
   {
         $cn=DbConnect(dossier::id());
-	$a=new Rapport_Row();
+	$a=new Acc_Report_Row();
 	$array=array("text0"=>"test1",
 		     "form0"=>"7%",
 		     "text1"=>"test2",

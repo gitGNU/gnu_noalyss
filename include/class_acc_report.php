@@ -22,7 +22,7 @@
  * \brief Create, view, modify and parse report
  */
 
-require_once('class_rapport_row.php');
+require_once('class_acc_report_row.php');
 require_once('class_widget.php');
 require_once('impress_inc.php');
 
@@ -30,19 +30,19 @@ require_once('impress_inc.php');
  * \brief Class rapport  Create, view, modify and parse report
  */
 
-class Rapport {
+class Acc_Report {
 
   var $db;    /*!< $db database connx */
   var $id;    /*!< $id formdef.fr_id */
   var $name;  /*!< $name report's name */
-  var $aRapport_row;		/*!< array of rapport_row */
+  var $aAcc_Report_row;		/*!< array of rapport_row */
   var $nb;
   /*!\brief  Constructor */
   function __construct($p_cn,$p_id=0) {
     $this->db=$p_cn;
     $this->id=$p_id;
     $this->name='Nouveau';
-    $this->aRapport_row=null;
+    $this->aAcc_Report_row=null;
   }
   /*!\brief Return the report's name
    */
@@ -96,16 +96,17 @@ class Rapport {
  *
  */ 
 function form($p_line=0) {
-  $search_poste=new widget('JS_SEARCH_POSTE');
-  $search_poste->extra='not';
+
   $r="";
-  if ($p_line == 0 ) $p_line=count($this->aRapport_row);
+  if ($p_line == 0 ) $p_line=count($this->aAcc_Report_row);
   $r.= dossier::hidden();
   $r.= widget::hidden('line',$p_line);
   $r.= widget::hidden('fr_id',$this->id);
   $wForm=new widget("text");
   $r.="Nom du rapport : ";
   $r.=$wForm->IOValue('form_nom',$this->name);
+  $search=new widget('js_search_poste_only');
+  $r.=$search->IOValue();
 
   $r.= '<TABLE id="rap1">';
   $r.= "<TR>";
@@ -125,18 +126,18 @@ function form($p_line=0) {
     $r.= "<TR>";
     
     $r.= "<TD>";
-    $wPos->value=( isset($this->aRapport_row[$i]->fo_pos))?$this->aRapport_row[$i]->fo_pos:$i+1;
+    $wPos->value=( isset($this->aAcc_Report_row[$i]->fo_pos))?$this->aAcc_Report_row[$i]->fo_pos:$i+1;
     $r.=$wPos->IOValue("pos".$i);
     $r.= '</TD>';
     
 
     $r.= "<TD>";
-    $wName->value=( isset($this->aRapport_row[$i]->fo_label))?$this->aRapport_row[$i]->fo_label:"";
+    $wName->value=( isset($this->aAcc_Report_row[$i]->fo_label))?$this->aAcc_Report_row[$i]->fo_label:"";
     $r.=$wName->IOValue("text".$i);
     $r.= '</TD>';
 
     $r.= "<TD>";
-    $wForm->value=( isset($this->aRapport_row[$i]->fo_formula))?$this->aRapport_row[$i]->fo_formula:"";
+    $wForm->value=( isset($this->aAcc_Report_row[$i]->fo_formula))?$this->aAcc_Report_row[$i]->fo_formula:"";
     $r.=$wForm->IOValue("form".$i);
 
     $r.= '</TD>';
@@ -173,7 +174,7 @@ function form($p_line=0) {
 			 );
       $this->id=pg_fetch_result($ret_sql,0,0);
       $ix=1;
-      foreach ( $this->aRapport_row as $row) {
+      foreach ( $this->aAcc_Report_row as $row) {
 	if ( strlen(trim($row->get_parameter("name"))) != 0 && 
 	     strlen(trim($row->get_parameter("formula"))) != 0 ) 
 	  {
@@ -208,7 +209,7 @@ function form($p_line=0) {
 			    array($this->id));
       $ix=0;
       
-      foreach ( $this->aRapport_row as $row) {
+      foreach ( $this->aAcc_Report_row as $row) {
 	if ( strlen(trim($row->get_parameter("name"))) != 0 && 
 	     strlen(trim($row->get_parameter("formula"))) != 0 ) 
 	{
@@ -242,11 +243,11 @@ function form($p_line=0) {
     $this->name=(isset($p_array['form_nom']))?$p_array['form_nom']:"";
     $ix=0;
 
-    $rr=new Rapport_Row();
+    $rr=new Acc_Report_Row();
     $rr->set_parameter("form_id",$this->id);
     $rr->set_parameter('database',$this->db);
 
-    $this->aRapport_row=$rr->from_array($p_array);
+    $this->aAcc_Report_row=$rr->from_array($p_array);
 
 
   }
@@ -269,7 +270,7 @@ function form($p_line=0) {
     $array=array();
     if ( ! empty($f) ) {
       foreach ($f as $r) {
-	$obj=new Rapport_Row();
+	$obj=new Acc_Report_Row();
 	$obj->set_parameter("name",$r['fo_label']);
 	$obj->set_parameter("id",$r['fo_id']);
 	$obj->set_parameter("position",$r['fo_pos']);
@@ -279,7 +280,7 @@ function form($p_line=0) {
 	$array[]=clone $obj;
       }
     }
-    $this->aRapport_row=$array;
+    $this->aAcc_Report_row=$array;
 
   }
   function delete() {
@@ -301,7 +302,7 @@ function form($p_line=0) {
     $array=pg_fetch_all($ret);
     $obj=array();
     foreach ($array as $row) {
-      $tmp=new Rapport($this->db);
+      $tmp=new Acc_Report($this->db);
       $tmp->id=$row['fr_id'];
       $tmp->name=$row['fr_label'];
       $obj[]=clone $tmp;
@@ -319,7 +320,7 @@ function form($p_line=0) {
 
   function test_me() {
     $cn=DbConnect(dossier::id());
-    $a=new Rapport($cn);
+    $a=new Acc_Report($cn);
     print_r($a->get_list());
     $array=array("text0"=>"test1",
 		 "form0"=>"7%",
@@ -339,7 +340,7 @@ function form($p_line=0) {
 
     echo "</FORM>";
     if ( isset ($_POST['update'])) {
-      $b=new Rapport($cn);
+      $b=new Acc_Report($cn);
       $b->from_array($_POST);
       echo '<hr>';
       print_r($b);

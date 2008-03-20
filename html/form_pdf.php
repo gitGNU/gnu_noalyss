@@ -24,7 +24,7 @@
  * \brief Send a report in PDF
  */
 
-include_once("class_rapport.php");
+include_once("class_acc_report.php");
 include_once("ac_common.php");
 include_once("postgres.php");
 include_once("class.ezpdf.php");

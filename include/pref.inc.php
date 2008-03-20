@@ -24,7 +24,7 @@
  */
 require_once('class_widget.php');
 require_once('class_user.php');
-require_once('class_rapport.php');
+require_once('class_acc_report.php');
 echo '<DIV class="u_content">';
 //----------------------------------------------------------------------
 // Change password
@@ -189,7 +189,7 @@ if ( $inside_dossier ) {
   echo '<fieldset>';
   echo '<legend> Options pour la page d\'accueil</legend>';
   echo 'Mini-Rapport : ';
-  $rapport=new Rapport($cn);
+  $rapport=new Acc_Report($cn);
   $aRapport=$rapport->make_array();
   $aRapport[]=array("value"=>0,"label"=>'Aucun mini rapport');
   $wRapport=new widget("select");

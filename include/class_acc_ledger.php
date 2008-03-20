@@ -635,14 +635,14 @@ class Acc_Ledger {
   { 
     if ( $this->id == 0 ) return;
 
-    $Res=ExecSql($this->db,"select jrn_Def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_def_type,
+    $Res=ExecSqlParam($this->db,"select jrn_Def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_def_type,
 	   jrn_deb_max_line,jrn_cred_max_line,jrn_def_ech,jrn_def_ech_lib,jrn_def_code,
 	   jrn_def_fiche_deb,jrn_def_fiche_deb
 	   from jrn_Def
-	      where jrn_def_id=".$this->id);
+	      where jrn_def_id=$1",array($this->id));
     $Count=pg_NumRows($Res);
     if ( $Count == 0 ) {
-      echo '<DIV="redcontent"><H2 class="error"> Param�tres journaux non trouv�s</H2> </DIV>';
+      echo '<DIV="redcontent"><H2 class="error"> Parametres journaux non trouves</H2> </DIV>';
       return null;
     }
     return pg_fetch_array($Res,0);
@@ -657,8 +657,8 @@ class Acc_Ledger {
   function GetDefLine() 
   {
     $sql_cred='jrn_deb_max_line';
-    $sql="select jrn_deb_max_line as value from jrn_def where jrn_def_id=".$this->id;
-    $r=ExecSql($this->db,$sql);
+    $sql="select jrn_deb_max_line as value from jrn_def where jrn_def_id=$1";
+    $r=ExecSql($this->db,$sql,array($this->id));
     $Res=pg_fetch_all($r);
     echo_debug('class_acc_ledger',__LINE__,$Res);
     if ( sizeof($Res) == 0 ) return 1;
@@ -707,10 +707,6 @@ class Acc_Ledger {
    * \brief Show a select list of the ledger you can access in
    * writing, the security is taken in care but show the readable AND
    * writable ledger 
-   * \param
-   * \param
-   * \param
-   * 
    *
    * \return object widget select
    */
@@ -745,9 +741,9 @@ class Acc_Ledger {
   function get_fiche_def() {
     $sql="select jrn_def_fiche_deb as deb,jrn_def_fiche_cred as cred ".
       " from jrn_def where ".
-      " jrn_def_id = ".$this->id;
+      " jrn_def_id = $1 ";
 
-    $r=ExecSql($this->db,$sql);
+    $r=ExecSqlParam($this->db,$sql,array($this->id));
 
     $res=pg_fetch_all($r);
     if ( empty($res) ) return null;
@@ -757,19 +753,15 @@ class Acc_Ledger {
   /*! 
    * \brief retrieve the jrn_def_class_deb and return it
    *
-   * \param
-   * \param
-   * \param
-   * 
    *
    * \return return an string 
    */
   function get_class_def() {
     $sql="select jrn_def_class_deb  ".
       " from jrn_def where ".
-      " jrn_def_id = ".$this->id;
+      " jrn_def_id = $1";
 
-    $r=ExecSql($this->db,$sql);
+    $r=ExecSqlParam($this->db,$sql,array($this->id));
 
     $res=pg_fetch_all($r);
 
@@ -823,17 +815,18 @@ class Acc_Ledger {
 	$oqc=new fiche($this->db);
 	$oqc->get_by_qcode(${'qc_'.$i},false);
 	$strPoste=$oqc->strAttribut(ATTR_DEF_ACCOUNT);
-	$ret.="<td>".${'qc_'.$i}.' - '.
-				   $oqc->strAttribut(ATTR_DEF_NAME).$hidden->IOValue('qc_'.$i,${'qc_'.$i}).
-				   '</td>';
+	$ret.="<td>".
+	  ${'qc_'.$i}.' - '.
+	  $oqc->strAttribut(ATTR_DEF_NAME).$hidden->IOValue('qc_'.$i,${'qc_'.$i}).
+			'</td>';
       }
 
       if ( trim(${'qc_'.$i})=="" && trim(${'poste'.$i}) != "") {
 	$oposte=new Acc_Account_Ledger($this->db,${'poste'.$i});
 	$strPoste=$oposte->id;
 	$ret.="<td>".${"poste".$i}." - ".
-				     $oposte->get_name().$hidden->IOValue('poste'.$i,${'poste'.$i}).
-				     '</td>';
+	      $oposte->get_name().$hidden->IOValue('poste'.$i,${'poste'.$i}).
+             '</td>';
       }
 
       if ( trim(${'qc_'.$i})=="" && trim(${'poste'.$i}) == "") 

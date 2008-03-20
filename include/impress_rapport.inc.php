@@ -32,7 +32,7 @@ include_once("class_widget.php");
 // after in pdf or cvs
 //-----------------------------------------------------
 if ( isset( $_GET['bt_html'] ) ) {
-  require_once("class_rapport.php");
+  require_once("class_acc_report.php");
   $Form=new rapport($cn,$_GET['form_id']);
   $Form->get_name();
   // step asked ?

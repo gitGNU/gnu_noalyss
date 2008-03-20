@@ -102,9 +102,9 @@ require_once ('verif.inc.php');
 require_once('class_acc_jrn_info.php');
 Acc_Jrn_Info::test_me();
 
-require_once('class_rapport.php');
+require_once('class_acc_report.php');
 Rapport::test_me();
-require_once('class_rapport_row.php');
+require_once('class_acc_report_row.php');
 Rapport_Row::test_me();
 */
 

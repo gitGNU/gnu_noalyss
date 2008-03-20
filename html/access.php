@@ -26,7 +26,7 @@
 require_once ('constant.php');
 require_once ('ac_common.php');
 require_once ('class_user.php');
-require_once('class_rapport.php');
+require_once('class_acc_report.php');
 require_once('class_periode.php');
 require_once ('user_menu.php');
 require_once ('class_dossier.php');
@@ -47,7 +47,7 @@ echo '<div class="u_content">';
 
 $report=$user->get_mini_report();
 if ( $report != 0 ) {
-  $rapport=new Rapport($cn);
+  $rapport=new Acc_Report($cn);
   $rapport->id=$report;
   echo '<div style="float:right">';
   echo '<fieldset style="background-color:white"><legend>'.$rapport->get_name().'</legend>';

@@ -46,13 +46,12 @@ $condition="";
 $cn=DbConnect($gDossier);
 if ( isset($_GET['search']) ) {
   $c1=0;
-  foreach( $_GET as $key=>$element){
-    ${"$key"}=$element;
-  }
+  extract ($_GET);
+
   $condition="";
   if ( strlen(trim($p_comment)) != 0 ) {
-    $condition=" where (upper(pcm_lib) like upper('%$p_comment%') or ".
-      " pcm_val::text like '$p_comment%') ";
+    $condition=" where (upper(pcm_lib) like upper('%".pg_escape_string($p_comment)."%') or ".
+      " pcm_val::text like '%".pg_escape_string($p_comment)."%') ";
   }
 
 }
@@ -153,26 +152,40 @@ if ( isset($_GET['search']) or isset($_GET['filter']) ) {
     html_page_stop();
     return;
   }
-  echo '<TABLE BORDER="0">';
+  echo '<TABLE style="width:90%;border-collapse:collapse;">';
   $l_id="";
-  
+  $ahref="";
+  $end_ahref="";  
   for ( $i=0; $i < $MaxLine; $i++) {
     $l_line=pg_fetch_array($Res,$i);
-    echo "<TR>";
+    $even=($i%2 == 0)?"odd":"even";
+    echo "<TR class=\"$even\">";
     // if p_ctl is set we need to be able to return the value
     if (isset($p_ctl) && $p_ctl != 'not' ){
-      echo '<TD>';
+      /*      echo "<TD class=\"$even\">";
       $slabel=FormatString($l_line['pcm_lib']);
       echo '<input type="checkbox" onClick="SetItChild(\''.$p_ctl.'\',\''.$l_line['pcm_val'].'\',\''.
 	$slabel.'\')">';
+
       echo '</td>';
+      */
+      $slabel=FormatString($l_line['pcm_lib']);
+
+      $ahref='<A href="#" class="mtitle" onClick="SetItChild(\''.$p_ctl.'\',\''.$l_line['pcm_val'].'\',\''.
+	$slabel.'\')">';
+      $end_ahref='</A>';
+
     }
-    echo '<TD>';
+    echo "<TD class=\"$even\">";
+    echo $ahref;
     echo $l_line['pcm_val'];
+    echo $end_ahref;
     echo '</TD>';
 
     echo '<TD>';
+    echo $ahref;
     echo $l_line['pcm_lib'];
+    echo $end_ahref;
     echo '</TD>';
     echo "</TR>";
 
