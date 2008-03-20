@@ -658,7 +658,7 @@ class Acc_Ledger {
   {
     $sql_cred='jrn_deb_max_line';
     $sql="select jrn_deb_max_line as value from jrn_def where jrn_def_id=$1";
-    $r=ExecSql($this->db,$sql,array($this->id));
+    $r=ExecSqlParam($this->db,$sql,array($this->id));
     $Res=pg_fetch_all($r);
     echo_debug('class_acc_ledger',__LINE__,$Res);
     if ( sizeof($Res) == 0 ) return 1;

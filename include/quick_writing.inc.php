@@ -47,6 +47,7 @@ function show_direct_form($cn,$ledger,$p_array) {
   echo widget::hidden('p_action',$_REQUEST['p_action']);
   $op=new Pre_operation_detail($cn);
   $op->set('ledger',$_GET['p_jrn']);
+  $op->set('ledger_type',$ledger->get_type());
   $op->set('direct','t');
   echo $op->form_get();
 	
