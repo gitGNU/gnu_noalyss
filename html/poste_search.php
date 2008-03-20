@@ -127,19 +127,15 @@ echo dossier::hidden();
 if ( isset($p_ctl) ) {
   if ($p_ctl != 'not')   echo '<INPUT TYPE="hidden" name="p_ctl" value="'.$p_ctl.'">';
 }
-echo '<TABLE>';
-echo '<TR>';
-
 /* echo '<TD>Poste Comptable Commence par  </TD>'; */
 /* if ( ! isset ($p_class) ) $p_class=""; */
 /* $opt=" <INPUT TYPE=\"text\" value=\"$p_class\" name=\"st_with\">"; */
 /* echo '<TD> <INPUT TYPE="text" name="p_class" VALUE="'.$p_class.'"></TD>'; */
 
-echo '<TD> Libellé ou poste comptable</TD>';
-echo '<TD> contient </TD>';
+echo 'Libellé ou poste comptable ';
+echo ' contient ';
 if ( ! isset ($p_comment) ) $p_comment="";
-echo '<TD> <INPUT TYPE="text" name="p_comment" VALUE="'.$p_comment.'"></TD></TR>';
-echo '</TABLE>';
+echo ' <INPUT TYPE="text" name="p_comment" VALUE="'.$p_comment.'"></TD></TR>';
 echo '<INPUT TYPE="submit" name="search" value="cherche">';
 echo '</FORM>';
 
