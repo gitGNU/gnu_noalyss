@@ -51,8 +51,8 @@ echo "<div>".MenuAdmin()."</div>";
 ?>
 <DIV >
 <?php
-if ( isset ($_GET["action"]) ) {
-  if ( $_GET["action"]=="user_mgt" ) 
+if ( isset ($_REQUEST["action"]) ) {
+  if ( $_REQUEST["action"]=="user_mgt" ) 
     {
       //----------------------------------------------------------------------
       // User management
@@ -60,14 +60,14 @@ if ( isset ($_GET["action"]) ) {
       require_once("user.inc.php");
     }
   // action=user_mgt
-  if ( $_GET["action"]=="dossier_mgt") 
+  if ( $_REQUEST["action"]=="dossier_mgt") 
     {
       //-----------------------------------------------------------------------
       // action = dossier_mgt
       //-----------------------------------------------------------------------
       require_once("dossier.inc.php");
     } 
-  if ( $_GET["action"] == "modele_mgt" ) 
+  if ( $_REQUEST["action"] == "modele_mgt" ) 
     {
       //-----------------------------------------------------------------------
       //  Template Management

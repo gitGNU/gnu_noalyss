@@ -239,7 +239,7 @@ class widget {
     if (strtoupper($this->type)=="TEXTAREA") {
       if ( $this->readonly == false ) {
 	$r="";
-	$r.='<TEXTAREA name="'.$this->name.'"';
+	$r.='<TEXTAREA style="border:solid blue 1px" name="'.$this->name.'"';
 	$r.=" rows=\"$this->heigh\" ";
 	$r.=" cols=\"$this->width\" ";
 	$r.=' '.$disabled.'>';

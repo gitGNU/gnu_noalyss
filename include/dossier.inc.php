@@ -25,7 +25,15 @@
  *
  */
 require_once ('class_widget.php');
-
+$sa=(isset($_REQUEST['sa']))?$_REQUEST['sa']:'list';
+//---------------------------------------------------------------------------
+// Update
+if ( isset ($_POST['upd']) && isset ($_POST['d'])) {
+  $dos=new dossier($_POST['d']);
+  $dos->set_parameter('name',$_POST['name']);
+  $dos->set_parameter('desc',$_POST['desc']);
+  $dos->save();
+ }
 echo '<div class="u_redcontent">';
 // check and add an new folder
 if ( isset ($_POST["DATABASE"]) ) {
@@ -123,9 +131,13 @@ if ( isset ($_POST["DATABASE"]) ) {
    <h2> Dossier Management</h2>
 
 <?php  
-  echo widget::button_href('Rafra&icirc;chir','admin_repo.php?action=dossier_mgt');
-      
     $cn=DbConnect();
+//---------------------------------------------------------------------------
+// List of folder
+if ( $sa == 'list' ) {
+     echo widget::button_href('Rafra&icirc;chir','admin_repo.php?action=dossier_mgt');
+     echo widget::button_href('Ajouter','admin_repo.php?action=dossier_mgt&sa=add');
+
     $offset=(isset($_REQUEST['offset']))?$_REQUEST['offset']:0;
     $page=(isset($_REQUEST['page']))?$_REQUEST['page']:1;
     $count=getDbValue($cn,"select count(*) from ac_dossier");
@@ -154,9 +166,11 @@ if ( isset ($_POST["DATABASE"]) ) {
 <TD>
 <input type=\"button\" name=\"Effacer\"".
 'Value="Effacer" onClick="confirm_remove(\''.$_REQUEST['PHPSESSID'].'\',\''.$Dossier['dos_id'].'\',\'db\');" \>'.
-	       '</td>'.
-"</TD></TR>";
-
+"</TD>";
+	echo '<td>'.widget::button_href('Modifier','?action=dossier_mgt&sa=mod&d='
+					.$Dossier['dos_id']).
+	  '</td>';
+	echo '<tr>';
 	$compteur++; 
 	
       }
@@ -165,26 +179,35 @@ if ( isset ($_POST["DATABASE"]) ) {
       
     }
     
-    // Load the available Templates
-    $Res=ExecSql($cn,"select mod_id,mod_name,mod_desc from 
-                      modeledef order by mod_name");
-    $count=pg_NumRows($Res);
     
-if ( $count == 0 ) {
-  echo "No template available";
-} else {
-  $template='<SELECT NAME=FMOD_ID>';
-  for ($i=0;$i<$count;$i++) {
-    $mod=pg_fetch_array($Res,$i);
-    $template.='<OPTION VALUE="'.$mod['mod_id'].'"> '.$mod['mod_name']." - ".substr($mod['mod_desc'],0,30);
-  }// for
-      $template.="</SELECT>";
-}// if count = 0
- $m_date=date('Y');
+   echo jrn_navigation_bar($offset,$count,$size,$page); 
+
+   }
+
+//---------------------------------------------------------------------------
 // Add a new folder
+ if ( $sa == 'add' ) {
+   // Load the available Templates
+   $Res=ExecSql($cn,"select mod_id,mod_name,mod_desc from 
+                      modeledef order by mod_name");
+   $count=pg_NumRows($Res);
+   
+   if ( $count == 0 ) {
+     echo "No template available";
+   } else {
+     $template='<SELECT NAME=FMOD_ID>';
+     for ($i=0;$i<$count;$i++) {
+       $mod=pg_fetch_array($Res,$i);
+       $template.='<OPTION VALUE="'.$mod['mod_id'].'"> '.$mod['mod_name']." - ".substr($mod['mod_desc'],0,30);
+     }// for
+     $template.="</SELECT>";
+   }// if count = 0
+   $m_date=date('Y');
+   
 ?>
+
 </TABLE>
-    <?php   echo jrn_navigation_bar($offset,$count,$size,$page); ?>
+
  <FORM ACTION="admin_repo.php?action=dossier_mgt" METHOD="POST">
     <TABLE>
     <TR>
@@ -196,8 +219,35 @@ if ( $count == 0 ) {
 <TR><TD>Année </TD><TD><input type="text" size=4 name="YEAR" value=<?php  echo '"'.$m_date.'"'; ?>></TD></TR>
     <TR>
     <TD> <INPUT TYPE=SUBMIT VALUE="Creation Dossier"></TD>
+<td>
+<?php  echo widget::button_href('Retour','admin_repo.php?action=dossier_mgt'); ?>
+</td>
     </TR>
     </TABLE>
  </FORM>
-    
+<?php
+												       }
+//---------------------------------------------------------------------------
+// action= mod
+if ( $sa == 'mod' ) {
+  require_once ('class_dossier.php');
+  $dos=new dossier($_REQUEST['d']);
+  $dos->load();
+  $wText=new widget('text');
+  echo '<form action="admin_repo.php" method="post">';
+  echo widget::hidden('action','dossier_mgt');
+  echo widget::hidden('d',$dos->get_parameter("id"));
+  echo 'Nom : ';
+  echo  $wText->IOValue('name',$dos->get_parameter('name'));
+  echo '<br>';
+  $wDesc=new widget('textarea');
+  $wDesc->heigh=5;
+  echo 'Description : <br>';
+  echo  $wDesc->IOValue('desc',$dos->get_parameter('desc'));
+  echo '<br>';
+  echo widget::submit('upd','Modifie');
+  echo widget::button_href('Retour','?action=dossier_mgt');
+  echo '</form>';
+ }
+?>
 </div>

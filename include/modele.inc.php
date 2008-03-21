@@ -27,10 +27,34 @@
  *
  */
 require_once ('class_widget.php');
+$sa=(isset ( $_REQUEST['sa']))?$_REQUEST['sa']:'list';
+if ( isset ($_POST['upd']) &&
+     isset($_POST['m'])){
+  if (  isset($_POST['name']) && isset($_POST['desc'])) {
+    extract($_POST);
+    $cn=DbConnect();
+    if ( strlen(trim($name)) !=0 
+	 && getDbValue($cn,'select count(*) from modeledef where '.
+		       'mod_name=$1 and mod_id !=$2',
+		       array(trim($name),$m)) == 0
+	 )
+      {
 
+	ExecSqlParam($cn,"update modeledef set mod_name=$1, ".
+		     " mod_desc=$2 where mod_id=$3 ",
+		     array(trim($name),trim($desc),$m));
+	
+	
+      }
+  }
+  $sa="list";
+ }
 echo  JS_CONFIRM;
 
 $cn=DbConnect();
+
+
+
 // IF FMOD_NAME is posted then must add a template
 if ( isset ($_POST["FMOD_NAME"]) ) {
   $mod_name=FormatString($_POST["FMOD_NAME"]);
@@ -160,29 +184,33 @@ if ( isset ($_POST["FMOD_NAME"]) ) {
 $Res=ExecSql($cn,"select mod_id,mod_name,mod_desc from 
                       modeledef order by mod_name");
 $count=pg_NumRows($Res);
+echo '<div class="u_content">';
+echo "<H2>Modèles</H2>";
+if ( $sa=='list') {
+  if ( $count == 0 ) {
+    echo "No template available";
+  } else {
+    
 
-if ( $count == 0 ) {
-  echo "No template available";
- } else {
-  echo "<H2>Modèles</H2>";
-  echo '<div class="u_content">';
-  echo widget::button_href('Rafra&icirc;chir','admin_repo.php?action=modele_mgt');
-  echo '<table width="100%" border="1">';
-  echo "<TR><TH>Nom</TH>".
-    "<TH>Description</TH>".
-    "<th></th>".
-    "</TR>";
+    echo widget::button_href('Rafra&icirc;chir','admin_repo.php?action=modele_mgt');
+    echo widget::button_href('Ajouter','admin_repo.php?action=modele_mgt&sa=add');
+
+    echo '<table width="100%" >';
+    echo "<TR><TH>Nom</TH>".
+      "<TH>Description</TH>".
+      "<th></th>".
+      "</TR>";
   
-  for ($i=0;$i<$count;$i++) {
-    $mod=pg_fetch_array($Res,$i);
-    printf('<TR>'.
-	   '<TD>%d <b> %s</b> </TD>'.
-	   '<TD><I> %s </I></TD>'.
-	   '<td> '.
-	   ' <input type="button" name="Effacer" '.
-	   ' Value="Effacer" onClick="confirm_remove(\''.$_REQUEST['PHPSESSID'].'\',\''.$mod['mod_id'].'\',\'mod\');" \>'.
+    for ($i=0;$i<$count;$i++) {
+      $mod=pg_fetch_array($Res,$i);
+      printf('<TR>'.
+	     '<TD>%d <b> %s</b> </TD>'.
+	     '<TD><I> %s </I></TD>'.
+	     '<td> '.
+	     ' <input type="button" name="Effacer" '.
+	     ' Value="Effacer" onClick="confirm_remove(\''.$_REQUEST['PHPSESSID'].'\',\''.$mod['mod_id'].'\',\'mod\');" \>'.
 	   '</td>'.
-	   
+	     '<td>'.widget::button_href('Modifie','?action=modele_mgt&sa=mod&m='.$mod['mod_id']).'</td>'.
 	   '</TR>',
 	   $mod['mod_id'],
 	   $mod['mod_name'],
@@ -195,7 +223,11 @@ echo "Si vous voulez r&eacute;cup&eacute;rer toutes les adaptations d'un dossier
 " dans un autre dossier, vous pouvez en faire un modèle.".
 " Seules les fiches, la structure des journaux, les p&eacute;riodes,... seront reprises ".
 "et aucune donn&eacute;e du dossier sur lequel le dossier est bas&eacute;.";
-
+ }
+//---------------------------------------------------------------------------
+// Add a template
+//---------------------------------------------------------------------------
+if ( $sa == 'add') {
 // Show All available folder
 $Res=ExecSql($cn,"select dos_id, dos_name,dos_description from ac_dossier
                       order by dos_name");
@@ -228,15 +260,47 @@ if ( $count != 0 ) {
 <TR><TD>Nettoyage de toutes les fiches (ce qui effacera client, op&eacute;rations pr&eacute;d&eacute;finies fournisseurs et documents)</TD><TD> <input type="checkbox" name="CARD"></TD></TR>
 
 <TR><TD>Nettoyage de la comptabilit&eacute; analytique : effacement des plans et des postes, les op&eacute;rations sont de toute fa&ccedil;on effac&eacute;es </TD><TD> <input type="checkbox" name="CANAL"></TD></TR>
-
-    
-
-<TR>
-    <td colspan="2"> <INPUT TYPE="SUBMIT" VALUE="Add a template"></TD>
-</TR>
 </TABLE>
-</form>
+    
+'
 
+<INPUT TYPE="SUBMIT" VALUE="Ajout d'un modele">
+<?php
+echo widget::button_href('Retour','?action=modele_mgt');
+?>
+
+</form>
+<?php
+}
+//---------------------------------------------------------------------------
+// Modify
+ if ( $sa == 'mod' && isset($_GET['m']) ){
+   $cn=DbConnect();
+
+   echo '<form method="post">';
+   $name=getDbValue($cn,
+		    "select mod_name from modeledef where ".
+		    " mod_id=$1",
+		    array($_GET['m']));
+
+   $desc=getDbValue($cn,
+		    "select mod_desc from modeledef where ".
+		    " mod_id=$1",
+		    array($_GET['m']));
+   $wText=new widget('text');
+   echo 'Nom : '.$wText->IOValue('name',$name);
+   $wDesc=new widget('textarea');
+   $wDesc->heigh=5;
+   echo '<br>Description :<br>';
+   echo $wDesc->IOValue('desc',$desc);
+   echo widget::hidden('m',$_GET['m']);
+   echo widget::hidden('action','modele_mgt');
+   echo '<br>';
+   echo widget::button_href('Retour','?action=modele_mgt');
+   echo widget::submit('upd','Modifie');
+   echo '</form>';
+ }
+?>
 </div>
 
 
