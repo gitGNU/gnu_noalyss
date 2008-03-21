@@ -266,7 +266,8 @@ a.mtitle {
   font-size:10px;
   text-decoration:none;
   display:block;
-  color:blue;
+ color: #202267;
+	
 }
 tr.odd:hover td
 {
@@ -444,6 +445,21 @@ div.u_content input:focus {
 }
 div.u_redcontent textarea:focus{
 background-color: orange;
+}
+.document {
+color: #1a207d;
+border-collapse:collapse;
+}
+a.document{
+  font-size:12px;
+  text-decoration:none;
+  display:block;
+}
+a.document:hover {
+  text-decoration:none;
+  display:block;
+
+
 }
 
 /* </style> */

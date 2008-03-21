@@ -156,8 +156,8 @@ class action
 
       // Description
       $desc=new widget('RICHTEXT');
-      $desc->width=500;
-      $desc->heigh=250;
+      $desc->width=700;
+      $desc->heigh=100;
       $desc->name="ag_comment";
       $desc->readonly=$readonly;
 	  /*!\todo Formatstring and urldecode ?? */
@@ -277,7 +277,7 @@ class action
       // Preparing the return string
       $r="";
       $r.=JS_SEARCH_CARD;
-      $r.= '<p>Date :'.$date->IOValue()." Reference  ".$str_ag_ref; 
+      $r.= '<p>Date :'.$date->IOValue()." <br>Reference  ".$str_ag_ref; 
       $r.="&nbsp;         Concerne :".$lag_ref_ag_id.
       '   Type d\' action';
       echo_debug('class_action',__LINE__,"str_doc_type $str_doc_type");
@@ -290,7 +290,6 @@ class action
       $r.= "<p> ";
       $r.="Exp&eacute;diteur : ".$w->IOValue();
       $r.=$sp->IOValue('qcode_exp_label',$qcode_exp_label)."</TD></TR>";
- 
       $r.="Destinataire :".$wdest->IOValue();
       $r.=$spdest->IOValue('qcode_dest_label',$qcode_dest_label)."</TD></TR>";
 
@@ -299,8 +298,8 @@ class action
       echo_debug('class_action',__LINE__,' ag_id is '.$this->ag_id);
 
       $r.= "<p> Titre : ".$title->IOValue();
-      $r.= $doc_ref;
       $r.= "<p>".$desc->IOValue()."</p>";
+      $r.= $doc_ref;
 
       //hidden
       $r.="<p>";
@@ -793,7 +792,7 @@ class action
       $max_line=CountSql($this->db,$sql);
       $step=$_SESSION['g_pagesize'];
       $page=(isset($_GET['offset']))?$_GET['page']:1;
-      $offset=(isset($_GET['offset']))?$_GET['offset']:0;
+      $offset=(isset($_GET['offset']))?pg_escape_string($_GET['offset']):0;
       $limit=" LIMIT $step OFFSET $offset ";  
       $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
 
@@ -825,11 +824,14 @@ class action
 
 	}
       $r.=JS_SEARCH_CARD;
+      $i=0;
       foreach ($a_row as $row )
 	{
-
-	  $r.="<tr>";
-	  $r.="<td>".$row['my_date']."</td>";
+	  $href='<A class="document" HREF="commercial.php?p_action=suivi_courrier&sa=detail&ag_id='.$row['ag_id'].'&'.$str_dossier.'">';
+	  $i++;
+	  $tr=($i%2==0)?'even':'odd';
+	  $r.="<tr class=\"$tr\">";
+	  $r.="<td>".$href.$row['my_date'].'</a>'."</td>";
 	  // Destinataire
 	  $fdest=new fiche($this->db);
 	  $fdest->id=$row['f_id_dest'];
@@ -840,10 +842,10 @@ class action
 		      $_REQUEST['PHPSESSID'],$qdest);
 	  if ( $qdest != 'Interne' )
 	    {
-	      $r.="<td>".'<A HREF="'.$jsdest.'">'.$qdest." : ".$fdest->getName().'</A></td>';
+	      $r.="<td>".$href.$qdest." : ".$fdest->getName().'</a></td>';
 	    }
 	  else
-	    $r.="<td>Interne </td>";
+	    $r.="<td>$href Interne </a> </td>";
 
 	  // Expediteur
 	  $fexp=new fiche($this->db);
@@ -855,10 +857,10 @@ class action
 		      $_REQUEST['PHPSESSID'],$qexp);
 	  if ( $qexp != 'Interne' )
 	    {
-	      $r.="<td>".'<A HREF="'.$jsexp.'">'.$qexp." : ".$fexp->getName().'</A></td>';
+	      $r.="<td>$href".$qexp." : ".$fexp->getName().'</a></td>';
 	    }
 	  else
-	    $r.="<td>Interne </td>";
+	    $r.="<td>$href Interne </a></td>";
 
 	  $ref="";
 
@@ -878,7 +880,7 @@ class action
 		}
 	    }
 
-	  $r.='<td><A HREF="commercial.php?p_action=suivi_courrier&sa=detail&ag_id='.$row['ag_id'].'&'.$str_dossier.'">'.
+	  $r.='<td>'.$href.
 	    $row['ag_title']."</A></td>";
 	  $r.="<td>".$row['dt_value']."</td>";
 	  $r.="<td>".$row['ag_ref']."</td>";
