@@ -285,7 +285,8 @@ if ( $action == 'solde' ) {
   for ( $i = 0; $i < pg_NumRows($ResAccount);$i++) {
     // get the saldo
     $l=pg_fetch_array($ResAccount,$i);
-    $m=get_solde($cn,$l['pcm_val']);
+    $m=get_solde($cn,$l['pcm_val'],' and j_tech_per in (select '.
+		 'p_id from parm_periode where p_exercice='.$User->get_exercice().')   ');
     // print the result if the saldo is not equal to 0
     if ( $m != 0.0 ) {
       echo "<tr>";
