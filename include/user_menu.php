@@ -662,7 +662,7 @@ function ShowMenuParam($p_action="")
 {
   // The phpsessid is set manually to avoid problem when the server is
   // misconfigured and the cookies are not sent (or accepted)
-  $s=dossier::get().'?PHPSESSID='.$_REQUEST['PHPSESSID'];
+  $s=dossier::get().'&PHPSESSID='.$_REQUEST['PHPSESSID'];
   $sub_menu=ShowItem(array(
 			  
 			   array('parametre.php?p_action=company&'.$s,'Sociétés','Parametre societe',1),

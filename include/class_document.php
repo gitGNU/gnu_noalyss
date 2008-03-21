@@ -21,6 +21,8 @@
 require_once('class_own.php');
 require_once('class_acc_account_ledger.php');
 require_once('class_action.php');
+require_once('class_acc_tva.php');
+
 /*! \file 
  * \brief Class Document corresponds to the table document
  */
@@ -462,6 +464,8 @@ class Document
  *  - [MY_TVA]
  *  - [MY_STREET]
  *  - [MY_NUMBER]
+ *  - TVA_CODE
+ *  - TVA_RATE
  *  - BON_COMMANDE
  *  - OTHER_INFO
  *  - CUST_NUM
@@ -653,6 +657,16 @@ class Document
 	  $r=${$id};
 	  break;
 
+	case 'TVA_RATE':
+	  extract ($_POST);
+	  $id='e_march'.$counter.'_tva_id';
+	  if ( !isset (${$id}) ) return "";
+	  if ( ${$id} == -1 ) return "";
+	  $tva=new Acc_Tva($this->db);
+	  $tva->set_parameter("id",${$id});
+	  $tva->load();
+	  return $tva->get_parameter("rate");
+	  break;
 
 	case 'TVA_CODE':
 	  extract ($_POST);
