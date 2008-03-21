@@ -395,7 +395,7 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0,$p_paid=0)
   $amount_unpaid=0.0;
   include_once("central_inc.php");
   $limit=($_SESSION['g_pagesize']!=-1)?" LIMIT ".$_SESSION['g_pagesize']:"";
-  $offset=($_SESSION['g_pagesize']!=-1)?" OFFSET ".$p_value:"";
+  $offset=($_SESSION['g_pagesize']!=-1)?" OFFSET ".pg_escape_string($p_value):"";
   $order="  order by jr_date_order asc,jr_internal asc";
   // Sort
   $url=CleanUrl();

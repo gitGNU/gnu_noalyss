@@ -53,12 +53,11 @@ if ( isset($_POST["efface"])) {
 	if ( CountSql($cn,"select * from jrn where jr_def_id=".$_POST['p_jrn']." limit 3") == 0 )
 	  {
 	    ExecSqlParam($cn,"delete from jrn_def where jrn_def_id=$1",array($_POST['p_jrn']));
-	  } else {
-?>
+	  } else { echo '
 <script language="javascript">
-		alert("Impossible d'effacer ce journal.\n Il est utilisé\n");
+		alert("Impossible d\'effacer ce journal.\n Il est utilisé\n");
 </script>
-<?php
+';
 	}
   }
 
@@ -124,7 +123,7 @@ echo '</div>';
 }
 </script>
 
-<?
+<?php
 $Res=ExecSql($cn,"select jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,".
 	     "jrn_deb_max_line,jrn_cred_max_line,jrn_def_code".
                  ",jrn_def_type,jrn_def_ech, jrn_def_ech_lib,jrn_def_fiche_deb,jrn_def_fiche_cred".
@@ -200,11 +199,6 @@ echo '</TD>';
 echo '</TR>';
 echo "<TR><TD> Code </TD><TD>".$l_line['jrn_def_code']."</TD></TR>";
 
-
-?>
-
-<?php
-
 echo '</TABLE>';
 // Get all the fiches
 echo '<H2 class="info"> Fiches </H2>';
@@ -246,22 +240,22 @@ for ($i=0;$i<$num;$i++) {
 }
 
 
-?>
-<hr>
+
+echo '<hr>
 <TABLE><TR>
 <TD><INPUT TYPE="SUBMIT" VALUE="Sauve"></TD>
 <TD><INPUT TYPE="RESET" VALUE="Reset"></TD>
-<TD><form method="post">
-  <?php echo dossier::hidden(); 
+<TD><form method="post">';
+
+echo dossier::hidden(); 
 echo widget::hidden('p_action','jrn');
 echo widget::hidden('sa','detail');
-
-?>
+echo '
 <INPUT TYPE="submit" name="efface" value="Efface" onClick="return m_confirm();">
-<input type="hidden" name="p_jrn" value="<? echo $_GET['p_jrn'];?>">
+<input type="hidden" name="p_jrn" value="'.$_GET['p_jrn'].'">
 </form>
 </TD></TR></TABLE>
-<?php
+';
 echo '</FORM>';
 echo "</DIV>";
 html_page_stop();
