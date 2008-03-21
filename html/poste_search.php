@@ -125,8 +125,10 @@ echo_debug('poste_search.php',__LINE__,"condition = $condition");
 echo '<FORM ACTION="poste_search.php'.$url.'" METHOD="GET">';
 echo dossier::hidden();
 if ( isset($p_ctl) ) {
-  if ($p_ctl != 'not')   echo '<INPUT TYPE="hidden" name="p_ctl" value="'.$p_ctl.'">';
+    echo '<INPUT TYPE="hidden" name="p_ctl" value="'.$p_ctl.'">';
 }
+if (isset ($ret)) echo widget::hidden('ret',$ret);
+
 /* echo '<TD>Poste Comptable Commence par  </TD>'; */
 /* if ( ! isset ($p_class) ) $p_class=""; */
 /* $opt=" <INPUT TYPE=\"text\" value=\"$p_class\" name=\"st_with\">"; */
@@ -157,21 +159,19 @@ if ( isset($_GET['search']) or isset($_GET['filter']) ) {
     $even=($i%2 == 0)?"odd":"even";
     echo "<TR class=\"$even\">";
     // if p_ctl is set we need to be able to return the value
-    if (isset($p_ctl) && $p_ctl != 'not' ){
-      /*      echo "<TD class=\"$even\">";
+    if (isset($ret) && $ret == 'label' ){
       $slabel=FormatString($l_line['pcm_lib']);
-      echo '<input type="checkbox" onClick="SetItChild(\''.$p_ctl.'\',\''.$l_line['pcm_val'].'\',\''.
-	$slabel.'\')">';
-
-      echo '</td>';
-      */
-      $slabel=FormatString($l_line['pcm_lib']);
-
       $ahref='<A href="#" class="mtitle" onClick="SetItChild(\''.$p_ctl.'\',\''.$l_line['pcm_val'].'\',\''.
 	$slabel.'\')">';
       $end_ahref='</A>';
 
     }
+    if (isset($ret) && $ret == 'poste' ){
+      $ahref='<A href="#" class="mtitle" onClick="set_poste_child(\''.$p_ctl.'\',\''.$l_line['pcm_val'].'\')">';
+      $end_ahref='</A>';
+
+    }
+
     echo "<TD class=\"$even\">";
     echo $ahref;
     echo $l_line['pcm_val'];

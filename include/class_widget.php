@@ -326,12 +326,15 @@ class widget {
       if ( $this->table==1) $r="<TD>$this->label</TD><TD>$r</TD>"; 
       return $r;
     }
+    //----------------------------------------------------------------------
+    // js_search_poste_only
     if ( strtolower($this->type == 'js_search_poste_only')) {
       $r=sprintf('
-         <INPUT class="inp" TYPE="button" onClick=SearchPoste(\'%s\','.dossier::id().',\'not\',\%s\') value="Recherche Poste">
+         <INPUT class="inp" TYPE="button" onClick=SearchPoste(\'%s\','.dossier::id().',\'%s\',\'%s\',\'poste\',\'N\') value="Recherche Poste">
             %s
                  ',
 		 $_REQUEST['PHPSESSID'],
+		 $this->extra,
 		 $this->name,
 		 $this->label
 		 );
@@ -346,7 +349,7 @@ class widget {
       // Do we need to filter ??
       if ( $this->extra2 == null ) {
       $r=sprintf('<TD>
-         <INPUT class="inp" TYPE="button" onClick=SearchPoste(\'%s\','.dossier::id().',\'%s\',\'%s\') value="Recherche Poste">
+         <INPUT class="inp" TYPE="button" onClick=SearchPoste(\'%s\','.dossier::id().',\'%s\',\'%s\',\'label\',\'Y\') value="Recherche Poste">
             %s</TD><TD> 
 
              <INPUT style="border:groove 1px blue;"  TYPE="Text" NAME="%s" ID="%s" VALUE="%s" SIZE="8">

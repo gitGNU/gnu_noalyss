@@ -105,8 +105,6 @@ function form($p_line=0) {
   $wForm=new widget("text");
   $r.="Nom du rapport : ";
   $r.=$wForm->IOValue('form_nom',$this->name);
-  $search=new widget('js_search_poste_only');
-  $r.=$search->IOValue();
 
   $r.= '<TABLE id="rap1">';
   $r.= "<TR>";
@@ -141,6 +139,13 @@ function form($p_line=0) {
     $r.=$wForm->IOValue("form".$i);
 
     $r.= '</TD>';
+
+    $r.='<td>';
+  $search=new widget('js_search_poste_only');
+  $search->extra="form".$i;
+  $r.=$search->IOValue();
+  $r.='</td>';
+
 
     $r.= "</TR>";
     }
