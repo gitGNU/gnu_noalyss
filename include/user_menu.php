@@ -94,13 +94,13 @@ function GetAvailableFolder($p_user,$p_admin,$p_filter="")
                   join  priv_user on ( priv_jnt=jnt_id)
           where use_active=1 
          and use_login='$p_user' 
-         and priv_priv != 'NO' and dos_name like '%$p_filter%'";
+         and priv_priv != 'NO' and dos_name ilike '%$p_filter%'";
 
   } else {
     $sql="select distinct dos_id,dos_name,dos_description from ac_users 
                   natural join jnt_use_dos 
                   natural join  ac_dossier 
-      where  use_active=1 and dos_name like '%$p_filter%' ";
+      where  use_active=1 and dos_name ilike '%$p_filter%' ";
   }
   include_once("postgres.php");
   $cn=DbConnect();
