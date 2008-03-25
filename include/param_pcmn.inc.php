@@ -72,13 +72,13 @@ if (isset ($_GET['action'])) {
   if ( $_GET['action']=="del" ) {
     if ( isset ($_GET['l']) ) {
       /* Ligne a enfant*/
-      $R=ExecSql($cn,"select pcm_val from tmp_pcmn where pcm_val_parent=".$_GET['l']);
+      $R=ExecSqlParam($cn,"select pcm_val from tmp_pcmn where pcm_val_parent=$1",array($_GET['l']));
       if ( pg_NumRows($R) != 0 ) {
 	echo "<SCRIPT> alert(\"Ne peut pas effacer le poste: d'autres postes en dépendent\");</SCRIPT>";
       } else {
 	/* Vérifier que le poste n'est pas utilisé qq part dans les journaux */
-	$Res=ExecSql($cn,"select * from jrnx where j_poste=".$_GET['l']);
-	if ( pg_NumRows($R) != 0 ) {
+	$Res=ExecSqlParam($cn,"select * from jrnx where j_poste=$1",array($_GET['l']));
+	if ( pg_NumRows($Res) != 0 ) {
 	  echo "<SCRIPT> alert(\"Ne peut pas effacer le poste: il est utilisé dans les journaux\");</SCRIPT>";
 	}
 	else {
@@ -110,7 +110,7 @@ if ( isset ( $_POST["Ajout"] ) ) {
 	echo_debug('pcmn_update.php',__LINE__,"Ajout valeur = $p_val parent = $p_parent");
       }
       /* Parent existe */
-      $Ret=ExecSql($cn,"select pcm_val from tmp_pcmn where pcm_val=$p_parent");
+      $Ret=ExecSqlParam($cn,"select pcm_val from tmp_pcmn where pcm_val=$1",array($p_parent));
       if ( pg_NumRows($Ret) == 0 ) {
 	echo '<SCRIPT> alert(" Ne peut pas modifier; aucune poste parent"); </SCRIPT>';
       } else {
@@ -124,7 +124,7 @@ if ( isset ( $_POST["Ajout"] ) ) {
 
 	  } else 
 	    {
-	      $Ret=ExecSql($cn,"insert into tmp_pcmn (pcm_val,pcm_lib,pcm_val_parent,pcm_type) values ('$p_val','$p_lib',$p_parent,'$p_type')");
+	      $Ret=ExecSqlParam($cn,"insert into tmp_pcmn (pcm_val,pcm_lib,pcm_val_parent,pcm_type) values ($1,$2,$3,$4)",array($p_val,$p_lib,$p_parent,$p_type)");
 	    }
       }
     } else {
