@@ -221,9 +221,8 @@ function get_solde_detail($p_cond="") {
  function HtmlTable() 
    {     
      $this->get_name();
-
-     list($array,$tot_deb,$tot_cred)=$this->get_row( $_POST['from_periode'],
-						     $_POST['to_periode']
+     list($array,$tot_deb,$tot_cred)=$this->get_row( $_REQUEST['from_periode'],
+						     $_REQUEST['to_periode']
 						     );
 
      if ( count($this->row ) == 0 ) 
@@ -289,12 +288,12 @@ function get_solde_detail($p_cond="") {
        widget::submit('bt_pdf',"Export PDF").
        $hid->IOValue("type","poste").
        $hid->IOValue('p_action','impress').
-       $hid->IOValue("poste_id",$_POST['poste_id']).
-       $hid->IOValue("from_periode",$_POST['from_periode']).
-       $hid->IOValue("to_periode",$_POST['to_periode']);
-     if (isset($_POST['poste_fille']))
+       $hid->IOValue("poste_id",$_REQUEST['poste_id']).
+       $hid->IOValue("from_periode",$_REQUEST['from_periode']).
+       $hid->IOValue("to_periode",$_REQUEST['to_periode']);
+     if (isset($_REQUEST['poste_fille']))
        echo $hid->IOValue('poste_fille','on');
-     if (isset($_POST['oper_detail']))
+     if (isset($_REQUEST['oper_detail']))
        echo $hid->IOValue('oper_detail','on');
 
      echo "</form></TD>";
@@ -304,12 +303,12 @@ function get_solde_detail($p_cond="") {
        widget::submit('bt_csv',"Export CSV").
        $hid->IOValue("type","poste").
        $hid->IOValue('p_action','impress').
-       $hid->IOValue("poste_id",$_POST['poste_id']).
-       $hid->IOValue("from_periode",$_POST['from_periode']).
-       $hid->IOValue("to_periode",$_POST['to_periode']);
-     if (isset($_POST['poste_fille']))
+       $hid->IOValue("poste_id",$_REQUEST['poste_id']).
+       $hid->IOValue("from_periode",$_REQUEST['from_periode']).
+       $hid->IOValue("to_periode",$_REQUEST['to_periode']);
+     if (isset($_REQUEST['poste_fille']))
        echo $hid->IOValue('poste_fille','on');
-     if (isset($_POST['oper_detail']))
+     if (isset($_REQUEST['oper_detail']))
        echo $hid->IOValue('oper_detail','on');
      
      echo "</form></TD>";

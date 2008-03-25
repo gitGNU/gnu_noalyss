@@ -35,6 +35,8 @@ class Periode {
   var $p_id;			/*!< pk of parm_periode */
   var $status;			/*!< status is CL for closed, OP for
                                    open and CE for centralized */
+  var $p_start;			/*!< start of the periode */
+  var $p_end;			/*!< end of the periode */
   function __construct($p_cn) {
     $this->cn=$p_cn;
   }
@@ -272,6 +274,39 @@ class Periode {
     }
     return 0;
   }
+  /*!\brief load data from database 
+   */
+  function load() {
+    $row=get_array($this->cn,"select p_start,p_end,p_exercice,p_closed,p_central from parm_periode where p_id=$1",
+		 array($this->p_id));
+    if ($row == null ) return;
+
+    $this->p_start=$row['p_start'];
+    $this->p_end=$row['p_end'];
+    $this->p_exercice=$row['p_exercice'];
+    $this->p_closed=$row['p_closed'];
+    $this->p_central=$row['p_central'];
+  }
+
+  /*!\brief return the max and the min periode of the exercice given
+   *in parameter
+   *\param $p_exercice is the exercice
+   *\return an array of Periode object
+   */
+  function get_limit($p_exercice)  {
+
+    $max=getDbValue($this->cn,"select p_id from parm_periode where p_exercice=$1 order by p_start asc",array($p_exercice));
+    $min=getDbValue($this->cn,"select p_id from parm_periode where p_exercice=$1 order by p_start desc",array($p_exercice));
+    $rMax=new Periode($this->cn);
+    $rMax->p_id=$max;
+    $rMax->load();
+    $rMin=new Periode($this->cn);
+    $rMin->p_id=$min;
+    $rMin->load();
+    return array($rMax,$rMin);
+  }
+
+
   static function test_me() {
     $cn=DbConnect(dossier::id());
     $obj=new Periode($cn);

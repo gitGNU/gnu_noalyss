@@ -78,7 +78,9 @@ class Acc_Account {
 		 array('label'=>'Actif c. inverse','value'=>'ACTINV'),
 		 array('label'=>'Passif c.inverse','value'=>'PASINV'),
 		 array('label'=>'Produit','value'=>'PRO'),
+		 array('label'=>'Produit Inverse','value'=>'PROINV'),
 		 array('label'=>'Charge','value'=>'CHA'),
+		 array('label'=>'Charge Inverse','value'=>'CHAINV'),
 		 array('label'=>'Non defini','value'=>'CON')
 		 );
     $wType=new widget("select");

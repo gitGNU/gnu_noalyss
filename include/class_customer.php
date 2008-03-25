@@ -22,7 +22,7 @@ require_once("constant.php");
 require_once("postgres.php");
 require_once("class_parm_code.php");
 require_once("class_widget.php");
-
+require_once('class_periode.php');
 require_once('class_fiche.php');
 require_once('class_acc_account_ledger.php');
 require_once('user_common.php');
@@ -195,7 +195,7 @@ where
  */
   function Summary($p_search) 
     {
-	  $str_dossier=dossier::get();
+      $str_dossier=dossier::get();
       $p_search=FormatString($p_search);
       $url=urlencode($_SERVER['REQUEST_URI']);
       $script=$_SERVER['PHP_SELF'];
@@ -208,6 +208,13 @@ where
       $bar=jrn_navigation_bar($offset,$all_client,$_SESSION['g_pagesize'],$page);
       // set a filter ?
       $search="";
+
+      $user=new User($this->cn);
+      $exercice=$user->get_exercice();
+      $tPeriode=new Periode($this->cn);
+      list($max,$min)=$tPeriode->get_limit($exercice);
+
+
       if ( trim($p_search) != "" )
 	{
 	  $search=" and f_id in
@@ -229,7 +236,7 @@ where
 <th>Total d&eacute;bit</th>
 <th>Total cr&eacute;dit</th>
 <th>Solde</th>
-<th colspan="4">Action </th>
+<th colspan="5">Action </th>
 </TR>';
 	  echo_debug(__FILE__,__LINE__,$step_client);
       if ( sizeof ($step_client ) == 0 )
@@ -268,6 +275,10 @@ where
 	$r.='<td><A HREF="commercial.php?p_action=facture&sa=list&p_periode=-1&'.$str_dossier.'&qcode='.$client->strAttribut(ATTR_DEF_QUICKCODE).'&url='.$url.'" title="Historique Facture">Facture</A></td>';
 	$r.=sprintf('<td><A class="mtitle" HREF="%s?liste&p_action=bank&sa=list&qcode=%s&%s&url=%s&p_periode=-1" title="Financier">Financier</A></td>',
 				$script,$client->strAttribut(ATTR_DEF_QUICKCODE) ,$str_dossier,$url);
+
+	$r.=sprintf('<td><A class="mtitle" HREF="%s?p_action=impress&type=poste&f_id=%s&%s&from_periode=%s&to_periode=%s&oper_detail=on&bt_html=Visualisation" 
+title="Operation">Operation</A></td>',
+		    $script,$client->strAttribut(ATTR_DEF_QUICKCODE) ,$str_dossier,$max->p_id,$min->p_id);
 
 	$r.='</TD>';
 

@@ -37,7 +37,9 @@ include_once("postgres.php");
 echo '<div class="u_content">';
 echo JS_SEARCH_POSTE;
 echo JS_SEARCH_CARD;
-echo '<FORM ACTION="?p_action=impress&type=poste" METHOD="POST">';
+echo '<FORM action="?" METHOD="GET">';
+echo widget::hidden('p_action','impress');
+echo widget::hidden('type','poste');
 echo dossier::hidden();
 echo '<TABLE><TR>';
 $span=new widget("span");
@@ -95,30 +97,30 @@ echo '</div>';
 // First time in html
 // after in pdf or cvs
 //-----------------------------------------------------
-if ( isset( $_POST['bt_html'] ) ) {
+if ( isset( $_REQUEST['bt_html'] ) ) {
   require_once("class_acc_account_ledger.php");
   $go=0;
 // we ask a poste_id
-  if ( strlen(trim($_POST['poste_id'])) != 0 && isNumber($_POST['poste_id']) )
+  if ( strlen(trim($_GET['poste_id'])) != 0 && isNumber($_GET['poste_id']) )
     {
-      if ( isset ($_POST['poste_fille']) )
+      if ( isset ($_GET['poste_fille']) )
       {
-		$parent=$_POST['poste_id'];
+		$parent=$_GET['poste_id'];
 		$a_poste=get_array($cn,"select pcm_val from tmp_pcmn where pcm_val::text like '$parent%' order by pcm_val::text");
 	$go=3;
       } 
       // Check if the post is numeric and exists
-      elseif (  CountSql($cn,'select * from tmp_pcmn where pcm_val='.FormatString($_POST['poste_id'])) != 0 )
+      elseif (  CountSql($cn,'select * from tmp_pcmn where pcm_val='.FormatString($_GET['poste_id'])) != 0 )
 	{
-	  $Poste=new Acc_Account_Ledger($cn,$_POST['poste_id']);$go=1;
+	  $Poste=new Acc_Account_Ledger($cn,$_GET['poste_id']);$go=1;
 	}
     }
-  if ( strlen(trim($_POST['f_id'])) != 0 )
+  if ( strlen(trim($_GET['f_id'])) != 0 )
     {
       require_once("class_fiche.php");
       // thanks the qcode we found the poste account
       $fiche=new fiche($cn);
-      $qcode=$fiche->get_by_qcode($_POST['f_id']);
+      $qcode=$fiche->get_by_qcode($_GET['f_id']);
       $p=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
       if ( $p != "- ERROR -") {
 	$go=2;  
@@ -138,11 +140,11 @@ if ( isset( $_POST['bt_html'] ) ) {
 	// Detail 
 	//----------------------------------------------------------------------
 	Acc_Account_Ledger::HtmlTableHeader();
-	$Poste->get_row( $_POST['from_periode'], $_POST['to_periode']);
+	$Poste->get_row( $_GET['from_periode'], $_GET['to_periode']);
 	if ( empty($Poste->row)) exit();
 	$Poste->load();
 	echo '<table "width=70%">';
-	echo '<tr><td  class="mtitle" colspan="5"><h2 class="info">'. $_POST['poste_id'].' '.$Poste->label.'</h2></td></tr>';
+	echo '<tr><td  class="mtitle" colspan="5"><h2 class="info">'. $_GET['poste_id'].' '.$Poste->label.'</h2></td></tr>';
 
 	foreach ($Poste->row as $a) {
 	  $detail=$a;
@@ -151,7 +153,7 @@ if ( isset( $_POST['bt_html'] ) ) {
 
 	  $op=new Acc_Operation($cn);
 	  $op->jr_id=$a['jr_id'];
-	  $op->poste=$_POST['poste_id'];
+	  $op->poste=$_GET['poste_id'];
 	  echo $op->display_jrnx_detail(1);
 	}
 	echo '</table>';
@@ -164,11 +166,20 @@ if ( isset( $_POST['bt_html'] ) ) {
   // A QuickCode  is given
   if ( $go == 2) 
     {
-      echo '<div class="u_content">';
-      $fiche->HtmlTableHeader();
-      $fiche->HtmlTable($qcode);
-      $fiche->HtmlTableHeader();
-      echo "</div>";
+      if ( ! isset($_REQUEST['oper_detail']) ) {
+	echo '<div class="u_content">';
+	$fiche->HtmlTableHeader();
+	$fiche->HtmlTable();
+	$fiche->HtmlTableHeader();
+	echo "</div>";
+      } else {
+	// Detail //
+	echo '<div class="u_content">';
+	$fiche->HtmlTableHeader();
+	$fiche->HtmlTableDetail();
+	$fiche->HtmlTableHeader();
+
+      }
       exit;
    }
 
@@ -182,7 +193,7 @@ if ( isset( $_POST['bt_html'] ) ) {
 
 
       if ( ! isset ($_REQUEST['oper_detail'])) {
-	$Poste=new Acc_Account_Ledger($cn,$_POST['poste_id']);
+	$Poste=new Acc_Account_Ledger($cn,$_GET['poste_id']);
 	echo Acc_Account_Ledger::HtmlTableHeader();
 		
 	foreach ($a_poste as $poste_id ) 
@@ -202,7 +213,7 @@ if ( isset( $_POST['bt_html'] ) ) {
 	  {
 	    $Poste=new Acc_Account_Ledger ($cn,$poste_id['pcm_val']);
 	    $Poste->load();
-	    $Poste->get_row( $_POST['from_periode'], $_POST['to_periode']);
+	    $Poste->get_row( $_GET['from_periode'], $_GET['to_periode']);
 	    if ( empty($Poste->row)) continue;
 	    echo '<tr><td  class="mtitle"  colspan="5"><h2 class="info">'. $poste_id['pcm_val'].' '.$Poste->label.'</h2></td></tr>';
 
