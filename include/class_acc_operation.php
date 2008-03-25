@@ -212,7 +212,7 @@ function get_internal() {
        $r.=$a;
        $csv.='"'.$a.'"';
 
-       $csv.="\n\r";
+       $csv.="\r\n";
        $r.='</td>';
      
        $r.='</tr>';

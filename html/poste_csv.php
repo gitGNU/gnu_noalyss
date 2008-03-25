@@ -38,16 +38,16 @@ $cn=DbConnect($gDossier);
 
 $User=new User($cn);
 $User->Check();
-if ( isset ( $_POST['poste_fille']) )
+if ( isset ( $_REQUEST['poste_fille']) )
 { //choisit de voir tous les postes
-  $a_poste=get_array($cn,"select pcm_val from tmp_pcmn where pcm_val::text like '".$_POST["poste_id"]."%'");
+  $a_poste=get_array($cn,"select pcm_val from tmp_pcmn where pcm_val::text like '".$_REQUEST["poste_id"]."%'");
 } 
 else 
 {
-  $a_poste=get_array($cn,"select pcm_val from tmp_pcmn where pcm_val = '".$_POST['poste_id']."'");
+  $a_poste=get_array($cn,"select pcm_val from tmp_pcmn where pcm_val = '".$_REQUEST['poste_id']."'");
 }
 
-if ( ! isset ($_POST['oper_detail'])) {
+if ( ! isset ($_REQUEST['oper_detail'])) {
   if ( count($a_poste) == 0 )
     exit;
   
@@ -55,8 +55,8 @@ if ( ! isset ($_POST['oper_detail'])) {
     {
       $Poste=new Acc_Account_Ledger($cn,$pos['pcm_val']);
       $Poste->get_name();
-      list($array,$tot_deb,$tot_cred)=$Poste->get_row( $_POST['from_periode'],
-						       $_POST['to_periode']
+      list($array,$tot_deb,$tot_cred)=$Poste->get_row( $_REQUEST['from_periode'],
+						       $_REQUEST['to_periode']
 						       );
       if ( count($Poste->row ) == 0 ) 
 	continue;
@@ -98,8 +98,8 @@ if ( ! isset ($_POST['oper_detail'])) {
     {
       $Poste=new Acc_Account_Ledger($cn,$pos['pcm_val']);
       $Poste->get_name();
-      list($array,$tot_deb,$tot_cred)=$Poste->get_row( $_POST['from_periode'],
-						       $_POST['to_periode']
+      list($array,$tot_deb,$tot_cred)=$Poste->get_row( $_REQUEST['from_periode'],
+						       $_REQUEST['to_periode']
 						       );
       if ( count($Poste->row ) == 0 ) 
 	continue;
@@ -127,7 +127,7 @@ if ( ! isset ($_POST['oper_detail'])) {
 		 $a['description'],
 		 $r['j_montant'],
 		 $r['debit']);
-	  printf("\n");
+	  printf("\r\n");
 
 	}
 

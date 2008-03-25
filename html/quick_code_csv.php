@@ -48,6 +48,9 @@ if ( count($Fiche->row ) == 0 )
   echo "Aucune donnée";
   return;
 }
+
+
+if ( ! isset ($_REQUEST['oper_detail'])) {
 echo '"Qcode";'.
 "\"Code interne\";".
 "\"Date\";".
@@ -55,21 +58,48 @@ echo '"Qcode";'.
 "\"Débit\";".
 "\"Crédit\"";
 printf("\n");
+  foreach ( $Fiche->row as $op ) { 
+    echo '"'.$op['j_qcode'].'";'.
+      '"'.$op['jr_internal'].'"'.";".
+      '"'.$op['j_date'].'"'.";".
+      '"'.$op['description'].'"'.";".
+      sprintf("%8.4f",$op['deb_montant']).";".
+      sprintf("%8.4f",$op['cred_montant']);
+    printf("\n");
+    
+  }
+}else {
+    echo '"Poste";"Qcode";"internal"';
+    echo '"Date";'.
+      "\"Description\";".
+      "\"Montant\";".
+      "\"D/C\"";
+
+    printf("\r\n");
+
+  foreach ( $Fiche->row as $op ) { 
+    $acc=new Acc_Operation($cn);
+    $acc->jr_id=$op['jr_id'];
+    $result= $acc->get_jrnx_detail();    
+	foreach ( $result as $r) {
+	  printf('"%s";"%s";"%s";"%s";"%s";%12.2f;"%s"',
+		 $r['j_poste'],
+		 $r['j_qcode'],
+		 $r['jr_internal'],
+		 $r['j_date'],
+		 $a['description'],
+		 $r['j_montant'],
+		 $r['debit']);
+	  printf("\r\n");
+
+	}
 
 
-foreach ( $Fiche->row as $op ) { 
-  echo '"'.$op['j_qcode'].'";'.
-    '"'.$op['jr_internal'].'"'.";".
-    '"'.$op['j_date'].'"'.";".
-    '"'.$op['description'].'"'.";".
-    sprintf("%8.4f",$op['deb_montant']).";".
-    sprintf("%8.4f",$op['cred_montant']);
-  printf("\n");
-  
-  
-}
+
+  }
+ }
 $solde_type=($tot_deb>$tot_cred)?"solde débiteur":"solde créditeur";
-$diff=abs($tot_deb-$tot_cred);
+ $diff=abs($tot_deb-$tot_cred);
 printf(
        '"'."$solde_type".'"'.";".
        sprintf("%8.4f",$diff).";".

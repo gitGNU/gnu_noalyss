@@ -410,10 +410,16 @@ function GetModeleId($p_cn,$p_modname) {
  * in a array
  * \param $p_cn database connection
  * \param $p_sql sql query
+ * \param $p_array if not null we use ExecSqlParam
  */
-function get_array($p_cn,$p_sql) {
+function get_array($p_cn,$p_sql,$p_array=null) {
   echo_debug('postgres.php',__LINE__,"get_array");
-  $r=ExecSql($p_cn,$p_sql);
+  if ( $p_array == null ) {
+
+    $r=ExecSql($p_cn,$p_sql);
+  } else  {
+    $r=ExecSqlParam($p_cn,$p_sql,$p_array);
+  }
   if ( ($Max=  pg_NumRows($r)) == 0 ) return null;
   $array=pg_fetch_all($r);
   echo_debug('postgres.php',__LINE__,var_export($array,true));
@@ -475,12 +481,18 @@ function save_upload_document ($cn,$seq) {
 /*!\brief return the value of the sql, the sql will return only one value
  *        with the value
  * \param $p_cn database connection
- * \param $p_sql the sql stmt example :select s_value from document_state where s_id=2
+ * \param $p_sql the sql stmt example :select s_value from
+ *        document_state where s_id=2
+ * \param $p_array if not null we use execSqlParam
  * \return only the first value
  */ 
-function getDbValue($p_cn,$sql)
+function getDbValue($p_cn,$sql,$p_array=null)
 {
-  $ret=ExecSql($p_cn,$sql);
+  if ( $p_array == null )
+    $ret=ExecSql($p_cn,$sql);
+  else 
+    $ret=ExecSqlParam($p_cn,$sql,$p_array);
+
   if ( pg_NumRows($ret) == 0 ) return "";
   $r=pg_fetch_row($ret,0);
   return $r[0];

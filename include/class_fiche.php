@@ -860,7 +860,7 @@ class fiche {
 	       "case when j_debit='t' then j_montant else 0 end as deb_montant,".
 	       "case when j_debit='f' then j_montant else 0 end as cred_montant,".
 	       " jr_comment as description,jrn_def_name as jrn_name,".
-	       "j_debit, jr_internal ".
+	       "j_debit, jr_internal,jr_id ".
 	       " from jrnx left join jrn_def on jrn_def_id=j_jrn_def ".
 	       " left join jrn on jr_grpt_id=j_grpt".
 	       " where j_qcode='".$qcode."' and ".$periode.
@@ -881,7 +881,65 @@ class fiche {
       $this->row=$array;
       return array($array,$tot_deb,$tot_cred);
     }
+  /*! 
+   * \brief HtmlTable, display a HTML of a card for the asked period
+   * \param none
+   *
+   * \return none
+   */
+  function HtmlTableDetail($p_array=null)
+    {     
+      if ( $p_array == null)
+	$p_array=$_REQUEST;
 
+      $name=$this->getName();
+      
+      list($array,$tot_deb,$tot_cred)=$this->get_row( $p_array['from_periode'],
+						     $p_array['to_periode']
+						     );
+      
+      if ( count($this->row ) == 0 ) 
+	return;
+      
+      $rep="";
+      
+      echo '<h2 class="info">'.$this->id." ".$name.'</h2>';
+      echo "<TABLE class=\"result\" width=\"100%\">";
+      echo "<TR>".
+	"<TH> Code interne </TH>".
+	"<TH> Date</TH>".
+	"<TH> Description </TH>".
+	"<TH> Débit  </TH>".
+	"<TH> Crédit </TH>".
+	"</TR>";
+     
+      foreach ( $this->row as $op ) { 
+	echo "<TR  style=\"text-align:center;background-color:lightgrey\">".
+	  "<td >".$op['jr_internal']."</td>".
+	  "<td >".$op['j_date']."</td>".
+	  "<td >".$op['description']."</td>".
+	  "<td >"."</td>".
+	  "<td >"."</td>".
+	  "</TR>";
+	$ac=new Acc_Operation($this->cn);
+	$ac->jr_id=$op['jr_id'];
+	echo $ac->display_jrnx_detail(1);
+	
+      }
+      $solde_type=($tot_deb>$tot_cred)?"solde débiteur":"solde créditeur";
+      $diff=round(abs($tot_deb-$tot_cred),2);
+      echo "<TR>".
+	"<TD>$solde_type".
+	"<TD>$diff</TD>".
+	"<TD></TD>".
+	"<TD>$tot_deb</TD>".
+	"<TD>$tot_cred</TD>".
+	"</TR>";
+      
+      echo "</table>";
+      
+      return;
+    }
   /*! 
    * \brief HtmlTable, display a HTML of a card for the asked period
    * \param none
@@ -891,7 +949,7 @@ class fiche {
   function HtmlTable($p_array=null)
     {     
       if ( $p_array == null)
-	$p_array=$_POST;
+	$p_array=$_REQUEST;
 
       $name=$this->getName();
       
@@ -946,7 +1004,7 @@ class fiche {
  function HtmlTableHeader($p_array=null)
    {
      if ( $p_array == null)
-       $p_array=$_POST;
+       $p_array=$_REQUEST;
 
      $submit=new widget();
      $hid=new widget("hidden");
@@ -968,6 +1026,9 @@ class fiche {
 	dossier::hidden().
        $hid->IOValue("from_periode",$p_array['from_periode']).
        $hid->IOValue("to_periode",$p_array['to_periode']);
+     if (isset($p_array['oper_detail']))
+       echo $hid->IOValue('oper_detail','on');
+
      echo "</form></TD>";
      
      echo '<TD><form method="POST" ACTION="quick_code_csv.php">'.
@@ -978,6 +1039,8 @@ class fiche {
        $hid->IOValue("f_id",$this->id).
        $hid->IOValue("from_periode",$p_array['from_periode']).
        $hid->IOValue("to_periode",$p_array['to_periode']);
+     if (isset($p_array['oper_detail']))
+       echo $hid->IOValue('oper_detail','on');
      
      echo "</form></TD>";
      echo "</table>";

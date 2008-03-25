@@ -22,7 +22,7 @@ require_once("constant.php");
 require_once("postgres.php");
 require_once("class_parm_code.php");
 require_once("class_widget.php");
-
+require_once('class_periode.php');
 require_once('class_fiche.php');
 require_once('class_acc_account_ledger.php');
 require_once('user_common.php');
@@ -92,6 +92,11 @@ class Supplier extends fiche{
       $bar=jrn_navigation_bar($offset,$all_supplier,$_SESSION['g_pagesize'],$page);
       // set a filter ?
       $search="";
+      $user=new User($this->cn);
+      $exercice=$user->get_exercice();
+      $tPeriode=new Periode($this->cn);
+      list($max,$min)=$tPeriode->get_limit($exercice);
+
       if ( trim($p_search) != "" )
 	{
 	  $search=" and f_id in
@@ -113,7 +118,7 @@ class Supplier extends fiche{
 <th>Total d&eacute;bit</th>
 <th>Total cr&eacute;dit</th>
 <th>Solde</th>
-<th colspan="4">Action </th>
+<th colspan="5">Action </th>
 </TR>';
       if ( sizeof ($step_supplier ) == 0 )
 	return $r;
@@ -151,6 +156,9 @@ class Supplier extends fiche{
 	$r.=sprintf('<td><A class="mtitle" HREF="%s?liste&p_action=bank&sa=list&'.$str_dossier.'&qcode=%s&url=%s&p_periode=-1" title="Financier">Financier</A></td>',
 		    $script,$supplier->strAttribut(ATTR_DEF_QUICKCODE) ,$url);
 
+	$r.=sprintf('<td><A class="mtitle" HREF="%s?p_action=impress&type=poste&f_id=%s&%s&from_periode=%s&to_periode=%s&oper_detail=on&bt_html=Visualisation" 
+title="Operation">Operation</A></td>',
+		    $script,$supplier->strAttribut(ATTR_DEF_QUICKCODE) ,$str_dossier,$max->p_id,$min->p_id);
 
 	$r.='</TD>';
 
