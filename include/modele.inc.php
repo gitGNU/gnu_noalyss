@@ -67,7 +67,7 @@ if ( isset ($_POST["FMOD_NAME"]) ) {
     // get the mod_id
     $l_id=GetSequence($cn,'s_modid');
     if ( $l_id != 0 ) {
-      $Sql=sprintf("CREATE DATABASE %sMOD%d encoding='ISO8859-1' TEMPLATE %sDOSSIER%s",domaine,$l_id,domaine,$_POST["FMOD_DBID"]);
+      $Sql=sprintf("CREATE DATABASE %sMOD%d encoding='UTF8' TEMPLATE %sDOSSIER%s",domaine,$l_id,domaine,$_POST["FMOD_DBID"]);
       ob_start();
       if ( pg_query($cn,$Sql)==false) {
 	ob_end_clean();

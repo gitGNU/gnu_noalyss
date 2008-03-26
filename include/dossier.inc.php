@@ -75,7 +75,7 @@ if ( isset ($_POST["DATABASE"]) ) {
 	  }
 	else 
 	  {
-	    $Sql=sprintf("CREATE DATABASE %sDOSSIER%d encoding='ISO8859-1' TEMPLATE %sMOD%d",
+	    $Sql=sprintf("CREATE DATABASE %sDOSSIER%d encoding='UTF8' TEMPLATE %sMOD%d",
 			 domaine,
 			 $l_id,
 			 domaine,

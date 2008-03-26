@@ -87,6 +87,6 @@ if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
      else
      $a='{"answer":"nok"}';
 echo_debug("fid.php",__LINE__,"Answer is \n $a");
-header("Content-type: text/html; charset: ISO8859-1",true);
+header("Content-type: text/html; charset: utf8",true);
 print $a;
 ?>
