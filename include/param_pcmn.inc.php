@@ -124,7 +124,7 @@ if ( isset ( $_POST["Ajout"] ) ) {
 
 	  } else 
 	    {
-	      $Ret=ExecSql($cn,"insert into tmp_pcmn (pcm_val,pcm_lib,pcm_val_parent,pcm_type) values ('$p_val','$p_lib',$p_parent,'$p_type'));
+	      $Ret=ExecSqlParam($cn,"insert into tmp_pcmn (pcm_val,pcm_lib,pcm_val_parent,pcm_type) values ($1,$2,$3,$4)", array($p_val,$p_lib,$p_parent,$p_type));
 	    }
       }
     } else {
