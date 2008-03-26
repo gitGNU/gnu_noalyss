@@ -36,7 +36,7 @@ html_page_start($User->theme,'onLoad="window.focus();"');
 $User->Check();
 if ($User->admin != 1) {
 
-print "<H2 class=\"error\"> Désolé mais vous n' êtes pas administrateur</H2>";
+print "<H2 class=\"error\"> DÃ©solÃ© mais vous n' Ãªtes pas administrateur</H2>";
 
   html_page_stop(); 
   return; 
@@ -46,9 +46,9 @@ if ( ! isset ($_REQUEST['p_type'] ) ||
      ! isset ($_REQUEST['ob_id']))
 {
   print '<H2 CLASS="error">';
-  print "Désolé vous n'avez pas appelé cette fonction avec les bons paramètres";
+  print "DÃ©solÃ© vous n'avez pas appelÃ© cette fonction avec les bons paramÃ¨tres";
   print '</H2>';
-  print '<hr><INPUT TYPE="BUTTON" VALUE="Fermez la fenêtre" onclick="window.close();">';
+  print '<hr><INPUT TYPE="BUTTON" VALUE="Fermez la fenÃªtre" onclick="window.close();">';
   return;
 }
 $cn=DbConnect();
@@ -61,31 +61,31 @@ switch($_REQUEST['p_type'])
    if ( strlen(trim($name)) == 0 )
      {
        echo "<h2 class=\"error\"> $msg inexistant</h2>";
-       print '<hr><INPUT TYPE="BUTTON" VALUE="Fermez la fenêtre" onclick="window.close();">';
+       print '<hr><INPUT TYPE="BUTTON" VALUE="Fermez la fenÃªtre" onclick="window.close();">';
        return;
      }
 
    break;
  case 'mod':
-   $msg="modèle";
+   $msg="modÃ¨le";
    $name=getDbValue($cn,"select mod_name from modeledef where mod_id=".$_REQUEST['ob_id']);
    if ( strlen(trim($name)) == 0 )
      {
        echo "<h2 class=\"error\"> $msg inexistant</h2>";
-       print '<hr><INPUT TYPE="BUTTON" VALUE="Fermez la fenêtre" onclick="window.close();">';
+       print '<hr><INPUT TYPE="BUTTON" VALUE="Fermez la fenÃªtre" onclick="window.close();">';
        return;
      }
    if ( $_REQUEST['ob_id'] < 3 ) {
-     echo "<h2 class=\"error\">Désolé mais vous ne pouvez pas effacer les modèles de base</H2>";
-     print '<hr><INPUT TYPE="BUTTON" VALUE="Fermez la fenêtre" onclick="window.close();">';
+     echo "<h2 class=\"error\">DÃ©solÃ© mais vous ne pouvez pas effacer les modÃ¨les de base</H2>";
+     print '<hr><INPUT TYPE="BUTTON" VALUE="Fermez la fenÃªtre" onclick="window.close();">';
      return;
    }
    break;
  default:
   print '<H2 CLASS="error">';
-  print "Désolé mais que voulez-vous effacer ? ";
+  print "DÃ©solÃ© mais que voulez-vous effacer ? ";
   print '</H2>';
-  print '<hr><INPUT TYPE="BUTTON" VALUE="Fermez la fenêtre" onclick="window.close();">';
+  print '<hr><INPUT TYPE="BUTTON" VALUE="Fermez la fenÃªtre" onclick="window.close();">';
   return;
 
 }
@@ -106,17 +106,17 @@ if  ( isset($_POST['remove']) )
 		ob_end_clean();
 
 		echo "<h2 class=\"error\"> 
-                      Base de donnée ".domaine."mod".$_POST['ob_id']."  est accèdée, déconnectez-vous d'abord</h2>";
-  		print '<hr><INPUT TYPE="BUTTON" VALUE="Fermez la fenêtre" onclick="window.close();">';
+                      Base de donnÃ©e ".domaine."mod".$_POST['ob_id']."  est accÃ¨dÃ©e, dÃ©connectez-vous d'abord</h2>";
+  		print '<hr><INPUT TYPE="BUTTON" VALUE="Fermez la fenÃªtre" onclick="window.close();">';
 		exit;
 	  }
 	  ob_flush();
 	  $sql="delete from modeledef where mod_id=".$_POST['ob_id'];
 	  ExecSql($cn,$sql);
 	  print '<h2 class="info">';
-	  print "Voilà le modèle $name est effacé";
+	  print "VoilÃ  le modÃ¨le $name est effacÃ©";
 	  print "<h2>";
-  	  print '<hr><INPUT TYPE="BUTTON" VALUE="Fermez la fenêtre" onclick="window.close();">';
+  	  print '<hr><INPUT TYPE="BUTTON" VALUE="Fermez la fenÃªtre" onclick="window.close();">';
 	  break;
 	case 'db':
 	  $sql="drop database ".domaine."dossier".$_POST['ob_id'];
@@ -125,8 +125,8 @@ if  ( isset($_POST['remove']) )
 	  		ob_end_clean();
 		
 		echo "<h2 class=\"error\"> 
-                     Base de donnée ".domaine."mod".$_POST['ob_id']."  est accèdée, déconnectez-vous d'abord</h2>";
-  	  	print '<hr><INPUT TYPE="BUTTON" VALUE="Fermez la fenêtre" onclick="window.close();">';
+                     Base de donnÃ©e ".domaine."mod".$_POST['ob_id']."  est accÃ¨dÃ©e, dÃ©connectez-vous d'abord</h2>";
+  	  	print '<hr><INPUT TYPE="BUTTON" VALUE="Fermez la fenÃªtre" onclick="window.close();">';
 		exit;
 	  }
 	  ob_flush();
@@ -137,20 +137,20 @@ if  ( isset($_POST['remove']) )
 	  $sql="delete from ac_dossier where dos_id=".$_REQUEST['ob_id'];
 	  ExecSql($cn,$sql);
 	  print '<h2 class="info">';
-	  print "Voilà le modèle $name est effacé";
+	  print "VoilÃ  le modÃ¨le $name est effacÃ©";
 	  print "<h2>";
-  	  print '<hr><INPUT TYPE="BUTTON" VALUE="Fermez la fenêtre" onclick="window.close();">';
+  	  print '<hr><INPUT TYPE="BUTTON" VALUE="Fermez la fenÃªtre" onclick="window.close();">';
 
 	}
     } 
   else 
     {
       print '<h2 class="info">';
-      print "$msg $name n'est pas effacé";
+      print "$msg $name n'est pas effacÃ©";
       print '</h2>';
       print "<hr>";
-      print "Vous n'avez pas coché la case";
-      print '<hr><INPUT TYPE="BUTTON" VALUE="Fermez la fenêtre" onclick="window.close();">';
+      print "Vous n'avez pas cochÃ© la case";
+      print '<hr><INPUT TYPE="BUTTON" VALUE="Fermez la fenÃªtre" onclick="window.close();">';
 
     }
 } 

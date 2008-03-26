@@ -39,7 +39,7 @@ COMMENT ON TABLE plan_analytique IS 'Plan Analytique (max 5)';
 COMMENT ON TABLE poste_analytique IS 'Poste Analytique';
 COMMENT ON TABLE quant_sold IS 'Contains about invoice for customer';
 COMMENT ON TABLE stock_goods IS 'About the goods';
-COMMENT ON TABLE tmp_pcmn IS 'Plan comptable minimum normalisé';
+COMMENT ON TABLE tmp_pcmn IS 'Plan comptable minimum normalisÃ©';
 COMMENT ON TABLE tva_rate IS 'Rate of vat';
 COMMENT ON TABLE user_local_pref IS 'The user''s local parameter ';
 COMMENT ON COLUMN user_local_pref.user_id IS 'user''s login ';

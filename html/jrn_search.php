@@ -144,7 +144,7 @@ echo "</TR>";
 
 echo '</TABLE>';
 echo '<INPUT TYPE="submit" name="search" value="cherche">';
-echo '<input type="button" name="update_concerned" value="Mise à jour des réconciliation" onClick="updateJrn(\''.$p_ctl.'\')">';
+echo '<input type="button" name="update_concerned" value="Mise Ã  jour des rÃ©conciliation" onClick="updateJrn(\''.$p_ctl.'\')">';
 echo '</FORM>';
 echo '<div class="u_content">';
 // if a search is asked otherwise don't show all the rows
@@ -184,7 +184,7 @@ echo '<form id="form_jrn_concerned">';
   echo '<TABLE ALIGN="center" BORDER="0" CELLSPACING="O" width="100%">';
   $l_id="";
 //   if ( $MaxLine > 250 ) {
-//     echo "Trop de lignes redéfinir la recherche";
+//     echo "Trop de lignes redÃ©finir la recherche";
 //     html_page_stop();
 //     return;
 //   }

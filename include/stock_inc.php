@@ -61,7 +61,7 @@ where
   $result.="<tr>";
   $result.='<th>Code</th>';
   $result.='<th>Noms</th>';
-  $result.='<th>Entrée</th>';
+  $result.='<th>EntrÃ©e</th>';
   $result.='<th>Sortie</th>';
   $result.='<th>Solde</th>';
   $result.="</tr>";
@@ -195,11 +195,11 @@ $sql="select sg_code,
   $r.='<table style="width:100%;border:solid blue 2px ;border-style:outset;">';
   $r.="<TR>";
   $r.="<th>Date </th>";
-  $r.="<th>Entrée / Sortie </th>";
+  $r.="<th>EntrÃ©e / Sortie </th>";
   $r.="<th>Description</th>";
   $r.="<th>Op&eacute;ration</th>";
   $r.="<th>Montant</th>";
-  $r.="<th>Quantité</th>";
+  $r.="<th>QuantitÃ©</th>";
   $r.="<th>Prix/Cout Unitaire</th>";
   $r.="</TR>";
   // compute sessid

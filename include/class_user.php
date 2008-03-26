@@ -272,7 +272,7 @@ function get_periode() {
  */ 
 function get_preference ()
 {
-  // si preference n'existe pas, les créer
+  // si preference n'existe pas, les crÃ©er
   $sql="select parameter_type,parameter_value from user_local_pref where user_id='".$this->id."'";
   $Res=ExecSql($this->db,$sql);
   if (pg_NumRows($Res) == 0 ) {
@@ -442,14 +442,14 @@ function can_request($p_cn,$p_action,$p_js=0)
       if ( $p_js == 1 )
 	{
 	  echo "<script>";
-	  echo "alert ('Cette action ne vous est pas autorisée. Contactez votre responsable');";
+	  echo "alert ('Cette action ne vous est pas autorisÃ©e. Contactez votre responsable');";
 	  echo "</script>";
 	 
 	}
       else
 	{
 	  echo '<div class="u_redcontent">';
-	  echo '<h2 class="error"> Cette action ne vous est pas autorisée Contactez votre responsable</h2>';
+	  echo '<h2 class="error"> Cette action ne vous est pas autorisÃ©e Contactez votre responsable</h2>';
 	  echo '</div>';
 
 	}

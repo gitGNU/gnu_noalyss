@@ -57,7 +57,7 @@ function ShowActionList($cn,$retour,$h_url)
    $w->table=0;
    echo '<span>';
    echo $w->IOValue();
-   printf ('Titre ou référence: <input type="text" name="query" value="%s"></span>',
+   printf ('Titre ou rÃ©fÃ©rence: <input type="text" name="query" value="%s"></span>',
 	   $a);
 
 
@@ -259,7 +259,7 @@ if ( $sub_action=='detail' )
   $upload->value="";
   echo "Enregistrer le fichier ".$upload->IOValue();
   echo widget::submit("save","Sauve");
-  echo widget::submit("add_action_here","Ajoute une action à celle-ci");
+  echo widget::submit("add_action_here","Ajoute une action Ã  celle-ci");
   echo '</form>';
   echo '<form action="commercial.php"  method="post"   >';
   echo dossier::hidden();

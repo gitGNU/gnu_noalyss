@@ -100,7 +100,7 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 			// Is Paid
 			$r.="<TD>";
 			$check=( $content['jr_rapt'] != null )?"CHECKED":"UNCHECKED";
-			$r.='<TD>Payé <INPUT TYPE="CHECKBOX"'.$disable.' name="is_paid" '.$check.'></TD>';
+			$r.='<TD>PayÃ© <INPUT TYPE="CHECKBOX"'.$disable.' name="is_paid" '.$check.'></TD>';
 		  }
 		$r.="</TR>";
 		$r.="</TABLE>";
@@ -158,7 +158,7 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 	if ( $p_mode == 1 ) {
 	  $r.="<hr>";
 	  $r.= "<table>"; 
-	  $r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
+	  $r.="<TR>".$file->IOValue("pj","","PiÃ¨ce justificative")."</TR>";
 	  $r.="</table>";
 	}
 	$r.="<hr>";
@@ -170,13 +170,13 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 	$a=GetConcerned($p_cn,$content['jr_id']);
 	$sessid=$_REQUEST["PHPSESSID"];	  
 	if ( $a != null ) {
-      $r.="<b>Operation concernée</b> <br>";
+      $r.="<b>Operation concernÃ©e</b> <br>";
 
 	  $r.= '<div style="margin-left:30px;">';
 	  foreach ($a as $key => $element) {
 		$operation=new Acc_operation($p_cn);
 		$operation->jr_id=$element;
-		$r.=sprintf ('%s <INPUT TYPE="BUTTON" VALUE="Détail" onClick="modifyOperation(\'%s\',\'%s\',%d)">', 
+		$r.=sprintf ('%s <INPUT TYPE="BUTTON" VALUE="DÃ©tail" onClick="modifyOperation(\'%s\',\'%s\',%d)">', 
 					 $operation->get_internal($p_cn,$element),
 					 $element,
 					 $sessid,
@@ -270,7 +270,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
   // Is Paid
   $r.="<TD>";
   $check=( $content['jr_rapt'] != null )?"CHECKED":"UNCHECKED";
-  $r.='<TD>Payé <INPUT TYPE="CHECKBOX" '.$disable.' name="is_paid" '.$check.'></TD>';
+  $r.='<TD>PayÃ© <INPUT TYPE="CHECKBOX" '.$disable.' name="is_paid" '.$check.'></TD>';
   
   $r.="</TR>";
   
@@ -515,7 +515,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
   if ( $p_mode == 1 ) {
 	$r.= "<table>"; 
 
-	$r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
+	$r.="<TR>".$file->IOValue("pj","","PiÃ¨ce justificative")."</TR>";
 	$r.="</table>";
 	$r.="<hr>";
 	
@@ -526,13 +526,13 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 	$sessid=$_REQUEST["PHPSESSID"];	  
   
 	if ( $a != null ) {
-      $r.="<b>Operation concernée</b> <br>";
+      $r.="<b>Operation concernÃ©e</b> <br>";
       
       $r.= '<div style="margin-left:30px;">';
       foreach ($a as $key => $element) {
 		$operation=new Acc_operation($p_cn);
 		$operation->jr_id=$element;
-		$r.=sprintf ('%s <INPUT TYPE="BUTTON" VALUE="Détail" onClick="modifyOperation(\'%s\',\'%s\',%d)">', 
+		$r.=sprintf ('%s <INPUT TYPE="BUTTON" VALUE="DÃ©tail" onClick="modifyOperation(\'%s\',\'%s\',%d)">', 
 					 $operation->get_internal(),
 					 $element,
 					 $sessid,
@@ -554,7 +554,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 }
 
 /*! 
- * \brief  Vue des écritures comptables
+ * \brief  Vue des Ã©critures comptables
  * 
  * parm : 
  *	- p_dossier,

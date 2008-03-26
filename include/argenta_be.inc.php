@@ -68,7 +68,7 @@ while (($data = fgetcsv($handle, 2000,"!")) !== FALSE) {
 	  if ( CountSql($p_cn,"select * from import_tmp where code='$code' and num_compte='$num_compte' limit 2") != 0 )
 {
 	/* Skip it it already encoded */
-	echo "Doublon éliminé ".$detail;
+	echo "Doublon Ã©liminÃ© ".$detail;
 	echo "<br>";
 	continue;
 }

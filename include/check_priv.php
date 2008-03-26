@@ -27,7 +27,7 @@
 
 include_once("postgres.php");
 /*! 
- * \brief  Vérifie les acces d'un utilisateur
+ * \brief  VÃ©rifie les acces d'un utilisateur
  * sur un journal
  * 
  * \param $p_dossier le dossier
@@ -37,7 +37,7 @@ include_once("postgres.php");
  * \return
  *	- 0 pas d'acces
  *      - 1 Lecture
- *      - 2 écriture
+ *      - 2 Ã©criture
  *
  */ 
 
@@ -72,14 +72,14 @@ function CheckJrn($p_dossier,$p_user,$p_jrn,$p_detail=False)
  
   }
 
-  // droit spécifique
+  // droit spÃ©cifique
   $Res2=ExecSql($cn,"select jrn_def_id,uj_priv 
                  from jrn_def left join user_sec_jrn on uj_jrn_id=jrn_def_id
                     where uj_login='$p_user' and jrn_def_id=$p_jrn");
 
   $PrivJrn=pg_NumRows($Res2);
   $cn=DbConnect();
-  // droit par défaut
+  // droit par dÃ©faut
   $Res=ExecSql($cn,"  select * 
                        from ac_users left join jnt_use_dos using (use_id) 
                        left join priv_user on (priv_jnt=jnt_id) 
@@ -88,17 +88,17 @@ function CheckJrn($p_dossier,$p_user,$p_jrn,$p_detail=False)
 
   $DefRight=pg_NumRows($Res);
   echo_debug ("PrivJrn = $PrivJrn DefRight $DefRight");
-  // Si les droits par défaut == 0, alors user n'a pas accès au dossier
+  // Si les droits par dÃ©faut == 0, alors user n'a pas accÃ¨s au dossier
   if ( $DefRight == 0 ) return 0;
   $Def=pg_fetch_array($Res,0);
 
-  // Si les droits par défaut == NO, alors user n'a pas accès au dossier
+  // Si les droits par dÃ©faut == NO, alors user n'a pas accÃ¨s au dossier
   if ( $Def['priv_priv'] == "NO" ) return 0;
 
   if ( $Def['priv_priv'] == "W") {
-  // Si droit pas défaut == écriture      
+  // Si droit pas dÃ©faut == Ã©criture      
     if ( $PrivJrn == 0 ) {
-      // Pas de droit spécifique sur jrn => droit par défaut = W
+      // Pas de droit spÃ©cifique sur jrn => droit par dÃ©faut = W
       return 2;
     }
     $Priv=pg_fetch_array($Res2,0);
@@ -111,9 +111,9 @@ function CheckJrn($p_dossier,$p_user,$p_jrn,$p_detail=False)
     return 0;
   }
   if ( $Def['priv_priv'] == "R") {
-  // Si droit pas défaut == Lire
+  // Si droit pas dÃ©faut == Lire
     if ( $PrivJrn == 0 ) {
-      // Pas de droit spécifique sur jrn => droit par défaut = Lire
+      // Pas de droit spÃ©cifique sur jrn => droit par dÃ©faut = Lire
       return 1;
     }
     $Priv=pg_fetch_array($Res2,0);

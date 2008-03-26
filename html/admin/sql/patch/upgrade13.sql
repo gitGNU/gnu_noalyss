@@ -366,7 +366,7 @@ language plpgsql ;
 delete from form where fo_fr_id=3000000;
 delete from formdef where fr_id=3000000;
 
-INSERT INTO formdef (fr_id, fr_label) VALUES (3000000, 'TVA déclaration Belge');
+INSERT INTO formdef (fr_id, fr_label) VALUES (3000000, 'TVA dÃ©claration Belge');
 --
 -- Data for TOC entry 2 (OID 315304)
 -- Name: formdef; Type: TABLE DATA; Schema: public; Owner: dany
@@ -376,10 +376,10 @@ INSERT INTO formdef (fr_id, fr_label) VALUES (3000000, 'TVA déclaration Belge');
 INSERT INTO form VALUES (3000398, 3000000, 1, 'Prestation [ case 03 ]', '[700%]-[7000005]');
 INSERT INTO form VALUES (3000399, 3000000, 2, 'Prestation intra [ case 47 ]', '[7000005]');
 INSERT INTO form VALUES (3000400, 3000000, 3, 'Tva due   [case 54]', '[4513]+[4512]+[4511] FROM=01.2005');
-INSERT INTO form VALUES (3000401, 3000000, 4, 'Marchandises, matière première et auxiliaire [case 81 ]', '[60%]');
+INSERT INTO form VALUES (3000401, 3000000, 4, 'Marchandises, matiÃ¨re premiÃ¨re et auxiliaire [case 81 ]', '[60%]');
 INSERT INTO form VALUES (3000402, 3000000, 7, 'Service et bien divers [case 82]', '[61%]');
 INSERT INTO form VALUES (3000403, 3000000, 8, 'bien d''invest [ case 83 ]', '[2400%]');
-INSERT INTO form VALUES (3000404, 3000000, 9, 'TVA déductible [ case 59 ]', 'abs([4117]-[411%])');
+INSERT INTO form VALUES (3000404, 3000000, 9, 'TVA dÃ©ductible [ case 59 ]', 'abs([4117]-[411%])');
 INSERT INTO form VALUES (3000405, 3000000, 8, 'TVA non ded -> voiture', '[610022]*0.21/2');
 INSERT INTO form VALUES (3000406, 3000000, 9, 'Acompte TVA', '[4117]');
 
@@ -414,10 +414,10 @@ COMMENT ON TABLE document_state IS 'State of the document';
 SELECT pg_catalog.setval(pg_catalog.pg_get_serial_sequence('document_state', 's_id'), 3, true);
 
 
-INSERT INTO document_state VALUES (1, 'Envoyé');
+INSERT INTO document_state VALUES (1, 'EnvoyÃ©');
 INSERT INTO document_state VALUES (2, 'Brouillon');
 INSERT INTO document_state VALUES (3, 'A envoyer');
-INSERT INTO document_state VALUES (4, 'Reçu');
+INSERT INTO document_state VALUES (4, 'ReÃ§u');
 
 ALTER TABLE ONLY document_state ADD CONSTRAINT document_state_pkey PRIMARY KEY (s_id);
 alter sequence s_attr_def restart with 24;
@@ -453,7 +453,7 @@ comment on table action_gestion is 'Action for Managing';
 alter sequence s_fiche_def_ref restart 16;
 insert into fiche_def_ref(frd_text) values ('Contact'); 
 
-insert into attr_def(ad_text) values ('Société'); 
+insert into attr_def(ad_text) values ('SociÃ©tÃ©'); 
 insert into attr_def(ad_text) values ('Fax');
 insert into attr_min values(16,1);
 insert into attr_min values(16,17);

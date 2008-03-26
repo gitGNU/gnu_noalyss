@@ -90,12 +90,12 @@ function isNumber(&$p_int) {
 }
 
 /*! 
- * \brief Verifie qu'une date est bien formaté
+ * \brief Verifie qu'une date est bien formatÃ©
  *           en d.m.y et est valable
  * \param $p_date
  *	
  * \return
- *	- null si la date est invalide ou malformaté
+ *	- null si la date est invalide ou malformatÃ©
  *      - $p_date si tout est bon
  *
  */ 
@@ -166,7 +166,7 @@ function html_page_start($p_theme="",$p_script="",$p_script2="")
 
  echo "<HEAD> 
       <TITLE>PhpCompta</TITLE>
-      <META http-equiv=\"Content-Type\" content=\"text/html; charset=ISO-8859-1\">
+      <META http-equiv=\"Content-Type\" content=\"text/html; charset=UTF8\">
       <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$style\" media=\"screen\">
       <link rel=\"stylesheet\" type=\"text/css\" href=\"style-print.css\" media=\"print\">".
    $p_script2. "
@@ -217,13 +217,13 @@ function NoAccess($js=0)
   if ( $js == 1 ) 
     {
       echo "<script>";
-      echo "alert ('Cette action ne vous est pas autorisée Contactez votre responsable');";
+      echo "alert ('Cette action ne vous est pas autorisÃ©e Contactez votre responsable');";
       echo "</script>";
     }
   else 
     {
       echo '<div class="u_redcontent">';
-      echo '<h2 class="error"> Cette action ne vous est pas autorisée Contactez votre responsable</h2>';
+      echo '<h2 class="error"> Cette action ne vous est pas autorisÃ©e Contactez votre responsable</h2>';
       echo '</div>';
     }
       exit -1;

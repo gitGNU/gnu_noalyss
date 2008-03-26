@@ -250,7 +250,7 @@ function get_solde_detail($p_cond="") {
 	 "</TR>";
     
      }
-     $solde_type=($tot_deb>$tot_cred)?"solde dÈbiteur":"solde crÈditeur";
+     $solde_type=($tot_deb>$tot_cred)?"solde d√©biteur":"solde cr√©diteur";
      $diff=round(abs($tot_deb-$tot_cred),2);
      echo "<TR>".
        "<TD>$solde_type</TD>".

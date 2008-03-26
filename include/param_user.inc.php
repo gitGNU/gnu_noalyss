@@ -140,7 +140,7 @@ if ( $action == "view" ) {
   if ( $MaxUser == 0 ) return;
   $l2_line=pg_fetch_array($User,0);
 
-  printf ('<H2 class="info"> Détail utilisateur %s %s (%s) </H2>',
+  printf ('<H2 class="info"> DÃ©tail utilisateur %s %s (%s) </H2>',
 	  $l2_line['use_first_name'],
 	  $l2_line['use_name'],
 	  $l2_line['use_login']);
@@ -176,21 +176,21 @@ if ( $action == "view" ) {
     } else $right = 3;
     if ( $right == 0 ) {
       echo "<TD BGCOLOR=RED>";
-      echo "Pas d'accès";
+      echo "Pas d'accÃ¨s";
       echo "</TD>";
       echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="?p_action=sec&'.$l_change.'&access=R&'.$str_dossier.'"> Lecture</A></TD>';
       echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="?p_action=sec&'.$l_change.'&access=W&'.$str_dossier.'"> Ecriture</A></TD>';
 
       }
     if ( $right == 1 ) {
-      echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="?p_action=sec&'.$l_change.'&access=X&'.$str_dossier.'"> Pas d\'accès</A></TD>';
+      echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="?p_action=sec&'.$l_change.'&access=X&'.$str_dossier.'"> Pas d\'accÃ¨s</A></TD>';
       echo "<TD BGCOLOR=\"#3BCD27\">";
       echo "Lecture ";
       echo "</TD>";
       echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="?p_action=sec&'.$l_change.'&access=W&'.$str_dossier.'"> Ecriture</A></TD>';
     }
     if ( $right == 2 ) {
-      echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="?p_action=sec&'.$l_change.'&access=X&'.$str_dossier.'"> Pas d\'accès</A></TD>';
+      echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="?p_action=sec&'.$l_change.'&access=X&'.$str_dossier.'"> Pas d\'accÃ¨s</A></TD>';
       echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="?p_action=sec&'.$l_change.'&access=R&'.$str_dossier.'"> Lecture</A></TD>';
 
       echo "<TD BGCOLOR=\"#3BCD27\">";
@@ -199,7 +199,7 @@ if ( $action == "view" ) {
 
     }
     if ( $right == 3 ) { 
-      echo '<TD class="mtitle">  Pas d\'accès</TD>';
+      echo '<TD class="mtitle">  Pas d\'accÃ¨s</TD>';
       echo '<TD class="mtitle">  Lecture </TD>';
 
       echo "<TD BGCOLOR=\"#3BCD27\">";
@@ -237,16 +237,16 @@ if ( $action == "view" ) {
 	}
     if ( $right == 0 ) {
       echo "<TD BGCOLOR=RED>";
-      echo "Pas d'accès";
+      echo "Pas d'accÃ¨s";
       echo "</TD>";
       $l_change=$l_change."&access=1";
-      echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="?p_action=sec&'.$l_change.'&'.$str_dossier.'"> Accès </A></TD>';
+      echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="?p_action=sec&'.$l_change.'&'.$str_dossier.'"> AccÃ¨s </A></TD>';
     }   
     if ( $right == 1) {
       $l_change=$l_change."&access=0";
-      echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="?p_action=sec&'.$l_change.'&'.$str_dossier.'"> Pas d\'accès </A></TD>';
+      echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="?p_action=sec&'.$l_change.'&'.$str_dossier.'"> Pas d\'accÃ¨s </A></TD>';
       echo "<TD BGCOLOR=\"#3BCD27\">";
-      echo "Accès ";
+      echo "AccÃ¨s ";
       echo "</TD>";
       
     }
@@ -254,7 +254,7 @@ if ( $action == "view" ) {
 
       echo '<TD class="mtitle">  Change </TD>';
       echo "<TD BGCOLOR=\"#3BCD27\">";
-      echo "Accès ";
+      echo "AccÃ¨s ";
       echo "</TD>";
       
     }

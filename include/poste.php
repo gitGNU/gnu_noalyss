@@ -67,7 +67,7 @@ function GetNumberLine($p_dossier,$p_jrn)
   $cn=DbConnect($p_dossier);
   $Res=ExecSql($cn,"select jrn_deb_max_line,jrn_cred_max_line from jrn_def where jrn_def_id=$p_jrn");
   if ( pg_NumRows($Res) == 0 ) {
-    echo "<H2 class=\"warning\"> Journal non trouvé </H2>";
+    echo "<H2 class=\"warning\"> Journal non trouvÃ© </H2>";
     //    return (3,3);
   }
   $l_line=pg_fetch_array($Res,0);

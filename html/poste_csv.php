@@ -65,8 +65,8 @@ if ( ! isset ($_REQUEST['oper_detail'])) {
 	"\"Code interne\";".
 	"\"Date\";".
 	"\"Description\";".
-	"\"DÈbit\";".
-	"\"CrÈdit\"";
+	"\"D√©bit\";".
+	"\"Cr√©dit\"";
       printf("\n");
   
       
@@ -81,7 +81,7 @@ if ( ! isset ($_REQUEST['oper_detail'])) {
     
     
   }
-  $solde_type=($tot_deb>$tot_cred)?"solde dÈbiteur":"solde crÈditeur";
+  $solde_type=($tot_deb>$tot_cred)?"solde d√©biteur":"solde cr√©diteur";
   $diff=abs($tot_deb-$tot_cred);
   printf(
     '"'."$solde_type".'"'.";".

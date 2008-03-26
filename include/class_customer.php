@@ -243,7 +243,7 @@ where
 	return $r;
       foreach ($step_client as $client ) {
 	$r.="<TR>";
-	$e=sprintf('<A HREF="%s?p_action=client&sa=detail&f_id=%d&%s&url=%s" title="Détail"> ',
+	$e=sprintf('<A HREF="%s?p_action=client&sa=detail&f_id=%d&%s&url=%s" title="DÃ©tail"> ',
 			   $script,$client->id,$str_dossier,$url);
 
 	$r.="<TD> $e".$client->strAttribut(ATTR_DEF_QUICKCODE)."</A></TD>";

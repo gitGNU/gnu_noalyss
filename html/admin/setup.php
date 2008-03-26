@@ -414,7 +414,7 @@ if ($account == 0 ) {
 
   echo "Creation of ".domaine."account_repository";
   if ( DEBUG=='false') ob_start();  
-  ExecSql($cn,"create database ".domaine."account_repository encoding='latin1'");
+  ExecSql($cn,"create database ".domaine."account_repository encoding='utf8'");
   $cn=DbConnect();
   StartSql($cn);
   ExecuteScript($cn,"sql/account_repository/schema.sql");
@@ -426,7 +426,7 @@ if ($account == 0 ) {
 
   echo "Creation of Modele1";
   if ( DEBUG=='false') ob_start();  
-  ExecSql($cn,"create database ".domaine."mod1 encoding='latin1'");
+  ExecSql($cn,"create database ".domaine."mod1 encoding='utf8'");
   $cn=DbConnect(1,'mod');
   StartSql($cn);
   ExecuteScript($cn,'sql/mod1/schema.sql');
@@ -436,7 +436,7 @@ if ($account == 0 ) {
   if ( DEBUG=='false') ob_end_clean();
 
   echo "Creation of Modele2";
-  ExecSql($cn,"create database ".domaine."mod2 encoding='latin1'");
+  ExecSql($cn,"create database ".domaine."mod2 encoding='utf8'");
   $cn=DbConnect(2,'mod');
   StartSql($cn);
   if ( DEBUG=='false') { ob_start();  }

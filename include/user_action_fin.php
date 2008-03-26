@@ -37,7 +37,7 @@ if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {
 include_once ("preference.php");
 include_once ("user_common.php");
 if ( ! isset($_REQUEST['action'])) {
-  echo "Aucune Action demandée";
+  echo "Aucune Action demandÃ©e";
   exit();
  }
 
@@ -98,7 +98,7 @@ if ( $action == 'new' ) {
 	  echo $hid->IOValue("jrn_type","FIN");
 	  
 	  if ($op->count() != 0 )
-		echo widget::submit('use_opd','Utilisez une op.prédéfinie');
+		echo widget::submit('use_opd','Utilisez une op.prÃ©dÃ©finie');
 	  echo $op->show_button();
    
 	  echo '</form>';
@@ -232,7 +232,7 @@ $User=new User($cn);
 $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
 $w->selected=$current;
 
-echo 'Période  '.$w->IOValue("p_periode",$periode_start).widget::submit('gl_submit','Valider');
+echo 'PÃ©riode  '.$w->IOValue("p_periode",$periode_start).widget::submit('gl_submit','Valider');
 ?>
 </form>
 <?php  

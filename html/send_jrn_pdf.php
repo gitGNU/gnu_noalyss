@@ -39,10 +39,10 @@ echo_debug('send_jrn_pdf.php',__LINE__,"imp pdf journaux");
 $l_Db=sprintf("dossier%d",$gDossier);
 $cn=DbConnect($gDossier);
 $l_type="JRN";
-$centr=" Non centralisé";
+$centr=" Non centralisÃ©";
 $l_centr=0;
 if ( isset ($_POST['central']) ) {
-  $centr=" centralisé ";
+  $centr=" centralisÃ© ";
   $l_centr=1;
 }
 $oJrn=new Acc_Ledger($cn,$_GET['p_id']);
@@ -78,20 +78,20 @@ while (1) {
   $pdf->ezText($name_jrn,30);
 
   if (  $l_centr == 1 ) {
-    // si centralisé montre les montants de rappel
-  $str_debit=sprintf( "report Débit  % 10.2f",$rap_deb);
-  $str_credit=sprintf("report Crédit % 10.2f",$rap_cred);
+    // si centralisÃ© montre les montants de rappel
+  $str_debit=sprintf( "report DÃ©bit  % 10.2f",$rap_deb);
+  $str_credit=sprintf("report CrÃ©dit % 10.2f",$rap_cred);
   $pdf->ezText($str_debit,12,array('justification'=>'right'));
   $pdf->ezText($str_credit,12,array('justification'=>'right'));
   }
 
   $pdf->ezTable($a_jrn,
-		array ('internal'=>'Opération',
+		array ('internal'=>'OpÃ©ration',
 		       'j_date' => 'Date',
 		       'poste'=>'Poste',
 		       'description' => 'Description',
-		       'deb_montant'=> 'Débit',
-		       'cred_montant'=>'Crédit')," ",
+		       'deb_montant'=> 'DÃ©bit',
+		       'cred_montant'=>'CrÃ©dit')," ",
 		array('shaded'=>0,'showHeadings'=>1,'width'=>500,
 		      'cols'=>array('deb_montant'=> array('justification'=>'right'),
 		      'cred_montant'=> array('justification'=>'right'))));
@@ -101,8 +101,8 @@ while (1) {
   foreach ($apage as $key=>$element) echo_debug('send_jrn_pdf.php',__LINE__,"apage $key => $element");
   $pdf->ezTable($apage,
 		array (
-		       'deb'=> 'Total Débit',
-		       'cred'=>'Total Crédit')," ",
+		       'deb'=> 'Total DÃ©bit',
+		       'cred'=>'Total CrÃ©dit')," ",
 		array('shaded'=>0,'showHeadings'=>1,'width'=>200,
 		      'xPos'=>'right','xOrientation'=>'left',
 		      'cols'=>array('deb'=> array('justification'=>'right'),
@@ -112,10 +112,10 @@ while (1) {
   $last_id=$a_jrn[$count]['j_id'];
   $Exercice=get_exercice($cn,$a_jrn[$count]['periode']);
   if ( $l_centr == 1) {
-    // Montant de rappel si centralisé
+    // Montant de rappel si centralisÃ©
     list($rap_deb,$rap_cred)=get_rappel($cn,$last_id,$_GET["p_id"],$Exercice,LAST,$_GET['filter'],$l_centr);
-    $str_debit=sprintf( "à reporter Débit  % 10.2f",$rap_deb);
-    $str_credit=sprintf("à reporter Crédit % 10.2f",$rap_cred);
+    $str_debit=sprintf( "Ã  reporter DÃ©bit  % 10.2f",$rap_deb);
+    $str_credit=sprintf("Ã  reporter CrÃ©dit % 10.2f",$rap_cred);
     $pdf->ezText($str_debit,12,array('justification'=>'right'));
     $pdf->ezText($str_credit,12,array('justification'=>'right'));
   }
@@ -126,8 +126,8 @@ if ( $a == 1 )   {
   $apage=array('deb'=>$tot_deb,'cred'=>$tot_cred);
 $pdf->ezTable($apage,
 		array (
-		       'deb'=> 'Total Débit',
-		       'cred'=>'Total Crédit')," ",
+		       'deb'=> 'Total DÃ©bit',
+		       'cred'=>'Total CrÃ©dit')," ",
 		array('shaded'=>0,'showHeadings'=>1,'width'=>500,
 		      'cols'=>array('deb'=> array('justification'=>'right'),
 		      'cred'=> array('justification'=>'right'))));
@@ -136,8 +136,8 @@ $pdf->ezTable($apage,
   $Exercice=get_exercice($cn,$a_jrn[$count]['periode']);
 
   list($rap_deb,$rap_cred)=get_rappel($cn,$last_id,$_GET["p_id"],$Exercice,LAST,$l_GET['filter'],$l_centr);
-  $str_debit=sprintf( "à reporter  Débit % 10.2f",$rap_deb);
-  $str_credit=sprintf("à reporter Crédit % 10.2f",$rap_cred);
+  $str_debit=sprintf( "Ã  reporter  DÃ©bit % 10.2f",$rap_deb);
+  $str_credit=sprintf("Ã  reporter CrÃ©dit % 10.2f",$rap_cred);
   $pdf->ezText($str_debit,12,array('justification'=>'right'));
   $pdf->ezText($str_credit,12,array('justification'=>'right'));
 

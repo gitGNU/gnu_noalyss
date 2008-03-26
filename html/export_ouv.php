@@ -45,7 +45,7 @@ $cn=DbConnect($gDossier);
 $User->can_request($cn,EXP_IMP_ECR);
 
 if ( !isset ($_GET['p_periode'])) {
-	echo 'Erreur : aucune periode demandée';
+	echo 'Erreur : aucune periode demandÃ©e';
 	exit(0);
 }
 $sql_from=get_array($cn,"select min(p_id) from parm_periode where p_exercice=".$_GET['p_periode']);
@@ -59,7 +59,7 @@ $ret=get_array($cn,"select distinct j_poste::text
 	 	j_tech_per <= ".$sql_to[0]['max']." and j_poste::text not like '7%'
 		and j_poste::text not like '6%'
                  order by j_poste::text");
-if ( $ret == null ) {echo 'Rien à exporter'; exit();}
+if ( $ret == null ) {echo 'Rien Ã  exporter'; exit();}
 printf ("OUVERTURE\n");
 // check if the account are balanced 
 $sum=0;

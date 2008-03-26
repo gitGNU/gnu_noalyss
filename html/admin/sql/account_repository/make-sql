@@ -5,7 +5,7 @@ awk '/CREATE TABLE/,/;/ { print $0;}' < schema.sql >> table.sql
 awk '/CREATE VIEW/,/;/ { print $0;}' < schema.sql > view.sql
 awk '/INDEX/,/;/ { print $0;}' < schema.sql > index.sql
 (
-echo " SET client_encoding = 'LATIN1';"
+echo " SET client_encoding = 'utf8';"
 echo " SET check_function_bodies = false;"
 echo " SET client_min_messages = warning;"
 echo "SET search_path = public, pg_catalog;"

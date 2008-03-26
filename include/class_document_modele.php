@@ -82,7 +82,7 @@ class Document_modele {
     $a->name="sa";
     $a->value="rm_template";
     $r.=$a->IOValue();
-    $r.=widget::submit("rm_template","Effacer la sélection");
+    $r.=widget::submit("rm_template","Effacer la sÃ©lection");
     $r.="</form></p>";
     return $r;
   }
@@ -255,7 +255,7 @@ class Document_modele {
   function form($p_action) 
     {
       $r='<p class="notice">';
-      $r.='Veuillez introduire les mod&egrave;les servant à g&eacute;n&eacute;rer vos documents';
+      $r.='Veuillez introduire les mod&egrave;les servant Ã  g&eacute;n&eacute;rer vos documents';
       $r.='</p>';
       $r.='<form enctype="multipart/form-data"  action="'.$p_action.'" method="post">';
       $r.=dossier::hidden();

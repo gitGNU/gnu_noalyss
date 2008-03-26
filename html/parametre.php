@@ -197,7 +197,7 @@ if ( $p_action=='company') {
   $array=array (
 				array("value"=>"ob",'label'=>"obligatoire"),
 				array("value"=>"op",'label'=>"optionnel"),
-				array("value"=>"nu",'label'=>"non utilisé")
+				array("value"=>"nu",'label'=>"non utilisÃ©")
 				);
   $compta=new widget("select");
   $compta->table=1;
@@ -208,15 +208,15 @@ if ( $p_action=='company') {
   echo '<form method="post" action="?p_action=company">';
   echo dossier::hidden();
   echo "<table class=\"result\">";
-  echo "<tr>".$all->IOValue("p_name",$my->MY_NAME,"Nom société")."</tr>";
-  echo "<tr>".$all->IOValue("p_tel",$my->MY_TEL,"Téléphone")."</tr>";
+  echo "<tr>".$all->IOValue("p_name",$my->MY_NAME,"Nom sociÃ©tÃ©")."</tr>";
+  echo "<tr>".$all->IOValue("p_tel",$my->MY_TEL,"TÃ©lÃ©phone")."</tr>";
   echo "<tr>".$all->IOValue("p_fax",$my->MY_FAX,"Fax")."</tr>";
   echo "<tr>".$all->IOValue("p_street",$my->MY_STREET,"Rue ")."</tr>";
-  echo "<tr>".$all->IOValue("p_no",$my->MY_NUMBER,"Numéro")."</tr>";
+  echo "<tr>".$all->IOValue("p_no",$my->MY_NUMBER,"NumÃ©ro")."</tr>";
   echo "<tr>".$all->IOValue("p_cp",$my->MY_CP,"Code Postal")."</tr>";
   echo "<tr>".$all->IOValue("p_Commune",$my->MY_COMMUNE,"Commune")."</tr>";
   echo "<tr>".$all->IOValue("p_pays",$my->MY_PAYS,"Pays")."</tr>";
-  echo "<tr>".$all->IOValue("p_tva",$my->MY_TVA,"Numéro de Tva")."</tr>";
+  echo "<tr>".$all->IOValue("p_tva",$my->MY_TVA,"NumÃ©ro de Tva")."</tr>";
   echo "<tr>".$compta->IOValue("p_compta",$array,"Utilisation de la compta. analytique")."</tr>";
   echo "</table>";
   $submit=new widget("submit");

@@ -105,9 +105,9 @@ class Acc_Account {
     }
     else {
       $ret='<TABLE><TR>';
-      $ret.=sprintf ('<TD>Numéro de classe </TD><TD><INPUT TYPE="TEXT" name="p_val" value="%s"></TD>',$this->pcm_val);
+      $ret.=sprintf ('<TD>NumÃ©ro de classe </TD><TD><INPUT TYPE="TEXT" name="p_val" value="%s"></TD>',$this->pcm_val);
       $ret.="</TR><TR>";
-      $ret.=sprintf('<TD>Libellé </TD><TD><INPUT TYPE="TEXT" size="70" NAME="p_lib" value="%s"></TD>',urldecode($this->pcm_lib));
+      $ret.=sprintf('<TD>LibellÃ© </TD><TD><INPUT TYPE="TEXT" size="70" NAME="p_lib" value="%s"></TD>',urldecode($this->pcm_lib));
       $ret.= "</TR><TR>";
       $ret.=sprintf ('<TD>Classe Parent</TD><TD><INPUT TYPE="TEXT" name="p_parent" value="%s"></TD>',$this->pcm_val_parent);
       $ret.='</tr><tr>';

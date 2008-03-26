@@ -222,7 +222,7 @@ $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from pa
 $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
 $w->selected=$current;
 
-echo 'Période  '.$w->IOValue("p_periode",$periode_start).widget::submit('gl_submit','Valider');
+echo 'PÃ©riode  '.$w->IOValue("p_periode",$periode_start).widget::submit('gl_submit','Valider');
 ?>
 </form>
 <?php  
@@ -289,7 +289,7 @@ echo 'Période  '.$w->IOValue("p_periode",$periode_start).widget::submit('gl_subm
 
    echo $list;
    if ( $max_line !=0 )
-     echo widget::submit('paid','Mise à jour paiement');
+     echo widget::submit('paid','Mise Ã  jour paiement');
    echo '</FORM>';
    echo "$bar <hr>";
 
@@ -347,9 +347,9 @@ if ( $action == 'voir_jrn_non_paye' ) {
     echo '<FORM METHOD="POST">';
 	echo dossier::hidden();  
     echo $bar2;
-    echo '<h2 class="info"> Echeance dépassée </h2>';
+    echo '<h2 class="info"> Echeance dÃ©passÃ©e </h2>';
     echo $list;
-    echo  '<h2 class="info"> Non Payée </h2>';
+    echo  '<h2 class="info"> Non PayÃ©e </h2>';
     echo $list2;
     echo $bar2;
     // Add hidden parameter
@@ -371,7 +371,7 @@ if ( $action == 'voir_jrn_non_paye' ) {
     echo '<hr>';
 
     if ( $m != 0 )
-      echo widget::submit('paid','Mise à jour paiement');
+      echo widget::submit('paid','Mise Ã  jour paiement');
 
     echo '</FORM>';
     echo '</div>';

@@ -49,7 +49,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 	if (!(isset($row[2]))) $row[2]='';
 
 
-	// Skipping all the lines whith a blank operation reference ('numéro extrait')
+	// Skipping all the lines whith a blank operation reference ('numÃ©ro extrait')
 	if (  $row[2] == '' || !(ereg('[0-9]{3}-[0-9]{7}-[0-9]{2}',$row[0],$r)))
 			{
 		 	$LinesSkipped++;

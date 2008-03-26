@@ -157,7 +157,7 @@ if ( $sub_action == "list")
   $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
   $w->selected=$current;
 
-  echo 'Période  '.$w->IOValue("p_periode",$periode_start);
+  echo 'PÃ©riode  '.$w->IOValue("p_periode",$periode_start);
   $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
   echo JS_SEARCH_CARD;
   $w=new widget('js_search_only');
@@ -356,7 +356,7 @@ if ( $p_jrn != -1 )
   echo $hid->IOValue("jrn_type","FIN");
   
   if ($op->count() != 0 )
-	echo widget::submit('use_opd','Utilisez une op.prédéfinie');
+	echo widget::submit('use_opd','Utilisez une op.prÃ©dÃ©finie');
   echo $op->show_button();
   
   echo '</form>';

@@ -42,7 +42,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 			//corrige un bug de date
 			$date_exec = str_replace(chr(34),"", $date_exec);
 			
-			// Si LTXXXXX ou LT XXXXX dans le détail
+			// Si LTXXXXX ou LT XXXXX dans le dÃ©tail
 			if ((ereg ("LT+([0-9]{5})", $detail, $regs)) || (ereg ("LT+[ ]+([0-9]{5})", $detail, $regs))) {
 				$iduser = $regs[1];
 			}

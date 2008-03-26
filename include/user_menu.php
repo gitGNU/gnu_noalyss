@@ -158,14 +158,14 @@ function ShowMenuCompta($p_high="")
   $p_array=array(
 		 array("user_jrn.php?jrn_type=NONE&".$str_dossier ,"Grand Livre"),
 		 array("user_jrn.php?jrn_type=VEN&".$str_dossier ,"Vente"),
-		 array("user_jrn.php?jrn_type=ACH&".$str_dossier,"Dépense"),
+		 array("user_jrn.php?jrn_type=ACH&".$str_dossier,"DÃ©pense"),
 		 array("user_jrn.php?jrn_type=FIN&".$str_dossier,"Financier"),
 		 array("user_jrn.php?jrn_type=ODS&".$str_dossier,"Op. Diverses"),
 		 array('compta.php?p_action=quick_writing&'.$str_dossier,'Ecriture directe','Ecriture directe dans les journaux',4),
 		 
 		 array("compta.php?p_action=impress&".$str_dossier,"Impression","Impression",5),
 				 array("compta.php?p_action=fiche&".$str_dossier,"Fiche","Ajouter, modifier ou effacer des fiches",6),
-		 array("user_advanced.php?".$str_dossier,"Avancé","Opérations délicates",7),
+		 array("user_advanced.php?".$str_dossier,"AvancÃ©","OpÃ©rations dÃ©licates",7),
 		 );
 
   $result=ShowItem($p_array,'H',"mtitle","mtitle",$default,' width="100%"');
@@ -454,7 +454,7 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
   $r.= '</TR><TR valigne="top">';
   $r.='<TD > Internal code ';
   $r.='<input type="text" style="border:groove 1px blue;"name="s_internal" value="'.$p_s_internal.'"></td>'; 
-  $r.='</TR><TR><TD colspan="2"><i>vous pouvez spécifier uniquement <br>une partie (VEN, num&eacute;ro d\'op&eacute;ration...)</i></td>';
+  $r.='</TR><TR><TD colspan="2"><i>vous pouvez spÃ©cifier uniquement <br>une partie (VEN, num&eacute;ro d\'op&eacute;ration...)</i></td>';
 
 
   $r.="</TD></TR></TABLE></td><TD><table>";
@@ -462,7 +462,7 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
   $r.= "</TR>";
   $r.= "<TR>";
   $W=new widget("js_search_poste");
-  $W->label="Numéro de poste<br> <i>Vous pouvez utilisez le %</i>";
+  $W->label="NumÃ©ro de poste<br> <i>Vous pouvez utilisez le %</i>";
   $W->name="poste";
   $W->value=$p_poste;
   $r.="<TR>".$W->IOValue();
@@ -544,8 +544,8 @@ function ShowJrn($p_menu="")
 
  $p_array=array(
  		array("user_jrn.php?jrn_type=NONE" ,"Grand Livre"),
- 		array("user_jrn.php?jrn_type=VEN" ,"Entrée"),
-                array("user_jrn.php?jrn_type=ACH","Dépense"),
+ 		array("user_jrn.php?jrn_type=VEN" ,"EntrÃ©e"),
+                array("user_jrn.php?jrn_type=ACH","DÃ©pense"),
                 array("user_jrn.php?jrn_type=FIN","Financier"),
                 array("user_jrn.php?jrn_type=ODS","Op. Diverses")
                  );
@@ -622,7 +622,7 @@ function MenuAdmin()
   }
   $item=array (array("admin_repo.php?action=user_mgt","Utilisateurs",'Gestion des utilisateurs',0),
 			   array("admin_repo.php?action=dossier_mgt","Dossiers",'Gestion des dossiers',1),
-			   array("admin_repo.php?action=modele_mgt","Modèles",'Gestion des modèles',2),
+			   array("admin_repo.php?action=modele_mgt","ModÃ¨les",'Gestion des modÃ¨les',2),
 	       array("login.php","Accueil"),
 	       array("logout.php","Logout")
 	       );
@@ -665,13 +665,13 @@ function ShowMenuParam($p_action="")
   $s=dossier::get().'&PHPSESSID='.$_REQUEST['PHPSESSID'];
   $sub_menu=ShowItem(array(
 			  
-			   array('parametre.php?p_action=company&'.$s,'Sociétés','Parametre societe',1),
+			   array('parametre.php?p_action=company&'.$s,'SociÃ©tÃ©s','Parametre societe',1),
 			   array('parametre.php?p_action=devise&'.$s,'Devises','Devise',2),
 			   array('parametre.php?p_action=tva&'.$s,'Tva','Taux & poste pour la TVA',3),
 			   array('parametre.php?p_action=poste&'.$s,'Poste Comptable','Poste comptable constant',4),
 			  array('parametre.php?p_action=pcmn&'.$s,'Plan Comptable','Modification du plan comptable',11),
 			   array('parametre.php?p_action=fiche&'.$s,'Fiche','Modifie les classe de base',5),
-			   array('parametre.php?p_action=sec&'.$s,'Sécurité','securite',8),
+			   array('parametre.php?p_action=sec&'.$s,'SÃ©curitÃ©','securite',8),
 			   array('parametre.php?p_action=document&'.$s,'Document','Facture, lettre de rappel, proposition...',7),
 			   array('parametre.php?p_action=jrn&'.$s,'Journaux','Creation et modification de journaux',10)
 			
@@ -696,7 +696,7 @@ function MenuJrn()
 {
 	$str_dossier=dossier::get();
     echo '<TABLE>';
-    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="?p_action=jrn&sa=add&'.$str_dossier.'">Création </A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="?p_action=jrn&sa=add&'.$str_dossier.'">CrÃ©ation </A></TD></TR>';
     include_once("postgres.php");
     $Cn=DbConnect(dossier::id());
     $Ret=ExecSql($Cn,"select jrn_def_id,jrn_def_name,
@@ -728,7 +728,7 @@ function ShowMenuPcmn($p_start=1)
 {
   $str_dossier="&".dossier::get();
     echo '<TABLE>';
-    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="?p_action=pcmn&p_start=1'.$str_dossier.'">1 Immobilisé </A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="?p_action=pcmn&p_start=1'.$str_dossier.'">1 ImmobilisÃ© </A></TD></TR>';
     echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="?p_action=pcmn&p_start=2'.$str_dossier.'">2 Actif a un an au plus</A></TD></TR>';
     echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="?p_action=pcmn&p_start=3'.$str_dossier.'">3 Stock et commande</A></TD></TR>';
     echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="?p_action=pcmn&p_start=4'.$str_dossier.'">4 Compte tiers</A></TD></TR>';

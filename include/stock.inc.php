@@ -85,7 +85,7 @@ if ( isset ($_POST['sub_change']))
        or isNumber($change) == 0 
        or isNumber($year) == 0 ) 
     {
-      $msg="Stock données non conformes";
+      $msg="Stock donnÃ©es non conformes";
       echo "<script> alert('$msg');</script>";
       echo_error($msg);
     } else 

@@ -51,7 +51,7 @@ $cn=DbConnect($gDossier);
 // Get The priv on the selected folder
 if ( $User->check_action($cn,FICHE_READ) == 0 ){
     /* Cannot Access */
-    echo '<h2 class="error"> Vous n\' avez pas accès</h2>';
+    echo '<h2 class="error"> Vous n\' avez pas accÃ¨s</h2>';
     return;
 }
 
@@ -69,7 +69,7 @@ function get_list_fiche($p_cn,$get,$p_jrn)
   // Normally Max must be == 1
   $list=pg_fetch_array($Res,0);
   if ( $list['fiche']=="") {
-    echo_warning("Journal mal paramètré");
+    echo_warning("Journal mal paramÃ¨trÃ©");
     exit();
   }
   $list_fiche=$list['fiche'];
@@ -166,7 +166,7 @@ if (
 
   // Test whether rows are returned
  if ( ($Max = pg_NumRows($Res) ) == 0 ) {
-   echo_warning("Pas de fiche trouvée");
+   echo_warning("Pas de fiche trouvÃ©e");
    return;
  } 
  // Show the cards

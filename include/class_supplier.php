@@ -124,7 +124,7 @@ class Supplier extends fiche{
 	return $r;
       foreach ($step_supplier as $supplier ) {
 	$r.="<TR>";
-	$e=sprintf('<A HREF="%s?p_action=fournisseur&'.$str_dossier.'&sa=detail&f_id=%d&url=%s" title="Détail"> ',
+	$e=sprintf('<A HREF="%s?p_action=fournisseur&'.$str_dossier.'&sa=detail&f_id=%d&url=%s" title="DÃ©tail"> ',
 		    $script,$supplier->id,$url);
 
 	$r.="<TD> $e".$supplier->strAttribut(ATTR_DEF_QUICKCODE)."</A></TD>";

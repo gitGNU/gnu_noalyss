@@ -291,14 +291,14 @@ class fiche {
 			  $label->name="av_text".$attr->ad_id."_label";
 			  
 			  if ( $a['account_auto'] == 't' )
-				$msg.="<TD>".$label->IOValue()."<br> <font color=\"red\">Rappel: Poste crÈÈ automatiquement !</font></TD> ";
+				$msg.="<TD>".$label->IOValue()."<br> <font color=\"red\">Rappel: Poste cr√©√© automatiquement !</font></TD> ";
 			  else 
 				{
 				  // if there is a class base in fiche_def_ref, this account will be the
 				  // the default one
 				  if ( strlen(trim($f->class_base)) != 0 ) 
 					{
-					  $msg.="<TD>".$label->IOValue()."<br> <font color=\"red\">Rappel: Poste par dÈfaut sera ".
+					  $msg.="<TD>".$label->IOValue()."<br> <font color=\"red\">Rappel: Poste par d√©faut sera ".
 						$f->class_base.
 						" !</font></TD> ";
 					}
@@ -355,7 +355,7 @@ class fiche {
 
       $ret="<table>";
 	if ( empty ($attr) ) {
-		return "Fiche non trouvÈe";
+		return "Fiche non trouv√©e";
 	}
       foreach ( $attr as $r) 
 	{
@@ -378,7 +378,7 @@ class fiche {
 		  $msg='<tD><span id="'.$r->ad_id.'_label"></span></td>';
 
 		  if ( $a['account_auto'] == 't' )
-		    $msg.="<TD> <font color=\"red\">si vide le Poste sera crÈÈ automatiquement</font></TD> ";
+		    $msg.="<TD> <font color=\"red\">si vide le Poste sera cr√©√© automatiquement</font></TD> ";
 		}
 	      elseif ( $r->ad_id == ATTR_DEF_TVA) 
 		{
@@ -706,7 +706,7 @@ class fiche {
 		 
 		 if ( $exist == 0 && FormatString($value) != null ) 
 		   {
-		     $value="Attention : pas de sociÈtÈ ";
+		     $value="Attention : pas de soci√©t√© ";
 		   }
 	       }
 	     
@@ -744,7 +744,7 @@ class fiche {
 
        if ( CountSql($this->cn,"select * from jrnx where j_qcode='".pg_escape_string($qcode)."'") != 0)
 	 {
-	   echo "<SCRIPT> alert('Impossible cette fiche est utilisÈe dans un journal'); </SCRIPT>";
+	   echo "<SCRIPT> alert('Impossible cette fiche est utilis√©e dans un journal'); </SCRIPT>";
 	   return;
 	 }
 
@@ -757,7 +757,7 @@ class fiche {
 	 // if class is not NULL and if we use it before, we can't remove it
 	 if (FormatString($class) != null && $is_used_jrnx     != 0 ) 
 	   {
-	     echo "<SCRIPT> alert('Impossible ce poste est utilisÈe dans un journal'); </SCRIPT>";
+	     echo "<SCRIPT> alert('Impossible ce poste est utilis√©e dans un journal'); </SCRIPT>";
 	     return;
 	   }
 	 else
@@ -909,8 +909,8 @@ class fiche {
 	"<TH> Code interne </TH>".
 	"<TH> Date</TH>".
 	"<TH> Description </TH>".
-	"<TH> DÈbit  </TH>".
-	"<TH> CrÈdit </TH>".
+	"<TH> D√©bit  </TH>".
+	"<TH> Cr√©dit </TH>".
 	"</TR>";
      
       foreach ( $this->row as $op ) { 
@@ -926,7 +926,7 @@ class fiche {
 	echo $ac->display_jrnx_detail(1);
 	
       }
-      $solde_type=($tot_deb>$tot_cred)?"solde dÈbiteur":"solde crÈditeur";
+      $solde_type=($tot_deb>$tot_cred)?"solde d√©biteur":"solde cr√©diteur";
       $diff=round(abs($tot_deb-$tot_cred),2);
       echo "<TR>".
 	"<TD>$solde_type".
@@ -966,8 +966,8 @@ class fiche {
 	"<TH> Code interne </TH>".
 	"<TH> Date</TH>".
 	"<TH> Description </TH>".
-	"<TH> DÈbit  </TH>".
-	"<TH> CrÈdit </TH>".
+	"<TH> D√©bit  </TH>".
+	"<TH> Cr√©dit </TH>".
 	"</TR>";
      
       foreach ( $this->row as $op ) { 
@@ -980,7 +980,7 @@ class fiche {
 	  "</TR>";
 	
       }
-      $solde_type=($tot_deb>$tot_cred)?"solde dÈbiteur":"solde crÈditeur";
+      $solde_type=($tot_deb>$tot_cred)?"solde d√©biteur":"solde cr√©diteur";
       $diff=round(abs($tot_deb-$tot_cred),2);
       echo "<TR>".
 	"<TD>$solde_type</TD>".

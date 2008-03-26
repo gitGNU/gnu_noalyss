@@ -71,7 +71,7 @@ if ( isset ($_POST["FMOD_NAME"]) ) {
       ob_start();
       if ( pg_query($cn,$Sql)==false) {
 	ob_end_clean();
-	echo "<h2 class=\"error\"> Base de donn&eacute;e ".domaine."dossier".$_POST['FMOD_DBID']."  est accèd&eacute;e, d&eacute;connectez-vous en d'abord</h2>";
+	echo "<h2 class=\"error\"> Base de donn&eacute;e ".domaine."dossier".$_POST['FMOD_DBID']."  est accÃ¨d&eacute;e, d&eacute;connectez-vous en d'abord</h2>";
 	$Res=ExecSql($cn,"delete from modeledef where mod_id=".$l_id);
 
 	exit;
@@ -185,7 +185,7 @@ $Res=ExecSql($cn,"select mod_id,mod_name,mod_desc from
                       modeledef order by mod_name");
 $count=pg_NumRows($Res);
 echo '<div class="u_content">';
-echo "<H2>Modèles</H2>";
+echo "<H2>ModÃ¨les</H2>";
 if ( $sa=='list') {
   if ( $count == 0 ) {
     echo "No template available";
@@ -220,7 +220,7 @@ if ( $sa=='list') {
   echo "</table>";
  }// if count = 0
 echo "Si vous voulez r&eacute;cup&eacute;rer toutes les adaptations d'un dossier ".
-" dans un autre dossier, vous pouvez en faire un modèle.".
+" dans un autre dossier, vous pouvez en faire un modÃ¨le.".
 " Seules les fiches, la structure des journaux, les p&eacute;riodes,... seront reprises ".
 "et aucune donn&eacute;e du dossier sur lequel le dossier est bas&eacute;.";
  }
@@ -256,7 +256,7 @@ if ( $count != 0 ) {
     <TD> Bas&eacute; sur </TD>
     <TD> <?php   echo $available ?></TD>
 </TR>
-<TR><TD>Nettoyage des Documents et courriers (ce qui  n'effacera pas les modèles de documents)</TD><TD> <input type="checkbox" name="DOC"></TD></TR>
+<TR><TD>Nettoyage des Documents et courriers (ce qui  n'effacera pas les modÃ¨les de documents)</TD><TD> <input type="checkbox" name="DOC"></TD></TR>
 <TR><TD>Nettoyage de toutes les fiches (ce qui effacera client, op&eacute;rations pr&eacute;d&eacute;finies fournisseurs et documents)</TD><TD> <input type="checkbox" name="CARD"></TD></TR>
 
 <TR><TD>Nettoyage de la comptabilit&eacute; analytique : effacement des plans et des postes, les op&eacute;rations sont de toute fa&ccedil;on effac&eacute;es </TD><TD> <input type="checkbox" name="CANAL"></TD></TR>

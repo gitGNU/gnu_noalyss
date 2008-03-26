@@ -74,10 +74,10 @@ $b=$a->GetRow('1','9999','off');
 
 
 
-echo 'class_jrn il y a '.count($b[0]).' donn�es trouv�e<br>';
+echo 'class_jrn il y a '.count($b[0]).' donnÃ©es trouvÃ©e<br>';
 
 $b=$a->GetRow('1','9999','on');
-echo 'Class_jrn il y a '.sizeof($b[0]).' donn�es Centralisees trouv�e<br>';
+echo 'Class_jrn il y a '.sizeof($b[0]).' donnÃ©es Centralisees trouvÃ©e<br>';
 echo '<h1> $a->GetRowSimple</H1>';
 $per_from=67;$per_to=70;$jrn=3;
 $c=0;
@@ -99,7 +99,7 @@ foreach ($b as $line) {
 echo '<hr>';
 }
 
-echo "Il y a $c donn�es trouv�es par GetRowSimple  ";
+echo "Il y a $c donnÃ©es trouvÃ©es par GetRowSimple  ";
 $s=sql_filter_per($cn,$per_from,$per_to,'p_id','jr_tech_per');
 $count_rowS=GetArray($cn,"select count(*) as mcount from jrn where $s and jr_def_id=$jrn");
 if ( $c != $count_rowS[0]['mcount'] ) {
@@ -138,11 +138,11 @@ echo '<h1>Poste->GetRow</h1>';
 $a=new poste($cn,4511); // grand livre
 $b=$a->GetRow('1','9999');
 
-echo 'class_poste il y a '.sizeof($b[0]).' donn�es trouv�e<br>';
+echo 'class_poste il y a '.sizeof($b[0]).' donnÃ©es trouvÃ©e<br>';
 
 $a=new Balance($cn,4519); // grand livre
 $b=$a->GetRow('1','9999');
-echo 'class_balance il y a '.sizeof($b).' donn�es trouv�e<br>';
+echo 'class_balance il y a '.sizeof($b).' donnÃ©es trouvÃ©e<br>';
 
 echo_debug('Testing echo_debug');
 echo_error('Testing echo_error');

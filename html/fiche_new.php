@@ -69,7 +69,7 @@ function new_fiche($p_cn,$p_type) {
 
   $r.= '<H2 class="info"> '.$fiche_def->label.'<br>Nouveau </H2>';
   $r.= $fiche->blank($p_type);
-    $r.='<INPUT TYPE="SUBMIT" name="add_fiche" value="Mis à jour">';
+    $r.='<INPUT TYPE="SUBMIT" name="add_fiche" value="Mis Ã  jour">';
 
     $r.='</FORM>';
     return $r;
@@ -138,7 +138,7 @@ if ( isset($_POST['add_fiche'])) {
     // Normally Max must be == 1
     $list=pg_fetch_array($Res,0);
     if ( $list['fiche']=="") {
-      echo_warning("Journal mal paramètré");
+      echo_warning("Journal mal paramÃ¨trÃ©");
       return;
     }
   }
@@ -165,7 +165,7 @@ if ( isset($_POST['cat'])) {
 //      recharger avec var. cat
 if ( sizeof($a)>1 and !isset ($_POST['cat']))
   {
-    echo "Choix catégories fiche";
+    echo "Choix catÃ©gories fiche";
     echo '<FORM METHOD="POST" ACTION="'.$_SERVER['REQUEST_URI'].'">';
 	echo dossier::hidden();
     foreach ($a as $element) {

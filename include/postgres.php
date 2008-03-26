@@ -132,7 +132,7 @@ function ExecSql($p_connection, $p_string) {
   // probl. with Ubuntu & UTF8
   //----
 
-  pg_set_client_encoding($p_connection,'latin1');
+  pg_set_client_encoding($p_connection,'utf8');
   ob_start();
   $ret=@pg_query($p_connection,$p_string);
   if ( ! $ret )   {
@@ -158,7 +158,7 @@ function ExecSqlParam($p_connection, $p_string,$p_array) {
   // probl. with Ubuntu & UTF8
   //----
 
-  pg_set_client_encoding($p_connection,'latin1');
+  pg_set_client_encoding($p_connection,'utf8');
   //ob_start();
   $ret=pg_query_params($p_connection,$p_string,$p_array);
   if ( ! $ret )   {
@@ -341,7 +341,7 @@ function get_login($p_uid)
 }
 
 /*!   SyncRight
- * \brief  Synchronize les droits par d�faut
+ * \brief  Synchronize les droits par dï¿½faut
  *           avec  les journaux existants
  *\param $p_dossier dossier id
  * \param $p_user user id
@@ -487,7 +487,7 @@ function save_upload_document ($cn,$seq) {
  *\see ExecSqlParm
  * \return only the first value or an empty string if nothing is found
  */ 
-function getDbValue($p_cn,$sql,$p_array=null)
+function getDbValue($p_cn,$p_sql,$p_array=null)
 {
 
   if ( $p_array == null) {

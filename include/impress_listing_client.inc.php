@@ -38,13 +38,13 @@ echo "
 <div class=\"u_redcontent\"
 <form method=\"post\" action=\"listing_client.php\"> ".
   dossier::hidden()."
-<input type=\"submit\" name=\"bt_disk\" value=\"expérimental !! déclaration magnétique\" disable>
+<input type=\"submit\" name=\"bt_disk\" value=\"expÃ©rimental !! dÃ©claration magnÃ©tique\" disable>
 <input type=\"hidden\" name=\"year\" value=\"".$_POST['year']."\">
 </form>
 <Table class=\"result\">
 <tr>
 <th> Nom </th>
-<th> Numéro TVA </th>
+<th> NumÃ©ro TVA </th>
 <th> Montant HTVA </th>
 <th> Montant TVA </th>
 </tr>
@@ -80,7 +80,7 @@ if ( sizeof($year) == 0 )
   echo "Aucun enregistrement dans les journaux";
   exit();
 }
-$w->label="Année concernée";
+$w->label="AnnÃ©e concernÃ©e";
 print $w->IOValue('year',$year);
 print "</TR>";
 echo '</TABLE>';

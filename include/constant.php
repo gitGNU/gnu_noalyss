@@ -51,7 +51,7 @@ define ("DEBUG","false");
 // action
 // access aux journaux
 define ("ENCJRN",1);
-// cr�ation facture
+// création facture
 // define("FACT",2);
 // lecture aux fiche
 define ("FICHE_READ",3);
@@ -63,11 +63,11 @@ define("FORM",5);
 define ("MPCMN",6);
 // Gestion des journaux
 define ("GJRN",7);
-// Gestion des paramï¿½tres globaux
+// Gestion des paramÃ¯Â¿Â½tres globaux
 define ("PARM",8);
 // Voir la balance des compte
 define ("BALANCE",20);
-// Access ï¿½ la centralisation
+// Access Ã¯Â¿Â½ la centralisation
 define ("CENTRALIZE",10);
 define ("VEN",11);
 define ("BQE",12);

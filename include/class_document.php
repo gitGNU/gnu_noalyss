@@ -190,7 +190,7 @@ class Document
 	{
 	  if ( mkdir($temp_dir) == false )
 	    {
-	      echo "Ne peut pas cr�er le r�pertoire ".$temp_dir;
+	      echo "Ne peut pas crï¿½er le rï¿½pertoire ".$temp_dir;
 	      exit();
 	    }
 	}
@@ -300,7 +300,7 @@ class Document
 		   );
       ExecSql($this->db,$sql);
       $this->d_id=GetSequence($this->db,"document_d_id_seq");
-      echo_debug('class_document',__LINE__,'document sauv� : d_id'.$this->d_id);
+      echo_debug('class_document',__LINE__,'document sauvï¿½ : d_id'.$this->d_id);
       // Clean the file
       unlink ($p_file);
       Commit($this->db);

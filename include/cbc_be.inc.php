@@ -94,5 +94,5 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 		$row++;
 } // file is read
 fclose($handle);
-echo "Encore rien désolé";
+echo "Encore rien dÃ©solÃ©";
 ?>

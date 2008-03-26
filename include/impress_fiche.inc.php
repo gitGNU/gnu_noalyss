@@ -91,12 +91,12 @@ if  ( isset ($_REQUEST['fd_id'])) {
   $fiche_def->GetAttribut();
   foreach ($fiche_def->attribut as $attribut) {
     echo "<TH>".$attribut->ad_text."</TH>";
-    // si solde demandé affiche la col
+    // si solde demandÃ© affiche la col
     //--
     if ($attribut->ad_id==ATTR_DEF_ACCOUNT 
 	&& $with_amount==true) {
-      echo "<TH  >Débit</TH>";
-      echo "<TH  >Crédit</TH>";
+      echo "<TH  >DÃ©bit</TH>";
+      echo "<TH  >CrÃ©dit</TH>";
       echo "<TH  >Solde</TH>";
     }
   }

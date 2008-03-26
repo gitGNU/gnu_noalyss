@@ -45,7 +45,7 @@ list($array,$tot_deb,$tot_cred)=$Fiche->get_row(
 					       );
 if ( count($Fiche->row ) == 0 ) 
 {
-  echo "Aucune donnÈe";
+  echo "Aucune donn√©e";
   return;
 }
 
@@ -55,8 +55,8 @@ echo '"Qcode";'.
 "\"Code interne\";".
 "\"Date\";".
 "\"Description\";".
-"\"DÈbit\";".
-"\"CrÈdit\"";
+"\"D√©bit\";".
+"\"Cr√©dit\"";
 printf("\n");
   foreach ( $Fiche->row as $op ) { 
     echo '"'.$op['j_qcode'].'";'.
@@ -98,7 +98,7 @@ printf("\n");
 
   }
  }
-$solde_type=($tot_deb>$tot_cred)?"solde dÈbiteur":"solde crÈditeur";
+$solde_type=($tot_deb>$tot_cred)?"solde d√©biteur":"solde cr√©diteur";
  $diff=abs($tot_deb-$tot_cred);
 printf(
        '"'."$solde_type".'"'.";".

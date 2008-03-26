@@ -81,9 +81,9 @@ if ( $_GET['p_step'] == 0 )
 	if ( $_GET['type_periode'] == 0 ) {
 	  $q=getPeriodeName($cn,$from_periode);
 	  if ( $from_periode != $to_periode){
-		$periode=sprintf("Période %s à %s",$q,getPeriodeName($cn,$to_periode));
+		$periode=sprintf("PÃ©riode %s Ã  %s",$q,getPeriodeName($cn,$to_periode));
 	  } else {
-		$periode=sprintf("Période %s",$q);
+		$periode=sprintf("PÃ©riode %s",$q);
 	  }
     } else {
 	  $periode=sprintf("Date %s jusque %s",$_GET['from_date'],$_GET['to_date']);

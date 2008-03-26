@@ -171,7 +171,7 @@ $filter_year=" where p_exercice='".$User->get_exercice()."'";
 $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
 $w->label="P&eacute;riode comptable : Depuis";
 print $w->IOValue('from_periode',$periode_start);
-$w->label=" jusqu'à ";
+$w->label=" jusqu'Ã  ";
 $periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode  $filter_year order by p_start,p_end");
 print $w->IOValue('to_periode',$periode_end);
 print "</TR>";
@@ -192,17 +192,17 @@ echo '<tr>';
 echo $w->IOValue('type_periode',$aCal);
 echo '</Tr>';
 $aStep=array(
-	     array('value'=>0,'label'=>'Pas d\'étape'),
+	     array('value'=>0,'label'=>'Pas d\'Ã©tape'),
 	     array('value'=>1,'label'=>'1 mois')
 	     );
-$w->label='Par étape de';
+$w->label='Par Ã©tape de';
 echo '<TR> '.$w->IOValue('p_step',$aStep);
 echo '</TR>';
 
 echo '</TABLE>';
 echo '<span class="notice"> Attention : vous ne pouvez pas utiliser les &eacute;tapes avec les dates calendriers.</span>';
 echo '<br>';
-echo '<span class="notice"> Les clauses FROM sont ignorés avec les dates calendriers</span>';
+echo '<span class="notice"> Les clauses FROM sont ignorÃ©s avec les dates calendriers</span>';
 echo '<br>';
 print widget::submit('bt_html','Visualisation');
 

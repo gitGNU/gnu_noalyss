@@ -134,7 +134,7 @@ if (isset ($ret)) echo widget::hidden('ret',$ret);
 /* $opt=" <INPUT TYPE=\"text\" value=\"$p_class\" name=\"st_with\">"; */
 /* echo '<TD> <INPUT TYPE="text" name="p_class" VALUE="'.$p_class.'"></TD>'; */
 
-echo 'Libellé ou poste comptable ';
+echo 'LibellÃ© ou poste comptable ';
 echo ' contient ';
 if ( ! isset ($p_comment) ) $p_comment="";
 echo ' <INPUT TYPE="text" name="p_comment" VALUE="'.$p_comment.'"></TD></TR>';

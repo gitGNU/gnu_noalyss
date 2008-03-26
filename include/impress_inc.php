@@ -183,7 +183,7 @@ function get_dataJrnPdf($p_cn,$p_array,$p_limit,$p_offset)
   if ( $p_array['filter']==YES) {
     $cond=CreatePeriodeCond($p_array['periode']);
     if ( ! isset ($p_array['central']) ) {
-      // Journaux non centralisés
+      // Journaux non centralisÃ©s
     $Res=ExecSql($p_cn,"select j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
                       jr_internal,
                 case j_debit when 't' then j_montant::text else '   ' end as deb_montant,
@@ -197,7 +197,7 @@ function get_dataJrnPdf($p_cn,$p_array,$p_limit,$p_offset)
 	       " and ".$cond." order by j_date::date asc,jr_internal,j_debit desc".
 	       " limit ".$p_limit." offset ".$p_offset);
     }else {
-      // Journaux centralisés
+      // Journaux centralisÃ©s
       $cond=CreatePeriodeCond($p_array['periode'],"c_periode");
       $Sql="select c_id as j_id,
             c_j_id,
@@ -224,7 +224,7 @@ function get_dataJrnPdf($p_cn,$p_array,$p_limit,$p_offset)
   } else {
     // Grand Livre
     if (! isset($p_array['central'])) {
-      // Non centralisé
+      // Non centralisÃ©
       $cond=CreatePeriodeCond($p_array['periode']);
       $Res=ExecSql($p_cn,"select j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
                       jr_internal,
@@ -239,7 +239,7 @@ function get_dataJrnPdf($p_cn,$p_array,$p_limit,$p_offset)
 	       " limit ".$p_limit." offset ".$p_offset);
 
     } else {
-      // Centralisé
+      // CentralisÃ©
       $cond=CreatePeriodeCond($p_array['periode'],"c_periode");
       $Sql="select c_id as j_id,
             c_j_id,
@@ -438,11 +438,11 @@ function get_rappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_cen
 
   if ( $p_type == 1 ) {
     // Vue filtree => Journaux
-    if ( $p_central == 0 ) { // Vue non centralisée
+    if ( $p_central == 0 ) { // Vue non centralisÃ©e
 	  return array(0,0);
     } // p_central == 0
 
-    //     Vue filtree => Journaux & Jrn centralisé 
+    //     Vue filtree => Journaux & Jrn centralisÃ© 
     if ( $p_central == 1 ) {
       $c_line=CountSql($p_cn,"select * from centralized left join parm_periode on c_periode=p_id ".
 		       " where c_jrn_def=$p_jrn_id and  p_exercice='".$p_exercice."'".
@@ -478,7 +478,7 @@ function get_rappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_cen
 
     }
   } // Type = jrn
-  if ($p_type==0 ) { // Si Grand Livre, prendre donnée centralisée{
+  if ($p_type==0 ) { // Si Grand Livre, prendre donnÃ©e centralisÃ©e{
     if ( $p_central == 1) {
       $c_line=CountSql($p_cn,"select * from centralized left join parm_periode on c_periode=p_id ".
 		       "where p_exercice='".$p_exercice."'".
@@ -511,9 +511,9 @@ function get_rappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_cen
       $a=array($deb,$cred);
       return $a;
     } // central == 1
-    else // Donnée non centralisée => pas de rappel
+    else // DonnÃ©e non centralisÃ©e => pas de rappel
       {
-	if ($p_central== 0) { // Si Grand Livre, prendre donnée non centralisée{
+	if ($p_central== 0) { // Si Grand Livre, prendre donnÃ©e non centralisÃ©e{
 	  return array(0,0);
 	}
       }//else

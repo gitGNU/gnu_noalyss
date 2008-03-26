@@ -132,7 +132,7 @@ if ( $sub_action == "list")
   $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
   $w->selected=$current;
 
-  echo 'Période  '.$w->IOValue("p_periode",$periode_start);
+  echo 'PÃ©riode  '.$w->IOValue("p_periode",$periode_start);
   $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
   
   echo JS_SEARCH_CARD;
@@ -179,7 +179,7 @@ echo widget::submit('gl_submit','Rechercher');
   echo $list;
   echo "$bar <hr>";
   if ( $max_line !=0 )
-    echo widget::submit('paid','Mise à jour paiement');
+    echo widget::submit('paid','Mise Ã  jour paiement');
   echo '</FORM>';
   echo $retour;
 
@@ -242,9 +242,9 @@ echo '</div>';
     echo '<FORM METHOD="POST">';
 	echo dossier::hidden();  
     echo $bar2;
-    echo '<h2 class="info"> Echeance dépassée </h2>';
+    echo '<h2 class="info"> Echeance dÃ©passÃ©e </h2>';
     echo $list;
-    echo  '<h2 class="info"> Non Payée </h2>';
+    echo  '<h2 class="info"> Non PayÃ©e </h2>';
     echo $list2;
     echo $bar2;
     // Add hidden parameter
@@ -260,7 +260,7 @@ echo '</div>';
     echo '<hr>';
 
     if ( $m != 0 )
-      echo widget::submit('paid','Mise à jour paiement');
+      echo widget::submit('paid','Mise Ã  jour paiement');
 
     echo '</FORM>';
     echo '</div>';
@@ -296,7 +296,7 @@ if ( $sub_action=="use_opd" ) {
   echo $hid->IOValue("sa","use_opd");
   
   if ($op->count() != 0 )
-	echo widget::submit('use_opd','Utilisez une op.prédéfinie');
+	echo widget::submit('use_opd','Utilisez une op.prÃ©dÃ©finie');
   echo $op->show_button();
 
   echo '</form>';
@@ -447,7 +447,7 @@ if ( $p_jrn != -1 )
   echo $hid->IOValue("sa","use_opd");
   
   if ($op->count() != 0 )
-	echo widget::submit('use_opd','Utilisez une op.prédéfinie');
+	echo widget::submit('use_opd','Utilisez une op.prÃ©dÃ©finie');
   echo $op->show_button();
 
   echo '</form>';

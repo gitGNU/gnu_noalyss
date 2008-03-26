@@ -6,20 +6,20 @@
  *
  * \section intro_sec Introduction
  *
- * Cette partie contient de la documentation pour les dÈveloppeurs.
+ * Cette partie contient de la documentation pour les d√©veloppeurs.
  *
  * \section convention_code Convention de codage
  * <p>
  * Quelques conventions de codage pour avoir un code plus ou moins
- * homogËne
+ * homog√®ne
  * <ol>
- * <li>Tant que possible rÈutiliser ce qui existe dÈj‡, </li>
- * <li>AmÈliorer ce qui existe dÈj‡ et vÈrifier que cela fonctionne toujours</li>
+ * <li>Tant que possible r√©utiliser ce qui existe d√©j√†, </li>
+ * <li>Am√©liorer ce qui existe d√©j√† et v√©rifier que cela fonctionne toujours</li>
  * <li>Documenter avec les tags doxygen votre nouveau code,</li>
- * <li>Dans le rÈpertoire include: Les noms de fichiers sont *.inc.php pour les fichiers ‡ ÈxÈcuter</li>
- * <li>Dans le rÈpertoire include: Les noms de fichiers sont *.php pour les fichiers contenant des fonctions uniquement</li>
- * <li>Dans le rÈpertoire include: Les noms de fichier sont  class_*.php pour les fichiers contenant des classes.</li>
- * <li>Utiliser sql/upgrade.sql comme fichier temporaire pour modifier la base de donnÈes, en gÈnÈral
+ * <li>Dans le r√©pertoire include: Les noms de fichiers sont *.inc.php pour les fichiers √† √©x√©cuter</li>
+ * <li>Dans le r√©pertoire include: Les noms de fichiers sont *.php pour les fichiers contenant des fonctions uniquement</li>
+ * <li>Dans le r√©pertoire include: Les noms de fichier sont  class_*.php pour les fichiers contenant des classes.</li>
+ * <li>Utiliser sql/upgrade.sql comme fichier temporaire pour modifier la base de donn√©es, en g√©n√©ral
  *  ce fichier deviendra l'un des patch </li>
  * <li>Faire de la doc </li>
  * </ol>
@@ -27,18 +27,18 @@
  * </p>
  * \section conseil Conseils
  * <p>
- * Utiliser cette documentation, elle est gÈnÈrÈe automatiquement avec Doxygen,
+ * Utiliser cette documentation, elle est g√©n√©r√©e automatiquement avec Doxygen,
  * <ul>
  * <li>Related contient tous les \\todo</li>
  * <li>Global -> function pour lire toute la doc sur les fonctions</li>
- * <li>Regarder dans dossier1.html et account_repository.html  pour la doc des base de donnÈes
+ * <li>Regarder dans dossier1.html et account_repository.html  pour la doc des base de donn√©es
  *</ul>
- *  et il ne faut connaÓtre que 7 tags
+ *  et il ne faut conna√Ætre que 7 tags
  * <ul>
- * <li> \\file en dÈbut de fichier</li>
+ * <li> \\file en d√©but de fichier</li>
  * <li> \\todo ajouter un todo </li>
  * <li> \\enum pour commenter une variable</li>
- * <li> \\param pour commenter le paramËtre d'une fonction</li>
+ * <li> \\param pour commenter le param√®tre d'une fonction</li>
  * <li> \\brief Commentaire du fichier, de la fonction ou de la classe</li>
  * <li> \\note des notes, des exemples</li>
  * <li> \\return ce que la fonction retourne</li>

@@ -598,7 +598,7 @@ class action
       if ( $this->gen == 'on' ) 
 	{
 	  $r.='<input type="hidden" name="d_id" value="'.$doc->d_id.'">';
-	  $r.="Sauver le document généré :";
+	  $r.="Sauver le document gÃ©nÃ©rÃ© :";
 	  $r.=$str_file;
 	  $checkbox=new widget("checkbox");
 	  $checkbox->name="save_generate";
@@ -668,7 +668,7 @@ class action
 	'Date'.
 	'<A class="mtitle"  href="?'.$url.'&s=date_d&'.$str_dossier.'">'.$image_desc.'</A></th>';
       $sort_exp='<th><A  class="mtitle"  href="?'.$url.'&s=exp&'.$str_dossier.'">'.$image_asc.'</A>'.
-	'Expéditeur'.
+	'ExpÃ©diteur'.
 	'<A  class="mtitle"  href="?'.$url.'&s=exp_d&'.$str_dossier.'">'.$image_desc.'</A></th>';
       $sort_dest='<th><A  class="mtitle" href="?'.$url.'&s=dest&'.$str_dossier.'">'.$image_asc.'</A>'.
 	'Destinataire'.
@@ -680,7 +680,7 @@ class action
 	'Concerne'.
 	'<A class="mtitle"  href="?'.$url.'&s=conc_d&'.$str_dossier.'">'.$image_desc.'</A></th>';
       $sort_reference='<th><A class="mtitle"  href="?'.$url.'&s=ref&'.$str_dossier.'">'.$image_asc.'</A>'.
-	'Référence'.
+	'RÃ©fÃ©rence'.
 	'<A  class="mtitle"  href="?'.$url.'&s=ref_d&'.$str_dossier.'">'.$image_desc.'</A></th>';
 
       if ( isset($_GET['s'])){
@@ -702,14 +702,14 @@ class action
 
 	  case "exp":
 	    $sort_exp='<th>'.$image_sel_asc.'</A>'.
-	      'Expéditeur'.
+	      'ExpÃ©diteur'.
 	      '<A  class="mtitle"  href="?'.$url.'&s=exp_d">'.$image_asc.'</A></th>';
 	    $sort=" f_id_exp asc";
 	    break;
 
 	  case "exp_d":
 	    $sort_exp='<th><A  class="mtitle"  href="?'.$url.'&s=exp">'.$image_asc.'</A>'.
-	      'Expéditeur'.
+	      'ExpÃ©diteur'.
 	      $image_sel_desc.'</th>';
 
 	    $sort=" f_id_exp desc";
@@ -762,7 +762,7 @@ class action
 
 	  case "ref":
 	    $sort_reference='<th>'.$image_sel_asc.
-	      'Référence'.
+	      'RÃ©fÃ©rence'.
 	      '<A  class="mtitle"  href="?'.$url.'&s=ref_d">'.$image_desc.'</A></th>';
 
 	    $sort=" ag_ref ";
@@ -770,7 +770,7 @@ class action
 
 	  case "ref_d":
 	    $sort_reference='<th><A class="mtitle"  href="?'.$url.'&s=ref">'.$image_asc.'</A>'.
-	      'Référence'.
+	      'RÃ©fÃ©rence'.
 	      $image_sel_desc.'</th>';
 
 	    $sort=" ag_ref desc";
@@ -818,7 +818,7 @@ class action
       if ( sizeof ($a_row) == 0 or $a_row == false ) 
 	{
 	  $r='<div class="u_redcontent">';
-	  $r.='<hr>Aucun enregistrement trouvé';
+	  $r.='<hr>Aucun enregistrement trouvÃ©';
 	  $r.="</div>";
 	  return $r;
 

@@ -67,14 +67,14 @@ $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from pa
 $select->label="Depuis";
 $select->selected=(isset($_REQUEST['from_periode']))?$_REQUEST['from_periode']:"";
 print $select->IOValue('from_periode',$periode_start);
-$select->label=" jusqu'à ";
+$select->label=" jusqu'Ã  ";
 $periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode  $filter_year order by p_start,p_end");
 $select->selected=(isset($_REQUEST['to_periode']))?$_REQUEST['to_periode']:"";
 print $select->IOValue('to_periode',$periode_end);
 print "</TR>";
 print "<TR><TD>";
 $all=new widget("checkbox");
-$all->label="Tous les postes qui en dépendent";
+$all->label="Tous les postes qui en dÃ©pendent";
 $all->disabled=false;
 $all->selected=(isset($_REQUEST['poste_fille']))?true:false;
 echo $all->IOValue("poste_fille");

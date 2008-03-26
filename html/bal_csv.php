@@ -47,7 +47,7 @@ $t_cent="";
   //$per=join(',',$periode);
 if ( isset($_POST['central']) ) {
     $bal->central='Y';
-    $t_cent="centralisée";
+    $t_cent="centralisÃ©e";
   }
   else
   $bal->central='N';

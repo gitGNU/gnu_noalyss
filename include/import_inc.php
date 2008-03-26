@@ -59,7 +59,7 @@ StartSql($p_cn);
 		require_once($p_format_csv);
 
         
-	echo "Importation terminée.";
+	echo "Importation terminÃ©e.";
 
 // if importation succeeds then we can commit the change
 Commit($p_cn);
@@ -133,7 +133,7 @@ $oJrn=new Acc_Ledger($p_cn,$p_val['jrn']);
   echo '<tr><td>'.$w->IOValue().' '.$s->IOValue('poste'.$counter.'_label').
    "</TD>";
 
-  echo "<td>n° compte : ".$p_val['num_compte']."</td>";
+  echo "<td>nÂ° compte : ".$p_val['num_compte']."</td>";
   if ( $p_form == 'form') {
     $str_update=sprintf("import_update('%s','%s','%s');",
 		 $_REQUEST['PHPSESSID'],
@@ -170,7 +170,7 @@ function VerifImport($p_cn){
 	  " order by date_exec,code";
 	$Res=ExecSql($p_cn,$sql);
 	$Num=pg_NumRows($Res);
-	echo $Num." opérations à complèter.<br/><br/>";
+	echo $Num." opÃ©rations Ã  complÃ¨ter.<br/><br/>";
 	$i=1;
 	// include javascript for popup 
 	echo JS_SEARCH_CARD;
@@ -200,7 +200,7 @@ function ConfirmTransfert($p_cn,$periode){
   if ( $val == false )
     {
       echo "<script>".
-	"alert ('Vous devez selectionner votre période dans vos préférences');".
+	"alert ('Vous devez selectionner votre pÃ©riode dans vos prÃ©fÃ©rences');".
 	"</script>";
       exit();
     }
@@ -216,7 +216,7 @@ function ConfirmTransfert($p_cn,$periode){
 	
   $Res=ExecSql($p_cn,$sql);
   $Num=pg_NumRows($Res);
-  echo $Num." opérations à transfèrer.<br/><br/>";
+  echo $Num." opÃ©rations Ã  transfÃ¨rer.<br/><br/>";
   if ( $Num == 0 ) return;
   $i=1;
   while($val = pg_fetch_array($Res)){
@@ -245,11 +245,11 @@ function ConfirmTransfert($p_cn,$periode){
  */
 
 function TransferCSV($p_cn, $periode){
-  //on obtient la période courante
+  //on obtient la pÃ©riode courante
   $User=new User($p_cn);
   $periode = $User->get_periode();
 	
-  // on trouve les dates frontières de cette période
+  // on trouve les dates frontiÃ¨res de cette pÃ©riode
   $sql = "select to_char(p_start,'DD-MM-YYYY') as p_start,to_char(p_end,'DD-MM-YYYY') as p_end".
     " from parm_periode where p_id = '".$periode."'";
 
@@ -258,7 +258,7 @@ function TransferCSV($p_cn, $periode){
   if ( $val == false )
     {
       echo "<script>".
-	"alert ('Vous devez selectionner votre période dans vos préférences');".
+	"alert ('Vous devez selectionner votre pÃ©riode dans vos prÃ©fÃ©rences');".
 	"</script>";
       exit();
     }
@@ -275,7 +275,7 @@ function TransferCSV($p_cn, $periode){
       StartSql($p_cn);
       $ResAll=ExecSql($p_cn,$sql);
       $Max=pg_NumRows($ResAll);
-      echo $Max." opérations à transférer.<br/>";
+      echo $Max." opÃ©rations Ã  transfÃ©rer.<br/>";
       for ($i = 0;$i < $Max;$i++) {
 	$val=pg_fetch_array($ResAll,$i);
 
@@ -295,7 +295,7 @@ function TransferCSV($p_cn, $periode){
 	$f->get_by_qcode($poste_comptable,false);
 	$poste_comptable=$f->strAttribut(ATTR_DEF_ACCOUNT);
 
-	// Vérification que le poste comptable trouvé existe
+	// VÃ©rification que le poste comptable trouvÃ© existe
 	if ( $poste_comptable == '- ERROR -')
 	  $test=0;
 	else
@@ -355,7 +355,7 @@ function TransferCSV($p_cn, $periode){
 	$acc_reconc->set_jr_id=$jr_id;
 	$acc_reconc->insert($jr_rapt);
 	
-	echo "Tranfert de l'opération ".$code." effectué<br/>";
+	echo "Tranfert de l'opÃ©ration ".$code." effectuÃ©<br/>";
 	$sql2 = "update import_tmp set status='t' where code='".$code."'";
 	$Res2=ExecSql($p_cn,$sql2);
       } 

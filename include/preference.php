@@ -188,7 +188,7 @@ function ShowDevise($p_cn)
   echo '<TABLE ALIGN="CENTER">';
   echo "<TR>";
   echo '<TH> CODE </TH>';
-  echo '<TH> Valeur <BR>(par rapport à l\'euro) </TH>';
+  echo '<TH> Valeur <BR>(par rapport Ã  l\'euro) </TH>';
   echo "</TR>";
 
   $Res=ExecSql($p_cn,"select pm_id,pm_code,pm_rate  from parm_money order by pm_code");

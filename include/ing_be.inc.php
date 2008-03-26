@@ -40,7 +40,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 		# Bug CSV ING : "424 au lieu de 424
 		$code = str_replace("\"", "", $code);	
 		
-		# Bug CSV ING : espace après la date
+		# Bug CSV ING : espace apres la date
 		$date_exec = str_replace(" ", "", $date_exec);
 		$date_valeur = str_replace(" ", "", $date_valeur);
 		$date_exec = str_replace("\"", "", $date_exec);
@@ -50,7 +50,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 			$num_compte = $regs[0];
 		}
 		
-		// Si LTXXXXX ou LT XXXXX dans le détail
+		// Si LTXXXXX ou LT XXXXX dans le dÃ©tail
 		if ((ereg ("LT+([0-9]{5})", $detail, $regs)) || (ereg ("LT+[ ]+([0-9]{5})", $detail, $regs))) {
 			$iduser = $regs[1];
 		}

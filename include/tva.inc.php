@@ -71,9 +71,9 @@ echo '<div class="u_content">';
 	{
 	  $err_code=array(1=>"Tva id n\'est pas un nombre",
 			  2=>"Taux tva invalide",
-			  3=>"Label ne peut être vide",
+			  3=>"Label ne peut Ãªtre vide",
 			  4=>"Poste invalide",
-			  5=>"Tva id doit être unique");
+			  5=>"Tva id doit Ãªtre unique");
 	  $str_err=$err_code[$err];
 	  echo "<script>alert ('$str_err'); </script>";;
 	}
@@ -197,7 +197,7 @@ if (   ! isset ($_POST['add'])
   if ( isset ( $_REQUEST['add'])) 
   {
     echo_debug("parametre",__LINE__,"add a line ");
-    echo "Tva à ajouter, l'id doit être différent pour chaque taux";
+    echo "Tva Ã  ajouter, l'id doit Ãªtre diffÃ©rent pour chaque taux";
     echo '<FORM method="post">';
 
 
@@ -230,7 +230,7 @@ if (   ! isset ($_POST['add'])
     {
 
       echo_debug("parametre",__LINE__,"modifie ".$_POST['tva_id']);
-      echo "Tva à modifier";
+      echo "Tva Ã  modifier";
       $index=$_POST['tva_id'];
 
       echo '<FORM method="post">';

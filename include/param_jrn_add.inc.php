@@ -50,7 +50,7 @@ echo JS_SEARCH_POSTE;
 
 If ( isset ($_POST["JRN_ADD"]) ) {
   if (  !isset($_POST["p_jrn_name"]) || ! isset($_POST["p_jrn_type"] )) {
-    echo '<H2 CLASS="error"> Un paramètre manque</H2>';
+    echo '<H2 CLASS="error"> Un paramÃ¨tre manque</H2>';
   }
   else {
     if ( $_POST['p_ech'] == 'no' ) {
@@ -120,30 +120,30 @@ echo '<TD> <INPUT TYPE="text" NAME="p_jrn_name"></TD>';
 echo '</TR>';
 
 echo '<TR>'; 
-echo '<TD> Postes utilisables journal (débit/crédit) </TD>';
+echo '<TD> Postes utilisables journal (dÃ©bit/crÃ©dit) </TD>';
 echo '<TD> <INPUT TYPE="text" NAME="p_jrn_class_deb">'.$search.'</TD>';
 echo '</TR>';
 
 echo '<TR>'; 
-echo '<TD> Nombre de lignes par défaut  </TD>';
+echo '<TD> Nombre de lignes par dÃ©faut  </TD>';
 echo '<TD> <INPUT TYPE="text" NAME="p_jrn_deb_max_line" ></TD>';
 echo '</TR>';
 /*
 echo '<TR>'; 
-echo '<TD> Postes utilisables journal (crédit) </TD>';
+echo '<TD> Postes utilisables journal (crÃ©dit) </TD>';
 echo '<TD> <INPUT TYPE="text" NAME="p_jrn_class_cred">'.$search.'</TD>';
 echo '</TR>';
 */
 
 echo '<TR>'; 
-echo '<TD> Date d\'échéance </TD>';
+echo '<TD> Date d\'Ã©chÃ©ance </TD>';
 echo '<TD> <INPUT TYPE="radio" NAME="p_ech" VALUE="yes" >Oui';
 echo '<INPUT TYPE="radio" NAME="p_ech" VALUE="no" CHECKED>Non</TD>';
 
 echo '</TR>';
 
 echo '<TR>'; 
-echo '<TD> Libellé echéance </TD>';
+echo '<TD> LibellÃ© echÃ©ance </TD>';
 echo '<TD> <INPUT TYPE="text" NAME="p_ech_lib" ></TD>';
 echo '</TR>';
 
@@ -170,8 +170,8 @@ $num=pg_NumRows($Res);
 
 
 echo '<TR>';
-echo '<th> Fiches Dédit</TH>';
-echo '<th> Fiches Crébit</TH>';
+echo '<th> Fiches DÃ©dit</TH>';
+echo '<th> Fiches CrÃ©bit</TH>';
 echo '</TR>';
 // Show the fiche in deb section
 for ($i=0;$i<$num;$i++) {

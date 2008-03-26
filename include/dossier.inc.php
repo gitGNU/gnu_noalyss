@@ -53,7 +53,7 @@ if ( isset ($_POST["DATABASE"]) ) {
       Commit($cn);
       } catch (Exception $e) {
 	$msg="Desole la creation de ce dossier a echoue, la cause la plus probable est".
-	  ' deux fois le même nom de dossier';
+	  ' deux fois le mÃªme nom de dossier';
 	echo '<script>alert("'.$msg.'");</script>';
 	echo_debug(__FILE__.':'.__LINE__.'- echec ','Echec creation ',$e);
 	$l_id=0;	
@@ -70,7 +70,7 @@ if ( isset ($_POST["DATABASE"]) ) {
 	$year=FormatString($_POST['YEAR']);
 	if ( strlen($year) != 4 || isNumber($year) == 0 || $year > 2100 || $year < 2000 || $year != round($year,0))
 	  {
-	    echo "$year est une année invalide";
+	    echo "$year est une annÃ©e invalide";
 	    $Res=ExecSql($cn,"delete from ac_dossier where dos_id=$l_id");
 	  }
 	else 
@@ -87,7 +87,7 @@ if ( isset ($_POST["DATABASE"]) ) {
 
 	      ob_end_clean();
 	      ExecSql($cn,"delete from ac_dossier where dos_id=$l_id");
-	      echo "<h2 class=\"error\"> Base de donnée ".domaine."mod".$_POST['FMOD_ID']."  est accèdée, déconnectez-vous d'abord</h2>";
+	      echo "<h2 class=\"error\"> Base de donnÃ©e ".domaine."mod".$_POST['FMOD_ID']."  est accÃ¨dÃ©e, dÃ©connectez-vous d'abord</h2>";
 	      exit;
 		}
 	    ob_flush();
@@ -215,8 +215,8 @@ if ( $sa == 'list' ) {
     </TR><TR>
     <TD> Description</td><td>  <TEXTAREA COLS="60" ROWS="2" NAME="DESCRIPTION" ></TEXTAREA> </TD>
     </TR>
-    <TR> <TD> Modèle</td><td>  <?php   echo $template; ?> </TD></TR>
-<TR><TD>Année </TD><TD><input type="text" size=4 name="YEAR" value=<?php  echo '"'.$m_date.'"'; ?>></TD></TR>
+    <TR> <TD> ModÃ¨le</td><td>  <?php   echo $template; ?> </TD></TR>
+<TR><TD>AnnÃ©e </TD><TD><input type="text" size=4 name="YEAR" value=<?php  echo '"'.$m_date.'"'; ?>></TD></TR>
     <TR>
     <TD> <INPUT TYPE=SUBMIT VALUE="Creation Dossier"></TD>
 <td>
