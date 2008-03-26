@@ -261,12 +261,19 @@ td.selectedcell{
         text-align:center;
 	     width:120px;
 }
-
 a.mtitle {
   font-size:10px;
   text-decoration:none;
   display:block;
- color: #202267;
+ color: blue;
+	
+}
+
+a.dossier {
+  font-size:10px;
+  text-decoration:none;
+  display:block;
+   color: #202267;
 	
 }
 tr.odd:hover td
