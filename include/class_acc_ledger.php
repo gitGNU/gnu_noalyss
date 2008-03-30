@@ -1086,7 +1086,6 @@ class Acc_Ledger {
   {
     if ( $this->id==0) return;
     $num = NextSequence($this->db,'s_internal');
-    $num=strtoupper(hexdec($num));
     $atype=$this->get_propertie();
     $type=$atype['jrn_def_code'];
     $internal_code=sprintf("%d%s-%s",dossier::id(),$type,$num);
