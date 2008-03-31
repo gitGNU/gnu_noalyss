@@ -1,3 +1,4 @@
+
 <?php
 /*
  *   This file is part of PhpCompta.
@@ -26,7 +27,16 @@
 require_once('class_dossier.php');
 require_once('postgres.php');
 
-  /*!\brief Acc_Tva is used for to map the table tva_rate */
+  /*!\brief Acc_Tva is used for to map the table tva_rate 
+   * parameter are
+  - private static $cn;	database connection 
+  - private static $variable=array("id"=>"tva_id",
+				 "label"=>"tva_label",
+				 "rate"=>"tva_rate",
+				 "comment"=>"tva_comment",
+				 "account"=>"tva_poste");
+
+*/
 class Acc_Tva
 {
   /* example private $variable=array("val1"=>1,"val2"=>"Seconde valeur","val3"=>0); */

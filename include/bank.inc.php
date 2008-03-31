@@ -24,7 +24,7 @@ require_once('jrn.php');
 require_once('class_widget.php');
 require_once("class_document.php");
 require_once("class_fiche.php");
-require_once("class_parm_code.php");
+require_once("class_acc_parm_code.php");
 require_once("check_priv.php");
 require_once ('class_pre_op_fin.php');
 
@@ -81,9 +81,9 @@ if ( $sub_action == "solde" )
   // find the bank account
  // NOTE : those values are in a table because
  // they are _national_ parameters
-  $banque=new parm_code($cn,'BANQUE');
-  $caisse=new parm_code($cn,'CAISSE');
-  $vir_interne=new parm_code($cn,'VIREMENT_INTERNE');
+  $banque=new Acc_Parm_Code($cn,'BANQUE');
+  $caisse=new Acc_Parm_Code($cn,'CAISSE');
+  $vir_interne=new Acc_Parm_Code($cn,'VIREMENT_INTERNE');
   $accountSql="select distinct pcm_val::text,pcm_lib from 
             tmp_pcmn 
             where pcm_val::text like '".$banque->p_value."%' or pcm_val::text like '".$vir_interne->p_value."%' 

@@ -29,7 +29,7 @@ require_once('class_user.php');
 require_once('class_widget.php');
 require_once('class_fiche.php');
 require_once('class_acc_ledger.php');
-require_once('class_parm_code.php');
+require_once("class_acc_parm_code.php");
 require_once('class_acc_operation.php');
 /*! 
  **************************************************
@@ -390,7 +390,7 @@ $w=new widget("select");
   $w->label='Journal';
   echo $w->label." :".$w->IOValue('import_jrn',$jrn)."<br>";
   // choose the bank account
-  $banque=new parm_code($p_cn,'BANQUE');
+  $banque=new Acc_Parm_Code($p_cn,'BANQUE');
   $bq=make_array($p_cn,"select pcm_val,pcm_lib from tmp_pcmn where pcm_val::text like '".$banque->p_value."%'");
   $w->label='Banque';
   echo "Compte en banque :".$w->IOValue('import_bq',$bq)."<br>";

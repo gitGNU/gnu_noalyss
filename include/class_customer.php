@@ -20,7 +20,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 require_once("constant.php");
 require_once("postgres.php");
-require_once("class_parm_code.php");
+require_once("class_acc_parm_code.php");
 require_once("class_widget.php");
 require_once('class_periode.php');
 require_once('class_fiche.php');
@@ -87,15 +87,15 @@ class Customer extends fiche{
     
     // BASE ACCOUNT
     // for belgium
-    $s=new parm_code($this->cn,'VENTE');
+    $s=new Acc_Parm_Code($this->cn,'VENTE');
     $s->Get();
     $SOLD=$s->p_value;
 
-    $c=new parm_code($this->cn,'CUSTOMER');
+    $c=new Acc_Parm_Code($this->cn,'CUSTOMER');
     $c->Get();
     $CUSTOMER=$c->p_value;
 
-    $t=new parm_code($this->cn,'COMPTE_TVA');
+    $t=new Acc_Parm_Code($this->cn,'COMPTE_TVA');
     $t->Get();
     $TVA=$t->p_value;
     // Get all the sell operation

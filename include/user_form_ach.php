@@ -27,7 +27,7 @@ require_once("class_widget.php");
 require_once("preference.php");
 require_once("fiche_inc.php");
 require_once("user_common.php");
-require_once("class_parm_code.php");
+require_once("class_acc_parm_code.php");
 require_once ('class_anc_plan.php');
 require_once ('class_own.php');
 require_once ('class_anc_operation.php');
@@ -854,7 +854,7 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 	  $nd_amount=round($a_quant[$i]*$a_price[$i]*$non_dedu,2);
 	  // save it
 	  echo_debug('user_form_ach.php',__LINE__,"InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,'6740',$e_date,round($nd_amount,2),$seq,$periode);");
-	  $dna=new parm_code($p_cn,'DNA');
+	  $dna=new Acc_Parm_Code($p_cn,'DNA');
 	  $j_id=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$dna->p_value,$e_date,round($nd_amount,2),$seq,$periode);
 	  $amount=$amount-$nd_amount;
 	  
@@ -873,7 +873,7 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 	  $nd_amount+=$tva_nd;
 
 	  // save it
-	  $dna=new parm_code($p_cn,'DEP_PRIV');
+	  $dna=new Acc_Parm_Code($p_cn,'DEP_PRIV');
 	  $j_id=InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,$dna->p_value,$e_date,round($nd_amount,2),$seq,$periode);
 
 	  // modify sum
@@ -898,7 +898,7 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 		  $sum_tva_nd+=$ded_vat;
 		  
 		  // compute the NDA TVA
-		  $tva_dna=new parm_code($p_cn,'TVA_DNA');
+		  $tva_dna=new Acc_Parm_Code($p_cn,'TVA_DNA');
 		  echo_debug('user_form_ach.php',__LINE__,
 					 "InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,".$tva_dna->p_value.",$e_date,round($ded_vat,2),$seq,$periode);");
 		  
@@ -918,7 +918,7 @@ function RecordSell($p_cn,$p_array,$p_user,$p_jrn)
 	  $aTva_ded_impot_recup[$i]=round($ded_vat,2);
 	  
 	  // Save it 
-	  $tva_ded_impot=new parm_code($p_cn,'TVA_DED_IMPOT');
+	  $tva_ded_impot=new Acc_Parm_Code($p_cn,'TVA_DED_IMPOT');
 	  echo_debug('user_form_ach.php',__LINE__,
 		     "InsertJrnx($p_cn,'d',$p_user->id,$p_jrn,".$tva_ded_impot->p_value.",$e_date,round($ded_vat,2),$seq,$periode);");
 	  

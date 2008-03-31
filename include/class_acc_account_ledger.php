@@ -86,9 +86,9 @@ class Acc_Account_Ledger {
    * \return string with the pcm_lib
    */
   function get_name() {
-    $ret=pg_exec($this->db,
+    $ret=ExecSqlParam($this->db,
 		 "select pcm_lib from tmp_pcmn where
-                  pcm_val=".$this->id);
+                  pcm_val=$1",array($this->id));
       if ( pg_NumRows($ret) != 0) {
 	$r=pg_fetch_array($ret);
 	$this->name=$r['pcm_lib'];
@@ -103,8 +103,8 @@ class Acc_Account_Ledger {
    */
   function load()
   {
-    $ret=ExecSql($this->db,"select pcm_lib,pcm_val_parent from 
-                              tmp_pcmn where pcm_val=".$this->id);
+    $ret=ExecSqlParam($this->db,"select pcm_lib,pcm_val_parent from 
+                              tmp_pcmn where pcm_val=$1",array($this->id));
     $r=pg_fetch_all($ret);
     
     if ( ! $r ) return false;
