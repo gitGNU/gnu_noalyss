@@ -76,9 +76,9 @@ foreach ( $lis as $row) {
 }
 echo "</TABLE>";
 echo '</div>';
-
-if ( isset ($_REQUEST["action"]) ) {
   echo JS_SEARCH_POSTE;
+if ( isset ($_REQUEST["action"]) ) {
+
   $action=$_REQUEST ["action"];
   $rap->id=(isset($_REQUEST ['fr_id']))?$_REQUEST['fr_id']:0;
 
