@@ -1,4 +1,3 @@
-
 <?php
 /*
  *   This file is part of PhpCompta.
@@ -39,7 +38,6 @@ require_once('postgres.php');
 */
 class Acc_Tva
 {
-  /* example private $variable=array("val1"=>1,"val2"=>"Seconde valeur","val3"=>0); */
   private static $cn;		/*!< $cn database connection */
   private static $variable=array("id"=>"tva_id",
 				 "label"=>"tva_label",
@@ -84,8 +82,8 @@ class Acc_Tva
 
   public function insert() {
     if ( $this->verify() != 0 ) return;
-    $sql="insert into tva_rate (tva_label,tva_rate,tva_comment,tva_poste) ".
-      " values ($1,$2,$3,$4)  returning tva_id";
+    $sql="select tva_insert($1,$2,$3,$4)";
+
     $res=ExecSqlParam($this->cn,
 		 $sql,
 		 array($this->tva_label,
@@ -93,7 +91,8 @@ class Acc_Tva
 		       $this->tva_comment,
 		       $this->tva_poste)
 		 );
-    $this->tva_id=pg_fetch_result($res,0,0);
+    $this->tva_id=GetSequence($this->cn,'s_tva');
+    $err=pg_fetch_result($res);
   }
 
   public function update() {
@@ -120,6 +119,25 @@ class Acc_Tva
     if ( pg_NumRows($res) == 0 ) return;
     $row=pg_fetch_array($res,0);
     foreach ($row as $idx=>$value) { $this->$idx=$value; }
+  }
+  /*!\brief get the account of the side (debit or credit)
+   *\param $p_side is d or C
+   *\return the account to use
+   *\note call first load if tva_poste is empty
+   */
+  public function get_side($p_side) {
+    if ( strlen($this->poste) == 0 ) $this->load();
+    list($deb,$cred)=split(",",$this->poste);
+    switch ($p_side) {
+    case 'd':
+      return $deb;
+      break;
+    case 'c':
+      return $cred;
+      break;
+    default:
+      throw (new Exception (__FILE__.':'.__LINE__." param est d ou c, on a recu [ $p_side ]"));
+    }
   }
   public function delete() {
     $sql="delete from tva_rate where tva_id=$1";
