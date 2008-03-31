@@ -308,7 +308,7 @@ function import_not_confirmed(p_sessid,p_dossier,p_count) {
   form.hide();
 }
 
-function rapport_add_row(){
+function rapport_add_row(p_dossier,p_sessid){
    style='style="border: 1px solid blue;"';
    var table=$("rap1");
    var line=table.rows.length;
@@ -325,6 +325,10 @@ function rapport_add_row(){
   // Formula
   var cellFormula = row.insertCell(2);
   cellFormula.innerHTML='<input type="text" '+style+' size="35" id="form'+line+'"  name="form'+line+'">';
+
+  // Search Button
+  var cellSearch = row.insertCell(3);
+   cellSearch.innerHTML='<input type="button" value="Recherche Poste" onclick="SearchPoste(\''+p_sessid+'\','+p_dossier+',\'form'+line+'\',\'\',\'poste\',\'N\')" class="inp"/>';
 
 }
 

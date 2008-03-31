@@ -152,7 +152,7 @@ function form($p_line=0) {
 
   $r.= "</TABLE>";
   $wButton=new widget("button");
-  $wButton->javascript=' rapport_add_row();';
+  $wButton->javascript=" rapport_add_row('".dossier::id()."','".$_REQUEST['PHPSESSID']."')";
   $wButton->label="Ajout d'une ligne";
   $r.=$wButton->IOValue();
   return $r;
