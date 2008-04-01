@@ -207,9 +207,8 @@ if ( $sa=='list') {
 	     '<TD>%d <b> %s</b> </TD>'.
 	     '<TD><I> %s </I></TD>'.
 	     '<td> '.
-	     ' <input type="button" name="Effacer" '.
-	     ' Value="Effacer" onClick="confirm_remove(\''.$_REQUEST['PHPSESSID'].'\',\''.$mod['mod_id'].'\',\'mod\');" \>'.
-	   '</td>'.
+	     widget::button_href('Effacer','?action=modele_mgt&sa=del&m='.$mod['mod_id']).'</td>'.
+	     '</td>'.
 	     '<td>'.widget::button_href('Modifie','?action=modele_mgt&sa=mod&m='.$mod['mod_id']).'</td>'.
 	   '</TR>',
 	   $mod['mod_id'],
@@ -300,7 +299,59 @@ echo widget::button_href('Retour','?action=modele_mgt');
    echo widget::submit('upd','Modifie');
    echo '</form>';
  }
-?>
-</div>
 
+//---------------------------------------------------------------------------
+// action = del
+//---------------------------------------------------------------------------
+if ( $sa == 'del' ) {
+  $cn=DbConnect();
+  $name=getDbValue($cn,'select mod_name from modeledef where mod_id=$1',array($_REQUEST['m']));
+  echo '<form method="post">';
+  echo widget::hidden('d',$_REQUEST['m']);
+  echo widget::hidden('sa','remove');
+  echo '<h2 class="error">Etes vous sure et certain de vouloir effacer '.$name.' ???</h2>';
+  $confirm=new widget('checkbox');
+  $confirm->name="p_confirm";
+  echo 'Cochez la case si vous êtes sûr de vouloir effacer ce modèle';
+  echo $confirm->IOValue();
+  echo widget::submit('remove','Effacer');
+  echo widget::button_href('Retour','?action=modele_mgt');
+  echo '</form>';
+ }
+//---------------------------------------------------------------------------
+// action = del
+//---------------------------------------------------------------------------
+if ( $sa == 'remove' ) {
+  if ( ! isset ($_REQUEST['p_confirm'])) {
+    echo('Désolé, vous n\'avez pas coché la case');  
+    echo widget::button_href('Retour','?action=modele_mgt');
+    exit();
+  }
+
+  $cn=DbConnect();
+   $msg="dossier";
+   $name=getDbValue($cn,"select mod_name from modeledef where mod_id=$1",array($_REQUEST['m']));
+   if ( strlen(trim($name)) == 0 )
+     {
+       echo "<h2 class=\"error\"> $msg inexistant</h2>";
+       exit();
+     }
+   $sql="drop database ".domaine."mod".FormatString($_REQUEST['m']);
+   ob_start();
+   if ( pg_query($cn,$sql)==false) {
+     ob_end_clean();
+     
+     echo "<h2 class=\"error\"> 
+         Base de donnée ".domaine."mod".$_REQUEST['m']."  est accèdée, déconnectez-vous d'abord</h2>";
+     exit;
+   }
+   ob_flush();
+   $sql="delete from modeledef where mod_id=$1";
+   ExecSqlParam($cn,$sql,array($_REQUEST['m']));
+   print '<h2 class="info">';
+   print "Voilà le modèle $name est effacé</H2>";
+   echo widget::button_href('Retour','?action=modele_mgt');
+ }
+ echo '</div>';
+?>
 

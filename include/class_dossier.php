@@ -29,6 +29,9 @@
 /*! \brief manage the current dossier, everywhere we need to know to
  * which folder we are connected, because we can't use $_SESSION, we
  * need to pass the dossier_id via a _GET or a POST variable
+ *  private static $variable=array("id"=>"dos_id",
+				 "name"=>"dos_name",
+				 "desc"=>"dos_description");
  *
  */
 require_once('postgres.php');

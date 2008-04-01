@@ -41,7 +41,7 @@ if ( isset ($_POST["DATABASE"]) ) {
   $dos=trim($_POST["DATABASE"]);
   $dos=FormatString($dos);
       if (strlen($dos)==0) {
-	echo ("Dataname name is empty");
+	echo ("Le nom du dossier est vide");
 	exit -1;
       }
       $desc=FormatString($_POST["DESCRIPTION"]);
@@ -163,10 +163,9 @@ if ( $sa == 'list' ) {
 	  $Dossier['dos_id']." <B>".$Dossier['dos_name']."</B> </TD>".
 	  "<TD><I>  ".$Dossier['dos_description']."</I>
 </TD>
-<TD>
-<input type=\"button\" name=\"Effacer\"".
-'Value="Effacer" onClick="confirm_remove(\''.$_REQUEST['PHPSESSID'].'\',\''.$Dossier['dos_id'].'\',\'db\');" \>'.
-"</TD>";
+<TD>";
+	echo widget::button_href('Effacer','?action=dossier_mgt&sa=del&d='.$Dossier['dos_id']);
+	echo "</TD>";
 	echo '<td>'.widget::button_href('Modifier','?action=dossier_mgt&sa=mod&d='
 					.$Dossier['dos_id']).
 	  '</td>';
@@ -248,6 +247,58 @@ if ( $sa == 'mod' ) {
   echo widget::submit('upd','Modifie');
   echo widget::button_href('Retour','?action=dossier_mgt');
   echo '</form>';
+ }
+//---------------------------------------------------------------------------
+// action = del
+//---------------------------------------------------------------------------
+if ( $sa == 'del' ) {
+  $d=new Dossier($_REQUEST ['d'] );
+  $d->load();
+  echo '<form method="post">';
+  echo widget::hidden('d',$_REQUEST['d']);
+  echo widget::hidden('sa','remove');
+  echo '<h2 class="error">Etes vous sure et certain de vouloir effacer '.$d->dos_name.' ???</h2>';
+  $confirm=new widget('checkbox');
+  $confirm->name="p_confirm";
+  echo 'Cochez la case si vous êtes sûr de vouloir effacer ce dossier';
+  echo $confirm->IOValue();
+  echo widget::submit('remove','Effacer');
+  echo widget::button_href('Retour','?action=dossier_mgt');
+  echo '</form>';
+ }
+//---------------------------------------------------------------------------
+// action = del
+//---------------------------------------------------------------------------
+if ( $sa == 'remove' ) {
+  if ( ! isset ($_REQUEST['p_confirm'])) {echo('Désolé, vous n\'avez pas coché la case');  echo widget::button_href('Retour','?action=dossier_mgt');exit();}
+
+  $cn=DbConnect();
+   $msg="dossier";
+   $name=getDbValue($cn,"select dos_name from ac_dossier where dos_id=$1",array($_REQUEST['d']));
+   if ( strlen(trim($name)) == 0 )
+     {
+       echo "<h2 class=\"error\"> $msg inexistant</h2>";
+       exit();
+     }
+   $sql="drop database ".domaine."dossier".FormatString($_REQUEST['d']);
+   ob_start();
+   if ( pg_query($cn,$sql)==false) {
+     ob_end_clean();
+     
+     echo "<h2 class=\"error\"> 
+         Base de donnée ".domaine."dossier".$_REQUEST['d']."  est accèdée, déconnectez-vous d'abord</h2>";
+     exit;
+   }
+   ob_flush();
+   $sql="delete from priv_user where priv_id in (select jnt_id from jnt_use_dos where dos_id=$1)";
+   ExecSqlParam($cn,$sql,array($_REQUEST['d']));
+   $sql="delete from  jnt_use_dos where dos_id=$1";
+   ExecSqlParam($cn,$sql,array($_REQUEST['d']));
+   $sql="delete from ac_dossier where dos_id=$1";
+   ExecSqlParam($cn,$sql,array($_REQUEST['d']));
+   print '<h2 class="info">';
+   print "Voilà le dossier $name est effacé</h2>";
+   echo widget::button_href('Retour','?action=dossier_mgt');
  }
 ?>
 </div>
