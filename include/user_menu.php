@@ -146,21 +146,41 @@ function ShowMenuCompta($p_high="")
   echo_debug('user_menu.php',__LINE__,'defaut is '.$default);
   if  ( isset($_REQUEST['p_action']))
 	{
-	  if ( $_REQUEST['p_action']=='impress')
-		$default=5;
-	  if ( $_REQUEST['p_action']=='fiche')
-		$default=6;
-	  if ( $_REQUEST['p_action']=='quick_writing')
-		$default=4;
+	  switch ($_REQUEST['p_action'] ) {
+	  case 'impress':
+	    $default=5;
+	    break;
+	  case 'fiche':
+	    $default=6;
+	    break;
+	  case 'quick_writing':
+	    $default=4;
+	    break;
+	  case 'gl':
+	    $default=0;
+	    break;
+	  case 'ven':
+	    $default=1;
+	    break;
+	  case 'ach':
+	    $default=2;
+	    break;
+	  case 'fin':
+	    $default=3;
+	    break;
+	  case 'ods':
+	    $default=8;
+	    break;
 
+	  }
 	}
   $str_dossier=dossier::get();
   $p_array=array(
-		 array("user_jrn.php?jrn_type=NONE&".$str_dossier ,"Grand Livre"),
-		 array("user_jrn.php?jrn_type=VEN&".$str_dossier ,"Vente"),
-		 array("user_jrn.php?jrn_type=ACH&".$str_dossier,"Dépense"),
-		 array("user_jrn.php?jrn_type=FIN&".$str_dossier,"Financier"),
-		 array("user_jrn.php?jrn_type=ODS&".$str_dossier,"Op. Diverses"),
+		 array("compta.php?p_action=gl&".$str_dossier ,"Grand Livre","Grand livre : toutes les opérations",0),
+		 array("compta.php?p_action=ven&".$str_dossier ,"Vente","Journal de vente / produit",1),
+		 array("compta.php?p_action=ach&".$str_dossier,"Dépense","Journaux de dépense, d'achat",2 ),
+		 array("compta.php?p_action=fin&".$str_dossier,"Financier","Journaux financiers","journaux financiers: les banques, la caisse",3),
+		 array("compta.php?p_action=ods&".$str_dossier,"Op. Diverses","Journaux opération diverses : déclaration TVA, impot, prêt...",8),
 		 array('compta.php?p_action=quick_writing&'.$str_dossier,'Ecriture directe','Ecriture directe dans les journaux',4),
 		 
 		 array("compta.php?p_action=impress&".$str_dossier,"Impression","Impression",5),
@@ -672,6 +692,7 @@ function ShowMenuParam($p_action="")
 			  array('parametre.php?p_action=pcmn&'.$s,'Plan Comptable','Modification du plan comptable',11),
 			   array('parametre.php?p_action=fiche&'.$s,'Fiche','Modifie les classe de base',5),
 			   array('parametre.php?p_action=sec&'.$s,'Sécurité','securite',8),
+			   array('parametre.php?p_action=preod&'.$s,'Ecritures définies','Ecritures définies ',12),
 			   array('parametre.php?p_action=document&'.$s,'Document','Facture, lettre de rappel, proposition...',7),
 			   array('parametre.php?p_action=jrn&'.$s,'Journaux','Creation et modification de journaux',10)
 			

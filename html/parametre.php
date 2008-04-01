@@ -87,6 +87,9 @@ switch ($p_action) {
  case 'company':
    $default=1;
    break;
+ case 'preod':
+   $default=12;
+   break;
  default:
    $default="parametre.php?p_action=".$p_action;
  }
@@ -244,6 +247,13 @@ if ( $p_action == 'pcmn' ) {
 if ( $p_action == 'sec' ) {
   require_once('param_sec.inc.php');
 }  
+//----------------------------------------------------------------------
+// Predefined operation
+//----------------------------------------------------------------------
+if ( $p_action == 'preod' ) {
+  require_once('preod.inc.php');
+}  
+
 //---------------------------------------------------------------------------
 // Definition of report
 //---------------------------------------------------------------------------

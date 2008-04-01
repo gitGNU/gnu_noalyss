@@ -89,84 +89,8 @@ if ($p_action == "periode" ) {
 //--------------------------------------------------
 
 if ($p_action=="preod") {
-  echo '<div class="u_content">';
-  echo '<form method="GET">';
-  $sel=new widget('select');
-  $sel->name="jrn";
-  $sel->value=make_array($cn,"select jrn_def_id,jrn_def_name from ".
-						 " jrn_def order by jrn_def_name");
-  // Show a list of ledger
-  $sa=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
-  $sel->selected=$sa;
-  echo 'Choississez un journal '.$sel->IOValue();
-  $wCheck=new widget("checkbox");
-  if ( isset($_REQUEST['direct'])) {
-    $wCheck->selected=true;
-  }
-  echo 'Ecriture directe'.$wCheck->IOValue('direct');
+  require_once('preod.inc.php');
 
-  echo dossier::hidden();
-  $hid=new widget("hidden");
-  echo $hid->IOValue("sa","jrn");
-  echo $hid->IOValue("p_action","preod");
-  echo '<hr>';
-  echo widget::submit('Accepter','Accepter');
-  echo '</form>';
-
-  // if $_REQUEST[sa] == del delete the predefined operation
-  if ( $sa == 'del') {
-	$op=new Pre_operation($cn);
-	$op->od_id=$_REQUEST['od_id'];
-	$op->delete();
-	$sa='jrn';
-  }
-
-  // if $_REQUEST[sa] == jrn show the  predefined operation for this
-  // ledger
-  if ( $sa == 'jrn' ) {
-	$op=new Pre_operation($cn);
-	$op->set_jrn($_GET['jrn']);
-	if ( isset($_GET['direct'])) {
-	  $op->od_direct='true';
-	} else {
-	  $op->od_direct='false';
-	}
-	$array=$op->get_list_ledger();
-	if ( empty($array) == true ) {
-	  echo "Aucun enregistrement";
-	  exit();
-	}
-
-	echo '<table>';
-	$count=0;
-	foreach ($array as $row ) {
-
-	  if ( $count %2 == 0 )
-		echo '<tr class="even">';
-	  else 
-		echo '<tr>';
-	  echo '<td>'.$row['od_name'].'</td>';
-	  echo '<td>';
-	  echo '<form method="POST">';
-	  echo dossier::hidden();
-	  echo $hid->IOValue("sa","del");
-	  echo $hid->IOValue("p_action","preod");
-	  echo $hid->IOValue("del","");
-	  echo $hid->IOValue("od_id",$row['od_id']);
-	  echo $hid->IOValue("jrn",$_GET['jrn']);
-
-	  $b='<input type="submit" value="Effacer" '.
-		' onClick="return confirm(\'Voulez-vous vraiment effacer cette operation ?\');" >';
-	  echo $b;
-	  echo '</form>';
-
-	  echo '</td>';
-	  echo '</tr>';
-
-	}
-	echo '</table>';
-  }
-  echo '</div>';
   exit();
  }
 //----------------------------------------------------------------------

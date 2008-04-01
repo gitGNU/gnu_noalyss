@@ -21,7 +21,7 @@
 /* $Revision$ */
 
 /*! \file
- * \brief Main page for the printing
+ * \brief Main page for accountancy
  */
 require_once('class_dossier.php');
 $gDossier=dossier::id();
