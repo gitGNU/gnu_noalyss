@@ -40,16 +40,25 @@ if ( isset ($_POST["DATABASE"]) ) {
   $cn=DbConnect();
   $dos=trim($_POST["DATABASE"]);
   $dos=FormatString($dos);
-      if (strlen($dos)==0) {
-	echo ("Le nom du dossier est vide");
-	exit -1;
-      }
-      $desc=FormatString($_POST["DESCRIPTION"]);
-      try  {
-	StartSql($cn);
-      $Res=ExecSql($cn,"insert into ac_dossier(dos_name,dos_description)
+  if (strlen($dos)==0) {
+    echo ("Le nom du dossier est vide");
+    exit -1;
+  }
+  $encoding=getDbValue($cn,"select encoding from pg_database  where ".
+		       " datname='".domaine.'mod'.FormatString($_POST["FMOD_ID"])."'");
+  if ( $encoding != 6 ) {
+    echo "<script> alert('Désolé vous devez migrer ce modèle en unicode')</script>";
+    echo '<span class="error">le modele '.domaine.'mod'.$_POST["FMOD_ID"]." doit être migré en unicode</span>";
+    echo widget::button_href('Retour','admin_repo.php?action=dossier_mgt');
+    exit();
+  }
+
+  $desc=FormatString($_POST["DESCRIPTION"]);
+  try  {
+    StartSql($cn);
+    $Res=ExecSql($cn,"insert into ac_dossier(dos_name,dos_description)
                     values ('".$dos."','$desc')");
-      $l_id=GetDbId($dos);
+    $l_id=GetDbId($dos);
       Commit($cn);
       } catch (Exception $e) {
 	$msg="Desole la creation de ce dossier a echoue, la cause la plus probable est".
@@ -79,7 +88,7 @@ if ( isset ($_POST["DATABASE"]) ) {
 			 domaine,
 			 $l_id,
 			 domaine,
-			 $_POST["FMOD_ID"]);
+			 FormatString($_POST["FMOD_ID"]));
 	    echo_debug("[".$Sql."]");
 	    ob_start();
 	    if ( pg_query($cn,$Sql)==false) {

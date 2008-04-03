@@ -57,6 +57,17 @@ $cn=DbConnect();
 
 // IF FMOD_NAME is posted then must add a template
 if ( isset ($_POST["FMOD_NAME"]) ) {
+  $encoding=getDbValue($cn,"select encoding from pg_database  where ".
+		       " datname='".domaine.'dossier'.FormatString($_POST["FMOD_DBID"])."'");
+
+  if ( $encoding != 6 ) {
+    echo "<script> alert('Désolé vous devez migrer ce modèle en unicode')</script>";
+    echo '<span class="error">la base de donnée '.
+      domaine.'mod'.$_POST["FMOD_DBID"]." doit être migrée en unicode</span>";
+    echo widget::button_href('Retour','admin_repo.php?action=dossier_mgt');
+    exit();
+  }
+
   $mod_name=FormatString($_POST["FMOD_NAME"]);
   $mod_desc=FormatString($_POST["FMOD_DESC"]);
   if ( $mod_name != null) {
