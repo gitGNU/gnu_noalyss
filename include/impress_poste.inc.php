@@ -101,7 +101,7 @@ if ( isset( $_REQUEST['bt_html'] ) ) {
   require_once("class_acc_account_ledger.php");
   $go=0;
 // we ask a poste_id
-  if ( strlen(trim($_GET['poste_id'])) != 0 && isNumber($_GET['poste_id']) )
+  if ( isset($_GET['poste_id']) && strlen(trim($_GET['poste_id'])) != 0 && isNumber($_GET['poste_id']) )
     {
       if ( isset ($_GET['poste_fille']) )
       {
