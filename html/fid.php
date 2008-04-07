@@ -41,11 +41,11 @@ if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
 
   switch ($d) {
   case 'cred':
-    $filter_jrn=getDbValue($cn,"select jrn_def_fiche_cred from jrn_def where jrn_def_id=$jrn");
+    $filter_jrn=getDbValue($cn,"select jrn_def_fiche_cred from jrn_def where jrn_def_id=$1",array($jrn));
     $filter_card="and fd_id in ($filter_jrn)";
     break;
   case 'deb':
-    $filter_jrn=getDbValue($cn,"select jrn_def_fiche_deb from jrn_def where jrn_def_id=$jrn");
+    $filter_jrn=getDbValue($cn,"select jrn_def_fiche_deb from jrn_def where jrn_def_id=$1",array($jrn));
     $filter_card="and fd_id in ($filter_jrn)";
     break;
   case 'all':
@@ -56,7 +56,7 @@ if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
 
     $get_deb='jrn_def_fiche_deb';
 
-    $filter_jrn=getDbValue($cn,"select $get_cred||','||$get_deb as fiche from jrn_def where jrn_def_id=$jrn");
+    $filter_jrn=getDbValue($cn,"select $get_cred||','||$get_deb as fiche from jrn_def where jrn_def_id=$1",array($jrn));
 
     $filter_card="and fd_id in ($filter_jrn)";
     break;
