@@ -92,11 +92,11 @@ version  4.1-exp
 <TABLE><TR><TD>
 <TABLE  BORDER=0 CELLSPACING=0>
 <TR>
-<TD class="cell">Login</TD>
+<TD class="cell">utilisateur</TD>
 <TD><input type="text" name="p_user" tabindex="1"></TD>
 </TR>
 <TR>
-<TD> Password</TD>
+<TD> mot de passe </TD>
 <TD><INPUT TYPE="PASSWORD" NAME="p_pass" tabindex="2"></TD>
 </TR>
 <TR>
