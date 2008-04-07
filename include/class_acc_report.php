@@ -351,6 +351,20 @@ function form($p_line=0) {
       print_r($b);
     }
   }
+  /*!\brief return a string for export
+   */
+  function export() {
+    $this->load();
+    $r='';
+    $r.=$this->name."\r\n";
+    foreach ($this->aAcc_Report_row as $row) {
+      $r.=$row->get_parameter("name")."\t".
+	$row->get_parameter('position')."\t".
+	$row->get_parameter('formula')."\r\n";
+    }
+    return $r;
+  }    
+
 }
 
 ?>

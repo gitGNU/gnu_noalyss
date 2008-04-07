@@ -307,7 +307,11 @@ function import_not_confirmed(p_sessid,p_dossier,p_count) {
   var form=$("form_"+p_count);
   form.hide();
 }
-
+/**
+ * @brief add a line in the form for the report 
+ * @param p_dossier dossier id to connect
+ * @param p_sessid session id
+ */
 function rapport_add_row(p_dossier,p_sessid){
    style='style="border: 1px solid blue;"';
    var table=$("rap1");
@@ -332,3 +336,32 @@ function rapport_add_row(p_dossier,p_sessid){
 
 }
 
+/**
+ * @brief create a file to export a report
+ * @param p_sessid the Session id
+ * @param p_dossier the dossier id
+ */
+function report_export(p_sessid,p_dossier,p_fr_id) {
+  var queryString="?PHPSESSID="+p_sessid+"&gDossier="+p_dossier+"&f="+p_fr_id;
+  var action=new Ajax.Request(
+			      "ajax_report.php",
+			      {
+			      method:'get',
+			      parameters:queryString,
+			      onSuccess:report_export_success
+			      }
+			      );
+  
+}
+/**
+ * @brief callback function for exporting a report
+ * @param request object request
+ * @param json json answer
+ */
+function report_export_success(request,json) {
+  var answer = request.responseText.evalJSON(true);
+  var ok=answer.answer;
+  var link=answer.link;
+  $('export').hide();
+  $('export_link').innerHTML='<a class="mtitle" href="'+link+'"> Cliquez ici pour télécharger le rapport</a>';
+}

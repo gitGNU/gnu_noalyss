@@ -107,6 +107,12 @@ if ( isset ($_REQUEST["action"]) ) {
 	echo widget::hidden("action","record");
 	echo widget::submit("update","Mise a jour");
 	echo widget::submit("del_form","Effacement");
+	$w=new widget('button');
+	$w->name="export";
+	$w->javascript="report_export('".$_REQUEST['PHPSESSID']."','".$gDossier."','".$rap->id."')";
+	$w->label='Export';
+	echo $w->IOValue();
+	echo '<span id="export_link"></span>';
 	echo '</form>';
 	echo '<span class="notice">Les lignes vides seront effac&eacute;es</span>';
 	echo "</DIV>";
