@@ -279,7 +279,7 @@ if ( in_array('pgsql',$module) == false )
   print '<h2 class="error">D&eacute;sol&eacute; mais soit vous n\'avez pas install&eacute; le package  pour postgresql soit php n\'a pas pas &eacute;t&eacute; compil&eacute; avec les bonnes options </h2>';
   $flag_php++;
 }
-print_r ($module);
+
 if ( in_array('bcmath',$module) == false ) 
 {
   print '<h2 class="error">D&eacute;sol&eacute; mais soit vous n\'avez pas install&eacute; le package  pour bcmath soit php n\'a pas pas &eacute;t&eacute; compil&eacute; avec les bonnes options </h2>';
