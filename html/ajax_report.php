@@ -48,10 +48,10 @@ $cn=DbConnect($gDossier);
 if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
 { 
   $rap=new Acc_Report($cn,$_GET['f']);
-  $r=$rap->export();
+
   $name=tempnam('tmp','report_').'.bin';
   $file= fopen($name,"a+");
-  fwrite($file,$r);
+  $rap->export($file);
   fclose ($file);
 
   $a='{"answer":"ok","link":"'.$name.'"}';

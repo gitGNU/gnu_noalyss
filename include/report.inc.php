@@ -62,7 +62,10 @@ if ( isset($_POST['update'])) {
     $rap->save($_POST);
 
   }
+if ( isset($_POST['upload'])) {
+  $rap->upload();
 
+}
 
 $lis=$rap->get_list();
 $p_action='p_action=defreport';
@@ -77,6 +80,9 @@ foreach ( $lis as $row) {
 echo "</TABLE>";
 echo '</div>';
   echo JS_SEARCH_POSTE;
+if ( isset($_POST['upload'])) {
+    exit();
+  }
 if ( isset ($_REQUEST["action"]) ) {
 
   $action=$_REQUEST ["action"];
@@ -86,6 +92,7 @@ if ( isset ($_REQUEST["action"]) ) {
     {
 
       echo '<DIV class="u_redcontent">';
+      echo '<h1> Définition</h1>';
       echo '<form method="post" >';
       echo dossier::hidden();
        $rap->id=0;
@@ -95,6 +102,22 @@ if ( isset ($_REQUEST["action"]) ) {
       echo '</form>';
       echo '<span class="notice">Les lignes vides seront effac&eacute;es</span>';
       echo "</DIV>";
+      echo '<DIV class="u_redcontent">';
+
+      echo '<form method="post" enctype="multipart/form-data">';
+      echo '<h1> Importation</h1>';
+      echo dossier::hidden();
+      $rap->id=0;
+      $wUpload=new widget('file');
+      $wUpload->name='report';
+      $wUpload->value='report_value';
+      echo 'Importer ce rapport ';
+      echo $wUpload->IOValue();
+      echo widget::submit("upload","Sauve");
+      echo '</form>';
+      echo '<span class="notice">Les lignes vides seront effac&eacute;es</span>';
+      echo "</DIV>";
+
     }
   if ($action=="view"      ) 
       {

@@ -323,6 +323,55 @@ function form($p_line=0) {
     return $sql;
   }
 
+
+  /*!\brief write to a file the definition of a report
+   * \param p_file is the file name
+   */
+  function export($p_file) {
+    $this->load();
+
+    fputcsv($p_file,array($this->name));
+
+    foreach ($this->aAcc_Report_row as $row) {
+      fputcsv($p_file,array($row->get_parameter("name"),
+			    $row->get_parameter('position'),
+			    $row->get_parameter('formula'))
+	      );
+    }
+
+  }    
+  /*!\brief upload a definition of a report and insert it into the
+   * database
+   */
+  function upload() {
+    if ( empty ($_FILES) ) return;
+    if ( strlen(trim($_FILES['report']['tmp_name'])) == 0 ) {
+      echo '<script>alert("Nom de fichier est vide");</script>';
+      return;
+    }
+    $file_report=tempnam('tmp','file_report');
+    if (  move_uploaded_file($_FILES['report']['tmp_name'],$file_report))  {
+      // File is uploaded now we can try to parse it
+      $file=fopen($file_report,'r');
+      $data=fgetcsv($file);
+      if ( empty($data) ) return;
+      $this->name=$data[0];
+      $array=array();
+      while($data=fgetcsv($file)) {
+	$obj=new Acc_Report_Row();
+	$obj->set_parameter("name",$data[0]);
+	$obj->set_parameter("id",0);
+	$obj->set_parameter("position",$data[1]);
+	$obj->set_parameter("formula",$data[2]);
+	$obj->set_parameter('database',$this->db);
+	$obj->set_parameter('form_id',0);
+	$array[]=clone $obj;
+      }
+      $this->aAcc_Report_row=$array;
+      $this->insert();
+    }
+  }
+
   function test_me() {
     $cn=DbConnect(dossier::id());
     $a=new Acc_Report($cn);
@@ -351,20 +400,6 @@ function form($p_line=0) {
       print_r($b);
     }
   }
-  /*!\brief return a string for export
-   */
-  function export() {
-    $this->load();
-    $r='';
-    $r.=$this->name."\r\n";
-    foreach ($this->aAcc_Report_row as $row) {
-      $r.=$row->get_parameter("name")."\t".
-	$row->get_parameter('position')."\t".
-	$row->get_parameter('formula')."\r\n";
-    }
-    return $r;
-  }    
-
 }
 
 ?>
