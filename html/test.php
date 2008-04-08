@@ -106,7 +106,9 @@ require_once('class_acc_report.php');
 Rapport::test_me();
 require_once('class_acc_report_row.php');
 Rapport_Row::test_me();
-*/
 
 require_once('class_acc_tva.php');
 Acc_Tva::test_me();
+*/
+require('class_acc_compute.php');
+Acc_Compute::test_me();
