@@ -74,5 +74,11 @@ if ( $report != 0 ) {
   }
   echo '</fieldset>';
   echo '</div>';
-}
+ } else {
+  echo '<div style="float:right">';
+  echo '<fieldset style="background-color:white"><legend> Aucun rapport défini</legend>';
+  echo '<a href="user_pref.php?'.dossier::get().'"> Cliquez ici pour mettre à jour vos préférences</a>';
+  echo '</fieldset>';
+  echo '</div>';
+ }
 echo '</div>';
