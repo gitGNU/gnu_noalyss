@@ -191,6 +191,11 @@ echo "</TD></TR>";
 <TABLE>
 <?php 
 $Dossier=ShowDossier('all',1,0);
+if (  empty ( $Dossier )) {
+	echo '* Aucun Dossier *';
+	echo '</div>';
+	exit();
+}
 foreach ( $Dossier as $rDossier) {
   $NORIGHT="";$Write="";$Read="";
   echo_debug('priv_user.php',__LINE__,"Dossier : ".$rDossier['dos_id']);
