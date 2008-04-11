@@ -56,7 +56,7 @@ if ( isset ($_REQUEST["action"]) ) {
     {
       //----------------------------------------------------------------------
       // User management
-      //----------------------------------------------------------------------
+     //----------------------------------------------------------------------
       require_once("user.inc.php");
     }
   // action=user_mgt
@@ -74,6 +74,10 @@ if ( isset ($_REQUEST["action"]) ) {
       //-----------------------------------------------------------------------
       require_once("modele.inc.php");
     } // action is set
+  if ( $_REQUEST['action'] == 'restore') {
+    // Backup and restaure folders
+    require_once("restore.inc.php");
+  }
 }// action = modele_mgt
 
 ?>

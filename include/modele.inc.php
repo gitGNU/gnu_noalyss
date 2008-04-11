@@ -221,10 +221,13 @@ if ( $sa=='list') {
 	     widget::button_href('Effacer','?action=modele_mgt&sa=del&m='.$mod['mod_id']).'</td>'.
 	     '</td>'.
 	     '<td>'.widget::button_href('Modifie','?action=modele_mgt&sa=mod&m='.$mod['mod_id']).'</td>'.
-	   '</TR>',
-	   $mod['mod_id'],
-	   $mod['mod_name'],
-	   $mod['mod_desc']);
+	     '</td>'.
+	     '<td>'.widget::button_href('Backup','backup.php?action=backup&sa=b&t=m&d='
+				      .$mod['mod_id']).'</td>'.
+	     '</TR>',
+	     $mod['mod_id'],
+	     $mod['mod_name'],
+	     $mod['mod_desc']);
     
   }// for
   echo "</table>";

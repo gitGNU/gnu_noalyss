@@ -32,8 +32,8 @@ if ( strpos($inc_path,";") != 0 ) {
  } else {
   $_ENV['TMP']="/tmp";
  }
-
-
+define("PG_RESTORE","/usr/bin/pg_restore ");
+define("PG_DUMP","/usr/bin/pg_dump ");
 define ("phpcompta_password","dany");
 define ("phpcompta_psql_port","5432");
 define ("phpcompta_user","phpcompta");

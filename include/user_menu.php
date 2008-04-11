@@ -97,10 +97,8 @@ function GetAvailableFolder($p_user,$p_admin,$p_filter="")
          and priv_priv != 'NO' and dos_name ilike '%$p_filter%'";
 
   } else {
-    $sql="select distinct dos_id,dos_name,dos_description from ac_users 
-                  natural join jnt_use_dos 
-                  natural join  ac_dossier 
-      where  use_active=1 and dos_name ilike '%$p_filter%' ";
+    $sql="select distinct dos_id,dos_name,dos_description from ac_dossier 
+      where  dos_name ilike '%$p_filter%' ";
   }
   include_once("postgres.php");
   $cn=DbConnect();
@@ -638,11 +636,15 @@ function MenuAdmin()
 	case 'modele_mgt':
 	  $def=2;
 	  break;
+	case 'restore';
+	  $def=3;
+	  break;
 	}
   }
   $item=array (array("admin_repo.php?action=user_mgt","Utilisateurs",'Gestion des utilisateurs',0),
-			   array("admin_repo.php?action=dossier_mgt","Dossiers",'Gestion des dossiers',1),
-			   array("admin_repo.php?action=modele_mgt","Modèles",'Gestion des modèles',2),
+	       array("admin_repo.php?action=dossier_mgt","Dossiers",'Gestion des dossiers',1),
+	       array("admin_repo.php?action=modele_mgt","Modèles",'Gestion des modèles',2),
+	       array("admin_repo.php?action=restore","Restore","Restaure une base de données",3),
 	       array("login.php","Accueil"),
 	       array("logout.php","Logout")
 	       );

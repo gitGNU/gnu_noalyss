@@ -178,6 +178,10 @@ if ( $sa == 'list' ) {
 	echo '<td>'.widget::button_href('Modifier','?action=dossier_mgt&sa=mod&d='
 					.$Dossier['dos_id']).
 	  '</td>';
+	echo '<td>'.widget::button_href('Backup','backup.php?action=backup&sa=b&t=d&d='
+					.$Dossier['dos_id']).
+	  '</td>';
+
 	echo '<tr>';
 	$compteur++; 
 	
@@ -186,7 +190,7 @@ if ( $sa == 'list' ) {
       echo "</TR>";
       
     }
-    
+    echo '</table>';
     
    echo jrn_navigation_bar($offset,$count,$size,$page); 
 
