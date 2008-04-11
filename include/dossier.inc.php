@@ -48,7 +48,8 @@ if ( isset ($_POST["DATABASE"]) ) {
 		       " datname='".domaine.'mod'.FormatString($_POST["FMOD_ID"])."'");
   if ( $encoding != 6 ) {
     echo "<script> alert('Désolé vous devez migrer ce modèle en unicode')</script>";
-    echo '<span class="error">le modele '.domaine.'mod'.$_POST["FMOD_ID"]." doit être migré en unicode</span>";
+    echo '<span class="error">le modele '.domaine.'mod'.$_POST["FMOD_ID"]." doit être migré en unicode.";
+    echo 'Pour le passer en unicode, faites-en un backup puis restaurez le fichier reçu</span>';
     echo widget::button_href('Retour','admin_repo.php?action=dossier_mgt');
     exit();
   }
