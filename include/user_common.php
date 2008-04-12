@@ -652,7 +652,7 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Ech&
     switch ($href)
       {
 		// user_jrn.php
-      case 'user_jrn.php':
+      case 'compta.php':
 		$vue="E"; //Expert View
 		break;
       case 'commercial.php':

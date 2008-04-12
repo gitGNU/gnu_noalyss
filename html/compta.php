@@ -68,6 +68,8 @@ if ( $action == 'stock') {
 if ( $action=='quick_writing') {
   require_once ('quick_writing.inc.php');
  }
-
+if ( $action == 'gl' ) {
+  require_once ('user_action_gl.php');
+ }
 html_page_stop();
 ?>

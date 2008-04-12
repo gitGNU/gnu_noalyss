@@ -31,7 +31,7 @@ include_once ("postgres.php");
 include_once ("check_priv.php");
 include_once ("class_widget.php");
 require_once("jrn.php");
-
+echo '<h1> OBSOLETE FILES USER_JRN.PHP</H1>';
 // Check if dossier set
 $gDossier=dossier::id();
 
