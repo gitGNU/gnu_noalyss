@@ -909,8 +909,8 @@ class fiche {
 	"<TH> Code interne </TH>".
 	"<TH> Date</TH>".
 	"<TH> Description </TH>".
-	"<TH> Débit  </TH>".
-	"<TH> Crédit </TH>".
+	"<TH> Montant  </TH>".
+	"<TH> Débit/Crédit </TH>".
 	"</TR>";
      
       foreach ( $this->row as $op ) { 
