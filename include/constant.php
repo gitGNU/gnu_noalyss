@@ -23,23 +23,10 @@
  * \brief Contains all the variable + the javascript
  * and some parameter 
  */
-date_default_timezone_set ('Europe/Brussels');
+require_once ('config.inc.php');
+
 define ("DBVERSION",48);
 
-$inc_path=get_include_path();
-if ( strpos($inc_path,";") != 0 ) {
-  $_ENV['TMP']="c:\Temp";
- } else {
-  $_ENV['TMP']="/tmp";
- }
-define("PG_RESTORE","/usr/bin/pg_restore ");
-define("PG_DUMP","/usr/bin/pg_dump ");
-define ("phpcompta_password","dany");
-define ("phpcompta_psql_port","5432");
-define ("phpcompta_user","phpcompta");
-//
-// the domain can't start by a number !!!
-define ("domaine","");
 define ("MAX_COMPTE",4);
 define ('MAX_BUD_DETAIL',20);
 
