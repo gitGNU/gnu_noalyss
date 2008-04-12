@@ -35,7 +35,7 @@ $User->can_request($cn,SUPPL);
 // Remove a card
 if ( isset ($_POST['delete']) ) 
 {
-  echo 'delete';
+
   $f_id=$_REQUEST['f_id'];
 
   $fiche=new Supplier($cn,$f_id);

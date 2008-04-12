@@ -34,7 +34,6 @@ $User->can_request($cn,CLIENT);
 if ( isset ($_POST['delete']) ) 
 {
 
-  echo 'delete';
   $f_id=$_REQUEST['f_id'];
 
   $fiche=new Customer($cn,$f_id);
