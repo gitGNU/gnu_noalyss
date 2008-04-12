@@ -76,7 +76,7 @@ if ( $sub_action  == "" )
 if ( $sub_action=="blank") 
 {
 
-  $retour=widget::button_href('Retour','commercial.php?p_action=fournisseur&'.dossier::get());
+  $retour=widget::button_href('Retour','commercial.php?p_action=client&'.dossier::get());
 
   echo '<div class="u_content">';
 
