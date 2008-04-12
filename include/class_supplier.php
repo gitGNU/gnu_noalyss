@@ -156,7 +156,7 @@ class Supplier extends fiche{
 	$r.=sprintf('<td><A class="mtitle" HREF="%s?liste&p_action=bank&sa=list&'.$str_dossier.'&qcode=%s&url=%s&p_periode=-1" title="Financier">Financier</A></td>',
 		    $script,$supplier->strAttribut(ATTR_DEF_QUICKCODE) ,$url);
 
-	$r.=sprintf('<td><A class="mtitle" HREF="%s?p_action=impress&type=poste&f_id=%s&%s&from_periode=%s&to_periode=%s&oper_detail=on&bt_html=Visualisation" 
+	$r.=sprintf('<td><A class="mtitle" HREF="%s?p_action=impress&type=poste&f_id=%s&%s&from_periode=%s&to_periode=%s&bt_html=Visualisation" 
 title="Operation">Operation</A></td>',
 		    $script,$supplier->strAttribut(ATTR_DEF_QUICKCODE) ,$str_dossier,$max->p_id,$min->p_id);
 
