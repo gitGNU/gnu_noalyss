@@ -64,7 +64,7 @@ if ( isset ($_POST["FMOD_NAME"]) ) {
     echo "<script> alert('Désolé vous devez migrer ce modèle en unicode')</script>";
     echo '<span class="error">la base de donnée '.
       domaine.'mod'.$_POST["FMOD_DBID"]." doit être migrée en unicode</span>";
-    echo '<span class="error">'Pour le passer en unicode, faites-en un backup puis restaurez le fichier reçu</span>';
+    echo '<span class="error"> Pour le passer en unicode, faites-en un backup puis restaurez le fichier reçu</span>';
 
     echo widget::button_href('Retour','admin_repo.php?action=dossier_mgt');
     exit();
