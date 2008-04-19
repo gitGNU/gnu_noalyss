@@ -672,18 +672,10 @@ class widget {
     return '<INPUT TYPE="hidden" id="'.$p_name.'" NAME="'.$p_name.'" VALUE="'.$p_value.'">';
   }
   static function button_href($p_name,$p_value) {
-    $agent=$_SERVER['HTTP_USER_AGENT'];
-    
-    if (  strpos($agent,'MSIE') == 0 && 
-	 strpos ($agent,'Konqueror') ==0)
-      return sprintf('<A class="mtitle" HREF="%s"><input type="button" value="%s"></A>',
-		     $p_value,
-		     $p_name);
-    
-    return sprintf('<span style="border:1px solid blue;padding:5px;background-color:lightblue;"> '.
-		     ' <A class="mtitle" HREF="%s">%s</A></span>',
-		     $p_value,
-		     $p_name);
+
+	return sprintf('<button onClick="window.location=\'%s\'">%s</button>',
+				   $p_value,
+				   $p_name);
 
   }
 
