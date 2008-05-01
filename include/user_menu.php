@@ -243,7 +243,7 @@ function ShowMenuJrnUser($p_dossier,$p_type,$p_jrn,$p_extra="")
   include_once ("debug.php");
   include_once("constant.php");
   include_once("class_user.php");
-  echo_debug('user_menu.php',__LINE__,"U_SHOWMENUJRNUSER PTYPE=$p_type");
+
 
   echo '<TABLE><TR>';
   include_once("postgres.php");
@@ -261,13 +261,13 @@ function ShowMenuJrnUser($p_dossier,$p_type,$p_jrn,$p_extra="")
                              where
                              uj_login='".$User->id."'
                              and uj_priv !='X'
-                             and jrn_def_type='$p_type' order by jrn_Def_id
+                             and jrn_def_type=upper('$p_type') order by jrn_Def_id
                              ");
     } else {
       $Ret=ExecSql($Cn,"select jrn_def_id,jrn_def_type,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_deb_max_line,jrn_cred_max_line,
                             jrn_type_id,jrn_desc,'W' as uj_priv
                              from jrn_def join jrn_type on jrn_def_type=jrn_type_id where
-                              jrn_def_type='$p_type' order by jrn_Def_id");
+                              jrn_def_type=upper('$p_type') order by jrn_Def_id");
 
     } 
     $Max=pg_NumRows($Ret);
@@ -299,9 +299,9 @@ function ShowMenuJrnUser($p_dossier,$p_type,$p_jrn,$p_extra="")
 	      $add='&p_action='.$_REQUEST['p_action'];
 	    }
 	  echo '<TD class="mtitle">';
-	  printf ('<A class="mtitle" HREF="%s?'.$str_dossier.'&jrn_type=%s&p_jrn=%s%s">%s</A></TD>',
+	  printf ('<A class="mtitle" HREF="%s?'.$str_dossier.'&p_action=%s&p_jrn=%s%s">%s</A></TD>',
 			  $href,
-			  $l_line['jrn_def_type'],
+			  $p_type,
 			  $l_line['jrn_def_id'],
 			  $add,
 			  $l_line['jrn_def_name']
@@ -315,7 +315,7 @@ function ShowMenuJrnUser($p_dossier,$p_type,$p_jrn,$p_extra="")
     if ( $p_extra !="" ) echo $p_extra;
     echo '</TR>';
     echo "</TABLE>";
-    //echo '</div>';
+
 
 }
 /*! 

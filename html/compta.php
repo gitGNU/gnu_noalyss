@@ -71,5 +71,15 @@ if ( $action=='quick_writing') {
 if ( $action == 'gl' ) {
   require_once ('user_action_gl.php');
  }
+if ( $action == 'ven') {
+  require_once ('compta_ven.inc.php');
+ }
+if ( $action == 'ach') {
+  require_once ('compta_ach.inc.php');
+ }
+if ( $action == 'fin') {
+  require_once ('compta_fin.inc.php');
+ }
+
 html_page_stop();
 ?>
