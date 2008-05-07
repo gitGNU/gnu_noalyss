@@ -872,8 +872,6 @@ class Acc_Ledger {
    * \brief Show the form to encode your operation
    * \param $p_array if you correct or use a predef operation
    * \param $p_readonly 1 for readonly 0 for writable
-   * \param
-   * 
    *
    * \return a string containing the form
    */
@@ -1204,12 +1202,6 @@ class Acc_Ledger {
 
   /*! 
    * \brief get all the data from request and build the object 
-   * \param
-   * \param
-   * \param
-   * 
-   *
-   * \return
    */
   function get_request() 
   {
@@ -1236,12 +1228,6 @@ class Acc_Ledger {
   }
   /*! 
    * \brief this function is intended to test this class
-   * \param
-   * \param
-   * \param
-   * 
-   *
-   * \return
    */
   static function test_me() 
   {
