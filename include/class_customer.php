@@ -253,12 +253,12 @@ where
 	  " ".$client->strAttribut(ATTR_DEF_PAYS).
 	  "</TD>";
 
-	$post=new Acc_Account_Ledger($this->cn,$client->strAttribut(ATTR_DEF_ACCOUNT));
+
 	/* Filter on the default year */
 	$User=new User($this->cn);
 	$filter_year="  j_tech_per in (select p_id from parm_periode ".
                      "where p_exercice='".$User->get_exercice()."')";
-	$a=$post->get_solde_detail($filter_year);
+	$a=$client->get_solde_detail($filter_year);
 
 	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$a['debit']);
 	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$a['credit']);

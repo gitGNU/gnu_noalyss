@@ -277,11 +277,11 @@ class Periode {
   /*!\brief load data from database 
    */
   function load() {
+
     $row=get_array($this->cn,"select p_start,p_end,p_exercice,p_closed,p_central from parm_periode where p_id=$1",
 		 array($this->p_id));
-
     if ($row == null ) return;
-
+    
     $this->p_start=$row[0]['p_start'];
     $this->p_end=$row[0]['p_end'];
     $this->p_exercice=$row[0]['p_exercice'];
