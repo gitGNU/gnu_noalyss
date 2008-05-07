@@ -270,15 +270,18 @@ class Periode {
   /*!\brief load data from database 
    */
   function load() {
+
     $row=get_array($this->cn,"select p_start,p_end,p_exercice,p_closed,p_central from parm_periode where p_id=$1",
 		 array($this->p_id));
-    if ($row == null ) return;
+    
 
-    $this->p_start=$row['p_start'];
-    $this->p_end=$row['p_end'];
-    $this->p_exercice=$row['p_exercice'];
-    $this->p_closed=$row['p_closed'];
-    $this->p_central=$row['p_central'];
+    if ($row == null ) return;
+    
+    $this->p_start=$row[0]['p_start'];
+    $this->p_end=$row[0]['p_end'];
+    $this->p_exercice=$row[0]['p_exercice'];
+    $this->p_closed=$row[0]['p_closed'];
+    $this->p_central=$row[0]['p_central'];
   }
 
   /*!\brief return the max and the min periode of the exercice given
