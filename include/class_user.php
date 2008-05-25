@@ -372,7 +372,7 @@ function insert_default_global_pref($p_type="",$p_value="") {
 	echo_debug('class_user.php',__LINE__,"parameter p_type $p_type p_value  $p_value");
 
 	$default_parameter= array("THEME"=>"Light",
-		"PAGESIZE"=>"50",'TOPMENU'=>'SELECT');
+		"PAGESIZE"=>"50",'TOPMENU'=>'TEXT');
 	$cn=Dbconnect();
 	$Sql="insert into user_global_pref(user_id,parameter_type,parameter_value) 
 				values ('%s','%s','%s')";
