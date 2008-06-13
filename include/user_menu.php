@@ -116,13 +116,13 @@ function GetAvailableFolder($p_user,$p_admin)
                   join  priv_user on ( priv_jnt=jnt_id)
           where use_active=1 
          and use_login='$p_user' 
-         and priv_priv != 'NO' ";
+         and priv_priv != 'NO' order by dos_name";
 
   } else {
     $sql="select distinct dos_id,dos_name,dos_description from ac_users 
                   natural join jnt_use_dos 
                   natural join  ac_dossier 
-      where  use_active=1 ";
+      where  use_active=1  order by dos_name ";
   }
   include_once("postgres.php");
   $cn=DbConnect();
