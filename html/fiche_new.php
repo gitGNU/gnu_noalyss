@@ -60,7 +60,7 @@ foreach ($_GET as $key=>$element) {
   echo_debug('fiche_new.php',__LINE__,"e_$key =$element<br>");
 
 }
-
+echo JS_TVA;
 function new_fiche($p_cn,$p_type) {
   $fiche=new fiche($p_cn);
   $r='<FORM action="fiche_new.php" method="post">';
