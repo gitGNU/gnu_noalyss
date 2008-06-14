@@ -123,7 +123,7 @@ class widget {
       if ( $this->readonly==true ){
 	$readonly=" readonly ";$style='style="border:solid 1px grey;color:black;background:lightblue;"';
       } else {
-	$readonly="  ";$style='style="border:solid 1px blue;"';
+	$readonly="  ";$style='class="input_text"';
       }
 	$this->value=str_replace('"','',$this->value);
 	$r='<INPUT '.$style.' TYPE="TEXT" id="'.
@@ -409,7 +409,7 @@ class widget {
          </TD><TD>
          <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\') value="Recherche fiche">
          %s 
-         <INPUT  style="border:solid 1px blue;"  TYPE="Text"  ID="%s"  NAME="%s" VALUE="%s" SIZE="8" onBlur="ajaxFid(\'%s\',\'%s\')">
+         <INPUT  style="border:solid 1px blue;"  TYPE="Text"  ID="%s"  NAME="%s" VALUE="%s" SIZE="8" onBlur="ajaxFid(\'%s\',\'%s\',\'%s\')">
 
                  ',
 	       $l_sessid,
@@ -423,7 +423,8 @@ class widget {
 	       $this->name,
 	       $this->value,
 	       $this->name,
-	       $this->extra  //deb or cred
+		 $this->extra,  //deb or cred
+	       $l_sessid
 	       );
     } else {
       // readonly == true
@@ -453,7 +454,7 @@ class widget {
 	  $r=sprintf('<TD>
          <INPUT TYPE="button" onClick="SearchCard(\'%s\',\'%s\',\'%s\')" value="%s">
             %s</TD><TD> <INPUT class="input_text"  TYPE="Text"  " '.
-		     ' NAME="%s" ID="%s" VALUE="%s" SIZE="8" onBlur="ajaxFid(\'%s\',\'%s\')">',
+		     ' NAME="%s" ID="%s" VALUE="%s" SIZE="8" onBlur="ajaxFid(\'%s\',\'%s\',\'%s\')">',
 		     $l_sessid,
 		     $this->extra,
 		     $this->name,
@@ -463,7 +464,8 @@ class widget {
 		     $this->name,
 		     $this->value,
 		     $this->name,
-		     $this->extra //deb or cred
+		     $this->extra, //deb or cred
+		     $l_sessid
 		     );
 	}
       else
@@ -482,7 +484,7 @@ class widget {
 		     $this->value,
 		     $this->name,
 		     $this->extra, //deb or cred
-		     $this->extra2 //jrn
+		     $l_sessid
 
 	       );
 	}

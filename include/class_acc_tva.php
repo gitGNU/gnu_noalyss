@@ -116,7 +116,9 @@ class Acc_Tva
 		 $sql,
 		 array($this->tva_id)
 		 );
+
     if ( pg_NumRows($res) == 0 ) return;
+
     $row=pg_fetch_array($res,0);
     foreach ($row as $idx=>$value) { $this->$idx=$value; }
   }

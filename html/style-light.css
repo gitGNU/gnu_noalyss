@@ -471,5 +471,15 @@ a.document:hover {
 .input_text {
 	   border:groove 1px blue;
 }
+legend {
+font-weight: bold;
+font-style: italic;
+font-size: 130% ;
+	
+}
+select {
+border: 1px solid blue;
+}
+
 
 /* </style> */

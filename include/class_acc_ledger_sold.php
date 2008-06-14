@@ -127,7 +127,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $r.="<fieldset>";
     $r.="<legend>En-tête facture client  </legend>";
     
-    $r.='<TABLE border="1" width="100%">';
+    $r.='<TABLE  width="100%">';
     //  Date
     //--
     $Date=new widget("js_date");
@@ -222,6 +222,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $r.="<th>prix</th>";
     $r.="<th>tva</th>";
     $r.="<th>quantit&eacute;</th>";
+
     $r.='</TR>';
     // For each article
     //--
@@ -245,8 +246,6 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 	}
 	$march_label=$a_fiche['vw_name'];
       }
-      
-      
       // Show input
       //--
       $W1=new widget("js_search_only");
@@ -258,7 +257,12 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       $W1->extra='cred';  // credits
 
       $W1->readonly=false;
-      $r.="<TR>".$W1->IOValue()."</TD>";
+      $r.="<TR>".$W1->IOValue();
+      // For computing we need some hidden field for holding the value
+      $r.=widget::hidden('tva_march'.$i,0);      
+      $r.=widget::hidden('htva_march'.$i,0);      
+      $r.=widget::hidden('tvac_march'.$i,0);      
+      $r.="</TD>";
       $Span=new widget ("span");
       $Span->SetReadOnly(false);
       // card's name, price
@@ -269,6 +273,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       $Price->SetReadOnly(false);
       $Price->table=1;
       $Price->size=9;
+      $Price->javascript="onChange=compute_sold($i)";
       $r.=$Price->IOValue("e_march".$i."_sell",$march_sell);
       // vat label
       //--
@@ -285,14 +290,28 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       $Quantity->SetReadOnly(false);
       $Quantity->table=1;
       $Quantity->size=9;
-      //$r.=InputType("","TEXT","e_quant".$i,$quant,false);
+      $Quantity->javascript="onChange=compute_sold($i)";
       $r.=$Quantity->IOValue("e_quant".$i,$quant);
+
       $r.="</tr>";
     }
 
     
     
     $r.="</TABLE>";
+
+    $r.='<div style="position:float;float:left;text-align:right;padding-right:5px;color:blue">';
+    $r.='<br>Total HTVA';
+    $r.='<br>Total TVA:';
+    $r.='<br>Total TVAC';
+    $r.="</div>";
+
+    $r.='<div style="position:float;float:left;text-align:left;color:blue">';
+    $r.='<br><span id="htva">0.0</span>';
+    $r.='<br><span id="tva">0.0</span>';
+    $r.='<br><span id="tvac">0.0</span>';
+    $r.="</div>";
+
     $r.="</fieldset>";
     // Set correctly the REQUEST param for jrn_type 
     $r.=widget::hidden('jrn_type','VEN');

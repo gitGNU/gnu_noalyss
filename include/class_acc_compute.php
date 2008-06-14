@@ -35,6 +35,19 @@
    * compute and complete the object
    * if you need to compute the vat and in another place all the
    * details you'll have to use the clone function
+   private static $variable=array( 'amount'=>'amount',
+				  'amount_vat'=>'amount_vat',
+				  'amount_vat_rate'=>'amount_vat_rate',
+				  'nd_vat'=>'nd_vat',
+				  'nd_vat_rate'=>'nd_vat_rate',
+				  'nd_ded_vat'=>'nd_ded_vat',
+				  'nd_ded_vat_rate'=>'nd_ded_vat_rate',
+				  'amount_nd'=>'amount_nd',
+				  'amount_nd_rate'=>'amount_nd_rate',
+				  'nd_vat_rate'=>'nd_vat_rate',
+				  'amount_perso'=>'amount_perso',
+				  'amount_perso_rate'=>'amount_perso_rate'				  );
+
    */
    
 

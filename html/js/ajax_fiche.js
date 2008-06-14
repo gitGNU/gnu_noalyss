@@ -53,8 +53,9 @@ function errorFid(request,json) {
  * \param p_ctl the ctrl to fill
  * \param p_deb if debit of credit
  * \param p_jrn the ledger
+ * \param phpsessid
  */
-function ajaxFid(p_ctl,p_deb) 
+function ajaxFid(p_ctl,p_deb,phpsessid) 
 {
   var gDossier=$('gDossier').value;
   var ctl_value=$(p_ctl).value;
@@ -62,13 +63,13 @@ function ajaxFid(p_ctl,p_deb)
   if ( trim(ctl_value)==0 ) {
     nLabel=p_ctl+"_label";
     $(nLabel).value="";
-    $(nLabel).innerHTML=".....................................................................................................";
+    $(nLabel).innerHTML="&nbsp;";
     clean_Fid(p_ctl);
     return;
   }
   queryString="?FID="+ctl_value;
   queryString=queryString+"&d="+p_deb+"&j="+p_jrn+'&gDossier='+gDossier;
-  queryString=queryString+'&ctl='+p_ctl;
+  queryString=queryString+'&ctl='+p_ctl+'&PHPSESSID='+phpsessid;
   /*  alert(queryString); */
   var action=new Ajax.Request (
 			       "fid.php",

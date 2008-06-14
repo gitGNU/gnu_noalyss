@@ -386,8 +386,63 @@ function ledger_sold_add_row(p_dossier,p_sessid){
 
   new_tt=tt.replace(/march0/g,"march"+nb.value);
   new_tt=new_tt.replace(/quant0/g,"quant"+nb.value);
+  new_tt=new_tt.replace(/sold\(0\)/g,"sold("+nb.value+")");
 
   newNode.innerHTML=new_tt;
-
+  alert(new_tt);
   nb.value++;
+}
+/**
+ * @brief compute the sum of a sold, update the span tvac, htva and tva
+ * all the needed data are taken from the document (hidden field : phpsessid and gdossier)
+ * @param the number of the changed ctrl
+ */
+function compute_sold(p_ctl_nb) {
+  var phpsessid=$("phpsessid").value;
+  var dossier=$("gDossier").value;
+  var qcode=$("e_march"+p_ctl_nb).value;
+  var tva_id=$('e_march'+p_ctl_nb+'_tva_id').value;
+  var price=$('e_march'+p_ctl_nb+'_sell').value;
+  var quantity=$('e_quant'+p_ctl_nb).value;
+  var querystring='?PHPSESSID='+phpsessid+'&gDossier='+dossier+'&c='+qcode+'&t='+tva_id+'&p='+price+'&q='+quantity+'&n='+p_ctl_nb;
+  var action=new Ajax.Request(
+			      "compute.php",
+			      { 
+			      method:'get',
+			      parameters:querystring,
+			      onFailure:error_compute_sold,
+			      onSuccess:success_compute_sold
+			      }
+			      );
+  }
+/**
+ * @brief update the field htva, tva_id and tvac, callback function for  compute_sold
+ */
+function success_compute_sold(request,json) {
+  var answer=request.responseText.evalJSON(true);
+  var rtva=answer.tva*1;
+  var rhtva=answer.htva*1;
+  var rtvac=answer.tvac*1;
+  var ctl=answer.ctl;
+  $('tva_march'+ctl).value=rtva;
+  $('htva_march'+ctl).value=rhtva;
+  $('tvac_march'+ctl).value=rtvac;
+  var tva=0; var htva=0;var tvac=0;
+
+  for (i=0;i<$("nb_item").value;i++) {
+    alert(' i = '+i+$('tva_march'+i).value);
+    tva+=$('tva_march'+i).value*1;
+    htva+=$('htva_march'+i).value*1;
+    tvac+=$('tvac_march'+i).value*1;
+  }
+
+  $('tva').innerHTML=tva;
+  $('htva').innerHTML=htva;
+  $('tvac').innerHTML=tvac;
+}
+/**
+ * @brief callback error function for  compute_sold
+ */
+function error_compute_sold(request,json) {
+  alert('Ajax do not work');
 }

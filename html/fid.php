@@ -36,8 +36,8 @@ echo_debug('fid.php',__LINE__,"Recherche fid.php".$_GET["FID"]);
 $cn=DbConnect($gDossier);
 if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
 { 
-  $d=$_GET['d'];
-  $jrn=$_GET['j'];
+  $d=FormatString($_GET['d']);
+  $jrn=FormatString($_GET['j']);
 
   switch ($d) {
   case 'cred':
@@ -64,11 +64,12 @@ if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
     $filter_card="and frd_id in ($d)";
   }
 
-
-  $array=get_array($cn,"select vw_name,vw_addr,vw_cp,vw_buy,vw_sell,tva_id 
+  $sql="select vw_name,vw_addr,vw_cp,vw_buy,vw_sell,tva_id 
                     from vw_fiche_attr 
-                    where quick_code=upper('".$_GET['FID']."') $filter_card"
-		    );
+                    where quick_code=upper($1)". $filter_card;
+
+  $array=get_array($cn,$sql,  array($_GET['FID']));
+
   echo_debug("fid",__LINE__,$array);
   $name=$array[0]['vw_name']." ".$array[0]['vw_addr']." ".$array[0]['vw_cp'];
   $sell=$array[0]['vw_sell'] ;

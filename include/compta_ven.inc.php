@@ -31,7 +31,8 @@ $array=array(
 	     array('?p_action=ven&sa=n&'.$str_dossier,'Nouvelle vente','Nouvelle vente',1),
 	     array('?p_action=ven&sa=l&'.$str_dossier,'Liste ventes','Liste des ventes',2),
 	     array('?p_action=ven&sa=lnp&'.$str_dossier,'Liste vente non payées','Liste des ventes non payées',3),
-	     array('?p_action=impress&type=jrn&'.$str_dossier,'Impression','Impression')
+	     array('?p_action=impress&type=jrn&'.$str_dossier,'Impression','Impression'),
+	     array('?p_action=ven&sa=f&'.$str_dossier,'Clients','Solde des clients')
 	      );
 
 $sa=(isset ($_REQUEST['sa']))?$_REQUEST['sa']:-1;
