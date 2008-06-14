@@ -59,7 +59,7 @@ if ( isset( $_GET['bt_html'] ) ) {
   $rep="";
   $submit=new widget();
   $hid=new widget("hidden");
-  echo '<div class="u_content">';
+  echo '<div class="content">';
   if ( $_GET['type_periode'] == 0) {
 	$t=($_GET['from_periode']==$_GET['to_periode'])?"":" -> ".getPeriodeName($cn,$_GET['to_periode'],'p_end');
 	echo '<h2 class="info">'.$Form->id." ".$Form->name.
@@ -151,7 +151,7 @@ if ( sizeof($ret) == 0 ) {
 //-----------------------------------------------------
 // Form
 //-----------------------------------------------------
-echo '<div class="u_content">';
+echo '<div class="content">';
 echo '<FORM METHOD="GET">';
 $hidden=new widget("hidden");
 echo $hidden->IOValue("p_action","impress");

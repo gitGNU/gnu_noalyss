@@ -25,7 +25,7 @@ $gDossier=dossier::id();
 require_once ('class_widget.php');
 require_once("preference.php");
 require_once ('class_periode.php');
-echo '<div class="u_content">';
+echo '<div class="content">';
 $cn=DbConnect($gDossier);
 //-----------------------------------------------------
 // Periode

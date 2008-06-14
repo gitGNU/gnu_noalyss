@@ -25,7 +25,7 @@
 require_once('class_widget.php');
 require_once('class_user.php');
 require_once('class_acc_report.php');
-echo '<DIV class="u_content">';
+echo '<DIV class="content">';
 //----------------------------------------------------------------------
 // Change password
 
@@ -59,7 +59,7 @@ if ( ! isset ($_REQUEST['gDossier']) )
 
 ?>
 
-<div class="u_content">
+<div class="content">
 
 <FORM ACTION="<?php   echo $url;?>" METHOD="POST">
 <fieldset><legend> Options G&eacute;n&eacute;rales</legend>

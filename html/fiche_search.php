@@ -21,7 +21,7 @@
 /*! \file
  * \brief Search a card in a popup window
  */
-
+var_dump($_GET);
 include_once ("ac_common.php");
 include_once ("poste.php");
 include_once ("postgres.php");
@@ -31,7 +31,7 @@ $rep=DbConnect();
 include_once ("class_user.php");
 $User=new User($rep);
 $User->Check();
-
+echo JS_SEARCH_CARD;
 //determine focus:
 if ( isset ( $_GET['search']) )
 {
@@ -85,6 +85,12 @@ function SetData (name_ctl,value,value_2,value_3,value_4,value_5,value_6) {
 <?php
 $cn=DbConnect($gDossier);
 $r="";
+$add_card=new widget('button');
+$add_card->javascript=sprintf("NewCard('%s','%s','%s')",
+			      $_REQUEST['PHPSESSID'],
+			      $_GET['type'],
+			      "fic_search");
+$add_card->label="Ajout d'une fiche";
 
 foreach ($_GET as $key=>$element) {
   // The value are e_name e_type e_PHPSESSID
@@ -95,9 +101,11 @@ foreach ($_GET as $key=>$element) {
 $e_fic_search=(isset ($_REQUEST['fic_search']))?$_REQUEST['fic_search']:"";
 
 $r.="<FORM METHOD=\"GET\" >";
-$r.="Recherche : ".'<INPUT TYPE="TEXT" NAME="fic_search" VALUE="'.$e_fic_search.'">';
+$r.="Recherche : ".'<INPUT TYPE="TEXT" id="fic_search" NAME="fic_search" VALUE="'.$e_fic_search.'">';
 $r.='<INPUT TYPE="submit" name="search" value="Go">';
-
+if ( isset ($_REQUEST['p_jrn']))
+  echo widget::hidden('p_jrn',$_REQUEST ['p_jrn']);
+echo dossier::hidden();
 $r.="<div>";
 echo $r;
 $r="";
@@ -167,6 +175,7 @@ if (
   // Test whether rows are returned
  if ( ($Max = pg_NumRows($Res) ) == 0 ) {
    echo_warning("Pas de fiche trouvée");
+   echo $add_card->IOValue();
    return;
  } 
  // Show the cards
@@ -212,6 +221,6 @@ echo $r;
 ?>
 
 <?php
-
+echo $add_card->IOValue();
 html_page_stop();
 ?>

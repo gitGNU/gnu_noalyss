@@ -29,7 +29,7 @@ define ("DBVERSION",48);
 
 define ("MAX_COMPTE",4);
 define ('MAX_BUD_DETAIL',20);
-
+define ('MAX_ARTICLE',10);
 define ("DEBUG","true");
 
 

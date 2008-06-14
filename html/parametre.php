@@ -231,7 +231,7 @@ if ( $p_action=='company') {
 //-----------------------------------------------------
 echo "</DIV>";
 if ( $p_action == 'document' ) {
-  echo '<div class="u_content">';
+  echo '<div class="content">';
   require_once('document_modele.inc.php');
   echo '</div>';
 }  
@@ -265,7 +265,7 @@ if ( $p_action == 'defrapport' ) {
 //----------------------------------------------------------------------
 if ( $p_action == 'jrn' ) {
   $sa=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
-  //  echo '<div class="u_content">';
+  //  echo '<div class="content">';
   if ( $sa == "add") 
     require_once ('param_jrn_add.inc.php');
   elseif ($sa=='detail') 

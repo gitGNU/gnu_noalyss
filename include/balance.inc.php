@@ -33,7 +33,7 @@ include_once("class_acc_balance.php");
 $User->can_request($cn,BALANCE);
 
 
-echo '<div class="u_content">';
+echo '<div class="content">';
 
 // Show the form for period
 echo '<FORM action="?p_action=impress&type=bal" method="post">';

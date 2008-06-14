@@ -54,14 +54,15 @@ function errorFid(request,json) {
  * \param p_deb if debit of credit
  * \param p_jrn the ledger
  */
-function ajaxFid(p_ctl,p_deb,p_jrn) 
+function ajaxFid(p_ctl,p_deb) 
 {
   var gDossier=$('gDossier').value;
   var ctl_value=$(p_ctl).value;
+  var p_jrn=$('p_jrn').value;
   if ( trim(ctl_value)==0 ) {
     nLabel=p_ctl+"_label";
     $(nLabel).value="";
-    $(nLabel).innerHTML="";
+    $(nLabel).innerHTML=".....................................................................................................";
     clean_Fid(p_ctl);
     return;
   }

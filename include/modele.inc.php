@@ -197,7 +197,7 @@ if ( isset ($_POST["FMOD_NAME"]) ) {
 $Res=ExecSql($cn,"select mod_id,mod_name,mod_desc from 
                       modeledef order by mod_name");
 $count=pg_NumRows($Res);
-echo '<div class="u_content">';
+echo '<div class="content">';
 echo "<H2>Modèles</H2>";
 if ( $sa=='list') {
   if ( $count == 0 ) {

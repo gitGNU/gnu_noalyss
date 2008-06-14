@@ -30,7 +30,7 @@ require_once ('class_anc_plan.php');
 require_once ('class_anc_operation.php');
 require_once ('class_acc_ledger.php');
 require_once ('class_acc_operation.php');
-require_once ('class_acc_jrn_info.php');
+require_once ('class_acc_ledger_info.php');
 
 /*! 
  * \brief  Display the form to UPDATE account operation in the expert view
@@ -494,7 +494,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
   $r.="</TR></TABLE>";
   if ( $content['jrn_def_type'] == 'VEN' ) {
     /* count the number of additionnal info */
-    $acc_jrn_info=new Acc_Jrn_Info($p_cn);
+    $acc_jrn_info=new Acc_Ledger_Info($p_cn);
     $acc_jrn_info->set_jrn_id($p_jr_id);
 
     /* if additional info > 0 show them */

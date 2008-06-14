@@ -25,7 +25,7 @@
  */
 require_once ('class_bud_synthese_anc.php');
 
-echo '<div class="u_content">';
+echo '<div class="content">';
 $obj=new Bud_Synthese_Anc($cn);
 $bh_id=(isset($_REQUEST['bh_id']))?$_REQUEST['bh_id']:'';
 

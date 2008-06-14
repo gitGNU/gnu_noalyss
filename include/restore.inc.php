@@ -31,7 +31,7 @@ if ( isset ($_REQUEST['sa'] )) {
   putenv("PGUSER=".phpcompta_user);
   $retour='<hr>'.widget::button_href("Retour","?action=restore&PHPSESSID=".$_REQUEST['PHPSESSID']);
   if ( ! isset($_REQUEST['t'])) {
-    echo '<div class="u_content">';
+    echo '<div class="content">';
     echo ("<span class=\"error\">Vous devez préciser s'il s'agit d'un modèle ou d'un dossier</span>");
     echo $retour;
     echo '</div>';
@@ -40,7 +40,7 @@ if ( isset ($_REQUEST['sa'] )) {
   if ( empty ($_FILES['file']['name']) || 
        strlen(trim($_FILES['file']['name']))==0
        ) {
-    echo '<div class="u_content">';
+    echo '<div class="content">';
 
     echo ("<span class=\"error\">Vous devez donner un fichier </span>");
     echo $retour;
@@ -50,7 +50,7 @@ if ( isset ($_REQUEST['sa'] )) {
   //---------------------------------------------------------------------------
   // Restore a folder (dossier)
   if ( $_REQUEST['t']=='d') {
-    echo '<div class="u_content">';
+    echo '<div class="content">';
 
     $cn=DbConnect();
     $id=NextSequence($cn,'dossier_id');
@@ -88,7 +88,7 @@ if ( isset ($_REQUEST['sa'] )) {
   // Restore a modele
 
   if ( $_REQUEST['t']=='m') {
-    echo '<div class="u_content">';
+    echo '<div class="content">';
 
     $cn=DbConnect();
     $id=NextSequence($cn,'s_modid');
@@ -124,7 +124,7 @@ if ( isset ($_REQUEST['sa'] )) {
     echo '</div>';
   }
  } else  {
-  echo '<div class="u_content">';
+  echo '<div class="content">';
   echo '<form method="POST" enctype="multipart/form-data" >';
   echo widget::hidden('action','restore');
   echo widget::hidden('sa','r');

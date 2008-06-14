@@ -99,8 +99,6 @@ Periode::test_me();
 
 require_once ('verif.inc.php');
 
-require_once('class_acc_jrn_info.php');
-Acc_Jrn_Info::test_me();
 
 require_once('class_acc_report.php');
 Rapport::test_me();
@@ -112,7 +110,11 @@ Acc_Tva::test_me();
 
 require('class_acc_compute.php');
 Acc_Compute::test_me();
-*/
+
 require_once('class_widget.php');
 
 echo widget::button_href("On y va",'login.php');
+*/
+
+require_once('class_acc_ledger_info.php');
+Acc_Ledger_Info::test_me();

@@ -140,25 +140,45 @@ class User {
   }
 /*! 
  * \brief get all the available ledgers for the current user
- * 
+ * \param $p_type = ALL or the type of the ledger (ACH,VEN,FIN,ODS)
+ * \param $p_access =3 for READ or WRITE, 2 READ and write, 1 for readonly
  *
  * \return an array
  */
-  function get_ledger() {
+  function get_ledger($p_type='ALL',$p_access=3) {
+
+
     if ( $this->admin != 1) {
+      $sql_type=($p_type=='ALL')?'':"and jrn_def_type=upper('".FormatString($p_type)."')";
+      switch($p_access) {
+      case 3:
+	$sql_access=" and uj_priv='W'";
+	break;
+      case 2:
+	$sql_access=" and uj_priv != 'X'";
+	break;
+
+      case 1:
+	$sql_access=" and uj_priv = 'R'";
+	break;
+
+      }
       $sql="select jrn_def_id,jrn_def_type,
 jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
                                jrn_deb_max_line,jrn_cred_max_line
                              from jrn_def join jrn_type on jrn_def_type=jrn_type_id
                              join user_sec_jrn on uj_jrn_id=jrn_def_id 
                              where
-                             uj_login='".$this->id."'
-                             and uj_priv !='X'
+                             uj_login='".$this->id."'".
+	                     $sql_type."
+                             and uj_priv ='X'
                              order by jrn_Def_id";
     }else {
+      $sql_type=($p_type=='ALL')?'':"where jrn_def_type=upper('".FormatString($p_type)."')";
       $sql="select jrn_def_id,jrn_def_type,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_deb_max_line,jrn_cred_max_line,
                             jrn_type_id,jrn_desc,'W' as uj_priv
                              from jrn_def join jrn_type on jrn_def_type=jrn_type_id 
+                            $sql_type
                              order by jrn_Def_id";
     }
     $res=ExecSql($this->db,$sql);
@@ -167,11 +187,13 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
   }
 
   /*!\brief return an sql condition for filtering the permitted ledger
+   * \param $p_type = ALL or the type of the ledger (ACH,VEN,FIN,ODS)
+   * \param $p_access =3 for READ or WRITE, 2 READ and write, 1 for readonly
    *
    *\return string
    */
-  function get_ledger_sql() {
-    $aLedger=$this->get_ledger();
+  function get_ledger_sql($p_type='ALL',$p_access=3) {
+    $aLedger=$this->get_ledger($p_type,$p_access);
     $sql=" jrn_def_id in (";
     foreach ($aLedger as $row) {
       $sql.=$row['jrn_def_id'].',';

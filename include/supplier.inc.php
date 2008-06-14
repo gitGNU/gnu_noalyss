@@ -75,7 +75,7 @@ if ( $sub_action  == "" )
 if ( $sub_action=="blank") 
 {
   $retour=widget::button_href('Retour','commercial.php?p_action=fournisseur&'.dossier::get());
-  echo '<div class="u_content">';
+  echo '<div class="content">';
 
   echo $retour;
   $c=new Supplier($cn);
@@ -97,7 +97,7 @@ if ( $sub_action=="blank")
 if ( $sub_action == "list" )
 {
 ?>
-<div class="u_content">
+<div class="content">
 <span style="position:float;float:left">
 <form method="get" action="commercial.php">
 <?php 
@@ -134,7 +134,7 @@ if ( $sub_action == "list" )
    $sup=new Supplier($cn);
  $search=(isset($_GET['query']))?$_GET['query']:"";
  // echo '<div style="position:absolute;left:15%;width:67%;margin-top:20px;">';
- echo '<div class="u_content">';
+ echo '<div class="content">';
  echo $sup->Summary($search);
  echo '</div>';
  echo '</div>';
@@ -145,7 +145,7 @@ if ( $sub_action == "list" )
 if ( $sub_action == 'detail' )
 {
   $f_id=$_REQUEST['f_id'];
-  echo '<div class="u_content">';
+  echo '<div class="content">';
   $sup=new Supplier($cn,$f_id);
   $retour=widget::button_href("Retour", urldecode($_REQUEST['url']));
 

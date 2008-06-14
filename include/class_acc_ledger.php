@@ -706,13 +706,14 @@ class Acc_Ledger {
   /*! 
    * \brief Show a select list of the ledger you can access in
    * writing, the security is taken in care but show the readable AND
-   * writable ledger 
-   *
+   * writable ledger.
+   * \param $p_type = ALL or the type of the ledger (ACH,VEN,FIN,ODS)
+   * \param $p_access =3 for READ and WRITE, 2 for write and 1 for readonly
    * \return object widget select
    */
-  function select_ledger() {
+  function select_ledger($p_type="ALL",$p_access=3) {
     $user=new User($this->db);
-    $array=$user->get_ledger();
+    $array=$user->get_ledger($p_type,$p_access);
     $idx=0;
     $ret=array();
 

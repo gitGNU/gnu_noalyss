@@ -90,7 +90,7 @@ if ( $sub_action == "solde" )
             or pcm_val::text like '".$caisse->p_value."%'
             order by pcm_val::text";
   $ResAccount=ExecSql($cn,$accountSql);
-  echo '<div class="u_content">';
+  echo '<div class="content">';
 
   echo "<table>";
   // Filter the saldo
@@ -130,7 +130,7 @@ if ( $sub_action == "list")
 		       '<td class="mtitle"><A class="mtitle" HREF="commercial.php?liste&p_action=bank&sa=solde&'.dossier::get().'">Solde</A></td>');
   echo '</div>';
 
-  echo '<div class="u_content">';
+  echo '<div class="content">';
 
   
   echo '<form>';
@@ -233,7 +233,7 @@ if ( $sub_action=="use_opd" ) {
 	'<INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 
   $form=FormFin($cn,$_GET['p_jrn'],$User->get_periode(),$submit,$p_post,false,$p_post['nb_item']);
-  echo '<div class="u_content">';
+  echo '<div class="content">';
   echo   $form;
   echo '</div>';
   exit();
@@ -260,7 +260,7 @@ if ( isset ($_POST['add_item']) || isset ($_POST['correct'])  )
   $form=FormFin($cn,$p_jrn,$User->get_periode(),$submit,$_POST,false,  $nb_item);
   //$form=FormFin($cn,$p_jrn,$User->get_periode(),$submit,$_POST,false,  $nb_number);
 
-  echo '<div class="u_content">';
+  echo '<div class="content">';
   echo $form;
   echo JS_CALC_LINE;
   echo '</div>';
@@ -284,7 +284,7 @@ if ( isset($_POST['save']))
 
   $form=FormFin($cn,$p_jrn,$User->get_periode(),$submit,$_POST,true,$nb_number,true);
 
-  echo '<div class="u_content">';
+  echo '<div class="content">';
   echo $form;
   echo '<hr>';
   echo '</form>';
@@ -341,7 +341,7 @@ if ( $p_jrn != -1 )
           <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer" ID="SubmitButton">';
   // Show an empty form of invoice
   $form=FormFin($cn,$p_jrn,$User->get_periode(),$submit,null,false,$jrn->GetDefLine('deb'));
-  echo '<div class="u_content">';
+  echo '<div class="content">';
   echo $form;
   echo '<form method="GET">';
   $op=new Pre_operation($cn);

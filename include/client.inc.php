@@ -77,7 +77,7 @@ if ( $sub_action=="blank")
 
   $retour=widget::button_href('Retour','commercial.php?p_action=client&'.dossier::get());
 
-  echo '<div class="u_content">';
+  echo '<div class="content">';
 
   echo $retour;
   $c=new Customer($cn);
@@ -98,7 +98,7 @@ if ( $sub_action=="blank")
 if ( $sub_action == "list" )
 {
 ?>
-<div class="u_content">
+<div class="content">
 <span  style="position:float;float:left">
 <form method="get" action="commercial.php">
 <?php
@@ -133,7 +133,7 @@ if ( $sub_action == "list" )
    $client=new Customer($cn);
  $search=(isset($_GET['query']))?$_GET['query']:"";
 
- echo '<div class="u_content">';
+ echo '<div class="content">';
  echo $client->Summary($search);
  echo '</div>';
  echo '</div>';
@@ -144,7 +144,7 @@ if ( $sub_action == "list" )
 if ( $sub_action == 'detail' )
 {
   $f_id=$_REQUEST['f_id'];
-  echo '<div class="u_content">';
+  echo '<div class="content">';
   $client=new Customer($cn,$f_id);
   $retour=widget::button_href("Retour", urldecode($_REQUEST['url']));
 

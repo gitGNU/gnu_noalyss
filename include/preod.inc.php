@@ -28,7 +28,7 @@ require_once('postgres.php');
 require_once('ac_common.php');
 require_once('class_pre_operation.php');
 
-  echo '<div class="u_content">';
+  echo '<div class="content">';
   echo '<form method="GET">';
   $sel=new widget('select');
   $sel->name="jrn";

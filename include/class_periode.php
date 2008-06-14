@@ -306,7 +306,23 @@ class Periode {
     $rMin->load();
     return array($rMax,$rMin);
   }
-
+/*! 
+ * \brief Give the start & end date of a periode
+ * 
+ * \return array containing the start date & the end date
+ *     
+ *
+ */ 
+  public function get_date_limit($p_periode) {
+    $sql="select to_char(p_start,'DD.MM.YYYY') as p_start,
+              to_char(p_end,'DD.MM.YYYY')   as p_end
+       from parm_periode
+         where p_id=".$p_periode;
+    $Res=ExecSql($this->cn,$sql);
+    if ( pg_NumRows($Res) == 0) return null;
+    return pg_fetch_array($Res,0);
+    
+  }
 
   static function test_me() {
     $cn=DbConnect(dossier::id());

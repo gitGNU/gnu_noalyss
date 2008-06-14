@@ -25,7 +25,7 @@
  */
 require_once ('class_bud_synthese_hypo.php');
 
-echo '<div class="u_content">';
+echo '<div class="content">';
 $obj=new Bud_Synthese_Hypo($cn);
 $bh_id=(isset($_REQUEST['bh_id']))?$_REQUEST['bh_id']:'';
 

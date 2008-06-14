@@ -146,7 +146,7 @@ echo '</TABLE>';
 echo '<INPUT TYPE="submit" name="search" value="cherche">';
 echo '<input type="button" name="update_concerned" value="Mise à jour des réconciliation" onClick="updateJrn(\''.$p_ctl.'\')">';
 echo '</FORM>';
-echo '<div class="u_content">';
+echo '<div class="content">';
 // if a search is asked otherwise don't show all the rows
 if ( isset ($_GET["search"]) ) {
   $sql="select j_id,to_char(j_date,'DD.MM.YYYY') as j_date,

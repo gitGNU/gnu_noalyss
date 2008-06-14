@@ -34,7 +34,7 @@ if  ( isset ($_REQUEST['fd_id'])) {
   if ($with_amount) 
     include_once("class_acc_account_ledger.php");
 
-  echo '<div class="u_content">';
+  echo '<div class="content">';
   $submit=new widget();
   $hid=new widget("hidden");
   $fiche_id=new widget("hidden");

@@ -30,7 +30,7 @@ require_once ('class_widget.php');
 require_once ('class_bud_hypo.php');
 require_once ('class_anc_account.php');
 
-echo '<div class="u_content">';
+echo '<div class="content">';
 
 
 

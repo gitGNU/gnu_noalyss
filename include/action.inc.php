@@ -86,7 +86,7 @@ function ShowActionList($cn,$retour,$h_url)
 </form>
 </span>
 </div>
-<div class="u_content">
+<div class="content">
 
 <?php  
     // show the  action in 
@@ -212,7 +212,7 @@ if ( isset ($_POST['add_action_here']) )
       $act->d_state=(isset($_POST['d_state']))?$_POST['d_state']:"";
       $act->ag_ref="";
       $act->ag_title=(isset($_POST['ag_title']))?$_POST['ag_title']:"";
-      echo '<div class="u_content">';
+      echo '<div class="content">';
       echo JS_SEARCH_CARD;
       // Add hidden tag
       echo '<form name="RTEDemo" action="commercial.php?p_action=suivi_courrier" method="post" onsubmit="return submitForm();">';
@@ -240,7 +240,7 @@ if ( isset ($_POST['add_action_here']) )
 // permit the update
 if ( $sub_action=='detail' )
 {
-  echo '<div class="u_content">';
+  echo '<div class="content">';
   echo '<div style="float:right">';
   echo '<A class="mtitle" HREF="commercial.php?p_action=suivi_courrier&'.$str_dossier.'"><input type="button" value="Retour"></A>';
   echo '</div>';

@@ -25,6 +25,10 @@ require_once("class_fiche_def.php");
 
 /*! \file
  * \brief Create a new card in a popup window
+ * \note parameter (GET) e_type (deb, cred, filter) if filter is
+ * specified, you can give a p_jrn parameter, otherwise e_type
+ * contains a list of value
+ * 
  */
 
 /* $Revision$ */
@@ -109,11 +113,11 @@ if ( isset($_POST['add_fiche'])) {
   } else { // We have to find it from the database
     if ( $e_type == 'deb' ) {
       $get='jrn_def_fiche_deb';
-      $sql="select $get as fiche from jrn_def where jrn_def_id=".$_GET['p_jrn'];
+      $sql="select $get as fiche from jrn_def where jrn_def_id=$1";
     }
     if ( $e_type == 'cred' ) {
       $get='jrn_def_fiche_cred';
-    $sql="select $get as fiche from jrn_def where jrn_def_id=".$_GET['p_jrn'];
+      $sql="select $get as fiche from jrn_def where jrn_def_id=$1";
     }
     if ($e_type=='filter') {
     
@@ -121,13 +125,13 @@ if ( isset($_POST['add_fiche'])) {
 
     $get_deb='jrn_def_fiche_deb';
 
-    $sql="select $get_cred||','||$get_deb as fiche from jrn_def where jrn_def_id=".$_GET['p_jrn'];
+    $sql="select $get_cred||','||$get_deb as fiche from jrn_def where jrn_def_id=$1";
     
   }
 
     
 
-    $Res=ExecSql($cn,$sql);
+    $Res=ExecSqlParam($cn,$sql,array($_GET['p_jrn']));
     
   // fetch it
     $Max=pg_NumRows($Res);

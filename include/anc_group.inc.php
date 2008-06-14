@@ -50,7 +50,7 @@ if ( isset($_POST['add'])) {
  }
 $array=$r->myList();
 
-echo '<div class="u_content">';
+echo '<div class="content">';
 echo '<form method="post">';
 echo dossier::hidden();
 echo '<table style="border: 2px outset blue; width: 100%;"  >';

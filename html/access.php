@@ -40,7 +40,7 @@ html_page_start($_SESSION['g_theme']);
 echo '<div class="u_tmenu">';
 echo menu_tool('access');
 echo '</div>';
-echo '<div class="u_content">';
+echo '<div class="content">';
 
 
 

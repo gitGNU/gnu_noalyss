@@ -111,7 +111,7 @@ if ( $sub_action=="blank")
 if ( $sub_action == "list" )
 {
 ?>
-<div class="u_content">
+<div class="content">
 <span>
 <form method="get" action="commercial.php">
 <?php

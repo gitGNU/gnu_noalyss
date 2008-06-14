@@ -55,7 +55,7 @@ if ( $action=="use_opd" ) {
 	'<INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 
   $form=FormFin($cn,$_GET['p_jrn'],$User->get_periode(),$submit,$p_post,false,$p_post['nb_item']);
-  echo '<div class="u_content">';
+  echo '<div class="content">';
   echo   $form;
   echo '</div>';
   exit();
@@ -81,7 +81,7 @@ if ( $action == 'new' ) {
 	  $jrn=new Acc_Ledger($cn,  $p_jrn);
 
 	  $r=FormFin($cn,$p_jrn,$User->get_periode(),$submit,null,false,$jrn->GetDefLine());
-	  echo '<div class="u_content">';
+	  echo '<div class="content">';
 	  echo $r;
 	  echo "<div>";
 	     //--------------------
@@ -121,7 +121,7 @@ if ( $action == 'new' ) {
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 
 	  $r=FormFin($cn,$_GET['p_jrn'],$User->get_periode(),$submit,$_POST,false,  $nb_number);
-	  echo '<div class="u_content">';
+	  echo '<div class="content">';
 	  echo $r;
 	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."</div>";
 
@@ -201,7 +201,7 @@ if ( $action == 'voir_jrn' ) {
        exit -1;
   }
 ?>
-<div class="u_content">
+<div class="content">
 
 <form method= "get" action="user_jrn.php">
 

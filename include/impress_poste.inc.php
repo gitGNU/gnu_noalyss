@@ -34,7 +34,7 @@ include_once("postgres.php");
 //-----------------------------------------------------
 // Form
 //-----------------------------------------------------
-echo '<div class="u_content">';
+echo '<div class="content">';
 echo JS_SEARCH_POSTE;
 echo JS_SEARCH_CARD;
 echo '<FORM action="?" METHOD="GET">';
@@ -130,7 +130,7 @@ if ( isset( $_REQUEST['bt_html'] ) ) {
   // A account  is given
   if ( $go == 1) 
     {
-      echo '<div class="u_content">';
+      echo '<div class="content">';
       if ( ! isset($_REQUEST['oper_detail']) ) {
 	Acc_Account_Ledger::HtmlTableHeader();
 	$Poste->HtmlTable();
@@ -167,14 +167,14 @@ if ( isset( $_REQUEST['bt_html'] ) ) {
   if ( $go == 2) 
     {
       if ( ! isset($_REQUEST['oper_detail']) ) {
-	echo '<div class="u_content">';
+	echo '<div class="content">';
 	$fiche->HtmlTableHeader();
 	$fiche->HtmlTable();
 	$fiche->HtmlTableHeader();
 	echo "</div>";
       } else {
 	// Detail //
-	echo '<div class="u_content">';
+	echo '<div class="content">';
 	$fiche->HtmlTableHeader();
 	$fiche->HtmlTableDetail();
 	$fiche->HtmlTableHeader();
@@ -189,7 +189,7 @@ if ( isset( $_REQUEST['bt_html'] ) ) {
 
       if ( sizeof($a_poste) == 0 ) 
 	exit;
-      echo '<div class="u_content">';
+      echo '<div class="content">';
 
 
       if ( ! isset ($_REQUEST['oper_detail'])) {

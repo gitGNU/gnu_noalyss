@@ -405,28 +405,25 @@ class widget {
     $l_sessid=$_REQUEST['PHPSESSID'];
     if  ( $this->readonly == false ) {
       $r=sprintf('<TD>
-         <INPUT TYPE="button" onClick=NewCard(\'%s\',\'%s\',\'%s\',\'%s\') value="Nouvelle fiche">
+         <INPUT TYPE="button" onClick=NewCard(\'%s\',\'%s\',\'%s\') value="Nouvelle fiche">
          </TD><TD>
-         <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') value="Recherche fiche">
+         <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\') value="Recherche fiche">
          %s 
-         <INPUT  style="border:solid 1px blue;"  TYPE="Text"  ID="%s"  NAME="%s" VALUE="%s" SIZE="8" onBlur="ajaxFid(\'%s\',\'%s\',\'%s\')">
+         <INPUT  style="border:solid 1px blue;"  TYPE="Text"  ID="%s"  NAME="%s" VALUE="%s" SIZE="8" onBlur="ajaxFid(\'%s\',\'%s\')">
 
                  ',
 	       $l_sessid,
 	       $this->extra, // deb or cred
 	       $this->name,
-	       $this->extra2, //jrn
 	       $l_sessid,
 	       $this->extra,
 	       $this->name,
-	       $this->extra2,
 	       $this->label,
 	       $this->name,
 	       $this->name,
 	       $this->value,
 	       $this->name,
-	       $this->extra, //deb or cred
-	       $this->extra2 //jrn
+	       $this->extra  //deb or cred
 	       );
     } else {
       // readonly == true
@@ -450,12 +447,13 @@ class widget {
   if ( strtolower($this->type)=="js_search_only") {
     $l_sessid=$_REQUEST['PHPSESSID'];
     if  ( $this->readonly == false ) {
+      if ( $this->extra2 == "" ) $this->extra2="QuickCode";
       if ( $this->table==1)
 	{
 	  $r=sprintf('<TD>
-         <INPUT TYPE="button" onClick="SearchCard(\'%s\',\'%s\',\'%s\',\'%s\')" value="QuickCode">
-            %s</TD><TD> <INPUT style="border:solid 1px blue;"  TYPE="Text"  style="border:solid 1px blue;" '.
-		     ' NAME="%s" ID="%s" VALUE="%s" SIZE="8" onBlur="ajaxFid(\'%s\',\'%s\',\'%s\')">',
+         <INPUT TYPE="button" onClick="SearchCard(\'%s\',\'%s\',\'%s\')" value="%s">
+            %s</TD><TD> <INPUT class="input_text"  TYPE="Text"  " '.
+		     ' NAME="%s" ID="%s" VALUE="%s" SIZE="8" onBlur="ajaxFid(\'%s\',\'%s\')">',
 		     $l_sessid,
 		     $this->extra,
 		     $this->name,
@@ -465,15 +463,13 @@ class widget {
 		     $this->name,
 		     $this->value,
 		     $this->name,
-		     $this->extra, //deb or cred
-		     $this->extra2 //jrn
-
+		     $this->extra //deb or cred
 		     );
 	}
       else
 	{
 	  $r=sprintf('
-         <INPUT TYPE="button" onClick="SearchCard(\'%s\',\'%s\',\'%s\',\'%s\')" value="QuickCode">
+         <INPUT TYPE="button" onClick="SearchCard(\'%s\',\'%s\',\'%s\')" value="%s">
             %s <INPUT TYPE="Text"  style="border:solid 1px blue;" '.
 		     ' NAME="%s" ID="%s" VALUE="%s" SIZE="8"  onBlur="ajaxFid(\'%s\',\'%s\',\'%s\')">',
 		     $l_sessid,

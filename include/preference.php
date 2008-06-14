@@ -119,7 +119,8 @@ function FormPeriode($p_cn,$l_default=0,$p_type=OPEN,$p_suff="")
  * \param  p_periode
  *
  * \return array containing the start date & the end date
- *     
+ * \todo the function get_periode@preference.php    must be replaced
+ * by Periode::get_limit
  *
  */ 
 function get_periode($p_cn,$p_periode) 

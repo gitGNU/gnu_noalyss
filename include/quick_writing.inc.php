@@ -81,7 +81,7 @@ $ledger->with_concerned=true;
 // no ledger selected, propose one
 if ($id == -1 )
   {
-    echo '<div class="u_content">';
+    echo '<div class="content">';
 
      // Vide
      echo '<FORM method="get" action="?">';
@@ -98,7 +98,7 @@ if ( $User->AccessJrn($cn,$id) == false ) {
 <script> alert(\"L'acces a ce journal est interdit, contactez votre responsable\");</script>";
   exit();
  }
-echo '<div class="u_content">';
+echo '<div class="content">';
 echo '<h2 class="info"> Journal : '.$ledger->get_name().'</h2>';
 echo widget::button_href('Autre journal','?p_action='.$_REQUEST['p_action'].'&'.dossier::get());
 // User can write ?

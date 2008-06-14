@@ -39,7 +39,7 @@ include_once("postgres.php");
 //-----------------------------------------------------
 $filter_year=" where p_exercice='".$User->get_exercice()."'";
 $bilan=new Acc_Bilan($cn);
-echo '<div class="u_content">';
+echo '<div class="content">';
 
 echo '<FORM  METHOD="GET">';
 echo widget::hidden('p_action','impress');

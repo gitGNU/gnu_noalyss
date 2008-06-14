@@ -31,7 +31,7 @@ require_once ('postgres.php');
  * the order or other info are going to be stored and used in the detail.
  * this class maps the table jrn_info
  */
-class Acc_Jrn_Info {
+class Acc_Ledger_Info {
 	var $cn;    /*!< connection */
 	var $ji_id;    /*!< primary key */
 	var $id_type;    /*!< type id */
@@ -125,7 +125,7 @@ class Acc_Jrn_Info {
 	  $array=pg_fetch_all($r);
 	  $ret=array();
 	  foreach ($array as $row) {
-	    $o=new Acc_Jrn_Info($this->cn,$row['ji_id']);
+	    $o=new Acc_Ledger_Info($this->cn,$row['ji_id']);
 	    $o->load();
 	    $ret[]=clone $o;
 	  } 
@@ -149,7 +149,7 @@ class Acc_Jrn_Info {
 	static function test_me() {
 		echo "Dossier = ".Dossier::id();
 		$cn=DbConnect(Dossier::id());
-		$a=new Acc_Jrn_Info($cn);
+		$a=new Acc_Ledger_Info($cn);
 		$a->jr_id=3;
 		$a->id_type='BON_COMMANDE';	
 		$a->ji_value='BON';

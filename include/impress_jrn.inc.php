@@ -55,7 +55,7 @@ require_once("class_acc_ledger.php");
   $rep="";
   $submit=new widget();
   $hid=new widget("hidden");
-  echo '<div class="u_content">';
+  echo '<div class="content">';
   echo '<h2 class="info">'.$Jrn->name.'</h2>';
   echo "<table>";
   echo '<TR>';
@@ -217,7 +217,7 @@ if ( count($ret) < 1 )
 //-----------------------------------------------------
 // Form
 //-----------------------------------------------------
-echo '<div class="u_content">';
+echo '<div class="content">';
 echo '<FORM ACTION="?p_action=impress&type=jrn" METHOD="POST">'.dossier::hidden();
 echo '<TABLE width="90%" align="center"><TR>';
 $w=new widget("select");

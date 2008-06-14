@@ -52,7 +52,7 @@ $User=ExecSql($cn,"select  use_id,use_first_name,use_name,use_login from ac_user
 $MaxUser=pg_NumRows($User);
 
 
-echo '<DIV class="u_content" >';
+echo '<DIV class="content" >';
 
 echo '<TABLE CELLSPACING="20" ALIGN="CENTER">';
 for ($i = 0;$i < $MaxUser;$i++) {
