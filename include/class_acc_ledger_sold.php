@@ -127,7 +127,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $r.="<fieldset>";
     $r.="<legend>En-tête facture client  </legend>";
     
-    $r.='<TABLE width="100%">';
+    $r.='<TABLE border="1" width="100%">';
     //  Date
     //--
     $Date=new widget("js_date");
@@ -180,7 +180,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     // Save old value and set a new one
     //--
     $e_client=( isset ($e_client) )?$e_client:"";
-    $e_client_label=str_pad("",100,".");
+    $e_client_label="&nbsp;";//str_pad("",100,".");
   
   
     // retrieve e_client_label
@@ -198,9 +198,9 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $W1->table=0;
     $W1->extra=$fiche;  // list of card
     $W1->extra2="Recherche";
-    $r.='<TR><td colspan="5">'.$W1->IOValue();
+    $r.='<TR><td colspan="5" >'.$W1->IOValue();
     $client_label=new widget("span");
-    $r.= $client_label->IOValue("e_client_label",$e_client_label)."</TD></TR>";
+    $r.=$client_label->IOValue("e_client_label",$e_client_label)."</TD></TR>";
     
     $r.="</TABLE>";
     
@@ -233,8 +233,8 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       $march_tva_id=(isset(${"e_march$i"."_tva_id"}))?${"e_march$i"."_tva_id"}:"";
       
       $march_tva_label="";
-      $march_label=str_pad("",100,".");
-      
+
+      $march_label="&nbsp;";
       // retrieve the tva label and name
       //--
       $a_fiche=GetFicheAttribut($this->db, $march);
@@ -263,7 +263,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       $Span->SetReadOnly(false);
       // card's name, price
       //--
-      $r.="<TD>".$Span->IOValue("e_march".$i."_label",$march_label)."</TD>";
+      $r.='<TD style="width:60%;border-bottom:1px dotted grey;">'.$Span->IOValue("e_march".$i."_label",$march_label)."</TD>";
       // price
       $Price=new widget("text");
       $Price->SetReadOnly(false);

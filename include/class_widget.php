@@ -519,7 +519,7 @@ class widget {
 
   // type=span
   if ( strtolower($this->type)=="span") {
-    $r=sprintf('<span style="inline" id="%s"  >%s </span>',
+    $r=sprintf('<span style="inline" id="%s">%s </span>',
 	       $this->name,
 	       $this->value
 	       );
