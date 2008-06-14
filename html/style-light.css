@@ -41,7 +41,7 @@ div.info {
   text-align:center;
 }
 
-u_content h2.info {
+content h2.info {
 	background:#879ed4;
   color:black;
   font-size:14pt;
@@ -164,7 +164,7 @@ div.u_redcontent{
 	 width:75%;
 
 }
-div.u_content{ 	 
+div.content{ 	 
          position: float; 	 
          float:left; 	 
 	 padding-top:7px;
@@ -373,7 +373,7 @@ div.u_redcontent a:hover {
     display: block;
 
 }
-div.u_content a {
+div.content a {
   font-size:9px;
   font-family:sans-serif;
   text-decoration: none;
@@ -382,7 +382,7 @@ div.u_content a {
 
 }
 
-div.u_content a:hover {
+div.content a:hover {
   font-size:9px;
   font-family:sans-serif;
     color: white;
@@ -407,7 +407,7 @@ div.u_redcontent a.mtitle:hover {
 
 
 }
-div.u_content a.mtitle {
+div.content a.mtitle {
   font-size:10px;
   text-decoration:none;
   display:inline;
@@ -415,7 +415,7 @@ div.u_content a.mtitle {
 
 }
 
-div.u_content a.mtitle:hover {
+div.content a.mtitle:hover {
   text-decoration:none;
   display:inline;
   background-color:darkblue;
@@ -432,7 +432,7 @@ div.u_redcontent input.text {
   border-width:1px;
   color:blue; 
 }
-div.u_content input.text {
+div.content input.text {
    font-family:sans-serif;
   font-weight:normal;
   border-color:336699;
@@ -447,7 +447,7 @@ div.u_content input.text {
 div.u_redcontent input:focus {
   background-color:orange;
 }
-div.u_content input:focus {
+div.content input:focus {
   background-color:orange;
 }
 div.u_redcontent textarea:focus{
@@ -467,6 +467,9 @@ a.document:hover {
   display:block;
 
 
+}
+.input_text {
+	   border:groove 1px blue;
 }
 
 /* </style> */
