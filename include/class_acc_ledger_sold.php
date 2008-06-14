@@ -123,7 +123,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 
     $r.="<FORM NAME=\"form_detail\" METHOD=\"POST\">";
     $r.=dossier::hidden();
-      
+    $r.=widget::hidden('phpsessid',$_REQUEST['PHPSESSID']);  
     $r.="<fieldset>";
     $r.="<legend>En-tête facture client  </legend>";
     
@@ -214,7 +214,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     // Start the div for item to sell
     $r.="<DIV>";
     $r.='<fieldset><legend>D&eacute;tail articles vendus</legend>';
-    $r.='<TABLE>';
+    $r.='<TABLE ID="sold_item">';
     $r.='<TR>';
     $r.="<th></th>";
     $r.="<th>Code</th>";
@@ -295,12 +295,12 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $r.="</TABLE>";
     $r.="</fieldset>";
     // Set correctly the REQUEST param for jrn_type 
-    $h=new widget('hidden');
-    $h->name='jrn_type';
-    $h->value='VEN';
-    $r.=$h->IOValue();
-    
-    $r.='<INPUT TYPE="SUBMIT" NAME="add_item" VALUE="Ajout article" TABINDEX="32767">';
+    $r.=widget::hidden('jrn_type','VEN');
+
+    $r.='<INPUT TYPE="BUTTON" NAME="add_item" VALUE="Ajout article" '.
+      ' onClick="ledger_sold_add_row(\''.dossier::id().'\',\''.$_REQUEST['PHPSESSID'].'\')"'.     
+      ' TABINDEX="32767">';
+
     $r.='<INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer" TABINDEX="32767" ID="SubmitButton">';
     $r.="</DIV>";
     $r.="</FORM>";

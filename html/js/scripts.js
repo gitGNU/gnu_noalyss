@@ -365,3 +365,29 @@ function report_export_success(request,json) {
   $('export').hide();
   $('export_link').innerHTML='<a class="mtitle" href="'+link+'"> Cliquez ici pour télécharger le rapport</a>';
 }
+
+/**
+ * @brief add a line in the form for the report 
+ * @param p_dossier dossier id to connect
+ * @param p_sessid session id
+ */
+function ledger_sold_add_row(p_dossier,p_sessid){
+   style='class="input_text"';
+   var mytable=$("sold_item").tBodies[0];
+   var line=mytable.rows.length;
+   var row=mytable.insertRow(line);
+   var phpsessid=$("phpsessid");
+   var nb=$("nb_item");
+
+  var newNode = mytable.rows[1].cloneNode(true);
+  var tt=newNode.innerHTML;
+  mytable.appendChild(newNode);
+
+
+  new_tt=tt.replace(/march0/g,"march"+nb.value);
+  new_tt=new_tt.replace(/quant0/g,"quant"+nb.value);
+
+  newNode.innerHTML=new_tt;
+
+  nb.value++;
+}
