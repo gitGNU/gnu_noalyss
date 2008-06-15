@@ -235,6 +235,7 @@ define ("JS_AJAX_FICHE",'<script language="javascript" src="js/ajax_fiche.js"></
 
 define ("JS_AJAX_OP",'<script language="javascript" src="js/ajax_op.js"></script>');
 define ("JS_PROTOTYPE_JS",'<script language="javascript" src="js/prototype.js"></script>');
+define ("JS_MINTOOLKIT",'<script language="javascript" src="js/mintoolkit.js"></script>');
 // Sql string
 define ("SQL_LIST_ALL_INVOICE","");
 

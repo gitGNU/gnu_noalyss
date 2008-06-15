@@ -38,7 +38,7 @@ include_once ("class_user.php");
 $User=new User($rep);
 $User->Check();
 
-html_page_start($User->theme,"onLoad='window.focus();'");
+html_min_page_start($User->theme,"onLoad='window.focus();'");
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 

@@ -25,7 +25,7 @@
 include_once ("ac_common.php");
 require_once('class_acc_ledger.php');
 
-html_page_start($_SESSION['g_theme'],'onLoad="window.focus();"');
+html_min_page_start($_SESSION['g_theme'],'onLoad="window.focus();"');
 include_once ("postgres.php");
 include_once("jrn.php");
 /* Admin. Dossier */
@@ -140,10 +140,11 @@ if ( ! isset ($p_comment) ) $p_comment="";
 echo ' <INPUT TYPE="text" name="p_comment" VALUE="'.$p_comment.'"></TD></TR>';
 echo '<INPUT TYPE="submit" name="search" value="cherche">';
 echo '</FORM>';
-
+echo '<p class="notice">Nombre de ligne affichées est limité</p>';
 // if request search
-if ( isset($_GET['search']) or isset($_GET['filter']) ) {
-  $Res=ExecSql($cn,"select pcm_val,pcm_lib from tmp_pcmn $condition order by pcm_val::text");
+if ( isset($_GET['search']) || isset($_GET['filter']) ) {
+  $Res=ExecSql($cn,"select pcm_val,pcm_lib from tmp_pcmn $condition order by pcm_val::text ".
+	       " limit 70");
   
   $MaxLine=pg_NumRows($Res);
   if ( $MaxLine==0) { 

@@ -32,13 +32,14 @@ include_once ("class_user.php");
 $User=new User($rep);
 $User->Check();
 echo JS_SEARCH_CARD;
+echo JS_MINTOOLKIT;
 //determine focus:
 if ( isset ( $_GET['search']) )
 {
-  html_page_start($User->theme,"onLoad=\"window.focus();SetFocus('select0',0)\"");
+  html_min_page_start($User->theme,"onLoad=\"window.focus();SetFocus('select0',0)\"");
 } else
 {
-  html_page_start($User->theme,"onLoad=\"window.focus();SetFocus('fic_search',0)\"");
+  html_min_page_start($User->theme,"onLoad=\"window.focus();SetFocus('fic_search',0)\"");
 }
 
 

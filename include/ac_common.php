@@ -187,6 +187,56 @@ function html_page_start($p_theme="",$p_script="",$p_script2="")
 
 }
 /*! 
+ * \brief Minimal  page header for each page, used for small popup window
+ *        
+ * \param p_theme default theme
+ * \param $p_script
+ * \param $p_script2  another js script
+ *
+ * \return none
+ */
+function html_min_page_start($p_theme="",$p_script="",$p_script2="")
+{	
+
+ $cn=DbConnect();
+ if ( $p_theme != "") {
+   $Res=ExecSql($cn,"select the_filestyle from theme
+                   where the_name='".$p_theme."'");
+    if (pg_NumRows($Res)==0) 
+      $style="style.css";
+    else {
+      $s=pg_fetch_array($Res,0);
+      $style=$s['the_filestyle'];
+    }
+ }else {
+   $style="style.css";
+ } // end if
+ echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 FINAL//EN">';
+ echo "<HTML>";
+
+
+ if ( $p_script2 != "" )
+   $p_script2='<script src="'.$p_script2.'" type="text/javascript"></script>';
+
+ echo "<HEAD> 
+      <TITLE>PhpCompta</TITLE>
+      <META http-equiv=\"Content-Type\" content=\"text/html; charset=UTF8\">
+      <LINK REL=\"stylesheet\" type=\"text/css\" href=\"$style\" media=\"screen\">
+      <link rel=\"stylesheet\" type=\"text/css\" href=\"style-print.css\" media=\"print\">".
+   $p_script2. "
+	<script src=\"js/scripts.js\" type=\"text/javascript\"></script>";
+ echo '</HEAD>
+';
+
+ echo "<BODY $p_script>";
+ /* If we are on the user_login page */
+ if ( basename($_SERVER['PHP_SELF']) == 'user_login.php') {
+  return;
+ }
+
+}
+
+/*! 
  * \brief end tag 
  *        
  */
