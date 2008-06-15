@@ -55,7 +55,7 @@ echo '</div>';
 // empty form for encoding
 if ( $def==1 ) {
   echo '<div class="content">';
-
+  echo JS_PROTOTYPE;
  $Ledger=new Acc_Ledger_Sold($cn,0);
  echo $Ledger->display_form();
   echo '</div>';

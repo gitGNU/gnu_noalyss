@@ -29,7 +29,7 @@ include_once ("class_user.php");
 $User=new User($rep);
 
 $User->Check();
-html_page_start($_SESSION['g_theme']);
+html_min_page_start($_SESSION['g_theme']);
 include_once("user_menu.php");
 
 $priv=($User->admin==1)?"Administrateur":"Utilisateur";

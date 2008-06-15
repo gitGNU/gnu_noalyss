@@ -174,7 +174,6 @@ function html_page_start($p_theme="",$p_script="",$p_script2="")
  echo '<script language="javascript" src="js/calendar.js"></script>
 <script type="text/javascript" src="js/lang/calendar-en.js"></script>
 <script language="javascript" src="js/calendar-setup.js"></script>
-<script language="javascript" src="js/prototype.js"></script>
 <LINK REL="stylesheet" type="text/css" href="calendar-blue.css" media="screen">
 </HEAD>
 ';

@@ -36,7 +36,7 @@ require_once ('class_dossier.php');
 $cn=DbConnect(dossier::id());
 $user=new User($cn);
 
-html_page_start($_SESSION['g_theme']);
+html_min_page_start($_SESSION['g_theme']);
 echo '<div class="u_tmenu">';
 echo menu_tool('access');
 echo '</div>';
