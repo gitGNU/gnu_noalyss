@@ -123,9 +123,7 @@ function add_row(p_table,p_seq,p_count) {
 	var cell=document.createElement("TD");
 	var col=document.getElementById(p_table+"td"+i+'c1');
 	var txt=col.innerHTML;
-	//	alert (txt);
 	txt=txt.replace(/row_1/g,"row_"+new_value);
-	//alert(txt);
 	cell.innerHTML=txt;
 
 	row.appendChild(cell); }
@@ -162,7 +160,6 @@ function verify_ca(p_style) {
 	    get=amount;
 	  }
 	}
-	//alert ("table "+item+"\namount is"+amount+"\nVal = "+val+"\nGet ="+get);
 	if ( Math.round(get,2) != Math.round(amount,2) ) {
 	  diff=Math.round(get,2)-Math.round(amount,2);
 	  alert ("montant differents \ntotal CA="+get+"\ntotal Operation "+amount+"\nDiff = "+diff);
@@ -232,7 +229,6 @@ function ca_set_parent(p_ctl,p_value) {
  */
 
 function import_update(p_sessid,p_dossier,p_count) {
-  //  alert ("Dossier = "+p_dossier+" counter ="+p_count);
   var query_string="PHPSESSID="+p_sessid+"&count="+p_count+"&gDossier="+p_dossier;
   var code=$("code"+p_count);
   var poste=$("poste"+p_count);
@@ -262,7 +258,6 @@ function import_update(p_sessid,p_dossier,p_count) {
  */
 
 function import_remove(p_sessid,p_dossier,p_count) {
-  //  alert ("Dossier = "+p_dossier+" counter ="+p_count);
   var query_string="PHPSESSID="+p_sessid+"&count="+p_count+"&gDossier="+p_dossier;
   var code=$("code"+p_count);
   var url="ajax_import.php";
@@ -289,7 +284,6 @@ function import_remove(p_sessid,p_dossier,p_count) {
  */
 
 function import_not_confirmed(p_sessid,p_dossier,p_count) {
-  //  alert ("Dossier = "+p_dossier+" counter ="+p_count);
   var query_string="PHPSESSID="+p_sessid+"&count="+p_count+"&gDossier="+p_dossier;
   var code=$("code"+p_count);
   var url="ajax_import.php";
@@ -389,7 +383,6 @@ function ledger_sold_add_row(p_dossier,p_sessid){
   new_tt=new_tt.replace(/sold\(0\)/g,"sold("+nb.value+")");
 
   newNode.innerHTML=new_tt;
-  alert(new_tt);
   nb.value++;
 }
 /**
@@ -430,7 +423,6 @@ function success_compute_sold(request,json) {
   var tva=0; var htva=0;var tvac=0;
 
   for (i=0;i<$("nb_item").value;i++) {
-    alert(' i = '+i+$('tva_march'+i).value);
     tva+=$('tva_march'+i).value*1;
     htva+=$('htva_march'+i).value*1;
     tvac+=$('tvac_march'+i).value*1;
