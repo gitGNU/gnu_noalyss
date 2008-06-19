@@ -124,7 +124,7 @@ class Supplier extends fiche{
 	return $r;
       foreach ($step_supplier as $supplier ) {
 	$r.="<TR>";
-	$e=sprintf('<A HREF="%s?p_action=fournisseur&'.$str_dossier.'&sa=detail&f_id=%d&url=%s" title="Détail"> ',
+	$e=sprintf('<A  class="mtitle"   HREF="%s?p_action=fournisseur&'.$str_dossier.'&sa=detail&f_id=%d&url=%s" title="Détail"> ',
 		    $script,$supplier->id,$url);
 
 	$r.="<TD> $e".$supplier->strAttribut(ATTR_DEF_QUICKCODE)."</A></TD>";
@@ -145,14 +145,14 @@ class Supplier extends fiche{
 	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$a['solde']);
 
 
-	$r.=sprintf('<td><A HREF="%s?p_action=contact&qcode=%s&%s&url=%s" title="Contact">Contact</A></td>',
+	$r.=sprintf('<td><A  class="mtitle"   HREF="%s?p_action=contact&qcode=%s&%s&url=%s" title="Contact">Contact</A></td>',
 		    $script,$supplier->strAttribut(ATTR_DEF_QUICKCODE),$str_dossier,$url);
-	$r.=sprintf('<td><A HREF="%s?p_action=suivi_courrier&sa=list&qcode=%s&%s&url=%s" title="Action">Courrier</A></td> ',
+	$r.=sprintf('<td><A  class="mtitle"   HREF="%s?p_action=suivi_courrier&sa=list&qcode=%s&%s&url=%s" title="Action">Courrier</A></td> ',
 		    $script,$supplier->strAttribut(ATTR_DEF_QUICKCODE) ,$str_dossier,$url);
 
 
 
-	$r.='<td><A HREF="commercial.php?p_action=depense&sa=list&'.$str_dossier.'&p_periode=-1&qcode='.$supplier->strAttribut(ATTR_DEF_QUICKCODE).'&'.$str_dossier.'&url='.$url.'" title="Historique Facture">Facture</A></td>';
+	$r.='<td><A  class="mtitle"   HREF="commercial.php?p_action=depense&sa=list&'.$str_dossier.'&p_periode=-1&qcode='.$supplier->strAttribut(ATTR_DEF_QUICKCODE).'&'.$str_dossier.'&url='.$url.'" title="Historique Facture">Facture</A></td>';
 	$r.=sprintf('<td><A class="mtitle" HREF="%s?liste&p_action=bank&sa=list&'.$str_dossier.'&qcode=%s&url=%s&p_periode=-1" title="Financier">Financier</A></td>',
 		    $script,$supplier->strAttribut(ATTR_DEF_QUICKCODE) ,$url);
 

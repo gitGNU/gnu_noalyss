@@ -100,6 +100,12 @@ div.u_subtmenu {
   background-color:pink;
 
 }
+div.u_tool {
+	float:left;
+	width:  100%;
+	
+	
+	}
 div.u_tmenu div.u_tool {
 	    background-color:green;	
 	   float:left;
@@ -163,6 +169,7 @@ div.content{
          float:left; 	 
          font-size:9px; 	 
          font-family:sans-serif; 	 
+		width:100%;
 	 background-color:lightgreen;
 }
 div.no span{
@@ -204,8 +211,6 @@ td.mtitle {
 	width:95px;
         height :30px; 
 	font-size:10px;
-//        border: 1px solid;
-//  padding:3px;
     background-color:#DDE6FF;
 }
 
@@ -261,10 +266,8 @@ td.even{
 	font-size:10px;
 }
 td.cell{
-//	  border:1px solid blue;
 	    height:32px;
 	     padding: 1px;
-//	     width:120px;
 }
 td.selectedcell{
 	border-style:inset;
@@ -450,5 +453,10 @@ background-color: orange;
 .input_text {
 	   border:groove 1px blue;
 }
-
+legend {
+font-weight: bold;
+font-style: italic;
+font-size: 130% ;
+	
+}
 /* </style> */

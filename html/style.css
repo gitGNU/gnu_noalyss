@@ -142,8 +142,9 @@ div.searchmenu {
  width:95px;
  top:100px;
  position:absolute;
- background-color:green;
-}
+ background-color: #c2d4d7;
+ 
+ }
 
 div.recherche_form{
 width:700px;
@@ -161,16 +162,16 @@ padding-left:8px;
 width:80%;
 font-size:9px;
 font-family:sans-serif;
-background-color:#BBBBEE;
+background-color:#c2d4d7;
 }
 
 div.content{
   position: float;
   float:left;
   font-size:12px;
-
+  width:100%;
   font-family:sans-serif;
- background-color:lightgreen;
+ background-color:#c2d4d7;
 }
 div.no span{
 position:static;
@@ -455,7 +456,30 @@ background-color: orange;
 .input_text {
 	   border:groove 1px blue;
 }
-
+div.u_tool {
+	float:left;
+	width:  100%;
+	
+	
+	}
+div.u_tmenu div.u_tool {
+	float:left;
+}
+div.u_tool div.name {
+       float:left;
+       margin-left:10px;
+}
+div.u_tool div.acces_direct{
+        float:right;
+	margin-right:10px;
+	text-align:right
+}
+legend {
+font-weight: bold;
+font-style: italic;
+font-size: 130% ;
+	
+}
 /*input{
  font-size:0.9em;
 }

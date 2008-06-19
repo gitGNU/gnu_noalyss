@@ -118,9 +118,8 @@ function GetAvailableFolder($p_user,$p_admin,$p_filter="")
  *        and highight the selected one
  * \param  p_high what to hightlight, by default it is autodetected
  *         but sometimes it must be given. Default value=""
- * \todo clean param p_dossier
  *
- * \return none
+ * \return string
  *
  */
 function ShowMenuCompta($p_high="")
@@ -191,7 +190,7 @@ function ShowMenuCompta($p_high="")
   $str_dossier=dossier::get();
   $r="";
   $r.=menu_tool("compta");
-  $r.='<div style="float:left;background-color:#879ED4;">';
+  $r.='<div style="float:left;background-color:#879ED4;width:100%;">';
   $r.=$result;
   $r.='</div>';
   //  $r.='</div>';
@@ -836,6 +835,7 @@ $r.='<script language="javascript">
     $r.= '<td style="border:2px solid blue;border-style:groove;">'.$w->IOValue();
     $r.= dossier::hidden();
     $r.=widget::submit('','Acces Direct').'</td>';
+    $r.='</tr>';
     $r.= '</table>';
     $r.= '</form>';
     if ( $lab !="")

@@ -96,28 +96,37 @@ div.u_tmenu {
   position: float;
   margin-top:1px;
   width:100%;	
-  background-color:#879ED4
+  background-color:#879ED4;
+  
   
 }
 div.u_subtmenu {
   background-color:white	;
   float:left;
-clear:both;
+  clear:both;
   left:10px;
 
 }
 div.u_tmenu div.u_tool {
-	    background-color:#879ED4;	
+	   background-color:#879ED4;	
 	   float:left;
+	   
 }
+div.u_tool {
+	float:left;
+	width:  100%;
+	
+	
+	}
 div.u_tool div.name {
        float:left;
        margin-left:10px;
 }
 div.u_tool div.acces_direct{
-        float:right;
+	float:right;
 	margin-right:10px;
-	text-align:right
+	text-align:right;
+	
 }
 
 div.u_subt2menu {
@@ -480,6 +489,5 @@ font-size: 130% ;
 select {
 border: 1px solid blue;
 }
-
 
 /* </style> */
