@@ -144,15 +144,16 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $Echeance->SetReadOnly(false);
     $Echeance->table=1;
     $Echeance->tabindex=2;
-
-    $r.=$Echeance->IOValue("e_ech",$e_ech,"Echeance");
+    $label=widget::infobulle(4);
+    $r.=$Echeance->IOValue("e_ech",$e_ech,"Echeance ".$label);
 
     // Periode 
     //--
     $l_user_per=$user->get_periode();
     $l_form_per=FormPeriode($this->db,$l_user_per,OPEN);
     $r.="<td class=\"input_text\">";
-    $r.="Période comptable </td><td>".$l_form_per;
+    $label=widget::infobulle(3);
+    $r.="Période comptable $label</td><td>".$l_form_per;
     $r.="</td>";
     $r.="</tr><tr>";
     // Ledger (p_jrn)
