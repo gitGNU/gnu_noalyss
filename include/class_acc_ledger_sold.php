@@ -277,12 +277,13 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       $Price->SetReadOnly(false);
       $Price->table=1;
       $Price->size=9;
-      $Price->javascript="onChange=compute_sold($i)";
+      $Price->javascript="onBlur='compute_sold($i)'";
       $r.=$Price->IOValue("e_march".$i."_sell",$march_sell);
       // vat label
       //--
       $select_tva=make_array($this->db,"select tva_id,tva_label from tva_rate order by tva_rate desc",0);
       $Tva=new widget("select");
+      $Tva->javascript="onChange=compute_sold($i)";
       $Tva->table=1;
       $Tva->selected=$march_tva_id;
       $r.=$Tva->IOValue("e_march$i"."_tva_id",$select_tva);
@@ -306,7 +307,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 
     $r.='<div style="position:float;float:left;text-align:right;padding-right:5px;color:blue">';
     $r.='<br>Total HTVA';
-    $r.='<br>Total TVA:';
+    $r.='<br>Total TVA';
     $r.='<br>Total TVAC';
     $r.="</div>";
 

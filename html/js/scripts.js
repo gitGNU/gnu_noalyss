@@ -413,6 +413,7 @@ function compute_sold(p_ctl_nb) {
  * @brief update the field htva, tva_id and tvac, callback function for  compute_sold
  */
 function success_compute_sold(request,json) {
+
   var answer=request.responseText.evalJSON(true);
   var rtva=answer.tva*1;
   var rhtva=answer.htva*1;
@@ -423,19 +424,19 @@ function success_compute_sold(request,json) {
   $('tvac_march'+ctl).value=rtvac;
   var tva=0; var htva=0;var tvac=0;
 
-  for (i=0;i<$("nb_item").value;i++) {
+  for (var i=0;i<$("nb_item").value;i++) {
     tva+=$('tva_march'+i).value*1;
     htva+=$('htva_march'+i).value*1;
     tvac+=$('tvac_march'+i).value*1;
   }
 
-  $('tva').innerHTML=tva;
-  $('htva').innerHTML=htva;
-  $('tvac').innerHTML=tvac;
+    $('tva').innerHTML=Math.round(tva*100)/100;
+    $('htva').innerHTML=Math.round(htva*100)/100;
+    $('tvac').innerHTML=Math.round(tvac*100)/100;
 }
 /**
  * @brief callback error function for  compute_sold
  */
 function error_compute_sold(request,json) {
-  alert('Ajax do not work');
+  alert('Ajax does not work');
 }
