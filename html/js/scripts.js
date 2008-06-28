@@ -383,6 +383,7 @@ function ledger_sold_add_row(p_dossier,p_sessid){
   new_tt=new_tt.replace(/sold\(0\)/g,"sold("+nb.value+")");
 
   newNode.innerHTML=new_tt;
+    $("e_march"+nb.value+"_label").innerHTML='&nbsp;';
   nb.value++;
 }
 /**
