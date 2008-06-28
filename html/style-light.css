@@ -489,5 +489,14 @@ font-size: 130% ;
 select {
 border: 1px solid blue;
 }
+.infobulle {
+	   position:absolute;
+	   border:1px solid black;
+	   background-color:yellow;
+	   top:0;left:0;
+	   visibility:hidden;
+	   z-index:10;
+	   width:25em;
+}
 
 /* </style> */

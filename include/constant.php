@@ -188,6 +188,12 @@ define ('JS_CAOD_COMPUTE','
 <script type="text/javascript" language="javascript"  src="js/caod_compute.js">
 </script>');
 
+define ('JS_INFOBULLE','
+<DIV id="bulle" class="infobulle"></DIV>
+<script type="text/javascript" language="javascript"  src="js/infobulle.js">
+</script>');
+
+
 // One line calculator
 define ("JS_CALC_LINE",'
 <div style="border:outset black 3px; position:float; float:right;background-color:white;font-family:sans-serif;font-size:9pt;">

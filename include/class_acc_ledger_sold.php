@@ -116,6 +116,8 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     
 
     $r="";
+
+    $r.=JS_INFOBULLE;
     $r.=JS_SEARCH_CARD;
     $r.=JS_SHOW_TVA;    
     $r.=JS_TVA;
@@ -158,9 +160,8 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $ledger=new Acc_Ledger($this->db,0);
     $wLedger=$ledger->select_ledger('VEN',2);
     $wLedger->table=1;
-    $wLedger->label="Journal";
+    $wLedger->label=" Journal ".widget::infobulle(2) ;
     $r.=$wLedger->IOValue();
-
     // Comment
     //--
     $Commentaire=new widget("text");
@@ -168,8 +169,9 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $Commentaire->SetReadOnly(false);
     $Commentaire->size=80;
     $Commentaire->tabindex=3;
+    $label=" Description ".widget::infobulle(1) ;
     $r.="<tr>";
-    $r.='<td class="input_text">Description</td>'.
+    $r.='<td class="input_text">'.$label.'</td>'.
       '<td colspan="5">'.$Commentaire->IOValue("e_comm",$e_comm)."</td>";
     $r.="</tr>";
     include_once("fiche_inc.php");
@@ -191,7 +193,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     
     
     $W1=new widget("js_search_only");
-    $W1->label="Client";
+    $W1->label="Client ".widget::infobulle(0) ;;
     $W1->name="e_client";
     $W1->tabindex=3;
     $W1->value=$e_client;
@@ -217,7 +219,8 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $r.='<TABLE ID="sold_item">';
     $r.='<TR>';
     $r.="<th></th>";
-    $r.="<th>Code</th>";
+    $label=widget::infobulle(0) ;
+    $r.="<th>Code $label</th>";
     $r.="<th>D&eacute;nomination</th>";
     $r.="<th>prix</th>";
     $r.="<th>tva</th>";

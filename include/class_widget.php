@@ -676,5 +676,8 @@ class widget {
 				   $p_name);
 
   }
-
+  static function infobulle($p_comment){
+    $r='<A HREF="#" style="display:inline;color:black;background-color:yellow" onClick="showBulle(\''.$p_comment.'\')" onmouseout="hideBulle(0)">?</A>';
+    return $r;
+  }
 }
