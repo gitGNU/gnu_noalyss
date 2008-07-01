@@ -24,6 +24,9 @@
  * \brief file included to manage all the sold operation
  */
 require_once("class_acc_ledger_sold.php");
+require_once ('class_pre_op_ven.php');
+
+
 $cn=DbConnect(dossier::id());
   //menu = show a list of ledger
 $str_dossier=dossier::get();
@@ -39,6 +42,11 @@ $sa=(isset ($_REQUEST['sa']))?$_REQUEST['sa']:-1;
 switch ($sa) {
  case 'n':
    $def=1;
+   $use_predef=0;
+   break;
+ case 'p':
+   $def=1;
+   $use_predef=1;
    break;
  case 'l':
    $def=2;
@@ -53,10 +61,41 @@ echo '<div class="lmenu">';
 echo ShowItem($array,'H','mtitle','mtitle',$def);
 echo '</div>';
 // empty form for encoding
-if ( $def==1 ) {
+if ( $def==1 || $def == 4 ) {
+
   echo '<div class="content">';
   echo JS_PROTOTYPE;
- $Ledger=new Acc_Ledger_Sold($cn,0);
- echo $Ledger->display_form();
+  $Ledger=new Acc_Ledger_Sold($cn,0);
+  echo "<FORM NAME=\"form_detail\" METHOD=\"POST\">";
+  if ( $use_predef == 1 ) {
+    // used a predefined operation
+    //
+    $op=new Pre_op_ven($cn);
+    $op->set_od_id($_REQUEST['pre_def']);
+    
+    $p_post=$op->compute_array();
+    
+    echo $Ledger->display_form($p_post);
+    echo '<script>compute_sold(0)</script>';
+  }
+  else
+    echo $Ledger->display_form();
+  echo "</FORM>";
+ //
+ // pre defined operation
+ //
+  $def_ledger=$Ledger->get_first('ven');
+
+  echo '<form method="GET" action="compta.php">';
+  echo widget::hidden("sa","p");
+  echo widget::hidden("p_action","ven");
+  echo dossier::hidden();
+  $op=new Pre_op_ven($cn);
+  $op->set('ledger',$def_ledger['jrn_def_id']);
+  $op->set('ledger_type',"VEN");
+  $op->set('direct','f');
+  echo $op->form_get();
+  echo '</form>';
+
   echo '</div>';
- }
+}

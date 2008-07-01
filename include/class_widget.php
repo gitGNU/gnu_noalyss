@@ -151,6 +151,7 @@ class widget {
 
       if ($this->readonly==false )
 	{
+
 	  $disabled=($this->disabled==true)?"disabled":"";
 	  //echo "<b>Selected <b>".$this->selected;
 	  $r="<SELECT  id=\"$this->name\" NAME=\"$this->name\" $this->javascript $disabled>";

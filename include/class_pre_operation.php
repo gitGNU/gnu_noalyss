@@ -197,17 +197,20 @@ class Pre_operation_detail {
   function show_button() {
 
 	$select=new widget("select");
-	$value=make_array($this->db,"select od_id,od_name from op_predef ".
-			  " where jrn_def_id=".$this->jrn_def_id.
-			  " and od_direct ='".$this->od_direct."'".
-			  " order by od_name");
 
+	$value=$this->get_operation();
 	if ( empty($value)==true) return "";
 	$select->value=$value;
 	$r=$select->IOValue("pre_def");
 	return $r;
   }
-
+  public function   get_operation() {
+	$value=make_array($this->db,"select od_id,od_name from op_predef ".
+			  " where jrn_def_id=".FormatString($this->jrn_def_id).
+			  " and od_direct ='".FormatString($this->od_direct)."'".
+			  		  " order by od_name");
+	return $value;
+  }
   function set($p_param,$value) {
     if ( ! isset ($this->valid[$p_param] ) ) {
       echo(" le parametre $p_param n'existe pas ".__FILE__.':'.__LINE__);

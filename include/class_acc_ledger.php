@@ -714,6 +714,7 @@ class Acc_Ledger {
   function select_ledger($p_type="ALL",$p_access=3) {
     $user=new User($this->db);
     $array=$user->get_ledger($p_type,$p_access);
+    if ( $array == null ) return "";
     $idx=0;
     $ret=array();
 
@@ -1220,6 +1221,16 @@ class Acc_Ledger {
     $Ret=CountSql($p_cn,"select * from jrn_def where jrn_def_type='".$p_type."'");
     return $Ret+1;
   }
+  /*!\brief get the first ledger
+   *\param the type
+   *\return the j_id
+   */
+  public function get_first($p_type) {
+    $user=new User($this->db);
+    $all=$user->get_ledger($p_type);
+    return $all[0];
+  }
+
   /*! 
    * \brief this function is intended to test this class
    */

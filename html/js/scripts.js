@@ -384,7 +384,12 @@ function ledger_sold_add_row(p_dossier,p_sessid){
 
   newNode.innerHTML=new_tt;
     $("e_march"+nb.value+"_label").innerHTML='&nbsp;';
+    $("e_march"+nb.value+"_sell").value='0';
+    $("e_march"+nb.value).value=" ";
+    $("e_quant"+nb.value).value="1";
+
   nb.value++;
+
 }
 /**
  * @brief compute the sum of a sold, update the span tvac, htva and tva
@@ -439,4 +444,47 @@ function success_compute_sold(request,json) {
  */
 function error_compute_sold(request,json) {
   alert('Ajax does not work');
+}
+/**
+* @brief update the list of available predefined operation when we change the ledger. 
+*/
+function update_predef(p_type,p_direct) {
+    var jrn=$("p_jrn").value;
+    var phpsessid=$("phpsessid").value;
+    var dossier=$("gDossier").value;
+    var querystring='?PHPSESSID='+phpsessid+'&gDossier='+dossier+'&l='+jrn+'&t='+p_type+'&d='+p_direct;
+  var action=new Ajax.Request(
+			      "get_predef.php",
+			      { 
+			      method:'get',
+			      parameters:querystring,
+			      onFailure:error_get_predef,
+			      onSuccess:success_get_predef
+			      }
+  );
+}
+/**
+ * @brief update the field predef
+ */
+function success_get_predef(request,json) {
+    var i=0;
+  var answer=request.responseText.evalJSON(true);
+    obj=$("pre_def");
+    obj.innerHTML='';
+    if ( answer.count == 0 ) return;
+    alert(answer.count);
+    for ( i = 0 ; i < answer.count;i++) {
+	value=answer['value'+i];
+	label=answer['label'+i];
+	alert (value+' '+label);
+	obj.options[obj.options.length]=new Option(label,value);
+    }
+
+}
+/**
+ * @brief update the field predef
+ */
+function error_get_predef(request,json) {
+    alert ("Erreur mise à jour champs non possible");
+
 }

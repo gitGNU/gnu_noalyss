@@ -123,7 +123,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $r.=JS_TVA;
     $r.=JS_AJAX_FICHE;
 
-    $r.="<FORM NAME=\"form_detail\" METHOD=\"POST\">";
+  
     $r.=dossier::hidden();
     $r.=widget::hidden('phpsessid',$_REQUEST['PHPSESSID']);  
     $r.="<fieldset>";
@@ -160,8 +160,11 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     //--
     $ledger=new Acc_Ledger($this->db,0);
     $wLedger=$ledger->select_ledger('VEN',2);
+
     $wLedger->table=1;
+    $wLedger->javascript="onChange='update_predef(\"ven\",\"f\")'";
     $wLedger->label=" Journal ".widget::infobulle(2) ;
+
     $r.=$wLedger->IOValue();
     // Comment
     //--
@@ -327,7 +330,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 
     $r.='<INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer" TABINDEX="32767" ID="SubmitButton">';
     $r.="</DIV>";
-    $r.="</FORM>";
+
     $r.=JS_CALC_LINE;
     return $r;
   }

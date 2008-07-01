@@ -182,6 +182,7 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
                              order by jrn_Def_id";
     }
     $res=ExecSql($this->db,$sql);
+    if ( pg_NumRows($res) == 0 ) return null;
     $array=pg_fetch_all($res);
     return $array;
   }
