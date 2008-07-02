@@ -67,7 +67,7 @@ if ( $def==1 || $def == 4 ) {
   echo JS_PROTOTYPE;
   $Ledger=new Acc_Ledger_Sold($cn,0);
   echo "<FORM NAME=\"form_detail\" METHOD=\"POST\">";
-  if ( $use_predef == 1 ) {
+  if ( isset($use_predef) && $use_predef == 1 ) {
     // used a predefined operation
     //
     $op=new Pre_op_ven($cn);
