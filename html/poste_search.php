@@ -140,7 +140,7 @@ if ( ! isset ($p_comment) ) $p_comment="";
 echo ' <INPUT TYPE="text" name="p_comment" VALUE="'.$p_comment.'"></TD></TR>';
 echo '<INPUT TYPE="submit" name="search" value="cherche">';
 echo '</FORM>';
-echo '<p class="notice">Nombre de ligne affichées est limité</p>';
+echo '<p class="notice">Nombre de lignes affichées est limité</p>';
 // if request search
 if ( isset($_GET['search']) || isset($_GET['filter']) ) {
   $Res=ExecSql($cn,"select pcm_val,pcm_lib from tmp_pcmn $condition order by pcm_val::text ".
