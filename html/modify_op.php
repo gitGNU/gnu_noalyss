@@ -69,16 +69,16 @@ echo JS_VIEW_JRN_MODIFY;
   function show_div (p_div) {
   // show the div
   // hide the div
-  if ( $(p_div) ) {
-	var a=$(p_div);
+  if ( document.getElementById(p_div) ) {
+    var a=document.getElementById(p_div);
 	a.style.display="block";
   }
 }
 function hide_div (p_div) {
   // hide the div
-  if ( $(p_div) ) {
-	var a=$(p_div);
-	a.style.display="none";
+  if ( document.getElementById(p_div) ) {
+    var a=document.getElementById(p_div);
+    a.style.display="none";
   }
 }
 </script>
