@@ -24,7 +24,7 @@ document.onmousemove=getPosition;
 content[0]="Donnez le quickcode ou tapez une partie du nom de la fiche puis cliquer sur rechercher, si la recherche ne donne rien, il vous sera proposé de créer une nouvelle fiche";
 content[1]="La description est un commentaire libre qui sert à identifier cette opération";
 content[2]="Selectionnez le journal où l'opération doit être sauvée";
-content[3]="Les périodes comptables servent comme un second contrôle pour la date de l'opération ";
+content[3]="Les périodes comptables servent comme un second contrôle pour la date de l'opération. Pour avoir une période par défaut,allez dans vos préférence ";
 content[4]="L'échéance est la date limite de paiement, ce n'est pas un champs obligatoire";
 function showBulle(p_ctl) {
 	d=document.getElementById('bulle');

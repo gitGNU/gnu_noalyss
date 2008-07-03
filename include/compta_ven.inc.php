@@ -39,6 +39,7 @@ $array=array(
 	      );
 
 $sa=(isset ($_REQUEST['sa']))?$_REQUEST['sa']:-1;
+$def=1;
 switch ($sa) {
  case 'n':
    $def=1;
