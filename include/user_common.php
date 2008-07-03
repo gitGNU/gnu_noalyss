@@ -809,7 +809,9 @@ function InsertStockGoods($p_cn,$p_j_id,$p_good,$p_quant,$p_type)
 {
   echo_debug('user_common.php',__LINE__,"function InsertStockGoods($p_cn,$p_j_id,$p_good,$p_quant,$p_type)");
   // Retrieve the good account for stock
-  $code_marchandise=GetFicheAttribut($p_cn,$p_good,ATTR_DEF_STOCK);
+  $code=new fiche($p_cn);
+  $code->get_by_qcode($p_good);
+  $code_marchandise=$code->strAttribut(ATTR_DEF_STOCK);
   $p_good=FormatString($p_good);
   $sql="select f_id from vw_poste_qcode where j_qcode=upper('$p_good')";
   $Res=ExecSql($p_cn,$sql);

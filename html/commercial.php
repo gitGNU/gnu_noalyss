@@ -79,7 +79,7 @@ $p_action=(isset ($_REQUEST['p_action']))?$_REQUEST['p_action']:"";
 echo '<div style="float:left">';
 echo ShowItem(array(
 		    array('?p_action=client&'.$str_dossier,'Client'),
-		    array('?p_action=facture&'.$str_dossier,'Vente/Facture'),
+		    array('?p_action=ven&'.$str_dossier,'Vente/Facture'),
 		    array('?p_action=fournisseur&'.$str_dossier,'Fournisseur'),
 		    array('?p_action=depense&'.$str_dossier,'Achat/D&eacute;pense'),
 		    array('?p_action=bank&'.$str_dossier,'Banque'),
@@ -136,9 +136,9 @@ if ( $p_action == 'suivi_courrier')
 //-----------------------------------------------------
 // p_action == facture
 //-----------------------------------------------------
-if ( $p_action == "facture" ) 
+if ( $p_action == "ven" ) 
 {
-  require_once("facture.inc.php");
+  require_once("compta_ven.inc.php");
 }
 //-----------------------------------------------------
 // Contact

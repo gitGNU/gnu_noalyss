@@ -24,7 +24,9 @@
  * \brief class for the sold, herits from acc_ledger
  */
 require_once('class_acc_ledger.php');
-
+require_once('class_acc_compute.php');
+require_once('class_anc_operation.php');
+require_once('user_common.php');
 
 /*!\brief Handle the ledger of sold, 
  *
@@ -34,72 +36,308 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
   function __construct ($p_cn,$p_init) {
     parent::__construct($p_cn,$p_init);
   }
-  public function verify() {
-    // Verify that the elt we want to add is correct
-  }
-  public function save() {
-  /* please adapt */
-    if (  $this->get_parameter("id") == 0 ) 
-      $this->insert();
-    else
-      $this->update();
+  /*!\brief verify that the data are correct before inserting or confirming
+   *\param an array (usually $_POST)
+   *\return String
+   *\note return an AcException if an error occurs
+   */
+  public function verify($p_array) {
+    extract ($p_array);
+
+    /*  check if the date is valid */
+    if ( isDate($e_date) == null ) {
+      throw new AcException('Date invalide', 2);
+    }
+
+    /* check if the periode is closed */
+    if ( $this->is_closed($periode)==1 )
+      {
+	throw new AcException('Periode fermee',6);
+      }
+
+    /* check that the datum is in the choosen periode */
+    $per=new Periode($this->db);
+    list ($min,$max)=$per->get_date_limit($periode);
+    if ( cmpDate($e_date,$min) < 0 ||
+	 cmpDate($e_date,$max) > 0) 
+	throw new AcException('Date et periode ne correspondent pas',6);
+    $fiche=new fiche($this->db);
+    $fiche->get_by_qcode($e_client);
+    if ( $fiche->empty_attribute(ATTR_DEF_ACCOUNT) == true)
+      throw new AcException('La fiche '.$e_client.'n\'a pas de poste comptable',8);
+
+    /* The account exists */
+    $poste=new Acc_Account_Ledger($this->db,$fiche->strAttribut(ATTR_DEF_ACCOUNT));
+    if ( $poste->load() == false ){
+      throw new AcException('Pour la fiche '.$e_client.' le poste comptable ['.$poste->id.'] n\'existe pas',9);
+    }
+
+
+    /* check if amount are numeric and */
+    /* check if all card has a ATTR_DEF_ACCOUNT*/
+    /* and this account does exist */
+    for ($i=0;$i< $nb_item;$i++) {
+      if ( strlen(trim(${'e_march'.$i}))== 0) continue;
+      if ( isNumber(${'e_march'.$i.'_sell'}) == 0 )
+	throw new AcException('La fiche '.${'e_march'.$i}.'a un montant invalide ['.${'e_march'.$i}.']',6);
+      if ( isNumber(${'e_quant'.$i}) == 0 )
+	throw new AcException('La fiche '.${'e_march'.$i}.'a une quantité invalide ['.${'e_quant'.$i}.']',7);
+      $fiche=new fiche($this->db);
+      $fiche->get_by_qcode(${'e_march'.$i});
+      if ( $fiche->empty_attribute(ATTR_DEF_ACCOUNT) == true)
+	throw new AcException('La fiche '.${'e_march'.$i}.'n\'a pas de poste comptable',8);
+      /* The account exists */
+      $poste=new Acc_Account_Ledger($this->db,$fiche->strAttribut(ATTR_DEF_ACCOUNT));
+      if ( $poste->load() == false ){
+	throw new AcException('Pour la fiche '.${'e_march'.$i}.' le poste comptable ['.$poste->id.'n\'existe pas',9);
+      }
+    }
   }
 
-  public function insert() {
-    if ( $this->verify() != 0 ) return;
-    /*  please adapt
-    $sql="insert into tva_rate (tva_label,tva_rate,tva_comment,tva_poste) ".
-      " values ($1,$2,$3,$4)  returning tva_id";
-    $res=ExecSqlParam($this->cn,
-		 $sql,
-		 array($this->tva_label,
-		       $this->tva_rate,
-		       $this->tva_comment,
-		       $this->tva_poste)
-		 );
-    $this->tva_id=pg_fetch_result($res,0,0);
-    */
+  public function save() {
+    echo "<h2> Acc_Ledger_Sold::save Not implemented</h2>";
+  }
+
+  /*!\brief insert into the database, it calls first the verify function
+   *\param $p_array is usually $_POST or a predefined operation
+   *\return string
+   *\note throw an AcException
+   */
+  public function insert($p_array) {
+    extract ($p_array);
+    $this->verify($p_array) ; 
+
+    $own=new own($this->db);
+    $group=NextSequence($this->db,"s_oa_group"); /* for analytic */
+    $seq=NextSequence($this->db,'s_grpt');
+    $this->id=$p_jrn;
+    $internal=$this->compute_internal_code($seq);
+    $cust=new fiche($this->db);
+    $cust->get_by_qcode($e_client);
+    $poste=$cust->strAttribut(ATTR_DEF_ACCOUNT);
+    bcscale(4);
+    try {
+      $tot_amount=0;
+      $tot_tva=0;
+      StartSql($this->db);
+      /* Save all the items without vat */
+      for ($i=0;$i< $nb_item;$i++) {
+	if ( strlen(trim(${'e_march'.$i})) == 0 ) continue;
+	if ( ${'e_march'.$i.'_sell'} == 0 ) continue;
+	if ( ${'e_quant'.$i} == 0 ) continue;
+
+	/* First we save all the items without vat */
+	$fiche=new fiche($this->db);
+	$fiche->get_by_qcode(${"e_march".$i});
+	$amount=bcmul(${'e_march'.$i.'_sell'},${'e_quant'.$i});
+	$tot_amount+=$amount;
+	$acc_operation=new Acc_Operation($this->db);
+	$acc_operation->date=$e_date;
+	$acc_operation->poste=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
+	$acc_operation->amount=$amount;
+	$acc_operation->grpt=$seq;
+	$acc_operation->jrn=$p_jrn;
+	$acc_operation->type='c';
+	$acc_operation->periode=$periode;
+	$acc_operation->qcode=${"e_march".$i};
+
+	$j_id=$acc_operation->insert_jrnx();
+
+	/* Compute sum vat */
+	$oTva=new Acc_Tva($this->db);
+	$idx_tva=${'e_march'.$i.'_tva_id'};
+	$oTva->set_parameter('id',$idx_tva);
+	$oTva->load();
+	$op_tva=new Acc_Compute();
+	$op_tva->set_parameter("amount",$amount);
+	$op_tva->set_parameter('amount_vat_rate',$oTva->get_parameter('rate'));
+	$op_tva->compute_vat();
+	$tva_item=$op_tva->get_parameter('amount_vat');
+
+	if (isset($tva[$idx_tva] ) )
+	  $tva[$idx_tva]+=$tva_item;
+	else
+	  $tva[$idx_tva]=$tva_item;
+	$tot_tva=round(bcadd($tva_item,$tot_tva),2);
+
+	/* Save the stock */
+	/* if the quantity is < 0 then the stock increase (return of
+	 *  material)
+	 */
+	$nNeg=(${"e_quant".$i}<0)?-1:1;
+		
+	// always save quantity but in withStock we can find 
+	// what card need a stock management
+	
+	InsertStockGoods($this->db,$j_id,${'e_march'.$i},$nNeg*${'e_quant'.$i},'c') ;
+
+	if ( $own->MY_ANALYTIC != "nu" )
+	  {
+	    // for each item, insert into operation_analytique */
+	    $op=new Anc_Operation($this->db); 
+	    $op->oa_group=$group;
+	    $op->j_id=$j_id;
+	    $op->oa_date=$e_date;
+	    $op->oa_debit=($amount < 0 )?'t':'f';		    
+	    echo_debug(__FILE__.':'.__LINE__,"Description is $e_comm");
+	    $op->oa_description=FormatString($e_comm);
+	    $op->save_form_plan($_POST,$i);
+	  }
+	/* save into quant_sold */
+	$r=ExecSql($this->db,"select insert_quant_sold ".
+		   "('".$internal."',".$j_id.",'".${'e_march'.$i}
+		   ."',".${'e_quant'.$i}.",".$amount.
+		   ",".$tva_item.
+		   ",".$idx_tva.",'".$e_client."')");
+	
+      }      // end loop : save all items
+	
+    
+    /*  save total customer */
+    $cust_amount=bcadd($tot_amount,$tot_tva);
+    $acc_operation=new Acc_Operation($this->db);
+    $acc_operation->date=$e_date;
+    $acc_operation->poste=$poste;
+    $acc_operation->amount=$cust_amount;
+    $acc_operation->grpt=$seq;
+    $acc_operation->jrn=$p_jrn;
+    $acc_operation->type='d';
+    $acc_operation->periode=$periode;
+    $acc_operation->qcode=${"e_client"};
+    $acc_operation->insert_jrnx();
+      
+    /* save all vat 
+     * $i contains the tva_id and value contains the vat amount
+     */
+    foreach ($tva as $i => $value) {
+      $oTva=new Acc_Tva($this->db);
+      $oTva->set_parameter('id',$i);
+      $oTva->load();
+
+      $poste_vat=$oTva->get_side('c');
+      
+      $cust_amount=bcadd($tot_amount,$tot_tva);
+      $acc_operation=new Acc_Operation($this->db);
+      $acc_operation->date=$e_date;
+      $acc_operation->poste=$poste_vat;
+      $acc_operation->amount=$value;
+      $acc_operation->grpt=$seq;
+      $acc_operation->jrn=$p_jrn;
+      $acc_operation->type='c';
+      $acc_operation->periode=$periode;
+      $acc_operation->insert_jrnx();
+      
+    }
+    /* insert into jrn */
+    $acc_operation=new Acc_Operation($this->db);
+    $acc_operation->date=$e_date;
+    $acc_operation->echeance=$e_ech;
+    $acc_operation->amount=round($tot_amount+$tot_tva,2);
+    $acc_operation->desc=$e_comm;
+    $acc_operation->grpt=$seq;
+    $acc_operation->jrn=$p_jrn;
+    $acc_operation->periode=$periode;
+    $acc_operation->insert_jrn();
+    ExecSql($this->db,"update jrn set jr_internal='".$internal."' where ".
+	    " jr_grpt_id = ".$seq);
+
+    /* Save the attachment */
+    if ( isset ($_FILES)) {
+      if ( sizeof($_FILES) != 0 )
+	save_upload_document($this->db,$seq);
+    }
+
+    /* Generate an invoice and save it into the database */
+    if ( isset($_POST['gen_invoice'])) {
+      echo 'voir le '.$this->create_invoice($internal,$p_array);
+      echo '<br>';
+    }
+      
+    }
+    catch (Exception $e)
+      {
+	echo '<span class="error">'.
+	  'Erreur dans l\'enregistrement '.
+	  __FILE__.':'.__LINE__.' '.
+	  $e->getMessage();
+	Rollback($this->db);
+	exit();
+      }
+    Commit($this->db);
+    return $internal;
   }
 
   public function update() {
-    if ( $this->verify() != 0 ) return;
-    /*   please adapt
-    $sql="update tva_rate set tva_label=$1,tva_rate=$2,tva_comment=$3,tva_poste=$4 ".
-      " where tva_id = $5";
-    $res=ExecSqlParam($this->cn,
-		 $sql,
-		 array($this->tva_label,
-		       $this->tva_rate,
-		       $this->tva_comment,
-		       $this->tva_poste,
-		       $this->tva_id)
-		 );
-		 */
+    echo "<h2> Acc_Ledger_Sold::update Not implemented</h2>";
   }
 
   public function load() {
+    echo "<h2> Acc_Ledger_Sold::load Not implemented</h2>";
 
-   $sql="select tva_label,tva_rate, tva_comment,tva_poste from tva_rate where tva_id=$1"; 
-    /* please adapt
-    $res=ExecSqlParam($this->cn,
-		 $sql,
-		 array($this->tva_id)
-		 );
-		 */
-    if ( pg_NumRows($res) == 0 ) return;
-    $row=pg_fetch_array($res,0);
-    foreach ($row as $idx=>$value) { $this->$idx=$value; }
+  }
+  /*!\brief Show all the operation, propose a form to select the
+   *ledger and the periode
+   *\return none
+   *\note echo directly, there is no return with the html code
+   */
+  public function show_ledger() {
+    $w=new widget("select");
+    $User=new User($this->db); 
+    // filter on the current year
+    $filter_year=" where p_exercice='".$User->get_exercice()."'";
+    
+    $periode_start=make_array($this->db,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by  p_start,p_end",1);
+    $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
+    $w->selected=$current;
+    
+    echo 'Période  '.$w->IOValue("p_periode",$periode_start);
+    $wLedger=$this->select_ledger('VEN',2);
+    echo 'Journal '.$wLedger->IOValue();
+    echo widget::submit('gl_submit','Valider');
+ // Show list of sell
+ // Date - date of payment - Customer - amount
+    if ( $current == -1) {
+      $cond=" and jr_tech_per in (select p_id from parm_periode where p_exercice='".$User->get_exercice()."')";
+    } else {
+      $cond=" and jr_tech_per=".$current;
+    }
+    
+    $sql=SQL_LIST_ALL_INVOICE.$cond." and jr_def_id=".$this->id ;
+    $step=$_SESSION['g_pagesize'];
+    $page=(isset($_GET['offset']))?$_GET['page']:1;
+    $offset=(isset($_GET['offset']))?$_GET['offset']:0;
+
+    list($max_line,$list)=ListJrn($this->db,$this->id,$sql,null,$offset,1);
+    $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
+    
+    echo "<hr>$bar";
+    echo '<form method="POST">';
+    echo dossier::hidden();  
+    $hid=new widget("hidden");
+    
+
+    $hid->name="action";
+    $hid->value="voir_jrn";
+    echo $hid->IOValue();
+    
+    
+
+    echo $list;
+    if ( $max_line !=0 )
+      echo widget::submit('paid','Mise à jour paiement');
+    echo '</FORM>';
+    echo "$bar <hr>";
+    
+    echo '</div>';
+    
+    
   }
   public function delete() {
-/*    $sql="delete from tva_rate where tva_id=$1"; 
-    $res=ExecSqlParam($this->cn,$sql,array($this->tva_id));
-*/
+    echo "<h2> Acc_Ledger_Sold::delete Not implemented</h2>";
   }
   /*!\brief display the form for entering data for invoice
    *\param $p_array is null or you can put the predef operation or the $_POST
    *\return string
-   *\note
-   *\see
    */
   public function display_form($p_array=null) {
     if ( $p_array != null ) extract($p_array);
@@ -158,8 +396,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $r.="</tr><tr>";
     // Ledger (p_jrn)
     //--
-    $ledger=new Acc_Ledger($this->db,0);
-    $wLedger=$ledger->select_ledger('VEN',2);
+    $wLedger=$this->select_ledger('VEN',2);
 
     $wLedger->table=1;
     $wLedger->javascript="onChange='update_predef(\"ven\",\"f\")'";
@@ -334,7 +571,275 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $r.=JS_CALC_LINE;
     return $r;
   }
+  /*!\brief show the summary of the operation and propose to save it
+   *\param array contains normally $_POST. It proposes also to save
+   * the Analytic accountancy
+   *\return string
+   */
+  function confirm($p_array) {
+    extract ($p_array);
+    $this->verify($p_array) ; 
 
+    // to show a select list for the analytic
+    // if analytic is op (optionnel) there is a blank line
+    $own = new Own($this->db);
+
+    bcscale(4);
+    $client=new fiche($this->db);
+    $client->get_by_qcode($e_client,true);
+
+    $client_name=$client->getName().
+      ' '.$client->strAttribut(ATTR_DEF_ADRESS).' '.
+      $client->strAttribut(ATTR_DEF_CP).' '.
+      $client->strAttribut(ATTR_DEF_CITY);
+    $lPeriode=new Periode($this->db);
+    $date_limit=$lPeriode->get_date_limit($periode);
+    $r="";
+    $r.="<fieldset>";
+    $r.="<legend>En-tête facture client  </legend>";
+    $r.='<TABLE  width="100%">';
+    $r.='<tr>';
+    $r.='<td> Date '.$e_date.'</td>';
+    $r.='<td>Echeance '.$e_ech.'</td>';
+    $r.='<td> Période Comptable '.$date_limit['p_start'].'-'.$date_limit['p_end'].'</td>';
+    $r.='<tr>';
+    $r.='<td> Journal '.$this->get_name().'</td>';
+    $r.='</tr>';
+    $r.='<tr>';
+    $r.='<td colspan="3"> Description '.$e_comm.'</td>';
+    $r.='</tr>';
+    $r.='<tr>';
+    $r.='<td colspan="3"> Client '.$e_client.':'.$client_name.'</td>';
+    $r.='</tr>';
+    $r.='</table>';
+    $r.='</fieldset>';
+    $r.='<fieldset><legend>D&eacute;tail articles vendus</legend>';
+    $r.='<table width="100%" border="0">';
+    $r.='<TR>';
+    $r.="<th>Code</th>";
+    $r.="<th>D&eacute;nomination</th>";
+    $r.="<th>prix</th>";
+    $r.="<th>tva</th>";
+    $r.="<th>quantit&eacute;</th>";
+
+    $r.='<th> Montant TVA</th>';
+    $r.='<th>Montant HTVA</th>';
+    $r.=($own->MY_ANALYTIC!='nu')?'<th>Compt. Analytique</th>':'';
+    $r.='</tr>';
+    $tot_amount=0.0;
+    $tot_tva=0.0;
+    for ($i = 0; $i < $nb_item;$i++) {
+      if ( strlen(trim(${"e_march".$i})) == 0 ) continue;
+
+      /* retrieve information for card */
+      $fiche=new fiche($this->db);
+      $fiche->get_by_qcode(${"e_march".$i});
+      $fiche_name=$fiche->getName();
+      $oTva=new Acc_Tva($this->db);
+      $idx_tva=${"e_march".$i."_tva_id"};
+
+      $oTva->set_parameter('id',$idx_tva);
+      $oTva->load();
+      $op=new Acc_Compute();
+      $amount=bcmul(${"e_march".$i."_sell"},${'e_quant'.$i});
+
+      $op->set_parameter("amount",$amount);
+      $op->set_parameter('amount_vat_rate',$oTva->get_parameter('rate'));
+      $op->compute_vat();
+      $tva_item=$op->get_parameter('amount_vat');
+      if (isset($tva[$idx_tva] ) )
+	$tva[$idx_tva]+=$tva_item;
+      else
+	$tva[$idx_tva]=$tva_item;
+      $tot_amount=round(bcadd($tot_amount,$amount),2);
+      $tot_tva=round(bcadd($tva_item,$tot_tva),2);
+      $r.='<tr>';
+      $r.='<td>';
+      $r.=${"e_march".$i};
+      $r.='</td>';
+      $r.='<TD style="width:60%;border-bottom:1px dotted grey;">';
+      $r.=$fiche_name;
+      $r.='</td>';
+      $r.='<td align="right">';
+      $r.=${"e_march".$i."_sell"};
+      $r.='</td>';
+      $r.='<td align="right">';
+      $r.=${"e_quant".$i};
+      $r.='</td>';
+
+      $r.='<td align="right">';
+      $r.=$oTva->get_parameter('label');
+      $r.='</td>';
+      $r.='<td align="right">';
+      $r.=$tva_item;
+      $r.='</td>';
+      $r.='<td align="right">';
+      $r.=$amount;
+      $r.='</td>';
+
+      // encode the pa
+      if ( $own->MY_ANALYTIC!='nu') // use of AA
+	{
+	  // show form
+	  $anc_op=new Anc_Operation($this->db);
+	  $null=($own->MY_ANALYTIC=='op')?1:0;
+	  $r.='<td>';
+	  $p_mode=1;
+	  $r.=$anc_op->display_form_plan($p_array,$null,$p_mode,$i,$amount);
+	  $r.='</td>';
+	}
+		
+
+      $r.='</tr>';
+      
+    }
+
+
+    $r.='</table>';
+      if ( $own->MY_ANALYTIC!='nu') // use of AA
+	 $r.='<input type="button" value="verifie CA" onClick="verify_ca(\'ok\');">';
+    $r.='</fieldset>';
+    $r.='<fieldset> <legend>Totaux</legend>';
+
+    $tot=round(bcadd($tot_amount,$tot_tva),2);
+    $r.='<div style="position:float;float:right;text-align:left;color:blue">';
+    $r.='<br><span id="htva">'.$tot_amount.'</span>';
+
+    foreach ($tva as $i=>$value) {
+      $r.='<br>'.$tva[$i];
+    }
+    $r.='<br><span id="tva">'.$tot_tva.'</span>';
+    $r.='<br><span id="tvac">'.$tot.'</span>';
+    $r.="</div>";
+
+
+    $r.='<div style="position:float;float:right;text-align:right;padding-right:5px;color:blue">';
+    $r.='<br>Total HTVA';
+
+    foreach ($tva as $i=>$value) {
+      $oTva->set_parameter('id',$i);
+      $oTva->load();
+
+      $r.='<br>  TVA à '.$oTva->get_parameter('label');
+    }
+    $r.='<br>Total TVA';
+    $r.='<br>Total TVAC';
+    $r.="</div>";
+
+    $r.='</fieldset>';
+    /*  Add hidden */
+    $r.=widget::hidden('e_client',$e_client);
+    $r.=widget::hidden('nb_item',$nb_item);
+    $r.=widget::hidden('p_jrn',$p_jrn);
+    $r.=widget::hidden('periode',$periode);
+    $r.=widget::hidden('e_comm',$e_comm);
+    $r.=widget::hidden('e_date',$e_date);
+    $r.=widget::hidden('e_ech',$e_ech);
+    $r.=widget::hidden('jrn_type',$jrn_type);
+    for ($i=0;$i < $nb_item;$i++) {
+      $r.=widget::hidden("e_march".$i,${"e_march".$i});
+      $r.=widget::hidden("e_march".$i."_sell",${"e_march".$i."_sell"});
+      $r.=widget::hidden("e_march".$i."_tva_id",${"e_march".$i."_tva_id"});
+      $r.=widget::hidden("e_quant".$i,${"e_quant".$i});
+    }
+    $r.=$this->extra_info();
+    return $r;
+  }
+  /*!\brief the function extra info allows to
+   * - add a attachment
+   * - generate an invoice
+   * - insert extra info 
+   *\return string
+   */
+  public function extra_info() {
+    $r="";
+    $r.='<fieldset> <legend> Facturation</legend>';
+       // check for upload piece
+    $file=new widget("file");
+    $file->table=0;
+    $r.="Pi&egrave;ce justificative";
+    $r.=$file->IOValue("pj","");
+    $r.='<br>';
+    if ( CountSql($this->db,
+		  "select md_id,md_name from document_modele where md_type=4") > 0 )
+      {
+
+	
+	$r.='ou g&eacute;n&eacute;rer une facture <input type="checkbox" name="gen_invoice" CHECKED>';
+	// We propose to generate  the invoice and some template
+	$doc_gen=new widget("select");
+	$doc_gen->name="gen_doc";
+	$doc_gen->value=make_array($this->db,
+				   "select md_id,md_name from document_modele where md_type=4");
+	$r.=$doc_gen->IOValue().'<br>';  
+      }
+    $obj=new widget('TEXT');
+    $r.='Numero de bon de commande : '.$obj->IOValue('bon_comm').'<br>';
+    $r.='Autre information : '.$obj->IOValue('other_info').'<br>';
+
+    $r.="</fieldset>";
+
+    return $r; 
+  }
+  /*!\brief create the invoice and saved it as attachment to the
+   *operation, 
+   *\param $internal is the internal code
+   *\param $p_array is normally the $_POST
+   *\return a string
+   */
+  function create_invoice($internal,$p_array) {
+    extract ($p_array);
+    $doc=new Document($this->db);
+    $doc->f_id=$e_client;
+    $doc->md_id=$gen_doc;
+    $doc->ag_id=0;
+    $str_file=$doc->Generate();
+    // Move the document to the jrn
+    $doc->MoveDocumentPj($internal);
+    // Update the comment with invoice number
+    $sql="update jrn set jr_comment='Facture ".$doc->d_number."' where jr_internal='$internal'";
+    ExecSql($this->db,$sql);
+    return $str_file;
+    
+  }
+
+
+  /*!\brief update the payment
+   */
+  function show_unpaid() {
+    // Show list of unpaid sell
+    // Date - date of payment - Customer - amount
+    // Nav. bar 
+    $step=$_SESSION['g_pagesize'];
+    $page=(isset($_GET['offset']))?$_GET['page']:1;
+    $offset=(isset($_GET['offset']))?$_GET['offset']:0;
+    
+    
+    $sql=SQL_LIST_UNPAID_INVOICE_DATE_LIMIT." and jr_def_id=".$this->id ;
+    list($max_line,$list)=ListJrn($this->db,$this->id,$sql,null,$offset,1);
+    $sql=SQL_LIST_UNPAID_INVOICE." and jr_def_id=".$this->id ;
+    list($max_line2,$list2)=ListJrn($this->db,$this->id,$sql,null,$offset,1);
+
+    // Get the max line
+    $m=($max_line2>$max_line)?$max_line2:$max_line;
+    $bar2=jrn_navigation_bar($offset,$m,$step,$page);
+
+    echo $bar2;
+    echo '<h2 class="info"> Echeance dépassée </h2>';
+    echo $list;
+    echo  '<h2 class="info"> Non Payée </h2>';
+    echo $list2;
+    echo $bar2;
+    // Add hidden parameter
+    $hid=new widget("hidden");
+
+    echo '<hr>';
+
+    if ( $m != 0 )
+      echo widget::submit('paid','Mise à jour paiement');
+
+
+  }
   /*!\brief
    *\param
    *\return

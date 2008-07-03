@@ -239,6 +239,7 @@ class fiche {
     {
       if ( sizeof ($this->attribut) == 0 ) 
 	{
+
 	  if ($this->id==0) return '- ERROR -';
 	  // object is not in memory we need to look into the database
 	  $sql="select av_text from attr_value join jnt_fic_att_value using(jft_id)
@@ -1073,6 +1074,26 @@ function get_solde_detail($p_cond="") {
 	       'credit'=>$r['sum_cred'],
 	       'solde'=>abs($r['sum_deb']-$r['sum_cred']));
 }
+/*!\brief check if an attribute is empty
+ *\param
+ *\return return true is the attribute is empty or missing
+ */
+function empty_attribute($p_attr) {
+  $sql="select av_text
+           from jnt_fic_att_value 
+               natural join fiche 
+               natural join attr_value
+               left join attr_def using (ad_id) where f_id=".$this->id.
+    " and ad_id = ".$p_attr.
+    " order by ad_id";
+  $res=ExecSql($this->cn,$sql);
+  if ( pg_NumRows($res) == 0 ) return true;
+  $text=pg_fetch_result($res,0,0);
+  return (strlen(trim($text)) > 0)?false:true;
+
+  
+}
+
 /*! 
  * \brief get the fd_id of the card : fd_id, it set the attribute fd_id
  */

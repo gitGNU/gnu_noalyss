@@ -48,6 +48,7 @@ class Acc_Tva
   function __construct ($p_init) {
     $this->cn=$p_init;
     $this->tva_id=0;
+    $this->poste="";
   }
   public function get_parameter($p_string) {
     if ( array_key_exists($p_string,self::$variable) ) {
@@ -128,8 +129,8 @@ class Acc_Tva
    *\note call first load if tva_poste is empty
    */
   public function get_side($p_side) {
-    if ( strlen($this->poste) == 0 ) $this->load();
-    list($deb,$cred)=split(",",$this->poste);
+    if ( strlen($this->tva_poste) == 0 ) $this->load();
+    list($deb,$cred)=split(",",$this->tva_poste);
     switch ($p_side) {
     case 'd':
       return $deb;

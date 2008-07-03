@@ -1314,6 +1314,28 @@ class Acc_Ledger {
     }
 
   }
+  function update_paid($p_array) {
+	// reset all the paid flag because the checkbox is post only
+	// when checked
+	foreach ($p_array as $name=>$paid) 
+	  {
+	    list($ad) = sscanf($name,"set_jr_id%d");
+ 	    if ( $ad == null ) continue;
+ 	    $sql="update jrn set jr_rapt='' where jr_id=$ad";
+ 	    $Res=ExecSql($this->db,$sql);
 
+	  }
+	// set a paid flag for the checked box
+	foreach ($p_array as $name=>$paid) 
+	  {
+	    list ($id) = sscanf ($name,"rd_paid%d");
+
+	    if ( $id == null ) continue;
+	    $paid=($paid=='on')?'paid':'';
+	    $sql="update jrn set jr_rapt='$paid' where jr_id=$id";
+	    $Res=ExecSql($this->db,$sql);
+	  }
+
+  }
 
 }

@@ -160,6 +160,9 @@ function ShowMenuCompta($p_high="")
 	  case 'ven':
 	    $default=1;
 	    break;
+	  case 'client':
+	    $default=1;
+	    break;
 	  case 'ach':
 	    $default=2;
 	    break;

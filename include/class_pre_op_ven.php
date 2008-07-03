@@ -68,6 +68,7 @@ class Pre_op_ven extends Pre_operation_detail {
 	  ExecSql($this->db,$sql);
 	  // save the selling
 	  for ($i=0;$i<$this->operation->nb_item;$i++) {
+	    if ( strlen(trim($this->{"e_march".$i}))==0) continue;
 		$sql=sprintf('insert into op_predef_detail (opd_poste,opd_amount,opd_tva_id,opd_quantity,'.
 					 'opd_debit,od_id)'.
 					 ' values '.
@@ -85,6 +86,7 @@ class Pre_op_ven extends Pre_operation_detail {
 	  echo ($e->getMessage());
 	  Rollback($this->db);
 	}
+	commit($this->db);
 
   }
   /*!\brief compute an array accordingly with the FormVenView function

@@ -71,8 +71,9 @@ var $jr_id;	/*!< pk of jrn */
     }
 
     $debit=($this->type=='c')?'false':'true';
+
     $Res=ExecSqlParam($this->db,"select insert_jrnx
-		 ($1,abs($2),$3,$4,$5,$6,$7,$8,upper($9)",
+		 ($1::text,abs($2)::numeric,$3::poste_comptable,$4::integer,$5::integer,$6::bool,$7::text,$8::integer,upper($9))",
 		      array(
 			    $this->date,
 			    round($this->amount,2),
@@ -101,22 +102,22 @@ var $jr_id;	/*!< pk of jrn */
   {
     $p_comment=FormatString($this->desc);
     
-    $diff=getDbValue($this->db,"select check_balance ($1)",$this->grpt);
+    $diff=getDbValue($this->db,"select check_balance ($1)",array($this->grpt));
     if ( $diff != 0 ) {
       
       echo "Erreur : balance incorrecte : d&eacute;bit = $montant_deb cr&eacute;dit = $montant_cred";
       return false;
     }
 
-    $echeance=( isset( $this->echeance))?$this->echeance:"";
+    $echeance=( isset( $this->echeance) && strlen(trim($this->echeance)) != 0)?$this->echeance:null;
 
     // if amount == -1then the triggers will throw an error
     // 
     $Res=ExecSqlParam($this->db,"insert into jrn (jr_def_id,jr_montant,jr_comment,".
 		      "jr_date,jr_ech,jr_grpt_id,jr_tech_per)   values (".
 		      "$1,$2,$3,".
-		      "to_date($4,'DD.MM.YYYY'),$5,$6,$7)",
-		      array ($this->jrn, $amount,$p_comment,
+		      "to_date($4,'DD.MM.YYYY'),to_date($5,'DD.MM.YYYY'),$6,$7)",
+		      array ($this->jrn, $this->amount,$p_comment,
 			     $this->date,$echeance,$this->grpt,$this->periode)
 			    );
     if ( $Res == false)  return false;

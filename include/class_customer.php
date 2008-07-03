@@ -243,7 +243,7 @@ where
 	return $r;
       foreach ($step_client as $client ) {
 	$r.="<TR>";
-	$e=sprintf('<A HREF="%s?p_action=client&sa=detail&f_id=%d&%s&url=%s" title="Détail"> ',
+	$e=sprintf('<A HREF="%s?p_action=client&sb=detail&f_id=%d&%s&url=%s" title="Détail"> ',
 			   $script,$client->id,$str_dossier,$url);
 
 	$r.="<TD> $e".$client->strAttribut(ATTR_DEF_QUICKCODE)."</A></TD>";
@@ -263,25 +263,32 @@ where
 	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$a['debit']);
 	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$a['credit']);
 	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$a['solde']);
-	$r.="<TD>";
 
-	$r.=sprintf('<A class="mtitle" HREF="%s?p_action=contact&qcode=%s&%s&url=%s" title="Contact">Contact</A></td>',
-				$script,$client->strAttribut(ATTR_DEF_QUICKCODE),$str_dossier,$url);
-	$r.=sprintf('<td><A  class="mtitle"  HREF="%s?p_action=suivi_courrier&sa=list&qcode=%s&%s&url=%s" title="Action">Courrier</A></td> ',
-				$script,$client->strAttribut(ATTR_DEF_QUICKCODE) ,$str_dossier,$url);
-
-
-
-	$r.='<td><A  class="mtitle"  HREF="commercial.php?p_action=facture&sa=list&p_periode=-1&'.$str_dossier.'&qcode='.$client->strAttribut(ATTR_DEF_QUICKCODE).'&url='.$url.'" title="Historique Facture">Facture</A></td>';
-	$r.=sprintf('<td><A class="mtitle" HREF="%s?liste&p_action=bank&sa=list&qcode=%s&%s&url=%s&p_periode=-1" title="Financier">Financier</A></td>',
-				$script,$client->strAttribut(ATTR_DEF_QUICKCODE) ,$str_dossier,$url);
-
-	$r.=sprintf('<td><A class="mtitle" HREF="%s?p_action=impress&type=poste&f_id=%s&%s&from_periode=%s&to_periode=%s&bt_html=Visualisation" 
+	if ( basename($script)=='commercial.php') {
+	  $r.="<TD>";
+	  
+	  $r.=sprintf('<A class="mtitle" HREF="%s?p_action=contact&qcode=%s&%s&url=%s" title="Contact">Contact</A></td>',
+		      $script,$client->strAttribut(ATTR_DEF_QUICKCODE),$str_dossier,$url);
+	  $r.=sprintf('<td><A  class="mtitle"  HREF="%s?p_action=suivi_courrier&sa=list&qcode=%s&%s&url=%s" title="Action">Courrier</A></td> ',
+		      $script,$client->strAttribut(ATTR_DEF_QUICKCODE) ,$str_dossier,$url);
+	  
+	  
+	  
+	  $r.='<td><A  class="mtitle"  HREF="?p_action=client&sa=f&p_periode=-1&'.$str_dossier.'&qcode='.$client->strAttribut(ATTR_DEF_QUICKCODE).'&url='.$url.'" title="Historique Facture">Facture</A></td>';
+	  $r.=sprintf('<td><A class="mtitle" HREF="%s?liste&p_action=bank&sa=list&qcode=%s&%s&url=%s&p_periode=-1" title="Financier">Financier</A></td>',
+		      $script,$client->strAttribut(ATTR_DEF_QUICKCODE) ,$str_dossier,$url);
+	  
+	  $r.=sprintf('<td><A class="mtitle" HREF="%s?p_action=impress&type=poste&f_id=%s&%s&from_periode=%s&to_periode=%s&bt_html=Visualisation" 
 title="Operation">Operation</A></td>',
-		    $script,$client->strAttribut(ATTR_DEF_QUICKCODE) ,$str_dossier,$max->p_id,$min->p_id);
-
-	$r.='</TD>';
-
+		      $script,$client->strAttribut(ATTR_DEF_QUICKCODE) ,$str_dossier,$max->p_id,$min->p_id);
+	  
+	  $r.='</TD>';
+	} else {
+	  $r.=sprintf('<td><A class="mtitle" HREF="%s?p_action=impress&type=poste&f_id=%s&%s&from_periode=%s&to_periode=%s&bt_html=Visualisation" 
+title="Operation">Operation</A></td>',
+		      $script,$client->strAttribut(ATTR_DEF_QUICKCODE) ,$str_dossier,$max->p_id,$min->p_id);
+	  
+	}
 	$r.="</TR>";
 
       }

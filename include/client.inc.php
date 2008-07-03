@@ -19,16 +19,14 @@
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 require_once("class_customer.php");
-$sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
+$sub_action=(isset($_REQUEST['sb']))?$_REQUEST['sb']:"list";
 
 /*! \file
  * \brief Called from the module "Gestion" to manage the customer
  */
 $User->can_request($cn,CLIENT);
+$href=basename($_SERVER['PHP_SELF']);
 
-?>
-
-<?php  
 // Menu
 // Remove a card
 if ( isset ($_POST['delete']) ) 
@@ -49,11 +47,14 @@ if ( $sub_action=="insert" )
 
   $customer=new Customer($cn);
   $customer->Save($_REQUEST['fd_id']);
+
+  echo '<div class="content">';
   echo $retour;
   echo "<table>";
   echo $customer->Display(true);
   echo "</table>";
   echo $retour;
+  echo '</div>';
 
 }
 //-----------------------------------------------------
@@ -75,16 +76,16 @@ if ( $sub_action  == "" )
 if ( $sub_action=="blank") 
 {
 
-  $retour=widget::button_href('Retour','commercial.php?p_action=client&'.dossier::get());
+  $retour=widget::button_href('Retour',$href.'?p_action=client&'.dossier::get());
 
   echo '<div class="content">';
 
   echo $retour;
   $c=new Customer($cn);
-  echo '<form method="post" action="commercial.php"';
+  echo '<form method="post" action="'.$href.'"';
   echo dossier::hidden();
   echo '<input type="hidden" name="p_action" value="client">';
-  echo '<input type="hidden" name="sa" value="insert">';
+  echo '<input type="hidden" name="sb" value="insert">';
   echo '<input type="hidden" name="fd_id" value="'.$_GET['fd_id'].'">';
   echo '<input type="hidden" name="url" value="'.$_GET['url'].'">';
   echo $c->blank($_GET['fd_id']);
@@ -95,12 +96,15 @@ if ( $sub_action=="blank")
 }
 //-----------------------------------------------------
 // list
+
+
 if ( $sub_action == "list" )
 {
+
 ?>
 <div class="content">
 <span  style="position:float;float:left">
-<form method="get" action="commercial.php">
+<form method="get" action="<?php echo $href; ?>">
 <?php
 	echo dossier::hidden();  
    $a=(isset($_GET['query']))?$_GET['query']:"";
@@ -112,7 +116,7 @@ if ( $sub_action == "list" )
 </form>
 </span>
 <span  style="position:float;float:left">
-<form method="get" action="commercial.php">
+<form method="get" action="<?php echo $href;?>">
    <?php echo dossier::hidden(); ?>
 <input type="hidden" name="p_action" value="client">
 
@@ -123,7 +127,7 @@ if ( $sub_action == "list" )
 	     " frd_id=".FICHE_TYPE_CLIENT);
  echo $w->IOValue();
 ?>
-<input type="hidden" name="sa" value="blank">
+<input type="hidden" name="sb" value="blank">
 <input type="submit" name="submit_query" value="Ajout Client">
 <input type="hidden" name="url" <?php        $url=urlencode($_SERVER['REQUEST_URI']);echo 'value="'.$url.'"'; ?>
 

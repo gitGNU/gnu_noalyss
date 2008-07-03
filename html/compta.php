@@ -71,7 +71,8 @@ if ( $action=='quick_writing') {
 if ( $action == 'gl' ) {
   require_once ('user_action_gl.php');
  }
-if ( $action == 'ven') {
+if ( $action == 'ven' ||
+     $action == 'client') {
   require_once ('compta_ven.inc.php');
  }
 if ( $action == 'ach') {

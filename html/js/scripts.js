@@ -146,32 +146,32 @@ function add_row(p_table,p_seq,p_count) {
 
 function verify_ca(p_style) {
   var nb_item=document.getElementById('nb_item').value;
-  for ( var item=0;item<=nb_item-1;item++) {
-	var nb_row=1*document.getElementById('nb_t'+item).value;
-	var amount=1*document.getElementById('amount_t'+item).value;
-	var get=0;
-	for (var row=1;row <= nb_row;row++) {
 
-	  if ( document.getElementById('ta_'+item+'o1row_'+row).value != -1) {
-	      val=document.getElementById('val'+item+'l'+row).value;
-	      if ( isNaN(val)) {		continue;}
-	      get=get+(val*1);
-	  } else {
-	    get=amount;
+  for ( var item=0;item<=nb_item-1;item++) {
+      if ( document.getElementById('nb_t'+item) ) {
+	  var nb_row=1*document.getElementById('nb_t'+item).value;
+	  var amount=1*document.getElementById('amount_t'+item).value;
+	  var get=0;
+	  for (var row=1;row <= nb_row;row++) {
+	      
+	      if ( document.getElementById('ta_'+item+'o1row_'+row).value != -1) {
+		  val=document.getElementById('val'+item+'l'+row).value;
+		  if ( isNaN(val)) {		continue;}
+		  get=get+(val*1);
+	      } else {
+		  get=amount;
+	      }
 	  }
-	}
-	if ( Math.round(get,2) != Math.round(amount,2) ) {
-	  diff=Math.round(get,2)-Math.round(amount,2);
-	  alert ("montant differents \ntotal CA="+get+"\ntotal Operation "+amount+"\nDiff = "+diff);
-	  /*!\todo remove debug 
-	  // to debug purpose set to true	  return false;
-	  */
-	  return true
-	    }else {
-	  if ( p_style=='ok') {
-	    alert('les montants correspondent');
+	  if ( Math.round(get,2) != Math.round(amount,2) ) {
+	      diff=Math.round(get,2)-Math.round(amount,2);
+	      alert ("montant differents \ntotal CA="+get+"\ntotal Operation "+amount+"\nDiff = "+diff);
+	      return false;
+	  }else {
+	      if ( p_style=='ok') {
+		  alert('les montants correspondent');
+	      }
 	  }
-	}
+      }
   }
   return true;
 }
@@ -391,6 +391,13 @@ function ledger_sold_add_row(p_dossier,p_sessid){
   nb.value++;
 
 }
+function compute_all_sold() {
+    var loop=0;
+    for (loop=0;loop<$(nb_item).value;loop++){
+	compute_sold(loop);
+    }
+
+}
 /**
  * @brief compute the sum of a sold, update the span tvac, htva and tva
  * all the needed data are taken from the document (hidden field : phpsessid and gdossier)
@@ -453,6 +460,7 @@ function update_predef(p_type,p_direct) {
     var phpsessid=$("phpsessid").value;
     var dossier=$("gDossier").value;
     var querystring='?PHPSESSID='+phpsessid+'&gDossier='+dossier+'&l='+jrn+'&t='+p_type+'&d='+p_direct;
+    $("p_jrn_predef").value=jrn;
   var action=new Ajax.Request(
 			      "get_predef.php",
 			      { 
@@ -472,11 +480,10 @@ function success_get_predef(request,json) {
     obj=$("pre_def");
     obj.innerHTML='';
     if ( answer.count == 0 ) return;
-    alert(answer.count);
+
     for ( i = 0 ; i < answer.count;i++) {
 	value=answer['value'+i];
 	label=answer['label'+i];
-	alert (value+' '+label);
 	obj.options[obj.options.length]=new Option(label,value);
     }
 
