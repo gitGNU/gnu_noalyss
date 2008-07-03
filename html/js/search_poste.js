@@ -71,10 +71,10 @@ function SetItChild(p_ctl,p_value,p_label) {
 }
 function SetItParent(p_ctl,p_value,p_label) {
 
-	var f=document.getElementById(p_ctl);
-	f.value=p_value;
-	var f1=document.getElementById(p_ctl+"_label");
-	f1.innerHTML=p_label;
+    var f=document.getElementById(p_ctl);
+    f.value=p_value;
+    var f1=document.getElementById(p_ctl+"_label");
+    if ( f1)	f1.innerHTML=p_label;
 	
 }
 
