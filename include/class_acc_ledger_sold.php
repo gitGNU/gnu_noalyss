@@ -484,7 +484,8 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $label=widget::infobulle(0) ;
     $r.="<th>Code $label</th>";
     $r.="<th>D&eacute;nomination</th>";
-    $r.="<th>prix</th>";
+    $label=widget::infobulle(6) ;
+    $r.="<th>$label prix / unité htva </th>";
     $r.="<th>tva</th>";
     $r.="<th>quantit&eacute;</th>";
 
@@ -502,14 +503,6 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       $march_label="&nbsp;";
       // retrieve the tva label and name
       //--
-/*       $a_fiche=GetFicheAttribut($this->db, $march); */
-/*       if ( $a_fiche != null ) { */
-/* 	if ( $march_tva_id == "" ) { */
-/* 	  $march_tva_id=$a_fiche['tva_id']; */
-/* 	  $march_tva_label=$a_fiche['tva_label']; */
-/* 	} */
-/* 	$march_label=$a_fiche['vw_name']; */
-/*       } */
       if ( strlen(trim($march))!=0 ) {
 	$fMarch=new fiche($this->db);
 	$fMarch->get_by_qcode($march);
@@ -537,7 +530,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       $Span->SetReadOnly(false);
       // card's name, price
       //--
-      $r.='<TD style="width:60%;border-bottom:1px dotted grey;">'.$Span->IOValue("e_march".$i."_label",$march_label)."</TD>";
+      $r.='<TD style="width:55%;border-bottom:1px dotted grey;">'.$Span->IOValue("e_march".$i."_label",$march_label)."</TD>";
       // price
       $Price=new widget("text");
       $Price->SetReadOnly(false);
