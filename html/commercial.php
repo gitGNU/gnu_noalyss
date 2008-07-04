@@ -157,7 +157,7 @@ if ( $p_action == 'ach')
 // Banque
 if ( $p_action == 'bank') 
 {
-  require_once("bank.inc.php");
+  require_once("compta_fin.inc.php");
 }
 if ( $p_action=='quick_writing') {
   require_once ('quick_writing.inc.php');

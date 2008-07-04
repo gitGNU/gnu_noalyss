@@ -32,7 +32,7 @@ require_once ('class_pre_op_fin.php');
  * \brief the purpose off this file encode expense and  to record them
  *
  */
-
+echo JS_PROTOTYPE;
 
 // First we show the menu
 // If nothing is asked the propose a blank form

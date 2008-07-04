@@ -270,7 +270,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 
     /* Generate an invoice and save it into the database */
     if ( isset($_POST['gen_invoice'])) {
-      echo 'voir le '.$this->create_invoice($internal,$p_array);
+      echo $this->create_invoice($internal,$p_array);
       echo '<br>';
     }
       
@@ -455,7 +455,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     }
     
     $W1=new widget("js_search_only");
-    $W1->label="Client ".widget::infobulle(0) ;;
+    $W1->label="Client ".widget::infobulle(0) ;
     $W1->name="e_client";
     $W1->tabindex=3;
     $W1->value=$e_client;
@@ -464,6 +464,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $W1->extra2="Recherche";
     $r.='<TR><td colspan="5" >'.$W1->IOValue();
     $client_label=new widget("span");
+    $client_label->table=0;
     $r.=$client_label->IOValue("e_client_label",$e_client_label)."</TD></TR>";
     
     $r.="</TABLE>";
@@ -585,8 +586,10 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     // Set correctly the REQUEST param for jrn_type 
     $r.=widget::hidden('jrn_type','VEN');
 
-    $r.=widget::button('add_item','Ajout article',      ' onClick="ledger_sold_add_row(\''.dossier::id().'\',\''.$_REQUEST['PHPSESSID'].'\')"');
-    $r.='<INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer" TABINDEX="32767" ID="SubmitButton">';
+    $r.=widget::button('add_item','Ajout article',      ' onClick="ledger_sold_add_row()"');
+    $r.=widget::submit("view_invoice","Enregistrer");
+    $r.=widget::reset('Effacer ');
+
     $r.="</DIV>";
 
     $r.=JS_CALC_LINE;
@@ -823,7 +826,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     // Update the comment with invoice number
     $sql="update jrn set jr_comment='Facture ".$doc->d_number."' where jr_internal='$internal'";
     ExecSql($this->db,$sql);
-    return $str_file;
+    return '<h2 class="info">'.$str_file.'</h2>';
     
   }
 

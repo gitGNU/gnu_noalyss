@@ -1314,6 +1314,9 @@ class Acc_Ledger {
     }
 
   }
+  /*!\brief Update the paiment  in the list of operation
+   *\param $p_array is normally $_GET 
+   */
   function update_paid($p_array) {
 	// reset all the paid flag because the checkbox is post only
 	// when checked
@@ -1337,5 +1340,11 @@ class Acc_Ledger {
 	  }
 
   }
+  function update_internal_code($p_internal) {
+    if ( ! isset($this->grpt_id) )
+      exit( 'ERREUR '.__FILE__.":".__LINE__);
+    $Res=ExecSql($this->db,"update jrn set jr_internal='".$p_internal."' where ".
+		 " jr_grpt_id = ".$this->grpt_id);
 
+  }
 }

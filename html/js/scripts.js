@@ -361,11 +361,9 @@ function report_export_success(request,json) {
 }
 
 /**
- * @brief add a line in the form for the report 
- * @param p_dossier dossier id to connect
- * @param p_sessid session id
+ * @brief add a line in the form for the sold ledger
  */
-function ledger_sold_add_row(p_dossier,p_sessid){
+function ledger_sold_add_row(){
    style='class="input_text"';
    var mytable=$("sold_item").tBodies[0];
    var line=mytable.rows.length;
@@ -495,5 +493,31 @@ function success_get_predef(request,json) {
  */
 function error_get_predef(request,json) {
     alert ("Erreur mise à jour champs non possible");
+
+}
+/**
+ * @brief add a line in the form for the ledger fin
+ */
+function ledger_fin_add_row(){
+    style='class="input_text"';
+    var mytable=$("fin_item").tBodies[0];
+    var line=mytable.rows.length;
+    var row=mytable.insertRow(line);
+    var phpsessid=$("phpsessid");
+    var nb=$("nb_item");
+    
+    var newNode = mytable.rows[1].cloneNode(true);
+    var tt=newNode.innerHTML;
+    mytable.appendChild(newNode);
+    
+    
+    new_tt=tt.replace(/e_other0/g,"e_other"+nb.value);
+    new_tt=new_tt.replace(/e_other0_comment/g,"e_other"+nb.value+'_comment');
+    new_tt=new_tt.replace(/e_other0_amount/g,"e_other"+nb.value+'_amount');
+    new_tt=new_tt.replace(/e_concerned0/g,"e_concerned"+nb.value);
+    new_tt=new_tt.replace(/e_other0_label/g,"e_other"+nb.value+'_label');
+    newNode.innerHTML=new_tt;
+    $("e_other"+nb.value+'_label').innerHTML="";
+    nb.value++;
 
 }

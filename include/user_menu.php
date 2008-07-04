@@ -141,7 +141,6 @@ function ShowMenuCompta($p_high="")
   }
   if ( $p_high !== "" ) $default=$p_high;
 
-  echo_debug('user_menu.php',__LINE__,'defaut is '.$default);
   if  ( isset($_REQUEST['p_action']))
 	{
 	  switch ($_REQUEST['p_action'] ) {
@@ -175,12 +174,14 @@ function ShowMenuCompta($p_high="")
 
 	  }
 	}
+  echo_debug('user_menu.php',__LINE__,'defaut is '.$default);
+
   $str_dossier=dossier::get();
   $p_array=array(
 		 array("compta.php?p_action=gl&".$str_dossier ,"Grand Livre","Grand livre : toutes les opérations",0),
 		 array("compta.php?p_action=ven&".$str_dossier ,"Vente","Journal de vente / produit",1),
 		 array("compta.php?p_action=ach&".$str_dossier,"Dépense","Journaux de dépense, d'achat",2 ),
-		 array("compta.php?p_action=bank&".$str_dossier,"Financier","Journaux financiers","journaux financiers: les banques, la caisse",3),
+		 array("compta.php?p_action=bank&".$str_dossier,"Financier","Journaux financiers: les banques, la caisse",3),
 		 array("compta.php?p_action=ods&".$str_dossier,"Op. Diverses","Journaux opération diverses : déclaration TVA, impot, prêt...",8),
 		 array('compta.php?p_action=quick_writing&'.$str_dossier,'Ecriture directe','Ecriture directe dans les journaux',4),
 		 

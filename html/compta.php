@@ -26,7 +26,23 @@
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 include_once ("ac_common.php");
-html_page_start($_SESSION['g_theme']);
+$action=(isset($_REQUEST['p_action']))?$_REQUEST['p_action']:'';
+$use_html=1;
+//----------------------------------------------------------------------
+/*!\todo find a way to improve performance : the calendar must not
+ *   always be loaded and takes at least 50KB
+ */
+if ( $action == 'ven' && ! isset ($_REQUEST['sa']) )
+  $use_html=1;
+
+
+if ( $action == 'ven' && isset ($_REQUEST['sa']) && in_array($_REQUEST['sa'],array('n','p')  ))
+  $use_html=1;
+if ( $use_html == 1) 
+  html_page_start($_SESSION['g_theme']);
+else 
+  html_min_page_start($_SESSION['g_theme']);
+//----------------------------------------------------------------------
 
 
 include_once ("postgres.php");
@@ -41,7 +57,7 @@ $User->Check();
 require_once ("check_priv.php");
 include_once ("user_menu.php");
 echo '<div class="u_tmenu">';
-$action=$_REQUEST['p_action'];
+
 echo ShowMenuCompta("user_advanced.php?".dossier::get());
 
 echo '</div>';

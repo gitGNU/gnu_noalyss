@@ -323,7 +323,13 @@ class Periode {
     return pg_fetch_array($Res,0);
     
   }
+  function get_exercice() {
+    $sql="select p_exercice from parm_periode where p_id=".$this->id;
+    $Res=ExecSql($this->cn,$sql);
+    if ( pg_NumRows($Res) == 0) return null;
+    return pg_fetch_result($Res,0,0);
 
+  }
   static function test_me() {
     $cn=DbConnect(dossier::id());
     $obj=new Periode($cn);
