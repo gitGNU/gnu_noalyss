@@ -59,7 +59,7 @@ switch ($sa) {
    $def=5;
    break;
  }
-if ( $action == 'client') $def=5;
+if ( $_REQUEST['p_action'] == 'client') $def=5;
 echo '<div class="lmenu">';
 echo ShowItem($array,'H','mtitle','mtitle',$def);
 echo '</div>';
@@ -159,7 +159,7 @@ if ( $def==1 || $def == 4 ) {
 
 
   /* request for a predefined operation */
-  if ( isset($use_predef) && $use_predef == 1 ) {
+  if ( isset($use_predef) && $use_predef == 1 && isset($_REQUEST['pre_def']) ) {
     // used a predefined operation
     //
     $op=new Pre_op_ven($cn);

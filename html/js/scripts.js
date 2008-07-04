@@ -385,7 +385,7 @@ function ledger_sold_add_row(p_dossier,p_sessid){
   newNode.innerHTML=new_tt;
     $("e_march"+nb.value+"_label").innerHTML='&nbsp;';
     $("e_march"+nb.value+"_sell").value='0';
-    $("e_march"+nb.value).value=" ";
+    $("e_march"+nb.value).value="";
     $("e_quant"+nb.value).value="1";
 
   nb.value++;
@@ -411,6 +411,7 @@ function compute_sold(p_ctl_nb) {
   var price=$('e_march'+p_ctl_nb+'_sell').value;
   var quantity=$('e_quant'+p_ctl_nb).value;
   var querystring='?PHPSESSID='+phpsessid+'&gDossier='+dossier+'&c='+qcode+'&t='+tva_id+'&p='+price+'&q='+quantity+'&n='+p_ctl_nb;
+    $('sum').hide();
   var action=new Ajax.Request(
 			      "compute.php",
 			      { 
@@ -431,6 +432,7 @@ function success_compute_sold(request,json) {
   var rhtva=answer.htva*1;
   var rtvac=answer.tvac*1;
   var ctl=answer.ctl;
+    $('sum').show();
   $('tva_march'+ctl).value=rtva;
   $('htva_march'+ctl).value=rhtva;
   $('tvac_march'+ctl).value=rtvac;

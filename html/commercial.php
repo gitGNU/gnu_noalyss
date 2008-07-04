@@ -81,7 +81,7 @@ echo ShowItem(array(
 		    array('?p_action=client&'.$str_dossier,'Client'),
 		    array('?p_action=ven&'.$str_dossier,'Vente/Facture'),
 		    array('?p_action=fournisseur&'.$str_dossier,'Fournisseur'),
-		    array('?p_action=depense&'.$str_dossier,'Achat/D&eacute;pense'),
+		    array('?p_action=ach&'.$str_dossier,'Achat/D&eacute;pense'),
 		    array('?p_action=bank&'.$str_dossier,'Banque'),
 		    array('?p_action=quick_writing&'.$str_dossier,'Ecriture directe'),
 		    array('?p_action=impress&'.$str_dossier,'Impression'),
@@ -148,7 +148,7 @@ if ( $p_action == 'contact')
 }
 //-----------------------------------------------------
 // Expense
-if ( $p_action == 'depense') 
+if ( $p_action == 'ach') 
 {
   require_once("depense.inc.php");
 }

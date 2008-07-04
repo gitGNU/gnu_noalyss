@@ -31,9 +31,9 @@ require_once ('class_pre_op_ach.php');
 /*!\brief the purpose off this file encode expense and  to record them
  *
  */
-$tag_list='<td class="mtitle"><A class="mtitle" HREF="commercial.php?liste&p_action=depense&sa=list&'.$str_dossier.'">Liste</A></td>';
+$tag_list='<td class="mtitle"><A class="mtitle" HREF="commercial.php?liste&p_action=ach&sa=list&'.$str_dossier.'">Liste</A></td>';
 $tag_list_sel='<td class="selectedcell">Liste</td>';
-$tag_unpaid='<td class="mtitle"><A class="mtitle" HREF="commercial.php?liste&p_action=depense&sa=unpaid&'.$str_dossier.'">Non Paye</A></td>';
+$tag_unpaid='<td class="mtitle"><A class="mtitle" HREF="commercial.php?liste&p_action=ach&sa=unpaid&'.$str_dossier.'">Non Paye</A></td>';
 $tag_unpaid_sel='<td class="selectedcell">Non Paye</td>';
 
 $msg_tva='<i>Si le montant de TVA est &eacute;gal &agrave; 0, il sera automatiquement calcul&eacute;</i>';
@@ -93,7 +93,7 @@ echo '</div>';
   $op->od_direct='f';
 
   $hid=new widget("hidden");
-  echo $hid->IOValue("p_action","depense");
+  echo $hid->IOValue("p_action","ach");
   echo dossier::hidden();
   echo $hid->IOValue("p_jrn",$p_jrn);
   echo $hid->IOValue("jrn_type","ACH");
@@ -154,7 +154,7 @@ if ( $sub_action == "list")
   $hid=new widget("hidden");
   
   $hid->name="p_action";
-  $hid->value="depense";
+  $hid->value="ach";
   echo $hid->IOValue();
 
 
@@ -366,7 +366,7 @@ if ( isset($_POST['save']))
     echo $form;
     echo '<hr>';
     echo '</form>';
-    echo '<A class="mtitle" href="commercial.php?p_action=depense&p_jrn='.$p_jrn.'&'.dossier::get().'">
+    echo '<A class="mtitle" href="commercial.php?p_action=ach&p_jrn='.$p_jrn.'&'.dossier::get().'">
     <input type="button" Value="Autre dépense"></A>';
     exit();
   }
@@ -443,7 +443,7 @@ if ( $p_jrn != -1 )
   $op->od_direct='f';
 
   $hid=new widget("hidden");
-  echo $hid->IOValue("p_action","depense");
+  echo $hid->IOValue("p_action","ach");
   echo dossier::hidden();
   echo $hid->IOValue("p_jrn",$p_jrn);
   echo $hid->IOValue("jrn_type","ACH");

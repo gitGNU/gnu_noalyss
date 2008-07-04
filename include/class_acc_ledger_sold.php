@@ -43,6 +43,9 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
    */
   public function verify($p_array) {
     extract ($p_array);
+    /* check if there is a customer */
+    if ( strlen(trim($e_client)) == 0 ) 
+      throw new AcException('Vous n\'avez pas donné de client',11);
 
     /*  check if the date is valid */
     if ( isDate($e_date) == null ) {
@@ -72,16 +75,26 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       throw new AcException('Pour la fiche '.$e_client.' le poste comptable ['.$poste->id.'] n\'existe pas',9);
     }
 
+    /* Check if the card belong to the ledger */
+    $fiche=new fiche ($this->db);
+    $fiche->get_by_qcode($e_client,'deb');
+    if ( $fiche->belong_ledger($p_jrn) !=1 )
+	throw new AcException('La fiche '.$e_client.'n\'est pas accessible à ce journal',10);
 
-    /* check if amount are numeric and */
-    /* check if all card has a ATTR_DEF_ACCOUNT*/
-    /* and this account does exist */
+    $nb=0;
+
+    //----------------------------------------
+    // foreach item
+    //----------------------------------------
     for ($i=0;$i< $nb_item;$i++) {
       if ( strlen(trim(${'e_march'.$i}))== 0) continue;
+      /* check if amount are numeric and */
       if ( isNumber(${'e_march'.$i.'_sell'}) == 0 )
 	throw new AcException('La fiche '.${'e_march'.$i}.'a un montant invalide ['.${'e_march'.$i}.']',6);
       if ( isNumber(${'e_quant'.$i}) == 0 )
 	throw new AcException('La fiche '.${'e_march'.$i}.'a une quantité invalide ['.${'e_quant'.$i}.']',7);
+
+      /* check if all card has a ATTR_DEF_ACCOUNT*/
       $fiche=new fiche($this->db);
       $fiche->get_by_qcode(${'e_march'.$i});
       if ( $fiche->empty_attribute(ATTR_DEF_ACCOUNT) == true)
@@ -91,7 +104,15 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       if ( $poste->load() == false ){
 	throw new AcException('Pour la fiche '.${'e_march'.$i}.' le poste comptable ['.$poste->id.'n\'existe pas',9);
       }
+      /* Check if the card belong to the ledger */
+      $fiche=new fiche ($this->db);
+      $fiche->get_by_qcode(${'e_march'.$i});
+      if ( $fiche->belong_ledger($p_jrn,'cred') !=1 )
+	throw new AcException('La fiche '.${'e_march'.$i}.'n\'est pas accessible à ce journal',10);
+      $nb++;
     }
+    if ( $nb == 0 )
+      throw new AcException('Il n\'y a aucune marchandise',12);
   }
 
   public function save() {
@@ -315,13 +336,6 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     echo dossier::hidden();  
     $hid=new widget("hidden");
     
-
-    $hid->name="action";
-    $hid->value="voir_jrn";
-    echo $hid->IOValue();
-    
-    
-
     echo $list;
     if ( $max_line !=0 )
       echo widget::submit('paid','Mise à jour paiement');
@@ -428,10 +442,17 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
   
     // retrieve e_client_label
     //--
-    $a_client=GetFicheAttribut($this->db,$e_client);
-    if ( $a_client != null)   
-      $e_client_label=$a_client['vw_name']."  adresse ".$a_client['vw_addr']."  ".$a_client['vw_cp'];
-    
+
+    if ( strlen(trim($e_client)) !=  0)   {
+      $fClient=new fiche($this->db);
+      $fClient->get_by_qcode($e_client);
+      $e_client_label=$fClient->strAttribut(ATTR_DEF_NAME).' '.
+	' Adresse : '.$fClient->strAttribut(ATTR_DEF_ADRESS).' '.
+	$fClient->strAttribut(ATTR_DEF_CP).' '.
+	$fClient->strAttribut(ATTR_DEF_CITY).' ';
+
+
+    }
     
     $W1=new widget("js_search_only");
     $W1->label="Client ".widget::infobulle(0) ;;
@@ -477,18 +498,23 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       $march_sell=(isset(${"e_march".$i."_sell"}))?${"e_march".$i."_sell"}:"";
       $march_tva_id=(isset(${"e_march$i"."_tva_id"}))?${"e_march$i"."_tva_id"}:"";
       
-      $march_tva_label="";
 
       $march_label="&nbsp;";
       // retrieve the tva label and name
       //--
-      $a_fiche=GetFicheAttribut($this->db, $march);
-      if ( $a_fiche != null ) {
-	if ( $march_tva_id == "" ) {
-	  $march_tva_id=$a_fiche['tva_id'];
-	  $march_tva_label=$a_fiche['tva_label'];
-	}
-	$march_label=$a_fiche['vw_name'];
+/*       $a_fiche=GetFicheAttribut($this->db, $march); */
+/*       if ( $a_fiche != null ) { */
+/* 	if ( $march_tva_id == "" ) { */
+/* 	  $march_tva_id=$a_fiche['tva_id']; */
+/* 	  $march_tva_label=$a_fiche['tva_label']; */
+/* 	} */
+/* 	$march_label=$a_fiche['vw_name']; */
+/*       } */
+      if ( strlen(trim($march))!=0 ) {
+	$fMarch=new fiche($this->db);
+	$fMarch->get_by_qcode($march);
+	$march_label=$fMarch->strAttribut(ATTR_DEF_NAME);
+	$march_tva_id=$fMarch->strAttribut(ATTR_DEF_TVA);
       }
       // Show input
       //--
@@ -544,27 +570,29 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     
     
     $r.="</TABLE>";
-
-    $r.='<div style="position:float;float:left;text-align:right;padding-right:5px;color:blue">';
-    $r.='<br>Total HTVA';
-    $r.='<br>Total TVA';
-    $r.='<br>Total TVAC';
+    $r.='<div style="position:float;float:right;text-align:right;padding-right:5px;font-size:1.2em;font-weight:bold;color:blue">';
+    $r.=widget::button('act','Actualiser','onClick="compute_all_sold();"');
     $r.="</div>";
 
-    $r.='<div style="position:float;float:left;text-align:left;color:blue">';
+    $r.='<div style="position:float;float:right;text-align:left;font-size:1.2em;font-weight:bold;color:blue" id="sum">';
     $r.='<br><span id="htva">0.0</span>';
     $r.='<br><span id="tva">0.0</span>';
     $r.='<br><span id="tvac">0.0</span>';
+    $r.="</div>";
+
+
+
+    $r.='<div style="position:float;float:right;text-align:right;padding-right:5px;font-size:1.2em;font-weight:bold;color:blue">';
+    $r.='<br>Total HTVA';
+    $r.='<br>Total TVA';
+    $r.='<br>Total TVAC';
     $r.="</div>";
 
     $r.="</fieldset>";
     // Set correctly the REQUEST param for jrn_type 
     $r.=widget::hidden('jrn_type','VEN');
 
-    $r.='<INPUT TYPE="BUTTON" NAME="add_item" VALUE="Ajout article" '.
-      ' onClick="ledger_sold_add_row(\''.dossier::id().'\',\''.$_REQUEST['PHPSESSID'].'\')"'.     
-      ' TABINDEX="32767">';
-
+    $r.=widget::button('add_item','Ajout article',      ' onClick="ledger_sold_add_row(\''.dossier::id().'\',\''.$_REQUEST['PHPSESSID'].'\')"');
     $r.='<INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer" TABINDEX="32767" ID="SubmitButton">';
     $r.="</DIV>";
 

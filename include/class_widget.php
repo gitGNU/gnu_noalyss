@@ -663,6 +663,10 @@ class widget {
     
     return '<INPUT TYPE="SUBMIT" NAME="'.$p_name.'" VALUE="'.$p_value.'" '.$p_javascript.'>';
   }
+  static   function button ($p_name,$p_value,$p_javascript="") {
+    
+    return '<INPUT TYPE="button" NAME="'.$p_name.'" VALUE="'.$p_value.'" '.$p_javascript.'>';
+  }
 
   static function reset ($p_value) {
     return '<INPUT TYPE="SUBMIT"  VALUE="'.$p_value.'">';

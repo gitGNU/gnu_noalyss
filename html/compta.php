@@ -78,7 +78,7 @@ if ( $action == 'ven' ||
 if ( $action == 'ach') {
   require_once ('compta_ach.inc.php');
  }
-if ( $action == 'fin') {
+if ( $action == 'bank') {
   require_once ('compta_fin.inc.php');
  }
 
