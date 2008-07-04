@@ -493,6 +493,11 @@ font-style: italic;
 font-size: 130% ;
 	
 }
+fieldset fieldset legend { 
+	 font-size:110%;
+	 color:grey;
+	 }	
+
 .input_text {
 	   border:groove 1px blue;
 }

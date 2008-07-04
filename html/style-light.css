@@ -483,9 +483,13 @@ a.document:hover {
 legend {
 font-weight: bold;
 font-style: italic;
-font-size: 130% ;
+font-size: 120% ;
 	
 }
+fieldset fieldset legend { 
+	 font-size:110%;
+	 color:grey;
+	 }	
 select {
 border: 1px solid blue;
 }

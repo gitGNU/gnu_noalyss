@@ -459,4 +459,22 @@ font-style: italic;
 font-size: 130% ;
 	
 }
+fieldset fieldset legend { 
+	 font-size:110%;
+	 color:grey;
+	 }	
+.input_text {
+	   border:groove 1px blue;
+}
+
+div.infobulle {
+	   position:absolute;
+	   border:1px solid black;
+	   background-color:yellow;
+	   top:0;left:0;
+	   visibility:hidden;
+	   z-index:10;
+	   width:25em;
+}
+
 /* </style> */
