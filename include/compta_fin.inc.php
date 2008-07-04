@@ -103,10 +103,10 @@ if ( $def == 1 ) {
     }
     if ( !isset($correct)) {
       echo '<div class="content">';
-      echo $Ledger->insert($_POST);
+      $a= $Ledger->insert($_POST);
       echo '<h2 class="info">Opération  sauvée </h2>';      
       echo widget::button_href('Nouvelle extrait',$href.'?p_action=bank&sa=n&'.dossier::get());
-
+      echo $a;
       echo '</div>';
       exit();
     }
