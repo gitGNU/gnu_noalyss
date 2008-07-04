@@ -429,7 +429,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $r.='<td class="input_text">'.$label.'</td>'.
       '<td colspan="5">'.$Commentaire->IOValue("e_comm",$e_comm)."</td>";
     $r.="</tr>";
-    include_once("fiche_inc.php");
+
     // Display the customer
     //--
     $fiche='deb';
@@ -727,21 +727,11 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       if ( $own->MY_ANALYTIC!='nu') // use of AA
 	 $r.='<input type="button" value="verifie CA" onClick="verify_ca(\'ok\');">';
     $r.='</fieldset>';
+
+
     $r.='<fieldset> <legend>Totaux</legend>';
-
     $tot=round(bcadd($tot_amount,$tot_tva),2);
-    $r.='<div style="position:float;float:right;text-align:left;color:blue">';
-    $r.='<br><span id="htva">'.$tot_amount.'</span>';
-
-    foreach ($tva as $i=>$value) {
-      $r.='<br>'.$tva[$i];
-    }
-    $r.='<br><span id="tva">'.$tot_tva.'</span>';
-    $r.='<br><span id="tvac">'.$tot.'</span>';
-    $r.="</div>";
-
-
-    $r.='<div style="position:float;float:right;text-align:right;padding-right:5px;color:blue">';
+    $r.='<div style="position:float;float:left;text-align:right;padding-left:5%;padding-right:5%;color:blue;font-size:1.2em;font-weight:bold">';
     $r.='<br>Total HTVA';
 
     foreach ($tva as $i=>$value) {
@@ -753,6 +743,19 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $r.='<br>Total TVA';
     $r.='<br>Total TVAC';
     $r.="</div>";
+
+
+    $r.='<div style="position:float;float:left;text-align:right;color:blue;font-size:1.2em;font-weight:bold">';
+    $r.='<br><span id="htva">'.$tot_amount.'</span>';
+
+    foreach ($tva as $i=>$value) {
+      $r.='<br>'.$tva[$i];
+    }
+    $r.='<br><span id="tva">'.$tot_tva.'</span>';
+    $r.='<br><span id="tvac">'.$tot.'</span>';
+    $r.="</div>";
+
+
 
     $r.='</fieldset>';
     /*  Add hidden */
@@ -785,9 +788,9 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
        // check for upload piece
     $file=new widget("file");
     $file->table=0;
-    $r.="Pi&egrave;ce justificative";
+    $r.="Ajoutez une pi&egrave;ce justificative ";
     $r.=$file->IOValue("pj","");
-    $r.='<br>';
+
     if ( CountSql($this->db,
 		  "select md_id,md_name from document_modele where md_type=4") > 0 )
       {
