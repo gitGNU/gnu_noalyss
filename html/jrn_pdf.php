@@ -23,7 +23,10 @@
 // $Revision$
 /*! \file
  * \brief Send a ledger in a pdf format
- */
+ *
+ *\todo for the pdf, which doesn't support unicode you must
+ translate all the string to latin-1 with the utf8-decode function 
+*/
 
 require_once('class_dossier.php');
 $gDossier=dossier::id();
@@ -108,9 +111,6 @@ if ( $Jrn->id==0  || $jrn_type=='FIN' || $jrn_type=='ODS' || $_REQUEST['p_simple
       $pdf->ezText($str_debit,12,array('justification'=>'right'));
       $pdf->ezText($str_credit,12,array('justification'=>'right'));
     }
-    /*!\todo for the pdf, which doesn't support unicode you must
-       translate all the string to latin-1 with the iconv function 
-       \example : iconv('UTF-8','ISO-8859-1',' Numéro'),  */
     $pdf->ezTable($a_jrn,
 		  array ('j_id'=>utf8_decode(' Numéro'),
 			 'j_date' => 'Date',
