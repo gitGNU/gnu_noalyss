@@ -669,7 +669,7 @@ class widget {
   }
 
   static function reset ($p_value) {
-    return '<INPUT TYPE="SUBMIT"  VALUE="'.$p_value.'">';
+    return '<INPUT TYPE="RESET"  VALUE="'.$p_value.'">';
   }
   static function hidden($p_name,$p_value) {
     return '<INPUT TYPE="hidden" id="'.$p_name.'" NAME="'.$p_name.'" VALUE="'.$p_value.'">';
