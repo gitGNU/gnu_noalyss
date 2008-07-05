@@ -26,7 +26,9 @@
  *
  */
 
-//scripts library.
+trim = function(p_value) {
+	return p_value.replace(/^\s+|\s+$/g,"");
+}//scripts library.
 
 // Set the focus to the specified field,
 // and select it if requested by SelectIt
@@ -402,12 +404,18 @@ function compute_all_sold() {
  * @param the number of the changed ctrl
  */
 function compute_sold(p_ctl_nb) {
-  var phpsessid=$("phpsessid").value;
-  var dossier=$("gDossier").value;
-  var qcode=$("e_march"+p_ctl_nb).value;
-  var tva_id=$('e_march'+p_ctl_nb+'_tva_id').value;
-  var price=$('e_march'+p_ctl_nb+'_sell').value;
-  var quantity=$('e_quant'+p_ctl_nb).value;
+    var phpsessid=$("phpsessid").value;
+    var dossier=$("gDossier").value;
+
+    $("e_march"+p_ctl_nb).value=trim($("e_march"+p_ctl_nb).value);
+    var qcode=$("e_march"+p_ctl_nb).value;
+    if ( qcode.length == 0 ) return;
+    var tva_id=$('e_march'+p_ctl_nb+'_tva_id').value;
+    $('e_march'+p_ctl_nb+'_sell').value=trim($('e_march'+p_ctl_nb+'_sell').value);
+    var price=$('e_march'+p_ctl_nb+'_sell').value;
+    $('e_quant'+p_ctl_nb).value=trim($('e_quant'+p_ctl_nb).value);
+    var quantity=$('e_quant'+p_ctl_nb).value;
+
   var querystring='?PHPSESSID='+phpsessid+'&gDossier='+dossier+'&c='+qcode+'&t='+tva_id+'&p='+price+'&q='+quantity+'&n='+p_ctl_nb;
     $('sum').hide();
   var action=new Ajax.Request(
@@ -552,24 +560,35 @@ function ledger_purchase_add_row(){
  * @param the number of the changed ctrl
  */
 function compute_purchase(p_ctl_nb) {
-  var phpsessid=$("phpsessid").value;
-  var dossier=$("gDossier").value;
-  var qcode=$("e_march"+p_ctl_nb).value;
-  var tva_id=$('e_march'+p_ctl_nb+'_tva_id').value;
-  var price=$('e_march'+p_ctl_nb+'_sell').value;
-  var quantity=$('e_quant'+p_ctl_nb).value;
-  var querystring='?PHPSESSID='+phpsessid+'&gDossier='+dossier+'&c='+qcode+'&t='+tva_id+'&p='+price+'&q='+quantity+'&n='+p_ctl_nb;
+    var phpsessid=$("phpsessid").value;
+    var dossier=$("gDossier").value;
+    var a=trim($("e_march"+p_ctl_nb+'_tva_amount').value);
+    $("e_march"+p_ctl_nb+'_tva_amount').value=a;
+
+    $("e_march"+p_ctl_nb).value=trim($("e_march"+p_ctl_nb).value);
+    var qcode=$("e_march"+p_ctl_nb).value;
+
+    if ( qcode.length == 0 ) return;
+
+    var tva_id=$('e_march'+p_ctl_nb+'_tva_id').value;
+
+    $('e_march'+p_ctl_nb+'_sell').value=trim($('e_march'+p_ctl_nb+'_sell').value);
+    var price=$('e_march'+p_ctl_nb+'_sell').value;
+
+    $('e_quant'+p_ctl_nb).value=trim($('e_quant'+p_ctl_nb).value);
+    var quantity=$('e_quant'+p_ctl_nb).value;
+    var querystring='?PHPSESSID='+phpsessid+'&gDossier='+dossier+'&c='+qcode+'&t='+tva_id+'&p='+price+'&q='+quantity+'&n='+p_ctl_nb;
     $('sum').hide();
-  var action=new Ajax.Request(
+    var action=new Ajax.Request(
 			      "compute.php",
-			      { 
-			      method:'get',
-			      parameters:querystring,
-			      onFailure:error_compute_purchase,
-			      onSuccess:success_compute_purchase
+	{ 
+	    method:'get',
+	    parameters:querystring,
+	    onFailure:error_compute_purchase,
+	    onSuccess:success_compute_purchase
 			      }
-			      );
-  }
+    );
+}
 /**
  * @brief update the field htva, tva_id and tvac, callback function for  compute_sold
  */

@@ -35,7 +35,7 @@ $array=array(
 	     array('?p_action=ach&sa=l&'.$str_dossier,'Liste achat','Liste des achats',2),
 	     array('?p_action=ach&sa=lnp&'.$str_dossier,'Liste dépenses non payées','Liste des ventes non payées',3),
 	     array('?p_action=impress&type=jrn&'.$str_dossier,'Impression','Impression')
- 	     ,array('?p_action=fournisseur&sa=f&'.$str_dossier,'Fournisseur','Solde des fournisseurs',5)
+ 	     ,array('?p_action=fournisseur&'.$str_dossier,'Fournisseur','Solde des fournisseurs',5)
 	      );
 
 $sa=(isset ($_REQUEST['sa']))?$_REQUEST['sa']:-1;
@@ -150,7 +150,7 @@ if ( $def==1 || $def == 4 ) {
  //
 
   if ( !isset($_REQUEST ['p_jrn'])) {
-    $def_ledger=$Ledger->get_first('ven');
+    $def_ledger=$Ledger->get_first('ach');
     $Ledger->id=$def_ledger['jrn_def_id'];
   } else 
     $Ledger->id=$_REQUEST ['p_jrn'];

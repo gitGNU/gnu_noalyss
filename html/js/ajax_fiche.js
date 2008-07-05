@@ -58,7 +58,8 @@ function errorFid(request,json) {
 function ajaxFid(p_ctl,p_deb,phpsessid) 
 {
   var gDossier=$('gDossier').value;
-  var ctl_value=$(p_ctl).value;
+    var ctl_value=trim($(p_ctl).value);
+    $(p_ctl).value=ctl_value;
   var p_jrn=$('p_jrn').value;
   if ( trim(ctl_value)==0 ) {
     nLabel=p_ctl+"_label";

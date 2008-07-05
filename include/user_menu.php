@@ -163,6 +163,7 @@ function ShowMenuCompta($p_high="")
 	    $default=1;
 	    break;
 	  case 'ach':
+	  case 'fournisseur':
 	    $default=2;
 	    break;
 	  case 'bank':
