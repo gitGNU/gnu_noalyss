@@ -513,4 +513,178 @@ function create_sequence($p_cn,$p_name) {
   $sql="create sequence ".$p_name;
   ExecSql($p_cn,$sql);
 }
+
+/*!
+ **************************************************
+ * \brief Get version of a database, the content of the
+ *        table version
+ *        
+ * \param  $p_cn database connection
+ *
+ * \return version number
+ *      
+ */
+function get_version($p_cn) {
+	$Res=ExecSql($p_cn,"select val from version");
+	$a=pg_fetch_array($Res,0);
+	return $a['val'];
+}
+/*!  execute_script
+ **************************************************
+ * \brief Execute a sql script
+ *        
+ * \param $p_cn database 
+ * \param $script script name
+ */
+function execute_script($p_cn,$script) {
+
+  if ( DEBUG=='false' ) ob_start();
+  $hf=fopen($script,'r');
+  if ( $hf == false ) {
+	  echo 'Ne peut ouvrir '.$script;
+	  exit();
+	  }
+  $sql="";
+  $flag_function=false;
+  while (!feof($hf)) {
+    $buffer=fgets($hf);
+    $buffer=str_replace ("$","\$",$buffer);
+    print $buffer."<br>";
+    // comment are not execute
+    if ( substr($buffer,0,2) == "--" ) {
+      //echo "comment $buffer";
+      continue;
+    }
+    // Blank Lines Are Skipped
+    If ( Strlen($buffer)==0) {
+	    //echo "Blank $buffer";
+      Continue;
+    }
+    if ( strpos(strtolower($buffer),"create function")===0 ) {
+	    echo "found a function";
+	    $flag_function=true;
+	    $sql=$buffer;
+	    continue;
+    }
+ if ( strpos(strtolower($buffer),"create or replace function")===0 ) {
+	    echo "found a function";
+	    $flag_function=true;
+	    $sql=$buffer;
+	    continue;
+    }
+    // No semi colon -> multiline command
+    if ( $flag_function== false && strpos($buffer,';') == false ) {
+      $sql.=$buffer;
+      continue;
+    } 
+    if ( $flag_function ) {
+      if ( strpos(strtolower($buffer), "language plpgsql") === false && 
+	   strpos(strtolower($buffer), "language 'plpgsql'") === false ) {
+		$sql.=$buffer;
+		continue;
+	    }
+    } else  {
+	    // cut the semi colon
+	    $buffer=str_replace (';','',$buffer);
+	    }
+    $sql.=$buffer;
+echo_debug('setup.php',__LINE__,"Execute sql $sql");
+    if ( ExecSql($p_cn,$sql,false) == false ) {
+	    Rollback($p_cn);
+	    if ( DEBUG=='false' ) ob_end_clean();
+	    print "ERROR : $sql";
+            exit();
+	    }
+    $sql="";
+    $flag_function=false;
+    print "<hr>";
+  } // while (feof)
+  fclose($hf);
+  if ( DEBUG=='false' ) ob_end_clean();
+}
+/*!\brief loop to apply all the path to a folder or 
+ *         a template
+ * \param $p_cn database connexion
+ * \param $p_name database name
+ *
+ */
+function apply_patch($p_cn,$p_name)
+{
+  $MaxVersion=DBVERSION-1;
+  echo '<ul>';
+  for ( $i = 4;$i <= $MaxVersion;$i++)
+	{
+	$to=$i+1;
+	  if ( get_version($p_cn) <= $i ) { 
+	  echo "<li>Patching ".$p_name.
+		" from the version ".get_version($p_cn)." to $to</h3> </li>";
+
+		execute_script($p_cn,'sql/patch/upgrade'.$i.'.sql');
+	  if ( DEBUG=='false' ) ob_start();
+		// specific for version 4
+		if ( $i == 4 )
+		  {      
+			$sql="select jrn_def_id from jrn_def ";
+			$Res=ExecSql($p_cn,$sql);
+			$Max=pg_NumRows($Res);
+			for ($seq=0;$seq<$Max;$seq++) {
+			  $row=pg_fetch_array($Res,$seq);
+			  $sql=sprintf ("create sequence s_jrn_%d",$row['jrn_def_id']);
+			  ExecSql($p_cn,$sql);
+			}
+		  }
+		// specific to version 7
+		if ( $i == 7 )
+		  {
+			// now we use sequence instead of computing a max
+			// 
+			$Res2=ExecSql($p_cn,'select coalesce(max(jr_grpt_id),1) as l from jrn');
+			$Max2= pg_NumRows($Res2) ;
+			if ( $Max2 == 1) {
+			  $Row=pg_fetch_array($Res2,0);
+			  var_dump($Row);
+			  $M=$Row['l'];
+			  ExecSql($p_cn,"select setval('s_grpt',$M,true)");
+			}
+		  }
+		// specific to version 17
+		if ( $i == 17 ) 
+		  { 
+			execute_script($p_cn,'sql/patch/upgrade17.sql');
+			$max=getDbValue($p_cn,'select last_value from s_jnt_fic_att_value');
+			AlterSequence($p_cn,'s_jnt_fic_att_value',$max+1);
+		  } // version 
+		
+		// reset sequence in the modele
+		//--
+		if ( $i == 30 && $p_name=="mod" ) 
+		  {
+			$a_seq=array('s_jrn','s_jrn_op','s_centralized',
+						 's_stock_goods','c_order','s_central');
+			foreach ($a_seq as $seq ) {
+			  $sql=sprintf("select setval('%s',1,false)",$seq);
+			  $Res=ExecSql($p_cn,$sql);
+			}
+			$sql="select jrn_def_id from jrn_def ";
+			$Res=ExecSql($p_cn,$sql);
+			$Max=pg_NumRows($Res);
+			for ($seq=0;$seq<$Max;$seq++) {
+			  $row=pg_fetch_array($Res,$seq);
+			  $sql=sprintf ("select setval('s_jrn_%d',1,false)",$row['jrn_def_id']);
+			  ExecSql($p_cn,$sql);
+			}
+			
+		  }
+		if ( $i == 36 ) {
+		  /* check the country and apply the path */
+		  $res=ExecSql($p_cn,"select pr_value from parameter where pr_id='MY_COUNTRY'");
+		  $country=pg_fetch_result($res,0,0);
+		  execute_script($p_cn,"sql/patch/upgrade36.".$country.".sql");
+		  ExecSql($p_cn,'update tmp_pcmn set pcm_type=find_pcm_type(pcm_val)');
+		}
+	  if ( DEBUG == 'false') ob_end_clean();
+	}
+	}
+  echo '</ul>';
+}
 ?>

@@ -45,6 +45,12 @@
  * </ul>
  */
 
+if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'config.inc.php')) {
+  $p_string='admin/setup.php';
+  echo '<HTML><head><META HTTP-EQUIV="REFRESH" content="0;url='.$p_string.'"></head><body> Connecting... </body></html>';
+
+}
+
 echo '<!DOCTYPE HTML PUBLIC "-//W3C/DTD HTML 3.2 FINAL//EN">
 
 <HTML>
@@ -74,7 +80,11 @@ BODY {
 </style>
 <script src="js/scripts.js" type="text/javascript"></script>
 </head>
-<BODY onLoad="SetFocus(\'login\',0)">
+<BODY onLoad="SetFocus(\'login\',0)">';
+
+
+
+echo '
 <span style="background-color:#879ed4;color:white;padding-left:4px;padding-right:4px;">
 version  4.1-exp
 </span>
