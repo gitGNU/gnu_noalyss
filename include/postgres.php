@@ -608,10 +608,11 @@ echo_debug('setup.php',__LINE__,"Execute sql $sql");
  * \param $p_name database name
  *
  */
-function apply_patch($p_cn,$p_name)
+function apply_patch($p_cn,$p_name,$from_setup=1)
 {
   $MaxVersion=DBVERSION-1;
   echo '<ul>';
+  $add=($from_setup==0)?'admin/':'';
   for ( $i = 4;$i <= $MaxVersion;$i++)
 	{
 	$to=$i+1;
@@ -619,7 +620,7 @@ function apply_patch($p_cn,$p_name)
 	  echo "<li>Patching ".$p_name.
 		" from the version ".get_version($p_cn)." to $to</h3> </li>";
 
-		execute_script($p_cn,'sql/patch/upgrade'.$i.'.sql');
+		execute_script($p_cn,$add.'sql/patch/upgrade'.$i.'.sql');
 	  if ( DEBUG=='false' ) ob_start();
 		// specific for version 4
 		if ( $i == 4 )
@@ -650,9 +651,9 @@ function apply_patch($p_cn,$p_name)
 		// specific to version 17
 		if ( $i == 17 ) 
 		  { 
-			execute_script($p_cn,'sql/patch/upgrade17.sql');
-			$max=getDbValue($p_cn,'select last_value from s_jnt_fic_att_value');
-			AlterSequence($p_cn,'s_jnt_fic_att_value',$max+1);
+		    execute_script($p_cn,$add.'sql/patch/upgrade17.sql');
+		    $max=getDbValue($p_cn,'select last_value from s_jnt_fic_att_value');
+		    AlterSequence($p_cn,'s_jnt_fic_att_value',$max+1);
 		  } // version 
 		
 		// reset sequence in the modele
@@ -679,7 +680,7 @@ function apply_patch($p_cn,$p_name)
 		  /* check the country and apply the path */
 		  $res=ExecSql($p_cn,"select pr_value from parameter where pr_id='MY_COUNTRY'");
 		  $country=pg_fetch_result($res,0,0);
-		  execute_script($p_cn,"sql/patch/upgrade36.".$country.".sql");
+		  execute_script($p_cn,$add."sql/patch/upgrade36.".$country.".sql");
 		  ExecSql($p_cn,'update tmp_pcmn set pcm_type=find_pcm_type(pcm_val)');
 		}
 	  if ( DEBUG == 'false') ob_end_clean();

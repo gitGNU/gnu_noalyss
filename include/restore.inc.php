@@ -79,6 +79,9 @@ if ( isset ($_REQUEST['sa'] )) {
     $args="  -d $name ".$_FILES['file']['tmp_name'];
     $status=exec(PG_RESTORE.$args);
     echo '<h2 class="info"> Restauration réussie du dossier '.$lname.'</h2>';
+    $new_cn=DbConnect($id);
+    echo $id;
+    apply_patch($new_cn,$name,0);
     echo '<span class="error">'.'Ne pas recharger la page, sinon votre base de données sera restaurée une fois de plus'.'</span>';
     echo $retour;
 
