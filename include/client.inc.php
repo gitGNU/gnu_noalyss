@@ -167,7 +167,7 @@ if ( $sub_action == 'detail' )
   
   echo widget::submit('mod','Sauver les modifications');
   echo widget::reset("Annuler");
-  echo widget::submit('delete','Effacer cette fiche');
+  echo widget::submit('delete','Effacer cette fiche','onclick="return confirm(\'Confirmer effacement ?\');"');
   
   echo '</form>';
   echo $retour;

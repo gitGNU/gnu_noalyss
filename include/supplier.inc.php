@@ -28,6 +28,7 @@ $sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
  */
 
 $User->can_request($cn,SUPPL);
+$script=basename($_SERVER['PHP_SELF']);
 ?>
 
 <?php  
@@ -46,6 +47,8 @@ if ( isset ($_POST['delete']) )
 // Add card
 if ( $sub_action=="insert" )
 {
+  echo '<div class="content">';
+
   $retour=widget::button_href("Retour", urldecode($_REQUEST['url']));
 
   $supplier=new Supplier($cn);
@@ -55,7 +58,7 @@ if ( $sub_action=="insert" )
   echo $supplier->Display(true);
   echo "</table>";
   echo $retour;
-
+  echo '</div>';
 }
 //-----------------------------------------------------
 // Save modification
@@ -74,12 +77,12 @@ if ( $sub_action  == "" )
 //Display a blank card 
 if ( $sub_action=="blank") 
 {
-  $retour=widget::button_href('Retour','commercial.php?p_action=fournisseur&'.dossier::get());
+  $retour=widget::button_href('Retour','?p_action=fournisseur&'.dossier::get());
   echo '<div class="content">';
 
   echo $retour;
   $c=new Supplier($cn);
-  echo '<form method="post" action="commercial.php"';
+  echo '<form method="post" ';
   echo '<input type="hidden" name="p_action" value="fournisseur">';
   echo '<input type="hidden" name="sa" value="insert">';
   echo '<input type="hidden" name="fd_id" value="'.$_GET['fd_id'].'">';
@@ -99,7 +102,7 @@ if ( $sub_action == "list" )
 ?>
 <div class="content">
 <span style="position:float;float:left">
-<form method="get" action="commercial.php">
+<form method="get" action="">
 <?php 
     echo dossier::hidden();
  
@@ -112,7 +115,7 @@ if ( $sub_action == "list" )
 </form>
 </span>
 <span  style="position:float;float:left">
-<form method="get" action="commercial.php">
+<form method="get" >
 <input type="hidden" name="p_action" value="fournisseur">
 
 <?php  
@@ -162,7 +165,7 @@ if ( $sub_action == 'detail' )
 
   echo widget::submit('mod','Sauver les modifications');
   echo widget::reset("Annuler");
-  echo widget::submit('delete','Effacer cette fiche');
+  echo widget::submit('delete','Effacer cette fiche','onclick="return confirm(\'Confirmer effacement ?\');"');
   echo '</form>';
   echo $retour;
   echo '<div>';
