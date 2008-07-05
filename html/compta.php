@@ -91,7 +91,8 @@ if ( $action == 'ven' ||
      $action == 'client') {
   require_once ('compta_ven.inc.php');
  }
-if ( $action == 'ach') {
+if ( $action == 'ach' ||
+     $action == 'fournisseur') {
   require_once ('compta_ach.inc.php');
  }
 if ( $action == 'bank') {

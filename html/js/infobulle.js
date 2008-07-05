@@ -29,6 +29,7 @@ content[4]="(optionnel) L'échéance est la date limite de paiement";
 content[5]="(optionnel)Le numéro d'extrait permet de retrouver plus facilement l'extrait de banque";
 content[6]="Indiquez ici le prix hors tva si vous êtes affilié à la tva et que vous  pouvez la déduire , sinon indiquez ici le total tva incluse et utilisez un taux tva de 0%";
 content[7]="(optionnel) Ces champs servent à contrôler que les montants correspondent à l'extrait";
+content[8]="(optionnel) Ce montant correspond au total tva, si vous le laissez à vide, il sera calculé automatiquement en fonction du taux";
 function showBulle(p_ctl) {
 	d=document.getElementById('bulle');
 	d.innerHTML=content[p_ctl];

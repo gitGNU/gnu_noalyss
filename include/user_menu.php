@@ -168,9 +168,6 @@ function ShowMenuCompta($p_high="")
 	  case 'bank':
 	    $default=3;
 	    break;
-	  case 'ods':
-	    $default=8;
-	    break;
 
 	  }
 	}
@@ -182,7 +179,6 @@ function ShowMenuCompta($p_high="")
 		 array("compta.php?p_action=ven&".$str_dossier ,"Vente","Journal de vente / produit",1),
 		 array("compta.php?p_action=ach&".$str_dossier,"Dépense","Journaux de dépense, d'achat",2 ),
 		 array("compta.php?p_action=bank&".$str_dossier,"Financier","Journaux financiers: les banques, la caisse",3),
-		 array("compta.php?p_action=ods&".$str_dossier,"Op. Diverses","Journaux opération diverses : déclaration TVA, impot, prêt...",8),
 		 array('compta.php?p_action=quick_writing&'.$str_dossier,'Ecriture directe','Ecriture directe dans les journaux',4),
 		 
 		 array("compta.php?p_action=impress&".$str_dossier,"Impression","Impression",5),

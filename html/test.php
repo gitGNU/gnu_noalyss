@@ -114,7 +114,10 @@ Acc_Compute::test_me();
 require_once('class_widget.php');
 
 echo widget::button_href("On y va",'login.php');
-*/
+
 
 require_once('class_acc_ledger_info.php');
 Acc_Ledger_Info::test_me();
+*/
+require('class_acc_compute.php');
+Acc_Compute::test_me();

@@ -23,7 +23,7 @@
 /*!\file
  * \brief file included to manage all the sold operation
  */
-require_once("class_acc_ledger_sold.php");
+require_once("class_acc_ledger_purchase.php");
 require_once ('class_pre_op_ach.php');
 $p_action=(isset($_REQUEST['p_action']))?$_REQUEST['p_action']:'';
 
@@ -31,7 +31,7 @@ $cn=DbConnect(dossier::id());
   //menu = show a list of ledger
 $str_dossier=dossier::get();
 $array=array( 
-	     array('?p_action=ach&sa=n&'.$str_dossier,'Nouvel dépense','Nouvel achat ou dépense',1),
+	     array('?p_action=ach&sa=n&'.$str_dossier,'Nouvelle dépense','Nouvel achat ou dépense',1),
 	     array('?p_action=ach&sa=l&'.$str_dossier,'Liste achat','Liste des achats',2),
 	     array('?p_action=ach&sa=lnp&'.$str_dossier,'Liste dépenses non payées','Liste des ventes non payées',3),
 	     array('?p_action=impress&type=jrn&'.$str_dossier,'Impression','Impression')
@@ -72,7 +72,7 @@ if ( $def==1 || $def == 4 ) {
 
   /* if a new invoice is encoded, we display a form for confirmation */
   if ( isset ($_POST['view_invoice'] ) ) {
-    $Ledger=new Acc_Ledger_Sold($cn,$_POST['p_jrn']);
+    $Ledger=new Acc_Ledger_Purchase($cn,$_POST['p_jrn']);
     try { 
       $Ledger->verify($_POST);
     } catch (AcException $e){
@@ -107,7 +107,7 @@ if ( $def==1 || $def == 4 ) {
   //------------------------------
 
   if ( isset($_POST['record']) ){
-    $Ledger=new Acc_Ledger_Sold($cn,$_POST['p_jrn']);
+    $Ledger=new Acc_Ledger_Purchase($cn,$_POST['p_jrn']);
     try { 
       $Ledger->verify($_POST);
     } catch (AcException $e){
@@ -116,7 +116,7 @@ if ( $def==1 || $def == 4 ) {
     }
     if ( ! isset($correct)) {
       echo '<div class="content">';
-      $Ledger=new Acc_Ledger_Sold($cn,$_POST['p_jrn']);
+      $Ledger=new Acc_Ledger_Purchase($cn,$_POST['p_jrn']);
       $internal=$Ledger->insert($_POST);
       
       
@@ -144,7 +144,7 @@ if ( $def==1 || $def == 4 ) {
   echo "<FORM NAME=\"form_detail\" METHOD=\"POST\">";
 
   $array=(isset($_POST['correct'])||isset ($correct))?$_POST:null;
-  $Ledger=new Acc_Ledger_Sold($cn,0);
+  $Ledger=new Acc_Ledger_Purchase($cn,0);
  //
  // pre defined operation
  //
@@ -169,13 +169,17 @@ if ( $def==1 || $def == 4 ) {
 
     echo $Ledger->display_form($p_post);
     echo '<script>';
-    echo 'compute_all_sold();';
+    echo 'compute_all_purchase();';
     echo '</script>';
   }
   else {
     echo widget::hidden("p_action","ach");
     echo widget::hidden("sa","p");
     echo $Ledger->display_form($array);
+    echo '<script>';
+    echo 'compute_all_purchase();';
+    echo '</script>';
+
   }
   echo "</FORM>";
 
@@ -199,9 +203,9 @@ if ( $def==1 || $def == 4 ) {
 //--------------------------------------------------------------------------------
 if ( $def == 2 ) {
   echo '<div class="content">';
-  $Ledger=new Acc_Ledger_Sold($cn,0);
+  $Ledger=new Acc_Ledger_Purchase($cn,0);
   if ( !isset($_GET['p_jrn'])) {
-    $def_ledger=$Ledger->get_first('ven');
+    $def_ledger=$Ledger->get_first('ach');
     $Ledger->id=$def_ledger['jrn_def_id'];
   } else 
     $Ledger->id=$_GET['p_jrn'];
@@ -230,9 +234,9 @@ if ( $def == 2 ) {
 // Listing unpaid
 //---------------------------------------------------------------------------
 if ( $def==3 ) {
-  $Ledger=new Acc_Ledger_Sold($cn,0);
+  $Ledger=new Acc_Ledger_Purchase($cn,0);
   if ( !isset($_GET['p_jrn'])) {
-    $def_ledger=$Ledger->get_first('ven');
+    $def_ledger=$Ledger->get_first('ach');
     $Ledger->id=$def_ledger['jrn_def_id'];
   } else 
     $Ledger->id=$_GET['p_jrn'];
@@ -259,5 +263,5 @@ if ( $def==3 ) {
 
 }
 if ( $p_action == 'fournisseur') {
-  require_once ('fournisseur.inc.php');
+  require_once ('supplier.inc.php');
 }

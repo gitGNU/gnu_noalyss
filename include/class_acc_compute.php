@@ -118,10 +118,6 @@ class Acc_Compute {
     $nd_vat=bcmul($this->amount_vat,$this->amount_nd_rate);
     $nd_vat=round($nd_vat,2);
 
-    // correct the others amount
-    $this->amount=bcsub($this->amount,$this->amount_nd);
-    $this->amount_nd=bcadd($this->amount_nd,$nd_vat);
-    $this->amount_vat=bcsub($this->amount_vat,$nd_vat);
   }
   function compute_nd_vat() {
     if ( $this->check && $this->order > 3 ) throw new Exception ('ORDER NOT RESPECTED');
@@ -130,8 +126,6 @@ class Acc_Compute {
     if ($this->amount_vat == 0 ) $this->compute_vat();
     $this->nd_vat=bcmul($this->amount_vat,$this->nd_vat_rate);
     $this->nd_vat=round($this->nd_vat,2);
-    $this->amount_vat=bcsub($this->amount_vat,$this->nd_vat);
-    $this->amount_vat=round($this->amount_vat,2);
   }
 
   function compute_ndded_vat() {
@@ -141,8 +135,6 @@ class Acc_Compute {
     if ($this->amount_vat == 0 ) $this->compute_vat();
     $this->nd_ded_vat=bcmul($this->amount_vat,$this->nd_ded_vat_rate);
     $this->nd_ded_vat=round($this->nd_ded_vat,2);
-    $this->amount_vat=bcsub($this->amount_vat,$this->nd_ded_vat);
-    $this->amount_vat=round($this->amount_vat,2);
   }
 
   function compute_perso() {
@@ -152,15 +144,19 @@ class Acc_Compute {
     $this->amount_perso=bcmul($this->amount,$this->amount_perso_rate);
     $this->amount_perso=round($this->amount_perso,2);
 
-    $this->amount=bcsub($this->amount,$this->amount_perso);
+   
 
-    $perso_vat=bcmul($this->amount_vat,$this->amount_perso_rate);
-    $this->amount_perso=bcadd($this->amount_perso,$perso_vat);
-    $this->amount_perso=round($this->amount_perso,2);
-    $this->amount_vat=bcsub($this->amount_vat,$perso_vat);
-    $this->amount_vat=round($this->amount_vat,2);
   }
+  function correct() {
+    $this->amount=bcsub($this->amount,$this->amount_perso);
+    // correct the others amount
+    $this->amount=bcsub($this->amount,$this->amount_nd);
+    $this->amount_vat=bcsub($this->amount_vat,$this->nd_ded_vat);
+    $this->amount_vat=round($this->amount_vat,2);
+    $this->amount_vat=bcsub($this->amount_vat,$this->nd_vat);
+    $this->amount_vat=round($this->amount_vat,2);
 
+  }
 
   /*!\brief verify that all the amount are positive or null
    * otherwise throw a exception and the sum of amount + vat must
@@ -222,6 +218,7 @@ class Acc_Compute {
     $b=clone $a;
     $a->compute_vat();
     $a->compute_perso();
+    $a->correct();
     echo '<h2> Result </h2>';
     $a->display();
     $a->verify($b);
@@ -237,6 +234,7 @@ class Acc_Compute {
     $a->display();
     $a->compute_vat();
     $a->compute_nd_vat();
+    $a->correct();
     echo '<h2> Result </h2>';
     $a->display();
     $a->verify($b);
@@ -255,7 +253,7 @@ class Acc_Compute {
     $a->compute_vat();
     $a->compute_perso();
     $a->compute_nd_vat();
-
+    $a->correct();
     echo '<h2> Result </h2>';
     $a->display();
     $a->verify($b);
@@ -274,6 +272,7 @@ class Acc_Compute {
  
     $a->compute_perso();
     $a->compute_nd_vat();
+    $a->correct();
     echo '<h2> Result </h2>';
     $a->display();
     $a->verify($b);
@@ -293,6 +292,7 @@ class Acc_Compute {
  
     $a->compute_perso();
     $a->compute_nd_vat();
+    $a->correct();
     echo '<h2> Result </h2>';
     $a->display();
     $a->verify($b);
@@ -313,6 +313,7 @@ class Acc_Compute {
     $a->compute_perso();
     $a->compute_nd_vat();
     $a->compute_ndded_vat();
+    $a->correct();
     echo '<h2> Result </h2>';
     $a->display();
     $a->verify($b);

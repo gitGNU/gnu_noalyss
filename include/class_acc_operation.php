@@ -105,7 +105,7 @@ var $jr_id;	/*!< pk of jrn */
     $diff=getDbValue($this->db,"select check_balance ($1)",array($this->grpt));
     if ( $diff != 0 ) {
       
-      echo "Erreur : balance incorrecte : d&eacute;bit = $montant_deb cr&eacute;dit = $montant_cred";
+      echo "Erreur : balance incorrecte :diff = $diff";
       return false;
     }
 
