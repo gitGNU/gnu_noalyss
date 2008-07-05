@@ -393,7 +393,7 @@ function ledger_sold_add_row(){
 }
 function compute_all_sold() {
     var loop=0;
-    for (loop=0;loop<$(nb_item).value;loop++){
+    for (loop=0;loop<$("nb_item").value;loop++){
 	compute_sold(loop);
     }
 
@@ -409,9 +409,14 @@ function compute_sold(p_ctl_nb) {
 
     $("e_march"+p_ctl_nb).value=trim($("e_march"+p_ctl_nb).value);
     var qcode=$("e_march"+p_ctl_nb).value;
-    if ( qcode.length == 0 ) return;
+
+    if ( qcode.length == 0 ) {
+	clean_sold();
+	return;
+    }
     var tva_id=$('e_march'+p_ctl_nb+'_tva_id').value;
     $('e_march'+p_ctl_nb+'_sell').value=trim($('e_march'+p_ctl_nb+'_sell').value);
+
     var price=$('e_march'+p_ctl_nb+'_sell').value;
     $('e_quant'+p_ctl_nb).value=trim($('e_quant'+p_ctl_nb).value);
     var quantity=$('e_quant'+p_ctl_nb).value;
@@ -448,6 +453,8 @@ function success_compute_sold(request,json) {
     tva+=$('tva_march'+i).value*1;
     htva+=$('htva_march'+i).value*1;
     tvac+=$('tvac_march'+i).value*1;
+    $('tva_march'+i+'_show').value=$('tva_march'+i).value;
+
   }
 
     $('tva').innerHTML=Math.round(tva*100)/100;
@@ -568,12 +575,12 @@ function compute_purchase(p_ctl_nb) {
     $("e_march"+p_ctl_nb).value=trim($("e_march"+p_ctl_nb).value);
     var qcode=$("e_march"+p_ctl_nb).value;
 
-    if ( qcode.length == 0 ) return;
+    if ( qcode.length == 0 ) { clean_purchase(p_ctl_nb);return;}
 
     var tva_id=$('e_march'+p_ctl_nb+'_tva_id').value;
 
-    $('e_march'+p_ctl_nb+'_sell').value=trim($('e_march'+p_ctl_nb+'_sell').value);
-    var price=$('e_march'+p_ctl_nb+'_sell').value;
+    $('e_march'+p_ctl_nb+'_buy').value=trim($('e_march'+p_ctl_nb+'_buy').value);
+    var price=$('e_march'+p_ctl_nb+'_buy').value;
 
     $('e_quant'+p_ctl_nb).value=trim($('e_quant'+p_ctl_nb).value);
     var quantity=$('e_quant'+p_ctl_nb).value;
@@ -586,7 +593,7 @@ function compute_purchase(p_ctl_nb) {
 	    parameters:querystring,
 	    onFailure:error_compute_purchase,
 	    onSuccess:success_compute_purchase
-			      }
+	}
     );
 }
 /**
@@ -632,7 +639,7 @@ function error_compute_purchase(request,json) {
 }
 function compute_all_purchase() {
     var loop=0;
-    for (loop=0;loop<$(nb_item).value;loop++){
+    for (loop=0;loop<$("nb_item").value;loop++){
 	compute_purchase(loop);
     }
 
@@ -640,4 +647,26 @@ function compute_all_purchase() {
 
 function clean_tva(p_ctl) {
 $('e_march'+p_ctl+'_tva_amount').value=0;
+}
+
+function clean_sold( p_ctl_nb) 
+{
+    $("e_march"+p_ctl_nb).value=trim($("e_march"+p_ctl_nb).value);
+    var qcode=$("e_march"+p_ctl_nb).value;
+    $('e_march'+p_ctl_nb+'_sell').value='';
+    $('e_quant'+p_ctl_nb).value='1';
+    $('tva_march'+p_ctl_nb+'_show').value='0';
+    $('tva_march'+p_ctl_nb).value=0;
+    $('htva_march'+p_ctl_nb).value=0;
+    $('tvac_march'+p_ctl_nb).value=0;
+
+}
+function clean_purchase(p_ctl_nb) {
+    var qcode=$("e_march"+p_ctl_nb).value;
+    $('e_march'+p_ctl_nb+'_buy').value='';
+    $('e_quant'+p_ctl_nb).value='1';
+    $('e_march'+p_ctl_nb+'_tva_amount').value='0';
+    $('tva_march'+p_ctl_nb).value=0;
+    $('htva_march'+p_ctl_nb).value=0;
+    $('tvac_march'+p_ctl_nb).value=0;
 }

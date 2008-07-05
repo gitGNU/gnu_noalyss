@@ -520,6 +520,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $label=widget::infobulle(6) ;
     $r.="<th>$label prix / unité htva </th>";
     $r.="<th>tva</th>";
+    $r.="<th>montant total tva</th>";
     $r.="<th>quantit&eacute;</th>";
 
     $r.='</TR>';
@@ -551,7 +552,12 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       $W1->table=1;
       $W1->extra2="Recherche";
       $W1->extra='cred';  // credits
-
+      $W1->javascript=sprintf('onBlur="ajaxFid(\'%s\',\'%s\',\'%s\');compute_sold(%d)"',
+			$W1->name,
+			$W1->extra, //deb or cred
+			$_REQUEST['PHPSESSID'],
+			$i
+			);
       $W1->readonly=false;
       $r.="<TR>".$W1->IOValue();
       // For computing we need some hidden field for holding the value
@@ -579,6 +585,13 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       $Tva->table=1;
       $Tva->selected=$march_tva_id;
       $r.=$Tva->IOValue("e_march$i"."_tva_id",$select_tva);
+      // vat amount (disable)
+      //--
+      $wTva_amount=new widget("text");
+      $wTva_amount->table=1;
+      $wTva_amount->readonly=true;
+      $wTva_amount->size=6;
+      $r.=$wTva_amount->IOValue("tva_march$i"."_show");
       
       // quantity
       //--

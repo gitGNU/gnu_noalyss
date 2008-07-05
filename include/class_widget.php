@@ -448,14 +448,23 @@ class widget {
    */
   if ( strtolower($this->type)=="js_search_only") {
     $l_sessid=$_REQUEST['PHPSESSID'];
-    if  ( $this->readonly == false ) {
+
+    if ( $this->javascript=="") { /* if javascript is empty then we
+				     add a default behaviour */
+      $this->javascript=sprintf('onBlur="ajaxFid(\'%s\',\'%s\',\'%s\')"',
+				$this->name,
+				$this->extra, //deb or cred
+				$l_sessid
+				);
+    }
+      if  ( $this->readonly == false ) {
       if ( $this->extra2 == "" ) $this->extra2="QuickCode";
       if ( $this->table==1)
 	{
 	  $r=sprintf('<TD>
          <INPUT TYPE="button" onClick="SearchCard(\'%s\',\'%s\',\'%s\')" value="%s">
             %s</TD><TD> <INPUT class="input_text"  TYPE="Text"  " '.
-		     ' NAME="%s" ID="%s" VALUE="%s" SIZE="8" onBlur="ajaxFid(\'%s\',\'%s\',\'%s\')">',
+		     ' NAME="%s" ID="%s" VALUE="%s" SIZE="8" %s>',
 		     $l_sessid,
 		     $this->extra,
 		     $this->name,
@@ -464,9 +473,7 @@ class widget {
 		     $this->name,
 		     $this->name,
 		     $this->value,
-		     $this->name,
-		     $this->extra, //deb or cred
-		     $l_sessid
+		     $this->javascript
 		     );
 	}
       else
@@ -474,7 +481,7 @@ class widget {
 	  $r=sprintf('
          <INPUT TYPE="button" onClick="SearchCard(\'%s\',\'%s\',\'%s\')" value="%s">
             %s <INPUT TYPE="Text"  style="border:solid 1px blue;" '.
-		     ' NAME="%s" ID="%s" VALUE="%s" SIZE="8"  onBlur="ajaxFid(\'%s\',\'%s\',\'%s\')">',
+		     ' NAME="%s" ID="%s" VALUE="%s" SIZE="8"  %s">',
 		     $l_sessid,
 		     $this->extra,
 		     $this->name,
@@ -483,10 +490,7 @@ class widget {
 		     $this->name,
 		     $this->name,
 		     $this->value,
-		     $this->name,
-		     $this->extra, //deb or cred
-		     $l_sessid
-
+		     $this->javascript
 	       );
 	}
     } else {

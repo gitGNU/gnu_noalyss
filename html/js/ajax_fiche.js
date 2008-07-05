@@ -95,9 +95,6 @@ function successFid(request,json) {
   var buy=answer.buy;
   var tva_id=answer.tva_id;
   var ctl=answer.ctl;
-
-/*   alert('data:'+data+' sell:'+sell+' Tva id:'+tva_id); */
-
   var toSet=ctl+'_label';
   if (trim(data) == "" ) {
     $(toSet).innerHTML="Fiche Inconnue";
@@ -115,7 +112,7 @@ function successFid(request,json) {
     if ( $(nSell ) ) {
       $(nSell).value=sell;
     }
-    $(nBuy).value=buy;
+      if ( $(nBuy) )  $(nBuy).value=buy;
     
   }
 }
