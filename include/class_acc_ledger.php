@@ -1347,4 +1347,35 @@ class Acc_Ledger {
 		 " jr_grpt_id = ".$this->grpt_id);
 
   }
+  /*!\brief retrieve all the card for this type of ledger, make them
+   *into a string separated by comma
+   *\param none 
+   *\return all the card or null is nothing is found
+   */
+  function get_all_fiche_def() {
+    $sql="select jrn_def_fiche_deb as deb,jrn_def_fiche_cred as cred ".
+      " from jrn_def where ".
+      " jrn_def_type = $1 ";
+
+    $r=ExecSqlParam($this->db,$sql,array($this->type));
+
+    $res=pg_fetch_all($r);
+    if ( empty($res) ) return null;
+    $card="";
+    $comma='';
+    foreach ($res as $item ) {
+      if ( strlen(trim($item['deb'])) != 0 ) {
+	$card.=$comma.$item['deb'];
+	$comma=',';
+      }
+      if ( strlen(trim($item['cred'])) != '') {
+	$card.=$comma.$item['cred'];
+	$comma=',';
+      }
+
+    }
+
+    return $card;
+  }
+
 }

@@ -266,8 +266,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     if ( isset ($_FILES)) {
       if ( sizeof($_FILES) != 0 )
 	save_upload_document($this->db,$seq);
-    }
-
+    } else
     /* Generate an invoice and save it into the database */
     if ( isset($_POST['gen_invoice'])) {
       echo $this->create_invoice($internal,$p_array);
@@ -314,6 +313,25 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     echo 'Période  '.$w->IOValue("p_periode",$periode_start);
     $wLedger=$this->select_ledger('VEN',2);
     echo 'Journal '.$wLedger->IOValue();
+    echo JS_SEARCH_CARD;
+    echo JS_PROTOTYPE;
+    echo JS_AJAX_FICHE;
+    $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
+    $this->type='VEN';
+    $all=$this->get_all_fiche_def();
+
+    $w=new widget('js_search_only');
+    $w->name='qcode';
+    $w->value=$qcode;
+    $w->label='';
+    $w->extra=$all;
+    $w->extra2='QuickCode';
+    $w->table=0;
+    $sp= new widget("span");
+    echo $w->IOValue();
+
+    echo $sp->IOValue("qcode_label","",$qcode);
+
     echo widget::submit('gl_submit','Valider');
  // Show list of sell
  // Date - date of payment - Customer - amount
@@ -327,6 +345,20 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $step=$_SESSION['g_pagesize'];
     $page=(isset($_GET['offset']))?$_GET['page']:1;
     $offset=(isset($_GET['offset']))?$_GET['offset']:0;
+
+    /* security  */
+    $available_ledger=$User->get_ledger_sql();
+
+    $l="";
+    // check if qcode contains something
+    if ( $qcode != "" )
+      {
+	$qcode=Formatstring($qcode);
+	// add a condition to filter on the quick code
+	$l=" and jr_grpt_id in (select j_grpt from jrnx where j_qcode=upper('$qcode')) ";
+	$sql="where jrn_def_type='VEN' $cond $l and $available_ledger ";
+      }
+
 
     list($max_line,$list)=ListJrn($this->db,$this->id,$sql,null,$offset,1);
     $bar=jrn_navigation_bar($offset,$max_line,$step,$page);

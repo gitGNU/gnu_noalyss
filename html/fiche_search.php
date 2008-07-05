@@ -159,7 +159,8 @@ if (
   // if e_type contains a list of value for filtering on fiche_def_ref.frd_id
   else{
     $list_fiche=$e_type;
-    $sql="select * from vw_fiche_attr where frd_id in ( $list_fiche )";
+    $sql="select * from vw_fiche_attr where fd_id in ( $list_fiche )";
+    print_r($sql);
     //    $sql="select * from vw_fiche_attr ";
   }
 

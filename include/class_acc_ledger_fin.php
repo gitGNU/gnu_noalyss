@@ -651,6 +651,8 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $w->selected=$current;
 
     echo JS_SEARCH_CARD;
+    echo JS_PROTOTYPE;
+    echo JS_AJAX_FICHE;
     echo '<form>';
     echo 'Période  '.$w->IOValue("p_periode",$periode_start);
     $wLedger=$this->select_ledger('fin',2);
@@ -660,14 +662,17 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     echo dossier::hidden();
     echo widget::hidden('p_action','bank');
     echo widget::hidden('sa','l');
-    /*    $w->name='qcode';
+    $w->name='qcode';
     $w->value=$qcode;
     $w->label='';
-    $w->extra='4';
+    $this->type='FIN';
+    $all=$this->get_all_fiche_def();
+    $w->extra=$all;
+    $w->extra2='QuickCode';
     $sp= new widget("span");
-    echo $sp->IOValue("qcode_label",$qcode)."</TD></TR>";
+    echo $sp->IOValue("qcode_label","",$qcode);
     echo $w->IOValue();
-    */
+
     echo widget::submit('gl_submit','Rechercher');
     echo '</form>';
 
@@ -694,14 +699,14 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $offset=(isset($_GET['offset']))?$_GET['offset']:0;
     
     $l="";
-    /*
+    
     // check if qcode contains something
     if ( $qcode != "" )
       {
 	// add a condition to filter on the quick code
 	$l=" and jr_grpt_id in (select j_grpt from jrnx where j_qcode='$qcode') ";
       }
-    */
+    
     list($max_line,$list)=ListJrn($this->db,0,"where jrn_def_type='FIN' $filter_per $l $available_ledger "
 				  ,null,$offset,0);
     $bar=jrn_navigation_bar($offset,$max_line,$step,$page);

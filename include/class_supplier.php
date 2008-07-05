@@ -82,7 +82,7 @@ class Supplier extends fiche{
       $str_dossier=dossier::get();
       $p_search=FormatString($p_search);
       $url=urlencode($_SERVER['REQUEST_URI']);
-      $script=$_SERVER['PHP_SELF'];
+      $script=basename($_SERVER['PHP_SELF']);
       // Creation of the nav bar
       // Get the max numberRow
       $all_supplier=$this->CountByDef($this->fiche_def_ref,$p_search); 
@@ -123,10 +123,10 @@ class Supplier extends fiche{
       if ( sizeof ($step_supplier ) == 0 )
 	return $r;
       foreach ($step_supplier as $supplier ) {
-	$r.="<TR>";
-	$e=sprintf('<A  class="mtitle"   HREF="%s?p_action=fournisseur&'.$str_dossier.'&sa=detail&f_id=%d&url=%s" title="Détail"> ',
-		    $script,$supplier->id,$url);
-
+	  $r.="<TR>";
+	  $e=sprintf('<A  class="mtitle"   HREF="%s?p_action=fournisseur&'.$str_dossier.'&sa=detail&f_id=%d&url=%s" title="Détail"> ',
+		     $script,$supplier->id,$url);
+	  
 	$r.="<TD> $e".$supplier->strAttribut(ATTR_DEF_QUICKCODE)."</A></TD>";
 	$r.="<TD>".$supplier->strAttribut(ATTR_DEF_NAME)."</TD>";
 	$r.="<TD>".$supplier->strAttribut(ATTR_DEF_ADRESS).
@@ -144,21 +144,22 @@ class Supplier extends fiche{
 	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$a['credit']);
 	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$a['solde']);
 
+	if ( $script == 'commercial.php') {
 
-	$r.=sprintf('<td><A  class="mtitle"   HREF="%s?p_action=contact&qcode=%s&%s&url=%s" title="Contact">Contact</A></td>',
-		    $script,$supplier->strAttribut(ATTR_DEF_QUICKCODE),$str_dossier,$url);
-	$r.=sprintf('<td><A  class="mtitle"   HREF="%s?p_action=suivi_courrier&sa=list&qcode=%s&%s&url=%s" title="Action">Courrier</A></td> ',
-		    $script,$supplier->strAttribut(ATTR_DEF_QUICKCODE) ,$str_dossier,$url);
+	  $r.=sprintf('<td><A  class="mtitle"   HREF="%s?p_action=contact&qcode=%s&%s&url=%s" title="Contact">Contact</A></td>',
+		      $script,$supplier->strAttribut(ATTR_DEF_QUICKCODE),$str_dossier,$url);
+	  $r.=sprintf('<td><A  class="mtitle"   HREF="%s?p_action=suivi_courrier&sa=list&qcode=%s&%s&url=%s" title="Action">Courrier</A></td> ',
+		      $script,$supplier->strAttribut(ATTR_DEF_QUICKCODE) ,$str_dossier,$url);
+	}
 
 
+	$r.='<td><A  class="mtitle"   HREF="?p_action=ach&sa=l&'.$str_dossier.'&p_periode=-1&qcode='.$supplier->strAttribut(ATTR_DEF_QUICKCODE).'&'.$str_dossier.'&url='.$url.'" title="Historique Facture">Facture</A></td>';
+	$r.=sprintf('<td><A class="mtitle" HREF="?p_action=bank&sa=l&'.$str_dossier.'&qcode=%s&url=%s&p_periode=-1" title="Financier">Financier</A></td>',
+		    $supplier->strAttribut(ATTR_DEF_QUICKCODE) ,$url);
 
-	$r.='<td><A  class="mtitle"   HREF="commercial.php?p_action=depense&sa=list&'.$str_dossier.'&p_periode=-1&qcode='.$supplier->strAttribut(ATTR_DEF_QUICKCODE).'&'.$str_dossier.'&url='.$url.'" title="Historique Facture">Facture</A></td>';
-	$r.=sprintf('<td><A class="mtitle" HREF="%s?liste&p_action=bank&sa=list&'.$str_dossier.'&qcode=%s&url=%s&p_periode=-1" title="Financier">Financier</A></td>',
-		    $script,$supplier->strAttribut(ATTR_DEF_QUICKCODE) ,$url);
-
-	$r.=sprintf('<td><A class="mtitle" HREF="%s?p_action=impress&type=poste&f_id=%s&%s&from_periode=%s&to_periode=%s&bt_html=Visualisation" 
+	$r.=sprintf('<td><A class="mtitle" HREF="?p_action=impress&type=poste&f_id=%s&%s&from_periode=%s&to_periode=%s&bt_html=Visualisation" 
 title="Operation">Operation</A></td>',
-		    $script,$supplier->strAttribut(ATTR_DEF_QUICKCODE) ,$str_dossier,$max->p_id,$min->p_id);
+		    $supplier->strAttribut(ATTR_DEF_QUICKCODE) ,$str_dossier,$max->p_id,$min->p_id);
 
 	$r.='</TD>';
 
