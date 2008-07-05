@@ -9,3 +9,4 @@ php_value memory_limit 12M
 AddDefaultCharset utf-8
 php_value session.use_trans_sid 1
 php_value error_reporting 10239
+php_value upload_max_filesize 10M

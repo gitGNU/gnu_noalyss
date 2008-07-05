@@ -79,11 +79,6 @@ function config_file_form($p_array=null)
   $r.=$text->IOValue('cport',$cport);
   $r.='<A href="#" title="'.$text->title.'" onclick="alert(\''.$text->title.'\')">(?)</a>';
   $r.='<br>';
-  $text->title="Pour utiliser des domaines";
-  $r.='Préfixe des base de donnée : ';
-  $r.=$text->IOValue('cdomaine',$cdomain);
-  $r.='<A href="#" title="'.$text->title.'" onclick="alert(\''.$text->title.'\')">(?)</a>';
-  $r.='<br>';
   $r.='</div>';
   return $r;
 }
@@ -107,30 +102,6 @@ function config_file_create($p_array,$from_setup=1) {
   fputs($hFile, 'define ("phpcompta_user","'.$cuser.'");');
   fputs($hFile, 'define ("phpcompta_password","'.$cpasswd.'");');
   fputs($hFile, 'define ("phpcompta_psql_port","'.$cport.'");');
-  fputs($hFile, 'define ("domaine","'.$cdomaine.'");');
   fputs($hFile,'?>');
   fclose($hFile);
-}
-/*!\brief
- *\param
- *\return
- *\note
- *\see
- *\todo
- */
-function config_file_send($p_array) {
-  extract ($p_array);
-  $r='..'.DIRECTORY_SEPARATOR.'tmp'.DIRECTORY_SEPARATOR.'config.inc.php';
-  $hFile=  fopen($r,'w');
-  fputs($hFile, 'date_default_timezone_set (\'Europe/Brussels\');');
-  fputs($hFile, "\$_ENV['TMP']='".$ctmp."');");
-  fputs($hFile, 'define("PG_RESTORE","'.$cpath.DIRECTORY_SEPARATOR.'pg_restore ");');
-  fputs($hFile, 'define("PG_DUMP","'.$cpath.DIRECTORY_SEPARATOR.'pg_dump ");');
-  fputs($hFile, 'define ("PSQL","'.$cpath.DIRECTORY_SEPARATOR.'psql");');
-  fputs($hFile, 'define ("phpcompta_user","'.$cuser.'");');
-  fputs($hFile, 'define ("phpcompta_password","'.$cpasswd.'");');
-  fputs($hFile, 'define ("phpcompta_psql_port","'.$cport.'");');
-  fputs($hFile, 'define ("domaine","'.$cdomaine.'");');
-  fclose($hFile);
-  return $r;
 }

@@ -57,8 +57,10 @@ if ( isset ($_REQUEST['sa']) ) {
       $database=domaine."dossier".$_REQUEST['d'];
       $args= " -Fc -Z9 -p ".phpcompta_psql_port." ".$database;
       header('Content-type: application/octet');
-      header('Content-Disposition: attachment;filename="'.$database.'.bin"',FALSE);
-      $a=passthru ($cmd.$args);
+      header('Content-Disposition:attachment;filename="'.$database.'.bin"',FALSE);
+      
+      passthru ($cmd.$args,$a);
+
     }
 
   if ( $_REQUEST['t'] == 'm' ) {

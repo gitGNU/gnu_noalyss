@@ -50,6 +50,7 @@ if ( isset ($_REQUEST['sa'] )) {
   //---------------------------------------------------------------------------
   // Restore a folder (dossier)
   if ( $_REQUEST['t']=='d') {
+    ini_set('upload_max_filesize','5M');
     echo '<div class="content">';
 
     $cn=DbConnect();
@@ -75,12 +76,15 @@ if ( isset ($_REQUEST['sa'] )) {
     }
     Commit($cn);
     $name=domaine."dossier".$id;
+    echo $name;
     ExecSql($cn,"create database ".$name." encoding='utf8'");
     $args="  -d $name ".$_FILES['file']['tmp_name'];
-    $status=exec(PG_RESTORE.$args);
+
+    $status=system(PG_RESTORE.$args);
     echo '<h2 class="info"> Restauration réussie du dossier '.$lname.'</h2>';
+
     $new_cn=DbConnect($id);
-    echo $id;
+
     apply_patch($new_cn,$name,0);
     echo '<span class="error">'.'Ne pas recharger la page, sinon votre base de données sera restaurée une fois de plus'.'</span>';
     echo $retour;
@@ -91,6 +95,7 @@ if ( isset ($_REQUEST['sa'] )) {
   // Restore a modele
 
   if ( $_REQUEST['t']=='m') {
+    ini_set('upload_max_filesize','5M');
     echo '<div class="content">';
 
     $cn=DbConnect();
@@ -121,6 +126,10 @@ if ( isset ($_REQUEST['sa'] )) {
     $status=exec(PG_RESTORE.$args);
 
     echo '<h2 class="info"> Restauration réussie du modèle '.$lname.'</h2>';
+    $new_cn=DbConnect($id);
+
+    apply_patch($new_cn,$name,0);
+
     echo '<span class="error">'.'Ne pas recharger la page, sinon votre base de données sera restaurée une fois de plus'.'</span>';
     echo $retour;
 
@@ -128,6 +137,7 @@ if ( isset ($_REQUEST['sa'] )) {
   }
  } else  {
   echo '<div class="content">';
+  ini_set('upload_max_filesize','5M');
   echo '<form method="POST" enctype="multipart/form-data" >';
   echo widget::hidden('action','restore');
   echo widget::hidden('sa','r');

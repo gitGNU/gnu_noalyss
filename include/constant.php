@@ -25,6 +25,11 @@
  */
 require_once ('config.inc.php');
 
+//
+// the domain can't start by a number !!!
+define ("domaine","");
+
+
 define ("DBVERSION",48);
 
 define ("MAX_COMPTE",4);
