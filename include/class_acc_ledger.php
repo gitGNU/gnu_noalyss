@@ -805,13 +805,13 @@ class Acc_Ledger {
     $ret.=$hidden->IOValue('e_comm',$desc);
     $ret.=$hidden->IOValue('jrn_type',$this->get_type());
     $ret.=$hidden->IOValue('p_jrn',$this->id);
-    $ret.=$hidden->IOValue('nb_item',$this->nb);
+    $ret.=$hidden->IOValue('nb_item',$nb_item);
     if ( $this->with_concerned==true) {
       $ret.=$hidden->IOValue('jrn_concerned',$jrn_concerned);
     }
     $ret.=dossier::hidden();
     $count=0;
-    for ($i=0;$i<$this->nb;$i++) {
+    for ($i=0;$i<$nb_item;$i++) {
       $ret.="<tr>";
       if ( trim(${'qc_'.$i})!="") {
 	$oqc=new fiche($this->db);
@@ -883,13 +883,21 @@ class Acc_Ledger {
     $ret.=JS_SEARCH_CARD;
     $ret.=JS_SEARCH_POSTE;
     $ret.=JS_AJAX_FICHE;
+    $ret.=JS_PROTOTYPE;
     // 
     $ret.="<table>";
     $ret.= '<tr><td>';
     $wDate=new widget('js_date','Date','date');
     $wDate->table=1;
     $wDate->readonly=$p_readonly;
-    $wDate->value=(isset($date))?$date:'';
+    $date=(isset($date)&&trim($date)!='')?$date:'';
+    if (trim($date)=='') {
+      $user=new User($this->db);
+      $periode=new Periode($this->db);
+      list ($l_date_start,$l_date_end)=$periode->get_date_limit($user->get_periode());
+      $date=$l_date_start;
+    }
+    $wDate->value=$date;
 
     $ret.=$wDate->IOValue();
     $ret.= '</td></tr>';
@@ -903,16 +911,15 @@ class Acc_Ledger {
     $ret.= '</td></tr>';
 
     $ret.= '</table>';
-
     //     $nb_row=(isset($nb))?$nb:$this->GetDefLine();
-    $nb_row=$this->nb;
-    $hidden=new widget('hidden','nb','nb');
-    $hidden->value=$nb_row;
-    $ret.=$hidden->IOValue();
+    $nb_row=(isset($nb_item) )?$nb_item:$this->nb;
+
+    $ret.=widget::hidden('nb_item',$nb_row);
     $ret.=dossier::hidden();
+    $hidden=new widget('hidden');
     $ret.=$hidden->IOValue('p_jrn',$this->id);
     $ret.=$hidden->IOValue('jrn_type',$this->get_type());
-    $ret.='<table border="2">';
+    $ret.='<table id="quick_item" border="2">';
     $ret.='<tr>'.
       '<th colspan="4">Quickcode</th>'.
       '<th colspan="2">Poste</th>'.
@@ -1023,7 +1030,7 @@ class Acc_Ledger {
 	throw new AcException('Periode fermee',6);
       }
 
-    for ($i=0;$i<$this->nb;$i++) 
+    for ($i=0;$i<$nb_item;$i++) 
       {
 	$err=0;
 
@@ -1107,9 +1114,10 @@ class Acc_Ledger {
       $group=NextSequence($this->db,"s_oa_group");       
       $own=new own($this->db);
       $tot_amount=0;
-
+      $tot_deb=0;
+      $tot_cred=0;
       $count=0;
-      for ($i=0;$i<$this->nb;$i++) 
+      for ($i=0;$i<$nb_item;$i++) 
 	{
 	  if ( ! isset (${'qc_'.$i}) && ! isset(${'poste'.$i}))
 	    continue;
@@ -1135,7 +1143,8 @@ class Acc_Ledger {
 	  $acc_op->qcode=$quick_code;
 	  $j_id=$acc_op->insert_jrnx();
 	  $tot_amount+=round($acc_op->amount,2);
-	   
+	  $tot_deb+=($acc_op->type=='d')?$acc_op->amount:0;
+	  $tot_cred+=($acc_op->type=='c')?$acc_op->amount:0;
 	  if ( $own->MY_ANALYTIC != "nu" )
 	    {
 	      if ( ereg("^[6,7]+",$poste)) {
@@ -1151,8 +1160,9 @@ class Acc_Ledger {
 		$count++;
 	      }
 	    }
-	}
+	}// loop for each item
       $acc_end=new Acc_Operation($this->db);
+      $acc_end->amount=$tot_deb;
       $acc_end->date=$date;
       $acc_end->desc=$desc;
       $acc_end->grpt=$seq;
@@ -1272,8 +1282,10 @@ class Acc_Ledger {
     }
  
     if ( isset($_POST['post_id' ])) {
+
       echo '<form method="post">';
       echo $a->show_form($_POST,1);
+      echo widget::button('add','Ajout d\'une ligne','onClick="quick_writing_add_row()"');
       echo widget::submit('save_it',"Sauver");
       echo '</form>';
       exit();

@@ -46,7 +46,7 @@ function show_direct_form($cn,$ledger,$p_array) {
   echo '<form>';
   echo widget::hidden('p_action',$_REQUEST['p_action']);
   $op=new Pre_operation_detail($cn);
-  $op->set('ledger',$_GET['p_jrn']);
+  $op->set('ledger',$_REQUEST ['p_jrn']);
   $op->set('ledger_type',$ledger->get_type());
   $op->set('direct','t');
   echo $op->form_get();
@@ -57,8 +57,9 @@ function show_direct_form($cn,$ledger,$p_array) {
   echo '<form method="post" action="?">';
   echo dossier::hidden();
   echo widget::hidden('p_action',$_REQUEST['p_action']);
-
+  print_r($p_array);
   echo $ledger->show_form($p_array);
+  echo widget::button('add','Ajout d\'une ligne','onClick="quick_writing_add_row()"');
 
   echo widget::submit('summary','Sauvez');
   echo '<div class="info">
@@ -160,7 +161,12 @@ if ( isset($_POST['save_it' ])) {
   try {
     $ledger->save($array);
     echo '<h2> Op&eacute;ration enregistr&eacute;e</h2>';
-    //    echo $ledger->show_form($array,true);
+    echo widget::button_href('Autre opération dans ce journal',
+			     "?".dossier::get().
+			     '&show_form'.
+			     '&p_action=quick_writing&p_jrn='.
+			     $_REQUEST['p_jrn']);
+			     
   } catch (AcException $e) {
     echo '<script>alert (\''.$e->getMessage()."'); </script>";
     show_direct_form($cn,$ledger,$_POST);

@@ -27,7 +27,7 @@ function checkTotalDirect() {
   var total_cred=0.0;
 
 
-  var nb_item_id=document.getElementById('nb');
+  var nb_item_id=document.getElementById('nb_item');
   if ( ! nb_item_id ) 
 	{return; }
 

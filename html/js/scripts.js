@@ -670,3 +670,33 @@ function clean_purchase(p_ctl_nb) {
     $('htva_march'+p_ctl_nb).value=0;
     $('tvac_march'+p_ctl_nb).value=0;
 }
+/**
+ * @brief add a line in the form for the quick_writing
+ */
+function quick_writing_add_row(){
+   style='class="input_text"';
+   var mytable=$("quick_item").tBodies[0];
+   var line=mytable.rows.length;
+   var row=mytable.insertRow(line);
+   var phpsessid=$("phpsessid");
+   var nb=$("nb_item");
+
+  var newNode = mytable.rows[1].cloneNode(true);
+  var tt=newNode.innerHTML;
+  mytable.appendChild(newNode);
+
+
+  new_tt=tt.replace(/qc_0/g,"qc_"+nb.value);
+  new_tt=new_tt.replace(/amount0/g,"amount"+nb.value);
+  new_tt=new_tt.replace(/poste0/g,"poste"+nb.value);
+  new_tt=new_tt.replace(/ck0/g,"ck"+nb.value);
+
+
+  newNode.innerHTML=new_tt;
+    $("qc_"+nb.value).innerHTML='';
+    $("amount"+nb.value).value='';
+    $("poste"+nb.value).value='';
+
+  nb.value++;
+
+}
