@@ -80,6 +80,7 @@ foreach ( $lis as $row) {
 echo "</TABLE>";
 echo '</div>';
   echo JS_SEARCH_POSTE;
+  echo JS_PROTOTYPE;
 if ( isset($_POST['upload'])) {
     exit();
   }

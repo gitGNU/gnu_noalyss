@@ -40,7 +40,7 @@ $User=new User($cn);
 $User->Check();
 
 html_page_start($User->theme);
-echo JS_PROTOTYPE_JS;
+echo JS_PROTOTYPE;
 
 /* Admin. Dossier */
 

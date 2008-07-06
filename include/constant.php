@@ -27,7 +27,7 @@ require_once ('config.inc.php');
 
 //
 // the domain can't start by a number !!!
-define ("domaine","");
+define ("domaine","rel4102_");
 
 
 define ("DBVERSION",48);
