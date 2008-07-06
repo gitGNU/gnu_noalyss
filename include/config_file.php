@@ -21,7 +21,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file
- * \brief
+ * \brief functions concerning the config file config.inc.php. The domain is not set into the form for security issues
  */
 
 require_once('class_widget.php');
@@ -34,7 +34,6 @@ require_once('class_widget.php');
  *  - cuser postgresql user
  *  - cpasswd password of cuser
  *  - cport port for postgres
- *  - cdomain the domain
  *\return string with html code
  */
 function config_file_form($p_array=null)
@@ -102,6 +101,7 @@ function config_file_create($p_array,$from_setup=1) {
   fputs($hFile, 'define ("phpcompta_user","'.$cuser.'");');
   fputs($hFile, 'define ("phpcompta_password","'.$cpasswd.'");');
   fputs($hFile, 'define ("phpcompta_psql_port","'.$cport.'");');
+  fputs($hFile, 'define ("domaine","");');
   fputs($hFile,'?>');
   fclose($hFile);
 }
