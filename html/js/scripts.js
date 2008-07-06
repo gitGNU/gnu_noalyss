@@ -642,6 +642,18 @@ function compute_all_purchase() {
     for (loop=0;loop<$("nb_item").value;loop++){
 	compute_purchase(loop);
     }
+    var tva=0; var htva=0;var tvac=0;
+    
+    for (var i=0;i<$("nb_item").value;i++) {
+	tva+=$('tva_march'+i).value*1;
+	htva+=$('htva_march'+i).value*1;
+	tvac+=$('tvac_march'+i).value*1;
+    }
+    
+    $('tva').innerHTML=Math.round(tva*100)/100;
+    $('htva').innerHTML=Math.round(htva*100)/100;
+    $('tvac').innerHTML=Math.round(tvac*100)/100;
+
 
 }
 
