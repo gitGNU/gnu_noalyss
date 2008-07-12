@@ -79,8 +79,11 @@ echo '</div>';
 echo widget::button('add','Ajout','onClick="add_todo()"');
 if ( ! empty ($array) )  {
   echo '<table id="table_todo" width="100%">';
+  $nb=0;
   foreach ($array as $row) {
-    echo '<tr id="tr'.$row['tl_id'].'">'.
+if ( $nb % 2 == 0 ) $odd='class="odd" '; else $odd='class="even" ';
+$nb++;
+    echo '<tr id="tr'.$row['tl_id'].'" '.$odd.'>'.
       '<td>'.
       $row['tl_date'].
       '</td>'.
