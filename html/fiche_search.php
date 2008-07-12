@@ -160,8 +160,6 @@ if (
   else{
     $list_fiche=$e_type;
     $sql="select * from vw_fiche_attr where fd_id in ( $list_fiche )";
-    print_r($sql);
-    //    $sql="select * from vw_fiche_attr ";
   }
 
 // e_fic_search contains the pattern
