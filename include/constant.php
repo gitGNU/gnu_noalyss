@@ -240,7 +240,7 @@ function ChangeTVA(p_ctl,p_value) {
 
 </script>");
 define ("JS_AJAX_FICHE",'<script language="javascript" src="js/ajax_fiche.js"></script>');
-
+define ("JS_TODO",'<script language="javascript" src="js/todo_list.js"></script>');
 define ("JS_AJAX_OP",'<script language="javascript" src="js/ajax_op.js"></script>');
 define ("JS_PROTOTYPE",'<script language="javascript" src="js/prototype.js"></script>');
 define ("JS_MINTOOLKIT",'<script language="javascript" src="js/mintoolkit.js"></script>');

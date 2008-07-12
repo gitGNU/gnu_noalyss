@@ -38,3 +38,28 @@ return 0;
 end;
 $_$
     LANGUAGE plpgsql;
+
+CREATE TABLE todo_list (
+    tl_id integer NOT NULL,
+    tl_date date NOT NULL,
+    tl_title text NOT NULL,
+    tl_descr text,
+    use_id integer NOT NULL
+);
+
+
+COMMENT ON TABLE todo_list IS 'Todo list';
+
+
+CREATE SEQUENCE todo_list_tl_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MAXVALUE
+    NO MINVALUE
+    CACHE 1;
+
+
+ALTER TABLE todo_list ALTER COLUMN tl_id SET DEFAULT nextval('todo_list_tl_id_seq'::regclass);
+
+
+ALTER TABLE ONLY todo_list    ADD CONSTRAINT todo_list_pkey PRIMARY KEY (tl_id);

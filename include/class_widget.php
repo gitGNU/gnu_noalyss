@@ -242,7 +242,7 @@ class widget {
     if (strtoupper($this->type)=="TEXTAREA") {
       if ( $this->readonly == false ) {
 	$r="";
-	$r.='<TEXTAREA style="border:solid blue 1px" name="'.$this->name.'"';
+	$r.='<TEXTAREA style="border:solid blue 1px" name="'.$this->name.'" id="'.$this->name.'"';
 	$r.=" rows=\"$this->heigh\" ";
 	$r.=" cols=\"$this->width\" ";
 	$r.=' '.$disabled.'>';
@@ -671,7 +671,7 @@ class widget {
   }
   static   function button ($p_name,$p_value,$p_javascript="") {
     
-    return '<INPUT TYPE="button" NAME="'.$p_name.'" VALUE="'.$p_value.'" '.$p_javascript.'>';
+    return '<INPUT TYPE="button" NAME="'.$p_name.'" ID="'.$p_name.'" VALUE="'.$p_value.'" '.$p_javascript.'>';
   }
 
   static function reset ($p_value) {

@@ -30,21 +30,76 @@ require_once('class_acc_report.php');
 require_once('class_periode.php');
 require_once ('user_menu.php');
 require_once ('class_dossier.php');
-
+require_once('class_todo_list.php');
 
 
 $cn=DbConnect(dossier::id());
 $user=new User($cn);
 
-html_min_page_start($_SESSION['g_theme']);
+html_page_start($_SESSION['g_theme']);
 echo '<div class="u_tmenu">';
 echo menu_tool('access');
 echo '</div>';
 echo '<div class="content">';
+/* 
+ * Todo list
+ */
+echo JS_PROTOTYPE;
+echo JS_TODO;
+if ( isset($_REQUEST['save_todo_list'])) {
+  /* Save the new elt */
+  $add_todo=new Todo_List($cn);
+  $add_todo->set_parameter('id',$_REQUEST['tl_id']);
+  $add_todo->set_parameter('title',$_REQUEST['p_title']);
+  $add_todo->set_parameter('desc',$_REQUEST['p_desc']);
+  $add_todo->set_parameter('date',$_REQUEST['p_date']);
+  $add_todo->save();
+}
+$todo=new Todo_List($cn);
+$array=$todo->load_all();
+echo '<div style="float:left;width:40%">';
+echo '<fieldset> <legend>Liste des tâches</legend>';
+echo '<div id="add_todo_list" style="display:none;text-align:left;line-height:3em">';
+echo '<form method="post">';
+$wDate=new widget('js_date','','p_date');
+$wTitle=new widget('text','','p_title');
+$wDesc=new widget('textarea','','p_desc');
+$wDesc->heigh=5;
+echo "Date ".$wDate->IOValue().'<br>';
+echo "Titre ".$wTitle->IOValue().'<br>';
+echo "Description".$wDesc->IOValue().'<br>';
+echo widget::hidden('phpsessid',$_REQUEST['PHPSESSID']);
+echo dossier::hidden();
+echo widget::hidden('tl_id',0);
+echo widget::submit('save_todo_list','Sauve','onClick="$(\'add_todo_list\').hide();$(\'add\').show();return true;"');
+echo widget::button('hide','Annuler','onClick="$(\'add_todo_list\').hide();$(\'add\').show();"');
+echo '</form>';
 
-
-
-
+echo '</div>';
+echo widget::button('add','Ajout','onClick="add_todo()"');
+if ( ! empty ($array) )  {
+  echo '<table id="table_todo" width="100%">';
+  foreach ($array as $row) {
+    echo '<tr id="tr'.$row['tl_id'].'">'.
+      '<td>'.
+      $row['tl_date'].
+      '</td>'.
+      '<td>'.
+      $row['tl_title'].
+      '</td>'.
+      '<td>'.
+      widget::button('mod','M','onClick="todo_list_show('.$row['tl_id'].')"').
+      widget::button('del','E','onClick="todo_list_remove('.$row['tl_id'].')"').
+      '</td>'.
+      '</tr>';
+  }
+  echo '</table>';
+}
+echo '</fieldset>';
+echo '</div>';
+/* 
+ * Mini Report
+ */
 $report=$user->get_mini_report();
 if ( $report != 0 ) {
   $rapport=new Acc_Report($cn);

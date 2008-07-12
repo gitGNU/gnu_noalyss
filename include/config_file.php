@@ -50,7 +50,7 @@ function config_file_form($p_array=null)
 
   $text=new widget('text');
   $r='';
-  $r.='<div style="position:float;float:left;text-align:right;line-height:1.8em;padding:0 0.9em 0 0"">';
+  $r.='<div style="position:float;float:left;text-align:right;line-height:1.8em;padding:0 0.9em 0 0">';
 
   $r.='Répertoire temporaire : ';
   $text->title='Indiquez ici le répertoire où les documents temporaires peuvent être sauvé exemple c:\\\\temp, /tmp';
