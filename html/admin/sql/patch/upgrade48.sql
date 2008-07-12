@@ -44,8 +44,8 @@ CREATE TABLE todo_list (
     tl_id integer NOT NULL,
     tl_date date NOT NULL,
     tl_title text NOT NULL,
-    tl_descr text,
-    use_id integer NOT NULL
+    tl_desc text,
+    use_login text NOT NULL
 );
 
 
