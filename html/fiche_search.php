@@ -21,7 +21,6 @@
 /*! \file
  * \brief Search a card in a popup window
  */
-var_dump($_GET);
 include_once ("ac_common.php");
 include_once ("poste.php");
 include_once ("postgres.php");
