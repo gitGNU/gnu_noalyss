@@ -194,12 +194,13 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	$fBank->strAttribut(ATTR_DEF_CITY).' ';
       
     }  
+
     $W1=new widget("js_search_only");
     $W1->readonly=$pview_only;
     $W1->label="Banque ".widget::infobulle(0);
     $W1->name="e_bank_account";
     $W1->value=$e_bank_account;
-    $W1->extra=FICHE_TYPE_FIN;  // credits
+    $W1->extra='deb';  // credits
     $W1->extra2="Recherche";
     $W1->table=0;
     $r.="<TR><td colspan=\"4\">".$W1->IOValue();

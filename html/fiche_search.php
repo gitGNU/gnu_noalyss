@@ -21,6 +21,7 @@
 /*! \file
  * \brief Search a card in a popup window
  */
+
 include_once ("ac_common.php");
 include_once ("poste.php");
 include_once ("postgres.php");
@@ -79,7 +80,7 @@ function get_list_fiche($p_cn,$get,$p_jrn)
 <script language="javascript">
 function SetData (name_ctl,value,value_2,value_3,value_4,value_5,value_6) {
   self.opener.SetData(name_ctl,value,value_2,value_3,value_4,value_5,value_6);
-  window.close();
+   window.close();
 }
 </script>
 <?php
