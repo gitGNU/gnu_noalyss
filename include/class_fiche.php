@@ -379,7 +379,8 @@ class fiche {
 		  $msg='<tD><span id="'.$r->ad_id.'_label"></span></td>';
 
 		  if ( $a['account_auto'] == 't' )
-		    $msg.="<TD> <font color=\"red\">si vide le Poste sera créé automatiquement</font></TD> ";
+		    $msg.="<TD> <font color=\"red\">si vide le Poste sera créé automatiquement</font> </TD> ";
+		  $msg.="<td><font color=\"red\">ATTENTION changer le poste comptable d'une fiche modifiera toutes les opérations où cette fiche est utilisée</font></td>";
 		}
 	      elseif ( $r->ad_id == ATTR_DEF_TVA) 
 		{
@@ -662,11 +663,16 @@ class fiche {
 				  $this->id,$v);
 		     try {
 		       ExecSql($this->cn,$sql,false);
+		     /* update also the jrnx  */
+		     $sql='update jrnx set j_poste=$1 where j_qcode in (select quick_code from vw_fiche_attr where f_id=$2)';
+		     ExecSqlParam($this->cn,
+				  $sql,
+				  array($v,$this->id));
+
 		     } catch (Exception $e) {
 		       throw new Exception(__LINE__."Erreur : ce compte [$v] n'a pas de compte parent.".
 					   "L'op&eacute;ration est annul&eacute;e");
 		     }
-		     
 		     continue;		   
 		   }
 		 if ( strlen (trim($v)) == 0 ) 
@@ -676,10 +682,18 @@ class fiche {
                                 $this->id);
 		   try {
 		     $Ret=ExecSql($this->cn,$sql,false);
+		     /* update also the jrnx  */
+
+		     $sql='update jrnx set j_poste=$1 where j_qcode in (select quick_code from vw_fiche_attr where f_id=$2)';
+		     ExecSqlParam($this->cn,
+				  $sql,
+				  array($v,$this->id));
+
 		   } catch (Exception $e) {
 		       throw new Exception(__LINE__."Erreur : ce compte [$v] n'a pas de compte parent.".
 					   "L'op&eacute;ration est annul&eacute;e");
 		   }
+
                    continue;
                  }
              }
