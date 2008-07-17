@@ -1,7 +1,7 @@
 begin;
 
 insert into parm_code values ('DEP_PRIV',4890,'Depense a charge du gerant');
-insert into attr_def values (31,'Depense Ã  charge du gÃ©rant (partie privÃ©e)');
+insert into attr_def values (31,'Depense à  charge du gérant (partie privée)');
 alter table quant_purchase add qp_dep_priv numeric(20,4) default 0.0;
 
 CREATE FUNCTION insert_quant_purchase(p_internal text, p_j_id numeric, p_fiche character varying, p_quant numeric, p_price numeric, p_vat numeric, p_vat_code integer, p_nd_amount numeric, p_nd_tva numeric, p_nd_tva_recup numeric,p_dep_priv numeric , p_client character varying) RETURNS void
