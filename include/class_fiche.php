@@ -92,8 +92,9 @@ class fiche {
            from jnt_fic_att_value 
                natural join fiche 
                natural join attr_value
-               left join attr_def using (ad_id) where f_id=".$this->id.
-       " order by ad_id";
+               join jnt_fic_attr on (jnt_fic_attr.fd_id=fiche.fd_id and jnt_fic_attr.ad_id=jnt_fic_att_value.ad_id)
+               join attr_def on (attr_def.ad_id=jnt_fic_att_value.ad_id) where f_id=".$this->id.
+       " order by jnt_order";
 
     $Ret=ExecSql($this->cn,$sql);
     if ( ($Max=pg_NumRows($Ret)) == 0 )
@@ -104,6 +105,7 @@ class fiche {
       $t=new Attribut ($row['ad_id']);
       $t->ad_text=$row['ad_text'];
       $t->av_text=$row['av_text'];
+      $t->jnt_order=$row['jnt_order'];
       $this->attribut[$i]=$t;
     }
     $e=new Fiche_def($this->cn,$this->fiche_def);
@@ -123,6 +125,7 @@ class fiche {
 	  $t=new Attribut ($f->ad_id);
 	  $t->av_text="";
 	  $t->ad_text=$f->ad_text;
+	  $t->jnt_order=$f->jnt_order;
 	  $this->attribut[$Max]=$t;
 	  $Max++;
 	} // if flag == 0
@@ -409,6 +412,7 @@ class fiche {
 	  $w->name="av_text".$r->ad_id;
 	  $w->readonly=$p_readonly;
 	  $w->table=1;
+
 
 	  $ret.="<TR>".$w->IOValue()."$msg </TR>";
 	}

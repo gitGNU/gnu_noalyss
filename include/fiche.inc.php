@@ -83,6 +83,7 @@ function ShowFicheDefInput($p_fiche_def)
   
   $r.= $p_fiche_def->DisplayAttribut("remove");
   $r.= ' <INPUT TYPE="SUBMIT" Value="Ajoute cet &eacute;l&eacute;ment" NAME="add_line">';
+  $r.= ' <INPUT TYPE="SUBMIT" Value="Sauver" NAME="save_line">';
   // if there is nothing to remove then hide the button
   if ( strpos ($r,"chk_remove") != 0 ) {
     $r.=' <INPUT TYPE="SUBMIT" Value="Enleve les &eacute;l&eacute;ments coch&eacute;s" NAME="remove_line">';
@@ -118,6 +119,26 @@ if ( isset ($_POST["add_line"])  ) {
       }
   $r.= '</DIV>';
   $recherche=false;
+}
+/* ------------------------------------------------- */
+/* SAVE ORDER */
+/* ------------------------------------------------- */
+if ( isset($_POST['save_line'])) {
+  $fiche_def=new fiche_def($cn,$_REQUEST['fd_id']);
+  $fiche_def->save_order($_POST);
+  $r= '<DIV class="u_redcontent">';
+  if ( $write ==0)  
+      $r.= "<h2 class=\"error\"> Pas d'accès </h2>";
+  else
+    {
+      $fiche_def=new fiche_def($cn,$_REQUEST['fd_id']);
+      // Insert Line
+      $r.=ShowFicheDefInput($fiche_def);
+
+      }
+  $r.= '</DIV>';
+  $recherche=false;
+
 }
 // Remove lines from a card model
 if ( isset ($_POST['remove_line'])) 

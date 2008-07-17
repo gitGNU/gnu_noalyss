@@ -55,7 +55,7 @@ class fiche_def {
   function GetAttribut() {
     $sql="select * from jnt_fic_attr ".
       " natural join attr_def where fd_id=".$this->id.
-      " order by ad_id";
+      " order by jnt_order";
 
     $Ret=ExecSql($this->cn,$sql);
 
@@ -65,6 +65,7 @@ class fiche_def {
       $row=pg_fetch_array($Ret,$i);
       $t = new Attribut($row['ad_id']);
       $t->ad_text=$row['ad_text'];
+      $t->jnt_order=$row['jnt_order'];
       $this->attribut[$i]=$t;
     }
     return $this->attribut;
@@ -241,8 +242,8 @@ class fiche_def {
      if (sizeof($def_attr) != 0 ) {
        // insert all the mandatory fields into jnt_fiche_attr
        foreach ( $def_attr as $i=>$v) {
-	 $sql=sprintf("insert into jnt_fic_Attr(fd_id,ad_id)
-                   values (%d,%s)",
+	 $sql=sprintf("insert into jnt_fic_Attr(fd_id,ad_id,jnt_order)
+                   values (%d,%s,1)",
 		      $fd_id,$v['ad_id']);
 	 ExecSql($this->cn,$sql);
        }
@@ -396,11 +397,19 @@ class fiche_def {
 				$this->attribut[$i]->ad_id);
 			}
 		  else
-		    $add_action="";
+		    $add_action="</td><td>";
 		}	
 	  // The attribut.
 	  $a=sprintf('%s ',  $this->attribut[$i]->ad_text);
 	  $r.=$a.$add_action;
+	  /*----------------------------------------  */
+	  /*  ORDER OF THE CARD */
+	  /*----------------------------------------  */
+	  $order=new widget('text');
+	  $order->name='jnt_order'.$this->attribut[$i]->ad_id;
+	  $order->size=3;
+	  $order->value=$this->attribut[$i]->jnt_order;
+	  $r.='</td><td> '.$order->IOValue();
 	}
 	$r.= '</td></tr>';
       }
@@ -449,10 +458,13 @@ class fiche_def {
   function InsertAttribut($p_ad_id)
     {
       if ( $this->id == 0 ) return;
+      /* ORDER */
+      $this->GetAttribut();
+      $max=sizeof($this->attribut);
       // Insert a new attribute for the model
       // it means insert a row in jnt_fic_attr
-      $sql=sprintf("insert into jnt_fic_attr (fd_id,ad_id) values (%d,%d)", 
-		   $this->id,$p_ad_id);
+      $sql=sprintf("insert into jnt_fic_attr (fd_id,ad_id,jnt_order) values (%d,%d,%d)", 
+		   $this->id,$p_ad_id,$max);
       $Res=ExecSql($this->cn,$sql);
       // update all the existing card
       
@@ -488,6 +500,21 @@ class fiche_def {
 	 }
      }
 
+  /*!\brief save the order of a card, update the column jnt_fic_attr.jnt_order
+   *\param array containing the order
+   */
+     function save_order($p_array) {
+       extract($p_array);
+
+       $this->GetAttribut();
+       foreach ($this->attribut as $row){
+	 if ( $row->ad_id == 1 ) continue;
+	 $sql='update jnt_fic_attr set jnt_order=$1 where fd_id=$2 and ad_id=$3';
+	 ExecSqlParam($this->cn,$sql,array(${'jnt_order'.$row->ad_id},
+					   $this->id,
+					   $row->ad_id));
+       }
+     }
 
 }
 ?>
