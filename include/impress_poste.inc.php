@@ -37,6 +37,7 @@ include_once("postgres.php");
 echo '<div class="content">';
 echo JS_SEARCH_POSTE;
 echo JS_SEARCH_CARD;
+echo JS_PROTOTYPE;
 echo '<FORM action="?" METHOD="GET">';
 echo widget::hidden('p_action','impress');
 echo widget::hidden('type','poste');

@@ -118,7 +118,7 @@ if ( $Jrn->id==0  || $jrn_type=='FIN' || $jrn_type=='ODS' || $_REQUEST['p_simple
 			 'description' => 'Description',
 			 'deb_montant'=>utf8_decode( 'Débit'),
 			 'cred_montant'=>utf8_decode('Crédit')),
-		  " xx ",
+		  " ",
 		  array('shaded'=>0,'showHeadings'=>1,'width'=>500,
 			'cols'=>array('deb_montant'=> array('justification'=>'right'),
 				      'cred_montant'=> array('justification'=>'right'))),

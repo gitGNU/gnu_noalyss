@@ -32,7 +32,7 @@ require_once ('class_acexception.php');
 require_once ('class_acc_reconciliation.php');
 require_once ('class_periode.php');
 require_once ('class_gestion_purchase.php');
-
+require_once ('class_acc_account.php');
 /*!\file
 * \brief Class for jrn,  class acc_ledger for manipulating the ledger
 */
@@ -919,7 +919,7 @@ class Acc_Ledger {
     $hidden=new widget('hidden');
     $ret.=$hidden->IOValue('p_jrn',$this->id);
     $ret.=$hidden->IOValue('jrn_type',$this->get_type());
-    $ret.='<table id="quick_item" border="2">';
+    $ret.='<table id="quick_item" style="width:100%">';
     $ret.='<tr>'.
       '<th colspan="4">Quickcode</th>'.
       '<th colspan="2">Poste</th>'.
@@ -935,7 +935,13 @@ class Acc_Ledger {
       $quick_code->readonly=$p_readonly;
       $quick_code->extra2=$this->id;
       $quick_code->extra='filter';
-      $qc_span=new widget('span','','qc_'.$i.'_label');
+      $label='';
+      if ( $quick_code->value != '' ) {
+	$Fiche=new fiche($this->db);
+	$Fiche->get_by_qcode($quick_code->value);
+	$label=$Fiche->strAttribut(ATTR_DEF_NAME);
+      }
+      $qc_span=new widget('span','','qc_'.$i.'_label',$label);
 
       // Account 
       $poste=new widget('js_search_poste');
@@ -944,9 +950,15 @@ class Acc_Ledger {
       $poste->readonly=$p_readonly;
       $poste->extra=$this->id;
       $poste->extra2=$this->get_class_def();
+      $label='';
+      if ( $poste->value != '' ) {
+	$Poste=new Acc_Account($this->db);
+	$Poste->id=$poste->value;
+	$label=$Poste->get_lib();
+      }
 
 
-      $poste_span=new widget('span','','poste'.$i.'_label');
+      $poste_span=new widget('span','','poste'.$i.'_label',$label);
 
       // Amount
       $amount=new widget('text');

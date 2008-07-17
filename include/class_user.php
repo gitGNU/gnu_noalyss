@@ -126,7 +126,7 @@ class User {
 		echo "<BR><BR><BR><BR><BR><BR>";
 		echo "<P ALIGN=center><BLINK>
 			<FONT size=+12 COLOR=RED>
-			Invalid user <BR> or<BR> Invalid password 
+			utilisateur ou mot de passe incorrect 
 			</FONT></BLINK></P></BODY></HTML>";
 		session_unset();
 		

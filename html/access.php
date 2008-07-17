@@ -67,7 +67,7 @@ $wDesc=new widget('textarea','','p_desc');
 $wDesc->heigh=5;
 echo "Date ".$wDate->IOValue().'<br>';
 echo "Titre ".$wTitle->IOValue().'<br>';
-echo "Description".$wDesc->IOValue().'<br>';
+echo "Description<br>".$wDesc->IOValue().'<br>';
 echo widget::hidden('phpsessid',$_REQUEST['PHPSESSID']);
 echo dossier::hidden();
 echo widget::hidden('tl_id',0);

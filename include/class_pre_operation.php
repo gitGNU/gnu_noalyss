@@ -179,7 +179,7 @@ class Pre_operation_detail {
      $r.=$hid->IOValue("p_jrn",$this->get("ledger"));
      $r.=$hid->IOValue("jrn_type",$this->get("ledger_type"));
 
-     if ($this->count() != 0 )
+     //     if ($this->count() != 0 )
        $r.= widget::submit('use_opd','Utilisez une op.pr&eacute;d&eacute;finie');
      $r.= $this->show_button();
      return $r;
@@ -199,7 +199,7 @@ class Pre_operation_detail {
 	$select=new widget("select");
 
 	$value=$this->get_operation();
-	if ( empty($value)==true) return "";
+	//	if ( empty($value)==true) return "";
 	$select->value=$value;
 	$r=$select->IOValue("pre_def");
 	return $r;

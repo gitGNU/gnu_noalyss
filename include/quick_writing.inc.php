@@ -57,7 +57,7 @@ function show_direct_form($cn,$ledger,$p_array) {
   echo '<form method="post" action="?">';
   echo dossier::hidden();
   echo widget::hidden('p_action',$_REQUEST['p_action']);
-  print_r($p_array);
+
   echo $ledger->show_form($p_array);
   echo widget::button('add','Ajout d\'une ligne','onClick="quick_writing_add_row()"');
 

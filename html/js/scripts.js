@@ -708,7 +708,8 @@ function quick_writing_add_row(){
     $("qc_"+nb.value).innerHTML='';
     $("amount"+nb.value).value='';
     $("poste"+nb.value).value='';
-
+    $('qc_'+nb.value+'_label').innerHTML='';
+    $('poste'+nb.value+'_label').innerHTML='';
   nb.value++;
 
 }

@@ -32,6 +32,8 @@ include_once("impress_inc.php");
 require_once('class_user.php');
 require_once ('header_print.php');
 require_once('class_dossier.php');
+require_once('class_acc_report.php');
+
 $gDossier=dossier::id();
 
 $cn=DbConnect($gDossier);
@@ -45,7 +47,7 @@ $pdf=new Cezpdf();
 $pdf->selectFont('./addon/fonts/Helvetica.afm');
 header_pdf($cn,$pdf);
 
-$Form=new rapport($cn,$form_id);
+$Form=new Acc_Report($cn,$form_id);
 // Step ??
 //--
 if ( $_GET['p_step'] == 0 ) 
@@ -72,7 +74,7 @@ if ( $_GET['p_step'] == 0 )
 
    }
 
-$Libelle=sprintf("(%s) %s ",$Form->id,$Form->get_name());
+$Libelle=utf8_decode(sprintf("(%s) %s ",$Form->id,$Form->get_name()));
     
 $pdf->ezText($Libelle,30);
 // without step 
@@ -88,6 +90,7 @@ if ( $_GET['p_step'] == 0 )
     } else {
 	  $periode=sprintf("Date %s jusque %s",$_GET['from_date'],$_GET['to_date']);
   }
+	$periode=utf8_decode($periode);
     $pdf->ezText($periode,25);
     $pdf->ezTable($array,
 		  array ('desc'=>'Description',
@@ -95,7 +98,7 @@ if ( $_GET['p_step'] == 0 )
 		       ),$Libelle,
 		  array('shaded'=>0,'showHeadings'=>1,'width'=>500,
 			'cols'=>array('montant'=> array('justification'=>'right'),
-				      )));
+				      )),true);
     //New page
     //$pdf->ezNewPage();
     //}    
@@ -113,7 +116,7 @@ if ( $_GET['p_step'] == 0 )
 							  ),$Libelle,
 					   array('shaded'=>0,'showHeadings'=>1,'width'=>500,
 							 'cols'=>array('montant'=> array('justification'=>'right'),
-										   )));
+								       )),true);
        }
    }
 $pdf->ezStream();

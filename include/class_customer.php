@@ -88,15 +88,15 @@ class Customer extends fiche{
     // BASE ACCOUNT
     // for belgium
     $s=new Acc_Parm_Code($this->cn,'VENTE');
-    $s->Get();
+    $s->load();
     $SOLD=$s->p_value;
 
     $c=new Acc_Parm_Code($this->cn,'CUSTOMER');
-    $c->Get();
+    $c->load();
     $CUSTOMER=$c->p_value;
 
     $t=new Acc_Parm_Code($this->cn,'COMPTE_TVA');
-    $t->Get();
+    $t->load();
     $TVA=$t->p_value;
     // Get all the sell operation
     //----

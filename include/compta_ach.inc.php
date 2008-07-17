@@ -118,10 +118,11 @@ if ( $def==1 || $def == 4 ) {
       echo '<div class="content">';
       $Ledger=new Acc_Ledger_Purchase($cn,$_POST['p_jrn']);
       $internal=$Ledger->insert($_POST);
-      
+
       
       /* Save the predefined operation */
       if ( isset($_POST['opd_save'])) {
+	echo_debug(__FILE__,__LINE__,'saving predefined op');
 	$opd=new Pre_op_ach($cn);
 	$opd->get_post();
 	$opd->save();
@@ -166,7 +167,7 @@ if ( $def==1 || $def == 4 ) {
     $op->set_od_id($_REQUEST['pre_def']);
     $p_post=$op->compute_array();
     $Ledger->id=$_REQUEST ['p_jrn_predef'];
-
+    $p_post['p_jrn']=$Ledger->id;
     echo $Ledger->display_form($p_post);
     echo '<script>';
     echo 'compute_all_purchase();';

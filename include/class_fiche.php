@@ -1168,16 +1168,26 @@ function belong_ledger($p_jrn,$p_type="")
   if ( $Max==0) {
     return -2;
   }
+  /* convert the array to a string */
+  $list=pg_fetch_all($Res);
+  $str_list="";
+  $comma='';
+  foreach ($list as $row) {
+    if ( $row['fiche'] != '' ) {
+      $str_list.=$comma.$row['fiche'];
+      $comma=',';
+    }
+  }
   // Normally Max must be == 1
-  $list=pg_fetch_array($Res,0);
-  if ( $list['fiche']=="") {
+
+  if ( $str_list=="") {
     return -3;
   }
 
   $sql="select *
         from fiche
         where  
-           fd_id in (".$list['fiche'].") and f_id= ".$this->id;
+           fd_id in (".$str_list.") and f_id= ".$this->id;
 
   $Res=ExecSql($this->cn,$sql);
   $Max=pg_NumRows($Res);

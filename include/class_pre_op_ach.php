@@ -88,7 +88,7 @@ class Pre_op_ach extends Pre_operation_detail {
 	  echo ($e->getMessage());
 	  Rollback($this->db);
 	}
-
+	Commit($this->db);
   }
   /*!\brief compute an array accordingly with the FormVenView function
    */

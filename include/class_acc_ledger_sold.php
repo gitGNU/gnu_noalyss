@@ -768,11 +768,13 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       if ( $own->MY_ANALYTIC!='nu') // use of AA
 	 $r.='<input type="button" value="verifie CA" onClick="verify_ca(\'ok\');">';
     $r.='</fieldset>';
+    $r.=$this->extra_info();
 
 
+    $r.='<div style="width:40%;position:float;float:right;text-align:right;padding-left:5%;padding-right:5%;color:blue;font-size:1.2em;font-weight:bold">';
     $r.='<fieldset> <legend>Totaux</legend>';
     $tot=round(bcadd($tot_amount,$tot_tva),2);
-    $r.='<div style="position:float;float:left;text-align:right;padding-left:5%;padding-right:5%;color:blue;font-size:1.2em;font-weight:bold">';
+    $r.='<div style="width:40%;position:float;float:left;text-align:right;padding-left:5%;padding-right:5%;color:blue;font-size:1.2em;font-weight:bold">';
     $r.='<br>Total HTVA';
 
     foreach ($tva as $i=>$value) {
@@ -783,8 +785,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     }
     $r.='<br>Total TVA';
     $r.='<br>Total TVAC';
-    $r.="</div>";
-
+    $r.='</div>';
 
     $r.='<div style="position:float;float:left;text-align:right;color:blue;font-size:1.2em;font-weight:bold">';
     $r.='<br><span id="htva">'.$tot_amount.'</span>';
@@ -799,6 +800,8 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 
 
     $r.='</fieldset>';
+    $r.="</div>";
+
     /*  Add hidden */
     $r.=widget::hidden('e_client',$e_client);
     $r.=widget::hidden('nb_item',$nb_item);
@@ -814,7 +817,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       $r.=widget::hidden("e_march".$i."_tva_id",${"e_march".$i."_tva_id"});
       $r.=widget::hidden("e_quant".$i,${"e_quant".$i});
     }
-    $r.=$this->extra_info();
+
     return $r;
   }
   /*!\brief the function extra info allows to
@@ -825,6 +828,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
    */
   public function extra_info() {
     $r="";
+    $r.='<div style="position:float;float:left;width:50%;text-align:right;line-height:3em;">';
     $r.='<fieldset> <legend> Facturation</legend>';
        // check for upload piece
     $file=new widget("file");
@@ -845,12 +849,13 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 				   "select md_id,md_name from document_modele where md_type=4");
 	$r.=$doc_gen->IOValue().'<br>';  
       }
+    $r.='<br>';
     $obj=new widget('TEXT');
     $r.='Numero de bon de commande : '.$obj->IOValue('bon_comm').'<br>';
     $r.='Autre information : '.$obj->IOValue('other_info').'<br>';
 
     $r.="</fieldset>";
-
+    $r.='</div>';
     return $r; 
   }
   /*!\brief create the invoice and saved it as attachment to the

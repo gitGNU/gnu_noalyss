@@ -39,7 +39,10 @@ function SearchCard(p_sessid,type,name)
   
   var search=document.getElementById(name).value;
   var gDossier=document.getElementById('gDossier').value;
-  var jrn=$("p_jrn").value;
+  var jrn=0;
+  if ( document.getElementById("p_jrn") ) {
+    jrn=document.getElementById("p_jrn").value;
+  }
    var a=window.open('fiche_search.php?first&search&fic_search='+search+'&p_jrn='+jrn+'&PHPSESSID='+p_sessid+'&type='+type+'&name='+name+'&gDossier='+gDossier,'item','toolbar=no,width=350,height=450,scrollbars=yes,statusbar=no');
    return false;
 }

@@ -309,6 +309,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     
     $r.='</fieldset>';
     
+
     
     return $r;
     
@@ -321,7 +322,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
    */
   public function confirm($p_array) {
     $r="";
-    print_r($p_array);
+
     extract ($p_array);
     $pPeriode=new Periode($this->db);
     $pPeriode->id=$periode;

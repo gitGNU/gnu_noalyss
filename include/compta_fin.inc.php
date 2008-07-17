@@ -137,6 +137,7 @@ if ( $def == 1 ) {
 
 
   echo '</form>';
+  echo JS_CALC_LINE;
   echo '</div>';
   exit();
 }
