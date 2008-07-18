@@ -50,8 +50,8 @@ function show_direct_form($cn,$ledger,$p_array) {
   $op->set('ledger_type',$ledger->get_type());
   $op->set('direct','t');
   echo $op->form_get();
-	
   echo '</form>';
+  
 
 
   echo '<form method="post" action="?">';
@@ -59,6 +59,8 @@ function show_direct_form($cn,$ledger,$p_array) {
   echo widget::hidden('p_action',$_REQUEST['p_action']);
 
   echo $ledger->show_form($p_array);
+
+
   echo widget::button('add','Ajout d\'une ligne','onClick="quick_writing_add_row()"');
 
   echo widget::submit('summary','Sauvez');
@@ -71,6 +73,8 @@ function show_direct_form($cn,$ledger,$p_array) {
 
 
   echo '</form>';
+  echo "<script>checkTotalDirect();</script>";
+
    echo "<div>".JS_CALC_LINE."</div>";
 
   echo '</div>';
@@ -138,22 +142,29 @@ if ( isset ($_GET['use_opd'])) {
   
  }
 if ( isset($_POST['summary'])) {
-       echo '<form method="post"  action="?">';
-       echo $ledger->show_form($_POST,1);
-       echo dossier::hidden();
-       echo widget::hidden('p_action',$_REQUEST['p_action']);
+  try {
+    $ledger->verify($_POST );
+  } catch (AcException $e) {
+    echo '<script>alert (\''.$e->getMessage()."'); </script>";
+    show_direct_form($cn,$ledger,$_POST);
+    exit();
+  }
 
-       echo widget::submit('save_it',"Sauver");
-       echo widget::submit('correct_it','Corriger');
-       
-       $chk=new widget('checkbox');
-       $chk->selected=false;
-       echo "Sauvez l'op&eacute;ration ?";
-       echo $chk->IOValue('save_opd');
-
-       echo '</form>';
-       exit();
-
+  echo '<form method="post"  action="?">';
+  echo $ledger->show_form($_POST,1);
+  echo dossier::hidden();
+  echo widget::hidden('p_action',$_REQUEST['p_action']);
+  
+  echo widget::submit('save_it',"Sauver");
+  echo widget::submit('correct_it','Corriger');
+  
+  $chk=new widget('checkbox');
+  $chk->selected=false;
+  echo "Sauvez l'op&eacute;ration ?";
+  echo $chk->IOValue('save_opd');
+  echo '</form>';
+  exit();
+  
  }
 if ( isset($_POST['save_it' ])) {
   $array=$_POST;

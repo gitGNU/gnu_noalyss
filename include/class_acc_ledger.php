@@ -33,6 +33,7 @@ require_once ('class_acc_reconciliation.php');
 require_once ('class_periode.php');
 require_once ('class_gestion_purchase.php');
 require_once ('class_acc_account.php');
+
 /*!\file
 * \brief Class for jrn,  class acc_ledger for manipulating the ledger
 */
@@ -884,6 +885,7 @@ class Acc_Ledger {
     $ret.=JS_SEARCH_POSTE;
     $ret.=JS_AJAX_FICHE;
     $ret.=JS_PROTOTYPE;
+    $ret.=JS_INFOBULLE;
     // 
     $ret.="<table>";
     $ret.= '<tr><td>';
@@ -919,10 +921,12 @@ class Acc_Ledger {
     $hidden=new widget('hidden');
     $ret.=$hidden->IOValue('p_jrn',$this->id);
     $ret.=$hidden->IOValue('jrn_type',$this->get_type());
+    $info= widget::infobulle(0);
+    $info_poste=widget::infobulle(9);
     $ret.='<table id="quick_item" style="width:100%">';
     $ret.='<tr>'.
-      '<th colspan="4">Quickcode</th>'.
-      '<th colspan="2">Poste</th>'.
+      '<th colspan="4">Quickcode'.$info.'</th>'.
+      '<th colspan="2">Poste'.$info_poste.'</th>'.
       '<th> Montant</th>'.
       '<th>D&eacute;bit</th>'.
       '</tr>';
@@ -1050,9 +1054,6 @@ class Acc_Ledger {
 	if ( ! isset (${'amount'.$i}))
 	  continue;
 
-	if ( isNumber(${'amount'.$i} ) == 0 )
-	  throw new AcException('Montant invalide',3);
-
 	$amount=round(${'amount'.$i},2);
 	$tot_deb+=(isset(${'ck'.$i}))?$amount:0;
 	$tot_cred+=(! isset(${'ck'.$i}))?$amount:0;
@@ -1061,10 +1062,12 @@ class Acc_Ledger {
 	if ( isset (${'qc_'.$i}) && trim(${'qc_'.$i}) !="") {
 	  $f=new fiche($this->db);
 	  $f->quick_code=${'qc_'.$i};
-
 	  if ( $f->belong_ledger($p_jrn) < 0 )
 	    throw new AcException("La fiche quick_code = ".
 				  $f->quick_code." n\'est pas dans ce journal",4);
+	  if ( strlen(trim(${'qc_'.$i}))!=0 &&  isNumber(${'amount'.$i} ) == 0 )
+	    throw new AcException('Montant invalide',3);
+
 	}
 
 	// Check if the account is permitted
@@ -1072,6 +1075,10 @@ class Acc_Ledger {
 	  $p=new Acc_Account_Ledger($this->db,${'poste'.$i});
 	  if ( $p->belong_ledger ($p_jrn) < 0 )
 	    throw new AcException("Le poste ".$p->id." n\'est pas dans ce journal",5);
+	  if ( strlen(trim(${'poste'.$i}))!=0 &&  isNumber(${'amount'.$i} ) == 0 )
+	  throw new AcException('Montant invalide',3);
+
+
 	}
 
 
@@ -1079,8 +1086,8 @@ class Acc_Ledger {
     $tot_deb=round($tot_deb,4);
     $tot_cred=round($tot_cred,4);
     if ( $tot_deb != $tot_cred ) {
-      print_r('$tot_deb'.$tot_deb);
-      print_r('$tot_cred'.$tot_cred);
+      /*      print_r('$tot_deb'.$tot_deb);
+	      print_r('$tot_cred'.$tot_cred); */
       throw new AcException("Balance incorrecte debit = $tot_deb credit=$tot_cred ",1);
     }
        

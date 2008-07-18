@@ -543,7 +543,7 @@ function ShowMenuAdvanced($default="") {
 		array('compta.php?p_action=stock&'.$str_dossier,'Stock',"Gestion des stocks",5),
 		array('user_advanced.php?p_action=defreport&'.$str_dossier,'Rapport',"Rapport",6),
 		array('import.php?'.$str_dossier,'Import Banque',"Banque",7),
-		array('?p_action=ouv&'.$str_dossier,'Ecriture ouverture',"",8),
+		array('user_advanced.php?p_action=ouv&'.$str_dossier,'Ecriture ouverture',"",8),
 		array('user_advanced.php?p_action=verif&'.$str_dossier,'V&eacute;rification',"",10)
 	),
 					  'H',"mtitle","mtitle",$default);

@@ -30,6 +30,7 @@ content[5]="(optionnel)Le numéro d'extrait permet de retrouver plus facilement 
 content[6]="Indiquez ici le prix hors tva si vous êtes affilié à la tva et que vous  pouvez la déduire , sinon indiquez ici le total tva incluse et utilisez un taux tva de 0%";
 content[7]="(optionnel) Ces champs servent à contrôler que les montants correspondent à l'extrait";
 content[8]="(optionnel) Ce montant correspond au total tva, si vous le laissez à vide, il sera calculé automatiquement en fonction du taux";
+content[9]="Tapez le numéro de poste ou une partie du poste ou du libellé puis sur recherche, Si vous avez donné un quickcode, le poste comptable ne sera pas utilisé";
 function showBulle(p_ctl) {
 	d=document.getElementById('bulle');
 	d.innerHTML=content[p_ctl];

@@ -64,7 +64,7 @@ if ($sa == '') {
 /* --------------------------------------------------
  * Step 2 choose now the exercice of this folder
  */
-$back='?p_action=ouv&'.dossier::get();
+$back='user_advanced.php?p_action=ouv&'.dossier::get();
 if ( $sa=='step2') {
   echo '<div class="content">'.
     '<fieldset><legend>Etape 2</legend>'.
@@ -93,9 +93,8 @@ if ( $sa=='step2') {
  * select the ledger where we will import the data
  */
 if ( $sa == 'step3') {
-  $back=$back.'&step2';
   echo '<div class="content">'.
-    '<fieldset><legend>Etape 2</legend>'.
+    '<fieldset><legend>Etape 3</legend>'.
     '<h2 class="info">'.dossier::name($_REQUEST['f']).'</h2>'.
     '<form method="post">'.
     ' Choississez le journal qui contiendra l\'opération d\'ouverture ';
@@ -147,7 +146,8 @@ if ( $sa=='step4') {
     $amount='amount'.$idx;
     $ck='ck'.$idx;
     $result[$qcode] = $row['j_qcode'];
-    $result[$poste] = $row['j_poste'];
+    if ( $row['j_qcode']=='')
+      $result[$poste] = $row['j_poste'];
     $result[$amount] = abs($row['solde']);
     if ( $row['solde'] > 0 ) $result[$ck]='on';
     $idx++;
@@ -161,9 +161,10 @@ if ( $sa=='step4') {
   echo widget::hidden('p_jrn',$_REQUEST['p_jrn']);
   echo $jrn->show_form($result,0);
   echo '<hr>';
-  echo 'Ne corriger pas encore, cliquez continuez pour modifier ou valider l\'ecriture';
+  echo '<h2 class="notice">Ne corrigez pas encore, cliquez continuer pour passer à l\'étape suivante</h2>';
   echo widget::submit('correct_it','Continuer');
-
   echo '</form>';
+  echo widget::button_href('Retour',$back);
+
   echo '</div>';
 }
