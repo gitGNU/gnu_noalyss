@@ -48,7 +48,7 @@ echo_debug('user_advanced.php',__LINE__,"user is ".$_SESSION['g_user']);
 include_once ("user_menu.php");
 echo '<div class="u_tmenu">';
 
-//echo ShowMenuCompta("user_advanced.php?".dossier::get());
+
 echo ShowMenuCompta(7);
 echo '</div>';
 $p_action="";
@@ -56,22 +56,25 @@ $p_action="";
 
 $p_action=(isset($_REQUEST['p_action']))?$_REQUEST['p_action']:"";
 switch ($p_action) {
- case 'preod':
-   $high=9;
-   break;
- case 'periode';
- $high=2;
- break;
- case 'verif';
- $high=10;
- break;
- case 'central';
- $high=3;
+case 'preod':
+  $high=9;
+  break;
+case 'periode';
+$high=2;
+break;
+case 'verif';
+$high=10;
+break;
+case 'central';
+$high=3;
  break;
 case 'defreport':
   $high=6;
   break;
- default:
+case 'ouv':
+  $high=8;
+  break;
+default:
    $high=0;
    
  }
@@ -107,6 +110,11 @@ if ( $p_action=='central')
 if ($p_action=='defreport') {
   require_once('report.inc.php');
 }
-
+/* --------------------------------------------------
+Import writing (opening exercice)
+-------------------------------------------------- */
+if ( $p_action == 'ouv') {
+  require_once('opening.inc.php');
+}
 html_page_stop();
 ?>

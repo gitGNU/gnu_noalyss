@@ -78,13 +78,14 @@ class dossier {
 	return '<input type="hidden" id="gDossier" name="gDossier" value="'.$_REQUEST['gDossier'].'">';
   }
   /*!\brief retrieve the name of the current dossier */
-  static function name() {
+  static function name($id=0) {
 	echo_debug(__FILE__,__LINE__,"get_name");
 	echo_debug(__FILE__,__LINE__,$_REQUEST);
 	self::check();
 
 	$cn=DbConnect();
-	$name=getDbValue($cn,"select dos_name from ac_dossier where dos_id=".$_REQUEST['gDossier']);
+	$id=($id==0)?$_REQUEST['gDossier']:$id;
+	$name=getDbValue($cn,"select dos_name from ac_dossier where dos_id=$1",array($_REQUEST['gDossier']));
 	return $name;
   }
 
