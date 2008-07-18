@@ -705,7 +705,7 @@ function quick_writing_add_row(){
 
 
   newNode.innerHTML=new_tt;
-    $("qc_"+nb.value).innerHTML='';
+    $("qc_"+nb.value).value='';
     $("amount"+nb.value).value='';
     $("poste"+nb.value).value='';
     $('qc_'+nb.value+'_label').innerHTML='';
