@@ -27,7 +27,7 @@ require_once ('config.inc.php');
 
 
 
-define ("DBVERSION",49);
+define ("DBVERSION",50);
 
 define ("MAX_COMPTE",4);
 define ('MAX_BUD_DETAIL',20);
