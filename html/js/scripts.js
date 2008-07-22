@@ -412,6 +412,7 @@ function compute_sold(p_ctl_nb) {
 
     if ( qcode.length == 0 ) {
 	clean_sold(p_ctl_nb);
+	refresh_sold();
 	return;
     }
     var tva_id=$('e_march'+p_ctl_nb+'_tva_id').value;
@@ -433,6 +434,21 @@ function compute_sold(p_ctl_nb) {
 			      }
 			      );
   }
+function refresh_sold () {
+  var tva=0; var htva=0;var tvac=0;
+
+  for (var i=0;i<$("nb_item").value;i++) {
+    tva+=$('tva_march'+i).value*1;
+    htva+=$('htva_march'+i).value*1;
+    tvac+=$('tvac_march'+i).value*1;
+    $('tva_march'+i+'_show').value=$('tva_march'+i).value;
+
+  }
+
+    $('tva').innerHTML=Math.round(tva*100)/100;
+    $('htva').innerHTML=Math.round(htva*100)/100;
+    $('tvac').innerHTML=Math.round(tvac*100)/100;
+}
 /**
  * @brief update the field htva, tva_id and tvac, callback function for  compute_sold
  */
@@ -447,19 +463,7 @@ function success_compute_sold(request,json) {
   $('tva_march'+ctl).value=rtva;
   $('htva_march'+ctl).value=rhtva;
   $('tvac_march'+ctl).value=rtvac;
-  var tva=0; var htva=0;var tvac=0;
-
-  for (var i=0;i<$("nb_item").value;i++) {
-    tva+=$('tva_march'+i).value*1;
-    htva+=$('htva_march'+i).value*1;
-    tvac+=$('tvac_march'+i).value*1;
-    $('tva_march'+i+'_show').value=$('tva_march'+i).value;
-
-  }
-
-    $('tva').innerHTML=Math.round(tva*100)/100;
-    $('htva').innerHTML=Math.round(htva*100)/100;
-    $('tvac').innerHTML=Math.round(tvac*100)/100;
+  refresh_sold();
 }
 
 /**
@@ -575,7 +579,7 @@ function compute_purchase(p_ctl_nb) {
     $("e_march"+p_ctl_nb).value=trim($("e_march"+p_ctl_nb).value);
     var qcode=$("e_march"+p_ctl_nb).value;
 
-    if ( qcode.length == 0 ) { clean_purchase(p_ctl_nb);return;}
+    if ( qcode.length == 0 ) { clean_purchase(p_ctl_nb);refresh_purchase();return;}
 
     var tva_id=$('e_march'+p_ctl_nb+'_tva_id').value;
 
@@ -596,6 +600,19 @@ function compute_purchase(p_ctl_nb) {
 	}
     );
 }
+function refresh_purchase() {
+  var tva=0; var htva=0;var tvac=0;
+
+  for (var i=0;i<$("nb_item").value;i++) {
+      tva+=$('tva_march'+i).value*1;
+    htva+=$('htva_march'+i).value*1;
+    tvac+=$('tvac_march'+i).value*1;
+  }
+
+    $('tva').innerHTML=Math.round(tva*100)/100;
+    $('htva').innerHTML=Math.round(htva*100)/100;
+    $('tvac').innerHTML=Math.round(tvac*100)/100;
+}
 /**
  * @brief update the field htva, tva_id and tvac, callback function for  compute_sold
  */
@@ -612,23 +629,12 @@ function success_compute_purchase(request,json) {
 	$('tva_march'+ctl).value=rtva;
 	$('e_march'+ctl+'_tva_amount').value=rtva;
     }
-    else {
-	$('tva_march'+ctl).value=$('e_march'+ctl+'_tva_amount').value;
-
-    }
-  $('htva_march'+ctl).value=rhtva;
+     else {
+ 	$('tva_march'+ctl).value=$('e_march'+ctl+'_tva_amount').value;
+     }
+ $('htva_march'+ctl).value=rhtva;
     $('tvac_march'+ctl).value=parseFloat($('htva_march'+ctl).value)+parseFloat($('tva_march'+ctl).value);
-  var tva=0; var htva=0;var tvac=0;
-
-  for (var i=0;i<$("nb_item").value;i++) {
-      tva+=$('tva_march'+i).value*1;
-    htva+=$('htva_march'+i).value*1;
-    tvac+=$('tvac_march'+i).value*1;
-  }
-
-    $('tva').innerHTML=Math.round(tva*100)/100;
-    $('htva').innerHTML=Math.round(htva*100)/100;
-    $('tvac').innerHTML=Math.round(tvac*100)/100;
+    refresh_purchase();
 }
 
 /**

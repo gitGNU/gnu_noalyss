@@ -542,7 +542,8 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 	$fMarch=new fiche($this->db);
 	$fMarch->get_by_qcode($march);
 	$march_label=$fMarch->strAttribut(ATTR_DEF_NAME);
-	$march_tva_id=$fMarch->strAttribut(ATTR_DEF_TVA);
+	if ( ! (isset(${"e_march$i"."_tva_id"})))
+	     $march_tva_id=$fMarch->strAttribut(ATTR_DEF_TVA);
       }
       // Show input
       //--

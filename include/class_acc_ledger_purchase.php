@@ -493,8 +493,8 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $user = new User($this->db);
 
     // The first day of the periode 
-    $periode=new Periode($this->db);
-    list ($l_date_start,$l_date_end)=$periode->get_date_limit($user->get_periode());
+    $oPeriode=new Periode($this->db);
+    list ($l_date_start,$l_date_end)=$oPeriode->get_date_limit($user->get_periode());
 
     $op_date=( ! isset($e_date) ) ?$l_date_start:$e_date;
     $e_ech=(isset($e_ech))?$e_ech:"";
@@ -536,7 +536,8 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     // Periode 
     //--
     $l_user_per=$user->get_periode();
-    $l_form_per=FormPeriode($this->db,$l_user_per,OPEN);
+    $def=(isset($periode))?$periode:$l_user_per;
+    $l_form_per=FormPeriode($this->db,$def,OPEN);
     $r.="<td class=\"input_text\">";
     $label=widget::infobulle(3);
     $r.="Période comptable $label</td><td>".$l_form_per;
@@ -635,7 +636,6 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
       $march=(isset(${"e_march$i"}))?${"e_march$i"}:"";
       $march_buy=(isset(${"e_march".$i."_buy"}))?${"e_march".$i."_buy"}:"";
       $march_tva_id=(isset(${"e_march$i"."_tva_id"}))?${"e_march$i"."_tva_id"}:"";
-      $march_tva_id=(isset(${"e_march$i"."_tva_id"}))?${"e_march$i"."_tva_id"}:"";
       $march_tva_amount=(isset(${"e_march$i"."_tva_amount"}))?${"e_march$i"."_tva_amount"}:"";
       
 
@@ -646,7 +646,8 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 	$fMarch=new fiche($this->db);
 	$fMarch->get_by_qcode($march);
 	$march_label=$fMarch->strAttribut(ATTR_DEF_NAME);
-	$march_tva_id=$fMarch->strAttribut(ATTR_DEF_TVA);
+	if ( ! isset($march_tva_id) )
+	  $march_tva_id=$fMarch->strAttribut(ATTR_DEF_TVA);
       }
       // Show input
       //--
@@ -698,7 +699,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
       $Tva_amount->table=1;
       $Tva_amount->size=9;
       $Tva_amount->javascript="onBlur='compute_purchase($i)'";
-      $r.=$Tva_amount->IOValue("e_march".$i."_tva_amount",$march_buy);
+      $r.=$Tva_amount->IOValue("e_march".$i."_tva_amount",$march_tva_amount);
       
       // quantity
       //--
