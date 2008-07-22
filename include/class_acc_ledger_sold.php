@@ -391,8 +391,8 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $user = new User($this->db);
 
     // The first day of the periode 
-    $periode=new Periode($this->db);
-    list ($l_date_start,$l_date_end)=$periode->get_date_limit($user->get_periode());
+    $oPeriode=new Periode($this->db);
+    list ($l_date_start,$l_date_end)=$oPeriode->get_date_limit($user->get_periode());
 
     $op_date=( ! isset($e_date) ) ?$l_date_start:$e_date;
     $e_ech=(isset($e_ech))?$e_ech:"";
@@ -434,10 +434,11 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     // Periode 
     //--
     $l_user_per=$user->get_periode();
-    $l_form_per=FormPeriode($this->db,$l_user_per,OPEN);
+    $def=(isset($periode))?$periode:$l_user_per;
+    $l_form_per=FormPeriode($this->db,$def,OPEN);
     $r.="<td class=\"input_text\">";
     $label=widget::infobulle(3);
-    $r.="Période comptable $label</td><td>".$l_form_per;
+    $r.="Période comptable $label $def</td><td>".$l_form_per;
     $r.="</td>";
     $r.="</tr><tr>";
     // Ledger (p_jrn)
@@ -636,8 +637,6 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $r.=widget::reset('Effacer ');
 
     $r.="</DIV>";
-
-    $r.=JS_CALC_LINE;
     return $r;
   }
   /*!\brief show the summary of the operation and propose to save it

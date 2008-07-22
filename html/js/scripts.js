@@ -411,7 +411,7 @@ function compute_sold(p_ctl_nb) {
     var qcode=$("e_march"+p_ctl_nb).value;
 
     if ( qcode.length == 0 ) {
-	clean_sold();
+	clean_sold(p_ctl_nb);
 	return;
     }
     var tva_id=$('e_march'+p_ctl_nb+'_tva_id').value;
@@ -663,14 +663,13 @@ $('e_march'+p_ctl+'_tva_amount').value=0;
 
 function clean_sold( p_ctl_nb) 
 {
-    $("e_march"+p_ctl_nb).value=trim($("e_march"+p_ctl_nb).value);
-    var qcode=$("e_march"+p_ctl_nb).value;
-    $('e_march'+p_ctl_nb+'_sell').value='';
-    $('e_quant'+p_ctl_nb).value='1';
-    $('tva_march'+p_ctl_nb+'_show').value='0';
-    $('tva_march'+p_ctl_nb).value=0;
-    $('htva_march'+p_ctl_nb).value=0;
-    $('tvac_march'+p_ctl_nb).value=0;
+    if ( $("e_march"+p_ctl_nb) ) { $("e_march"+p_ctl_nb).value=trim($("e_march"+p_ctl_nb).value); }
+    if ($('e_march'+p_ctl_nb+'_sell')) { $('e_march'+p_ctl_nb+'_sell').value='';}
+    if ( $('e_quant'+p_ctl_nb)) { $('e_quant'+p_ctl_nb).value='1'; }
+    if ( $('tva_march'+p_ctl_nb+'_show') ) { $('tva_march'+p_ctl_nb+'_show').value='0';}
+    if ($('tva_march'+p_ctl_nb)) { $('tva_march'+p_ctl_nb).value=0;}
+    if ( $('htva_march'+p_ctl_nb)) { $('htva_march'+p_ctl_nb).value=0;}
+    if ( $('tvac_march'+p_ctl_nb)) {$('tvac_march'+p_ctl_nb).value=0;}
 
 }
 function clean_purchase(p_ctl_nb) {

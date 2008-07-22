@@ -190,7 +190,9 @@ if ( $def==1 || $def == 4 ) {
   $op->set('direct','f');
   echo $op->form_get();
   echo '</form>';
-
+  echo '<form onsubmit="cal();return false;" name="calc_line" method="get">';
+  echo JS_CALC_LINE;
+  echo '</form>';
   echo '</div>';
   exit();
 }
