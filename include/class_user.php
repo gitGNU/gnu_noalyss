@@ -41,7 +41,7 @@ class User {
     // if p_id is not set then check the connected user
     if ( $p_id == -1 ) {
       if ( ! isset ($_SESSION['g_user'])) 
-	exit("Utilisateur inexistant");
+	exit('<h2 class="error"> Utilisateur déconnecté</h2>');
       echo_debug('class_user.php',__LINE__," g_user = ".$_SESSION['g_user']);
 
     $this->id=$_SESSION['g_user'];
