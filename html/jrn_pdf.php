@@ -282,13 +282,13 @@ if  ( ($jrn_type=='ACH' || $jrn_type=='VEN' ) && $_REQUEST['p_simple']== 1 )
     //total page
     $t=sprintf("total page TVAC = %.2f HTVA= %.2f",$total_tvac_page,$total_htva_page);
     foreach($page_tva as $idx=>$am) {
-      $t.=sprintf('[ %s = % .2f ]',$idx,$am);
+      $t.=utf8_decode(sprintf('[ %s = % .2f ]',$idx,$am));
     }
     $pdf->ezText($t,9,array('justification'=>'left'));
 
     $t=utf8_decode(sprintf("total à reporter TVAC = %.2f HTVA= %.2f",$total_TVAC,$total_HTVA));
     foreach($rap_tva as $idx=>$am) {
-      $t.=sprintf('[ %s = % .2f ]',$idx,$am);
+      $t.=utf8_decode(sprintf('[ %s = % .2f ]',$idx,$am));
     }
     $pdf->ezText($t,9,array('justification'=>'left'));
 
