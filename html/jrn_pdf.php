@@ -201,8 +201,10 @@ if  ( ($jrn_type=='ACH' || $jrn_type=='VEN' ) && $_REQUEST['p_simple']== 1 )
       $rap_tva[$tmp1]=0.0;
       if ( $space == 0 )
 	$col_tva=str_repeat(" ",6).$line_tva['tva_label'];
-	else 
-	  $col_tva.=str_repeat(" ",$space-strlen($line_tva['tva_label'])).$line_tva['tva_label'];
+      else {
+	$ecart=$space-strlen($line_tva['tva_label']);
+	$ecart=($ecart<0)?0:$ecart;
+	  $col_tva.=str_repeat(" ",$ecart).$line_tva['tva_label'];
       $space=9;
     } 
 
