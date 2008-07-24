@@ -518,7 +518,7 @@ class fiche {
 			$sql=sprintf("select account_insert(%d,null)",
 				     $this->id);
 		      }
-		    ExecSql($this->cn,$sql,false);
+		    ExecSql($this->cn,$sql);
 		  } catch (Exception $e) {
 		    throw new Exception ("Erreur : ce compte [$v] n'a pas de compte parent.".
 					 "L'op&eacute;ration est annul&eacute;e",
@@ -666,7 +666,7 @@ class fiche {
 		     $sql=sprintf("select account_update(%d,%d)",
 				  $this->id,$v);
 		     try {
-		       ExecSql($this->cn,$sql,false);
+		       ExecSql($this->cn,$sql);
 		     /* update also the jrnx  */
 		     $sql='update jrnx set j_poste=$1 where j_qcode in (select quick_code from vw_fiche_attr where f_id=$2)';
 		     ExecSqlParam($this->cn,
@@ -685,7 +685,7 @@ class fiche {
                    $sql=sprintf("select account_update(%d,null)",
                                 $this->id);
 		   try {
-		     $Ret=ExecSql($this->cn,$sql,false);
+		     $Ret=ExecSql($this->cn,$sql);
 		     /* update also the jrnx  */
 
 		     $sql='update jrnx set j_poste=$1 where j_qcode in (select quick_code from vw_fiche_attr where f_id=$2)';

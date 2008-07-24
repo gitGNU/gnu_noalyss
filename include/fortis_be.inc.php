@@ -72,6 +72,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 					where 
 					code='".$code."' and 
 					num_compte='".$num_compte."'";
+			$sql=utf8_encode($sql);
 			$Res=ExecSql($p_cn,$sql);
 			$Num=pg_NumRows($Res);
 			
@@ -102,7 +103,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 					$p_jrn,
 					'n')";
 			
-				$Res=ExecSql($p_cn,$Sql);
+				$Res=ExecSql($p_cn,$Sql,'latin1');
 			}
 		}
 

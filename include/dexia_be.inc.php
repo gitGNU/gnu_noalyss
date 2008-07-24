@@ -74,7 +74,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 // Skip dubbel
 //----------------------------------------------------
 	$Sql="select * from import_tmp where code='$ref_extrait' and compte_ordre='$compte_ordre' limit 2";  
-	if ( CountSql($p_cn,$Sql) > 0)
+	if ( CountSql($p_cn,utf8_decode($Sql)) > 0)
 	{
 		/* Skip it it already encoded */
 		echo "Double skipped : $ref_extrait $detail <BR>";
@@ -113,7 +113,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 // Check if no need to rollback when executing the SQL
 //-----------------------------------------------------
 			try {
-			  ExecSql($p_cn,$Sql) ;
+			  ExecSql($p_cn,$Sql,'latin1') ;
 			} catch (Exception $e) {
 			  Rollback($p_cn);
 			  echo "Rollbacking    : $ref_extrait $detail <BR>";

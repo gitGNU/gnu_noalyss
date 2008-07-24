@@ -38,6 +38,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 		list($num_compte, $code, $date_exec, $date_valeur, $montant, $devise, $montant2, $devise2, $rubriques, $detail, $zzz, $zzz, $date_comptable) = split(";", $data[$c]);
 		
 		# Bug CSV ING : "424 au lieu de 424
+#"
 		$code = str_replace("\"", "", $code);	
 		
 		# Bug CSV ING : espace apres la date
@@ -81,7 +82,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 		$code = $annee."-".$code;
 		
 		$sql = "select * from import_tmp where code='".$code."' and num_compte='".$num_compte."'";
-		$Res=ExecSql($p_cn,$sql);
+		$Res=ExecSql($p_cn,$sql,'latin1');
 		$Num=pg_NumRows($Res);
 		
 		if($Num > 0) {

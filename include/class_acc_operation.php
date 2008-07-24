@@ -69,7 +69,7 @@ var $jr_id;	/*!< pk of jrn */
     if ( $this->amount < 0 ) {
       $this->type=($this->type=='d')?'c':'d';
     }
-
+    $this->amount=abs($this->amount);
     $debit=($this->type=='c')?'false':'true';
 
     $Res=ExecSqlParam($this->db,"select insert_jrnx

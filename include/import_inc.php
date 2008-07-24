@@ -73,8 +73,8 @@ function UpdateCSV($p_cn){
   $count=FormatString($_POST['count']);
   $poste=FormatString($_POST['poste'.$count]);
   $concern=FormatString($_POST['e_concerned'.$count]);
-  $sql = "update import_tmp set poste_comptable='$poste' ,status='w',".
-    "jr_rapt='$concern' where code='$code'";
+  $sql = utf8_encode("update import_tmp set poste_comptable='$poste' ,status='w',".
+		     "jr_rapt='$concern' where code='$code'");
   $Res=ExecSql($p_cn,$sql);
 }
 
@@ -92,8 +92,8 @@ function UpdateCSV($p_cn){
 function ShowBox($p_val,$counter,$p_cn,$p_form='form'){
   $w=new widget('js_search_only');
   $w->name='poste'.$counter;
-  $w->extra='cred';
-  $w->extra2=$p_val['jrn'];
+  $w->extra='filter';
+  $w->extra2='QuickCode';
   $w->label='';
   $w->table=0;
   if ( $p_form == 'remove' )
@@ -125,6 +125,7 @@ $oJrn=new Acc_Ledger($p_cn,$p_val['jrn']);
   }
   echo '<input type="hidden" id="code'.$counter.'" value="'.$p_val['code'].'">';
   echo '<input type="hidden" name="count" value="'.$counter.'">';
+  echo widget::hidden('p_jrn',$p_val['jrn']);
   echo '<table border="1" width="500">';
   echo '<tr><td width="200">'.$p_val['code'].'</td><td width="200">'.$p_val['date_exec'].'</td><td width="100">'.$p_val['montant'].' EUR</td><tr/>';
   echo "<tr><td> Journal : ".$oJrn->get_name()."</TD><TD>poste comptable Destination : ".$p_val['bq_account']."</td><tr>";
@@ -176,7 +177,7 @@ function VerifImport($p_cn){
 	echo JS_SEARCH_CARD;
 	echo JS_CONCERNED_OP;
 	echo JS_AJAX_FICHE;
-	echo JS_PROTOTYPE_JS;
+	echo JS_PROTOTYPE;
 	while($val = pg_fetch_array($Res)){
 	  echo '<form METHOD="POST" id="form_'.$i.'"action="import.php?action=verif">'; 
 	  echo dossier::hidden();
@@ -320,7 +321,9 @@ function TransferCSV($p_cn, $periode){
 	$seq=NextSequence($p_cn,'s_grpt');
 	$p_user = $_SESSION['g_user'];
 
-	$acc_op=Acc_Operation($p_cn);
+	$acc_op=new Acc_Operation($p_cn);
+	$acc_op->amount=$montant;
+	$acc_op->desc=$detail;
 	$acc_op->type="d";
 	$acc_op->date=$date_exec;
 	$acc_op->user=$p_user;
@@ -334,6 +337,7 @@ function TransferCSV($p_cn, $periode){
       
 	$acc_op->type="c";
 	$acc_op->poste=$poste_comptable;
+	$acc_op->amount=$montant;
 	$r=$acc_op->insert_jrnx();
 
 
@@ -343,7 +347,7 @@ function TransferCSV($p_cn, $periode){
 	$code=str_replace('\"','',$code);
 	$acc_op->comment=$detail.$num_compte." ".$code;
 
-	$acc_op->insert_jrn();
+	$jr_id=$acc_op->insert_jrn();
 
       	$internal=$oJrn->compute_internal_code($seq);
 

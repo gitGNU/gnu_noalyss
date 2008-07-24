@@ -89,6 +89,7 @@ if ( isset ($_GET["action"]) ) {
   if ($action == "transfer" ) {
 
     echo '<DIV class="u_redcontent">';
+    echo '<span class="notice"> Seulement les opérations de la période par défaut (voir préférence) seront transfèrées</span><hr>';
     //   TransferCSV($cn, 
     ConfirmTransfert($cn,$User->get_periode());
     echo "</DIV>";

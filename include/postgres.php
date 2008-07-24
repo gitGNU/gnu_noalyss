@@ -127,12 +127,12 @@ de donn&eacute;es");
  * \param $p_string     sql string
  * \return false if error otherwise true
  */
-function ExecSql($p_connection, $p_string) {
+function ExecSql($p_connection, $p_string,$p_encoding='utf8') {
   echo_debug('postgres.php',__LINE__,"SQL = $p_string");
   // probl. with Ubuntu & UTF8
   //----
 
-  pg_set_client_encoding($p_connection,'utf8');
+  pg_set_client_encoding($p_connection,$p_encoding);
   ob_start();
   $ret=pg_query($p_connection,$p_string);
   if ( ! $ret )   {
@@ -589,7 +589,7 @@ function execute_script($p_cn,$script) {
 	    }
     $sql.=$buffer;
 echo_debug('setup.php',__LINE__,"Execute sql $sql");
-    if ( ExecSql($p_cn,$sql,false) == false ) {
+    if ( ExecSql($p_cn,$sql) == false ) {
 	    Rollback($p_cn);
 	    if ( DEBUG=='false' ) ob_end_clean();
 	    print "ERROR : $sql";
