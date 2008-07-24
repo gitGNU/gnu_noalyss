@@ -111,7 +111,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 				$p_jrn,
 				'n')";
 	echo $sql;
-			$Res=ExecSql($p_cn,$Sql);
+	$Res=ExecSql($p_cn,$Sql,'latin1');
 		}
 	}
 
