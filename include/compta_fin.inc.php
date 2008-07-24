@@ -24,6 +24,8 @@
  * \brief this file is to be included to handle the financial ledger
  */
 require_once ('class_acc_ledger_fin.php');
+require_once ('check_priv.php');
+$gDossier=dossier::id();
 $p_action=(isset ($_REQUEST['p_action']))?$_REQUEST['p_action']:'';
 
 $cn=DbConnect(dossier::id());
@@ -59,6 +61,13 @@ $Ledger=new Acc_Ledger_Fin($cn,0);
 // Encode a new financial operation
 //--------------------------------------------------------------------------------
 if ( $def == 1 ) {
+ // Check privilege
+  if ( isset($_REQUEST['p_jrn']) && 
+       CheckJrn($gDossier,$_SESSION['g_user'],$_GET['p_jrn']) != 2 )    {
+       NoAccess();
+       exit -1;
+  }
+
   $href=basename($_SERVER['PHP_SELF']);
 
   if ( isset($_REQUEST['p_jrn']))
@@ -145,6 +154,13 @@ if ( $def == 1 ) {
 // Show the listing
 //--------------------------------------------------------------------------------
 if ( $def == 2) {
+ // Check privilege
+  if ( isset($_REQUEST['p_jrn']) && 
+       CheckJrn($gDossier,$_SESSION['g_user'],$_GET['p_jrn']) ==0 )    {
+       NoAccess();
+       exit -1;
+  }
+
   echo '<div class="content">';
   if ( isset($_REQUEST['p_jrn']))
     $Ledger->id=$_REQUEST['p_jrn'];

@@ -24,8 +24,11 @@
  * \brief file included to manage all the sold operation
  */
 require_once("class_acc_ledger_sold.php");
+require_once ('check_priv.php');
 require_once ('class_pre_op_ven.php');
 $p_action=(isset($_REQUEST['p_action']))?$_REQUEST['p_action']:'';
+require_once ('check_priv.php');
+$gDossier=dossier::id();
 
 $cn=DbConnect(dossier::id());
   //menu = show a list of ledger
@@ -69,6 +72,13 @@ $href=basename($_SERVER['PHP_SELF']);
 // empty form for encoding
 //----------------------------------------------------------------------
 if ( $def==1 || $def == 4 ) {
+ // Check privilege
+  if ( isset($_REQUEST['p_jrn']) && 
+	     CheckJrn($gDossier,$_SESSION['g_user'],$_POST['p_jrn']) != 2 )    
+    {
+       NoAccess();
+       exit -1;
+    }
 
   /* if a new invoice is encoded, we display a form for confirmation */
   if ( isset ($_POST['view_invoice'] ) ) {
@@ -107,6 +117,12 @@ if ( $def==1 || $def == 4 ) {
   //------------------------------
 
   if ( isset($_POST['record']) ){
+ // Check privilege
+  if ( CheckJrn($gDossier,$_SESSION['g_user'],$_REQUEST['p_jrn']) != 2 )    {
+       NoAccess();
+       exit -1;
+  }
+
     $Ledger=new Acc_Ledger_Sold($cn,$_POST['p_jrn']);
     try { 
       $Ledger->verify($_POST);
@@ -201,12 +217,19 @@ if ( $def==1 || $def == 4 ) {
 //--------------------------------------------------------------------------------
 if ( $def == 2 ) {
   echo '<div class="content">';
+ // Check privilege
+  if ( isset($_REQUEST['p_jrn']) && 
+       CheckJrn($gDossier,$_SESSION['g_user'],$_REQUEST['p_jrn']) ==0 )    {
+       NoAccess();
+       exit -1;
+  }
+
   $Ledger=new Acc_Ledger_Sold($cn,0);
-  if ( !isset($_GET['p_jrn'])) {
+  if ( !isset($_REQUEST['p_jrn'])) {
     $def_ledger=$Ledger->get_first('ven');
     $Ledger->id=$def_ledger['jrn_def_id'];
   } else 
-    $Ledger->id=$_GET['p_jrn'];
+    $Ledger->id=$_REQUEST['p_jrn'];
 
   //------------------------------
   // UPdate the payment
@@ -232,12 +255,19 @@ if ( $def == 2 ) {
 // Listing unpaid
 //---------------------------------------------------------------------------
 if ( $def==3 ) {
+ // Check privilege
+  if ( isset($_REQUEST['p_jrn']) && 
+       CheckJrn($gDossier,$_SESSION['g_user'],$_REQUEST['p_jrn']) ==0 )    {
+       NoAccess();
+       exit -1;
+  }
+
   $Ledger=new Acc_Ledger_Sold($cn,0);
-  if ( !isset($_GET['p_jrn'])) {
+  if ( !isset($_REQUEST['p_jrn'])) {
     $def_ledger=$Ledger->get_first('ven');
     $Ledger->id=$def_ledger['jrn_def_id'];
   } else 
-    $Ledger->id=$_GET['p_jrn'];
+    $Ledger->id=$_REQUEST['p_jrn'];
 
     // Ask to update payment
   if ( isset ( $_GET['paid']))      {

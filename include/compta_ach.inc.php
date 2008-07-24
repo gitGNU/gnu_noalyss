@@ -25,6 +25,9 @@
  */
 require_once("class_acc_ledger_purchase.php");
 require_once ('class_pre_op_ach.php');
+require_once ('check_priv.php');
+$gDossier=dossier::id();
+
 $p_action=(isset($_REQUEST['p_action']))?$_REQUEST['p_action']:'';
 
 $cn=DbConnect(dossier::id());
@@ -69,6 +72,12 @@ $href=basename($_SERVER['PHP_SELF']);
 // empty form for encoding
 //----------------------------------------------------------------------
 if ( $def==1 || $def == 4 ) {
+ // Check privilege
+  if ( isset($_REQUEST['p_jrn']) && 
+       CheckJrn($gDossier,$_SESSION['g_user'],$_GET['p_jrn']) != 2 )    {
+       NoAccess();
+       exit -1;
+  }
 
   /* if a new invoice is encoded, we display a form for confirmation */
   if ( isset ($_POST['view_invoice'] ) ) {
@@ -203,6 +212,13 @@ if ( $def==1 || $def == 4 ) {
 // Listing
 //--------------------------------------------------------------------------------
 if ( $def == 2 ) {
+ // Check privilege
+  if ( isset($_REQUEST['p_jrn']) && 
+       CheckJrn($gDossier,$_SESSION['g_user'],$_GET['p_jrn']) ==0 )    {
+       NoAccess();
+       exit -1;
+  }
+
   echo '<div class="content">';
   $Ledger=new Acc_Ledger_Purchase($cn,0);
   if ( !isset($_GET['p_jrn'])) {
@@ -235,6 +251,13 @@ if ( $def == 2 ) {
 // Listing unpaid
 //---------------------------------------------------------------------------
 if ( $def==3 ) {
+ // Check privilege
+  if ( isset($_REQUEST['p_jrn']) && 
+       CheckJrn($gDossier,$_SESSION['g_user'],$_GET['p_jrn']) ==0 )    {
+       NoAccess();
+       exit -1;
+  }
+
   $Ledger=new Acc_Ledger_Purchase($cn,0);
   if ( !isset($_GET['p_jrn'])) {
     $def_ledger=$Ledger->get_first('ach');
