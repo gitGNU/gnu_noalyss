@@ -89,7 +89,7 @@ function ShowFicheDefInput($p_fiche_def)
     $r.=' <INPUT TYPE="SUBMIT" Value="Enleve les &eacute;l&eacute;ments coch&eacute;s" NAME="remove_line">';
   }
   $r.= "</form>";
-  $r.=" <p> Attention : il n'y aura pas de demande de confirmation pour enlèver les 
+  $r.=" <p class=\"notice\"> Attention : il n'y aura pas de demande de confirmation pour enlèver les 
 attributs sélectionnés. Il ne sera pas possible de revenir en arrière</p>";
   return $r;
 }

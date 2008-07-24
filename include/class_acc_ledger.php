@@ -933,11 +933,11 @@ class Acc_Ledger {
 
     for ($i = 0 ;$i<$nb_row;$i++){
       // Quick Code
-      $quick_code=new widget('js_search');
+      $quick_code=new widget('js_search_only');
       $quick_code->name='qc_'.$i;
       $quick_code->value=(isset(${'qc_'.$i}))?${'qc_'.$i}:"";
       $quick_code->readonly=$p_readonly;
-      $quick_code->extra2=$this->id;
+      $quick_code->extra2='QuickCode?';
       $quick_code->extra='filter';
       $label='';
       if ( $quick_code->value != '' ) {

@@ -73,7 +73,7 @@ if ( ! isset ($_REQUEST['oper_detail'])) {
       foreach ( $Poste->row as $op ) { 
 	echo '"'.$pos['pcm_val'].'";'.
 	  '"'.$op['jr_internal'].'"'.";".
-	  '"'.$op['j_date'].'"'.";".
+	  '"'.$op['jr_date'].'"'.";".
 	  '"'.$op['description'].'"'.";".
 	  sprintf("%8.4f",$op['deb_montant']).";".
 	  sprintf("%8.4f",$op['cred_montant']);
@@ -123,7 +123,7 @@ if ( ! isset ($_REQUEST['oper_detail'])) {
 		 $r['j_poste'],
 		 $r['j_qcode'],
 		 $r['jr_internal'],
-		 $r['j_date'],
+		 $r['jr_date'],
 		 $a['description'],
 		 $r['j_montant'],
 		 $r['debit']);

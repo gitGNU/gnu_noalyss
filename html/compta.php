@@ -35,7 +35,10 @@ $use_html=1;
 if ( $action == 'ven' && ! isset ($_REQUEST['sa']) )
   $use_html=1;
 
-
+if ( ! isset ($_SESSION['g_theme'])) {
+	echo '<h2 class="error"> Vous êtes déconnecté</h2>';
+	exit();
+}
 if ( $action == 'ven' && isset ($_REQUEST['sa']) && in_array($_REQUEST['sa'],array('n','p')  ))
   $use_html=1;
 if ( $use_html == 1) 

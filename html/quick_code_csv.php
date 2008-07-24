@@ -61,7 +61,7 @@ printf("\n");
   foreach ( $Fiche->row as $op ) { 
     echo '"'.$op['j_qcode'].'";'.
       '"'.$op['jr_internal'].'"'.";".
-      '"'.$op['j_date'].'"'.";".
+      '"'.$op['jr_date'].'"'.";".
       '"'.$op['description'].'"'.";".
       sprintf("%8.4f",$op['deb_montant']).";".
       sprintf("%8.4f",$op['cred_montant']);
@@ -69,7 +69,7 @@ printf("\n");
     
   }
 }else {
-    echo '"Poste";"Qcode";"internal"';
+    echo '"Poste";"Qcode";"internal";';
     echo '"Date";'.
       "\"Description\";".
       "\"Montant\";".
@@ -86,8 +86,8 @@ printf("\n");
 		 $r['j_poste'],
 		 $r['j_qcode'],
 		 $r['jr_internal'],
-		 $r['j_date'],
-		 $a['description'],
+		 $r['jr_date'],
+		 $r['description'],
 		 $r['j_montant'],
 		 $r['debit']);
 	  printf("\r\n");

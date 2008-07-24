@@ -132,10 +132,13 @@ if ( isset($_GET['show_form']) || isset($_POST['correct_it']) ) {
 //
 if ( isset ($_GET['use_opd'])) {
   $op=new Pre_op_advanced($cn);
-  $op->set_od_id($_REQUEST['pre_def']);
-  //$op->p_jrn=$id;
-  
-  $p_post=$op->compute_array();
+  $p_post=null;
+  if ( isset($_REQUEST['pre_def']) && $_REQUEST['pre_def'] != ''){
+    $op->set_od_id($_REQUEST['pre_def']);
+    //$op->p_jrn=$id;
+    
+    $p_post=$op->compute_array();
+  }
   show_direct_form($cn,$ledger,$p_post);
 
   exit();

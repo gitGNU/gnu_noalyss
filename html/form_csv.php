@@ -39,7 +39,7 @@ $User=new User($cn);
 $User->Check();
 
 
-$Form=new rapport($cn,$_GET['form_id']);
+$Form=new Acc_Report($cn,$_GET['form_id']);
 $Form->get_name();
 // Step ?
 //--
