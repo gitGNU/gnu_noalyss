@@ -61,7 +61,7 @@ echo $w->IOValue('p_nom',$p_nom);
 ?>
 <span class="notice">Donnez une partie du nom du dossier &agrave; rechercher</span>
 </form>
-<?
+<?php
 $filtre="";
 if ( isset ($_GET ['p_nom'])) {
      $filtre=FormatString($_GET['p_nom']);
