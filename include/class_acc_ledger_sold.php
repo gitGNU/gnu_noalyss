@@ -324,7 +324,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $w->name='qcode';
     $w->value=$qcode;
     $w->label='';
-    $w->extra=$all;
+    $w->extra='filter';
     $w->extra2='QuickCode';
     $w->table=0;
     $sp= new widget("span");

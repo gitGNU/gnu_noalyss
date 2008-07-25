@@ -26,6 +26,8 @@
 require_once("class_acc_ledger_sold.php");
 require_once ('check_priv.php');
 require_once ('class_pre_op_ven.php');
+require_once ('class_document.php');
+require_once ('class_acc_ledger_info.php');
 $p_action=(isset($_REQUEST['p_action']))?$_REQUEST['p_action']:'';
 require_once ('check_priv.php');
 $gDossier=dossier::id();
@@ -134,8 +136,6 @@ if ( $def==1 || $def == 4 ) {
       echo '<div class="content">';
       $Ledger=new Acc_Ledger_Sold($cn,$_POST['p_jrn']);
       $internal=$Ledger->insert($_POST);
-      
-      
       /* Save the predefined operation */
       if ( isset($_POST['opd_save'])) {
 	$opd=new Pre_op_ven($cn);
@@ -145,6 +145,33 @@ if ( $def==1 || $def == 4 ) {
       
       /* Show button  */
       echo "<h2 class=\"info\">Opération sauvée $internal </h2>";
+      /* Here you need to generate the invoice */
+      if ( isset($_REQUEST['gen_doc']) ) {
+	$doc=new Document($cn);
+	$doc->f_id=$_REQUEST['e_client'];
+	$doc->md_id=$_REQUEST['gen_doc'];
+	$doc->ag_id=0;
+	$str_file=$doc->Generate();
+	$doc->MoveDocumentPj($internal);
+	$sql="update jrn set jr_comment=jr_comment ||'Facture ".$doc->d_number."' where jr_internal='$internal'";
+	ExecSql($cn,$sql);
+	/* Save the additional information into jrn_info */
+	$obj=new Acc_Ledger_Info($cn);
+	$jr_id=$obj->search_id_internal($internal);
+	if (strlen(trim($_POST['bon_comm'] )) != 0 ) {
+	  $obj->set_type('BON_COMMANDE');
+	  $obj->set_value($_POST['bon_comm']);
+	  $obj->insert();
+	}
+	if (strlen(trim($_POST['other_info'] )) != 0 ) {
+	  $obj->set_type('OTHER');
+	  $obj->set_value($_POST['other_info']);
+	  $obj->insert();
+	  }
+	echo $str_file;
+	
+      }
+
       echo widget::button_href('Nouvelle vente',$href.'?p_action=ven&sa=n&'.dossier::get());
       echo '</div>';
       exit();
