@@ -229,7 +229,7 @@ if  ( ($jrn_type=='ACH' || $jrn_type=='VEN' ) && $_REQUEST['p_simple']== 1 )
     // page Header 
     $t=sprintf("Rappel TVAC = %.2f HTVA= %.2f",$total_TVAC,$total_HTVA);
     foreach($rap_tva as $idx=>$am) {
-      $t.=sprintf('[ %s = % .2f]',$idx,$am);
+      $t.=utf8_decode(sprintf('[ %s = % .2f]',$idx,$am));
     }
     $pdf->ezText($t,9,array('justification'=>'left'));
 
