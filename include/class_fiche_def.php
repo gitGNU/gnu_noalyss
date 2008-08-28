@@ -218,8 +218,8 @@ class fiche_def {
     
        // Add the class_base if needed
        
-       $sql=sprintf("insert into jnt_fic_attr(fd_id,ad_id) 
-                     values (%d,%d)",$fd_id,ATTR_DEF_ACCOUNT);
+       $sql=sprintf("insert into jnt_fic_attr(fd_id,ad_id,jnt_order) 
+                     values (%d,%d,10)",$fd_id,ATTR_DEF_ACCOUNT);
        $Res=ExecSql($this->cn,$sql);
 
      } else {
@@ -242,9 +242,12 @@ class fiche_def {
      if (sizeof($def_attr) != 0 ) {
        // insert all the mandatory fields into jnt_fiche_attr
        foreach ( $def_attr as $i=>$v) {
+	 $jnt_order=10;
+	 if ( $v['ad_id'] == ATTR_DEF_NAME ) 
+	   $jnt_order=0;
 	 $sql=sprintf("insert into jnt_fic_Attr(fd_id,ad_id,jnt_order)
-                   values (%d,%s,1)",
-		      $fd_id,$v['ad_id']);
+                   values (%d,%s,%d)",
+		      $fd_id,$v['ad_id'],$jnt_order);
 	 ExecSql($this->cn,$sql);
        }
      }
@@ -509,12 +512,48 @@ class fiche_def {
        $this->GetAttribut();
        foreach ($this->attribut as $row){
 	 if ( $row->ad_id == 1 ) continue;
+	 if ( ${'jnt_order'.$row->ad_id} <= 0 ) continue;
 	 $sql='update jnt_fic_attr set jnt_order=$1 where fd_id=$2 and ad_id=$3';
 	 ExecSqlParam($this->cn,$sql,array(${'jnt_order'.$row->ad_id},
 					   $this->id,
 					   $row->ad_id));
        }
      }
+
+
+  /*!\brief remove all the card from a categorie after having verify
+   *that the card is not used and then remove also the category
+   *\return the remains items, not equal to 0 if a card remains and
+   *then the category is not removed
+   */
+     function remove() {
+       $remain=0;
+       /* get all the card */
+       $aFiche=fiche::get_fiche_def($this->cn,$this->id);
+       if ( $aFiche != null ) {
+	 /* check if the card is used */
+	 foreach ($aFiche as $fiche) {      
+
+	   /* if the card is not used then remove it otherwise increment remains */
+	   if ( $fiche->is_used() == false ) {
+	     $fiche->delete();
+	   } else 
+	   $remain++;
+	 }
+       }
+	 /* if remains == 0 then remove cat */
+	 if ( $remain == 0 ) {
+	   $sql='delete from jnt_fic_attr where fd_id=$1';
+	   ExecSqlParam($this->cn,$sql,array($this->id));
+	   $sql='delete from fiche_def where fd_id=$1';
+	   ExecSqlParam($this->cn,$sql,array($this->id));
+       }
+
+       return $remain;
+
+     }
+
+
 
 }
 ?>

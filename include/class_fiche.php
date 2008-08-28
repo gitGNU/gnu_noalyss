@@ -787,16 +787,7 @@ class fiche {
 	     }
 	 
        }
-       // Remove from attr_value
-       $Res=ExecSql($this->cn,"delete from attr_value 
-                        where jft_id in (select jft_id 
-                                          from jnt_fic_att_value 
-                                                natural join fiche where f_id=".$this->id.")");
-       // Remove from jnt_fic_att_value
-       $Res=ExecSql($this->cn,"delete from jnt_fic_att_value where f_id=".$this->id);
-       
-       // Remove from fiche
-       $Res=ExecSql($this->cn,"delete from fiche where f_id=".$this->id);
+       $this->delete();
      }
 
 
@@ -1214,6 +1205,44 @@ function belong_ledger($p_jrn,$p_type="")
   else
     return 1;
 }
-
+/*!\brief  get all the card from a categorie
+ *\param $p_cn database connx
+ *\param $pFd_id is the category id
+ *\return an array of card, but only the fiche->id is set
+ */
+static function get_fiche_def($p_cn,$pFd_id) {
+  $sql='select f_id from fiche where fd_id=$1';
+  $array=get_array($p_cn,$sql,array($pFd_id));
+  if ( empty ($array) ) return null;
+  foreach ($array as $ret ) {
+    $r[]=new fiche($p_cn,$ret['f_id']);
+  }
+  return $r;
+}
+/*!\brief check if a card is used
+ *\return return true is a card is used otherwise false
+ */
+function is_used() {
+  /* retrieve first the quickcode */
+  $qcode=$this->strAttribut(ATTR_DEF_QUICKCODE);
+  $sql='select count(*) as c from jrnx where j_qcode=$1';
+  $count=getDbValue($this->cn,$sql,array($qcode));
+  if ( $count == 0 ) return false; 
+  return true;
+}
+/*\brief remove a card without verification */
+ function delete() {
+  // Remove from attr_value
+  $Res=ExecSql($this->cn,"delete from attr_value 
+                        where jft_id in (select jft_id 
+                                          from jnt_fic_att_value 
+                                                natural join fiche where f_id=".$this->id.")");
+  // Remove from jnt_fic_att_value
+  $Res=ExecSql($this->cn,"delete from jnt_fic_att_value where f_id=".$this->id);
+  
+  // Remove from fiche
+  $Res=ExecSql($this->cn,"delete from fiche where f_id=".$this->id);
+  
+}
 }
 ?>

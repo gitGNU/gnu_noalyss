@@ -527,5 +527,13 @@ function tva_get_label($p_cn,$p_tva_id)
   $a=getDbValue($p_cn,"select tva_label from tva_rate where tva_id='".$p_tva_id."'");
   return $a;
 }
-
+/*!\brief alert in javascript 
+ *\param $p_msg is the message
+ */
+function alert($p_msg)
+{
+  echo '<script language="javascript">';
+  echo 'alert(\''.FormatString($p_msg).'\')';
+  echo '</script>';
+}
 ?>

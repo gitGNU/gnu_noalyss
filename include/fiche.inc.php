@@ -32,7 +32,6 @@ $str_dossier=dossier::get();
 echo JS_SEARCH_POSTE;
 echo JS_AJAX_FICHE;
 
-
 if ( !isset($sessid)) 
 {
   $sessid=$_REQUEST["PHPSESSID"];
@@ -84,6 +83,7 @@ function ShowFicheDefInput($p_fiche_def)
   $r.= $p_fiche_def->DisplayAttribut("remove");
   $r.= ' <INPUT TYPE="SUBMIT" Value="Ajoute cet &eacute;l&eacute;ment" NAME="add_line">';
   $r.= ' <INPUT TYPE="SUBMIT" Value="Sauver" NAME="save_line">';
+  $r.=widget::submit('remove_cat','Effacer cette catégorie','onclick="return confirm(\'Vous confirmez ?\')"');
   // if there is nothing to remove then hide the button
   if ( strpos ($r,"chk_remove") != 0 ) {
     $r.=' <INPUT TYPE="SUBMIT" Value="Enleve les &eacute;l&eacute;ments coch&eacute;s" NAME="remove_line">';
@@ -91,6 +91,7 @@ function ShowFicheDefInput($p_fiche_def)
   $r.= "</form>";
   $r.=" <p class=\"notice\"> Attention : il n'y aura pas de demande de confirmation pour enlèver les 
 attributs sélectionnés. Il ne sera pas possible de revenir en arrière</p>";
+
   return $r;
 }
 
@@ -103,6 +104,15 @@ if ( isset($_POST['add_modele'])  and $write != 0) {
   $fiche_def->Add($_POST);
 }
 $r="";
+
+if ( isset ($_POST['remove_cat'] )) {
+  $fd_id=new fiche_def($cn,$_POST['fd_id']);
+  $remains=$fd_id->remove();
+  if ( $remains != 0 ) 
+    /* some card are not removed because it is used */
+    alert('Impossible d\'enlever cette catégorie, certaines fiches sont encore utilisées\n'.
+	  'Les fiches non utilisées ont cependant été effacées');
+}
 // Add a line in the card model
 if ( isset ($_POST["add_line"])  ) {
   $r= '<DIV class="u_redcontent">';
