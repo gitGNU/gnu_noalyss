@@ -52,8 +52,8 @@ function config_file_form($p_array=null)
   $r='';
   $r.='<div style="position:float;float:left;text-align:right;line-height:1.8em;padding:0 0.9em 0 0">';
 
-  $r.='Répertoire temporaire : ';
-  $text->title='Indiquez ici le répertoire où les documents temporaires peuvent être sauvé exemple c:\\\\temp, /tmp';
+  $r.='R&eacute;pertoire temporaire : ';
+  $text->title='Indiquez ici le r&eacute;pertoire o&ugrave; les documents temporaires peuvent &ecirc;tre sauv&eacute; exemple c:\\\\temp, /tmp';
   $r.=$text->IOValue('ctmp',$ctmp);
   $r.='<A href="#" title="'.$text->title.'" onclick="alert(\''.$text->title.'\')">(?)</a>';
   $r.='<br>';
@@ -63,8 +63,8 @@ function config_file_form($p_array=null)
   $r.=$text->IOValue('cpath',$cpath);
   $r.='<A href="#" title="'.$text->title.'" onclick="alert(\''.$text->title.'\')">(?)</a>';
   $r.='<br>';
-  $text->title="Utilisateur de la base de donnée postgresql";
-  $r.='Utilisateur de la base de donnée : ';
+  $text->title="Utilisateur de la base de donn&eacute;e postgresql";
+  $r.='Utilisateur de la base de donn&eacute;e : ';
   $r.=$text->IOValue('cuser',$cuser);
   $r.='<A href="#" title="'.$text->title.'" onclick="alert(\''.$text->title.'\')">(?)</a>';
   $r.='<br>';

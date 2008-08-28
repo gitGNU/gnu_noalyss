@@ -1,12 +1,8 @@
-
 php_value include_path .:../../include:../include:addon
 php_flag  magic_quotes_gpc off
 php_flag session.auto_start on
-php_value session.save_path /tmp
 php_value max_execution_time 240
 php_value memory_limit 12M
-# for php 5 php_value upload_tmp_dir /tmp
 AddDefaultCharset utf-8
-php_value session.use_trans_sid 1
 php_value error_reporting 10239
 php_value upload_max_filesize 10M

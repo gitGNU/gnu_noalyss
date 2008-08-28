@@ -66,14 +66,15 @@ if ( strpos($inc_path,";") != 0 ) {
   $new_path=$inc_path.':../../include:addon';
   $os=1;			/* $os is 0 for windos */
  }
+set_include_path($new_path);
+
 require_once('config_file.php');
 /* The config file is created here */
 if (isset($_POST['save_config'])) {
   $url=config_file_create($_POST);
-//  echo '<a href="'.$url.'"> Télécharger le fichier et recopiez-le dans le répertoire include( phpcompta/include)</a>';
  }
 
-set_include_path($new_path);
+
 /* if the config file is not found we propose to create one */
 if ( is_writable ('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'constant.php') == false ) {
 echo '<h2 class="error"> On ne peut pas écrire dans le répertoire de phpcompta, changez-en les droits </h2>';
@@ -81,7 +82,7 @@ exit();
 }
 if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'config.inc.php')) {
   echo '<form method="post">';
-echo '<h1 class="info">Entrez les informations nécessaires à phpcompta</h1>';
+echo '<h1 class="info">Entrez les informations n&eacute;cessaires &agrave; phpcompta</h1>';
   echo config_file_form();
   echo widget::submit('save_config','Sauver la configuration');
   echo '</form>';
@@ -91,7 +92,37 @@ include_once('constant.php');
 include_once('postgres.php');
 include_once('debug.php');
 include_once('ac_common.php');
+/* If htaccess file doesn't exists we create them here
+ * if os == 1 then windows, 0 means Unix 
+ */
+$file='..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'.htaccess';
+if ( ! file_exists ( $file) ) {
+  $hFile=@fopen($file,'a+');
+  if ( ! $hFile )     exit('Impossible d\'&eacute;crire dans le r&eacute;pertoire include');
+  fwrite($hFile,'order deny,allow'."\n");
+  fwrite($hFile,'deny from all'."\n");
+  fclose($hFile);
+}
 
+$file='..'.DIRECTORY_SEPARATOR.'.htaccess';
+if ( ! file_exists ( $file) ) {
+  $hFile=@fopen($file,'a+');
+  if ( ! $hFile )     exit('Impossible d\'&eacute;crire dans le r&eacute;pertoire html');
+  $array=array("php_flag  magic_quotes_gpc off",
+	       "php_flag session.auto_start on",
+	       "php_value max_execution_time 240",
+	       "php_value memory_limit 12M",
+	       "AddDefaultCharset utf-8",
+	       "php_value error_reporting 10239",
+	       "php_value upload_max_filesize 10M");
+
+  if ( $os == 0 )
+    fwrite($hFile,'php_value include_path .;..\..\include;..\include;addon'."\n");
+  else
+    fwrite($hFile,'php_value include_path .:../../include:../include:addon'."\n");
+  foreach ($array as $value ) fwrite($hFile,$value."\n");
+  fclose($hFile);
+}
 //----------------------------------------------------------------------
 // End functions
 //
