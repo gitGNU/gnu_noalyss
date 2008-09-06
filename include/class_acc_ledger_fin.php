@@ -150,7 +150,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 
     $r.=dossier::hidden();
     $r.=widget::hidden('phpsessid',$_REQUEST['PHPSESSID']);
-    $r.=widget::hidden('p_jrn',$this->id);
+    //$r.=widget::hidden('p_jrn',$this->id);
     $r.='<fieldset><legend>Banque, caisse </legend>';
     $r.='<TABLE  width="100%">';
     //  Date
