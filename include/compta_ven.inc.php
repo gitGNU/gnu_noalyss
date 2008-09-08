@@ -76,7 +76,7 @@ $href=basename($_SERVER['PHP_SELF']);
 if ( $def==1 || $def == 4 ) {
  // Check privilege
   if ( isset($_REQUEST['p_jrn']) && 
-	     CheckJrn($gDossier,$_SESSION['g_user'],$_POST['p_jrn']) != 2 )    
+	     CheckJrn($gDossier,$_SESSION['g_user'],$_REQUEST ['p_jrn']) != 2 )    
     {
        NoAccess();
        exit -1;
@@ -146,7 +146,7 @@ if ( $def==1 || $def == 4 ) {
       /* Show button  */
       echo "<h2 class=\"info\">Opération sauvée $internal </h2>";
       /* Here you need to generate the invoice */
-      if ( isset($_REQUEST['gen_doc']) ) {
+      if ( isset($_REQUEST['gen_invoice']) ) {
 	$doc=new Document($cn);
 	$doc->f_id=$_REQUEST['e_client'];
 	$doc->md_id=$_REQUEST['gen_doc'];

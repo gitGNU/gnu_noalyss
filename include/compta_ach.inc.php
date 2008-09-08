@@ -74,7 +74,7 @@ $href=basename($_SERVER['PHP_SELF']);
 if ( $def==1 || $def == 4 ) {
  // Check privilege
   if ( isset($_REQUEST['p_jrn']) && 
-       CheckJrn($gDossier,$_SESSION['g_user'],$_GET['p_jrn']) != 2 )    {
+       CheckJrn($gDossier,$_SESSION['g_user'],$_REQUEST ['p_jrn']) != 2 )    {
        NoAccess();
        exit -1;
   }
