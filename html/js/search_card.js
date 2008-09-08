@@ -44,6 +44,7 @@ function SearchCard(p_sessid,type,name)
     jrn=document.getElementById("p_jrn").value;
   }
    var a=window.open('fiche_search.php?first&search&fic_search='+search+'&p_jrn='+jrn+'&PHPSESSID='+p_sessid+'&type='+type+'&name='+name+'&gDossier='+gDossier,'item','toolbar=no,width=350,height=450,scrollbars=yes,statusbar=no');
+   a.focus();
    return false;
 }
 function NewCard(p_sessid,type,name)

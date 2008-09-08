@@ -63,7 +63,7 @@ $Ledger=new Acc_Ledger_Fin($cn,0);
 if ( $def == 1 ) {
  // Check privilege
   if ( isset($_REQUEST['p_jrn']) && 
-       CheckJrn($gDossier,$_SESSION['g_user'],$_GET['p_jrn']) != 2 )    {
+       CheckJrn($gDossier,$_SESSION['g_user'],$_REQUEST ['p_jrn']) != 2 )    {
        NoAccess();
        exit -1;
   }

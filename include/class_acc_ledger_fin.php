@@ -690,7 +690,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	  $User->get_exercice().")";
       }
     /* security  */
-    $available_ledger=" and ".$User->get_ledger_sql();
+    $available_ledger=" and jr_def_id= ".$this->id." and ".$User->get_ledger_sql();
     
     // Show list of sell
     // Date - date of payment - Customer - amount
