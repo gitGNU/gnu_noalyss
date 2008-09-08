@@ -42,7 +42,9 @@ if ( ! isset($_GET['gDossier']) ||
   
 
 $gDossier=dossier::id();
-
+if ( ! is_dir('tmp') ) {
+  mkdir ('tmp');
+}
 
 $cn=DbConnect($gDossier);
 if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
@@ -53,6 +55,7 @@ if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
   $file= fopen($name,"a+");
   $rap->export($file);
   fclose ($file);
+  $name=dirname($_SERVER['REQUEST_URI']).DIRECTORY_SEPARATOR.$name;
 
   $a='{"answer":"ok","link":"'.$name.'"}';
 
