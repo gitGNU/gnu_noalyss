@@ -251,7 +251,7 @@ class action
     // 	    $this->GetAgRef("ag_ref_ag_id")."</A>";
 
 	  $lag_ref_ag_id='<a class="mtitle" href="commercial.php?p_action=suivi_courrier&sa=detail&ag_id='.
-	    $this->ag_ref_ag_id.'">'.
+	    $this->ag_ref_ag_id.'&'.dossier::get().'">'.
 	    getDbValue($this->db,"select ag_ref from action_gestion where ag_id=".$this->ag_ref_ag_id).
 	    "</A>";
 	} 
