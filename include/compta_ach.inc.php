@@ -272,7 +272,8 @@ if ( $def==3 ) {
   echo '<div class="content">';
 
   echo '<FORM METHOD="GET" action="'.$href.'">';
-  $wLedger=$Ledger->select_ledger('ACH',2);
+  $wLedger=$Ledger->select_ledger('ACH',3);
+  if ($wLedger == null) exit ('Pas de journal disponible');
   $wLedger->javascript="onChange=submit()";
   echo "Journal ".$wLedger->IOValue();
   echo widget::submit ('search','Recherche');

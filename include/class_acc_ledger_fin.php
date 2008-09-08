@@ -173,7 +173,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     // Ledger (p_jrn)
     //--
     $wLedger=$this->select_ledger('FIN',2);
-
+    if ($wLedger == null) exit ('Pas de journal disponible');
     $wLedger->table=1;
     $wLedger->label=" Journal ".widget::infobulle(2) ;
     $r.='<tr>';
@@ -657,7 +657,8 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     echo JS_AJAX_FICHE;
     echo '<form>';
     echo 'Période  '.$w->IOValue("p_periode",$periode_start);
-    $wLedger=$this->select_ledger('fin',2);
+    $wLedger=$this->select_ledger('fin',3);
+    if ($wLedger == null) exit ('Pas de journal disponible');
     echo 'Journal '.$wLedger->IOValue();
     $w=new widget('js_search_only');
     $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";

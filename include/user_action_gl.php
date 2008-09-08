@@ -52,8 +52,10 @@ if ( $current == -1) {
  } else {
   $cond=" and jr_tech_per=".$current;
  }
-
-$sql=SQL_LIST_ALL_INVOICE.$cond;
+/* security filter on the ledger */
+$sql_ledger='';
+if ( $User->Admin() == 0 ) { $sql_ledger=' and  '.$User->get_ledger_sql();}
+$sql=SQL_LIST_ALL_INVOICE.$cond.$sql_ledger;
 // Nav. bar 
 $step=$_SESSION['g_pagesize'];
 $page=(isset($_GET['offset']))?$_GET['page']:1;

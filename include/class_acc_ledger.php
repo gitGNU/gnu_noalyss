@@ -715,7 +715,8 @@ class Acc_Ledger {
   function select_ledger($p_type="ALL",$p_access=3) {
     $user=new User($this->db);
     $array=$user->get_ledger($p_type,$p_access);
-    if ( $array == null ) return "";
+
+    if ( $array == null ) return null;
     $idx=0;
     $ret=array();
 

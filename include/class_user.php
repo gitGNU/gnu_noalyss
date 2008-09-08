@@ -152,10 +152,10 @@ class User {
       $sql_type=($p_type=='ALL')?'':"and jrn_def_type=upper('".FormatString($p_type)."')";
       switch($p_access) {
       case 3:
-	$sql_access=" and uj_priv='W'";
+	$sql_access=" and uj_priv!= 'X'";
 	break;
       case 2:
-	$sql_access=" and uj_priv != 'X'";
+	$sql_access=" and uj_priv = 'W'";
 	break;
 
       case 1:
@@ -170,9 +170,8 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
                              join user_sec_jrn on uj_jrn_id=jrn_def_id 
                              where
                              uj_login='".$this->id."'".
-	                     $sql_type."
-                             and uj_priv ='X'
-                             order by jrn_Def_id";
+	                     $sql_type.$sql_access.
+                             " order by jrn_Def_id";
     }else {
       $sql_type=($p_type=='ALL')?'':"where jrn_def_type=upper('".FormatString($p_type)."')";
       $sql="select jrn_def_id,jrn_def_type,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_deb_max_line,jrn_cred_max_line,
@@ -181,6 +180,7 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
                             $sql_type
                              order by jrn_Def_id";
     }
+
     $res=ExecSql($this->db,$sql);
     if ( pg_NumRows($res) == 0 ) return null;
     $array=pg_fetch_all($res);

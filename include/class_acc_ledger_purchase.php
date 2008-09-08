@@ -417,7 +417,8 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $w->selected=$current;
     
     echo 'Période  '.$w->IOValue("p_periode",$periode_start);
-    $wLedger=$this->select_ledger('ACH',2);
+    $wLedger=$this->select_ledger('ACH',3);
+    if ($wLedger == null) exit ('Pas de journal disponible');
     echo 'Journal '.$wLedger->IOValue();
     $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
     $this->type='ACH';
@@ -546,7 +547,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     // Ledger (p_jrn)
     //--
     $wLedger=$this->select_ledger('ACH',2);
-
+    if ($wLedger == null) exit ('Pas de journal disponible');
     $wLedger->table=1;
     $wLedger->javascript="onChange='update_predef(\"ach\",\"f\")'";
     $wLedger->label=" Journal ".widget::infobulle(2) ;

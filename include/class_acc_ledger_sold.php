@@ -311,7 +311,10 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $w->selected=$current;
     
     echo 'Période  '.$w->IOValue("p_periode",$periode_start);
-    $wLedger=$this->select_ledger('VEN',2);
+    $wLedger=$this->select_ledger('VEN',3);
+
+    if ( $wLedger == null ) 
+      exit('Pas de journal disponible');
     echo 'Journal '.$wLedger->IOValue();
     echo JS_SEARCH_CARD;
     echo JS_PROTOTYPE;
@@ -445,6 +448,8 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     //--
     $wLedger=$this->select_ledger('VEN',2);
 
+    if ( $wLedger == null ) 
+      exit('Pas de journal disponible');
     $wLedger->table=1;
     $wLedger->javascript="onChange='update_predef(\"ven\",\"f\")'";
     $wLedger->label=" Journal ".widget::infobulle(2) ;
