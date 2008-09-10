@@ -926,7 +926,7 @@ class Acc_Ledger {
     $info_poste=widget::infobulle(9);
     $ret.='<table id="quick_item" style="width:100%">';
     $ret.='<tr>'.
-      '<th colspan="4">Quickcode'.$info.'</th>'.
+      '<th colspan="2">Quickcode'.$info.'</th>'.
       '<th colspan="2">Poste'.$info_poste.'</th>'.
       '<th> Montant</th>'.
       '<th>D&eacute;bit</th>'.
