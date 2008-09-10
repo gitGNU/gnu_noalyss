@@ -1072,7 +1072,7 @@ class Acc_Ledger {
 	}
 
 	// Check if the account is permitted
-	if ( isset (${'poste'.$i})) {
+	if ( isset (${'poste'.$i}) && strlen (trim(${'poste'.$i})) != 0 ) {
 	  $p=new Acc_Account_Ledger($this->db,${'poste'.$i});
 	  if ( $p->belong_ledger ($p_jrn) < 0 )
 	    throw new AcException("Le poste ".$p->id." n\'est pas dans ce journal",5);

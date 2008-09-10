@@ -79,9 +79,9 @@ if ( isset($_GET['filter']) && $_GET['filter'] != 'all') {
       if ( strlen (trim($item_cred))) {
 	if ( strstr($item_cred,"*") == true ) {
 	  $item_cred=strtr($item_cred,"*","%");
-	  $Sql=" pcm_val like '$item_cred' or";
+	  $Sql=" pcm_val::text like '$item_cred' or";
 	} else {
-	  $Sql=" pcm_val = '$item_cred' or";
+	  $Sql=" pcm_val::text = '$item_cred' or";
 	}
 	$SqlCred=$SqlCred.$Sql;
       }
@@ -97,7 +97,7 @@ if ( isset($_GET['filter']) && $_GET['filter'] != 'all') {
 	echo_debug('poste_search.php',__LINE__,"l_line[jrn_def_class_deb] $l_line[jrn_def_class_deb] item_deb $item_deb");
 	if ( strstr($item_deb,"*") == true ) {
 	  $item_cred=strtr($item_deb,"*","%");
-	  $Sql=" pcm_val like '$item_deb' or";
+	  $Sql=" pcm_val::text like '$item_deb' or";
 	} else {
 	  $Sql=" pcm_val = '$item_deb' or";
 	}

@@ -49,7 +49,6 @@ class dossier {
   /*!\brief return the $_REQUEST['gDossier'] after a check */
   static function id() {
 	echo_debug(__FILE__,__LINE__,"id");
-	echo_debug(__FILE__,__LINE__,$_REQUEST);
 	self::check();
 	return $_REQUEST['gDossier'];
   }
@@ -64,7 +63,6 @@ class dossier {
   /*!\brief return a string to put to gDossier into a GET */
   static function get() {
 	echo_debug(__FILE__,__LINE__,"get");
-	echo_debug(__FILE__,__LINE__,$_REQUEST);
 	self::check();
     return "gDossier=".$_REQUEST['gDossier'];
 
@@ -73,14 +71,12 @@ class dossier {
   /*!\brief return a string to set gDossier into a FORM */
   static function hidden() {
 	echo_debug(__FILE__,__LINE__,"hidden");
-	echo_debug(__FILE__,__LINE__,$_REQUEST);
 	self::check();
 	return '<input type="hidden" id="gDossier" name="gDossier" value="'.$_REQUEST['gDossier'].'">';
   }
   /*!\brief retrieve the name of the current dossier */
   static function name($id=0) {
 	echo_debug(__FILE__,__LINE__,"get_name");
-	echo_debug(__FILE__,__LINE__,$_REQUEST);
 	self::check();
 
 	$cn=DbConnect();

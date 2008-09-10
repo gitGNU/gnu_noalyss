@@ -140,6 +140,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     try {
       $tot_amount=0;
       $tot_tva=0;
+      $tot_debit=0;
       StartSql($this->db);
       /* Save all the items without vat */
       for ($i=0;$i< $nb_item;$i++) {
@@ -161,6 +162,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 	$acc_operation->type='c';
 	$acc_operation->periode=$periode;
 	$acc_operation->qcode=${"e_march".$i};
+	if ( $amount < 0 ) $tot_debit=bcadd($tot_debit,abs($amount));
 
 	$j_id=$acc_operation->insert_jrnx();
 
@@ -175,11 +177,13 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 	$op_tva->compute_vat();
 	$tva_item=$op_tva->get_parameter('amount_vat');
 
+
 	if (isset($tva[$idx_tva] ) )
 	  $tva[$idx_tva]+=$tva_item;
 	else
 	  $tva[$idx_tva]=$tva_item;
 	$tot_tva=round(bcadd($tva_item,$tot_tva),2);
+
 
 	/* Save the stock */
 	/* if the quantity is < 0 then the stock increase (return of
@@ -225,8 +229,10 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $acc_operation->type='d';
     $acc_operation->periode=$periode;
     $acc_operation->qcode=${"e_client"};
+    if ( $cust_amount > 0 ) $tot_debit=bcadd($tot_debit,$cust_amount);
     $acc_operation->insert_jrnx();
-      
+
+	
     /* save all vat 
      * $i contains the tva_id and value contains the vat amount
      */
@@ -246,14 +252,17 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       $acc_operation->jrn=$p_jrn;
       $acc_operation->type='c';
       $acc_operation->periode=$periode;
+      if ($value < 0 ) $tot_debit=bcadd($tot_debit,abs($value));
       $acc_operation->insert_jrnx();
+
       
     }
+
     /* insert into jrn */
     $acc_operation=new Acc_Operation($this->db);
     $acc_operation->date=$e_date;
     $acc_operation->echeance=$e_ech;
-    $acc_operation->amount=round($tot_amount+$tot_tva,2);
+    $acc_operation->amount=abs(round($tot_debit,2));
     $acc_operation->desc=$e_comm;
     $acc_operation->grpt=$seq;
     $acc_operation->jrn=$p_jrn;

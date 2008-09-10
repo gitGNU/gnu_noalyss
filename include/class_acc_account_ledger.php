@@ -338,7 +338,7 @@ function get_solde_detail($p_cond="") {
 	  $SqlItem="$or pcm_val::text like '$item_cred'";
 	  $or="  or ";
 	} else {
-	  $SqlItem="$or pcm_val = '$item_cred' ";
+	  $SqlItem="$or pcm_val::text = '$item_cred' ";
 	  $or="  or ";
 	}
 	$SqlFilter=$SqlFilter.$SqlItem;

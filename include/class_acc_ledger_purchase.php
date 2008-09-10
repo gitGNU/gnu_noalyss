@@ -140,6 +140,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     try {
       $tot_amount=0;
       $tot_tva=0;
+      $tot_debit=0;
       StartSql($this->db);
       $tot_nd=0;
       $tot_perso=0;
@@ -222,7 +223,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 	$acc_operation->poste=$fiche->strAttribut(ATTR_DEF_ACCOUNT);
 	$acc_operation->amount=$acc_amount->amount;
 	$acc_operation->qcode=${"e_march".$i};
-
+	if( $acc_amount->amount > 0 ) $tot_debit=bcadd($tot_debit,$acc_amount->amount);
 
 	$j_id=$acc_operation->insert_jrnx();
 
@@ -290,6 +291,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $acc_operation->type='c';
     $acc_operation->periode=$periode;
     $acc_operation->qcode=${"e_client"};
+    if ( $cust_amount < 0 ) $tot_debit=bcadd($tot_debit,abs($cust_amount));
     $acc_operation->insert_jrnx();
     /* 
      * Save all the no deductible
@@ -301,6 +303,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
       $acc_operation->amount=$tot_nd;
       $acc_operation->poste=$dna->p_value;
       $acc_operation->qcode='';
+      if ( $tot_nd > 0 ) $tot_debit=bcadd($tot_debit,$tot_nd);
       $j_id=$acc_operation->insert_jrnx();
 
     }  
@@ -311,6 +314,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
       $acc_operation->amount=$tot_perso;
       $acc_operation->poste=$dna->p_value;
       $acc_operation->qcode='';
+      if ( $tot_perso > 0 ) $tot_debit=bcadd($tot_debit,$tot_perso);
       $j_id=$acc_operation->insert_jrnx();
       
     }  
@@ -321,6 +325,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
       $dna=new Acc_Parm_Code($this->db,'TVA_DNA');
       $acc_operation->amount=$tot_tva_nd;
       $acc_operation->poste=$dna->p_value;
+      if ( $tot_tva_nd > 0 ) $tot_debit=bcadd($tot_debit,$tot_tva_nd);
       $j_id=$acc_operation->insert_jrnx();
             
     }  
@@ -332,6 +337,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
       $acc_operation->qcode='';
       $acc_operation->amount=$tot_tva_ndded;
       $acc_operation->poste=$dna->p_value;
+      if ( $tot_tva_ndded > 0 ) $tot_debit=bcadd($tot_debit,$tot_tva_ndded);
       $j_id=$acc_operation->insert_jrnx();
 
             
@@ -356,6 +362,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
       $acc_operation->jrn=$p_jrn;
       $acc_operation->type='d';
       $acc_operation->periode=$periode;
+      if ( $value > 0 ) $tot_debit=bcadd($tot_debit,$value);
       $acc_operation->insert_jrnx();
       
     }
@@ -363,7 +370,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $acc_operation=new Acc_Operation($this->db);
     $acc_operation->date=$e_date;
     $acc_operation->echeance=$e_ech;
-    $acc_operation->amount=round($tot_amount+$tot_tva,2);
+    $acc_operation->amount=abs(round($tot_debit,2));
     $acc_operation->desc=$e_comm;
     $acc_operation->grpt=$seq;
     $acc_operation->jrn=$p_jrn;
