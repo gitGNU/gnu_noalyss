@@ -598,7 +598,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     }
     
     $W1=new widget("js_search_only");
-    $W1->label="Client ".widget::infobulle(0) ;
+    $W1->label="Fournisseur ".widget::infobulle(0) ;
     $W1->name="e_client";
     $W1->tabindex=3;
     $W1->value=$e_client;
@@ -936,6 +936,11 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
       $r.=widget::hidden('e_march'.$i.'_tva_amount', ${'e_march'.$i.'_tva_amount'});
       $r.=widget::hidden("e_quant".$i,${"e_quant".$i});
     }
+       // check for upload piece
+    $file=new widget("file");
+    $file->table=0;
+    $r.="Ajoutez une pi&egrave;ce justificative ";
+    $r.=$file->IOValue("pj","");
 
     return $r;
   }
