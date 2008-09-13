@@ -100,7 +100,7 @@ if ( $def==1 || $def == 4 ) {
       
       $chk=new widget('checkbox');
       $chk->selected=false;
-      echo "Sauvez cette op&eacute;ration comme modèle ?";
+      echo "<br>Sauvez cette op&eacute;ration comme modèle ?";
       echo $chk->IOValue('opd_save');
       echo '<hr>';      
       echo widget::submit("record","Enregistrement",'onClick="return verify_ca(\'error\');"');
