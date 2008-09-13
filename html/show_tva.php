@@ -32,7 +32,7 @@ $User->Check();
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 
-html_page_start($User->theme,"onLoad='window.focus();'");
+html_min_page_start($User->theme,"onLoad='window.focus();'");
 ?>
 <script>
 function GetIt(ctl,tva_id) {

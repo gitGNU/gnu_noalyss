@@ -414,7 +414,7 @@ function form_verify_input($p_cn,$p_jrn,$p_periode,$p_array,$p_number)
       echo "<SCRIPT>alert('$msg');</SCRIPT>";
       return null;
     }
-    // Periode ferm� 
+    // Periode fermï¿½ 
   $per=new Periode($p_cn);
   $per->set_jrn($p_jrn);
   $per->set_periode($p_periode);

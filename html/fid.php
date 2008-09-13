@@ -36,16 +36,16 @@ echo_debug('fid.php',__LINE__,"Recherche fid.php".$_GET["FID"]);
 $cn=DbConnect($gDossier);
 if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
 { 
-  $d=$_GET['d'];
-  $jrn=$_GET['j'];
+  $d=FormatString($_GET['d']);
+  $jrn=FormatString($_GET['j']);
 
   switch ($d) {
   case 'cred':
-    $filter_jrn=getDbValue($cn,"select jrn_def_fiche_cred from jrn_def where jrn_def_id=$jrn");
+    $filter_jrn=getDbValue($cn,"select jrn_def_fiche_cred from jrn_def where jrn_def_id=$1",array($jrn));
     $filter_card="and fd_id in ($filter_jrn)";
     break;
   case 'deb':
-    $filter_jrn=getDbValue($cn,"select jrn_def_fiche_deb from jrn_def where jrn_def_id=$jrn");
+    $filter_jrn=getDbValue($cn,"select jrn_def_fiche_deb from jrn_def where jrn_def_id=$1",array($jrn));
     $filter_card="and fd_id in ($filter_jrn)";
     break;
   case 'all':
@@ -56,7 +56,7 @@ if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
 
     $get_deb='jrn_def_fiche_deb';
 
-    $filter_jrn=getDbValue($cn,"select $get_cred||','||$get_deb as fiche from jrn_def where jrn_def_id=$jrn");
+    $filter_jrn=getDbValue($cn,"select $get_cred||','||$get_deb as fiche from jrn_def where jrn_def_id=$1",array($jrn));
 
     $filter_card="and fd_id in ($filter_jrn)";
     break;
@@ -64,11 +64,12 @@ if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
     $filter_card="and frd_id in ($d)";
   }
 
-
-  $array=get_array($cn,"select vw_name,vw_addr,vw_cp,vw_buy,vw_sell,tva_id 
+  $sql="select vw_name,vw_addr,vw_cp,vw_buy,vw_sell,tva_id 
                     from vw_fiche_attr 
-                    where quick_code=upper('".$_GET['FID']."') $filter_card"
-		    );
+                    where quick_code=upper($1)". $filter_card;
+
+  $array=get_array($cn,$sql,  array($_GET['FID']));
+
   echo_debug("fid",__LINE__,$array);
   $name=$array[0]['vw_name']." ".$array[0]['vw_addr']." ".$array[0]['vw_cp'];
   $sell=$array[0]['vw_sell'] ;
@@ -87,6 +88,6 @@ if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
      else
      $a='{"answer":"nok"}';
 echo_debug("fid.php",__LINE__,"Answer is \n $a");
-header("Content-type: text/html; charset: ISO8859-1",true);
+header("Content-type: text/html; charset: utf8",true);
 print $a;
 ?>

@@ -36,7 +36,7 @@ include_once("ac_common.php");
 include_once("postgres.php");
 require_once ('class_dossier.php');
 if ( ! file_exists('authorized_debug') ) { 
-echo "Pour pouvoir utiliser ce fichier vous devez créer un fichier nomme authorized_debug 
+echo "Pour pouvoir utiliser ce fichier vous devez crÃÂ©er un fichier nomme authorized_debug 
 dans le repertoire html du server";
 exit();
 

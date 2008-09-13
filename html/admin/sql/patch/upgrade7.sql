@@ -1,6 +1,6 @@
 begin;
 
-insert into tva_rate values (5,'0%',0, 'Pas soumis à la TVA',null);
+insert into tva_rate values (5,'0%',0, 'Pas soumis Ã  la TVA',null);
 
 update fiche_def_ref set frd_class_base=2400 where frd_id=7;
 

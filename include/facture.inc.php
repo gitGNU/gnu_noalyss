@@ -24,7 +24,7 @@ require_once('jrn.php');
 require_once("class_document.php");
 require_once("class_fiche.php");
 require_once("check_priv.php");
-require_once('class_acc_jrn_info.php');
+require_once('class_acc_ledger_info.php');
 
 $tag_list='<td class="mtitle"><A class="mtitle" HREF="commercial.php?liste&p_action=facture&sa=list&'.$str_dossier.'">Liste</A>';
 $tag_list_sel='<td class="selectedcell">Liste</td>';
@@ -102,7 +102,7 @@ if ( $sub_action == "list")
       
       }
 
-  echo '<div class="u_content">';
+  echo '<div class="content">';
   echo $retour;
   
 
@@ -132,7 +132,7 @@ if ( $sub_action == "list")
   $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
   $w->selected=$current;
 
-  echo 'Période  '.$w->IOValue("p_periode",$periode_start);
+  echo 'PÃ©riode  '.$w->IOValue("p_periode",$periode_start);
   $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
   
   echo JS_SEARCH_CARD;
@@ -179,7 +179,7 @@ echo widget::submit('gl_submit','Rechercher');
   echo $list;
   echo "$bar <hr>";
   if ( $max_line !=0 )
-    echo widget::submit('paid','Mise à jour paiement');
+    echo widget::submit('paid','Mise Ã  jour paiement');
   echo '</FORM>';
   echo $retour;
 
@@ -242,9 +242,9 @@ echo '</div>';
     echo '<FORM METHOD="POST">';
 	echo dossier::hidden();  
     echo $bar2;
-    echo '<h2 class="info"> Echeance dépassée </h2>';
+    echo '<h2 class="info"> Echeance dÃ©passÃ©e </h2>';
     echo $list;
-    echo  '<h2 class="info"> Non Payée </h2>';
+    echo  '<h2 class="info"> Non PayÃ©e </h2>';
     echo $list2;
     echo $bar2;
     // Add hidden parameter
@@ -260,7 +260,7 @@ echo '</div>';
     echo '<hr>';
 
     if ( $m != 0 )
-      echo widget::submit('paid','Mise à jour paiement');
+      echo widget::submit('paid','Mise Ã  jour paiement');
 
     echo '</FORM>';
     echo '</div>';
@@ -279,7 +279,7 @@ if ( $sub_action=="use_opd" ) {
   $p_post=$op->compute_array();
   echo_debug(__FILE__.':'.__LINE__.'- ','p_post = ',$p_post);
   $form=FormVenInput($cn,$_GET['p_jrn'],$User->get_periode(),$p_post,false,$p_post['nb_item']);
-  echo '<div class="u_content">';
+  echo '<div class="content">';
   echo   $form;
 
   //--------------------
@@ -296,7 +296,7 @@ if ( $sub_action=="use_opd" ) {
   echo $hid->IOValue("sa","use_opd");
   
   if ($op->count() != 0 )
-	echo widget::submit('use_opd','Utilisez une op.prédéfinie');
+	echo widget::submit('use_opd','Utilisez une op.prÃ©dÃ©finie');
   echo $op->show_button();
 
   echo '</form>';
@@ -320,7 +320,7 @@ if ( isset ($_POST['add_item']) || isset ($_POST["correct_new_invoice"])  )
   if ( isset ($_POST['add_item']))
     $nb_item++;
   $form=FormVenInput($cn,$p_jrn,$User->get_periode(),$_POST,false,$nb_item);
-  echo '<div class="u_content">';
+  echo '<div class="content">';
   echo $form;
   echo '</div>';
   exit();
@@ -341,7 +341,7 @@ if ( isset($_POST['record_and_print_invoice']))
     list ($internal,$e)=RecordInvoice($cn,$_POST,$User,$p_jrn);
     $form=FormVenteView($cn,$p_jrn,$User->get_periode(),$_POST,$_POST['nb_item'],'noform','');
   
-  echo '<div class="u_content">';
+  echo '<div class="content">';
   echo '<h2 class="info"> Op&eacute;ration '.$internal.' enregistr&eacute;</h2>';
   echo $form;
   echo '<hr>';
@@ -361,7 +361,7 @@ if ( isset($_POST['record_and_print_invoice']))
 	  $sql="update jrn set jr_comment='Facture ".$doc->d_number."' where jr_internal='$internal'";
 	  ExecSql($cn,$sql);
 	  /* Save the additional information into jrn_info */
-	  $obj=new Acc_Jrn_Info($cn);
+	  $obj=new Acc_Ledger_Info($cn);
 	  $jr_id=$obj->search_id_internal($internal);
 	  if (strlen(trim($_POST['bon_comm'] )) != 0 ) {
 	    $obj->set_type('BON_COMMANDE');
@@ -409,7 +409,7 @@ if ( isset ($_POST['view_invoice']) )
       $form=FormVenInput($cn,$p_jrn,$User->get_periode(),$_POST,false,$nb_number);
     }
 
-  echo '<div class="u_content">';
+  echo '<div class="content">';
   echo         $form;
   echo '</div>';
   exit();
@@ -430,7 +430,7 @@ if ( $p_jrn != -1 )
   echo_debug('facture.inc.php.php',__LINE__,"Blank form");
   // Show an empty form of invoice
   $form=FormVenInput($cn,$p_jrn,$User->get_periode(),null,false,$jrn->GetDefLine());
-  echo '<div class="u_content">';
+  echo '<div class="content">';
   echo $form;
 
   //--------------------
@@ -447,7 +447,7 @@ if ( $p_jrn != -1 )
   echo $hid->IOValue("sa","use_opd");
   
   if ($op->count() != 0 )
-	echo widget::submit('use_opd','Utilisez une op.prédéfinie');
+	echo widget::submit('use_opd','Utilisez une op.prÃ©dÃ©finie');
   echo $op->show_button();
 
   echo '</form>';

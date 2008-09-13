@@ -20,7 +20,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 require_once("constant.php");
 require_once("postgres.php");
-require_once("class_parm_code.php");
+require_once("class_acc_parm_code.php");
 require_once("class_widget.php");
 require_once('class_periode.php');
 require_once('class_fiche.php');
@@ -87,16 +87,16 @@ class Customer extends fiche{
     
     // BASE ACCOUNT
     // for belgium
-    $s=new parm_code($this->cn,'VENTE');
-    $s->Get();
+    $s=new Acc_Parm_Code($this->cn,'VENTE');
+    $s->load();
     $SOLD=$s->p_value;
 
-    $c=new parm_code($this->cn,'CUSTOMER');
-    $c->Get();
+    $c=new Acc_Parm_Code($this->cn,'CUSTOMER');
+    $c->load();
     $CUSTOMER=$c->p_value;
 
-    $t=new parm_code($this->cn,'COMPTE_TVA');
-    $t->Get();
+    $t=new Acc_Parm_Code($this->cn,'COMPTE_TVA');
+    $t->load();
     $TVA=$t->p_value;
     // Get all the sell operation
     //----
@@ -243,7 +243,7 @@ where
 	return $r;
       foreach ($step_client as $client ) {
 	$r.="<TR>";
-	$e=sprintf('<A HREF="%s?p_action=client&sa=detail&f_id=%d&%s&url=%s" title="Détail"> ',
+	$e=sprintf('<A HREF="%s?p_action=client&sb=detail&f_id=%d&%s&url=%s" title="DÃ©tail"> ',
 			   $script,$client->id,$str_dossier,$url);
 
 	$r.="<TD> $e".$client->strAttribut(ATTR_DEF_QUICKCODE)."</A></TD>";
@@ -263,25 +263,30 @@ where
 	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$a['debit']);
 	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$a['credit']);
 	$r.=sprintf('<TD align="right"> %15.2f&euro;</TD>',$a['solde']);
-	$r.="<TD>";
 
-	$r.=sprintf('<A HREF="%s?p_action=contact&qcode=%s&%s&url=%s" title="Contact">Contact</A></td>',
-				$script,$client->strAttribut(ATTR_DEF_QUICKCODE),$str_dossier,$url);
-	$r.=sprintf('<td><A HREF="%s?p_action=suivi_courrier&sa=list&qcode=%s&%s&url=%s" title="Action">Courrier</A></td> ',
-				$script,$client->strAttribut(ATTR_DEF_QUICKCODE) ,$str_dossier,$url);
-
-
-
-	$r.='<td><A HREF="commercial.php?p_action=facture&sa=list&p_periode=-1&'.$str_dossier.'&qcode='.$client->strAttribut(ATTR_DEF_QUICKCODE).'&url='.$url.'" title="Historique Facture">Facture</A></td>';
-	$r.=sprintf('<td><A class="mtitle" HREF="%s?liste&p_action=bank&sa=list&qcode=%s&%s&url=%s&p_periode=-1" title="Financier">Financier</A></td>',
-				$script,$client->strAttribut(ATTR_DEF_QUICKCODE) ,$str_dossier,$url);
-
-	$r.=sprintf('<td><A class="mtitle" HREF="%s?p_action=impress&type=poste&f_id=%s&%s&from_periode=%s&to_periode=%s&oper_detail=on&bt_html=Visualisation" 
+	if ( basename($script)=='commercial.php') {
+	  $r.="<TD>";
+	  
+	  $r.=sprintf('<A class="mtitle" HREF="%s?p_action=contact&qcode=%s&%s&url=%s" title="Contact">Contact</A></td>',
+		      $script,$client->strAttribut(ATTR_DEF_QUICKCODE),$str_dossier,$url);
+	  $r.=sprintf('<td><A  class="mtitle"  HREF="%s?p_action=suivi_courrier&sa=list&qcode=%s&%s&url=%s" title="Action">Courrier</A></td> ',
+		      $script,$client->strAttribut(ATTR_DEF_QUICKCODE) ,$str_dossier,$url);
+	  
+	  
+	} 
+	$p_action_ven=( $script == "commercial.php")?"p_action=client&sa=f":"p_action=ven&sa=l";
+	  $r.='<td><A  class="mtitle"  HREF="?'.$p_action_ven.'&p_periode=-1&'.$str_dossier.'&qcode='.$client->strAttribut(ATTR_DEF_QUICKCODE).'&url='.$url.'" title="Historique Facture">Facture</A></td>';
+	  $r.=sprintf('<td><A class="mtitle" HREF="%s?liste&p_action=bank&sa=l&qcode=%s&%s&url=%s&p_periode=-1" title="Financier">Financier</A></td>',
+		      $script,$client->strAttribut(ATTR_DEF_QUICKCODE) ,$str_dossier,$url);
+	  
+	  $r.=sprintf('<td><A class="mtitle" HREF="%s?p_action=impress&type=poste&f_id=%s&%s&from_periode=%s&to_periode=%s&bt_html=Visualisation" 
 title="Operation">Operation</A></td>',
-		    $script,$client->strAttribut(ATTR_DEF_QUICKCODE) ,$str_dossier,$max->p_id,$min->p_id);
-
-	$r.='</TD>';
-
+		      $script,$client->strAttribut(ATTR_DEF_QUICKCODE) ,$str_dossier,$max->p_id,$min->p_id);
+	  
+	  $r.='</TD>';
+	
+	  
+	
 	$r.="</TR>";
 
       }

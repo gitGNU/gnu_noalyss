@@ -25,7 +25,7 @@
 include_once ("ac_common.php");
 require_once('class_acc_ledger.php');
 
-html_page_start($_SESSION['g_theme'],'onLoad="window.focus();"');
+html_min_page_start($_SESSION['g_theme'],'onLoad="window.focus();"');
 include_once ("postgres.php");
 include_once("jrn.php");
 /* Admin. Dossier */
@@ -46,13 +46,12 @@ $condition="";
 $cn=DbConnect($gDossier);
 if ( isset($_GET['search']) ) {
   $c1=0;
-  foreach( $_GET as $key=>$element){
-    ${"$key"}=$element;
-  }
+  extract ($_GET);
+
   $condition="";
   if ( strlen(trim($p_comment)) != 0 ) {
-    $condition=" where (upper(pcm_lib) like upper('%$p_comment%') or ".
-      " pcm_val::text like '$p_comment%') ";
+    $condition=" where (upper(pcm_lib) like upper('%".pg_escape_string($p_comment)."%') or ".
+      " pcm_val::text like '%".pg_escape_string($p_comment)."%') ";
   }
 
 }
@@ -80,9 +79,9 @@ if ( isset($_GET['filter']) && $_GET['filter'] != 'all') {
       if ( strlen (trim($item_cred))) {
 	if ( strstr($item_cred,"*") == true ) {
 	  $item_cred=strtr($item_cred,"*","%");
-	  $Sql=" pcm_val like '$item_cred' or";
+	  $Sql=" pcm_val::text like '$item_cred' or";
 	} else {
-	  $Sql=" pcm_val = '$item_cred' or";
+	  $Sql=" pcm_val::text = '$item_cred' or";
 	}
 	$SqlCred=$SqlCred.$Sql;
       }
@@ -98,7 +97,7 @@ if ( isset($_GET['filter']) && $_GET['filter'] != 'all') {
 	echo_debug('poste_search.php',__LINE__,"l_line[jrn_def_class_deb] $l_line[jrn_def_class_deb] item_deb $item_deb");
 	if ( strstr($item_deb,"*") == true ) {
 	  $item_cred=strtr($item_deb,"*","%");
-	  $Sql=" pcm_val like '$item_deb' or";
+	  $Sql=" pcm_val::text like '$item_deb' or";
 	} else {
 	  $Sql=" pcm_val = '$item_deb' or";
 	}
@@ -126,53 +125,64 @@ echo_debug('poste_search.php',__LINE__,"condition = $condition");
 echo '<FORM ACTION="poste_search.php'.$url.'" METHOD="GET">';
 echo dossier::hidden();
 if ( isset($p_ctl) ) {
-  if ($p_ctl != 'not')   echo '<INPUT TYPE="hidden" name="p_ctl" value="'.$p_ctl.'">';
+    echo '<INPUT TYPE="hidden" name="p_ctl" value="'.$p_ctl.'">';
 }
-echo '<TABLE>';
-echo '<TR>';
+if (isset ($ret)) echo widget::hidden('ret',$ret);
 
 /* echo '<TD>Poste Comptable Commence par  </TD>'; */
 /* if ( ! isset ($p_class) ) $p_class=""; */
 /* $opt=" <INPUT TYPE=\"text\" value=\"$p_class\" name=\"st_with\">"; */
 /* echo '<TD> <INPUT TYPE="text" name="p_class" VALUE="'.$p_class.'"></TD>'; */
 
-echo '<TD> Libell� ou poste comptable</TD>';
-echo '<TD> contient </TD>';
+echo 'Libellé ou poste comptable ';
+echo ' contient ';
 if ( ! isset ($p_comment) ) $p_comment="";
-echo '<TD> <INPUT TYPE="text" name="p_comment" VALUE="'.$p_comment.'"></TD></TR>';
-echo '</TABLE>';
+echo ' <INPUT TYPE="text" name="p_comment" VALUE="'.$p_comment.'"></TD></TR>';
 echo '<INPUT TYPE="submit" name="search" value="cherche">';
 echo '</FORM>';
-
+echo '<p class="notice">Nombre de lignes affichées est limité</p>';
 // if request search
-if ( isset($_GET['search']) or isset($_GET['filter']) ) {
-  $Res=ExecSql($cn,"select pcm_val,pcm_lib from tmp_pcmn $condition order by pcm_val::text");
+if ( isset($_GET['search']) || isset($_GET['filter']) ) {
+  $Res=ExecSql($cn,"select pcm_val,pcm_lib from tmp_pcmn $condition order by pcm_val::text ".
+	       " limit 70");
   
   $MaxLine=pg_NumRows($Res);
   if ( $MaxLine==0) { 
     html_page_stop();
     return;
   }
-  echo '<TABLE BORDER="0">';
+  echo '<TABLE style="width:90%;border-collapse:collapse;">';
   $l_id="";
-  
+  $ahref="";
+  $end_ahref="";  
   for ( $i=0; $i < $MaxLine; $i++) {
     $l_line=pg_fetch_array($Res,$i);
-    echo "<TR>";
+    $even=($i%2 == 0)?"odd":"even";
+    echo "<TR class=\"$even\">";
     // if p_ctl is set we need to be able to return the value
-    if (isset($p_ctl) && $p_ctl != 'not' ){
-      echo '<TD>';
+    if (isset($ret) && $ret == 'label' ){
       $slabel=FormatString($l_line['pcm_lib']);
-      echo '<input type="checkbox" onClick="SetItChild(\''.$p_ctl.'\',\''.$l_line['pcm_val'].'\',\''.
+      $ahref='<A href="#" class="mtitle" onClick="SetItChild(\''.$p_ctl.'\',\''.$l_line['pcm_val'].'\',\''.
 	$slabel.'\')">';
-      echo '</td>';
+      $end_ahref='</A>';
+
     }
-    echo '<TD>';
+    if (isset($ret) && $ret == 'poste' ){
+      $ahref='<A href="#" class="mtitle" onClick="set_poste_child(\''.$p_ctl.'\',\''.$l_line['pcm_val'].'\')">';
+      $end_ahref='</A>';
+
+    }
+
+    echo "<TD class=\"$even\">";
+    echo $ahref;
     echo $l_line['pcm_val'];
+    echo $end_ahref;
     echo '</TD>';
 
     echo '<TD>';
+    echo $ahref;
     echo $l_line['pcm_lib'];
+    echo $end_ahref;
     echo '</TD>';
     echo "</TR>";
 

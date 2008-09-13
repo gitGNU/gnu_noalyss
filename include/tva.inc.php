@@ -21,11 +21,11 @@
 /*! \file
  * \brief included file for customizing with the vat (account,rate...)
  */
-echo '<div class="u_content">';
+echo '<div class="content">';
   // Confirm remove
   if ( isset ($_POST['confirm_rm'])) 
   {
-    ExecSql($cn,'select tva_delete('.$_POST['tva_id'].')');
+    ExecSql($cn,'select tva_delete('.pg_escape_string($_POST['tva_id']).')');
   }
 //-----------------------------------------------------
 // Record Change
@@ -33,7 +33,6 @@ echo '<div class="u_content">';
        || isset ($_POST['confirm_add'])) 
     {
       extract($_POST);
-      $tva_id=FormatString($tva_id);
       $tva_label=FormatString($tva_label);
       $tva_rate=FormatString($tva_rate);
       $tva_comment=FormatString($tva_comment);
@@ -41,39 +40,44 @@ echo '<div class="u_content">';
 	  // remove space
 	  $tva_poste=str_replace (" ","",$tva_poste);
       $err=0; // Error code
-      if ( isNumber($tva_id) == 0 ) {
-	$err=1;
-	
-     } 
+
       if ( isNumber($tva_rate) == 0 ) {
 	$err=2;
-     } 
+      } 
 
       if ( $err == 0 ) 
 	{
 	  if (  isset ($_POST['confirm_add']) ) 
 	    {
-	  $Res=ExecSql($cn,
-		       "select tva_insert($tva_id,'$tva_label',
-                        '$tva_rate','$tva_comment','$tva_poste')");
-
+	      $sql="select tva_insert($1,$2,$3,$4)";
+	  
+	      $res=ExecSqlParam($cn,
+			    $sql,
+			    array($tva_label,
+				  $tva_rate,
+				  $tva_comment,
+				  $tva_poste)
+		 );
+	      $ret_sql=pg_fetch_row($res);
+	      $err=$ret_sql[0];
 	    }
 	  if (  isset ($_POST['confirm_mod']) ) 
 	    {
-	  $Res=ExecSql($cn,
+	      $Res=ExecSql($cn,
 		       "select tva_modify($tva_id,'$tva_label',
                        '$tva_rate','$tva_comment','$tva_poste')");
+	      $ret_sql=pg_fetch_row($Res);
+	      $err=$ret_sql[0];
 	    }
-	  $ret_sql=pg_fetch_row($Res);
-	  $err=$ret_sql[0];
+
 	}
       if ( $err != 0 ) 
 	{
 	  $err_code=array(1=>"Tva id n\'est pas un nombre",
 			  2=>"Taux tva invalide",
-			  3=>"Label ne peut être vide",
+			  3=>"Label ne peut Ãªtre vide",
 			  4=>"Poste invalide",
-			  5=>"Tva id doit être unique");
+			  5=>"Tva id doit Ãªtre unique");
 	  $str_err=$err_code[$err];
 	  echo "<script>alert ('$str_err'); </script>";;
 	}
@@ -81,12 +85,11 @@ echo '<div class="u_content">';
 
   //-----------------------------------------------------
   // Display
-  $sql="select tva_id,tva_label,tva_rate,tva_comment,tva_poste from tva_rate order by tva_id";
+  $sql="select tva_id,tva_label,tva_rate,tva_comment,tva_poste from tva_rate order by tva_rate";
   $Res=ExecSql($cn,$sql);
   ?>
 <TABLE>
 <TR>
-<th>Id</th>
 <th>Label</TH>
 <th>Taux</th>
 <th>Commentaire</th>
@@ -108,11 +111,10 @@ echo '<div class="u_content">';
       echo "<TR>";
       echo '<FORM METHOD="POST">';
 
-      echo "<TD>";
-      echo $row['tva_id'];
-      echo "</TD>";
+
 
       echo "<TD>";
+      echo widget::hidden('tva_id',$row['tva_id']);
       echo $row['tva_label'];
       echo "</TD>";
 
@@ -197,24 +199,24 @@ if (   ! isset ($_POST['add'])
   if ( isset ( $_REQUEST['add'])) 
   {
     echo_debug("parametre",__LINE__,"add a line ");
-    echo "Tva à ajouter, l'id doit être différent pour chaque taux";
+    echo "<fieldset><legend>Ajout d'un taux de tva </legend>";
     echo '<FORM method="post">';
 
 
 ?>
 <table >
-   <TR>
-   <th>id</TH>
-   <th>Label</TH>
-   <th>Taux</th>
-   <th>Commentaire</th>
-   <th>Poste</th>
-   </tr>
-<tr valign="top">
-   <td> <?php   $w=new widget("text");$w->size=5; echo $w->IOValue('tva_id','') ?></td>
+   <tr> <td align="right"> Label (ce que vous verrez dans les journaux)</td>
    <td> <?php   $w=new widget("text");$w->size=20; echo $w->IOValue('tva_label','') ?></td>
+</tr>
+   <tr><td  align="right"> Taux de tva </td>
    <td> <?php   $w=new widget("text");$w->size=5; echo $w->IOValue('tva_rate','') ?></td>
+</tr>
+<tr>
+<td  align="right"> Commentaire </td>
    <td> <?php   $w=new widget("textarea"); $w->heigh=2;$w->width=20;echo $w->IOValue('tva_comment','') ?></td>
+</tr>
+<tr>
+   <td  align="right">Poste comptable utilisÃ©s format :debit,credit</td>
    <td> <?php   $w=new widget("text"); $w->size=10;echo $w->IOValue('tva_poste','') ?></td>
 </Tr>
 </table>
@@ -222,6 +224,7 @@ if (   ! isset ($_POST['add'])
 <input type="submit" value="Cancel" name="no">
 
  </FORM>
+</fieldset>
 <?php    }
 
   //-----------------------------------------------------
@@ -230,32 +233,37 @@ if (   ! isset ($_POST['add'])
     {
 
       echo_debug("parametre",__LINE__,"modifie ".$_POST['tva_id']);
-      echo "Tva à modifier";
+      echo "Tva Ã  modifier";
       $index=$_POST['tva_id'];
-
+      echo "<fieldset><legend>Modification d'un taux de tva </legend>";
       echo '<FORM method="post">';
       echo '<input type="hidden" name="tva_id" value="'.$index.'">';
 ?>
 <table>
-   <TR>
-   <th>Label</TH>
-   <th>Taux</th>
-   <th>Commentaire</th>
-   <th>Poste</th>
-   </tr>
-<tr valign="top">
+   <tr> <td align="right"> Label (ce que vous verrez dans les journaux)</td>
    <td> <?php   $w=new widget("text");$w->size=20; echo $w->IOValue('tva_label',$a[$index]['tva_label']) ?></td>
+</tr>
+   <tr><td  align="right"> Taux de tva </td>
+
    <td> <?php   $w=new widget("text");$w->size=5; echo $w->IOValue('tva_rate',$a[$index]['tva_rate']) ?></td>
+</tr>
+<tr>
+<td  align="right"> Commentaire </td>
    <td> <?php   $w=new widget("textarea"); $w->heigh=2;$w->width=20;
    echo $w->IOValue('tva_comment',$a[$index]['tva_comment']) ?></td>
+</tr>
+<tr>
+   <td  align="right">Poste comptable utilisÃ©s format :debit,credit</td>
+
    <td> <?php   $w=new widget("text");$w->size=5; echo $w->IOValue('tva_poste',$a[$index]['tva_poste']) ?></td>
 </Tr>
 </table>
 <input type="submit" value="Confirme" name="confirm_mod">
 <input type="submit" value="Cancel" name="no">
  </FORM>
+</fieldset>
 <?php   
 }
-						    echo '</div>';    
+ echo '</div>';    
 
 ?>

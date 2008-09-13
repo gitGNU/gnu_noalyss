@@ -19,22 +19,19 @@
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 require_once("class_customer.php");
-$sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
+$sub_action=(isset($_REQUEST['sb']))?$_REQUEST['sb']:"list";
 
 /*! \file
  * \brief Called from the module "Gestion" to manage the customer
  */
 $User->can_request($cn,CLIENT);
+$href=basename($_SERVER['PHP_SELF']);
 
-?>
-
-<?php  
 // Menu
 // Remove a card
 if ( isset ($_POST['delete']) ) 
 {
 
-  echo 'delete';
   $f_id=$_REQUEST['f_id'];
 
   $fiche=new Customer($cn,$f_id);
@@ -50,11 +47,14 @@ if ( $sub_action=="insert" )
 
   $customer=new Customer($cn);
   $customer->Save($_REQUEST['fd_id']);
+
+  echo '<div class="content">';
   echo $retour;
   echo "<table>";
   echo $customer->Display(true);
   echo "</table>";
   echo $retour;
+  echo '</div>';
 
 }
 //-----------------------------------------------------
@@ -76,16 +76,16 @@ if ( $sub_action  == "" )
 if ( $sub_action=="blank") 
 {
 
-  $retour=widget::button_href('Retour','commercial.php?p_action=fournisseur&'.dossier::get());
+  $retour=widget::button_href('Retour',$href.'?p_action=client&'.dossier::get());
 
-  echo '<div class="u_content">';
+  echo '<div class="content">';
 
   echo $retour;
   $c=new Customer($cn);
-  echo '<form method="post" action="commercial.php"';
+  echo '<form method="post" action="'.$href.'"';
   echo dossier::hidden();
   echo '<input type="hidden" name="p_action" value="client">';
-  echo '<input type="hidden" name="sa" value="insert">';
+  echo '<input type="hidden" name="sb" value="insert">';
   echo '<input type="hidden" name="fd_id" value="'.$_GET['fd_id'].'">';
   echo '<input type="hidden" name="url" value="'.$_GET['url'].'">';
   echo $c->blank($_GET['fd_id']);
@@ -96,12 +96,15 @@ if ( $sub_action=="blank")
 }
 //-----------------------------------------------------
 // list
+
+
 if ( $sub_action == "list" )
 {
+
 ?>
-<div class="u_content">
+<div class="content">
 <span  style="position:float;float:left">
-<form method="get" action="commercial.php">
+<form method="get" action="<?php echo $href; ?>">
 <?php
 	echo dossier::hidden();  
    $a=(isset($_GET['query']))?$_GET['query']:"";
@@ -113,7 +116,7 @@ if ( $sub_action == "list" )
 </form>
 </span>
 <span  style="position:float;float:left">
-<form method="get" action="commercial.php">
+<form method="get" action="<?php echo $href;?>">
    <?php echo dossier::hidden(); ?>
 <input type="hidden" name="p_action" value="client">
 
@@ -124,7 +127,7 @@ if ( $sub_action == "list" )
 	     " frd_id=".FICHE_TYPE_CLIENT);
  echo $w->IOValue();
 ?>
-<input type="hidden" name="sa" value="blank">
+<input type="hidden" name="sb" value="blank">
 <input type="submit" name="submit_query" value="Ajout Client">
 <input type="hidden" name="url" <?php        $url=urlencode($_SERVER['REQUEST_URI']);echo 'value="'.$url.'"'; ?>
 
@@ -134,7 +137,7 @@ if ( $sub_action == "list" )
    $client=new Customer($cn);
  $search=(isset($_GET['query']))?$_GET['query']:"";
 
- echo '<div class="u_content">';
+ echo '<div class="content">';
  echo $client->Summary($search);
  echo '</div>';
  echo '</div>';
@@ -145,7 +148,7 @@ if ( $sub_action == "list" )
 if ( $sub_action == 'detail' )
 {
   $f_id=$_REQUEST['f_id'];
-  echo '<div class="u_content">';
+  echo '<div class="content">';
   $client=new Customer($cn,$f_id);
   $retour=widget::button_href("Retour", urldecode($_REQUEST['url']));
 
@@ -164,7 +167,7 @@ if ( $sub_action == 'detail' )
   
   echo widget::submit('mod','Sauver les modifications');
   echo widget::reset("Annuler");
-  echo widget::submit('delete','Effacer cette fiche');
+  echo widget::submit('delete','Effacer cette fiche','onclick="return confirm(\'Confirmer effacement ?\');"');
   
   echo '</form>';
   echo $retour;

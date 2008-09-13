@@ -62,7 +62,7 @@ for ( $i =0;$i<count($poste);$i++) {
     
     //  $pdf->ezText($Libelle,30);
     $pdf->ezTable($array,
-		  array ('jr_internal'=>'Opération',
+		  array ('jr_internal'=>'OpÃ©ration',
 		       'j_date' => 'Date',
 		       'jrn_name'=>'Journal',
 			 'description'=>'Description',
@@ -72,8 +72,8 @@ for ( $i =0;$i<count($poste);$i++) {
 		array('shaded'=>0,'showHeadings'=>1,'width'=>500,
 		      'cols'=>array('montant'=> array('justification'=>'right'),
 				    )));
-$str_debit=sprintf("Débit  % 12.2f",$tot_deb);
-$str_cred=sprintf("Crédit % 12.2f",$tot_cred);
+$str_debit=sprintf("DÃ©bit  % 12.2f",$tot_deb);
+$str_cred=sprintf("CrÃ©dit % 12.2f",$tot_cred);
 $diff_solde=$tot_deb-$tot_cred;
 if ( $diff_solde < 0 ) {
 	$solde=" C ";

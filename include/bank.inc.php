@@ -24,7 +24,7 @@ require_once('jrn.php');
 require_once('class_widget.php');
 require_once("class_document.php");
 require_once("class_fiche.php");
-require_once("class_parm_code.php");
+require_once("class_acc_parm_code.php");
 require_once("check_priv.php");
 require_once ('class_pre_op_fin.php');
 
@@ -32,7 +32,7 @@ require_once ('class_pre_op_fin.php');
  * \brief the purpose off this file encode expense and  to record them
  *
  */
-
+echo JS_PROTOTYPE;
 
 // First we show the menu
 // If nothing is asked the propose a blank form
@@ -81,16 +81,16 @@ if ( $sub_action == "solde" )
   // find the bank account
  // NOTE : those values are in a table because
  // they are _national_ parameters
-  $banque=new parm_code($cn,'BANQUE');
-  $caisse=new parm_code($cn,'CAISSE');
-  $vir_interne=new parm_code($cn,'VIREMENT_INTERNE');
+  $banque=new Acc_Parm_Code($cn,'BANQUE');
+  $caisse=new Acc_Parm_Code($cn,'CAISSE');
+  $vir_interne=new Acc_Parm_Code($cn,'VIREMENT_INTERNE');
   $accountSql="select distinct pcm_val::text,pcm_lib from 
             tmp_pcmn 
             where pcm_val::text like '".$banque->p_value."%' or pcm_val::text like '".$vir_interne->p_value."%' 
             or pcm_val::text like '".$caisse->p_value."%'
             order by pcm_val::text";
   $ResAccount=ExecSql($cn,$accountSql);
-  echo '<div class="u_content">';
+  echo '<div class="content">';
 
   echo "<table>";
   // Filter the saldo
@@ -130,7 +130,7 @@ if ( $sub_action == "list")
 		       '<td class="mtitle"><A class="mtitle" HREF="commercial.php?liste&p_action=bank&sa=solde&'.dossier::get().'">Solde</A></td>');
   echo '</div>';
 
-  echo '<div class="u_content">';
+  echo '<div class="content">';
 
   
   echo '<form>';
@@ -157,7 +157,7 @@ if ( $sub_action == "list")
   $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
   $w->selected=$current;
 
-  echo 'Période  '.$w->IOValue("p_periode",$periode_start);
+  echo 'PÃ©riode  '.$w->IOValue("p_periode",$periode_start);
   $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
   echo JS_SEARCH_CARD;
   $w=new widget('js_search_only');
@@ -233,7 +233,7 @@ if ( $sub_action=="use_opd" ) {
 	'<INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 
   $form=FormFin($cn,$_GET['p_jrn'],$User->get_periode(),$submit,$p_post,false,$p_post['nb_item']);
-  echo '<div class="u_content">';
+  echo '<div class="content">';
   echo   $form;
   echo '</div>';
   exit();
@@ -260,7 +260,7 @@ if ( isset ($_POST['add_item']) || isset ($_POST['correct'])  )
   $form=FormFin($cn,$p_jrn,$User->get_periode(),$submit,$_POST,false,  $nb_item);
   //$form=FormFin($cn,$p_jrn,$User->get_periode(),$submit,$_POST,false,  $nb_number);
 
-  echo '<div class="u_content">';
+  echo '<div class="content">';
   echo $form;
   echo JS_CALC_LINE;
   echo '</div>';
@@ -284,7 +284,7 @@ if ( isset($_POST['save']))
 
   $form=FormFin($cn,$p_jrn,$User->get_periode(),$submit,$_POST,true,$nb_number,true);
 
-  echo '<div class="u_content">';
+  echo '<div class="content">';
   echo $form;
   echo '<hr>';
   echo '</form>';
@@ -341,7 +341,7 @@ if ( $p_jrn != -1 )
           <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer" ID="SubmitButton">';
   // Show an empty form of invoice
   $form=FormFin($cn,$p_jrn,$User->get_periode(),$submit,null,false,$jrn->GetDefLine('deb'));
-  echo '<div class="u_content">';
+  echo '<div class="content">';
   echo $form;
   echo '<form method="GET">';
   $op=new Pre_operation($cn);
@@ -356,7 +356,7 @@ if ( $p_jrn != -1 )
   echo $hid->IOValue("jrn_type","FIN");
   
   if ($op->count() != 0 )
-	echo widget::submit('use_opd','Utilisez une op.prédéfinie');
+	echo widget::submit('use_opd','Utilisez une op.prÃ©dÃ©finie');
   echo $op->show_button();
   
   echo '</form>';

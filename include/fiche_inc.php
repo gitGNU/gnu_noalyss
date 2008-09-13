@@ -54,7 +54,7 @@ function CreateCategory ($p_cn,$p_js,$p_array=null,$p_ligne=1)
   
   
   //Name of the CARD (fiche_def.fd_label)
-  $display.='<TR><TD> Catégorie de fiche </TD>';
+  $display.='<TR><TD> CatÃ©gorie de fiche </TD>';
   $display.='<TD><INPUT TYPE="INPUT" NAME="nom_mod">';
   $display.='</TD></TR>';
 

@@ -53,21 +53,24 @@ function errorFid(request,json) {
  * \param p_ctl the ctrl to fill
  * \param p_deb if debit of credit
  * \param p_jrn the ledger
+ * \param phpsessid
  */
-function ajaxFid(p_ctl,p_deb,p_jrn) 
+function ajaxFid(p_ctl,p_deb,phpsessid) 
 {
   var gDossier=$('gDossier').value;
-  var ctl_value=$(p_ctl).value;
+    var ctl_value=trim($(p_ctl).value);
+    $(p_ctl).value=ctl_value;
+  var p_jrn=$('p_jrn').value;
   if ( trim(ctl_value)==0 ) {
     nLabel=p_ctl+"_label";
     $(nLabel).value="";
-    $(nLabel).innerHTML="";
+    $(nLabel).innerHTML="&nbsp;";
     clean_Fid(p_ctl);
     return;
   }
   queryString="?FID="+ctl_value;
   queryString=queryString+"&d="+p_deb+"&j="+p_jrn+'&gDossier='+gDossier;
-  queryString=queryString+'&ctl='+p_ctl;
+  queryString=queryString+'&ctl='+p_ctl+'&PHPSESSID='+phpsessid;
   /*  alert(queryString); */
   var action=new Ajax.Request (
 			       "fid.php",
@@ -92,9 +95,6 @@ function successFid(request,json) {
   var buy=answer.buy;
   var tva_id=answer.tva_id;
   var ctl=answer.ctl;
-
-/*   alert('data:'+data+' sell:'+sell+' Tva id:'+tva_id); */
-
   var toSet=ctl+'_label';
   if (trim(data) == "" ) {
     $(toSet).innerHTML="Fiche Inconnue";
@@ -112,7 +112,7 @@ function successFid(request,json) {
     if ( $(nSell ) ) {
       $(nSell).value=sell;
     }
-    $(nBuy).value=buy;
+      if ( $(nBuy) )  $(nBuy).value=buy;
     
   }
 }

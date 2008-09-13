@@ -86,9 +86,9 @@ class Acc_Account_Ledger {
    * \return string with the pcm_lib
    */
   function get_name() {
-    $ret=pg_exec($this->db,
+    $ret=ExecSqlParam($this->db,
 		 "select pcm_lib from tmp_pcmn where
-                  pcm_val=".$this->id);
+                  pcm_val=$1",array($this->id));
       if ( pg_NumRows($ret) != 0) {
 	$r=pg_fetch_array($ret);
 	$this->name=$r['pcm_lib'];
@@ -103,8 +103,8 @@ class Acc_Account_Ledger {
    */
   function load()
   {
-    $ret=ExecSql($this->db,"select pcm_lib,pcm_val_parent from 
-                              tmp_pcmn where pcm_val=".$this->id);
+    $ret=ExecSqlParam($this->db,"select pcm_lib,pcm_val_parent from 
+                              tmp_pcmn where pcm_val=$1",array($this->id));
     $r=pg_fetch_all($ret);
     
     if ( ! $r ) return false;
@@ -250,7 +250,7 @@ function get_solde_detail($p_cond="") {
 	 "</TR>";
     
      }
-     $solde_type=($tot_deb>$tot_cred)?"solde dÈbiteur":"solde crÈditeur";
+     $solde_type=($tot_deb>$tot_cred)?"solde d√©biteur":"solde cr√©diteur";
      $diff=round(abs($tot_deb-$tot_cred),2);
      echo "<TR>".
        "<TD>$solde_type</TD>".
@@ -338,7 +338,7 @@ function get_solde_detail($p_cond="") {
 	  $SqlItem="$or pcm_val::text like '$item_cred'";
 	  $or="  or ";
 	} else {
-	  $SqlItem="$or pcm_val = '$item_cred' ";
+	  $SqlItem="$or pcm_val::text = '$item_cred' ";
 	  $or="  or ";
 	}
 	$SqlFilter=$SqlFilter.$SqlItem;

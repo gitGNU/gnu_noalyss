@@ -58,7 +58,7 @@ if ( $_POST["periode"] != "" ) {
     if ($ret==NOERROR) {
       echo '<H2 class="info">La p&eacute;riode '.$_POST["periode"].' est centralis&eacute;e</H2>';
     } else {
-      echo '<H2 class="error">La p&eacute;riode '.$_POST["periode"].' n\' a pu être centralis&eacute;e</H2>';
+      echo '<H2 class="error">La p&eacute;riode '.$_POST["periode"].' n\' a pu Ãªtre centralis&eacute;e</H2>';
     }
   } 
 }// if ( isset ($_POST["central"] ))
@@ -72,7 +72,7 @@ if ( $ret != null) {
   echo '<INPUT TYPE="SUBMIT" name="central" VALUE="Centralise">';
   echo '</FORM>';
 } else {
-  echo '<H2 class="info"> Aucune période à centraliser</H2>';
+  echo '<H2 class="info"> Aucune pÃ©riode Ã  centraliser</H2>';
 }
 
 echo "</DIV>";

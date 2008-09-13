@@ -37,23 +37,13 @@ require_once ('class_widget.php');
  * \return table in HTML
  * 
  */  
-function u_ShowDossier($p_user,$p_admin)
+function u_ShowDossier($p_user,$p_admin,$p_filtre="")
 {
-  $p_array=GetAvailableFolder($p_user,$p_admin);   
+  $p_array=GetAvailableFolder($p_user,$p_admin,$p_filtre);   
 
   $result="";
-  $result.="<table border=\"0\">";
-  $result.='<TR>';
-  if ( $p_admin == 1 ) {
-    $result.="<TD  class=\"mtitle\" ><A class=\"mtitle\" HREF=\"admin_repo.php\"> Administration  </A></TD>";
-  }
-  $result.='<TD  class="mtitle" ><A class="mtitle" HREF="manuel-fr.pdf" > Aide </a></TD>';
-  $result.='<TD class="mtitle"><A class="mtitle" HREF="user_pref.php">Pr&eacute;f&eacute;rence</a></TD>';
-  $result.='<TD  class="mtitle" ><A class="mtitle" HREF="logout.php" > Sortir</a></TD>';
-  $result.="</TR>";
-  $result.="</table>";
   if ( $p_array == 0 ) return $result." * Aucun dossier *";
-  $result.="<TABLE>";
+  $result.="<TABLE style=\"width:75%;border-width:0px;border-collapse:collapse;\">";
   for ($i=0;$i<sizeof($p_array);$i++) {
     $id=$p_array[$i]['dos_id'];
     $name= $p_array[$i]['dos_name'];
@@ -61,33 +51,21 @@ function u_ShowDossier($p_user,$p_admin)
     if ( $i%2 == 0) 
       $tr="odd";
     else $tr="even";
+    
 
-    $result.="<TR class=\"$tr\"><TD class=\"$tr\">";
+    $result.="<TR class=\"$tr\">";
+
+    $result.="<TD class=\"$tr\">";
+    $result.="<A class=\"dossier\" HREF=\"access.php?gDossier=$id\">";
     $result.=$id."  <B>$name</B>";
-    $result.="</TD><TD class=\"$tr\">";
-    $result.=$desc;
-    $result.="</TD><TD class=\"mtitle\">";
-    $result.="<A class=\"mtitle\" HREF=\"user_compta.php?gDossier=$id\">ComptabilitÈ</A>";
+    $result.="</A>";
     $result.="</TD>";
-    $result.="<TD class=\"mtitle\">";
-    $result.="<A class=\"mtitle\" HREF=\"commercial.php?gDossier=$id\">Gestion</A>";
+    $desc=($desc=="")?"<i>Aucune description</i>":$desc;
+    $desc="<A  class=\"dossier\" HREF=\"access.php?gDossier=$id\">".$desc."</a>";
+    $result.="<TD class=\"$tr\">".$desc;
     $result.="</TD>";
-    $result.="<TD class=\"mtitle\">";
-    $result.="<A class=\"mtitle\" HREF=\"comptanalytic.php?gDossier=$id\">Analytique</A>";
-    $result.="</TD>";
-    $result.="<TD class=\"mtitle\">";
-    $result.="<A class=\"mtitle\" HREF=\"budget.php?gDossier=$id\">Budget</A>";
-    $result.="</TD>";
-
-    $result.="<TD class=\"mtitle\">";
-    $result.="<A class=\"mtitle\" HREF=\"parametre.php?gDossier=$id\">ParamËtres</A>";
-    $result.="</TD>";
-
-/*     $result.="<TD class=\"mtitle\">"; */
-/*     $result.="<A class=\"mtitle\" HREF=\"caisse.php?dos=$id\">Caisse Enregistreuse</A>"; */
-/*     $result.="</TD>"; */
-
     $result.="</TR>";
+
   }
   $result.="</TABLE>";
   return $result;
@@ -104,7 +82,7 @@ function u_ShowDossier($p_user,$p_admin)
  *       - ac_dossier.dos_description
  *
  */ 
-function GetAvailableFolder($p_user,$p_admin)
+function GetAvailableFolder($p_user,$p_admin,$p_filter="")
 {
   $filter="";
   if ($p_admin==0) {
@@ -116,16 +94,16 @@ function GetAvailableFolder($p_user,$p_admin)
                   join  priv_user on ( priv_jnt=jnt_id)
           where use_active=1 
          and use_login='$p_user' 
-         and priv_priv != 'NO' order by dos_name";
+         and priv_priv != 'NO' and dos_name ilike '%$p_filter%'
+          order by dos_name";
 
   } else {
-    $sql="select distinct dos_id,dos_name,dos_description from ac_users 
-                  natural join jnt_use_dos 
-                  natural join  ac_dossier 
-      where  use_active=1  order by dos_name ";
+    $sql="select distinct dos_id,dos_name,dos_description from ac_dossier 
+      where  dos_name ilike '%$p_filter%' order by dos_name";
   }
   include_once("postgres.php");
   $cn=DbConnect();
+
   $Res=ExecSql($cn,$sql);
   $max=pg_numRows($Res);
   if ( $max == 0 ) return 0;
@@ -140,9 +118,8 @@ function GetAvailableFolder($p_user,$p_admin)
  *        and highight the selected one
  * \param  p_high what to hightlight, by default it is autodetected
  *         but sometimes it must be given. Default value=""
- * \todo clean param p_dossier
  *
- * \return none
+ * \return string
  *
  */
 function ShowMenuCompta($p_high="")
@@ -164,36 +141,57 @@ function ShowMenuCompta($p_high="")
   }
   if ( $p_high !== "" ) $default=$p_high;
 
-  echo_debug('user_menu.php',__LINE__,'defaut is '.$default);
   if  ( isset($_REQUEST['p_action']))
 	{
-	  if ( $_REQUEST['p_action']=='impress')
-		$default=5;
-	  if ( $_REQUEST['p_action']=='fiche')
-		$default=6;
-	  if ( $_REQUEST['p_action']=='quick_writing')
-		$default=4;
+	  switch ($_REQUEST['p_action'] ) {
+	  case 'impress':
+	    $default=5;
+	    break;
+	  case 'fiche':
+	    $default=6;
+	    break;
+	  case 'quick_writing':
+	    $default=4;
+	    break;
+	  case 'gl':
+	    $default=0;
+	    break;
+	  case 'ven':
+	    $default=1;
+	    break;
+	  case 'client':
+	    $default=1;
+	    break;
+	  case 'ach':
+	  case 'fournisseur':
+	    $default=2;
+	    break;
+	  case 'bank':
+	    $default=3;
+	    break;
 
+	  }
 	}
+  echo_debug('user_menu.php',__LINE__,'defaut is '.$default);
+
   $str_dossier=dossier::get();
   $p_array=array(
-		 array("user_jrn.php?jrn_type=NONE&".$str_dossier ,"Grand Livre"),
-		 array("user_jrn.php?jrn_type=VEN&".$str_dossier ,"Vente"),
-		 array("user_jrn.php?jrn_type=ACH&".$str_dossier,"DÈpense"),
-		 array("user_jrn.php?jrn_type=FIN&".$str_dossier,"Financier"),
-		 array("user_jrn.php?jrn_type=ODS&".$str_dossier,"Op. Diverses"),
+		 array("compta.php?p_action=gl&".$str_dossier ,"Grand Livre","Grand livre : toutes les op√©rations",0),
+		 array("compta.php?p_action=ven&".$str_dossier ,"Vente","Journal de vente / produit",1),
+		 array("compta.php?p_action=ach&".$str_dossier,"D√©pense","Journaux de d√©pense, d'achat",2 ),
+		 array("compta.php?p_action=bank&".$str_dossier,"Financier","Journaux financiers: les banques, la caisse",3),
 		 array('compta.php?p_action=quick_writing&'.$str_dossier,'Ecriture directe','Ecriture directe dans les journaux',4),
 		 
 		 array("compta.php?p_action=impress&".$str_dossier,"Impression","Impression",5),
 				 array("compta.php?p_action=fiche&".$str_dossier,"Fiche","Ajouter, modifier ou effacer des fiches",6),
-		 array("user_advanced.php?".$str_dossier,"AvancÈ","OpÈrations dÈlicates",7),
+		 array("user_advanced.php?".$str_dossier,"Avanc√©","Op√©rations d√©licates",7),
 		 );
 
   $result=ShowItem($p_array,'H',"mtitle","mtitle",$default,' width="100%"');
   $str_dossier=dossier::get();
   $r="";
   $r.=menu_tool("compta");
-  $r.='<div style="float:left;background-color:#879ED4;">';
+  $r.='<div style="float:left;background-color:#879ED4;width:100%;">';
   $r.=$result;
   $r.='</div>';
   //  $r.='</div>';
@@ -246,7 +244,7 @@ function ShowMenuJrnUser($p_dossier,$p_type,$p_jrn,$p_extra="")
   include_once ("debug.php");
   include_once("constant.php");
   include_once("class_user.php");
-  echo_debug('user_menu.php',__LINE__,"U_SHOWMENUJRNUSER PTYPE=$p_type");
+
 
   echo '<TABLE><TR>';
   include_once("postgres.php");
@@ -264,13 +262,13 @@ function ShowMenuJrnUser($p_dossier,$p_type,$p_jrn,$p_extra="")
                              where
                              uj_login='".$User->id."'
                              and uj_priv !='X'
-                             and jrn_def_type='$p_type' order by jrn_Def_id
+                             and jrn_def_type=upper('$p_type') order by jrn_Def_id
                              ");
     } else {
       $Ret=ExecSql($Cn,"select jrn_def_id,jrn_def_type,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_deb_max_line,jrn_cred_max_line,
                             jrn_type_id,jrn_desc,'W' as uj_priv
                              from jrn_def join jrn_type on jrn_def_type=jrn_type_id where
-                              jrn_def_type='$p_type' order by jrn_Def_id");
+                              jrn_def_type=upper('$p_type') order by jrn_Def_id");
 
     } 
     $Max=pg_NumRows($Ret);
@@ -302,9 +300,9 @@ function ShowMenuJrnUser($p_dossier,$p_type,$p_jrn,$p_extra="")
 	      $add='&p_action='.$_REQUEST['p_action'];
 	    }
 	  echo '<TD class="mtitle">';
-	  printf ('<A class="mtitle" HREF="%s?'.$str_dossier.'&jrn_type=%s&p_jrn=%s%s">%s</A></TD>',
+	  printf ('<A class="mtitle" HREF="%s?'.$str_dossier.'&p_action=%s&p_jrn=%s%s">%s</A></TD>',
 			  $href,
-			  $l_line['jrn_def_type'],
+			  $p_type,
 			  $l_line['jrn_def_id'],
 			  $add,
 			  $l_line['jrn_def_name']
@@ -318,7 +316,7 @@ function ShowMenuJrnUser($p_dossier,$p_type,$p_jrn,$p_extra="")
     if ( $p_extra !="" ) echo $p_extra;
     echo '</TR>';
     echo "</TABLE>";
-    //echo '</div>';
+
 
 }
 /*! 
@@ -475,7 +473,7 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
   $r.= '</TR><TR valigne="top">';
   $r.='<TD > Internal code ';
   $r.='<input type="text" style="border:groove 1px blue;"name="s_internal" value="'.$p_s_internal.'"></td>'; 
-  $r.='</TR><TR><TD colspan="2"><i>vous pouvez spÈcifier uniquement <br>une partie (VEN, num&eacute;ro d\'op&eacute;ration...)</i></td>';
+  $r.='</TR><TR><TD colspan="2"><i>vous pouvez sp√©cifier uniquement <br>une partie (VEN, num&eacute;ro d\'op&eacute;ration...)</i></td>';
 
 
   $r.="</TD></TR></TABLE></td><TD><table>";
@@ -483,7 +481,7 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
   $r.= "</TR>";
   $r.= "<TR>";
   $W=new widget("js_search_poste");
-  $W->label="NumÈro de poste<br> <i>Vous pouvez utilisez le %</i>";
+  $W->label="Num√©ro de poste<br> <i>Vous pouvez utilisez le %</i>";
   $W->name="poste";
   $W->value=$p_poste;
   $r.="<TR>".$W->IOValue();
@@ -543,9 +541,9 @@ function ShowMenuAdvanced($default="") {
 		array('user_advanced.php?p_action=central&'.$str_dossier,'Centralise',"Centralisation",3),
 
 		array('compta.php?p_action=stock&'.$str_dossier,'Stock',"Gestion des stocks",5),
-		array('form.php?'.$str_dossier,'Rapport',"Rapport",6),
+		array('user_advanced.php?p_action=defreport&'.$str_dossier,'Rapport',"Rapport",6),
 		array('import.php?'.$str_dossier,'Import Banque',"Banque",7),
-		array('ecrit_ouv.php?'.$str_dossier,'Ecriture ouverture',"",8),
+		array('user_advanced.php?p_action=ouv&'.$str_dossier,'Ecriture ouverture',"",8),
 		array('user_advanced.php?p_action=verif&'.$str_dossier,'V&eacute;rification',"",10)
 	),
 					  'H',"mtitle","mtitle",$default);
@@ -565,8 +563,8 @@ function ShowJrn($p_menu="")
 
  $p_array=array(
  		array("user_jrn.php?jrn_type=NONE" ,"Grand Livre"),
- 		array("user_jrn.php?jrn_type=VEN" ,"EntrÈe"),
-                array("user_jrn.php?jrn_type=ACH","DÈpense"),
+ 		array("user_jrn.php?jrn_type=VEN" ,"Entr√©e"),
+                array("user_jrn.php?jrn_type=ACH","D√©pense"),
                 array("user_jrn.php?jrn_type=FIN","Financier"),
                 array("user_jrn.php?jrn_type=ODS","Op. Diverses")
                  );
@@ -639,11 +637,15 @@ function MenuAdmin()
 	case 'modele_mgt':
 	  $def=2;
 	  break;
+	case 'restore';
+	  $def=3;
+	  break;
 	}
   }
   $item=array (array("admin_repo.php?action=user_mgt","Utilisateurs",'Gestion des utilisateurs',0),
-			   array("admin_repo.php?action=dossier_mgt","Dossiers",'Gestion des dossiers',1),
-			   array("admin_repo.php?action=modele_mgt","ModËles",'Gestion des modËles',2),
+	       array("admin_repo.php?action=dossier_mgt","Dossiers",'Gestion des dossiers',1),
+	       array("admin_repo.php?action=modele_mgt","Mod√®les",'Gestion des mod√®les',2),
+	       array("admin_repo.php?action=restore","Restore","Restaure une base de donn√©es",3),
 	       array("login.php","Accueil"),
 	       array("logout.php","Logout")
 	       );
@@ -681,18 +683,21 @@ function ShowMenuDocument()
  */ 
 function ShowMenuParam($p_action="")
 {
-  $s=dossier::get();
+  // The phpsessid is set manually to avoid problem when the server is
+  // misconfigured and the cookies are not sent (or accepted)
+  $s=dossier::get().'&PHPSESSID='.$_REQUEST['PHPSESSID'];
   $sub_menu=ShowItem(array(
 			  
-			   array('parametre.php?p_action=company&'.$s,'SociÈtÈs','Parametre societe',1),
+			   array('parametre.php?p_action=company&'.$s,'Soci√©t√©s','Parametre societe',1),
 			   array('parametre.php?p_action=devise&'.$s,'Devises','Devise',2),
 			   array('parametre.php?p_action=tva&'.$s,'Tva','Taux & poste pour la TVA',3),
 			   array('parametre.php?p_action=poste&'.$s,'Poste Comptable','Poste comptable constant',4),
 			  array('parametre.php?p_action=pcmn&'.$s,'Plan Comptable','Modification du plan comptable',11),
 			   array('parametre.php?p_action=fiche&'.$s,'Fiche','Modifie les classe de base',5),
-			   array('parametre.php?p_action=sec&'.$s,'SÈcuritÈ','securite',8),
+			   array('parametre.php?p_action=sec&'.$s,'S√©curit√©','securite',8),
+			   array('parametre.php?p_action=preod&'.$s,'Ecritures d√©finies','Ecritures d√©finies ',12),
 			   array('parametre.php?p_action=document&'.$s,'Document','Facture, lettre de rappel, proposition...',7),
-			  array('parametre.php?p_action=jrn&'.$s,'Journaux','Creation et modification de journaux',10)
+			   array('parametre.php?p_action=jrn&'.$s,'Journaux','Creation et modification de journaux',10)
 			
 			  ),
 		    'H',"mtitle","mtitle",$p_action,' width="100%"');
@@ -715,7 +720,7 @@ function MenuJrn()
 {
 	$str_dossier=dossier::get();
     echo '<TABLE>';
-    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="?p_action=jrn&sa=add&'.$str_dossier.'">CrÈation </A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle" HREF="?p_action=jrn&sa=add&'.$str_dossier.'">Cr√©ation </A></TD></TR>';
     include_once("postgres.php");
     $Cn=DbConnect(dossier::id());
     $Ret=ExecSql($Cn,"select jrn_def_id,jrn_def_name,
@@ -747,7 +752,7 @@ function ShowMenuPcmn($p_start=1)
 {
   $str_dossier="&".dossier::get();
     echo '<TABLE>';
-    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="?p_action=pcmn&p_start=1'.$str_dossier.'">1 ImmobilisÈ </A></TD></TR>';
+    echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="?p_action=pcmn&p_start=1'.$str_dossier.'">1 Immobilis√© </A></TD></TR>';
     echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="?p_action=pcmn&p_start=2'.$str_dossier.'">2 Actif a un an au plus</A></TD></TR>';
     echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="?p_action=pcmn&p_start=3'.$str_dossier.'">3 Stock et commande</A></TD></TR>';
     echo '<TR><TD class="mtitle"><A class="mtitle"  HREF="?p_action=pcmn&p_start=4'.$str_dossier.'">4 Compte tiers</A></TD></TR>';
@@ -758,35 +763,7 @@ function ShowMenuPcmn($p_start=1)
     echo '<TR><TD class="mtitle"><A class="mtitle" HREF="?p_action=pcmn&p_start=9'.$str_dossier.'">9 Hors Comptabilit&eacute;</A></TD></TR>';
     echo "</TABLE>";
 }
-/*!  
- * \brief Show the left menu for the report (add a report, view it)
- * 
- * \param $p_dossier dossier id
- *
- *
- *
- * \return nothing
- *
- *
- */ 
-function ShowMenuComptaForm() {
-  $cn=DbConnect(dossier::id());
-  $str_dossier=dossier::get();
-  echo '<div class="lmenu">';
-  echo '<TABLE>';
-  echo '<TR><TD class="mtitle"><A class="mtitle" HREF="form.php?action=add&'.$str_dossier.'">Ajout</A></TD></TR>';
-  $Ret=ExecSql($cn,"select fr_id, fr_label 
-                             from formdef order by fr_label");
-  $Max=pg_NumRows($Ret);
-    for ($i=0;$i<$Max;$i++) {
-      $l_line=pg_fetch_array($Ret,$i);
-      printf ('<TR><TD class="mtitle"><A class="mtitle" HREF="form.php?action=view&fr_id=%s&%s">%s</A></TD></TR>',
-			  $l_line['fr_id'],$str_dossier,$l_line['fr_label']);
 
-    }
-    echo "</TABLE>";
-    echo '</div>';
-}
 
 /*! 
  * \brief Show the menu for importing, verify and transfert Bank CSV
@@ -837,13 +814,15 @@ $r.='<script language="javascript">
 		 array('value'=>'analytic','label'=>'Compt. Analytique'),
 		 array('value'=>'budget','label'=>'Budget'),
 		 array('value'=>'param','label'=>'Parametre'),
-		 array('value'=>'home','label'=>'Accueil'),
-		 array('value'=>'logout','label'=>'Sortir')
+		 array('value'=>'access','label'=>'Accueil'),
+		 array('value'=>'home','label'=>'Autre Dossier'),
+		 array('value'=>'logout','label'=>'Deconnection')
 	       );
   if ( $_SESSION['g_topmenu'] == 'SELECT' ) {
     $lab="";
     foreach ($amodule as $l) 
       if ( $l['value'] == $p_from) {$lab=$l['label'];break;}
+    
     $gDossier=dossier::id();
     $r.= '<form method="GET" action="control.php" >';
     $w=new widget('select');
@@ -857,9 +836,11 @@ $r.='<script language="javascript">
     $r.= '<td style="border:2px solid blue;border-style:groove;">'.$w->IOValue();
     $r.= dossier::hidden();
     $r.=widget::submit('','Acces Direct').'</td>';
+    $r.='</tr>';
     $r.= '</table>';
     $r.= '</form>';
-    echo '<span style="background-color:red;padding:3px;color:white">'.$lab.'</span>';
+    if ( $lab !="")
+      echo '<span style="background-color:red;padding:3px;color:white">'.$lab.'</span>';
 
     $r.= '</div>';
   }

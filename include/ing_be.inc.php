@@ -38,9 +38,10 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 		list($num_compte, $code, $date_exec, $date_valeur, $montant, $devise, $montant2, $devise2, $rubriques, $detail, $zzz, $zzz, $date_comptable) = split(";", $data[$c]);
 		
 		# Bug CSV ING : "424 au lieu de 424
+#"
 		$code = str_replace("\"", "", $code);	
 		
-		# Bug CSV ING : espace après la date
+		# Bug CSV ING : espace apres la date
 		$date_exec = str_replace(" ", "", $date_exec);
 		$date_valeur = str_replace(" ", "", $date_valeur);
 		$date_exec = str_replace("\"", "", $date_exec);
@@ -50,7 +51,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 			$num_compte = $regs[0];
 		}
 		
-		// Si LTXXXXX ou LT XXXXX dans le détail
+		// Si LTXXXXX ou LT XXXXX dans le dÃ©tail
 		if ((ereg ("LT+([0-9]{5})", $detail, $regs)) || (ereg ("LT+[ ]+([0-9]{5})", $detail, $regs))) {
 			$iduser = $regs[1];
 		}
@@ -81,7 +82,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 		$code = $annee."-".$code;
 		
 		$sql = "select * from import_tmp where code='".$code."' and num_compte='".$num_compte."'";
-		$Res=ExecSql($p_cn,$sql);
+		$Res=ExecSql($p_cn,$sql,'latin1');
 		$Num=pg_NumRows($Res);
 		
 		if($Num > 0) {
@@ -110,7 +111,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 				$p_jrn,
 				'n')";
 	echo $sql;
-			$Res=ExecSql($p_cn,$Sql);
+	$Res=ExecSql($p_cn,$Sql,'latin1');
 		}
 	}
 

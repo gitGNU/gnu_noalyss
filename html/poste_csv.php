@@ -65,15 +65,15 @@ if ( ! isset ($_REQUEST['oper_detail'])) {
 	"\"Code interne\";".
 	"\"Date\";".
 	"\"Description\";".
-	"\"DÈbit\";".
-	"\"CrÈdit\"";
+	"\"D√©bit\";".
+	"\"Cr√©dit\"";
       printf("\n");
   
       
       foreach ( $Poste->row as $op ) { 
 	echo '"'.$pos['pcm_val'].'";'.
 	  '"'.$op['jr_internal'].'"'.";".
-	  '"'.$op['j_date'].'"'.";".
+	  '"'.$op['jr_date'].'"'.";".
 	  '"'.$op['description'].'"'.";".
 	  sprintf("%8.4f",$op['deb_montant']).";".
 	  sprintf("%8.4f",$op['cred_montant']);
@@ -81,7 +81,7 @@ if ( ! isset ($_REQUEST['oper_detail'])) {
     
     
   }
-  $solde_type=($tot_deb>$tot_cred)?"solde dÈbiteur":"solde crÈditeur";
+  $solde_type=($tot_deb>$tot_cred)?"solde d√©biteur":"solde cr√©diteur";
   $diff=abs($tot_deb-$tot_cred);
   printf(
     '"'."$solde_type".'"'.";".
@@ -123,7 +123,7 @@ if ( ! isset ($_REQUEST['oper_detail'])) {
 		 $r['j_poste'],
 		 $r['j_qcode'],
 		 $r['jr_internal'],
-		 $r['j_date'],
+		 $r['jr_date'],
 		 $a['description'],
 		 $r['j_montant'],
 		 $r['debit']);

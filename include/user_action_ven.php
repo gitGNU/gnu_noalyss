@@ -49,7 +49,6 @@ if ( ! isset ($_REQUEST['action'])) {
 if ( $action=="use_opd" ) {
   $op=new Pre_op_ven($cn);
   $op->set_od_id($_REQUEST['pre_def']);
-   $op->od_direct='f';
 
   $p_post=$op->compute_array();
   echo_debug(__FILE__.':'.__LINE__.'- ','p_post = ',$p_post);
@@ -60,20 +59,11 @@ if ( $action=="use_opd" ) {
   //--------------------
   // predef op.
   echo '<form method="GET">';
-  $op=new Pre_operation($cn);
-  $op->p_jrn=$_GET['p_jrn'];
-  $op->od_direct='f';
-  
-  $hid=new widget("hidden");
-  echo $hid->IOValue("action","use_opd");
-  echo dossier::hidden();
-  echo $hid->IOValue("p_jrn",$_GET['p_jrn']);
-  echo $hid->IOValue("jrn_type","VEN");
-  
-  if ($op->count() != 0 )
-    echo widget::submit('use_opd','Utilisez une op.prédéfinie');
-  echo $op->show_button();
-  
+  $op->set('ledger',$_GET['p_jrn']);
+  $op->set('ledger_type',"VEN");
+  $op->set('direct','f');
+
+  echo $op->form_get();
   echo '</form>';
   echo '</div>';
 
@@ -114,31 +104,23 @@ if ( $action == 'insert_vente' ) {
     // We want a blank form
     if ( $blank==1)
       {
-       $jrn=new Acc_Ledger($cn,  $_GET['p_jrn']);
-	   echo_debug('user_action_ven.php',__LINE__,"Blank form");
-	   // Show an empty form of invoice
-	   $form=FormVenInput($cn,$_GET['p_jrn'],$User->get_periode(),null,false,$jrn->GetDefLine());
-	   echo '<div class="u_redcontent">';
-	   echo $form;
-	   //--------------------
-	   // predef op.
-	   echo '<form method="GET">';
-	   $op=new Pre_operation($cn);
-	   $op->p_jrn=$_GET['p_jrn'];
-	   $op->od_direct='f';
+	$jrn=new Acc_Ledger($cn,  $_GET['p_jrn']);
+	$op=new Pre_op_ven($cn);
+	echo_debug('user_action_ven.php',__LINE__,"Blank form");
+	// Show an empty form of invoice
+	$form=FormVenInput($cn,$_GET['p_jrn'],$User->get_periode(),null,false,$jrn->GetDefLine());
+	echo '<div class="u_redcontent">';
+	echo $form;
+	//--------------------
+	// predef op.
 
-	   $hid=new widget("hidden");
-	   echo $hid->IOValue("action","use_opd");
-	   echo dossier::hidden();
-	   echo $hid->IOValue("p_jrn",$_GET['p_jrn']);
-	   echo $hid->IOValue("jrn_type","VEN");
-
-	   if ($op->count() != 0 )
-		 echo widget::submit('use_opd','Utilisez une op.prédéfinie');
-	   echo $op->show_button();
-
-	   echo '</form>';
-	   echo '</div>';
+	echo '<form method="GET">';
+	$op->set('ledger',$_REQUEST['p_jrn']);
+	$op->set('ledger_type',"VEN");
+	$op->set('direct','f');
+	echo $op->form_get();
+	echo '</form>';
+	echo '</div>';
     }
 
 }
@@ -240,7 +222,7 @@ $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from pa
 $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
 $w->selected=$current;
 
-echo 'Période  '.$w->IOValue("p_periode",$periode_start).widget::submit('gl_submit','Valider');
+echo 'PÃ©riode  '.$w->IOValue("p_periode",$periode_start).widget::submit('gl_submit','Valider');
 ?>
 </form>
 <?php  
@@ -307,7 +289,7 @@ echo 'Période  '.$w->IOValue("p_periode",$periode_start).widget::submit('gl_subm
 
    echo $list;
    if ( $max_line !=0 )
-     echo widget::submit('paid','Mise à jour paiement');
+     echo widget::submit('paid','Mise Ã  jour paiement');
    echo '</FORM>';
    echo "$bar <hr>";
 
@@ -365,9 +347,9 @@ if ( $action == 'voir_jrn_non_paye' ) {
     echo '<FORM METHOD="POST">';
 	echo dossier::hidden();  
     echo $bar2;
-    echo '<h2 class="info"> Echeance dépassée </h2>';
+    echo '<h2 class="info"> Echeance dÃ©passÃ©e </h2>';
     echo $list;
-    echo  '<h2 class="info"> Non Payée </h2>';
+    echo  '<h2 class="info"> Non PayÃ©e </h2>';
     echo $list2;
     echo $bar2;
     // Add hidden parameter
@@ -389,7 +371,7 @@ if ( $action == 'voir_jrn_non_paye' ) {
     echo '<hr>';
 
     if ( $m != 0 )
-      echo widget::submit('paid','Mise à jour paiement');
+      echo widget::submit('paid','Mise Ã  jour paiement');
 
     echo '</FORM>';
     echo '</div>';

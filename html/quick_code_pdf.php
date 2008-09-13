@@ -56,7 +56,7 @@ $Libelle=sprintf("(%s) %s ",$Fiche->id,$Fiche->getName());
 header_pdf($cn,$pdf);
 //  $pdf->ezText($Libelle,30);
 $pdf->ezTable($array,
-	      array ('jr_internal'=>'Opération',
+	      array ('jr_internal'=>'Operation',
 		     'j_date' => 'Date',
 		     'jrn_name'=>'Journal',
 		     'description'=>'Description',
@@ -65,9 +65,9 @@ $pdf->ezTable($array,
 		     ),$Libelle,
 	      array('shaded'=>0,'showHeadings'=>1,'width'=>500,
 		    'cols'=>array('montant'=> array('justification'=>'right'),
-				  )));
-$str_debit=sprintf("Débit  % 12.2f",$tot_deb);
-$str_cred=sprintf("Crédit % 12.2f",$tot_cred);
+				  )),true);
+$str_debit=utf8_decode(sprintf("DÃ©bit  % 12.2f",$tot_deb));
+$str_cred=utf8_decode(sprintf("CrÃ©dit % 12.2f",$tot_cred));
 $diff_solde=$tot_deb-$tot_cred;
 if ( $diff_solde < 0 ) {
   $solde=" C ";

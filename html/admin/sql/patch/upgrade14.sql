@@ -24,7 +24,7 @@ alter table import_tmp  add constraint chk_status check (status in ('n','w','d',
 
 alter table import_tmp drop column ok ;
 comment on table import_tmp is 'Table temporaire pour l''importation des banques en format CSV';
-comment on column import_tmp.status is 'Status doit être w pour en attente, t pour transfèrer ou d à effacer';
+comment on column import_tmp.status is 'Status doit Ãªtre w pour en attente, t pour transfÃ¨rer ou d Ã  effacer';
 
 
 create or replace function trim_cvs_quote() returns trigger as $trim$

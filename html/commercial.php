@@ -79,16 +79,17 @@ $p_action=(isset ($_REQUEST['p_action']))?$_REQUEST['p_action']:"";
 echo '<div style="float:left">';
 echo ShowItem(array(
 		    array('?p_action=client&'.$str_dossier,'Client'),
-		    array('?p_action=facture&'.$str_dossier,'Vente/Facture'),
+		    array('?p_action=ven&'.$str_dossier,'Vente/Facture'),
 		    array('?p_action=fournisseur&'.$str_dossier,'Fournisseur'),
-		    array('?p_action=depense&'.$str_dossier,'Achat/D&eacute;pense'),
+		    array('?p_action=ach&'.$str_dossier,'Achat/D&eacute;pense'),
+		    array('?p_action=bank&'.$str_dossier,'Banque'),
 		    array('?p_action=quick_writing&'.$str_dossier,'Ecriture directe'),
 		    array('?p_action=impress&'.$str_dossier,'Impression'),
 		    array('?p_action=stock&'.$str_dossier,'Stock'),
-		    array('?p_action=bank&'.$str_dossier,'Banque'),
 		    array('?p_action=fiche&'.$str_dossier,'Fiche'),
 		    array('?p_action=periode&'.$str_dossier,'Ferm. Periode'),
 		    array('?p_action=central&'.$str_dossier,'Centralisation'),
+		    array('?p_action=defreport&'.$str_dossier,'Rapport'),
 		    array('?p_action=contact&'.$str_dossier,'Contact'),
 		    array('?p_action=suivi_courrier&'.$str_dossier,'Suivi Courrier'),
 		    ),
@@ -111,6 +112,7 @@ if ( $p_action == "pref" )
 {
   require_once("pref.inc.php");
 }
+
 //-----------------------------------------------------
 // p_action == client
 //-----------------------------------------------------
@@ -124,6 +126,7 @@ if ( $p_action == 'fournisseur')
 {
   require_once("supplier.inc.php");
 }
+
 //-----------------------------------------------------
 // action
 if ( $p_action == 'suivi_courrier') 
@@ -133,9 +136,9 @@ if ( $p_action == 'suivi_courrier')
 //-----------------------------------------------------
 // p_action == facture
 //-----------------------------------------------------
-if ( $p_action == "facture" ) 
+if ( $p_action == "ven" ) 
 {
-  require_once("facture.inc.php");
+  require_once("compta_ven.inc.php");
 }
 //-----------------------------------------------------
 // Contact
@@ -145,15 +148,16 @@ if ( $p_action == 'contact')
 }
 //-----------------------------------------------------
 // Expense
-if ( $p_action == 'depense') 
+if ( $p_action == 'ach') 
 {
-  require_once("depense.inc.php");
+  require_once("compta_ach.inc.php");
 }
+
 //-----------------------------------------------------
 // Banque
 if ( $p_action == 'bank') 
 {
-  require_once("bank.inc.php");
+  require_once("compta_fin.inc.php");
 }
 if ( $p_action=='quick_writing') {
   require_once ('quick_writing.inc.php');
@@ -183,3 +187,9 @@ if ( $p_action=='periode') {
 if ( $p_action=='central') {
   require_once ('central.inc.php');
  }
+//-----------------------------------------------------
+// Expense
+if ( $p_action == 'defreport') 
+{
+  require_once("report.inc.php");
+}

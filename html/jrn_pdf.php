@@ -23,7 +23,10 @@
 // $Revision$
 /*! \file
  * \brief Send a ledger in a pdf format
- */
+ *
+ *\todo for the pdf, which doesn't support unicode you must
+ translate all the string to latin-1 with the utf8-decode function 
+*/
 
 require_once('class_dossier.php');
 $gDossier=dossier::id();
@@ -42,10 +45,10 @@ require_once ('header_print.php');
 echo_debug('jrn_pdf.php',__LINE__,"imp pdf journaux");
 $cn=DbConnect($gDossier);
 $l_type="JRN";
-$centr=" Non centralisé";
+$centr=" Non centralisÃ©";
 $l_centr=0;
 if ($_GET['central'] == 'on' ) {
-  $centr=" centralisé ";
+  $centr=utf8_decode(" centralisÃ© ");
   $l_centr=1;
 }
 $Jrn=new Acc_Ledger($cn,$_GET['jrn_id']);
@@ -102,44 +105,45 @@ if ( $Jrn->id==0  || $jrn_type=='FIN' || $jrn_type=='ODS' || $_REQUEST['p_simple
     $pdf->ezText($Jrn->name,30);
     
     if (  $l_centr == 1 ) {
-    // si centralisé montre les montants de rappel
-      $str_debit=sprintf( "report Débit  % 10.2f",$rap_deb);
-      $str_credit=sprintf("report Crédit % 10.2f",$rap_cred);
+    // si centralisÃ© montre les montants de rappel
+      $str_debit=utf8_decode(sprintf( "report DÃ©bit  % 10.2f",$rap_deb));
+      $str_credit=utf8_decode(sprintf("report CrÃ©dit % 10.2f",$rap_cred));
       $pdf->ezText($str_debit,12,array('justification'=>'right'));
       $pdf->ezText($str_credit,12,array('justification'=>'right'));
     }
-    
     $pdf->ezTable($a_jrn,
-		  array ('j_id'=>' Numéro',
+		  array ('j_id'=>utf8_decode(' NumÃ©ro'),
 			 'j_date' => 'Date',
 			 'poste'=>'Poste',
 			 'description' => 'Description',
-			 'deb_montant'=> 'Débit',
-			 'cred_montant'=>'Crédit')," ",
+			 'deb_montant'=>utf8_decode( 'DÃ©bit'),
+			 'cred_montant'=>utf8_decode('CrÃ©dit')),
+		  " ",
 		  array('shaded'=>0,'showHeadings'=>1,'width'=>500,
 			'cols'=>array('deb_montant'=> array('justification'=>'right'),
-				      'cred_montant'=> array('justification'=>'right'))));
+				      'cred_montant'=> array('justification'=>'right'))),
+		  true);
     $a=1;
     // Total Page
     $apage=array(array('deb'=>sprintf("%8.2f",$tot_deb),'cred'=>$tot_cred));
     foreach ($apage as $key=>$element) echo_debug('jrn_pdf.php',__LINE__,"apage $key => $element");
     $pdf->ezTable($apage,
 		array (
-		       'deb'=> 'Total Débit',
-		       'cred'=>'Total Crédit')," ",
+		       'deb'=>utf8_decode( 'Total DÃ©bit'),
+		       'cred'=>utf8_decode('Total CrÃ©dit'))," ",
 		array('shaded'=>0,'showHeadings'=>1,'width'=>200,
 		      'xPos'=>'right','xOrientation'=>'left',
 		      'cols'=>array('deb'=> array('justification'=>'right'),
-		      'cred'=> array('justification'=>'right'))));
+				    'cred'=> array('justification'=>'right'))),true);
 
     $count=count($a_jrn)-1;
     $last_id=$a_jrn[$count]['int_j_id'];
     $Exercice=get_exercice($cn,$a_jrn[$count]['periode']);
     if ( $l_centr == 1) {
-      // Montant de rappel si centralisé
+      // Montant de rappel si centralisÃ©
       list($rap_deb,$rap_cred)=get_rappel($cn,$last_id,$Jrn->id,$Exercice,LAST,$filter,$l_centr);
-      $str_debit=sprintf( "à reporter Débit  % 10.2f",$rap_deb);
-      $str_credit=sprintf("à reporter Crédit % 10.2f",$rap_cred);
+      $str_debit=utf8_decode(sprintf( "Ã  reporter DÃ©bit  % 10.2f",$rap_deb));
+      $str_credit=utf8_decode(sprintf("Ã  reporter CrÃ©dit % 10.2f",$rap_cred));
       $pdf->ezText($str_debit,12,array('justification'=>'right'));
       $pdf->ezText($str_credit,12,array('justification'=>'right'));
     }
@@ -152,25 +156,25 @@ if ( $Jrn->id==0  || $jrn_type=='FIN' || $jrn_type=='ODS' || $_REQUEST['p_simple
     $apage=array('deb'=>$tot_deb,'cred'=>$tot_cred);
     $pdf->ezTable($apage,
 		  array (
-			 'deb'=> 'Total Débit',
-			 'cred'=>'Total Crédit')," ",
+			 'deb'=>utf8_decode( 'Total DÃ©bit'),
+			 'cred'=>utf8_decode('Total CrÃ©dit'))," ",
 		  array('shaded'=>0,'showHeadings'=>1,'width'=>500,
 			'cols'=>array('deb'=> array('justification'=>'right'),
-				      'cred'=> array('justification'=>'right'))));
+				      'cred'=> array('justification'=>'right'))),true);
     $count=count($a_jrn)-1;
     $last_id=$a_jrn[$count]['int_j_id'];
     $Exercice=get_exercice($cn,$a_jrn[$count]['periode']);
     
     list($rap_deb,$rap_cred)=get_rappel($cn,$last_id,$Jrn->id,$Exercice,LAST,$filter,$l_centr);
-    $str_debit=sprintf( "à reporter  Débit % 10.2f",$rap_deb);
-    $str_credit=sprintf("à reporter Crédit % 10.2f",$rap_cred);
+    $str_debit=utf8_decode(sprintf( "Ã  reporter  DÃ©bit % 10.2f",$rap_deb));
+    $str_credit=utf8_deccode(sprintf("Ã  reporter CrÃ©dit % 10.2f",$rap_cred));
     $pdf->ezText($str_debit,12,array('justification'=>'right'));
     $pdf->ezText($str_credit,12,array('justification'=>'right'));
     
   }
   $pdf->ezStream();
   exit(0);
-} // impression detaillé
+} // impression detaillÃ©
 //----------------------------------------------------------------------
 // Simple Printing
 //---------------------------------------------------------------------
@@ -196,9 +200,12 @@ if  ( ($jrn_type=='ACH' || $jrn_type=='VEN' ) && $_REQUEST['p_simple']== 1 )
       $tmp1=$line_tva['tva_label'];
       $rap_tva[$tmp1]=0.0;
       if ( $space == 0 )
-	$col_tva=str_repeat(" ",6).$line_tva['tva_label'];
-	else 
-	  $col_tva.=str_repeat(" ",$space-strlen($line_tva['tva_label'])).$line_tva['tva_label'];
+	$col_tva=str_repeat(" ",6).utf8_decode($line_tva['tva_label']);
+      else {
+	$ecart=$space-strlen($line_tva['tva_label']);
+	$ecart=($ecart<0)?0:$ecart;
+	$col_tva.=str_repeat(" ",$ecart).utf8_decode($line_tva['tva_label']);
+      }
       $space=9;
     } 
 
@@ -222,7 +229,7 @@ if  ( ($jrn_type=='ACH' || $jrn_type=='VEN' ) && $_REQUEST['p_simple']== 1 )
     // page Header 
     $t=sprintf("Rappel TVAC = %.2f HTVA= %.2f",$total_TVAC,$total_HTVA);
     foreach($rap_tva as $idx=>$am) {
-      $t.=sprintf('[ %s = % .2f]',$idx,$am);
+      $t.=utf8_decode(sprintf('[ %s = % .2f]',$idx,$am));
     }
     $pdf->ezText($t,9,array('justification'=>'left'));
 
@@ -239,7 +246,7 @@ if  ( ($jrn_type=='ACH' || $jrn_type=='VEN' ) && $_REQUEST['p_simple']== 1 )
 
 
     $pdf->ezTable($a_jrn,
-		  array('num'=>'Numéro',
+		  array('num'=>utf8_decode('NumÃ©ro'),
 			'date'=>'Date',
 			'client'=>'Client',
 			'jr_internal'=>'Int.',
@@ -247,8 +254,9 @@ if  ( ($jrn_type=='ACH' || $jrn_type=='VEN' ) && $_REQUEST['p_simple']== 1 )
 			'HTVA'=>'HTVA',
 			'TVA_INLINE'=>$col_tva,
 			'TVAC'=>'TVAC'),
-		  $Jrn->name,
-		  array('shaded'=>0,'showHeadings'=>1,'fontSize'=>8,'width'=>750,'Maxwidth'=>750)
+		  utf8_decode($Jrn->name),
+		  array('shaded'=>0,'showHeadings'=>1,'fontSize'=>8,'width'=>750,'Maxwidth'=>750),
+		  true
 
 		       
 		  
@@ -274,13 +282,13 @@ if  ( ($jrn_type=='ACH' || $jrn_type=='VEN' ) && $_REQUEST['p_simple']== 1 )
     //total page
     $t=sprintf("total page TVAC = %.2f HTVA= %.2f",$total_tvac_page,$total_htva_page);
     foreach($page_tva as $idx=>$am) {
-      $t.=sprintf('[ %s = % .2f ]',$idx,$am);
+      $t.=utf8_decode(sprintf('[ %s = % .2f ]',$idx,$am));
     }
     $pdf->ezText($t,9,array('justification'=>'left'));
 
-    $t=sprintf("total à reporter TVAC = %.2f HTVA= %.2f",$total_TVAC,$total_HTVA);
+    $t=utf8_decode(sprintf("total Ã  reporter TVAC = %.2f HTVA= %.2f",$total_TVAC,$total_HTVA));
     foreach($rap_tva as $idx=>$am) {
-      $t.=sprintf('[ %s = % .2f ]',$idx,$am);
+      $t.=utf8_decode(sprintf('[ %s = % .2f ]',$idx,$am));
     }
     $pdf->ezText($t,9,array('justification'=>'left'));
 

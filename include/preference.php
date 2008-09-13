@@ -119,7 +119,8 @@ function FormPeriode($p_cn,$l_default=0,$p_type=OPEN,$p_suff="")
  * \param  p_periode
  *
  * \return array containing the start date & the end date
- *     
+ * \todo the function get_periode@preference.php    must be replaced
+ * by Periode::get_limit
  *
  */ 
 function get_periode($p_cn,$p_periode) 
@@ -188,7 +189,7 @@ function ShowDevise($p_cn)
   echo '<TABLE ALIGN="CENTER">';
   echo "<TR>";
   echo '<TH> CODE </TH>';
-  echo '<TH> Valeur <BR>(par rapport à l\'euro) </TH>';
+  echo '<TH> Valeur <BR>(par rapport Ã  l\'euro) </TH>';
   echo "</TR>";
 
   $Res=ExecSql($p_cn,"select pm_id,pm_code,pm_rate  from parm_money order by pm_code");

@@ -139,7 +139,7 @@ class parm_code {
  */
 
   function Get() {
-    if ( $this->p_code == -1 ) return "p_code non initialisé";
+    if ( $this->p_code == -1 ) return "p_code non initialisÃ©";
     $sql=sprintf("select * from parm_code where p_code='%s' ",
 		 $this->p_code);
     $Res=ExecSql($this->db,$sql);

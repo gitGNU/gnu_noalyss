@@ -32,6 +32,7 @@ require_once ('class_acexception.php');
 require_once ('class_acc_reconciliation.php');
 require_once ('class_periode.php');
 require_once ('class_gestion_purchase.php');
+require_once ('class_acc_account.php');
 
 /*!\file
 * \brief Class for jrn,  class acc_ledger for manipulating the ledger
@@ -635,14 +636,14 @@ class Acc_Ledger {
   { 
     if ( $this->id == 0 ) return;
 
-    $Res=ExecSql($this->db,"select jrn_Def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_def_type,
+    $Res=ExecSqlParam($this->db,"select jrn_Def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_def_type,
 	   jrn_deb_max_line,jrn_cred_max_line,jrn_def_ech,jrn_def_ech_lib,jrn_def_code,
 	   jrn_def_fiche_deb,jrn_def_fiche_deb
 	   from jrn_Def
-	      where jrn_def_id=".$this->id);
+	      where jrn_def_id=$1",array($this->id));
     $Count=pg_NumRows($Res);
     if ( $Count == 0 ) {
-      echo '<DIV="redcontent"><H2 class="error"> Param�tres journaux non trouv�s</H2> </DIV>';
+      echo '<DIV="redcontent"><H2 class="error"> Parametres journaux non trouves</H2> </DIV>';
       return null;
     }
     return pg_fetch_array($Res,0);
@@ -657,8 +658,8 @@ class Acc_Ledger {
   function GetDefLine() 
   {
     $sql_cred='jrn_deb_max_line';
-    $sql="select jrn_deb_max_line as value from jrn_def where jrn_def_id=".$this->id;
-    $r=ExecSql($this->db,$sql);
+    $sql="select jrn_deb_max_line as value from jrn_def where jrn_def_id=$1";
+    $r=ExecSqlParam($this->db,$sql,array($this->id));
     $Res=pg_fetch_all($r);
     echo_debug('class_acc_ledger',__LINE__,$Res);
     if ( sizeof($Res) == 0 ) return 1;
@@ -706,17 +707,16 @@ class Acc_Ledger {
   /*! 
    * \brief Show a select list of the ledger you can access in
    * writing, the security is taken in care but show the readable AND
-   * writable ledger 
-   * \param
-   * \param
-   * \param
-   * 
-   *
+   * writable ledger.
+   * \param $p_type = ALL or the type of the ledger (ACH,VEN,FIN,ODS)
+   * \param $p_access =3 for READ and WRITE, 2 for write and 1 for readonly
    * \return object widget select
    */
-  function select_ledger() {
+  function select_ledger($p_type="ALL",$p_access=3) {
     $user=new User($this->db);
-    $array=$user->get_ledger();
+    $array=$user->get_ledger($p_type,$p_access);
+
+    if ( $array == null ) return null;
     $idx=0;
     $ret=array();
 
@@ -745,9 +745,9 @@ class Acc_Ledger {
   function get_fiche_def() {
     $sql="select jrn_def_fiche_deb as deb,jrn_def_fiche_cred as cred ".
       " from jrn_def where ".
-      " jrn_def_id = ".$this->id;
+      " jrn_def_id = $1 ";
 
-    $r=ExecSql($this->db,$sql);
+    $r=ExecSqlParam($this->db,$sql,array($this->id));
 
     $res=pg_fetch_all($r);
     if ( empty($res) ) return null;
@@ -757,19 +757,15 @@ class Acc_Ledger {
   /*! 
    * \brief retrieve the jrn_def_class_deb and return it
    *
-   * \param
-   * \param
-   * \param
-   * 
    *
    * \return return an string 
    */
   function get_class_def() {
     $sql="select jrn_def_class_deb  ".
       " from jrn_def where ".
-      " jrn_def_id = ".$this->id;
+      " jrn_def_id = $1";
 
-    $r=ExecSql($this->db,$sql);
+    $r=ExecSqlParam($this->db,$sql,array($this->id));
 
     $res=pg_fetch_all($r);
 
@@ -811,29 +807,30 @@ class Acc_Ledger {
     $ret.=$hidden->IOValue('e_comm',$desc);
     $ret.=$hidden->IOValue('jrn_type',$this->get_type());
     $ret.=$hidden->IOValue('p_jrn',$this->id);
-    $ret.=$hidden->IOValue('nb_item',$this->nb);
+    $ret.=$hidden->IOValue('nb_item',$nb_item);
     if ( $this->with_concerned==true) {
       $ret.=$hidden->IOValue('jrn_concerned',$jrn_concerned);
     }
     $ret.=dossier::hidden();
     $count=0;
-    for ($i=0;$i<$this->nb;$i++) {
+    for ($i=0;$i<$nb_item;$i++) {
       $ret.="<tr>";
       if ( trim(${'qc_'.$i})!="") {
 	$oqc=new fiche($this->db);
 	$oqc->get_by_qcode(${'qc_'.$i},false);
 	$strPoste=$oqc->strAttribut(ATTR_DEF_ACCOUNT);
-	$ret.="<td>".${'qc_'.$i}.' - '.
-				   $oqc->strAttribut(ATTR_DEF_NAME).$hidden->IOValue('qc_'.$i,${'qc_'.$i}).
-				   '</td>';
+	$ret.="<td>".
+	  ${'qc_'.$i}.' - '.
+	  $oqc->strAttribut(ATTR_DEF_NAME).$hidden->IOValue('qc_'.$i,${'qc_'.$i}).
+			'</td>';
       }
 
       if ( trim(${'qc_'.$i})=="" && trim(${'poste'.$i}) != "") {
 	$oposte=new Acc_Account_Ledger($this->db,${'poste'.$i});
 	$strPoste=$oposte->id;
 	$ret.="<td>".${"poste".$i}." - ".
-				     $oposte->get_name().$hidden->IOValue('poste'.$i,${'poste'.$i}).
-				     '</td>';
+	      $oposte->get_name().$hidden->IOValue('poste'.$i,${'poste'.$i}).
+             '</td>';
       }
 
       if ( trim(${'qc_'.$i})=="" && trim(${'poste'.$i}) == "") 
@@ -888,13 +885,22 @@ class Acc_Ledger {
     $ret.=JS_SEARCH_CARD;
     $ret.=JS_SEARCH_POSTE;
     $ret.=JS_AJAX_FICHE;
+    $ret.=JS_PROTOTYPE;
+    $ret.=JS_INFOBULLE;
     // 
     $ret.="<table>";
     $ret.= '<tr><td>';
     $wDate=new widget('js_date','Date','date');
     $wDate->table=1;
     $wDate->readonly=$p_readonly;
-    $wDate->value=(isset($date))?$date:'';
+    $date=(isset($date)&&trim($date)!='')?$date:'';
+    if (trim($date)=='') {
+      $user=new User($this->db);
+      $periode=new Periode($this->db);
+      list ($l_date_start,$l_date_end)=$periode->get_date_limit($user->get_periode());
+      $date=$l_date_start;
+    }
+    $wDate->value=$date;
 
     $ret.=$wDate->IOValue();
     $ret.= '</td></tr>';
@@ -908,32 +914,39 @@ class Acc_Ledger {
     $ret.= '</td></tr>';
 
     $ret.= '</table>';
-
     //     $nb_row=(isset($nb))?$nb:$this->GetDefLine();
-    $nb_row=$this->nb;
-    $hidden=new widget('hidden','nb','nb');
-    $hidden->value=$nb_row;
-    $ret.=$hidden->IOValue();
+    $nb_row=(isset($nb_item) )?$nb_item:$this->nb;
+
+    $ret.=widget::hidden('nb_item',$nb_row);
     $ret.=dossier::hidden();
+    $hidden=new widget('hidden');
     $ret.=$hidden->IOValue('p_jrn',$this->id);
     $ret.=$hidden->IOValue('jrn_type',$this->get_type());
-    $ret.='<table border="2">';
+    $info= widget::infobulle(0);
+    $info_poste=widget::infobulle(9);
+    $ret.='<table id="quick_item" style="width:100%">';
     $ret.='<tr>'.
-      '<th colspan="4">Quickcode</th>'.
-      '<th colspan="2">Poste</th>'.
+      '<th colspan="2">Quickcode'.$info.'</th>'.
+      '<th colspan="2">Poste'.$info_poste.'</th>'.
       '<th> Montant</th>'.
       '<th>D&eacute;bit</th>'.
       '</tr>';
 
     for ($i = 0 ;$i<$nb_row;$i++){
       // Quick Code
-      $quick_code=new widget('js_search');
+      $quick_code=new widget('js_search_only');
       $quick_code->name='qc_'.$i;
       $quick_code->value=(isset(${'qc_'.$i}))?${'qc_'.$i}:"";
       $quick_code->readonly=$p_readonly;
-      $quick_code->extra2=$this->id;
+      $quick_code->extra2='QuickCode?';
       $quick_code->extra='filter';
-      $qc_span=new widget('span','','qc_'.$i.'_label');
+      $label='';
+      if ( $quick_code->value != '' ) {
+	$Fiche=new fiche($this->db);
+	$Fiche->get_by_qcode($quick_code->value);
+	$label=$Fiche->strAttribut(ATTR_DEF_NAME);
+      }
+      $qc_span=new widget('span','','qc_'.$i.'_label',$label);
 
       // Account 
       $poste=new widget('js_search_poste');
@@ -942,9 +955,15 @@ class Acc_Ledger {
       $poste->readonly=$p_readonly;
       $poste->extra=$this->id;
       $poste->extra2=$this->get_class_def();
+      $label='';
+      if ( $poste->value != '' ) {
+	$Poste=new Acc_Account($this->db);
+	$Poste->id=$poste->value;
+	$label=$Poste->get_lib();
+      }
 
 
-      $poste_span=new widget('span','','poste'.$i.'_label');
+      $poste_span=new widget('span','','poste'.$i.'_label',$label);
 
       // Amount
       $amount=new widget('text');
@@ -1028,16 +1047,13 @@ class Acc_Ledger {
 	throw new AcException('Periode fermee',6);
       }
 
-    for ($i=0;$i<$this->nb;$i++) 
+    for ($i=0;$i<$nb_item;$i++) 
       {
 	$err=0;
 
 	// Check the balance
 	if ( ! isset (${'amount'.$i}))
 	  continue;
-
-	if ( isNumber(${'amount'.$i} ) == 0 )
-	  throw new AcException('Montant invalide',3);
 
 	$amount=round(${'amount'.$i},2);
 	$tot_deb+=(isset(${'ck'.$i}))?$amount:0;
@@ -1047,17 +1063,23 @@ class Acc_Ledger {
 	if ( isset (${'qc_'.$i}) && trim(${'qc_'.$i}) !="") {
 	  $f=new fiche($this->db);
 	  $f->quick_code=${'qc_'.$i};
-
 	  if ( $f->belong_ledger($p_jrn) < 0 )
 	    throw new AcException("La fiche quick_code = ".
 				  $f->quick_code." n\'est pas dans ce journal",4);
+	  if ( strlen(trim(${'qc_'.$i}))!=0 &&  isNumber(${'amount'.$i} ) == 0 )
+	    throw new AcException('Montant invalide',3);
+
 	}
 
 	// Check if the account is permitted
-	if ( isset (${'poste'.$i})) {
+	if ( isset (${'poste'.$i}) && strlen (trim(${'poste'.$i})) != 0 ) {
 	  $p=new Acc_Account_Ledger($this->db,${'poste'.$i});
 	  if ( $p->belong_ledger ($p_jrn) < 0 )
 	    throw new AcException("Le poste ".$p->id." n\'est pas dans ce journal",5);
+	  if ( strlen(trim(${'poste'.$i}))!=0 &&  isNumber(${'amount'.$i} ) == 0 )
+	  throw new AcException('Montant invalide',3);
+
+
 	}
 
 
@@ -1065,8 +1087,8 @@ class Acc_Ledger {
     $tot_deb=round($tot_deb,4);
     $tot_cred=round($tot_cred,4);
     if ( $tot_deb != $tot_cred ) {
-      print_r('$tot_deb'.$tot_deb);
-      print_r('$tot_cred'.$tot_cred);
+      /*      print_r('$tot_deb'.$tot_deb);
+	      print_r('$tot_cred'.$tot_cred); */
       throw new AcException("Balance incorrecte debit = $tot_deb credit=$tot_cred ",1);
     }
        
@@ -1112,9 +1134,10 @@ class Acc_Ledger {
       $group=NextSequence($this->db,"s_oa_group");       
       $own=new own($this->db);
       $tot_amount=0;
-
+      $tot_deb=0;
+      $tot_cred=0;
       $count=0;
-      for ($i=0;$i<$this->nb;$i++) 
+      for ($i=0;$i<$nb_item;$i++) 
 	{
 	  if ( ! isset (${'qc_'.$i}) && ! isset(${'poste'.$i}))
 	    continue;
@@ -1140,7 +1163,8 @@ class Acc_Ledger {
 	  $acc_op->qcode=$quick_code;
 	  $j_id=$acc_op->insert_jrnx();
 	  $tot_amount+=round($acc_op->amount,2);
-	   
+	  $tot_deb+=($acc_op->type=='d')?$acc_op->amount:0;
+	  $tot_cred+=($acc_op->type=='c')?$acc_op->amount:0;
 	  if ( $own->MY_ANALYTIC != "nu" )
 	    {
 	      if ( ereg("^[6,7]+",$poste)) {
@@ -1156,8 +1180,9 @@ class Acc_Ledger {
 		$count++;
 	      }
 	    }
-	}
+	}// loop for each item
       $acc_end=new Acc_Operation($this->db);
+      $acc_end->amount=$tot_deb;
       $acc_end->date=$date;
       $acc_end->desc=$desc;
       $acc_end->grpt=$seq;
@@ -1226,6 +1251,16 @@ class Acc_Ledger {
     $Ret=CountSql($p_cn,"select * from jrn_def where jrn_def_type='".$p_type."'");
     return $Ret+1;
   }
+  /*!\brief get the first ledger
+   *\param the type
+   *\return the j_id
+   */
+  public function get_first($p_type) {
+    $user=new User($this->db);
+    $all=$user->get_ledger($p_type);
+    return $all[0];
+  }
+
   /*! 
    * \brief this function is intended to test this class
    */
@@ -1267,8 +1302,10 @@ class Acc_Ledger {
     }
  
     if ( isset($_POST['post_id' ])) {
+
       echo '<form method="post">';
       echo $a->show_form($_POST,1);
+      echo widget::button('add','Ajout d\'une ligne','onClick="quick_writing_add_row()"');
       echo widget::submit('save_it',"Sauver");
       echo '</form>';
       exit();
@@ -1309,6 +1346,95 @@ class Acc_Ledger {
     }
 
   }
+  /*!\brief Update the paiment  in the list of operation
+   *\param $p_array is normally $_GET 
+   */
+  function update_paid($p_array) {
+	// reset all the paid flag because the checkbox is post only
+	// when checked
+	foreach ($p_array as $name=>$paid) 
+	  {
+	    list($ad) = sscanf($name,"set_jr_id%d");
+ 	    if ( $ad == null ) continue;
+ 	    $sql="update jrn set jr_rapt='' where jr_id=$ad";
+ 	    $Res=ExecSql($this->db,$sql);
+
+	  }
+	// set a paid flag for the checked box
+	foreach ($p_array as $name=>$paid) 
+	  {
+	    list ($id) = sscanf ($name,"rd_paid%d");
+
+	    if ( $id == null ) continue;
+	    $paid=($paid=='on')?'paid':'';
+	    $sql="update jrn set jr_rapt='$paid' where jr_id=$id";
+	    $Res=ExecSql($this->db,$sql);
+	  }
+
+  }
+  function update_internal_code($p_internal) {
+    if ( ! isset($this->grpt_id) )
+      exit( 'ERREUR '.__FILE__.":".__LINE__);
+    $Res=ExecSql($this->db,"update jrn set jr_internal='".$p_internal."' where ".
+		 " jr_grpt_id = ".$this->grpt_id);
+
+  }
+  /*!\brief retrieve all the card for this type of ledger, make them
+   *into a string separated by comma
+   *\param none 
+   *\return all the card or null is nothing is found
+   */
+  function get_all_fiche_def() {
+    $sql="select jrn_def_fiche_deb as deb,jrn_def_fiche_cred as cred ".
+      " from jrn_def where ".
+      " jrn_def_type = $1 ";
+
+    $r=ExecSqlParam($this->db,$sql,array($this->type));
+
+    $res=pg_fetch_all($r);
+    if ( empty($res) ) return null;
+    $card="";
+    $comma='';
+    foreach ($res as $item ) {
+      if ( strlen(trim($item['deb'])) != 0 ) {
+	$card.=$comma.$item['deb'];
+	$comma=',';
+      }
+      if ( strlen(trim($item['cred'])) != '') {
+	$card.=$comma.$item['cred'];
+	$comma=',';
+      }
+
+    }
+
+    return $card;
+  }
+  /*!\brief get the saldo of an exercice, used for the opening of a folder
+   *\param $p_exercice is the exercice we want
+   *\return an array
+   * index = 
+   * - solde (debit > 0 ; credit < 0)
+   * - j_poste
+   * - j_qcode
+   */
+  function get_saldo_exercice($p_exercice) {
+    $sql="select sum(a.montant) as solde, j_poste, j_qcode
+          from 
+             (select j_id, case when j_debit='t' then j_montant
+                                                 else j_montant * (-1) end  as montant
+               from jrnx) as a
+          join jrnx using (j_id)
+          join parm_periode on (j_tech_per = p_id )
+          where
+          p_exercice=$1
+          and j_poste::text not like '7%'
+          and j_poste::text not like '6%'
+          group by j_poste,j_qcode
+          having (sum(a.montant) != 0 )";
+    $res=get_array($this->db,$sql,array($p_exercice));
+    return $res;
+  }
+
 
 
 }

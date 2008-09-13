@@ -40,17 +40,6 @@ $User->Check();
 include_once("preference.php");
 include_once("user_menu.php");
 echo '<div class="u_tmenu">';
-/*
-echo '<div style="float:left">';
-echo "<H2 class=\"info\"> Param&egrave;tre ".dossier::name().'<h2>'.
-'</div>'.'
-<div align="right">
-<A HREF="user_compta.php?gDossier='.$gDossier.'" title="Comptabilit&eacute;"><IMG SRC="image/compta.png" width="36"  border="0" ></A>
-
-<A HREF="login.php" title="Accueil"><IMG src="image/home.png" width="36"  border="0"  ></A>
-<A HREF="logout.php" title="Sortie"><IMG src="image/logout.png" title="Logout"  width="36"  border="0"></A>
-</div>
-*/
 
 echo menu_tool('param');
 echo '<div style="float:left">';
@@ -97,6 +86,9 @@ switch ($p_action) {
    break;
  case 'company':
    $default=1;
+   break;
+ case 'preod':
+   $default=12;
    break;
  default:
    $default="parametre.php?p_action=".$p_action;
@@ -208,7 +200,7 @@ if ( $p_action=='company') {
   $array=array (
 				array("value"=>"ob",'label'=>"obligatoire"),
 				array("value"=>"op",'label'=>"optionnel"),
-				array("value"=>"nu",'label'=>"non utilisé")
+				array("value"=>"nu",'label'=>"non utilisÃ©")
 				);
   $compta=new widget("select");
   $compta->table=1;
@@ -219,15 +211,15 @@ if ( $p_action=='company') {
   echo '<form method="post" action="?p_action=company">';
   echo dossier::hidden();
   echo "<table class=\"result\">";
-  echo "<tr>".$all->IOValue("p_name",$my->MY_NAME,"Nom société")."</tr>";
-  echo "<tr>".$all->IOValue("p_tel",$my->MY_TEL,"Téléphone")."</tr>";
+  echo "<tr>".$all->IOValue("p_name",$my->MY_NAME,"Nom sociÃ©tÃ©")."</tr>";
+  echo "<tr>".$all->IOValue("p_tel",$my->MY_TEL,"TÃ©lÃ©phone")."</tr>";
   echo "<tr>".$all->IOValue("p_fax",$my->MY_FAX,"Fax")."</tr>";
   echo "<tr>".$all->IOValue("p_street",$my->MY_STREET,"Rue ")."</tr>";
-  echo "<tr>".$all->IOValue("p_no",$my->MY_NUMBER,"Numéro")."</tr>";
+  echo "<tr>".$all->IOValue("p_no",$my->MY_NUMBER,"NumÃ©ro")."</tr>";
   echo "<tr>".$all->IOValue("p_cp",$my->MY_CP,"Code Postal")."</tr>";
   echo "<tr>".$all->IOValue("p_Commune",$my->MY_COMMUNE,"Commune")."</tr>";
   echo "<tr>".$all->IOValue("p_pays",$my->MY_PAYS,"Pays")."</tr>";
-  echo "<tr>".$all->IOValue("p_tva",$my->MY_TVA,"Numéro de Tva")."</tr>";
+  echo "<tr>".$all->IOValue("p_tva",$my->MY_TVA,"NumÃ©ro de Tva")."</tr>";
   echo "<tr>".$compta->IOValue("p_compta",$array,"Utilisation de la compta. analytique")."</tr>";
   echo "</table>";
   $submit=new widget("submit");
@@ -239,7 +231,7 @@ if ( $p_action=='company') {
 //-----------------------------------------------------
 echo "</DIV>";
 if ( $p_action == 'document' ) {
-  echo '<div class="u_content">';
+  echo '<div class="content">';
   require_once('document_modele.inc.php');
   echo '</div>';
 }  
@@ -255,13 +247,25 @@ if ( $p_action == 'pcmn' ) {
 if ( $p_action == 'sec' ) {
   require_once('param_sec.inc.php');
 }  
+//----------------------------------------------------------------------
+// Predefined operation
+//----------------------------------------------------------------------
+if ( $p_action == 'preod' ) {
+  require_once('preod.inc.php');
+}  
 
+//---------------------------------------------------------------------------
+// Definition of report
+//---------------------------------------------------------------------------
+if ( $p_action == 'defrapport' ) {
+  require_once('report.inc.php');
+}
 //----------------------------------------------------------------------
 // Ledger parameter
 //----------------------------------------------------------------------
 if ( $p_action == 'jrn' ) {
   $sa=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
-  //  echo '<div class="u_content">';
+  //  echo '<div class="content">';
   if ( $sa == "add") 
     require_once ('param_jrn_add.inc.php');
   elseif ($sa=='detail') 

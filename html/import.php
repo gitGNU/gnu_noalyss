@@ -40,7 +40,7 @@ $User=new User($cn);
 $User->Check();
 
 html_page_start($User->theme);
-echo JS_PROTOTYPE_JS;
+echo JS_PROTOTYPE;
 
 /* Admin. Dossier */
 
@@ -89,6 +89,7 @@ if ( isset ($_GET["action"]) ) {
   if ($action == "transfer" ) {
 
     echo '<DIV class="u_redcontent">';
+    echo '<span class="notice"> Seulement les opérations de la période par défaut (voir préférence) seront transfèrées</span><hr>';
     //   TransferCSV($cn, 
     ConfirmTransfert($cn,$User->get_periode());
     echo "</DIV>";

@@ -41,7 +41,7 @@ if ( $_POST['action'] == 'delete') {
   $obj->bd_id=$bd_id;
   $obj->delete_by_bd_id();
   }
-  header("Content-type: application/json charset=\"ISO8859-1\"",true);
+  header("Content-type: application/json charset=\"utf8\"",true);
   echo '{"bd_id":"0","form_id":"'.$form_id.'"}';
 
 }
@@ -60,7 +60,7 @@ if ( $_POST['action'] == 'save' ) {
     $obj->update();
 
   }
-  header("Content-type: application/json charset=\"ISO8859-1\"",true);
+  header("Content-type: application/json charset=\"utf8\"",true);
   echo '{"bd_id":"'.$obj->bd_id.'","form_id":"'.$form_id.'"}';
 
 }

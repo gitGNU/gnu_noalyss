@@ -15,7 +15,7 @@
  *   You should have received a copy of the GNU General Public License
  *   along with PHPCOMPTA; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+ */
 // Auteur Dany De Bontridder ddebontridder@yahoo.fr
 include_once ("ac_common.php");
 include_once ("postgres.php");
@@ -25,6 +25,10 @@ require_once("class_fiche_def.php");
 
 /*! \file
  * \brief Create a new card in a popup window
+ * \note parameter (GET) e_type (deb, cred, filter) if filter is
+ * specified, you can give a p_jrn parameter, otherwise e_type
+ * contains a list of value
+ * 
  */
 
 /* $Revision$ */
@@ -34,7 +38,7 @@ include_once ("class_user.php");
 $User=new User($rep);
 $User->Check();
 
-html_page_start($User->theme,"onLoad='window.focus();'");
+html_min_page_start($User->theme,"onLoad='window.focus();'");
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 
@@ -56,7 +60,7 @@ foreach ($_GET as $key=>$element) {
   echo_debug('fiche_new.php',__LINE__,"e_$key =$element<br>");
 
 }
-
+echo JS_TVA;
 function new_fiche($p_cn,$p_type) {
   $fiche=new fiche($p_cn);
   $r='<FORM action="fiche_new.php" method="post">';
@@ -69,7 +73,7 @@ function new_fiche($p_cn,$p_type) {
 
   $r.= '<H2 class="info"> '.$fiche_def->label.'<br>Nouveau </H2>';
   $r.= $fiche->blank($p_type);
-    $r.='<INPUT TYPE="SUBMIT" name="add_fiche" value="Mis à jour">';
+    $r.='<INPUT TYPE="SUBMIT" name="add_fiche" value="Mis Ã  jour">';
 
     $r.='</FORM>';
     return $r;
@@ -109,11 +113,11 @@ if ( isset($_POST['add_fiche'])) {
   } else { // We have to find it from the database
     if ( $e_type == 'deb' ) {
       $get='jrn_def_fiche_deb';
-      $sql="select $get as fiche from jrn_def where jrn_def_id=".$_GET['p_jrn'];
+      $sql="select $get as fiche from jrn_def where jrn_def_id=$1";
     }
     if ( $e_type == 'cred' ) {
       $get='jrn_def_fiche_cred';
-    $sql="select $get as fiche from jrn_def where jrn_def_id=".$_GET['p_jrn'];
+      $sql="select $get as fiche from jrn_def where jrn_def_id=$1";
     }
     if ($e_type=='filter') {
     
@@ -121,13 +125,13 @@ if ( isset($_POST['add_fiche'])) {
 
     $get_deb='jrn_def_fiche_deb';
 
-    $sql="select $get_cred||','||$get_deb as fiche from jrn_def where jrn_def_id=".$_GET['p_jrn'];
+    $sql="select $get_cred||','||$get_deb as fiche from jrn_def where jrn_def_id=$1";
     
   }
 
     
 
-    $Res=ExecSql($cn,$sql);
+    $Res=ExecSqlParam($cn,$sql,array($_GET['p_jrn']));
     
   // fetch it
     $Max=pg_NumRows($Res);
@@ -138,7 +142,7 @@ if ( isset($_POST['add_fiche'])) {
     // Normally Max must be == 1
     $list=pg_fetch_array($Res,0);
     if ( $list['fiche']=="") {
-      echo_warning("Journal mal paramètré");
+      echo_warning("Journal mal paramÃ¨trÃ©");
       return;
     }
   }
@@ -165,7 +169,7 @@ if ( isset($_POST['cat'])) {
 //      recharger avec var. cat
 if ( sizeof($a)>1 and !isset ($_POST['cat']))
   {
-    echo "Choix catégories fiche";
+    echo "Choix catÃ©gories fiche";
     echo '<FORM METHOD="POST" ACTION="'.$_SERVER['REQUEST_URI'].'">';
 	echo dossier::hidden();
     foreach ($a as $element) {

@@ -55,7 +55,7 @@ class fiche_def {
   function GetAttribut() {
     $sql="select * from jnt_fic_attr ".
       " natural join attr_def where fd_id=".$this->id.
-      " order by ad_id";
+      " order by jnt_order";
 
     $Ret=ExecSql($this->cn,$sql);
 
@@ -65,6 +65,7 @@ class fiche_def {
       $row=pg_fetch_array($Ret,$i);
       $t = new Attribut($row['ad_id']);
       $t->ad_text=$row['ad_text'];
+      $t->jnt_order=$row['jnt_order'];
       $this->attribut[$i]=$t;
     }
     return $this->attribut;
@@ -217,8 +218,8 @@ class fiche_def {
     
        // Add the class_base if needed
        
-       $sql=sprintf("insert into jnt_fic_attr(fd_id,ad_id) 
-                     values (%d,%d)",$fd_id,ATTR_DEF_ACCOUNT);
+       $sql=sprintf("insert into jnt_fic_attr(fd_id,ad_id,jnt_order) 
+                     values (%d,%d,10)",$fd_id,ATTR_DEF_ACCOUNT);
        $Res=ExecSql($this->cn,$sql);
 
      } else {
@@ -241,9 +242,12 @@ class fiche_def {
      if (sizeof($def_attr) != 0 ) {
        // insert all the mandatory fields into jnt_fiche_attr
        foreach ( $def_attr as $i=>$v) {
-	 $sql=sprintf("insert into jnt_fic_Attr(fd_id,ad_id)
-                   values (%d,%s)",
-		      $fd_id,$v['ad_id']);
+	 $jnt_order=10;
+	 if ( $v['ad_id'] == ATTR_DEF_NAME ) 
+	   $jnt_order=0;
+	 $sql=sprintf("insert into jnt_fic_Attr(fd_id,ad_id,jnt_order)
+                   values (%d,%s,%d)",
+		      $fd_id,$v['ad_id'],$jnt_order);
 	 ExecSql($this->cn,$sql);
        }
      }
@@ -396,11 +400,19 @@ class fiche_def {
 				$this->attribut[$i]->ad_id);
 			}
 		  else
-		    $add_action="";
+		    $add_action="</td><td>";
 		}	
 	  // The attribut.
 	  $a=sprintf('%s ',  $this->attribut[$i]->ad_text);
 	  $r.=$a.$add_action;
+	  /*----------------------------------------  */
+	  /*  ORDER OF THE CARD */
+	  /*----------------------------------------  */
+	  $order=new widget('text');
+	  $order->name='jnt_order'.$this->attribut[$i]->ad_id;
+	  $order->size=3;
+	  $order->value=$this->attribut[$i]->jnt_order;
+	  $r.='</td><td> '.$order->IOValue();
 	}
 	$r.= '</td></tr>';
       }
@@ -449,10 +461,13 @@ class fiche_def {
   function InsertAttribut($p_ad_id)
     {
       if ( $this->id == 0 ) return;
+      /* ORDER */
+      $this->GetAttribut();
+      $max=sizeof($this->attribut);
       // Insert a new attribute for the model
       // it means insert a row in jnt_fic_attr
-      $sql=sprintf("insert into jnt_fic_attr (fd_id,ad_id) values (%d,%d)", 
-		   $this->id,$p_ad_id);
+      $sql=sprintf("insert into jnt_fic_attr (fd_id,ad_id,jnt_order) values (%d,%d,%d)", 
+		   $this->id,$p_ad_id,$max);
       $Res=ExecSql($this->cn,$sql);
       // update all the existing card
       
@@ -487,6 +502,57 @@ class fiche_def {
 	   Commit($this->cn);
 	 }
      }
+
+  /*!\brief save the order of a card, update the column jnt_fic_attr.jnt_order
+   *\param array containing the order
+   */
+     function save_order($p_array) {
+       extract($p_array);
+
+       $this->GetAttribut();
+       foreach ($this->attribut as $row){
+	 if ( $row->ad_id == 1 ) continue;
+	 if ( ${'jnt_order'.$row->ad_id} <= 0 ) continue;
+	 $sql='update jnt_fic_attr set jnt_order=$1 where fd_id=$2 and ad_id=$3';
+	 ExecSqlParam($this->cn,$sql,array(${'jnt_order'.$row->ad_id},
+					   $this->id,
+					   $row->ad_id));
+       }
+     }
+
+
+  /*!\brief remove all the card from a categorie after having verify
+   *that the card is not used and then remove also the category
+   *\return the remains items, not equal to 0 if a card remains and
+   *then the category is not removed
+   */
+     function remove() {
+       $remain=0;
+       /* get all the card */
+       $aFiche=fiche::get_fiche_def($this->cn,$this->id);
+       if ( $aFiche != null ) {
+	 /* check if the card is used */
+	 foreach ($aFiche as $fiche) {      
+
+	   /* if the card is not used then remove it otherwise increment remains */
+	   if ( $fiche->is_used() == false ) {
+	     $fiche->delete();
+	   } else 
+	   $remain++;
+	 }
+       }
+	 /* if remains == 0 then remove cat */
+	 if ( $remain == 0 ) {
+	   $sql='delete from jnt_fic_attr where fd_id=$1';
+	   ExecSqlParam($this->cn,$sql,array($this->id));
+	   $sql='delete from fiche_def where fd_id=$1';
+	   ExecSqlParam($this->cn,$sql,array($this->id));
+       }
+
+       return $remain;
+
+     }
+
 
 
 }

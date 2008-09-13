@@ -71,7 +71,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 			'$p_bq_account',
 			$p_jrn,
 			'n')";
-		$Res=ExecSql($p_cn,$Sql);
+		$Res=ExecSql($p_cn,$Sql,'latin1');
 		}
 	} // for ($c=0;$c<$num;$c++)
 		$row++;

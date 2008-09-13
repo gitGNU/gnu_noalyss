@@ -221,7 +221,6 @@ CREATE SEQUENCE bud_card_bc_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.bud_card_bc_id_seq OWNER TO phpcompta;
 
 --
 -- Name: bc_id; Type: DEFAULT; Schema: public; Owner: phpcompta
@@ -265,7 +264,6 @@ CREATE TABLE bud_detail (
 );
 
 
-ALTER TABLE public.bud_detail OWNER TO phpcompta;
 
 --
 -- Name: TABLE bud_detail; Type: COMMENT; Schema: public; Owner: phpcompta
@@ -313,7 +311,6 @@ CREATE SEQUENCE bud_detail_bd_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.bud_detail_bd_id_seq OWNER TO phpcompta;
 
 
 --
@@ -374,7 +371,6 @@ CREATE TABLE bud_detail_periode (
 );
 
 
-ALTER TABLE public.bud_detail_periode OWNER TO phpcompta;
 
 --
 -- Name: TABLE bud_detail_periode; Type: COMMENT; Schema: public; Owner: phpcompta
@@ -409,7 +405,6 @@ CREATE SEQUENCE bud_detail_periode_bdp_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.bud_detail_periode_bdp_id_seq OWNER TO phpcompta;
 
 --
 -- Name: bdp_id; Type: DEFAULT; Schema: public; Owner: phpcompta
@@ -470,7 +465,6 @@ NEW.bc_code:=sCode;
 return NEW;
 end;$BODY$
   LANGUAGE 'plpgsql' VOLATILE;
-ALTER FUNCTION bud_card_ins_upd() OWNER TO phpcompta;
 
 --
 -- Name: t_bud_card_ins_up; Type: TRIGGER; Schema: public; Owner: phpcompta

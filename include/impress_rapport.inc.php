@@ -32,8 +32,8 @@ include_once("class_widget.php");
 // after in pdf or cvs
 //-----------------------------------------------------
 if ( isset( $_GET['bt_html'] ) ) {
-  require_once("class_rapport.php");
-  $Form=new rapport($cn,$_GET['form_id']);
+  require_once("class_acc_report.php");
+  $Form=new Acc_Report($cn,$_GET['form_id']);
   $Form->get_name();
   // step asked ?
   //--
@@ -59,7 +59,7 @@ if ( isset( $_GET['bt_html'] ) ) {
   $rep="";
   $submit=new widget();
   $hid=new widget("hidden");
-  echo '<div class="u_content">';
+  echo '<div class="content">';
   if ( $_GET['type_periode'] == 0) {
 	$t=($_GET['from_periode']==$_GET['to_periode'])?"":" -> ".getPeriodeName($cn,$_GET['to_periode'],'p_end');
 	echo '<h2 class="info">'.$Form->id." ".$Form->name.
@@ -151,7 +151,7 @@ if ( sizeof($ret) == 0 ) {
 //-----------------------------------------------------
 // Form
 //-----------------------------------------------------
-echo '<div class="u_content">';
+echo '<div class="content">';
 echo '<FORM METHOD="GET">';
 $hidden=new widget("hidden");
 echo $hidden->IOValue("p_action","impress");
@@ -171,7 +171,7 @@ $filter_year=" where p_exercice='".$User->get_exercice()."'";
 $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
 $w->label="P&eacute;riode comptable : Depuis";
 print $w->IOValue('from_periode',$periode_start);
-$w->label=" jusqu'à ";
+$w->label=" jusqu'Ã  ";
 $periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode  $filter_year order by p_start,p_end");
 print $w->IOValue('to_periode',$periode_end);
 print "</TR>";
@@ -192,17 +192,17 @@ echo '<tr>';
 echo $w->IOValue('type_periode',$aCal);
 echo '</Tr>';
 $aStep=array(
-	     array('value'=>0,'label'=>'Pas d\'étape'),
+	     array('value'=>0,'label'=>'Pas d\'Ã©tape'),
 	     array('value'=>1,'label'=>'1 mois')
 	     );
-$w->label='Par étape de';
+$w->label='Par Ã©tape de';
 echo '<TR> '.$w->IOValue('p_step',$aStep);
 echo '</TR>';
 
 echo '</TABLE>';
 echo '<span class="notice"> Attention : vous ne pouvez pas utiliser les &eacute;tapes avec les dates calendriers.</span>';
 echo '<br>';
-echo '<span class="notice"> Les clauses FROM sont ignorés avec les dates calendriers</span>';
+echo '<span class="notice"> Les clauses FROM sont ignorÃ©s avec les dates calendriers</span>';
 echo '<br>';
 print widget::submit('bt_html','Visualisation');
 

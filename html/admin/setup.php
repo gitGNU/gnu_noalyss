@@ -61,188 +61,68 @@ h2.error {
 $inc_path=get_include_path();
 if ( strpos($inc_path,";") != 0 ) {
   $new_path=$inc_path.';..\..\include;addon';
+  $os=0;			/* $os is 0 for unix */
  } else {
   $new_path=$inc_path.':../../include:addon';
+  $os=1;			/* $os is 0 for windos */
  }
-
 set_include_path($new_path);
 
+require_once('config_file.php');
+/* The config file is created here */
+if (isset($_POST['save_config'])) {
+  $url=config_file_create($_POST);
+ }
+
+
+/* if the config file is not found we propose to create one */
+if ( is_writable ('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'constant.php') == false ) {
+echo '<h2 class="error"> On ne peut pas écrire dans le répertoire de phpcompta, changez-en les droits </h2>';
+exit();
+}
+if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'config.inc.php')) {
+  echo '<form method="post">';
+echo '<h1 class="info">Entrez les informations n&eacute;cessaires &agrave; phpcompta</h1>';
+  echo config_file_form();
+  echo widget::submit('save_config','Sauver la configuration');
+  echo '</form>';
+  exit();
+  }
 include_once('constant.php');
 include_once('postgres.php');
 include_once('debug.php');
 include_once('ac_common.php');
-/*!
- **************************************************
- * \brief Get version of a database, the content of the
- *        table version
- *        
- * \param  $p_cn database connection
- *
- * \return version number
- *      
+/* If htaccess file doesn't exists we create them here
+ * if os == 1 then windows, 0 means Unix 
  */
-function GetVersion($p_cn) {
-	$Res=ExecSql($p_cn,"select val from version");
-	$a=pg_fetch_array($Res,0);
-	return $a['val'];
+$file='..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'.htaccess';
+if ( ! file_exists ( $file) ) {
+  $hFile=@fopen($file,'a+');
+  if ( ! $hFile )     exit('Impossible d\'&eacute;crire dans le r&eacute;pertoire include');
+  fwrite($hFile,'order deny,allow'."\n");
+  fwrite($hFile,'deny from all'."\n");
+  fclose($hFile);
 }
-/*!  ExecuteScript
- **************************************************
- * \brief Execute a sql script
- *        
- * \param $p_cn database 
- * \param $script script name
- */
-function ExecuteScript($p_cn,$script) {
 
-  if ( DEBUG=='false' ) ob_start();
-  $hf=fopen($script,'r');
-  if ( $hf == false ) {
-	  echo 'Ne peut ouvrir '.$script;
-	  exit();
-	  }
-  $sql="";
-  $flag_function=false;
-  while (!feof($hf)) {
-    $buffer=fgets($hf);
-    $buffer=str_replace ("$","\$",$buffer);
-    print $buffer."<br>";
-    // comment are not execute
-    if ( substr($buffer,0,2) == "--" ) {
-      //echo "comment $buffer";
-      continue;
-    }
-    // Blank Lines Are Skipped
-    If ( Strlen($buffer)==0) {
-	    //echo "Blank $buffer";
-      Continue;
-    }
-    if ( strpos(strtolower($buffer),"create function")===0 ) {
-	    echo "found a function";
-	    $flag_function=true;
-	    $sql=$buffer;
-	    continue;
-    }
- if ( strpos(strtolower($buffer),"create or replace function")===0 ) {
-	    echo "found a function";
-	    $flag_function=true;
-	    $sql=$buffer;
-	    continue;
-    }
-    // No semi colon -> multiline command
-    if ( $flag_function== false && strpos($buffer,';') == false ) {
-      $sql.=$buffer;
-      continue;
-    } 
-    if ( $flag_function ) {
-      if ( strpos(strtolower($buffer), "language plpgsql") === false && 
-	   strpos(strtolower($buffer), "language 'plpgsql'") === false ) {
-		$sql.=$buffer;
-		continue;
-	    }
-    } else  {
-	    // cut the semi colon
-	    $buffer=str_replace (';','',$buffer);
-	    }
-    $sql.=$buffer;
-echo_debug('setup.php',__LINE__,"Execute sql $sql");
-    if ( ExecSql($p_cn,$sql,false) == false ) {
-	    Rollback($p_cn);
-	    if ( DEBUG=='false' ) ob_end_clean();
-	    print "ERROR : $sql";
-            exit();
-	    }
-    $sql="";
-    $flag_function=false;
-    print "<hr>";
-  } // while (feof)
-  fclose($hf);
-  if ( DEBUG=='false' ) ob_end_clean();
-}
-/*!\brief loop to apply all the path to a folder or 
- *         a template
- * \param $p_cn database connexion
- * \param $p_name database name
- *
- */
-function apply_patch($p_cn,$p_name)
-{
-  $MaxVersion=DBVERSION-1;
-  echo '<ul>';
-  for ( $i = 4;$i <= $MaxVersion;$i++)
-	{
-	$to=$i+1;
-	  if ( GetVersion($p_cn) <= $i ) { 
-	  echo "<li>Patching ".$p_name.
-		" from the version ".GetVersion($p_cn)." to $to</h3> </li>";
+$file='..'.DIRECTORY_SEPARATOR.'.htaccess';
+if ( ! file_exists ( $file) ) {
+  $hFile=@fopen($file,'a+');
+  if ( ! $hFile )     exit('Impossible d\'&eacute;crire dans le r&eacute;pertoire html');
+  $array=array("php_flag  magic_quotes_gpc off",
+	       "php_flag session.auto_start on",
+	       "php_value max_execution_time 240",
+	       "php_value memory_limit 12M",
+	       "AddDefaultCharset utf-8",
+	       "php_value error_reporting 10239",
+		  "php_flag short_open_tag on",
+	       "php_value upload_max_filesize 10M");
 
-		ExecuteScript($p_cn,'sql/patch/upgrade'.$i.'.sql');
-	  if ( DEBUG=='false' ) ob_start();
-		// specific for version 4
-		if ( $i == 4 )
-		  {      
-			$sql="select jrn_def_id from jrn_def ";
-			$Res=ExecSql($p_cn,$sql);
-			$Max=pg_NumRows($Res);
-			for ($seq=0;$seq<$Max;$seq++) {
-			  $row=pg_fetch_array($Res,$seq);
-			  $sql=sprintf ("create sequence s_jrn_%d",$row['jrn_def_id']);
-			  ExecSql($p_cn,$sql);
-			}
-		  }
-		// specific to version 7
-		if ( $i == 7 )
-		  {
-			// now we use sequence instead of computing a max
-			// 
-			$Res2=ExecSql($p_cn,'select coalesce(max(jr_grpt_id),1) as l from jrn');
-			$Max2= pg_NumRows($Res2) ;
-			if ( $Max2 == 1) {
-			  $Row=pg_fetch_array($Res2,0);
-			  var_dump($Row);
-			  $M=$Row['l'];
-			  ExecSql($p_cn,"select setval('s_grpt',$M,true)");
-			}
-		  }
-		// specific to version 17
-		if ( $i == 17 ) 
-		  { 
-			ExecuteScript($p_cn,'sql/patch/upgrade17.sql');
-			$max=getDbValue($p_cn,'select last_value from s_jnt_fic_att_value');
-			AlterSequence($p_cn,'s_jnt_fic_att_value',$max+1);
-		  } // version 
-		
-		// reset sequence in the modele
-		//--
-		if ( $i == 30 && $p_name=="mod" ) 
-		  {
-			$a_seq=array('s_jrn','s_jrn_op','s_centralized',
-						 's_stock_goods','c_order','s_central');
-			foreach ($a_seq as $seq ) {
-			  $sql=sprintf("select setval('%s',1,false)",$seq);
-			  $Res=ExecSql($p_cn,$sql);
-			}
-			$sql="select jrn_def_id from jrn_def ";
-			$Res=ExecSql($p_cn,$sql);
-			$Max=pg_NumRows($Res);
-			for ($seq=0;$seq<$Max;$seq++) {
-			  $row=pg_fetch_array($Res,$seq);
-			  $sql=sprintf ("select setval('s_jrn_%d',1,false)",$row['jrn_def_id']);
-			  ExecSql($p_cn,$sql);
-			}
-			
-		  }
-		if ( $i == 36 ) {
-		  /* check the country and apply the path */
-		  $res=ExecSql($p_cn,"select pr_value from parameter where pr_id='MY_COUNTRY'");
-		  $country=pg_fetch_result($res,0,0);
-		  ExecuteScript($p_cn,"sql/patch/upgrade36.".$country.".sql");
-		  ExecSql($p_cn,'update tmp_pcmn set pcm_type=find_pcm_type(pcm_val)');
-		}
-	  if ( DEBUG == 'false') ob_end_clean();
-	}
-	}
-  echo '</ul>';
+  if ( $os == 0 )
+    fwrite($hFile,'php_value include_path .;..\..\include;..\include;addon'."\n");
+  else
+    fwrite($hFile,'php_value include_path .:../../include:../include:addon'."\n");
+  foreach ($array as $value ) fwrite($hFile,$value."\n");
+  fclose($hFile);
 }
 //----------------------------------------------------------------------
 // End functions
@@ -277,6 +157,12 @@ $module=get_loaded_extensions();
 if ( in_array('pgsql',$module) == false ) 
 {
   print '<h2 class="error">D&eacute;sol&eacute; mais soit vous n\'avez pas install&eacute; le package  pour postgresql soit php n\'a pas pas &eacute;t&eacute; compil&eacute; avec les bonnes options </h2>';
+  $flag_php++;
+}
+
+if ( in_array('bcmath',$module) == false ) 
+{
+  print '<h2 class="error">D&eacute;sol&eacute; mais soit vous n\'avez pas install&eacute; le package  pour bcmath soit php n\'a pas pas &eacute;t&eacute; compil&eacute; avec les bonnes options </h2>';
   $flag_php++;
 }
 
@@ -408,35 +294,35 @@ if ($account == 0 ) {
 
   echo "Creation of ".domaine."account_repository";
   if ( DEBUG=='false') ob_start();  
-  ExecSql($cn,"create database ".domaine."account_repository encoding='latin1'");
+  ExecSql($cn,"create database ".domaine."account_repository encoding='utf8'");
   $cn=DbConnect();
   StartSql($cn);
-  ExecuteScript($cn,"sql/account_repository/schema.sql");
-  ExecuteScript($cn,"sql/account_repository/data.sql");
-  ExecuteScript($cn,"sql/account_repository/constraint.sql");
+  execute_script($cn,"sql/account_repository/schema.sql");
+  execute_script($cn,"sql/account_repository/data.sql");
+  execute_script($cn,"sql/account_repository/constraint.sql");
   Commit($cn);
 
  if ( DEBUG=='false') ob_end_clean();
 
   echo "Creation of Modele1";
   if ( DEBUG=='false') ob_start();  
-  ExecSql($cn,"create database ".domaine."mod1 encoding='latin1'");
+  ExecSql($cn,"create database ".domaine."mod1 encoding='utf8'");
   $cn=DbConnect(1,'mod');
   StartSql($cn);
-  ExecuteScript($cn,'sql/mod1/schema.sql');
-  ExecuteScript($cn,'sql/mod1/data.sql');
-  ExecuteScript($cn,'sql/mod1/constraint.sql');
+  execute_script($cn,'sql/mod1/schema.sql');
+  execute_script($cn,'sql/mod1/data.sql');
+  execute_script($cn,'sql/mod1/constraint.sql');
   Commit($cn);
   if ( DEBUG=='false') ob_end_clean();
 
   echo "Creation of Modele2";
-  ExecSql($cn,"create database ".domaine."mod2 encoding='latin1'");
+  ExecSql($cn,"create database ".domaine."mod2 encoding='utf8'");
   $cn=DbConnect(2,'mod');
   StartSql($cn);
   if ( DEBUG=='false') { ob_start();  }
-  ExecuteScript($cn,'sql/mod1/schema.sql');
-  ExecuteScript($cn,'sql/mod2/data.sql');
-  ExecuteScript($cn,'sql/mod1/constraint.sql');
+  execute_script($cn,'sql/mod1/schema.sql');
+  execute_script($cn,'sql/mod2/data.sql');
+  execute_script($cn,'sql/mod1/constraint.sql');
   Commit($cn);
 
  if ( DEBUG=='false') ob_end_clean();
@@ -457,7 +343,7 @@ if ( ($Res=ExecSql($a,"select  * from ac_users") ) == false ) {
 	exit ("<h2 class=\"error\">".__LINE__." test has failed !!!</h2>");
 } else 
 	print "Connect to database success <br>";
-echo "<h2 class=\"info\"> Congratulation : Installation r&eacute;ssie</h2>";
+echo "<h2 class=\"info\"> F&eacute;licitation : Installation r&eacute;ussie</h2>";
 
 echo '<hr>';
 echo "<h1>Mise a jour du systeme</h1>";
@@ -500,14 +386,14 @@ echo '<hr>';
  echo "<h2>Mise &agrave; jour Repository</h2>"; 
  $cn=DbConnect(); 
  if ( DEBUG == 'false') ob_start(); 
- $MaxVersion=7; 
+ $MaxVersion=8; 
  for ($i=4;$i<= $MaxVersion;$i++) 
    { 
- 	if ( GetVersion($cn) <= $i ) { 
- 	  ExecuteScript($cn,'sql/patch/ac-upgrade'.$i.'.sql'); 
+ 	if ( get_version($cn) <= $i ) { 
+ 	  execute_script($cn,'sql/patch/ac-upgrade'.$i.'.sql'); 
  	} 
    } 
 
  if (DEBUG=='false') ob_end_clean(); 
- echo "<h2 class=\"info\">Voil&agrave; tout est install&eacute; ;-)</h2>"; 
+ echo "<h2 class=\"info\">Voil&agrave; tout est install&eacute; ;-) </H2>"; 
 ?>

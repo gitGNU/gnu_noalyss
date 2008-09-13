@@ -29,7 +29,7 @@ require_once ('class_user.php');
 $cn=DbConnect(dossier::id());
 $User=new User($cn);
 
-  echo '<div class="u_content">';
+  echo '<div class="content">';
   $User->db=$cn;
   $sql_year=" and c_periode in (select p_id from parm_periode where p_exercice='".$User->get_exercice()."')";
 

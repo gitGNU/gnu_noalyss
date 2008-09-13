@@ -46,6 +46,18 @@ class Periode {
   function set_periode($pp_id){
     $this->p_id=$pp_id;
   }
+  /*!\brief return the p_id of the start and the end of the exercice
+   *into an array
+   *\param $p_exercice 
+   *\return array [start]=>,[end]=>
+   */
+  function limit_year($p_exercice) {
+    $sql_start="select p_id from parm_periode where p_exercice=$1 order by p_start  ASC";
+    $start=getDbValue($this->cn,$sql_start,array($p_exercice));
+    $sql_end="select p_id from parm_periode where p_exercice=$1 order by p_start  ASC";
+    $end=getDbValue($this->cn,$sql_end,array($p_exercice));
+    return array("start"=>$start,"end"=>$end);
+  }
   function is_closed() {
     if ( $this->jrn_def_id != 0 )
     $sql="select status from jrn_periode ".
@@ -131,12 +143,7 @@ class Periode {
   
   }
 /*!   
- * \brief Show all the periode and their status
- * 
- * \param $p_cn database connection
- *
- * \return nothing
- *     
+ * \brief Display all the periode and their status
  *
  */ 
 
@@ -273,8 +280,6 @@ class Periode {
 
     $row=get_array($this->cn,"select p_start,p_end,p_exercice,p_closed,p_central from parm_periode where p_id=$1",
 		 array($this->p_id));
-    
-
     if ($row == null ) return;
     
     $this->p_start=$row[0]['p_start'];
@@ -301,8 +306,30 @@ class Periode {
     $rMin->load();
     return array($rMax,$rMin);
   }
+/*! 
+ * \brief Give the start & end date of a periode
+ * 
+ * \return array containing the start date & the end date
+ *     
+ *
+ */ 
+  public function get_date_limit($p_periode) {
+    $sql="select to_char(p_start,'DD.MM.YYYY') as p_start,
+              to_char(p_end,'DD.MM.YYYY')   as p_end
+       from parm_periode
+         where p_id=".$p_periode;
+    $Res=ExecSql($this->cn,$sql);
+    if ( pg_NumRows($Res) == 0) return null;
+    return pg_fetch_array($Res,0);
+    
+  }
+  function get_exercice() {
+    $sql="select p_exercice from parm_periode where p_id=".$this->id;
+    $Res=ExecSql($this->cn,$sql);
+    if ( pg_NumRows($Res) == 0) return null;
+    return pg_fetch_result($Res,0,0);
 
-
+  }
   static function test_me() {
     $cn=DbConnect(dossier::id());
     $obj=new Periode($cn);

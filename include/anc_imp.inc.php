@@ -38,7 +38,7 @@ $menu=array(array("?p_action=ca_imp&sub=listing&$str_dossier","Listing","Listing
 			array("?p_action=ca_imp&sub=bc2&$str_dossier","Balance crois&eacute;","Balance crois&eacute; de 2 plans analytiques","bc2")
 			);
 $sub=(isset($_GET['sub']))?$_GET['sub']:'no';
-echo '<div class="u_content">';
+echo '<div class="content">';
 echo ShowItem($menu,"H","mtitle","mtitle",$sub);
 echo '</div>';
 $hidden=new widget("hidden");

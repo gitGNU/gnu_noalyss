@@ -34,6 +34,6 @@ require_once('class_dossier.php');
 $gDossier=dossier::id();
 /*!\todo Add the security here */
 $cn=DbConnect($gDossier);
-ExecSql($cn,"delete from operation_analytique where oa_group=".$_GET['oa']);
+ExecSqlParam($cn,"delete from operation_analytique where oa_group=$1",array($_GET['oa']));
 echo_debug(__FILE__,__LINE__,$_GET);
 ?>

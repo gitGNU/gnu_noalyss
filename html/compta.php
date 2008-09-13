@@ -21,12 +21,31 @@
 /* $Revision$ */
 
 /*! \file
- * \brief Main page for the printing
+ * \brief Main page for accountancy
  */
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 include_once ("ac_common.php");
-html_page_start($_SESSION['g_theme']);
+$action=(isset($_REQUEST['p_action']))?$_REQUEST['p_action']:'';
+$use_html=1;
+//----------------------------------------------------------------------
+/*!\todo find a way to improve performance : the calendar must not
+ *   always be loaded and takes at least 50KB
+ */
+if ( $action == 'ven' && ! isset ($_REQUEST['sa']) )
+  $use_html=1;
+
+if ( ! isset ($_SESSION['g_theme'])) {
+	echo '<h2 class="error"> Vous êtes déconnecté</h2>';
+	exit();
+}
+if ( $action == 'ven' && isset ($_REQUEST['sa']) && in_array($_REQUEST['sa'],array('n','p')  ))
+  $use_html=1;
+if ( $use_html == 1) 
+  html_page_start($_SESSION['g_theme']);
+else 
+  html_min_page_start($_SESSION['g_theme']);
+//----------------------------------------------------------------------
 
 
 include_once ("postgres.php");
@@ -41,7 +60,7 @@ $User->Check();
 require_once ("check_priv.php");
 include_once ("user_menu.php");
 echo '<div class="u_tmenu">';
-$action=$_REQUEST['p_action'];
+
 echo ShowMenuCompta("user_advanced.php?".dossier::get());
 
 echo '</div>';
@@ -56,6 +75,7 @@ if ( $action == 'impress' ) {
 
   require_once('impress.inc.php');
 }
+
 if ( $action == 'fiche') {
 
   require_once('fiche.inc.php');
@@ -67,5 +87,20 @@ if ( $action == 'stock') {
 if ( $action=='quick_writing') {
   require_once ('quick_writing.inc.php');
  }
+if ( $action == 'gl' ) {
+  require_once ('user_action_gl.php');
+ }
+if ( $action == 'ven' ||
+     $action == 'client') {
+  require_once ('compta_ven.inc.php');
+ }
+if ( $action == 'ach' ||
+     $action == 'fournisseur') {
+  require_once ('compta_ach.inc.php');
+ }
+if ( $action == 'bank') {
+  require_once ('compta_fin.inc.php');
+ }
+
 html_page_stop();
 ?>

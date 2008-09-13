@@ -23,33 +23,24 @@
  * \brief Contains all the variable + the javascript
  * and some parameter 
  */
-date_default_timezone_set ('Europe/Brussels');
-define ("DBVERSION",48);
-
-$inc_path=get_include_path();
-if ( strpos($inc_path,";") != 0 ) {
-  $_ENV['TMP']="c:\Temp";
- } else {
-  $_ENV['TMP']="/tmp";
- }
+require_once ('config.inc.php');
 
 
-define ("phpcompta_password","dany");
-define ("phpcompta_psql_port","5432");
-define ("phpcompta_user","phpcompta");
-//
-// the domain can't start by a number !!!
-define ("domaine","");
+
+define ("DBVERSION",51);
+
 define ("MAX_COMPTE",4);
 define ('MAX_BUD_DETAIL',20);
-
+define ('MAX_ARTICLE',8);
 define ("DEBUG","false");
+
+
 
 // securite correspond a la table 
 // action
 // access aux journaux
 define ("ENCJRN",1);
-// cr�ation facture
+// création facture
 // define("FACT",2);
 // lecture aux fiche
 define ("FICHE_READ",3);
@@ -61,11 +52,11 @@ define("FORM",5);
 define ("MPCMN",6);
 // Gestion des journaux
 define ("GJRN",7);
-// Gestion des paramï¿½tres globaux
+// Gestion des paramÃ¯Â¿Â½tres globaux
 define ("PARM",8);
 // Voir la balance des compte
 define ("BALANCE",20);
-// Access ï¿½ la centralisation
+// Access Ã¯Â¿Â½ la centralisation
 define ("CENTRALIZE",10);
 define ("VEN",11);
 define ("BQE",12);
@@ -199,6 +190,12 @@ define ('JS_CAOD_COMPUTE','
 <script type="text/javascript" language="javascript"  src="js/caod_compute.js">
 </script>');
 
+define ('JS_INFOBULLE','
+<DIV id="bulle" class="infobulle"></DIV>
+<script type="text/javascript" language="javascript"  src="js/infobulle.js">
+</script>');
+
+
 // One line calculator
 define ("JS_CALC_LINE",'
 <div style="border:outset black 3px; position:float; float:right;background-color:white;font-family:sans-serif;font-size:9pt;">
@@ -243,9 +240,10 @@ function ChangeTVA(p_ctl,p_value) {
 
 </script>");
 define ("JS_AJAX_FICHE",'<script language="javascript" src="js/ajax_fiche.js"></script>');
-
+define ("JS_TODO",'<script language="javascript" src="js/todo_list.js"></script>');
 define ("JS_AJAX_OP",'<script language="javascript" src="js/ajax_op.js"></script>');
-define ("JS_PROTOTYPE_JS",'<script language="javascript" src="js/prototype.js"></script>');
+define ("JS_PROTOTYPE",'<script language="javascript" src="js/prototype.js"></script>');
+define ("JS_MINTOOLKIT",'<script language="javascript" src="js/mintoolkit.js"></script>');
 // Sql string
 define ("SQL_LIST_ALL_INVOICE","");
 

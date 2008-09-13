@@ -41,7 +41,7 @@ require_once("class_acc_ledger.php");
   $Jrn->get_name();
   if ( $_POST['p_simple']==0 ) 
     {
-      $Jrn->get_row( $_POST['from_periode'],
+      $Row=$Jrn->get_row( $_POST['from_periode'],
 		    $_POST['to_periode'],
 		    $p_cent);
     }
@@ -55,7 +55,7 @@ require_once("class_acc_ledger.php");
   $rep="";
   $submit=new widget();
   $hid=new widget("hidden");
-  echo '<div class="u_content">';
+  echo '<div class="content">';
   echo '<h2 class="info">'.$Jrn->name.'</h2>';
   echo "<table>";
   echo '<TR>';
@@ -123,7 +123,7 @@ require_once("class_acc_ledger.php");
 	"<th>Date</th>".
 	"<th> commentaire </th>".
 	"<th>internal</th>".
-	/* "<th>Pièce justificative</th>". */
+	/* "<th>PiÃ¨ce justificative</th>". */
 	"<th> montant</th>".
 	"</TR>";
   // set a filter for the FIN
@@ -217,7 +217,7 @@ if ( count($ret) < 1 )
 //-----------------------------------------------------
 // Form
 //-----------------------------------------------------
-echo '<div class="u_content">';
+echo '<div class="content">';
 echo '<FORM ACTION="?p_action=impress&type=jrn" METHOD="POST">'.dossier::hidden();
 echo '<TABLE width="90%" align="center"><TR>';
 $w=new widget("select");
@@ -232,16 +232,16 @@ $filter_year=" where p_exercice='".$User->get_exercice()."'";
 $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
 $w->label="Depuis";
 print $w->IOValue('from_periode',$periode_start);
-$w->label=" jusqu'à ";
+$w->label=" jusqu'Ã  ";
 $periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
 print $w->IOValue('to_periode',$periode_end);
 print "</TR><TR>";
 $centralise=new widget("checkbox");
-$centralise->label="Depuis les journaux centralisés";
+$centralise->label="Depuis les journaux centralisÃ©s";
 $centralise->table=1;
 print $centralise->IOValue('cent');
 $a=array(
-	 array('value'=>0,'label'=>'Detaillé'),
+	 array('value'=>0,'label'=>'DetaillÃ©'),
 	 array('value'=>1,'label'=>'Simple')
 	 );
 $w->selected=1;
@@ -251,7 +251,7 @@ echo '</TABLE>';
 print widget::submit('bt_html','Visualisation');
 
 echo '</FORM>';
-  echo '<span class="notice"> Attention : en-cas d\'impression de journaux centralis&eacute;s, dans le PDF, les montants d&eacute;bit et cr&eacute;dit calcul&eacute;s  par page sont la somme des montants de la page uniquement. Si une op&eacute;ration est sur 2 pages ces montants diff&egrave;reront évidemment. Ces montants doivent &ecirc;tre &eacute;gaux sur la derni&egrave;re page. Pour v&eacute;rifier la balance, utilisez la balance des comptes ou Avanc&eacute;->V&eacute;rification</span>';
+  echo '<span class="notice"> Attention : en-cas d\'impression de journaux centralis&eacute;s, dans le PDF, les montants d&eacute;bit et cr&eacute;dit calcul&eacute;s  par page sont la somme des montants de la page uniquement. Si une op&eacute;ration est sur 2 pages ces montants diff&egrave;reront Ã©videmment. Ces montants doivent &ecirc;tre &eacute;gaux sur la derni&egrave;re page. Pour v&eacute;rifier la balance, utilisez la balance des comptes ou Avanc&eacute;->V&eacute;rification</span>';
 
 echo '</div>';
 ?>

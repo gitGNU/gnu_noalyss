@@ -25,7 +25,7 @@
 echo_debug('user_action_fin.php',__LINE__,"include user_action_fin.php");
 require_once("user_form_fin.php");
 include_once("class_widget.php");
-require_once("class_parm_code.php");
+require_once("class_acc_parm_code.php");
 require_once("class_acc_ledger.php");
 require_once ('class_pre_op_fin.php');
 
@@ -37,7 +37,7 @@ if ( ! isset ($_GET['action']) && ! isset ($_POST["action"]) ) {
 include_once ("preference.php");
 include_once ("user_common.php");
 if ( ! isset($_REQUEST['action'])) {
-  echo "Aucune Action demandée";
+  echo "Aucune Action demandÃ©e";
   exit();
  }
 
@@ -55,7 +55,7 @@ if ( $action=="use_opd" ) {
 	'<INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 
   $form=FormFin($cn,$_GET['p_jrn'],$User->get_periode(),$submit,$p_post,false,$p_post['nb_item']);
-  echo '<div class="u_content">';
+  echo '<div class="content">';
   echo   $form;
   echo '</div>';
   exit();
@@ -81,7 +81,7 @@ if ( $action == 'new' ) {
 	  $jrn=new Acc_Ledger($cn,  $p_jrn);
 
 	  $r=FormFin($cn,$p_jrn,$User->get_periode(),$submit,null,false,$jrn->GetDefLine());
-	  echo '<div class="u_content">';
+	  echo '<div class="content">';
 	  echo $r;
 	  echo "<div>";
 	     //--------------------
@@ -98,7 +98,7 @@ if ( $action == 'new' ) {
 	  echo $hid->IOValue("jrn_type","FIN");
 	  
 	  if ($op->count() != 0 )
-		echo widget::submit('use_opd','Utilisez une op.prédéfinie');
+		echo widget::submit('use_opd','Utilisez une op.prÃ©dÃ©finie');
 	  echo $op->show_button();
    
 	  echo '</form>';
@@ -121,7 +121,7 @@ if ( $action == 'new' ) {
                     <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer">';
 
 	  $r=FormFin($cn,$_GET['p_jrn'],$User->get_periode(),$submit,$_POST,false,  $nb_number);
-	  echo '<div class="u_content">';
+	  echo '<div class="content">';
 	  echo $r;
 	  echo "<div><h4>On-line calculator</h4>".JS_CALC_LINE."</div>";
 
@@ -201,7 +201,7 @@ if ( $action == 'voir_jrn' ) {
        exit -1;
   }
 ?>
-<div class="u_content">
+<div class="content">
 
 <form method= "get" action="user_jrn.php">
 
@@ -232,7 +232,7 @@ $User=new User($cn);
 $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
 $w->selected=$current;
 
-echo 'Période  '.$w->IOValue("p_periode",$periode_start).widget::submit('gl_submit','Valider');
+echo 'PÃ©riode  '.$w->IOValue("p_periode",$periode_start).widget::submit('gl_submit','Valider');
 ?>
 </form>
 <?php  
@@ -270,9 +270,9 @@ if ( $action == 'solde' ) {
   // find the bank account
  // NOTE : those values are in a table because
  // they are _national_ parameters
-  $banque=new parm_code($cn,'BANQUE');
-  $caisse=new parm_code($cn,'CAISSE');
-  $vir_interne=new parm_code($cn,'VIREMENT_INTERNE');
+  $banque=new Acc_Parm_Code($cn,'BANQUE');
+  $caisse=new Acc_Parm_Code($cn,'CAISSE');
+  $vir_interne=new Acc_Parm_Code($cn,'VIREMENT_INTERNE');
   $accountSql="select distinct pcm_val::text,pcm_lib from 
             tmp_pcmn 
             where pcm_val::text like '".$banque->p_value."%' or pcm_val::text like '".$vir_interne->p_value."%' 

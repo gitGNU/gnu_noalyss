@@ -43,7 +43,7 @@ if ( ! $m )  { echo '<h2 class="info"> Aucun plan analytique d&eacute;fini</h2>'
 // show the left menu
 //----------------------------------------------------------------------
 echo '
-<div class="u_content">
+<div class="content">
 <div class="lmenu">
 <table>
 <tr>

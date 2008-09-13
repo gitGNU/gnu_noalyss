@@ -49,7 +49,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 	if (!(isset($row[2]))) $row[2]='';
 
 
-	// Skipping all the lines whith a blank operation reference ('numéro extrait')
+	// Skipping all the lines whith a blank operation reference ('numÃ©ro extrait')
 	if (  $row[2] == '' || !(ereg('[0-9]{3}-[0-9]{7}-[0-9]{2}',$row[0],$r)))
 			{
 		 	$LinesSkipped++;
@@ -74,7 +74,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 // Skip dubbel
 //----------------------------------------------------
 	$Sql="select * from import_tmp where code='$ref_extrait' and compte_ordre='$compte_ordre' limit 2";  
-	if ( CountSql($p_cn,$Sql) > 0)
+	if ( CountSql($p_cn,utf8_encode($Sql)) > 0)
 	{
 		/* Skip it it already encoded */
 		echo "Double skipped : $ref_extrait $detail <BR>";
@@ -113,7 +113,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 // Check if no need to rollback when executing the SQL
 //-----------------------------------------------------
 			try {
-			  ExecSql($p_cn,$Sql) ;
+			  ExecSql($p_cn,$Sql,'latin1') ;
 			} catch (Exception $e) {
 			  Rollback($p_cn);
 			  echo "Rollbacking    : $ref_extrait $detail <BR>";

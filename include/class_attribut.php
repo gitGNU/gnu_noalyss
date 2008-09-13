@@ -29,6 +29,7 @@ class Attribut {
   var $ad_id;			/*!<  pk for attribut */
   var $ad_text;			/*!<  type of content */
   var $av_text;			/*!< Description (content) */
+  var $jnt_order;		/*!< order of the attribut */
   var $cn;			/*!<  database connection */
   function Attribut($p_ad_id) {
     $this->ad_id=$p_ad_id;

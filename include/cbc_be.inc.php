@@ -82,7 +82,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 				'n')";
 			try 
 			  {
-			    ExecSql($p_cn,$Sql) ;
+			    ExecSql($p_cn,$Sql,'latin1') ;
 			  }
 			catch(Exception $e)
 			  {
@@ -94,5 +94,5 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 		$row++;
 } // file is read
 fclose($handle);
-echo "Encore rien désolé";
+echo "Encore rien dÃ©solÃ©";
 ?>

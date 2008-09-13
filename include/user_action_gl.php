@@ -18,7 +18,7 @@
 */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
-echo_debug('user_action_gl.php',__LINE__,"include user_action_gl.php");
+
 /*! \file
  * \brief included file for the great ledger 
  */
@@ -31,20 +31,10 @@ require_once("jrn.php");
 
 $cn=DbConnect($gDossier);
 
-?>
-<div class="u_redcontent">
-<form method="GET" action="user_jrn.php">
-<?php  
-  echo dossier::hidden();
-$hid=new widget("hidden");
-
-$hid->name="jrn_type";
-$hid->value="NONE";
-echo $hid->IOValue();
-
-$hid->name="action";
-$hid->value="voir_jrn";
-echo $hid->IOValue();
+echo '<div class="u_redcontent">
+      <form method="GET">';  
+echo dossier::hidden();
+echo widget::hidden('p_action','gl');
 
 $w=new widget("select");
 // filter on the current year
@@ -53,17 +43,19 @@ $filter_year=" where p_exercice='".$User->get_exercice()."'";
 $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end",1);
 $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
 $w->selected=$current;
-echo 'Période  '.$w->IOValue("p_periode",$periode_start).widget::submit('gl_submit','Valider');
-?>
-</form>
-<?php  
- if ( $current == -1) {
-   $cond=" and jr_tech_per in (select p_id from parm_periode where p_exercice='".$User->get_exercice()."')";
- } else {
-   $cond=" and jr_tech_per=".$current;
- }
+echo 'PÃ©riode  '.$w->IOValue("p_periode",$periode_start).widget::submit('gl_submit','Valider');
 
-$sql=SQL_LIST_ALL_INVOICE.$cond;
+echo '</form>';
+
+if ( $current == -1) {
+  $cond=" and jr_tech_per in (select p_id from parm_periode where p_exercice='".$User->get_exercice()."')";
+ } else {
+  $cond=" and jr_tech_per=".$current;
+ }
+/* security filter on the ledger */
+$sql_ledger='';
+if ( $User->Admin() == 0 ) { $sql_ledger=' and  '.$User->get_ledger_sql();}
+$sql=SQL_LIST_ALL_INVOICE.$cond.$sql_ledger;
 // Nav. bar 
 $step=$_SESSION['g_pagesize'];
 $page=(isset($_GET['offset']))?$_GET['page']:1;

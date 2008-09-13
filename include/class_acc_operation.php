@@ -65,16 +65,25 @@ var $jr_id;	/*!< pk of jrn */
   function insert_jrnx()
   {
     if ( $this->poste == "") return true;
-
+    /* for negative amount the operation is reversed */
+    if ( $this->amount < 0 ) {
+      $this->type=($this->type=='d')?'c':'d';
+    }
+    $this->amount=abs($this->amount);
     $debit=($this->type=='c')?'false':'true';
-    
-    $sql=sprintf("select insert_jrnx
-		 ('%s',abs(%.2f),%d,%d,%d,%s,'%s',%d,upper('%s'))",
-		 $this->date,round($this->amount,2),
-		 $this->poste,$this->grpt,$this->jrn,
-		 $debit,$this->user,$this->periode,$this->qcode);
-    
-    $Res=ExecSql($this->db,$sql);
+
+    $Res=ExecSqlParam($this->db,"select insert_jrnx
+		 ($1::text,abs($2)::numeric,$3::poste_comptable,$4::integer,$5::integer,$6::bool,$7::text,$8::integer,upper($9))",
+		      array(
+			    $this->date,
+			    round($this->amount,2),
+			    $this->poste,
+			    $this->grpt,
+			    $this->jrn,
+			    $debit,
+			    $this->user,
+			    $this->periode,
+			    $this->qcode));
     if ( $Res==false) return $Res;
     $this->jrnx_id=GetSequence($this->db,'s_jrn_op');
     return $this->jrnx_id;
@@ -90,35 +99,31 @@ var $jr_id;	/*!< pk of jrn */
  */
 
   function insert_jrn()
-{
-	$p_comment=FormatString($this->desc);
+  {
+    $p_comment=FormatString($this->desc);
+    
+    $diff=getDbValue($this->db,"select check_balance ($1)",array($this->grpt));
+    if ( $diff != 0 ) {
+      
+      echo "Erreur : balance incorrecte :diff = $diff";
+      return false;
+    }
 
+    $echeance=( isset( $this->echeance) && strlen(trim($this->echeance)) != 0)?$this->echeance:null;
 
-	// retrieve the value from jrnx
-	// 
-	$montant_deb=getDBValue($this->db,"select sum(j_montant) from jrnx where j_debit='t' and j_grpt=".$this->grpt);
-	$montant_cred=getDBValue($this->db,"select sum(j_montant) from jrnx where j_debit='f' and j_grpt=".$this->grpt);
-	echo_debug('InsertJrn',__LINE__,"debit = $montant_deb credit  = $montant_cred ");
-
-	$amount=-1.0000;
-	if ( $montant_deb == $montant_cred ) {
-	  $amount=$montant_deb;
-	} else {
-	  echo "Erreur : balance incorrecte : d&eacute;bit = $montant_deb cr&eacute;dit = $montant_cred";
-	  return false;
-	}
-	// if amount == -1then the triggers will throw an error
-	// 
-	$sql=sprintf("insert into jrn (jr_def_id,jr_montant,jr_comment,jr_date,jr_ech,jr_grpt_id,jr_tech_per)
-	         values ( %d,abs(%.2f),'%s',to_date('%s','DD.MM.YYYY'),null,%d,%d)",
-		     $this->jrn, $amount,$p_comment,$this->date,$this->grpt,$this->periode);
-
-
-	$Res=ExecSql($this->db,$sql);				 
-	if ( $Res == false)  return false;
-	$this->jr_id=GetSequence($this->db,'s_jrn');
-	return $this->jr_id;
-}
+    // if amount == -1then the triggers will throw an error
+    // 
+    $Res=ExecSqlParam($this->db,"insert into jrn (jr_def_id,jr_montant,jr_comment,".
+		      "jr_date,jr_ech,jr_grpt_id,jr_tech_per)   values (".
+		      "$1,$2,$3,".
+		      "to_date($4,'DD.MM.YYYY'),to_date($5,'DD.MM.YYYY'),$6,$7)",
+		      array ($this->jrn, $this->amount,$p_comment,
+			     $this->date,$echeance,$this->grpt,$this->periode)
+			    );
+    if ( $Res == false)  return false;
+    $this->jr_id=GetSequence($this->db,'s_jrn');
+    return $this->jr_id;
+  }
 /*!
  * \brief  Return the internal value, the property jr_id must be set before
  *
@@ -150,7 +155,7 @@ function get_internal() {
   */
  function get_jrnx_detail() {
    if ( $this->jr_id==0 ) return;
-   $sql=" select j_date,j_qcode,j_poste,j_montant,jr_internal,case when j_debit = 'f' then 'C' else 'D' end as debit,
+   $sql=" select jr_date,j_qcode,j_poste,j_montant,jr_internal,case when j_debit = 'f' then 'C' else 'D' end as debit,jr_comment as description,
                 vw_name,pcm_lib from jrnx join jrn on (jr_grpt_id=j_grpt)
                 join tmp_pcmn on (j_poste=pcm_val)
                 left join vw_fiche_attr on (j_qcode=quick_code)

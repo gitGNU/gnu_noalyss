@@ -21,6 +21,8 @@
 require_once('class_own.php');
 require_once('class_acc_account_ledger.php');
 require_once('class_action.php');
+require_once('class_acc_tva.php');
+
 /*! \file 
  * \brief Class Document corresponds to the table document
  */
@@ -71,8 +73,6 @@ class Document
  * \brief Generate the document, Call $this-\>Replace to replace
  *        tag by value
  *        
- * \param none
- * 
  *
  * \return an array : the url where the generated doc can be found, the name
  * of the file and his mimetype
@@ -190,7 +190,7 @@ class Document
 	{
 	  if ( mkdir($temp_dir) == false )
 	    {
-	      echo "Ne peut pas cr�er le r�pertoire ".$temp_dir;
+	      echo "Ne peut pas crï¿½er le rï¿½pertoire ".$temp_dir;
 	      exit();
 	    }
 	}
@@ -300,7 +300,7 @@ class Document
 		   );
       ExecSql($this->db,$sql);
       $this->d_id=GetSequence($this->db,"document_d_id_seq");
-      echo_debug('class_document',__LINE__,'document sauv� : d_id'.$this->d_id);
+      echo_debug('class_document',__LINE__,'document sauvï¿½ : d_id'.$this->d_id);
       // Clean the file
       unlink ($p_file);
       Commit($this->db);
@@ -464,11 +464,13 @@ class Document
  *  - [MY_TVA]
  *  - [MY_STREET]
  *  - [MY_NUMBER]
+ *  - TVA_CODE
+ *  - TVA_RATE
  *  - BON_COMMANDE
  *  - OTHER_INFO
  *  - CUST_NUM
  *
- * \param TAG
+ * \param $p_tag TAG
  * \return String which must replace the tag
  */
   function Replace($p_tag)
@@ -655,6 +657,16 @@ class Document
 	  $r=${$id};
 	  break;
 
+	case 'TVA_RATE':
+	  extract ($_POST);
+	  $id='e_march'.$counter.'_tva_id';
+	  if ( !isset (${$id}) ) return "";
+	  if ( ${$id} == -1 ) return "";
+	  $tva=new Acc_Tva($this->db);
+	  $tva->set_parameter("id",${$id});
+	  $tva->load();
+	  return $tva->get_parameter("rate");
+	  break;
 
 	case 'TVA_CODE':
 	  extract ($_POST);

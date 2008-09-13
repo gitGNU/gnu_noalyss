@@ -52,10 +52,10 @@ if ( isset( $_REQUEST['p_jrn'] )) {
 if ( isset($_POST["efface"])) {
 	if ( CountSql($cn,"select * from jrn where jr_def_id=".$_POST['p_jrn']." limit 3") == 0 )
 	  {
-		ExecSql($cn,"delete from jrn_def where jrn_def_id=".$_POST['p_jrn']);
+	    ExecSqlParam($cn,"delete from jrn_def where jrn_def_id=$1",array($_POST['p_jrn']));
 	  } else { echo '
 <script language="javascript">
-		alert("Impossible d\'effacer ce journal.\n Il est utilisé\n");
+		alert("Impossible d\'effacer ce journal.\n Il est utilisÃ©\n");
 </script>
 ';
 	}
@@ -66,7 +66,7 @@ if ( isset($_POST["efface"])) {
 // Update ledger
 If ( isset ($_POST["JRN_UPD"] )) {
   if (  !isset($_POST["p_jrn_name"])  ) {
-    echo '<H2 CLASS="error"> Un paramètre manque</H2>';
+    echo '<H2 CLASS="error"> Un paramÃ¨tre manque</H2>';
   }
   else {
     if ( $_POST['p_ech'] == 'no' ) {
@@ -155,18 +155,18 @@ echo '<TD> <INPUT TYPE="text" NAME="p_jrn_class_deb" VALUE="'.$l_line['jrn_def_c
 echo '</TR>';
 
 echo '<TR>'; 
-echo '<TD> Nombre de lignes par défaut  </TD>';
+echo '<TD> Nombre de lignes par dÃ©faut  </TD>';
 echo '<TD> <INPUT TYPE="text" NAME="p_jrn_deb_max_line" VALUE="'.$l_line['jrn_deb_max_line'].'"></TD>';
 echo '</TR>';
 
 /*echo '<TR>'; 
-echo '<TD> Postes utilisables journal (crédit) </TD>';
+echo '<TD> Postes utilisables journal (crÃ©dit) </TD>';
 echo '<TD> <INPUT TYPE="text" NAME="p_jrn_class_cred" VALUE="'.$l_line['jrn_def_class_cred'].'">'.$search.'</TD>';
 echo '</TR>';
 */
 
 echo '<TR>'; 
-echo '<TD> Date d\'échéance </TD>';
+echo '<TD> Date d\'Ã©chÃ©ance </TD>';
 if ( $l_line['jrn_def_ech'] == 't' ) {
   echo '<TD> <INPUT TYPE="radio" NAME="p_ech" VALUE="yes" checked> Oui';
   echo '<INPUT TYPE="radio" NAME="p_ech" VALUE="no">Non </TD>';
@@ -178,7 +178,7 @@ if ( $l_line['jrn_def_ech'] == 'f' ) {
 echo '</TR>';
 
 echo '<TR>'; 
-echo '<TD> Libellé echéance </TD>';
+echo '<TD> LibellÃ© echÃ©ance </TD>';
 echo '<TD> <INPUT TYPE="text" NAME="p_ech_lib" VALUE="'.$l_line['jrn_def_ech_lib'].'"></TD>';
 echo '</TR>';
 
@@ -210,8 +210,8 @@ $rdeb=split(',',$l_line['jrn_def_fiche_deb']);
 $rcred=split(',',$l_line['jrn_def_fiche_cred']);
 echo '<TABLE>';
 echo '<TR>';
-echo '<th> Fiches Débit</TH>';
-echo '<th> Fiches Crédit</TH>';
+echo '<th> Fiches DÃ©bit</TH>';
+echo '<th> Fiches CrÃ©dit</TH>';
 echo '</TR>';
 // Show the fiche in deb section
 for ($i=0;$i<$num;$i++) {

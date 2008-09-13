@@ -39,7 +39,7 @@ if ($User->admin != 1) {
 }
 
 if (! isset ($_GET['UID']) && ! isset($_POST['UID']) ) {
-  //Message d'erreur si UID non positionné
+  //Message d'erreur si UID non positionnÃ©
   echo_debug('priv_user.php',__LINE__,"UID NOT DEFINED");
   html_page_stop();
   return;
@@ -76,7 +76,7 @@ if ( isset ( $_GET['reset_passwd']) ){
   $cn=DbConnect();
   $l_pass=md5('phpcompta');
   $Res=ExecSql($cn, "update ac_users set use_pass='$l_pass' where use_id=$uid");
-  echo '<H2 class="info"> Password remis à phpcompta</H2>';
+  echo '<H2 class="info"> Password remis Ã  phpcompta</H2>';
 }
 if ( isset ($_POST['SAVE']) ){
   $uid = $_POST['UID'];
@@ -187,7 +187,7 @@ echo "</TD></TR>";
 <TR>
 <TD>
 <!-- Show all database and rights -->
-<H2 class="info"> Droit par défaut </H2>
+<H2 class="info"> Droit par dÃ©faut </H2>
 <TABLE>
 <?php 
 $Dossier=ShowDossier('all',1,0);

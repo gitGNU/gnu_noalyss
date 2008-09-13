@@ -61,7 +61,7 @@ $t_cent="";
 
 if ( isset($central) ) {
     $bal->central='Y';
-    $t_cent="centralisée";
+    $t_cent=utf8_decode("centralisÃ©e");
  }
  else 
   $bal->central='N';
@@ -83,14 +83,14 @@ if ( sizeof($array)  == 0 ) {
  }
 $a=get_periode($cn,$from_periode);
 $b=get_periode($cn,$to_periode);
-$per_text=" période du ".$a['p_start']." au ".$b['p_end'];
+$per_text=utf8_decode(" pÃ©riode du ").$a['p_start']." au ".$b['p_end'];
 $pdf=new Cezpdf('a4');
 $pdf->selectFont('./addon/fonts/Helvetica.afm');
 $pdf->ezSetCmMargins(2,2,2,2);
 header_pdf($cn,$pdf);
-$pdf->ezTable($array,array('poste'=>'Poste','label'=>'Libellé','sum_deb'=>'Total Débit',
-			   'sum_cred'=>'Total crédit','solde_deb'=>'Solde débiteur',
-			   'solde_cred'=>'Solde créditeur'),'Balance des comptes '.$t_cent.$per_text);
+$pdf->ezTable($array,array('poste'=>'Poste','label'=>utf8_decode('LibellÃ©'),'sum_deb'=>utf8_decode('Total DÃ©bit'),
+			   'sum_cred'=>utf8_decode('Total crÃ©dit'),'solde_deb'=>utf8_decode('Solde dÃ©biteur'),
+			   'solde_cred'=>utf8_decode('Solde crÃ©diteur')),'Balance des comptes '.$t_cent.$per_text,null,true);
 $pdf->ezStream();
 
 

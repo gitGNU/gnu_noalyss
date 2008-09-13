@@ -134,7 +134,7 @@ position: float;
 float:left;
 font-family:sans-serif;
 font-size:9px;
-background-color:blue;
+background-color:#c2d4d7;
 }
 
 div.searchmenu {
@@ -142,8 +142,9 @@ div.searchmenu {
  width:95px;
  top:100px;
  position:absolute;
- background-color:green;
-}
+ background-color: #c2d4d7;
+ 
+ }
 
 div.recherche_form{
 width:700px;
@@ -161,16 +162,16 @@ padding-left:8px;
 width:80%;
 font-size:9px;
 font-family:sans-serif;
-background-color:#BBBBEE;
+background-color:#c2d4d7;
 }
 
-div.u_content{
+div.content{
   position: float;
   float:left;
   font-size:12px;
-
+  width:100%;
   font-family:sans-serif;
- background-color:lightgreen;
+ background-color:#c2d4d7;
 }
 div.no span{
 position:static;
@@ -180,7 +181,7 @@ font-weight:bold;
 font-color:red;
 }
 
-div.u_content span {
+div.content span {
  margin-left:40px;
 }
 table.document {
@@ -242,6 +243,20 @@ font-size:10px;
 tr {
 font-size:10px;
 }
+tr.odd:hover td
+{
+   text-decoration:none;
+  background-color:#c0c6ec;
+  color:white;
+}
+tr.even:hover td
+{
+  text-decoration:none;
+  background-color:#c0c6ec;
+  color:white;
+}
+
+
 td.odd{
 background-color:#DDE6FF ;
 border-size:0px;
@@ -361,7 +376,7 @@ div.u_redcontent a:hover {
   display: block;
 
 }
-div.u_content a {
+div.content a {
  font-size:9px;
  font-family:sans-serif;
  text-decoration: none;
@@ -370,7 +385,7 @@ div.u_content a {
 
 }
 
-div.u_content a:hover {
+div.content a:hover {
  font-size:9px;
  font-family:sans-serif;
   color: red;
@@ -394,7 +409,7 @@ div.u_redcontent a.mtitle:hover {
 
 
 }
-div.u_content a.mtitle {
+div.content a.mtitle {
  font-size:10px;
  text-decoration:none;
  display:inline;
@@ -402,7 +417,7 @@ div.u_content a.mtitle {
 
 }
 
-div.u_content a.mtitle:hover {
+div.content a.mtitle:hover {
  text-decoration:none;
  display:inline;
  background-color:yellow;
@@ -418,7 +433,7 @@ div.u_redcontent input.text {
  border-width:1px;
  color:blue;
 }
-div.u_content input.text {
+div.content input.text {
  font-family:sans-serif;
  font-weight:normal;
  border-color:336699;
@@ -431,15 +446,70 @@ div.u_content input.text {
 div.u_redcontent input:focus {
  background-color:cfffe4;
 }
-div.u_content input:focus {
+div.content input:focus {
  background-color:cfffe4;
 }
 div.u_redcontent textarea:focus{
 background-color: orange;
 }
 
-/*input{
- font-size:0.9em;
+.input_text {
+	   border:groove 1px blue;
 }
-*/
+div.u_tool {
+	float:left;
+	width:  100%;
+	
+	
+	}
+div.u_tmenu div.u_tool {
+	float:left;
+}
+div.u_tool div.name {
+       float:left;
+       margin-left:10px;
+}
+div.u_tool div.acces_direct{
+        float:right;
+	margin-right:10px;
+	text-align:right
+}
+legend {
+font-weight: bold;
+font-style: italic;
+font-size: 130% ;
+	
+}
+a.dossier {
+  font-size:10px;
+  text-decoration:none;
+  display:block;
+  color: #202267;
+	
+}
+legend {
+font-weight: bold;
+font-style: italic;
+font-size: 130% ;
+	
+}
+fieldset fieldset legend { 
+	 font-size:110%;
+	 color:grey;
+	 }	
+
+.input_text {
+	   border:groove 1px blue;
+}
+
+div.infobulle {
+	   position:absolute;
+	   border:1px solid black;
+	   background-color:yellow;
+	   top:0;left:0;
+	   visibility:hidden;
+	   z-index:10;
+	   width:25em;
+}
+
 /* </style> */

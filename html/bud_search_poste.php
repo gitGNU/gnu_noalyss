@@ -79,7 +79,7 @@ echo '<TABLE>';
 echo '<TR>';
 
 
-echo '<TD> Libellé ou poste comptable</TD>';
+echo '<TD> LibellÃ© ou poste comptable</TD>';
 echo '<TD> contient </TD>';
 if ( ! isset ($p_comment) ) $p_comment="";
 echo '<TD> <INPUT TYPE="text" name="p_comment" VALUE="'.$p_comment.'"></TD></TR>';

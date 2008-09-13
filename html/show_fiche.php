@@ -49,7 +49,7 @@ if ( ! isset ($_REQUEST['q'])) {
 $cn=DbConnect($gDossier);
 if ( $User->check_action($cn,FICHE_READ) == 0 ){
     /* Cannot Access */
-    echo '<h2 class="error"> Vous n\' avez pas accès</h2>';
+    echo '<h2 class="error"> Vous n\' avez pas accÃ¨s</h2>';
     return;
 }
 

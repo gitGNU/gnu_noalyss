@@ -25,7 +25,7 @@ $gDossier=dossier::id();
 require_once ('class_widget.php');
 require_once("preference.php");
 require_once ('class_periode.php');
-echo '<div class="u_content">';
+echo '<div class="content">';
 $cn=DbConnect($gDossier);
 //-----------------------------------------------------
 // Periode
@@ -100,7 +100,7 @@ if ( $action== "delete_per" ) {
   $p_per=$_GET["p_per"];
 // Check if the periode is not used
   if ( CountSql($cn,"select * from jrnx where j_tech_per=$p_per") != 0 ) {
-  echo '<h2 class="error"> Désolé mais cette période est utilisée</h2>';
+  echo '<h2 class="error"> DÃ©solÃ© mais cette pÃ©riode est utilisÃ©e</h2>';
   } else
   {
   $Res=ExecSql($cn,"delete from parm_periode where p_id=$p_per");
@@ -123,7 +123,7 @@ if ( $choose=="yes" ) {
   $wSel=new widget("select");
   $wSel->value=$sel_jrn;
   $wSel->name='jrn_def_id';
-  echo "Choississez global ou uniquement le journal à fermer".$wSel->IOValue();
+  echo "Choississez global ou uniquement le journal Ã  fermer".$wSel->IOValue();
   echo   widget::submit('choose','Valider');
   echo widget::hidden('p_action','periode');
   echo "</form>";

@@ -22,6 +22,8 @@
  * \brief This file must be included to parse the CVS from the CBC Bank
  */
 
+
+
 //-----------------------------------------------------
 // Bank Argenta 
 //-----------------------------------------------------
@@ -65,10 +67,10 @@ while (($data = fgetcsv($handle, 2000,"!")) !== FALSE) {
 //----------------------------------------------------
 	  $code=FormatString($code);
 	  $num_compte=FormatString($num_compte);
-	  if ( CountSql($p_cn,"select * from import_tmp where code='$code' and num_compte='$num_compte' limit 2") != 0 )
+	  if ( CountSql($p_cn,utf8_encode("select * from import_tmp where code='$code' and num_compte='$num_compte' limit 2")) != 0 )
 {
 	/* Skip it it already encoded */
-	echo "Doublon éliminé ".$detail;
+	echo "Doublon Ã©liminÃ© ".$detail;
 	echo "<br>";
 	continue;
 }
@@ -102,13 +104,13 @@ echo "<br>";
 				'n')";
 			try 
 			  {
-			    ExecSql($p_cn,$Sql);
+			    ExecSql($p_cn,$Sql,'latin1');
 			  }
 
 
 			catch(Exception $e)
 			  { 
-			    echo(__FILE__.":".__LINE__." Erreur : ".$e->getCode." msg ".$e->getMessage);
+			    echo(__FILE__.":".__LINE__." Erreur : ".$e->getCode()." msg ".$e->getMessage());
 			    rollback($p_cn); 
 			    break;
 			  }

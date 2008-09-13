@@ -66,6 +66,17 @@ if ( isset ( $_POST['p_size']) ) {
 
 }
 
+// Topmenu
+//---------------------------------------------------------------------------
+// Here we put all the changes
+//---------------------------------------------------------------------------
+if ( isset ($_POST['val']) ){
+  // Change the top menu
+   $_SESSION['g_topmenu']=$_POST['topmenu']; 
+   $User->update_global_pref('TOPMENU',$_POST['topmenu']); 
+   if ( isset ($_POST['minirap']))   $User->set_mini_report($_POST['minirap']);
+}
+
 // show the top menu depending of the use_style
 // comta style
 
@@ -75,7 +86,6 @@ if ( isset ($_REQUEST['gDossier']) )
     if ( $_REQUEST['gDossier'] != 0 )  
       {
 	echo '<div class="u_tmenu">';
-	//	echo    ShowMenuCompta();
 	echo menu_tool('pref');
 	echo "</div>";
       }

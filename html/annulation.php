@@ -136,7 +136,7 @@ if  ($p_id != -1 ) { // A
  if ( $p_id != -1 ) { //B
     // Test whether date of the operation is in a closed periode
     // get the period_id
-     $p=ExecSql($cn,"select jr_tech_per from jrn where jr_grpt_id=".$_REQUEST['jrn_op']);
+   $p=ExecSqlParam($cn,"select jr_tech_per from jrn where jr_grpt_id=$1",array($_REQUEST['jrn_op']));
     $period_id=pg_fetch_result($p,0,0);
     // thanks jrn_op  (jrn.jr_id) we find out the concerned ledger
 	
@@ -171,7 +171,7 @@ if  ($p_id != -1 ) { // A
           from
 	  jrn
 	  where   jr_grpt_id=".$_POST['p_id'];
-   $Res=ExecSql($cn,$sql,false);
+   $Res=ExecSql($cn,$sql);
    // Check return code
    if ( $Res == false) 
 	 throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
@@ -187,7 +187,7 @@ if  ($p_id != -1 ) { // A
 	  from
 	  jrnx
 	  where   j_grpt=".$_POST['p_id'];
-   $Res=ExecSql($cn,$sql,false);
+   $Res=ExecSql($cn,$sql);
    // Check return code
    if ( $Res == false) 
 	 throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
@@ -196,7 +196,7 @@ if  ($p_id != -1 ) { // A
     // Mark the operation invalid into the ledger
     // to avoid to nullify twice the same op.
     $sql="update jrn set jr_comment='Annule : '||jr_comment where jr_grpt_id=".$_POST['p_id'];
-    $Res=ExecSql($cn,$sql,false);
+    $Res=ExecSql($cn,$sql);
     // Check return code
 	if ( $Res == false) 
 	  throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
@@ -206,16 +206,16 @@ if  ($p_id != -1 ) { // A
    
 
    $Res=ExecSql($cn,"update quant_sold set ".
-				" qs_valid='A' where qs_internal='".$l_array['jr_internal']."'",
-				false);
+				" qs_valid='A' where qs_internal='".$l_array['jr_internal']."'"
+			       );
 
    if ( $Res == false) 
 	 throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
 
 
    $Res=ExecSql($cn,"update quant_purchase set ".
-				" qp_valid='A' where qp_internal='".$l_array['jr_internal']."'",
-				false);
+				" qp_valid='A' where qp_internal='".$l_array['jr_internal']."'"
+				);
    if ( $Res == false) 
 	 throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
 
@@ -235,7 +235,7 @@ if  ($p_id != -1 ) { // A
    // also in the stock table
    $sql="delete from stock_goods where sg_id = any ( select sg_id
   from stock_goods natural join jrnx  where j_grpt=".$_POST['p_id'].")";
-   $Res=ExecSql($cn,$sql,false);
+   $Res=ExecSql($cn,$sql);
    // Check return code
    if ( $Res == false) 
 	 throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
@@ -284,7 +284,7 @@ self.opener.RefreshMe();
 			// delete from the rapt table
 			$sql="delete from jrn_rapt where jr_id = any (select jr_id from jrn ".
 			  " where jr_grpt_id = ".$_POST['p_id'].")";
-			$Res=ExecSql($cn,$sql,false);
+			$Res=ExecSql($cn,$sql);
 			
 			if ( $Res == false) 
 			  throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
@@ -292,16 +292,16 @@ self.opener.RefreshMe();
 			
 			
 			$Res=ExecSql($cn,"delete from  quant_sold  ".
-						 " where qs_internal='".$l_array['jr_internal']."'",
-						 false);
+						 " where qs_internal='".$l_array['jr_internal']."'"
+					);
 			
 			if ( $Res == false) 
 			  throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
 
 	
 			$Res=ExecSql($cn,"delete from quant_purchase  ".
-						 " where qp_internal='".$l_array['jr_internal']."'",
-						 false);
+						 " where qp_internal='".$l_array['jr_internal']."'"
+						 );
 	
 			if ( $Res == false) 
 			  throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
@@ -318,27 +318,27 @@ self.opener.RefreshMe();
 			// delete from the stock table
 			$sql="delete from stock_goods where sg_id = any ( select sg_id
  from stock_goods natural join jrnx  where j_grpt=".$_POST['p_id'].")";
-			$Res=ExecSql($cn,$sql,false);
+			$Res=ExecSql($cn,$sql);
 	
 			if ( $Res == false) 
 			  throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
 			// delete from CA
 			$sql="delete from operation_analytique where j_id in (select j_id from";
 			$sql.="  jrnx where j_grpt=".$_POST['p_id'].")";
-			$Res=ExecSql($cn,$sql,false);
+			$Res=ExecSql($cn,$sql);
 			if ( $Res == false) 
 			  throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
 
 			// delete from jrnx & jrn
 			$sql="delete from jrnx  where j_grpt=".$_POST['p_id'];
 	
-			$Res=ExecSql($cn,$sql,false);
+			$Res=ExecSql($cn,$sql);
 			if ( $Res == false) 
 			  throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
 	
 			// build the sql stmt for jrn
 			$sql= "delete from jrn    where   jr_grpt_id=".$_POST['p_id'];
-			$Res=ExecSql($cn,$sql,false);
+			$Res=ExecSql($cn,$sql);
 	
 			if ( $Res == false) 
 			  throw (new Exception(__FILE__.__LINE__." sql a echoue [ $sql ]"));

@@ -20,7 +20,7 @@ comment on table jrn_type is 'Type of journal (Sell, Buy, Financial...)';
 comment on table parm_money is 'Currency conversion';
 comment on table parm_periode is 'Periode definition';
 comment on table stock_goods is 'About the goods';
-comment on table tmp_pcmn is 'Plan comptable minimum normalisé';
+comment on table tmp_pcmn is 'Plan comptable minimum normalisÃ©';
 comment on table tva_rate is 'Rate of vat';
 create sequence s_central;
 
@@ -52,7 +52,7 @@ alter table jrn add  jr_pj_type text;
 delete from user_sec_act WHERE ua_act_id =14;
 delete from action where ac_id=14;
 insert into action values (18,'Devise');
-insert into action values (19,'Période');
+insert into action values (19,'PÃ©riode');
 insert into action values (20,'Voir la balance des comptes');
 
 -- task 3374

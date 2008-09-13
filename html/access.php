@@ -1,0 +1,142 @@
+<?php
+/*
+ *   This file is part of PhpCompta.
+ *
+ *   PhpCompta is free software; you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation; either version 2 of the License, or
+ *   (at your option) any later version.
+ *
+ *   PhpCompta is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with PhpCompta; if not, write to the Free Software
+ *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
+/* $Revision: 1615 $ */
+
+// Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+
+/*!\file 
+ * \brief first page
+ */
+require_once ('constant.php');
+require_once ('ac_common.php');
+require_once ('class_user.php');
+require_once('class_acc_report.php');
+require_once('class_periode.php');
+require_once ('user_menu.php');
+require_once ('class_dossier.php');
+require_once('class_todo_list.php');
+
+
+$cn=DbConnect(dossier::id());
+$user=new User($cn);
+
+html_page_start($_SESSION['g_theme']);
+echo '<div class="u_tmenu">';
+echo menu_tool('access');
+echo '</div>';
+echo '<div class="content">';
+/* 
+ * Todo list
+ */
+echo JS_PROTOTYPE;
+echo JS_TODO;
+if ( isset($_REQUEST['save_todo_list'])) {
+  /* Save the new elt */
+  $add_todo=new Todo_List($cn);
+  $add_todo->set_parameter('id',$_REQUEST['tl_id']);
+  $add_todo->set_parameter('title',$_REQUEST['p_title']);
+  $add_todo->set_parameter('desc',$_REQUEST['p_desc']);
+  $add_todo->set_parameter('date',$_REQUEST['p_date']);
+  $add_todo->save();
+}
+$todo=new Todo_List($cn);
+$array=$todo->load_all();
+echo '<div style="float:left;width:40%">';
+echo '<fieldset> <legend>Liste des tâches</legend>';
+echo '<div id="add_todo_list" style="display:none;text-align:left;line-height:3em">';
+echo '<form method="post">';
+$wDate=new widget('js_date','','p_date');
+$wTitle=new widget('text','','p_title');
+$wDesc=new widget('textarea','','p_desc');
+$wDesc->heigh=5;
+echo "Date ".$wDate->IOValue().'<br>';
+echo "Titre ".$wTitle->IOValue().'<br>';
+echo "Description<br>".$wDesc->IOValue().'<br>';
+echo widget::hidden('phpsessid',$_REQUEST['PHPSESSID']);
+echo dossier::hidden();
+echo widget::hidden('tl_id',0);
+echo widget::submit('save_todo_list','Sauve','onClick="$(\'add_todo_list\').hide();$(\'add\').show();return true;"');
+echo widget::button('hide','Annuler','onClick="$(\'add_todo_list\').hide();$(\'add\').show();"');
+echo '</form>';
+
+echo '</div>';
+echo widget::button('add','Ajout','onClick="add_todo()"');
+if ( ! empty ($array) )  {
+  echo '<table id="table_todo" width="100%">';
+  $nb=0;
+  foreach ($array as $row) {
+if ( $nb % 2 == 0 ) $odd='class="odd" '; else $odd='class="even" ';
+$nb++;
+    echo '<tr id="tr'.$row['tl_id'].'" '.$odd.'>'.
+      '<td>'.
+      $row['tl_date'].
+      '</td>'.
+      '<td>'.
+      $row['tl_title'].
+      '</td>'.
+      '<td>'.
+      widget::button('mod','M','onClick="todo_list_show('.$row['tl_id'].')"').
+      widget::button('del','E','onClick="todo_list_remove('.$row['tl_id'].')"').
+      '</td>'.
+      '</tr>';
+  }
+  echo '</table>';
+}
+echo '</fieldset>';
+echo '</div>';
+/* 
+ * Mini Report
+ */
+$report=$user->get_mini_report();
+if ( $report != 0 ) {
+  $rapport=new Acc_Report($cn);
+  $rapport->id=$report;
+  echo '<div style="float:right">';
+  echo '<fieldset style="background-color:white"><legend>'.$rapport->get_name().'</legend>';
+  $exercice=$user->get_exercice();
+  if ( $exercice == 0 ) {
+    echo "<script>alert('Aucune periode par defaut');</script>";
+  } else {
+    $periode=new Periode($cn);
+    $limit=$periode->limit_year($exercice);
+    
+    $result=$rapport->get_row($limit['start'],$limit['end'],'periode');
+    $ix=0;
+    echo '<table border="0">';
+    foreach ($result as $row) {
+      $ix++;
+      $bgcolor=($ix%2==0)?' style="background-color:lightgrey"':'';
+      echo '<tr'.$bgcolor.'">';
+
+      echo '<td> '.$row['desc'].'</td>'.
+	'<td>'.sprintf("% 10.2f",$row['montant'])." &euro;</td>";
+      echo '</tr>';
+    }
+    echo '</table>';
+  }
+  echo '</fieldset>';
+  echo '</div>';
+ } else {
+  echo '<div style="float:right;width:20%">';
+  echo '<fieldset style="background-color:white"><legend> Aucun rapport défini</legend>';
+  echo '<a href="user_pref.php?'.dossier::get().'"> Cliquez ici pour mettre à jour vos préférences</a>';
+  echo '</fieldset>';
+  echo '</div>';
+ }
+echo '</div>';

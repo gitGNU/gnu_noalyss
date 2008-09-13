@@ -219,7 +219,6 @@ CREATE TABLE poste_analytique (
 );
 
 
-ALTER TABLE public.poste_analytique OWNER TO phpcompta;
 
 --
 -- Name: TABLE poste_analytique; Type: COMMENT; Schema: public; Owner: phpcompta
@@ -285,7 +284,6 @@ CREATE TABLE operation_analytique (
 );
 
 
-ALTER TABLE public.operation_analytique OWNER TO phpcompta;
 
 --
 -- Name: TABLE operation_analytique; Type: COMMENT; Schema: public; Owner: phpcompta
@@ -392,7 +390,6 @@ CREATE TABLE bilan (
 );
 
 
-ALTER TABLE public.bilan OWNER TO phpcompta;
 
 --
 -- Name: TABLE bilan; Type: COMMENT; Schema: public; Owner: phpcompta
@@ -498,7 +495,6 @@ CREATE TABLE op_predef (
 );
 
 
-ALTER TABLE public.op_predef OWNER TO phpcompta;
 
 --
 -- Name: TABLE op_predef; Type: COMMENT; Schema: public; Owner: phpcompta
@@ -576,7 +572,6 @@ CREATE TABLE op_predef_detail (
 );
 
 
-ALTER TABLE public.op_predef_detail OWNER TO phpcompta;
 
 --
 -- Name: TABLE op_predef_detail; Type: COMMENT; Schema: public; Owner: phpcompta

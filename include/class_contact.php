@@ -84,10 +84,10 @@ attr_value using (jft_id) where av_text=upper('".$this->company."') and ad_id=".
 <TR style="background-color:lightgrey;">
 <th>Quick Code</th>
 <th>Nom</th>
-<th>Téléphone</th>
+<th>TÃ©lÃ©phone</th>
 <th>email</th>
 <th>Fax</th>
-<th colspan="2">Société</th>
+<th colspan="2">SociÃ©tÃ©</th>
 </TR>';
       $base=$_SERVER['PHP_SELF'];
       // Compute the url

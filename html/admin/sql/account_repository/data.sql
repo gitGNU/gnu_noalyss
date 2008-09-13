@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-SET client_encoding = 'LATIN1';
+SET client_encoding = 'utf8';
 SET check_function_bodies = false;
 SET client_min_messages = warning;
 
@@ -59,8 +59,8 @@ INSERT INTO ac_users (use_id, use_first_name, use_name, use_login, use_active, u
 -- Data for Name: modeledef; Type: TABLE DATA; Schema: public; Owner: phpcompta
 --
 
-INSERT INTO modeledef (mod_id, mod_name, mod_desc) VALUES (1, '(BE) Basique', 'Comptabilité Belge, tout doit être adaptée');
-INSERT INTO modeledef (mod_id, mod_name, mod_desc) VALUES (2, '(FR) Basique', 'Comptabilité Française, tout doit être adaptée');
+INSERT INTO modeledef (mod_id, mod_name, mod_desc) VALUES (1, '(BE) Basique', 'ComptabilitÃ© Belge, tout doit Ãªtre adaptÃ©e');
+INSERT INTO modeledef (mod_id, mod_name, mod_desc) VALUES (2, '(FR) Basique', 'ComptabilitÃ© FranÃ§aise, tout doit Ãªtre adaptÃ©e');
 
 
 --

@@ -98,7 +98,7 @@ $r="";
 if ( isset ($_POST["add_line"])  ) {
   $r= '<DIV class="u_redcontent">';
     if ( $write ==0)  
-      $r.= "<h2 class=\"error\"> Pas d'accès </h2>";
+      $r.= "<h2 class=\"error\"> Pas d'accÃ¨s </h2>";
     else
       {
 	$fiche_def=new fiche_def($cn,$_REQUEST['fd_id']);
@@ -114,7 +114,7 @@ if ( isset ($_POST["add_line"])  ) {
 if ( isset ($_POST["change_name"] )  ) {
   $r= '<DIV class="u_redcontent">';
     if ( $write ==0)  
-      $r.= "<h2 class=\"error\"> Pas d'accès </h2>";
+      $r.= "<h2 class=\"error\"> Pas d'accÃ¨s </h2>";
     else
       {
 	$fiche_def=new fiche_def($cn,$_REQUEST['fd_id']);
@@ -150,7 +150,7 @@ if ( isset ( $_GET["action"]) ) {
     $t=false;
     if ( $write == 0) 
       { 
-	echo '<H2 class="info"> Vos changements ne seront pas sauvés</h2>';
+	echo '<H2 class="info"> Vos changements ne seront pas sauvÃ©s</h2>';
 	$t=true;
       }
     $str="";
@@ -196,7 +196,7 @@ if ( isset ( $_GET["action"]) ) {
   if ($action == "modifier" ) {
     echo '<DIV class="u_redcontent">';
     if ( $write ==0)  
-      echo "<h2 class=\"error\"> Pas d'accès </h2>";
+      echo "<h2 class=\"error\"> Pas d'accÃ¨s </h2>";
     else
       {
 
@@ -228,7 +228,7 @@ if ( isset ( $_GET["action"]) ) {
       if ( sizeof($all) != 0 )
 	{
 	  echo '<DIV class="u_redcontent">';
-	  echo "Nombre de résultat : ".sizeof($all).'<br>';
+	  echo "Nombre de rÃ©sultat : ".sizeof($all).'<br>';
 	  foreach ($all as $f_id){
 	    $fiche=new fiche($cn,$f_id['f_id']);
 	    echo '<A class="mtitle" href="?p_action=fiche&action=detail&fiche_id='.$f_id['f_id'].
@@ -248,7 +248,7 @@ if ( isset ( $_GET["action"]) ) {
 	  echo "Recherche :".$w->IOValue('search_text',$search_text);
 	  echo widget::submit('submit','Rechercher');
 	  echo '</form>';
-	  echo "Aucun résultat trouvé";
+	  echo "Aucun rÃ©sultat trouvÃ©";
 
 	  echo '</div>';
 	  
@@ -259,7 +259,7 @@ if ( isset ( $_GET["action"]) ) {
 if ( isset ($_POST["fiche"]) && isset ($_POST["add"] ) ) {
   echo '<DIV class="u_redcontent">';
     if ( $write ==0)  
-      echo "<h2 class=\"error\"> Pas d'accès </h2>";
+      echo "<h2 class=\"error\"> Pas d'accÃ¨s </h2>";
     else
       {
 	$url=$_SERVER['REQUEST_URI'];
@@ -282,7 +282,7 @@ if ( isset ($_POST["fiche"]) && isset ($_POST["add"] ) ) {
 if (isset($_POST['delete']) ) {
     echo '<DIV class="u_redcontent">';
     if ( $write ==0)  
-      echo "<h2 class=\"error\"> Pas d'accès </h2>";
+      echo "<h2 class=\"error\"> Pas d'accÃ¨s </h2>";
     else
       {
 	$fiche=new fiche($cn,$_POST["f_id"]);
@@ -300,7 +300,7 @@ if ( isset ($_POST["add_fiche"]) ) {
   echo '<DIV class="u_redcontent">';
   
   if ( $write ==0)  
-    echo "<h2 class=\"error\"> Pas d'accès </h2>";
+    echo "<h2 class=\"error\"> Pas d'accÃ¨s </h2>";
   else
     {
       $fiche=new fiche($cn);
@@ -318,7 +318,7 @@ if ( isset ($_POST["add_fiche"]) ) {
 if ( isset ($_POST["update_fiche"])  ) {
   echo '<DIV class="u_redcontent">';
       if ( $write ==0)  
-      echo "<h2 class=\"error\"> Pas d'accès </h2>";
+      echo "<h2 class=\"error\"> Pas d'accÃ¨s </h2>";
     else
       {
 	$fiche=new fiche($cn,$_POST['f_id']);

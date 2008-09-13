@@ -82,11 +82,11 @@ class Document_modele {
     $a->name="sa";
     $a->value="rm_template";
     $r.=$a->IOValue();
-    $r.=widget::submit("rm_template","Effacer la s�lection");
+    $r.=widget::submit("rm_template","Effacer la sélection");
     $r.="</form></p>";
     return $r;
   }
-  /*!  Save
+  /*!  
    **************************************************
    * \brief :  Save a document_modele in the database, 
    *       if the document_modele doesn't exist yet it will be
@@ -95,12 +95,6 @@ class Document_modele {
    *       set before calling Save, the name will be modified
    *       with FormatString
    *        
-   * parm : 
-   *	- none
-   * gen :
-   *	- none
-   * return:
-   *     - none
    */
   function Save() 
     {
@@ -254,39 +248,50 @@ class Document_modele {
   /*!
    * \brief show the form for loading a template
    * \param p_action for the field action = destination url 
-   * \param
-   * \param
    * 
    *
    * \return string containing the forms
    */
   function form($p_action) 
     {
-      $r="<p>";
+      $r='<p class="notice">';
+      $r.='Veuillez introduire les mod&egrave;les servant à g&eacute;n&eacute;rer vos documents';
+      $r.='</p>';
       $r.='<form enctype="multipart/form-data"  action="'.$p_action.'" method="post">';
-	  $r.=dossier::hidden();
-      $t=new widget("text");
-      $t->name="md_name";
-      $r.=" Nom ".$t->IOValue()."";
-      $r.="Type de document ";
-      $w=new widget("select");
-      $w->name="md_type";
-      $w->value=make_array($this->cn,'select dt_id,dt_value from document_type');
-      $r.=$w->IOValue();
-      $r.="</p><p>";
-      $f=new widget("file");
-      $f->name="doc";
-      $r.="fichier ".$f->IOValue()."";
+      $r.=dossier::hidden();
       // we need to add the sub action as hidden
       $h=new widget("hidden");
       $h->name="sa";
       $h->value="add_document";
+
       $r.=$h->IOValue();
+
+      $r.='<table>';
+      $t=new widget("text");
+      $t->name="md_name";
+      $r.="<tr><td> Nom </td><td>".$t->IOValue()."</td>";
+
+      $r.="</tr>";
+      $r.="<tr><td>Type de document </td>";
+      $w=new widget("select");
+      $w->name="md_type";
+
+      $w->value=make_array($this->cn,'select dt_id,dt_value from document_type');
+      $r.="<td>".$w->IOValue()."</td></tr>";
+
+      $f=new widget("file");
+      $f->name="doc";
+      $r.="<tr><td>fichier</td><td> ".$f->IOValue()."</td></tr>";
+
       $start=new widget("text");
       $start->name="start_seq";
       $start->size=9;
       $start->value="0";
-      $r.=" Numerotation commence a ".$start->IOValue()."";
+
+      $r.="<tr><td> Numerotation commence a</td><td> ".$start->IOValue()."</td>";
+      $r.='<td class="notice">Si vous laissez &agrave; 0, la num&eacute;rotation ne changera pas</td>';
+      $r.="</tr>";
+      $r.='</table>';
       $r.=widget::submit('add_document','Ajout');
       $r.="</form></p>";
       return $r;

@@ -30,7 +30,7 @@ include_once("ac_common.php");
 include_once("postgres.php");
 include_once("class.ezpdf.php");
 require_once("check_priv.php");
-echo_debug('sec_pdf.php',__LINE__,"imp pdf securité");
+echo_debug('sec_pdf.php',__LINE__,"imp pdf securitÃ©");
 $cn=DbConnect($gDossier);
 //-----------------------------------------------------
 // Security 
@@ -65,7 +65,7 @@ $str_user=sprintf("( %d ) %s %s [ %s ]",
 $pdf->ezText($str_user,14,array('justification'=>'center'));
 
 if ( $SecUser->active==0)
-  $pdf->ezText('Bloqué',12,array('justification'=>'center'));
+  $pdf->ezText('BloquÃ©',12,array('justification'=>'center'));
 
 if ( $SecUser->admin==1)
   $pdf->ezText('Administrateur',12,array('justification'=>'center'));
@@ -78,7 +78,7 @@ for ($e=0;$e < pg_NumRows($Res);$e++) {
   $priv=CheckJrn($gDossier,$SecUser->login,$row['jrn_def_id']);
   switch($priv) {
   case 0:
-    $a_jrn[$e]['priv']="pas d'accès";
+    $a_jrn[$e]['priv']="pas d'accÃ¨s";
     break;
   case 1:
     $a_jrn[$e]['priv']="lecture";
@@ -92,7 +92,7 @@ for ($e=0;$e < pg_NumRows($Res);$e++) {
  }
 $pdf->ezTable($a_jrn,
 		array ('jrn_name'=>' Journal',
-		       'priv'=>'Privilège')," ",
+		       'priv'=>'PrivilÃ¨ge')," ",
 		array('shaded'=>0,'showHeadings'=>1,'width'=>500));
 
 //-----------------------------------------------------
@@ -108,18 +108,18 @@ for ( $i =0 ; $i < $Max; $i++ ) {
    $right=check_action($gDossier,$SecUser->login,$l_line['ac_id']);
    switch ($right) {
    case 0:
-     $action['priv']="Pas d'accès";
+     $action['priv']="Pas d'accÃ¨s";
      break;
    case 1:
    case 2:
-     $action['priv']="Accès";
+     $action['priv']="AccÃ¨s";
      break;
    }
    $a_action[$i]=$action;
  }
 $pdf->ezTable($a_action ,
 		array ('lib'=>'Description',
-		       'priv'=>'Privilège')," ",
+		       'priv'=>'PrivilÃ¨ge')," ",
 		array('shaded'=>0,'showHeadings'=>1,'width'=>500));
 
 

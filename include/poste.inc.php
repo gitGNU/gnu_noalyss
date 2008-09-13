@@ -22,26 +22,26 @@
  * \brief p_action contains the main action (always poste here)
  *  action contains the sub action 
  */
-require_once("class_parm_code.php");
+require_once("class_acc_parm_code.php");
 
 //-----------------------------------------------------
 // confirm mod
 if ( isset( $_POST['confirm_mod'] ) )
 {
   extract($_POST);
-  $update=new parm_code($cn,$p_code);
+  $update=new Acc_Parm_Code($cn,$p_code);
   $update->p_comment=$p_comment;
   $update->p_value=$p_value;
-  $update->Save();
+  $update->save();
 }
-$object=new parm_code($cn);
+$object=new Acc_Parm_Code($cn);
 
-$all=$object->LoadAll();
+$all=$object->load_all();
 echo '<div style="float:left; ">';
 echo '<table align="left">';
 for ($i=0;$i<sizeof($all);$i++)  {
   echo '<TR>';
-  echo $all[$i]->Display();
+  echo $all[$i]->display();
   echo '<TD><FORM method="POST">';
   $w=new widget('hidden');
   $w->name='id';
@@ -59,12 +59,13 @@ echo "</div>";
 if ( isset ($_POST['mod'] ))
 {
   echo '<div style="float:left;">';
-  echo "Voulez-vous vraiment modifier ?";
+  echo '<fieldset>';
+  echo "<legend>Voulez-vous vraiment modifier ?</legend>";
   echo '<FORM METHOD="POST">';
 
   echo "<TABLE>";
   $id=$_POST['id'];
-  echo $all[$id]->Input();
+  echo $all[$id]->form();
   echo "</TABLE>";
   $h=new widget('hidden');
   $h->name='p_action';
@@ -73,6 +74,7 @@ if ( isset ($_POST['mod'] ))
   echo widget::submit('confirm_mod','Confirme');
   echo widget::submit('no','Cancel');
   echo "</FORM>";
+  echo '</fieldset>';
   echo "</div>";
 
 } 

@@ -83,7 +83,7 @@ echo '</div>';
   $form=FormAchInput($cn,$_GET['p_jrn'],$User->get_periode(),$p_post,$submit,false,$p_post['nb_item']);
   //  $form=FormAchInput($cn,$p_jrn,$User->get_periode(),$_POST,$submit,false,$nb_item);
 
-  echo '<div class="u_content">';
+  echo '<div class="content">';
   echo   $form;
   //--------------------
   // predef op.
@@ -100,7 +100,7 @@ echo '</div>';
   echo $hid->IOValue("sa","use_opd");
   
   if ($op->count() != 0 )
-	echo widget::submit('use_opd','Utilisez une op.prédéfinie');
+	echo widget::submit('use_opd','Utilisez une op.prÃ©dÃ©finie');
   echo $op->show_button();
 
   echo '</form>';
@@ -145,7 +145,7 @@ if ( $sub_action == "list")
       
       }
 
-  echo '<div class="u_content">';
+  echo '<div class="content">';
 
   
 
@@ -173,7 +173,7 @@ if ( $sub_action == "list")
   $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
   $w->selected=$current;
 
-  echo 'Période  '.$w->IOValue("p_periode",$periode_start);
+  echo 'PÃ©riode  '.$w->IOValue("p_periode",$periode_start);
   $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
   echo JS_SEARCH_CARD;
   $w=new widget('js_search_only');
@@ -227,7 +227,7 @@ if ( $sub_action == "list")
   echo $list;
   echo "$bar <hr>";
   if ( $max_line !=0 )
-    echo widget::submit('paid','Mise à jour paiement');
+    echo widget::submit('paid','Mise Ã  jour paiement');
   echo '</FORM>';
   echo $retour;
 
@@ -293,20 +293,20 @@ echo '</div>';
   $bar2=jrn_navigation_bar($offset,$m,$step,$page);
 
     echo '<div class="u_redcontent">';
-    echo '<h2 class="info"> Echeance dépassée </h2>';
+    echo '<h2 class="info"> Echeance dÃ©passÃ©e </h2>';
     echo '<FORM METHOD="POST">';
 	echo dossier::hidden();
     echo $bar2;
     echo $list;
 
 
-    echo  '<h2 class="info"> Non Payée </h2>';
+    echo  '<h2 class="info"> Non PayÃ©e </h2>';
     echo $list2;
     echo $bar2;
     $hid=new widget();
     echo '<hr>';
    if ( $m != 0 )
-     echo widget::submit('paid','Mise à jour paiement');
+     echo widget::submit('paid','Mise Ã  jour paiement');
     echo '</form>';
 
     echo '</div>';
@@ -339,7 +339,7 @@ if ( isset ($_POST['add_item']) || isset ($_POST["correct"])  )
           <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer" ID="SubmitButton">';
 
   $form=FormAchInput($cn,$p_jrn,$User->get_periode(),$_POST,$submit,false,$nb_item);
-  echo '<div class="u_content">';
+  echo '<div class="content">';
   echo $form;
   echo $msg_tva;
   echo JS_CALC_LINE;
@@ -361,13 +361,13 @@ if ( isset($_POST['save']))
     // we save the expense
     list ($internal,$c)=RecordSell($cn,$_POST,$User,$p_jrn);
     $form=FormAchView($cn,$p_jrn,$User->get_periode(),$_POST,"",$_POST['nb_item'],false);
-    echo '<div class="u_content">';
+    echo '<div class="content">';
     echo '<h2 class="info"> Op&eacute;ration '.$internal.' enregistr&eacute;</h2>';
     echo $form;
     echo '<hr>';
     echo '</form>';
     echo '<A class="mtitle" href="commercial.php?p_action=depense&p_jrn='.$p_jrn.'&'.dossier::get().'">
-    <input type="button" Value="Autre dépense"></A>';
+    <input type="button" Value="Autre dÃ©pense"></A>';
     exit();
   }
   else 
@@ -377,7 +377,7 @@ if ( isset($_POST['save']))
 		$submit.='<input type="button" value="verifie CA" onClick="verify_ca(\'ok\');">';
       $submit.='<INPUT TYPE="SUBMIT" name="correct" value="Corriger">';
       $form=FormAchView($cn,$p_jrn,$User->get_periode(),$_POST,$submit,$nb_number,true);
-      echo '<div class="u_content">';
+      echo '<div class="content">';
       echo $form;
       echo '<hr>';
       echo '</form>';
@@ -408,7 +408,7 @@ if ( isset ($_POST['view_invoice']) )
     $form=FormAchInput($cn,$p_jrn,$User->get_periode(),$_POST,$submit, false, $nb_number);
   }
   
-  echo '<div class="u_content">';
+  echo '<div class="content">';
   echo         $form;
   echo '</div>';
   exit();
@@ -432,7 +432,7 @@ if ( $p_jrn != -1 )
           <INPUT TYPE="SUBMIT" NAME="view_invoice" VALUE="Enregistrer" ID="SubmitButton">';
   // Show an empty form of invoice
   $form=FormAchInput($cn,$p_jrn,$User->get_periode(),null,$submit,false,$jrn->getDefLine());
-  echo '<div class="u_content">';
+  echo '<div class="content">';
   echo $form;
   echo $msg_tva;
   //--------------------
@@ -450,7 +450,7 @@ if ( $p_jrn != -1 )
   echo $hid->IOValue("sa","use_opd");
   
   if ($op->count() != 0 )
-	echo widget::submit('use_opd','Utilisez une op.prédéfinie');
+	echo widget::submit('use_opd','Utilisez une op.prÃ©dÃ©finie');
   echo $op->show_button();
 
   echo '</form>';

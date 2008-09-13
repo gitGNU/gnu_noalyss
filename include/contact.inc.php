@@ -111,7 +111,7 @@ if ( $sub_action=="blank")
 if ( $sub_action == "list" )
 {
 ?>
-<div class="u_content">
+<div class="content">
 <span>
 <form method="get" action="commercial.php">
 <?php
@@ -162,7 +162,7 @@ if ( $sub_action == "list" )
 	     " frd_id=".FICHE_TYPE_CONTACT);
  // if array is empty show an warning and stops
  if ( sizeof ($w->value) == 0 ) {
-   echo '<p style="color:red">Aucune fiche de catégories contact</p>';
+   echo '<p style="color:red">Aucune fiche de catÃ©gories contact</p>';
    echo '<p>allez dans fiche creation et choississez contact comme sorte</p>';
    exit();
  }

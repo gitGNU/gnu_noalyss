@@ -30,7 +30,7 @@ require_once ('class_anc_plan.php');
 require_once ('class_anc_operation.php');
 require_once ('class_acc_ledger.php');
 require_once ('class_acc_operation.php');
-require_once ('class_acc_jrn_info.php');
+require_once ('class_acc_ledger_info.php');
 
 /*! 
  * \brief  Display the form to UPDATE account operation in the expert view
@@ -100,7 +100,7 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 			// Is Paid
 			$r.="<TD>";
 			$check=( $content['jr_rapt'] != null )?"CHECKED":"UNCHECKED";
-			$r.='<TD>Payé <INPUT TYPE="CHECKBOX"'.$disable.' name="is_paid" '.$check.'></TD>';
+			$r.='<TD>PayÃ© <INPUT TYPE="CHECKBOX"'.$disable.' name="is_paid" '.$check.'></TD>';
 		  }
 		$r.="</TR>";
 		$r.="</TABLE>";
@@ -158,25 +158,44 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 	if ( $p_mode == 1 ) {
 	  $r.="<hr>";
 	  $r.= "<table>"; 
-	  $r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
+	  $r.="<TR>".$file->IOValue("pj","","PiÃ¨ce justificative")."</TR>";
 	  $r.="</table>";
 	}
 	$r.="<hr>";
 	
 	$r.="</table>";
 	$r.="Total ".$content['jr_montant']."<br>";
+	if ( $content['jrn_def_type'] == 'VEN' ) {
+	  /* count the number of additionnal info */
+	  $acc_jrn_info=new Acc_Ledger_Info($p_cn);
+	  $acc_jrn_info->set_jrn_id($p_jr_id);
+	  
+	  /* if additional info > 0 show them */
+	  if ( $acc_jrn_info->count() > 0 ) {
+	    $array=$acc_jrn_info->load_all();
+	    foreach ($array as $row) {
+	      if ( strpos($row->id_type,'BON_COMMANDE') ===0) {
+		$r.="Num bon de commande : ".$row->ji_value.'<br>';
+	      }
+	      if ( strpos($row->id_type,'OTHER') ===0) {
+		$r.="Autre info : ".$row->ji_value.'<br>';
+	      }
+	      
+	    }
+	  }
+	}
 	if ( $p_mode==1) {
 	// show all the related operation
 	$a=GetConcerned($p_cn,$content['jr_id']);
 	$sessid=$_REQUEST["PHPSESSID"];	  
 	if ( $a != null ) {
-      $r.="<b>Operation concernée</b> <br>";
+      $r.="<b>Operation concernÃ©e</b> <br>";
 
 	  $r.= '<div style="margin-left:30px;">';
 	  foreach ($a as $key => $element) {
 		$operation=new Acc_operation($p_cn);
 		$operation->jr_id=$element;
-		$r.=sprintf ('%s <INPUT TYPE="BUTTON" VALUE="Détail" onClick="modifyOperation(\'%s\',\'%s\',%d)">', 
+		$r.=sprintf ('%s <INPUT TYPE="BUTTON" VALUE="DÃ©tail" onClick="modifyOperation(\'%s\',\'%s\',%d)">', 
 					 $operation->get_internal($p_cn,$element),
 					 $element,
 					 $sessid,
@@ -270,7 +289,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
   // Is Paid
   $r.="<TD>";
   $check=( $content['jr_rapt'] != null )?"CHECKED":"UNCHECKED";
-  $r.='<TD>Payé <INPUT TYPE="CHECKBOX" '.$disable.' name="is_paid" '.$check.'></TD>';
+  $r.='<TD>PayÃ© <INPUT TYPE="CHECKBOX" '.$disable.' name="is_paid" '.$check.'></TD>';
   
   $r.="</TR>";
   
@@ -494,7 +513,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
   $r.="</TR></TABLE>";
   if ( $content['jrn_def_type'] == 'VEN' ) {
     /* count the number of additionnal info */
-    $acc_jrn_info=new Acc_Jrn_Info($p_cn);
+    $acc_jrn_info=new Acc_Ledger_Info($p_cn);
     $acc_jrn_info->set_jrn_id($p_jr_id);
 
     /* if additional info > 0 show them */
@@ -515,7 +534,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
   if ( $p_mode == 1 ) {
 	$r.= "<table>"; 
 
-	$r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
+	$r.="<TR>".$file->IOValue("pj","","PiÃ¨ce justificative")."</TR>";
 	$r.="</table>";
 	$r.="<hr>";
 	
@@ -526,13 +545,13 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 	$sessid=$_REQUEST["PHPSESSID"];	  
   
 	if ( $a != null ) {
-      $r.="<b>Operation concernée</b> <br>";
+      $r.="<b>Operation concernÃ©e</b> <br>";
       
       $r.= '<div style="margin-left:30px;">';
       foreach ($a as $key => $element) {
 		$operation=new Acc_operation($p_cn);
 		$operation->jr_id=$element;
-		$r.=sprintf ('%s <INPUT TYPE="BUTTON" VALUE="Détail" onClick="modifyOperation(\'%s\',\'%s\',%d)">', 
+		$r.=sprintf ('%s <INPUT TYPE="BUTTON" VALUE="DÃ©tail" onClick="modifyOperation(\'%s\',\'%s\',%d)">', 
 					 $operation->get_internal(),
 					 $element,
 					 $sessid,
@@ -554,7 +573,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 }
 
 /*! 
- * \brief  Vue des écritures comptables
+ * \brief  Vue des Ã©critures comptables
  * 
  * parm : 
  *	- p_dossier,

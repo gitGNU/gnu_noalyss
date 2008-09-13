@@ -42,7 +42,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 			//corrige un bug de date
 			$date_exec = str_replace(chr(34),"", $date_exec);
 			
-			// Si LTXXXXX ou LT XXXXX dans le détail
+			// Si LTXXXXX ou LT XXXXX dans le dÃ©tail
 			if ((ereg ("LT+([0-9]{5})", $detail, $regs)) || (ereg ("LT+[ ]+([0-9]{5})", $detail, $regs))) {
 				$iduser = $regs[1];
 			}
@@ -72,6 +72,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 					where 
 					code='".$code."' and 
 					num_compte='".$num_compte."'";
+			$sql=utf8_encode($sql);
 			$Res=ExecSql($p_cn,$sql);
 			$Num=pg_NumRows($Res);
 			
@@ -102,7 +103,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 					$p_jrn,
 					'n')";
 			
-				$Res=ExecSql($p_cn,$Sql);
+				$Res=ExecSql($p_cn,$Sql,'latin1');
 			}
 		}
 

@@ -1,5 +1,5 @@
 
-SET client_encoding = 'LATIN1';
+SET client_encoding = 'utf8';
 SET check_function_bodies = false;
 SET client_min_messages = warning;
 
@@ -1933,7 +1933,7 @@ CREATE TABLE tmp_pcmn (
 
 
 
-COMMENT ON TABLE tmp_pcmn IS 'Plan comptable minimum normalisé';
+COMMENT ON TABLE tmp_pcmn IS 'Plan comptable minimum normalisÃ©';
 
 
 

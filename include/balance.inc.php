@@ -33,7 +33,7 @@ include_once("class_acc_balance.php");
 $User->can_request($cn,BALANCE);
 
 
-echo '<div class="u_content">';
+echo '<div class="content">';
 
 // Show the form for period
 echo '<FORM action="?p_action=impress&type=bal" method="post">';
@@ -49,7 +49,7 @@ if ( isset ($_POST['from_periode']) )
   $w->selected=$_POST['from_periode'];
 
 echo $w->IOValue('from_periode',$periode_start);
-$w->label=" jusqu'à ";
+$w->label=" jusqu'Ã  ";
 $periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
 if ( isset ($_POST['to_periode']) )
   $w->selected=$_POST['to_periode'];
@@ -74,7 +74,7 @@ $to_poste->extra2=null;
 $to_poste->value=(isset($_POST['to_poste']))?$_POST['to_poste']:"";
 $to_span=new widget("span","to_poste_label","to_poste_label");
 $c=new widget("checkbox");
-$c->label="centralisé";
+$c->label="centralisÃ©";
 echo $c->IOValue('central');
 
 echo "<div>";
@@ -140,7 +140,7 @@ if ( isset($_POST['view'] ) ) {
   //$per=join(',',$periode);
   if ( isset($_POST['central']) ) {
     $bal->central='Y';
-    $t_cent="centralisée";
+    $t_cent="centralisÃ©e";
   }
   else
   $bal->central='N';
@@ -149,7 +149,7 @@ if ( isset($_POST['view'] ) ) {
 		  $_POST['to_periode']);
     $a=get_periode($cn,$_POST['from_periode']);
     $b=get_periode($cn,$_POST['to_periode']);
-    echo "<h2 class=\"info\"> période du ".$a['p_start']." au ".$b['p_end']."</h2>";
+    echo "<h2 class=\"info\"> pÃ©riode du ".$a['p_start']." au ".$b['p_end']."</h2>";
 
   echo '<table width="100%">';  
   echo '<th>Poste Comptable</th>';

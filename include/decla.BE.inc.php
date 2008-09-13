@@ -27,7 +27,7 @@
 
 /*! 
  **************************************************
- * \brief  Créer le fichier à déposer pour la TVA
+ * \brief  CrÃ©er le fichier Ã  dÃ©poser pour la TVA
  *           voir le fichier BE_fr_list_client_nonpapier.pdf
  *        
  * parm : 

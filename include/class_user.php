@@ -41,7 +41,7 @@ class User {
     // if p_id is not set then check the connected user
     if ( $p_id == -1 ) {
       if ( ! isset ($_SESSION['g_user'])) 
-	exit("Utilisateur inexistant");
+	exit('<h2 class="error"> Utilisateur d√©connect√©</h2>');
       echo_debug('class_user.php',__LINE__," g_user = ".$_SESSION['g_user']);
 
     $this->id=$_SESSION['g_user'];
@@ -126,7 +126,7 @@ class User {
 		echo "<BR><BR><BR><BR><BR><BR>";
 		echo "<P ALIGN=center><BLINK>
 			<FONT size=+12 COLOR=RED>
-			Invalid user <BR> or<BR> Invalid password 
+			utilisateur ou mot de passe incorrect 
 			</FONT></BLINK></P></BODY></HTML>";
 		session_unset();
 		
@@ -140,41 +140,61 @@ class User {
   }
 /*! 
  * \brief get all the available ledgers for the current user
- * \param none
- * \param
- * \param
- * 
+ * \param $p_type = ALL or the type of the ledger (ACH,VEN,FIN,ODS)
+ * \param $p_access =3 for READ or WRITE, 2 READ and write, 1 for readonly
  *
  * \return an array
  */
-  function get_ledger() {
+  function get_ledger($p_type='ALL',$p_access=3) {
+
+
     if ( $this->admin != 1) {
+      $sql_type=($p_type=='ALL')?'':"and jrn_def_type=upper('".FormatString($p_type)."')";
+      switch($p_access) {
+      case 3:
+	$sql_access=" and uj_priv!= 'X'";
+	break;
+      case 2:
+	$sql_access=" and uj_priv = 'W'";
+	break;
+
+      case 1:
+	$sql_access=" and uj_priv = 'R'";
+	break;
+
+      }
       $sql="select jrn_def_id,jrn_def_type,
 jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
                                jrn_deb_max_line,jrn_cred_max_line
                              from jrn_def join jrn_type on jrn_def_type=jrn_type_id
                              join user_sec_jrn on uj_jrn_id=jrn_def_id 
                              where
-                             uj_login='".$this->id."'
-                             and uj_priv !='X'
-                             order by jrn_Def_id";
+                             uj_login='".$this->id."'".
+	                     $sql_type.$sql_access.
+                             " order by jrn_Def_id";
     }else {
+      $sql_type=($p_type=='ALL')?'':"where jrn_def_type=upper('".FormatString($p_type)."')";
       $sql="select jrn_def_id,jrn_def_type,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_deb_max_line,jrn_cred_max_line,
                             jrn_type_id,jrn_desc,'W' as uj_priv
                              from jrn_def join jrn_type on jrn_def_type=jrn_type_id 
+                            $sql_type
                              order by jrn_Def_id";
     }
+
     $res=ExecSql($this->db,$sql);
+    if ( pg_NumRows($res) == 0 ) return null;
     $array=pg_fetch_all($res);
     return $array;
   }
 
   /*!\brief return an sql condition for filtering the permitted ledger
+   * \param $p_type = ALL or the type of the ledger (ACH,VEN,FIN,ODS)
+   * \param $p_access =3 for READ or WRITE, 2 READ and write, 1 for readonly
    *
    *\return string
    */
-  function get_ledger_sql() {
-    $aLedger=$this->get_ledger();
+  function get_ledger_sql($p_type='ALL',$p_access=3) {
+    $aLedger=$this->get_ledger($p_type,$p_access);
     $sql=" jrn_def_id in (";
     foreach ($aLedger as $row) {
       $sql.=$row['jrn_def_id'].',';
@@ -227,31 +247,55 @@ function set_periode($p_periode) {
   $sql="update user_local_pref set parameter_value='$p_periode' where user_id='$this->id' and parameter_type='PERIODE'";
   $Res=ExecSql($this->db,$sql);
 }
+
 /*! 
  * \brief  Get the default periode from the user's preferences
  * 
- * \param $p_cn connexion 
- * \param  $p_user
  * \return the default periode
  *	
  *
  */ 
 
 function get_periode() {
+
   $array=$this->get_preference();
   return $array['PERIODE'];
 }
+  /*!\brief return the mini rapport to display on the welcome page
+   *\return 0 if nothing if found or the report to display (formdef.fr_id)
+   */
+  function get_mini_report() {
+    $array=$this->get_preference();
+    $fr_id=(isset($array['MINIREPORT']))?$array['MINIREPORT']:0;
+    return $fr_id;
+    
+  }
+
+  /*!\brief set the mini rapport to display on the welcome page
+   */
+  function set_mini_report($p_id) {
+    $count=getDbValue($this->db,"select count(*) from user_local_pref where user_id=$1 and parameter_type=$2",
+		      array($this->id,'MINIREPORT'));
+    if ( $count == 1 ) {
+      $sql="update user_local_pref set parameter_value=$1 where user_id=$2 and parameter_type='MINIREPORT'";
+      $Res=ExecSqlParam($this->db,$sql,array($p_id,$this->id));
+    } else {
+      $sql="insert into user_local_pref (user_id,parameter_type,parameter_value)".
+	"values($1,'MINIREPORT',$2)";
+      $Res=ExecSqlParam($this->db,$sql,array($this->id,$p_id));
+    }
+
+
+  }
+
+
 /*! 
  * \brief  Get the default user's preferences
- * 
- *  
- * \param $p_cn connexion 
- * \param $p_user
  * \return array of (parameter_type => parameter_value)
  */ 
 function get_preference ()
 {
-  // si preference n'existe pas, les crÈer
+  // si preference n'existe pas, les cr√©er
   $sql="select parameter_type,parameter_value from user_local_pref where user_id='".$this->id."'";
   $Res=ExecSql($this->db,$sql);
   if (pg_NumRows($Res) == 0 ) {
@@ -264,11 +308,12 @@ function get_preference ()
     $l_array=$this->get_preference();
   } else {
     for ( $i =0;$i < pg_NumRows($Res);$i++) {
-      $row= pg_fetch_array($Res,0);
+      $row= pg_fetch_array($Res,$i);
       $type=$row['parameter_type'];
       $l_array[$type]=$row['parameter_value'];
     }
   }
+
   return $l_array;
 }
 /*! 
@@ -298,7 +343,7 @@ function get_preference ()
  * \brief  Get the global preferences from user_global_pref
  *        in the account_repository db
  *
- * \param set g_variable
+ * \note set $SESSION[g_variable]
  */
 
 
@@ -341,7 +386,8 @@ function load_global_pref()
  * \brief  insert default pref
  *        if no parameter are given insert all the existing 
  *        parameter otherwise only the requested
- * \param parameter's type or nothing
+ * \param $p_type parameter's type or nothing
+ * \param $p_value parameter value
  *
  */
 function insert_default_global_pref($p_type="",$p_value="") {
@@ -349,7 +395,7 @@ function insert_default_global_pref($p_type="",$p_value="") {
 	echo_debug('class_user.php',__LINE__,"parameter p_type $p_type p_value  $p_value");
 
 	$default_parameter= array("THEME"=>"Light",
-		"PAGESIZE"=>"50",'TOPMENU'=>'SELECT');
+		"PAGESIZE"=>"50",'TOPMENU'=>'TEXT');
 	$cn=Dbconnect();
 	$Sql="insert into user_global_pref(user_id,parameter_type,parameter_value) 
 				values ('%s','%s','%s')";
@@ -373,8 +419,8 @@ function insert_default_global_pref($p_type="",$p_value="") {
  * \brief  update default pref
  *           if value is not given then use the default value
  *
- * \param parameter's type 
- * \param parameter's value value of the type
+ * \param $p_type parameter's type 
+ * \param $p_value parameter's value value of the type
  */
 function update_global_pref($p_type,$p_value="") {
 	$default_parameter= array("THEME"=>"Light",
@@ -408,7 +454,7 @@ function get_exercice()
 /*!\brief Check if the user can access 
  * otherwise warn and exit
  * \param $p_cn database connx
- * \param $action_id
+ * \param $p_action requested action
  * \param $p_js = 1 javascript, or 0 just a text
  * \return nothing the program exits automatically
  */
@@ -419,14 +465,14 @@ function can_request($p_cn,$p_action,$p_js=0)
       if ( $p_js == 1 )
 	{
 	  echo "<script>";
-	  echo "alert ('Cette action ne vous est pas autorisÈe. Contactez votre responsable');";
+	  echo "alert ('Cette action ne vous est pas autoris√©e. Contactez votre responsable');";
 	  echo "</script>";
 	 
 	}
       else
 	{
 	  echo '<div class="u_redcontent">';
-	  echo '<h2 class="error"> Cette action ne vous est pas autorisÈe Contactez votre responsable</h2>';
+	  echo '<h2 class="error"> Cette action ne vous est pas autoris√©e Contactez votre responsable</h2>';
 	  echo '</div>';
 
 	}

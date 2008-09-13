@@ -119,15 +119,17 @@ class widget {
     // Input text type
     $disabled = $this->disabled ? "readonly" : "";
     if (strtoupper($this->type)=="TEXT") {
+      $t= ((isset($this->title)))?'title="'.$this->title.'"   ':' ';
+
       $extra=(isset($this->extra))?$this->extra:"";
       if ( $this->readonly==true ){
 	$readonly=" readonly ";$style='style="border:solid 1px grey;color:black;background:lightblue;"';
       } else {
-	$readonly="  ";$style='style="border:solid 1px blue;"';
+	$readonly="  ";$style='class="input_text"';
       }
 	$this->value=str_replace('"','',$this->value);
 	$r='<INPUT '.$style.' TYPE="TEXT" id="'.
-	  $this->name.'"'.
+	  $this->name.'"'.$t.
 	  'NAME="'.$this->name.'" VALUE="'.$this->value.'"  '.
 	  'SIZE="'.$this->size.'" '.$this->javascript." ".$disabled." $readonly $this->extra >";
 	
@@ -148,8 +150,10 @@ class widget {
     }
     // Select value
     if ( strtoupper($this->type) == "SELECT") {
+
       if ($this->readonly==false )
 	{
+
 	  $disabled=($this->disabled==true)?"disabled":"";
 	  //echo "<b>Selected <b>".$this->selected;
 	  $r="<SELECT  id=\"$this->name\" NAME=\"$this->name\" $this->javascript $disabled>";
@@ -238,7 +242,7 @@ class widget {
     if (strtoupper($this->type)=="TEXTAREA") {
       if ( $this->readonly == false ) {
 	$r="";
-	$r.='<TEXTAREA name="'.$this->name.'"';
+	$r.='<TEXTAREA style="border:solid blue 1px" name="'.$this->name.'" id="'.$this->name.'"';
 	$r.=" rows=\"$this->heigh\" ";
 	$r.=" cols=\"$this->width\" ";
 	$r.=' '.$disabled.'>';
@@ -326,6 +330,20 @@ class widget {
       return $r;
     }
     //----------------------------------------------------------------------
+    // js_search_poste_only
+    if ( strtolower($this->type == 'js_search_poste_only')) {
+      $r=sprintf('
+         <INPUT class="inp" TYPE="button" onClick=SearchPoste(\'%s\','.dossier::id().',\'%s\',\'%s\',\'poste\',\'N\') value="Poste?">
+            %s
+                 ',
+		 $_REQUEST['PHPSESSID'],
+		 $this->extra,
+		 $this->name,
+		 $this->label
+		 );
+      return $r;
+      }
+    //----------------------------------------------------------------------
     // input type == js_search_poste => button search for the account
     if ( strtolower($this->type)=="js_search_poste") {
      
@@ -334,7 +352,7 @@ class widget {
       // Do we need to filter ??
       if ( $this->extra2 == null ) {
       $r=sprintf('<TD>
-         <INPUT class="inp" TYPE="button" onClick=SearchPoste(\'%s\','.dossier::id().',\'%s\',\'%s\') value="Recherche Poste">
+         <INPUT class="inp" TYPE="button" onClick=SearchPoste(\'%s\','.dossier::id().',\'%s\',\'%s\',\'label\',\'Y\') value="Poste?">
             %s</TD><TD> 
 
              <INPUT style="border:groove 1px blue;"  TYPE="Text" NAME="%s" ID="%s" VALUE="%s" SIZE="8">
@@ -350,7 +368,7 @@ class widget {
 
     } else { // $p_list is not null, so we have a filter
       $r=sprintf('<TD>
-         <INPUT TYPE="button" onClick=SearchPosteFilter(\'%s\','.dossier::id().',\'%s\',\'%s\',\'%s\') value="Recherche Poste">
+         <INPUT TYPE="button" onClick=SearchPosteFilter(\'%s\','.dossier::id().',\'%s\',\'%s\',\'%s\') value="Poste?">
             %s</TD><TD> 
 
              <INPUT style="border:groove 1px blue;" TYPE="Text" NAME="%s" id="%s" VALUE="%s" SIZE="8">
@@ -390,9 +408,9 @@ class widget {
     $l_sessid=$_REQUEST['PHPSESSID'];
     if  ( $this->readonly == false ) {
       $r=sprintf('<TD>
-         <INPUT TYPE="button" onClick=NewCard(\'%s\',\'%s\',\'%s\',\'%s\') value="Nouvelle fiche">
+         <INPUT TYPE="button" onClick=NewCard(\'%s\',\'%s\',\'%s\') value="Nouvelle fiche">
          </TD><TD>
-         <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\',\'%s\') value="Recherche fiche">
+         <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\') value="Recherche fiche">
          %s 
          <INPUT  style="border:solid 1px blue;"  TYPE="Text"  ID="%s"  NAME="%s" VALUE="%s" SIZE="8" onBlur="ajaxFid(\'%s\',\'%s\',\'%s\')">
 
@@ -400,18 +418,16 @@ class widget {
 	       $l_sessid,
 	       $this->extra, // deb or cred
 	       $this->name,
-	       $this->extra2, //jrn
 	       $l_sessid,
 	       $this->extra,
 	       $this->name,
-	       $this->extra2,
 	       $this->label,
 	       $this->name,
 	       $this->name,
 	       $this->value,
 	       $this->name,
-	       $this->extra, //deb or cred
-	       $this->extra2 //jrn
+		 $this->extra,  //deb or cred
+	       $l_sessid
 	       );
     } else {
       // readonly == true
@@ -434,13 +450,23 @@ class widget {
    */
   if ( strtolower($this->type)=="js_search_only") {
     $l_sessid=$_REQUEST['PHPSESSID'];
-    if  ( $this->readonly == false ) {
+
+    if ( $this->javascript=="") { /* if javascript is empty then we
+				     add a default behaviour */
+      $this->javascript=sprintf('onBlur="ajaxFid(\'%s\',\'%s\',\'%s\')"',
+				$this->name,
+				$this->extra, //deb or cred
+				$l_sessid
+				);
+    }
+      if  ( $this->readonly == false ) {
+      if ( $this->extra2 == "" ) $this->extra2="QuickCode";
       if ( $this->table==1)
 	{
 	  $r=sprintf('<TD>
-         <INPUT TYPE="button" onClick="SearchCard(\'%s\',\'%s\',\'%s\',\'%s\')" value="QuickCode">
-            %s</TD><TD> <INPUT style="border:solid 1px blue;"  TYPE="Text"  style="border:solid 1px blue;" '.
-		     ' NAME="%s" ID="%s" VALUE="%s" SIZE="8" onBlur="ajaxFid(\'%s\',\'%s\',\'%s\')">',
+         <INPUT TYPE="button" onClick="SearchCard(\'%s\',\'%s\',\'%s\')" value="%s">
+            %s</TD><TD> <INPUT class="input_text"  TYPE="Text"  " '.
+		     ' NAME="%s" ID="%s" VALUE="%s" SIZE="8" %s>',
 		     $l_sessid,
 		     $this->extra,
 		     $this->name,
@@ -449,18 +475,15 @@ class widget {
 		     $this->name,
 		     $this->name,
 		     $this->value,
-		     $this->name,
-		     $this->extra, //deb or cred
-		     $this->extra2 //jrn
-
+		     $this->javascript
 		     );
 	}
       else
 	{
 	  $r=sprintf('
-         <INPUT TYPE="button" onClick="SearchCard(\'%s\',\'%s\',\'%s\',\'%s\')" value="QuickCode">
+         <INPUT TYPE="button" onClick="SearchCard(\'%s\',\'%s\',\'%s\')" value="%s">
             %s <INPUT TYPE="Text"  style="border:solid 1px blue;" '.
-		     ' NAME="%s" ID="%s" VALUE="%s" SIZE="8"  onBlur="ajaxFid(\'%s\',\'%s\',\'%s\')">',
+		     ' NAME="%s" ID="%s" VALUE="%s" SIZE="8"  %s">',
 		     $l_sessid,
 		     $this->extra,
 		     $this->name,
@@ -469,10 +492,7 @@ class widget {
 		     $this->name,
 		     $this->name,
 		     $this->value,
-		     $this->name,
-		     $this->extra, //deb or cred
-		     $this->extra2 //jrn
-
+		     $this->javascript
 	       );
 	}
     } else {
@@ -508,7 +528,7 @@ class widget {
 
   // type=span
   if ( strtolower($this->type)=="span") {
-    $r=sprintf('<span style="inline" id="%s"  >%s </span>',
+    $r=sprintf('<span style="inline" id="%s">%s </span>',
 	       $this->name,
 	       $this->value
 	       );
@@ -649,27 +669,26 @@ class widget {
     
     return '<INPUT TYPE="SUBMIT" NAME="'.$p_name.'" VALUE="'.$p_value.'" '.$p_javascript.'>';
   }
+  static   function button ($p_name,$p_value,$p_javascript="") {
+    
+    return '<INPUT TYPE="button" NAME="'.$p_name.'" ID="'.$p_name.'" VALUE="'.$p_value.'" '.$p_javascript.'>';
+  }
 
   static function reset ($p_value) {
-    return '<INPUT TYPE="SUBMIT"  VALUE="'.$p_value.'">';
+    return '<INPUT TYPE="RESET"  VALUE="'.$p_value.'">';
   }
   static function hidden($p_name,$p_value) {
     return '<INPUT TYPE="hidden" id="'.$p_name.'" NAME="'.$p_name.'" VALUE="'.$p_value.'">';
   }
   static function button_href($p_name,$p_value) {
-    $agent=$_SERVER['HTTP_USER_AGENT'];
-    
-    if (  strpos($agent,'MSIE') == 0 && 
-	 strpos ($agent,'Konqueror') ==0)
-      return sprintf('<A class="mtitle" HREF="%s"><input type="button" value="%s"></A>',
-		     $p_value,
-		     $p_name);
-    
-    return sprintf('<span style="border:1px solid blue;padding:5px;background-color:lightblue;"> '.
-		     ' <A class="mtitle" HREF="%s">%s</A></span>',
-		     $p_value,
-		     $p_name);
+
+	return sprintf('<button onClick="window.location=\'%s\'">%s</button>',
+				   $p_value,
+				   $p_name);
 
   }
-
+  static function infobulle($p_comment){
+    $r='<A HREF="#" style="display:inline;color:black;background-color:yellow" onClick="showBulle(\''.$p_comment.'\')" onmouseout="hideBulle(0)">?</A>';
+    return $r;
+  }
 }

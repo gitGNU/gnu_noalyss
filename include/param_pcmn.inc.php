@@ -64,7 +64,7 @@ echo '<div class="lmenu">';
 ShowMenuPcmn($_SESSION['g_start']);
 echo '</div>';
 echo '<DIV CLASS="u_redcontent">';
-/* Analyse ce qui est demandÈ */
+/* Analyse ce qui est demand√© */
 /* Effacement d'une ligne */
 if (isset ($_GET['action'])) {
 //-----------------------------------------------------
@@ -74,15 +74,15 @@ if (isset ($_GET['action'])) {
       /* Ligne a enfant*/
       $R=ExecSqlParam($cn,"select pcm_val from tmp_pcmn where pcm_val_parent=$1",array($_GET['l']));
       if ( pg_NumRows($R) != 0 ) {
-	echo "<SCRIPT> alert(\"Ne peut pas effacer le poste: d'autres postes en dÈpendent\");</SCRIPT>";
+	echo "<SCRIPT> alert(\"Ne peut pas effacer le poste: d'autres postes en d√©pendent\");</SCRIPT>";
       } else {
-	/* VÈrifier que le poste n'est pas utilisÈ qq part dans les journaux */
+	/* V√©rifier que le poste n'est pas utilis√© qq part dans les journaux */
 	$Res=ExecSqlParam($cn,"select * from jrnx where j_poste=$1",array($_GET['l']));
 	if ( pg_NumRows($Res) != 0 ) {
-	  echo "<SCRIPT> alert(\"Ne peut pas effacer le poste: il est utilisÈ dans les journaux\");</SCRIPT>";
+	  echo "<SCRIPT> alert(\"Ne peut pas effacer le poste: il est utilis√© dans les journaux\");</SCRIPT>";
 	}
 	else {
-	  $Del=ExecSql($cn,"delete from tmp_pcmn where pcm_val=".$_GET['l']);
+	  $Del=ExecSqlParam($cn,"delete from tmp_pcmn where pcm_val=$1",array($_GET['l']));
 	} // if pg_NumRows
       } // if pg_NumRows
     } // isset ($l)
@@ -120,11 +120,11 @@ if ( isset ( $_POST["Ajout"] ) ) {
 	if ( $Count != 0 ) 
 	  {
 	    // Alert message account already exists
-	    echo '<SCRIPT> alert(" Ce poste existe dÈj‡ "); </SCRIPT>';
+	    echo '<SCRIPT> alert(" Ce poste existe d√©j√† "); </SCRIPT>';
 
 	  } else 
 	    {
-	      $Ret=ExecSqlParam($cn,"insert into tmp_pcmn (pcm_val,pcm_lib,pcm_val_parent,pcm_type) values ($1,$2,$3,$4)", array($p_val,$p_lib,$p_parent,$p_type));
+	      $Ret=ExecSqlParam($cn,"insert into tmp_pcmn (pcm_val,pcm_lib,pcm_val_parent,pcm_type) values ($1,$2,$3,$4)",array($p_val,$p_lib,$p_parent,$p_type));
 	    }
       }
     } else {
@@ -147,7 +147,7 @@ echo dossier::hidden();
 <TABLE ALIGN="center" BORDER=0 CELLPADDING=0 CELLSPACING=0> 
 <TR>
 <TH> Classe </TH>
-<TH> LibellÈ </TH>
+<TH> Libell√© </TH>
 <TH> Parent </TH>
 <TH> Type </TH>
 </TR>

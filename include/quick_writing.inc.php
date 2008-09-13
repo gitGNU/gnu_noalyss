@@ -44,23 +44,24 @@ function show_direct_form($cn,$ledger,$p_array) {
   // Show the predef operation
   // Don't forget the p_jrn 
   echo '<form>';
-  echo dossier::hidden();
   echo widget::hidden('p_action',$_REQUEST['p_action']);
-  
-  echo '<input type="hidden" value="'.$id.'" name="p_jrn">';
-  $op=new Pre_operation($cn);
-  $op->p_jrn=$id;
-  $op->od_direct='t';
-  if ($op->count() != 0 )
-    echo widget::submit('use_opd','Utilisez une op.pr&eacute;d&eacute;finie');
-  echo $op->show_button();
+  $op=new Pre_operation_detail($cn);
+  $op->set('ledger',$_REQUEST ['p_jrn']);
+  $op->set('ledger_type',$ledger->get_type());
+  $op->set('direct','t');
+  echo $op->form_get();
   echo '</form>';
+  
+
 
   echo '<form method="post" action="?">';
   echo dossier::hidden();
   echo widget::hidden('p_action',$_REQUEST['p_action']);
 
   echo $ledger->show_form($p_array);
+
+
+  echo widget::button('add','Ajout d\'une ligne','onClick="quick_writing_add_row()"');
 
   echo widget::submit('summary','Sauvez');
   echo '<div class="info">
@@ -72,6 +73,8 @@ function show_direct_form($cn,$ledger,$p_array) {
 
 
   echo '</form>';
+  echo "<script>checkTotalDirect();</script>";
+
    echo "<div>".JS_CALC_LINE."</div>";
 
   echo '</div>';
@@ -83,7 +86,7 @@ $ledger->with_concerned=true;
 // no ledger selected, propose one
 if ($id == -1 )
   {
-    echo '<div class="u_content">';
+    echo '<div class="content">';
 
      // Vide
      echo '<FORM method="get" action="?">';
@@ -100,7 +103,7 @@ if ( $User->AccessJrn($cn,$id) == false ) {
 <script> alert(\"L'acces a ce journal est interdit, contactez votre responsable\");</script>";
   exit();
  }
-echo '<div class="u_content">';
+echo '<div class="content">';
 echo '<h2 class="info"> Journal : '.$ledger->get_name().'</h2>';
 echo widget::button_href('Autre journal','?p_action='.$_REQUEST['p_action'].'&'.dossier::get());
 // User can write ?
@@ -129,32 +132,42 @@ if ( isset($_GET['show_form']) || isset($_POST['correct_it']) ) {
 //
 if ( isset ($_GET['use_opd'])) {
   $op=new Pre_op_advanced($cn);
-  $op->set_od_id($_REQUEST['pre_def']);
-  //$op->p_jrn=$id;
-  
-  $p_post=$op->compute_array();
+  $p_post=null;
+  if ( isset($_REQUEST['pre_def']) && $_REQUEST['pre_def'] != ''){
+    $op->set_od_id($_REQUEST['pre_def']);
+    //$op->p_jrn=$id;
+    
+    $p_post=$op->compute_array();
+  }
   show_direct_form($cn,$ledger,$p_post);
 
   exit();
   
  }
 if ( isset($_POST['summary'])) {
-       echo '<form method="post"  action="?">';
-       echo $ledger->show_form($_POST,1);
-       echo dossier::hidden();
-       echo widget::hidden('p_action',$_REQUEST['p_action']);
+  try {
+    $ledger->verify($_POST );
+  } catch (AcException $e) {
+    echo '<script>alert (\''.$e->getMessage()."'); </script>";
+    show_direct_form($cn,$ledger,$_POST);
+    exit();
+  }
 
-       echo widget::submit('save_it',"Sauver");
-       echo widget::submit('correct_it','Corriger');
-       
-       $chk=new widget('checkbox');
-       $chk->selected=false;
-       echo "Sauvez l'op&eacute;ration ?";
-       echo $chk->IOValue('save_opd');
-
-       echo '</form>';
-       exit();
-
+  echo '<form method="post"  action="?">';
+  echo $ledger->show_form($_POST,1);
+  echo dossier::hidden();
+  echo widget::hidden('p_action',$_REQUEST['p_action']);
+  
+  echo widget::submit('save_it',"Sauver");
+  echo widget::submit('correct_it','Corriger');
+  
+  $chk=new widget('checkbox');
+  $chk->selected=false;
+  echo "Sauvez l'op&eacute;ration ?";
+  echo $chk->IOValue('save_opd');
+  echo '</form>';
+  exit();
+  
  }
 if ( isset($_POST['save_it' ])) {
   $array=$_POST;
@@ -162,7 +175,12 @@ if ( isset($_POST['save_it' ])) {
   try {
     $ledger->save($array);
     echo '<h2> Op&eacute;ration enregistr&eacute;e</h2>';
-    //    echo $ledger->show_form($array,true);
+    echo widget::button_href('Autre opération dans ce journal',
+			     "?".dossier::get().
+			     '&show_form'.
+			     '&p_action=quick_writing&p_jrn='.
+			     $_REQUEST['p_jrn']);
+			     
   } catch (AcException $e) {
     echo '<script>alert (\''.$e->getMessage()."'); </script>";
     show_direct_form($cn,$ledger,$_POST);

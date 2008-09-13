@@ -276,104 +276,7 @@ function GetTvaPoste($p_cn,$p_tva_id,$p_cred) {
 
 
 
-/*!   InsertJrnx($p_cn,$p_type,$p_user,$p_jrn,$p_poste,$p_date,$p_amount,$p_grpt,$p_periode
- **************************************************
- *\brief  Insert into the table Jrn
- *        
- *  
- * \param $p_cn database connection
- * \param $p_type debit or credit
- * \param $p_user the current user
- * \param $p_jrn the current 'journal' (folder)
- * \param $p_poste the account
- * \param $p_date
- * \param $p_amount amount to insert
- * \param $p_periode the concerned periode
- *
- * \return  nothing
- *
- */
 
-function InsertJrnx($p_cn,$p_type,$p_user,$p_jrn,$p_poste,$p_date,$p_amount,$p_grpt,$p_periode,$p_qcode="")
-{
-  echo_debug ('user_common.php',__LINE__,"InsertJrnx param 
-	    type = $p_type p_user $p_user 
-            p_date $p_date p_poste $p_poste 
-            p_amount $p_amount p_grpt = $p_grpt p_periode = $p_periode");
-
-  //if ( $p_amount == 0) return true;
-
-  $debit=($p_type=='c')?'false':'true';
-
-  // if negative value the operation is inversed
-  if ( $p_amount < 0 ) {
-    $debit=($debit=='false')?'true':'false';
-  }
-
-  $sql=sprintf("select insert_jrnx
-		 ('%s',abs(%.2f),%d,%d,%d,%s,'%s',%d,upper('%s'))",
-	          $p_date,round($p_amount,2),$p_poste,$p_grpt,$p_jrn,$debit,$p_user,$p_periode,$p_qcode);
-
-  echo_debug('user_common.php',__LINE__,"InsertJrnx $sql");
-  $Res=ExecSql($p_cn,$sql);
-  if ( $Res==false) return $Res;
-  return GetSequence($p_cn,'s_jrn_op');
-
-}
-/*!   InsertJrn($p_cn,$p_date,$p_jrn,$p_comment,$p_amount,$p_grpt,$p_periode
- **************************************************
- *\brief  Insert into the table Jrn, the amount is computed from jrnx thanks the 
- *        group id ($p_grpt)
- *        
- * \param $p_cn database connection
- * \param $p_date date
- * \param $p_jrn the current 'journal' (folder)
- * \param $p_poste the account
- * \param $p_periode the concerned periode
- * \param $p_comment comment
- *
- * \return  nothing
- *  
- */
-
-function InsertJrn($p_cn,$p_date,$p_echeance,$p_jrn,$p_comment,$p_grpt,$p_periode)
-{
-	echo_debug ('user_common.php',__LINE__,"InsertJrn param 
-	    p_date $p_date p_poste $p_comment p_amount  
-p_grpt = $p_grpt p_periode = $p_periode p_echeance = $p_echeance
-comment = $p_comment");
-	$p_comment=FormatString($p_comment);
-
-	if ( $p_echeance == "" or $p_echeance==null) {
-		$p_echeance='null';
-	} else {
-		$p_echeance=sprintf("to_date('%s','DD.MM.YYYY')",$p_echeance);
-	}
-	// retrieve the value from jrnx
-	// 
-	$montant_deb=getDBValue($p_cn,"select sum(j_montant) from jrnx where j_debit='t' and j_grpt=$p_grpt");
-	$montant_cred=getDBValue($p_cn,"select sum(j_montant) from jrnx where j_debit='f' and j_grpt=$p_grpt");
-	echo_debug('InsertJrn',__LINE__,"debit = $montant_deb credit  = $montant_cred ");
-
-	$amount=-1.0000;
-	if ( $montant_deb == $montant_cred ) {
-	  $amount=$montant_deb;
-	} else {
-	  echo "Erreur : balance incorrecte : d&eacute;bit = $montant_deb cr&eacute;dit = $montant_cred";
-	  return false;
-	}
-	// if amount == -1then the triggers will throw an error
-	// 
-	$sql=sprintf("insert into jrn (jr_def_id,jr_montant,jr_comment,jr_date,jr_ech,jr_grpt_id,jr_tech_per)
-	         values ( %d,abs(%.2f),'%s',to_date('%s','DD.MM.YYYY'),%s,%d,%d)",
-		     $p_jrn, $amount,$p_comment,$p_date,$p_echeance,$p_grpt,$p_periode);
-
-
-	echo_debug('user_common.php',__LINE__,"InsertJrn $sql");
-	$Res=ExecSql($p_cn,$sql);				 
-	if ( $Res == false)  return false;
-	return GetSequence($p_cn,'s_jrn');
-}
 /*!   
  *\brief  show all the lines of the asked jrn, uses also the $_GET['o'] for the sort
  *        
@@ -652,7 +555,7 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Ech&
     switch ($href)
       {
 		// user_jrn.php
-      case 'user_jrn.php':
+      case 'compta.php':
 		$vue="E"; //Expert View
 		break;
       case 'commercial.php':
@@ -798,7 +701,7 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Ech&
  * \param  $p_cn database connection
  * 
  * \param $p_j_id the j_id
- * \param $p_goods the goods
+ * \param $p_good the goods
  * \param $p_quant  quantity
  * \param $p_type c for credit or d for debit
  *
@@ -809,7 +712,9 @@ function InsertStockGoods($p_cn,$p_j_id,$p_good,$p_quant,$p_type)
 {
   echo_debug('user_common.php',__LINE__,"function InsertStockGoods($p_cn,$p_j_id,$p_good,$p_quant,$p_type)");
   // Retrieve the good account for stock
-  $code_marchandise=GetFicheAttribut($p_cn,$p_good,ATTR_DEF_STOCK);
+  $code=new fiche($p_cn);
+  $code->get_by_qcode($p_good);
+  $code_marchandise=$code->strAttribut(ATTR_DEF_STOCK);
   $p_good=FormatString($p_good);
   $sql="select f_id from vw_poste_qcode where j_qcode=upper('$p_good')";
   $Res=ExecSql($p_cn,$sql);
@@ -1027,14 +932,11 @@ function UpdateComment ($p_cn,$p_jr_id,$p_comment) {
  **************************************************
  *\brief   test if a jrn op is valid
  *        
- * parm : 
- *	- db connection 
- *      - p_grpt_id
- * gen :
- *	- none
- * return:
- *        1 is valid
- *        0 is not valid
+ * \param $p_cn db 
+ * \param $p_grpt_id
+ * \return:
+ *        - 1 is valid
+ *        - 0 is not valid
  */
 function isValid ($p_cn,$p_grpt_id) {
   $Res=ExecSql($p_cn,"select jr_valid from jrn where jr_grpt_id=$p_grpt_id");

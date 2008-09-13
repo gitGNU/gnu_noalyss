@@ -51,7 +51,7 @@ if ( isset ($_POST["update"] ) ) {
     // Check if p_parent and p_val are number
     if ( ! is_numeric($p_val) || ! is_numeric($p_parent) ) {
       // not number no update
-      echo '<script> alert(\' Valeurs invalides, pas de changement opéré;\'); 
+      echo '<script> alert(\' Valeurs invalides, pas de changement opÃ©rÃ©;\'); 
            </script>';
       echo "<script> 
         window.close();

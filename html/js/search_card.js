@@ -34,19 +34,24 @@ function showfiche(p_sessid,p_qcode)
 /* type must be cred or deb and name is
  * the control's name
 */
-function SearchCard(p_sessid,type,name,jrn)
+function SearchCard(p_sessid,type,name)
 {
   
   var search=document.getElementById(name).value;
   var gDossier=document.getElementById('gDossier').value;
+  var jrn=0;
+  if ( document.getElementById("p_jrn") ) {
+    jrn=document.getElementById("p_jrn").value;
+  }
    var a=window.open('fiche_search.php?first&search&fic_search='+search+'&p_jrn='+jrn+'&PHPSESSID='+p_sessid+'&type='+type+'&name='+name+'&gDossier='+gDossier,'item','toolbar=no,width=350,height=450,scrollbars=yes,statusbar=no');
+   a.focus();
    return false;
 }
-	function NewCard(p_sessid,type,name,jrn)
+function NewCard(p_sessid,type,name)
 {
   var search=document.getElementById(name).value;
   var gDossier=document.getElementById('gDossier').value;
-
+  var jrn=$("p_jrn").value;
   var a=window.open('fiche_new.php?p_jrn='+jrn+'&PHPSESSID='+p_sessid+'&type='+type+'&name='+name+'&gDossier='+gDossier,'item','toolbar=no,width=350,height=450,scrollbars=yes,statusbar=no');
    return false;
 

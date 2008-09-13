@@ -34,9 +34,10 @@ include_once("postgres.php");
 //-----------------------------------------------------
 // Form
 //-----------------------------------------------------
-echo '<div class="u_content">';
+echo '<div class="content">';
 echo JS_SEARCH_POSTE;
 echo JS_SEARCH_CARD;
+echo JS_PROTOTYPE;
 echo '<FORM action="?" METHOD="GET">';
 echo widget::hidden('p_action','impress');
 echo widget::hidden('type','poste');
@@ -67,14 +68,14 @@ $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from pa
 $select->label="Depuis";
 $select->selected=(isset($_REQUEST['from_periode']))?$_REQUEST['from_periode']:"";
 print $select->IOValue('from_periode',$periode_start);
-$select->label=" jusqu'à ";
+$select->label=" jusqu'Ã  ";
 $periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode  $filter_year order by p_start,p_end");
 $select->selected=(isset($_REQUEST['to_periode']))?$_REQUEST['to_periode']:"";
 print $select->IOValue('to_periode',$periode_end);
 print "</TR>";
 print "<TR><TD>";
 $all=new widget("checkbox");
-$all->label="Tous les postes qui en dépendent";
+$all->label="Tous les postes qui en dÃ©pendent";
 $all->disabled=false;
 $all->selected=(isset($_REQUEST['poste_fille']))?true:false;
 echo $all->IOValue("poste_fille");
@@ -101,7 +102,7 @@ if ( isset( $_REQUEST['bt_html'] ) ) {
   require_once("class_acc_account_ledger.php");
   $go=0;
 // we ask a poste_id
-  if ( strlen(trim($_GET['poste_id'])) != 0 && isNumber($_GET['poste_id']) )
+  if ( isset($_GET['poste_id']) && strlen(trim($_GET['poste_id'])) != 0 && isNumber($_GET['poste_id']) )
     {
       if ( isset ($_GET['poste_fille']) )
       {
@@ -130,7 +131,7 @@ if ( isset( $_REQUEST['bt_html'] ) ) {
   // A account  is given
   if ( $go == 1) 
     {
-      echo '<div class="u_content">';
+      echo '<div class="content">';
       if ( ! isset($_REQUEST['oper_detail']) ) {
 	Acc_Account_Ledger::HtmlTableHeader();
 	$Poste->HtmlTable();
@@ -167,14 +168,14 @@ if ( isset( $_REQUEST['bt_html'] ) ) {
   if ( $go == 2) 
     {
       if ( ! isset($_REQUEST['oper_detail']) ) {
-	echo '<div class="u_content">';
+	echo '<div class="content">';
 	$fiche->HtmlTableHeader();
 	$fiche->HtmlTable();
 	$fiche->HtmlTableHeader();
 	echo "</div>";
       } else {
 	// Detail //
-	echo '<div class="u_content">';
+	echo '<div class="content">';
 	$fiche->HtmlTableHeader();
 	$fiche->HtmlTableDetail();
 	$fiche->HtmlTableHeader();
@@ -189,7 +190,7 @@ if ( isset( $_REQUEST['bt_html'] ) ) {
 
       if ( sizeof($a_poste) == 0 ) 
 	exit;
-      echo '<div class="u_content">';
+      echo '<div class="content">';
 
 
       if ( ! isset ($_REQUEST['oper_detail'])) {

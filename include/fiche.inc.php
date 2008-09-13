@@ -32,7 +32,6 @@ $str_dossier=dossier::get();
 echo JS_SEARCH_POSTE;
 echo JS_AJAX_FICHE;
 
-
 if ( !isset($sessid)) 
 {
   $sessid=$_REQUEST["PHPSESSID"];
@@ -83,13 +82,16 @@ function ShowFicheDefInput($p_fiche_def)
   
   $r.= $p_fiche_def->DisplayAttribut("remove");
   $r.= ' <INPUT TYPE="SUBMIT" Value="Ajoute cet &eacute;l&eacute;ment" NAME="add_line">';
+  $r.= ' <INPUT TYPE="SUBMIT" Value="Sauver" NAME="save_line">';
+  $r.=widget::submit('remove_cat','Effacer cette cat√©gorie','onclick="return confirm(\'Vous confirmez ?\')"');
   // if there is nothing to remove then hide the button
   if ( strpos ($r,"chk_remove") != 0 ) {
     $r.=' <INPUT TYPE="SUBMIT" Value="Enleve les &eacute;l&eacute;ments coch&eacute;s" NAME="remove_line">';
   }
   $r.= "</form>";
-  $r.=" <p> Attention : il n'y aura pas de demande de confirmation pour enlËver les 
-attributs sÈlectionnÈs. Il ne sera pas possible de revenir en arriËre</p>";
+  $r.=" <p class=\"notice\"> Attention : il n'y aura pas de demande de confirmation pour enl√®ver les 
+attributs s√©lectionn√©s. Il ne sera pas possible de revenir en arri√®re</p>";
+
   return $r;
 }
 
@@ -102,11 +104,20 @@ if ( isset($_POST['add_modele'])  and $write != 0) {
   $fiche_def->Add($_POST);
 }
 $r="";
+
+if ( isset ($_POST['remove_cat'] )) {
+  $fd_id=new fiche_def($cn,$_POST['fd_id']);
+  $remains=$fd_id->remove();
+  if ( $remains != 0 ) 
+    /* some card are not removed because it is used */
+    alert('Impossible d\'enlever cette cat√©gorie, certaines fiches sont encore utilis√©es\n'.
+	  'Les fiches non utilis√©es ont cependant √©t√© effac√©es');
+}
 // Add a line in the card model
 if ( isset ($_POST["add_line"])  ) {
   $r= '<DIV class="u_redcontent">';
     if ( $write ==0)  
-      $r.= "<h2 class=\"error\"> Pas d'accËs </h2>";
+      $r.= "<h2 class=\"error\"> Pas d'acc√®s </h2>";
     else
       {
 		$fiche_def=new fiche_def($cn,$_REQUEST['fd_id']);
@@ -119,12 +130,32 @@ if ( isset ($_POST["add_line"])  ) {
   $r.= '</DIV>';
   $recherche=false;
 }
+/* ------------------------------------------------- */
+/* SAVE ORDER */
+/* ------------------------------------------------- */
+if ( isset($_POST['save_line'])) {
+  $fiche_def=new fiche_def($cn,$_REQUEST['fd_id']);
+  $fiche_def->save_order($_POST);
+  $r= '<DIV class="u_redcontent">';
+  if ( $write ==0)  
+      $r.= "<h2 class=\"error\"> Pas d'acc√®s </h2>";
+  else
+    {
+      $fiche_def=new fiche_def($cn,$_REQUEST['fd_id']);
+      // Insert Line
+      $r.=ShowFicheDefInput($fiche_def);
+
+      }
+  $r.= '</DIV>';
+  $recherche=false;
+
+}
 // Remove lines from a card model
 if ( isset ($_POST['remove_line'])) 
 {
   $r= '<DIV class="u_redcontent">';
     if ( $write ==0)  
-      $r.= "<h2 class=\"error\"> Pas d'accËs </h2>";
+      $r.= "<h2 class=\"error\"> Pas d'acc√®s </h2>";
     else
       {
 	$fiche_def=new fiche_def($cn,$_REQUEST['fd_id']);
@@ -142,7 +173,7 @@ if ( isset ($_POST['remove_line']))
 if ( isset ($_POST["change_name"] )  ) {
   $r= '<DIV class="u_redcontent">';
   if ( $write ==0)  
-	$r.= "<h2 class=\"error\"> Pas d'accËs </h2>";
+	$r.= "<h2 class=\"error\"> Pas d'acc√®s </h2>";
   else
 	{
 	  $fiche_def=new fiche_def($cn,$_REQUEST['fd_id']);
@@ -181,7 +212,7 @@ if ( isset ( $_GET["action"]) ) {
     $t=false;
     if ( $write == 0) 
       { 
-	echo '<H2 class="info"> Vos changements ne seront pas sauvÈs</h2>';
+	echo '<H2 class="info"> Vos changements ne seront pas sauv√©s</h2>';
 	$t=true;
       }
     $str="&".dossier::get();
@@ -235,7 +266,7 @@ if ( isset ( $_GET["action"]) ) {
   if ($action == "modifier" ) {
     echo '<DIV class="u_redcontent">';
     if ( $write ==0)  
-      echo "<h2 class=\"error\"> Pas d'accËs </h2>";
+      echo "<h2 class=\"error\"> Pas d'acc√®s </h2>";
     else
       {
 
@@ -261,7 +292,7 @@ if ( isset ( $_GET["action"]) ) {
       if ( sizeof($all) != 0 )
 		{
 		  echo '<DIV class="u_redcontent">';
-		  echo "Nombre de rÈsultat : ".sizeof($all).'<br>';
+		  echo "Nombre de r√©sultat : ".sizeof($all).'<br>';
 		  foreach ($all as $f_id){
 			$fiche=new fiche($cn,$f_id['f_id']);
 			echo '<A class="mtitle" href="?p_action=fiche&'.$str_dossier.'&action=detail&fiche_id='.$f_id['f_id'].
@@ -273,7 +304,7 @@ if ( isset ( $_GET["action"]) ) {
       else 
 		{
 		  echo '<DIV class="u_redcontent">';
-		  echo "Aucun rÈsultat trouvÈ";
+		  echo "Aucun r√©sultat trouv√©";
 		  
 		  echo '</div>';
 		  
@@ -285,7 +316,7 @@ if ( isset ( $_GET["action"]) ) {
 if ( isset ($_POST["fiche"]) && isset ($_POST["add"] ) ) {
   echo '<DIV class="u_redcontent">';
     if ( $write ==0)  
-      echo "<h2 class=\"error\"> Pas d'accËs </h2>";
+      echo "<h2 class=\"error\"> Pas d'acc√®s </h2>";
     else
       {
 		$fiche_def=new fiche_def($cn,$_POST['fiche']);
@@ -314,7 +345,7 @@ if (isset($_POST['delete']) ) {
 	ShowRecherche();
     echo '<DIV class="u_redcontent">';
     if ( $write ==0)  
-      echo "<h2 class=\"error\"> Pas d'accËs </h2>";
+      echo "<h2 class=\"error\"> Pas d'acc√®s </h2>";
     else
       {
 		$fiche=new fiche($cn,$_POST["f_id"]);
@@ -332,7 +363,7 @@ if ( isset ($_POST["add_fiche"]) ) {
   
   if ( $write ==0)  {  
 	  echo '<DIV class="u_redcontent">';
-    echo "<h2 class=\"error\"> Pas d'accËs </h2>";
+    echo "<h2 class=\"error\"> Pas d'acc√®s </h2>";
     }
   else
     {
@@ -354,7 +385,7 @@ if ( isset ($_POST["update_fiche"])  ) {
 
   echo '<DIV class="u_redcontent">';
       if ( $write ==0)  
-      echo "<h2 class=\"error\"> Pas d'accËs </h2>";
+      echo "<h2 class=\"error\"> Pas d'acc√®s </h2>";
     else
       {
 		$fiche=new fiche($cn,$_POST['f_id']);
