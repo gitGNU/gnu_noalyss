@@ -29,6 +29,7 @@ if ( isset ($_REQUEST['sa'] )) {
   $cmd=escapeshellcmd (PG_RESTORE);
   putenv("PGPASSWORD=".phpcompta_password);
   putenv("PGUSER=".phpcompta_user);
+  putenv("PGPORT=".phpcompta_psql_port);
   $retour='<hr>'.widget::button_href("Retour","?action=restore&PHPSESSID=".$_REQUEST['PHPSESSID']);
   if ( ! isset($_REQUEST['t'])) {
     echo '<div class="content">';
