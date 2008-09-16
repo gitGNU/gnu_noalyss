@@ -127,7 +127,7 @@ if ( isset ($_REQUEST['sa'] )) {
     $status=exec(PG_RESTORE.$args);
 
     echo '<h2 class="info"> Restauration réussie du modèle '.$lname.'</h2>';
-    $new_cn=DbConnect($id);
+    $new_cn=DbConnect($id,'mod');
 
     apply_patch($new_cn,$name,0);
 
