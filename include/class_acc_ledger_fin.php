@@ -112,9 +112,9 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	 strlen(trim($first_sold)) != 0 && isNumber($first_sold))
       {
 	$diff=$last_sold-$first_sold;
-	$diff=round($diff,2);
+	$diff=round($diff,2)-round($tot_amount,2);
 	if ( $first_sold != 0 && $last_sold !=0) {
-	  if ( $tot_amount != $diff )
+	  if ( $diff != 0 )
 	    throw new AcException('Le montant de l\'extrait est incorrect'.
 				  $tot_amount.' extrait '.$diff,13);
 	}
