@@ -54,7 +54,7 @@ class Periode {
   function limit_year($p_exercice) {
     $sql_start="select p_id from parm_periode where p_exercice=$1 order by p_start  ASC";
     $start=getDbValue($this->cn,$sql_start,array($p_exercice));
-    $sql_end="select p_id from parm_periode where p_exercice=$1 order by p_start  ASC";
+    $sql_end="select p_id from parm_periode where p_exercice=$1 order by p_end  DESC";
     $end=getDbValue($this->cn,$sql_end,array($p_exercice));
     return array("start"=>$start,"end"=>$end);
   }
