@@ -534,6 +534,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	  $acc_operation->jrn=$p_jrn;
 	  $acc_operation->type='d';
 	  $acc_operation->periode=$periode;
+	  $acc_operation->qcode=${"e_other".$i};
 	  $acc_operation->insert_jrnx();
 
 	  $acc_operation=new Acc_Operation($this->db);
@@ -544,6 +545,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	  $acc_operation->jrn=$p_jrn;
 	  $acc_operation->type='d';
 	  $acc_operation->periode=$periode;
+	  $acc_operation->qcode=$e_bank_account;
 	  $acc_operation->insert_jrnx();
 
 	
