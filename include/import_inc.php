@@ -47,19 +47,19 @@ require_once('class_acc_operation.php');
  */
 function ImportCSV($p_cn,$file,$p_bq_account,$p_format_csv,$p_jrn)
 {
-        if(!$handle = fopen($file, "r")) {
-                print 'could not open file. quitting';
-                die;
-        }
-
+  if(!$handle = fopen($file, "r")) {
+    print 'could not open file. quitting';
+    die;
+  }
+  
 StartSql($p_cn);
 
         
 // include the right format for CSV --> given by the <form
-		require_once($p_format_csv);
+require_once($p_format_csv);
 
-        
-	echo "Importation terminée.";
+
+echo "Importation terminée.";
 
 // if importation succeeds then we can commit the change
 Commit($p_cn);
@@ -293,9 +293,11 @@ function TransferCSV($p_cn, $periode){
     
 	// Retrieve the account thx the quick code    
 	$f=new fiche($p_cn);
+	$quick_code=$poste_comptable;
 	$f->get_by_qcode($poste_comptable,false);
 	$poste_comptable=$f->strAttribut(ATTR_DEF_ACCOUNT);
-
+	$f->get_by_qcode($bq_account);
+	$bq_poste=$f->strAttribut(ATTR_DEF_ACCOUNT);
 	// Vérification que le poste comptable trouvé existe
 	if ( $poste_comptable == '- ERROR -')
 	  $test=0;
@@ -327,17 +329,18 @@ function TransferCSV($p_cn, $periode){
 	$acc_op->type="d";
 	$acc_op->date=$date_exec;
 	$acc_op->user=$p_user;
-	$acc_op->poste=$bq_account;
+	$acc_op->poste=$bq_poste;
 	$acc_op->grpt=$seq;
 	$acc_op->jrn=$jrn;
 	$acc_op->periode=$periode;
-	$acc_op->qcode="";
+	$acc_op->qcode=$bq_account;
 	$r=$acc_op->insert_jrnx();
 
       
 	$acc_op->type="c";
 	$acc_op->poste=$poste_comptable;
 	$acc_op->amount=$montant;
+	$acc_op->qcode=$quick_code;
 	$r=$acc_op->insert_jrnx();
 
 
@@ -395,7 +398,7 @@ $w=new widget("select");
   echo $w->label." :".$w->IOValue('import_jrn',$jrn)."<br>";
   // choose the bank account
   $banque=new Acc_Parm_Code($p_cn,'BANQUE');
-  $bq=make_array($p_cn,"select pcm_val,pcm_lib from tmp_pcmn where pcm_val::text like '".$banque->p_value."%'");
+  $bq=make_array($p_cn,"select j_qcode,vw_name from vw_poste_qcode join vw_fiche_attr on (j_qcode=quick_code) where j_poste::text like '".$banque->p_value."%'");
   $w->label='Banque';
   echo "Compte en banque :".$w->IOValue('import_bq',$bq)."<br>";
   $format_csv=make_array($p_cn,"select include_file,name from format_csv_banque;");
