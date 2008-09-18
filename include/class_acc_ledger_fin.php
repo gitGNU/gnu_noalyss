@@ -150,6 +150,8 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 
     $r.=dossier::hidden();
     $r.=widget::hidden('phpsessid',$_REQUEST['PHPSESSID']);
+
+
     //$r.=widget::hidden('p_jrn',$this->id);
     $r.='<fieldset><legend>Banque, caisse </legend>';
     $r.='<TABLE  width="100%">';
@@ -163,8 +165,9 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $r.=$Date->IOValue("e_date",$op_date,"Date");
     // Periode 
     //--
-    $l_user_per=$user->get_periode();
+    $l_user_per=(isset($periode))?$periode:$user->get_periode();
     $l_form_per=FormPeriode($this->db,$l_user_per,OPEN);
+
     $r.="<td class=\"input_text\">";
     $label=widget::infobulle(3);
     $r.="Période comptable $label</td><td>".$l_form_per;
@@ -242,7 +245,9 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $r.='<td>'.$wLast->IOValue('last_sold',$last_sold).'</td>';
     $r.='</table>';
     $r.='</fieldset>';
+    $max=(isset($nb_item))?$nb_item:MAX_ARTICLE;
 
+    $r.= widget::hidden('nb_item',$max);
     //--------------------------------------------------
     // financial operation
     //-------------------------------------------------
@@ -253,8 +258,9 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $r.="<th>Montant</TH>";
     $r.='<th colspan="2"> Op. Concern&eacute;e(s)</th>';
     $r.="</TR>";
+
     // Parse each " tiers" 
-    for ($i=0; $i < MAX_ARTICLE; $i++) {
+    for ($i=0; $i < $max; $i++) {
       $tiers=(isset(${"e_other".$i}))?${"e_other".$i}:"";
       $tiers_label="";
       $tiers_amount=(isset(${"e_other$i"."_amount"}))?round(${"e_other$i"."_amount"},2):0;

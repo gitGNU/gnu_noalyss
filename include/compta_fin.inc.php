@@ -134,7 +134,6 @@ if ( $def == 1 ) {
 
   
   echo '<form name="form_detail" enctype="multipart/form-data" ACTION="'.$href.'" METHOD="POST">';
-  echo widget::hidden('nb_item',MAX_ARTICLE);
   echo widget::hidden('p_action','bank');
   echo widget::hidden('sa','n');
   $array=( isset($correct))?$_POST:null;
