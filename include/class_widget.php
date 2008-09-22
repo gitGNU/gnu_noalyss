@@ -681,7 +681,8 @@ class widget {
     return '<INPUT TYPE="hidden" id="'.$p_name.'" NAME="'.$p_name.'" VALUE="'.$p_value.'">';
   }
   static function button_href($p_name,$p_value) {
-
+    $str='&PHPSESSID='.$_REQUEST['PHPSESSID'];
+    $p_value.=$str;
 	return sprintf('<button onClick="window.location=\'%s\'">%s</button>',
 				   $p_value,
 				   $p_name);
