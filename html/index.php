@@ -87,7 +87,7 @@ BODY {
 
 echo '
 <span style="background-color:#879ed4;color:white;padding-left:4px;padding-right:4px;">
-version  4.1.0
+version  4.1.0-build SVNINFO
 </span>
 <BR>
 <BR>
