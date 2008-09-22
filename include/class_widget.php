@@ -682,7 +682,7 @@ class widget {
   }
   static function button_href($p_name,$p_value) {
     $str='&PHPSESSID='.$_REQUEST['PHPSESSID'];
-    $p_value.=$str;
+//    $p_value.=$str;
 	return sprintf('<button onClick="window.location=\'%s\'">%s</button>',
 				   $p_value,
 				   $p_name);

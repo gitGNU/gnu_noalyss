@@ -300,7 +300,7 @@ class fiche_def {
       $step=$_SESSION['g_pagesize'];
       $sql_limit="";
       $sql_offset="";
-
+      $bar="";
       if ( $step != -1 ) {
 
 	$page=(isset($_GET['page']))?$_GET['page']:1;
