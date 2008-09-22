@@ -64,6 +64,7 @@ function add_todo() {
     $('tl_id').value=0;
 }
 function todo_list_remove(p_ctl) {
+    if ( confirm('Effacer ?') == false ) {return;}
     $("tr"+p_ctl).hide();
     var gDossier=$('gDossier').value;
     var phpsessid=$('phpsessid').value;
