@@ -248,6 +248,14 @@ function set_periode($p_periode) {
   $Res=ExecSql($this->db,$sql);
 }
 
+  private function set_default_periode() {
+    $sql=sprintf("insert into user_local_pref (user_id,parameter_value,parameter_type) 
+                 select '%s',min(p_id),'PERIODE' from parm_periode where p_closed=false
+                 and p_start = (select min(p_start) from parm_periode);",
+		 $this->id);
+    $Res=ExecSql($this->db,$sql);
+  }
+
 /*! 
  * \brief  Get the default periode from the user's preferences
  * 
@@ -259,6 +267,10 @@ function set_periode($p_periode) {
 function get_periode() {
 
   $array=$this->get_preference();
+  if ( ! isset ($array['PERIODE'])) { 
+    $this->set_default_periode();
+    $array=$this->get_preference();
+  }
   return $array['PERIODE'];
 }
   /*!\brief return the mini rapport to display on the welcome page
@@ -298,21 +310,12 @@ function get_preference ()
   // si preference n'existe pas, les créer
   $sql="select parameter_type,parameter_value from user_local_pref where user_id='".$this->id."'";
   $Res=ExecSql($this->db,$sql);
-  if (pg_NumRows($Res) == 0 ) {
-    // default periode
-    $sql=sprintf("insert into user_local_pref (user_id,parameter_value,parameter_type) 
-                 select '%s',min(p_id),'PERIODE' from parm_periode where p_closed=false",
-		 $this->id);
-    $Res=ExecSql($this->db,$sql);
-
-    $l_array=$this->get_preference();
-  } else {
-    for ( $i =0;$i < pg_NumRows($Res);$i++) {
-      $row= pg_fetch_array($Res,$i);
-      $type=$row['parameter_type'];
-      $l_array[$type]=$row['parameter_value'];
-    }
+  for ( $i =0;$i < pg_NumRows($Res);$i++) {
+    $row= pg_fetch_array($Res,$i);
+    $type=$row['parameter_type'];
+    $l_array[$type]=$row['parameter_value'];
   }
+
 
   return $l_array;
 }
