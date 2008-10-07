@@ -82,12 +82,15 @@ BODY {
 <script src="js/scripts.js" type="text/javascript"></script>
 </head>
 <BODY onLoad="SetFocus(\'login\',0)">';
-
-
+$my_domain="";
+require ('config.inc.php');
+if ( strlen(domaine) > 0 ) {
+  $my_domain="Domaine : ".domaine;
+}
 
 echo '
 <span style="background-color:#879ed4;color:white;padding-left:4px;padding-right:4px;">
-version  4.1.build SVNINFO
+version  4.1.build SVNINFO - '.$my_domain.'
 </span>
 <BR>
 <BR>

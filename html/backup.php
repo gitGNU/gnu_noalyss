@@ -38,6 +38,10 @@ if ($User->admin != 1) {
 /*!\file
  * \brief Make and restore backup
  */
+/* For windows we need to set the path correctly */
+if ( isset(PG_PATH)) {
+  putenv("PATH=",PG_PATH);
+}
 if ( isset ($_REQUEST['sa']) ) {
   if ( ! isset ($_REQUEST['d']) ||
        ! isset($_REQUEST['t']))
@@ -52,7 +56,8 @@ if ( isset ($_REQUEST['sa']) ) {
     $cmd=escapeshellcmd (PG_DUMP);
     putenv("PGPASSWORD=".phpcompta_password);
     putenv("PGUSER=".phpcompta_user);
-
+    
+    echo_debug ("commande backup ".$cmd);
     if ( $_REQUEST['t'] == 'd' ) {
       $database=domaine."dossier".$_REQUEST['d'];
       $args= " -Fc -Z9 -p ".phpcompta_psql_port." ".$database;
