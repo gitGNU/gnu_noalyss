@@ -40,7 +40,7 @@ if ($User->admin != 1) {
  */
 /* For windows we need to set the path correctly */
 if ( defined ('PG_PATH') ) 
-  putenv("PATH=",PG_PATH);
+  putenv("PATH=".PG_PATH);
 
 if ( isset ($_REQUEST['sa']) ) {
   if ( ! isset ($_REQUEST['d']) ||

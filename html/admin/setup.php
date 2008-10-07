@@ -59,6 +59,7 @@ h2.error {
  */
 
 $inc_path=get_include_path();
+echo $inc_path;
 if ( strpos($inc_path,";") != 0 ) {
   $new_path=$inc_path.';..\..\include;addon';
   $os=0;			/* $os is 0 for unix */

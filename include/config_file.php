@@ -98,7 +98,7 @@ function config_file_create($p_array,$from_setup=1,$os=0) {
   fputs($hFile,"\n\r");
   fputs($hFile, "\$_ENV['TMP']='".$ctmp."';");
   fputs($hFile,"\n\r");
-  fputs($hFile, 'define("PG_PATH","'.$cpath'");');
+  fputs($hFile, 'define("PG_PATH","'.$cpath.'");');
   fputs($hFile,"\n\r");
   if ( $os == 0 ) {
     fputs($hFile, 'define("PG_RESTORE","'.$cpath.DIRECTORY_SEPARATOR.'pg_restore ");');
