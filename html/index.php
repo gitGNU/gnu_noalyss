@@ -49,7 +49,7 @@
 if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'config.inc.php')) {
   $p_string='admin/setup.php';
   echo '<HTML><head><META HTTP-EQUIV="REFRESH" content="0;url='.$p_string.'"></head><body> Connecting... </body></html>';
-
+  exit(0);
 }
 
 echo '<!DOCTYPE HTML PUBLIC "-//W3C/DTD HTML 3.2 FINAL//EN">

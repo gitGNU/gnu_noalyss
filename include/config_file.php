@@ -88,7 +88,7 @@ function config_file_form($p_array=null)
  *\see
  *\todo
  */
-function config_file_create($p_array,$from_setup=1,$os=0) {
+function config_file_create($p_array,$from_setup=1,$os=1) {
   extract ($p_array);
   $add=($from_setup==1)?'..'.DIRECTORY_SEPARATOR:'';
   $hFile=  fopen($add.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'config.inc.php','w');
@@ -100,7 +100,7 @@ function config_file_create($p_array,$from_setup=1,$os=0) {
   fputs($hFile,"\n\r");
   fputs($hFile, 'define("PG_PATH","'.$cpath.'");');
   fputs($hFile,"\n\r");
-  if ( $os == 0 ) {
+  if ( $os == 1 ) {
     fputs($hFile, 'define("PG_RESTORE","'.$cpath.DIRECTORY_SEPARATOR.'pg_restore ");');
     fputs($hFile,"\n\r");
     fputs($hFile, 'define("PG_DUMP","'.$cpath.DIRECTORY_SEPARATOR.'pg_dump ");');
