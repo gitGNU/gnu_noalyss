@@ -64,14 +64,14 @@ if ( strpos($inc_path,";") != 0 ) {
   $os=0;			/* $os is 0 for unix */
  } else {
   $new_path=$inc_path.':../../include:addon';
-  $os=1;			/* $os is 0 for windos */
+  $os=1;			/* $os is 1 for windos */
  }
 set_include_path($new_path);
 
 require_once('config_file.php');
 /* The config file is created here */
 if (isset($_POST['save_config'])) {
-  $url=config_file_create($_POST);
+  $url=config_file_create($_POST,1,$os);
  }
 
 

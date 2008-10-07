@@ -39,9 +39,9 @@ if ($User->admin != 1) {
  * \brief Make and restore backup
  */
 /* For windows we need to set the path correctly */
-if ( isset(PG_PATH)) {
+if ( defined ('PG_PATH') ) 
   putenv("PATH=",PG_PATH);
-}
+
 if ( isset ($_REQUEST['sa']) ) {
   if ( ! isset ($_REQUEST['d']) ||
        ! isset($_REQUEST['t']))

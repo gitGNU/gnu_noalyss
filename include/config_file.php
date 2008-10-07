@@ -88,7 +88,7 @@ function config_file_form($p_array=null)
  *\see
  *\todo
  */
-function config_file_create($p_array,$from_setup=1) {
+function config_file_create($p_array,$from_setup=1,$os=0) {
   extract ($p_array);
   $add=($from_setup==1)?'..'.DIRECTORY_SEPARATOR:'';
   $hFile=  fopen($add.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'config.inc.php','w');
@@ -100,11 +100,20 @@ function config_file_create($p_array,$from_setup=1) {
   fputs($hFile,"\n\r");
   fputs($hFile, 'define("PG_PATH","'.$cpath'");');
   fputs($hFile,"\n\r");
-  fputs($hFile, 'define("PG_RESTORE","'.$cpath.DIRECTORY_SEPARATOR.'pg_restore ");');
-  fputs($hFile,"\n\r");
-  fputs($hFile, 'define("PG_DUMP","'.$cpath.DIRECTORY_SEPARATOR.'pg_dump ");');
-  fputs($hFile,"\n\r");
-  fputs($hFile, 'define ("PSQL","'.$cpath.DIRECTORY_SEPARATOR.'psql");');
+  if ( $os == 0 ) {
+    fputs($hFile, 'define("PG_RESTORE","'.$cpath.DIRECTORY_SEPARATOR.'pg_restore ");');
+    fputs($hFile,"\n\r");
+    fputs($hFile, 'define("PG_DUMP","'.$cpath.DIRECTORY_SEPARATOR.'pg_dump ");');
+    fputs($hFile,"\n\r");
+    fputs($hFile, 'define ("PSQL","'.$cpath.DIRECTORY_SEPARATOR.'psql");');
+  }
+  else {
+    fputs($hFile, 'define("PG_RESTORE","pg_restore.exe");');
+    fputs($hFile,"\n\r");
+    fputs($hFile, 'define("PG_DUMP","pg_dump.exe");');
+    fputs($hFile,"\n\r");
+    fputs($hFile, 'define ("PSQL","psql.exe");');
+  }
   fputs($hFile,"\n\r");
   fputs($hFile, 'define ("phpcompta_user","'.$cuser.'");');
   fputs($hFile,"\n\r");
