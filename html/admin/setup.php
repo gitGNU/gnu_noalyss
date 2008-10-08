@@ -62,11 +62,11 @@ $inc_path=get_include_path();
 
 if ( strpos($inc_path,";") != 0 ) {
   $new_path=$inc_path.';..\..\include;addon';
-  $os=0;			/* $os is 0 for windows */
- } else {
+  $os=0;			/* $os is 0 for windoz */
+} else {
   $new_path=$inc_path.':../../include:addon';
   $os=1;			/* $os is 1 for unix */
- }
+}
 set_include_path($new_path);
 
 require_once('config_file.php');
