@@ -307,9 +307,9 @@ function get_periode() {
  */ 
 function get_preference ()
 {
-  // si preference n'existe pas, les créer
   $sql="select parameter_type,parameter_value from user_local_pref where user_id='".$this->id."'";
   $Res=ExecSql($this->db,$sql);
+  $l_array=array();
   for ( $i =0;$i < pg_NumRows($Res);$i++) {
     $row= pg_fetch_array($Res,$i);
     $type=$row['parameter_type'];
