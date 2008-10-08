@@ -328,7 +328,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
    */
   public function confirm($p_array) {
     $r="";
-
+    bcscale(2);
     extract ($p_array);
     $pPeriode=new Periode($this->db);
     $pPeriode->id=$periode;
@@ -451,7 +451,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $r.='<br>Ancien solde = '.$solde;
     $new_solde+=$tot_amount;
     $r.='<br>Nouveau solde = '.$new_solde;
-       // check for upload piece
+    // check for upload piece
     $file=new widget("file");
     $file->table=0;
     $r.="<br>Ajoutez une pi&egrave;ce justificative ";
