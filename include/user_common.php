@@ -465,7 +465,7 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Ech&
     // internal
     $l_s_internal=FormatString($l_s_internal);
     if ( $l_s_internal != null ) {
-      $sql.=$l_and."  jr_internal like ('%$l_s_internal%')  ";
+      $sql.=$l_and."  jr_internal like upper('%$l_s_internal%')  ";
       $l_and=" and ";
     }
     // Poste

@@ -707,14 +707,17 @@ function quick_writing_add_row(){
   new_tt=new_tt.replace(/amount0/g,"amount"+nb.value);
   new_tt=new_tt.replace(/poste0/g,"poste"+nb.value);
   new_tt=new_tt.replace(/ck0/g,"ck"+nb.value);
+  new_tt=new_tt.replace(/ld0/g,"ld"+nb.value);
 
 
   newNode.innerHTML=new_tt;
     $("qc_"+nb.value).value='';
     $("amount"+nb.value).value='';
     $("poste"+nb.value).value='';
+    $("ld"+nb.value).value='';
     $('qc_'+nb.value+'_label').innerHTML='';
     $('poste'+nb.value+'_label').innerHTML='';
+
   nb.value++;
 
 }

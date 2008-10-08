@@ -39,6 +39,10 @@ if ($User->admin != 1) {
  * \brief Make and restore backup
  */
 if ( isset ($_REQUEST['sa']) ) {
+  if ( defined ('PG_PATH') ) 
+    putenv("PATH=".PG_PATH);
+  
+
   if ( ! isset ($_REQUEST['d']) ||
        ! isset($_REQUEST['t']))
     {

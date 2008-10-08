@@ -121,7 +121,10 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
       $r.="<TD>".$content['j_poste']."</td>";
       if ( $content['j_debit'] == 't' ) $r.=$col_vide;
       $qc=($content['j_qcode'] != "")?"  [".$content['j_qcode']."]":"";
-      $r.="<TD>".$qc.$content['vw_name']."</td>";
+      if ( $content['j_text'] == '') 
+	$r.="<TD>".$qc.$content['vw_name']."</td>";
+      else
+	$r.="<TD>".$qc.$content['j_text']."</td>";
       if ( $content['j_debit'] == 'f' ) $r.=$col_vide;
       $r.="<TD>".$content['j_montant']."</td>";
       if ( $content['j_debit'] == 't' ) $r.=$col_vide;
@@ -826,7 +829,7 @@ function get_dataJrnJrId ($p_cn,$p_jr_id) {
       {
 		$array['vw_name']=$line['pcm_lib'];
       }
-      
+    $array['j_text']=$line['j_text'];
     $array['jr_comment']=$line['jr_comment'];
     $array['j_montant']=$line['j_montant'];
     $array['jr_id']=$line['jr_id'];

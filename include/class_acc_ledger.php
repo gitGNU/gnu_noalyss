@@ -133,7 +133,7 @@ class Acc_Ledger {
 	case j_debit when 't' then j_montant::text else '   ' end as deb_montant,
 	case j_debit when 'f' then j_montant::text else '   ' end as cred_montant,
 	j_debit as debit,j_poste as poste,jr_montant , ".
-		     "pcm_lib as description,j_grpt as grp,
+		     "coalesce(j_text,pcm_lib) as description,j_grpt as grp,
        jr_comment||' ('||jr_internal||')' as jr_comment ,
        j_qcode,
 	jr_rapt as oc, j_tech_per as periode 
@@ -154,7 +154,7 @@ class Acc_Ledger {
     case c_debit when 'f' then c_montant::text else '   ' end as cred_montant,
     c_debit as j_debit,
     c_poste as poste,
-    pcm_lib as description,
+    coalesce(j_text,pcm_lib) as description,
     j_qcode,
     jr_comment||' ('||c_internal||')' as jr_comment,
     jr_montant,
@@ -183,7 +183,7 @@ class Acc_Ledger {
 	case j_debit when 't' then j_montant::text else '   ' end as deb_montant,
 	case j_debit when 'f' then j_montant::text else '   ' end as cred_montant,
 	j_debit as debit,j_poste as poste,".
-		     "pcm_lib as description,j_grpt as grp,
+		     "coalesce(j_text,pcm_lib) as description,j_grpt as grp,
 	jr_comment||' ('||jr_internal||')' as jr_comment,
 	jr_montant,
 	j_qcode,
@@ -204,7 +204,7 @@ class Acc_Ledger {
     case c_debit when 'f' then c_montant::text else '   ' end as cred_montant,
     c_debit as j_debit,
     c_poste as poste,
-    pcm_lib as description,
+    coalesce(j_text,pcm_lib as description),
     jr_comment||' ('||c_internal||'/ PJ :'||jr_opid||')' as jr_comment,
     jr_montant,
     c_grp as grp,
@@ -835,7 +835,7 @@ class Acc_Ledger {
 
       if ( trim(${'qc_'.$i})=="" && trim(${'poste'.$i}) == "") 
 	continue;
-
+      $ret.="<td>".${"ld".$i}.$hidden->IOValue('ld'.$i,${'ld'.$i})."</td>";
       $ret.="<td>".${"amount".$i}.$hidden->IOValue('amount'.$i,${'amount'.$i})."</td>";
       $ret.="<td>";
       $ret.=(isset(${"ck$i"}))?"D":"C";
@@ -928,6 +928,7 @@ class Acc_Ledger {
     $ret.='<tr>'.
       '<th colspan="2">Quickcode'.$info.'</th>'.
       '<th colspan="2">Poste'.$info_poste.'</th>'.
+      '<th >Libell&eacute;</th>'.
       '<th> Montant</th>'.
       '<th>D&eacute;bit</th>'.
       '</tr>';
@@ -961,12 +962,16 @@ class Acc_Ledger {
 	$Poste->id=$poste->value;
 	$label=$Poste->get_lib();
       }
-
+      // Description of the line
+      $line_desc=new widget('text');
+      $line_desc->name='ld'.$i;
+      $line_desc->size=30;
 
       $poste_span=new widget('span','','poste'.$i.'_label',$label);
 
       // Amount
       $amount=new widget('text');
+      $amount->size=10;
       $amount->name='amount'.$i;
       $amount->value=(isset(${'amount'.$i}))?${"amount".$i}:'';
       $amount->readonly=$p_readonly;
@@ -983,6 +988,7 @@ class Acc_Ledger {
       $ret.='<td>'.$qc_span->IOValue().'</td>';
       $ret.='<td>'.$poste->IOValue().'</td>';
       $ret.='<td>'.$poste_span->IOValue().'</td>';
+      $ret.='<td>'.$line_desc->IOValue().'</td>';
       $ret.='<td>'.$amount->IOValue().'</td>';
       $ret.='<td>'.$deb->IOValue().'</td>';
       $ret.='</tr>';
@@ -1162,6 +1168,8 @@ class Acc_Ledger {
 	  $acc_op->type=(isset (${'ck'.$i}))?'d':'c';
 	  $acc_op->qcode=$quick_code;
 	  $j_id=$acc_op->insert_jrnx();
+	  if ( strlen(trim(${'ld'.$i})) != 0 )
+	    $acc_op->update_comment(${'ld'.$i});
 	  $tot_amount+=round($acc_op->amount,2);
 	  $tot_deb+=($acc_op->type=='d')?$acc_op->amount:0;
 	  $tot_cred+=($acc_op->type=='c')?$acc_op->amount:0;

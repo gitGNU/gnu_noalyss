@@ -800,7 +800,7 @@ $r.='<script language="javascript">
 
   $r.= '<div class="u_tool">';
   $r.= '<div class="name">';
-  $r.= "<H2 class=\"info\">Commercial ".dossier::name()."</h2> ";
+  $r.= "<H2 class=\"info\"> Dossier : ".dossier::name()."</h2> ";
   $r.= '</div>';
   $r.= '<div class="acces_direct">';
   if ( $p_from == 'compta') $view='E';

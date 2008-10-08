@@ -25,6 +25,8 @@
  */
 
 if ( isset ($_REQUEST['sa'] )) {
+  if ( defined ('PG_PATH') ) 
+    putenv("PATH=".PG_PATH);
 
   $cmd=escapeshellcmd (PG_RESTORE);
   putenv("PGPASSWORD=".phpcompta_password);
@@ -81,7 +83,7 @@ if ( isset ($_REQUEST['sa'] )) {
     ExecSql($cn,"create database ".$name." encoding='utf8'");
     $args="  -d $name ".$_FILES['file']['tmp_name'];
 
-    $status=system(PG_RESTORE.$args);
+    $status=passthru(PG_RESTORE.$args);
     echo '<h2 class="info"> Restauration réussie du dossier '.$lname.'</h2>';
 
     $new_cn=DbConnect($id);

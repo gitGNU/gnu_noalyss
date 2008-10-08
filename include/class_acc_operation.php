@@ -166,6 +166,12 @@ function get_internal() {
    $all=pg_fetch_all($res);
    return $all;
  }
+ /*!\brief add a comment to the line (jrnx.j_text) */
+ function update_comment($p_text)
+ {
+   $sql="update jrnx set j_text=$1 where j_id=$2";
+   ExecSqlParam($this->db,$sql,array($p_text,$this->jrnx_id));
+ }
  /*!\brief display_jrnx_detail : get the data from get_jrnx_data and
     return a string with HTML code 
   * \param table(=0 no code for table,1 code for table,2 code for CSV)
