@@ -725,7 +725,7 @@ function MenuJrn()
     $Cn=DbConnect(dossier::id());
     $Ret=ExecSql($Cn,"select jrn_def_id,jrn_def_name,
                              jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc 
-                             from jrn_def join jrn_type on jrn_def_type=jrn_type_id");
+                             from jrn_def join jrn_type on jrn_def_type=jrn_type_id order by jrn_def_name");
     $Max=pg_NumRows($Ret);
 
     for ($i=0;$i<$Max;$i++) {
