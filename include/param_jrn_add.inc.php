@@ -137,13 +137,14 @@ echo '<TD> Postes utilisables journal (crédit) </TD>';
 echo '<TD> <INPUT TYPE="text" NAME="p_jrn_class_cred">'.$search.'</TD>';
 echo '</TR>';
 */
-
+/*
 echo '<TR>'; 
 echo '<TD> Date d\'échéance </TD>';
 echo '<TD> <INPUT TYPE="radio" NAME="p_ech" VALUE="yes" >Oui';
 echo '<INPUT TYPE="radio" NAME="p_ech" VALUE="no" CHECKED>Non</TD>';
-
 echo '</TR>';
+*/
+echo '<tr><td>'.widget::hidden('p_ech','no').'</td></tr>';
 /*
 echo '<TR>'; 
 echo '<TD> Libellé echéance </TD>';

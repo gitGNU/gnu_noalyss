@@ -69,7 +69,7 @@ If ( isset ($_POST["JRN_UPD"] )) {
     echo '<H2 CLASS="error"> Un paramètre manque</H2>';
   }
   else {
-    if ( $_POST['p_ech'] == 'no' ) {
+    if ( isset ($_POST['p_ech']) && $_POST['p_ech'] == 'no' ) {
       $p_ech='false';
       $p_ech_lib='null';
     } else {
@@ -166,7 +166,8 @@ echo '<TD> Postes utilisables journal (crédit) </TD>';
 echo '<TD> <INPUT TYPE="text" NAME="p_jrn_class_cred" VALUE="'.$l_line['jrn_def_class_cred'].'">'.$search.'</TD>';
 echo '</TR>';
 */
-
+echo '<tr><td>'.widget::hidden('p_jrn_deb_max_line',10).'</td></tr>';
+/*
 echo '<TR>'; 
 echo '<TD> Date d\'échéance </TD>';
 if ( $l_line['jrn_def_ech'] == 't' ) {
@@ -178,6 +179,8 @@ if ( $l_line['jrn_def_ech'] == 'f' ) {
   echo '<INPUT TYPE="radio" NAME="p_ech" VALUE="no" CHECKED>Non</TD>';
 }
 echo '</TR>';
+*/
+
 echo '<tr><td>'.widget::hidden('p_ech_lib','echeance').'</td></tr>';
 /*
 echo '<TR>'; 
