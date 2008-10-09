@@ -123,11 +123,14 @@ echo '<TR>';
 echo '<TD> Postes utilisables journal (débit/crédit) </TD>';
 echo '<TD> <INPUT TYPE="text" NAME="p_jrn_class_deb">'.$search.'</TD>';
 echo '</TR>';
-
+echo '<tr><td>'.widget::hidden('p_jrn_deb_max_line',10).'</td></tr>';
+/*
 echo '<TR>'; 
 echo '<TD> Nombre de lignes par défaut  </TD>';
 echo '<TD> <INPUT TYPE="text" NAME="p_jrn_deb_max_line" ></TD>';
 echo '</TR>';
+*:
+
 /*
 echo '<TR>'; 
 echo '<TD> Postes utilisables journal (crédit) </TD>';
@@ -141,11 +144,13 @@ echo '<TD> <INPUT TYPE="radio" NAME="p_ech" VALUE="yes" >Oui';
 echo '<INPUT TYPE="radio" NAME="p_ech" VALUE="no" CHECKED>Non</TD>';
 
 echo '</TR>';
-
+/*
 echo '<TR>'; 
 echo '<TD> Libellé echéance </TD>';
 echo '<TD> <INPUT TYPE="text" NAME="p_ech_lib" ></TD>';
 echo '</TR>';
+*/
+echo '<tr><td>'.widget::hidden('p_ech_lib','echeance').'</td></tr>';
 
 
 echo '<TR>'; 

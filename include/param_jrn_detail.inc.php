@@ -153,11 +153,13 @@ echo '<TR>';
 echo '<TD> Postes utilisables journal (d&eacute;bit/cr&eacute;dit) </TD>';
 echo '<TD> <INPUT TYPE="text" NAME="p_jrn_class_deb" VALUE="'.$l_line['jrn_def_class_deb'].'">'.$search.'</TD>';
 echo '</TR>';
-
+/*
 echo '<TR>'; 
 echo '<TD> Nombre de lignes par défaut  </TD>';
 echo '<TD> <INPUT TYPE="text" NAME="p_jrn_deb_max_line" VALUE="'.$l_line['jrn_deb_max_line'].'"></TD>';
 echo '</TR>';
+*/
+echo '<tr><td>'.widget::hidden('p_jrn_deb_max_line',10).'</td></tr>';
 
 /*echo '<TR>'; 
 echo '<TD> Postes utilisables journal (crédit) </TD>';
@@ -176,11 +178,13 @@ if ( $l_line['jrn_def_ech'] == 'f' ) {
   echo '<INPUT TYPE="radio" NAME="p_ech" VALUE="no" CHECKED>Non</TD>';
 }
 echo '</TR>';
-
+echo '<tr><td>'.widget::hidden('p_ech_lib','echeance').'</td></tr>';
+/*
 echo '<TR>'; 
 echo '<TD> Libellé echéance </TD>';
 echo '<TD> <INPUT TYPE="text" NAME="p_ech_lib" VALUE="'.$l_line['jrn_def_ech_lib'].'"></TD>';
 echo '</TR>';
+*/
 
 echo '<TR>'; 
 echo '<TD> Type de journal </TD>';
