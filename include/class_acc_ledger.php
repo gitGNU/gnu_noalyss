@@ -421,6 +421,80 @@ class Acc_Ledger {
     return $array;  
   }// end function get_rowSimple
 
+  /*!\brief Show all the operation, propose a form to select the
+   *ledger and the periode
+   *\return none
+   *\note echo directly, there is no return with the html code
+   */
+  public function show_ledger() {
+
+    $w=new widget("select");
+    $User=new User($this->db); 
+    // filter on the current year
+    $filter_year=" where p_exercice='".$User->get_exercice()."'";
+    
+    $periode_start=make_array($this->db,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by  p_start,p_end",1);
+    $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
+    $w->selected=$current;
+    
+    echo 'Période  '.$w->IOValue("p_periode",$periode_start);
+
+    $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
+
+    $all=$this->get_all_fiche_def();
+    echo JS_SEARCH_CARD;
+    echo JS_PROTOTYPE;
+    echo JS_AJAX_FICHE;
+    $w=new widget('js_search_only');
+    $w->name='qcode';
+    $w->value=$qcode;
+    $w->label='';
+    $w->extra='filter';
+    $w->extra2='QuickCode';
+    $w->table=0;
+    $sp= new widget("span");
+    echo $sp->IOValue("qcode_label","",$qcode);
+    echo $w->IOValue();
+
+    echo widget::submit('gl_submit','Recherche');
+ // Show list of sell
+ // Date - date of payment - Customer - amount
+    if ( $current == -1) {
+      $cond=" jr_tech_per in (select p_id from parm_periode where p_exercice='".$User->get_exercice()."')";
+    } else {
+      $cond="  jr_tech_per=".$current;
+    }
+    
+    $sql=SQL_LIST_ALL_INVOICE."where ".$cond." and jr_def_id=".$this->id ;
+    $step=$_SESSION['g_pagesize'];
+    $page=(isset($_GET['offset']))?$_GET['page']:1;
+    $offset=(isset($_GET['offset']))?$_GET['offset']:0;
+    $filter_ledger=" jr_def_id=".$this->id;
+    $l="";
+    // check if qcode contains something
+    if ( $qcode != "" )
+      {
+	$qcode=Formatstring($qcode);
+	// add a condition to filter on the quick code
+	$l=" and jr_grpt_id in (select j_grpt from jrnx where j_qcode=upper('$qcode')) ";
+	$sql="where  $cond $l and $filter_ledger ";
+      }
+
+    list($max_line,$list)=ListJrn($this->db,$this->id,$sql,null,$offset,0);
+    $bar=jrn_navigation_bar($offset,$max_line,$step,$page);
+    
+    echo "<hr>$bar";
+    echo dossier::hidden();  
+    $hid=new widget("hidden");
+    
+    echo $list;
+
+    echo "$bar <hr>";
+    
+    echo '</div>';
+    
+    
+}
   /*! 
    * \brief get_detail gives the detail of row 
    * this array must contains at least the field

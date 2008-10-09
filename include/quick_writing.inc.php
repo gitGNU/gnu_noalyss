@@ -35,8 +35,30 @@ require_once('check_priv.php');
 
 $cn=DbConnect(dossier::id());
 $id=(isset ($_REQUEST['p_jrn']))?$_REQUEST['p_jrn']:-1;
+/*!\brief show a form for quick_writing */
+function show_qw_menu($def=0) {
+  echo '<div class="lmenu">';
+  $id=(isset ($_REQUEST['p_jrn']))?$_REQUEST['p_jrn']:-1;
+  echo ShowItem(
+		array( 
+		      array('?p_action='.$_REQUEST['p_action'].'&'.dossier::get().'&p_jrn='.$id.'&show_form','Encoder une Operation',
+			    ' Encoder une operation dans  ce journal',0),
+		      array('?p_action='.$_REQUEST['p_action'].'&'.dossier::get().'&p_jrn='.$id.'&sa=l','Voir Operation',
+			    ' Voir les operations de ce journal',1),
+		      array('?p_action='.$_REQUEST['p_action'].'&'.dossier::get(),
+			    'Autre journal',
+			    'Choisir un autre journal')
+		      ),
+		'H',"mtitle","mtitle",$def,' width="100%"'
+		);
 
+  echo '</div>';
+}
+
+/*!\brief show a form for quick_writing */
 function show_direct_form($cn,$ledger,$p_array) {
+  echo '<div class="content">';
+
   $id=(isset ($_REQUEST['p_jrn']))?$_REQUEST['p_jrn']:-1;
   echo JS_COMPUTE_DIRECT;
   echo Acc_Reconciliation::$javascript;
@@ -105,8 +127,38 @@ if ( $User->AccessJrn($cn,$id) == false ) {
  }
 echo '<div class="content">';
 echo '<h2 class="info"> Journal : '.$ledger->get_name().'</h2>';
-echo widget::button_href('Autre journal','?p_action='.$_REQUEST['p_action'].'&'.dossier::get());
+$sa=( isset ($_REQUEST['sa']))?$_REQUEST['sa']:'';
+//======================================================================
+// See the ledger listing
+if ($sa == 'l' && $id != -1) {
+ // Check privilege
+
+  if (  CheckJrn(dossier::id(),$_SESSION['g_user'],$id) ==0 )    {
+       NoAccess();
+       exit -1;
+  }
+  show_qw_menu(1);
+  echo '<div class="content">';
+  $Ledger=new Acc_Ledger($cn,$id);
+  $href=basename($_SERVER['PHP_SELF']);
+
+  echo '<form method="GET" action="'.$href.'">';
+  echo widget::hidden("sa","l");
+  echo widget::hidden("p_jrn",$id);
+  echo widget::hidden("p_action","quick_writing");
+  echo dossier::hidden();
+  $Ledger->show_ledger();
+  echo '</form>';
+
+  echo '</div>';
+  exit();
+
+  exit(0);
+}
+
+//======================================================================
 // User can write ?
+// Write into the ledger
 
 if ( CheckJrn(dossier::id(),$_SESSION['g_user'],$id) != 2 )    {
   echo "
@@ -124,6 +176,7 @@ if ( isset($_GET['show_form']) || isset($_POST['correct_it']) ) {
   }
   list($date,$devnull)=get_periode($cn,$default_periode);
   $array['date']=$date;
+  show_qw_menu();
   show_direct_form($cn,$ledger,$array);
   exit();
  }
@@ -139,6 +192,7 @@ if ( isset ($_GET['use_opd'])) {
     
     $p_post=$op->compute_array();
   }
+  show_qw_menu();
   show_direct_form($cn,$ledger,$p_post);
 
   exit();
@@ -149,6 +203,7 @@ if ( isset($_POST['summary'])) {
     $ledger->verify($_POST );
   } catch (AcException $e) {
     echo '<script>alert (\''.$e->getMessage()."'); </script>";
+    show_qw_menu();
     show_direct_form($cn,$ledger,$_POST);
     exit();
   }
@@ -183,6 +238,7 @@ if ( isset($_POST['save_it' ])) {
 			     
   } catch (AcException $e) {
     echo '<script>alert (\''.$e->getMessage()."'); </script>";
+    show_qw_menu();
     show_direct_form($cn,$ledger,$_POST);
   }
   exit();
