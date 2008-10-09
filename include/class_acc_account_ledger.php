@@ -97,6 +97,14 @@ class Acc_Account_Ledger {
       }
     return $this->name;
   }
+  /*!\brief check if the poste exist in the tmp_pcmn
+   *\return the number of line (normally 1 or 0)
+   */
+  function do_exist() {
+    $sql="select pcm_val from tmp_pcmn where pcm_val= $1";
+    $ret=ExecSqlParam($this->db,$sql,array($this->id));
+    return pg_NumRows($ret) ;
+  }
   /*!\brief Get all the value for this object from the database
    *        the data member are set 
    * \return false if this account doesn't exist otherwise true

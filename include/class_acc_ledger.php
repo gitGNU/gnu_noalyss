@@ -1083,9 +1083,9 @@ class Acc_Ledger {
 	  if ( $p->belong_ledger ($p_jrn) < 0 )
 	    throw new AcException("Le poste ".$p->id." n\'est pas dans ce journal",5);
 	  if ( strlen(trim(${'poste'.$i}))!=0 &&  isNumber(${'amount'.$i} ) == 0 )
-	  throw new AcException('Montant invalide',3);
-
-
+	    throw new AcException('Poste invalide',3);
+	  if ( $p->do_exist() == 0 )
+	    throw new AcException('Poste Inexistant',4);
 	}
 
 
