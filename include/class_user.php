@@ -259,6 +259,7 @@ function set_periode($p_periode) {
     if ( $pid == null ) {
       $sql='select min(p_id) as pid from parm_periode where p_start = (select max(p_start) from parm_periode)';
       $Res2=ExecSql($this->db,$sql);
+    $pid=pg_fetch_result($Res2,0,0);
       if ( $pid == null )  {
 	echo "Aucune periode trouvable !!!";
 	exit(1);
