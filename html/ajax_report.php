@@ -52,10 +52,12 @@ if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
   $rap=new Acc_Report($cn,$_GET['f']);
 
   $name=tempnam('tmp','report_').'.bin';
+
   $file= fopen($name,"a+");
   $rap->export($file);
   fclose ($file);
-  $name=dirname($_SERVER['REQUEST_URI']).DIRECTORY_SEPARATOR.$name;
+
+  //  $name=dirname($_SERVER['REQUEST_URI']).DIRECTORY_SEPARATOR.$name;
 
   $a='{"answer":"ok","link":"'.$name.'"}';
 
