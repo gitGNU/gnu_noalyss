@@ -249,7 +249,7 @@ function set_periode($p_periode) {
 }
 
   private function set_default_periode() {
-    echo 'set_default_periode';
+
     /* get the first periode */
     $sql='select min(p_id) as pid from parm_periode where p_closed = false and p_start = (select min(p_start) from parm_periode)';
     $Res=ExecSql($this->db,$sql);
