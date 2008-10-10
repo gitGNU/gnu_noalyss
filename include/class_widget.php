@@ -157,6 +157,7 @@ class widget {
 	  $disabled=($this->disabled==true)?"disabled":"";
 	  //echo "<b>Selected <b>".$this->selected;
 	  $r="<SELECT  id=\"$this->name\" NAME=\"$this->name\" $this->javascript $disabled>";
+	  if (empty($this->value)) return '';
 	  for ( $i=0;$i<sizeof($this->value);$i++) 
 	    {
 	      $checked=($this->selected==$this->value[$i]['value'])?"SELECTED":"";

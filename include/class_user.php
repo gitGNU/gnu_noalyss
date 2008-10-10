@@ -249,10 +249,27 @@ function set_periode($p_periode) {
 }
 
   private function set_default_periode() {
+    echo 'set_default_periode';
+    /* get the first periode */
+    $sql='select min(p_id) as pid from parm_periode where p_closed = false and p_start = (select min(p_start) from parm_periode)';
+    $Res=ExecSql($this->db,$sql);
+
+    $pid=pg_fetch_result($Res,0,0);
+    /* if all the periode are closed, then we use the last closed period */
+    if ( $pid == null ) {
+      $sql='select min(p_id) as pid from parm_periode where p_start = (select max(p_start) from parm_periode)';
+      $Res2=ExecSql($this->db,$sql);
+      if ( $pid == null )  {
+	echo "Aucune periode trouvable !!!";
+	exit(1);
+      }
+
+      $pid=pg_fetch_result($Res2,0,0);
+    }
+
     $sql=sprintf("insert into user_local_pref (user_id,parameter_value,parameter_type) 
-                 select '%s',min(p_id),'PERIODE' from parm_periode where p_closed=false
-                 and p_start = (select min(p_start) from parm_periode);",
-		 $this->id);
+                 values ('%s','%d','PERIODE')",
+		 $this->id,$pid);
     $Res=ExecSql($this->db,$sql);
   }
 
