@@ -72,7 +72,7 @@ foreach ($a_poste as $poste)
 		       'description'=>'Description',
 		       'deb_montant'=> 'Montant',
 		       'cred_montant'=> 'Montant'
-		       ),$Libelle,
+		       ),utf8_decode($Libelle),
 		array('shaded'=>1,'showHeadings'=>1,'width'=>500,
 		      'cols'=>array('montant'=> array('justification'=>'right'),
 				    )),true);
