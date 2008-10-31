@@ -86,7 +86,7 @@ if  ( isset ($_REQUEST['fd_id'])) {
   $fiche=new fiche($cn);
 
   $old=-1;
-  echo "<TABLE class=\"result\">";
+  echo "<TABLE border=1 class=\"result\">";
   echo "<TR>";
   $fiche_def->GetAttribut();
   foreach ($fiche_def->attribut as $attribut) {

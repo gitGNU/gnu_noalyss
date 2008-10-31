@@ -151,7 +151,7 @@ if ( $def==1 || $def == 4 ) {
   echo '<div class="content">';
   echo JS_PROTOTYPE;
 
-  echo "<FORM NAME=\"form_detail\" METHOD=\"POST\">";
+
 
   $array=(isset($_POST['correct'])||isset ($correct))?$_POST:null;
   $Ledger=new Acc_Ledger_Purchase($cn,0);

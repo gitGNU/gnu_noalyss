@@ -510,7 +510,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     
 
     $r="";
-
+    $r.="<FORM NAME=\"form_detail\" METHOD=\"POST\">";
     $r.=JS_INFOBULLE;
     $r.=JS_SEARCH_CARD;
     $r.=JS_SHOW_TVA;    
@@ -750,7 +750,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $r.=widget::button('add_item','Ajout article',      ' onClick="ledger_sold_add_row()"');
     $r.=widget::submit("view_invoice","Enregistrer");
     $r.=widget::reset('Effacer ');
-
+    $r.='</form>';
     $r.="</DIV>";
 
     $r.=JS_CALC_LINE;
