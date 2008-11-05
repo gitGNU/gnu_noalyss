@@ -75,11 +75,16 @@ if ( isset ($_GET["search"]) ) {
   $c_montant="";
   if ( isset ($p_montant) && strlen($p_montant) != 0 && isNumber($p_montant) )
       { 
-	      $p_montant=abs($p_montant);
-    $c_montant=sprintf(" $part jr_montant %s abs(%s)",$p_montant_sel,$p_montant);
-    $opt_montant.='<OPTION VALUE="'.$p_montant_sel.'" SELECTED>'.$p_montant_sel;
-    $part="  and ";
-    }
+	$p_montant=abs($p_montant);
+	$opt_montant.='<OPTION VALUE="'.$p_montant_sel.'" SELECTED>'.$p_montant_sel;
+	$part="  and ";
+	/* if the sign is equal then we look into the details */
+	if ( $p_montant_sel != '=' ) {
+	  $c_montant=sprintf(" $part jr_montant %s abs(%s)",$p_montant_sel,$p_montant);
+	} else {
+	  $c_montant=$part.'  j_montant = '.$p_montant;
+	}
+      }
   if ( isset ($p_date) && strlen(trim($p_date)) != 0 ) {
       $c_date=sprintf(" $part j_date %s to_date('%s','DD.MM.YYYY')",$p_date_sel,$p_date);
       $part=" and ";
