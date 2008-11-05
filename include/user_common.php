@@ -431,34 +431,33 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Ech&
     $l_st_montant=trim($l_st_montant);
     // replace comma by dot
     $l_st_montant=str_replace(',','.',$l_st_montant);
-    $done_comp=0:
+    $done_comp=0;
     echo_debug('user_common',__LINE__,"l_s_montant $l_s_montant");
     /* -------------------------------------------------------------------------- */
     /* if both amount are the same then we need to search into the detail
      */
     /* -------------------------------------------------------------------------- */
-    if ( ereg("^[0-9]+$", $l_s_montant) || ereg ("^[0-9]+\.[0-9]+$", $l_s_montant) &&
-	 ereg("^[0-9]+$", $l_st_montant) || ereg ("^[0-9]+\.[0-9]+$", $l_st_montant)  
+    if ( ( ereg("^[0-9]+$", $l_s_montant) || ereg ("^[0-9]+\.[0-9]+$", $l_s_montant)) &&
+	 ( ereg("^[0-9]+$", $l_st_montant) || ereg ("^[0-9]+\.[0-9]+$", $l_st_montant) ) 
 	 )
       {
-	$done_comp=1;
 	if (	 bccomp($l_s_montant,$l_st_montant,2) == 0 ) {
-	  $l_montant = $and. 'jr_grpt_id in any ( select j_grp from jrnx where j_montant = '.$l_s_montant;
-	  $and=" and ";
-	}
-	else {
+	  $sql .= $l_and. 'jr_grpt_id in  ( select distinct j_grpt from jrnx where j_montant = '.$l_s_montant.')';
+	  $l_and=" and ";
+	  $done_comp=1;
+
 	}
 
       }
     /*------------------------------------------------------------------------------*
      * If amount are different the range is about the total of the operation
      *------------------------------------------------------------------------------*/
-    if ( $done_comp==0 && ereg("^[0-9]+$", $l_s_montant) || ereg ("^[0-9]+\.[0-9]+$", $l_s_montant) ) 
+    if ( $done_comp==0 && (ereg("^[0-9]+$", $l_s_montant) || ereg ("^[0-9]+\.[0-9]+$", $l_s_montant) )) 
     {
       $sql.=$l_and."  jr_montant >= $l_s_montant";
       $l_and=" and ";
     }
-    if ( $done_comp==0 && ereg("^[0-9]+$", $l_st_montant) || ereg ("^[0-9]+\.[0-9]+$", $l_st_montant) ) 
+    if ( $done_comp==0 && (ereg("^[0-9]+$", $l_st_montant) || ereg ("^[0-9]+\.[0-9]+$", $l_st_montant) )) 
     {
       $sql.=$l_and."  jr_montant <= $l_st_montant";
       $l_and=" and ";
