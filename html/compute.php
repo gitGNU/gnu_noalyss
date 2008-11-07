@@ -56,7 +56,7 @@ $tva_rate->load();
 
 $total=new Acc_Compute();
 bcscale(4);
-$amount=bcmul($p,$q);
+$amount=round(bcmul($p,$q),2);
 $total->set_parameter('amount',$amount);
 $total->set_parameter('amount_vat_rate',$tva_rate->get_parameter('rate'));
 $total->compute_vat();

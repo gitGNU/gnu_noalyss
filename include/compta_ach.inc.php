@@ -146,6 +146,7 @@ if ( $def==1 || $def == 4 ) {
   }
   //  ------------------------------
   /* Display a blank form or a form with predef operation */
+  /* or a form for correcting */
   //  ------------------------------
 
   echo '<div class="content">';
@@ -183,9 +184,10 @@ if ( $def==1 || $def == 4 ) {
     echo '</script>';
   }
   else {
+    echo $Ledger->display_form($array);
     echo widget::hidden("p_action","ach");
     echo widget::hidden("sa","p");
-    echo $Ledger->display_form($array);
+
     echo '<script>';
     echo 'compute_all_purchase();';
     echo '</script>';
