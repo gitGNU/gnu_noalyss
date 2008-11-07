@@ -82,7 +82,7 @@ if ( isset ($_GET["search"]) ) {
 	if ( $p_montant_sel != '=' ) {
 	  $c_montant=sprintf(" $part jr_montant %s abs(%s)",$p_montant_sel,$p_montant);
 	} else {
-	  $c_montant=$part.'  j_montant = '.$p_montant;
+	  $c_montant=$part.'  jr_grpt_id in (select j_grpt from jrnx where j_montant = '.$p_montant.')';
 	}
       }
   if ( isset ($p_date) && strlen(trim($p_date)) != 0 ) {
