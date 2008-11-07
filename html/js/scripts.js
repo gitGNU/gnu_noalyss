@@ -625,9 +625,13 @@ function success_compute_purchase(request,json) {
   var ctl=answer.ctl;
   $('sum').show();
 
-  $('tva_march'+ctl).value=rtva;
-  $('e_march'+ctl+'_tva_amount').value=rtva;
-
+    if ( $('e_march'+ctl+'_tva_amount').value=="" ||  $('e_march'+ctl+'_tva_amount').value==0 ){
+	$('tva_march'+ctl).value=rtva;
+	$('e_march'+ctl+'_tva_amount').value=rtva;
+    }
+     else {
+ 	$('tva_march'+ctl).value=$('e_march'+ctl+'_tva_amount').value;
+     }
  $('htva_march'+ctl).value=rhtva;
     $('tvac_march'+ctl).value=parseFloat($('htva_march'+ctl).value)+parseFloat($('tva_march'+ctl).value);
     refresh_purchase();
