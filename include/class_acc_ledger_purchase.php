@@ -690,7 +690,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
       $Price->SetReadOnly(false);
       $Price->table=1;
       $Price->size=9;
-      $Price->javascript="onBlur='compute_purchase($i)'";
+      $Price->javascript="onBlur='clean_tva($i);compute_purchase($i)'";
       $r.=$Price->IOValue("e_march".$i."_buy",$march_buy);
       // vat label
       //--
