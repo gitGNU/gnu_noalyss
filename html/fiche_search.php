@@ -86,13 +86,15 @@ function SetData (name_ctl,value,value_2,value_3,value_4,value_5,value_6) {
 <?php
 $cn=DbConnect($gDossier);
 $r="";
-$add_card=new widget('button');
-$add_card->javascript=sprintf("NewCard('%s','%s','%s')",
-			      $_REQUEST['PHPSESSID'],
-			      $_GET['type'],
-			      "fic_search");
-$add_card->label="Ajout d'une fiche";
 
+if ($_GET['p_jrn']  != 0 ) {
+  $add_card=new widget('button');
+  $add_card->javascript=sprintf("NewCard('%s','%s','%s')",
+				$_REQUEST['PHPSESSID'],
+				$_GET['type'],
+				"fic_search");
+  $add_card->label="Ajout d'une fiche";
+}
 foreach ($_GET as $key=>$element) {
   // The value are e_name e_type e_PHPSESSID
   ${"e_$key"}=$element;
@@ -173,7 +175,7 @@ if (
   }
 
   // Test whether rows are returned
- if ( ($Max = pg_NumRows($Res) ) == 0 ) {
+ if ( ($Max = pg_NumRows($Res) ) == 0 && $_GET['p_jrn'] != 0) {
    echo_warning("Pas de fiche trouvée");
    echo $add_card->IOValue();
    return;
@@ -221,6 +223,6 @@ echo $r;
 ?>
 
 <?php
-echo $add_card->IOValue();
+if ( $_GET['p_jrn'] != 0 )echo $add_card->IOValue();
 html_page_stop();
 ?>

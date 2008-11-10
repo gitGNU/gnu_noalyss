@@ -493,19 +493,16 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
  $A->value=$p_qcode;
  $A->extra="";
  $A->table=1;
- // $r.=$sp->IOValue("p_qcode_label")."</TD></TR>";
+ $A->label="Quick Code";
+ $A->extra='all';
+ $A->extra2='Recherche';
 
- //  $A=new widget("TEXT");
-  $A->label="Quick Code";
-  $A->extra='all';
-  //$A->name="qcode";
-  //  $A->value=$p_qcode;
-  $sp= new widget("span");
-  $sp->table=0;
-  $r.=$A->IOValue().'</TD>'.$sp->IOValue("qcode_label");
-  $r.= "</TR>";
-  echo_debug('user_menu.php',__LINE__,"<TD>".$A->IOValue().'</TD><TD>'.$sp->IOValue("p_qcode_label")."</TD>");
-
+ $sp= new widget("span");
+ $sp->table=0;
+ $r.=$A->IOValue().'</TD>'.$sp->IOValue("qcode_label");
+ $r.= "</TR>";
+ echo_debug('user_menu.php',__LINE__,"<TD>".$A->IOValue().'</TD><TD>'.$sp->IOValue("p_qcode_label")."</TD>");
+ 
   $r.= '<TD colspan="3"> Le commentaire contient </TD>';
   $r.= "</TR><TR>";
   $r.= '<TD COLSPAN="3"> <INPUT TYPE="TEXT" style="border:groove 1px blue;" NAME="s_comment" VALUE="'.$p_s_comment.'"></TD>';
