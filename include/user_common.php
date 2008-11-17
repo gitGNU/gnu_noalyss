@@ -56,226 +56,6 @@ function GetTvaRate($p_cn,$p_tva_id) {
   return $r;
 
 }
-/*!
- **************************************************
- *\brief  Compute the vat,
- *           the fiche.f_id are in a_fiche
- *           the quantity in a_quant
- *           
- *        
- *  
- * \param $p_cn database connection
- * \param $a_fiche fiche id array
- * \param $a_quantity array 
- * \param $a_price array 
- * \param $ap_vat Array of tva id
- * \param $a_amount_tva for the expense, if the tva amount is given
- * \param $all = false if we reduce VAT
- * \return: array
- *       a[tva_id] =  amount vat
- */
-function ComputeTotalVat($p_cn,	$a_fiche,$a_quant,$a_price,$ap_vat,$a_vat_amount=null,$all=false ) 
-{
-echo_debug('user_common.php',__LINE__,"ComputeTotalVat $a_fiche $a_quant $a_price");
- foreach ( $a_fiche as $t=>$el) {
-   echo_debug('user_common.php',__LINE__,"t $t e $el");
- }
- $r=null;
-// foreach goods 
-//--
- foreach ( $a_fiche as $idx=>$element) {
-   echo_debug ('user_common.php',__LINE__,"idx $idx element $element");
-  // if the card id is null or empty 
-    if (  strlen(trim($element))==0) continue;
-
-    // Get the tva_id
-    if ( $ap_vat != null and
-	 isNumber($ap_vat[$idx])== 1 and $ap_vat[$idx] != -1 ) 
-      {
-	$tva_id=$ap_vat[$idx];
-	echo_debug('user_common',__LINE__,' tva_id is given');
-	echo_debug('user_common',__LINE__,$ap_vat);
-      }
-    else
-      {
-	$tva_id=GetFicheAttribut($p_cn,$element,ATTR_DEF_TVA);
-	echo_debug('user_common',__LINE__,'retrieve tva_id');
-      }
-    echo_debug('user_common',__LINE__,"tva id $tva_id");
-    if ( $tva_id == null ) continue;
-    // for each fiche find the tva_rate and tva_id
-    $a_vat=GetTvaRate($p_cn,$tva_id);
-   
-	// Get the attribut price of the card(fiche)
-    if ( $a_vat != null  and  $a_vat['tva_id'] != "" ) 
-      {  
-	$flag=true;
-	$a=$a_vat['tva_id'];
-	// Compute vat for this item
-	$vat_amount=round($a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx],2);
-
-	// if a vat amount is given
-	if ( $a_vat_amount != null && 
-	     $a_vat_amount[$idx] != 0 )
-		  {
-	  		$vat_amount= $a_vat_amount[$idx] ;
-			echo_debug(__FILE__.':'.__LINE__.'- VAT_AMOUNT IS GIVEN '.$vat_amount);
-
-		  }
-	echo_debug('user_common',__LINE__,"vat amount = $vat_amount");
-	// only the deductible vat
-	if ( $all == false ) 
-	  {
-	    //variable containing the nd part 
-	    // used when a card has both special rule for vat 
-	    $nd1=0;
-
-	    $base=$a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx];
-	    $nd_amount3=0;
-	    // if a part is not deductible then reduce vat_amount
-	    $nd3=GetFicheAttribut($p_cn,$a_fiche[$idx],ATTR_DEF_DEP_PRIV);
-	    if ( $nd3 != null && strlen(trim($nd3)) != 0 && $nd3 != 0 )
-	      {
-		// if tva amount is given we do not compute it
-		if ( $a_vat_amount != null && 
-		     $a_vat_amount[$idx] != 0 ) {
-		  $nd_amount3=round($a_vat_amount[$idx]*$nd3,2);
-		  $a_vat_amount[$idx]-=$nd_amount3;
-		}
-		else
-		  $nd_amount3=round($a_price[$idx]*$a_vat['tva_rate']*$a_quant[$idx]*$nd3,2);
-		
-		$vat_amount=$vat_amount-$nd_amount3;
-
-		$base=$base*$nd3;
-		// when using both vat, their sum cannot exceed 1, if = 1 then vat = 0
-		$flag=false;
-	      }	
-
-
-	    // if a part is not deductible then reduce vat_amount
-	    $nd=GetFicheAttribut($p_cn,$a_fiche[$idx],ATTR_DEF_TVA_NON_DEDUCTIBLE);
-	    if ( $nd != null && strlen(trim($nd)) != 0 && $nd != 0 )
-	      {
-		// if tva amount is given we do not compute it
-		if ( $a_vat_amount != null && 
-		     $a_vat_amount[$idx] != 0 )
-		  $nd_amount=round($a_vat_amount[$idx]*$nd,2);
-		else
-		  $nd_amount=round($base*$nd,2);
-
-
-		// problem with round
-		$vat_amount=$vat_amount-$nd_amount;
-		echo_debug('user_common.php',__LINE__,
-			   "A - TVA Attr fiche [$nd] nd amount [ $nd_amount ]".
-			   "vat amount [ $vat_amount]");
-		$flag=false;
-		// save nd into nd1
-		$nd1=$nd;
-	      }	
-	    // if a part is not deductible then reduce vat_amount
-	    $nd=GetFicheAttribut($p_cn,$a_fiche[$idx],ATTR_DEF_TVA_NON_DEDUCTIBLE_RECUP);
-	    if ( $nd != null && strlen(trim($nd)) != 0 && $nd != 0 )
-	      {
-		// if tva amount is given we do not compute it
-		if ( $a_vat_amount != null && 
-		     $a_vat_amount[$idx] != 0 )
-		  $nd_amount2=round($a_vat_amount[$idx]*$nd,2);
-		else
-		  $nd_amount2=round($base*$nd,2);
-		
-		$vat_amount=$vat_amount-$nd_amount2;
-		// when using both vat, their sum cannot exceed 1, if = 1 then vat = 0
-		if ( ($nd+$nd1) == 1)
-		  $vat_amount=0;
-		echo_debug('user_common.php',__LINE__,
-			   "B - TVA Attr fiche [$nd] nd amount [ $nd_amount2 ]".
-			   "vat amount [ $vat_amount]");
-		
-		$flag=false;
-	      }	
-	  }
-	
-	$r[$a]=isset ( $r[$a] )?$r[$a]+$vat_amount:$vat_amount; 
-      }
-    
- }
- echo_debug('user_common.php',__LINE__," return ".var_export($r,true));
- return $r;
- 
- 
-}
-
-/*!   
- **************************************************
- *\brief  Compute the vat for only one elt,
- *           the fiche.f_id are in p_fiche
- *           the quantity in p_quant
- *           
- *        
- *
- * \param $p_cn database connection
- * \param $p_fiche fiche id int
- * \param $p_quantity int
- * \param $p_price float 
- * \param $p_tva_id
- *	-
- * \return the amount of vat
- */
-function ComputeVat($p_cn,	$p_fiche,$p_quant,$p_price,$p_vat ) 
-{
-  echo_debug('user_common.php',__LINE__,"function ComputeVat($p_cn,$p_fiche,$p_quant,$p_price,$p_vat )");
-  // Get the tva_id
-  if ( $p_vat != null and  isNumber($p_vat)== 1 and $p_vat != -1)
-    $tva_id=$p_vat;
-  else
-    $tva_id=GetFicheAttribut($p_cn,$p_fiche,ATTR_DEF_TVA);
- 
-  echo_debug('user_common',__LINE__,"ComputeVat tva id = $tva_id"); 
-  if ( $tva_id == null  ) return -1;
-  // find the tva_rate and tva_id
-  $a_vat=GetTvaRate($p_cn,$tva_id);
-  $vat_amount=null;
-  // Get the attribut price of the card(fiche)
-  if ( $a_vat != null  and  $a_vat['tva_id'] != "" ) 
-    {
-      $a=$a_vat['tva_id'];
-      $vat_amount=$p_price*$a_vat['tva_rate']*$p_quant;
-    } 
-  echo_debug('user_common',__LINE__,'return tva'.round($vat_amount,2));
-  return round($vat_amount,2);
-  
-  
-}
-
-
-/*!   
- **************************************************
- *\brief  Get the account of tva_rate.tva_poste
- *        return the credit or the debit account
- * \param $p_cn connection
- * \param $p_tva_id tva_rate.tva_id
- * \param $p_cred       type ( d or credit)
- *
- * \return
- *        return the credit or the debit account
- *        null if error
- */
-function GetTvaPoste($p_cn,$p_tva_id,$p_cred) {
-	$Res=ExecSql($p_cn,"select tva_poste from tva_rate where tva_id=$p_tva_id");
-	if ( pg_NumRows($Res) == 0 ) return null;
-	$a=pg_fetch_array($Res,0);
-	list ($deb,$cred)=split(",",$a['tva_poste']);
-	if ( $p_cred=='c' ) return $cred;
-	if ($p_cred=='d') return $deb;
-	echo_error ("Invalid $p_cred in GetTvaRate");
-	return null;
-}
-
-
-
-
 
 /*!   
  *\brief  show all the lines of the asked jrn, uses also the $_GET['o'] for the sort
@@ -312,6 +92,8 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0,$p_paid=0)
   $sort_description="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ca\">$image_asc</A>Description <A class=\"mtitle\" HREF=\"?$url&o=cd\">$image_desc</A></th>";
   $sort_amount="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ma\">$image_asc</A>Montant <A class=\"mtitle\" HREF=\"?$url&o=md\">$image_desc</A></th>";
 $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Ech&eacute;ance <A class=\"mtitle\" HREF=\"?$url&o=ed\">$image_desc</A> </th>";
+
+$own=new Own($p_cn);
   // if an order is asked
   if ( isset ($_GET['o']) ) 
     {
@@ -660,7 +442,7 @@ $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Ech&
 
     if ( $row['jr_valid'] == 'f'  ) {
       $r.="<TD> Op&eacute;ration annul&eacute;e</TD>";
-    }    else {
+    }    else if ( $own->MY_STRICT=='N' ) {
       // all operations can be removed either by setting to 0 the amount
       // or by writing the opposite operation if the period is closed
       $r.="<TD>";
@@ -756,66 +538,6 @@ function InsertStockGoods($p_cn,$p_j_id,$p_good,$p_quant,$p_type)
                      ");
  return $Res;
 }
-/*!   withStock($p_cn,$p_f_id)
- **************************************************
- *\brief  return true if we manage stock for it
- *          value is stored in attr_value
- *        
- * parm : 
- *	- $p_cn database connection
- *      - $p_f_id fiche.f_id
- * gen :
- *	- none
- * return:
- *       none
- */
-function withStock($p_cn,$p_f_id)
-{
-  $a=getFicheAttribut($p_cn,$p_f_id, ATTR_DEF_STOCK);
-  if ( $a == "1" ) return true;
-  return false;
-
-}
-/*!    VerifyOperationDate ($p_cn,$p_user,$p_date) 
- **************************************************
- *\brief  Verify if 
- *    the date is a valid date
- *    the date is in the default period
- *    the period is not closed
- *        
- * parm : 
- *	- db connection
- *      - user
- *      - date
- * gen :
- *	- none
- * return:
- *     - null if error or date if ok
- */
-function VerifyOperationDate($p_cn,$p_periode,$p_date) {
-
-  // Verify the date
-  if ( isDate($p_date) == null ) { 
-	  echo_error("Invalid date $p_date");
-	  echo_debug('user_common.php',__LINE__,"Invalid date $p_date");
-	  echo "<SCRIPT> alert('INVALID DATE $p_date !!!!');</SCRIPT>";
-	  return null;
-		}
-// userPref contient la periode par default
-    list ($l_date_start,$l_date_end)=get_periode($p_cn,$p_periode);
-
-    // Date dans la periode active
-    echo_debug ("date start periode $l_date_start date fin periode $l_date_end date demandee $p_date");
-    if ( cmpDate($p_date,$l_date_start)<0 || 
-	 cmpDate($p_date,$l_date_end)>0 )
-      {
-		  $msg="Not in the active periode please change your preference";
-			echo_error($msg); echo_error($msg);	
-			echo "<SCRIPT>alert('$msg');</SCRIPT>";
-			return null;
-      }
-    return $p_date;
-}
 
 /*!
  **************************************************
@@ -903,28 +625,6 @@ function GetConcerned ($p_cn, $jr_id) {
    $r[$i]=$l['cn'];
  }
  return $r;
-}
-/*!   GetGrpt($p_cn,$p_jr_id)
- **************************************************
- *\brief   Return the jr_grpt_id from jrn where
- *            jr_id = $p_jr_id
- *        
- * parm : 
- *	- $p_jr_id jrn.jr_id
- *      - $p_cn database connection
- * gen :
- *	- none
- * return:
- *      - return the jrn.jr_grpt_id or null 
- */
-function  GetGrpt($p_cn,$p_jr_id)
-{
-  $Res=ExecSql($p_cn,"select jr_grpt_id from jrn where jr_id=".$p_jr_id);
-  if ( pg_NumRows($Res) == 0 ) {
-    return null;
-  }
-  $r=pg_fetch_array($Res,0);
-  return $r['jr_grpt_id'];
 }
 /*!   UpdateComment ($p_cn,$p_jr_id,$p_comment)
  **************************************************
@@ -1075,46 +775,6 @@ function jrn_navigation_bar($p_offset,$p_line,$p_size=0,$p_page=1,$p_javascript=
   return $r;
 }
 
-
-/*!\brief Verify that a fiche has a valid ledger. It must be verify before
- *        entering data into jrnx. Called from the form_verify_input
- * \param $p_cn database connx
- * \param $qcode the quick_code
- * \return null if an error occurs + a alert message in javascript
- *         otherwise 1
- */
-function CheckPoste($p_cn,$qcode)
-{
-    // check if the  ATTR_DEF_ACCOUNT is set
-    $poste=GetFicheAttribut($p_cn,$qcode,ATTR_DEF_ACCOUNT);
-    echo_debug('poste.php',__LINE__,"poste value = ".$poste."size = ".strlen(trim($poste)));
-    if ( $poste == null ) 
-      {	
-	$msg="La fiche ".$qcode." n\'a pas de poste comptable";
-	echo_error($msg); echo_debug('poste.php',__LINE__,$msg);	
-	echo "<SCRIPT>alert('$msg');</SCRIPT>";
-	return null;
-	
-      }
-    if ( strlen(trim($poste))==0 )
-      {
-	$msg="La fiche ".$qcode." n\'a pas de poste comptable";
-	echo_error($msg); echo_debug('poste.php',__LINE__,$msg);		
-	echo "<SCRIPT>alert('$msg');</SCRIPT>";
-	return null;
-      }
-    // Check that the account exists
-    if ( CountSql($p_cn,
-		  "select * from tmp_pcmn where pcm_val=$poste") == 0 )
-      {
-      $msg=" Le poste comptable $poste de la fiche ".$qcode." n\'existe pas, il faudra le creer manuellement dans le module comptabilite, menu : avance->plan comptable";
-	echo_error($msg); echo_debug('poste.php',__LINE__,$msg);		
-	echo "<SCRIPT>alert('$msg');</SCRIPT>";
-	return null; 
-
-      }
-    return  1; 
-}
 /*! 
  * \brief Clean the url, remove the $_GET offset,step, page and size
  * \param none

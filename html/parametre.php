@@ -191,8 +191,9 @@ if ( $p_action=='company') {
     $m->MY_TEL=$p_tel;
     $m->MY_FAX=$p_fax;
     $m->MY_PAYS=$p_pays;
-	$m->MY_ANALYTIC=$p_compta;
-    $m->Save();
+    $m->MY_ANALYTIC=$p_compta;
+    $m->MY_STRICT=$p_strict;
+    $m->Update();
   }
 
   $my=new Own($cn);
@@ -202,9 +203,19 @@ if ( $p_action=='company') {
 				array("value"=>"op",'label'=>"optionnel"),
 				array("value"=>"nu",'label'=>"non utilisé")
 				);
+  $strict_array=array(
+		      array('value'=>'N','label'=>'Non'),
+		      array('value'=>'Y','label'=>'Oui')
+		      );
+
   $compta=new widget("select");
   $compta->table=1;
   $compta->selected=$my->MY_ANALYTIC;
+
+  $strict=new widget("select");
+  $strict->table=1;
+  $strict->selected=$my->MY_STRICT;
+
   // other parameters
   $all=new widget("text");
   $all->table=1;
@@ -221,6 +232,8 @@ if ( $p_action=='company') {
   echo "<tr>".$all->IOValue("p_pays",$my->MY_PAYS,"Pays")."</tr>";
   echo "<tr>".$all->IOValue("p_tva",$my->MY_TVA,"Numéro de Tva")."</tr>";
   echo "<tr>".$compta->IOValue("p_compta",$array,"Utilisation de la compta. analytique")."</tr>";
+  echo "<tr>".$strict->IOValue("p_strict",$strict_array,"Utilisation du mode strict ")."</tr>";
+
   echo "</table>";
   $submit=new widget("submit");
   echo widget::submit("record_company","Enregistre");

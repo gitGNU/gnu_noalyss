@@ -47,20 +47,28 @@ if ( isset ($_POST["update"] ) ) {
     $p_lib=FormatString($_POST["p_lib"]);
     $p_parent=trim($_POST["p_parent"]);
     $old_line=trim($_POST["p_old"]);
-    $p_type=$_POST['p_type'];
-    // Check if p_parent and p_val are number
-    if ( ! is_numeric($p_val) || ! is_numeric($p_parent) ) {
-      // not number no update
-      echo '<script> alert(\' Valeurs invalides, pas de changement opéré;\'); 
+    $p_type=htmlentities($_POST['p_type']);
+    $acc=new Acc_Account($cn);
+    $acc->set_parameter('libelle',$p_lib);
+    $acc->set_parameter('value',$p_val);
+    $acc->set_parameter('parent',$p_parent);
+    $acc->set_parameter('type',$p_type);
+    // Check if the data are correct 
+    try {
+      $acc->check() ; 
+    }catch (AcException $e) {
+      $message="Valeurs invalides, pas de changement \n ".
+	$e->getMessage();
+	      echo '<script> alert(\''.$message.'\'); 
            </script>';
-      echo "<script> 
-        window.close();
-         self.opener.RefreshMe();
+	      echo "<script> 
+		window.close();
+		 self.opener.RefreshMe();
 
-        </script>";
-      exit();
+		</script>";
+	      exit();
 
-    }
+	}
     echo_debug('line_update.php',__LINE__,"Update old : $old_line News = $p_val $p_lib");
     if ( strlen ($p_val) != 0 && strlen ($p_lib) != 0 && strlen($old_line)!=0 ) {
       if (strlen ($p_val) == 1 ) {
@@ -72,12 +80,11 @@ if ( isset ($_POST["update"] ) ) {
 	}
       }
       /* Parent existe */
-      $Ret=ExecSql($cn,"select pcm_val from tmp_pcmn where pcm_val=$p_parent");
+      $Ret=ExecSqlParam($cn,"select pcm_val from tmp_pcmn where pcm_val=$1",array($p_parent));
       if ( pg_NumRows($Ret) == 0 || $p_parent==$old_line ) {
 	echo '<SCRIPT> alert(" Ne peut pas modifier; aucune poste parent"); </SCRIPT>';
       } else {
-	
-	$Ret=ExecSql($cn,"update tmp_pcmn set pcm_val=$p_val, pcm_lib='$p_lib',pcm_val_parent=$p_parent,pcm_type='$p_type' where pcm_val=$old_line");
+	$acc->update($old_line);	
       }
     } else {
       echo '<script> alert(\'Update Valeurs invalides\'); </script>';
@@ -94,18 +101,17 @@ if ( isset ($_POST["update"] ) ) {
 ?>
 <FORM ACTION="line_update.php" METHOD="POST">
 <?
-  $acc=new Acc_Account($cn);
-  $acc->pcm_val=$_GET['l'];
-  $acc->pcm_val_parent=$_GET['p'];
-  $acc->pcm_lib=$_GET['n'];
-  $acc->pcm_type=(isset ($_GET['m']))?$_GET['m']:"";
-  echo $acc->form(true);
+$acc=new Acc_Account($cn);
+$acc->set_parameter('value',$_GET['l']);
+$acc->load();
+
+echo $acc->form(true);
 ?>
 <TABLE>
 <TR>
 <TD><INPUT TYPE="Submit" VALUE="Sauve">
 <INPUT TYPE="HIDDEN" name="update">
-<?php printf ('<INPUT TYPE="HIDDEN" name="p_old" value="%s">',$acc->pcm_val); ?>
+<?php printf ('<INPUT TYPE="HIDDEN" name="p_old" value="%s">',$acc->get_parameter('value')); ?>
 </TD><TD><input type="button"  Value="Retour sans sauver" onClick='window.close();'></TD></TR>
 </TABLE>
 </FORM>

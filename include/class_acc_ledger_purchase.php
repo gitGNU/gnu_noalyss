@@ -64,6 +64,21 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     if ( cmpDate($e_date,$min) < 0 ||
 	 cmpDate($e_date,$max) > 0) 
 	throw new AcException('Date et periode ne correspondent pas',6);
+
+
+    /* check if we are using the strict mode */
+    if( $this->check_strict() == true) {
+      /* if we use the strict mode, we get the date of the last
+	 operation */
+      $last_date=$this->get_last_date();
+      if ( cmpDate($e_date,$last_date) < 0 )
+	throw new AcException('Vous utilisez le mode strict la dernière operation est à la date du '
+			      .$last_date.' vous ne pouvez pas encoder à une '.
+			      ' date antérieure dans ce journal',13);
+
+    }
+
+    /* check the account */
     $fiche=new fiche($this->db);
     $fiche->get_by_qcode($e_client);
     if ( $fiche->empty_attribute(ATTR_DEF_ACCOUNT) == true)

@@ -57,6 +57,16 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       {
 	throw new AcException('Periode fermee',6);
       }
+    /* check if we are using the strict mode */
+    if( $this->check_strict() == true) {
+      /* if we use the strict mode, we get the date of the last
+	 operation */
+      $last_date=$this->get_last_date();
+      if ( cmpDate($e_date,$last_date) < 0 )
+	throw new AcException('Vous utilisez le mode strict la dernière operation est date du '
+			      .$last_date.' vous ne pouvez pas encoder à une date antérieure',13);
+
+    }
 
     /* check that the datum is in the choosen periode */
     $per=new Periode($this->db);

@@ -80,6 +80,9 @@ function ShowDossier($p_type,$p_first=0,$p_max=10,$p_Num=0) {
  * \return the connection
  */
 function DbConnect($p_db=-1,$p_type='dossier') {
+  if ( IsNumber($p_db) == false || strlen($p_db) > 5 )
+	die ("Dossier invalide");
+	
   if ( $p_db==-1) 
     $l_dossier=sprintf("%saccount_repository",domaine);
   else {
@@ -255,26 +258,7 @@ function GetJnt($p_dossier,$p_user)
   $R=pg_fetch_array($Res,0);
   return $R['jnt_id'];
 }
-/* GetDbId
- * Get the dos_id of a dossier
- * parm: name of the folder
- */
-function GetDbId($p_name)
-{
-  $cn=DbConnect();
-  $r_sql=ExecSql($cn,"select dos_id from ac_dossier
-                 where dos_name='".$p_name."'");
-  $num=pg_NumRows($r_sql);
-  if ( $num == 0 ) {
-    return 0;
-  } else {
-    $l_db=pg_fetch_array($r_sql,0);
-    return $l_db['dos_id'];
-  }
-     
-}
-/* CountSql
- * \brief Count the number of row
+/*! \brief Count the number of row
  * 
  * \param $p_conn connection handler
  * \param $p_sql sql string

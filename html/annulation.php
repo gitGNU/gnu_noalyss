@@ -69,6 +69,14 @@ foreach ($l_array as $key=>$element) {
 if ( isset ($_POST['annul']) ) {
 	/* Confirm it first */
 	if ( ! isset ( $_POST['confirm'])) {
+	  $own=new Own($cn);
+	  if ( $own->MY_STRICT=='Y') {
+	    $msg="Vous utilisez le mode stricte, l'annulation est interdite";
+	    echo '<h2 class="info">Confirmation</h2>';
+	    echo '<p><span class="error">'.$msg.'</span></p>';
+	    exit();
+	  }
+
 ?>
 <p>
 <h2 class="info">Confirmation</h2>
@@ -146,9 +154,9 @@ if  ($p_id != -1 ) { // A
     $per=new Periode($cn);
     $per->set_jrn($nJrn);
     $per->set_periode($period_id);
-
+    $own=new Own($cn);
       // Check the period_id
-    if ( $per->is_open() == 0 )
+    if ( $per->is_open() == 0 || $own->MY_STRICT=='Y')
 	  {
 	    try 
 	      {

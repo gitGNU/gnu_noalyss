@@ -40,17 +40,36 @@ class Own {
     }
 
   }
+  function check(&$p_value) {
+	if ($p_value == 'MY_STRICT' 
+		&& $this->MY_STRICT != 'Y' 
+		&& $this->MY_STRICT != 'N')
+			$p_value='N';
+	$p_value=htmlentities($p_value);
+  }
 /*! 
  **************************************************
- * \brief  Update a row
+ * \brief  save the parameter into the database by inserting or updating
  *        
  *  
  * \param $p_attr give the attribut name
  * 
  */
-  function UpdateRow($p_attr) {
-    $value=FormatString($this->{"$p_attr"});
-    $Res=ExecSql($this->db,"update parameter set pr_value='$value' where pr_id='$p_attr'");
+  function save($p_attr) {
+      $value=FormatString($this->$p_attr);
+      $this->check($p_attr);
+      // check if the parameter does exù
+      if ( getDbValue($this->db,'select count(*) from parameter where pr_id=$1',array($p_attr)) != 0 )
+	{
+	  $Res=ExecSqlParam($this->db,"update parameter set pr_value=$1 where pr_id=$2",
+		       array($value,$p_attr));
+	} else {
+
+	  $Res=ExecSqlParam($this->db,"insert into parameter (pr_id,pr_value) values( $1,$2)",
+		       array($p_attr,$value));
+	  
+	}
+    
   }
 
 /*! 
@@ -59,17 +78,19 @@ class Own {
  *        
  *
  */
-  function Save() {
-    $this->UpdateRow('MY_NAME');
-    $this->UpdateRow('MY_TVA');
-    $this->UpdateRow('MY_STREET');
-    $this->UpdateRow('MY_NUMBER');
-    $this->UpdateRow('MY_CP');
-    $this->UpdateRow('MY_TEL');
-    $this->UpdateRow('MY_PAYS');
-    $this->UpdateRow('MY_COMMUNE');
-    $this->UpdateRow('MY_FAX');
-    $this->UpdateRow('MY_ANALYTIC');
+  function update() {
+
+    $this->save('MY_NAME');
+    $this->save('MY_TVA');
+    $this->save('MY_STREET');
+    $this->save('MY_NUMBER');
+    $this->save('MY_CP');
+    $this->save('MY_TEL');
+    $this->save('MY_PAYS');
+    $this->save('MY_COMMUNE');
+    $this->save('MY_FAX');
+    $this->save('MY_ANALYTIC');
+    $this->save('MY_STRICT');
 
   }
 

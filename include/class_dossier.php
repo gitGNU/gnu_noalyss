@@ -58,6 +58,11 @@ class dossier {
 	  echo_error ('Dossier inconnu ');
 	  exit('Dossier invalide');
 	}
+	$id=$_REQUEST['gDossier'];
+	if ( is_numeric ($id) == 0 ||
+		strlen($id)> 6 ||
+		$id > 999999)
+			exit('gDossier Invalide : '.$id);
 			  
   }
   /*!\brief return a string to put to gDossier into a GET */
@@ -140,5 +145,7 @@ class dossier {
     foreach ($row as $idx=>$value) { $this->$idx=$value; }
   }
 
-
+  static function get_version($p_cn) {
+    return getDbValue($p_cn,'select val from version');
+  }
 }

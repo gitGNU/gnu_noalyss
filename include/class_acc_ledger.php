@@ -988,7 +988,6 @@ class Acc_Ledger {
     $ret.= '</td></tr>';
 
     $ret.= '</table>';
-    //     $nb_row=(isset($nb))?$nb:$this->GetDefLine();
     $nb_row=(isset($nb_item) )?$nb_item:$this->nb;
 
     $ret.=widget::hidden('nb_item',$nb_row);
@@ -1033,7 +1032,7 @@ class Acc_Ledger {
       $label='';
       if ( $poste->value != '' ) {
 	$Poste=new Acc_Account($this->db);
-	$Poste->id=$poste->value;
+	$Poste->pcm_value=$poste->value;
 	$label=$Poste->get_lib();
       }
       // Description of the line
@@ -1126,6 +1125,16 @@ class Acc_Ledger {
 	echo_debug(__FILE__.':'.__LINE__.'- verify',' the periode is closed ');
 	throw new AcException('Periode fermee',6);
       }
+    /* check if we are using the strict mode */
+    if( $this->check_strict() == true) {
+      /* if we use the strict mode, we get the date of the last
+	 operation */
+      $last_date=$this->get_last_date();
+      if ( cmpDate($date,$last_date) < 0 )
+	throw new AcException('Vous utilisez le mode strict la dernière operation est la date du '
+			      .$last_date.' vous ne pouvez pas encoder à une date antérieure',15);
+
+    }
 
     for ($i=0;$i<$nb_item;$i++) 
       {
@@ -1516,7 +1525,24 @@ class Acc_Ledger {
     $res=get_array($this->db,$sql,array($p_exercice));
     return $res;
   }
+/*!
+ *\brief Check if a Dossier is using the strict mode or not
+ * \return true if we are using the strict_mode
+ */
+function check_strict() {
+	$own=new Own($this->db);
+	if ( $own->MY_STRICT=='Y') return true;
+	if ( $own->MY_STRICT=='N') return false;
+	exit("Valeur invalid ".__FILE__.':'.__LINE__);
+}
 
-
-
+/*!\brief get the date of the last operation
+*/
+function get_last_date()
+{
+	if ( $this->id==0) throw AcException (__FILE__.":".__LINE__."Journal incorrect ");
+	$sql="select to_char(max(jr_date),'DD.MM.YYYY') from jrn where jr_def_id=$1";
+	$date=getDbValue($this->db,$sql,array($this->id));
+	return $date;
+}
 }

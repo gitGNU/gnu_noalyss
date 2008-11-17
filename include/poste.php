@@ -51,59 +51,6 @@ function GetPosteLibelle($p_dossier,$p_id,$is_cn=0)
   return $l_poste[0];
 }
 /*! 
- * \brief  Max of ligne definie dans le journal
- * 
- * 
- * \param $p_dossier dossier id
- * \param $p_jrn ledger id
- * gen :
- *	- none
- * return:
- *	- 
- * \todo obsolete ?
- */ 
-function GetNumberLine($p_dossier,$p_jrn) 
-{
-  $cn=DbConnect($p_dossier);
-  $Res=ExecSql($cn,"select jrn_deb_max_line,jrn_cred_max_line from jrn_def where jrn_def_id=$p_jrn");
-  if ( pg_NumRows($Res) == 0 ) {
-    echo "<H2 class=\"warning\"> Journal non trouvé </H2>";
-    //    return (3,3);
-  }
-  $l_line=pg_fetch_array($Res,0);
-  $l_deb=$l_line['jrn_deb_max_line'];
-  $l_cred=$l_line['jrn_cred_max_line'];
-  return array ($l_deb,$l_cred);
-
-}
-/*! 
- * \brief  Cree un form pour prendre les postes
- * 
- * 
- * \param  connection
- *
- * \return
- *	morceau de code d'html qui contient un multiselect
- *        pour les postes
- *
- */ 
-function PosteForm($p_cn) {
-  $Res=ExecSql($p_cn,"select pcm_val,pcm_lib from tmp_pcmn 
-         where pcm_val = any (select j_poste from jrnx) order by pcm_val::text");
-  $Max=pg_NumRows($Res);
-  if ($Max==0) return null;
-  $ret='<SELECT NAME="poste[]" SIZE="15" MULTIPLE>';
-  for ( $i = 0;$i< $Max;$i++) {
-    $line=pg_fetch_array($Res,$i);
-    $ret.=sprintf('<OPTION VALUE="%s" > %s - %s',
-		  $line['pcm_val'],
-		  $line['pcm_val'],
-		  $line['pcm_lib']);
-  }//for
-  $ret.="</SELECT>";
-  return $ret;
-}
-/*! 
  * \brief  give the balance of an account
  * 
  * 

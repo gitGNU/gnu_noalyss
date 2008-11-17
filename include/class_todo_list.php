@@ -46,7 +46,9 @@ class Todo_List
 				 "title"=>"tl_title",
 				 "desc"=>"tl_desc",
 				 "owner"=>"use_login");
-  var $cn;
+  private $cn;
+  private  $tl_id,$tl_date,$tl_title,$use_login;
+				 
   function __construct ($p_init) {
     $this->cn=$p_init;
     $this->tl_id=0;
@@ -62,10 +64,17 @@ class Todo_List
     else 
       exit (__FILE__.":".__LINE__.'Erreur attribut inexistant');
   }
+  public function check($p_idx,&$p_value) {
+	if ( strcmp ($idx, 'tl_id') == 0 ) { if ( strlen($p_value) > 6 || isNumeric ($p_value) == false) return false;}
+	if ( strcmp ($idx, 'tl_date') == 0 ) { if ( strlen($p_value) > 12 || isDate ($p_value) == false) return false;}
+	if ( strcmp ($idx, 'tl_title') == 0 ) { $p_value=subsrt(htmlentities($p_value),0,120) ; return true;}
+	if ( strcmp ($idx, 'tl_desc') == 0 ) { $p_value=substr(htmlentities($p_value),0,400) ; return true;}
+	return true;
+  }
   public function set_parameter($p_string,$p_value) {
     if ( array_key_exists($p_string,self::$variable) ) {
       $idx=self::$variable[$p_string];
-      $this->$idx=$p_value;
+      if ($this->check($idx,$p_value) == true )      $this->$idx=$p_value;
     }
     else 
       exit (__FILE__.":".__LINE__.'Erreur attribut inexistant');

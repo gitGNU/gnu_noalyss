@@ -35,6 +35,16 @@ require_once('class_todo_list.php');
 
 $cn=DbConnect(dossier::id());
 $user=new User($cn);
+if ($user->AccessJrn($cn,dossier::id()) == false ){
+     exit('<h2 class="error">Permission refusee </h2>');
+}     
+
+if ( DBVERSION!=dossier::get_version($cn)) {
+  echo "Votre base de données n'est pas  à jour, ";
+  $a="cliquez ici pour appliquer le patch";
+  $base=dirname($_SERVER['REQUEST_URI']).'/admin/setup.php';
+  echo '<a hreF="'.$base.'">'.$a.'</a>';
+}
 
 html_page_start($_SESSION['g_theme']);
 echo '<div class="u_tmenu">';

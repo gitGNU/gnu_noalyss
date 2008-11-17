@@ -522,15 +522,6 @@ function sql_filter_per($p_cn,$p_from,$p_to,$p_form='p_id',$p_field='jr_tech_per
   return $periode;
 }
 
-/* !\brief return the label of the tva_id
- * \param $p_cn database connx
- * \param $p_tva_id tva_id
- */
-function tva_get_label($p_cn,$p_tva_id)
-{
-  $a=getDbValue($p_cn,"select tva_label from tva_rate where tva_id='".$p_tva_id."'");
-  return $a;
-}
 /*!\brief alert in javascript 
  *\param $p_msg is the message
  */
