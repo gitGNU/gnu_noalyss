@@ -59,7 +59,7 @@ if ( isset ($_POST["DATABASE"]) ) {
     StartSql($cn);
     $Res=ExecSql($cn,"insert into ac_dossier(dos_name,dos_description)
                     values ('".$dos."','$desc')");
-    $l_id=GetDbId($dos);
+    $l_id=GetSequence($cn,'dossier_id');
       Commit($cn);
       } catch (Exception $e) {
 	$msg="Desole la creation de ce dossier a echoue, la cause la plus probable est".
