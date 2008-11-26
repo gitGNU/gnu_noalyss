@@ -470,6 +470,9 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
       $r1=$this->get_id($internal);
       $r2=$this->get_id($acinternal);
 
+      /* set the flag paid */
+      $Res=ExecSqlParam($this->db,"update jrn set jr_rapt='paid' where jr_id=$1",array($r1));
+
       /* Reconcialiation */
       $rec=new Acc_Reconciliation($this->db);
       $rec->set_jr_id($r1);
