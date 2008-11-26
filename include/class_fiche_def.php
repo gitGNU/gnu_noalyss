@@ -193,7 +193,7 @@ class fiche_def {
 
      // Set the value of fiche_def.fd_create_account
      // automatic creation for 'poste comptable'
-     if ( isset($p_create)) 
+     if ( isset($p_create) && strlen(trim($p_class_base)) != 0) 
        $p_create='true';
      else
        $p_create='false';

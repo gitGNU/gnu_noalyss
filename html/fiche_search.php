@@ -157,11 +157,16 @@ if (
 
     $sql="select * from vw_fiche_attr where fd_id in ( $list_fiche )";
     
+  } elseif( strpos($e_type,'frd_id')===0 ) {
+    /* $e_type must be something like frd_id in (...) */
+    $sql="select * from vw_fiche_attr where $e_type ";
+
   }
   // if e_type contains a list of value for filtering on fiche_def_ref.frd_id
   else{
     $list_fiche=$e_type;
     $sql="select * from vw_fiche_attr where fd_id in ( $list_fiche )";
+    echo $sql;
   }
 
 // e_fic_search contains the pattern

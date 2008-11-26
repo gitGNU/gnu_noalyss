@@ -27,7 +27,7 @@ require_once('class_acc_ledger.php');
 require_once('class_acc_compute.php');
 require_once('class_anc_operation.php');
 require_once('user_common.php');
-
+require_once('class_acc_payment.php');
 /*!\brief Handle the ledger of sold, 
  *
  *
@@ -99,7 +99,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     for ($i=0;$i< $nb_item;$i++) {
       if ( strlen(trim(${'e_march'.$i}))== 0) continue;
       /* check if amount are numeric and */
-      if ( isNumber(${'e_march'.$i.'_sell'}) == 0 )
+      if ( isNumber(${'e_march'.$i.'_price'}) == 0 )
 	throw new AcException('La fiche '.${'e_march'.$i}.'a un montant invalide ['.${'e_march'.$i}.']',6);
       if ( isNumber(${'e_quant'.$i}) == 0 )
 	throw new AcException('La fiche '.${'e_march'.$i}.'a une quantité invalide ['.${'e_quant'.$i}.']',7);
@@ -123,6 +123,11 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     }
     if ( $nb == 0 )
       throw new AcException('Il n\'y a aucune marchandise',12);
+    //------------------------------------------------------
+    // The "Paid By"  check
+    //------------------------------------------------------
+    if ($e_mp != 0 ) $this->check_payment($e_mp,${"e_mp_qcode_".$e_mp});
+
   }
 
   public function save() {
@@ -155,13 +160,13 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       /* Save all the items without vat */
       for ($i=0;$i< $nb_item;$i++) {
 	if ( strlen(trim(${'e_march'.$i})) == 0 ) continue;
-	if ( ${'e_march'.$i.'_sell'} == 0 ) continue;
+	if ( ${'e_march'.$i.'_price'} == 0 ) continue;
 	if ( ${'e_quant'.$i} == 0 ) continue;
 
 	/* First we save all the items without vat */
 	$fiche=new fiche($this->db);
 	$fiche->get_by_qcode(${"e_march".$i});
-	$amount=bcmul(${'e_march'.$i.'_sell'},${'e_quant'.$i});
+	$amount=bcmul(${'e_march'.$i.'_price'},${'e_quant'.$i});
 	$tot_amount+=$amount;
 	$acc_operation=new Acc_Operation($this->db);
 	$acc_operation->date=$e_date;
@@ -288,10 +293,67 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     } else
     /* Generate an invoice and save it into the database */
     if ( isset($_POST['gen_invoice'])) {
-      echo $this->create_invoice($internal,$p_array);
+      echo $this->create_document($internal,$p_array);
       echo '<br>';
     }
+         //----------------------------------------
+    // Save the payer 
+    //----------------------------------------
+    if ( $e_mp != 0 ) {
+      /* mp */
+      $mp=new Acc_Payment($this->db,$e_mp);
+      $mp->load();
+
+      /* fiche */
+      $fqcode=${'e_mp_qcode_'.$e_mp};
+      $acfiche = new fiche($this->db);
+      $acfiche->get_by_qcode($fqcode);
+
+      /* jrnx */
+      $acseq=NextSequence($this->db,'s_grpt');
+      $acjrn=new Acc_Ledger($this->db,$mp->get_parameter('ledger'));
+      $acinternal=$acjrn->compute_internal_code($acseq);
+
+      /* Insert paid by  */
+      $acc_pay=new Acc_Operation($this->db);
+      $acc_pay->date=$e_date;
+      $acc_pay->poste=$acfiche->strAttribut(ATTR_DEF_ACCOUNT);
+      $acc_pay->qcode=$fqcode;
+      $acc_pay->amount=abs(round($tot_debit,2));
+      $acc_pay->desc=$e_comm;
+      $acc_pay->grpt=$acseq;
+      $acc_pay->jrn=$mp->get_parameter('ledger');
+      $acc_pay->periode=$periode;
+      $acc_pay->type='d';
+      $acc_pay->insert_jrnx();
+
+      /* Insert supplier  */
+      $acc_pay=new Acc_Operation($this->db);
+      $acc_pay->date=$e_date;
+      $acc_pay->poste=$poste;
+      $acc_pay->qcode=$e_client;
+      $acc_pay->amount=abs(round($tot_debit,2));
+      $acc_pay->desc=$e_comm;
+      $acc_pay->grpt=$acseq;
+      $acc_pay->jrn=$mp->get_parameter('ledger');
+      $acc_pay->periode=$periode;
+      $acc_pay->type='c';
+      $acc_pay->insert_jrnx();
       
+      /* insert into jrn */
+      $acc_pay->insert_jrn();
+      $acjrn->grpt_id=$acseq;
+      $acjrn->update_internal_code($acinternal);
+    
+      $r1=$this->get_id($internal);
+      $r2=$this->get_id($acinternal);
+
+      /* Reconcialiation */
+      $rec=new Acc_Reconciliation($this->db);
+      $rec->set_jr_id($r1);
+      $rec->insert($r2);
+    }
+ 
     }
     catch (Exception $e)
       {
@@ -555,7 +617,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       // Code id, price & vat code
       //--
       $march=(isset(${"e_march$i"}))?${"e_march$i"}:"";
-      $march_sell=(isset(${"e_march".$i."_sell"}))?${"e_march".$i."_sell"}:"";
+      $march_price=(isset(${"e_march".$i."_price"}))?${"e_march".$i."_price"}:"";
       $march_tva_id=(isset(${"e_march$i"."_tva_id"}))?${"e_march$i"."_tva_id"}:"";
       
 
@@ -602,7 +664,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       $Price->table=1;
       $Price->size=9;
       $Price->javascript="onBlur='compute_sold($i)'";
-      $r.=$Price->IOValue("e_march".$i."_sell",$march_sell);
+      $r.=$Price->IOValue("e_march".$i."_price",$march_price);
       // vat label
       //--
       $select_tva=make_array($this->db,"select tva_id,tva_label from tva_rate order by tva_rate desc",0);
@@ -656,6 +718,15 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $r.="</fieldset>";
     // Set correctly the REQUEST param for jrn_type 
     $r.=widget::hidden('jrn_type','VEN');
+
+    //----------------------------------------------------------------------
+    /* Paid By */
+    $r.='<fieldset>';
+    $r.='<legend> Pay&eacute par </legend>';
+    $mp=new Acc_Payment($this->db);
+    $mp->set_parameter('type','VEN');
+    $r.=$mp->select();
+    $r.='</fieldset>';
 
     $r.=widget::button('add_item','Ajout article',      ' onClick="ledger_sold_add_row()"');
     $r.=widget::submit("view_invoice","Enregistrer");
@@ -734,7 +805,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       $oTva->set_parameter('id',$idx_tva);
       $oTva->load();
       $op=new Acc_Compute();
-      $amount=bcmul(${"e_march".$i."_sell"},${'e_quant'.$i});
+      $amount=bcmul(${"e_march".$i."_price"},${'e_quant'.$i});
 
       $op->set_parameter("amount",$amount);
       $op->set_parameter('amount_vat_rate',$oTva->get_parameter('rate'));
@@ -754,7 +825,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       $r.=$fiche_name;
       $r.='</td>';
       $r.='<td align="right">';
-      $r.=${"e_march".$i."_sell"};
+      $r.=${"e_march".$i."_price"};
       $r.='</td>';
       $r.='<td align="right">';
       $r.=${"e_quant".$i};
@@ -834,10 +905,24 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $r.=widget::hidden('e_comm',$e_comm);
     $r.=widget::hidden('e_date',$e_date);
     $r.=widget::hidden('e_ech',$e_ech);
+    $e_mp=(isset($e_mp))?$e_mp:0;
+    $r.=widget::hidden('e_mp',$e_mp);
+    /* Paid by */
+    /* if the paymethod is not 0 and if a quick code is given */
+    if ( $e_mp!=0 && strlen (trim (${'e_mp_qcode_'.$e_mp})) != 0 ) {
+      $r.=widget::hidden('e_mp_qcode_'.$e_mp,${'e_mp_qcode_'.$e_mp});
+
+      /* needed for generating a invoice */
+      $r.=widget::hidden('qcode_dest',${'e_mp_qcode_'.$e_mp});
+
+      $r.="Payé par ".${'e_mp_qcode_'.$e_mp};
+      $r.='<br>';
+    }
+
     $r.=widget::hidden('jrn_type',$jrn_type);
     for ($i=0;$i < $nb_item;$i++) {
       $r.=widget::hidden("e_march".$i,${"e_march".$i});
-      $r.=widget::hidden("e_march".$i."_sell",${"e_march".$i."_sell"});
+      $r.=widget::hidden("e_march".$i."_price",${"e_march".$i."_price"});
       $r.=widget::hidden("e_march".$i."_tva_id",${"e_march".$i."_tva_id"});
       $r.=widget::hidden("e_quant".$i,${"e_quant".$i});
     }
@@ -881,27 +966,6 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $r.="</fieldset>";
     $r.='</div>';
     return $r; 
-  }
-  /*!\brief create the invoice and saved it as attachment to the
-   *operation, 
-   *\param $internal is the internal code
-   *\param $p_array is normally the $_POST
-   *\return a string
-   */
-  function create_invoice($internal,$p_array) {
-    extract ($p_array);
-    $doc=new Document($this->db);
-    $doc->f_id=$e_client;
-    $doc->md_id=$gen_doc;
-    $doc->ag_id=0;
-    $str_file=$doc->Generate();
-    // Move the document to the jrn
-    $doc->MoveDocumentPj($internal);
-    // Update the comment with invoice number
-    $sql="update jrn set jr_comment='Facture ".$doc->d_number."' where jr_internal='$internal'";
-    ExecSql($this->db,$sql);
-    return '<h2 class="info">'.$str_file.'</h2>';
-    
   }
 
 

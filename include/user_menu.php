@@ -686,7 +686,7 @@ function ShowMenuParam($p_action="")
   $sub_menu=ShowItem(array(
 			  
 			   array('parametre.php?p_action=company&'.$s,'Sociétés','Parametre societe',1),
-			   array('parametre.php?p_action=devise&'.$s,'Devises','Devise',2),
+			   array('parametre.php?p_action=divers&'.$s,'Divers','Devise, moyen de paiement',2),
 			   array('parametre.php?p_action=tva&'.$s,'Tva','Taux & poste pour la TVA',3),
 			   array('parametre.php?p_action=poste&'.$s,'Poste Comptable','Poste comptable constant',4),
 			  array('parametre.php?p_action=pcmn&'.$s,'Plan Comptable','Modification du plan comptable',11),

@@ -22,7 +22,7 @@ require_once("class_fiche_def.php");
 /*! \file
  * \brief Let customise the fiche_def_ref for the user
  */
-
+echo '<div class="content">';
 // record change
 if ( isset ($_POST['confirm_mod'])) {
   extract ($_POST);
@@ -75,3 +75,4 @@ if ( isset ($_POST['mod']) )
   echo '</form>';
   echo '</div>';
 }
+echo '</div>';

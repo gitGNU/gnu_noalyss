@@ -24,7 +24,6 @@
  */
 
 include_once ("ac_common.php");
-html_page_start($_SESSION['g_theme']);
 include_once ("postgres.php");
 require_once("class_widget.php");
 require_once('class_dossier.php');
@@ -37,6 +36,7 @@ include_once ("class_user.php");
 $User=new User($rep);
 $User->Check();
 
+html_page_start($_SESSION['g_theme']);
 include_once("preference.php");
 include_once("user_menu.php");
 echo '<div class="u_tmenu">';
@@ -65,7 +65,7 @@ switch ($p_action) {
  case 'company':
    $default=1;
    break;
- case 'devise':
+ case 'divers':
    $default=2;
    break;
  case 'tva':
@@ -129,54 +129,86 @@ if ( $p_action == "fiche" )
   require_once('fiche_def.inc.php');
   return;
 }
-echo '<DIV CLASS="u_redcontent">';
-//-----------------------------------------------------
-// Currency
-//-----------------------------------------------------
-if ( $p_action == "change" ) {
-  $p_mid=$_GET['p_mid'];
-  $p_rate=$_GET['p_rate'];
-  $p_code=$_GET['p_code'];
 
-  echo '<TR> <FORM ACTION="parametre.php" METHOD="POST">';
-  echo dossier::hidden();
-  echo '<INPUT TYPE="HIDDEN" VALUE="'.$p_mid.'" NAME="p_id">';
-  echo '<TD> <INPUT TYPE="text" NAME="p_devise" VALUE="'.$p_code.'"></TD>';
-  echo '<TD> <INPUT TYPE="text" NAME="p_rate" VALUE="'.$p_rate.'"></TD>';
-  echo '<TD> <INPUT TYPE="SUBMIT" NAME="action" Value="Change"</TD>';
-  echo '</FORM></TR>';
+if ( $p_action == 'divers') {
+  $s=dossier::get().'&PHPSESSID='.$_REQUEST['PHPSESSID'];
+
+  $array = array (/*array('parametre.php?p_action=divers&sa=devise&'.$s,
+		    'Devise','Devise',1),*/
+		  array('parametre.php?p_action=divers&sa=mp&'.$s,
+			'Moyen de paiement','Moyen de paiement',2)
+		  );
+  $sa=(isset($_REQUEST['sa']))?$_REQUEST['sa']:'';
+  $sb=(isset($_REQUEST['sb']))?$_REQUEST['sb']:'';
+  $def=0;
+  switch ($sa) {
+  case 'devise':
+    $def=1;
+    break;
+  case 'mp':
+    $def=2;
+    break;
+  }
+  echo '<div class="lmenu">';
+  echo ShowItem($array,'H','mtitle','mtitle',$def);
+  echo '</div>';
+
+  if ( $sa=='devise') {
+    echo '<DIV CLASS="u_redcontent">';
+    //-----------------------------------------------------
+    // Currency
+    //-----------------------------------------------------
+    if ( $sb == "c" ) {
+      $p_mid=$_GET['p_mid'];
+      $p_rate=$_GET['p_rate'];
+      $p_code=$_GET['p_code'];
+      
+      echo '<TR> <FORM ACTION="parametre.php" METHOD="POST">';
+      echo dossier::hidden();
+      echo '<INPUT TYPE="HIDDEN" VALUE="'.$p_mid.'" NAME="p_id">';
+      echo '<TD> <INPUT TYPE="text" NAME="p_devise" VALUE="'.$p_code.'"></TD>';
+      echo '<TD> <INPUT TYPE="text" NAME="p_rate" VALUE="'.$p_rate.'"></TD>';
+      echo '<TD> <INPUT TYPE="SUBMIT" NAME="action" Value="Change"</TD>';
+      echo '</FORM></TR>';
+    }
+    if ( $sb == "ch") {
+      $p_devise=$_GET['p_code'];
+      $p_id=$_GET['p_id'];
+      $p_rate=$_GET['p_rate'];
+      $Res=ExecSql($cn,"update parm_money set pm_code='$p_devise',pm_rate=$p_rate where pm_id=$p_id");
+      ShowDevise($cn);
+      
+    }
+    if ( $sb == "a") {
+      $p_devise=$_POST['p_devise'];
+      $p_rate=$_POST['p_rate'];
+      $Res=ExecSql($cn,"insert into parm_money ( pm_code,pm_rate) values ('$p_devise',$p_rate) ");
+      ShowDevise($cn);
+
+    }
+    
+    if ( $sb == "d") {
+      $p_id=$_GET['p_mid'];
+      $Res=ExecSql($cn,"delete from parm_money  where pm_id=$p_id");
+      ShowDevise($cn);
+    }
+    
+    
+    if ( $p_action=="divers") {
+      ShowDevise($cn);
+    }
+  }
+  if ( $sa=='mp') {
+
+    require_once('payment_middle.inc.php');
+    exit;
+  }
 }
-if ( $action == "Change") {
-  $p_devise=$_POST['p_devise'];
-  $p_id=$_POST['p_id'];
-  $p_rate=$_POST['p_rate'];
-  $Res=ExecSql($cn,"update parm_money set pm_code='$p_devise',pm_rate=$p_rate where pm_id=$p_id");
-  ShowDevise($cn);
-
-}
-if ( $action == "Ajout") {
-  $p_devise=$_POST['p_devise'];
-  $p_rate=$_POST['p_rate'];
-  $Res=ExecSql($cn,"insert into parm_money ( pm_code,pm_rate) values ('$p_devise',$p_rate) ");
-  ShowDevise($cn);
-
-}
-
-if ( $p_action == "delete") {
-  $p_id=$_GET['p_mid'];
-  $Res=ExecSql($cn,"delete from parm_money  where pm_id=$p_id");
-  ShowDevise($cn);
-}
-
-
-if ( $p_action=="devise") {
-  ShowDevise($cn);
-}
-
 //-----------------------------------------------------
 // Coord societe
 //-----------------------------------------------------
 if ( $p_action=='company') { 
+  echo '<div class="content">';
   require_once("class_own.php");
   require_once("class_widget.php");
   if ( isset ($_POST['record_company'] )) {
@@ -238,6 +270,8 @@ if ( $p_action=='company') {
   $submit=new widget("submit");
   echo widget::submit("record_company","Enregistre");
   echo "</form>";
+  echo '</div>';
+  exit();
  }
 //-----------------------------------------------------
 // Document 

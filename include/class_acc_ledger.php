@@ -1545,4 +1545,56 @@ function get_last_date()
 	$date=getDbValue($this->db,$sql,array($this->id));
 	return $date;
 }
+  /*!\brief retrieve the jr_id thanks the internal code, do not change
+   *anything to the current object
+   *\param the internal code
+   *\return the jr_id or 0 if not found
+   */
+  function get_id($p_internal) {
+    $sql='select jr_id from jrn where jr_internal=$1';
+    $value=getDbValue($this->db,$sql,array($p_internal));
+    if ($value=='') $value=0;
+    return $value;
+  }
+  /*!\brief create the invoice and saved it as attachment to the
+   *operation, 
+   *\param $internal is the internal code
+   *\param $p_array is normally the $_POST
+   *\return a string
+   */
+  function create_document($internal,$p_array) {
+    extract ($p_array);
+    $doc=new Document($this->db);
+    $doc->f_id=$e_client;
+    $doc->md_id=$gen_doc;
+    $doc->ag_id=0;
+    $str_file=$doc->Generate();
+    // Move the document to the jrn
+    $doc->MoveDocumentPj($internal);
+    // Update the comment with invoice number
+    $sql="update jrn set jr_comment=' document ".$doc->d_number."' where jr_internal='$internal'";
+    ExecSql($this->db,$sql);
+    return '<h2 class="info">'.$str_file.'</h2>';
+    
+  }
+  /*!\brief check if the payment method is valid
+   *\param $e_mp is the value and $e_mp_qcode is the quickcode
+   *\return nothing throw an Exception
+   */
+  public function check_payment($e_mp,$e_mp_qcode) {
+    /*   Check if the "paid by" is empty, */
+    if (  $e_mp != 0) {
+    /* the paid by is not empty then check if valid */
+      $empl=new fiche($this->db);
+      $empl->get_by_qcode($e_mp_qcode);
+      if ( $empl->empty_attribute(ATTR_DEF_ACCOUNT)== true) {
+	throw new AcException('Celui qui paie n\' a pas de poste comptable',20);
+      }
+      $poste=new Acc_Account_Ledger($this->db,$empl->strAttribut(ATTR_DEF_ACCOUNT));
+      if ( $poste->load() == false ){
+	throw new AcException('Pour la fiche'.$empl->quick_code.'  le poste comptable ['.$poste->id.'n\'existe pas',9);
+
+      }
+    }
+  }
 }

@@ -44,7 +44,7 @@ class Pre_op_ach extends Pre_operation_detail {
 	for ($i=0;$i<$this->operation->nb_item;$i++) {
 	  $march="e_march".$i;
 	  $this->$march=$_POST['e_march'.$i];
-	  $this->{"e_march".$i."_buy"}=$_POST['e_march'.$i."_buy"];
+	  $this->{"e_march".$i."_price"}=$_POST['e_march'.$i."_price"];
 	  $this->{"e_march".$i."_tva_id"}=$_POST['e_march'.$i."_tva_id"];
 	  $this->{"e_march".$i."_tva_amount"}=$_POST['e_march'.$i."_tva_amount"];
 	  $this->{"e_quant".$i}=$_POST['e_quant'.$i];
@@ -75,7 +75,7 @@ class Pre_op_ach extends Pre_operation_detail {
 					 ' values '.
 					 "('%s',%.2f,%d,%f,'%s',%d,%f)",
 					 $this->{"e_march".$i},
-					 $this->{"e_march".$i."_buy"},
+					 $this->{"e_march".$i."_price"},
 					 $this->{"e_march".$i."_tva_id"},
 					 $this->{"e_quant".$i},
 					 't',
@@ -102,7 +102,7 @@ class Pre_op_ach extends Pre_operation_detail {
 		$array+=array('e_client'=>$row['opd_poste']);
 	  } else {
 		$array+=array("e_march".$count=>$row['opd_poste'],
-				  "e_march".$count."_buy"=>$row['opd_amount'],
+				  "e_march".$count."_price"=>$row['opd_amount'],
 				  "e_march".$count."_tva_id"=>$row['opd_tva_id'],
 				  "e_march".$count."_tva_amount"=>$row['opd_tva_amount'],
 				  "e_quant".$count=>$row['opd_quantity']

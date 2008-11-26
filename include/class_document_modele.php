@@ -172,8 +172,8 @@ class Document_modele {
 	}
       catch (Exception $e)
 	{
-	  echo_debug(__FILE__.":".__LINE__." Erreur : ".$e->getCode." msg ".$e->getMessage);
-	  rollback($p_cn); 
+	  echo_debug(__FILE__.":".__LINE__." Erreur : ".$e->getCode()." msg ".$e->getMessage());
+	  rollback($this->cn); 
 	  return ;
 	}
     }
@@ -289,7 +289,7 @@ class Document_modele {
       $start->value="0";
 
       $r.="<tr><td> Numerotation commence a</td><td> ".$start->IOValue()."</td>";
-      $r.='<td class="notice">Si vous laissez &agrave; 0, la num&eacute;rotation ne changera pas</td>';
+      $r.='<td class="notice">Si vous laissez &agrave; 0, la num&eacute;rotation ne changera pas, la prochaine facture sera n+1, n étant le n° que vous avez donn&eacute;</td>';
       $r.="</tr>";
       $r.='</table>';
       $r.=widget::submit('add_document','Ajout');

@@ -121,7 +121,7 @@ Acc_Ledger_Info::test_me();
 
 require('class_acc_compute.php');
 Acc_Compute::test_me();
-*/
+
 
 require_once('class_todo_list.php');
 require_once('class_widget.php');
@@ -138,3 +138,6 @@ echo 'date : <input type="text" id="p_date"><br>';
 echo '<input type="button" onClick="todo_list_add();return false;">';
 echo '</form>';
 
+*/
+require_once('class_acc_payment.php');
+Acc_Payment::test_me();

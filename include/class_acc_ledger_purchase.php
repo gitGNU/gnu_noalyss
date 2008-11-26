@@ -28,6 +28,7 @@ require_once('class_acc_compute.php');
 require_once('class_anc_operation.php');
 require_once('user_common.php');
 require_once('class_acc_parm_code.php');
+require_once('class_acc_payment.php');
 /*!\brief Handle the ledger of purchase, 
  *
  *
@@ -97,14 +98,19 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 	throw new AcException('La fiche '.$e_client.'n\'est pas accessible à ce journal',10);
 
     $nb=0;
+    //------------------------------------------------------
+    // The "Paid By"  check
+    //------------------------------------------------------
+    if ($e_mp != 0 ) $this->check_payment($e_mp,${"e_mp_qcode_".$e_mp});
 
+ 
     //----------------------------------------
     // foreach item
     //----------------------------------------
     for ($i=0;$i< $nb_item;$i++) {
       if ( strlen(trim(${'e_march'.$i}))== 0) continue;
       /* check if amount are numeric and */
-      if ( isNumber(${'e_march'.$i.'_buy'}) == 0 )
+      if ( isNumber(${'e_march'.$i.'_price'}) == 0 )
 	throw new AcException('La fiche '.${'e_march'.$i}.'a un montant invalide ['.${'e_march'.$i}.']',6);
       if ( isNumber(${'e_quant'.$i}) == 0 )
 	throw new AcException('La fiche '.${'e_march'.$i}.'a une quantité invalide ['.${'e_quant'.$i}.']',7);
@@ -165,7 +171,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
       /* Save all the items without vat and no deductible vat and expense*/
       for ($i=0;$i< $nb_item;$i++) {
 	if ( strlen(trim(${'e_march'.$i})) == 0 ) continue;
-	if ( ${'e_march'.$i.'_buy'} == 0 ) continue;
+	if ( ${'e_march'.$i.'_price'} == 0 ) continue;
 	if ( ${'e_quant'.$i} == 0 ) continue;
 	
 	/* First we save all the items without vat */
@@ -179,7 +185,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 	$oTva->load();
 
 	/* We have to compute all the amount thanks Acc_Compute */
-	$amount=bcmul(${'e_march'.$i.'_buy'},${'e_quant'.$i});
+	$amount=bcmul(${'e_march'.$i.'_price'},${'e_quant'.$i});
 	$acc_amount=new Acc_Compute();
 	$acc_amount->check=false;
 	$acc_amount->set_parameter('amount',$amount);
@@ -400,6 +406,74 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     if ( isset ($_FILES)) {
       if ( sizeof($_FILES) != 0 )
 	save_upload_document($this->db,$seq);
+    }
+    /* Generate an document  and save it into the database */
+    if ( isset($_POST['gen_invoice']) && $e_mp != 0) {
+      $p_array['e_client']=${'e_mp_qcode_'.$e_mp};
+      echo $this->create_document($internal,$p_array);
+      echo '<br>';
+    }
+
+    //----------------------------------------
+    // Save the payer 
+    //----------------------------------------
+    if ( $e_mp != 0 ) {
+      /* mp */
+      $mp=new Acc_Payment($this->db,$e_mp);
+      $mp->load();
+
+      /* fiche */
+      if ($mp->get_parameter('qcode') == '') 
+	$fqcode=${'e_mp_qcode_'.$e_mp};
+      else
+	$fqcode=$mp->get_parameter('qcode');
+
+      $acfiche = new fiche($this->db);
+      $acfiche->get_by_qcode($fqcode);
+
+      /* jrnx */
+      $acseq=NextSequence($this->db,'s_grpt');
+      $acjrn=new Acc_Ledger($this->db,$mp->get_parameter('ledger'));
+      $acinternal=$acjrn->compute_internal_code($acseq);
+
+      /* Insert paid by  */
+      $acc_pay=new Acc_Operation($this->db);
+      $acc_pay->date=$e_date;
+      $acc_pay->poste=$acfiche->strAttribut(ATTR_DEF_ACCOUNT);
+      $acc_pay->qcode=$fqcode;
+      $acc_pay->amount=abs(round($tot_debit,2));
+      $acc_pay->desc=$e_comm;
+      $acc_pay->grpt=$acseq;
+      $acc_pay->jrn=$mp->get_parameter('ledger');
+      $acc_pay->periode=$periode;
+      $acc_pay->type='c';
+      $acc_pay->insert_jrnx();
+
+      /* Insert supplier  */
+      $acc_pay=new Acc_Operation($this->db);
+      $acc_pay->date=$e_date;
+      $acc_pay->poste=$poste;
+      $acc_pay->qcode=$e_client;
+      $acc_pay->amount=abs(round($tot_debit,2));
+      $acc_pay->desc=$e_comm;
+      $acc_pay->grpt=$acseq;
+      $acc_pay->jrn=$mp->get_parameter('ledger');
+      $acc_pay->periode=$periode;
+      $acc_pay->type='d';
+      $acc_pay->insert_jrnx();
+      
+      /* insert into jrn */
+      $acc_pay->insert_jrn();
+      $acjrn->grpt_id=$acseq;
+      $acjrn->update_internal_code($acinternal);
+    
+      $r1=$this->get_id($internal);
+      $r2=$this->get_id($acinternal);
+
+      /* Reconcialiation */
+      $rec=new Acc_Reconciliation($this->db);
+      $rec->set_jr_id($r1);
+      $rec->insert($r2);
     }
   }//end try
     catch (Exception $e)
@@ -657,7 +731,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
       // Code id, price & vat code
       //--
       $march=(isset(${"e_march$i"}))?${"e_march$i"}:"";
-      $march_buy=(isset(${"e_march".$i."_buy"}))?${"e_march".$i."_buy"}:"";
+      $march_price=(isset(${"e_march".$i."_price"}))?${"e_march".$i."_price"}:"";
       $march_tva_id=(isset(${"e_march$i"."_tva_id"}))?${"e_march$i"."_tva_id"}:"";
       $march_tva_amount=(isset(${"e_march$i"."_tva_amount"}))?${"e_march$i"."_tva_amount"}:"";
       
@@ -706,7 +780,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
       $Price->table=1;
       $Price->size=9;
       $Price->javascript="onBlur='clean_tva($i);compute_purchase($i)'";
-      $r.=$Price->IOValue("e_march".$i."_buy",$march_buy);
+      $r.=$Price->IOValue("e_march".$i."_price",$march_price);
       // vat label
       //--
       $select_tva=make_array($this->db,"select tva_id,tva_label from tva_rate order by tva_rate desc",0);
@@ -757,12 +831,23 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $r.='<br>Total TVA';
     $r.='<br>Total TVAC';
     $r.="</div>";
+    $r.=widget::button('add_item','Ajout article',      ' onClick="ledger_sold_add_row()"');
 
     $r.="</fieldset>";
+    //----------------------------------------------------------------------
+    /* Paid By */
+    $r.='<fieldset>';
+    $r.='<legend> Pay&eacute par </legend>';
+    $mp=new Acc_Payment($this->db);
+    $mp->set_parameter('type','ACH');
+    $r.=$mp->select();
+    $r.='</fieldset>';
+
+
+
     // Set correctly the REQUEST param for jrn_type 
     $r.=widget::hidden('jrn_type','ACH');
 
-    $r.=widget::button('add_item','Ajout article',      ' onClick="ledger_sold_add_row()"');
     $r.=widget::submit("view_invoice","Enregistrer");
     $r.=widget::reset('Effacer ');
     $r.='</form>';
@@ -839,7 +924,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
       $oTva=new Acc_Tva($this->db);
       $oTva->set_parameter('id',$idx_tva);
       $oTva->load();
-      $amount=bcmul(${"e_march".$i."_buy"},${'e_quant'.$i});
+      $amount=bcmul(${"e_march".$i."_price"},${'e_quant'.$i});
 
       //----- if tva_amount is not given we compute the vat ----
       if ( strlen (trim (${'e_march'.$i.'_tva_amount'})) == 0) {
@@ -866,7 +951,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
       $r.=$fiche_name;
       $r.='</td>';
       $r.='<td align="right">';
-      $r.=${"e_march".$i."_buy"};
+      $r.=${"e_march".$i."_price"};
       $r.='</td>';
       $r.='<td align="right">';
       $r.=${"e_quant".$i};
@@ -944,18 +1029,45 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $r.=widget::hidden('e_date',$e_date);
     $r.=widget::hidden('e_ech',$e_ech);
     $r.=widget::hidden('jrn_type',$jrn_type);
+    $e_mp=(isset($e_mp))?$e_mp:0;
+    $r.=widget::hidden('e_mp',$e_mp);
+    /* Paid by */
+    /* if the paymethod is not 0 and if a quick code is given */
+    if ( $e_mp!=0 && strlen (trim (${'e_mp_qcode_'.$e_mp})) != 0 ) {
+      $r.=widget::hidden('e_mp_qcode_'.$e_mp,${'e_mp_qcode_'.$e_mp});
+
+      /* needed for generating a invoice */
+      $r.=widget::hidden('qcode_dest',${'e_mp_qcode_'.$e_mp});
+
+      $r.="Payé par ".${'e_mp_qcode_'.$e_mp};
+      $r.='<br>';
+    }
     for ($i=0;$i < $nb_item;$i++) {
       $r.=widget::hidden("e_march".$i,${"e_march".$i});
-      $r.=widget::hidden("e_march".$i."_buy",${"e_march".$i."_buy"});
+      $r.=widget::hidden("e_march".$i."_price",${"e_march".$i."_price"});
       $r.=widget::hidden("e_march".$i."_tva_id",${"e_march".$i."_tva_id"});
       $r.=widget::hidden('e_march'.$i.'_tva_amount', ${'e_march'.$i.'_tva_amount'});
       $r.=widget::hidden("e_quant".$i,${"e_quant".$i});
     }
-       // check for upload piece
+    // check for upload piece
     $file=new widget("file");
     $file->table=0;
     $r.="Ajoutez une pi&egrave;ce justificative ";
     $r.=$file->IOValue("pj","");
+    /* Propose to generate a note of fee */
+    if ( CountSql($this->db,
+		  "select md_id,md_name from document_modele where md_type=10") > 0 )
+      {
+
+	
+	$r.='ou g&eacute;n&eacute;rer une note de frais <input type="checkbox" name="gen_invoice" UNCHECKED>';
+	// We propose to generate  the invoice and some template
+	$doc_gen=new widget("select");
+	$doc_gen->name="gen_doc";
+	$doc_gen->value=make_array($this->db,
+				   "select md_id,md_name from document_modele where md_type=10");
+	$r.=$doc_gen->IOValue().'<br>';  
+      }
 
     return $r;
   }

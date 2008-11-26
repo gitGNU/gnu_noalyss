@@ -25,9 +25,7 @@
  */
 require_once ('config.inc.php');
 
-
-
-define ("DBVERSION",52);
+define ("DBVERSION",53);
 
 define ("MAX_COMPTE",4);
 define ('MAX_BUD_DETAIL',20);
@@ -121,6 +119,8 @@ define ("ALL_FICHE_DEF_REF", 1000);
 // fixed value for attr_def data
 define ("ATTR_DEF_ACCOUNT",5);
 define ("ATTR_DEF_NAME",1);
+define ("ATTR_DEF_BQ_NO",3);
+define ("ATTR_DEF_BQ_NAME",4);
 define ("ATTR_DEF_PRIX_ACHAT",7);
 define ("ATTR_DEF_PRIX_VENTE",6);
 define ("ATTR_DEF_TVA",2);
@@ -142,6 +142,7 @@ define ("FICHE_TYPE_VENTE",1);
 define ("FICHE_TYPE_FOURNISSEUR",8);
 define ("FICHE_TYPE_FIN",4);
 define ("FICHE_TYPE_CONTACT",16);
+define ("FICHE_TYPE_EMPL",25);
 define ("FICHE_TYPE_ADM_TAX",14);
 define ("FICHE_TYPE_ACH_MAR",2);
 define ("FICHE_TYPE_ACH_SER",3);

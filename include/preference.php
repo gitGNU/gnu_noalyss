@@ -194,21 +194,25 @@ function ShowDevise($p_cn)
 
   $Res=ExecSql($p_cn,"select pm_id,pm_code,pm_rate  from parm_money order by pm_code");
   $Max=pg_NumRows($Res);
-  
+  $link='parametre.php?p_action=divers&sa=devise&'.dossier::get();
   for ($i=0;$i<$Max;$i++) {
     $l_line=pg_fetch_array($Res,$i);
     echo '<TR>'; 
     echo '<TD>'.$l_line['pm_code'].'</TD>';
     $l_rate=sprintf("% 10.6f",$l_line['pm_rate']);
     echo '<TD ALIGN="RIGHT">'.$l_rate.'</TD>';
-    echo "<TD class=\"mtitle\"> <A class=\"mtitle\" HREF=\"parametre.php?p_mid=$l_line[pm_id]&p_action=change&p_code=$l_line[pm_code]&p_rate=$l_line[pm_rate]\">Change</A></TD>";
-    echo "<TD class=\"mtitle\"> <A class=\"mtitle\" HREF=\"parametre.php?p_mid=$l_line[pm_id]&p_action=delete&p_code=$l_line[pm_code]\">Efface</A></TD>";
+    echo "<TD class=\"mtitle\"> <A class=\"mtitle\" HREF=\"$link&p_id=$l_line[pm_id]&sb=ch&p_code=$l_line[pm_code]&p_rate=$l_line[pm_rate]\">Change</A></TD>";
+    echo "<TD class=\"mtitle\"> <A class=\"mtitle\" HREF=\"$link&p_id=$l_line[pm_id]&sb=d&p_code=$l_line[pm_code]\">Efface</A></TD>";
     echo '</TR>';
     
   }
   echo '<TR> <FORM ACTION="parametre.php" METHOD="POST">';
 echo '<TD> <INPUT TYPE="text" NAME="p_devise"></TD>';
  echo '<TD> <INPUT TYPE="text" NAME="p_rate"></TD>';
+ echo dossier::hidden();
+echo '<input type="hidden" name="p_action" value="divers">';
+echo '<input type="hidden" name="sa" value="devise">';
+echo '<input type="hidden" name="sb" value="a">';
  echo '<TD> <INPUT TYPE="SUBMIT" NAME="action" Value="Ajout"</TD>';
  echo '</FORM></TR>';
  echo '</TABLE>';

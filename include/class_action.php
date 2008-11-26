@@ -261,7 +261,8 @@ class action
       $w->name='qcode_exp';
       $w->value=($this->f_id_exp != 0)?$this->qcode_exp:"";
       $w->label="";
-      $w->extra='4,8,9,14,16';
+      $w->extra='frd_id in (14,25,8,9,16)';
+      $w->extra2='Recherche';
       $sp= new widget("span");
       $h_agrefid=new widget('hidden');
       // destination
@@ -270,7 +271,8 @@ class action
       $wdest->name='qcode_dest';
       $wdest->value=($this->f_id_dest != 0)?$this->qcode_dest:"";
       $wdest->label="";
-      $wdest->extra='4,8,9,14,16';
+      $wdest->extra='frd_id in (14,25,8,9,16)';
+      $wdest->extra2='Recherche';
       $spdest= new widget("span");
       $h_agrefid=new widget('hidden');
       $str_ag_ref="<b>".(($this->ag_ref != "")?$this->ag_ref:" Nouveau ")."</b>";

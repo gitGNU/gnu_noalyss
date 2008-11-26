@@ -124,7 +124,7 @@ class Document
 	$file_to_parse=$filename;
       // affect a number
       $this->d_number=NextSequence($this->db,"seq_doc_type_".$row['md_type']);
-
+      echo_debug(__FILE__,__LINE__,"seq_doc_type_".$row['md_type'].' = '.$this->d_number);
 
       // parse the document - return the doc number ?
       $this->ParseDocument($dirname,$file_to_parse,$type);
@@ -190,7 +190,7 @@ class Document
 	{
 	  if ( mkdir($temp_dir) == false )
 	    {
-	      echo "Ne peut pas crï¿½er le rï¿½pertoire ".$temp_dir;
+	      echo "Ne peut pas créer le répertoire ".$temp_dir;
 	      exit();
 	    }
 	}
@@ -224,16 +224,18 @@ class Document
       //read the file
       while(! feof($h)) 
 	{
+	  echo_debug(__FILE__,__LINE__,'Read a line');
 	  // replace the tag
 	  $buffer=fgets($h);
 	  // search in the buffer the magic << and >>
 	  // while ereg finds something to replace
 	  while ( eregi ($regex,$buffer,$f) )
 	    {
-
+	      echo_debug(__FILE__,__LINE__,'Search for a regex');
 	    echo_debug('class_document',__LINE__,'var_export '.var_export( $f,true));
 	    foreach ( $f as $pattern )
 	      {
+		echo_debug(__FILE__,__LINE__,'for each pattern '.$pattern);
 		echo_debug('class_document',__LINE__, "pattern");
 		echo_debug('class_document',__LINE__, var_export($pattern,true));
 		$to_remove=$pattern;
@@ -244,11 +246,7 @@ class Document
 
 		// if the pattern if found we replace it
 		$value=$this->Replace($pattern);
-
-		// if the document is OOo, we need to transform accentuate letters
-		if ( $p_type=='OOo' )
-		  $value = utf8_encode($value);
-
+		if ( strpos($value,'ERROR') != false ) 		  $value="";
 		// replace into the $buffer
 		// take the position in the buffer 
 		$pos=strpos($buffer,$to_remove);
@@ -475,8 +473,8 @@ class Document
  */
   function Replace($p_tag)
     {
-	$p_tag=strtoupper($p_tag);
-	$p_tag=str_replace('=','',$p_tag);
+      $p_tag=strtoupper($p_tag);
+      $p_tag=str_replace('=','',$p_tag);
       $r="Tag inconnu";
       static $counter=0;
       switch ($p_tag)
@@ -596,6 +594,18 @@ class Document
 	  $tiers->get_by_qcode($qcode,false);
 	  $r=$tiers->strAttribut(ATTR_DEF_NUMBER_CUSTOMER);
 	  break;
+	case 'CUST_BANQUE_NO':
+	  $tiers=new fiche($this->db);
+	  $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
+	  $tiers->get_by_qcode($qcode,false);
+	  $r=$tiers->strAttribut(ATTR_DEF_BQ_NO);
+	  break;
+	case 'CUST_BANQUE_NAME':
+	  $tiers=new fiche($this->db);
+	  $qcode=isset($_REQUEST['qcode_dest'])?$_REQUEST['qcode_dest']:$_REQUEST['e_client'];
+	  $tiers->get_by_qcode($qcode,false);
+	  $r=$tiers->strAttribut(ATTR_DEF_BQ_NAME);
+	  break;
 
 	  // Marchandise in $_POST['e_march*']
 	  // \see user_form_achat.php or user_form_ven.php
@@ -642,7 +652,7 @@ class Document
 	  // check if the march exists
 	  if ( ! isset (${$id})) return "";
 	  // check that something is sold
-	  if ( ${'e_march'.$counter.'_sell'} != 0 && ${'e_quant'.$counter} != 0 )
+	  if ( ${'e_march'.$counter.'_price'} != 0 && ${'e_quant'.$counter} != 0 )
 	    {
 	      $f=new fiche($this->db);
 	      $f->get_by_qcode(${$id},false);
@@ -652,7 +662,7 @@ class Document
 
 	case 'VEN_ART_PRICE':
 	  extract ($_POST);
-	  $id='e_march'.$counter.'_sell' ;
+	  $id='e_march'.$counter.'_price' ;
 	  if ( !isset (${$id}) ) return "";
 	  $r=${$id};
 	  break;
@@ -674,7 +684,7 @@ class Document
 	  if ( !isset (${$id}) ) return "";
 	  if ( ${$id} == -1 ) return "";
 	  $qt='e_quant'.$counter;
-	  $price='e_march'.$counter.'_sell' ;
+	  $price='e_march'.$counter.'_price' ;
 	  if ( ${$price} == 0 || ${$qt} == 0 
 	       || strlen(trim( $price )) ==0 
 	       || strlen(trim($qt)) ==0)
@@ -696,7 +706,7 @@ class Document
 	case 'TVA_AMOUNT':
 	  extract ($_POST);
 	  $qt='e_quant'.$counter;
-	  $price='e_march'.$counter.'_sell' ;
+	  $price='e_march'.$counter.'_price' ;
 	  $tva='e_march'.$counter.'_tva_id';
 	  if ( !isset (${'e_march'.$counter}) ) return "";
 	  // check that something is sold
@@ -715,7 +725,7 @@ class Document
 	case 'VEN_ART_TVA':
 	  extract ($_POST);
 	  $qt='e_quant'.$counter;
-	  $price='e_march'.$counter.'_sell' ;
+	  $price='e_march'.$counter.'_price' ;
 	  $tva='e_march'.$counter.'_tva_id';
 	  if ( !isset (${'e_march'.$counter}) ) return "";
 	  // check that something is sold
@@ -734,7 +744,7 @@ class Document
 	case 'VEN_ART_TVAC':
 	  extract ($_POST);
 	  $qt='e_quant'.$counter;
-	  $price='e_march'.$counter.'_sell' ;
+	  $price='e_march'.$counter.'_price' ;
 	  $tva='e_march'.$counter.'_tva_id';
 	  if ( !isset (${'e_march'.$counter}) ) return "";
 	  // check that something is sold
@@ -758,9 +768,9 @@ class Document
 	  $id='e_quant'.$counter;
 	  if ( !isset (${$id}) ) return "";
 	  // check that something is sold
-	  if ( ${'e_march'.$counter.'_sell'} == 0 
+	  if ( ${'e_march'.$counter.'_price'} == 0 
 	       || ${'e_quant'.$counter} == 0 
-	       || strlen(trim( ${'e_march'.$counter.'_sell'} )) ==0 
+	       || strlen(trim( ${'e_march'.$counter.'_price'} )) ==0 
 	       || strlen(trim(${'e_quant'.$counter})) ==0 )
 	    return "";
 	  $r=${$id};
@@ -768,13 +778,13 @@ class Document
 
 	case 'VEN_HTVA':
 	  extract ($_POST);
-	  $id='e_march'.$counter.'_sell' ;
+	  $id='e_march'.$counter.'_price' ;
 	  $quant='e_quant'.$counter;
 	  if ( !isset (${$id}) ) return "";
 
 	  // check that something is sold
-	  if ( ${'e_march'.$counter.'_sell'} == 0 || ${'e_quant'.$counter} == 0 
-	       || strlen(trim( ${'e_march'.$counter.'_sell'} )) ==0 
+	  if ( ${'e_march'.$counter.'_price'} == 0 || ${'e_quant'.$counter} == 0 
+	       || strlen(trim( ${'e_march'.$counter.'_price'} )) ==0 
 	       || strlen(trim(${'e_quant'.$counter})) ==0)
 	    return "";
 	  /*!\todo verify that price and quant are numeric
@@ -787,13 +797,13 @@ class Document
 
 	case 'VEN_TVAC':
 	  extract ($_POST);
-	  $id='e_march'.$counter.'_sell' ;
+	  $id='e_march'.$counter.'_price' ;
 	  $quant='e_quant'.$counter;
 	  // if it is exist
 	  if ( ! isset(${$id})) 
 	    return "";
 	  // check that something is sold
-	  if ( ${'e_march'.$counter.'_sell'} == 0 || ${'e_quant'.$counter} == 0 )
+	  if ( ${'e_march'.$counter.'_price'} == 0 || ${'e_quant'.$counter} == 0 )
 	    return "";
 	  /*!\todo verify that price and quant are numeric
 	   */
@@ -814,7 +824,7 @@ class Document
 	  $sum=0.0;
 	  for ($i=0;$i<$nb_item;$i++)
 	    {
-	      $sell='e_march'.$i.'_sell';
+	      $sell='e_march'.$i.'_price';
 	      $qt='e_quant'.$i;
 	      echo_debug('class_document',__LINE__,'sell :'.$sell.' qt = '.$qt);
 
@@ -842,7 +852,7 @@ class Document
 	      $tva=GetTvaRate($this->db,${'e_march'.$i.'_tva_id'});
 	      $tva_rate=( $tva == null || $tva == 0 )?0.0:$tva['tva_rate'];
 	      echo_debug('class_document',__LINE__,' :'.$i.' sur '.$nb_item);
-	      $sell=${'e_march'.$i.'_sell'};
+	      $sell=${'e_march'.$i.'_price'};
 	      $qt=${'e_quant'.$i};
 	      echo_debug('class_document',__LINE__,'sell :'.$sell.' qt = '.$qt);
 
@@ -860,7 +870,7 @@ class Document
 	      $tva=GetTvaRate($this->db,${'e_march'.$i.'_tva_id'});
 	      $tva_rate=( $tva == null || $tva == 0 )?0.0:$tva['tva_rate'];
 	      echo_debug('class_document',__LINE__,' :'.$i.' sur '.$nb_item);
-	      $sell=${'e_march'.$i.'_sell'};
+	      $sell=${'e_march'.$i.'_price'};
 	      $qt=${'e_quant'.$i};
 	      echo_debug('class_document',__LINE__,'sell :'.$sell.' qt = '.$qt);
 
