@@ -38,8 +38,8 @@ function trim(s) {
  */
 function clean_Fid(p_ctl)
 {
-   	nSell=p_ctl+"_sell";	
-	nBuy=p_ctl+"_buy";	
+   	nSell=p_ctl+"_price";	
+	nBuy=p_ctl+"_price";	
 	nTva_id=p_ctl+"_tva_id";
 	if ( $(nSell) ) {	  $(nSell).value="";	}
 	if ( $(nBuy) ) {	  $(nBuy).value="";}
@@ -101,8 +101,8 @@ function successFid(request,json) {
     $(toSet).style.color="red";
     clean_Fid(ctl);
   } else {
-    var nSell=ctl+"_sell";
-    var nBuy=ctl+"_buy";
+    var nSell=ctl+"_price";
+    var nBuy=ctl+"_price";
     var nTva_id=ctl+"_tva_id";
     $(toSet).innerHTML=data;
     $(toSet).style.color="black";

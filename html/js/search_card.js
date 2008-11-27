@@ -74,37 +74,37 @@ function SetValue(p_ctl,p_value)
  * i = ctl _name
  * p_id = code id (fiche.f_id)
  *¨p_label = label
- * p_sell vw_fiche_attr.vw_sell
- * p_buy vw_fiche_attr.vw_buy
+ * p_price vw_fiche_attr.vw_price
+ * p_price vw_fiche_attr.vw_price
  * p_tva_id vw_fiche_attr.tva_id
  * p_tva_label vw_fiche_attr.tva_label
  */
-  function SetData(i,p_id,p_label,p_sell,p_buy,p_tva_id, p_tva_label)
+  function SetData(i,p_id,p_label,p_price,p_price,p_tva_id, p_tva_label)
 {
 	SetValue(i,p_id);
 	// for the form we use 1. and for span 2.    
-	//1. document.form_detail.eval(a).value=p_buy;
-	//2. document.getElementById(a).innerHTML=p_sell;
+	//1. document.form_detail.eval(a).value=p_price;
+	//2. document.getElementById(a).innerHTML=p_price;
 
 	// Compute name of label ctl
 	var a=i+'_label';
 	document.getElementById(a).innerHTML=p_label;
 	document.getElementById(a).style.color='black';
 	// Compute name of  sell  ctl 
- 	var a=i+'_sell';
+ 	var a=i+'_price';
 	// if the object exist
  	var e=document.getElementsByName(a)  
 	  if ( e.length != 0 ) {
-	    SetValue(a,p_sell);
+	    SetValue(a,p_price);
 
 	}
 
 	// Compute name of  buy  ctl 
-	var a=i+'_buy';
+	var a=i+'_price';
 	// if the object exist
  	var e=document.getElementsByName(a)  
         if ( e.length != 0 ) {
-	  SetValue(a,p_buy);
+	  SetValue(a,p_price);
 	}
 	// Compute name of  tva_id  ctl 
 	var a=i+'_tva_id';
