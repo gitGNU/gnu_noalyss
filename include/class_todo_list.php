@@ -65,7 +65,7 @@ class Todo_List
       exit (__FILE__.":".__LINE__.'Erreur attribut inexistant');
   }
   public function check($p_idx,&$p_value) {
-	if ( strcmp ($p_idx, 'tl_id') == 0 ) { if ( strlen($p_value) > 6 || isNumeric ($p_value) == false) return false;}
+	if ( strcmp ($p_idx, 'tl_id') == 0 ) { if ( strlen($p_value) > 6 || isNumber ($p_value) == false) return false;}
 	if ( strcmp ($p_idx, 'tl_date') == 0 ) { if ( strlen($p_value) > 12 || isDate ($p_value) == false) return false;}
 	if ( strcmp ($p_idx, 'tl_title') == 0 ) { $p_value=subsrt(htmlentities($p_value),0,120) ; return true;}
 	if ( strcmp ($p_idx, 'tl_desc') == 0 ) { $p_value=substr(htmlentities($p_value),0,400) ; return true;}
