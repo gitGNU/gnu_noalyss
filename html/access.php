@@ -66,6 +66,7 @@ if ( isset($_REQUEST['save_todo_list'])) {
   $add_todo->save();
 }
 $todo=new Todo_List($cn);
+
 $array=$todo->load_all();
 echo '<div style="float:left;width:40%">';
 echo '<fieldset> <legend>Liste des tâches</legend>';
@@ -98,7 +99,7 @@ $nb++;
       $row['tl_date'].
       '</td>'.
       '<td>'.
-      $row['tl_title'].
+      htmlspecialchars($row['tl_title']).
       '</td>'.
       '<td>'.
       widget::button('mod','M','onClick="todo_list_show('.$row['tl_id'].')"').
