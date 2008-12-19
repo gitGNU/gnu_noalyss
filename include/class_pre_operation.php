@@ -117,7 +117,7 @@ class Pre_operation
   function show_button() {
 
 	$select=new widget("select");
-	$value=make_array($this->db,"select od_id,html_quote(od_name) from op_predef ".
+	$value=make_array($this->db,"select od_id,od_name from op_predef ".
 			  " where jrn_def_id=".$this->p_jrn.
 			  " and od_direct ='".$this->od_direct."'".
 			  " order by od_name");
@@ -206,7 +206,7 @@ class Pre_operation_detail {
 	return $r;
   }
   public function   get_operation() {
-	$value=make_array($this->db,"select od_id,html_quote(od_name) from op_predef ".
+	$value=make_array($this->db,"select od_id,od_name from op_predef ".
 			  " where jrn_def_id=".FormatString($this->jrn_def_id).
 			  " and od_direct ='".FormatString($this->od_direct)."'".
 			  		  " order by od_name");

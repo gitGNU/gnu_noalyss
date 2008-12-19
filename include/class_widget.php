@@ -162,7 +162,7 @@ class widget {
 	    {
 	      $checked=($this->selected==$this->value[$i]['value'])?"SELECTED":"";
 	      $r.='<OPTION VALUE="'.$this->value[$i]['value'].'" '.$checked.'>';
-	      $r.=$this->value[$i]['label'];
+	      $r.=h($this->value[$i]['label']);
 	    }
 	  $r.="</SELECT>";
 	} 
@@ -175,7 +175,7 @@ class widget {
 	      echo_debug('class_widget.php',__LINE__,"check for ".$this->value[$i]['value']);
 	      if ($this->selected==$this->value[$i]['value'] ) 
 		{
-		  $r=$this->value[$i]['label'];
+		  $r=h($this->value[$i]['label']);
  	
 		}
 	    }
@@ -252,7 +252,7 @@ class widget {
 	$r.="</TEXTAREA>";
       } else {
 	$r='<p>';
-	$r.=$this->value;
+	$r.=h($this->value);
 	$r.=sprintf('<input type="hidden" name="%s" value="%s">',
 		    $this->name,urlencode($this->value));
 	$r.='</p>';

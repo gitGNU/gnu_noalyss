@@ -959,7 +959,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 	$doc_gen=new widget("select");
 	$doc_gen->name="gen_doc";
 	$doc_gen->value=make_array($this->db,
-				   "select md_id,html_quote(md_name) ".
+				   "select md_id,md_name ".
 				   " from document_modele where md_type=4");
 	$r.=$doc_gen->IOValue().'<br>';  
       }

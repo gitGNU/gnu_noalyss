@@ -122,9 +122,9 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
       if ( $content['j_debit'] == 't' ) $r.=$col_vide;
       $qc=($content['j_qcode'] != "")?"  [".$content['j_qcode']."]":"";
       if ( $content['j_text'] == '') 
-	$r.="<TD>".$qc.$content['vw_name']."</td>";
+	$r.="<TD>".$qc.h($content['vw_name'])."</td>";
       else
-	$r.="<TD>".$qc.$content['j_text']."</td>";
+	$r.="<TD>".$qc.h($content['j_text'])."</td>";
       if ( $content['j_debit'] == 'f' ) $r.=$col_vide;
       $r.="<TD>".$content['j_montant']."</td>";
       if ( $content['j_debit'] == 't' ) $r.=$col_vide;
