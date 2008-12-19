@@ -220,13 +220,13 @@ if ( isset($_REQUEST['sa']))
 			$ret.="<TD>".
 			  '<a class="mtitle" href="?p_action=ca_pa&sa=po_detail&po_id='.$obj->id.'&pa_id='.$_REQUEST['pa_id'].'&'.
 			  $str_dossier.'">'.
-			  $obj->name.
+			  h($obj->name).
 			  '</a>';
 			  "</td>";
 			$ret.="<TD align=\"right\">".$obj->amount."</td>";
-			$ret.="<TD>".$obj->description."</td>";
+			$ret.="<TD>".h($obj->description)."</td>";
 			$ret.="<td>".$obj->ga_id."</td>";
-			$ret.="<TD>".$new->name."</td>";
+			$ret.="<TD>".h($new->name)."</td>";
 			$ret.="</tr>";
 
 		  }
@@ -275,7 +275,7 @@ if ( empty($list)  )
 		 echo '<TR>';
 		 echo '<TD >'.
 		   '<a class="mtitle" href="?p_action=ca_pa&sa=pa_detail&pa_id='.$line['id'].'&'.$str_dossier.'">'.
-		   $line['name'].
+		   h($line['name']).
 		   '</TD>';
 		 echo '<td class="mtitle">'.
 		   '<a class="mtitle" href="?p_action=ca_pa&sa=list&pa_id='.$line['id'].'&'.$str_dossier.'">'.

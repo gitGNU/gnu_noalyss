@@ -59,8 +59,7 @@ class Anc_Balance_Double extends Anc_Print
 	  $odd++;
 
 	  $r.=($odd%2==0)?'<tr class="odd">':'</tr>';
-	  // the name and po_id
-	  //	  $r.=sprintf("<td>%s</td>",$row['po_id']);
+
 	  if ( $old == $row['a_po_name'] ) {
 		$r.='<td></td>';
 	  } else {
@@ -94,7 +93,7 @@ class Anc_Balance_Double extends Anc_Print
 	  $tot_deb+=$row['a_d'];
 	  $tot_cred+=$row['a_c'];
 
-	  $r.=sprintf("<td>%s</td>",$row['b_po_name']);
+	  $r.=sprintf("<td>%s</td>",h($row['b_po_name']));
 	  $r.=sprintf("<td>%12.2f</td>",$row['a_d']);
 	  $r.=sprintf("<td>%12.2f</td>",$row['a_c']);
 	  $r.=sprintf("<td>%12.2f</td>",$row['a_solde']);

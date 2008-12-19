@@ -56,7 +56,7 @@ require_once("class_acc_ledger.php");
   $submit=new widget();
   $hid=new widget("hidden");
   echo '<div class="content">';
-  echo '<h2 class="info">'.$Jrn->name.'</h2>';
+  echo '<h2 class="info">'.h($Jrn->name).'</h2>';
   echo "<table>";
   echo '<TR>';
   echo '<TD><form method="GET" ACTION="?">'.dossier::hidden().
@@ -141,7 +141,7 @@ require_once("class_acc_ledger.php");
 	  echo "<tr>";
 	  echo "<TD>".$line['num']."</TD>";
 	  echo "<TD>".$line['date']."</TD>";
-	  echo "<TD>".$line['comment']."</TD>";
+	  echo "<TD>".h($line['comment'])."</TD>";
 	  echo "<TD>".$line['jr_internal']."</TD>";
 	  //	  echo "<TD>".$line['pj']."</TD>";
 	// If the ledger is financial :

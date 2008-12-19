@@ -115,7 +115,7 @@ echo '<div class="content">';
 
       echo "<TD>";
       echo widget::hidden('tva_id',$row['tva_id']);
-      echo $row['tva_label'];
+      echo h($row['tva_label']);
       echo "</TD>";
 
       echo "<TD>";
@@ -123,7 +123,7 @@ echo '<div class="content">';
       echo "</TD>";
 
       echo "<TD>";
-      echo $row['tva_comment'];
+      echo h($row['tva_comment']);
       echo "</TD>";
 
       echo "<TD>";

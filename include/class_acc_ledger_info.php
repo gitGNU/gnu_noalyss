@@ -21,6 +21,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 require_once ('class_dossier.php');
 require_once ('postgres.php');
+require_once('ac_common.php');
 
 /*!\file 
  * \brief Manage additional info for Accountancy

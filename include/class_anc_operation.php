@@ -214,7 +214,7 @@ class Anc_Operation
 		  $row['oa_date'].
 		  "</td>".
 		  "<td>".
-		  $row['oa_description'].
+		  h($row['oa_description']).
 		  "</td>";
 
 		$ret.="<td>".
@@ -233,7 +233,7 @@ class Anc_Operation
 	  if ( $cred=='CREDIT')
 	    $ret.='<td></td>';
 	  $ret.= "<td>".
-		$row['po_name'].
+		h($row['po_name']).
 	    "</td>";
 	  if ( $cred=='DEBIT')
 	    $ret.='<td></td>';
@@ -390,7 +390,7 @@ function get_balance($p_from,$p_to,$p_plan_id)
      $result.='<table id="'.$table_id.'">';
    else 
         $result.='<table>';
-   $result.="<tr>".$plan->header()."<th>montant</th></tr>";
+   $result.="<tr>".h($plan->header())."<th>montant</th></tr>";
 
 
 
@@ -407,7 +407,7 @@ function get_balance($p_from,$p_to,$p_plan_id)
 	 
 		 $array=make_array($this->db,
 						   "select pa_id||'_'||po_id as value,".
-						   " po_name as label from poste_analytique ".
+						   " html_quote(po_name) as label from poste_analytique ".
 						   " where pa_id = ".$r_plan['id'].
 						   " order by po_name",$p_null);
 		 $select = new widget("select","","ta_".$p_seq."o".$count."row_".$i,$array);

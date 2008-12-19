@@ -157,6 +157,7 @@ $sql="insert into centralized( c_j_id,
  return NOERROR;
 }
 /*! 
+ **************************************************
  * \brief  test if e jrn_jr.id is centralize or not 
  * \param $p_cn database connx
  * \param $p_jrn_id jrn.jr_id       

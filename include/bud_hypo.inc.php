@@ -57,8 +57,8 @@ if (! empty ($list)) {
   $row=array();
   foreach ($list as $r ) {
     $row[]=array('?'.$str_dossier.'&p_action=hypo&sa=detail&bh_id='.$r->bh_id,
-	       $r->bh_name,
-	       $r->bh_description,
+	       h($r->bh_name),
+	       h($r->bh_description),
 	       $r->bh_id);
     
   }

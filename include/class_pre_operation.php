@@ -117,7 +117,7 @@ class Pre_operation
   function show_button() {
 
 	$select=new widget("select");
-	$value=make_array($this->db,"select od_id,od_name from op_predef ".
+	$value=make_array($this->db,"select od_id,html_quote(od_name) from op_predef ".
 			  " where jrn_def_id=".$this->p_jrn.
 			  " and od_direct ='".$this->od_direct."'".
 			  " order by od_name");
@@ -125,6 +125,7 @@ class Pre_operation
 	if ( empty($value)==true) return "";
 	$select->value=$value;
 	$r=$select->IOValue("pre_def");
+
 	return $r;
   }
   /*!\brief count the number of pred operation for a ledger */
@@ -178,10 +179,10 @@ class Pre_operation_detail {
      $r.=dossier::hidden();
      $r.=$hid->IOValue("p_jrn",$this->get("ledger"));
      $r.=$hid->IOValue("jrn_type",$this->get("ledger_type"));
-
-     //     if ($this->count() != 0 )
+     if ($this->count() != 0 ) {
        $r.= widget::submit('use_opd','Utilisez une op.pr&eacute;d&eacute;finie');
-     $r.= $this->show_button();
+       $r.= $this->show_button();
+     }
      return $r;
 
   }
@@ -205,7 +206,7 @@ class Pre_operation_detail {
 	return $r;
   }
   public function   get_operation() {
-	$value=make_array($this->db,"select od_id,od_name from op_predef ".
+	$value=make_array($this->db,"select od_id,html_quote(od_name) from op_predef ".
 			  " where jrn_def_id=".FormatString($this->jrn_def_id).
 			  " and od_direct ='".FormatString($this->od_direct)."'".
 			  		  " order by od_name");

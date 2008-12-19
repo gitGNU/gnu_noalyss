@@ -224,7 +224,7 @@ echo '</div>';
      $class= ( $i % 2 == 0 )?' class="odd"':"";
    
      echo "<TR $class>".
-       "<TD>".$op['desc']."</TD>".
+       "<TD>".h($op['desc'])."</TD>".
        "<TD align=\"right\">".sprintf("% 8.2f",$op['montant'])."</TD>".
        "</TR>";
    }

@@ -111,17 +111,17 @@ if ( isset ( $_POST["Ajout"] ) ) {
       }
       /* Parent existe */
       $Ret=ExecSqlParam($cn,"select pcm_val from tmp_pcmn where pcm_val=$1",array($p_parent));
-      if ( pg_NumRows($Ret) == 0 ) {
-	echo '<SCRIPT> alert(" Ne peut pas modifier; aucune poste parent"); </SCRIPT>';
+      if ( $p_parent != 0 && pg_NumRows($Ret) == 0 ) {
+	echo '<SCRIPT> alert(" Ne peut pas modifier; aucun poste parent"); </SCRIPT>';
       } else {
 	// Check if the account already exists
-
+	
 	$Count=CountSql($cn,"select * from tmp_pcmn where pcm_val='".$p_val."'");
 	if ( $Count != 0 ) 
 	  {
 	    // Alert message account already exists
 	    echo '<SCRIPT> alert(" Ce poste existe déjà "); </SCRIPT>';
-
+	    
 	  } else 
 	    {
 	      $Ret=ExecSqlParam($cn,"insert into tmp_pcmn (pcm_val,pcm_lib,pcm_val_parent,pcm_type) values ($1,$2,$3,$4)",array($p_val,$p_lib,$p_parent,$p_type));
@@ -181,7 +181,7 @@ for ($i=0; $i <$MaxRow; $i++) {
 	  $A['pcm_type'],
 	  $_REQUEST['PHPSESSID'],
 	  dossier::id());
-  echo $A['pcm_lib'];
+  echo h($A['pcm_lib']);
 
   echo $td;
   echo $A['pcm_val_parent'];

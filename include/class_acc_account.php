@@ -108,7 +108,7 @@ class Acc_Account {
 		  else
 		    return true;
 		} else if ( strcmp ($p_member,'pcm_val_parent') == 0 ) {
-		  if ( is_numeric($p_value) == 0 || $this->count($p_value) == 0)
+		  if ( is_numeric($p_value) == 0 || ($this->count($p_value) == 0 && $p_value !=0))
 		    throw new AcException('Poste comptable parent incorrect '.$p_value);
 		  else 
 		    return true;
@@ -167,7 +167,7 @@ class Acc_Account {
       $ret='<TABLE><TR>';
       $ret.=sprintf ('<TD>Numéro de classe </TD><TD><INPUT TYPE="TEXT" name="p_val" value="%s"></TD>',$this->pcm_val);
       $ret.="</TR><TR>";
-      $ret.=sprintf('<TD>Libellé </TD><TD><INPUT TYPE="TEXT" size="70" NAME="p_lib" value="%s"></TD>',urldecode($this->pcm_lib));
+      $ret.=sprintf('<TD>Libellé </TD><TD><INPUT TYPE="TEXT" size="70" NAME="p_lib" value="%s"></TD>',h($this->pcm_lib));
       $ret.= "</TR><TR>";
       $ret.=sprintf ('<TD>Classe Parent</TD><TD><INPUT TYPE="TEXT" name="p_parent" value="%s"></TD>',$this->pcm_val_parent);
       $ret.='</tr><tr>';
@@ -176,7 +176,7 @@ class Acc_Account {
       $ret.= '<td>'.$wType->IOValue().'</td>';
       $ret.="</TR> </TABLE>";
       $ret.=dossier::hidden();
-      print_r($this);
+
       return $ret;
     }
   }
@@ -190,7 +190,7 @@ class Acc_Account {
 
  }
   function update($p_old) {
-    $this->pcm_lib=substr(FormatString ($this->pcm_lib),0,50);
+    $this->pcm_lib=substr(FormatString ($this->pcm_lib),0,150);
     $this->check();
     $sql="update tmp_pcmn set pcm_val=$1, pcm_lib=$2,pcm_val_parent=$3,pcm_type=$4 where pcm_val=$5";
     $Ret=ExecSqlParam($this->db,$sql,array($this->pcm_val,

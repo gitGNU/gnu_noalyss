@@ -56,8 +56,8 @@ class Customer extends fiche{
   */
   function get_by_account($p_poste=0) {
     $this->poste=($p_poste==0)?$this->poste:$p_poste;
-    $sql="select * from vw_client where poste_comptable=".$this->poste;
-    $Res=ExecSql($this->cn,$sql);
+    $sql="select * from vw_client where poste_comptable=$1";
+    $Res=ExecSqlParam($this->cn,$sql,array($this->poste));
     if ( pg_NumRows($Res) == 0) return null;
     // There is only _one_ row by customer
     $row=pg_fetch_array($Res,0);
@@ -247,10 +247,10 @@ where
 			   $script,$client->id,$str_dossier,$url);
 
 	$r.="<TD> $e".$client->strAttribut(ATTR_DEF_QUICKCODE)."</A></TD>";
-	$r.="<TD>".$client->strAttribut(ATTR_DEF_NAME)."</TD>";
-	$r.="<TD>".$client->strAttribut(ATTR_DEF_ADRESS).
+	$r.="<TD>".h($client->strAttribut(ATTR_DEF_NAME))."</TD>";
+	$r.="<TD>".h($client->strAttribut(ATTR_DEF_ADRESS).
 	  " ".$client->strAttribut(ATTR_DEF_CP).
-	  " ".$client->strAttribut(ATTR_DEF_PAYS).
+	  " ".$client->strAttribut(ATTR_DEF_PAYS)).
 	  "</TD>";
 
 

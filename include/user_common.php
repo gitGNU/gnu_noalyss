@@ -18,7 +18,12 @@
 */
 
 
-
+/*!\todo remove the function 
+ - InsertRapt 
+ - deleterapt 
+ - GetConcerned)
+ - GetTvaRate
+ */
 
 
 /* $Revision$ */
@@ -384,7 +389,7 @@ $own=new Own($p_cn);
     
     // comment
     $r.="<TD>";
-    $r.=$row['jr_comment'];
+    $r.=h($row['jr_comment']);
     $r.="</TD>";
     
     // Amount

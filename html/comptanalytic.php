@@ -99,8 +99,8 @@ if ( $_REQUEST['p_action'] == "pref" )
 // Plan Analytique
 if ($_REQUEST['p_action'] == 'ca_pa' )
   {
-	require_once('anc_pa.inc.php');
-	exit();
+    require_once('anc_pa.inc.php');
+    exit();
   }
 
 // Operations Diverses
@@ -119,6 +119,10 @@ if ($_REQUEST['p_action'] == 'ca_groupe' )
 // Impression
 if ($_REQUEST['p_action'] == 'ca_imp' )
   {
-	require_once('anc_imp.inc.php');
-	exit();
+    echo '<div class="content">';
+    
+    require_once('anc_imp.inc.php');
+    echo '</div>';
+
+    exit();
   }

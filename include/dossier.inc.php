@@ -170,8 +170,8 @@ if ( $sa == 'list' ) {
 	  $cl='class="even"';
 
 	echo "<TR $cl><TD VALIGN=\"TOP\"> ".
-	  $Dossier['dos_id']." <B>".$Dossier['dos_name']."</B> </TD>".
-	  "<TD><I>  ".$Dossier['dos_description']."</I>
+	  $Dossier['dos_id']." <B>".h($Dossier['dos_name'])."</B> </TD>".
+	  "<TD><I>  ".h($Dossier['dos_description'])."</I>
 </TD>
 <TD>";
 	echo widget::button_href('Effacer','?action=dossier_mgt&sa=del&d='.$Dossier['dos_id']);
@@ -211,7 +211,7 @@ if ( $sa == 'list' ) {
      $template='<SELECT NAME=FMOD_ID>';
      for ($i=0;$i<$count;$i++) {
        $mod=pg_fetch_array($Res,$i);
-       $template.='<OPTION VALUE="'.$mod['mod_id'].'"> '.$mod['mod_name']." - ".substr($mod['mod_desc'],0,30);
+       $template.='<OPTION VALUE="'.$mod['mod_id'].'"> '.h($mod['mod_name']." - ".substr($mod['mod_desc'],0,30));
      }// for
      $template.="</SELECT>";
    }// if count = 0
@@ -311,7 +311,7 @@ if ( $sa == 'remove' ) {
    $sql="delete from ac_dossier where dos_id=$1";
    ExecSqlParam($cn,$sql,array($_REQUEST['d']));
    print '<h2 class="info">';
-   print "Voilà le dossier $name est effacé</h2>";
+   print "Voilà le dossier ".h($name)." est effacé</h2>";
    echo widget::button_href('Retour','?action=dossier_mgt');
  }
 ?>

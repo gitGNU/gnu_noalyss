@@ -27,6 +27,11 @@ include_once("debug.php");
 include_once("constant.php");
 require_once('preference.php');
 require_once ("postgres.php");
+/*!\brief to protect again bad characters which can lead to a cross scripting attack
+	the string to be diplayed must be protected
+*/
+function h($p_string) { return htmlspecialchars($p_string);}
+
 /*! 
  * \brief  log error into the /tmp/phpcompta_error.log it doesn't work on windows
  *

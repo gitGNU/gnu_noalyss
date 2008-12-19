@@ -128,10 +128,10 @@ class Supplier extends fiche{
 		     $script,$supplier->id,$url);
 	  
 	$r.="<TD> $e".$supplier->strAttribut(ATTR_DEF_QUICKCODE)."</A></TD>";
-	$r.="<TD>".$supplier->strAttribut(ATTR_DEF_NAME)."</TD>";
-	$r.="<TD>".$supplier->strAttribut(ATTR_DEF_ADRESS).
+	$r.="<TD>".h($supplier->strAttribut(ATTR_DEF_NAME))."</TD>";
+	$r.="<TD>".h($supplier->strAttribut(ATTR_DEF_ADRESS).
 	  " ".$supplier->strAttribut(ATTR_DEF_CP).
-	  " ".$supplier->strAttribut(ATTR_DEF_PAYS).
+	  " ".$supplier->strAttribut(ATTR_DEF_PAYS)).
 	  "</TD>";
 
 

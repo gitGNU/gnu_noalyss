@@ -29,6 +29,7 @@ require_once('class_anc_operation.php');
 require_once('user_common.php');
 require_once('class_acc_parm_code.php');
 require_once('class_acc_payment.php');
+require_once('ac_common.php');
 /*!\brief Handle the ledger of purchase, 
  *
  *
@@ -876,10 +877,10 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $client=new fiche($this->db);
     $client->get_by_qcode($e_client,true);
 
-    $client_name=$client->getName().
+    $client_name=h($client->getName().
       ' '.$client->strAttribut(ATTR_DEF_ADRESS).' '.
       $client->strAttribut(ATTR_DEF_CP).' '.
-      $client->strAttribut(ATTR_DEF_CITY);
+      $client->strAttribut(ATTR_DEF_CITY));
     $lPeriode=new Periode($this->db);
     $date_limit=$lPeriode->get_date_limit($periode);
     $r="";
@@ -891,13 +892,13 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $r.='<td>Echeance '.$e_ech.'</td>';
     $r.='<td> Période Comptable '.$date_limit['p_start'].'-'.$date_limit['p_end'].'</td>';
     $r.='<tr>';
-    $r.='<td> Journal '.$this->get_name().'</td>';
+    $r.='<td> Journal '.h($this->get_name()).'</td>';
     $r.='</tr>';
     $r.='<tr>';
-    $r.='<td colspan="3"> Description '.$e_comm.'</td>';
+    $r.='<td colspan="3"> Description '.h($e_comm).'</td>';
     $r.='</tr>';
     $r.='<tr>';
-    $r.='<td colspan="3"> Fournisseur '.$e_client.':'.$client_name.'</td>';
+    $r.='<td colspan="3"> Fournisseur '.h($e_client.':'.$client_name).'</td>';
     $r.='</tr>';
     $r.='</table>';
     $r.='</fieldset>';
@@ -922,7 +923,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
       /* retrieve information for card */
       $fiche=new fiche($this->db);
       $fiche->get_by_qcode(${"e_march".$i});
-      $fiche_name=$fiche->getName();
+      $fiche_name=h($fiche->getName());
       $idx_tva=${"e_march".$i."_tva_id"};
       $oTva=new Acc_Tva($this->db);
       $oTva->set_parameter('id',$idx_tva);

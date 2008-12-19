@@ -28,6 +28,7 @@ require_once('class_acc_compute.php');
 require_once('class_anc_operation.php');
 require_once('user_common.php');
 require_once('class_acc_payment.php');
+require_once('ac_common.php');
 /*!\brief Handle the ledger of sold, 
  *
  *
@@ -548,7 +549,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $label=" Description ".widget::infobulle(1) ;
     $r.="<tr>";
     $r.='<td class="input_text">'.$label.'</td>'.
-      '<td colspan="5">'.$Commentaire->IOValue("e_comm",$e_comm)."</td>";
+      '<td colspan="5">'.$Commentaire->IOValue("e_comm",h($e_comm))."</td>";
     $r.="</tr>";
 
     // Display the customer
@@ -769,13 +770,13 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $r.='<td>Echeance '.$e_ech.'</td>';
     $r.='<td> Période Comptable '.$date_limit['p_start'].'-'.$date_limit['p_end'].'</td>';
     $r.='<tr>';
-    $r.='<td> Journal '.$this->get_name().'</td>';
+    $r.='<td> Journal '.h($this->get_name()).'</td>';
     $r.='</tr>';
     $r.='<tr>';
-    $r.='<td colspan="3"> Description '.$e_comm.'</td>';
+    $r.='<td colspan="3"> Description '.h($e_comm).'</td>';
     $r.='</tr>';
     $r.='<tr>';
-    $r.='<td colspan="3"> Client '.$e_client.':'.$client_name.'</td>';
+    $r.='<td colspan="3"> Client '.h($e_client.':'.$client_name).'</td>';
     $r.='</tr>';
     $r.='</table>';
     $r.='</fieldset>';
@@ -800,7 +801,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       /* retrieve information for card */
       $fiche=new fiche($this->db);
       $fiche->get_by_qcode(${"e_march".$i});
-      $fiche_name=$fiche->getName();
+      $fiche_name=h($fiche->getName());
       $oTva=new Acc_Tva($this->db);
       $idx_tva=${"e_march".$i."_tva_id"};
 
@@ -824,7 +825,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       $r.=${"e_march".$i};
       $r.='</td>';
       $r.='<TD style="width:60%;border-bottom:1px dotted grey;">';
-      $r.=$fiche_name;
+      $r.=h($fiche_name);
       $r.='</td>';
       $r.='<td align="right">';
       $r.=${"e_march".$i."_price"};
@@ -904,6 +905,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $r.=widget::hidden('nb_item',$nb_item);
     $r.=widget::hidden('p_jrn',$p_jrn);
     $r.=widget::hidden('periode',$periode);
+	/*\todo comment les types hidden gérent ils des contenus avec des quotes, double quote ou < > ??? */
     $r.=widget::hidden('e_comm',$e_comm);
     $r.=widget::hidden('e_date',$e_date);
     $r.=widget::hidden('e_ech',$e_ech);
@@ -957,7 +959,8 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 	$doc_gen=new widget("select");
 	$doc_gen->name="gen_doc";
 	$doc_gen->value=make_array($this->db,
-				   "select md_id,md_name from document_modele where md_type=4");
+				   "select md_id,html_quote(md_name) ".
+				   " from document_modele where md_type=4");
 	$r.=$doc_gen->IOValue().'<br>';  
       }
     $r.='<br>';

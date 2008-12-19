@@ -206,7 +206,7 @@ function get_internal() {
        $r.='<td>';
        $a=($l['vw_name']=="")?$l['j_qcode']:$l['pcm_lib'];
        $r_notable.=$a;
-       $r.=$a;
+       $r.=h($a);
        $csv.='"'.$a.'";';
        $r.='</td>';
        

@@ -60,7 +60,7 @@ class Document_modele {
     foreach ( $all as $row) {
       $r.="<tr>";
       $r.="<td>";
-      $r.=$row['md_name'];
+      $r.=h($row['md_name']);
       $r.="</td>";
       $r.="<td>";
       $r.=$row['dt_value'];

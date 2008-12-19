@@ -252,7 +252,7 @@ function get_solde_detail($p_cond="") {
        echo "<TR>".
 	 "<TD>".$op['jr_internal']."</TD>".
 	 "<TD>".$op['j_date']."</TD>".
-	 "<TD>".$op['description']."</TD>".
+	 "<TD>".h($op['description'])."</TD>".
 	 "<TD>".$op['deb_montant']."</TD>".
 	 "<TD>".$op['cred_montant']."</TD>".
 	 "</TR>";

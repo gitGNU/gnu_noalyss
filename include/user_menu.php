@@ -57,11 +57,11 @@ function u_ShowDossier($p_user,$p_admin,$p_filtre="")
 
     $result.="<TD class=\"$tr\">";
     $result.="<A class=\"dossier\" HREF=\"access.php?gDossier=$id\">";
-    $result.=$id."  <B>$name</B>";
+    $result.=$id."  <B>".h($name)."</B>";
     $result.="</A>";
     $result.="</TD>";
     $desc=($desc=="")?"<i>Aucune description</i>":$desc;
-    $desc="<A  class=\"dossier\" HREF=\"access.php?gDossier=$id\">".$desc."</a>";
+    $desc="<A  class=\"dossier\" HREF=\"access.php?gDossier=$id\">".h($desc)."</a>";
     $result.="<TD class=\"$tr\">".$desc;
     $result.="</TD>";
     $result.="</TR>";
@@ -797,7 +797,7 @@ $r.='<script language="javascript">
 
   $r.= '<div class="u_tool">';
   $r.= '<div class="name">';
-  $r.= "<H2 class=\"info\"> Dossier : ".dossier::name()."</h2> ";
+  $r.= "<H2 class=\"info\"> Dossier : ".h(dossier::name())."</h2> ";
   $r.= '</div>';
   $r.= '<div class="acces_direct">';
   if ( $p_from == 'compta') $view='E';

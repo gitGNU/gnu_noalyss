@@ -26,6 +26,7 @@
  */
 require_once('class_acc_ledger.php');
 require_once('poste.php');
+require_once('ac_common.php');
 
 class Acc_Ledger_Fin extends Acc_Ledger {
   /*!\brief verify that the data are correct before inserting or confirming
@@ -368,7 +369,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $r.='<td> Journal </td>';
     $this->id=$p_jrn;
     $r.='<td>';
-    $r.=$this->get_name();
+    $r.=h($this->get_name());
     $r.='</td>';
     $r.='</tr>';
 
@@ -405,7 +406,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $r.='<tr>';
     // Extrait
     //--
-    $r.='<td> Numéro d\'extrait</td>'.$ext_no;
+    $r.='<td> Numéro d\'extrait</td>'.h($ext_no);
     $r.='<td >Solde début extrait </td>';
     $r.='<td>'.$first_sold.'</td>';
     $r.='<td>Solde fin extrait </td>';
@@ -436,7 +437,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
       $tiers_label="";
       $tiers_amount=round(${"e_other$i"."_amount"},2);
       $tot_amount=bcadd($tot_amount,$tiers_amount);
-      $tiers_comment=${"e_other$i"."_comment"};
+      $tiers_comment=h(${"e_other$i"."_comment"});
       // If $tiers has a value
       $fTiers=new fiche($this->db);
       $fTiers->get_by_qcode($tiers);

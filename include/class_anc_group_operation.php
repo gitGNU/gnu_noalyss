@@ -100,7 +100,8 @@ class Anc_Group_Operation
 	  {
 	    $idx=$d['id'];
 	    /* array of possible value for the select */
-	    $aPoste[$idx]=make_array($this->db,"select po_id as value,po_name||':'||po_description as label".
+	    $aPoste[$idx]=make_array($this->db,"select po_id as value,".
+				     " html_quote(po_name||':'||po_description) as label ".
 					" from poste_analytique ".
 					" where pa_id = ".$idx.
 					" order by po_name ");

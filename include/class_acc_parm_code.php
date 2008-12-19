@@ -104,7 +104,7 @@ class Acc_Parm_Code {
     {
       $r="";
       $r.= '<TD>'.$this->p_code.'</TD>';
-      $r.= '<TD>'.$this->p_comment.'</TD>';
+      $r.= '<TD>'.h($this->p_comment).'</TD>';
       $r.= '<TD>'.$this->p_value.'</TD>';
 
       return $r;

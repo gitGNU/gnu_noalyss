@@ -57,9 +57,9 @@ echo '<table style="border: 2px outset blue; width: 100%;"  >';
 echo '<tr> <th> Code </th><th>Plan </td><th>Description</th></tr>';
 foreach ($array as $idx=>$m) {
   echo '<tr>';
-  echo '<td>'.$m->ga_id.'</td>';
-  echo '<td>'.$m->pa_name.'</td>';
-  echo '<td>'.$m->ga_description.'</td>';
+  echo '<td>'.h($m->ga_id).'</td>';
+  echo '<td>'.h($m->pa_name).'</td>';
+  echo '<td>'.h($m->ga_description).'</td>';
   echo '<td> Effacer <input type="Checkbox" name="ck[]" value="'.$m->ga_id.'">'.'</td>';
   echo '</tr>';
 }

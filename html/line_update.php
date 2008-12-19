@@ -81,8 +81,8 @@ if ( isset ($_POST["update"] ) ) {
       }
       /* Parent existe */
       $Ret=ExecSqlParam($cn,"select pcm_val from tmp_pcmn where pcm_val=$1",array($p_parent));
-      if ( pg_NumRows($Ret) == 0 || $p_parent==$old_line ) {
-	echo '<SCRIPT> alert(" Ne peut pas modifier; aucune poste parent"); </SCRIPT>';
+      if ( ($p_parent != 0 && pg_NumRows($Ret) == 0) || $p_parent==$old_line ) {
+	echo '<SCRIPT> alert(" Ne peut pas modifier; aucun poste parent"); </SCRIPT>';
       } else {
 	$acc->update($old_line);	
       }

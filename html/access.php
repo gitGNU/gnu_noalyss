@@ -40,10 +40,10 @@ if ($user->AccessJrn($cn,dossier::id()) == false ){
 }     
 
 if ( DBVERSION!=dossier::get_version($cn)) {
-  echo "Votre base de données n'est pas  à jour, ";
+  echo '<h2 class="error">Votre base de données n\'est pas  à jour, ';
   $a="cliquez ici pour appliquer le patch";
   $base=dirname($_SERVER['REQUEST_URI']).'/admin/setup.php';
-  echo '<a hreF="'.$base.'">'.$a.'</a>';
+  echo '<a hreF="'.$base.'">'.$a.'</a></h2>';
 }
 
 html_page_start($_SESSION['g_theme']);

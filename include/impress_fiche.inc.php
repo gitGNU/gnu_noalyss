@@ -110,7 +110,7 @@ if  ( isset ($_REQUEST['fd_id'])) {
     foreach ($e as $detail) {
       echo "<TR>";
       foreach ( $detail->attribut as $dattribut ) {
-	echo "<TD>".$dattribut->av_text."</TD>";
+	echo "<TD>".h($dattribut->av_text)."</TD>";
 	// if amount requested
 	//---
 	if ( $dattribut->ad_id == ATTR_DEF_ACCOUNT && 

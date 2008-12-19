@@ -119,7 +119,7 @@ echo '<hr>';
 // Show 20 lines by default
 //----------------------------------------------------------------------
 require_once ('class_bud_data.php');
-echo JS_PROTOTYPE_JS;
+echo JS_PROTOTYPE;
 echo JS_BUD_SCRIPT;
 extract($_GET);
 $obj=new Bud_Data($cn,$bh_id,$po_id);

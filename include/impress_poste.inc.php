@@ -145,12 +145,12 @@ if ( isset( $_REQUEST['bt_html'] ) ) {
 	if ( empty($Poste->row)) exit();
 	$Poste->load();
 	echo '<table "width=70%">';
-	echo '<tr><td  class="mtitle" colspan="5"><h2 class="info">'. $_GET['poste_id'].' '.$Poste->label.'</h2></td></tr>';
+	echo '<tr><td  class="mtitle" colspan="5"><h2 class="info">'. $_GET['poste_id'].' '.h($Poste->label).'</h2></td></tr>';
 
 	foreach ($Poste->row as $a) {
 	  $detail=$a;
 	  
-	  echo '<tr><td class="mtitle" colspan="5">'.$detail['j_date'].' '.$detail['jr_internal'].$detail['description'].'</td></tr>';
+	  echo '<tr><td class="mtitle" colspan="5">'.$detail['j_date'].' '.$detail['jr_internal'].h($detail['description']).'</td></tr>';
 
 	  $op=new Acc_Operation($cn);
 	  $op->jr_id=$a['jr_id'];
@@ -216,13 +216,13 @@ if ( isset( $_REQUEST['bt_html'] ) ) {
 	    $Poste->load();
 	    $Poste->get_row( $_GET['from_periode'], $_GET['to_periode']);
 	    if ( empty($Poste->row)) continue;
-	    echo '<tr><td  class="mtitle"  colspan="5"><h2 class="info">'. $poste_id['pcm_val'].' '.$Poste->label.'</h2></td></tr>';
+	    echo '<tr><td  class="mtitle"  colspan="5"><h2 class="info">'. $poste_id['pcm_val'].' '.h($Poste->label).'</h2></td></tr>';
 
 	    $detail=$Poste->row[0];
 	    
 
 	    foreach ($Poste->row as $a) {
-	      echo '<tr><td class="mtitle" colspan="5">'. $detail['j_date'].' '.$detail['jr_internal'].$detail['description'].'</td></tr>';
+	      echo '<tr><td class="mtitle" colspan="5">'. $detail['j_date'].' '.$detail['jr_internal'].h($detail['description']).'</td></tr>';
 
 	      $op=new Acc_Operation($cn);
 	      $op->poste=$poste_id['pcm_val'];

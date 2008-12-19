@@ -927,7 +927,7 @@ class fiche {
 	echo "<TR  style=\"text-align:center;background-color:lightgrey\">".
 	  "<td >".$op['jr_internal']."</td>".
 	  "<td >".$op['j_date']."</td>".
-	  "<td >".$op['description']."</td>".
+	  "<td >".h($op['description'])."</td>".
 	  "<td >"."</td>".
 	  "<td >"."</td>".
 	  "</TR>";
@@ -959,7 +959,7 @@ class fiche {
       if ( $p_array == null)
 	$p_array=$_REQUEST;
 
-      $name=$this->getName();
+      $name=h($this->getName());
       
       list($array,$tot_deb,$tot_cred)=$this->get_row( $p_array['from_periode'],
 						     $p_array['to_periode']
@@ -984,7 +984,7 @@ class fiche {
 	echo "<TR>".
 	  "<TD>".$op['jr_internal']."</TD>".
 	  "<TD>".$op['j_date']."</TD>".
-	  "<TD>".$op['description']."</TD>".
+	  "<TD>".h($op['description'])."</TD>".
 	  "<TD>".$op['deb_montant']."</TD>".
 	  "<TD>".$op['cred_montant']."</TD>".
 	  "</TR>";

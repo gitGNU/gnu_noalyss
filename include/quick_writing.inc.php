@@ -67,11 +67,13 @@ function show_direct_form($cn,$ledger,$p_array) {
   // Don't forget the p_jrn 
   echo '<form>';
   echo widget::hidden('p_action',$_REQUEST['p_action']);
-  $op=new Pre_operation_detail($cn);
-  $op->set('ledger',$_REQUEST ['p_jrn']);
-  $op->set('ledger_type',$ledger->get_type());
-  $op->set('direct','t');
-  echo $op->form_get();
+  $op=new Pre_operation($cn);
+  $op->p_jrn=$_REQUEST['p_jrn'];
+  $op->od_direct='t';
+  if ( $op->count() > 0 ) {
+    echo "Utilisez une operation ";
+    echo $op->show_button();
+  }
   echo '</form>';
   
 

@@ -29,7 +29,7 @@ require_once ('class_widget.php');
 
 echo '<form method="get">';
 $wHypo=new widget("select","","bh_id");
-$wHypo->value=make_array($cn,"select bh_id,bh_name from bud_hypothese");
+$wHypo->value=make_array($cn,"select bh_id,html_quote(bh_name) from bud_hypothese");
 $wHypo->selected=(isset($_REQUEST['bh_id']))?$_REQUEST['bh_id']:"";
 $wHypo->javascript='onChange="this.form.submit();"';
 echo "Hypoth&egrave;se ".$wHypo->IOValue();
@@ -73,8 +73,8 @@ if (! empty ($list)) {
   $row=array();
   foreach ($list as $r ) {
     $row[]=array('?'.$str_dossier.'&p_action=fiche&sa=detail&bc_id='.$r->bc_id.'&bh_id='.$r->bh_id,
-		 $r->bc_code,
-		 $r->bc_description,
+		 h($r->bc_code),
+		 h($r->bc_description),
 		 $r->bc_id
 		 );
     

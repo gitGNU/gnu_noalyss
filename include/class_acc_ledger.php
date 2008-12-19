@@ -33,6 +33,7 @@ require_once ('class_acc_reconciliation.php');
 require_once ('class_periode.php');
 require_once ('class_gestion_purchase.php');
 require_once ('class_acc_account.php');
+require_once('ac_common.php');
 
 /*!\file
 * \brief Class for jrn,  class acc_ledger for manipulating the ledger
@@ -278,7 +279,7 @@ class Acc_Ledger {
 			'internal'=>$line['jr_internal'],
 			'deb_montant'=>'',
 			'cred_montant'=>' ',
-			'description'=>'<b><i>'.$line['jr_comment'].' ['.$tot_op.'] </i></b>',
+			'description'=>'<b><i>'.h($line['jr_comment']).' ['.$tot_op.'] </i></b>',
 			'poste' => $line['oc'],
 			'qcode' => $line['j_qcode'],
 			'periode' =>$line['periode'] );
@@ -318,7 +319,7 @@ class Acc_Ledger {
     $a=array($array,$tot_deb,$tot_cred);
     return $a;
   }
-  /* \brief  Get simplified row from ledger 
+  /*! \brief  Get simplified row from ledger 
    *        
    * \param from periode 
    * \param to periode 
@@ -796,7 +797,7 @@ class Acc_Ledger {
 
     foreach ( $array as $value) {
       $ret[$idx]['value']=$value['jrn_def_id'];
-      $ret[$idx]['label']=$value['jrn_def_name'];
+      $ret[$idx]['label']=h($value['jrn_def_name']);
       $idx++;
     }
 
@@ -864,7 +865,7 @@ class Acc_Ledger {
     $ret="";
     $ret.="<table>";
     $ret.="<tr><td>Date : </td><td>$date</td></tr>";
-    $ret.="<tr><td>Description </td><td>$desc</td></tr>";
+    $ret.="<tr><td>Description </td><td>".h($desc)."</td></tr>";
     $ret.='</table>';
     $ret.="<table>";
     $ret.="<tr>";
@@ -902,14 +903,14 @@ class Acc_Ledger {
       if ( trim(${'qc_'.$i})=="" && trim(${'poste'.$i}) != "") {
 	$oposte=new Acc_Account_Ledger($this->db,${'poste'.$i});
 	$strPoste=$oposte->id;
-	$ret.="<td>".${"poste".$i}." - ".
-	      $oposte->get_name().$hidden->IOValue('poste'.$i,${'poste'.$i}).
+	$ret.="<td>".h(${"poste".$i}." - ".
+	      $oposte->get_name()).$hidden->IOValue('poste'.$i,${'poste'.$i}).
              '</td>';
       }
 
       if ( trim(${'qc_'.$i})=="" && trim(${'poste'.$i}) == "") 
 	continue;
-      $ret.="<td>".${"ld".$i}.$hidden->IOValue('ld'.$i,${'ld'.$i})."</td>";
+      $ret.="<td>".h(${"ld".$i}).$hidden->IOValue('ld'.$i,${'ld'.$i})."</td>";
       $ret.="<td>".${"amount".$i}.$hidden->IOValue('amount'.$i,${'amount'.$i})."</td>";
       $ret.="<td>";
       $ret.=(isset(${"ck$i"}))?"D":"C";
@@ -1352,91 +1353,7 @@ class Acc_Ledger {
     return $all[0];
   }
 
-  /*! 
-   * \brief this function is intended to test this class
-   */
-  static function test_me() 
-  {
-    echo Acc_Reconciliation::$javascript;
-    html_page_start();
-    $cn=DbConnect(dossier::id());
-    $_SESSION['g_user']='phpcompta';
-    $_SESSION['g_pass']='phpcompta';
 
-    $id=(isset ($_REQUEST['p_jrn']))?$_REQUEST['p_jrn']:-1;
-    $a=new Acc_Ledger($cn,$id);
-    $a->with_concerned=true;
-    // Vide
-    echo '<FORM method="post">';
-    echo $a->select_ledger()->IOValue();
-    echo widget::submit('go','Test it');
-    echo '</form>';
-    if ( isset($_POST['go'])) {
-      echo "Ok ";
-      echo '<form method="post">';
-      echo $a->show_form();
-      echo widget::submit('post_id','Try me');
-      echo '</form>';
-      // Show the predef operation
-      // Don't forget the p_jrn 
-      echo '<form>';
-      echo dossier::hidden();
-      echo '<input type="hidden" value="'.$id.'" name="p_jrn">';
-      $op=new Pre_operation($cn);
-      $op->p_jrn=$id;
-      $op->od_direct='t';
-      if ($op->count() != 0 )
-	echo widget::submit('use_opd','Utilisez une op.pr&eacute;d&eacute;finie');
-      echo $op->show_button();
-      echo '</form>';
-      exit();
-    }
- 
-    if ( isset($_POST['post_id' ])) {
-
-      echo '<form method="post">';
-      echo $a->show_form($_POST,1);
-      echo widget::button('add','Ajout d\'une ligne','onClick="quick_writing_add_row()"');
-      echo widget::submit('save_it',"Sauver");
-      echo '</form>';
-      exit();
-    }
-    if ( isset($_POST['save_it' ])) {
-      print 'saving';
-      $array=$_POST;
-      $array['save_opd']=1;
-      try {
-	$a->save($array);
-      } catch (AcException $e) {
-	echo '<script>alert (\''.$e->getMessage()."'); </script>";
-	echo '<form method="post">';
-
-	echo $a->show_form($_POST);
-	echo widget::submit('post_id','Try me');
-	echo '</form>';
-	 
-      }
-      exit();
-    }
-    // The GET at the end because automatically repost when you don't
-    // specify the url in the METHOD field
-    if ( isset ($_GET['use_opd'])) {
-      $op=new Pre_op_advanced($cn);
-      $op->set_od_id($_REQUEST['pre_def']);
-      //$op->p_jrn=$id;
-
-      $p_post=$op->compute_array();
-
-      echo '<FORM method="post">';
-
-      echo $a->show_form($p_post);
-      echo widget::submit('post_id','Use predefined operation');
-      echo '</form>';
-      exit();
-
-    }
-
-  }
   /*!\brief Update the paiment  in the list of operation
    *\param $p_array is normally $_GET 
    */
@@ -1596,5 +1513,92 @@ function get_last_date()
 
       }
     }
+  }
+  /*! 
+   * \brief this function is intended to test this class
+   */
+  static function test_me() 
+  {
+    echo Acc_Reconciliation::$javascript;
+    html_page_start();
+    $cn=DbConnect(dossier::id());
+    $_SESSION['g_user']='phpcompta';
+    $_SESSION['g_pass']='phpcompta';
+
+    $id=(isset ($_REQUEST['p_jrn']))?$_REQUEST['p_jrn']:-1;
+    $a=new Acc_Ledger($cn,$id);
+    $a->with_concerned=true;
+    // Vide
+    echo '<FORM method="post">';
+    echo $a->select_ledger()->IOValue();
+    echo widget::submit('go','Test it');
+    echo '</form>';
+    if ( isset($_POST['go'])) {
+      echo "Ok ";
+      echo '<form method="post">';
+      echo $a->show_form();
+      echo widget::submit('post_id','Try me');
+      echo '</form>';
+      // Show the predef operation
+      // Don't forget the p_jrn 
+      echo '<form>';
+      echo dossier::hidden();
+      echo '<input type="hidden" value="'.$id.'" name="p_jrn">';
+      $op=new Pre_operation($cn);
+      $op->p_jrn=$id;
+      $op->od_direct='t';
+      if ($op->count() != 0 ) {
+	print_r("Count != 0");
+	echo widget::submit('use_opd','Utilisez une op.pr&eacute;d&eacute;finie');
+	echo $op->show_button();
+      }
+      echo '</form>';
+      exit();
+    }
+ 
+    if ( isset($_POST['post_id' ])) {
+
+      echo '<form method="post">';
+      echo $a->show_form($_POST,1);
+      echo widget::button('add','Ajout d\'une ligne','onClick="quick_writing_add_row()"');
+      echo widget::submit('save_it',"Sauver");
+      echo '</form>';
+      exit();
+    }
+    if ( isset($_POST['save_it' ])) {
+      print 'saving';
+      $array=$_POST;
+      $array['save_opd']=1;
+      try {
+	$a->save($array);
+      } catch (AcException $e) {
+	echo '<script>alert (\''.$e->getMessage()."'); </script>";
+	echo '<form method="post">';
+
+	echo $a->show_form($_POST);
+	echo widget::submit('post_id','Try me');
+	echo '</form>';
+	 
+      }
+      exit();
+    }
+    // The GET at the end because automatically repost when you don't
+    // specify the url in the METHOD field
+    if ( isset ($_GET['use_opd'])) {
+      $op=new Pre_op_advanced($cn);
+      $op->set_od_id($_REQUEST['pre_def']);
+      //$op->p_jrn=$id;
+
+      $p_post=$op->compute_array();
+
+      echo '<FORM method="post">';
+
+      echo $a->show_form($p_post);
+      echo widget::submit('post_id','Use predefined operation');
+      echo '</form>';
+      exit();
+
+    }
+
   }
 }
