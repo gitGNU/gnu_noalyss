@@ -60,8 +60,8 @@ function u_ShowDossier($p_user,$p_admin,$p_filtre="")
     $result.=$id."  <B>".h($name)."</B>";
     $result.="</A>";
     $result.="</TD>";
-    $desc=($desc=="")?"<i>Aucune description</i>":$desc;
-    $desc="<A  class=\"dossier\" HREF=\"access.php?gDossier=$id\">".h($desc)."</a>";
+    $desc=($desc=="")?"<i>Aucune description</i>":h($desc);
+    $desc="<A  class=\"dossier\" HREF=\"access.php?gDossier=$id\">".$desc."</a>";
     $result.="<TD class=\"$tr\">".$desc;
     $result.="</TD>";
     $result.="</TR>";
