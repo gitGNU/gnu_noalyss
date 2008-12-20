@@ -144,7 +144,7 @@ echo '<p class="notice">Nombre de lignes affichées est limité</p>';
 // if request search
 if ( isset($_GET['search']) || isset($_GET['filter']) ) {
   $Res=ExecSql($cn,"select pcm_val,html_quote(pcm_lib) as pcm_lib from tmp_pcmn $condition order by pcm_val::text ".
-	       " limit 70");
+	       " limit 100");
   
   $MaxLine=pg_NumRows($Res);
   if ( $MaxLine==0) { 

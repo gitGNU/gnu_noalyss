@@ -160,7 +160,7 @@ function get_internal() {
                 join tmp_pcmn on (j_poste=pcm_val)
                 left join vw_fiche_attr on (j_qcode=quick_code)
 		where
-		jr_id=$1";
+		jr_id=$1 order by j_debit desc";
    $res=ExecSqlParam($this->db,$sql,array($this->jr_id));
    if ( pg_NumRows ($res) == 0 ) return array();
    $all=pg_fetch_all($res);
