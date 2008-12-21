@@ -24,6 +24,7 @@ require_once("postgres.php");
 require_once("class_widget.php");
 require_once  ("class_user.php");
 require_once ("debug.php");
+require_once ('ac_common.php');
 
 $rep=DbConnect();
 $User=new User($rep);
