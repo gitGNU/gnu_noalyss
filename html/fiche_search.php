@@ -166,7 +166,6 @@ if (
   else{
     $list_fiche=$e_type;
     $sql="select * from vw_fiche_attr where fd_id in ( $list_fiche )";
-    echo $sql;
   }
 
 // e_fic_search contains the pattern
