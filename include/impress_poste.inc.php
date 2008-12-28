@@ -222,6 +222,7 @@ if ( isset( $_REQUEST['bt_html'] ) ) {
 	    
 
 	    foreach ($Poste->row as $a) {
+	      $detail=$a;
 	      echo '<tr><td class="mtitle" colspan="5">'. $detail['j_date'].' '.$detail['jr_internal'].h($detail['description']).'</td></tr>';
 
 	      $op=new Acc_Operation($cn);
