@@ -65,14 +65,17 @@ function show_direct_form($cn,$ledger,$p_array) {
 
   // Show the predef operation
   // Don't forget the p_jrn 
-  echo '<form>';
+  echo '<form method="get">';
   echo widget::hidden('p_action',$_REQUEST['p_action']);
+  echo dossier::hidden();
+  echo widget::hidden('p_jrn',$_REQUEST['p_jrn']);
   $op=new Pre_operation($cn);
   $op->p_jrn=$_REQUEST['p_jrn'];
   $op->od_direct='t';
   if ( $op->count() > 0 ) {
     echo "Utilisez une operation ";
     echo $op->show_button();
+    echo widget::submit('use_opd','Utilisez une operation');
   }
   echo '</form>';
   
@@ -231,7 +234,7 @@ if ( isset($_POST['save_it' ])) {
 
   try {
     $ledger->save($array);
-    echo '<h2> Op&eacute;ration enregistr&eacute;e</h2>';
+    echo '<h2> Op&eacute;ration enregistr&eacute;e '.$ledger->jr_internal.'</h2>';
     echo widget::button_href('Autre opération dans ce journal',
 			     "?".dossier::get().
 			     '&show_form'.

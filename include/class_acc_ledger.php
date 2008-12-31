@@ -1184,7 +1184,8 @@ class Acc_Ledger {
        
   }
   /*!
-   * \brief
+   * \brief compute the internal code of the saved operation and set the $this->jr_internal to
+   *  the computed value
    *
    * \param $p_grpt id in jr_grpt_
    *
@@ -1200,6 +1201,7 @@ class Acc_Ledger {
     $type=$atype['jrn_def_code'];
     $internal_code=sprintf("%d%s-%s",dossier::id(),$type,$num);
     echo_debug (__FILE__,__LINE__,"internal_code = $internal_code");
+    $this->jr_internal=$internal_code;
     return $internal_code;
   }
 

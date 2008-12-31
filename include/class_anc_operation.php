@@ -390,7 +390,7 @@ function get_balance($p_from,$p_to,$p_plan_id)
      $result.='<table id="'.$table_id.'">';
    else 
         $result.='<table>';
-   $result.="<tr>".h($plan->header())."<th>montant</th></tr>";
+   $result.="<tr>".$plan->header()."<th>montant</th></tr>";
 
 
 

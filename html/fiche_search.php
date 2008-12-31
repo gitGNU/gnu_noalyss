@@ -214,9 +214,9 @@ if (
 	       $row['tva_label']  ,
 	       $qcode
 	       );
-  $r.="&nbsp;".$row['vw_name'];
+  $r.="&nbsp;".h($row['vw_name']);
   if ( $row['vw_addr'] !="")
-    $r.="<br><font size=-1>Adresse:&nbsp;".$row['vw_addr']."&nbsp;".$row['vw_cp']."</font>";
+    $r.="<br><font size=-1>Adresse:&nbsp;".h($row['vw_addr'])."&nbsp;".h($row['vw_cp'])."</font>";
   $r.="</span>";
  }
 }

@@ -165,7 +165,7 @@ class Anc_Plan
 	if ( empty($a_plan)) return "";
 	  foreach ($a_plan as $r_plan)
 		{
-		  $res.="<th>".$r_plan['name']."</th>";
+		  $res.="<th>".h($r_plan['name'])."</th>";
 		}
 	  return $res;
   }

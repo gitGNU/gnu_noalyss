@@ -162,7 +162,7 @@ class widget {
 	    {
 	      $checked=($this->selected==$this->value[$i]['value'])?"SELECTED":"";
 	      $r.='<OPTION VALUE="'.$this->value[$i]['value'].'" '.$checked.'>';
-	      $r.=h($this->value[$i]['label']);
+	      $r.=$this->value[$i]['label'];
 	    }
 	  $r.="</SELECT>";
 	} 
