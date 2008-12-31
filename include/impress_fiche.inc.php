@@ -124,10 +124,11 @@ if  ( isset ($_REQUEST['fd_id'])) {
 			      
 	}
       }
-      printf ("<td align=\"right\">% 10.2f</td>",$solde['debit']);
-      printf ("<td align=\"right\">% 10.2f</td>",$solde['credit']);
-      printf ("<td align=\"right\">% 10.2f</td>",$solde['solde']);
-
+      if ( isset($solde)) {
+	printf ("<td align=\"right\">% 10.2f</td>",$solde['debit']);
+	printf ("<td align=\"right\">% 10.2f</td>",$solde['credit']);
+	printf ("<td align=\"right\">% 10.2f</td>",$solde['solde']);
+      }
     }
     echo "</TR>";
   }
