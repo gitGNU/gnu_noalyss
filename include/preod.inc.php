@@ -55,6 +55,8 @@ require_once('class_pre_operation.php');
   // if $_REQUEST[sa] == del delete the predefined operation
   if ( $sa == 'del') {
 	$op=new Pre_operation($cn);
+	if ( isset($_REQUEST['direct']))
+	  $op->od_direct='t';
 	$op->od_id=$_REQUEST['od_id'];
 	$op->delete();
 	$sa='jrn';
