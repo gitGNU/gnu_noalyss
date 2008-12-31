@@ -86,7 +86,7 @@ require_once('class_pre_operation.php');
 		echo '<tr class="even">';
 	  else 
 		echo '<tr>';
-	  echo '<td>'.$row['od_name'].'</td>';
+	  echo '<td>'.h($row['od_name']).'</td>';
 	  echo '<td>';
 	  echo '<form method="POST">';
 	  echo dossier::hidden();
