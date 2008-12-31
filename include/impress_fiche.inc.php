@@ -89,17 +89,18 @@ if  ( isset ($_REQUEST['fd_id'])) {
   echo "<TABLE border=1 class=\"result\">";
   echo "<TR>";
   $fiche_def->GetAttribut();
+  $r='';
   foreach ($fiche_def->attribut as $attribut) {
     echo "<TH>".$attribut->ad_text."</TH>";
     // si solde demandé affiche la col
     //--
     if ($attribut->ad_id==ATTR_DEF_ACCOUNT 
 	&& $with_amount==true) {
-      echo "<TH  >Débit</TH>";
-      echo "<TH  >Crédit</TH>";
-      echo "<TH  >Solde</TH>";
+      $r='<TH  >Débit</TH><TH  >Crédit</TH><TH  >Solde</TH>';
     }
   }
+  echo $r;
+
 
   echo "<TR></TR>";
   $e=$fiche_def->GetByType($fiche_def->id);
@@ -120,12 +121,13 @@ if  ( isset ($_REQUEST['fd_id'])) {
 	  $sql_periode=sql_filter_per($cn,$_REQUEST['from_periode'],$_REQUEST['to_periode'],'p_id','j_tech_per');
 	  $solde=  $detail->get_solde_detail($sql_periode);
 
-	  printf ("<td align=\"right\">% 10.2f</td>",$solde['debit']);
-	  printf ("<td align=\"right\">% 10.2f</td>",$solde['credit']);
-	  printf ("<td align=\"right\">% 10.2f</td>",$solde['solde']);
 			      
 	}
       }
+      printf ("<td align=\"right\">% 10.2f</td>",$solde['debit']);
+      printf ("<td align=\"right\">% 10.2f</td>",$solde['credit']);
+      printf ("<td align=\"right\">% 10.2f</td>",$solde['solde']);
+
     }
     echo "</TR>";
   }

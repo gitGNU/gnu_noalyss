@@ -79,6 +79,9 @@ class fiche_def {
   function Get() {
     if ( $this->id == 0 ) 
       return 0;
+    ExecSqlParam($this->cn,'select fiche_attribut_synchro($1)',
+		 array($this->id));
+
     $sql="select * from fiche_def ".
       " where fd_id=".$this->id;
     $Ret=ExecSql($this->cn,$sql);
@@ -350,8 +353,8 @@ class fiche_def {
 
 		$span_mod='<TD><A href="?p_action=fiche&'.$str_dossier.'&action=detail&fiche_id='.$l_line['f_id'].$str.'&fiche='.$_GET['fiche'].'">'.$l_line['quick_code'].'</A></TD>';
 	
-	echo $span_mod.'<TD>'.$l_line['vw_name']."</TD>";
-	echo '</tr>';
+		echo $span_mod.'<TD>'.h($l_line['vw_name'])."</TD>";
+		echo '</tr>';
       }
       echo '</table>';
       echo '<FORM METHOD="POST" action="?p_action=fiche&action=vue'.$str.'">';
@@ -370,6 +373,9 @@ class fiche_def {
       echo_debug("class_fiche_def",__LINE__,"DisplayAttribut");
       if ( $this->id == 0 )
 	return ;
+      ExecSqlParam($this->cn,'select fiche_attribut_synchro($1)',
+		   array($this->id));
+
       $MaxLine=sizeof($this->attribut);
       echo_debug("class_fiche_def",__LINE__,"MaxLine = ".$MaxLine);
       $r="<TABLE>";
@@ -517,7 +523,10 @@ class fiche_def {
 	 ExecSqlParam($this->cn,$sql,array(${'jnt_order'.$row->ad_id},
 					   $this->id,
 					   $row->ad_id));
+	 
        }
+       /* correct the order */
+       ExecSql($this->cn,'select attribute_correct_order()');
      }
 
 

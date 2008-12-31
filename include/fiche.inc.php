@@ -74,7 +74,7 @@ function ShowFicheDefInput($p_fiche_def)
   $p_fiche_def->GetAttribut();
   if (isset ($_REQUEST['label']) )
         $p_fiche_def->SaveLabel($_REQUEST['label']);
-  $r.= '<H2 class="info">'.$p_fiche_def->label.'</H2>';
+  $r.= '<H2 class="info">'.h($p_fiche_def->label).'</H2>';
   
   $r.= '<FORM action="?p_action=fiche" method="POST">';
   $r.=dossier::hidden();
