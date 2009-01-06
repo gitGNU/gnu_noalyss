@@ -75,6 +75,8 @@ class Periode {
     return 0;
   }
   function is_open() {
+    /* if jrn_Def_id == 0 then we check the global otherwise we check
+       a ledger */
     if ( $this->jrn_def_id != 0 )
       $sql="select status from jrn_periode ".
 	" where jrn_def_id=".$this->jrn_def_id.
@@ -323,8 +325,13 @@ class Periode {
     return pg_fetch_array($Res,0);
     
   }
+
+  public function first_day()  {
+    list($p_start,$p_end)=$this->get_date_limit($this->p_id);
+    return $p_start;
+  }
   function get_exercice() {
-    $sql="select p_exercice from parm_periode where p_id=".$this->id;
+    $sql="select p_exercice from parm_periode where p_id=".$this->p_id;
     $Res=ExecSql($this->cn,$sql);
     if ( pg_NumRows($Res) == 0) return null;
     return pg_fetch_result($Res,0,0);

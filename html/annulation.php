@@ -93,7 +93,6 @@ soit par son &eacute;criture inverse ?
 					   <?php echo dossier::hidden(); ?>
 <INPUT TYPE="HIDDEN" NAME="annul">
 <INPUT TYPE="HIDDEN" NAME="p_id" value="<?php echo $_POST['p_id']; ?>">
-<INPUT TYPE="HIDDEN" NAME="op_date" value="<?php echo $_POST['op_date']; ?>">
 <INPUT TYPE="SUBMIT" NAME="confirm" value="Oui"> 
 </FORM>
 
@@ -113,17 +112,7 @@ return;
 // Remove is confirmed
   if ( isset ($_POST['p_id'])) {
     $p_id=$_POST['p_id'];
-   // Get the date
-   $e_op_date=$_POST['op_date'];
 
-
-   // Test if date is valid
-   if ( isDate ($e_op_date) == null ) {
-     $msg=' Date non valide';
-     echo "<script> alert('$msg');</script>";
-     // set an incorrect pid to get out from here
-     $p_id=-1;
-   }
 if  ($p_id != -1 ) { // A
    // userPref contient la periode par default
    $userPref=$User->get_periode($cn);
@@ -174,12 +163,12 @@ if  ($p_id != -1 ) { // A
 		jr_date,jr_grpt_id,jr_internal                 
 		,jr_tech_per, jr_valid
   		) select $seq,jr_def_id,jr_montant,'Annulation '||jr_comment,
-		now(),$grp_new,'$p_internal',
+		to_date($1,'DD.MM.YYYY'),$grp_new,'$p_internal',
 		$userPref, true 
           from
 	  jrn
-	  where   jr_grpt_id=".$_POST['p_id'];
-   $Res=ExecSql($cn,$sql);
+	  where   jr_grpt_id=$2";
+		$Res=ExecSqlParam($cn,$sql,array($l_date_start,$_POST['p_id']));
    // Check return code
    if ( $Res == false) 
 	 throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));
@@ -392,13 +381,10 @@ echo '<div align="center"> Op&eacute;ration '.$l_array['jr_internal'].'</div>
 <form action="'.$_SERVER['REQUEST_URI'].'" method="post" >';
 
 $a=new widget("text");
-// $a=InputType("Date","text", "op_date",$e_op_date,false);
-//echo 'Date : '.$e_op_date;
 $a->SetReadOnly(false);
-echo $a->IOValue("op_date",$e_op_date,"Date");
 
 echo '<div style="border-style:solid;border-width:1pt;">';
-//$a=InputType("Description:","text_big","comment",$e_comment,false);
+
 $a->size=80;
 echo $a->IOValue("comment",$e_comment,"Description");
 echo '</DIV>';
@@ -418,8 +404,7 @@ for ( $i = 0; $i < $max_cred;$i++) {
   echo ${"e_class_cred$i"}."  $lib   "."<B>".${"e_mont_cred$i"}."</B>";
   echo '</div>';
 }
-//echo "operation concern&eacute;e $e_rapt<br><br>
-//";
+
 $a=GetConcerned($cn,$e_jr_id);
 
 if ( $a != null ) {
