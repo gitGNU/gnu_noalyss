@@ -331,7 +331,7 @@ class Periode {
     return $p_start;
   }
   function get_exercice() {
-    $sql="select p_exercice from parm_periode where p_id=".$this->id;
+    $sql="select p_exercice from parm_periode where p_id=".$this->p_id;
     $Res=ExecSql($this->cn,$sql);
     if ( pg_NumRows($Res) == 0) return null;
     return pg_fetch_result($Res,0,0);

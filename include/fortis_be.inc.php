@@ -79,7 +79,6 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 			if($Num > 0) {
 				echo "Op&eacute;ration FORTIS ".$code." d&eacute;j&eagrave; import&eacute;e.<br/>";
 			} else {
-			//	$Sql="insert into import_tmp values ('$code','$date_exec','$date_valeur','$montant','$devise','".addslashes($compte_ordre)."','".addslashes($detail)."','$num_compte','$poste_comptable')";
 				$Sql="insert into import_tmp (code ,
 					date_exec ,
 					date_valeur,
@@ -99,7 +98,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 					'".addslashes($compte_ordre)."',	
 					'".addslashes($detail)."',
 					'$num_compte',
-					$p_bq_account,
+					'$p_bq_account',
 					$p_jrn,
 					'n')";
 			

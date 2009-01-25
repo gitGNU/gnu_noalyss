@@ -346,7 +346,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     bcscale(2);
     extract ($p_array);
     $pPeriode=new Periode($this->db);
-    $pPeriode->id=$periode;
+    $pPeriode->p_id=$periode;
     list ($l_date_start,$l_date_end)=$pPeriode->get_date_limit($periode);
     $exercice=$pPeriode->get_exercice();
     $r.='';
