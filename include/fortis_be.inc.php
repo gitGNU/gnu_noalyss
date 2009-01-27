@@ -27,15 +27,20 @@
 // Fortis Bank
 //-----------------------------------------------------
 $row=1;
+$must_field=7; // The mandatory number of fields
 while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 	$num = count($data);
+	
 	for ($c=0; $c < $num; $c++) {
-
+	$nb_field=substr_count($data[$c],";");
 // first line is skipped
-		if ( $row>1) {
+	if ( $row>1  &&  $nb_field == $must_field) {
 			
-			$code=""; $date_exec=""; $date_valeur=""; $montant=""; $devise=""; $compte_ordre=""; $detail=""; $num_compte=""; $iduser="";
+	$code=""; $date_exec=""; 
+	$date_valeur=""; $montant=""; $devise=""; $compte_ordre=""; $detail=""; $num_compte=""; $iduser="";
 			
+			
+				
 			list($code, $date_exec, $date_valeur, $montant, $devise, $compte_ordre, $detail, $num_compte) = split(";", $data[$c]);
 			echo "line : $row > ".$data[$c]."<hr>";
 		
@@ -76,10 +81,10 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 			$Res=ExecSql($p_cn,$sql);
 			$Num=pg_NumRows($Res);
 			
-			if($Num > 0) {
+			if($Num > 0 ) {
 				echo "Op&eacute;ration FORTIS ".$code." d&eacute;j&eagrave; import&eacute;e.<br/>";
 			} else {
-				$Sql="insert into import_tmp (code ,
+			 $Sql="insert into import_tmp (code ,
 					date_exec ,
 					date_valeur,
 					montant,
@@ -102,7 +107,8 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 					$p_jrn,
 					'n')";
 			
-				$Res=ExecSql($p_cn,$Sql,'latin1');
+				$Res=ExecSql($p_cn,$Sql);
+				
 			}
 		}
 
