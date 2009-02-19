@@ -255,6 +255,7 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
     /* for admin or local admin there is no restriction on the  ledger */
     if ($this->admin == 1 || $this->is_local_admin(dossier::id()) == 1) return ' jrn_def_id > 0 ';
     $aLedger=$this->get_ledger($p_type,$p_access);
+    if ( empty ($aLedger)) return ' jrn_def_id < 0 ';
     $sql=" jrn_def_id in (";
     foreach ($aLedger as $row) {
       $sql.=$row['jrn_def_id'].',';
@@ -613,10 +614,12 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
   }
   function check_dossier($p_dossier_id) 
   {
+    $this->Admin();
+    if ( $this->admin==1) return 'L';
     $cn=DbConnect();
 
-    $dossier=getDbValue($cn,"select priv_priv from jnt_use_dos join priv_user on (priv_jnt=jnt_id) where dos_id=$1",
-			array($p_dossier_id));
+    $dossier=getDbValue($cn,"select priv_priv from jnt_use_dos join priv_user on (priv_jnt=jnt_id) where dos_id=$1 and use_id=$2",
+			array($p_dossier_id,$this->id));
     if ( $dossier=='X' || $dossier=='') {
       alert('Dossier non accessible');
       exit();

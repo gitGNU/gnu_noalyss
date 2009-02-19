@@ -33,12 +33,10 @@ require_once ('class_dossier.php');
 require_once('class_todo_list.php');
 
 
-$user=new User(DbConnect());
-$user->check_dossier(dossier::id());
-
 $cn=DbConnect(dossier::id());
-$user->db=$cn;
+$user=new User($cn);
 $user->Check();
+$user->check_dossier(dossier::id());
 
 if ( DBVERSION!=dossier::get_version($cn)) {
   echo '<h2 class="error">Votre base de données n\'est pas  à jour, ';
