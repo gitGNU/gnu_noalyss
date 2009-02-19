@@ -88,7 +88,51 @@ var $jr_id;	/*!< pk of jrn */
     $this->jrnx_id=GetSequence($this->db,'s_jrn_op');
     return $this->jrnx_id;
     
-}
+  }
+  /*!\brief set the pj of a operation in jrn. the jr_id must be set
+   *\note if the jr_id it fails
+   */
+  function set_pj() {
+    if ( strlen(trim($this->pj)) == 0 ) {
+      $sql="update jrn set jr_pj_number=$1 where jr_id=$2";
+      ExecSqlParam($this->db,$sql,array(null,$this->jr_id));
+      return '';
+     }
+    /* is pj uniq ? */
+    if ( CountSql($this->db,"select jr_id from jrn where jr_pj_number=$1 and jr_def_id=$2",
+		  array($this->pj,$this->jrn)
+		  ) == 0 ) {
+      $sql="update jrn set jr_pj_number=$1 where jr_id=$2";
+      ExecSqlParam($this->db,$sql,array($this->pj,$this->jr_id));
+    } else {
+      /* get pref */
+      $pref=getDbValue($this->db,"select jrn_def_pj_pref from jrn_def where jrn_def_id=$1",
+		       array($this->jrn));
+      /*  try another seq */
+      $flag=0;$limit=100;
+      while ( $flag == 0 ) {
+	/*  limit the search to $limit */
+	if ( $limit < 1 ) { $this->pj='';$flag=2; break;}
+
+	$seq=NextSequence($this->db,'s_jrn_pj'.$this->jrn);
+	$this->pj=$pref.$seq;
+
+	/* check if the new pj numb exist */
+	$c=CountSql($this->db,"select jr_id from jrn where jr_pj_number=$1 and jr_def_id=$2",
+		    array($this->pj,$this->jrn)
+		    ); 
+	if ( $c == 0 ) { $flag=1; break;}
+	$limit--;
+      }	
+      /* a pj numb is found */
+      if ( $flag == 1 ) {
+        $sql="update jrn set jr_pj_number=$1 where jr_id=$2";
+	ExecSqlParam($this->db,$sql,array($this->pj,$this->jr_id));
+	}
+    }
+    return $this->pj;
+  }
+
 /*!
  **************************************************
  *\brief  Insert into the table Jrn, the amount is computed from jrnx thanks the 
@@ -101,7 +145,7 @@ var $jr_id;	/*!< pk of jrn */
   function insert_jrn()
   {
     $p_comment=FormatString($this->desc);
-    
+
     $diff=getDbValue($this->db,"select check_balance ($1)",array($this->grpt));
     if ( $diff != 0 ) {
       
@@ -171,6 +215,18 @@ function get_internal() {
  {
    $sql="update jrnx set j_text=$1 where j_id=$2";
    ExecSqlParam($this->db,$sql,array($p_text,$this->jrnx_id));
+ }
+ /*!\brief add a comment to the operation (jrn.jr_text) */
+ function operation_update_comment($p_text)
+ {
+   $sql="update jrn set jr_comment=$1 where jr_id=$2";
+   ExecSqlParam($this->db,$sql,array($p_text,$this->jr_id));
+ }
+ /*!\brief return the jrn_def_id from jrn */
+ function get_ledger() {
+   $sql="select jr_def_id from jrn where jr_id=$1";
+   $row=getDbValue($this->db,$sql,array($this->jr_id));
+   return $row;
  }
  /*!\brief display_jrnx_detail : get the data from get_jrnx_data and
     return a string with HTML code 

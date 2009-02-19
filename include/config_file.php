@@ -81,12 +81,7 @@ function config_file_form($p_array=null)
   $r.='</div>';
   return $r;
 }
-/*!\brief
- *\param
- *\return
- *\note
- *\see
- *\todo
+/*!\brief create the config file
  */
 function config_file_create($p_array,$from_setup=1,$os=1) {
   extract ($p_array);

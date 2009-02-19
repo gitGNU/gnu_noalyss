@@ -32,40 +32,46 @@ $str_dossier=dossier::get();
 
 include_once ("postgres.php");
 /* Admin. Dossier */
-$rep=DbConnect();
+$cn=DbConnect($gDossier);
 include_once ("class_user.php");
-$User=new User($rep);
+$User=new User($cn);
 $User->Check();
+$User->check_dossier($gDossier);
 
 include_once ("user_menu.php");
-
 $cn_dossier=DbConnect($gDossier);
 
-if ( $User->check_action($cn_dossier,GJRN) == 0 ) {
+
+if ( $User->check_action(PARSEC) == 0 ) {
   /* Cannot Access */
   NoAccess();
   exit -1;
  }
 
 $cn=DbConnect();
-$User=ExecSql($cn,"select  use_id,use_first_name,use_name,use_login from ac_users natural join jnt_use_dos where use_login != 'phpcompta' and dos_id=".$gDossier);
-$MaxUser=pg_NumRows($User);
-
+/*  Show all the users, included local admin */
+$user_sql=ExecSql($cn,"select  use_id,use_first_name,use_name,use_login,use_admin,priv_priv from ac_users natural join jnt_use_dos ".
+	      " join priv_user on (jnt_id=priv_jnt) where use_login != 'phpcompta' and dos_id=".$gDossier);
+$MaxUser=pg_NumRows($user_sql);
 
 echo '<DIV class="content" >';
 
 echo '<TABLE CELLSPACING="20" ALIGN="CENTER">';
 for ($i = 0;$i < $MaxUser;$i++) {
-  $l_line=pg_fetch_array($User,$i);
+  $l_line=pg_fetch_array($user_sql,$i);
   //  echo '<TR>';
   if ( $i % 3 == 0 && $i != 0)
     echo "</TR><TR>";
+  $str=($l_line['priv_priv'] == 'L')?'Local Admin':' Utilisateur normal';
+  if ( $l_line['use_admin'] == 1 ) 
+    $str=' Super Admin';
 
-  printf ('<TD><A href="?p_action=sec&action=view&user_id=%s&'.$str_dossier.'">%s %s ( %s )</A></TD>',
+  printf ('<TD><A href="?p_action=sec&action=view&user_id=%s&'.$str_dossier.'">%s %s ( %s )[%s]</A></TD>',
 	  $l_line['use_id'],
 	  $l_line['use_first_name'],
 	  $l_line['use_name'],
-	  $l_line['use_login'] );
+	  $l_line['use_login'],
+	  $str);
 
 }
 echo "</TR>";
@@ -76,200 +82,157 @@ if ( isset ($_GET["action"] )) {
   $action=$_GET["action"];
 
 }
+//----------------------------------------------------------------------
+// Action = save
+//----------------------------------------------------------------------
+if ( isset($_POST['ok'])) {
 
-// session_register set to off, so variable are undefined
-foreach ($_GET as $name=>$value) 
-  ${"$name"}=$value;
-
-if ( $action == "change_jrn" ) {
-  // Check if the user can access that folder
-  if ( CheckDossier($_GET['login'],$gDossier) == 0 ) {
-    echo "<H2 class=\"error\">Cet utilisateur ne peut pas acc&eacute;der ce dossier</H2>";
-    $action="";
-    return;
+  $sec_User=new User($cn_dossier,$_POST['user_id']);
+  /* Save first the ledger */
+  $cn_dossier=DbConnect(dossier::id());
+  $a=get_array($cn_dossier,'select jrn_def_id from jrn_def');
+  foreach ($a as $key) {
+    $id=$key['jrn_def_id'];
+    $priv=sprintf("jrn_act%d",$id);
+    $count=getDbValue($cn_dossier,'select count(*) from user_sec_jrn where uj_login=$1 '.
+		      ' and uj_jrn_id=$2',array($sec_User->login,$id));
+    if ( $count == 0 )
+      {
+	ExecSqlParam($cn_dossier,'insert into user_sec_jrn (uj_login,uj_jrn_id,uj_priv)'.
+		     ' values ($1,$2,$3)',
+		     array($sec_User->login,$id,$_POST[$priv]));
+	
+      } else {
+      ExecSqlParam($cn_dossier,'update user_sec_jrn set uj_priv=$1 where uj_login=$2 and uj_jrn_id=$3',
+		   array($_POST[$priv],$sec_User->login,$id));
+    }
   }
-  $login=$_GET['login'];
-  $jrn=$_GET['jrn'];
-  $access=$_GET['access'];
-  $l_Db=sprintf("dossier%d",$gDossier);
-  echo_debug('user_sec.php',__LINE__,"select * from user_sec_jrn where uj_login='$login' and uj_jrn_id=$jrn");
-  $cn_dossier=DbConnect($gDossier);
-  $l2_Res=ExecSql($cn_dossier,
-		  "select * from user_sec_jrn where uj_login='$login' and uj_jrn_id=$jrn");
-  $l2_count=pg_NumRows($l2_Res);
-  if ( $l2_count == 1 ) {
-    $Res=ExecSql($cn_dossier,"update  user_sec_jrn set uj_priv='$access' where uj_login='$login' and uj_jrn_id=$jrn");
-  } else {
-    $Res=ExecSql($cn_dossier,"insert into  user_sec_jrn(uj_login,uj_jrn_id,uj_priv) values( '$login' ,$jrn,'$access')");
-  }
+  /* now save all the actions */
+  $a=get_array($cn_dossier,'select ac_id from action');
 
-  $action="view";
+  foreach ($a as $key) {
+    $id=$key['ac_id'];
+    $priv=sprintf("action%d",$id);
+    $count=getDbValue($cn_dossier,'select count(*) from user_sec_act where ua_login=$1 '.
+		      ' and ua_act_id=$2',array($sec_User->login,$id));
+    if ( $_POST[$priv] == 1 && $count == 0)
+      {
+	ExecSqlParam($cn_dossier,'insert into user_sec_act (ua_login,ua_act_id)'.
+		     ' values ($1,$2)',
+		     array($sec_User->login,$id));
+	
+      }
+    if ($_POST[$priv] == 0 ){
+      ExecSqlParam($cn_dossier,'delete from user_sec_act  where ua_login=$1 and ua_act_id=$2',
+		   array($sec_User->login,$id));
+    }
+  } 
+  
 }
-if ( $action == "change_act" ) {
-  // Check if the user can access that folder
-  if ( CheckDossier($_GET['login'],$gDossier) == 0 ) {
-    echo "<H2 class=\"error\">he cannot access this folder</H2>";
-    $action="";
-    return;
-  }
-  $l_Db=sprintf("dossier%d",$gDossier);
-  $cn_dossier=DbConnect($gDossier);
-  if ( $_GET['access']==0) {
-    echo_debug('user_sec.php',__LINE__,"delete right");
-    $Res=ExecSql($cn_dossier,
-		 "delete from user_sec_act where ua_login='".$_GET['login']."' and ua_act_id=$act");
-  } else {
-    echo_debug('user_sec.php',__LINE__,"insert right");
-	if ( CountSql($cn_dossier,"select * from user_sec_act where ua_login='$login' and ua_act_id=$act") < 1 )
-	{
-    	$Res=ExecSql($cn_dossier,
-			 "insert into  user_sec_act(ua_login,ua_act_id) values( '$login' ,$act)");
-	 }
-  }
-  $action="view";
-}
+
+
+	 
+       
+//--------------------------------------------------------------------------------
 // Action == View detail for users 
+//--------------------------------------------------------------------------------
+
 if ( $action == "view" ) {
   $l_Db=sprintf("dossier%d",$gDossier);
-  $cn_dossier=DbConnect($gDossier);
+
   $cn=DbConnect();
-  $User=ExecSql($cn,
-		"select  use_id,use_first_name,use_name,use_login
-                from ac_users where use_id=".$_GET['user_id']);
+  $User=ExecSqlParam($cn,
+		"select  use_id,use_first_name,use_name,use_login,use_admin,priv_priv from ac_users natural join jnt_use_dos ".
+		     " join priv_user on (jnt_id=priv_jnt) where use_login != 'phpcompta' and dos_id=$1 and use_id=$2",
+		     array($gDossier,$_GET['user_id']));
+
   $MaxUser=pg_NumRows($User);
   if ( $MaxUser == 0 ) return;
   $l2_line=pg_fetch_array($User,0);
 
-  printf ('<H2 class="info"> Détail utilisateur %s %s (%s) </H2>',
-	  $l2_line['use_first_name'],
-	  $l2_line['use_name'],
-	  $l2_line['use_login']);
+  $admin=0;
+  if ( $l2_line['priv_priv'] == 'L') {
+    $str='Local Admin';$admin=1;
+  } else {
+    $str=' Utilisateur normal';}
+  if ( $l2_line['use_admin'] == 1 ) {
+    $str=' Super Admin';$admin=1;
+  }
+
+  if ( $admin != 0 ) {
+    echo '<h2 class="info"> Cet utilisateur est administrateur, il a tous les droits</h2>';
+    exit();
+  }
+  //
   // Check if the user can access that folder
   if ( CheckDossier($l2_line['use_login'],$gDossier) == 0 ) {
-    echo "<H2 class=\"error\">he cannot access this folder</H2>";
+    echo "<H2 class=\"error\">L'utilisateur n'a pas accès à ce dossier</H2>";
     $action="";
     return;
   }
-  // Print button
 
-  $sHref=sprintf ('sec_pdf.php?p_action=sec&user_id=%s&'.$str_dossier ,
-	  $l2_line['use_id']
-	  );
-  echo widget::button_href('Imprime',$sHref);
+  //--------------------------------------------------------------------------------
   // Show access for journal
-  $Res=ExecSql($cn_dossier,"select jrn_def_id,jrn_def_name  from jrn_def ");
-  $admin=CheckIsAdmin($l2_line['use_login']);
+  //--------------------------------------------------------------------------------
 
+  $Res=ExecSql($cn_dossier,"select jrn_def_id,jrn_def_name  from jrn_def ".
+		    " order by jrn_def_name");
+  $sec_User=new User($cn_dossier,$_GET['user_id']);
+
+  echo '<form method="post">';
+  $sHref=sprintf ('sec_pdf.php?p_action=sec&user_id=%s&'.$str_dossier ,
+	  $_GET ['user_id']
+	  );
+
+  echo widget::button('Imprime','imprime',"onclick=\"window.open('".$sHref."');\"");
+  echo widget::submit('ok','Sauve');
+  echo widget::reset('Annule');
+  echo dossier::hidden();
+  echo widget::hidden('action','sec');
+  echo widget::hidden('user_id',$_GET['user_id']);
+
+  echo '<Fieldset><legend>Journaux </legend>';
   echo '<table align="CENTER" width="100%">';
   $MaxJrn=pg_NumRows($Res);
+  $jrn_priv=new widget ('select');
+  $array=array(
+	       array ('value'=>'R','label'=>'Uniquement lecture'),
+	       array ('value'=>'W','label'=>'Lecture et écriture'),
+	       //	       array ('value'=>'O','label'=>'Uniquement opérations prédéfinies'),
+	       array ('value'=>'X','label'=>'Aucun accès')
+	       );
+
   for ( $i =0 ; $i < $MaxJrn; $i++ ) {
+    /* set the widget */
     $l_line=pg_fetch_array($Res,$i);
+
     echo '<TR> ';
     if ( $i == 0 ) echo '<TD> <B> Journal </B> </TD>';else echo "<TD></TD>";
     echo "<TD> $l_line[jrn_def_name] </TD>";
 
-    $l_change="action=change_jrn&jrn=$l_line[jrn_def_id]&login=$l2_line[use_login]&user_id=$l2_line[use_id]";
+    $jrn_priv->name='jrn_act'.$l_line['jrn_def_id'];
+    $jrn_priv->value=$array;
+    $jrn_priv->selected=$sec_User->get_ledger_access($l_line['jrn_def_id']);
 
-    if ( $admin == 0) {
-      $right=    CheckJrn($gDossier,$l2_line['use_login'],$l_line['jrn_def_id'] );
-      echo_debug('user_sec.php',__LINE__,"Privilege is $right");
-    } else $right = 3;
-    if ( $right == 0 ) {
-      echo "<TD BGCOLOR=RED>";
-      echo "Pas d'accès";
-      echo "</TD>";
-      echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="?p_action=sec&'.$l_change.'&access=R&'.$str_dossier.'"> Lecture</A></TD>';
-      echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="?p_action=sec&'.$l_change.'&access=W&'.$str_dossier.'"> Ecriture</A></TD>';
-
-      }
-    if ( $right == 1 ) {
-      echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="?p_action=sec&'.$l_change.'&access=X&'.$str_dossier.'"> Pas d\'accès</A></TD>';
-      echo "<TD BGCOLOR=\"#3BCD27\">";
-      echo "Lecture ";
-      echo "</TD>";
-      echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="?p_action=sec&'.$l_change.'&access=W&'.$str_dossier.'"> Ecriture</A></TD>';
-    }
-    if ( $right == 2 ) {
-      echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="?p_action=sec&'.$l_change.'&access=X&'.$str_dossier.'"> Pas d\'accès</A></TD>';
-      echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="?p_action=sec&'.$l_change.'&access=R&'.$str_dossier.'"> Lecture</A></TD>';
-
-      echo "<TD BGCOLOR=\"#3BCD27\">";
-      echo "Ecriture ";
-      echo "</TD>";
-
-    }
-    if ( $right == 3 ) { 
-      echo '<TD class="mtitle">  Pas d\'accès</TD>';
-      echo '<TD class="mtitle">  Lecture </TD>';
-
-      echo "<TD BGCOLOR=\"#3BCD27\">";
-      echo "Ecriture ";
-      echo "</TD>";
-
-    }
-
-
-
-    echo '</TR>';
+    echo '<td>';
+    echo $jrn_priv->IOValue();
+    echo '</td>';
+    echo '</tr>';
   }
+  echo '</table>';
+  echo '</fieldset>';
 
-  // Priv. for actions
-  $Res=ExecSql($cn_dossier,
-	       "select ac_id, ac_description from action   order by ac_id ");
-
-  $MaxJrn=pg_NumRows($Res);
-
-  for ( $i =0 ; $i < $MaxJrn; $i++ ) {
-    $l_line=pg_fetch_array($Res,$i);
-    echo '<TR> ';
-    if ( $i == 0 ) echo '<TD> <B> Action <B></TD>';
-	if  ($i != 0 &&  $l_line['ac_id'] != 50 && $l_line['ac_id']!=60)  echo "<TD></TD>";
-    if ( $l_line['ac_id'] == 50 ) 
-	  echo '<TD colspan="3"> <B> Compta. Analytique <B></TD><tr><td></td>';
-
-    if ( $l_line['ac_id'] == 60 ) 
-	  echo '<TD colspan="3"> <B> Module Budget <B></TD><tr><td></td>';
-	
-    echo "<TD>". $l_line['ac_description']." </TD>";
-	
-	$l_change="action=change_act&act=".$l_line['ac_id']."&login=".$l2_line['use_login']."&user_id=".$l2_line['use_id'];
-	if ( $admin ==0 ) {
-	  $right=check_action($gDossier,$l2_line['use_login'],$l_line['ac_id']);
-	} else {
-	  $right = 2;
-	}
-    if ( $right == 0 ) {
-      echo "<TD BGCOLOR=RED>";
-      echo "Pas d'accès";
-      echo "</TD>";
-      $l_change=$l_change."&access=1";
-      echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="?p_action=sec&'.$l_change.'&'.$str_dossier.'"> Accès </A></TD>';
-    }   
-    if ( $right == 1) {
-      $l_change=$l_change."&access=0";
-      echo '<TD class="mtitle"> <A CLASS="mtitle" HREF="?p_action=sec&'.$l_change.'&'.$str_dossier.'"> Pas d\'accès </A></TD>';
-      echo "<TD BGCOLOR=\"#3BCD27\">";
-      echo "Accès ";
-      echo "</TD>";
-      
-    }
-    if ( $right == 2) {
-
-      echo '<TD class="mtitle">  Change </TD>';
-      echo "<TD BGCOLOR=\"#3BCD27\">";
-      echo "Accès ";
-      echo "</TD>";
-      
-    }
-
-
-    echo '</TR>';
-  }
-
-  echo '</TABLE>';
-  echo widget::button_href('Imprime',$sHref);
-    
-}
+  //**********************************************************************
+  // Show Priv. for actions
+  //**********************************************************************
+  echo '<fieldset> <legend>Actions </legend>';
+  include('template/security_list_action.php');
+  echo '</fieldset>';
+  echo widget::button('Imprime','imprime',"onclick=\"window.open('".$sHref."');\"");
+  echo widget::submit('ok','Sauve');
+  echo widget::reset('Annule');
+  echo '</form>';   
+} // end of the form 
 echo "</DIV>";
 html_page_stop();
 ?>

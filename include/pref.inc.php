@@ -101,6 +101,7 @@ Th&egrave;me
 </tr>
 
 <?php  
+/*!\todo Not used anymore to be removed ?
 $topmenu=new widget('select');
 $topmenu->name='topmenu';
 $topmenu->selected=$_SESSION['g_topmenu'];
@@ -119,6 +120,7 @@ Style de menu
 </tr>
 
 <?php
+*/
 $inside_dossier=false;
 // Si utilise un dossier alors propose de changer
 // la periode par defaut

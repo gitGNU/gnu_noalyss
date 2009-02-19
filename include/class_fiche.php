@@ -893,8 +893,6 @@ class fiche {
     }
   /*! 
    * \brief HtmlTable, display a HTML of a card for the asked period
-   * \param none
-   *
    * \return none
    */
   function HtmlTableDetail($p_array=null)
@@ -1084,7 +1082,7 @@ function get_solde_detail($p_cond="") {
 	       'solde'=>abs($r['sum_deb']-$r['sum_cred']));
 }
 /*!\brief check if an attribute is empty
- *\param
+ *\param $p_attr the id of the attribut to check (ad_id)
  *\return return true is the attribute is empty or missing
  */
 function empty_attribute($p_attr) {
@@ -1126,9 +1124,6 @@ function empty_attribute($p_attr) {
  * \param   $p_jrn journal_id
  * \param   $p_type : deb or cred default empty
  * 
- *\todo  fiche::belong_ledger this function will replace fiche_inc.php
- *function isFicheOfJrn , it should be replaced everywhere in the code
- *
  * \return 1 if the fiche is in the range otherwise < 1
  *        -1 the card doesn't exist
  *        -2 the ledger has no card to check

@@ -33,6 +33,8 @@ require_once("class_widget.php");
 require_once("class_acc_ledger.php");
 require_once("class_acc_operation.php");
 require_once ('class_periode.php');
+require_once('class_acc_reconciliation.php');
+
 
 /* Admin. Dossier */
 include_once ("class_user.php");
@@ -42,6 +44,8 @@ $gDossier=dossier::id();
 $cn=DbConnect($gDossier);
 $User=new User($cn);
 $User->Check();
+$User->check_dossier(dossier::id());
+$User->can_request(GEOP,0);
 
 html_page_start($User->theme,"onLoad='window.focus();'");
 echo JS_VIEW_JRN_MODIFY;
@@ -50,12 +54,10 @@ if ( isset( $_REQUEST['p_jrn'] )) {
   }
 
  // Check privilege
- // CheckJrn verify that the user is not an admin
- // an admin has all right
-  if ( CheckJrn($gDossier,$_SESSION['g_user'],$_GET['p_jrn']) != 2 )    {
-       NoAccess();
-       exit -1;
-  }
+if ( $User->check_jrn($_GET['p_jrn']) != 'W') {
+  NoAccess();
+  exit -1;
+}
 
 
 
@@ -223,7 +225,10 @@ if  ($p_id != -1 ) { // A
 
     // Add a "concerned operation to bound these op.together
     //
-    $Res=InsertRapt($cn,$seq,$l_array['jr_id']);
+   $rec=new Acc_Reconciliation ($cn);
+   $rec->set_jr_id($seq);
+   $rec->insert($l_array['jr_id']);
+
    // Check return code
 	if ( $Res == false ) { throw (new Exception(__FILE__.__LINE__."sql a echoue [ $sql ]"));}
     
@@ -404,8 +409,10 @@ for ( $i = 0; $i < $max_cred;$i++) {
   echo ${"e_class_cred$i"}."  $lib   "."<B>".${"e_mont_cred$i"}."</B>";
   echo '</div>';
 }
-
-$a=GetConcerned($cn,$e_jr_id);
+/* concerned operation */
+$rec=new Acc_Reconciliation($cn);
+$rec->set_jr_id($e_jr_id);
+$a=$rec->get();
 
 if ( $a != null ) {
 

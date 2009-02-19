@@ -29,6 +29,8 @@ require_once('class_anc_operation.php');
 require_once('user_common.php');
 require_once('class_acc_payment.php');
 require_once('ac_common.php');
+require_once('class_own.php');
+
 /*!\brief Handle the ledger of sold, 
  *
  *
@@ -149,6 +151,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $seq=NextSequence($this->db,'s_grpt');
     $this->id=$p_jrn;
     $internal=$this->compute_internal_code($seq);
+	
     $cust=new fiche($this->db);
     $cust->get_by_qcode($e_client);
     $poste=$cust->strAttribut(ATTR_DEF_ACCOUNT);
@@ -181,25 +184,26 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 	if ( $amount < 0 ) $tot_debit=bcadd($tot_debit,abs($amount));
 
 	$j_id=$acc_operation->insert_jrnx();
+	
+	if ($own->MY_TVA_USE == 'Y' ) {	
+		/* Compute sum vat */
+		$oTva=new Acc_Tva($this->db);
+		$idx_tva=${'e_march'.$i.'_tva_id'};
+		$oTva->set_parameter('id',$idx_tva);
+		$oTva->load();
+		$op_tva=new Acc_Compute();
+		$op_tva->set_parameter("amount",$amount);
+		$op_tva->set_parameter('amount_vat_rate',$oTva->get_parameter('rate'));
+		$op_tva->compute_vat();
+		$tva_item=$op_tva->get_parameter('amount_vat');
 
-	/* Compute sum vat */
-	$oTva=new Acc_Tva($this->db);
-	$idx_tva=${'e_march'.$i.'_tva_id'};
-	$oTva->set_parameter('id',$idx_tva);
-	$oTva->load();
-	$op_tva=new Acc_Compute();
-	$op_tva->set_parameter("amount",$amount);
-	$op_tva->set_parameter('amount_vat_rate',$oTva->get_parameter('rate'));
-	$op_tva->compute_vat();
-	$tva_item=$op_tva->get_parameter('amount_vat');
 
-
-	if (isset($tva[$idx_tva] ) )
-	  $tva[$idx_tva]+=$tva_item;
-	else
-	  $tva[$idx_tva]=$tva_item;
-	$tot_tva=round(bcadd($tva_item,$tot_tva),2);
-
+		if (isset($tva[$idx_tva] ) )
+		  $tva[$idx_tva]+=$tva_item;
+		else
+		  $tva[$idx_tva]=$tva_item;
+		$tot_tva=round(bcadd($tva_item,$tot_tva),2);
+	}
 
 	/* Save the stock */
 	/* if the quantity is < 0 then the stock increase (return of
@@ -224,6 +228,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 	    $op->oa_description=FormatString($e_comm);
 	    $op->save_form_plan($_POST,$i);
 	  }
+	if ( $own->MY_TVA_USE=='Y') {
 	/* save into quant_sold */
 	$r=ExecSql($this->db,"select insert_quant_sold ".
 		   "('".$internal."',".$j_id.",'".${'e_march'.$i}
@@ -231,8 +236,15 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 		   ",".$tva_item.
 		   ",".$idx_tva.",'".$e_client."')");
 	
-      }      // end loop : save all items
-	
+      }    else { 
+	  $r=ExecSql($this->db,"select insert_quant_sold ".
+		   "('".$internal."',".$j_id.",'".${'e_march'.$i}
+		   ."',".${'e_quant'.$i}.",".$amount.
+		   ",0".
+		   ",null,'".$e_client."')");
+	  
+	  }  // if ( $own->MY_TVA_USE=='Y') {
+	}// end loop : save all items
     
     /*  save total customer */
     $cust_amount=bcadd($tot_amount,$tot_tva);
@@ -251,29 +263,31 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 	
     /* save all vat 
      * $i contains the tva_id and value contains the vat amount
+	 * if if ($own->MY_TVA_USE == 'Y' ) 
      */
-    foreach ($tva as $i => $value) {
-      $oTva=new Acc_Tva($this->db);
-      $oTva->set_parameter('id',$i);
-      $oTva->load();
+	 if ($own->MY_TVA_USE == 'Y' ) {
+	    foreach ($tva as $i => $value) {
+	      $oTva=new Acc_Tva($this->db);
+	      $oTva->set_parameter('id',$i);
+	      $oTva->load();
 
-      $poste_vat=$oTva->get_side('c');
-      
-      $cust_amount=bcadd($tot_amount,$tot_tva);
-      $acc_operation=new Acc_Operation($this->db);
-      $acc_operation->date=$e_date;
-      $acc_operation->poste=$poste_vat;
-      $acc_operation->amount=$value;
-      $acc_operation->grpt=$seq;
-      $acc_operation->jrn=$p_jrn;
-      $acc_operation->type='c';
-      $acc_operation->periode=$periode;
-      if ($value < 0 ) $tot_debit=bcadd($tot_debit,abs($value));
-      $acc_operation->insert_jrnx();
+	      $poste_vat=$oTva->get_side('c');
+	      
+	      $cust_amount=bcadd($tot_amount,$tot_tva);
+	      $acc_operation=new Acc_Operation($this->db);
+	      $acc_operation->date=$e_date;
+	      $acc_operation->poste=$poste_vat;
+	      $acc_operation->amount=$value;
+	      $acc_operation->grpt=$seq;
+	      $acc_operation->jrn=$p_jrn;
+	      $acc_operation->type='c';
+	      $acc_operation->periode=$periode;
+	      if ($value < 0 ) $tot_debit=bcadd($tot_debit,abs($value));
+	      $acc_operation->insert_jrnx();
 
-      
-    }
-
+	      
+	    }
+	} // if ($own->MY_TVA_USE=='Y')
     /* insert into jrn */
     $acc_operation=new Acc_Operation($this->db);
     $acc_operation->date=$e_date;
@@ -283,7 +297,16 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $acc_operation->grpt=$seq;
     $acc_operation->jrn=$p_jrn;
     $acc_operation->periode=$periode;
+    $acc_operation->pj=$e_pj;
     $acc_operation->insert_jrn();
+    $this->pj=$acc_operation->set_pj();
+
+    /* if e_suggest != e_pj then do not increment sequence */
+    /* and e_pj is not null */
+      if ( strcmp($e_pj,$e_pj_suggest) == 0 && strlen( trim($e_pj)) != 0 ) {
+      	$this->inc_seq_pj();
+      }
+
     ExecSql($this->db,"update jrn set jr_internal='".$internal."' where ".
 	    " jr_grpt_id = ".$seq);
 
@@ -297,7 +320,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       echo $this->create_document($internal,$p_array);
       echo '<br>';
     }
-         //----------------------------------------
+    //----------------------------------------
     // Save the payer 
     //----------------------------------------
     if ( $e_mp != 0 ) {
@@ -476,7 +499,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     if ( $p_array != null ) extract($p_array);
 
     $user = new User($this->db);
-
+	$own=new Own($this->db);
     // The first day of the periode 
     $oPeriode=new Periode($this->db);
     list ($l_date_start,$l_date_end)=$oPeriode->get_date_limit($user->get_periode());
@@ -484,12 +507,12 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $op_date=( ! isset($e_date) ) ?$l_date_start:$e_date;
     $e_ech=(isset($e_ech))?$e_ech:"";
     $e_comm=(isset($e_comm))?$e_comm:"";
-    
 
     $r="";
 
     $r.=JS_INFOBULLE;
     $r.=JS_SEARCH_CARD;
+	//!\todo check if JS_SHOW_TVA is really needed here otherwise remove it (same for class_acc_ledger_purchase)
     $r.=JS_SHOW_TVA;    
     $r.=JS_TVA;
     $r.=JS_AJAX_FICHE;
@@ -531,11 +554,16 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     // Ledger (p_jrn)
     //--
     $wLedger=$this->select_ledger('VEN',2);
+    /* if we suggest the next pj, then we need a javascript */
+    $add_js="";
+    if ( $own->MY_PJ_SUGGEST=='Y') {
+      $add_js="update_pj();";
+    }
 
     if ( $wLedger == null ) 
       exit('Pas de journal disponible');
     $wLedger->table=1;
-    $wLedger->javascript="onChange='update_predef(\"ven\",\"f\")'";
+    $wLedger->javascript="onChange='update_predef(\"ven\",\"f\");$add_js'";
     $wLedger->label=" Journal ".widget::infobulle(2) ;
 
     $r.=$wLedger->IOValue();
@@ -544,12 +572,29 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $Commentaire=new widget("text");
     $Commentaire->table=0;
     $Commentaire->SetReadOnly(false);
-    $Commentaire->size=80;
+    $Commentaire->size=60;
     $Commentaire->tabindex=3;
     $label=" Description ".widget::infobulle(1) ;
     $r.="<tr>";
     $r.='<td class="input_text">'.$label.'</td>'.
-      '<td colspan="5">'.$Commentaire->IOValue("e_comm",h($e_comm))."</td>";
+      '<td colspan="3">'.$Commentaire->IOValue("e_comm",h($e_comm))."</td>";
+    // PJ
+    //--
+    /* suggest PJ ? */
+    $default_pj='';
+    if ( $own->MY_PJ_SUGGEST=='Y') {
+      $default_pj=$this->guess_pj();
+    } 
+
+    $pj=new widget('text');
+
+
+    $pj->table=0;
+    $pj->name="e_pj";
+    $pj->size=10;
+    $pj->value=(isset($e_pj))?$e_pj:$default_pj;
+
+    $r.='<td class="input_text">Num.PJ</td><td>'.$pj->IOValue().widget::hidden('e_pj_suggest',$default_pj).'</td>';
     $r.="</tr>";
 
     // Display the customer
@@ -609,11 +654,16 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $r.="<th>D&eacute;nomination</th>";
     $label=widget::infobulle(6) ;
     $r.="<th>$label prix / unité htva </th>";
-    $r.="<th>tva</th>";
-    $r.="<th>montant total tva</th>";
+    if ( $own->MY_TVA_USE=='Y') {
+	$r.="<th>tva</th>";
+	$r.="<th>montant total tva</th>";
+    } 
+	
     $r.="<th>quantit&eacute;</th>";
 
     $r.='</TR>';
+	
+	$own=new Own($this->db);
     // For each article
     //--
     for ($i=0;$i< MAX_ARTICLE;$i++) {
@@ -621,7 +671,8 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       //--
       $march=(isset(${"e_march$i"}))?${"e_march$i"}:"";
       $march_price=(isset(${"e_march".$i."_price"}))?${"e_march".$i."_price"}:"";
-      $march_tva_id=(isset(${"e_march$i"."_tva_id"}))?${"e_march$i"."_tva_id"}:"";
+      if ( $own->MY_TVA_USE=='Y')
+		$march_tva_id=(isset(${"e_march$i"."_tva_id"}))?${"e_march$i"."_tva_id"}:"";
       
 
       $march_label="&nbsp;";
@@ -631,9 +682,11 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 	$fMarch=new fiche($this->db);
 	$fMarch->get_by_qcode($march);
 	$march_label=$fMarch->strAttribut(ATTR_DEF_NAME);
-	if ( ! (isset(${"e_march$i"."_tva_id"})))
-	     $march_tva_id=$fMarch->strAttribut(ATTR_DEF_TVA);
-      }
+	if ( $own->MY_TVA_USE=='Y') {
+		if ( ! (isset(${"e_march$i"."_tva_id"})))
+		     $march_tva_id=$fMarch->strAttribut(ATTR_DEF_TVA);
+	      }
+	 }
       // Show input
       //--
       $W1=new widget("js_search_only");
@@ -652,7 +705,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       $W1->readonly=false;
       $r.="<TR>".$W1->IOValue();
       // For computing we need some hidden field for holding the value
-      $r.=widget::hidden('tva_march'.$i,0);      
+      if ( $own->MY_TVA_USE=='Y') $r.=widget::hidden('tva_march'.$i,0);      
       $r.=widget::hidden('htva_march'.$i,0);      
       $r.=widget::hidden('tvac_march'.$i,0);      
       $r.="</TD>";
@@ -668,22 +721,24 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       $Price->size=9;
       $Price->javascript="onBlur='compute_sold($i)'";
       $r.=$Price->IOValue("e_march".$i."_price",$march_price);
-      // vat label
-      //--
-      $select_tva=make_array($this->db,"select tva_id,tva_label from tva_rate order by tva_rate desc",0);
-      $Tva=new widget("select");
-      $Tva->javascript="onChange=compute_sold($i)";
-      $Tva->table=1;
-      $Tva->selected=$march_tva_id;
-      $r.=$Tva->IOValue("e_march$i"."_tva_id",$select_tva);
-      // vat amount (disable)
-      //--
-      $wTva_amount=new widget("text");
-      $wTva_amount->table=1;
-      $wTva_amount->readonly=true;
-      $wTva_amount->size=6;
-      $r.=$wTva_amount->IOValue("tva_march$i"."_show");
-      
+      // if tva is not needed then no tva field
+      if ( $own->MY_TVA_USE == 'Y' ) {
+	      // vat label
+	      //--
+	      $select_tva=make_array($this->db,"select tva_id,tva_label from tva_rate order by tva_rate desc",0);
+	      $Tva=new widget("select");
+	      $Tva->javascript="onChange=compute_sold($i)";
+	      $Tva->table=1;
+	      $Tva->selected=$march_tva_id;
+	      $r.=$Tva->IOValue("e_march$i"."_tva_id",$select_tva);
+	      // vat amount (disable)
+	      //--
+	      $wTva_amount=new widget("text");
+	      $wTva_amount->table=1;
+	      $wTva_amount->readonly=true;
+	      $wTva_amount->size=6;
+	      $r.=$wTva_amount->IOValue("tva_march$i"."_show");
+      }
       // quantity
       //--
       $quant=(isset(${"e_quant$i"}))?${"e_quant$i"}:"1";
@@ -706,16 +761,21 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 
     $r.='<div style="position:float;float:right;text-align:left;font-size:1.2em;font-weight:bold;color:blue" id="sum">';
     $r.='<br><span id="htva">0.0</span>';
-    $r.='<br><span id="tva">0.0</span>';
-    $r.='<br><span id="tvac">0.0</span>';
+    if ( $own->MY_TVA_USE=='Y' ) {
+      $r.='<br><span id="tva">0.0</span>';
+      $r.='<br><span id="tvac">0.0</span>';
+    }
     $r.="</div>";
 
 
 
     $r.='<div style="position:float;float:right;text-align:right;padding-right:5px;font-size:1.2em;font-weight:bold;color:blue">';
+	if ( $own->MY_TVA_USE=='Y') {
     $r.='<br>Total HTVA';
     $r.='<br>Total TVA';
     $r.='<br>Total TVAC';
+	}
+	$r.='<br>Total';
     $r.="</div>";
 
     $r.="</fieldset>";
@@ -747,7 +807,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     extract ($p_array);
     $this->verify($p_array) ; 
 
-    // to show a select list for the analytic
+    // to show a select list for the analytic & VAT USE
     // if analytic is op (optionnel) there is a blank line
     $own = new Own($this->db);
 
@@ -773,7 +833,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $r.='<td> Journal '.h($this->get_name()).'</td>';
     $r.='</tr>';
     $r.='<tr>';
-    $r.='<td colspan="3"> Description '.h($e_comm).'</td>';
+    $r.='<td colspan="3"> Description '.h($e_comm).'</td><td>PJ Num:  '.h($e_pj).'</td>';
     $r.='</tr>';
     $r.='<tr>';
     $r.='<td colspan="3"> Client '.h($e_client.':'.$client_name).'</td>';
@@ -789,8 +849,10 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $r.="<th>tva</th>";
     $r.="<th>quantit&eacute;</th>";
 
-    $r.='<th> Montant TVA</th>';
-    $r.='<th>Montant HTVA</th>';
+    if ( $own->MY_TVA_USE=='Y') {
+      $r.='<th> Montant TVA</th>';
+      $r.='<th>Montant HTVA</th>';
+    }
     $r.=($own->MY_ANALYTIC!='nu')?'<th>Compt. Analytique</th>':'';
     $r.='</tr>';
     $tot_amount=0.0;
@@ -802,24 +864,28 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       $fiche=new fiche($this->db);
       $fiche->get_by_qcode(${"e_march".$i});
       $fiche_name=h($fiche->getName());
-      $oTva=new Acc_Tva($this->db);
-      $idx_tva=${"e_march".$i."_tva_id"};
-
-      $oTva->set_parameter('id',$idx_tva);
-      $oTva->load();
+      if ( $own->MY_TVA_USE=='Y') {
+	$oTva=new Acc_Tva($this->db);
+	$idx_tva=${"e_march".$i."_tva_id"};
+	
+	$oTva->set_parameter('id',$idx_tva);
+	$oTva->load();
+      }
       $op=new Acc_Compute();
       $amount=bcmul(${"e_march".$i."_price"},${'e_quant'.$i});
-
       $op->set_parameter("amount",$amount);
-      $op->set_parameter('amount_vat_rate',$oTva->get_parameter('rate'));
-      $op->compute_vat();
-      $tva_item=$op->get_parameter('amount_vat');
-      if (isset($tva[$idx_tva] ) )
-	$tva[$idx_tva]+=$tva_item;
-      else
-	$tva[$idx_tva]=$tva_item;
+      if ( $own->MY_TVA_USE=='Y') {
+	$op->set_parameter('amount_vat_rate',$oTva->get_parameter('rate'));
+	$op->compute_vat();
+	$tva_item=$op->get_parameter('amount_vat');
+	if (isset($tva[$idx_tva] ) )
+	  $tva[$idx_tva]+=$tva_item;
+	else
+	  $tva[$idx_tva]=$tva_item;
+	$tot_tva=round(bcadd($tva_item,$tot_tva),2);
+      }
       $tot_amount=round(bcadd($tot_amount,$amount),2);
-      $tot_tva=round(bcadd($tva_item,$tot_tva),2);
+     
       $r.='<tr>';
       $r.='<td>';
       $r.=${"e_march".$i};
@@ -833,13 +899,14 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       $r.='<td align="right">';
       $r.=${"e_quant".$i};
       $r.='</td>';
-
-      $r.='<td align="right">';
-      $r.=$oTva->get_parameter('label');
-      $r.='</td>';
-      $r.='<td align="right">';
-      $r.=$tva_item;
-      $r.='</td>';
+      if ( $own->MY_TVA_USE=='Y') {
+	$r.='<td align="right">';
+	$r.=$oTva->get_parameter('label');
+	$r.='</td>';
+	$r.='<td align="right">';
+	$r.=$tva_item;
+	$r.='</td>';
+      }
       $r.='<td align="right">';
       $r.=$amount;
       $r.='</td>';
@@ -873,26 +940,32 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $r.='<fieldset> <legend>Totaux</legend>';
     $tot=round(bcadd($tot_amount,$tot_tva),2);
     $r.='<div style="width:40%;position:float;float:left;text-align:right;padding-left:5%;padding-right:5%;color:blue;font-size:1.2em;font-weight:bold">';
-    $r.='<br>Total HTVA';
-
-    foreach ($tva as $i=>$value) {
-      $oTva->set_parameter('id',$i);
-      $oTva->load();
-
-      $r.='<br>  TVA à '.$oTva->get_parameter('label');
+    /* use VAT */
+    if ($own->MY_TVA_USE == 'Y' ) {
+      $r.='<br>Total HTVA';
+      foreach ($tva as $i=>$value) {
+	$oTva->set_parameter('id',$i);
+	$oTva->load();
+	
+	$r.='<br>  TVA à '.$oTva->get_parameter('label');
+      }
+      $r.='<br>Total TVA';
+      $r.='<br>Total TVAC';
+    } else {
+       $r.='<br>Total ';
     }
-    $r.='<br>Total TVA';
-    $r.='<br>Total TVAC';
     $r.='</div>';
 
     $r.='<div style="position:float;float:left;text-align:right;color:blue;font-size:1.2em;font-weight:bold">';
     $r.='<br><span id="htva">'.$tot_amount.'</span>';
 
-    foreach ($tva as $i=>$value) {
-      $r.='<br>'.$tva[$i];
+    if ($own->MY_TVA_USE == 'Y' ) {
+      foreach ($tva as $i=>$value) {
+	$r.='<br>'.$tva[$i];
+      }
+      $r.='<br><span id="tva">'.$tot_tva.'</span>';
+      $r.='<br><span id="tvac">'.$tot.'</span>';
     }
-    $r.='<br><span id="tva">'.$tot_tva.'</span>';
-    $r.='<br><span id="tvac">'.$tot.'</span>';
     $r.="</div>";
 
 
@@ -905,10 +978,13 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $r.=widget::hidden('nb_item',$nb_item);
     $r.=widget::hidden('p_jrn',$p_jrn);
     $r.=widget::hidden('periode',$periode);
-	/*\todo comment les types hidden gérent ils des contenus avec des quotes, double quote ou < > ??? */
+    /*\todo comment les types hidden gérent ils des contenus avec des quotes, double quote ou < > ??? */
     $r.=widget::hidden('e_comm',$e_comm);
     $r.=widget::hidden('e_date',$e_date);
     $r.=widget::hidden('e_ech',$e_ech);
+    $r.=widget::hidden('e_pj',$e_pj);
+    $r.=widget::hidden('e_pj_suggest',$e_pj_suggest);
+
     $e_mp=(isset($e_mp))?$e_mp:0;
     $r.=widget::hidden('e_mp',$e_mp);
     /* Paid by */
@@ -927,7 +1003,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     for ($i=0;$i < $nb_item;$i++) {
       $r.=widget::hidden("e_march".$i,${"e_march".$i});
       $r.=widget::hidden("e_march".$i."_price",${"e_march".$i."_price"});
-      $r.=widget::hidden("e_march".$i."_tva_id",${"e_march".$i."_tva_id"});
+      if ( $own->MY_TVA_USE=='Y') $r.=widget::hidden("e_march".$i."_tva_id",${"e_march".$i."_tva_id"});
       $r.=widget::hidden("e_quant".$i,${"e_quant".$i});
     }
 
@@ -1010,13 +1086,8 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 
 
   }
-  /*!\brief
-   *\param
-   *\return
-   *\note
-   *\see
-   *\todo
-   */	
+  /*!\brief test function
+   */
   static function test_me() {
   }
   

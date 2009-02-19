@@ -31,7 +31,7 @@ require_once("jrn.php");
 
 $cn=DbConnect($gDossier);
 
-echo '<div class="u_redcontent">
+echo '<div class="u_content">
       <form method="GET">';  
 echo dossier::hidden();
 echo widget::hidden('p_action','gl');
@@ -54,7 +54,7 @@ if ( $current == -1) {
  }
 /* security filter on the ledger */
 $sql_ledger='';
-if ( $User->Admin() == 0 ) { $sql_ledger=' and  '.$User->get_ledger_sql();}
+if ( $User->Admin() == 0 && $User->is_local_admin()==0) { $sql_ledger=' and  '.$User->get_ledger_sql();}
 $sql=SQL_LIST_ALL_INVOICE.$cond.$sql_ledger;
 // Nav. bar 
 $step=$_SESSION['g_pagesize'];

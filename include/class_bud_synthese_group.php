@@ -522,6 +522,7 @@ Array
     $cn=DbConnect(dossier::id());
     $obj=new Bud_Synthese_Group($cn);
     echo '<form method="GET">';
+	echo widget::hidden('test_select',$_REQUEST['test_select']);
     echo $obj->select_hypo();
     echo widget::submit('recherche','recherche');
     echo '</form>';
@@ -530,6 +531,7 @@ Array
       echo '<form method="GET">';
       echo $obj->form();
       echo widget::hidden('bh_id',$obj->bh_id);
+	  echo widget::hidden('test_select',$_REQUEST['test_select']);
       echo widget::submit('recherche2','recherche');
       echo '</form>';
     }

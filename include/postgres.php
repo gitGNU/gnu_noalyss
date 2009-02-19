@@ -134,15 +134,16 @@ function ExecSql($p_connection, $p_string,$p_encoding='utf8') {
   echo_debug('postgres.php',__LINE__,"SQL = $p_string");
   // probl. with Ubuntu & UTF8
   //----
-
-  pg_set_client_encoding($p_connection,$p_encoding);
-  ob_start();
-  $ret=pg_query($p_connection,$p_string);
-  if ( ! $ret )   {
-    ob_end_clean();
-    throw new Exception (" SQL ERROR $p_string ",1);
-  } 
-  ob_end_clean();
+  try {
+    pg_set_client_encoding($p_connection,$p_encoding);
+    $ret=pg_query($p_connection,$p_string);
+    if ( ! $ret )       throw new Exception (" SQL ERROR $p_string ",1);
+  } catch (Exception  $a) {
+    echo $p_string;
+    $a->getMessage();
+    $a->getTrace();
+    return $ret;
+  }
   return $ret;
 
 }
@@ -191,39 +192,7 @@ function GetAllUser() {
   }
   return $User;
 }
-/*!   
- * \brief Check if the User is valid
- * and return an array with his property
- */
-function GetUid($p_uid) {
-  $cn=DbConnect();
-  $Res=ExecSql($cn,"select * from ac_users where use_id=".$p_uid);
-  $Num=pg_NumRows($Res);
-  if ( $Num == 0 ) { return false; }
-  for ($i=0;$i < $Num; $i++) {
-    $Prop[]=pg_fetch_array($Res,$i);
-  }
-  return $Prop;
-}
-/*!   
- * \brief Get the privilege of an user on a folder
- */
-function GetPriv($p_dossier,$p_login)
-{
-  $cn=DbConnect();
-  $Res=ExecSql($cn,"select priv_priv 
-                    from priv_user  left join jnt_use_dos on jnt_id=priv_jnt
-			inner join ac_users on ac_users.use_id=jnt_use_dos.use_id
-                    where use_login='$p_login' and dos_id=$p_dossier");
-  $Num=pg_NumRows($Res);
-  echo_debug('postgres.php',__LINE__,"Found ".$Num." rows in GetPriv");
-  if ( $Num==0) { return 0;}
-  for($i=0;$i < $Num;$i++) {
-    $Right=pg_fetch_array($Res,$i); 
-    $Priv[]=$Right['priv_priv'];
-  }
-  return $Priv;
-}
+
 /*!   
  * \brief Get the number of rows
  * from table jnt_use_dos where $p_dossier = dos_id and 
@@ -262,11 +231,15 @@ function GetJnt($p_dossier,$p_user)
  * 
  * \param $p_conn connection handler
  * \param $p_sql sql string
+ * \param $array if not null we use the safer ExecSqlParam
  */
 
-function CountSql($p_conn,$p_sql)
+function CountSql($p_conn,$p_sql,$array=null)
 {
-  $r_sql=ExecSql($p_conn,$p_sql);
+  if ( $array == null )
+    $r_sql=ExecSql($p_conn,$p_sql);
+  else
+    $r_sql=ExecSqlParam($p_conn,$p_sql,$array);
   return pg_NumRows($r_sql);
 
 }
@@ -314,34 +287,6 @@ function Rollback($p_cn) {
 function AlterSequence($p_cn,$p_name,$p_value) {
   
   $Res=ExecSql($p_cn,"alter sequence $p_name restart $p_value");
-}
-function get_login($p_uid)
-{
-  $cn=DbConnect();
-  $Res=ExecSql($cn,"select use_login from ac_users where use_id=$p_uid");
-  if ( pg_NumRows($Res) == 0 ) return null;
-  $a_login=pg_fetch_array($Res,0);
-  return $a_login['use_login'];
-}
-
-/*!   SyncRight
- * \brief  Synchronize les droits par dï¿½faut
- *           avec  les journaux existants
- *\param $p_dossier dossier id
- * \param $p_user user id
- *
- */ 
-function SyncRight($p_dossier,$p_user) {
-  $priv=GetPriv($p_dossier,$p_user);
-  $right=$priv[0];
-
-  $cn=DbConnect($p_dossier);
-
- $sql="insert into user_sec_jrn(uj_login,uj_jrn_id,uj_priv) ".
-   "select '".$p_user."',jrn_def_id,'".$right."' from jrn_def ".
-   "where jrn_def_id not in ".
-   "(select uj_jrn_id from user_sec_jrn where uj_login='".$p_user."')";
- $Res=ExecSql($cn,$sql);
 }
 /*!
  * \brief  Get the properties of an user

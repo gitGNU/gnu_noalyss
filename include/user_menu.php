@@ -84,6 +84,7 @@ function u_ShowDossier($p_user,$p_admin,$p_filtre="")
  */ 
 function GetAvailableFolder($p_user,$p_admin,$p_filter="")
 {
+
   $filter="";
   if ($p_admin==0) {
     // show only available folders
@@ -94,7 +95,7 @@ function GetAvailableFolder($p_user,$p_admin,$p_filter="")
                   join  priv_user on ( priv_jnt=jnt_id)
           where use_active=1 
          and use_login='$p_user' 
-         and priv_priv != 'NO' and dos_name ilike '%$p_filter%'
+         and priv_priv != 'X' and dos_name ilike '%$p_filter%'
           order by dos_name";
 
   } else {
@@ -190,7 +191,7 @@ function ShowMenuCompta($p_high="")
   $result=ShowItem($p_array,'H',"mtitle","mtitle",$default,' width="100%"');
   $str_dossier=dossier::get();
   $r="";
-  $r.=menu_tool("compta");
+  $r.=menu_tool("user_compta.php");
   $r.='<div style="float:left;background-color:#879ED4;width:100%;">';
   $r.=$result;
   $r.='</div>';
@@ -225,169 +226,10 @@ function GetFirstJrnIdForJrnType($p_dossier,$p_type)
   return $l_line[0];
   //return 0;
 }
-/*!   ShowMenuJrnUser($p_dossier,$p_type,$p_jrn)
- * \brief  Show the Menu from the jrn encode
- *           page
- * 
- * \param $p_dossier number
- * \param $p_type type of journal (VEN,ACH,BQE,ODS)
- * \param $p_jrn journal
- * \param $p_extra html code to add at the return (before the \</table\>)
- * \return string with table in HTML
- * \note we use the PHP_SELF variable to build the href value but we need to add
- *       a parameter when the REQUEST_url is commercial.php
- *       
- *
- */ 
-function ShowMenuJrnUser($p_dossier,$p_type,$p_jrn,$p_extra="")
-{
-  include_once ("debug.php");
-  include_once("constant.php");
-  include_once("class_user.php");
 
 
-  echo '<TABLE><TR>';
-  include_once("postgres.php");
-  $str_dossier=dossier::get();
-  
-  $Cn=DbConnect($p_dossier);
-  
-  $User=new User($Cn);
-  $User->Check();
-  if ( $User->Admin() ==0) {
-    $Ret=ExecSql($Cn,"select jrn_def_id,jrn_def_type,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
-                               jrn_deb_max_line,jrn_cred_max_line
-                             from jrn_def join jrn_type on jrn_def_type=jrn_type_id
-                             join user_sec_jrn on uj_jrn_id=jrn_def_id 
-                             where
-                             uj_login='".$User->id."'
-                             and uj_priv !='X'
-                             and jrn_def_type=upper('$p_type') order by jrn_Def_id
-                             ");
-    } else {
-      $Ret=ExecSql($Cn,"select jrn_def_id,jrn_def_type,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_deb_max_line,jrn_cred_max_line,
-                            jrn_type_id,jrn_desc,'W' as uj_priv
-                             from jrn_def join jrn_type on jrn_def_type=jrn_type_id where
-                              jrn_def_type=upper('$p_type') order by jrn_Def_id");
-
-    } 
-    $Max=pg_NumRows($Ret);
-    // If you can't access any ledger, so you don't have access
-    if ( $Max == 0 )
-      NoAccess();
-
-    include_once("check_priv.php");
-
-    for ($i=0;$i<$Max;$i++) {
-      $l_line=pg_fetch_array($Ret,$i);
-      // Admin have always rights
-      if ( $User->Admin() == 0 ){
-		$right=CheckJrn($p_dossier,$_SESSION['g_user'],$l_line['jrn_def_id']);
-      }else {
-		$right=3;
-      }
-	  
-      if ( $right > 0 ) {
-		// Minimum Lecture 
-		echo_debug('user_menu.php',__LINE__,"p_jrn = $p_jrn ");
-		if ( $l_line['jrn_def_id'] != $p_jrn ) {
-		  $href=basename($_SERVER["PHP_SELF"]);
-		  $add="";
-		  // if the PHP_SELF == commercial.php, we need to add the parameter
-		  // p_action=facture
-	  if ( $href=="commercial.php" ) 
-	    {
-	      $add='&p_action='.$_REQUEST['p_action'];
-	    }
-	  echo '<TD class="mtitle">';
-	  printf ('<A class="mtitle" HREF="%s?'.$str_dossier.'&p_action=%s&p_jrn=%s%s">%s</A></TD>',
-			  $href,
-			  $p_type,
-			  $l_line['jrn_def_id'],
-			  $add,
-			  $l_line['jrn_def_name']
-		  );
-		} else
-		  {
-			echo '<TD class="selectedcell">'. $l_line['jrn_def_name'].'</TD>';
-		  }
-      }// if right
-    }// for
-    if ( $p_extra !="" ) echo $p_extra;
-    echo '</TR>';
-    echo "</TABLE>";
 
 
-}
-/*! 
- * \brief  Show the menu of the jrn depending of its type, check with the security
- *        
- * \param p_cn database connection
- * \param p_jrn_type type of the ledger
- * \param p_jrn jrn id
- *
- *
- * \return string containing the menu
- *    
- */
-function ShowMenuJrn($p_cn,$p_jrn_type,$p_jrn) 
-{
-
-  $Res=ExecSql($p_cn,"select ja_name,ja_url,ja_action,ja_desc from jrn_action  ".
-	       " where ja_jrn_type='$p_jrn_type'
-                      order by ja_id");
-  $num=pg_NumRows($Res);
-  if ($num==0)    return "";
-
-
-  // Retrieve in the database the menu
-
-  $access_key_list = array();
-  $array_item=array();
-  for ($i=0;$i<$num;$i++) {
-    $action=pg_fetch_array($Res,$i);
-    $access_key=get_quick_key($action['ja_name'],$access_key_list);
-    $lib=str_replace($access_key,'<u>'.$access_key.'</u>',$action['ja_name']);
-    $str_url=sprintf('?%s&p_jrn=%s&jrn_type=%s&'.dossier::get(),
-			$action['ja_action'], 
-			$p_jrn, 
-			$_REQUEST['jrn_type']);
-		       
-    $str_lib=$action['ja_name'];
-    $array_item[]=array($str_url,$str_lib);
-  }
-  $dir=($p_jrn_type=='FIN')?'H':'V';
-  $ret=ShowItem($array_item,$dir);
-  return $ret;
-
-}
-
-/*!   get_quick_key
- * \brief  Show the menu of the jrn depending of its type
- *  return a not yet used access key. The returned key is added to $access_key_list       
- * 
- * \param $title
- * \param &$access_key_list
- *
- *
- * \return string containing the menu
- *     - 
- */
-function get_quick_key($title,&$access_key_list)
-{
-	$quick = $title[0];
-	if(array_key_exists($quick, $access_key_list))
-	{
-		echo_debug(" key exists: " . $quick);
-		return get_quick_key(substr($title, 1), $access_key_list);
-	} else
-	{
-		echo_debug(" new key: " . $quick);
-	}
-	$access_key_list[$quick] = $quick;
-	
-	return $quick;
-}
 
 /*!  
  * \brief Returns the form for the search (module accountancy)
@@ -503,7 +345,7 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
  $r.= "</TR>";
  echo_debug('user_menu.php',__LINE__,"<TD>".$A->IOValue().'</TD><TD>'.$sp->IOValue("p_qcode_label")."</TD>");
  
-  $r.= '<TD colspan="3"> Le commentaire contient </TD>';
+  $r.= '<TD colspan="3"> Le commentaire contient( ou numéro de pièce) </TD>';
   $r.= "</TR><TR>";
   $r.= '<TD COLSPAN="3"> <INPUT TYPE="TEXT" style="border:groove 1px blue;" NAME="s_comment" VALUE="'.$p_s_comment.'"></TD>';
   $r.= "</TR><TR>";
@@ -570,7 +412,6 @@ function ShowJrn($p_menu="")
 }
 
 /*!   
- **************************************************
  * \brief  Show the menu for the card management
  *        
  * \param $p_dossier dossier 1
@@ -585,8 +426,7 @@ function ShowMenuFiche($p_dossier)
 	 $str_dossier=dossier::get();
      echo '<div class="lmenu">';
      echo '<TABLE>';
-     /*! \todo  Only for developper A test must be added
-      */
+
       echo '<TR><TD colspan="1" class="mtitle">
           <A class="mtitle" HREF="?p_action=fiche&action=add_modele&fiche=modele&'.$str_dossier.'">Creation</A></TD>
           <TD><A class="mtitle" HREF="?p_action=fiche&'.$str_dossier.'">Recherche</A></TD>
@@ -647,7 +487,7 @@ function MenuAdmin()
 	       array("logout.php","Logout")
 	       );
 
-  $menu=ShowItem($item,'H',"mtitle","mtitle",$def);
+  $menu=ShowItem($item,'H',"mtitle","mtitle",$def,' width="100%" ');
   return $menu;
 }
 /*!  
@@ -702,12 +542,8 @@ function ShowMenuParam($p_action="")
 
 }
 /*! 
- * \brief  Show the menu in the jrn page
+ * \brief  display the html the menu in the jrn page
  * 
- * \param  $p_dossier  
- *	
- * 
- *
  * \return nothing
  *	
  *
@@ -805,65 +641,44 @@ $r.='<script language="javascript">
   $agent=$_SERVER['HTTP_USER_AGENT'];
 
   $amodule=array(
-		 array('value'=>'pref','label'=>'Preference'),
-		 array('value'=>'compta','label'=>'Comptabilite'),
-		 array('value'=>'gestion','label'=>'Gestion'),
-		 array('value'=>'analytic','label'=>'Compt. Analytique'),
-		 array('value'=>'budget','label'=>'Budget'),
-		 array('value'=>'param','label'=>'Parametre'),
-		 array('value'=>'access','label'=>'Accueil'),
-		 array('value'=>'home','label'=>'Autre Dossier'),
-		 array('value'=>'logout','label'=>'Deconnection')
+		 array('value'=>'user_pref.php','label'=>'Preference'),
+		 array('value'=>'parametre.php','label'=>'Parametre'),
+		 array('value'=>'budget.php','label'=>'Budget'),
+		 array('value'=>'user_login.php','label'=>'Autre Dossier'),
+		 array('value'=>'new_line'),
+		 array('value'=>'user_compta.php','label'=>'Comptabilite'),
+		 array('value'=>'commercial.php','label'=>'Gestion'),
+		 array('value'=>'comptanalytic.php','label'=>'Compt. Analytique'),
+		 array('value'=>'access.php','label'=>'Accueil'),
+		 array('value'=>'logout.php','label'=>'Deconnection')
 	       );
-  if ( $_SESSION['g_topmenu'] == 'SELECT' ) {
-    $lab="";
-    foreach ($amodule as $l) 
-      if ( $l['value'] == $p_from) {$lab=$l['label'];break;}
-    
-    $gDossier=dossier::id();
-    $r.= '<form method="GET" action="control.php" >';
-    $w=new widget('select');
-    $w->name='m';
-    $w->value=$amodule;
-    $r.=    '<table><tr><td class="mtitle">';
 
-    $search="openRecherche('".$_REQUEST['PHPSESSID']."','".$gDossier."','".$view."');";
-    $r.='<input type="BUTTON" onClick="'.$search.'" value="Recherche">';
-    $r.='</td>';
-    $r.= '<td style="border:2px solid blue;border-style:groove;">'.$w->IOValue();
-    $r.= dossier::hidden();
-    $r.=widget::submit('','Acces Direct').'</td>';
-    $r.='</tr>';
-    $r.= '</table>';
-    $r.= '</form>';
-    if ( $lab !="")
-      echo '<span style="background-color:red;padding:3px;color:white">'.$lab.'</span>';
-
-    $r.= '</div>';
-  }
-  if ( $_SESSION['g_topmenu'] == 'TEXT' ) {
-    $gDossier=dossier::id();
-    $r.=    '<table><tr><td class="mtitle2">';
-    $r.= '<A class="cell" HREF="javascript:openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.$gDossier.')">'.
-      'Recherche</a></td>';
-    foreach($amodule as $col ) {
-      $url="control.php?".dossier::get()."&m=".$col['value'];
-      if ( $p_from==$col['value']) {
+  $gDossier=dossier::id();
+  $r.=    '<table><tr><td class="mtitle2">';
+  $r.= '<A class="cell" HREF="javascript:openRecherche(\''.$_REQUEST['PHPSESSID'].'\','.$gDossier.')">'.
+    'Recherche</a></td>';
+  foreach($amodule as $col ) {
+    $url=$col['value'].'?'.dossier::get();
+    if ( $p_from==$col['value']) {
       $r.= '<td style="background-color:red">'.
 	'<a class="mtitle" href="'.$url.'" >'.$col['label'].'</a>'.
 	'</td>';
 
-      } else {
+    } else {
+      if ( $col['value']=='new_line') {
+	$r.='</tr><tr>';
+	continue;
+      }
       $r.= '<td>'.
 	'<a class="cell" href="'.$url.'" >'.$col['label'].'</a>'.
 	'</td>';
-      }
-
     }
-    $r.='</tr>';
-    $r.= '</table>';
-    $r.= '</div>';
+
   }
+  $r.='</tr>';
+  $r.= '</table>';
+  $r.= '</div>';
+  
   $r.= '</div>';
  return $r;
 }

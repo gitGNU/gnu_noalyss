@@ -22,12 +22,9 @@
 
 /*!\file 
  *   \brief class acc_reconciliation, this class is new and the code
- *   must use it (remove the function insertRapt) 
+ *   must use it
  *  
  */
-/*!\todo replace all the use of the reconciliation by this class
-   */
-
 require_once ('postgres.php');
 require_once ('class_dossier.php');
 require_once ('class_widget.php');

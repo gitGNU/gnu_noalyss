@@ -160,7 +160,7 @@ class action
       $desc->heigh=100;
       $desc->name="ag_comment";
       $desc->readonly=$readonly;
-	  /*!\todo Formatstring and urldecode ?? */
+
       $desc->value=FormatString(urldecode($this->ag_comment));
 
       // state

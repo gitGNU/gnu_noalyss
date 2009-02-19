@@ -41,12 +41,12 @@ $gDossier=dossier::id();
 
 $c_comment="";
 $c_class="";
+extract ($_GET);
 
 $condition="";
 $cn=DbConnect($gDossier);
 if ( isset($_GET['search']) ) {
   $c1=0;
-  extract ($_GET);
 
   $condition="";
   if ( strlen(trim($p_comment)) != 0 ) {
@@ -56,7 +56,7 @@ if ( isset($_GET['search']) ) {
 
 }
 $url="";
-
+$ctrl=(isset($_GET['ctrl']))?$_GET['ctrl']:"";
 //--------------------------------------------------
 // Filter defined in the ledger's parameter
 // 
@@ -124,15 +124,12 @@ echo_debug('poste_search.php',__LINE__,"condition = $condition");
 
 echo '<FORM ACTION="poste_search.php'.$url.'" METHOD="GET">';
 echo dossier::hidden();
+
+echo widget::hidden('ctrl',$_GET['ctrl']);
 if ( isset($p_ctl) ) {
     echo '<INPUT TYPE="hidden" name="p_ctl" value="'.$p_ctl.'">';
 }
 if (isset ($ret)) echo widget::hidden('ret',$ret);
-
-/* echo '<TD>Poste Comptable Commence par  </TD>'; */
-/* if ( ! isset ($p_class) ) $p_class=""; */
-/* $opt=" <INPUT TYPE=\"text\" value=\"$p_class\" name=\"st_with\">"; */
-/* echo '<TD> <INPUT TYPE="text" name="p_class" VALUE="'.$p_class.'"></TD>'; */
 
 echo 'Libellé ou poste comptable ';
 echo ' contient ';
@@ -162,16 +159,20 @@ if ( isset($_GET['search']) || isset($_GET['filter']) ) {
     // if p_ctl is set we need to be able to return the value
     if (isset($ret) && $ret == 'label' ){
       $slabel=FormatString($l_line['pcm_lib']);
-      $ahref='<A href="#" class="mtitle" onClick="SetItChild(\''.$p_ctl.'\',\''.$l_line['pcm_val'].'\',\''.
-	$slabel.'\')">';
+	$ahref='<A href="#" class="mtitle" onClick="SetItChild(\''.$p_ctl.'\',\''.$l_line['pcm_val'].'\',\''.
+	  $slabel.'\',\''.$ctrl.'\')">';
+	
       $end_ahref='</A>';
 
-    }
-    if (isset($ret) && $ret == 'poste' ){
+    } else if     (isset($ret) && $ret == 'poste' ){
       $ahref='<A href="#" class="mtitle" onClick="set_poste_child(\''.$p_ctl.'\',\''.$l_line['pcm_val'].'\')">';
       $end_ahref='</A>';
 
-    }
+    } else if     (isset($ret) && $ret == 'jrn' ){
+      $ahref='<A href="#" class="mtitle" onClick="set_jrn_child(\''.$p_ctl.'\',\''.$l_line['pcm_val'].'\')">';
+      $end_ahref='</A>';
+
+    } 
 
     echo "<TD class=\"$even\">";
     echo $ahref;
@@ -190,6 +191,6 @@ if ( isset($_GET['search']) || isset($_GET['filter']) ) {
   
   echo '</TABLE>';
 }
-echo '<INPUT TYPE="BUTTON" Value="Close" onClick=\'GetIt()\'>';
+echo '<INPUT TYPE="BUTTON" Value="Fermer" onClick=\'GetIt()\'>';
 html_page_stop();
 ?>

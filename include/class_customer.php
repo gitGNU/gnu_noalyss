@@ -70,12 +70,11 @@ class Customer extends fiche{
 
   }
 /*! 
- **************************************************
  * \brief  Get all the info for making a vat listing
  *           for the vat administration
  * \todo  optimize SQL
  *  
- * \param	 periode
+ * \param	 $p_year
  * 
  * \return  double array structure is 
  *            ( j_poste,name,vat_number,amount,tva,customer(object)

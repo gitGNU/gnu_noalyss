@@ -27,22 +27,17 @@ $gDossier=dossier::id();
 include_once ("ac_common.php");
 
 include_once ("postgres.php");
-/* Admin. Dossier */
-$rep=DbConnect();
 include_once ("class_user.php");
-$User=new User($rep);
+$cn=DbConnect($gDossier);
+$User=new User($cn);
 $User->Check();
-
+$User->check_dossier($gDossier);
 include_once ("check_priv.php");
 
 include_once ("user_menu.php");
 
 
-$cn=DbConnect($gDossier);
-
-
-
-$User->can_request($cn,GJRN);
+$User->can_request(PARJRN);
 
 
 echo '<div class="lmenu">';

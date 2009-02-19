@@ -29,6 +29,7 @@
  * \brief class widget This class is used to create all the HTML INPUT TYPE
  *        and some specials which works with javascript like 
  *        js_search.
+ *
  * special value 
  *    js_search and js_search_only :you need to add a span widget the name
  *    of the js_* widget + '_label' , the member extra contains cred,deb to 
@@ -51,6 +52,7 @@
  *      - JS_SEARCH_POSTE  call a popup window for searching the account
  *      - JS_SEARCH call a popup window for searching a quickcode or to add one
  *      - JS_SEARCH_ONLY like JS_SEARCH but without adding a quickcode
+ *      - JS_SEARCH_CARD_CTRL like js_search_only but the tag to update is given
  *      - SPAN
  *      - JS_TVA        open a popup window for the VAT
  *      - JS_CONCERNED  open a popup window for search a operation, if extra == 0 then
@@ -79,7 +81,8 @@ class widget {
   var $extra;                     /*!<  $extra different usage, it depends of the $type */
   var $extra2;                    /*!<  $extra2 different usage,
 									it depends of the $type */
-  var $javascript;
+  var $javascript;				   /*!< $javascript  is the javascript to add to the widget */
+  var $ctrl;						/*!<$ctrl is the control to update (see js_search_card_control) */
 
   var $tabindex; 
   function widget($p_type="",$p_label="",$p_name="",$p_value="") {
@@ -116,8 +119,10 @@ class widget {
     $this->value=($p_value===null)?$this->value:$p_value;
     $this->label=($p_label == "")?$this->label:$p_label;
 
-    // Input text type
+    
     $disabled = $this->disabled ? "readonly" : "";
+	//#####################################################################
+	// Input text type
     if (strtoupper($this->type)=="TEXT") {
       $t= ((isset($this->title)))?'title="'.$this->title.'"   ':' ';
 
@@ -143,11 +148,13 @@ class widget {
       return $r;
     }
     // Hidden field
+	//#####################################################################
     if (strtoupper($this->type)=="HIDDEN") {
       $r='<INPUT TYPE="HIDDEN" id="'.$this->name.'" name="'.$this->name.'" value="'.$this->value.'">';
       if ( $this->readonly==true) return "";
       return $r;
     }
+    //#####################################################################
     // Select value
     if ( strtoupper($this->type) == "SELECT") {
 
@@ -186,6 +193,7 @@ class widget {
       }
       return $r;
     }
+    //#####################################################################
     // Password
     if (strtoupper($this->type)=="PASSWORD") {
       if ( $this->readonly==true) return "";
@@ -196,7 +204,7 @@ class widget {
       }
       return $r;
     }
-
+	//#####################################################################
     // Checkbox
     if (strtoupper($this->type)=="CHECKBOX") {
       if ( $this->readonly == true) {
@@ -218,7 +226,7 @@ class widget {
       }
       return $r;
     }
-
+	//#####################################################################
     //radio
     if (strtoupper($this->type)=="RADIO") {
       if ( $this->readonly == true) {
@@ -238,7 +246,7 @@ class widget {
       }
       return $r;
     }
-
+	//#####################################################################
     //textarea
     if (strtoupper($this->type)=="TEXTAREA") {
       if ( $this->readonly == false ) {
@@ -264,9 +272,7 @@ class widget {
       return $r;
     }
 
-    //----------------------------------------------------------------------
-
-    //----------------------------------------------------------------------
+    //#############################################################################
     // Rich Text
     /*!\brief
      * \note for the type RICHTEXT we need to include the javascript file
@@ -320,7 +326,7 @@ class widget {
 	  
       }
 
-    //----------------------------------------------------------------------
+    //#############################################################################
     //file
     if (strtoupper($this->type)=="FILE") {
       if ( $this->readonly == false ) {
@@ -330,60 +336,69 @@ class widget {
       if ( $this->table==1) $r="<TD>$this->label</TD><TD>$r</TD>"; 
       return $r;
     }
-    //----------------------------------------------------------------------
+    //#############################################################################
     // js_search_poste_only
     if ( strtolower($this->type == 'js_search_poste_only')) {
+
+      if ( ! isset($this->ctrl) ) $this->ctrl='none';
+      if ( ! isset($this->extra2)) $this->extra2='poste';
       $r=sprintf('
-         <INPUT class="inp" TYPE="button" onClick=SearchPoste(\'%s\','.dossier::id().',\'%s\',\'%s\',\'poste\',\'N\') value="Poste?">
+         <INPUT class="inp" TYPE="button" onClick=SearchPoste(\'%s\','.dossier::id().',\'%s\',0,\'%s\',\'N\',\'%s\') value="Poste?">
             %s
                  ',
 		 $_REQUEST['PHPSESSID'],
 		 $this->extra,
-		 $this->name,
+		 $this->extra2,
+		 $this->ctrl,
 		 $this->label
 		 );
       return $r;
       }
-    //----------------------------------------------------------------------
+    //#############################################################################
     // input type == js_search_poste => button search for the account
     if ( strtolower($this->type)=="js_search_poste") {
-     
+      if ( ! isset($this->ctrl) ) $this->ctrl='none';
       $l_sessid=$_REQUEST['PHPSESSID'];
       if ( $this->readonly == false ) {
-      // Do we need to filter ??
-      if ( $this->extra2 == null ) {
-      $r=sprintf('<TD>
-         <INPUT class="inp" TYPE="button" onClick=SearchPoste(\'%s\','.dossier::id().',\'%s\',\'%s\',\'label\',\'Y\') value="Poste?">
+	if ( ! isset($this->javascript)) $this->javascript="";
+
+	// Do we need to filter ??
+	if ( $this->extra2 == null ) {
+	  $r=sprintf('<TD>
+         <INPUT class="inp" TYPE="button" onClick=SearchPoste(\'%s\','.dossier::id().',\'%s\',\'%s\',\'label\',\'Y\') %s value="Poste?">
             %s</TD><TD> 
 
              <INPUT style="border:groove 1px blue;"  TYPE="Text" NAME="%s" ID="%s" VALUE="%s" SIZE="8">
                  </TD>',
-		 $l_sessid,
-		 $this->name,
-		 $this->extra,
-		 $this->label,
-		 $this->name,
-		 $this->name,
-		 $this->value 
-		 );
-
-    } else { // $p_list is not null, so we have a filter
-      $r=sprintf('<TD>
-         <INPUT TYPE="button" onClick=SearchPosteFilter(\'%s\','.dossier::id().',\'%s\',\'%s\',\'%s\') value="Poste?">
+		     $l_sessid,
+		     $this->name,
+		     $this->extra,
+		     $this->ctrl,
+		     $this->label,
+		     $this->name,
+		     $this->name,
+		     $this->value 
+		     );
+	  
+	} else { // $p_list is not null, so we have a filter
+	  $r=sprintf('<TD>
+         <INPUT TYPE="button" onClick="SearchPosteFilter(\'%s\','.dossier::id().',\'%s\',\'%s\',\'%s\',\'%s\')" %s value="Poste?">
             %s</TD><TD> 
 
              <INPUT style="border:groove 1px blue;" TYPE="Text" NAME="%s" id="%s" VALUE="%s" SIZE="8">
                  </TD>',
 		 $l_sessid,
-		 $this->name,
-		 $this->extra2,
-		 $this->extra,
-		 $this->label,
-		 $this->name,
-		 $this->name,
-		 $this->value 
+		     $this->name,
+		     $this->extra2,
+		     $this->extra,
+		     $this->ctrl,
+		     $this->javascript,
+		     $this->label,
+		     $this->name,
+		     $this->name,
+		     $this->value 
 		 );
-
+	  
       } //else
       } else {
       $r=sprintf('<TD><input type="hidden" name="%s" value="%s">
@@ -403,7 +418,7 @@ class widget {
       return $r;
 
     } // end js_search_poste
-
+//#############################################################################
   // input type == js_search => button search for card
   if ( strtolower($this->type)=="js_search") {
     $l_sessid=$_REQUEST['PHPSESSID'];
@@ -445,7 +460,7 @@ class widget {
     return $r;
   }// poste==js_search
 
-
+//#############################################################################
   // input type == js_search => button search for card
   /*!\brief js_search_only only for searching a card no new button
    */
@@ -454,10 +469,12 @@ class widget {
 
     if ( $this->javascript=="") { /* if javascript is empty then we
 				     add a default behaviour */
-      $this->javascript=sprintf('onBlur="ajaxFid(\'%s\',\'%s\',\'%s\')"',
+      $this->javascript=sprintf('onBlur="ajaxFid(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')"',
 				$this->name,
 				$this->extra, //deb or cred
-				$l_sessid
+				$l_sessid,
+				'js_search_only',
+				'none'
 				);
     }
       if  ( $this->readonly == false ) {
@@ -522,11 +539,48 @@ class widget {
     }
     return $r;
   }// poste==js_search_only
+//#############################################################################
+  // input type == js_search => button search for card
+  /*!\brief js_search_only only for searching a card  when it is needed to update a other control
+  * \todo to finish + ajax
+   */
+  if ( strtolower($this->type)=="js_search_card_control") {
+    $l_sessid=$_REQUEST['PHPSESSID'];
 
-
-
-
-
+    if ( $this->javascript=="") { /* if javascript is empty then we
+				     add a default behaviour */
+      $this->javascript=sprintf('onBlur="ajaxFid(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')"',
+				$this->name,
+				$this->extra, //deb or cred
+				$l_sessid,
+				"searchcardControl",
+				$this->ctrl
+				);
+    }
+      if  ( $this->readonly == false ) {
+	if ( $this->extra2 == "" ) $this->extra2="QuickCode";
+	$r=sprintf('<table><tr><TD>
+         <INPUT TYPE="button" onClick="searchCardCtrl(\'%s\',\'%s\',\'%s\',\'%s\')" value="%s">
+            %s</TD><TD> <INPUT class="input_text"  TYPE="Text"  " '.
+		     ' NAME="%s" ID="%s" VALUE="%s" SIZE="8" %s></tr></table>',
+		   $l_sessid,
+		   $this->extra,
+		   $this->name,
+		   $this->ctrl,
+		   $this->extra2,
+		   $this->label,
+		   $this->name,
+		   $this->name,
+		   $this->value,
+		   $this->javascript
+		   );
+      } else {
+	// readonly == true and table == 0
+	$r=sprintf('%s', $this->value  );
+      }
+      return $r;	
+  }
+  //#############################################################################
   // type=span
   if ( strtolower($this->type)=="span") {
     $r=sprintf('<span style="inline" id="%s">%s </span>',
@@ -536,7 +590,7 @@ class widget {
 
     return $r;
   }// end type = span
-
+//#####################################################################
    // input type == js_tva
    if ( strtolower($this->type)=="js_tva") {
      $id=sprintf("<span id=%s></span>",$this->label);
@@ -554,7 +608,7 @@ class widget {
 				 $l_sessid,dossier::id(),$this->name);
      return $r;
    }
-
+//#####################################################################
   // input type == js_concerned => button search for the concerned operations
   if ( strtolower($this->type)=="js_concerned") {
     $td="";$etd="";
@@ -584,9 +638,9 @@ class widget {
 
     return $r;
   }// end js_concerned
-  //----------------------------------------------------------------------
+  //#####################################################################
   // BUTTON
-  //----------------------------------------------------------------------
+  //#####################################################################
   if ( strtolower($this->type)=="button") {
     $extra= ( isset($this->extra))?$this->extra:"";
 	if ( $this->readonly==true) return "";
@@ -596,9 +650,9 @@ class widget {
 	  ' onClick="'.$this->javascript.'"'.$extra.'>';
 	return $r;
   }
- //----------------------------------------------------------------------
+ //#####################################################################
   // JS_BUD_SEARCH_POSTE
-  //----------------------------------------------------------------------
+  //#####################################################################
   if ( strtolower($this->type)=="js_bud_search_poste") {
 	if ( $this->readonly==true) return "";
 	$dis= ( $this->disabled==true) ? "disabled":"";
@@ -614,9 +668,9 @@ class widget {
   }
 
  
-  //------------------------------------------------------------------------
+  //#####################################################################
   // JS_DATE
-  //------------------------------------------------------------------------
+  //#####################################################################
   if ( strtolower($this->type)=="js_date") {
 	if ( $this->readonly) {
 	  $r="<span> Date : ".$this->value;
@@ -657,6 +711,7 @@ class widget {
   }
   return "INVALID WIDGET $this->type ";
   } //end function
+  //#####################################################################
   /* Debug
    */
   function debug() {

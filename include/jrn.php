@@ -31,6 +31,8 @@ require_once ('class_anc_operation.php');
 require_once ('class_acc_ledger.php');
 require_once ('class_acc_operation.php');
 require_once ('class_acc_ledger_info.php');
+require_once('class_acc_reconciliation.php');
+require_once('class_own.php');
 
 /*! 
  * \brief  Display the form to UPDATE account operation in the expert view
@@ -72,9 +74,14 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 		$r.="<TABLE>";
 		$r.="<TR>";
 		// Date
-		$r.="<TD>";
+		$r.="<TD><h3>";
 		$r.=$content['jr_date'];
-		$r.="</TD>";
+		$r.="</h3></TD>";
+		// Internal
+		$r.="<TD><h3>";
+		$r.=$content['jr_internal'];
+		$r.="</h3></TD>";
+		$r.='</tr>';
 		// for upload document we need the grpt_id   
 		$r.='<Input type="hidden" name="jr_grpt_id" value="'.$content['jr_grpt_id'].'">';
 		
@@ -88,11 +95,18 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 		$comment->size=40;
 		$r.=$comment->IOValue();
 		$r.="</TD>";
-		
-	// Internal
-		$r.="<TD>";
-		$r.=$content['jr_internal'];
+
+		// pj can be changed
+		$r.="<TD> PJ Num. ";
+		$comment=new widget("text");
+		$comment->table=0;
+		$comment->name="pj";
+		$comment->readonly=($p_mode==0)?true:false;
+		$comment->value=$content['jr_pj_number'];
+		$comment->size=10;
+		$r.=$comment->IOValue();
 		$r.="</TD>";
+		
 
 		if ( $content['jrn_def_type'] == 'ACH' or 
 			 $content['jrn_def_type'] == 'VEN' )
@@ -189,25 +203,27 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 	}
 	if ( $p_mode==1) {
 	// show all the related operation
-	$a=GetConcerned($p_cn,$content['jr_id']);
-	$sessid=$_REQUEST["PHPSESSID"];	  
-	if ( $a != null ) {
-      $r.="<b>Operation concernée</b> <br>";
-
-	  $r.= '<div style="margin-left:30px;">';
-	  foreach ($a as $key => $element) {
-		$operation=new Acc_operation($p_cn);
-		$operation->jr_id=$element;
-		$r.=sprintf ('%s <INPUT TYPE="BUTTON" VALUE="Détail" onClick="modifyOperation(\'%s\',\'%s\',%d)">', 
-					 $operation->get_internal($p_cn,$element),
-					 $element,
-					 $sessid,
-					 $gDossier);
-		$r.=sprintf('<INPUT TYPE="button" value="Efface" onClick="dropLink(\'%s\',\'%s\',\'%s\',%d)"><BR>',
-					$content['jr_id'],$element,$sessid,$gDossier);
-	  }//for
-	  $r.= "</div>";
-	}// if ( $a != null ) 
+	  $rec=new Acc_Reconciliation($p_cn);
+	  $rec->set_jr_id($content['jr_id']);
+	  $a=$rec->get();
+	  $sessid=$_REQUEST["PHPSESSID"];	  
+	  if ( $a != null ) {
+	    $r.="<b>Operation concernée</b> <br>";
+      
+	    $r.= '<div style="margin-left:30px;">';
+	    foreach ($a as $key => $element) {
+	      $operation=new Acc_operation($p_cn);
+	      $operation->jr_id=$element;
+	      $r.=sprintf ('%s <INPUT TYPE="BUTTON" VALUE="Détail" onClick="modifyOperation(\'%s\',\'%s\',%d)">', 
+			   $operation->get_internal($p_cn,$element),
+			   $element,
+			   $sessid,
+			   $gDossier);
+	      $r.=sprintf('<INPUT TYPE="button" value="Efface" onClick="dropLink(\'%s\',\'%s\',\'%s\',%d)"><BR>',
+			  $content['jr_id'],$element,$sessid,$gDossier);
+	    }//for
+	    $r.= "</div>";
+	  }// if ( $a != null ) 
   
 	$search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchJrn(\''.$sessid."',".$gDossier.",'rapt','".$content['jr_montant']."')\">";
 	
@@ -266,13 +282,19 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
   $r.='<TABLE>';
   $r.="<TR>";
   // Date
-  $r.='<TD colspan="4">';
+  $r.='<TD ><h3>';
   $r.=$content['jr_date'];
   $disable=($p_mode==0)?"disabled":"";
+  $r.='</h3></td>';
+  // Internal
+  // --
+  $r.='<td><h3>';
+  $r.=$content['jr_internal'];
+  $r.="</h3></TD>";
 
   // for upload document we need the grpt_id   
   $r.='<Input type="hidden" name="jr_grpt_id" value="'.$content['jr_grpt_id'].'">';
-  
+  $r.='</tr><tr>';
   // comment can be changed
   $comment=new widget("text");
   $comment->table=0;
@@ -280,13 +302,17 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
   $comment->readonly=($p_mode==0)?true:false;
   $comment->value=$content['jr_comment'];
   $comment->size=40;
+  $r.='<td>'.$comment->IOValue().'</td>';
+  
+  // pj can be changed
+  $r.="<TD> PJ Num. ";
+  $comment=new widget("text");
+  $comment->table=0;
+  $comment->name="pj";
+  $comment->readonly=($p_mode==0)?true:false;
+  $comment->value=$content['jr_pj_number'];
+  $comment->size=10;
   $r.=$comment->IOValue();
-  
-
-  
-  // Internal
-
-  $r.=$content['jr_internal'];
   $r.="</TD>";
 		
   // Is Paid
@@ -298,7 +324,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
   
   echo_debug(__FILE__.":".__LINE__."jrn_Def_type =  ".$content['jrn_def_type']);
   // for others lines
-  
+  $own=new Own($p_cn);
   // for purchase ledger
   if ( $content['jrn_def_type'] == 'ACH' )
 	{
@@ -315,14 +341,17 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 	  $r.='<th>PU</th>';
 	  $r.='<th>Quantit&eacute;</th>';
 	  $r.='<th> Dep. priv. </th>';
-	  $r.='<th>tva</th>';
-	  $r.='<th>tva</th>';
-	  $r.='<th>non ded.</th>';
-	  $r.='<th>tva nd</th>';
-	  $r.='<th>tva d impot</th>';
-	  $r.='<th>total htva</th>';
-	  $r.='<th>total tvac</th>';
-
+	if ( $own->MY_TVA_USE=='Y') {	  
+		  $r.='<th>tva</th>';
+		  $r.='<th>tva</th>';
+		  $r.='<th>non ded.</th>';
+		  $r.='<th>tva nd</th>';
+		  $r.='<th>tva d impot</th>';
+		  $r.='<th>total htva</th>';
+		  $r.='<th>total tvac</th>';
+	} else 
+		$r.='<th>total</th>';
+		
 	  $r.='</tr>';
 	  $object=new gestion_purchase($p_cn);
 	  $object->qp_internal=$internal;
@@ -355,11 +384,14 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 		$r.='<tD>'.$pu.'</td>';
 		$r.='<td align="right">'.$row->qp_quantite.'</td>';
 		$r.='<td align="right">'.$row->qp_dep_priv.'</td>';
-		$r.='<td align="right">'.$row->qp_vat.'</td>';
-		$r.='<td>'.$row->tva_label.'</td>';
-		$r.='<td>'.$row->qp_nd_amount.'</td>';
-		$r.='<td>'.$row->qp_nd_tva.'</td>';
-		$r.='<td>'.$row->qp_nd_tva_recup.'</td>';
+		// do not show TVA field if we don't use them
+		if ($own->MY_TVA_USE == 'Y' ) {
+			$r.='<td align="right">'.$row->qp_vat.'</td>';
+			$r.='<td>'.$row->tva_label.'</td>';
+			$r.='<td>'.$row->qp_nd_amount.'</td>';
+			$r.='<td>'.$row->qp_nd_tva.'</td>';
+			$r.='<td>'.$row->qp_nd_tva_recup.'</td>';
+		}
 		$r.='<td align="right">'.sprintf("% 12.2f",$row->qp_price).'</td>';
 		$r.='<td align="right">'.sprintf("% 12.2f",$row->qp_vat+$row->qp_nd_amount+$row->qp_nd_tva+$row->qp_nd_tva_recup+$row->qp_price).'</td>';
 		//-- add ca 
@@ -432,8 +464,10 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 	  $r.='<th>Nom</th>';
 	  $r.='<th>PU</th>';
 	  $r.='<th>Quantit&eacute;</th>';
-	  $r.='<th>tva</th>';
-	  $r.='<th>code tva</th>';
+	  if ($own->MY_TVA_USE == 'Y' ) { 
+		$r.='<th>tva</th>'; 
+		$r.='<th>code tva</th>';
+		}
 	  $r.='<th>prix</th>';
 
 	  $own = new Own($p_cn);
@@ -457,8 +491,10 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 	    $r.='<td> '.$fiche->strAttribut(ATTR_DEF_NAME).'</td>';
 	    $r.='<td align="right">'.$pu.'</td>';
 	    $r.='<td align="right">'.$row->qs_quantite.'</td>';
-	    $r.='<td align="right">'.$row->qs_vat.'</td>';
-	    $r.='<td align="center">'.$row->tva_label.'</td>';
+		if ($own->MY_TVA_USE == 'Y' ) {
+			$r.='<td align="right">'.$row->qs_vat.'</td>';
+			$r.='<td align="center">'.$row->tva_label.'</td>';
+			}
 	    $r.='<td align="right">'.$row->qs_price.'</td>';
 	    //-- add ca 
 	    //
@@ -477,30 +513,39 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 
 
 	  }
-	  $r.="<tr>".
-		"<td>"."</td>".
-		"<td>"."</td>".
-		"<td>"."</td>".
-		"<td>Total HTVA</td>".
-		'<td style="font-size:13px;color:green;">'.sprintf('% 12.2f',$tot_amount)."</td>".
-		"</tr>";
-	  $r.="<tr>".
-		"<td>"."</td>".
-		"<td>"."</td>".
-		"<td>"."</td>".
-		"<td>Total TVA</td>".
-		'<td style="text-justify:right;font-size:13px;color:green;">'.sprintf('%12.2f',$tot_tva)
-		."</td>".
-		"</tr>";
-	  $r.="<tr>".
-		"<td>"."</td>".
-		"<td>"."</td>".
-		"<td>"."</td>".
-		"<td>Total </td>".
-		'<td style="font-size:13px;color:green;">'.sprintf('%12.2f',$tot_amount+$tot_tva)."</td>".
-		"</tr>";
-
+	  if ($own->MY_TVA_USE == 'Y' ) {
+		  $r.="<tr>".
+			"<td>"."</td>".
+			"<td>"."</td>".
+			"<td>"."</td>".
+			"<td>Total HTVA</td>".
+			'<td style="font-size:13px;color:green;">'.sprintf('% 12.2f',$tot_amount)."</td>".
+			"</tr>";
+		  $r.="<tr>".
+			"<td>"."</td>".
+			"<td>"."</td>".
+			"<td>"."</td>".
+			"<td>Total TVA</td>".
+			'<td style="text-justify:right;font-size:13px;color:green;">'.sprintf('%12.2f',$tot_tva)
+			."</td>".
+			"</tr>";
+		
+		  $r.="<tr>".
+			"<td>"."</td>".
+			"<td>"."</td>".
+			"<td>"."</td>".
+			"<td>Total </td>".
+			'<td style="font-size:13px;color:green;">'.sprintf('%12.2f',$tot_amount+$tot_tva)."</td>".
+			"</tr>";
+		} else {  
+				  $r.="<tr>".
+			"<td>"."</td>".
+			"<td>Total </td>".
+			'<td style="font-size:13px;color:green;">'.sprintf('%12.2f',$tot_amount+$tot_tva)."</td>".
+			"</tr>";
+			}
 	}
+	
   $r.="</TABLE>";
       
   $file=new widget("file");
@@ -544,7 +589,11 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 	$r.="</table>";
 	$r.="Total ".$content['jr_montant']."<br>";
 	// show all the related operation
-	$a=GetConcerned($p_cn,$content['jr_id']);
+	$rec=new Acc_Reconciliation($p_cn);
+	$rec->set_jr_id($content['jr_id']);
+	$a=$rec->get();
+	
+
 	$sessid=$_REQUEST["PHPSESSID"];	  
   
 	if ( $a != null ) {
@@ -800,7 +849,8 @@ function get_dataJrnJrId ($p_cn,$p_jr_id) {
                         to_char(jr_ech,'DD.MM.YYYY') as jr_ech,
                         to_char(jr_date,'DD.MM.YYYY') as jr_date,
                         jr_id,jr_internal, jr_rapt,jrn_def_type,
-                        j_qcode
+                        j_qcode,
+                        jr_pj_number
                      from 
                           jrnx 
                         inner join jrn on j_grpt=jr_grpt_id 
@@ -843,6 +893,7 @@ function get_dataJrnJrId ($p_cn,$p_jr_id) {
     $array['jr_grpt_id']=$line['jr_grpt_id'];
     $array['jr_pj_name']=$line['jr_pj_name'];
     $array['j_qcode']=$line['j_qcode'];
+    $array['jr_pj_number']=$line['jr_pj_number'];
     //    $array['']=$line[''];
 
     $ret_array[$i]=$array;
@@ -939,6 +990,8 @@ function get_dataJrnJrIdUser ($p_cn,$p_jr_id) {
     $array['jrn_def_type']=$line['jrn_def_type'];
     $array['jr_grpt_id']=$line['jr_grpt_id'];
     $array['jr_pj_name']=$line['jr_pj_name'];
+    $array['jr_pj_number']=$line['jr_pj_number'];
+
     //    $array['']=$line[''];
     echo_debug(__FILE__.':'.__LINE__," get_dataJrnjrIdUser ",$array);
     $ret_array[$i]=$array;

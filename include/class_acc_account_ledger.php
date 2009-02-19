@@ -58,7 +58,7 @@ class Acc_Account_Ledger {
 	       "case when j_debit='t' then j_montant else 0 end as deb_montant,".
 	       "case when j_debit='f' then j_montant else 0 end as cred_montant,".
 	       " jr_comment as description,jrn_def_name as jrn_name,".
-	       "j_debit, jr_internal ".
+	       "j_debit, jr_internal,jr_pj_number ".
 	       " from jrnx left join jrn_def on jrn_def_id=j_jrn_def ".
 	       " left join jrn on jr_grpt_id=j_grpt".
 	       " where j_poste=".$this->id." and ".$periode.
@@ -252,7 +252,7 @@ function get_solde_detail($p_cond="") {
        echo "<TR>".
 	 "<TD>".$op['jr_internal']."</TD>".
 	 "<TD>".$op['j_date']."</TD>".
-	 "<TD>".h($op['description'])."</TD>".
+	 "<TD>".h($op['description']).' '.h($op['jr_pj_number'])."</TD>".
 	 "<TD>".$op['deb_montant']."</TD>".
 	 "<TD>".$op['cred_montant']."</TD>".
 	 "</TR>";

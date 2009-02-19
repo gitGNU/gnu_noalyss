@@ -28,6 +28,7 @@ $gDossier=dossier::id();
 include_once ("ac_common.php");
 $action=(isset($_REQUEST['p_action']))?$_REQUEST['p_action']:'';
 $use_html=1;
+
 //----------------------------------------------------------------------
 /*!\todo find a way to improve performance : the calendar must not
  *   always be loaded and takes at least 50KB
@@ -70,8 +71,6 @@ echo '</div>';
 
 // call impress sub-menu
 if ( $action == 'impress' ) {
-
-  $User->can_request($cn,IMP) ;
 
   require_once('impress.inc.php');
 }

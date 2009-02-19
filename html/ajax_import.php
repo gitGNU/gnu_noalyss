@@ -29,7 +29,7 @@
  */
 include_once ("constant.php");
 include_once ("postgres.php");
-include ('class_user.php');
+require_once ('class_user.php');
 require_once ('class_dossier.php');
 
 
@@ -37,6 +37,8 @@ require_once ('class_dossier.php');
 $cn=DbConnect(dossier::id());
 
 $User=new User($cn);
+$User->check_dossier(dossier::id());
+$User->can_request('GEBQ');
 $User->Check();
 if ( isset ($_GET['action']) &&
      $_GET['action']=='update'

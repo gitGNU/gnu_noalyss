@@ -27,6 +27,8 @@
 
 /*!\brief 
  * This class manages the table todo_list
+ *
+ *
  * Data Member : 
  * - $cn database connx
  * - $variable

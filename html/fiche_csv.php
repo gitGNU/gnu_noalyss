@@ -34,12 +34,11 @@ $gDossier=dossier::id();
 if (  isset ($_REQUEST['with_amount']))  include_once("class_acc_account_ledger.php");
 $cn=DbConnect($gDossier);
 
-$rep=DbConnect();
 require_once ('class_user.php');
-$User=new User($rep);
+$User=new User($cn);
 $User->Check();
-
-$User->can_request($cn,FICHE_READ);
+$User->check_dossier($gDossier);
+$User->can_request(IMPFIC,0);
 
 
 if  ( isset ($_POST['fd_id'])) {

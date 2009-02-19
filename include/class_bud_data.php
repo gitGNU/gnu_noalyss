@@ -401,6 +401,7 @@ class Bud_Data {
       " from bud_hypothese join poste_analytique using (pa_id)";
     $w=new widget("select");
     echo '<form>';
+	echo widget::hidden('test_select',$_REQUEST['test_select']);
     echo dossier::hidden();
     $w->selected=(isset($_REQUEST['bh_po_id']))?$_REQUEST['bh_po_id']:"";
     echo $w->IOValue('bh_po_id',make_array($cn,$sql));

@@ -44,7 +44,7 @@ class Pre_op_ven extends Pre_operation_detail {
 	  $march="e_march".$i;
 	  $this->$march=$_POST['e_march'.$i];
 	  $this->{"e_march".$i."_price"}=$_POST['e_march'.$i."_price"];
-	  $this->{"e_march".$i."_tva_id"}=$_POST['e_march'.$i."_tva_id"];
+	  $this->{"e_march".$i."_tva_id"}=(isset($_POST['e_march'.$i."_tva_id"]))?$_POST['e_march'.$i."_tva_id"]:0;
 	  $this->{"e_quant".$i}=$_POST['e_quant'.$i];
 
 	}

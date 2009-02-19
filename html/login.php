@@ -39,7 +39,7 @@ if (  isset ($_POST["p_user"] ) ) {
   $rep=DbConnect();
   include_once ("class_user.php");
   $User=new User($rep);
-  $User->Check();
+   $User->Check();
 
   echo "<META HTTP-EQUIV=\"REFRESH\" content=\"0;url=user_login.php?PHPSESSID=" . $_REQUEST["PHPSESSID"] . "\">";
 

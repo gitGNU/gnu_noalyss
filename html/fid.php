@@ -22,15 +22,26 @@
 
 /*!\file 
  * \brief Fid for the ajax request for cards
+ *
+ * Valid parameter GET are 
+ * -  d type = cred, deb, all or filter (see fiche_search.php')
+ * -  j is the legdger
+ * - PHPSESSID
+ * - caller give you what is the caller
+ *  	-  caller=searchcardCtrl : p_extra contains the control to update
+ *	- caller =searchcard p_extra is not used
+ * - extra extra data, its meaning depends of the caller
  */
 
-
+require_once('class_own.php');
 require_once  ("constant.php");
 require_once  ("postgres.php");
 require_once ("user_common.php");
 require_once ("debug.php");
 require_once('class_dossier.php');
 $gDossier=dossier::id();
+$caller=$_GET['caller'];
+$extra=$_GET['extra'];
 
 echo_debug('fid.php',__LINE__,"Recherche fid.php".$_GET["FID"]);
 $cn=DbConnect($gDossier);
@@ -71,7 +82,12 @@ if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
   $array=get_array($cn,$sql,  array($_GET['FID']));
 
   echo_debug("fid",__LINE__,$array);
+  /* Different behaviour depending of the caller */
+  if ( strcmp($caller,'searchcardCtrl') === 0 ){
+	$name=$array[0]['vw_name'];
+  } else
   $name=$array[0]['vw_name']." ".$array[0]['vw_addr']." ".$array[0]['vw_cp'];
+	
   $sell=$array[0]['vw_sell'] ;
   $buy=$array[0]['vw_buy'];
   $tva_id=$array[0]['tva_id'];
@@ -82,7 +98,9 @@ if ( isset($_SESSION['isValid']) && $_SESSION['isValid'] == 1)
   $buy=($buy==null)?" ":str_replace('"','',$buy);
   $tva_id=($tva_id==null)?" ":str_replace('"','',$tva_id);
 
-  $a='{"answer":"ok","name":"'.$name.'","sell":"'.$sell.'","buy":"'.$buy.'","tva_id":"'.$tva_id.'","ctl":"'.$_GET['ctl'].'"}';
+
+  
+  $a='{"answer":"ok","name":"'.$name.'","sell":"'.$sell.'","buy":"'.$buy.'","tva_id":"'.$tva_id.'","ctl":"'.$_GET['ctl'].'","caller":"'.$caller.'","extra":"'.$extra.'"}';
 
 }
      else

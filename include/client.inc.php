@@ -24,7 +24,7 @@ $sub_action=(isset($_REQUEST['sb']))?$_REQUEST['sb']:"list";
 /*! \file
  * \brief Called from the module "Gestion" to manage the customer
  */
-$User->can_request($cn,CLIENT);
+$User->can_request(GECUST);
 $href=basename($_SERVER['PHP_SELF']);
 
 // Menu

@@ -287,6 +287,7 @@ class Bud_Synthese_Acc extends Bud_Synthese {
     if ( isset($_GET['recherche'])) {
       $obj->from_array($_GET);
       echo '<form method="GET">';
+	  widget::hidden('test_select',$_REQUEST['test_select']);
       echo $obj->form();
       echo widget::hidden('bh_id',$obj->bh_id);
       echo widget::submit('recherche2','recherche');

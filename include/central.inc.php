@@ -31,7 +31,7 @@ $gDossier=dossier::id();
 
 include_once ("postgres.php");
 /* Admin. Dossier */
-$rep=DbConnect();
+$rep=DbConnect(dossier::id());
 include_once ("class_user.php");
 $User=new User($rep);
 $User->Check();
@@ -44,7 +44,7 @@ $cn=DbConnect($gDossier);
 include_once("central_inc.php");
 
 
-$User->can_request($cn,CENTRALIZE);
+$User->can_request(PARCENT,1);
 
 
 

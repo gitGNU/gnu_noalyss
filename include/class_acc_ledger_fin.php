@@ -27,6 +27,7 @@
 require_once('class_acc_ledger.php');
 require_once('poste.php');
 require_once('ac_common.php');
+require_once('class_acc_reconciliation.php');
 
 class Acc_Ledger_Fin extends Acc_Ledger {
   /*!\brief verify that the data are correct before inserting or confirming
@@ -221,6 +222,15 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $W1->extra='deb';  // credits
     $W1->extra2="Recherche";
     $W1->table=0;
+    $W1->javascript=  sprintf('onBlur="ajaxFid(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\');ajax_saldo(\'%s\',\'%s\')"',
+			      $W1->name,
+			      $W1->extra, //deb or cred
+			      $_REQUEST['PHPSESSID'],
+			      'js_search_only',
+			      'none',
+			      $_REQUEST['PHPSESSID'],
+			      $W1->name
+			      );
     $r.="<TR><td colspan=\"4\">".$W1->IOValue();
     $Span=new widget ("span");
     $Span->SetReadOnly($pview_only);
@@ -252,6 +262,11 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $wFirst=new widget('text');
     $wFist->table=0;
     $first_sold=(isset($first_sold))?$first_sold:"";
+
+    /*    $wFirst->javascript=sprintf(' onfocus="ajax_saldo(\'%s\',\'%s\');"',
+				    $_REQUEST['PHPSESSID'],
+				    $W1->name);
+    */
     $r.='<td>'.$wFirst->IOValue('first_sold',$first_sold).'</td>';
     $wLast=new widget('text');
     $wLast->table=1;
@@ -590,15 +605,21 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	      {
 		$aRapt=split(',',${"e_concerned".$i});
 		foreach ($aRapt as $rRapt) {
+		  // Add a "concerned operation to bound these op.together
+		  //
+		  $rec=new Acc_Reconciliation ($this->db);
+		  $rec->set_jr_id($jr_id);
+		  $rec->insert($l_array['jr_id']);
+
 		  if ( isNumber($rRapt) == 1 ) 
 		    {
-		      InsertRapt($this->db,$jr_id,$rRapt);
+		      $rec->insert($rRapt);
 		    }
 		}
 	      } else 
 	      if ( isNumber(${"e_concerned".$i}) == 1 ) 
 		{
-		  InsertRapt($this->db,$jr_id,${"e_concerned$i"});
+		  $rec->insert(${"e_concerned$i"});
 		}
 	  }
 	  
@@ -642,15 +663,9 @@ class Acc_Ledger_Fin extends Acc_Ledger {
   $r.="<br>Nouveau solde ".$new_solde;
   return $r;
   }
-  /*!\brief
-   *\param
-   *\return
-   *\note
-   *\see
-   *\todo
+  /*!\brief display operation of a FIN ledger
+   *\return html code into a string
    */
-
-
   function show_ledger() {
     echo dossier::hidden();
     $hid=new widget("hidden");
@@ -710,7 +725,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
       }
     else 
       {
-	$filter_per=" and jr_tech_per in (select p_id from parm_periode where p_exercice=".
+	$filter_per=" and jr_tech_per in (select p_id from parm_periode where p_exercice::integer=".
 	  $User->get_exercice().")";
       }
     /* security  */

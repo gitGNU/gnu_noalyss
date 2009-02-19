@@ -273,7 +273,7 @@ td.selectedcell{
 a.mtitle {
   font-size:10px;
   text-decoration:none;
-  display:block;
+  display:inline;
  color: blue;
 	
 }
@@ -300,7 +300,7 @@ tr.even:hover td
 a.mtitle:hover 
 {
   text-decoration:none;
-  display:block;
+  display:inline;
   background-color:#a9d6e4;
   color:white;
 }

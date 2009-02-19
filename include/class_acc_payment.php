@@ -327,6 +327,7 @@ class Acc_Payment
     $ac=new Acc_Payment($cn);
     $ac->set_parameter('type','ACH');
     echo '<form method="post">';
+	echo widget::hidden('test_select',$_REQUEST['test_select']);
     echo $ac->select();
     echo widget::submit('go','go');
     echo '</form>';

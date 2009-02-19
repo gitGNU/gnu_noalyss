@@ -21,32 +21,51 @@
 
 /*! \file 
  * \brief
- * open a windows for searching a card
+ * 
  */
-
+/*!\brief open a windows for showing a card
+* \param p_sessid must be given
+* \param the qcode 
+*\todo is obsolete ??
+ */
 function showfiche(p_sessid,p_qcode)
 {
   p_dossier=document.getElementById("gDossier").value;
   var a=window.open('show_fiche.php?PHPSESSID='+p_sessid+'&gDossier='+p_dossier+'&q='+p_qcode,'','toolbar=no,width=350,height=450,scrollbar=yes,statusbar=no');
   a.focus();
 }
-
-/* type must be cred or deb and name is
- * the control's name
+/*!\brief Open a window for searching a card
+*
+* Remark The ledger (jrn_id) must be in the calling form as a hidden field named p_jrn
+*\param  p_sessid is the PHPSESSID
+*\param type must be deb or cred
+*\param  name is the name of the control, it is used for computing the name of the VAT, Price field 
+* \see SetData()
 */
 function SearchCard(p_sessid,type,name)
 {
-  
   var search=document.getElementById(name).value;
   var gDossier=document.getElementById('gDossier').value;
   var jrn=0;
   if ( document.getElementById("p_jrn") ) {
     jrn=document.getElementById("p_jrn").value;
   }
-   var a=window.open('fiche_search.php?first&search&fic_search='+search+'&p_jrn='+jrn+'&PHPSESSID='+p_sessid+'&type='+type+'&name='+name+'&gDossier='+gDossier,'item','toolbar=no,width=350,height=450,scrollbars=yes,statusbar=no');
+  var file='fiche_search.php';
+var
+query='?first&search&fic_search='+search+'&p_jrn='+jrn+'&PHPSESSID='+p_sessid
++'&type='+type+'&name='+name+'&gDossier='+gDossier;
+  query+="&caller=searchcard";
+   var a=window.open(file+query,'item','toolbar=no,width=350,height=450,scrollbars=yes,statusbar=no');
    a.focus();
    return false;
 }
+/*!\brief Open a window for adding a card
+*
+* Remark The ledger (jrn_id) must be in the calling form as a hidden field named p_jrn
+*\param  p_sessid is the PHPSESSID
+*\param type must be deb or cred
+*\param  name is the name of the control, it is used for computing the name of the VAT, Price field 
+*/
 function NewCard(p_sessid,type,name)
 {
   var search=document.getElementById(name).value;
@@ -56,9 +75,9 @@ function NewCard(p_sessid,type,name)
    return false;
 
 }
-/* SetValue( p_ctl,p_value )
-/* p_ctl is the name of the control
-/* p_value is the value to set in
+/*!brief set the value of a ctrl 
+ *\param p_ctl control to change
+ *\param p_value value to set (only)
 */
 function SetValue(p_ctl,p_value) 
 {
@@ -70,14 +89,17 @@ function SetValue(p_ctl,p_value)
 	
 
 }
-/* Parameters 
- * i = ctl _name
- * p_id = code id (fiche.f_id)
- *¨p_label = label
- * p_price vw_fiche_attr.vw_price
- * p_price vw_fiche_attr.vw_price
- * p_tva_id vw_fiche_attr.tva_id
- * p_tva_label vw_fiche_attr.tva_label
+/*!\brief Set the data from the child window to the parent one 
+*
+* Set the data found during the search (tva_id, price, tva_label) to the form, the name are based on i.
+* The url contains the caller (searchcard).This function is called if the caller is searchcard
+ * \param i ctl _name
+ * \param p_id code id (quickcode
+ * \param p_label = label
+ * \param p_price vw_fiche_attr.vw_price
+ * \param p_price vw_fiche_attr.vw_price
+ * \param p_tva_id vw_fiche_attr.tva_id
+ * \param p_tva_label vw_fiche_attr.tva_label
  */
   function SetData(i,p_id,p_label,p_price,p_price,p_tva_id, p_tva_label)
 {
@@ -121,5 +143,44 @@ function SetValue(p_ctl,p_value)
 	  document.getElementById(a).innerHTML=p_tva_label;
 	}
 }
+/*!\brief Set the value of 2 input fields
+*
+* Set the quick code in the first ctrl and the label of the quickcode in the second one. This function is a variant of SetData for
+* some specific need.  This function is called if the caller is searchcardCtrl
+*
+*\param p_ctrl the input with the name of the quick code
+*\param  p_quickcode the found quick_code
+*\param p_ctrlname the name of the input field with the label
+*\param p_label the label of the quickcode
+*/
+function setCtrl(p_ctrl,p_quickcode,p_ctrlname,p_label){
+   var ctrl=document.getElementById(p_ctrl);
+   if ( ctrl ) { ctrl.value=p_quickcode; }
+   var ctrl_name=document.getElementById(p_ctrlname);
+   if ( ctrl_name ) { ctrl_name.value=p_label; }
+}
 
-
+/*!\brief Open a window for searching a card
+*
+* Remark The ledger (jrn_id) must be in the calling form as a hidden field named p_jrn, this function is derived from searchCard because
+* the returns value are also handled differently (so a paramter caller is added to the url
+*\param  p_sessid is the PHPSESSID
+*\param  name is the name of the control, it is used for computing the name of the VAT, Price field 
+* \see SetData()
+*/
+function searchCardCtrl(p_sessid,type,name,ctrl)
+{
+  var search=document.getElementById(name).value;
+  var gDossier=document.getElementById('gDossier').value;
+  var jrn=0;
+  if ( document.getElementById("p_jrn") ) {
+    jrn=document.getElementById("p_jrn").value;
+  }
+  var file='fiche_search.php';
+  var query='?first&search&fic_search='+search+'&p_jrn='+jrn+'&PHPSESSID='+p_sessid+'&type='+type+'&name='+name+'&gDossier='+gDossier;
+  query+="&extra="+ctrl;
+  query+="&caller=searchcardCtrl";
+   var a=window.open(file+query,'item','toolbar=no,width=350,height=450,scrollbars=yes,statusbar=no');
+   a.focus();
+   return false;
+}

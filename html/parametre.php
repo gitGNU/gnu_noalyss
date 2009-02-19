@@ -31,24 +31,35 @@ $gDossier=dossier::id();
 
 include_once ("postgres.php");
 /* Admin. Dossier */
-$rep=DbConnect();
+$cn=DbConnect($gDossier);
 include_once ("class_user.php");
-$User=new User($rep);
+$User=new User($cn);
 $User->Check();
+$User->check_dossier($gDossier);
 
 html_page_start($_SESSION['g_theme']);
 include_once("preference.php");
 include_once("user_menu.php");
 echo '<div class="u_tmenu">';
 
-echo menu_tool('param');
-echo '<div style="float:left">';
+echo menu_tool('parametre.php');
+
+echo   '<div style="float:left;background-color:#879ED4;width:100%;">';
 
 include_once ("check_priv.php");
 
-$cn=DbConnect($gDossier);
+$authorized =0;
+foreach ( array(PARCA,PARPER,PARFIC,PARDOC,PARJRN,PARTVA,
+		PARMP, PARPOS,PARCOORD,PARSEC) 
+	  as $a) 
+  {
+    if ( $User->check_action($a) == 1 ) {
+      $authorized=1;break;
+    }
+  }
 
-$User->can_request($cn,PARM);
+if ($authorized==0)
+  $User->can_request(9999,1);
 
 // First action
 $p_action="";
@@ -110,6 +121,7 @@ echo_debug("parametre",__LINE__,$_POST);
 if ( $p_action == "tva" ) 
 {
   echo '</div>';
+  $User->can_request(PARTVA,1);
   require_once("tva.inc.php");
   // 
 }
@@ -118,6 +130,7 @@ if ( $p_action == "tva" )
 //-----------------------------------------------------
 if ( $p_action == "poste" ) 
 {
+  $User->can_request(PARPOS,1);
   require_once('poste.inc.php');
 
 }
@@ -126,6 +139,7 @@ if ( $p_action == "poste" )
 //-----------------------------------------------------
 if ( $p_action == "fiche" ) 
 {
+  $User->can_request(PARFIC,1);
   require_once('fiche_def.inc.php');
   return;
 }
@@ -199,7 +213,7 @@ if ( $p_action == 'divers') {
     }
   }
   if ( $sa=='mp') {
-
+    $User->can_request(PARMP,1);
     require_once('payment_middle.inc.php');
     exit;
   }
@@ -208,6 +222,7 @@ if ( $p_action == 'divers') {
 // Coord societe
 //-----------------------------------------------------
 if ( $p_action=='company') { 
+  $User->can_request(PARCOORD,1);
   echo '<div class="content">';
   require_once("class_own.php");
   require_once("class_widget.php");
@@ -223,8 +238,10 @@ if ( $p_action=='company') {
     $m->MY_TEL=$p_tel;
     $m->MY_FAX=$p_fax;
     $m->MY_PAYS=$p_pays;
-    $m->MY_ANALYTIC=$p_compta;
-    $m->MY_STRICT=$p_strict;
+    if ( $User->check_action(PARCA)!=0)$m->MY_ANALYTIC=$p_compta;
+    if ( $User->check_action(PARSTR)!=0) $m->MY_STRICT=$p_strict;
+    if ( $User->check_action(PARTVA)!=0)$m->MY_TVA_USE=$p_tva_use;
+    $m->MY_PJ_SUGGEST=$p_pj;
     $m->Update();
   }
 
@@ -248,6 +265,14 @@ if ( $p_action=='company') {
   $strict->table=1;
   $strict->selected=$my->MY_STRICT;
 
+  $tva_use=new widget("select");
+  $tva_use->table=1;
+  $tva_use->selected=$my->MY_TVA_USE;
+
+  $pj_suggest=new widget("select");
+  $pj_suggest->table=1;
+  $pj_suggest->selected=$my->MY_PJ_SUGGEST;
+  
   // other parameters
   $all=new widget("text");
   $all->table=1;
@@ -263,8 +288,13 @@ if ( $p_action=='company') {
   echo "<tr>".$all->IOValue("p_Commune",$my->MY_COMMUNE,"Commune")."</tr>";
   echo "<tr>".$all->IOValue("p_pays",$my->MY_PAYS,"Pays")."</tr>";
   echo "<tr>".$all->IOValue("p_tva",$my->MY_TVA,"Numéro de Tva")."</tr>";
+  if ( $User->check_action(PARCA)==0) $compta->setReadonly(true);
   echo "<tr>".$compta->IOValue("p_compta",$array,"Utilisation de la compta. analytique")."</tr>";
+  if ( $User->check_action(PARSTR)==0) $strict->setReadonly(true);
   echo "<tr>".$strict->IOValue("p_strict",$strict_array,"Utilisation du mode strict ")."</tr>";
+  if ( $User->check_action(PARTVA)==0) $tva_use->setReadonly(true);
+  echo "<tr>".$tva_use->IOValue("p_tva_use",$strict_array,"Assujetti à la tva")."</tr>";
+  echo "<tr>".$pj_suggest->IOValue("p_pj",$strict_array,"Suggérer le numéro de pièce justificative")."</tr>";
 
   echo "</table>";
   $submit=new widget("submit");
@@ -278,6 +308,7 @@ if ( $p_action=='company') {
 //-----------------------------------------------------
 echo "</DIV>";
 if ( $p_action == 'document' ) {
+  $User->can_request(PARDOC,1);
   echo '<div class="content">';
   require_once('document_modele.inc.php');
   echo '</div>';
@@ -286,18 +317,21 @@ if ( $p_action == 'document' ) {
 // Plan Comptable
 //----------------------------------------------------------------------
 if ( $p_action == 'pcmn' ) {
+  $User->can_request(PARPCMN,1);
   require_once('param_pcmn.inc.php');
 }  
 //----------------------------------------------------------------------
 // Security
 //----------------------------------------------------------------------
 if ( $p_action == 'sec' ) {
+  $User->can_request(PARSEC,1);
   require_once('param_sec.inc.php');
 }  
 //----------------------------------------------------------------------
 // Predefined operation
 //----------------------------------------------------------------------
 if ( $p_action == 'preod' ) {
+  $User->can_request(PARPREDE,1);
   require_once('preod.inc.php');
 }  
 
@@ -305,12 +339,14 @@ if ( $p_action == 'preod' ) {
 // Definition of report
 //---------------------------------------------------------------------------
 if ( $p_action == 'defrapport' ) {
+  $User->can_request(PARRAP,1);
   require_once('report.inc.php');
 }
 //----------------------------------------------------------------------
 // Ledger parameter
 //----------------------------------------------------------------------
 if ( $p_action == 'jrn' ) {
+  $User->can_request(PARJRN,1);
   $sa=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
   //  echo '<div class="content">';
   if ( $sa == "add") 

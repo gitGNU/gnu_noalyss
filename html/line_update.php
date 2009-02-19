@@ -34,7 +34,7 @@ $User=new User($rep);
 $User->Check();
 html_page_start($User->theme,"onLoad='window.focus();'");
 $cn=DbConnect($gDossier);
-$User->can_request($cn,MPCMN);
+$User->can_request(PARPCMN);
 
 
 include ("user_menu.php");
@@ -111,7 +111,7 @@ echo $acc->form(true);
 <TR>
 <TD><INPUT TYPE="Submit" VALUE="Sauve">
 <INPUT TYPE="HIDDEN" name="update">
-<?php printf ('<INPUT TYPE="HIDDEN" name="p_old" value="%s">',$acc->get_parameter('value')); ?>
+  <?php printf ('<INPUT TYPE="HIDDEN" name="p_old" value="%s">',h($acc->get_parameter('value'))); ?>
 </TD><TD><input type="button"  Value="Retour sans sauver" onClick='window.close();'></TD></TR>
 </TABLE>
 </FORM>

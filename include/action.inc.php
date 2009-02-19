@@ -22,7 +22,7 @@
 /*! \file
  * \brief Page who manage the different action (meeting, letter)
  */
-$User->can_request($cn,SEC_ACTION);
+$User->can_request(GECOUR);
 
 //-----------------------------------------------------
 // Action

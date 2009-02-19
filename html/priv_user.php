@@ -25,14 +25,13 @@ include_once("postgres.php");
 include_once("debug.php");
 include_once("user_menu.php");
 html_page_start($_SESSION['g_theme']);
-echo_debug('priv_user.php',__LINE__,"entering priv_users");
-
 
 $rep=DbConnect();
 include_once ("class_user.php");
 $User=new User($rep);
 $User->Check();
-
+/* only the global admin can modify something here
+ */
 if ($User->admin != 1) {
   html_page_stop();
   return;
@@ -45,9 +44,11 @@ if (! isset ($_GET['UID']) && ! isset($_POST['UID']) ) {
   return;
 }
 $uid=( isset ($_GET['UID']))? $_GET['UID']: $_POST['UID'];
+$UserChange=new User($rep,$uid);
+
 echo_debug('priv_user.php',__LINE__,"UID IS DEFINED");
 
-$r_UID=GetUid($uid);
+$r_UID=$UserChange->id;
 if ( $r_UID == false ) {
   echo_debug('priv_user.php',__LINE__,"UID NOT VALID");
   // Message d'erreur
@@ -78,21 +79,17 @@ if ( isset ( $_GET['reset_passwd']) ){
   $Res=ExecSql($cn, "update ac_users set use_pass='$l_pass' where use_id=$uid");
   echo '<H2 class="info"> Password remis à phpcompta</H2>';
 }
+/*  Save the changes */
 if ( isset ($_POST['SAVE']) ){
   $uid = $_POST['UID'];
-  echo_debug('priv_user.php',__LINE__,"SAVE is set");
+
   // Update User 
   $cn=DbConnect();
-  $first_name=pg_escape_string($_POST['fname']);
-  $last_name=pg_escape_string($_POST['lname']);
-  $login=$_POST['login'];
-  $login=str_replace("'","",$login);
-  $login=str_replace('"',"",$login);
-  $login=str_replace(" ","",$login);
-  $login=strtolower($login);
+  $last_name=pg_escape_string($_POST['fname']);
+  $first_name=pg_escape_string($_POST['lname']);
 
   $Sql="update ac_users set use_first_name='".$first_name."', use_name='".$last_name."'
-        ,use_login='".$login."',use_active=".$_POST['Actif'].",use_admin=".$_POST['Admin']." where
+        ,use_active=".$_POST['Actif'].",use_admin=".$_POST['Admin']." where
          use_id=".$uid;
   $Res=ExecSql($cn,$Sql);
   // Update Priv on Folder
@@ -108,10 +105,11 @@ if ( isset ($_POST['SAVE']) ){
 	  {
 	  $Res=ExecSql($cn,"insert into jnt_use_dos(dos_id,use_id) values(".$db_id.",".$uid.")"); 
 	  }
+	
 	$jnt=GetJnt($db_id,$uid);
 	if (ExistePriv($jnt) > 0) 
 	  {
-	  $Res=ExecSql($cn,"update priv_user set priv_priv='".$elem."' where priv_jnt=".$jnt);
+	    $Res=ExecSql($cn,"update priv_user set priv_priv='".$elem."' where priv_jnt=".$jnt);
 	  } else {
 	   $Res=ExecSql($cn,"insert into  priv_user(priv_jnt,priv_priv) values (".$jnt.",'".$elem."')");
 	  }
@@ -132,29 +130,28 @@ if ( isset ($_POST['SAVE']) ){
     return;
   }
 }
-$r_UID=GetUid($uid);
+$UserChange->load();
 ?>
 <FORM ACTION="priv_user.php" METHOD="POST">
 
 <?php printf('<INPUT TYPE=HIDDEN NAME=UID VALUE="%s">',$uid); ?>
 <TABLE BORDER=0>
+<TR>
+
+<?php printf('<td>login</td><td> %s</td>',$UserChange->login); ?>
+</TD></tr>
 <TR><TD>
-<?php printf('First name <INPUT type="text" NAME="fname" value="%s"> ',$r_UID[0]['use_first_name']); ?>
-</TD><TD>
-<?php printf('Name <INPUT type="text" NAME="lname" value="%s"> ',$r_UID[0]['use_name']); ?>
-</TD>
-</TR><TR>
-<TD>
-<?php printf('login <INPUT type="text" NAME="login" value="%s">',$r_UID[0]['use_login']); ?>
-</TD>
-<TD class="mtitle"> 
-<?php printf('<A class="mtitle" HREF="priv_user.php?reset_passwd&UID=%s">Reset Password</A>',$uid); ?>
+<?php printf('Nom de famille </TD><td><INPUT type="text" NAME="fname" value="%s"> ',$UserChange->name); ?>
+</TD></TR>
+<?php printf('<td>prénom</td><td> 
+<INPUT type="text" NAME="lname" value="%s"> ',$UserChange->first_name); ?>
 </TD>
 </TR>
-<TR><TD>
+</table>
+
 <TABLE>
 <?php
-if ( $r_UID[0]['use_active'] == 1 ) {
+if ( $UserChange->active == 1 ) {
   $ACT="CHECKED";$NACT="UNCHECKED";
 } else {
   $ACT="UNCHECKED";$NACT="CHECKED";
@@ -170,15 +167,15 @@ echo "</TD></TR>";
 <TD>
 <TABLE>
 <?php
-if ( $r_UID[0]['use_admin'] == 1 ) {
+if ( $UserChange->admin == 1 ) {
   $ACT="CHECKED";$NACT="UNCHECKED";
 } else {
   $ACT="UNCHECKED";$NACT="CHECKED";
 }
 echo "<TR><TD>";
-printf('<INPUT type="RADIO" NAME="Admin" VALUE="1" %s> Administrator',$ACT); 
+printf('<INPUT type="RADIO" NAME="Admin" VALUE="1" %s> Administrateur global',$ACT); 
 echo "</TD><TD>";
-printf('<INPUT type="RADIO" NAME="Admin" VALUE="0" %s> Normal user',$NACT); 
+printf('<INPUT type="RADIO" NAME="Admin" VALUE="0" %s> Pas administrateur global ',$NACT); 
 echo "</TD></TR>";
 ?>
 </TABLE>
@@ -187,61 +184,54 @@ echo "</TD></TR>";
 <TR>
 <TD>
 <!-- Show all database and rights -->
-<H2 class="info"> Droit par défaut </H2>
+<H2 class="info"> Droit sur les dossiers pour les utilisateurs normaux </H2>
+<p class="notice">
+Les autres droits doivent être réglés dans les dossiers (paramètre->sécurité)
+ </p>
 <TABLE>
 <?php 
+$array=array(
+	     array('value'=>'X','label'=>'Aucun Accès'),
+	     array('value'=>'R','label'=>'Utilisateur normal'),
+	     array('value'=>'L','label'=>'Administrateur local(Tous les droits)')
+	     );
+
 $Dossier=ShowDossier('all',1,0);
 if (  empty ( $Dossier )) {
 	echo '* Aucun Dossier *';
 	echo '</div>';
 	exit();
 }
+$mod_user=new User(DbConnect(),$uid);
 foreach ( $Dossier as $rDossier) {
-  $NORIGHT="";$Write="";$Read="";
-  echo_debug('priv_user.php',__LINE__,"Dossier : ".$rDossier['dos_id']);
-  $login_name=get_login($uid);
-  $priv=GetPriv($rDossier['dos_id'],$login_name);
+
+  $priv=$mod_user->get_privilege($rDossier['dos_id']);
   printf("<TR><TD> Dossier : %s </TD>",$rDossier['dos_name']);
-  if ( $priv==0 ) 
-    { $NORIGHT="CHECKED";} 
-  else { 
-    $A=$priv[0]['priv_priv'];
-    echo_debug('priv_user.php',__LINE__,"Priv = $A");
-    if ( $priv[0]['priv_priv']=='W' ) 
-      {$Write="CHECKED";}
-    else {
-      if ( $priv[0]['priv_priv']=='R' ) 
-	{ $Read="CHECKED";}
-      else {
-	if ($priv[0]['priv_priv']=='N') {
-	$NORIGHT="CHECKED";
-      }
-    }
-    }
-
-  }
-
-  printf('</TD><TD>No Right<INPUT TYPE="RADIO" NAME="PRIV%s" VALUE="NO" %s>',$rDossier['dos_id'],$NORIGHT);
-  printf('</TD><TD>Read/Write <INPUT TYPE="RADIO" NAME="PRIV%s" VALUE="W" %s>',$rDossier['dos_id'],$Write);
-  printf('</TD><TD>Read<INPUT TYPE="RADIO" NAME="PRIV%s" VALUE="R" %s>',$rDossier['dos_id'],$Read);
+  
+  $select=new widget('select');
+  $select->table=1;
+  $select->name=sprintf('PRIV%s',$rDossier['dos_id']);
+  $select->value=$array;
+  $select->selected=$priv;
+  echo $select->IOValue();
   echo "</TD></TR>";
 }
 
 ?>
 </TABLE>
-</TD>
-</TR>
+
+<?php echo widget::button_href('Reinitialiser le mot de passe',
+			  sprintf('priv_user.php?reset_passwd&UID=%s',$uid)); 
+?>
 
 
 
-<TR><TD><input type="Submit" NAME="SAVE" VALUE="Save changes"></TD>
-<TD>
-<A class="mtitle" HREF="admin_repo.php?action=user_mgt"><input type="button" value="Retour"></A>
-</TD>
-<TD><input type="Submit" NAME="DELETE" VALUE="Delete User"></TD>
-</TR>
+<input type="Submit" NAME="SAVE" VALUE="Sauver les changements changes">
+
+<input type="Submit" NAME="DELETE" VALUE="Effacer" onclick="return confirm('Confirmer effacement ?');" >
+
 </FORM>
-</TABLE>
+<A href='admin_repo.php?action=user_mgt'>Retour</a>
 </DIV>
 
 

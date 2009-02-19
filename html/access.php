@@ -33,11 +33,12 @@ require_once ('class_dossier.php');
 require_once('class_todo_list.php');
 
 
+$user=new User(DbConnect());
+$user->check_dossier(dossier::id());
+
 $cn=DbConnect(dossier::id());
-$user=new User($cn);
-if ($user->AccessJrn($cn,dossier::id()) == false ){
-     exit('<h2 class="error">Permission refusee </h2>');
-}     
+$user->db=$cn;
+$user->Check();
 
 if ( DBVERSION!=dossier::get_version($cn)) {
   echo '<h2 class="error">Votre base de données n\'est pas  à jour, ';
@@ -48,7 +49,7 @@ if ( DBVERSION!=dossier::get_version($cn)) {
 
 html_page_start($_SESSION['g_theme']);
 echo '<div class="u_tmenu">';
-echo menu_tool('access');
+echo menu_tool('access.php');
 echo '</div>';
 echo '<div class="content">';
 /* 

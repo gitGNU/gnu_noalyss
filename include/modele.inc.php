@@ -146,6 +146,7 @@ if ( isset ($_POST["FMOD_NAME"]) ) {
 
     
     $sql=sprintf ("select setval('s_jrn_%d',1,false)",$row['jrn_def_id']);
+    $sql=sprintf ("select setval('s_jrn_pj%d',1,false)",$row['jrn_def_id']);
     ExecSql($cn_mod,$sql);
   }
   //---

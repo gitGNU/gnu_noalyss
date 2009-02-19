@@ -73,11 +73,12 @@ $href=basename($_SERVER['PHP_SELF']);
 //----------------------------------------------------------------------
 if ( $def==1 || $def == 4 ) {
  // Check privilege
-  if ( isset($_REQUEST['p_jrn']) && 
-       CheckJrn($gDossier,$_SESSION['g_user'],$_REQUEST ['p_jrn']) != 2 )    {
-       NoAccess();
-       exit -1;
-  }
+  if ( isset($_REQUEST['p_jrn']))
+    if (     $User->check_jrn($_REQUEST['p_jrn']) != 'W' )
+      {
+	NoAccess();
+	exit -1;
+      }
 
   /* if a new invoice is encoded, we display a form for confirmation */
   if ( isset ($_POST['view_invoice'] ) ) {
@@ -130,7 +131,7 @@ if ( $def==1 || $def == 4 ) {
 
       
       /* Save the predefined operation */
-      if ( isset($_POST['opd_save'])) {
+      if ( isset($_POST['opd_save']) && $User->check_action(PARPREDE)==1) {
 	echo_debug(__FILE__,__LINE__,'saving predefined op');
 	$opd=new Pre_op_ach($cn);
 	$opd->get_post();
@@ -138,7 +139,14 @@ if ( $def==1 || $def == 4 ) {
       }
       
       /* Show button  */
-      echo "<h2 class=\"info\">Opération sauvée $internal </h2>";
+      echo '<h2 class="info">'.$Ledger->get_name().'</h2>';
+      echo "<h2 >Opération sauvée $internal ";
+      if ( $Ledger->pj != '') echo ' Piece : '.h($Ledger->pj);
+      echo "</h2>";
+      if ( strcmp($Ledger->pj,$_POST['e_pj']) != 0 ) {
+	echo '<h3 class="notice"> Attention numéro pièce existante, elle a du être adaptée</h3>';
+      }
+
       echo widget::button_href('Nouvelle dépense',$href.'?p_action=ach&sa=n&'.dossier::get());
       echo '</div>';
       exit();
@@ -165,8 +173,6 @@ if ( $def==1 || $def == 4 ) {
     $Ledger->id=$def_ledger['jrn_def_id'];
   } else 
     $Ledger->id=$_REQUEST ['p_jrn'];
-
-
 
 
   /* request for a predefined operation */
@@ -215,11 +221,6 @@ if ( $def==1 || $def == 4 ) {
 //--------------------------------------------------------------------------------
 if ( $def == 2 ) {
  // Check privilege
-  if ( isset($_REQUEST['p_jrn']) && 
-       CheckJrn($gDossier,$_SESSION['g_user'],$_GET['p_jrn']) ==0 )    {
-       NoAccess();
-       exit -1;
-  }
 
   echo '<div class="content">';
   $Ledger=new Acc_Ledger_Purchase($cn,0);
@@ -228,6 +229,11 @@ if ( $def == 2 ) {
     $Ledger->id=$def_ledger['jrn_def_id'];
   } else 
     $Ledger->id=$_GET['p_jrn'];
+
+  if (  $User->check_jrn($Ledger->id)=='X') {
+    NoAccess();
+    exit -1;
+  }
 
   //------------------------------
   // UPdate the payment
@@ -253,19 +259,17 @@ if ( $def == 2 ) {
 // Listing unpaid
 //---------------------------------------------------------------------------
 if ( $def==3 ) {
- // Check privilege
-  if ( isset($_REQUEST['p_jrn']) && 
-       CheckJrn($gDossier,$_SESSION['g_user'],$_GET['p_jrn']) ==0 )    {
-       NoAccess();
-       exit -1;
-  }
-
   $Ledger=new Acc_Ledger_Purchase($cn,0);
   if ( !isset($_GET['p_jrn'])) {
     $def_ledger=$Ledger->get_first('ach');
     $Ledger->id=$def_ledger['jrn_def_id'];
   } else 
     $Ledger->id=$_GET['p_jrn'];
+
+  if (  $User->check_jrn($Ledger->id)=='X') {
+    NoAccess();
+    exit -1;
+  }
 
     // Ask to update payment
   if ( isset ( $_GET['paid']))      {
@@ -290,5 +294,6 @@ if ( $def==3 ) {
 
 }
 if ( $p_action == 'fournisseur') {
+  $User->can_request(GESUPPL,1);
   require_once ('supplier.inc.php');
 }

@@ -43,6 +43,7 @@ $rep=DbConnect($gDossier);
 require_once ("class_user.php");
 $User=new User($rep);
 $User->Check();
+$User->check_dossier($gDossier);
 
 //-----------------------------------------------------
 // update preference
@@ -70,13 +71,16 @@ require_once('class_widget.php');
 include_once("preference.php");
 include_once("user_menu.php");
 $str_dossier=dossier::get();
-echo '<div class="u_tmenu">';
-echo menu_tool('gestion');
-echo '</div>';
+
 $p_action=(isset ($_REQUEST['p_action']))?$_REQUEST['p_action']:"";
 // TODO Menu with all the customer
 //echo '<div class="u_tmenu">';
-echo '<div style="float:left">';
+///echo '<div style="float:left">';
+echo '<div class="u_tmenu">';
+echo menu_tool('commercial.php');
+
+echo '<div style="float:left;background-color:#879ED4;width:100%;">';
+
 echo ShowItem(array(
 		    array('?p_action=client&'.$str_dossier,'Client'),
 		    array('?p_action=ven&'.$str_dossier,'Vente/Facture'),
@@ -95,13 +99,11 @@ echo ShowItem(array(
 		    ),
 	      'H',"mtitle","mtitle","?p_action=$p_action&".$str_dossier,' width="100%"');
 
-
-		    //
+echo '</div>';
 echo '</div>';
 
-
 $cn=DbConnect($gDossier);
-$User->can_request($cn,SEC_GESTION);
+
 echo JS_VIEW_JRN_MODIFY;
 echo JS_AJAX_FICHE;
 
@@ -118,12 +120,14 @@ if ( $p_action == "pref" )
 //-----------------------------------------------------
 if ( $p_action == "client" ) 
 {
+  $User->can_request(GECUST,1);
   require_once("client.inc.php");
 }// $p_action == fournisseur
 //-----------------------------------------------------
 // Fournisseur
 if ( $p_action == 'fournisseur') 
 {
+  $User->can_request(GESUPPL,1);
   require_once("supplier.inc.php");
 }
 
@@ -131,6 +135,7 @@ if ( $p_action == 'fournisseur')
 // action
 if ( $p_action == 'suivi_courrier') 
 {
+  $User->can_request(GECOUR,1);
   require_once("action.inc.php");
 }
 //-----------------------------------------------------
@@ -167,13 +172,14 @@ if ( $p_action=='quick_writing') {
 // Impression
 if ( $p_action == 'impress') 
 {
-  if ( $User->check_action($cn,IMP) == 0)
-    {
-      NoAccess();
-      exit;
-    }
-
-  require_once("impress.inc.php");
+  if ( $User->check_action(IMPRAP)==1 ||
+       $User->check_action(IMPJRN)==1 ||
+       $User->check_action(IMPFIC)==1 ||
+       $User->check_action(IMPPOSTE)==1 ||
+       $User->check_action(IMPBIL)==1 )
+    require_once("impress.inc.php");
+  else
+    $User->can_request(9999,1);
 }
 if ( $p_action == 'fiche') {
   require_once('fiche.inc.php');
@@ -182,14 +188,20 @@ if ( $p_action == 'stock') {
   require_once('stock.inc.php');
 }
 if ( $p_action=='periode') {
-  require_once ('periode.inc.php');
+  if ( $User->check_action(PARPER)==1 ||
+       $User->check_action(PARCLO)==1)
+    require_once ('periode.inc.php');
+  else
+    $User->can_request(9999,1);
  }
 if ( $p_action=='central') {
+  $User->can_request(PARCENT,1);
   require_once ('central.inc.php');
  }
 //-----------------------------------------------------
 // Expense
 if ( $p_action == 'defreport') 
 {
+  $User->can_request(PARPREDE,1);
   require_once("report.inc.php");
 }

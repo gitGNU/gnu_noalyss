@@ -51,7 +51,7 @@ if ( pg_num_rows($r) == 0 ) {
 $a=pg_fetch_array($r,0);
 $jrn=$a['jr_def_id'];
 
-if ($User->AccessJrn($cn,$jrn) == false ){
+if ($User->check_jrn($jrn) == 'X' ){
   /* Cannot Access */
   NoAccess();
   exit -1;

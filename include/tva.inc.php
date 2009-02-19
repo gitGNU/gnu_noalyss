@@ -21,11 +21,18 @@
 /*! \file
  * \brief included file for customizing with the vat (account,rate...)
  */
+require_once('class_own.php');
+
 echo '<div class="content">';
   // Confirm remove
   if ( isset ($_POST['confirm_rm'])) 
   {
-    ExecSql($cn,'select tva_delete('.pg_escape_string($_POST['tva_id']).')');
+    if ( CountSql($cn,'select * from tva_rate') > 1 )
+      ExecSqlParam($cn,'select tva_delete($1)',array($_POST['tva_id']));
+    else 
+      echo '<p class="notice">Vous ne pouvez pas effacer tous taux'.
+	' Si votre soci&eacute;t&eacute; n\'utilise pas la TVA, changer dans le menu soci&eacute;t&eacute</p>';
+    
   }
 //-----------------------------------------------------
 // Record Change
@@ -82,7 +89,12 @@ echo '<div class="content">';
 	  echo "<script>alert ('$str_err'); </script>";;
 	}
   }
-
+// If company not use VAT
+$own=new Own($cn);
+if ( $own->MY_TVA_USE=='N' ){
+  echo '<h2 class="error"> Vous n\'êtes pas assujetti à la TVA</h2>';
+  exit();
+}
   //-----------------------------------------------------
   // Display
   $sql="select tva_id,tva_label,tva_rate,tva_comment,tva_poste from tva_rate order by tva_rate";
@@ -102,12 +114,13 @@ echo '<div class="content">';
     {
       // load value into an array
       $index=$row['tva_id']     ;
-      $a[$index]=array(
+      $tva_array[$index]=array(
 		       'tva_label'=> $row['tva_label'],
 		       'tva_rate'=>$row['tva_rate'],
 		       'tva_comment'=>$row['tva_comment'],
 		       'tva_poste'=>$row['tva_poste']
 		       );
+
       echo "<TR>";
       echo '<FORM METHOD="POST">';
 
@@ -180,10 +193,10 @@ if (   ! isset ($_POST['add'])
    <th>Poste</th>
    </tr>
 <tr>
-   <td> <?php   echo $a[$index]['tva_label']; ?></td>
-   <td> <?php   echo $a[$index]['tva_rate']; ?></td>
-   <td> <?php   echo $a[$index]['tva_comment']; ?></td>
-   <td> <?php   echo $a[$index]['tva_poste']; ?></td>
+   <td> <?php   echo $tva_array[$index]['tva_label']; ?></td>
+   <td> <?php   echo $tva_array[$index]['tva_rate']; ?></td>
+   <td> <?php   echo $tva_array[$index]['tva_comment']; ?></td>
+   <td> <?php   echo $tva_array[$index]['tva_poste']; ?></td>
 </Tr>
 </table>
 <?php  
@@ -241,21 +254,21 @@ if (   ! isset ($_POST['add'])
 ?>
 <table>
    <tr> <td align="right"> Label (ce que vous verrez dans les journaux)</td>
-   <td> <?php   $w=new widget("text");$w->size=20; echo $w->IOValue('tva_label',$a[$index]['tva_label']) ?></td>
+   <td> <?php   $w=new widget("text");$w->size=20; echo $w->IOValue('tva_label',$tva_array[$index]['tva_label']) ?></td>
 </tr>
    <tr><td  align="right"> Taux de tva </td>
 
-   <td> <?php   $w=new widget("text");$w->size=5; echo $w->IOValue('tva_rate',$a[$index]['tva_rate']) ?></td>
+   <td> <?php   $w=new widget("text");$w->size=5; echo $w->IOValue('tva_rate',$tva_array[$index]['tva_rate']) ?></td>
 </tr>
 <tr>
 <td  align="right"> Commentaire </td>
    <td> <?php   $w=new widget("textarea"); $w->heigh=2;$w->width=20;
-   echo $w->IOValue('tva_comment',$a[$index]['tva_comment']) ?></td>
+   echo $w->IOValue('tva_comment',$tva_array[$index]['tva_comment']) ?></td>
 </tr>
 <tr>
    <td  align="right">Poste comptable utilisés format :debit,credit</td>
 
-   <td> <?php   $w=new widget("text");$w->size=5; echo $w->IOValue('tva_poste',$a[$index]['tva_poste']) ?></td>
+   <td> <?php   $w=new widget("text");$w->size=5; echo $w->IOValue('tva_poste',$tva_array[$index]['tva_poste']) ?></td>
 </Tr>
 </table>
 <input type="submit" value="Confirme" name="confirm_mod">

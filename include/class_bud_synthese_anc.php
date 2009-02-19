@@ -274,12 +274,14 @@ class Bud_Synthese_Anc extends Bud_Synthese {
     $cn=DbConnect(dossier::id());
     $obj=new Bud_Synthese_Anc($cn);
     echo '<form method="GET">';
+	echo widget::hidden('test_select',$_REQUEST['test_select']);
     echo $obj->select_hypo();
     echo widget::submit('recherche','recherche');
     echo '</form>';
     if ( isset($_GET['recherche'])) {
       $obj->from_array($_GET);
       echo '<form method="GET">';
+	  echo widget::hidden('test_select',$_REQUEST['test_select']);
       echo $obj->form();
       echo widget::hidden('bh_id',$obj->bh_id);
       echo widget::submit('recherche2','recherche');

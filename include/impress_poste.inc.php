@@ -223,7 +223,7 @@ if ( isset( $_REQUEST['bt_html'] ) ) {
 
 	    foreach ($Poste->row as $a) {
 	      $detail=$a;
-	      echo '<tr><td class="mtitle" colspan="5">'. $detail['j_date'].' '.$detail['jr_internal'].h($detail['description']).'</td></tr>';
+	      echo '<tr><td class="mtitle" colspan="5">'. $detail['j_date'].' '.$detail['jr_internal'].' '.hb($detail['description']).' '.hi($detail['jr_pj_number']).'</td></tr>';
 
 	      $op=new Acc_Operation($cn);
 	      $op->poste=$poste_id['pcm_val'];

@@ -74,14 +74,17 @@ $href=basename($_SERVER['PHP_SELF']);
 // empty form for encoding
 //----------------------------------------------------------------------
 if ( $def==1 || $def == 4 ) {
- // Check privilege
-  if ( isset($_REQUEST['p_jrn']) && 
-	     CheckJrn($gDossier,$_SESSION['g_user'],$_REQUEST ['p_jrn']) != 2 )    
-    {
-       NoAccess();
-       exit -1;
-    }
+  $Ledger=new Acc_Ledger_Sold($cn,0);
 
+  // Check privilege
+  if ( isset($_REQUEST['p_jrn']) && 
+       $User->check_jrn($_REQUEST['p_jrn']) != 'W' )
+    {
+
+      NoAccess();
+      exit -1;
+    }
+  
   /* if a new invoice is encoded, we display a form for confirmation */
   if ( isset ($_POST['view_invoice'] ) ) {
     $Ledger=new Acc_Ledger_Sold($cn,$_POST['p_jrn']);
@@ -120,7 +123,7 @@ if ( $def==1 || $def == 4 ) {
 
   if ( isset($_POST['record']) ){
  // Check privilege
-  if ( CheckJrn($gDossier,$_SESSION['g_user'],$_REQUEST['p_jrn']) != 2 )    {
+    if ( $User->check_jrn($_REQUEST['p_jrn']) != 'W' )    {
        NoAccess();
        exit -1;
   }
@@ -136,6 +139,7 @@ if ( $def==1 || $def == 4 ) {
       echo '<div class="content">';
       $Ledger=new Acc_Ledger_Sold($cn,$_POST['p_jrn']);
       $internal=$Ledger->insert($_POST);
+
       /* Save the predefined operation */
       if ( isset($_POST['opd_save'])) {
 	$opd=new Pre_op_ven($cn);
@@ -144,7 +148,14 @@ if ( $def==1 || $def == 4 ) {
       }
       
       /* Show button  */
-      echo "<h2 class=\"info\">Opération sauvée $internal </h2>";
+      echo '<h2 class="info">'.$Ledger->get_name().'</h2>';
+      echo "<h2 >Opération sauvée $internal ";
+      if ( $Ledger->pj != '') echo ' Piece : '.h($Ledger->pj);
+      echo "</h2>";
+
+      if ( strcmp($Ledger->pj,$_POST['e_pj']) != 0 ) {
+	echo '<h3 class="notice"> Attention numéro pièce existante, elle a du être adaptée</h3>';
+      }
       /* Here you need to generate the invoice */
       if ( isset($_REQUEST['gen_invoice']) ) {
 	$doc=new Document($cn);
@@ -232,6 +243,11 @@ if ( $def==1 || $def == 4 ) {
   $op->set('ledger_type',"VEN");
   $op->set('direct','f');
   echo $op->form_get();
+  $own=new Own($cn);
+  /* if we suggest the pj n# the run the script */
+  if ( $own->MY_PJ_SUGGEST=='Y') {
+      echo '<script> update_pj();</script>';
+    } 
   echo '</form>';
   echo '<form onsubmit="cal();return false;" name="calc_line" method="get">';
   echo JS_CALC_LINE;
@@ -246,7 +262,7 @@ if ( $def == 2 ) {
   echo '<div class="content">';
  // Check privilege
   if ( isset($_REQUEST['p_jrn']) && 
-       CheckJrn($gDossier,$_SESSION['g_user'],$_REQUEST['p_jrn']) ==0 )    {
+       $User->check_jrn($_REQUEST['p_jrn']) == 'X') {
        NoAccess();
        exit -1;
   }
@@ -284,11 +300,11 @@ if ( $def == 2 ) {
 if ( $def==3 ) {
  // Check privilege
   if ( isset($_REQUEST['p_jrn']) && 
-       CheckJrn($gDossier,$_SESSION['g_user'],$_REQUEST['p_jrn']) ==0 )    {
-       NoAccess();
-       exit -1;
+       $User->check_jrn($_REQUEST['p_jrn']) == 'X') {
+    NoAccess();
+    exit -1;
   }
-
+  
   $Ledger=new Acc_Ledger_Sold($cn,0);
   if ( !isset($_REQUEST['p_jrn'])) {
     $def_ledger=$Ledger->get_first('ven');
@@ -304,6 +320,10 @@ if ( $def==3 ) {
 
   echo '<FORM METHOD="GET" action="'.$href.'">';
   $wLedger=$Ledger->select_ledger('VEN',2);
+  if ( $wLedger == null ) {
+    alert('aucun journal de disponible');
+    exit();
+  }
   $wLedger->javascript="onChange=submit()";
   echo "Journal ".$wLedger->IOValue();
   echo widget::submit ('search','Recherche');
@@ -318,5 +338,6 @@ if ( $def==3 ) {
 
 }
 if ( $p_action == 'client') {
+  $User->can_request(GECUST,1);
   require_once ('client.inc.php');
 }

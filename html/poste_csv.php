@@ -38,6 +38,9 @@ $cn=DbConnect($gDossier);
 
 $User=new User($cn);
 $User->Check();
+$User->check_dossier($gDossier);
+$User->can_request(IMPPOSTE,0);
+
 if ( isset ( $_REQUEST['poste_fille']) )
 { //choisit de voir tous les postes
   $a_poste=get_array($cn,"select pcm_val from tmp_pcmn where pcm_val::text like '".$_REQUEST["poste_id"]."%'");
@@ -73,8 +76,8 @@ if ( ! isset ($_REQUEST['oper_detail'])) {
       foreach ( $Poste->row as $op ) { 
 	echo '"'.$pos['pcm_val'].'";'.
 	  '"'.$op['jr_internal'].'"'.";".
-	  '"'.$op['jr_date'].'"'.";".
-	  '"'.$op['description'].'"'.";".
+	  '"'.$op['j_date'].'"'.";".
+	  '"'.$op['description']." ".$op['jr_pj_number'].'"'.";".
 	  sprintf("%8.4f",$op['deb_montant']).";".
 	  sprintf("%8.4f",$op['cred_montant']);
 	printf("\n");
@@ -119,12 +122,13 @@ if ( ! isset ($_REQUEST['oper_detail'])) {
 	$op->jr_id=$a['jr_id'];
 	$result=$op->get_jrnx_detail();
 	foreach ( $result as $r) {
-	  printf('"%s";"%s";"%s";"%s";"%s";%12.2f;"%s"',
+	  printf('"%s";"%s";"%s";"%s";"%s";%12.2f;"%s %s"',
 		 $r['j_poste'],
 		 $r['j_qcode'],
 		 $r['jr_internal'],
 		 $r['jr_date'],
 		 $a['description'],
+		 $a['jr_pj_number'],
 		 $r['j_montant'],
 		 $r['debit']);
 	  printf("\r\n");

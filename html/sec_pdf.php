@@ -41,7 +41,7 @@ include_once ("class_user.php");
 $User=new User($rep);
 $User->Check();
 // Check Priv
-$User->can_request($cn,SECU);
+$User->can_request(PARSEC,1);
 
 //-----------------------------------------------------
 // Get User's info
@@ -72,19 +72,22 @@ if ( $SecUser->admin==1)
 //-----------------------------------------------------
 // Journal
 $Res=ExecSql($cn,"select jrn_def_id,jrn_def_name  from jrn_def ");
+$SecUser->db=$cn;
 for ($e=0;$e < pg_NumRows($Res);$e++) {
   $row=pg_fetch_array($Res,$e);
-  $a_jrn[$e]['jrn_name']=$row['jrn_def_name'];
-  $priv=CheckJrn($gDossier,$SecUser->login,$row['jrn_def_id']);
+  $a_jrn[$e]['jrn_name']=utf8_decode($row['jrn_def_name']);
+  $priv=$SecUser->check_jrn($row['jrn_def_id']);
   switch($priv) {
-  case 0:
-    $a_jrn[$e]['priv']="pas d'accès";
+  case 'X':
+    $a_jrn[$e]['priv']=utf8_decode("pas d'accès");
     break;
-  case 1:
-    $a_jrn[$e]['priv']="lecture";
+  case 'R':
+    $a_jrn[$e]['priv']=utf8_decode("lecture");
     break;
-  case 2:
-  case 3:
+  case 'O':
+    $a_jrn[$e]['priv']=utf8_decode("Operation prédéfinie uniquement");
+    break;
+  case 'W':
     $a_jrn[$e]['priv']="Ecriture";
     break;
   }
@@ -92,7 +95,7 @@ for ($e=0;$e < pg_NumRows($Res);$e++) {
  }
 $pdf->ezTable($a_jrn,
 		array ('jrn_name'=>' Journal',
-		       'priv'=>'Privilège')," ",
+		       'priv'=>utf8_decode('Privilège'))," ",
 		array('shaded'=>0,'showHeadings'=>1,'width'=>500));
 
 //-----------------------------------------------------
@@ -104,22 +107,22 @@ $Max=pg_NumRows($Res);
 
 for ( $i =0 ; $i < $Max; $i++ ) {
    $l_line=pg_fetch_array($Res,$i);
-   $action['lib']=$l_line['ac_description'];
+   $action['lib']=utf8_decode($l_line['ac_description']);
    $right=check_action($gDossier,$SecUser->login,$l_line['ac_id']);
    switch ($right) {
    case 0:
-     $action['priv']="Pas d'accès";
+     $action['priv']=utf8_decode("Pas d'accès");
      break;
    case 1:
    case 2:
-     $action['priv']="Accès";
+     $action['priv']=utf8_decode("Accès");
      break;
    }
    $a_action[$i]=$action;
  }
 $pdf->ezTable($a_action ,
 		array ('lib'=>'Description',
-		       'priv'=>'Privilège')," ",
+		       'priv'=>utf8_decode('Privilège'))," ",
 		array('shaded'=>0,'showHeadings'=>1,'width'=>500));
 
 

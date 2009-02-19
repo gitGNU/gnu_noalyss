@@ -26,6 +26,9 @@
  * current folder
  */
 $sa=(isset($_REQUEST['sa']))?$_REQUEST['sa']:'';
+$User=new User(DbConnect(dossier::id()));
+$User->Check();
+$User->can_request(PAREO,1);
 require_once('class_acc_ledger.php');
 /* -------------------------------------------------- 
  * step 1 if nothing is asked we show the available folders

@@ -27,9 +27,10 @@ include_once ("postgres.php");
  * \brief main page of the accountancy module
  */
 
-$rep=DbConnect();
-
-$User=new User($rep);
+$User=new User(DbConnect());
+$User->check_dossier(dossier::id());
+$cn=DbConnect(dossier::id());
+$User->cn=$cn;
 $User->Check();
 
 html_page_start($User->theme);
@@ -37,16 +38,13 @@ $gDossier=dossier::id();
 
 echo_debug('user_compta.php',__LINE__,"user is ".$_SESSION['g_user']);
 
-// Synchronize rights
-SyncRight($gDossier,$_SESSION['g_user']);
-
 // Get The priv on the selected folder
-if ( $User->admin == 0 ) {
+if ( $User->admin == 0 && $User->is_local_admin(dossier::id()) == 0 ) {
   
-  $r=GetPriv($gDossier,$_SESSION['g_user']);
-  if ($r == 0 ){
+  $r=$User->get_privilege($gDossier);
+  if ($r == 'X' ){
     /* Cannot Access */
-    NoAccess();
+    NoAccess(1);
   }
 }
 

@@ -46,7 +46,6 @@ echo $result;
 
 echo "</DIV>";
 $cn=DbConnect($gDossier);
-$User->can_request($cn,IMP);
 
 
 include_once("impress_inc.php");
@@ -56,22 +55,28 @@ include_once("impress_inc.php");
 $default=( isset ($_REQUEST['type']))?$_REQUEST['type']:"";
   switch ($default) {
   case "jrn":
+    $User->can_request(IMPJRN,1);
     require_once ("impress_jrn.inc.php");
     break;
   case "poste":
+    $User->can_request(IMPPOSTE,1);
     require_once ("impress_poste.inc.php");
     break;
   case "rapport":
+    $User->can_request(IMPRAP,1);
     require_once ("impress_rapport.inc.php");
     break;
   case "bilan":
+    $User->can_request(IMPBIL,1);
     require_once ("impress_bilan.inc.php");
     break;
 
   case "bal":
+    $User->can_request(IMPBAL,1);
     require_once ("balance.inc.php");
     break;
   case "fiche":
+    $User->can_request(IMPFIC,1);
     require_once ("impress_fiche.inc.php");
     break;
   case "list_client":

@@ -25,7 +25,9 @@
  */
 
   /** 
-   * @brief  this class aims to compute the 
+   * @brief  this class aims to compute different amount
+   *
+   * This class compute without decimal error the following amount
    * - vat
    * - amount without vat
    * - no deductible vat

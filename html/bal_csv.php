@@ -36,11 +36,13 @@ $cn=DbConnect($gDossier);
 require_once ('class_user.php');
 $User=new User(DbConnect());
 $User->Check();
-if ( $User->check_action($cn,BALANCE) == 0)
+if ( $User->check_action(IMPBAL) == 0)
   {
     NoAccess();
     exit;
   }
+echo 'poste;libelle;deb;cred;solde deb;solde cred';
+printf("\n");
 $bal=new Acc_Balance($cn);
   
 $t_cent="";

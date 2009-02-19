@@ -143,6 +143,7 @@ function form($p_line=0) {
     $r.='<td>';
   $search=new widget('js_search_poste_only');
   $search->extra="form".$i;
+  $search->extra2='poste';
   $r.=$search->IOValue();
   $r.='</td>';
 
@@ -218,7 +219,6 @@ function form($p_line=0) {
 	if ( strlen(trim($row->get_parameter("name"))) != 0 && 
 	     strlen(trim($row->get_parameter("formula"))) != 0 ) 
 	{
-	
 	  $ix=($row->get_parameter("position")!="")?$row->get_parameter("position"):$ix;
 	  $row->set_parameter("position",$ix);
 	  $ret_sql=ExecSqlParam($this->db,
@@ -391,7 +391,7 @@ function form($p_line=0) {
     /* Add a line should be a javascript see comptanalytic */
     //  $r.= '<INPUT TYPE="submit" value="Ajoute une ligne" name="add_line">';
     echo '<INPUT TYPE="submit" value="Efface ce rapport" name="del_form">';
-
+	echo widget::hidden('test_select',$_REQUEST['test_select']);
     echo "</FORM>";
     if ( isset ($_POST['update'])) {
       $b=new Acc_Report($cn);

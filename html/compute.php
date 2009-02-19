@@ -24,7 +24,7 @@
  * \brief respond ajax request, the get contains
  *  the value :
  * - c for qcode
- * - t for tva_id
+ * - t for tva_id -1 if there is no TVA to compute
  * - p for price
  * - q for quantity
  * - n for number of the ctrl
@@ -48,20 +48,27 @@ foreach (array('t','c','p','q','n','gDossier') as $a) {
 }
 $cn=DbConnect(dossier::id());
 
-// Retrieve the rate of vat
-
-$tva_rate=new Acc_Tva($cn);
-$tva_rate->set_parameter('id',$t);
-$tva_rate->load();
+// Retrieve the rate of vat, it $t == -1 it means no VAT
+if ( $t != -1 ){
+	$tva_rate=new Acc_Tva($cn);
+	$tva_rate->set_parameter('id',$t);
+	$tva_rate->load();
+}
 
 $total=new Acc_Compute();
 bcscale(4);
 $amount=round(bcmul($p,$q),2);
 $total->set_parameter('amount',$amount);
-$total->set_parameter('amount_vat_rate',$tva_rate->get_parameter('rate'));
-$total->compute_vat();
-$tvac=bcadd($total->get_parameter('amount_vat'),$amount);
-header("Content-type: text/html; charset: utf8",true);
-echo '{"ctl":"'.$n.'","htva":"'.$amount.'","tva":"'.$total->get_parameter('amount_vat').'","tvac":"'.$tvac.'"}';
+if ( $t != -1 ) {
+	$total->set_parameter('amount_vat_rate',$tva_rate->get_parameter('rate'));
+	$total->compute_vat();
+	$tvac=bcadd($total->get_parameter('amount_vat'),$amount);
+	header("Content-type: text/html; charset: utf8",true);
+	echo '{"ctl":"'.$n.'","htva":"'.$amount.'","tva":"'.$total->get_parameter('amount_vat').'","tvac":"'.$tvac.'"}';
+} else {
+/* there is no vat to compute */
+	header("Content-type: text/html; charset: utf8",true);
+	echo '{"ctl":"'.$n.'","htva":"'.$amount.'","tva":"NA","tvac":"'.$amount.'"}';
+}
 ?>
 

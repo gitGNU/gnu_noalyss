@@ -35,11 +35,11 @@ $gDossier=dossier::id();
 $str_dossier=dossier::get();
 
 /* Admin. Dossier */
-$rep=DbConnect();
+$rep=DbConnect($gDossier);
 
 $User=new User($rep);
 $User->Check();
-$User->can_request($cn,FORM);
+$User->can_request(PARRAP,1);
 
 
 $cn=DbConnect($gDossier);

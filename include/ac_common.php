@@ -31,7 +31,8 @@ require_once ("postgres.php");
 	the string to be diplayed must be protected
 */
 function h($p_string) { return htmlspecialchars($p_string);}
-
+function hi($p_string) { return '<i>'.htmlspecialchars($p_string).'</i>';}
+function hb($p_string) { return '<b>'.htmlspecialchars($p_string).'</b>';}
 /*! 
  * \brief  log error into the /tmp/phpcompta_error.log it doesn't work on windows
  *
@@ -270,7 +271,7 @@ function html_button_logout() {
  */
 
 
-function NoAccess($js=0) 
+function NoAccess($js=1) 
 {
   if ( $js == 1 ) 
     {
@@ -290,7 +291,6 @@ function NoAccess($js=0)
  * \brief Fix the problem with the quote char for the database
  *        
  * \param $p_string 
- * \todo replace par pg_escape_string !!!
  * \return a string which won't let strange char for the database
  */
 function FormatString($p_string) 

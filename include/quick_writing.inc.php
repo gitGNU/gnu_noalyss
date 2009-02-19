@@ -125,7 +125,7 @@ if ($id == -1 )
      echo '</div>';
      exit();
   }
-if ( $User->AccessJrn($cn,$id) == false ) {
+if ( $User->check_jrn($id) == 'X' ) {
   echo "
 <script> alert(\"L'acces a ce journal est interdit, contactez votre responsable\");</script>";
   exit();
@@ -138,7 +138,7 @@ $sa=( isset ($_REQUEST['sa']))?$_REQUEST['sa']:'';
 if ($sa == 'l' && $id != -1) {
  // Check privilege
 
-  if (  CheckJrn(dossier::id(),$_SESSION['g_user'],$id) ==0 )    {
+  if (  $User->check_jrn($id) == 'X') {
        NoAccess();
        exit -1;
   }
@@ -165,13 +165,14 @@ if ($sa == 'l' && $id != -1) {
 // User can write ?
 // Write into the ledger
 
-if ( CheckJrn(dossier::id(),$_SESSION['g_user'],$id) != 2 )    {
+if ( $User->check_jrn($id) == 'X' ) {
   echo "
-<script> alert(\"Vous ne pouvez pas ecrire dans ce journal, contactez votre responsable\");</script>";
+<script> alert(\"Vous ne pouvez pas acc&eacute;der &agrave; ce journal, contactez votre responsable\");</script>";
        exit -1;
 }
 
-if ( isset($_GET['show_form']) || isset($_POST['correct_it']) ) {
+if ( $User->check_jrn($id)=='W' ) {
+  if ( isset($_GET['show_form']) || isset($_POST['correct_it']) ) {
   $array=$_POST;
   $default_periode=$User->get_periode();
   /* check if the ledger is closed */
@@ -234,7 +235,11 @@ if ( isset($_POST['save_it' ])) {
 
   try {
     $ledger->save($array);
-    echo '<h2> Op&eacute;ration enregistr&eacute;e '.$ledger->jr_internal.'</h2>';
+    echo '<h2> Op&eacute;ration enregistr&eacute;e '.$ledger->jr_internal.' Piece '.h($ledger->pj).'</h2>';
+    if ( strcmp($ledger->pj,$_POST['e_pj']) != 0 ) {
+	echo '<h3 class="notice"> Attention numéro pièce existante, elle a du être adaptée</h3>';
+      }
+
     echo widget::button_href('Autre opération dans ce journal',
 			     "?".dossier::get().
 			     '&show_form'.
@@ -248,3 +253,7 @@ if ( isset($_POST['save_it' ])) {
   }
   exit();
  }
+} // if check_jrn=='W'
+else {
+  show_qw_menu();
+}

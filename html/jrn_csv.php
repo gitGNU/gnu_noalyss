@@ -25,6 +25,7 @@
 header('Content-type: application/csv');
 header('Content-Disposition: attachment;filename="jrn.csv"',FALSE);
 include_once ("ac_common.php");
+require_once('class_own.php');
 
 require_once('class_dossier.php');
 $gDossier=dossier::id();
@@ -33,24 +34,24 @@ include_once ("postgres.php");
 include_once("check_priv.php");
 require_once("class_acc_ledger.php");
 $cn=DbConnect($gDossier);
-$rep=DbConnect();
+
 
 require_once ('class_user.php');
-$User=new User($rep);
+$User=new User($cn);
 $User->Check();
-if ( $User->check_action($cn,IMP) == 0 ||
-     $User->AccessJrn($cn,$_GET['jrn_id']) == false){
-    /* Cannot Access */
-    NoAccess();
-  }
+$User->can_request(IMPJRN,0);
+$User->check_dossier($gDossier);
 
+if ($_GET['jrn_id']!=0 &&  $User->check_jrn($_GET['jrn_id']) =='X') {
+  NoAccess(); exit();}
 
- $p_cent=( isset ( $_GET['central']) )?$_GET['central']:'off';
+$p_cent=( isset ( $_GET['central']) )?$_GET['central']:'off';
 
 $Jrn=new Acc_Ledger($cn,$_GET['jrn_id']);
 
 $Jrn->get_name();
 $jrn_type=$Jrn->get_type();
+
 // Detailled printing
 //---
 if  ( $_GET['p_simple'] == 0 ) 
@@ -140,12 +141,16 @@ if  ( $_GET['p_simple'] == 0 )
 //-----------------------------------------------------
      if ( $jrn_type=='ACH' || $jrn_type=='VEN')
        {
-	 $a_Tva=get_array($cn,"select tva_id,tva_label from tva_rate where tva_rate != 0.0000 order by tva_rate");
+	 $own=new Own($cn);
 	 $col_tva="";
-	 foreach($a_Tva as $line_tva)
-	   {
-	     $col_tva.='"Tva '.$line_tva['tva_label'].'";';
-	   } 
+
+	 if ( $own->MY_TVA_USE=='Y') {
+	   $a_Tva=get_array($cn,"select tva_id,tva_label from tva_rate where tva_rate != 0.0000 order by tva_rate");
+	   foreach($a_Tva as $line_tva)
+	     {
+	       $col_tva.='"Tva '.$line_tva['tva_label'].'";';
+	     } 
+	 }
 	 echo '"Date";"operation";"Client/Fourn.";"Commentaire";"inter.";"HTVA";'.$col_tva.'"TVAC"'."\n\r";
 	 foreach ($Row as $line)
 	   {
@@ -169,16 +174,16 @@ if  ( $_GET['p_simple'] == 0 )
 		       }
 		   } 
 	       }
-	   
-	     foreach ($a_Tva as $line_tva)
-	       {
-		 $a=$line_tva['tva_id'];
-		 if ( isset($a_tva_amount[$a]))
-		   printf("% 8.2f;",$a_tva_amount[$a]);
-		 else
-		   printf("0;");
-	       }
-
+	     if ($own->MY_TVA_USE == 'Y' ) {  
+	       foreach ($a_Tva as $line_tva)
+		 {
+		   $a=$line_tva['tva_id'];
+		   if ( isset($a_tva_amount[$a]))
+		     printf("% 8.2f;",$a_tva_amount[$a]);
+		   else
+		     printf("0;");
+		 }
+	     }
 	     printf("% 9.2f\r\n",$line['TVAC']);
 	   }
        }

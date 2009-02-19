@@ -387,7 +387,7 @@ echo '<hr>';
  echo "<h2>Mise &agrave; jour Repository</h2>"; 
  $cn=DbConnect(); 
  if ( DEBUG == 'false') ob_start(); 
- $MaxVersion=8; 
+ $MaxVersion=9; 
  for ($i=4;$i<= $MaxVersion;$i++) 
    { 
  	if ( get_version($cn) <= $i ) { 

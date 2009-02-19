@@ -77,12 +77,14 @@ class  Acc_Report_Row
 
       if ( isset(${'form'.$ix}) && isset ( ${'text'.$ix} )) {
 	$obj=new Acc_Report_Row( ${'text'.$ix},${'form'.$ix});
+
 	if ( isset(${'pos'.$ix}) &&  isNumber(${'pos'.$ix})==1 )
-	  $obj->set_parameter("position",$ix);
+	  $obj->set_parameter("position",${'pos'.$ix});
 	else {
 	  $obj->set_parameter("position",$found);
 	  $found++;
 	}
+
 	$obj->fo_id=0;
 	$obj->fo_fr_id=$this->fo_fr_id;
 	$obj->db=$this->db;

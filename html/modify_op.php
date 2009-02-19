@@ -33,19 +33,28 @@ include_once ("postgres.php");
 include_once("jrn.php");
 include_once("class_widget.php");
 require_once ("constant.php");
+require_once('class_acc_reconciliation.php');
+require_once('class_acc_operation.php');
 
 /* Admin. Dossier */
-$rep=DbConnect();
+$gDossier=dossier::id();
+$cn=DbConnect($gDossier);
+
 include_once ("class_user.php");
-$User=new User($rep);
+$User=new User($cn);
 $User->Check();
+$User->check_dossier(dossier::id());
 
 html_page_start($User->theme,"onLoad='window.focus();'");
 require_once('class_dossier.php');
-$gDossier=dossier::id();
+// $p_jrn=(isset($_REQUEST['p_jrn']))?$_REQUEST['p_jrn']:0;
+$acc=new Acc_Operation($cn);
+if (isset($_REQUEST['line']))
+  $acc->jr_id=$_REQUEST ['line'];
+else 
+  $acc->jr_id=$_REQUEST ['jr_ir'];
 
-$cn=DbConnect($gDossier);
-$p_jrn=(isset($_REQUEST['p_jrn']))?$_REQUEST['p_jrn']:0;
+$p_jrn=$acc->get_ledger();
 
 if ( isset ( $_GET['action'] ) ) {
   $action=$_GET['action'];
@@ -86,7 +95,9 @@ function hide_div (p_div) {
 echo_debug(__FILE__,__LINE__,"action is $action");
 //-----------------------------------------------------
 if ( $action == 'update' ) {
-  if ( ($priv=CheckJrn($gDossier,$_SESSION['g_user'],$_GET['p_jrn'],true)) < 1 ) {
+  if ( $User->check_jrn($p_jrn) =='X' ) {
+      echo ' <script>   window.close();</script>';
+
       NoAccess();
       exit -1;
     
@@ -120,7 +131,8 @@ if ( $action == 'update' ) {
 	$view.="<br>";
 	$view.="<br>";
 	$view.="<br>";
-	$view.=($p_view == 'S')?'<input type="SUBMIT" name="update_record" value="Enregistre">':"";
+	if ( $User->check_jrn($p_jrn) == 'W')
+	  $view.=($p_view == 'S')?'<input type="SUBMIT" name="update_record" value="Enregistre">':"";
 	$view.="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 	$view.='<input type="button" value="Fermer" onClick="window.close();  self.opener.RefreshMe();">';
 	$view.='</FORM>';
@@ -142,7 +154,8 @@ if ( $action == 'update' ) {
 	$view.="<br>";
 	$view.="<br>";
 	$view.="<br>";
-	$view.=($p_view == 'E') ?'<input type="SUBMIT" name="update_record" value="Enregistre">':"";
+	if ( $User->check_jrn($p_jrn) == 'W')
+	  $view.=($p_view == 'E') ?'<input type="SUBMIT" name="update_record" value="Enregistre">':"";
 	$view.="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 	$view.='<input type="button" value="Fermer" onClick="window.close();  self.opener.RefreshMe();">';
 	$view.='</div>';
@@ -187,34 +200,49 @@ if ( $action=="view_ca") {
 // update the record and upload files
 //----------------------------------------------------------------------
 if ( isset($_POST['update_record']) ) {
-  if ( ($priv=CheckJrn($gDossier,$_SESSION['g_user'],$p_jrn,true)) !=2 ) {
+  /* in what ledger are we working */
+  $acc=new Acc_Operation($cn);
+  $acc->jr_id=$_POST['jr_id'];
+  $l=$acc->get_ledger();
+  if ( $User->check_jrn($l) != 'W' ) {
+      echo ' <script>   window.close();</script>';
       NoAccess();
       exit -1;
-    
     }
   try {
-	// NO UPDATE except rapt & comment && upload pj
+	// NO UPDATE except rapt & comment && upload pj && PJ Number
 	StartSql($cn);
-
-	UpdateComment($cn,$_POST['jr_id'],$_POST['comment']);
+	$acc=new Acc_Operation($cn);
+	$acc->jr_id=$_POST['jr_id'];
+	/* set the pj */
+	$acc->pj=$_POST['pj']; $acc->set_pj(); 
+	$acc->operation_update_comment($_POST['comment']);
+	/* insert now the grouping */
 	if ( trim($_POST['rapt']) != "" ) {
 	  if ( strpos($_POST['rapt'],',') !== 0 )
 	    {
 	      $aRapt=split(',',$_POST['rapt']);
+	      /* reconcialition */
+	      $rec=new Acc_Reconciliation ($cn);
+	      $rec->set_jr_id($_POST['jr_id']);
+
 	      foreach ($aRapt as $rRapt) {
+		
+		
 		if ( isNumber($rRapt) == 1 ) 
 		  {
-		    InsertRapt($cn,$_POST['jr_id'],$rRapt);
+		    // Add a "concerned operation to bound these op.together
+		    //
+		    $rec->insert($rRapt);
 		  }
 	      }
 	    } else 
 	    if ( isNumber($_POST['rapt']) == 1 ) 
 	      {
-		InsertRapt($cn,$_POST['jr_id'],$_POST['rapt']);
+		$rec->insert($_POST['rapt']);
 	      }
 	}
 
-  //	InsertRapt($cn,$_POST['jr_id'],$_POST['rapt']);
 	if ( isset ($_FILES)) {
 	  echo_debug("modify_op.php",__LINE__, "start upload doc.");
 	  save_upload_document($cn,$_POST['jr_grpt_id']);
@@ -320,8 +348,9 @@ if ( isset($_POST['update_record']) ) {
 } // if update_record
 //-----------------------------------------------------
 if (  $action  == 'delete' ) {
-  echo_debug('modify_op.php',__LINE__," Call   DeleteRapt($cn,".$_GET['line'].",".$_GET['line2'].")");
-  DeleteRapt($cn,$_GET['line'],$_GET['line2']);
+  $rec=new Acc_Reconciliation ($cn);
+  $rec->set_jr_id($_GET ['line']);
+  $rec->remove($_GET['line2']);
  echo ' <script> 
   window.close();
  self.opener.RefreshMe();

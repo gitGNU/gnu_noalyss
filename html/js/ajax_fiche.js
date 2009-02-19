@@ -44,6 +44,7 @@ function clean_Fid(p_ctl)
 	if ( $(nSell) ) {	  $(nSell).value="";	}
 	if ( $(nBuy) ) {	  $(nBuy).value="";}
 	if ( $(nTva_id) ) {  $(nTva_id).value="-1"; }
+	if ( $("first_sold")) { $("first_sold").value=""; }
 	
 }
 function errorFid(request,json) {
@@ -54,8 +55,10 @@ function errorFid(request,json) {
  * \param p_deb if debit of credit
  * \param p_jrn the ledger
  * \param phpsessid
+ *\param p_caller id of the caller 
+ *\param  p_extra extra parameter, change depends of the caller
  */
-function ajaxFid(p_ctl,p_deb,phpsessid) 
+function ajaxFid(p_ctl,p_deb,phpsessid,p_caller,p_extra) 
 {
   var gDossier=$('gDossier').value;
     var ctl_value=trim($(p_ctl).value);
@@ -63,7 +66,7 @@ function ajaxFid(p_ctl,p_deb,phpsessid)
   var p_jrn=$('p_jrn').value;
   if ( trim(ctl_value)==0 ) {
     nLabel=p_ctl+"_label";
-    $(nLabel).value="";
+    if ($(nLabel) ){$(nLabel).value="";}
     $(nLabel).innerHTML="&nbsp;";
     clean_Fid(p_ctl);
     return;
@@ -71,6 +74,7 @@ function ajaxFid(p_ctl,p_deb,phpsessid)
   queryString="?FID="+ctl_value;
   queryString=queryString+"&d="+p_deb+"&j="+p_jrn+'&gDossier='+gDossier;
   queryString=queryString+'&ctl='+p_ctl+'&PHPSESSID='+phpsessid;
+  queryString=queryString+'&caller='+p_caller+'&extra='+p_extra;
   /*  alert(queryString); */
   var action=new Ajax.Request (
 			       "fid.php",
@@ -95,12 +99,20 @@ function successFid(request,json) {
   var buy=answer.buy;
   var tva_id=answer.tva_id;
   var ctl=answer.ctl;
+  var extra=answer.extra;
+  var caller=answer.caller;
+  if ( caller == 'searchcardControl') {
+     if ( trim (data)== "") { $(ctl).style.color="red";}
+	else { $(ctl).style.color="black"; $(extra).value=data;}
+  }
   var toSet=ctl+'_label';
   if (trim(data) == "" ) {
     $(toSet).innerHTML="Fiche Inconnue";
     $(toSet).style.color="red";
     clean_Fid(ctl);
+    $(ctl).style.color="red";
   } else {
+    $(ctl).style.color="black";	
     var nSell=ctl+"_price";
     var nBuy=ctl+"_price";
     var nTva_id=ctl+"_tva_id";
@@ -109,11 +121,48 @@ function successFid(request,json) {
     if ( $(nTva_id) ) {
       $(nTva_id).value=tva_id;
     }
-    if ( $(nSell ) ) {
+    if ( $(nSell ) && trim(sell)!="" ) {
       $(nSell).value=sell;
     }
-      if ( $(nBuy) )  $(nBuy).value=buy;
+      if ( $(nBuy) && trim(buy)!="")  { $(nBuy).value=buy; }
     
   }
+  
+}
+function ajax_error_saldo(request,json) {
+  alert('erreur : ajax fiche');
+}
+/*!\brief this function get the saldo
+ * \param p_ctl the ctrl where we take the quick_code 
+ * \param phpsessid
+ */
+function ajax_saldo(phpsessid,p_ctl) 
+{
+  var gDossier=$('gDossier').value;
+    var ctl_value=trim($(p_ctl).value);
+    var jrn=$('p_jrn').value;
+  queryString="?FID="+ctl_value;
+  queryString=queryString+'&gDossier='+gDossier+'&j='+jrn;
+  queryString=queryString+'&ctl='+ctl_value+'&PHPSESSID='+phpsessid;
+  /*  alert(queryString); */
+  var action=new Ajax.Request (
+			       "get_saldo.php",
+			       {
+				 method:'get',
+				 parameters:queryString,
+				 onFailure:ajax_error_saldo,
+				 onSuccess:ajax_success_saldo
+			       }
+			
+			       );
+  
+}
+/*!\brief callback function for ajax
+ * \param request : object request
+ * \param json : json answer */
+function ajax_success_saldo(request,json) {
+  var answer=request.responseText.evalJSON(true);
+  $('first_sold').value=answer.saldo;
+  
 }
 //-->

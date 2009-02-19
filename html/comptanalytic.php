@@ -38,7 +38,7 @@ require_once ("class_user.php");
 require_once ('user_menu.php');
 $User=new User($cn);
 $User->Check();
-
+$User->check_dossier($gDossier);
 
 
 html_page_start($_SESSION['g_theme']);
@@ -47,30 +47,27 @@ html_page_start($_SESSION['g_theme']);
 //Header
 echo '<div class="u_tmenu">';
 //-----------------------------------------------------------------
-echo menu_tool('analytic');
+echo menu_tool('comptanalytic.php');
 $def=-1;
 if ( isset ($_REQUEST['p_action']))
   {
-	switch ($_REQUEST['p_action'])
-	  {
-	  case 'ca_pa':
-		$User->can_request($cn,CA_ACCESS);
-		$def=0;
-		break;
-	  case 'ca_od':
-		$User->can_request($cn,CA_ODS);
-		$def=1;
-		break;
-	  case 'ca_imp':
-		$User->can_request($cn,CA_IMPRESSION);
-		$def=2;
-		break;
-	  case 'ca_groupe':
-	    $def=3;
-	    break;
-	  }
+    switch ($_REQUEST['p_action'])
+      {
+      case 'ca_pa':
+	$def=0;
+	break;
+      case 'ca_od':
+	$def=1;
+	break;
+      case 'ca_imp':
+	$def=2;
+	break;
+      case 'ca_groupe':
+	$def=3;
+	break;
+      }
   }
-echo '<div style="float:left">';
+echo '<div style="float:left;background-color:#879ED4;width:100%;">';
 echo ShowItem(array(
 	array('?p_action=ca_pa&'.$str_dossier,'Plan Analytique',"Plan Analytique",0),
 	array('?p_action=ca_od&'.$str_dossier,'Op&eacute;rations Diverses',"Permet d'enregistrer des operations sur la compta analytique",1),
@@ -81,6 +78,29 @@ echo ShowItem(array(
 echo '</div>';
 echo '</div>';
 echo '</div>';
+if ( isset ($_REQUEST['p_action']))
+  {
+    switch ($_REQUEST['p_action'])
+      {
+      case 'ca_pa':
+	$User->can_request(CAPA,1);
+	$def=0;
+	break;
+      case 'ca_od':
+	$User->can_request(CAOD,1);
+	$def=1;
+	break;
+      case 'ca_imp':
+	$User->can_request(CAIMP,1);
+	$def=2;
+	break;
+      case 'ca_groupe':
+	$User->can_request(CAGA,1);
+	$def=3;
+	break;
+      }
+  }
+
 if ( !isset($_REQUEST['p_action']))
   exit();
 

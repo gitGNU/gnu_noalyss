@@ -36,7 +36,10 @@ $rep=DbConnect();
 include_once ("class_user.php");
 $User=new User($rep);
 $User->Check();
+$User->check_dossier(dossier::id());
 $cn=DbConnect(dossier::id());
+$User->db=$cn;
+
 include_once ("postgres.php");
 echo_debug('user_advanced.php',__LINE__,"user is ".$_SESSION['g_user']);
 
@@ -81,8 +84,9 @@ default:
 echo ShowMenuAdvanced($high);
 
 if ($p_action == "periode" ) {
-  if ( $User->admin == 0 && check_action($gDossier,$_SESSION['g_user'],GESTION_PERIODE) == 0 )
-	NoAccess();
+
+  if ( $User->check_action(PARPER) == 0 && $User->check_action(PARCLO) == 0 )
+    NoAccess();
     
   $p_action=$_REQUEST['p_action'];
   include_once("periode.inc.php");

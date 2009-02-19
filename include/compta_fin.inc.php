@@ -24,7 +24,6 @@
  * \brief this file is to be included to handle the financial ledger
  */
 require_once ('class_acc_ledger_fin.php');
-require_once ('check_priv.php');
 $gDossier=dossier::id();
 $p_action=(isset ($_REQUEST['p_action']))?$_REQUEST['p_action']:'';
 
@@ -57,16 +56,11 @@ echo '</div>';
 
 $href=basename($_SERVER['PHP_SELF']);
 $Ledger=new Acc_Ledger_Fin($cn,0);
+
 //--------------------------------------------------------------------------------
 // Encode a new financial operation
 //--------------------------------------------------------------------------------
 if ( $def == 1 ) {
- // Check privilege
-  if ( isset($_REQUEST['p_jrn']) && 
-       CheckJrn($gDossier,$_SESSION['g_user'],$_REQUEST ['p_jrn']) != 2 )    {
-       NoAccess();
-       exit -1;
-  }
 
   $href=basename($_SERVER['PHP_SELF']);
 
@@ -76,6 +70,13 @@ if ( $def == 1 ) {
     $def_ledger=$Ledger->get_first('fin');
     $Ledger->id=$def_ledger['jrn_def_id'];
   }
+  $jrn_priv=$User->check_action($Ledger->id);
+  // Check privilege
+  if ( isset($_REQUEST['p_jrn']) && ( $jrn_priv == 'X')) {
+       NoAccess();
+       exit -1;
+  }
+
   //----------------------------------------
   // Confirm the operations
   //----------------------------------------
@@ -153,9 +154,11 @@ if ( $def == 1 ) {
 // Show the listing
 //--------------------------------------------------------------------------------
 if ( $def == 2) {
+  $Ledger->id=$_REQUEST['p_jrn'];
+  $jrn_priv=$User->check_action($Ledger->id);
+
  // Check privilege
-  if ( isset($_REQUEST['p_jrn']) && 
-       CheckJrn($gDossier,$_SESSION['g_user'],$_GET['p_jrn']) ==0 )    {
+  if ( isset($_REQUEST['p_jrn']) && $jrn_priv=='X') {
        NoAccess();
        exit -1;
   }

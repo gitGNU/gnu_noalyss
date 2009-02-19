@@ -22,6 +22,7 @@ require_once('class_own.php');
 require_once('class_acc_account_ledger.php');
 require_once('class_action.php');
 require_once('class_acc_tva.php');
+require_once('class_user.php');
 
 /*! \file 
  * \brief Class Document corresponds to the table document
@@ -455,7 +456,7 @@ class Document
  *  - [VEN_TVA]
  *  - [TOTAL_VEN_HTVA]
  *  - [DATE]
- *  - [NUMBER_ID]
+ *  - [NUMBER]
  *  - [MY_NAME]
  *  - [MY_CP]
  *  - [MY_COMMUNE]
@@ -467,6 +468,10 @@ class Document
  *  - BON_COMMANDE
  *  - OTHER_INFO
  *  - CUST_NUM
+ *  - CUST_BANQUE_NAME
+ *  - CUST_BANQUE_NO
+ *  - USER
+ *  - REFERENCE
  *
  * \param $p_tag TAG
  * \return String which must replace the tag
@@ -613,7 +618,10 @@ class Document
 	  $r=$this->d_number;
 	  break;
 
-
+	case 'USER' :
+	  return $_SESSION['use_name'].', '.$_SESSION['use_first_name'];
+	  
+	  break;
 	case 'REFERENCE':
 	  $act=new action($this->db);
 	  $act->ag_id=$this->ag_id;
@@ -708,6 +716,8 @@ class Document
 	  $qt='e_quant'.$counter;
 	  $price='e_march'.$counter.'_price' ;
 	  $tva='e_march'.$counter.'_tva_id';
+	  /* if we do not use vat this var. is not set */
+	  if ( !isset(${$tva}) ) return '';
 	  if ( !isset (${'e_march'.$counter}) ) return "";
 	  // check that something is sold
 	  if ( ${$price} == 0 || ${$qt} == 0 
@@ -715,7 +725,7 @@ class Document
 	       || strlen(trim($qt)) ==0)
 	    return "";
 	  $a_tva=GetTvaRate($this->db,${$tva});
-	  echo_debug('class_document',__LINE__,'Tva  :'.var_export($a_tva,true));
+	  echo_debug('class_document',__LINE__,'Tva  :'.var_eanalyticxport($a_tva,true));
 	  // if no vat returns 0
 	  if ( sizeof($a_tva) == 0 ) return "";
 	  $r=round(${$price},2)*${$qt}*$a_tva['tva_rate'];
@@ -787,10 +797,6 @@ class Document
 	       || strlen(trim( ${'e_march'.$counter.'_price'} )) ==0 
 	       || strlen(trim(${'e_quant'.$counter})) ==0)
 	    return "";
-	  /*!\todo verify that price and quant are numeric
-	   */
-	  /*!\todo carefull round problem ?
-	   */
 
 	  $r=round(${$id}*${$quant},2); 
 	  break;
@@ -805,14 +811,15 @@ class Document
 	  // check that something is sold
 	  if ( ${'e_march'.$counter.'_price'} == 0 || ${'e_quant'.$counter} == 0 )
 	    return "";
-	  /*!\todo verify that price and quant are numeric
-	   */
-	  /*!\todo carefull round problem ?
-	   */
 	  $r=${$id}*${$quant}; 
-	  $tva=GetTvaRate($this->db,${'e_march'.$counter.'_tva_id'});
+	  $tva='e_march'.$counter.'_tva_id';
+	  /* if we do not use vat this var. is not set */
+	  if ( !isset(${$tva}) ) return $r;
+
+	  $tva=GetTvaRate($this->db,${$tva});
 	  // if there is no vat we return now
 	  if ( $tva == null || $tva == 0 ) return $r;
+
 	  // we compute with the vat included
 	  $r=$r+$r*$tva['tva_rate'];
 	  $r=round($r,2);
@@ -849,9 +856,15 @@ class Document
 	  $sum=0.0;
 	  for ($i=0;$i<$nb_item;$i++)
 	    {
-	      $tva=GetTvaRate($this->db,${'e_march'.$i.'_tva_id'});
-	      $tva_rate=( $tva == null || $tva == 0 )?0.0:$tva['tva_rate'];
-	      echo_debug('class_document',__LINE__,' :'.$i.' sur '.$nb_item);
+	      $tva='e_march'.$counter.'_tva_id';
+	      $tva_rate=0;
+	      /* if we do not use vat this var. is not set */
+	      if ( isset(${$tva}) )
+		{
+		  $tva=GetTvaRate($this->db,${'e_march'.$i.'_tva_id'});
+		  $tva_rate=( $tva == null || $tva == 0 )?0.0:$tva['tva_rate'];
+		  echo_debug('class_document',__LINE__,' :'.$i.' sur '.$nb_item);
+		}
 	      $sell=${'e_march'.$i.'_price'};
 	      $qt=${'e_quant'.$i};
 	      echo_debug('class_document',__LINE__,'sell :'.$sell.' qt = '.$qt);
@@ -864,6 +877,10 @@ class Document
 	  break;
 	case 'TOTAL_TVA':
 	  extract($_POST);
+	  $tva='e_march'.$counter.'_tva_id';
+	  /* if we do not use vat this var. is not set */
+	  if ( !isset(${$tva}) ) return '0';
+
 	  $sum=0.0;
 	  for ($i=0;$i<$nb_item;$i++)
 	    {
@@ -886,14 +903,22 @@ class Document
 	  else 
 	    return "";
 	  break;
+	case 'PJ':
+	  if ( isset($_REQUEST['e_pj']))
+	    return $_REQUEST['e_pj'];
+	  else
+	    return "";
+
 	case 'OTHER_INFO':
 	  if ( isset($_REQUEST['other_info']))
 	    return $_REQUEST['other_info'];
 	  else 
 	    return "";
 	  break;
-
-
+	case 'COMMENT':
+	  if ( isset($_REQUEST['e_comm']))
+	    return $_REQUEST['e_comm'];
+	  break;
 	}
       return $r;
     }

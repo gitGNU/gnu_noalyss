@@ -34,7 +34,6 @@ require_once ('class_periode.php');
 require_once ('class_gestion_purchase.php');
 require_once ('class_acc_account.php');
 require_once('ac_common.php');
-
 /*!\file
 * \brief Class for jrn,  class acc_ledger for manipulating the ledger
 */
@@ -57,6 +56,13 @@ class Acc_Ledger {
     $this->db=$p_cn;
     $this->row=null;
     $this->nb=10;
+  }
+  function get_last_pj() {
+    if ( exist_sequence($this->db,"s_jrn_pj".$this->id) )
+      return getDbValue($this->db,"select last_value from s_jrn_pj".$this->id);
+    else
+      create_sequence($this->db,"s_jrn_pj".$this->id);
+    return 0;
   }
   /*! 
    * \brief Return the type of a ledger (ACH,VEN,ODS or FIN) or GL 
@@ -108,9 +114,6 @@ class Acc_Ledger {
    * \param $p_cent (on or off)
    * \param p_limit starting line
    * \param p_offset number of lines
-   *
-   * gen :
-   *	- none
    * \return Array with the asked data
    *
    */ 
@@ -135,7 +138,7 @@ class Acc_Ledger {
 	case j_debit when 'f' then j_montant::text else '   ' end as cred_montant,
 	j_debit as debit,j_poste as poste,jr_montant , ".
 		     "coalesce(j_text,pcm_lib) as description,j_grpt as grp,
-       jr_comment||' ('||jr_internal||')' as jr_comment ,
+jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj_number  !='' then jr_pj_number else '' end  as jr_comment,
        j_qcode,
 	jr_rapt as oc, j_tech_per as periode 
       from jrnx left join jrn on ".
@@ -157,7 +160,7 @@ class Acc_Ledger {
     c_poste as poste,
     coalesce(j_text,pcm_lib) as description,
     j_qcode,
-    jr_comment||' ('||c_internal||')' as jr_comment,
+jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_number  !='' then 'pj:'||coalesce(jr_pj_number,'-') else '' end  as jr_comment,
     jr_montant,
     c_grp as grp,
     c_comment as comment,
@@ -185,7 +188,7 @@ class Acc_Ledger {
 	case j_debit when 'f' then j_montant::text else '   ' end as cred_montant,
 	j_debit as debit,j_poste as poste,".
 		     "coalesce(j_text,pcm_lib) as description,j_grpt as grp,
-	jr_comment||' ('||jr_internal||')' as jr_comment,
+jr_comment||' ('||jr_internal||')'||case when jr_pj_number is not null and jr_pj_number  !='' then 'pj:'||coalesce(jr_pj_number,'-') else '' end as jr_comment,
 	jr_montant,
 	j_qcode,
 	jr_rapt as oc, j_tech_per as periode from jrnx left join jrn on ".
@@ -205,11 +208,11 @@ class Acc_Ledger {
     case c_debit when 'f' then c_montant::text else '   ' end as cred_montant,
     c_debit as j_debit,
     c_poste as poste,
-    coalesce(j_text,pcm_lib as description),
-    jr_comment||' ('||c_internal||'/ PJ :'||jr_opid||')' as jr_comment,
+    coalesce(j_text,pcm_lib) as description,
+jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_number  !='' then 'pj:'||coalesce(jr_pj_number,'-') else '' end as jr_comment,
     jr_montant,
     c_grp as grp,
-    c_comment||' ('||c_internal||' '||jr_opid||')' as comment,
+    c_comment||' ('||c_internal||' '||jr_opid||')'||'pj:'||coalesce(jr_pj_number,'-') as comment,
     c_rapt as oc,
     j_qcode,
     c_periode as periode
@@ -349,7 +352,7 @@ class Acc_Ledger {
 	      jrn.jr_id as num , 
 	      jrn.jr_def_id as jr_def_id, 
 	      jrn.jr_montant as montant, 
-	      substr(jrn.jr_comment,1,30) as comment, 
+	      substr(jrn.jr_comment,1,30)|| case when jr_pj_number is not null and jr_pj_number  !='' then 'pj:'||coalesce(jr_pj_number,'-') else '' end as comment,
 	      to_char(jrn.jr_date,'DD-MM-YYYY') as date, 
 	      jr_internal,
 	      jrn.jr_grpt_id as grpt_id, 
@@ -374,7 +377,7 @@ class Acc_Ledger {
 	   $id , 
 	   jrn.jr_def_id as jr_def_id, 
 	   jrn.jr_montant as montant, 
-	   substr(jrn.jr_comment,1,30) as comment, 
+	      substr(jrn.jr_comment,1,30)|| case when jr_pj_number is not null and jr_pj_number  !='' then 'pj:'||coalesce(jr_pj_number,'-') else '' end as comment,
 	   to_char(jrn.jr_date,'DD-MM-YYYY') as date, 
 	   jr_internal,
 	   jrn.jr_grpt_id as grpt_id, 
@@ -422,6 +425,14 @@ class Acc_Ledger {
     return $array;  
   }// end function get_rowSimple
 
+  /*!\brief guess what  the next pj should be
+   */
+  function guess_pj() {
+    $prop=$this->get_propertie();
+    $pj_pref=$prop["jrn_def_pj_pref"];
+    $pj_seq=$this->get_last_pj();
+    return $pj_pref.$pj_seq;
+  }
   /*!\brief Show all the operation, propose a form to select the
    *ledger and the periode
    *\return none
@@ -453,8 +464,8 @@ class Acc_Ledger {
     $w->extra='filter';
     $w->extra2='QuickCode';
     $w->table=0;
-    $sp= new widget("span");
-    echo $sp->IOValue("qcode_label","",$qcode);
+    $sp= new widget("span"); 
+    echo $sp->IOValue("qcode_label","",$qcode); 
     echo $w->IOValue();
 
     echo widget::submit('gl_submit','Recherche');
@@ -713,7 +724,7 @@ class Acc_Ledger {
 
     $Res=ExecSqlParam($this->db,"select jrn_Def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_def_type,
 	   jrn_deb_max_line,jrn_cred_max_line,jrn_def_ech,jrn_def_ech_lib,jrn_def_code,
-	   jrn_def_fiche_deb,jrn_def_fiche_deb
+	   jrn_def_fiche_deb,jrn_def_fiche_deb,jrn_def_pj_pref
 	   from jrn_Def
 	      where jrn_def_id=$1",array($this->id));
     $Count=pg_NumRows($Res);
@@ -866,6 +877,7 @@ class Acc_Ledger {
     $ret.="<table>";
     $ret.="<tr><td>Date : </td><td>$date</td></tr>";
     $ret.="<tr><td>Description </td><td>".h($desc)."</td></tr>";
+    $ret.="<tr><td>PJ Num </td><td>".h($e_pj)."</td></tr>";
     $ret.='</table>';
     $ret.="<table>";
     $ret.="<tr>";
@@ -878,6 +890,9 @@ class Acc_Ledger {
     $hidden=new widget('hidden');
     $ret.=$hidden->IOValue('date',$date);
     $ret.=$hidden->IOValue('desc',$desc);
+    $ret.=widget::hidden('e_pj',$e_pj);
+    $ret.=widget::hidden('e_pj_suggest',$e_pj_suggest);
+
     // For predefined operation
     $ret.=$hidden->IOValue('e_comm',$desc);
     $ret.=$hidden->IOValue('jrn_type',$this->get_type());
@@ -986,6 +1001,23 @@ class Acc_Ledger {
     $wDescription->table=1;
     $wDescription->value=(isset($desc))?$desc:'';
     $ret.=$wDescription->IOValue();
+    $ret.= '</td>';
+
+    $wPJ=new widget('text',"PJ Num: ",'e_pj');
+    $wPJ->readonly=false;
+    $wPJ->table=1;
+    $wPJ->size=10;
+
+    /* suggest PJ ? */
+    $default_pj='';
+    $own=new Own($this->db);
+    if ( $own->MY_PJ_SUGGEST=='Y') {
+      $default_pj=$this->guess_pj();
+    } 
+    $wPJ->value=(isset($e_pj))?$e_pj:$default_pj;
+
+    $ret.=$wPJ->IOValue();
+    $ret.=widget::hidden('e_pj_suggest',$default_pj);
     $ret.= '</td></tr>';
 
     $ret.= '</table>';
@@ -1006,12 +1038,20 @@ class Acc_Ledger {
       '<th> Montant</th>'.
       '<th>D&eacute;bit</th>'.
       '</tr>';
+    $l_sessid=$_REQUEST['PHPSESSID'];
 
     for ($i = 0 ;$i<$nb_row;$i++){
       // Quick Code
-      $quick_code=new widget('js_search_only');
+      $quick_code=new widget('js_search_card_control');
       $quick_code->name='qc_'.$i;
+      $quick_code->ctrl="ld".$i;
       $quick_code->value=(isset(${'qc_'.$i}))?${'qc_'.$i}:"";
+      $quick_code->javascript=sprintf('onBlur="ajaxFid(\'%s\',\'filter\',\'%s\',\'%s\',\'%s\'); if ( this.value!=\'\' ) my_clear(\'poste'.$i.'\'); "',
+				$quick_code->name,
+				$l_sessid,
+				"searchcardControl",
+				$quick_code->ctrl
+				);
       $quick_code->readonly=$p_readonly;
       $quick_code->extra2='QuickCode?';
       $quick_code->extra='filter';
@@ -1021,7 +1061,7 @@ class Acc_Ledger {
 	$Fiche->get_by_qcode($quick_code->value);
 	$label=$Fiche->strAttribut(ATTR_DEF_NAME);
       }
-      $qc_span=new widget('span','','qc_'.$i.'_label',$label);
+
 
       // Account 
       $poste=new widget('js_search_poste');
@@ -1030,18 +1070,19 @@ class Acc_Ledger {
       $poste->readonly=$p_readonly;
       $poste->extra=$this->id;
       $poste->extra2=$this->get_class_def();
-      $label='';
+      $poste->ctrl="ld".$i;
+
       if ( $poste->value != '' ) {
 	$Poste=new Acc_Account($this->db);
 	$Poste->pcm_value=$poste->value;
 	$label=$Poste->get_lib();
       }
+
       // Description of the line
       $line_desc=new widget('text');
       $line_desc->name='ld'.$i;
       $line_desc->size=30;
-
-      $poste_span=new widget('span','','poste'.$i.'_label',$label);
+      $line_desc->value=(isset(${"ld".$i}))?${"ld".$i}:$label;
 
       // Amount
       $amount=new widget('text');
@@ -1059,9 +1100,9 @@ class Acc_Ledger {
 
       $ret.='<tr>';
       $ret.='<td>'.$quick_code->IOValue().'</td>';
-      $ret.='<td>'.$qc_span->IOValue().'</td>';
-      $ret.='<td>'.$poste->IOValue().'</td>';
-      $ret.='<td>'.$poste_span->IOValue().'</td>';
+      $ret.='<td>'.$poste->IOValue().
+	'<script> document.getElementById(\'poste'.$i.'\').onblur=function(){ if (trim(this.value) !=\'\') my_clear(\'qc_'.$i.'\');}</script>'.
+	'</td>';
       $ret.='<td>'.$line_desc->IOValue().'</td>';
       $ret.='<td>'.$amount->IOValue().'</td>';
       $ret.='<td>'.$deb->IOValue().'</td>';
@@ -1284,6 +1325,14 @@ class Acc_Ledger {
       $jr_id= $acc_end->insert_jrn();
       if ($jr_id == false )
 	throw new Exception('Balance incorrecte');     
+      $acc_end->pj=$e_pj;
+      
+      /* if e_suggest != e_pj then do not increment sequence */
+      if ( strcmp($e_pj,$e_pj_suggest) == 0 && strlen(trim($e_pj)) !=0) {
+      	$this->inc_seq_pj();
+      }
+
+      $this->pj=$acc_end->set_pj();
 
       ExecSql($this->db,"update jrn set jr_internal='".$internal."' where ".
 	      " jr_grpt_id = ".$seq);
@@ -1300,6 +1349,7 @@ class Acc_Ledger {
       if ( isset($this->with_concerned) && $this->with_concerned==true) {
 	$orap=new acc_reconciliation($this->db);
 	$orap->jr_id=$jr_id;
+
 	$orap->insert($jrn_concerned);
       }
      
@@ -1602,5 +1652,11 @@ function get_last_date()
 
     }
 
+  }
+
+  /*!\brief increment the sequence for the pj */
+  function inc_seq_pj() {
+    $sql="select nextval('s_jrn_pj".$this->id."')";
+    ExecSql($this->db,$sql);
   }
 }

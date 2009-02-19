@@ -24,61 +24,14 @@
  * and some parameter 
  */
 require_once ('config.inc.php');
+require_once('constant.security.php');
 
-define ("DBVERSION",56);
+define ("DBVERSION",57);
 
 define ("MAX_COMPTE",4);
 define ('MAX_BUD_DETAIL',20);
 define ('MAX_ARTICLE',8);
-define ("DEBUG","false");
-
-
-
-// securite correspond a la table 
-// action
-// access aux journaux
-define ("ENCJRN",1);
-// création facture
-// define("FACT",2);
-// lecture aux fiche
-define ("FICHE_READ",3);
-// Impression
-define ("IMP",4);
-//formulaire
-define("FORM",5);
-// Modif du Plan Comptable
-define ("MPCMN",6);
-// Gestion des journaux
-define ("GJRN",7);
-// Gestion des paramÃ¯Â¿Â½tres globaux
-define ("PARM",8);
-// Voir la balance des compte
-define ("BALANCE",20);
-// Access Ã¯Â¿Â½ la centralisation
-define ("CENTRALIZE",10);
-define ("VEN",11);
-define ("BQE",12);
-define ("ODS",13);
-// Access gestion periode comptable
-define ("GESTION_PERIODE",31);
-
-//!\enum Security 
-define("SEC_ACTION", 28); // Module Suivi Document
-define("CLIENT",22); // Module Client
-define("SUPPL",24); // Module Fournisseur 
-define("ADMIN",26); //  Module Administration	 
-define("SEC_GESTION",30); //  Module Gestion
-define ('BUDGET',60);
-
-define ("FICHE_WRITE",15);
-define ("STOCK_WRITE",17);
-define ("STOCK_READ",16);
-define ("EXP_IMP_ECR",21);
-define ("IMP_BQE",22);
-
-define ("CA_ACCESS",50);
-define ("CA_IMPRESSION",51);
-define ("CA_ODS",52);
+define ("DEBUG","true");
 
 // Erreur
 define ("NOERROR",0);

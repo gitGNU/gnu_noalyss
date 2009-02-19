@@ -34,8 +34,10 @@ $action="";
 if ( isset($_REQUEST['action'])) 
      $action=$_REQUEST['action'];
 $choose=(isset ($_GET['choose']))?$_GET['choose']:"no";
+
 if ($choose=='Valider') $choose='yes';
 if ( $action=="change_per") {
+  $User->can_request(PARPER);
   foreach($_GET as $key=>$element) 
     ${"$key"}=$element;
   echo "<TABLE>";
@@ -52,6 +54,7 @@ if ( $action=="change_per") {
 
 }
 if ( isset ($_POST["conf_chg_per"] ) ) {
+  $User->can_request(PARPER);
   extract($_POST);
 
   if (isDate($p_date_start) == null ||
@@ -60,7 +63,6 @@ if ( isset ($_POST["conf_chg_per"] ) ) {
      (string) $p_exercice != (string)(int) $p_exercice)
     { 
       echo "<H2 class=\"error\"> Valeurs invalides</H2>";
-      //      ShowPeriode($cn);
       return;
     }
   $Res=ExecSql($cn," update parm_periode ".
@@ -74,11 +76,11 @@ if ( isset ($_POST["conf_chg_per"] ) ) {
 
 }
 if ( isset ($_POST["add_per"] )) {
+  $User->can_request(PARPER,1);
   extract($_POST);
   $obj=new Periode($cn);
   if ( $obj->insert($p_date_start,$p_date_end,$p_exercice) == 1 ){
       echo "<H2 class=\"error\"> Valeurs invalides</H2>";
-      //      ShowPeriode($cn);
       return;
   }
   $choose="yes";
@@ -87,6 +89,7 @@ if ( isset ($_POST["add_per"] )) {
 
 echo_debug('periode.inc',__LINE__,"Action $p_action");
 if ( $action=="closed") {
+  $User->can_request(PARCLO);
   $p_per=$_GET['p_per'];
   $per=new Periode($cn);
   $jrn_def_id=(isset($_GET['jrn_def_id']))?$_GET['jrn_def_id']:0;
@@ -97,6 +100,7 @@ if ( $action=="closed") {
 }
 
 if ( $action== "delete_per" ) {
+  $User->can_request(PARPER);
   $p_per=$_GET["p_per"];
 // Check if the periode is not used
   if ( CountSql($cn,"select * from jrnx where j_tech_per=$p_per") != 0 ) {

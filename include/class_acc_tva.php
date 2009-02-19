@@ -147,11 +147,7 @@ class Acc_Tva
     $res=ExecSqlParam($this->cn,$sql,array($this->tva_id));
   }
   /*!\brief
-   *\param
-   *\return
-   *\note
-   *\see
-   *\todo
+   * Test function
    */	
   static function test_me() {
     $cn=DbConnect(dossier::id());

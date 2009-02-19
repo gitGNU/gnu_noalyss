@@ -30,17 +30,23 @@
  *\param p_jrn the concerned ledger id
  *\param p_return update with the pcm_val or pcm_lib (value=label or poste)
  *\param p_search take the value of the ctl and make a search
+ *\param p_ctrl the control (input) to update (default value = none )
+ *\note the script will to see if it founds a hidden value in the document.form 
+ * to know if the return must update or replace
  *\see poste_search.php
  */
-function SearchPoste(p_sessid,p_dossier,p_ctl,p_jrn,p_return,p_search)
+function SearchPoste(p_sessid,p_dossier,p_ctl,p_jrn,p_return,p_search,p_ctrl)
      {
 	var comment="";
 	if ( document.getElementById(p_ctl) && p_search=='Y')	{
 	       comment=document.getElementById(p_ctl).value;
 	} 
 
-
-       var win=window.open('poste_search.php?gDossier='+p_dossier+'&p_jrn='+p_jrn+'&p_ctl='+p_ctl+'&PHPSESSID='+p_sessid+"&p_comment="+comment+"&search"+"&ret="+p_return,'Cherche','toolbar=no,width=600,height=600,scrollbars=yes,resizable=yes');
+       var
+win=window.open('poste_search.php?gDossier='+p_dossier+'&p_jrn='+p_jrn+'&p_ctl='
++p_ctl+'&PHPSESSID='+p_sessid+"&p_comment="+comment+"&search"+"&ret="+p_return+
+'&ctrl='+p_ctrl,
+'Cherche','toolbar=no,width=600,height=600,scrollbars=yes,resizable=yes');
      } 
 /*!\brief open a window for searching a account
  *\param p_sessid PHPSESSID
@@ -49,32 +55,34 @@ function SearchPoste(p_sessid,p_dossier,p_ctl,p_jrn,p_return,p_search)
  *\param p_jrn the concerned ledger id
  *\param p_return update with the pcm_val or pcm_lib (value=label or poste)
  *\param p_search take the value of the ctl and make a search
+*\param p_ctrl the control to update (default value = none )
  *\see poste_search.php
  */
 
-function SearchPosteFilter(p_sessid,p_dossier,p_ctl,p_filter,jrn)
+function SearchPosteFilter(p_sessid,p_dossier,p_ctl,p_filter,jrn,p_ctrl)
      {
 	var comment="";
 	if ( document.getElementById(p_ctl) )	{
 	       comment=document.getElementById(p_ctl).value;
 	} 
 
-	var win=window.open('poste_search.php?gDossier='+p_dossier+'&p_jrn='+jrn+'&p_ctl='+p_ctl+'&PHPSESSID='+p_sessid+'&filter='+p_filter+'&p_comment='+comment+"&search&ret=label",'Cherche','toolbar=no,width=600,height=600,scrollbars=yes,resizable=yes');
+	var win=window.open('poste_search.php?gDossier='+p_dossier+'&p_jrn='+jrn+'&p_ctl='+p_ctl+'&PHPSESSID='+p_sessid+'&filter='+p_filter+'&p_comment='+comment+"&search&ret=label"+'&ctrl='+p_ctrl,'Cherche','toolbar=no,width=600,height=600,scrollbars=yes,resizable=yes');
     } 
 function GetIt() {
   window.close();	
 } 
-function SetItChild(p_ctl,p_value,p_label) {
+function SetItChild(p_ctl,p_value,p_label,p_ctrl) {
 
-  self.opener.SetItParent(p_ctl,p_value,p_label);
+  self.opener.SetItParent(p_ctl,p_value,p_label,p_ctrl);
 	window.close();
 }
-function SetItParent(p_ctl,p_value,p_label) {
+function SetItParent(p_ctl,p_value,p_label,p_ctrl) {
 
     var f=document.getElementById(p_ctl);
     f.value=p_value;
     var f1=document.getElementById(p_ctl+"_label");
     if ( f1)	f1.innerHTML=p_label;
+    if ( document.getElementById(p_ctrl))	document.getElementById(p_ctrl).value=p_label;
 	
 }
 
@@ -90,7 +98,18 @@ function set_poste_parent(p_ctl,p_value) {
 	
 }
 
+function set_jrn_child(p_ctl,p_value) {
 
+  self.opener.set_jrn_parent(p_ctl,p_value);
+	window.close();
+}
+function set_jrn_parent(p_ctl,p_value) {
+	var f=document.getElementById(p_ctl);
+	if ( f ) {
+		if ( trim(f.value)!="") f.value+=' ';
+		f.value+=p_value;
+	}
+}
 /* SetValue( p_ctl,p_value )
 /* p_ctl is the name of the control
 /* p_value is the value to set in
@@ -104,4 +123,8 @@ function SetValue(p_ctl,p_value)
 		}
 	
 
+}
+
+function clear(p_ctrl) {
+	if ( document.getElementById(p_ctrl)) document.getElementById(p_ctrl)='';
 }

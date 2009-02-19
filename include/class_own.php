@@ -45,7 +45,7 @@ class Own {
 		&& $this->MY_STRICT != 'Y' 
 		&& $this->MY_STRICT != 'N')
 			$p_value='N';
-	$p_value=htmlentities($p_value);
+	$p_value=htmlspecialchars($p_value);
   }
 /*! 
  **************************************************
@@ -56,9 +56,9 @@ class Own {
  * 
  */
   function save($p_attr) {
-      $value=FormatString($this->$p_attr);
       $this->check($p_attr);
-      // check if the parameter does exù
+      $value=$this->$p_attr;
+      // check if the parameter does exist
       if ( getDbValue($this->db,'select count(*) from parameter where pr_id=$1',array($p_attr)) != 0 )
 	{
 	  $Res=ExecSqlParam($this->db,"update parameter set pr_value=$1 where pr_id=$2",
@@ -91,6 +91,8 @@ class Own {
     $this->save('MY_FAX');
     $this->save('MY_ANALYTIC');
     $this->save('MY_STRICT');
+    $this->save('MY_TVA_USE');
+    $this->save('MY_PJ_SUGGEST');
 
   }
 

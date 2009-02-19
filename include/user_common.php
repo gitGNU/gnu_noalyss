@@ -19,9 +19,6 @@
 
 
 /*!\todo remove the function 
- - InsertRapt 
- - deleterapt 
- - GetConcerned)
  - GetTvaRate
  */
 
@@ -77,6 +74,8 @@ function GetTvaRate($p_cn,$p_tva_id) {
  */
 function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0,$p_paid=0)
 {
+  $user=new User($p_cn);
+  //  print_r("function ListJrn($p_cn,$p_jrn,$p_where='',$p_array=null,$p_value=0,$p_paid=0)");
   echo_debug(__FILE__,__LINE__,"Entering into function ListJrn($p_cn,$p_jrn,$p_where='',$p_array=null,$p_value=0,$p_paid=0)");
   $gDossier=dossier::id();
   $amount_paid=0.0;
@@ -160,7 +159,9 @@ $own=new Own($p_cn);
   if ( $p_array == null ) {
    $sql="select jr_id	,
 			jr_montant,
-			jr_comment,
+                        case when jr_pj_number is not null and jr_pj_number  !='' 
+                          then '('||jr_pj_number||')'
+                          else '' end ||' '||jr_comment as jr_comment,
 			to_char(jr_ech,'DD.MM.YYYY') as jr_ech,
 			to_char(jr_date,'DD.MM.YYYY') as jr_date,
                         jr_date as jr_date_order,
@@ -189,7 +190,9 @@ $own=new Own($p_cn);
     }
     $sql="select jr_id	,
 		jr_montant,
-		jr_comment,
+                case when jr_pj_number is not null and jr_pj_number  !='' 
+                    then '('||jr_pj_number||')'
+                    else '' end ||' '||jr_comment as jr_comment,
 		jr_ech,
 		to_char(jr_date,'DD.MM.YYYY') as jr_date,
                 jr_date as jr_date_order,
@@ -264,7 +267,7 @@ $own=new Own($p_cn);
     $l_s_comment=FormatString($l_s_comment);
     if ( $l_s_comment != null ) 
     {
-      $sql.=$l_and." upper(jr_comment) like upper('%".$l_s_comment."%') ";
+      $sql.=$l_and." ( upper(jr_comment) like upper('%".$l_s_comment."%') or upper(jr_pj_number) like upper('%".$l_s_comment."%') )";
       $l_and=" and ";
     }
     // internal
@@ -291,7 +294,9 @@ $own=new Own($p_cn);
     // if not admin check filter 
     $User=new User(DbConnect());
     $User->Check();
-    if ( $User->admin == 0 ) 
+    $User->check_dossier(dossier::id());
+
+    if ( $User->admin == 0 && $User->is_local_admin()==0 ) 
     {
       $sql.=$l_and." jr_def_id in ( select uj_jrn_id ".
 	" from user_sec_jrn where ".
@@ -430,7 +435,9 @@ $own=new Own($p_cn);
       }
     
     // Rapprochement
-    $a=GetConcerned($p_cn,$row['jr_id']);
+    $rec=new Acc_Reconciliation($p_cn);
+    $rec->set_jr_id($row['jr_id']);
+    $a=$rec->get();
     $r.="<TD>";
     if ( $a != null ) {
       
@@ -452,8 +459,9 @@ $own=new Own($p_cn);
       // or by writing the opposite operation if the period is closed
       $r.="<TD>";
       // cancel operation
-      $r.=sprintf('<input TYPE="BUTTON" VALUE="%s" onClick="cancelOperation(\'%s\',\'%s\',%d,\'%s\')">',
-				  "Annuler",$row['jr_grpt_id'],$l_sessid,$gDossier,$p_jrn);
+      if ( $user->check_action(GEOP)==1)
+	$r.=sprintf('<input TYPE="BUTTON" VALUE="%s" onClick="cancelOperation(\'%s\',\'%s\',%d,\'%s\')">',
+		    "Annuler",$row['jr_grpt_id'],$l_sessid,$gDossier,$p_jrn);
       $r.="</TD>";
     } // else
     //document
@@ -544,112 +552,6 @@ function InsertStockGoods($p_cn,$p_j_id,$p_good,$p_quant,$p_type)
  return $Res;
 }
 
-/*!
- **************************************************
- *\brief   Insert into jrn_rapt the concerned operations
- *        
- * 
- * \param $p_cn database connection
- * \param $jr_id (jrn.jr_id) => jrn_rapt.jr_id
- * \param $jr_id2 (jrn.jr_id) => jrn_rapt.jra_concerned
- *
- * \return none
- *
- */
-function InsertRapt($p_cn,$jr_id,$jr_id2) {
-  if ( isNumber($jr_id)  == 0 ||  isNumber($jr_id2) == 0 )
-    {
-      echo_error(" InsertRapt : invalid jr_id $jr_id, jr_id2 $jr_id2");
-      echo_debug('user_common.php',__LINE__," InsertRapt : invalid jr_id $jr_id, jr_id2 $jr_id2");
-      return false;
-    }
-  // verify if exists
-  if ( CountSql($p_cn,"select jra_id from jrn_rapt where jra_concerned=$jr_id and jr_id=$jr_id2
-                   union
-                 select jra_id from jrn_rapt where jra_concerned=$jr_id2 and jr_id=$jr_id ") ==0) 
-    {
-      // Ok we can insert 
-      $Res=ExecSql($p_cn,"insert into jrn_rapt(jr_id,jra_concerned) values ($jr_id,$jr_id2)");
-    }
-  return true;
-}
-/*!   DeleteRapt($p_cn,$jr_id,$jr_id2)
- **************************************************
- *\brief   Insert into jrn_rapt the concerned operations
- *        
- * parm : 
- * \param $p_cn database connection
- * \param $jr_id (jrn.jr_id) => jrn_rapt.jr_id
- * \param $jr_id2 (jrn.jr_id) => jrn_rapt.jra_concerned
- * 
- * \return none
- */
-function DeleteRapt($p_cn,$jr_id,$jr_id2) {
-  echo_debug('user_common.php',__LINE__,"DeleteRapt($p_cn,$jr_id,$jr_id2) ");
-  if ( isNumber($jr_id)  == 0 or 
-       isNumber($jr_id2) == 0 )
-    {
-      echo_error(" InsertRapt : invalid jr_id jr_id = $jr_id jr_id2 = $jr_id2");
-      return;
-    }
-  // verify if exists
-  if ( CountSql($p_cn,"select jra_id from jrn_rapt where jra_concerned=$jr_id and jr_id=$jr_id2
-                   union
-                 select jra_id from jrn_rapt where jra_concerned=$jr_id2 and jr_id=$jr_id ") !=0) 
-    {
-      // Ok we can insert 
-      $Res=ExecSql($p_cn,"delete from jrn_rapt where (jra_concerned=$jr_id2 and jr_id=$jr_id) or 
-                               (jra_concerned=$jr_id and jr_id=$jr_id2) ");
-    }
-}
-
-/*!   GetConcerned (p_cn ,jr_id)
- **************************************************
- *\brief   Return an array of the concerned operation
- *        
- *  
- *\param database connection
- *\param      jrn.jr_id
- * \return array if something is found or null
- */
-function GetConcerned ($p_cn, $jr_id) {
-  echo_debug(__FILE__.":".__LINE__."Get Concerned");
-  $sql=" select jr_id as cn from jrn_rapt where jra_concerned=$jr_id
-      union
-       select jra_concerned as cn from jrn_rapt where jr_id=$jr_id";
- $Res=ExecSql($p_cn,$sql);
-
- // If nothing is found return null
- $n=pg_NumRows($Res);
-
- if ($n ==0 ) return null;
-
- // put everything in an array
- for ($i=0;$i<$n;$i++) {
-   $l=pg_fetch_array($Res,$i);
-   $r[$i]=$l['cn'];
- }
- return $r;
-}
-/*!   UpdateComment ($p_cn,$p_jr_id,$p_comment)
- **************************************************
- *\brief  Update comment in jrn 
- *         
- * parm : 
- *	- database conn.
- *              -  jrn.jr_id
- *              - comment
- * gen :
- *	- none
- * return:
- *              - none
- */
-function UpdateComment ($p_cn,$p_jr_id,$p_comment) {
-  $p_comment=FormatString($p_comment);
-  $Res=ExecSql($p_cn,"update jrn set jr_comment='".$p_comment."'
-                               where jr_id = $p_jr_id"); 
-
-}
 
 /*!   isValid ($p_cn, $p_grpt_id
  **************************************************

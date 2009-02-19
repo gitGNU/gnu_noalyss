@@ -33,19 +33,19 @@ require_once("class_fiche_def.php");
 
 /* $Revision$ */
 /* Admin. Dossier */
-$rep=DbConnect();
-include_once ("class_user.php");
-$User=new User($rep);
-$User->Check();
+$gDossier=dossier::id();
+$cn=DbConnect($gDossier);
 
+include_once ("class_user.php");
+$User=new User($cn);
+$User->Check();
+$User->check_dossier($gDossier);
 html_min_page_start($User->theme,"onLoad='window.focus();'");
 require_once('class_dossier.php');
-$gDossier=dossier::id();
 
-$cn=DbConnect($gDossier);
 // TODO add security here
 // Get The priv on the selected folder
-if ( $User->check_action($cn,FICHE_WRITE)== 0) {
+if ( $User->check_action(FICADD)== 0) {
     /* Cannot Access */
     echo '<h2 class="error"> Vous  ne pouvez pas ajouter de fiche</h2>';
     return;

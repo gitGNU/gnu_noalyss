@@ -68,7 +68,7 @@ if ( isset ($_GET ['p_nom'])) {
 }
 
 // If admin show everything otherwise only the available dossier
-$res=u_ShowDossier($_SESSION['g_user'],$User->admin,$filtre);
+$res=u_ShowDossier($_SESSION['g_user'],$User->Admin(),$filtre);
 echo $res;
 ?>
 <P>

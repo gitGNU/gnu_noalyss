@@ -29,17 +29,18 @@ $gDossier=dossier::id();
 
 include_once ("postgres.php");
 /* Admin. Dossier */
-$rep=DbConnect();
-include_once ("class_user.php");
-$User=new User($rep);
-$User->Check();
 
+$cn=DbConnect($gDossier);
+
+include_once ("class_user.php");
+$User=new User($cn);
+$User->Check();
+$User->check_dossier($gDossier);
 
 include_once ("user_menu.php");
 include_once ("check_priv.php");
 
 
-$cn=DbConnect($gDossier);
 
 
 echo JS_UPDATE_PCMN;
@@ -57,7 +58,7 @@ if ( isset ($_GET['p_start'])) {
 echo '<div class="u_subtmenu">';
 
 echo '</div>';
-$User->can_request($cn,MPCMN);
+$User->can_request(PARPCMN);
 
 
 echo '<div class="lmenu">';

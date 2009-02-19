@@ -22,21 +22,23 @@
  * \brief Show and let modify ledger parameter
  */
 require_once('class_dossier.php');
+require_once('class_acc_ledger.php');
+
 $gDossier=dossier::id();
 
 include_once ("ac_common.php");
 html_page_start($_SESSION['g_theme']);
 include_once ("postgres.php");
 /* Admin. Dossier */
-$rep=DbConnect();
+$cn=DbConnect($gDossier);
 include_once ("class_user.php");
-$User=new User($rep);
+$User=new User($cn);
 $User->Check();
-
+$User->check_dossier($gDossier);
 include_once("check_priv.php");
 
-$cn=DbConnect($gDossier);
-$User->can_request($cn,GJRN);
+
+$User->can_request(PARJRN);
 
 // Javascript
 echo JS_SEARCH_POSTE;
@@ -64,7 +66,7 @@ if ( isset($_POST["efface"])) {
 
 //--------------------------------------------------
 // Update ledger
-If ( isset ($_POST["JRN_UPD"] )) {
+If ( isset ($_POST["update"] )) {
   if (  !isset($_POST["p_jrn_name"])  ) {
     echo '<H2 CLASS="error"> Un paramètre manque</H2>';
   }
@@ -99,18 +101,21 @@ If ( isset ($_POST["JRN_UPD"] )) {
       if ( isset    ($_POST["FICHECRED"])) {
        $p_jrn_fiche_cred=join(",",$_POST["FICHECRED"]);
       }
-    $Sql=sprintf("update jrn_def set jrn_def_name='%s',jrn_def_class_deb='%s',jrn_def_class_cred='%s',
-                 jrn_deb_max_line=%s,jrn_cred_max_line=%s,jrn_def_ech=%s,jrn_def_ech_lib=%s,jrn_def_fiche_deb='%s',
-                  jrn_def_fiche_cred='%s'
-                 where jrn_def_id=%s",
-		 $p_jrn_name,$_POST['p_jrn_class_deb'],$_POST['p_jrn_class_deb'],
-		 $l_deb_max_line,$l_cred_max_line,
-		 $p_ech,$p_ech_lib,
-		 $p_jrn_fiche_deb,$p_jrn_fiche_cred,
-                 $_GET['p_jrn']
-		 );
+    $Sql="update jrn_def set jrn_def_name=$1,jrn_def_class_deb=$2,jrn_def_class_cred=$3,
+                 jrn_deb_max_line=$4,jrn_cred_max_line=$5,jrn_def_ech=$6,jrn_def_ech_lib=$7,jrn_def_fiche_deb=$8,
+                  jrn_def_fiche_cred=$9, jrn_def_pj_pref=upper($10)
+                 where jrn_def_id=$11";
+      $sql_array=array(
+		       $p_jrn_name,$_POST['p_jrn_class_deb'],$_POST['p_jrn_class_deb'],
+		       $l_deb_max_line,$l_cred_max_line,
+		       $p_ech,$p_ech_lib,
+		       $p_jrn_fiche_deb,$p_jrn_fiche_cred,
+		       $_POST['jrn_def_pj_pref'],
+		       $_GET['p_jrn']
+		       );
     echo_debug($Sql);
-    $Res=ExecSql($cn,$Sql);
+    $Res=ExecSqlParam($cn,$Sql,$sql_array);
+    $Res=AlterSequence($cn,"s_jrn_pj".$_GET['p_jrn'],$_POST['jrn_def_pj_seq']);
   }
 }
 echo '<div class="lmenu">';
@@ -130,139 +135,60 @@ $Res=ExecSql($cn,"select jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,".
                  " from jrn_def where".
                  " jrn_def_id=".$_REQUEST['p_jrn']);
 if ( pg_NumRows($Res) == 0 ) exit();
+
+
 $l_line=pg_fetch_array($Res,0);
 $sessid = $_REQUEST['PHPSESSID'];
-$search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$sessid."',".dossier::id().",'not','".$_GET['p_jrn']."')\">";
-echo '<DIV CLASS="u_redcontent">';
-echo '<H2 class="info">'.$l_line['jrn_def_name'].'</H2>';
-echo '<FORM METHOD="POST">';
-echo widget::hidden('p_jrn',$_GET['p_jrn']);
-echo widget::hidden('p_action','jrn');
-echo widget::hidden('sa','detail');
 
-echo dossier::hidden();
-echo '<INPUT TYPE="HIDDEN" NAME="JRN_UPD">';
-echo '<TABLE>';
+/* Load all the properties of the ledger */
+$Ledger=new Acc_Ledger($cn,$_REQUEST['p_jrn']);
+$prop=$Ledger->get_propertie();
+$type=$prop['jrn_def_type'];
+$name=$prop['jrn_def_name'];
+$code=$prop['jrn_def_code'];
+/* widget for searching an account */
+$wSearch=new widget('js_search_poste_only');
+$wSearch->extra="p_jrn_class_deb";
+$wSearch->extra2='jrn';
+$wJrn=new widget('text');
+$wJrn->name='p_jrn_class_deb';
+$wJrn->size=40;
+$wJrn->value=$prop['jrn_def_class_deb'];
+$search=$wJrn->IOValue().$wSearch->IOValue();
+$wPjPref=new widget('text');
+$wPjPref->name='jrn_def_pj_pref';
+$wPjPref->value=$prop['jrn_def_pj_pref'];
+$pj_pref=$wPjPref->IOValue();
+$wPjSeq=new widget('text');
+$wPjSeq->value=$Ledger->get_last_pj();
+$wPjSeq->name='jrn_def_pj_seq';
+$pj_seq=$wPjSeq->IOValue();
 
-echo '<TR>'; 
-echo '<TD> Nom journal </TD>';
-echo '<TD> <INPUT TYPE="text" NAME="p_jrn_name" VALUE="'.$l_line['jrn_def_name'].'"></TD>';
-echo '</TR>';
+$name=$l_line['jrn_def_name'];
 
-echo '<TR>'; 
-echo '<TD> Postes utilisables journal (d&eacute;bit/cr&eacute;dit) </TD>';
-echo '<TD> <INPUT TYPE="text" NAME="p_jrn_class_deb" VALUE="'.$l_line['jrn_def_class_deb'].'">'.$search.'</TD>';
-echo '</TR>';
-/*
-echo '<TR>'; 
-echo '<TD> Nombre de lignes par défaut  </TD>';
-echo '<TD> <INPUT TYPE="text" NAME="p_jrn_deb_max_line" VALUE="'.$l_line['jrn_deb_max_line'].'"></TD>';
-echo '</TR>';
-*/
-echo '<tr><td>'.widget::hidden('p_jrn_deb_max_line',10).'</td></tr>';
-
-/*echo '<TR>'; 
-echo '<TD> Postes utilisables journal (crédit) </TD>';
-echo '<TD> <INPUT TYPE="text" NAME="p_jrn_class_cred" VALUE="'.$l_line['jrn_def_class_cred'].'">'.$search.'</TD>';
-echo '</TR>';
-*/
-echo '<tr><td>'.widget::hidden('p_jrn_deb_max_line',10).'</td></tr>';
-/*
-echo '<TR>'; 
-echo '<TD> Date d\'échéance </TD>';
-if ( $l_line['jrn_def_ech'] == 't' ) {
-  echo '<TD> <INPUT TYPE="radio" NAME="p_ech" VALUE="yes" checked> Oui';
-  echo '<INPUT TYPE="radio" NAME="p_ech" VALUE="no">Non </TD>';
-}
-if ( $l_line['jrn_def_ech'] == 'f' ) {
-  echo '<TD> <INPUT TYPE="radio" NAME="p_ech" VALUE="yes" >Oui';
-  echo '<INPUT TYPE="radio" NAME="p_ech" VALUE="no" CHECKED>Non</TD>';
-}
-echo '</TR>';
-*/
-
-echo '<tr><td>'.widget::hidden('p_ech_lib','echeance').'</td></tr>';
-/*
-echo '<TR>'; 
-echo '<TD> Libellé echéance </TD>';
-echo '<TD> <INPUT TYPE="text" NAME="p_ech_lib" VALUE="'.$l_line['jrn_def_ech_lib'].'"></TD>';
-echo '</TR>';
-*/
-
-echo '<TR>'; 
-echo '<TD> Type de journal </TD>';
-echo '<TD> ';
-$Res=ExecSql($cn,"select jrn_type_id,jrn_desc from jrn_type where ".
-	"trim(jrn_type_id)=trim('".$l_line['jrn_def_type']."')");
-$Max=pg_NumRows($Res);
-
-for ($i=0;$i<$Max;$i++) {
-  $Line=pg_fetch_array($Res,$i);
-
-  echo_debug('jrn_detail.php',__LINE__,"jrn type !".$Line['jrn_type_id']."!,!".$l_line['jrn_def_type']."!");
-  printf (' %s',$Line['jrn_desc']);
-}
-echo '</TD>';
-echo '</TR>';
-echo "<TR><TD> Code </TD><TD>".$l_line['jrn_def_code']."</TD></TR>";
-
-echo '</TABLE>';
-// Get all the fiches
-echo '<H2 class="info"> Fiches </H2>';
-$Res=ExecSql($cn,"select fd_id,fd_label from fiche_def order by fd_label");
-$num=pg_NumRows($Res);
-
-$rdeb=split(',',$l_line['jrn_def_fiche_deb']);
-
-$rcred=split(',',$l_line['jrn_def_fiche_cred']);
-echo '<TABLE>';
-echo '<TR>';
-echo '<th> Fiches Débit</TH>';
-echo '<th> Fiches Crédit</TH>';
-echo '</TR>';
-// Show the fiche in deb section
-for ($i=0;$i<$num;$i++) {
-  $res=pg_fetch_array($Res,$i);
-  $CHECKED=" unchecked";
-  foreach ( $rdeb as $element) { 
-    if ( $element == $res['fd_id'] ) {
-    $CHECKED="CHECKED";
-    break;
-  }
-  }
-  echo '<TR>';
-  printf ('<TD> <INPUT TYPE="CHECKBOX" VALUE="%s" NAME="FICHEDEB[]" %s>%s</TD>',
-	  $res['fd_id'],$CHECKED,$res['fd_label']);
-  $CHECKED=" unchecked";
-  foreach ( $rcred as $element) { 
-    if ( $element == $res['fd_id'] ) {
-    $CHECKED="CHECKED";
-    break;
-  }
-  }
-
-  printf ('<TD> <INPUT TYPE="CHECKBOX" VALUE="%s" NAME="FICHECRED[]" %s>%s</TD>',
-	  $res['fd_id'],$CHECKED,$res['fd_label']);
-  echo '</TR>';
-}
+/* construct all the hidden */
+$hidden= widget::hidden('p_jrn',$_GET['p_jrn']);
+$hidden.= widget::hidden('p_action','jrn');
+$hidden.= widget::hidden('sa','detail');
+$hidden.= dossier::hidden();
+$hidden.=widget::hidden('p_jrn_deb_max_line',10);
+$hidden.=widget::hidden('p_ech_lib','echeance');
 
 
+/* Load the card */
+$card=$Ledger->get_fiche_def();
+$rdeb=split(',',$card['deb']);
+$rcred=split(',',$card['cred']);
 
-echo '<hr>
-<TABLE><TR>
-<TD><INPUT TYPE="SUBMIT" VALUE="Sauve"></TD>
-<TD><INPUT TYPE="RESET" VALUE="Reset"></TD>
-<TD><form method="post">';
 
-echo dossier::hidden(); 
-echo widget::hidden('p_action','jrn');
-echo widget::hidden('sa','detail');
-echo '
-<INPUT TYPE="submit" name="efface" value="Efface" onClick="return m_confirm();">
-<input type="hidden" name="p_jrn" value="'.$_GET['p_jrn'].'">
-</form>
-</TD></TR></TABLE>
-';
+echo '<div class="u_redcontent">';
+echo '<form method="POST">';
+echo $hidden;
+require_once('template/param_jrn.php');
+echo '<INPUT TYPE="SUBMIT" VALUE="Sauve" name="update">
+<INPUT TYPE="RESET" VALUE="Reset">
+<INPUT TYPE="submit" name="efface" value="Efface" onClick="return m_confirm();">';
+
 echo '</FORM>';
 echo "</DIV>";
 html_page_stop();

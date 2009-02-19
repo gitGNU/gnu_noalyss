@@ -30,7 +30,9 @@ include_once ("ac_common.php");
 include_once("preference.php");
 include_once ("class_widget.php");
 include_once("class_acc_balance.php");
-$User->can_request($cn,BALANCE);
+require_once('class_acc_ledger.php');
+
+$User->can_request(IMPBAL);
 
 
 echo '<div class="content">';
@@ -56,9 +58,11 @@ if ( isset ($_POST['to_periode']) )
 
 echo $w->IOValue('to_periode',$periode_end);
 //-------------------------------------------------
-$journal=new widget("select");
+$l=new Acc_Ledger($cn,0);
+$journal=$l->select_ledger('ALL',3);
 $journal->name="p_jrn";
-$journal->value=make_array($cn,"select jrn_def_id as value, jrn_def_name as label from jrn_Def",1);
+
+
 if ( isset($_POST['p_jrn'])) $journal->selected=$_POST['p_jrn'];
 echo JS_SEARCH_POSTE;
 echo "Journal = ".$journal->IOValue();

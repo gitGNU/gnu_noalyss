@@ -44,9 +44,6 @@ include_once ("class_user.php");
 $User=new User($cn);
 $User->Check();
 
-// Synchronize rights
-SyncRight($gDossier,$_SESSION['g_user']);
-
 
 $href=basename($_SERVER['PHP_SELF']);
 if ($href=='compta.php')
@@ -60,7 +57,7 @@ if ($href=='compta.php')
   echo $left_menu;
 }
 // Get The priv on the selected folder
-$User->can_request($cn,STOCK_READ);
+$User->can_request(STOLE,1);
 
 
 $action= ( isset ($_GET['action']))? $_GET['action']:"";
@@ -69,12 +66,7 @@ include_once("stock_inc.php");
 // Adjust the stock
 if ( isset ($_POST['sub_change'])) 
 {
-  if ( check_action($gDossier,$_SESSION['g_user'],STOCK_WRITE) == 0 )
-    {
-      /* Cannot Access */
-      NoAccess();
-    }
-
+  $User->can_request(STOWRITE,1);
   $change=$_POST['stock_change'];
   $sg_code=$_POST['sg_code'];
   $sg_date=$_POST['sg_date'];
@@ -144,14 +136,11 @@ if ( ! isset ($_GET['year']) ) {
 // View details
 if ( $action == 'detail' ) {
   // Check if User Can see the stock 
-  if ( check_action($gDossier,$_SESSION['g_user'],STOCK_READ) == 0 ) {
-    NoAccess();
-    exit (-1);
-  }
+  $User->can_request(STOLE,1);
   $sg_code=(isset ($_GET['sg_code'] ))?$_GET['sg_code']:$_POST['sg_code'];
   $year=(isset($_GET['year']))?$_GET['year']:$_POST['year'];
   $a=ViewDetailStock($cn,$sg_code,$year);
-  $write=check_action($gDossier,$_SESSION['g_user'],STOCK_WRITE);
+  $write=$User->check_action(STOWRITE);
 
   $b="";
 
@@ -186,10 +175,7 @@ for ( $i = 0; $i < pg_NumRows($Res);$i++) {
  
 }
 // Check if User Can see the stock 
-if ( check_action($gDossier,$_SESSION['g_user'],STOCK_READ) == 0 ) {
-  NoAccess();
-  exit (-1);
-}
+
 
 // Show the current stock
 echo '<div class="u_redcontent">';

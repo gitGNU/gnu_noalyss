@@ -48,7 +48,7 @@ $User=new User($rep);
 $User->Check();
 
 echo '<div class="u_tmenu">';
-echo menu_tool("budget");
+echo menu_tool("budget.php");
 echo '<div style="clear:both">';
 /* security */
 
@@ -86,7 +86,7 @@ echo ShowItem(array(
 echo '</div>';
 echo '</div>';
 echo '</div>';
-$User->can_request($rep,BUDGET);
+$User->can_request(BUDLEC,1);
 
 $cn=DbConnect($gDossier);
 $obj=new Bud_Hypo($cn);
@@ -96,6 +96,7 @@ $obj=new Bud_Hypo($cn);
 //-----------------------------------------------------
 if ( $p_action == "hypo" ) 
 {
+  $User->can_request(BUDHYP,1);
   require_once("bud_hypo.inc.php");
 }
 
@@ -104,6 +105,7 @@ if ( $p_action == "hypo" )
 //-----------------------------------------------------
 if ( $p_action == "fiche" ) 
 {
+  $User->can_request(BUDFIC,1);
   if ( $obj->size()==0 ) {
     echo '<h2 class="info">Desole pas d\'hypothese definie</h2>';
     exit();
@@ -130,6 +132,7 @@ if ( $p_action == "detail" )
 //-----------------------------------------------------
 if ( $p_action == "synthese" ) 
 {
+  $User->can_request(BUDIMP,1);
   if ( $obj->size()==0 ) {
     echo '<h2 class="info">Desole pas d\'hypothese definie</h2>';
     exit();

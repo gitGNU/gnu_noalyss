@@ -31,6 +31,7 @@ require_once ("user_common.php");
 require_once ("debug.php");
 require_once('class_dossier.php');
 require_once('class_acc_report.php');
+require_once('class_user.php');
 if ( ! isset($_GET['gDossier']) ||
      ! isset($_GET['f']) )
   {
@@ -39,6 +40,13 @@ if ( ! isset($_GET['gDossier']) ||
     print $a;
     exit();
   }  
+$cn=DbConnect(dossier::id());
+
+$User=new User($cn);
+$User->Check();
+$User->check_dossier(dossier::id());
+$User->can_request('PARRAP',0);
+
   
 
 $gDossier=dossier::id();

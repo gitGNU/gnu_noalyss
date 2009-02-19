@@ -40,16 +40,8 @@ $User->Check();
 
 // TODO a specific level of security for the "bilan" ???
 // Change must be done here
-if ( $User->admin == 0 ) {
-  if ($User->check_action($cn,IMP) 
-								  ==0
-     )
-  {
-    /* Cannot Access */
-    NoAccess();
-  }
+$User->can_request(IMPBIL);
 
-}
 
 $bilan=new Acc_Bilan($cn);
 $bilan->get_request_get();

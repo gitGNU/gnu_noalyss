@@ -20,17 +20,43 @@
 /* $Revision$ */
 /*! \file
  * \brief Search a card in a popup window
+ *
+ * This parameter given to this file via the javascript popup windows are 
+ * caller = searchcard
+   *  - first  when is the first call it doesn't lookup directly
+   * - search
+   * - p_jrn the ledger id
+   * - PHPSESSID
+   * - type  deb only the deb card from the ledger, cred means credit only, all the card, filter all the card of the ledger
+   * - name of the control
+   * - gDossier the dossier id
+   * -the caller (what jascript function triggers this window)
+ * caller = searchcardCtrl
+   *  - first 
+   * - searh
+   * - p_jrn the ledger id
+   * - PHPSESSID
+   * - type   deb only the deb card from the ledger, cred means credit only, all the card, filter all the card of the ledger 
+   * - name of the control
+   * - ctrl the second control to set up
+   * - gDossier the dossier id
+   * -the caller (what jascript function triggers this window)
  */
 
 include_once ("ac_common.php");
 include_once ("poste.php");
 include_once ("postgres.php");
 include_once("jrn.php");
-/* Admin. Dossier */
-$rep=DbConnect();
+require_once('class_dossier.php');
 include_once ("class_user.php");
-$User=new User($rep);
+// include_once ("check_priv.php");
+$gDossier=dossier::id();
+$cn=DbConnect($gDossier);
+
+$User=new User($cn);
 $User->Check();
+$User->check_dossier($gDossier);
+
 echo JS_SEARCH_CARD;
 echo JS_MINTOOLKIT;
 //determine focus:
@@ -43,18 +69,6 @@ if ( isset ( $_GET['search']) )
 }
 
 
-
-require_once('class_dossier.php');
-$gDossier=dossier::id();
-
-include_once ("check_priv.php");
-$cn=DbConnect($gDossier);
-// Get The priv on the selected folder
-if ( $User->check_action($cn,FICHE_READ) == 0 ){
-    /* Cannot Access */
-    echo '<h2 class="error"> Vous n\' avez pas accès</h2>';
-    return;
-}
 
 function get_list_fiche($p_cn,$get,$p_jrn)
 {
@@ -82,23 +96,29 @@ function SetData (name_ctl,value,value_2,value_3,value_4,value_5,value_6) {
   self.opener.SetData(name_ctl,value,value_2,value_3,value_4,value_5,value_6);
    window.close();
 }
+function setCtrl(name_ctl,value,name_ctl2,value_3) {
+	self.opener.setCtrl(name_ctl,value,name_ctl2,value_3);
+	window.close();
+	}
 </script>
 <?php
 $cn=DbConnect($gDossier);
 $r="";
-
+// Propose to add a card if the ledger is not 0 (the great ledger)
+/*!\todo if the person can add a card, propose also the new button */
 if ($_GET['p_jrn']  != 0 ) {
-  $add_card=new widget('button');
-  $add_card->javascript=sprintf("NewCard('%s','%s','%s')",
-				$_REQUEST['PHPSESSID'],
-				$_GET['type'],
-				"fic_search");
-  $add_card->label="Ajout d'une fiche";
+  if ( $User->check_action(FICADD)==1) {
+    $add_card=new widget('button');
+    $add_card->javascript=sprintf("NewCard('%s','%s','%s')",
+				  $_REQUEST['PHPSESSID'],
+				  $_GET['type'],
+				  "fic_search");
+    $add_card->label="Ajout d'une fiche";
+  }
 }
 foreach ($_GET as $key=>$element) {
   // The value are e_name e_type e_PHPSESSID
   ${"e_$key"}=$element;
-  echo_debug('fiche_search.php',__LINE__,"e_$key =$element<br>");
 
 }
 $e_fic_search=(isset ($_REQUEST['fic_search']))?$_REQUEST['fic_search']:"";
@@ -202,7 +222,7 @@ if (
   $text=FormatString($row['vw_name']);
   $r.="<span class=\"$class\">";
   $qcode=    $row['quick_code'] ;
-
+if ( $e_caller=='searchcard') {
   $r.=sprintf ('<input name="%s" type="button" onClick="'."SetData('%s','%s','%s','%s','%s','%s','%s')".'" value="%s">',
         "select" . $i,
 	      $e_name,
@@ -214,6 +234,16 @@ if (
 	       $row['tva_label']  ,
 	       $qcode
 	       );
+	} else {
+	$r.=sprintf ('<input name="%s" type="button" onClick="'."setCtrl('%s','%s','%s','%s')".'" value="%s">',
+		     "select" . $i,
+		     $e_name,
+		     $row['quick_code'] ,
+		     $e_extra,
+		     $text,
+		     $row['quick_code']
+		     );
+	}
   $r.="&nbsp;".h($row['vw_name']);
   if ( $row['vw_addr'] !="")
     $r.="<br><font size=-1>Adresse:&nbsp;".h($row['vw_addr'])."&nbsp;".h($row['vw_cp'])."</font>";
@@ -227,6 +257,6 @@ echo $r;
 ?>
 
 <?php
-if ( $_GET['p_jrn'] != 0 )echo $add_card->IOValue();
+if ( $_GET['p_jrn'] != 0 && $User->check_action(FICADD)==1)echo $add_card->IOValue();
 html_page_stop();
 ?>

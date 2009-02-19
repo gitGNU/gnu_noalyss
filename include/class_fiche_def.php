@@ -510,11 +510,11 @@ class fiche_def {
      }
 
   /*!\brief save the order of a card, update the column jnt_fic_attr.jnt_order
-   *\param array containing the order
+   *\param $p_array containing the order
    */
      function save_order($p_array) {
        extract($p_array);
-
+       echo_debug('class_fiche_def::save_order',$p_array);
        $this->GetAttribut();
        foreach ($this->attribut as $row){
 	 if ( $row->ad_id == 1 ) continue;

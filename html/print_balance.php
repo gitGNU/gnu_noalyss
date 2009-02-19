@@ -49,7 +49,7 @@ $User=new User($rep);
 $User->Check();
 
 $bal=new Acc_Balance($cn);
-$User->can_request($cn,BALANCE);
+$User->can_request(IMPBAL,1);
 
 echo_debug('print_balance.php',__LINE__,"imp pdf journaux");
 foreach ($_POST as $key=>$element) {

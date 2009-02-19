@@ -93,22 +93,10 @@ function CheckJrn($p_dossier,$p_user,$p_jrn,$p_detail=False)
   $Def=pg_fetch_array($Res,0);
 
   // Si les droits par défaut == NO, alors user n'a pas accès au dossier
-  if ( $Def['priv_priv'] == "NO" ) return 0;
+  if ( $Def['priv_priv'] == "NO" || $Def['priv_priv']=='X') return 0;
 
-  if ( $Def['priv_priv'] == "W") {
-  // Si droit pas défaut == écriture      
-    if ( $PrivJrn == 0 ) {
-      // Pas de droit spécifique sur jrn => droit par défaut = W
-      return 2;
-    }
-    $Priv=pg_fetch_array($Res2,0);
-    
-    if ( $Priv['uj_priv'] == "X" ) return 0;
-    if ( $Priv['uj_priv'] == "R" ) return 1;
-    if ( $Priv['uj_priv'] == "W" ) return 2;
-    echo '<H2 class="error"> Undefined right</H2>';
-    echo_debug ("Droit Journal $Priv[uj_priv]");
-    return 0;
+  if ( $Def['priv_priv'] == "L") {
+    return 2;
   }
   if ( $Def['priv_priv'] == "R") {
   // Si droit pas défaut == Lire
@@ -122,10 +110,13 @@ function CheckJrn($p_dossier,$p_user,$p_jrn,$p_detail=False)
     if ( $Priv['uj_priv'] == "R" ) return 1;
     if ( $Priv['uj_priv'] == "W" ) return 2;
     echo_debug ("Droit Journal $Priv[uj_priv]");
-    echo '<H2 class="error"> Undefined right</H2>';
+    echo '<H2 class="error"> Undefined right  '.$Priv['uj_priv'].' </H2>';
+
     return 0;
   }
-  echo '<H2 class="error"> Undefined default right</H2>';
+  
+
+  echo '<H2 class="error"> Undefined default right default</H2>';
   return 0;
 
 }
@@ -147,8 +138,14 @@ function CheckJrn($p_dossier,$p_user,$p_jrn,$p_detail=False)
 function check_action ( $p_dossier,$p_login,$p_action_id)
 {
   if ( CheckIsAdmin ($p_login) ) return 1;
+  //  if( is_local_admin($p_login,$p_dossier)) return 1;
+
+
   $cn=DbConnect($p_dossier);
-  $Res=ExecSql($cn,"select * from user_sec_act where ua_login='$p_login' and ua_act_id=$p_action_id");
+
+  /* check if user is a local admin */
+  $a="select * from user_sec_act where ua_login='$p_login' and ua_act_id=$p_action_id";
+  $Res=ExecSql($cn,$a);
   $Count=pg_NumRows($Res);
   if ( $Count == 0 ) return 0;
   if ( $Count == 1 ) return 1;

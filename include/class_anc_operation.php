@@ -110,7 +110,6 @@ class Anc_Operation
   }
 
   /*!\brief update a row in  the table operation_analytique
-   * \todo update
    */
   function update() {
 	if ( $this->po_id == -1) { $this->delete();return;}
@@ -120,7 +119,6 @@ class Anc_Operation
   }
 
   /*!\brief get a list of row from a certain periode
-   * \todo to be done
    */
   function get_list($p_from,$p_to,$p_from_poste="",$p_to_poste="") {
 	$cond="";
