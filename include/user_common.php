@@ -1,3 +1,4 @@
+
 <?php  
 /*
  *   This file is part of PhpCompta.
@@ -161,7 +162,7 @@ $own=new Own($p_cn);
 			jr_montant,
                         case when jr_pj_number is not null and jr_pj_number  !='' 
                           then '('||jr_pj_number||')'
-                          else '' end ||' '||jr_comment as jr_comment,
+                          else '' end ||' '||substr(jr_comment,1,60) as jr_comment,
 			to_char(jr_ech,'DD.MM.YYYY') as jr_ech,
 			to_char(jr_date,'DD.MM.YYYY') as jr_date,
                         jr_date as jr_date_order,
@@ -192,7 +193,7 @@ $own=new Own($p_cn);
 		jr_montant,
                 case when jr_pj_number is not null and jr_pj_number  !='' 
                     then '('||jr_pj_number||')'
-                    else '' end ||' '||jr_comment as jr_comment,
+                    else '' end ||' '||substr(jr_comment,1,60) as jr_comment,
 		jr_ech,
 		to_char(jr_date,'DD.MM.YYYY') as jr_date,
                 jr_date as jr_date_order,
@@ -323,7 +324,6 @@ $own=new Own($p_cn);
 
   $Max=pg_NumRows($Res);
 
-  //TODO: correct this message. 
   if ($Max==0) return array(0,"Aucun enregistrement trouv&eacute;");
 
   $r.='<table style="width:100%;border:solid blue 2px ;border-style:outset;">';
@@ -394,7 +394,8 @@ $own=new Own($p_cn);
     
     // comment
     $r.="<TD>";
-    $r.=h($row['jr_comment']);
+    $tmp_jr_comment=h($row['jr_comment']);
+    $r.=$tmp_jr_comment;
     $r.="</TD>";
     
     // Amount
