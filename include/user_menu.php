@@ -482,7 +482,7 @@ function MenuAdmin()
   $item=array (array("admin_repo.php?action=user_mgt","Utilisateurs",'Gestion des utilisateurs',0),
 	       array("admin_repo.php?action=dossier_mgt","Dossiers",'Gestion des dossiers',1),
 	       array("admin_repo.php?action=modele_mgt","Modèles",'Gestion des modèles',2),
-	       array("admin_repo.php?action=restore","Restore","Restaure une base de données",3),
+	       array("admin_repo.php?action=restore","Restaure","Restaure une base de données",3),
 	       array("login.php","Accueil"),
 	       array("logout.php","Logout")
 	       );
