@@ -105,8 +105,8 @@ function setCtrl(name_ctl,value,name_ctl2,value_3) {
 $cn=DbConnect($gDossier);
 $r="";
 // Propose to add a card if the ledger is not 0 (the great ledger)
-/*!\todo if the person can add a card, propose also the new button */
-if ($_GET['p_jrn']  != 0 ) {
+
+if (!isset($_REQUEST['noadd']) && $User->check_action(FICADD)==1 && $_GET['p_jrn']  != 0 ) {
   if ( $User->check_action(FICADD)==1) {
     $add_card=new widget('button');
     $add_card->javascript=sprintf("NewCard('%s','%s','%s')",
@@ -125,6 +125,7 @@ $e_fic_search=(isset ($_REQUEST['fic_search']))?$_REQUEST['fic_search']:"";
 
 $r.="<FORM METHOD=\"GET\" >";
 $r.="Recherche : ".'<INPUT TYPE="TEXT" id="fic_search" NAME="fic_search" VALUE="'.$e_fic_search.'">';
+if ( isset($_REQUEST['noadd' ])) $r.=widget::hidden('noadd','noadd');
 $r.='<INPUT TYPE="submit" name="search" value="Go">';
 if ( isset ($_REQUEST['p_jrn']))
   echo widget::hidden('p_jrn',$_REQUEST ['p_jrn']);
@@ -201,7 +202,7 @@ if (
   // Test whether rows are returned
  if ( ($Max = pg_NumRows($Res) ) == 0 && $_GET['p_jrn'] != 0) {
    echo_warning("Pas de fiche trouvée");
-   echo $add_card->IOValue();
+   if (isset($add_card)) echo $add_card->IOValue();
    return;
  } 
  // Show the cards
@@ -257,6 +258,6 @@ echo $r;
 ?>
 
 <?php
-if ( $_GET['p_jrn'] != 0 && $User->check_action(FICADD)==1)echo $add_card->IOValue();
+if ( isset($add_card) )echo $add_card->IOValue();
 html_page_stop();
 ?>

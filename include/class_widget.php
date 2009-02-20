@@ -539,6 +539,40 @@ class widget {
     }
     return $r;
   }// poste==js_search_only
+  if ( strtolower($this->type)=="js_search_noadd") {
+    $l_sessid=$_REQUEST['PHPSESSID'];
+
+    if ( $this->javascript=="") { /* if javascript is empty then we
+				     add a default behaviour */
+      $this->javascript=sprintf('onBlur="ajaxFid(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')"',
+				$this->name,
+				$this->extra, //deb or cred
+				$l_sessid,
+				'js_search_only',
+				'none'
+				);
+    }
+      if ( $this->extra2 == "" ) $this->extra2="QuickCode";
+	{
+	  $r=sprintf('<TD>
+         <INPUT TYPE="button" onClick="SearchCard(\'%s\',\'%s\',\'%s\',1)" value="%s">
+            %s</TD><TD> <INPUT class="input_text"  TYPE="Text"  " '.
+		     ' NAME="%s" ID="%s" VALUE="%s" SIZE="8" %s>',
+		     $l_sessid,
+		     $this->extra,
+		     $this->name,
+		     $this->extra2,
+		     $this->label,
+		     $this->name,
+		     $this->name,
+		     $this->value,
+		     $this->javascript
+		     );
+	}
+
+    return $r;
+  }// poste==js_search_noadd
+
 //#############################################################################
   // input type == js_search => button search for card
   /*!\brief js_search_only only for searching a card  when it is needed to update a other control

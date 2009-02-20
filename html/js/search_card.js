@@ -42,7 +42,7 @@ function showfiche(p_sessid,p_qcode)
 *\param  name is the name of the control, it is used for computing the name of the VAT, Price field 
 * \see SetData()
 */
-function SearchCard(p_sessid,type,name)
+function SearchCard(p_sessid,type,name,no_add)
 {
   var search=document.getElementById(name).value;
   var gDossier=document.getElementById('gDossier').value;
@@ -51,9 +51,11 @@ function SearchCard(p_sessid,type,name)
     jrn=document.getElementById("p_jrn").value;
   }
   var file='fiche_search.php';
+var qadd='';
+if ( no_add != undefined) { qadd="&noadd"}
 var
 query='?first&search&fic_search='+search+'&p_jrn='+jrn+'&PHPSESSID='+p_sessid
-+'&type='+type+'&name='+name+'&gDossier='+gDossier;
++'&type='+type+'&name='+name+'&gDossier='+gDossier+qadd;
   query+="&caller=searchcard";
    var a=window.open(file+query,'item','toolbar=no,width=350,height=450,scrollbars=yes,statusbar=no');
    a.focus();

@@ -281,7 +281,7 @@ class Acc_Payment
 	/* if the qcode is  null the propose a search button to select
 	   the card */
 	if ( $row->mp_qcode==NULL) { 
-	  $a=new widget('js_search_only');
+	  $a=new widget('js_search_noadd');
 	  $a->extra=$row->mp_fd_id;
 	  $a->extra2='Recherche';
 	  $a->name='e_mp_qcode_'.$row->mp_id;
