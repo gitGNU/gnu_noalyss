@@ -134,15 +134,6 @@ function isDate ( $p_date) {
   return $p_date;
 }
 /*! 
- * \brief call cmpDate & add quotes
- *        
- * \return the date or the quoted string null 
- */
-function formatDate($p_date) {
-  if ( isDate($p_date)== null) return "null";
-  return "'".$p_date."'";
-}
-/*! 
  * \brief Default page header for each page
  *        
  * \param p_theme default theme
@@ -253,16 +244,6 @@ function html_page_stop()
 {
 	echo "</BODY>";
 	echo "</HTML>";
-}
-/*! 
- * \brief Button logout
- *        
-
- * \return nothing
- */
-
-function html_button_logout() {
-	echo "<A class=\"mtitle\" HREF=logout.php> Logout </A>";
 }
 /*! 
  * \brief Echo no access and stop 
@@ -446,28 +427,6 @@ function getPeriodeName($p_cn,$p_id,$pos='p_start') {
 function getPeriodeFromMonth($p_cn,$p_date) {
   $R=ExecSql($p_cn,"select p_id from parm_periode where
               to_char(p_start,'DD.MM.YYYY') = '01.$p_date'");
-  if ( pg_NumRows($R) == 0 ) 
-    return -1;
-  $a=pg_fetch_array($R,0);
-
-  return $a['p_id'];
-}
-/*! 
- **************************************************
- * \brief Return the period corresponding to the 
- *           date
- *        
- *
- * \param  	p_cn database connection
- *  \param      p_date the date 'DD.MM.YYYY'
- * \return parm_periode.p_id
- *       
- */
-function getPeriodeFromDate($p_cn,$p_date) {
-  $R=ExecSql($p_cn,"select p_id from parm_periode where
-              p_start <= to_date('$p_date','DD.MM.YYYY')
-           and p_end  >= to_date('$p_date','DD.MM.YYYY')
-           ");
   if ( pg_NumRows($R) == 0 ) 
     return -1;
   $a=pg_fetch_array($R,0);

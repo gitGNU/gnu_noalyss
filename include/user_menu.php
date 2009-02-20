@@ -203,33 +203,6 @@ function ShowMenuCompta($p_high="")
 
 
 }
-/*! 
- * \brief Open the first legder automaticaly
- * \param $p_dossier dossier::id
- * \param $p_type type of the ledger (VEN,ACH,FIN,ODS)
- * 
- * 
- *
- * \return the first jrn_def_id
- */
-
-function GetFirstJrnIdForJrnType($p_dossier,$p_type)
-{
-  include_once("postgres.php");
-  
-  //get db connection
-  $Cn=DbConnect($p_dossier);  
-  //execute query
-  $Ret=ExecSql($Cn,"select min(jrn_def_id) from jrn_def ".
-	       "where jrn_def_type='".$p_type."';");
-  $l_line=pg_fetch_array($Ret,0);
-  return $l_line[0];
-  //return 0;
-}
-
-
-
-
 
 /*!  
  * \brief Returns the form for the search (module accountancy)
@@ -389,28 +362,6 @@ function ShowMenuAdvanced($default="") {
  $r='<div class="u_subtmenu">'.$left_menu."</div>";
  return $r;
 }
-/*!  
- **************************************************
- * \brief  Return a string containing the menu
- *           main menu when you click on Journaux
- * \param $p_menu the current menu (selected)
- *
- * \return HTML Code
- */
-function ShowJrn($p_menu="")
-{
-
- $p_array=array(
- 		array("user_jrn.php?jrn_type=NONE" ,"Grand Livre"),
- 		array("user_jrn.php?jrn_type=VEN" ,"Entrée"),
-                array("user_jrn.php?jrn_type=ACH","Dépense"),
-                array("user_jrn.php?jrn_type=FIN","Financier"),
-                array("user_jrn.php?jrn_type=ODS","Op. Diverses")
-                 );
- $result=ShowItem($p_array,'H',"cell","mtitle",$p_menu);
- return $result;
-}
-
 /*!   
  * \brief  Show the menu for the card management
  *        
@@ -489,23 +440,6 @@ function MenuAdmin()
 
   $menu=ShowItem($item,'H',"mtitle","mtitle",$def,' width="100%" ');
   return $menu;
-}
-/*!  
- * \brief : Display Document's menu
- *   
- * \param none
- * \return string
- *
- *
- */ 
-function ShowMenuDocument()
-{
-  $base="parametre.php?p_action=document&sa=";
-  $sub_menu=ShowItem(
-		     array(array($base."add_document","Ajout"))
-		     ,'V',"cell","mtitle");
-  return $sub_menu;
-
 }
 /*!   
  * \brief  Show the parameter menu

@@ -65,21 +65,6 @@ echo "Importation terminée.";
 Commit($p_cn);
 
 }
-/*!\brief Update import_tmp with the bank account
- * 
- */
-function UpdateCSV($p_cn){
-  $code=FormatString($_POST['code']);
-  $count=FormatString($_POST['count']);
-  $poste=FormatString($_POST['poste'.$count]);
-  $concern=FormatString($_POST['e_concerned'.$count]);
-  $sql = utf8_encode("update import_tmp set poste_comptable='$poste' ,status='w',".
-		     "jr_rapt='$concern' where code='$code'");
-  $Res=ExecSql($p_cn,$sql);
-}
-
-
-
 
 /*!\brief This function show a record from the table import_tmp, the tag for the form
  *        are not included in the function and must set in the calling proc.
@@ -406,16 +391,6 @@ $w=new widget("select");
   echo $w->label.$w->IOValue('format_csv',$format_csv).'<br>';
   echo '<INPUT TYPE="SUBMIT" Value="Import fiche">';
   echo '</FORM>';
-}
-
-/*!\brief RemoveRow put a flag delete on a row of the table import_tmp
- *        (import_tmp.status)
- * \param $p_cn database connection
- * \param $p_code import_tmp.code must be unique
- */
-function DropRecord($p_cn,$p_code)
-{
-  ExecSql($p_cn,"update import_tmp set status='d' where code='".$p_code."'");
 }
 
 ?>

@@ -23,41 +23,6 @@
  * \brief contains function for the printing
  * \todo the functions of impress_inc.php should be replaced in a OO way
 */
-
-/*!
- * \brief  Get dat for poste 
- * 
- * \param connection
- * \param condition
- * \param position
- *
- */ 
-function get_dataPoste($p_cn,$p_poste,$p_condition)
-{
-  $Res=ExecSql($p_cn,"select to_char(j_date,'DD.MM.YYYY') as j_date,".
-	       "case when j_debit='t' then to_char(j_montant,'999999999.99') else ' ' end as deb_montant,".
-	       "case when j_debit='f' then to_char(j_montant,'999999999.99') else ' ' end as cred_montant,".
-	       " jr_comment as description,jrn_def_name as jrn_name,".
-	       "j_debit, jr_internal ".
-	       " from jrnx left join jrn_def on jrn_def_id=j_jrn_def ".
-	       " left join jrn on jr_grpt_id=j_grpt".
-	       " where j_poste=".$p_poste." and ".$p_condition.
-	       " order by j_date::date");
-  $array=array();
-  $tot_cred=0;
-  $tot_deb=0;
-  $Max=pg_NumRows($Res);
-  if ( $Max == 0 ) return null;
-  for ($i=0;$i<$Max;$i++) {
-    $array[]=pg_fetch_array($Res,$i);
-    if ($array[$i]['j_debit']=='t') {
-      $tot_deb+=$array[$i]['deb_montant'] ;
-    } else {
-      $tot_cred+=$array[$i]['cred_montant'] ;
-    }
-  }
-  return array($array,$tot_deb,$tot_cred);
-}
 /*!
  * \brief  Get data from the jrn table
  * 
@@ -321,30 +286,6 @@ function get_dataJrnPdf($p_cn,$p_array,$p_limit,$p_offset)
   echo_debug('impress_inc.php',__LINE__,"Total debit $tot_deb,credit $tot_cred");
   $a=array($array,$tot_deb,$tot_cred);
  return $a;
-}
-/*!
- * \brief  
- *        
- * \param 
- *	
- *\return
- */
-function get_dataGrpt($p_cn,$p_array)
-{
-  if ( !isset ($p_array['periode']) ) return NO_PERIOD_SELECTED;
-  $cond=CreatePeriodeCond($p_array['periode']);
-  $Res=ExecSql($p_cn,"select distinct ".
-	       " j_grpt as grp".
-               " from jrnx ".
-	       " where j_jrn_def=".$p_array['p_id'].
-	       " and ".$cond." order by j_grpt");
-  $array=array();
-  $Max=pg_NumRows($Res);
-  $case="";
-  for ($i=0;$i<$Max;$i++) {
-    $array[]=pg_fetch_array($Res,$i);
-  }
-  return $array;
 }
 /*! 
  * \brief
@@ -641,60 +582,6 @@ echo_debug(__FILE__,__LINE__,"p_formula = $p_formula ");
     // $p_eval is false we returns only the string
     return $p_formula;
   }
-}
-/*!
- * \brief  Parse the formula contained in the fo_formula 
- *           field and return a array containing all the columns
- * 
- * \param $p_cn connexion
- * \param $p_label
- * \param $p_formula
- * \return array
- *
- */ 
-function GetFormulaValue($p_cn,$p_label,$p_formula,$p_cond) 
-{
-  $aret=array();
-  $l_debit=0;
-  $l_credit=0;
-    // somme debit
-  $Res=ExecSql($p_cn,"select sum (j_montant) as montant from
-                      jrnx where $p_cond and j_debit='t' and j_poste::text like '$p_formula'");
-  if (pg_NumRows($Res)==0){
-    $l_debit=0;                   
-  } else {
-    $l=pg_fetch_array($Res,0);
-    $l_debit=$l['montant'];
-      }
-  // somme credit
-  $Res=ExecSql($p_cn,"select sum (j_montant) as montant from
-                      jrnx where $p_cond and j_debit='f' and j_poste::text like '$p_formula'");
-  if (pg_NumRows($Res)==0) {
-    $l_credit=0;                   
-  } else {
-    $l=pg_fetch_array($Res,0);
-    $l_credit=$l['montant'];
-  }
-
-  if ( $l_credit==$l_debit) {
-    $aret=array('desc' => $p_label,
-		'montant' => '0',
-		'cmontant'=>0);
-  }
-  if ( $l_credit < $l_debit) {
-    $l2=sprintf("% .2f",$l_debit-$l_credit);
-    $aret=array('desc' => $p_label,
-		'montant' => $l2,
-		'cmontant'=>$l2);
-  }
-  if ( $l_credit>$l_debit) {
-    $l2=sprintf("(% .2f)",$l_credit-$l_debit);
-    $aret=array('desc' => $p_label,
-		'montant' => $l2,
-		'cmontant'=> $l_debit-$l_credit);
-
-  }
-  return $aret;
 }
 /*!
  * \brief  Check if formula doesn't contain

@@ -243,18 +243,6 @@ function CountSql($p_conn,$p_sql,$array=null)
   return pg_NumRows($r_sql);
 
 }
-/*! 
- * \param id of a dossier
- * \return  Name of the dossier
- */
-function GetDossierName($p_dossier)
-{
-  $cn=DbConnect();
-  $Ret=ExecSql($cn,"select dos_name from ac_dossier where dos_id=".$p_dossier);
-  $r= pg_fetch_array($Ret,0);
-  return $r['dos_name'];
-}
-
 /*!\brief get the current sequence
  */
 function GetSequence($p_cn,$p_seq)
@@ -288,52 +276,6 @@ function AlterSequence($p_cn,$p_name,$p_value) {
   
   $Res=ExecSql($p_cn,"alter sequence $p_name restart $p_value");
 }
-/*!
- * \brief  Get the properties of an user
- *           it means theme, profile, admin...
- *        
- * \param $p_user    user login
- * \param $p_cn      connection 
- *
- * \return an array containing 
- *                 - use_admin
- *                 -  use_usertype
- *                 -  g_theme
- *                 -  use_name
- *                 -  use_login
- */
-function GetUserProperty($p_cn,$p_user)
-{
- $sql="select use_login,use_first_name,use_name,use_admin,use_usertype,g_theme
-     from ac_users where use_login='$p_user'";
- $Ret=ExecSql($p_cn,$sql);
- if ( pg_NumRows($Ret) == 0) 
-   return array('use_first_name'=>'?',
-                'use_name'=>'Unknown',
-                'use_admin'=>0,
-		'use_usertype'=>'user',
-		'g_theme'=>'classic',
-		'use_login'=>$p_user);
-
- $a=pg_fetch_array($Ret,0);
- return $a;
-}
-/*!
- * \brief   Give the mod_id from modeledef
- *        
- *  
- * \param $p_cn database connection (repository)
- * \param     $p_modname template name
- * \return template id or 0 if not found
- *        
- */
-function GetModeleId($p_cn,$p_modname) {
-  $Res=ExecSql($p_cn,"select mod_id from modeledef where mod_name='$p_modname'");
-  if (pg_NumRows($Res) == 0) return 0;
-  $name=pg_fetch_array($Res,0);
-  return $name['mod_id'];
-}
-
 
  /*!\brief  purpose return the result of a sql statment 
  * in a array
