@@ -60,6 +60,13 @@ echo $w->IOValue('to_periode',$periode_end);
 //-------------------------------------------------
 $l=new Acc_Ledger($cn,0);
 $journal=$l->select_ledger('ALL',3);
+
+/*  add a all ledger choice */
+$blank=array('value'=>-1,'label'=>'Tous les journaux ');
+$array=$journal->value;
+$array[]=$blank;
+$journal->value=$array;
+
 $journal->name="p_jrn";
 
 
