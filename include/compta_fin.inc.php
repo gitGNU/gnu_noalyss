@@ -154,8 +154,6 @@ if ( $def == 1 ) {
 // Show the listing
 //--------------------------------------------------------------------------------
 if ( $def == 2) {
-  $Ledger->id=$_REQUEST['p_jrn'];
-  $jrn_priv=$User->check_action($Ledger->id);
 
  // Check privilege
   if ( isset($_REQUEST['p_jrn']) && $jrn_priv=='X') {
@@ -170,6 +168,8 @@ if ( $def == 2) {
     $def_ledger=$Ledger->get_first('fin');
     $Ledger->id=$def_ledger['jrn_def_id'];
   }
+  $jrn_priv=$User->check_action($Ledger->id);
+
   $Ledger->show_ledger();
   echo '</div>';
   exit();
