@@ -78,6 +78,7 @@ if ( $sa=='step2') {
   echo widget::hidden('p_action','ouv');
   echo widget::hidden('sa','step3');
   echo widget::hidden('f',$_REQUEST['f']);
+  $cn=DbConnect($_REQUEST['f']);
   $periode=make_array($cn,"select distinct p_exercice,p_exercice from parm_periode order by p_exercice");
   $w=new widget('select');
   $w->table=0;
