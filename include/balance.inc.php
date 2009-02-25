@@ -71,6 +71,8 @@ $journal->name="p_jrn";
 
 
 if ( isset($_POST['p_jrn'])) $journal->selected=$_POST['p_jrn'];
+	else
+	$journal->selected=-1;
 echo JS_SEARCH_POSTE;
 echo "Journal = ".$journal->IOValue();
 $from_poste=new widget("js_search_poste");
