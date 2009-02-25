@@ -155,11 +155,6 @@ if ( $def == 1 ) {
 //--------------------------------------------------------------------------------
 if ( $def == 2) {
 
- // Check privilege
-  if ( isset($_REQUEST['p_jrn']) && $jrn_priv=='X') {
-       NoAccess();
-       exit -1;
-  }
 
   echo '<div class="content">';
   if ( isset($_REQUEST['p_jrn']))
@@ -169,6 +164,12 @@ if ( $def == 2) {
     $Ledger->id=$def_ledger['jrn_def_id'];
   }
   $jrn_priv=$User->check_action($Ledger->id);
+
+ // Check privilege
+  if ( isset($_REQUEST['p_jrn']) && $jrn_priv=='X') {
+       NoAccess();
+       exit -1;
+  }
 
   $Ledger->show_ledger();
   echo '</div>';
