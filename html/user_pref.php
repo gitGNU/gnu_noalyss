@@ -71,14 +71,11 @@ if ( isset ( $_POST['p_size']) ) {
 //---------------------------------------------------------------------------
 // Here we put all the changes
 //---------------------------------------------------------------------------
-/*
+
 if ( isset ($_POST['val']) ){
-  // Change the top menu
-   $_SESSION['g_topmenu']=$_POST['topmenu']; 
-	$User->update_global_pref('TOPMENU',$_POST['topmenu']); 
+  // Change the mini report
    if ( isset ($_POST['minirap']))   $User->set_mini_report($_POST['minirap']);
 }
-*/
 // show the top menu depending of the use_style
 // comta style
 

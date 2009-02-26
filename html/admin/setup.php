@@ -116,7 +116,8 @@ if ( ! file_exists ( $file) ) {
 	       "AddDefaultCharset utf-8",
 	       "php_value error_reporting 10239",
 		  "php_flag short_open_tag on",
-	       "php_value upload_max_filesize 10M");
+	       "php_value upload_max_filesize 10M",
+		"php_value session.use_trans_sid 1");
 
   if ( $os == 0 )
     fwrite($hFile,'php_value include_path .;..\..\include;..\include;addon'."\n");
@@ -242,7 +243,7 @@ if ( $Res==0) { ?>
 $sql="select name,setting 
       from pg_settings 
       where 
-      name in ('effective_cache_size','shared_buffers','work_mem')";
+      name in ('effective_cache_size','shared_buffers')";
 $Res=ExecSql($cn,$sql);
 $flag=0;
 for ($e=0;$e<pg_NumRows($Res);$e++) {
@@ -262,14 +263,6 @@ for ($e=0;$e<pg_NumRows($Res);$e++) {
       $flag++;
     }
     break;
-  case 'work_mem':
-    if ( $a['setting'] < 8192 ){
-      print '<p class="warning">Attention le param&egrave;tre work_mem est de '.
-	$a['setting']." au lieu de 8192 </p>";
-    $flag++;
-    }
-    break;
-
   }
  }
 if ( $flag == 0 ) {

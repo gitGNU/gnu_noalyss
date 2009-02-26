@@ -60,10 +60,19 @@ echo $w->IOValue('to_periode',$periode_end);
 //-------------------------------------------------
 $l=new Acc_Ledger($cn,0);
 $journal=$l->select_ledger('ALL',3);
+
+/*  add a all ledger choice */
+$blank=array('value'=>-1,'label'=>'Tous les journaux ');
+$array=$journal->value;
+$array[]=$blank;
+$journal->value=$array;
+
 $journal->name="p_jrn";
 
 
 if ( isset($_POST['p_jrn'])) $journal->selected=$_POST['p_jrn'];
+	else
+	$journal->selected=-1;
 echo JS_SEARCH_POSTE;
 echo "Journal = ".$journal->IOValue();
 $from_poste=new widget("js_search_poste");
