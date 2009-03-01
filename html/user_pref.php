@@ -29,7 +29,6 @@ include_once ("postgres.php");
 $Rep=DbConnect();
 include_once ("class_user.php");
 require_once('class_dossier.php');
-require_once ('class_widget.php');
 $cn=DbConnect();
 
 /* if the dossier is not set then we have to connect to the

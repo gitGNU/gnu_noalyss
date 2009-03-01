@@ -18,9 +18,6 @@
 */
 
 
-/*!\todo remove the function 
- - GetTvaRate
- */
 
 
 /* $Revision$ */
@@ -28,36 +25,14 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 include_once("postgres.php");
+require_once("class_icheckbox.php");
+require_once("class_ihidden.php");
 require_once("class_document.php");
 require_once("class_acc_operation.php");
 /*! \file
  * \brief Common functions 
  */
 /*! 
- **************************************************
- *\brief  Return the rate of the p_tva_id
- *        
- * 
- * \param $p_cn database connection
- * \param $p_tva_id tva.tva_id
- *
- * \return
- *       an array containing the rate and the label
- *       the tva rate or null if a problem occured
- */
-
-function GetTvaRate($p_cn,$p_tva_id) {
-  // $p_tva_id is an empty string, returns 0
-  if (strlen(trim($p_tva_id))==0) return 0;
-
-  // Get vat info from the database
-  $Res=ExecSql($p_cn,"select tva_id,tva_rate,tva_label from tva_rate where tva_id=".$p_tva_id);
-  if (pg_NumRows($Res) == 0 ) return null;
-
-  $r=pg_fetch_array($Res,0);
-  return $r;
-
-}
 
 /*!   
  *\brief  show all the lines of the asked jrn, uses also the $_GET['o'] for the sort
@@ -420,12 +395,12 @@ $own=new Own($p_cn);
     // Show the paid column if p_paid is not null
     if ( $p_paid !=0 )
       {
-		$w=new widget("checkbox");
+		$w=new ICheckBox();
 		$w->name="rd_paid".$row['jr_id'];
 		$w->selected=($row['jr_rapt']=='paid')?true:false;
 		// if p_paid == 2 then readonly
 		$w->readonly=( $p_paid == 2)?true:false;
-		$h=new widget("hidden");
+		$h=new IHidden();
 		$h->name="set_jr_id".$row['jr_id'];
 		$r.='<TD>'.$w->IOValue().$h->IOValue().'</TD>';
 		if ( $row['jr_rapt']=='paid') 
@@ -706,7 +681,7 @@ function CleanUrl()
   }// if
 return $url;
 }
-function get_redirect($p_string) {
-  echo '<HTML><head><META HTTP-EQUIV="REFRESH" content="0;url='.$p_string.'"></head><body> Connecting... </body></html>';
+function redirect($p_string,$p_time=0) {
+  echo '<HTML><head><META HTTP-EQUIV="REFRESH" content="'.$p_time.';url='.$p_string.'"></head><body> Connecting... </body></html>';
 }
 ?>

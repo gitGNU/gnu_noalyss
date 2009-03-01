@@ -27,7 +27,10 @@ $User->can_request(GECOUR);
 //-----------------------------------------------------
 // Action
 //-----------------------------------------------------
-require_once("class_widget.php");
+require_once("class_icard.php");
+require_once("class_ispan.php");
+require_once("class_ifile.php");
+require_once("class_itext.php");
 require_once("class_action.php");
 
 /*!\brief Show the list of action, this code should be common
@@ -49,7 +52,7 @@ function ShowActionList($cn,$retour,$h_url)
    $a=(isset($_GET['query']))?$_GET['query']:"";
    $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
    echo JS_SEARCH_CARD;
-   $w=new widget('js_search_only');
+   $w=new ICard();
    $w->name='qcode';
    $w->value=$qcode;
    $w->label='Quick Code1';
@@ -61,8 +64,8 @@ function ShowActionList($cn,$retour,$h_url)
 	   $a);
 
 
-   $sp= new widget("span");
-   echo $sp->IOValue("qcode_label","",$qcode);
+   $sp=new ISpan("qcode_label",$qcode);
+   echo $sp->IOValue();
 
 
 ?>
@@ -254,7 +257,7 @@ if ( $sub_action=='detail' )
   echo $act->display('UPD',false);
   echo '<input type="hidden" name="p_action" value="suivi_courrier">';
   echo '<input type="hidden" name="sa" value="update">';
-  $upload=new widget("file");
+  $upload=new IFile();
   $upload->name="file_upload";
   $upload->value="";
   echo "Enregistrer le fichier ".$upload->IOValue();
@@ -297,7 +300,6 @@ if ( $sub_action == 'delete' )
       echo '<input type="hidden" name="p_action" value="suivi_courrier">';
       echo '<input type="hidden" name="sa" value="delete">';
       echo '<input type="hidden" name="ag_id" value="'.$act->ag_id.'">';
-      $upload=new widget("text");
       echo widget::submit("confirm_delete","Confirmer l'effacement");
       
       echo '</form>';

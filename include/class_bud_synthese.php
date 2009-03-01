@@ -30,7 +30,6 @@
  */
 require_once ('class_dossier.php');
 require_once ('class_bud_hypo.php');
-require_once ('class_widget.php');
 
 class Bud_Synthese {
   var $cn;			/*!< database connection */

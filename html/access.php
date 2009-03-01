@@ -23,6 +23,8 @@
 /*!\file 
  * \brief first page
  */
+require_once("class_idate.php");
+require_once("class_itext.php");
 require_once ('constant.php');
 require_once ('ac_common.php');
 require_once ('class_user.php');

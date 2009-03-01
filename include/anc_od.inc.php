@@ -26,8 +26,9 @@
  * \brief Misc Operation for analytic accountancy
  *
  */
+require_once("class_ihidden.php");
+require_once("class_iselect.php");
 require_once("class_anc_account.php");
-require_once ("class_widget.php");
 require_once ("class_anc_operation.php");
 require_once ("class_anc_plan.php");
 require_once ("class_anc_group_operation.php");
@@ -77,7 +78,7 @@ echo '
 ';
 
  echo dossier::hidden();
- $hid=new widget("hidden");
+ $hid=new IHidden();
  
  $hid->name="p_action";
  $hid->value="ca_od";
@@ -87,7 +88,7 @@ echo '
  $hid->value="";
  echo $hid->IOValue();
 
- $w=new widget("select");
+ $w=new ISelect();
  $w->name="p_periode";
  // filter on the current year
  $filter_year=" where p_exercice='".$User->get_exercice()."'";
@@ -126,7 +127,7 @@ if ( isset($_GET['new'])) {
 	//------------------------------------------
   $a=new Anc_Group_Operation($cn);
   echo JS_CAOD_COMPUTE;
-  $wSubmit=new widget('hidden',"p_action","ca_od");
+  $wSubmit=new IHidden("p_action","ca_od");
   $wSubmit->table=0;
   echo '<div class="u_redcontent">';
   echo '<form method="post">';

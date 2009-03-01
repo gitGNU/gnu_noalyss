@@ -24,6 +24,7 @@
   \brief manage the simple balance for CA, inherit from balance_ca
  */
 
+require_once("class_ihidden.php");
 require_once ('class_anc_print.php');
 require_once ('class_anc_plan.php');
 require_once ('ac_common.php');
@@ -247,9 +248,9 @@ class Anc_Balance_Simple extends Anc_Print {
   function show_button($url_csv,$url_pdf,$p_string="") 
   {
 	$r="";
-	$submit=new widget();
+INVALIDWIDGET 	$submit=new widget();
 	$submit->table=0;
-	$hidden=new widget("hidden");
+	$hidden=new IHidden();
 	$r.= '<form method="GET" action="'.$url_pdf.'" style="display:inline">';
 	$r.= $p_string;
 	$r.= dossier::hidden();

@@ -27,9 +27,12 @@
 /*! \brief group of object operations, used for misc operation
  *
  */
+require_once("class_idate.php");
+require_once("class_itext.php");
+require_once("class_iselect.php");
+require_once("class_icheckbox.php");
 require_once ("class_anc_operation.php");
 require_once ("postgres.php");
-require_once ("class_widget.php");
 require_once ('class_anc_plan.php');
 require_once ('class_dossier.php');
 
@@ -67,12 +70,12 @@ class Anc_Group_Operation
    *
    */
   function form($p_readonly=0){
-	$wDate=new widget("js_date","Date : ","pdate",$this->date);
+	$wDate=new IDate("Date : ","pdate",$this->date);
 	$wDate->table=1;
 	$wDate->size=10;
 	$wDate->readonly=$p_readonly;
 
-	$wDescription=new widget("text","Description","pdesc");
+	$wDescription=new IText("Description","pdesc");
 	$wDescription->table=0;
 	$wDescription->size=80;
 	$wDescription->readonly=$p_readonly;
@@ -121,7 +124,7 @@ class Anc_Group_Operation
 	      {
 		$idx=$d['id'];
 		// init variable
-		$wSelect=new widget("select","","pop".$i."plan".$idx);
+		$wSelect=new ISelect("","pop".$i."plan".$idx);
 		$wSelect->value=$aPoste[$idx];
 		$wSelect->table=1;
 		$wSelect->size=12;
@@ -132,13 +135,13 @@ class Anc_Group_Operation
 		}
 		$ret.=$wSelect->IOValue();
 	      }
-	    $wAmount=new widget("text","","pamount$i",0.0);
+	    $wAmount=new IText("","pamount$i",0.0);
 	    $wAmount->size=12;
 	    $wAmount->table=1;
 	    $wAmount->javascript=" onChange=caod_checkTotal()";
 	    $wAmount->readonly=$p_readonly;
 	    
-	    $wDebit=new widget("checkbox","","pdeb$i");
+	    $wDebit=new ICheckBox("","pdeb$i");
 	    $wDebit->table=1;
 	    $wDebit->readonly=$p_readonly;
 	    $wDebit->javascript=" onChange=caod_checkTotal()";

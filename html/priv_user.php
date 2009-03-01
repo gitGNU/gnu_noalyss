@@ -37,25 +37,18 @@ if ($User->admin != 1) {
   return;
 }
 
-if (! isset ($_GET['UID']) && ! isset($_POST['UID']) ) {
-  //Message d'erreur si UID non positionné
-  echo_debug('priv_user.php',__LINE__,"UID NOT DEFINED");
-  html_page_stop();
-  return;
+if (! isset ($_REQUEST['UID'])  ) {
+   html_page_stop();
+  exit();
 }
-$uid=( isset ($_GET['UID']))? $_GET['UID']: $_POST['UID'];
+$uid=$_REQUEST['UID'];
 $UserChange=new User($rep,$uid);
-
-echo_debug('priv_user.php',__LINE__,"UID IS DEFINED");
 
 $r_UID=$UserChange->id;
 if ( $r_UID == false ) {
-  echo_debug('priv_user.php',__LINE__,"UID NOT VALID");
   // Message d'erreur
   html_page_stop();
-  return;
 }
-echo_debug('priv_user.php',__LINE__,"UID IS VALID");
 echo '<H2 class="info"> Administration Globale</H2>';
 
 echo "<div>".MenuAdmin()."</div>";
@@ -85,47 +78,43 @@ if ( isset ($_POST['SAVE']) ){
 
   // Update User 
   $cn=DbConnect();
-  $last_name=pg_escape_string($_POST['fname']);
-  $first_name=pg_escape_string($_POST['lname']);
+  $last_name=$_POST['fname'];
+  $first_name=$_POST['lname'];
+  $UserChange=new User($cn,$uid);
+  if ( $UserChange->load()==-1) { 
+	alert("Cet utilisateur n'existe pas");} 
+  else {
+	  $UserChange->first_name=$first_name;
+	  $UserChange->last_name=$last_name;
+	  $UserChange->active=$_Post['Actif'];
+	  $UserChange->admin=$_POST['Admin'];
+	  $UserChange->save();
+	 
+	  // Update Priv on Folder
+	  foreach ($_POST as $name=>$elem)
+	    { 
+	      echo_debug('priv_user.php',__LINE__,"_POST $name $elem");
+	      if ( substr_count($name,'PRIV')!=0 )
+	      {
+			echo_debug('priv_user.php',__LINE__,"Found a priv");
+			$db_id=substr($name,4);
+			$cn=DbConnect();
+			$UserChange->set_folder_access($db_id,$elem);
+			
+	     }
 
-  $Sql="update ac_users set use_first_name='".$first_name."', use_name='".$last_name."'
-        ,use_active=".$_POST['Actif'].",use_admin=".$_POST['Admin']." where
-         use_id=".$uid;
-  $Res=ExecSql($cn,$Sql);
-  // Update Priv on Folder
-  foreach ($_POST as $name=>$elem)
-    { 
-      echo_debug('priv_user.php',__LINE__,"_POST $name $elem");
-      if ( substr_count($name,'PRIV')!=0 )
-      {
-	echo_debug('priv_user.php',__LINE__,"Found a priv");
-	$db_id=substr($name,4);
-	$cn=DbConnect();
-	if ( ExisteJnt($db_id,$uid) != 1 ) 
-	  {
-	  $Res=ExecSql($cn,"insert into jnt_use_dos(dos_id,use_id) values(".$db_id.",".$uid.")"); 
-	  }
-	
-	$jnt=GetJnt($db_id,$uid);
-	if (ExistePriv($jnt) > 0) 
-	  {
-	    $Res=ExecSql($cn,"update priv_user set priv_priv='".$elem."' where priv_jnt=".$jnt);
-	  } else {
-	   $Res=ExecSql($cn,"insert into  priv_user(priv_jnt,priv_priv) values (".$jnt.",'".$elem."')");
-	  }
-	
-      }
-
-    }
+	    }
+	}
 } else {
   if ( isset ($_POST["DELETE"]) ) {
     $cn=DbConnect();
-    $Res=ExecSql($cn,"delete from priv_user where priv_jnt in ( select jnt_id from jnt_use_dos where use_id=".$uid.")");
-    $Res=ExecSql($cn,"delete from jnt_use_dos where use_id=".$uid);
-    $Res=ExecSql($cn,"delete from ac_users where use_id=".$uid);
+    $Res=ExecSqlParam($cn,"delete from priv_user where priv_jnt in ( select jnt_id from jnt_use_dos where use_id=$1",array($uid));
+    $Res=ExecSqlParam($cn,"delete from jnt_use_dos where use_id=$1",array($uid));
+    $Res=ExecSqlParam($cn,"delete from ac_users where use_id=$1",array($uid));
 
-    echo "<center><H2 class=\"info\"> User ".$_POST['fname']." ".$_POST['lname']." (".
-      $_POST['login'].") is deleted </H2></CENTER>";
+    echo "<center><H2 class=\"info\"> User ".h($_POST['fname'])." ".h($_POST['lname'])." (".
+      h($_POST['login']).") est effacé</H2></CENTER>";
+require_once("class_iselect.php");
     require_once("user.inc.php");
     return;
   }
@@ -198,17 +187,17 @@ $array=array(
 
 $Dossier=ShowDossier('all',1,0);
 if (  empty ( $Dossier )) {
-	echo '* Aucun Dossier *';
+	echo hb('* Aucun Dossier *');
 	echo '</div>';
 	exit();
 }
 $mod_user=new User(DbConnect(),$uid);
 foreach ( $Dossier as $rDossier) {
 
-  $priv=$mod_user->get_privilege($rDossier['dos_id']);
+  $priv=$mod_user->get_folder_access($rDossier['dos_id']);
   printf("<TR><TD> Dossier : %s </TD>",$rDossier['dos_name']);
   
-  $select=new widget('select');
+  $select=new ISelect();
   $select->table=1;
   $select->name=sprintf('PRIV%s',$rDossier['dos_id']);
   $select->value=$array;

@@ -18,9 +18,16 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+require_once("class_iselect.php");
+require_once("class_icard.php");
+require_once("class_ispan.php");
+require_once("class_ihidden.php");
+require_once("class_idate.php");
+require_once("class_itext.php");
+require_once("class_iposte.php");
+require_once("class_icheckbox.php");
 require_once('class_fiche.php');
 require_once('class_user.php');
-require_once ('class_widget.php');
 require_once ('class_dossier.php');
 require_once ('class_own.php');
 require_once ('class_anc_operation.php');
@@ -440,7 +447,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
    */
   public function show_ledger() {
 
-    $w=new widget("select");
+    $w=new ISelect("p_periode",$periode_start);
     $User=new User($this->db); 
     // filter on the current year
     $filter_year=" where p_exercice='".$User->get_exercice()."'";
@@ -449,7 +456,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
     $w->selected=$current;
     
-    echo 'Période  '.$w->IOValue("p_periode",$periode_start);
+    echo 'Période  '.$w->IOValue();
 
     $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
 
@@ -457,18 +464,17 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     echo JS_SEARCH_CARD;
     echo JS_PROTOTYPE;
     echo JS_AJAX_FICHE;
-    $w=new widget('js_search_only');
+    $w=new ICard();
     $w->name='qcode';
     $w->value=$qcode;
     $w->label='';
     $w->extra='filter';
     $w->extra2='QuickCode';
-    $w->table=0;
-    $sp= new widget("span"); 
-    echo $sp->IOValue("qcode_label","",$qcode); 
+    $sp=new ISpan("qcode_label","",$qcode);
+    echo $sp->IOValue(); 
     echo $w->IOValue();
 
-    echo widget::submit('gl_submit','Recherche');
+    echo HtmlInput::submit('gl_submit','Recherche');
  // Show list of sell
  // Date - date of payment - Customer - amount
     if ( $current == -1) {
@@ -497,7 +503,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     
     echo "<hr>$bar";
     echo dossier::hidden();  
-    $hid=new widget("hidden");
+
     
     echo $list;
 
@@ -796,7 +802,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
    * writable ledger.
    * \param $p_type = ALL or the type of the ledger (ACH,VEN,FIN,ODS)
    * \param $p_access =3 for READ and WRITE, 2 for write and 1 for readonly
-   * \return object widget select
+   * \return object HtmlInput select
    */
   function select_ledger($p_type="ALL",$p_access=3) {
     $user=new User($this->db);
@@ -812,7 +818,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
       $idx++;
     }
 
-    $select=new widget("select");
+    $select=new ISelect();
     $select->name='p_jrn';
     $select->value=$ret;
     $select->selected=$this->id;
@@ -887,19 +893,19 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     $ret.="<th> D&eacute;bit</th>";
     $ret.="</tr>";
     $own=new own($this->db);
-    $hidden=new widget('hidden');
-    $ret.=$hidden->IOValue('date',$date);
-    $ret.=$hidden->IOValue('desc',$desc);
-    $ret.=widget::hidden('e_pj',$e_pj);
-    $ret.=widget::hidden('e_pj_suggest',$e_pj_suggest);
+
+    $ret.=HtmlInput::hidden('date',$date);
+    $ret.=HtmlInput::hidden('desc',$desc);
+    $ret.=HtmlInput::hidden('e_pj',$e_pj);
+    $ret.=HtmlInput::hidden('e_pj_suggest',$e_pj_suggest);
 
     // For predefined operation
-    $ret.=$hidden->IOValue('e_comm',$desc);
-    $ret.=$hidden->IOValue('jrn_type',$this->get_type());
-    $ret.=$hidden->IOValue('p_jrn',$this->id);
-    $ret.=$hidden->IOValue('nb_item',$nb_item);
+    $ret.=HtmlInput::hidden('e_comm',$desc);
+    $ret.=HtmlInput::hidden('jrn_type',$this->get_type());
+    $ret.=HtmlInput::hidden('p_jrn',$this->id);
+    $ret.=HtmlInput::hidden('nb_item',$nb_item);
     if ( $this->with_concerned==true) {
-      $ret.=$hidden->IOValue('jrn_concerned',$jrn_concerned);
+      $ret.=HtmlInput::hidden('jrn_concerned',$jrn_concerned);
     }
     $ret.=dossier::hidden();
     $count=0;
@@ -911,7 +917,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 	$strPoste=$oqc->strAttribut(ATTR_DEF_ACCOUNT);
 	$ret.="<td>".
 	  ${'qc_'.$i}.' - '.
-	  $oqc->strAttribut(ATTR_DEF_NAME).$hidden->IOValue('qc_'.$i,${'qc_'.$i}).
+	  $oqc->strAttribut(ATTR_DEF_NAME).HtmlInput::hidden('qc_'.$i,${'qc_'.$i}).
 			'</td>';
       }
 
@@ -919,17 +925,17 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 	$oposte=new Acc_Account_Ledger($this->db,${'poste'.$i});
 	$strPoste=$oposte->id;
 	$ret.="<td>".h(${"poste".$i}." - ".
-	      $oposte->get_name()).$hidden->IOValue('poste'.$i,${'poste'.$i}).
+	      $oposte->get_name()).HtmlInput::hidden('poste'.$i,${'poste'.$i}).
              '</td>';
       }
 
       if ( trim(${'qc_'.$i})=="" && trim(${'poste'.$i}) == "") 
 	continue;
-      $ret.="<td>".h(${"ld".$i}).$hidden->IOValue('ld'.$i,${'ld'.$i})."</td>";
-      $ret.="<td>".${"amount".$i}.$hidden->IOValue('amount'.$i,${'amount'.$i})."</td>";
+      $ret.="<td>".h(${"ld".$i}).HtmlInput::hidden('ld'.$i,${'ld'.$i})."</td>";
+      $ret.="<td>".${"amount".$i}.HtmlInput::hidden('amount'.$i,${'amount'.$i})."</td>";
       $ret.="<td>";
       $ret.=(isset(${"ck$i"}))?"D":"C";
-      $ret.=(isset(${"ck$i"}))?$hidden->IOValue('ck'.$i,${'ck'.$i}):"";
+      $ret.=(isset(${"ck$i"}))?HtmlInput::hidden('ck'.$i,${'ck'.$i}):"";
       $ret.="</td>";
       // CA 
 
@@ -980,8 +986,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     // 
     $ret.="<table>";
     $ret.= '<tr><td>';
-    $wDate=new widget('js_date','Date','date');
-    $wDate->table=1;
+    $wDate=new IDate('Date','date');
     $wDate->readonly=$p_readonly;
     $date=(isset($date)&&trim($date)!='')?$date:'';
     if (trim($date)=='') {
@@ -996,16 +1001,14 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     $ret.= '</td></tr>';
 
     $ret.= '<tr><td>';
-    $wDescription=new widget('text',"Description",'desc');
+    $wDescription=new IText("Description",'desc');
     $wDescription->readonly=$p_readonly;
-    $wDescription->table=1;
     $wDescription->value=(isset($desc))?$desc:'';
     $ret.=$wDescription->IOValue();
     $ret.= '</td>';
 
-    $wPJ=new widget('text',"PJ Num: ",'e_pj');
+    $wPJ=new IText("PJ Num: ",'e_pj');
     $wPJ->readonly=false;
-    $wPJ->table=1;
     $wPJ->size=10;
 
     /* suggest PJ ? */
@@ -1017,19 +1020,19 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     $wPJ->value=(isset($e_pj))?$e_pj:$default_pj;
 
     $ret.=$wPJ->IOValue();
-    $ret.=widget::hidden('e_pj_suggest',$default_pj);
+    $ret.=HtmlInput::hidden('e_pj_suggest',$default_pj);
     $ret.= '</td></tr>';
 
     $ret.= '</table>';
     $nb_row=(isset($nb_item) )?$nb_item:$this->nb;
 
-    $ret.=widget::hidden('nb_item',$nb_row);
+    $ret.=HtmlInput::hidden('nb_item',$nb_row);
     $ret.=dossier::hidden();
-    $hidden=new widget('hidden');
-    $ret.=$hidden->IOValue('p_jrn',$this->id);
-    $ret.=$hidden->IOValue('jrn_type',$this->get_type());
-    $info= widget::infobulle(0);
-    $info_poste=widget::infobulle(9);
+
+    $ret.=HtmlInput::hidden('p_jrn',$this->id);
+    $ret.=HtmlInput::hidden('jrn_type',$this->get_type());
+    $info= HtmlInput::infobulle(0);
+    $info_poste=HtmlInput::infobulle(9);
     $ret.='<table id="quick_item" style="width:100%">';
     $ret.='<tr>'.
       '<th colspan="2">Quickcode'.$info.'</th>'.
@@ -1042,7 +1045,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 
     for ($i = 0 ;$i<$nb_row;$i++){
       // Quick Code
-      $quick_code=new widget('js_search_card_control');
+INVALIDHTMLINPUT       $quick_code=new HtmlInput('js_search_card_control');
       $quick_code->name='qc_'.$i;
       $quick_code->ctrl="ld".$i;
       $quick_code->value=(isset(${'qc_'.$i}))?${'qc_'.$i}:"";
@@ -1064,7 +1067,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 
 
       // Account 
-      $poste=new widget('js_search_poste');
+      $poste=new IPoste();
       $poste->name='poste'.$i;
       $poste->value=(isset(${'poste'.$i}))?${"poste".$i}:'';
       $poste->readonly=$p_readonly;
@@ -1079,20 +1082,20 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
       }
 
       // Description of the line
-      $line_desc=new widget('text');
+      $line_desc=new IText();
       $line_desc->name='ld'.$i;
       $line_desc->size=30;
       $line_desc->value=(isset(${"ld".$i}))?${"ld".$i}:$label;
 
       // Amount
-      $amount=new widget('text');
+      $amount=new IText();
       $amount->size=10;
       $amount->name='amount'.$i;
       $amount->value=(isset(${'amount'.$i}))?${"amount".$i}:'';
       $amount->readonly=$p_readonly;
       $amount->javascript=' onChange="checkTotalDirect()"';
       // D/C
-      $deb=new widget('checkbox');
+      $deb=new ICheckBox();
       $deb->name='ck'.$i;
       $deb->selected=(isset(${'ck'.$i}))?true:false;
       $deb->readonly=$p_readonly;
@@ -1112,7 +1115,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     $ret.='</table>';
     if ( isset ($this->with_concerned) && $this->with_concerned==true) {
       $oRapt=new Acc_Reconciliation($this->db);
-      $w=$oRapt->widget();
+      $w=$oRapt->HtmlInput();
       $w->name='jrn_concerned';
       $w->value=(isset($jrn_concerned))?$jrn_concerned:"";
       $ret.="R&eacute;conciliation/rapprochements : ".$w->IOValue();
@@ -1583,13 +1586,13 @@ function get_last_date()
     // Vide
     echo '<FORM method="post">';
     echo $a->select_ledger()->IOValue();
-    echo widget::submit('go','Test it');
+    echo HtmlInput::submit('go','Test it');
     echo '</form>';
     if ( isset($_POST['go'])) {
       echo "Ok ";
       echo '<form method="post">';
       echo $a->show_form();
-      echo widget::submit('post_id','Try me');
+      echo HtmlInput::submit('post_id','Try me');
       echo '</form>';
       // Show the predef operation
       // Don't forget the p_jrn 
@@ -1601,7 +1604,7 @@ function get_last_date()
       $op->od_direct='t';
       if ($op->count() != 0 ) {
 	print_r("Count != 0");
-	echo widget::submit('use_opd','Utilisez une op.pr&eacute;d&eacute;finie');
+	echo HtmlInput::submit('use_opd','Utilisez une op.pr&eacute;d&eacute;finie');
 	echo $op->show_button();
       }
       echo '</form>';
@@ -1612,8 +1615,8 @@ function get_last_date()
 
       echo '<form method="post">';
       echo $a->show_form($_POST,1);
-      echo widget::button('add','Ajout d\'une ligne','onClick="quick_writing_add_row()"');
-      echo widget::submit('save_it',"Sauver");
+      echo HtmlInput::button('add','Ajout d\'une ligne','onClick="quick_writing_add_row()"');
+      echo HtmlInput::submit('save_it',"Sauver");
       echo '</form>';
       exit();
     }
@@ -1624,11 +1627,11 @@ function get_last_date()
       try {
 	$a->save($array);
       } catch (AcException $e) {
-	echo '<script>alert (\''.$e->getMessage()."'); </script>";
+	alert($e->getMessage());
 	echo '<form method="post">';
 
 	echo $a->show_form($_POST);
-	echo widget::submit('post_id','Try me');
+	echo HtmlInput::submit('post_id','Try me');
 	echo '</form>';
 	 
       }
@@ -1646,7 +1649,7 @@ function get_last_date()
       echo '<FORM method="post">';
 
       echo $a->show_form($p_post);
-      echo widget::submit('post_id','Use predefined operation');
+      echo HtmlInput::submit('post_id','Use predefined operation');
       echo '</form>';
       exit();
 

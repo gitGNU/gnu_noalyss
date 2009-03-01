@@ -17,7 +17,6 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 /* $Revision$ */
-include_once("class_widget.php");
 /*! \file
  * \brief print first the report in html and propose to print it in pdf
  *        file included by user_impress
@@ -32,6 +31,9 @@ include_once("class_widget.php");
 // after in pdf or cvs
 //-----------------------------------------------------
 if ( isset( $_GET['bt_html'] ) ) {
+require_once("class_ihidden.php");
+require_once("class_iselect.php");
+require_once("class_idate.php");
   require_once("class_acc_report.php");
   $Form=new Acc_Report($cn,$_GET['form_id']);
   $Form->get_name();
@@ -57,8 +59,8 @@ if ( isset( $_GET['bt_html'] ) ) {
 
 
   $rep="";
-  $submit=new widget();
-  $hid=new widget("hidden");
+INVALIDWIDGET   $submit=new widget();
+  $hid=new IHidden();
   echo '<div class="content">';
   if ( $_GET['type_periode'] == 0) {
 	$t=($_GET['from_periode']==$_GET['to_periode'])?"":" -> ".getPeriodeName($cn,$_GET['to_periode'],'p_end');
@@ -153,13 +155,13 @@ if ( sizeof($ret) == 0 ) {
 //-----------------------------------------------------
 echo '<div class="content">';
 echo '<FORM METHOD="GET">';
-$hidden=new widget("hidden");
+$hidden=new IHidden();
 echo $hidden->IOValue("p_action","impress");
 echo $hidden->IOValue("type","rapport");
 echo 	dossier::hidden();
 
 echo '<TABLE border="2"><TR>';
-$w=new widget("select");
+$w=new ISelect();
 $w->table=1;
 $w->label="Choississez le rapport";
 print $w->IOValue("form_id",$ret);
@@ -176,7 +178,7 @@ $periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_p
 print $w->IOValue('to_periode',$periode_end);
 print "</TR>";
 //--- by date
-$date=new widget('js_date');
+$date=new IDate();
 $date->table=1;
 $date->label="Calendrier depuis :";
 echo $date->IOValue('from_date');

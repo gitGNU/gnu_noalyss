@@ -100,7 +100,7 @@ class widget {
     $this->javascript="";
 	$this->extra2="all";
   }
-  function SetReadOnly($p_read) {
+  function setReadOnly($p_read) {
     $this->readonly=$p_read;
   }
   /*!  function IOValue($p_name,$p_value="",$p_label="") 
@@ -176,10 +176,8 @@ class widget {
       if ( $this->readonly==true) 
 	{
 	  $r="";
-	  echo_debug('class_widget.php',__LINE__,"this->selected = ".$this->selected); 
 	  for ( $i=0;$i<sizeof($this->value);$i++) 
 	    {
-	      echo_debug('class_widget.php',__LINE__,"check for ".$this->value[$i]['value']);
 	      if ($this->selected==$this->value[$i]['value'] ) 
 		{
 		  $r=h($this->value[$i]['label']);

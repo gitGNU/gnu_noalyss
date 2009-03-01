@@ -84,7 +84,7 @@ if ( $def == 1 ) {
     try {
       $Ledger->verify($_POST);
     } catch (AcException $e) {
-      echo '<script> alert("'.$e->getMessage().'");</script>';
+      alert($e->getMessage());
       $correct=1;
     }
     if ( ! isset ($correct )) {
@@ -108,7 +108,7 @@ if ( $def == 1 ) {
     try {
       $Ledger->verify($_POST);
     } catch (AcException $e) {
-      echo '<script> alert("'.$e->getMessage().'");</script>';
+      alert($e->getMessage());
       $correct=1;
     }
     if ( !isset($correct)) {

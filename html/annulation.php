@@ -29,7 +29,8 @@ include_once("user_common.php");
 include_once("check_priv.php");
 include_once ("postgres.php");
 include_once("jrn.php");
-require_once("class_widget.php");
+require_once("class_itext.php");
+require_once("class_ibutton.php");
 require_once("class_acc_ledger.php");
 require_once("class_acc_operation.php");
 require_once ('class_periode.php');
@@ -385,8 +386,8 @@ echo '<div align="center"> Op&eacute;ration '.$l_array['jr_internal'].'</div>
 <div>
 <form action="'.$_SERVER['REQUEST_URI'].'" method="post" >';
 
-$a=new widget("text");
-$a->SetReadOnly(false);
+$a=new IText();
+$a->setReadOnly(false);
 
 echo '<div style="border-style:solid;border-width:1pt;">';
 
@@ -421,7 +422,7 @@ if ( $a != null ) {
 $operation=new Acc_Operation($cn);
 $operation->jr_id=$element;
 
-    $w=new widget("button");
+    $w=new IButton();
     $w->label=$operation->get_internal();
     $w->javascript="modifyOperation('".$element."','".$_REQUEST['PHPSESSID']."',".dossier::id().
       ','.$_REQUEST['p_jrn'].",'S')";

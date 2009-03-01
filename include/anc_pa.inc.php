@@ -25,6 +25,7 @@
  * \brief Plan Analytique
  *
  */
+require_once("class_ihidden.php");
 require_once("class_anc_plan.php");
 require_once("class_anc_account.php");
 $ret="";
@@ -40,7 +41,7 @@ if ( isset($_REQUEST['sa']))
 	// show the form for adding a pa
 	if ( $sa == "add_pa")
 	  {
-		$wAction=new widget("hidden","","p_action","ca_pa");
+		$wAction=new IHidden("","p_action","ca_pa");
 		$new=new Anc_Plan($cn);
 		if ( $new->isAppend() == true)
 		  {
@@ -49,7 +50,7 @@ if ( isset($_REQUEST['sa']))
 			$ret.= '<form method="post">';
 			$ret.=dossier::hidden();
 			$ret.= $new->form();
-			$wSa=new widget("HIDDEN","","sa","pa_write");
+			$wSa=new IHidden("","sa","pa_write");
 			$wSa->value="pa_write";
 			$ret.= $wSa->IOValue();
 			$ret.= $wAction->IOValue();
@@ -89,8 +90,8 @@ if ( isset($_REQUEST['sa']))
 	if ( $sa == "pa_detail" )
 	  {
 		$new=new Anc_Plan($cn,$_GET['pa_id']);
-		$wAction=new widget("hidden","","p_action","ca_pa");
-		$wSa=new widget("HIDDEN","","sa","pa_update");
+		$wAction=new IHidden("","p_action","ca_pa");
+		$wSa=new IHidden("","sa","pa_update");
 
 		$new->get();
    
@@ -127,7 +128,7 @@ if ( isset($_REQUEST['sa']))
 	  {
 		$po=new Anc_Account($cn);
 		$po->pa_id=$_REQUEST['pa_id'];
-		$wSa=new widget("hidden","sa","sa","po_write");
+		$wSa=new IHidden("sa","sa","po_write");
 		$ret.='<div class="u_redcontent">';
 		$ret.='<form method="post">';
 		$ret.=dossier::hidden();
@@ -158,7 +159,7 @@ if ( isset($_REQUEST['sa']))
 	 */
 	if ( $sa=="po_detail")
 	  {
-		$wHidden=new widget('hidden','','sa','po_update');
+		$wHidden=new IHidden('','sa','po_update');
 		$po=new Anc_Account($cn,$_GET['po_id']);
 		$po->get_by_id();
 		$ret.='<div class="u_redcontent">';

@@ -17,7 +17,6 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 /* $Revision$ */
-include_once("class_widget.php");
 /*! \file
  * \brief print the listing of customer for vat
  */
@@ -30,6 +29,7 @@ include_once("class_widget.php");
 // Submit Html
 //-----------------------------------------------------
 if ( isset($_POST['bt_html'] )) {
+require_once("class_iselect.php");
   require_once("class_customer.php");
   $customer=new Customer($cn);
   $a_Res=$customer->VatListing($_POST['year']);
@@ -65,7 +65,7 @@ echo "
 //-----------------------------------------------------
 // Form
 //-----------------------------------------------------
-$w=new widget("select");
+$w=new ISelect();
 $w->table=1;
 
 echo '<div class="u_redcontent">';

@@ -29,7 +29,7 @@
 
 include_once("constant.php");
 require_once('class_dossier.php');
-
+require_once('ac_common.php');
 class User {
   var $id;
   var $pass;
@@ -100,6 +100,13 @@ class User {
     $this->admin=$row['use_admin'];
 
   }
+  function save() {
+   
+  $Sql="update ac_users set use_first_name=$1, use_name=$2
+        ,use_active=$3,use_admin=$4 where use_id=$5";
+		
+  $Res=ExecSqlParam($cn,$Sql,array($this->first_name,$this->last_name,$this->active,$this->admin,$this->id));
+  }
   /*!
    * \brief Check if user is active and exists in therepository
    * Automatically redirect, it doesn't check if a user can access a folder
@@ -140,12 +147,8 @@ class User {
     }
 	  
     if ( $res == 0  ) {
-      echo '<META HTTP-EQUIV="REFRESH" content="4;url=index.html">';
-      echo "<BR><BR><BR><BR><BR><BR>";
-      echo "<P ALIGN=center><BLINK>
-			<FONT size=+12 COLOR=RED>
-			utilisateur ou mot de passe incorrect 
-			</FONT></BLINK></P></BODY></HTML>";
+	  alert('Utilisateur ou mot de passe incorrect');
+      redirect('index.html');
       session_unset();
 		
       exit -1;			
@@ -167,13 +170,26 @@ class User {
   function get_folder_access($p_dossier = 0) {
     if ($p_dossier==0)
       $p_dossier=dossier::id();
-
+    if ( $this->isAdmin() == 1) return 'L';
     $cn=DbConnect();
     $sql="select priv_priv from priv_user join jnt_use_dos on (jnt_id=priv_jnt) join ac_users using (use_id)
 where use_id=$1 and dos_id=$2";
     $res=getDbValue($cn,$sql,array($this->id,$p_dossier));
+	if ( $res=='') return 'X';
     return $res;
   }
+  /*\brief save the access of a folder 
+       *\param $db_id the dossier id 
+	 *\param $priv the priv. to set
+	 */
+  function set_folder_access($db_id,$priv) {
+    $cn=DbConnect();
+	$jnt=getDbValue($cn,"select jnt_id from jnt_use_dos where dos_id=$1 and use_id=$2",array($db_id,$this->id));
+	if ( $jnt=='' ) {$Res=ExecSqlParam($cn,"insert into jnt_use_dos(dos_id,use_id) values($1,$2)",array($db_id,$this->id)); 
+		$jnt=getDbValue($cn,"select jnt_id from jnt_use_dos where dos_id=$1 and use_id=$2",array($db_id,$this->id));}
+	$Res=ExecSql($cn,"update priv_user set priv_priv=$1 where priv_jnt=$2",array($priv,$jnt));
+	
+	}
   /*!\brief check that a user is valid and the access to the folder
    * \param $p_ledger the ledger to check
    *\return the priv_priv 
@@ -544,28 +560,7 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
 
       }
   }
-  /*!   
-   * \brief Get the privilege of an user on a folder
-   */
-  function get_privilege($p_dossier)
-  {
-    /* you must be connected to the repository */
-    $sql="select priv_priv 
-       from priv_user  left join jnt_use_dos on jnt_id=priv_jnt
-	inner join ac_users on ac_users.use_id=jnt_use_dos.use_id
-       where ac_users.use_id=$1 and dos_id=$2";
-
-
-    $Res=ExecSqlParam($this->db,$sql,array($this->id,$p_dossier));
-    
-    $Num=pg_NumRows($Res);
-	
-    /* If nothing is found there is no access */
-    if ( $Num==0)       return 'X';
-    
-    $priv=pg_fetch_row($Res,0);
-    return $priv[0];
-  }
+  
   /*! 
    * \brief  Check if an user is an local administrator
    * 
@@ -615,7 +610,7 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
   function check_dossier($p_dossier_id) 
   {
     $this->Admin();
-    if ( $this->admin==1) return 'L';
+    if ( $this->admin==1 || $this->is_local_admin($p_dossier_id)==1) return 'L';
     $cn=DbConnect();
 
     $dossier=getDbValue($cn,"select priv_priv from jnt_use_dos join priv_user on (priv_jnt=jnt_id) where dos_id=$1 and use_id=$2",

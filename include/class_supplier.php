@@ -21,7 +21,6 @@
 require_once("constant.php");
 require_once("postgres.php");
 require_once("class_acc_parm_code.php");
-require_once("class_widget.php");
 require_once('class_periode.php');
 require_once('class_fiche.php');
 require_once('class_acc_account_ledger.php');

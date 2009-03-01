@@ -24,9 +24,9 @@
 /*!
  * \brief Manage the account from the table tmp_pcmn
  */
+require_once("class_iselect.php");
 require_once ('postgres.php');
 require_once ('class_dossier.php');
-require_once ('class_widget.php');
 require_once('class_acexception.php');
 
 class Acc_Account {
@@ -143,7 +143,7 @@ class Acc_Account {
     
   }
   function form($p_table=true){
-    $wType=new widget("select");
+    $wType=new ISelect();
     $wType->name='p_type';
     $wType->value=self::$type;
     

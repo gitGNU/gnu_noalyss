@@ -28,7 +28,7 @@
  * \brief Manage the hypothese for the budget module
  *  synthese
  */
-require_once ('class_widget.php');
+require_once("class_iselect.php");
 require_once ('class_bud_synthese.php');
 require_once ('class_acc_account_ledger.php');
 require_once ('class_bud_hypo.php');
@@ -42,7 +42,7 @@ class Bud_Synthese_Group extends Bud_Synthese {
   }
   function select_hypo() {
     $hypo=make_array($this->cn,'select bh_id, bh_name from bud_hypothese order by bh_name');
-    $wSelect = new widget('select');
+    $wSelect =new ISelect();
     $wSelect->name='bh_id';
     $wSelect->value=$hypo;
     $wSelect->selected=$this->bh_id;
@@ -70,7 +70,7 @@ class Bud_Synthese_Group extends Bud_Synthese {
 			    " join bud_detail using (po_id) ".
 			    " where bh_id=".$this->bh_id,1);
       if ( count($anc_value) > 0 ) {
-	$wGa_id=new widget("select");
+	$wGa_id=new ISelect();
 	$wGa_id->name="ga_id";
 	$wGa_id->value=$anc_value;
 	$wGa_id->selected=$this->ga_id;
@@ -80,12 +80,12 @@ class Bud_Synthese_Group extends Bud_Synthese {
     $per=make_array($this->cn,"select p_id,to_char(p_start,'MM.YYYY') ".
 		    " from parm_periode order by p_start,p_end");
 
-    $wFrom=new widget('select');
+    $wFrom=new ISelect();
     $wFrom->name='from';
     $wFrom->value=$per;
     $wFrom->selected=$this->from;
     
-    $wto=new widget('select');
+    $wto=new ISelect();
     $wto->name='to';
     $wto->value=$per;
     $wto->selected=$this->to;

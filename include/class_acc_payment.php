@@ -23,6 +23,9 @@
 /*!\file
  * \brief Handle the table mod_payment
  */
+require_once("class_iselect.php");
+require_once("class_icard.php");
+require_once("class_ispan.php");
 require_once('class_acc_ledger.php');
 require_once('class_fiche.php');
 require_once('class_fiche_def.php');
@@ -236,7 +239,7 @@ class Acc_Payment
     $r.='Type de fiche '.$etd;
     $array=make_array($this->cn,'select fd_id,fd_label from fiche_def join fiche_def_ref '.
 	' using (frd_id) where frd_id in (25,4) order by fd_label');
-    $fd=new widget('select');
+    $fd=new ISelect();
     $fd->name='mp_fd_id';
     $fd->value=$array;
     $fd->selected=$this->mp_fd_id;
@@ -245,20 +248,20 @@ class Acc_Payment
     $r.=$tr.$td.'Enregistre dans le journal '.$etd;
     $array=make_array($this->cn,'select jrn_def_id,jrn_def_name from '.
 		      ' jrn_def where jrn_def_type = \'ODS\' or jrn_def_type=\'FIN\'');
-    $jrn=new widget('select');
+    $jrn=new ISelect();
     $jrn->value=$array;
     $jrn->name='mp_jrn_def_id';
     $jrn->selected=(isset ($this->mp_jrn_def_id))?$this->mp_jrn_def_id:0;
     $r.=$td.$jrn->IOValue().$etd;
     $r.=$etr.$tr;
     $r.=$td.'Avec la fiche'.$etd;
-    $f=new widget('js_search_only');
+    $f=new ICard();
     $f->name='mp_qcode';
     $f->extra='frd_id in (25,4)';
     $f->extra2='Recherche';
     $f->value=(isset($this->mp_qcode))?$this->mp_qcode:'';
     $r.=$td.$f->IOValue().$etd;
-    $s=new widget('span');
+    $s=new ISpan();
     $r.=$td.$s->IOValue('mp_qcode_label');
     $r.='</table>';
     return $r;
@@ -281,11 +284,11 @@ class Acc_Payment
 	/* if the qcode is  null the propose a search button to select
 	   the card */
 	if ( $row->mp_qcode==NULL) { 
-	  $a=new widget('js_search_noadd');
+INVALIDWIDGET 	  $a=new widget('js_search_noadd');
 	  $a->extra=$row->mp_fd_id;
 	  $a->extra2='Recherche';
 	  $a->name='e_mp_qcode_'.$row->mp_id;
-	  $s=new widget('span');
+	  $s=new ISpan();
 	  $s->name=$a->name.'_label';
 	  $f=$a->IOValue().$s->IOValue();
 	}else {

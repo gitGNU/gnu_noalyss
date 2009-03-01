@@ -27,9 +27,10 @@
 /*! \brief
  *  Concerns the Analytic plan (table plan_analytique)
  */
+require_once("class_itext.php");
+require_once("class_ihidden.php");
 require_once("constant.php");
 require_once("postgres.php");
-require_once("class_widget.php");
 require_once("class_anc_account.php");
 require_once ('class_dossier.php');
 
@@ -114,11 +115,11 @@ class Anc_Plan
   function form()
   {
 
-	$wName=new widget('TEXT','Nom','pa_name',$this->name);
+	$wName=new IText('Nom','pa_name',$this->name);
 	$wName->table=1;
-	$wDescription=new widget('TEXT','Description','pa_description',$this->description);
+	$wDescription=new IText('Description','pa_description',$this->description);
 	$wDescription->table=1;
-	$wId=new widget("HIDDEN","pa_id",$this->id);
+	$wId=new IHidden("pa_id",$this->id);
 	$ret="<TABLE>";
 	$ret.='<tr>'.$wName->IOValue().'</tr>';
 	$ret.="<tr>".$wDescription->IOValue()."</tr>";

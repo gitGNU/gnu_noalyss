@@ -27,10 +27,10 @@
  * accountancy. 
  *
  */
+require_once("class_ihidden.php");
 require_once('class_anc_operation.php');
 require_once('class_anc_plan.php');
 require_once('ac_common.php');
-require_once('class_widget.php');
 
 //-- the menu
 $menu=array(array("?p_action=ca_imp&sub=listing&$str_dossier","Listing","Listing des op&eacute;rations","listing"),
@@ -41,7 +41,7 @@ $sub=(isset($_GET['sub']))?$_GET['sub']:'no';
 echo '<div class="content">';
 echo ShowItem($menu,"H","mtitle","mtitle",$sub);
 echo '</div>';
-$hidden=new widget("hidden");
+$hidden=new IHidden();
 $str_hidden=$hidden->IOValue("p_action","ca_imp");
 $str_hidden.=$hidden->IOValue("sub",$sub);
 

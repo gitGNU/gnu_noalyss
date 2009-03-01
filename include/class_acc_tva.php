@@ -45,9 +45,9 @@ class Acc_Tva
 				 "comment"=>"tva_comment",
 				 "account"=>"tva_poste");
 
-  function __construct ($p_init) {
+  function __construct ($p_init,$p_tva_id=0) {
     $this->cn=$p_init;
-    $this->tva_id=0;
+    $this->tva_id=$p_tva_id;
     $this->poste="";
   }
   public function get_parameter($p_string) {
@@ -118,7 +118,7 @@ class Acc_Tva
 		 array($this->tva_id)
 		 );
 
-    if ( pg_NumRows($res) == 0 ) return;
+    if ( pg_NumRows($res) == 0 ) return null;
 
     $row=pg_fetch_array($res,0);
     foreach ($row as $idx=>$value) { $this->$idx=$value; }

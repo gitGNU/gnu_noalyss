@@ -18,7 +18,11 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-include_once("class_widget.php");
+require_once("class_ispan.php");
+require_once("class_iposte.php");
+require_once("class_icard.php");
+require_once("class_iselect.php");
+require_once("class_icheckbox.php");
 require_once('class_acc_operation.php');
 /*! \file
  * \brief Print account (html or pdf)
@@ -43,15 +47,15 @@ echo widget::hidden('p_action','impress');
 echo widget::hidden('type','poste');
 echo dossier::hidden();
 echo '<TABLE><TR>';
-$span=new widget("span");
+$span=new ISpan();
 
-$w=new widget("js_search_poste");
+$w=new IPoste();
 $w->table=1;
 $w->value=(isset($_REQUEST['poste_id']))?$_REQUEST['poste_id']:"";
 $w->label="Choississez le poste";
 print $w->IOValue("poste_id");
 echo $span->IOValue('poste_id_label');
-$w_poste=new widget("js_search_only");
+$w_poste=new ICard();
 $w_poste->table=1;
 $w_poste->label="Ou Choississez la fiche";
 $w_poste->extra='all';
@@ -61,7 +65,7 @@ echo $span->IOValue('f_id_label');
 print '</TR>';
 print '<TR>';
 // filter on the current year
-$select=new widget("select");
+$select=new ISelect();
 $select->table=1;
 $filter_year=" where p_exercice='".$User->get_exercice()."'";
 $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
@@ -74,13 +78,13 @@ $select->selected=(isset($_REQUEST['to_periode']))?$_REQUEST['to_periode']:"";
 print $select->IOValue('to_periode',$periode_end);
 print "</TR>";
 print "<TR><TD>";
-$all=new widget("checkbox");
+$all=new ICheckBox();
 $all->label="Tous les postes qui en dépendent";
 $all->disabled=false;
 $all->selected=(isset($_REQUEST['poste_fille']))?true:false;
 echo $all->IOValue("poste_fille");
 echo '</TD></TR><TR><TD>';
-$detail=new widget("checkbox");
+$detail=new ICheckBox();
 $detail->label="D&eacute;tail des op&eacute;rations";
 $detail->disabled=false;
 $detail->selected=(isset($_REQUEST['oper_detail']))?true:false;

@@ -24,8 +24,8 @@
  * \brief this class handle the different bilan, from the table bilan
  *
  */
+require_once("class_iselect.php");
 require_once ('postgres.php');
-require_once ('class_widget.php');
 require_once ('class_dossier.php');
 require_once ('impress_inc.php');
 require_once ('header_print.php');
@@ -58,7 +58,7 @@ class Acc_Bilan {
 
 	$r.='<TR>';
 // filter on the current year
-	$w=new widget("select");
+	$w=new ISelect();
 	$w->table=1;
 
 	$periode_start=make_array($this->db,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $p_filter_year order by p_start,p_end");
@@ -75,7 +75,7 @@ class Acc_Bilan {
 	$r.= $w->IOValue('to_periode',$periode_end);
 	$r.= "</TR>";
 	$r.="<tr>";
-	$mod=new widget('select');
+	$mod=new ISelect();
 	$mod->table=1;
 	$mod->value=make_array($this->db,"select b_id, b_name from bilan order by b_name");
 	$mod->label="Choix du bilan";

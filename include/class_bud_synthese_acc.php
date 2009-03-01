@@ -27,6 +27,7 @@
 /*! 
 \brief Manage the hypothese for the budget module
 */
+require_once("class_iselect.php");
 require_once ('class_bud_synthese.php');
 require_once ('class_anc_account.php');
 require_once ('class_acc_account_ledger.php');
@@ -47,7 +48,7 @@ class Bud_Synthese_Acc extends Bud_Synthese {
   function select_hypo() {
     $hypo=make_array($this->cn,'select bh_id, bh_name from bud_hypothese ');
 
-    $wSelect = new widget('select');
+    $wSelect =new ISelect();
     $wSelect->name='bh_id';
     $wSelect->value=$hypo;
     $wSelect->javascript='onChange=this.form.submit()';
@@ -65,12 +66,12 @@ class Bud_Synthese_Acc extends Bud_Synthese {
     $hypo->bh_id=$this->bh_id;
     $hypo->load();
     $acc_value=make_array($this->cn,'select  distinct pcm_val::text,pcm_val from bud_detail where bh_id='.$this->bh_id." order by pcm_val::text ");
-    $wAcc_from=new widget("select");
+    $wAcc_from=new ISelect();
     $wAcc_from->name="acc_from";
     $wAcc_from->value=$acc_value;
     $wAcc_from->selected=$this->acc_from;
 
-    $wAcc_to=new widget("select");
+    $wAcc_to=new ISelect();
     $wAcc_to->name="acc_to";
     $wAcc_to->value=$acc_value;
     $wAcc_to->selected=$this->acc_to;
@@ -78,12 +79,12 @@ class Bud_Synthese_Acc extends Bud_Synthese {
     $per=make_array($this->cn,"select p_id,to_char(p_start,'MM.YYYY') ".
 		    " from parm_periode order by p_start,p_end");
 
-    $wFrom=new widget('select');
+    $wFrom=new ISelect();
     $wFrom->name='from';
     $wFrom->value=$per;
     $wFrom->selected=$this->from;
 
-    $wto=new widget('select');
+    $wto=new ISelect();
     $wto->name='to';
     $wto->value=$per;
     $wto->selected=$this->to;

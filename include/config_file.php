@@ -24,7 +24,7 @@
  * \brief functions concerning the config file config.inc.php. The domain is not set into the form for security issues
  */
 
-require_once('class_widget.php');
+require_once("class_itext.php");
 
 
 /*!\brief
@@ -48,7 +48,7 @@ function config_file_form($p_array=null)
     $cdomain='';
   } else extract ($p_array);
 
-  $text=new widget('text');
+  $text=new IText();
   $r='';
   $r.='<div style="position:float;float:left;text-align:right;line-height:1.8em;padding:0 0.9em 0 0">';
 

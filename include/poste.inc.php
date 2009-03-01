@@ -22,6 +22,7 @@
  * \brief p_action contains the main action (always poste here)
  *  action contains the sub action 
  */
+require_once("class_ihidden.php");
 require_once("class_acc_parm_code.php");
 
 //-----------------------------------------------------
@@ -43,7 +44,7 @@ for ($i=0;$i<sizeof($all);$i++)  {
   echo '<TR>';
   echo $all[$i]->display();
   echo '<TD><FORM method="POST">';
-  $w=new widget('hidden');
+  $w=new IHidden();
   $w->name='id';
   $w->value=$i;
   echo $w->IOValue();
@@ -67,7 +68,7 @@ if ( isset ($_POST['mod'] ))
   $id=$_POST['id'];
   echo $all[$id]->form();
   echo "</TABLE>";
-  $h=new widget('hidden');
+  $h=new IHidden();
   $h->name='p_action';
   $h->value='poste';
   echo $h->IOValue();

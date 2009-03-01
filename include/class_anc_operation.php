@@ -23,8 +23,11 @@
 /*!\file 
  *\brief definition of Anc_Operation
  */
+require_once("class_ibutton.php");
+require_once("class_ihidden.php");
+require_once("class_iselect.php");
+require_once("class_itext.php");
 require_once("class_anc_plan.php");
-require_once("class_widget.php");
 require_once ("user_common.php");
 
 /*! \brief this class is used to show the form for entering an
@@ -186,7 +189,7 @@ class Anc_Operation
 		if ( $oldgroup!=0 ) 
 		  {
 			
-			  $efface=new widget('button');
+			  $efface=new IButton();
 			  $efface->javascript="op_remove('".$_REQUEST['PHPSESSID']."',".$gDossier.",".$oldgroup.")";
 			  $efface->name="Efface";
 			  $efface->label="Efface";
@@ -197,7 +200,7 @@ class Anc_Operation
 			
 			if ( $jr_id != 0) {
 			  // get the old jr_id
-			  $detail=new widget('button');
+			  $detail=new IButton();
 			  $detail->javascript="viewOperation($jr_id,'".$_REQUEST['PHPSESSID']."',$gDossier)";
 			  $detail->name="Detail";
 			  $detail->label="Detail";
@@ -246,7 +249,7 @@ class Anc_Operation
 		}
 
 
-	$efface=new widget('button');
+	$efface=new IButton();
 	$efface->javascript="op_remove('".$_REQUEST['PHPSESSID']."',$gDossier,".$oldgroup.")";
 	$efface->name="Efface";
 	$efface->label="Efface";
@@ -255,7 +258,7 @@ class Anc_Operation
 	$this->oa_group=$oldgroup;
 	$jr_id=$this->get_jrid();
 	if ( $jr_id != 0 ){
-	  $detail=new widget('button');
+	  $detail=new IButton();
 	  $detail->javascript="viewOperation($jr_id,'".$_REQUEST['PHPSESSID']."',$gDossier)";
 	  $detail->name="Detail";
 	  $detail->label="Detail";
@@ -380,7 +383,7 @@ function get_balance($p_from,$p_to,$p_plan_id)
    if ( empty ($a_plan) ) return "";
    $table_id="t".$p_seq;
 
-   $hidden=new widget("hidden");
+   $hidden=new IHidden();
 
 
    $result.=$hidden->IOValue('amount_'.$table_id,$p_amount);
@@ -408,7 +411,7 @@ function get_balance($p_from,$p_to,$p_plan_id)
 						   " html_quote(po_name) as label from poste_analytique ".
 						   " where pa_id = ".$r_plan['id'].
 						   " order by po_name",$p_null);
-		 $select = new widget("select","","ta_".$p_seq."o".$count."row_".$i,$array);
+		 $select =new ISelect("","ta_".$p_seq."o".$count."row_".$i,$array);
 		 $select->table=0;
 		 // view only or editable
 		 if (  $p_mode==1 ) {
@@ -427,7 +430,7 @@ function get_balance($p_from,$p_to,$p_plan_id)
 	   
 
 	   }
-	 $value=new widget("text");
+	 $value=new IText();
 	 $value->name="val".$p_seq."l$i";
 	 $value->size=6;
 	 $value->value=(isset(${"val".$p_seq."l$i"}))?round(${"val".$p_seq."l$i"},2):$p_amount;
@@ -441,7 +444,7 @@ function get_balance($p_from,$p_to,$p_plan_id)
 
    $result.="</table>";
    // add a button to add a row
-   $button=new widget("button");
+   $button=new IButton();
    $button->javascript="onChange=add_row('$table_id',$p_seq,$count);";
    $button->name="js".$p_seq;
    $button->label="Nouvelle ligne";

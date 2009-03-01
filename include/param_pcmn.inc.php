@@ -75,12 +75,12 @@ if (isset ($_GET['action'])) {
       /* Ligne a enfant*/
       $R=ExecSqlParam($cn,"select pcm_val from tmp_pcmn where pcm_val_parent=$1",array($_GET['l']));
       if ( pg_NumRows($R) != 0 ) {
-	echo "<SCRIPT> alert(\"Ne peut pas effacer le poste: d'autres postes en dépendent\");</SCRIPT>";
+		alert("Ne peut pas effacer le poste: d'autres postes en dépendent");
       } else {
 	/* Vérifier que le poste n'est pas utilisé qq part dans les journaux */
 	$Res=ExecSqlParam($cn,"select * from jrnx where j_poste=$1",array($_GET['l']));
 	if ( pg_NumRows($Res) != 0 ) {
-	  echo "<SCRIPT> alert(\"Ne peut pas effacer le poste: il est utilisé dans les journaux\");</SCRIPT>";
+	  alert("Ne peut pas effacer le poste: il est utilisé dans les journaux");
 	}
 	else {
 	  $Del=ExecSqlParam($cn,"delete from tmp_pcmn where pcm_val=$1",array($_GET['l']));
@@ -113,7 +113,7 @@ if ( isset ( $_POST["Ajout"] ) ) {
       /* Parent existe */
       $Ret=ExecSqlParam($cn,"select pcm_val from tmp_pcmn where pcm_val=$1",array($p_parent));
       if ( $p_parent != 0 && pg_NumRows($Ret) == 0 ) {
-	echo '<SCRIPT> alert(" Ne peut pas modifier; aucun poste parent"); </SCRIPT>';
+		alert(" Ne peut pas modifier; aucun poste parent");
       } else {
 	// Check if the account already exists
 	
@@ -121,7 +121,7 @@ if ( isset ( $_POST["Ajout"] ) ) {
 	if ( $Count != 0 ) 
 	  {
 	    // Alert message account already exists
-	    echo '<SCRIPT> alert(" Ce poste existe déjà "); </SCRIPT>';
+	     alert(" Ce poste existe déjà ");
 	    
 	  } else 
 	    {

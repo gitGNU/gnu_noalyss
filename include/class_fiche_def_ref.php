@@ -93,11 +93,11 @@ class fiche_def_ref
   function Input()
     {
       $r="";
-      $h=new widget('hidden');
+      $h=new IHidden();
       $r.='<li>Id          :'.$h->IOValue('frd_id',$this->frd_id).$this->frd_id."</li>";
-      $w=new widget("text");
+      $w=new IText();
       $r.='<li>Commentaire  :'.$w->IOValue('frd_text',$this->frd_text)."</li>";
-      $t=new widget('text');
+      $t=new IText();
       $r.='<li>Poste de base:'.$t->IOValue('frd_class_base',$this->frd_class_base)."</li>";
 
       return $r;

@@ -28,10 +28,14 @@
  *        
  *
  */
+require_once("class_idate.php");
+require_once("class_itext.php");
+require_once("class_ihidden.php");
+require_once("class_iselect.php");
+require_once("class_ibutton.php");
 require_once('postgres.php');
 require_once('debug.php');
 require_once('constant.php');
-require_once ('class_widget.php');
 require_once('class_dossier.php');
 require_once ('class_anc_plan.php');
 
@@ -86,23 +90,23 @@ class Anc_Print {
 	  exit();
 	}
 
-	$from=new widget  ('js_date','from','from');
+	$from=new IDate('from','from');
 	$from->size=10;
 	$from->value=$this->from;
 	
-	$to=new widget('js_date','to','to');
+	$to=new IDate('to','to');
 	$to->value=$this->to;
 	$to->size=10;
 
-	$from_poste=new widget  ('text','from_poste','from_poste');
+	$from_poste=new IText('from_poste','from_poste');
 	$from_poste->size=10;
 	$from_poste->value=$this->from_poste;
 	
-	$to_poste=new widget('text','to_poste','to_poste');
+	$to_poste=new IText('to_poste','to_poste');
 	$to_poste->value=$this->to_poste;
 	$to_poste->size=10;
 
-	$hidden=new widget("hidden");	
+	$hidden=new IHidden();
 	$r=dossier::hidden();
 	$r.=$hidden->IOValue("result","1");
 	$r.="Depuis : ".$from->IOValue();
@@ -112,15 +116,15 @@ class Anc_Print {
 	$r.=$p_hidden;
 	$r.='<span style="padding:5px;margin:5px;border:2px double  blue;display:block;">';
 	$plan=new Anc_Plan($this->db);
-	$plan_id=new widget("select","","pa_id");
+	$plan_id=new ISelect("","pa_id");
  	$plan_id->value=make_array($this->db,"select pa_id, pa_name from plan_analytique order by pa_name");
 	$plan_id->selected=$this->pa_id;
 	$r.= "Plan Analytique :".$plan_id->IOValue();
 
-	$poste=new widget("text");
+	$poste=new IText();
 	$poste->size=10;
 	$r.="Entre le poste ".$poste->IOValue("from_poste",$this->from_poste);
-	$choose=new widget("button");
+	$choose=new IButton();
 	$choose->name="Choix Poste";
 	$choose->label="Recherche";
 	$choose->javascript="onClick=search_ca('".$_REQUEST['PHPSESSID']."',".dossier::id().",'from_poste','pa_id')";

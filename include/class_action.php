@@ -19,6 +19,14 @@
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.f
 
+require_once("class_idate.php");
+require_once("class_iselect.php");
+require_once("class_ihidden.php");
+require_once("class_itext.php");
+require_once("class_ispan.php");
+require_once("class_icard.php");
+require_once("class_icheckbox.php");
+require_once("class_ifile.php");
 require_once("class_fiche.php");
 require_once("class_document.php");
 require_once("class_document_type.php");
@@ -128,7 +136,7 @@ class action
 		}
       // Compute the widget
       // Date 
-      $date=new widget("js_date");
+      $date=new IDate();
       $date->readonly=$readonly;
       $date->name="ag_timestamp";
       $date->value=$this->ag_timestamp;
@@ -138,7 +146,7 @@ class action
       if ( $upd == false )
 	{
 	  // Doc Type
-	  $doc_type=new widget("select");
+	  $doc_type=new ISelect();
 	  $doc_type->name="dt_id";
 	  $doc_type->value=make_array($this->db,"select dt_id,dt_value from document_type where dt_id in (".ACTION.")");
 	  $doc_type->selected=$this->dt_id;
@@ -148,14 +156,14 @@ class action
 	}
       else {
 	// Doc Type
-	$doc_type=new widget("hidden");
+	$doc_type=new IHidden();
 	$doc_type->name="dt_id";
 	$doc_type->value=$this->dt_id;
 	$str_doc_type=$doc_type->IOValue()." ".getDbValue($this->db,"select dt_value from document_type where dt_id=".$this->dt_id);
       }
 
       // Description
-      $desc=new widget('RICHTEXT');
+      $desc=new IText();
       $desc->width=700;
       $desc->heigh=100;
       $desc->name="ag_comment";
@@ -168,7 +176,7 @@ class action
       if ( $p_view != 'READ' )
 	{
 	  $a=make_array($this->db,"select s_id,s_value from document_state ");
-	  $state=new widget("select");
+	  $state=new ISelect();
 	  $state->readonly=$readonly;
 	  $state->name="d_state";
 	  $state->value=$a;
@@ -178,7 +186,7 @@ class action
 	  $str_state="";
 	  if ( strlen($this->d_state) != 0 )
 	    {	  $str_state=getDbValue($this->db,"select s_value from document_state where s_id=".$this->d_state);
-	    $g=new widget("hidden");
+	    $g=new IHidden();
 	    $str_state.=$g->IOValue('d_state',$this->d_state);
 	    }
 	}
@@ -186,7 +194,7 @@ class action
       $doc_ref="";
       // Document id
 
-      $h2=new widget("hidden");
+      $h2=new IHidden();
       $h2->name="d_id";
       $h2->value=$this->d_id;
       
@@ -197,7 +205,7 @@ class action
 	  $doc->get();
 	  if ( strlen(trim($doc->d_lob)) != 0 )
 	    {
-	      $d_id=new widget("hidden");
+	      $d_id=new IHidden();
 	      $doc_ref="<p> Document ".$doc->a_ref().'</p>';
 	      $doc_ref.=$h2->IOValue().$d_id->IOValue('d_id',$this->d_id);
 	    }
@@ -206,7 +214,7 @@ class action
 
 
       // title
-      $title=new widget("text");
+      $title=new IText();
       $title->readonly=$readonly;
       $title->name="ag_title";
 	  //      $title->value=FormatString($this->ag_title);
@@ -215,11 +223,11 @@ class action
 
       // ag_ref
       // Always false for update
-      $ag_ref=new widget("text");
+      $ag_ref=new IText();
       $ag_ref->readonly=$upd;
       $ag_ref->name="ag_ref";
       $ag_ref->value=FormatString($this->ag_ref);
-      $client_label=new widget("span");
+      $client_label=new ISpan();
 
       // f_id_dest destination
       if ( $this->qcode_dest != '- ERROR -' && strlen(trim($this->qcode_dest)) != 0)
@@ -242,7 +250,7 @@ class action
 	  $qcode_exp_label=($this->f_id_exp==0 || trim($this->qcode_exp)=="")?'Interne ':'Error';
 	}
 
-      $h_ag_id=new widget("hidden");
+      $h_ag_id=new IHidden();
       // if concerns another action : show the link otherwise nothing
       $lag_ref_ag_id=" X / XX ";
       
@@ -256,25 +264,25 @@ class action
 	    "</A>";
 	} 
       // sender
-      $w=new widget('js_search_only');
+      $w=new ICard();
       $w->readonly=$readonly;
       $w->name='qcode_exp';
       $w->value=($this->f_id_exp != 0)?$this->qcode_exp:"";
       $w->label="";
       $w->extra='frd_id in (14,25,8,9,16)';
       $w->extra2='Recherche';
-      $sp= new widget("span");
-      $h_agrefid=new widget('hidden');
+      $sp=new ISpan();
+      $h_agrefid=new IHidden();
       // destination
-      $wdest=new widget('js_search_only');
+      $wdest=new ICard();
       $wdest->readonly=$readonly;
       $wdest->name='qcode_dest';
       $wdest->value=($this->f_id_dest != 0)?$this->qcode_dest:"";
       $wdest->label="";
       $wdest->extra='frd_id in (14,25,8,9,16)';
       $wdest->extra2='Recherche';
-      $spdest= new widget("span");
-      $h_agrefid=new widget('hidden');
+      $spdest=new ISpan();
+      $h_agrefid=new IHidden();
       $str_ag_ref="<b>".(($this->ag_ref != "")?$this->ag_ref:" Nouveau ")."</b>";
       // Preparing the return string
       $r="";
@@ -308,9 +316,9 @@ class action
       $r.=$h2->IOValue();
       $r.=$h_agrefid->IOValue("ag_ref_ag_id",$this->ag_ref_ag_id); 
       $r.=$h_ag_id->IOValue('ag_id',$this->ag_id);
-      $hidden=new widget('hidden');
+      $hidden=new IHidden();
       $r.=$hidden->IOValue('f_id_dest',$this->f_id_dest);
-      $hidden2=new widget('hidden');
+      $hidden2=new IHidden();
       $r.=$hidden2->IOValue('f_id_exp',$this->f_id_exp);
 
       $r.="</p>";
@@ -386,12 +394,12 @@ class action
 		}
       // Compute the widget
       // Date 
-      $date=new widget("text");
+      $date=new IText();
       $date->readonly=true;
       $date->name="ag_timestamp";
       $date->value=$this->ag_timestamp;
       // Doc Type
-      $doc_type=new widget("hidden");
+      $doc_type=new IHidden();
       $doc_type->name="dt_id";
       $doc_type->value=$this->dt_id;
       $a=ExecSql($this->db,"select dt_value from document_type where dt_id=".$this->dt_id);
@@ -413,30 +421,30 @@ class action
       $a=ExecSql($this->db,"select s_value from document_state where s_id=".$this->d_state);
       $v=pg_fetch_array($a,0);
       $str_state=$v[0];
-      $state=new widget("hidden");
+      $state=new IHidden();
       $state->name="d_state";
       $state->value=$this->d_state;
 	
       // title
-      $title=new widget("text");
+      $title=new IText();
       $title->readonly=true;
       $title->name="ag_title";
       $title->value=FormatString($this->ag_title);
 
       // Description
-      $desc=new widget('textarea');
+      $desc=new ITextArea();
       $desc->name="ag_comment";
       $desc->readonly=" disabled ";
       $desc->value=$this->ag_comment;
       // Propose to generate a document
-      $gen=new widget ("checkbox");
+      $gen=new ICheckBox();
       $gen->name="p_gen";
-      $doc_gen=new widget("select");
+      $doc_gen=new ISelect();
       $doc_gen->name="gen_doc";
       $doc_gen->value=make_array($this->db,
 				 "select md_id,md_name from document_modele where md_type=".$this->dt_id);
 
-      $h_agrefid=new widget('hidden');
+      $h_agrefid=new IHidden();
 
        // f_id
        if ( trim($this->qcode_dest) =="")
@@ -602,12 +610,12 @@ class action
 	  $r.='<input type="hidden" name="d_id" value="'.$doc->d_id.'">';
 	  $r.="Sauver le document généré :";
 	  $r.=$str_file;
-	  $checkbox=new widget("checkbox");
+	  $checkbox=new ICheckBox();
 	  $checkbox->name="save_generate";
 	  $r.=$checkbox->IOValue();
 	  $r.="<hr>";
 	}
-      $upload=new widget("file");
+      $upload=new IFile();
       $upload->name="file_upload";
       $upload->value="";
       $r.="Enregistrer le fichier ".$upload->IOValue();

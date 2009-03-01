@@ -19,6 +19,7 @@
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 include_once("class_attribut.php");
+require_once("class_itext.php");
 require_once('class_fiche_def_ref.php');
 require_once('class_fiche.php');
 require_once('user_common.php');
@@ -414,7 +415,7 @@ class fiche_def {
 	  /*----------------------------------------  */
 	  /*  ORDER OF THE CARD */
 	  /*----------------------------------------  */
-	  $order=new widget('text');
+	  $order=new IText();
 	  $order->name='jnt_order'.$this->attribut[$i]->ad_id;
 	  $order->size=3;
 	  $order->value=$this->attribut[$i]->jnt_order;

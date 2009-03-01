@@ -22,7 +22,9 @@
  * \brief ask for Printing the ledger (pdf,html)
  */
 
-include_once("class_widget.php");
+require_once("class_ihidden.php");
+require_once("class_iselect.php");
+require_once("class_icheckbox.php");
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 
@@ -53,8 +55,8 @@ require_once("class_acc_ledger.php");
       //      var_dump($Row);
     }
   $rep="";
-  $submit=new widget();
-  $hid=new widget("hidden");
+INVALIDWIDGET   $submit=new widget();
+  $hid=new IHidden();
   echo '<div class="content">';
   echo '<h2 class="info">'.h($Jrn->name).'</h2>';
   echo "<table>";
@@ -220,7 +222,7 @@ if ( count($ret) < 1 )
 echo '<div class="content">';
 echo '<FORM ACTION="?p_action=impress&type=jrn" METHOD="POST">'.dossier::hidden();
 echo '<TABLE width="90%" align="center"><TR>';
-$w=new widget("select");
+$w=new ISelect();
 $w->table=1;
 $w->label="Choississez le journal";
 print $w->IOValue("jrn_id",$ret);
@@ -236,7 +238,7 @@ $w->label=" jusqu'à ";
 $periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
 print $w->IOValue('to_periode',$periode_end);
 print "</TR><TR>";
-$centralise=new widget("checkbox");
+$centralise=new ICheckBox();
 $centralise->label="Depuis les journaux centralisés";
 $centralise->table=1;
 print $centralise->IOValue('cent');

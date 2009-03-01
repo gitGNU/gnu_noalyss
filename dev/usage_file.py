@@ -1,5 +1,3 @@
-#!/usr/bin/python
-#
 from transform import *
 import sys
 import os

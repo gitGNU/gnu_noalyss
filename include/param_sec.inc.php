@@ -26,6 +26,7 @@
 
 include_once ("ac_common.php");
 include_once("check_priv.php");
+require_once("class_iselect.php");
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 $str_dossier=dossier::get();
@@ -194,7 +195,7 @@ if ( $action == "view" ) {
   echo '<Fieldset><legend>Journaux </legend>';
   echo '<table align="CENTER" width="100%">';
   $MaxJrn=pg_NumRows($Res);
-  $jrn_priv=new widget ('select');
+  $jrn_priv=new ISelect();
   $array=array(
 	       array ('value'=>'R','label'=>'Uniquement lecture'),
 	       array ('value'=>'W','label'=>'Lecture et écriture'),

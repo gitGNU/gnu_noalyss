@@ -25,9 +25,9 @@
  *   must use it
  *  
  */
+require_once("class_iconcerned.php");
 require_once ('postgres.php');
 require_once ('class_dossier.php');
-require_once ('class_widget.php');
 
 /*! \brief new class for managing the reconciliation it must be used
  * instead of the function InsertRapt, ...
@@ -48,7 +48,7 @@ class Acc_Reconciliation {
   /*! \brief return a widget of type js_concerned
    */
   function widget() {
-    $wConcerned=new widget("js_concerned");
+    $wConcerned=new IConcerned();
     $wConcerned->extra=0; // with 0 javascript search from e_amount... field (see javascript)
 
     return $wConcerned;

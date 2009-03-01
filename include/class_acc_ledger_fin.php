@@ -24,6 +24,14 @@
  * \brief the class Acc_Ledger_Fin inherits from Acc_Ledger, this
  * object permit to manage the financial ledger
  */
+require_once("class_idate.php");
+require_once("class_icard.php");
+require_once("class_ispan.php");
+require_once("class_itext.php");
+require_once("class_iconcerned.php");
+require_once("class_ifile.php");
+require_once("class_ihidden.php");
+require_once("class_iselect.php");
 require_once('class_acc_ledger.php');
 require_once('poste.php');
 require_once('ac_common.php');
@@ -166,27 +174,26 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $r.=JS_CONCERNED_OP;
 
     $r.=dossier::hidden();
-    $r.=widget::hidden('phpsessid',$_REQUEST['PHPSESSID']);
+    $r.=HtmlInput::hidden('phpsessid',$_REQUEST['PHPSESSID']);
 
 
-    //$r.=widget::hidden('p_jrn',$this->id);
+    //$r.=HtmlInput::hidden('p_jrn',$this->id);
     $r.='<fieldset><legend>Banque, caisse </legend>';
     $r.='<TABLE  width="100%">';
     //  Date
     //--
-    $Date=new widget("js_date");
-    $Date->SetReadOnly($pview_only);
-    $Date->table=1;
+    $Date=new IDate("e_date",$op_date);
+    $Date->setReadOnly($pview_only);
     $Date->tabindex=1;
     $r.="<tr>";
-    $r.=$Date->IOValue("e_date",$op_date,"Date");
+    $r.='<td>Date : </td><td>'.$Date->IOValue().'</td>';
     // Periode 
     //--
     $l_user_per=(isset($periode))?$periode:$user->get_periode();
     $l_form_per=FormPeriode($this->db,$l_user_per,OPEN);
 
     $r.="<td class=\"input_text\">";
-    $label=widget::infobulle(3);
+    $label=HtmlInput::infobulle(3);
     $r.="Période comptable $label</td><td>".$l_form_per;
     $r.="</td>";
     $r.="</tr>";
@@ -194,8 +201,8 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     //--
     $wLedger=$this->select_ledger('FIN',2);
     if ($wLedger == null) exit ('Pas de journal disponible');
-    $wLedger->table=1;
-    $wLedger->label=" Journal ".widget::infobulle(2) ;
+
+    $wLedger->label=" Journal ".HtmlInput::infobulle(2) ;
     $r.='<tr>';
     $r.=$wLedger->IOValue();
     $r.='</tr>';
@@ -215,14 +222,14 @@ class Acc_Ledger_Fin extends Acc_Ledger {
       
     }  
 
-    $W1=new widget("js_search_only");
+    $W1=new ICard();
     $W1->readonly=$pview_only;
-    $W1->label="Banque ".widget::infobulle(0);
+    $W1->label="Banque ".HtmlInput::infobulle(0);
     $W1->name="e_bank_account";
     $W1->value=$e_bank_account;
     $W1->extra='deb';  // credits
     $W1->extra2="Recherche";
-    $W1->table=0;
+
     $W1->javascript=  sprintf('onBlur="ajaxFid(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\');ajax_saldo(\'%s\',\'%s\')"',
 			      $W1->name,
 			      $W1->extra, //deb or cred
@@ -233,9 +240,9 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 			      $W1->name
 			      );
     $r.="<TR><td colspan=\"4\">".$W1->IOValue();
-    $Span=new widget ("span");
-    $Span->SetReadOnly($pview_only);
-    $r.=$Span->IOValue("e_bank_account_label",$e_bank_account_label)."</TD>";
+    $Span=new ISpan("e_bank_account_label",$e_bank_account_label);
+    $Span->setReadOnly($pview_only);
+    $r.=$Span->IOValue()."</TD>";
 
     $r.="</TABLE>";
   
@@ -253,38 +260,33 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $r.='<tr>';
     // Extrait
     //--
-    $wExt=new widget('TEXT');
-    $label=widget::infobulle(5);
+    $wExt=new IText("ext_no",$ext_no);
+    $label=HtmlInput::infobulle(5);
     $wExt->label='Numéro d\'extrait '.$label;
-    $wExt->table=1;
-    $r.=$wExt->IOValue("ext_no",$ext_no);
-    $label=widget::infobulle(7);
+    $r.=$wExt->IOValue();
+    $label=HtmlInput::infobulle(7);
     $r.='<td class="input_text">Solde début extrait'.$label.' </td>';
-    $wFirst=new widget('text');
-    $wFist->table=0;
     $first_sold=(isset($first_sold))?$first_sold:"";
+    $wFirst=new IText('first_sold',$first_sold);
 
-    /*    $wFirst->javascript=sprintf(' onfocus="ajax_saldo(\'%s\',\'%s\');"',
-				    $_REQUEST['PHPSESSID'],
-				    $W1->name);
-    */
-    $r.='<td>'.$wFirst->IOValue('first_sold',$first_sold).'</td>';
-    $wLast=new widget('text');
-    $wLast->table=1;
+    $r.='<td>'.$wFirst->IOValue().'</td>';
+
     $last_sold= isset($last_sold)?$last_sold:"";
+    $wLast=new IText('last_sold',$last_sold);
+
     $r.='<td  class="input_text">Solde fin extrait'.$label.' </td>';
-    $r.='<td>'.$wLast->IOValue('last_sold',$last_sold).'</td>';
+    $r.='<td>'.$wLast->IOValue().'</td>';
     $r.='</table>';
     $r.='</fieldset>';
     $max=(isset($nb_item))?$nb_item:MAX_ARTICLE;
 
-    $r.= widget::hidden('nb_item',$max);
+    $r.= HtmlInput::hidden('nb_item',$max);
     //--------------------------------------------------
     // financial operation
     //-------------------------------------------------
     $r.='<TABLE id="fin_item">';
     $r.="<TR>";
-    $r.="<th colspan=\"2\">code".widget::infobulle(0)."</TH>";
+    $r.="<th colspan=\"2\">code".HtmlInput::infobulle(0)."</TH>";
     $r.="<th>Commentaire</TH>";
     $r.="<th>Montant</TH>";
     $r.='<th colspan="2"> Op. Concern&eacute;e(s)</th>';
@@ -308,7 +310,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	}
       ${"e_other$i"."_amount"}=(isset (${"e_other$i"."_amount"}))?${"e_other$i"."_amount"}:0;
       
-      $W1=new widget("js_search_only");
+      $W1=new ICard();
       $W1->label="";
       $W1->name="e_other".$i;
       $W1->value=$tiers;
@@ -317,29 +319,29 @@ class Acc_Ledger_Fin extends Acc_Ledger {
       $W1->readonly=$pview_only;
       $r.="<TR><td>".$W1->IOValue()."</TD>";
       // label
-      $other=new widget("span");
+      $other=new ISpan("e_other$i"."_label", $tiers_label);
       $r.='<TD style="width:25%;border-bottom:1px dotted grey;">';
-      $r.=$other->IOValue("e_other$i"."_label", $tiers_label);
+      $r.=$other->IOValue();
       // Comment
-      $wComment=new widget("text");
-      $wComment->table=1;
+      $wComment=new IText("e_other$i"."_comment",$tiers_comment);
+
       $wComment->size=35;
-      $wComment->SetReadOnly($pview_only);
-      $r.=$wComment->IOValue("e_other$i"."_comment",$tiers_comment);
+      $wComment->setReadOnly($pview_only);
+      $r.=$wComment->IOValue();
       // amount
-      $wAmount=new widget("text");
-      $wAmount->table=1;
+      $wAmount=new IText("e_other$i"."_amount",$tiers_amount);
+
       $wAmount->size=7;
-      $wAmount->SetReadOnly($pview_only);
-      $r.=$wAmount->IOValue("e_other$i"."_amount",$tiers_amount);
+      $wAmount->setReadOnly($pview_only);
+      $r.=$wAmount->IOValue();
       // concerned
       ${"e_concerned".$i}=(isset(${"e_concerned".$i}))?${"e_concerned".$i}:"";
-      $wConcerned=new widget("js_concerned");
-      $wConcerned->SetReadOnly($pview_only);
+      $wConcerned=new IConcerned("e_concerned".$i,${"e_concerned".$i});
+      $wConcerned->setReadOnly($pview_only);
       $wConcerned->extra=0;
-      $wConcerned->table=1;
+
       $wConcerned->extra2='paid';
-      $r.=$wConcerned->IOValue("e_concerned".$i,${"e_concerned".$i});
+      $r.=$wConcerned->IOValue();
       $r.='</TR>';
     }
     $r.="</TABLE>";
@@ -462,7 +464,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 		
       $r.="<TR><td>".${'e_other'.$i}."</TD>";
       // label
-      $other=new widget("span");
+      $other=new ISpan();
       $r.='<TD style="width:25%;border-bottom:1px dotted grey;">';
       $r.=$fTiers->strAttribut(ATTR_DEF_NAME);
       $r.='</td>';
@@ -483,8 +485,8 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $new_solde+=$tot_amount;
     $r.='<br>Nouveau solde = '.$new_solde;
     // check for upload piece
-    $file=new widget("file");
-    $file->table=0;
+    $file=new IFile();
+
     $r.="<br>Ajoutez une pi&egrave;ce justificative ";
     $r.=$file->IOValue("pj","");
     
@@ -493,23 +495,23 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     // Hidden variables
     //--------------------------------------------------
     $r.=dossier::hidden();
-    $r.=widget::hidden('phpsessid',$_REQUEST['PHPSESSID']);
-    $r.=widget::hidden('p_jrn',$this->id);
-    $r.=widget::hidden('nb_item',$nb_item);
-    $r.=widget::hidden('last_sold',$last_sold);
-    $r.=widget::hidden('first_sold',$first_sold);
-    $r.=widget::hidden('e_bank_account',$e_bank_account);
-    $r.=widget::hidden('ext_no',$ext_no);
-    $r.=widget::hidden('e_date',$e_date);
-    $r.=widget::hidden('periode',$periode);
+    $r.=HtmlInput::hidden('phpsessid',$_REQUEST['PHPSESSID']);
+    $r.=HtmlInput::hidden('p_jrn',$this->id);
+    $r.=HtmlInput::hidden('nb_item',$nb_item);
+    $r.=HtmlInput::hidden('last_sold',$last_sold);
+    $r.=HtmlInput::hidden('first_sold',$first_sold);
+    $r.=HtmlInput::hidden('e_bank_account',$e_bank_account);
+    $r.=HtmlInput::hidden('ext_no',$ext_no);
+    $r.=HtmlInput::hidden('e_date',$e_date);
+    $r.=HtmlInput::hidden('periode',$periode);
     $r.=dossier::hidden();
-    $r.=widget::hidden('sa','n');
+    $r.=HtmlInput::hidden('sa','n');
     for ($i=0; $i < $nb_item; $i++) {      
       $tiers=(isset(${"e_other".$i}))?${"e_other".$i}:"";
-      $r.=widget::hidden('e_other'.$i,$tiers);
-      $r.=widget::hidden('e_other'.$i.'_comment',${'e_other'.$i.'_comment'});
-      $r.=widget::hidden('e_other'.$i.'_amount',${'e_other'.$i.'_amount'});
-      $r.=widget::hidden('e_concerned'.$i,${'e_concerned'.$i});
+      $r.=HtmlInput::hidden('e_other'.$i,$tiers);
+      $r.=HtmlInput::hidden('e_other'.$i.'_comment',${'e_other'.$i.'_comment'});
+      $r.=HtmlInput::hidden('e_other'.$i.'_amount',${'e_other'.$i.'_amount'});
+      $r.=HtmlInput::hidden('e_concerned'.$i,${'e_concerned'.$i});
     }
 
     return $r;
@@ -669,7 +671,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
    */
   function show_ledger() {
     echo dossier::hidden();
-    $hid=new widget("hidden");
+    $hid=new IHidden();
     
     $hid->name="p_action";
     $hid->value="bank";
@@ -682,7 +684,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 
     $User=new User($this->db);
 
-    $w=new widget("select");
+    $w=new ISelect();
     // filter on the current year
     $filter_year=" where p_exercice='".$User->get_exercice()."'";
     
@@ -699,11 +701,11 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $wLedger=$this->select_ledger('fin',3);
     if ($wLedger == null) exit ('Pas de journal disponible');
     echo 'Journal '.$wLedger->IOValue();
-    $w=new widget('js_search_only');
+    $w=new ICard();
     $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
     echo dossier::hidden();
-    echo widget::hidden('p_action','bank');
-    echo widget::hidden('sa','l');
+    echo HtmlInput::hidden('p_action','bank');
+    echo HtmlInput::hidden('sa','l');
     $w->name='qcode';
     $w->value=$qcode;
     $w->label='';
@@ -711,11 +713,11 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $all=$this->get_all_fiche_def();
     $w->extra=$all;
     $w->extra2='QuickCode';
-    $sp= new widget("span");
+    $sp=new ISpan();
     echo $sp->IOValue("qcode_label","",$qcode);
     echo $w->IOValue();
 
-    echo widget::submit('gl_submit','Rechercher');
+    echo HtmlInput::submit('gl_submit','Rechercher');
     echo '</form>';
 
     // Show list of sell

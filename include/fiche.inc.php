@@ -22,6 +22,8 @@
  * \brief module to manage the card (removing, listing, creating, modify attribut)
  */
 include_once ("ac_common.php");
+require_once("class_itext.php");
+require_once("class_ihidden.php");
 require_once('class_fiche.php');
 include_once ("postgres.php");
 include_once ("user_menu.php");
@@ -54,9 +56,9 @@ function ShowRecherche() {
   echo '<DIV class="u_redcontent">';
   echo '<form method="GET" action="?">';
   echo dossier::hidden();
-  $w=new widget('text');
+  $w=new IText();
   $search_text=(isset($_REQUEST['search_text']))?$_REQUEST['search_text']:"";
-  $h=new widget('hidden');
+  $h=new IHidden();
   echo $h->IOValue('p_action','fiche');
   echo $h->IOValue('action','search');
   echo "Recherche :".$w->IOValue('search_text',$search_text);

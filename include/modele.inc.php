@@ -26,7 +26,8 @@
  * \brief concerne only the template
  *
  */
-require_once ('class_widget.php');
+require_once("class_itext.php");
+require_once("class_icheckbox.php");
 $sa=(isset ( $_REQUEST['sa']))?$_REQUEST['sa']:'list';
 if ( isset ($_POST['upd']) &&
      isset($_POST['m'])){
@@ -61,7 +62,7 @@ if ( isset ($_POST["FMOD_NAME"]) ) {
 		       " datname='".domaine.'dossier'.FormatString($_POST["FMOD_DBID"])."'");
 
   if ( $encoding != 6 ) {
-    echo "<script> alert('Désolé vous devez migrer ce modèle en unicode')</script>";
+    alert('Désolé vous devez migrer ce modèle en unicode');
     echo '<span class="error">la base de donnée '.
       domaine.'mod'.$_POST["FMOD_DBID"]." doit être migrée en unicode</span>";
     echo '<span class="error"> Pour le passer en unicode, faites-en un backup puis restaurez le fichier reçu</span>';
@@ -303,9 +304,9 @@ echo widget::button_href('Retour','?action=modele_mgt');
 		    "select mod_desc from modeledef where ".
 		    " mod_id=$1",
 		    array($_GET['m']));
-   $wText=new widget('text');
+   $wText=new IText();
    echo 'Nom : '.$wText->IOValue('name',$name);
-   $wDesc=new widget('textarea');
+   $wDesc=new ITextArea();
    $wDesc->heigh=5;
    echo '<br>Description :<br>';
    echo $wDesc->IOValue('desc',$desc);
@@ -327,7 +328,7 @@ if ( $sa == 'del' ) {
   echo widget::hidden('d',$_REQUEST['m']);
   echo widget::hidden('sa','remove');
   echo '<h2 class="error">Etes vous sure et certain de vouloir effacer '.$name.' ???</h2>';
-  $confirm=new widget('checkbox');
+  $confirm=new ICheckBox();
   $confirm->name="p_confirm";
   echo 'Cochez la case si vous êtes sûr de vouloir effacer ce modèle';
   echo $confirm->IOValue();

@@ -18,7 +18,6 @@
 */
 // Auteur Dany De Bontridder ddebontridder@yahoo.fr
 require_once('class_dossier.php');
-require_once ('class_widget.php');
 include_once ("ac_common.php");
 /* $Revision$ */
 include_once ("class_user.php");
@@ -41,7 +40,7 @@ echo_debug('user_compta.php',__LINE__,"user is ".$_SESSION['g_user']);
 // Get The priv on the selected folder
 if ( $User->admin == 0 && $User->is_local_admin(dossier::id()) == 0 ) {
   
-  $r=$User->get_privilege($gDossier);
+  $r=$User->get_folder_access($gDossier);
   if ($r == 'X' ){
     /* Cannot Access */
     NoAccess(1);

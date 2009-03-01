@@ -1,4 +1,3 @@
-#!/usr/bin/python
 from transform import *
 import sys
 import os
@@ -51,10 +50,10 @@ for a in range(2,len(sys.argv)):
 			fd=open(file)
 			buffer=fd.readlines()
 			for line in buffer:
-				if line.find(fct)!= -1 and line.find('->'+fct)==-1:
+				if line.find(fct)!= -1:
 					used[fct]=used[fct]+1
 			fd.close()
 		
 		
 for u in used.keys():
-	print "%s : (%d) " % ( u,used[u])
+	print "%s : %d " % ( u,used[u])

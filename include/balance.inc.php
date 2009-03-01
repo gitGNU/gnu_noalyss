@@ -28,8 +28,12 @@
 
 include_once ("ac_common.php");
 include_once("preference.php");
-include_once ("class_widget.php");
 include_once("class_acc_balance.php");
+require_once("class_iselect.php");
+require_once("class_iposte.php");
+require_once("class_ispan.php");
+require_once("class_icheckbox.php");
+require_once("class_ihidden.php");
 require_once('class_acc_ledger.php');
 
 $User->can_request(IMPBAL);
@@ -40,7 +44,7 @@ echo '<div class="content">';
 // Show the form for period
 echo '<FORM action="?p_action=impress&type=bal" method="post">';
 echo dossier::hidden();
-$w=new widget("select");
+$w=new ISelect();
 $w->table=1;
 // filter on the current year
 $filter_year=" where p_exercice='".$User->get_exercice()."'";
@@ -75,18 +79,18 @@ if ( isset($_POST['p_jrn'])) $journal->selected=$_POST['p_jrn'];
 	$journal->selected=-1;
 echo JS_SEARCH_POSTE;
 echo "Journal = ".$journal->IOValue();
-$from_poste=new widget("js_search_poste");
+$from_poste=new IPoste();
 $from_poste->name="from_poste";
 $from_poste->extra2=null;
 $from_poste->value=(isset($_POST['from_poste']))?$_POST['from_poste']:"";
-$from_span=new widget("span","from_poste_label","from_poste_label");
+$from_span=new ISpan("from_poste_label","from_poste_label");
 
-$to_poste=new widget("js_search_poste");
+$to_poste=new IPoste();
 $to_poste->name="to_poste";
 $to_poste->extra2=null;
 $to_poste->value=(isset($_POST['to_poste']))?$_POST['to_poste']:"";
-$to_span=new widget("span","to_poste_label","to_poste_label");
-$c=new widget("checkbox");
+$to_span=new ISpan("to_poste_label","to_poste_label");
+$c=new ICheckBox();
 $c->label="centralisé";
 echo $c->IOValue('central');
 
@@ -107,8 +111,8 @@ echo '<hr>';
 //-----------------------------------------------------
 // Show the export button
 if ( isset ($_POST['view']  ) ) {
-  $submit=new widget();
-  $hid=new widget("hidden");
+INVALIDWIDGET   $submit=new widget();
+  $hid=new IHidden();
 
   echo "<table>";
   echo '<TR>';

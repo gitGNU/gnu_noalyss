@@ -28,6 +28,7 @@
  *
  */
 
+require_once("class_itext.php");
 require_once ('constant.php');
 require_once ('postgres.php');
 require_once ('class_dossier.php');
@@ -178,10 +179,10 @@ class Bud_Card {
    */
   function form() {
 
-    $wCode=new widget("text","Code","bc_code",$this->bc_code);
-    $wDescription=new widget("text","Description","bc_description",$this->bc_description);
-    $wPriceUnit=new widget("text","Prix/unit","bc_price_unit",$this->bc_price_unit);
-    $wUnit=new widget("text","Unit","bc_unit",$this->bc_unit);
+    $wCode=new IText("Code","bc_code",$this->bc_code);
+    $wDescription=new IText("Description","bc_description",$this->bc_description);
+    $wPriceUnit=new IText("Prix/unit","bc_price_unit",$this->bc_price_unit);
+    $wUnit=new IText("Unit","bc_unit",$this->bc_unit);
 
     $wCode->table=1;
     $wDescription->table=1;

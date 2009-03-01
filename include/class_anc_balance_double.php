@@ -29,6 +29,10 @@
  *  Print the crossed balance between 2 plan 
  *
  */
+require_once("class_iselect.php");
+require_once("class_itext.php");
+require_once("class_ibutton.php");
+require_once("class_ihidden.php");
 require_once ('class_anc_print.php');
 require_once ('class_anc_plan.php');
 
@@ -262,15 +266,15 @@ class Anc_Balance_Double extends Anc_Print
 	// show the second plan
 	$r.='<span style="padding:5px;margin:5px;border:2px double  blue;display:block;">';
 	$plan=new Anc_Plan($this->db);
-	$plan_id=new widget("select","","pa_id2");
+	$plan_id=new ISelect("","pa_id2");
  	$plan_id->value=make_array($this->db,"select pa_id, pa_name from plan_analytique order by pa_name");
 	$plan_id->selected=$this->pa_id2;
 	$r.= "Plan Analytique :".$plan_id->IOValue();
 
-	$poste=new widget("text");
+	$poste=new IText();
 	$poste->size=10;
 	$r.="Entre le poste ".$poste->IOValue("from_poste2",$this->from_poste2);
-	$choose=new widget("button");
+	$choose=new IButton();
 	$choose->name="Choix Poste";
 	$choose->label="Recherche";
 	$choose->javascript="onClick=search_ca('".$_REQUEST['PHPSESSID']."',".dossier::id().",'from_poste2','pa_id2')";
@@ -297,9 +301,9 @@ class Anc_Balance_Double extends Anc_Print
   function show_button($url_csv,$url_pdf,$p_string="") 
   {
 	$r="";
-	$submit=new widget();
+INVALIDWIDGET 	$submit=new widget();
 	$submit->table=0;
-	$hidden=new widget("hidden");
+	$hidden=new IHidden();
 	$r.= '<form method="GET" action="'.$url_pdf.'" style="display:inline">';
 	$r.= $p_string;
 	$r.= dossier::hidden();

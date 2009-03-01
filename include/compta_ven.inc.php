@@ -23,6 +23,7 @@
 /*!\file
  * \brief file included to manage all the sold operation
  */
+require_once("class_icheckbox.php");
 require_once("class_acc_ledger_sold.php");
 require_once ('check_priv.php');
 require_once ('class_pre_op_ven.php');
@@ -91,7 +92,7 @@ if ( $def==1 || $def == 4 ) {
     try { 
       $Ledger->verify($_POST);
     } catch (AcException $e){
-      echo '<script> alert("'.$e->getMessage().'");</script>';
+      alert($e->getMessage());
       $correct=1;
     }
     // if correct is not set it means it is correct
@@ -104,7 +105,7 @@ if ( $def==1 || $def == 4 ) {
       echo dossier::hidden();
       echo $Ledger->confirm($_POST );
       
-      $chk=new widget('checkbox');
+      $chk=new ICheckBox();
       $chk->selected=false;
       echo "Sauvez cette op&eacute;ration comme modèle ?";
       echo $chk->IOValue('opd_save');
@@ -132,7 +133,7 @@ if ( $def==1 || $def == 4 ) {
     try { 
       $Ledger->verify($_POST);
     } catch (AcException $e){
-      echo '<script> alert("'.$e->getMessage().'");</script>';
+      alert($e->getMessage());
       $correct=1;
     }
     if ( ! isset($correct)) {

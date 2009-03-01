@@ -28,7 +28,8 @@
  * and op_def_detail
  *
  */
-require_once ('class_widget.php');
+require_once("class_iselect.php");
+require_once("class_ihidden.php");
 class Pre_operation 
 {
   var $db;						/*!< $db database connection */
@@ -116,7 +117,7 @@ class Pre_operation
   /*!\brief show the button for selecting a predefined operation */
   function show_button() {
 
-	$select=new widget("select");
+	$select=new ISelect();
 	$value=make_array($this->db,"select od_id,od_name from op_predef ".
 			  " where jrn_def_id=".$this->p_jrn.
 			  " and od_direct ='".$this->od_direct."'".
@@ -174,7 +175,7 @@ class Pre_operation_detail {
    */
   function form_get () {
   
-     $hid=new widget("hidden");
+     $hid=new IHidden();
      $r=$hid->IOValue("action","use_opd");
      $r.=dossier::hidden();
      $r.=$hid->IOValue("p_jrn",$this->get("ledger"));
@@ -197,7 +198,7 @@ class Pre_operation_detail {
   /*!\brief show the button for selecting a predefined operation */
   function show_button() {
 
-	$select=new widget("select");
+	$select=new ISelect();
 
 	$value=$this->get_operation();
 	//	if ( empty($value)==true) return "";

@@ -27,7 +27,10 @@
 /*!\brief contains the object for the poste_analytique (table poste_analytique)
  *
  */
-require_once("class_widget.php");
+require_once("class_ihidden.php");
+require_once("class_itext.php");
+require_once("class_iselect.php");
+require_once("class_ispan.php");
 require_once("postgres.php");
 require_once("class_anc_plan.php");
 
@@ -222,23 +225,23 @@ class Anc_Account
   }
   function form()
   {
-	$wId=new widget("hidden","po_id","po_id",$this->id);
-	$wName=new widget("text","Nom","po_name",$this->name);
-	$wPa_id=new widget("hidden","pa_id","pa_id",$this->pa_id);
-	$wAmount=new widget("text","Montant","po_amount",$this->amount);
-	$wDescription=new widget("text","Description","po_description",$this->description);
+	$wId=new IHidden("po_id","po_id",$this->id);
+	$wName=new IText("Nom","po_name",$this->name);
+	$wPa_id=new IHidden("pa_id","pa_id",$this->pa_id);
+	$wAmount=new IText("Montant","po_amount",$this->amount);
+	$wDescription=new IText("Description","po_description",$this->description);
 	$aGroup_analytic=make_array($this->db,"select ga_id,ga_id from groupe_analytique where pa_id=".$this->pa_id,1);
 	if ( count($aGroup_analytic) > 1 ) {
-	  $wGa_id=new widget("select","Groupe","ga_id");
+	  $wGa_id=new ISelect("Groupe","ga_id");
 	  $wGa_id->value=$aGroup_analytic;
 	  $wGa_id->selected=$this->ga_id;
 	  $wGa_id->table=1;
 	} else {
-	  $wGa_id=new widget('span');
+	  $wGa_id=new ISpan();
 	}
 	$pa=new Anc_Plan($this->db,$this->pa_id);
 	$pa->get();
-	$wPaName=new widget("text","Plan A.","",$pa->name);
+	$wPaName=new IText("Plan A.","",$pa->name);
 	$wPaName->table=1;
 	$wPaName->readonly=true;
 

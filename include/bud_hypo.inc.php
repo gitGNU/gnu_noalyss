@@ -24,7 +24,6 @@
  * \brief Manage the hypothese for the budget module
  */
 require_once ('class_bud_hypo.php');
-require_once ('class_widget.php');
 
 
 if ( isset($_POST['remove'])){ 

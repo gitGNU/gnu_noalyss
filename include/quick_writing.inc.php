@@ -27,8 +27,10 @@
  * quant_purchase and quant_sold are not changed by this
  *
  */
+require_once("class_icheckbox.php");
 require_once ('class_acc_ledger.php');
 require_once ('class_acc_reconciliation.php');
+require_once('ac_common.php');
 
 require_once('check_priv.php');
 
@@ -126,8 +128,7 @@ if ($id == -1 )
      exit();
   }
 if ( $User->check_jrn($id) == 'X' ) {
-  echo "
-<script> alert(\"L'acces a ce journal est interdit, contactez votre responsable\");</script>";
+ alert("L'acces a ce journal est interdit, \n contactez votre responsable");
   exit();
  }
 echo '<div class="content">';
@@ -166,8 +167,7 @@ if ($sa == 'l' && $id != -1) {
 // Write into the ledger
 
 if ( $User->check_jrn($id) == 'X' ) {
-  echo "
-<script> alert(\"Vous ne pouvez pas acc&eacute;der &agrave; ce journal, contactez votre responsable\");</script>";
+  alert("Vous ne pouvez pas accèder à ce journal, contactez votre responsable");
        exit -1;
 }
 
@@ -208,7 +208,7 @@ if ( isset($_POST['summary'])) {
   try {
     $ledger->verify($_POST );
   } catch (AcException $e) {
-    echo '<script>alert (\''.$e->getMessage()."'); </script>";
+    alert($e->getMessage());
     show_qw_menu();
     show_direct_form($cn,$ledger,$_POST);
     exit();
@@ -222,7 +222,7 @@ if ( isset($_POST['summary'])) {
   echo widget::submit('save_it',"Sauver");
   echo widget::submit('correct_it','Corriger');
   
-  $chk=new widget('checkbox');
+  $chk=new ICheckBox();
   $chk->selected=false;
   echo "Sauvez l'op&eacute;ration ?";
   echo $chk->IOValue('save_opd');
@@ -247,7 +247,7 @@ if ( isset($_POST['save_it' ])) {
 			     $_REQUEST['p_jrn']);
 			     
   } catch (AcException $e) {
-    echo '<script>alert (\''.$e->getMessage()."'); </script>";
+    alert ($e->getMessage());
     show_qw_menu();
     show_direct_form($cn,$ledger,$_POST);
   }

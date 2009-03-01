@@ -1,4 +1,3 @@
-#!/usr/bin/python
 from transform import *
 import sys
 import os
@@ -14,7 +13,7 @@ print "Total file to handle %d " % (len(files))
 for file in files:
 	print "Working on file "+file
 	new_file=file
-	old_file=(file+'.old')
+	old_file=(file+'.arold')
 	os.rename(new_file,old_file)
 	fnew=open(new_file,'a+')
 	fold=open(old_file)

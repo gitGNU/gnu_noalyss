@@ -25,6 +25,9 @@
 
 include_once ("ac_common.php");
 include_once("jrn.php");
+require_once("class_iposte.php");
+require_once("class_itext.php");
+require_once("class_iselect.php");
 require_once ('class_acc_ledger.php');
 
 html_page_start($_SESSION['g_theme']);
@@ -115,10 +118,10 @@ $sessid=$_REQUEST['PHPSESSID'];
 
 echo '<DIV CLASS="u_redcontent">';
 /* widget for searching an account */
-$wSearch=new widget('js_search_poste_only');
+$wSearch=new IPoste();
 $wSearch->extra="p_jrn_class_deb";
 $wSearch->extra2='jrn';
-$wJrn=new widget('text');
+$wJrn=new IText();
 $wJrn->name='p_jrn_class_deb';
 $wJrn->size=40;
 $wJrn->value='';
@@ -135,15 +138,15 @@ $hidden.=widget::hidden('p_ech_lib','echeance');
 /* properties of the ledger */
 $name="";
 $code="";
-$wType=new widget('select');
+$wType=new ISelect();
 $wType->value=make_array($cn,'select jrn_type_id,jrn_desc from jrn_type');
 $wType->name="p_jrn_type";
 $type=$wType->IOValue();
 $rcred=$rdeb=array();
-$wPjPref=new widget('text');
+$wPjPref=new IText();
 $wPjPref->name='jrn_def_pj_pref';
 $pj_pref=$wPjPref->IOValue();
-$wPjSeq=new widget('text');
+$wPjSeq=new IText();
 $wPjSeq->value=0;
 $wPjSeq->name='jrn_def_pj_seq';
 $pj_seq=$wPjSeq->IOValue();

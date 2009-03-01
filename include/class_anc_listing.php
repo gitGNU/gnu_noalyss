@@ -24,6 +24,7 @@
  * \brief definition of Anc_Listing
  */
 
+require_once("class_ihidden.php");
 require_once ('class_anc_plan.php');
 require_once ('class_anc_print.php');
 require_once ('class_anc_operation.php');
@@ -137,9 +138,9 @@ class Anc_Listing extends Anc_Print {
  */
   function show_button($p_string='') {
 	$r="";
-	$submit=new widget();
+INVALIDWIDGET 	$submit=new widget();
 	$submit->table=0;
-	$hidden=new widget("hidden");
+	$hidden=new IHidden();
 	/* for the export in PDF
 	 * Not yet needed, the html print should be enough
 	$r.= '<form method="GET" action="ca_list_pdf.php" style="display:inline">';

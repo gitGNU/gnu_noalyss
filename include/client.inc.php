@@ -18,6 +18,8 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+require_once("class_iselect.php");
+require_once("class_ihidden.php");
 require_once("class_customer.php");
 $sub_action=(isset($_REQUEST['sb']))?$_REQUEST['sb']:"list";
 
@@ -121,7 +123,7 @@ if ( $sub_action == "list" )
 <input type="hidden" name="p_action" value="client">
 
 <?php  
- $w=new widget("select");
+ $w=new ISelect();
  $w->name="fd_id";
  $w->value= make_array($cn,"select fd_id,fd_label from fiche_def where ".
 	     " frd_id=".FICHE_TYPE_CLIENT);
@@ -156,7 +158,7 @@ if ( $sub_action == 'detail' )
   echo '<form action="'.$_REQUEST['url'].'" method="post">'; 
   echo dossier::hidden();
   echo $client->Display(false);
-  $w=new widget("hidden");
+  $w=new IHidden();
   $w->name="p_action";
   $w->value="client";
   echo $w->IOValue();

@@ -30,7 +30,9 @@
  * bud_detail_periode, 
  * the purpose is to insert or save into bud_detail_periode
  */
-require_once ('class_widget.php');
+require_once("class_itext.php");
+require_once("class_iselect.php");
+require_once("class_ibutton.php");
 require_once ('postgres.php');
 require_once ('constant.php');
 require_once ('debug.php');
@@ -191,17 +193,17 @@ class Bud_Data {
     $p_number++;
     $tot=0;
 
-    $wAmount=new widget('text');
+    $wAmount=new IText();
     $wAmount->size=8;
     $wAmount->extra="disabled";
 
-    $wAccount=new widget('js_bud_search_poste');
+INVALIDWIDGET     $wAccount=new widget('js_bud_search_poste');
     $wAccount->table=0;
     $wAccount->disabled=true;
     $wAccount->value=$this->pcm_val.' - '.$this->pcm_lib;
     $wAccount->extra=$this->pcm_val;
 
-    $wBudCard=new widget('select');
+    $wBudCard=new ISelect();
     $wBudCard->value=$this->load_bud_card();
     $wBudCard->selected=$this->bc_id;
     $wBudCard->disabled=true;
@@ -235,22 +237,22 @@ class Bud_Data {
     $r.=widget::hidden('PHPSESSID',$_REQUEST['PHPSESSID']);
 
     $r.="</form>";
-    $button_change=new widget('button','Change');
+    $button_change=new IButton('Change');
     $button_change->javascript='bud_form_enable('.$p_number.')';
     $r.=$button_change->IOValue('button_change'.$p_number);
 
 
-    $button_save=new widget('button','Sauve');
+    $button_save=new IButton('Sauve');
     $button_save->javascript='bud_form_save('.$p_number.')';
     $button_save->extra='style="display:none"';
     $r.=$button_save->IOValue('button_save'.$p_number);
 
-    $button_delete=new widget('button','Efface');
+    $button_delete=new IButton('Efface');
     $button_delete->javascript='bud_form_delete('.$p_number.')';
     $button_delete->extra='style="display:none"';
     $r.=$button_delete->IOValue('button_delete'.$p_number);
 
-    $button_escape=new widget('button','Echapper');
+    $button_escape=new IButton('Echapper');
     $button_escape->javascript='bud_form_disable('.$p_number.')';
     $button_escape->extra='style="display:none"';
     $r.=$button_escape->IOValue('button_escape'.$p_number);
@@ -399,7 +401,7 @@ class Bud_Data {
     $cn=DbConnect(dossier::id());
     $sql="select bh_id||','||po_id,bh_name||' -- '||po_name ".
       " from bud_hypothese join poste_analytique using (pa_id)";
-    $w=new widget("select");
+    $w=new ISelect();
     echo '<form>';
 	echo widget::hidden('test_select',$_REQUEST['test_select']);
     echo dossier::hidden();

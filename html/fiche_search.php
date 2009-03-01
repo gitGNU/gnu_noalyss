@@ -47,6 +47,7 @@ include_once ("ac_common.php");
 include_once ("poste.php");
 include_once ("postgres.php");
 include_once("jrn.php");
+require_once("class_ibutton.php");
 require_once('class_dossier.php');
 include_once ("class_user.php");
 // include_once ("check_priv.php");
@@ -108,7 +109,7 @@ $r="";
 
 if (!isset($_REQUEST['noadd']) && $User->check_action(FICADD)==1 && $_GET['p_jrn']  != 0 ) {
   if ( $User->check_action(FICADD)==1) {
-    $add_card=new widget('button');
+    $add_card=new IButton();
     $add_card->javascript=sprintf("NewCard('%s','%s','%s')",
 				  $_REQUEST['PHPSESSID'],
 				  $_GET['type'],

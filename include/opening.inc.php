@@ -29,6 +29,7 @@ $sa=(isset($_REQUEST['sa']))?$_REQUEST['sa']:'';
 $User=new User(DbConnect(dossier::id()));
 $User->Check();
 $User->can_request(PAREO,1);
+require_once("class_iselect.php");
 require_once('class_acc_ledger.php');
 /* -------------------------------------------------- 
  * step 1 if nothing is asked we show the available folders
@@ -45,7 +46,7 @@ if ($sa == '') {
   echo widget::hidden('p_action','ouv');
   echo widget::hidden('sa','step2');
   echo dossier::hidden();
-  $wAvail=new widget('select');
+  $wAvail=new ISelect();
   /* compute select list */
   $array=array();
   $i=0;
@@ -80,7 +81,7 @@ if ( $sa=='step2') {
   echo widget::hidden('f',$_REQUEST['f']);
   $cn=DbConnect($_REQUEST['f']);
   $periode=make_array($cn,"select distinct p_exercice,p_exercice from parm_periode order by p_exercice");
-  $w=new widget('select');
+  $w=new ISelect();
   $w->table=0;
   $w->label='Periode';
   $w->readonly=false;
@@ -107,7 +108,7 @@ if ( $sa == 'step3') {
   echo widget::hidden('sa','step4');
   echo widget::hidden('f',$_REQUEST['f']);
   echo widget::hidden('p_periode',$_REQUEST['p_periode']);
-  $wLedger=new widget("select");
+  $wLedger=new ISelect();
   $User=new User(DbConnect(dossier::id()));
   $avail=$User->get_ledger('ODS');
   /* compute select list */

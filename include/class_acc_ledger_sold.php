@@ -23,6 +23,13 @@
 /*!\file
  * \brief class for the sold, herits from acc_ledger
  */
+require_once("class_iselect.php");
+require_once("class_icard.php");
+require_once("class_ispan.php");
+require_once("class_ihidden.php");
+require_once("class_idate.php");
+require_once("class_itext.php");
+require_once("class_ifile.php");
 require_once('class_acc_ledger.php');
 require_once('class_acc_compute.php');
 require_once('class_anc_operation.php');
@@ -408,7 +415,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
    *\note echo directly, there is no return with the html code
    */
   public function show_ledger() {
-    $w=new widget("select");
+    $w=new ISelect();
     $User=new User($this->db); 
     // filter on the current year
     $filter_year=" where p_exercice='".$User->get_exercice()."'";
@@ -430,14 +437,14 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $this->type='VEN';
     $all=$this->get_all_fiche_def();
 
-    $w=new widget('js_search_only');
+    $w=new ICard();
     $w->name='qcode';
     $w->value=$qcode;
     $w->label='';
     $w->extra='filter';
     $w->extra2='QuickCode';
     $w->table=0;
-    $sp= new widget("span");
+    $sp=new ISpan();
     echo $w->IOValue();
 
     echo $sp->IOValue("qcode_label","",$qcode);
@@ -476,7 +483,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     echo "<hr>$bar";
     echo '<form method="POST">';
     echo dossier::hidden();  
-    $hid=new widget("hidden");
+    $hid=new IHidden();
     
     echo $list;
     if ( $max_line !=0 )
@@ -526,16 +533,16 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $r.='<TABLE  width="100%">';
     //  Date
     //--
-    $Date=new widget("js_date");
-    $Date->SetReadOnly(false);
+    $Date=new IDate();
+    $Date->setReadOnly(false);
     $Date->table=1;
     $Date->tabindex=1;
     $r.="<tr>";
     $r.=$Date->IOValue("e_date",$op_date,"Date");
     // Payment limit
     //--
-    $Echeance=new widget("js_date");
-    $Echeance->SetReadOnly(false);
+    $Echeance=new IDate();
+    $Echeance->setReadOnly(false);
     $Echeance->table=1;
     $Echeance->tabindex=2;
     $label=widget::infobulle(4);
@@ -569,9 +576,9 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $r.=$wLedger->IOValue();
     // Comment
     //--
-    $Commentaire=new widget("text");
+    $Commentaire=new IText();
     $Commentaire->table=0;
-    $Commentaire->SetReadOnly(false);
+    $Commentaire->setReadOnly(false);
     $Commentaire->size=60;
     $Commentaire->tabindex=3;
     $label=" Description ".widget::infobulle(1) ;
@@ -586,7 +593,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       $default_pj=$this->guess_pj();
     } 
 
-    $pj=new widget('text');
+    $pj=new IText();
 
 
     $pj->table=0;
@@ -621,7 +628,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 
     }
     
-    $W1=new widget("js_search_only");
+    $W1=new ICard();
     $W1->label="Client ".widget::infobulle(0) ;
     $W1->name="e_client";
     $W1->tabindex=3;
@@ -630,14 +637,14 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $W1->extra=$fiche;  // list of card
     $W1->extra2="Recherche";
     $r.='<TR><td colspan="5" >'.$W1->IOValue();
-    $client_label=new widget("span");
+    $client_label=new ISpan();
     $client_label->table=0;
     $r.=$client_label->IOValue("e_client_label",$e_client_label)."</TD></TR>";
     
     $r.="</TABLE>";
     
     // Record the current number of article
-    $Hid=new widget('hidden');
+    $Hid=new IHidden();
     $p_article= ( isset ($p_article))?$p_article:MAX_ARTICLE;
     $r.=$Hid->IOValue("nb_item",$p_article);
     $e_comment=(isset($e_comment))?$e_comment:"";
@@ -689,7 +696,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 	 }
       // Show input
       //--
-      $W1=new widget("js_search_only");
+      $W1=new ICard();
       $W1->label="";
       $W1->name="e_march".$i;
       $W1->value=$march;
@@ -709,14 +716,14 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       $r.=widget::hidden('htva_march'.$i,0);      
       $r.=widget::hidden('tvac_march'.$i,0);      
       $r.="</TD>";
-      $Span=new widget ("span");
-      $Span->SetReadOnly(false);
+      $Span=new ISpan();
+      $Span->setReadOnly(false);
       // card's name, price
       //--
       $r.='<TD style="width:55%;border-bottom:1px dotted grey;">'.$Span->IOValue("e_march".$i."_label",$march_label)."</TD>";
       // price
-      $Price=new widget("text");
-      $Price->SetReadOnly(false);
+      $Price=new IText();
+      $Price->setReadOnly(false);
       $Price->table=1;
       $Price->size=9;
       $Price->javascript="onBlur='compute_sold($i)'";
@@ -726,14 +733,14 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 	      // vat label
 	      //--
 	      $select_tva=make_array($this->db,"select tva_id,tva_label from tva_rate order by tva_rate desc",0);
-	      $Tva=new widget("select");
+	      $Tva=new ISelect();
 	      $Tva->javascript="onChange=compute_sold($i)";
 	      $Tva->table=1;
 	      $Tva->selected=$march_tva_id;
 	      $r.=$Tva->IOValue("e_march$i"."_tva_id",$select_tva);
 	      // vat amount (disable)
 	      //--
-	      $wTva_amount=new widget("text");
+	      $wTva_amount=new IText();
 	      $wTva_amount->table=1;
 	      $wTva_amount->readonly=true;
 	      $wTva_amount->size=6;
@@ -742,8 +749,8 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       // quantity
       //--
       $quant=(isset(${"e_quant$i"}))?${"e_quant$i"}:"1";
-      $Quantity=new widget("text");
-      $Quantity->SetReadOnly(false);
+      $Quantity=new IText();
+      $Quantity->setReadOnly(false);
       $Quantity->table=1;
       $Quantity->size=9;
       $Quantity->javascript="onChange=compute_sold($i)";
@@ -1020,7 +1027,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $r.='<div style="position:float;float:left;width:50%;text-align:right;line-height:3em;">';
     $r.='<fieldset> <legend> Facturation</legend>';
        // check for upload piece
-    $file=new widget("file");
+    $file=new IFile();
     $file->table=0;
     $r.="Ajoutez une pi&egrave;ce justificative ";
     $r.=$file->IOValue("pj","");
@@ -1032,7 +1039,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 	
 	$r.='ou g&eacute;n&eacute;rer une facture <input type="checkbox" name="gen_invoice" CHECKED>';
 	// We propose to generate  the invoice and some template
-	$doc_gen=new widget("select");
+	$doc_gen=new ISelect();
 	$doc_gen->name="gen_doc";
 	$doc_gen->value=make_array($this->db,
 				   "select md_id,md_name ".
@@ -1040,7 +1047,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 	$r.=$doc_gen->IOValue().'<br>';  
       }
     $r.='<br>';
-    $obj=new widget('TEXT');
+    $obj=new IText();
     $r.='Numero de bon de commande : '.$obj->IOValue('bon_comm').'<br>';
     $r.='Autre information : '.$obj->IOValue('other_info').'<br>';
 
@@ -1077,7 +1084,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     echo $list2;
     echo $bar2;
     // Add hidden parameter
-    $hid=new widget("hidden");
+    $hid=new IHidden();
 
     echo '<hr>';
 

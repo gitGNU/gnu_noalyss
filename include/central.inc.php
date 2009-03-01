@@ -23,7 +23,6 @@
  * \brief concerns the centralisation of the operations
  */
 include_once ("ac_common.php");
-require_once ('class_widget.php');
 html_page_start($_SESSION['g_theme']);
 
 require_once('class_dossier.php');

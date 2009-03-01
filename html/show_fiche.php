@@ -32,7 +32,6 @@ require_once ('class_fiche.php');
 require_once ('postgres.php');
 require_once ('debug.php');
 require_once ('ac_common.php');
-require_once('class_widget.php');
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 

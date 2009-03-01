@@ -25,7 +25,10 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 /* $Revision$ */
 
-require_once ('class_widget.php');
+require_once("class_idate.php");
+require_once("class_iposte.php");
+require_once("class_icard.php");
+require_once("class_ispan.php");
 
 
 /*!
@@ -262,12 +265,12 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
   $r.= "<TR>";
   $r.= '<TD COLSPAN="3">  Date comprise entre</TD> ';
   $r.= "</TR> <TR>";
-  $date_start=new widget('js_date');
+  $date_start=new IDate();
   $date_start->name="date_start";
   $date_start->value=$p_date_start;
   $date_start->table=0;
 
-  $date_end=new widget('js_date');
+  $date_end=new IDate();
   $date_end->name="date_end";
   $date_end->value=$p_date_end;
   $date_end->table=0;
@@ -295,7 +298,7 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
 
   $r.= "</TR>";
   $r.= "<TR>";
-  $W=new widget("js_search_poste");
+  $W=new IPoste();
   $W->label="Numéro de poste<br> <i>Vous pouvez utilisez le %</i>";
   $W->name="poste";
   $W->value=$p_poste;
@@ -303,7 +306,7 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
   $r.= "</TR>";
   $r.= "<TR>";
  
- $A=new widget('js_search_only');
+ $A=new ICard();
  $A->name='qcode';
  $A->value=$p_qcode;
  $A->extra="";
@@ -312,7 +315,7 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
  $A->extra='all';
  $A->extra2='Recherche';
 
- $sp= new widget("span");
+ $sp=new ISpan();
  $sp->table=0;
  $r.=$A->IOValue().'</TD>'.$sp->IOValue("qcode_label");
  $r.= "</TR>";

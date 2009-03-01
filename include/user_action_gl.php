@@ -25,8 +25,8 @@
 
 include_once ("preference.php");
 include_once ("user_common.php");
-include_once ("class_widget.php");
 include_once("class_user.php");
+require_once("class_iselect.php");
 require_once("jrn.php");
 
 $cn=DbConnect($gDossier);
@@ -36,7 +36,7 @@ echo '<div class="u_content">
 echo dossier::hidden();
 echo widget::hidden('p_action','gl');
 
-$w=new widget("select");
+$w=new ISelect();
 // filter on the current year
 $filter_year=" where p_exercice='".$User->get_exercice()."'";
 

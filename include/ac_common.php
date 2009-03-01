@@ -1,5 +1,4 @@
 <?php  
-
 /*
  *   This file is part of PhpCompta.
  *
@@ -33,6 +32,8 @@ require_once ("postgres.php");
 function h($p_string) { return htmlspecialchars($p_string);}
 function hi($p_string) { return '<i>'.htmlspecialchars($p_string).'</i>';}
 function hb($p_string) { return '<b>'.htmlspecialchars($p_string).'</b>';}
+/*!\brief escape correctly php string to javascript */
+function j($p_string) { $a=preg_replace("/\r?\n/", "\\n", addslashes($p_string)); return $a;}
 /*! 
  * \brief  log error into the /tmp/phpcompta_error.log it doesn't work on windows
  *
@@ -492,7 +493,7 @@ function sql_filter_per($p_cn,$p_from,$p_to,$p_form='p_id',$p_field='jr_tech_per
 function alert($p_msg)
 {
   echo '<script language="javascript">';
-  echo 'alert(\''.FormatString($p_msg).'\')';
+  echo 'alert(\''.j($p_msg).'\')';
   echo '</script>';
 }
 ?>

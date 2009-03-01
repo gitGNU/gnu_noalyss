@@ -26,6 +26,8 @@
  * \brief Manage the table parm_code which contains the custom parameter
  * for the module accountancy
  */
+require_once("class_itext.php");
+require_once("class_iposte.php");
 require_once('class_acc_account_ledger.php');
 
 class Acc_Parm_Code {
@@ -81,7 +83,7 @@ class Acc_Parm_Code {
       // check if the account exists
       $acc=new Acc_Account_Ledger($this->db,$this->p_value);
       if ( $acc->load() == false ) {
-	echo "<script> alert('Ce compte n\'existe pas')</script>";
+		alert("Ce compte n'existe pas");
       } else {
 	$this->p_comment=FormatString($this->p_comment);
 	$this->p_value=FormatString($this->p_value);
@@ -118,16 +120,16 @@ class Acc_Parm_Code {
  */
   function form() 
     {
-      $comment=new widget("text");
+      $comment=new IText();
       $comment->name='p_comment';
       $comment->value=$this->p_comment;
       $comment->size=45;
-      $value=new widget("js_search_poste");
+      $value=new IPoste();
       $value->name='p_value';
       $value->value=$this->p_value;
       $value->size=7;
-      $poste=new widget("text");
-      $poste->SetReadOnly(true);
+      $poste=new IText();
+      $poste->setReadOnly(true);
       $poste->size=strlen($this->p_code)+1;
       $poste->name='p_code';
       $poste->value=$this->p_code;

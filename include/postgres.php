@@ -193,40 +193,7 @@ function GetAllUser() {
   return $User;
 }
 
-/*!   
- * \brief Get the number of rows
- * from table jnt_use_dos where $p_dossier = dos_id and 
- * use_id=$p_user. 
- */
-function ExisteJnt($p_dossier,$p_user)
-{
-  $cn=DbConnect();
-  $Res=ExecSql($cn,"select * from jnt_use_dos where dos_id=".$p_dossier." and use_id=".$p_user);
-  return pg_NumRows($Res);
-}
-/* ExistePriv
- * 
- * 
- * 
- */
-function ExistePriv($p_jntid)
-{
-  $cn=DbConnect();
-  $Res=ExecSql($cn,"select * from priv_user where priv_jnt=".$p_jntid);
-  return pg_NumRows($Res);
-}
-/* GetJnt
- * Get the jnt
- * 
- * 
- */
-function GetJnt($p_dossier,$p_user)
-{
-  $cn=DbConnect();
-  $Res=ExecSql($cn,"select jnt_id from jnt_use_dos where dos_id=".$p_dossier." and use_id=".$p_user);
-  $R=pg_fetch_array($Res,0);
-  return $R['jnt_id'];
-}
+
 /*! \brief Count the number of row
  * 
  * \param $p_conn connection handler

@@ -151,7 +151,6 @@ case 15:
 	Acc_Compute::test_me();
 	break;
 case 16:
-	require_once('class_widget.php');
 	echo widget::button_href("On y va",'login.php');
 	break;
 case 17:
@@ -160,7 +159,6 @@ case 17:
 	break;
 case 18:
 	require_once('class_todo_list.php');
-	require_once('class_widget.php');
 	require_once ('constant.php');
 	echo JS_PROTOTYPE;
 	Todo_List::test_me();

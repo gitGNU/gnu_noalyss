@@ -23,12 +23,12 @@
 /*! \file 
  * \brief Manage the card for the budget module
  */
+require_once("class_iselect.php");
 require_once ('class_bud_card.php');
-require_once ('class_widget.php');
 
 
 echo '<form method="get">';
-$wHypo=new widget("select","","bh_id");
+$wHypo=new ISelect("","bh_id");
 $wHypo->value=make_array($cn,"select bh_id,html_quote(bh_name) from bud_hypothese");
 $wHypo->selected=(isset($_REQUEST['bh_id']))?$_REQUEST['bh_id']:"";
 $wHypo->javascript='onChange="this.form.submit();"';

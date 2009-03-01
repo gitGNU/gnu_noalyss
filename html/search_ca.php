@@ -28,8 +28,10 @@
  
   // parameter are gDossier,PHPSESSID , c1 : the control id to update,
   // c2 the control id which contains the pa_id
+require_once("class_itext.php");
+require_once("class_ihidden.php");
+require_once("class_ibutton.php");
 require_once ('postgres.php');
-require_once ('class_widget.php');
 require_once ("ac_common.php");
 require_once ('class_dossier.php');
 require_once ('class_anc_account.php');
@@ -42,12 +44,12 @@ html_page_start();
 
 //------------- FORM ----------------------------------
 echo '<FORM METHOD="GET">';
-$texte=new widget("text");
+$texte=new IText();
 echo '<span> Recherche :';
 echo $texte->IOValue('label');
 echo '</span>';
 echo dossier::hidden();
-$hid=new widget("hidden");
+$hid=new IHidden();
 echo $hid->IOValue("c1",$_REQUEST['c1']);
 echo $hid->IOValue("c2",$_REQUEST['c2']);
 echo $hid->IOValue("go");
@@ -71,7 +73,7 @@ if ( isset($_REQUEST['go'])) {
 	  echo "D&eacute;sol&eacute; aucun poste trouv&eacute;";
 	  return;
 	}
-  $button=new widget("button");
+  $button=new IButton();
   $button->name="Choix";
   $button->label="Choix";
 

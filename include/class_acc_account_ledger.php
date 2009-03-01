@@ -24,6 +24,7 @@
 /*!
  * \brief Manage the account from the table jrn, jrnx or tmp_pcmn
  */
+require_once("class_ihidden.php");
 require_once ('postgres.php');
 require_once ('class_dossier.php');
 
@@ -280,8 +281,8 @@ function get_solde_detail($p_cond="") {
   */
  static function HtmlTableHeader()
    {
-     $submit=new widget();
-     $hid=new widget("hidden");
+INVALIDWIDGET      $submit=new widget();
+     $hid=new IHidden();
      echo '<div class="noprint">';
      echo "<table >";
      echo '<TR>';

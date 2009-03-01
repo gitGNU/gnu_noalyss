@@ -22,7 +22,7 @@
  * \brief this file is always included and then executed
  *        it permits to change the user preferences
  */
-require_once('class_widget.php');
+require_once("class_iselect.php");
 require_once('class_user.php');
 require_once('class_acc_report.php');
 echo '<DIV class="content">';
@@ -102,7 +102,7 @@ Th&egrave;me
 
 <?php  
 /*!\todo Not used anymore to be removed ?
-$topmenu=new widget('select');
+$topmenu=new ISelect();
 $topmenu->name='topmenu';
 $topmenu->selected=$_SESSION['g_topmenu'];
 $array=array(
@@ -194,7 +194,7 @@ if ( $inside_dossier ) {
   $rapport=new Acc_Report($cn);
   $aRapport=$rapport->make_array();
   $aRapport[]=array("value"=>0,"label"=>'Aucun mini rapport');
-  $wRapport=new widget("select");
+  $wRapport=new ISelect();
   $wRapport->name="minirap";
   $wRapport->selected=$User->get_mini_report();
   $wRapport->value=$aRapport;

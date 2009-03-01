@@ -24,7 +24,6 @@ require_once("user_menu.php");
 include_once ("constant.php");
 include_once("jrn.php");
 include_once("user_common.php");
-include_once("class_widget.php");
 /*! \file
  * \brief Search module
  */

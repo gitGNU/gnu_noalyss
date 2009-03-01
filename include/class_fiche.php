@@ -22,8 +22,13 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 include_once("class_attribut.php");
+require_once("class_iposte.php");
+require_once("class_ispan.php");
+require_once("class_itva.php");
+require_once("class_isearch.php");
+require_once("class_itext.php");
+require_once("class_ihidden.php");
 require_once('class_fiche_def.php');
-require_once('class_widget.php');
 /*! \file
  * \brief define Class fiche, this class are using
  *        class attribut
@@ -285,13 +290,13 @@ class fiche {
 		  if ( $attr->ad_id == ATTR_DEF_ACCOUNT) 
 			{
 			  $r.=JS_SEARCH_POSTE;
-			  $w=new widget("js_search_poste");
+			  $w=new IPoste();
 			  //  account created automatically
 			  $sql="select account_auto($p_fiche_def)";
 			  echo_debug("class_fiche",__LINE__,$sql);
 			  $ret_sql=ExecSql($this->cn,$sql);
 			  $a=pg_fetch_array($ret_sql,0);
-			  $label=new widget("span");
+			  $label=new ISpan();
 			  $label->name="av_text".$attr->ad_id."_label";
 			  
 			  if ( $a['account_auto'] == 't' )
@@ -314,23 +319,23 @@ class fiche {
 	  elseif ( $attr->ad_id == ATTR_DEF_TVA) 
 	    {
 	      $r.=JS_SHOW_TVA;
-	      $w=new widget("js_tva");
+	      $w=new ITva();
 
 	    }
 	  elseif ( $attr->ad_id == ATTR_DEF_COMPANY )
 	    {
 	      $r.=JS_SEARCH_CARD;
-	      $w=new widget("js_search");
+	      $w=new ISearch();
 	      // filter on frd_id
 	      $w->extra=FICHE_TYPE_CLIENT.','.FICHE_TYPE_FOURNISSEUR.','.FICHE_TYPE_ADM_TAX; 
 	      $w->extra2=0;      // jrn = 0
-	      $label=new widget("span");
+	      $label=new ISpan();
 	      $label->name="av_text".$attr->ad_id."_label";
 	      $msg=$label->IOValue();
 	    }
 	  else
 	    {
-	      $w=new widget("text");
+	      $w=new IText();
 	    }
 	  $w->table=1;
 	  $w->label=$attr->ad_text;
@@ -366,14 +371,14 @@ class fiche {
 	  $msg="";
 	  if ( $p_readonly) 
 	    {
-	      $w=new widget("text");
+	      $w=new IText();
 	    }
 	  if ($p_readonly==false)
 	    {
 	      if ( $r->ad_id == ATTR_DEF_ACCOUNT) 
 		{
 		  $ret.=JS_SEARCH_POSTE;
-		  $w=new widget("js_search_poste");
+		  $w=new IPoste();
 		  //  account created automatically
 		  $sql="select account_auto($this->fiche_def)";
 		  echo_debug("class_fiche",__LINE__,$sql);
@@ -388,23 +393,23 @@ class fiche {
 	      elseif ( $r->ad_id == ATTR_DEF_TVA) 
 		{
 		  $ret.=JS_SHOW_TVA;
-		  $w=new widget("js_tva");
+		  $w=new ITva();
 	    }
 	      elseif ( $r->ad_id == ATTR_DEF_COMPANY )
 		{
 		  $ret.=JS_SEARCH_CARD;
-		  $w=new widget("js_search");
+		  $w=new ISearch();
 		  // filter on frd_id
 		  $w->extra=FICHE_TYPE_CLIENT.','.FICHE_TYPE_FOURNISSEUR.','.FICHE_TYPE_ADM_TAX; 
 		  $w->extra2=0;      // jrn = 0
-		  $label=new widget("span");
+		  $label=new ISpan();
 		  $label->name="av_text".$r->ad_id."_label";
 		  $msg=$label->IOValue();
 		}
 	    
 	      else 
 		{
-		  $w=new widget("text");
+		  $w=new IText();
 		}
 	    }
 	  $w->label=$r->ad_text;
@@ -763,7 +768,7 @@ class fiche {
 
        if ( CountSql($this->cn,"select * from jrnx where j_qcode='".pg_escape_string($qcode)."'") != 0)
 	 {
-	   echo "<SCRIPT> alert('Impossible cette fiche est utilisée dans un journal'); </SCRIPT>";
+	   alert('Impossible cette fiche est utilisée dans un journal'); 
 	   return;
 	 }
 
@@ -776,7 +781,7 @@ class fiche {
 	 // if class is not NULL and if we use it before, we can't remove it
 	 if (FormatString($class) != null && $is_used_jrnx     != 0 ) 
 	   {
-	     echo "<SCRIPT> alert('Impossible ce poste est utilisée dans un journal'); </SCRIPT>";
+	     alert('Impossible ce poste est utilisée dans un journal'); 
 	     return;
 	   }
 	 else
@@ -1012,8 +1017,8 @@ class fiche {
      if ( $p_array == null)
        $p_array=$_REQUEST;
 
-     $submit=new widget();
-     $hid=new widget("hidden");
+INVALIDWIDGET      $submit=new widget();
+     $hid=new IHidden();
      echo '<div class="noprint">';
      echo "<table >";
      echo '<TR>';

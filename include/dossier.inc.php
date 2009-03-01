@@ -24,7 +24,8 @@
 * \brief Management of the folder
  *
  */
-require_once ('class_widget.php');
+require_once("class_itext.php");
+require_once("class_icheckbox.php");
 $sa=(isset($_REQUEST['sa']))?$_REQUEST['sa']:'list';
 //---------------------------------------------------------------------------
 // Update
@@ -47,7 +48,7 @@ if ( isset ($_POST["DATABASE"]) ) {
   $encoding=getDbValue($cn,"select encoding from pg_database  where ".
 		       " datname='".domaine.'mod'.FormatString($_POST["FMOD_ID"])."'");
   if ( $encoding != 6 ) {
-    echo "<script> alert('Désolé vous devez migrer ce modèle en unicode')</script>";
+    alert('Désolé vous devez migrer ce modèle en unicode');
     echo '<span class="error">le modele '.domaine.'mod'.$_POST["FMOD_ID"]." doit être migré en unicode.";
     echo 'Pour le passer en unicode, faites-en un backup puis restaurez le fichier reçu</span>';
     echo widget::button_href('Retour','admin_repo.php?action=dossier_mgt');
@@ -62,9 +63,9 @@ if ( isset ($_POST["DATABASE"]) ) {
     $l_id=GetSequence($cn,'dossier_id');
       Commit($cn);
       } catch (Exception $e) {
-	$msg="Desole la creation de ce dossier a echoue, la cause la plus probable est".
+	$msg="Desole la creation de ce dossier a echoue,\n la cause la plus probable est".
 	  ' deux fois le même nom de dossier';
-	echo '<script>alert("'.$msg.'");</script>';
+	alert($msg);;
 	echo_debug(__FILE__.':'.__LINE__.'- echec ','Echec creation ',$e);
 	$l_id=0;	
 	Rollback($cn);
@@ -246,14 +247,14 @@ if ( $sa == 'mod' ) {
   require_once ('class_dossier.php');
   $dos=new dossier($_REQUEST['d']);
   $dos->load();
-  $wText=new widget('text');
+  $wText=new IText();
   echo '<form action="admin_repo.php" method="post">';
   echo widget::hidden('action','dossier_mgt');
   echo widget::hidden('d',$dos->get_parameter("id"));
   echo 'Nom : ';
   echo  $wText->IOValue('name',$dos->get_parameter('name'));
   echo '<br>';
-  $wDesc=new widget('textarea');
+  $wDesc=new ITextArea();
   $wDesc->heigh=5;
   echo 'Description : <br>';
   echo  $wDesc->IOValue('desc',$dos->get_parameter('desc'));
@@ -272,7 +273,7 @@ if ( $sa == 'del' ) {
   echo widget::hidden('d',$_REQUEST['d']);
   echo widget::hidden('sa','remove');
   echo '<h2 class="error">Etes vous sure et certain de vouloir effacer '.$d->dos_name.' ???</h2>';
-  $confirm=new widget('checkbox');
+  $confirm=new ICheckBox();
   $confirm->name="p_confirm";
   echo 'Cochez la case si vous êtes sûr de vouloir effacer ce dossier';
   echo $confirm->IOValue();

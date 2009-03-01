@@ -21,8 +21,11 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 //!\brief File for adding contact, contact is a kind of fiche
+require_once("class_icard.php");
+require_once("class_ispan.php");
+require_once("class_iselect.php");
+require_once("class_ihidden.php");
 require_once('class_contact.php');
-require_once('class_widget.php');
 /*! \file
  * \brief the contact class is derived from the class fiche
  *        the contact is in fact a card but more specific
@@ -130,7 +133,7 @@ if ( $sub_action == "list" )
    echo dossier::hidden();  
    $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
  echo JS_SEARCH_CARD;
- $w=new widget('js_search_only');
+ $w=new ICard();
  $w->name='qcode';
  $w->value=$qcode;
  $w->label='qcode';
@@ -139,7 +142,7 @@ if ( $sub_action == "list" )
  echo $w->IOValue();
 
 
- $sp= new widget("span");
+ $sp=new ISpan();
  echo $sp->IOValue("qcode_label",$qcode)."</TD></TR>";
 
 
@@ -156,7 +159,7 @@ if ( $sub_action == "list" )
 <input type="hidden" name="p_action" value="contact">
 
 <?php  
- $w=new widget("select");
+ $w=new ISelect();
  $w->name="fd_id";
  $w->value= make_array($cn,"select fd_id,fd_label from fiche_def where ".
 	     " frd_id=".FICHE_TYPE_CONTACT);
@@ -201,7 +204,7 @@ if ( $sub_action == 'detail' )
   echo '<form action="'.$_SERVER['REQUEST_URI'].'" method="post">'; 
   echo dossier::hidden();
   echo $contact->Display(false);
-  $w=new widget("hidden");
+  $w=new IHidden();
   $w->name="p_action";
   $w->value="contact";
   echo $w->IOValue();

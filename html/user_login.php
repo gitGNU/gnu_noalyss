@@ -54,7 +54,7 @@ echo '</div>';
 <form method="get" action="?">
 <input type="submit" value="Rechercher">
 <?php
-$w=new widget("text");
+$w=new IText();
 $p_nom=isset($_GET ['p_nom'])?$_GET['p_nom']:"";
 echo $w->IOValue('p_nom',$p_nom);
 

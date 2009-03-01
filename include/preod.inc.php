@@ -23,7 +23,9 @@
 /*!\file
  * \brief included file for managing the predefined operation
  */
-require_once('class_widget.php');
+require_once("class_iselect.php");
+require_once("class_icheckbox.php");
+require_once("class_ihidden.php");
 require_once('postgres.php');
 require_once('ac_common.php');
 require_once('class_pre_operation.php');
@@ -31,7 +33,7 @@ $user=new User(DbConnect(dossier::id()));
 $user->can_request(PARPREDE,1);
   echo '<div class="content">';
   echo '<form method="GET">';
-  $sel=new widget('select');
+  $sel=new ISelect();
   $sel->name="jrn";
   $sel->value=make_array($cn,"select jrn_def_id,jrn_def_name from ".
 						 " jrn_def order by jrn_def_name");
@@ -39,14 +41,14 @@ $user->can_request(PARPREDE,1);
   $sa=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
   $sel->selected=$sa;
   echo 'Choississez un journal '.$sel->IOValue();
-  $wCheck=new widget("checkbox");
+  $wCheck=new ICheckBox();
   if ( isset($_REQUEST['direct'])) {
     $wCheck->selected=true;
   }
   echo 'Ecriture directe'.$wCheck->IOValue('direct');
 
   echo dossier::hidden();
-  $hid=new widget("hidden");
+  $hid=new IHidden();
   echo $hid->IOValue("sa","jrn");
   echo $hid->IOValue("p_action","preod");
   echo '<hr>';

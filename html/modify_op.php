@@ -31,7 +31,6 @@ include_once("check_priv.php");
 include_once("user_common.php");
 include_once ("postgres.php");
 include_once("jrn.php");
-include_once("class_widget.php");
 require_once ("constant.php");
 require_once('class_acc_reconciliation.php');
 require_once('class_acc_operation.php');
@@ -294,7 +293,7 @@ if ( isset($_POST['update_record']) ) {
 
 		if ( $tot_tab != $_POST['amount_t'.$tab]) {
 		  echo '<script>alert ("Erreur montant CA Operation annulee")</script>';
-		  get_redirect($_SERVER['HTTP_REFERER']);
+		  redirect($_SERVER['HTTP_REFERER']);
 		  return;
 		}
 		$tot_tab=0;

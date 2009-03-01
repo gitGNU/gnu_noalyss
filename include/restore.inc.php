@@ -146,12 +146,12 @@ if ( isset ($_REQUEST['sa'] )) {
   echo widget::hidden('sa','r');
   echo '<table>';
   echo '<tr><td>'."Nom de la base de donnée".'</td>';
-  $wNom=new widget("text");
+  $wNom=new IText();
   $wNom->name="database";
   $wNom->size=12;
   echo '<td>'.$wNom->IOValue().'</td></tr>';
   echo '<tr><td>'."Type de backup :".'</td>';
-  $chk=new widget("radio");
+  $chk=new IRadio();
   $chk->name="t";
   $chk->value="d";
   echo '<td>'.$chk->IOValue()."Dossier".'</td>';
@@ -160,7 +160,7 @@ if ( isset ($_REQUEST['sa'] )) {
   $chk->value="m";
   echo '<td>'.$chk->IOValue()."Modele".'</td>';
   echo '<tr>';
-  $file=new widget("file");
+  $file=new IFile();
   $file->name="file";
   $file->value="mod";
   $file->label="Fichier";

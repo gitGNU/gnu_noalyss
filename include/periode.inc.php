@@ -22,7 +22,7 @@
  * \brief add, modify, close or delete a period
  */
 $gDossier=dossier::id();
-require_once ('class_widget.php');
+require_once("class_iselect.php");
 require_once("preference.php");
 require_once ('class_periode.php');
 echo '<div class="content">';
@@ -124,7 +124,7 @@ if ( $choose=="yes" ) {
   $sel_jrn=make_array($cn,"select jrn_def_id, jrn_def_name from ".
 		      " jrn_def order by jrn_def_name");
   $sel_jrn[]=array('value'=>0,'label'=>'Global : periode pour tous les journaux');
-  $wSel=new widget("select");
+  $wSel=new ISelect();
   $wSel->value=$sel_jrn;
   $wSel->name='jrn_def_id';
   echo "Choississez global ou uniquement le journal à fermer".$wSel->IOValue();

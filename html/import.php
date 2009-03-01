@@ -28,7 +28,6 @@ include_once("user_menu.php");
 include_once ("constant.php");
 include_once ("postgres.php");
 include_once ("check_priv.php");
-include_once ("class_widget.php");
 
 require_once('class_dossier.php');
 $gDossier=dossier::id();

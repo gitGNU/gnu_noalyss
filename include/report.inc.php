@@ -23,6 +23,8 @@
  */
 include_once ("ac_common.php");
 include_once ("user_menu.php");
+require_once("class_ifile.php");
+require_once("class_ibutton.php");
 require_once('class_acc_report.php');
 require_once('class_dossier.php');
 include_once ("postgres.php");
@@ -109,7 +111,7 @@ if ( isset ($_REQUEST["action"]) ) {
       echo '<h1> Importation</h1>';
       echo dossier::hidden();
       $rap->id=0;
-      $wUpload=new widget('file');
+      $wUpload=new IFile();
       $wUpload->name='report';
       $wUpload->value='report_value';
       echo 'Importer ce rapport ';
@@ -131,7 +133,7 @@ if ( isset ($_REQUEST["action"]) ) {
 	echo widget::hidden("action","record");
 	echo widget::submit("update","Mise a jour");
 	echo widget::submit("del_form","Effacement");
-	$w=new widget('button');
+	$w=new IButton();
 	$w->name="export";
 	$w->javascript="report_export('".$_REQUEST['PHPSESSID']."','".$gDossier."','".$rap->id."')";
 	$w->label='Export';

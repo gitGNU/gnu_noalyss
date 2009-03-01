@@ -18,6 +18,7 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
+require_once("class_ihidden.php");
 require_once("class_fiche_def.php");
 /*! \file
  * \brief Let customise the fiche_def_ref for the user
@@ -43,7 +44,7 @@ for ($i=0;$i<sizeof($all);$i++)
   echo $all[$i]->Display();
   echo "<TD>";
   echo '<form method="post">';
-  $w=new widget('hidden');
+  $w=new IHidden();
   echo $w->IOValue('idx',$i);
   echo widget::submit('mod','modifie');
   echo $w->IOValue('fiche','p_action');
@@ -68,7 +69,7 @@ if ( isset ($_POST['mod']) )
   echo '<ul style="list-style-type:none"';
   echo $mod->Input();
   echo "</ul>";
-  $w=new widget("hidden");
+  $w=new IHidden();
   echo $w->IOValue('p_action','fiche');
   echo widget::submit('confirm_mod' ,'Confirme');
   echo widget::submit('no','Cancel');

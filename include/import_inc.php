@@ -25,8 +25,11 @@
 include_once("jrn.php");
 include_once("preference.php");
 include_once("user_common.php");
+require_once("class_icard.php");
+require_once("class_iconcerned.php");
+require_once("class_ispan.php");
+require_once("class_iselect.php");
 require_once('class_user.php');
-require_once('class_widget.php');
 require_once('class_fiche.php');
 require_once('class_acc_ledger.php');
 require_once("class_acc_parm_code.php");
@@ -75,7 +78,7 @@ Commit($p_cn);
  *        modify the Quick Code or remove record poss.value are form, remove
  */
 function ShowBox($p_val,$counter,$p_cn,$p_form='form'){
-  $w=new widget('js_search_only');
+  $w=new ICard();
   $w->name='poste'.$counter;
   $w->extra='filter';
   $w->extra2='QuickCode';
@@ -86,13 +89,13 @@ function ShowBox($p_val,$counter,$p_cn,$p_form='form'){
 
 $oJrn=new Acc_Ledger($p_cn,$p_val['jrn']);
   // widget concerned
-  $wConcerned=new widget('js_concerned');
+  $wConcerned=new IConcerned();
   $wConcerned->name="e_concerned"+$counter;
   $wConcerned->extra=abs($p_val['montant']);
   $wConcerned->extra2='paid';
   $wConcerned->label='op. concern&eacute;e';
   $wConcerned->table=0;
-  $s=new widget('span');
+  $s=new ISpan();
 
   // if in readonly retrieve the conc. ope
   if ( $p_form== 'remove') {
@@ -373,7 +376,7 @@ function TransferCSV($p_cn, $periode){
 */
 
 function ShowFormTransfert($p_cn){
-$w=new widget("select");
+$w=new ISelect();
   echo '<FORM METHOD="POST" action="import.php?action=import" enctype="multipart/form-data">';
   echo dossier::hidden();
   echo '<INPUT TYPE="file" name="fupload" size="20"><br>';

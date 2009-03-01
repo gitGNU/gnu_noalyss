@@ -28,6 +28,7 @@
  * \brief Manage the hypothese for the budget module
  *  synthese
  */
+require_once("class_iselect.php");
 require_once ('class_bud_synthese.php');
 require_once ('class_acc_account_ledger.php');
 require_once ('class_bud_hypo.php');
@@ -43,7 +44,7 @@ class Bud_Synthese_Hypo extends Bud_Synthese {
   }
 
   function form() {
-    $wSelect = new widget('select');
+    $wSelect =new ISelect();
     $wSelect->name='bh_id';
     $wSelect->value=Bud_Synthese_Hypo::make_array($this->cn);
     $wSelect->selected=$this->bh_id;
@@ -54,13 +55,13 @@ class Bud_Synthese_Hypo extends Bud_Synthese {
     $per=make_array($this->cn,"select p_id,to_char(p_start,'MM.YYYY') ".
 		    " from parm_periode order by p_start,p_end");
 
-    $wFrom=new widget('select');
+    $wFrom=new ISelect();
     $wFrom->name='from';
     $wFrom->value=$per;
     $wFrom->selected=$this->from;
     $wFrom->selected=$this->from;
 
-    $wto=new widget('select');
+    $wto=new ISelect();
     $wto->name='to';
     $wto->selected=$this->to;
     $wto->value=$per;

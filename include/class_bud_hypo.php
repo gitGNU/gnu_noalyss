@@ -30,6 +30,9 @@
  *   different hyp.
  *
  */
+require_once("class_itext.php");
+require_once("class_ihidden.php");
+require_once("class_iselect.php");
 require_once ('class_dossier.php');
 require_once ('postgres.php');
 
@@ -143,13 +146,13 @@ class Bud_Hypo {
 
   function form($p_update=0) {
 
-    $wName=new widget("text","Nom","bh_name",$this->bh_name);
+    $wName=new IText("Nom","bh_name",$this->bh_name);
 
-    $wDescription=new widget("text","Description","bh_description",$this->bh_description);
-    $wSaldo=new widget("text","Solde","bh_saldo",$this->bh_saldo);
-    $wBh_id=new widget("hidden","","bh_id",$this->bh_id);
+    $wDescription=new IText("Description","bh_description",$this->bh_description);
+    $wSaldo=new IText("Solde","bh_saldo",$this->bh_saldo);
+    $wBh_id=new IHidden("","bh_id",$this->bh_id);
     $array=make_array($this->db,"select pa_id,pa_name from plan_analytique",1);
-    $wPa_id=new widget("select","Plan Analytique","pa_id",$array);
+    $wPa_id=new ISelect("Plan Analytique","pa_id",$array);
     $wPa_id->selected=$this->pa_id;
     if ( $p_update != 0 ) $wPa_id->readonly=true;
     $wName->table=1;

@@ -24,8 +24,9 @@
  *\brief manage the group
  *
  */
+require_once("class_itext.php");
+require_once("class_iselect.php");
 require_once ('class_anc_group.php');
-require_once ('class_widget.php');
 $r=new Anc_Group($cn);
 
 
@@ -63,20 +64,21 @@ foreach ($array as $idx=>$m) {
   echo '<td> Effacer <input type="Checkbox" name="ck[]" value="'.$m->ga_id.'">'.'</td>';
   echo '</tr>';
 }
-$w=new widget("text");
+$w=new IText("ga_id");
+$wDesc=new IText("ga_description");
 $val_pa_id=make_array($cn,"select pa_id,pa_name from plan_analytique");
-$wPa_id=new widget ("select");
+$wPa_id=new ISelect("pa_id");
 $wPa_id->value=$val_pa_id;
 
-echo "<td>".$w->IOValue("ga_id")."</td>";
+echo "<td>".$w->IOValue()."</td>";
 echo "<td>".$wPa_id->IOValue("pa_id")."</td>";
-echo "<td>".$w->IOValue("ga_description").
-widget::submit('add','Ajouter').
+echo "<td>".$wDesc->IOValue("ga_description").
+HtmlInput::submit('add','Ajouter').
 "</td>";;
 
 echo '</table>';
 
 echo "<hr>";
-echo widget::submit('remove','Effacer');
+echo HtmlInput::submit('remove','Effacer');
 
 echo '</div>';

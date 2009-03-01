@@ -21,6 +21,8 @@
 /*! \file
  * \brief Show and let modify ledger parameter
  */
+require_once("class_iposte.php");
+require_once("class_itext.php");
 require_once('class_dossier.php');
 require_once('class_acc_ledger.php');
 
@@ -147,19 +149,19 @@ $type=$prop['jrn_def_type'];
 $name=$prop['jrn_def_name'];
 $code=$prop['jrn_def_code'];
 /* widget for searching an account */
-$wSearch=new widget('js_search_poste_only');
+$wSearch=new IPoste();
 $wSearch->extra="p_jrn_class_deb";
 $wSearch->extra2='jrn';
-$wJrn=new widget('text');
+$wJrn=new IText();
 $wJrn->name='p_jrn_class_deb';
 $wJrn->size=40;
 $wJrn->value=$prop['jrn_def_class_deb'];
 $search=$wJrn->IOValue().$wSearch->IOValue();
-$wPjPref=new widget('text');
+$wPjPref=new IText();
 $wPjPref->name='jrn_def_pj_pref';
 $wPjPref->value=$prop['jrn_def_pj_pref'];
 $pj_pref=$wPjPref->IOValue();
-$wPjSeq=new widget('text');
+$wPjSeq=new IText();
 $wPjSeq->value=$Ledger->get_last_pj();
 $wPjSeq->name='jrn_def_pj_seq';
 $pj_seq=$wPjSeq->IOValue();

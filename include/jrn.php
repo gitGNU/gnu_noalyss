@@ -23,6 +23,9 @@
 /*! \file
  * \brief work with the ledger
  */
+require_once("class_itext.php");
+require_once("class_ifile.php");
+require_once("class_ihidden.php");
 require_once('class_fiche.php');
 require_once ('class_gestion_sold.php');
 require_once ('class_gestion_purchase.php');
@@ -87,7 +90,7 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 		
 		// comment can be changed
 		$r.="<TD>";
-		$comment=new widget("text");
+		$comment=new IText();
 		$comment->table=0;
 		$comment->name="comment";
 		$comment->readonly=($p_mode==0)?true:false;
@@ -98,7 +101,7 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 
 		// pj can be changed
 		$r.="<TD> PJ Num. ";
-		$comment=new widget("text");
+		$comment=new IText();
 		$comment->table=0;
 		$comment->name="pj";
 		$comment->readonly=($p_mode==0)?true:false;
@@ -156,7 +159,7 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
       //    }//     foreach ($l_array[$i]  as $value=>$content) 
   }// for ( $i =0 ; $i < sizeof($l_array); $i++) 
   if ( $p_mode == 1) {
-    $file=new widget("file");
+    $file=new IFile();
     $file->table=1;
 	//doc
 	if ( $content['jr_pj_name'] != "")
@@ -296,7 +299,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
   $r.='<Input type="hidden" name="jr_grpt_id" value="'.$content['jr_grpt_id'].'">';
   $r.='</tr><tr>';
   // comment can be changed
-  $comment=new widget("text");
+  $comment=new IText();
   $comment->table=0;
   $comment->name="comment";
   $comment->readonly=($p_mode==0)?true:false;
@@ -306,7 +309,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
   
   // pj can be changed
   $r.="<TD> PJ Num. ";
-  $comment=new widget("text");
+  $comment=new IText();
   $comment->table=0;
   $comment->name="pj";
   $comment->readonly=($p_mode==0)?true:false;
@@ -375,7 +378,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 		$tot_amount+=$row->qp_price;
 		$tot_dep_priv+=$row->qp_dep_priv;
 
-		//		$hid_jid=new widget("hidden","","p_jid_".$row->j_id,$row->j_id);
+		//		$hid_jid=new IHidden("","p_jid_".$row->j_id,$row->j_id);
 		$r.=($i%2==0)?"<tr class=\"odd\">":'<tr>';		$i++;
 		$pu=0.0;
 		if ( $row->qp_price != 0.0 && $row->qp_price != 0 ) 
@@ -548,7 +551,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
 	
   $r.="</TABLE>";
       
-  $file=new widget("file");
+  $file=new IFile();
   $file->table=1;
   //doc
   if ( $p_mode ==1 && $content['jr_pj_name'] != "") 

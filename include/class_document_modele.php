@@ -69,7 +69,7 @@ class Document_modele {
       $r.='<A HREF="show_document_modele.php?md_id='.$row['md_id'].'&'.$s.'">Document</a>';
       $r.="</td>";
       $r.="<TD>";
-      $c=new widget("checkbox");
+      $c=new ICheckBox();
       $c->name="dm_remove_".$row['md_id'];
       $r.=$c->IOValue();
       $r.="</td>";
@@ -78,7 +78,7 @@ class Document_modele {
     $r.="</table>";
     
     // need hidden parameter for subaction
-    $a=new widget("hidden");
+    $a=new IHidden();
     $a->name="sa";
     $a->value="rm_template";
     $r.=$a->IOValue();
@@ -260,30 +260,30 @@ class Document_modele {
       $r.='<form enctype="multipart/form-data"  action="'.$p_action.'" method="post">';
       $r.=dossier::hidden();
       // we need to add the sub action as hidden
-      $h=new widget("hidden");
+      $h=new IHidden();
       $h->name="sa";
       $h->value="add_document";
 
       $r.=$h->IOValue();
 
       $r.='<table>';
-      $t=new widget("text");
+      $t=new IText();
       $t->name="md_name";
       $r.="<tr><td> Nom </td><td>".$t->IOValue()."</td>";
 
       $r.="</tr>";
       $r.="<tr><td>Type de document </td>";
-      $w=new widget("select");
+      $w=new ISelect();
       $w->name="md_type";
 
       $w->value=make_array($this->cn,'select dt_id,dt_value from document_type');
       $r.="<td>".$w->IOValue()."</td></tr>";
 
-      $f=new widget("file");
+      $f=new IFile();
       $f->name="doc";
       $r.="<tr><td>fichier</td><td> ".$f->IOValue()."</td></tr>";
 
-      $start=new widget("text");
+      $start=new IText();
       $start->name="start_seq";
       $start->size=9;
       $start->value="0";

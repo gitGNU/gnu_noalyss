@@ -22,8 +22,10 @@
  * \brief Create, view, modify and parse report
  */
 
+require_once("class_itext.php");
+require_once("class_iposte.php");
+require_once("class_ibutton.php");
 require_once('class_acc_report_row.php');
-require_once('class_widget.php');
 require_once('impress_inc.php');
 
 /*! 
@@ -102,7 +104,7 @@ function form($p_line=0) {
   $r.= dossier::hidden();
   $r.= widget::hidden('line',$p_line);
   $r.= widget::hidden('fr_id',$this->id);
-  $wForm=new widget("text");
+  $wForm=new IText();
   $r.="Nom du rapport : ";
   $r.=$wForm->IOValue('form_nom',$this->name);
 
@@ -113,11 +115,11 @@ function form($p_line=0) {
   $r.= "<TH> Formule</TH>";
 
   $r.= '</TR>';
-  $wName=new widget("text");
+  $wName=new IText();
   $wName->size=50;
-  $wPos=new widget("text");
+  $wPos=new IText();
   $wPos->size=3;
-  $wForm=new widget("text");
+  $wForm=new IText();
   $wForm->size=35;
   for ( $i =0 ; $i < $p_line;$i++) {
 
@@ -141,7 +143,7 @@ function form($p_line=0) {
     $r.= '</TD>';
 
     $r.='<td>';
-  $search=new widget('js_search_poste_only');
+  $search=new IPoste();
   $search->extra="form".$i;
   $search->extra2='poste';
   $r.=$search->IOValue();
@@ -152,7 +154,7 @@ function form($p_line=0) {
     }
 
   $r.= "</TABLE>";
-  $wButton=new widget("button");
+  $wButton=new IButton();
   $wButton->javascript=" rapport_add_row('".dossier::id()."','".$_REQUEST['PHPSESSID']."')";
   $wButton->label="Ajout d'une ligne";
   $r.=$wButton->IOValue();
@@ -346,7 +348,7 @@ function form($p_line=0) {
   function upload() {
     if ( empty ($_FILES) ) return;
     if ( strlen(trim($_FILES['report']['tmp_name'])) == 0 ) {
-      echo '<script>alert("Nom de fichier est vide");</script>';
+      alert("Nom de fichier est vide");
       return;
     }
     $file_report=tempnam('tmp','file_report');

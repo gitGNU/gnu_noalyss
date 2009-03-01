@@ -25,7 +25,8 @@
 
 include_once ("ac_common.php");
 include_once ("postgres.php");
-require_once("class_widget.php");
+require_once("class_iselect.php");
+require_once("class_itext.php");
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 
@@ -225,7 +226,6 @@ if ( $p_action=='company') {
   $User->can_request(PARCOORD,1);
   echo '<div class="content">';
   require_once("class_own.php");
-  require_once("class_widget.php");
   if ( isset ($_POST['record_company'] )) {
     $m=new Own($cn);
     extract($_POST);
@@ -257,24 +257,24 @@ if ( $p_action=='company') {
 		      array('value'=>'Y','label'=>'Oui')
 		      );
 
-  $compta=new widget("select");
+  $compta=new ISelect();
   $compta->table=1;
   $compta->selected=$my->MY_ANALYTIC;
 
-  $strict=new widget("select");
+  $strict=new ISelect();
   $strict->table=1;
   $strict->selected=$my->MY_STRICT;
 
-  $tva_use=new widget("select");
+  $tva_use=new ISelect();
   $tva_use->table=1;
   $tva_use->selected=$my->MY_TVA_USE;
 
-  $pj_suggest=new widget("select");
+  $pj_suggest=new ISelect();
   $pj_suggest->table=1;
   $pj_suggest->selected=$my->MY_PJ_SUGGEST;
   
   // other parameters
-  $all=new widget("text");
+  $all=new IText();
   $all->table=1;
   echo '<form method="post" action="?p_action=company">';
   echo dossier::hidden();
@@ -297,7 +297,7 @@ if ( $p_action=='company') {
   echo "<tr>".$pj_suggest->IOValue("p_pj",$strict_array,"Suggérer le numéro de pièce justificative")."</tr>";
 
   echo "</table>";
-  $submit=new widget("submit");
+INVALIDWIDGET   $submit=new widget("submit");
   echo widget::submit("record_company","Enregistre");
   echo "</form>";
   echo '</div>';
