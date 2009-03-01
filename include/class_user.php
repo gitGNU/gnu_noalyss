@@ -411,7 +411,7 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
   function check_action ( $p_action_id)
   {
 
-    if ( $this->admin==1 ) return 1;
+    if ( $this->Admin()==1 ) return 1;
     if ( $this->is_local_admin(dossier::id()) == 1 ) return 1;
     
     $Res=ExecSqlParam($this->db,

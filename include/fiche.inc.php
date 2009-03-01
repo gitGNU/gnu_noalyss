@@ -99,15 +99,18 @@ attributs sélectionnés. Il ne sera pas possible de revenir en arrière</p>";
 $recherche=true;
 // Creation of a new model of card
 // in the database
-if ( isset($_POST['add_modele'])  && $User->can_request(FICCAT) )
+if ( isset($_POST['add_modele'])    )
   {
+    $User->can_request(FICCAT);
     // insert the model of card in database
     $fiche_def=new fiche_def($cn);
     $fiche_def->Add($_POST);
   }
 $r="";
 
-if ( isset ($_POST['remove_cat'] )   && $User->can_request(FICCAT) ) {
+if ( isset ($_POST['remove_cat'] )  ) {
+    $User->can_request(FICCAT);
+
   $fd_id=new fiche_def($cn,$_POST['fd_id']);
   $remains=$fd_id->remove();
   if ( $remains != 0 ) 
@@ -116,7 +119,9 @@ if ( isset ($_POST['remove_cat'] )   && $User->can_request(FICCAT) ) {
 	  'Les fiches non utilisées ont cependant été effacées');
 }
 // Add a line in the card model
-if ( isset ($_POST["add_line"]) && $User->can_request(FIC) ) {
+if ( isset ($_POST["add_line"])  ) {
+    $User->can_request(FIC);
+
   $r= '<DIV class="u_redcontent">';
   if ( $write ==0)  
     $r.= "<h2 class=\"error\"> Pas d'accès </h2>";
@@ -261,7 +266,8 @@ if ( isset ( $_GET["action"]) ) {
   //_________________________________________________________________________
   // Display the form where you can enter
   // the property of the card model
-  if ($action == "add_modele" && $User->can_request(FICCAT) !=0) {
+  if ($action == "add_modele" ) {
+    $User->can_request(FICCAT);
     echo '<DIV class="u_redcontent">';
     CreateCategory($cn,$search);
     echo '</DIV>';
