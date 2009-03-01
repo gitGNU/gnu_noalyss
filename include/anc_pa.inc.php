@@ -52,9 +52,9 @@ if ( isset($_REQUEST['sa']))
 			$ret.= $new->form();
 			$wSa=new IHidden("","sa","pa_write");
 			$wSa->value="pa_write";
-			$ret.= $wSa->IOValue();
-			$ret.= $wAction->IOValue();
-			$ret.=widget::submit("submit","Enregistre");
+			$ret.= $wSa->input();
+			$ret.= $wAction->input();
+			$ret.=HtmlInput::submit("submit","Enregistre");
 			$ret.= '</form>';
 			$ret.= '</div>';
 		  }
@@ -101,9 +101,9 @@ if ( isset($_REQUEST['sa']))
 		$ret.=dossier::hidden();
 
 		$ret.= $new->form();
-		$ret.= $wSa->IOValue();
-		$ret.= $wAction->IOValue();
-		$ret.=widget::submit("submit","Enregistre");
+		$ret.= $wSa->input();
+		$ret.= $wAction->input();
+		$ret.=HtmlInput::submit("submit","Enregistre");
 		$ret.=sprintf('<A class="mtitle" HREF="%s">'.
 					  '<input type="button" value="Efface"></A>',
 					  "?p_action=ca_pa&pa_id=".$_GET['pa_id']."&sa=pa_delete&$str_dossier");
@@ -133,8 +133,8 @@ if ( isset($_REQUEST['sa']))
 		$ret.='<form method="post">';
 		$ret.=dossier::hidden();
 		$ret.=$po->form();
-		$ret.=$wSa->IOValue();
-		$ret.=widget::submit("add","Ajout");
+		$ret.=$wSa->input();
+		$ret.=HtmlInput::submit("add","Ajout");
 		$ret.="</form>";
 		$ret.="</div>";
 	  }
@@ -167,7 +167,7 @@ if ( isset($_REQUEST['sa']))
 		$ret.=dossier::hidden();
 
 		$ret.=$po->form();
-		$ret.=$wHidden->IOValue();
+		$ret.=$wHidden->input();
 		$ret.='<input type="submit" value="Correction">';
 		$ret.=sprintf('<A class="mtitle" HREF="?p_action=ca_pa&sa=po_delete&po_id=%s&pa_id=%s&'.$str_dossier.'">'.
 					  '<input type="button" value="Efface" onClick="return confirm(\' Voulez-vous vraiment effacer ce poste\');"></A>',
@@ -232,7 +232,7 @@ if ( isset($_REQUEST['sa']))
 
 		  }
 		$ret.="</table>";
-		$ret.=widget::button_href('Ajout',"?p_action=ca_pa&sa=po_add&pa_id=".$_GET['pa_id']."&".$str_dossier);
+		$ret.=HtmlInput::button_href('Ajout',"?p_action=ca_pa&sa=po_add&pa_id=".$_GET['pa_id']."&".$str_dossier);
 		$ret.='</div>';
 
 	  }

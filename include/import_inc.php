@@ -113,13 +113,13 @@ $oJrn=new Acc_Ledger($p_cn,$p_val['jrn']);
   }
   echo '<input type="hidden" id="code'.$counter.'" value="'.$p_val['code'].'">';
   echo '<input type="hidden" name="count" value="'.$counter.'">';
-  echo widget::hidden('p_jrn',$p_val['jrn']);
+  echo HtmlInput::hidden('p_jrn',$p_val['jrn']);
   echo '<table border="1" width="500">';
   echo '<tr><td width="200">'.$p_val['code'].'</td><td width="200">'.$p_val['date_exec'].'</td><td width="100">'.$p_val['montant'].' EUR</td><tr/>';
   echo "<tr><td> Journal : ".$oJrn->get_name()."</TD><TD>poste comptable Destination : ".$p_val['bq_account']."</td><tr>";
   echo '<tr colspan="3"><td height="50" colspan="3">'.$p_val['detail'].'</td></tr>';
-  echo '<tr><td  colspan="3"> '.$wConcerned->IOValue("e_concerned".$counter).'</td></tr>';
-  echo '<tr><td>'.$w->IOValue().' '.$s->IOValue('poste'.$counter.'_label').
+  echo '<tr><td  colspan="3"> '.$wConcerned->input("e_concerned".$counter).'</td></tr>';
+  echo '<tr><td>'.$w->input().' '.$s->input('poste'.$counter.'_label').
    "</TD>";
 
   echo "<td>n° compte : ".$p_val['num_compte']."</td>";
@@ -383,15 +383,15 @@ $w=new ISelect();
   // ask for the journal target 
   $jrn=make_array ($p_cn,"select jrn_def_id,jrn_def_name from jrn_def where jrn_def_type='FIN';");
   $w->label='Journal';
-  echo $w->label." :".$w->IOValue('import_jrn',$jrn)."<br>";
+  echo $w->label." :".$w->input('import_jrn',$jrn)."<br>";
   // choose the bank account
   $banque=new Acc_Parm_Code($p_cn,'BANQUE');
   $bq=make_array($p_cn,"select j_qcode,vw_name from vw_poste_qcode join vw_fiche_attr on (j_qcode=quick_code) where j_poste::text like '".$banque->p_value."%'");
   $w->label='Banque';
-  echo "Compte en banque :".$w->IOValue('import_bq',$bq)."<br>";
+  echo "Compte en banque :".$w->input('import_bq',$bq)."<br>";
   $format_csv=make_array($p_cn,"select include_file,name from format_csv_banque;");
   $w->label="Format import";
-  echo $w->label.$w->IOValue('format_csv',$format_csv).'<br>';
+  echo $w->label.$w->input('format_csv',$format_csv).'<br>';
   echo '<INPUT TYPE="SUBMIT" Value="Import fiche">';
   echo '</FORM>';
 }

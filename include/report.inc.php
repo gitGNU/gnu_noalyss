@@ -101,7 +101,7 @@ if ( isset ($_REQUEST["action"]) ) {
        $rap->id=0;
       echo $rap->form(15);
       
-      echo widget::submit("record","Sauve");
+      echo HtmlInput::submit("record","Sauve");
       echo '</form>';
       echo '<span class="notice">Les lignes vides seront effac&eacute;es</span>';
       echo "</DIV>";
@@ -115,8 +115,8 @@ if ( isset ($_REQUEST["action"]) ) {
       $wUpload->name='report';
       $wUpload->value='report_value';
       echo 'Importer ce rapport ';
-      echo $wUpload->IOValue();
-      echo widget::submit("upload","Sauve");
+      echo $wUpload->input();
+      echo HtmlInput::submit("upload","Sauve");
       echo '</form>';
       echo '<span class="notice">Les lignes vides seront effac&eacute;es</span>';
       echo "</DIV>";
@@ -129,15 +129,15 @@ if ( isset ($_REQUEST["action"]) ) {
 	echo '<form method="post">';
 	$rap->load();
 	echo $rap->form();
-	echo widget::hidden("fr_id",$rap->id);
-	echo widget::hidden("action","record");
-	echo widget::submit("update","Mise a jour");
-	echo widget::submit("del_form","Effacement");
+	echo HtmlInput::hidden("fr_id",$rap->id);
+	echo HtmlInput::hidden("action","record");
+	echo HtmlInput::submit("update","Mise a jour");
+	echo HtmlInput::submit("del_form","Effacement");
 	$w=new IButton();
 	$w->name="export";
 	$w->javascript="report_export('".$_REQUEST['PHPSESSID']."','".$gDossier."','".$rap->id."')";
 	$w->label='Export';
-	echo $w->IOValue();
+	echo $w->input();
 	echo '<span id="export_link"></span>';
 	echo '</form>';
 	echo '<span class="notice">Les lignes vides seront effac&eacute;es</span>';

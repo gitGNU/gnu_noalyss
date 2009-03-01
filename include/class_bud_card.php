@@ -192,21 +192,21 @@ class Bud_Card {
 
     $r="";
     $r.="<table>";
-    $r.=widget::hidden('bc_id',$this->bc_id);
-    $r.=widget::hidden('bh_id',$this->bh_id);
+    $r.=HtmlInput::hidden('bc_id',$this->bc_id);
+    $r.=HtmlInput::hidden('bh_id',$this->bh_id);
     $r.="<tr>";
-    $r.=$wCode->IOValue('bc_code',$this->bc_code);
+    $r.=$wCode->input('bc_code',$this->bc_code);
     $r.="</tr>";
     $r.="<tr>";
-    $r.=$wDescription->IOValue();
-    $r.="</tr>";
-    $r.="<tr>";
-
-    $r.=$wPriceUnit->IOValue();
+    $r.=$wDescription->input();
     $r.="</tr>";
     $r.="<tr>";
 
-    $r.=$wUnit->IOValue();
+    $r.=$wPriceUnit->input();
+    $r.="</tr>";
+    $r.="<tr>";
+
+    $r.=$wUnit->input();
     $r.="</tr>";
     $r.="</table>";
 

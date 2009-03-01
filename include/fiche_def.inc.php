@@ -45,9 +45,9 @@ for ($i=0;$i<sizeof($all);$i++)
   echo "<TD>";
   echo '<form method="post">';
   $w=new IHidden();
-  echo $w->IOValue('idx',$i);
-  echo widget::submit('mod','modifie');
-  echo $w->IOValue('fiche','p_action');
+  echo $w->input('idx',$i);
+  echo HtmlInput::submit('mod','modifie');
+  echo $w->input('fiche','p_action');
   echo "</form>";
   echo "</TD>";
   echo '</TR>';
@@ -70,9 +70,9 @@ if ( isset ($_POST['mod']) )
   echo $mod->Input();
   echo "</ul>";
   $w=new IHidden();
-  echo $w->IOValue('p_action','fiche');
-  echo widget::submit('confirm_mod' ,'Confirme');
-  echo widget::submit('no','Cancel');
+  echo $w->input('p_action','fiche');
+  echo HtmlInput::submit('confirm_mod' ,'Confirme');
+  echo HtmlInput::submit('no','Cancel');
   echo '</form>';
   echo '</div>';
 }

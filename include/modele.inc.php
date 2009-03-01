@@ -67,7 +67,7 @@ if ( isset ($_POST["FMOD_NAME"]) ) {
       domaine.'mod'.$_POST["FMOD_DBID"]." doit être migrée en unicode</span>";
     echo '<span class="error"> Pour le passer en unicode, faites-en un backup puis restaurez le fichier reçu</span>';
 
-    echo widget::button_href('Retour','admin_repo.php?action=dossier_mgt');
+    echo HtmlInput::button_href('Retour','admin_repo.php?action=dossier_mgt');
     exit();
   }
 
@@ -207,8 +207,8 @@ if ( $sa=='list') {
   } else {
     
 
-    echo widget::button_href('Rafra&icirc;chir','admin_repo.php?action=modele_mgt');
-    echo widget::button_href('Ajouter','admin_repo.php?action=modele_mgt&sa=add');
+    echo HtmlInput::button_href('Rafra&icirc;chir','admin_repo.php?action=modele_mgt');
+    echo HtmlInput::button_href('Ajouter','admin_repo.php?action=modele_mgt&sa=add');
 
     echo '<table width="100%" >';
     echo "<TR><TH>Nom</TH>".
@@ -222,11 +222,11 @@ if ( $sa=='list') {
 	     '<TD>%d <b> %s</b> </TD>'.
 	     '<TD><I> %s </I></TD>'.
 	     '<td> '.
-	     widget::button_href('Effacer','?action=modele_mgt&sa=del&m='.$mod['mod_id']).'</td>'.
+	     HtmlInput::button_href('Effacer','?action=modele_mgt&sa=del&m='.$mod['mod_id']).'</td>'.
 	     '</td>'.
-	     '<td>'.widget::button_href('Modifie','?action=modele_mgt&sa=mod&m='.$mod['mod_id']).'</td>'.
+	     '<td>'.HtmlInput::button_href('Modifie','?action=modele_mgt&sa=mod&m='.$mod['mod_id']).'</td>'.
 	     '</td>'.
-	     '<td>'.widget::button_href('Backup','backup.php?action=backup&sa=b&t=m&d='
+	     '<td>'.HtmlInput::button_href('Backup','backup.php?action=backup&sa=b&t=m&d='
 				      .$mod['mod_id']).'</td>'.
 	     '</TR>',
 	     $mod['mod_id'],
@@ -283,7 +283,7 @@ if ( $count != 0 ) {
 
 <INPUT TYPE="SUBMIT" VALUE="Ajout d'un modele">
 <?php
-echo widget::button_href('Retour','?action=modele_mgt');
+echo HtmlInput::button_href('Retour','?action=modele_mgt');
 ?>
 
 </form>
@@ -305,16 +305,16 @@ echo widget::button_href('Retour','?action=modele_mgt');
 		    " mod_id=$1",
 		    array($_GET['m']));
    $wText=new IText();
-   echo 'Nom : '.$wText->IOValue('name',$name);
+   echo 'Nom : '.$wText->input('name',$name);
    $wDesc=new ITextArea();
    $wDesc->heigh=5;
    echo '<br>Description :<br>';
-   echo $wDesc->IOValue('desc',$desc);
-   echo widget::hidden('m',$_GET['m']);
-   echo widget::hidden('action','modele_mgt');
+   echo $wDesc->input('desc',$desc);
+   echo HtmlInput::hidden('m',$_GET['m']);
+   echo HtmlInput::hidden('action','modele_mgt');
    echo '<br>';
-   echo widget::button_href('Retour','?action=modele_mgt');
-   echo widget::submit('upd','Modifie');
+   echo HtmlInput::button_href('Retour','?action=modele_mgt');
+   echo HtmlInput::submit('upd','Modifie');
    echo '</form>';
  }
 
@@ -325,15 +325,15 @@ if ( $sa == 'del' ) {
   $cn=DbConnect();
   $name=getDbValue($cn,'select mod_name from modeledef where mod_id=$1',array($_REQUEST['m']));
   echo '<form method="post">';
-  echo widget::hidden('d',$_REQUEST['m']);
-  echo widget::hidden('sa','remove');
+  echo HtmlInput::hidden('d',$_REQUEST['m']);
+  echo HtmlInput::hidden('sa','remove');
   echo '<h2 class="error">Etes vous sure et certain de vouloir effacer '.$name.' ???</h2>';
   $confirm=new ICheckBox();
   $confirm->name="p_confirm";
   echo 'Cochez la case si vous êtes sûr de vouloir effacer ce modèle';
-  echo $confirm->IOValue();
-  echo widget::submit('remove','Effacer');
-  echo widget::button_href('Retour','?action=modele_mgt');
+  echo $confirm->input();
+  echo HtmlInput::submit('remove','Effacer');
+  echo HtmlInput::button_href('Retour','?action=modele_mgt');
   echo '</form>';
  }
 //---------------------------------------------------------------------------
@@ -342,7 +342,7 @@ if ( $sa == 'del' ) {
 if ( $sa == 'remove' ) {
   if ( ! isset ($_REQUEST['p_confirm'])) {
     echo('Désolé, vous n\'avez pas coché la case');  
-    echo widget::button_href('Retour','?action=modele_mgt');
+    echo HtmlInput::button_href('Retour','?action=modele_mgt');
     exit();
   }
 
@@ -368,7 +368,7 @@ if ( $sa == 'remove' ) {
    ExecSqlParam($cn,$sql,array($_REQUEST['m']));
    print '<h2 class="info">';
    print "Voilà le modèle $name est effacé</H2>";
-   echo widget::button_href('Retour','?action=modele_mgt');
+   echo HtmlInput::button_href('Retour','?action=modele_mgt');
  }
  echo '</div>';
 ?>

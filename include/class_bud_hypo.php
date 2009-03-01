@@ -161,11 +161,11 @@ class Bud_Hypo {
     $wPa_id->table=1;
 
     $r="<table>";
-    $r.='<tr>'.$wName->IOValue().'</tr>';
-    $r.='<tr>'.$wDescription->IOValue().'</tr>';
-    $r.='<tr>'.$wSaldo->IOValue().'</tr>';
-    $r.='<tr>'.$wPa_id->IOValue().'</tr>';
-    $r.=$wBh_id->IOValue();
+    $r.='<tr>'.$wName->input().'</tr>';
+    $r.='<tr>'.$wDescription->input().'</tr>';
+    $r.='<tr>'.$wSaldo->input().'</tr>';
+    $r.='<tr>'.$wPa_id->input().'</tr>';
+    $r.=$wBh_id->input();
     $r.="</table>";
     return $r;
 

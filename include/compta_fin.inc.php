@@ -90,10 +90,10 @@ if ( $def == 1 ) {
     if ( ! isset ($correct )) {
       echo '<div class="content">';
       echo '<form name="form_detail" enctype="multipart/form-data" ACTION="'.$href.'" METHOD="POST">';
-      echo widget::hidden('p_action','bank');
+      echo HtmlInput::hidden('p_action','bank');
       echo $Ledger->confirm($_POST);
-      echo widget::submit('confirm','Confirmer');
-      echo widget::submit('correct','Corriger');
+      echo HtmlInput::submit('confirm','Confirmer');
+      echo HtmlInput::submit('correct','Corriger');
 
       echo '</form>';
       echo '</div>';
@@ -115,7 +115,7 @@ if ( $def == 1 ) {
       echo '<div class="content">';
       $a= $Ledger->insert($_POST);
       echo '<h2 class="info">Opération  sauvée </h2>';      
-      echo widget::button_href('Nouvelle extrait',$href.'?p_action=bank&sa=n&'.dossier::get());
+      echo HtmlInput::button_href('Nouvelle extrait',$href.'?p_action=bank&sa=n&'.dossier::get());
       echo $a;
       echo '</div>';
       exit();
@@ -135,14 +135,14 @@ if ( $def == 1 ) {
 
   
   echo '<form name="form_detail" enctype="multipart/form-data" ACTION="'.$href.'" METHOD="POST">';
-  echo widget::hidden('p_action','bank');
-  echo widget::hidden('sa','n');
+  echo HtmlInput::hidden('p_action','bank');
+  echo HtmlInput::hidden('sa','n');
   $array=( isset($correct))?$_POST:null;
   // show select ledger
   echo $Ledger->display_form($array);
   echo widget::button('add_item','Ajout article',   ' onClick="ledger_fin_add_row()"');
-  echo widget::submit('save','Sauve');
-  echo widget::reset('Effacer ');
+  echo HtmlInput::submit('save','Sauve');
+  echo HtmlInput::reset('Effacer ');
 
 
   echo '</form>';

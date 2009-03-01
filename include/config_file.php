@@ -54,28 +54,28 @@ function config_file_form($p_array=null)
 
   $r.='R&eacute;pertoire temporaire : ';
   $text->title='Indiquez ici le r&eacute;pertoire o&ugrave; les documents temporaires peuvent &ecirc;tre sauv&eacute; exemple c:\\\\temp, /tmp';
-  $r.=$text->IOValue('ctmp',$ctmp);
+  $r.=$text->input('ctmp',$ctmp);
   $r.='<A href="#" title="'.$text->title.'" onclick="alert(\''.$text->title.'\')">(?)</a>';
   $r.='<br>';
 
   $r.='Chemin complet vers les executable de Postgresql : ';
   $text->title='Le chemin vers le repertoire contenant psql, pg_dump...';
-  $r.=$text->IOValue('cpath',$cpath);
+  $r.=$text->input('cpath',$cpath);
   $r.='<A href="#" title="'.$text->title.'" onclick="alert(\''.$text->title.'\')">(?)</a>';
   $r.='<br>';
   $text->title="Utilisateur de la base de donn&eacute;e postgresql";
   $r.='Utilisateur de la base de donn&eacute;e : ';
-  $r.=$text->IOValue('cuser',$cuser);
+  $r.=$text->input('cuser',$cuser);
   $r.='<A href="#" title="'.$text->title.'" onclick="alert(\''.$text->title.'\')">(?)</a>';
   $r.='<br>';
   $text->title="Mot de passe de l\' utilisateur";
   $r.='Mot de passe de l\'utilisateur : ';
-  $r.=$text->IOValue('cpasswd',$cpasswd);
+  $r.=$text->input('cpasswd',$cpasswd);
   $r.='<A href="#" title="'.$text->title.'" onclick="alert(\''.$text->title.'\')">(?)</a>';
   $r.='<br>';
   $text->title="Port ";
   $r.='Port de postgresql : ';
-  $r.=$text->IOValue('cport',$cport);
+  $r.=$text->input('cport',$cport);
   $r.='<A href="#" title="'.$text->title.'" onclick="alert(\''.$text->title.'\')">(?)</a>';
   $r.='<br>';
   $r.='</div>';

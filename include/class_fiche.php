@@ -300,14 +300,14 @@ class fiche {
 			  $label->name="av_text".$attr->ad_id."_label";
 			  
 			  if ( $a['account_auto'] == 't' )
-				$msg.="<TD>".$label->IOValue()."<br> <font color=\"red\">Rappel: Poste créé automatiquement !</font></TD> ";
+				$msg.="<TD>".$label->input()."<br> <font color=\"red\">Rappel: Poste créé automatiquement !</font></TD> ";
 			  else 
 				{
 				  // if there is a class base in fiche_def_ref, this account will be the
 				  // the default one
 				  if ( strlen(trim($f->class_base)) != 0 ) 
 					{
-					  $msg.="<TD>".$label->IOValue()."<br> <font color=\"red\">Rappel: Poste par défaut sera ".
+					  $msg.="<TD>".$label->input()."<br> <font color=\"red\">Rappel: Poste par défaut sera ".
 						$f->class_base.
 						" !</font></TD> ";
 					}
@@ -331,7 +331,7 @@ class fiche {
 	      $w->extra2=0;      // jrn = 0
 	      $label=new ISpan();
 	      $label->name="av_text".$attr->ad_id."_label";
-	      $msg=$label->IOValue();
+	      $msg=$label->input();
 	    }
 	  else
 	    {
@@ -341,7 +341,7 @@ class fiche {
 	  $w->label=$attr->ad_text;
 	  $w->name="av_text".$attr->ad_id;
 
-	  $r.="<TR>".$w->IOValue()."$msg </TR>";
+	  $r.="<TR>".$w->input()."$msg </TR>";
 	}
       $r.= '</table>';
       return $r;
@@ -404,7 +404,7 @@ class fiche {
 		  $w->extra2=0;      // jrn = 0
 		  $label=new ISpan();
 		  $label->name="av_text".$r->ad_id."_label";
-		  $msg=$label->IOValue();
+		  $msg=$label->input();
 		}
 	    
 	      else 
@@ -419,7 +419,7 @@ class fiche {
 	  $w->table=1;
 
 
-	  $ret.="<TR>".$w->IOValue()."$msg </TR>";
+	  $ret.="<TR>".$w->input()."$msg </TR>";
 	}
       $ret.="</table>";
       return $ret;
@@ -1017,41 +1017,40 @@ class fiche {
      if ( $p_array == null)
        $p_array=$_REQUEST;
 
-INVALIDWIDGET      $submit=new widget();
      $hid=new IHidden();
      echo '<div class="noprint">';
      echo "<table >";
      echo '<TR>';
      
      echo '<TD><form method="GET" ACTION="">'.
-       widget::submit('bt_other',"Autre poste").
+       HtmlInput::submit('bt_other',"Autre poste").
 	dossier::hidden().
-       $hid->IOValue("type","poste").$hid->IOValue('p_action','impress')."</form></TD>";
+       $hid->input("type","poste").$hid->input('p_action','impress')."</form></TD>";
      
      echo '<TD><form method="POST" ACTION="quick_code_pdf.php">'.
-       widget::submit('bt_pdf',"Export PDF").
+       HtmlInput::submit('bt_pdf',"Export PDF").
 	dossier::hidden().
-       $hid->IOValue("type","poste").
-       $hid->IOValue('p_action','impress').
-       $hid->IOValue("f_id",$this->id).
+       $hid->input("type","poste").
+       $hid->input('p_action','impress').
+       $hid->input("f_id",$this->id).
 	dossier::hidden().
-       $hid->IOValue("from_periode",$p_array['from_periode']).
-       $hid->IOValue("to_periode",$p_array['to_periode']);
+       $hid->input("from_periode",$p_array['from_periode']).
+       $hid->input("to_periode",$p_array['to_periode']);
      if (isset($p_array['oper_detail']))
-       echo $hid->IOValue('oper_detail','on');
+       echo $hid->input('oper_detail','on');
 
      echo "</form></TD>";
      
      echo '<TD><form method="POST" ACTION="quick_code_csv.php">'.
-       widget::submit('bt_csv',"Export CSV").
+       HtmlInput::submit('bt_csv',"Export CSV").
 	dossier::hidden().
-       $hid->IOValue("type","poste").
-       $hid->IOValue('p_action','impress').
-       $hid->IOValue("f_id",$this->id).
-       $hid->IOValue("from_periode",$p_array['from_periode']).
-       $hid->IOValue("to_periode",$p_array['to_periode']);
+       $hid->input("type","poste").
+       $hid->input('p_action','impress').
+       $hid->input("f_id",$this->id).
+       $hid->input("from_periode",$p_array['from_periode']).
+       $hid->input("to_periode",$p_array['to_periode']);
      if (isset($p_array['oper_detail']))
-       echo $hid->IOValue('oper_detail','on');
+       echo $hid->input('oper_detail','on');
      
      echo "</form></TD>";
      echo "</table>";

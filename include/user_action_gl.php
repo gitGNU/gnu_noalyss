@@ -34,7 +34,7 @@ $cn=DbConnect($gDossier);
 echo '<div class="u_content">
       <form method="GET">';  
 echo dossier::hidden();
-echo widget::hidden('p_action','gl');
+echo HtmlInput::hidden('p_action','gl');
 
 $w=new ISelect();
 // filter on the current year
@@ -43,7 +43,7 @@ $filter_year=" where p_exercice='".$User->get_exercice()."'";
 $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end",1);
 $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
 $w->selected=$current;
-echo 'Période  '.$w->IOValue("p_periode",$periode_start).widget::submit('gl_submit','Valider');
+echo 'Période  '.$w->input("p_periode",$periode_start).HtmlInput::submit('gl_submit','Valider');
 
 echo '</form>';
 

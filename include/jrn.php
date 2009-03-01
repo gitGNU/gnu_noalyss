@@ -96,7 +96,7 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 		$comment->readonly=($p_mode==0)?true:false;
 		$comment->value=$content['jr_comment'];
 		$comment->size=40;
-		$r.=$comment->IOValue();
+		$r.=$comment->input();
 		$r.="</TD>";
 
 		// pj can be changed
@@ -107,7 +107,7 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 		$comment->readonly=($p_mode==0)?true:false;
 		$comment->value=$content['jr_pj_number'];
 		$comment->size=10;
-		$r.=$comment->IOValue();
+		$r.=$comment->input();
 		$r.="</TD>";
 		
 
@@ -178,7 +178,7 @@ function ShowOperationExpert($p_cn,$p_jr_id,$p_mode=1)
 	if ( $p_mode == 1 ) {
 	  $r.="<hr>";
 	  $r.= "<table>"; 
-	  $r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
+	  $r.="<TR>".$file->input("pj","","Pièce justificative")."</TR>";
 	  $r.="</table>";
 	}
 	$r.="<hr>";
@@ -305,7 +305,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
   $comment->readonly=($p_mode==0)?true:false;
   $comment->value=$content['jr_comment'];
   $comment->size=40;
-  $r.='<td>'.$comment->IOValue().'</td>';
+  $r.='<td>'.$comment->input().'</td>';
   
   // pj can be changed
   $r.="<TD> PJ Num. ";
@@ -315,7 +315,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
   $comment->readonly=($p_mode==0)?true:false;
   $comment->value=$content['jr_pj_number'];
   $comment->size=10;
-  $r.=$comment->IOValue();
+  $r.=$comment->input();
   $r.="</TD>";
 		
   // Is Paid
@@ -585,7 +585,7 @@ function ShowOperationUser($p_cn,$p_jr_id,$p_mode=1)
   if ( $p_mode == 1 ) {
 	$r.= "<table>"; 
 
-	$r.="<TR>".$file->IOValue("pj","","Pièce justificative")."</TR>";
+	$r.="<TR>".$file->input("pj","","Pièce justificative")."</TR>";
 	$r.="</table>";
 	$r.="<hr>";
 	

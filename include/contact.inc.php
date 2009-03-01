@@ -39,7 +39,7 @@ $sub_action=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
 // TODO add function for generating url, hidden tags...
 if ( isset ($_REQUEST['url'])) 
 {
-  $retour=widget::button_href('Retour',urldecode($_REQUEST['url']));
+  $retour=HtmlInput::button_href('Retour',urldecode($_REQUEST['url']));
 
      $h_url=sprintf('<input type="hidden" name="url" value="%s">',urldecode($_REQUEST['url']));
 }
@@ -91,7 +91,7 @@ if ( $sub_action  == "" )
 //Display a blank card 
 if ( $sub_action=="blank") 
 {
-  $retour_action=widget::button_href('Retour', "commercial.php?p_action=contact&$str_dossier");
+  $retour_action=HtmlInput::button_href('Retour', "commercial.php?p_action=contact&$str_dossier");
 
   echo '<div class="u_redcontent">';
 
@@ -139,11 +139,11 @@ if ( $sub_action == "list" )
  $w->label='qcode';
  $w->table=0;
  $w->extra='4,8,9,14';
- echo $w->IOValue();
+ echo $w->input();
 
 
  $sp=new ISpan();
- echo $sp->IOValue("qcode_label",$qcode)."</TD></TR>";
+ echo $sp->input("qcode_label",$qcode)."</TD></TR>";
 
 
 ?>
@@ -169,7 +169,7 @@ if ( $sub_action == "list" )
    echo '<p>allez dans fiche creation et choississez contact comme sorte</p>';
    exit();
  }
- echo $w->IOValue();
+ echo $w->input();
 
 ?>
 <input type="hidden" name="sa" value="blank">
@@ -207,14 +207,14 @@ if ( $sub_action == 'detail' )
   $w=new IHidden();
   $w->name="p_action";
   $w->value="contact";
-  echo $w->IOValue();
+  echo $w->input();
   $w->name="f_id";
   $w->value=$f_id;
-  echo $w->IOValue();
+  echo $w->input();
 
-  echo widget::submit('mod','Sauver les modifications');
+  echo HtmlInput::submit('mod','Sauver les modifications');
   echo '<A HREF="commercial.php?p_action=contact&'.$str_dossier.'"><INPUT TYPE="button" value="Retour"></A>';
-  echo widget::submit('delete','Effacer cette fiche');
+  echo HtmlInput::submit('delete','Effacer cette fiche');
   echo '</form>';
   echo $retour;
   echo '<div>';

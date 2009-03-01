@@ -94,11 +94,11 @@ class fiche_def_ref
     {
       $r="";
       $h=new IHidden();
-      $r.='<li>Id          :'.$h->IOValue('frd_id',$this->frd_id).$this->frd_id."</li>";
+      $r.='<li>Id          :'.$h->input('frd_id',$this->frd_id).$this->frd_id."</li>";
       $w=new IText();
-      $r.='<li>Commentaire  :'.$w->IOValue('frd_text',$this->frd_text)."</li>";
+      $r.='<li>Commentaire  :'.$w->input('frd_text',$this->frd_text)."</li>";
       $t=new IText();
-      $r.='<li>Poste de base:'.$t->IOValue('frd_class_base',$this->frd_class_base)."</li>";
+      $r.='<li>Poste de base:'.$t->input('frd_class_base',$this->frd_class_base)."</li>";
 
       return $r;
     }

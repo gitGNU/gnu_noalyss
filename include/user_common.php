@@ -402,7 +402,7 @@ $own=new Own($p_cn);
 		$w->readonly=( $p_paid == 2)?true:false;
 		$h=new IHidden();
 		$h->name="set_jr_id".$row['jr_id'];
-		$r.='<TD>'.$w->IOValue().$h->IOValue().'</TD>';
+		$r.='<TD>'.$w->input().$h->input().'</TD>';
 		if ( $row['jr_rapt']=='paid') 
 		  $amount_paid+=$row['jr_montant'];
 		else

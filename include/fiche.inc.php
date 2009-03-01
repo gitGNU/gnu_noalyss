@@ -59,10 +59,10 @@ function ShowRecherche() {
   $w=new IText();
   $search_text=(isset($_REQUEST['search_text']))?$_REQUEST['search_text']:"";
   $h=new IHidden();
-  echo $h->IOValue('p_action','fiche');
-  echo $h->IOValue('action','search');
-  echo "Recherche :".$w->IOValue('search_text',$search_text);
-  echo widget::submit('submit','Rechercher');
+  echo $h->input('p_action','fiche');
+  echo $h->input('action','search');
+  echo "Recherche :".$w->input('search_text',$search_text);
+  echo HtmlInput::submit('submit','Rechercher');
   echo '</form>';
   echo '</div>';
 }
@@ -84,7 +84,7 @@ function ShowFicheDefInput($p_fiche_def)
   $r.= $p_fiche_def->DisplayAttribut("remove");
   $r.= ' <INPUT TYPE="SUBMIT" Value="Ajoute cet &eacute;l&eacute;ment" NAME="add_line">';
   $r.= ' <INPUT TYPE="SUBMIT" Value="Sauver" NAME="save_line">';
-  $r.=widget::submit('remove_cat','Effacer cette catégorie','onclick="return confirm(\'Vous confirmez ?\')"');
+  $r.=HtmlInput::submit('remove_cat','Effacer cette catégorie','onclick="return confirm(\'Vous confirmez ?\')"');
   // if there is nothing to remove then hide the button
   if ( strpos ($r,"chk_remove") != 0 ) {
     $r.=' <INPUT TYPE="SUBMIT" Value="Enleve les &eacute;l&eacute;ments coch&eacute;s" NAME="remove_line">';

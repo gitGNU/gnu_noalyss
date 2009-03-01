@@ -125,7 +125,7 @@ class Pre_operation
 
 	if ( empty($value)==true) return "";
 	$select->value=$value;
-	$r=$select->IOValue("pre_def");
+	$r=$select->input("pre_def");
 
 	return $r;
   }
@@ -176,12 +176,12 @@ class Pre_operation_detail {
   function form_get () {
   
      $hid=new IHidden();
-     $r=$hid->IOValue("action","use_opd");
+     $r=$hid->input("action","use_opd");
      $r.=dossier::hidden();
-     $r.=$hid->IOValue("p_jrn",$this->get("ledger"));
-     $r.=$hid->IOValue("jrn_type",$this->get("ledger_type"));
+     $r.=$hid->input("p_jrn",$this->get("ledger"));
+     $r.=$hid->input("jrn_type",$this->get("ledger_type"));
      if ($this->count() != 0 ) {
-       $r.= widget::submit('use_opd','Utilisez une op.pr&eacute;d&eacute;finie');
+       $r.= HtmlInput::submit('use_opd','Utilisez une op.pr&eacute;d&eacute;finie');
        $r.= $this->show_button();
      }
      return $r;
@@ -203,7 +203,7 @@ class Pre_operation_detail {
 	$value=$this->get_operation();
 	//	if ( empty($value)==true) return "";
 	$select->value=$value;
-	$r=$select->IOValue("pre_def");
+	$r=$select->input("pre_def");
 	return $r;
   }
   public function   get_operation() {

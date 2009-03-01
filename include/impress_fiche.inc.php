@@ -41,17 +41,17 @@ INVALIDWIDGET   $submit=new widget();
   $fiche_def=new fiche_def($cn);
 
   echo '<form method="POST" ACTION="fiche_csv.php">'.dossier::hidden().
-    widget::submit('bt_csv',"Export CSV").
-    $hid->IOValue("type","fiche").
-    $hid->IOValue("p_action","impress").
-    $fiche_id->IOValue("fd_id",$_REQUEST['fd_id']);
+    HtmlInput::submit('bt_csv',"Export CSV").
+    $hid->input("type","fiche").
+    $hid->input("p_action","impress").
+    $fiche_id->input("fd_id",$_REQUEST['fd_id']);
   if ($with_amount) {
-    echo $hid->IOValue("with_amount");
-    echo $hid->IOValue("from_periode",$_REQUEST['from_periode']);
-    echo $hid->IOValue("to_periode",$_REQUEST['to_periode']);
+    echo $hid->input("with_amount");
+    echo $hid->input("from_periode",$_REQUEST['from_periode']);
+    echo $hid->input("to_periode",$_REQUEST['to_periode']);
   }
   echo "</form>";
-  echo '<form method="Post" action="?p_action=impress&type=fiche">'.widget::submit("bt_submit","Autres fiches").dossier::hidden()."</form>";
+  echo '<form method="Post" action="?p_action=impress&type=fiche">'.HtmlInput::submit("bt_submit","Autres fiches").dossier::hidden()."</form>";
   
   $fiche_def->id=$_REQUEST['fd_id'];
 
@@ -66,16 +66,16 @@ INVALIDWIDGET   $submit=new widget();
     $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
     
     $w->selected=(isset($_POST['from_periode']))?$_POST['from_periode']:"";
-    print "Depuis ".$w->IOValue('from_periode',$periode_start);
+    print "Depuis ".$w->input('from_periode',$periode_start);
     $periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
     $w->selected=(isset($_POST['to_periode']))?$_POST['to_periode']:"";
-    print " Jusque ".$w->IOValue('to_periode',$periode_end);
+    print " Jusque ".$w->input('to_periode',$periode_end);
     
 
-    print widget::submit('bt_solde',"Avec solde").
-    $hid->IOValue("type","fiche").
-    $fiche_id->IOValue("fd_id",$_REQUEST['fd_id']).
-      $hid->IOValue("with_amount");
+    print HtmlInput::submit('bt_solde',"Avec solde").
+    $hid->input("type","fiche").
+    $fiche_id->input("fd_id",$_REQUEST['fd_id']).
+      $hid->input("with_amount");
     echo '<p><i> Attention: les soldes ne tiennent pas compte des journaux OD qui '.
       'n\'utilisent pas les quick codes, les soldes des postes sont dans impression->poste</i></p>';
          

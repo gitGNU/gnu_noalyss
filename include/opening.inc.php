@@ -43,8 +43,8 @@ if ($sa == '') {
 
   if ( empty( $avail) ) { echo '*** Aucun dossier ***';exit();}
   echo '<form method="post">';
-  echo widget::hidden('p_action','ouv');
-  echo widget::hidden('sa','step2');
+  echo HtmlInput::hidden('p_action','ouv');
+  echo HtmlInput::hidden('sa','step2');
   echo dossier::hidden();
   $wAvail=new ISelect();
   /* compute select list */
@@ -57,8 +57,8 @@ if ($sa == '') {
   }
 
   $wAvail->value=$array;
-  echo 'Choix du dossier :'.$wAvail->IOValue('f');
-  echo widget::submit('ok','Continuer');
+  echo 'Choix du dossier :'.$wAvail->input('f');
+  echo HtmlInput::submit('ok','Continuer');
 
   echo '</form>';
   echo '</fieldset>';
@@ -76,9 +76,9 @@ if ( $sa=='step2') {
     '<form method="post">'.
     ' Choississez l\'exercice du dossier ';
   echo dossier::hidden();
-  echo widget::hidden('p_action','ouv');
-  echo widget::hidden('sa','step3');
-  echo widget::hidden('f',$_REQUEST['f']);
+  echo HtmlInput::hidden('p_action','ouv');
+  echo HtmlInput::hidden('sa','step3');
+  echo HtmlInput::hidden('f',$_REQUEST['f']);
   $cn=DbConnect($_REQUEST['f']);
   $periode=make_array($cn,"select distinct p_exercice,p_exercice from parm_periode order by p_exercice");
   $w=new ISelect();
@@ -87,11 +87,11 @@ if ( $sa=='step2') {
   $w->readonly=false;
   $w->value=$periode;
   $w->name="p_periode";
-  echo 'P&eacute;riode : '.$w->IOValue();
-  echo widget::submit('ok','Continuer');
+  echo 'P&eacute;riode : '.$w->input();
+  echo HtmlInput::submit('ok','Continuer');
   echo dossier::hidden();
   echo "</form>";
-  echo widget::button_href('Retour',$back);
+  echo HtmlInput::button_href('Retour',$back);
   exit(0);
 }
 /* --------------------------------------------------
@@ -104,10 +104,10 @@ if ( $sa == 'step3') {
     '<form method="post">'.
     ' Choississez le journal qui contiendra l\'opération d\'ouverture ';
   echo dossier::hidden();
-  echo widget::hidden('p_action','ouv');
-  echo widget::hidden('sa','step4');
-  echo widget::hidden('f',$_REQUEST['f']);
-  echo widget::hidden('p_periode',$_REQUEST['p_periode']);
+  echo HtmlInput::hidden('p_action','ouv');
+  echo HtmlInput::hidden('sa','step4');
+  echo HtmlInput::hidden('f',$_REQUEST['f']);
+  echo HtmlInput::hidden('p_periode',$_REQUEST['p_periode']);
   $wLedger=new ISelect();
   $User=new User(DbConnect(dossier::id()));
   $avail=$User->get_ledger('ODS');
@@ -120,11 +120,11 @@ if ( $sa == 'step3') {
     $i++;
   }
   $wLedger->value=$array;
-  echo $wLedger->IOValue('p_jrn');
-  echo widget::submit('ok','Continuer');
+  echo $wLedger->input('p_jrn');
+  echo HtmlInput::submit('ok','Continuer');
   echo dossier::hidden();
   echo "</form>";
-  echo widget::button_href('Retour',$back);
+  echo HtmlInput::button_href('Retour',$back);
   exit(0);
 
 }
@@ -161,15 +161,15 @@ if ( $sa=='step4') {
   $User=new User($cn);
   $jrn=new Acc_Ledger($cn,$_REQUEST['p_jrn']);
   echo '<form method="post" action="compta.php">';
-  echo widget::hidden('p_action','quick_writing');
+  echo HtmlInput::hidden('p_action','quick_writing');
   echo dossier::hidden();
-  echo widget::hidden('p_jrn',$_REQUEST['p_jrn']);
+  echo HtmlInput::hidden('p_jrn',$_REQUEST['p_jrn']);
   echo $jrn->show_form($result,0);
   echo '<hr>';
   echo '<h2 class="notice">Ne corrigez pas encore, cliquez continuer pour passer à l\'étape suivante</h2>';
-  echo widget::submit('correct_it','Continuer');
+  echo HtmlInput::submit('correct_it','Continuer');
   echo '</form>';
-  echo widget::button_href('Retour',$back);
+  echo HtmlInput::button_href('Retour',$back);
 
   echo '</div>';
 }

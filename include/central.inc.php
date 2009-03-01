@@ -65,7 +65,7 @@ if ( $_POST["periode"] != "" ) {
 $ret=FormPeriode($cn,0,NOTCENTRALIZED);
 if ( $ret != null) {
   echo '<FORM METHOD="POST">';
-  echo widget::hidden('p_action','central');
+  echo HtmlInput::hidden('p_action','central');
   echo dossier::hidden();
   echo $ret;
   echo '<INPUT TYPE="SUBMIT" name="central" VALUE="Centralise">';

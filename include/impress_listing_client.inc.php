@@ -81,10 +81,10 @@ if ( sizeof($year) == 0 )
   exit();
 }
 $w->label="Année concernée";
-print $w->IOValue('year',$year);
+print $w->input('year',$year);
 print "</TR>";
 echo '</TABLE>';
-print widget::submit('bt_html','Impression');
+print HtmlInput::submit('bt_html','Impression');
 
 echo '</FORM>';
 

@@ -151,7 +151,7 @@ class action
 	  $doc_type->value=make_array($this->db,"select dt_id,dt_value from document_type where dt_id in (".ACTION.")");
 	  $doc_type->selected=$this->dt_id;
 	  $doc_type->readonly=false;
-	  $str_doc_type=$doc_type->IOValue();
+	  $str_doc_type=$doc_type->input();
 	  echo_debug('class_action',__LINE__,var_export($doc_type,true));
 	}
       else {
@@ -159,7 +159,7 @@ class action
 	$doc_type=new IHidden();
 	$doc_type->name="dt_id";
 	$doc_type->value=$this->dt_id;
-	$str_doc_type=$doc_type->IOValue()." ".getDbValue($this->db,"select dt_value from document_type where dt_id=".$this->dt_id);
+	$str_doc_type=$doc_type->input()." ".getDbValue($this->db,"select dt_value from document_type where dt_id=".$this->dt_id);
       }
 
       // Description
@@ -181,13 +181,13 @@ class action
 	  $state->name="d_state";
 	  $state->value=$a;
 	  $state->selected=$this->d_state;
-	  $str_state=$state->IOValue();
+	  $str_state=$state->input();
 	} else {
 	  $str_state="";
 	  if ( strlen($this->d_state) != 0 )
 	    {	  $str_state=getDbValue($this->db,"select s_value from document_state where s_id=".$this->d_state);
 	    $g=new IHidden();
-	    $str_state.=$g->IOValue('d_state',$this->d_state);
+	    $str_state.=$g->input('d_state',$this->d_state);
 	    }
 	}
       // Retrieve the value if there is an attached doc
@@ -207,7 +207,7 @@ class action
 	    {
 	      $d_id=new IHidden();
 	      $doc_ref="<p> Document ".$doc->a_ref().'</p>';
-	      $doc_ref.=$h2->IOValue().$d_id->IOValue('d_id',$this->d_id);
+	      $doc_ref.=$h2->input().$d_id->input('d_id',$this->d_id);
 	    }
 	      
 	}
@@ -287,7 +287,7 @@ class action
       // Preparing the return string
       $r="";
       $r.=JS_SEARCH_CARD;
-      $r.= '<p>Date :'.$date->IOValue()." <br>Reference  ".$str_ag_ref; 
+      $r.= '<p>Date :'.$date->input()." <br>Reference  ".$str_ag_ref; 
       $r.="&nbsp;         Concerne :".$lag_ref_ag_id.
       '   Type d\' action';
       echo_debug('class_action',__LINE__,"str_doc_type $str_doc_type");
@@ -298,28 +298,28 @@ class action
 
 
       $r.= "<p> ";
-      $r.="Exp&eacute;diteur : ".$w->IOValue();
-      $r.=$sp->IOValue('qcode_exp_label',$qcode_exp_label)."</TD></TR>";
-      $r.="Destinataire :".$wdest->IOValue();
-      $r.=$spdest->IOValue('qcode_dest_label',$qcode_dest_label)."</TD></TR>";
+      $r.="Exp&eacute;diteur : ".$w->input();
+      $r.=$sp->input('qcode_exp_label',$qcode_exp_label)."</TD></TR>";
+      $r.="Destinataire :".$wdest->input();
+      $r.=$spdest->input('qcode_dest_label',$qcode_dest_label)."</TD></TR>";
 
-      //      $r.=' Ref :'.$ag_ref->IOValue();
+      //      $r.=' Ref :'.$ag_ref->input();
       $r.="</p>";
       echo_debug('class_action',__LINE__,' ag_id is '.$this->ag_id);
 
-      $r.= "<p> Titre : ".$title->IOValue();
-      $r.= "<p>".$desc->IOValue()."</p>";
+      $r.= "<p> Titre : ".$title->input();
+      $r.= "<p>".$desc->input()."</p>";
       $r.= $doc_ref;
 
       //hidden
       $r.="<p>";
-      $r.=$h2->IOValue();
-      $r.=$h_agrefid->IOValue("ag_ref_ag_id",$this->ag_ref_ag_id); 
-      $r.=$h_ag_id->IOValue('ag_id',$this->ag_id);
+      $r.=$h2->input();
+      $r.=$h_agrefid->input("ag_ref_ag_id",$this->ag_ref_ag_id); 
+      $r.=$h_ag_id->input('ag_id',$this->ag_id);
       $hidden=new IHidden();
-      $r.=$hidden->IOValue('f_id_dest',$this->f_id_dest);
+      $r.=$hidden->input('f_id_dest',$this->f_id_dest);
       $hidden2=new IHidden();
-      $r.=$hidden2->IOValue('f_id_exp',$this->f_id_exp);
+      $r.=$hidden2->input('f_id_exp',$this->f_id_exp);
 
       $r.="</p>";
 
@@ -407,7 +407,7 @@ class action
       $str_type=$v[0];
       if ( isset ($_REQUEST['url'])) 
 	{
-	  $retour=widget::button_href('Retour',urldecode($_REQUEST['url']));
+	  $retour=HtmlInput::button_href('Retour',urldecode($_REQUEST['url']));
 				 
 	  $h_url=sprintf('<input type="hidden" name="url" value="%s">',urldecode($_REQUEST['url']));
 	}
@@ -483,17 +483,17 @@ class action
       // Preparing the return string
       $r=$retour."<form method=\"post\">";
 	  $r.=dossier::hidden();
-      $r.="<p>Date : ".$date->IOValue()."</p>";
-      $r.="<p>Etat $str_state".$state->IOValue()."</p>";
-      $r.="<p>Type du document $str_type".$doc_type->IOValue()."</p>";
+      $r.="<p>Date : ".$date->input()."</p>";
+      $r.="<p>Etat $str_state".$state->input()."</p>";
+      $r.="<p>Type du document $str_type".$doc_type->input()."</p>";
       $r.="<p> Expediteur : ".$this->qcode_exp." ".$nameexp.'</p>';
       $r.="<p> Destinataire : ".$this->qcode_dest." ".$namedest.'</p>';
-      $r.="<p> Titre : ".$title->IOValue();
-      $r.="<p>Description :".$desc->IOValue()."</p>";
+      $r.="<p> Titre : ".$title->input();
+      $r.="<p>Description :".$desc->input()."</p>";
 
       // if no document exist for this type then do not display the question
       if ( sizeof($doc_gen->value) != 0) 
-	$r.="<p> G&eacute;n&eacute;rer un document ".$gen->IOValue()." ".$doc_gen->IOValue()."</p>";
+	$r.="<p> G&eacute;n&eacute;rer un document ".$gen->input()." ".$doc_gen->input()."</p>";
 	
 
       // Add the hidden tag
@@ -505,14 +505,14 @@ class action
       $r.='<input type="hidden" name="qcode_exp" value="'.$this->qcode_exp.'">';
 
 
-      $r.=	$h_agrefid->IOValue("ag_ref_ag_id",$this->ag_ref_ag_id);
+      $r.=	$h_agrefid->input("ag_ref_ag_id",$this->ag_ref_ag_id);
 	
       // retrieve customer
 
 
       if ( $this->f_id_dest != -1 && $this->f_id_exp !=-1 )
-	$r.=widget::submit("Save","Sauve");
-      $r.=widget::submit("corr","Corrige");
+	$r.=HtmlInput::submit("Save","Sauve");
+      $r.=HtmlInput::submit("corr","Corrige");
 
       $r.=$h_url."</form>";
       return $r;
@@ -612,14 +612,14 @@ class action
 	  $r.=$str_file;
 	  $checkbox=new ICheckBox();
 	  $checkbox->name="save_generate";
-	  $r.=$checkbox->IOValue();
+	  $r.=$checkbox->input();
 	  $r.="<hr>";
 	}
       $upload=new IFile();
       $upload->name="file_upload";
       $upload->value="";
-      $r.="Enregistrer le fichier ".$upload->IOValue();
-      $r.=widget::submit("save","Sauve le fichier");
+      $r.="Enregistrer le fichier ".$upload->input();
+      $r.=HtmlInput::submit("save","Sauve le fichier");
       $r.="</form>";
       return $r;
     }

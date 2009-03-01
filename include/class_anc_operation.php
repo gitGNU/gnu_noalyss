@@ -193,7 +193,7 @@ class Anc_Operation
 			  $efface->javascript="op_remove('".$_REQUEST['PHPSESSID']."',".$gDossier.",".$oldgroup.")";
 			  $efface->name="Efface";
 			  $efface->label="Efface";
-			  $ret.="<td>".$efface->IOValue()."</td>";
+			  $ret.="<td>".$efface->input()."</td>";
 			  
 			$this->oa_group=$oldgroup;
 			$jr_id=$this->get_jrid();
@@ -204,7 +204,7 @@ class Anc_Operation
 			  $detail->javascript="viewOperation($jr_id,'".$_REQUEST['PHPSESSID']."',$gDossier)";
 			  $detail->name="Detail";
 			  $detail->label="Detail";
-			  $ret.="<td>".$detail->IOValue()."</td>";
+			  $ret.="<td>".$detail->input()."</td>";
 			}
 			$ret.='</table>';
 
@@ -253,7 +253,7 @@ class Anc_Operation
 	$efface->javascript="op_remove('".$_REQUEST['PHPSESSID']."',$gDossier,".$oldgroup.")";
 	$efface->name="Efface";
 	$efface->label="Efface";
-	$ret.="<td>".$efface->IOValue()."</td>";
+	$ret.="<td>".$efface->input()."</td>";
 	// get the old jr_id
 	$this->oa_group=$oldgroup;
 	$jr_id=$this->get_jrid();
@@ -262,7 +262,7 @@ class Anc_Operation
 	  $detail->javascript="viewOperation($jr_id,'".$_REQUEST['PHPSESSID']."',$gDossier)";
 	  $detail->name="Detail";
 	  $detail->label="Detail";
-	  $ret.="<td>".$detail->IOValue()."</td>";
+	  $ret.="<td>".$detail->input()."</td>";
 	}
 	$ret.='</table>';
 	$ret.=$bar;
@@ -386,7 +386,7 @@ function get_balance($p_from,$p_to,$p_plan_id)
    $hidden=new IHidden();
 
 
-   $result.=$hidden->IOValue('amount_'.$table_id,$p_amount);
+   $result.=$hidden->input('amount_'.$table_id,$p_amount);
    if ( $p_mode==1 )
      $result.='<table id="'.$table_id.'">';
    else 
@@ -396,7 +396,7 @@ function get_balance($p_from,$p_to,$p_plan_id)
 
 
    $nb_row=(!isset(${'nb_'.$table_id}))?1:${'nb_'.$table_id};
-   $result.=$hidden->IOValue('nb_'.$table_id,$nb_row);
+   $result.=$hidden->input('nb_'.$table_id,$nb_row);
 
    for ( $i=1; $i <= $nb_row;$i++) {
 	 $result.='<tr>';
@@ -424,9 +424,9 @@ function get_balance($p_from,$p_to,$p_plan_id)
 		   $select->selected=(isset(${"ta_".$p_seq."o".$count."row_".$i}))?${"ta_".$p_seq."o".$count."row_".$i}:0;
 		 }
 		 if ($p_mode==1)
-		   $result.='<td id="'.$table_id.'td'.$count.'c'.$i.'">'.$select->IOValue().'</td>';
+		   $result.='<td id="'.$table_id.'td'.$count.'c'.$i.'">'.$select->input().'</td>';
 		 else
-		   $result.='<td>'.$select->IOValue().'</td>';
+		   $result.='<td>'.$select->input().'</td>';
 	   
 
 	   }
@@ -437,7 +437,7 @@ function get_balance($p_from,$p_to,$p_plan_id)
 	 //	 $value->value=($p_doc=="form")?$p_amount:round(${"val".$p_seq."l$i"},2);
 	 $value->readonly=($p_mode==1)?false:true;
 	 
-	 $result.='<td>'.$value->IOValue().'</td>';
+	 $result.='<td>'.$value->input().'</td>';
 
 	 $result.="</tr>";
    }
@@ -449,7 +449,7 @@ function get_balance($p_from,$p_to,$p_plan_id)
    $button->name="js".$p_seq;
    $button->label="Nouvelle ligne";
    if ( $p_mode == 1 )
-	 $result.=$button->IOValue();
+	 $result.=$button->input();
    return $result;
  }
  /*!\brief it called for each item, the data are taken from $p_array

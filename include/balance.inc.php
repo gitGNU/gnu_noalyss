@@ -54,13 +54,13 @@ $w->label="Depuis";
 if ( isset ($_POST['from_periode']) )
   $w->selected=$_POST['from_periode'];
 
-echo $w->IOValue('from_periode',$periode_start);
+echo $w->input('from_periode',$periode_start);
 $w->label=" jusqu'à ";
 $periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
 if ( isset ($_POST['to_periode']) )
   $w->selected=$_POST['to_periode'];
 
-echo $w->IOValue('to_periode',$periode_end);
+echo $w->input('to_periode',$periode_end);
 //-------------------------------------------------
 $l=new Acc_Ledger($cn,0);
 $journal=$l->select_ledger('ALL',3);
@@ -78,7 +78,7 @@ if ( isset($_POST['p_jrn'])) $journal->selected=$_POST['p_jrn'];
 	else
 	$journal->selected=-1;
 echo JS_SEARCH_POSTE;
-echo "Journal = ".$journal->IOValue();
+echo "Journal = ".$journal->input();
 $from_poste=new IPoste();
 $from_poste->name="from_poste";
 $from_poste->extra2=null;
@@ -92,13 +92,13 @@ $to_poste->value=(isset($_POST['to_poste']))?$_POST['to_poste']:"";
 $to_span=new ISpan("to_poste_label","to_poste_label");
 $c=new ICheckBox();
 $c->label="centralisé";
-echo $c->IOValue('central');
+echo $c->input('central');
 
 echo "<div>";
-echo "Plage de postes :".$from_poste->IOValue();
-echo $from_span->IOValue();
-echo " jusque :".$to_poste->IOValue();
-echo $to_span->IOValue();
+echo "Plage de postes :".$from_poste->input();
+echo $from_span->input();
+echo " jusque :".$to_poste->input();
+echo $to_span->input();
 echo "</div>";
 //$a=FormPeriodeMult($cn);
 //echo $a;
@@ -118,23 +118,23 @@ INVALIDWIDGET   $submit=new widget();
   echo '<TR>';
   echo '<TD><form method="POST" ACTION="print_balance.php">'.
 	dossier::hidden().
-    widget::submit('bt_pdf',"Export PDF").
-    $hid->IOValue("p_action","impress").
-    $hid->IOValue("from_periode",$_POST['from_periode']).
-    $hid->IOValue("to_periode",$_POST['to_periode']).
-    $hid->IOValue("p_jrn",$_POST['p_jrn']).
-    $hid->IOValue("from_poste",$_POST['from_poste']).
-    $hid->IOValue("to_poste",$_POST['to_poste']);
+    HtmlInput::submit('bt_pdf',"Export PDF").
+    $hid->input("p_action","impress").
+    $hid->input("from_periode",$_POST['from_periode']).
+    $hid->input("to_periode",$_POST['to_periode']).
+    $hid->input("p_jrn",$_POST['p_jrn']).
+    $hid->input("from_poste",$_POST['from_poste']).
+    $hid->input("to_poste",$_POST['to_poste']);
   echo "</form></TD>";
   echo '<TD><form method="POST" ACTION="bal_csv.php">'.
-    widget::submit('bt_csv',"Export CSV").
+    HtmlInput::submit('bt_csv',"Export CSV").
 	dossier::hidden().
-    $hid->IOValue("p_action","impress").
-    $hid->IOValue("from_periode",$_POST['from_periode']).
-    $hid->IOValue("to_periode",$_POST['to_periode']).
-    $hid->IOValue("p_jrn",$_POST['p_jrn']).
-    $hid->IOValue("from_poste",$_POST['from_poste']).
-    $hid->IOValue("to_poste",$_POST['to_poste']);
+    $hid->input("p_action","impress").
+    $hid->input("from_periode",$_POST['from_periode']).
+    $hid->input("to_periode",$_POST['to_periode']).
+    $hid->input("p_jrn",$_POST['p_jrn']).
+    $hid->input("from_poste",$_POST['from_poste']).
+    $hid->input("to_poste",$_POST['to_poste']);
 
   echo "</form></TD>";
 

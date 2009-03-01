@@ -151,7 +151,7 @@ case 15:
 	Acc_Compute::test_me();
 	break;
 case 16:
-	echo widget::button_href("On y va",'login.php');
+	echo HtmlInput::button_href("On y va",'login.php');
 	break;
 case 17:
 	require_once('class_acc_ledger_info.php');
@@ -164,7 +164,7 @@ case 18:
 	Todo_List::test_me();
 	echo '<script src="js/todo_list.js"></script>';
 	echo '<form method="get">';
-	echo widget::hidden('phpsessid',$_REQUEST['PHPSESSID']);
+	echo HtmlInput::hidden('phpsessid',$_REQUEST['PHPSESSID']);
 	echo dossier::hidden();
 	echo 'title : <input type="text" id="p_title"><br>';
 	echo 'desc : <input type="text" id="p_desc"><br>';

@@ -213,14 +213,14 @@ INVALIDWIDGET     $wAccount=new widget('js_bud_search_poste');
 
     $r='<form id="form_'.$p_number.'" disabled>';
     $r.=dossier::hidden();
-    $r.=widget::hidden('po_id',$this->po_id);
-    $r.=widget::hidden('bh_id',$this->bh_id);
-    $r.=widget::hidden('bd_id',$this->bd_id);
-    $r.=widget::hidden('form_id',$p_number);
+    $r.=HtmlInput::hidden('po_id',$this->po_id);
+    $r.=HtmlInput::hidden('bh_id',$this->bh_id);
+    $r.=HtmlInput::hidden('bd_id',$this->bd_id);
+    $r.=HtmlInput::hidden('form_id',$p_number);
     
-    $r.="Fiche Budget ".$wBudCard->IOValue('bc_id'.$p_number);
-    $r.="Compte d'exploitation ".$wAccount->IOValue('account_'.$p_number);
-    //    $r.=widget::hidden('account_'.$p_number.'_hidden',$this->pcm_val);
+    $r.="Fiche Budget ".$wBudCard->input('bc_id'.$p_number);
+    $r.="Compte d'exploitation ".$wAccount->input('account_'.$p_number);
+    //    $r.=HtmlInput::hidden('account_'.$p_number.'_hidden',$this->pcm_val);
 
     $r.='Total : <span id="form_total_'.$p_number.'"> '.$tot.' </span>';
     $r.='<table WIDTH="100%">';
@@ -230,32 +230,32 @@ INVALIDWIDGET     $wAccount=new widget('js_bud_search_poste');
       $wAmount->javascript="onChange='bud_compute_sum(".$p_number.");'";
       echo_debug(__FILE__.':'.__LINE__,' p_id '.$p_id.' - amount '.$amount);
       $tot+=$amount;
-      $r.='<td >'.$wAmount->IOValue('amount_'.$p_id,sprintf("% 8.2f",$amount))."</td>";
+      $r.='<td >'.$wAmount->input('amount_'.$p_id,sprintf("% 8.2f",$amount))."</td>";
     }
     $r.="</tr>";
     $r.="</table>";
-    $r.=widget::hidden('PHPSESSID',$_REQUEST['PHPSESSID']);
+    $r.=HtmlInput::hidden('PHPSESSID',$_REQUEST['PHPSESSID']);
 
     $r.="</form>";
     $button_change=new IButton('Change');
     $button_change->javascript='bud_form_enable('.$p_number.')';
-    $r.=$button_change->IOValue('button_change'.$p_number);
+    $r.=$button_change->input('button_change'.$p_number);
 
 
     $button_save=new IButton('Sauve');
     $button_save->javascript='bud_form_save('.$p_number.')';
     $button_save->extra='style="display:none"';
-    $r.=$button_save->IOValue('button_save'.$p_number);
+    $r.=$button_save->input('button_save'.$p_number);
 
     $button_delete=new IButton('Efface');
     $button_delete->javascript='bud_form_delete('.$p_number.')';
     $button_delete->extra='style="display:none"';
-    $r.=$button_delete->IOValue('button_delete'.$p_number);
+    $r.=$button_delete->input('button_delete'.$p_number);
 
     $button_escape=new IButton('Echapper');
     $button_escape->javascript='bud_form_disable('.$p_number.')';
     $button_escape->extra='style="display:none"';
-    $r.=$button_escape->IOValue('button_escape'.$p_number);
+    $r.=$button_escape->input('button_escape'.$p_number);
 
     $r.='<span id="Result'.$p_number.'"></span>';
     $r.="<hr>";
@@ -403,11 +403,11 @@ INVALIDWIDGET     $wAccount=new widget('js_bud_search_poste');
       " from bud_hypothese join poste_analytique using (pa_id)";
     $w=new ISelect();
     echo '<form>';
-	echo widget::hidden('test_select',$_REQUEST['test_select']);
+	echo HtmlInput::hidden('test_select',$_REQUEST['test_select']);
     echo dossier::hidden();
     $w->selected=(isset($_REQUEST['bh_po_id']))?$_REQUEST['bh_po_id']:"";
-    echo $w->IOValue('bh_po_id',make_array($cn,$sql));
-    echo widget::submit('search','Recherche');
+    echo $w->input('bh_po_id',make_array($cn,$sql));
+    echo HtmlInput::submit('search','Recherche');
 
     echo '</form>';
     if ( isset($_REQUEST['search'])) {

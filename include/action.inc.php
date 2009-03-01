@@ -59,13 +59,13 @@ function ShowActionList($cn,$retour,$h_url)
    $w->extra='4,9,14,16,8';
    $w->table=0;
    echo '<span>';
-   echo $w->IOValue();
+   echo $w->input();
    printf ('Titre ou référence: <input type="text" name="query" value="%s"></span>',
 	   $a);
 
 
    $sp=new ISpan("qcode_label",$qcode);
-   echo $sp->IOValue();
+   echo $sp->input();
 
 
 ?>
@@ -155,7 +155,7 @@ $h_url="";
 
 if ( isset ($_REQUEST['url'])) 
 {
-  $retour=widget::button_href('Retour',urldecode($_REQUEST['url']));
+  $retour=HtmlInput::button_href('Retour',urldecode($_REQUEST['url']));
      $h_url=sprintf('<input type="hidden" name="url" value="%s">',urldecode($_REQUEST['url']));
 }
 //----------------------------------------------------------------------
@@ -260,14 +260,14 @@ if ( $sub_action=='detail' )
   $upload=new IFile();
   $upload->name="file_upload";
   $upload->value="";
-  echo "Enregistrer le fichier ".$upload->IOValue();
-  echo widget::submit("save","Sauve");
-  echo widget::submit("add_action_here","Ajoute une action à celle-ci");
+  echo "Enregistrer le fichier ".$upload->input();
+  echo HtmlInput::submit("save","Sauve");
+  echo HtmlInput::submit("add_action_here","Ajoute une action à celle-ci");
   echo '</form>';
   echo '<form action="commercial.php"  method="post"   >';
   echo dossier::hidden();
 
-  echo widget::submit("delete","Efface cette action");
+  echo HtmlInput::submit("delete","Efface cette action");
   echo '<input type="hidden" name="p_action" value="suivi_courrier">';
   echo '<input type="hidden" name="sa" value="delete">';
   echo '<input type="hidden" name="ag_id" value="'.$act->ag_id.'">';
@@ -300,7 +300,7 @@ if ( $sub_action == 'delete' )
       echo '<input type="hidden" name="p_action" value="suivi_courrier">';
       echo '<input type="hidden" name="sa" value="delete">';
       echo '<input type="hidden" name="ag_id" value="'.$act->ag_id.'">';
-      echo widget::submit("confirm_delete","Confirmer l'effacement");
+      echo HtmlInput::submit("confirm_delete","Confirmer l'effacement");
       
       echo '</form>';
       

@@ -160,7 +160,7 @@ class Acc_Account {
 </TD>
 <TD>';
 
-      $ret.=$wType->IOValue().'</TD>';
+      $ret.=$wType->input().'</TD>';
       return $ret;
     }
     else {
@@ -173,7 +173,7 @@ class Acc_Account {
       $ret.='</tr><tr>';
       $wType->selected=$this->pcm_type;
       $ret.="<td> Type de poste </td>";
-      $ret.= '<td>'.$wType->IOValue().'</td>';
+      $ret.= '<td>'.$wType->input().'</td>';
       $ret.="</TR> </TABLE>";
       $ret.=dossier::hidden();
 

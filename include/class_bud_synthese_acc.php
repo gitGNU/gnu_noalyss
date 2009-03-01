@@ -53,7 +53,7 @@ class Bud_Synthese_Acc extends Bud_Synthese {
     $wSelect->value=$hypo;
     $wSelect->javascript='onChange=this.form.submit()';
     $wSelect->selected=(isset($this->bh_id))?$this->bh_id:'';
-    $r="Choississez l'hypoth&egrave;se :".$wSelect->IOValue();
+    $r="Choississez l'hypoth&egrave;se :".$wSelect->input();
     $r.=dossier::hidden();
     return $r;
   }
@@ -90,8 +90,8 @@ class Bud_Synthese_Acc extends Bud_Synthese {
     $wto->selected=$this->to;
 
     $r="";
-    $r.="Periode de ".$wFrom->IOValue()." &agrave; ".$wto->IOValue();
-    $r.="Poste comptable de ".$wAcc_from->IOValue()." &agrave; ".$wAcc_to->IOValue();
+    $r.="Periode de ".$wFrom->input()." &agrave; ".$wto->input();
+    $r.="Poste comptable de ".$wAcc_from->input()." &agrave; ".$wAcc_to->input();
     $r.=dossier::hidden();
     return $r;
   }
@@ -273,7 +273,7 @@ class Bud_Synthese_Acc extends Bud_Synthese {
   function hidden() {
     $r="";
     foreach (array('bh_id','acc_from','acc_to','from','to') as $e)
-      $r.=widget::hidden($e,$this->$e);
+      $r.=HtmlInput::hidden($e,$this->$e);
     return $r;
   }
 
@@ -283,15 +283,15 @@ class Bud_Synthese_Acc extends Bud_Synthese {
     $obj=new Bud_Synthese_Acc($cn);
     echo '<form method="GET">';
     echo $obj->select_hypo();
-    echo widget::submit('recherche','recherche');
+    echo HtmlInput::submit('recherche','recherche');
     echo '</form>';
     if ( isset($_GET['recherche'])) {
       $obj->from_array($_GET);
       echo '<form method="GET">';
-	  widget::hidden('test_select',$_REQUEST['test_select']);
+	  HtmlInput::hidden('test_select',$_REQUEST['test_select']);
       echo $obj->form();
-      echo widget::hidden('bh_id',$obj->bh_id);
-      echo widget::submit('recherche2','recherche');
+      echo HtmlInput::hidden('bh_id',$obj->bh_id);
+      echo HtmlInput::submit('recherche2','recherche');
       echo '</form>';
     }
     if ( isset($_GET['recherche2'])){

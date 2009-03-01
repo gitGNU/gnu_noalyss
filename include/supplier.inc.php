@@ -51,7 +51,7 @@ if ( $sub_action=="insert" )
 {
   echo '<div class="content">';
 
-  $retour=widget::button_href("Retour", urldecode($_REQUEST['url']));
+  $retour=HtmlInput::button_href("Retour", urldecode($_REQUEST['url']));
 
   $supplier=new Supplier($cn);
   $supplier->Save($_REQUEST['fd_id']);
@@ -79,7 +79,7 @@ if ( $sub_action  == "" )
 //Display a blank card 
 if ( $sub_action=="blank") 
 {
-  $retour=widget::button_href('Retour','?p_action=fournisseur&'.dossier::get());
+  $retour=HtmlInput::button_href('Retour','?p_action=fournisseur&'.dossier::get());
   echo '<div class="content">';
 
   echo $retour;
@@ -125,7 +125,7 @@ if ( $sub_action == "list" )
  $w->name="fd_id";
  $w->value= make_array($cn,"select fd_id,fd_label from fiche_def where ".
 	     " frd_id=".FICHE_TYPE_FOURNISSEUR);
- echo $w->IOValue();
+ echo $w->input();
   echo dossier::hidden();
 
 ?>
@@ -152,7 +152,7 @@ if ( $sub_action == 'detail' )
   $f_id=$_REQUEST['f_id'];
   echo '<div class="content">';
   $sup=new Supplier($cn,$f_id);
-  $retour=widget::button_href("Retour", urldecode($_REQUEST['url']));
+  $retour=HtmlInput::button_href("Retour", urldecode($_REQUEST['url']));
 
   echo $retour;
   echo '<form action="'.$_REQUEST['url'].'" method="post">'; 
@@ -160,14 +160,14 @@ if ( $sub_action == 'detail' )
   $w=new IHidden();
   $w->name="p_action";
   $w->value="fournisseur";
-  echo $w->IOValue();
+  echo $w->input();
   $w->name="f_id";
   $w->value=$f_id;
-  echo $w->IOValue();
+  echo $w->input();
 
-  echo widget::submit('mod','Sauver les modifications');
-  echo widget::reset("Annuler");
-  echo widget::submit('delete','Effacer cette fiche','onclick="return confirm(\'Confirmer effacement ?\');"');
+  echo HtmlInput::submit('mod','Sauver les modifications');
+  echo HtmlInput::reset("Annuler");
+  echo HtmlInput::submit('delete','Effacer cette fiche','onclick="return confirm(\'Confirmer effacement ?\');"');
   echo '</form>';
   echo $retour;
   echo '<div>';

@@ -184,7 +184,7 @@ if ( isset ($_GET["search"]) ) {
 
   $col_vide="<TD></TD>";
 echo '<form id="form_jrn_concerned">';
-  echo widget::hidden('nb_item',$MaxLine);
+  echo HtmlInput::hidden('nb_item',$MaxLine);
   echo $bar;
   echo '<TABLE ALIGN="center" BORDER="0" CELLSPACING="O" width="100%">';
   $l_id="";

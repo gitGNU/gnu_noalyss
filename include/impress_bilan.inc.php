@@ -42,11 +42,11 @@ $bilan=new Acc_Bilan($cn);
 echo '<div class="content">';
 
 echo '<FORM  METHOD="GET">';
-echo widget::hidden('p_action','impress');
-echo widget::hidden('type','bilan');
+echo HtmlInput::hidden('p_action','impress');
+echo HtmlInput::hidden('type','bilan');
 echo dossier::hidden();
 echo $bilan->display_form ($filter_year);
-echo widget::submit('verif','Verification comptabilite');
+echo HtmlInput::submit('verif','Verification comptabilite');
 echo '</FORM>';
 
 
@@ -58,11 +58,11 @@ if ( isset($_GET['verif'])) {
   require_once ('verif_bilan.inc.php');
   echo '<FORM METHOD="GET" ACTION="bilan.php">';
   echo dossier::hidden();
-  echo widget::hidden('b_id',$bilan->id);
+  echo HtmlInput::hidden('b_id',$bilan->id);
 
-  echo widget::hidden('from_periode',$bilan->from);
-  echo widget::hidden('to_periode',$bilan->to);
-  echo widget::submit('Impression','Impression');
+  echo HtmlInput::hidden('from_periode',$bilan->from);
+  echo HtmlInput::hidden('to_periode',$bilan->to);
+  echo HtmlInput::submit('Impression','Impression');
   echo '</form>';
 
  }

@@ -112,7 +112,7 @@ if ( $action== "delete_per" ) {
   $choose="yes";
 }
 if ( $choose=="yes" ) {
-  echo widget::button_href('Autre Journal ?','?choose=no&p_action=periode&gDossier='.dossier::id());
+  echo HtmlInput::button_href('Autre Journal ?','?choose=no&p_action=periode&gDossier='.dossier::id());
   $per=new Periode($cn);
   $jrn=(isset($_GET['jrn_def_id']))?$_GET['jrn_def_id']:0;
   $per->set_jrn($jrn);
@@ -127,9 +127,9 @@ if ( $choose=="yes" ) {
   $wSel=new ISelect();
   $wSel->value=$sel_jrn;
   $wSel->name='jrn_def_id';
-  echo "Choississez global ou uniquement le journal à fermer".$wSel->IOValue();
-  echo   widget::submit('choose','Valider');
-  echo widget::hidden('p_action','periode');
+  echo "Choississez global ou uniquement le journal à fermer".$wSel->input();
+  echo   HtmlInput::submit('choose','Valider');
+  echo HtmlInput::hidden('p_action','periode');
   echo "</form>";
   echo '<p class="info"> Pour ajouter, effacer ou modifier une p&eacute;riode, il faut choisir global</p>';
  }

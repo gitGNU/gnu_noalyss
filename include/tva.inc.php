@@ -149,11 +149,11 @@ if ( $own->MY_TVA_USE=='N' ){
       $w=new IHidden();
       $w->name="tva_id";
       $w->value=$row['tva_id'];
-      echo $w->IOValue();
+      echo $w->input();
       $w=new IHidden();
       $w->name="p_action";
       $w->value="tva";
-      echo $w->IOValue();
+      echo $w->input();
 
       echo "</TD>";
 
@@ -219,18 +219,18 @@ if (   ! isset ($_POST['add'])
 ?>
 <table >
    <tr> <td align="right"> Label (ce que vous verrez dans les journaux)</td>
-   <td> <?php   $w=new IText();$w->size=20; echo $w->IOValue('tva_label','') ?></td>
+   <td> <?php   $w=new IText();$w->size=20; echo $w->input('tva_label','') ?></td>
 </tr>
    <tr><td  align="right"> Taux de tva </td>
-   <td> <?php   $w=new IText();$w->size=5; echo $w->IOValue('tva_rate','') ?></td>
+   <td> <?php   $w=new IText();$w->size=5; echo $w->input('tva_rate','') ?></td>
 </tr>
 <tr>
 <td  align="right"> Commentaire </td>
-   <td> <?php   $w=new ITextarea; $w->heigh=2;$w->width=20;echo $w->IOValue('tva_comment','') ?></td>
+   <td> <?php   $w=new ITextarea; $w->heigh=2;$w->width=20;echo $w->input('tva_comment','') ?></td>
 </tr>
 <tr>
    <td  align="right">Poste comptable utilisés format :debit,credit</td>
-   <td> <?php   $w=new IText(); $w->size=10;echo $w->IOValue('tva_poste','') ?></td>
+   <td> <?php   $w=new IText(); $w->size=10;echo $w->input('tva_poste','') ?></td>
 </Tr>
 </table>
 <input type="submit" value="Confirme" name="confirm_add">
@@ -254,21 +254,21 @@ if (   ! isset ($_POST['add'])
 ?>
 <table>
    <tr> <td align="right"> Label (ce que vous verrez dans les journaux)</td>
-   <td> <?php   $w=new Itext();$w->size=20; echo $w->IOValue('tva_label',$tva_array[$index]['tva_label']) ?></td>
+   <td> <?php   $w=new Itext();$w->size=20; echo $w->input('tva_label',$tva_array[$index]['tva_label']) ?></td>
 </tr>
    <tr><td  align="right"> Taux de tva </td>
 
-     <td> <?php   $w=new Itext();$w->size=5; echo $w->IOValue('tva_rate',$tva_array[$index]['tva_rate']) ?></td>
+     <td> <?php   $w=new Itext();$w->size=5; echo $w->input('tva_rate',$tva_array[$index]['tva_rate']) ?></td>
 </tr>
 <tr>
 <td  align="right"> Commentaire </td>
    <td> <?php   $w=new ITextarea(); $w->heigh=2;$w->width=20;
-   echo $w->IOValue('tva_comment',$tva_array[$index]['tva_comment']) ?></td>
+   echo $w->input('tva_comment',$tva_array[$index]['tva_comment']) ?></td>
 </tr>
 <tr>
    <td  align="right">Poste comptable utilisés format :debit,credit</td>
 
-     <td> <?php   $w=new IText();$w->size=5; echo $w->IOValue('tva_poste',$tva_array[$index]['tva_poste']) ?></td>
+     <td> <?php   $w=new IText();$w->size=5; echo $w->input('tva_poste',$tva_array[$index]['tva_poste']) ?></td>
 </Tr>
 </table>
 <input type="submit" value="Confirme" name="confirm_mod">

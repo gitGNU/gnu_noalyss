@@ -103,7 +103,7 @@ class widget {
   function setReadOnly($p_read) {
     $this->readonly=$p_read;
   }
-  /*!  function IOValue($p_name,$p_value="",$p_label="") 
+  /*!  function input($p_name,$p_value="",$p_label="") 
    *****************************************************
    * \brief  create the corresponding INPUT tag 
    *        
@@ -112,7 +112,7 @@ class widget {
    * \param         $p_label is the label of the INPUT
    *  \return  string containing the tag
    */
-  function IOValue($p_name=null,$p_value=null,$p_label="") {
+  function input($p_name=null,$p_value=null,$p_label="") {
     
     if ( $p_name != null)
       $this->name=$p_name;

@@ -115,7 +115,7 @@ $topmenu->value=$array;
 Style de menu
 </td>
 <td>
-<?php echo $topmenu->IOValue();?>
+<?php echo $topmenu->input();?>
 </td>
 </tr>
 
@@ -198,14 +198,14 @@ if ( $inside_dossier ) {
   $wRapport->name="minirap";
   $wRapport->selected=$User->get_mini_report();
   $wRapport->value=$aRapport;
-  echo $wRapport->IOValue();
+  echo $wRapport->input();
   echo '<span class="notice">Le mini rapport est un rapport qui s\'affiche  sur votre page d\'accueil</span>';
   echo '</fieldset>';
 }
 
 
 
-echo widget::submit("val","Valider");
+echo HtmlInput::submit("val","Valider");
 echo '</form>';
 if ( ! $inside_dossier ) 
 {

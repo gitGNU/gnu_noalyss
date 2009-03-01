@@ -108,9 +108,9 @@ class Anc_Print {
 
 	$hidden=new IHidden();
 	$r=dossier::hidden();
-	$r.=$hidden->IOValue("result","1");
-	$r.="Depuis : ".$from->IOValue();
-	$r.= "jusque : ".$to->IOValue();
+	$r.=$hidden->input("result","1");
+	$r.="Depuis : ".$from->input();
+	$r.= "jusque : ".$to->input();
 	$r.= '<span class="notice"> Les dates sont en format DD.MM.YYYY</span>';
 
 	$r.=$p_hidden;
@@ -119,20 +119,20 @@ class Anc_Print {
 	$plan_id=new ISelect("","pa_id");
  	$plan_id->value=make_array($this->db,"select pa_id, pa_name from plan_analytique order by pa_name");
 	$plan_id->selected=$this->pa_id;
-	$r.= "Plan Analytique :".$plan_id->IOValue();
+	$r.= "Plan Analytique :".$plan_id->input();
 
 	$poste=new IText();
 	$poste->size=10;
-	$r.="Entre le poste ".$poste->IOValue("from_poste",$this->from_poste);
+	$r.="Entre le poste ".$poste->input("from_poste",$this->from_poste);
 	$choose=new IButton();
 	$choose->name="Choix Poste";
 	$choose->label="Recherche";
 	$choose->javascript="onClick=search_ca('".$_REQUEST['PHPSESSID']."',".dossier::id().",'from_poste','pa_id')";
-	$r.=$choose->IOValue();
+	$r.=$choose->input();
 
-	$r.=" et le poste ".$poste->IOValue("to_poste",$this->to_poste);
+	$r.=" et le poste ".$poste->input("to_poste",$this->to_poste);
 	$choose->javascript="onClick=search_ca('".$_REQUEST['PHPSESSID']."',".dossier::id().",'to_poste','pa_id')";
-	$r.=$choose->IOValue();
+	$r.=$choose->input();
 	$r.='<span class="notice" style="display:block">Selectionnez le plan qui vous int&eacute;resse avant de cliquer sur Recherche</span>';
 
 	$r.='</span>';

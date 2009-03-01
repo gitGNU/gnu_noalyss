@@ -48,7 +48,7 @@ class Bud_Synthese_Group extends Bud_Synthese {
     $wSelect->selected=$this->bh_id;
     $wSelect->javascript='onChange=this.form.submit()';
 
-    $r="Choississez l'hypoth&egrave;se :".$wSelect->IOValue();
+    $r="Choississez l'hypoth&egrave;se :".$wSelect->input();
     $r.=dossier::hidden();
     return $r;
   }
@@ -91,10 +91,10 @@ class Bud_Synthese_Group extends Bud_Synthese {
     $wto->selected=$this->to;
 
     $r="";
-    $r.="Periode de ".$wFrom->IOValue()." &agrave; ".$wto->IOValue();
+    $r.="Periode de ".$wFrom->input()." &agrave; ".$wto->input();
     /* if there a group analytic */
     if ( $fga_id==1) 
-      $r.="Groupe  ".$wGa_id->IOValue();
+      $r.="Groupe  ".$wGa_id->input();
     $r.=dossier::hidden();
     return $r;
   }
@@ -514,7 +514,7 @@ Array
   function hidden() {
     $r="";
     foreach (array('bh_id','ga_id','from','to') as $e)
-      $r.=widget::hidden($e,$this->$e);
+      $r.=HtmlInput::hidden($e,$this->$e);
     return $r;
   }
 
@@ -522,17 +522,17 @@ Array
     $cn=DbConnect(dossier::id());
     $obj=new Bud_Synthese_Group($cn);
     echo '<form method="GET">';
-	echo widget::hidden('test_select',$_REQUEST['test_select']);
+	echo HtmlInput::hidden('test_select',$_REQUEST['test_select']);
     echo $obj->select_hypo();
-    echo widget::submit('recherche','recherche');
+    echo HtmlInput::submit('recherche','recherche');
     echo '</form>';
     if ( isset($_GET['recherche'])) {
       $obj->from_array($_GET);
       echo '<form method="GET">';
       echo $obj->form();
-      echo widget::hidden('bh_id',$obj->bh_id);
-	  echo widget::hidden('test_select',$_REQUEST['test_select']);
-      echo widget::submit('recherche2','recherche');
+      echo HtmlInput::hidden('bh_id',$obj->bh_id);
+	  echo HtmlInput::hidden('test_select',$_REQUEST['test_select']);
+      echo HtmlInput::submit('recherche2','recherche');
       echo '</form>';
     }
     if ( isset($_GET['recherche2'])){

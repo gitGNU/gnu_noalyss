@@ -100,18 +100,18 @@ if ( $def==1 || $def == 4 ) {
       echo '<div class="content">';
       
       echo '<form action="'.$href.'"  enctype="multipart/form-data" method="post">';
-      echo widget::hidden('sa','n');
-      echo widget::hidden('p_action','ven');
+      echo HtmlInput::hidden('sa','n');
+      echo HtmlInput::hidden('p_action','ven');
       echo dossier::hidden();
       echo $Ledger->confirm($_POST );
       
       $chk=new ICheckBox();
       $chk->selected=false;
       echo "Sauvez cette op&eacute;ration comme modèle ?";
-      echo $chk->IOValue('opd_save');
+      echo $chk->input('opd_save');
       echo '<hr>';      
-      echo widget::submit("record","Enregistrement",'onClick="return verify_ca(\'error\');"');
-      echo widget::submit('correct',"Corriger");
+      echo HtmlInput::submit("record","Enregistrement",'onClick="return verify_ca(\'error\');"');
+      echo HtmlInput::submit('correct',"Corriger");
       echo '</form>';
       
       echo '</div>';
@@ -184,7 +184,7 @@ if ( $def==1 || $def == 4 ) {
 	
       }
 
-      echo widget::button_href('Nouvelle vente',$href.'?p_action=ven&sa=n&'.dossier::get());
+      echo HtmlInput::button_href('Nouvelle vente',$href.'?p_action=ven&sa=n&'.dossier::get());
       echo '</div>';
       exit();
     }
@@ -228,17 +228,17 @@ if ( $def==1 || $def == 4 ) {
     echo '</script>';
   }
   else {
-    echo widget::hidden("p_action","ven");
-    echo widget::hidden("sa","p");
+    echo HtmlInput::hidden("p_action","ven");
+    echo HtmlInput::hidden("sa","p");
     echo $Ledger->display_form($array);
   }
   echo "</FORM>";
 
   echo '<form method="GET" action="'.$href.'">';
-  echo widget::hidden("sa","p");
-  echo widget::hidden("p_action","ven");
+  echo HtmlInput::hidden("sa","p");
+  echo HtmlInput::hidden("p_action","ven");
   echo dossier::hidden();
-  echo widget::hidden('p_jrn_predef',$Ledger->id);
+  echo HtmlInput::hidden('p_jrn_predef',$Ledger->id);
   $op=new Pre_op_ven($cn);
   $op->set('ledger',$Ledger->id);
   $op->set('ledger_type',"VEN");
@@ -285,8 +285,8 @@ if ( $def == 2 ) {
 
 
   echo '<form method="GET" action="'.$href.'">';
-  echo widget::hidden("sa","l");
-  echo widget::hidden("p_action","ven");
+  echo HtmlInput::hidden("sa","l");
+  echo HtmlInput::hidden("p_action","ven");
   echo dossier::hidden();
   $Ledger->show_ledger();
   echo '</form>';
@@ -326,10 +326,10 @@ if ( $def==3 ) {
     exit();
   }
   $wLedger->javascript="onChange=submit()";
-  echo "Journal ".$wLedger->IOValue();
-  echo widget::submit ('search','Recherche');
-  echo widget::hidden("p_action","ven");
-  echo widget::hidden('sa','lnp');
+  echo "Journal ".$wLedger->input();
+  echo HtmlInput::submit ('search','Recherche');
+  echo HtmlInput::hidden("p_action","ven");
+  echo HtmlInput::hidden('sa','lnp');
   echo dossier::hidden();  
 
   $Ledger->show_unpaid();

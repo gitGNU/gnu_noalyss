@@ -229,7 +229,7 @@ class Acc_Payment
   public function form() {
     $td='<TD>';$etd='</td>';$tr='<tr>';$etr='</tr>';$th='<th>';$eth='</th>';
     $r='';
-    $r.=widget::hidden('id',$this->mp_id);
+    $r.=HtmlInput::hidden('id',$this->mp_id);
     $r.='<table>';
     $r.=$tr.$td.'Libell&eacute;'.$etd;
     $r.=$td;
@@ -243,7 +243,7 @@ class Acc_Payment
     $fd->name='mp_fd_id';
     $fd->value=$array;
     $fd->selected=$this->mp_fd_id;
-    $r.=$td.$fd->IOValue();
+    $r.=$td.$fd->input();
     $r.=$etd;
     $r.=$tr.$td.'Enregistre dans le journal '.$etd;
     $array=make_array($this->cn,'select jrn_def_id,jrn_def_name from '.
@@ -252,7 +252,7 @@ class Acc_Payment
     $jrn->value=$array;
     $jrn->name='mp_jrn_def_id';
     $jrn->selected=(isset ($this->mp_jrn_def_id))?$this->mp_jrn_def_id:0;
-    $r.=$td.$jrn->IOValue().$etd;
+    $r.=$td.$jrn->input().$etd;
     $r.=$etr.$tr;
     $r.=$td.'Avec la fiche'.$etd;
     $f=new ICard();
@@ -260,9 +260,9 @@ class Acc_Payment
     $f->extra='frd_id in (25,4)';
     $f->extra2='Recherche';
     $f->value=(isset($this->mp_qcode))?$this->mp_qcode:'';
-    $r.=$td.$f->IOValue().$etd;
+    $r.=$td.$f->input().$etd;
     $s=new ISpan();
-    $r.=$td.$s->IOValue('mp_qcode_label');
+    $r.=$td.$s->input('mp_qcode_label');
     $r.='</table>';
     return $r;
 
@@ -275,7 +275,7 @@ class Acc_Payment
   public function select() {
     $r='';
     $array=$this->get_valide();
-    $r.=widget::hidden('gDossier',dossier::id());
+    $r.=HtmlInput::hidden('gDossier',dossier::id());
     $r.='<ol>';
     $r.='<li ><input type="radio" name="e_mp" value="0" checked>Paiement encod&eacute; plus tard';
     if ( empty($array ) == false ){
@@ -290,14 +290,14 @@ INVALIDWIDGET 	  $a=new widget('js_search_noadd');
 	  $a->name='e_mp_qcode_'.$row->mp_id;
 	  $s=new ISpan();
 	  $s->name=$a->name.'_label';
-	  $f=$a->IOValue().$s->IOValue();
+	  $f=$a->input().$s->input();
 	}else {
 	  /* if the qcode is not null then add a hidden variable with
 	     the qcode */
 
 	  $fiche=new fiche($this->cn);
 	  $fiche->get_by_qcode($row->mp_qcode);
-	  $f=widget::hidden('e_mp_qcode_'.$row->mp_id,$row->mp_qcode);
+	  $f=HtmlInput::hidden('e_mp_qcode_'.$row->mp_id,$row->mp_qcode);
 
 	  $f.=$fiche->strAttribut(ATTR_DEF_NAME);
 	}
@@ -330,9 +330,9 @@ INVALIDWIDGET 	  $a=new widget('js_search_noadd');
     $ac=new Acc_Payment($cn);
     $ac->set_parameter('type','ACH');
     echo '<form method="post">';
-	echo widget::hidden('test_select',$_REQUEST['test_select']);
+	echo HtmlInput::hidden('test_select',$_REQUEST['test_select']);
     echo $ac->select();
-    echo widget::submit('go','go');
+    echo HtmlInput::submit('go','go');
     echo '</form>';
     if ( isset($_POST['go']))
       print_r($_POST);

@@ -70,9 +70,9 @@ $val_pa_id=make_array($cn,"select pa_id,pa_name from plan_analytique");
 $wPa_id=new ISelect("pa_id");
 $wPa_id->value=$val_pa_id;
 
-echo "<td>".$w->IOValue()."</td>";
-echo "<td>".$wPa_id->IOValue("pa_id")."</td>";
-echo "<td>".$wDesc->IOValue("ga_description").
+echo "<td>".$w->input()."</td>";
+echo "<td>".$wPa_id->input("pa_id")."</td>";
+echo "<td>".$wDesc->input("ga_description").
 HtmlInput::submit('add','Ajouter').
 "</td>";;
 

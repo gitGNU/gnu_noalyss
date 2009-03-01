@@ -51,7 +51,7 @@ class Bud_Synthese_Anc extends Bud_Synthese {
     $wSelect->value=$hypo;
     $wSelect->javascript='onChange=this.form.submit()';
     $wSelect->selected=(isset($this->bh_id))?$this->bh_id:'';
-    $r="Choississez l'hypoth&egrave;se :".$wSelect->IOValue();
+    $r="Choississez l'hypoth&egrave;se :".$wSelect->input();
     $r.=dossier::hidden();
     return $r;
   }
@@ -87,8 +87,8 @@ class Bud_Synthese_Anc extends Bud_Synthese {
     $wto->selected=$this->to;
 
     $r="";
-    $r.="Periode de ".$wFrom->IOValue()." &agrave; ".$wto->IOValue();
-    $r.="Poste analytique de ".$wPo_from->IOValue()." &agrave; ".$wPo_to->IOValue();
+    $r.="Periode de ".$wFrom->input()." &agrave; ".$wto->input();
+    $r.="Poste analytique de ".$wPo_from->input()." &agrave; ".$wPo_to->input();
     $r.=dossier::hidden();
     return $r;
   }
@@ -267,7 +267,7 @@ class Bud_Synthese_Anc extends Bud_Synthese {
   function hidden() {
     $r="";
     foreach (array('bh_id','po_from','po_to','from','to') as $e)
-      $r.=widget::hidden($e,$this->$e);
+      $r.=HtmlInput::hidden($e,$this->$e);
     return $r;
   }
   static function test_me() {
@@ -275,17 +275,17 @@ class Bud_Synthese_Anc extends Bud_Synthese {
     $cn=DbConnect(dossier::id());
     $obj=new Bud_Synthese_Anc($cn);
     echo '<form method="GET">';
-	echo widget::hidden('test_select',$_REQUEST['test_select']);
+	echo HtmlInput::hidden('test_select',$_REQUEST['test_select']);
     echo $obj->select_hypo();
-    echo widget::submit('recherche','recherche');
+    echo HtmlInput::submit('recherche','recherche');
     echo '</form>';
     if ( isset($_GET['recherche'])) {
       $obj->from_array($_GET);
       echo '<form method="GET">';
-	  echo widget::hidden('test_select',$_REQUEST['test_select']);
+	  echo HtmlInput::hidden('test_select',$_REQUEST['test_select']);
       echo $obj->form();
-      echo widget::hidden('bh_id',$obj->bh_id);
-      echo widget::submit('recherche2','recherche');
+      echo HtmlInput::hidden('bh_id',$obj->bh_id);
+      echo HtmlInput::submit('recherche2','recherche');
       echo '</form>';
     }
     if ( isset($_GET['recherche2'])){

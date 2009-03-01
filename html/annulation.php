@@ -392,7 +392,7 @@ $a->setReadOnly(false);
 echo '<div style="border-style:solid;border-width:1pt;">';
 
 $a->size=80;
-echo $a->IOValue("comment",$e_comment,"Description");
+echo $a->input("comment",$e_comment,"Description");
 echo '</DIV>';
 
 if ( isset ($e_ech) ) {
@@ -426,7 +426,7 @@ $operation->jr_id=$element;
     $w->label=$operation->get_internal();
     $w->javascript="modifyOperation('".$element."','".$_REQUEST['PHPSESSID']."',".dossier::id().
       ','.$_REQUEST['p_jrn'].",'S')";
-    echo $w->IOValue().'<br>';
+    echo $w->input().'<br>';
   }//for
 }// if ( $a != null ) {
 

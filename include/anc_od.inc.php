@@ -82,11 +82,11 @@ echo '
  
  $hid->name="p_action";
  $hid->value="ca_od";
- echo $hid->IOValue();
+ echo $hid->input();
  
  $hid->name="see";
  $hid->value="";
- echo $hid->IOValue();
+ echo $hid->input();
 
  $w=new ISelect();
  $w->name="p_periode";
@@ -98,8 +98,8 @@ echo '
  $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
  $w->value=$periode_start;
  $w->selected=$current;
- echo $w->IOValue(); 
- echo 'P&eacute;riode  '.widget::submit('gl_submit','Valider').'</form>';
+ echo $w->input(); 
+ echo 'P&eacute;riode  '.HtmlInput::submit('gl_submit','Valider').'</form>';
 
   echo '<div class="u_redcontent">';
   echo $a->html_table($current);
@@ -132,9 +132,9 @@ if ( isset($_GET['new'])) {
   echo '<div class="u_redcontent">';
   echo '<form method="post">';
   echo dossier::hidden();
-  echo $wSubmit->IOValue();
+  echo $wSubmit->input();
   echo $a->form();
-  echo widget::submit("save","Sauver");
+  echo HtmlInput::submit("save","Sauver");
   echo '</form>';
   echo '<div class="info">
     D&eacute;bit = <span id="totalDeb"></span>

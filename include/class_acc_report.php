@@ -102,11 +102,11 @@ function form($p_line=0) {
   $r="";
   if ($p_line == 0 ) $p_line=count($this->aAcc_Report_row);
   $r.= dossier::hidden();
-  $r.= widget::hidden('line',$p_line);
-  $r.= widget::hidden('fr_id',$this->id);
+  $r.= HtmlInput::hidden('line',$p_line);
+  $r.= HtmlInput::hidden('fr_id',$this->id);
   $wForm=new IText();
   $r.="Nom du rapport : ";
-  $r.=$wForm->IOValue('form_nom',$this->name);
+  $r.=$wForm->input('form_nom',$this->name);
 
   $r.= '<TABLE id="rap1">';
   $r.= "<TR>";
@@ -127,18 +127,18 @@ function form($p_line=0) {
     
     $r.= "<TD>";
     $wPos->value=( isset($this->aAcc_Report_row[$i]->fo_pos))?$this->aAcc_Report_row[$i]->fo_pos:$i+1;
-    $r.=$wPos->IOValue("pos".$i);
+    $r.=$wPos->input("pos".$i);
     $r.= '</TD>';
     
 
     $r.= "<TD>";
     $wName->value=( isset($this->aAcc_Report_row[$i]->fo_label))?$this->aAcc_Report_row[$i]->fo_label:"";
-    $r.=$wName->IOValue("text".$i);
+    $r.=$wName->input("text".$i);
     $r.= '</TD>';
 
     $r.= "<TD>";
     $wForm->value=( isset($this->aAcc_Report_row[$i]->fo_formula))?$this->aAcc_Report_row[$i]->fo_formula:"";
-    $r.=$wForm->IOValue("form".$i);
+    $r.=$wForm->input("form".$i);
 
     $r.= '</TD>';
 
@@ -146,7 +146,7 @@ function form($p_line=0) {
   $search=new IPoste();
   $search->extra="form".$i;
   $search->extra2='poste';
-  $r.=$search->IOValue();
+  $r.=$search->input();
   $r.='</td>';
 
 
@@ -157,7 +157,7 @@ function form($p_line=0) {
   $wButton=new IButton();
   $wButton->javascript=" rapport_add_row('".dossier::id()."','".$_REQUEST['PHPSESSID']."')";
   $wButton->label="Ajout d'une ligne";
-  $r.=$wButton->IOValue();
+  $r.=$wButton->input();
   return $r;
 
 }
@@ -393,7 +393,7 @@ function form($p_line=0) {
     /* Add a line should be a javascript see comptanalytic */
     //  $r.= '<INPUT TYPE="submit" value="Ajoute une ligne" name="add_line">';
     echo '<INPUT TYPE="submit" value="Efface ce rapport" name="del_form">';
-	echo widget::hidden('test_select',$_REQUEST['test_select']);
+	echo HtmlInput::hidden('test_select',$_REQUEST['test_select']);
     echo "</FORM>";
     if ( isset ($_POST['update'])) {
       $b=new Acc_Report($cn);

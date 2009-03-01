@@ -137,15 +137,15 @@ class Acc_Parm_Code {
       $r.=JS_SEARCH_POSTE;
       $r.='<tr>';
       $r.='<td align="right"> Code </td>';
-      $r.= '<TD>'.$poste->IOValue().'</TD>';
+      $r.= '<TD>'.$poste->input().'</TD>';
       $r.='</tr>';
       $r.='<tr>';
       $r.='<td align="right"> Commentaire </td>';
-      $r.= '<TD>'.$comment->IOValue().'</TD>';
+      $r.= '<TD>'.$comment->input().'</TD>';
       $r.='</tr>';
       $r.='<tr>';
       $r.='<td align="right"> Poste comptable </td>';
-      $r.= '<TD>'.$value->IOValue();
+      $r.= '<TD>'.$value->input();
       $r.='<span id="p_value_label"></span></td>';
       $r.='</tr>';
 

@@ -71,7 +71,7 @@ class Document_modele {
       $r.="<TD>";
       $c=new ICheckBox();
       $c->name="dm_remove_".$row['md_id'];
-      $r.=$c->IOValue();
+      $r.=$c->input();
       $r.="</td>";
       $r.="</tr>";
     } 
@@ -81,8 +81,8 @@ class Document_modele {
     $a=new IHidden();
     $a->name="sa";
     $a->value="rm_template";
-    $r.=$a->IOValue();
-    $r.=widget::submit("rm_template","Effacer la sélection");
+    $r.=$a->input();
+    $r.=HtmlInput::submit("rm_template","Effacer la sélection");
     $r.="</form></p>";
     return $r;
   }
@@ -264,12 +264,12 @@ class Document_modele {
       $h->name="sa";
       $h->value="add_document";
 
-      $r.=$h->IOValue();
+      $r.=$h->input();
 
       $r.='<table>';
       $t=new IText();
       $t->name="md_name";
-      $r.="<tr><td> Nom </td><td>".$t->IOValue()."</td>";
+      $r.="<tr><td> Nom </td><td>".$t->input()."</td>";
 
       $r.="</tr>";
       $r.="<tr><td>Type de document </td>";
@@ -277,22 +277,22 @@ class Document_modele {
       $w->name="md_type";
 
       $w->value=make_array($this->cn,'select dt_id,dt_value from document_type');
-      $r.="<td>".$w->IOValue()."</td></tr>";
+      $r.="<td>".$w->input()."</td></tr>";
 
       $f=new IFile();
       $f->name="doc";
-      $r.="<tr><td>fichier</td><td> ".$f->IOValue()."</td></tr>";
+      $r.="<tr><td>fichier</td><td> ".$f->input()."</td></tr>";
 
       $start=new IText();
       $start->name="start_seq";
       $start->size=9;
       $start->value="0";
 
-      $r.="<tr><td> Numerotation commence a</td><td> ".$start->IOValue()."</td>";
+      $r.="<tr><td> Numerotation commence a</td><td> ".$start->input()."</td>";
       $r.='<td class="notice">Si vous laissez &agrave; 0, la num&eacute;rotation ne changera pas, la prochaine facture sera n+1, n étant le n° que vous avez donn&eacute;</td>';
       $r.="</tr>";
       $r.='</table>';
-      $r.=widget::submit('add_document','Ajout');
+      $r.=HtmlInput::submit('add_document','Ajout');
       $r.="</form></p>";
       return $r;
     }

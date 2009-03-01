@@ -51,7 +51,7 @@ if ( isset ($_POST["DATABASE"]) ) {
     alert('Désolé vous devez migrer ce modèle en unicode');
     echo '<span class="error">le modele '.domaine.'mod'.$_POST["FMOD_ID"]." doit être migré en unicode.";
     echo 'Pour le passer en unicode, faites-en un backup puis restaurez le fichier reçu</span>';
-    echo widget::button_href('Retour','admin_repo.php?action=dossier_mgt');
+    echo HtmlInput::button_href('Retour','admin_repo.php?action=dossier_mgt');
     exit();
   }
 
@@ -146,8 +146,8 @@ if ( isset ($_POST["DATABASE"]) ) {
 //---------------------------------------------------------------------------
 // List of folder
 if ( $sa == 'list' ) {
-     echo widget::button_href('Rafra&icirc;chir','admin_repo.php?action=dossier_mgt');
-     echo widget::button_href('Ajouter','admin_repo.php?action=dossier_mgt&sa=add');
+     echo HtmlInput::button_href('Rafra&icirc;chir','admin_repo.php?action=dossier_mgt');
+     echo HtmlInput::button_href('Ajouter','admin_repo.php?action=dossier_mgt&sa=add');
 
     $offset=(isset($_REQUEST['offset']))?$_REQUEST['offset']:0;
     $page=(isset($_REQUEST['page']))?$_REQUEST['page']:1;
@@ -175,12 +175,12 @@ if ( $sa == 'list' ) {
 	  "<TD><I>  ".h($Dossier['dos_description'])."</I>
 </TD>
 <TD>";
-	echo widget::button_href('Effacer','?action=dossier_mgt&sa=del&d='.$Dossier['dos_id']);
+	echo HtmlInput::button_href('Effacer','?action=dossier_mgt&sa=del&d='.$Dossier['dos_id']);
 	echo "</TD>";
-	echo '<td>'.widget::button_href('Modifier','?action=dossier_mgt&sa=mod&d='
+	echo '<td>'.HtmlInput::button_href('Modifier','?action=dossier_mgt&sa=mod&d='
 					.$Dossier['dos_id']).
 	  '</td>';
-	echo '<td>'.widget::button_href('Backup','backup.php?action=backup&sa=b&t=d&d='
+	echo '<td>'.HtmlInput::button_href('Backup','backup.php?action=backup&sa=b&t=d&d='
 					.$Dossier['dos_id']).
 	  '</td>';
 
@@ -234,7 +234,7 @@ if ( $sa == 'list' ) {
     <TR>
     <TD> <INPUT TYPE=SUBMIT VALUE="Creation Dossier"></TD>
 <td>
-<?php  echo widget::button_href('Retour','admin_repo.php?action=dossier_mgt'); ?>
+<?php  echo HtmlInput::button_href('Retour','admin_repo.php?action=dossier_mgt'); ?>
 </td>
     </TR>
     </TABLE>
@@ -249,18 +249,18 @@ if ( $sa == 'mod' ) {
   $dos->load();
   $wText=new IText();
   echo '<form action="admin_repo.php" method="post">';
-  echo widget::hidden('action','dossier_mgt');
-  echo widget::hidden('d',$dos->get_parameter("id"));
+  echo HtmlInput::hidden('action','dossier_mgt');
+  echo HtmlInput::hidden('d',$dos->get_parameter("id"));
   echo 'Nom : ';
-  echo  $wText->IOValue('name',$dos->get_parameter('name'));
+  echo  $wText->input('name',$dos->get_parameter('name'));
   echo '<br>';
   $wDesc=new ITextArea();
   $wDesc->heigh=5;
   echo 'Description : <br>';
-  echo  $wDesc->IOValue('desc',$dos->get_parameter('desc'));
+  echo  $wDesc->input('desc',$dos->get_parameter('desc'));
   echo '<br>';
-  echo widget::submit('upd','Modifie');
-  echo widget::button_href('Retour','?action=dossier_mgt');
+  echo HtmlInput::submit('upd','Modifie');
+  echo HtmlInput::button_href('Retour','?action=dossier_mgt');
   echo '</form>';
  }
 //---------------------------------------------------------------------------
@@ -270,22 +270,22 @@ if ( $sa == 'del' ) {
   $d=new Dossier($_REQUEST ['d'] );
   $d->load();
   echo '<form method="post">';
-  echo widget::hidden('d',$_REQUEST['d']);
-  echo widget::hidden('sa','remove');
+  echo HtmlInput::hidden('d',$_REQUEST['d']);
+  echo HtmlInput::hidden('sa','remove');
   echo '<h2 class="error">Etes vous sure et certain de vouloir effacer '.$d->dos_name.' ???</h2>';
   $confirm=new ICheckBox();
   $confirm->name="p_confirm";
   echo 'Cochez la case si vous êtes sûr de vouloir effacer ce dossier';
-  echo $confirm->IOValue();
-  echo widget::submit('remove','Effacer');
-  echo widget::button_href('Retour','?action=dossier_mgt');
+  echo $confirm->input();
+  echo HtmlInput::submit('remove','Effacer');
+  echo HtmlInput::button_href('Retour','?action=dossier_mgt');
   echo '</form>';
  }
 //---------------------------------------------------------------------------
 // action = del
 //---------------------------------------------------------------------------
 if ( $sa == 'remove' ) {
-  if ( ! isset ($_REQUEST['p_confirm'])) {echo('Désolé, vous n\'avez pas coché la case');  echo widget::button_href('Retour','?action=dossier_mgt');exit();}
+  if ( ! isset ($_REQUEST['p_confirm'])) {echo('Désolé, vous n\'avez pas coché la case');  echo HtmlInput::button_href('Retour','?action=dossier_mgt');exit();}
 
   $cn=DbConnect();
    $msg="dossier";
@@ -313,7 +313,7 @@ if ( $sa == 'remove' ) {
    ExecSqlParam($cn,$sql,array($_REQUEST['d']));
    print '<h2 class="info">';
    print "Voilà le dossier ".h($name)." est effacé</h2>";
-   echo widget::button_href('Retour','?action=dossier_mgt');
+   echo HtmlInput::button_href('Retour','?action=dossier_mgt');
  }
 ?>
 </div>

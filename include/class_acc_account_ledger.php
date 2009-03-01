@@ -281,7 +281,6 @@ function get_solde_detail($p_cond="") {
   */
  static function HtmlTableHeader()
    {
-INVALIDWIDGET      $submit=new widget();
      $hid=new IHidden();
      echo '<div class="noprint">';
      echo "<table >";
@@ -289,36 +288,36 @@ INVALIDWIDGET      $submit=new widget();
      
      echo '<TD><form method="GET" ACTION="">'.
 	   dossier::hidden().
-       widget::submit('bt_other',"Autre poste").
-       $hid->IOValue("type","poste").$hid->IOValue('p_action','impress')."</form></TD>";
+       HtmlInput::submit('bt_other',"Autre poste").
+       $hid->input("type","poste").$hid->input('p_action','impress')."</form></TD>";
      
      echo '<TD><form method="POST" ACTION="poste_pdf.php">'.
 	   dossier::hidden().
-       widget::submit('bt_pdf',"Export PDF").
-       $hid->IOValue("type","poste").
-       $hid->IOValue('p_action','impress').
-       $hid->IOValue("poste_id",$_REQUEST['poste_id']).
-       $hid->IOValue("from_periode",$_REQUEST['from_periode']).
-       $hid->IOValue("to_periode",$_REQUEST['to_periode']);
+       HtmlInput::submit('bt_pdf',"Export PDF").
+       $hid->input("type","poste").
+       $hid->input('p_action','impress').
+       $hid->input("poste_id",$_REQUEST['poste_id']).
+       $hid->input("from_periode",$_REQUEST['from_periode']).
+       $hid->input("to_periode",$_REQUEST['to_periode']);
      if (isset($_REQUEST['poste_fille']))
-       echo $hid->IOValue('poste_fille','on');
+       echo $hid->input('poste_fille','on');
      if (isset($_REQUEST['oper_detail']))
-       echo $hid->IOValue('oper_detail','on');
+       echo $hid->input('oper_detail','on');
 
      echo "</form></TD>";
      
      echo '<TD><form method="POST" ACTION="poste_csv.php">'.
 	   dossier::hidden().
-       widget::submit('bt_csv',"Export CSV").
-       $hid->IOValue("type","poste").
-       $hid->IOValue('p_action','impress').
-       $hid->IOValue("poste_id",$_REQUEST['poste_id']).
-       $hid->IOValue("from_periode",$_REQUEST['from_periode']).
-       $hid->IOValue("to_periode",$_REQUEST['to_periode']);
+       HtmlInput::submit('bt_csv',"Export CSV").
+       $hid->input("type","poste").
+       $hid->input('p_action','impress').
+       $hid->input("poste_id",$_REQUEST['poste_id']).
+       $hid->input("from_periode",$_REQUEST['from_periode']).
+       $hid->input("to_periode",$_REQUEST['to_periode']);
      if (isset($_REQUEST['poste_fille']))
-       echo $hid->IOValue('poste_fille','on');
+       echo $hid->input('poste_fille','on');
      if (isset($_REQUEST['oper_detail']))
-       echo $hid->IOValue('oper_detail','on');
+       echo $hid->input('oper_detail','on');
      
      echo "</form></TD>";
      echo "</table>";

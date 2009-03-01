@@ -41,16 +41,16 @@ if ( $sb=='change') {
   $row->load();
   echo '<form method="post" action="parametre.php">';
   echo dossier::hidden();
-  echo widget::hidden('p_jrn',0);
-  echo widget::hidden('p_action','divers');
-  echo widget::hidden('sa','mp');
-  echo widget::hidden('sb','save');
-  echo widget::hidden('mp_type',$row->get_parameter('type'));
-  echo widget::hidden('mp_lib',$row->get_parameter('lib'));
+  echo HtmlInput::hidden('p_jrn',0);
+  echo HtmlInput::hidden('p_action','divers');
+  echo HtmlInput::hidden('sa','mp');
+  echo HtmlInput::hidden('sb','save');
+  echo HtmlInput::hidden('mp_type',$row->get_parameter('type'));
+  echo HtmlInput::hidden('mp_lib',$row->get_parameter('lib'));
 
   echo $row->form();
-  echo widget::submit('save','Sauve');
-  echo widget::button_href('Retour sans sauvez',
+  echo HtmlInput::submit('save','Sauve');
+  echo HtmlInput::button_href('Retour sans sauvez',
 			   '?p_action=divers&sa=mp&'.dossier::get()
 			   );
   echo '</form>';
@@ -85,7 +85,7 @@ if ( ! empty ($array)) {
   foreach ($array as $row) {
     echo $tr;
     echo $row->row();
-    echo $td.widget::button_href('Modifie','?p_action=divers&sa=mp&sb=change&'.dossier::get().
+    echo $td.HtmlInput::button_href('Modifie','?p_action=divers&sa=mp&sb=change&'.dossier::get().
 				 '&id='.$row->get_parameter('id'));
     echo $etr;
 
@@ -112,7 +112,7 @@ if ( ! empty ($array)) {
   foreach ($array as $row) {
     echo $tr;
     echo $row->row();
-    echo $td.widget::button_href('Modifie','?p_action=divers&sa=mp&sb=change&'.dossier::get().
+    echo $td.HtmlInput::button_href('Modifie','?p_action=divers&sa=mp&sb=change&'.dossier::get().
 				 '&id='.$row->get_parameter('id'));
     echo $etr;
 

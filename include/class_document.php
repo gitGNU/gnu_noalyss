@@ -743,7 +743,7 @@ class Document
 	    return "";
 	  $oTva=new Acc_Tva($cn,${$tva});
 	  if ($oTva->load() == null) return "";
-	  $r=round(${$price},2)*oTva->get_parameter('rate');
+	  $r=round(${$price},2)*$oTva->get_parameter('rate');
 	  $r=round($r,2);
 	  break;
 

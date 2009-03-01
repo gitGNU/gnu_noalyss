@@ -146,25 +146,25 @@ INVALIDWIDGET 	$submit=new widget();
 	$r.= '<form method="GET" action="ca_list_pdf.php" style="display:inline">';
 	$r.= $p_string;
 	$r.= dossier::hidden();
-	$r.= $hidden->IOValue("to",$this->to);
-	$r.= $hidden->IOValue("from",$this->from);
-	$r.= $hidden->IOValue("pa_id",$this->pa_id);
-	$r.= $hidden->IOValue("from_poste",$this->from_poste);
-	$r.= $hidden->IOValue("to_poste",$this->to_poste);
-	$r.=widget::submit('bt_pdf',"Export en PDF");
+	$r.= $hidden->input("to",$this->to);
+	$r.= $hidden->input("from",$this->from);
+	$r.= $hidden->input("pa_id",$this->pa_id);
+	$r.= $hidden->input("from_poste",$this->from_poste);
+	$r.= $hidden->input("to_poste",$this->to_poste);
+	$r.=HtmlInput::submit('bt_pdf',"Export en PDF");
 	$r.= '</form>';
 	*/
 
 	$r.= '<form method="GET" action="ca_list_csv.php"  style="display:inline">';
-	$r.= $hidden->IOValue("to",$this->to);
-	$r.= $hidden->IOValue("from",$this->from);
-	$r.= $hidden->IOValue("pa_id",$this->pa_id);
-	$r.= $hidden->IOValue("from_poste",$this->from_poste);
-	$r.= $hidden->IOValue("to_poste",$this->to_poste);
+	$r.= $hidden->input("to",$this->to);
+	$r.= $hidden->input("from",$this->from);
+	$r.= $hidden->input("pa_id",$this->pa_id);
+	$r.= $hidden->input("from_poste",$this->from_poste);
+	$r.= $hidden->input("to_poste",$this->to_poste);
 
 	$r.= $p_string;
 	$r.= dossier::hidden();
-	$r.=widget::submit('bt_csv',"Export en CSV");
+	$r.=HtmlInput::submit('bt_csv',"Export en CSV");
 	$r.= '</form>';
 	return $r;
 

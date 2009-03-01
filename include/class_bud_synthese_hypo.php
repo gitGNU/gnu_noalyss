@@ -50,7 +50,7 @@ class Bud_Synthese_Hypo extends Bud_Synthese {
     $wSelect->selected=$this->bh_id;
     $wSelect->javascript='onChange=this.form.submit()';
 
-    $r="Choississez l'hypoth&egrave;se :".$wSelect->IOValue();
+    $r="Choississez l'hypoth&egrave;se :".$wSelect->input();
 
     $per=make_array($this->cn,"select p_id,to_char(p_start,'MM.YYYY') ".
 		    " from parm_periode order by p_start,p_end");
@@ -67,7 +67,7 @@ class Bud_Synthese_Hypo extends Bud_Synthese {
     $wto->value=$per;
     $wto->selected=$this->to;
 
-    $r.="Periode de ".$wFrom->IOValue()." &agrave; ".$wto->IOValue();
+    $r.="Periode de ".$wFrom->input()." &agrave; ".$wto->input();
     $r.=dossier::hidden();
     return $r;
   }
@@ -355,7 +355,7 @@ Array
   function hidden() {
     $r="";
     foreach (array('bh_id','from','to') as $e)
-      $r.=widget::hidden($e,$this->$e);
+      $r.=HtmlInput::hidden($e,$this->$e);
     return $r;
   }
   /*!\brief the same as summary but show it in html */
@@ -407,9 +407,9 @@ Array
     $cn=DbConnect(dossier::id());
     $obj=new Bud_Synthese_Hypo($cn);
     echo '<form method="GET">';
-	echo widget::hidden('test_select',$_REQUEST['test_select']);
+	echo HtmlInput::hidden('test_select',$_REQUEST['test_select']);
     echo $obj->form();
-    echo widget::submit('recherche','Recherche');
+    echo HtmlInput::submit('recherche','Recherche');
     echo '</form>';
     print_r($_GET);
     if ( isset ($_GET['recherche'])) {

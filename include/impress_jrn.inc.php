@@ -62,29 +62,29 @@ INVALIDWIDGET   $submit=new widget();
   echo "<table>";
   echo '<TR>';
   echo '<TD><form method="GET" ACTION="?">'.dossier::hidden().
-    widget::submit('bt_other',"Autre journal").
-    $hid->IOValue("type","jrn").$hid->IOValue('p_action','impress')."</form></TD>";
+    HtmlInput::submit('bt_other',"Autre journal").
+    $hid->input("type","jrn").$hid->input('p_action','impress')."</form></TD>";
 
   echo '<TD><form method="GET" ACTION="jrn_pdf.php">'.dossier::hidden().
-    widget::submit('bt_pdf',"Export PDF").
-    $hid->IOValue("type","jrn").
-    $hid->IOValue("p_action","impress").
-    $hid->IOValue("central",$p_cent).
-    $hid->IOValue("jrn_id",$Jrn->id).
-    $hid->IOValue("from_periode",$_POST['from_periode']).
-    $hid->IOValue("to_periode",$_POST['to_periode']);
-  echo $hid->IOValue("p_simple",$_POST['p_simple']);
+    HtmlInput::submit('bt_pdf',"Export PDF").
+    $hid->input("type","jrn").
+    $hid->input("p_action","impress").
+    $hid->input("central",$p_cent).
+    $hid->input("jrn_id",$Jrn->id).
+    $hid->input("from_periode",$_POST['from_periode']).
+    $hid->input("to_periode",$_POST['to_periode']);
+  echo $hid->input("p_simple",$_POST['p_simple']);
 
   echo "</form></TD>";
   echo '<TD><form method="GET" ACTION="jrn_csv.php">'.dossier::hidden().
-    widget::submit('bt_csv',"Export CSV").
-    $hid->IOValue("type","jrn").
-    $hid->IOValue("p_action","impress").
-    $hid->IOValue("central",$p_cent).
-    $hid->IOValue("jrn_id",$Jrn->id).
-    $hid->IOValue("from_periode",$_POST['from_periode']).
-    $hid->IOValue("to_periode",$_POST['to_periode']);
-  echo $hid->IOValue("p_simple",$_POST['p_simple']);
+    HtmlInput::submit('bt_csv',"Export CSV").
+    $hid->input("type","jrn").
+    $hid->input("p_action","impress").
+    $hid->input("central",$p_cent).
+    $hid->input("jrn_id",$Jrn->id).
+    $hid->input("from_periode",$_POST['from_periode']).
+    $hid->input("to_periode",$_POST['to_periode']);
+  echo $hid->input("p_simple",$_POST['p_simple']);
   echo "</form></TD>";
 
   echo "</TR>";
@@ -225,7 +225,7 @@ echo '<TABLE width="90%" align="center"><TR>';
 $w=new ISelect();
 $w->table=1;
 $w->label="Choississez le journal";
-print $w->IOValue("jrn_id",$ret);
+print $w->input("jrn_id",$ret);
 print '</TR>';
 print '<TR>';
 // filter on the current year
@@ -233,24 +233,24 @@ $filter_year=" where p_exercice='".$User->get_exercice()."'";
 
 $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
 $w->label="Depuis";
-print $w->IOValue('from_periode',$periode_start);
+print $w->input('from_periode',$periode_start);
 $w->label=" jusqu'à ";
 $periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
-print $w->IOValue('to_periode',$periode_end);
+print $w->input('to_periode',$periode_end);
 print "</TR><TR>";
 $centralise=new ICheckBox();
 $centralise->label="Depuis les journaux centralisés";
 $centralise->table=1;
-print $centralise->IOValue('cent');
+print $centralise->input('cent');
 $a=array(
 	 array('value'=>0,'label'=>'Detaillé'),
 	 array('value'=>1,'label'=>'Simple')
 	 );
 $w->selected=1;
-echo $w->IOValue('p_simple',$a,'Style d\'impression');
+echo $w->input('p_simple',$a,'Style d\'impression');
 print "</TR>";
 echo '</TABLE>';
-print widget::submit('bt_html','Visualisation');
+print HtmlInput::submit('bt_html','Visualisation');
 
 echo '</FORM>';
   echo '<span class="notice"> Attention : en-cas d\'impression de journaux centralis&eacute;s, dans le PDF, les montants d&eacute;bit et cr&eacute;dit calcul&eacute;s  par page sont la somme des montants de la page uniquement. Si une op&eacute;ration est sur 2 pages ces montants diff&egrave;reront évidemment. Ces montants doivent &ecirc;tre &eacute;gaux sur la derni&egrave;re page. Pour v&eacute;rifier la balance, utilisez la balance des comptes ou Avanc&eacute;->V&eacute;rification</span>';

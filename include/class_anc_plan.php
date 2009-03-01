@@ -121,10 +121,10 @@ class Anc_Plan
 	$wDescription->table=1;
 	$wId=new IHidden("pa_id",$this->id);
 	$ret="<TABLE>";
-	$ret.='<tr>'.$wName->IOValue().'</tr>';
-	$ret.="<tr>".$wDescription->IOValue()."</tr>";
+	$ret.='<tr>'.$wName->input().'</tr>';
+	$ret.="<tr>".$wDescription->input()."</tr>";
 	$ret.="</table>";
-	$ret.=$wId->IOValue();
+	$ret.=$wId->input();
 	return $ret;
   }
   function isAppend()

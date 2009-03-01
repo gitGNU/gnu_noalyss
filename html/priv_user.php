@@ -202,14 +202,14 @@ foreach ( $Dossier as $rDossier) {
   $select->name=sprintf('PRIV%s',$rDossier['dos_id']);
   $select->value=$array;
   $select->selected=$priv;
-  echo $select->IOValue();
+  echo $select->input();
   echo "</TD></TR>";
 }
 
 ?>
 </TABLE>
 
-<?php echo widget::button_href('Reinitialiser le mot de passe',
+<?php echo HtmlInput::button_href('Reinitialiser le mot de passe',
 			  sprintf('priv_user.php?reset_passwd&UID=%s',$uid)); 
 ?>
 

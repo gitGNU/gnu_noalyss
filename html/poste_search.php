@@ -125,11 +125,11 @@ echo_debug('poste_search.php',__LINE__,"condition = $condition");
 echo '<FORM ACTION="poste_search.php'.$url.'" METHOD="GET">';
 echo dossier::hidden();
 
-echo widget::hidden('ctrl',$_GET['ctrl']);
+echo HtmlInput::hidden('ctrl',$_GET['ctrl']);
 if ( isset($p_ctl) ) {
     echo '<INPUT TYPE="hidden" name="p_ctl" value="'.$p_ctl.'">';
 }
-if (isset ($ret)) echo widget::hidden('ret',$ret);
+if (isset ($ret)) echo HtmlInput::hidden('ret',$ret);
 
 echo 'Libellé ou poste comptable ';
 echo ' contient ';

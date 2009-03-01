@@ -278,9 +278,9 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
   //  $r.= '<TD> <INPUT TYPE="TEXT" NAME="date_start" SIZE="10" VALUE="'.$p_date_start.'"></TD>';
   //$r.= '<TD>et <INPUT TYPE="TEXT" NAME="date_end" size="10"
   //Value="'.$p_date_end.'"></TD>';
-  $r.='<td>'.$date_start->IOValue();
+  $r.='<td>'.$date_start->input();
   $r.="  et ";
-  $r.=$date_end->IOValue().'</td>';
+  $r.=$date_end->input().'</td>';
   $r.= '</TD><TD>';
   $r.= "</TR> <TR>";
   $r.= "<TD> Montant compris entre ";
@@ -302,7 +302,7 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
   $W->label="Numéro de poste<br> <i>Vous pouvez utilisez le %</i>";
   $W->name="poste";
   $W->value=$p_poste;
-  $r.="<TR>".$W->IOValue();
+  $r.="<TR>".$W->input();
   $r.= "</TR>";
   $r.= "<TR>";
  
@@ -317,9 +317,9 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
 
  $sp=new ISpan();
  $sp->table=0;
- $r.=$A->IOValue().'</TD>'.$sp->IOValue("qcode_label");
+ $r.=$A->input().'</TD>'.$sp->input("qcode_label");
  $r.= "</TR>";
- echo_debug('user_menu.php',__LINE__,"<TD>".$A->IOValue().'</TD><TD>'.$sp->IOValue("p_qcode_label")."</TD>");
+ echo_debug('user_menu.php',__LINE__,"<TD>".$A->input().'</TD><TD>'.$sp->input("p_qcode_label")."</TD>");
  
   $r.= '<TD colspan="3"> Le commentaire contient( ou numéro de pièce) </TD>';
   $r.= "</TR><TR>";

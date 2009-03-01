@@ -80,37 +80,37 @@ INVALIDWIDGET   $submit=new widget();
   echo '<TR>';
   echo '<TD><form method="GET" ACTION="?">'.
 	dossier::hidden().
-    widget::submit('bt_other',"Autre Rapport").
-    $hid->IOValue("type","rapport").$hid->IOValue("p_action","impress")."</form></TD>";
+    HtmlInput::submit('bt_other',"Autre Rapport").
+    $hid->input("type","rapport").$hid->input("p_action","impress")."</form></TD>";
 
   echo '<TD><form method="GET" ACTION="form_pdf.php">'.
-    widget::submit('bt_pdf',"Export PDF").
+    HtmlInput::submit('bt_pdf',"Export PDF").
 	dossier::hidden().
-    $hid->IOValue("type","rapport").
-    $hid->IOValue("p_action","impress").
-    $hid->IOValue("form_id",$Form->id).
-    $hid->IOValue("from_periode",$_GET['from_periode']).
-    $hid->IOValue("to_periode",$_GET['to_periode']).
-    $hid->IOValue("p_step",$_GET['p_step']).
-    $hid->IOValue("from_date",$_GET['from_date']).
-	$hid->IOValue("to_date",$_GET['to_date']).
-	$hid->IOValue("type_periode",$_GET['type_periode']);
+    $hid->input("type","rapport").
+    $hid->input("p_action","impress").
+    $hid->input("form_id",$Form->id).
+    $hid->input("from_periode",$_GET['from_periode']).
+    $hid->input("to_periode",$_GET['to_periode']).
+    $hid->input("p_step",$_GET['p_step']).
+    $hid->input("from_date",$_GET['from_date']).
+	$hid->input("to_date",$_GET['to_date']).
+	$hid->input("type_periode",$_GET['type_periode']);
 
 
 
   echo "</form></TD>";
   echo '<TD><form method="GET" ACTION="form_csv.php">'.
-    widget::submit('bt_csv',"Export CSV").
+    HtmlInput::submit('bt_csv',"Export CSV").
 	dossier::hidden().
-    $hid->IOValue("type","form").
-    $hid->IOValue("p_action","impress").
-    $hid->IOValue("form_id",$Form->id).
-    $hid->IOValue("from_periode",$_GET['from_periode']).
-    $hid->IOValue("to_periode",$_GET['to_periode']).
-    $hid->IOValue("p_step",$_GET['p_step']).
-    $hid->IOValue("from_date",$_GET['from_date']).
-    $hid->IOValue("to_date",$_GET['to_date']).
-	$hid->IOValue("type_periode",$_GET['type_periode']);
+    $hid->input("type","form").
+    $hid->input("p_action","impress").
+    $hid->input("form_id",$Form->id).
+    $hid->input("from_periode",$_GET['from_periode']).
+    $hid->input("to_periode",$_GET['to_periode']).
+    $hid->input("p_step",$_GET['p_step']).
+    $hid->input("from_date",$_GET['from_date']).
+    $hid->input("to_date",$_GET['to_date']).
+	$hid->input("type_periode",$_GET['type_periode']);
 
   echo "</form></TD>";
 
@@ -156,15 +156,15 @@ if ( sizeof($ret) == 0 ) {
 echo '<div class="content">';
 echo '<FORM METHOD="GET">';
 $hidden=new IHidden();
-echo $hidden->IOValue("p_action","impress");
-echo $hidden->IOValue("type","rapport");
+echo $hidden->input("p_action","impress");
+echo $hidden->input("type","rapport");
 echo 	dossier::hidden();
 
 echo '<TABLE border="2"><TR>';
 $w=new ISelect();
 $w->table=1;
 $w->label="Choississez le rapport";
-print $w->IOValue("form_id",$ret);
+print $w->input("form_id",$ret);
 print '</TR>';
 print '<TR>';
 // filter on the current year
@@ -172,18 +172,18 @@ $filter_year=" where p_exercice='".$User->get_exercice()."'";
 
 $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
 $w->label="P&eacute;riode comptable : Depuis";
-print $w->IOValue('from_periode',$periode_start);
+print $w->input('from_periode',$periode_start);
 $w->label=" jusqu'à ";
 $periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode  $filter_year order by p_start,p_end");
-print $w->IOValue('to_periode',$periode_end);
+print $w->input('to_periode',$periode_end);
 print "</TR>";
 //--- by date
 $date=new IDate();
 $date->table=1;
 $date->label="Calendrier depuis :";
-echo $date->IOValue('from_date');
+echo $date->input('from_date');
 $date->label="jusque";
-echo $date->IOValue('to_date');
+echo $date->input('to_date');
 //-- calendrier ou periode comptable
 $aCal=array(
 			   array('value'=>0,'label'=>'P&eacute;riode comptable'),
@@ -191,14 +191,14 @@ $aCal=array(
 			   );
 $w->label='Type de date : ';
 echo '<tr>';
-echo $w->IOValue('type_periode',$aCal);
+echo $w->input('type_periode',$aCal);
 echo '</Tr>';
 $aStep=array(
 	     array('value'=>0,'label'=>'Pas d\'étape'),
 	     array('value'=>1,'label'=>'1 mois')
 	     );
 $w->label='Par étape de';
-echo '<TR> '.$w->IOValue('p_step',$aStep);
+echo '<TR> '.$w->input('p_step',$aStep);
 echo '</TR>';
 
 echo '</TABLE>';
@@ -206,7 +206,7 @@ echo '<span class="notice"> Attention : vous ne pouvez pas utiliser les &eacute;
 echo '<br>';
 echo '<span class="notice"> Les clauses FROM sont ignorés avec les dates calendriers</span>';
 echo '<br>';
-print widget::submit('bt_html','Visualisation');
+print HtmlInput::submit('bt_html','Visualisation');
 
 echo '</FORM>';
 echo '</div>';

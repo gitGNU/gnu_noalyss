@@ -42,8 +42,8 @@ echo '<div class="content">';
 echo ShowItem($menu,"H","mtitle","mtitle",$sub);
 echo '</div>';
 $hidden=new IHidden();
-$str_hidden=$hidden->IOValue("p_action","ca_imp");
-$str_hidden.=$hidden->IOValue("sub",$sub);
+$str_hidden=$hidden->input("p_action","ca_imp");
+$str_hidden.=$hidden->input("sub",$sub);
 
 // select following the sub action
 //------------------------------------------------------------------------------

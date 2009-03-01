@@ -24,6 +24,7 @@
 // $Revision$
 include_once ("ac_common.php");
 include_once("postgres.php");
+require_once('class_itext.php');
 $rep=DbConnect();
 include_once ("class_user.php");
 $User=new User($rep);
@@ -56,7 +57,7 @@ echo '</div>';
 <?php
 $w=new IText();
 $p_nom=isset($_GET ['p_nom'])?$_GET['p_nom']:"";
-echo $w->IOValue('p_nom',$p_nom);
+echo $w->input('p_nom',$p_nom);
 
 ?>
 <span class="notice">Donnez une partie du nom du dossier &agrave; rechercher</span>

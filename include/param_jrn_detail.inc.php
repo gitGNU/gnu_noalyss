@@ -156,25 +156,25 @@ $wJrn=new IText();
 $wJrn->name='p_jrn_class_deb';
 $wJrn->size=40;
 $wJrn->value=$prop['jrn_def_class_deb'];
-$search=$wJrn->IOValue().$wSearch->IOValue();
+$search=$wJrn->input().$wSearch->input();
 $wPjPref=new IText();
 $wPjPref->name='jrn_def_pj_pref';
 $wPjPref->value=$prop['jrn_def_pj_pref'];
-$pj_pref=$wPjPref->IOValue();
+$pj_pref=$wPjPref->input();
 $wPjSeq=new IText();
 $wPjSeq->value=$Ledger->get_last_pj();
 $wPjSeq->name='jrn_def_pj_seq';
-$pj_seq=$wPjSeq->IOValue();
+$pj_seq=$wPjSeq->input();
 
 $name=$l_line['jrn_def_name'];
 
 /* construct all the hidden */
-$hidden= widget::hidden('p_jrn',$_GET['p_jrn']);
-$hidden.= widget::hidden('p_action','jrn');
-$hidden.= widget::hidden('sa','detail');
+$hidden= HtmlInput::hidden('p_jrn',$_GET['p_jrn']);
+$hidden.= HtmlInput::hidden('p_action','jrn');
+$hidden.= HtmlInput::hidden('sa','detail');
 $hidden.= dossier::hidden();
-$hidden.=widget::hidden('p_jrn_deb_max_line',10);
-$hidden.=widget::hidden('p_ech_lib','echeance');
+$hidden.=HtmlInput::hidden('p_jrn_deb_max_line',10);
+$hidden.=HtmlInput::hidden('p_ech_lib','echeance');
 
 
 /* Load the card */

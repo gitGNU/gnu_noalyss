@@ -40,19 +40,19 @@ $user->can_request(PARPREDE,1);
   // Show a list of ledger
   $sa=(isset($_REQUEST['sa']))?$_REQUEST['sa']:"";
   $sel->selected=$sa;
-  echo 'Choississez un journal '.$sel->IOValue();
+  echo 'Choississez un journal '.$sel->input();
   $wCheck=new ICheckBox();
   if ( isset($_REQUEST['direct'])) {
     $wCheck->selected=true;
   }
-  echo 'Ecriture directe'.$wCheck->IOValue('direct');
+  echo 'Ecriture directe'.$wCheck->input('direct');
 
   echo dossier::hidden();
   $hid=new IHidden();
-  echo $hid->IOValue("sa","jrn");
-  echo $hid->IOValue("p_action","preod");
+  echo $hid->input("sa","jrn");
+  echo $hid->input("p_action","preod");
   echo '<hr>';
-  echo widget::submit('Accepter','Accepter');
+  echo HtmlInput::submit('Accepter','Accepter');
   echo '</form>';
 
   // if $_REQUEST[sa] == del delete the predefined operation
@@ -93,11 +93,11 @@ $user->can_request(PARPREDE,1);
 	  echo '<td>';
 	  echo '<form method="POST">';
 	  echo dossier::hidden();
-	  echo $hid->IOValue("sa","del");
-	  echo $hid->IOValue("p_action","preod");
-	  echo $hid->IOValue("del","");
-	  echo $hid->IOValue("od_id",$row['od_id']);
-	  echo $hid->IOValue("jrn",$_GET['jrn']);
+	  echo $hid->input("sa","del");
+	  echo $hid->input("p_action","preod");
+	  echo $hid->input("del","");
+	  echo $hid->input("od_id",$row['od_id']);
+	  echo $hid->input("jrn",$_GET['jrn']);
 
 	  $b='<input type="submit" value="Effacer" '.
 		' onClick="return confirm(\'Voulez-vous vraiment effacer cette operation ?\');" >';

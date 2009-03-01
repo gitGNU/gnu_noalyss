@@ -456,7 +456,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
     $w->selected=$current;
     
-    echo 'Période  '.$w->IOValue();
+    echo 'Période  '.$w->input();
 
     $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
 
@@ -471,8 +471,8 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     $w->extra='filter';
     $w->extra2='QuickCode';
     $sp=new ISpan("qcode_label","",$qcode);
-    echo $sp->IOValue(); 
-    echo $w->IOValue();
+    echo $sp->input(); 
+    echo $w->input();
 
     echo HtmlInput::submit('gl_submit','Recherche');
  // Show list of sell
@@ -997,14 +997,14 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     }
     $wDate->value=$date;
 
-    $ret.=$wDate->IOValue();
+    $ret.=$wDate->input();
     $ret.= '</td></tr>';
 
     $ret.= '<tr><td>';
     $wDescription=new IText("Description",'desc');
     $wDescription->readonly=$p_readonly;
     $wDescription->value=(isset($desc))?$desc:'';
-    $ret.=$wDescription->IOValue();
+    $ret.=$wDescription->input();
     $ret.= '</td>';
 
     $wPJ=new IText("PJ Num: ",'e_pj');
@@ -1019,7 +1019,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     } 
     $wPJ->value=(isset($e_pj))?$e_pj:$default_pj;
 
-    $ret.=$wPJ->IOValue();
+    $ret.=$wPJ->input();
     $ret.=HtmlInput::hidden('e_pj_suggest',$default_pj);
     $ret.= '</td></tr>';
 
@@ -1102,13 +1102,13 @@ INVALIDHTMLINPUT       $quick_code=new HtmlInput('js_search_card_control');
       $deb->javascript=' onChange="checkTotalDirect()"';
 
       $ret.='<tr>';
-      $ret.='<td>'.$quick_code->IOValue().'</td>';
-      $ret.='<td>'.$poste->IOValue().
+      $ret.='<td>'.$quick_code->input().'</td>';
+      $ret.='<td>'.$poste->input().
 	'<script> document.getElementById(\'poste'.$i.'\').onblur=function(){ if (trim(this.value) !=\'\') my_clear(\'qc_'.$i.'\');}</script>'.
 	'</td>';
-      $ret.='<td>'.$line_desc->IOValue().'</td>';
-      $ret.='<td>'.$amount->IOValue().'</td>';
-      $ret.='<td>'.$deb->IOValue().'</td>';
+      $ret.='<td>'.$line_desc->input().'</td>';
+      $ret.='<td>'.$amount->input().'</td>';
+      $ret.='<td>'.$deb->input().'</td>';
       $ret.='</tr>';
       // If readonly == 1 then show CA
     }     
@@ -1118,7 +1118,7 @@ INVALIDHTMLINPUT       $quick_code=new HtmlInput('js_search_card_control');
       $w=$oRapt->HtmlInput();
       $w->name='jrn_concerned';
       $w->value=(isset($jrn_concerned))?$jrn_concerned:"";
-      $ret.="R&eacute;conciliation/rapprochements : ".$w->IOValue();
+      $ret.="R&eacute;conciliation/rapprochements : ".$w->input();
     }
     return $ret;
   }
@@ -1585,7 +1585,7 @@ function get_last_date()
     $a->with_concerned=true;
     // Vide
     echo '<FORM method="post">';
-    echo $a->select_ledger()->IOValue();
+    echo $a->select_ledger()->input();
     echo HtmlInput::submit('go','Test it');
     echo '</form>';
     if ( isset($_POST['go'])) {

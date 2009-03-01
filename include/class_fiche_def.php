@@ -419,7 +419,7 @@ class fiche_def {
 	  $order->name='jnt_order'.$this->attribut[$i]->ad_id;
 	  $order->size=3;
 	  $order->value=$this->attribut[$i]->jnt_order;
-	  $r.='</td><td> '.$order->IOValue();
+	  $r.='</td><td> '.$order->input();
 	}
 	$r.= '</td></tr>';
       }

@@ -125,15 +125,15 @@ $wJrn=new IText();
 $wJrn->name='p_jrn_class_deb';
 $wJrn->size=40;
 $wJrn->value='';
-$search=$wJrn->IOValue().$wSearch->IOValue();
+$search=$wJrn->input().$wSearch->input();
 
 /* construct all the hidden */
-$hidden= widget::hidden('p_jrn',0);
-$hidden.= widget::hidden('p_action','jrn');
-$hidden.= widget::hidden('sa','add');
+$hidden= HtmlInput::hidden('p_jrn',0);
+$hidden.= HtmlInput::hidden('p_action','jrn');
+$hidden.= HtmlInput::hidden('sa','add');
 $hidden.= dossier::hidden();
-$hidden.=widget::hidden('p_jrn_deb_max_line',10);
-$hidden.=widget::hidden('p_ech_lib','echeance');
+$hidden.=HtmlInput::hidden('p_jrn_deb_max_line',10);
+$hidden.=HtmlInput::hidden('p_ech_lib','echeance');
 
 /* properties of the ledger */
 $name="";
@@ -141,20 +141,20 @@ $code="";
 $wType=new ISelect();
 $wType->value=make_array($cn,'select jrn_type_id,jrn_desc from jrn_type');
 $wType->name="p_jrn_type";
-$type=$wType->IOValue();
+$type=$wType->input();
 $rcred=$rdeb=array();
 $wPjPref=new IText();
 $wPjPref->name='jrn_def_pj_pref';
-$pj_pref=$wPjPref->IOValue();
+$pj_pref=$wPjPref->input();
 $wPjSeq=new IText();
 $wPjSeq->value=0;
 $wPjSeq->name='jrn_def_pj_seq';
-$pj_seq=$wPjSeq->IOValue();
+$pj_seq=$wPjSeq->input();
 
 echo '<FORM METHOD="POST">';
 echo dossier::hidden();
-echo widget::hidden('p_action','jrn');
-echo widget::hidden('sa','add');
+echo HtmlInput::hidden('p_action','jrn');
+echo HtmlInput::hidden('sa','add');
 require_once('template/param_jrn.php');
 
 echo '<INPUT TYPE="SUBMIT" name="add" VALUE="Sauve"><INPUT TYPE="RESET" VALUE="Reset">';

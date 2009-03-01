@@ -126,10 +126,10 @@ $e_fic_search=(isset ($_REQUEST['fic_search']))?$_REQUEST['fic_search']:"";
 
 $r.="<FORM METHOD=\"GET\" >";
 $r.="Recherche : ".'<INPUT TYPE="TEXT" id="fic_search" NAME="fic_search" VALUE="'.$e_fic_search.'">';
-if ( isset($_REQUEST['noadd' ])) $r.=widget::hidden('noadd','noadd');
+if ( isset($_REQUEST['noadd' ])) $r.=HtmlInput::hidden('noadd','noadd');
 $r.='<INPUT TYPE="submit" name="search" value="Go">';
 if ( isset ($_REQUEST['p_jrn']))
-  echo widget::hidden('p_jrn',$_REQUEST ['p_jrn']);
+  echo HtmlInput::hidden('p_jrn',$_REQUEST ['p_jrn']);
 echo dossier::hidden();
 $r.="<div>";
 echo $r;
@@ -203,7 +203,7 @@ if (
   // Test whether rows are returned
  if ( ($Max = pg_NumRows($Res) ) == 0 && $_GET['p_jrn'] != 0) {
    echo_warning("Pas de fiche trouvée");
-   if (isset($add_card)) echo $add_card->IOValue();
+   if (isset($add_card)) echo $add_card->input();
    return;
  } 
  // Show the cards
@@ -259,6 +259,6 @@ echo $r;
 ?>
 
 <?php
-if ( isset($add_card) )echo $add_card->IOValue();
+if ( isset($add_card) )echo $add_card->input();
 html_page_stop();
 ?>

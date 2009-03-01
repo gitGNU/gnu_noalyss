@@ -553,10 +553,10 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
     $w->selected=$current;
     
-    echo 'Période  '.$w->IOValue("p_periode",$periode_start);
+    echo 'Période  '.$w->input("p_periode",$periode_start);
     $wLedger=$this->select_ledger('ACH',3);
     if ($wLedger == null) exit ('Pas de journal disponible');
-    echo 'Journal '.$wLedger->IOValue();
+    echo 'Journal '.$wLedger->input();
     $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
     $this->type='ACH';
     $all=$this->get_all_fiche_def();
@@ -571,10 +571,10 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $w->extra2='QuickCode';
     $w->table=0;
     $sp=new ISpan();
-    echo $sp->IOValue("qcode_label","",$qcode);
-    echo $w->IOValue();
+    echo $sp->input("qcode_label","",$qcode);
+    echo $w->input();
 
-    echo widget::submit('gl_submit','Recherche');
+    echo HtmlInput::submit('gl_submit','Recherche');
  // Show list of sell
  // Date - date of payment - Customer - amount
     if ( $current == -1) {
@@ -610,7 +610,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     
     echo $list;
     if ( $max_line !=0 )
-      echo widget::submit('paid','Mise à jour paiement');
+      echo HtmlInput::submit('paid','Mise à jour paiement');
     echo '</FORM>';
     echo "$bar <hr>";
     
@@ -649,7 +649,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 
   
     $r.=dossier::hidden();
-    $r.=widget::hidden('phpsessid',$_REQUEST['PHPSESSID']);  
+    $r.=HtmlInput::hidden('phpsessid',$_REQUEST['PHPSESSID']);  
     $r.="<fieldset>";
     $r.="<legend>En-tête facture fournisseur  </legend>";
     
@@ -661,7 +661,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $Date->table=1;
     $Date->tabindex=1;
     $r.="<tr>";
-    $r.=$Date->IOValue("e_date",$op_date,"Date");
+    $r.=$Date->input("e_date",$op_date,"Date");
     // Payment limit
     //--
     $Echeance=new IDate();
@@ -669,7 +669,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $Echeance->table=1;
     $Echeance->tabindex=2;
     $label=widget::infobulle(4);
-    $r.=$Echeance->IOValue("e_ech",$e_ech,"Echeance ".$label);
+    $r.=$Echeance->input("e_ech",$e_ech,"Echeance ".$label);
 
     // Periode 
     //--
@@ -694,7 +694,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $wLedger->javascript="onChange='update_predef(\"ach\",\"f\");$add_js'";
     $wLedger->label=" Journal ".widget::infobulle(2) ;
 
-    $r.=$wLedger->IOValue();
+    $r.=$wLedger->input();
     // Comment
     //--
     $Commentaire=new IText();
@@ -705,7 +705,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $label=" Description ".widget::infobulle(1) ;
     $r.="<tr>";
     $r.='<td class="input_text">'.$label.'</td>'.
-      '<td colspan="3">'.$Commentaire->IOValue("e_comm",$e_comm)."</td>";
+      '<td colspan="3">'.$Commentaire->input("e_comm",$e_comm)."</td>";
     // PJ
     //--
     /* suggest PJ ? */
@@ -722,8 +722,8 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $pj->readonly=false;
     $pj->value=$default_pj;
 
-    $r.=widget::hidden('e_pj_suggest',$default_pj);
-    $r.='<td class="input_text">Num.PJ</td><td>'.$pj->IOValue().'</td>';
+    $r.=HtmlInput::hidden('e_pj_suggest',$default_pj);
+    $r.='<td class="input_text">Num.PJ</td><td>'.$pj->input().'</td>';
     // Display the customer
     //--
     $fiche='cred';
@@ -756,17 +756,17 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $W1->table=0;
     $W1->extra=$fiche;  // list of card
     $W1->extra2="Recherche";
-    $r.='<TR><td colspan="5" >'.$W1->IOValue();
+    $r.='<TR><td colspan="5" >'.$W1->input();
     $client_label=new ISpan();
     $client_label->table=0;
-    $r.=$client_label->IOValue("e_client_label",$e_client_label)."</TD></TR>";
+    $r.=$client_label->input("e_client_label",$e_client_label)."</TD></TR>";
     
     $r.="</TABLE>";
     
     // Record the current number of article
     $Hid=new IHidden();
     $p_article= ( isset ($p_article))?$p_article:MAX_ARTICLE;
-    $r.=$Hid->IOValue("nb_item",$p_article);
+    $r.=$Hid->input("nb_item",$p_article);
     $e_comment=(isset($e_comment))?$e_comment:"";
 	/*!\todo for the PJ we suggest the PJ Number, the pj number must also be settable in the ledger
 	   setting  and editable in the details popup window */
@@ -836,26 +836,26 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 			      );
 
       $W1->readonly=false;
-      $r.="<TR>".$W1->IOValue();
+      $r.="<TR>".$W1->input();
       // For computing we need some hidden field for holding the value
       if ( $own->MY_TVA_USE=='Y') {
-	$r.=widget::hidden('tva_march'.$i,0);      
+	$r.=HtmlInput::hidden('tva_march'.$i,0);      
       }
-      $r.=widget::hidden('tvac_march'.$i,0);      
-      $r.=widget::hidden('htva_march'.$i,0);      
+      $r.=HtmlInput::hidden('tvac_march'.$i,0);      
+      $r.=HtmlInput::hidden('htva_march'.$i,0);      
       $r.="</TD>";
       $Span=new ISpan();
       $Span->setReadOnly(false);
       // card's name, price
       //--
-      $r.='<TD style="width:55%;border-bottom:1px dotted grey;">'.$Span->IOValue("e_march".$i."_label",$march_label)."</TD>";
+      $r.='<TD style="width:55%;border-bottom:1px dotted grey;">'.$Span->input("e_march".$i."_label",$march_label)."</TD>";
       // price
       $Price=new IText();
       $Price->setReadOnly(false);
       $Price->table=1;
       $Price->size=9;
       $Price->javascript="onBlur='clean_tva($i);compute_purchase($i)'";
-      $r.=$Price->IOValue("e_march".$i."_price",$march_price);
+      $r.=$Price->input("e_march".$i."_price",$march_price);
       if ( $own->MY_TVA_USE=='Y') {
 	// vat label
 	//--
@@ -864,7 +864,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 	$Tva->javascript="onChange=\"clean_tva($i);compute_purchase($i);\"";
 	$Tva->table=1;
 	$Tva->selected=$march_tva_id;
-	$r.=$Tva->IOValue("e_march$i"."_tva_id",$select_tva);
+	$r.=$Tva->input("e_march$i"."_tva_id",$select_tva);
 	// Tva_amount
 	
 	// price
@@ -873,7 +873,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 	$Tva_amount->table=1;
 	$Tva_amount->size=9;
 	$Tva_amount->javascript="onBlur='compute_purchase($i)'";
-	$r.=$Tva_amount->IOValue("e_march".$i."_tva_amount",$march_tva_amount);
+	$r.=$Tva_amount->input("e_march".$i."_tva_amount",$march_tva_amount);
       } 
       // quantity
       //--
@@ -883,7 +883,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
       $Quantity->table=1;
       $Quantity->size=9;
       $Quantity->javascript="onChange=compute_purchase($i)";
-      $r.=$Quantity->IOValue("e_quant".$i,$quant);
+      $r.=$Quantity->input("e_quant".$i,$quant);
 
       $r.="</tr>";
     }
@@ -931,10 +931,10 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 
 
     // Set correctly the REQUEST param for jrn_type 
-    $r.=widget::hidden('jrn_type','ACH');
+    $r.=HtmlInput::hidden('jrn_type','ACH');
 
-    $r.=widget::submit("view_invoice","Enregistrer");
-    $r.=widget::reset('Effacer ');
+    $r.=HtmlInput::submit("view_invoice","Enregistrer");
+    $r.=HtmlInput::reset('Effacer ');
     $r.='</form>';
     $r.="</DIV>";
 
@@ -1131,45 +1131,45 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 
     $r.='</fieldset>';
     /*  Add hidden */
-    $r.=widget::hidden('e_client',$e_client);
-    $r.=widget::hidden('nb_item',$nb_item);
-    $r.=widget::hidden('p_jrn',$p_jrn);
-    $r.=widget::hidden('periode',$periode);
-    $r.=widget::hidden('e_comm',$e_comm);
-    $r.=widget::hidden('e_date',$e_date);
-    $r.=widget::hidden('e_ech',$e_ech);
-    $r.=widget::hidden('jrn_type',$jrn_type);
-    $r.=widget::hidden('e_pj',$e_pj);
-    $r.=widget::hidden('e_pj_suggest',$e_pj_suggest);
+    $r.=HtmlInput::hidden('e_client',$e_client);
+    $r.=HtmlInput::hidden('nb_item',$nb_item);
+    $r.=HtmlInput::hidden('p_jrn',$p_jrn);
+    $r.=HtmlInput::hidden('periode',$periode);
+    $r.=HtmlInput::hidden('e_comm',$e_comm);
+    $r.=HtmlInput::hidden('e_date',$e_date);
+    $r.=HtmlInput::hidden('e_ech',$e_ech);
+    $r.=HtmlInput::hidden('jrn_type',$jrn_type);
+    $r.=HtmlInput::hidden('e_pj',$e_pj);
+    $r.=HtmlInput::hidden('e_pj_suggest',$e_pj_suggest);
 
     $e_mp=(isset($e_mp))?$e_mp:0;
-    $r.=widget::hidden('e_mp',$e_mp);
+    $r.=HtmlInput::hidden('e_mp',$e_mp);
     /* Paid by */
     /* if the paymethod is not 0 and if a quick code is given */
     if ( $e_mp!=0 && strlen (trim (${'e_mp_qcode_'.$e_mp})) != 0 ) {
-      $r.=widget::hidden('e_mp_qcode_'.$e_mp,${'e_mp_qcode_'.$e_mp});
+      $r.=HtmlInput::hidden('e_mp_qcode_'.$e_mp,${'e_mp_qcode_'.$e_mp});
 
       /* needed for generating a invoice */
-      $r.=widget::hidden('qcode_dest',${'e_mp_qcode_'.$e_mp});
+      $r.=HtmlInput::hidden('qcode_dest',${'e_mp_qcode_'.$e_mp});
 
       $r.="Payé par ".${'e_mp_qcode_'.$e_mp};
       $r.='<br>';
     }
     for ($i=0;$i < $nb_item;$i++) {
-      $r.=widget::hidden("e_march".$i,${"e_march".$i});
-      $r.=widget::hidden("e_march".$i."_price",${"e_march".$i."_price"});
+      $r.=HtmlInput::hidden("e_march".$i,${"e_march".$i});
+      $r.=HtmlInput::hidden("e_march".$i."_price",${"e_march".$i."_price"});
 	  if ( $own->MY_TVA_USE=='Y' ) {
-		$r.=widget::hidden("e_march".$i."_tva_id",${"e_march".$i."_tva_id"});
-		$r.=widget::hidden('e_march'.$i.'_tva_amount', ${'e_march'.$i.'_tva_amount'});
+		$r.=HtmlInput::hidden("e_march".$i."_tva_id",${"e_march".$i."_tva_id"});
+		$r.=HtmlInput::hidden('e_march'.$i.'_tva_amount', ${'e_march'.$i.'_tva_amount'});
 		}
-		$r.=widget::hidden("e_quant".$i,${"e_quant".$i});
+		$r.=HtmlInput::hidden("e_quant".$i,${"e_quant".$i});
 		
     }
     // check for upload piece
     $file=new IFile();
     $file->table=0;
     $r.="Ajoutez une pi&egrave;ce justificative ";
-    $r.=$file->IOValue("pj","");
+    $r.=$file->input("pj","");
     /* Propose to generate a note of fee */
     if ( CountSql($this->db,
 		  "select md_id,md_name from document_modele where md_type=10") > 0 )
@@ -1182,7 +1182,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 	$doc_gen->name="gen_doc";
 	$doc_gen->value=make_array($this->db,
 				   "select md_id,md_name from document_modele where md_type=10");
-	$r.=$doc_gen->IOValue().'<br>';  
+	$r.=$doc_gen->input().'<br>';  
       }
 
     return $r;
@@ -1221,7 +1221,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     echo '<hr>';
 
     if ( $m != 0 )
-      echo widget::submit('paid','Mise à jour paiement');
+      echo HtmlInput::submit('paid','Mise à jour paiement');
 
 
   }

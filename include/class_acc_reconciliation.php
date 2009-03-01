@@ -188,7 +188,7 @@ class Acc_Reconciliation {
     $w->name="jr_concerned";
 
     $w->extra2="";
-    echo $w->IOValue();
+    echo $w->input();
   }
 
 }

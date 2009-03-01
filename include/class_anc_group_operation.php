@@ -90,10 +90,10 @@ class Anc_Group_Operation
 
 	$ret.='<table style="border: 2px outset blue; width: 100%;"	>';
 
-	$ret.="<TR>".$wDate->IOValue()."</tr>";
+	$ret.="<TR>".$wDate->input()."</tr>";
 	$ret.='<tr><td style="border:1px groove blue">Description</td>'.
 	  '<td colspan="3">'.
-	  $wDescription->IOValue()."</td></tr>";
+	  $wDescription->input()."</td></tr>";
 	$Plan=new Anc_Plan($this->db);
 	$aPlan=$Plan->get_list();
 	$ret.='</table><table  style="border: 2px outset blue; width: 100%;">';
@@ -133,7 +133,7 @@ class Anc_Group_Operation
 
 		  $wSelect->selected=$this->a_operation[$i]->po_id;
 		}
-		$ret.=$wSelect->IOValue();
+		$ret.=$wSelect->input();
 	      }
 	    $wAmount=new IText("","pamount$i",0.0);
 	    $wAmount->size=12;
@@ -155,8 +155,8 @@ class Anc_Group_Operation
 		// build the table
 	    
 	    $ret.="<TD></TD>";
-	    $ret.=$wAmount->IOValue();
-	    $ret.=$wDebit->IOValue();
+	    $ret.=$wAmount->input();
+	    $ret.=$wDebit->input();
 	      
 	    $ret.="</tr>";
 	  }

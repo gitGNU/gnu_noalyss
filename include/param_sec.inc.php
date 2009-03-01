@@ -186,11 +186,11 @@ if ( $action == "view" ) {
 	  );
 
   echo widget::button('Imprime','imprime',"onclick=\"window.open('".$sHref."');\"");
-  echo widget::submit('ok','Sauve');
-  echo widget::reset('Annule');
+  echo HtmlInput::submit('ok','Sauve');
+  echo HtmlInput::reset('Annule');
   echo dossier::hidden();
-  echo widget::hidden('action','sec');
-  echo widget::hidden('user_id',$_GET['user_id']);
+  echo HtmlInput::hidden('action','sec');
+  echo HtmlInput::hidden('user_id',$_GET['user_id']);
 
   echo '<Fieldset><legend>Journaux </legend>';
   echo '<table align="CENTER" width="100%">';
@@ -216,7 +216,7 @@ if ( $action == "view" ) {
     $jrn_priv->selected=$sec_User->get_ledger_access($l_line['jrn_def_id']);
 
     echo '<td>';
-    echo $jrn_priv->IOValue();
+    echo $jrn_priv->input();
     echo '</td>';
     echo '</tr>';
   }
@@ -230,8 +230,8 @@ if ( $action == "view" ) {
   include('template/security_list_action.php');
   echo '</fieldset>';
   echo widget::button('Imprime','imprime',"onclick=\"window.open('".$sHref."');\"");
-  echo widget::submit('ok','Sauve');
-  echo widget::reset('Annule');
+  echo HtmlInput::submit('ok','Sauve');
+  echo HtmlInput::reset('Annule');
   echo '</form>';   
 } // end of the form 
 echo "</DIV>";

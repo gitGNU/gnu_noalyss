@@ -72,7 +72,7 @@ class HtmlInput {
   var $type;                      /*!<  $type type of the widget */
   var $name;                      /*!<  $name field NAME of the INPUT */    
   var $value;                     /*!<  $value what the INPUT contains */
-  var $readonly;                  /*!<  $readonly true : we cannot change value */
+  var $readOnly;                  /*!<  $readonly true : we cannot change value */
   var $size;                      /*!<  $size size of the input */
   var $selected;                  /*!<  $selected for SELECT RADIO and CHECKBOX the selected value */
   var $table;                     /*!<  $table =1 add the table tag */
@@ -86,9 +86,8 @@ class HtmlInput {
 
   var $tabindex; 
   function __construct($p_name="",$p_value="") {
-    $this->type=$p_type;
 	$this->name=$p_name;
-    $this->readonly=false;
+    $this->readOnly=false;
     $this->size=20;
     $this->width=50;
     $this->heigh=20;
@@ -102,7 +101,7 @@ class HtmlInput {
   function setReadOnly($p_read) {
     $this->readonly=$p_read;
   }
-  /*!  function IOValue($p_name,$p_value="") 
+  /*!  function input($p_name,$p_value="") 
    *****************************************************
    * \brief  create the corresponding INPUT tag 
    *        
@@ -110,12 +109,11 @@ class HtmlInput {
    * \param         $p_value is the INPUT VALUE or an array for select
    *  \return  string containing the tag
    */
-  function IOValue($p_name=null,$p_value=null) {
+  function input($p_name=null,$p_value=null) {
     
     if ( $p_name != null)
       $this->name=$p_name;
     $this->value=($p_value===null)?$this->value:$p_value;
-    $this->label=($p_label == "")?$this->label:$p_label;
 
     
     $disabled = $this->disabled ? "readonly" : "";

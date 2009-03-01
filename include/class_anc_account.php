@@ -250,30 +250,30 @@ class Anc_Account
 	$wAmount->table=1;
 	$wDescription->table=1;
 
-	$r=$wId->IOValue();
-	$r.=$wPa_id->IOValue();
+	$r=$wId->input();
+	$r.=$wPa_id->input();
 
 	$r.="<table>";
 
 	$r.="<tr>";
-	$r.=$wName->IOValue();
+	$r.=$wName->input();
 	$r.="</tr>";
 
 	$r.="<tr>";
-	$r.=$wAmount->IOValue();
+	$r.=$wAmount->input();
 	$r.="</tr>";
 
 
 	$r.="<tr>";
-	$r.=$wDescription->IOValue();
+	$r.=$wDescription->input();
 	$r.="</tr>";
 
 	$r.="<tr>";
-	$r.=$wPaName->IOValue();
+	$r.=$wPaName->input();
 	$r.="</tr>";
 
 	$r.="<tr>";
-	$r.=$wGa_id->IOValue();
+	$r.=$wGa_id->input();
 	$r.="</tr>";
 
 	$r.="</table>";

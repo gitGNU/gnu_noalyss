@@ -20,6 +20,9 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
+require_once('class_iradio.php');
+require_once('class_ifile.php');
+
 /*!\file
  * \brief restaure a database 
  */
@@ -32,7 +35,7 @@ if ( isset ($_REQUEST['sa'] )) {
   putenv("PGPASSWORD=".phpcompta_password);
   putenv("PGUSER=".phpcompta_user);
   putenv("PGPORT=".phpcompta_psql_port);
-  $retour='<hr>'.widget::button_href("Retour","?action=restore&PHPSESSID=".$_REQUEST['PHPSESSID']);
+  $retour='<hr>'.HtmlInput::button_href("Retour","?action=restore&PHPSESSID=".$_REQUEST['PHPSESSID']);
   if ( ! isset($_REQUEST['t'])) {
     echo '<div class="content">';
     echo ("<span class=\"error\">Vous devez préciser s'il s'agit d'un modèle ou d'un dossier</span>");
@@ -142,33 +145,33 @@ if ( isset ($_REQUEST['sa'] )) {
   echo '<div class="content">';
   ini_set('upload_max_filesize','5M');
   echo '<form method="POST" enctype="multipart/form-data" >';
-  echo widget::hidden('action','restore');
-  echo widget::hidden('sa','r');
+  echo HtmlInput::hidden('action','restore');
+  echo HtmlInput::hidden('sa','r');
   echo '<table>';
   echo '<tr><td>'."Nom de la base de donnée".'</td>';
   $wNom=new IText();
   $wNom->name="database";
   $wNom->size=12;
-  echo '<td>'.$wNom->IOValue().'</td></tr>';
+  echo '<td>'.$wNom->input().'</td></tr>';
   echo '<tr><td>'."Type de backup :".'</td>';
   $chk=new IRadio();
   $chk->name="t";
   $chk->value="d";
-  echo '<td>'.$chk->IOValue()."Dossier".'</td>';
+  echo '<td>'.$chk->input()."Dossier".'</td>';
   echo '</tr><tr><td></td>';
   $chk->name="t";
   $chk->value="m";
-  echo '<td>'.$chk->IOValue()."Modele".'</td>';
+  echo '<td>'.$chk->input()."Modele".'</td>';
   echo '<tr>';
   $file=new IFile();
   $file->name="file";
   $file->value="mod";
   $file->label="Fichier";
   $file->table=1;
-  echo $file->IOValue();
+  echo $file->input();
   echo '</tr>';
   echo '</table>';
-  echo widget::submit("","Restauration");
+  echo HtmlInput::submit("","Restauration");
   echo '</form>';
   echo '</div>';
  }

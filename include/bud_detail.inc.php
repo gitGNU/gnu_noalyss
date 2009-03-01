@@ -44,7 +44,7 @@ if ( ! isset ($_REQUEST['bh_id'])) {
 
   echo '<form method="get">';
   echo dossier::hidden();
-  echo  "Hypoth&egrave;se ".$wHypo->IOValue();
+  echo  "Hypoth&egrave;se ".$wHypo->input();
   echo HtmlInput::submit('recherche','recherche');
   echo HtmlInput::hidden('p_action','detail');
 
@@ -81,11 +81,11 @@ if ( ! empty ($wPost_Analytic->value) && $po_id==-2  ) {
   $wPost_Analytic->javascript='onChange="this.form.submit();"';
 
   echo '<form method="get">';
-  echo  "Hypoth&egrave;se ".$wHypo->IOValue();
+  echo  "Hypoth&egrave;se ".$wHypo->input();
   echo HtmlInput::hidden('bh_id',$_REQUEST['bh_id']);
   echo HtmlInput::hidden('p_action','detail');
   echo dossier::hidden();
-  echo "Poste Analytique ".$wPost_Analytic->IOValue();
+  echo "Poste Analytique ".$wPost_Analytic->input();
   echo HtmlInput::submit('recherche','recherche');
   echo '</form>';
   echo $button_other;
@@ -99,13 +99,13 @@ if ( ! empty ($wPost_Analytic->value) && $po_id==-2  ) {
  */
 $wHypo=new IText("","bh_id",$Hyp->bh_name);
 $wHypo->readonly=true;
-echo "Hypoth&egrave;se ".$wHypo->IOValue();
+echo "Hypoth&egrave;se ".$wHypo->input();
 if ( $po_id !== -1 ) {
   $oPo_id=new Anc_Account($cn,$po_id);
   $oPo_id->get_by_id();
   $wPo_id=new IText("","po_id",$oPo_id->name);
   $wPo_id->readonly=true;
-  echo "Poste Analytique ".$wPo_id->IOValue();
+  echo "Poste Analytique ".$wPo_id->input();
  }
 echo $button_other;
 

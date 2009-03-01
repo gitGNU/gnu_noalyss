@@ -46,14 +46,14 @@ html_page_start();
 echo '<FORM METHOD="GET">';
 $texte=new IText();
 echo '<span> Recherche :';
-echo $texte->IOValue('label');
+echo $texte->input('label');
 echo '</span>';
 echo dossier::hidden();
 $hid=new IHidden();
-echo $hid->IOValue("c1",$_REQUEST['c1']);
-echo $hid->IOValue("c2",$_REQUEST['c2']);
-echo $hid->IOValue("go");
-echo widget::submit("go","Recherche");
+echo $hid->input("c1",$_REQUEST['c1']);
+echo $hid->input("c2",$_REQUEST['c2']);
+echo $hid->input("go");
+echo HtmlInput::submit("go","Recherche");
 echo '</form>';
 //------------- FORM ----------------------------------
 if ( isset($_REQUEST['go'])) {
@@ -85,7 +85,7 @@ if ( isset($_REQUEST['go'])) {
 								  $line['po_name']);
 	 echo '<tr>'.
 	   '<td>'.
-	   $button->IOValue().
+	   $button->input().
 	   '</td>'.
 	   '<td>'.
 	   $line['po_name'].

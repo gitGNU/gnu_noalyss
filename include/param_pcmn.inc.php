@@ -141,8 +141,8 @@ $MaxRow=pg_NumRows($Ret);
 
 <FORM METHOD="POST">
 <?php
-echo widget::hidden('p_action','pcmn');
-//echo widget::hidden('sa','detail');
+echo HtmlInput::hidden('p_action','pcmn');
+//echo HtmlInput::hidden('sa','detail');
 echo dossier::hidden();
 ?>
 <TABLE ALIGN="center" BORDER=0 CELLPADDING=0 CELLSPACING=0> 
