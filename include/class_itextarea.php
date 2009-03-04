@@ -33,12 +33,26 @@ require_once('class_html_input.php');
 		 $this->value=($p_value==null)?$this->value:$p_value;
 		 if ( $this->readOnly==true) return $this->display();
 
+		$r="";
+		$r.='<TEXTAREA style="border:solid blue 1px" name="'.$this->name.'" id="'.$this->name.'"';
+		$r.=" rows=\"$this->heigh\" ";
+		$r.=" cols=\"$this->width\" ";
+		$r.='>';
+		$r.=$this->value;
 
-	}
+		$r.="</TEXTAREA>";
+	    return $r;
+ 	}
+	
+	
 	/*!\brief print in html the readonly value of the widget*/
 	public function display()
  	{
-
+		$r='<p>';
+		$r.=h($this->value);
+		$r.=sprintf('<input type="hidden" name="%s" value="%s">',
+			    $this->name,h($this->value));
+		$r.='</p>';
 
 	}
 	static public function test_me()

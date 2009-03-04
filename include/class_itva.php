@@ -32,14 +32,24 @@ require_once('class_html_input.php');
 		 $this->name=($p_name==null)?$this->name:$p_name;
 		 $this->value=($p_value==null)?$this->value:$p_value;
 		 if ( $this->readOnly==true) return $this->display();
-
+     
+	     $r=sprintf('Tva <INPUT TYPE="Text"  style="border:solid 1px blue;" '.
+			   ' NAME="%s" VALUE="%s" SIZE="3" onChange="ChangeTVA(\'%s\',\'%s\');">',
+	 	       $this->name,
+	 	       $this->value,
+	 	       $this->label,
+	 	       $this->name);
+     $l_sessid=$_REQUEST['PHPSESSID'];
+     $r.=sprintf("<input type=\"button\" value=\"Tva\" 
+     	onClick=\"ShowTva('%s',%d,'%s');\"></TD>",
+				 $l_sessid,dossier::id(),$this->name);
+     return $r;
 
 	}
 	/*!\brief print in html the readonly value of the widget*/
 	public function display()
  	{
-
-
+		throw new Exception ("Pas de function display pour la TVA",1);
 	}
 	static public function test_me()
  	{

@@ -117,116 +117,12 @@ class HtmlInput {
 
     
     $disabled = $this->disabled ? "readonly" : "";
-	//#####################################################################
-	// Input text type
-    if (strtoupper($this->type)=="TEXT") {
-   }
 
-    //#####################################################################
-    // Select value
-    if ( strtoupper($this->type) == "SELECT") {
 
-      if ($this->readonly==false )
-	{
-
-	  $disabled=($this->disabled==true)?"disabled":"";
-	  //echo "<b>Selected <b>".$this->selected;
-	  $r="<SELECT  id=\"$this->name\" NAME=\"$this->name\" $this->javascript $disabled>";
-	  if (empty($this->value)) return '';
-	  for ( $i=0;$i<sizeof($this->value);$i++) 
-	    {
-	      $checked=($this->selected==$this->value[$i]['value'])?"SELECTED":"";
-	      $r.='<OPTION VALUE="'.$this->value[$i]['value'].'" '.$checked.'>';
-	      $r.=$this->value[$i]['label'];
-	    }
-	  $r.="</SELECT>";
-	} 
-      if ( $this->readonly==true) 
-	{
-	  $r="";
-	  for ( $i=0;$i<sizeof($this->value);$i++) 
-	    {
-	      if ($this->selected==$this->value[$i]['value'] ) 
-		{
-		  $r=h($this->value[$i]['label']);
- 	
-		}
-	    }
-	}
-      if ( $this->table==1) {
-	$r="<TD> $r </TD>";
-	if ( $this->label != "") $r="<TD style=\"border: 1px groove blue;\"> $this->label</TD>".$r;
-      }
-      return $r;
-    }
    
-	//#####################################################################
-    // Checkbox
-    if (strtoupper($this->type)=="CHECKBOX") {
-      if ( $this->readonly == true) {
-	$check=( $this->selected==true )?"checked":"unchecked";
-	$r='<input type="CHECKBOX" id="'.$this->name.'" name="'.$this->name.'"';
-	$r.="  $check";
-	$r.=' disabled>';
 
-      } else {
-	$check=( $this->selected==true )?"checked":"unchecked";
-	$r='<input type="CHECKBOX" id="'.$this->name.'" name="'.$this->name.'"';
-	$r.="  $check";
-	$r.=' '.$disabled."  ".$this->javascript.'>';
-      }
-      if ($this->table==1) {
-	$r="<TD> $this->label </TD><TD> $r </TD>";
-      } else {
-	$r=$r." $this->label";
-      }
-      return $r;
-    }
-	//#####################################################################
-    //radio
-    if (strtoupper($this->type)=="RADIO") {
-      if ( $this->readonly == true) {
-	$check=( $this->selected==true || $this->selected=='t' )?"Yes":"no";
-	$r=$check;
-      } else {
-	$check=( $this->selected==true||$this->selected=='t' )?"checked":"unchecked";
-	$r='<input type="RADIO" name="'.$this->name.'"';
-	$r.=" VALUE=\"$this->value\"";
-	$r.="  $check";
-	$r.=' '.$disabled.'>';
-      }
-      if ($this->table==1) {
-	$r="<TD> $this->label </TD><TD> $r </TD>";
-      } else {
-      	$r=$this->label.$r;
-      }
-      return $r;
-    }
-	//#####################################################################
-    //textarea
-    if (strtoupper($this->type)=="TEXTAREA") {
-      if ( $this->readonly == false ) {
-	$r="";
-	$r.='<TEXTAREA style="border:solid blue 1px" name="'.$this->name.'" id="'.$this->name.'"';
-	$r.=" rows=\"$this->heigh\" ";
-	$r.=" cols=\"$this->width\" ";
-	$r.=' '.$disabled.'>';
-	$r.=$this->value;
 
-	$r.="</TEXTAREA>";
-      } else {
-	$r='<p>';
-	$r.=h($this->value);
-	$r.=sprintf('<input type="hidden" name="%s" value="%s">',
-		    $this->name,urlencode($this->value));
-	$r.='</p>';
 
-      }
-      if ($this->table==1) {
-	$r="<TD> $this->label </TD><TD> $r </TD>";
-      }
-      return $r;
-    }
 
     //#############################################################################
     // Rich Text
@@ -281,17 +177,7 @@ class HtmlInput {
 	    return $r;
 	  
       }
-
-    //#############################################################################
-    //file
-    if (strtoupper($this->type)=="FILE") {
-      if ( $this->readonly == false ) {
-	$r='<INPUT class="inp" TYPE="file" name="'.$this->name.'" VALUE="'.$this->value.'">';
-
-      }
-      if ( $this->table==1) $r="<TD>$this->label</TD><TD>$r</TD>"; 
-      return $r;
-    }
+      
     //#############################################################################
     // js_search_poste_only
     if ( strtolower($this->type == 'js_search_poste_only')) {
@@ -377,43 +263,7 @@ class HtmlInput {
 //#############################################################################
   // input type == js_search => button search for card
   if ( strtolower($this->type)=="js_search") {
-    $l_sessid=$_REQUEST['PHPSESSID'];
-    if  ( $this->readonly == false ) {
-      $r=sprintf('<TD>
-         <INPUT TYPE="button" onClick=NewCard(\'%s\',\'%s\',\'%s\') value="Nouvelle fiche">
-         </TD><TD>
-         <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\') value="Recherche fiche">
-         %s 
-         <INPUT  style="border:solid 1px blue;"  TYPE="Text"  ID="%s"  NAME="%s" VALUE="%s" SIZE="8" onBlur="ajaxFid(\'%s\',\'%s\',\'%s\')">
-
-                 ',
-	       $l_sessid,
-	       $this->extra, // deb or cred
-	       $this->name,
-	       $l_sessid,
-	       $this->extra,
-	       $this->name,
-	       $this->label,
-	       $this->name,
-	       $this->name,
-	       $this->value,
-	       $this->name,
-		 $this->extra,  //deb or cred
-	       $l_sessid
-	       );
-    } else {
-      // readonly == true
-      $r=sprintf('<TD>            %s</TD>
-                 <TD> 
-                 <INPUT TYPE="hidden" NAME="%s" VALUE="%s" SIZE="8">
-                 </TD>',
-	       $this->label,
-	       $this->name,
-	       $this->value 
-		 );
-
-    }
-    return $r;
+ 
   }// poste==js_search
 
 //#############################################################################
@@ -570,76 +420,7 @@ class HtmlInput {
       }
       return $r;	
   }
-  //#############################################################################
-  // type=span
-  if ( strtolower($this->type)=="span") {
-    $r=sprintf('<span style="inline" id="%s">%s </span>',
-	       $this->name,
-	       $this->value
-	       );
 
-    return $r;
-  }// end type = span
-//#####################################################################
-   // input type == js_tva
-   if ( strtolower($this->type)=="js_tva") {
-     $id=sprintf("<span id=%s></span>",$this->label);
-     $r=sprintf('%s<TD>Tva</TD><TD> <INPUT TYPE="Text"  style="border:solid 1px blue;" '.
-		   ' NAME="%s" VALUE="%s" SIZE="3" onChange="ChangeTVA(\'%s\',\'%s\');">',
- 		  $id,
- 	       $this->name,
- 	       $this->value,
- 	       $this->label,
- 	       $this->name);
-     $l_sessid=$_REQUEST['PHPSESSID'];
-     $r.=sprintf("<input type=\"button\" value=\"Tva\" 
-     	onClick=\"
-        	           ShowTva('%s',%d,'%s');\"></TD>",
-				 $l_sessid,dossier::id(),$this->name);
-     return $r;
-   }
-//#####################################################################
-  // input type == js_concerned => button search for the concerned operations
-  if ( strtolower($this->type)=="js_concerned") {
-    $td="";$etd="";
-    if ( $this->table == 1 ) { $td='<td>'; $etd='</td>';}
-
-    if ( $this->readonly == false) {
-      $l_sessid=$_REQUEST['PHPSESSID'];
-
-      $r=sprintf("$td
-     <INPUT TYPE=\"button\" onClick=SearchJrn('%s',".dossier::id().",'%s',%s,'%s') value=\"?\">
-       %s $etd  $td 
-      <INPUT TYPE=\"text\"  style=\"color:black;background:lightyellow;border:solid 1px grey;\"  NAME=\"%s\" ID=\"%s\" VALUE=\"%s\" SIZE=\"8\" readonly>
-                 $etd",
-				 $l_sessid, 
-				 $this->name,
-				 $this->extra, 
-				 $this->extra2,
-				 $this->label, 
-				 $this->name, 
-				 $this->name, 
-				 $this->value 
-		 );
-  } else {
-    $r=sprintf("$td<span>%s <b>%s</b></span>",$this->label,$this->value);
-    $r.=sprintf('<input type="hidden" name="%s" value="%s">'.$etd, $this->name,$this->value);
-  }
-
-    return $r;
-  }// end js_concerned
-  //#####################################################################
-  // BUTTON
-  //#####################################################################
-  if ( strtolower($this->type)=="button") {
-    $extra= ( isset($this->extra))?$this->extra:"";
-	if ( $this->readonly==true) return "";
-	$r='<input type="BUTTON" name="'.$this->name.'"'.
-	  ' id="'.$this->name.'"'.
-	  ' value="'.$this->label.'"'.
-	  ' onClick="'.$this->javascript.'"'.$extra.'>';
-	return $r;
-  }
  //#####################################################################
   // JS_BUD_SEARCH_POSTE
   //#####################################################################
@@ -657,49 +438,6 @@ class HtmlInput {
 	return $r;
   }
 
- 
-  //#####################################################################
-  // JS_DATE
-  //#####################################################################
-  if ( strtolower($this->type)=="js_date") {
-	if ( $this->readonly) {
-	  $r="<span> Date : ".$this->value;
-	  $r='<input type="hidden" name="'.$this->name.'"'.
-		'id="'.$this->name.'"'.
-		' value = "'.$this->value.'"></span>';
-	} else {
-	  $r='<input type="text" name="'.$this->name.'" id="'.$this->name.'"'.
-		'style="border:solid 1px blue;"'.
-		'size="10"'.
-		' value ="'.$this->value.'"'.
-		'/>'.
-		'<img src="image/x-office-calendar.png" id="'.$this->name.'_trigger"'.
-		' style="cursor: pointer; border: 1px solid red;" '.
-		'onmouseover="this.style.background=\'red\';" onmouseout="this.style.background=\'\'" />';
-	  $r.='<script type="text/javascript">'.
-		'Calendar.setup({'.
-		//	'date : "'.$this->value.'",
-        'inputField     :    "'.$this->name.'",     // id of the input field
-        ifFormat       :    "%d.%m.%Y",      // format of the input field
-        button         :    "'.$this->name.'_trigger",  // trigger for the calendar (button ID)
-        align          :    "Bl",           // alignment (defaults to "Bl")
-        singleClick    :    true
-    });
-</script>
-'; 
-	}
-	if ($this->table==1) {
-	  if ( $this->label != "") {
-		$r="<TD  style=\"border:groove 1px blue;\">".$this->label."</TD><TD>".$r."</TD>";
-	  }else {
-		$r="<TD>".$r."</TD>";
-	  }
-	}
-	  
-	return $r;
-	
-  }
-  return "INVALID WIDGET $this->type ";
   } //end function
   //#####################################################################
   /* Debug

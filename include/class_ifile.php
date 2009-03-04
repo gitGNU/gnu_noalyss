@@ -32,7 +32,8 @@ require_once('class_html_input.php');
 		 $this->name=($p_name==null)?$this->name:$p_name;
 		 $this->value=($p_value==null)?$this->value:$p_value;
 		 if ( $this->readOnly==true) return $this->display();
-
+		$r='<INPUT class="inp" TYPE="file" name="'.$this->name.'" VALUE="'.$this->value.'">';
+		return $r;
 
 	}
 	/*!\brief print in html the readonly value of the widget*/

@@ -33,12 +33,19 @@ require_once('class_html_input.php');
 		 $this->value=($p_value==null)?$this->value:$p_value;
 		 if ( $this->readOnly==true) return $this->display();
 
-
+		$check=( $this->selected==true||$this->selected=='t' )?"checked":"unchecked";
+		$r='<input type="RADIO" name="'.$this->name.'"';
+		$r.=" VALUE=\"$this->value\"";
+		$r.="  $check";
+		return $r;
 	}
 	/*!\brief print in html the readonly value of the widget*/
 	public function display()
  	{
 
+	$check=( $this->selected==true || $this->selected=='t' )?"Yes":"no";
+	$r=$check;
+	return $r;
 
 	}
 	static public function test_me()

@@ -26,21 +26,21 @@
 require_once('class_html_input.php');
  class ISpan extends HtmlInput
 {
-	/*!\brief show the html  input of the widget*/
+	/*!\brief show the html  input of the widget, the span is always readonly */
 	public function input($p_name=null,$p_value=null)
  	{
 		 $this->name=($p_name==null)?$this->name:$p_name;
 		 $this->value=($p_value==null)?$this->value:$p_value;
-		 if ( $this->readOnly==true) return $this->display();
+		
 
+		$r=sprintf('<span style="inline" id="%s">%s </span>',
+	       $this->name,
+	       $this->value
+	       );
 
+		return $r;
 	}
-	/*!\brief print in html the readonly value of the widget*/
-	public function display()
- 	{
-
-
-	}
+	
 	static public function test_me()
  	{
 

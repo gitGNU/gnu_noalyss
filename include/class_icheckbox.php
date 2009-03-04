@@ -32,13 +32,27 @@ require_once('class_html_input.php');
 		 $this->name=($p_name==null)?$this->name:$p_name;
 		 $this->value=($p_value==null)?$this->value:$p_value;
 		 if ( $this->readOnly==true) return $this->display();
-
+      
+		$check=( $this->selected==true )?"checked":"unchecked";
+		$r='<input type="CHECKBOX" id="'.$this->name.'" name="'.$this->name.'"';
+		$r.="  $check";
+		$r.=' '.$disabled."  ".$this->javascript.'>';
+	      
+		$r=$r." $this->label";
+	      
+	    return $r;
+    
 
 	}
 	/*!\brief print in html the readonly value of the widget*/
 	public function display()
  	{
+	$check=( $this->selected==true )?"checked":"unchecked";
+	$r='<input type="CHECKBOX" id="'.$this->name.'" name="'.$this->name.'"';
+	$r.="  $check";
+	$r.=' disabled>';
 
+    return $r;
 
 	}
 	static public function test_me()

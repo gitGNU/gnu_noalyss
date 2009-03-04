@@ -33,11 +33,34 @@ require_once('class_html_input.php');
 		 $this->value=($p_value==null)?$this->value:$p_value;
 		 if ( $this->readOnly==true) return $this->display();
 
-
-	}
+    
+	  $disabled=($this->disabled==true)?"disabled":"";
+	  //echo "<b>Selected <b>".$this->selected;
+	  $r="<SELECT  id=\"$this->name\" NAME=\"$this->name\" $this->javascript $disabled>";
+	  if (empty($this->value)) return '';
+	  for ( $i=0;$i<sizeof($this->value);$i++) 
+	    {
+	      $checked=($this->selected==$this->value[$i]['value'])?"SELECTED":"";
+	      $r.='<OPTION VALUE="'.$this->value[$i]['value'].'" '.$checked.'>';
+	      $r.=$this->value[$i]['label'];
+	    }
+		$r.="</SELECT>";
+		return $r;
+    }
 	/*!\brief print in html the readonly value of the widget*/
 	public function display()
  	{
+	  $r="";
+	  for ( $i=0;$i<sizeof($this->value);$i++) 
+	    {
+	      if ($this->selected==$this->value[$i]['value'] ) 
+			{
+			$r=h($this->value[$i]['label']);
+ 	
+			}
+	    }
+		return $r;
+	}
 
 
 	}

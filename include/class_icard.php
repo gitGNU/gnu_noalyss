@@ -32,13 +32,40 @@ require_once('class_html_input.php');
 		 $this->name=($p_name==null)?$this->name:$p_name;
 		 $this->value=($p_value==null)?$this->value:$p_value;
 		 if ( $this->readOnly==true) return $this->display();
-
+		$l_sessid=$_REQUEST['PHPSESSID'];
+    
+		$r=sprintf('<TD>
+         <INPUT TYPE="button" onClick=NewCard(\'%s\',\'%s\',\'%s\') value="Nouvelle fiche">
+         </TD><TD>
+         <INPUT TYPE="button" onClick=SearchCard(\'%s\',\'%s\',\'%s\') value="Recherche fiche">
+         %s 
+         <INPUT  style="border:solid 1px blue;"  TYPE="Text"  ID="%s"  NAME="%s" VALUE="%s" SIZE="8" onBlur="ajaxFid(\'%s\',\'%s\',\'%s\')">
+                 ',
+	       $l_sessid,
+	       $this->extra, // deb or cred
+	       $this->name,
+	       $l_sessid,
+	       $this->extra,
+	       $this->name,
+	       $this->label,
+	       $this->name,
+	       $this->name,
+	       $this->value,
+	       $this->name,
+		   $this->extra,  //deb or cred
+	       $l_sessid
+	       );
+		return $r;
 
 	}
 	/*!\brief print in html the readonly value of the widget*/
 	public function display()
  	{
-
+	$r=sprintf('         <INPUT TYPE="hidden" NAME="%s" VALUE="%s" SIZE="8">',
+	       $this->name,
+	       $this->value 
+		 );
+		 return $r;
 
 	}
 	static public function test_me()

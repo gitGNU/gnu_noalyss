@@ -26,20 +26,26 @@
 require_once('class_html_input.php');
  class IButton extends HtmlInput
 {
+	var $label; 
 	/*!\brief show the html  input of the widget*/
 	public function input($p_name=null,$p_value=null)
  	{
 		 $this->name=($p_name==null)?$this->name:$p_name;
 		 $this->value=($p_value==null)?$this->value:$p_value;
 		 if ( $this->readOnly==true) return $this->display();
+		$extra= ( isset($this->extra))?$this->extra:"";
 
+		$r='<input type="BUTTON" name="'.$this->name.'"'.
+		  ' id="'.$this->name.'"'.
+		  ' value="'.$this->label.'"'.
+		  ' onClick="'.$this->javascript.'"'.$extra.'>';
+		return $r;
 
 	}
 	/*!\brief print in html the readonly value of the widget*/
 	public function display()
  	{
-
-
+		return "";
 	}
 	static public function test_me()
  	{

@@ -32,13 +32,36 @@ require_once('class_html_input.php');
 		 $this->name=($p_name==null)?$this->name:$p_name;
 		 $this->value=($p_value==null)?$this->value:$p_value;
 		 if ( $this->readOnly==true) return $this->display();
-
+		 $r='<input type="text" name="'.$this->name.'" id="'.$this->name.'"'.
+				'style="border:solid 1px blue;"'.
+				'size="10"'.
+				' value ="'.$this->value.'"'.
+				'/>'.
+				'<img src="image/x-office-calendar.png" id="'.$this->name.'_trigger"'.
+				' style="cursor: pointer; border: 1px solid red;" '.
+				'onmouseover="this.style.background=\'red\';" onmouseout="this.style.background=\'\'" />';
+			  $r.='<script type="text/javascript">'.
+				'Calendar.setup({'.
+				//	'date : "'.$this->value.'",
+		        'inputField     :    "'.$this->name.'",     // id of the input field
+		        ifFormat       :    "%d.%m.%Y",      // format of the input field
+		        button         :    "'.$this->name.'_trigger",  // trigger for the calendar (button ID)
+		        align          :    "Bl",           // alignment (defaults to "Bl")
+		        singleClick    :    true
+		    });
+</script>
+'; 
+	return $r;
 
 	}
 	/*!\brief print in html the readonly value of the widget*/
 	public function display()
  	{
-
+	 $r="<span> Date : ".$this->value;
+	 $r.='<input type="hidden" name="'.$this->name.'"'.
+		'id="'.$this->name.'"'.
+		' value = "'.$this->value.'"></span>';
+	return $r;
 
 	}
 	static public function test_me()

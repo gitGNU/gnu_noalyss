@@ -32,13 +32,31 @@ require_once('class_html_input.php');
 		 $this->name=($p_name==null)?$this->name:$p_name;
 		 $this->value=($p_value==null)?$this->value:$p_value;
 		 if ( $this->readOnly==true) return $this->display();
+    $td="";$etd="";
+  
+      $l_sessid=$_REQUEST['PHPSESSID'];
 
-
+      $r=sprintf("$td
+     <INPUT TYPE=\"button\" onClick=SearchJrn('%s',".dossier::id().",'%s',%s,'%s') value=\"?\">
+        $etd  $td 
+      <INPUT TYPE=\"text\"  style=\"color:black;background:lightyellow;border:solid 1px grey;\"  NAME=\"%s\" ID=\"%s\" VALUE=\"%s\" SIZE=\"8\" readonly>
+                 $etd",
+				 $l_sessid, 
+				 $this->name, 
+				 $this->extra,
+				 $this->extra2, 
+				 $this->name, 
+				 $this->name,  
+				 $this->value 
+		 );
+	return $r;
 	}
 	/*!\brief print in html the readonly value of the widget*/
 	public function display()
  	{
-
+    $r=sprintf("<span><b>%s</b></span>",$this->value);
+    $r.=sprintf('<input type="hidden" name="%s" value="%s">', $this->name,$this->value);
+	return $r;	
 
 	}
 	static public function test_me()
