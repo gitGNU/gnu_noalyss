@@ -288,10 +288,10 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
     if ( $this->login != 'phpcompta') {
       $pass5=md5($this->pass);
       $sql="select use_admin from ac_users where use_login=$1
-		and use_active=1  and use_pass=$2";
+		and use_active=1  ";
       
       $cn=DbConnect();
-      $res=ExecSqlParam($cn,$sql,array($this->login,$pass5));
+      $res=ExecSqlParam($cn,$sql,array($this->login));
       if ( pg_NumRows($res)==0) exit(__FILE__." ".__LINE__." aucun resultat");
       $this->admin=pg_fetch_result($res,0);
     } 
