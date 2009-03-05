@@ -124,6 +124,7 @@ if ( $def==1 || $def == 4 ) {
   if ( isset($_POST['record']) ){
  // Check privilege
     if ( $User->check_jrn($_REQUEST['p_jrn']) != 'W' )    {
+
        NoAccess();
        exit -1;
   }
@@ -263,6 +264,7 @@ if ( $def == 2 ) {
  // Check privilege
   if ( isset($_REQUEST['p_jrn']) && 
        $User->check_jrn($_REQUEST['p_jrn']) == 'X') {
+
        NoAccess();
        exit -1;
   }
@@ -301,6 +303,7 @@ if ( $def==3 ) {
  // Check privilege
   if ( isset($_REQUEST['p_jrn']) && 
        $User->check_jrn($_REQUEST['p_jrn']) == 'X') {
+  
     NoAccess();
     exit -1;
   }
@@ -319,7 +322,7 @@ if ( $def==3 ) {
   echo '<div class="content">';
 
   echo '<FORM METHOD="GET" action="'.$href.'">';
-  $wLedger=$Ledger->select_ledger('VEN',2);
+  $wLedger=$Ledger->select_ledger('VEN',3);
   if ( $wLedger == null ) {
     alert('aucun journal de disponible');
     exit();

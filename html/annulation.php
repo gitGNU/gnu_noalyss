@@ -45,7 +45,10 @@ $cn=DbConnect($gDossier);
 $User=new User($cn);
 $User->Check();
 $User->check_dossier(dossier::id());
-$User->can_request(GEOP,0);
+if ($User->check_action(GEOP,0) == 0 ) {
+  alert("Cette action n'est pas autorisée");
+  echo '<script>window.close();<script>';
+}
 
 html_page_start($User->theme,"onLoad='window.focus();'");
 echo JS_VIEW_JRN_MODIFY;
@@ -55,7 +58,8 @@ if ( isset( $_REQUEST['p_jrn'] )) {
 
  // Check privilege
 if ( $User->check_jrn($_GET['p_jrn']) != 'W') {
-  NoAccess();
+  alert("Vous ne pouvez pas accèder en écriture à ce journal");
+  echo '<script>window.close();</script>';
   exit -1;
 }
 
