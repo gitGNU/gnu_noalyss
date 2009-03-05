@@ -184,14 +184,15 @@ require_once("class_acc_ledger.php");
 include_once("postgres.php");
 
 if ( $User->Admin() == 0 && $User->is_local_admin()==0) {
-  $ret=make_array($cn,"select jrn_def_id,jrn_def_name
+  $sql="select jrn_def_id,jrn_def_name
                              from jrn_def join jrn_type on jrn_def_type=jrn_type_id
                              join user_sec_jrn on uj_jrn_id=jrn_def_id 
                              where
-                             uj_login='$User->id'
+                             uj_login='$User->login'
                              and uj_priv !='X'
-                             ");
-    } else {
+                             ";
+  $ret=make_array($cn,$sql);
+} else {
   $ret=make_array($cn,"select jrn_def_id,jrn_def_name
                              from jrn_def join jrn_type on jrn_def_type=jrn_type_id");
 
