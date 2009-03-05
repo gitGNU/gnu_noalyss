@@ -1032,8 +1032,8 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     $info_poste=widget::infobulle(9);
     $ret.='<table id="quick_item" style="width:100%">';
     $ret.='<tr>'.
-      '<th colspan="2">Quickcode'.$info.'</th>'.
-      '<th colspan="2">Poste'.$info_poste.'</th>'.
+      '<th >Quickcode'.$info.'</th>'.
+      '<th >Poste'.$info_poste.'</th>'.
       '<th >Libell&eacute;</th>'.
       '<th> Montant</th>'.
       '<th>D&eacute;bit</th>'.
