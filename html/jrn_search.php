@@ -108,9 +108,9 @@ $condition=$condition." ".$part;
 
 // If the usr is admin he has all right
 if ( $User->admin != 1 ) {
-  $condition.="  uj_priv in ('W','R') and uj_login='".$User->id."'" ;
+  $condition.="  uj_priv in ('W','R') and uj_login='".$User->login."'" ;
 } else {
-  $condition.=" uj_login='".$User->id."' ";
+  $condition.=" uj_login='".$User->login."' ";
 }
 ?>
 <div style="font-size:11px;">

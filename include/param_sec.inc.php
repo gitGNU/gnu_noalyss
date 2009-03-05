@@ -142,21 +142,18 @@ if ( $action == "view" ) {
   $l_Db=sprintf("dossier%d",$gDossier);
 
   $cn=DbConnect();
-  $User=ExecSqlParam($cn,
-		"select  use_id,use_first_name,use_name,use_login,use_admin,priv_priv from ac_users natural join jnt_use_dos ".
-		     " join priv_user on (jnt_id=priv_jnt) where use_login != 'phpcompta' and dos_id=$1 and use_id=$2",
-		     array($gDossier,$_GET['user_id']));
+  $User=new User($cn,$_GET['user_id']);
 
-  $MaxUser=pg_NumRows($User);
-  if ( $MaxUser == 0 ) return;
-  $l2_line=pg_fetch_array($User,0);
-
+  echo '<h2>'.h($User->first_name).' '.h($User->name).' '.hi($User->login);
+  $access=$User->get_folder_access($gDossier);
+ 
   $admin=0;
-  if ( $l2_line['priv_priv'] == 'L') {
+  if ( $access == 'L') {
     $str='Local Admin';$admin=1;
   } else {
     $str=' Utilisateur normal';}
-  if ( $l2_line['use_admin'] == 1 ) {
+
+  if ( $User->admin==1 ) {
     $str=' Super Admin';$admin=1;
   }
 
@@ -166,12 +163,11 @@ if ( $action == "view" ) {
   }
   //
   // Check if the user can access that folder
-  if ( CheckDossier($l2_line['use_login'],$gDossier) == 0 ) {
+  if ( $access == 'X' ){
     echo "<H2 class=\"error\">L'utilisateur n'a pas accès à ce dossier</H2>";
     $action="";
     return;
   }
-
   //--------------------------------------------------------------------------------
   // Show access for journal
   //--------------------------------------------------------------------------------

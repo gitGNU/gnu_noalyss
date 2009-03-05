@@ -1,6 +1,6 @@
 <?php
 	
-	function display_security_fieldset($p_legend,$p_array,$l2_line,$sec_User) {			
+	function display_security_fieldset($p_legend,$p_array,$sec_User) {			
 	$array=array(array('value'=>0,'label'=>"Pas d'accès"),
 		     array('value'=>1,'label'=>'Accès'),
 		     );
@@ -49,27 +49,27 @@
 			<?php   $array=get_array($cn_dossier,
 				"select ac_id, ac_description from action  where ac_id >=$1 and ac_id <=$2 order by ac_id ",
 				array(100,199));
-				display_security_fieldset('Budget',$array,$l2_line,$sec_User); ?>
+				display_security_fieldset('Budget',$array,$sec_User); ?>
 		</td>
 		<td>
 			<?php   $array=get_array($cn_dossier,
 				"select ac_id, ac_description from action  where ac_id >=$1 and ac_id <=$2 order by ac_id ",
 				array(800,1000));
-				display_security_fieldset('Fiche',$array,$l2_line,$sec_User); ?>
+				display_security_fieldset('Fiche',$array,$sec_User); ?>
 		</td>
 	</tr><tr>
 		<td>
 			<?php   $array=get_array($cn_dossier,
 				"select ac_id, ac_description from action  where ac_id >=$1 and ac_id <=$2 order by ac_id ",
 				array(200,299));
-				display_security_fieldset('Comptabilité Analytique',$array,$l2_line,$sec_User); ?>
+				display_security_fieldset('Comptabilité Analytique',$array,$sec_User); ?>
 		</td>
 		
 		<td>
 			<?php   $array=get_array($cn_dossier,
 				"select ac_id, ac_description from action  where ac_id >=$1 and ac_id <=$2 order by ac_id ",
 				array(700,799));
-				display_security_fieldset('Impression',$array,$l2_line,$sec_User); ?>
+				display_security_fieldset('Impression',$array,$sec_User); ?>
 		</td>
 	</tr>
 	<tr valign="top">
@@ -78,7 +78,7 @@
 			<?php   $array=get_array($cn_dossier,
 				"select ac_id, ac_description from action  where ac_id >=$1 and ac_id <=$2 order by ac_id ",
 				array(1100,1400));
-				display_security_fieldset('Paramètre',$array,$l2_line,$sec_User); ?>
+				display_security_fieldset('Paramètre',$array,$sec_User); ?>
 		</td>
 		
 		
@@ -88,14 +88,14 @@
 			<?php   $array=get_array($cn_dossier,
 				"select ac_id, ac_description from action  where ac_id >=$1 and ac_id <=$2 order by ac_id ",
 				array(300,400));
-				display_security_fieldset('Gestion',$array,$l2_line,$sec_User); ?>
+				display_security_fieldset('Gestion',$array,$sec_User); ?>
 		</td>
 	</tr><tr>
 		<td>
 			<?php   $array=get_array($cn_dossier,
 				"select ac_id, ac_description from action  where ac_id >=$1 and ac_id <=$2 order by ac_id ",
 				array(1500,1600));
-				display_security_fieldset('Stock',$array,$l2_line,$sec_User); ?>
+				display_security_fieldset('Stock',$array,$sec_User); ?>
 		</td>
 		
 		
