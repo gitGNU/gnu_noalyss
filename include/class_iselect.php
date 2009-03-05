@@ -63,7 +63,6 @@ require_once('class_html_input.php');
 	}
 
 
-	}
 	static public function test_me()
  	{
 

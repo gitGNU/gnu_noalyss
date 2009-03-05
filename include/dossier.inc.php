@@ -26,6 +26,8 @@
  */
 require_once("class_itext.php");
 require_once("class_icheckbox.php");
+require_once("class_itextarea.php");
+
 $sa=(isset($_REQUEST['sa']))?$_REQUEST['sa']:'list';
 //---------------------------------------------------------------------------
 // Update

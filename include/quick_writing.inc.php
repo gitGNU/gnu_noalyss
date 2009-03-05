@@ -90,7 +90,7 @@ function show_direct_form($cn,$ledger,$p_array) {
   echo $ledger->show_form($p_array);
 
 
-  echo widget::button('add','Ajout d\'une ligne','onClick="quick_writing_add_row()"');
+  echo HtmlInput::button('add','Ajout d\'une ligne','onClick="quick_writing_add_row()"');
 
   echo HtmlInput::submit('summary','Sauvez');
   echo '<div class="info">

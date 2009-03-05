@@ -20,6 +20,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 require_once("class_iselect.php");
 require_once("class_icard.php");
+require_once("class_icardctrl.php");
 require_once("class_ispan.php");
 require_once("class_ihidden.php");
 require_once("class_idate.php");
@@ -986,7 +987,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     // 
     $ret.="<table>";
     $ret.= '<tr><td>';
-    $wDate=new IDate('Date','date');
+    $wDate=new IDate('date');
     $wDate->readonly=$p_readonly;
     $date=(isset($date)&&trim($date)!='')?$date:'';
     if (trim($date)=='') {
@@ -997,17 +998,17 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     }
     $wDate->value=$date;
 
-    $ret.=$wDate->input();
+    $ret.="Date".' : '.$wDate->input();
     $ret.= '</td></tr>';
 
-    $ret.= '<tr><td>';
-    $wDescription=new IText("Description",'desc');
+    $ret.= '<tr><td>Description';
+    $wDescription=new IText('desc');
     $wDescription->readonly=$p_readonly;
     $wDescription->value=(isset($desc))?$desc:'';
     $ret.=$wDescription->input();
     $ret.= '</td>';
 
-    $wPJ=new IText("PJ Num: ",'e_pj');
+    $wPJ=new IText('e_pj');
     $wPJ->readonly=false;
     $wPJ->size=10;
 
@@ -1019,7 +1020,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     } 
     $wPJ->value=(isset($e_pj))?$e_pj:$default_pj;
 
-    $ret.=$wPJ->input();
+    $ret.='<td> Pièce : '.$wPJ->input();
     $ret.=HtmlInput::hidden('e_pj_suggest',$default_pj);
     $ret.= '</td></tr>';
 
@@ -1045,7 +1046,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 
     for ($i = 0 ;$i<$nb_row;$i++){
       // Quick Code
-INVALIDHTMLINPUT       $quick_code=new HtmlInput('js_search_card_control');
+      $quick_code=new ICardCtrl();
       $quick_code->name='qc_'.$i;
       $quick_code->ctrl="ld".$i;
       $quick_code->value=(isset(${'qc_'.$i}))?${'qc_'.$i}:"";
@@ -1115,7 +1116,7 @@ INVALIDHTMLINPUT       $quick_code=new HtmlInput('js_search_card_control');
     $ret.='</table>';
     if ( isset ($this->with_concerned) && $this->with_concerned==true) {
       $oRapt=new Acc_Reconciliation($this->db);
-      $w=$oRapt->HtmlInput();
+      $w=$oRapt->widget();
       $w->name='jrn_concerned';
       $w->value=(isset($jrn_concerned))?$jrn_concerned:"";
       $ret.="R&eacute;conciliation/rapprochements : ".$w->input();

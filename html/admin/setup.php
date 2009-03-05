@@ -85,7 +85,7 @@ if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.D
   echo '<form method="post">';
 echo '<h1 class="info">Entrez les informations n&eacute;cessaires &agrave; phpcompta</h1>';
   echo config_file_form();
-  echo widget::submit('save_config','Sauver la configuration');
+  echo HtmlInput::submit('save_config','Sauver la configuration');
   echo '</form>';
   exit();
   }

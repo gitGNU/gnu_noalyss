@@ -24,7 +24,7 @@
  * \brief Html Input 
  */
 require_once('class_html_input.php');
-class ICard extends HtmlInput
+class ICardCtrl extends HtmlInput
 {
   /*!\brief show the html  input of the widget*/
   public function input($p_name=null,$p_value=null)
@@ -32,73 +32,52 @@ class ICard extends HtmlInput
     $this->name=($p_name==null)?$this->name:$p_name;
     $this->value=($p_value==null)?$this->value:$p_value;
     if ( $this->readOnly==true) return $this->display();
+
     $l_sessid=$_REQUEST['PHPSESSID'];
 
-    //--
-    $l_sessid=$_REQUEST['PHPSESSID'];
-
-    if ( $this->javascript=="") { /* if javascript is empty then we
-				     add a default behaviour */
+    if ( !isset($this->javascript) || $this->javascript=="") { /* if javascript is empty or not set then we
+								  add a default behaviour */
       $this->javascript=sprintf('onBlur="ajaxFid(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')"',
 				$this->name,
 				$this->extra, //deb or cred
 				$l_sessid,
-				'js_search_only',
-				'none'
+				"searchcardControl",
+				$this->ctrl
 				);
     }
-      if ( $this->extra2 == "" ) $this->extra2="QuickCode";
-      if ( $this->table==1)
-	{
-	  $r=sprintf('<TD>
-         <INPUT TYPE="button" onClick="SearchCard(\'%s\',\'%s\',\'%s\')" value="%s">
+    if ( $this->extra2 == "" ) $this->extra2="QuickCode";
+    $r=sprintf('<table><tr><TD>
+         <INPUT TYPE="button" onClick="searchCardCtrl(\'%s\',\'%s\',\'%s\',\'%s\')" value="%s">
             %s</TD><TD> <INPUT class="input_text"  TYPE="Text"  " '.
-		     ' NAME="%s" ID="%s" VALUE="%s" SIZE="8" %s>',
-		     $l_sessid,
-		     $this->extra,
-		     $this->name,
-		     $this->extra2,
-		     $this->label,
-		     $this->name,
-		     $this->name,
-		     $this->value,
-		     $this->javascript
-		     );
-	}
-      else
-	{
-	  $r=sprintf('
-         <INPUT TYPE="button" onClick="SearchCard(\'%s\',\'%s\',\'%s\')" value="%s">
-            %s <INPUT TYPE="Text"  style="border:solid 1px blue;" '.
-		     ' NAME="%s" ID="%s" VALUE="%s" SIZE="8"  %s">',
-		     $l_sessid,
-		     $this->extra,
-		     $this->name,
-		     $this->extra2,
-		     $this->label,
-		     $this->name,
-		     $this->name,
-		     $this->value,
-		     $this->javascript
-		     );
-	}
-    
-    //--    
-    return $r;
-
-  }
-  /*!\brief print in html the readonly value of the widget*/
-  public function display()
-  {
-    $r=sprintf('         <INPUT TYPE="hidden" NAME="%s" VALUE="%s" SIZE="8">',
+	       ' NAME="%s" ID="%s" VALUE="%s" SIZE="8" %s></tr></table>',
+	       $l_sessid,
+	       $this->extra,
 	       $this->name,
-	       $this->value 
+	       $this->ctrl,
+	       $this->extra2,
+	       $this->label,
+	       $this->name,
+	       $this->name,
+	       $this->value,
+	       $this->javascript
 	       );
+    
+    
+    
     return $r;
+    }
+    /*!\brief print in html the readonly value of the widget*/
+    public function display()
+    {
+      $r=sprintf('         <INPUT TYPE="hidden" NAME="%s" VALUE="%s" SIZE="8">',
+		 $this->name,
+		 $this->value 
+		 );
+      return $r;
 
-  }
-  static public function test_me()
-  {
+    }
+    static public function test_me()
+    {
 
+    }
   }
-}

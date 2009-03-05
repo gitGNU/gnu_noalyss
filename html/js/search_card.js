@@ -53,8 +53,7 @@ function SearchCard(p_sessid,type,name,no_add)
   var file='fiche_search.php';
 var qadd='';
 if ( no_add != undefined) { qadd="&noadd"}
-var
-query='?first&search&fic_search='+search+'&p_jrn='+jrn+'&PHPSESSID='+p_sessid
+var query='?first&search&fic_search='+search+'&p_jrn='+jrn+'&PHPSESSID='+p_sessid
 +'&type='+type+'&name='+name+'&gDossier='+gDossier+qadd;
   query+="&caller=searchcard";
    var a=window.open(file+query,'item','toolbar=no,width=350,height=450,scrollbars=yes,statusbar=no');

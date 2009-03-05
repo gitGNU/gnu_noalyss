@@ -36,7 +36,7 @@ require_once('class_html_input.php');
 		$check=( $this->selected==true )?"checked":"unchecked";
 		$r='<input type="CHECKBOX" id="'.$this->name.'" name="'.$this->name.'"';
 		$r.="  $check";
-		$r.=' '.$disabled."  ".$this->javascript.'>';
+		$r.=' '.$this->disabled."  ".$this->javascript.'>';
 	      
 		$r=$r." $this->label";
 	      
