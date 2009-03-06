@@ -297,10 +297,8 @@ tr.even:hover td
   background-color: #a9d6e4;
   color:white;
 }
-a.mtitle:hover 
+td.mtitle:hover,td.mtitle:hover a
 {
-  text-decoration:none;
-  display:inline;
   background-color:#a9d6e4;
   color:white;
 }

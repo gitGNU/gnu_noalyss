@@ -21,8 +21,15 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*!\file 
- * \brief Html Input 
+ * \brief Input HTML for the card show buttons, in the file, you have to add JS_SEARCH
+ *
  */
+
+  /*!\brief Input HTML for the card show buttons, in the file, you have to add JS_SEARCH
+   *
+   * extra2 is the label in the button
+   * table = 1 then add the <td> between the button and the input text
+   */
 require_once('class_html_input.php');
 class ICard extends HtmlInput
 {
