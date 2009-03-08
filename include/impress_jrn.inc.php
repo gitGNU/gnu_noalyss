@@ -25,6 +25,7 @@
 require_once("class_ihidden.php");
 require_once("class_iselect.php");
 require_once("class_icheckbox.php");
+
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 
@@ -55,7 +56,6 @@ require_once("class_acc_ledger.php");
       //      var_dump($Row);
     }
   $rep="";
-INVALIDWIDGET   $submit=new widget();
   $hid=new IHidden();
   echo '<div class="content">';
   echo '<h2 class="info">'.h($Jrn->name).'</h2>';

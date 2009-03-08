@@ -24,7 +24,9 @@
 /*!
  * \brief Class for the document template 
  */
-
+require_once('class_icheckbox.php');
+require_once('class_ihidden.php');
+require_once('class_ifile.php');
 class Document_modele {
   var $cn;         	/*!< $cn  database connection */
   var $md_id;	        /*!< $md_id pk */

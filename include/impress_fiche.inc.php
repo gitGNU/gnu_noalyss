@@ -23,6 +23,7 @@
  */
 include_once('postgres.php');
 include_once('class_fiche.php');
+
 $gDossier=dossier::id();
 $cn=DbConnect($gDossier);
 
@@ -34,7 +35,6 @@ if  ( isset ($_REQUEST['fd_id'])) {
     include_once("class_acc_account_ledger.php");
 
   echo '<div class="content">';
-INVALIDWIDGET   $submit=new widget();
   $hid=new IHidden();
   $fiche_id=new IHidden();
   $w=new ISelect();

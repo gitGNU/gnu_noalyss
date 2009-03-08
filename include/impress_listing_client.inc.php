@@ -24,13 +24,13 @@
 //-----------------------------------------------------
 // Show the jrn and date
 //-----------------------------------------------------
+require_once("class_iselect.php");
+require_once("class_customer.php");
 
 //-----------------------------------------------------
 // Submit Html
 //-----------------------------------------------------
 if ( isset($_POST['bt_html'] )) {
-require_once("class_iselect.php");
-  require_once("class_customer.php");
   $customer=new Customer($cn);
   $a_Res=$customer->VatListing($_POST['year']);
 

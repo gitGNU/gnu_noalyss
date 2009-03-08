@@ -36,6 +36,7 @@ if ( isset ($_POST['confirm_mod'])) {
 // Load All Fiche_def
 $fiche_def=new fiche_def_ref($cn);
 $all=$fiche_def->LoadAll();
+
 // Display Them
 echo '<table align="left">';
 for ($i=0;$i<sizeof($all);$i++) 
@@ -45,7 +46,7 @@ for ($i=0;$i<sizeof($all);$i++)
   echo "<TD>";
   echo '<form method="post">';
   $w=new IHidden();
-  echo $w->input('idx',$i);
+  echo $w->input('idx',$all[$i]->frd_id);
   echo HtmlInput::submit('mod','modifie');
   echo $w->input('fiche','p_action');
   echo "</form>";
@@ -57,14 +58,14 @@ echo "</table>";
 if ( isset ($_POST['mod']) ) 
 {
   extract ($_POST);
+  print_r($_POST);
   echo '<div style="float:left;padding:2%">';
   echo "Voulez-vous modifier ?<br><font color=\"red\"> Attention, ne changer pas la signification de ";
   echo " ce poste, <i>par exemple ne pas changer Client par fournisseur</i>, <br>sinon le programme fonctionnera mal, utiliser uniquement des chiffres pour la classe de base ou rien</font>";
-  $idx=$_POST['idx'];
+
   $mod=new fiche_def_ref($cn);
-  $mod->frd_id=$all[$idx]->frd_id;
-  $mod->frd_text=$all[$idx]->frd_text;
-  $mod->frd_class_base=$all[$idx]->frd_class_base;
+  $mod->frd_id=$idx;
+  $mod->Get();
   echo '<form method="post">';
   echo '<ul style="list-style-type:none"';
   echo $mod->Input();

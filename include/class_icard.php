@@ -33,6 +33,7 @@
 require_once('class_html_input.php');
 class ICard extends HtmlInput
 {
+
   /*!\brief show the html  input of the widget*/
   public function input($p_name=null,$p_value=null)
   {
@@ -44,8 +45,8 @@ class ICard extends HtmlInput
     //--
     $l_sessid=$_REQUEST['PHPSESSID'];
 
-    if ( $this->javascript=="") { /* if javascript is empty then we
-				     add a default behaviour */
+    if ( $this->javascript=="") { 
+      /* if javascript is empty then we   add a default behaviour */
       $this->javascript=sprintf('onBlur="ajaxFid(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')"',
 				$this->name,
 				$this->extra, //deb or cred

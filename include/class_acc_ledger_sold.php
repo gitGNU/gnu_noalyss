@@ -538,7 +538,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $Date->table=1;
     $Date->tabindex=1;
     $r.="<tr>";
-    $r.=$Date->input("e_date",$op_date,"Date");
+    $r.='Date '.$Date->input("e_date",$op_date,"Date");
     // Payment limit
     //--
     $Echeance=new IDate();
@@ -546,7 +546,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $Echeance->table=1;
     $Echeance->tabindex=2;
     $label=HtmlInput::infobulle(4);
-    $r.=$Echeance->input("e_ech",$e_ech,"Echeance ".$label);
+    $r.='A payer avant le '.$label.$Echeance->input("e_ech",$e_ech,"Echeance ".$label);
 
     // Periode 
     //--
@@ -558,6 +558,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $r.="Période comptable $label $def</td><td>".$l_form_per;
     $r.="</td>";
     $r.="</tr><tr>";
+
     // Ledger (p_jrn)
     //--
     $wLedger=$this->select_ledger('VEN',2);
@@ -573,7 +574,9 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $wLedger->javascript="onChange='update_predef(\"ven\",\"f\");$add_js'";
     $wLedger->label=" Journal ".HtmlInput::infobulle(2) ;
 
-    $r.=$wLedger->input();
+    //    $r.=$wLedger->label.$wLedger->input();
+    $r.="<td class=\"input_text\">Journal</td>".$wLedger->input();
+
     // Comment
     //--
     $Commentaire=new IText();
@@ -585,6 +588,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $r.="<tr>";
     $r.='<td class="input_text">'.$label.'</td>'.
       '<td colspan="3">'.$Commentaire->input("e_comm",h($e_comm))."</td>";
+
     // PJ
     //--
     /* suggest PJ ? */
@@ -594,7 +598,6 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     } 
 
     $pj=new IText();
-
 
     $pj->table=0;
     $pj->name="e_pj";
@@ -673,6 +676,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 	$own=new Own($this->db);
     // For each article
     //--
+
     for ($i=0;$i< MAX_ARTICLE;$i++) {
       // Code id, price & vat code
       //--

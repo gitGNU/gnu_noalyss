@@ -24,6 +24,10 @@
  * some variable are already defined ($cn, $User ...)
 
  */
+require_once("class_ihidden.php");
+require_once("class_iselect.php");
+require_once("class_idate.php");
+require_once("class_acc_report.php");
 
 //-----------------------------------------------------
 // If print is asked
@@ -31,10 +35,6 @@
 // after in pdf or cvs
 //-----------------------------------------------------
 if ( isset( $_GET['bt_html'] ) ) {
-require_once("class_ihidden.php");
-require_once("class_iselect.php");
-require_once("class_idate.php");
-  require_once("class_acc_report.php");
   $Form=new Acc_Report($cn,$_GET['form_id']);
   $Form->get_name();
   // step asked ?
@@ -59,7 +59,7 @@ require_once("class_idate.php");
 
 
   $rep="";
-INVALIDWIDGET   $submit=new widget();
+
   $hid=new IHidden();
   echo '<div class="content">';
   if ( $_GET['type_periode'] == 0) {

@@ -22,7 +22,9 @@
  * \brief included file for customizing with the vat (account,rate...)
  */
 require_once('class_own.php');
-
+require_once('class_html_input.php');
+require_once('class_ihidden.php');
+require_once('class_itextarea.php');
 echo '<div class="content">';
   // Confirm remove
   if ( isset ($_POST['confirm_rm'])) 
@@ -127,7 +129,7 @@ if ( $own->MY_TVA_USE=='N' ){
 
 
       echo "<TD>";
-      echo Html_Input::hidden('tva_id',$row['tva_id']);
+      echo HtmlInput::hidden('tva_id',$row['tva_id']);
       echo h($row['tva_label']);
       echo "</TD>";
 

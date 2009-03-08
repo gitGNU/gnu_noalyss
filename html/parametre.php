@@ -297,7 +297,6 @@ if ( $p_action=='company') {
   echo "<tr>".$pj_suggest->input("p_pj",$strict_array,"Suggérer le numéro de pièce justificative")."</tr>";
 
   echo "</table>";
-INVALIDWIDGET   $submit=new widget("submit");
   echo HtmlInput::submit("record_company","Enregistre");
   echo "</form>";
   echo '</div>';

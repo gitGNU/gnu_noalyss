@@ -668,7 +668,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $Echeance->setReadOnly(false);
     $Echeance->table=1;
     $Echeance->tabindex=2;
-    $label=widget::infobulle(4);
+    $label=HtmlInput::infobulle(4);
     $r.=$Echeance->input("e_ech",$e_ech,"Echeance ".$label);
 
     // Periode 
@@ -677,7 +677,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $def=(isset($periode))?$periode:$l_user_per;
     $l_form_per=FormPeriode($this->db,$def,OPEN);
     $r.="<td class=\"input_text\">";
-    $label=widget::infobulle(3);
+    $label=HtmlInput::infobulle(3);
     $r.="Période comptable $label</td><td>".$l_form_per;
     $r.="</td>";
     $r.="</tr><tr>";
@@ -692,7 +692,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     if ($wLedger == null) exit ('Pas de journal disponible');
     $wLedger->table=1;
     $wLedger->javascript="onChange='update_predef(\"ach\",\"f\");$add_js'";
-    $wLedger->label=" Journal ".widget::infobulle(2) ;
+    $wLedger->label=" Journal ".HtmlInput::infobulle(2) ;
 
     $r.=$wLedger->input();
     // Comment
@@ -702,7 +702,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $Commentaire->setReadOnly(false);
     $Commentaire->size=60;
     $Commentaire->tabindex=3;
-    $label=" Description ".widget::infobulle(1) ;
+    $label=" Description ".HtmlInput::infobulle(1) ;
     $r.="<tr>";
     $r.='<td class="input_text">'.$label.'</td>'.
       '<td colspan="3">'.$Commentaire->input("e_comm",$e_comm)."</td>";
@@ -749,7 +749,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     }
     
     $W1=new ICard();
-    $W1->label="Fournisseur ".widget::infobulle(0) ;
+    $W1->label="Fournisseur ".HtmlInput::infobulle(0) ;
     $W1->name="e_client";
     $W1->tabindex=3;
     $W1->value=$e_client;
@@ -778,15 +778,15 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $r.='<TABLE ID="sold_item">';
     $r.='<TR>';
     $r.="<th></th>";
-    $label=widget::infobulle(0) ;
+    $label=HtmlInput::infobulle(0) ;
     $r.="<th>Code $label</th>";
     $r.="<th>D&eacute;nomination</th>";
-    $label=widget::infobulle(6) ;
+    $label=HtmlInput::infobulle(6) ;
     $r.="<th>$label prix / unité htva </th>";
     /* use vat */
     if ( $own->MY_TVA_USE=='Y') {
       $r.="<th>tva</th>";
-      $label=widget::infobulle(8) ;
+      $label=HtmlInput::infobulle(8) ;
       $r.="<th> $label Total  tva</th>";
     } 
     $r.="<th>quantit&eacute;</th>";
@@ -892,7 +892,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     
     $r.="</TABLE>";
     $r.='<div style="position:float;float:right;text-align:right;padding-right:5px;font-size:1.2em;font-weight:bold;color:blue">';
-    $r.=widget::button('act','Actualiser','onClick="compute_all_purchase();"');
+    $r.=HtmlInput::button('act','Actualiser','onClick="compute_all_purchase();"');
     $r.="</div>";
 
     $r.='<div style="position:float;float:right;text-align:left;font-size:1.2em;font-weight:bold;color:blue" id="sum">';
@@ -916,7 +916,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
       $r.='<br>Total';
 
     $r.="</div>";
-    $r.=widget::button('add_item','Ajout article',      ' onClick="ledger_sold_add_row()"');
+    $r.=HtmlInput::button('add_item','Ajout article',      ' onClick="ledger_sold_add_row()"');
 
     $r.="</fieldset>";
     //----------------------------------------------------------------------

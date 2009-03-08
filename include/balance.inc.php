@@ -111,7 +111,7 @@ echo '<hr>';
 //-----------------------------------------------------
 // Show the export button
 if ( isset ($_POST['view']  ) ) {
-INVALIDWIDGET   $submit=new widget();
+
   $hid=new IHidden();
 
   echo "<table>";

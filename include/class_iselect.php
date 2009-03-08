@@ -26,45 +26,51 @@
 require_once('class_html_input.php');
  class ISelect extends HtmlInput
 {
-	/*!\brief show the html  input of the widget*/
-	public function input($p_name=null,$p_value=null)
- 	{
-		 $this->name=($p_name==null)?$this->name:$p_name;
-		 $this->value=($p_value==null)?$this->value:$p_value;
-		 if ( $this->readOnly==true) return $this->display();
-
+  /*!\brief show the html  input of the widget*/
+  public function input($p_name=null,$p_value=null)
+  {
+    $this->name=($p_name==null)?$this->name:$p_name;
+    $this->value=($p_value==null)?$this->value:$p_value;
+    if ( $this->readOnly==true) return $this->display();
     
-	  $disabled=($this->disabled==true)?"disabled":"";
-	  //echo "<b>Selected <b>".$this->selected;
-	  $r="<SELECT  id=\"$this->name\" NAME=\"$this->name\" $this->javascript $disabled>";
-	  if (empty($this->value)) return '';
-	  for ( $i=0;$i<sizeof($this->value);$i++) 
-	    {
-	      $checked=($this->selected==$this->value[$i]['value'])?"SELECTED":"";
-	      $r.='<OPTION VALUE="'.$this->value[$i]['value'].'" '.$checked.'>';
-	      $r.=$this->value[$i]['label'];
-	    }
-		$r.="</SELECT>";
-		return $r;
-    }
-	/*!\brief print in html the readonly value of the widget*/
-	public function display()
- 	{
-	  $r="";
-	  for ( $i=0;$i<sizeof($this->value);$i++) 
-	    {
-	      if ($this->selected==$this->value[$i]['value'] ) 
-			{
-			$r=h($this->value[$i]['label']);
+    
+    $disabled=($this->disabled==true)?"disabled":"";
+
+    //echo "<b>Selected <b>".$this->selected;
+
+    $r="<SELECT  id=\"$this->name\" NAME=\"$this->name\" $this->javascript $disabled>";
+
+    if (empty($this->value)) return '';
+
+    for ( $i=0;$i<sizeof($this->value);$i++) 
+      {
+	$checked=($this->selected==$this->value[$i]['value'])?"SELECTED":"";
+	$r.='<OPTION VALUE="'.$this->value[$i]['value'].'" '.$checked.'>';
+	$r.=$this->value[$i]['label'];
+      }
+    $r.="</SELECT>";
+    if ( $this->table == 1 )		  $r='<td>'.$r.'</td>';
+    
+    return $r;
+  }
+  /*!\brief print in html the readonly value of the widget*/
+  public function display()
+  {
+    $r="";
+    for ( $i=0;$i<sizeof($this->value);$i++) 
+      {
+	if ($this->selected==$this->value[$i]['value'] ) 
+	  {
+	    $r=h($this->value[$i]['label']);
  	
-			}
-	    }
-		return $r;
-	}
-
-
-	static public function test_me()
- 	{
-
-	}
+	  }
+      }
+    return $r;
+  }
+  
+  
+  static public function test_me()
+  {
+    
+  }
 }

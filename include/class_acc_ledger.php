@@ -448,12 +448,13 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
    */
   public function show_ledger() {
 
-    $w=new ISelect("p_periode",$periode_start);
+
     $User=new User($this->db); 
     // filter on the current year
     $filter_year=" where p_exercice='".$User->get_exercice()."'";
     
     $periode_start=make_array($this->db,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by  p_start,p_end",1);
+    $w=new ISelect("p_periode",$periode_start);
     $current=(isset($_GET['p_periode']))?$_GET['p_periode']:$User->get_periode();
     $w->selected=$current;
     
