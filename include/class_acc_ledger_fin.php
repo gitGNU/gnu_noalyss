@@ -620,6 +620,8 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	      } else 
 	      if ( isNumber(${"e_concerned".$i}) == 1 ) 
 		{
+		  $rec=new Acc_Reconciliation ($this->db);
+		  $rec->set_jr_id($jr_id);
 		  $rec->insert(${"e_concerned$i"});
 		}
 	  }
