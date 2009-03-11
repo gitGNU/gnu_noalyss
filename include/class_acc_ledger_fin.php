@@ -602,7 +602,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 
 
 	  if ( trim(${"e_concerned".$i}) != "" ) {
-	    if ( strpos(${"e_concerned".$i},',') !== 0 )
+	    if ( strpos(${"e_concerned".$i},',') != 0 )
 	      {
 		$aRapt=split(',',${"e_concerned".$i});
 		foreach ($aRapt as $rRapt) {
