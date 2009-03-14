@@ -107,11 +107,11 @@ if ( isset ($_GET["search"]) ) {
 $condition=$condition." ".$part;
 
 // If the usr is admin he has all right
-if ( $User->admin != 1 ) {
+if ( $User->admin != 1 && $User->is_local_admin()!=1) {
   $condition.="  uj_priv in ('W','R') and uj_login='".$User->login."'" ;
-} else {
-  $condition.=" uj_login='".$User->login."' ";
-}
+}  else { 
+  $condition.=" true ";
+} 
 ?>
 <div style="font-size:11px;">
 <?php
@@ -154,10 +154,16 @@ echo '</FORM>';
 echo '<div class="content">';
 // if a search is asked otherwise don't show all the rows
 if ( isset ($_GET["search"]) ) {
+// If the usr is admin he has all right
+  if ( $User->admin != 1 && $User->is_local_admin()!=1) {
+    $jnt="  inner join user_sec_jrn on uj_jrn_id=j_jrn_def";
+  }  else { 
+    $jnt="  ";
+  } 
   $sql="select j_id,to_char(j_date,'DD.MM.YYYY') as j_date,
                  j_montant,jr_montant,j_poste,j_debit,j_tech_per,jr_id,jr_comment,j_grpt,pcm_lib,jr_internal,jr_rapt,j_qcode from jrnx inner join 
                  jrn on jr_grpt_id=j_grpt inner join tmp_pcmn on j_poste=pcm_val ".
-    " inner join user_sec_jrn on uj_jrn_id=j_jrn_def".
+    $jnt.
     $condition." order by jr_date,jr_id,j_debit desc";
   $Res=ExecSql($cn,$sql);
 
