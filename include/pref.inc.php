@@ -22,9 +22,13 @@
  * \brief this file is always included and then executed
  *        it permits to change the user preferences
  */
-require_once("class_iselect.php");
+
 require_once('class_user.php');
+require_once("class_iselect.php");
+require_once("class_iperiod.php");
 require_once('class_acc_report.php');
+require_once('class_periode.php');
+
 echo '<DIV class="content">';
 //----------------------------------------------------------------------
 // Change password
@@ -127,7 +131,6 @@ $inside_dossier=false;
 if (  isset ($_REQUEST['gDossier']))
   {
     $inside_dossier=true;
-    include_once("preference.php");
     $msg=""; 
     $cn=DbConnect($_REQUEST['gDossier']);
     $User->cn=$cn;    
@@ -136,8 +139,6 @@ if (  isset ($_REQUEST['gDossier']))
       {    
 	$periode=$_POST["periode"];
 	$User->set_periode($periode);
-	echo_debug('pref.inc',__LINE__,"Periode returns ".PeriodeClosed($cn,$periode));
-    
       }
 
     $l_user_per=$User->get_periode();
@@ -145,13 +146,22 @@ if (  isset ($_REQUEST['gDossier']))
       $l_user_per=getDbValue($cn,"select min(p_id) from parm_periode where p_closed='f'");
 
     // if periode is closed then warns the users
-    if ( PeriodeClosed($cn,$l_user_per)=='t')
+	$period=new Periode($cn,$l_user_per);
+	$period->jrn_def_id=0;
+    if ( $period->is_closed($cn,$l_user_per)==1)
       {
 	$msg= '<h2 class="notice">Attention cette p&eacute;riode est ferm&eacute;e, vous ne pourrez rien modifier dans le module comptable</h2>';
       }
     
 
-    $l_form_per=FormPeriode($cn,$l_user_per,ALL);
+	$period=new IPeriode("period");
+	$period->user=$User;
+	$period->cn=$cn;
+	$period->value=$l_user_per;
+	$period->type=ALL;
+	$l_form_per=$period->input();
+	
+    
     
     ?>
 <tr><td> P&eacute;riode</td>

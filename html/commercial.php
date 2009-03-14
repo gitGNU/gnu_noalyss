@@ -67,7 +67,6 @@ if ( ! isset ( $gDossier ) ) {
   echo "Vous devez choisir un dossier ";
   exit -2;
 }
-include_once("preference.php");
 include_once("user_menu.php");
 $str_dossier=dossier::get();
 

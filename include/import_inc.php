@@ -23,7 +23,6 @@
 // Modified Dany De Bontridder ddebontridder@yahoo.fr
 // $Revision$
 include_once("jrn.php");
-include_once("preference.php");
 include_once("user_common.php");
 require_once("class_icard.php");
 require_once("class_iconcerned.php");

@@ -23,6 +23,8 @@
  * \brief concerns the centralisation of the operations
  */
 include_once ("ac_common.php");
+require_once('class_iperiod.php');
+
 html_page_start($_SESSION['g_theme']);
 
 require_once('class_dossier.php');
@@ -35,8 +37,6 @@ include_once ("class_user.php");
 $User=new User($rep);
 $User->Check();
 require_once  ("check_priv.php");
-include_once("preference.php");
-
 
 $cn=DbConnect($gDossier);
 
@@ -61,8 +61,12 @@ if ( $_POST["periode"] != "" ) {
     }
   } 
 }// if ( isset ($_POST["central"] ))
-
-$ret=FormPeriode($cn,0,NOTCENTRALIZED);
+$period=new IPeriode("period");
+$period->user=$User;
+$period->cn=$cn;
+$period->value=0;
+$period->type=NOTCENTRALIZED;
+$ret=$period->input();
 if ( $ret != null) {
   echo '<FORM METHOD="POST">';
   echo HtmlInput::hidden('p_action','central');

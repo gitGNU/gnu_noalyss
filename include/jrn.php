@@ -651,7 +651,6 @@ function ViewJrn($p_dossier,$p_user,$p_jrn,$p_url,$p_array=null) {
   $l_prop=$oJrn->get_propertie();
   echo "<H2 class=\"info\">".$l_prop['jrn_def_name']."( ".$l_prop['jrn_def_code'].")"."</H2>";
   if ( $p_array == null) {
-    include_once("preference.php");
     $l_periode=GetUserPeriode($cn,$p_user);
     $Res=ExecSql($cn,"select jr_id,j_id,jr_internal,to_char(j_date,'DD.MM.YYYY') as j_date,
                        j_montant,j_poste,pcm_lib,j_grpt,j_debit,j_centralized,j_tech_per,

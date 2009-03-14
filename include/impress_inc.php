@@ -23,6 +23,7 @@
  * \brief contains function for the printing
  * \todo the functions of impress_inc.php should be replaced in a OO way
 */
+require_once('class_periode.php');
 /*!
  * \brief  Get data from the jrn table
  * 
@@ -33,6 +34,7 @@
  *       otherwise the result
  *
  */ 
+
 function get_dataJrn($p_cn,$p_array,$filter=YES)
 {
   if ( !isset ($p_array['periode']) ) return NO_PERIOD_SELECTED;
@@ -313,7 +315,8 @@ function get_rappel_simple ($p_cn,$p_jrn_id,$p_jrn_type,$p_from,&$arap)
 		  " and c_date < (select p_start from parm_periode where p_id = $p_from)");
   if ($min == "" ) return 0;
   // Find Exercice
-  $Exercice=get_exercice($p_cn,$p_from);
+  $periode=new Periode($p_cn,$p_from);
+  $Exercice=$periode->get_exercice();
 
   $a_Tva=get_array($p_cn,"select tva_id,tva_label,tva_poste from tva_rate where tva_rate != 0.0000 order by tva_id");
   
@@ -370,8 +373,6 @@ function get_rappel_simple ($p_cn,$p_jrn_id,$p_jrn_type,$p_from,&$arap)
  */ 
 function get_rappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_central) 
 {
-  include_once("preference.php");
-
   if ( $which == LAST) 
     $cmp="<="; 
   else

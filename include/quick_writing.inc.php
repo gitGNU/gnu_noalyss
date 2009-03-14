@@ -31,6 +31,7 @@ require_once("class_icheckbox.php");
 require_once ('class_acc_ledger.php');
 require_once ('class_acc_reconciliation.php');
 require_once('ac_common.php');
+require_once('class_periode.php');
 
 require_once('check_priv.php');
 
@@ -180,7 +181,8 @@ if ( $User->check_jrn($id)=='W' ) {
     echo '<h2 class="error"> Desole mais cette periode est fermee pour ce journal</h2>';
     exit();
   }
-  list($date,$devnull)=get_periode($cn,$default_periode);
+  $periode=new Periode($cn);  
+  list($date,$devnull)=$periode->get_first_day($default_periode);
   $array['date']=$date;
   show_qw_menu();
   show_direct_form($cn,$ledger,$array);

@@ -37,11 +37,13 @@ include_once("ac_common.php");
 include_once("postgres.php");
 include_once("class.ezpdf.php");
 include_once("impress_inc.php");
-include_once("preference.php");
 include_once("class_acc_ledger.php");
 include_once("check_priv.php");
 require_once ('header_print.php');
 require_once('class_own.php');
+require_once('class_periode.php');
+
+$periode=new Periode($p_cn);
 
 
 echo_debug('jrn_pdf.php',__LINE__,"imp pdf journaux");
@@ -98,7 +100,7 @@ if ( $Jrn->id==0  || $jrn_type=='FIN' || $jrn_type=='ODS' || $_REQUEST['p_simple
     if ( $a_jrn==null) break;
     $offset+=$step; 
     $first_id=$a_jrn[0]['int_j_id'];
-    $Exercice=get_exercice($cn,$a_jrn[0]['periode']);
+    $Exercice=$periode->get_exercice($a_jrn[0]['periode']);
     
 
     list($rap_deb,$rap_cred)=get_rappel($cn,$first_id,$Jrn->id,$Exercice,FIRST,
@@ -143,7 +145,7 @@ if ( $Jrn->id==0  || $jrn_type=='FIN' || $jrn_type=='ODS' || $_REQUEST['p_simple
 
     $count=count($a_jrn)-1;
     $last_id=$a_jrn[$count]['int_j_id'];
-    $Exercice=get_exercice($cn,$a_jrn[$count]['periode']);
+    $Exercice=$periode->get_exercice($a_jrn[$count]['periode']);
     if ( $l_centr == 1) {
       // Montant de rappel si centralisé
       list($rap_deb,$rap_cred)=get_rappel($cn,$last_id,$Jrn->id,$Exercice,LAST,$filter,$l_centr);
@@ -168,7 +170,7 @@ if ( $Jrn->id==0  || $jrn_type=='FIN' || $jrn_type=='ODS' || $_REQUEST['p_simple
 				      'cred'=> array('justification'=>'right'))),true);
     $count=count($a_jrn)-1;
     $last_id=$a_jrn[$count]['int_j_id'];
-    $Exercice=get_exercice($cn,$a_jrn[$count]['periode']);
+    $Exercice=$periode->get_exercice($a_jrn[$count]['periode']);
     
     list($rap_deb,$rap_cred)=get_rappel($cn,$last_id,$Jrn->id,$Exercice,LAST,$filter,$l_centr);
     $str_debit=utf8_decode(sprintf( "à reporter  Débit % 10.2f",$rap_deb));

@@ -27,6 +27,7 @@ require_once("class_iselect.php");
 require_once("class_icard.php");
 require_once("class_ispan.php");
 require_once("class_ihidden.php");
+require_once("class_iperiod.php");
 require_once("class_idate.php");
 require_once("class_itext.php");
 require_once("class_ifile.php");
@@ -675,7 +676,14 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     //--
     $l_user_per=$user->get_periode();
     $def=(isset($periode))?$periode:$l_user_per;
-    $l_form_per=FormPeriode($this->db,$def,OPEN);
+	
+	$period=new IPeriode("period");
+	$period->user=$User;
+	$period->cn=$cn;
+	$period->value=$def;
+	$period->type=OPEN;
+	$l_form_per=$period->input();
+    
     $r.="<td class=\"input_text\">";
     $label=HtmlInput::infobulle(3);
     $r.="Période comptable $label</td><td>".$l_form_per;

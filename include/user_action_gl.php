@@ -23,7 +23,6 @@
  * \brief included file for the great ledger 
  */
 
-include_once ("preference.php");
 include_once ("user_common.php");
 include_once("class_user.php");
 require_once("class_iselect.php");

@@ -24,14 +24,21 @@
 
 include_once("debug.php");
 include_once("constant.php");
-require_once('preference.php');
 require_once ("postgres.php");
+require_once('class_periode.php');
+
 /*!\brief to protect again bad characters which can lead to a cross scripting attack
 	the string to be diplayed must be protected
 */
 function h($p_string) { return htmlspecialchars($p_string);}
 function hi($p_string) { return '<i>'.htmlspecialchars($p_string).'</i>';}
 function hb($p_string) { return '<b>'.htmlspecialchars($p_string).'</b>';}
+/*!\brief surrond the string with td 
+*\param string
+*\param class to use
+* \return string surrounded by td
+*/
+function td($p_string,$p_class=''){ return '<td '.$p_class.' >'.$p_string.'</td>';}
 /*!\brief escape correctly php string to javascript */
 function j($p_string) { $a=preg_replace("/\r?\n/", "\\n", addslashes($p_string)); return $a;}
 /*! 
@@ -466,14 +473,14 @@ function sql_filter_per($p_cn,$p_from,$p_to,$p_form='p_id',$p_field='jr_tech_per
   if ( $p_form == 'p_id' )
     {
       // retrieve the date
-      $a_start=get_periode($p_cn,$p_from);
-      $a_end=get_periode($p_cn,$p_to);
-      if ( $a_start == null or $a_end == null  )
-		{
-		  echo_debug(__FILE__,__LINE__,'Attention periode '.
-					 ' non trouvee periode p_from='.$p_from.
-					 'p_to_periode = '.$p_to);
-		}
+	  $pPeriode=new Periode($p_cn);
+	  $a_start=$pPeriode->get_date_limit($p_from);
+      $a_end=$pPeriode->get_date_limit($p_to);
+      if ( $a_start == null || $a_end == null  )
+		throw(__FILE__,__LINE__,'Attention periode '.
+			' non trouvee periode p_from='.$p_from.
+			'p_to_periode = '.$p_to);
+		
 
       $p_from=($a_start==null)?'01.01.1900':$a_start['p_start'];
       $p_to=($a_end==null)?'01.01.2100':$a_end['p_end'];

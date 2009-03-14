@@ -1,4 +1,3 @@
-
 <?php  
 /*
  *   This file is part of PHPCOMPTA.
@@ -27,7 +26,6 @@
  */
 
 include_once ("ac_common.php");
-include_once("preference.php");
 include_once("class_acc_balance.php");
 require_once("class_iselect.php");
 require_once("class_iposte.php");
@@ -35,6 +33,7 @@ require_once("class_ispan.php");
 require_once("class_icheckbox.php");
 require_once("class_ihidden.php");
 require_once('class_acc_ledger.php');
+require_once('class_periode.php');
 
 $User->can_request(IMPBAL);
 
@@ -47,6 +46,7 @@ echo dossier::hidden();
 $w=new ISelect();
 $w->table=1;
 // filter on the current year
+/*!\todo use the new HtmlInput object : IPeriod */
 $filter_year=" where p_exercice='".$User->get_exercice()."'";
 
 $periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
@@ -54,6 +54,7 @@ $w->label="Depuis";
 if ( isset ($_POST['from_periode']) )
   $w->selected=$_POST['from_periode'];
 
+ /*!\todo use the new HtmlInput object : IPeriod */
 echo $w->input('from_periode',$periode_start);
 $w->label=" jusqu'à ";
 $periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
@@ -100,8 +101,6 @@ echo $from_span->input();
 echo " jusque :".$to_poste->input();
 echo $to_span->input();
 echo "</div>";
-//$a=FormPeriodeMult($cn);
-//echo $a;
 
 echo '<input type="submit" name="view" value="Visualisation">';
 echo '</form>';
@@ -164,8 +163,9 @@ if ( isset($_POST['view'] ) ) {
 
   $row=$bal->get_row($_POST['from_periode'],
 		  $_POST['to_periode']);
-    $a=get_periode($cn,$_POST['from_periode']);
-    $b=get_periode($cn,$_POST['to_periode']);
+	$periode=new Periode($cn);
+    $a=$periode->get_date_limit($_POST['from_periode']);
+    $b=$periode->get_date_limit($_POST['to_periode']);
     echo "<h2 class=\"info\"> période du ".$a['p_start']." au ".$b['p_end']."</h2>";
 
   echo '<table width="100%">';  
@@ -185,12 +185,12 @@ if ( isset($_POST['view'] ) ) {
       $tr="odd";
 
     echo '<TR class="'.$tr.'">';
-    echo '<TD>'.$r['poste'].'</TD>';
-    echo '<TD>'.$r['label'].'</TD>';
-    echo '<TD>'.$r['sum_deb'].'</TD>';
-    echo '<TD>'.$r['sum_cred'].'</TD>';
-    echo '<TD>'.$r['solde_deb'].'</TD>';
-    echo '<TD>'.$r['solde_cred'].'</TD>';
+    echo td($r['poste']);
+    echo td(h($r['label']));
+    echo td($r['sum_deb']);
+    echo td($r['sum_cred']);
+    echo td($r['solde_deb']);
+    echo td('solde_cred']);
     echo '</TR>';
   }
   echo '</table>';

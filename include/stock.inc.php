@@ -25,12 +25,12 @@
  * \brief Manage the stock by year
  */
 require_once('class_dossier.php');
-include_once("preference.php");
 include_once ("ac_common.php");
 include_once("postgres.php");
 include_once("stock_inc.php");
 include_once("check_priv.php");
 require_once('class_dossier.php');
+require_once('class_periode.php');
 $gDossier=dossier::id();
 
 html_page_start($_SESSION['g_theme']);
@@ -127,7 +127,9 @@ if ( ! isset ($_GET['year']) ) {
   // get defaut periode
   $a=$User->get_periode();
   // get exercice of periode
-  $year=get_exercice($cn,$a);
+    $periode=new Periode($cn,$a);
+	$year=$periode->get_exercice();
+ 
   } else
   { 
     $year=$_GET['year'];

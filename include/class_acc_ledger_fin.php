@@ -190,8 +190,14 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     // Periode 
     //--
     $l_user_per=(isset($periode))?$periode:$user->get_periode();
-    $l_form_per=FormPeriode($this->db,$l_user_per,OPEN);
-
+	$period=new IPeriod();
+	$period->cn=$this->db;
+	$period->type=OPEN;
+	$period->value=$l_user_per;
+	$period->user=$user;
+	
+    
+	$l_form_per=$period->input();
     $r.="<td class=\"input_text\">";
     $label=HtmlInput::infobulle(3);
     $r.="Période comptable $label</td><td>".$l_form_per;

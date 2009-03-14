@@ -39,7 +39,7 @@ $User->Check();
 $User->check_dossier($gDossier);
 
 html_page_start($_SESSION['g_theme']);
-include_once("preference.php");
+
 include_once("user_menu.php");
 echo '<div class="u_tmenu">';
 
@@ -148,8 +148,7 @@ if ( $p_action == "fiche" )
 if ( $p_action == 'divers') {
   $s=dossier::get().'&PHPSESSID='.$_REQUEST['PHPSESSID'];
 
-  $array = array (/*array('parametre.php?p_action=divers&sa=devise&'.$s,
-		    'Devise','Devise',1),*/
+  $array = array (
 		  array('parametre.php?p_action=divers&sa=mp&'.$s,
 			'Moyen de paiement','Moyen de paiement',2)
 		  );
@@ -157,9 +156,7 @@ if ( $p_action == 'divers') {
   $sb=(isset($_REQUEST['sb']))?$_REQUEST['sb']:'';
   $def=0;
   switch ($sa) {
-  case 'devise':
-    $def=1;
-    break;
+  
   case 'mp':
     $def=2;
     break;
@@ -167,52 +164,7 @@ if ( $p_action == 'divers') {
   echo '<div class="lmenu">';
   echo ShowItem($array,'H','mtitle','mtitle',$def);
   echo '</div>';
-
-  if ( $sa=='devise') {
-    echo '<DIV CLASS="u_redcontent">';
-    //-----------------------------------------------------
-    // Currency
-    //-----------------------------------------------------
-    if ( $sb == "c" ) {
-      $p_mid=$_GET['p_mid'];
-      $p_rate=$_GET['p_rate'];
-      $p_code=$_GET['p_code'];
-      
-      echo '<TR> <FORM ACTION="parametre.php" METHOD="POST">';
-      echo dossier::hidden();
-      echo '<INPUT TYPE="HIDDEN" VALUE="'.$p_mid.'" NAME="p_id">';
-      echo '<TD> <INPUT TYPE="text" NAME="p_devise" VALUE="'.$p_code.'"></TD>';
-      echo '<TD> <INPUT TYPE="text" NAME="p_rate" VALUE="'.$p_rate.'"></TD>';
-      echo '<TD> <INPUT TYPE="SUBMIT" NAME="action" Value="Change"</TD>';
-      echo '</FORM></TR>';
-    }
-    if ( $sb == "ch") {
-      $p_devise=$_GET['p_code'];
-      $p_id=$_GET['p_id'];
-      $p_rate=$_GET['p_rate'];
-      $Res=ExecSql($cn,"update parm_money set pm_code='$p_devise',pm_rate=$p_rate where pm_id=$p_id");
-      ShowDevise($cn);
-      
-    }
-    if ( $sb == "a") {
-      $p_devise=$_POST['p_devise'];
-      $p_rate=$_POST['p_rate'];
-      $Res=ExecSql($cn,"insert into parm_money ( pm_code,pm_rate) values ('$p_devise',$p_rate) ");
-      ShowDevise($cn);
-
-    }
-    
-    if ( $sb == "d") {
-      $p_id=$_GET['p_mid'];
-      $Res=ExecSql($cn,"delete from parm_money  where pm_id=$p_id");
-      ShowDevise($cn);
-    }
-    
-    
-    if ( $p_action=="divers") {
-      ShowDevise($cn);
-    }
-  }
+  
   if ( $sa=='mp') {
     $User->can_request(PARMP,1);
     require_once('payment_middle.inc.php');
@@ -279,22 +231,22 @@ if ( $p_action=='company') {
   echo '<form method="post" action="?p_action=company">';
   echo dossier::hidden();
   echo "<table class=\"result\">";
-  echo "<tr>".$all->input("p_name",$my->MY_NAME,"Nom société")."</tr>";
-  echo "<tr>".$all->input("p_tel",$my->MY_TEL,"Téléphone")."</tr>";
-  echo "<tr>".$all->input("p_fax",$my->MY_FAX,"Fax")."</tr>";
-  echo "<tr>".$all->input("p_street",$my->MY_STREET,"Rue ")."</tr>";
-  echo "<tr>".$all->input("p_no",$my->MY_NUMBER,"Numéro")."</tr>";
-  echo "<tr>".$all->input("p_cp",$my->MY_CP,"Code Postal")."</tr>";
-  echo "<tr>".$all->input("p_Commune",$my->MY_COMMUNE,"Commune")."</tr>";
-  echo "<tr>".$all->input("p_pays",$my->MY_PAYS,"Pays")."</tr>";
-  echo "<tr>".$all->input("p_tva",$my->MY_TVA,"Numéro de Tva")."</tr>";
+  echo "<tr>".td('Nom société').$all->input("p_name",$my->MY_NAME)."</tr>";
+  echo "<tr>".td("Téléphone").$all->input("p_tel",$my->MY_TEL)."</tr>";
+  echo "<tr>".td("Fax").$all->input("p_fax",$my->MY_FAX)."</tr>";
+  echo "<tr>".td("Rue ").$all->input("p_street",$my->MY_STREET)."</tr>";
+  echo "<tr>".td("Numéro").$all->input("p_no",$my->MY_NUMBER)."</tr>";
+  echo "<tr>".td("Code Postal").$all->input("p_cp",$my->MY_CP)."</tr>";
+  echo "<tr>".td("Commune").$all->input("p_Commune",$my->MY_COMMUNE)."</tr>";
+  echo "<tr>".td("Pays").$all->input("p_pays",$my->MY_PAYS)."</tr>";
+  echo "<tr>".td("Numéro de Tva").$all->input("p_tva",$my->MY_TVA)."</tr>";
   if ( $User->check_action(PARCA)==0) $compta->setReadonly(true);
-  echo "<tr>".$compta->input("p_compta",$array,"Utilisation de la compta. analytique")."</tr>";
+  echo "<tr>".td("Utilisation de la compta. analytique").$compta->input("p_compta",$array)."</tr>";
   if ( $User->check_action(PARSTR)==0) $strict->setReadonly(true);
-  echo "<tr>".$strict->input("p_strict",$strict_array,"Utilisation du mode strict ")."</tr>";
+  echo "<tr>".td("Utilisation du mode strict ").$strict->input("p_strict",$strict_array)."</tr>";
   if ( $User->check_action(PARTVA)==0) $tva_use->setReadonly(true);
-  echo "<tr>".$tva_use->input("p_tva_use",$strict_array,"Assujetti à la tva")."</tr>";
-  echo "<tr>".$pj_suggest->input("p_pj",$strict_array,"Suggérer le numéro de pièce justificative")."</tr>";
+  echo "<tr>".td("Assujetti à la tva").$tva_use->input("p_tva_use",$strict_array)."</tr>";
+  echo "<tr>".td("Suggérer le numéro de pièce justificative").$pj_suggest->input("p_pj",$strict_array)."</tr>";
 
   echo "</table>";
   echo HtmlInput::submit("record_company","Enregistre");

@@ -37,7 +37,8 @@ class Periode {
                                    open and CE for centralized */
   var $p_start;			/*!< start of the periode */
   var $p_end;			/*!< end of the periode */
-  function __construct($p_cn) {
+  function __construct($p_cn,$p_id=0) {
+	$this->id=$p_id;
     $this->cn=$p_cn;
   }
   function set_jrn($p_jrn) {
@@ -57,7 +58,10 @@ class Periode {
     $sql_end="select p_id from parm_periode where p_exercice=$1 order by p_end  DESC";
     $end=getDbValue($this->cn,$sql_end,array($p_exercice));
     return array("start"=>$start,"end"=>$end);
-  }
+	}
+	/*!\brief check if a periode is closed. If jrn_def_id is set to a no zero value then check only for this ledger 
+	*\return 1 is the periode is closed otherwise return 0
+	*/
   function is_closed() {
     if ( $this->jrn_def_id != 0 )
     $sql="select status from jrn_periode ".
@@ -310,28 +314,30 @@ class Periode {
   }
 /*! 
  * \brief Give the start & end date of a periode
- * 
- * \return array containing the start date & the end date
- *     
- *
+ * \param $p_periode is the periode id
+ * \return array containing the start date & the end date, index are p_start and p_end
  */ 
   public function get_date_limit($p_periode) {
     $sql="select to_char(p_start,'DD.MM.YYYY') as p_start,
               to_char(p_end,'DD.MM.YYYY')   as p_end
        from parm_periode
-         where p_id=".$p_periode;
-    $Res=ExecSql($this->cn,$sql);
+         where p_id=$1";
+    $Res=ExecSqlParam($this->cn,$sql,array($p_periode));
     if ( pg_NumRows($Res) == 0) return null;
     return pg_fetch_array($Res,0);
     
   }
-
+/*!\brief return the first day of periode
+*the this->p_id must be said
+*\return a string with the date (DD.MM.YYYY)
+*/
   public function first_day()  {
     list($p_start,$p_end)=$this->get_date_limit($this->p_id);
     return $p_start;
   }
-  function get_exercice() {
-    $sql="select p_exercice from parm_periode where p_id=".$this->id;
+  function get_exercice($p_id=0) {
+  if ( $p_id == 0 )  $p_id=$this->id;
+    $sql="select p_exercice from parm_periode where p_id=".$p_id;
     $Res=ExecSql($this->cn,$sql);
     if ( pg_NumRows($Res) == 0) return null;
     return pg_fetch_result($Res,0,0);
