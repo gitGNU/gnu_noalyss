@@ -26,7 +26,6 @@
 require_once("class_icheckbox.php");
 require_once("class_acc_ledger_purchase.php");
 require_once ('class_pre_op_ach.php');
-require_once ('check_priv.php');
 $gDossier=dossier::id();
 
 $p_action=(isset($_REQUEST['p_action']))?$_REQUEST['p_action']:'';

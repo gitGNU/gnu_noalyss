@@ -38,7 +38,6 @@ $User->Check();
 $User->check_dossier($gDossier);
 
 include_once ("user_menu.php");
-include_once ("check_priv.php");
 
 
 

@@ -36,7 +36,6 @@ $rep=DbConnect(dossier::id());
 include_once ("class_user.php");
 $User=new User($rep);
 $User->Check();
-require_once  ("check_priv.php");
 
 $cn=DbConnect($gDossier);
 

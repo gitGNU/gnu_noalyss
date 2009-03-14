@@ -33,7 +33,6 @@ require_once ('class_acc_reconciliation.php');
 require_once('ac_common.php');
 require_once('class_periode.php');
 
-require_once('check_priv.php');
 
 
 $cn=DbConnect(dossier::id());

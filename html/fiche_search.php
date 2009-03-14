@@ -50,7 +50,6 @@ include_once("jrn.php");
 require_once("class_ibutton.php");
 require_once('class_dossier.php');
 include_once ("class_user.php");
-// include_once ("check_priv.php");
 $gDossier=dossier::id();
 $cn=DbConnect($gDossier);
 

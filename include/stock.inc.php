@@ -28,7 +28,6 @@ require_once('class_dossier.php');
 include_once ("ac_common.php");
 include_once("postgres.php");
 include_once("stock_inc.php");
-include_once("check_priv.php");
 require_once('class_dossier.php');
 require_once('class_periode.php');
 $gDossier=dossier::id();

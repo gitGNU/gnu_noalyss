@@ -25,7 +25,6 @@
  */
 
 include_once ("ac_common.php");
-include_once("check_priv.php");
 require_once("class_iselect.php");
 require_once('class_dossier.php');
 $gDossier=dossier::id();

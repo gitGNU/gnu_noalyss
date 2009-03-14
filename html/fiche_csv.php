@@ -27,7 +27,6 @@ header('Content-Disposition: attachment;filename="fiche.csv"',FALSE);
 include_once ("ac_common.php");
 include_once('class_fiche.php');
 include_once ("postgres.php");
-include_once("check_priv.php");
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 

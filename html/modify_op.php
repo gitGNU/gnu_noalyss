@@ -26,7 +26,6 @@
 include_once ("ac_common.php");
 include_once ("poste.php");
 include_once("central_inc.php");
-include_once("check_priv.php");
 include_once("user_common.php");
 include_once ("postgres.php");
 include_once("jrn.php");

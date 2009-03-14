@@ -31,7 +31,6 @@ require_once('class_dossier.php');
 $gDossier=dossier::id();
 
 include_once ("postgres.php");
-include_once("check_priv.php");
 require_once("class_acc_ledger.php");
 $cn=DbConnect($gDossier);
 

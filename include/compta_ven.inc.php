@@ -25,12 +25,10 @@
  */
 require_once("class_icheckbox.php");
 require_once("class_acc_ledger_sold.php");
-require_once ('check_priv.php');
 require_once ('class_pre_op_ven.php');
 require_once ('class_document.php');
 require_once ('class_acc_ledger_info.php');
 $p_action=(isset($_REQUEST['p_action']))?$_REQUEST['p_action']:'';
-require_once ('check_priv.php');
 $gDossier=dossier::id();
 
 $cn=DbConnect(dossier::id());

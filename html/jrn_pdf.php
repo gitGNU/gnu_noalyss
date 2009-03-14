@@ -38,7 +38,6 @@ include_once("postgres.php");
 include_once("class.ezpdf.php");
 include_once("impress_inc.php");
 include_once("class_acc_ledger.php");
-include_once("check_priv.php");
 require_once ('header_print.php');
 require_once('class_own.php');
 require_once('class_periode.php');

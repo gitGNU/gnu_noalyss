@@ -23,7 +23,6 @@
 /*! \file
  * \brief Main page for the printing
  */
-require_once("check_priv.php");
 $str_dossier=dossier::get();
 // show sub menu
 

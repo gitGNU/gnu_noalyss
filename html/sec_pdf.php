@@ -29,7 +29,6 @@ $gDossier=dossier::id();
 include_once("ac_common.php");
 include_once("postgres.php");
 include_once("class.ezpdf.php");
-require_once("check_priv.php");
 echo_debug('sec_pdf.php',__LINE__,"imp pdf securité");
 $cn=DbConnect($gDossier);
 //-----------------------------------------------------
@@ -108,7 +107,7 @@ $Max=pg_NumRows($Res);
 for ( $i =0 ; $i < $Max; $i++ ) {
    $l_line=pg_fetch_array($Res,$i);
    $action['lib']=utf8_decode($l_line['ac_description']);
-   $right=check_action($gDossier,$SecUser->login,$l_line['ac_id']);
+   $right=$SecUser->check_action($l_line['ac_id']);
    switch ($right) {
    case 0:
      $action['priv']=utf8_decode("Pas d'accès");

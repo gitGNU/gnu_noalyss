@@ -27,7 +27,6 @@ require_once("class_ihidden.php");
 require_once('class_fiche.php');
 include_once ("postgres.php");
 include_once ("user_menu.php");
-require_once ("check_priv.php");
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 $str_dossier=dossier::get();

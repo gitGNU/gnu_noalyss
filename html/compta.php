@@ -58,7 +58,6 @@ require_once ('class_user.php');
 $User=new User($cn);
 $User->Check();
 
-require_once ("check_priv.php");
 include_once ("user_menu.php");
 echo '<div class="u_tmenu">';
 

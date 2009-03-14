@@ -19,7 +19,6 @@
 // Auteur Dany De Bontridder ddebontridder@yahoo.fr
 include_once ("ac_common.php");
 include_once ("postgres.php");
-include_once ("check_priv.php");
 require_once("class_fiche.php");
 require_once("class_fiche_def.php");
 

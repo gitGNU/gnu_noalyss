@@ -32,7 +32,6 @@ html_page_start($_SESSION['g_theme']);
 $gDossier=dossier::id();
 
 include_once ("postgres.php");
-include_once ("check_priv.php");
 /* Admin. Dossier */
 
 $cn=DbConnect($gDossier);

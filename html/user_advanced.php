@@ -18,7 +18,6 @@
 */
 // Auteur Dany De Bontridder ddebontridder@yahoo.fr
 include_once ("ac_common.php");
-require_once("check_priv.php");
 require_once('class_dossier.php');
 require_once ('class_pre_operation.php');
 /* $Revision$ */

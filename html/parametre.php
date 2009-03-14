@@ -47,7 +47,6 @@ echo menu_tool('parametre.php');
 
 echo   '<div style="float:left;background-color:#879ED4;width:100%;">';
 
-include_once ("check_priv.php");
 
 $authorized =0;
 foreach ( array(PARCA,PARPER,PARFIC,PARDOC,PARJRN,PARTVA,

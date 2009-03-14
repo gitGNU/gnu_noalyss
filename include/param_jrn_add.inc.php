@@ -42,7 +42,6 @@ $cn=DbConnect($gDossier);
 $User=new User($cn);
 $User->Check();
 $User->check_dossier($gDossier);
-include_once("check_priv.php");
 include_once ("user_menu.php");
 
 

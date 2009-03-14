@@ -25,7 +25,6 @@ include_once ("ac_common.php");
 require_once('class_dossier.php');
 $gDossier=dossier::id();
 include_once ("postgres.php");
-include_once("check_priv.php");
 require_once ('class_acc_account.php');
 /* Admin. Dossier */
 $rep=DbConnect();
