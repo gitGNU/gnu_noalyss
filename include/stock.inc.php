@@ -153,7 +153,7 @@ if ( $action == 'detail' ) {
       echo 'Entrer la valeur qui doit augmenter ou diminuer le stock';
       echo '<form action="?p_action=stock" method="POST">';
       echo ChangeStock($sg_code,$year);
-      echo '<input type="submit" name="sub_change" value="Ok">';
+      echo HtmlInput::submit("sub_change" ,"Ok");
 	  echo dossier::hidden();
       echo '</form>';
     }

@@ -24,7 +24,7 @@
  */
 include_once ("ac_common.php");
 require_once('class_acc_ledger.php');
-
+require_once('class_html_input.php');
 include_once ("postgres.php");
 include_once("jrn.php");
 /* Admin. Dossier */
@@ -84,7 +84,7 @@ echo '<TD> contient </TD>';
 if ( ! isset ($p_comment) ) $p_comment="";
 echo '<TD> <INPUT TYPE="text" name="p_comment" VALUE="'.$p_comment.'"></TD></TR>';
 echo '</TABLE>';
-echo '<INPUT TYPE="submit" name="search" value="cherche">';
+echo HtmlInput::submit('search','Cherche');
 echo '</FORM>';
 
 // if request search

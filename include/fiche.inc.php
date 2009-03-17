@@ -78,15 +78,15 @@ function ShowFicheDefInput($p_fiche_def)
   
   $r.= '<FORM action="?p_action=fiche" method="POST">';
   $r.=dossier::hidden();
-  $r.= '<INPUT TYPE="HIDDEN" NAME="fd_id" VALUE="'.$p_fiche_def->id.'">';
+  $r.=HtmlInput::hidden("fd_id",$p_fiche_def->id);
   
   $r.= $p_fiche_def->DisplayAttribut("remove");
-  $r.= ' <INPUT TYPE="SUBMIT" Value="Ajoute cet &eacute;l&eacute;ment" NAME="add_line">';
-  $r.= ' <INPUT TYPE="SUBMIT" Value="Sauver" NAME="save_line">';
+  $r.= HtmlInput::submit('add_line','Ajoutez cet élément');
+  $r.= HtmlInput::submit("save_line","Sauvez");
   $r.=HtmlInput::submit('remove_cat','Effacer cette catégorie','onclick="return confirm(\'Vous confirmez ?\')"');
   // if there is nothing to remove then hide the button
   if ( strpos ($r,"chk_remove") != 0 ) {
-    $r.=' <INPUT TYPE="SUBMIT" Value="Enleve les &eacute;l&eacute;ments coch&eacute;s" NAME="remove_line">';
+    $r.=HtmlInput::submit('remove_line',"Enleve les &eacute;l&eacute;ments coch&eacute;s" );
   }
   $r.= "</form>";
   $r.=" <p class=\"notice\"> Attention : il n'y aura pas de demande de confirmation pour enlèver les 
@@ -249,10 +249,10 @@ if ( isset ( $_GET["action"]) ) {
       echo '<form method="post" action="?p_action=fiche&action=vue&fiche='.$_GET['fiche'].$str.'">';
     echo dossier::hidden();
     echo $fiche->Display($t);
-    echo '<input type="hidden" name="f_id" value="'.$_GET['fiche_id'].'">';
+    echo HtmlInput::hidden("f_id",$_GET['fiche_id']);
     if ( $write != 0 ) {
-      echo '<input type="submit" name="update_fiche" value="Mise &agrave; jour">';
-      echo '<input type="submit" name="delete" value="Effacer cette fiche">';
+      echo HtmlInput::submit("update_fiche","Mise &agrave; jour");
+      echo HtmlInput::submit("delete" ,"Effacer cette fiche");
     }
     $str="";
 
@@ -335,7 +335,7 @@ if ( isset ($_POST["fiche"]) && isset ($_POST["add"] ) ) {
       echo '<form method="post" action="'.$url.'&fiche='.$_POST['fiche'].'">';
       echo dossier::hidden();
       echo $fiche->blank($_POST['fiche']);
-      echo '<input type="submit" name="add_fiche" value="Ajout">';
+      echo HtmlInput("add_fiche","Ajout");
       echo '<a class="mtitle" href="'.$url.'&fiche='.$_POST['fiche'].'&'.$str_dossier.'">'.
 	'<input type="button" value="Annuler"></A>';
 		

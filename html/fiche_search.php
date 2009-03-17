@@ -24,19 +24,25 @@
  * This parameter given to this file via the javascript popup windows are 
  * caller = searchcard
    *  - first  when is the first call it doesn't lookup directly
-   * - search
+   *  -  search
    * - p_jrn the ledger id
    * - PHPSESSID
    * - type  deb only the deb card from the ledger, cred means credit only, all the card, filter all the card of the ledger
    * - name of the control
    * - gDossier the dossier id
    * -the caller (what jascript function triggers this window)
+   *
  * caller = searchcardCtrl
    *  - first 
    * - searh
    * - p_jrn the ledger id
    * - PHPSESSID
-   * - type   deb only the deb card from the ledger, cred means credit only, all the card, filter all the card of the ledger 
+   * - type   
+   *     - deb only the deb card from the ledger, 
+   *      - cred means credit only, 
+   *       - all the card, 
+   *       - filter     get int the setting of the ledger the FD_ID 
+   *        - List of value (fd_id)
    * - name of the control
    * - ctrl the second control to set up
    * - gDossier the dossier id
@@ -72,19 +78,20 @@ if ( isset ( $_GET['search']) )
 
 function get_list_fiche($p_cn,$get,$p_jrn)
 {
-  $sql="select $get as fiche from jrn_def where jrn_def_id=$p_jrn";
-  $Res=ExecSql($p_cn,$sql);
+  $sql="select $1 as fiche from jrn_def where jrn_def_id=$2";
+  $Res=ExecSqlParam($p_cn,$sql,array($get,$p_jrn));
 
   // fetch it
   $Max=pg_NumRows($Res);
   if ( $Max==0) {
-    echo_warning("No rows");
+    echo_warning("Aucune fiche trouvée");
     exit();
   }
   // Normally Max must be == 1
   $list=pg_fetch_array($Res,0);
   if ( $list['fiche']=="") {
     echo_warning("Journal mal paramètré");
+	echo_warning('Changez-en les réglages dans paramètre->journaux');
     exit();
   }
   $list_fiche=$list['fiche'];
@@ -121,6 +128,8 @@ foreach ($_GET as $key=>$element) {
   ${"e_$key"}=$element;
 
 }
+extract($_GET,EXTR_PREFIX_ALL ,'e_');
+
 $e_fic_search=(isset ($_REQUEST['fic_search']))?$_REQUEST['fic_search']:"";
 
 $r.="<FORM METHOD=\"GET\" >";
@@ -128,8 +137,8 @@ $r.="Recherche : ".'<INPUT TYPE="TEXT" id="fic_search" NAME="fic_search" VALUE="
 if ( isset($_REQUEST['noadd' ])) $r.=HtmlInput::hidden('noadd','noadd');
 $r.='<INPUT TYPE="submit" name="search" value="Go">';
 if ( isset ($_REQUEST['p_jrn']))
-  echo HtmlInput::hidden('p_jrn',$_REQUEST ['p_jrn']);
-echo dossier::hidden();
+  $r.= HtmlInput::hidden('p_jrn',$_REQUEST ['p_jrn']);
+$r.= dossier::hidden();
 $r.="<div>";
 echo $r;
 $r="";
@@ -174,7 +183,7 @@ if (
     $list_fiche=$list_cred.','.$list_deb;
 
     if ( $list_fiche == ',' ) 
-      exit("Vous n'avez pas bien configure ce journal, vous devez aller dans Avance->Journal et indiquez les fiches utilisables");
+      exit("Vous n'avez pas bien configure ce journal, vous devez aller dans Paramètre->Journal et indiquez les fiches utilisables");
 
     $sql="select * from vw_fiche_attr where fd_id in ( $list_fiche )";
     
@@ -224,6 +233,7 @@ if (
   $r.="<span class=\"$class\">";
   $qcode=    $row['quick_code'] ;
 if ( $e_caller=='searchcard') {
+// SetData set the quickcode, name, price, and VAT
   $r.=sprintf ('<input name="%s" type="button" onClick="'."SetData('%s','%s','%s','%s','%s','%s','%s')".'" value="%s">',
         "select" . $i,
 	      $e_name,
@@ -236,6 +246,7 @@ if ( $e_caller=='searchcard') {
 	       $qcode
 	       );
 	} else {
+	//SetCtrl set only the quickcode and the label in the control given as parameter
 	$r.=sprintf ('<input name="%s" type="button" onClick="'."setCtrl('%s','%s','%s','%s')".'" value="%s">',
 		     "select" . $i,
 		     $e_name,

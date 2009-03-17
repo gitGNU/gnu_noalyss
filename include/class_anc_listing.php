@@ -38,7 +38,7 @@ class Anc_Listing extends Anc_Print {
   function display_form($p_string="") {
 	echo '<form method="get">';
 	$r=parent::display_form($p_string);
-	$r.='<input type="submit" name="result" value="Afficher">';
+	$r.=HtmlInput::submit('result','Afficher');
 	$r.= '</form>';
 	return $r;
 

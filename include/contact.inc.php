@@ -99,12 +99,12 @@ if ( $sub_action=="blank")
   $c=new contact($cn);
   echo '<form method="post" action="commercial.php"';
   echo dossier::hidden();
-  echo '<input type="hidden" name="p_action" value="client">';
-  echo '<input type="hidden" name="sa" value="insert">';
-  echo '<input type="hidden" name="fd_id" value="'.$_GET['fd_id'].'">';
-  echo '<input type="hidden" name="url" value="'.$_GET['url'].'">';
+  echo HtmlInput::hidden('p_action','client');
+  echo HtmlInput::hidden("sa","insert");
+  echo HtmlInput::hidden("fd_id",$_GET['fd_id']);
+  echo HtmlInput::hidden("url", $_GET['url']);;
   echo $c->blank($_GET['fd_id']);
-  echo '<input type="Submit" value="Sauve">';
+  echo HtmlInput::submit('Sauve','Sauve');
   echo '</form>';
   echo $retour_action;
   echo '</div>';

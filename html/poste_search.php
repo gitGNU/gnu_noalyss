@@ -135,7 +135,7 @@ echo 'Libellé ou poste comptable ';
 echo ' contient ';
 if ( ! isset ($p_comment) ) $p_comment="";
 echo ' <INPUT TYPE="text" name="p_comment" VALUE="'.$p_comment.'"></TD></TR>';
-echo '<INPUT TYPE="submit" name="search" value="cherche">';
+echo HtmlInput::submit('search','cherche');
 echo '</FORM>';
 echo '<p class="notice">Nombre de lignes affichées est limité</p>';
 // if request search

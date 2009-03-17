@@ -86,7 +86,7 @@ if ( isset ($_POST['annul']) ) {
 <p>
 <h2 class="info">Confirmation</h2>
 <br>
-	    <p><span class="error">Attention: l'effacement d'une op&eacute;ration peut rompre la s&eacute;quence de la num&eacute;rotation des factures surtout celles g&eacute;n&eacute;r&eacute;es automatiquement, soyez tr&egrave;s prudent quand vous effacez. La pi&egrave;ce jointe sera elle aussi effac&eacute;e. Si vous utilisez la comptabilit&eacute; analytique les op&eacute;rations li&eacute;es seront effac&eacute;es.
+	    <p><span class="error">Attention: l'effacement d'une op&eacute;ration peut rompre la s&eacute;quence de la num&eacute;rotation des factures  surtout celles g&eacute;n&eacute;r&eacute;es automatiquement ainsi que celle des pièces justificatives, soyez tr&egrave;s prudent quand vous effacez. La pi&egrave;ce jointe sera elle aussi effac&eacute;e. Si vous utilisez la comptabilit&eacute; analytique les op&eacute;rations li&eacute;es seront effac&eacute;es.
 </span>
 </p> 
 

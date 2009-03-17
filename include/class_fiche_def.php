@@ -340,8 +340,8 @@ class fiche_def {
 		       
       echo '<FORM METHOD="POST" action="?p_action=fiche&action=vue'.$str.'">';
 	  echo dossier::hidden();
-      echo '<INPUT TYPE="HIDDEN" name="fiche" value="'.$this->id.'">';
-      echo '<INPUT TYPE="SUBMIT" name="add" Value="Ajout fiche">';
+      echo HtmlInput::hidden("fiche",$this->id);
+      echo HtmlInput::submit('add','Ajout fiche');
       echo '</FORM>';
       $str_dossier=dossier::get();
       echo '<table>';
@@ -360,8 +360,8 @@ class fiche_def {
       echo '</table>';
       echo '<FORM METHOD="POST" action="?p_action=fiche&action=vue'.$str.'">';
 	  echo dossier::hidden();
-      echo '<INPUT TYPE="HIDDEN" name="fiche" value="'.$this->id.'">';
-      echo '<INPUT TYPE="SUBMIT" name="add" Value="Ajout fiche">';
+      echo HtmlInput::hidden("fiche",$this->id);
+      echo HtmlInput::submit('add','Ajout fiche');
       echo '</FORM>';
       echo $bar;
 
@@ -393,7 +393,7 @@ class fiche_def {
 	  $a=sprintf('Label</TD><TD><INPUT TYPE="TEXT" NAME="label" VALUE="%s">',
 		 $this->label);
 	  $r.=$a;
-	  $r.='</td><TD><input type="submit" NAME="change_name" value="Change Nom">';
+	  $r.='</td><TD>'.HtmlInput::submit('change_name','Change Nom');
 	} else {
 		if ( $str == "remove" ) {
 		  //Only for the not mandatory attribute (not defined in attr_min)

@@ -146,8 +146,8 @@ if ( $own->MY_TVA_USE=='N' ){
       echo "</TD>";
 
       echo "<TD>";
-      echo '<input type="submit" name="rm" value="Efface">';
-      echo '<input type="submit" name="mod" value="Modifie">';
+      echo HtmlInput::submit("rm" ,"Efface");
+      echo HtmlInput::submit("mod","Modifie");
       $w=new IHidden();
       $w->name="tva_id";
       $w->value=$row['tva_id'];
@@ -204,8 +204,8 @@ if (   ! isset ($_POST['add'])
 <?php  
     echo '<FORM method="post">';
     echo '<input type="hidden" name="tva_id" value="'.$index.'">';
-    echo '<input type="submit" name="confirm_rm" value="Confirme">';
-    echo '<input type="submit" value="Cancel" name="no">';
+    echo HtmlInput::submit("confirm_rm" ,"Confirme");
+    echo HtmlInput::submit("Cancel" ,"no");
     echo "</form>"; 
 
   }

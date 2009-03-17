@@ -71,7 +71,7 @@ if ( $ret != null) {
   echo HtmlInput::hidden('p_action','central');
   echo dossier::hidden();
   echo $ret;
-  echo '<INPUT TYPE="SUBMIT" name="central" VALUE="Centralise">';
+  echo HtmlInput::submit('central','Centralise');
   echo '</FORM>';
 } else {
   echo '<H2 class="info"> Aucune période à centraliser</H2>';

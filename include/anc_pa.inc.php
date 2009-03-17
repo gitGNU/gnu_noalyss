@@ -168,7 +168,7 @@ if ( isset($_REQUEST['sa']))
 
 		$ret.=$po->form();
 		$ret.=$wHidden->input();
-		$ret.='<input type="submit" value="Correction">';
+		$ret.=HtmlInput::submit('Correction','Correction');
 		$ret.=sprintf('<A class="mtitle" HREF="?p_action=ca_pa&sa=po_delete&po_id=%s&pa_id=%s&'.$str_dossier.'">'.
 					  '<input type="button" value="Efface" onClick="return confirm(\' Voulez-vous vraiment effacer ce poste\');"></A>',
 					  $po->id,

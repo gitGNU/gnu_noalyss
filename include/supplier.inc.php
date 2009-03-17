@@ -90,7 +90,7 @@ if ( $sub_action=="blank")
   echo '<input type="hidden" name="fd_id" value="'.$_GET['fd_id'].'">';
   echo dossier::hidden();
   echo $c->blank($_GET['fd_id']);
-  echo '<input type="Submit" value="Sauve">';
+  echo HtmlInput::submit("", "Sauve");
   echo '<input type="hidden" name="url" value="'.$_GET['url'].'">';
 
   echo '</form>';

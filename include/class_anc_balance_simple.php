@@ -158,7 +158,7 @@ class Anc_Balance_Simple extends Anc_Print {
   function display_form($p_string="") {
 	$r=parent::display_form($p_string);
 
-	$r.= '<input type="submit" value="Afficher">';
+	$r.= HtmlInput::submit('Affiche','Affiche');
 
 	return $r;
   }

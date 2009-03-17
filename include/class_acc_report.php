@@ -389,10 +389,11 @@ function form($p_line=0) {
     print_r($a);
     echo '<form method="post">';
     echo $a->form(10);
-    echo '<INPUT TYPE="submit" value="Enregistre" name="update">';
+    
+	echo HtmlInput::submit('update','Enregistre');
     /* Add a line should be a javascript see comptanalytic */
     //  $r.= '<INPUT TYPE="submit" value="Ajoute une ligne" name="add_line">';
-    echo '<INPUT TYPE="submit" value="Efface ce rapport" name="del_form">';
+    echo HtmlInput::submit('del_form','Efface ce rapport');
 	echo HtmlInput::hidden('test_select',$_REQUEST['test_select']);
     echo "</FORM>";
     if ( isset ($_POST['update'])) {

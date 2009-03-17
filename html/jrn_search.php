@@ -28,6 +28,7 @@ require_once("user_common.php");
 /* Admin. Dossier */
 $rep=DbConnect();
 include_once ("class_user.php");
+require_once('class_html_input.php');
 $User=new User($rep);
 $User->Check();
 
@@ -148,7 +149,7 @@ echo '<TD> <INPUT TYPE="text" name="p_internal" VALUE="'.$p_internal.'"></TD>';
 echo "</TR>";
 
 echo '</TABLE>';
-echo '<INPUT TYPE="submit" name="search" value="cherche">';
+echo HtmlInput::submit('search','cherche');
 echo '<input type="button" name="update_concerned" value="Mise à jour des réconciliation" onClick="updateJrn(\''.$p_ctl.'\')">';
 echo '</FORM>';
 echo '<div class="content">';

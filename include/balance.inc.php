@@ -102,7 +102,7 @@ echo " jusque :".$to_poste->input();
 echo $to_span->input();
 echo "</div>";
 
-echo '<input type="submit" name="view" value="Visualisation">';
+echo HtmlInput::submit("view","Visualisation");
 echo '</form>';
 echo '<hr>';
 //-----------------------------------------------------

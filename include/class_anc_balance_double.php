@@ -286,7 +286,7 @@ class Anc_Balance_Double extends Anc_Print
 	$r.='<span class="notice" style="display:block">Selectionnez le plan qui vous int&eacute;resse avant de cliquer sur Recherche</span>';
 
 	$r.='</span>';
-	$r.='<input type="SUBMIT" value="Afficher">';
+	$r.=HtmlInput::submit('Affiche','Affiche');
 	return $r;
   }
 /*! 

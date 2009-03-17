@@ -20,7 +20,7 @@
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
 /*! \file 
- * \brief
+ * \brief javascript for searching a card
  * 
  */
 /*!\brief open a windows for showing a card

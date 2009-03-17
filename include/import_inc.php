@@ -218,8 +218,8 @@ function ConfirmTransfert($p_cn,$periode){
   }
   echo '<form method="post" id="form_'.$i.'" action="import.php">';
   echo dossier::hidden();
-  echo '<input type="hidden" name="action" value="transfer">';
-  echo '<input type="submit" name="sub" value="Commencer le transfert">';
+  echo HtmlInput::hidden("action" ,"transfer");
+  echo HtmlInput::submit("sub","Commencer le transfert");
   echo '</form>';
 
 }
@@ -391,7 +391,7 @@ $w=new ISelect();
   $format_csv=make_array($p_cn,"select include_file,name from format_csv_banque;");
   $w->label="Format import";
   echo $w->label.$w->input('format_csv',$format_csv).'<br>';
-  echo '<INPUT TYPE="SUBMIT" Value="Import fiche">';
+  echo HtmlInput::submit("Import fiche","Import fiche");
   echo '</FORM>';
 }
 

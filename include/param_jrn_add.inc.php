@@ -155,8 +155,8 @@ echo dossier::hidden();
 echo HtmlInput::hidden('p_action','jrn');
 echo HtmlInput::hidden('sa','add');
 require_once('template/param_jrn.php');
-
-echo '<INPUT TYPE="SUBMIT" name="add" VALUE="Sauve"><INPUT TYPE="RESET" VALUE="Reset">';
+echo HtmlInput::submit('add','Sauver');
+echo '<INPUT TYPE="RESET" VALUE="Reset">';
 echo '</FORM>';
 echo "</DIV>";
 html_page_stop();

@@ -24,6 +24,7 @@
  *        but make sometimes the code more easy
  */
 require_once('class_fiche.php');
+require_once('class_html_input.php');
 
 /*!  
  ***************************************************
@@ -89,7 +90,7 @@ function CreateCategory ($p_cn,$p_js,$p_array=null,$p_ligne=1)
   }
   // closing the form
   $display.='</TABLE>';
-  $display.='<INPUT TYPE="SUBMIT" NAME="add_modele" VALUE="Sauve">';
+  $display.=HtmlInput::submit("add_modele" ,"Sauve");
   $display.='</FORM>';
 
   // display it

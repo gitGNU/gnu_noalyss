@@ -21,6 +21,7 @@ include_once ("ac_common.php");
 include_once ("postgres.php");
 require_once("class_fiche.php");
 require_once("class_fiche_def.php");
+require_once('class_html_input.php');
 
 /*! \file
  * \brief Create a new card in a popup window
@@ -72,7 +73,7 @@ function new_fiche($p_cn,$p_type) {
 
   $r.= '<H2 class="info"> '.$fiche_def->label.'<br>Nouveau </H2>';
   $r.= $fiche->blank($p_type);
-    $r.='<INPUT TYPE="SUBMIT" name="add_fiche" value="Mis à jour">';
+    $r.=HtmlInput::submit('add_fiche','Mise à jour');
 
     $r.='</FORM>';
     return $r;
@@ -179,7 +180,7 @@ if ( sizeof($a)>1 and !isset ($_POST['cat']))
 	     $element,$name);
     
   }
-    echo '<INPUT TYPE="SUBMIT" value="Choisir">';
+    echo HtmlInput::submit("chx","Choisir");
     echo "</FORM>";
   }
 ?>
