@@ -157,7 +157,7 @@ if ( isset ($_REQUEST['sa'] )) {
   $chk=new IRadio();
   $chk->name="t";
   $chk->value="d";
-  echo '<td>'.$chk->input()."Dossier".'</td>';
+  echo '<td> '.$chk->input()."Dossier".'</td>';
   echo '</tr><tr><td></td>';
   $chk->name="t";
   $chk->value="m";
@@ -166,9 +166,8 @@ if ( isset ($_REQUEST['sa'] )) {
   $file=new IFile();
   $file->name="file";
   $file->value="mod";
-  $file->label="Fichier";
-  $file->table=1;
-  echo $file->input();
+  echo td('Fichier ').
+    td($file->input());
   echo '</tr>';
   echo '</table>';
   echo HtmlInput::submit("","Restauration");

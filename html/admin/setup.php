@@ -76,14 +76,15 @@ if (isset($_POST['save_config'])) {
  }
 
 
-/* if the config file is not found we propose to create one */
-if ( is_writable ('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'constant.php') == false ) {
-echo '<h2 class="error"> On ne peut pas écrire dans le répertoire de phpcompta, changez-en les droits </h2>';
-exit();
-}
 if ( ! file_exists('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'config.inc.php')) {
+  /* if the config file is not found we propose to create one */
+  if ( is_writable ('..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'include'.DIRECTORY_SEPARATOR.'constant.php') == false ) {
+    echo '<h2 class="error"> On ne peut pas écrire dans le répertoire de phpcompta, changez-en les droits </h2>';
+    exit();
+  }
+
   echo '<form method="post">';
-echo '<h1 class="info">Entrez les informations n&eacute;cessaires &agrave; phpcompta</h1>';
+  echo '<h1 class="info">Entrez les informations n&eacute;cessaires &agrave; phpcompta</h1>';
   echo config_file_form();
   echo HtmlInput::submit('save_config','Sauver la configuration');
   echo '</form>';

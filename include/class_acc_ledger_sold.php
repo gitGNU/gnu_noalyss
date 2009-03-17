@@ -553,9 +553,9 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $l_user_per=$user->get_periode();
     $def=(isset($periode))?$periode:$l_user_per;
     
-	$period=new IPeriode("period");
-	$period->user=$User;
-	$period->cn=$cn;
+	$period=new IPeriod("period");
+	$period->user=$user;
+	$period->cn=$this->db;
 	$period->value=$def;
 	$period->type=OPEN;
 	$l_form_per=$period->input();

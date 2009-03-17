@@ -47,7 +47,7 @@ require_once('class_html_input.php');
 	 */ 
 	public function input($p_name=null,$p_value=null)
 	{
-		foreach ($a => array('type','cn') ){
+		foreach (array('type','cn') as $a){
 			if ( ! isset ($this->$a) ) throw ('Variable non définie '.$a);
 		}
 		$this->name=($p_name==null)?$this->name:$p_name;
@@ -68,7 +68,7 @@ require_once('class_html_input.php');
 		    $sql_closed="";
 		    break;
 		  default:
-		    throw("invalide p_type in "__FILE__.':'__LINE__);
+		    throw("invalide p_type in ".__FILE__.':'.__LINE__);
 		  }
 	  $sql="select p_id,to_char(p_start,'DD.MM.YYYY') as p_start_string,
 						to_char(p_end,'DD.MM.YYYY') as p_end_string 
@@ -83,9 +83,9 @@ require_once('class_html_input.php');
 		$cond.=" and p_exercice='".$this->user->get_exercice()."'";
 	   }
 	   $sql.="  order by p_start,p_end";
-	  $Res=ExecSql($p_cn,$sql);
+	  $Res=ExecSql($this->cn,$sql);
 	  $Max=pg_NumRows($Res);
-	  if ( $Max == 0 ) return throw ('no row found',2);
+	  if ( $Max == 0 )  throw ('no row found');
 	  $ret='<SELECT NAME="'.$this->name.'">';
 	  for ( $i = 0; $i < $Max;$i++) {
 	    $l_line=pg_fetch_array($Res,$i);
@@ -116,7 +116,7 @@ require_once('class_html_input.php');
 	/*!\brief print in html the readonly value of the widget*/
 	public function display()
  	{
-		$r="not implemented ".__FILE__.":"__LINE__;
+		$r="not implemented ".__FILE__.":".__LINE__;
 		return $r;
 
 	}

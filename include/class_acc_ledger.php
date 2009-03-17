@@ -27,6 +27,7 @@ require_once("class_idate.php");
 require_once("class_itext.php");
 require_once("class_iposte.php");
 require_once("class_icheckbox.php");
+require_once('class_iperiod.php');
 require_once('class_fiche.php');
 require_once('class_user.php');
 require_once ('class_dossier.php');

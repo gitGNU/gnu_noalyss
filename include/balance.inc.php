@@ -190,7 +190,7 @@ if ( isset($_POST['view'] ) ) {
     echo td($r['sum_deb']);
     echo td($r['sum_cred']);
     echo td($r['solde_deb']);
-    echo td('solde_cred']);
+    echo td($r['solde_cred']);
     echo '</TR>';
   }
   echo '</table>';

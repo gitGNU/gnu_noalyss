@@ -36,7 +36,7 @@ require_once('class_html_input.php');
 		$check=( $this->selected==true||$this->selected=='t' )?"checked":"unchecked";
 		$r='<input type="RADIO" name="'.$this->name.'"';
 		$r.=" VALUE=\"$this->value\"";
-		$r.="  $check";
+		$r.="  $check > ";
 		return $r;
 	}
 	/*!\brief print in html the readonly value of the widget*/

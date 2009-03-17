@@ -477,7 +477,7 @@ function sql_filter_per($p_cn,$p_from,$p_to,$p_form='p_id',$p_field='jr_tech_per
 	  $a_start=$pPeriode->get_date_limit($p_from);
       $a_end=$pPeriode->get_date_limit($p_to);
       if ( $a_start == null || $a_end == null  )
-		throw(__FILE__,__LINE__,'Attention periode '.
+		throw(__FILE__.__LINE__.'Attention periode '.
 			' non trouvee periode p_from='.$p_from.
 			'p_to_periode = '.$p_to);
 		
