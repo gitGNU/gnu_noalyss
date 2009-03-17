@@ -23,26 +23,26 @@
  *
  * This parameter given to this file via the javascript popup windows are 
  * caller = searchcard
-   *  - first  when is the first call it doesn't lookup directly
-   *  -  search
+   * - first  when is the first call it doesn't lookup directly
+   * - search
    * - p_jrn the ledger id
    * - PHPSESSID
    * - type  deb only the deb card from the ledger, cred means credit only, all the card, filter all the card of the ledger
    * - name of the control
    * - gDossier the dossier id
-   * -the caller (what jascript function triggers this window)
+   * - the caller (what jascript function triggers this window)
    *
- * caller = searchcardCtrl
-   *  - first 
+   *  caller = searchcardCtrl
+   * - first 
    * - searh
    * - p_jrn the ledger id
    * - PHPSESSID
    * - type   
    *     - deb only the deb card from the ledger, 
-   *      - cred means credit only, 
-   *       - all the card, 
-   *       - filter     get int the setting of the ledger the FD_ID 
-   *        - List of value (fd_id)
+   *     - cred means credit only, 
+   *     - all the card, 
+   *     - filter     get int the setting of the ledger the FD_ID 
+   *     - List of value (fd_id)
    * - name of the control
    * - ctrl the second control to set up
    * - gDossier the dossier id
