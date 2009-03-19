@@ -78,8 +78,9 @@ if ( isset ( $_GET['search']) )
 
 function get_list_fiche($p_cn,$get,$p_jrn)
 {
-  $sql="select $1 as fiche from jrn_def where jrn_def_id=$2";
-  $Res=ExecSqlParam($p_cn,$sql,array($get,$p_jrn));
+
+  $sql="select $get as fiche from jrn_def where jrn_def_id=$1";
+  $Res=ExecSqlParam($p_cn,$sql,array($p_jrn));
 
   // fetch it
   $Max=pg_NumRows($Res);
