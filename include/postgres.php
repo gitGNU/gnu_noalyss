@@ -347,8 +347,8 @@ function exist_sequence($p_cn,$p_name) {
     return false;
   return true;
 }
-function create_sequence($p_cn,$p_name) {
-  $sql="create sequence ".$p_name;
+function create_sequence($p_cn,$p_name,$min=1) {
+  $sql="create sequence ".$p_name." minvalue $min";
   ExecSql($p_cn,$sql);
 }
 
