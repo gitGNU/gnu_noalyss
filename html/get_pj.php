@@ -45,9 +45,8 @@ if ( ereg('^[0-9]+$',$l) == false ) {exit();}
 $cn=DbConnect(dossier::id());
 $Ledger=new Acc_Ledger($cn,$l);
 $prop=$Ledger->get_propertie();
-$pj_pref=$prop["jrn_def_pj_pref"];
-$pj_seq=$Ledger->get_last_pj();
-$string='{"pj":"'.$pj_pref.$pj_seq.'"}';
+$pj_seq=$Ledger->guess_pj();
+$string='{"pj":"'.$pj_seq.'"}';
 
 header("Content-type: text/json; charset: utf8",true);
 echo $string;
