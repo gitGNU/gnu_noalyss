@@ -83,7 +83,7 @@ if ( $def == 1 ) {
   if ( isset($_POST['save'])) {
     try {
       $Ledger->verify($_POST);
-    } catch (AcException $e) {
+    } catch (Exception $e) {
       alert($e->getMessage());
       $correct=1;
     }
@@ -107,7 +107,7 @@ if ( $def == 1 ) {
   if ( isset($_POST['confirm'])) {
     try {
       $Ledger->verify($_POST);
-    } catch (AcException $e) {
+    } catch (Exception $e) {
       alert($e->getMessage());
       $correct=1;
     }
@@ -140,7 +140,7 @@ if ( $def == 1 ) {
   $array=( isset($correct))?$_POST:null;
   // show select ledger
   echo $Ledger->display_form($array);
-  echo widget::button('add_item','Ajout article',   ' onClick="ledger_fin_add_row()"');
+  echo HtmlInput::button('add_item','Ajout article',   ' onClick="ledger_fin_add_row()"');
   echo HtmlInput::submit('save','Sauve');
   echo HtmlInput::reset('Effacer ');
 
