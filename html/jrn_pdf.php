@@ -41,12 +41,12 @@ include_once("class_acc_ledger.php");
 require_once ('header_print.php');
 require_once('class_own.php');
 require_once('class_periode.php');
-
-$periode=new Periode($p_cn);
+$cn=DbConnect($gDossier);
+$periode=new Periode($cn);
 
 
 echo_debug('jrn_pdf.php',__LINE__,"imp pdf journaux");
-$cn=DbConnect($gDossier);
+
 $l_type="JRN";
 $centr=" Non centralisé";
 $l_centr=0;

@@ -37,7 +37,6 @@ require_once ('class_acc_operation.php');
 require_once ('class_acc_account_ledger.php');
 require_once ('class_pre_op_advanced.php');
 require_once ('jrn.php');
-require_once ('class_acexception.php');
 require_once ('class_acc_reconciliation.php');
 require_once ('class_periode.php');
 require_once ('class_gestion_purchase.php');
@@ -439,7 +438,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
   function guess_pj() {
     $prop=$this->get_propertie();
     $pj_pref=$prop["jrn_def_pj_pref"];
-    $pj_seq=$this->get_last_pj();
+    $pj_seq=$this->get_last_pj()+1;
     return $pj_pref.$pj_seq;
   }
   /*!\brief Show all the operation, propose a form to select the
@@ -1145,7 +1144,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
    * \param $p_array array of data same layout that the $_POST from show_form
    * 
    *
-   * \return the return value are  0 ok,1 incorrect balance,  2 date
+   * \throw  the getcode  value is 1 incorrect balance,  2 date
    * invalid, 3 invalid amount,  4 the card is not in the range of
    * permitted card, 5 not in the user's period, 6 closed period
    * 
@@ -1157,21 +1156,31 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     $tot_cred=0;$tot_deb=0;
     // Check the periode and the date
     if ( isDate($date) == null ) { 
-      throw new AcException('Date invalide', 2);
+      throw new Exception('Date invalide', 2);
     }
-    list ($l_date_start,$l_date_end)=get_periode($this->db,$user->get_periode());
-  
-    // Date dans la periode active
-    if ( cmpDate($date,$l_date_start)<0 || 
-	 cmpDate($date,$l_date_end)>0 )
-      {
-	throw new AcException('Pas dans la periode active',5);
-      }
+	$periode=new Periode($this->db);	
+	/* find the periode  if we have enabled the check_periode*/
+	if ($this->check_periode()==false) {
+		$periode->find_periode($date);
+		} else {
+		$periode->id=$user->get_periode();
+		list ($l_date_start,$l_date_end)=$periode->get_date_limite();
+		 // Date dans la periode active
+	     if ( cmpDate($date,$l_date_start)<0 || 
+	          cmpDate($date,$l_date_end)>0 )
+	      {
+	       throw new Exception('Pas dans la periode active',5);
+	     }
+
+		}
+		
+
+	
     // Periode ferme 
-    if ( $this->is_closed($user->get_periode())==1 )
+    if ( $this->is_closed($periode->id)==1 )
       {
 	echo_debug(__FILE__.':'.__LINE__.'- verify',' the periode is closed ');
-	throw new AcException('Periode fermee',6);
+	throw new Exception('Periode fermee',6);
       }
     /* check if we are using the strict mode */
     if( $this->check_strict() == true) {
@@ -1179,7 +1188,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 	 operation */
       $last_date=$this->get_last_date();
       if ( cmpDate($date,$last_date) < 0 )
-	throw new AcException('Vous utilisez le mode strict la dernière operation est la date du '
+	throw new Exception('Vous utilisez le mode strict la dernière operation est la date du '
 			      .$last_date.' vous ne pouvez pas encoder à une date antérieure',15);
 
     }
@@ -1201,10 +1210,10 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 	  $f=new fiche($this->db);
 	  $f->quick_code=${'qc_'.$i};
 	  if ( $f->belong_ledger($p_jrn) < 0 )
-	    throw new AcException("La fiche quick_code = ".
+	    throw new Exception("La fiche quick_code = ".
 				  $f->quick_code." n\'est pas dans ce journal",4);
 	  if ( strlen(trim(${'qc_'.$i}))!=0 &&  isNumber(${'amount'.$i} ) == 0 )
-	    throw new AcException('Montant invalide',3);
+	    throw new Exception('Montant invalide',3);
 
 	}
 
@@ -1212,11 +1221,11 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 	if ( isset (${'poste'.$i}) && strlen (trim(${'poste'.$i})) != 0 ) {
 	  $p=new Acc_Account_Ledger($this->db,${'poste'.$i});
 	  if ( $p->belong_ledger ($p_jrn) < 0 )
-	    throw new AcException("Le poste ".$p->id." n\'est pas dans ce journal",5);
+	    throw new Exception("Le poste ".$p->id." n\'est pas dans ce journal",5);
 	  if ( strlen(trim(${'poste'.$i}))!=0 &&  isNumber(${'amount'.$i} ) == 0 )
-	    throw new AcException('Poste invalide',3);
+	    throw new Exception('Poste invalide',3);
 	  if ( $p->do_exist() == 0 )
-	    throw new AcException('Poste Inexistant',4);
+	    throw new Exception('Poste Inexistant',4);
 	}
 
 
@@ -1226,7 +1235,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     if ( $tot_deb != $tot_cred ) {
       /*      print_r('$tot_deb'.$tot_deb);
 	      print_r('$tot_cred'.$tot_cred); */
-      throw new AcException("Balance incorrecte debit = $tot_deb credit=$tot_cred ",1);
+      throw new Exception("Balance incorrecte debit = $tot_deb credit=$tot_cred ",1);
     }
        
   }
@@ -1275,6 +1284,12 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
       $tot_amount=0;
       $tot_deb=0;
       $tot_cred=0;
+	  $oPeriode=new Periode($cn);
+	  $check_periode=$this->check_periode();
+	  if ( $check_periode == false) {
+		$oPeriode->find_periode($date);
+	  } 
+	  
       $count=0;
       for ($i=0;$i<$nb_item;$i++) 
 	{
@@ -1293,6 +1308,8 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 	    $poste=${'poste'.$i};
 	  }
 	  $acc_op->date=$date;
+	  // compute the periode is do not check it
+	  if ($check_periode == false ) $acc_op->periode=$periode->id;
 	  $acc_op->desc=$desc;
 	  $acc_op->amount=round(${'amount'.$i},2);
 	  $acc_op->grpt=$seq;
@@ -1324,6 +1341,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
 	}// loop for each item
       $acc_end=new Acc_Operation($this->db);
       $acc_end->amount=$tot_deb;
+	  if ($check_periode == false ) $acc_end->periode=$periode->id;
       $acc_end->date=$date;
       $acc_end->desc=$desc;
       $acc_end->grpt=$seq;
@@ -1361,7 +1379,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
      
     }
 
-    catch (AcException $a) {
+    catch (Exception $a) {
       throw $a;
     } 
     catch (Exception $e) {
@@ -1510,12 +1528,23 @@ function check_strict() {
 	if ( $own->MY_STRICT=='N') return false;
 	exit("Valeur invalid ".__FILE__.':'.__LINE__);
 }
+/*!
+ *\brief Check if a Dossier is using the check on the periode, if true than the user has to enter the date 
+ * and the periode, it is a security check
+ * \return true if we are using the double encoding (date+periode)
+ */
+function check_periode() {
+	$own=new Own($this->db);
+	if ( $own->MY_CHECK_PERIODE=='Y') return true;
+	if ( $own->MY_CHECK_PERIODE=='N') return false;
+	exit("Valeur invalid ".__FILE__.':'.__LINE__);
+}
 
 /*!\brief get the date of the last operation
 */
 function get_last_date()
 {
-	if ( $this->id==0) throw AcException (__FILE__.":".__LINE__."Journal incorrect ");
+	if ( $this->id==0) throw new Exception (__FILE__.":".__LINE__."Journal incorrect ");
 	$sql="select to_char(max(jr_date),'DD.MM.YYYY') from jrn where jr_def_id=$1";
 	$date=getDbValue($this->db,$sql,array($this->id));
 	return $date;
@@ -1563,11 +1592,11 @@ function get_last_date()
       $empl=new fiche($this->db);
       $empl->get_by_qcode($e_mp_qcode);
       if ( $empl->empty_attribute(ATTR_DEF_ACCOUNT)== true) {
-	throw new AcException('Celui qui paie n\' a pas de poste comptable',20);
+	throw new Exception('Celui qui paie n\' a pas de poste comptable',20);
       }
       $poste=new Acc_Account_Ledger($this->db,$empl->strAttribut(ATTR_DEF_ACCOUNT));
       if ( $poste->load() == false ){
-	throw new AcException('Pour la fiche'.$empl->quick_code.'  le poste comptable ['.$poste->id.'n\'existe pas',9);
+	throw new Exception('Pour la fiche'.$empl->quick_code.'  le poste comptable ['.$poste->id.'n\'existe pas',9);
 
       }
     }
@@ -1629,7 +1658,7 @@ function get_last_date()
       $array['save_opd']=1;
       try {
 	$a->save($array);
-      } catch (AcException $e) {
+      } catch (Exception $e) {
 	alert($e->getMessage());
 	echo '<form method="post">';
 

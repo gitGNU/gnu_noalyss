@@ -41,39 +41,41 @@ class Acc_Ledger_Fin extends Acc_Ledger {
   /*!\brief verify that the data are correct before inserting or confirming
    *\param an array (usually $_POST)
    *\return String
-   *\note return an AcException if an error occurs
+   *\throw Exception on error occurs
    */
   public function verify($p_array) {
     extract ($p_array);
     /* check if there is a customer */
     if ( strlen(trim($e_bank_account)) == 0 ) 
-      throw new AcException('Vous n\'avez pas donné de banque',11);
+      throw new Exception('Vous n\'avez pas donné de banque',11);
 
     /*  check if the date is valid */
     if ( isDate($e_date) == null ) {
-      throw new AcException('Date invalide', 2);
+      throw new Exception('Date invalide', 2);
     }
-
+	$oPeriode=new Periode($this->db);
+	if ($this->check_periode()==false) {
+			$periode=$oPeriode->find_periode($e_date);
+	} else {
+		$oPeriode->id=$periode;
+	    list ($min,$max)=$oPeriode->get_date_limit();
+	    if ( cmpDate($e_date,$min) < 0 ||
+		 cmpDate($e_date,$max) > 0) 
+		throw new Exception('Date et periode ne correspondent pas',6);
+	}
+	
     /* check if the periode is closed */
     if ( $this->is_closed($periode)==1 )
       {
-	throw new AcException('Periode fermee',6);
+	throw new Exception('Periode fermee',6);
       }
-
-    /* check that the datum is in the choosen periode */
-    $per=new Periode($this->db);
-    list ($min,$max)=$per->get_date_limit($periode);
-    if ( cmpDate($e_date,$min) < 0 ||
-	 cmpDate($e_date,$max) > 0) 
-	throw new AcException('Date et periode ne correspondent pas',6);
-
     /* check if we are using the strict mode */
     if( $this->check_strict() == true) {
       /* if we use the strict mode, we get the date of the last
 	 operation */
       $last_date=$this->get_last_date();
       if ( cmpDate($e_date,$last_date) < 0 )
-	throw new AcException('Vous utilisez le mode strict la dernière operation est à la date du '
+	throw new Exception('Vous utilisez le mode strict la dernière operation est à la date du '
 			      .$last_date.' vous ne pouvez pas encoder à une date antérieure',15);
 
     }
@@ -83,19 +85,19 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $fiche=new fiche($this->db);
     $fiche->get_by_qcode($e_bank_account);
     if ( $fiche->empty_attribute(ATTR_DEF_ACCOUNT) == true)
-      throw new AcException('La fiche '.$e_bank_account.'n\'a pas de poste comptable',8);
+      throw new Exception('La fiche '.$e_bank_account.'n\'a pas de poste comptable',8);
 
     /* The account exists */
     $poste=new Acc_Account_Ledger($this->db,$fiche->strAttribut(ATTR_DEF_ACCOUNT));
     if ( $poste->load() == false ){
-      throw new AcException('Pour la fiche '.$e_bank_account.' le poste comptable ['.$poste->id.'] n\'existe pas',9);
+      throw new Exception('Pour la fiche '.$e_bank_account.' le poste comptable ['.$poste->id.'] n\'existe pas',9);
     }
 
     /* Check if the card belong to the ledger */
     $fiche=new fiche ($this->db);
     $fiche->get_by_qcode($e_bank_account);
     if ( $fiche->belong_ledger($p_jrn,'deb') !=1 )
-	throw new AcException('La fiche '.$e_bank_account.'n\'est pas accessible à ce journal',10);
+	throw new Exception('La fiche '.$e_bank_account.'n\'est pas accessible à ce journal',10);
 
     $nb=0;
     $tot_amount=0;
@@ -106,7 +108,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
       if ( strlen(trim(${'e_other'.$i}))== 0) continue;
       /* check if amount are numeric and */
       if ( isNumber(${'e_other'.$i.'_amount'}) == 0 )
-	throw new AcException('La fiche '.${'e_other'.$i}.'a un montant invalide ['.${'e_other'.$i}.']',6);
+	throw new Exception('La fiche '.${'e_other'.$i}.'a un montant invalide ['.${'e_other'.$i}.']',6);
 
       /* compute the total */
       $tot_amount+=round(${'e_other'.$i.'_amount'},2);
@@ -115,21 +117,21 @@ class Acc_Ledger_Fin extends Acc_Ledger {
       $fiche=new fiche($this->db);
       $fiche->get_by_qcode(${'e_other'.$i});
       if ( $fiche->empty_attribute(ATTR_DEF_ACCOUNT) == true)
-	throw new AcException('La fiche '.${'e_other'.$i}.'n\'a pas de poste comptable',8);
+	throw new Exception('La fiche '.${'e_other'.$i}.'n\'a pas de poste comptable',8);
       /* The account exists */
       $poste=new Acc_Account_Ledger($this->db,$fiche->strAttribut(ATTR_DEF_ACCOUNT));
       if ( $poste->load() == false ){
-	throw new AcException('Pour la fiche '.${'e_other'.$i}.' le poste comptable ['.$poste->id.'n\'existe pas',9);
+	throw new Exception('Pour la fiche '.${'e_other'.$i}.' le poste comptable ['.$poste->id.'n\'existe pas',9);
       }
       /* Check if the card belong to the ledger */
       $fiche=new fiche ($this->db);
       $fiche->get_by_qcode(${'e_other'.$i});
       if ( $fiche->belong_ledger($p_jrn,'cred') !=1 )
-	throw new AcException('La fiche '.${'e_other'.$i}.'n\'est pas accessible à ce journal',10);
+	throw new Exception('La fiche '.${'e_other'.$i}.'n\'est pas accessible à ce journal',10);
       $nb++;
     }
     if ( $nb == 0 )
-      throw new AcException('Il n\'y a aucune opération',12);
+      throw new Exception('Il n\'y a aucune opération',12);
 
     /* Check if the last_saldo and first_saldo are correct */
     if ( strlen(trim($last_sold)) != 0 && isNumber($last_sold) &&
@@ -140,7 +142,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	$diff=round($diff,2)-round($tot_amount,2);
 	if ( $first_sold != 0 && $last_sold !=0) {
 	  if ( $diff != 0 )
-	    throw new AcException('Le montant de l\'extrait est incorrect'.
+	    throw new Exception('Le montant de l\'extrait est incorrect'.
 				  $tot_amount.' extrait '.$diff,13);
 	}
       }
@@ -187,21 +189,22 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $Date->tabindex=1;
     $r.="<tr>";
     $r.='<td>Date : </td><td>'.$Date->input().'</td>';
-    // Periode 
-    //--
-    $l_user_per=(isset($periode))?$periode:$user->get_periode();
-	$period=new IPeriod();
-	$period->cn=$this->db;
-	$period->type=OPEN;
-	$period->value=$l_user_per;
-	$period->user=$user;
 	
-    
-	$l_form_per=$period->input();
-    $r.="<td class=\"input_text\">";
-    $label=HtmlInput::infobulle(3);
-    $r.="Période comptable $label</td><td>".$l_form_per;
-    $r.="</td>";
+	if ($this->check_periode() == true) {
+	    // Periode 
+	    //--
+	    $l_user_per=(isset($periode))?$periode:$user->get_periode();
+		$period=new IPeriod();
+		$period->cn=$this->db;
+		$period->type=OPEN;
+		$period->value=$l_user_per;
+		$period->user=$user;
+		$l_form_per=$period->input();
+		$r.="<td class=\"input_text\">";
+		$label=HtmlInput::infobulle(3);
+		$r.="Période comptable $label</td><td>".$l_form_per;
+		$r.="</td>";
+		}
     $r.="</tr>";
     // Ledger (p_jrn)
     //--
@@ -369,9 +372,14 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $r="";
     bcscale(2);
     extract ($p_array);
-    $pPeriode=new Periode($this->db);
-    $pPeriode->id=$periode;
-    list ($l_date_start,$l_date_end)=$pPeriode->get_date_limit($periode);
+	$pPeriode=new Periode($this->db);
+	if ($this->check_periode() == true) {
+			$pPeriode->id=$periode;
+		} else {
+			$pPeriode->find_periode($e_date);
+		}
+	
+    list ($l_date_start,$l_date_end)=$pPeriode->get_date_limit();
     $exercice=$pPeriode->get_exercice();
     $r.='';
     $r.='<fieldset><legend>Banque, caisse </legend>';
@@ -538,7 +546,11 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     $fBank->get_by_qcode($e_bank_account);
     // Get the saldo
     $pPeriode=new Periode($this->db);
-    $pPeriode->id=$periode;
+	if ( $this->check_periode() == true ) {
+		$pPeriode->id=$periode;
+	} else {
+		$pPeriode->find_periode($e_date);
+		}
     $exercice=$pPeriode->get_exercice();
 
     $filter_year=" and j_tech_per in (select p_id from parm_periode where  p_exercice='".$exercice."')";

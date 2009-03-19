@@ -208,7 +208,7 @@ if ( isset ($_GET['use_opd'])) {
 if ( isset($_POST['summary'])) {
   try {
     $ledger->verify($_POST );
-  } catch (AcException $e) {
+  } catch (Exception $e) {
     alert($e->getMessage());
     show_qw_menu();
     show_direct_form($cn,$ledger,$_POST);
@@ -247,7 +247,7 @@ if ( isset($_POST['save_it' ])) {
 			     '&p_action=quick_writing&p_jrn='.
 			     $_REQUEST['p_jrn']);
 			     
-  } catch (AcException $e) {
+  } catch (Exception $e) {
     alert ($e->getMessage());
     show_qw_menu();
     show_direct_form($cn,$ledger,$_POST);

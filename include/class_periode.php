@@ -314,10 +314,11 @@ class Periode {
   }
 /*! 
  * \brief Give the start & end date of a periode
- * \param $p_periode is the periode id
+ * \param $p_periode is the periode id, if omitted the value is the current value
  * \return array containing the start date & the end date, index are p_start and p_end
  */ 
-  public function get_date_limit($p_periode) {
+  public function get_date_limit($p_periode = 0) {
+  if ( $p_periode == 0 ) $p_periode=$this->id;
     $sql="select to_char(p_start,'DD.MM.YYYY') as p_start,
               to_char(p_end,'DD.MM.YYYY')   as p_end
        from parm_periode
@@ -342,6 +343,23 @@ class Periode {
     if ( pg_NumRows($Res) == 0) return null;
     return pg_fetch_result($Res,0,0);
 
+  }
+/*!\brief retrieve the periode thanks the date_end
+*\param date format DD.MM.YYYY
+ * \return the periode id 
+ *\exception if not periode is found or if more than one periode is found
+ */
+  function find_periode($p_date) {
+	$sql="select p_id from parm_periode where p_start <= to_date($1,'DD.MM.YYYY') and p_end >= to_date($1,'DD.MM.YYYY') ";
+	$ret=ExecSqlParam($this->cn,$sql,array($p_date));
+	$nb_periode=pg_NumRows($ret);
+	if (  $nb_periode == 0 )
+		throw  (new Exception('Aucune période trouvée',101));
+	if ( $nb_periode > 1 ) 
+		throw  (new Exception("Trop de périodes trouvées $nb_periode pour $p_date",100));
+	$per=pg_fetch_result($ret,0);
+	$this->id=$per;
+	return $per;
   }
   static function test_me() {
     $cn=DbConnect(dossier::id());

@@ -49,31 +49,37 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
   /*!\brief verify that the data are correct before inserting or confirming
    *\param an array (usually $_POST)
    *\return String
-   *\note return an AcException if an error occurs
+   *\throw Exception if an error occurs
    */
   public function verify($p_array) {
     extract ($p_array);
     /* check if there is a customer */
     if ( strlen(trim($e_client)) == 0 ) 
-      throw new AcException('Vous n\'avez pas donné de fournisseur',11);
+      throw new Exception('Vous n\'avez pas donné de fournisseur',11);
 
     /*  check if the date is valid */
     if ( isDate($e_date) == null ) {
-      throw new AcException('Date invalide', 2);
+      throw new Exception('Date invalide', 2);
     }
-
+	$oPeriode=new Periode($this->db);
+	if ( $this->check_periode() == false) {
+		$tperiode=$oPeriode->find_periode($e_date);
+	}else {
+		$tperiode=$period;
+		$oPeriode->id=$period;
+		/* check that the datum is in the choosen periode */
+        list ($min,$max)=$Operiode->get_date_limit($tperiode);
+	    if ( cmpDate($e_date,$min) < 0 ||
+		 cmpDate($e_date,$max) > 0) 
+		throw new Exception('Date et periode ne correspondent pas',6);
+	}
     /* check if the periode is closed */
-    if ( $this->is_closed($periode)==1 )
+    if ( $this->is_closed($tperiode)==1 )
       {
-	throw new AcException('Periode fermee',6);
+	throw new Exception('Periode fermee',6);
       }
 
-    /* check that the datum is in the choosen periode */
-    $per=new Periode($this->db);
-    list ($min,$max)=$per->get_date_limit($periode);
-    if ( cmpDate($e_date,$min) < 0 ||
-	 cmpDate($e_date,$max) > 0) 
-	throw new AcException('Date et periode ne correspondent pas',6);
+    
 
 
     /* check if we are using the strict mode */
@@ -82,7 +88,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 	 operation */
       $last_date=$this->get_last_date();
       if ( cmpDate($e_date,$last_date) < 0 )
-	throw new AcException('Vous utilisez le mode strict la dernière operation est à la date du '
+	throw new Exception('Vous utilisez le mode strict la dernière operation est à la date du '
 			      .$last_date.' vous ne pouvez pas encoder à une '.
 			      ' date antérieure dans ce journal',13);
 
@@ -92,19 +98,19 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $fiche=new fiche($this->db);
     $fiche->get_by_qcode($e_client);
     if ( $fiche->empty_attribute(ATTR_DEF_ACCOUNT) == true)
-      throw new AcException('La fiche '.$e_client.'n\'a pas de poste comptable',8);
+      throw new Exception('La fiche '.$e_client.'n\'a pas de poste comptable',8);
 
     /* The account exists */
     $poste=new Acc_Account_Ledger($this->db,$fiche->strAttribut(ATTR_DEF_ACCOUNT));
     if ( $poste->load() == false ){
-      throw new AcException('Pour la fiche '.$e_client.' le poste comptable ['.$poste->id.'] n\'existe pas',9);
+      throw new Exception('Pour la fiche '.$e_client.' le poste comptable ['.$poste->id.'] n\'existe pas',9);
     }
 
     /* Check if the card belong to the ledger */
     $fiche=new fiche ($this->db);
     $fiche->get_by_qcode($e_client,'cred');
     if ( $fiche->belong_ledger($p_jrn) !=1 )
-	throw new AcException('La fiche '.$e_client.'n\'est pas accessible à ce journal',10);
+	throw new Exception('La fiche '.$e_client.'n\'est pas accessible à ce journal',10);
 
     $nb=0;
     //------------------------------------------------------
@@ -120,29 +126,29 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
       if ( strlen(trim(${'e_march'.$i}))== 0) continue;
       /* check if amount are numeric and */
       if ( isNumber(${'e_march'.$i.'_price'}) == 0 )
-	throw new AcException('La fiche '.${'e_march'.$i}.'a un montant invalide ['.${'e_march'.$i}.']',6);
+	throw new Exception('La fiche '.${'e_march'.$i}.'a un montant invalide ['.${'e_march'.$i}.']',6);
       if ( isNumber(${'e_quant'.$i}) == 0 )
-	throw new AcException('La fiche '.${'e_march'.$i}.'a une quantité invalide ['.${'e_quant'.$i}.']',7);
+	throw new Exception('La fiche '.${'e_march'.$i}.'a une quantité invalide ['.${'e_quant'.$i}.']',7);
 
       /* check if all card has a ATTR_DEF_ACCOUNT*/
       $fiche=new fiche($this->db);
       $fiche->get_by_qcode(${'e_march'.$i});
       if ( $fiche->empty_attribute(ATTR_DEF_ACCOUNT) == true)
-	throw new AcException('La fiche '.${'e_march'.$i}.'n\'a pas de poste comptable',8);
+	throw new Exception('La fiche '.${'e_march'.$i}.'n\'a pas de poste comptable',8);
       /* The account exists */
       $poste=new Acc_Account_Ledger($this->db,$fiche->strAttribut(ATTR_DEF_ACCOUNT));
       if ( $poste->load() == false ){
-	throw new AcException('Pour la fiche '.${'e_march'.$i}.' le poste comptable ['.$poste->id.'n\'existe pas',9);
+	throw new Exception('Pour la fiche '.${'e_march'.$i}.' le poste comptable ['.$poste->id.'n\'existe pas',9);
       }
       /* Check if the card belong to the ledger */
       $fiche=new fiche ($this->db);
       $fiche->get_by_qcode(${'e_march'.$i});
       if ( $fiche->belong_ledger($p_jrn,'deb') !=1 )
-	throw new AcException('La fiche '.${'e_march'.$i}.'n\'est pas accessible à ce journal',10);
+	throw new Exception('La fiche '.${'e_march'.$i}.'n\'est pas accessible à ce journal',10);
       $nb++;
     }
     if ( $nb == 0 )
-      throw new AcException('Il n\'y a aucune marchandise',12);
+      throw new Exception('Il n\'y a aucune marchandise',12);
   }
 
   public function save() {
@@ -152,7 +158,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
   /*!\brief insert into the database, it calls first the verify function
    *\param $p_array is usually $_POST or a predefined operation
    *\return string
-   *\note throw an AcException
+   *\note throw an Exception
    */
   public function insert($p_array) {
     extract ($p_array);
@@ -166,6 +172,14 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $cust=new fiche($this->db);
     $cust->get_by_qcode($e_client);
     $poste=$cust->strAttribut(ATTR_DEF_ACCOUNT);
+	$oPeriode=new Periode($this->db);
+	$check_periode=$this->check_periode();
+	
+	if ( $check_periode == true ) 
+		$tperiode=$periode;
+	else 
+		$tperiode=$oPeriode->find_periode($e_date);
+		
     bcscale(4);
     try {
       $tot_amount=0;
@@ -219,7 +233,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 	$acc_operation->grpt=$seq;
 	$acc_operation->jrn=$p_jrn;
 	$acc_operation->type='d';
-	$acc_operation->periode=$periode;
+	$acc_operation->periode=$tperiode;
 	$acc_operation->qcode="";
 
 	 
@@ -340,7 +354,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $acc_operation->grpt=$seq;
     $acc_operation->jrn=$p_jrn;
     $acc_operation->type='c';
-    $acc_operation->periode=$periode;
+    $acc_operation->periode=$tperiode;
     $acc_operation->qcode=${"e_client"};
     if ( $cust_amount < 0 ) $tot_debit=bcadd($tot_debit,abs($cust_amount));
     $acc_operation->insert_jrnx();
@@ -484,7 +498,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
       $acc_pay->desc=$e_comm;
       $acc_pay->grpt=$acseq;
       $acc_pay->jrn=$mp->get_parameter('ledger');
-      $acc_pay->periode=$periode;
+      $acc_pay->periode=$tperiode;
       $acc_pay->type='c';
       $acc_pay->insert_jrnx();
 
@@ -497,7 +511,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
       $acc_pay->desc=$e_comm;
       $acc_pay->grpt=$acseq;
       $acc_pay->jrn=$mp->get_parameter('ledger');
-      $acc_pay->periode=$periode;
+      $acc_pay->periode=$tperiode;
       $acc_pay->type='d';
       $acc_pay->insert_jrnx();
       
@@ -523,7 +537,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 	echo '<span class="error">'.
 	  'Erreur dans l\'enregistrement '.
 	  __FILE__.':'.__LINE__.' '.
-	  $e->getMessage();
+	  $e->getMessage().$e->getTrace();
 	Rollback($this->db);
 	exit();
       }
@@ -671,24 +685,26 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $Echeance->tabindex=2;
     $label=HtmlInput::infobulle(4);
     $r.=$Echeance->input("e_ech",$e_ech,"Echeance ".$label);
-
-    // Periode 
-    //--
-    $l_user_per=$user->get_periode();
-    $def=(isset($periode))?$periode:$l_user_per;
-	
-	$period=new IPeriode("period");
-	$period->user=$User;
-	$period->cn=$cn;
-	$period->value=$def;
-	$period->type=OPEN;
-	$l_form_per=$period->input();
-    
-    $r.="<td class=\"input_text\">";
-    $label=HtmlInput::infobulle(3);
-    $r.="Période comptable $label</td><td>".$l_form_per;
-    $r.="</td>";
+	if ($this->check_periode() == true) {
+	    // Periode 
+	    //--
+	    $l_user_per=$user->get_periode();
+	    $def=(isset($periode))?$periode:$l_user_per;
+		
+		$period=new IPeriode("period");
+		$period->user=$User;
+		$period->cn=$cn;
+		$period->value=$def;
+		$period->type=OPEN;
+		$l_form_per=$period->input();
+	    
+	    $r.="<td class=\"input_text\">";
+	    $label=HtmlInput::infobulle(3);
+	    $r.="Période comptable $label</td><td>".$l_form_per;
+	    $r.="</td>";
+		}
     $r.="</tr><tr>";
+	
     // Ledger (p_jrn)
     //--
     /* if we suggest the next pj, then we need a javascript */
@@ -977,7 +993,12 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
       $client->strAttribut(ATTR_DEF_CP).' '.
       $client->strAttribut(ATTR_DEF_CITY));
     $lPeriode=new Periode($this->db);
-    $date_limit=$lPeriode->get_date_limit($periode);
+	if ($this->check_periode() == true) {
+			$lPeriode->id=$periode;
+		} else {
+			$lPeriode->find_periode($e_date);
+		}
+    $date_limit=$lPeriode->get_date_limit();
     $r="";
     $r.="<fieldset>";
     $r.="<legend>En-tête facture fournisseur  </legend>";

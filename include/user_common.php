@@ -510,7 +510,7 @@ function InsertStockGoods($p_cn,$p_j_id,$p_good,$p_quant,$p_type)
   $f_id=$r['f_id'];
   $user=new User($p_cn);
   $exercice=$user->get_exercice();
-  if ( $exercice == 0 ) throw Exception ('Annee invalide erreur');
+  if ( $exercice == 0 ) throw new Exception ('Annee invalide erreur');
 
 
   $Res=ExecSql($p_cn,"insert into stock_goods (

@@ -85,7 +85,7 @@ if ( $def==1 || $def == 4 ) {
     $Ledger=new Acc_Ledger_Purchase($cn,$_POST['p_jrn']);
     try { 
       $Ledger->verify($_POST);
-    } catch (AcException $e){
+    } catch (Exception $e){
       alert($e->getMessage());
       $correct=1;
     }
@@ -120,7 +120,7 @@ if ( $def==1 || $def == 4 ) {
     $Ledger=new Acc_Ledger_Purchase($cn,$_POST['p_jrn']);
     try { 
       $Ledger->verify($_POST);
-    } catch (AcException $e){
+    } catch (Exception $e){
       alert($e->getMessage());
       $correct=1;
     }

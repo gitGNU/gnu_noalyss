@@ -55,7 +55,7 @@ if ( isset ($_POST["update"] ) ) {
     // Check if the data are correct 
     try {
       $acc->check() ; 
-    }catch (AcException $e) {
+    }catch (Exception $e) {
       $message="Valeurs invalides, pas de changement \n ".
 	$e->getMessage();
 	      echo '<script> alert(\''.$message.'\'); 

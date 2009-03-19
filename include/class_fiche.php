@@ -485,7 +485,7 @@ class fiche {
 		if ( $st == 0 ) {
 		  $user=new User($this->cn);
 		  $exercice=$user->get_exercice();
-		  if ( $exercice == 0 ) throw Exception ('Annee invalide erreur');
+		  if ( $exercice == 0 ) throw new Exception ('Annee invalide erreur');
 
 		  $str_stock=sprintf('insert into stock_goods(f_id,sg_quantity,sg_comment,sg_code,sg_type,sg_exercice) '.
 				     ' values (%d,0,\'%s\',upper(\'%s\'),\'d\',\'%s\')',
@@ -642,7 +642,7 @@ class fiche {
 		if ( $st == 0 ) {
 		  $user=new User($this->cn);
 		  $exercice=$user->get_exercice();
-		  if ( $exercice == 0 ) throw Exception ('Annee invalide erreur');
+		  if ( $exercice == 0 ) throw new Exception ('Annee invalide erreur');
 
                   $str_stock=sprintf('insert into stock_goods(f_id,sg_quantity,sg_comment,sg_code,sg_type,sg_exercice) '.
                                      ' values (%d,0,\'%s\',upper(\'%s\'),\'d\',\'%s\')',

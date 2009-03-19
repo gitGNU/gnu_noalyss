@@ -37,7 +37,7 @@
  * <li>Global -> function pour lire toute la doc sur les fonctions</li>
  * <li>Regarder dans dossier1.html et account_repository.html  pour la doc des base de données
  *</ul>
- *  et il ne faut connaître que 7 tags
+ *  et il ne faut connaître que 9 tags
  * <ul>
  * <li> \\file en début de fichier</li>
  * <li> \\todo ajouter un todo </li>
@@ -45,6 +45,8 @@
  * <li> \\param pour commenter le paramètre d'une fonction</li>
  * <li> \\brief Commentaire du fichier, de la fonction ou de la classe</li>
  * <li> \\note des notes, des exemples</li>
+ * <li> \\throw or exception is a function can throw an exception
+ * <li> \\par to create a new paragraph
  * <li> \\return ce que la fonction retourne</li>
  * </ul>
  */

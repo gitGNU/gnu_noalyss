@@ -48,7 +48,7 @@ require_once('class_html_input.php');
 	public function input($p_name=null,$p_value=null)
 	{
 		foreach (array('type','cn') as $a){
-			if ( ! isset ($this->$a) ) throw ('Variable non définie '.$a);
+			if ( ! isset ($this->$a) ) throw new Exception('Variable non définie '.$a);
 		}
 		$this->name=($p_name==null)?$this->name:$p_name;
 		$this->value=($p_value==null)?$this->value:$p_value;
@@ -68,7 +68,7 @@ require_once('class_html_input.php');
 		    $sql_closed="";
 		    break;
 		  default:
-		    throw("invalide p_type in ".__FILE__.':'.__LINE__);
+		    throw new Exception("invalide p_type in ".__FILE__.':'.__LINE__);
 		  }
 	  $sql="select p_id,to_char(p_start,'DD.MM.YYYY') as p_start_string,
 						to_char(p_end,'DD.MM.YYYY') as p_end_string 
@@ -77,7 +77,7 @@ require_once('class_html_input.php');
 		/* Create a filter on the current exercice */
 	   if ( ! isset($this->filter_year) || (isset($this->filter_year) && $this->filter_year==true)) 
 	   {
-		if (! isset($this->user) ) throw (__FILE__.':'.__LINE__.' user is not set');	
+		if (! isset($this->user) ) throw new Exception (__FILE__.':'.__LINE__.' user is not set');	
 		$cond='';
 		if ($this->type == 'all' ) $cond='  where true ';
 		$cond.=" and p_exercice='".$this->user->get_exercice()."'";
@@ -85,7 +85,7 @@ require_once('class_html_input.php');
 	   $sql.="  order by p_start,p_end";
 	  $Res=ExecSql($this->cn,$sql);
 	  $Max=pg_NumRows($Res);
-	  if ( $Max == 0 )  throw ('no row found');
+	  if ( $Max == 0 )  throw new Exception ('no row found');
 	  $ret='<SELECT NAME="'.$this->name.'">';
 	  for ( $i = 0; $i < $Max;$i++) {
 	    $l_line=pg_fetch_array($Res,$i);

@@ -27,7 +27,6 @@
 require_once("class_iselect.php");
 require_once ('postgres.php');
 require_once ('class_dossier.php');
-require_once('class_acexception.php');
 
 class Acc_Account {
   var $db;          /*!< $db database connection */
@@ -104,12 +103,12 @@ class Acc_Account {
 	// otherwise we check only the value
 		if ( strcmp ($p_member,'pcm_val') == 0 ) {
 		  if (is_numeric($p_value) ==0 )
-		    throw new AcException('Poste comptable incorrect '.$p_value);
+		    throw new Exception('Poste comptable incorrect '.$p_value);
 		  else
 		    return true;
 		} else if ( strcmp ($p_member,'pcm_val_parent') == 0 ) {
 		  if ( is_numeric($p_value) == 0 || ($this->count($p_value) == 0 && $p_value !=0))
-		    throw new AcException('Poste comptable parent incorrect '.$p_value);
+		    throw new Exception('Poste comptable parent incorrect '.$p_value);
 		  else 
 		    return true;
 		} else if ( strcmp ($p_member,'pcm_lib') == 0 ) {
@@ -119,9 +118,9 @@ class Acc_Account {
 				if ( strcmp ($k['value'],$p_value) == 0 ) return true;
 
 			}
-			throw new AcException('type de compte incorrect '.$p_value);
+			throw new Exception('type de compte incorrect '.$p_value);
 		}	
-		throw new AcException ('Donnee member inconnue '.$p_member);
+		throw new Exception ('Donnee member inconnue '.$p_member);
 	}
 	
   }

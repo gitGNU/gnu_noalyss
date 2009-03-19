@@ -1,5 +1,5 @@
 begin;
-CREATE OR REPLACE FUNCTION create_missing_sequence()
+/* CREATE OR REPLACE FUNCTION create_missing_sequence()
   RETURNS integer AS
 $BODY$
 declare
@@ -23,4 +23,6 @@ return 0;
 end;
 $BODY$
   LANGUAGE 'plpgsql';
-commit;
+ */
+ insert into parameter(pr_id,pr_value) values ('MY_CHECK_PERIODE','Y');
+ commit;

@@ -93,6 +93,7 @@ class Own {
     $this->save('MY_STRICT');
     $this->save('MY_TVA_USE');
     $this->save('MY_PJ_SUGGEST');
+    $this->save('MY_CHECK_PERIODE');
 
   }
 

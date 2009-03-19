@@ -189,6 +189,7 @@ if ( $p_action=='company') {
     $m->MY_TEL=$p_tel;
     $m->MY_FAX=$p_fax;
     $m->MY_PAYS=$p_pays;
+    $m->MY_CHECK_PERIODE=$p_check_periode;
     if ( $User->check_action(PARCA)!=0)$m->MY_ANALYTIC=$p_compta;
     if ( $User->check_action(PARSTR)!=0) $m->MY_STRICT=$p_strict;
     if ( $User->check_action(PARTVA)!=0)$m->MY_TVA_USE=$p_tva_use;
@@ -224,6 +225,10 @@ if ( $p_action=='company') {
   $pj_suggest->table=1;
   $pj_suggest->selected=$my->MY_PJ_SUGGEST;
   
+  $check_periode=new ISelect();
+  $check_periode->table=1;
+  $check_periode->selected=$my->MY_CHECK_PERIODE;
+
   // other parameters
   $all=new IText();
   $all->table=1;
@@ -246,7 +251,7 @@ if ( $p_action=='company') {
   if ( $User->check_action(PARTVA)==0) $tva_use->setReadonly(true);
   echo "<tr>".td("Assujetti à la tva").$tva_use->input("p_tva_use",$strict_array)."</tr>";
   echo "<tr>".td("Suggérer le numéro de pièce justificative").$pj_suggest->input("p_pj",$strict_array)."</tr>";
-
+  echo '<tr>'.td('Afficher la période comptable pour éviter les erreurs de date').$check_periode->input('p_check_periode',$strict_array).'</tr>';
   echo "</table>";
   echo HtmlInput::submit("record_company","Enregistre");
   echo "</form>";
