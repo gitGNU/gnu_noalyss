@@ -195,7 +195,7 @@ $mod_user=new User(DbConnect(),$uid);
 foreach ( $Dossier as $rDossier) {
 
   $priv=$mod_user->get_folder_access($rDossier['dos_id']);
-  printf("<TR><TD> Dossier : %s </TD>",$rDossier['dos_name']);
+  printf("<TR><TD> Dossier : %s </TD>",h($rDossier['dos_name']));
   
   $select=new ISelect();
   $select->table=1;

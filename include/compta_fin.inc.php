@@ -70,7 +70,7 @@ if ( $def == 1 ) {
     $def_ledger=$Ledger->get_first('fin');
     $Ledger->id=$def_ledger['jrn_def_id'];
   }
-  $jrn_priv=$User->check_action($Ledger->id);
+  $jrn_priv=$User->get_ledger_access($Ledger->id);
   // Check privilege
   if ( isset($_REQUEST['p_jrn']) && ( $jrn_priv == 'X')) {
        NoAccess();
