@@ -62,11 +62,12 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       throw new Exception('Date invalide', 2);
     }
 
+	$oPeriode=new Periode($this->db);
 	if ( $this->check_periode() == true) {
-		$tperiode=$periode;
+		$tperiode=$period;
 	    /* check that the datum is in the choosen periode */
 	    $oPeriode->id=$period;
-	    list ($min,$max)=$per->get_date_limit($periode);
+	    list ($min,$max)=$oPeriode->get_date_limit();
 	    if ( cmpDate($e_date,$min) < 0 ||
 		 cmpDate($e_date,$max) > 0) 
 		throw new Exception('Date et periode ne correspondent pas',6);
@@ -171,7 +172,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 	$check_periode=$this->check_periode();
 	
 	if ( $check_periode == true ) 
-		$tperiode=$periode;
+		$tperiode=$period;
 	else 
 		$tperiode=$oPeriode->find_periode($e_date);
 		
@@ -857,7 +858,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       $client->strAttribut(ATTR_DEF_CITY);
     $lPeriode=new Periode($this->db);
 	if ($this->check_periode() == true) {
-			$lPeriode->id=$periode;
+			$lPeriode->id=$period;
 		} else {
 			$lPeriode->find_periode($e_date);
 		}
@@ -1018,8 +1019,8 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $r.=HtmlInput::hidden('e_client',$e_client);
     $r.=HtmlInput::hidden('nb_item',$nb_item);
     $r.=HtmlInput::hidden('p_jrn',$p_jrn);
-    if ( isset($periode))
-      $r.=HtmlInput::hidden('periode',$periode);
+    if ( isset($period))
+      $r.=HtmlInput::hidden('period',$period);
     /*\todo comment les types hidden gérent ils des contenus avec des quotes, double quote ou < > ??? */
     $r.=HtmlInput::hidden('e_comm',$e_comm);
     $r.=HtmlInput::hidden('e_date',$e_date);

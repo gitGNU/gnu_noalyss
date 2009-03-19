@@ -438,7 +438,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
   function guess_pj() {
     $prop=$this->get_propertie();
     $pj_pref=$prop["jrn_def_pj_pref"];
-    $pj_seq=$this->get_last_pj()+1;
+    $pj_seq=$this->get_last_pj();
     return $pj_pref.$pj_seq;
   }
   /*!\brief Show all the operation, propose a form to select the

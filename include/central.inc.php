@@ -60,7 +60,7 @@ if ( $_POST["periode"] != "" ) {
     }
   } 
 }// if ( isset ($_POST["central"] ))
-$period=new IPeriode("period");
+$period=new IPeriod("period");
 $period->user=$User;
 $period->cn=$cn;
 $period->value=0;
