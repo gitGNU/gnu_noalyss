@@ -129,7 +129,7 @@ if ( $action == 'update' ) {
 	$view.="<br>";
 	$view.="<br>";
 	if ( $User->check_jrn($p_jrn) == 'W')
-	  $view.=($p_view == 'S')?HtmlInput::submit('update_record','Enregistre');
+	  $view.=($p_view == 'S')?HtmlInput::submit('update_record','Enregistre'):'';
 	$view.="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 	$view.='<input type="button" value="Fermer" onClick="window.close();  self.opener.RefreshMe();">';
 	$view.='</FORM>';
@@ -152,7 +152,7 @@ if ( $action == 'update' ) {
 	$view.="<br>";
 	$view.="<br>";
 	if ( $User->check_jrn($p_jrn) == 'W')
-	  $view.=($p_view == 'E') ?HtmlInput::submit('update_record','Enregistre');
+	  $view.=($p_view == 'E') ?HtmlInput::submit('update_record','Enregistre'):'';
 	$view.="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 	$view.='<input type="button" value="Fermer" onClick="window.close();  self.opener.RefreshMe();">';
 	$view.='</div>';
