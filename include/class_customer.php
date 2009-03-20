@@ -59,6 +59,7 @@ class Customer extends fiche{
     $sql="select * from vw_client where poste_comptable=$1";
     $Res=ExecSqlParam($this->cn,$sql,array($this->poste));
     if ( pg_NumRows($Res) == 0) return null;
+    if ( pg_NumRows($Res) > 1 ) throw new Exception ('Plusieurs fiches avec le même poste',1);
     // There is only _one_ row by customer
     $row=pg_fetch_array($Res,0);
     $this->name=$row['name'];
@@ -72,8 +73,7 @@ class Customer extends fiche{
 /*! 
  * \brief  Get all the info for making a vat listing
  *           for the vat administration
- * \todo  optimize SQL
- *  
+ *
  * \param	 $p_year
  * 
  * \return  double array structure is 
@@ -81,9 +81,13 @@ class Customer extends fiche{
  *
  */
   function VatListing($p_year) {
-    $cond_sql=" and A.j_date = B.j_date 
-      and extract(year from A.j_date) ='$p_year'";
-    
+    $cond_sql=" and   A.j_date = B.j_date and extract(year from A.j_date) ='$p_year'";
+    /* List of customer  */
+    $aCustomer=get_array($this->cn,'select f_id,name,quick_code,tva_num,poste_comptable from vw_client '.
+	      " where tva_num !='' ");
+
+    /* Use the code */
+
     // BASE ACCOUNT
     // for belgium
     $s=new Acc_Parm_Code($this->cn,'VENTE');
@@ -97,6 +101,19 @@ class Customer extends fiche{
     $t=new Acc_Parm_Code($this->cn,'COMPTE_TVA');
     $t->load();
     $TVA=$t->p_value;
+
+    $a_Res=array();
+    /* for each customer compute VAT, Amount...*/
+    foreach ($aCustomer as $l ) {
+      // Seek the customer
+      //---
+      $customer=$l['quick_code'];
+      $a_Res[$customer]['name']=$l['name'];
+      $a_Res[$customer]['vat_number']=$l['tva_num'];
+      $a_Res[$customer]['amount']=0;
+      $a_Res[$customer]['tva']=0;
+      $a_Res[$customer]['poste_comptable']=$l['poste_comptable'];
+      /* retrieve only operation of sold and vat */
     // Get all the sell operation
     //----
     $sql="select distinct j_grpt 
@@ -104,7 +121,7 @@ class Customer extends fiche{
 jrnx as A
  join jrnx as B using (j_grpt)
 where
-       A.j_poste::text like '".$CUSTOMER."%' and
+       A.j_qcode = '".$l['quick_code']."' and
        B.j_poste::text like '".$SOLD."%' 
       $cond_sql
 ";
@@ -114,37 +131,18 @@ where
     // where 7% or tva account are involved
     // and store the result in an array (a_Res)
     //---
-    $a_Res=array();
+
     for ($i=0; $i < pg_NumRows($Res);$i++) {
       // Get each row
       //---
       $row1=pg_fetch_array($Res,$i);
   
+
       // select the operation
       //----
       $Res2=ExecSql($this->cn,"select j_poste,j_montant,j_debit from jrnx where j_grpt=".$row1['j_grpt']); 
-      $a_row=array();
-      // Store the result in the array 
-      //---
-      for ($e=0;$e < pg_NumRows($Res2);$e++) {
-	$a_row[]=pg_fetch_array($Res2,$e);
-      }
+      $a_row=pg_fetch_all($Res2);
 
-      echo_debug('class_customer',__LINE__,$a_row);
-      
-      // Seek the customer
-      //---
-      foreach ($a_row as $e) {
-	if ( substr($e['j_poste'],0, strlen($CUSTOMER))==$CUSTOMER) {
-	  $customer=$e['j_poste'];
-	  // Retrieve name and vat number
-	  $this->get_by_account($customer);
-	  $a_Res[$customer]['name']=$this->name;
-	  $a_Res[$customer]['vat_number']=$this->vat_number;
-	  break;
-	  
-	}
-      }// foreach $a
       // Store the amount in the array
       //---
       foreach ($a_row as $e) {
@@ -169,19 +167,10 @@ where
 	// store customef info
 	//---
 	$a_Res[$customer]['customer']=$customer;
-	echo_debug ('class_customer',__line__,"adding amount $amount tva $tva");
-	echo_debug('class_customer',__line__,$a_Res[$customer]);
-	//if not submitted to VAT, remove from list:
-	//STAN: currently commented out because I don't know if it is really what we need.
-	//Dany : yes we need it because the decla. concerns only the registered customer at the VAT 
-	if (!isset($a_Res[$customer]['vat_number']) || strcmp($a_Res[$customer]['vat_number'], "") == 0)
-	  {
-	    unset($a_Res[$customer]);
-	  }
-	
-      }// foreach $a
+      }
+    }// foreach $a
+    } // foreach ( customer)
 
-    }
     return $a_Res;
   }
 /*! Summary

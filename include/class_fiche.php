@@ -828,7 +828,7 @@ class fiche {
    /*!\brief get all the card thanks the fiche_def_ref
     * \param $p_offset (default =-1)
     * \param $p_search sql condition
-    * \return fiche::GetByDef
+    * \return array of fiche object 
     */
    function GetAll($p_offset=-1,$p_search="") 
      {
