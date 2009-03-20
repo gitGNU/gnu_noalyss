@@ -16,7 +16,7 @@ BODY {
 table.result {
   font-size:10px;
   color:blue;
-/*  border:blue solid 1px; */
+  border:blue solid 1px; 
   width:80%;
   
   }

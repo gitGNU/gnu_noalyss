@@ -35,22 +35,29 @@ if ( isset($_POST['bt_html'] )) {
   $a_Res=$customer->VatListing($_POST['year']);
 
 echo "
-<div class=\"u_redcontent\"
+<div class=\"content\"
 <form method=\"post\" action=\"listing_client.php\"> ".
   dossier::hidden()."
 <input type=\"submit\" name=\"bt_disk\" value=\"expérimental !! déclaration magnétique\" disable>
 <input type=\"hidden\" name=\"year\" value=\"".$_POST['year']."\">
 </form>
-<Table class=\"result\">
+<table class=\"result\">
 <tr>
+<th> Quick Code </th>
+<th> Poste Comptable </th>
 <th> Nom </th>
 <th> Numéro TVA </th>
 <th> Montant HTVA </th>
 <th> Montant TVA </th>
 </tr>
 ";
+$aPoste=array();
  foreach ($a_Res as $key=>$elt) {
+   if ( $elt['amount'] == 0 && $elt['tva'] == 0 )
+     continue;
    echo "<tr>".
+     '<td>'.$key.'</td>'.
+     "<td>".$elt['poste_comptable']."</td>".
      "<td>".$elt['name']."</td>".
      "<td>".$elt['vat_number']."</td>".
      "<td align=\"right\">".sprintf("% 8.2f",$elt['amount'])."</td>".
