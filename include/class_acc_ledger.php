@@ -68,11 +68,12 @@ class Acc_Ledger {
   function get_last_pj() {
     if ( exist_sequence($this->db,"s_jrn_pj".$this->id) ) {
       $ret= get_array($this->db,"select last_value,is_called from s_jrn_pj".$this->id);
-	  $last=$ret['last_value'];
+print_r($ret);
+	  $last=$ret[0]['last_value'];
 	  /*!
 	       *\note  With PSQL sequence , the last_value column is 1 when before   AND after the first call, to make the difference between them
 	       * I have to check whether the sequence has been already called or not */
-	  if ($ret['is_called']=='f') $last--;
+	  if ($ret[0]['is_called']=='f' ) $last--;
 	  return $last;
 	  }
     else

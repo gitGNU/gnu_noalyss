@@ -44,9 +44,9 @@ class ICard extends HtmlInput
 			 $_REQUEST['PHPSESSID'],
 		     $this->extra,
 		     $this->name,
+			$this->jrn,
 			$add,
-		     $this->extra2,
-			 $this->jrn);
+		     $this->extra2);
 		return $r;
 	}
   /*!\brief show the html  input of the widget*/
