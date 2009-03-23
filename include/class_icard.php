@@ -36,7 +36,7 @@ require_once('class_html_input.php');
 class ICard extends HtmlInput
 {
 	/*!\brief return a string with the HTML of the button search */
-	public function button() {
+	public function dbutton() {
 		if (!isset ($this->jrn) ) $this->jrn=-1;
 		$add='yes';
 		if ( isset($this->noadd) ) $add=no;
@@ -76,7 +76,7 @@ class ICard extends HtmlInput
 	  $r=sprintf('<TD> %s
 			%s</TD><TD> <INPUT class="input_text"  TYPE="Text"  " '.
 		     ' NAME="%s" ID="%s" VALUE="%s" SIZE="8" %s>',
-		     $this->button(),
+		     $this->dbutton(),
 		     $this->label,
 		     $this->name,
 		     $this->name,
@@ -88,7 +88,7 @@ class ICard extends HtmlInput
 	{
 	  $r=sprintf('%s %s <INPUT TYPE="Text"  style="border:solid 1px blue;" '.
 		     ' NAME="%s" ID="%s" VALUE="%s" SIZE="8"  %s">',
-			 $this->button(),
+			 $this->dbutton(),
 		     $this->label,
 		     $this->name,
 		     $this->name,
