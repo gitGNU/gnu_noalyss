@@ -76,7 +76,7 @@ class ICard extends HtmlInput
 	  $r=sprintf('<TD> %s
 			%s</TD><TD> <INPUT class="input_text"  TYPE="Text"  " '.
 		     ' NAME="%s" ID="%s" VALUE="%s" SIZE="8" %s>',
-		     $this->button()
+		     $this->button(),
 		     $this->label,
 		     $this->name,
 		     $this->name,
