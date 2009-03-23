@@ -27,7 +27,8 @@
    *   Data & function about connected users
    */
 
-include_once("constant.php");
+require_once("constant.php");
+require_once("user_common.php");
 require_once('class_dossier.php');
 require_once('ac_common.php');
 class User {

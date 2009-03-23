@@ -38,7 +38,7 @@ class ICard extends HtmlInput
 	/*!\brief return a string with the HTML of the button search */
 	public function button() {
 		if (!isset ($this->jrn) ) $this->jrn=-1;
-		$add='yes'
+		$add='yes';
 		if ( isset($this->noadd) ) $add=no;
 		$r= sprintf('<INPUT TYPE="button" onClick="SearchCard(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')" value="%s">',
 			 $_REQUEST['PHPSESSID'],
