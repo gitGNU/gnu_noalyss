@@ -46,7 +46,7 @@ class ICard extends HtmlInput
 		     $this->name,
 			$add,
 		     $this->extra2,
-			 $this->jrn)
+			 $this->jrn);
 		return $r;
 	}
   /*!\brief show the html  input of the widget*/
