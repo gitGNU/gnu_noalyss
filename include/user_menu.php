@@ -308,6 +308,7 @@ function u_ShowMenuRecherche($p_cn,$p_jrn,$p_sessid,$p_array=null)
  
  $A=new ICard();
  $A->name='qcode';
+ $A->jrn=0;
  $A->value=$p_qcode;
  $A->extra="";
  $A->table=1;

@@ -455,6 +455,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $all=$this->get_all_fiche_def();
 
     $w=new ICard();
+	$w->jrn=$this->id;
     $w->name='qcode';
     $w->value=$qcode;
     $w->label='';
@@ -658,6 +659,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     }
     
     $W1=new ICard();
+	$W1->jrn=$this->id;
     $W1->label="Client ".HtmlInput::infobulle(0) ;
     $W1->name="e_client";
     $W1->tabindex=3;
@@ -727,6 +729,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       // Show input
       //--
       $W1=new ICard();
+	  $W1->jrn=$this->id;
       $W1->label="";
       $W1->name="e_march".$i;
       $W1->value=$march;

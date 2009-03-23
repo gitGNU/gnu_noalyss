@@ -266,6 +266,7 @@ class action
       // sender
       $w=new ICard();
       $w->readonly=$readonly;
+	  $w->jrn=0;
       $w->name='qcode_exp';
       $w->value=($this->f_id_exp != 0)?$this->qcode_exp:"";
       $w->label="";

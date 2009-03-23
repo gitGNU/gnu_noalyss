@@ -66,8 +66,15 @@ class Acc_Ledger {
     $this->nb=10;
   }
   function get_last_pj() {
-    if ( exist_sequence($this->db,"s_jrn_pj".$this->id) )
-      return getDbValue($this->db,"select last_value from s_jrn_pj".$this->id);
+    if ( exist_sequence($this->db,"s_jrn_pj".$this->id) ) {
+      $ret= get_array($this->db,"select last_value,is_called from s_jrn_pj".$this->id);
+	  $last=$ret['last_value'];
+	  /*!
+	       *\note  With PSQL sequence , the last_value column is 1 when before   AND after the first call, to make the difference between them
+	       * I have to check whether the sequence has been already called or not */
+	  if ($ret['is_called']=='f') $last--;
+	  return $last;
+	  }
     else
       create_sequence($this->db,"s_jrn_pj".$this->id);
     return 0;
@@ -467,6 +474,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     echo JS_PROTOTYPE;
     echo JS_AJAX_FICHE;
     $w=new ICard();
+	$w->jrn=$this->id;
     $w->name='qcode';
     $w->value=$qcode;
     $w->label='';
@@ -1050,6 +1058,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
       $quick_code=new ICardCtrl();
       $quick_code->name='qc_'.$i;
       $quick_code->ctrl="ld".$i;
+	  $quick_code->jrn=$this->id;
       $quick_code->value=(isset(${'qc_'.$i}))?${'qc_'.$i}:"";
       $quick_code->javascript=sprintf('onBlur="ajaxFid(\'%s\',\'filter\',\'%s\',\'%s\',\'%s\'); if ( this.value!=\'\' ) my_clear(\'poste'.$i.'\'); "',
 				$quick_code->name,

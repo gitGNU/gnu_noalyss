@@ -256,6 +256,8 @@ class Acc_Payment
     $r.=$etr.$tr;
     $r.=$td.'Avec la fiche'.$etd;
     $f=new ICard();
+	$f->jrn=$jrn->selected;
+	$f->noadd=true;
     $f->name='mp_qcode';
     $f->extra='frd_id in (25,4)';
     $f->extra2='Recherche';
@@ -285,6 +287,7 @@ class Acc_Payment
 	   the card */
 	if ( $row->mp_qcode==NULL) { 
  	  $a=new ICard();
+	  $a->jrn=$row->mp_jrn_def_id;
 	  $a->extra=$row->mp_fd_id;
 	  $a->extra2='Recherche';
 	  $a->name='e_mp_qcode_'.$row->mp_id;

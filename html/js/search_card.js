@@ -21,7 +21,7 @@
 
 /*! \file 
  * \brief javascript for searching a card
- * 
+ * \todo the ledger MUST not be taken from the document but based as a parameter
  */
 /*!\brief open a windows for showing a card
 * \param p_sessid must be given
@@ -40,19 +40,28 @@ function showfiche(p_sessid,p_qcode)
 *\param  p_sessid is the PHPSESSID
 *\param type must be deb or cred
 *\param  name is the name of the control, it is used for computing the name of the VAT, Price field 
+*\param no_add to avoid to be able to add a card (for undefined or no)
+*\param p_ledger is the ledger id : 0 means no check
 * \see SetData()
 */
-function SearchCard(p_sessid,type,name,no_add)
+function SearchCard(p_sessid,type,name,p_ledger,no_add)
 {
   var search=document.getElementById(name).value;
   var gDossier=document.getElementById('gDossier').value;
+  
   var jrn=0;
-  if ( document.getElementById("p_jrn") ) {
-    jrn=document.getElementById("p_jrn").value;
-  }
+  if ( p_ledger == undefined ) {
+	if ( document.getElementById("p_jrn") ) {
+		jrn=document.getElementById("p_jrn").value;
+	}	
+  } else 
+	jrn=p_ledger;
+	
   var file='fiche_search.php';
 var qadd='';
-if ( no_add != undefined) { qadd="&noadd"}
+if ( no_add != undefined ) { qadd="&noadd"}
+if ( no_add == 'no' ) { qadd="&noadd"}
+
 var query='?first&search&fic_search='+search+'&p_jrn='+jrn+'&PHPSESSID='+p_sessid
 +'&type='+type+'&name='+name+'&gDossier='+gDossier+qadd;
   query+="&caller=searchcard";

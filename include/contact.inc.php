@@ -138,6 +138,7 @@ if ( $sub_action == "list" )
  $w->value=$qcode;
  $w->label='qcode';
  $w->table=0;
+ $w->jrn=0;
  $w->extra='4,8,9,14';
  echo $w->input();
 

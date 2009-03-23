@@ -78,6 +78,7 @@ Commit($p_cn);
  */
 function ShowBox($p_val,$counter,$p_cn,$p_form='form'){
   $w=new ICard();
+  $w->jrn=$p_val['jrn'];
   $w->name='poste'.$counter;
   $w->extra='filter';
   $w->extra2='QuickCode';

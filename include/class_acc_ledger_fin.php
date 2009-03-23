@@ -232,6 +232,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     }  
 
     $W1=new ICard();
+	$W1->jrn=$this->id;
     $W1->readonly=$pview_only;
     $W1->label="Banque ".HtmlInput::infobulle(0);
     $W1->name="e_bank_account";
@@ -320,6 +321,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
       ${"e_other$i"."_amount"}=(isset (${"e_other$i"."_amount"}))?${"e_other$i"."_amount"}:0;
       
       $W1=new ICard();
+	  $W1->jrn=$this->id;
       $W1->label="";
       $W1->name="e_other".$i;
       $W1->value=$tiers;
@@ -722,6 +724,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
     if ($wLedger == null) exit ('Pas de journal disponible');
     echo 'Journal '.$wLedger->input();
     $w=new ICard();
+	$w->jrn=$this->id;
     $qcode=(isset($_GET['qcode']))?$_GET['qcode']:"";
     echo dossier::hidden();
     echo HtmlInput::hidden('p_action','bank');

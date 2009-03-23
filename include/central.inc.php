@@ -65,7 +65,16 @@ $period->user=$User;
 $period->cn=$cn;
 $period->value=0;
 $period->type=NOTCENTRALIZED;
+try {
 $ret=$period->input();
+} catch (Exception $e) {
+	if ( $e->getCode() != 0 ) {
+		echo $e->getMessage();
+		exit;
+	} else	{
+		echo $e->getTrace();
+		exit;
+	}
 if ( $ret != null) {
   echo '<FORM METHOD="POST">';
   echo HtmlInput::hidden('p_action','central');

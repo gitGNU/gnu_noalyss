@@ -85,7 +85,7 @@ require_once('class_html_input.php');
 	   $sql.="  order by p_start,p_end";
 	  $Res=ExecSql($this->cn,$sql);
 	  $Max=pg_NumRows($Res);
-	  if ( $Max == 0 )  return null;
+	  if ( $Max == 0 )  throw new Exception('Aucune période trouvée',1);
 	  $ret='<SELECT NAME="'.$this->name.'">';
 	  for ( $i = 0; $i < $Max;$i++) {
 	    $l_line=pg_fetch_array($Res,$i);

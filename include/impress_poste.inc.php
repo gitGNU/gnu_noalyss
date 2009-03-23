@@ -57,6 +57,7 @@ print $w->input("poste_id");
 echo $span->input('poste_id_label');
 $w_poste=new ICard();
 $w_poste->table=1;
+$w_poste->jrn=0;
 $w_poste->label="Ou Choississez la fiche";
 $w_poste->extra='all';
 $w_poste->value=(isset($_REQUEST['f_id']))?$_REQUEST['f_id']:"";

@@ -27,13 +27,28 @@
 
   /*!\brief Input HTML for the card show buttons, in the file, you have to add JS_SEARCH
    *
-   * extra2 is the label in the button
-   * table = 1 then add the <td> between the button and the input text
+   * - extra2 is the label in the button
+   * - table = 1 then add the <td> between the button and the input text
+   *  - if noadd is defined you can't add a card
+   * \see SearchCard for extra
    */
 require_once('class_html_input.php');
 class ICard extends HtmlInput
 {
-
+	/*!\brief return a string with the HTML of the button search */
+	public function button() {
+		if (!isset ($this->jrn) ) $this->jrn=-1;
+		$add='yes'
+		if ( isset($this->noadd) ) $add=no;
+		$r= sprintf('<INPUT TYPE="button" onClick="SearchCard(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')" value="%s">',
+			 $_REQUEST['PHPSESSID'],
+		     $this->extra,
+		     $this->name,
+			$add,
+		     $this->extra2,
+			 $this->jrn)
+		return $r;
+	}
   /*!\brief show the html  input of the widget*/
   public function input($p_name=null,$p_value=null)
   {
@@ -58,14 +73,10 @@ class ICard extends HtmlInput
       if ( $this->extra2 == "" ) $this->extra2="QuickCode";
       if ( $this->table==1)
 	{
-	  $r=sprintf('<TD>
-         <INPUT TYPE="button" onClick="SearchCard(\'%s\',\'%s\',\'%s\')" value="%s">
-            %s</TD><TD> <INPUT class="input_text"  TYPE="Text"  " '.
+	  $r=sprintf('<TD> %s
+			%s</TD><TD> <INPUT class="input_text"  TYPE="Text"  " '.
 		     ' NAME="%s" ID="%s" VALUE="%s" SIZE="8" %s>',
-		     $l_sessid,
-		     $this->extra,
-		     $this->name,
-		     $this->extra2,
+		     $this->button()
 		     $this->label,
 		     $this->name,
 		     $this->name,
@@ -75,14 +86,9 @@ class ICard extends HtmlInput
 	}
       else
 	{
-	  $r=sprintf('
-         <INPUT TYPE="button" onClick="SearchCard(\'%s\',\'%s\',\'%s\')" value="%s">
-            %s <INPUT TYPE="Text"  style="border:solid 1px blue;" '.
+	  $r=sprintf('%s %s <INPUT TYPE="Text"  style="border:solid 1px blue;" '.
 		     ' NAME="%s" ID="%s" VALUE="%s" SIZE="8"  %s">',
-		     $l_sessid,
-		     $this->extra,
-		     $this->name,
-		     $this->extra2,
+			 $this->button(),
 		     $this->label,
 		     $this->name,
 		     $this->name,
