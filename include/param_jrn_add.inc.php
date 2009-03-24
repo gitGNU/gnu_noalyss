@@ -25,7 +25,6 @@
 
 include_once ("ac_common.php");
 include_once("jrn.php");
-require_once("class_iposte.php");
 require_once("class_itext.php");
 require_once("class_iselect.php");
 require_once ('class_acc_ledger.php');
@@ -58,7 +57,7 @@ if ( isset ($_POST["add"]) ) {
   }
   else {
     /*  if name already use we stop */
-    if ( CountSql($cn,"select * from jrn_def where jrn_def_name=$1",array($_POST['p_jrn_name'])) >0 ) {
+    if ( count_sql($cn,"select * from jrn_def where jrn_def_name=$1",array($_POST['p_jrn_name'])) >0 ) {
       
       alert ('Un journal de ce nom existe déjà');
     } else {

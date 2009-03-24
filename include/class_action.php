@@ -55,35 +55,19 @@ require_once("user_common.php");
 
 class action 
 {
- /*!<  $db  database connexion   
-  *  $ag_comment description (ag_gestion.ag_comment)
-  *  $ag_timestamp document date (ag_gestion.ag_timestamp)
-  *  $dt_id type of the document (document_type.dt_id)
-  *  $d_state stage of the document (printed, send to client...)
-  *  $d_number number of the document
-  *  $d_filename filename's document
-  *  $d_mimetype document's filename
-  *  $ag_title title document
-  *  $f_id_dest fiche id (From field )
-  *  $f_id_exp fiche id (to field)
-  *  $ag_ref_ag_id concern previous action
-  *  $ag_id pk of the table action_gestion
-
-  * \todo replace attribut from class document  document by an object document 
-  */
-  var $db;
-  var $ag_comment;
-  var $ag_timestamp;
-  var $dt_id;
-  var $d_state;
-  var $d_number;
-  var $d_filename;
-  var $d_mimetype;
-  var $ag_title;
-  var $f_id;
-  var $ag_ref_ag_id;
-/*!  constructor
- * \brief constructor
+  var $db;	      /*!<  $db  database connexion    */
+  var $ag_comment;    /*!<  $ag_comment description (ag_gestion.ag_comment) */
+  var $ag_timestamp;  /*!<   $ag_timestamp document date (ag_gestion.ag_timestamp)*/
+  var $dt_id;         /*!<   $dt_id type of the document (document_type.dt_id)*/
+  var $d_state;       /*!<   $d_state stage of the document (printed, send to client...)*/
+  var $d_number;      /*!<   $d_number number of the document*/
+  var $d_filename;    /*!<   $d_filename filename's document      */
+  var $d_mimetype;    /*!<   $d_mimetype document's filename      */
+  var $ag_title;      /*!<   $ag_title title document	      */
+  var $f_id;	      /*!<   $f_id_dest fiche id (From field )  */  
+  var $ag_ref_ag_id;   /*!<   $ag_ref_ag_id concern previous action*/
+  /*!  constructor  
+  * \brief constructor
  * \param p_cn database connection
  */
   function action ($p_cn)
@@ -325,7 +309,7 @@ class action
       $r.="</p>";
 
       // show the list of the concern operation
-      if ( CountSql($this->db,'select * from action_gestion where ag_ref_ag_id!=0 and ag_ref_ag_id='.$this->ag_id.
+      if ( count_sql($this->db,'select * from action_gestion where ag_ref_ag_id!=0 and ag_ref_ag_id='.$this->ag_id.
 		    " limit 2") > 0 )
 	$r.=$this->myList(ACTION," and ag_ref_ag_id=".$this->ag_id);
       return $r;
@@ -800,7 +784,7 @@ class action
       left outer join document_modele on (ag_type=md_type) 
       join document_type on (ag_type=dt_id)
    where dt_id in ($p_filter) $p_search $sort";
-      $max_line=CountSql($this->db,$sql);
+      $max_line=count_sql($this->db,$sql);
       $step=$_SESSION['g_pagesize'];
       $page=(isset($_GET['offset']))?$_GET['page']:1;
       $offset=(isset($_GET['offset']))?pg_escape_string($_GET['offset']):0;

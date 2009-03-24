@@ -40,7 +40,6 @@ if ( !isset($sessid))
 $search='<INPUT TYPE="BUTTON" VALUE="Cherche" OnClick="SearchPoste(\''.$sessid."',".dossier::id().",'class_base','')\">";
 
 
-include_once("fiche_inc.php");
 
 $cn=DbConnect($gDossier);
 echo_debug(__FILE__,__LINE__,"Connected");
@@ -114,7 +113,7 @@ if ( isset ($_POST['remove_cat'] )  ) {
   $remains=$fd_id->remove();
   if ( $remains != 0 ) 
     /* some card are not removed because it is used */
-    alert('Impossible d\'enlever cette catégorie, certaines fiches sont encore utilisées\n'.
+    alert('Impossible d\'enlever cette catégorie, certaines fiches sont encore utilisées'."\n".
 	  'Les fiches non utilisées ont cependant été effacées');
 }
 // Add a line in the card model
@@ -268,7 +267,14 @@ if ( isset ( $_GET["action"]) ) {
   if ($action == "add_modele" ) {
     $User->can_request(FICCAT);
     echo '<DIV class="u_redcontent">';
-    CreateCategory($cn,$search);
+    echo '<form method="post">';
+    $oFiche_Def=new fiche_def($cn);	
+    echo HtmlInput::hidden("p_action","fiche");
+    echo dossier::hidden();
+    echo $oFiche_Def->input($search); //    CreateCategory($cn,$search);
+    echo HtmlInput::submit("add_modele" ,"Sauve");
+    
+    echo '</form>';
     echo '</DIV>';
     $recherche=false;
   }

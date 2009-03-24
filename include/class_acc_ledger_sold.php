@@ -537,7 +537,6 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 
     $r.=JS_INFOBULLE;
     $r.=JS_SEARCH_CARD;
-	//!\todo check if JS_SHOW_TVA is really needed here otherwise remove it (same for class_acc_ledger_purchase)
     $r.=JS_SHOW_TVA;    
     $r.=JS_TVA;
     $r.=JS_AJAX_FICHE;
@@ -1071,7 +1070,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $r.="Ajoutez une pi&egrave;ce justificative ";
     $r.=$file->input("pj","");
 
-    if ( CountSql($this->db,
+    if ( count_sql($this->db,
 		  "select md_id,md_name from document_modele where md_type=4") > 0 )
       {
 

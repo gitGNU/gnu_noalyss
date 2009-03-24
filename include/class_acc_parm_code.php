@@ -27,7 +27,6 @@
  * for the module accountancy
  */
 require_once("class_itext.php");
-require_once("class_iposte.php");
 require_once('class_acc_account_ledger.php');
 
 class Acc_Parm_Code {

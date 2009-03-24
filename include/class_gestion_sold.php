@@ -27,9 +27,7 @@
   /*! \brief this object handles the table quant_sold
    *
    */
-  /*!\todo the qs_valid field is not used it should be delete into
-   *   the table quant_sold
-   */
+
 require_once ('class_gestion_table.php');
 
 

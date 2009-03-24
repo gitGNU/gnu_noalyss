@@ -64,7 +64,7 @@ class Pre_operation
    * \return true op.success otherwise false
    */
   function save() {
-	if (	CountSql($this->db,"select * from op_predef ".
+	if (	count_sql($this->db,"select * from op_predef ".
 			 "where upper(od_name)=upper('".pg_escape_string($this->name)."')".
 					 "and jrn_def_id=".$this->p_jrn)
 			!= 0 )
@@ -131,7 +131,7 @@ class Pre_operation
   }
   /*!\brief count the number of pred operation for a ledger */
   function count() {
-	$a=CountSql($this->db,"select od_id,od_name from op_predef ".
+	$a=count_sql($this->db,"select od_id,od_name from op_predef ".
 		    " where jrn_def_id=".$this->p_jrn.
 		    " and od_direct ='".$this->od_direct."'".
 		    " order by od_name");
@@ -189,7 +189,7 @@ class Pre_operation_detail {
   }
   /*!\brief count the number of pred operation for a ledger */
   function count() {
-    $a=CountSql($this->db,"select od_id,od_name from op_predef ".
+    $a=count_sql($this->db,"select od_id,od_name from op_predef ".
 		    " where jrn_def_id=".$this->jrn_def_id.
 		    " and od_direct ='".$this->od_direct."'".
 		    " order by od_name");

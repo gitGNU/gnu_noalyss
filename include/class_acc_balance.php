@@ -18,13 +18,13 @@
 */
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
-include_once("poste.php");
 /*! \file
  * \brief Class for manipulating data to print the balance of account
  */
 /*!
  * \brief Class for manipulating data to print the balance of account
  */
+require_once('class_acc_account.php');
 
 class Acc_Balance {
   var $db;       /*! < database connection */
@@ -96,8 +96,10 @@ class Acc_Balance {
     // Load the array
     for ($i=0; $i <$M;$i++) {
       $r=pg_fetch_array($Res,$i);
+      $poste=new Acc_Account($this->db,$r['j_poste']);
+
       $a['poste']=$r['j_poste'];
-      $a['label']=substr(GetPosteLibelle($this->db,$r['j_poste'],1),0,40);
+      $a['label']=substr($poste->get_lib(),0,40);
       $a['sum_deb']=round($r['sum_deb'],2);
       $a['sum_cred']=round($r['sum_cred'],2);
       $a['solde_deb']=round(( $a['sum_deb']  >=  $a['sum_cred'] )? $a['sum_deb']- $a['sum_cred']:0,2);

@@ -386,7 +386,7 @@ function get_rappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_cen
 
     //     Vue filtree => Journaux & Jrn centralisé 
     if ( $p_central == 1 ) {
-      $c_line=CountSql($p_cn,"select * from centralized left join parm_periode on c_periode=p_id ".
+      $c_line=count_sql($p_cn,"select * from centralized left join parm_periode on c_periode=p_id ".
 		       " where c_jrn_def=$p_jrn_id and  p_exercice='".$p_exercice."'".
 		       " and c_order $cmp $p_jrnx_id ");
       
@@ -422,7 +422,7 @@ function get_rappel($p_cn,$p_jrnx_id,$p_jrn_id,$p_exercice,$which,$p_type,$p_cen
   } // Type = jrn
   if ($p_type==0 ) { // Si Grand Livre, prendre donnée centralisée{
     if ( $p_central == 1) {
-      $c_line=CountSql($p_cn,"select * from centralized left join parm_periode on c_periode=p_id ".
+      $c_line=count_sql($p_cn,"select * from centralized left join parm_periode on c_periode=p_id ".
 		       "where p_exercice='".$p_exercice."'".
 		       " and c_id $cmp $p_jrnx_id ");
       

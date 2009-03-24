@@ -231,7 +231,7 @@ vos bases de donn&eacute;es
 // Language plsql is installed 
 //--
 $sql="select lanname from pg_language where lanname='plpgsql'";
-$Res=CountSql($cn,$sql);
+$Res=count_sql($cn,$sql);
 if ( $Res==0) { ?>
 <p> Vous devez installer le langage plpgsql pour permettre aux fonctions SQL de fonctionner.</p>
 <p>Pour cela, sur la ligne de commande, faites createlang plpgsql template1
@@ -281,7 +281,7 @@ if ( ! isset($_POST['go']) ) {
 if ( ! isset($_POST['go']) )
 	exit();
 // Check if account_repository exists
-$account=CountSql($cn,
+$account=count_sql($cn,
 		  "select * from pg_database where datname='".domaine."account_repository'");
 
 // Create the account_repository

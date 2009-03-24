@@ -28,7 +28,6 @@ include_once("ac_common.php");
 include_once("postgres.php");
 include_once("class.ezpdf.php");
 include_once("impress_inc.php");
-require_once("poste.php");
 require_once ('header_print.php');
 require_once('class_dossier.php');
 require_once('class_user.php');

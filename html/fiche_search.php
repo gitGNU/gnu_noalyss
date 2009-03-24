@@ -50,7 +50,6 @@
  */
 
 include_once ("ac_common.php");
-include_once ("poste.php");
 include_once ("postgres.php");
 include_once("jrn.php");
 require_once("class_ibutton.php");
@@ -113,8 +112,11 @@ function setCtrl(name_ctl,value,name_ctl2,value_3) {
 $cn=DbConnect($gDossier);
 $r="";
 // Propose to add a card if the ledger is not 0 (the great ledger)
+print_r($_REQUEST);
+$add=1;
+if ( isset($_REQUEST['noadd']) && $_REQUEST['noadd']=='no') $add=0;
 
-if (!isset($_REQUEST['noadd']) && $User->check_action(FICADD)==1 && $_GET['p_jrn']  != 0 ) {
+if ($add=1 && $User->check_action(FICADD)==1 && $_GET['p_jrn']  != 0 ) {
   if ( $User->check_action(FICADD)==1) {
     $add_card=new IButton();
     $add_card->javascript=sprintf("NewCard('%s','%s','%s')",

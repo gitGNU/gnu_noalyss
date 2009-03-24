@@ -99,7 +99,7 @@ var $jr_id;	/*!< pk of jrn */
       return '';
      }
     /* is pj uniq ? */
-    if ( CountSql($this->db,"select jr_id from jrn where jr_pj_number=$1 and jr_def_id=$2",
+    if ( count_sql($this->db,"select jr_id from jrn where jr_pj_number=$1 and jr_def_id=$2",
 		  array($this->pj,$this->jrn)
 		  ) == 0 ) {
       $sql="update jrn set jr_pj_number=$1 where jr_id=$2";
@@ -118,7 +118,7 @@ var $jr_id;	/*!< pk of jrn */
 	$this->pj=$pref.$seq;
 
 	/* check if the new pj numb exist */
-	$c=CountSql($this->db,"select jr_id from jrn where jr_pj_number=$1 and jr_def_id=$2",
+	$c=count_sql($this->db,"select jr_id from jrn where jr_pj_number=$1 and jr_def_id=$2",
 		    array($this->pj,$this->jrn)
 		    ); 
 	if ( $c == 0 ) { $flag=1; break;}

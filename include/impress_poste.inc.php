@@ -19,7 +19,6 @@
 /* $Revision$ */
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 require_once("class_ispan.php");
-require_once("class_iposte.php");
 require_once("class_icard.php");
 require_once("class_iselect.php");
 require_once("class_icheckbox.php");
@@ -116,7 +115,7 @@ if ( isset( $_REQUEST['bt_html'] ) ) {
 	$go=3;
       } 
       // Check if the post is numeric and exists
-      elseif (  CountSql($cn,'select * from tmp_pcmn where pcm_val='.FormatString($_GET['poste_id'])) != 0 )
+      elseif (  count_sql($cn,'select * from tmp_pcmn where pcm_val='.FormatString($_GET['poste_id'])) != 0 )
 	{
 	  $Poste=new Acc_Account_Ledger($cn,$_GET['poste_id']);$go=1;
 	}

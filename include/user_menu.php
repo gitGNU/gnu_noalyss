@@ -26,7 +26,6 @@
 /* $Revision$ */
 
 require_once("class_idate.php");
-require_once("class_iposte.php");
 require_once("class_icard.php");
 require_once("class_ispan.php");
 

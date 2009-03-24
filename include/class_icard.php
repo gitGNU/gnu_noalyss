@@ -39,7 +39,7 @@ class ICard extends HtmlInput
 	public function dbutton() {
 		if (!isset ($this->jrn) ) $this->jrn=-1;
 		$add='yes';
-		if ( isset($this->noadd) ) $add=no;
+		if ( isset($this->noadd) ) $add='no';
 		$r= sprintf('<INPUT TYPE="button" onClick="SearchCard(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')" value="%s">',
 			 $_REQUEST['PHPSESSID'],
 		     $this->extra,

@@ -121,7 +121,7 @@ if  ( $_GET['p_simple'] == 0 )
 	     // the credit must be negative and written in red
 	     // Get the jrn type
 	     if ( $line['jrn_def_type'] == 'FIN' ) {
-	       $positive = CountSql($cn,"select * from jrn inner join jrnx on jr_grpt_id=j_grpt ".
+	       $positive = count_sql($cn,"select * from jrn inner join jrnx on jr_grpt_id=j_grpt ".
 				    " where jr_id=".$line['jr_id']." and $sql_fin ".
 			       " and j_debit='f'");
 	       

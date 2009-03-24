@@ -25,7 +25,6 @@ require_once("class_ispan.php");
 require_once("class_ihidden.php");
 require_once("class_idate.php");
 require_once("class_itext.php");
-require_once("class_iposte.php");
 require_once("class_icheckbox.php");
 require_once('class_iperiod.php');
 require_once('class_fiche.php');
@@ -1419,14 +1418,12 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
    *
    * \return the number
    *      
-   * \todo this function show be a part of the acc_ledger_type class
-   *       as soon as this class is created
    *
    */
   static function next_number($p_cn,$p_type)
   {
   
-    $Ret=CountSql($p_cn,"select * from jrn_def where jrn_def_type='".$p_type."'");
+    $Ret=count_sql($p_cn,"select * from jrn_def where jrn_def_type='".$p_type."'");
     return $Ret+1;
   }
   /*!\brief get the first ledger

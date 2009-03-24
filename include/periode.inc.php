@@ -102,7 +102,7 @@ if ( $action== "delete_per" ) {
   $User->can_request(PARPER);
   $p_per=$_GET["p_per"];
 // Check if the periode is not used
-  if ( CountSql($cn,"select * from jrnx where j_tech_per=$p_per") != 0 ) {
+  if ( count_sql($cn,"select * from jrnx where j_tech_per=$p_per") != 0 ) {
   echo '<h2 class="error"> Désolé mais cette période est utilisée</h2>';
   } else
   {

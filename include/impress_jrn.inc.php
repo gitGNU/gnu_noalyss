@@ -49,7 +49,7 @@ if ( $User->Admin() == 0 && $User->is_local_admin()==0) {
  } 
 
 // Count the forbidden journaux
-    $NoPriv=CountSql($cn,"select jrn_def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
+    $NoPriv=count_sql($cn,"select jrn_def_id,jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
                                 jrn_deb_max_line,jrn_cred_max_line
                              from jrn_def join jrn_type on jrn_def_type=jrn_type_id
                              join  user_sec_jrn on uj_jrn_id=jrn_def_id 
@@ -237,7 +237,7 @@ require_once("class_acc_ledger.php");
 	// the credit must be negative and written in red
   	// Get the jrn type
 	if ( $line['jrn_def_type'] == 'FIN' ) {
-	  $positive = CountSql($cn,"select * from jrn inner join jrnx on jr_grpt_id=j_grpt ".
+	  $positive = count_sql($cn,"select * from jrn inner join jrnx on jr_grpt_id=j_grpt ".
 		   " where jr_id=".$line['jr_id']." and $sql_fin ".
 			       " and j_debit='f'");
 	

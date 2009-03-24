@@ -27,7 +27,6 @@
  * - gDossier
  * - PHPSESSID
  * Must return at least tva, htva and tvac
- * \todo must add the security
  */
 
 require_once ('constant.php');

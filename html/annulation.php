@@ -22,7 +22,6 @@
  * \brief in a popup window manage the deletion of the operations
  */
 include_once ("ac_common.php");
-include_once ("poste.php");
 include_once("central_inc.php");
 include_once("user_common.php");
 include_once ("postgres.php");
@@ -401,13 +400,16 @@ if ( isset ($e_ech) ) {
   echo "<DIV> Echeance $e_ech </DIV>";
 }
 for ( $i = 0; $i < $max_deb;$i++) {
-  $lib=GetPosteLibelle($gDossier,${"e_class_deb$i"}); 
+  $poste=new Acc_Account($gDossier,${"e_class_deb$i"});
+  $lib=$poste->get_lib();
+
   echo '<div style="background-color:#BFC2D5;">';
   echo ${"e_class_deb$i"}." $lib    "."<B>".${"e_mont_deb$i"}."</B>";
   echo "</div>";
 }
 for ( $i = 0; $i < $max_cred;$i++) {
-  $lib=GetPosteLibelle($gDossier,${"e_class_cred$i"});
+  $poste=new Acc_Account($gDossier,${"e_class_cred$i"});
+  $lib=$poste->get_lib();
   echo '<div style="background-color:#E8F4FF;">';
   echo ${"e_class_cred$i"}."  $lib   "."<B>".${"e_mont_cred$i"}."</B>";
   echo '</div>';

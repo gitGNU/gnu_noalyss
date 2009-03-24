@@ -83,11 +83,11 @@ class Acc_Account {
                   pcm_val=$1",array($this->pcm_value));
       if ( pg_NumRows($ret) != 0) {
 	$r=pg_fetch_array($ret);
-	$this->name=$r['pcm_lib'];
+	$this->pcm_lib=$r['pcm_lib'];
       } else {
-	$this->name="Poste inconnu";
+	$this->pcm_lib="Poste inconnu";
       }
-    return $this->name;
+    return $this->pcm_lib;
   }
   /*!\brief Check that the value are valid 
    *\return true if all value are valid otherwise false

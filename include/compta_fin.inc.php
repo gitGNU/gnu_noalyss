@@ -179,7 +179,6 @@ if ( $def == 2) {
 // Show the saldo
 //--------------------------------------------------------------------------------
 if ( $def==3) {
-  require_once("poste.php");
   require_once ('class_acc_parm_code.php');
   echo '<div class="content">';
 

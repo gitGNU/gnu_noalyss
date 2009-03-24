@@ -51,7 +51,6 @@ if ( $User->check_action(FICADD)== 0) {
     return;
 }
 
-include_once("fiche_inc.php");
 
 
 foreach ($_GET as $key=>$element) {

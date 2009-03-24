@@ -21,7 +21,6 @@
 /*! \file
  * \brief Show and let modify ledger parameter
  */
-require_once("class_iposte.php");
 require_once("class_itext.php");
 require_once('class_dossier.php');
 require_once('class_acc_ledger.php');
@@ -53,7 +52,7 @@ if ( isset( $_REQUEST['p_jrn'] )) {
 // remove ledger
 //--------------------------------------------------
 if ( isset($_POST["efface"])) {
-	if ( CountSql($cn,"select * from jrn where jr_def_id=".$_POST['p_jrn']." limit 3") == 0 )
+	if ( count_sql($cn,"select * from jrn where jr_def_id=".$_POST['p_jrn']." limit 3") == 0 )
 	  {
 	    ExecSqlParam($cn,"delete from jrn_def where jrn_def_id=$1",array($_POST['p_jrn']));
 	  } else { echo '

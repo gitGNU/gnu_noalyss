@@ -74,7 +74,7 @@ while (($data = fgetcsv($handle, 2000,'@')) !== FALSE) {
 // Skip dubbel
 //----------------------------------------------------
 	$Sql="select * from import_tmp where code='$ref_extrait' and compte_ordre='$compte_ordre' limit 2";  
-	if ( CountSql($p_cn,utf8_encode($Sql)) > 0)
+	if ( count_sql($p_cn,utf8_encode($Sql)) > 0)
 	{
 		/* Skip it it already encoded */
 		echo "Double skipped : $ref_extrait $detail <BR>";

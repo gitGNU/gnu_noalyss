@@ -24,8 +24,6 @@
 /*! \file
  * \brief Send a ledger in a pdf format
  *
- *\todo for the pdf, which doesn't support unicode you must
- translate all the string to latin-1 with the utf8-decode function 
 */
 
 require_once('class_dossier.php');

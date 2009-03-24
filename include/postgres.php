@@ -39,7 +39,7 @@ function ShowDossier($p_type,$p_first=0,$p_max=10,$p_Num=0) {
   $cn=DbConnect();
   if ( $p_type == "all") {
     $l_sql="select *, 'W' as priv_priv from ac_dossier ORDER BY dos_name  ";
-    $p_Num=CountSql($cn,$l_sql);
+    $p_Num=count_sql($cn,$l_sql);
   } else {
     $l_sql="select * from jnt_use_dos 
                                natural join ac_dossier 
@@ -47,7 +47,7 @@ function ShowDossier($p_type,$p_first=0,$p_max=10,$p_Num=0) {
                                inner join priv_user on priv_jnt=jnt_id where 
                                use_login='".$l_user."' and priv_priv !='NO'
                                order by dos_name ";
-    $p_Num=CountSql($cn,$l_sql);
+    $p_Num=count_sql($cn,$l_sql);
   }
   $l_sql=$l_sql.$l_step;
   $p_res=ExecSql($cn,$l_sql);
@@ -201,7 +201,7 @@ function GetAllUser() {
  * \param $array if not null we use the safer ExecSqlParam
  */
 
-function CountSql($p_conn,$p_sql,$array=null)
+function count_sql($p_conn,$p_sql,$array=null)
 {
   if ( $array == null )
     $r_sql=ExecSql($p_conn,$p_sql);
@@ -342,7 +342,7 @@ function getDbValue($p_cn,$p_sql,$p_array=null)
 /* \return true if the seq. exist otherwise false
  */
 function exist_sequence($p_cn,$p_name) {
-  $r=CountSql($p_cn,"select relname from pg_class where relname=lower('".$p_name."')");
+  $r=count_sql($p_cn,"select relname from pg_class where relname=lower('".$p_name."')");
   if ( $r==0)
     return false;
   return true;

@@ -31,9 +31,14 @@ require_once ("postgres.php");
 require_once ("debug.php");
 require_once ("class_user.php");
 require_once('class_dossier.php');
+require_once ('class_user.php');
 $gDossier=dossier::id();
-/*!\todo Add the security here */
+
 $cn=DbConnect($gDossier);
+$User=new User($cn);
+$User->Check();
+
+
 ExecSqlParam($cn,"delete from operation_analytique where oa_group=$1",array($_GET['oa']));
 echo_debug(__FILE__,__LINE__,$_GET);
 ?>

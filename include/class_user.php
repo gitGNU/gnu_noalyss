@@ -586,7 +586,7 @@ jrn_def_name,jrn_def_class_deb,jrn_def_class_cred,jrn_type_id,jrn_desc,uj_priv,
 
     $cn=DbConnect();
   
-    $isAdmin=CountSql($cn,$sql);
+    $isAdmin=count_sql($cn,$sql);
 
 
     return $isAdmin;

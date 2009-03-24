@@ -21,12 +21,10 @@
 
 /*! \file 
  * \brief javascript for searching a card
- * \todo the ledger MUST not be taken from the document but based as a parameter
  */
 /*!\brief open a windows for showing a card
 * \param p_sessid must be given
 * \param the qcode 
-*\todo is obsolete ??
  */
 function showfiche(p_sessid,p_qcode)
 {

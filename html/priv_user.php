@@ -86,7 +86,7 @@ if ( isset ($_POST['SAVE']) ){
   else {
 	  $UserChange->first_name=$first_name;
 	  $UserChange->last_name=$last_name;
-	  $UserChange->active=$_Post['Actif'];
+	  $UserChange->active=$_POST['Actif'];
 	  $UserChange->admin=$_POST['Admin'];
 	  $UserChange->save();
 	 

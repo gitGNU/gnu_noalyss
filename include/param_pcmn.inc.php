@@ -116,7 +116,7 @@ if ( isset ( $_POST["Ajout"] ) ) {
       } else {
 	// Check if the account already exists
 	
-	$Count=CountSql($cn,"select * from tmp_pcmn where pcm_val='".$p_val."'");
+	$Count=count_sql($cn,"select * from tmp_pcmn where pcm_val='".$p_val."'");
 	if ( $Count != 0 ) 
 	  {
 	    // Alert message account already exists

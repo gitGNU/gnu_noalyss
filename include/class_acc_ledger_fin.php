@@ -33,7 +33,6 @@ require_once("class_ifile.php");
 require_once("class_ihidden.php");
 require_once("class_iselect.php");
 require_once('class_acc_ledger.php');
-require_once('poste.php');
 require_once('ac_common.php');
 require_once('class_acc_reconciliation.php');
 

@@ -24,7 +24,6 @@
  *
  */
 include_once ("ac_common.php");
-include_once ("poste.php");
 include_once("central_inc.php");
 include_once("user_common.php");
 include_once ("postgres.php");
@@ -258,7 +257,7 @@ if ( isset($_POST['update_record']) ) {
 		if (strlen($old_oid) != 0)
 		  {
 			// check if this pj is used somewhere else
-			$c=CountSql($cn,"select * from jrn where jr_pj=".$old_oid);
+			$c=count_sql($cn,"select * from jrn where jr_pj=".$old_oid);
 			if ( $c == 1 )
 			  pg_lo_unlink($cn,$old_oid);
 		  }

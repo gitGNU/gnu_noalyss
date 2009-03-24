@@ -23,7 +23,6 @@
  */
 
 require_once("class_itext.php");
-require_once("class_iposte.php");
 require_once("class_ibutton.php");
 require_once('class_acc_report_row.php');
 require_once('impress_inc.php');

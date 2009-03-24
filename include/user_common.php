@@ -281,7 +281,7 @@ $own=new Own($p_cn);
     $sql.=$order;
   }// p_array != null
   // Count 
-  $count=CountSql($p_cn,$sql);
+  $count=count_sql($p_cn,$sql);
   // Add the limit 
   $sql.=$limit.$offset;
 
@@ -380,7 +380,7 @@ $own=new Own($p_cn);
     // Check ledger type : 
      if (  $row['jrn_def_type'] == 'FIN' ) 
      {
-       $positive = CountSql($p_cn,"select * from jrn inner join jrnx on jr_grpt_id=j_grpt ".
+       $positive = count_sql($p_cn,"select * from jrn inner join jrnx on jr_grpt_id=j_grpt ".
  			   " where jr_id=".$row['jr_id']." and $sql_fin ".
  			   " and j_debit='f'");
      }

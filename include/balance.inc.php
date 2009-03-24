@@ -28,7 +28,6 @@
 include_once ("ac_common.php");
 include_once("class_acc_balance.php");
 require_once("class_iselect.php");
-require_once("class_iposte.php");
 require_once("class_ispan.php");
 require_once("class_icheckbox.php");
 require_once("class_ihidden.php");
@@ -43,25 +42,17 @@ echo '<div class="content">';
 // Show the form for period
 echo '<FORM action="?p_action=impress&type=bal" method="post">';
 echo dossier::hidden();
-$w=new ISelect();
-$w->table=1;
 // filter on the current year
-/*!\todo use the new HtmlInput object : IPeriod */
-$filter_year=" where p_exercice='".$User->get_exercice()."'";
+$from=(isset($_POST["from_periode"]))?$_POST['from_periode']:"";
+$input_from=new IPeriod("from_periode",$from);
+$input_from->filter_year;
+echo 'Depuis :'.$input_from->input();
+// filter on the current year
+$to=(isset($_POST["to_periode"]))?$_POST['from_periode']:"";
+$input_to=new IPeriod("to_periode",$from);
+$input_to->filter_year;
+echo ' jusque :'.$input_to->input();
 
-$periode_start=make_array($cn,"select p_id,to_char(p_start,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
-$w->label="Depuis";
-if ( isset ($_POST['from_periode']) )
-  $w->selected=$_POST['from_periode'];
-
- /*!\todo use the new HtmlInput object : IPeriod */
-echo $w->input('from_periode',$periode_start);
-$w->label=" jusqu'à ";
-$periode_end=make_array($cn,"select p_id,to_char(p_end,'DD-MM-YYYY') from parm_periode $filter_year order by p_start,p_end");
-if ( isset ($_POST['to_periode']) )
-  $w->selected=$_POST['to_periode'];
-
-echo $w->input('to_periode',$periode_end);
 //-------------------------------------------------
 $l=new Acc_Ledger($cn,0);
 $journal=$l->select_ledger('ALL',3);

@@ -27,7 +27,7 @@
  * - gDossier
  * - PHPSESSID
  * Must return at least tva, htva and tvac
- * \todo must add the security
+
  */
 
 require_once ('constant.php');
@@ -35,6 +35,7 @@ require_once ('postgres.php');
 require_once ('debug.php');
 require_once('class_dossier.php');
 require_once('class_acc_ledger.php');
+require_once ('class_user.php');
 
 // Check if the needed field does exist
 extract ($_GET);
@@ -43,6 +44,9 @@ foreach (array('l','gDossier') as $a) {
 }
 if ( ereg('^[0-9]+$',$l) == false ) {exit();}
 $cn=DbConnect(dossier::id());
+$User=new User($cn);
+$User->Check();
+
 $Ledger=new Acc_Ledger($cn,$l);
 $prop=$Ledger->get_propertie();
 $pj_seq=$Ledger->guess_pj();

@@ -58,12 +58,23 @@ class Anc_Group_Operation
   }
   /*!\brief add several rows */
   function add() {
-	/*!\todo add a control to check that the amount are balanced if
-       not throw an exception
-	*/
-	foreach ($this->a_operation as $row) {
-	  $row->add();
-	}
+
+    $amount=0;
+    try {
+      StartSql($this->db);
+      foreach ($this->a_operation as $row) {
+	$add=round($row->oa_amount,2);
+	$add=($row->oa_debit=='t')?$add:$add*(-1);
+	$amount+=round($add,2);
+	$row->add();
+      }
+      if ( $amount != 0 ) thrown new Exception ('Operation non equilibrée');
+    } catch ($e) {
+      echo $e->getTrace();
+      Rollback($this->db);
+      exit();
+    }
+    Commit($this->db);
   }
   /*!\brief show a form for the operation (several rows)
    * \return the string containing the form but without the form tag

@@ -67,7 +67,7 @@ while (($data = fgetcsv($handle, 2000,"!")) !== FALSE) {
 //----------------------------------------------------
 	  $code=FormatString($code);
 	  $num_compte=FormatString($num_compte);
-	  if ( CountSql($p_cn,utf8_encode("select * from import_tmp where code='$code' and num_compte='$num_compte' limit 2")) != 0 )
+	  if ( count_sql($p_cn,utf8_encode("select * from import_tmp where code='$code' and num_compte='$num_compte' limit 2")) != 0 )
 {
 	/* Skip it it already encoded */
 	echo "Doublon éliminé ".$detail;

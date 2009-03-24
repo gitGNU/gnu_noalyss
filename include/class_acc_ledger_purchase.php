@@ -658,7 +658,6 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $r.="<FORM NAME=\"form_detail\" METHOD=\"POST\">";
     $r.=JS_INFOBULLE;
     $r.=JS_SEARCH_CARD;
-    //!\todo do we need JS_TVA ??? Remove if no
     $r.=JS_SHOW_TVA;    
     $r.=JS_TVA;
     $r.=JS_AJAX_FICHE;
@@ -794,8 +793,6 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $p_article= ( isset ($p_article))?$p_article:MAX_ARTICLE;
     $r.=$Hid->input("nb_item",$p_article);
     $e_comment=(isset($e_comment))?$e_comment:"";
-	/*!\todo for the PJ we suggest the PJ Number, the pj number must also be settable in the ledger
-	   setting  and editable in the details popup window */
     $r.="</fieldset>";
     
     // Start the div for item to sell
@@ -1203,7 +1200,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $r.="Ajoutez une pi&egrave;ce justificative ";
     $r.=$file->input("pj","");
     /* Propose to generate a note of fee */
-    if ( CountSql($this->db,
+    if ( count_sql($this->db,
 		  "select md_id,md_name from document_modele where md_type=10") > 0 )
       {
 

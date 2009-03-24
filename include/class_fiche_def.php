@@ -23,6 +23,7 @@ require_once("class_itext.php");
 require_once('class_fiche_def_ref.php');
 require_once('class_fiche.php');
 require_once('user_common.php');
+require_once('class_iradio.php');
 
 /*! \file
  * \brief define Class fiche and fiche def, those class are using
@@ -45,6 +46,18 @@ class fiche_def {
     $this->cn=$p_cn;
     $this->id=$p_id;
   }
+/*!\brief show the content of the form to create  a new fiche_def_ref
+* \todo use template technology to finish it
+*/
+function input ($p_js) 
+{
+  $ref=get_array($this->cn,"select * from fiche_def_ref order by frd_text");
+  $iradio=new IRadio();
+  // Number of line of the card
+//  $display.='<INPUT TYPE="HIDDEN" NAME="INC" VALUE="'.$p_ligne.'">';
+  require_once ('template/fiche_def_input.php');
+  return;
+}
 
 /*!
  **************************************************
@@ -126,7 +139,7 @@ class fiche_def {
  * \return  true or false
  */
  function HasAttribute($p_attr) {
-   return (CountSql($this->cn,"select * from vw_fiche_def where ad_id=$p_attr and fd_id=".$this->id)>0)?true:false;
+   return (count_sql($this->cn,"select * from vw_fiche_def where ad_id=$p_attr and fd_id=".$this->id)>0)?true:false;
 
  }
 /*!   
@@ -155,18 +168,12 @@ class fiche_def {
   */
  function Add($array)
    {
-     echo_debug('class_fiche',__LINE__,"Add Modele");
-
-  // Show what we receive for debug purpose only
-  //
-
      foreach ( $array as $key=>$element ) {
-       echo_debug('class_fiche_def',__LINE__,"p_$key $element");
        ${"p_$key"}=$element;
      }
      // Format correctly the name of the cat. of card
      $p_nom_mod=FormatString($p_nom_mod);
-     echo_debug('class_fiche_def',__LINE__,"Adding $p_nom_mod");
+     
      // Format the p_class_base 
      // must be an integer
      if ( isNumber($p_class_base) == 0 && FormatString($p_class_base) != null ) {
@@ -177,8 +184,8 @@ class fiche_def {
        return;
 
      // $p_FICHE_REF cannot be null !!! (== fiche_def_ref.frd_id
-     if (! isset ($p_FICHE_REF) or strlen($p_FICHE_REF) == 0 ) {
-       echo_error ("AddModele : fiche_ref MUST NOT be null or empty");
+     if (! isset ($p_FICHE_REF) || strlen($p_FICHE_REF) == 0 ) {
+       alert (utf8_encode('Vous devez choisir une catégorie'));
        return;
      }
      $fiche_Def_ref=new fiche_def_ref($this->cn,$p_FICHE_REF);
@@ -239,7 +246,7 @@ class fiche_def {
      }
      
      // Get the default attr_def from attr_min
-     $def_attr=Get_attr_min($this->cn,$p_FICHE_REF);
+     $def_attr=$this->get_attr_min($p_FICHE_REF);
      
      //if defaut attr not null 
      // build the sql insert for the table attr_def
@@ -309,7 +316,7 @@ class fiche_def {
 
 	$page=(isset($_GET['page']))?$_GET['page']:1;
 	$offset=(isset($_GET['offset']))?$_GET['offset']:0;
-	$max_line=CountSql($this->cn,"select f_id,av_text  from 
+	$max_line=count_sql($this->cn,"select f_id,av_text  from 
                           fiche join jnt_fic_att_value using (f_id) 
                                 join attr_value using (jft_id)
                        where fd_id='".$this->id."' and ad_id=".ATTR_DEF_NAME." order by f_id");
@@ -397,7 +404,7 @@ class fiche_def {
 	} else {
 		if ( $str == "remove" ) {
 		  //Only for the not mandatory attribute (not defined in attr_min)
-		  if ( CountSql($this->cn,"select * from attr_min where frd_id=".
+		  if ( count_sql($this->cn,"select * from attr_min where frd_id=".
 			   $this->fiche_def." and ad_id = ".$this->attribut[$i]->ad_id) == 0
 		       && $this->attribut[$i]->ad_id != ATTR_DEF_QUICKCODE
 		       && $this->attribut[$i]->ad_id != ATTR_DEF_ACCOUNT
@@ -562,6 +569,34 @@ class fiche_def {
        return $remain;
 
      }
+/*!   
+ * \brief  retrieve the mandatory field of the card model
+ *        
+ * \param $p_fiche_def_ref 
+ * \return array of ad_id  (attr_min.ad_id) and  labels (attr_def.ad_text)
+ */
+function get_attr_min($p_fiche_def_ref) {
+
+  // find the min attr for the fiche_def_ref
+  $Sql="select ad_id,ad_text from attr_min natural join attr_def 
+         natural join fiche_def_ref
+      where
+      frd_id= $1";
+  $Res=ExecSqlParam($this->cn,$Sql,array($p_fiche_def_ref));
+  $Num=pg_NumRows($Res);
+
+  // test the number of returned rows
+  if ($Num == 0 ) return null;
+
+  // Get Results & Store them in a array
+  for ($i=0;$i<$Num;$i++) {
+    $f=pg_fetch_array($Res,$i);
+    $array[$i]['ad_id']=$f['ad_id'];
+    $array[$i]['ad_text']=$f['ad_text'];
+  }
+  return $array;
+}
+
 
 
 

@@ -22,13 +22,14 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 include_once("class_attribut.php");
-require_once("class_iposte.php");
 require_once("class_ispan.php");
 require_once("class_itva.php");
 require_once("class_isearch.php");
 require_once("class_itext.php");
 require_once("class_ihidden.php");
 require_once('class_fiche_def.php');
+require_once('class_iposte.php');
+
 /*! \file
  * \brief define Class fiche, this class are using
  *        class attribut
@@ -480,7 +481,7 @@ class fiche {
 		}
 	      // stock 
 	      if ( $id == ATTR_DEF_STOCK ) {
-		$st=CountSql($this->cn,'select * from stock_goods where '.
+		$st=count_sql($this->cn,'select * from stock_goods where '.
 			     " upper(sg_code)=upper('$value')");
 		if ( $st == 0 ) {
 		  $user=new User($this->cn);
@@ -538,7 +539,7 @@ class fiche {
 		  // Verify if the rate exists, if not then do not update
 		  if ( strlen(trim($value)) != 0 ) 
 		    {
-		      if ( CountSql($this->cn,"select * from tva_rate where tva_id=".$value) == 0) 
+		      if ( count_sql($this->cn,"select * from tva_rate where tva_id=".$value) == 0) 
 			{
 			  echo_debug("class_fiche",__LINE__,"Tva invalide $value");
 			  continue;
@@ -548,7 +549,7 @@ class fiche {
 	      // The contact has a company attribut
 	      if ( $id == ATTR_DEF_COMPANY ) 
 		{
-		  $exist=CountSql($this->cn,"select f_id from fiche join fiche_def using (fd_id) ".
+		  $exist=count_sql($this->cn,"select f_id from fiche join fiche_def using (fd_id) ".
 				  " join jnt_fic_att_value using (f_id) join attr_value using (jft_id) ".
 				  " where frd_id in (8,9,14) and ad_id=".ATTR_DEF_QUICKCODE.
 				  " and av_text='".FormatString($value)."'");
@@ -579,7 +580,6 @@ class fiche {
    
 
   /*!\brief update a card
-   * \todo add a check to return an error and rollback operation
    */
  function update($p_array=null) 
      {
@@ -637,7 +637,7 @@ class fiche {
                
 	       }
 	     	      if ( $id == ATTR_DEF_STOCK ) {
-		$st=CountSql($this->cn,'select * from stock_goods where '.
+		$st=count_sql($this->cn,'select * from stock_goods where '.
 			     " f_id=".$this->id);
 		if ( $st == 0 ) {
 		  $user=new User($this->cn);
@@ -713,7 +713,7 @@ class fiche {
 		 // Verify if the rate exists, if not then do not update
 		 if ( strlen(trim($value)) != 0 ) 
 		   {
-		     if ( CountSql($this->cn,"select * from tva_rate where tva_id=".$value) == 0) 
+		     if ( count_sql($this->cn,"select * from tva_rate where tva_id=".$value) == 0) 
 		       {
 			 echo_debug("class_fiche",__LINE__,"Tva invalide $value");
 			 continue;
@@ -722,7 +722,7 @@ class fiche {
 	       }
 	     if ( $id == ATTR_DEF_COMPANY ) 
 	       {
-		 $exist=CountSql($this->cn,"select f_id from fiche join fiche_def using (fd_id) ".
+		 $exist=count_sql($this->cn,"select f_id from fiche join fiche_def using (fd_id) ".
 				 " join jnt_fic_att_value using (f_id) join attr_value using (jft_id) ".
                                " where frd_id in (8,9,14) and ad_id=".ATTR_DEF_QUICKCODE.
 				 " and av_text='".FormatString($value)."'");
@@ -766,7 +766,7 @@ class fiche {
        // if the card is used do not removed it
        $qcode=$this->strAttribut(ATTR_DEF_QUICKCODE);
 
-       if ( CountSql($this->cn,"select * from jrnx where j_qcode='".pg_escape_string($qcode)."'") != 0)
+       if ( count_sql($this->cn,"select * from jrnx where j_qcode='".pg_escape_string($qcode)."'") != 0)
 	 {
 	   alert('Impossible cette fiche est utilisée dans un journal'); 
 	   return;
@@ -777,7 +777,7 @@ class fiche {
 	 $class=$this->strAttribut(ATTR_DEF_ACCOUNT);
 	 $is_used_jrnx=0;
 	 if ( trim(strlen($class)) != 0 && isNumber($class) == 1 )
-	 	$is_used_jrnx= CountSql($this->cn,"select * from jrnx where j_poste=$class");
+	 	$is_used_jrnx= count_sql($this->cn,"select * from jrnx where j_poste=$class");
 	 // if class is not NULL and if we use it before, we can't remove it
 	 if (FormatString($class) != null && $is_used_jrnx     != 0 ) 
 	   {
