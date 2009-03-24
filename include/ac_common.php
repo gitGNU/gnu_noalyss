@@ -38,7 +38,7 @@ function hb($p_string) { return '<b>'.htmlspecialchars($p_string).'</b>';}
 *\param class to use
 * \return string surrounded by td
 */
-function td($p_string,$p_class=''){ return '<td '.$p_class.' >'.$p_string.'</td>';}
+function td($p_string,$p_class=''){ return '<td class="'.$p_class.'" >'.$p_string.'</td>';}
 /*!\brief escape correctly php string to javascript */
 function j($p_string) { $a=preg_replace("/\r?\n/", "\\n", addslashes($p_string)); return $a;}
 /*! 

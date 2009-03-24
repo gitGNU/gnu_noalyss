@@ -109,14 +109,15 @@ if ( $sub_action == "list" )
     echo dossier::hidden();
  
    $a=(isset($_GET['query']))?$_GET['query']:"";
-   printf ('<input type="text" name="query" value="%s">',
+   printf ('Recherche <input type="text" name="query" value="%s">',
 	   $a);
 ?>
-<input type="submit" name="submit_query" value="recherche">
+
 <input type="hidden" name="p_action" value="fournisseur">
+<input type="submit" name="submit_query" value="recherche">
 </form>
 </span>
-<span  style="position:float;float:left">
+<span  style="position:float;float:right">
 <form method="get" >
 <input type="hidden" name="p_action" value="fournisseur">
 
@@ -130,7 +131,7 @@ if ( $sub_action == "list" )
 
 ?>
 <input type="hidden" name="sa" value="blank">
-<input type="submit" name="submit_query" value="Ajout Sup">
+<input type="submit" name="submit_query" value="Ajout de fournisseur">
 <input type="hidden" name="url" <?php        $url=urlencode($_SERVER['REQUEST_URI']);echo 'value="'.$url.'"'; ?>
 
 </form>

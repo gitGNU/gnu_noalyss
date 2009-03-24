@@ -53,6 +53,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
    */
   public function verify($p_array) {
     extract ($p_array);
+
     /* check if there is a customer */
     if ( strlen(trim($e_client)) == 0 ) 
       throw new Exception('Vous n\'avez pas donné de fournisseur',11);
@@ -65,10 +66,10 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 	if ( $this->check_periode() == false) {
 		$tperiode=$oPeriode->find_periode($e_date);
 	}else {
-		$tperiode=$period;
-		$oPeriode->id=$period;
+		$tperiode=$periode;
+		$oPeriode->id=$periode;
 		/* check that the datum is in the choosen periode */
-        list ($min,$max)=$Operiode->get_date_limit($tperiode);
+        list ($min,$max)=$oPeriode->get_date_limit($tperiode);
 	    if ( cmpDate($e_date,$min) < 0 ||
 		 cmpDate($e_date,$max) > 0) 
 		throw new Exception('Date et periode ne correspondent pas',6);
@@ -158,6 +159,9 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
   /*!\brief insert into the database, it calls first the verify function
    *\param $p_array is usually $_POST or a predefined operation
    *\return string
+   *\todo add a timestamp in the confirm, if a line does exist with
+   *the same timestamp, then we supposed the user is trying to reload
+   *the form, this timestamp must be in a hidden field
    *\note throw an Exception
    */
   public function insert($p_array) {
@@ -427,7 +431,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 	$acc_operation->grpt=$seq;
 	$acc_operation->jrn=$p_jrn;
 	$acc_operation->type='d';
-	$acc_operation->periode=$periode;
+	$acc_operation->periode=$tperiode;
 	if ( $value > 0 ) $tot_debit=bcadd($tot_debit,$value);
 	$acc_operation->insert_jrnx();
       
@@ -441,7 +445,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $acc_operation->desc=$e_comm;
     $acc_operation->grpt=$seq;
     $acc_operation->jrn=$p_jrn;
-    $acc_operation->periode=$periode;
+    $acc_operation->periode=$tperiode;
     $acc_operation->pj=$e_pj;
     $acc_operation->insert_jrn();
     $this->pj=$acc_operation->set_pj();
@@ -676,15 +680,15 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $Date->table=1;
     $Date->tabindex=1;
     $r.="<tr>";
-    $r.=$Date->input("e_date",$op_date,"Date");
+    $r.=td('Date : '.$Date->input("e_date",$op_date));
     // Payment limit
     //--
     $Echeance=new IDate();
     $Echeance->setReadOnly(false);
-    $Echeance->table=1;
     $Echeance->tabindex=2;
     $label=HtmlInput::infobulle(4);
-    $r.=$Echeance->input("e_ech",$e_ech,"Echeance ".$label);
+    $r.=td("Echeance".$label.":".$Echeance->input("e_ech",$e_ech));
+
 	if ($this->check_periode() == true) {
 	    // Periode 
 	    //--
@@ -698,11 +702,11 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 		$period->type=OPEN;
 		$l_form_per=$period->input();
 	    
-	    $r.="<td class=\"input_text\">";
+		$r.="<td>";
 	    $label=HtmlInput::infobulle(3);
 	    $r.="Période comptable $label</td><td>".$l_form_per;
 	    $r.="</td>";
-		}
+	}
     $r.="</tr><tr>";
 	
     // Ledger (p_jrn)
@@ -714,11 +718,10 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     }
     $wLedger=$this->select_ledger('ACH',2);
     if ($wLedger == null) exit ('Pas de journal disponible');
-    $wLedger->table=1;
     $wLedger->javascript="onChange='update_predef(\"ach\",\"f\");$add_js'";
-    $wLedger->label=" Journal ".HtmlInput::infobulle(2) ;
+    $label=" Journal ".HtmlInput::infobulle(2) ;
 
-    $r.=$wLedger->input();
+    $r.=td($label,"input_text").td($wLedger->input());
     // Comment
     //--
     $Commentaire=new IText();
@@ -994,7 +997,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
       $client->strAttribut(ATTR_DEF_CITY));
     $lPeriode=new Periode($this->db);
 	if ($this->check_periode() == true) {
-			$lPeriode->id=$periode;
+			$lPeriode->id=$period;
 		} else {
 			$lPeriode->find_periode($e_date);
 		}
@@ -1163,7 +1166,8 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $r.=HtmlInput::hidden('e_client',$e_client);
     $r.=HtmlInput::hidden('nb_item',$nb_item);
     $r.=HtmlInput::hidden('p_jrn',$p_jrn);
-    $r.=HtmlInput::hidden('periode',$periode);
+    if ( isset($period))
+      $r.=HtmlInput::hidden('periode',$period);
     $r.=HtmlInput::hidden('e_comm',$e_comm);
     $r.=HtmlInput::hidden('e_date',$e_date);
     $r.=HtmlInput::hidden('e_ech',$e_ech);

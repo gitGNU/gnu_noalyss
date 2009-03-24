@@ -136,7 +136,7 @@ class HtmlInput {
 
   }
   static function infobulle($p_comment){
-    $r='<A HREF="#" style="display:inline;color:black;background-color:yellow" onmouseover="showBulle(\''.$p_comment.'\')"  onclick="showBulle(\''.$p_comment.'\')" onmouseout="hideBulle(0)">?</A>';
+    $r='<A HREF="#" style="display:inline;color:black;background-color:yellow;padding-left:4px;padding-right:4px;" onmouseover="showBulle(\''.$p_comment.'\')"  onclick="showBulle(\''.$p_comment.'\')" onmouseout="hideBulle(0)">?</A>';
     return $r;
   }
 
