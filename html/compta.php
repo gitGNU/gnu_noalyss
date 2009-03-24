@@ -24,6 +24,7 @@
  * \brief Main page for accountancy
  */
 require_once('class_dossier.php');
+require_once('user_common.php');
 $gDossier=dossier::id();
 include_once ("ac_common.php");
 $action=(isset($_REQUEST['p_action']))?$_REQUEST['p_action']:'';
@@ -38,6 +39,8 @@ if ( $action == 'ven' && ! isset ($_REQUEST['sa']) )
 
 if ( ! isset ($_SESSION['g_theme'])) {
 	echo '<h2 class="error"> Vous êtes déconnecté</h2>';
+	redirect('index.php',5);
+
 	exit();
 }
 if ( $action == 'ven' && isset ($_REQUEST['sa']) && in_array($_REQUEST['sa'],array('n','p')  ))

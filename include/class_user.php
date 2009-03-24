@@ -41,8 +41,11 @@ class User {
   function User ($p_cn,$p_id=-1){
     // if p_id is not set then check the connected user
     if ( $p_id == -1 ) {
-      if ( ! isset ($_SESSION['g_user'])) 
-	exit('<h2 class="error"> Utilisateur déconnecté</h2>');
+      if ( ! isset ($_SESSION['g_user'])){ 
+	echo '<h2 class="error"> Utilisateur déconnecté</h2>';
+	redirect('index.php',5);
+
+      }
 
       $this->login=$_SESSION['g_user'];
       $this->pass=$_SESSION['g_pass'];

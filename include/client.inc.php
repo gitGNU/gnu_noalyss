@@ -110,29 +110,11 @@ if ( $sub_action == "list" )
 <?php
 	echo dossier::hidden();  
    $a=(isset($_GET['query']))?$_GET['query']:"";
-   printf ('<input type="text" name="query" value="%s">',
+   printf ('Recherche <input type="text" name="query" value="%s">',
 	   $a);
 ?>
 <input type="submit" name="submit_query" value="recherche">
 <input type="hidden" name="p_action" value="client">
-</form>
-</span>
-<span  style="position:float;float:left">
-<form method="get" action="<?php echo $href;?>">
-   <?php echo dossier::hidden(); ?>
-<input type="hidden" name="p_action" value="client">
-
-<?php  
- $w=new ISelect();
- $w->name="fd_id";
- $w->value= make_array($cn,"select fd_id,fd_label from fiche_def where ".
-	     " frd_id=".FICHE_TYPE_CLIENT);
- echo $w->input();
-?>
-<input type="hidden" name="sb" value="blank">
-<input type="submit" name="submit_query" value="Ajout Client">
-<input type="hidden" name="url" <?php        $url=urlencode($_SERVER['REQUEST_URI']);echo 'value="'.$url.'"'; ?>
-
 </form>
 </span>
 <?php  
