@@ -32,6 +32,7 @@ h2.error {
   <IMG SRC="../image/logo7.jpg" alt="Logo">
 </p>
 <?php
+
 /*
  *   This file is part of PhpCompta.
  *
@@ -113,7 +114,7 @@ if ( ! file_exists ( $file) ) {
   $array=array("php_flag  magic_quotes_gpc off",
 	       "php_flag session.auto_start on",
 	       "php_value max_execution_time 240",
-	       "php_value memory_limit 12M",
+	       "php_value memory_limit 20M",
 	       "AddDefaultCharset utf-8",
 	       "php_value error_reporting 10239",
 		  "php_flag short_open_tag on",
@@ -126,6 +127,14 @@ if ( ! file_exists ( $file) ) {
     fwrite($hFile,'php_value include_path .:../../include:../include:addon'."\n");
   foreach ($array as $value ) fwrite($hFile,$value."\n");
   fclose($hFile);
+  copy ($file,'.htaccess');
+
+echo '
+<form method="post" >
+    Les informations sont sauv&eacute;es vous pouvez continuer
+<input type="submit" value="Continuer">
+</form>';
+exit();
 }
 //----------------------------------------------------------------------
 // End functions
