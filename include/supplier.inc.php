@@ -117,25 +117,6 @@ if ( $sub_action == "list" )
 <input type="submit" name="submit_query" value="recherche">
 </form>
 </span>
-<span  style="position:float;float:right">
-<form method="get" >
-<input type="hidden" name="p_action" value="fournisseur">
-
-<?php  
- $w=new ISelect();
- $w->name="fd_id";
- $w->value= make_array($cn,"select fd_id,fd_label from fiche_def where ".
-	     " frd_id=".FICHE_TYPE_FOURNISSEUR);
- echo $w->input();
-  echo dossier::hidden();
-
-?>
-<input type="hidden" name="sa" value="blank">
-<input type="submit" name="submit_query" value="Ajout de fournisseur">
-<input type="hidden" name="url" <?php        $url=urlencode($_SERVER['REQUEST_URI']);echo 'value="'.$url.'"'; ?>
-
-</form>
-</span>
 <?php  
    $sup=new Supplier($cn);
  $search=(isset($_GET['query']))?$_GET['query']:"";
