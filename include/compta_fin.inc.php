@@ -22,6 +22,7 @@
 
 /*!\file
  * \brief this file is to be included to handle the financial ledger
+ *\todo the saldo must be based on the quick_code and not on the account
  */
 require_once ('class_acc_ledger_fin.php');
 $gDossier=dossier::id();
@@ -205,6 +206,8 @@ if ( $def==3) {
   for ( $i = 0; $i < pg_NumRows($ResAccount);$i++) {
     // get the saldo
     $l=pg_fetch_array($ResAccount,$i);
+    /*!\bug the get_solde function has been removed, the saldo here
+       must be based on the quick code and not on the account */
     $m=get_solde($cn,$l['pcm_val'],$filter_year);
     // print the result if the saldo is not equal to 0
     if ( $m != 0.0 ) {
