@@ -46,8 +46,10 @@ dans le repertoire html du server";
 exit();
 
 }
+html_page_start();
 // Test the connection
 echo __FILE__.":".__LINE__;
+print_r($_REQUEST);
 if ( ! isset($_REQUEST['gDossier'])) {
   echo "Vous avez oublie de specifier le gDossier ;)";
   echo "L'url aurait du etre test.php?gDossier=xx";
@@ -72,16 +74,22 @@ $array=array(
 	array(16,'widget'),
 	array(17,'Ledger info(class_acc_ledger_info'),
 	array(18,'Toddo list(class_todo'),
-	array(19,'Payment (class_acc_payment')
+	array(19,'Payment (class_acc_payment'),
+	array(20,'Form Acc_Ledger_Sold')
 	);
 $r='<form method="get">';
 $r.='<select name="test_select" >';
 foreach ($array as $value) {
-	$r.='<option value="'.$value[0].'">'.$value[1];
+  $sel="";
+  if ( isset($_REQUEST['test_select']) && $_REQUEST['test_select']==$value[0]) 
+    $sel=' selected ';
+  $r.='<option value="'.$value[0].'" '.$sel.'>'.$value[1];
 }
 $r.='</select>';
+$r.= Dossier::hidden();
 $r.='<input type="submit" value="Testons">';
-r.='</form>';
+
+$r.='</form>';
 
 echo $r;
 
@@ -176,4 +184,9 @@ case 19:
 	require_once('class_acc_payment.php');
 	Acc_Payment::test_me();
 	break;
+case 20:
+	require_once('class_acc_ledger_sold.php');
+	Acc_Ledger_Sold::test_me();
+	break;
+
 }

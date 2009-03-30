@@ -221,7 +221,10 @@ if ( $def==1 || $def == 4 ) {
     $p_post=$op->compute_array();
     $Ledger->id=$_REQUEST ['p_jrn_predef'];
 
-    echo $Ledger->display_form($p_post);
+    echo $Ledger->input($p_post);
+    echo '<div class="content">';
+    echo $Ledger->input_paid();
+    echo '</div>';
     echo '<script>';
     echo 'compute_all_sold();';
     echo '</script>';
@@ -229,10 +232,14 @@ if ( $def==1 || $def == 4 ) {
   else {
     echo HtmlInput::hidden("p_action","ven");
     echo HtmlInput::hidden("sa","p");
-    echo $Ledger->display_form($array);
+    echo $Ledger->input($array);
+    echo '<div class="content">';
+    echo $Ledger->input_paid();
+    echo '</div>';
+
   }
   echo "</FORM>";
-
+  echo '<div class="content">';
   echo '<form method="GET" action="'.$href.'">';
   echo HtmlInput::hidden("sa","p");
   echo HtmlInput::hidden("p_action","ven");
@@ -243,6 +250,7 @@ if ( $def==1 || $def == 4 ) {
   $op->set('ledger_type',"VEN");
   $op->set('direct','f');
   echo $op->form_get();
+  echo '</div>';
   $own=new Own($cn);
   /* if we suggest the pj n# the run the script */
   if ( $own->MY_PJ_SUGGEST=='Y') {

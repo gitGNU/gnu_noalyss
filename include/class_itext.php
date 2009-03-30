@@ -64,6 +64,8 @@ require_once('class_html_input.php');
 		'NAME="'.$this->name.'" VALUE="'.$this->value.'"  '.
 		'SIZE="'.$this->size.'" '.$this->javascript." $readonly $this->extra >";
 
+	/* add tag for column if inside a table */
+		if ( $this->table == 1 )		  $r='<td>'.$r.'</td>';
 
 		return $r;
 

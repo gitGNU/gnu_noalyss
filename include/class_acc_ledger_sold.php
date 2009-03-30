@@ -24,6 +24,7 @@
  * \brief class for the sold, herits from acc_ledger
  */
 require_once("class_iselect.php");
+require_once('class_itva_select.php');
 require_once("class_icard.php");
 require_once("class_ispan.php");
 require_once("class_ihidden.php");
@@ -516,327 +517,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
   public function delete() {
     echo "<h2> Acc_Ledger_Sold::delete Not implemented</h2>";
   }
-  /*!\brief display the form for entering data for invoice
-   *\param $p_array is null or you can put the predef operation or the $_POST
-   *\return string
-   */
-  public function display_form($p_array=null) {
-    if ( $p_array != null ) extract($p_array);
 
-    $user = new User($this->db);
-	$own=new Own($this->db);
-    // The first day of the periode 
-    $oPeriode=new Periode($this->db);
-    list ($l_date_start,$l_date_end)=$oPeriode->get_date_limit($user->get_periode());
-
-    $op_date=( ! isset($e_date) ) ?$l_date_start:$e_date;
-    $e_ech=(isset($e_ech))?$e_ech:"";
-    $e_comm=(isset($e_comm))?$e_comm:"";
-
-    $r="";
-
-    $r.=JS_INFOBULLE;
-    $r.=JS_SEARCH_CARD;
-    $r.=JS_SHOW_TVA;    
-    $r.=JS_TVA;
-    $r.=JS_AJAX_FICHE;
-
-  
-    $r.=dossier::hidden();
-    $r.=HtmlInput::hidden('phpsessid',$_REQUEST['PHPSESSID']);  
-    $r.="<fieldset>";
-    $r.="<legend>En-tête facture client  </legend>";
-    
-    $r.='<TABLE  width="100%">';
-    //  Date
-    //--
-    $Date=new IDate();
-    $Date->setReadOnly(false);
-
-    $Date->tabindex=1;
-    $r.="<tr>";
-    $r.=td('Date '.$Date->input("e_date",$op_date,"Date"));
-    // Payment limit
-    //--
-    $Echeance=new IDate();
-    $Echeance->setReadOnly(false);
-
-    $Echeance->tabindex=2;
-    $label=HtmlInput::infobulle(4);
-    $r.=td('A payer avant le '.$label.$Echeance->input("e_ech",$e_ech,"Echeance ".$label));
-
-    // Periode 
-    //--
-	if ($this->check_periode() == true) {
-	    $l_user_per=$user->get_periode();
-	    $def=(isset($periode))?$periode:$l_user_per;
-	    
-		$period=new IPeriod("period");
-		$period->user=$user;
-		$period->cn=$this->db;
-		$period->value=$def;
-		$period->type=OPEN;
-		$l_form_per=$period->input();
-		
-	    $r.="<td class=\"input_text\">";
-	    $label=HtmlInput::infobulle(3);
-	    $r.="Période comptable $label $def</td><td>".$l_form_per;
-	    $r.="</td>";
-		}
-    $r.="</tr><tr>";
-
-    // Ledger (p_jrn)
-    //--
-    $wLedger=$this->select_ledger('VEN',2);
-    /* if we suggest the next pj, then we need a javascript */
-    $add_js="";
-    if ( $own->MY_PJ_SUGGEST=='Y') {
-      $add_js="update_pj();";
-    }
-
-    if ( $wLedger == null ) 
-      exit('Pas de journal disponible');
-    $wLedger->table=1;
-    $wLedger->javascript="onChange='update_predef(\"ven\",\"f\");$add_js'";
-    $wLedger->label=" Journal ".HtmlInput::infobulle(2) ;
-
-    //    $r.=$wLedger->label.$wLedger->input();
-    $r.="<td class=\"input_text\">Journal</td>".$wLedger->input();
-
-    // Comment
-    //--
-    $Commentaire=new IText();
-    $Commentaire->table=0;
-    $Commentaire->setReadOnly(false);
-    $Commentaire->size=60;
-    $Commentaire->tabindex=3;
-    $label=" Description ".HtmlInput::infobulle(1) ;
-    $r.="<tr>";
-    $r.='<td class="input_text">'.$label.'</td>'.
-      '<td colspan="3">'.$Commentaire->input("e_comm",h($e_comm))."</td>";
-
-    // PJ
-    //--
-    /* suggest PJ ? */
-    $default_pj='';
-    if ( $own->MY_PJ_SUGGEST=='Y') {
-      $default_pj=$this->guess_pj();
-    } 
-
-    $pj=new IText();
-
-    $pj->table=0;
-    $pj->name="e_pj";
-    $pj->size=10;
-    $pj->value=(isset($e_pj))?$e_pj:$default_pj;
-
-    $r.='<td class="input_text">Num.PJ</td><td>'.$pj->input().HtmlInput::hidden('e_pj_suggest',$default_pj).'</td>';
-    $r.="</tr>";
-
-    // Display the customer
-    //--
-    $fiche='deb';
-    echo_debug('user_form_ven.php',__LINE__,"Client Nombre d'enregistrement ".sizeof($fiche));
-    // Save old value and set a new one
-    //--
-    $e_client=( isset ($e_client) )?$e_client:"";
-    $e_client_label="&nbsp;";//str_pad("",100,".");
-  
-  
-    // retrieve e_client_label
-    //--
-
-    if ( strlen(trim($e_client)) !=  0)   {
-      $fClient=new fiche($this->db);
-      $fClient->get_by_qcode($e_client);
-      $e_client_label=$fClient->strAttribut(ATTR_DEF_NAME).' '.
-	' Adresse : '.$fClient->strAttribut(ATTR_DEF_ADRESS).' '.
-	$fClient->strAttribut(ATTR_DEF_CP).' '.
-	$fClient->strAttribut(ATTR_DEF_CITY).' ';
-
-
-    }
-    
-    $W1=new ICard();
-	$W1->jrn=$this->id;
-    $W1->label="Client ".HtmlInput::infobulle(0) ;
-    $W1->name="e_client";
-    $W1->tabindex=3;
-    $W1->value=$e_client;
-    $W1->table=0;
-    $W1->extra=$fiche;  // list of card
-    $W1->extra2="Recherche";
-    $r.='<TR><td colspan="5" >'.$W1->input();
-    $client_label=new ISpan();
-    $client_label->table=0;
-    $r.=$client_label->input("e_client_label",$e_client_label)."</TD></TR>";
-    
-    $r.="</TABLE>";
-    
-    // Record the current number of article
-    $Hid=new IHidden();
-    $p_article= ( isset ($p_article))?$p_article:MAX_ARTICLE;
-    $r.=$Hid->input("nb_item",$p_article);
-    $e_comment=(isset($e_comment))?$e_comment:"";
-    $r.="</fieldset>";
-    
-    // Start the div for item to sell
-    $r.="<DIV>";
-    $r.='<fieldset><legend>D&eacute;tail articles vendus</legend>';
-    $r.='<TABLE ID="sold_item">';
-    $r.='<TR>';
-    $r.="<th></th>";
-    $label=HtmlInput::infobulle(0) ;
-    $r.="<th>Code $label</th>";
-    $r.="<th>D&eacute;nomination</th>";
-    $label=HtmlInput::infobulle(6) ;
-    $r.="<th>$label prix / unité htva </th>";
-    if ( $own->MY_TVA_USE=='Y') {
-	$r.="<th>tva</th>";
-	$r.="<th>montant total tva</th>";
-    } 
-	
-    $r.="<th>quantit&eacute;</th>";
-
-    $r.='</TR>';
-	
-	$own=new Own($this->db);
-    // For each article
-    //--
-
-    for ($i=0;$i< MAX_ARTICLE;$i++) {
-      // Code id, price & vat code
-      //--
-      $march=(isset(${"e_march$i"}))?${"e_march$i"}:"";
-      $march_price=(isset(${"e_march".$i."_price"}))?${"e_march".$i."_price"}:"";
-      if ( $own->MY_TVA_USE=='Y')
-		$march_tva_id=(isset(${"e_march$i"."_tva_id"}))?${"e_march$i"."_tva_id"}:"";
-      
-
-      $march_label="&nbsp;";
-      // retrieve the tva label and name
-      //--
-      if ( strlen(trim($march))!=0 ) {
-	$fMarch=new fiche($this->db);
-	$fMarch->get_by_qcode($march);
-	$march_label=$fMarch->strAttribut(ATTR_DEF_NAME);
-	if ( $own->MY_TVA_USE=='Y') {
-		if ( ! (isset(${"e_march$i"."_tva_id"})))
-		     $march_tva_id=$fMarch->strAttribut(ATTR_DEF_TVA);
-	      }
-	 }
-      // Show input
-      //--
-      $W1=new ICard();
-	  $W1->jrn=$this->id;
-      $W1->label="";
-      $W1->name="e_march".$i;
-      $W1->value=$march;
-      $W1->table=1;
-      $W1->extra2="Recherche";
-      $W1->extra='cred';  // credits
-      $W1->javascript=sprintf('onBlur="ajaxFid(\'%s\',\'%s\',\'%s\');compute_sold(%d)"',
-			$W1->name,
-			$W1->extra, //deb or cred
-			$_REQUEST['PHPSESSID'],
-			$i
-			);
-      $W1->readonly=false;
-      $r.="<TR>".$W1->input();
-      // For computing we need some hidden field for holding the value
-      if ( $own->MY_TVA_USE=='Y') $r.=HtmlInput::hidden('tva_march'.$i,0);      
-      $r.=HtmlInput::hidden('htva_march'.$i,0);      
-      $r.=HtmlInput::hidden('tvac_march'.$i,0);      
-      $r.="</TD>";
-      $Span=new ISpan();
-      $Span->setReadOnly(false);
-      // card's name, price
-      //--
-      $r.='<TD style="width:55%;border-bottom:1px dotted grey;">'.$Span->input("e_march".$i."_label",$march_label)."</TD>";
-      // price
-      $Price=new IText();
-      $Price->setReadOnly(false);
-      $Price->table=1;
-      $Price->size=9;
-      $Price->javascript="onBlur='compute_sold($i)'";
-      $r.=$Price->input("e_march".$i."_price",$march_price);
-      // if tva is not needed then no tva field
-      if ( $own->MY_TVA_USE == 'Y' ) {
-	      // vat label
-	      //--
-	      $select_tva=make_array($this->db,"select tva_id,tva_label from tva_rate order by tva_rate desc",0);
-	      $Tva=new ISelect();
-	      $Tva->javascript="onChange=compute_sold($i)";
-	      $Tva->table=1;
-	      $Tva->selected=$march_tva_id;
-	      $r.=$Tva->input("e_march$i"."_tva_id",$select_tva);
-	      // vat amount (disable)
-	      //--
-	      $wTva_amount=new IText();
-	      $wTva_amount->table=1;
-	      $wTva_amount->readonly=true;
-	      $wTva_amount->size=6;
-	      $r.=$wTva_amount->input("tva_march$i"."_show");
-      }
-      // quantity
-      //--
-      $quant=(isset(${"e_quant$i"}))?${"e_quant$i"}:"1";
-      $Quantity=new IText();
-      $Quantity->setReadOnly(false);
-      $Quantity->table=1;
-      $Quantity->size=9;
-      $Quantity->javascript="onChange=compute_sold($i)";
-      $r.=$Quantity->input("e_quant".$i,$quant);
-
-      $r.="</tr>";
-    }
-
-    
-    
-    $r.="</TABLE>";
-    $r.='<div style="position:float;float:right;text-align:right;padding-right:5px;font-size:1.2em;font-weight:bold;color:blue">';
-    $r.=HtmlInput::button('act','Actualiser','onClick="compute_all_sold();"');
-    $r.="</div>";
-
-    $r.='<div style="position:float;float:right;text-align:left;font-size:1.2em;font-weight:bold;color:blue" id="sum">';
-    $r.='<br><span id="htva">0.0</span>';
-    if ( $own->MY_TVA_USE=='Y' ) {
-      $r.='<br><span id="tva">0.0</span>';
-      $r.='<br><span id="tvac">0.0</span>';
-    }
-    $r.="</div>";
-
-
-
-    $r.='<div style="position:float;float:right;text-align:right;padding-right:5px;font-size:1.2em;font-weight:bold;color:blue">';
-	if ( $own->MY_TVA_USE=='Y') {
-    $r.='<br>Total HTVA';
-    $r.='<br>Total TVA';
-    $r.='<br>Total TVAC';
-	}
-	$r.='<br>Total';
-    $r.="</div>";
-
-    $r.="</fieldset>";
-    // Set correctly the REQUEST param for jrn_type 
-    $r.=HtmlInput::hidden('jrn_type','VEN');
-
-    //----------------------------------------------------------------------
-    /* Paid By */
-    $r.='<fieldset>';
-    $r.='<legend> Pay&eacute par </legend>';
-    $mp=new Acc_Payment($this->db);
-    $mp->set_parameter('type','VEN');
-    $r.=$mp->select();
-    $r.='</fieldset>';
-
-    $r.=HtmlInput::button('add_item','Ajout article',      ' onClick="ledger_sold_add_row()"');
-    $r.=HtmlInput::submit("view_invoice","Enregistrer");
-    $r.=HtmlInput::reset('Effacer ');
-
-    $r.="</DIV>";
-    return $r;
-  }
   /*!\brief show the summary of the operation and propose to save it
    *\param array contains normally $_POST. It proposes also to save
    * the Analytic accountancy
@@ -1131,9 +812,268 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 
 
   }
+   /*!\brief display the form for entering data for invoice
+   *\param $p_array is null or you can put the predef operation or the $_POST
+   *\return string
+   */
+  function input($p_array=null) {
+    if ( $p_array != null ) extract($p_array);
+
+    $user = new User($this->db);
+    $own=new Own($this->db);
+    $flag_tva=$own->MY_TVA_USE;
+
+    // The first day of the periode 
+    $oPeriode=new Periode($this->db);
+    list ($l_date_start,$l_date_end)=$oPeriode->get_date_limit($user->get_periode());
+
+    $op_date=( ! isset($e_date) ) ?$l_date_start:$e_date;
+    $e_ech=(isset($e_ech))?$e_ech:"";
+    $e_comm=(isset($e_comm))?$e_comm:"";
+
+    $r='';  
+    $r.=dossier::hidden();
+    $r.=HtmlInput::hidden('phpsessid',$_REQUEST['PHPSESSID']);
+    $f_legend='En-tête facture client';
+
+    $Echeance=new IDate();
+    $Echeance->setReadOnly(false);
+
+    $Echeance->tabindex=2;
+    $label=HtmlInput::infobulle(4);
+    $f_echeance=$Echeance->input('e_ech',$e_ech,'Echéance'.$label);   
+    $Date=new IDate();
+    $Date->setReadOnly(false);
+
+    $f_date=$Date->input("e_date",$op_date);
+
+    $f_periode='';
+    // Periode 
+    //--
+    if ($this->check_periode() == true) {
+      $l_user_per=$user->get_periode();
+      $def=(isset($periode))?$periode:$l_user_per;
+      
+      $period=new IPeriod("period");
+      $period->user=$user;
+      $period->cn=$this->db;
+      $period->value=$def;
+      $period->type=OPEN;
+      $l_form_per=$period->input();
+      
+      $label=HtmlInput::infobulle(3);
+      $f_periode="Période comptable $label ".$l_form_per;
+    }
+    /* if we suggest the next pj, then we need a javascript */
+    $add_js="";
+    if ( $own->MY_PJ_SUGGEST=='Y') {
+      $add_js="update_pj();";
+    }
+
+    $wLedger=$this->select_ledger('VEN',2);
+    if ( $wLedger == null ) 
+      exit('Pas de journal disponible');
+    $wLedger->table=1;
+    $wLedger->javascript="onChange='update_predef(\"ven\",\"f\");$add_js'";
+    $wLedger->label=" Journal ".HtmlInput::infobulle(2) ;
+
+    $f_jrn=$wLedger->input();
+
+   $Commentaire=new IText();
+    $Commentaire->table=0;
+    $Commentaire->setReadOnly(false);
+    $Commentaire->size=60;
+    $Commentaire->tabindex=3;
+    
+    $label=HtmlInput::infobulle(1) ;
+
+    $f_desc=$label.$Commentaire->input("e_comm",h($e_comm));
+    // PJ
+    //--
+    /* suggest PJ ? */
+    $default_pj='';
+    if ( $own->MY_PJ_SUGGEST=='Y') {
+      $default_pj=$this->guess_pj();
+    } 
+
+    $pj=new IText();
+
+    $pj->table=0;
+    $pj->name="e_pj";
+    $pj->size=10;
+    $pj->value=(isset($e_pj))?$e_pj:$default_pj;
+    $f_pj=$pj->input().HtmlInput::hidden('e_pj_suggest',$default_pj);
+    // Display the customer
+    //--
+    $fiche='deb';
+
+    // Save old value and set a new one
+    //--
+    $e_client=( isset ($e_client) )?$e_client:"";
+    $e_client_label="&nbsp;";//str_pad("",100,".");
+  
+  
+    // retrieve e_client_label
+    //--
+
+    if ( strlen(trim($e_client)) !=  0)   {
+      $fClient=new fiche($this->db);
+      $fClient->get_by_qcode($e_client);
+      $e_client_label=$fClient->strAttribut(ATTR_DEF_NAME).' '.
+	' Adresse : '.$fClient->strAttribut(ATTR_DEF_ADRESS).' '.
+	$fClient->strAttribut(ATTR_DEF_CP).' '.
+	$fClient->strAttribut(ATTR_DEF_CITY).' ';
+
+
+    }
+    
+    $W1=new ICard();
+    $W1->jrn=$this->id;
+    $W1->label="Client ".HtmlInput::infobulle(0) ;
+    $W1->name="e_client";
+    $W1->tabindex=3;
+    $W1->value=$e_client;
+    $W1->table=0;
+    $W1->extra=$fiche;  // list of card
+    $W1->extra2="Recherche";
+    $f_client_qcode=$W1->input();
+    $client_label=new ISpan();
+    $client_label->table=0;
+    $f_client=$client_label->input("e_client_label",$e_client_label);
+    
+
+    
+    // Record the current number of article
+    $Hid=new IHidden();
+    $p_article= ( isset ($p_article))?$p_article:MAX_ARTICLE;
+    $r.=$Hid->input("nb_item",$p_article);
+
+    $f_legend_detail="Détail articles vendus";
+
+    // For each article
+    //--
+
+    for ($i=0;$i< MAX_ARTICLE;$i++) {
+      // Code id, price & vat code
+      //--
+      $march=(isset(${"e_march$i"}))?${"e_march$i"}:"";
+      $march_price=(isset(${"e_march".$i."_price"}))?${"e_march".$i."_price"}:"";
+      if ( $flag_tva=='Y')
+		$march_tva_id=(isset(${"e_march$i"."_tva_id"}))?${"e_march$i"."_tva_id"}:"";
+      
+      $march_label=str_repeat('.',120);
+
+      // retrieve the tva label and name
+      //--
+      if ( strlen(trim($march))!=0 ) {
+	$fMarch=new fiche($this->db);
+	$fMarch->get_by_qcode($march);
+	$march_label=$fMarch->strAttribut(ATTR_DEF_NAME);
+	if ( $flag_tva=='Y') {
+		if ( ! (isset(${"e_march$i"."_tva_id"})))
+		     $march_tva_id=$fMarch->strAttribut(ATTR_DEF_TVA);
+	      }
+      } 
+      // Show input
+      //--
+      $W1=new ICard();
+      $W1->jrn=$this->id;
+      $W1->label="";
+      $W1->name="e_march".$i;
+      $W1->value=$march;
+      $W1->table=1;
+      $W1->extra2="Recherche";
+      $W1->extra='cred';  // credits
+      $W1->javascript=sprintf('onBlur="ajaxFid(\'%s\',\'%s\',\'%s\');compute_sold(%d)"',
+			$W1->name,
+			$W1->extra, //deb or cred
+			$_REQUEST['PHPSESSID'],
+			$i
+			);
+      $W1->readonly=false;
+      
+      $array[$i]['quick_code']=$W1->input();
+      // For computing we need some hidden field for holding the value
+      $array[$i]['hidden']='';
+      if ( $flag_tva=='Y') $array[$i]['hidden'].=HtmlInput::hidden('tva_march'.$i,0);      
+      $array[$i]['hidden'].=HtmlInput::hidden('htva_march'.$i,0);      
+      $array[$i]['hidden'].=HtmlInput::hidden('tvac_march'.$i,0);      
+
+      $Span=new ISpan();
+      $Span->setReadOnly(false);
+      // card's name, price
+      //--
+      $array[$i]['denom']=$Span->input("e_march".$i."_label",$march_label);
+      // price
+      $Price=new IText();
+      $Price->setReadOnly(false);
+      $Price->table=1;
+      $Price->size=9;
+      $Price->javascript="onBlur='compute_sold($i)'";
+      $array[$i]['pu']=$Price->input("e_march".$i."_price",$march_price);
+      $array[$i]['tva']='';
+      $array[$i]['amount_tva']='';
+      // if tva is not needed then no tva field
+      if ( $flag_tva == 'Y' ) {
+	// vat label
+	//--
+	$Tva=new ITva_Select($this->db);
+	$Tva->javascript="onChange=compute_sold($i)";
+	$Tva->table=1;
+	$Tva->selected=$march_tva_id;
+	$array[$i]['tva']=$Tva->input("e_march$i"."_tva_id");
+	// vat amount (disable)
+	//--
+	$wTva_amount=new IText();
+	$wTva_amount->table=1;
+	$wTva_amount->readOnly=true;
+	$wTva_amount->size=6;
+	$array[$i]['amount_tva']=$wTva_amount->input("tva_march$i"."_show");
+      }
+      // quantity
+      //--
+      $quant=(isset(${"e_quant$i"}))?${"e_quant$i"}:"1";
+      $Quantity=new IText();
+      $Quantity->setReadOnly(false);
+      $Quantity->table=1;
+      $Quantity->size=3;
+      $Quantity->javascript="onChange=compute_sold($i)";
+      $array[$i]['quantity']=$Quantity->input("e_quant".$i,$quant);
+
+    }// foreach article
+    ob_start();
+    require_once('template/form_ledger_ven.php');
+    $r.=ob_get_contents();
+    ob_clean();
+
+
+
+    // Set correctly the REQUEST param for jrn_type 
+    $r.=HtmlInput::hidden('jrn_type','VEN');
+
+    $r.=HtmlInput::button('add_item','Ajout article',      ' onClick="ledger_sold_add_row()"');
+    $r.=HtmlInput::submit("view_invoice","Enregistrer");
+    $r.=HtmlInput::reset('Effacer ');
+
+    $r.="</DIV>";
+    return $r;
+  }
+  function input_paid() {
+    $r='';
+    $r.='<fieldset>';
+    $r.='<legend> Pay&eacute par </legend>';
+    $mp=new Acc_Payment($this->db);
+    $mp->set_parameter('type','VEN');
+    $r.=$mp->select();
+    $r.='</fieldset>';
+    return $r;
+  }
   /*!\brief test function
    */
   static function test_me() {
+    $cn=DbConnect(dossier::id());
+    $a=new Acc_Ledger_Sold($cn,2);
+    echo $a->input();
   }
   
 }
