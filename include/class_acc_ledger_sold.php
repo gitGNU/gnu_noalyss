@@ -971,7 +971,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       if ( $flag_tva=='Y')
 		$march_tva_id=(isset(${"e_march$i"."_tva_id"}))?${"e_march$i"."_tva_id"}:"";
       
-      $march_label=str_repeat('.',120);
+      $march_label='&nbsp;';
 
       // retrieve the tva label and name
       //--
@@ -1017,7 +1017,6 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       // price
       $Price=new IText();
       $Price->setReadOnly(false);
-      $Price->table=1;
       $Price->size=9;
       $Price->javascript="onBlur='compute_sold($i)'";
       $array[$i]['pu']=$Price->input("e_march".$i."_price",$march_price);
@@ -1029,13 +1028,11 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
 	//--
 	$Tva=new ITva_Select($this->db);
 	$Tva->javascript="onChange=compute_sold($i)";
-	$Tva->table=1;
 	$Tva->selected=$march_tva_id;
 	$array[$i]['tva']=$Tva->input("e_march$i"."_tva_id");
 	// vat amount (disable)
 	//--
 	$wTva_amount=new IText();
-	$wTva_amount->table=1;
 	$wTva_amount->readOnly=true;
 	$wTva_amount->size=6;
 	$array[$i]['amount_tva']=$wTva_amount->input("tva_march$i"."_show");
@@ -1045,7 +1042,6 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       $quant=(isset(${"e_quant$i"}))?${"e_quant$i"}:"1";
       $Quantity=new IText();
       $Quantity->setReadOnly(false);
-      $Quantity->table=1;
       $Quantity->size=3;
       $Quantity->javascript="onChange=compute_sold($i)";
       $array[$i]['quantity']=$Quantity->input("e_quant".$i,$quant);

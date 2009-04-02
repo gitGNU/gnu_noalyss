@@ -21,14 +21,28 @@ Client <?=$f_client_qcode?> <?=$f_client?>
 <fieldset>
 <legend><?=$f_legend_detail?></legend>
 <table id="sold_item" width="100%" border="0">
+<tr>
+<th colspan="2">Code <?=HtmlInput::infobulle(0)?></th>
+<th>Dénomination</th>
+<th>prix/unité htva<?=HtmlInput::infobulle(6)?></th>
+<? if ($flag_tva =='Y') : ?>
+<th>tva</th>
+<th>montant htva</th>
+<? endif;?>
+<th>quantité</th>
+
+</tr>
 <? foreach ($array as $item) {
 echo '<tr>';
-echo td($item['quick_code']);
+echo $item['quick_code'];
 ?>
-<td width='60%'><?=$item['denom'] ?></td>
-<?echo td($item['pu']);
-echo td($item['tva']);
-echo td($item['amount_tva'].$item['hidden']);
+<td style="border-bottom: 1px dotted grey; width: 75%;"><?=$item['denom'] ?></td>
+<?
+echo td($item['pu']);
+if ($flag_tva=='Y')  {
+	echo td($item['tva']);
+	echo td($item['amount_tva'].$item['hidden']);
+}
 echo td($item['quantity' ]);
 echo '</tr>';
 }
