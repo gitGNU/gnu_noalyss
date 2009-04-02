@@ -146,20 +146,21 @@ if (  isset ($_REQUEST['gDossier']))
       $l_user_per=getDbValue($cn,"select min(p_id) from parm_periode where p_closed='f'");
 
     // if periode is closed then warns the users
-	$period=new Periode($cn,$l_user_per);
-	$period->jrn_def_id=0;
-    if ( $period->is_closed($cn,$l_user_per)==1)
+    $period=new Periode($cn,$l_user_per);
+    $period->p_id=$l_user_per;
+    $period->jrn_def_id=0;
+    if ( $period->is_closed($l_user_per)==1)
       {
 	$msg= '<h2 class="notice">Attention cette p&eacute;riode est ferm&eacute;e, vous ne pourrez rien modifier dans le module comptable</h2>';
       }
-    
+	
 
-	$period=new IPeriode("period");
-	$period->user=$User;
-	$period->cn=$cn;
-	$period->value=$l_user_per;
-	$period->type=ALL;
-	$l_form_per=$period->input();
+    $period=new IPeriod("period");
+    $period->user=$User;
+    $period->cn=$cn;
+    $period->value=$l_user_per;
+    $period->type=ALL;
+    $l_form_per=$period->input();
 	
     
     
