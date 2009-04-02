@@ -181,7 +181,7 @@ if ( $User->check_jrn($id)=='W' ) {
     exit();
   }
   $periode=new Periode($cn);  
-  list($date,$devnull)=$periode->get_first_day($default_periode);
+  list($date,$devnull)=$periode->first_day($default_periode);
   $array['date']=$date;
   show_qw_menu();
   show_direct_form($cn,$ledger,$array);

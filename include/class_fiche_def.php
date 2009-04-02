@@ -300,6 +300,30 @@ function input ($p_js)
     }
     return $all;
   }
+/*! 
+ * \brief Get all the card where the fiche_def.frd_id is given in parameter
+ * \return array of fiche or null is nothing is found
+ */
+  function get_by_category($p_cat) {
+    $sql="select f_id
+           from
+               fiche join fiche_def using(fd_id)
+            where frd_id=$1";
+
+    $Ret=ExecSqlParam($this->cn,$sql,array($p_cat));
+    if ( ($Max=pg_NumRows($Ret)) == 0 )
+      return null;
+    $all[0]=new fiche($this->cn);
+
+    for ($i=0;$i<$Max;$i++) {
+      $row=pg_fetch_array($Ret,$i);
+      $t=new fiche($this->cn,$row['f_id']);
+      $t->getAttribut();
+      $all[$i]=$t;
+
+    }
+    return $all;
+  }
 
   /*!\brief list the card of a fd_id
    */

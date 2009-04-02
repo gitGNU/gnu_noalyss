@@ -140,7 +140,7 @@ if ( $def == 1 ) {
   echo HtmlInput::hidden('sa','n');
   $array=( isset($correct))?$_POST:null;
   // show select ledger
-  echo $Ledger->display_form($array);
+  echo $Ledger->input($array);
   echo HtmlInput::button('add_item','Ajout article',   ' onClick="ledger_fin_add_row()"');
   echo HtmlInput::submit('save','Sauve');
   echo HtmlInput::reset('Effacer ');
@@ -182,43 +182,35 @@ if ( $def == 2) {
 if ( $def==3) {
   require_once ('class_acc_parm_code.php');
   echo '<div class="content">';
+  $fiche=new fiche_def($cn);
+  $array=$fiche->get_by_category(FICHE_TYPE_FIN);
 
-  // find the bank account
-  // NOTE : those values are in a table because
-  // they are _national_ parameters
-  $banque=new Acc_Parm_Code($cn,'BANQUE');
-  $caisse=new Acc_Parm_Code($cn,'CAISSE');
-  $vir_interne=new Acc_Parm_Code($cn,'VIREMENT_INTERNE');
-  $accountSql="select distinct pcm_val::text,pcm_lib from 
-            tmp_pcmn 
-            where pcm_val::text like '".$banque->p_value."%' or pcm_val::text like '".$vir_interne->p_value."%' 
-            or pcm_val::text like '".$caisse->p_value."%'
-            order by pcm_val::text";
-  $ResAccount=ExecSql($cn,$accountSql);
   echo '<div class="content">';
 
-  echo "<table>";
+  echo '<table width="50%" class="result">';
   // Filter the saldo
   //  on the current year
-  $filter_year=" and j_tech_per in (select p_id from parm_periode where  p_exercice='".$User->get_exercice()."')";
+  $filter_year="  j_tech_per in (select p_id from parm_periode where  p_exercice='".$User->get_exercice()."')";
 
   // for each account
-  for ( $i = 0; $i < pg_NumRows($ResAccount);$i++) {
+  for ( $i = 0; $i < sizeof($array);$i++) {
     // get the saldo
-    $l=pg_fetch_array($ResAccount,$i);
-    /*!\bug the get_solde function has been removed, the saldo here
-       must be based on the quick code and not on the account */
-    $m=get_solde($cn,$l['pcm_val'],$filter_year);
+    $m=$array[$i]->get_solde_detail($filter_year);
+
+    $solde=$m['debit']-$m['credit'];
+
     // print the result if the saldo is not equal to 0
-    if ( $m != 0.0 ) {
+    if ( $m['debit'] != 0.0 || $m['credit'] != 0.0) {
       echo "<tr>";
       echo "<TD>".
-	$l['pcm_val'].
+	$array[$i]->strAttribut(ATTR_DEF_QUICKCODE).
+	"</TD>";
+
+      echo "<TD>".
+	$array[$i]->strAttribut(ATTR_DEF_NAME).
 	"</TD>".
 	"<TD>".
-	$l['pcm_lib'].
-	"</TD>"."<TD>".
-	$m.
+	$solde.
 	"</TD>"."</TR>";
     }
   }// for
