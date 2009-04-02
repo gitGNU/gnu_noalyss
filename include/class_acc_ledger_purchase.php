@@ -53,6 +53,10 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
    */
   public function verify($p_array) {
     extract ($p_array);
+    print_r($p_array);
+    /* check for a double reload */
+    if ( isset($mt) && count_sql($this->db,'select jr_mt from jrn where jr_mt=$1',array($mt)) != 0 )
+      throw new Exception ('Double Encodage',5);
 
     /* check if there is a customer */
     if ( strlen(trim($e_client)) == 0 ) 
@@ -66,8 +70,8 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
 	if ( $this->check_periode() == false) {
 		$tperiode=$oPeriode->find_periode($e_date);
 	}else {
-		$tperiode=$periode;
-		$oPeriode->id=$periode;
+		$tperiode=$period;
+		$oPeriode->id=$tperiode;
 		/* check that the datum is in the choosen periode */
         list ($min,$max)=$oPeriode->get_date_limit($tperiode);
 	    if ( cmpDate($e_date,$min) < 0 ||
@@ -176,14 +180,14 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $cust=new fiche($this->db);
     $cust->get_by_qcode($e_client);
     $poste=$cust->strAttribut(ATTR_DEF_ACCOUNT);
-	$oPeriode=new Periode($this->db);
-	$check_periode=$this->check_periode();
+    $oPeriode=new Periode($this->db);
+    $check_periode=$this->check_periode();
 	
-	if ( $check_periode == true ) 
-		$tperiode=$periode;
-	else 
-		$tperiode=$oPeriode->find_periode($e_date);
-		
+    if ( $check_periode == true ) 
+      $tperiode=$period;
+    else 
+      $tperiode=$oPeriode->find_periode($e_date);
+    
     bcscale(4);
     try {
       $tot_amount=0;
@@ -447,6 +451,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $acc_operation->jrn=$p_jrn;
     $acc_operation->periode=$tperiode;
     $acc_operation->pj=$e_pj;
+    $acc_operation->mt=$mt;
     $acc_operation->insert_jrn();
     $this->pj=$acc_operation->set_pj();
 
@@ -1167,13 +1172,15 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
     $r.=HtmlInput::hidden('nb_item',$nb_item);
     $r.=HtmlInput::hidden('p_jrn',$p_jrn);
     if ( isset($period))
-      $r.=HtmlInput::hidden('periode',$period);
+      $r.=HtmlInput::hidden('period',$period);
     $r.=HtmlInput::hidden('e_comm',$e_comm);
     $r.=HtmlInput::hidden('e_date',$e_date);
     $r.=HtmlInput::hidden('e_ech',$e_ech);
     $r.=HtmlInput::hidden('jrn_type',$jrn_type);
     $r.=HtmlInput::hidden('e_pj',$e_pj);
     $r.=HtmlInput::hidden('e_pj_suggest',$e_pj_suggest);
+    $mt=microtime(true);
+    $r.=HtmlInput::hidden('mt',$mt);
 
     $e_mp=(isset($e_mp))?$e_mp:0;
     $r.=HtmlInput::hidden('e_mp',$e_mp);

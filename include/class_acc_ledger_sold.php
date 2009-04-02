@@ -54,6 +54,10 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
    */
   public function verify($p_array) {
     extract ($p_array);
+    /* check for a double reload */
+    if ( isset($mt) && count_sql($this->db,'select jr_mt from jrn where jr_mt=$1',array($mt)) != 0 )
+      throw new Exception ('Double Encodage',5);
+
     /* check if there is a customer */
     if ( strlen(trim($e_client)) == 0 ) 
       throw new Exception('Vous n\'avez pas donné de client',11);
@@ -323,7 +327,10 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $acc_operation->jrn=$p_jrn;
     $acc_operation->periode=$tperiode;
     $acc_operation->pj=$e_pj;
+    $acc_operation->mt=$mt;
+
     $acc_operation->insert_jrn();
+
     $this->pj=$acc_operation->set_pj();
 
     /* if e_suggest != e_pj then do not increment sequence */
@@ -702,6 +709,9 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
     $r.=HtmlInput::hidden('e_client',$e_client);
     $r.=HtmlInput::hidden('nb_item',$nb_item);
     $r.=HtmlInput::hidden('p_jrn',$p_jrn);
+    $mt=microtime(true);
+    $r.=HtmlInput::hidden('mt',$mt);
+
     if ( isset($period))
       $r.=HtmlInput::hidden('period',$period);
     /*\todo comment les types hidden gérent ils des contenus avec des quotes, double quote ou < > ??? */

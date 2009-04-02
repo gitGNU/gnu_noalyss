@@ -44,6 +44,10 @@ class Acc_Ledger_Fin extends Acc_Ledger {
    */
   public function verify($p_array) {
     extract ($p_array);
+    /* check for a double reload */
+    if ( CountSql($this->db,'select jr_mt from jrn where jr_mt=$1',array($mt)) != 0 )
+      throw new Exception ('Double Encodage',5);
+
     /* check if there is a customer */
     if ( strlen(trim($e_bank_account)) == 0 ) 
       throw new Exception('Vous n\'avez pas donné de banque',11);
@@ -617,6 +621,7 @@ class Acc_Ledger_Fin extends Acc_Ledger {
 	  $acc_operation->desc=$comment;
 	  $acc_operation->grpt=$seq;
 	  $acc_operation->periode=$periode;
+	  $acc_operation->mt=$mt;
 	  $jr_id=$acc_operation->insert_jrn();
 
 	  $internal=$this->compute_internal_code($seq);

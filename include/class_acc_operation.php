@@ -158,11 +158,11 @@ var $jr_id;	/*!< pk of jrn */
     // if amount == -1then the triggers will throw an error
     // 
     $Res=ExecSqlParam($this->db,"insert into jrn (jr_def_id,jr_montant,jr_comment,".
-		      "jr_date,jr_ech,jr_grpt_id,jr_tech_per)   values (".
+		      "jr_date,jr_ech,jr_grpt_id,jr_tech_per,jr_mt)   values (".
 		      "$1,$2,$3,".
-		      "to_date($4,'DD.MM.YYYY'),to_date($5,'DD.MM.YYYY'),$6,$7)",
+		      "to_date($4,'DD.MM.YYYY'),to_date($5,'DD.MM.YYYY'),$6,$7,$8)",
 		      array ($this->jrn, $this->amount,$p_comment,
-			     $this->date,$echeance,$this->grpt,$this->periode)
+			     $this->date,$echeance,$this->grpt,$this->periode,$this->mt)
 			    );
     if ( $Res == false)  return false;
     $this->jr_id=GetSequence($this->db,'s_jrn');

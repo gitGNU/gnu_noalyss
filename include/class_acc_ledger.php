@@ -67,7 +67,6 @@ class Acc_Ledger {
   function get_last_pj() {
     if ( exist_sequence($this->db,"s_jrn_pj".$this->id) ) {
       $ret= get_array($this->db,"select last_value,is_called from s_jrn_pj".$this->id);
-print_r($ret);
 	  $last=$ret[0]['last_value'];
 	  /*!
 	       *\note  With PSQL sequence , the last_value column is 1 when before   AND after the first call, to make the difference between them
@@ -879,10 +878,6 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
   /*! 
    * \brief show the result of the array
    * \param $p_array array from the form
-   * \param
-   * \param
-   * 
-   *
    * \return string
    */
   function show_summary($p_array) {
@@ -908,7 +903,8 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     $ret.=HtmlInput::hidden('desc',$desc);
     $ret.=HtmlInput::hidden('e_pj',$e_pj);
     $ret.=HtmlInput::hidden('e_pj_suggest',$e_pj_suggest);
-
+    $mt=microtime(true);
+    $ret.=HtmlInput::hidden('mt',$mt);
     // For predefined operation
     $ret.=HtmlInput::hidden('e_comm',$desc);
     $ret.=HtmlInput::hidden('jrn_type',$this->get_type());
@@ -1163,6 +1159,10 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
     extract ($p_array);
     $user=new User($this->db);
     $tot_cred=0;$tot_deb=0;
+    /* check for a double reload */
+    if ( CountSql($this->db,'select jr_mt from jrn where jr_mt=$1',array($mt)) != 0 )
+      throw new Exception ('Double Encodage',5);
+
     // Check the periode and the date
     if ( isDate($date) == null ) { 
       throw new Exception('Date invalide', 2);
@@ -1355,6 +1355,7 @@ jr_comment||' ('||c_internal||')'||case when jr_pj_number is not null and jr_pj_
       $acc_end->desc=$desc;
       $acc_end->grpt=$seq;
       $acc_end->jrn=$this->id;
+      $acc_end->mt=$mt;
       $jr_id= $acc_end->insert_jrn();
       if ($jr_id == false )
 	throw new Exception('Balance incorrecte');     
