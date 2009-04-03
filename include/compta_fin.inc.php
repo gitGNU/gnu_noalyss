@@ -22,7 +22,6 @@
 
 /*!\file
  * \brief this file is to be included to handle the financial ledger
- *\todo the saldo must be based on the quick_code and not on the account
  */
 require_once ('class_acc_ledger_fin.php');
 $gDossier=dossier::id();

@@ -700,14 +700,5 @@ return $url;
 function redirect($p_string,$p_time=0) {
   echo '<HTML><head><META HTTP-EQUIV="REFRESH" content="'.$p_time.';url='.$p_string.'"></head><body> Connecting... </body></html>';
 }
-/*!\brief generates a uniq number and put in it a hidden field, this number is the microsecond. it is used to 
- * avoid the double encoding, for the ledgers it should be into the confirm form
- * \return a hidden field with the microtime, the name of the field is msec
- *\todo to be implemented everywhere
- */
-function generate_micro() {
-  $a=microtime(true);
-  return HtmlInput::hidden('msec',$a);
-}
 
 ?>

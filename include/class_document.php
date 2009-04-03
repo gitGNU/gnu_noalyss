@@ -809,7 +809,7 @@ class Document
 	  $tva='e_march'.$counter.'_tva_id';
 	  /* if we do not use vat this var. is not set */
 	  if ( !isset(${$tva}) ) return $r;
-	  $oTva=new Acc_Tva($cn,${$tva});
+	  $oTva=new Acc_Tva($this->db,${$tva});
 	  if ($oTva->load() == null) return $r;
 	  // we compute with the vat included
 	  $r=$r+$r*$oTva->get_parameter('rate');
@@ -852,7 +852,7 @@ class Document
 	      /* if we do not use vat this var. is not set */
 	      if ( isset(${$tva}) )
 		{
-		$tva=new Acc_Tva($cn,${'e_march'.$i.'_tva_id'});
+		$tva=new Acc_Tva($this->db,${'e_march'.$i.'_tva_id'});
 		if ($tva->load() == null) $tva_rate=0.0; else $tva_rate=$tva->get_parameter('rate');
 		}
 	      $sell=${'e_march'.$i.'_price'};

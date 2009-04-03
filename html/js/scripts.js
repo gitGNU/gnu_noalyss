@@ -19,16 +19,20 @@
 
 // Copyright Author Dany De Bontridder ddebontridder@yahoo.fr
 
-/* !\file 
- */
-
-/* \brief javascript script, always added to every page
+/*!\file 
+ * \brief javascript script, always added to every page
  *
  */
 
-trim = function(p_value) {
-	return p_value.replace(/^\s+|\s+$/g,"");
-}//scripts library.
+/*!\brief this function fills the data from fid.php, 
+ * \param p_ctl the ctrl to fill
+ * \param p_deb if debit of credit
+ * \param p_jrn the ledger
+ */
+function trim(s) {
+    return s.replace(/^\s+/, '').replace(/\s+$/, '');
+}
+
 
 // Set the focus to the specified field,
 // and select it if requested by SelectIt
@@ -642,6 +646,9 @@ function compute_purchase(p_ctl_nb) {
 	}
     );
 }
+/**
+*@brief refresh the purchase screen, recompute vat, total...
+*/
 function refresh_purchase() {
   var tva=0; var htva=0;var tvac=0;
 

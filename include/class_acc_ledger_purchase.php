@@ -163,9 +163,6 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
   /*!\brief insert into the database, it calls first the verify function
    *\param $p_array is usually $_POST or a predefined operation
    *\return string
-   *\todo add a timestamp in the confirm, if a line does exist with
-   *the same timestamp, then we supposed the user is trying to reload
-   *the form, this timestamp must be in a hidden field
    *\note throw an Exception
    */
   public function insert($p_array) {
@@ -525,6 +522,7 @@ class  Acc_Ledger_Purchase extends Acc_Ledger {
       $acc_pay->insert_jrnx();
       
       /* insert into jrn */
+      $acc_pay->mt=$mt;
       $acc_pay->insert_jrn();
       $acjrn->grpt_id=$acseq;
       $acjrn->update_internal_code($acinternal);
