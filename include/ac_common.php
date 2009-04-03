@@ -473,8 +473,8 @@ function sql_filter_per($p_cn,$p_from,$p_to,$p_form='p_id',$p_field='jr_tech_per
   if ( $p_form == 'p_id' )
     {
       // retrieve the date
-	  $pPeriode=new Periode($p_cn);
-	  $a_start=$pPeriode->get_date_limit($p_from);
+      $pPeriode=new Periode($p_cn);
+      $a_start=$pPeriode->get_date_limit($p_from);
       $a_end=$pPeriode->get_date_limit($p_to);
       if ( $a_start == null || $a_end == null  )
 		throw new Exception(__FILE__.__LINE__.'Attention periode '.

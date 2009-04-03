@@ -623,7 +623,7 @@ class  Acc_Ledger_Sold extends Acc_Ledger {
       $r.=${"e_march".$i};
       $r.='</td>';
       $r.='<TD style="width:60%;border-bottom:1px dotted grey;">';
-      $r.=h($fiche_name);
+      $r.=$fiche_name;
       $r.='</td>';
       $r.='<td align="right">';
       $r.=${"e_march".$i."_price"};

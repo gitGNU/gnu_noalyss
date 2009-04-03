@@ -25,7 +25,7 @@ Solde Fin <?=$wLast->input();?>
 <fieldset><legend>Opérations</legend>
 <table id="fin_item" width="100%" border="0">
 <tr>    
-<th colspan="2">code"<?HtmlInput::infobulle(0)?></TH>
+<th colspan="2">code<?HtmlInput::infobulle(0)?></TH>
 <th>Commentaire</TH>
 <th>Montant</TH>
 <th colspan="2"> Op. Concern&eacute;e(s)</th>

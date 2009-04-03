@@ -70,7 +70,8 @@ function ListJrn($p_cn,$p_jrn,$p_where="",$p_array=null,$p_value=0,$p_paid=0)
   $sort_date="<th>  <A class=\"mtitle\" HREF=\"?$url&o=da\">$image_asc</A>Date <A class=\"mtitle\" HREF=\"?$url&o=dd\">$image_desc</A></th>";
   $sort_description="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ca\">$image_asc</A>Description <A class=\"mtitle\" HREF=\"?$url&o=cd\">$image_desc</A></th>";
   $sort_amount="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ma\">$image_asc</A>Montant <A class=\"mtitle\" HREF=\"?$url&o=md\">$image_desc</A></th>";
-$sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Ech&eacute;ance <A class=\"mtitle\" HREF=\"?$url&o=ed\">$image_desc</A> </th>";
+  $sort_pj="<th>  <A class=\"mtitle\" HREF=\"?$url&o=pja\">$image_asc</A>pj <A class=\"mtitle\" HREF=\"?$url&o=pjd\">$image_desc</A></th>";
+  $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A>Ech. <A class=\"mtitle\" HREF=\"?$url&o=ed\">$image_desc</A> </th>";
 
 $own=new Own($p_cn);
   // if an order is asked
@@ -78,6 +79,17 @@ $own=new Own($p_cn);
     {
       switch ($_GET['o'])
 	{
+	case 'pja':
+	  // pj asc
+	  $sort_pj="<th>$image_sel_asc PJ <A class=\"mtitle\" HREF=\"?$url&o=pjd\">$image_desc</A></th>";
+	  $order=" order by jr_pj_number asc ";
+	  break;
+	case 'pjd':
+	  $sort_pj="<th> <A class=\"mtitle\" HREF=\"?$url&o=pja\">$image_asc</A> PJ $image_sel_desc</th>";
+	  // pj desc
+	  $order=" order by jr_pj_number desc ";
+	  break;
+
 	case 'da':
 	  // date asc
 	  $sort_date="<th>$image_sel_asc Date <A class=\"mtitle\" HREF=\"?$url&o=dd\">$image_desc</A></th>";
@@ -110,12 +122,12 @@ $own=new Own($p_cn);
 	  break;
 	case 'ea':
 	  // jr_comment asc
-	  $sort_echeance="<th> $image_sel_asc Echeance <A class=\"mtitle\" HREF=\"?$url&o=ed\">$image_desc</A></th>";
+	  $sort_echeance="<th> $image_sel_asc Ech. <A class=\"mtitle\" HREF=\"?$url&o=ed\">$image_desc</A></th>";
 	  $order=" order by jr_ech asc ";
 	  break;
 	case 'ed':
 	  // jr_comment desc
-	  $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A> Echeance $image_sel_desc</th>";
+	  $sort_echeance="<th>  <A class=\"mtitle\" HREF=\"?$url&o=ea\">$image_asc</A> Ech. $image_sel_desc</th>";
 	  $order=" order by jr_ech desc ";
 	  break;
 
@@ -134,9 +146,7 @@ $own=new Own($p_cn);
   if ( $p_array == null ) {
    $sql="select jr_id	,
 			jr_montant,
-                        case when jr_pj_number is not null and jr_pj_number  !='' 
-                          then '('||jr_pj_number||')'
-                          else '' end ||' '||substr(jr_comment,1,60) as jr_comment,
+                        substr(jr_comment,1,60) as jr_comment,
 			to_char(jr_ech,'DD.MM.YYYY') as jr_ech,
 			to_char(jr_date,'DD.MM.YYYY') as jr_date,
                         jr_date as jr_date_order,
@@ -150,7 +160,8 @@ $own=new Own($p_cn);
                         jr_valid,
                         jr_tech_per,
                         jr_pj_name,
-                        p_closed
+                        p_closed,
+                        jr_pj_number
 		       from 
 			jrn 
                             join jrn_def on jrn_def_id=jr_def_id 
@@ -165,9 +176,7 @@ $own=new Own($p_cn);
     }
     $sql="select jr_id	,
 		jr_montant,
-                case when jr_pj_number is not null and jr_pj_number  !='' 
-                    then '('||jr_pj_number||')'
-                    else '' end ||' '||substr(jr_comment,1,60) as jr_comment,
+                substr(jr_comment,1,60) as jr_comment,
 		jr_ech,
 		to_char(jr_date,'DD.MM.YYYY') as jr_date,
                 jr_date as jr_date_order,
@@ -181,7 +190,8 @@ $own=new Own($p_cn);
                 jr_valid,
                 jr_tech_per,
                 jr_pj_name,
-                p_closed
+                p_closed,
+                jr_pj_number
 		      from 
                 jrn join jrn_def on jrn_def_id=jr_def_id 
                     join parm_periode on p_id=jr_tech_per
@@ -307,6 +317,7 @@ $own=new Own($p_cn);
   $r.="<th> Internal</th>";
   $r.=$sort_date;
   $r.=$sort_echeance;
+  $r.=$sort_pj;
   $r.=$sort_description;
   $r.=$sort_amount;
   // if $p_paid is not equal to 0 then we have a paid column
@@ -364,6 +375,11 @@ $own=new Own($p_cn);
     // echeance
     $r.="<TD>";
     $r.=$row['jr_ech'];
+    $r.="</TD>";
+
+    // pj
+    $r.="<TD>";
+    $r.=$row['jr_pj_number'];
     $r.="</TD>";
     
     // comment
@@ -462,16 +478,16 @@ $own=new Own($p_cn);
   $amount_unpaid=round($amount_unpaid,4);
   $tot=round($tot,4);
   $r.="<TR>";
-  $r.='<TD COLSPAN="4">Total</TD>';
+  $r.='<TD COLSPAN="5">Total</TD>';
   $r.='<TD ALIGN="RIGHT">'.$tot."</TD>";
   $r.="</tr>";
   if ( $p_paid != 0 ) {
 	$r.="<TR>";
-	$r.='<TD COLSPAN="4">Pay&eacute;</TD>';
+	$r.='<TD COLSPAN="5">Pay&eacute;</TD>';
 	$r.='<TD ALIGN="RIGHT">'.$amount_paid."</TD>";
 	$r.="</tr>";
 	$r.="<TR>";
-	$r.='<TD COLSPAN="4">Non pay&eacute;</TD>';
+	$r.='<TD COLSPAN="5">Non pay&eacute;</TD>';
 	$r.='<TD ALIGN="RIGHT">'.$amount_unpaid."</TD>";
 	$r.="</tr>";
   }

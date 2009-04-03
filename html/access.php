@@ -33,7 +33,7 @@ require_once('class_periode.php');
 require_once ('user_menu.php');
 require_once ('class_dossier.php');
 require_once('class_todo_list.php');
-
+require_once("class_itextarea.php");
 
 $cn=DbConnect(dossier::id());
 $user=new User($cn);
@@ -67,8 +67,9 @@ if ( isset($_REQUEST['save_todo_list'])) {
   $add_todo->save();
 }
 $todo=new Todo_List($cn);
-
 $array=$todo->load_all();
+
+
 echo '<div style="float:left;width:40%">';
 echo '<fieldset> <legend>Liste des tâches</legend>';
 echo '<div id="add_todo_list" style="display:none;text-align:left;line-height:3em">';
@@ -84,11 +85,11 @@ echo HtmlInput::hidden('phpsessid',$_REQUEST['PHPSESSID']);
 echo dossier::hidden();
 echo HtmlInput::hidden('tl_id',0);
 echo HtmlInput::submit('save_todo_list','Sauve','onClick="$(\'add_todo_list\').hide();$(\'add\').show();return true;"');
-echo widget::button('hide','Annuler','onClick="$(\'add_todo_list\').hide();$(\'add\').show();"');
+echo HtmlInput::button('hide','Annuler','onClick="$(\'add_todo_list\').hide();$(\'add\').show();"');
 echo '</form>';
 
 echo '</div>';
-echo widget::button('add','Ajout','onClick="add_todo()"');
+echo HtmlInput::button('add','Ajout','onClick="add_todo()"');
 if ( ! empty ($array) )  {
   echo '<table id="table_todo" width="100%">';
   $nb=0;
@@ -103,8 +104,8 @@ $nb++;
       htmlspecialchars($row['tl_title']).
       '</td>'.
       '<td>'.
-      widget::button('mod','M','onClick="todo_list_show('.$row['tl_id'].')"').
-      widget::button('del','E','onClick="todo_list_remove('.$row['tl_id'].')"').
+      HtmlInput::button('mod','M','onClick="todo_list_show('.$row['tl_id'].')"').
+      HtmlInput::button('del','E','onClick="todo_list_remove('.$row['tl_id'].')"').
       '</td>'.
       '</tr>';
   }
@@ -116,6 +117,7 @@ echo '</div>';
  * Mini Report
  */
 $report=$user->get_mini_report();
+
 if ( $report != 0 ) {
   $rapport=new Acc_Report($cn);
   $rapport->id=$report;

@@ -22,7 +22,6 @@
 
 /*!\file 
  * \brief Ajax action for budget remove or save record
- *\todo the security must be added here
  *
  */
 extract ($_POST);
