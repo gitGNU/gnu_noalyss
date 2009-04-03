@@ -257,7 +257,7 @@ function form($p_line=0) {
 
 
   }
-  /*!\brief the fr_id MUST be before called
+  /*!\brief the fr_id MUST be set before calling
    */
 
 
